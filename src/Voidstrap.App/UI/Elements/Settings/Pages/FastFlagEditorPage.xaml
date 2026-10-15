@@ -30,8 +30,8 @@
                Text="Manage your FastFlags. A checkmark in Preset means the flag is available in FFlag Settings, while a cross means it is not." />
 
     <WrapPanel Grid.Row="1" Orientation="Horizontal">
-      <ui:Button Width="110" Margin="0,0,10,12" Content="{x:Static resources:Strings.Menu_FastFlagEditor_AddNew}" Icon="AddCircle24" Click="AddButton_Click" />
-      <ui:Button Margin="0,0,10,12" VerticalAlignment="Top" Appearance="Danger" Background="#ff3334" Content="{x:Static resources:Strings.Menu_FastFlagEditor_DeleteSelected}" Icon="SlideEraser24" Click="DeleteButton_Click">
+      <ui:Button Width="110" Margin="0,0,10,12" Content="{resources:Loc Menu_FastFlagEditor_AddNew}" Icon="AddCircle24" Click="AddButton_Click" />
+      <ui:Button Margin="0,0,10,12" VerticalAlignment="Top" Appearance="Danger" Background="#ff3334" Content="{resources:Loc Menu_FastFlagEditor_DeleteSelected}" Icon="SlideEraser24" Click="DeleteButton_Click">
         <ui:Button.PressedBackground>
           <SolidColorBrush Opacity="0.7" Color="#ff5c5d" />
         </ui:Button.PressedBackground>
@@ -50,7 +50,7 @@
       </ui:Button>
       <ui:Button Margin="0,0,10,12" Content="Delete all" Icon="Delete48" Click="DeleteAllButton_Click" />
       <ui:Button Width="95" Margin="0,0,10,12" VerticalAlignment="Top" Content="Profiles" Icon="Edit28" Click="FlagProfiles_Click" />
-      <ToggleButton Name="TogglePresetsButton" Margin="0,0,10,12" VerticalAlignment="Top" Content="{x:Static resources:Strings.Menu_FastFlagEditor_ShowPresetFlags}" Click="ToggleButton_Click" />
+      <ToggleButton Name="TogglePresetsButton" Margin="0,0,10,12" VerticalAlignment="Top" Content="{resources:Loc Menu_FastFlagEditor_ShowPresetFlags}" Click="ToggleButton_Click" />
     </WrapPanel>
 
     <Grid Grid.Row="2" Margin="0,0,0,8">
@@ -62,7 +62,7 @@
       <Grid Grid.Column="0" Height="34">
         <ui:TextBox Name="SearchTextBox" Height="32" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
                     BorderThickness="0" FontSize="14" Icon="Search48"
-                    PlaceholderText="{x:Static resources:Strings.Menu_FastFlagEditor_Search}"
+                    PlaceholderText="{resources:Loc Menu_FastFlagEditor_Search}"
                     FocusVisualStyle="{x:Null}" TextChanged="SearchTextBox_TextChanged" />
         <TextBlock Name="SuggestionTextBlock" Margin="12,0,11,0" HorizontalAlignment="Right" VerticalAlignment="Center"
                    Cursor="Hand" FontSize="13.85" Foreground="#FF51A2ED" Opacity="0"
@@ -101,12 +101,12 @@
                 CellEditEnding="DataGrid_CellEditEnding">
         <DataGrid.ContextMenu>
           <ContextMenu>
-            <MenuItem x:Name="RenameFlagMenuItem" Header="{x:Static resources:Strings.Menu_FastFlagEditor_Rename}" Click="RenameFlagMenuItem_Click" />
-            <MenuItem x:Name="EditFlagValueMenuItem" Header="{x:Static resources:Strings.Menu_FastFlagEditor_EditValue}" Click="EditFlagValueMenuItem_Click" />
+            <MenuItem x:Name="RenameFlagMenuItem" Header="{resources:Loc Menu_FastFlagEditor_Rename}" Click="RenameFlagMenuItem_Click" />
+            <MenuItem x:Name="EditFlagValueMenuItem" Header="{resources:Loc Menu_FastFlagEditor_EditValue}" Click="EditFlagValueMenuItem_Click" />
             <Separator />
-            <MenuItem Header="{x:Static resources:Strings.Menu_FastFlagEditor_CopySelected}" Click="CopySelectedFlagsMenuItem_Click" />
+            <MenuItem Header="{resources:Loc Menu_FastFlagEditor_CopySelected}" Click="CopySelectedFlagsMenuItem_Click" />
             <Separator />
-            <MenuItem Header="{x:Static resources:Strings.Menu_FastFlagEditor_DeleteSelected}" Click="DeleteButton_Click" />
+            <MenuItem Header="{resources:Loc Menu_FastFlagEditor_DeleteSelected}" Click="DeleteButton_Click" />
           </ContextMenu>
         </DataGrid.ContextMenu>
         <DataGrid.Columns>
@@ -140,7 +140,7 @@
             </DataGridTemplateColumn.CellTemplate>
           </DataGridTemplateColumn>
 
-          <DataGridTextColumn x:Name="NameColumn" Width="2*" Header="{x:Static resources:Strings.Common_Name}" Binding="{Binding Name}">
+          <DataGridTextColumn x:Name="NameColumn" Width="2*" Header="{resources:Loc Common_Name}" Binding="{Binding Name}">
             <DataGridTextColumn.ElementStyle>
               <Style TargetType="{x:Type TextBlock}">
                 <Setter Property="VerticalAlignment" Value="Center" />
@@ -149,7 +149,7 @@
             </DataGridTextColumn.ElementStyle>
           </DataGridTextColumn>
 
-          <DataGridTextColumn x:Name="ValueColumn" Width="*" Header="{x:Static resources:Strings.Common_Value}" Binding="{Binding Value}">
+          <DataGridTextColumn x:Name="ValueColumn" Width="*" Header="{resources:Loc Common_Value}" Binding="{Binding Value}">
             <DataGridTextColumn.ElementStyle>
               <Style TargetType="{x:Type TextBlock}">
                 <Setter Property="VerticalAlignment" Value="Center" />
@@ -167,7 +167,7 @@
     </StackPanel>
 
     <WrapPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,10,0,0">
-      <ui:Button Width="140" VerticalAlignment="Center" Content="{x:Static resources:Strings.Menu_FastFlagEditor_ExportJson}" Icon="ArrowExit20" Margin="0,0,10,0" Click="ExportJSONButton_Click" />
+      <ui:Button Width="140" VerticalAlignment="Center" Content="{resources:Loc Menu_FastFlagEditor_ExportJson}" Icon="ArrowExit20" Margin="0,0,10,0" Click="ExportJSONButton_Click" />
       <ui:Button Margin="0,0,10,0" VerticalAlignment="Top" Content="Find" Icon="Book24" Click="FlagFind_Click" />
       <ui:Button Margin="0,0,10,0" VerticalAlignment="Top" Content="Copy flags" Icon="Clipboard16" Click="CopyFlagsButton_Click" />
     </WrapPanel>

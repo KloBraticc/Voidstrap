@@ -782,7 +782,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
         }
     }
 
-    private readonly string _autoTranslateOption;
+    private string _autoTranslateOption;
 
     private string _selectedLanguage;
 
@@ -830,6 +830,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
                 OnPropertyChanged(nameof(AutoTranslateVisibility));
                 OnPropertyChanged(nameof(SelectedAutoTranslateLanguage));
                 LiveLanguageRefresher.RefreshAllOpenWindows();
+                ScheduleLanguageLabelRefresh();
                 return;
             }
             App.Settings.Prop.AutoTranslate = false;
@@ -838,7 +839,22 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
             App.Settings.Save();
             Locale.Set(identifier);
             OnPropertyChanged(nameof(AutoTranslateVisibility));
+            ScheduleLanguageLabelRefresh();
         }
+    }
+
+    private void ScheduleLanguageLabelRefresh()
+    {
+        Application.Current?.Dispatcher.BeginInvoke((Action)RefreshLanguageLabels, System.Windows.Threading.DispatcherPriority.Background);
+    }
+
+    private void RefreshLanguageLabels()
+    {
+        _autoTranslateOption = Strings.Dialog_LanguageSelector_AutoTranslate;
+        _selectedLanguage = App.Settings.Prop.AutoTranslate ? _autoTranslateOption : Locale.GetDisplayName(App.Settings.Prop.Locale);
+        OnPropertyChanged(nameof(LanguageOptions));
+        OnPropertyChanged(nameof(SelectedLanguage));
+        OnPropertyChanged(nameof(AutoTranslateVisibility));
     }
 
     public List<string> AutoTranslateLanguages => TranslationService.AvailableLanguages.Values.OrderBy((string x) => x).ToList();
@@ -882,6 +898,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
                 LiveLanguageRefresher.Initialize();
                 App.Settings.Save();
                 Voidstrap.UI.LiveLanguageRefresher.RefreshAllOpenWindows();
+                ScheduleLanguageLabelRefresh();
             }
         }
     }
@@ -1094,7 +1111,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
         _selectedAutoTranslateLanguage = GetInitialAutoTranslateLanguageName();
         _selectedLanguage = App.Settings.Prop.AutoTranslate
             ? _autoTranslateOption
-            : Locale.SupportedLocales.TryGetValue(App.Settings.Prop.Locale, out string? configuredLocale) ? configuredLocale : Locale.SupportedLocales[Locale.DefaultLocale];
+            : Locale.GetDisplayName(App.Settings.Prop.Locale);
         ImportBackgroundCommand = new RelayCommand(() => { ImportBackground(); OnPropertyChanged(nameof(HasLauncherBackground)); });
         RemoveBackgroundCommand = new RelayCommand(() => { RemoveBackground(); OnPropertyChanged(nameof(HasLauncherBackground)); });
         ImportStartupAudioCommand = new RelayCommand(() => { ImportStartupAudio(); OnPropertyChanged(nameof(HasStartupAudio)); });

@@ -1,4 +1,4 @@
-<base:WpfUiWindow x:Class="Voidstrap.UI.Elements.ContextMenu.ServerInformation" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:Voidstrap.UI.Elements.ContextMenu" xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:models="clr-namespace:Voidstrap.UI.ViewModels.ContextMenu" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:appUi="clr-namespace:Voidstrap.UI" xmlns:util="clr-namespace:Voidstrap.Utility" Title="{x:Static resources:Strings.ContextMenu_ServerInformation_Title}" MinWidth="440" MinHeight="200" Width="460" SizeToContent="Height" ResizeMode="NoResize" ExtendsContentIntoTitleBar="True" WindowStartupLocation="CenterScreen" Background="{ui:ThemeResource ApplicationBackgroundBrush}">
+<base:WpfUiWindow x:Class="Voidstrap.UI.Elements.ContextMenu.ServerInformation" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:Voidstrap.UI.Elements.ContextMenu" xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:models="clr-namespace:Voidstrap.UI.ViewModels.ContextMenu" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:appUi="clr-namespace:Voidstrap.UI" xmlns:util="clr-namespace:Voidstrap.Utility" Title="{resources:Loc ContextMenu_ServerInformation_Title}" MinWidth="440" MinHeight="200" Width="460" SizeToContent="Height" ResizeMode="NoResize" ExtendsContentIntoTitleBar="True" WindowStartupLocation="CenterScreen" Background="{ui:ThemeResource ApplicationBackgroundBrush}">
   <Grid>
     <Panel.Background>
       <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
@@ -12,7 +12,7 @@
       <RowDefinition Height="*" />
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
-    <ui:TitleBar Name="RootTitleBar" Grid.Row="0" Padding="8" Title="{x:Static resources:Strings.ContextMenu_ServerInformation_Title}" ShowMinimize="False" ShowMaximize="False" CanMaximize="False" KeyboardNavigation.TabNavigation="None" Icon="pack://application:,,,/Voidstrap.png" />
+    <ui:TitleBar Name="RootTitleBar" Grid.Row="0" Padding="8" Title="{resources:Loc ContextMenu_ServerInformation_Title}" ShowMinimize="False" ShowMaximize="False" CanMaximize="False" KeyboardNavigation.TabNavigation="None" Icon="pack://application:,,,/Voidstrap.png" />
     <Grid Row="1" Margin="20,8,20,20">
       <Grid.RowDefinitions>
         <RowDefinition Height="Auto" />
@@ -97,8 +97,8 @@
     </Grid>
     <Border Grid.Row="2" Padding="15" Background="{DynamicResource PrimaryBackgroundColor}">
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-        <Button MinWidth="100" Width="148" Content="{x:Static resources:Strings.ContextMenu_ServerInformation_CopyInstanceId}" ToolTip="Copy the Instance ID" AutomationProperties.Name="Copy Instance ID Button" Command="{Binding CopyInstanceIdCommand, Mode=OneTime}" />
-        <Button MinWidth="100" Margin="12,0,0,0" Content="{x:Static resources:Strings.Common_Close}" IsCancel="True" Click="CloseButton_Click" ToolTip="Close this window" AutomationProperties.Name="Close Button" />
+        <Button MinWidth="100" Width="148" Content="{resources:Loc ContextMenu_ServerInformation_CopyInstanceId}" ToolTip="Copy the Instance ID" AutomationProperties.Name="Copy Instance ID Button" Command="{Binding CopyInstanceIdCommand, Mode=OneTime}" />
+        <Button MinWidth="100" Margin="12,0,0,0" Content="{resources:Loc Common_Close}" IsCancel="True" Click="CloseButton_Click" ToolTip="Close this window" AutomationProperties.Name="Close Button" />
       </StackPanel>
     </Border>
   </Grid>

@@ -48,7 +48,7 @@
     </DataTemplate>
   </ui:UiPage.Resources>
   <StackPanel Margin="0,0,18,18">
-    <TextBlock Text="{x:Static resources:Strings.About_Supporters_Title}" FontWeight="SemiBold" FontSize="26" />
+    <TextBlock Text="{resources:Loc About_Supporters_Title}" FontWeight="SemiBold" FontSize="26" />
     <TextBlock Margin="0,4,0,0" FontSize="13" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Thank you to everyone who helps keep Voidstrap going." TextWrapping="Wrap" />
     <Border>
       <FrameworkElement.Style>
@@ -63,7 +63,7 @@
       </FrameworkElement.Style>
       <StackPanel Orientation="Horizontal">
         <ui:ProgressRing Width="22" Height="22" IsIndeterminate="True" />
-        <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" Text="{x:Static resources:Strings.Common_Loading}" />
+        <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" Text="{resources:Loc Common_Loading}" />
       </StackPanel>
     </Border>
     <Border>
@@ -84,7 +84,7 @@
         </Grid.ColumnDefinitions>
         <ui:SymbolIcon Grid.Column="0" Margin="0,2,0,0" VerticalAlignment="Top" Symbol="ErrorCircle24" FontSize="22" Foreground="{DynamicResource SystemFillColorCriticalBrush}" />
         <StackPanel Grid.Column="1" Margin="12,0,0,0">
-          <TextBlock FontWeight="SemiBold" Text="{x:Static resources:Strings.Common_NetworkError}" />
+          <TextBlock FontWeight="SemiBold" Text="{resources:Loc Common_NetworkError}" />
           <TextBlock Margin="0,2,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding LoadError, Mode=OneWay}" TextWrapping="Wrap" />
           <ui:Button Margin="0,10,0,0" Content="Try again" Icon="ArrowClockwise24" Command="{Binding RetryCommand, Mode=OneTime}" />
         </StackPanel>

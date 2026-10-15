@@ -57,6 +57,7 @@ public class LanguageSelectorViewModel : NotifyPropertyChangedViewModel
 				OnPropertyChanged(nameof(AutoTranslateVisibility));
 				OnPropertyChanged(nameof(SelectedAutoTranslateLanguage));
 				LiveLanguageRefresher.RefreshAllOpenWindows();
+				ScheduleLanguageLabelRefresh();
 				return;
 			}
 			App.Settings.Prop.AutoTranslate = false;
@@ -64,6 +65,7 @@ public class LanguageSelectorViewModel : NotifyPropertyChangedViewModel
 			App.Settings.Prop.Locale = identifier;
 			Locale.Set(identifier);
 			OnPropertyChanged(nameof(AutoTranslateVisibility));
+			ScheduleLanguageLabelRefresh();
 		}
 	}
 
@@ -86,8 +88,22 @@ public class LanguageSelectorViewModel : NotifyPropertyChangedViewModel
 				TranslationService.Initialize();
 				LiveLanguageRefresher.Initialize();
 				LiveLanguageRefresher.RefreshAllOpenWindows();
+				ScheduleLanguageLabelRefresh();
 			}
 		}
+	}
+
+	private void ScheduleLanguageLabelRefresh()
+	{
+		Application.Current?.Dispatcher.BeginInvoke((Action)RefreshLanguageLabels, System.Windows.Threading.DispatcherPriority.Background);
+	}
+
+	private void RefreshLanguageLabels()
+	{
+		_selectedLanguage = App.Settings.Prop.AutoTranslate ? AutoTranslateOption : Locale.GetDisplayName(App.Settings.Prop.Locale);
+		OnPropertyChanged(nameof(LanguageOptions));
+		OnPropertyChanged(nameof(SelectedLanguage));
+		OnPropertyChanged(nameof(AutoTranslateVisibility));
 	}
 
 	public Visibility AutoTranslateVisibility => _selectedLanguage == AutoTranslateOption ? Visibility.Visible : Visibility.Collapsed;
@@ -102,7 +118,7 @@ public class LanguageSelectorViewModel : NotifyPropertyChangedViewModel
 		_selectedAutoTranslateLanguage = GetInitialAutoTranslateLanguageName();
 		_selectedLanguage = _originalAutoTranslate
 			? AutoTranslateOption
-			: Locale.SupportedLocales.TryGetValue(_originalLocale, out string? name) ? name : Locale.SupportedLocales[Locale.DefaultLocale];
+			: Locale.GetDisplayName(_originalLocale);
 	}
 
 	public void Cancel()

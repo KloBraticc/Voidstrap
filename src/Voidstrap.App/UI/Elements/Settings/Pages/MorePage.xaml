@@ -9,8 +9,8 @@
     </ui:CardAction>
     <ui:CardAction Icon="Apps24" Margin="0,0,0,8" Click="OpenShortcuts_Click">
       <StackPanel>
-        <TextBlock FontSize="14" Text="{x:Static resources:Strings.Common_Shortcuts}" />
-        <TextBlock Margin="0,2,0,0" Padding="0,0,16,0" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{x:Static resources:Strings.Menu_Shortcuts_Description}" />
+        <TextBlock FontSize="14" Text="{resources:Loc Common_Shortcuts}" />
+        <TextBlock Margin="0,2,0,0" Padding="0,0,16,0" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Menu_Shortcuts_Description}" />
       </StackPanel>
     </ui:CardAction>
     <ui:CardAction Icon="News20" Margin="0,0,0,8" Click="OpenNews_Click">

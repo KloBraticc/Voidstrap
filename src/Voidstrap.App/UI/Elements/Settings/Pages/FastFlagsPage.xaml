@@ -6,7 +6,7 @@
     </ResourceDictionary>
   </FrameworkElement.Resources>
   <StackPanel Margin="0,0,14,14">
-    <TextBlock Margin="0,0,0,8" FontSize="14" Text="{x:Static resources:Strings.Menu_FastFlags_Description}" />
+    <TextBlock Margin="0,0,0,8" FontSize="14" Text="{resources:Loc Menu_FastFlags_Description}" />
     <TabControl x:Name="FlagTabs" Margin="0,0,0,0" SelectionChanged="FlagTabs_SelectionChanged">
       <TabItem>
         <TabItem.Header>
@@ -25,7 +25,7 @@
         </ItemsControl.ItemTemplate>
       </ComboBox>
     </controls:OptionControl>
-    <controls:OptionControl Height="73" Description="{x:Static resources:Strings.Menu_FastFlags_ManagerEnabled_Description}" Header="{x:Static resources:Strings.Menu_FastFlags_ManagerEnabled_Title}">
+    <controls:OptionControl Height="73" Description="{resources:Loc Menu_FastFlags_ManagerEnabled_Description}" Header="{resources:Loc Menu_FastFlags_ManagerEnabled_Title}">
       <ui:ToggleSwitch IsChecked="{Binding UseFastFlagManager, Mode=TwoWay}" />
     </controls:OptionControl>
     <controls:OptionControl Description="Choose whether your Fast Flags are applied to the Roblox player, Roblox Studio, or both." Header="Apply Fast Flags to">
@@ -37,7 +37,7 @@
         </ItemsControl.ItemTemplate>
       </ComboBox>
     </controls:OptionControl>
-    <controls:OptionControl Header="{x:Static resources:Strings.Menu_FastFlags_Reset_Title}">
+    <controls:OptionControl Header="{resources:Loc Menu_FastFlags_Reset_Title}">
       <ui:ToggleSwitch IsChecked="{Binding ResetConfiguration, Mode=TwoWay}" />
     </controls:OptionControl>
     <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
@@ -65,7 +65,7 @@
                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                     ScrollViewer.CanContentScroll="True">
             <DataGrid.Columns>
-              <DataGridTextColumn Width="2*" Header="{x:Static resources:Strings.Common_Name}" Binding="{Binding Name}" />
+              <DataGridTextColumn Width="2*" Header="{resources:Loc Common_Name}" Binding="{Binding Name}" />
               <DataGridTextColumn Width="*" Header="Category" Binding="{Binding Value}" />
             </DataGrid.Columns>
           </DataGrid>
@@ -144,7 +144,7 @@
             <ColumnDefinition Width="Auto" />
           </Grid.ColumnDefinitions>
           <StackPanel Grid.Column="0">
-            <TextBlock FontSize="14.4" Text="{x:Static resources:Strings.Menu_FastFlags_Presets_Categories_Rendering}" />
+            <TextBlock FontSize="14.4" Text="{resources:Loc Menu_FastFlags_Presets_Categories_Rendering}" />
             <TextBlock Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Configure basic graphic and rendering settings" />
           </StackPanel>
         </Grid>
@@ -168,7 +168,7 @@
             </controls:OptionControl>
           </StackPanel>
         </ui:CardExpander>
-        <controls:OptionControl Description="Smooth out jagged edges. Higher values increases smoothness." Header="{x:Static resources:Strings.Menu_FastFlags_Presets_MSAA_Title}">
+        <controls:OptionControl Description="Smooth out jagged edges. Higher values increases smoothness." Header="{resources:Loc Menu_FastFlags_Presets_MSAA_Title}">
           <ComboBox Width="200" Margin="5,0,0,0" Padding="10,5,10,5" ItemsSource="{Binding MSAALevels.Keys, Mode=OneTime}" Text="{Binding SelectedMSAALevel, Mode=TwoWay}">
             <ItemsControl.ItemTemplate>
               <DataTemplate>
@@ -186,7 +186,7 @@
             </ItemsControl.ItemTemplate>
           </ComboBox>
         </controls:OptionControl>
-        <controls:OptionControl Description="{x:Static resources:Strings.Menu_FastFlags_Presets_FixDisplayScaling_Description}" Header="{x:Static resources:Strings.Menu_FastFlags_Presets_FixDisplayScaling_Title}" HelpLink="https://github.com/BloxstrapLabs/Bloxstrap/wiki/A-guide-to-FastFlags#dpi-scaling-fixes">
+        <controls:OptionControl Description="{resources:Loc Menu_FastFlags_Presets_FixDisplayScaling_Description}" Header="{resources:Loc Menu_FastFlags_Presets_FixDisplayScaling_Title}" HelpLink="https://github.com/BloxstrapLabs/Bloxstrap/wiki/A-guide-to-FastFlags#dpi-scaling-fixes">
           <ui:ToggleSwitch IsChecked="{Binding FixDisplayScaling, Mode=TwoWay}" />
         </controls:OptionControl>
         <controls:OptionControl Description="Controls grass render distance in Roblox games. Set both values to 0 to disable grass." Header="Grass Distance">
@@ -345,13 +345,13 @@
             <Frame x:Name="NvidiaFrame" Margin="10" Source="NvidiaFastFlagsPage.xaml" NavigationUIVisibility="Hidden" JournalOwnership="OwnsJournal" Background="Transparent" PreviewMouseWheel="NvidiaFrame_PreviewMouseWheel" Visibility="Collapsed" />
             <StackPanel x:Name="NvidiaWarning" Margin="24,32" MaxWidth="620" VerticalAlignment="Center">
               <Image HorizontalAlignment="Center" Source="pack://application:,,,/Resources/MessageBox/Warning.png" RenderOptions.BitmapScalingMode="HighQuality" Width="96" />
-              <TextBlock HorizontalAlignment="Center" Text="{x:Static resources:Strings.Common_Warning}" FontSize="48" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+              <TextBlock HorizontalAlignment="Center" Text="{resources:Loc Common_Warning}" FontSize="48" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
               <TextBlock HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Text="NVIDIA FFlags are for advanced users only" FontSize="24" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
               <TextBlock HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Margin="16,16,16,0" FontSize="14" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="These settings change the NVIDIA driver profile Roblox runs with. A wrong value can lower your FPS, add input delay, cause stutters, visual glitches or crashes, and can even stop Roblox from starting. The changes are saved in your NVIDIA driver, so they stay after you close or uninstall Voidstrap." />
               <TextBlock HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Margin="16,12,16,0" FontSize="14" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="To undo them, open the Advanced Editor and use Reset NIP, which puts every NVIDIA setting for Roblox back to the driver default. Only if you cannot reset them here, update or reinstall your NVIDIA drivers to restore the defaults." />
               <TextBlock HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Margin="16,12,16,0" FontSize="14" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Only change what you understand, and change one setting at a time." />
               <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Margin="0,20,0,0">
-                <ui:Button Content="{x:Static resources:Strings.Menu_FastFlagEditor_Warning_Back}" Margin="0,0,8,0" Appearance="Primary" Click="NvidiaWarningBack_Click" />
+                <ui:Button Content="{resources:Loc Menu_FastFlagEditor_Warning_Back}" Margin="0,0,8,0" Appearance="Primary" Click="NvidiaWarningBack_Click" />
                 <ui:Button x:Name="NvidiaWarningContinue" Appearance="Danger" IsEnabled="False" Click="NvidiaWarningContinue_Click" />
               </StackPanel>
             </StackPanel>
@@ -371,19 +371,19 @@
                     <ui:ToggleSwitch IsChecked="{Binding AssetWarpEnabled, Mode=TwoWay}" />
                   </controls:OptionControl>
                   <StackPanel IsEnabled="{Binding AssetWarpEnabled}">
-                    <controls:OptionControl Header="Remove All Textures" Description="{x:Static resources:Strings.AssetWarp_RemoveTexturesDescription}">
+                    <controls:OptionControl Header="Remove All Textures" Description="{resources:Loc AssetWarp_RemoveTexturesDescription}">
             <ui:ToggleSwitch IsChecked="{Binding DisableAllTextures, Mode=TwoWay}" />
           </controls:OptionControl>
-		  <controls:OptionControl Header="Remove All Decals" Description="{x:Static resources:Strings.AssetWarp_RemoveDecalsDescription}">
+		  <controls:OptionControl Header="Remove All Decals" Description="{resources:Loc AssetWarp_RemoveDecalsDescription}">
 			<ui:ToggleSwitch IsChecked="{Binding DisableAllDecals, Mode=TwoWay}" />
 		  </controls:OptionControl>
-		  <controls:OptionControl Header="Remove All Images" Description="{x:Static resources:Strings.AssetWarp_RemoveImagesDescription}">
+		  <controls:OptionControl Header="Remove All Images" Description="{resources:Loc AssetWarp_RemoveImagesDescription}">
 			<ui:ToggleSwitch IsChecked="{Binding DisableAllImages, Mode=TwoWay}" />
 		  </controls:OptionControl>
-		  <controls:OptionControl Header="Remove All Animations" Description="{x:Static resources:Strings.AssetWarp_RemoveAnimationsDescription}">
+		  <controls:OptionControl Header="Remove All Animations" Description="{resources:Loc AssetWarp_RemoveAnimationsDescription}">
 			<ui:ToggleSwitch IsChecked="{Binding DisableAllAnimations, Mode=TwoWay}" />
 		  </controls:OptionControl>
-		  <controls:OptionControl Header="Remove All Meshes" Description="{x:Static resources:Strings.AssetWarp_RemoveMeshesDescription}">
+		  <controls:OptionControl Header="Remove All Meshes" Description="{resources:Loc AssetWarp_RemoveMeshesDescription}">
 			<ui:ToggleSwitch IsChecked="{Binding DisableAllMeshes, Mode=TwoWay}" />
 		  </controls:OptionControl>
 		  <controls:OptionControl Header="Presence Spoofer" Description="Changes what others see online, in studio, or offline">

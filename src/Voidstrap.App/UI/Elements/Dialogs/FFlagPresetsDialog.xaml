@@ -18,7 +18,7 @@
     </ScrollViewer>
     <Border Grid.Row="2" Padding="14,10" Background="{DynamicResource PrimaryBackgroundColor}" BorderThickness="0,1,0,0">
       <StackPanel HorizontalAlignment="Right" FlowDirection="LeftToRight" Orientation="Horizontal">
-        <Button MinWidth="100" Content="{x:Static resources:Strings.Common_Cancel}" Click="CancelButton_Click" />
+        <Button MinWidth="100" Content="{resources:Loc Common_Cancel}" Click="CancelButton_Click" />
       </StackPanel>
     </Border>
   </Grid>

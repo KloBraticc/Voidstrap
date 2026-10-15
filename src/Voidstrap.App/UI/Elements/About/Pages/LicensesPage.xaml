@@ -21,19 +21,19 @@
   <Grid Margin="0,0,14,14">
     <ScrollViewer x:Name="ListView" VerticalScrollBarVisibility="Auto">
       <StackPanel Margin="0,0,14,0">
-        <TextBlock Margin="0,0,0,16" FontSize="24" FontWeight="Medium" Text="{x:Static resources:Strings.Menu_About_Licenses}" />
+        <TextBlock Margin="0,0,0,16" FontSize="24" FontWeight="Medium" Text="{resources:Loc Menu_About_Licenses}" />
         <ItemsControl ItemTemplate="{StaticResource LicenseRowTemplate}">
-          <data:LicenseEntry Name="Voidstrap" Url="https://github.com/KloBraticc/Voidstrap/blob/main/LICENSE.VOIDSTRAP" License="{x:Static resources:Strings.Menu_About_Licenses_MIT}" />
-          <data:LicenseEntry Name="WPF-UI" Url="https://github.com/lepoco/wpfui/blob/main/LICENSE" License="{x:Static resources:Strings.Menu_About_Licenses_MIT}" />
-          <data:LicenseEntry Name="ShellLink" Url="https://github.com/securifybv/ShellLink/blob/master/LICENSE.txt" License="{x:Static resources:Strings.Menu_About_Licenses_MIT}" />
-          <data:LicenseEntry Name="DiscordRPC" Url="https://github.com/Lachee/discord-rpc-csharp/blob/master/LICENSE" License="{x:Static resources:Strings.Menu_About_Licenses_MIT}" />
-          <data:LicenseEntry Name="Roblox Studio Mod Manager" Url="https://github.com/MaximumADHD/Roblox-Studio-Mod-Manager/blob/main/LICENSE" License="{x:Static resources:Strings.Menu_About_Licenses_MIT}" />
-          <data:LicenseEntry Name="SharpZipLib" Url="https://github.com/icsharpcode/SharpZipLib/blob/master/LICENSE.txt" License="{x:Static resources:Strings.Menu_About_Licenses_MIT}" />
-          <data:LicenseEntry Name="Markdig" Url="https://github.com/xoofx/markdig/blob/main/license.txt" License="{x:Static resources:Strings.Menu_About_Licenses_BSD2}" />
-          <data:LicenseEntry Name="AvalonEdit" Url="https://github.com/icsharpcode/AvalonEdit/blob/master/LICENSE" License="{x:Static resources:Strings.Menu_About_Licenses_MIT}" />
-          <data:LicenseEntry Name="SharpDX/SharpDXGI" Url="https://github.com/sharpdx/SharpDX/blob/master/LICENSE" License="{x:Static resources:Strings.Menu_About_Licenses_MIT}" />
-          <data:LicenseEntry Name="Nvidia Profile Inspector" Url="https://github.com/Orbmu2k/nvidiaProfileInspector/blob/master/LICENSE.txt" License="{x:Static resources:Strings.Menu_About_Licenses_MIT}" />
-          <data:LicenseEntry Name="NewtonsoftJSON" Url="https://github.com/JamesNK/Newtonsoft.Json/blob/master/LICENSE.md" License="{x:Static resources:Strings.Menu_About_Licenses_MIT}" />
+          <data:LicenseEntry Name="Voidstrap" Url="https://github.com/KloBraticc/Voidstrap/blob/main/LICENSE.VOIDSTRAP" License="{resources:Loc Menu_About_Licenses_MIT}" />
+          <data:LicenseEntry Name="WPF-UI" Url="https://github.com/lepoco/wpfui/blob/main/LICENSE" License="{resources:Loc Menu_About_Licenses_MIT}" />
+          <data:LicenseEntry Name="ShellLink" Url="https://github.com/securifybv/ShellLink/blob/master/LICENSE.txt" License="{resources:Loc Menu_About_Licenses_MIT}" />
+          <data:LicenseEntry Name="DiscordRPC" Url="https://github.com/Lachee/discord-rpc-csharp/blob/master/LICENSE" License="{resources:Loc Menu_About_Licenses_MIT}" />
+          <data:LicenseEntry Name="Roblox Studio Mod Manager" Url="https://github.com/MaximumADHD/Roblox-Studio-Mod-Manager/blob/main/LICENSE" License="{resources:Loc Menu_About_Licenses_MIT}" />
+          <data:LicenseEntry Name="SharpZipLib" Url="https://github.com/icsharpcode/SharpZipLib/blob/master/LICENSE.txt" License="{resources:Loc Menu_About_Licenses_MIT}" />
+          <data:LicenseEntry Name="Markdig" Url="https://github.com/xoofx/markdig/blob/main/license.txt" License="{resources:Loc Menu_About_Licenses_BSD2}" />
+          <data:LicenseEntry Name="AvalonEdit" Url="https://github.com/icsharpcode/AvalonEdit/blob/master/LICENSE" License="{resources:Loc Menu_About_Licenses_MIT}" />
+          <data:LicenseEntry Name="SharpDX/SharpDXGI" Url="https://github.com/sharpdx/SharpDX/blob/master/LICENSE" License="{resources:Loc Menu_About_Licenses_MIT}" />
+          <data:LicenseEntry Name="Nvidia Profile Inspector" Url="https://github.com/Orbmu2k/nvidiaProfileInspector/blob/master/LICENSE.txt" License="{resources:Loc Menu_About_Licenses_MIT}" />
+          <data:LicenseEntry Name="NewtonsoftJSON" Url="https://github.com/JamesNK/Newtonsoft.Json/blob/master/LICENSE.md" License="{resources:Loc Menu_About_Licenses_MIT}" />
           <data:LicenseEntry Name="Bibata Cursor" Url="https://github.com/ful1e5/Bibata_Cursor/blob/v2.0.7/LICENSE" License="GPL 3.0" />
           <data:LicenseEntry Name="Twemoji Mozilla" Url="https://github.com/mozilla/twemoji-colr/blob/master/LICENSE.md" License="CC BY 4.0" />
         </ItemsControl>

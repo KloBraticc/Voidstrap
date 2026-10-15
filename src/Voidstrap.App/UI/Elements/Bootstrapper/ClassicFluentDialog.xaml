@@ -25,7 +25,7 @@
       <Border.Background>
         <SolidColorBrush Color="{ui:ThemeResource SolidBackgroundFillColorSecondary}" Opacity="{Binding FooterOpacity, Mode=OneTime}" />
       </Border.Background>
-      <Button Margin="0" Content="{x:Static resources:Strings.Common_Cancel}" Width="120" HorizontalAlignment="Right" IsEnabled="{Binding CancelEnabled, Mode=OneWay}" Command="{Binding CancelInstallCommand}" />
+      <Button Margin="0" Content="{resources:Loc Common_Cancel}" Width="120" HorizontalAlignment="Right" IsEnabled="{Binding CancelEnabled, Mode=OneWay}" Command="{Binding CancelInstallCommand}" />
     </Border>
   </Grid>
 </base:WpfUiWindow>

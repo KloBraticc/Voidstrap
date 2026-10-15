@@ -32,13 +32,13 @@
           </StackPanel>
         </Grid>
         <StackPanel HorizontalAlignment="Center">
-          <ui:Hyperlink HorizontalAlignment="Center" Icon="QuestionCircle48" Content="{x:Static resources:Strings.About_Title}" Command="{Binding LaunchAboutCommand, Mode=OneTime}" />
+          <ui:Hyperlink HorizontalAlignment="Center" Icon="QuestionCircle48" Content="{resources:Loc About_Title}" Command="{Binding LaunchAboutCommand, Mode=OneTime}" />
           <ui:Hyperlink Margin="0,2,0,0" HorizontalAlignment="Center" Icon="Heart20" Content="Donate" NavigateUri="https://github.com/sponsors/KloBraticc" />
         </StackPanel>
       </StackPanel>
       <StackPanel Grid.Column="1" Width="285" Margin="0,9,0,0" HorizontalAlignment="Left">
         <ui:CardAction Icon="Games28" IconFilled="False" TabIndex="0" Command="{Binding LaunchRobloxCommand, Mode=OneTime}">
-          <TextBlock FontSize="14" Text="{x:Static resources:Strings.LaunchMenu_LaunchRoblox}" />
+          <TextBlock FontSize="14" Text="{resources:Loc LaunchMenu_LaunchRoblox}" />
         </ui:CardAction>
         <Grid Margin="0,8,0,0">
           <Grid.ColumnDefinitions>

@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using Voidstrap.Resources;
 using FontFamily = System.Windows.Media.FontFamily;
@@ -77,12 +78,23 @@ internal static class Locale
 		}
 	}
 
+	private static readonly CultureInfo SystemUICulture = CultureInfo.CurrentUICulture;
+
 	public static CultureInfo CurrentCulture { get; private set; } = CultureInfo.InvariantCulture;
 
 	public static bool RightToLeft { get; private set; } = false;
 
+	public static string GetDisplayName(string identifier)
+	{
+		return identifier != DefaultLocale && SupportedLocales.TryGetValue(identifier, out string? name) ? name : Strings.Common_SystemDefault;
+	}
+
 	public static string GetIdentifierFromName(string language)
 	{
+		if (language == Strings.Common_SystemDefault)
+		{
+			return DefaultLocale;
+		}
 		return SupportedLocales.FirstOrDefault<KeyValuePair<string, string>>((KeyValuePair<string, string> x) => x.Value == language).Key ?? "nil";
 	}
 
@@ -105,7 +117,7 @@ internal static class Locale
 		}
 		if (identifier == "nil")
 		{
-			CurrentCulture = Thread.CurrentThread.CurrentUICulture;
+			CurrentCulture = SystemUICulture;
 		}
 		else
 		{
@@ -117,9 +129,9 @@ internal static class Locale
 			{
 				CurrentCulture = CultureInfo.InvariantCulture;
 			}
-			CultureInfo.DefaultThreadCurrentUICulture = CurrentCulture;
-			Thread.CurrentThread.CurrentUICulture = CurrentCulture;
 		}
+		CultureInfo.DefaultThreadCurrentUICulture = CurrentCulture;
+		Thread.CurrentThread.CurrentUICulture = CurrentCulture;
 		RightToLeft = MirrorsLayout && IsRightToLeft(CurrentCulture.Name);
 		try
 		{
@@ -168,10 +180,23 @@ internal static class Locale
 					window.ContextMenu.FlowDirection = FlowDirection.RightToLeft;
 				}
 			}
-			else if (CurrentCulture.Name.StartsWith("th", StringComparison.Ordinal))
-			{
-				window.FontFamily = new FontFamily(new Uri("pack://application:,,,/Resources/Fonts/"), "./#Noto Sans Thai");
-			}
+			ApplyScriptFont(window);
 		});
+	}
+
+	private static FontFamily? _thaiFont;
+
+	public static void ApplyScriptFont(Window window)
+	{
+		bool thai = !RightToLeft && CurrentCulture.Name.StartsWith("th", StringComparison.Ordinal);
+		if (thai)
+		{
+			_thaiFont ??= new FontFamily(new Uri("pack://application:,,,/Resources/Fonts/"), "./#Noto Sans Thai");
+			window.FontFamily = _thaiFont;
+		}
+		else if (_thaiFont != null && ReferenceEquals(window.ReadLocalValue(Control.FontFamilyProperty), _thaiFont))
+		{
+			window.ClearValue(Control.FontFamilyProperty);
+		}
 	}
 }

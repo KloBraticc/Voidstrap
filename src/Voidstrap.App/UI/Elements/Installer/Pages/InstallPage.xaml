@@ -17,11 +17,11 @@
           <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <ui:TextBox Grid.Column="0" Height="35" VerticalContentAlignment="Center" Text="{Binding InstallLocation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-        <ui:Button Grid.Column="1" Height="35" MinWidth="104" Margin="8,0,0,0" HorizontalContentAlignment="Center" Content="{x:Static resources:Strings.Common_Browse}" Icon="Folder24" Command="{Binding BrowseInstallLocationCommand}" />
-        <ui:Button Grid.Column="2" Height="35" MinWidth="104" Margin="8,0,0,0" HorizontalContentAlignment="Center" Content="{x:Static resources:Strings.Common_Reset}" Icon="ArrowCounterclockwise24" Command="{Binding ResetInstallLocationCommand}" />
+        <ui:Button Grid.Column="1" Height="35" MinWidth="104" Margin="8,0,0,0" HorizontalContentAlignment="Center" Content="{resources:Loc Common_Browse}" Icon="Folder24" Command="{Binding BrowseInstallLocationCommand}" />
+        <ui:Button Grid.Column="2" Height="35" MinWidth="104" Margin="8,0,0,0" HorizontalContentAlignment="Center" Content="{resources:Loc Common_Reset}" Icon="ArrowCounterclockwise24" Command="{Binding ResetInstallLocationCommand}" />
       </Grid>
     </ui:Card>
-    <TextBlock Margin="0,10,0,0" FontSize="14" LineHeight="20" TextWrapping="Wrap" Text="{x:Static resources:Strings.Installer_Install_Location_DataFound}" Visibility="{Binding DataFoundMessageVisibility, Mode=OneWay}" />
+    <TextBlock Margin="0,10,0,0" FontSize="14" LineHeight="20" TextWrapping="Wrap" Text="{resources:Loc Installer_Install_Location_DataFound}" Visibility="{Binding DataFoundMessageVisibility, Mode=OneWay}" />
     <TextBlock Margin="0,10,0,0" FontSize="14" LineHeight="20" Foreground="{DynamicResource SystemFillColorCriticalBrush}" TextWrapping="Wrap" Text="{Binding ErrorMessage, Mode=OneWay}">
       <FrameworkElement.Style>
         <Style TargetType="{x:Type TextBlock}">
@@ -34,27 +34,27 @@
       </FrameworkElement.Style>
     </TextBlock>
     <StackPanel Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
-      <TextBlock Margin="0,28,0,0" FontSize="20" FontWeight="SemiBold" Text="{x:Static resources:Strings.Common_Shortcuts}" TextWrapping="Wrap" />
-      <TextBlock Margin="0,4,0,0" FontSize="14" LineHeight="20" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{x:Static resources:Strings.Menu_Shortcuts_Description}" TextWrapping="Wrap" />
-      <controls:OptionControl Margin="0,0,0,4" Header="{x:Static resources:Strings.Menu_Shortcuts_ExtractIcons_Title}" HelpLink="https://github.com/BloxstrapLabs/Bloxstrap/wiki/Using-Roblox-icons-for-your-shortcuts" Description="{Binding Source={x:Static resources:Strings.Menu_Shortcuts_ExtractIcons_Description}, Converter={StaticResource StringFormatConverter}, ConverterParameter=https://github.com/BloxstrapLabs/Bloxstrap/wiki/Using-Roblox-icons-for-your-shortcuts}">
+      <TextBlock Margin="0,28,0,0" FontSize="20" FontWeight="SemiBold" Text="{resources:Loc Common_Shortcuts}" TextWrapping="Wrap" />
+      <TextBlock Margin="0,4,0,0" FontSize="14" LineHeight="20" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Menu_Shortcuts_Description}" TextWrapping="Wrap" />
+      <controls:OptionControl Margin="0,0,0,4" Header="{resources:Loc Menu_Shortcuts_ExtractIcons_Title}" HelpLink="https://github.com/BloxstrapLabs/Bloxstrap/wiki/Using-Roblox-icons-for-your-shortcuts" Description="{Binding Source={resources:Loc Menu_Shortcuts_ExtractIcons_Description}, Converter={StaticResource StringFormatConverter}, ConverterParameter=https://github.com/BloxstrapLabs/Bloxstrap/wiki/Using-Roblox-icons-for-your-shortcuts}">
         <ui:ToggleSwitch IsChecked="{Binding ExtractRobloxIcons, Mode=TwoWay}" />
       </controls:OptionControl>
-      <TextBlock Margin="0,24,0,0" FontSize="20" FontWeight="SemiBold" Text="{x:Static resources:Strings.Menu_Shortcuts_General_Title}" TextWrapping="Wrap" />
-      <TextBlock Margin="0,4,0,0" FontSize="14" LineHeight="20" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{x:Static resources:Strings.Menu_Shortcuts_General_Description}" TextWrapping="Wrap" />
+      <TextBlock Margin="0,24,0,0" FontSize="20" FontWeight="SemiBold" Text="{resources:Loc Menu_Shortcuts_General_Title}" TextWrapping="Wrap" />
+      <TextBlock Margin="0,4,0,0" FontSize="14" LineHeight="20" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Menu_Shortcuts_General_Description}" TextWrapping="Wrap" />
       <Grid Margin="0,0,0,4">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*" />
           <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        <controls:OptionControl Grid.Column="0" Margin="0,0,4,0" Header="{x:Static resources:Strings.Common_Shortcuts_Desktop}">
+        <controls:OptionControl Grid.Column="0" Margin="0,0,4,0" Header="{resources:Loc Common_Shortcuts_Desktop}">
           <ui:ToggleSwitch IsChecked="{Binding CreateDesktopShortcuts, Mode=TwoWay}" />
         </controls:OptionControl>
-        <controls:OptionControl Grid.Column="1" Margin="4,0,0,0" Header="{x:Static resources:Strings.Common_Shortcuts_StartMenu}">
+        <controls:OptionControl Grid.Column="1" Margin="4,0,0,0" Header="{resources:Loc Common_Shortcuts_StartMenu}">
           <ui:ToggleSwitch IsChecked="{Binding CreateStartMenuShortcuts, Mode=TwoWay}" />
         </controls:OptionControl>
       </Grid>
-      <TextBlock Margin="0,24,0,0" FontSize="20" FontWeight="SemiBold" Text="{x:Static resources:Strings.Menu_Shortcuts_Function_Title}" TextWrapping="Wrap" />
-      <TextBlock Margin="0,4,0,0" FontSize="14" LineHeight="20" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{x:Static resources:Strings.Menu_Shortcuts_Function_Description}" TextWrapping="Wrap" />
+      <TextBlock Margin="0,24,0,0" FontSize="20" FontWeight="SemiBold" Text="{resources:Loc Menu_Shortcuts_Function_Title}" TextWrapping="Wrap" />
+      <TextBlock Margin="0,4,0,0" FontSize="14" LineHeight="20" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Menu_Shortcuts_Function_Description}" TextWrapping="Wrap" />
       <Grid Margin="0,0,0,0">
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="*" />
@@ -62,26 +62,26 @@
           <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
         <StackPanel Grid.Column="0" Margin="0,0,8,0">
-          <controls:OptionControl Margin="0" Header="{x:Static resources:Strings.LaunchMenu_LaunchRoblox}">
+          <controls:OptionControl Margin="0" Header="{resources:Loc LaunchMenu_LaunchRoblox}">
             <ui:ToggleSwitch IsChecked="{Binding CreatePlayerShortcut, Mode=TwoWay}" />
           </controls:OptionControl>
-          <ui:CardExpander Margin="0,8,0,0" IsExpanded="False" Header="{x:Static resources:Strings.Menu_Shortcuts_Customize}">
+          <ui:CardExpander Margin="0,8,0,0" IsExpanded="False" Header="{resources:Loc Menu_Shortcuts_Customize}">
             <ContentControl Content="{Binding PlayerIconTask}" ContentTemplate="{StaticResource ShortcutAppearanceTemplate}" />
           </ui:CardExpander>
         </StackPanel>
         <StackPanel Grid.Column="1" Margin="0,0,8,0">
-          <controls:OptionControl Margin="0" Header="{x:Static resources:Strings.Common_RobloxStudio}">
+          <controls:OptionControl Margin="0" Header="{resources:Loc Common_RobloxStudio}">
             <ui:ToggleSwitch IsChecked="{Binding CreateStudioShortcut, Mode=TwoWay}" />
           </controls:OptionControl>
-          <ui:CardExpander Margin="0,8,0,0" IsExpanded="False" Header="{x:Static resources:Strings.Menu_Shortcuts_Customize}">
+          <ui:CardExpander Margin="0,8,0,0" IsExpanded="False" Header="{resources:Loc Menu_Shortcuts_Customize}">
             <ContentControl Content="{Binding StudioIconTask}" ContentTemplate="{StaticResource ShortcutAppearanceTemplate}" />
           </ui:CardExpander>
         </StackPanel>
         <StackPanel Grid.Column="2" Margin="0,0,0,0">
-          <controls:OptionControl Margin="0" Header="{x:Static resources:Strings.Menu_Title}">
+          <controls:OptionControl Margin="0" Header="{resources:Loc Menu_Title}">
             <ui:ToggleSwitch IsChecked="{Binding CreateSettingsShortcut, Mode=TwoWay}" />
           </controls:OptionControl>
-          <ui:CardExpander Margin="0,8,0,0" IsExpanded="False" Header="{x:Static resources:Strings.Menu_Shortcuts_Customize}">
+          <ui:CardExpander Margin="0,8,0,0" IsExpanded="False" Header="{resources:Loc Menu_Shortcuts_Customize}">
             <ContentControl Content="{Binding SettingsIconTask}" ContentTemplate="{StaticResource ShortcutAppearanceTemplate}" />
           </ui:CardExpander>
         </StackPanel>

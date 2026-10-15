@@ -211,6 +211,7 @@ internal static class LiveLanguageRefresher
 		}
 		app.Dispatcher.BeginInvoke((Action)delegate
 		{
+			Voidstrap.Resources.LocalizedStrings.Instance.Refresh();
 			foreach (Window window in app.Windows)
 			{
 				try
@@ -236,6 +237,7 @@ internal static class LiveLanguageRefresher
 		}
 		app.Dispatcher.BeginInvoke((Action)delegate
 		{
+			Voidstrap.Resources.LocalizedStrings.Instance.Refresh();
 			foreach (Window window in app.Windows)
 			{
 				try
@@ -742,6 +744,7 @@ internal static class LiveLanguageRefresher
 		{
 			contextMenu.FlowDirection = flowDirection;
 		}
+		Locale.ApplyScriptFont(window);
 	}
 
 	private static void RefreshWindow(Window window)

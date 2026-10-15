@@ -8,7 +8,7 @@
                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                   xmlns:resources="clr-namespace:Voidstrap.Resources"
                   xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-                  Title="{x:Static resources:Strings.Dialog_Exception_Title}"
+                  Title="{resources:Loc Dialog_Exception_Title}"
                   Width="500" MinWidth="440" MinHeight="0"
                   ExtendsContentIntoTitleBar="True" SizeToContent="Height"
                   ResizeMode="CanResize"
@@ -30,7 +30,7 @@
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
 
-    <ui:TitleBar Icon="pack://application:,,,/Voidstrap.png" Name="RootTitleBar" Title="{x:Static resources:Strings.Dialog_Exception_Title}"
+    <ui:TitleBar Icon="pack://application:,,,/Voidstrap.png" Name="RootTitleBar" Title="{resources:Loc Dialog_Exception_Title}"
                  Grid.Row="0" Padding="8" CanMaximize="False"
                  KeyboardNavigation.TabNavigation="None"
                  ShowMaximize="False" ShowMinimize="False"
@@ -54,7 +54,7 @@
         <TextBlock Grid.Column="1" VerticalAlignment="Center"
                    FontSize="19" FontWeight="SemiBold" LineHeight="26"
                    Foreground="{DynamicResource TextFillColorPrimaryBrush}"
-                   Text="{x:Static resources:Strings.Dialog_Exception_Info_1}" TextWrapping="Wrap" />
+                   Text="{resources:Loc Dialog_Exception_Info_1}" TextWrapping="Wrap" />
       </Grid>
 
       <Border Grid.Row="1" Margin="0,16,0,0" CornerRadius="6"
@@ -96,13 +96,13 @@
         <UniformGrid Grid.Row="0" Rows="1" Columns="3" Margin="0,0,0,8">
           <ui:Button Name="ReportExceptionButton" Height="30" Margin="0,0,6,0" Padding="4,0"
                      HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
-                     Content="{x:Static resources:Strings.Dialog_Exception_Report}" />
+                     Content="{resources:Loc Dialog_Exception_Report}" />
           <ui:Button Name="ReportExceptionBackupButton" Height="30" Margin="0,0,6,0" Padding="4,0"
                      HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
                      Content="Report on backup" />
           <ui:Button Name="LocateLogFileButton" Height="30" Padding="4,0"
                      HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
-                     Content="{x:Static resources:Strings.Common_OpenLogFile}" />
+                     Content="{resources:Loc Common_OpenLogFile}" />
         </UniformGrid>
 
         <Grid Grid.Row="1">
@@ -120,7 +120,7 @@
                        HorizontalContentAlignment="Center" Icon="Copy16" Content="Copy" />
             <ui:Button Name="CloseButton" Height="30" MinWidth="92" Padding="10,0"
                        HorizontalContentAlignment="Center"
-                       Appearance="Primary" Content="{x:Static resources:Strings.Common_Close}" />
+                       Appearance="Primary" Content="{resources:Loc Common_Close}" />
           </StackPanel>
         </Grid>
       </Grid>

@@ -1,4 +1,4 @@
-﻿<base:WpfUiWindow x:Class="Voidstrap.UI.Elements.Settings.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:dmodels="clr-namespace:Voidstrap.UI.ViewModels.Settings" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:pages="clr-namespace:Voidstrap.UI.Elements.Settings.Pages" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:vscontrols="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:media="clr-namespace:System.Windows.Media.Animation;assembly=PresentationCore" xmlns:appUi="clr-namespace:Voidstrap.UI" xmlns:wpfconv="clr-namespace:Wpf.Ui.Converters;assembly=Wpf.Ui" Closed="WpfUiWindow_Closed" Closing="WpfUiWindow_Closing" Loaded="MainWindow_Loaded" PreviewMouseWheel="OnZoomWheel" Title="{x:Static resources:Strings.Menu_Title}" Width="1071" Height="690" MinWidth="850" MinHeight="550" AllowsTransparency="False" Background="#00FFFFFF" ExtendsContentIntoTitleBar="True" WindowBackdropType="None" WindowStartupLocation="CenterScreen" UseLayoutRounding="True" SnapsToDevicePixels="True" mc:Ignorable="d" xmlns:settings="clr-namespace:Voidstrap.UI.Elements.Settings">
+﻿<base:WpfUiWindow x:Class="Voidstrap.UI.Elements.Settings.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:dmodels="clr-namespace:Voidstrap.UI.ViewModels.Settings" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:pages="clr-namespace:Voidstrap.UI.Elements.Settings.Pages" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:vscontrols="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:media="clr-namespace:System.Windows.Media.Animation;assembly=PresentationCore" xmlns:appUi="clr-namespace:Voidstrap.UI" xmlns:wpfconv="clr-namespace:Wpf.Ui.Converters;assembly=Wpf.Ui" Closed="WpfUiWindow_Closed" Closing="WpfUiWindow_Closing" Loaded="MainWindow_Loaded" PreviewMouseWheel="OnZoomWheel" Title="{resources:Loc Menu_Title}" Width="1071" Height="690" MinWidth="850" MinHeight="550" AllowsTransparency="False" Background="#00FFFFFF" ExtendsContentIntoTitleBar="True" WindowBackdropType="None" WindowStartupLocation="CenterScreen" UseLayoutRounding="True" SnapsToDevicePixels="True" mc:Ignorable="d" xmlns:settings="clr-namespace:Voidstrap.UI.Elements.Settings">
     
   <FrameworkElement.Resources>
     <ResourceDictionary>
@@ -296,7 +296,7 @@
       </Grid>
     </Border>
     <vscontrols:DownloadNotificationCard x:Name="DownloadCard" Grid.RowSpan="3" Margin="0,0,24,72" Panel.ZIndex="1190" />
-    <ui:Snackbar Name="AlreadyRunningSnackbar" Title="{x:Static resources:Strings.Menu_AlreadyRunning_Title}" Grid.RowSpan="10" Margin="200,0,200,20" Panel.ZIndex="10" Icon="Info20" Message="{x:Static resources:Strings.Menu_AlreadyRunning_Caption}" Timeout="10000">
+    <ui:Snackbar Name="AlreadyRunningSnackbar" Title="{resources:Loc Menu_AlreadyRunning_Title}" Grid.RowSpan="10" Margin="200,0,200,20" Panel.ZIndex="10" Icon="Info20" Message="{resources:Loc Menu_AlreadyRunning_Caption}" Timeout="10000">
       <Control.Background>
         <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
           <GradientStop Offset="0.00" Color="{DynamicResource WindowBackgroundColorPrimary}" />
@@ -305,7 +305,7 @@
         </LinearGradientBrush>
       </Control.Background>
     </ui:Snackbar>
-    <ui:Snackbar Name="SettingsSavedSnackbar" Title="{x:Static resources:Strings.Menu_SettingsSaved_Title}" Grid.RowSpan="10" Margin="200,0,200,20" Panel.ZIndex="9" Icon="CheckboxChecked24" Message="{x:Static resources:Strings.Menu_SettingsSaved_Message}" Timeout="2100">
+    <ui:Snackbar Name="SettingsSavedSnackbar" Title="{resources:Loc Menu_SettingsSaved_Title}" Grid.RowSpan="10" Margin="200,0,200,20" Panel.ZIndex="9" Icon="CheckboxChecked24" Message="{resources:Loc Menu_SettingsSaved_Message}" Timeout="2100">
       <Control.Background>
         <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
           <GradientStop Offset="0.0" Color="{DynamicResource WindowBackgroundColorPrimary}" />
@@ -779,25 +779,25 @@
           <ui:NavigationBase.Items>
             <ui:NavigationItem Content="Core" IsEnabled="False" Opacity="0.6" />
             <ui:NavigationItem Cache="True" Name="HomeNavItem" Content="Home" Icon="Home24" Tag="Home20" PageType="{x:Type pages:HomePage}" />
-            <ui:NavigationItem Cache="True" Name="IntegrationsNavItem" Content="{x:Static resources:Strings.Menu_Integrations_Title}" Icon="Add12" Tag="Add16" PageType="{x:Type pages:IntegrationsPage}" />
+            <ui:NavigationItem Cache="True" Name="IntegrationsNavItem" Content="{resources:Loc Menu_Integrations_Title}" Icon="Add12" Tag="Add16" PageType="{x:Type pages:IntegrationsPage}" />
             <ui:NavigationItem Cache="True" Name="DeploymentNavItem" Content="Deployment" Icon="PlaySettings20" Tag="Play20" PageType="{x:Type pages:BehaviourPage}" />
-            <ui:NavigationItem Cache="True" Name="AppearanceNavItem" Content="{x:Static resources:Strings.Menu_Appearance_Title}" Icon="Color24" Tag="Color20" PageType="{x:Type pages:AppearancePage}" />
+            <ui:NavigationItem Cache="True" Name="AppearanceNavItem" Content="{resources:Loc Menu_Appearance_Title}" Icon="Color24" Tag="Color20" PageType="{x:Type pages:AppearancePage}" />
             <ui:NavigationSeparator />
             <ui:NavigationItem Content="Configuration" IsEnabled="False" Opacity="0.6" />
             <ui:NavigationItem Cache="True" Name="FastFlagSettingsNavItem" Content="FastFlag Settings" Icon="Settings28" Tag="SettingsChat24" PageType="{x:Type pages:FastFlagsPage}" />
             <ui:NavigationItem Cache="True" Name="FastFlagEditorNavItem" Content="FastFlag Editor" Icon="Flag28" Tag="Flag20" PageType="{x:Type pages:FastFlagEditorPage}" />
-            <ui:NavigationItem Cache="True" Name="ModsNavItem" Content="{x:Static resources:Strings.Menu_Mods_Title}" Icon="WrenchScrewdriver20" Tag="Wrench24" PageType="{x:Type pages:ModsPage}" />
+            <ui:NavigationItem Cache="True" Name="ModsNavItem" Content="{resources:Loc Menu_Mods_Title}" Icon="WrenchScrewdriver20" Tag="Wrench24" PageType="{x:Type pages:ModsPage}" />
             <ui:NavigationItem Cache="True" Name="MoreNavItem" Content="More" Icon="MoreHorizontal24" Tag="MoreHorizontal20" PageType="{x:Type pages:MorePage}" vscontrols:SidebarGroup.IsHeader="True" />
             <ui:NavigationItem Cache="True" Name="GlobalNavItem" Margin="0" Content="Global" Icon="GlobeLocation20" Tag="Globe20" PageType="{x:Type pages:GBSEditorPage}" vscontrols:SidebarGroup.Header="{x:Reference MoreNavItem}" />
-            <ui:NavigationItem Cache="True" Name="ShortcutsNavItem" Margin="0" Content="{x:Static resources:Strings.Common_Shortcuts}" Icon="Apps32" Tag="Apps24" PageType="{x:Type pages:ShortcutsPage}" vscontrols:SidebarGroup.Header="{x:Reference MoreNavItem}" />
+            <ui:NavigationItem Cache="True" Name="ShortcutsNavItem" Margin="0" Content="{resources:Loc Common_Shortcuts}" Icon="Apps32" Tag="Apps24" PageType="{x:Type pages:ShortcutsPage}" vscontrols:SidebarGroup.Header="{x:Reference MoreNavItem}" />
             <ui:NavigationItem Cache="True" Name="NewsNavItem" Margin="0" Content="News" Icon="News16" Tag="News20" PageType="{x:Type pages:NewsPage}" vscontrols:SidebarGroup.Header="{x:Reference MoreNavItem}" />
           </ui:NavigationBase.Items>
           <ui:NavigationBase.Footer>
             <ui:NavigationItem Cache="True" Name="ExtensionsNavItem" Content="Extensions" Icon="CubeAdd20" Tag="CubeLink20" Visibility="{x:Static appUi:PlatformFeatureVisibility.WindowsIntegration}" PageType="{x:Type pages:ExtensionPage}" />
             <ui:NavigationItem Cache="True" Name="ManagerNavItem" Content="Manager" Icon="ArrowDownload24" Tag="ArrowDownload20" Visibility="{x:Static appUi:PlatformFeatureVisibility.WindowsIntegration}" PageType="{x:Type pages:DownloadsPage}" />
-            <ui:NavigationItem Cache="True" Name="SoberNavItem" Content="{x:Static resources:Strings.Menu_Sober_Title}" Icon="Empty" Image="pack://application:,,,/Resources/SoberIcon.png" Tag="Settings20" PageType="{x:Type pages:SoberPage}" />
+            <ui:NavigationItem Cache="True" Name="SoberNavItem" Content="{resources:Loc Menu_Sober_Title}" Icon="Empty" Image="pack://application:,,,/Resources/SoberIcon.png" Tag="Settings20" PageType="{x:Type pages:SoberPage}" />
             <ui:NavigationItem Cache="True" Name="SettingsNavItem" Content="Settings" Icon="Settings28" Tag="Settings20" PageType="{x:Type pages:ChannelPage}" />
-            <ui:NavigationItem Name="AboutNavItem" Content="{x:Static resources:Strings.Menu_About_Title}" Icon="QuestionCircle32" Tag="QuestionCircle48" Command="{Binding OpenAboutCommand, Mode=OneTime}" />
+            <ui:NavigationItem Name="AboutNavItem" Content="{resources:Loc Menu_About_Title}" Icon="QuestionCircle32" Tag="QuestionCircle48" Command="{Binding OpenAboutCommand, Mode=OneTime}" />
           </ui:NavigationBase.Footer>
         </ui:NavigationFluent>
         <Border Name="SidebarResizer" Width="8" HorizontalAlignment="Right" Background="Transparent" Cursor="SizeWE" ToolTip="Drag to resize, double click to reset" MouseLeftButtonDown="SidebarResizer_MouseLeftButtonDown" MouseMove="SidebarResizer_MouseMove" MouseLeftButtonUp="SidebarResizer_MouseLeftButtonUp" />
@@ -865,8 +865,8 @@
         </ItemsControl.ItemsPanel>
         <StatusBarItem Grid.Column="0" Margin="0,0,4,0">
           <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-            <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" Foreground="{DynamicResource SystemAccentBrush}" AutomationProperties.Name="{x:Static resources:Strings.Menu_TestMode}" IsChecked="{Binding TestModeEnabled, Mode=TwoWay}" />
-            <TextBlock Padding="10,0,0,0" VerticalAlignment="Center" FontSize="14" Text="{x:Static resources:Strings.Menu_TestMode}" />
+            <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" Foreground="{DynamicResource SystemAccentBrush}" AutomationProperties.Name="{resources:Loc Menu_TestMode}" IsChecked="{Binding TestModeEnabled, Mode=TwoWay}" />
+            <TextBlock Padding="10,0,0,0" VerticalAlignment="Center" FontSize="14" Text="{resources:Loc Menu_TestMode}" />
           </StackPanel>
         </StatusBarItem>
         <StatusBarItem Grid.Column="2" Padding="0,0,8,0">
@@ -878,10 +878,10 @@
           </ui:SplitButton>
         </StatusBarItem>
         <StatusBarItem Grid.Column="3" Padding="0,0,9,0">
-		  <ui:Button x:Name="FooterSaveButton" MinWidth="56.587" Appearance="Primary" Background="{DynamicResource SystemAccentBrush}" Content="{x:Static resources:Strings.Menu_Save}" Command="{Binding SaveSettingsCommand, Mode=OneWay}" Click="Button_Click_1" />
+		  <ui:Button x:Name="FooterSaveButton" MinWidth="56.587" Appearance="Primary" Background="{DynamicResource SystemAccentBrush}" Content="{resources:Loc Menu_Save}" Command="{Binding SaveSettingsCommand, Mode=OneWay}" Click="Button_Click_1" />
         </StatusBarItem>
         <StatusBarItem Grid.Column="4" Padding="0,0,8,0">
-		  <ui:Button x:Name="FooterCloseButton" MinWidth="56.587" Height="{Binding ActualHeight, ElementName=FooterSaveButton}" MinHeight="0" HorizontalAlignment="Center" Appearance="Secondary" Content="{x:Static resources:Strings.Common_Close}" Command="{Binding CloseWindowCommand, Mode=OneTime}" Click="Button_Click_2" />
+		  <ui:Button x:Name="FooterCloseButton" MinWidth="56.587" Height="{Binding ActualHeight, ElementName=FooterSaveButton}" MinHeight="0" HorizontalAlignment="Center" Appearance="Secondary" Content="{resources:Loc Common_Close}" Command="{Binding CloseWindowCommand, Mode=OneTime}" Click="Button_Click_2" />
         </StatusBarItem>
       </StatusBar>
     </Border>
@@ -909,7 +909,7 @@
           </Grid>
           <TextBlock Grid.Row="1" Margin="0,6,0,16" FontSize="13" Foreground="{StaticResource LauncherTextSecondaryBrush}" Text="Select what Save and Launch should start." TextWrapping="Wrap" />
           <vscontrols:RobloxVersionList x:Name="LaunchTargetList" Grid.Row="2" MaxHeight="470" ItemChosen="LaunchTargetList_ItemChosen" />
-          <ui:ToggleSwitch Grid.Row="3" Margin="0,14,0,0" Content="{x:Static resources:Strings.Menu_LaunchDropdownOnRight}"
+          <ui:ToggleSwitch Grid.Row="3" Margin="0,14,0,0" Content="{resources:Loc Menu_LaunchDropdownOnRight}"
                            IsChecked="{Binding LaunchDropdownOnRight, Mode=TwoWay}" />
         </Grid>
       </Border>

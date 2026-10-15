@@ -85,7 +85,7 @@
               <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <ui:SymbolIcon Grid.Column="0" Symbol="Info28" FontSize="18" VerticalAlignment="Center" />
-            <TextBlock Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center" Text="{x:Static resources:Strings.ContextMenu_ServerInformation_Title}" />
+            <TextBlock Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center" Text="{resources:Loc ContextMenu_ServerInformation_Title}" />
           </Grid>
         </HeaderedItemsControl.Header>
       </MenuItem>
@@ -109,7 +109,7 @@
               <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <ui:SymbolIcon Grid.Column="0" Symbol="ClipboardLink24" FontSize="18" VerticalAlignment="Center" />
-            <TextBlock Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center" Text="{x:Static resources:Strings.ContextMenu_CopyDeeplinkInvite}" />
+            <TextBlock Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center" Text="{resources:Loc ContextMenu_CopyDeeplinkInvite}" />
           </Grid>
         </HeaderedItemsControl.Header>
       </MenuItem>
@@ -133,7 +133,7 @@
               <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <ui:SymbolIcon Grid.Column="0" Symbol="History24" FontSize="18" VerticalAlignment="Center" />
-            <TextBlock Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center" Text="{x:Static resources:Strings.ContextMenu_GameHistory_Title}" />
+            <TextBlock Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center" Text="{resources:Loc ContextMenu_GameHistory_Title}" />
           </Grid>
         </HeaderedItemsControl.Header>
       </MenuItem>
@@ -158,7 +158,7 @@
               <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <ui:SymbolIcon Grid.Column="0" Symbol="AnimalRabbit24" FontSize="18" VerticalAlignment="Center" />
-            <TextBlock Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center" Text="{x:Static resources:Strings.Menu_Context_PlayerLogs}" />
+            <TextBlock Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center" Text="{resources:Loc Menu_Context_PlayerLogs}" />
           </Grid>
         </HeaderedItemsControl.Header>
       </MenuItem>
@@ -170,12 +170,12 @@
               <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <ui:SymbolIcon Grid.Column="0" Symbol="DocumentCatchUp20" FontSize="18" VerticalAlignment="Center" />
-            <TextBlock Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center" Text="{x:Static resources:Strings.Common_OpenLogFile}" />
+            <TextBlock Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center" Text="{resources:Loc Common_OpenLogFile}" />
           </Grid>
         </HeaderedItemsControl.Header>
       </MenuItem>
       <Separator />
-      <MenuItem Name="RichPresenceMenuItem" Header="{x:Static resources:Strings.Common_DiscordRichPresence}" IsCheckable="True" IsChecked="True" Visibility="Collapsed" Click="RichPresenceMenuItem_Click" />
+      <MenuItem Name="RichPresenceMenuItem" Header="{resources:Loc Common_DiscordRichPresence}" IsCheckable="True" IsChecked="True" Visibility="Collapsed" Click="RichPresenceMenuItem_Click" />
       <MenuItem Name="FrameGenParentMenuItem" Visibility="Collapsed">
         <HeaderedItemsControl.Header>
           <Grid>
@@ -234,7 +234,7 @@
               <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <ui:SymbolIcon Grid.Column="0" Symbol="WindowHeaderHorizontalOff20" FontSize="18" VerticalAlignment="Center" />
-            <TextBlock Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center" Text="{x:Static resources:Strings.ContextMenu_CloseRoblox}" />
+            <TextBlock Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center" Text="{resources:Loc ContextMenu_CloseRoblox}" />
           </Grid>
         </HeaderedItemsControl.Header>
       </MenuItem>

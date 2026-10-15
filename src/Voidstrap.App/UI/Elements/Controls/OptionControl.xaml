@@ -9,7 +9,7 @@
           </Grid.ColumnDefinitions>
           <TextBlock Name="HeaderTextBlock" Grid.Column="0" FontSize="14" />
           <TextBlock Name="HelpLinkTextBlock" Grid.Column="1" Margin="4,0,0,0" Visibility="Collapsed">
-            <Hyperlink Name="HelpLinkHyperlink" Command="{x:Static models:GlobalViewModel.OpenWebpageCommand}" TextDecorations="None" ToolTip="{x:Static resources:Strings.Menu_MoreInfo}">
+            <Hyperlink Name="HelpLinkHyperlink" Command="{x:Static models:GlobalViewModel.OpenWebpageCommand}" TextDecorations="None" ToolTip="{resources:Loc Menu_MoreInfo}">
               <ui:SymbolIcon Margin="0,1,0,0" Symbol="QuestionCircle48" />
             </Hyperlink>
           </TextBlock>

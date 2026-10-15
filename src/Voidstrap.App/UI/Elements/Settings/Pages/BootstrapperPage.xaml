@@ -1,6 +1,6 @@
 <ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.BehaviourPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:platform="clr-namespace:Voidstrap.UI" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:avalonEdit="http://icsharpcode.net/sharpdevelop/avalonedit" xmlns:local="clr-namespace:Voidstrap.UI.Elements.Settings.Pages" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:models="clr-namespace:Voidstrap.UI.ViewModels.Settings" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:util="clr-namespace:Voidstrap.Utility" Title="BehaviourPage" Scrollable="True">
   <StackPanel>
-    <TextBlock Margin="0,0,0,8" FontSize="14" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{x:Static resources:Strings.Menu_Behaviour_Description}" />
+    <TextBlock Margin="0,0,0,8" FontSize="14" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Menu_Behaviour_Description}" />
     <TabControl Margin="0,0,14,14">
       <TabItem>
         <HeaderedContentControl.Header>
@@ -10,7 +10,7 @@
           </StackPanel>
         </HeaderedContentControl.Header>
         <StackPanel Margin="10">
-          <controls:OptionControl Margin="0,-8,0,0" x:Name="ConfirmLaunchOption" Header="{x:Static resources:Strings.Menu_Behaviour_ConfirmLaunches_Title}" Description="{x:Static resources:Strings.Menu_Behaviour_ConfirmLaunches_Description}">
+          <controls:OptionControl Margin="0,-8,0,0" x:Name="ConfirmLaunchOption" Header="{resources:Loc Menu_Behaviour_ConfirmLaunches_Title}" Description="{resources:Loc Menu_Behaviour_ConfirmLaunches_Description}">
             <ui:ToggleSwitch IsChecked="{Binding ConfirmLaunches, Mode=TwoWay}" />
           </controls:OptionControl>
           <controls:OptionControl Description="Disables Background Window when Launching Roblox" Header="Disable Background Window" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
@@ -98,22 +98,22 @@
           <ui:CardExpander x:Name="MtuOption" Margin="0,8,0,0" IsExpanded="False" Visibility="{x:Static platform:PlatformFeatureVisibility.NetworkMtu}">
             <HeaderedContentControl.Header>
               <StackPanel>
-                <TextBlock FontSize="14" Text="{x:Static resources:Strings.Mtu_Title}" />
-                <TextBlock Margin="0,2,0,0" FontSize="12" Text="{x:Static resources:Strings.Mtu_Description}" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                <TextBlock FontSize="14" Text="{resources:Loc Mtu_Title}" />
+                <TextBlock Margin="0,2,0,0" FontSize="12" Text="{resources:Loc Mtu_Description}" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
               </StackPanel>
             </HeaderedContentControl.Header>
             <StackPanel IsEnabled="{Binding IsIdle, FallbackValue=False}">
-              <ComboBox ItemsSource="{Binding Adapters}" DisplayMemberPath="DisplayName" SelectedItem="{Binding SelectedAdapter, Mode=TwoWay}" IsEnabled="{Binding IsIdle}" ToolTip="{x:Static resources:Strings.Mtu_Adapter}" />
+              <ComboBox ItemsSource="{Binding Adapters}" DisplayMemberPath="DisplayName" SelectedItem="{Binding SelectedAdapter, Mode=TwoWay}" IsEnabled="{Binding IsIdle}" ToolTip="{resources:Loc Mtu_Adapter}" />
               <TextBlock Margin="0,6,0,0" Text="{Binding CurrentSummary}" TextWrapping="Wrap" FontSize="12" />
               <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
-                <TextBlock VerticalAlignment="Center" Text="{x:Static resources:Strings.Mtu_CustomValue}" />
+                <TextBlock VerticalAlignment="Center" Text="{resources:Loc Mtu_CustomValue}" />
                 <TextBox Width="105" Margin="8,0,0,0" MaxLength="10" Text="{Binding CustomMtu, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding IsIdle}" />
               </StackPanel>
               <TextBlock Margin="0,4,0,0" FontSize="12" Text="{Binding ValidationMessage}" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
               <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
-                <ui:Button Content="{x:Static resources:Strings.Mtu_Apply}" Command="{Binding ApplyCommand}" Appearance="Primary" />
-                <ui:Button Margin="6,0,0,0" Content="{x:Static resources:Strings.Mtu_Restore}" Command="{Binding RestoreCommand}" />
-                <ui:Button Margin="6,0,0,0" Content="{x:Static resources:Strings.Mtu_Refresh}" Command="{Binding RefreshCommand}" />
+                <ui:Button Content="{resources:Loc Mtu_Apply}" Command="{Binding ApplyCommand}" Appearance="Primary" />
+                <ui:Button Margin="6,0,0,0" Content="{resources:Loc Mtu_Restore}" Command="{Binding RestoreCommand}" />
+                <ui:Button Margin="6,0,0,0" Content="{resources:Loc Mtu_Refresh}" Command="{Binding RefreshCommand}" />
               </StackPanel>
               <TextBlock Margin="0,6,0,0" Text="{Binding Status}" FontSize="12" TextWrapping="Wrap" />
             </StackPanel>

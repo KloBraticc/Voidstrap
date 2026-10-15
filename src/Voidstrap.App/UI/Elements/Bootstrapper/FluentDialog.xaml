@@ -29,7 +29,7 @@
         </TextBlock.Style>
       </TextBlock>
       <ProgressBar Width="420" Height="13" Margin="0,20,0,16" IsIndeterminate="{Binding ProgressIndeterminate, Mode=OneWay}" Maximum="{Binding ProgressMaximum, Mode=OneWay}" Value="{Binding ProgressValue, Mode=OneWay}" />
-      <Button  Width="200" Padding="5" HorizontalAlignment="Center" FontSize="15" Content="{x:Static resources:Strings.Common_Cancel}" Command="{Binding CancelInstallCommand}" IsEnabled="{Binding CancelEnabled, Mode=OneWay}" />
+      <Button  Width="200" Padding="5" HorizontalAlignment="Center" FontSize="15" Content="{resources:Loc Common_Cancel}" Command="{Binding CancelInstallCommand}" IsEnabled="{Binding CancelEnabled, Mode=OneWay}" />
     </StackPanel>
   </Grid>
 </base:WpfUiWindow>

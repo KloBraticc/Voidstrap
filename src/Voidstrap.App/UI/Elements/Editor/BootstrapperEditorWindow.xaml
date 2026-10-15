@@ -396,13 +396,13 @@
 
     <Grid Grid.Row="2" Margin="14,10,14,12">
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
-        <ui:Button Appearance="Secondary" Icon="FolderOpen24" Content="{x:Static resources:Strings.CustomTheme_Editor_OpenThemeDirectory}" Command="{Binding Path=OpenThemeFolderCommand, Mode=OneTime}" />
+        <ui:Button Appearance="Secondary" Icon="FolderOpen24" Content="{resources:Loc CustomTheme_Editor_OpenThemeDirectory}" Command="{Binding Path=OpenThemeFolderCommand, Mode=OneTime}" />
         <ui:Button Name="ExternalButton" Margin="8,0,0,0" Appearance="Secondary" Icon="Open24" Content="Open Editor" ToolTip="Edit in another program. Saving there updates this window." Click="OpenExternal_Click" />
       </StackPanel>
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-        <ui:Button MinWidth="92" Appearance="Secondary" Content="{x:Static resources:Strings.CustomTheme_Editor_Preview}" Command="{Binding Path=PreviewCommand, Mode=OneTime}" />
-        <ui:Button MinWidth="92" Margin="8,0,0,0" Appearance="Primary" Content="{x:Static resources:Strings.CustomTheme_Editor_Save}" Click="SaveActive_Click" />
-        <ui:Button MinWidth="92" Margin="8,0,0,0" Appearance="Secondary" Content="{x:Static resources:Strings.Common_Close}" IsCancel="True" />
+        <ui:Button MinWidth="92" Appearance="Secondary" Content="{resources:Loc CustomTheme_Editor_Preview}" Command="{Binding Path=PreviewCommand, Mode=OneTime}" />
+        <ui:Button MinWidth="92" Margin="8,0,0,0" Appearance="Primary" Content="{resources:Loc CustomTheme_Editor_Save}" Click="SaveActive_Click" />
+        <ui:Button MinWidth="92" Margin="8,0,0,0" Appearance="Secondary" Content="{resources:Loc Common_Close}" IsCancel="True" />
       </StackPanel>
     </Grid>
 

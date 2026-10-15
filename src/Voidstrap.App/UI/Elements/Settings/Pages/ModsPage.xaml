@@ -30,7 +30,7 @@
   </FrameworkElement.Resources>
   <StackPanel Margin="0,0,14,14">
     <StackPanel Visibility="{Binding MainContentVisibility}">
-      <TextBlock FontSize="14" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{x:Static resources:Strings.Menu_Mods_Description}" TextWrapping="Wrap" />
+      <TextBlock FontSize="14" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Menu_Mods_Description}" TextWrapping="Wrap" />
       <UniformGrid Margin="0,16,0,0" Rows="1" VerticalAlignment="Stretch">
         <UniformGrid.Resources>
           <Style TargetType="{x:Type ui:CardAction}" BasedOn="{StaticResource {x:Type ui:CardAction}}">
@@ -46,8 +46,8 @@
         </ui:CardAction>
         <ui:CardAction Name="OpenModFolderCardAction" Margin="4,0,4,0" Icon="Folder24" Command="{Binding OpenModsFolderCommand}">
           <StackPanel>
-            <TextBlock FontSize="14" Text="{x:Static resources:Strings.Menu_Mods_OpenModsFolder_Title}" TextWrapping="Wrap" FontWeight="Medium" />
-            <TextBlock Margin="0,2,0,0" FontSize="12" Text="{x:Static resources:Strings.Menu_Mods_OpenModsFolder_Description}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" />
+            <TextBlock FontSize="14" Text="{resources:Loc Menu_Mods_OpenModsFolder_Title}" TextWrapping="Wrap" FontWeight="Medium" />
+            <TextBlock Margin="0,2,0,0" FontSize="12" Text="{resources:Loc Menu_Mods_OpenModsFolder_Description}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" />
           </StackPanel>
         </ui:CardAction>
         <ui:CardAction Margin="4,0,0,0" Icon="DocumentSearch24" Command="{Binding ToggleModExplorerCommand}">
@@ -162,7 +162,7 @@
             </controls:OptionControl>
 
             <TextBlock Margin="2,24,0,0" FontSize="16" FontWeight="SemiBold" Text="Sounds" />
-            <controls:OptionControl Description="{x:Static resources:Strings.Menu_Mods_Presets_OldCharacterSounds_Description}" Header="{x:Static resources:Strings.Menu_Mods_Presets_OldCharacterSounds_Title}">
+            <controls:OptionControl Description="{resources:Loc Menu_Mods_Presets_OldCharacterSounds_Description}" Header="{resources:Loc Menu_Mods_Presets_OldCharacterSounds_Title}">
               <ui:ToggleSwitch IsChecked="{Binding OldCharacterSoundsTask.NewState, Mode=TwoWay}" />
             </controls:OptionControl>
             <controls:OptionControl Header="Custom Death Sound" Description="Replaces the death sound with your own audio.">
@@ -177,10 +177,10 @@
             </controls:OptionControl>
 
             <TextBlock Margin="2,24,0,0" FontSize="16" FontWeight="SemiBold" Text="Appearance" />
-            <controls:OptionControl Description="{x:Static resources:Strings.Menu_Mods_Presets_OldAvatarEditor_Description}" Header="{x:Static resources:Strings.Menu_Mods_Presets_OldAvatarEditor_Title}">
+            <controls:OptionControl Description="{resources:Loc Menu_Mods_Presets_OldAvatarEditor_Description}" Header="{resources:Loc Menu_Mods_Presets_OldAvatarEditor_Title}">
               <ui:ToggleSwitch IsChecked="{Binding OldAvatarBackgroundTask.NewState, Mode=TwoWay}" />
             </controls:OptionControl>
-            <controls:OptionControl Description="{x:Static resources:Strings.Menu_Mods_Presets_EmojiType_Description}" Header="{x:Static resources:Strings.Menu_Mods_Presets_EmojiType_Title}">
+            <controls:OptionControl Description="{resources:Loc Menu_Mods_Presets_EmojiType_Description}" Header="{resources:Loc Menu_Mods_Presets_EmojiType_Title}">
               <ComboBox Width="220" Margin="5,0,0,0" Padding="10,5,10,5" ItemsSource="{Binding EmojiFontTask.Selections, Mode=OneTime}" Text="{Binding EmojiFontTask.NewState, Mode=TwoWay}">
                 <ItemsControl.ItemTemplate>
                   <DataTemplate>
@@ -300,14 +300,14 @@
             <TextBlock Margin="2,24,0,0" FontSize="16" FontWeight="SemiBold" Text="Help and fixes" />
             <ui:CardAction Margin="0,8,0,0" Icon="BookQuestionMark24" Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="https://github.com/Bloxstraplabs/Bloxstrap/wiki/Adding-custom-mods">
               <StackPanel>
-                <TextBlock FontSize="14" Text="{x:Static resources:Strings.Common_Help}" FontWeight="Medium" />
-                <TextBlock Margin="0,2,0,0" FontSize="12" Text="{x:Static resources:Strings.Menu_Mods_Help_Description}" Padding="0,0,16,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" />
+                <TextBlock FontSize="14" Text="{resources:Loc Common_Help}" FontWeight="Medium" />
+                <TextBlock Margin="0,2,0,0" FontSize="12" Text="{resources:Loc Menu_Mods_Help_Description}" Padding="0,0,16,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" />
               </StackPanel>
             </ui:CardAction>
             <ui:CardAction Margin="0,7,0,0" VerticalAlignment="Top" Icon="WindowWrench24" Command="{Binding OpenCompatSettingsCommand}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
               <StackPanel>
-                <TextBlock FontSize="14" Text="{x:Static resources:Strings.Menu_Mods_Misc_CompatibilitySettings_Title}" TextWrapping="Wrap" FontWeight="Medium" />
-                <controls:MarkdownTextBlock Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" MarkdownText="{Binding Source={x:Static resources:Strings.Menu_Mods_Misc_CompatibilitySettings_Description}, Converter={StaticResource StringFormatConverter}, ConverterParameter=https://devblogs.microsoft.com/directx/demystifying-full-screen-optimizations/}" />
+                <TextBlock FontSize="14" Text="{resources:Loc Menu_Mods_Misc_CompatibilitySettings_Title}" TextWrapping="Wrap" FontWeight="Medium" />
+                <controls:MarkdownTextBlock Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" MarkdownText="{Binding Source={resources:Loc Menu_Mods_Misc_CompatibilitySettings_Description}, Converter={StaticResource StringFormatConverter}, ConverterParameter=https://devblogs.microsoft.com/directx/demystifying-full-screen-optimizations/}" />
               </StackPanel>
             </ui:CardAction>
           </StackPanel>

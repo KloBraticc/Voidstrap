@@ -656,7 +656,7 @@
               <TabItem.Header>
                 <StackPanel Orientation="Horizontal">
                   <ui:SymbolIcon Symbol="Games24" Margin="0,0,6,0" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=TabItem}}" />
-                  <TextBlock Text="{x:Static resources:Strings.Library_SubplacesTab}" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=TabItem}}" />
+                  <TextBlock Text="{resources:Loc Library_SubplacesTab}" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=TabItem}}" />
                 </StackPanel>
               </TabItem.Header>
               <StackPanel Margin="16">
@@ -683,7 +683,7 @@
                     </DataTemplate>
                   </ItemsControl.ItemTemplate>
                 </ItemsControl>
-                <TextBlock Margin="0,8,0,0" FontSize="12" Text="{x:Static resources:Strings.Shortcuts_SubplaceAccess}" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                <TextBlock Margin="0,8,0,0" FontSize="12" Text="{resources:Loc Shortcuts_SubplaceAccess}" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
               </StackPanel>
             </TabItem>
           </TabControl>

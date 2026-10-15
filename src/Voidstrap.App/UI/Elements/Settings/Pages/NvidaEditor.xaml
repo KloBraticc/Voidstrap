@@ -113,7 +113,7 @@
             </DataGridTemplateColumn.CellEditingTemplate>
           </DataGridTemplateColumn>
 
-          <DataGridTextColumn x:Name="NameColumn" Width="2*" Header="{x:Static resources:Strings.Common_Name}" Binding="{Binding Name}">
+          <DataGridTextColumn x:Name="NameColumn" Width="2*" Header="{resources:Loc Common_Name}" Binding="{Binding Name}">
             <DataGridTextColumn.ElementStyle>
               <Style TargetType="{x:Type TextBlock}">
                 <Setter Property="VerticalAlignment" Value="Center" />
@@ -131,7 +131,7 @@
             </DataGridTextColumn.ElementStyle>
           </DataGridTextColumn>
 
-          <DataGridTextColumn x:Name="ValueColumn" Width="*" Header="{x:Static resources:Strings.Common_Value}" Binding="{Binding Value}">
+          <DataGridTextColumn x:Name="ValueColumn" Width="*" Header="{resources:Loc Common_Value}" Binding="{Binding Value}">
             <DataGridTextColumn.ElementStyle>
               <Style TargetType="{x:Type TextBlock}">
                 <Setter Property="VerticalAlignment" Value="Center" />

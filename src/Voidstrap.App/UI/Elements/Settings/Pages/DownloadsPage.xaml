@@ -251,8 +251,8 @@
                                 <TextBlock Text="{Binding Subtitle}" FontSize="13" Opacity="0.7" Margin="0,8,0,0" TextWrapping="Wrap" LineHeight="20" />
 
                                 <StackPanel Margin="0,14,0,0" Visibility="{Binding IsVng, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                    <ui:ToggleSwitch Content="{x:Static resources:Strings.Vng_UseForLaunches}" IsChecked="{Binding UseVng, Mode=TwoWay}" IsEnabled="{Binding CanPrimary}" />
-                                    <TextBlock Text="{x:Static resources:Strings.Vng_UninstallWarning}" FontSize="12" Foreground="{DynamicResource SystemFillColorCautionBrush}" Margin="0,8,0,0" TextWrapping="Wrap" />
+                                    <ui:ToggleSwitch Content="{resources:Loc Vng_UseForLaunches}" IsChecked="{Binding UseVng, Mode=TwoWay}" IsEnabled="{Binding CanPrimary}" />
+                                    <TextBlock Text="{resources:Loc Vng_UninstallWarning}" FontSize="12" Foreground="{DynamicResource SystemFillColorCautionBrush}" Margin="0,8,0,0" TextWrapping="Wrap" />
                                 </StackPanel>
 
                                 <Grid Margin="0,18,0,0">
