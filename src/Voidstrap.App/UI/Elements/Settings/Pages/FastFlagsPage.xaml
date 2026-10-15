@@ -437,7 +437,7 @@
 		  <controls:OptionControl Header="Make Yourself Game Creator" Description="Uses your current Roblox user ID for intercepted game creator metadata">
 			<ui:ToggleSwitch IsChecked="{Binding SpoofSelfGameCreator, Mode=TwoWay}" />
 		  </controls:OptionControl>
-		  <ui:InfoBar Padding="8" IsClosable="False" IsOpen="True" Severity="Warning" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}" Message="Make Yourself Game Creator is paused on Windows. Roblox changed how game joins work, and intercepting them now makes joins fail with error 529. Your other options keep working, and this turns back on in an update once a fix is found." />
+		  <ui:InfoBar Margin="0,8,0,0" Padding="8" IsClosable="False" IsOpen="True" Severity="Warning" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}" Message="Make Yourself Game Creator does not work on Windows. Roblox now protects game joins on Windows, and changing them makes joins fail with error 529, so Voidstrap leaves them alone. It still works on Linux and macOS, and your other options are not affected." />
                   </StackPanel>
         </StackPanel>
       </TabItem>
