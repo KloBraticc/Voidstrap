@@ -553,16 +553,31 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 	{
 		get
 		{
+			if (Voidstrap.Utility.Platform.IsMacOS)
+				return App.Settings.Prop.MacVirtualDisplayEnabled;
 			return App.GlobalSettings.GetInt("FramerateCap", 0) > 240;
 		}
 		set
 		{
+			if (Voidstrap.Utility.Platform.IsMacOS)
+			{
+				if (App.Settings.Prop.MacVirtualDisplayEnabled == value)
+					return;
+				App.Settings.Prop.MacVirtualDisplayEnabled = value;
+				App.Settings.SaveDeferred();
+				OnPropertyChanged(nameof(UncapFPS));
+				return;
+			}
 			if (App.GlobalSettings.SetProperty("FramerateCap", value ? 9999 : 240))
 				App.GlobalSettings.Save();
 		}
 	}
 
-	public bool UncapFpsToggleEnabled => Voidstrap.Integrations.FrameGeneration.FrameGenSettings.ModeIndex == 0;
+	public string UncapFpsDescription => Voidstrap.Utility.Platform.IsMacOS
+		? "Create a 240 Hz virtual display that lets Roblox go above your screen's refresh rate in game. Also set Roblox's in game Maximum Frame Rate to 240."
+		: "Remove the 240 FPS limit. Unavailable while Frame Generation is enabled.";
+
+	public bool UncapFpsToggleEnabled => Voidstrap.Utility.Platform.IsMacOS || Voidstrap.Integrations.FrameGeneration.FrameGenSettings.ModeIndex == 0;
 
 	public bool DiscordActivityJoinEnabled
 	{

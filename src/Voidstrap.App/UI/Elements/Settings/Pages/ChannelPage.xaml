@@ -35,9 +35,6 @@
             <ui:ToggleSwitch IsChecked="{Binding LaunchWithoutVoidstrap, Mode=TwoWay}" />
           </controls:OptionControl>
           <controls:BootstrapperImportControl Imported="OnSettingsImported" />
-          <controls:OptionControl Header="{x:Static resources:Strings.Menu_MacVirtualDisplay_Title}" Description="{x:Static resources:Strings.Menu_MacVirtualDisplay_Description}" Visibility="{x:Static platform:PlatformFeatureVisibility.MacOSIntegration}">
-            <ui:ToggleSwitch IsChecked="{Binding MacVirtualDisplayEnabled, Mode=TwoWay}" />
-          </controls:OptionControl>
           <Expander Header="Display and Resolution" IsExpanded="False" Margin="0,8,0,0" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
             <StackPanel Margin="0,4,0,0">
                             <Border CornerRadius="8" Padding="10" Background="{DynamicResource ControlFillColorDefaultBrush}" BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="1">
