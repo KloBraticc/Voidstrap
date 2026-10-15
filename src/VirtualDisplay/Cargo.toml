@@ -1,13 +1,42 @@
 [package]
 name = "voidstrap-virtualdisplay"
-version = "1.0.0"
+version = "1.1.0"
 edition = "2024"
 license = "MIT"
 publish = false
 
 [target.'cfg(target_os = "macos")'.dependencies]
 libc = "0.2"
+objc2.workspace = true
+virtualdisplay = { path = "virtualdisplay" }
+
+[workspace]
+resolver = "3"
+members = [".", "virtualdisplay"]
+
+[workspace.package]
+edition = "2024"
+license = "MPL-2.0"
+authors = [
+  "Invra <identificationsucks@gmail.com>",
+  "UltimatePlayer97 <gogole.help134@gmail.com>",
+  "RealMeddsam <meddsamreal@gmail.com>"
+]
+
+[workspace.dependencies]
 objc2 = "0.6.4"
+block2 = "0.6"
+dispatch2 = "0.3"
+
+[workspace.dependencies.objc2-core-foundation]
+version = "0.3"
+default-features = false
+features = ["CFString", "CFCGTypes"]
+
+[workspace.dependencies.objc2-core-graphics]
+version = "0.3"
+default-features = false
+features = ["CGDirectDisplay", "CGDisplayConfiguration", "CGError", "libc", "objc2"]
 
 [profile.release]
 opt-level = 3

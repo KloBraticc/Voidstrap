@@ -1,3 +1,6 @@
 [submodule "wpfui"]
 	path = external/wpfui
 	url = https://github.com/bloxstraplabs/wpfui.git
+[submodule "src/VirtualDisplay/virtualdisplay"]
+	path = src/VirtualDisplay/virtualdisplay
+	url = https://github.com/KloBraticc/virtualdisplay
