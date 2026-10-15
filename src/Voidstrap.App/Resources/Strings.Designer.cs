@@ -825,6 +825,158 @@ namespace Voidstrap.Resources {
 
         public static string Ui_FastFlags_MakeYourselfGameCreatorDoesNot => ResourceManager.GetString("Ui.FastFlags.MakeYourselfGameCreatorDoesNot", resourceCulture);
 
+        public static string Ui_Bootstrapper_DisablesBackgroundWindowWhenLaunchingRoblox => ResourceManager.GetString("Ui.Bootstrapper.DisablesBackgroundWindowWhenLaunchingRoblox", resourceCulture);
+
+        public static string Ui_Bootstrapper_DisableBackgroundWindow => ResourceManager.GetString("Ui.Bootstrapper.DisableBackgroundWindow", resourceCulture);
+
+        public static string Ui_Bootstrapper_DisableRobloxCrashHandler => ResourceManager.GetString("Ui.Bootstrapper.DisableRobloxCrashHandler", resourceCulture);
+
+        public static string Ui_Bootstrapper_ClosesRobloxCrashHandlerAfterRobloxHasSafely => ResourceManager.GetString("Ui.Bootstrapper.ClosesRobloxCrashHandlerAfterRobloxHasSafely", resourceCulture);
+
+        public static string Ui_Bootstrapper_TASXOptimization => ResourceManager.GetString("Ui.Bootstrapper.TASXOptimization", resourceCulture);
+
+        public static string Ui_Bootstrapper_FullSpeedWhileRobloxIsFocused => ResourceManager.GetString("Ui.Bootstrapper.FullSpeedWhileRobloxIsFocused", resourceCulture);
+
+        public static string Ui_Bootstrapper_AdvancedGeneral => ResourceManager.GetString("Ui.Bootstrapper.AdvancedGeneral", resourceCulture);
+
+        public static string Ui_Bootstrapper_Cleaner => ResourceManager.GetString("Ui.Bootstrapper.Cleaner", resourceCulture);
+
+        public static string Ui_Bootstrapper_VoidstrapWillRemoveOldDataTo => ResourceManager.GetString("Ui.Bootstrapper.VoidstrapWillRemoveOldDataTo", resourceCulture);
+
+        public static string Ui_Bootstrapper_WhenShouldTheFilesGetDeleted => ResourceManager.GetString("Ui.Bootstrapper.WhenShouldTheFilesGetDeleted", resourceCulture);
+
+        public static string Ui_Bootstrapper_FilesOlderThanTheSetAmount => ResourceManager.GetString("Ui.Bootstrapper.FilesOlderThanTheSetAmount", resourceCulture);
+
+        public static string Ui_Bootstrapper_Cache => ResourceManager.GetString("Ui.Bootstrapper.Cache", resourceCulture);
+
+        public static string Ui_Bootstrapper_WhenShouldTheSetAmountBe => ResourceManager.GetString("Ui.Bootstrapper.WhenShouldTheSetAmountBe", resourceCulture);
+
+        public static string Ui_Bootstrapper_Logs => ResourceManager.GetString("Ui.Bootstrapper.Logs", resourceCulture);
+
+        public static string Ui_Bootstrapper_OldLogFilesWillBeDeleted => ResourceManager.GetString("Ui.Bootstrapper.OldLogFilesWillBeDeleted", resourceCulture);
+
+        public static string Ui_Bootstrapper_VoidstrapLogs => ResourceManager.GetString("Ui.Bootstrapper.VoidstrapLogs", resourceCulture);
+
+        public static string Ui_Bootstrapper_VoidstrapLogsWillBeDeleted => ResourceManager.GetString("Ui.Bootstrapper.VoidstrapLogsWillBeDeleted", resourceCulture);
+
+        public static string Ui_Bootstrapper_CleanRobloxCache => ResourceManager.GetString("Ui.Bootstrapper.CleanRobloxCache", resourceCulture);
+
+        public static string Ui_Bootstrapper_DeletesAllFilesInRobloxS => ResourceManager.GetString("Ui.Bootstrapper.DeletesAllFilesInRobloxS", resourceCulture);
+
+        public static string Ui_Bootstrapper_Clean => ResourceManager.GetString("Ui.Bootstrapper.Clean", resourceCulture);
+
+        public static string Ui_Bootstrapper_ResourceControls => ResourceManager.GetString("Ui.Bootstrapper.ResourceControls", resourceCulture);
+
+        public static string Ui_Bootstrapper_SafeSchedulingAndMemoryControlsFor => ResourceManager.GetString("Ui.Bootstrapper.SafeSchedulingAndMemoryControlsFor", resourceCulture);
+
+        public static string Ui_Bootstrapper_RobloxCPULimit => ResourceManager.GetString("Ui.Bootstrapper.RobloxCPULimit", resourceCulture);
+
+        public static string Ui_Bootstrapper_TrimMemoryWhenRobloxIsUnfocused => ResourceManager.GetString("Ui.Bootstrapper.TrimMemoryWhenRobloxIsUnfocused", resourceCulture);
+
+        public static string Ui_Bootstrapper_AfterRobloxRemainsUnfocusedUnusedWorking => ResourceManager.GetString("Ui.Bootstrapper.AfterRobloxRemainsUnfocusedUnusedWorking", resourceCulture);
+
+        public static string Ui_Bootstrapper_PrioritizeRobloxWhileFocused => ResourceManager.GetString("Ui.Bootstrapper.PrioritizeRobloxWhileFocused", resourceCulture);
+
+        public static string Ui_Bootstrapper_BackgroundResourceUse => ResourceManager.GetString("Ui.Bootstrapper.BackgroundResourceUse", resourceCulture);
+
+        public static string Ui_Bootstrapper_KeepRobloxAndVoidstrapLighterWhen => ResourceManager.GetString("Ui.Bootstrapper.KeepRobloxAndVoidstrapLighterWhen", resourceCulture);
+
+        public static string Ui_Bootstrapper_ReduceResourcesWhenRobloxIsUnfocused => ResourceManager.GetString("Ui.Bootstrapper.ReduceResourcesWhenRobloxIsUnfocused", resourceCulture);
+
+        public static string Ui_Bootstrapper_VoidstrapMatchmaker => ResourceManager.GetString("Ui.Bootstrapper.VoidstrapMatchmaker", resourceCulture);
+
+        public static string Ui_Bootstrapper_Enable => ResourceManager.GetString("Ui.Bootstrapper.Enable", resourceCulture);
+
+        public static string Ui_Bootstrapper_PickMyServerForMe => ResourceManager.GetString("Ui.Bootstrapper.PickMyServerForMe", resourceCulture);
+
+        public static string Ui_Bootstrapper_WhatToJoin => ResourceManager.GetString("Ui.Bootstrapper.WhatToJoin", resourceCulture);
+
+        public static string Ui_Bootstrapper_HowVoidstrapChoosesBetweenTheServers => ResourceManager.GetString("Ui.Bootstrapper.HowVoidstrapChoosesBetweenTheServers", resourceCulture);
+
+        public static string Ui_Bootstrapper_AskBeforeMovingServers => ResourceManager.GetString("Ui.Bootstrapper.AskBeforeMovingServers", resourceCulture);
+
+        public static string Ui_Bootstrapper_WhenABetterServerIsFound => ResourceManager.GetString("Ui.Bootstrapper.WhenABetterServerIsFound", resourceCulture);
+
+        public static string Ui_Bootstrapper_WhichDatacenter => ResourceManager.GetString("Ui.Bootstrapper.WhichDatacenter", resourceCulture);
+
+        public static string Ui_Bootstrapper_ClickAPinToPickA => ResourceManager.GetString("Ui.Bootstrapper.ClickAPinToPickA", resourceCulture);
+
+        public static string Ui_Bootstrapper_PreferredDatacenter => ResourceManager.GetString("Ui.Bootstrapper.PreferredDatacenter", resourceCulture);
+
+        public static string Ui_Bootstrapper_VoidstrapWillAlwaysTryThisOne => ResourceManager.GetString("Ui.Bootstrapper.VoidstrapWillAlwaysTryThisOne", resourceCulture);
+
+        public static string Ui_Bootstrapper_Datacenters => ResourceManager.GetString("Ui.Bootstrapper.Datacenters", resourceCulture);
+
+        public static string Ui_Bootstrapper_AllowAll => ResourceManager.GetString("Ui.Bootstrapper.AllowAll", resourceCulture);
+
+        public static string Ui_Bootstrapper_TurnOneOffToNeverBe => ResourceManager.GetString("Ui.Bootstrapper.TurnOneOffToNeverBe", resourceCulture);
+
+        public static string Ui_Bootstrapper_SearchByCityRegionOrCountry => ResourceManager.GetString("Ui.Bootstrapper.SearchByCityRegionOrCountry", resourceCulture);
+
+        public static string Ui_Bootstrapper_Allow => ResourceManager.GetString("Ui.Bootstrapper.Allow", resourceCulture);
+
+        public static string Ui_Bootstrapper_Datacenter => ResourceManager.GetString("Ui.Bootstrapper.Datacenter", resourceCulture);
+
+        public static string Ui_Bootstrapper_Latency => ResourceManager.GetString("Ui.Bootstrapper.Latency", resourceCulture);
+
+        public static string Ui_Bootstrapper_SkippedGames => ResourceManager.GetString("Ui.Bootstrapper.SkippedGames", resourceCulture);
+
+        public static string Ui_Bootstrapper_AddThoseHereAndVoidstrapJoins => ResourceManager.GetString("Ui.Bootstrapper.AddThoseHereAndVoidstrapJoins", resourceCulture);
+
+        public static string Ui_Bootstrapper_SearchForAGameByName => ResourceManager.GetString("Ui.Bootstrapper.SearchForAGameByName", resourceCulture);
+
+        public static string Ui_Bootstrapper_Skip => ResourceManager.GetString("Ui.Bootstrapper.Skip", resourceCulture);
+
+        public static string Ui_Bootstrapper_NeverLetVoidstrapPickAServer => ResourceManager.GetString("Ui.Bootstrapper.NeverLetVoidstrapPickAServer", resourceCulture);
+
+        public static string Ui_Bootstrapper_PlaceId => ResourceManager.GetString("Ui.Bootstrapper.PlaceId", resourceCulture);
+
+        public static string Ui_Bootstrapper_LetVoidstrapPickServersForThis => ResourceManager.GetString("Ui.Bootstrapper.LetVoidstrapPickServersForThis", resourceCulture);
+
+        public static string Ui_Bootstrapper_Advanced => ResourceManager.GetString("Ui.Bootstrapper.Advanced", resourceCulture);
+
+        public static string Ui_Bootstrapper_TheDefaultsAreRightForAlmost => ResourceManager.GetString("Ui.Bootstrapper.TheDefaultsAreRightForAlmost", resourceCulture);
+
+        public static string Ui_Bootstrapper_HowHardToSearch => ResourceManager.GetString("Ui.Bootstrapper.HowHardToSearch", resourceCulture);
+
+        public static string Ui_Bootstrapper_Auto => ResourceManager.GetString("Ui.Bootstrapper.Auto", resourceCulture);
+
+        public static string Ui_Bootstrapper_ReconnectLimit => ResourceManager.GetString("Ui.Bootstrapper.ReconnectLimit", resourceCulture);
+
+        public static string Ui_Bootstrapper_VoidstrapStopsTryingAfterThisMany => ResourceManager.GetString("Ui.Bootstrapper.VoidstrapStopsTryingAfterThisMany", resourceCulture);
+
+        public static string Ui_Bootstrapper_JoinAPI => ResourceManager.GetString("Ui.Bootstrapper.JoinAPI", resourceCulture);
+
+        public static string Ui_Bootstrapper_WhichRobloxJoinEndpointVoidstrapAsks => ResourceManager.GetString("Ui.Bootstrapper.WhichRobloxJoinEndpointVoidstrapAsks", resourceCulture);
+
+        public static string Ui_Bootstrapper_FullscreenMode => ResourceManager.GetString("Ui.Bootstrapper.FullscreenMode", resourceCulture);
+
+        public static string Ui_Bootstrapper_HowTheRobloxGameWindowFills => ResourceManager.GetString("Ui.Bootstrapper.HowTheRobloxGameWindowFills", resourceCulture);
+
+        public static string Ui_Bootstrapper_OverlaysAreHiddenInExclusiveFullscreen => ResourceManager.GetString("Ui.Bootstrapper.OverlaysAreHiddenInExclusiveFullscreen", resourceCulture);
+
+        public static string Ui_Bootstrapper_YourWindowsMouseCursorAndEvery => ResourceManager.GetString("Ui.Bootstrapper.YourWindowsMouseCursorAndEvery", resourceCulture);
+
+        public static string Ui_Bootstrapper_NeedsXWaylandOnLinux => ResourceManager.GetString("Ui.Bootstrapper.NeedsXWaylandOnLinux", resourceCulture);
+
+        public static string Ui_Bootstrapper_TheTitleGameNameGameIcon => ResourceManager.GetString("Ui.Bootstrapper.TheTitleGameNameGameIcon", resourceCulture);
+
+        public static string Ui_Bootstrapper_LeaveBlankToKeepTheTitle => ResourceManager.GetString("Ui.Bootstrapper.LeaveBlankToKeepTheTitle", resourceCulture);
+
+        public static string Ui_Bootstrapper_AddTheGameName => ResourceManager.GetString("Ui.Bootstrapper.AddTheGameName", resourceCulture);
+
+        public static string Ui_Bootstrapper_ShowsTheExperienceYouArePlaying => ResourceManager.GetString("Ui.Bootstrapper.ShowsTheExperienceYouArePlaying", resourceCulture);
+
+        public static string Ui_Bootstrapper_UseTheGameIcon => ResourceManager.GetString("Ui.Bootstrapper.UseTheGameIcon", resourceCulture);
+
+        public static string Ui_Bootstrapper_ShowsTheExperienceIconOnThe => ResourceManager.GetString("Ui.Bootstrapper.ShowsTheExperienceIconOnThe", resourceCulture);
+
+        public static string Ui_Bootstrapper_AddTheServerInfo => ResourceManager.GetString("Ui.Bootstrapper.AddTheServerInfo", resourceCulture);
+
+        public static string Ui_Bootstrapper_ShowsTheServerRegionAndPlayer => ResourceManager.GetString("Ui.Bootstrapper.ShowsTheServerRegionAndPlayer", resourceCulture);
+
+        public static string Ui_Bootstrapper_BackdropMaterialToRobloxSWindow => ResourceManager.GetString("Ui.Bootstrapper.BackdropMaterialToRobloxSWindow", resourceCulture);
+
         public static string Menu_Appearance_Accent_Title => ResourceManager.GetString("Menu.Appearance.Accent.Title", resourceCulture);
 
         public static string Menu_Appearance_Accent_Description => ResourceManager.GetString("Menu.Appearance.Accent.Description", resourceCulture);

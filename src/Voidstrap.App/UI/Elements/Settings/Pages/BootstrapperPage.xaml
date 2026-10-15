@@ -13,13 +13,13 @@
           <controls:OptionControl Margin="0,-8,0,0" x:Name="ConfirmLaunchOption" Header="{resources:Loc Menu_Behaviour_ConfirmLaunches_Title}" Description="{resources:Loc Menu_Behaviour_ConfirmLaunches_Description}">
             <ui:ToggleSwitch IsChecked="{Binding ConfirmLaunches, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Description="Disables Background Window when Launching Roblox" Header="Disable Background Window" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+          <controls:OptionControl Description="{resources:Loc Ui_Bootstrapper_DisablesBackgroundWindowWhenLaunchingRoblox}" Header="{resources:Loc Ui_Bootstrapper_DisableBackgroundWindow}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
             <ui:ToggleSwitch IsChecked="{Binding BackgroundWindow, Mode=TwoWay}" />
           </controls:OptionControl>
-		  <controls:OptionControl Header="Disable RobloxCrashHandler" Description="Closes RobloxCrashHandler after Roblox has safely finished starting" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+		  <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_DisableRobloxCrashHandler}" Description="{resources:Loc Ui_Bootstrapper_ClosesRobloxCrashHandlerAfterRobloxHasSafely}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
             <ui:ToggleSwitch IsChecked="{Binding disablecrashhandleryayyysocool, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="TASX optimization" Description="Full speed while Roblox is focused, throttled while you are tabbed out." Visibility="{x:Static platform:PlatformFeatureVisibility.TasxOptimization}">
+          <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_TASXOptimization}" Description="{resources:Loc Ui_Bootstrapper_FullSpeedWhileRobloxIsFocused}" Visibility="{x:Static platform:PlatformFeatureVisibility.TasxOptimization}">
             <ui:ToggleSwitch IsChecked="{Binding TasxOptimization, Mode=TwoWay}" />
           </controls:OptionControl>
         </StackPanel>
@@ -28,19 +28,19 @@
         <HeaderedContentControl.Header>
           <StackPanel Orientation="Horizontal">
             <ui:SymbolIcon Symbol="Wrench24" Margin="0,0,6,0" />
-            <TextBlock Text="Advanced General" />
+            <TextBlock Text="{resources:Loc Ui_Bootstrapper_AdvancedGeneral}" />
           </StackPanel>
         </HeaderedContentControl.Header>
         <StackPanel Margin="10">
           <ui:CardExpander IsExpanded="False">
             <HeaderedContentControl.Header>
               <StackPanel>
-                <TextBlock FontSize="14" Text="Cleaner" />
-                <TextBlock Margin="0,2,0,0" FontSize="12" Text="Voidstrap will remove old data to save on space" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                <TextBlock FontSize="14" Text="{resources:Loc Ui_Bootstrapper_Cleaner}" />
+                <TextBlock Margin="0,2,0,0" FontSize="12" Text="{resources:Loc Ui_Bootstrapper_VoidstrapWillRemoveOldDataTo}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
               </StackPanel>
             </HeaderedContentControl.Header>
             <StackPanel>
-              <controls:OptionControl Header="When should the files get deleted" Description="Files older than the set amount will be deleted.">
+              <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_WhenShouldTheFilesGetDeleted}" Description="{resources:Loc Ui_Bootstrapper_FilesOlderThanTheSetAmount}">
                 <ComboBox Padding="10,5,10,5" ItemsSource="{Binding CleanerOptions, Mode=OneTime}" Text="{Binding CleanerOption, Mode=TwoWay}">
                   <ItemsControl.ItemTemplate>
                     <DataTemplate>
@@ -49,35 +49,35 @@
                   </ItemsControl.ItemTemplate>
                 </ComboBox>
               </controls:OptionControl>
-              <controls:OptionControl Header="Cache" Description="When should the set amount be deleted.">
+              <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_Cache}" Description="{resources:Loc Ui_Bootstrapper_WhenShouldTheSetAmountBe}">
                 <ui:ToggleSwitch IsChecked="{Binding CleanerCache, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl Header="Logs" Description="Old log files will be deleted.">
+              <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_Logs}" Description="{resources:Loc Ui_Bootstrapper_OldLogFilesWillBeDeleted}">
                 <ui:ToggleSwitch IsChecked="{Binding CleanerLogs, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl Header="Voidstrap logs" Description="Voidstrap logs will be deleted.">
+              <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_VoidstrapLogs}" Description="{resources:Loc Ui_Bootstrapper_VoidstrapLogsWillBeDeleted}">
                 <ui:ToggleSwitch IsChecked="{Binding CleanerVoidstrap, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl Header="Clean Roblox cache" Description="Deletes all files in Roblox's cache directories to free up disk space. Games will temporarily load slower after this!" Visibility="{Binding CleanRobloxCacheVisibility, Mode=OneWay}">
-                <ui:Button Icon="Delete48" Content="Clean" Appearance="Danger" Command="{Binding CleanRobloxCacheCommand}" />
+              <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_CleanRobloxCache}" Description="{resources:Loc Ui_Bootstrapper_DeletesAllFilesInRobloxS}" Visibility="{Binding CleanRobloxCacheVisibility, Mode=OneWay}">
+                <ui:Button Icon="Delete48" Content="{resources:Loc Ui_Bootstrapper_Clean}" Appearance="Danger" Command="{Binding CleanRobloxCacheCommand}" />
               </controls:OptionControl>
             </StackPanel>
           </ui:CardExpander>
           <ui:CardExpander Margin="0,8,0,0" IsExpanded="False" Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
             <HeaderedContentControl.Header>
               <StackPanel>
-                <TextBlock FontSize="14" Text="Resource controls" />
-                <TextBlock Margin="0,2,0,0" FontSize="12" Text="Safe scheduling and memory controls for Roblox" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                <TextBlock FontSize="14" Text="{resources:Loc Ui_Bootstrapper_ResourceControls}" />
+                <TextBlock Margin="0,2,0,0" FontSize="12" Text="{resources:Loc Ui_Bootstrapper_SafeSchedulingAndMemoryControlsFor}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
               </StackPanel>
             </HeaderedContentControl.Header>
             <StackPanel>
-              <controls:OptionControl Header="Roblox CPU limit" Description="{Binding CpuSummary}" Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
+              <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_RobloxCPULimit}" Description="{Binding CpuSummary}" Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
                 <ComboBox Grid.Column="1" Padding="10,5,10,5" ItemsSource="{Binding CpuOptions}" SelectedItem="{Binding SelectedCpuPriority, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
               </controls:OptionControl>
-              <controls:OptionControl Header="Trim memory when Roblox is unfocused" Description="After Roblox remains unfocused, unused working set is released. It does not trim memory while you are playing." Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
+              <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_TrimMemoryWhenRobloxIsUnfocused}" Description="{resources:Loc Ui_Bootstrapper_AfterRobloxRemainsUnfocusedUnusedWorking}" Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
                 <ui:ToggleSwitch IsChecked="{Binding MultiAccount, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl Header="Prioritize Roblox while focused" Description="{Binding PrioritizeRobloxDescription, Mode=OneWay}" Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
+              <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_PrioritizeRobloxWhileFocused}" Description="{Binding PrioritizeRobloxDescription, Mode=OneWay}" Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
                 <ui:ToggleSwitch IsChecked="{Binding OptimizeRoblox, Mode=TwoWay}" />
               </controls:OptionControl>
             </StackPanel>
@@ -85,12 +85,12 @@
           <ui:CardExpander Margin="0,8,0,0" IsExpanded="False" Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
             <HeaderedContentControl.Header>
               <StackPanel>
-                <TextBlock FontSize="14" Text="Background resource use" />
-                <TextBlock Margin="0,2,0,0" FontSize="12" Text="Keep Roblox and Voidstrap lighter when they are not active" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                <TextBlock FontSize="14" Text="{resources:Loc Ui_Bootstrapper_BackgroundResourceUse}" />
+                <TextBlock Margin="0,2,0,0" FontSize="12" Text="{resources:Loc Ui_Bootstrapper_KeepRobloxAndVoidstrapLighterWhen}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
               </StackPanel>
             </HeaderedContentControl.Header>
             <StackPanel>
-              <controls:OptionControl Header="Reduce resources when Roblox is unfocused" Description="{Binding ReduceResourcesDescription, Mode=OneWay}" Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
+              <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_ReduceResourcesWhenRobloxIsUnfocused}" Description="{Binding ReduceResourcesDescription, Mode=OneWay}" Visibility="{x:Static platform:PlatformFeatureVisibility.ResourceOptimization}">
                 <ui:ToggleSwitch IsChecked="{Binding ReduceMemoryOutOfFocus, Mode=TwoWay}" />
               </controls:OptionControl>
             </StackPanel>
@@ -124,30 +124,30 @@
         <HeaderedContentControl.Header>
           <StackPanel Orientation="Horizontal">
             <ui:SymbolIcon Symbol="Globe24" Margin="0,0,6,0" />
-            <TextBlock Text="Voidstrap Matchmaker" />
+            <TextBlock Text="{resources:Loc Ui_Bootstrapper_VoidstrapMatchmaker}" />
           </StackPanel>
         </HeaderedContentControl.Header>
         <StackPanel Margin="10">
           <ui:InfoBar Padding="8" IsClosable="False" IsOpen="True" Severity="Informational" Message="{Binding UserLocationText}" />
-          <controls:OptionControl Header="Enable" Description="Pick my server for me">
+          <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_Enable}" Description="{resources:Loc Ui_Bootstrapper_PickMyServerForMe}">
             <ui:ToggleSwitch IsChecked="{Binding VoidstrapMatchmakerEnabled, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="What to join" Description="How Voidstrap chooses between the servers it finds">
+          <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_WhatToJoin}" Description="{resources:Loc Ui_Bootstrapper_HowVoidstrapChoosesBetweenTheServers}">
             <ComboBox Width="280" Padding="10,5,10,5" DisplayMemberPath="Display" SelectedValuePath="Value" IsEnabled="{Binding VoidstrapMatchmakerEnabled}" ItemsSource="{Binding MatchmakerModes}" SelectedValue="{Binding MatchmakerMode, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="Ask before moving servers" Description="When a better server is found after you join, ask first instead of moving you right away. No answer within 20 seconds keeps you where you are.">
+          <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_AskBeforeMovingServers}" Description="{resources:Loc Ui_Bootstrapper_WhenABetterServerIsFound}">
             <ui:ToggleSwitch IsEnabled="{Binding VoidstrapMatchmakerEnabled}" IsChecked="{Binding MatchmakerAskBeforeMoving, Mode=TwoWay}" />
           </controls:OptionControl>
           <ui:CardExpander Margin="0,8,0,0" IsExpanded="False" Visibility="{Binding ShowPreferredDatacenterPicker, Converter={StaticResource BooleanToVisibilityConverter}}">
             <HeaderedContentControl.Header>
               <StackPanel>
-                <TextBlock FontSize="14" Text="Which datacenter" />
-                <TextBlock Margin="0,2,0,0" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Click a pin to pick a datacenter. Drag to pan, scroll to zoom, hover for details." />
+                <TextBlock FontSize="14" Text="{resources:Loc Ui_Bootstrapper_WhichDatacenter}" />
+                <TextBlock Margin="0,2,0,0" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Bootstrapper_ClickAPinToPickA}" />
               </StackPanel>
             </HeaderedContentControl.Header>
             <StackPanel>
             <controls:WorldServerMap Height="420" IsEnabled="{Binding VoidstrapMatchmakerEnabled}" Datacenters="{Binding Datacenters}" SelectedKey="{Binding PreferredDatacenterKey, Mode=TwoWay}" UserLatitude="{Binding UserLatitude}" UserLongitude="{Binding UserLongitude}" />
-            <controls:OptionControl Margin="0,8,0,0" Header="Preferred datacenter" Description="Voidstrap will always try this one first and only fall back when it has no room">
+            <controls:OptionControl Margin="0,8,0,0" Header="{resources:Loc Ui_Bootstrapper_PreferredDatacenter}" Description="{resources:Loc Ui_Bootstrapper_VoidstrapWillAlwaysTryThisOne}">
               <ComboBox Width="280" Padding="10,5,10,5" DisplayMemberPath="Display" IsEnabled="{Binding VoidstrapMatchmakerEnabled}" ItemsSource="{Binding PreferredDatacenterOptions}" SelectedItem="{Binding SelectedPreferredDatacenter, Mode=TwoWay}" />
             </controls:OptionControl>
             </StackPanel>
@@ -160,26 +160,26 @@
                   <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                  <TextBlock FontSize="14" FontWeight="Medium" Text="Datacenters" />
+                  <TextBlock FontSize="14" FontWeight="Medium" Text="{resources:Loc Ui_Bootstrapper_Datacenters}" />
                   <TextBlock Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" Text="{Binding BlockedDatacenterSummary}" />
                 </StackPanel>
-                <ui:Button Grid.Column="1" Margin="12,0,8,0" VerticalAlignment="Center" Content="Allow all" Icon="ArrowReset24" Click="ResetDatacenters_Click" />
+                <ui:Button Grid.Column="1" Margin="12,0,8,0" VerticalAlignment="Center" Content="{resources:Loc Ui_Bootstrapper_AllowAll}" Icon="ArrowReset24" Click="ResetDatacenters_Click" />
               </Grid>
             </HeaderedContentControl.Header>
             <StackPanel>
-              <TextBlock Margin="0,0,0,8" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Turn one off to never be placed there. If Roblox puts you in a blocked datacenter, Voidstrap moves you out." />
-              <ui:TextBox Margin="0,0,0,8" Padding="10,5,10,5" Icon="Search24" PlaceholderText="Search by city, region, or country" Text="{Binding DatacenterSearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+              <TextBlock Margin="0,0,0,8" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Bootstrapper_TurnOneOffToNeverBe}" />
+              <ui:TextBox Margin="0,0,0,8" Padding="10,5,10,5" Icon="Search24" PlaceholderText="{resources:Loc Ui_Bootstrapper_SearchByCityRegionOrCountry}" Text="{Binding DatacenterSearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
               <Border BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="4" MaxHeight="420">
                 <DataGrid Name="DatacentersGrid" AutoGenerateColumns="False" HeadersVisibility="Column" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" GridLinesVisibility="None" IsReadOnly="True" RowHeaderWidth="0" Background="#00FFFFFF" BorderThickness="0" RowHeight="42" AlternatingRowBackground="{DynamicResource SubtleFillColorTertiaryBrush}" ItemsSource="{Binding FilteredDatacenters}">
                   <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Allow" Width="70" CanUserSort="False">
+                    <DataGridTemplateColumn Header="{resources:Loc Ui_Bootstrapper_Allow}" Width="70" CanUserSort="False">
                       <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                           <ui:ToggleSwitch HorizontalAlignment="Center" VerticalAlignment="Center" AutomationProperties.Name="{Binding Location}" IsChecked="{Binding IsAllowed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </DataTemplate>
                       </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTemplateColumn Header="Datacenter" Width="*" MinWidth="180">
+                    <DataGridTemplateColumn Header="{resources:Loc Ui_Bootstrapper_Datacenter}" Width="*" MinWidth="180">
                       <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                           <StackPanel VerticalAlignment="Center" ToolTip="{Binding ServerIps}">
@@ -189,7 +189,7 @@
                         </DataTemplate>
                       </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Latency" Width="100" MinWidth="80" Binding="{Binding PingDisplay}" />
+                    <DataGridTextColumn Header="{resources:Loc Ui_Bootstrapper_Latency}" Width="100" MinWidth="80" Binding="{Binding PingDisplay}" />
                   </DataGrid.Columns>
                 </DataGrid>
               </Border>
@@ -203,15 +203,15 @@
                   <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
                 <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                  <TextBlock FontSize="14" FontWeight="Medium" Text="Skipped games" />
+                  <TextBlock FontSize="14" FontWeight="Medium" Text="{resources:Loc Ui_Bootstrapper_SkippedGames}" />
                   <TextBlock Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" Text="{Binding ExcludedGamesSummary}" />
                 </StackPanel>
                 <ui:Button Grid.Column="1" Margin="12,0,8,0" VerticalAlignment="Center" Content="{resources:Loc FlagSearch_Label25}" Icon="ArrowReset24" Visibility="{Binding HasExcludedGames, Converter={StaticResource BooleanToVisibilityConverter}}" Command="{Binding ClearExcludedGamesCommand}" />
               </Grid>
             </HeaderedContentControl.Header>
             <StackPanel>
-              <TextBlock Margin="0,0,0,8" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Add those here and Voidstrap joins normally and never moves you." />
-              <ui:TextBox Margin="0,0,0,8" Padding="10,5,10,5" PlaceholderText="Search for a game by name, or paste a place id" Text="{Binding GameSearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+              <TextBlock Margin="0,0,0,8" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Bootstrapper_AddThoseHereAndVoidstrapJoins}" />
+              <ui:TextBox Margin="0,0,0,8" Padding="10,5,10,5" PlaceholderText="{resources:Loc Ui_Bootstrapper_SearchForAGameByName}" Text="{Binding GameSearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
               <TextBlock Margin="0,0,0,8" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding GameSearchStatus}" Visibility="{Binding HasGameSearchStatus, Converter={StaticResource BooleanToVisibilityConverter}}" />
               <Border Margin="0,0,0,8" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="4" MaxHeight="260" Visibility="{Binding HasGameSearchResults, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -234,7 +234,7 @@
                               <TextBlock FontSize="11" Margin="8,0,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextTrimming="CharacterEllipsis" Text="{Binding Detail}" Visibility="{Binding HasDetail, Converter={StaticResource BooleanToVisibilityConverter}}" />
                             </StackPanel>
                           </StackPanel>
-                          <ui:Button Grid.Column="2" VerticalAlignment="Center" Icon="Add24" Content="Skip" ToolTip="Never let Voidstrap pick a server for this game" Command="{Binding DataContext.AddSearchResultCommand, RelativeSource={RelativeSource AncestorType=Page}}" CommandParameter="{Binding}" />
+                          <ui:Button Grid.Column="2" VerticalAlignment="Center" Icon="Add24" Content="{resources:Loc Ui_Bootstrapper_Skip}" ToolTip="{resources:Loc Ui_Bootstrapper_NeverLetVoidstrapPickAServer}" Command="{Binding DataContext.AddSearchResultCommand, RelativeSource={RelativeSource AncestorType=Page}}" CommandParameter="{Binding}" />
                         </Grid>
                       </DataTemplate>
                     </ItemsControl.ItemTemplate>
@@ -256,11 +256,11 @@
                         </DataTemplate>
                       </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    <DataGridTextColumn Header="Place id" Width="140" MinWidth="110" Binding="{Binding PlaceIdDisplay}" />
+                    <DataGridTextColumn Header="{resources:Loc Ui_Bootstrapper_PlaceId}" Width="140" MinWidth="110" Binding="{Binding PlaceIdDisplay}" />
                     <DataGridTemplateColumn Header="" Width="60" CanUserSort="False">
                       <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                          <ui:Button HorizontalAlignment="Center" VerticalAlignment="Center" Icon="Delete24" Appearance="Secondary" ToolTip="Let Voidstrap pick servers for this game again" Command="{Binding DataContext.RemoveExcludedGameCommand, RelativeSource={RelativeSource AncestorType=Page}}" CommandParameter="{Binding}" />
+                          <ui:Button HorizontalAlignment="Center" VerticalAlignment="Center" Icon="Delete24" Appearance="Secondary" ToolTip="{resources:Loc Ui_Bootstrapper_LetVoidstrapPickServersForThis}" Command="{Binding DataContext.RemoveExcludedGameCommand, RelativeSource={RelativeSource AncestorType=Page}}" CommandParameter="{Binding}" />
                         </DataTemplate>
                       </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -272,26 +272,26 @@
           <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
             <HeaderedContentControl.Header>
               <StackPanel>
-                <TextBlock FontSize="14" FontWeight="Medium" Text="Advanced" />
-                <TextBlock Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="The defaults are right for almost everyone" />
+                <TextBlock FontSize="14" FontWeight="Medium" Text="{resources:Loc Ui_Bootstrapper_Advanced}" />
+                <TextBlock Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Bootstrapper_TheDefaultsAreRightForAlmost}" />
               </StackPanel>
             </HeaderedContentControl.Header>
             <StackPanel>
-              <controls:OptionControl Header="How hard to search" Description="{Binding SearchDepthDescription}">
+              <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_HowHardToSearch}" Description="{Binding SearchDepthDescription}">
                 <StackPanel Orientation="Horizontal" Margin="0,2">
                   <ui:ToggleSwitch VerticalAlignment="Center" Margin="0,0,8,0" IsChecked="{Binding VoidstrapMatchmakerAutoCandidates, Mode=TwoWay}" />
-                  <TextBlock Text="Auto" VerticalAlignment="Center" Margin="0,0,16,0" />
+                  <TextBlock Text="{resources:Loc Ui_Bootstrapper_Auto}" VerticalAlignment="Center" Margin="0,0,16,0" />
                   <Slider Width="170" Minimum="8" Maximum="64" TickFrequency="4" IsSnapToTickEnabled="True" IsEnabled="{Binding VoidstrapMatchmakerManualCandidates}" Value="{Binding VoidstrapMatchmakerMaxCandidates, Mode=TwoWay}" />
                   <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" FontWeight="SemiBold" Text="{Binding EffectiveMatchmakerCandidates}" />
                 </StackPanel>
               </controls:OptionControl>
-              <controls:OptionControl Header="Reconnect limit" Description="Voidstrap stops trying after this many reconnects so it can never loop.">
+              <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_ReconnectLimit}" Description="{resources:Loc Ui_Bootstrapper_VoidstrapStopsTryingAfterThisMany}">
                 <StackPanel Orientation="Horizontal" Margin="0,2">
                   <Slider Width="200" Minimum="1" Maximum="20" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding ServerMatchmakerMaxRetries, Mode=TwoWay}" />
                   <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" Text="{Binding ServerMatchmakerMaxRetries}" />
                 </StackPanel>
               </controls:OptionControl>
-              <controls:OptionControl Header="Join API" Description="Which Roblox join endpoint Voidstrap asks for server locations. Change only if joins stop working.">
+              <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_JoinAPI}" Description="{resources:Loc Ui_Bootstrapper_WhichRobloxJoinEndpointVoidstrapAsks}">
                 <ComboBox Width="240" Padding="10,5,10,5" DisplayMemberPath="Display" SelectedValuePath="Value" ItemsSource="{Binding GamejoinApiOptions}" SelectedValue="{Binding GamejoinApiVersion, Mode=TwoWay}" />
               </controls:OptionControl>
               <ui:InfoBar Padding="8" IsClosable="False" IsOpen="True" Margin="0,8,0,0" Severity="Success" Message="{Binding VoidstrapMatchmakerLearnedStats}" Visibility="{Binding HasLearnedData, Converter={StaticResource BooleanToVisibilityConverter}}" />
@@ -307,24 +307,24 @@
           </StackPanel>
         </HeaderedContentControl.Header>
         <StackPanel Margin="10">
-          <controls:OptionControl Margin="0,-8,0,0" Header="Fullscreen mode" Description="How the Roblox game window fills your screen" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+          <controls:OptionControl Margin="0,-8,0,0" Header="{resources:Loc Ui_Bootstrapper_FullscreenMode}" Description="{resources:Loc Ui_Bootstrapper_HowTheRobloxGameWindowFills}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
             <ComboBox Width="240" Padding="10,5,10,5" DisplayMemberPath="Display" SelectedValuePath="Value" ItemsSource="{Binding FullscreenModes}" SelectedValue="{Binding RobloxFullscreenMode, Mode=TwoWay}" />
           </controls:OptionControl>
-          <ui:InfoBar Padding="8" Margin="0,4,0,0" IsClosable="False" IsOpen="True" Severity="Warning" Title="Overlays are hidden in exclusive fullscreen" Message="Your Windows mouse cursor and every overlay are hidden" Visibility="{Binding ShowExclusiveFullscreenWarning, Converter={StaticResource BooleanToVisibilityConverter}}" />
-          <ui:InfoBar Padding="8" Margin="0,4,0,4" IsClosable="False" IsOpen="True" Severity="Informational" Title="Needs XWayland on Linux" Message="The title, game name, game icon and server info only apply on Wayland when Run Roblox through XWayland is on in the Sober page." Visibility="{Binding LinuxTitleNeedsXWayland, Converter={StaticResource BooleanToVisibilityConverter}}" />
-          <controls:OptionControl Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}" Header="{resources:Loc Menu_Appearance_CustomisationTitle_Title}" Description="Leave blank to keep the title Roblox sets">
+          <ui:InfoBar Padding="8" Margin="0,4,0,0" IsClosable="False" IsOpen="True" Severity="Warning" Title="{resources:Loc Ui_Bootstrapper_OverlaysAreHiddenInExclusiveFullscreen}" Message="{resources:Loc Ui_Bootstrapper_YourWindowsMouseCursorAndEvery}" Visibility="{Binding ShowExclusiveFullscreenWarning, Converter={StaticResource BooleanToVisibilityConverter}}" />
+          <ui:InfoBar Padding="8" Margin="0,4,0,4" IsClosable="False" IsOpen="True" Severity="Informational" Title="{resources:Loc Ui_Bootstrapper_NeedsXWaylandOnLinux}" Message="{resources:Loc Ui_Bootstrapper_TheTitleGameNameGameIcon}" Visibility="{Binding LinuxTitleNeedsXWayland, Converter={StaticResource BooleanToVisibilityConverter}}" />
+          <controls:OptionControl Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}" Header="{resources:Loc Menu_Appearance_CustomisationTitle_Title}" Description="{resources:Loc Ui_Bootstrapper_LeaveBlankToKeepTheTitle}">
             <ui:TextBox Width="220" PlaceholderText="{resources:Loc Enums_Theme_Voidstrap}" Text="{Binding RobloxTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
           </controls:OptionControl>
-          <controls:OptionControl Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}" Header="Add the game name" Description="Shows the experience you are playing in the title bar">
+          <controls:OptionControl Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}" Header="{resources:Loc Ui_Bootstrapper_AddTheGameName}" Description="{resources:Loc Ui_Bootstrapper_ShowsTheExperienceYouArePlaying}">
             <ui:ToggleSwitch IsChecked="{Binding CycleTitleWithGameName, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="Use the game icon" Description="Shows the experience icon on the Roblox window and taskbar button">
+          <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_UseTheGameIcon}" Description="{resources:Loc Ui_Bootstrapper_ShowsTheExperienceIconOnThe}">
             <ui:ToggleSwitch IsChecked="{Binding UseGameIconForRobloxWindow, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}" Header="Add the server info" Description="Shows the server region and player count in the title bar">
+          <controls:OptionControl Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}" Header="{resources:Loc Ui_Bootstrapper_AddTheServerInfo}" Description="{resources:Loc Ui_Bootstrapper_ShowsTheServerRegionAndPlayer}">
             <ui:ToggleSwitch IsChecked="{Binding ShowServerInfoInTitle, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Installer_Appearance_Backdrop_Title}" Description="Backdrop material to Roblox's window frame. Requires Windows 11" IsEnabled="{Binding IsWindows11}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+          <controls:OptionControl Header="{resources:Loc Installer_Appearance_Backdrop_Title}" Description="{resources:Loc Ui_Bootstrapper_BackdropMaterialToRobloxSWindow}" IsEnabled="{Binding IsWindows11}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
             <ComboBox Width="240" Padding="10,5,10,5" ItemsSource="{Binding BackdropOptions}" SelectedValue="{Binding RobloxBackdropType, Mode=TwoWay}" DisplayMemberPath="Display" SelectedValuePath="Value" IsEnabled="{Binding IsWindows11}" />
           </controls:OptionControl>
 

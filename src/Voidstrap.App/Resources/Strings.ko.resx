@@ -4185,4 +4185,232 @@ Roblox는 Voidstrap으로 처음 실행할 때 다운로드됩니다. 실행하�
   <data name="Ui.FastFlags.MakeYourselfGameCreatorDoesNot" xml:space="preserve">
     <value>나를 게임 제작자로 만들기는 Windows에서 작동하지 않습니다. Roblox가 이제 Windows에서 게임 참여를 보호하며, 이를 변경하면 오류 529로 참여가 실패하므로 Voidstrap은 이를 건드리지 않습니다. Linux와 macOS에서는 여전히 작동하며 다른 옵션에는 영향이 없습니다.</value>
   </data>
+  <data name="Ui.Bootstrapper.DisablesBackgroundWindowWhenLaunchingRoblox" xml:space="preserve">
+    <value>Roblox를 실행할 때 배경 창을 비활성화합니다</value>
+  </data>
+  <data name="Ui.Bootstrapper.DisableBackgroundWindow" xml:space="preserve">
+    <value>배경 창 비활성화</value>
+  </data>
+  <data name="Ui.Bootstrapper.DisableRobloxCrashHandler" xml:space="preserve">
+    <value>RobloxCrashHandler 비활성화</value>
+  </data>
+  <data name="Ui.Bootstrapper.ClosesRobloxCrashHandlerAfterRobloxHasSafely" xml:space="preserve">
+    <value>Roblox가 안전하게 시작된 후 RobloxCrashHandler를 닫습니다</value>
+  </data>
+  <data name="Ui.Bootstrapper.TASXOptimization" xml:space="preserve">
+    <value>TASX 최적화</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullSpeedWhileRobloxIsFocused" xml:space="preserve">
+    <value>Roblox에 포커스가 있을 때는 최고 속도로, 다른 창으로 전환하면 제한합니다.</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneral" xml:space="preserve">
+    <value>고급 일반</value>
+  </data>
+  <data name="Ui.Bootstrapper.Cleaner" xml:space="preserve">
+    <value>정리</value>
+  </data>
+  <data name="Ui.Bootstrapper.VoidstrapWillRemoveOldDataTo" xml:space="preserve">
+    <value>Voidstrap이 공간 절약을 위해 오래된 데이터를 제거합니다</value>
+  </data>
+  <data name="Ui.Bootstrapper.WhenShouldTheFilesGetDeleted" xml:space="preserve">
+    <value>파일을 삭제할 시점</value>
+  </data>
+  <data name="Ui.Bootstrapper.FilesOlderThanTheSetAmount" xml:space="preserve">
+    <value>설정한 기간보다 오래된 파일이 삭제됩니다.</value>
+  </data>
+  <data name="Ui.Bootstrapper.Cache" xml:space="preserve">
+    <value>캐시</value>
+  </data>
+  <data name="Ui.Bootstrapper.WhenShouldTheSetAmountBe" xml:space="preserve">
+    <value>설정한 양을 삭제할 시점입니다.</value>
+  </data>
+  <data name="Ui.Bootstrapper.Logs" xml:space="preserve">
+    <value>로그</value>
+  </data>
+  <data name="Ui.Bootstrapper.OldLogFilesWillBeDeleted" xml:space="preserve">
+    <value>오래된 로그 파일이 삭제됩니다.</value>
+  </data>
+  <data name="Ui.Bootstrapper.VoidstrapLogs" xml:space="preserve">
+    <value>Voidstrap 로그</value>
+  </data>
+  <data name="Ui.Bootstrapper.VoidstrapLogsWillBeDeleted" xml:space="preserve">
+    <value>Voidstrap 로그가 삭제됩니다.</value>
+  </data>
+  <data name="Ui.Bootstrapper.CleanRobloxCache" xml:space="preserve">
+    <value>Roblox 캐시 정리</value>
+  </data>
+  <data name="Ui.Bootstrapper.DeletesAllFilesInRobloxS" xml:space="preserve">
+    <value>디스크 공간 확보를 위해 Roblox 캐시 폴더의 모든 파일을 삭제합니다. 이후 게임 로딩이 일시적으로 느려집니다!</value>
+  </data>
+  <data name="Ui.Bootstrapper.Clean" xml:space="preserve">
+    <value>정리</value>
+  </data>
+  <data name="Ui.Bootstrapper.ResourceControls" xml:space="preserve">
+    <value>리소스 제어</value>
+  </data>
+  <data name="Ui.Bootstrapper.SafeSchedulingAndMemoryControlsFor" xml:space="preserve">
+    <value>Roblox를 위한 안전한 스케줄링 및 메모리 제어</value>
+  </data>
+  <data name="Ui.Bootstrapper.RobloxCPULimit" xml:space="preserve">
+    <value>Roblox CPU 제한</value>
+  </data>
+  <data name="Ui.Bootstrapper.TrimMemoryWhenRobloxIsUnfocused" xml:space="preserve">
+    <value>Roblox에 포커스가 없을 때 메모리 해제</value>
+  </data>
+  <data name="Ui.Bootstrapper.AfterRobloxRemainsUnfocusedUnusedWorking" xml:space="preserve">
+    <value>Roblox에 계속 포커스가 없으면 사용하지 않는 작업 메모리를 해제합니다. 플레이 중에는 해제하지 않습니다.</value>
+  </data>
+  <data name="Ui.Bootstrapper.PrioritizeRobloxWhileFocused" xml:space="preserve">
+    <value>포커스된 Roblox 우선</value>
+  </data>
+  <data name="Ui.Bootstrapper.BackgroundResourceUse" xml:space="preserve">
+    <value>백그라운드 리소스 사용</value>
+  </data>
+  <data name="Ui.Bootstrapper.KeepRobloxAndVoidstrapLighterWhen" xml:space="preserve">
+    <value>비활성 상태일 때 Roblox와 Voidstrap을 가볍게 유지</value>
+  </data>
+  <data name="Ui.Bootstrapper.ReduceResourcesWhenRobloxIsUnfocused" xml:space="preserve">
+    <value>Roblox에 포커스가 없을 때 리소스 줄이기</value>
+  </data>
+  <data name="Ui.Bootstrapper.VoidstrapMatchmaker" xml:space="preserve">
+    <value>Voidstrap Matchmaker</value>
+  </data>
+  <data name="Ui.Bootstrapper.Enable" xml:space="preserve">
+    <value>사용</value>
+  </data>
+  <data name="Ui.Bootstrapper.PickMyServerForMe" xml:space="preserve">
+    <value>서버를 대신 선택</value>
+  </data>
+  <data name="Ui.Bootstrapper.WhatToJoin" xml:space="preserve">
+    <value>참여 대상</value>
+  </data>
+  <data name="Ui.Bootstrapper.HowVoidstrapChoosesBetweenTheServers" xml:space="preserve">
+    <value>Voidstrap이 찾은 서버 중에서 선택하는 방식</value>
+  </data>
+  <data name="Ui.Bootstrapper.AskBeforeMovingServers" xml:space="preserve">
+    <value>서버 이동 전에 확인</value>
+  </data>
+  <data name="Ui.Bootstrapper.WhenABetterServerIsFound" xml:space="preserve">
+    <value>참여 후 더 나은 서버를 찾으면 바로 이동하지 않고 먼저 묻습니다. 20초 안에 응답이 없으면 그대로 머뭅니다.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WhichDatacenter" xml:space="preserve">
+    <value>데이터 센터 선택</value>
+  </data>
+  <data name="Ui.Bootstrapper.ClickAPinToPickA" xml:space="preserve">
+    <value>핀을 클릭하여 데이터 센터를 선택하십시오. 드래그하여 이동, 스크롤하여 확대, 마우스를 올려 세부 정보를 확인합니다.</value>
+  </data>
+  <data name="Ui.Bootstrapper.PreferredDatacenter" xml:space="preserve">
+    <value>선호 데이터 센터</value>
+  </data>
+  <data name="Ui.Bootstrapper.VoidstrapWillAlwaysTryThisOne" xml:space="preserve">
+    <value>Voidstrap은 항상 이곳을 먼저 시도하고 자리가 없을 때만 다른 곳을 사용합니다</value>
+  </data>
+  <data name="Ui.Bootstrapper.Datacenters" xml:space="preserve">
+    <value>데이터 센터</value>
+  </data>
+  <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
+    <value>모두 허용</value>
+  </data>
+  <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
+    <value>하나를 끄면 그곳에 배치되지 않습니다. Roblox가 차단된 데이터 센터에 배치하면 Voidstrap이 옮겨 줍니다.</value>
+  </data>
+  <data name="Ui.Bootstrapper.SearchByCityRegionOrCountry" xml:space="preserve">
+    <value>도시, 지역 또는 국가로 검색</value>
+  </data>
+  <data name="Ui.Bootstrapper.Allow" xml:space="preserve">
+    <value>허용</value>
+  </data>
+  <data name="Ui.Bootstrapper.Datacenter" xml:space="preserve">
+    <value>데이터 센터</value>
+  </data>
+  <data name="Ui.Bootstrapper.Latency" xml:space="preserve">
+    <value>지연 시간</value>
+  </data>
+  <data name="Ui.Bootstrapper.SkippedGames" xml:space="preserve">
+    <value>건너뛴 게임</value>
+  </data>
+  <data name="Ui.Bootstrapper.AddThoseHereAndVoidstrapJoins" xml:space="preserve">
+    <value>여기에 추가하면 Voidstrap이 평소대로 참여하며 절대 이동시키지 않습니다.</value>
+  </data>
+  <data name="Ui.Bootstrapper.SearchForAGameByName" xml:space="preserve">
+    <value>이름으로 게임을 검색하거나 place id를 붙여 넣으십시오</value>
+  </data>
+  <data name="Ui.Bootstrapper.Skip" xml:space="preserve">
+    <value>건너뛰기</value>
+  </data>
+  <data name="Ui.Bootstrapper.NeverLetVoidstrapPickAServer" xml:space="preserve">
+    <value>이 게임에서는 Voidstrap이 서버를 선택하지 않도록 함</value>
+  </data>
+  <data name="Ui.Bootstrapper.PlaceId" xml:space="preserve">
+    <value>Place id</value>
+  </data>
+  <data name="Ui.Bootstrapper.LetVoidstrapPickServersForThis" xml:space="preserve">
+    <value>이 게임에서 다시 Voidstrap이 서버를 선택하도록 함</value>
+  </data>
+  <data name="Ui.Bootstrapper.Advanced" xml:space="preserve">
+    <value>고급</value>
+  </data>
+  <data name="Ui.Bootstrapper.TheDefaultsAreRightForAlmost" xml:space="preserve">
+    <value>기본값은 거의 모든 사용자에게 적합합니다</value>
+  </data>
+  <data name="Ui.Bootstrapper.HowHardToSearch" xml:space="preserve">
+    <value>검색 강도</value>
+  </data>
+  <data name="Ui.Bootstrapper.Auto" xml:space="preserve">
+    <value>자동</value>
+  </data>
+  <data name="Ui.Bootstrapper.ReconnectLimit" xml:space="preserve">
+    <value>재연결 제한</value>
+  </data>
+  <data name="Ui.Bootstrapper.VoidstrapStopsTryingAfterThisMany" xml:space="preserve">
+    <value>Voidstrap은 루프에 빠지지 않도록 이 횟수만큼 재연결한 후 시도를 멈춥니다.</value>
+  </data>
+  <data name="Ui.Bootstrapper.JoinAPI" xml:space="preserve">
+    <value>Join API</value>
+  </data>
+  <data name="Ui.Bootstrapper.WhichRobloxJoinEndpointVoidstrapAsks" xml:space="preserve">
+    <value>Voidstrap이 서버 위치를 묻는 Roblox 참여 엔드포인트입니다. 참여가 작동하지 않을 때만 변경하십시오.</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenMode" xml:space="preserve">
+    <value>전체 화면 모드</value>
+  </data>
+  <data name="Ui.Bootstrapper.HowTheRobloxGameWindowFills" xml:space="preserve">
+    <value>Roblox 게임 창이 화면을 채우는 방식</value>
+  </data>
+  <data name="Ui.Bootstrapper.OverlaysAreHiddenInExclusiveFullscreen" xml:space="preserve">
+    <value>전용 전체 화면에서는 오버레이가 숨겨집니다</value>
+  </data>
+  <data name="Ui.Bootstrapper.YourWindowsMouseCursorAndEvery" xml:space="preserve">
+    <value>Windows 마우스 커서와 모든 오버레이가 숨겨집니다</value>
+  </data>
+  <data name="Ui.Bootstrapper.NeedsXWaylandOnLinux" xml:space="preserve">
+    <value>Linux에서는 XWayland가 필요합니다</value>
+  </data>
+  <data name="Ui.Bootstrapper.TheTitleGameNameGameIcon" xml:space="preserve">
+    <value>제목, 게임 이름, 게임 아이콘, 서버 정보는 Sober 페이지에서 XWayland로 Roblox 실행이 켜져 있을 때만 Wayland에 적용됩니다.</value>
+  </data>
+  <data name="Ui.Bootstrapper.LeaveBlankToKeepTheTitle" xml:space="preserve">
+    <value>Roblox가 설정한 제목을 유지하려면 비워 두십시오</value>
+  </data>
+  <data name="Ui.Bootstrapper.AddTheGameName" xml:space="preserve">
+    <value>게임 이름 추가</value>
+  </data>
+  <data name="Ui.Bootstrapper.ShowsTheExperienceYouArePlaying" xml:space="preserve">
+    <value>플레이 중인 경험을 제목 표시줄에 표시합니다</value>
+  </data>
+  <data name="Ui.Bootstrapper.UseTheGameIcon" xml:space="preserve">
+    <value>게임 아이콘 사용</value>
+  </data>
+  <data name="Ui.Bootstrapper.ShowsTheExperienceIconOnThe" xml:space="preserve">
+    <value>경험 아이콘을 Roblox 창과 작업 표시줄 버튼에 표시합니다</value>
+  </data>
+  <data name="Ui.Bootstrapper.AddTheServerInfo" xml:space="preserve">
+    <value>서버 정보 추가</value>
+  </data>
+  <data name="Ui.Bootstrapper.ShowsTheServerRegionAndPlayer" xml:space="preserve">
+    <value>서버 지역과 플레이어 수를 제목 표시줄에 표시합니다</value>
+  </data>
+  <data name="Ui.Bootstrapper.BackdropMaterialToRobloxSWindow" xml:space="preserve">
+    <value>Roblox 창 프레임의 배경 재질입니다. Windows 11이 필요합니다</value>
+  </data>
 </root>

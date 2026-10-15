@@ -4167,4 +4167,232 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
   <data name="Ui.FastFlags.MakeYourselfGameCreatorDoesNot" xml:space="preserve">
     <value>ทำให้คุณเป็นผู้สร้างเกมใช้ไม่ได้บน Windows ตอนนี้ Roblox ปกป้องการเข้าร่วมเกมบน Windows และการแก้ไขจะทำให้เข้าร่วมล้มเหลวด้วยข้อผิดพลาด 529 Voidstrap จึงไม่แตะต้องส่วนนี้ ยังคงใช้ได้บน Linux และ macOS และตัวเลือกอื่นของคุณไม่ได้รับผลกระทบ</value>
   </data>
+  <data name="Ui.Bootstrapper.DisablesBackgroundWindowWhenLaunchingRoblox" xml:space="preserve">
+    <value>ปิดหน้าต่างพื้นหลังเมื่อเปิด Roblox</value>
+  </data>
+  <data name="Ui.Bootstrapper.DisableBackgroundWindow" xml:space="preserve">
+    <value>ปิดหน้าต่างพื้นหลัง</value>
+  </data>
+  <data name="Ui.Bootstrapper.DisableRobloxCrashHandler" xml:space="preserve">
+    <value>ปิด RobloxCrashHandler</value>
+  </data>
+  <data name="Ui.Bootstrapper.ClosesRobloxCrashHandlerAfterRobloxHasSafely" xml:space="preserve">
+    <value>ปิด RobloxCrashHandler หลังจาก Roblox เริ่มทำงานอย่างปลอดภัยแล้ว</value>
+  </data>
+  <data name="Ui.Bootstrapper.TASXOptimization" xml:space="preserve">
+    <value>การเพิ่มประสิทธิภาพ TASX</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullSpeedWhileRobloxIsFocused" xml:space="preserve">
+    <value>ความเร็วเต็มที่ขณะ Roblox อยู่ในโฟกัส และจำกัดเมื่อคุณสลับไปที่อื่น</value>
+  </data>
+  <data name="Ui.Bootstrapper.AdvancedGeneral" xml:space="preserve">
+    <value>ทั่วไปขั้นสูง</value>
+  </data>
+  <data name="Ui.Bootstrapper.Cleaner" xml:space="preserve">
+    <value>ตัวล้าง</value>
+  </data>
+  <data name="Ui.Bootstrapper.VoidstrapWillRemoveOldDataTo" xml:space="preserve">
+    <value>Voidstrap จะลบข้อมูลเก่าเพื่อประหยัดพื้นที่</value>
+  </data>
+  <data name="Ui.Bootstrapper.WhenShouldTheFilesGetDeleted" xml:space="preserve">
+    <value>ควรลบไฟล์เมื่อใด</value>
+  </data>
+  <data name="Ui.Bootstrapper.FilesOlderThanTheSetAmount" xml:space="preserve">
+    <value>ไฟล์ที่เก่ากว่าระยะเวลาที่ตั้งไว้จะถูกลบ</value>
+  </data>
+  <data name="Ui.Bootstrapper.Cache" xml:space="preserve">
+    <value>แคช</value>
+  </data>
+  <data name="Ui.Bootstrapper.WhenShouldTheSetAmountBe" xml:space="preserve">
+    <value>ควรลบตามจำนวนที่ตั้งไว้เมื่อใด</value>
+  </data>
+  <data name="Ui.Bootstrapper.Logs" xml:space="preserve">
+    <value>บันทึก</value>
+  </data>
+  <data name="Ui.Bootstrapper.OldLogFilesWillBeDeleted" xml:space="preserve">
+    <value>ไฟล์บันทึกเก่าจะถูกลบ</value>
+  </data>
+  <data name="Ui.Bootstrapper.VoidstrapLogs" xml:space="preserve">
+    <value>บันทึกของ Voidstrap</value>
+  </data>
+  <data name="Ui.Bootstrapper.VoidstrapLogsWillBeDeleted" xml:space="preserve">
+    <value>บันทึกของ Voidstrap จะถูกลบ</value>
+  </data>
+  <data name="Ui.Bootstrapper.CleanRobloxCache" xml:space="preserve">
+    <value>ล้างแคช Roblox</value>
+  </data>
+  <data name="Ui.Bootstrapper.DeletesAllFilesInRobloxS" xml:space="preserve">
+    <value>ลบไฟล์ทั้งหมดในโฟลเดอร์แคชของ Roblox เพื่อเพิ่มพื้นที่ดิสก์ หลังจากนี้เกมจะโหลดช้าลงชั่วคราว!</value>
+  </data>
+  <data name="Ui.Bootstrapper.Clean" xml:space="preserve">
+    <value>ล้าง</value>
+  </data>
+  <data name="Ui.Bootstrapper.ResourceControls" xml:space="preserve">
+    <value>การควบคุมทรัพยากร</value>
+  </data>
+  <data name="Ui.Bootstrapper.SafeSchedulingAndMemoryControlsFor" xml:space="preserve">
+    <value>การจัดกำหนดการและการควบคุมหน่วยความจำที่ปลอดภัยสำหรับ Roblox</value>
+  </data>
+  <data name="Ui.Bootstrapper.RobloxCPULimit" xml:space="preserve">
+    <value>ขีดจำกัด CPU ของ Roblox</value>
+  </data>
+  <data name="Ui.Bootstrapper.TrimMemoryWhenRobloxIsUnfocused" xml:space="preserve">
+    <value>คืนหน่วยความจำเมื่อ Roblox ไม่อยู่ในโฟกัส</value>
+  </data>
+  <data name="Ui.Bootstrapper.AfterRobloxRemainsUnfocusedUnusedWorking" xml:space="preserve">
+    <value>เมื่อ Roblox ไม่อยู่ในโฟกัสต่อเนื่อง หน่วยความจำที่ไม่ได้ใช้จะถูกคืน จะไม่คืนขณะที่คุณกำลังเล่น</value>
+  </data>
+  <data name="Ui.Bootstrapper.PrioritizeRobloxWhileFocused" xml:space="preserve">
+    <value>ให้ความสำคัญกับ Roblox เมื่ออยู่ในโฟกัส</value>
+  </data>
+  <data name="Ui.Bootstrapper.BackgroundResourceUse" xml:space="preserve">
+    <value>การใช้ทรัพยากรเบื้องหลัง</value>
+  </data>
+  <data name="Ui.Bootstrapper.KeepRobloxAndVoidstrapLighterWhen" xml:space="preserve">
+    <value>ทำให้ Roblox และ Voidstrap เบาลงเมื่อไม่ได้ใช้งาน</value>
+  </data>
+  <data name="Ui.Bootstrapper.ReduceResourcesWhenRobloxIsUnfocused" xml:space="preserve">
+    <value>ลดทรัพยากรเมื่อ Roblox ไม่อยู่ในโฟกัส</value>
+  </data>
+  <data name="Ui.Bootstrapper.VoidstrapMatchmaker" xml:space="preserve">
+    <value>Voidstrap Matchmaker</value>
+  </data>
+  <data name="Ui.Bootstrapper.Enable" xml:space="preserve">
+    <value>เปิดใช้งาน</value>
+  </data>
+  <data name="Ui.Bootstrapper.PickMyServerForMe" xml:space="preserve">
+    <value>เลือกเซิร์ฟเวอร์ให้ฉัน</value>
+  </data>
+  <data name="Ui.Bootstrapper.WhatToJoin" xml:space="preserve">
+    <value>เข้าร่วมอะไร</value>
+  </data>
+  <data name="Ui.Bootstrapper.HowVoidstrapChoosesBetweenTheServers" xml:space="preserve">
+    <value>วิธีที่ Voidstrap เลือกระหว่างเซิร์ฟเวอร์ที่พบ</value>
+  </data>
+  <data name="Ui.Bootstrapper.AskBeforeMovingServers" xml:space="preserve">
+    <value>ถามก่อนย้ายเซิร์ฟเวอร์</value>
+  </data>
+  <data name="Ui.Bootstrapper.WhenABetterServerIsFound" xml:space="preserve">
+    <value>เมื่อพบเซิร์ฟเวอร์ที่ดีกว่าหลังจากคุณเข้าร่วม จะถามก่อนแทนการย้ายคุณทันที หากไม่ตอบภายใน 20 วินาที คุณจะอยู่ที่เดิม</value>
+  </data>
+  <data name="Ui.Bootstrapper.WhichDatacenter" xml:space="preserve">
+    <value>ศูนย์ข้อมูลใด</value>
+  </data>
+  <data name="Ui.Bootstrapper.ClickAPinToPickA" xml:space="preserve">
+    <value>คลิกหมุดเพื่อเลือกศูนย์ข้อมูล ลากเพื่อเลื่อน เลื่อนล้อเพื่อซูม วางเมาส์เพื่อดูรายละเอียด</value>
+  </data>
+  <data name="Ui.Bootstrapper.PreferredDatacenter" xml:space="preserve">
+    <value>ศูนย์ข้อมูลที่ต้องการ</value>
+  </data>
+  <data name="Ui.Bootstrapper.VoidstrapWillAlwaysTryThisOne" xml:space="preserve">
+    <value>Voidstrap จะลองที่นี่ก่อนเสมอและจะเปลี่ยนเฉพาะเมื่อไม่มีที่ว่าง</value>
+  </data>
+  <data name="Ui.Bootstrapper.Datacenters" xml:space="preserve">
+    <value>ศูนย์ข้อมูล</value>
+  </data>
+  <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
+    <value>อนุญาตทั้งหมด</value>
+  </data>
+  <data name="Ui.Bootstrapper.TurnOneOffToNeverBe" xml:space="preserve">
+    <value>ปิดแห่งใดแห่งหนึ่งเพื่อไม่ให้ถูกจัดไปที่นั่น หาก Roblox จัดคุณไปยังศูนย์ที่ถูกบล็อก Voidstrap จะย้ายคุณออก</value>
+  </data>
+  <data name="Ui.Bootstrapper.SearchByCityRegionOrCountry" xml:space="preserve">
+    <value>ค้นหาตามเมือง ภูมิภาค หรือประเทศ</value>
+  </data>
+  <data name="Ui.Bootstrapper.Allow" xml:space="preserve">
+    <value>อนุญาต</value>
+  </data>
+  <data name="Ui.Bootstrapper.Datacenter" xml:space="preserve">
+    <value>ศูนย์ข้อมูล</value>
+  </data>
+  <data name="Ui.Bootstrapper.Latency" xml:space="preserve">
+    <value>ความหน่วง</value>
+  </data>
+  <data name="Ui.Bootstrapper.SkippedGames" xml:space="preserve">
+    <value>เกมที่ข้าม</value>
+  </data>
+  <data name="Ui.Bootstrapper.AddThoseHereAndVoidstrapJoins" xml:space="preserve">
+    <value>เพิ่มไว้ที่นี่ แล้ว Voidstrap จะเข้าร่วมตามปกติและไม่ย้ายคุณ</value>
+  </data>
+  <data name="Ui.Bootstrapper.SearchForAGameByName" xml:space="preserve">
+    <value>ค้นหาเกมตามชื่อ หรือวาง place id</value>
+  </data>
+  <data name="Ui.Bootstrapper.Skip" xml:space="preserve">
+    <value>ข้าม</value>
+  </data>
+  <data name="Ui.Bootstrapper.NeverLetVoidstrapPickAServer" xml:space="preserve">
+    <value>ไม่ให้ Voidstrap เลือกเซิร์ฟเวอร์สำหรับเกมนี้</value>
+  </data>
+  <data name="Ui.Bootstrapper.PlaceId" xml:space="preserve">
+    <value>Place id</value>
+  </data>
+  <data name="Ui.Bootstrapper.LetVoidstrapPickServersForThis" xml:space="preserve">
+    <value>ให้ Voidstrap เลือกเซิร์ฟเวอร์สำหรับเกมนี้อีกครั้ง</value>
+  </data>
+  <data name="Ui.Bootstrapper.Advanced" xml:space="preserve">
+    <value>ขั้นสูง</value>
+  </data>
+  <data name="Ui.Bootstrapper.TheDefaultsAreRightForAlmost" xml:space="preserve">
+    <value>ค่าเริ่มต้นเหมาะกับเกือบทุกคน</value>
+  </data>
+  <data name="Ui.Bootstrapper.HowHardToSearch" xml:space="preserve">
+    <value>ค้นหาละเอียดแค่ไหน</value>
+  </data>
+  <data name="Ui.Bootstrapper.Auto" xml:space="preserve">
+    <value>อัตโนมัติ</value>
+  </data>
+  <data name="Ui.Bootstrapper.ReconnectLimit" xml:space="preserve">
+    <value>ขีดจำกัดการเชื่อมต่อใหม่</value>
+  </data>
+  <data name="Ui.Bootstrapper.VoidstrapStopsTryingAfterThisMany" xml:space="preserve">
+    <value>Voidstrap จะหยุดลองหลังเชื่อมต่อใหม่ครบจำนวนนี้เพื่อไม่ให้วนซ้ำไม่จบ</value>
+  </data>
+  <data name="Ui.Bootstrapper.JoinAPI" xml:space="preserve">
+    <value>Join API</value>
+  </data>
+  <data name="Ui.Bootstrapper.WhichRobloxJoinEndpointVoidstrapAsks" xml:space="preserve">
+    <value>จุดเชื่อมต่อการเข้าร่วมของ Roblox ที่ Voidstrap ใช้สอบถามตำแหน่งเซิร์ฟเวอร์ เปลี่ยนเฉพาะเมื่อการเข้าร่วมใช้งานไม่ได้</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenMode" xml:space="preserve">
+    <value>โหมดเต็มหน้าจอ</value>
+  </data>
+  <data name="Ui.Bootstrapper.HowTheRobloxGameWindowFills" xml:space="preserve">
+    <value>วิธีที่หน้าต่างเกม Roblox เต็มหน้าจอของคุณ</value>
+  </data>
+  <data name="Ui.Bootstrapper.OverlaysAreHiddenInExclusiveFullscreen" xml:space="preserve">
+    <value>โอเวอร์เลย์ถูกซ่อนในโหมดเต็มหน้าจอแบบเอกสิทธิ์</value>
+  </data>
+  <data name="Ui.Bootstrapper.YourWindowsMouseCursorAndEvery" xml:space="preserve">
+    <value>เคอร์เซอร์เมาส์ Windows และโอเวอร์เลย์ทั้งหมดถูกซ่อน</value>
+  </data>
+  <data name="Ui.Bootstrapper.NeedsXWaylandOnLinux" xml:space="preserve">
+    <value>ต้องใช้ XWayland บน Linux</value>
+  </data>
+  <data name="Ui.Bootstrapper.TheTitleGameNameGameIcon" xml:space="preserve">
+    <value>ชื่อหน้าต่าง ชื่อเกม ไอคอนเกม และข้อมูลเซิร์ฟเวอร์จะใช้ได้บน Wayland เฉพาะเมื่อเปิด เรียกใช้ Roblox ผ่าน XWayland ในหน้า Sober</value>
+  </data>
+  <data name="Ui.Bootstrapper.LeaveBlankToKeepTheTitle" xml:space="preserve">
+    <value>เว้นว่างไว้เพื่อใช้ชื่อหน้าต่างที่ Roblox ตั้ง</value>
+  </data>
+  <data name="Ui.Bootstrapper.AddTheGameName" xml:space="preserve">
+    <value>เพิ่มชื่อเกม</value>
+  </data>
+  <data name="Ui.Bootstrapper.ShowsTheExperienceYouArePlaying" xml:space="preserve">
+    <value>แสดงประสบการณ์ที่คุณกำลังเล่นบนแถบชื่อ</value>
+  </data>
+  <data name="Ui.Bootstrapper.UseTheGameIcon" xml:space="preserve">
+    <value>ใช้ไอคอนเกม</value>
+  </data>
+  <data name="Ui.Bootstrapper.ShowsTheExperienceIconOnThe" xml:space="preserve">
+    <value>แสดงไอคอนประสบการณ์บนหน้าต่าง Roblox และปุ่มบนแถบงาน</value>
+  </data>
+  <data name="Ui.Bootstrapper.AddTheServerInfo" xml:space="preserve">
+    <value>เพิ่มข้อมูลเซิร์ฟเวอร์</value>
+  </data>
+  <data name="Ui.Bootstrapper.ShowsTheServerRegionAndPlayer" xml:space="preserve">
+    <value>แสดงภูมิภาคเซิร์ฟเวอร์และจำนวนผู้เล่นบนแถบชื่อ</value>
+  </data>
+  <data name="Ui.Bootstrapper.BackdropMaterialToRobloxSWindow" xml:space="preserve">
+    <value>วัสดุพื้นหลังสำหรับกรอบหน้าต่าง Roblox ต้องใช้ Windows 11</value>
+  </data>
 </root>
