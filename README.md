@@ -23,6 +23,8 @@
 [![Latest Release][shield-repo-latest]][repo-latest]
 [![Discord][shield-discord-server]][discord-invite]
 [![Stars][shield-repo-stars]][repo-stargazers]
+[![Localized][shield-crowdin-localized]][crowdin-project]
+[![Builds][shield-actions-build]][repo-actions]
 
 </div>
 
@@ -655,10 +657,14 @@ The macOS virtual display helper implements the [AppleBlox VirtualDisplay approa
 [shield-repo-latest]:     https://img.shields.io/github/v/release/KloBraticc/Voidstrap?color=7a39fb
 [shield-repo-stars]:      https://img.shields.io/github/stars/KloBraticc/Voidstrap?color=ffd700
 [shield-discord-server]:  https://img.shields.io/discord/1327967202015580223?logo=discord&logoColor=white&label=Discord&color=4d3dff
+[shield-crowdin-localized]: https://badges.crowdin.net/voidstrap/localized.svg
+[shield-actions-build]:   https://github.com/KloBraticc/Voidstrap/actions/workflows/desktop.yml/badge.svg
 
 [repo-releases]:          https://github.com/KloBraticc/Voidstrap/releases
 [repo-latest]:            https://github.com/KloBraticc/Voidstrap/releases/latest
 [repo-stargazers]:        https://github.com/KloBraticc/Voidstrap/stargazers
+[repo-actions]:           https://github.com/KloBraticc/Voidstrap/actions/workflows/desktop.yml
+[crowdin-project]:        https://crowdin.com/project/voidstrap
 [discord-invite]:         https://discord.gg/dfA9PdWgcV
 
 [shield-license]:         https://img.shields.io/github/license/KloBraticc/Voidstrap?style=for-the-badge
