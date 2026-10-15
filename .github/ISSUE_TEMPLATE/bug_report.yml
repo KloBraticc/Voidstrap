@@ -7,7 +7,7 @@ body:
   - type: markdown
     attributes:
       value: |
-        <p align="center"><img width="96" alt="Voidstrap" src="https://raw.githubusercontent.com/KloBraticc/Voidstrap/main/assets/Images/Voidstrap.png"></p>
+        <p align="center"><img width="96" alt="Voidstrap" src="https://raw.githubusercontent.com/KloBraticc/Voidstrap/main/src/Voidstrap.App/Voidstrap.png"></p>
 
         Share what happened, what you expected, and how to reproduce it. Remove private information from logs before sharing.
   - type: checkboxes
