@@ -366,6 +366,11 @@ public static class GlobalBackground
                 window.Closed += OnWindowClosed;
             }
             DateTime writeTimeUtc = File.GetLastWriteTimeUtc(state.FilePath);
+            if (host.AppliedWriteTimeUtc == writeTimeUtc && string.Equals(host.AppliedPath, state.FilePath, StringComparison.OrdinalIgnoreCase))
+            {
+                host.Apply(state, null, writeTimeUtc);
+                return;
+            }
             string extension = (Path.GetExtension(state.FilePath) ?? string.Empty).ToLowerInvariant();
             BitmapSource? bitmap = Voidstrap.Utility.Platform.IsLinux || extension is ".mp4" or ".webm" or ".avi" or ".mov"
                 ? null
