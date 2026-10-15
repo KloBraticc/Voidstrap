@@ -8,7 +8,7 @@
         <TabItem.Header>
           <StackPanel Orientation="Horizontal">
             <ui:SymbolIcon Symbol="Pulse24" Margin="0,0,6,0" />
-            <TextBlock Text="Activity" />
+            <TextBlock Text="{resources:Loc Ui_Integrations_Activity}" />
           </StackPanel>
         </TabItem.Header>
         <StackPanel Margin="10">
@@ -19,10 +19,10 @@
           <controls:OptionControl Header="{resources:Loc Menu_Integrations_QueryServerLocation_Title}" HelpLink="https://github.com/BloxstrapLabs/Bloxstrap/wiki/What-is-activity-tracking%3F#server-location-querying" Description="{Binding Source={resources:Loc Menu_Integrations_QueryServerLocation_Description}, Converter={StaticResource StringFormatConverter}, ConverterParameter=https://ipinfo.io}" IsEnabled="{Binding ActivityTrackingEnabled, Mode=OneWay}">
             <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding ShowServerDetailsEnabled, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Description="Displays the game you have joined and its server location in the top-right corner." Header="Join-Game Notification" IsEnabled="{Binding ActivityTrackingEnabled, Mode=OneWay}">
+          <controls:OptionControl Description="{resources:Loc Ui_Integrations_DisplaysTheGameYouHaveJoined}" Header="{resources:Loc Ui_Integrations_JoinGameNotification}" IsEnabled="{Binding ActivityTrackingEnabled, Mode=OneWay}">
             <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding joinGameNotify, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Description="Notifies you in game when a friend starts playing, joins your game or joins your server." Header="Friend Notifications" IsEnabled="{Binding ActivityTrackingEnabled, Mode=OneWay}">
+          <controls:OptionControl Description="{resources:Loc Ui_Integrations_NotifiesYouInGameWhenA}" Header="{resources:Loc Ui_Integrations_FriendNotifications}" IsEnabled="{Binding ActivityTrackingEnabled, Mode=OneWay}">
             <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding FriendNotifications, Mode=TwoWay}" />
           </controls:OptionControl>
           <controls:OptionControl Header="{resources:Loc Menu_Integrations_DesktopApp_Title}" HelpLink="https://github.com/BloxstrapLabs/Bloxstrap/wiki/What-is-activity-tracking%3F#dont-exit-to-desktop-app" Description="{Binding Source={resources:Loc Menu_Integrations_DesktopApp_Description}, Converter={StaticResource StringFormatConverter}, ConverterParameter=https://github.com/BloxstrapLabs/Bloxstrap/wiki/What-is-activity-tracking%3F#dont-exit-to-desktop-app}" IsEnabled="{Binding ActivityTrackingEnabled, Mode=OneWay}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
@@ -53,7 +53,7 @@
             <Border CornerRadius="8" Background="{DynamicResource ControlFillColorDefaultBrush}" BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="1" Margin="0,8,0,10" Padding="14">
               <StackPanel>
                 <Grid Margin="0,0,0,10">
-                  <TextBlock x:Name="RpcPreviewHeader" Text="Playing Roblox" FontSize="11" FontWeight="Bold" Foreground="{DynamicResource TextFillColorTertiaryBrush}" VerticalAlignment="Center" />
+                  <TextBlock x:Name="RpcPreviewHeader" Text="{resources:Loc Ui_Integrations_PlayingRoblox}" FontSize="11" FontWeight="Bold" Foreground="{DynamicResource TextFillColorTertiaryBrush}" VerticalAlignment="Center" />
                   <Border HorizontalAlignment="Right" VerticalAlignment="Center" CornerRadius="4" Background="{DynamicResource ControlFillColorSecondaryBrush}" Padding="6,2,6,2" platform:LinuxTextGuard.PreserveCompactLayout="True">
                     <TextBlock Text="{resources:Loc CustomTheme_Editor_Preview}" FontSize="9" FontWeight="Bold" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
                   </Border>
@@ -92,24 +92,24 @@
           <ui:CardExpander IsExpanded="False">
             <HeaderedContentControl.Header>
               <StackPanel>
-                <TextBlock FontSize="14" Text="RPC Advanced" />
-                <TextBlock Margin="0,2,0,0" FontSize="12" Text="Choose what Discord shows." Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                <TextBlock FontSize="14" Text="{resources:Loc Ui_Integrations_RPCAdvanced}" />
+                <TextBlock Margin="0,2,0,0" FontSize="12" Text="{resources:Loc Ui_Integrations_ChooseWhatDiscordShows}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
               </StackPanel>
             </HeaderedContentControl.Header>
             <StackPanel>
               <WrapPanel IsEnabled="{Binding ActivityTrackingEnabled, Mode=OneWay}">
-                <CheckBox MinWidth="170" Margin="0,0,12,6" Content="Game name" IsChecked="{Binding GameNameChecked, Mode=TwoWay}" />
-                <CheckBox MinWidth="170" Margin="0,0,12,6" Content="Game icon" IsChecked="{Binding GameIconChecked, Mode=TwoWay}" />
-                <CheckBox MinWidth="170" Margin="0,0,12,6" Content="Creator" IsChecked="{Binding GameCreatorChecked, Mode=TwoWay}" />
-                <CheckBox MinWidth="170" Margin="0,0,12,6" Content="Server type" ToolTip="Public, private or reserved" IsChecked="{Binding GameStatusChecked, Mode=TwoWay}" />
+                <CheckBox MinWidth="170" Margin="0,0,12,6" Content="{resources:Loc Ui_Integrations_GameName}" IsChecked="{Binding GameNameChecked, Mode=TwoWay}" />
+                <CheckBox MinWidth="170" Margin="0,0,12,6" Content="{resources:Loc Ui_Integrations_GameIcon}" IsChecked="{Binding GameIconChecked, Mode=TwoWay}" />
+                <CheckBox MinWidth="170" Margin="0,0,12,6" Content="{resources:Loc Ui_Integrations_Creator}" IsChecked="{Binding GameCreatorChecked, Mode=TwoWay}" />
+                <CheckBox MinWidth="170" Margin="0,0,12,6" Content="{resources:Loc Ui_Integrations_ServerType}" ToolTip="{resources:Loc Ui_Integrations_PublicPrivateOrReserved}" IsChecked="{Binding GameStatusChecked, Mode=TwoWay}" />
                 <CheckBox MinWidth="170" Margin="0,0,12,6" Content="{resources:Loc Menu_Integrations_QueryServerLocation_Title}" IsChecked="{Binding ServerLocationGame, Mode=TwoWay}" />
-                <CheckBox MinWidth="170" Margin="0,0,12,6" Content="Beta tag" ToolTip="Turns markers like [BETA] or WIP in the game name into a clean tag" IsChecked="{Binding GameWIP, Mode=TwoWay}" />
-                <CheckBox MinWidth="170" Margin="0,0,12,6" Content="FastFlag count" IsChecked="{Binding FFlagAmountRPC, Mode=TwoWay}" />
+                <CheckBox MinWidth="170" Margin="0,0,12,6" Content="{resources:Loc Ui_Integrations_BetaTag}" ToolTip="{resources:Loc Ui_Integrations_TurnsMarkersLikeBETAOrWIP}" IsChecked="{Binding GameWIP, Mode=TwoWay}" />
+                <CheckBox MinWidth="170" Margin="0,0,12,6" Content="{resources:Loc Ui_Integrations_FastFlagCount}" IsChecked="{Binding FFlagAmountRPC, Mode=TwoWay}" />
               </WrapPanel>
               <WrapPanel Margin="0,8,0,0">
-                <ui:TextBox Width="220" Margin="0,0,8,8" PlaceholderText="Custom game name" ToolTip="Replaces the game name. Game name must be on." IsEnabled="{Binding ActivityTrackingEnabled, Mode=OneWay}" Text="{Binding gamename, Mode=TwoWay}" />
-                <ui:TextBox Width="220" Margin="0,0,8,8" PlaceholderText="Custom image link" ToolTip="Replaces the game icon." IsEnabled="{Binding ActivityTrackingEnabled, Mode=OneWay}" Text="{Binding gameimage, Mode=TwoWay}" />
-                <ComboBox Width="180" Margin="0,0,0,8" ToolTip="Shown when you are not in a game" ItemsSource="{Binding RpcIdleIconOptions}" SelectedItem="{Binding SelectedRpcIdleIcon, Mode=TwoWay}" />
+                <ui:TextBox Width="220" Margin="0,0,8,8" PlaceholderText="{resources:Loc Ui_Integrations_CustomGameName}" ToolTip="{resources:Loc Ui_Integrations_ReplacesTheGameNameGameName}" IsEnabled="{Binding ActivityTrackingEnabled, Mode=OneWay}" Text="{Binding gamename, Mode=TwoWay}" />
+                <ui:TextBox Width="220" Margin="0,0,8,8" PlaceholderText="{resources:Loc Ui_Integrations_CustomImageLink}" ToolTip="{resources:Loc Ui_Integrations_ReplacesTheGameIcon}" IsEnabled="{Binding ActivityTrackingEnabled, Mode=OneWay}" Text="{Binding gameimage, Mode=TwoWay}" />
+                <ComboBox Width="180" Margin="0,0,0,8" ToolTip="{resources:Loc Ui_Integrations_ShownWhenYouAreNotIn}" ItemsSource="{Binding RpcIdleIconOptions}" SelectedItem="{Binding SelectedRpcIdleIcon, Mode=TwoWay}" />
               </WrapPanel>
             </StackPanel>
           </ui:CardExpander>
@@ -124,69 +124,69 @@
           </StackPanel>
         </TabItem.Header>
         <StackPanel Margin="10">
-          <controls:OptionControl Header="Quiet when unfocused" Description="Lower Roblox volume while its window is inactive." Visibility="{x:Static platform:PlatformFeatureVisibility.AudioSession}">
+          <controls:OptionControl Header="{resources:Loc Ui_Integrations_QuietWhenUnfocused}" Description="{resources:Loc Ui_Integrations_LowerRobloxVolumeWhileItsWindow}" Visibility="{x:Static platform:PlatformFeatureVisibility.AudioSession}">
             <ui:ToggleSwitch IsChecked="{Binding DuckRobloxAudio, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="Headset loudness" Description="Balance loud and quiet Roblox audio." Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+          <controls:OptionControl Header="{resources:Loc Ui_Integrations_HeadsetLoudness}" Description="{resources:Loc Ui_Integrations_BalanceLoudAndQuietRobloxAudio}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
             <ui:ToggleSwitch IsChecked="{Binding HeadsetLoudness, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="Telemetry blocker" Description="Block Roblox telemetry. Administrator access is needed once.">
+          <controls:OptionControl Header="{resources:Loc Ui_Integrations_TelemetryBlocker}" Description="{resources:Loc Ui_Integrations_BlockRobloxTelemetryAdministratorAccessIs}">
             <ui:ToggleSwitch IsChecked="{Binding BlockTelemetry, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="FPS unlocker" Description="{Binding UncapFpsDescription, Mode=OneWay}" IsEnabled="{Binding UncapFpsToggleEnabled, Mode=OneWay}">
+          <controls:OptionControl Header="{resources:Loc Ui_Integrations_FPSUnlocker}" Description="{Binding UncapFpsDescription, Mode=OneWay}" IsEnabled="{Binding UncapFpsToggleEnabled, Mode=OneWay}">
             <ui:ToggleSwitch IsChecked="{Binding UncapFPS, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="Snap Tap" Description="When two opposite keys are held, the last one pressed wins instantly." Visibility="{x:Static platform:PlatformFeatureVisibility.GlobalInput}">
+          <controls:OptionControl Header="Snap Tap" Description="{resources:Loc Ui_Integrations_WhenTwoOppositeKeysAreHeld}" Visibility="{x:Static platform:PlatformFeatureVisibility.GlobalInput}">
             <ui:ToggleSwitch IsChecked="{Binding SnapTapEnabled, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="Keyboard access" Description="{Binding SnapTapAccessDescription}" Visibility="{Binding SnapTapAccessVisibility}">
-            <Button Content="Grant access" Command="{Binding GrantSnapTapAccessCommand}" />
+          <controls:OptionControl Header="{resources:Loc Ui_Integrations_KeyboardAccess}" Description="{Binding SnapTapAccessDescription}" Visibility="{Binding SnapTapAccessVisibility}">
+            <Button Content="{resources:Loc Ui_Integrations_GrantAccess}" Command="{Binding GrantSnapTapAccessCommand}" />
           </controls:OptionControl>
           <ui:CardExpander Margin="0,8,0,0" IsExpanded="False" Visibility="{x:Static platform:PlatformFeatureVisibility.GlobalInput}">
             <HeaderedContentControl.Header>
               <StackPanel>
-                <TextBlock FontSize="14" Text="Snap Tap settings" />
-                <TextBlock Margin="0,2,0,0" FontSize="12" Text="Choose which keys are paired and which one wins." Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                <TextBlock FontSize="14" Text="{resources:Loc Ui_Integrations_SnapTapSettings}" />
+                <TextBlock Margin="0,2,0,0" FontSize="12" Text="{resources:Loc Ui_Integrations_ChooseWhichKeysArePairedAnd}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
               </StackPanel>
             </HeaderedContentControl.Header>
             <StackPanel>
-              <controls:OptionControl Header="Priority" Description="What happens while two keys from the same group are held.">
+              <controls:OptionControl Header="{resources:Loc Ui_Integrations_Priority}" Description="{resources:Loc Ui_Integrations_WhatHappensWhileTwoKeysFrom}">
                 <ComboBox MinWidth="240" ItemsSource="{Binding SnapTapModes}" SelectedIndex="{Binding SnapTapMode, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl Header="Key groups" Description="Separate groups with commas and keys with spaces.">
+              <controls:OptionControl Header="{resources:Loc Ui_Integrations_KeyGroups}" Description="{resources:Loc Ui_Integrations_SeparateGroupsWithCommasAndKeys}">
                 <ui:TextBox MinWidth="240" PlaceholderText="A D, W S" Text="{Binding SnapTapKeys, Mode=TwoWay}" />
               </controls:OptionControl>
-              <TextBlock Margin="16,8,16,4" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Visibility="{x:Static platform:PlatformFeatureVisibility.LinuxIntegration}" Text="On Linux, Snap Tap takes over the keyboard only while Sober is focused and hands it back when you switch away. Sober starts on X11 while Snap Tap is on so Voidstrap can tell when it is focused." />
-              <TextBlock Margin="16,8,16,4" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Visibility="{x:Static platform:PlatformFeatureVisibility.MacOSIntegration}" Text="On macOS, allow Accessibility access for Voidstrap. Snap Tap follows your keyboard layout, changes paired keys only while Roblox is focused, and restores normal input when you switch away or turn it off." />
+              <TextBlock Margin="16,8,16,4" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Visibility="{x:Static platform:PlatformFeatureVisibility.LinuxIntegration}" Text="{resources:Loc Ui_Integrations_OnLinuxSnapTapTakesOver}" />
+              <TextBlock Margin="16,8,16,4" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Visibility="{x:Static platform:PlatformFeatureVisibility.MacOSIntegration}" Text="{resources:Loc Ui_Integrations_OnMacOSAllowAccessibilityAccessFor}" />
             </StackPanel>
           </ui:CardExpander>
                     <ui:CardExpander Margin="0,8,0,0" IsExpanded="False" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
                         <HeaderedContentControl.Header>
                             <StackPanel>
-                                <TextBlock FontSize="14" Text="Startup and tray" />
-                                <TextBlock Margin="0,2,0,0" FontSize="12" Text="Choose how Roblox starts and stays available." Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                                <TextBlock FontSize="14" Text="{resources:Loc Ui_Integrations_StartupAndTray}" />
+                                <TextBlock Margin="0,2,0,0" FontSize="12" Text="{resources:Loc Ui_Integrations_ChooseHowRobloxStartsAndStays}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
                             </StackPanel>
                         </HeaderedContentControl.Header>
                         <StackPanel>
-                            <controls:OptionControl Header="System tray" Description="Minimize Roblox to the system tray." Visibility="{x:Static platform:PlatformFeatureVisibility.Tray}">
+                            <controls:OptionControl Header="{resources:Loc Ui_Integrations_SystemTray}" Description="{resources:Loc Ui_Integrations_MinimizeRobloxToTheSystemTray}" Visibility="{x:Static platform:PlatformFeatureVisibility.Tray}">
                                 <ui:ToggleSwitch IsChecked="{Binding RobloxSystemTray, Mode=TwoWay}" />
                             </controls:OptionControl>
-                            <controls:OptionControl Header="Launch on startup" Description="Launch Roblox when you sign in to Windows.">
+                            <controls:OptionControl Header="{resources:Loc Ui_Integrations_LaunchOnStartup}" Description="{resources:Loc Ui_Integrations_LaunchRobloxWhenYouSignIn}">
                                 <ui:ToggleSwitch IsChecked="{Binding LaunchStartup, Mode=TwoWay}" />
                             </controls:OptionControl>
                         </StackPanel>
                     </ui:CardExpander>
-                    <controls:OptionControl Header="Steam library" Description="{Binding SteamShortcutDescription}" Visibility="{Binding SteamShortcutVisibility}">
-            <Button Content="Add to Steam" Command="{Binding AddToSteamCommand}" />
+                    <controls:OptionControl Header="{resources:Loc Ui_Integrations_SteamLibrary}" Description="{Binding SteamShortcutDescription}" Visibility="{Binding SteamShortcutVisibility}">
+            <Button Content="{resources:Loc Ui_Integrations_AddToSteam}" Command="{Binding AddToSteamCommand}" />
           </controls:OptionControl>
-                    <controls:OptionControl Header="Account switcher" Description="Create, back up, and switch Roblox accounts." Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}">
+                    <controls:OptionControl Header="{resources:Loc Ui_Integrations_AccountSwitcher}" Description="{resources:Loc Ui_Integrations_CreateBackUpAndSwitchRoblox}" Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}">
             <Button Content="{resources:Loc Common_Open}" HorizontalAlignment="Left" Command="{Binding AccountWindowCommand}" />
           </controls:OptionControl>
-                    <controls:OptionControl Header="{resources:Loc ContextMenu_GameHistory_Title}" Description="View games you recently played.">
+                    <controls:OptionControl Header="{resources:Loc ContextMenu_GameHistory_Title}" Description="{resources:Loc Ui_Integrations_ViewGamesYouRecentlyPlayed}">
                         <Button Content="{resources:Loc Common_Open}" HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding OpenHistoryWindowCommand}" />
                     </controls:OptionControl>
-                    <controls:OptionControl Header="View Music Player" Description="View and listen to your music, or manage from the tray menu.">
-            <Button Content="View" HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding MusicWindowCommand}" />
+                    <controls:OptionControl Header="{resources:Loc Ui_Integrations_ViewMusicPlayer}" Description="{resources:Loc Ui_Integrations_ViewAndListenToYourMusic}">
+            <Button Content="{resources:Loc Ui_Mods_View}" HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding MusicWindowCommand}" />
           </controls:OptionControl>
           <TextBlock Margin="0,16,0,0" Text="{resources:Loc Menu_Integrations_Custom_Title}" FontSize="20" FontWeight="Medium" />
           <TextBlock Text="{resources:Loc Menu_Integrations_Custom_Description}" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
@@ -236,29 +236,29 @@
                   <ColumnDefinition Width="Auto" />
                   <ColumnDefinition Width="2*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" FontSize="14" VerticalAlignment="Center" Margin="0,0,4,0" Text="Launch Delay" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                <TextBlock Grid.Column="0" FontSize="14" VerticalAlignment="Center" Margin="0,0,4,0" Text="{resources:Loc Ui_Integrations_LaunchDelay}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
                 <ui:TextBox Grid.Column="1" Margin="0,0,16,0" PlaceholderText="200" TextWrapping="NoWrap" AcceptsReturn="True" AcceptsTab="True" Text="{Binding SelectedCustomIntegration.Delay}" />
                 <TextBlock Grid.Column="2" FontSize="14" VerticalAlignment="Center" Margin="0,0,4,0" Text="{resources:Loc Menu_Integrations_Custom_LaunchArgs}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
                 <ui:TextBox Grid.Column="3" TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" PlaceholderText="{Binding Source=/k echo {0}, Converter={StaticResource StringFormatConverter}, ConverterParameter={resources:Loc Menu_Integrations_Custom_LaunchArgs_Placeholder}}" Text="{Binding SelectedCustomIntegration.LaunchArgs}" />
               </Grid>
               <StackPanel Margin="0,8,0,0" Orientation="Horizontal">
                 <CheckBox Margin="0,0,8,0" Content="{resources:Loc Menu_Integrations_Custom_AutoClose}" IsChecked="{Binding SelectedCustomIntegration.AutoClose}" />
-                <CheckBox Margin="0,0,8,0" Content="Pre Roblox Launch" IsChecked="{Binding SelectedCustomIntegration.PreLaunch}" />
+                <CheckBox Margin="0,0,8,0" Content="{resources:Loc Ui_Integrations_PreRobloxLaunch}" IsChecked="{Binding SelectedCustomIntegration.PreLaunch}" />
               </StackPanel>
               <StackPanel Margin="0,8,0,0" Orientation="Horizontal">
-                <CheckBox Margin="0,0,8,0" Content="Run Minimized" IsChecked="{Binding SelectedCustomIntegration.RunMinimized}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}" />
-                <CheckBox Margin="0,0,8,0" Content="Run As Administrator" IsChecked="{Binding SelectedCustomIntegration.RunAsAdmin}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}" />
+                <CheckBox Margin="0,0,8,0" Content="{resources:Loc Ui_Integrations_RunMinimized}" IsChecked="{Binding SelectedCustomIntegration.RunMinimized}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}" />
+                <CheckBox Margin="0,0,8,0" Content="{resources:Loc Ui_Integrations_RunAsAdministrator}" IsChecked="{Binding SelectedCustomIntegration.RunAsAdmin}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}" />
               </StackPanel>
               <StackPanel Margin="0,8,0,0" Orientation="Horizontal">
-                <CheckBox Margin="0,0,8,0" Content="Only for a specific game" IsChecked="{Binding SelectedCustomIntegration.SpecifyGame}" />
-                <CheckBox Margin="0,0,8,0" Content="Close when leaving that game" IsChecked="{Binding SelectedCustomIntegration.AutoCloseOnGame}" IsEnabled="{Binding SelectedCustomIntegration.SpecifyGame}" />
+                <CheckBox Margin="0,0,8,0" Content="{resources:Loc Ui_Integrations_OnlyForASpecificGame}" IsChecked="{Binding SelectedCustomIntegration.SpecifyGame}" />
+                <CheckBox Margin="0,0,8,0" Content="{resources:Loc Ui_Integrations_CloseWhenLeavingThatGame}" IsChecked="{Binding SelectedCustomIntegration.AutoCloseOnGame}" IsEnabled="{Binding SelectedCustomIntegration.SpecifyGame}" />
               </StackPanel>
               <Grid Margin="0,8,0,0" Visibility="{Binding SelectedCustomIntegration.SpecifyGame, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <Grid.ColumnDefinitions>
                   <ColumnDefinition Width="Auto" />
                   <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" FontSize="14" VerticalAlignment="Center" Margin="0,0,8,0" Text="Place ID" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                <TextBlock Grid.Column="0" FontSize="14" VerticalAlignment="Center" Margin="0,0,8,0" Text="{resources:Loc Ui_Integrations_PlaceID}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
                 <ui:TextBox Grid.Column="1" PlaceholderText="e.g. 286090429" Text="{Binding SelectedCustomIntegration.GameID, UpdateSourceTrigger=PropertyChanged}" />
               </Grid>
             </StackPanel>

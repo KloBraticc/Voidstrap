@@ -4399,4 +4399,181 @@ Mit szeretnél tenni?</value>
   <data name="Ui.Bootstrapper.BackdropMaterialToRobloxSWindow" xml:space="preserve">
     <value>Háttéranyag a Roblox ablakkeretéhez. Windows 11 szükséges</value>
   </data>
+  <data name="Ui.Integrations.Activity" xml:space="preserve">
+    <value>Tevékenység</value>
+  </data>
+  <data name="Ui.Integrations.DisplaysTheGameYouHaveJoined" xml:space="preserve">
+    <value>Megjeleníti a játékot, amelyhez csatlakoztál, és a szerver helyét a jobb felső sarokban.</value>
+  </data>
+  <data name="Ui.Integrations.JoinGameNotification" xml:space="preserve">
+    <value>Értesítés játékhoz csatlakozáskor</value>
+  </data>
+  <data name="Ui.Integrations.NotifiesYouInGameWhenA" xml:space="preserve">
+    <value>Értesít a játékban, ha egy barátod játszani kezd, csatlakozik a játékodhoz vagy a szerveredhez.</value>
+  </data>
+  <data name="Ui.Integrations.FriendNotifications" xml:space="preserve">
+    <value>Barátértesítések</value>
+  </data>
+  <data name="Ui.Integrations.PlayingRoblox" xml:space="preserve">
+    <value>Robloxot játszik</value>
+  </data>
+  <data name="Ui.Integrations.RPCAdvanced" xml:space="preserve">
+    <value>Speciális RPC</value>
+  </data>
+  <data name="Ui.Integrations.ChooseWhatDiscordShows" xml:space="preserve">
+    <value>Válaszd ki, mit mutasson a Discord.</value>
+  </data>
+  <data name="Ui.Integrations.GameName" xml:space="preserve">
+    <value>Játék neve</value>
+  </data>
+  <data name="Ui.Integrations.GameIcon" xml:space="preserve">
+    <value>Játék ikonja</value>
+  </data>
+  <data name="Ui.Integrations.Creator" xml:space="preserve">
+    <value>Készítő</value>
+  </data>
+  <data name="Ui.Integrations.ServerType" xml:space="preserve">
+    <value>Szerver típusa</value>
+  </data>
+  <data name="Ui.Integrations.PublicPrivateOrReserved" xml:space="preserve">
+    <value>Nyilvános, privát vagy fenntartott</value>
+  </data>
+  <data name="Ui.Integrations.BetaTag" xml:space="preserve">
+    <value>Béta címke</value>
+  </data>
+  <data name="Ui.Integrations.TurnsMarkersLikeBETAOrWIP" xml:space="preserve">
+    <value>A játék nevében lévő jelöléseket, például [BETA] vagy WIP, letisztult címkévé alakítja</value>
+  </data>
+  <data name="Ui.Integrations.FastFlagCount" xml:space="preserve">
+    <value>FastFlagek száma</value>
+  </data>
+  <data name="Ui.Integrations.CustomGameName" xml:space="preserve">
+    <value>Egyéni játéknév</value>
+  </data>
+  <data name="Ui.Integrations.ReplacesTheGameNameGameName" xml:space="preserve">
+    <value>Lecseréli a játék nevét. A Játék neve legyen bekapcsolva.</value>
+  </data>
+  <data name="Ui.Integrations.CustomImageLink" xml:space="preserve">
+    <value>Egyéni képhivatkozás</value>
+  </data>
+  <data name="Ui.Integrations.ReplacesTheGameIcon" xml:space="preserve">
+    <value>Lecseréli a játék ikonját.</value>
+  </data>
+  <data name="Ui.Integrations.ShownWhenYouAreNotIn" xml:space="preserve">
+    <value>Akkor látszik, ha nem vagy játékban</value>
+  </data>
+  <data name="Ui.Integrations.QuietWhenUnfocused" xml:space="preserve">
+    <value>Halk fókusz nélkül</value>
+  </data>
+  <data name="Ui.Integrations.LowerRobloxVolumeWhileItsWindow" xml:space="preserve">
+    <value>Csökkenti a Roblox hangerejét, amíg az ablaka inaktív.</value>
+  </data>
+  <data name="Ui.Integrations.HeadsetLoudness" xml:space="preserve">
+    <value>Fejhallgató hangereje</value>
+  </data>
+  <data name="Ui.Integrations.BalanceLoudAndQuietRobloxAudio" xml:space="preserve">
+    <value>Kiegyenlíti a Roblox hangos és halk hangjait.</value>
+  </data>
+  <data name="Ui.Integrations.TelemetryBlocker" xml:space="preserve">
+    <value>Telemetria blokkoló</value>
+  </data>
+  <data name="Ui.Integrations.BlockRobloxTelemetryAdministratorAccessIs" xml:space="preserve">
+    <value>Letiltja a Roblox telemetriáját. Egyszer rendszergazdai hozzáférés szükséges.</value>
+  </data>
+  <data name="Ui.Integrations.FPSUnlocker" xml:space="preserve">
+    <value>FPS feloldás</value>
+  </data>
+  <data name="Ui.Integrations.WhenTwoOppositeKeysAreHeld" xml:space="preserve">
+    <value>Ha két ellentétes billentyűt nyomva tartasz, azonnal az utoljára lenyomott győz.</value>
+  </data>
+  <data name="Ui.Integrations.KeyboardAccess" xml:space="preserve">
+    <value>Billentyűzet-hozzáférés</value>
+  </data>
+  <data name="Ui.Integrations.GrantAccess" xml:space="preserve">
+    <value>Hozzáférés megadása</value>
+  </data>
+  <data name="Ui.Integrations.SnapTapSettings" xml:space="preserve">
+    <value>Snap Tap beállítások</value>
+  </data>
+  <data name="Ui.Integrations.ChooseWhichKeysArePairedAnd" xml:space="preserve">
+    <value>Válaszd ki, mely billentyűk alkotnak párt, és melyik győz.</value>
+  </data>
+  <data name="Ui.Integrations.Priority" xml:space="preserve">
+    <value>Prioritás</value>
+  </data>
+  <data name="Ui.Integrations.WhatHappensWhileTwoKeysFrom" xml:space="preserve">
+    <value>Mi történik, amíg két azonos csoportba tartozó billentyűt nyomva tartasz.</value>
+  </data>
+  <data name="Ui.Integrations.KeyGroups" xml:space="preserve">
+    <value>Billentyűcsoportok</value>
+  </data>
+  <data name="Ui.Integrations.SeparateGroupsWithCommasAndKeys" xml:space="preserve">
+    <value>A csoportokat vesszővel, a billentyűket szóközzel válaszd el.</value>
+  </data>
+  <data name="Ui.Integrations.OnLinuxSnapTapTakesOver" xml:space="preserve">
+    <value>Linuxon a Snap Tap csak akkor veszi át a billentyűzetet, ha a Sober fókuszban van, és visszaadja, amikor máshová váltasz. A Sober X11-en indul, amíg a Snap Tap be van kapcsolva, hogy a Voidstrap tudja, mikor van fókuszban.</value>
+  </data>
+  <data name="Ui.Integrations.OnMacOSAllowAccessibilityAccessFor" xml:space="preserve">
+    <value>macOS-en engedélyezd a Kisegítő hozzáférést a Voidstrap számára. A Snap Tap követi a billentyűzetkiosztásodat, csak akkor módosítja a párosított billentyűket, ha a Roblox fókuszban van, és visszaállítja a normál bevitelt, amikor máshová váltasz vagy kikapcsolod.</value>
+  </data>
+  <data name="Ui.Integrations.StartupAndTray" xml:space="preserve">
+    <value>Indítás és tálca</value>
+  </data>
+  <data name="Ui.Integrations.ChooseHowRobloxStartsAndStays" xml:space="preserve">
+    <value>Válaszd ki, hogyan induljon és maradjon elérhető a Roblox.</value>
+  </data>
+  <data name="Ui.Integrations.SystemTray" xml:space="preserve">
+    <value>Értesítési terület</value>
+  </data>
+  <data name="Ui.Integrations.MinimizeRobloxToTheSystemTray" xml:space="preserve">
+    <value>A Roblox kis méretre állítása az értesítési területre.</value>
+  </data>
+  <data name="Ui.Integrations.LaunchOnStartup" xml:space="preserve">
+    <value>Indítás bejelentkezéskor</value>
+  </data>
+  <data name="Ui.Integrations.LaunchRobloxWhenYouSignIn" xml:space="preserve">
+    <value>A Roblox indítása, amikor bejelentkezel a Windowsba.</value>
+  </data>
+  <data name="Ui.Integrations.SteamLibrary" xml:space="preserve">
+    <value>Steam könyvtár</value>
+  </data>
+  <data name="Ui.Integrations.AddToSteam" xml:space="preserve">
+    <value>Hozzáadás a Steamhez</value>
+  </data>
+  <data name="Ui.Integrations.AccountSwitcher" xml:space="preserve">
+    <value>Fiókváltó</value>
+  </data>
+  <data name="Ui.Integrations.CreateBackUpAndSwitchRoblox" xml:space="preserve">
+    <value>Roblox fiókok létrehozása, mentése és váltása.</value>
+  </data>
+  <data name="Ui.Integrations.ViewGamesYouRecentlyPlayed" xml:space="preserve">
+    <value>Nemrég játszott játékok megtekintése.</value>
+  </data>
+  <data name="Ui.Integrations.ViewMusicPlayer" xml:space="preserve">
+    <value>Zenelejátszó megtekintése</value>
+  </data>
+  <data name="Ui.Integrations.ViewAndListenToYourMusic" xml:space="preserve">
+    <value>Nézd meg és hallgasd a zenéidet, vagy kezeld a tálcamenüből.</value>
+  </data>
+  <data name="Ui.Integrations.LaunchDelay" xml:space="preserve">
+    <value>Indítási késleltetés</value>
+  </data>
+  <data name="Ui.Integrations.PreRobloxLaunch" xml:space="preserve">
+    <value>Roblox indítása előtt</value>
+  </data>
+  <data name="Ui.Integrations.RunMinimized" xml:space="preserve">
+    <value>Futtatás kis méretben</value>
+  </data>
+  <data name="Ui.Integrations.RunAsAdministrator" xml:space="preserve">
+    <value>Futtatás rendszergazdaként</value>
+  </data>
+  <data name="Ui.Integrations.OnlyForASpecificGame" xml:space="preserve">
+    <value>Csak egy adott játékhoz</value>
+  </data>
+  <data name="Ui.Integrations.CloseWhenLeavingThatGame" xml:space="preserve">
+    <value>Bezárás a játék elhagyásakor</value>
+  </data>
+  <data name="Ui.Integrations.PlaceID" xml:space="preserve">
+    <value>Place ID</value>
+  </data>
 </root>

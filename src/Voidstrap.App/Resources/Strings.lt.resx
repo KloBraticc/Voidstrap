@@ -4437,4 +4437,181 @@ Ką norėtumėte daryti?</value>
   <data name="Ui.Bootstrapper.BackdropMaterialToRobloxSWindow" xml:space="preserve">
     <value>Fono medžiaga Roblox lango rėmeliui. Reikia Windows 11</value>
   </data>
+  <data name="Ui.Integrations.Activity" xml:space="preserve">
+    <value>Veikla</value>
+  </data>
+  <data name="Ui.Integrations.DisplaysTheGameYouHaveJoined" xml:space="preserve">
+    <value>Viršutiniame dešiniajame kampe rodo žaidimą, prie kurio prisijungėte, ir jo serverio vietą.</value>
+  </data>
+  <data name="Ui.Integrations.JoinGameNotification" xml:space="preserve">
+    <value>Pranešimas prisijungus prie žaidimo</value>
+  </data>
+  <data name="Ui.Integrations.NotifiesYouInGameWhenA" xml:space="preserve">
+    <value>Praneša žaidime, kai draugas pradeda žaisti, prisijungia prie jūsų žaidimo ar serverio.</value>
+  </data>
+  <data name="Ui.Integrations.FriendNotifications" xml:space="preserve">
+    <value>Pranešimai apie draugus</value>
+  </data>
+  <data name="Ui.Integrations.PlayingRoblox" xml:space="preserve">
+    <value>Žaidžia Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RPCAdvanced" xml:space="preserve">
+    <value>Išplėstinis RPC</value>
+  </data>
+  <data name="Ui.Integrations.ChooseWhatDiscordShows" xml:space="preserve">
+    <value>Pasirinkite, ką rodo Discord.</value>
+  </data>
+  <data name="Ui.Integrations.GameName" xml:space="preserve">
+    <value>Žaidimo pavadinimas</value>
+  </data>
+  <data name="Ui.Integrations.GameIcon" xml:space="preserve">
+    <value>Žaidimo piktograma</value>
+  </data>
+  <data name="Ui.Integrations.Creator" xml:space="preserve">
+    <value>Kūrėjas</value>
+  </data>
+  <data name="Ui.Integrations.ServerType" xml:space="preserve">
+    <value>Serverio tipas</value>
+  </data>
+  <data name="Ui.Integrations.PublicPrivateOrReserved" xml:space="preserve">
+    <value>Viešas, privatus arba rezervuotas</value>
+  </data>
+  <data name="Ui.Integrations.BetaTag" xml:space="preserve">
+    <value>Beta žymė</value>
+  </data>
+  <data name="Ui.Integrations.TurnsMarkersLikeBETAOrWIP" xml:space="preserve">
+    <value>Paverčia žaidimo pavadinime esančias žymes, pvz., [BETA] ar WIP, tvarkinga žyme</value>
+  </data>
+  <data name="Ui.Integrations.FastFlagCount" xml:space="preserve">
+    <value>FastFlags skaičius</value>
+  </data>
+  <data name="Ui.Integrations.CustomGameName" xml:space="preserve">
+    <value>Savas žaidimo pavadinimas</value>
+  </data>
+  <data name="Ui.Integrations.ReplacesTheGameNameGameName" xml:space="preserve">
+    <value>Pakeičia žaidimo pavadinimą. Žaidimo pavadinimas turi būti įjungtas.</value>
+  </data>
+  <data name="Ui.Integrations.CustomImageLink" xml:space="preserve">
+    <value>Sava paveikslėlio nuoroda</value>
+  </data>
+  <data name="Ui.Integrations.ReplacesTheGameIcon" xml:space="preserve">
+    <value>Pakeičia žaidimo piktogramą.</value>
+  </data>
+  <data name="Ui.Integrations.ShownWhenYouAreNotIn" xml:space="preserve">
+    <value>Rodoma, kai nesate žaidime</value>
+  </data>
+  <data name="Ui.Integrations.QuietWhenUnfocused" xml:space="preserve">
+    <value>Tyliau be fokuso</value>
+  </data>
+  <data name="Ui.Integrations.LowerRobloxVolumeWhileItsWindow" xml:space="preserve">
+    <value>Sumažina Roblox garsumą, kol jo langas neaktyvus.</value>
+  </data>
+  <data name="Ui.Integrations.HeadsetLoudness" xml:space="preserve">
+    <value>Ausinių garsumas</value>
+  </data>
+  <data name="Ui.Integrations.BalanceLoudAndQuietRobloxAudio" xml:space="preserve">
+    <value>Subalansuoja garsius ir tylius Roblox garsus.</value>
+  </data>
+  <data name="Ui.Integrations.TelemetryBlocker" xml:space="preserve">
+    <value>Telemetrijos blokavimas</value>
+  </data>
+  <data name="Ui.Integrations.BlockRobloxTelemetryAdministratorAccessIs" xml:space="preserve">
+    <value>Blokuoja Roblox telemetriją. Vieną kartą reikia administratoriaus teisių.</value>
+  </data>
+  <data name="Ui.Integrations.FPSUnlocker" xml:space="preserve">
+    <value>FPS atrakinimas</value>
+  </data>
+  <data name="Ui.Integrations.WhenTwoOppositeKeysAreHeld" xml:space="preserve">
+    <value>Kai laikomi du priešingi klavišai, iškart laimi paskutinis paspaustas.</value>
+  </data>
+  <data name="Ui.Integrations.KeyboardAccess" xml:space="preserve">
+    <value>Prieiga prie klaviatūros</value>
+  </data>
+  <data name="Ui.Integrations.GrantAccess" xml:space="preserve">
+    <value>Suteikti prieigą</value>
+  </data>
+  <data name="Ui.Integrations.SnapTapSettings" xml:space="preserve">
+    <value>Snap Tap nustatymai</value>
+  </data>
+  <data name="Ui.Integrations.ChooseWhichKeysArePairedAnd" xml:space="preserve">
+    <value>Pasirinkite, kurie klavišai sudaro poras ir kuris laimi.</value>
+  </data>
+  <data name="Ui.Integrations.Priority" xml:space="preserve">
+    <value>Pirmenybė</value>
+  </data>
+  <data name="Ui.Integrations.WhatHappensWhileTwoKeysFrom" xml:space="preserve">
+    <value>Kas vyksta, kol laikomi du tos pačios grupės klavišai.</value>
+  </data>
+  <data name="Ui.Integrations.KeyGroups" xml:space="preserve">
+    <value>Klavišų grupės</value>
+  </data>
+  <data name="Ui.Integrations.SeparateGroupsWithCommasAndKeys" xml:space="preserve">
+    <value>Grupes atskirkite kableliais, o klavišus tarpais.</value>
+  </data>
+  <data name="Ui.Integrations.OnLinuxSnapTapTakesOver" xml:space="preserve">
+    <value>Linux Snap Tap perima klaviatūrą tik kol Sober aktyvus ir grąžina ją, kai perjungiate. Kol Snap Tap įjungtas, Sober paleidžiamas X11, kad Voidstrap žinotų, kada jis aktyvus.</value>
+  </data>
+  <data name="Ui.Integrations.OnMacOSAllowAccessibilityAccessFor" xml:space="preserve">
+    <value>macOS leiskite Voidstrap pasiekti pritaikymo neįgaliesiems funkcijas. Snap Tap laikosi jūsų klaviatūros išdėstymo, keičia suporuotus klavišus tik kol Roblox aktyvus ir atkuria įprastą įvestį, kai perjungiate ar jį išjungiate.</value>
+  </data>
+  <data name="Ui.Integrations.StartupAndTray" xml:space="preserve">
+    <value>Paleidimas ir dėklas</value>
+  </data>
+  <data name="Ui.Integrations.ChooseHowRobloxStartsAndStays" xml:space="preserve">
+    <value>Pasirinkite, kaip Roblox paleidžiamas ir lieka pasiekiamas.</value>
+  </data>
+  <data name="Ui.Integrations.SystemTray" xml:space="preserve">
+    <value>Sistemos dėklas</value>
+  </data>
+  <data name="Ui.Integrations.MinimizeRobloxToTheSystemTray" xml:space="preserve">
+    <value>Sumažinti Roblox į sistemos dėklą.</value>
+  </data>
+  <data name="Ui.Integrations.LaunchOnStartup" xml:space="preserve">
+    <value>Paleisti prisijungus</value>
+  </data>
+  <data name="Ui.Integrations.LaunchRobloxWhenYouSignIn" xml:space="preserve">
+    <value>Paleisti Roblox, kai prisijungiate prie Windows.</value>
+  </data>
+  <data name="Ui.Integrations.SteamLibrary" xml:space="preserve">
+    <value>Steam biblioteka</value>
+  </data>
+  <data name="Ui.Integrations.AddToSteam" xml:space="preserve">
+    <value>Pridėti prie Steam</value>
+  </data>
+  <data name="Ui.Integrations.AccountSwitcher" xml:space="preserve">
+    <value>Paskyrų perjungiklis</value>
+  </data>
+  <data name="Ui.Integrations.CreateBackUpAndSwitchRoblox" xml:space="preserve">
+    <value>Kurkite, kopijuokite ir perjunkite Roblox paskyras.</value>
+  </data>
+  <data name="Ui.Integrations.ViewGamesYouRecentlyPlayed" xml:space="preserve">
+    <value>Peržiūrėti neseniai žaistus žaidimus.</value>
+  </data>
+  <data name="Ui.Integrations.ViewMusicPlayer" xml:space="preserve">
+    <value>Rodyti muzikos grotuvą</value>
+  </data>
+  <data name="Ui.Integrations.ViewAndListenToYourMusic" xml:space="preserve">
+    <value>Peržiūrėkite ir klausykitės savo muzikos arba valdykite ją iš dėklo meniu.</value>
+  </data>
+  <data name="Ui.Integrations.LaunchDelay" xml:space="preserve">
+    <value>Paleidimo delsa</value>
+  </data>
+  <data name="Ui.Integrations.PreRobloxLaunch" xml:space="preserve">
+    <value>Prieš paleidžiant Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RunMinimized" xml:space="preserve">
+    <value>Paleisti sumažintą</value>
+  </data>
+  <data name="Ui.Integrations.RunAsAdministrator" xml:space="preserve">
+    <value>Paleisti kaip administratorių</value>
+  </data>
+  <data name="Ui.Integrations.OnlyForASpecificGame" xml:space="preserve">
+    <value>Tik konkrečiam žaidimui</value>
+  </data>
+  <data name="Ui.Integrations.CloseWhenLeavingThatGame" xml:space="preserve">
+    <value>Uždaryti išėjus iš to žaidimo</value>
+  </data>
+  <data name="Ui.Integrations.PlaceID" xml:space="preserve">
+    <value>Place ID</value>
+  </data>
 </root>

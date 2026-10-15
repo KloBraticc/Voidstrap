@@ -4424,4 +4424,181 @@ Voidstrap 的安装路径是：
   <data name="Ui.Bootstrapper.BackdropMaterialToRobloxSWindow" xml:space="preserve">
     <value>Roblox 窗口边框的背景材质。需要 Windows 11</value>
   </data>
+  <data name="Ui.Integrations.Activity" xml:space="preserve">
+    <value>动态</value>
+  </data>
+  <data name="Ui.Integrations.DisplaysTheGameYouHaveJoined" xml:space="preserve">
+    <value>在右上角显示您加入的游戏及其服务器位置。</value>
+  </data>
+  <data name="Ui.Integrations.JoinGameNotification" xml:space="preserve">
+    <value>加入游戏通知</value>
+  </data>
+  <data name="Ui.Integrations.NotifiesYouInGameWhenA" xml:space="preserve">
+    <value>当好友开始游戏、加入您的游戏或服务器时，在游戏中通知您。</value>
+  </data>
+  <data name="Ui.Integrations.FriendNotifications" xml:space="preserve">
+    <value>好友通知</value>
+  </data>
+  <data name="Ui.Integrations.PlayingRoblox" xml:space="preserve">
+    <value>正在玩 Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RPCAdvanced" xml:space="preserve">
+    <value>RPC 高级</value>
+  </data>
+  <data name="Ui.Integrations.ChooseWhatDiscordShows" xml:space="preserve">
+    <value>选择 Discord 显示的内容。</value>
+  </data>
+  <data name="Ui.Integrations.GameName" xml:space="preserve">
+    <value>游戏名称</value>
+  </data>
+  <data name="Ui.Integrations.GameIcon" xml:space="preserve">
+    <value>游戏图标</value>
+  </data>
+  <data name="Ui.Integrations.Creator" xml:space="preserve">
+    <value>创作者</value>
+  </data>
+  <data name="Ui.Integrations.ServerType" xml:space="preserve">
+    <value>服务器类型</value>
+  </data>
+  <data name="Ui.Integrations.PublicPrivateOrReserved" xml:space="preserve">
+    <value>公开、私人或预留</value>
+  </data>
+  <data name="Ui.Integrations.BetaTag" xml:space="preserve">
+    <value>测试版标签</value>
+  </data>
+  <data name="Ui.Integrations.TurnsMarkersLikeBETAOrWIP" xml:space="preserve">
+    <value>将游戏名称中的 [BETA] 或 WIP 等标记转换为简洁的标签</value>
+  </data>
+  <data name="Ui.Integrations.FastFlagCount" xml:space="preserve">
+    <value>FastFlags 数量</value>
+  </data>
+  <data name="Ui.Integrations.CustomGameName" xml:space="preserve">
+    <value>自定义游戏名称</value>
+  </data>
+  <data name="Ui.Integrations.ReplacesTheGameNameGameName" xml:space="preserve">
+    <value>替换游戏名称。必须开启游戏名称。</value>
+  </data>
+  <data name="Ui.Integrations.CustomImageLink" xml:space="preserve">
+    <value>自定义图片链接</value>
+  </data>
+  <data name="Ui.Integrations.ReplacesTheGameIcon" xml:space="preserve">
+    <value>替换游戏图标。</value>
+  </data>
+  <data name="Ui.Integrations.ShownWhenYouAreNotIn" xml:space="preserve">
+    <value>不在游戏中时显示</value>
+  </data>
+  <data name="Ui.Integrations.QuietWhenUnfocused" xml:space="preserve">
+    <value>失去焦点时静音</value>
+  </data>
+  <data name="Ui.Integrations.LowerRobloxVolumeWhileItsWindow" xml:space="preserve">
+    <value>在 Roblox 窗口未激活时降低其音量。</value>
+  </data>
+  <data name="Ui.Integrations.HeadsetLoudness" xml:space="preserve">
+    <value>耳机响度</value>
+  </data>
+  <data name="Ui.Integrations.BalanceLoudAndQuietRobloxAudio" xml:space="preserve">
+    <value>平衡 Roblox 中的大声和小声音频。</value>
+  </data>
+  <data name="Ui.Integrations.TelemetryBlocker" xml:space="preserve">
+    <value>遥测拦截</value>
+  </data>
+  <data name="Ui.Integrations.BlockRobloxTelemetryAdministratorAccessIs" xml:space="preserve">
+    <value>拦截 Roblox 遥测。需要一次管理员权限。</value>
+  </data>
+  <data name="Ui.Integrations.FPSUnlocker" xml:space="preserve">
+    <value>FPS 解锁</value>
+  </data>
+  <data name="Ui.Integrations.WhenTwoOppositeKeysAreHeld" xml:space="preserve">
+    <value>同时按住两个相反的按键时，最后按下的按键立即生效。</value>
+  </data>
+  <data name="Ui.Integrations.KeyboardAccess" xml:space="preserve">
+    <value>键盘访问权限</value>
+  </data>
+  <data name="Ui.Integrations.GrantAccess" xml:space="preserve">
+    <value>授予权限</value>
+  </data>
+  <data name="Ui.Integrations.SnapTapSettings" xml:space="preserve">
+    <value>Snap Tap 设置</value>
+  </data>
+  <data name="Ui.Integrations.ChooseWhichKeysArePairedAnd" xml:space="preserve">
+    <value>选择哪些按键配对以及哪个优先。</value>
+  </data>
+  <data name="Ui.Integrations.Priority" xml:space="preserve">
+    <value>优先级</value>
+  </data>
+  <data name="Ui.Integrations.WhatHappensWhileTwoKeysFrom" xml:space="preserve">
+    <value>同时按住同一组中的两个按键时的行为。</value>
+  </data>
+  <data name="Ui.Integrations.KeyGroups" xml:space="preserve">
+    <value>按键组</value>
+  </data>
+  <data name="Ui.Integrations.SeparateGroupsWithCommasAndKeys" xml:space="preserve">
+    <value>用逗号分隔组，用空格分隔按键。</value>
+  </data>
+  <data name="Ui.Integrations.OnLinuxSnapTapTakesOver" xml:space="preserve">
+    <value>在 Linux 上，Snap Tap 仅在 Sober 处于焦点时接管键盘，切换出去时归还。Snap Tap 开启时 Sober 会在 X11 上启动，以便 Voidstrap 判断其是否处于焦点。</value>
+  </data>
+  <data name="Ui.Integrations.OnMacOSAllowAccessibilityAccessFor" xml:space="preserve">
+    <value>在 macOS 上，请为 Voidstrap 允许辅助功能权限。Snap Tap 会遵循您的键盘布局，仅在 Roblox 处于焦点时更改配对按键，并在您切换出去或关闭它时恢复正常输入。</value>
+  </data>
+  <data name="Ui.Integrations.StartupAndTray" xml:space="preserve">
+    <value>启动和托盘</value>
+  </data>
+  <data name="Ui.Integrations.ChooseHowRobloxStartsAndStays" xml:space="preserve">
+    <value>选择 Roblox 如何启动并保持可用。</value>
+  </data>
+  <data name="Ui.Integrations.SystemTray" xml:space="preserve">
+    <value>系统托盘</value>
+  </data>
+  <data name="Ui.Integrations.MinimizeRobloxToTheSystemTray" xml:space="preserve">
+    <value>将 Roblox 最小化到系统托盘。</value>
+  </data>
+  <data name="Ui.Integrations.LaunchOnStartup" xml:space="preserve">
+    <value>开机启动</value>
+  </data>
+  <data name="Ui.Integrations.LaunchRobloxWhenYouSignIn" xml:space="preserve">
+    <value>登录 Windows 时启动 Roblox。</value>
+  </data>
+  <data name="Ui.Integrations.SteamLibrary" xml:space="preserve">
+    <value>Steam 库</value>
+  </data>
+  <data name="Ui.Integrations.AddToSteam" xml:space="preserve">
+    <value>添加到 Steam</value>
+  </data>
+  <data name="Ui.Integrations.AccountSwitcher" xml:space="preserve">
+    <value>账户切换器</value>
+  </data>
+  <data name="Ui.Integrations.CreateBackUpAndSwitchRoblox" xml:space="preserve">
+    <value>创建、备份和切换 Roblox 账户。</value>
+  </data>
+  <data name="Ui.Integrations.ViewGamesYouRecentlyPlayed" xml:space="preserve">
+    <value>查看您最近玩过的游戏。</value>
+  </data>
+  <data name="Ui.Integrations.ViewMusicPlayer" xml:space="preserve">
+    <value>查看音乐播放器</value>
+  </data>
+  <data name="Ui.Integrations.ViewAndListenToYourMusic" xml:space="preserve">
+    <value>查看和收听您的音乐，或从托盘菜单管理。</value>
+  </data>
+  <data name="Ui.Integrations.LaunchDelay" xml:space="preserve">
+    <value>启动延迟</value>
+  </data>
+  <data name="Ui.Integrations.PreRobloxLaunch" xml:space="preserve">
+    <value>Roblox 启动前</value>
+  </data>
+  <data name="Ui.Integrations.RunMinimized" xml:space="preserve">
+    <value>最小化运行</value>
+  </data>
+  <data name="Ui.Integrations.RunAsAdministrator" xml:space="preserve">
+    <value>以管理员身份运行</value>
+  </data>
+  <data name="Ui.Integrations.OnlyForASpecificGame" xml:space="preserve">
+    <value>仅针对特定游戏</value>
+  </data>
+  <data name="Ui.Integrations.CloseWhenLeavingThatGame" xml:space="preserve">
+    <value>离开该游戏时关闭</value>
+  </data>
+  <data name="Ui.Integrations.PlaceID" xml:space="preserve">
+    <value>Place ID</value>
+  </data>
 </root>

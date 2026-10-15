@@ -4397,4 +4397,181 @@ Co chcesz zrobić?</value>
   <data name="Ui.Bootstrapper.BackdropMaterialToRobloxSWindow" xml:space="preserve">
     <value>Materiał tła dla ramki okna Roblox. Wymaga Windows 11</value>
   </data>
+  <data name="Ui.Integrations.Activity" xml:space="preserve">
+    <value>Aktywność</value>
+  </data>
+  <data name="Ui.Integrations.DisplaysTheGameYouHaveJoined" xml:space="preserve">
+    <value>Pokazuje grę, do której dołączyłeś, i lokalizację serwera w prawym górnym rogu.</value>
+  </data>
+  <data name="Ui.Integrations.JoinGameNotification" xml:space="preserve">
+    <value>Powiadomienie o dołączeniu do gry</value>
+  </data>
+  <data name="Ui.Integrations.NotifiesYouInGameWhenA" xml:space="preserve">
+    <value>Powiadamia cię w grze, gdy znajomy zaczyna grać, dołącza do twojej gry lub twojego serwera.</value>
+  </data>
+  <data name="Ui.Integrations.FriendNotifications" xml:space="preserve">
+    <value>Powiadomienia o znajomych</value>
+  </data>
+  <data name="Ui.Integrations.PlayingRoblox" xml:space="preserve">
+    <value>Gra w Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RPCAdvanced" xml:space="preserve">
+    <value>RPC zaawansowane</value>
+  </data>
+  <data name="Ui.Integrations.ChooseWhatDiscordShows" xml:space="preserve">
+    <value>Wybierz, co pokazuje Discord.</value>
+  </data>
+  <data name="Ui.Integrations.GameName" xml:space="preserve">
+    <value>Nazwa gry</value>
+  </data>
+  <data name="Ui.Integrations.GameIcon" xml:space="preserve">
+    <value>Ikona gry</value>
+  </data>
+  <data name="Ui.Integrations.Creator" xml:space="preserve">
+    <value>Twórca</value>
+  </data>
+  <data name="Ui.Integrations.ServerType" xml:space="preserve">
+    <value>Typ serwera</value>
+  </data>
+  <data name="Ui.Integrations.PublicPrivateOrReserved" xml:space="preserve">
+    <value>Publiczny, prywatny lub zarezerwowany</value>
+  </data>
+  <data name="Ui.Integrations.BetaTag" xml:space="preserve">
+    <value>Znacznik beta</value>
+  </data>
+  <data name="Ui.Integrations.TurnsMarkersLikeBETAOrWIP" xml:space="preserve">
+    <value>Zamienia oznaczenia takie jak [BETA] lub WIP w nazwie gry na czysty znacznik</value>
+  </data>
+  <data name="Ui.Integrations.FastFlagCount" xml:space="preserve">
+    <value>Liczba FastFlags</value>
+  </data>
+  <data name="Ui.Integrations.CustomGameName" xml:space="preserve">
+    <value>Własna nazwa gry</value>
+  </data>
+  <data name="Ui.Integrations.ReplacesTheGameNameGameName" xml:space="preserve">
+    <value>Zastępuje nazwę gry. Nazwa gry musi być włączona.</value>
+  </data>
+  <data name="Ui.Integrations.CustomImageLink" xml:space="preserve">
+    <value>Własny link do obrazu</value>
+  </data>
+  <data name="Ui.Integrations.ReplacesTheGameIcon" xml:space="preserve">
+    <value>Zastępuje ikonę gry.</value>
+  </data>
+  <data name="Ui.Integrations.ShownWhenYouAreNotIn" xml:space="preserve">
+    <value>Wyświetlane, gdy nie jesteś w grze</value>
+  </data>
+  <data name="Ui.Integrations.QuietWhenUnfocused" xml:space="preserve">
+    <value>Cicho bez fokusu</value>
+  </data>
+  <data name="Ui.Integrations.LowerRobloxVolumeWhileItsWindow" xml:space="preserve">
+    <value>Ścisza Roblox, gdy jego okno jest nieaktywne.</value>
+  </data>
+  <data name="Ui.Integrations.HeadsetLoudness" xml:space="preserve">
+    <value>Głośność słuchawek</value>
+  </data>
+  <data name="Ui.Integrations.BalanceLoudAndQuietRobloxAudio" xml:space="preserve">
+    <value>Wyrównuje głośny i cichy dźwięk Roblox.</value>
+  </data>
+  <data name="Ui.Integrations.TelemetryBlocker" xml:space="preserve">
+    <value>Blokada telemetrii</value>
+  </data>
+  <data name="Ui.Integrations.BlockRobloxTelemetryAdministratorAccessIs" xml:space="preserve">
+    <value>Blokuje telemetrię Roblox. Raz potrzebne są uprawnienia administratora.</value>
+  </data>
+  <data name="Ui.Integrations.FPSUnlocker" xml:space="preserve">
+    <value>Odblokowanie FPS</value>
+  </data>
+  <data name="Ui.Integrations.WhenTwoOppositeKeysAreHeld" xml:space="preserve">
+    <value>Gdy trzymasz dwa przeciwne klawisze, natychmiast wygrywa ostatnio wciśnięty.</value>
+  </data>
+  <data name="Ui.Integrations.KeyboardAccess" xml:space="preserve">
+    <value>Dostęp do klawiatury</value>
+  </data>
+  <data name="Ui.Integrations.GrantAccess" xml:space="preserve">
+    <value>Przyznaj dostęp</value>
+  </data>
+  <data name="Ui.Integrations.SnapTapSettings" xml:space="preserve">
+    <value>Ustawienia Snap Tap</value>
+  </data>
+  <data name="Ui.Integrations.ChooseWhichKeysArePairedAnd" xml:space="preserve">
+    <value>Wybierz, które klawisze tworzą pary i który wygrywa.</value>
+  </data>
+  <data name="Ui.Integrations.Priority" xml:space="preserve">
+    <value>Priorytet</value>
+  </data>
+  <data name="Ui.Integrations.WhatHappensWhileTwoKeysFrom" xml:space="preserve">
+    <value>Co się dzieje, gdy trzymasz dwa klawisze z tej samej grupy.</value>
+  </data>
+  <data name="Ui.Integrations.KeyGroups" xml:space="preserve">
+    <value>Grupy klawiszy</value>
+  </data>
+  <data name="Ui.Integrations.SeparateGroupsWithCommasAndKeys" xml:space="preserve">
+    <value>Oddzielaj grupy przecinkami, a klawisze spacjami.</value>
+  </data>
+  <data name="Ui.Integrations.OnLinuxSnapTapTakesOver" xml:space="preserve">
+    <value>W Linuksie Snap Tap przejmuje klawiaturę tylko wtedy, gdy Sober jest aktywny, i oddaje ją po przełączeniu. Sober uruchamia się na X11, gdy Snap Tap jest włączony, aby Voidstrap wiedział, kiedy jest aktywny.</value>
+  </data>
+  <data name="Ui.Integrations.OnMacOSAllowAccessibilityAccessFor" xml:space="preserve">
+    <value>W macOS zezwól Voidstrap na dostęp do funkcji dostępności. Snap Tap działa zgodnie z twoim układem klawiatury, zmienia sparowane klawisze tylko wtedy, gdy Roblox jest aktywny, i przywraca normalne wprowadzanie po przełączeniu lub wyłączeniu.</value>
+  </data>
+  <data name="Ui.Integrations.StartupAndTray" xml:space="preserve">
+    <value>Uruchamianie i zasobnik</value>
+  </data>
+  <data name="Ui.Integrations.ChooseHowRobloxStartsAndStays" xml:space="preserve">
+    <value>Wybierz, jak Roblox się uruchamia i pozostaje dostępny.</value>
+  </data>
+  <data name="Ui.Integrations.SystemTray" xml:space="preserve">
+    <value>Zasobnik systemowy</value>
+  </data>
+  <data name="Ui.Integrations.MinimizeRobloxToTheSystemTray" xml:space="preserve">
+    <value>Minimalizuj Roblox do zasobnika systemowego.</value>
+  </data>
+  <data name="Ui.Integrations.LaunchOnStartup" xml:space="preserve">
+    <value>Uruchamiaj przy starcie</value>
+  </data>
+  <data name="Ui.Integrations.LaunchRobloxWhenYouSignIn" xml:space="preserve">
+    <value>Uruchamiaj Roblox po zalogowaniu do Windows.</value>
+  </data>
+  <data name="Ui.Integrations.SteamLibrary" xml:space="preserve">
+    <value>Biblioteka Steam</value>
+  </data>
+  <data name="Ui.Integrations.AddToSteam" xml:space="preserve">
+    <value>Dodaj do Steam</value>
+  </data>
+  <data name="Ui.Integrations.AccountSwitcher" xml:space="preserve">
+    <value>Przełącznik kont</value>
+  </data>
+  <data name="Ui.Integrations.CreateBackUpAndSwitchRoblox" xml:space="preserve">
+    <value>Twórz, archiwizuj i przełączaj konta Roblox.</value>
+  </data>
+  <data name="Ui.Integrations.ViewGamesYouRecentlyPlayed" xml:space="preserve">
+    <value>Zobacz gry, w które ostatnio grałeś.</value>
+  </data>
+  <data name="Ui.Integrations.ViewMusicPlayer" xml:space="preserve">
+    <value>Pokaż odtwarzacz muzyki</value>
+  </data>
+  <data name="Ui.Integrations.ViewAndListenToYourMusic" xml:space="preserve">
+    <value>Przeglądaj i słuchaj swojej muzyki albo zarządzaj nią z menu zasobnika.</value>
+  </data>
+  <data name="Ui.Integrations.LaunchDelay" xml:space="preserve">
+    <value>Opóźnienie uruchomienia</value>
+  </data>
+  <data name="Ui.Integrations.PreRobloxLaunch" xml:space="preserve">
+    <value>Przed uruchomieniem Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RunMinimized" xml:space="preserve">
+    <value>Uruchom zminimalizowane</value>
+  </data>
+  <data name="Ui.Integrations.RunAsAdministrator" xml:space="preserve">
+    <value>Uruchom jako administrator</value>
+  </data>
+  <data name="Ui.Integrations.OnlyForASpecificGame" xml:space="preserve">
+    <value>Tylko dla konkretnej gry</value>
+  </data>
+  <data name="Ui.Integrations.CloseWhenLeavingThatGame" xml:space="preserve">
+    <value>Zamknij po wyjściu z tej gry</value>
+  </data>
+  <data name="Ui.Integrations.PlaceID" xml:space="preserve">
+    <value>Place ID</value>
+  </data>
 </root>

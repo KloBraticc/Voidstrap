@@ -4176,4 +4176,181 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Bootstrapper.BackdropMaterialToRobloxSWindow" xml:space="preserve">
     <value>Backdrop material para sa frame ng window ng Roblox. Kailangan ng Windows 11</value>
   </data>
+  <data name="Ui.Integrations.Activity" xml:space="preserve">
+    <value>Aktibidad</value>
+  </data>
+  <data name="Ui.Integrations.DisplaysTheGameYouHaveJoined" xml:space="preserve">
+    <value>Ipinapakita ang larong sinalihan mo at ang lokasyon ng server nito sa kanang itaas na sulok.</value>
+  </data>
+  <data name="Ui.Integrations.JoinGameNotification" xml:space="preserve">
+    <value>Notification sa pagsali sa laro</value>
+  </data>
+  <data name="Ui.Integrations.NotifiesYouInGameWhenA" xml:space="preserve">
+    <value>Inaabisuhan ka sa laro kapag nagsimulang maglaro ang kaibigan, sumali sa laro mo o sa server mo.</value>
+  </data>
+  <data name="Ui.Integrations.FriendNotifications" xml:space="preserve">
+    <value>Mga notification ng kaibigan</value>
+  </data>
+  <data name="Ui.Integrations.PlayingRoblox" xml:space="preserve">
+    <value>Naglalaro ng Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RPCAdvanced" xml:space="preserve">
+    <value>Advanced na RPC</value>
+  </data>
+  <data name="Ui.Integrations.ChooseWhatDiscordShows" xml:space="preserve">
+    <value>Piliin kung ano ang ipapakita ng Discord.</value>
+  </data>
+  <data name="Ui.Integrations.GameName" xml:space="preserve">
+    <value>Pangalan ng laro</value>
+  </data>
+  <data name="Ui.Integrations.GameIcon" xml:space="preserve">
+    <value>Icon ng laro</value>
+  </data>
+  <data name="Ui.Integrations.Creator" xml:space="preserve">
+    <value>Gumawa</value>
+  </data>
+  <data name="Ui.Integrations.ServerType" xml:space="preserve">
+    <value>Uri ng server</value>
+  </data>
+  <data name="Ui.Integrations.PublicPrivateOrReserved" xml:space="preserve">
+    <value>Pampubliko, pribado, o naka reserve</value>
+  </data>
+  <data name="Ui.Integrations.BetaTag" xml:space="preserve">
+    <value>Beta tag</value>
+  </data>
+  <data name="Ui.Integrations.TurnsMarkersLikeBETAOrWIP" xml:space="preserve">
+    <value>Ginagawang malinis na tag ang mga marker gaya ng [BETA] o WIP sa pangalan ng laro</value>
+  </data>
+  <data name="Ui.Integrations.FastFlagCount" xml:space="preserve">
+    <value>Bilang ng FastFlags</value>
+  </data>
+  <data name="Ui.Integrations.CustomGameName" xml:space="preserve">
+    <value>Custom na pangalan ng laro</value>
+  </data>
+  <data name="Ui.Integrations.ReplacesTheGameNameGameName" xml:space="preserve">
+    <value>Pinapalitan ang pangalan ng laro. Dapat naka on ang Pangalan ng laro.</value>
+  </data>
+  <data name="Ui.Integrations.CustomImageLink" xml:space="preserve">
+    <value>Custom na link ng larawan</value>
+  </data>
+  <data name="Ui.Integrations.ReplacesTheGameIcon" xml:space="preserve">
+    <value>Pinapalitan ang icon ng laro.</value>
+  </data>
+  <data name="Ui.Integrations.ShownWhenYouAreNotIn" xml:space="preserve">
+    <value>Ipinapakita kapag wala ka sa laro</value>
+  </data>
+  <data name="Ui.Integrations.QuietWhenUnfocused" xml:space="preserve">
+    <value>Tahimik kapag hindi naka focus</value>
+  </data>
+  <data name="Ui.Integrations.LowerRobloxVolumeWhileItsWindow" xml:space="preserve">
+    <value>Hinihinaan ang volume ng Roblox habang hindi aktibo ang window nito.</value>
+  </data>
+  <data name="Ui.Integrations.HeadsetLoudness" xml:space="preserve">
+    <value>Lakas ng headset</value>
+  </data>
+  <data name="Ui.Integrations.BalanceLoudAndQuietRobloxAudio" xml:space="preserve">
+    <value>Binabalanse ang malakas at mahinang tunog ng Roblox.</value>
+  </data>
+  <data name="Ui.Integrations.TelemetryBlocker" xml:space="preserve">
+    <value>Telemetry blocker</value>
+  </data>
+  <data name="Ui.Integrations.BlockRobloxTelemetryAdministratorAccessIs" xml:space="preserve">
+    <value>Bina block ang telemetry ng Roblox. Kailangan ng administrator access nang isang beses.</value>
+  </data>
+  <data name="Ui.Integrations.FPSUnlocker" xml:space="preserve">
+    <value>FPS unlocker</value>
+  </data>
+  <data name="Ui.Integrations.WhenTwoOppositeKeysAreHeld" xml:space="preserve">
+    <value>Kapag hawak ang dalawang magkasalungat na key, agad mananalo ang huling pinindot.</value>
+  </data>
+  <data name="Ui.Integrations.KeyboardAccess" xml:space="preserve">
+    <value>Access sa keyboard</value>
+  </data>
+  <data name="Ui.Integrations.GrantAccess" xml:space="preserve">
+    <value>Magbigay ng access</value>
+  </data>
+  <data name="Ui.Integrations.SnapTapSettings" xml:space="preserve">
+    <value>Mga setting ng Snap Tap</value>
+  </data>
+  <data name="Ui.Integrations.ChooseWhichKeysArePairedAnd" xml:space="preserve">
+    <value>Piliin kung aling mga key ang magkapares at alin ang mananalo.</value>
+  </data>
+  <data name="Ui.Integrations.Priority" xml:space="preserve">
+    <value>Priyoridad</value>
+  </data>
+  <data name="Ui.Integrations.WhatHappensWhileTwoKeysFrom" xml:space="preserve">
+    <value>Ang mangyayari habang hawak ang dalawang key mula sa iisang grupo.</value>
+  </data>
+  <data name="Ui.Integrations.KeyGroups" xml:space="preserve">
+    <value>Mga grupo ng key</value>
+  </data>
+  <data name="Ui.Integrations.SeparateGroupsWithCommasAndKeys" xml:space="preserve">
+    <value>Paghiwalayin ang mga grupo gamit ang kuwit at ang mga key gamit ang espasyo.</value>
+  </data>
+  <data name="Ui.Integrations.OnLinuxSnapTapTakesOver" xml:space="preserve">
+    <value>Sa Linux, kinukuha ng Snap Tap ang keyboard habang naka focus lang ang Sober at ibinabalik ito kapag lumipat ka. Nagsisimula ang Sober sa X11 habang naka on ang Snap Tap para malaman ng Voidstrap kung kailan ito naka focus.</value>
+  </data>
+  <data name="Ui.Integrations.OnMacOSAllowAccessibilityAccessFor" xml:space="preserve">
+    <value>Sa macOS, payagan ang Accessibility access para sa Voidstrap. Sinusunod ng Snap Tap ang layout ng keyboard mo, binabago ang magkapares na key habang naka focus lang ang Roblox, at ibinabalik ang normal na input kapag lumipat ka o pinatay ito.</value>
+  </data>
+  <data name="Ui.Integrations.StartupAndTray" xml:space="preserve">
+    <value>Startup at tray</value>
+  </data>
+  <data name="Ui.Integrations.ChooseHowRobloxStartsAndStays" xml:space="preserve">
+    <value>Piliin kung paano magsisimula at mananatiling available ang Roblox.</value>
+  </data>
+  <data name="Ui.Integrations.SystemTray" xml:space="preserve">
+    <value>System tray</value>
+  </data>
+  <data name="Ui.Integrations.MinimizeRobloxToTheSystemTray" xml:space="preserve">
+    <value>I minimize ang Roblox sa system tray.</value>
+  </data>
+  <data name="Ui.Integrations.LaunchOnStartup" xml:space="preserve">
+    <value>Ilunsad sa startup</value>
+  </data>
+  <data name="Ui.Integrations.LaunchRobloxWhenYouSignIn" xml:space="preserve">
+    <value>Ilunsad ang Roblox kapag nag sign in ka sa Windows.</value>
+  </data>
+  <data name="Ui.Integrations.SteamLibrary" xml:space="preserve">
+    <value>Steam library</value>
+  </data>
+  <data name="Ui.Integrations.AddToSteam" xml:space="preserve">
+    <value>Idagdag sa Steam</value>
+  </data>
+  <data name="Ui.Integrations.AccountSwitcher" xml:space="preserve">
+    <value>Account switcher</value>
+  </data>
+  <data name="Ui.Integrations.CreateBackUpAndSwitchRoblox" xml:space="preserve">
+    <value>Gumawa, mag back up, at magpalit ng mga Roblox account.</value>
+  </data>
+  <data name="Ui.Integrations.ViewGamesYouRecentlyPlayed" xml:space="preserve">
+    <value>Tingnan ang mga larong kamakailan mong nilaro.</value>
+  </data>
+  <data name="Ui.Integrations.ViewMusicPlayer" xml:space="preserve">
+    <value>Tingnan ang Music Player</value>
+  </data>
+  <data name="Ui.Integrations.ViewAndListenToYourMusic" xml:space="preserve">
+    <value>Tingnan at pakinggan ang musika mo, o pamahalaan mula sa tray menu.</value>
+  </data>
+  <data name="Ui.Integrations.LaunchDelay" xml:space="preserve">
+    <value>Pagkaantala ng paglunsad</value>
+  </data>
+  <data name="Ui.Integrations.PreRobloxLaunch" xml:space="preserve">
+    <value>Bago ilunsad ang Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RunMinimized" xml:space="preserve">
+    <value>Patakbuhin nang naka minimize</value>
+  </data>
+  <data name="Ui.Integrations.RunAsAdministrator" xml:space="preserve">
+    <value>Patakbuhin bilang Administrator</value>
+  </data>
+  <data name="Ui.Integrations.OnlyForASpecificGame" xml:space="preserve">
+    <value>Para lang sa isang partikular na laro</value>
+  </data>
+  <data name="Ui.Integrations.CloseWhenLeavingThatGame" xml:space="preserve">
+    <value>Isara kapag umalis sa larong iyon</value>
+  </data>
+  <data name="Ui.Integrations.PlaceID" xml:space="preserve">
+    <value>Place ID</value>
+  </data>
 </root>

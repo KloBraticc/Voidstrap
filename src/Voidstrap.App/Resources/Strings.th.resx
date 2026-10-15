@@ -4395,4 +4395,181 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
   <data name="Ui.Bootstrapper.BackdropMaterialToRobloxSWindow" xml:space="preserve">
     <value>วัสดุพื้นหลังสำหรับกรอบหน้าต่าง Roblox ต้องใช้ Windows 11</value>
   </data>
+  <data name="Ui.Integrations.Activity" xml:space="preserve">
+    <value>กิจกรรม</value>
+  </data>
+  <data name="Ui.Integrations.DisplaysTheGameYouHaveJoined" xml:space="preserve">
+    <value>แสดงเกมที่คุณเข้าร่วมและตำแหน่งเซิร์ฟเวอร์ที่มุมขวาบน</value>
+  </data>
+  <data name="Ui.Integrations.JoinGameNotification" xml:space="preserve">
+    <value>การแจ้งเตือนเมื่อเข้าเกม</value>
+  </data>
+  <data name="Ui.Integrations.NotifiesYouInGameWhenA" xml:space="preserve">
+    <value>แจ้งเตือนในเกมเมื่อเพื่อนเริ่มเล่น เข้าเกมของคุณ หรือเข้าเซิร์ฟเวอร์ของคุณ</value>
+  </data>
+  <data name="Ui.Integrations.FriendNotifications" xml:space="preserve">
+    <value>การแจ้งเตือนเพื่อน</value>
+  </data>
+  <data name="Ui.Integrations.PlayingRoblox" xml:space="preserve">
+    <value>กำลังเล่น Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RPCAdvanced" xml:space="preserve">
+    <value>RPC ขั้นสูง</value>
+  </data>
+  <data name="Ui.Integrations.ChooseWhatDiscordShows" xml:space="preserve">
+    <value>เลือกสิ่งที่ Discord แสดง</value>
+  </data>
+  <data name="Ui.Integrations.GameName" xml:space="preserve">
+    <value>ชื่อเกม</value>
+  </data>
+  <data name="Ui.Integrations.GameIcon" xml:space="preserve">
+    <value>ไอคอนเกม</value>
+  </data>
+  <data name="Ui.Integrations.Creator" xml:space="preserve">
+    <value>ผู้สร้าง</value>
+  </data>
+  <data name="Ui.Integrations.ServerType" xml:space="preserve">
+    <value>ประเภทเซิร์ฟเวอร์</value>
+  </data>
+  <data name="Ui.Integrations.PublicPrivateOrReserved" xml:space="preserve">
+    <value>สาธารณะ ส่วนตัว หรือสงวนไว้</value>
+  </data>
+  <data name="Ui.Integrations.BetaTag" xml:space="preserve">
+    <value>แท็กเบต้า</value>
+  </data>
+  <data name="Ui.Integrations.TurnsMarkersLikeBETAOrWIP" xml:space="preserve">
+    <value>เปลี่ยนเครื่องหมายอย่าง [BETA] หรือ WIP ในชื่อเกมให้เป็นแท็กที่เรียบร้อย</value>
+  </data>
+  <data name="Ui.Integrations.FastFlagCount" xml:space="preserve">
+    <value>จำนวน FastFlags</value>
+  </data>
+  <data name="Ui.Integrations.CustomGameName" xml:space="preserve">
+    <value>ชื่อเกมที่กำหนดเอง</value>
+  </data>
+  <data name="Ui.Integrations.ReplacesTheGameNameGameName" xml:space="preserve">
+    <value>แทนที่ชื่อเกม ต้องเปิด ชื่อเกม</value>
+  </data>
+  <data name="Ui.Integrations.CustomImageLink" xml:space="preserve">
+    <value>ลิงก์รูปภาพที่กำหนดเอง</value>
+  </data>
+  <data name="Ui.Integrations.ReplacesTheGameIcon" xml:space="preserve">
+    <value>แทนที่ไอคอนเกม</value>
+  </data>
+  <data name="Ui.Integrations.ShownWhenYouAreNotIn" xml:space="preserve">
+    <value>แสดงเมื่อคุณไม่ได้อยู่ในเกม</value>
+  </data>
+  <data name="Ui.Integrations.QuietWhenUnfocused" xml:space="preserve">
+    <value>เงียบเมื่อไม่อยู่ในโฟกัส</value>
+  </data>
+  <data name="Ui.Integrations.LowerRobloxVolumeWhileItsWindow" xml:space="preserve">
+    <value>ลดเสียง Roblox ขณะที่หน้าต่างไม่ได้ใช้งาน</value>
+  </data>
+  <data name="Ui.Integrations.HeadsetLoudness" xml:space="preserve">
+    <value>ความดังของหูฟัง</value>
+  </data>
+  <data name="Ui.Integrations.BalanceLoudAndQuietRobloxAudio" xml:space="preserve">
+    <value>ปรับสมดุลเสียงดังและเบาของ Roblox</value>
+  </data>
+  <data name="Ui.Integrations.TelemetryBlocker" xml:space="preserve">
+    <value>ตัวบล็อกการส่งข้อมูล</value>
+  </data>
+  <data name="Ui.Integrations.BlockRobloxTelemetryAdministratorAccessIs" xml:space="preserve">
+    <value>บล็อกการส่งข้อมูลของ Roblox ต้องใช้สิทธิ์ผู้ดูแลระบบหนึ่งครั้ง</value>
+  </data>
+  <data name="Ui.Integrations.FPSUnlocker" xml:space="preserve">
+    <value>ปลดล็อก FPS</value>
+  </data>
+  <data name="Ui.Integrations.WhenTwoOppositeKeysAreHeld" xml:space="preserve">
+    <value>เมื่อกดค้างสองปุ่มที่ตรงข้ามกัน ปุ่มที่กดล่าสุดจะชนะทันที</value>
+  </data>
+  <data name="Ui.Integrations.KeyboardAccess" xml:space="preserve">
+    <value>การเข้าถึงคีย์บอร์ด</value>
+  </data>
+  <data name="Ui.Integrations.GrantAccess" xml:space="preserve">
+    <value>ให้สิทธิ์เข้าถึง</value>
+  </data>
+  <data name="Ui.Integrations.SnapTapSettings" xml:space="preserve">
+    <value>การตั้งค่า Snap Tap</value>
+  </data>
+  <data name="Ui.Integrations.ChooseWhichKeysArePairedAnd" xml:space="preserve">
+    <value>เลือกว่าปุ่มใดจับคู่กันและปุ่มใดชนะ</value>
+  </data>
+  <data name="Ui.Integrations.Priority" xml:space="preserve">
+    <value>ลำดับความสำคัญ</value>
+  </data>
+  <data name="Ui.Integrations.WhatHappensWhileTwoKeysFrom" xml:space="preserve">
+    <value>สิ่งที่เกิดขึ้นขณะกดค้างสองปุ่มจากกลุ่มเดียวกัน</value>
+  </data>
+  <data name="Ui.Integrations.KeyGroups" xml:space="preserve">
+    <value>กลุ่มปุ่ม</value>
+  </data>
+  <data name="Ui.Integrations.SeparateGroupsWithCommasAndKeys" xml:space="preserve">
+    <value>คั่นกลุ่มด้วยจุลภาคและคั่นปุ่มด้วยช่องว่าง</value>
+  </data>
+  <data name="Ui.Integrations.OnLinuxSnapTapTakesOver" xml:space="preserve">
+    <value>บน Linux Snap Tap จะควบคุมคีย์บอร์ดเฉพาะเมื่อ Sober อยู่ในโฟกัสและคืนให้เมื่อคุณสลับไปที่อื่น Sober จะเริ่มบน X11 ขณะเปิด Snap Tap เพื่อให้ Voidstrap รู้ว่าเมื่อใดอยู่ในโฟกัส</value>
+  </data>
+  <data name="Ui.Integrations.OnMacOSAllowAccessibilityAccessFor" xml:space="preserve">
+    <value>บน macOS ให้อนุญาตสิทธิ์การช่วยการเข้าถึงสำหรับ Voidstrap Snap Tap จะทำตามรูปแบบคีย์บอร์ดของคุณ เปลี่ยนปุ่มที่จับคู่เฉพาะเมื่อ Roblox อยู่ในโฟกัส และคืนการป้อนข้อมูลปกติเมื่อคุณสลับไปที่อื่นหรือปิดใช้งาน</value>
+  </data>
+  <data name="Ui.Integrations.StartupAndTray" xml:space="preserve">
+    <value>การเริ่มต้นและถาดระบบ</value>
+  </data>
+  <data name="Ui.Integrations.ChooseHowRobloxStartsAndStays" xml:space="preserve">
+    <value>เลือกวิธีที่ Roblox เริ่มทำงานและพร้อมใช้งาน</value>
+  </data>
+  <data name="Ui.Integrations.SystemTray" xml:space="preserve">
+    <value>ถาดระบบ</value>
+  </data>
+  <data name="Ui.Integrations.MinimizeRobloxToTheSystemTray" xml:space="preserve">
+    <value>ย่อ Roblox ไปที่ถาดระบบ</value>
+  </data>
+  <data name="Ui.Integrations.LaunchOnStartup" xml:space="preserve">
+    <value>เปิดเมื่อเริ่มระบบ</value>
+  </data>
+  <data name="Ui.Integrations.LaunchRobloxWhenYouSignIn" xml:space="preserve">
+    <value>เปิด Roblox เมื่อคุณลงชื่อเข้าใช้ Windows</value>
+  </data>
+  <data name="Ui.Integrations.SteamLibrary" xml:space="preserve">
+    <value>คลัง Steam</value>
+  </data>
+  <data name="Ui.Integrations.AddToSteam" xml:space="preserve">
+    <value>เพิ่มลงใน Steam</value>
+  </data>
+  <data name="Ui.Integrations.AccountSwitcher" xml:space="preserve">
+    <value>ตัวสลับบัญชี</value>
+  </data>
+  <data name="Ui.Integrations.CreateBackUpAndSwitchRoblox" xml:space="preserve">
+    <value>สร้าง สำรอง และสลับบัญชี Roblox</value>
+  </data>
+  <data name="Ui.Integrations.ViewGamesYouRecentlyPlayed" xml:space="preserve">
+    <value>ดูเกมที่คุณเล่นล่าสุด</value>
+  </data>
+  <data name="Ui.Integrations.ViewMusicPlayer" xml:space="preserve">
+    <value>ดูเครื่องเล่นเพลง</value>
+  </data>
+  <data name="Ui.Integrations.ViewAndListenToYourMusic" xml:space="preserve">
+    <value>ดูและฟังเพลงของคุณ หรือจัดการจากเมนูถาดระบบ</value>
+  </data>
+  <data name="Ui.Integrations.LaunchDelay" xml:space="preserve">
+    <value>หน่วงเวลาการเปิด</value>
+  </data>
+  <data name="Ui.Integrations.PreRobloxLaunch" xml:space="preserve">
+    <value>ก่อนเปิด Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RunMinimized" xml:space="preserve">
+    <value>เรียกใช้แบบย่อ</value>
+  </data>
+  <data name="Ui.Integrations.RunAsAdministrator" xml:space="preserve">
+    <value>เรียกใช้ในฐานะผู้ดูแลระบบ</value>
+  </data>
+  <data name="Ui.Integrations.OnlyForASpecificGame" xml:space="preserve">
+    <value>เฉพาะเกมที่ระบุ</value>
+  </data>
+  <data name="Ui.Integrations.CloseWhenLeavingThatGame" xml:space="preserve">
+    <value>ปิดเมื่อออกจากเกมนั้น</value>
+  </data>
+  <data name="Ui.Integrations.PlaceID" xml:space="preserve">
+    <value>Place ID</value>
+  </data>
 </root>

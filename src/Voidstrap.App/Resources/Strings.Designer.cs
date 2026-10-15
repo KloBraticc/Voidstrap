@@ -977,6 +977,124 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Bootstrapper_BackdropMaterialToRobloxSWindow => ResourceManager.GetString("Ui.Bootstrapper.BackdropMaterialToRobloxSWindow", resourceCulture);
 
+        public static string Ui_Integrations_Activity => ResourceManager.GetString("Ui.Integrations.Activity", resourceCulture);
+
+        public static string Ui_Integrations_DisplaysTheGameYouHaveJoined => ResourceManager.GetString("Ui.Integrations.DisplaysTheGameYouHaveJoined", resourceCulture);
+
+        public static string Ui_Integrations_JoinGameNotification => ResourceManager.GetString("Ui.Integrations.JoinGameNotification", resourceCulture);
+
+        public static string Ui_Integrations_NotifiesYouInGameWhenA => ResourceManager.GetString("Ui.Integrations.NotifiesYouInGameWhenA", resourceCulture);
+
+        public static string Ui_Integrations_FriendNotifications => ResourceManager.GetString("Ui.Integrations.FriendNotifications", resourceCulture);
+
+        public static string Ui_Integrations_PlayingRoblox => ResourceManager.GetString("Ui.Integrations.PlayingRoblox", resourceCulture);
+
+        public static string Ui_Integrations_RPCAdvanced => ResourceManager.GetString("Ui.Integrations.RPCAdvanced", resourceCulture);
+
+        public static string Ui_Integrations_ChooseWhatDiscordShows => ResourceManager.GetString("Ui.Integrations.ChooseWhatDiscordShows", resourceCulture);
+
+        public static string Ui_Integrations_GameName => ResourceManager.GetString("Ui.Integrations.GameName", resourceCulture);
+
+        public static string Ui_Integrations_GameIcon => ResourceManager.GetString("Ui.Integrations.GameIcon", resourceCulture);
+
+        public static string Ui_Integrations_Creator => ResourceManager.GetString("Ui.Integrations.Creator", resourceCulture);
+
+        public static string Ui_Integrations_ServerType => ResourceManager.GetString("Ui.Integrations.ServerType", resourceCulture);
+
+        public static string Ui_Integrations_PublicPrivateOrReserved => ResourceManager.GetString("Ui.Integrations.PublicPrivateOrReserved", resourceCulture);
+
+        public static string Ui_Integrations_BetaTag => ResourceManager.GetString("Ui.Integrations.BetaTag", resourceCulture);
+
+        public static string Ui_Integrations_TurnsMarkersLikeBETAOrWIP => ResourceManager.GetString("Ui.Integrations.TurnsMarkersLikeBETAOrWIP", resourceCulture);
+
+        public static string Ui_Integrations_FastFlagCount => ResourceManager.GetString("Ui.Integrations.FastFlagCount", resourceCulture);
+
+        public static string Ui_Integrations_CustomGameName => ResourceManager.GetString("Ui.Integrations.CustomGameName", resourceCulture);
+
+        public static string Ui_Integrations_ReplacesTheGameNameGameName => ResourceManager.GetString("Ui.Integrations.ReplacesTheGameNameGameName", resourceCulture);
+
+        public static string Ui_Integrations_CustomImageLink => ResourceManager.GetString("Ui.Integrations.CustomImageLink", resourceCulture);
+
+        public static string Ui_Integrations_ReplacesTheGameIcon => ResourceManager.GetString("Ui.Integrations.ReplacesTheGameIcon", resourceCulture);
+
+        public static string Ui_Integrations_ShownWhenYouAreNotIn => ResourceManager.GetString("Ui.Integrations.ShownWhenYouAreNotIn", resourceCulture);
+
+        public static string Ui_Integrations_QuietWhenUnfocused => ResourceManager.GetString("Ui.Integrations.QuietWhenUnfocused", resourceCulture);
+
+        public static string Ui_Integrations_LowerRobloxVolumeWhileItsWindow => ResourceManager.GetString("Ui.Integrations.LowerRobloxVolumeWhileItsWindow", resourceCulture);
+
+        public static string Ui_Integrations_HeadsetLoudness => ResourceManager.GetString("Ui.Integrations.HeadsetLoudness", resourceCulture);
+
+        public static string Ui_Integrations_BalanceLoudAndQuietRobloxAudio => ResourceManager.GetString("Ui.Integrations.BalanceLoudAndQuietRobloxAudio", resourceCulture);
+
+        public static string Ui_Integrations_TelemetryBlocker => ResourceManager.GetString("Ui.Integrations.TelemetryBlocker", resourceCulture);
+
+        public static string Ui_Integrations_BlockRobloxTelemetryAdministratorAccessIs => ResourceManager.GetString("Ui.Integrations.BlockRobloxTelemetryAdministratorAccessIs", resourceCulture);
+
+        public static string Ui_Integrations_FPSUnlocker => ResourceManager.GetString("Ui.Integrations.FPSUnlocker", resourceCulture);
+
+        public static string Ui_Integrations_WhenTwoOppositeKeysAreHeld => ResourceManager.GetString("Ui.Integrations.WhenTwoOppositeKeysAreHeld", resourceCulture);
+
+        public static string Ui_Integrations_KeyboardAccess => ResourceManager.GetString("Ui.Integrations.KeyboardAccess", resourceCulture);
+
+        public static string Ui_Integrations_GrantAccess => ResourceManager.GetString("Ui.Integrations.GrantAccess", resourceCulture);
+
+        public static string Ui_Integrations_SnapTapSettings => ResourceManager.GetString("Ui.Integrations.SnapTapSettings", resourceCulture);
+
+        public static string Ui_Integrations_ChooseWhichKeysArePairedAnd => ResourceManager.GetString("Ui.Integrations.ChooseWhichKeysArePairedAnd", resourceCulture);
+
+        public static string Ui_Integrations_Priority => ResourceManager.GetString("Ui.Integrations.Priority", resourceCulture);
+
+        public static string Ui_Integrations_WhatHappensWhileTwoKeysFrom => ResourceManager.GetString("Ui.Integrations.WhatHappensWhileTwoKeysFrom", resourceCulture);
+
+        public static string Ui_Integrations_KeyGroups => ResourceManager.GetString("Ui.Integrations.KeyGroups", resourceCulture);
+
+        public static string Ui_Integrations_SeparateGroupsWithCommasAndKeys => ResourceManager.GetString("Ui.Integrations.SeparateGroupsWithCommasAndKeys", resourceCulture);
+
+        public static string Ui_Integrations_OnLinuxSnapTapTakesOver => ResourceManager.GetString("Ui.Integrations.OnLinuxSnapTapTakesOver", resourceCulture);
+
+        public static string Ui_Integrations_OnMacOSAllowAccessibilityAccessFor => ResourceManager.GetString("Ui.Integrations.OnMacOSAllowAccessibilityAccessFor", resourceCulture);
+
+        public static string Ui_Integrations_StartupAndTray => ResourceManager.GetString("Ui.Integrations.StartupAndTray", resourceCulture);
+
+        public static string Ui_Integrations_ChooseHowRobloxStartsAndStays => ResourceManager.GetString("Ui.Integrations.ChooseHowRobloxStartsAndStays", resourceCulture);
+
+        public static string Ui_Integrations_SystemTray => ResourceManager.GetString("Ui.Integrations.SystemTray", resourceCulture);
+
+        public static string Ui_Integrations_MinimizeRobloxToTheSystemTray => ResourceManager.GetString("Ui.Integrations.MinimizeRobloxToTheSystemTray", resourceCulture);
+
+        public static string Ui_Integrations_LaunchOnStartup => ResourceManager.GetString("Ui.Integrations.LaunchOnStartup", resourceCulture);
+
+        public static string Ui_Integrations_LaunchRobloxWhenYouSignIn => ResourceManager.GetString("Ui.Integrations.LaunchRobloxWhenYouSignIn", resourceCulture);
+
+        public static string Ui_Integrations_SteamLibrary => ResourceManager.GetString("Ui.Integrations.SteamLibrary", resourceCulture);
+
+        public static string Ui_Integrations_AddToSteam => ResourceManager.GetString("Ui.Integrations.AddToSteam", resourceCulture);
+
+        public static string Ui_Integrations_AccountSwitcher => ResourceManager.GetString("Ui.Integrations.AccountSwitcher", resourceCulture);
+
+        public static string Ui_Integrations_CreateBackUpAndSwitchRoblox => ResourceManager.GetString("Ui.Integrations.CreateBackUpAndSwitchRoblox", resourceCulture);
+
+        public static string Ui_Integrations_ViewGamesYouRecentlyPlayed => ResourceManager.GetString("Ui.Integrations.ViewGamesYouRecentlyPlayed", resourceCulture);
+
+        public static string Ui_Integrations_ViewMusicPlayer => ResourceManager.GetString("Ui.Integrations.ViewMusicPlayer", resourceCulture);
+
+        public static string Ui_Integrations_ViewAndListenToYourMusic => ResourceManager.GetString("Ui.Integrations.ViewAndListenToYourMusic", resourceCulture);
+
+        public static string Ui_Integrations_LaunchDelay => ResourceManager.GetString("Ui.Integrations.LaunchDelay", resourceCulture);
+
+        public static string Ui_Integrations_PreRobloxLaunch => ResourceManager.GetString("Ui.Integrations.PreRobloxLaunch", resourceCulture);
+
+        public static string Ui_Integrations_RunMinimized => ResourceManager.GetString("Ui.Integrations.RunMinimized", resourceCulture);
+
+        public static string Ui_Integrations_RunAsAdministrator => ResourceManager.GetString("Ui.Integrations.RunAsAdministrator", resourceCulture);
+
+        public static string Ui_Integrations_OnlyForASpecificGame => ResourceManager.GetString("Ui.Integrations.OnlyForASpecificGame", resourceCulture);
+
+        public static string Ui_Integrations_CloseWhenLeavingThatGame => ResourceManager.GetString("Ui.Integrations.CloseWhenLeavingThatGame", resourceCulture);
+
+        public static string Ui_Integrations_PlaceID => ResourceManager.GetString("Ui.Integrations.PlaceID", resourceCulture);
+
         public static string Menu_Appearance_Accent_Title => ResourceManager.GetString("Menu.Appearance.Accent.Title", resourceCulture);
 
         public static string Menu_Appearance_Accent_Description => ResourceManager.GetString("Menu.Appearance.Accent.Description", resourceCulture);

@@ -4441,4 +4441,181 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
   <data name="Ui.Bootstrapper.BackdropMaterialToRobloxSWindow" xml:space="preserve">
     <value>ماده پس‌زمینه برای قاب پنجره Roblox. به Windows 11 نیاز دارد</value>
   </data>
+  <data name="Ui.Integrations.Activity" xml:space="preserve">
+    <value>فعالیت</value>
+  </data>
+  <data name="Ui.Integrations.DisplaysTheGameYouHaveJoined" xml:space="preserve">
+    <value>بازی‌ای را که به آن پیوسته‌اید و مکان سرور آن را در گوشه بالا سمت راست نشان می‌دهد.</value>
+  </data>
+  <data name="Ui.Integrations.JoinGameNotification" xml:space="preserve">
+    <value>اعلان پیوستن به بازی</value>
+  </data>
+  <data name="Ui.Integrations.NotifiesYouInGameWhenA" xml:space="preserve">
+    <value>وقتی دوستی بازی را شروع می‌کند، به بازی یا سرور شما می‌پیوندد، در بازی به شما اطلاع می‌دهد.</value>
+  </data>
+  <data name="Ui.Integrations.FriendNotifications" xml:space="preserve">
+    <value>اعلان‌های دوستان</value>
+  </data>
+  <data name="Ui.Integrations.PlayingRoblox" xml:space="preserve">
+    <value>در حال بازی Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RPCAdvanced" xml:space="preserve">
+    <value>RPC پیشرفته</value>
+  </data>
+  <data name="Ui.Integrations.ChooseWhatDiscordShows" xml:space="preserve">
+    <value>انتخاب کنید Discord چه چیزی نشان دهد.</value>
+  </data>
+  <data name="Ui.Integrations.GameName" xml:space="preserve">
+    <value>نام بازی</value>
+  </data>
+  <data name="Ui.Integrations.GameIcon" xml:space="preserve">
+    <value>نماد بازی</value>
+  </data>
+  <data name="Ui.Integrations.Creator" xml:space="preserve">
+    <value>سازنده</value>
+  </data>
+  <data name="Ui.Integrations.ServerType" xml:space="preserve">
+    <value>نوع سرور</value>
+  </data>
+  <data name="Ui.Integrations.PublicPrivateOrReserved" xml:space="preserve">
+    <value>عمومی، خصوصی یا رزروشده</value>
+  </data>
+  <data name="Ui.Integrations.BetaTag" xml:space="preserve">
+    <value>برچسب بتا</value>
+  </data>
+  <data name="Ui.Integrations.TurnsMarkersLikeBETAOrWIP" xml:space="preserve">
+    <value>نشانه‌هایی مانند [BETA] یا WIP در نام بازی را به برچسبی مرتب تبدیل می‌کند</value>
+  </data>
+  <data name="Ui.Integrations.FastFlagCount" xml:space="preserve">
+    <value>تعداد FastFlags</value>
+  </data>
+  <data name="Ui.Integrations.CustomGameName" xml:space="preserve">
+    <value>نام سفارشی بازی</value>
+  </data>
+  <data name="Ui.Integrations.ReplacesTheGameNameGameName" xml:space="preserve">
+    <value>نام بازی را جایگزین می‌کند. نام بازی باید روشن باشد.</value>
+  </data>
+  <data name="Ui.Integrations.CustomImageLink" xml:space="preserve">
+    <value>پیوند تصویر سفارشی</value>
+  </data>
+  <data name="Ui.Integrations.ReplacesTheGameIcon" xml:space="preserve">
+    <value>نماد بازی را جایگزین می‌کند.</value>
+  </data>
+  <data name="Ui.Integrations.ShownWhenYouAreNotIn" xml:space="preserve">
+    <value>وقتی در بازی نیستید نشان داده می‌شود</value>
+  </data>
+  <data name="Ui.Integrations.QuietWhenUnfocused" xml:space="preserve">
+    <value>بی‌صدا هنگام نبود فوکوس</value>
+  </data>
+  <data name="Ui.Integrations.LowerRobloxVolumeWhileItsWindow" xml:space="preserve">
+    <value>صدای Roblox را تا وقتی پنجره‌اش غیرفعال است کم می‌کند.</value>
+  </data>
+  <data name="Ui.Integrations.HeadsetLoudness" xml:space="preserve">
+    <value>بلندی صدای هدست</value>
+  </data>
+  <data name="Ui.Integrations.BalanceLoudAndQuietRobloxAudio" xml:space="preserve">
+    <value>صداهای بلند و آرام Roblox را متعادل می‌کند.</value>
+  </data>
+  <data name="Ui.Integrations.TelemetryBlocker" xml:space="preserve">
+    <value>مسدودکننده تله‌متری</value>
+  </data>
+  <data name="Ui.Integrations.BlockRobloxTelemetryAdministratorAccessIs" xml:space="preserve">
+    <value>تله‌متری Roblox را مسدود می‌کند. یک بار دسترسی مدیر لازم است.</value>
+  </data>
+  <data name="Ui.Integrations.FPSUnlocker" xml:space="preserve">
+    <value>آزادکننده FPS</value>
+  </data>
+  <data name="Ui.Integrations.WhenTwoOppositeKeysAreHeld" xml:space="preserve">
+    <value>وقتی دو کلید مخالف نگه داشته شوند، آخرین کلید فشرده‌شده فوراً برنده می‌شود.</value>
+  </data>
+  <data name="Ui.Integrations.KeyboardAccess" xml:space="preserve">
+    <value>دسترسی صفحه‌کلید</value>
+  </data>
+  <data name="Ui.Integrations.GrantAccess" xml:space="preserve">
+    <value>اعطای دسترسی</value>
+  </data>
+  <data name="Ui.Integrations.SnapTapSettings" xml:space="preserve">
+    <value>تنظیمات Snap Tap</value>
+  </data>
+  <data name="Ui.Integrations.ChooseWhichKeysArePairedAnd" xml:space="preserve">
+    <value>انتخاب کنید کدام کلیدها جفت شوند و کدام برنده باشد.</value>
+  </data>
+  <data name="Ui.Integrations.Priority" xml:space="preserve">
+    <value>اولویت</value>
+  </data>
+  <data name="Ui.Integrations.WhatHappensWhileTwoKeysFrom" xml:space="preserve">
+    <value>وقتی دو کلید از یک گروه نگه داشته می‌شوند چه اتفاقی می‌افتد.</value>
+  </data>
+  <data name="Ui.Integrations.KeyGroups" xml:space="preserve">
+    <value>گروه‌های کلید</value>
+  </data>
+  <data name="Ui.Integrations.SeparateGroupsWithCommasAndKeys" xml:space="preserve">
+    <value>گروه‌ها را با ویرگول و کلیدها را با فاصله جدا کنید.</value>
+  </data>
+  <data name="Ui.Integrations.OnLinuxSnapTapTakesOver" xml:space="preserve">
+    <value>در Linux، Snap Tap فقط وقتی Sober در فوکوس است صفحه‌کلید را در دست می‌گیرد و هنگام جابه‌جایی آن را برمی‌گرداند. تا وقتی Snap Tap روشن است Sober روی X11 اجرا می‌شود تا Voidstrap بفهمد چه زمانی در فوکوس است.</value>
+  </data>
+  <data name="Ui.Integrations.OnMacOSAllowAccessibilityAccessFor" xml:space="preserve">
+    <value>در macOS دسترسی دسترس‌پذیری را برای Voidstrap مجاز کنید. Snap Tap از چیدمان صفحه‌کلید شما پیروی می‌کند، کلیدهای جفت‌شده را فقط وقتی Roblox در فوکوس است تغییر می‌دهد و هنگام جابه‌جایی یا خاموش کردن، ورودی عادی را بازمی‌گرداند.</value>
+  </data>
+  <data name="Ui.Integrations.StartupAndTray" xml:space="preserve">
+    <value>راه‌اندازی و سینی سیستم</value>
+  </data>
+  <data name="Ui.Integrations.ChooseHowRobloxStartsAndStays" xml:space="preserve">
+    <value>انتخاب کنید Roblox چگونه اجرا شود و در دسترس بماند.</value>
+  </data>
+  <data name="Ui.Integrations.SystemTray" xml:space="preserve">
+    <value>سینی سیستم</value>
+  </data>
+  <data name="Ui.Integrations.MinimizeRobloxToTheSystemTray" xml:space="preserve">
+    <value>کوچک کردن Roblox به سینی سیستم.</value>
+  </data>
+  <data name="Ui.Integrations.LaunchOnStartup" xml:space="preserve">
+    <value>اجرا هنگام راه‌اندازی</value>
+  </data>
+  <data name="Ui.Integrations.LaunchRobloxWhenYouSignIn" xml:space="preserve">
+    <value>اجرای Roblox هنگام ورود به Windows.</value>
+  </data>
+  <data name="Ui.Integrations.SteamLibrary" xml:space="preserve">
+    <value>کتابخانه Steam</value>
+  </data>
+  <data name="Ui.Integrations.AddToSteam" xml:space="preserve">
+    <value>افزودن به Steam</value>
+  </data>
+  <data name="Ui.Integrations.AccountSwitcher" xml:space="preserve">
+    <value>تعویض‌کننده حساب</value>
+  </data>
+  <data name="Ui.Integrations.CreateBackUpAndSwitchRoblox" xml:space="preserve">
+    <value>حساب‌های Roblox را بسازید، پشتیبان بگیرید و تعویض کنید.</value>
+  </data>
+  <data name="Ui.Integrations.ViewGamesYouRecentlyPlayed" xml:space="preserve">
+    <value>بازی‌هایی را که اخیراً بازی کرده‌اید ببینید.</value>
+  </data>
+  <data name="Ui.Integrations.ViewMusicPlayer" xml:space="preserve">
+    <value>مشاهده پخش‌کننده موسیقی</value>
+  </data>
+  <data name="Ui.Integrations.ViewAndListenToYourMusic" xml:space="preserve">
+    <value>موسیقی خود را ببینید و گوش دهید، یا از منوی سینی مدیریت کنید.</value>
+  </data>
+  <data name="Ui.Integrations.LaunchDelay" xml:space="preserve">
+    <value>تأخیر اجرا</value>
+  </data>
+  <data name="Ui.Integrations.PreRobloxLaunch" xml:space="preserve">
+    <value>پیش از اجرای Roblox</value>
+  </data>
+  <data name="Ui.Integrations.RunMinimized" xml:space="preserve">
+    <value>اجرای کوچک‌شده</value>
+  </data>
+  <data name="Ui.Integrations.RunAsAdministrator" xml:space="preserve">
+    <value>اجرا به‌عنوان مدیر</value>
+  </data>
+  <data name="Ui.Integrations.OnlyForASpecificGame" xml:space="preserve">
+    <value>فقط برای یک بازی خاص</value>
+  </data>
+  <data name="Ui.Integrations.CloseWhenLeavingThatGame" xml:space="preserve">
+    <value>بستن هنگام ترک آن بازی</value>
+  </data>
+  <data name="Ui.Integrations.PlaceID" xml:space="preserve">
+    <value>Place ID</value>
+  </data>
 </root>
