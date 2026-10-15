@@ -167,6 +167,11 @@ public static class TextureStripper
 
 			if (matchedKey == null && ShouldRemove(keys, typeId, typeName, rules))
 			{
+				if (AssetTypeRemovalPolicy.IsTexturePack(typeId, typeName))
+				{
+					modified = true;
+					continue;
+				}
 				batch.RemovedIndices.Add(output.Count);
 				if (requestId.Length > 0)
 					batch.RemovedRequestIds.Add(requestId);
