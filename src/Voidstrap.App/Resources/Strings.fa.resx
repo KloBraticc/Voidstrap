@@ -3070,4 +3070,10 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
   <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
     <value>هنگام اجرای Roblox صفحهٔ اصلی را بازتاب می‌دهد و پس از بسته شدن Roblox آن را بازمی‌گرداند. صفحهٔ فیزیکی محدودیت نرخ تازه‌سازی خود را حفظ می‌کند.</value>
   </data>
+  <data name="Menu.Appearance.Language.NativeStatus" xml:space="preserve">
+    <value>زبان اصلی</value>
+  </data>
+  <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
+    <value>{0}% کامل</value>
+  </data>
 </root>

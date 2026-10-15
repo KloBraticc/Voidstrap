@@ -2990,4 +2990,10 @@ Vad vill du göra?</value>
   <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Speglar huvudskärmen medan Roblox körs och återställer den när Roblox stängs. Den fysiska skärmen behåller sin egen uppdateringsgräns.</value>
   </data>
+  <data name="Menu.Appearance.Language.NativeStatus" xml:space="preserve">
+    <value>Originalspråk</value>
+  </data>
+  <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
+    <value>{0} % klart</value>
+  </data>
 </root>

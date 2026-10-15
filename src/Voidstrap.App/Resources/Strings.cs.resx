@@ -3012,4 +3012,10 @@ Co chcete udělat?</value>
   <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Zrcadlí hlavní obrazovku, dokud běží Roblox, a po zavření Robloxu ji obnoví. Fyzická obrazovka si zachová vlastní limit obnovovací frekvence.</value>
   </data>
+  <data name="Menu.Appearance.Language.NativeStatus" xml:space="preserve">
+    <value>Výchozí jazyk</value>
+  </data>
+  <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
+    <value>{0} % hotovo</value>
+  </data>
 </root>

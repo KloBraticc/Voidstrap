@@ -2805,4 +2805,10 @@ Ano ang gusto mong gawin?</value>
   <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Mini-mirror ang pangunahing screen habang tumatakbo ang Roblox at ibinabalik ito kapag nagsara ang Roblox. Nananatili sa sariling refresh limit ang pisikal na screen.</value>
   </data>
+  <data name="Menu.Appearance.Language.NativeStatus" xml:space="preserve">
+    <value>Orihinal na wika</value>
+  </data>
+  <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
+    <value>{0}% kumpleto</value>
+  </data>
 </root>

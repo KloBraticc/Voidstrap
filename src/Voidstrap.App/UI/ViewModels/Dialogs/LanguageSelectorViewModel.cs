@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -11,44 +12,34 @@ namespace Voidstrap.UI.ViewModels.Dialogs;
 
 public class LanguageSelectorViewModel : NotifyPropertyChangedViewModel
 {
-	public static string AutoTranslateOption => Strings.Dialog_LanguageSelector_AutoTranslate;
-
 	private readonly string _originalLocale;
 
 	private readonly bool _originalAutoTranslate;
 
 	private readonly string _originalAutoTranslateLanguage;
 
-	private string _selectedLanguage;
+	private LanguageOption _selectedLanguage;
 
 	private string _selectedAutoTranslateLanguage;
 
 	public ICommand SetLocaleCommand => new RelayCommand(SetLocale);
 
-	public List<string> LanguageOptions
-	{
-		get
-		{
-			List<string> languages = Locale.GetLanguages();
-			languages.Insert(Math.Min(1, languages.Count), AutoTranslateOption);
-			return languages;
-		}
-	}
+	public ObservableCollection<LanguageOption> LanguageOptions { get; } = LanguageOption.CreateAll();
 
 	public List<string> AutoTranslateLanguages => TranslationService.AvailableLanguages.Values.OrderBy(value => value).ToList();
 
-	public string SelectedLanguage
+	public LanguageOption SelectedLanguage
 	{
 		get => _selectedLanguage;
 		set
 		{
-			if (string.IsNullOrEmpty(value) || _selectedLanguage == value)
+			if (value == null || ReferenceEquals(_selectedLanguage, value))
 			{
 				return;
 			}
 			_selectedLanguage = value;
 			OnPropertyChanged(nameof(SelectedLanguage));
-			if (value == AutoTranslateOption)
+			if (value.Id == LanguageOption.AutoTranslateId)
 			{
 				App.Settings.Prop.AutoTranslate = true;
 				App.Settings.Prop.AutoTranslateLanguage = GetSelectedAutoTranslateCode();
@@ -61,9 +52,8 @@ public class LanguageSelectorViewModel : NotifyPropertyChangedViewModel
 				return;
 			}
 			App.Settings.Prop.AutoTranslate = false;
-			string identifier = Locale.GetIdentifierFromName(value);
-			App.Settings.Prop.Locale = identifier;
-			Locale.Set(identifier);
+			App.Settings.Prop.Locale = value.Id;
+			Locale.Set(value.Id);
 			OnPropertyChanged(nameof(AutoTranslateVisibility));
 			ScheduleLanguageLabelRefresh();
 		}
@@ -100,13 +90,13 @@ public class LanguageSelectorViewModel : NotifyPropertyChangedViewModel
 
 	private void RefreshLanguageLabels()
 	{
-		_selectedLanguage = App.Settings.Prop.AutoTranslate ? AutoTranslateOption : Locale.GetDisplayName(App.Settings.Prop.Locale);
-		OnPropertyChanged(nameof(LanguageOptions));
-		OnPropertyChanged(nameof(SelectedLanguage));
-		OnPropertyChanged(nameof(AutoTranslateVisibility));
+		foreach (LanguageOption option in LanguageOptions)
+		{
+			option.RefreshName();
+		}
 	}
 
-	public Visibility AutoTranslateVisibility => _selectedLanguage == AutoTranslateOption ? Visibility.Visible : Visibility.Collapsed;
+	public Visibility AutoTranslateVisibility => _selectedLanguage?.Id == LanguageOption.AutoTranslateId ? Visibility.Visible : Visibility.Collapsed;
 
 	public event EventHandler<bool>? CloseRequestEvent;
 
@@ -116,9 +106,7 @@ public class LanguageSelectorViewModel : NotifyPropertyChangedViewModel
 		_originalAutoTranslate = App.Settings.Prop.AutoTranslate;
 		_originalAutoTranslateLanguage = App.Settings.Prop.AutoTranslateLanguage ?? "";
 		_selectedAutoTranslateLanguage = GetInitialAutoTranslateLanguageName();
-		_selectedLanguage = _originalAutoTranslate
-			? AutoTranslateOption
-			: Locale.GetDisplayName(_originalLocale);
+		_selectedLanguage = LanguageOption.Find(LanguageOptions, _originalAutoTranslate, _originalLocale);
 	}
 
 	public void Cancel()
@@ -139,7 +127,7 @@ public class LanguageSelectorViewModel : NotifyPropertyChangedViewModel
 
 	private void SetLocale()
 	{
-		if (_selectedLanguage == AutoTranslateOption)
+		if (_selectedLanguage.Id == LanguageOption.AutoTranslateId)
 		{
 			App.Settings.Prop.AutoTranslate = true;
 			App.Settings.Prop.AutoTranslateLanguage = GetSelectedAutoTranslateCode();
@@ -147,7 +135,7 @@ public class LanguageSelectorViewModel : NotifyPropertyChangedViewModel
 		else
 		{
 			App.Settings.Prop.AutoTranslate = false;
-			App.Settings.Prop.Locale = Locale.GetIdentifierFromName(_selectedLanguage);
+			App.Settings.Prop.Locale = _selectedLanguage.Id;
 			Locale.Set(App.Settings.Prop.Locale);
 		}
 		CloseRequestEvent?.Invoke(this, true);

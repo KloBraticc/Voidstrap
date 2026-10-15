@@ -3024,4 +3024,10 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
   <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
     <value>สะท้อนหน้าจอหลักขณะ Roblox ทำงานและคืนค่าเมื่อปิด Roblox หน้าจอจริงยังคงใช้ขีดจำกัดอัตรารีเฟรชของตัวเอง</value>
   </data>
+  <data name="Menu.Appearance.Language.NativeStatus" xml:space="preserve">
+    <value>ภาษาต้นฉบับ</value>
+  </data>
+  <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
+    <value>เสร็จแล้ว {0}%</value>
+  </data>
 </root>

@@ -63,14 +63,14 @@ internal static class LanguageMetadata
 	{
 		if (string.Equals(identifier, NativeIdentifier, StringComparison.OrdinalIgnoreCase))
 		{
-			return "Native Language";
+			return Voidstrap.Resources.Strings.Menu_Appearance_Language_NativeStatus;
 		}
 		int percent = GetCompletionPercent(identifier);
 		if (percent < 0)
 		{
 			return string.Empty;
 		}
-		return percent.ToString(CultureInfo.InvariantCulture) + "% complete";
+		return string.Format(CultureInfo.CurrentCulture, Voidstrap.Resources.Strings.Menu_Appearance_Language_CompletionStatus, percent);
 	}
 
 	private static string? ResolveFlagSource(string identifier)

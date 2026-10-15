@@ -30,8 +30,8 @@
                 <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" Source="{Binding Path=., Converter={StaticResource LanguageFlagConverter}}" />
               </Border>
               <StackPanel VerticalAlignment="Center">
-                <TextBlock Text="{Binding Path=.}" TextTrimming="CharacterEllipsis" />
-                <TextBlock Margin="0,1,0,0" FontSize="11" Opacity="0.65" Text="{Binding Path=., Converter={StaticResource LanguageStatusConverter}}" Visibility="{Binding Path=., Converter={StaticResource LanguageStatusVisibilityConverter}}" />
+                <TextBlock Text="{Binding Name}" TextTrimming="CharacterEllipsis" />
+                <TextBlock Margin="0,1,0,0" FontSize="11" Opacity="0.65" Text="{Binding Status}" Visibility="{Binding Path=., Converter={StaticResource LanguageStatusVisibilityConverter}}" />
               </StackPanel>
             </StackPanel>
           </DataTemplate>

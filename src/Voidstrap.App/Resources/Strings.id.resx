@@ -2986,4 +2986,10 @@ Apa yang ingin Anda lakukan?</value>
   <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Mencerminkan layar utama selama Roblox berjalan dan memulihkannya saat Roblox ditutup. Layar fisik tetap memakai batas refresh miliknya sendiri.</value>
   </data>
+  <data name="Menu.Appearance.Language.NativeStatus" xml:space="preserve">
+    <value>Bahasa asli</value>
+  </data>
+  <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
+    <value>{0}% selesai</value>
+  </data>
 </root>

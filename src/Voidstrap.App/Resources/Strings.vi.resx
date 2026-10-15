@@ -3038,4 +3038,10 @@ Bạn muốn làm gì?</value>
   <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Phản chiếu màn hình chính khi Roblox đang chạy và khôi phục khi Roblox đóng. Màn hình vật lý vẫn giữ giới hạn tần số quét của riêng nó.</value>
   </data>
+  <data name="Menu.Appearance.Language.NativeStatus" xml:space="preserve">
+    <value>Ngôn ngữ gốc</value>
+  </data>
+  <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
+    <value>Hoàn thành {0}%</value>
+  </data>
 </root>

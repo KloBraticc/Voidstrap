@@ -3024,4 +3024,10 @@ Mitä haluat tehdä?</value>
   <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Peilaa päänäytön Robloxin ollessa käynnissä ja palauttaa sen, kun Roblox suljetaan. Fyysinen näyttö säilyttää oman virkistystaajuusrajansa.</value>
   </data>
+  <data name="Menu.Appearance.Language.NativeStatus" xml:space="preserve">
+    <value>Alkuperäinen kieli</value>
+  </data>
+  <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
+    <value>{0} % valmis</value>
+  </data>
 </root>

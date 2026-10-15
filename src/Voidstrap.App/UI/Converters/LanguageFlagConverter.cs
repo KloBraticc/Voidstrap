@@ -41,11 +41,21 @@ public class LanguageFlagConverter : IValueConverter
 
 	private static string? ResolveSource(object value)
 	{
-		if (value is not string name || string.IsNullOrEmpty(name))
+		string? identifier = LanguageIdentifier.From(value);
+		return identifier == null ? null : LanguageMetadata.GetFlagSource(identifier);
+	}
+}
+
+internal static class LanguageIdentifier
+{
+	public static string? From(object value)
+	{
+		return value switch
 		{
-			return null;
-		}
-		return LanguageMetadata.GetFlagSource(Locale.GetIdentifierFromName(name));
+			Voidstrap.UI.ViewModels.LanguageOption option => option.MetadataId,
+			string name when !string.IsNullOrEmpty(name) => Locale.GetIdentifierFromName(name),
+			_ => null
+		};
 	}
 }
 
@@ -53,11 +63,8 @@ public class LanguageFlagVisibilityConverter : IValueConverter
 {
 	public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 	{
-		if (value is not string name || string.IsNullOrEmpty(name))
-		{
-			return Visibility.Collapsed;
-		}
-		return LanguageMetadata.GetFlagSource(Locale.GetIdentifierFromName(name)) == null ? Visibility.Collapsed : Visibility.Visible;
+		string? identifier = LanguageIdentifier.From(value);
+		return identifier == null || LanguageMetadata.GetFlagSource(identifier) == null ? Visibility.Collapsed : Visibility.Visible;
 	}
 
 	public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -70,11 +77,8 @@ public class LanguageStatusConverter : IValueConverter
 {
 	public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 	{
-		if (value is not string name || string.IsNullOrEmpty(name))
-		{
-			return string.Empty;
-		}
-		return LanguageMetadata.GetStatusText(Locale.GetIdentifierFromName(name));
+		string? identifier = LanguageIdentifier.From(value);
+		return identifier == null ? string.Empty : LanguageMetadata.GetStatusText(identifier);
 	}
 
 	public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -87,11 +91,8 @@ public class LanguageStatusVisibilityConverter : IValueConverter
 {
 	public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 	{
-		if (value is not string name || string.IsNullOrEmpty(name))
-		{
-			return Visibility.Collapsed;
-		}
-		return string.IsNullOrEmpty(LanguageMetadata.GetStatusText(Locale.GetIdentifierFromName(name)))
+		string? identifier = LanguageIdentifier.From(value);
+		return identifier == null || string.IsNullOrEmpty(LanguageMetadata.GetStatusText(identifier))
 			? Visibility.Collapsed
 			: Visibility.Visible;
 	}

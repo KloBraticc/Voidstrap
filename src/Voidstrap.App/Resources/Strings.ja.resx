@@ -3055,4 +3055,10 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
   <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Roblox の実行中はメイン画面をミラーリングし、Roblox を閉じると元に戻します。物理画面は自身のリフレッシュレートの上限を維持します。</value>
   </data>
+  <data name="Menu.Appearance.Language.NativeStatus" xml:space="preserve">
+    <value>元の言語</value>
+  </data>
+  <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
+    <value>{0}% 完了</value>
+  </data>
 </root>

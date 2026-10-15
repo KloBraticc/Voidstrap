@@ -2806,4 +2806,10 @@ What would you like to do?</value>
   <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Mirrors the main screen while Roblox runs and restores it when Roblox closes. The physical screen keeps its own refresh limit.</value>
   </data>
+  <data name="Menu.Appearance.Language.NativeStatus" xml:space="preserve">
+    <value>Native Language</value>
+  </data>
+  <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
+    <value>{0}% complete</value>
+  </data>
 </root>

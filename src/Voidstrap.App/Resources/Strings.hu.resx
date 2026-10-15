@@ -3028,4 +3028,10 @@ Mit szeretnél tenni?</value>
   <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Tükrözi a fő képernyőt, amíg a Roblox fut, és visszaállítja, amikor a Roblox bezárul. A fizikai képernyő megtartja a saját frissítési korlátját.</value>
   </data>
+  <data name="Menu.Appearance.Language.NativeStatus" xml:space="preserve">
+    <value>Eredeti nyelv</value>
+  </data>
+  <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
+    <value>{0}%-ban kész</value>
+  </data>
 </root>

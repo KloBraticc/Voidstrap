@@ -63,6 +63,10 @@ namespace Voidstrap.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Licenses.
         /// </summary>
+        public static string Menu_Appearance_Language_NativeStatus => ResourceManager.GetString("Menu.Appearance.Language.NativeStatus", resourceCulture);
+
+        public static string Menu_Appearance_Language_CompletionStatus => ResourceManager.GetString("Menu.Appearance.Language.CompletionStatus", resourceCulture);
+
         public static string Menu_Appearance_Accent_Title => ResourceManager.GetString("Menu.Appearance.Accent.Title", resourceCulture);
 
         public static string Menu_Appearance_Accent_Description => ResourceManager.GetString("Menu.Appearance.Accent.Description", resourceCulture);

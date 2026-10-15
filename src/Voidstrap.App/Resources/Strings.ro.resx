@@ -3012,4 +3012,10 @@ Ce vrei să faci?</value>
   <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Oglindește ecranul principal cât timp rulează Roblox și îl restaurează când Roblox se închide. Ecranul fizic își păstrează propria limită de reîmprospătare.</value>
   </data>
+  <data name="Menu.Appearance.Language.NativeStatus" xml:space="preserve">
+    <value>Limba originală</value>
+  </data>
+  <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
+    <value>{0}% finalizat</value>
+  </data>
 </root>

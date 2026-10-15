@@ -3026,4 +3026,10 @@ Co chcesz zrobić?</value>
   <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Dubluje ekran główny, gdy działa Roblox, i przywraca go po zamknięciu Roblox. Fizyczny ekran zachowuje własny limit odświeżania.</value>
   </data>
+  <data name="Menu.Appearance.Language.NativeStatus" xml:space="preserve">
+    <value>Język źródłowy</value>
+  </data>
+  <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
+    <value>Ukończono {0}%</value>
+  </data>
 </root>

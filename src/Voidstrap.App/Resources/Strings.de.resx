@@ -2960,4 +2960,10 @@ Was möchtest du tun?</value>
   <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Spiegelt den Hauptbildschirm, während Roblox läuft, und stellt ihn wieder her, wenn Roblox geschlossen wird. Der physische Bildschirm behält seine eigene Bildwiederholgrenze.</value>
   </data>
+  <data name="Menu.Appearance.Language.NativeStatus" xml:space="preserve">
+    <value>Ausgangssprache</value>
+  </data>
+  <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
+    <value>{0} % fertig</value>
+  </data>
 </root>

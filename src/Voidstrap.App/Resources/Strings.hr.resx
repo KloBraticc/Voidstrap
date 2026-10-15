@@ -3031,4 +3031,10 @@ Roblox će se preuzeti kada ga prvi put pokreneš putem Voidstrapa. Postavke mo�
   <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Zrcali glavni zaslon dok Roblox radi i vraća ga kada se Roblox zatvori. Fizički zaslon zadržava vlastito ograničenje osvježavanja.</value>
   </data>
+  <data name="Menu.Appearance.Language.NativeStatus" xml:space="preserve">
+    <value>Izvorni jezik</value>
+  </data>
+  <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
+    <value>{0} % dovršeno</value>
+  </data>
 </root>

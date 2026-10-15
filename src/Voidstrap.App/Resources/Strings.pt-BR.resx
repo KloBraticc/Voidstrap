@@ -3012,4 +3012,10 @@ O que você gostaria de fazer?</value>
   <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Espelha a tela principal enquanto o Roblox está aberto e a restaura quando o Roblox fecha. A tela física mantém seu próprio limite de atualização.</value>
   </data>
+  <data name="Menu.Appearance.Language.NativeStatus" xml:space="preserve">
+    <value>Idioma original</value>
+  </data>
+  <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
+    <value>{0}% concluído</value>
+  </data>
 </root>

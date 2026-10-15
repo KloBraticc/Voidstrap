@@ -2993,4 +2993,10 @@ Apakah yang anda mahu lakukan?</value>
   <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Mencerminkan skrin utama semasa Roblox berjalan dan memulihkannya apabila Roblox ditutup. Skrin fizikal mengekalkan had segar semulanya sendiri.</value>
   </data>
+  <data name="Menu.Appearance.Language.NativeStatus" xml:space="preserve">
+    <value>Bahasa asal</value>
+  </data>
+  <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
+    <value>{0}% siap</value>
+  </data>
 </root>

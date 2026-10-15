@@ -3032,4 +3032,10 @@ Voidstrap 安裝在 "{1}"。</value>
   <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Roblox 執行時鏡像主螢幕，並在 Roblox 關閉時還原。實體螢幕保持其自身的更新率上限。</value>
   </data>
+  <data name="Menu.Appearance.Language.NativeStatus" xml:space="preserve">
+    <value>原始語言</value>
+  </data>
+  <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
+    <value>已完成 {0}%</value>
+  </data>
 </root>

@@ -3042,4 +3042,10 @@ Roblox буде завантажено під час першого запуск
   <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Дублює головний екран, поки працює Roblox, і відновлює його після закриття Roblox. Фізичний екран зберігає власне обмеження частоти оновлення.</value>
   </data>
+  <data name="Menu.Appearance.Language.NativeStatus" xml:space="preserve">
+    <value>Мова оригіналу</value>
+  </data>
+  <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
+    <value>Готово на {0}%</value>
+  </data>
 </root>

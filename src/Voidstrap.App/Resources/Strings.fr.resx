@@ -2953,4 +2953,10 @@ Que souhaitez-vous faire ?</value>
   <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Recopie l'écran principal pendant que Roblox fonctionne et le restaure à la fermeture de Roblox. L'écran physique conserve sa propre limite de rafraîchissement.</value>
   </data>
+  <data name="Menu.Appearance.Language.NativeStatus" xml:space="preserve">
+    <value>Langue d'origine</value>
+  </data>
+  <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
+    <value>{0} % terminé</value>
+  </data>
 </root>

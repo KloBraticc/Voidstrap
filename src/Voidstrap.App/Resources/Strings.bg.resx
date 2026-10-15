@@ -3032,4 +3032,10 @@ Roblox ще бъде изтеглен, когато го стартирате з
   <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Дублира основния екран, докато Roblox работи, и го възстановява, когато Roblox се затвори. Физическият екран запазва собственото си ограничение на честотата на опресняване.</value>
   </data>
+  <data name="Menu.Appearance.Language.NativeStatus" xml:space="preserve">
+    <value>Изходен език</value>
+  </data>
+  <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
+    <value>{0}% завършен</value>
+  </data>
 </root>

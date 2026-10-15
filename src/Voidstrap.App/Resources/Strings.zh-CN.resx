@@ -3053,4 +3053,10 @@ Voidstrap 的安装路径是：
   <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Roblox 运行时镜像主屏幕，并在 Roblox 关闭时恢复。物理屏幕保持其自身的刷新率上限。</value>
   </data>
+  <data name="Menu.Appearance.Language.NativeStatus" xml:space="preserve">
+    <value>原始语言</value>
+  </data>
+  <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
+    <value>已完成 {0}%</value>
+  </data>
 </root>

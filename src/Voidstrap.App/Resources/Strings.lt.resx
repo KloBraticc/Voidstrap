@@ -3066,4 +3066,10 @@ Ką norėtumėte daryti?</value>
   <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Dubliuoja pagrindinį ekraną, kol veikia Roblox, ir atkuria jį, kai Roblox uždaromas. Fizinis ekranas išlaiko savo atnaujinimo dažnio ribą.</value>
   </data>
+  <data name="Menu.Appearance.Language.NativeStatus" xml:space="preserve">
+    <value>Pradinė kalba</value>
+  </data>
+  <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
+    <value>{0} % baigta</value>
+  </data>
 </root>

@@ -3023,4 +3023,10 @@ Roblox se descargará cuando lo inicies por primera vez a través de Voidstrap. 
   <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Duplica la pantalla principal mientras Roblox está abierto y la restaura cuando Roblox se cierra. La pantalla física mantiene su propio límite de frecuencia.</value>
   </data>
+  <data name="Menu.Appearance.Language.NativeStatus" xml:space="preserve">
+    <value>Idioma original</value>
+  </data>
+  <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
+    <value>{0} % completado</value>
+  </data>
 </root>

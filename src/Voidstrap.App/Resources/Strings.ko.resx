@@ -3042,4 +3042,10 @@ Roblox는 Voidstrap으로 처음 실행할 때 다운로드됩니다. 실행하�
   <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Roblox 실행 중에는 기본 화면을 미러링하고 Roblox가 닫히면 복원합니다. 실제 화면은 자체 주사율 제한을 유지합니다.</value>
   </data>
+  <data name="Menu.Appearance.Language.NativeStatus" xml:space="preserve">
+    <value>원본 언어</value>
+  </data>
+  <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
+    <value>{0}% 완료</value>
+  </data>
 </root>

@@ -3061,4 +3061,10 @@
   <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
     <value>يعكس الشاشة الرئيسية أثناء تشغيل Roblox ويستعيدها عند إغلاقه. تحتفظ الشاشة الفعلية بحد معدل التحديث الخاص بها.</value>
   </data>
+  <data name="Menu.Appearance.Language.NativeStatus" xml:space="preserve">
+    <value>اللغة الأصلية</value>
+  </data>
+  <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
+    <value>مكتملة بنسبة {0}%</value>
+  </data>
 </root>

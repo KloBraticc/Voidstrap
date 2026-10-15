@@ -3001,4 +3001,10 @@ Cosa vuoi fare?</value>
   <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Duplica lo schermo principale mentre Roblox è in esecuzione e lo ripristina quando Roblox si chiude. Lo schermo fisico mantiene il proprio limite di aggiornamento.</value>
   </data>
+  <data name="Menu.Appearance.Language.NativeStatus" xml:space="preserve">
+    <value>Lingua originale</value>
+  </data>
+  <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
+    <value>{0}% completato</value>
+  </data>
 </root>

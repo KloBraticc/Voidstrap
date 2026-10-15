@@ -2988,4 +2988,10 @@ Wat wil je doen?</value>
   <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Spiegelt het hoofdscherm terwijl Roblox draait en herstelt het wanneer Roblox sluit. Het fysieke scherm behoudt zijn eigen verversingslimiet.</value>
   </data>
+  <data name="Menu.Appearance.Language.NativeStatus" xml:space="preserve">
+    <value>Oorspronkelijke taal</value>
+  </data>
+  <data name="Menu.Appearance.Language.CompletionStatus" xml:space="preserve">
+    <value>{0}% voltooid</value>
+  </data>
 </root>
