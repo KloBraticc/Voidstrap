@@ -21,15 +21,48 @@ public class ModPresetTask : BoolBaseTask
 		: base("ModPreset", name)
 	{
 		_pathMap = pathMap;
+		List<ModPresetFileData> outdated = new List<ModPresetFileData>();
 		foreach (KeyValuePair<string, string> item in _pathMap)
 		{
 			ModPresetFileData modPresetFileData = new ModPresetFileData(item.Key, item.Value);
-			if (modPresetFileData.HashMatches() && !OriginalState)
+			bool current = modPresetFileData.HashMatches();
+			bool previous = !current && modPresetFileData.MatchesPreviousVersion();
+			if ((current || previous) && !OriginalState)
 			{
 				OriginalState = true;
 			}
+			if (previous)
+			{
+				outdated.Add(modPresetFileData);
+			}
 			_fileDataMap[item.Key] = modPresetFileData;
 		}
+		foreach (ModPresetFileData data in outdated)
+		{
+			try
+			{
+				WriteResource(data);
+				App.Logger.WriteLine("ModPresetTask", "Updated " + data.FilePath + " to the current " + Name + " file");
+			}
+			catch (Exception ex)
+			{
+				App.Logger.WriteLine("ModPresetTask", "Could not update " + data.FilePath + ": " + ex.Message);
+			}
+		}
+	}
+
+	private static void WriteResource(ModPresetFileData value)
+	{
+		string? folder = Path.GetDirectoryName(value.FullFilePath);
+		if (!string.IsNullOrEmpty(folder))
+		{
+			Directory.CreateDirectory(folder);
+		}
+		using Stream stream = value.ResourceStream;
+		using MemoryStream memoryStream = new MemoryStream();
+		stream.CopyTo(memoryStream);
+		Filesystem.AssertReadOnly(value.FullFilePath);
+		File.WriteAllBytes(value.FullFilePath, memoryStream.ToArray());
 	}
 
 	public override async Task ExecuteAsync()
@@ -74,18 +107,9 @@ public class ModPresetTask : BoolBaseTask
 				bool flag = value.HashMatches();
 				if (NewState && !flag)
 				{
-					string? folder = Path.GetDirectoryName(value.FullFilePath);
-					if (!string.IsNullOrEmpty(folder))
-					{
-						Directory.CreateDirectory(folder);
-					}
-					using Stream stream = value.ResourceStream;
-					using MemoryStream memoryStream = new MemoryStream();
-					stream.CopyTo(memoryStream);
-					Filesystem.AssertReadOnly(value.FullFilePath);
-					File.WriteAllBytes(value.FullFilePath, memoryStream.ToArray());
+					WriteResource(value);
 				}
-				else if (!NewState && flag)
+				else if (!NewState && (flag || value.MatchesPreviousVersion()))
 				{
 					Filesystem.AssertReadOnly(value.FullFilePath);
 					File.Delete(value.FullFilePath);
