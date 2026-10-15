@@ -1391,6 +1391,7 @@ public partial class App : Application
 		ResetWindowBackdropOnce();
 		ResetServerInfoInTitleOnce();
 		ResetClockOverlayOnce();
+		ResetSpoofSelfGameCreatorOnce();
 		TimedLoad("FastFlags", () => FastFlags.Load(alertFailure: false));
 	}
 
@@ -1456,6 +1457,18 @@ public partial class App : Application
 		Settings.Prop.ClockOverlayResetVersion = ClockOverlayResetVersion;
 		Settings.Save();
 		Logger.WriteLine("App::ResetClockOverlayOnce", "Clock overlay reset to off");
+	}
+
+	private const int SpoofSelfGameCreatorResetVersion = 1;
+
+	private static void ResetSpoofSelfGameCreatorOnce()
+	{
+		if (Settings.Prop.SpoofSelfGameCreatorResetVersion >= SpoofSelfGameCreatorResetVersion)
+			return;
+		Settings.Prop.SpoofSelfGameCreator = false;
+		Settings.Prop.SpoofSelfGameCreatorResetVersion = SpoofSelfGameCreatorResetVersion;
+		Settings.Save();
+		Logger.WriteLine("App::ResetSpoofSelfGameCreatorOnce", "Make Yourself Game Creator reset to off");
 	}
 
 	private void InitializeServices()

@@ -376,6 +376,7 @@ namespace Voidstrap.Models.Persistable
         public bool SpoofOthersVerified { get; set; } = false;
         public bool SpoofSelfApplyIngame { get; set; } = false;
         public bool SpoofSelfGameCreator { get; set; } = false;
+        public int SpoofSelfGameCreatorResetVersion { get; set; }
         public string SpoofSelfName { get; set; } = "";
         public bool SpoofSelfVerified { get; set; } = false;
         public string RobuxSpoofAmount { get; set; } = "";
