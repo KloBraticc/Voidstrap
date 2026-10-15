@@ -1597,6 +1597,30 @@ public static class LaunchHandler
 		SetPortableLaunchStatus("Cancelling");
 	}
 
+	private static void ShowMacLauncherTitle(object sender, RoutedEventArgs e)
+	{
+		if (sender is not Window window)
+			return;
+		window.Loaded -= ShowMacLauncherTitle;
+		Wpf.Ui.Controls.TitleBar? titleBar = FindTitleBar(window);
+		if (titleBar is not null && string.IsNullOrEmpty(titleBar.Title))
+			titleBar.Title = window.Title;
+	}
+
+	private static Wpf.Ui.Controls.TitleBar? FindTitleBar(DependencyObject parent)
+	{
+		int count = System.Windows.Media.VisualTreeHelper.GetChildrenCount(parent);
+		for (int i = 0; i < count; i++)
+		{
+			DependencyObject child = System.Windows.Media.VisualTreeHelper.GetChild(parent, i);
+			if (child is Wpf.Ui.Controls.TitleBar titleBar)
+				return titleBar;
+			if (FindTitleBar(child) is { } nested)
+				return nested;
+		}
+		return null;
+	}
+
     private static void ShowPortableLaunchDialog(Bootstrapper bootstrapper)
 	{
 		if (App.LaunchSettings.QuietFlag.Active)
@@ -1622,6 +1646,8 @@ public static class LaunchHandler
 				_portableDialog = dialog;
 				if (dialog is Window window)
 				{
+					if (OperatingSystem.IsMacOS())
+						window.Loaded += ShowMacLauncherTitle;
 					window.Show();
 				}
 				else
