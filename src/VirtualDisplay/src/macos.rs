@@ -104,7 +104,7 @@ unsafe extern "C" {
 unsafe extern "C" {}
 
 const DISPLAY_NAME: &CStr = c"Voidstrap Virtual Display";
-const POLL_SECONDS: f64 = 0.5;
+const POLL_SECONDS: f64 = 0.05;
 const MODE_RETRY: Duration = Duration::from_secs(2);
 
 struct OwnedRef(Ref);
