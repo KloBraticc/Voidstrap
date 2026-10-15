@@ -68,14 +68,14 @@ let
 in
 buildDotnetModule (finalAttrs: {
   pname = "voidstrap";
-  version = "1.1.3.3";
+  version = "1.1.3.5";
 
   src = fetchFromGitHub {
     owner = "KloBraticc";
     repo = "Voidstrap";
     tag = "v${finalAttrs.version}";
     fetchSubmodules = true;
-    hash = "sha256-OIhVWb35jFK85DzOsBSYEipke6zTII3w8L0k07sjU64=";
+    hash = "sha256-xLKSOLN0qXCjZWRNSILExvy4RdFxtlK+MOmJmxdf4o8=";
   };
 
   projectFile = "src/Voidstrap.Cross/Voidstrap.Cross.csproj";
@@ -111,6 +111,11 @@ buildDotnetModule (finalAttrs: {
   };
 
   postInstall = ''
+    for library in uc i18n data; do
+      if [ -e $out/lib/voidstrap/libicu$library.so.72.1.0.3 ]; then
+        ln -s libicu$library.so.72.1.0.3 $out/lib/voidstrap/libicu$library.so.72
+      fi
+    done
     install -Dm644 build/Packaging/Linux/voidstrap.desktop \
       $out/share/applications/io.github.KloBraticc.Voidstrap.desktop
     install -Dm644 src/Voidstrap.App/Voidstrap.png \
