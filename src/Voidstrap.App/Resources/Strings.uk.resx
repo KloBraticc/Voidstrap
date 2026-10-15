@@ -123,9 +123,6 @@
   <data name="Bootstrapper.ConfirmLaunch" xml:space="preserve">
     <value>Roblox вже запущено, і запуск нового сеансу призведе до його завершення. Ви впевнені, що хочете продовжити запуск?</value>
   </data>
-  <data name="Dialog.Connectivity.Preventing" xml:space="preserve">
-    <value>Ймовірно, щось заважає Voidstrap приєднатися до інтернету.</value>
-  </data>
   <data name="Dialog.Connectivity.RobloxDown" xml:space="preserve">
     <value>Roblox може зараз не працювати. Дивіться {0} для отримання додаткової інформації.</value>
   </data>
@@ -165,12 +162,6 @@
   </data>
   <data name="Bootstrapper.Status.WaitingOtherInstances" xml:space="preserve">
     <value>Чекаємо на інші інстанції...</value>
-  </data>
-  <data name="Dialog.Connectivity.TimedOut" xml:space="preserve">
-    <value>Час з'єднання вичерпано, що може вказувати на погане інтернет-з'єднання або блокування брандмауером.</value>
-  </data>
-  <data name="Enums.BootstrapperIcon.IconEarly2015" xml:space="preserve">
-    <value>Ранній 2015</value>
   </data>
   <data name="Enums.CustomThemeTemplate.Blank" xml:space="preserve">
     <value>Порожній</value>
@@ -470,6 +461,9 @@
   </data>
   <data name="Common.Custom" xml:space="preserve">
     <value>Користувацький</value>
+  </data>
+  <data name="Enums.BootstrapperIcon.IconEarly2015" xml:space="preserve">
+    <value>Ранній 2015</value>
   </data>
   <data name="Enums.BootstrapperIcon.IconLate2015" xml:space="preserve">
     <value>Кінець 2015</value>
@@ -1470,6 +1464,12 @@ Voidstrap встановлено на "{1}".</value>
   <data name="Menu.Voidstrap.ExportData.ExportLogs" xml:space="preserve">
     <value>Усі журнали Voidstrap</value>
     <comment>Label that appears next to a checkbox</comment>
+  </data>
+  <data name="Dialog.Connectivity.Preventing" xml:space="preserve">
+    <value>Ймовірно, щось заважає Voidstrap приєднатися до інтернету.</value>
+  </data>
+  <data name="Dialog.Connectivity.TimedOut" xml:space="preserve">
+    <value>Час з'єднання вичерпано, що може вказувати на погане інтернет-з'єднання або блокування брандмауером.</value>
   </data>
   <data name="Menu.Channel.RobloxUpgrades.Description" xml:space="preserve">
     <value>Коли вимкнено, клієнт Roblox не оновлюватиметься до нової версії.</value>

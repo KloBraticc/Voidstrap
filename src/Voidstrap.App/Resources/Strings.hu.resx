@@ -123,9 +123,6 @@
   <data name="Bootstrapper.ConfirmLaunch" xml:space="preserve">
     <value>A Roblox jelenleg fut, és egy másik példány elindítása bezárja azt. Biztos, hogy folytatni akarod az indítást?</value>
   </data>
-  <data name="Dialog.Connectivity.Preventing" xml:space="preserve">
-    <value>Valami valószínűleg megakadályozza, hogy a Voidstrap csatlakozzon az internethez.</value>
-  </data>
   <data name="Dialog.Connectivity.RobloxDown" xml:space="preserve">
     <value>A Roblox jelenleg nem elérhető. További információkért lásd {0}.</value>
   </data>
@@ -165,12 +162,6 @@
   </data>
   <data name="Bootstrapper.Status.WaitingOtherInstances" xml:space="preserve">
     <value>Várakozás más példányokra...</value>
-  </data>
-  <data name="Dialog.Connectivity.TimedOut" xml:space="preserve">
-    <value>A kapcsolat megszakadt, ami rossz internetkapcsolatra vagy tűzfalblokkolásra utalhat.</value>
-  </data>
-  <data name="Enums.BootstrapperIcon.IconEarly2015" xml:space="preserve">
-    <value>Korai 2015</value>
   </data>
   <data name="Enums.CustomThemeTemplate.Blank" xml:space="preserve">
     <value>Üres</value>
@@ -470,6 +461,9 @@ Ha nem, kérjük, hogy jelentse ezt egy [GitHub problémaként]({1}) a Voidstrap
   </data>
   <data name="Common.Custom" xml:space="preserve">
     <value>Saját</value>
+  </data>
+  <data name="Enums.BootstrapperIcon.IconEarly2015" xml:space="preserve">
+    <value>Korai 2015</value>
   </data>
   <data name="Enums.BootstrapperIcon.IconLate2015" xml:space="preserve">
     <value>Késő 2015</value>
@@ -1474,6 +1468,12 @@ Kérjük, zárjon be minden olyan alkalmazást, amely a Roblox fájljait haszná
   <data name="Menu.Voidstrap.ExportData.ExportLogs" xml:space="preserve">
     <value>Az összes Voidstrap napló</value>
     <comment>Label that appears next to a checkbox</comment>
+  </data>
+  <data name="Dialog.Connectivity.Preventing" xml:space="preserve">
+    <value>Valami valószínűleg megakadályozza, hogy a Voidstrap csatlakozzon az internethez.</value>
+  </data>
+  <data name="Dialog.Connectivity.TimedOut" xml:space="preserve">
+    <value>A kapcsolat megszakadt, ami rossz internetkapcsolatra vagy tűzfalblokkolásra utalhat.</value>
   </data>
   <data name="Menu.Channel.RobloxUpgrades.Description" xml:space="preserve">
     <value>Ha le van tiltva, a Roblox kliens nem frissül újabb verzióra.</value>

@@ -123,9 +123,6 @@
   <data name="Bootstrapper.ConfirmLaunch" xml:space="preserve">
     <value>Roblox قيد التشغيل حاليًا، وسيؤدي هذا إلى إغلاق النافذة الحالية. هل أنت متأكد أنك تريد مواصلة التشغيل؟</value>
   </data>
-  <data name="Dialog.Connectivity.Preventing" xml:space="preserve">
-    <value>من المحتمل أن يمنع Voidstrap من الاتصال بالإنترنت.</value>
-  </data>
   <data name="Dialog.Connectivity.RobloxDown" xml:space="preserve">
     <value>قد يكون Roblox معطلاً في الوقت الحالي. راجع {0} لمزيد من المعلومات.</value>
   </data>
@@ -165,12 +162,6 @@
   </data>
   <data name="Bootstrapper.Status.WaitingOtherInstances" xml:space="preserve">
     <value>جار انتظار الحالات الأخرى...</value>
-  </data>
-  <data name="Dialog.Connectivity.TimedOut" xml:space="preserve">
-    <value>انتهت مهلة الاتصال، الذي يمكن أن يشير إلى ضعف الاتصال بالإنترنت أو إلى كتلة جدار الحماية.</value>
-  </data>
-  <data name="Enums.BootstrapperIcon.IconEarly2015" xml:space="preserve">
-    <value>أوائل عام 2015</value>
   </data>
   <data name="Enums.CustomThemeTemplate.Blank" xml:space="preserve">
     <value>فارغ</value>
@@ -470,6 +461,9 @@
   </data>
   <data name="Common.Custom" xml:space="preserve">
     <value>مخصص</value>
+  </data>
+  <data name="Enums.BootstrapperIcon.IconEarly2015" xml:space="preserve">
+    <value>أوائل عام 2015</value>
   </data>
   <data name="Enums.BootstrapperIcon.IconLate2015" xml:space="preserve">
     <value>أواخر 2015</value>
@@ -1489,6 +1483,12 @@
   <data name="Menu.Voidstrap.ExportData.ExportLogs" xml:space="preserve">
     <value>جميع سجلات Voidstrap</value>
     <comment>Label that appears next to a checkbox</comment>
+  </data>
+  <data name="Dialog.Connectivity.Preventing" xml:space="preserve">
+    <value>من المحتمل أن يمنع Voidstrap من الاتصال بالإنترنت.</value>
+  </data>
+  <data name="Dialog.Connectivity.TimedOut" xml:space="preserve">
+    <value>انتهت مهلة الاتصال، الذي يمكن أن يشير إلى ضعف الاتصال بالإنترنت أو إلى كتلة جدار الحماية.</value>
   </data>
   <data name="Menu.Channel.RobloxUpgrades.Description" xml:space="preserve">
     <value>عند التعطيل، لن يقوم عميل Roblox بالترقية إلى إصدار أحدث.</value>

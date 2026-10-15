@@ -163,9 +163,6 @@
   <data name="Bootstrapper.Status.WaitingOtherInstances" xml:space="preserve">
     <value>Wachten op andere instanties...</value>
   </data>
-  <data name="Enums.BootstrapperIcon.IconEarly2015" xml:space="preserve">
-    <value>Begin 2015</value>
-  </data>
   <data name="Enums.CustomThemeTemplate.Blank" xml:space="preserve">
     <value>Leeg</value>
   </data>
@@ -455,6 +452,9 @@ Als dat niet het geval is, rapporteer deze uitzondering dan alstublieft door een
   </data>
   <data name="Common.Custom" xml:space="preserve">
     <value>Aangepast</value>
+  </data>
+  <data name="Enums.BootstrapperIcon.IconEarly2015" xml:space="preserve">
+    <value>Begin 2015</value>
   </data>
   <data name="Enums.BootstrapperIcon.IconLate2015" xml:space="preserve">
     <value>Eind 2015</value>

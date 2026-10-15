@@ -123,9 +123,6 @@
   <data name="Bootstrapper.ConfirmLaunch" xml:space="preserve">
     <value>Roblox è già in esecuzione e l'avvio di un'altra istanza lo chiuderà. Sei sicuro di voler continuare ad avviarlo?</value>
   </data>
-  <data name="Dialog.Connectivity.Preventing" xml:space="preserve">
-    <value>È probabile che qualcosa stia impedendo a Voidstrap di connettersi a Internet.</value>
-  </data>
   <data name="Dialog.Connectivity.RobloxDown" xml:space="preserve">
     <value>Roblox potrebbe non essere raggiungibile in questo momento. Vai su {0} per più informazioni.</value>
   </data>
@@ -165,12 +162,6 @@
   </data>
   <data name="Bootstrapper.Status.WaitingOtherInstances" xml:space="preserve">
     <value>In attesa di altre istanze...</value>
-  </data>
-  <data name="Dialog.Connectivity.TimedOut" xml:space="preserve">
-    <value>La connessione è scaduta, il che potrebbe indicare una connessione scarsa o un blocco dal firewall.</value>
-  </data>
-  <data name="Enums.BootstrapperIcon.IconEarly2015" xml:space="preserve">
-    <value>Inizio 2015</value>
   </data>
   <data name="Enums.CustomThemeTemplate.Blank" xml:space="preserve">
     <value>Vuoto</value>
@@ -467,6 +458,9 @@ Se no, per favore segnala questa eccezione attraverso una [GitHub issue]({1}) co
   </data>
   <data name="Common.Custom" xml:space="preserve">
     <value>Personalizzato</value>
+  </data>
+  <data name="Enums.BootstrapperIcon.IconEarly2015" xml:space="preserve">
+    <value>Inizio 2015</value>
   </data>
   <data name="Enums.BootstrapperIcon.IconLate2015" xml:space="preserve">
     <value>Fine 2015</value>
@@ -1450,6 +1444,12 @@ Si prega di chiudere tutte le applicazioni che potrebbero usare i file di Roblox
   <data name="Menu.Voidstrap.ExportData.ExportLogs" xml:space="preserve">
     <value>Tutti i log di Voidstrap</value>
     <comment>Label that appears next to a checkbox</comment>
+  </data>
+  <data name="Dialog.Connectivity.Preventing" xml:space="preserve">
+    <value>È probabile che qualcosa stia impedendo a Voidstrap di connettersi a Internet.</value>
+  </data>
+  <data name="Dialog.Connectivity.TimedOut" xml:space="preserve">
+    <value>La connessione è scaduta, il che potrebbe indicare una connessione scarsa o un blocco dal firewall.</value>
   </data>
   <data name="Menu.Channel.RobloxUpgrades.Description" xml:space="preserve">
     <value>Se disabilitato, il client Roblox non verrà aggiornato a una versione più recente.</value>

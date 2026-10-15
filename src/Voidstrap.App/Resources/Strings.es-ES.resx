@@ -123,9 +123,6 @@
   <data name="Bootstrapper.ConfirmLaunch" xml:space="preserve">
     <value>Roblox está en ejecución, e iniciar otra instancia lo cerrará. ¿Estás seguro qué deseas continuar?</value>
   </data>
-  <data name="Dialog.Connectivity.Preventing" xml:space="preserve">
-    <value>Es probable que algo esté impidiendo que Voidstrap se conecte a Internet.</value>
-  </data>
   <data name="Dialog.Connectivity.RobloxDown" xml:space="preserve">
     <value>Roblox puede estar caído en este momento. Consulta {0} para obtener más información.</value>
   </data>
@@ -165,12 +162,6 @@
   </data>
   <data name="Bootstrapper.Status.WaitingOtherInstances" xml:space="preserve">
     <value>Esperando a otras instancias...</value>
-  </data>
-  <data name="Dialog.Connectivity.TimedOut" xml:space="preserve">
-    <value>La conexión se ha interrumpido, lo que podría indicar una mala conexión a Internet o un bloqueo del cortafuegos.</value>
-  </data>
-  <data name="Enums.BootstrapperIcon.IconEarly2015" xml:space="preserve">
-    <value>Inicio de 2015</value>
   </data>
   <data name="Enums.CustomThemeTemplate.Blank" xml:space="preserve">
     <value>En blanco</value>
@@ -464,6 +455,9 @@ Si no es así, informe de esta excepción a través de un [Problema en GitHub]({
   </data>
   <data name="Common.Custom" xml:space="preserve">
     <value>Personalizado</value>
+  </data>
+  <data name="Enums.BootstrapperIcon.IconEarly2015" xml:space="preserve">
+    <value>Inicio de 2015</value>
   </data>
   <data name="Enums.BootstrapperIcon.IconLate2015" xml:space="preserve">
     <value>Finales de 2015</value>
@@ -1463,6 +1457,12 @@ Por favor cierre las aplicaciones que estén usando los archivos de Roblox, y vu
   <data name="Menu.Voidstrap.ExportData.ExportLogs" xml:space="preserve">
     <value>Todos los registros de Voidstrap</value>
     <comment>Label that appears next to a checkbox</comment>
+  </data>
+  <data name="Dialog.Connectivity.Preventing" xml:space="preserve">
+    <value>Es probable que algo esté impidiendo que Voidstrap se conecte a Internet.</value>
+  </data>
+  <data name="Dialog.Connectivity.TimedOut" xml:space="preserve">
+    <value>La conexión se ha interrumpido, lo que podría indicar una mala conexión a Internet o un bloqueo del cortafuegos.</value>
   </data>
   <data name="Menu.Channel.RobloxUpgrades.Description" xml:space="preserve">
     <value>Cuando está deshabilitado, el cliente de Roblox no se actualizará a una versión más reciente.</value>
