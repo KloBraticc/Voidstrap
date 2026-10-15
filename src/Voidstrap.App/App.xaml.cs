@@ -850,7 +850,7 @@ public partial class App : Application
 			RunFactoryReset(LaunchSettings.FactoryResetFlag.Data);
 			return;
 		}
-		bool headlessLaunch = cli || LaunchSettings.NvApplyFlag.Active || LaunchSettings.NvResetFlag.Active || LaunchSettings.WindowAuditFlag.Active || LaunchSettings.TelemetryBlockFlag.Active;
+		bool headlessLaunch = cli || LaunchSettings.NvApplyFlag.Active || LaunchSettings.NvResetFlag.Active || LaunchSettings.WindowAuditFlag.Active || LaunchSettings.TelemetryBlockFlag.Active || LaunchSettings.FleasionUninstallFlag.Active;
 		bool portableLayout = !Voidstrap.Utility.Platform.IsWindows;
 		string? installLocation;
 		if (portableLayout)
@@ -932,7 +932,7 @@ public partial class App : Application
 			Terminate();
 			return;
 		}
-		if (LaunchSettings.NvApplyFlag.Active || LaunchSettings.NvResetFlag.Active || LaunchSettings.TelemetryBlockFlag.Active)
+		if (LaunchSettings.NvApplyFlag.Active || LaunchSettings.NvResetFlag.Active || LaunchSettings.TelemetryBlockFlag.Active || LaunchSettings.FleasionUninstallFlag.Active)
 		{
 			_macOSStartupReady.TrySetResult(true);
 			LaunchHandler.ProcessLaunchArgs();

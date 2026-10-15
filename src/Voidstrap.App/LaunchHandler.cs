@@ -182,6 +182,13 @@ public static class LaunchHandler
 			App.Terminate();
 			return;
 		}
+		if (App.LaunchSettings.FleasionUninstallFlag.Active)
+		{
+			int code = Voidstrap.Utility.Platform.IsWindows ? Voidstrap.Integrations.FleasionCleanup.RunElevatedCleanup(App.LaunchSettings.FleasionUninstallFlag.Data) : 1;
+			Environment.ExitCode = code;
+			App.Terminate(code == 0 ? ErrorCode.ERROR_SUCCESS : ErrorCode.ERROR_INSTALL_FAILURE);
+			return;
+		}
 		if (App.LaunchSettings.OrcRedirectFlag.Active)
 		{
 			string data = App.LaunchSettings.OrcRedirectFlag.Data ?? "";

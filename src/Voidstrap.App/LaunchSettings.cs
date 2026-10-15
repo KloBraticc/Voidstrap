@@ -61,6 +61,8 @@ public class LaunchSettings
 
 	public LaunchFlag TelemetryBlockFlag { get; } = new LaunchFlag("telemetryblock");
 
+	public LaunchFlag FleasionUninstallFlag { get; } = new LaunchFlag("fleasionuninstall");
+
 	public LaunchFlag OrcRedirectFlag { get; } = new LaunchFlag("orcredirect");
 
 	public bool IsHelperInvocation =>
@@ -68,6 +70,7 @@ public class LaunchSettings
 		|| NvResetFlag.Active
 		|| WindowAuditFlag.Active
 		|| TelemetryBlockFlag.Active
+		|| FleasionUninstallFlag.Active
 		|| OrcRedirectFlag.Active
 		|| UninstallFlag.Active
 		|| FactoryResetFlag.Active;

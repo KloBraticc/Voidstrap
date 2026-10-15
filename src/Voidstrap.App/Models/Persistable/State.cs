@@ -9,6 +9,8 @@ public class State
 
 	public bool TestModeWarningShown { get; set; }
 
+	public bool FleasionWarningDismissed { get; set; }
+
 	public bool ShowBloxshadeWarning { get; set; }
 
 	public bool IgnoreOutdatedChannel { get; set; }

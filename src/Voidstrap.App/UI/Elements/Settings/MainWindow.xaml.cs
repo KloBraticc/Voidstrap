@@ -4270,6 +4270,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
         }, (DispatcherPriority)6);
         PlayIntro();
+        Voidstrap.Integrations.FleasionCleanup.WarnAtStartup();
     }
 
     private bool _navShortcutsReady;
