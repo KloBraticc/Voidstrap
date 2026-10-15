@@ -418,9 +418,13 @@ public static class AssetProxyServer
 		{
 			hostList.Add("apis.roblox.com");
 		}
-		if (usernameState.SelfGameCreator)
+		if (usernameState.SelfGameCreator && !UsernameSpoofer.GameJoinPaused)
 		{
 			hostList.Add("gamejoin.roblox.com");
+		}
+		else if (usernameState.SelfGameCreator)
+		{
+			App.Logger?.WriteLine(LogIdent, "Make Yourself Game Creator is paused on Windows, Roblox game joins fail with error 529 when gamejoin.roblox.com is intercepted");
 		}
 		if (AppShellStripper.IsEnabled)
 		{

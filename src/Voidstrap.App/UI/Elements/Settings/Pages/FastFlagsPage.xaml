@@ -437,6 +437,7 @@
 		  <controls:OptionControl Header="Make Yourself Game Creator" Description="Uses your current Roblox user ID for intercepted game creator metadata">
 			<ui:ToggleSwitch IsChecked="{Binding SpoofSelfGameCreator, Mode=TwoWay}" />
 		  </controls:OptionControl>
+		  <ui:InfoBar Padding="8" IsClosable="False" IsOpen="True" Severity="Warning" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}" Message="Make Yourself Game Creator is paused on Windows. Roblox changed how game joins work, and intercepting them now makes joins fail with error 529. Your other options keep working, and this turns back on in an update once a fix is found." />
                   </StackPanel>
         </StackPanel>
       </TabItem>

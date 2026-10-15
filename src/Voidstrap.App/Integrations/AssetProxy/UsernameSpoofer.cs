@@ -24,6 +24,8 @@ public static class UsernameSpoofer
 		return CurrentState.IsEnabled;
 	}
 
+	public static bool GameJoinPaused => Voidstrap.Utility.Platform.IsWindows;
+
 	public static void SetRuntimeState(UsernameSpoofState state)
 	{
 		Runtime.Value.Set(state);
