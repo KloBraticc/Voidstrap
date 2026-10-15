@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Shapes;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 using Voidstrap.Integrations.Overlays;
@@ -16,7 +15,7 @@ namespace Voidstrap.UI.Elements.Crosshair
 {
     public partial class CrosshairWindow : Window
     {
-        private const double CanvasSize = 512;
+        private const double CanvasSize = 128;
         private const double CanvasCenter = CanvasSize / 2;
 		private const string ResourceKey = "CrosshairWindow";
 		private static readonly object InstanceGate = new();
@@ -26,9 +25,9 @@ namespace Voidstrap.UI.Elements.Crosshair
         private readonly RobloxOverlayAnchor _anchor;
 
         private Image? _imageCrosshair;
-        private MediaElement? _gifCrosshair;
+		private Image? _shapeCrosshair;
+		private (int Shape, string? Fill, string? Outline, int Size, int Gap, int Thickness, double Opacity, double Dpi)? _shapeKey;
         private string? _imagePath;
-        private string? _gifPath;
 		private IReadOnlyList<BitmapSource> _imageShapeSources = Array.Empty<BitmapSource>();
 		private int _imageLoadGeneration;
 		private CancellationTokenSource? _imageLoadCancellation;
@@ -177,7 +176,6 @@ namespace Voidstrap.UI.Elements.Crosshair
 				Opacity = 0;
 
             Loaded += OnCrosshairLoaded;
-            IsVisibleChanged += OnCrosshairVisibilityChanged;
             Closed += OnCrosshairClosed;
 
             _anchor = new RobloxOverlayAnchor(this, placement: RobloxOverlayPlacement.Center);
@@ -199,8 +197,14 @@ namespace Voidstrap.UI.Elements.Crosshair
         private void OnCrosshairLoaded(object? sender, RoutedEventArgs e)
         {
             MakeWindowClickThrough();
-			_anchor.Refresh();
+			RefreshCrosshair();
         }
+
+		protected override void OnDpiChanged(DpiScale oldDpi, DpiScale newDpi)
+		{
+			base.OnDpiChanged(oldDpi, newDpi);
+			RefreshCrosshair();
+		}
 
 		internal void SetLinuxPresentation(bool visible)
 		{
@@ -276,110 +280,22 @@ namespace Voidstrap.UI.Elements.Crosshair
             System.Collections.Generic.List<(int X, int Y, int Width, int Height)> rectangles = new();
             foreach (UIElement child in CrosshairCanvas.Children)
             {
-                if (child is not FrameworkElement element)
-                    continue;
-				if (element is System.Windows.Shapes.Line)
-					continue;
-
-                double left = Canvas.GetLeft(element);
-                double top = Canvas.GetTop(element);
-                if (double.IsNaN(left) || double.IsNaN(top))
-                {
-                    AddShapeFromRenderBounds(element, scaleX, scaleY, rectangles);
-                    continue;
-                }
-
-                double width = element.Width;
-                double height = element.Height;
-                if (double.IsNaN(width) || width <= 0)
-                    width = element.ActualWidth;
-                if (double.IsNaN(height) || height <= 0)
-                    height = element.ActualHeight;
-                if (width <= 0 || height <= 0)
+                if (child is not Image image)
                     continue;
 
-				if (element is Image image && TryAddImageAlphaShape(image, left, top, width, height, scaleX, scaleY, rectangles))
-					continue;
-				if (element is System.Windows.Shapes.Ellipse ellipse)
-					AddEllipseBands(ellipse, left, top, width, height, scaleX, scaleY, rectangles);
-                else
-                    AddScaledRect(left, top, width, height, scaleX, scaleY, rectangles);
+                double left = Canvas.GetLeft(image);
+                double top = Canvas.GetTop(image);
+                double width = image.Width;
+                double height = image.Height;
+                if (double.IsNaN(left) || double.IsNaN(top) || double.IsNaN(width) || double.IsNaN(height) || width <= 0 || height <= 0)
+                    continue;
+
+				TryAddImageAlphaShape(image, left, top, width, height, scaleX, scaleY, rectangles);
             }
-
-            AddLineShapes(scaleX, scaleY, rectangles);
             return rectangles;
         }
 
-        private void AddLineShapes(
-            double scaleX,
-            double scaleY,
-            System.Collections.Generic.List<(int X, int Y, int Width, int Height)> rectangles)
-        {
-            foreach (UIElement child in CrosshairCanvas.Children)
-            {
-                if (child is not System.Windows.Shapes.Line line)
-                    continue;
-
-                double thickness = Math.Max(1d, line.StrokeThickness);
-				AddLineCapsule(line.X1, line.Y1, line.X2, line.Y2, thickness, scaleX, scaleY, rectangles);
-            }
-        }
-
-		private static void AddLineCapsule(
-			double x1,
-			double y1,
-			double x2,
-			double y2,
-			double thickness,
-			double scaleX,
-			double scaleY,
-			System.Collections.Generic.List<(int X, int Y, int Width, int Height)> rectangles)
-		{
-			double radius = Math.Max(0.5d, thickness / 2d);
-			if (Math.Abs(y2 - y1) <= 0.001d)
-			{
-				double left = Math.Min(x1, x2);
-				double right = Math.Max(x1, x2);
-				if (right > left)
-					AddScaledRect(left, y1 - radius, right - left, radius * 2d, scaleX, scaleY, rectangles);
-				AddFilledEllipseBands(left - radius, y1 - radius, radius * 2d, radius * 2d, scaleX, scaleY, rectangles);
-				if (right > left)
-					AddFilledEllipseBands(right - radius, y1 - radius, radius * 2d, radius * 2d, scaleX, scaleY, rectangles);
-				return;
-			}
-
-			if (Math.Abs(x2 - x1) <= 0.001d)
-			{
-				double top = Math.Min(y1, y2);
-				double bottom = Math.Max(y1, y2);
-				if (bottom > top)
-					AddScaledRect(x1 - radius, top, radius * 2d, bottom - top, scaleX, scaleY, rectangles);
-				AddFilledEllipseBands(x1 - radius, top - radius, radius * 2d, radius * 2d, scaleX, scaleY, rectangles);
-				if (bottom > top)
-					AddFilledEllipseBands(x1 - radius, bottom - radius, radius * 2d, radius * 2d, scaleX, scaleY, rectangles);
-				return;
-			}
-
-			double leftBound = Math.Min(x1, x2) - radius;
-			double topBound = Math.Min(y1, y2) - radius;
-			double rightBound = Math.Max(x1, x2) + radius;
-			double bottomBound = Math.Max(y1, y2) + radius;
-			AddScaledRect(leftBound, topBound, rightBound - leftBound, bottomBound - topBound, scaleX, scaleY, rectangles);
-		}
-
-        private static void AddShapeFromRenderBounds(
-            FrameworkElement element,
-            double scaleX,
-            double scaleY,
-            System.Collections.Generic.List<(int X, int Y, int Width, int Height)> rectangles)
-        {
-            if (element.ActualWidth <= 0 || element.ActualHeight <= 0)
-                return;
-
-            AddScaledRect(0d, 0d, element.ActualWidth, element.ActualHeight, scaleX, scaleY, rectangles);
-        }
-
-		private bool TryAddImageAlphaShape(
+		private void TryAddImageAlphaShape(
 			Image image,
 			double left,
 			double top,
@@ -393,11 +309,11 @@ namespace Voidstrap.UI.Elements.Crosshair
 				? _imageShapeSources
 				: image.Source is BitmapSource source ? new[] { source } : Array.Empty<BitmapSource>();
 			if (sources.Count == 0)
-				return true;
+				return;
 
 			BitmapSource first = sources[0];
 			if (first.PixelWidth <= 0 || first.PixelHeight <= 0)
-				return true;
+				return;
 
 			double fit = Math.Min(width / first.PixelWidth, height / first.PixelHeight);
 			double contentWidth = first.PixelWidth * fit;
@@ -412,7 +328,7 @@ namespace Voidstrap.UI.Elements.Crosshair
 
 			foreach (BitmapSource candidate in sources)
 			{
-				BitmapSource bitmap = candidate.Format == PixelFormats.Bgra32
+				BitmapSource bitmap = candidate.Format == PixelFormats.Bgra32 || candidate.Format == PixelFormats.Pbgra32
 					? candidate
 					: new FormatConvertedBitmap(candidate, PixelFormats.Bgra32, null, 0);
 				int stride = checked(bitmap.PixelWidth * 4);
@@ -444,108 +360,7 @@ namespace Voidstrap.UI.Elements.Crosshair
 						rectangles.Add((targetLeft + start, targetTop + y, x - start, 1));
 				}
 			}
-			return true;
 		}
-
-        private static void AddEllipseBands(
-			System.Windows.Shapes.Ellipse ellipse,
-            double left,
-            double top,
-            double width,
-            double height,
-            double scaleX,
-            double scaleY,
-            System.Collections.Generic.List<(int X, int Y, int Width, int Height)> rectangles)
-        {
-			if (ellipse.Fill != null || ellipse.Stroke == null || ellipse.StrokeThickness <= 0)
-			{
-				AddFilledEllipseBands(left, top, width, height, scaleX, scaleY, rectangles);
-				return;
-			}
-
-            double radiusX = width / 2d;
-            double radiusY = height / 2d;
-            double centreX = left + radiusX;
-            double centreY = top + radiusY;
-            int bands = Math.Clamp((int)Math.Round(height), 4, 48);
-            double step = height / bands;
-            for (int index = 0; index < bands; index++)
-            {
-                double bandTop = top + index * step;
-                double sample = bandTop + step / 2d;
-                double normalised = (sample - centreY) / radiusY;
-                if (Math.Abs(normalised) >= 1d)
-                    continue;
-
-                double half = radiusX * Math.Sqrt(1d - normalised * normalised);
-				double innerRadiusX = Math.Max(0d, radiusX - ellipse.StrokeThickness);
-				double innerRadiusY = Math.Max(0d, radiusY - ellipse.StrokeThickness);
-				double innerHalf = 0d;
-				if (innerRadiusX > 0d && innerRadiusY > 0d)
-				{
-					double innerNormalised = (sample - centreY) / innerRadiusY;
-					if (Math.Abs(innerNormalised) < 1d)
-						innerHalf = innerRadiusX * Math.Sqrt(1d - innerNormalised * innerNormalised);
-				}
-				if (innerHalf <= 0d)
-				{
-					AddScaledRect(centreX - half, bandTop, half * 2d, step, scaleX, scaleY, rectangles);
-					continue;
-				}
-				AddScaledRect(centreX - half, bandTop, half - innerHalf, step, scaleX, scaleY, rectangles);
-				AddScaledRect(centreX + innerHalf, bandTop, half - innerHalf, step, scaleX, scaleY, rectangles);
-            }
-        }
-
-		private static void AddFilledEllipseBands(
-			double left,
-			double top,
-			double width,
-			double height,
-			double scaleX,
-			double scaleY,
-			System.Collections.Generic.List<(int X, int Y, int Width, int Height)> rectangles)
-		{
-			if (width <= 0d || height <= 0d)
-				return;
-			double radiusX = width / 2d;
-			double radiusY = height / 2d;
-			double centreX = left + radiusX;
-			double centreY = top + radiusY;
-			int bands = Math.Clamp((int)Math.Ceiling(height * Math.Max(1d, scaleY)), 1, 64);
-			double step = height / bands;
-			for (int index = 0; index < bands; index++)
-			{
-				double bandTop = top + index * step;
-				double sample = bandTop + step / 2d;
-				double normalised = (sample - centreY) / radiusY;
-				if (Math.Abs(normalised) >= 1d)
-					continue;
-				double half = radiusX * Math.Sqrt(1d - normalised * normalised);
-				AddScaledRect(centreX - half, bandTop, half * 2d, step, scaleX, scaleY, rectangles);
-			}
-		}
-
-        private static void AddScaledRect(
-            double left,
-            double top,
-            double width,
-            double height,
-            double scaleX,
-            double scaleY,
-            System.Collections.Generic.List<(int X, int Y, int Width, int Height)> rectangles)
-        {
-			int x = (int)Math.Floor(left * scaleX);
-			int y = (int)Math.Floor(top * scaleY);
-			int right = (int)Math.Ceiling((left + width) * scaleX);
-			int bottom = (int)Math.Ceiling((top + height) * scaleY);
-			int w = right - x;
-			int h = bottom - y;
-            if (w <= 0 || h <= 0)
-                return;
-
-            rectangles.Add((x, y, w, h));
-        }
 
         private void OnCrosshairClosed(object? sender, EventArgs e)
         {
@@ -557,10 +372,9 @@ namespace Voidstrap.UI.Elements.Crosshair
 			}
             _anchor.Dispose();
             Loaded -= OnCrosshairLoaded;
-            IsVisibleChanged -= OnCrosshairVisibilityChanged;
             Closed -= OnCrosshairClosed;
-            ReleaseGifCrosshair();
             ReleaseImageCrosshair();
+			ReleaseShapeCrosshair();
             CrosshairCanvas.Children.Clear();
 			if (Application.Current?.Resources[ResourceKey] is CrosshairWindow crosshair && ReferenceEquals(crosshair, this))
 				Application.Current.Resources.Remove(ResourceKey);
@@ -579,16 +393,6 @@ namespace Voidstrap.UI.Elements.Crosshair
             _ = SetWindowLong(hwnd, GWL_EXSTYLE, exStyle | WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW | WS_EX_NOACTIVATE);
         }
 
-        private void OnCrosshairVisibilityChanged(object sender, DependencyPropertyChangedEventArgs e)
-        {
-            if (_gifCrosshair == null)
-                return;
-            if (e.NewValue is true)
-                _gifCrosshair.Play();
-            else
-                _gifCrosshair.Pause();
-        }
-
 		internal void RefreshSettings() => RefreshCrosshair();
 
         private void RefreshCrosshair()
@@ -603,8 +407,8 @@ namespace Voidstrap.UI.Elements.Crosshair
             catch (Exception ex)
             {
                 App.Logger.WriteException("CrosshairWindow::Update", ex);
-                ReleaseGifCrosshair();
                 ReleaseImageCrosshair();
+				ReleaseShapeCrosshair();
                 CrosshairCanvas.Children.Clear();
             }
         }
@@ -613,195 +417,110 @@ namespace Voidstrap.UI.Elements.Crosshair
         {
 			var settings = App.Settings.Prop;
 			int selectedShape = Math.Clamp(settings.CrosshairShapeIndex, 0, 3);
-            string? selectedPath = selectedShape == 3 ? settings.CrosshairImagePath : null;
-			bool wantsGif = IsGifSource(selectedPath);
-			bool wantsPortableGif = wantsGif && (Voidstrap.Utility.Platform.UsesPortableUi || IsInlineDataSource(selectedPath));
-            bool wantsImage = !string.IsNullOrWhiteSpace(selectedPath) && !wantsGif;
-            if (!wantsGif || wantsPortableGif)
-                ReleaseGifCrosshair();
-            if (!wantsImage && !wantsPortableGif)
-                ReleaseImageCrosshair();
-            CrosshairCanvas.Children.Clear();
+			double opacity = Math.Clamp(settings.CrosshairOpacity, 0.0, 1.0);
 
-            double centerX = CanvasCenter;
-            double centerY = CanvasCenter;
+			if (selectedShape != 3)
+			{
+				ReleaseImageCrosshair();
+				ShowShape(selectedShape, settings.CrosshairColorHex, settings.CrosshairOutlineColorHex, settings.CrosshairSize, settings.CrosshairGap, settings.CrosshairLineThickness, opacity);
+				return;
+			}
 
-            double scale = OverlayCrosshair.RuntimeScale;
-            double size = Math.Clamp(settings.CrosshairSize, 2, 60) * scale;
-            double gap = Math.Clamp(settings.CrosshairGap, 0, 40) * scale;
-            double thickness = Math.Max(1, Math.Clamp(settings.CrosshairLineThickness, 1, 16) * scale);
-            double opacity = Math.Clamp(settings.CrosshairOpacity, 0.05, 1.0);
+			ReleaseShapeCrosshair();
+			string? path = settings.CrosshairImagePath;
+			if (string.IsNullOrWhiteSpace(path))
+			{
+				ReleaseImageCrosshair();
+				CrosshairCanvas.Children.Clear();
+				return;
+			}
 
-            var mainBrush = CreateBrush(settings.CrosshairColorHex, Colors.Lime, opacity);
-			mainBrush.Freeze();
+			if (_imageCrosshair == null)
+			{
+				_imageCrosshair = new Image { Stretch = Stretch.Uniform, IsHitTestVisible = false };
+				RenderOptions.SetBitmapScalingMode(_imageCrosshair, BitmapScalingMode.HighQuality);
+			}
 
-            var outlineBrush = CreateBrush(settings.CrosshairOutlineColorHex, Colors.Black, opacity);
-			outlineBrush.Freeze();
+			if (!string.Equals(_imagePath, path, StringComparison.OrdinalIgnoreCase))
+			{
+				CancelImageLoad();
+				_imagePath = path;
+				_imageShapeSources = Array.Empty<BitmapSource>();
+				Voidstrap.UI.GifImageBehavior.SetFrames(_imageCrosshair, Array.Empty<(BitmapSource, int)>());
+				if (IsGifSource(path))
+					BeginGifLoad(_imageCrosshair, path);
+				else
+					BeginImageLoad(_imageCrosshair, path);
+			}
 
-            switch (selectedShape)
-            {
-                case 3:
-                    {
-                        if (string.IsNullOrWhiteSpace(selectedPath))
-                            return;
-
-                        string path = selectedPath;
-                        bool isGif = IsGifSource(path);
-
-                        if (isGif && !wantsPortableGif)
-                        {
-                            if (_gifCrosshair == null)
-                            {
-                                _gifCrosshair = new MediaElement
-                                {
-                                    LoadedBehavior = MediaState.Manual,
-                                    UnloadedBehavior = MediaState.Manual,
-                                    IsMuted = true,
-                                    Stretch = Stretch.Uniform,
-                                    Opacity = opacity,
-                                    IsHitTestVisible = false,
-                                    ScrubbingEnabled = true
-                                };
-
-                                _gifCrosshair.MediaOpened += OnGifRestart;
-                                _gifCrosshair.MediaEnded += OnGifRestart;
-                            }
-
-                            if (!string.Equals(_gifPath, path, StringComparison.OrdinalIgnoreCase))
-                            {
-                                _gifCrosshair.Stop();
-                                _gifCrosshair.Close();
-                                _gifCrosshair.Source = new Uri(path, UriKind.Absolute);
-                                _gifCrosshair.Position = TimeSpan.Zero;
-                                _gifCrosshair.Play();
-                                _gifPath = path;
-                            }
-                            _gifCrosshair.Width = size;
-                            _gifCrosshair.Height = size;
-                            _gifCrosshair.Opacity = opacity;
-
-                            Canvas.SetLeft(_gifCrosshair, centerX - size / 2);
-                            Canvas.SetTop(_gifCrosshair, centerY - size / 2);
-
-                            CrosshairCanvas.Children.Add(_gifCrosshair);
-                        }
-                        else
-                        {
-                            if (_imageCrosshair == null)
-                            {
-                                _imageCrosshair = new Image
-                                {
-                                    Stretch = Stretch.Uniform
-                                };
-
-                                RenderOptions.SetBitmapScalingMode(
-                                    _imageCrosshair,
-                                    BitmapScalingMode.HighQuality);
-                            }
-
-                            if (!string.Equals(_imagePath, path, StringComparison.OrdinalIgnoreCase))
-                            {
-								CancelImageLoad();
-								_imagePath = path;
-								_imageShapeSources = Array.Empty<BitmapSource>();
-								if (wantsPortableGif)
-								{
-									Voidstrap.UI.GifImageBehavior.SetSourcePath(_imageCrosshair, string.Empty);
-									BeginPortableGifLoad(_imageCrosshair, path);
-								}
-								else
-								{
-									Voidstrap.UI.GifImageBehavior.SetSourcePath(_imageCrosshair, string.Empty);
-									if (Voidstrap.Utility.Platform.IsLinux && !File.Exists(path))
-										BeginPortableImageLoad(_imageCrosshair, path);
-									else
-									{
-										_imageCrosshair.Source = LoadBitmap(path);
-										_imageShapeSources = _imageCrosshair.Source is BitmapSource source
-											? new[] { source }
-											: Array.Empty<BitmapSource>();
-									}
-								}
-                            }
-                            _imageCrosshair.Width = size;
-                            _imageCrosshair.Height = size;
-                            _imageCrosshair.Opacity = opacity;
-
-                            Canvas.SetLeft(_imageCrosshair, centerX - size / 2);
-                            Canvas.SetTop(_imageCrosshair, centerY - size / 2);
-
-                            CrosshairCanvas.Children.Add(_imageCrosshair);
-                        }
-
-                        break;
-                    }
-
-                case 0:
-                    DrawCross(centerX, centerY, size, gap, thickness, outlineBrush, true);
-                    DrawCross(centerX, centerY, size, gap, thickness, mainBrush, false);
-                    break;
-
-                case 1:
-                    DrawEllipse(centerX, centerY, size / 3 + 2, outlineBrush);
-                    DrawEllipse(centerX, centerY, size / 3, mainBrush);
-                    break;
-
-                case 2:
-                    DrawCircle(centerX, centerY, size / 2, thickness + 2, outlineBrush);
-                    DrawCircle(centerX, centerY, size / 2 - 2, thickness, mainBrush);
-                    break;
-            }
+			double size = Math.Clamp(settings.CrosshairSize, 2, Voidstrap.UI.CrosshairRenderer.MaxSize) * OverlayCrosshair.RuntimeScale;
+			_imageCrosshair.Width = size;
+			_imageCrosshair.Height = size;
+			_imageCrosshair.Opacity = opacity;
+			Canvas.SetLeft(_imageCrosshair, CanvasCenter - size / 2);
+			Canvas.SetTop(_imageCrosshair, CanvasCenter - size / 2);
+			ShowOnly(_imageCrosshair);
         }
 
-        private void OnGifRestart(object? sender, RoutedEventArgs e)
-        {
-            if (_gifCrosshair == null || !IsVisible)
-                return;
-            _gifCrosshair.Position = TimeSpan.Zero;
-            _gifCrosshair.Play();
-        }
+		private void ShowShape(int shape, string? fill, string? outline, int size, int gap, int thickness, double opacity)
+		{
+			double dpi = Math.Max(1.0, VisualTreeHelper.GetDpi(this).DpiScaleX);
+			var key = (shape, fill, outline, size, gap, thickness, opacity, dpi);
+			if (_shapeCrosshair == null)
+			{
+				_shapeCrosshair = new Image { Stretch = Stretch.Fill, IsHitTestVisible = false, Width = CanvasSize, Height = CanvasSize, UseLayoutRounding = true };
+				Canvas.SetLeft(_shapeCrosshair, 0);
+				Canvas.SetTop(_shapeCrosshair, 0);
+			}
+			if (_shapeKey != key)
+			{
+				int dimension = (int)Math.Round(CanvasSize * dpi);
+				_shapeCrosshair.Source = Voidstrap.UI.CrosshairRenderer.Render(dimension, OverlayCrosshair.RuntimeScale * dpi, shape, fill, outline, size, gap, thickness, opacity);
+				_shapeKey = key;
+			}
+			ShowOnly(_shapeCrosshair);
+		}
 
-        private void ReleaseGifCrosshair()
-        {
-            if (_gifCrosshair == null)
-                return;
-            _gifCrosshair.MediaOpened -= OnGifRestart;
-            _gifCrosshair.MediaEnded -= OnGifRestart;
-            try
-            {
-                _gifCrosshair.Stop();
-                _gifCrosshair.Close();
-            }
-            catch
-            {
-            }
-            _gifCrosshair.Source = null;
-            _gifCrosshair = null;
-            _gifPath = null;
-        }
+		private void ShowOnly(Image image)
+		{
+			if (CrosshairCanvas.Children.Count == 1 && ReferenceEquals(CrosshairCanvas.Children[0], image))
+				return;
+			CrosshairCanvas.Children.Clear();
+			CrosshairCanvas.Children.Add(image);
+		}
+
+		private void ReleaseShapeCrosshair()
+		{
+			if (_shapeCrosshair == null)
+				return;
+			CrosshairCanvas.Children.Remove(_shapeCrosshair);
+			_shapeCrosshair.Source = null;
+			_shapeCrosshair = null;
+			_shapeKey = null;
+		}
 
         private void ReleaseImageCrosshair()
         {
 			CancelImageLoad();
             if (_imageCrosshair == null)
                 return;
-			Voidstrap.UI.GifImageBehavior.SetSourcePath(_imageCrosshair, string.Empty);
-            _imageCrosshair.Source = null;
+			CrosshairCanvas.Children.Remove(_imageCrosshair);
+			Voidstrap.UI.GifImageBehavior.SetFrames(_imageCrosshair, Array.Empty<(BitmapSource, int)>());
 			_imageShapeSources = Array.Empty<BitmapSource>();
             _imageCrosshair = null;
             _imagePath = null;
         }
 
-		private async void BeginPortableGifLoad(Image image, string path)
+		private async void BeginGifLoad(Image image, string path)
 		{
-			(int generation, CancellationToken token) = BeginImageLoad();
+			(int generation, CancellationToken token) = StartImageLoad();
 			try
 			{
 				byte[]? bytes = await Voidstrap.Utility.AppImage.LoadBytesAsync(path, token).ConfigureAwait(false);
 				if (bytes == null || _disposed || generation != _imageLoadGeneration)
 					return;
 				IReadOnlyList<(BitmapSource Frame, int DelayMilliseconds)> frames = await Task.Run(
-					() => Voidstrap.Utility.SafeImaging.DecodeAnimationPortable(bytes, token: token),
+					() => DecodeGifFrames(bytes, token),
 					token).ConfigureAwait(false);
 				if (frames.Count == 0 || _disposed || generation != _imageLoadGeneration)
 					return;
@@ -830,12 +549,12 @@ namespace Voidstrap.UI.Elements.Crosshair
 			}
 		}
 
-		private async void BeginPortableImageLoad(Image image, string path)
+		private async void BeginImageLoad(Image image, string path)
 		{
-			(int generation, CancellationToken token) = BeginImageLoad();
+			(int generation, CancellationToken token) = StartImageLoad();
 			try
 			{
-					BitmapSource? source = await Voidstrap.Utility.AppImage.LoadAsync(path, 128, token).ConfigureAwait(false);
+				BitmapSource? source = await Voidstrap.Utility.AppImage.LoadAsync(path, 128, token).ConfigureAwait(false);
 				if (source == null || _disposed || generation != _imageLoadGeneration)
 					return;
 				await Dispatcher.InvokeAsync(() =>
@@ -860,7 +579,7 @@ namespace Voidstrap.UI.Elements.Crosshair
 			}
 		}
 
-		private (int Generation, CancellationToken Token) BeginImageLoad()
+		private (int Generation, CancellationToken Token) StartImageLoad()
 		{
 			CancellationTokenSource current = new();
 			_imageLoadCancellation = current;
@@ -878,10 +597,32 @@ namespace Voidstrap.UI.Elements.Crosshair
 			cancellation.Dispose();
 		}
 
-        private static BitmapSource? LoadBitmap(string path)
-        {
-			return Voidstrap.Utility.AppImage.LoadSync(path, 128);
-        }
+		private static IReadOnlyList<(BitmapSource Frame, int DelayMilliseconds)> DecodeGifFrames(byte[] bytes, CancellationToken token)
+		{
+			IReadOnlyList<(BitmapSource Frame, int DelayMilliseconds)> frames = Voidstrap.Utility.SafeImaging.DecodeAnimationPortable(bytes, 256, token);
+			if (frames.Count > 0 || !Voidstrap.Utility.Platform.IsWindows)
+				return frames;
+
+			using MemoryStream stream = new(bytes);
+			GifBitmapDecoder decoder = new(stream, BitmapCreateOptions.PreservePixelFormat, BitmapCacheOption.OnLoad);
+			if (decoder.Frames.Count == 0)
+				return frames;
+			BitmapFrame first = decoder.Frames[0];
+			List<(BitmapSource, int)> decoded = new(decoder.Frames.Count);
+			foreach (BitmapFrame frame in decoder.Frames)
+			{
+				token.ThrowIfCancellationRequested();
+				if (frame.PixelWidth != first.PixelWidth || frame.PixelHeight != first.PixelHeight || decoded.Count >= 120)
+					break;
+				int delay = 100;
+				if (frame.Metadata is BitmapMetadata metadata && metadata.ContainsQuery("/grctlext/Delay") && metadata.GetQuery("/grctlext/Delay") is ushort centiseconds && centiseconds > 1)
+					delay = centiseconds * 10;
+				BitmapSource converted = new FormatConvertedBitmap(frame, PixelFormats.Bgra32, null, 0);
+				converted.Freeze();
+				decoded.Add((converted, delay));
+			}
+			return decoded;
+		}
 
 		private static bool IsGifSource(string? path)
 		{
@@ -893,81 +634,6 @@ namespace Voidstrap.UI.Elements.Crosshair
 				return uri.AbsolutePath.EndsWith(".gif", StringComparison.OrdinalIgnoreCase);
 			return path.EndsWith(".gif", StringComparison.OrdinalIgnoreCase);
 		}
-
-		private static bool IsInlineDataSource(string? path)
-		{
-			return path?.StartsWith("data:", StringComparison.OrdinalIgnoreCase) == true;
-		}
-
-        private void DrawCross(double cx, double cy, double size, double gap, double thickness, Brush brush, bool outline)
-        {
-            double t = outline ? thickness + 2 : thickness;
-
-            DrawLine(cx - size, cy, cx - gap, cy, brush, t);
-            DrawLine(cx + gap, cy, cx + size, cy, brush, t);
-            DrawLine(cx, cy - size, cx, cy - gap, brush, t);
-            DrawLine(cx, cy + gap, cx, cy + size, brush, t);
-        }
-
-        private void DrawLine(double x1, double y1, double x2, double y2, Brush brush, double thickness)
-        {
-            CrosshairCanvas.Children.Add(new Line
-            {
-                X1 = x1,
-                Y1 = y1,
-                X2 = x2,
-                Y2 = y2,
-                Stroke = brush,
-                StrokeThickness = thickness,
-                StrokeStartLineCap = PenLineCap.Round,
-                StrokeEndLineCap = PenLineCap.Round
-            });
-        }
-
-        private void DrawEllipse(double cx, double cy, double radius, Brush fill)
-        {
-            var e = new Ellipse
-            {
-                Width = radius * 2,
-                Height = radius * 2,
-                Fill = fill
-            };
-
-            Canvas.SetLeft(e, cx - radius);
-            Canvas.SetTop(e, cy - radius);
-            CrosshairCanvas.Children.Add(e);
-        }
-
-        private void DrawCircle(double cx, double cy, double radius, double thickness, Brush stroke)
-        {
-            if (radius <= 0)
-                return;
-            var e = new Ellipse
-            {
-                Width = radius * 2,
-                Height = radius * 2,
-                Stroke = stroke,
-                StrokeThickness = thickness
-            };
-
-            Canvas.SetLeft(e, cx - radius);
-            Canvas.SetTop(e, cy - radius);
-            CrosshairCanvas.Children.Add(e);
-        }
-
-        private static SolidColorBrush CreateBrush(string? value, Color fallback, double opacity)
-        {
-            Color color = fallback;
-            try
-            {
-                if (ColorConverter.ConvertFromString(value ?? string.Empty) is Color parsed)
-                    color = parsed;
-            }
-            catch (Exception)
-            {
-            }
-            return new SolidColorBrush(color) { Opacity = opacity };
-        }
 
         private const int GWL_EXSTYLE = -20;
         private const int WS_EX_TRANSPARENT = 0x20;

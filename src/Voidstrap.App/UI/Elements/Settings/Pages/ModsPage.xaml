@@ -1056,7 +1056,7 @@
                 </controls:OptionControl>
                 <controls:OptionControl Header="Size">
                   <StackPanel Orientation="Horizontal">
-                    <Slider Width="200" Minimum="4" Maximum="64" VerticalAlignment="Center" Value="{Binding CursorSize, Mode=TwoWay}" />
+                    <Slider Width="200" Minimum="4" Maximum="60" VerticalAlignment="Center" Value="{Binding CursorSize, Mode=TwoWay}" />
                     <TextBlock Width="44" Margin="8,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Text="{Binding CursorSize}" />
                   </StackPanel>
                 </controls:OptionControl>
