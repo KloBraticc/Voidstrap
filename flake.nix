@@ -2,6 +2,7 @@
   description = "Voidstrap, a Roblox bootstrapper that launches Roblox through Sober on Linux";
 
   inputs.nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+  inputs.self.submodules = true;
 
   outputs =
     { self, nixpkgs }:

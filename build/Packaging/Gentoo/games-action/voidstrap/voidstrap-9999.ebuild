@@ -7,7 +7,7 @@ HOMEPAGE="https://github.com/KloBraticc/Voidstrap"
 
 EGIT_REPO_URI="https://github.com/KloBraticc/Voidstrap.git"
 EGIT_BRANCH="main"
-EGIT_SUBMODULES=()
+EGIT_SUBMODULES=( external/wpfui )
 
 SRC_URI="
 	https://github.com/bloxstraplabs/wpfui/archive/f710123e72d9dcc8d09fccc4e2a783cc5cf5e652.tar.gz

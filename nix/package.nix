@@ -74,6 +74,7 @@ buildDotnetModule (finalAttrs: {
     owner = "KloBraticc";
     repo = "Voidstrap";
     tag = "v${finalAttrs.version}";
+    fetchSubmodules = true;
     hash = "sha256-OIhVWb35jFK85DzOsBSYEipke6zTII3w8L0k07sjU64=";
   };
 
