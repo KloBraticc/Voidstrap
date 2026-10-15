@@ -1688,4 +1688,1328 @@ Gostaria de mudar seu canal preferido para {0}?</value>
   <data name="Menu.News.DialogTitle" xml:space="preserve">
     <value>Detalhes da notícia</value>
   </data>
+  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
+    <value>O Voidstrap não conseguiu remover o roteamento restante do AssetWarp do arquivo hosts do Windows. O Roblox não conseguirá carregar texturas ou outros recursos até que ele seja removido. Execute o Voidstrap como administrador para limpá-lo.</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
+    <value>Ambos</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
+    <value>Jogador</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
+    <value>Navegador de servidores</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
+    <value>Lugar {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
+    <value>{0}  •  Lugar {1}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
+    <value>{0} servidores verificados</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
+    <value>Atualizar</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
+    <value>Carregar mais servidores</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
+    <value>Ocultar servidores cheios</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
+    <value>Pesquisar cidade, país ou ID do servidor</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
+    <value>Mais jogadores</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
+    <value>Menos jogadores</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
+    <value>Menor ping</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
+    <value>Entrar</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
+    <value>Atual</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
+    <value>Carregando servidores públicos</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
+    <value>Nenhum servidor público encontrado</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
+    <value>Entre em um jogo antes de abrir o navegador de servidores</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
+    <value>A lista de servidores está pausada porque o Roblox está limitando as solicitações</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
+    <value>Não foi possível carregar os servidores públicos</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
+    <value>{0} servidores carregados</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
+    <value>{0} de {1} jogadores</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
+    <value>{0} jogadores</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
+    <value>Desconhecido</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
+    <value>Melhor opção</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
+    <value>Melhor opção</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
+    <value>Bloqueado</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
+    <value>Cerca de {0} ms de você</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
+    <value>{0} servidores localizados até agora</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
+    <value>{0} de {1} servidores localizados</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
+    <value>Movendo você para {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
+    <value>Não foi possível entrar nesse servidor</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
+    <value>Entre na sua conta em Configurações &gt; Server Matchmaker para que o Voidstrap possa descobrir onde fica cada servidor</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
+    <value>Não foi possível encontrar sua localização, então os servidores não podem ser ordenados por ping</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
+    <value>O Roblox não informou onde ficam esses servidores, tente novamente em instantes</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
+    <value>Todos os servidores encontrados estão em um datacenter que você bloqueou</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
+    <value>Todos os servidores encontrados estão longe de você, o matchmaker deixaria o Roblox escolher</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
+    <value>Navegador de jogos</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
+    <value>Continuar</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
+    <value>Favoritos</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
+    <value>Pesquisar</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
+    <value>Pesquisar jogos do Roblox</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
+    <value>Carregando jogos</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
+    <value>Nenhum jogo recente nesta sessão</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
+    <value>Nenhum jogo favorito salvo</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
+    <value>Pesquise um jogo do Roblox pelo nome</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
+    <value>Nenhum jogo encontrado para {0}</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
+    <value>Não foi possível carregar os jogos</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
+    <value>{0} jogando</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
+    <value>Entrar</value>
+  </data>
+  <data name="Enums.Theme.Berry" xml:space="preserve">
+    <value>Frutas vermelhas</value>
+  </data>
+  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
+    <value>Tradução automática</value>
+  </data>
+  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
+    <value>Traduzir para</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
+    <value>Idioma da tradução automática</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
+    <value>Traduza toda a interface do Voidstrap para qualquer idioma. As traduções nativas são usadas primeiro e o restante do texto é traduzido em tempo real.</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
+    <value>Traduzir automaticamente os RPCs do Discord</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
+    <value>Traduz automaticamente o texto do Discord Rich Presence para o idioma selecionado.</value>
+  </data>
+  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
+    <value>Este recurso está disponível apenas no Windows.</value>
+  </data>
+  <data name="About.Translators.Description" xml:space="preserve">
+    <value>Todas as pessoas listadas aqui dedicaram generosamente seu tempo e esforço para ajudar a traduzir o Voidstrap. Um enorme obrigado a todos!</value>
+  </data>
+  <data name="Menu.Channel.Description" xml:space="preserve">
+    <value>Altere as configurações de implantação e instalação do Roblox e do Voidstrap.</value>
+  </data>
+  <data name="Common.Channel" xml:space="preserve">
+    <value>Canal</value>
+  </data>
+  <data name="Menu.ChannelChanger.Description" xml:space="preserve">
+    <value>Escolha o canal de implantação. Não altere a menos que saiba o que está fazendo.</value>
+  </data>
+  <data name="Common.Version" xml:space="preserve">
+    <value>Versão</value>
+  </data>
+  <data name="Menu.Channel.RobloxUpgrades" xml:space="preserve">
+    <value>Atualizações do Roblox</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
+    <value>Modo escuro</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
+    <value>Telemetria</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
+    <value>Modo escuro</value>
+  </data>
+  <data name="Menu.Sober.Description" xml:space="preserve">
+    <value>Configure os ambientes Linux com os quais o Voidstrap inicia o Roblox. O Sober executa o jogador e o Vinegar executa o Studio. O Voidstrap altera apenas as opções que você substituir explicitamente.</value>
+  </data>
+  <data name="Menu.Sober.Default" xml:space="preserve">
+    <value>Usar padrão do Sober</value>
+  </data>
+  <data name="Menu.Sober.Enabled" xml:space="preserve">
+    <value>Ativado</value>
+  </data>
+  <data name="Menu.Sober.Disabled" xml:space="preserve">
+    <value>Desativado</value>
+  </data>
+  <data name="Menu.Sober.DefaultNotice" xml:space="preserve">
+    <value>Usar padrão do Sober deixa a configuração sob controle do Sober. Remover uma substituição restaura o valor que o Voidstrap guardou.</value>
+  </data>
+  <data name="Menu.Sober.RuntimeNotice" xml:space="preserve">
+    <value>Conclua a primeira execução do Sober antes de definir substituições e feche o Sober antes de alterá-las. As alterações salvas são aplicadas na próxima vez que o Sober iniciar.</value>
+  </data>
+  <data name="Menu.Sober.Group.Session" xml:space="preserve">
+    <value>Sessão e atividade</value>
+  </data>
+  <data name="Menu.Sober.Group.Input" xml:space="preserve">
+    <value>Entrada e experiência</value>
+  </data>
+  <data name="Menu.Sober.Group.Graphics" xml:space="preserve">
+    <value>Gráficos e área de trabalho</value>
+  </data>
+  <data name="Menu.Sober.AllowGamepad.Title" xml:space="preserve">
+    <value>Permitir acesso ao controle</value>
+  </data>
+  <data name="Menu.Sober.AllowGamepad.Description" xml:space="preserve">
+    <value>Permite que o Sober solicite acesso aos controles conectados. Mudanças de permissão podem exigir outra inicialização do Sober.</value>
+  </data>
+  <data name="Menu.Sober.CloseOnLeave.Title" xml:space="preserve">
+    <value>Fechar ao sair</value>
+  </data>
+  <data name="Menu.Sober.CloseOnLeave.Description" xml:space="preserve">
+    <value>Fecha o Sober depois de sair de uma experiência.</value>
+  </data>
+  <data name="Menu.Sober.DiscordRpc.Description" xml:space="preserve">
+    <value>Permite que o Sober publique a atividade de jogo pelo Discord Rich Presence.</value>
+  </data>
+  <data name="Menu.Sober.DiscordJoin.Title" xml:space="preserve">
+    <value>Botão de entrar do Discord</value>
+  </data>
+  <data name="Menu.Sober.DiscordJoin.Description" xml:space="preserve">
+    <value>Permite que o Sober inclua um botão de entrar no Discord Rich Presence.</value>
+  </data>
+  <data name="Menu.Sober.GameMode.Title" xml:space="preserve">
+    <value>Integração com GameMode</value>
+  </data>
+  <data name="Menu.Sober.GameMode.Description" xml:space="preserve">
+    <value>Permite que o Sober solicite a otimização de desempenho do GameMode quando ele estiver disponível.</value>
+  </data>
+  <data name="Menu.Sober.HiDpi.Title" xml:space="preserve">
+    <value>Escala para alta densidade (DPI)</value>
+  </data>
+  <data name="Menu.Sober.HiDpi.Description" xml:space="preserve">
+    <value>Usa a escala nativa para telas de alta densidade.</value>
+  </data>
+  <data name="Menu.Sober.MobileHome.Title" xml:space="preserve">
+    <value>Tela inicial móvel</value>
+  </data>
+  <data name="Menu.Sober.MobileHome.Description" xml:space="preserve">
+    <value>Usa a tela inicial do Roblox em estilo móvel.</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Title" xml:space="preserve">
+    <value>Modo de otimização gráfica</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Description" xml:space="preserve">
+    <value>Seleciona a preferência de otimização gráfica do Sober.</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Quality" xml:space="preserve">
+    <value>Qualidade</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Balanced" xml:space="preserve">
+    <value>Equilibrado</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Performance" xml:space="preserve">
+    <value>Desempenho</value>
+  </data>
+  <data name="Menu.Sober.ServerLocation.Title" xml:space="preserve">
+    <value>Indicador de local do servidor</value>
+  </data>
+  <data name="Menu.Sober.ServerLocation.Description" xml:space="preserve">
+    <value>Mostra o indicador de local do servidor do Sober durante o jogo.</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Title" xml:space="preserve">
+    <value>Modo de toque</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Description" xml:space="preserve">
+    <value>Seleciona como o Sober informa o suporte a toque.</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Off" xml:space="preserve">
+    <value>Desligado</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.On" xml:space="preserve">
+    <value>Ligado</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.FakeOff" xml:space="preserve">
+    <value>Desligado falso</value>
+  </data>
+  <data name="Menu.Sober.ConsoleExperience.Title" xml:space="preserve">
+    <value>Experiência de console</value>
+  </data>
+  <data name="Menu.Sober.ConsoleExperience.Description" xml:space="preserve">
+    <value>Usa a experiência do Roblox em estilo de console.</value>
+  </data>
+  <data name="Menu.Sober.Libsecret.Title" xml:space="preserve">
+    <value>Armazenamento Secret Service</value>
+  </data>
+  <data name="Menu.Sober.Libsecret.Description" xml:space="preserve">
+    <value>Armazena as credenciais compatíveis pelo Secret Service da área de trabalho.</value>
+  </data>
+  <data name="Menu.Sober.OpenGl.Title" xml:space="preserve">
+    <value>Renderizador OpenGL</value>
+  </data>
+  <data name="Menu.Sober.OpenGl.Description" xml:space="preserve">
+    <value>Usa OpenGL em vez do backend gráfico padrão do Sober.</value>
+  </data>
+  <data name="Installer.Appearance.BackgroundUI.Title" xml:space="preserve">
+    <value>Fundo e interface</value>
+  </data>
+  <data name="Installer.Appearance.BackgroundUI.Description" xml:space="preserve">
+    <value>Personalize o instalador e o aplicativo principal.</value>
+  </data>
+  <data name="Installer.Appearance.Snow.Title" xml:space="preserve">
+    <value>Neve no fundo</value>
+  </data>
+  <data name="Installer.Appearance.Snow.Description" xml:space="preserve">
+    <value>Adiciona um efeito sutil de neve ao fundo.</value>
+  </data>
+  <data name="Installer.Appearance.GradientMovement.Title" xml:space="preserve">
+    <value>Movimento do gradiente</value>
+  </data>
+  <data name="Installer.Appearance.GradientMovement.Description" xml:space="preserve">
+    <value>Faz o gradiente do fundo seguir o ponteiro.</value>
+  </data>
+  <data name="Installer.Appearance.SmoothScrolling.Title" xml:space="preserve">
+    <value>Rolagem suave</value>
+  </data>
+  <data name="Installer.Appearance.SmoothScrolling.Description" xml:space="preserve">
+    <value>Anima a rolagem em toda a interface.</value>
+  </data>
+  <data name="Installer.Appearance.ClearFont.Title" xml:space="preserve">
+    <value>Fonte nítida</value>
+  </data>
+  <data name="Installer.Appearance.ClearFont.Description" xml:space="preserve">
+    <value>Usa uma renderização de texto mais nítida depois que o Voidstrap reiniciar.</value>
+  </data>
+  <data name="Installer.Appearance.Background.Title" xml:space="preserve">
+    <value>Fundo personalizado</value>
+  </data>
+  <data name="Installer.Appearance.Background.Description" xml:space="preserve">
+    <value>Use uma imagem, um GIF ou um vídeo e ajuste como ele aparece.</value>
+  </data>
+  <data name="Installer.Appearance.GradientOpacity" xml:space="preserve">
+    <value>Opacidade do gradiente</value>
+  </data>
+  <data name="Installer.Appearance.DarkOverlay" xml:space="preserve">
+    <value>Sobreposição escura</value>
+  </data>
+  <data name="Installer.Appearance.DisplayEverywhere" xml:space="preserve">
+    <value>Exibir em todos os lugares</value>
+  </data>
+  <data name="Installer.Appearance.RemoveBackground" xml:space="preserve">
+    <value>Remover fundo</value>
+  </data>
+  <data name="Installer.Appearance.Theme.Description" xml:space="preserve">
+    <value>Escolha o tema usado em todas as janelas do Voidstrap.</value>
+  </data>
+  <data name="Installer.Appearance.Theme.Customize" xml:space="preserve">
+    <value>Personalizar</value>
+  </data>
+  <data name="Installer.Appearance.Backdrop.Title" xml:space="preserve">
+    <value>Fundo da janela</value>
+  </data>
+  <data name="Installer.Appearance.Backdrop.Description" xml:space="preserve">
+    <value>Escolha o material exibido atrás das janelas do Voidstrap.</value>
+  </data>
+  <data name="Installer.Appearance.PageZoom.Title" xml:space="preserve">
+    <value>Zoom da página</value>
+  </data>
+  <data name="Installer.Appearance.PageZoom.Description" xml:space="preserve">
+    <value>Ajuste o tamanho das páginas de configurações.</value>
+  </data>
+  <data name="Vng.WarningTitle" xml:space="preserve">
+    <value>Roblox VNG: restrição permanente da conta</value>
+  </data>
+  <data name="Vng.Warning" xml:space="preserve">
+    <value>PARE: LEIA ANTES DE CONTINUAR
+
+Entrar no Roblox VNG pela primeira vez migra sua conta para o VNG. O Roblox informa que você não poderá mais usar essa conta no aplicativo global do Roblox.
+
+Trate essa migração de conta como permanente. O Voidstrap não pode revertê-la. Desinstalar o VNG ou desativar esta opção não restaura o acesso global à conta. As restrições de conta e regionais do VNG serão aplicadas.
+
+Apenas baixar os arquivos não migra sua conta. Entrar ou iniciar com uma conta existente pode expor essa conta à migração.
+
+Continue somente se aceitar perder o acesso ao aplicativo global para qualquer conta que usar com o VNG. O botão Sim é liberado após dez segundos.</value>
+  </data>
+  <data name="Vng.Confirmation" xml:space="preserve">
+    <value>Tem certeza?</value>
+  </data>
+  <data name="Vng.Agreement" xml:space="preserve">
+    <value>Último aviso: entrar no Roblox VNG pode migrar sua conta permanentemente e remover o acesso ao aplicativo global do Roblox. O Voidstrap não pode reverter isso.
+
+Digite exatamente a frase mostrada abaixo para aceitar essas restrições e continuar.</value>
+  </data>
+  <data name="Vng.Countdown" xml:space="preserve">
+    <value>{0} ({1} s)</value>
+  </data>
+  <data name="Vng.Description" xml:space="preserve">
+    <value>O cliente do jogador do Vietnã. Entrar migra sua conta e remove o acesso ao aplicativo global.</value>
+  </data>
+  <data name="Vng.UseForLaunches" xml:space="preserve">
+    <value>Usar o VNG para iniciar o jogador</value>
+  </data>
+  <data name="Vng.UninstallWarning" xml:space="preserve">
+    <value>Remover o VNG não reverte uma migração de conta nem restaura o acesso ao aplicativo global.</value>
+  </data>
+  <data name="Mtu.Description" xml:space="preserve">
+    <value>Limita o tamanho dos pacotes para todos os aplicativos, incluindo o Roblox. Exige acesso de administrador e permanece após reiniciar. Pode não melhorar o ping.</value>
+  </data>
+  <data name="Mtu.Adapter" xml:space="preserve">
+    <value>Selecione um adaptador de rede e uma versão de IP</value>
+  </data>
+  <data name="Mtu.CustomValue" xml:space="preserve">
+    <value>MTU personalizada (bytes)</value>
+  </data>
+  <data name="Mtu.Current" xml:space="preserve">
+    <value>Atual: {0} bytes. Mínimo: {1} bytes.</value>
+  </data>
+  <data name="Mtu.NoAdapters" xml:space="preserve">
+    <value>Nenhum adaptador de rede compatível encontrado. Atualize para tentar novamente.</value>
+  </data>
+  <data name="Mtu.Invalid" xml:space="preserve">
+    <value>Digite um número inteiro de {0} a {1}. O Windows também verifica o tamanho de pacote suportado pelo adaptador.</value>
+  </data>
+  <data name="Mtu.Apply" xml:space="preserve">
+    <value>Aplicar</value>
+  </data>
+  <data name="Mtu.Restore" xml:space="preserve">
+    <value>Restaurar</value>
+  </data>
+  <data name="Mtu.Refresh" xml:space="preserve">
+    <value>Atualizar</value>
+  </data>
+  <data name="Mtu.Loading" xml:space="preserve">
+    <value>Lendo os adaptadores de rede do Windows...</value>
+  </data>
+  <data name="Mtu.Applying" xml:space="preserve">
+    <value>Aguardando a aprovação do administrador e aplicando a MTU...</value>
+  </data>
+  <data name="Mtu.AdapterUnavailable" xml:space="preserve">
+    <value>O adaptador selecionado não está disponível. Atualize e escolha um adaptador.</value>
+  </data>
+  <data name="Mtu.Rejected" xml:space="preserve">
+    <value>O Windows não conseguiu aplicar a MTU, código {0}. Seu adaptador pode não suportar este valor.</value>
+  </data>
+  <data name="Mtu.Applied" xml:space="preserve">
+    <value>MTU definida para {0} bytes e verificada. Vale para todos os aplicativos no adaptador selecionado.</value>
+  </data>
+  <data name="Mtu.Restored" xml:space="preserve">
+    <value>MTU anterior restaurada para {0} bytes e verificada.</value>
+  </data>
+  <data name="Mtu.VerificationFailed" xml:space="preserve">
+    <value>O Windows não informou a MTU solicitada. Atualize para verificar o valor atual.</value>
+  </data>
+  <data name="Mtu.Cancelled" xml:space="preserve">
+    <value>Solicitação de administrador cancelada. A MTU não foi alterada.</value>
+  </data>
+  <data name="Mtu.Error" xml:space="preserve">
+    <value>A operação de MTU falhou. Atualize para verificar o valor atual.</value>
+  </data>
+  <data name="Menu_FastFlagEditor_Rename" xml:space="preserve">
+    <value>Renomear</value>
+  </data>
+  <data name="Menu_FastFlagEditor_EditValue" xml:space="preserve">
+    <value>Editar valor</value>
+  </data>
+  <data name="Menu_FastFlagEditor_CopySelected" xml:space="preserve">
+    <value>Copiar seleção como JSON</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Title" xml:space="preserve">
+    <value>Cor de destaque</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Description" xml:space="preserve">
+    <value>Escolha uma cor para os controles do aplicativo e o tom do fundo.</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Choose" xml:space="preserve">
+    <value>Escolher cor</value>
+  </data>
+  <data name="Menu.Appearance.Accent.System" xml:space="preserve">
+    <value>Usar cor do sistema</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Picker" xml:space="preserve">
+    <value>Escolher cor de destaque</value>
+  </data>
+  <data name="Menu.Shortcuts.Customize" xml:space="preserve">
+    <value>Nome e ícone</value>
+  </data>
+  <data name="Menu.Shortcuts.InvalidName" xml:space="preserve">
+    <value>Use um nome de atalho válido, sem barras ou nomes de arquivo reservados.</value>
+  </data>
+  <data name="Menu.Shortcuts.NameExists" xml:space="preserve">
+    <value>Já existe um atalho com este nome. Escolha outro nome.</value>
+  </data>
+  <data name="Menu.Shortcuts.ChooseIcon" xml:space="preserve">
+    <value>Escolha um ícone para o atalho</value>
+  </data>
+  <data name="Menu.Shortcuts.IconFilter" xml:space="preserve">
+    <value>Arquivos de ícone e imagem|*.ico;*.png;*.jpg;*.jpeg;*.bmp;*.webp</value>
+  </data>
+  <data name="Menu.Shortcuts.InvalidIcon" xml:space="preserve">
+    <value>Escolha um ícone ou imagem válido com menos de 8 MB.</value>
+  </data>
+  <data name="Menu.LaunchDropdownOnRight" xml:space="preserve">
+    <value>Colocar o seletor de versão à direita</value>
+  </data>
+  <data name="OverlayDiagnostics.Bounds" xml:space="preserve">
+    <value>Tamanho e posição na tela</value>
+  </data>
+  <data name="OverlayDiagnostics.CollectionError" xml:space="preserve">
+    <value>Não foi possível coletar a amostra atual: {0}</value>
+  </data>
+  <data name="OverlayDiagnostics.CompositeCrosshair" xml:space="preserve">
+    <value>Mira do compositor ativa</value>
+  </data>
+  <data name="OverlayDiagnostics.Compositor" xml:space="preserve">
+    <value>Compositor inicializado</value>
+  </data>
+  <data name="OverlayDiagnostics.Configuration" xml:space="preserve">
+    <value>Recursos configurados, essas opções não comprovam a renderização</value>
+  </data>
+  <data name="OverlayDiagnostics.Crosshair" xml:space="preserve">
+    <value>Mira</value>
+  </data>
+  <data name="OverlayDiagnostics.Disabled" xml:space="preserve">
+    <value>Todos os recursos de sobreposição verificados estão desativados nas configurações.</value>
+  </data>
+  <data name="OverlayDiagnostics.DispatcherRequired" xml:space="preserve">
+    <value>O diagnóstico de sobreposição precisa ser executado no dispatcher da janela.</value>
+  </data>
+  <data name="OverlayDiagnostics.FakeBorderless" xml:space="preserve">
+    <value>Tela cheia sem bordas falsa</value>
+  </data>
+  <data name="OverlayDiagnostics.FakeExclusive" xml:space="preserve">
+    <value>Tela cheia exclusiva falsa</value>
+  </data>
+  <data name="OverlayDiagnostics.Findings" xml:space="preserve">
+    <value>Verificações e limitações</value>
+  </data>
+  <data name="OverlayDiagnostics.Foreground" xml:space="preserve">
+    <value>O Roblox ou a sobreposição está em foco</value>
+  </data>
+  <data name="OverlayDiagnostics.FullscreenUnknown" xml:space="preserve">
+    <value>A tela cheia exclusiva não foi verificada. O tamanho da janela e o estilo da borda não determinam o modo de apresentação.</value>
+  </data>
+  <data name="OverlayDiagnostics.GameEffects" xml:space="preserve">
+    <value>Efeitos do jogo</value>
+  </data>
+  <data name="OverlayDiagnostics.GameLease" xml:space="preserve">
+    <value>Concessão de jogo do Linux confirmada</value>
+  </data>
+  <data name="OverlayDiagnostics.GameSession" xml:space="preserve">
+    <value>Sessão de jogo do monitor de atividade</value>
+  </data>
+  <data name="OverlayDiagnostics.GameSignal" xml:space="preserve">
+    <value>Sinal de jogo do hub de sobreposição</value>
+  </data>
+  <data name="OverlayDiagnostics.Handle" xml:space="preserve">
+    <value>Identificador da janela</value>
+  </data>
+  <data name="OverlayDiagnostics.Homepage" xml:space="preserve">
+    <value>Fundo da página inicial</value>
+  </data>
+  <data name="OverlayDiagnostics.HomepageInGame" xml:space="preserve">
+    <value>O hub de sobreposição informa uma sessão de jogo enquanto o processo da página inicial do Linux ainda está ativo. Um processo pode estar ativo sem desenhar.</value>
+  </data>
+  <data name="OverlayDiagnostics.HomepageWorker" xml:space="preserve">
+    <value>Processo da página inicial do Linux ativo</value>
+  </data>
+  <data name="OverlayDiagnostics.Intersects" xml:space="preserve">
+    <value>O retângulo intercepta o Roblox</value>
+  </data>
+  <data name="OverlayDiagnostics.Minimized" xml:space="preserve">
+    <value>Janela nativa minimizada</value>
+  </data>
+  <data name="OverlayDiagnostics.MissingCrosshair" xml:space="preserve">
+    <value>A mira está configurada, mas nenhuma janela de mira nem mira do compositor ativa foi encontrada neste processo.</value>
+  </data>
+  <data name="OverlayDiagnostics.MissingStats" xml:space="preserve">
+    <value>As estatísticas estão configuradas, mas nenhuma janela de estatísticas foi encontrada neste processo. Isso não comprova uma falha na criação nem descarta outro processo do Voidstrap.</value>
+  </data>
+  <data name="OverlayDiagnostics.MonitorCoverage" xml:space="preserve">
+    <value>O cliente sem bordas cobre o monitor</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeLive" xml:space="preserve">
+    <value>Identificador nativo válido</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeTopmost" xml:space="preserve">
+    <value>Sinalizador nativo de sempre visível</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeVisible" xml:space="preserve">
+    <value>Janela nativa visível</value>
+  </data>
+  <data name="OverlayDiagnostics.No" xml:space="preserve">
+    <value>Não</value>
+  </data>
+  <data name="OverlayDiagnostics.NoUsableWindow" xml:space="preserve">
+    <value>Nenhum retângulo de cliente do Roblox utilizável foi medido. O Roblox pode estar fechado, minimizado, oculto, iniciando ou inacessível.</value>
+  </data>
+  <data name="OverlayDiagnostics.NoWindows" xml:space="preserve">
+    <value>Nenhuma janela de sobreposição foi encontrada neste processo.</value>
+  </data>
+  <data name="OverlayDiagnostics.Opacity" xml:space="preserve">
+    <value>Opacidade do WPF</value>
+  </data>
+  <data name="OverlayDiagnostics.PixelsUnknown" xml:space="preserve">
+    <value>Os sinalizadores de visibilidade, opacidade e sempre visível não comprovam que os pixels estão sendo exibidos, sem obstrução ou visíveis para o usuário. Este relatório não verifica a entrega de quadros da GPU nem a oclusão.</value>
+  </data>
+  <data name="OverlayDiagnostics.Place" xml:space="preserve">
+    <value>ID do lugar do monitor de atividade</value>
+  </data>
+  <data name="OverlayDiagnostics.RegisteredWindow" xml:space="preserve">
+    <value>Sobreposição nativa registrada</value>
+  </data>
+  <data name="OverlayDiagnostics.RobloxWindow" xml:space="preserve">
+    <value>Janela do Roblox observada</value>
+  </data>
+  <data name="OverlayDiagnostics.Runtime" xml:space="preserve">
+    <value>Estado de execução observado</value>
+  </data>
+  <data name="OverlayDiagnostics.Sample" xml:space="preserve">
+    <value>Amostra de {0:HH:mm:ss.fff zzz}, atualizada a cada segundo e quando as janelas mudam</value>
+  </data>
+  <data name="OverlayDiagnostics.Scope" xml:space="preserve">
+    <value>Estas leituras descrevem este processo do Voidstrap. Janelas de outro processo podem não aparecer.</value>
+  </data>
+  <data name="OverlayDiagnostics.Stats" xml:space="preserve">
+    <value>Sobreposição de estatísticas</value>
+  </data>
+  <data name="OverlayDiagnostics.Teleporting" xml:space="preserve">
+    <value>Teleporte do monitor de atividade em andamento</value>
+  </data>
+  <data name="OverlayDiagnostics.Title" xml:space="preserve">
+    <value>Diagnóstico de sobreposição</value>
+  </data>
+  <data name="OverlayDiagnostics.Transition" xml:space="preserve">
+    <value>Transição de jogo</value>
+  </data>
+  <data name="OverlayDiagnostics.Unavailable" xml:space="preserve">
+    <value>Indisponível</value>
+  </data>
+  <data name="OverlayDiagnostics.Unfocused" xml:space="preserve">
+    <value>O Roblox não está em foco no momento. As sobreposições podem se ocultar de propósito enquanto outra janela está ativa, incluindo esta janela de diagnóstico.</value>
+  </data>
+  <data name="OverlayDiagnostics.UsableRect" xml:space="preserve">
+    <value>Retângulo de cliente rastreado utilizável</value>
+  </data>
+  <data name="OverlayDiagnostics.Visible" xml:space="preserve">
+    <value>Visível no WPF</value>
+  </data>
+  <data name="OverlayDiagnostics.Windows" xml:space="preserve">
+    <value>Janelas de sobreposição observadas</value>
+  </data>
+  <data name="OverlayDiagnostics.Worker" xml:space="preserve">
+    <value>Thread de trabalho do compositor ativa</value>
+  </data>
+  <data name="OverlayDiagnostics.WpfTopmost" xml:space="preserve">
+    <value>Sempre visível do WPF solicitado</value>
+  </data>
+  <data name="OverlayDiagnostics.X11" xml:space="preserve">
+    <value>Conexão X11 disponível</value>
+  </data>
+  <data name="OverlayDiagnostics.X11Compositor" xml:space="preserve">
+    <value>Compositor X11 detectado</value>
+  </data>
+  <data name="OverlayDiagnostics.X11Unavailable" xml:space="preserve">
+    <value>Nenhuma conexão X11 disponível. A inspeção de janelas nativas não está disponível; restrições do Wayland ou permissões do sandbox podem estar envolvidas.</value>
+  </data>
+  <data name="OverlayDiagnostics.Yes" xml:space="preserve">
+    <value>Sim</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeCompositor" xml:space="preserve">
+    <value>Janela nativa do compositor da GPU</value>
+  </data>
+  <data name="FlagSearch.Loading" xml:space="preserve">
+    <value>Carregando fontes…</value>
+  </data>
+  <data name="FlagSearch.Loaded" xml:space="preserve">
+    <value>Carregado</value>
+  </data>
+  <data name="FlagSearch.Unavailable" xml:space="preserve">
+    <value>Indisponível</value>
+  </data>
+  <data name="FlagSearch.Pending" xml:space="preserve">
+    <value>Pendente</value>
+  </data>
+  <data name="FlagSearch.LoadedSummary" xml:space="preserve">
+    <value>{0:N0} nomes únicos carregados de {1} de {2} fontes. Veja Fontes de dados para mais detalhes.</value>
+  </data>
+  <data name="FlagSearch.LoadError" xml:space="preserve">
+    <value>Falha ao carregar as fontes. Veja o registro para mais detalhes.</value>
+  </data>
+  <data name="FlagSearch.ObjectRequired" xml:space="preserve">
+    <value>O JSON de flags precisa conter um objeto.</value>
+  </data>
+  <data name="FlagSearch.EmptySource" xml:space="preserve">
+    <value>A fonte não retornou nomes de flags reconhecidos.</value>
+  </data>
+  <data name="FlagSearch.ResultCount" xml:space="preserve">
+    <value>Mostrando {0:N0} de {1:N0} resultados</value>
+  </data>
+  <data name="FlagSearch.SearchError" xml:space="preserve">
+    <value>A pesquisa falhou. Veja o registro para mais detalhes.</value>
+  </data>
+  <data name="FlagSearch.Validating" xml:space="preserve">
+    <value>Verificando nomes de flags e valores digitados…</value>
+  </data>
+  <data name="FlagSearch.Found" xml:space="preserve">
+    <value>Encontrado</value>
+  </data>
+  <data name="FlagSearch.ValueError" xml:space="preserve">
+    <value>Erro de valor</value>
+  </data>
+  <data name="FlagSearch.NotFound" xml:space="preserve">
+    <value>Não encontrado</value>
+  </data>
+  <data name="FlagSearch.FoundNote" xml:space="preserve">
+    <value>Encontrado nas fontes carregadas. O suporte a substituições locais não foi verificado.</value>
+  </data>
+  <data name="FlagSearch.NotFoundNote" xml:space="preserve">
+    <value>Ausente nas fontes carregadas, isso não prova que a flag é inválida.</value>
+  </data>
+  <data name="FlagSearch.ValidationSummary" xml:space="preserve">
+    <value>{0:N0} flags verificadas, {1:N0} entradas corresponderam a uma fonte e ao tipo de valor esperado.</value>
+  </data>
+  <data name="FlagSearch.NameError" xml:space="preserve">
+    <value>Use um nome de Fast Flag reconhecido, sem espaços.</value>
+  </data>
+  <data name="FlagSearch.TooMany" xml:space="preserve">
+    <value>A entrada contém flags demais.</value>
+  </data>
+  <data name="FlagSearch.ScalarRequired" xml:space="preserve">
+    <value>Os valores das flags precisam ser textos, números ou booleanos.</value>
+  </data>
+  <data name="FlagSearch.LineError" xml:space="preserve">
+    <value>Cada linha de texto precisa usar nome=valor.</value>
+  </data>
+  <data name="FlagSearch.EmptyInput" xml:space="preserve">
+    <value>Nenhuma entrada de flag encontrada.</value>
+  </data>
+  <data name="FlagSearch.Label1" xml:space="preserve">
+    <value>Encontrar Fast Flags</value>
+  </data>
+  <data name="FlagSearch.Label2" xml:space="preserve">
+    <value>Encontrar Fast Flags</value>
+  </data>
+  <data name="FlagSearch.Label3" xml:space="preserve">
+    <value>Pesquisa e validação de Fast Flags</value>
+  </data>
+  <data name="FlagSearch.Label4" xml:space="preserve">
+    <value>Pesquise, valide e descubra Fast Flags de várias fontes</value>
+  </data>
+  <data name="FlagSearch.Label5" xml:space="preserve">
+    <value>Atualizar fontes</value>
+  </data>
+  <data name="FlagSearch.Label6" xml:space="preserve">
+    <value>Pronto</value>
+  </data>
+  <data name="FlagSearch.Label7" xml:space="preserve">
+    <value>Pesquisa ao vivo</value>
+  </data>
+  <data name="FlagSearch.Label8" xml:space="preserve">
+    <value>Pesquisa de flags ao vivo</value>
+  </data>
+  <data name="FlagSearch.Label9" xml:space="preserve">
+    <value>Pesquise nomes completos ou palavras-chave. Resultados exatos aparecem primeiro. A exportação inclui todos os valores conhecidos correspondentes.</value>
+  </data>
+  <data name="FlagSearch.Label10" xml:space="preserve">
+    <value>Digite o nome da flag ou uma palavra-chave...</value>
+  </data>
+  <data name="FlagSearch.Label11" xml:space="preserve">
+    <value>Exportar resultados</value>
+  </data>
+  <data name="FlagSearch.Label12" xml:space="preserve">
+    <value>Todos os valores</value>
+  </data>
+  <data name="FlagSearch.Label13" xml:space="preserve">
+    <value>Valores true</value>
+  </data>
+  <data name="FlagSearch.Label14" xml:space="preserve">
+    <value>Valores false</value>
+  </data>
+  <data name="FlagSearch.Label15" xml:space="preserve">
+    <value>Nome da flag</value>
+  </data>
+  <data name="FlagSearch.Label16" xml:space="preserve">
+    <value>Valor</value>
+  </data>
+  <data name="FlagSearch.Label17" xml:space="preserve">
+    <value>Fonte</value>
+  </data>
+  <data name="FlagSearch.Label18" xml:space="preserve">
+    <value>Nenhum resultado. Tente outro nome ou filtro de valor.</value>
+  </data>
+  <data name="FlagSearch.Label19" xml:space="preserve">
+    <value>0 resultados</value>
+  </data>
+  <data name="FlagSearch.Label20" xml:space="preserve">
+    <value>Validação em massa</value>
+  </data>
+  <data name="FlagSearch.Label21" xml:space="preserve">
+    <value>Validação de flags em massa</value>
+  </data>
+  <data name="FlagSearch.Label22" xml:space="preserve">
+    <value>Verifica a presença nas fontes e os tipos de valor. Um resultado não garante que o Roblox permita a substituição local.</value>
+  </data>
+  <data name="FlagSearch.Label23" xml:space="preserve">
+    <value>Carregar arquivo</value>
+  </data>
+  <data name="FlagSearch.Label24" xml:space="preserve">
+    <value>Validar</value>
+  </data>
+  <data name="FlagSearch.Label25" xml:space="preserve">
+    <value>Limpar</value>
+  </data>
+  <data name="FlagSearch.Label26" xml:space="preserve">
+    <value>Colar</value>
+  </data>
+  <data name="FlagSearch.Label28" xml:space="preserve">
+    <value>Selecionar tudo</value>
+  </data>
+  <data name="FlagSearch.Label30" xml:space="preserve">
+    <value>Limpar</value>
+  </data>
+  <data name="FlagSearch.Label31" xml:space="preserve">
+    <value>Resultados da validação</value>
+  </data>
+  <data name="FlagSearch.Label32" xml:space="preserve">
+    <value>Nome da flag</value>
+  </data>
+  <data name="FlagSearch.Label33" xml:space="preserve">
+    <value>Valor digitado</value>
+  </data>
+  <data name="FlagSearch.Label35" xml:space="preserve">
+    <value>Valor da fonte</value>
+  </data>
+  <data name="FlagSearch.Label36" xml:space="preserve">
+    <value>Observações</value>
+  </data>
+  <data name="FlagSearch.Label37" xml:space="preserve">
+    <value>Exportar entrada verificada</value>
+  </data>
+  <data name="FlagSearch.Label38" xml:space="preserve">
+    <value>0 resultados</value>
+  </data>
+  <data name="FlagSearch.Label39" xml:space="preserve">
+    <value>Fontes de dados</value>
+  </data>
+  <data name="FlagSearch.Label40" xml:space="preserve">
+    <value>Disponibilidade das fontes ao vivo e horários de obtenção. Estar em uma fonte não significa que o Roblox aceite uma substituição local. Essas fontes não informam datas de mudanças recentes.</value>
+  </data>
+  <data name="FlagSearch.Label41" xml:space="preserve">
+    <value>Fonte</value>
+  </data>
+  <data name="FlagSearch.Label44" xml:space="preserve">
+    <value>Obtido</value>
+  </data>
+  <data name="FlagSearch.Label45" xml:space="preserve">
+    <value>Fechar</value>
+  </data>
+  <data name="FlagSearch.Message1" xml:space="preserve">
+    <value>Digite as flags que deseja validar.</value>
+  </data>
+  <data name="FlagSearch.Message2" xml:space="preserve">
+    <value>Nenhuma entrada</value>
+  </data>
+  <data name="FlagSearch.Message3" xml:space="preserve">
+    <value>Essa entrada de flags é grande demais para ser validada.</value>
+  </data>
+  <data name="FlagSearch.Message4" xml:space="preserve">
+    <value>Entrada grande demais</value>
+  </data>
+  <data name="FlagSearch.Message5" xml:space="preserve">
+    <value>Flags duplicadas encontradas na entrada: </value>
+  </data>
+  <data name="FlagSearch.Message6" xml:space="preserve">
+    <value>Duplicatas detectadas</value>
+  </data>
+  <data name="FlagSearch.Message7" xml:space="preserve">
+    <value>Erro ao validar as flags</value>
+  </data>
+  <data name="FlagSearch.Message8" xml:space="preserve">
+    <value>Erro ao validar as flags: </value>
+  </data>
+  <data name="FlagSearch.Message9" xml:space="preserve">
+    <value>Erro de validação</value>
+  </data>
+  <data name="FlagSearch.Message10" xml:space="preserve">
+    <value>Selecione o arquivo de flags para validar</value>
+  </data>
+  <data name="FlagSearch.Message11" xml:space="preserve">
+    <value>Erro ao carregar o arquivo: </value>
+  </data>
+  <data name="FlagSearch.Message12" xml:space="preserve">
+    <value>Erro de arquivo</value>
+  </data>
+  <data name="FlagSearch.Message13" xml:space="preserve">
+    <value>O tamanho do arquivo de flags é inválido</value>
+  </data>
+  <data name="FlagSearch.Message14" xml:space="preserve">
+    <value>O arquivo de flags mudou durante a leitura</value>
+  </data>
+  <data name="FlagSearch.Message15" xml:space="preserve">
+    <value>A entrada de flags é grande demais</value>
+  </data>
+  <data name="FlagSearch.Message16" xml:space="preserve">
+    <value>{flags.Count} flags exportadas para {dialog.FileName}</value>
+  </data>
+  <data name="FlagSearch.Message17" xml:space="preserve">
+    <value>Exportação concluída</value>
+  </data>
+  <data name="FlagSearch.Message18" xml:space="preserve">
+    <value>Erro ao exportar as flags: </value>
+  </data>
+  <data name="FlagSearch.Message19" xml:space="preserve">
+    <value>Erro de exportação</value>
+  </data>
+  <data name="FlagSearch.Message20" xml:space="preserve">
+    <value>Erro ao colar da área de transferência: </value>
+  </data>
+  <data name="FlagSearch.Message21" xml:space="preserve">
+    <value>Erro ao colar</value>
+  </data>
+  <data name="FlagSearch.ExportSummary" xml:space="preserve">
+    <value>{0:N0} flags exportadas para {1}</value>
+  </data>
+  <data name="FlagSearch.ValueNote" xml:space="preserve">
+    <value>O valor digitado não corresponde ao tipo do nome da flag. Flags booleanas exigem true ou false, flags inteiras exigem um número inteiro de 32 bits.</value>
+  </data>
+  <data name="Notifications.Title" xml:space="preserve">
+    <value>Notificações</value>
+  </data>
+  <data name="Notifications.Updates" xml:space="preserve">
+    <value>Atualizações</value>
+  </data>
+  <data name="Notifications.Roblox" xml:space="preserve">
+    <value>Roblox e mods</value>
+  </data>
+  <data name="Notifications.Recovery" xml:space="preserve">
+    <value>Recuperação de configurações</value>
+  </data>
+  <data name="Notifications.Errors" xml:space="preserve">
+    <value>Erros e travamentos</value>
+  </data>
+  <data name="Notifications.GameJoins" xml:space="preserve">
+    <value>Entrou em um jogo</value>
+  </data>
+  <data name="Notifications.App" xml:space="preserve">
+    <value>Notificações do aplicativo</value>
+  </data>
+  <data name="Notifications.AppDescription" xml:space="preserve">
+    <value>Mostrar notificações do aplicativo.</value>
+  </data>
+  <data name="Bootstrapper.Uninstall.NvidiaFailed" xml:space="preserve">
+    <value>A limpeza da NVIDIA falhou. Desinstalar mesmo assim? As configurações restantes da NVIDIA continuarão aplicadas.
+
+{0}</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Latest" xml:space="preserve">
+    <value>Mais recentes</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Oldest" xml:space="preserve">
+    <value>Mais antigos</value>
+  </data>
+  <data name="ContextMenu.GameHistory.MostPlayed" xml:space="preserve">
+    <value>Visitas mais longas</value>
+  </data>
+  <data name="ContextMenu.GameHistory.NameAscending" xml:space="preserve">
+    <value>Nome, crescente</value>
+  </data>
+  <data name="ContextMenu.GameHistory.NameDescending" xml:space="preserve">
+    <value>Nome, decrescente</value>
+  </data>
+  <data name="ContextMenu.GameHistory.AllServers" xml:space="preserve">
+    <value>Todos os servidores</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Public" xml:space="preserve">
+    <value>Público</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Private" xml:space="preserve">
+    <value>Privado</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Reserved" xml:space="preserve">
+    <value>Reservado</value>
+  </data>
+  <data name="ContextMenu.GameHistory.EndUnknown" xml:space="preserve">
+    <value>Não registrado</value>
+  </data>
+  <data name="ContextMenu.GameHistory.CopyLink" xml:space="preserve">
+    <value>Copiar link</value>
+  </data>
+  <data name="ContextMenu.GameHistory.LoadFailed" xml:space="preserve">
+    <value>Não foi possível carregar o histórico.</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Empty" xml:space="preserve">
+    <value>Nenhuma visita para mostrar.</value>
+  </data>
+  <data name="ContextMenu.GameHistory.StatusUnknown" xml:space="preserve">
+    <value>Desconhecido</value>
+  </data>
+  <data name="ContextMenu.GameHistory.CheckedAt" xml:space="preserve">
+    <value>Verificado: {0}</value>
+  </data>
+  <data name="ContextMenu.GameHistory.LaunchFailed" xml:space="preserve">
+    <value>Não foi possível iniciar o Roblox.</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.MaxOnly" xml:space="preserve">
+    <value>Máx. {0}</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.Unknown" xml:space="preserve">
+    <value>Desconhecido</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.InGame" xml:space="preserve">
+    <value>{0:N0} no jogo</value>
+  </data>
+  <data name="ServerInfo.Hint.Updated" xml:space="preserve">
+    <value>Atualizado há {0}.</value>
+  </data>
+  <data name="ServerInfo.Hint.RateLimited" xml:space="preserve">
+    <value>O Roblox está limitando as consultas de servidores, tentando novamente em {0}.</value>
+  </data>
+  <data name="ServerInfo.Hint.RateLimitedStale" xml:space="preserve">
+    <value>O Roblox está limitando as consultas de servidores. Mostrando a contagem de {0} atrás, atualizando novamente em {1}.</value>
+  </data>
+  <data name="ServerInfo.Hint.NotListed" xml:space="preserve">
+    <value>Este servidor não está na parte da lista pública de servidores que o Roblox compartilha, verificando novamente em {0}.</value>
+  </data>
+  <data name="ServerInfo.Hint.NotListedStale" xml:space="preserve">
+    <value>Visto pela última vez há {0}. Este servidor não está agora na parte da lista pública de servidores que o Roblox compartilha.</value>
+  </data>
+  <data name="ServerInfo.Hint.PrivateNotListed" xml:space="preserve">
+    <value>Este servidor privado não está na lista de servidores que sua conta pode ver, então a contagem de jogadores não pode ser lida.</value>
+  </data>
+  <data name="ServerInfo.Hint.PrivateSignedOut" xml:space="preserve">
+    <value>O Roblox só compartilha a contagem de jogadores de servidores privados com uma conta conectada. Entre no Roblox pelo Voidstrap para vê-la.</value>
+  </data>
+  <data name="ServerInfo.Hint.Reserved" xml:space="preserve">
+    <value>O Roblox não lista servidores reservados, usados para teleportes e grupos, então a contagem de jogadores deles não pode ser lida.</value>
+  </data>
+  <data name="ServerInfo.Hint.Unavailable" xml:space="preserve">
+    <value>Não foi possível acessar o Roblox, tentando novamente em {0}.</value>
+  </data>
+  <data name="ServerInfo.Hint.UnavailableStale" xml:space="preserve">
+    <value>Não foi possível acessar o Roblox. Mostrando a contagem de {0} atrás, tentando novamente em {1}.</value>
+  </data>
+  <data name="ServerInfo.Hint.Full" xml:space="preserve">
+    <value>Este servidor está cheio. O Roblox deixa servidores cheios fora da lista pública de servidores, então ele aparece como cheio até que uma vaga seja liberada.</value>
+  </data>
+  <data name="Shortcuts.GameTab" xml:space="preserve">
+    <value>Jogo</value>
+  </data>
+  <data name="Shortcuts.SubplaceTab" xml:space="preserve">
+    <value>Sublugar</value>
+  </data>
+  <data name="Shortcuts.SubplaceDescription" xml:space="preserve">
+    <value>Encontre os outros lugares desta experiência.</value>
+  </data>
+  <data name="Shortcuts.LoadSubplaces" xml:space="preserve">
+    <value>Carregar sublugares</value>
+  </data>
+  <data name="Shortcuts.SubplaceAccess" xml:space="preserve">
+    <value>O criador precisa permitir entradas diretas. Alguns sublugares exigem um teleporte dentro do jogo.</value>
+  </data>
+  <data name="Shortcuts.SubplaceInitial" xml:space="preserve">
+    <value>Digite um ID de jogo para carregar os sublugares automaticamente.</value>
+  </data>
+  <data name="Shortcuts.SubplaceRetry" xml:space="preserve">
+    <value>Abra esta aba novamente para tentar de novo.</value>
+  </data>
+  <data name="Shortcuts.SubplaceInvalidId" xml:space="preserve">
+    <value>Digite um ID de jogo numérico válido.</value>
+  </data>
+  <data name="Shortcuts.SubplaceLoading" xml:space="preserve">
+    <value>Carregando sublugares...</value>
+  </data>
+  <data name="Shortcuts.SubplaceEmpty" xml:space="preserve">
+    <value>Esta experiência não tem sublugares listados.</value>
+  </data>
+  <data name="Shortcuts.SubplaceChoose" xml:space="preserve">
+    <value>Escolha um sublugar abaixo.</value>
+  </data>
+  <data name="Shortcuts.SubplaceTimeout" xml:space="preserve">
+    <value>A solicitação expirou. Abra esta aba novamente para tentar de novo.</value>
+  </data>
+  <data name="Shortcuts.SubplaceFailed" xml:space="preserve">
+    <value>Não foi possível carregar os sublugares. Verifique o ID do jogo e a conexão e tente novamente.</value>
+  </data>
+  <data name="Shortcuts.SubplaceReload" xml:space="preserve">
+    <value>Os sublugares são carregados automaticamente quando você digita um ID de jogo válido.</value>
+  </data>
+  <data name="Shortcuts.SubplaceRequired" xml:space="preserve">
+    <value>Aguarde os sublugares carregarem e escolha um antes de continuar.</value>
+  </data>
+  <data name="Library.SubplacesTab" xml:space="preserve">
+    <value>Sublugares</value>
+  </data>
+  <data name="SettingsProfiles.Title" xml:space="preserve">
+    <value>Perfis de configurações</value>
+  </data>
+  <data name="SettingsProfiles.Name" xml:space="preserve">
+    <value>Nome do perfil</value>
+  </data>
+  <data name="SettingsProfiles.NameHint" xml:space="preserve">
+    <value>Exemplo: VoidstrapProfile</value>
+  </data>
+  <data name="SettingsProfiles.Save" xml:space="preserve">
+    <value>Salvar perfil</value>
+  </data>
+  <data name="SettingsProfiles.Saved" xml:space="preserve">
+    <value>Perfis salvos</value>
+  </data>
+  <data name="SettingsProfiles.Apply" xml:space="preserve">
+    <value>Aplicar perfil</value>
+  </data>
+  <data name="SettingsProfiles.Folder" xml:space="preserve">
+    <value>Abrir pasta</value>
+  </data>
+  <data name="SettingsProfiles.Empty" xml:space="preserve">
+    <value>Nenhum perfil ainda. Digite um nome e escolha Salvar perfil.</value>
+  </data>
+  <data name="SettingsProfiles.Location" xml:space="preserve">
+    <value>Salvo em {0}</value>
+  </data>
+  <data name="SettingsProfiles.InvalidName" xml:space="preserve">
+    <value>Use um nome com 1 a 80 caracteres, sem símbolos de nome de arquivo ou nomes de dispositivo reservados.</value>
+  </data>
+  <data name="SettingsProfiles.InvalidFile" xml:space="preserve">
+    <value>Este perfil é inválido ou usa um formato não suportado.</value>
+  </data>
+  <data name="SettingsProfiles.RestoreFailed" xml:space="preserve">
+    <value>Não foi possível aplicar o perfil nem restaurar as configurações anteriores.</value>
+  </data>
+  <data name="SettingsProfiles.Overwrite" xml:space="preserve">
+    <value>Substituir o perfil salvo "{0}" pelas suas configurações atuais?</value>
+  </data>
+  <data name="SettingsProfiles.SavedStatus" xml:space="preserve">
+    <value>"{0}" salvo</value>
+  </data>
+  <data name="SettingsProfiles.ApplyConfirm" xml:space="preserve">
+    <value>Aplicar "{0}"? Isso substitui suas configurações e FastFlags atuais do Voidstrap e depois reabre as configurações do Voidstrap.</value>
+  </data>
+  <data name="SettingsProfiles.RestartFailed" xml:space="preserve">
+    <value>O perfil foi aplicado. Reinicie o Voidstrap para atualizar todas as páginas de configurações.</value>
+  </data>
+  <data name="SettingsProfiles.Restart" xml:space="preserve">
+    <value>Reiniciar agora</value>
+  </data>
+  <data name="SettingsProfiles.DeleteConfirm" xml:space="preserve">
+    <value>Excluir o perfil salvo "{0}"? Suas configurações atuais continuarão como estão.</value>
+  </data>
+  <data name="SettingsProfiles.Deleted" xml:space="preserve">
+    <value>"{0}" excluído.</value>
+  </data>
+  <data name="SettingsProfiles.Error" xml:space="preserve">
+    <value>Não foi possível concluir a ação do perfil: {0}</value>
+  </data>
+  <data name="GlobalProfiles.Title" xml:space="preserve">
+    <value>Perfis de configurações globais</value>
+  </data>
+  <data name="GlobalProfiles.ApplyConfirm" xml:space="preserve">
+    <value>Aplicar "{0}"? Isso substitui suas configurações globais atuais do Roblox. Entre no Roblox novamente para ver todas as mudanças.</value>
+  </data>
+  <data name="GlobalProfiles.Applied" xml:space="preserve">
+    <value>"{0}" aplicado</value>
+  </data>
+  <data name="GlobalProfiles.SaveFailed" xml:space="preserve">
+    <value>Não foi possível gravar o arquivo de configurações do Roblox. Feche o Roblox e tente novamente.</value>
+  </data>
+  <data name="AssetWarp.RemoveTexturesDescription" xml:space="preserve">
+    <value>Bloqueia o download de recursos de texturas e pacotes de texturas</value>
+  </data>
+  <data name="AssetWarp.RemoveDecalsDescription" xml:space="preserve">
+    <value>Bloqueia o download de recursos de decalques</value>
+  </data>
+  <data name="AssetWarp.RemoveImagesDescription" xml:space="preserve">
+    <value>Bloqueia o download de recursos de imagens. O Roblox também usa imagens para texturas e decalques</value>
+  </data>
+  <data name="AssetWarp.RemoveAnimationsDescription" xml:space="preserve">
+    <value>Bloqueia o download de recursos de animações. Jogos sem uma animação alternativa podem parar de funcionar corretamente</value>
+  </data>
+  <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
+    <value>Bloqueia o download de recursos de malhas e MeshParts. A geometria das malhas ficará invisível</value>
+  </data>
+  <data name="SwiftTunnel.Summary" xml:space="preserve">
+    <value>Direcione o tráfego do Roblox pelo SwiftTunnel enquanto os outros aplicativos usam sua conexão normal</value>
+  </data>
+  <data name="SwiftTunnel.Description" xml:space="preserve">
+    <value>O SwiftTunnel é um otimizador de conexão de jogos para Windows com túnel dividido e seleção de retransmissores regionais</value>
+  </data>
+  <data name="SwiftTunnel.Setup" xml:space="preserve">
+    <value>Instalar baixa a versão oficial mais recente do SwiftTunnel e abre o aplicativo de desktop após a configuração. Entre na sua conta e escolha sua conexão por lá. A otimização de rede pode exigir acesso de administrador</value>
+  </data>
+  <data name="SwiftTunnel.Network" xml:space="preserve">
+    <value>Rede</value>
+  </data>
+  <data name="SwiftTunnel.Routing" xml:space="preserve">
+    <value>Roteamento</value>
+  </data>
+  <data name="SwiftTunnel.Install" xml:space="preserve">
+    <value>Instalar</value>
+  </data>
+  <data name="SwiftTunnel.Uninstall" xml:space="preserve">
+    <value>Desinstalar</value>
+  </data>
+  <data name="SwiftTunnel.Installed" xml:space="preserve">
+    <value>Instalado</value>
+  </data>
+  <data name="SwiftTunnel.NotInstalled" xml:space="preserve">
+    <value>Não instalado</value>
+  </data>
+  <data name="SwiftTunnel.Working" xml:space="preserve">
+    <value>Trabalhando</value>
+  </data>
+  <data name="SwiftTunnel.Downloading" xml:space="preserve">
+    <value>Baixando o SwiftTunnel</value>
+  </data>
+  <data name="SwiftTunnel.InstallerFailed" xml:space="preserve">
+    <value>Não foi possível abrir a instalação do SwiftTunnel</value>
+  </data>
+  <data name="SwiftTunnel.InstallerExit" xml:space="preserve">
+    <value>A instalação do SwiftTunnel retornou o código {0}</value>
+  </data>
+  <data name="SwiftTunnel.Error" xml:space="preserve">
+    <value>Não foi possível concluir a ação do SwiftTunnel: {0}</value>
+  </data>
+  <data name="SwiftTunnel.UninstallUnavailable" xml:space="preserve">
+    <value>A entrada de desinstalação do SwiftTunnel está incompleta. Remova o SwiftTunnel em Configurações do Windows, Aplicativos</value>
+  </data>
+  <data name="SwiftTunnel.CleanupFailed" xml:space="preserve">
+    <value>O SwiftTunnel não conseguiu restaurar suas configurações de rede. Os arquivos foram mantidos para que a limpeza possa ser repetida</value>
+  </data>
+  <data name="SwiftTunnel.ConfirmUninstall" xml:space="preserve">
+    <value>Remover o SwiftTunnel completamente? Primeiro o driver de rede e as configurações do sistema são restaurados, depois o SwiftTunnel é desinstalado. Depois de iniciado, não pode ser cancelado.</value>
+  </data>
+  <data name="SwiftTunnel.UninstallIncomplete" xml:space="preserve">
+    <value>Não foi possível concluir a remoção do SwiftTunnel. Feche o SwiftTunnel e tente novamente com acesso de administrador</value>
+  </data>
+  <data name="SwiftTunnel.UnsafeDirectory" xml:space="preserve">
+    <value>O SwiftTunnel está instalado em uma pasta compartilhada ou não reconhecida. Mova-o para uma pasta própria do SwiftTunnel antes de usar a remoção completa</value>
+  </data>
+  <data name="SwiftTunnel.NotInstalledError" xml:space="preserve">
+    <value>O SwiftTunnel não está instalado. Instale-o primeiro em Extensões</value>
+  </data>
+  <data name="SwiftTunnel.Missing" xml:space="preserve">
+    <value>O SwiftTunnel está registrado, mas os arquivos do aplicativo estão faltando. Desinstale e instale novamente para repará-lo</value>
+  </data>
+  <data name="SwiftTunnel.NoInstaller" xml:space="preserve">
+    <value>A versão mais recente do SwiftTunnel não tem um instalador do Windows verificado para este computador</value>
+  </data>
+  <data name="Installer.MacOS.DataLocation.Title" xml:space="preserve">
+    <value>Escolha onde armazenar os dados do Voidstrap</value>
+  </data>
+  <data name="Installer.MacOS.DataLocation.Text" xml:space="preserve">
+    <value>O Voidstrap guarda aqui suas configurações e mods. O aplicativo permanece no local atual. O Roblox é instalado separadamente em Aplicativos.</value>
+  </data>
+  <data name="Installer.MacOS.Completion.Text" xml:space="preserve">
+    <value>O Voidstrap está pronto.
+
+O Roblox será baixado quando você o iniciar pela primeira vez pelo Voidstrap. Você pode ajustar suas configurações antes de iniciar.
+
+O que você gostaria de fazer?</value>
+  </data>
+  <data name="Installer.MacOS.Roblox.Title" xml:space="preserve">
+    <value>Roblox para macOS</value>
+  </data>
+  <data name="Installer.MacOS.Roblox.Text" xml:space="preserve">
+    <value>O Voidstrap baixa o aplicativo oficial do Roblox em Aplicativos na primeira vez que você clica em Iniciar e o mantém atualizado depois disso. Não é necessária uma instalação separada.</value>
+  </data>
+  <data name="HomepageMedia.Preview.FileMissing" xml:space="preserve">
+    <value>O arquivo de mídia selecionado não foi encontrado.</value>
+  </data>
+  <data name="HomepageMedia.Preview.DecodeError" xml:space="preserve">
+    <value>Não foi possível decodificar esta mídia. Escolha outra imagem ou vídeo.</value>
+  </data>
+  <data name="HomepageMedia.Preview.RenderError" xml:space="preserve">
+    <value>Não foi possível exibir a pré-visualização da mídia.</value>
+  </data>
+  <data name="HomepageMedia.Picker.ImagesAndVideos" xml:space="preserve">
+    <value>Imagens e vídeos</value>
+  </data>
+  <data name="HomepageMedia.Picker.Images" xml:space="preserve">
+    <value>Imagens</value>
+  </data>
+  <data name="HomepageMedia.Picker.Videos" xml:space="preserve">
+    <value>Vídeos</value>
+  </data>
+  <data name="Appearance.Backdrop.Sidebar" xml:space="preserve">
+    <value>Barra lateral</value>
+  </data>
+  <data name="Appearance.Backdrop.Popover" xml:space="preserve">
+    <value>Janela suspensa</value>
+  </data>
+  <data name="Appearance.Backdrop.Hud" xml:space="preserve">
+    <value>Tela de alerta</value>
+  </data>
+  <data name="Appearance.Backdrop.UnderWindow" xml:space="preserve">
+    <value>Abaixo da janela</value>
+  </data>
+  <data name="Appearance.Backdrop.UnderPage" xml:space="preserve">
+    <value>Abaixo da página</value>
+  </data>
+  <data name="Menu.MacVirtualDisplay.Title" xml:space="preserve">
+    <value>Tela virtual de 240 Hz</value>
+  </data>
+  <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Espelha a tela principal enquanto o Roblox está aberto e a restaura quando o Roblox fecha. A tela física mantém seu próprio limite de atualização.</value>
+  </data>
 </root>

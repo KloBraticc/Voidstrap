@@ -1685,4 +1685,1343 @@ Tercih ettiğiniz kanalı {0} olarak değiştirmek istiyor musunuz?</value>
   <data name="Menu.News.DialogTitle" xml:space="preserve">
     <value>Haber Ayrıntıları</value>
   </data>
+  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
+    <value>Voidstrap, Windows hosts dosyasında kalan AssetWarp yönlendirmesini kaldıramadı. Bu kaldırılana kadar Roblox doku veya diğer varlıkları yükleyemez. Temizlemek için Voidstrap'i yönetici olarak çalıştırın.</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
+    <value>İkisi de</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
+    <value>Oyuncu</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
+    <value>Sunucu tarayıcısı</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
+    <value>Yer {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
+    <value>{0}  •  Yer {1}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
+    <value>{0} sunucu tarandı</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
+    <value>Yenile</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
+    <value>Daha fazla sunucu yükle</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
+    <value>Dolu sunucuları gizle</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
+    <value>Şehir, ülke veya sunucu kimliği ara</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
+    <value>En çok oyuncu</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
+    <value>En az oyuncu</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
+    <value>En düşük ping</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
+    <value>Katıl</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
+    <value>Mevcut</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
+    <value>Herkese açık sunucular yükleniyor</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
+    <value>Herkese açık sunucu bulunamadı</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
+    <value>Sunucu tarayıcısını açmadan önce bir oyuna katılın</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
+    <value>Roblox istekleri sınırladığı için sunucu listesi duraklatıldı</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
+    <value>Herkese açık sunucular yüklenemedi</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
+    <value>{0} sunucu yüklendi</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
+    <value>{0}/{1} oyuncu</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
+    <value>{0} oyuncu</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
+    <value>Bilinmiyor</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
+    <value>En iyi eşleşme</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
+    <value>En iyi eşleşme</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
+    <value>Engellendi</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
+    <value>Size yaklaşık {0} ms uzaklıkta</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
+    <value>Şu ana kadar {0} sunucunun konumu bulundu</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
+    <value>{1} sunucudan {0} tanesinin konumu bulundu</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
+    <value>{0} sunucusuna taşınıyorsunuz</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
+    <value>O sunucuya katılınamadı</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
+    <value>Voidstrap'in her sunucunun nerede olduğunu bulabilmesi için Ayarlar &gt; Server Matchmaker bölümünden giriş yapın</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
+    <value>Konumunuz bulunamadı, bu yüzden sunucular pinge göre sıralanamıyor</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
+    <value>Roblox bu sunucuların nerede olduğunu açıklamadı, biraz sonra tekrar deneyin</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
+    <value>Bulunan tüm sunucular engellediğiniz bir veri merkezinde</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
+    <value>Bulunan tüm sunucular size uzak, eşleştirici seçimi Roblox'a bırakır</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
+    <value>Oyun tarayıcısı</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
+    <value>Devam et</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
+    <value>Favoriler</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
+    <value>Ara</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
+    <value>Roblox oyunlarında ara</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
+    <value>Oyunlar yükleniyor</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
+    <value>Bu oturumda son oynanan oyun yok</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
+    <value>Kayıtlı favori oyun yok</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
+    <value>Bir Roblox oyununu adına göre arayın</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
+    <value>{0} için oyun bulunamadı</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
+    <value>Oyunlar yüklenemedi</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
+    <value>{0} kişi oynuyor</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
+    <value>Katıl</value>
+  </data>
+  <data name="Enums.Theme.Berry" xml:space="preserve">
+    <value>Böğürtlen</value>
+  </data>
+  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
+    <value>Otomatik çeviri</value>
+  </data>
+  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
+    <value>Şu dile çevir</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
+    <value>Otomatik çeviri dili</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
+    <value>Voidstrap arayüzünün tamamını istediğiniz dile çevirin. Önce yerleşik çeviriler kullanılır, kalan metin canlı olarak çevrilir.</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
+    <value>Discord RPC'lerini otomatik çevir</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
+    <value>Discord Rich Presence metnini seçilen dile otomatik olarak çevirir.</value>
+  </data>
+  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
+    <value>Bu özellik yalnızca Windows'ta kullanılabilir.</value>
+  </data>
+  <data name="About.Translators.Description" xml:space="preserve">
+    <value>Burada listelenen herkes Voidstrap'in çevrilmesine yardım etmek için cömertçe zamanını ve emeğini verdi. Hepsine çok teşekkürler!</value>
+  </data>
+  <data name="Menu.Channel.Description" xml:space="preserve">
+    <value>Roblox ve Voidstrap için dağıtım ve yükleme ayarlarını değiştirin.</value>
+  </data>
+  <data name="Common.Channel" xml:space="preserve">
+    <value>Kanal</value>
+  </data>
+  <data name="Menu.ChannelChanger.Description" xml:space="preserve">
+    <value>Dağıtım kanalını seçin. Ne yaptığınızı bilmiyorsanız değiştirmeyin.</value>
+  </data>
+  <data name="Common.Version" xml:space="preserve">
+    <value>Sürüm</value>
+  </data>
+  <data name="Menu.Channel.RobloxUpgrades" xml:space="preserve">
+    <value>Roblox güncellemeleri</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
+    <value>Karanlık mod</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
+    <value>Telemetri</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
+    <value>Karanlık mod</value>
+  </data>
+  <data name="Menu.Sober.Description" xml:space="preserve">
+    <value>Voidstrap'in Roblox'u başlattığı Linux çalışma ortamlarını yapılandırın. Sober oynatıcıyı, Vinegar ise Studio'yu çalıştırır. Voidstrap yalnızca açıkça geçersiz kıldığınız seçenekleri değiştirir.</value>
+  </data>
+  <data name="Menu.Sober.Default" xml:space="preserve">
+    <value>Sober varsayılanını kullan</value>
+  </data>
+  <data name="Menu.Sober.Enabled" xml:space="preserve">
+    <value>Etkin</value>
+  </data>
+  <data name="Menu.Sober.Disabled" xml:space="preserve">
+    <value>Devre dışı</value>
+  </data>
+  <data name="Menu.Sober.DefaultNotice" xml:space="preserve">
+    <value>Sober varsayılanını kullan, ayarı Sober'ın denetimine bırakır. Bir geçersiz kılmayı kaldırmak, Voidstrap'in yedeklediği değeri geri yükler.</value>
+  </data>
+  <data name="Menu.Sober.RuntimeNotice" xml:space="preserve">
+    <value>Geçersiz kılmaları ayarlamadan önce Sober'ın ilk çalıştırmasını tamamlayın, ardından değiştirmeden önce Sober'ı kapatın. Kaydedilen değişiklikler Sober'ın bir sonraki başlatılışında uygulanır.</value>
+  </data>
+  <data name="Menu.Sober.Group.Session" xml:space="preserve">
+    <value>Oturum ve etkinlik</value>
+  </data>
+  <data name="Menu.Sober.Group.Input" xml:space="preserve">
+    <value>Giriş ve deneyim</value>
+  </data>
+  <data name="Menu.Sober.Group.Graphics" xml:space="preserve">
+    <value>Grafik ve masaüstü</value>
+  </data>
+  <data name="Menu.Sober.AllowGamepad.Title" xml:space="preserve">
+    <value>Oyun kumandası iznine izin ver</value>
+  </data>
+  <data name="Menu.Sober.AllowGamepad.Description" xml:space="preserve">
+    <value>Sober'ın bağlı oyun kumandalarına erişim istemesine izin verir. İzin değişiklikleri Sober'ın yeniden başlatılmasını gerektirebilir.</value>
+  </data>
+  <data name="Menu.Sober.CloseOnLeave.Title" xml:space="preserve">
+    <value>Ayrılınca kapat</value>
+  </data>
+  <data name="Menu.Sober.CloseOnLeave.Description" xml:space="preserve">
+    <value>Bir deneyimden ayrıldıktan sonra Sober'ı kapatır.</value>
+  </data>
+  <data name="Menu.Sober.DiscordRpc.Description" xml:space="preserve">
+    <value>Sober'ın oyun etkinliğini Discord Rich Presence üzerinden yayınlamasına izin verir.</value>
+  </data>
+  <data name="Menu.Sober.DiscordJoin.Title" xml:space="preserve">
+    <value>Discord katıl düğmesi</value>
+  </data>
+  <data name="Menu.Sober.DiscordJoin.Description" xml:space="preserve">
+    <value>Sober'ın Discord Rich Presence'a bir katıl düğmesi eklemesine izin verir.</value>
+  </data>
+  <data name="Menu.Sober.GameMode.Title" xml:space="preserve">
+    <value>GameMode entegrasyonu</value>
+  </data>
+  <data name="Menu.Sober.GameMode.Description" xml:space="preserve">
+    <value>GameMode kullanılabilir olduğunda Sober'ın GameMode performans ayarı istemesine izin verir.</value>
+  </data>
+  <data name="Menu.Sober.HiDpi.Title" xml:space="preserve">
+    <value>Yüksek DPI ölçeklendirme</value>
+  </data>
+  <data name="Menu.Sober.HiDpi.Description" xml:space="preserve">
+    <value>Yüksek yoğunluklu ekranlar için yerel ölçeklendirmeyi kullanır.</value>
+  </data>
+  <data name="Menu.Sober.MobileHome.Title" xml:space="preserve">
+    <value>Mobil ana ekran</value>
+  </data>
+  <data name="Menu.Sober.MobileHome.Description" xml:space="preserve">
+    <value>Mobil tarzı Roblox ana ekranını kullanır.</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Title" xml:space="preserve">
+    <value>Grafik optimizasyon modu</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Description" xml:space="preserve">
+    <value>Sober'ın grafik optimizasyon tercihini seçer.</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Quality" xml:space="preserve">
+    <value>Kalite</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Balanced" xml:space="preserve">
+    <value>Dengeli</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Performance" xml:space="preserve">
+    <value>Performans</value>
+  </data>
+  <data name="Menu.Sober.ServerLocation.Title" xml:space="preserve">
+    <value>Sunucu konumu göstergesi</value>
+  </data>
+  <data name="Menu.Sober.ServerLocation.Description" xml:space="preserve">
+    <value>Oynarken Sober'ın sunucu konumu göstergesini gösterir.</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Title" xml:space="preserve">
+    <value>Dokunmatik mod</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Description" xml:space="preserve">
+    <value>Sober'ın dokunmatik giriş desteğini nasıl bildireceğini seçer.</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Off" xml:space="preserve">
+    <value>Kapalı</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.On" xml:space="preserve">
+    <value>Açık</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.FakeOff" xml:space="preserve">
+    <value>Sahte kapalı</value>
+  </data>
+  <data name="Menu.Sober.ConsoleExperience.Title" xml:space="preserve">
+    <value>Konsol deneyimi</value>
+  </data>
+  <data name="Menu.Sober.ConsoleExperience.Description" xml:space="preserve">
+    <value>Konsol tarzı Roblox deneyimini kullanır.</value>
+  </data>
+  <data name="Menu.Sober.Libsecret.Title" xml:space="preserve">
+    <value>Secret Service depolaması</value>
+  </data>
+  <data name="Menu.Sober.Libsecret.Description" xml:space="preserve">
+    <value>Desteklenen kimlik bilgilerini masaüstünün Secret Service hizmetiyle saklar.</value>
+  </data>
+  <data name="Menu.Sober.OpenGl.Title" xml:space="preserve">
+    <value>OpenGL işleyici</value>
+  </data>
+  <data name="Menu.Sober.OpenGl.Description" xml:space="preserve">
+    <value>Sober'ın varsayılan grafik arka ucu yerine OpenGL kullanır.</value>
+  </data>
+  <data name="Installer.Appearance.BackgroundUI.Title" xml:space="preserve">
+    <value>Arka plan ve arayüz</value>
+  </data>
+  <data name="Installer.Appearance.BackgroundUI.Description" xml:space="preserve">
+    <value>Yükleyiciyi ve ana uygulamayı kişiselleştirin.</value>
+  </data>
+  <data name="Installer.Appearance.Snow.Title" xml:space="preserve">
+    <value>Arka planda kar</value>
+  </data>
+  <data name="Installer.Appearance.Snow.Description" xml:space="preserve">
+    <value>Arka plana hafif bir kar efekti ekler.</value>
+  </data>
+  <data name="Installer.Appearance.GradientMovement.Title" xml:space="preserve">
+    <value>Gradyan hareketi</value>
+  </data>
+  <data name="Installer.Appearance.GradientMovement.Description" xml:space="preserve">
+    <value>Arka plan gradyanının işaretçiyi takip etmesini sağlar.</value>
+  </data>
+  <data name="Installer.Appearance.SmoothScrolling.Title" xml:space="preserve">
+    <value>Akıcı kaydırma</value>
+  </data>
+  <data name="Installer.Appearance.SmoothScrolling.Description" xml:space="preserve">
+    <value>Arayüzün tamamında kaydırmayı canlandırır.</value>
+  </data>
+  <data name="Installer.Appearance.ClearFont.Title" xml:space="preserve">
+    <value>Net yazı tipi</value>
+  </data>
+  <data name="Installer.Appearance.ClearFont.Description" xml:space="preserve">
+    <value>Voidstrap yeniden başlatıldıktan sonra daha keskin metin işleme kullanır.</value>
+  </data>
+  <data name="Installer.Appearance.Background.Title" xml:space="preserve">
+    <value>Özel arka plan</value>
+  </data>
+  <data name="Installer.Appearance.Background.Description" xml:space="preserve">
+    <value>Bir resim, GIF veya video kullanın ve nasıl görüneceğini ayarlayın.</value>
+  </data>
+  <data name="Installer.Appearance.GradientOpacity" xml:space="preserve">
+    <value>Gradyan opaklığı</value>
+  </data>
+  <data name="Installer.Appearance.DarkOverlay" xml:space="preserve">
+    <value>Koyu katman</value>
+  </data>
+  <data name="Installer.Appearance.DisplayEverywhere" xml:space="preserve">
+    <value>Her yerde göster</value>
+  </data>
+  <data name="Installer.Appearance.RemoveBackground" xml:space="preserve">
+    <value>Arka planı kaldır</value>
+  </data>
+  <data name="Installer.Appearance.Theme.Description" xml:space="preserve">
+    <value>Tüm Voidstrap pencerelerinde kullanılan temayı seçin.</value>
+  </data>
+  <data name="Installer.Appearance.Theme.Customize" xml:space="preserve">
+    <value>Özelleştir</value>
+  </data>
+  <data name="Installer.Appearance.Backdrop.Title" xml:space="preserve">
+    <value>Pencere arka planı</value>
+  </data>
+  <data name="Installer.Appearance.Backdrop.Description" xml:space="preserve">
+    <value>Voidstrap pencerelerinin arkasında gösterilen malzemeyi seçin.</value>
+  </data>
+  <data name="Installer.Appearance.PageZoom.Title" xml:space="preserve">
+    <value>Sayfa yakınlaştırma</value>
+  </data>
+  <data name="Installer.Appearance.PageZoom.Description" xml:space="preserve">
+    <value>Ayar sayfalarının boyutunu ayarlayın.</value>
+  </data>
+  <data name="Vng.WarningTitle" xml:space="preserve">
+    <value>Roblox VNG: kalıcı hesap kısıtlaması</value>
+  </data>
+  <data name="Vng.Warning" xml:space="preserve">
+    <value>DUR: DEVAM ETMEDEN ÖNCE OKUYUN
+
+Roblox VNG'ye ilk kez giriş yapmak hesabınızı VNG'ye taşır. Roblox, bu hesabı artık küresel Roblox uygulamasında kullanamayacağınızı belirtiyor.
+
+Bu hesap taşımayı kalıcı olarak kabul edin. Voidstrap bunu geri alamaz. VNG'yi kaldırmak veya bu seçeneği devre dışı bırakmak küresel hesap erişimini geri getirmez. VNG hesap ve bölge kısıtlamaları uygulanır.
+
+Yalnızca dosyaları indirmek hesabınızı taşımaz. Mevcut bir hesapla giriş yapmak veya başlatmak o hesabı taşımaya maruz bırakabilir.
+
+Yalnızca VNG ile kullandığınız her hesap için küresel uygulama erişimini kaybetmeyi kabul ediyorsanız devam edin. Evet düğmesi on saniye sonra etkinleşir.</value>
+  </data>
+  <data name="Vng.Confirmation" xml:space="preserve">
+    <value>Emin misiniz?</value>
+  </data>
+  <data name="Vng.Agreement" xml:space="preserve">
+    <value>Son uyarı: Roblox VNG'ye giriş yapmak hesabınızı kalıcı olarak taşıyabilir ve küresel Roblox uygulamasına erişimi kaldırabilir. Voidstrap bunu geri alamaz.
+
+Bu kısıtlamaları kabul edip devam etmek için aşağıda gösterilen ifadeyi tam olarak yazın.</value>
+  </data>
+  <data name="Vng.Countdown" xml:space="preserve">
+    <value>{0} ({1} sn)</value>
+  </data>
+  <data name="Vng.Description" xml:space="preserve">
+    <value>Vietnam oyuncu istemcisi. Giriş yapmak hesabınızı taşır ve küresel uygulama erişimini kaldırır.</value>
+  </data>
+  <data name="Vng.UseForLaunches" xml:space="preserve">
+    <value>Oyuncu başlatmaları için VNG kullan</value>
+  </data>
+  <data name="Vng.UninstallWarning" xml:space="preserve">
+    <value>VNG'yi kaldırmak hesap taşımayı geri almaz ve küresel uygulama erişimini geri getirmez.</value>
+  </data>
+  <data name="Mtu.Description" xml:space="preserve">
+    <value>Roblox dahil tüm uygulamalar için paket boyutunu sınırlar. Yönetici erişimi gerektirir ve yeniden başlatmadan sonra da kalır. Pingi iyileştirmeyebilir.</value>
+  </data>
+  <data name="Mtu.Adapter" xml:space="preserve">
+    <value>Bir ağ bağdaştırıcısı ve IP sürümü seçin</value>
+  </data>
+  <data name="Mtu.CustomValue" xml:space="preserve">
+    <value>Özel MTU (bayt)</value>
+  </data>
+  <data name="Mtu.Current" xml:space="preserve">
+    <value>Mevcut: {0} bayt. En az: {1} bayt.</value>
+  </data>
+  <data name="Mtu.NoAdapters" xml:space="preserve">
+    <value>Desteklenen ağ bağdaştırıcısı bulunamadı. Tekrar denemek için yenileyin.</value>
+  </data>
+  <data name="Mtu.Invalid" xml:space="preserve">
+    <value>{0} ile {1} arasında bir tam sayı girin. Windows ayrıca bağdaştırıcının desteklediği paket boyutunu da denetler.</value>
+  </data>
+  <data name="Mtu.Apply" xml:space="preserve">
+    <value>Uygula</value>
+  </data>
+  <data name="Mtu.Restore" xml:space="preserve">
+    <value>Geri yükle</value>
+  </data>
+  <data name="Mtu.Refresh" xml:space="preserve">
+    <value>Yenile</value>
+  </data>
+  <data name="Mtu.Loading" xml:space="preserve">
+    <value>Windows ağ bağdaştırıcıları okunuyor...</value>
+  </data>
+  <data name="Mtu.Applying" xml:space="preserve">
+    <value>Yönetici onayı bekleniyor ve MTU uygulanıyor...</value>
+  </data>
+  <data name="Mtu.AdapterUnavailable" xml:space="preserve">
+    <value>Seçilen bağdaştırıcı kullanılamıyor. Yenileyip bir bağdaştırıcı seçin.</value>
+  </data>
+  <data name="Mtu.Rejected" xml:space="preserve">
+    <value>Windows MTU'yu uygulayamadı, kod {0}. Bağdaştırıcınız bu değeri desteklemiyor olabilir.</value>
+  </data>
+  <data name="Mtu.Applied" xml:space="preserve">
+    <value>MTU {0} bayt olarak ayarlandı ve doğrulandı. Seçilen bağdaştırıcıdaki tüm uygulamalar için geçerlidir.</value>
+  </data>
+  <data name="Mtu.Restored" xml:space="preserve">
+    <value>Önceki MTU {0} bayt olarak geri yüklendi ve doğrulandı.</value>
+  </data>
+  <data name="Mtu.VerificationFailed" xml:space="preserve">
+    <value>Windows istenen MTU'yu bildirmedi. Mevcut değeri kontrol etmek için yenileyin.</value>
+  </data>
+  <data name="Mtu.Cancelled" xml:space="preserve">
+    <value>Yönetici isteği iptal edildi. MTU değiştirilmedi.</value>
+  </data>
+  <data name="Mtu.Error" xml:space="preserve">
+    <value>MTU işlemi başarısız oldu. Mevcut değeri kontrol etmek için yenileyin.</value>
+  </data>
+  <data name="Menu_FastFlagEditor_Rename" xml:space="preserve">
+    <value>Yeniden adlandır</value>
+  </data>
+  <data name="Menu_FastFlagEditor_EditValue" xml:space="preserve">
+    <value>Değeri düzenle</value>
+  </data>
+  <data name="Menu_FastFlagEditor_CopySelected" xml:space="preserve">
+    <value>Seçimi JSON olarak kopyala</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Title" xml:space="preserve">
+    <value>Vurgu rengi</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Description" xml:space="preserve">
+    <value>Uygulama denetimleri ve arka plan tonu için bir renk seçin.</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Choose" xml:space="preserve">
+    <value>Renk seç</value>
+  </data>
+  <data name="Menu.Appearance.Accent.System" xml:space="preserve">
+    <value>Sistem rengini kullan</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Picker" xml:space="preserve">
+    <value>Vurgu rengini seç</value>
+  </data>
+  <data name="Menu.Shortcuts.Customize" xml:space="preserve">
+    <value>Ad ve simge</value>
+  </data>
+  <data name="Menu.Shortcuts.InvalidName" xml:space="preserve">
+    <value>Eğik çizgi veya ayrılmış dosya adı içermeyen geçerli bir kısayol adı kullanın.</value>
+  </data>
+  <data name="Menu.Shortcuts.NameExists" xml:space="preserve">
+    <value>Bu ada sahip bir kısayol zaten var. Farklı bir ad seçin.</value>
+  </data>
+  <data name="Menu.Shortcuts.ChooseIcon" xml:space="preserve">
+    <value>Bir kısayol simgesi seçin</value>
+  </data>
+  <data name="Menu.Shortcuts.IconFilter" xml:space="preserve">
+    <value>Simge ve resim dosyaları|*.ico;*.png;*.jpg;*.jpeg;*.bmp;*.webp</value>
+  </data>
+  <data name="Menu.Shortcuts.InvalidIcon" xml:space="preserve">
+    <value>8 MB'tan küçük geçerli bir simge veya resim seçin.</value>
+  </data>
+  <data name="Menu.LaunchDropdownOnRight" xml:space="preserve">
+    <value>Sürüm seçiciyi sağa yerleştir</value>
+  </data>
+  <data name="OverlayDiagnostics.Bounds" xml:space="preserve">
+    <value>Boyut ve ekran konumu</value>
+  </data>
+  <data name="OverlayDiagnostics.CollectionError" xml:space="preserve">
+    <value>Mevcut örnek toplanamadı: {0}</value>
+  </data>
+  <data name="OverlayDiagnostics.CompositeCrosshair" xml:space="preserve">
+    <value>Birleştirici artı imleci etkin</value>
+  </data>
+  <data name="OverlayDiagnostics.Compositor" xml:space="preserve">
+    <value>Birleştirici başlatıldı</value>
+  </data>
+  <data name="OverlayDiagnostics.Configuration" xml:space="preserve">
+    <value>Yapılandırılan özellikler, bu anahtarlar işlemeyi kanıtlamaz</value>
+  </data>
+  <data name="OverlayDiagnostics.Crosshair" xml:space="preserve">
+    <value>Artı imleci</value>
+  </data>
+  <data name="OverlayDiagnostics.Disabled" xml:space="preserve">
+    <value>Kontrol edilen tüm katman özellikleri ayarlarda devre dışı.</value>
+  </data>
+  <data name="OverlayDiagnostics.DispatcherRequired" xml:space="preserve">
+    <value>Katman tanılaması pencere dağıtıcısında çalışmalıdır.</value>
+  </data>
+  <data name="OverlayDiagnostics.FakeBorderless" xml:space="preserve">
+    <value>Sahte kenarlıksız tam ekran</value>
+  </data>
+  <data name="OverlayDiagnostics.FakeExclusive" xml:space="preserve">
+    <value>Sahte özel tam ekran</value>
+  </data>
+  <data name="OverlayDiagnostics.Findings" xml:space="preserve">
+    <value>Denetimler ve sınırlamalar</value>
+  </data>
+  <data name="OverlayDiagnostics.Foreground" xml:space="preserve">
+    <value>Roblox veya katmanı odakta</value>
+  </data>
+  <data name="OverlayDiagnostics.FullscreenUnknown" xml:space="preserve">
+    <value>Özel tam ekran doğrulanmadı. Pencere boyutu ve kenarlık stili sunum modunu belirleyemez.</value>
+  </data>
+  <data name="OverlayDiagnostics.GameEffects" xml:space="preserve">
+    <value>Oyun efektleri</value>
+  </data>
+  <data name="OverlayDiagnostics.GameLease" xml:space="preserve">
+    <value>Linux oyun kirası onaylandı</value>
+  </data>
+  <data name="OverlayDiagnostics.GameSession" xml:space="preserve">
+    <value>Etkinlik izleyicisinin oyun oturumu</value>
+  </data>
+  <data name="OverlayDiagnostics.GameSignal" xml:space="preserve">
+    <value>Katman merkezinin oyun sinyali</value>
+  </data>
+  <data name="OverlayDiagnostics.Handle" xml:space="preserve">
+    <value>Pencere tanıtıcısı</value>
+  </data>
+  <data name="OverlayDiagnostics.Homepage" xml:space="preserve">
+    <value>Ana sayfa arka planı</value>
+  </data>
+  <data name="OverlayDiagnostics.HomepageInGame" xml:space="preserve">
+    <value>Katman merkezi, Linux ana sayfa işlemi hâlâ çalışırken bir oyun oturumu bildiriyor. Bir işlem çizim yapmadan da çalışıyor olabilir.</value>
+  </data>
+  <data name="OverlayDiagnostics.HomepageWorker" xml:space="preserve">
+    <value>Linux ana sayfa işlemi çalışıyor</value>
+  </data>
+  <data name="OverlayDiagnostics.Intersects" xml:space="preserve">
+    <value>Dikdörtgen Roblox ile kesişiyor</value>
+  </data>
+  <data name="OverlayDiagnostics.Minimized" xml:space="preserve">
+    <value>Yerel pencere simge durumunda</value>
+  </data>
+  <data name="OverlayDiagnostics.MissingCrosshair" xml:space="preserve">
+    <value>Artı imleci yapılandırıldı, ancak bu işlemde ne bir artı imleci penceresi ne de etkin bir birleştirici artı imleci bulundu.</value>
+  </data>
+  <data name="OverlayDiagnostics.MissingStats" xml:space="preserve">
+    <value>İstatistikler yapılandırıldı, ancak bu işlemde istatistik penceresi bulunamadı. Bu, oluşturma hatasını kanıtlamaz ve başka bir Voidstrap işlemini dışlamaz.</value>
+  </data>
+  <data name="OverlayDiagnostics.MonitorCoverage" xml:space="preserve">
+    <value>Kenarlıksız istemci monitörünü kaplıyor</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeLive" xml:space="preserve">
+    <value>Yerel tanıtıcı geçerli</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeTopmost" xml:space="preserve">
+    <value>Yerel her zaman üstte işareti</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeVisible" xml:space="preserve">
+    <value>Yerel pencere görünür</value>
+  </data>
+  <data name="OverlayDiagnostics.No" xml:space="preserve">
+    <value>Hayır</value>
+  </data>
+  <data name="OverlayDiagnostics.NoUsableWindow" xml:space="preserve">
+    <value>Kullanılabilir bir Roblox istemci dikdörtgeni ölçülemedi. Roblox kapalı, simge durumunda, gizli, başlatılıyor veya erişilemez olabilir.</value>
+  </data>
+  <data name="OverlayDiagnostics.NoWindows" xml:space="preserve">
+    <value>Bu işlemde katman penceresi bulunamadı.</value>
+  </data>
+  <data name="OverlayDiagnostics.Opacity" xml:space="preserve">
+    <value>WPF opaklığı</value>
+  </data>
+  <data name="OverlayDiagnostics.PixelsUnknown" xml:space="preserve">
+    <value>Görünürlük, opaklık ve her zaman üstte işaretleri piksellerin sunulduğunu, engellenmediğini veya kullanıcıya göründüğünü kanıtlamaz. GPU kare teslimi ve örtüşme bu raporda doğrulanmaz.</value>
+  </data>
+  <data name="OverlayDiagnostics.Place" xml:space="preserve">
+    <value>Etkinlik izleyicisinin yer kimliği</value>
+  </data>
+  <data name="OverlayDiagnostics.RegisteredWindow" xml:space="preserve">
+    <value>Kayıtlı yerel katman</value>
+  </data>
+  <data name="OverlayDiagnostics.RobloxWindow" xml:space="preserve">
+    <value>Gözlemlenen Roblox penceresi</value>
+  </data>
+  <data name="OverlayDiagnostics.Runtime" xml:space="preserve">
+    <value>Gözlemlenen çalışma durumu</value>
+  </data>
+  <data name="OverlayDiagnostics.Sample" xml:space="preserve">
+    <value>Örnek {0:HH:mm:ss.fff zzz}, her saniye ve pencere değişikliklerinde yenilenir</value>
+  </data>
+  <data name="OverlayDiagnostics.Scope" xml:space="preserve">
+    <value>Bu değerler bu Voidstrap işlemini açıklar. Başka bir işleme ait pencereler listelenmeyebilir.</value>
+  </data>
+  <data name="OverlayDiagnostics.Stats" xml:space="preserve">
+    <value>İstatistik katmanı</value>
+  </data>
+  <data name="OverlayDiagnostics.Teleporting" xml:space="preserve">
+    <value>Etkinlik izleyicisinin ışınlanması sürüyor</value>
+  </data>
+  <data name="OverlayDiagnostics.Title" xml:space="preserve">
+    <value>Katman tanılaması</value>
+  </data>
+  <data name="OverlayDiagnostics.Transition" xml:space="preserve">
+    <value>Oyun geçişi</value>
+  </data>
+  <data name="OverlayDiagnostics.Unavailable" xml:space="preserve">
+    <value>Kullanılamıyor</value>
+  </data>
+  <data name="OverlayDiagnostics.Unfocused" xml:space="preserve">
+    <value>Roblox şu anda odakta değil. Başka bir pencere etkinken, bu tanılama penceresi dahil, katmanlar kasıtlı olarak gizlenebilir.</value>
+  </data>
+  <data name="OverlayDiagnostics.UsableRect" xml:space="preserve">
+    <value>Kullanılabilir izlenen istemci dikdörtgeni</value>
+  </data>
+  <data name="OverlayDiagnostics.Visible" xml:space="preserve">
+    <value>WPF'de görünür</value>
+  </data>
+  <data name="OverlayDiagnostics.Windows" xml:space="preserve">
+    <value>Gözlemlenen katman pencereleri</value>
+  </data>
+  <data name="OverlayDiagnostics.Worker" xml:space="preserve">
+    <value>Birleştirici çalışan iş parçacığı etkin</value>
+  </data>
+  <data name="OverlayDiagnostics.WpfTopmost" xml:space="preserve">
+    <value>WPF her zaman üstte istendi</value>
+  </data>
+  <data name="OverlayDiagnostics.X11" xml:space="preserve">
+    <value>X11 bağlantısı kullanılabilir</value>
+  </data>
+  <data name="OverlayDiagnostics.X11Compositor" xml:space="preserve">
+    <value>X11 birleştiricisi algılandı</value>
+  </data>
+  <data name="OverlayDiagnostics.X11Unavailable" xml:space="preserve">
+    <value>Kullanılabilir X11 bağlantısı yok. Yerel pencereler incelenemiyor; Wayland kısıtlamaları veya korumalı alan izinleri etkili olabilir.</value>
+  </data>
+  <data name="OverlayDiagnostics.Yes" xml:space="preserve">
+    <value>Evet</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeCompositor" xml:space="preserve">
+    <value>Yerel GPU birleştirici penceresi</value>
+  </data>
+  <data name="FlagSearch.Loading" xml:space="preserve">
+    <value>Kaynaklar yükleniyor…</value>
+  </data>
+  <data name="FlagSearch.Loaded" xml:space="preserve">
+    <value>Yüklendi</value>
+  </data>
+  <data name="FlagSearch.Unavailable" xml:space="preserve">
+    <value>Kullanılamıyor</value>
+  </data>
+  <data name="FlagSearch.Pending" xml:space="preserve">
+    <value>Bekliyor</value>
+  </data>
+  <data name="FlagSearch.LoadedSummary" xml:space="preserve">
+    <value>{2} kaynaktan {1} tanesinden {0:N0} benzersiz ad yüklendi. Ayrıntılar için Veri kaynakları bölümüne bakın.</value>
+  </data>
+  <data name="FlagSearch.LoadError" xml:space="preserve">
+    <value>Kaynaklar yüklenemedi. Ayrıntılar için günlüğe bakın.</value>
+  </data>
+  <data name="FlagSearch.ObjectRequired" xml:space="preserve">
+    <value>Flag JSON'u bir nesne içermelidir.</value>
+  </data>
+  <data name="FlagSearch.EmptySource" xml:space="preserve">
+    <value>Kaynak tanınan bir flag adı döndürmedi.</value>
+  </data>
+  <data name="FlagSearch.ResultCount" xml:space="preserve">
+    <value>{1:N0} eşleşmeden {0:N0} tanesi gösteriliyor</value>
+  </data>
+  <data name="FlagSearch.SearchError" xml:space="preserve">
+    <value>Arama başarısız oldu. Ayrıntılar için günlüğe bakın.</value>
+  </data>
+  <data name="FlagSearch.Validating" xml:space="preserve">
+    <value>Flag adları ve girilen değerler kontrol ediliyor…</value>
+  </data>
+  <data name="FlagSearch.Found" xml:space="preserve">
+    <value>Bulundu</value>
+  </data>
+  <data name="FlagSearch.ValueError" xml:space="preserve">
+    <value>Değer hatası</value>
+  </data>
+  <data name="FlagSearch.NotFound" xml:space="preserve">
+    <value>Bulunamadı</value>
+  </data>
+  <data name="FlagSearch.FoundNote" xml:space="preserve">
+    <value>Yüklenen kaynaklarda bulundu. Yerel geçersiz kılma desteği doğrulanmadı.</value>
+  </data>
+  <data name="FlagSearch.NotFoundNote" xml:space="preserve">
+    <value>Yüklenen kaynaklarda yok, bu flag'in geçersiz olduğunu kanıtlamaz.</value>
+  </data>
+  <data name="FlagSearch.ValidationSummary" xml:space="preserve">
+    <value>{0:N0} flag kontrol edildi, {1:N0} giriş bir kaynakla ve beklenen değer türüyle eşleşti.</value>
+  </data>
+  <data name="FlagSearch.NameError" xml:space="preserve">
+    <value>Boşluk içermeyen, tanınan bir Fast Flag adı kullanın.</value>
+  </data>
+  <data name="FlagSearch.TooMany" xml:space="preserve">
+    <value>Giriş çok fazla flag içeriyor.</value>
+  </data>
+  <data name="FlagSearch.ScalarRequired" xml:space="preserve">
+    <value>Flag değerleri metin, sayı veya mantıksal değer olmalıdır.</value>
+  </data>
+  <data name="FlagSearch.LineError" xml:space="preserve">
+    <value>Her metin satırı ad=değer biçiminde olmalıdır.</value>
+  </data>
+  <data name="FlagSearch.EmptyInput" xml:space="preserve">
+    <value>Flag girdisi bulunamadı.</value>
+  </data>
+  <data name="FlagSearch.Label1" xml:space="preserve">
+    <value>Fast Flag bul</value>
+  </data>
+  <data name="FlagSearch.Label2" xml:space="preserve">
+    <value>Fast Flag bul</value>
+  </data>
+  <data name="FlagSearch.Label3" xml:space="preserve">
+    <value>Fast Flag arama ve doğrulama</value>
+  </data>
+  <data name="FlagSearch.Label4" xml:space="preserve">
+    <value>Birden fazla kaynaktan Fast Flag arayın, doğrulayın ve keşfedin</value>
+  </data>
+  <data name="FlagSearch.Label5" xml:space="preserve">
+    <value>Kaynakları yenile</value>
+  </data>
+  <data name="FlagSearch.Label6" xml:space="preserve">
+    <value>Hazır</value>
+  </data>
+  <data name="FlagSearch.Label7" xml:space="preserve">
+    <value>Canlı arama</value>
+  </data>
+  <data name="FlagSearch.Label8" xml:space="preserve">
+    <value>Canlı flag araması</value>
+  </data>
+  <data name="FlagSearch.Label9" xml:space="preserve">
+    <value>Tam adları veya anahtar kelimeleri arayın. Tam eşleşmeler önce görünür. Dışa aktarım, eşleşen tüm bilinen değerleri içerir.</value>
+  </data>
+  <data name="FlagSearch.Label10" xml:space="preserve">
+    <value>Flag adı veya anahtar kelime girin...</value>
+  </data>
+  <data name="FlagSearch.Label11" xml:space="preserve">
+    <value>Sonuçları dışa aktar</value>
+  </data>
+  <data name="FlagSearch.Label12" xml:space="preserve">
+    <value>Tüm değerler</value>
+  </data>
+  <data name="FlagSearch.Label13" xml:space="preserve">
+    <value>True değerleri</value>
+  </data>
+  <data name="FlagSearch.Label14" xml:space="preserve">
+    <value>False değerleri</value>
+  </data>
+  <data name="FlagSearch.Label15" xml:space="preserve">
+    <value>Flag adı</value>
+  </data>
+  <data name="FlagSearch.Label16" xml:space="preserve">
+    <value>Değer</value>
+  </data>
+  <data name="FlagSearch.Label17" xml:space="preserve">
+    <value>Kaynak</value>
+  </data>
+  <data name="FlagSearch.Label18" xml:space="preserve">
+    <value>Eşleşme yok. Farklı bir ad veya değer filtresi deneyin.</value>
+  </data>
+  <data name="FlagSearch.Label19" xml:space="preserve">
+    <value>0 sonuç</value>
+  </data>
+  <data name="FlagSearch.Label20" xml:space="preserve">
+    <value>Toplu doğrulama</value>
+  </data>
+  <data name="FlagSearch.Label21" xml:space="preserve">
+    <value>Toplu flag doğrulaması</value>
+  </data>
+  <data name="FlagSearch.Label22" xml:space="preserve">
+    <value>Kaynak üyeliğini ve değer türlerini kontrol eder. Bir eşleşme, Roblox'un yerel geçersiz kılmaya izin verdiğini garanti etmez.</value>
+  </data>
+  <data name="FlagSearch.Label23" xml:space="preserve">
+    <value>Dosya yükle</value>
+  </data>
+  <data name="FlagSearch.Label24" xml:space="preserve">
+    <value>Doğrula</value>
+  </data>
+  <data name="FlagSearch.Label25" xml:space="preserve">
+    <value>Temizle</value>
+  </data>
+  <data name="FlagSearch.Label26" xml:space="preserve">
+    <value>Yapıştır</value>
+  </data>
+  <data name="FlagSearch.Label28" xml:space="preserve">
+    <value>Tümünü seç</value>
+  </data>
+  <data name="FlagSearch.Label30" xml:space="preserve">
+    <value>Temizle</value>
+  </data>
+  <data name="FlagSearch.Label31" xml:space="preserve">
+    <value>Doğrulama sonuçları</value>
+  </data>
+  <data name="FlagSearch.Label32" xml:space="preserve">
+    <value>Flag adı</value>
+  </data>
+  <data name="FlagSearch.Label33" xml:space="preserve">
+    <value>Girilen değer</value>
+  </data>
+  <data name="FlagSearch.Label34" xml:space="preserve">
+    <value>Durum</value>
+  </data>
+  <data name="FlagSearch.Label35" xml:space="preserve">
+    <value>Kaynak değeri</value>
+  </data>
+  <data name="FlagSearch.Label36" xml:space="preserve">
+    <value>Notlar</value>
+  </data>
+  <data name="FlagSearch.Label37" xml:space="preserve">
+    <value>Kontrol edilen girişi dışa aktar</value>
+  </data>
+  <data name="FlagSearch.Label38" xml:space="preserve">
+    <value>0 sonuç</value>
+  </data>
+  <data name="FlagSearch.Label39" xml:space="preserve">
+    <value>Veri kaynakları</value>
+  </data>
+  <data name="FlagSearch.Label40" xml:space="preserve">
+    <value>Canlı kaynakların kullanılabilirliği ve alınma zamanları. Bir kaynakta bulunmak, Roblox'un yerel geçersiz kılmayı kabul ettiği anlamına gelmez. Bu kaynaklar son değişikliklerin tarihlerini sağlamaz.</value>
+  </data>
+  <data name="FlagSearch.Label41" xml:space="preserve">
+    <value>Kaynak</value>
+  </data>
+  <data name="FlagSearch.Label42" xml:space="preserve">
+    <value>Durum</value>
+  </data>
+  <data name="FlagSearch.Label43" xml:space="preserve">
+    <value>Flag'ler</value>
+  </data>
+  <data name="FlagSearch.Label44" xml:space="preserve">
+    <value>Alındı</value>
+  </data>
+  <data name="FlagSearch.Label45" xml:space="preserve">
+    <value>Kapat</value>
+  </data>
+  <data name="FlagSearch.Message1" xml:space="preserve">
+    <value>Lütfen doğrulanacak flag'leri girin.</value>
+  </data>
+  <data name="FlagSearch.Message2" xml:space="preserve">
+    <value>Giriş yok</value>
+  </data>
+  <data name="FlagSearch.Message3" xml:space="preserve">
+    <value>Bu flag girişi doğrulanamayacak kadar büyük.</value>
+  </data>
+  <data name="FlagSearch.Message4" xml:space="preserve">
+    <value>Giriş çok büyük</value>
+  </data>
+  <data name="FlagSearch.Message5" xml:space="preserve">
+    <value>Girişte yinelenen flag'ler bulundu: </value>
+  </data>
+  <data name="FlagSearch.Message6" xml:space="preserve">
+    <value>Yinelenenler algılandı</value>
+  </data>
+  <data name="FlagSearch.Message7" xml:space="preserve">
+    <value>Flag'ler doğrulanırken hata oluştu</value>
+  </data>
+  <data name="FlagSearch.Message8" xml:space="preserve">
+    <value>Flag'ler doğrulanırken hata oluştu: </value>
+  </data>
+  <data name="FlagSearch.Message9" xml:space="preserve">
+    <value>Doğrulama hatası</value>
+  </data>
+  <data name="FlagSearch.Message10" xml:space="preserve">
+    <value>Doğrulanacak flag dosyasını seçin</value>
+  </data>
+  <data name="FlagSearch.Message11" xml:space="preserve">
+    <value>Dosya yüklenirken hata oluştu: </value>
+  </data>
+  <data name="FlagSearch.Message12" xml:space="preserve">
+    <value>Dosya hatası</value>
+  </data>
+  <data name="FlagSearch.Message13" xml:space="preserve">
+    <value>Flag dosyasının boyutu geçersiz</value>
+  </data>
+  <data name="FlagSearch.Message14" xml:space="preserve">
+    <value>Flag dosyası okunurken değişti</value>
+  </data>
+  <data name="FlagSearch.Message15" xml:space="preserve">
+    <value>Flag girişi çok büyük</value>
+  </data>
+  <data name="FlagSearch.Message16" xml:space="preserve">
+    <value>{flags.Count} flag {dialog.FileName} dosyasına aktarıldı</value>
+  </data>
+  <data name="FlagSearch.Message17" xml:space="preserve">
+    <value>Dışa aktarım tamamlandı</value>
+  </data>
+  <data name="FlagSearch.Message18" xml:space="preserve">
+    <value>Flag'ler dışa aktarılırken hata oluştu: </value>
+  </data>
+  <data name="FlagSearch.Message19" xml:space="preserve">
+    <value>Dışa aktarım hatası</value>
+  </data>
+  <data name="FlagSearch.Message20" xml:space="preserve">
+    <value>Panodan yapıştırırken hata oluştu: </value>
+  </data>
+  <data name="FlagSearch.Message21" xml:space="preserve">
+    <value>Yapıştırma hatası</value>
+  </data>
+  <data name="FlagSearch.ExportSummary" xml:space="preserve">
+    <value>{0:N0} flag {1} konumuna aktarıldı</value>
+  </data>
+  <data name="FlagSearch.ValueNote" xml:space="preserve">
+    <value>Girilen değer flag adının türüyle eşleşmiyor. Mantıksal flag'ler true veya false, tam sayı flag'leri ise 32 bitlik bir tam sayı gerektirir.</value>
+  </data>
+  <data name="Notifications.Title" xml:space="preserve">
+    <value>Bildirimler</value>
+  </data>
+  <data name="Notifications.Updates" xml:space="preserve">
+    <value>Güncellemeler</value>
+  </data>
+  <data name="Notifications.Roblox" xml:space="preserve">
+    <value>Roblox ve modlar</value>
+  </data>
+  <data name="Notifications.Recovery" xml:space="preserve">
+    <value>Ayar kurtarma</value>
+  </data>
+  <data name="Notifications.Errors" xml:space="preserve">
+    <value>Hatalar ve çökmeler</value>
+  </data>
+  <data name="Notifications.GameJoins" xml:space="preserve">
+    <value>Oyuna katılındı</value>
+  </data>
+  <data name="Notifications.App" xml:space="preserve">
+    <value>Uygulama bildirimleri</value>
+  </data>
+  <data name="Notifications.AppDescription" xml:space="preserve">
+    <value>Uygulama bildirimlerini göster.</value>
+  </data>
+  <data name="Bootstrapper.Uninstall.NvidiaFailed" xml:space="preserve">
+    <value>NVIDIA temizliği başarısız oldu. Yine de kaldırılsın mı? Kalan NVIDIA ayarları uygulanmış olarak kalır.
+
+{0}</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Latest" xml:space="preserve">
+    <value>En yeni</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Oldest" xml:space="preserve">
+    <value>En eski</value>
+  </data>
+  <data name="ContextMenu.GameHistory.MostPlayed" xml:space="preserve">
+    <value>En uzun ziyaretler</value>
+  </data>
+  <data name="ContextMenu.GameHistory.NameAscending" xml:space="preserve">
+    <value>Ad, artan</value>
+  </data>
+  <data name="ContextMenu.GameHistory.NameDescending" xml:space="preserve">
+    <value>Ad, azalan</value>
+  </data>
+  <data name="ContextMenu.GameHistory.AllServers" xml:space="preserve">
+    <value>Tüm sunucular</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Public" xml:space="preserve">
+    <value>Herkese açık</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Private" xml:space="preserve">
+    <value>Özel</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Reserved" xml:space="preserve">
+    <value>Ayrılmış</value>
+  </data>
+  <data name="ContextMenu.GameHistory.EndUnknown" xml:space="preserve">
+    <value>Kaydedilmedi</value>
+  </data>
+  <data name="ContextMenu.GameHistory.CopyLink" xml:space="preserve">
+    <value>Bağlantıyı kopyala</value>
+  </data>
+  <data name="ContextMenu.GameHistory.LoadFailed" xml:space="preserve">
+    <value>Geçmiş yüklenemedi.</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Empty" xml:space="preserve">
+    <value>Gösterilecek ziyaret yok.</value>
+  </data>
+  <data name="ContextMenu.GameHistory.StatusUnknown" xml:space="preserve">
+    <value>Bilinmiyor</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Online" xml:space="preserve">
+    <value>Çevrimiçi</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Offline" xml:space="preserve">
+    <value>Çevrimdışı</value>
+  </data>
+  <data name="ContextMenu.GameHistory.CheckedAt" xml:space="preserve">
+    <value>Kontrol edildi: {0}</value>
+  </data>
+  <data name="ContextMenu.GameHistory.LaunchFailed" xml:space="preserve">
+    <value>Roblox başlatılamadı.</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.MaxOnly" xml:space="preserve">
+    <value>En fazla {0}</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.Unknown" xml:space="preserve">
+    <value>Bilinmiyor</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.InGame" xml:space="preserve">
+    <value>Oyunda {0:N0}</value>
+  </data>
+  <data name="ServerInfo.Hint.Updated" xml:space="preserve">
+    <value>{0} önce güncellendi.</value>
+  </data>
+  <data name="ServerInfo.Hint.RateLimited" xml:space="preserve">
+    <value>Roblox sunucu sorgularını sınırlıyor, {0} sonra tekrar denenecek.</value>
+  </data>
+  <data name="ServerInfo.Hint.RateLimitedStale" xml:space="preserve">
+    <value>Roblox sunucu sorgularını sınırlıyor. {0} önceki sayı gösteriliyor, {1} sonra tekrar güncellenecek.</value>
+  </data>
+  <data name="ServerInfo.Hint.NotListed" xml:space="preserve">
+    <value>Bu sunucu, Roblox'un paylaştığı herkese açık sunucu listesi bölümünde değil, {0} sonra tekrar kontrol edilecek.</value>
+  </data>
+  <data name="ServerInfo.Hint.NotListedStale" xml:space="preserve">
+    <value>En son {0} önce görüldü. Bu sunucu şu anda Roblox'un paylaştığı herkese açık sunucu listesi bölümünde değil.</value>
+  </data>
+  <data name="ServerInfo.Hint.PrivateNotListed" xml:space="preserve">
+    <value>Bu özel sunucu, hesabınızın görebildiği sunucu listesinde yok, bu yüzden oyuncu sayısı okunamıyor.</value>
+  </data>
+  <data name="ServerInfo.Hint.PrivateSignedOut" xml:space="preserve">
+    <value>Roblox özel sunucuların oyuncu sayısını yalnızca giriş yapmış bir hesapla paylaşır. Görmek için Voidstrap'te Roblox'a giriş yapın.</value>
+  </data>
+  <data name="ServerInfo.Hint.Reserved" xml:space="preserve">
+    <value>Roblox, ışınlanmalar ve gruplar için kullanılan ayrılmış sunucuları listelemez, bu yüzden oyuncu sayıları okunamaz.</value>
+  </data>
+  <data name="ServerInfo.Hint.Unavailable" xml:space="preserve">
+    <value>Roblox'a ulaşılamadı, {0} sonra tekrar denenecek.</value>
+  </data>
+  <data name="ServerInfo.Hint.UnavailableStale" xml:space="preserve">
+    <value>Roblox'a ulaşılamadı. {0} önceki sayı gösteriliyor, {1} sonra tekrar denenecek.</value>
+  </data>
+  <data name="ServerInfo.Hint.Full" xml:space="preserve">
+    <value>Bu sunucu dolu. Roblox dolu sunucuları herkese açık sunucu listesine almaz, bu yüzden bir yer açılana kadar dolu olarak gösterilir.</value>
+  </data>
+  <data name="Shortcuts.GameTab" xml:space="preserve">
+    <value>Oyun</value>
+  </data>
+  <data name="Shortcuts.SubplaceTab" xml:space="preserve">
+    <value>Alt yer</value>
+  </data>
+  <data name="Shortcuts.SubplaceDescription" xml:space="preserve">
+    <value>Bu deneyimdeki diğer yerleri bulun.</value>
+  </data>
+  <data name="Shortcuts.LoadSubplaces" xml:space="preserve">
+    <value>Alt yerleri yükle</value>
+  </data>
+  <data name="Shortcuts.SubplaceAccess" xml:space="preserve">
+    <value>Oluşturucunun doğrudan katılıma izin vermesi gerekir. Bazı alt yerler oyun içi ışınlanma gerektirir.</value>
+  </data>
+  <data name="Shortcuts.SubplaceInitial" xml:space="preserve">
+    <value>Alt yerlerini otomatik olarak yüklemek için bir oyun kimliği girin.</value>
+  </data>
+  <data name="Shortcuts.SubplaceRetry" xml:space="preserve">
+    <value>Tekrar denemek için bu sekmeyi yeniden açın.</value>
+  </data>
+  <data name="Shortcuts.SubplaceInvalidId" xml:space="preserve">
+    <value>Geçerli bir sayısal oyun kimliği girin.</value>
+  </data>
+  <data name="Shortcuts.SubplaceLoading" xml:space="preserve">
+    <value>Alt yerler yükleniyor...</value>
+  </data>
+  <data name="Shortcuts.SubplaceEmpty" xml:space="preserve">
+    <value>Bu deneyimin listelenmiş alt yeri yok.</value>
+  </data>
+  <data name="Shortcuts.SubplaceChoose" xml:space="preserve">
+    <value>Aşağıdan bir alt yer seçin.</value>
+  </data>
+  <data name="Shortcuts.SubplaceTimeout" xml:space="preserve">
+    <value>İstek zaman aşımına uğradı. Tekrar denemek için bu sekmeyi yeniden açın.</value>
+  </data>
+  <data name="Shortcuts.SubplaceFailed" xml:space="preserve">
+    <value>Alt yerler yüklenemedi. Oyun kimliğini ve bağlantıyı kontrol edip tekrar deneyin.</value>
+  </data>
+  <data name="Shortcuts.SubplaceReload" xml:space="preserve">
+    <value>Geçerli bir oyun kimliği girdiğinizde alt yerler otomatik olarak yüklenir.</value>
+  </data>
+  <data name="Shortcuts.SubplaceRequired" xml:space="preserve">
+    <value>Alt yerlerin yüklenmesini bekleyin, ardından devam etmeden önce birini seçin.</value>
+  </data>
+  <data name="Library.SubplacesTab" xml:space="preserve">
+    <value>Alt yerler</value>
+  </data>
+  <data name="SettingsProfiles.Title" xml:space="preserve">
+    <value>Ayar profilleri</value>
+  </data>
+  <data name="SettingsProfiles.Name" xml:space="preserve">
+    <value>Profil adı</value>
+  </data>
+  <data name="SettingsProfiles.NameHint" xml:space="preserve">
+    <value>Örnek: VoidstrapProfile</value>
+  </data>
+  <data name="SettingsProfiles.Save" xml:space="preserve">
+    <value>Profili kaydet</value>
+  </data>
+  <data name="SettingsProfiles.Saved" xml:space="preserve">
+    <value>Kayıtlı profiller</value>
+  </data>
+  <data name="SettingsProfiles.Apply" xml:space="preserve">
+    <value>Profili uygula</value>
+  </data>
+  <data name="SettingsProfiles.Folder" xml:space="preserve">
+    <value>Klasörü aç</value>
+  </data>
+  <data name="SettingsProfiles.Empty" xml:space="preserve">
+    <value>Henüz profil yok. Bir ad girin ve Profili kaydet'i seçin.</value>
+  </data>
+  <data name="SettingsProfiles.Location" xml:space="preserve">
+    <value>{0} konumuna kaydedildi</value>
+  </data>
+  <data name="SettingsProfiles.InvalidName" xml:space="preserve">
+    <value>Dosya adı sembolleri veya ayrılmış aygıt adları içermeyen, 1 ile 80 karakter arasında bir ad kullanın.</value>
+  </data>
+  <data name="SettingsProfiles.InvalidFile" xml:space="preserve">
+    <value>Bu profil geçersiz veya desteklenmeyen bir biçim kullanıyor.</value>
+  </data>
+  <data name="SettingsProfiles.RestoreFailed" xml:space="preserve">
+    <value>Profil uygulanamadı ve önceki ayarlar geri yüklenemedi.</value>
+  </data>
+  <data name="SettingsProfiles.Overwrite" xml:space="preserve">
+    <value>Kayıtlı "{0}" profili mevcut ayarlarınızla değiştirilsin mi?</value>
+  </data>
+  <data name="SettingsProfiles.SavedStatus" xml:space="preserve">
+    <value>"{0}" kaydedildi</value>
+  </data>
+  <data name="SettingsProfiles.ApplyConfirm" xml:space="preserve">
+    <value>"{0}" uygulansın mı? Bu, mevcut Voidstrap ayarlarınızı ve FastFlags'i değiştirir, ardından Voidstrap ayarlarını yeniden açar.</value>
+  </data>
+  <data name="SettingsProfiles.RestartFailed" xml:space="preserve">
+    <value>Profil uygulandı. Tüm ayar sayfalarını yenilemek için Voidstrap'i yeniden başlatın.</value>
+  </data>
+  <data name="SettingsProfiles.Restart" xml:space="preserve">
+    <value>Şimdi yeniden başlat</value>
+  </data>
+  <data name="SettingsProfiles.DeleteConfirm" xml:space="preserve">
+    <value>Kayıtlı "{0}" profili silinsin mi? Mevcut ayarlarınız olduğu gibi kalır.</value>
+  </data>
+  <data name="SettingsProfiles.Deleted" xml:space="preserve">
+    <value>"{0}" silindi.</value>
+  </data>
+  <data name="SettingsProfiles.Error" xml:space="preserve">
+    <value>Profil işlemi tamamlanamadı: {0}</value>
+  </data>
+  <data name="GlobalProfiles.Title" xml:space="preserve">
+    <value>Genel ayar profilleri</value>
+  </data>
+  <data name="GlobalProfiles.ApplyConfirm" xml:space="preserve">
+    <value>"{0}" uygulansın mı? Bu, mevcut Roblox genel ayarlarınızı değiştirir. Tüm değişiklikleri görmek için Roblox'a yeniden katılın.</value>
+  </data>
+  <data name="GlobalProfiles.Applied" xml:space="preserve">
+    <value>"{0}" uygulandı</value>
+  </data>
+  <data name="GlobalProfiles.SaveFailed" xml:space="preserve">
+    <value>Roblox ayar dosyası yazılamadı. Roblox'u kapatıp tekrar deneyin.</value>
+  </data>
+  <data name="AssetWarp.RemoveTexturesDescription" xml:space="preserve">
+    <value>Doku ve doku paketi varlıklarının indirilmesini engeller</value>
+  </data>
+  <data name="AssetWarp.RemoveDecalsDescription" xml:space="preserve">
+    <value>Çıkartma varlıklarının indirilmesini engeller</value>
+  </data>
+  <data name="AssetWarp.RemoveImagesDescription" xml:space="preserve">
+    <value>Resim varlıklarının indirilmesini engeller. Roblox dokular ve çıkartmalar için de resim kullanır</value>
+  </data>
+  <data name="AssetWarp.RemoveAnimationsDescription" xml:space="preserve">
+    <value>Animasyon varlıklarının indirilmesini engeller. Yedek animasyonu olmayan oyunlar düzgün çalışmayabilir</value>
+  </data>
+  <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
+    <value>Mesh ve MeshPart varlıklarının indirilmesini engeller. Mesh geometrisi görünmez olur</value>
+  </data>
+  <data name="SwiftTunnel.Summary" xml:space="preserve">
+    <value>Diğer uygulamalar normal bağlantınızı kullanırken Roblox trafiğini SwiftTunnel üzerinden yönlendirin</value>
+  </data>
+  <data name="SwiftTunnel.Description" xml:space="preserve">
+    <value>SwiftTunnel, bölünmüş tünelleme ve bölgesel aktarıcı seçimi sunan bir Windows oyun bağlantısı iyileştiricisidir</value>
+  </data>
+  <data name="SwiftTunnel.Setup" xml:space="preserve">
+    <value>Yükle, en son resmi SwiftTunnel sürümünü indirir ve kurulumdan sonra masaüstü uygulamasını açar. Orada giriş yapıp bağlantınızı seçin. Ağ iyileştirmesi yönetici erişimi gerektirebilir</value>
+  </data>
+  <data name="SwiftTunnel.Network" xml:space="preserve">
+    <value>Ağ</value>
+  </data>
+  <data name="SwiftTunnel.Routing" xml:space="preserve">
+    <value>Yönlendirme</value>
+  </data>
+  <data name="SwiftTunnel.Install" xml:space="preserve">
+    <value>Yükle</value>
+  </data>
+  <data name="SwiftTunnel.Uninstall" xml:space="preserve">
+    <value>Kaldır</value>
+  </data>
+  <data name="SwiftTunnel.Installed" xml:space="preserve">
+    <value>Yüklü</value>
+  </data>
+  <data name="SwiftTunnel.NotInstalled" xml:space="preserve">
+    <value>Yüklü değil</value>
+  </data>
+  <data name="SwiftTunnel.Working" xml:space="preserve">
+    <value>Çalışıyor</value>
+  </data>
+  <data name="SwiftTunnel.Downloading" xml:space="preserve">
+    <value>SwiftTunnel indiriliyor</value>
+  </data>
+  <data name="SwiftTunnel.InstallerFailed" xml:space="preserve">
+    <value>SwiftTunnel kurulumu açılamadı</value>
+  </data>
+  <data name="SwiftTunnel.InstallerExit" xml:space="preserve">
+    <value>SwiftTunnel kurulumu {0} kodunu döndürdü</value>
+  </data>
+  <data name="SwiftTunnel.Error" xml:space="preserve">
+    <value>SwiftTunnel işlemi tamamlanamadı: {0}</value>
+  </data>
+  <data name="SwiftTunnel.UninstallUnavailable" xml:space="preserve">
+    <value>SwiftTunnel kaldırma kaydı eksik. SwiftTunnel'ı bunun yerine Windows Ayarlar, Uygulamalar bölümünden kaldırın</value>
+  </data>
+  <data name="SwiftTunnel.CleanupFailed" xml:space="preserve">
+    <value>SwiftTunnel ağ ayarlarını geri yükleyemedi. Temizliğin yeniden denenebilmesi için dosyaları saklandı</value>
+  </data>
+  <data name="SwiftTunnel.ConfirmUninstall" xml:space="preserve">
+    <value>SwiftTunnel tamamen kaldırılsın mı? Önce ağ sürücüsü ve sistem ayarları geri yüklenir, ardından SwiftTunnel kaldırılır. Başladıktan sonra iptal edilemez.</value>
+  </data>
+  <data name="SwiftTunnel.UninstallIncomplete" xml:space="preserve">
+    <value>SwiftTunnel kaldırma işlemi tamamlanamadı. SwiftTunnel'ı kapatıp yönetici erişimiyle tekrar deneyin</value>
+  </data>
+  <data name="SwiftTunnel.UnsafeDirectory" xml:space="preserve">
+    <value>SwiftTunnel paylaşılan veya tanınmayan bir klasöre yüklenmiş. Tam kaldırmayı kullanmadan önce onu kendi SwiftTunnel klasörüne taşıyın</value>
+  </data>
+  <data name="SwiftTunnel.NotInstalledError" xml:space="preserve">
+    <value>SwiftTunnel yüklü değil. Önce Uzantılar bölümünden yükleyin</value>
+  </data>
+  <data name="SwiftTunnel.Missing" xml:space="preserve">
+    <value>SwiftTunnel kayıtlı ancak uygulama dosyaları eksik. Onarmak için kaldırıp yeniden yükleyin</value>
+  </data>
+  <data name="SwiftTunnel.NoInstaller" xml:space="preserve">
+    <value>En son SwiftTunnel sürümünde bu bilgisayar için doğrulanmış bir Windows yükleyicisi yok</value>
+  </data>
+  <data name="Installer.MacOS.DataLocation.Title" xml:space="preserve">
+    <value>Voidstrap verilerinin nerede saklanacağını seçin</value>
+  </data>
+  <data name="Installer.MacOS.DataLocation.Text" xml:space="preserve">
+    <value>Voidstrap ayarlarını ve modlarını burada tutar. Uygulama mevcut konumunda kalır. Roblox ayrı olarak Uygulamalar klasörüne yüklenir.</value>
+  </data>
+  <data name="Installer.MacOS.Completion.Text" xml:space="preserve">
+    <value>Voidstrap hazır.
+
+Roblox, Voidstrap üzerinden ilk kez başlattığınızda indirilecek. Başlatmadan önce ayarlarınızı düzenleyebilirsiniz.
+
+Ne yapmak istersiniz?</value>
+  </data>
+  <data name="Installer.MacOS.Roblox.Title" xml:space="preserve">
+    <value>macOS için Roblox</value>
+  </data>
+  <data name="Installer.MacOS.Roblox.Text" xml:space="preserve">
+    <value>Voidstrap, Başlat'a ilk tıkladığınızda resmi Roblox uygulamasını Uygulamalar klasörüne indirir ve sonrasında güncel tutar. Ayrı bir kurulum gerekmez.</value>
+  </data>
+  <data name="HomepageMedia.Preview.FileMissing" xml:space="preserve">
+    <value>Seçilen medya dosyası bulunamadı.</value>
+  </data>
+  <data name="HomepageMedia.Preview.DecodeError" xml:space="preserve">
+    <value>Bu medyanın kodu çözülemedi. Başka bir resim veya video seçin.</value>
+  </data>
+  <data name="HomepageMedia.Preview.RenderError" xml:space="preserve">
+    <value>Medya önizlemesi görüntülenemedi.</value>
+  </data>
+  <data name="HomepageMedia.Picker.ImagesAndVideos" xml:space="preserve">
+    <value>Resimler ve videolar</value>
+  </data>
+  <data name="HomepageMedia.Picker.Images" xml:space="preserve">
+    <value>Resimler</value>
+  </data>
+  <data name="HomepageMedia.Picker.Videos" xml:space="preserve">
+    <value>Videolar</value>
+  </data>
+  <data name="Appearance.Backdrop.Sidebar" xml:space="preserve">
+    <value>Kenar çubuğu</value>
+  </data>
+  <data name="Appearance.Backdrop.Popover" xml:space="preserve">
+    <value>Açılır pencere</value>
+  </data>
+  <data name="Appearance.Backdrop.Hud" xml:space="preserve">
+    <value>Ön panel ekranı</value>
+  </data>
+  <data name="Appearance.Backdrop.UnderWindow" xml:space="preserve">
+    <value>Pencerenin altında</value>
+  </data>
+  <data name="Appearance.Backdrop.UnderPage" xml:space="preserve">
+    <value>Sayfanın altında</value>
+  </data>
+  <data name="Menu.MacVirtualDisplay.Title" xml:space="preserve">
+    <value>240 Hz sanal ekran</value>
+  </data>
+  <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Roblox çalışırken ana ekranı yansıtır ve Roblox kapandığında geri yükler. Fiziksel ekran kendi yenileme sınırını korur.</value>
+  </data>
 </root>

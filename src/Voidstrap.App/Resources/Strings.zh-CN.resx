@@ -1714,4 +1714,1343 @@ Voidstrap 的安装路径是：
   <data name="Menu.News.DialogTitle" xml:space="preserve">
     <value>新闻详情</value>
   </data>
+  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
+    <value>Voidstrap 无法从 Windows hosts 文件中移除残留的 AssetWarp 路由。在移除之前，Roblox 将无法加载纹理或其他资源。请以管理员身份运行 Voidstrap 进行清理。</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
+    <value>两者</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
+    <value>玩家</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
+    <value>服务器浏览器</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
+    <value>地点 {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
+    <value>{0}  •  地点 {1}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
+    <value>已扫描 {0} 个服务器</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
+    <value>刷新</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
+    <value>加载更多服务器</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
+    <value>隐藏已满的服务器</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
+    <value>搜索城市、国家或服务器 ID</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
+    <value>玩家最多</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
+    <value>玩家最少</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
+    <value>延迟最低</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
+    <value>加入</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
+    <value>当前</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
+    <value>正在加载公共服务器</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
+    <value>未找到公共服务器</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
+    <value>请先加入游戏再打开服务器浏览器</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
+    <value>Roblox 正在限制请求，服务器列表已暂停</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
+    <value>无法加载公共服务器</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
+    <value>已加载 {0} 个服务器</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
+    <value>{0} / {1} 名玩家</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
+    <value>{0} 名玩家</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Metrics" xml:space="preserve">
+    <value>延迟 {0} ms，FPS {1}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
+    <value>未知</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
+    <value>最佳匹配</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
+    <value>最佳匹配</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
+    <value>已屏蔽</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
+    <value>距您约 {0} ms</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
+    <value>目前已定位 {0} 个服务器</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
+    <value>已定位 {0} / {1} 个服务器</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
+    <value>正在将您转移到 {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
+    <value>无法加入该服务器</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
+    <value>请在 设置 &gt; Server Matchmaker 中登录，以便 Voidstrap 查找每个服务器的位置</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
+    <value>无法确定您的位置，因此无法按延迟排序服务器</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
+    <value>Roblox 未公开这些服务器的位置，请稍后重试</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
+    <value>找到的所有服务器都位于您屏蔽的数据中心</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
+    <value>找到的所有服务器都离您很远，因此匹配器将由 Roblox 自行选择</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
+    <value>游戏浏览器</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
+    <value>继续</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
+    <value>收藏</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
+    <value>搜索</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
+    <value>搜索 Roblox 游戏</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
+    <value>正在加载游戏</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
+    <value>本次会话中没有最近玩过的游戏</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
+    <value>没有已保存的收藏游戏</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
+    <value>按名称搜索 Roblox 游戏</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
+    <value>未找到与 {0} 相关的游戏</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
+    <value>无法加载游戏</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
+    <value>{0} 人正在玩</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
+    <value>加入</value>
+  </data>
+  <data name="Enums.Theme.Berry" xml:space="preserve">
+    <value>莓果</value>
+  </data>
+  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
+    <value>自动翻译</value>
+  </data>
+  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
+    <value>翻译为</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
+    <value>自动翻译语言</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
+    <value>将整个 Voidstrap 界面翻译为任意语言。优先使用内置翻译，其余文本实时翻译。</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
+    <value>自动翻译 Discord RPC</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
+    <value>自动将 Discord Rich Presence 文本翻译为所选语言。</value>
+  </data>
+  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
+    <value>此功能仅在 Windows 上可用。</value>
+  </data>
+  <data name="About.Translators.Description" xml:space="preserve">
+    <value>这里列出的每一位都慷慨地付出了时间和精力来帮助翻译 Voidstrap。衷心感谢大家！</value>
+  </data>
+  <data name="Menu.Channel.Description" xml:space="preserve">
+    <value>更改 Roblox 和 Voidstrap 的部署与安装设置。</value>
+  </data>
+  <data name="Common.Channel" xml:space="preserve">
+    <value>频道</value>
+  </data>
+  <data name="Menu.ChannelChanger.Description" xml:space="preserve">
+    <value>选择部署频道。如果不清楚其作用，请勿更改。</value>
+  </data>
+  <data name="Common.Version" xml:space="preserve">
+    <value>版本</value>
+  </data>
+  <data name="Menu.Channel.RobloxUpgrades" xml:space="preserve">
+    <value>更新 Roblox</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
+    <value>深色模式</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
+    <value>遥测</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
+    <value>深色模式</value>
+  </data>
+  <data name="Menu.Sober.Description" xml:space="preserve">
+    <value>配置 Voidstrap 用于启动 Roblox 的 Linux 运行时。Sober 运行玩家客户端，Vinegar 运行 Studio。Voidstrap 只会更改您明确覆盖的选项。</value>
+  </data>
+  <data name="Menu.Sober.Default" xml:space="preserve">
+    <value>使用 Sober 默认值</value>
+  </data>
+  <data name="Menu.Sober.Enabled" xml:space="preserve">
+    <value>已启用</value>
+  </data>
+  <data name="Menu.Sober.Disabled" xml:space="preserve">
+    <value>已禁用</value>
+  </data>
+  <data name="Menu.Sober.DefaultNotice" xml:space="preserve">
+    <value>使用 Sober 默认值时由 Sober 控制该设置。移除覆盖会恢复 Voidstrap 备份的值。</value>
+  </data>
+  <data name="Menu.Sober.RuntimeNotice" xml:space="preserve">
+    <value>请先完成 Sober 的首次运行再设置覆盖，并在更改前关闭 Sober。保存的更改将在下次启动 Sober 时生效。</value>
+  </data>
+  <data name="Menu.Sober.Group.Session" xml:space="preserve">
+    <value>会话与活动</value>
+  </data>
+  <data name="Menu.Sober.Group.Input" xml:space="preserve">
+    <value>输入与体验</value>
+  </data>
+  <data name="Menu.Sober.Group.Graphics" xml:space="preserve">
+    <value>图形与桌面</value>
+  </data>
+  <data name="Menu.Sober.AllowGamepad.Title" xml:space="preserve">
+    <value>允许访问游戏手柄</value>
+  </data>
+  <data name="Menu.Sober.AllowGamepad.Description" xml:space="preserve">
+    <value>允许 Sober 请求访问已连接的游戏手柄。权限更改可能需要重新启动 Sober。</value>
+  </data>
+  <data name="Menu.Sober.CloseOnLeave.Title" xml:space="preserve">
+    <value>退出时关闭</value>
+  </data>
+  <data name="Menu.Sober.CloseOnLeave.Description" xml:space="preserve">
+    <value>离开体验后关闭 Sober。</value>
+  </data>
+  <data name="Menu.Sober.DiscordRpc.Description" xml:space="preserve">
+    <value>允许 Sober 通过 Discord Rich Presence 显示游戏活动。</value>
+  </data>
+  <data name="Menu.Sober.DiscordJoin.Title" xml:space="preserve">
+    <value>Discord 加入按钮</value>
+  </data>
+  <data name="Menu.Sober.DiscordJoin.Description" xml:space="preserve">
+    <value>允许 Sober 在 Discord Rich Presence 中添加加入按钮。</value>
+  </data>
+  <data name="Menu.Sober.GameMode.Title" xml:space="preserve">
+    <value>GameMode 集成</value>
+  </data>
+  <data name="Menu.Sober.GameMode.Description" xml:space="preserve">
+    <value>在 GameMode 可用时，允许 Sober 请求 GameMode 性能调优。</value>
+  </data>
+  <data name="Menu.Sober.HiDpi.Title" xml:space="preserve">
+    <value>高 DPI 缩放</value>
+  </data>
+  <data name="Menu.Sober.HiDpi.Description" xml:space="preserve">
+    <value>为高密度显示器使用原生缩放。</value>
+  </data>
+  <data name="Menu.Sober.MobileHome.Title" xml:space="preserve">
+    <value>移动版主屏幕</value>
+  </data>
+  <data name="Menu.Sober.MobileHome.Description" xml:space="preserve">
+    <value>使用移动端风格的 Roblox 主屏幕。</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Title" xml:space="preserve">
+    <value>图形优化模式</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Description" xml:space="preserve">
+    <value>选择 Sober 的图形优化优先级。</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Quality" xml:space="preserve">
+    <value>画质</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Balanced" xml:space="preserve">
+    <value>均衡</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Performance" xml:space="preserve">
+    <value>性能</value>
+  </data>
+  <data name="Menu.Sober.ServerLocation.Title" xml:space="preserve">
+    <value>服务器位置指示器</value>
+  </data>
+  <data name="Menu.Sober.ServerLocation.Description" xml:space="preserve">
+    <value>游戏时显示 Sober 的服务器位置指示器。</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Title" xml:space="preserve">
+    <value>触控模式</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Description" xml:space="preserve">
+    <value>选择 Sober 如何报告触控输入支持。</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Off" xml:space="preserve">
+    <value>关</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.On" xml:space="preserve">
+    <value>开</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.FakeOff" xml:space="preserve">
+    <value>伪关闭</value>
+  </data>
+  <data name="Menu.Sober.ConsoleExperience.Title" xml:space="preserve">
+    <value>主机版体验</value>
+  </data>
+  <data name="Menu.Sober.ConsoleExperience.Description" xml:space="preserve">
+    <value>使用主机风格的 Roblox 体验。</value>
+  </data>
+  <data name="Menu.Sober.Libsecret.Title" xml:space="preserve">
+    <value>Secret Service 存储</value>
+  </data>
+  <data name="Menu.Sober.Libsecret.Description" xml:space="preserve">
+    <value>通过桌面 Secret Service 存储受支持的凭据。</value>
+  </data>
+  <data name="Menu.Sober.OpenGl.Title" xml:space="preserve">
+    <value>OpenGL 渲染器</value>
+  </data>
+  <data name="Menu.Sober.OpenGl.Description" xml:space="preserve">
+    <value>使用 OpenGL 代替 Sober 默认的图形后端。</value>
+  </data>
+  <data name="Installer.Appearance.BackgroundUI.Title" xml:space="preserve">
+    <value>背景与界面</value>
+  </data>
+  <data name="Installer.Appearance.BackgroundUI.Description" xml:space="preserve">
+    <value>个性化安装程序和主应用。</value>
+  </data>
+  <data name="Installer.Appearance.Snow.Title" xml:space="preserve">
+    <value>背景飘雪</value>
+  </data>
+  <data name="Installer.Appearance.Snow.Description" xml:space="preserve">
+    <value>为背景添加轻柔的飘雪效果。</value>
+  </data>
+  <data name="Installer.Appearance.GradientMovement.Title" xml:space="preserve">
+    <value>渐变跟随</value>
+  </data>
+  <data name="Installer.Appearance.GradientMovement.Description" xml:space="preserve">
+    <value>让背景渐变跟随指针移动。</value>
+  </data>
+  <data name="Installer.Appearance.SmoothScrolling.Title" xml:space="preserve">
+    <value>平滑滚动</value>
+  </data>
+  <data name="Installer.Appearance.SmoothScrolling.Description" xml:space="preserve">
+    <value>为整个界面的滚动添加动画。</value>
+  </data>
+  <data name="Installer.Appearance.ClearFont.Title" xml:space="preserve">
+    <value>清晰字体</value>
+  </data>
+  <data name="Installer.Appearance.ClearFont.Description" xml:space="preserve">
+    <value>重启 Voidstrap 后使用更清晰的文字渲染。</value>
+  </data>
+  <data name="Installer.Appearance.Background.Title" xml:space="preserve">
+    <value>自定义背景</value>
+  </data>
+  <data name="Installer.Appearance.Background.Description" xml:space="preserve">
+    <value>使用图片、GIF 或视频，并调整其显示方式。</value>
+  </data>
+  <data name="Installer.Appearance.GradientOpacity" xml:space="preserve">
+    <value>渐变不透明度</value>
+  </data>
+  <data name="Installer.Appearance.DarkOverlay" xml:space="preserve">
+    <value>深色遮罩</value>
+  </data>
+  <data name="Installer.Appearance.DisplayEverywhere" xml:space="preserve">
+    <value>在所有位置显示</value>
+  </data>
+  <data name="Installer.Appearance.RemoveBackground" xml:space="preserve">
+    <value>移除背景</value>
+  </data>
+  <data name="Installer.Appearance.Theme.Description" xml:space="preserve">
+    <value>选择所有 Voidstrap 窗口使用的主题。</value>
+  </data>
+  <data name="Installer.Appearance.Theme.Customize" xml:space="preserve">
+    <value>自定义</value>
+  </data>
+  <data name="Installer.Appearance.Backdrop.Title" xml:space="preserve">
+    <value>窗口背景材质</value>
+  </data>
+  <data name="Installer.Appearance.Backdrop.Description" xml:space="preserve">
+    <value>选择显示在 Voidstrap 窗口后方的材质。</value>
+  </data>
+  <data name="Installer.Appearance.PageZoom.Title" xml:space="preserve">
+    <value>页面缩放</value>
+  </data>
+  <data name="Installer.Appearance.PageZoom.Description" xml:space="preserve">
+    <value>调整设置页面的大小。</value>
+  </data>
+  <data name="Vng.WarningTitle" xml:space="preserve">
+    <value>Roblox VNG：永久账户限制</value>
+  </data>
+  <data name="Vng.Warning" xml:space="preserve">
+    <value>停止：继续之前请阅读
+
+首次登录 Roblox VNG 会将您的账户迁移到 VNG。Roblox 表示该账户将无法再在全球版 Roblox 应用中使用。
+
+请将此账户迁移视为永久性的。Voidstrap 无法撤销。卸载 VNG 或关闭此选项都不会恢复全球版账户的访问。VNG 的账户和地区限制将会生效。
+
+仅下载文件不会迁移您的账户。使用现有账户登录或启动可能会导致该账户被迁移。
+
+只有在您接受与 VNG 一起使用的每个账户都将失去全球版应用访问权限时才继续。“是”按钮将在十秒后解锁。</value>
+  </data>
+  <data name="Vng.Confirmation" xml:space="preserve">
+    <value>您确定吗？</value>
+  </data>
+  <data name="Vng.Agreement" xml:space="preserve">
+    <value>最后警告：登录 Roblox VNG 可能会永久迁移您的账户并失去全球版 Roblox 应用的访问权限。Voidstrap 无法撤销。
+
+请准确输入下方短语以接受此限制并继续。</value>
+  </data>
+  <data name="Vng.Countdown" xml:space="preserve">
+    <value>{0} ({1} 秒)</value>
+  </data>
+  <data name="Vng.Description" xml:space="preserve">
+    <value>越南版玩家客户端。登录将迁移您的账户并失去全球版应用的访问权限。</value>
+  </data>
+  <data name="Vng.UseForLaunches" xml:space="preserve">
+    <value>使用 VNG 启动玩家客户端</value>
+  </data>
+  <data name="Vng.UninstallWarning" xml:space="preserve">
+    <value>移除 VNG 不会撤销账户迁移，也不会恢复全球版应用的访问权限。</value>
+  </data>
+  <data name="Mtu.Description" xml:space="preserve">
+    <value>限制所有应用（包括 Roblox）的数据包大小。需要管理员权限，重启后仍然有效。可能不会改善延迟。</value>
+  </data>
+  <data name="Mtu.Adapter" xml:space="preserve">
+    <value>选择网络适配器和 IP 版本</value>
+  </data>
+  <data name="Mtu.CustomValue" xml:space="preserve">
+    <value>自定义 MTU（字节）</value>
+  </data>
+  <data name="Mtu.Current" xml:space="preserve">
+    <value>当前：{0} 字节。最小：{1} 字节。</value>
+  </data>
+  <data name="Mtu.NoAdapters" xml:space="preserve">
+    <value>未找到受支持的网络适配器。请刷新后重试。</value>
+  </data>
+  <data name="Mtu.Invalid" xml:space="preserve">
+    <value>请输入 {0} 到 {1} 之间的整数。Windows 还会检查适配器支持的数据包大小。</value>
+  </data>
+  <data name="Mtu.Apply" xml:space="preserve">
+    <value>应用</value>
+  </data>
+  <data name="Mtu.Restore" xml:space="preserve">
+    <value>恢复</value>
+  </data>
+  <data name="Mtu.Refresh" xml:space="preserve">
+    <value>刷新</value>
+  </data>
+  <data name="Mtu.Loading" xml:space="preserve">
+    <value>正在读取 Windows 网络适配器...</value>
+  </data>
+  <data name="Mtu.Applying" xml:space="preserve">
+    <value>正在等待管理员批准并应用 MTU...</value>
+  </data>
+  <data name="Mtu.AdapterUnavailable" xml:space="preserve">
+    <value>所选适配器不可用。请刷新并选择一个适配器。</value>
+  </data>
+  <data name="Mtu.Rejected" xml:space="preserve">
+    <value>Windows 无法应用 MTU，代码 {0}。您的适配器可能不支持此值。</value>
+  </data>
+  <data name="Mtu.Applied" xml:space="preserve">
+    <value>MTU 已设置为 {0} 字节并已验证。适用于所选适配器上的所有应用。</value>
+  </data>
+  <data name="Mtu.Restored" xml:space="preserve">
+    <value>已恢复之前的 MTU {0} 字节并已验证。</value>
+  </data>
+  <data name="Mtu.VerificationFailed" xml:space="preserve">
+    <value>Windows 未报告请求的 MTU。请刷新以查看当前值。</value>
+  </data>
+  <data name="Mtu.Cancelled" xml:space="preserve">
+    <value>管理员请求已取消。MTU 未更改。</value>
+  </data>
+  <data name="Mtu.Error" xml:space="preserve">
+    <value>MTU 操作失败。请刷新以查看当前值。</value>
+  </data>
+  <data name="Menu_FastFlagEditor_Rename" xml:space="preserve">
+    <value>重命名</value>
+  </data>
+  <data name="Menu_FastFlagEditor_EditValue" xml:space="preserve">
+    <value>编辑值</value>
+  </data>
+  <data name="Menu_FastFlagEditor_CopySelected" xml:space="preserve">
+    <value>将所选内容复制为 JSON</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Title" xml:space="preserve">
+    <value>强调色</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Description" xml:space="preserve">
+    <value>选择应用控件和背景色调使用的颜色。</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Choose" xml:space="preserve">
+    <value>选择颜色</value>
+  </data>
+  <data name="Menu.Appearance.Accent.System" xml:space="preserve">
+    <value>使用系统颜色</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Picker" xml:space="preserve">
+    <value>选择强调色</value>
+  </data>
+  <data name="Menu.Shortcuts.Customize" xml:space="preserve">
+    <value>名称和图标</value>
+  </data>
+  <data name="Menu.Shortcuts.InvalidName" xml:space="preserve">
+    <value>请使用不含斜杠或保留文件名的有效快捷方式名称。</value>
+  </data>
+  <data name="Menu.Shortcuts.NameExists" xml:space="preserve">
+    <value>已存在同名快捷方式。请选择其他名称。</value>
+  </data>
+  <data name="Menu.Shortcuts.ChooseIcon" xml:space="preserve">
+    <value>选择快捷方式图标</value>
+  </data>
+  <data name="Menu.Shortcuts.IconFilter" xml:space="preserve">
+    <value>图标和图片文件|*.ico;*.png;*.jpg;*.jpeg;*.bmp;*.webp</value>
+  </data>
+  <data name="Menu.Shortcuts.InvalidIcon" xml:space="preserve">
+    <value>请选择小于 8 MB 的有效图标或图片。</value>
+  </data>
+  <data name="Menu.LaunchDropdownOnRight" xml:space="preserve">
+    <value>将版本选择器放在右侧</value>
+  </data>
+  <data name="OverlayDiagnostics.Bounds" xml:space="preserve">
+    <value>屏幕大小和位置</value>
+  </data>
+  <data name="OverlayDiagnostics.CollectionError" xml:space="preserve">
+    <value>无法收集当前样本：{0}</value>
+  </data>
+  <data name="OverlayDiagnostics.CompositeCrosshair" xml:space="preserve">
+    <value>合成准星已激活</value>
+  </data>
+  <data name="OverlayDiagnostics.Compositor" xml:space="preserve">
+    <value>合成已启动</value>
+  </data>
+  <data name="OverlayDiagnostics.Configuration" xml:space="preserve">
+    <value>已配置的功能，这些开关并不能证明正在渲染</value>
+  </data>
+  <data name="OverlayDiagnostics.Crosshair" xml:space="preserve">
+    <value>准星</value>
+  </data>
+  <data name="OverlayDiagnostics.Disabled" xml:space="preserve">
+    <value>检查的所有叠加层功能均已在设置中禁用。</value>
+  </data>
+  <data name="OverlayDiagnostics.DispatcherRequired" xml:space="preserve">
+    <value>叠加层诊断必须在窗口的调度器上运行。</value>
+  </data>
+  <data name="OverlayDiagnostics.FakeBorderless" xml:space="preserve">
+    <value>伪无边框全屏</value>
+  </data>
+  <data name="OverlayDiagnostics.FakeExclusive" xml:space="preserve">
+    <value>伪独占全屏</value>
+  </data>
+  <data name="OverlayDiagnostics.Findings" xml:space="preserve">
+    <value>检查与限制</value>
+  </data>
+  <data name="OverlayDiagnostics.Foreground" xml:space="preserve">
+    <value>Roblox 或其叠加层处于焦点</value>
+  </data>
+  <data name="OverlayDiagnostics.FullscreenUnknown" xml:space="preserve">
+    <value>未验证独占全屏。窗口大小和边框样式无法确定呈现模式。</value>
+  </data>
+  <data name="OverlayDiagnostics.GameEffects" xml:space="preserve">
+    <value>游戏效果</value>
+  </data>
+  <data name="OverlayDiagnostics.GameLease" xml:space="preserve">
+    <value>已确认 Linux 游戏租约</value>
+  </data>
+  <data name="OverlayDiagnostics.GameSession" xml:space="preserve">
+    <value>活动监视器游戏会话</value>
+  </data>
+  <data name="OverlayDiagnostics.GameSignal" xml:space="preserve">
+    <value>叠加层中心游戏信号</value>
+  </data>
+  <data name="OverlayDiagnostics.Handle" xml:space="preserve">
+    <value>窗口句柄</value>
+  </data>
+  <data name="OverlayDiagnostics.Homepage" xml:space="preserve">
+    <value>主页背景</value>
+  </data>
+  <data name="OverlayDiagnostics.HomepageInGame" xml:space="preserve">
+    <value>Linux 主页进程仍在运行时，叠加层中心报告了游戏会话。进程可能在运行但未绘制。</value>
+  </data>
+  <data name="OverlayDiagnostics.HomepageWorker" xml:space="preserve">
+    <value>Linux 主页进程正在运行</value>
+  </data>
+  <data name="OverlayDiagnostics.Intersects" xml:space="preserve">
+    <value>矩形与 Roblox 相交</value>
+  </data>
+  <data name="OverlayDiagnostics.Minimized" xml:space="preserve">
+    <value>原生窗口已最小化</value>
+  </data>
+  <data name="OverlayDiagnostics.MissingCrosshair" xml:space="preserve">
+    <value>已配置准星，但在此进程中未找到准星窗口或活动的合成准星。</value>
+  </data>
+  <data name="OverlayDiagnostics.MissingStats" xml:space="preserve">
+    <value>已配置统计信息，但在此进程中未找到统计窗口。这并不能证明创建失败，也不能排除其他 Voidstrap 进程。</value>
+  </data>
+  <data name="OverlayDiagnostics.MonitorCoverage" xml:space="preserve">
+    <value>无边框客户区覆盖其显示器</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeLive" xml:space="preserve">
+    <value>原生句柄有效</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeTopmost" xml:space="preserve">
+    <value>原生置顶标记</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeVisible" xml:space="preserve">
+    <value>原生窗口可见</value>
+  </data>
+  <data name="OverlayDiagnostics.No" xml:space="preserve">
+    <value>否</value>
+  </data>
+  <data name="OverlayDiagnostics.NoUsableWindow" xml:space="preserve">
+    <value>未测量到可用的 Roblox 客户区矩形。Roblox 可能已关闭、最小化、隐藏、正在启动或无法访问。</value>
+  </data>
+  <data name="OverlayDiagnostics.NoWindows" xml:space="preserve">
+    <value>在此进程中未找到叠加层窗口。</value>
+  </data>
+  <data name="OverlayDiagnostics.Opacity" xml:space="preserve">
+    <value>WPF 不透明度</value>
+  </data>
+  <data name="OverlayDiagnostics.PixelsUnknown" xml:space="preserve">
+    <value>可见性、不透明度和置顶标记并不能证明像素已被渲染、未被遮挡或对用户可见。本报告不确认 GPU 帧交付和遮挡情况。</value>
+  </data>
+  <data name="OverlayDiagnostics.Place" xml:space="preserve">
+    <value>活动监视器地点 ID</value>
+  </data>
+  <data name="OverlayDiagnostics.RegisteredWindow" xml:space="preserve">
+    <value>已注册的原生叠加层</value>
+  </data>
+  <data name="OverlayDiagnostics.RobloxWindow" xml:space="preserve">
+    <value>观察到的 Roblox 窗口</value>
+  </data>
+  <data name="OverlayDiagnostics.Runtime" xml:space="preserve">
+    <value>观察到的运行时状态</value>
+  </data>
+  <data name="OverlayDiagnostics.Sample" xml:space="preserve">
+    <value>采样于 {0:HH:mm:ss.fff zzz}，每秒及窗口变化时刷新</value>
+  </data>
+  <data name="OverlayDiagnostics.Scope" xml:space="preserve">
+    <value>这些读数描述的是当前 Voidstrap 进程。其他进程拥有的窗口可能不会列出。</value>
+  </data>
+  <data name="OverlayDiagnostics.Stats" xml:space="preserve">
+    <value>统计叠加层</value>
+  </data>
+  <data name="OverlayDiagnostics.Teleporting" xml:space="preserve">
+    <value>活动监视器传送进行中</value>
+  </data>
+  <data name="OverlayDiagnostics.Title" xml:space="preserve">
+    <value>叠加层诊断</value>
+  </data>
+  <data name="OverlayDiagnostics.Transition" xml:space="preserve">
+    <value>游戏切换</value>
+  </data>
+  <data name="OverlayDiagnostics.Unavailable" xml:space="preserve">
+    <value>不可用</value>
+  </data>
+  <data name="OverlayDiagnostics.Unfocused" xml:space="preserve">
+    <value>Roblox 当前不在焦点。当其他窗口（包括此诊断窗口）处于活动状态时，叠加层可能被有意隐藏。</value>
+  </data>
+  <data name="OverlayDiagnostics.UsableRect" xml:space="preserve">
+    <value>已追踪的可用客户区矩形</value>
+  </data>
+  <data name="OverlayDiagnostics.Visible" xml:space="preserve">
+    <value>在 WPF 中可见</value>
+  </data>
+  <data name="OverlayDiagnostics.Windows" xml:space="preserve">
+    <value>观察到的叠加层窗口</value>
+  </data>
+  <data name="OverlayDiagnostics.Worker" xml:space="preserve">
+    <value>合成工作线程正在运行</value>
+  </data>
+  <data name="OverlayDiagnostics.WpfTopmost" xml:space="preserve">
+    <value>已请求 WPF 置顶</value>
+  </data>
+  <data name="OverlayDiagnostics.X11" xml:space="preserve">
+    <value>X11 连接可用</value>
+  </data>
+  <data name="OverlayDiagnostics.X11Compositor" xml:space="preserve">
+    <value>检测到 X11 合成</value>
+  </data>
+  <data name="OverlayDiagnostics.X11Unavailable" xml:space="preserve">
+    <value>没有可用的 X11 连接。无法检查原生窗口，可能是 Wayland 限制或沙盒权限所致。</value>
+  </data>
+  <data name="OverlayDiagnostics.Yes" xml:space="preserve">
+    <value>是</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeCompositor" xml:space="preserve">
+    <value>GPU 合成原生窗口</value>
+  </data>
+  <data name="FlagSearch.Loading" xml:space="preserve">
+    <value>正在加载来源…</value>
+  </data>
+  <data name="FlagSearch.Loaded" xml:space="preserve">
+    <value>已加载</value>
+  </data>
+  <data name="FlagSearch.Unavailable" xml:space="preserve">
+    <value>不可用</value>
+  </data>
+  <data name="FlagSearch.Pending" xml:space="preserve">
+    <value>等待中</value>
+  </data>
+  <data name="FlagSearch.LoadedSummary" xml:space="preserve">
+    <value>已从 {2} 个来源中的 {1} 个加载 {0:N0} 个唯一名称。详情请参阅数据来源。</value>
+  </data>
+  <data name="FlagSearch.LoadError" xml:space="preserve">
+    <value>来源加载失败。详情请查看日志。</value>
+  </data>
+  <data name="FlagSearch.ObjectRequired" xml:space="preserve">
+    <value>Flag JSON 必须包含一个对象。</value>
+  </data>
+  <data name="FlagSearch.EmptySource" xml:space="preserve">
+    <value>来源未返回可识别的 Flag 名称。</value>
+  </data>
+  <data name="FlagSearch.ResultCount" xml:space="preserve">
+    <value>显示 {1:N0} 个匹配项中的 {0:N0} 个</value>
+  </data>
+  <data name="FlagSearch.SearchError" xml:space="preserve">
+    <value>搜索失败。详情请查看日志。</value>
+  </data>
+  <data name="FlagSearch.Validating" xml:space="preserve">
+    <value>正在检查 Flag 名称和输入值…</value>
+  </data>
+  <data name="FlagSearch.Found" xml:space="preserve">
+    <value>已找到</value>
+  </data>
+  <data name="FlagSearch.ValueError" xml:space="preserve">
+    <value>值错误</value>
+  </data>
+  <data name="FlagSearch.NotFound" xml:space="preserve">
+    <value>未找到</value>
+  </data>
+  <data name="FlagSearch.FoundNote" xml:space="preserve">
+    <value>在已加载的来源中找到。尚未验证本地覆盖支持。</value>
+  </data>
+  <data name="FlagSearch.NotFoundNote" xml:space="preserve">
+    <value>不在已加载的来源中，但这并不能证明该 Flag 无效。</value>
+  </data>
+  <data name="FlagSearch.ValidationSummary" xml:space="preserve">
+    <value>已检查 {0:N0} 个 Flag，{1:N0} 个输入与来源及预期值类型匹配。</value>
+  </data>
+  <data name="FlagSearch.NameError" xml:space="preserve">
+    <value>请使用不含空格的可识别 Fast Flag 名称。</value>
+  </data>
+  <data name="FlagSearch.TooMany" xml:space="preserve">
+    <value>输入包含的 Flag 过多。</value>
+  </data>
+  <data name="FlagSearch.ScalarRequired" xml:space="preserve">
+    <value>Flag 值必须是字符串、数字或布尔值。</value>
+  </data>
+  <data name="FlagSearch.LineError" xml:space="preserve">
+    <value>每行文本必须使用 名称=值 格式。</value>
+  </data>
+  <data name="FlagSearch.EmptyInput" xml:space="preserve">
+    <value>未找到 Flag 条目。</value>
+  </data>
+  <data name="FlagSearch.Label1" xml:space="preserve">
+    <value>搜索 Fast Flag</value>
+  </data>
+  <data name="FlagSearch.Label2" xml:space="preserve">
+    <value>搜索 Fast Flag</value>
+  </data>
+  <data name="FlagSearch.Label3" xml:space="preserve">
+    <value>Fast Flag 搜索与验证</value>
+  </data>
+  <data name="FlagSearch.Label4" xml:space="preserve">
+    <value>从多个来源搜索、验证和发现 Fast Flag</value>
+  </data>
+  <data name="FlagSearch.Label5" xml:space="preserve">
+    <value>刷新来源</value>
+  </data>
+  <data name="FlagSearch.Label6" xml:space="preserve">
+    <value>就绪</value>
+  </data>
+  <data name="FlagSearch.Label7" xml:space="preserve">
+    <value>实时搜索</value>
+  </data>
+  <data name="FlagSearch.Label8" xml:space="preserve">
+    <value>实时 Flag 搜索</value>
+  </data>
+  <data name="FlagSearch.Label9" xml:space="preserve">
+    <value>搜索完整名称或关键词。完全匹配优先显示。导出包含所有匹配的已知值。</value>
+  </data>
+  <data name="FlagSearch.Label10" xml:space="preserve">
+    <value>输入 Flag 名称或关键词...</value>
+  </data>
+  <data name="FlagSearch.Label11" xml:space="preserve">
+    <value>导出结果</value>
+  </data>
+  <data name="FlagSearch.Label12" xml:space="preserve">
+    <value>所有值</value>
+  </data>
+  <data name="FlagSearch.Label13" xml:space="preserve">
+    <value>true 值</value>
+  </data>
+  <data name="FlagSearch.Label14" xml:space="preserve">
+    <value>false 值</value>
+  </data>
+  <data name="FlagSearch.Label15" xml:space="preserve">
+    <value>Flag 名称</value>
+  </data>
+  <data name="FlagSearch.Label16" xml:space="preserve">
+    <value>值</value>
+  </data>
+  <data name="FlagSearch.Label17" xml:space="preserve">
+    <value>来源</value>
+  </data>
+  <data name="FlagSearch.Label18" xml:space="preserve">
+    <value>没有匹配项。请尝试其他名称或值筛选。</value>
+  </data>
+  <data name="FlagSearch.Label19" xml:space="preserve">
+    <value>0 个结果</value>
+  </data>
+  <data name="FlagSearch.Label20" xml:space="preserve">
+    <value>批量验证</value>
+  </data>
+  <data name="FlagSearch.Label21" xml:space="preserve">
+    <value>批量 Flag 验证</value>
+  </data>
+  <data name="FlagSearch.Label22" xml:space="preserve">
+    <value>检查来源归属和值类型。匹配并不保证 Roblox 允许本地覆盖。</value>
+  </data>
+  <data name="FlagSearch.Label23" xml:space="preserve">
+    <value>加载文件</value>
+  </data>
+  <data name="FlagSearch.Label24" xml:space="preserve">
+    <value>验证</value>
+  </data>
+  <data name="FlagSearch.Label25" xml:space="preserve">
+    <value>清除</value>
+  </data>
+  <data name="FlagSearch.Label26" xml:space="preserve">
+    <value>粘贴</value>
+  </data>
+  <data name="FlagSearch.Label28" xml:space="preserve">
+    <value>全选</value>
+  </data>
+  <data name="FlagSearch.Label30" xml:space="preserve">
+    <value>清除</value>
+  </data>
+  <data name="FlagSearch.Label31" xml:space="preserve">
+    <value>验证结果</value>
+  </data>
+  <data name="FlagSearch.Label32" xml:space="preserve">
+    <value>Flag 名称</value>
+  </data>
+  <data name="FlagSearch.Label33" xml:space="preserve">
+    <value>输入值</value>
+  </data>
+  <data name="FlagSearch.Label34" xml:space="preserve">
+    <value>状态</value>
+  </data>
+  <data name="FlagSearch.Label35" xml:space="preserve">
+    <value>来源值</value>
+  </data>
+  <data name="FlagSearch.Label36" xml:space="preserve">
+    <value>备注</value>
+  </data>
+  <data name="FlagSearch.Label37" xml:space="preserve">
+    <value>导出已检查的输入</value>
+  </data>
+  <data name="FlagSearch.Label38" xml:space="preserve">
+    <value>0 个结果</value>
+  </data>
+  <data name="FlagSearch.Label39" xml:space="preserve">
+    <value>数据来源</value>
+  </data>
+  <data name="FlagSearch.Label40" xml:space="preserve">
+    <value>来源的实时可用性和获取时间。存在于来源中并不意味着 Roblox 接受本地覆盖。这些来源不提供最后更改日期。</value>
+  </data>
+  <data name="FlagSearch.Label41" xml:space="preserve">
+    <value>来源</value>
+  </data>
+  <data name="FlagSearch.Label42" xml:space="preserve">
+    <value>状态</value>
+  </data>
+  <data name="FlagSearch.Label43" xml:space="preserve">
+    <value>Flag</value>
+  </data>
+  <data name="FlagSearch.Label44" xml:space="preserve">
+    <value>获取时间</value>
+  </data>
+  <data name="FlagSearch.Label45" xml:space="preserve">
+    <value>关闭</value>
+  </data>
+  <data name="FlagSearch.Message1" xml:space="preserve">
+    <value>请输入要验证的 Flag。</value>
+  </data>
+  <data name="FlagSearch.Message2" xml:space="preserve">
+    <value>无输入</value>
+  </data>
+  <data name="FlagSearch.Message3" xml:space="preserve">
+    <value>Flag 输入过大，无法验证。</value>
+  </data>
+  <data name="FlagSearch.Message4" xml:space="preserve">
+    <value>输入过大</value>
+  </data>
+  <data name="FlagSearch.Message5" xml:space="preserve">
+    <value>输入中发现重复的 Flag：</value>
+  </data>
+  <data name="FlagSearch.Message6" xml:space="preserve">
+    <value>检测到重复</value>
+  </data>
+  <data name="FlagSearch.Message7" xml:space="preserve">
+    <value>验证 Flag 时出错</value>
+  </data>
+  <data name="FlagSearch.Message8" xml:space="preserve">
+    <value>验证 Flag 时出错：</value>
+  </data>
+  <data name="FlagSearch.Message9" xml:space="preserve">
+    <value>验证错误</value>
+  </data>
+  <data name="FlagSearch.Message10" xml:space="preserve">
+    <value>选择要验证的 Flag 文件</value>
+  </data>
+  <data name="FlagSearch.Message11" xml:space="preserve">
+    <value>加载文件时出错：</value>
+  </data>
+  <data name="FlagSearch.Message12" xml:space="preserve">
+    <value>文件错误</value>
+  </data>
+  <data name="FlagSearch.Message13" xml:space="preserve">
+    <value>Flag 文件大小无效</value>
+  </data>
+  <data name="FlagSearch.Message14" xml:space="preserve">
+    <value>读取时 Flag 文件发生了变化</value>
+  </data>
+  <data name="FlagSearch.Message15" xml:space="preserve">
+    <value>Flag 输入过大</value>
+  </data>
+  <data name="FlagSearch.Message16" xml:space="preserve">
+    <value>已将 {flags.Count} 个 Flag 导出到 {dialog.FileName}</value>
+  </data>
+  <data name="FlagSearch.Message17" xml:space="preserve">
+    <value>导出完成</value>
+  </data>
+  <data name="FlagSearch.Message18" xml:space="preserve">
+    <value>导出 Flag 时出错：</value>
+  </data>
+  <data name="FlagSearch.Message19" xml:space="preserve">
+    <value>导出错误</value>
+  </data>
+  <data name="FlagSearch.Message20" xml:space="preserve">
+    <value>从剪贴板粘贴时出错：</value>
+  </data>
+  <data name="FlagSearch.Message21" xml:space="preserve">
+    <value>粘贴错误</value>
+  </data>
+  <data name="FlagSearch.ExportSummary" xml:space="preserve">
+    <value>已将 {0:N0} 个 Flag 导出到 {1}</value>
+  </data>
+  <data name="FlagSearch.ValueNote" xml:space="preserve">
+    <value>输入值与 Flag 名称的类型不匹配。布尔 Flag 需要 true 或 false，整数 Flag 需要 32 位整数。</value>
+  </data>
+  <data name="Notifications.Title" xml:space="preserve">
+    <value>通知</value>
+  </data>
+  <data name="Notifications.Updates" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="Notifications.Roblox" xml:space="preserve">
+    <value>Roblox 和模组</value>
+  </data>
+  <data name="Notifications.Recovery" xml:space="preserve">
+    <value>设置恢复</value>
+  </data>
+  <data name="Notifications.Errors" xml:space="preserve">
+    <value>错误和崩溃</value>
+  </data>
+  <data name="Notifications.GameJoins" xml:space="preserve">
+    <value>已加入游戏</value>
+  </data>
+  <data name="Notifications.App" xml:space="preserve">
+    <value>应用通知</value>
+  </data>
+  <data name="Notifications.AppDescription" xml:space="preserve">
+    <value>显示应用通知。</value>
+  </data>
+  <data name="Bootstrapper.Uninstall.NvidiaFailed" xml:space="preserve">
+    <value>NVIDIA 清理失败。仍要卸载吗？剩余的 NVIDIA 设置将保持生效。
+
+{0}</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Latest" xml:space="preserve">
+    <value>最新</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Oldest" xml:space="preserve">
+    <value>最早</value>
+  </data>
+  <data name="ContextMenu.GameHistory.MostPlayed" xml:space="preserve">
+    <value>停留最久</value>
+  </data>
+  <data name="ContextMenu.GameHistory.NameAscending" xml:space="preserve">
+    <value>名称升序</value>
+  </data>
+  <data name="ContextMenu.GameHistory.NameDescending" xml:space="preserve">
+    <value>名称降序</value>
+  </data>
+  <data name="ContextMenu.GameHistory.AllServers" xml:space="preserve">
+    <value>所有服务器</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Public" xml:space="preserve">
+    <value>公共</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Private" xml:space="preserve">
+    <value>私人</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Reserved" xml:space="preserve">
+    <value>保留</value>
+  </data>
+  <data name="ContextMenu.GameHistory.EndUnknown" xml:space="preserve">
+    <value>未记录</value>
+  </data>
+  <data name="ContextMenu.GameHistory.CopyLink" xml:space="preserve">
+    <value>复制链接</value>
+  </data>
+  <data name="ContextMenu.GameHistory.LoadFailed" xml:space="preserve">
+    <value>无法加载历史记录。</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Empty" xml:space="preserve">
+    <value>没有可显示的访问记录。</value>
+  </data>
+  <data name="ContextMenu.GameHistory.StatusUnknown" xml:space="preserve">
+    <value>未知</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Online" xml:space="preserve">
+    <value>在线</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Offline" xml:space="preserve">
+    <value>离线</value>
+  </data>
+  <data name="ContextMenu.GameHistory.CheckedAt" xml:space="preserve">
+    <value>检查时间：{0}</value>
+  </data>
+  <data name="ContextMenu.GameHistory.LaunchFailed" xml:space="preserve">
+    <value>无法启动 Roblox。</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.MaxOnly" xml:space="preserve">
+    <value>最多 {0}</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.Unknown" xml:space="preserve">
+    <value>未知</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.InGame" xml:space="preserve">
+    <value>{0:N0} 人在游戏中</value>
+  </data>
+  <data name="ServerInfo.Hint.Updated" xml:space="preserve">
+    <value>{0}前更新。</value>
+  </data>
+  <data name="ServerInfo.Hint.RateLimited" xml:space="preserve">
+    <value>Roblox 正在限制服务器查询，将在 {0} 后重试。</value>
+  </data>
+  <data name="ServerInfo.Hint.RateLimitedStale" xml:space="preserve">
+    <value>Roblox 正在限制服务器查询。显示 {0}前的人数，将在 {1} 后再次更新。</value>
+  </data>
+  <data name="ServerInfo.Hint.NotListed" xml:space="preserve">
+    <value>此服务器不在 Roblox 共享的公共服务器列表范围内，将在 {0} 后重新检查。</value>
+  </data>
+  <data name="ServerInfo.Hint.NotListedStale" xml:space="preserve">
+    <value>最后见于 {0}前。此服务器当前不在 Roblox 共享的公共服务器列表范围内。</value>
+  </data>
+  <data name="ServerInfo.Hint.PrivateNotListed" xml:space="preserve">
+    <value>此私人服务器不在您的账户可见的服务器列表中，因此无法读取其玩家人数。</value>
+  </data>
+  <data name="ServerInfo.Hint.PrivateSignedOut" xml:space="preserve">
+    <value>Roblox 只向已登录的账户共享私人服务器的玩家人数。请在 Voidstrap 中登录 Roblox 以查看。</value>
+  </data>
+  <data name="ServerInfo.Hint.Reserved" xml:space="preserve">
+    <value>Roblox 不会列出用于传送和组队的保留服务器，因此无法读取其玩家人数。</value>
+  </data>
+  <data name="ServerInfo.Hint.Unavailable" xml:space="preserve">
+    <value>无法连接 Roblox，将在 {0} 后重试。</value>
+  </data>
+  <data name="ServerInfo.Hint.UnavailableStale" xml:space="preserve">
+    <value>无法连接 Roblox。显示 {0}前的人数，将在 {1} 后重试。</value>
+  </data>
+  <data name="ServerInfo.Hint.Full" xml:space="preserve">
+    <value>此服务器已满。Roblox 不会在公共服务器列表中包含已满的服务器，因此在有空位之前会显示为已满。</value>
+  </data>
+  <data name="Shortcuts.GameTab" xml:space="preserve">
+    <value>游戏</value>
+  </data>
+  <data name="Shortcuts.SubplaceTab" xml:space="preserve">
+    <value>子地点</value>
+  </data>
+  <data name="Shortcuts.SubplaceDescription" xml:space="preserve">
+    <value>查找此体验中的其他地点。</value>
+  </data>
+  <data name="Shortcuts.LoadSubplaces" xml:space="preserve">
+    <value>加载子地点</value>
+  </data>
+  <data name="Shortcuts.SubplaceAccess" xml:space="preserve">
+    <value>创作者必须允许直接加入。部分子地点需要在游戏内传送。</value>
+  </data>
+  <data name="Shortcuts.SubplaceInitial" xml:space="preserve">
+    <value>输入游戏 ID 以自动加载其子地点。</value>
+  </data>
+  <data name="Shortcuts.SubplaceRetry" xml:space="preserve">
+    <value>重新打开此标签页以重试。</value>
+  </data>
+  <data name="Shortcuts.SubplaceInvalidId" xml:space="preserve">
+    <value>请输入有效的数字游戏 ID。</value>
+  </data>
+  <data name="Shortcuts.SubplaceLoading" xml:space="preserve">
+    <value>正在加载子地点...</value>
+  </data>
+  <data name="Shortcuts.SubplaceEmpty" xml:space="preserve">
+    <value>此体验没有列出任何子地点。</value>
+  </data>
+  <data name="Shortcuts.SubplaceChoose" xml:space="preserve">
+    <value>请在下方选择一个子地点。</value>
+  </data>
+  <data name="Shortcuts.SubplaceTimeout" xml:space="preserve">
+    <value>请求超时。重新打开此标签页以重试。</value>
+  </data>
+  <data name="Shortcuts.SubplaceFailed" xml:space="preserve">
+    <value>无法加载子地点。请检查游戏 ID 和网络连接后重试。</value>
+  </data>
+  <data name="Shortcuts.SubplaceReload" xml:space="preserve">
+    <value>输入有效的游戏 ID 后，子地点会自动加载。</value>
+  </data>
+  <data name="Shortcuts.SubplaceRequired" xml:space="preserve">
+    <value>请等待子地点加载完成，然后选择一个再继续。</value>
+  </data>
+  <data name="Library.SubplacesTab" xml:space="preserve">
+    <value>子地点</value>
+  </data>
+  <data name="SettingsProfiles.Title" xml:space="preserve">
+    <value>设置配置文件</value>
+  </data>
+  <data name="SettingsProfiles.Name" xml:space="preserve">
+    <value>配置文件名称</value>
+  </data>
+  <data name="SettingsProfiles.NameHint" xml:space="preserve">
+    <value>例如：VoidstrapProfile</value>
+  </data>
+  <data name="SettingsProfiles.Save" xml:space="preserve">
+    <value>保存配置文件</value>
+  </data>
+  <data name="SettingsProfiles.Saved" xml:space="preserve">
+    <value>已保存的配置文件</value>
+  </data>
+  <data name="SettingsProfiles.Apply" xml:space="preserve">
+    <value>应用配置文件</value>
+  </data>
+  <data name="SettingsProfiles.Folder" xml:space="preserve">
+    <value>打开文件夹</value>
+  </data>
+  <data name="SettingsProfiles.Empty" xml:space="preserve">
+    <value>还没有配置文件。输入名称并选择“保存配置文件”。</value>
+  </data>
+  <data name="SettingsProfiles.Location" xml:space="preserve">
+    <value>保存在 {0}</value>
+  </data>
+  <data name="SettingsProfiles.InvalidName" xml:space="preserve">
+    <value>请使用 1 到 80 个字符的名称，不含文件名符号或保留设备名称。</value>
+  </data>
+  <data name="SettingsProfiles.InvalidFile" xml:space="preserve">
+    <value>此配置文件无效或使用了不受支持的格式。</value>
+  </data>
+  <data name="SettingsProfiles.RestoreFailed" xml:space="preserve">
+    <value>无法应用配置文件，也无法恢复之前的设置。</value>
+  </data>
+  <data name="SettingsProfiles.Overwrite" xml:space="preserve">
+    <value>用当前设置替换已保存的配置文件“{0}”？</value>
+  </data>
+  <data name="SettingsProfiles.SavedStatus" xml:space="preserve">
+    <value>已保存“{0}”</value>
+  </data>
+  <data name="SettingsProfiles.ApplyConfirm" xml:space="preserve">
+    <value>应用“{0}”？这将替换您当前的 Voidstrap 设置和 FastFlags，然后重新打开 Voidstrap 设置。</value>
+  </data>
+  <data name="SettingsProfiles.RestartFailed" xml:space="preserve">
+    <value>配置文件已应用。请重启 Voidstrap 以重新加载所有设置页面。</value>
+  </data>
+  <data name="SettingsProfiles.Restart" xml:space="preserve">
+    <value>立即重启</value>
+  </data>
+  <data name="SettingsProfiles.DeleteConfirm" xml:space="preserve">
+    <value>删除已保存的配置文件“{0}”？您当前的设置将保持不变。</value>
+  </data>
+  <data name="SettingsProfiles.Deleted" xml:space="preserve">
+    <value>已删除“{0}”。</value>
+  </data>
+  <data name="SettingsProfiles.Error" xml:space="preserve">
+    <value>无法完成配置文件操作：{0}</value>
+  </data>
+  <data name="GlobalProfiles.Title" xml:space="preserve">
+    <value>全局设置配置文件</value>
+  </data>
+  <data name="GlobalProfiles.ApplyConfirm" xml:space="preserve">
+    <value>应用“{0}”？这将替换您当前的 Roblox 全局设置。重新加入 Roblox 以查看所有更改。</value>
+  </data>
+  <data name="GlobalProfiles.Applied" xml:space="preserve">
+    <value>已应用“{0}”</value>
+  </data>
+  <data name="GlobalProfiles.SaveFailed" xml:space="preserve">
+    <value>无法写入 Roblox 设置文件。请关闭 Roblox 后重试。</value>
+  </data>
+  <data name="AssetWarp.RemoveTexturesDescription" xml:space="preserve">
+    <value>阻止下载纹理资源和纹理包</value>
+  </data>
+  <data name="AssetWarp.RemoveDecalsDescription" xml:space="preserve">
+    <value>阻止下载贴花资源</value>
+  </data>
+  <data name="AssetWarp.RemoveImagesDescription" xml:space="preserve">
+    <value>阻止下载图片资源。Roblox 也使用图片作为纹理和贴花</value>
+  </data>
+  <data name="AssetWarp.RemoveAnimationsDescription" xml:space="preserve">
+    <value>阻止下载动画资源。没有后备动画的游戏可能无法正常运行</value>
+  </data>
+  <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
+    <value>阻止下载网格和 MeshPart 资源。网格几何体将变为不可见</value>
+  </data>
+  <data name="SwiftTunnel.Summary" xml:space="preserve">
+    <value>将 Roblox 流量通过 SwiftTunnel 路由，其他应用仍使用您的常规连接</value>
+  </data>
+  <data name="SwiftTunnel.Description" xml:space="preserve">
+    <value>SwiftTunnel 是一款 Windows 游戏连接优化工具，支持分流隧道和区域中继选择</value>
+  </data>
+  <data name="SwiftTunnel.Setup" xml:space="preserve">
+    <value>“安装”会下载最新的 SwiftTunnel 官方版本，并在设置完成后打开桌面应用。请在其中登录并选择连接。网络优化可能需要管理员权限</value>
+  </data>
+  <data name="SwiftTunnel.Network" xml:space="preserve">
+    <value>网络</value>
+  </data>
+  <data name="SwiftTunnel.Routing" xml:space="preserve">
+    <value>路由</value>
+  </data>
+  <data name="SwiftTunnel.Install" xml:space="preserve">
+    <value>安装</value>
+  </data>
+  <data name="SwiftTunnel.Uninstall" xml:space="preserve">
+    <value>卸载</value>
+  </data>
+  <data name="SwiftTunnel.Installed" xml:space="preserve">
+    <value>已安装</value>
+  </data>
+  <data name="SwiftTunnel.NotInstalled" xml:space="preserve">
+    <value>未安装</value>
+  </data>
+  <data name="SwiftTunnel.Working" xml:space="preserve">
+    <value>运行中</value>
+  </data>
+  <data name="SwiftTunnel.Downloading" xml:space="preserve">
+    <value>正在下载 SwiftTunnel</value>
+  </data>
+  <data name="SwiftTunnel.InstallerFailed" xml:space="preserve">
+    <value>无法打开 SwiftTunnel 安装程序</value>
+  </data>
+  <data name="SwiftTunnel.InstallerExit" xml:space="preserve">
+    <value>SwiftTunnel 安装程序返回代码 {0}</value>
+  </data>
+  <data name="SwiftTunnel.Error" xml:space="preserve">
+    <value>无法完成 SwiftTunnel 操作：{0}</value>
+  </data>
+  <data name="SwiftTunnel.UninstallUnavailable" xml:space="preserve">
+    <value>SwiftTunnel 的卸载条目不完整。请通过 Windows 设置中的应用移除 SwiftTunnel</value>
+  </data>
+  <data name="SwiftTunnel.CleanupFailed" xml:space="preserve">
+    <value>SwiftTunnel 无法恢复其网络设置。已保留其文件以便重试清理</value>
+  </data>
+  <data name="SwiftTunnel.ConfirmUninstall" xml:space="preserve">
+    <value>完全移除 SwiftTunnel？将先恢复其网络驱动和系统设置，然后卸载 SwiftTunnel。一旦开始将无法取消。</value>
+  </data>
+  <data name="SwiftTunnel.UninstallIncomplete" xml:space="preserve">
+    <value>无法完成 SwiftTunnel 移除。请关闭 SwiftTunnel 并以管理员权限重试</value>
+  </data>
+  <data name="SwiftTunnel.UnsafeDirectory" xml:space="preserve">
+    <value>SwiftTunnel 安装在共享或无法识别的文件夹中。请先将其移动到独立的 SwiftTunnel 文件夹，再使用完全移除</value>
+  </data>
+  <data name="SwiftTunnel.NotInstalledError" xml:space="preserve">
+    <value>SwiftTunnel 未安装。请先从“连接”中安装</value>
+  </data>
+  <data name="SwiftTunnel.Missing" xml:space="preserve">
+    <value>SwiftTunnel 已注册但缺少应用文件。请卸载后重新安装以修复</value>
+  </data>
+  <data name="SwiftTunnel.NoInstaller" xml:space="preserve">
+    <value>最新的 SwiftTunnel 版本没有适用于此电脑的已验证 Windows 安装程序</value>
+  </data>
+  <data name="Installer.MacOS.DataLocation.Title" xml:space="preserve">
+    <value>选择 Voidstrap 数据的保存位置</value>
+  </data>
+  <data name="Installer.MacOS.DataLocation.Text" xml:space="preserve">
+    <value>Voidstrap 会将其设置和模组保存在这里。应用本身保留在当前位置。Roblox 单独安装在“应用程序”中。</value>
+  </data>
+  <data name="Installer.MacOS.Completion.Text" xml:space="preserve">
+    <value>Voidstrap 已就绪。
+
+首次通过 Voidstrap 启动时会下载 Roblox。您可以在启动前调整设置。
+
+您想做什么？</value>
+  </data>
+  <data name="Installer.MacOS.Roblox.Text" xml:space="preserve">
+    <value>首次点击“启动”时，Voidstrap 会将官方 Roblox 应用下载到“应用程序”，之后保持更新。无需单独安装。</value>
+  </data>
+  <data name="HomepageMedia.Preview.FileMissing" xml:space="preserve">
+    <value>找不到所选的媒体文件。</value>
+  </data>
+  <data name="HomepageMedia.Preview.DecodeError" xml:space="preserve">
+    <value>无法解码此媒体。请选择其他图片或视频。</value>
+  </data>
+  <data name="HomepageMedia.Preview.RenderError" xml:space="preserve">
+    <value>无法显示媒体预览。</value>
+  </data>
+  <data name="HomepageMedia.Picker.ImagesAndVideos" xml:space="preserve">
+    <value>图片和视频</value>
+  </data>
+  <data name="HomepageMedia.Picker.Images" xml:space="preserve">
+    <value>图片</value>
+  </data>
+  <data name="HomepageMedia.Picker.Videos" xml:space="preserve">
+    <value>视频</value>
+  </data>
+  <data name="Appearance.Backdrop.Sidebar" xml:space="preserve">
+    <value>侧边栏</value>
+  </data>
+  <data name="Appearance.Backdrop.Popover" xml:space="preserve">
+    <value>弹出框</value>
+  </data>
+  <data name="Appearance.Backdrop.Hud" xml:space="preserve">
+    <value>抬头显示</value>
+  </data>
+  <data name="Appearance.Backdrop.UnderWindow" xml:space="preserve">
+    <value>窗口下方</value>
+  </data>
+  <data name="Appearance.Backdrop.UnderPage" xml:space="preserve">
+    <value>页面下方</value>
+  </data>
+  <data name="Menu.MacVirtualDisplay.Title" xml:space="preserve">
+    <value>240 Hz 虚拟显示器</value>
+  </data>
+  <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Roblox 运行时镜像主屏幕，并在 Roblox 关闭时恢复。物理屏幕保持其自身的刷新率上限。</value>
+  </data>
 </root>

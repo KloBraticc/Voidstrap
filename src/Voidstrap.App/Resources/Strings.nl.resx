@@ -1676,4 +1676,1316 @@ Wil je je voorkeurskanaal wijzigen naar {0}?</value>
   <data name="Menu.News.DialogTitle" xml:space="preserve">
     <value>Nieuwsdetails</value>
   </data>
+  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
+    <value>Voidstrap kon de overgebleven AssetWarp-routering niet uit het Windows-hostsbestand verwijderen. Roblox kan geen texturen of andere assets laden totdat deze is verwijderd. Start Voidstrap als administrator om het op te ruimen.</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
+    <value>Beide</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
+    <value>Speler</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
+    <value>Serverbrowser</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
+    <value>Plaats {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
+    <value>{0}  •  Plaats {1}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
+    <value>{0} servers gescand</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
+    <value>Vernieuwen</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
+    <value>Meer servers laden</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
+    <value>Volle servers verbergen</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
+    <value>Zoek op stad, land of server-ID</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
+    <value>Meeste spelers</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
+    <value>Minste spelers</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
+    <value>Laagste ping</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
+    <value>Deelnemen</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
+    <value>Huidig</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
+    <value>Openbare servers laden</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
+    <value>Geen openbare servers gevonden</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
+    <value>Neem deel aan een game voordat je de serverbrowser opent</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
+    <value>De serverlijst is gepauzeerd omdat Roblox verzoeken beperkt</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
+    <value>Kan openbare servers niet laden</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
+    <value>{0} servers geladen</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
+    <value>{0} van {1} spelers</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
+    <value>{0} spelers</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
+    <value>Onbekend</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
+    <value>Beste match</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
+    <value>Beste match</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
+    <value>Geblokkeerd</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
+    <value>Ongeveer {0} ms van je vandaan</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
+    <value>Tot nu toe {0} servers gevonden</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
+    <value>{0} van {1} servers gevonden</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
+    <value>Je wordt verplaatst naar {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
+    <value>Kan niet deelnemen aan die server</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
+    <value>Meld je aan via Instellingen &gt; Server Matchmaker zodat Voidstrap kan vinden waar elke server staat</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
+    <value>Je locatie kon niet worden gevonden, dus servers kunnen niet op ping worden gesorteerd</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
+    <value>Roblox heeft niet laten zien waar deze servers staan, probeer het zo opnieuw</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
+    <value>Alle gevonden servers staan in een datacenter dat je hebt geblokkeerd</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
+    <value>Alle gevonden servers zijn ver van je vandaan, de matchmaker zou Roblox laten kiezen</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
+    <value>Gamebrowser</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
+    <value>Verder spelen</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
+    <value>Favorieten</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
+    <value>Zoeken</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
+    <value>Roblox-games zoeken</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
+    <value>Games laden</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
+    <value>Geen recente games in deze sessie</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
+    <value>Geen favoriete games opgeslagen</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
+    <value>Zoek een Roblox-game op naam</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
+    <value>Geen games gevonden voor {0}</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
+    <value>Kan games niet laden</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
+    <value>{0} spelen</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
+    <value>Deelnemen</value>
+  </data>
+  <data name="Enums.Theme.Berry" xml:space="preserve">
+    <value>Bes</value>
+  </data>
+  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
+    <value>Automatisch vertalen</value>
+  </data>
+  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
+    <value>Vertalen naar</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
+    <value>Taal voor automatisch vertalen</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
+    <value>Vertaal de hele Voidstrap-interface naar elke taal. Eigen vertalingen worden eerst gebruikt en de rest van de tekst wordt live vertaald.</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
+    <value>Discord-RPC's automatisch vertalen</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
+    <value>Vertaalt de tekst van Discord Rich Presence automatisch naar de gekozen taal.</value>
+  </data>
+  <data name="Installer.Title" xml:space="preserve">
+    <value>Voidstrap-installatieprogramma</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Rejoin" xml:space="preserve">
+    <value>Opnieuw deelnemen</value>
+  </data>
+  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
+    <value>Deze functie is alleen beschikbaar op Windows.</value>
+  </data>
+  <data name="About.Translators.Description" xml:space="preserve">
+    <value>Iedereen die hier staat, heeft vrijwillig tijd en moeite gestoken in het vertalen van Voidstrap. Iedereen enorm bedankt!</value>
+  </data>
+  <data name="Dialog.Connectivity.Preventing" xml:space="preserve">
+    <value>Iets verhindert waarschijnlijk dat Voidstrap verbinding maakt met internet.</value>
+  </data>
+  <data name="Dialog.Connectivity.TimedOut" xml:space="preserve">
+    <value>Er is een time-out opgetreden bij de verbinding, wat kan wijzen op een slechte internetverbinding of een blokkade door een firewall.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
+    <value>Donkere modus</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
+    <value>Telemetrie</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
+    <value>Donkere modus</value>
+  </data>
+  <data name="Menu.Sober.Description" xml:space="preserve">
+    <value>Stel de Linux-runtimes in waarmee Voidstrap Roblox start. Sober draait de speler, Vinegar draait Studio. Voidstrap wijzigt alleen opties die je expliciet overschrijft.</value>
+  </data>
+  <data name="Menu.Sober.Default" xml:space="preserve">
+    <value>Sober-standaard gebruiken</value>
+  </data>
+  <data name="Menu.Sober.Enabled" xml:space="preserve">
+    <value>Ingeschakeld</value>
+  </data>
+  <data name="Menu.Sober.Disabled" xml:space="preserve">
+    <value>Uitgeschakeld</value>
+  </data>
+  <data name="Menu.Sober.DefaultNotice" xml:space="preserve">
+    <value>Sober-standaard gebruiken laat een instelling over aan Sober. Een overschrijving verwijderen herstelt de waarde waarvan Voidstrap een back-up heeft gemaakt.</value>
+  </data>
+  <data name="Menu.Sober.RuntimeNotice" xml:space="preserve">
+    <value>Voltooi de eerste start van Sober voordat je overschrijvingen instelt en sluit Sober voordat je ze wijzigt. Opgeslagen wijzigingen worden toegepast wanneer Sober de volgende keer start.</value>
+  </data>
+  <data name="Menu.Sober.Group.Session" xml:space="preserve">
+    <value>Sessie en activiteit</value>
+  </data>
+  <data name="Menu.Sober.Group.Input" xml:space="preserve">
+    <value>Invoer en ervaring</value>
+  </data>
+  <data name="Menu.Sober.Group.Graphics" xml:space="preserve">
+    <value>Graphics en bureaublad</value>
+  </data>
+  <data name="Menu.Sober.AllowGamepad.Title" xml:space="preserve">
+    <value>Gamepadtoegang toestaan</value>
+  </data>
+  <data name="Menu.Sober.AllowGamepad.Description" xml:space="preserve">
+    <value>Laat Sober toegang vragen tot aangesloten gamepads. Voor gewijzigde toestemmingen kan een nieuwe start van Sober nodig zijn.</value>
+  </data>
+  <data name="Menu.Sober.CloseOnLeave.Title" xml:space="preserve">
+    <value>Sluiten bij verlaten</value>
+  </data>
+  <data name="Menu.Sober.CloseOnLeave.Description" xml:space="preserve">
+    <value>Sluit Sober na het verlaten van een ervaring.</value>
+  </data>
+  <data name="Menu.Sober.DiscordRpc.Description" xml:space="preserve">
+    <value>Laat Sober gameactiviteit tonen via Discord Rich Presence.</value>
+  </data>
+  <data name="Menu.Sober.DiscordJoin.Title" xml:space="preserve">
+    <value>Discord-deelnameknop</value>
+  </data>
+  <data name="Menu.Sober.DiscordJoin.Description" xml:space="preserve">
+    <value>Laat Sober een deelnameknop toevoegen aan Discord Rich Presence.</value>
+  </data>
+  <data name="Menu.Sober.GameMode.Title" xml:space="preserve">
+    <value>GameMode-integratie</value>
+  </data>
+  <data name="Menu.Sober.GameMode.Description" xml:space="preserve">
+    <value>Laat Sober prestatie-optimalisatie van GameMode aanvragen wanneer GameMode beschikbaar is.</value>
+  </data>
+  <data name="Menu.Sober.HiDpi.Title" xml:space="preserve">
+    <value>Schaling voor hoge DPI</value>
+  </data>
+  <data name="Menu.Sober.HiDpi.Description" xml:space="preserve">
+    <value>Gebruikt de eigen schaling voor schermen met hoge pixeldichtheid.</value>
+  </data>
+  <data name="Menu.Sober.MobileHome.Title" xml:space="preserve">
+    <value>Mobiel startscherm</value>
+  </data>
+  <data name="Menu.Sober.MobileHome.Description" xml:space="preserve">
+    <value>Gebruikt het Roblox-startscherm in mobiele stijl.</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Title" xml:space="preserve">
+    <value>Grafische optimalisatiemodus</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Description" xml:space="preserve">
+    <value>Kiest de grafische optimalisatievoorkeur van Sober.</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Quality" xml:space="preserve">
+    <value>Kwaliteit</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Balanced" xml:space="preserve">
+    <value>Gebalanceerd</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Performance" xml:space="preserve">
+    <value>Prestaties</value>
+  </data>
+  <data name="Menu.Sober.ServerLocation.Title" xml:space="preserve">
+    <value>Indicator voor serverlocatie</value>
+  </data>
+  <data name="Menu.Sober.ServerLocation.Description" xml:space="preserve">
+    <value>Toont tijdens het spelen de serverlocatie-indicator van Sober.</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Title" xml:space="preserve">
+    <value>Aanraakmodus</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Description" xml:space="preserve">
+    <value>Kiest hoe Sober ondersteuning voor aanraakinvoer meldt.</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Off" xml:space="preserve">
+    <value>Uit</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.On" xml:space="preserve">
+    <value>Aan</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.FakeOff" xml:space="preserve">
+    <value>Nep uit</value>
+  </data>
+  <data name="Menu.Sober.ConsoleExperience.Title" xml:space="preserve">
+    <value>Console-ervaring</value>
+  </data>
+  <data name="Menu.Sober.ConsoleExperience.Description" xml:space="preserve">
+    <value>Gebruikt de Roblox-ervaring in consolestijl.</value>
+  </data>
+  <data name="Menu.Sober.Libsecret.Title" xml:space="preserve">
+    <value>Secret Service-opslag</value>
+  </data>
+  <data name="Menu.Sober.Libsecret.Description" xml:space="preserve">
+    <value>Slaat ondersteunde inloggegevens op via de Secret Service van het bureaublad.</value>
+  </data>
+  <data name="Menu.Sober.OpenGl.Title" xml:space="preserve">
+    <value>OpenGL-renderer</value>
+  </data>
+  <data name="Menu.Sober.OpenGl.Description" xml:space="preserve">
+    <value>Gebruikt OpenGL in plaats van de standaard grafische backend van Sober.</value>
+  </data>
+  <data name="Installer.Appearance.BackgroundUI.Title" xml:space="preserve">
+    <value>Achtergrond en UI</value>
+  </data>
+  <data name="Installer.Appearance.BackgroundUI.Description" xml:space="preserve">
+    <value>Pas het installatieprogramma en de hoofdapp aan.</value>
+  </data>
+  <data name="Installer.Appearance.Snow.Title" xml:space="preserve">
+    <value>Sneeuw op de achtergrond</value>
+  </data>
+  <data name="Installer.Appearance.Snow.Description" xml:space="preserve">
+    <value>Voegt een subtiel sneeuweffect toe aan de achtergrond.</value>
+  </data>
+  <data name="Installer.Appearance.GradientMovement.Title" xml:space="preserve">
+    <value>Bewegend verloop</value>
+  </data>
+  <data name="Installer.Appearance.GradientMovement.Description" xml:space="preserve">
+    <value>Laat het achtergrondverloop de aanwijzer volgen.</value>
+  </data>
+  <data name="Installer.Appearance.SmoothScrolling.Title" xml:space="preserve">
+    <value>Vloeiend scrollen</value>
+  </data>
+  <data name="Installer.Appearance.SmoothScrolling.Description" xml:space="preserve">
+    <value>Animeert het scrollen in de hele interface.</value>
+  </data>
+  <data name="Installer.Appearance.ClearFont.Title" xml:space="preserve">
+    <value>Scherp lettertype</value>
+  </data>
+  <data name="Installer.Appearance.ClearFont.Description" xml:space="preserve">
+    <value>Gebruikt scherpere tekstweergave nadat Voidstrap opnieuw is gestart.</value>
+  </data>
+  <data name="Installer.Appearance.Background.Title" xml:space="preserve">
+    <value>Aangepaste achtergrond</value>
+  </data>
+  <data name="Installer.Appearance.Background.Description" xml:space="preserve">
+    <value>Gebruik een afbeelding, GIF of video en stel in hoe die wordt weergegeven.</value>
+  </data>
+  <data name="Installer.Appearance.GradientOpacity" xml:space="preserve">
+    <value>Dekking van verloop</value>
+  </data>
+  <data name="Installer.Appearance.DarkOverlay" xml:space="preserve">
+    <value>Donkere overlay</value>
+  </data>
+  <data name="Installer.Appearance.DisplayEverywhere" xml:space="preserve">
+    <value>Overal weergeven</value>
+  </data>
+  <data name="Installer.Appearance.RemoveBackground" xml:space="preserve">
+    <value>Achtergrond verwijderen</value>
+  </data>
+  <data name="Installer.Appearance.Theme.Description" xml:space="preserve">
+    <value>Kies het thema dat in alle Voidstrap-vensters wordt gebruikt.</value>
+  </data>
+  <data name="Installer.Appearance.Theme.Customize" xml:space="preserve">
+    <value>Aanpassen</value>
+  </data>
+  <data name="Installer.Appearance.Backdrop.Title" xml:space="preserve">
+    <value>Vensterachtergrond</value>
+  </data>
+  <data name="Installer.Appearance.Backdrop.Description" xml:space="preserve">
+    <value>Kies het materiaal dat achter Voidstrap-vensters wordt weergegeven.</value>
+  </data>
+  <data name="Installer.Appearance.PageZoom.Title" xml:space="preserve">
+    <value>Paginazoom</value>
+  </data>
+  <data name="Installer.Appearance.PageZoom.Description" xml:space="preserve">
+    <value>Pas de grootte van de instellingenpagina's aan.</value>
+  </data>
+  <data name="Vng.WarningTitle" xml:space="preserve">
+    <value>Roblox VNG: permanente accountbeperking</value>
+  </data>
+  <data name="Vng.Warning" xml:space="preserve">
+    <value>STOP: LEES DIT VOORDAT JE DOORGAAT
+
+Als je voor het eerst inlogt bij Roblox VNG, wordt je account gemigreerd naar VNG. Volgens Roblox kun je dat account daarna niet meer gebruiken in de wereldwijde Roblox-app.
+
+Beschouw deze accountmigratie als permanent. Voidstrap kan deze niet terugdraaien. VNG verwijderen of deze optie uitschakelen herstelt de wereldwijde toegang tot je account niet. De account- en regiobeperkingen van VNG zijn van toepassing.
+
+Alleen de bestanden downloaden migreert je account niet. Inloggen of starten met een bestaand account kan dat account blootstellen aan migratie.
+
+Ga alleen door als je accepteert dat je de toegang tot de wereldwijde app verliest voor elk account dat je met VNG gebruikt. De knop Ja wordt na tien seconden ontgrendeld.</value>
+  </data>
+  <data name="Vng.Confirmation" xml:space="preserve">
+    <value>Weet je het zeker?</value>
+  </data>
+  <data name="Vng.Agreement" xml:space="preserve">
+    <value>Laatste waarschuwing: inloggen bij Roblox VNG kan je account permanent migreren en de toegang tot de wereldwijde Roblox-app verwijderen. Voidstrap kan dit niet terugdraaien.
+
+Typ de onderstaande zin precies over om deze beperkingen te accepteren en door te gaan.</value>
+  </data>
+  <data name="Vng.Countdown" xml:space="preserve">
+    <value>{0} ({1} s)</value>
+  </data>
+  <data name="Vng.Description" xml:space="preserve">
+    <value>De Vietnamese spelersclient. Inloggen migreert je account en verwijdert de toegang tot de wereldwijde app.</value>
+  </data>
+  <data name="Vng.UseForLaunches" xml:space="preserve">
+    <value>VNG gebruiken om de speler te starten</value>
+  </data>
+  <data name="Vng.UninstallWarning" xml:space="preserve">
+    <value>VNG verwijderen draait een accountmigratie niet terug en herstelt de toegang tot de wereldwijde app niet.</value>
+  </data>
+  <data name="Mtu.Description" xml:space="preserve">
+    <value>Beperkt de pakketgrootte voor alle apps, inclusief Roblox. Vereist beheerdersrechten en blijft behouden na een herstart. Verbetert de ping mogelijk niet.</value>
+  </data>
+  <data name="Mtu.Adapter" xml:space="preserve">
+    <value>Kies een netwerkadapter en IP-versie</value>
+  </data>
+  <data name="Mtu.CustomValue" xml:space="preserve">
+    <value>Aangepaste MTU (bytes)</value>
+  </data>
+  <data name="Mtu.Current" xml:space="preserve">
+    <value>Huidig: {0} bytes. Minimum: {1} bytes.</value>
+  </data>
+  <data name="Mtu.NoAdapters" xml:space="preserve">
+    <value>Geen ondersteunde netwerkadapters gevonden. Vernieuw om het opnieuw te proberen.</value>
+  </data>
+  <data name="Mtu.Invalid" xml:space="preserve">
+    <value>Voer een geheel getal in van {0} tot {1}. Windows controleert ook de pakketgrootte die de adapter ondersteunt.</value>
+  </data>
+  <data name="Mtu.Apply" xml:space="preserve">
+    <value>Toepassen</value>
+  </data>
+  <data name="Mtu.Restore" xml:space="preserve">
+    <value>Herstellen</value>
+  </data>
+  <data name="Mtu.Refresh" xml:space="preserve">
+    <value>Vernieuwen</value>
+  </data>
+  <data name="Mtu.Loading" xml:space="preserve">
+    <value>Windows-netwerkadapters lezen...</value>
+  </data>
+  <data name="Mtu.Applying" xml:space="preserve">
+    <value>Wachten op goedkeuring van de beheerder en MTU toepassen...</value>
+  </data>
+  <data name="Mtu.AdapterUnavailable" xml:space="preserve">
+    <value>De gekozen adapter is niet beschikbaar. Vernieuw en kies een adapter.</value>
+  </data>
+  <data name="Mtu.Rejected" xml:space="preserve">
+    <value>Windows kon de MTU niet toepassen, code {0}. Je adapter ondersteunt deze waarde mogelijk niet.</value>
+  </data>
+  <data name="Mtu.Applied" xml:space="preserve">
+    <value>MTU ingesteld op {0} bytes en gecontroleerd. Geldt voor alle apps op de gekozen adapter.</value>
+  </data>
+  <data name="Mtu.Restored" xml:space="preserve">
+    <value>Vorige MTU hersteld naar {0} bytes en gecontroleerd.</value>
+  </data>
+  <data name="Mtu.VerificationFailed" xml:space="preserve">
+    <value>Windows heeft de gevraagde MTU niet gemeld. Vernieuw om de huidige waarde te controleren.</value>
+  </data>
+  <data name="Mtu.Cancelled" xml:space="preserve">
+    <value>Beheerdersverzoek geannuleerd. De MTU is niet gewijzigd.</value>
+  </data>
+  <data name="Mtu.Error" xml:space="preserve">
+    <value>MTU-bewerking mislukt. Vernieuw om de huidige waarde te controleren.</value>
+  </data>
+  <data name="Menu_FastFlagEditor_Rename" xml:space="preserve">
+    <value>Naam wijzigen</value>
+  </data>
+  <data name="Menu_FastFlagEditor_EditValue" xml:space="preserve">
+    <value>Waarde bewerken</value>
+  </data>
+  <data name="Menu_FastFlagEditor_CopySelected" xml:space="preserve">
+    <value>Selectie als JSON kopiëren</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Title" xml:space="preserve">
+    <value>Accentkleur</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Description" xml:space="preserve">
+    <value>Kies een kleur voor de bedieningselementen van de app en de achtergrondtint.</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Choose" xml:space="preserve">
+    <value>Kleur kiezen</value>
+  </data>
+  <data name="Menu.Appearance.Accent.System" xml:space="preserve">
+    <value>Systeemkleur gebruiken</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Picker" xml:space="preserve">
+    <value>Accentkleur kiezen</value>
+  </data>
+  <data name="Menu.Shortcuts.Customize" xml:space="preserve">
+    <value>Naam en pictogram</value>
+  </data>
+  <data name="Menu.Shortcuts.InvalidName" xml:space="preserve">
+    <value>Gebruik een geldige snelkoppelingsnaam zonder schuine strepen of gereserveerde bestandsnamen.</value>
+  </data>
+  <data name="Menu.Shortcuts.NameExists" xml:space="preserve">
+    <value>Er bestaat al een snelkoppeling met deze naam. Kies een andere naam.</value>
+  </data>
+  <data name="Menu.Shortcuts.ChooseIcon" xml:space="preserve">
+    <value>Kies een pictogram voor de snelkoppeling</value>
+  </data>
+  <data name="Menu.Shortcuts.IconFilter" xml:space="preserve">
+    <value>Pictogram- en afbeeldingsbestanden|*.ico;*.png;*.jpg;*.jpeg;*.bmp;*.webp</value>
+  </data>
+  <data name="Menu.Shortcuts.InvalidIcon" xml:space="preserve">
+    <value>Kies een geldig pictogram of geldige afbeelding kleiner dan 8 MB.</value>
+  </data>
+  <data name="Menu.LaunchDropdownOnRight" xml:space="preserve">
+    <value>Versiekeuze rechts plaatsen</value>
+  </data>
+  <data name="OverlayDiagnostics.Bounds" xml:space="preserve">
+    <value>Grootte en schermpositie</value>
+  </data>
+  <data name="OverlayDiagnostics.CollectionError" xml:space="preserve">
+    <value>De huidige meting kon niet worden verzameld: {0}</value>
+  </data>
+  <data name="OverlayDiagnostics.CompositeCrosshair" xml:space="preserve">
+    <value>Compositor-richtkruis actief</value>
+  </data>
+  <data name="OverlayDiagnostics.Compositor" xml:space="preserve">
+    <value>Compositor geïnitialiseerd</value>
+  </data>
+  <data name="OverlayDiagnostics.Configuration" xml:space="preserve">
+    <value>Ingestelde functies, deze schakelaars bewijzen niet dat er wordt weergegeven</value>
+  </data>
+  <data name="OverlayDiagnostics.Crosshair" xml:space="preserve">
+    <value>Richtkruis</value>
+  </data>
+  <data name="OverlayDiagnostics.Disabled" xml:space="preserve">
+    <value>Alle gecontroleerde overlayfuncties zijn uitgeschakeld in de instellingen.</value>
+  </data>
+  <data name="OverlayDiagnostics.DispatcherRequired" xml:space="preserve">
+    <value>Overlaydiagnose moet op de dispatcher van het venster draaien.</value>
+  </data>
+  <data name="OverlayDiagnostics.FakeBorderless" xml:space="preserve">
+    <value>Nep randloos volledig scherm</value>
+  </data>
+  <data name="OverlayDiagnostics.FakeExclusive" xml:space="preserve">
+    <value>Nep exclusief volledig scherm</value>
+  </data>
+  <data name="OverlayDiagnostics.Findings" xml:space="preserve">
+    <value>Controles en beperkingen</value>
+  </data>
+  <data name="OverlayDiagnostics.Foreground" xml:space="preserve">
+    <value>Roblox of de overlay heeft de focus</value>
+  </data>
+  <data name="OverlayDiagnostics.FullscreenUnknown" xml:space="preserve">
+    <value>Exclusief volledig scherm is niet bevestigd. Venstergrootte en randstijl kunnen de weergavemodus niet vaststellen.</value>
+  </data>
+  <data name="OverlayDiagnostics.GameEffects" xml:space="preserve">
+    <value>Game-effecten</value>
+  </data>
+  <data name="OverlayDiagnostics.GameLease" xml:space="preserve">
+    <value>Linux-gamelease bevestigd</value>
+  </data>
+  <data name="OverlayDiagnostics.GameSession" xml:space="preserve">
+    <value>Gamesessie van de activiteitenmonitor</value>
+  </data>
+  <data name="OverlayDiagnostics.GameSignal" xml:space="preserve">
+    <value>Gamesignaal van de overlayhub</value>
+  </data>
+  <data name="OverlayDiagnostics.Handle" xml:space="preserve">
+    <value>Vensterhandle</value>
+  </data>
+  <data name="OverlayDiagnostics.Homepage" xml:space="preserve">
+    <value>Achtergrond van de startpagina</value>
+  </data>
+  <data name="OverlayDiagnostics.HomepageInGame" xml:space="preserve">
+    <value>De overlayhub meldt een gamesessie terwijl de Linux-startpaginaworker nog actief is. Een worker kan actief zijn zonder te tekenen.</value>
+  </data>
+  <data name="OverlayDiagnostics.HomepageWorker" xml:space="preserve">
+    <value>Linux-startpaginaworker actief</value>
+  </data>
+  <data name="OverlayDiagnostics.Intersects" xml:space="preserve">
+    <value>Rechthoek overlapt Roblox</value>
+  </data>
+  <data name="OverlayDiagnostics.Minimized" xml:space="preserve">
+    <value>Eigen venster geminimaliseerd</value>
+  </data>
+  <data name="OverlayDiagnostics.MissingCrosshair" xml:space="preserve">
+    <value>Het richtkruis is ingesteld, maar in dit proces is geen richtkruisvenster en geen actief compositor-richtkruis gevonden.</value>
+  </data>
+  <data name="OverlayDiagnostics.MissingStats" xml:space="preserve">
+    <value>Statistieken zijn ingesteld, maar in dit proces is geen statistiekenvenster gevonden. Dit bewijst geen mislukte aanmaak en sluit een ander Voidstrap-proces niet uit.</value>
+  </data>
+  <data name="OverlayDiagnostics.MonitorCoverage" xml:space="preserve">
+    <value>Randloze client vult zijn monitor</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeLive" xml:space="preserve">
+    <value>Eigen handle geldig</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeTopmost" xml:space="preserve">
+    <value>Eigen altijd-bovenop-vlag</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeVisible" xml:space="preserve">
+    <value>Eigen venster zichtbaar</value>
+  </data>
+  <data name="OverlayDiagnostics.No" xml:space="preserve">
+    <value>Nee</value>
+  </data>
+  <data name="OverlayDiagnostics.NoUsableWindow" xml:space="preserve">
+    <value>Er is geen bruikbare Roblox-clientrechthoek gemeten. Roblox is mogelijk gesloten, geminimaliseerd, verborgen, aan het starten of ontoegankelijk.</value>
+  </data>
+  <data name="OverlayDiagnostics.NoWindows" xml:space="preserve">
+    <value>Geen overlayvensters gevonden in dit proces.</value>
+  </data>
+  <data name="OverlayDiagnostics.Opacity" xml:space="preserve">
+    <value>WPF-dekking</value>
+  </data>
+  <data name="OverlayDiagnostics.PixelsUnknown" xml:space="preserve">
+    <value>Vlaggen voor zichtbaarheid, dekking en altijd bovenop bewijzen niet dat pixels worden weergegeven, niet worden bedekt of zichtbaar zijn voor de gebruiker. GPU-framelevering en bedekking worden door dit rapport niet gecontroleerd.</value>
+  </data>
+  <data name="OverlayDiagnostics.Place" xml:space="preserve">
+    <value>Plaats-ID van de activiteitenmonitor</value>
+  </data>
+  <data name="OverlayDiagnostics.RegisteredWindow" xml:space="preserve">
+    <value>Geregistreerde eigen overlay</value>
+  </data>
+  <data name="OverlayDiagnostics.RobloxWindow" xml:space="preserve">
+    <value>Waargenomen Roblox-venster</value>
+  </data>
+  <data name="OverlayDiagnostics.Runtime" xml:space="preserve">
+    <value>Waargenomen runtimestatus</value>
+  </data>
+  <data name="OverlayDiagnostics.Sample" xml:space="preserve">
+    <value>Gemeten {0:HH:mm:ss.fff zzz}, elke seconde en bij vensterwijzigingen vernieuwd</value>
+  </data>
+  <data name="OverlayDiagnostics.Scope" xml:space="preserve">
+    <value>Deze metingen beschrijven dit Voidstrap-proces. Vensters van een ander proces worden mogelijk niet weergegeven.</value>
+  </data>
+  <data name="OverlayDiagnostics.Stats" xml:space="preserve">
+    <value>Statistiekenoverlay</value>
+  </data>
+  <data name="OverlayDiagnostics.Teleporting" xml:space="preserve">
+    <value>Teleport van de activiteitenmonitor bezig</value>
+  </data>
+  <data name="OverlayDiagnostics.Title" xml:space="preserve">
+    <value>Overlaydiagnose</value>
+  </data>
+  <data name="OverlayDiagnostics.Transition" xml:space="preserve">
+    <value>Gameovergang</value>
+  </data>
+  <data name="OverlayDiagnostics.Unavailable" xml:space="preserve">
+    <value>Niet beschikbaar</value>
+  </data>
+  <data name="OverlayDiagnostics.Unfocused" xml:space="preserve">
+    <value>Roblox heeft nu geen focus. Overlays kunnen zich bewust verbergen terwijl een ander venster actief is, ook dit diagnosevenster.</value>
+  </data>
+  <data name="OverlayDiagnostics.UsableRect" xml:space="preserve">
+    <value>Bruikbare gevolgde clientrechthoek</value>
+  </data>
+  <data name="OverlayDiagnostics.Visible" xml:space="preserve">
+    <value>WPF zichtbaar</value>
+  </data>
+  <data name="OverlayDiagnostics.Windows" xml:space="preserve">
+    <value>Waargenomen overlayvensters</value>
+  </data>
+  <data name="OverlayDiagnostics.Worker" xml:space="preserve">
+    <value>Compositor-workerthread actief</value>
+  </data>
+  <data name="OverlayDiagnostics.WpfTopmost" xml:space="preserve">
+    <value>WPF altijd bovenop gevraagd</value>
+  </data>
+  <data name="OverlayDiagnostics.X11" xml:space="preserve">
+    <value>X11-verbinding beschikbaar</value>
+  </data>
+  <data name="OverlayDiagnostics.X11Compositor" xml:space="preserve">
+    <value>X11-compositor gedetecteerd</value>
+  </data>
+  <data name="OverlayDiagnostics.X11Unavailable" xml:space="preserve">
+    <value>Er is geen X11-verbinding beschikbaar. Eigen vensters kunnen niet worden gecontroleerd; Wayland-beperkingen of sandboxrechten kunnen een rol spelen.</value>
+  </data>
+  <data name="OverlayDiagnostics.Yes" xml:space="preserve">
+    <value>Ja</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeCompositor" xml:space="preserve">
+    <value>Eigen GPU-compositorvenster</value>
+  </data>
+  <data name="FlagSearch.Loading" xml:space="preserve">
+    <value>Bronnen laden…</value>
+  </data>
+  <data name="FlagSearch.Loaded" xml:space="preserve">
+    <value>Geladen</value>
+  </data>
+  <data name="FlagSearch.Unavailable" xml:space="preserve">
+    <value>Niet beschikbaar</value>
+  </data>
+  <data name="FlagSearch.Pending" xml:space="preserve">
+    <value>In behandeling</value>
+  </data>
+  <data name="FlagSearch.LoadedSummary" xml:space="preserve">
+    <value>{0:N0} unieke namen geladen uit {1} van {2} bronnen. Zie Gegevensbronnen voor details.</value>
+  </data>
+  <data name="FlagSearch.LoadError" xml:space="preserve">
+    <value>Laden van bronnen mislukt. Zie het logboek voor details.</value>
+  </data>
+  <data name="FlagSearch.ObjectRequired" xml:space="preserve">
+    <value>Flag-JSON moet een object bevatten.</value>
+  </data>
+  <data name="FlagSearch.EmptySource" xml:space="preserve">
+    <value>De bron heeft geen herkende flagnamen opgeleverd.</value>
+  </data>
+  <data name="FlagSearch.ResultCount" xml:space="preserve">
+    <value>{0:N0} van {1:N0} resultaten weergegeven</value>
+  </data>
+  <data name="FlagSearch.SearchError" xml:space="preserve">
+    <value>Zoeken mislukt. Zie het logboek voor details.</value>
+  </data>
+  <data name="FlagSearch.Validating" xml:space="preserve">
+    <value>Flagnamen en ingevoerde waarden controleren…</value>
+  </data>
+  <data name="FlagSearch.Found" xml:space="preserve">
+    <value>Gevonden</value>
+  </data>
+  <data name="FlagSearch.ValueError" xml:space="preserve">
+    <value>Waardefout</value>
+  </data>
+  <data name="FlagSearch.NotFound" xml:space="preserve">
+    <value>Niet gevonden</value>
+  </data>
+  <data name="FlagSearch.FoundNote" xml:space="preserve">
+    <value>Gevonden in de geladen bronnen. Ondersteuning voor lokale overschrijving is niet bevestigd.</value>
+  </data>
+  <data name="FlagSearch.NotFoundNote" xml:space="preserve">
+    <value>Ontbreekt in de geladen bronnen, dit bewijst niet dat de flag ongeldig is.</value>
+  </data>
+  <data name="FlagSearch.ValidationSummary" xml:space="preserve">
+    <value>{0:N0} flags gecontroleerd, {1:N0} invoeren kwamen overeen met een bron en het verwachte waardetype.</value>
+  </data>
+  <data name="FlagSearch.NameError" xml:space="preserve">
+    <value>Gebruik een herkende Fast Flag-naam zonder spaties.</value>
+  </data>
+  <data name="FlagSearch.TooMany" xml:space="preserve">
+    <value>De invoer bevat te veel flags.</value>
+  </data>
+  <data name="FlagSearch.ScalarRequired" xml:space="preserve">
+    <value>Flagwaarden moeten tekenreeksen, getallen of booleans zijn.</value>
+  </data>
+  <data name="FlagSearch.LineError" xml:space="preserve">
+    <value>Elke tekstregel moet naam=waarde gebruiken.</value>
+  </data>
+  <data name="FlagSearch.EmptyInput" xml:space="preserve">
+    <value>Geen flagvermeldingen gevonden.</value>
+  </data>
+  <data name="FlagSearch.Label1" xml:space="preserve">
+    <value>Fast Flags zoeken</value>
+  </data>
+  <data name="FlagSearch.Label2" xml:space="preserve">
+    <value>Fast Flags zoeken</value>
+  </data>
+  <data name="FlagSearch.Label3" xml:space="preserve">
+    <value>Fast Flags zoeken en valideren</value>
+  </data>
+  <data name="FlagSearch.Label4" xml:space="preserve">
+    <value>Zoek, valideer en ontdek Fast Flags uit meerdere bronnen</value>
+  </data>
+  <data name="FlagSearch.Label5" xml:space="preserve">
+    <value>Bronnen vernieuwen</value>
+  </data>
+  <data name="FlagSearch.Label6" xml:space="preserve">
+    <value>Klaar</value>
+  </data>
+  <data name="FlagSearch.Label7" xml:space="preserve">
+    <value>Live zoeken</value>
+  </data>
+  <data name="FlagSearch.Label8" xml:space="preserve">
+    <value>Live flags zoeken</value>
+  </data>
+  <data name="FlagSearch.Label9" xml:space="preserve">
+    <value>Zoek op volledige namen of trefwoorden. Exacte overeenkomsten verschijnen eerst. De export bevat alle overeenkomende bekende waarden.</value>
+  </data>
+  <data name="FlagSearch.Label10" xml:space="preserve">
+    <value>Voer een flagnaam of trefwoord in...</value>
+  </data>
+  <data name="FlagSearch.Label11" xml:space="preserve">
+    <value>Resultaten exporteren</value>
+  </data>
+  <data name="FlagSearch.Label12" xml:space="preserve">
+    <value>Alle waarden</value>
+  </data>
+  <data name="FlagSearch.Label13" xml:space="preserve">
+    <value>True-waarden</value>
+  </data>
+  <data name="FlagSearch.Label14" xml:space="preserve">
+    <value>False-waarden</value>
+  </data>
+  <data name="FlagSearch.Label15" xml:space="preserve">
+    <value>Flagnaam</value>
+  </data>
+  <data name="FlagSearch.Label16" xml:space="preserve">
+    <value>Waarde</value>
+  </data>
+  <data name="FlagSearch.Label17" xml:space="preserve">
+    <value>Bron</value>
+  </data>
+  <data name="FlagSearch.Label18" xml:space="preserve">
+    <value>Geen resultaten. Probeer een andere naam of waardefilter.</value>
+  </data>
+  <data name="FlagSearch.Label19" xml:space="preserve">
+    <value>0 resultaten</value>
+  </data>
+  <data name="FlagSearch.Label20" xml:space="preserve">
+    <value>Bulkvalidatie</value>
+  </data>
+  <data name="FlagSearch.Label21" xml:space="preserve">
+    <value>Bulkvalidatie van flags</value>
+  </data>
+  <data name="FlagSearch.Label22" xml:space="preserve">
+    <value>Controleert bronlidmaatschap en waardetypen. Een overeenkomst garandeert niet dat Roblox de lokale overschrijving toestaat.</value>
+  </data>
+  <data name="FlagSearch.Label23" xml:space="preserve">
+    <value>Bestand laden</value>
+  </data>
+  <data name="FlagSearch.Label24" xml:space="preserve">
+    <value>Valideren</value>
+  </data>
+  <data name="FlagSearch.Label25" xml:space="preserve">
+    <value>Wissen</value>
+  </data>
+  <data name="FlagSearch.Label26" xml:space="preserve">
+    <value>Plakken</value>
+  </data>
+  <data name="FlagSearch.Label28" xml:space="preserve">
+    <value>Alles selecteren</value>
+  </data>
+  <data name="FlagSearch.Label30" xml:space="preserve">
+    <value>Wissen</value>
+  </data>
+  <data name="FlagSearch.Label31" xml:space="preserve">
+    <value>Validatieresultaten</value>
+  </data>
+  <data name="FlagSearch.Label32" xml:space="preserve">
+    <value>Flagnaam</value>
+  </data>
+  <data name="FlagSearch.Label33" xml:space="preserve">
+    <value>Ingevoerde waarde</value>
+  </data>
+  <data name="FlagSearch.Label35" xml:space="preserve">
+    <value>Bronwaarde</value>
+  </data>
+  <data name="FlagSearch.Label36" xml:space="preserve">
+    <value>Opmerkingen</value>
+  </data>
+  <data name="FlagSearch.Label37" xml:space="preserve">
+    <value>Gecontroleerde invoer exporteren</value>
+  </data>
+  <data name="FlagSearch.Label38" xml:space="preserve">
+    <value>0 resultaten</value>
+  </data>
+  <data name="FlagSearch.Label39" xml:space="preserve">
+    <value>Gegevensbronnen</value>
+  </data>
+  <data name="FlagSearch.Label40" xml:space="preserve">
+    <value>Beschikbaarheid van live bronnen en ophaaltijden. Lidmaatschap van een bron betekent niet dat Roblox een lokale overschrijving accepteert. Deze bronnen geven geen datums van recente wijzigingen.</value>
+  </data>
+  <data name="FlagSearch.Label41" xml:space="preserve">
+    <value>Bron</value>
+  </data>
+  <data name="FlagSearch.Label44" xml:space="preserve">
+    <value>Opgehaald</value>
+  </data>
+  <data name="FlagSearch.Label45" xml:space="preserve">
+    <value>Sluiten</value>
+  </data>
+  <data name="FlagSearch.Message1" xml:space="preserve">
+    <value>Voer flags in om te valideren.</value>
+  </data>
+  <data name="FlagSearch.Message2" xml:space="preserve">
+    <value>Geen invoer</value>
+  </data>
+  <data name="FlagSearch.Message3" xml:space="preserve">
+    <value>Die flaginvoer is te groot om te valideren.</value>
+  </data>
+  <data name="FlagSearch.Message4" xml:space="preserve">
+    <value>Invoer te groot</value>
+  </data>
+  <data name="FlagSearch.Message5" xml:space="preserve">
+    <value>Dubbele flags gevonden in invoer: </value>
+  </data>
+  <data name="FlagSearch.Message6" xml:space="preserve">
+    <value>Dubbele invoer gevonden</value>
+  </data>
+  <data name="FlagSearch.Message7" xml:space="preserve">
+    <value>Fout bij valideren van flags</value>
+  </data>
+  <data name="FlagSearch.Message8" xml:space="preserve">
+    <value>Fout bij valideren van flags: </value>
+  </data>
+  <data name="FlagSearch.Message9" xml:space="preserve">
+    <value>Validatiefout</value>
+  </data>
+  <data name="FlagSearch.Message10" xml:space="preserve">
+    <value>Kies een flagbestand om te valideren</value>
+  </data>
+  <data name="FlagSearch.Message11" xml:space="preserve">
+    <value>Fout bij laden van bestand: </value>
+  </data>
+  <data name="FlagSearch.Message12" xml:space="preserve">
+    <value>Bestandsfout</value>
+  </data>
+  <data name="FlagSearch.Message13" xml:space="preserve">
+    <value>De grootte van het flagbestand is ongeldig</value>
+  </data>
+  <data name="FlagSearch.Message14" xml:space="preserve">
+    <value>Het flagbestand is gewijzigd tijdens het lezen</value>
+  </data>
+  <data name="FlagSearch.Message15" xml:space="preserve">
+    <value>De flaginvoer is te groot</value>
+  </data>
+  <data name="FlagSearch.Message16" xml:space="preserve">
+    <value>{flags.Count} flags geëxporteerd naar {dialog.FileName}</value>
+  </data>
+  <data name="FlagSearch.Message17" xml:space="preserve">
+    <value>Export voltooid</value>
+  </data>
+  <data name="FlagSearch.Message18" xml:space="preserve">
+    <value>Fout bij exporteren van flags: </value>
+  </data>
+  <data name="FlagSearch.Message19" xml:space="preserve">
+    <value>Exportfout</value>
+  </data>
+  <data name="FlagSearch.Message20" xml:space="preserve">
+    <value>Fout bij plakken vanaf het klembord: </value>
+  </data>
+  <data name="FlagSearch.Message21" xml:space="preserve">
+    <value>Plakfout</value>
+  </data>
+  <data name="FlagSearch.ExportSummary" xml:space="preserve">
+    <value>{0:N0} flags geëxporteerd naar {1}</value>
+  </data>
+  <data name="FlagSearch.ValueNote" xml:space="preserve">
+    <value>De ingevoerde waarde past niet bij het type van de flagnaam. Booleaanse flags vereisen true of false, integer-flags vereisen een geheel 32-bits getal.</value>
+  </data>
+  <data name="Notifications.Title" xml:space="preserve">
+    <value>Meldingen</value>
+  </data>
+  <data name="Notifications.Roblox" xml:space="preserve">
+    <value>Roblox en mods</value>
+  </data>
+  <data name="Notifications.Recovery" xml:space="preserve">
+    <value>Herstel van instellingen</value>
+  </data>
+  <data name="Notifications.Errors" xml:space="preserve">
+    <value>Fouten en crashes</value>
+  </data>
+  <data name="Notifications.GameJoins" xml:space="preserve">
+    <value>Game gestart</value>
+  </data>
+  <data name="Notifications.App" xml:space="preserve">
+    <value>App-meldingen</value>
+  </data>
+  <data name="Notifications.AppDescription" xml:space="preserve">
+    <value>App-meldingen tonen.</value>
+  </data>
+  <data name="Bootstrapper.Uninstall.NvidiaFailed" xml:space="preserve">
+    <value>NVIDIA-opschoning mislukt. Toch verwijderen? Resterende NVIDIA-instellingen blijven toegepast.
+
+{0}</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Latest" xml:space="preserve">
+    <value>Nieuwste</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Oldest" xml:space="preserve">
+    <value>Oudste</value>
+  </data>
+  <data name="ContextMenu.GameHistory.MostPlayed" xml:space="preserve">
+    <value>Langste bezoeken</value>
+  </data>
+  <data name="ContextMenu.GameHistory.NameAscending" xml:space="preserve">
+    <value>Naam, oplopend</value>
+  </data>
+  <data name="ContextMenu.GameHistory.NameDescending" xml:space="preserve">
+    <value>Naam, aflopend</value>
+  </data>
+  <data name="ContextMenu.GameHistory.AllServers" xml:space="preserve">
+    <value>Alle servers</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Public" xml:space="preserve">
+    <value>Openbaar</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Private" xml:space="preserve">
+    <value>Privé</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Reserved" xml:space="preserve">
+    <value>Gereserveerd</value>
+  </data>
+  <data name="ContextMenu.GameHistory.EndUnknown" xml:space="preserve">
+    <value>Niet vastgelegd</value>
+  </data>
+  <data name="ContextMenu.GameHistory.CopyLink" xml:space="preserve">
+    <value>Link kopiëren</value>
+  </data>
+  <data name="ContextMenu.GameHistory.LoadFailed" xml:space="preserve">
+    <value>Kan geschiedenis niet laden.</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Empty" xml:space="preserve">
+    <value>Geen bezoeken om te tonen.</value>
+  </data>
+  <data name="ContextMenu.GameHistory.StatusUnknown" xml:space="preserve">
+    <value>Onbekend</value>
+  </data>
+  <data name="ContextMenu.GameHistory.CheckedAt" xml:space="preserve">
+    <value>Gecontroleerd: {0}</value>
+  </data>
+  <data name="ContextMenu.GameHistory.LaunchFailed" xml:space="preserve">
+    <value>Kan Roblox niet starten.</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.MaxOnly" xml:space="preserve">
+    <value>Max. {0}</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.Unknown" xml:space="preserve">
+    <value>Onbekend</value>
+  </data>
+  <data name="ServerInfo.Hint.Updated" xml:space="preserve">
+    <value>{0} geleden bijgewerkt.</value>
+  </data>
+  <data name="ServerInfo.Hint.RateLimited" xml:space="preserve">
+    <value>Roblox beperkt serveropzoekingen, nieuwe poging over {0}.</value>
+  </data>
+  <data name="ServerInfo.Hint.RateLimitedStale" xml:space="preserve">
+    <value>Roblox beperkt serveropzoekingen. Het aantal van {0} geleden wordt getoond, opnieuw bijwerken over {1}.</value>
+  </data>
+  <data name="ServerInfo.Hint.NotListed" xml:space="preserve">
+    <value>Deze server staat niet in het deel van de openbare serverlijst dat Roblox deelt, opnieuw controleren over {0}.</value>
+  </data>
+  <data name="ServerInfo.Hint.NotListedStale" xml:space="preserve">
+    <value>Laatst gezien {0} geleden. Deze server staat nu niet in het deel van de openbare serverlijst dat Roblox deelt.</value>
+  </data>
+  <data name="ServerInfo.Hint.PrivateNotListed" xml:space="preserve">
+    <value>Deze privéserver staat niet in de serverlijst die je account kan zien, dus het aantal spelers kan niet worden gelezen.</value>
+  </data>
+  <data name="ServerInfo.Hint.PrivateSignedOut" xml:space="preserve">
+    <value>Roblox deelt het aantal spelers van privéservers alleen met een ingelogd account. Log in bij Roblox in Voidstrap om het te zien.</value>
+  </data>
+  <data name="ServerInfo.Hint.Reserved" xml:space="preserve">
+    <value>Roblox toont geen gereserveerde servers, die worden gebruikt voor teleports en party's, dus het aantal spelers kan niet worden gelezen.</value>
+  </data>
+  <data name="ServerInfo.Hint.Unavailable" xml:space="preserve">
+    <value>Kan Roblox niet bereiken, nieuwe poging over {0}.</value>
+  </data>
+  <data name="ServerInfo.Hint.UnavailableStale" xml:space="preserve">
+    <value>Kan Roblox niet bereiken. Het aantal van {0} geleden wordt getoond, nieuwe poging over {1}.</value>
+  </data>
+  <data name="ServerInfo.Hint.Full" xml:space="preserve">
+    <value>Deze server is vol. Roblox laat volle servers weg uit de openbare serverlijst, dus deze wordt als vol getoond totdat er een plek vrijkomt.</value>
+  </data>
+  <data name="Shortcuts.SubplaceTab" xml:space="preserve">
+    <value>Subplaats</value>
+  </data>
+  <data name="Shortcuts.SubplaceDescription" xml:space="preserve">
+    <value>Vind de andere plaatsen in deze ervaring.</value>
+  </data>
+  <data name="Shortcuts.LoadSubplaces" xml:space="preserve">
+    <value>Subplaatsen laden</value>
+  </data>
+  <data name="Shortcuts.SubplaceAccess" xml:space="preserve">
+    <value>De maker moet direct deelnemen toestaan. Sommige subplaatsen vereisen een teleport in de game.</value>
+  </data>
+  <data name="Shortcuts.SubplaceInitial" xml:space="preserve">
+    <value>Voer een game-ID in om de subplaatsen automatisch te laden.</value>
+  </data>
+  <data name="Shortcuts.SubplaceRetry" xml:space="preserve">
+    <value>Open dit tabblad opnieuw om het nog eens te proberen.</value>
+  </data>
+  <data name="Shortcuts.SubplaceInvalidId" xml:space="preserve">
+    <value>Voer een geldige numerieke game-ID in.</value>
+  </data>
+  <data name="Shortcuts.SubplaceLoading" xml:space="preserve">
+    <value>Subplaatsen laden...</value>
+  </data>
+  <data name="Shortcuts.SubplaceEmpty" xml:space="preserve">
+    <value>Deze ervaring heeft geen vermelde subplaatsen.</value>
+  </data>
+  <data name="Shortcuts.SubplaceChoose" xml:space="preserve">
+    <value>Kies hieronder een subplaats.</value>
+  </data>
+  <data name="Shortcuts.SubplaceTimeout" xml:space="preserve">
+    <value>Er is een time-out opgetreden bij het verzoek. Open dit tabblad opnieuw om het nog eens te proberen.</value>
+  </data>
+  <data name="Shortcuts.SubplaceFailed" xml:space="preserve">
+    <value>Subplaatsen konden niet worden geladen. Controleer de game-ID en de verbinding en probeer het opnieuw.</value>
+  </data>
+  <data name="Shortcuts.SubplaceReload" xml:space="preserve">
+    <value>Subplaatsen worden automatisch geladen wanneer je een geldige game-ID invoert.</value>
+  </data>
+  <data name="Shortcuts.SubplaceRequired" xml:space="preserve">
+    <value>Wacht tot de subplaatsen zijn geladen en kies er een voordat je doorgaat.</value>
+  </data>
+  <data name="Library.SubplacesTab" xml:space="preserve">
+    <value>Subplaatsen</value>
+  </data>
+  <data name="SettingsProfiles.Title" xml:space="preserve">
+    <value>Instellingenprofielen</value>
+  </data>
+  <data name="SettingsProfiles.Name" xml:space="preserve">
+    <value>Profielnaam</value>
+  </data>
+  <data name="SettingsProfiles.NameHint" xml:space="preserve">
+    <value>Voorbeeld: VoidstrapProfile</value>
+  </data>
+  <data name="SettingsProfiles.Save" xml:space="preserve">
+    <value>Profiel opslaan</value>
+  </data>
+  <data name="SettingsProfiles.Saved" xml:space="preserve">
+    <value>Opgeslagen profielen</value>
+  </data>
+  <data name="SettingsProfiles.Apply" xml:space="preserve">
+    <value>Profiel toepassen</value>
+  </data>
+  <data name="SettingsProfiles.Folder" xml:space="preserve">
+    <value>Map openen</value>
+  </data>
+  <data name="SettingsProfiles.Empty" xml:space="preserve">
+    <value>Nog geen profielen. Voer een naam in en kies Profiel opslaan.</value>
+  </data>
+  <data name="SettingsProfiles.Location" xml:space="preserve">
+    <value>Opgeslagen in {0}</value>
+  </data>
+  <data name="SettingsProfiles.InvalidName" xml:space="preserve">
+    <value>Gebruik een naam van 1 tot 80 tekens, zonder bestandsnaamsymbolen of een gereserveerde apparaatnaam.</value>
+  </data>
+  <data name="SettingsProfiles.InvalidFile" xml:space="preserve">
+    <value>Dit profiel is ongeldig of gebruikt een niet-ondersteunde indeling.</value>
+  </data>
+  <data name="SettingsProfiles.RestoreFailed" xml:space="preserve">
+    <value>Het profiel kon niet worden toegepast en de vorige instellingen konden niet worden hersteld.</value>
+  </data>
+  <data name="SettingsProfiles.Overwrite" xml:space="preserve">
+    <value>Het opgeslagen profiel "{0}" vervangen door je huidige instellingen?</value>
+  </data>
+  <data name="SettingsProfiles.SavedStatus" xml:space="preserve">
+    <value>"{0}" opgeslagen</value>
+  </data>
+  <data name="SettingsProfiles.ApplyConfirm" xml:space="preserve">
+    <value>"{0}" toepassen? Dit vervangt je huidige Voidstrap-instellingen en FastFlags en opent daarna de Voidstrap-instellingen opnieuw.</value>
+  </data>
+  <data name="SettingsProfiles.RestartFailed" xml:space="preserve">
+    <value>Het profiel is toegepast. Start Voidstrap opnieuw om alle instellingenpagina's te vernieuwen.</value>
+  </data>
+  <data name="SettingsProfiles.Restart" xml:space="preserve">
+    <value>Nu opnieuw starten</value>
+  </data>
+  <data name="SettingsProfiles.DeleteConfirm" xml:space="preserve">
+    <value>Het opgeslagen profiel "{0}" verwijderen? Je huidige instellingen blijven zoals ze zijn.</value>
+  </data>
+  <data name="SettingsProfiles.Deleted" xml:space="preserve">
+    <value>"{0}" verwijderd.</value>
+  </data>
+  <data name="SettingsProfiles.Error" xml:space="preserve">
+    <value>De profielactie kon niet worden voltooid: {0}</value>
+  </data>
+  <data name="GlobalProfiles.Title" xml:space="preserve">
+    <value>Globale instellingenprofielen</value>
+  </data>
+  <data name="GlobalProfiles.ApplyConfirm" xml:space="preserve">
+    <value>"{0}" toepassen? Dit vervangt je huidige globale Roblox-instellingen. Neem opnieuw deel aan Roblox om alle wijzigingen te zien.</value>
+  </data>
+  <data name="GlobalProfiles.Applied" xml:space="preserve">
+    <value>"{0}" toegepast</value>
+  </data>
+  <data name="GlobalProfiles.SaveFailed" xml:space="preserve">
+    <value>Het Roblox-instellingenbestand kon niet worden geschreven. Sluit Roblox en probeer het opnieuw.</value>
+  </data>
+  <data name="AssetWarp.RemoveTexturesDescription" xml:space="preserve">
+    <value>Blokkeert downloads van textuur- en textuurpakket-assets</value>
+  </data>
+  <data name="AssetWarp.RemoveDecalsDescription" xml:space="preserve">
+    <value>Blokkeert downloads van decal-assets</value>
+  </data>
+  <data name="AssetWarp.RemoveImagesDescription" xml:space="preserve">
+    <value>Blokkeert downloads van afbeeldingsassets. Roblox gebruikt afbeeldingen ook voor texturen en decals</value>
+  </data>
+  <data name="AssetWarp.RemoveAnimationsDescription" xml:space="preserve">
+    <value>Blokkeert downloads van animatie-assets. Games zonder reserve-animatie werken mogelijk niet meer goed</value>
+  </data>
+  <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
+    <value>Blokkeert downloads van mesh- en MeshPart-assets. Mesh-geometrie wordt onzichtbaar</value>
+  </data>
+  <data name="SwiftTunnel.Summary" xml:space="preserve">
+    <value>Stuur Roblox-verkeer via SwiftTunnel terwijl andere apps je normale verbinding gebruiken</value>
+  </data>
+  <data name="SwiftTunnel.Description" xml:space="preserve">
+    <value>SwiftTunnel is een optimalisatietool voor gameverbindingen op Windows met split tunneling en regionale relaykeuze</value>
+  </data>
+  <data name="SwiftTunnel.Setup" xml:space="preserve">
+    <value>Installeren downloadt de nieuwste officiële SwiftTunnel-release en opent na de installatie de desktopapp. Log daar in en kies je verbinding. Netwerkoptimalisatie kan beheerdersrechten vereisen</value>
+  </data>
+  <data name="SwiftTunnel.Network" xml:space="preserve">
+    <value>Netwerk</value>
+  </data>
+  <data name="SwiftTunnel.Routing" xml:space="preserve">
+    <value>Routering</value>
+  </data>
+  <data name="SwiftTunnel.Install" xml:space="preserve">
+    <value>Installeren</value>
+  </data>
+  <data name="SwiftTunnel.Uninstall" xml:space="preserve">
+    <value>Verwijderen</value>
+  </data>
+  <data name="SwiftTunnel.Installed" xml:space="preserve">
+    <value>Geïnstalleerd</value>
+  </data>
+  <data name="SwiftTunnel.NotInstalled" xml:space="preserve">
+    <value>Niet geïnstalleerd</value>
+  </data>
+  <data name="SwiftTunnel.Working" xml:space="preserve">
+    <value>Bezig</value>
+  </data>
+  <data name="SwiftTunnel.Downloading" xml:space="preserve">
+    <value>SwiftTunnel downloaden</value>
+  </data>
+  <data name="SwiftTunnel.InstallerFailed" xml:space="preserve">
+    <value>Kan de SwiftTunnel-installatie niet openen</value>
+  </data>
+  <data name="SwiftTunnel.InstallerExit" xml:space="preserve">
+    <value>De SwiftTunnel-installatie gaf code {0} terug</value>
+  </data>
+  <data name="SwiftTunnel.Error" xml:space="preserve">
+    <value>Kan de SwiftTunnel-actie niet voltooien: {0}</value>
+  </data>
+  <data name="SwiftTunnel.UninstallUnavailable" xml:space="preserve">
+    <value>De verwijdervermelding van SwiftTunnel is onvolledig. Verwijder SwiftTunnel in plaats daarvan via Windows-instellingen, Apps</value>
+  </data>
+  <data name="SwiftTunnel.CleanupFailed" xml:space="preserve">
+    <value>SwiftTunnel kon zijn netwerkinstellingen niet herstellen. De bestanden zijn bewaard zodat het opschonen opnieuw kan worden geprobeerd</value>
+  </data>
+  <data name="SwiftTunnel.ConfirmUninstall" xml:space="preserve">
+    <value>SwiftTunnel volledig verwijderen? Eerst worden het netwerkstuurprogramma en de systeeminstellingen hersteld, daarna wordt SwiftTunnel verwijderd. Eenmaal gestart kan dit niet worden geannuleerd.</value>
+  </data>
+  <data name="SwiftTunnel.UninstallIncomplete" xml:space="preserve">
+    <value>Het verwijderen van SwiftTunnel kon niet worden voltooid. Sluit SwiftTunnel en probeer het opnieuw met beheerdersrechten</value>
+  </data>
+  <data name="SwiftTunnel.UnsafeDirectory" xml:space="preserve">
+    <value>SwiftTunnel is geïnstalleerd in een gedeelde of onbekende map. Verplaats het naar een eigen SwiftTunnel-map voordat je volledige verwijdering gebruikt</value>
+  </data>
+  <data name="SwiftTunnel.NotInstalledError" xml:space="preserve">
+    <value>SwiftTunnel is niet geïnstalleerd. Installeer het eerst via Extensies</value>
+  </data>
+  <data name="SwiftTunnel.Missing" xml:space="preserve">
+    <value>SwiftTunnel is geregistreerd, maar de appbestanden ontbreken. Verwijder en installeer het opnieuw om het te herstellen</value>
+  </data>
+  <data name="SwiftTunnel.NoInstaller" xml:space="preserve">
+    <value>De nieuwste SwiftTunnel-release heeft geen gecontroleerd Windows-installatieprogramma voor deze computer</value>
+  </data>
+  <data name="Installer.MacOS.DataLocation.Title" xml:space="preserve">
+    <value>Kies waar Voidstrap-gegevens worden opgeslagen</value>
+  </data>
+  <data name="Installer.MacOS.DataLocation.Text" xml:space="preserve">
+    <value>Voidstrap bewaart hier zijn instellingen en mods. De applicatie blijft op de huidige locatie. Roblox wordt apart geïnstalleerd in Programma's.</value>
+  </data>
+  <data name="Installer.MacOS.Completion.Text" xml:space="preserve">
+    <value>Voidstrap is klaar.
+
+Roblox wordt gedownload wanneer je het voor het eerst via Voidstrap start. Je kunt je instellingen aanpassen voordat je start.
+
+Wat wil je doen?</value>
+  </data>
+  <data name="Installer.MacOS.Roblox.Title" xml:space="preserve">
+    <value>Roblox voor macOS</value>
+  </data>
+  <data name="Installer.MacOS.Roblox.Text" xml:space="preserve">
+    <value>Voidstrap downloadt de officiële Roblox-app naar Programma's wanneer je voor het eerst op Starten klikt en houdt deze daarna up-to-date. Een aparte installatie is niet nodig.</value>
+  </data>
+  <data name="HomepageMedia.Preview.FileMissing" xml:space="preserve">
+    <value>Het gekozen mediabestand kon niet worden gevonden.</value>
+  </data>
+  <data name="HomepageMedia.Preview.DecodeError" xml:space="preserve">
+    <value>Deze media kon niet worden gedecodeerd. Kies een andere afbeelding of video.</value>
+  </data>
+  <data name="HomepageMedia.Preview.RenderError" xml:space="preserve">
+    <value>Het mediavoorbeeld kon niet worden weergegeven.</value>
+  </data>
+  <data name="HomepageMedia.Picker.ImagesAndVideos" xml:space="preserve">
+    <value>Afbeeldingen en video's</value>
+  </data>
+  <data name="HomepageMedia.Picker.Images" xml:space="preserve">
+    <value>Afbeeldingen</value>
+  </data>
+  <data name="HomepageMedia.Picker.Videos" xml:space="preserve">
+    <value>Video's</value>
+  </data>
+  <data name="Appearance.Backdrop.Sidebar" xml:space="preserve">
+    <value>Zijbalk</value>
+  </data>
+  <data name="Appearance.Backdrop.Popover" xml:space="preserve">
+    <value>Pop-over</value>
+  </data>
+  <data name="Appearance.Backdrop.Hud" xml:space="preserve">
+    <value>Head-up-display</value>
+  </data>
+  <data name="Appearance.Backdrop.UnderWindow" xml:space="preserve">
+    <value>Onder het venster</value>
+  </data>
+  <data name="Appearance.Backdrop.UnderPage" xml:space="preserve">
+    <value>Onder de pagina</value>
+  </data>
+  <data name="Menu.MacVirtualDisplay.Title" xml:space="preserve">
+    <value>Virtueel 240 Hz-scherm</value>
+  </data>
+  <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Spiegelt het hoofdscherm terwijl Roblox draait en herstelt het wanneer Roblox sluit. Het fysieke scherm behoudt zijn eigen verversingslimiet.</value>
+  </data>
 </root>

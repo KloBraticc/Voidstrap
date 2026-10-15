@@ -1368,4 +1368,1436 @@ Gusto mo bang palitan ang iyong ginustong channel sa {0}?</value>
   <data name="Menu.News.DialogTitle" xml:space="preserve">
     <value>Mga Detalye ng Balita</value>
   </data>
+  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
+    <value>Hindi maalis ng Voidstrap ang naiwang AssetWarp route mula sa Windows hosts file. Hindi makakapag-load ang Roblox ng mga texture o iba pang asset hangga't hindi ito naaalis. Patakbuhin ang Voidstrap bilang administrator para linisin ito.</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
+    <value>Pareho</value>
+  </data>
+  <data name="Common.Browse" xml:space="preserve">
+    <value>Mag-browse</value>
+  </data>
+  <data name="Common.ImportJson" xml:space="preserve">
+    <value>I-import ang JSON</value>
+  </data>
+  <data name="Common.Presets" xml:space="preserve">
+    <value>Mga preset</value>
+  </data>
+  <data name="Common.Reset" xml:space="preserve">
+    <value>I-reset</value>
+  </data>
+  <data name="Common.Value" xml:space="preserve">
+    <value>Halaga</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
+    <value>{0} server ang na-scan</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
+    <value>I-refresh</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
+    <value>Mag-load ng mas maraming server</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
+    <value>Itago ang mga punong server</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
+    <value>Maghanap ng lungsod, bansa o server ID</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
+    <value>Pinakamaraming player</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
+    <value>Pinakakaunting player</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
+    <value>Pinakamababang ping</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
+    <value>Sumali</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
+    <value>Kasalukuyan</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
+    <value>Nilo-load ang mga pampublikong server</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
+    <value>Walang nahanap na pampublikong server</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
+    <value>Sumali muna sa isang laro bago buksan ang server browser</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
+    <value>Naka-pause ang listahan ng server dahil nililimitahan ng Roblox ang mga request</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
+    <value>Hindi ma-load ang mga pampublikong server</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
+    <value>{0} server ang na-load</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
+    <value>{0} sa {1} na player</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
+    <value>{0} player</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
+    <value>Hindi alam</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
+    <value>Pinakamahusay na tugma</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
+    <value>Pinakamahusay na tugma</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
+    <value>Naka-block</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
+    <value>Mga {0} ms ang layo sa iyo</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
+    <value>{0} server na ang na-trace sa ngayon</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
+    <value>{0} sa {1} server ang na-trace</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
+    <value>Inililipat ka sa {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
+    <value>Hindi makasali sa server na iyon</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
+    <value>Mag-sign in sa Settings &gt; Server Matchmaker para mahanap ng Voidstrap ang lokasyon ng bawat server</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
+    <value>Hindi mahanap ang lokasyon mo, kaya hindi maiayos ang mga server ayon sa ping</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
+    <value>Hindi ipinapakita ng Roblox kung nasaan ang mga server na ito, subukan ulit mamaya</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
+    <value>Lahat ng nahanap na server ay nasa mga data center na bina-block mo</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
+    <value>Malayo sa iyo ang lahat ng nahanap na server, kaya hahayaan ng matchmaker na ang Roblox ang pumili</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
+    <value>Ipagpatuloy</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
+    <value>Mga paborito</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
+    <value>Maghanap</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
+    <value>Maghanap ng mga laro sa Roblox</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
+    <value>Nilo-load ang mga laro</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
+    <value>Walang kamakailang laro sa session na ito</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
+    <value>Walang naka-save na paboritong laro</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
+    <value>Maghanap ng laro sa Roblox ayon sa pangalan</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
+    <value>Walang nahanap na laro para sa {0}</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
+    <value>Hindi ma-load ang mga laro</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
+    <value>{0} ang naglalaro</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
+    <value>Sumali</value>
+  </data>
+  <data name="Dialog.Connectivity.Title" xml:space="preserve">
+    <value>Error sa koneksyon</value>
+  </data>
+  <data name="Dialog.Exception.Title" xml:space="preserve">
+    <value>Exception sa Voidstrap</value>
+  </data>
+  <data name="Enums.BootstrapperIcon.IconEarly2015" xml:space="preserve">
+    <value>Unang bahagi ng 2015</value>
+  </data>
+  <data name="Enums.BootstrapperIcon.IconLate2015" xml:space="preserve">
+    <value>Huling bahagi ng 2015</value>
+  </data>
+  <data name="Enums.BootstrapperStyle.ByfronDialog" xml:space="preserve">
+    <value>Pekeng Byfron (2023)</value>
+  </data>
+  <data name="Enums.BootstrapperStyle.ClassicFluentDialog" xml:space="preserve">
+    <value>Voidstrap (Klasiko)</value>
+  </data>
+  <data name="Enums.BootstrapperStyle.FluentAeroDialog" xml:space="preserve">
+    <value>Voidstrap (Salamin)</value>
+  </data>
+  <data name="Enums.BootstrapperStyle.LegacyDialog2008" xml:space="preserve">
+    <value>Luma (2008 - 2011)</value>
+  </data>
+  <data name="Enums.BootstrapperStyle.LegacyDialog2011" xml:space="preserve">
+    <value>Luma (2011 - 2014)</value>
+  </data>
+  <data name="Enums.Theme.Dark" xml:space="preserve">
+    <value>Madilim</value>
+  </data>
+  <data name="Enums.Theme.Light" xml:space="preserve">
+    <value>Maliwanag</value>
+  </data>
+  <data name="Menu.About.Licenses" xml:space="preserve">
+    <value>Mga lisensya</value>
+  </data>
+  <data name="Menu.About.Title" xml:space="preserve">
+    <value>Tungkol</value>
+  </data>
+  <data name="Menu.About.Version" xml:space="preserve">
+    <value>Bersyon {0}</value>
+  </data>
+  <data name="Menu.Appearance.CustomisationIcon.Title" xml:space="preserve">
+    <value>Custom na icon</value>
+  </data>
+  <data name="Menu.Appearance.CustomisationTitle.Title" xml:space="preserve">
+    <value>Pamagat</value>
+  </data>
+  <data name="Menu.Appearance.Global.Theme.Title" xml:space="preserve">
+    <value>Global na tema</value>
+  </data>
+  <data name="Menu.Appearance.Style.Title" xml:space="preserve">
+    <value>Estilo</value>
+  </data>
+  <data name="Menu.Appearance.Title" xml:space="preserve">
+    <value>Hitsura</value>
+  </data>
+  <data name="Menu.FastFlagEditor.ExportJson" xml:space="preserve">
+    <value>I-export ang JSON</value>
+  </data>
+  <data name="Menu.FastFlagEditor.Title" xml:space="preserve">
+    <value>Fast Flag editor</value>
+  </data>
+  <data name="Menu.FontFiles" xml:space="preserve">
+    <value>Font file</value>
+  </data>
+  <data name="Menu.IconFiles" xml:space="preserve">
+    <value>Icon file</value>
+  </data>
+  <data name="Menu.Integrations.ActivityTracking" xml:space="preserve">
+    <value>Pagsubaybay sa aktibidad</value>
+  </data>
+  <data name="Menu.Integrations.Custom.LaunchArgs" xml:space="preserve">
+    <value>Mga launch argument</value>
+  </data>
+  <data name="Menu.Integrations.Custom.Title" xml:space="preserve">
+    <value>Mga custom na integration</value>
+  </data>
+  <data name="Menu.Integrations.Title" xml:space="preserve">
+    <value>Mga integration</value>
+  </data>
+  <data name="Menu.Mods.Title" xml:space="preserve">
+    <value>Mga mod</value>
+  </data>
+  <data name="Menu.Save" xml:space="preserve">
+    <value>I-save</value>
+  </data>
+  <data name="Menu.Title" xml:space="preserve">
+    <value>Mga setting ng Voidstrap</value>
+  </data>
+  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
+    <value>Awtomatikong pagsasalin</value>
+  </data>
+  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
+    <value>Isalin sa</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
+    <value>Wika ng awtomatikong pagsasalin</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
+    <value>Isalin ang buong interface ng Voidstrap sa kahit anong wika. Unang ginagamit ang mga built in na salin, at ang natitirang teksto ay isinasalin nang live.</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
+    <value>Awtomatikong isalin ang Discord RPC</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
+    <value>Awtomatikong isinasalin ang teksto ng Discord Rich Presence sa napiling wika.</value>
+  </data>
+  <data name="Enums.FlagPresets.InGameMenuVersion.V4Chrome" xml:space="preserve">
+    <value>2023 (V4 + bagong UI)</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.MSAA.Title" xml:space="preserve">
+    <value>Kalidad ng anti-aliasing (MSAA)</value>
+  </data>
+  <data name="Enums.FlagPresets.TextureQuality.Level0" xml:space="preserve">
+    <value>Level 0 (Pinakamababa)</value>
+  </data>
+  <data name="Enums.FlagPresets.TextureQuality.Level3" xml:space="preserve">
+    <value>Level 3 (Pinakamataas)</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.FontPadding.Title" xml:space="preserve">
+    <value>Laki ng font</value>
+  </data>
+  <data name="Common.Automatic" xml:space="preserve">
+    <value>Awtomatiko</value>
+  </data>
+  <data name="Installer.Title" xml:space="preserve">
+    <value>Voidstrap installer</value>
+  </data>
+  <data name="Installer.Install.Title" xml:space="preserve">
+    <value>I-install</value>
+  </data>
+  <data name="Uninstaller.Uninstall" xml:space="preserve">
+    <value>I-uninstall</value>
+  </data>
+  <data name="Menu.Shortcuts.General.Title" xml:space="preserve">
+    <value>Pangkalahatan</value>
+  </data>
+  <data name="Menu.Shortcuts.Function.Title" xml:space="preserve">
+    <value>Mga function</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Title" xml:space="preserve">
+    <value>Kasaysayan ng laro</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Rejoin" xml:space="preserve">
+    <value>Sumali ulit</value>
+  </data>
+  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
+    <value>Available lang ang feature na ito sa Windows.</value>
+  </data>
+  <data name="Dialog.Exception.Report" xml:space="preserve">
+    <value>Mag-ulat ng mga exception</value>
+  </data>
+  <data name="Menu.TestMode" xml:space="preserve">
+    <value>Testing mode</value>
+  </data>
+  <data name="About.Translators.Description" xml:space="preserve">
+    <value>Lahat ng nakalista rito ay maluwag sa loob na nagbigay ng kanilang oras at pagsisikap para tumulong sa pagsasalin ng Voidstrap. Maraming salamat sa inyong lahat!</value>
+  </data>
+  <data name="Menu_FlagProfiles_Title" xml:space="preserve">
+    <value>Fast Flag backup</value>
+  </data>
+  <data name="Common_FastFlags" xml:space="preserve">
+    <value>Fast Flag editor</value>
+  </data>
+  <data name="Menu.FastFlagEditor.ProfilesDescription" xml:space="preserve">
+    <value>FFlag backup</value>
+  </data>
+  <data name="Dialog.Exception.Version" xml:space="preserve">
+    <value>Bersyon {0}</value>
+  </data>
+  <data name="Menu.Voidstrap.ExportData.ExportConfig" xml:space="preserve">
+    <value>Configuration ng Voidstrap</value>
+  </data>
+  <data name="Dialog.Connectivity.Preventing" xml:space="preserve">
+    <value>Maaaring may pumipigil sa Voidstrap na kumonekta sa internet.</value>
+  </data>
+  <data name="Dialog.Connectivity.TimedOut" xml:space="preserve">
+    <value>Nag-time out ang koneksyon, na maaaring senyales ng mahinang internet o pagharang ng firewall.</value>
+  </data>
+  <data name="Menu.Appearance.BootstrapperDownloading.Title" xml:space="preserve">
+    <value>Status ng download ng bootstrapper</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
+    <value>Dark mode</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
+    <value>Dark mode</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Categories.IngameMenu" xml:space="preserve">
+    <value>Roblox menu</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.LanguageSelector.Title" xml:space="preserve">
+    <value>Pagpili ng wika</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.Haptics.Title" xml:space="preserve">
+    <value>Haptic button</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.Framerate.Title" xml:space="preserve">
+    <value>Limitasyon ng frame rate</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.FlagState.Title" xml:space="preserve">
+    <value>Status ng flag</value>
+  </data>
+  <data name="Menu.Context.PlayerLogs" xml:space="preserve">
+    <value>Mga log ng player</value>
+  </data>
+  <data name="Common.UserId" xml:space="preserve">
+    <value>User ID</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.PingBreakdown.Title" xml:space="preserve">
+    <value>Breakdown ng ping</value>
+  </data>
+  <data name="ContextMenu.PlayerLogs.Title" xml:space="preserve">
+    <value>Mga log ng player</value>
+  </data>
+  <data name="ContextMenu.MessageLogs.Title" xml:space="preserve">
+    <value>Mga log ng mensahe</value>
+  </data>
+  <data name="Menu.Sober.Description" xml:space="preserve">
+    <value>I-configure ang mga Linux runtime na ginagamit ng Voidstrap para ilunsad ang Roblox. Ang Sober ang nagpapatakbo ng player, ang Vinegar ang nagpapatakbo ng Studio. Binabago lang ng Voidstrap ang mga opsyon na tahasan mong pinalitan.</value>
+  </data>
+  <data name="Menu.Sober.Default" xml:space="preserve">
+    <value>Gamitin ang default ng Sober</value>
+  </data>
+  <data name="Menu.Sober.Enabled" xml:space="preserve">
+    <value>Naka-enable</value>
+  </data>
+  <data name="Menu.Sober.Disabled" xml:space="preserve">
+    <value>Naka-disable</value>
+  </data>
+  <data name="Menu.Sober.DefaultNotice" xml:space="preserve">
+    <value>Sa Gamitin ang default ng Sober, si Sober ang nagkokontrol sa setting. Ang pag-alis ng override ay nagbabalik sa halagang na-back up ng Voidstrap.</value>
+  </data>
+  <data name="Menu.Sober.RuntimeNotice" xml:space="preserve">
+    <value>Tapusin muna ang unang pagtakbo ng Sober bago mag-set ng mga override, pagkatapos ay isara ang Sober bago baguhin ang mga ito. Magkakabisa ang mga na-save na pagbabago sa susunod na pagbukas ng Sober.</value>
+  </data>
+  <data name="Menu.Sober.Group.Session" xml:space="preserve">
+    <value>Session at aktibidad</value>
+  </data>
+  <data name="Menu.Sober.Group.Input" xml:space="preserve">
+    <value>Input at karanasan</value>
+  </data>
+  <data name="Menu.Sober.Group.Graphics" xml:space="preserve">
+    <value>Graphics at desktop</value>
+  </data>
+  <data name="Menu.Sober.AllowGamepad.Title" xml:space="preserve">
+    <value>Payagan ang access sa gamepad</value>
+  </data>
+  <data name="Menu.Sober.AllowGamepad.Description" xml:space="preserve">
+    <value>Pinapayagan ang Sober na humingi ng access sa mga nakakonektang gamepad. Maaaring kailanganing ilunsad ulit ang Sober para sa mga pagbabago sa pahintulot.</value>
+  </data>
+  <data name="Menu.Sober.CloseOnLeave.Title" xml:space="preserve">
+    <value>Isara paglabas</value>
+  </data>
+  <data name="Menu.Sober.CloseOnLeave.Description" xml:space="preserve">
+    <value>Isinasara ang Sober pagkatapos umalis sa isang karanasan.</value>
+  </data>
+  <data name="Menu.Sober.DiscordRpc.Description" xml:space="preserve">
+    <value>Pinapayagan ang Sober na ipakita ang aktibidad sa laro sa pamamagitan ng Discord Rich Presence.</value>
+  </data>
+  <data name="Menu.Sober.DiscordJoin.Title" xml:space="preserve">
+    <value>Join button sa Discord</value>
+  </data>
+  <data name="Menu.Sober.DiscordJoin.Description" xml:space="preserve">
+    <value>Pinapayagan ang Sober na magdagdag ng join button sa Discord Rich Presence.</value>
+  </data>
+  <data name="Menu.Sober.GameMode.Title" xml:space="preserve">
+    <value>Integration ng GameMode</value>
+  </data>
+  <data name="Menu.Sober.GameMode.Description" xml:space="preserve">
+    <value>Pinapayagan ang Sober na humiling ng performance tuning ng GameMode kapag available ang GameMode.</value>
+  </data>
+  <data name="Menu.Sober.HiDpi.Description" xml:space="preserve">
+    <value>Gumagamit ng native scaling para sa mga high density na display.</value>
+  </data>
+  <data name="Menu.Sober.MobileHome.Title" xml:space="preserve">
+    <value>Mobile na home screen</value>
+  </data>
+  <data name="Menu.Sober.MobileHome.Description" xml:space="preserve">
+    <value>Gumagamit ng Roblox home screen na pang mobile.</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Description" xml:space="preserve">
+    <value>Pinipili ang prayoridad ng graphics optimization ng Sober.</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Quality" xml:space="preserve">
+    <value>Kalidad</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Balanced" xml:space="preserve">
+    <value>Balanse</value>
+  </data>
+  <data name="Menu.Sober.ServerLocation.Title" xml:space="preserve">
+    <value>Indicator ng lokasyon ng server</value>
+  </data>
+  <data name="Menu.Sober.ServerLocation.Description" xml:space="preserve">
+    <value>Ipinapakita ang indicator ng lokasyon ng server ng Sober habang naglalaro.</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Description" xml:space="preserve">
+    <value>Pinipili kung paano iniuulat ng Sober ang suporta sa touch input.</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.FakeOff" xml:space="preserve">
+    <value>Pekeng off</value>
+  </data>
+  <data name="Menu.Sober.ConsoleExperience.Title" xml:space="preserve">
+    <value>Karanasang pang console</value>
+  </data>
+  <data name="Menu.Sober.ConsoleExperience.Description" xml:space="preserve">
+    <value>Gumagamit ng Roblox na karanasang pang console.</value>
+  </data>
+  <data name="Menu.Sober.Libsecret.Description" xml:space="preserve">
+    <value>Iniimbak ang mga sinusuportahang credential sa pamamagitan ng desktop Secret Service.</value>
+  </data>
+  <data name="Menu.Sober.OpenGl.Description" xml:space="preserve">
+    <value>Gumagamit ng OpenGL sa halip na default na graphics backend ng Sober.</value>
+  </data>
+  <data name="Installer.Appearance.BackgroundUI.Title" xml:space="preserve">
+    <value>Background at UI</value>
+  </data>
+  <data name="Installer.Appearance.BackgroundUI.Description" xml:space="preserve">
+    <value>I-personalize ang installer at ang pangunahing app.</value>
+  </data>
+  <data name="Installer.Appearance.Snow.Title" xml:space="preserve">
+    <value>Niyebe sa background</value>
+  </data>
+  <data name="Installer.Appearance.Snow.Description" xml:space="preserve">
+    <value>Nagdaragdag ng banayad na epekto ng niyebe sa background.</value>
+  </data>
+  <data name="Installer.Appearance.GradientMovement.Title" xml:space="preserve">
+    <value>Galaw ng gradient</value>
+  </data>
+  <data name="Installer.Appearance.GradientMovement.Description" xml:space="preserve">
+    <value>Pinasusunod ang background gradient sa pointer.</value>
+  </data>
+  <data name="Installer.Appearance.SmoothScrolling.Title" xml:space="preserve">
+    <value>Malinis na pag-scroll</value>
+  </data>
+  <data name="Installer.Appearance.SmoothScrolling.Description" xml:space="preserve">
+    <value>Nag-a-animate ng pag-scroll sa buong interface.</value>
+  </data>
+  <data name="Installer.Appearance.ClearFont.Title" xml:space="preserve">
+    <value>Malinaw na font</value>
+  </data>
+  <data name="Installer.Appearance.ClearFont.Description" xml:space="preserve">
+    <value>Gumagamit ng mas matalas na text rendering pagkatapos i-restart ang Voidstrap.</value>
+  </data>
+  <data name="Installer.Appearance.Background.Title" xml:space="preserve">
+    <value>Custom na background</value>
+  </data>
+  <data name="Installer.Appearance.Background.Description" xml:space="preserve">
+    <value>Gumamit ng larawan, GIF o video at ayusin kung paano ito lumalabas.</value>
+  </data>
+  <data name="Installer.Appearance.GradientOpacity" xml:space="preserve">
+    <value>Opacity ng gradient</value>
+  </data>
+  <data name="Installer.Appearance.DarkOverlay" xml:space="preserve">
+    <value>Madilim na overlay</value>
+  </data>
+  <data name="Installer.Appearance.DisplayEverywhere" xml:space="preserve">
+    <value>Ipakita kahit saan</value>
+  </data>
+  <data name="Installer.Appearance.RemoveBackground" xml:space="preserve">
+    <value>Alisin ang background</value>
+  </data>
+  <data name="Installer.Appearance.Theme.Description" xml:space="preserve">
+    <value>Piliin ang temang ginagamit sa lahat ng window ng Voidstrap.</value>
+  </data>
+  <data name="Installer.Appearance.Theme.Customize" xml:space="preserve">
+    <value>I-customize</value>
+  </data>
+  <data name="Installer.Appearance.Backdrop.Title" xml:space="preserve">
+    <value>Backdrop ng window</value>
+  </data>
+  <data name="Installer.Appearance.Backdrop.Description" xml:space="preserve">
+    <value>Piliin ang materyal na ipinapakita sa likod ng mga window ng Voidstrap.</value>
+  </data>
+  <data name="Installer.Appearance.PageZoom.Title" xml:space="preserve">
+    <value>Zoom ng pahina</value>
+  </data>
+  <data name="Installer.Appearance.PageZoom.Description" xml:space="preserve">
+    <value>Ayusin ang laki ng mga pahina ng setting.</value>
+  </data>
+  <data name="Vng.WarningTitle" xml:space="preserve">
+    <value>Roblox VNG: permanenteng limitasyon sa account</value>
+  </data>
+  <data name="Vng.Warning" xml:space="preserve">
+    <value>HINTO: BASAHIN BAGO MAGPATULOY
+
+Ang unang pag-log in sa Roblox VNG ay maglilipat ng account mo sa VNG. Sinasabi ng Roblox na hindi mo na magagamit ang account na iyon sa global na Roblox app.
+
+Ituring na permanente ang paglipat ng account na ito. Hindi ito mababawi ng Voidstrap. Ang pag-uninstall ng VNG o pag-disable ng opsyong ito ay hindi nagbabalik ng access sa global na account. Malalapat ang mga limitasyon ng VNG sa account at rehiyon.
+
+Ang pag-download lang ng mga file ay hindi naglilipat ng account mo. Ang pag-log in o paglunsad gamit ang umiiral na account ay maaaring maglantad dito sa paglipat.
+
+Magpatuloy lang kung tanggap mong mawawalan ng access sa global na app ang anumang account na gagamitin mo sa VNG. Mabubuksan ang Oo pagkalipas ng sampung segundo.</value>
+  </data>
+  <data name="Vng.Confirmation" xml:space="preserve">
+    <value>Sigurado ka ba?</value>
+  </data>
+  <data name="Vng.Agreement" xml:space="preserve">
+    <value>Huling babala: ang pag-log in sa Roblox VNG ay maaaring permanenteng maglipat ng account mo at mag-alis ng access sa global na Roblox app. Hindi ito mababawi ng Voidstrap.
+
+I-type nang eksakto ang pariralang nasa ibaba para tanggapin ang limitasyong ito at magpatuloy.</value>
+  </data>
+  <data name="Vng.Countdown" xml:space="preserve">
+    <value>{0} ({1} s)</value>
+  </data>
+  <data name="Vng.Description" xml:space="preserve">
+    <value>Player client para sa Vietnam. Ang pag-log in ay maglilipat ng account mo at mag-aalis ng access sa global na app.</value>
+  </data>
+  <data name="Vng.UseForLaunches" xml:space="preserve">
+    <value>Gamitin ang VNG sa paglunsad ng player</value>
+  </data>
+  <data name="Vng.UninstallWarning" xml:space="preserve">
+    <value>Ang pag-alis ng VNG ay hindi nagbabawi ng paglipat ng account at hindi nagbabalik ng access sa global na app.</value>
+  </data>
+  <data name="Mtu.Description" xml:space="preserve">
+    <value>Nililimitahan ang laki ng packet para sa lahat ng app, kasama ang Roblox. Kailangan ng admin access at nananatili pagkatapos mag-restart. Maaaring hindi nito mapabuti ang ping.</value>
+  </data>
+  <data name="Mtu.Adapter" xml:space="preserve">
+    <value>Pumili ng network adapter at bersyon ng IP</value>
+  </data>
+  <data name="Mtu.CustomValue" xml:space="preserve">
+    <value>Custom na MTU (bytes)</value>
+  </data>
+  <data name="Mtu.Current" xml:space="preserve">
+    <value>Kasalukuyan: {0} bytes. Minimum: {1} bytes.</value>
+  </data>
+  <data name="Mtu.NoAdapters" xml:space="preserve">
+    <value>Walang nahanap na sinusuportahang network adapter. I-refresh para subukan ulit.</value>
+  </data>
+  <data name="Mtu.Invalid" xml:space="preserve">
+    <value>Maglagay ng buong numero mula {0} hanggang {1}. Sinusuri rin ng Windows ang laki ng packet na sinusuportahan ng adapter.</value>
+  </data>
+  <data name="Mtu.Apply" xml:space="preserve">
+    <value>Ilapat</value>
+  </data>
+  <data name="Mtu.Restore" xml:space="preserve">
+    <value>Ibalik</value>
+  </data>
+  <data name="Mtu.Refresh" xml:space="preserve">
+    <value>I-refresh</value>
+  </data>
+  <data name="Mtu.Loading" xml:space="preserve">
+    <value>Binabasa ang mga network adapter ng Windows...</value>
+  </data>
+  <data name="Mtu.Applying" xml:space="preserve">
+    <value>Naghihintay ng pahintulot ng administrator at inilalapat ang MTU...</value>
+  </data>
+  <data name="Mtu.AdapterUnavailable" xml:space="preserve">
+    <value>Hindi available ang napiling adapter. I-refresh at pumili ng adapter.</value>
+  </data>
+  <data name="Mtu.Rejected" xml:space="preserve">
+    <value>Hindi mailapat ng Windows ang MTU, code {0}. Maaaring hindi sinusuportahan ng adapter mo ang halagang ito.</value>
+  </data>
+  <data name="Mtu.Applied" xml:space="preserve">
+    <value>Naitakda at na-verify ang MTU sa {0} bytes. Nalalapat ito sa lahat ng app sa napiling adapter.</value>
+  </data>
+  <data name="Mtu.Restored" xml:space="preserve">
+    <value>Naibalik at na-verify ang dating MTU na {0} bytes.</value>
+  </data>
+  <data name="Mtu.VerificationFailed" xml:space="preserve">
+    <value>Hindi iniulat ng Windows ang hiniling na MTU. I-refresh para tingnan ang kasalukuyang halaga.</value>
+  </data>
+  <data name="Mtu.Cancelled" xml:space="preserve">
+    <value>Kinansela ang request ng administrator. Hindi binago ang MTU.</value>
+  </data>
+  <data name="Mtu.Error" xml:space="preserve">
+    <value>Nabigo ang operasyon sa MTU. I-refresh para tingnan ang kasalukuyang halaga.</value>
+  </data>
+  <data name="Menu_FastFlagEditor_Rename" xml:space="preserve">
+    <value>Palitan ang pangalan</value>
+  </data>
+  <data name="Menu_FastFlagEditor_EditValue" xml:space="preserve">
+    <value>I-edit ang halaga</value>
+  </data>
+  <data name="Menu_FastFlagEditor_CopySelected" xml:space="preserve">
+    <value>Kopyahin ang napili bilang JSON</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Description" xml:space="preserve">
+    <value>Pumili ng kulay para sa mga kontrol ng app at tint ng background.</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Choose" xml:space="preserve">
+    <value>Pumili ng kulay</value>
+  </data>
+  <data name="Menu.Appearance.Accent.System" xml:space="preserve">
+    <value>Gamitin ang kulay ng system</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Picker" xml:space="preserve">
+    <value>Pumili ng accent color</value>
+  </data>
+  <data name="Menu.Shortcuts.Customize" xml:space="preserve">
+    <value>Pangalan at icon</value>
+  </data>
+  <data name="Menu.Shortcuts.InvalidName" xml:space="preserve">
+    <value>Gumamit ng wastong pangalan ng shortcut na walang slash o nakareserbang pangalan ng file.</value>
+  </data>
+  <data name="Menu.Shortcuts.NameExists" xml:space="preserve">
+    <value>May shortcut na sa pangalang ito. Pumili ng ibang pangalan.</value>
+  </data>
+  <data name="Menu.Shortcuts.ChooseIcon" xml:space="preserve">
+    <value>Pumili ng icon ng shortcut</value>
+  </data>
+  <data name="Menu.Shortcuts.IconFilter" xml:space="preserve">
+    <value>Mga icon at larawan|*.ico;*.png;*.jpg;*.jpeg;*.bmp;*.webp</value>
+  </data>
+  <data name="Menu.Shortcuts.InvalidIcon" xml:space="preserve">
+    <value>Pumili ng wastong icon o larawan na mas maliit sa 8 MB.</value>
+  </data>
+  <data name="Menu.LaunchDropdownOnRight" xml:space="preserve">
+    <value>Ilagay ang version picker sa kanan</value>
+  </data>
+  <data name="OverlayDiagnostics.Bounds" xml:space="preserve">
+    <value>Laki at posisyon sa screen</value>
+  </data>
+  <data name="OverlayDiagnostics.CollectionError" xml:space="preserve">
+    <value>Hindi makolekta ang kasalukuyang sample: {0}</value>
+  </data>
+  <data name="OverlayDiagnostics.CompositeCrosshair" xml:space="preserve">
+    <value>Aktibo ang compositing crosshair</value>
+  </data>
+  <data name="OverlayDiagnostics.Compositor" xml:space="preserve">
+    <value>Nasimulan ang compositing</value>
+  </data>
+  <data name="OverlayDiagnostics.Configuration" xml:space="preserve">
+    <value>Mga naka-configure na feature, hindi patunay ng rendering ang mga switch na ito</value>
+  </data>
+  <data name="OverlayDiagnostics.Disabled" xml:space="preserve">
+    <value>Naka-disable sa mga setting ang lahat ng sinuring overlay feature.</value>
+  </data>
+  <data name="OverlayDiagnostics.DispatcherRequired" xml:space="preserve">
+    <value>Dapat tumakbo ang overlay diagnostics sa dispatcher ng window.</value>
+  </data>
+  <data name="OverlayDiagnostics.FakeBorderless" xml:space="preserve">
+    <value>Pekeng borderless fullscreen</value>
+  </data>
+  <data name="OverlayDiagnostics.FakeExclusive" xml:space="preserve">
+    <value>Pekeng exclusive fullscreen</value>
+  </data>
+  <data name="OverlayDiagnostics.Findings" xml:space="preserve">
+    <value>Mga pagsusuri at limitasyon</value>
+  </data>
+  <data name="OverlayDiagnostics.Foreground" xml:space="preserve">
+    <value>Naka-focus ang Roblox o ang overlay nito</value>
+  </data>
+  <data name="OverlayDiagnostics.FullscreenUnknown" xml:space="preserve">
+    <value>Hindi na-verify ang exclusive fullscreen. Hindi matutukoy ng laki ng window at estilo ng border ang presentation mode.</value>
+  </data>
+  <data name="OverlayDiagnostics.GameEffects" xml:space="preserve">
+    <value>Mga epekto sa laro</value>
+  </data>
+  <data name="OverlayDiagnostics.GameLease" xml:space="preserve">
+    <value>Kumpirmado ang game lease sa Linux</value>
+  </data>
+  <data name="OverlayDiagnostics.GameSession" xml:space="preserve">
+    <value>Game session ng activity watcher</value>
+  </data>
+  <data name="OverlayDiagnostics.GameSignal" xml:space="preserve">
+    <value>Signal ng laro mula sa overlay hub</value>
+  </data>
+  <data name="OverlayDiagnostics.Handle" xml:space="preserve">
+    <value>Handle ng window</value>
+  </data>
+  <data name="OverlayDiagnostics.Homepage" xml:space="preserve">
+    <value>Background ng home page</value>
+  </data>
+  <data name="OverlayDiagnostics.HomepageInGame" xml:space="preserve">
+    <value>Nag-uulat ang overlay hub ng game session habang tumatakbo pa ang proseso ng home page sa Linux. Maaaring tumatakbo ang proseso nang hindi nagdo-drawing.</value>
+  </data>
+  <data name="OverlayDiagnostics.HomepageWorker" xml:space="preserve">
+    <value>Tumatakbo ang proseso ng home page sa Linux</value>
+  </data>
+  <data name="OverlayDiagnostics.Intersects" xml:space="preserve">
+    <value>Nag-i-intersect ang rectangle sa Roblox</value>
+  </data>
+  <data name="OverlayDiagnostics.Minimized" xml:space="preserve">
+    <value>Naka-minimize ang native window</value>
+  </data>
+  <data name="OverlayDiagnostics.MissingCrosshair" xml:space="preserve">
+    <value>Naka-configure ang crosshair, pero walang nahanap na crosshair window o aktibong compositing crosshair sa prosesong ito.</value>
+  </data>
+  <data name="OverlayDiagnostics.MissingStats" xml:space="preserve">
+    <value>Naka-configure ang stats, pero walang nahanap na stats window sa prosesong ito. Hindi nito pinapatunayang nabigo ang paggawa at hindi nito isinasantabi ang ibang proseso ng Voidstrap.</value>
+  </data>
+  <data name="OverlayDiagnostics.MonitorCoverage" xml:space="preserve">
+    <value>Sakop ng borderless client ang monitor nito</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeLive" xml:space="preserve">
+    <value>Wasto ang native handle</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeTopmost" xml:space="preserve">
+    <value>Native na topmost marker</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeVisible" xml:space="preserve">
+    <value>Nakikita ang native window</value>
+  </data>
+  <data name="OverlayDiagnostics.No" xml:space="preserve">
+    <value>Hindi</value>
+  </data>
+  <data name="OverlayDiagnostics.NoUsableWindow" xml:space="preserve">
+    <value>Walang nasukat na magagamit na client rectangle ng Roblox. Maaaring sarado, naka-minimize, nakatago, nagsisimula pa o hindi ma-access ang Roblox.</value>
+  </data>
+  <data name="OverlayDiagnostics.NoWindows" xml:space="preserve">
+    <value>Walang nahanap na overlay window sa prosesong ito.</value>
+  </data>
+  <data name="OverlayDiagnostics.Opacity" xml:space="preserve">
+    <value>Opacity ng WPF</value>
+  </data>
+  <data name="OverlayDiagnostics.PixelsUnknown" xml:space="preserve">
+    <value>Hindi pinapatunayan ng visibility, opacity at topmost marker na may pixel na nai-render, hindi natatakpan o nakikita ng user. Hindi kinukumpirma ng ulat na ito ang paghahatid ng GPU frame at occlusion.</value>
+  </data>
+  <data name="OverlayDiagnostics.Place" xml:space="preserve">
+    <value>Place ID ng activity watcher</value>
+  </data>
+  <data name="OverlayDiagnostics.RegisteredWindow" xml:space="preserve">
+    <value>Nakarehistrong native overlay</value>
+  </data>
+  <data name="OverlayDiagnostics.RobloxWindow" xml:space="preserve">
+    <value>Napansing Roblox window</value>
+  </data>
+  <data name="OverlayDiagnostics.Runtime" xml:space="preserve">
+    <value>Napansing estado ng runtime</value>
+  </data>
+  <data name="OverlayDiagnostics.Sample" xml:space="preserve">
+    <value>Na-sample {0:HH:mm:ss.fff zzz}, nire-refresh bawat segundo at kapag nagbago ang window</value>
+  </data>
+  <data name="OverlayDiagnostics.Scope" xml:space="preserve">
+    <value>Inilalarawan ng mga reading na ito ang prosesong ito ng Voidstrap. Maaaring hindi nakalista ang mga window na pag-aari ng ibang proseso.</value>
+  </data>
+  <data name="OverlayDiagnostics.Teleporting" xml:space="preserve">
+    <value>May teleport na isinasagawa sa activity watcher</value>
+  </data>
+  <data name="OverlayDiagnostics.Transition" xml:space="preserve">
+    <value>Paglipat ng laro</value>
+  </data>
+  <data name="OverlayDiagnostics.Unavailable" xml:space="preserve">
+    <value>Hindi available</value>
+  </data>
+  <data name="OverlayDiagnostics.Unfocused" xml:space="preserve">
+    <value>Hindi naka-focus ang Roblox ngayon. Maaaring sadyang nakatago ang mga overlay habang aktibo ang ibang window, kasama ang diagnostics window na ito.</value>
+  </data>
+  <data name="OverlayDiagnostics.UsableRect" xml:space="preserve">
+    <value>Na-track na magagamit na client rectangle</value>
+  </data>
+  <data name="OverlayDiagnostics.Visible" xml:space="preserve">
+    <value>Nakikita sa WPF</value>
+  </data>
+  <data name="OverlayDiagnostics.Windows" xml:space="preserve">
+    <value>Napansing overlay window</value>
+  </data>
+  <data name="OverlayDiagnostics.Worker" xml:space="preserve">
+    <value>Tumatakbo ang compositing worker thread</value>
+  </data>
+  <data name="OverlayDiagnostics.WpfTopmost" xml:space="preserve">
+    <value>Hiniling ang WPF topmost</value>
+  </data>
+  <data name="OverlayDiagnostics.X11" xml:space="preserve">
+    <value>Available ang X11 connection</value>
+  </data>
+  <data name="OverlayDiagnostics.X11Compositor" xml:space="preserve">
+    <value>Na-detect ang X11 compositing</value>
+  </data>
+  <data name="OverlayDiagnostics.X11Unavailable" xml:space="preserve">
+    <value>Walang available na X11 connection. Hindi magagamit ang pagsusuri sa native window; maaaring dahil sa limitasyon ng Wayland o mga pahintulot ng sandbox.</value>
+  </data>
+  <data name="OverlayDiagnostics.Yes" xml:space="preserve">
+    <value>Oo</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeCompositor" xml:space="preserve">
+    <value>Native window na may GPU compositing</value>
+  </data>
+  <data name="FlagSearch.Loading" xml:space="preserve">
+    <value>Nilo-load ang mga source…</value>
+  </data>
+  <data name="FlagSearch.Loaded" xml:space="preserve">
+    <value>Na-load</value>
+  </data>
+  <data name="FlagSearch.Unavailable" xml:space="preserve">
+    <value>Hindi available</value>
+  </data>
+  <data name="FlagSearch.Pending" xml:space="preserve">
+    <value>Nakabinbin</value>
+  </data>
+  <data name="FlagSearch.LoadedSummary" xml:space="preserve">
+    <value>{0:N0} natatanging pangalan ang na-load mula sa {1} sa {2} source. Tingnan ang Mga data source para sa detalye.</value>
+  </data>
+  <data name="FlagSearch.LoadError" xml:space="preserve">
+    <value>Nabigo ang pag-load ng source. Tingnan ang mga log para sa detalye.</value>
+  </data>
+  <data name="FlagSearch.ObjectRequired" xml:space="preserve">
+    <value>Dapat may object ang flag JSON.</value>
+  </data>
+  <data name="FlagSearch.EmptySource" xml:space="preserve">
+    <value>Walang ibinalik na kilalang pangalan ng flag ang source.</value>
+  </data>
+  <data name="FlagSearch.ResultCount" xml:space="preserve">
+    <value>Ipinapakita ang {0:N0} sa {1:N0} na tugma</value>
+  </data>
+  <data name="FlagSearch.SearchError" xml:space="preserve">
+    <value>Nabigo ang paghahanap. Tingnan ang mga log para sa detalye.</value>
+  </data>
+  <data name="FlagSearch.Validating" xml:space="preserve">
+    <value>Sinusuri ang mga pangalan ng flag at input na halaga…</value>
+  </data>
+  <data name="FlagSearch.Found" xml:space="preserve">
+    <value>Nahanap</value>
+  </data>
+  <data name="FlagSearch.ValueError" xml:space="preserve">
+    <value>Error sa halaga</value>
+  </data>
+  <data name="FlagSearch.NotFound" xml:space="preserve">
+    <value>Hindi nahanap</value>
+  </data>
+  <data name="FlagSearch.FoundNote" xml:space="preserve">
+    <value>Nahanap sa mga na-load na source. Hindi na-verify ang suporta sa lokal na override.</value>
+  </data>
+  <data name="FlagSearch.NotFoundNote" xml:space="preserve">
+    <value>Wala sa mga na-load na source, hindi nito pinapatunayang hindi wasto ang flag.</value>
+  </data>
+  <data name="FlagSearch.ValidationSummary" xml:space="preserve">
+    <value>{0:N0} flag ang nasuri, {1:N0} input ang tumugma sa source at inaasahang uri ng halaga.</value>
+  </data>
+  <data name="FlagSearch.NameError" xml:space="preserve">
+    <value>Gumamit ng kilalang pangalan ng Fast Flag na walang espasyo.</value>
+  </data>
+  <data name="FlagSearch.TooMany" xml:space="preserve">
+    <value>Masyadong maraming flag ang input.</value>
+  </data>
+  <data name="FlagSearch.ScalarRequired" xml:space="preserve">
+    <value>Dapat string, numero o boolean ang halaga ng flag.</value>
+  </data>
+  <data name="FlagSearch.LineError" xml:space="preserve">
+    <value>Dapat gumamit ng pangalan=halaga ang bawat linya ng teksto.</value>
+  </data>
+  <data name="FlagSearch.EmptyInput" xml:space="preserve">
+    <value>Walang nahanap na entry ng flag.</value>
+  </data>
+  <data name="FlagSearch.Label1" xml:space="preserve">
+    <value>Maghanap ng Fast Flag</value>
+  </data>
+  <data name="FlagSearch.Label2" xml:space="preserve">
+    <value>Maghanap ng Fast Flag</value>
+  </data>
+  <data name="FlagSearch.Label3" xml:space="preserve">
+    <value>Paghahanap at pag-validate ng Fast Flag</value>
+  </data>
+  <data name="FlagSearch.Label4" xml:space="preserve">
+    <value>Maghanap, mag-validate at tumuklas ng Fast Flag mula sa iba't ibang source</value>
+  </data>
+  <data name="FlagSearch.Label5" xml:space="preserve">
+    <value>I-refresh ang mga source</value>
+  </data>
+  <data name="FlagSearch.Label6" xml:space="preserve">
+    <value>Handa</value>
+  </data>
+  <data name="FlagSearch.Label7" xml:space="preserve">
+    <value>Live na paghahanap</value>
+  </data>
+  <data name="FlagSearch.Label8" xml:space="preserve">
+    <value>Live na paghahanap ng flag</value>
+  </data>
+  <data name="FlagSearch.Label9" xml:space="preserve">
+    <value>Maghanap ng buong pangalan o keyword. Unang lumalabas ang eksaktong tugma. Kasama sa export ang bawat kilalang halaga na tumutugma.</value>
+  </data>
+  <data name="FlagSearch.Label10" xml:space="preserve">
+    <value>Ilagay ang pangalan ng flag o keyword...</value>
+  </data>
+  <data name="FlagSearch.Label11" xml:space="preserve">
+    <value>I-export ang resulta</value>
+  </data>
+  <data name="FlagSearch.Label12" xml:space="preserve">
+    <value>Lahat ng halaga</value>
+  </data>
+  <data name="FlagSearch.Label13" xml:space="preserve">
+    <value>Mga halagang true</value>
+  </data>
+  <data name="FlagSearch.Label14" xml:space="preserve">
+    <value>Mga halagang false</value>
+  </data>
+  <data name="FlagSearch.Label15" xml:space="preserve">
+    <value>Pangalan ng flag</value>
+  </data>
+  <data name="FlagSearch.Label16" xml:space="preserve">
+    <value>Halaga</value>
+  </data>
+  <data name="FlagSearch.Label18" xml:space="preserve">
+    <value>Walang tugma. Subukan ang ibang pangalan o filter ng halaga.</value>
+  </data>
+  <data name="FlagSearch.Label19" xml:space="preserve">
+    <value>0 resulta</value>
+  </data>
+  <data name="FlagSearch.Label20" xml:space="preserve">
+    <value>Maramihang pag-validate</value>
+  </data>
+  <data name="FlagSearch.Label21" xml:space="preserve">
+    <value>Maramihang pag-validate ng flag</value>
+  </data>
+  <data name="FlagSearch.Label22" xml:space="preserve">
+    <value>Sinusuri ang pagiging miyembro sa source at uri ng halaga. Hindi garantiya ng tugma na papayagan ng Roblox ang lokal na override.</value>
+  </data>
+  <data name="FlagSearch.Label23" xml:space="preserve">
+    <value>Mag-load ng file</value>
+  </data>
+  <data name="FlagSearch.Label24" xml:space="preserve">
+    <value>I-validate</value>
+  </data>
+  <data name="FlagSearch.Label25" xml:space="preserve">
+    <value>I-clear</value>
+  </data>
+  <data name="FlagSearch.Label26" xml:space="preserve">
+    <value>I-paste</value>
+  </data>
+  <data name="FlagSearch.Label28" xml:space="preserve">
+    <value>Piliin lahat</value>
+  </data>
+  <data name="FlagSearch.Label30" xml:space="preserve">
+    <value>I-clear</value>
+  </data>
+  <data name="FlagSearch.Label31" xml:space="preserve">
+    <value>Mga resulta ng pag-validate</value>
+  </data>
+  <data name="FlagSearch.Label32" xml:space="preserve">
+    <value>Pangalan ng flag</value>
+  </data>
+  <data name="FlagSearch.Label33" xml:space="preserve">
+    <value>Input na halaga</value>
+  </data>
+  <data name="FlagSearch.Label35" xml:space="preserve">
+    <value>Halaga sa source</value>
+  </data>
+  <data name="FlagSearch.Label36" xml:space="preserve">
+    <value>Mga tala</value>
+  </data>
+  <data name="FlagSearch.Label37" xml:space="preserve">
+    <value>I-export ang nasuring input</value>
+  </data>
+  <data name="FlagSearch.Label38" xml:space="preserve">
+    <value>0 resulta</value>
+  </data>
+  <data name="FlagSearch.Label39" xml:space="preserve">
+    <value>Mga data source</value>
+  </data>
+  <data name="FlagSearch.Label40" xml:space="preserve">
+    <value>Live na availability ng source at oras ng pagkuha. Ang pagiging nasa source ay hindi nangangahulugang tatanggapin ng Roblox ang lokal na override. Hindi nagbibigay ang mga source na ito ng petsa ng huling pagbabago.</value>
+  </data>
+  <data name="FlagSearch.Label43" xml:space="preserve">
+    <value>Mga flag</value>
+  </data>
+  <data name="FlagSearch.Label44" xml:space="preserve">
+    <value>Nakuha</value>
+  </data>
+  <data name="FlagSearch.Label45" xml:space="preserve">
+    <value>Isara</value>
+  </data>
+  <data name="FlagSearch.Message1" xml:space="preserve">
+    <value>Maglagay ng mga flag na iva-validate.</value>
+  </data>
+  <data name="FlagSearch.Message2" xml:space="preserve">
+    <value>Walang input</value>
+  </data>
+  <data name="FlagSearch.Message3" xml:space="preserve">
+    <value>Masyadong malaki ang flag input para i-validate.</value>
+  </data>
+  <data name="FlagSearch.Message4" xml:space="preserve">
+    <value>Masyadong malaki ang input</value>
+  </data>
+  <data name="FlagSearch.Message5" xml:space="preserve">
+    <value>May dobleng flag sa input: </value>
+  </data>
+  <data name="FlagSearch.Message6" xml:space="preserve">
+    <value>May nakitang doble</value>
+  </data>
+  <data name="FlagSearch.Message7" xml:space="preserve">
+    <value>Error sa pag-validate ng mga flag</value>
+  </data>
+  <data name="FlagSearch.Message8" xml:space="preserve">
+    <value>Error sa pag-validate ng mga flag: </value>
+  </data>
+  <data name="FlagSearch.Message9" xml:space="preserve">
+    <value>Error sa pag-validate</value>
+  </data>
+  <data name="FlagSearch.Message10" xml:space="preserve">
+    <value>Pumili ng flag file na iva-validate</value>
+  </data>
+  <data name="FlagSearch.Message11" xml:space="preserve">
+    <value>Error sa pag-load ng file: </value>
+  </data>
+  <data name="FlagSearch.Message12" xml:space="preserve">
+    <value>Error sa file</value>
+  </data>
+  <data name="FlagSearch.Message13" xml:space="preserve">
+    <value>Hindi wasto ang laki ng flag file</value>
+  </data>
+  <data name="FlagSearch.Message14" xml:space="preserve">
+    <value>Nagbago ang flag file habang binabasa</value>
+  </data>
+  <data name="FlagSearch.Message15" xml:space="preserve">
+    <value>Masyadong malaki ang flag input</value>
+  </data>
+  <data name="FlagSearch.Message16" xml:space="preserve">
+    <value>Na-export ang {flags.Count} flag sa {dialog.FileName}</value>
+  </data>
+  <data name="FlagSearch.Message17" xml:space="preserve">
+    <value>Tapos ang export</value>
+  </data>
+  <data name="FlagSearch.Message18" xml:space="preserve">
+    <value>Error sa pag-export ng mga flag: </value>
+  </data>
+  <data name="FlagSearch.Message19" xml:space="preserve">
+    <value>Error sa export</value>
+  </data>
+  <data name="FlagSearch.Message20" xml:space="preserve">
+    <value>Error sa pag-paste mula sa clipboard: </value>
+  </data>
+  <data name="FlagSearch.Message21" xml:space="preserve">
+    <value>Error sa pag-paste</value>
+  </data>
+  <data name="FlagSearch.ExportSummary" xml:space="preserve">
+    <value>Na-export ang {0:N0} flag sa {1}</value>
+  </data>
+  <data name="FlagSearch.ValueNote" xml:space="preserve">
+    <value>Hindi tugma ang input na halaga sa uri ng pangalan ng flag. Kailangan ng true o false ang boolean flag, at buong numerong 32 bit ang integer flag.</value>
+  </data>
+  <data name="Notifications.Title" xml:space="preserve">
+    <value>Mga notification</value>
+  </data>
+  <data name="Notifications.Updates" xml:space="preserve">
+    <value>Mga update</value>
+  </data>
+  <data name="Notifications.Roblox" xml:space="preserve">
+    <value>Roblox at mga mod</value>
+  </data>
+  <data name="Notifications.Recovery" xml:space="preserve">
+    <value>Pag-recover ng setting</value>
+  </data>
+  <data name="Notifications.Errors" xml:space="preserve">
+    <value>Mga error at crash</value>
+  </data>
+  <data name="Notifications.GameJoins" xml:space="preserve">
+    <value>Pumasok sa laro</value>
+  </data>
+  <data name="Notifications.App" xml:space="preserve">
+    <value>Mga notification ng app</value>
+  </data>
+  <data name="Notifications.AppDescription" xml:space="preserve">
+    <value>Ipakita ang mga notification ng app.</value>
+  </data>
+  <data name="Bootstrapper.Uninstall.NvidiaFailed" xml:space="preserve">
+    <value>Nabigo ang paglilinis ng NVIDIA. Mag-uninstall pa rin? Mananatiling nakalapat ang natitirang mga setting ng NVIDIA.
+
+{0}</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Latest" xml:space="preserve">
+    <value>Pinakabago</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Oldest" xml:space="preserve">
+    <value>Pinakaluma</value>
+  </data>
+  <data name="ContextMenu.GameHistory.MostPlayed" xml:space="preserve">
+    <value>Pinakamahabang pagbisita</value>
+  </data>
+  <data name="ContextMenu.GameHistory.NameAscending" xml:space="preserve">
+    <value>Pangalan, pataas</value>
+  </data>
+  <data name="ContextMenu.GameHistory.NameDescending" xml:space="preserve">
+    <value>Pangalan, pababa</value>
+  </data>
+  <data name="ContextMenu.GameHistory.AllServers" xml:space="preserve">
+    <value>Lahat ng server</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Public" xml:space="preserve">
+    <value>Pampubliko</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Private" xml:space="preserve">
+    <value>Pribado</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Reserved" xml:space="preserve">
+    <value>Nakareserba</value>
+  </data>
+  <data name="ContextMenu.GameHistory.EndUnknown" xml:space="preserve">
+    <value>Hindi naitala</value>
+  </data>
+  <data name="ContextMenu.GameHistory.CopyLink" xml:space="preserve">
+    <value>Kopyahin ang link</value>
+  </data>
+  <data name="ContextMenu.GameHistory.LoadFailed" xml:space="preserve">
+    <value>Hindi ma-load ang kasaysayan.</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Empty" xml:space="preserve">
+    <value>Walang pagbisitang maipapakita.</value>
+  </data>
+  <data name="ContextMenu.GameHistory.StatusUnknown" xml:space="preserve">
+    <value>Hindi alam</value>
+  </data>
+  <data name="ContextMenu.GameHistory.CheckedAt" xml:space="preserve">
+    <value>Sinuri: {0}</value>
+  </data>
+  <data name="ContextMenu.GameHistory.LaunchFailed" xml:space="preserve">
+    <value>Hindi mailunsad ang Roblox.</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.Unknown" xml:space="preserve">
+    <value>Hindi alam</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.InGame" xml:space="preserve">
+    <value>{0:N0} nasa laro</value>
+  </data>
+  <data name="ServerInfo.Hint.Updated" xml:space="preserve">
+    <value>Na-update {0} ang nakalipas.</value>
+  </data>
+  <data name="ServerInfo.Hint.RateLimited" xml:space="preserve">
+    <value>Nililimitahan ng Roblox ang paghahanap ng server, susubukan ulit sa {0}.</value>
+  </data>
+  <data name="ServerInfo.Hint.RateLimitedStale" xml:space="preserve">
+    <value>Nililimitahan ng Roblox ang paghahanap ng server. Ipinapakita ang bilang mula {0} ang nakalipas, mag-a-update ulit sa {1}.</value>
+  </data>
+  <data name="ServerInfo.Hint.NotListed" xml:space="preserve">
+    <value>Wala ang server na ito sa bahagi ng pampublikong listahan ng server na ibinabahagi ng Roblox, susuriin ulit sa {0}.</value>
+  </data>
+  <data name="ServerInfo.Hint.NotListedStale" xml:space="preserve">
+    <value>Huling nakita {0} ang nakalipas. Wala ngayon ang server na ito sa bahagi ng pampublikong listahan ng server na ibinabahagi ng Roblox.</value>
+  </data>
+  <data name="ServerInfo.Hint.PrivateNotListed" xml:space="preserve">
+    <value>Wala ang pribadong server na ito sa listahan ng server na nakikita ng account mo, kaya hindi mabasa ang bilang ng player nito.</value>
+  </data>
+  <data name="ServerInfo.Hint.PrivateSignedOut" xml:space="preserve">
+    <value>Ibinabahagi lang ng Roblox ang bilang ng player ng pribadong server sa mga naka-sign in na account. Mag-sign in sa Roblox sa Voidstrap para makita ito.</value>
+  </data>
+  <data name="ServerInfo.Hint.Reserved" xml:space="preserve">
+    <value>Hindi inililista ng Roblox ang mga nakareserbang server, na ginagamit sa mga teleport at party, kaya hindi mabasa ang bilang ng player nito.</value>
+  </data>
+  <data name="ServerInfo.Hint.Unavailable" xml:space="preserve">
+    <value>Hindi maabot ang Roblox, susubukan ulit sa {0}.</value>
+  </data>
+  <data name="ServerInfo.Hint.UnavailableStale" xml:space="preserve">
+    <value>Hindi maabot ang Roblox. Ipinapakita ang bilang mula {0} ang nakalipas, susubukan ulit sa {1}.</value>
+  </data>
+  <data name="ServerInfo.Hint.Full" xml:space="preserve">
+    <value>Puno ang server na ito. Hindi isinasama ng Roblox ang mga punong server sa pampublikong listahan ng server, kaya ipinapakita itong puno hanggang may mabakanteng puwesto.</value>
+  </data>
+  <data name="Shortcuts.GameTab" xml:space="preserve">
+    <value>Laro</value>
+  </data>
+  <data name="Shortcuts.SubplaceDescription" xml:space="preserve">
+    <value>Maghanap ng ibang place sa karanasang ito.</value>
+  </data>
+  <data name="Shortcuts.LoadSubplaces" xml:space="preserve">
+    <value>I-load ang mga subplace</value>
+  </data>
+  <data name="Shortcuts.SubplaceAccess" xml:space="preserve">
+    <value>Dapat payagan ng creator ang direktang pagsali. May mga subplace na kailangan ng teleport sa loob ng laro.</value>
+  </data>
+  <data name="Shortcuts.SubplaceInitial" xml:space="preserve">
+    <value>Maglagay ng game ID para awtomatikong ma-load ang mga subplace nito.</value>
+  </data>
+  <data name="Shortcuts.SubplaceRetry" xml:space="preserve">
+    <value>Buksan ulit ang tab na ito para subukan ulit.</value>
+  </data>
+  <data name="Shortcuts.SubplaceInvalidId" xml:space="preserve">
+    <value>Maglagay ng wastong numerong game ID.</value>
+  </data>
+  <data name="Shortcuts.SubplaceLoading" xml:space="preserve">
+    <value>Nilo-load ang mga subplace...</value>
+  </data>
+  <data name="Shortcuts.SubplaceEmpty" xml:space="preserve">
+    <value>Walang nakalistang subplace ang karanasang ito.</value>
+  </data>
+  <data name="Shortcuts.SubplaceChoose" xml:space="preserve">
+    <value>Pumili ng subplace sa ibaba.</value>
+  </data>
+  <data name="Shortcuts.SubplaceTimeout" xml:space="preserve">
+    <value>Nag-time out ang request. Buksan ulit ang tab na ito para subukan ulit.</value>
+  </data>
+  <data name="Shortcuts.SubplaceFailed" xml:space="preserve">
+    <value>Hindi ma-load ang mga subplace. Suriin ang game ID at koneksyon, pagkatapos ay subukan ulit.</value>
+  </data>
+  <data name="Shortcuts.SubplaceReload" xml:space="preserve">
+    <value>Awtomatikong nilo-load ang mga subplace kapag naglagay ka ng wastong game ID.</value>
+  </data>
+  <data name="Shortcuts.SubplaceRequired" xml:space="preserve">
+    <value>Hintaying ma-load ang mga subplace, pagkatapos ay pumili ng isa bago magpatuloy.</value>
+  </data>
+  <data name="Library.SubplacesTab" xml:space="preserve">
+    <value>Subplace</value>
+  </data>
+  <data name="SettingsProfiles.Title" xml:space="preserve">
+    <value>Mga profile ng setting</value>
+  </data>
+  <data name="SettingsProfiles.Name" xml:space="preserve">
+    <value>Pangalan ng profile</value>
+  </data>
+  <data name="SettingsProfiles.NameHint" xml:space="preserve">
+    <value>Halimbawa: VoidstrapProfile</value>
+  </data>
+  <data name="SettingsProfiles.Save" xml:space="preserve">
+    <value>I-save ang profile</value>
+  </data>
+  <data name="SettingsProfiles.Saved" xml:space="preserve">
+    <value>Mga naka-save na profile</value>
+  </data>
+  <data name="SettingsProfiles.Apply" xml:space="preserve">
+    <value>Ilapat ang profile</value>
+  </data>
+  <data name="SettingsProfiles.Folder" xml:space="preserve">
+    <value>Buksan ang folder</value>
+  </data>
+  <data name="SettingsProfiles.Empty" xml:space="preserve">
+    <value>Wala pang profile. Maglagay ng pangalan at piliin ang I-save ang profile.</value>
+  </data>
+  <data name="SettingsProfiles.Location" xml:space="preserve">
+    <value>Naka-save sa {0}</value>
+  </data>
+  <data name="SettingsProfiles.InvalidName" xml:space="preserve">
+    <value>Gumamit ng pangalang may 1 hanggang 80 character, walang simbolo ng pangalan ng file o nakareserbang pangalan ng device.</value>
+  </data>
+  <data name="SettingsProfiles.InvalidFile" xml:space="preserve">
+    <value>Hindi wasto ang profile na ito o gumagamit ito ng hindi sinusuportahang format.</value>
+  </data>
+  <data name="SettingsProfiles.RestoreFailed" xml:space="preserve">
+    <value>Hindi mailapat ang profile at hindi maibalik ang mga dating setting.</value>
+  </data>
+  <data name="SettingsProfiles.Overwrite" xml:space="preserve">
+    <value>Palitan ang naka-save na profile na "{0}" ng kasalukuyang mga setting mo?</value>
+  </data>
+  <data name="SettingsProfiles.SavedStatus" xml:space="preserve">
+    <value>Na-save ang "{0}"</value>
+  </data>
+  <data name="SettingsProfiles.ApplyConfirm" xml:space="preserve">
+    <value>Ilapat ang "{0}"? Papalitan nito ang kasalukuyang mga setting ng Voidstrap at FastFlags mo, pagkatapos ay bubuksan ulit ang mga setting ng Voidstrap.</value>
+  </data>
+  <data name="SettingsProfiles.RestartFailed" xml:space="preserve">
+    <value>Nailapat ang profile. I-restart ang Voidstrap para ma-reload ang lahat ng pahina ng setting.</value>
+  </data>
+  <data name="SettingsProfiles.Restart" xml:space="preserve">
+    <value>I-restart ngayon</value>
+  </data>
+  <data name="SettingsProfiles.DeleteConfirm" xml:space="preserve">
+    <value>Burahin ang naka-save na profile na "{0}"? Mananatiling ganoon ang kasalukuyang mga setting mo.</value>
+  </data>
+  <data name="SettingsProfiles.Deleted" xml:space="preserve">
+    <value>Nabura ang "{0}".</value>
+  </data>
+  <data name="SettingsProfiles.Error" xml:space="preserve">
+    <value>Hindi natapos ang aksyon sa profile: {0}</value>
+  </data>
+  <data name="GlobalProfiles.Title" xml:space="preserve">
+    <value>Mga global na profile ng setting</value>
+  </data>
+  <data name="GlobalProfiles.ApplyConfirm" xml:space="preserve">
+    <value>Ilapat ang "{0}"? Papalitan nito ang kasalukuyang global na mga setting mo sa Roblox. Sumali ulit sa Roblox para makita ang lahat ng pagbabago.</value>
+  </data>
+  <data name="GlobalProfiles.Applied" xml:space="preserve">
+    <value>Nailapat ang "{0}"</value>
+  </data>
+  <data name="GlobalProfiles.SaveFailed" xml:space="preserve">
+    <value>Hindi masulatan ang file ng mga setting ng Roblox. Isara ang Roblox at subukan ulit.</value>
+  </data>
+  <data name="AssetWarp.RemoveTexturesDescription" xml:space="preserve">
+    <value>Bina-block ang pag-download ng mga texture asset at texture pack</value>
+  </data>
+  <data name="AssetWarp.RemoveDecalsDescription" xml:space="preserve">
+    <value>Bina-block ang pag-download ng mga decal asset</value>
+  </data>
+  <data name="AssetWarp.RemoveImagesDescription" xml:space="preserve">
+    <value>Bina-block ang pag-download ng mga image asset. Gumagamit din ang Roblox ng mga larawan para sa mga texture at decal</value>
+  </data>
+  <data name="AssetWarp.RemoveAnimationsDescription" xml:space="preserve">
+    <value>Bina-block ang pag-download ng mga animation asset. Maaaring tumigil sa maayos na paggana ang mga larong walang fallback na animation</value>
+  </data>
+  <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
+    <value>Bina-block ang pag-download ng mga mesh at MeshPart asset. Magiging hindi nakikita ang mesh geometry</value>
+  </data>
+  <data name="SwiftTunnel.Summary" xml:space="preserve">
+    <value>Idaan ang trapiko ng Roblox sa SwiftTunnel habang ginagamit ng ibang app ang karaniwang koneksyon mo</value>
+  </data>
+  <data name="SwiftTunnel.Description" xml:space="preserve">
+    <value>Ang SwiftTunnel ay game connection optimizer para sa Windows na may split tunneling at pagpili ng rehiyonal na relay</value>
+  </data>
+  <data name="SwiftTunnel.Setup" xml:space="preserve">
+    <value>Dina-download ng I-install ang pinakabagong opisyal na release ng SwiftTunnel at binubuksan ang desktop app pagkatapos ng setup. Mag-sign in doon at piliin ang koneksyon mo. Maaaring kailanganin ng administrator access ang network optimization</value>
+  </data>
+  <data name="SwiftTunnel.Install" xml:space="preserve">
+    <value>I-install</value>
+  </data>
+  <data name="SwiftTunnel.Uninstall" xml:space="preserve">
+    <value>I-uninstall</value>
+  </data>
+  <data name="SwiftTunnel.Installed" xml:space="preserve">
+    <value>Naka-install</value>
+  </data>
+  <data name="SwiftTunnel.NotInstalled" xml:space="preserve">
+    <value>Hindi naka-install</value>
+  </data>
+  <data name="SwiftTunnel.Working" xml:space="preserve">
+    <value>Tumatakbo</value>
+  </data>
+  <data name="SwiftTunnel.Downloading" xml:space="preserve">
+    <value>Dina-download ang SwiftTunnel</value>
+  </data>
+  <data name="SwiftTunnel.InstallerFailed" xml:space="preserve">
+    <value>Hindi mabuksan ang setup ng SwiftTunnel</value>
+  </data>
+  <data name="SwiftTunnel.InstallerExit" xml:space="preserve">
+    <value>Nagbalik ang setup ng SwiftTunnel ng code {0}</value>
+  </data>
+  <data name="SwiftTunnel.Error" xml:space="preserve">
+    <value>Hindi matapos ang aksyon sa SwiftTunnel: {0}</value>
+  </data>
+  <data name="SwiftTunnel.UninstallUnavailable" xml:space="preserve">
+    <value>Hindi kumpleto ang uninstall entry ng SwiftTunnel. Alisin ang SwiftTunnel sa Windows Settings, Apps</value>
+  </data>
+  <data name="SwiftTunnel.CleanupFailed" xml:space="preserve">
+    <value>Hindi maibalik ng SwiftTunnel ang mga network setting nito. Itinago ang mga file nito para masubukan ulit ang paglilinis</value>
+  </data>
+  <data name="SwiftTunnel.ConfirmUninstall" xml:space="preserve">
+    <value>Ganap na alisin ang SwiftTunnel? Uunahing ibalik ang network driver at mga setting ng system nito, pagkatapos ay ia-uninstall ang SwiftTunnel. Kapag nagsimula na, hindi na ito maaaring kanselahin.</value>
+  </data>
+  <data name="SwiftTunnel.UninstallIncomplete" xml:space="preserve">
+    <value>Hindi natapos ang pag-alis ng SwiftTunnel. Isara ang SwiftTunnel at subukan ulit gamit ang administrator access</value>
+  </data>
+  <data name="SwiftTunnel.UnsafeDirectory" xml:space="preserve">
+    <value>Naka-install ang SwiftTunnel sa isang shared o hindi kilalang folder. Ilipat ito sa sarili nitong SwiftTunnel folder bago gamitin ang ganap na pag-alis</value>
+  </data>
+  <data name="SwiftTunnel.NotInstalledError" xml:space="preserve">
+    <value>Hindi naka-install ang SwiftTunnel. I-install muna ito mula sa Mga koneksyon</value>
+  </data>
+  <data name="SwiftTunnel.Missing" xml:space="preserve">
+    <value>Nakarehistro ang SwiftTunnel pero nawawala ang mga file ng app nito. I-uninstall at i-install ulit para ayusin ito</value>
+  </data>
+  <data name="SwiftTunnel.NoInstaller" xml:space="preserve">
+    <value>Walang na-verify na Windows installer para sa computer na ito ang pinakabagong release ng SwiftTunnel</value>
+  </data>
+  <data name="Installer.MacOS.DataLocation.Title" xml:space="preserve">
+    <value>Piliin kung saan ise-save ang data ng Voidstrap</value>
+  </data>
+  <data name="Installer.MacOS.DataLocation.Text" xml:space="preserve">
+    <value>Dito sine-save ng Voidstrap ang mga setting at mod nito. Mananatili ang app sa kasalukuyang lokasyon nito. Hiwalay na naka-install ang Roblox sa Applications.</value>
+  </data>
+  <data name="Installer.MacOS.Completion.Text" xml:space="preserve">
+    <value>Handa na ang Voidstrap.
+
+Mada-download ang Roblox sa unang paglunsad mo nito sa pamamagitan ng Voidstrap. Maaari mo munang ayusin ang mga setting bago maglunsad.
+
+Ano ang gusto mong gawin?</value>
+  </data>
+  <data name="Installer.MacOS.Roblox.Title" xml:space="preserve">
+    <value>Roblox para sa macOS</value>
+  </data>
+  <data name="Installer.MacOS.Roblox.Text" xml:space="preserve">
+    <value>Dina-download ng Voidstrap ang opisyal na Roblox app sa Applications sa unang pag-click mo ng Ilunsad, at pinananatili itong updated pagkatapos. Hindi kailangan ng hiwalay na installation.</value>
+  </data>
+  <data name="HomepageMedia.Preview.FileMissing" xml:space="preserve">
+    <value>Hindi mahanap ang napiling media file.</value>
+  </data>
+  <data name="HomepageMedia.Preview.DecodeError" xml:space="preserve">
+    <value>Hindi ma-decode ang media na ito. Pumili ng ibang larawan o video.</value>
+  </data>
+  <data name="HomepageMedia.Preview.RenderError" xml:space="preserve">
+    <value>Hindi maipakita ang preview ng media.</value>
+  </data>
+  <data name="HomepageMedia.Picker.ImagesAndVideos" xml:space="preserve">
+    <value>Mga larawan at video</value>
+  </data>
+  <data name="HomepageMedia.Picker.Images" xml:space="preserve">
+    <value>Mga larawan</value>
+  </data>
+  <data name="HomepageMedia.Picker.Videos" xml:space="preserve">
+    <value>Mga video</value>
+  </data>
+  <data name="Appearance.Backdrop.UnderWindow" xml:space="preserve">
+    <value>Sa ilalim ng window</value>
+  </data>
+  <data name="Appearance.Backdrop.UnderPage" xml:space="preserve">
+    <value>Sa ilalim ng pahina</value>
+  </data>
+  <data name="Menu.MacVirtualDisplay.Title" xml:space="preserve">
+    <value>240 Hz na virtual display</value>
+  </data>
+  <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Mini-mirror ang pangunahing screen habang tumatakbo ang Roblox at ibinabalik ito kapag nagsara ang Roblox. Nananatili sa sariling refresh limit ang pisikal na screen.</value>
+  </data>
 </root>

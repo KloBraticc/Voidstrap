@@ -1707,4 +1707,1352 @@ Robloxのアプリファイルを使用している可能性のあるアプリ�
   <data name="Menu.News.DialogTitle" xml:space="preserve">
     <value>ニュースの詳細</value>
   </data>
+  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
+    <value>Voidstrap は Windows の hosts ファイルに残った AssetWarp のルートを削除できませんでした。削除されるまで Roblox はテクスチャなどのアセットを読み込めません。Voidstrap を管理者として実行してクリーンアップしてください。</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
+    <value>両方</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
+    <value>プレイヤー</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
+    <value>サーバーブラウザー</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
+    <value>プレイス {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
+    <value>{0}  •  プレイス {1}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
+    <value>{0} 件のサーバーをスキャンしました</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
+    <value>さらにサーバーを読み込む</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
+    <value>満員のサーバーを隠す</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
+    <value>都市、国、サーバー ID で検索</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
+    <value>プレイヤーが多い順</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
+    <value>プレイヤーが少ない順</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
+    <value>Ping が低い順</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
+    <value>参加</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
+    <value>現在</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
+    <value>公開サーバーを読み込んでいます</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
+    <value>公開サーバーが見つかりません</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
+    <value>サーバーブラウザーを開く前にゲームに参加してください</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
+    <value>Roblox がリクエストを制限しているため、サーバー一覧を一時停止しています</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
+    <value>公開サーバーを読み込めませんでした</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
+    <value>{0} 件のサーバーを読み込みました</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
+    <value>{0} / {1} 人</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
+    <value>{0} 人</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Metrics" xml:space="preserve">
+    <value>Ping {0} ms、FPS {1}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
+    <value>不明</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
+    <value>最適</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
+    <value>最適</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
+    <value>ブロック済み</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
+    <value>あなたから約 {0} ms</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
+    <value>これまでに {0} 件のサーバーを特定しました</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
+    <value>{1} 件中 {0} 件のサーバーを特定しました</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
+    <value>{0} に移動しています</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
+    <value>そのサーバーに参加できませんでした</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
+    <value>Voidstrap が各サーバーの場所を特定できるよう、設定 &gt; Server Matchmaker でサインインしてください</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
+    <value>現在地を特定できなかったため、Ping 順に並べ替えられません</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
+    <value>Roblox がこれらのサーバーの場所を公開していません。しばらくしてからもう一度お試しください</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
+    <value>見つかったサーバーはすべてブロック中のデータセンターにあります</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
+    <value>見つかったサーバーはすべて遠いため、Matchmaker は Roblox に選択を任せます</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
+    <value>ゲームブラウザー</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
+    <value>続きから</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
+    <value>お気に入り</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
+    <value>検索</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
+    <value>Roblox のゲームを検索</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
+    <value>ゲームを読み込んでいます</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
+    <value>このセッションで最近遊んだゲームはありません</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
+    <value>お気に入りのゲームは保存されていません</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
+    <value>名前で Roblox のゲームを検索</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
+    <value>{0} に一致するゲームは見つかりませんでした</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
+    <value>ゲームを読み込めませんでした</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
+    <value>{0} 人がプレイ中</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
+    <value>参加</value>
+  </data>
+  <data name="Enums.Theme.Berry" xml:space="preserve">
+    <value>ベリー</value>
+  </data>
+  <data name="Menu.About.Licenses.BSD2" xml:space="preserve">
+    <value>BSD 2-Clause ライセンス</value>
+  </data>
+  <data name="Menu.About.Licenses.MIT" xml:space="preserve">
+    <value>MIT ライセンス</value>
+  </data>
+  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
+    <value>自動翻訳</value>
+  </data>
+  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
+    <value>翻訳先</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
+    <value>自動翻訳の言語</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
+    <value>Voidstrap のインターフェース全体を任意の言語に翻訳します。組み込みの翻訳を優先し、残りのテキストはリアルタイムで翻訳されます。</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
+    <value>Discord RPC を自動翻訳</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
+    <value>Discord Rich Presence のテキストを選択した言語に自動で翻訳します。</value>
+  </data>
+  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
+    <value>この機能は Windows でのみ使用できます。</value>
+  </data>
+  <data name="About.Translators.Description" xml:space="preserve">
+    <value>ここに名前のある皆さんは、Voidstrap の翻訳に時間と労力を惜しみなく注いでくれました。本当にありがとうございます!</value>
+  </data>
+  <data name="Menu.Channel.Description" xml:space="preserve">
+    <value>Roblox と Voidstrap のデプロイとインストールの設定を変更します。</value>
+  </data>
+  <data name="Common.Channel" xml:space="preserve">
+    <value>チャンネル</value>
+  </data>
+  <data name="Menu.ChannelChanger.Description" xml:space="preserve">
+    <value>デプロイチャンネルを選択します。内容を理解していない場合は変更しないでください。</value>
+  </data>
+  <data name="Common.Version" xml:space="preserve">
+    <value>バージョン</value>
+  </data>
+  <data name="Menu.Channel.RobloxUpgrades" xml:space="preserve">
+    <value>Roblox を更新</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
+    <value>ダークモード</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
+    <value>テレメトリー</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
+    <value>ダークモード</value>
+  </data>
+  <data name="Menu.Sober.Description" xml:space="preserve">
+    <value>Voidstrap が Roblox を起動する際に使う Linux ランタイムを設定します。Sober はプレイヤーを、Vinegar は Studio を実行します。Voidstrap は明示的に上書きしたオプションだけを変更します。</value>
+  </data>
+  <data name="Menu.Sober.Default" xml:space="preserve">
+    <value>Sober の既定値を使用</value>
+  </data>
+  <data name="Menu.Sober.Enabled" xml:space="preserve">
+    <value>有効</value>
+  </data>
+  <data name="Menu.Sober.Disabled" xml:space="preserve">
+    <value>無効</value>
+  </data>
+  <data name="Menu.Sober.DefaultNotice" xml:space="preserve">
+    <value>Sober の既定値を使用すると、設定は Sober が管理します。上書きを解除すると Voidstrap がバックアップした値に戻ります。</value>
+  </data>
+  <data name="Menu.Sober.RuntimeNotice" xml:space="preserve">
+    <value>上書きを設定する前に Sober の初回起動を完了し、変更する前に Sober を閉じてください。保存した変更は次回 Sober を起動したときに反映されます。</value>
+  </data>
+  <data name="Menu.Sober.Group.Session" xml:space="preserve">
+    <value>セッションとアクティビティ</value>
+  </data>
+  <data name="Menu.Sober.Group.Input" xml:space="preserve">
+    <value>入力と体験</value>
+  </data>
+  <data name="Menu.Sober.Group.Graphics" xml:space="preserve">
+    <value>グラフィックとデスクトップ</value>
+  </data>
+  <data name="Menu.Sober.AllowGamepad.Title" xml:space="preserve">
+    <value>ゲームパッドへのアクセスを許可</value>
+  </data>
+  <data name="Menu.Sober.AllowGamepad.Description" xml:space="preserve">
+    <value>接続されたゲームパッドへのアクセスを Sober が要求できるようにします。権限の変更には Sober の再起動が必要な場合があります。</value>
+  </data>
+  <data name="Menu.Sober.CloseOnLeave.Title" xml:space="preserve">
+    <value>退出時に閉じる</value>
+  </data>
+  <data name="Menu.Sober.CloseOnLeave.Description" xml:space="preserve">
+    <value>エクスペリエンスから退出した後に Sober を閉じます。</value>
+  </data>
+  <data name="Menu.Sober.DiscordRpc.Description" xml:space="preserve">
+    <value>Sober が Discord Rich Presence でゲーム内のアクティビティを表示できるようにします。</value>
+  </data>
+  <data name="Menu.Sober.DiscordJoin.Title" xml:space="preserve">
+    <value>Discord の参加ボタン</value>
+  </data>
+  <data name="Menu.Sober.DiscordJoin.Description" xml:space="preserve">
+    <value>Sober が Discord Rich Presence に参加ボタンを追加できるようにします。</value>
+  </data>
+  <data name="Menu.Sober.GameMode.Title" xml:space="preserve">
+    <value>GameMode 連携</value>
+  </data>
+  <data name="Menu.Sober.GameMode.Description" xml:space="preserve">
+    <value>GameMode が利用可能な場合、Sober が GameMode によるパフォーマンス調整を要求できるようにします。</value>
+  </data>
+  <data name="Menu.Sober.HiDpi.Title" xml:space="preserve">
+    <value>高 DPI スケーリング</value>
+  </data>
+  <data name="Menu.Sober.HiDpi.Description" xml:space="preserve">
+    <value>高密度ディスプレイでネイティブのスケーリングを使用します。</value>
+  </data>
+  <data name="Menu.Sober.MobileHome.Title" xml:space="preserve">
+    <value>モバイル版ホーム画面</value>
+  </data>
+  <data name="Menu.Sober.MobileHome.Description" xml:space="preserve">
+    <value>モバイル風の Roblox ホーム画面を使用します。</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Title" xml:space="preserve">
+    <value>グラフィック最適化モード</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Description" xml:space="preserve">
+    <value>Sober のグラフィック最適化の優先度を選択します。</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Quality" xml:space="preserve">
+    <value>画質</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Balanced" xml:space="preserve">
+    <value>バランス</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Performance" xml:space="preserve">
+    <value>パフォーマンス</value>
+  </data>
+  <data name="Menu.Sober.ServerLocation.Title" xml:space="preserve">
+    <value>サーバー位置インジケーター</value>
+  </data>
+  <data name="Menu.Sober.ServerLocation.Description" xml:space="preserve">
+    <value>プレイ中に Sober のサーバー位置インジケーターを表示します。</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Title" xml:space="preserve">
+    <value>タッチモード</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Description" xml:space="preserve">
+    <value>Sober がタッチ入力のサポートをどのように報告するかを選択します。</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Off" xml:space="preserve">
+    <value>オフ</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.On" xml:space="preserve">
+    <value>オン</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.FakeOff" xml:space="preserve">
+    <value>疑似オフ</value>
+  </data>
+  <data name="Menu.Sober.ConsoleExperience.Title" xml:space="preserve">
+    <value>コンソール版の体験</value>
+  </data>
+  <data name="Menu.Sober.ConsoleExperience.Description" xml:space="preserve">
+    <value>コンソール風の Roblox 体験を使用します。</value>
+  </data>
+  <data name="Menu.Sober.Libsecret.Title" xml:space="preserve">
+    <value>Secret Service ストレージ</value>
+  </data>
+  <data name="Menu.Sober.Libsecret.Description" xml:space="preserve">
+    <value>対応する認証情報をデスクトップの Secret Service に保存します。</value>
+  </data>
+  <data name="Menu.Sober.OpenGl.Title" xml:space="preserve">
+    <value>OpenGL レンダラー</value>
+  </data>
+  <data name="Menu.Sober.OpenGl.Description" xml:space="preserve">
+    <value>Sober の既定のグラフィックバックエンドの代わりに OpenGL を使用します。</value>
+  </data>
+  <data name="Installer.Appearance.BackgroundUI.Title" xml:space="preserve">
+    <value>背景と UI</value>
+  </data>
+  <data name="Installer.Appearance.BackgroundUI.Description" xml:space="preserve">
+    <value>インストーラーとメインアプリをカスタマイズします。</value>
+  </data>
+  <data name="Installer.Appearance.Snow.Title" xml:space="preserve">
+    <value>背景の雪</value>
+  </data>
+  <data name="Installer.Appearance.Snow.Description" xml:space="preserve">
+    <value>背景にさりげない雪のエフェクトを追加します。</value>
+  </data>
+  <data name="Installer.Appearance.GradientMovement.Title" xml:space="preserve">
+    <value>グラデーションの動き</value>
+  </data>
+  <data name="Installer.Appearance.GradientMovement.Description" xml:space="preserve">
+    <value>背景のグラデーションをポインターに追従させます。</value>
+  </data>
+  <data name="Installer.Appearance.SmoothScrolling.Title" xml:space="preserve">
+    <value>スムーズスクロール</value>
+  </data>
+  <data name="Installer.Appearance.SmoothScrolling.Description" xml:space="preserve">
+    <value>インターフェース全体のスクロールをアニメーションさせます。</value>
+  </data>
+  <data name="Installer.Appearance.ClearFont.Title" xml:space="preserve">
+    <value>くっきりフォント</value>
+  </data>
+  <data name="Installer.Appearance.ClearFont.Description" xml:space="preserve">
+    <value>Voidstrap の再起動後、よりシャープな文字描画を使用します。</value>
+  </data>
+  <data name="Installer.Appearance.Background.Title" xml:space="preserve">
+    <value>カスタム背景</value>
+  </data>
+  <data name="Installer.Appearance.Background.Description" xml:space="preserve">
+    <value>画像、GIF、動画を使い、表示方法を調整します。</value>
+  </data>
+  <data name="Installer.Appearance.GradientOpacity" xml:space="preserve">
+    <value>グラデーションの不透明度</value>
+  </data>
+  <data name="Installer.Appearance.DarkOverlay" xml:space="preserve">
+    <value>暗いオーバーレイ</value>
+  </data>
+  <data name="Installer.Appearance.DisplayEverywhere" xml:space="preserve">
+    <value>すべての場所に表示</value>
+  </data>
+  <data name="Installer.Appearance.RemoveBackground" xml:space="preserve">
+    <value>背景を削除</value>
+  </data>
+  <data name="Installer.Appearance.Theme.Description" xml:space="preserve">
+    <value>すべての Voidstrap ウィンドウで使うテーマを選択します。</value>
+  </data>
+  <data name="Installer.Appearance.Theme.Customize" xml:space="preserve">
+    <value>カスタマイズ</value>
+  </data>
+  <data name="Installer.Appearance.Backdrop.Title" xml:space="preserve">
+    <value>ウィンドウの背景効果</value>
+  </data>
+  <data name="Installer.Appearance.Backdrop.Description" xml:space="preserve">
+    <value>Voidstrap ウィンドウの背後に表示する素材を選択します。</value>
+  </data>
+  <data name="Installer.Appearance.PageZoom.Title" xml:space="preserve">
+    <value>ページのズーム</value>
+  </data>
+  <data name="Installer.Appearance.PageZoom.Description" xml:space="preserve">
+    <value>設定ページのサイズを調整します。</value>
+  </data>
+  <data name="Vng.WarningTitle" xml:space="preserve">
+    <value>Roblox VNG: アカウントの永久的な制限</value>
+  </data>
+  <data name="Vng.Warning" xml:space="preserve">
+    <value>ストップ: 続行する前にお読みください
+
+Roblox VNG に初めてログインすると、アカウントが VNG に移行されます。Roblox によると、そのアカウントはグローバル版 Roblox アプリでは使えなくなります。
+
+このアカウント移行は永久的なものと考えてください。Voidstrap は元に戻せません。VNG をアンインストールしても、このオプションを無効にしても、グローバル版へのアクセスは戻りません。VNG のアカウントおよび地域の制限が適用されます。
+
+ファイルをダウンロードするだけではアカウントは移行されません。既存のアカウントでログインまたは起動すると、そのアカウントが移行される可能性があります。
+
+VNG で使用するすべてのアカウントでグローバル版アプリへのアクセスを失うことを受け入れる場合のみ続行してください。「はい」は 10 秒後に押せるようになります。</value>
+  </data>
+  <data name="Vng.Confirmation" xml:space="preserve">
+    <value>よろしいですか?</value>
+  </data>
+  <data name="Vng.Agreement" xml:space="preserve">
+    <value>最終警告: Roblox VNG にログインすると、アカウントが永久に移行され、グローバル版 Roblox アプリへのアクセスを失う可能性があります。Voidstrap は元に戻せません。
+
+この制限に同意して続行するには、下のフレーズを正確に入力してください。</value>
+  </data>
+  <data name="Vng.Countdown" xml:space="preserve">
+    <value>{0} ({1} 秒)</value>
+  </data>
+  <data name="Vng.Description" xml:space="preserve">
+    <value>ベトナム向けプレイヤークライアント。ログインするとアカウントが移行され、グローバル版アプリへのアクセスを失います。</value>
+  </data>
+  <data name="Vng.UseForLaunches" xml:space="preserve">
+    <value>プレイヤーの起動に VNG を使用</value>
+  </data>
+  <data name="Vng.UninstallWarning" xml:space="preserve">
+    <value>VNG を削除してもアカウントの移行は元に戻らず、グローバル版アプリへのアクセスも戻りません。</value>
+  </data>
+  <data name="Mtu.Description" xml:space="preserve">
+    <value>Roblox を含むすべてのアプリのパケットサイズを制限します。管理者権限が必要で、再起動後も維持されます。Ping が改善しない場合もあります。</value>
+  </data>
+  <data name="Mtu.Adapter" xml:space="preserve">
+    <value>ネットワークアダプターと IP バージョンを選択</value>
+  </data>
+  <data name="Mtu.CustomValue" xml:space="preserve">
+    <value>カスタム MTU (バイト)</value>
+  </data>
+  <data name="Mtu.Current" xml:space="preserve">
+    <value>現在: {0} バイト。最小: {1} バイト。</value>
+  </data>
+  <data name="Mtu.NoAdapters" xml:space="preserve">
+    <value>対応するネットワークアダプターが見つかりません。更新してもう一度お試しください。</value>
+  </data>
+  <data name="Mtu.Invalid" xml:space="preserve">
+    <value>{0} から {1} までの整数を入力してください。Windows はアダプターが対応するパケットサイズも確認します。</value>
+  </data>
+  <data name="Mtu.Apply" xml:space="preserve">
+    <value>適用</value>
+  </data>
+  <data name="Mtu.Restore" xml:space="preserve">
+    <value>元に戻す</value>
+  </data>
+  <data name="Mtu.Refresh" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="Mtu.Loading" xml:space="preserve">
+    <value>Windows のネットワークアダプターを読み込んでいます...</value>
+  </data>
+  <data name="Mtu.Applying" xml:space="preserve">
+    <value>管理者の承認を待って MTU を適用しています...</value>
+  </data>
+  <data name="Mtu.AdapterUnavailable" xml:space="preserve">
+    <value>選択したアダプターは使用できません。更新してアダプターを選択してください。</value>
+  </data>
+  <data name="Mtu.Rejected" xml:space="preserve">
+    <value>Windows が MTU を適用できませんでした (コード {0})。アダプターがこの値に対応していない可能性があります。</value>
+  </data>
+  <data name="Mtu.Applied" xml:space="preserve">
+    <value>MTU を {0} バイトに設定し、確認しました。選択したアダプター上のすべてのアプリに適用されます。</value>
+  </data>
+  <data name="Mtu.Restored" xml:space="preserve">
+    <value>以前の MTU {0} バイトに戻し、確認しました。</value>
+  </data>
+  <data name="Mtu.VerificationFailed" xml:space="preserve">
+    <value>Windows が要求した MTU を報告しませんでした。更新して現在の値を確認してください。</value>
+  </data>
+  <data name="Mtu.Cancelled" xml:space="preserve">
+    <value>管理者の要求がキャンセルされました。MTU は変更されていません。</value>
+  </data>
+  <data name="Mtu.Error" xml:space="preserve">
+    <value>MTU の操作に失敗しました。更新して現在の値を確認してください。</value>
+  </data>
+  <data name="Menu_FastFlagEditor_Rename" xml:space="preserve">
+    <value>名前を変更</value>
+  </data>
+  <data name="Menu_FastFlagEditor_EditValue" xml:space="preserve">
+    <value>値を編集</value>
+  </data>
+  <data name="Menu_FastFlagEditor_CopySelected" xml:space="preserve">
+    <value>選択項目を JSON としてコピー</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Title" xml:space="preserve">
+    <value>アクセントカラー</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Description" xml:space="preserve">
+    <value>アプリのコントロールと背景の色合いに使う色を選択します。</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Choose" xml:space="preserve">
+    <value>色を選択</value>
+  </data>
+  <data name="Menu.Appearance.Accent.System" xml:space="preserve">
+    <value>システムの色を使用</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Picker" xml:space="preserve">
+    <value>アクセントカラーを選択</value>
+  </data>
+  <data name="Menu.Shortcuts.Customize" xml:space="preserve">
+    <value>名前とアイコン</value>
+  </data>
+  <data name="Menu.Shortcuts.InvalidName" xml:space="preserve">
+    <value>スラッシュや予約済みのファイル名を含まない有効なショートカット名を使用してください。</value>
+  </data>
+  <data name="Menu.Shortcuts.NameExists" xml:space="preserve">
+    <value>同じ名前のショートカットが既にあります。別の名前を選択してください。</value>
+  </data>
+  <data name="Menu.Shortcuts.ChooseIcon" xml:space="preserve">
+    <value>ショートカットのアイコンを選択</value>
+  </data>
+  <data name="Menu.Shortcuts.IconFilter" xml:space="preserve">
+    <value>アイコンと画像ファイル|*.ico;*.png;*.jpg;*.jpeg;*.bmp;*.webp</value>
+  </data>
+  <data name="Menu.Shortcuts.InvalidIcon" xml:space="preserve">
+    <value>8 MB 未満の有効なアイコンまたは画像を選択してください。</value>
+  </data>
+  <data name="Menu.LaunchDropdownOnRight" xml:space="preserve">
+    <value>バージョン選択を右側に配置</value>
+  </data>
+  <data name="OverlayDiagnostics.Bounds" xml:space="preserve">
+    <value>画面上のサイズと位置</value>
+  </data>
+  <data name="OverlayDiagnostics.CollectionError" xml:space="preserve">
+    <value>現在のサンプルを収集できませんでした: {0}</value>
+  </data>
+  <data name="OverlayDiagnostics.CompositeCrosshair" xml:space="preserve">
+    <value>コンポジットクロスヘアが有効</value>
+  </data>
+  <data name="OverlayDiagnostics.Compositor" xml:space="preserve">
+    <value>コンポジットを開始しました</value>
+  </data>
+  <data name="OverlayDiagnostics.Configuration" xml:space="preserve">
+    <value>設定済みの機能です。これらのスイッチは描画を証明するものではありません</value>
+  </data>
+  <data name="OverlayDiagnostics.Crosshair" xml:space="preserve">
+    <value>クロスヘア</value>
+  </data>
+  <data name="OverlayDiagnostics.Disabled" xml:space="preserve">
+    <value>確認対象のオーバーレイ機能はすべて設定で無効になっています。</value>
+  </data>
+  <data name="OverlayDiagnostics.DispatcherRequired" xml:space="preserve">
+    <value>オーバーレイ診断はウィンドウのディスパッチャー上で実行する必要があります。</value>
+  </data>
+  <data name="OverlayDiagnostics.FakeBorderless" xml:space="preserve">
+    <value>疑似ボーダーレスフルスクリーン</value>
+  </data>
+  <data name="OverlayDiagnostics.FakeExclusive" xml:space="preserve">
+    <value>疑似排他フルスクリーン</value>
+  </data>
+  <data name="OverlayDiagnostics.Findings" xml:space="preserve">
+    <value>チェックと制限</value>
+  </data>
+  <data name="OverlayDiagnostics.Foreground" xml:space="preserve">
+    <value>Roblox またはそのオーバーレイにフォーカスがあります</value>
+  </data>
+  <data name="OverlayDiagnostics.FullscreenUnknown" xml:space="preserve">
+    <value>排他フルスクリーンは確認されていません。ウィンドウサイズや枠のスタイルからは表示モードを判断できません。</value>
+  </data>
+  <data name="OverlayDiagnostics.GameEffects" xml:space="preserve">
+    <value>ゲーム効果</value>
+  </data>
+  <data name="OverlayDiagnostics.GameLease" xml:space="preserve">
+    <value>Linux のゲームリースを確認済み</value>
+  </data>
+  <data name="OverlayDiagnostics.GameSession" xml:space="preserve">
+    <value>アクティビティ監視のゲームセッション</value>
+  </data>
+  <data name="OverlayDiagnostics.GameSignal" xml:space="preserve">
+    <value>オーバーレイハブのゲームシグナル</value>
+  </data>
+  <data name="OverlayDiagnostics.Handle" xml:space="preserve">
+    <value>ウィンドウハンドル</value>
+  </data>
+  <data name="OverlayDiagnostics.Homepage" xml:space="preserve">
+    <value>ホームページの背景</value>
+  </data>
+  <data name="OverlayDiagnostics.HomepageInGame" xml:space="preserve">
+    <value>Linux のホームページのプロセスが実行中にもかかわらず、オーバーレイハブがゲームセッションを報告しています。プロセスは描画せずに実行されている可能性があります。</value>
+  </data>
+  <data name="OverlayDiagnostics.HomepageWorker" xml:space="preserve">
+    <value>Linux のホームページのプロセスが実行中</value>
+  </data>
+  <data name="OverlayDiagnostics.Intersects" xml:space="preserve">
+    <value>矩形が Roblox と重なっています</value>
+  </data>
+  <data name="OverlayDiagnostics.Minimized" xml:space="preserve">
+    <value>ネイティブウィンドウが最小化されています</value>
+  </data>
+  <data name="OverlayDiagnostics.MissingCrosshair" xml:space="preserve">
+    <value>クロスヘアは設定されていますが、このプロセスにクロスヘアウィンドウや有効なコンポジットクロスヘアが見つかりません。</value>
+  </data>
+  <data name="OverlayDiagnostics.MissingStats" xml:space="preserve">
+    <value>統計は設定されていますが、このプロセスに統計ウィンドウが見つかりません。作成の失敗を証明するものではなく、他の Voidstrap プロセスの可能性も除外しません。</value>
+  </data>
+  <data name="OverlayDiagnostics.MonitorCoverage" xml:space="preserve">
+    <value>ボーダーレスのクライアントがモニター全体を覆っています</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeLive" xml:space="preserve">
+    <value>ネイティブハンドルが有効</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeTopmost" xml:space="preserve">
+    <value>ネイティブの最前面マーカー</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeVisible" xml:space="preserve">
+    <value>ネイティブウィンドウが表示されています</value>
+  </data>
+  <data name="OverlayDiagnostics.No" xml:space="preserve">
+    <value>いいえ</value>
+  </data>
+  <data name="OverlayDiagnostics.NoUsableWindow" xml:space="preserve">
+    <value>使用可能な Roblox のクライアント矩形を測定できませんでした。Roblox が閉じている、最小化されている、非表示、起動中、またはアクセスできない可能性があります。</value>
+  </data>
+  <data name="OverlayDiagnostics.NoWindows" xml:space="preserve">
+    <value>このプロセスにオーバーレイウィンドウは見つかりませんでした。</value>
+  </data>
+  <data name="OverlayDiagnostics.Opacity" xml:space="preserve">
+    <value>WPF の不透明度</value>
+  </data>
+  <data name="OverlayDiagnostics.PixelsUnknown" xml:space="preserve">
+    <value>表示、不透明度、最前面のマーカーは、ピクセルが描画され、隠れておらず、ユーザーに見えていることを証明しません。GPU のフレーム配信と遮蔽はこのレポートでは確認されていません。</value>
+  </data>
+  <data name="OverlayDiagnostics.Place" xml:space="preserve">
+    <value>アクティビティ監視のプレイス ID</value>
+  </data>
+  <data name="OverlayDiagnostics.RegisteredWindow" xml:space="preserve">
+    <value>登録済みのネイティブオーバーレイ</value>
+  </data>
+  <data name="OverlayDiagnostics.RobloxWindow" xml:space="preserve">
+    <value>検出した Roblox ウィンドウ</value>
+  </data>
+  <data name="OverlayDiagnostics.Runtime" xml:space="preserve">
+    <value>検出したランタイム状態</value>
+  </data>
+  <data name="OverlayDiagnostics.Sample" xml:space="preserve">
+    <value>{0:HH:mm:ss.fff zzz} に取得、毎秒およびウィンドウの変化時に更新</value>
+  </data>
+  <data name="OverlayDiagnostics.Scope" xml:space="preserve">
+    <value>これらの値はこの Voidstrap プロセスについてのものです。他のプロセスが所有するウィンドウは表示されない場合があります。</value>
+  </data>
+  <data name="OverlayDiagnostics.Stats" xml:space="preserve">
+    <value>統計オーバーレイ</value>
+  </data>
+  <data name="OverlayDiagnostics.Teleporting" xml:space="preserve">
+    <value>アクティビティ監視でテレポート中</value>
+  </data>
+  <data name="OverlayDiagnostics.Title" xml:space="preserve">
+    <value>オーバーレイ診断</value>
+  </data>
+  <data name="OverlayDiagnostics.Transition" xml:space="preserve">
+    <value>ゲームの切り替え</value>
+  </data>
+  <data name="OverlayDiagnostics.Unavailable" xml:space="preserve">
+    <value>利用不可</value>
+  </data>
+  <data name="OverlayDiagnostics.Unfocused" xml:space="preserve">
+    <value>現在 Roblox にフォーカスがありません。この診断ウィンドウを含む他のウィンドウがアクティブな間は、オーバーレイが意図的に非表示になっている場合があります。</value>
+  </data>
+  <data name="OverlayDiagnostics.UsableRect" xml:space="preserve">
+    <value>追跡中の使用可能なクライアント矩形</value>
+  </data>
+  <data name="OverlayDiagnostics.Visible" xml:space="preserve">
+    <value>WPF で表示</value>
+  </data>
+  <data name="OverlayDiagnostics.Windows" xml:space="preserve">
+    <value>検出したオーバーレイウィンドウ</value>
+  </data>
+  <data name="OverlayDiagnostics.Worker" xml:space="preserve">
+    <value>コンポジットのワーカースレッドが実行中</value>
+  </data>
+  <data name="OverlayDiagnostics.WpfTopmost" xml:space="preserve">
+    <value>WPF の最前面を要求済み</value>
+  </data>
+  <data name="OverlayDiagnostics.X11" xml:space="preserve">
+    <value>X11 接続が利用可能</value>
+  </data>
+  <data name="OverlayDiagnostics.X11Compositor" xml:space="preserve">
+    <value>X11 コンポジットを検出</value>
+  </data>
+  <data name="OverlayDiagnostics.X11Unavailable" xml:space="preserve">
+    <value>X11 接続が利用できません。ネイティブウィンドウの検査は利用できません。Wayland の制限やサンドボックスの権限が原因の可能性があります。</value>
+  </data>
+  <data name="OverlayDiagnostics.Yes" xml:space="preserve">
+    <value>はい</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeCompositor" xml:space="preserve">
+    <value>GPU コンポジットのネイティブウィンドウ</value>
+  </data>
+  <data name="FlagSearch.Loading" xml:space="preserve">
+    <value>ソースを読み込んでいます…</value>
+  </data>
+  <data name="FlagSearch.Loaded" xml:space="preserve">
+    <value>読み込み済み</value>
+  </data>
+  <data name="FlagSearch.Unavailable" xml:space="preserve">
+    <value>利用不可</value>
+  </data>
+  <data name="FlagSearch.Pending" xml:space="preserve">
+    <value>保留中</value>
+  </data>
+  <data name="FlagSearch.LoadedSummary" xml:space="preserve">
+    <value>{2} 件中 {1} 件のソースから {0:N0} 件の一意な名前を読み込みました。詳細はデータソースを参照してください。</value>
+  </data>
+  <data name="FlagSearch.LoadError" xml:space="preserve">
+    <value>ソースの読み込みに失敗しました。詳細はログを確認してください。</value>
+  </data>
+  <data name="FlagSearch.ObjectRequired" xml:space="preserve">
+    <value>Flag の JSON にはオブジェクトが含まれている必要があります。</value>
+  </data>
+  <data name="FlagSearch.EmptySource" xml:space="preserve">
+    <value>ソースから認識可能な Flag 名が返されませんでした。</value>
+  </data>
+  <data name="FlagSearch.ResultCount" xml:space="preserve">
+    <value>{1:N0} 件中 {0:N0} 件の一致を表示中</value>
+  </data>
+  <data name="FlagSearch.SearchError" xml:space="preserve">
+    <value>検索に失敗しました。詳細はログを確認してください。</value>
+  </data>
+  <data name="FlagSearch.Validating" xml:space="preserve">
+    <value>Flag 名と入力値を確認しています…</value>
+  </data>
+  <data name="FlagSearch.Found" xml:space="preserve">
+    <value>見つかりました</value>
+  </data>
+  <data name="FlagSearch.ValueError" xml:space="preserve">
+    <value>値のエラー</value>
+  </data>
+  <data name="FlagSearch.NotFound" xml:space="preserve">
+    <value>見つかりません</value>
+  </data>
+  <data name="FlagSearch.FoundNote" xml:space="preserve">
+    <value>読み込んだソースで見つかりました。ローカル上書きのサポートは確認されていません。</value>
+  </data>
+  <data name="FlagSearch.NotFoundNote" xml:space="preserve">
+    <value>読み込んだソースにありませんが、Flag が無効であることを示すものではありません。</value>
+  </data>
+  <data name="FlagSearch.ValidationSummary" xml:space="preserve">
+    <value>{0:N0} 件の Flag を確認し、{1:N0} 件の入力がソースと想定される値の型に一致しました。</value>
+  </data>
+  <data name="FlagSearch.NameError" xml:space="preserve">
+    <value>スペースを含まない、認識可能な Fast Flag 名を使用してください。</value>
+  </data>
+  <data name="FlagSearch.TooMany" xml:space="preserve">
+    <value>入力に含まれる Flag が多すぎます。</value>
+  </data>
+  <data name="FlagSearch.ScalarRequired" xml:space="preserve">
+    <value>Flag の値は文字列、数値、またはブール値である必要があります。</value>
+  </data>
+  <data name="FlagSearch.LineError" xml:space="preserve">
+    <value>各行は 名前=値 の形式にしてください。</value>
+  </data>
+  <data name="FlagSearch.EmptyInput" xml:space="preserve">
+    <value>Flag の項目が見つかりませんでした。</value>
+  </data>
+  <data name="FlagSearch.Label1" xml:space="preserve">
+    <value>Fast Flag を検索</value>
+  </data>
+  <data name="FlagSearch.Label2" xml:space="preserve">
+    <value>Fast Flag を検索</value>
+  </data>
+  <data name="FlagSearch.Label3" xml:space="preserve">
+    <value>Fast Flag の検索と検証</value>
+  </data>
+  <data name="FlagSearch.Label4" xml:space="preserve">
+    <value>複数のソースから Fast Flag を検索、検証、発見します</value>
+  </data>
+  <data name="FlagSearch.Label5" xml:space="preserve">
+    <value>ソースを更新</value>
+  </data>
+  <data name="FlagSearch.Label6" xml:space="preserve">
+    <value>準備完了</value>
+  </data>
+  <data name="FlagSearch.Label7" xml:space="preserve">
+    <value>ライブ検索</value>
+  </data>
+  <data name="FlagSearch.Label8" xml:space="preserve">
+    <value>Flag のライブ検索</value>
+  </data>
+  <data name="FlagSearch.Label9" xml:space="preserve">
+    <value>完全な名前またはキーワードで検索します。完全一致が先に表示されます。エクスポートには一致する既知の値がすべて含まれます。</value>
+  </data>
+  <data name="FlagSearch.Label10" xml:space="preserve">
+    <value>Flag 名またはキーワードを入力...</value>
+  </data>
+  <data name="FlagSearch.Label11" xml:space="preserve">
+    <value>結果をエクスポート</value>
+  </data>
+  <data name="FlagSearch.Label12" xml:space="preserve">
+    <value>すべての値</value>
+  </data>
+  <data name="FlagSearch.Label13" xml:space="preserve">
+    <value>true の値</value>
+  </data>
+  <data name="FlagSearch.Label14" xml:space="preserve">
+    <value>false の値</value>
+  </data>
+  <data name="FlagSearch.Label15" xml:space="preserve">
+    <value>Flag 名</value>
+  </data>
+  <data name="FlagSearch.Label16" xml:space="preserve">
+    <value>値</value>
+  </data>
+  <data name="FlagSearch.Label17" xml:space="preserve">
+    <value>ソース</value>
+  </data>
+  <data name="FlagSearch.Label18" xml:space="preserve">
+    <value>一致するものがありません。別の名前や値フィルターを試してください。</value>
+  </data>
+  <data name="FlagSearch.Label19" xml:space="preserve">
+    <value>0 件の結果</value>
+  </data>
+  <data name="FlagSearch.Label20" xml:space="preserve">
+    <value>一括検証</value>
+  </data>
+  <data name="FlagSearch.Label21" xml:space="preserve">
+    <value>Flag の一括検証</value>
+  </data>
+  <data name="FlagSearch.Label22" xml:space="preserve">
+    <value>ソースへの登録と値の型を確認します。一致しても Roblox がローカル上書きを許可するとは限りません。</value>
+  </data>
+  <data name="FlagSearch.Label23" xml:space="preserve">
+    <value>ファイルを読み込む</value>
+  </data>
+  <data name="FlagSearch.Label24" xml:space="preserve">
+    <value>検証</value>
+  </data>
+  <data name="FlagSearch.Label25" xml:space="preserve">
+    <value>クリア</value>
+  </data>
+  <data name="FlagSearch.Label26" xml:space="preserve">
+    <value>貼り付け</value>
+  </data>
+  <data name="FlagSearch.Label28" xml:space="preserve">
+    <value>すべて選択</value>
+  </data>
+  <data name="FlagSearch.Label30" xml:space="preserve">
+    <value>クリア</value>
+  </data>
+  <data name="FlagSearch.Label31" xml:space="preserve">
+    <value>検証結果</value>
+  </data>
+  <data name="FlagSearch.Label32" xml:space="preserve">
+    <value>Flag 名</value>
+  </data>
+  <data name="FlagSearch.Label33" xml:space="preserve">
+    <value>入力値</value>
+  </data>
+  <data name="FlagSearch.Label34" xml:space="preserve">
+    <value>状態</value>
+  </data>
+  <data name="FlagSearch.Label35" xml:space="preserve">
+    <value>ソースの値</value>
+  </data>
+  <data name="FlagSearch.Label36" xml:space="preserve">
+    <value>メモ</value>
+  </data>
+  <data name="FlagSearch.Label37" xml:space="preserve">
+    <value>確認済みの入力をエクスポート</value>
+  </data>
+  <data name="FlagSearch.Label38" xml:space="preserve">
+    <value>0 件の結果</value>
+  </data>
+  <data name="FlagSearch.Label39" xml:space="preserve">
+    <value>データソース</value>
+  </data>
+  <data name="FlagSearch.Label40" xml:space="preserve">
+    <value>ソースのリアルタイムの利用状況と取得時刻です。ソースに含まれていても Roblox がローカル上書きを受け付けるとは限りません。これらのソースは最終変更日を提供しません。</value>
+  </data>
+  <data name="FlagSearch.Label41" xml:space="preserve">
+    <value>ソース</value>
+  </data>
+  <data name="FlagSearch.Label42" xml:space="preserve">
+    <value>状態</value>
+  </data>
+  <data name="FlagSearch.Label43" xml:space="preserve">
+    <value>Flag</value>
+  </data>
+  <data name="FlagSearch.Label44" xml:space="preserve">
+    <value>取得日時</value>
+  </data>
+  <data name="FlagSearch.Label45" xml:space="preserve">
+    <value>閉じる</value>
+  </data>
+  <data name="FlagSearch.Message1" xml:space="preserve">
+    <value>検証する Flag を入力してください。</value>
+  </data>
+  <data name="FlagSearch.Message2" xml:space="preserve">
+    <value>入力なし</value>
+  </data>
+  <data name="FlagSearch.Message3" xml:space="preserve">
+    <value>Flag の入力が大きすぎて検証できません。</value>
+  </data>
+  <data name="FlagSearch.Message4" xml:space="preserve">
+    <value>入力が大きすぎます</value>
+  </data>
+  <data name="FlagSearch.Message5" xml:space="preserve">
+    <value>入力に重複した Flag があります: </value>
+  </data>
+  <data name="FlagSearch.Message6" xml:space="preserve">
+    <value>重複を検出</value>
+  </data>
+  <data name="FlagSearch.Message7" xml:space="preserve">
+    <value>Flag の検証中にエラーが発生しました</value>
+  </data>
+  <data name="FlagSearch.Message8" xml:space="preserve">
+    <value>Flag の検証中にエラーが発生しました: </value>
+  </data>
+  <data name="FlagSearch.Message9" xml:space="preserve">
+    <value>検証エラー</value>
+  </data>
+  <data name="FlagSearch.Message10" xml:space="preserve">
+    <value>検証する Flag ファイルを選択</value>
+  </data>
+  <data name="FlagSearch.Message11" xml:space="preserve">
+    <value>ファイルの読み込み中にエラーが発生しました: </value>
+  </data>
+  <data name="FlagSearch.Message12" xml:space="preserve">
+    <value>ファイルエラー</value>
+  </data>
+  <data name="FlagSearch.Message13" xml:space="preserve">
+    <value>Flag ファイルのサイズが無効です</value>
+  </data>
+  <data name="FlagSearch.Message14" xml:space="preserve">
+    <value>読み込み中に Flag ファイルが変更されました</value>
+  </data>
+  <data name="FlagSearch.Message15" xml:space="preserve">
+    <value>Flag の入力が大きすぎます</value>
+  </data>
+  <data name="FlagSearch.Message16" xml:space="preserve">
+    <value>{flags.Count} 件の Flag を {dialog.FileName} にエクスポートしました</value>
+  </data>
+  <data name="FlagSearch.Message17" xml:space="preserve">
+    <value>エクスポート完了</value>
+  </data>
+  <data name="FlagSearch.Message18" xml:space="preserve">
+    <value>Flag のエクスポート中にエラーが発生しました: </value>
+  </data>
+  <data name="FlagSearch.Message19" xml:space="preserve">
+    <value>エクスポートエラー</value>
+  </data>
+  <data name="FlagSearch.Message20" xml:space="preserve">
+    <value>クリップボードからの貼り付け中にエラーが発生しました: </value>
+  </data>
+  <data name="FlagSearch.Message21" xml:space="preserve">
+    <value>貼り付けエラー</value>
+  </data>
+  <data name="FlagSearch.ExportSummary" xml:space="preserve">
+    <value>{0:N0} 件の Flag を {1} にエクスポートしました</value>
+  </data>
+  <data name="FlagSearch.ValueNote" xml:space="preserve">
+    <value>入力値が Flag 名の型と一致しません。ブール型の Flag には true または false、整数型の Flag には 32 ビット整数が必要です。</value>
+  </data>
+  <data name="Notifications.Title" xml:space="preserve">
+    <value>通知</value>
+  </data>
+  <data name="Notifications.Updates" xml:space="preserve">
+    <value>アップデート</value>
+  </data>
+  <data name="Notifications.Roblox" xml:space="preserve">
+    <value>Roblox と Mod</value>
+  </data>
+  <data name="Notifications.Recovery" xml:space="preserve">
+    <value>設定の復元</value>
+  </data>
+  <data name="Notifications.Errors" xml:space="preserve">
+    <value>エラーとクラッシュ</value>
+  </data>
+  <data name="Notifications.GameJoins" xml:space="preserve">
+    <value>ゲームに参加しました</value>
+  </data>
+  <data name="Notifications.App" xml:space="preserve">
+    <value>アプリの通知</value>
+  </data>
+  <data name="Notifications.AppDescription" xml:space="preserve">
+    <value>アプリの通知を表示します。</value>
+  </data>
+  <data name="Bootstrapper.Uninstall.NvidiaFailed" xml:space="preserve">
+    <value>NVIDIA のクリーンアップに失敗しました。それでもアンインストールしますか?残った NVIDIA の設定は適用されたままになります。
+
+{0}</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Latest" xml:space="preserve">
+    <value>新しい順</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Oldest" xml:space="preserve">
+    <value>古い順</value>
+  </data>
+  <data name="ContextMenu.GameHistory.MostPlayed" xml:space="preserve">
+    <value>滞在時間が長い順</value>
+  </data>
+  <data name="ContextMenu.GameHistory.NameAscending" xml:space="preserve">
+    <value>名前 (昇順)</value>
+  </data>
+  <data name="ContextMenu.GameHistory.NameDescending" xml:space="preserve">
+    <value>名前 (降順)</value>
+  </data>
+  <data name="ContextMenu.GameHistory.AllServers" xml:space="preserve">
+    <value>すべてのサーバー</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Public" xml:space="preserve">
+    <value>公開</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Private" xml:space="preserve">
+    <value>プライベート</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Reserved" xml:space="preserve">
+    <value>予約済み</value>
+  </data>
+  <data name="ContextMenu.GameHistory.EndUnknown" xml:space="preserve">
+    <value>記録なし</value>
+  </data>
+  <data name="ContextMenu.GameHistory.CopyLink" xml:space="preserve">
+    <value>リンクをコピー</value>
+  </data>
+  <data name="ContextMenu.GameHistory.LoadFailed" xml:space="preserve">
+    <value>履歴を読み込めませんでした。</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Empty" xml:space="preserve">
+    <value>表示する訪問履歴はありません。</value>
+  </data>
+  <data name="ContextMenu.GameHistory.StatusUnknown" xml:space="preserve">
+    <value>不明</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Online" xml:space="preserve">
+    <value>オンライン</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Offline" xml:space="preserve">
+    <value>オフライン</value>
+  </data>
+  <data name="ContextMenu.GameHistory.CheckedAt" xml:space="preserve">
+    <value>確認日時: {0}</value>
+  </data>
+  <data name="ContextMenu.GameHistory.LaunchFailed" xml:space="preserve">
+    <value>Roblox を起動できませんでした。</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.MaxOnly" xml:space="preserve">
+    <value>最大 {0}</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.Unknown" xml:space="preserve">
+    <value>不明</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.InGame" xml:space="preserve">
+    <value>{0:N0} 人がゲーム中</value>
+  </data>
+  <data name="ServerInfo.Hint.Updated" xml:space="preserve">
+    <value>{0} 前に更新。</value>
+  </data>
+  <data name="ServerInfo.Hint.RateLimited" xml:space="preserve">
+    <value>Roblox がサーバー検索を制限しています。{0} 後に再試行します。</value>
+  </data>
+  <data name="ServerInfo.Hint.RateLimitedStale" xml:space="preserve">
+    <value>Roblox がサーバー検索を制限しています。{0} 前の人数を表示中、{1} 後に再更新します。</value>
+  </data>
+  <data name="ServerInfo.Hint.NotListed" xml:space="preserve">
+    <value>このサーバーは Roblox が公開しているサーバー一覧の範囲にありません。{0} 後に再確認します。</value>
+  </data>
+  <data name="ServerInfo.Hint.NotListedStale" xml:space="preserve">
+    <value>最終確認は {0} 前です。このサーバーは現在、Roblox が公開しているサーバー一覧の範囲にありません。</value>
+  </data>
+  <data name="ServerInfo.Hint.PrivateNotListed" xml:space="preserve">
+    <value>このプライベートサーバーはあなたのアカウントで見られるサーバー一覧にないため、プレイヤー数を取得できません。</value>
+  </data>
+  <data name="ServerInfo.Hint.PrivateSignedOut" xml:space="preserve">
+    <value>Roblox はプライベートサーバーのプレイヤー数をサインイン済みのアカウントにのみ公開します。表示するには Voidstrap で Roblox にサインインしてください。</value>
+  </data>
+  <data name="ServerInfo.Hint.Reserved" xml:space="preserve">
+    <value>テレポートやパーティーに使われる予約済みサーバーは Roblox が一覧に載せないため、プレイヤー数を取得できません。</value>
+  </data>
+  <data name="ServerInfo.Hint.Unavailable" xml:space="preserve">
+    <value>Roblox に接続できません。{0} 後に再試行します。</value>
+  </data>
+  <data name="ServerInfo.Hint.UnavailableStale" xml:space="preserve">
+    <value>Roblox に接続できません。{0} 前の人数を表示中、{1} 後に再試行します。</value>
+  </data>
+  <data name="ServerInfo.Hint.Full" xml:space="preserve">
+    <value>このサーバーは満員です。Roblox は満員のサーバーを公開サーバー一覧に含めないため、空きが出るまで満員と表示されます。</value>
+  </data>
+  <data name="Shortcuts.GameTab" xml:space="preserve">
+    <value>ゲーム</value>
+  </data>
+  <data name="Shortcuts.SubplaceTab" xml:space="preserve">
+    <value>サブプレイス</value>
+  </data>
+  <data name="Shortcuts.SubplaceDescription" xml:space="preserve">
+    <value>このエクスペリエンス内の別のプレイスを見つけます。</value>
+  </data>
+  <data name="Shortcuts.LoadSubplaces" xml:space="preserve">
+    <value>サブプレイスを読み込む</value>
+  </data>
+  <data name="Shortcuts.SubplaceAccess" xml:space="preserve">
+    <value>作成者が直接参加を許可している必要があります。一部のサブプレイスはゲーム内テレポートが必要です。</value>
+  </data>
+  <data name="Shortcuts.SubplaceInitial" xml:space="preserve">
+    <value>ゲーム ID を入力するとサブプレイスが自動で読み込まれます。</value>
+  </data>
+  <data name="Shortcuts.SubplaceRetry" xml:space="preserve">
+    <value>もう一度試すには、このタブを開き直してください。</value>
+  </data>
+  <data name="Shortcuts.SubplaceInvalidId" xml:space="preserve">
+    <value>有効な数値のゲーム ID を入力してください。</value>
+  </data>
+  <data name="Shortcuts.SubplaceLoading" xml:space="preserve">
+    <value>サブプレイスを読み込んでいます...</value>
+  </data>
+  <data name="Shortcuts.SubplaceEmpty" xml:space="preserve">
+    <value>このエクスペリエンスにはサブプレイスが登録されていません。</value>
+  </data>
+  <data name="Shortcuts.SubplaceChoose" xml:space="preserve">
+    <value>下からサブプレイスを選択してください。</value>
+  </data>
+  <data name="Shortcuts.SubplaceTimeout" xml:space="preserve">
+    <value>リクエストがタイムアウトしました。もう一度試すには、このタブを開き直してください。</value>
+  </data>
+  <data name="Shortcuts.SubplaceFailed" xml:space="preserve">
+    <value>サブプレイスを読み込めませんでした。ゲーム ID と接続を確認して、もう一度お試しください。</value>
+  </data>
+  <data name="Shortcuts.SubplaceReload" xml:space="preserve">
+    <value>有効なゲーム ID を入力すると、サブプレイスが自動で読み込まれます。</value>
+  </data>
+  <data name="Shortcuts.SubplaceRequired" xml:space="preserve">
+    <value>サブプレイスの読み込みを待ち、1 つ選択してから続行してください。</value>
+  </data>
+  <data name="Library.SubplacesTab" xml:space="preserve">
+    <value>サブプレイス</value>
+  </data>
+  <data name="SettingsProfiles.Title" xml:space="preserve">
+    <value>設定プロファイル</value>
+  </data>
+  <data name="SettingsProfiles.Name" xml:space="preserve">
+    <value>プロファイル名</value>
+  </data>
+  <data name="SettingsProfiles.NameHint" xml:space="preserve">
+    <value>例: VoidstrapProfile</value>
+  </data>
+  <data name="SettingsProfiles.Save" xml:space="preserve">
+    <value>プロファイルを保存</value>
+  </data>
+  <data name="SettingsProfiles.Saved" xml:space="preserve">
+    <value>保存済みのプロファイル</value>
+  </data>
+  <data name="SettingsProfiles.Apply" xml:space="preserve">
+    <value>プロファイルを適用</value>
+  </data>
+  <data name="SettingsProfiles.Folder" xml:space="preserve">
+    <value>フォルダーを開く</value>
+  </data>
+  <data name="SettingsProfiles.Empty" xml:space="preserve">
+    <value>プロファイルはまだありません。名前を入力して「プロファイルを保存」を選択してください。</value>
+  </data>
+  <data name="SettingsProfiles.Location" xml:space="preserve">
+    <value>{0} に保存されています</value>
+  </data>
+  <data name="SettingsProfiles.InvalidName" xml:space="preserve">
+    <value>ファイル名に使えない記号や予約済みのデバイス名を含まない、1 から 80 文字の名前を使用してください。</value>
+  </data>
+  <data name="SettingsProfiles.InvalidFile" xml:space="preserve">
+    <value>このプロファイルは無効か、未対応の形式です。</value>
+  </data>
+  <data name="SettingsProfiles.RestoreFailed" xml:space="preserve">
+    <value>プロファイルを適用できず、以前の設定も復元できませんでした。</value>
+  </data>
+  <data name="SettingsProfiles.Overwrite" xml:space="preserve">
+    <value>保存済みのプロファイル「{0}」を現在の設定で置き換えますか?</value>
+  </data>
+  <data name="SettingsProfiles.SavedStatus" xml:space="preserve">
+    <value>「{0}」を保存しました</value>
+  </data>
+  <data name="SettingsProfiles.ApplyConfirm" xml:space="preserve">
+    <value>「{0}」を適用しますか?現在の Voidstrap の設定と FastFlags が置き換えられ、Voidstrap の設定が開き直されます。</value>
+  </data>
+  <data name="SettingsProfiles.RestartFailed" xml:space="preserve">
+    <value>プロファイルを適用しました。すべての設定ページを再読み込みするには Voidstrap を再起動してください。</value>
+  </data>
+  <data name="SettingsProfiles.Restart" xml:space="preserve">
+    <value>今すぐ再起動</value>
+  </data>
+  <data name="SettingsProfiles.DeleteConfirm" xml:space="preserve">
+    <value>保存済みのプロファイル「{0}」を削除しますか?現在の設定はそのまま残ります。</value>
+  </data>
+  <data name="SettingsProfiles.Deleted" xml:space="preserve">
+    <value>「{0}」を削除しました。</value>
+  </data>
+  <data name="SettingsProfiles.Error" xml:space="preserve">
+    <value>プロファイルの操作を完了できませんでした: {0}</value>
+  </data>
+  <data name="GlobalProfiles.Title" xml:space="preserve">
+    <value>グローバル設定プロファイル</value>
+  </data>
+  <data name="GlobalProfiles.ApplyConfirm" xml:space="preserve">
+    <value>「{0}」を適用しますか?現在の Roblox のグローバル設定が置き換えられます。すべての変更を確認するには Roblox に再参加してください。</value>
+  </data>
+  <data name="GlobalProfiles.Applied" xml:space="preserve">
+    <value>「{0}」を適用しました</value>
+  </data>
+  <data name="GlobalProfiles.SaveFailed" xml:space="preserve">
+    <value>Roblox の設定ファイルに書き込めませんでした。Roblox を閉じてもう一度お試しください。</value>
+  </data>
+  <data name="AssetWarp.RemoveTexturesDescription" xml:space="preserve">
+    <value>テクスチャアセットとテクスチャパックのダウンロードをブロックします</value>
+  </data>
+  <data name="AssetWarp.RemoveDecalsDescription" xml:space="preserve">
+    <value>デカールアセットのダウンロードをブロックします</value>
+  </data>
+  <data name="AssetWarp.RemoveImagesDescription" xml:space="preserve">
+    <value>画像アセットのダウンロードをブロックします。Roblox はテクスチャやデカールにも画像を使用します</value>
+  </data>
+  <data name="AssetWarp.RemoveAnimationsDescription" xml:space="preserve">
+    <value>アニメーションアセットのダウンロードをブロックします。代替アニメーションのないゲームは正常に動作しなくなる場合があります</value>
+  </data>
+  <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
+    <value>メッシュと MeshPart アセットのダウンロードをブロックします。メッシュのジオメトリが見えなくなります</value>
+  </data>
+  <data name="SwiftTunnel.Summary" xml:space="preserve">
+    <value>他のアプリは通常の接続を使いつつ、Roblox の通信を SwiftTunnel 経由にします</value>
+  </data>
+  <data name="SwiftTunnel.Description" xml:space="preserve">
+    <value>SwiftTunnel は、スプリットトンネリングと地域リレーの選択に対応した Windows 向けのゲーム接続最適化ツールです</value>
+  </data>
+  <data name="SwiftTunnel.Setup" xml:space="preserve">
+    <value>「インストール」は SwiftTunnel の最新の公式リリースをダウンロードし、セットアップ後にデスクトップアプリを開きます。そこでサインインして接続を選択してください。ネットワーク最適化には管理者権限が必要な場合があります</value>
+  </data>
+  <data name="SwiftTunnel.Network" xml:space="preserve">
+    <value>ネットワーク</value>
+  </data>
+  <data name="SwiftTunnel.Routing" xml:space="preserve">
+    <value>ルーティング</value>
+  </data>
+  <data name="SwiftTunnel.Install" xml:space="preserve">
+    <value>インストール</value>
+  </data>
+  <data name="SwiftTunnel.Uninstall" xml:space="preserve">
+    <value>アンインストール</value>
+  </data>
+  <data name="SwiftTunnel.Installed" xml:space="preserve">
+    <value>インストール済み</value>
+  </data>
+  <data name="SwiftTunnel.NotInstalled" xml:space="preserve">
+    <value>未インストール</value>
+  </data>
+  <data name="SwiftTunnel.Working" xml:space="preserve">
+    <value>実行中</value>
+  </data>
+  <data name="SwiftTunnel.Downloading" xml:space="preserve">
+    <value>SwiftTunnel をダウンロードしています</value>
+  </data>
+  <data name="SwiftTunnel.InstallerFailed" xml:space="preserve">
+    <value>SwiftTunnel のセットアップを開けませんでした</value>
+  </data>
+  <data name="SwiftTunnel.InstallerExit" xml:space="preserve">
+    <value>SwiftTunnel のセットアップがコード {0} を返しました</value>
+  </data>
+  <data name="SwiftTunnel.Error" xml:space="preserve">
+    <value>SwiftTunnel の操作を完了できませんでした: {0}</value>
+  </data>
+  <data name="SwiftTunnel.UninstallUnavailable" xml:space="preserve">
+    <value>SwiftTunnel のアンインストール情報が不完全です。Windows の設定のアプリから SwiftTunnel を削除してください</value>
+  </data>
+  <data name="SwiftTunnel.CleanupFailed" xml:space="preserve">
+    <value>SwiftTunnel がネットワーク設定を復元できませんでした。クリーンアップを再試行できるようファイルは残してあります</value>
+  </data>
+  <data name="SwiftTunnel.ConfirmUninstall" xml:space="preserve">
+    <value>SwiftTunnel を完全に削除しますか?まずネットワークドライバーとシステム設定を復元してから SwiftTunnel をアンインストールします。開始後はキャンセルできません。</value>
+  </data>
+  <data name="SwiftTunnel.UninstallIncomplete" xml:space="preserve">
+    <value>SwiftTunnel の削除を完了できませんでした。SwiftTunnel を閉じて、管理者権限でもう一度お試しください</value>
+  </data>
+  <data name="SwiftTunnel.UnsafeDirectory" xml:space="preserve">
+    <value>SwiftTunnel が共有フォルダーまたは不明なフォルダーにインストールされています。完全削除を使う前に専用の SwiftTunnel フォルダーへ移動してください</value>
+  </data>
+  <data name="SwiftTunnel.NotInstalledError" xml:space="preserve">
+    <value>SwiftTunnel がインストールされていません。先に「接続」からインストールしてください</value>
+  </data>
+  <data name="SwiftTunnel.Missing" xml:space="preserve">
+    <value>SwiftTunnel は登録されていますが、アプリのファイルが見つかりません。修復するにはアンインストールして再インストールしてください</value>
+  </data>
+  <data name="SwiftTunnel.NoInstaller" xml:space="preserve">
+    <value>SwiftTunnel の最新リリースには、このコンピューター向けの検証済み Windows インストーラーがありません</value>
+  </data>
+  <data name="Installer.MacOS.DataLocation.Title" xml:space="preserve">
+    <value>Voidstrap のデータの保存先を選択</value>
+  </data>
+  <data name="Installer.MacOS.DataLocation.Text" xml:space="preserve">
+    <value>Voidstrap は設定と Mod をここに保存します。アプリ本体は現在の場所に残ります。Roblox はアプリケーションフォルダーに別途インストールされます。</value>
+  </data>
+  <data name="Installer.MacOS.Completion.Text" xml:space="preserve">
+    <value>Voidstrap の準備ができました。
+
+Roblox は Voidstrap から初めて起動したときにダウンロードされます。起動前に設定を調整することもできます。
+
+どうしますか?</value>
+  </data>
+  <data name="Installer.MacOS.Roblox.Title" xml:space="preserve">
+    <value>macOS 版 Roblox</value>
+  </data>
+  <data name="Installer.MacOS.Roblox.Text" xml:space="preserve">
+    <value>初めて「起動」をクリックしたときに Voidstrap が公式の Roblox アプリをアプリケーションフォルダーにダウンロードし、その後も最新の状態に保ちます。別途インストールする必要はありません。</value>
+  </data>
+  <data name="HomepageMedia.Preview.FileMissing" xml:space="preserve">
+    <value>選択したメディアファイルが見つかりませんでした。</value>
+  </data>
+  <data name="HomepageMedia.Preview.DecodeError" xml:space="preserve">
+    <value>このメディアをデコードできませんでした。別の画像または動画を選択してください。</value>
+  </data>
+  <data name="HomepageMedia.Preview.RenderError" xml:space="preserve">
+    <value>メディアのプレビューを表示できませんでした。</value>
+  </data>
+  <data name="HomepageMedia.Picker.ImagesAndVideos" xml:space="preserve">
+    <value>画像と動画</value>
+  </data>
+  <data name="HomepageMedia.Picker.Images" xml:space="preserve">
+    <value>画像</value>
+  </data>
+  <data name="HomepageMedia.Picker.Videos" xml:space="preserve">
+    <value>動画</value>
+  </data>
+  <data name="Appearance.Backdrop.Sidebar" xml:space="preserve">
+    <value>サイドバー</value>
+  </data>
+  <data name="Appearance.Backdrop.Popover" xml:space="preserve">
+    <value>ポップオーバー</value>
+  </data>
+  <data name="Appearance.Backdrop.Hud" xml:space="preserve">
+    <value>ヘッドアップディスプレイ</value>
+  </data>
+  <data name="Appearance.Backdrop.UnderWindow" xml:space="preserve">
+    <value>ウィンドウの下</value>
+  </data>
+  <data name="Appearance.Backdrop.UnderPage" xml:space="preserve">
+    <value>ページの下</value>
+  </data>
+  <data name="Menu.MacVirtualDisplay.Title" xml:space="preserve">
+    <value>240 Hz 仮想ディスプレイ</value>
+  </data>
+  <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Roblox の実行中はメイン画面をミラーリングし、Roblox を閉じると元に戻します。物理画面は自身のリフレッシュレートの上限を維持します。</value>
+  </data>
 </root>

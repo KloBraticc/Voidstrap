@@ -1674,4 +1674,1364 @@ Voidstrap был установлен по адресу "{1}".</value>
   <data name="Menu.News.DialogTitle" xml:space="preserve">
     <value>Подробности новости</value>
   </data>
+  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
+    <value>Voidstrap не удалось удалить оставшуюся маршрутизацию AssetWarp из файла hosts Windows. Roblox не сможет загружать текстуры и другие ресурсы, пока она не будет удалена. Запустите Voidstrap от имени администратора, чтобы очистить её.</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
+    <value>Оба</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
+    <value>Игрок</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
+    <value>Обозреватель серверов</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
+    <value>Место {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
+    <value>{0}  •  Место {1}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
+    <value>Просканировано серверов: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
+    <value>Обновить</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
+    <value>Загрузить ещё серверы</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
+    <value>Скрыть заполненные серверы</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
+    <value>Поиск по городу, стране или ID сервера</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
+    <value>Больше всего игроков</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
+    <value>Меньше всего игроков</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
+    <value>Наименьший пинг</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
+    <value>Присоединиться</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
+    <value>Текущий</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
+    <value>Загрузка публичных серверов</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
+    <value>Публичные серверы не найдены</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
+    <value>Присоединитесь к игре, прежде чем открывать обозреватель серверов</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
+    <value>Список серверов приостановлен, так как Roblox ограничивает запросы</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
+    <value>Не удалось загрузить публичные серверы</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
+    <value>Загружено серверов: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
+    <value>{0} из {1} игроков</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
+    <value>Игроков: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Metrics" xml:space="preserve">
+    <value>Пинг {0} мс, FPS {1}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
+    <value>Неизвестно</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
+    <value>Лучшее совпадение</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
+    <value>Лучшее совпадение</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
+    <value>Заблокирован</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
+    <value>Примерно {0} мс от вас</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
+    <value>Найдено серверов: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
+    <value>Найдено {0} из {1} серверов</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
+    <value>Перемещаем вас на {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
+    <value>Не удалось присоединиться к этому серверу</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
+    <value>Войдите в Настройки &gt; Server Matchmaker, чтобы Voidstrap мог определить, где находится каждый сервер</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
+    <value>Не удалось определить ваше местоположение, поэтому серверы нельзя отсортировать по пингу</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
+    <value>Roblox не сообщил, где находятся эти серверы, попробуйте ещё раз через минуту</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
+    <value>Все найденные серверы находятся в дата-центре, который вы заблокировали</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
+    <value>Все найденные серверы далеко от вас, матчмейкер позволил бы Roblox выбрать сервер самому</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
+    <value>Обозреватель игр</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
+    <value>Продолжить</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
+    <value>Избранное</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
+    <value>Поиск</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
+    <value>Поиск игр Roblox</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
+    <value>Загрузка игр</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
+    <value>В этом сеансе нет недавних игр</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
+    <value>Нет сохранённых избранных игр</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
+    <value>Найдите игру Roblox по названию</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
+    <value>Игры по запросу {0} не найдены</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
+    <value>Не удалось загрузить игры</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
+    <value>Играют: {0}</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
+    <value>Присоединиться</value>
+  </data>
+  <data name="Enums.BootstrapperStyle.ByfronDialog" xml:space="preserve">
+    <value>Поддельный Byfron (2023)</value>
+  </data>
+  <data name="Enums.BootstrapperStyle.LegacyDialog2008" xml:space="preserve">
+    <value>Устаревший (2008 - 2011)</value>
+  </data>
+  <data name="Enums.BootstrapperStyle.LegacyDialog2011" xml:space="preserve">
+    <value>Устаревший (2011 - 2014)</value>
+  </data>
+  <data name="Enums.FlagPresets.LightingMode.Future" xml:space="preserve">
+    <value>Future (Фаза 3)</value>
+  </data>
+  <data name="Enums.FlagPresets.LightingMode.ShadowMap" xml:space="preserve">
+    <value>Карта теней (Фаза 2)</value>
+  </data>
+  <data name="Enums.FlagPresets.LightingMode.Voxel" xml:space="preserve">
+    <value>Воксели (Фаза 1)</value>
+  </data>
+  <data name="Enums.Theme.Berry" xml:space="preserve">
+    <value>Ягодная</value>
+  </data>
+  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
+    <value>Автоперевод</value>
+  </data>
+  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
+    <value>Перевести на</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
+    <value>Язык автоперевода</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
+    <value>Переведите весь интерфейс Voidstrap на любой язык. Сначала используются встроенные переводы, а оставшийся текст переводится на лету.</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
+    <value>Автоматически переводить Discord RPC</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
+    <value>Автоматически переводит текст Discord Rich Presence на выбранный язык.</value>
+  </data>
+  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
+    <value>Эта функция доступна только в Windows.</value>
+  </data>
+  <data name="About.Translators.Description" xml:space="preserve">
+    <value>Все перечисленные здесь люди безвозмездно потратили своё время и силы, чтобы помочь перевести Voidstrap. Огромное спасибо всем!</value>
+  </data>
+  <data name="Menu.Channel.Description" xml:space="preserve">
+    <value>Измените параметры развёртывания и установки Roblox и Voidstrap.</value>
+  </data>
+  <data name="Common.Channel" xml:space="preserve">
+    <value>Канал</value>
+  </data>
+  <data name="Menu.ChannelChanger.Description" xml:space="preserve">
+    <value>Выберите канал развёртывания. Не меняйте его, если не знаете, что делаете.</value>
+  </data>
+  <data name="Common.Version" xml:space="preserve">
+    <value>Версия</value>
+  </data>
+  <data name="Menu.Channel.RobloxUpgrades" xml:space="preserve">
+    <value>Обновления Roblox</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
+    <value>Тёмный режим</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
+    <value>Телеметрия</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
+    <value>Тёмный режим</value>
+  </data>
+  <data name="Menu.Sober.Description" xml:space="preserve">
+    <value>Настройте среды Linux, в которых Voidstrap запускает Roblox. Sober запускает плеер, Vinegar запускает Studio. Voidstrap меняет только те параметры, которые вы явно переопределите.</value>
+  </data>
+  <data name="Menu.Sober.Default" xml:space="preserve">
+    <value>Использовать значение Sober по умолчанию</value>
+  </data>
+  <data name="Menu.Sober.Enabled" xml:space="preserve">
+    <value>Включено</value>
+  </data>
+  <data name="Menu.Sober.Disabled" xml:space="preserve">
+    <value>Отключено</value>
+  </data>
+  <data name="Menu.Sober.DefaultNotice" xml:space="preserve">
+    <value>Использовать значение Sober по умолчанию оставляет параметр под управлением Sober. Удаление переопределения восстанавливает значение, сохранённое Voidstrap.</value>
+  </data>
+  <data name="Menu.Sober.RuntimeNotice" xml:space="preserve">
+    <value>Завершите первый запуск Sober, прежде чем задавать переопределения, и закройте Sober перед их изменением. Сохранённые изменения применятся при следующем запуске Sober.</value>
+  </data>
+  <data name="Menu.Sober.Group.Session" xml:space="preserve">
+    <value>Сеанс и активность</value>
+  </data>
+  <data name="Menu.Sober.Group.Input" xml:space="preserve">
+    <value>Ввод и опыт</value>
+  </data>
+  <data name="Menu.Sober.Group.Graphics" xml:space="preserve">
+    <value>Графика и рабочий стол</value>
+  </data>
+  <data name="Menu.Sober.AllowGamepad.Title" xml:space="preserve">
+    <value>Разрешить доступ к геймпаду</value>
+  </data>
+  <data name="Menu.Sober.AllowGamepad.Description" xml:space="preserve">
+    <value>Позволяет Sober запрашивать доступ к подключённым геймпадам. Для изменения разрешений может потребоваться повторный запуск Sober.</value>
+  </data>
+  <data name="Menu.Sober.CloseOnLeave.Title" xml:space="preserve">
+    <value>Закрывать при выходе</value>
+  </data>
+  <data name="Menu.Sober.CloseOnLeave.Description" xml:space="preserve">
+    <value>Закрывает Sober после выхода из игры.</value>
+  </data>
+  <data name="Menu.Sober.DiscordRpc.Description" xml:space="preserve">
+    <value>Позволяет Sober показывать игровую активность через Discord Rich Presence.</value>
+  </data>
+  <data name="Menu.Sober.DiscordJoin.Title" xml:space="preserve">
+    <value>Кнопка присоединения Discord</value>
+  </data>
+  <data name="Menu.Sober.DiscordJoin.Description" xml:space="preserve">
+    <value>Позволяет Sober добавлять кнопку присоединения в Discord Rich Presence.</value>
+  </data>
+  <data name="Menu.Sober.GameMode.Title" xml:space="preserve">
+    <value>Интеграция с GameMode</value>
+  </data>
+  <data name="Menu.Sober.GameMode.Description" xml:space="preserve">
+    <value>Позволяет Sober запрашивать оптимизацию производительности GameMode, когда он доступен.</value>
+  </data>
+  <data name="Menu.Sober.HiDpi.Title" xml:space="preserve">
+    <value>Масштабирование для высокого DPI</value>
+  </data>
+  <data name="Menu.Sober.HiDpi.Description" xml:space="preserve">
+    <value>Использует встроенное масштабирование для экранов высокой плотности.</value>
+  </data>
+  <data name="Menu.Sober.MobileHome.Title" xml:space="preserve">
+    <value>Мобильный главный экран</value>
+  </data>
+  <data name="Menu.Sober.MobileHome.Description" xml:space="preserve">
+    <value>Использует главный экран Roblox в мобильном стиле.</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Title" xml:space="preserve">
+    <value>Режим оптимизации графики</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Description" xml:space="preserve">
+    <value>Выбирает предпочтение оптимизации графики Sober.</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Quality" xml:space="preserve">
+    <value>Качество</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Balanced" xml:space="preserve">
+    <value>Сбалансированный</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Performance" xml:space="preserve">
+    <value>Производительность</value>
+  </data>
+  <data name="Menu.Sober.ServerLocation.Title" xml:space="preserve">
+    <value>Индикатор расположения сервера</value>
+  </data>
+  <data name="Menu.Sober.ServerLocation.Description" xml:space="preserve">
+    <value>Показывает индикатор расположения сервера Sober во время игры.</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Title" xml:space="preserve">
+    <value>Сенсорный режим</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Description" xml:space="preserve">
+    <value>Выбирает, как Sober сообщает о поддержке сенсорного ввода.</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Off" xml:space="preserve">
+    <value>Выкл.</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.On" xml:space="preserve">
+    <value>Вкл.</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.FakeOff" xml:space="preserve">
+    <value>Ложно выкл.</value>
+  </data>
+  <data name="Menu.Sober.ConsoleExperience.Title" xml:space="preserve">
+    <value>Консольный режим</value>
+  </data>
+  <data name="Menu.Sober.ConsoleExperience.Description" xml:space="preserve">
+    <value>Использует интерфейс Roblox в консольном стиле.</value>
+  </data>
+  <data name="Menu.Sober.Libsecret.Title" xml:space="preserve">
+    <value>Хранилище Secret Service</value>
+  </data>
+  <data name="Menu.Sober.Libsecret.Description" xml:space="preserve">
+    <value>Хранит поддерживаемые учётные данные через Secret Service рабочего стола.</value>
+  </data>
+  <data name="Menu.Sober.OpenGl.Title" xml:space="preserve">
+    <value>Рендерер OpenGL</value>
+  </data>
+  <data name="Menu.Sober.OpenGl.Description" xml:space="preserve">
+    <value>Использует OpenGL вместо графического бэкенда Sober по умолчанию.</value>
+  </data>
+  <data name="Installer.Appearance.BackgroundUI.Title" xml:space="preserve">
+    <value>Фон и интерфейс</value>
+  </data>
+  <data name="Installer.Appearance.BackgroundUI.Description" xml:space="preserve">
+    <value>Настройте внешний вид установщика и основного приложения.</value>
+  </data>
+  <data name="Installer.Appearance.Snow.Title" xml:space="preserve">
+    <value>Снег на фоне</value>
+  </data>
+  <data name="Installer.Appearance.Snow.Description" xml:space="preserve">
+    <value>Добавляет на фон лёгкий эффект снега.</value>
+  </data>
+  <data name="Installer.Appearance.GradientMovement.Title" xml:space="preserve">
+    <value>Движение градиента</value>
+  </data>
+  <data name="Installer.Appearance.GradientMovement.Description" xml:space="preserve">
+    <value>Градиент фона следует за указателем.</value>
+  </data>
+  <data name="Installer.Appearance.SmoothScrolling.Title" xml:space="preserve">
+    <value>Плавная прокрутка</value>
+  </data>
+  <data name="Installer.Appearance.SmoothScrolling.Description" xml:space="preserve">
+    <value>Анимирует прокрутку во всём интерфейсе.</value>
+  </data>
+  <data name="Installer.Appearance.ClearFont.Title" xml:space="preserve">
+    <value>Чёткий шрифт</value>
+  </data>
+  <data name="Installer.Appearance.ClearFont.Description" xml:space="preserve">
+    <value>Использует более чёткое отображение текста после перезапуска Voidstrap.</value>
+  </data>
+  <data name="Installer.Appearance.Background.Title" xml:space="preserve">
+    <value>Свой фон</value>
+  </data>
+  <data name="Installer.Appearance.Background.Description" xml:space="preserve">
+    <value>Используйте изображение, GIF или видео и настройте его отображение.</value>
+  </data>
+  <data name="Installer.Appearance.GradientOpacity" xml:space="preserve">
+    <value>Прозрачность градиента</value>
+  </data>
+  <data name="Installer.Appearance.DarkOverlay" xml:space="preserve">
+    <value>Тёмное наложение</value>
+  </data>
+  <data name="Installer.Appearance.DisplayEverywhere" xml:space="preserve">
+    <value>Показывать везде</value>
+  </data>
+  <data name="Installer.Appearance.RemoveBackground" xml:space="preserve">
+    <value>Убрать фон</value>
+  </data>
+  <data name="Installer.Appearance.Theme.Description" xml:space="preserve">
+    <value>Выберите тему для всех окон Voidstrap.</value>
+  </data>
+  <data name="Installer.Appearance.Theme.Customize" xml:space="preserve">
+    <value>Настроить</value>
+  </data>
+  <data name="Installer.Appearance.Backdrop.Title" xml:space="preserve">
+    <value>Фон окна</value>
+  </data>
+  <data name="Installer.Appearance.Backdrop.Description" xml:space="preserve">
+    <value>Выберите материал, отображаемый за окнами Voidstrap.</value>
+  </data>
+  <data name="Installer.Appearance.PageZoom.Title" xml:space="preserve">
+    <value>Масштаб страниц</value>
+  </data>
+  <data name="Installer.Appearance.PageZoom.Description" xml:space="preserve">
+    <value>Настройте размер страниц настроек.</value>
+  </data>
+  <data name="Vng.WarningTitle" xml:space="preserve">
+    <value>Roblox VNG: необратимое ограничение аккаунта</value>
+  </data>
+  <data name="Vng.Warning" xml:space="preserve">
+    <value>СТОП: ПРОЧТИТЕ ПЕРЕД ПРОДОЛЖЕНИЕМ
+
+Первый вход в Roblox VNG переносит ваш аккаунт в VNG. По словам Roblox, после этого вы больше не сможете использовать этот аккаунт в глобальном приложении Roblox.
+
+Считайте этот перенос аккаунта необратимым. Voidstrap не может его отменить. Удаление VNG или отключение этого параметра не восстанавливает глобальный доступ к аккаунту. Будут действовать ограничения аккаунта и региональные ограничения VNG.
+
+Само скачивание файлов не переносит аккаунт. Вход или запуск с существующим аккаунтом может подвергнуть этот аккаунт переносу.
+
+Продолжайте, только если вы согласны потерять доступ к глобальному приложению для любого аккаунта, который используете с VNG. Кнопка Да разблокируется через десять секунд.</value>
+  </data>
+  <data name="Vng.Confirmation" xml:space="preserve">
+    <value>Вы уверены?</value>
+  </data>
+  <data name="Vng.Agreement" xml:space="preserve">
+    <value>Последнее предупреждение: вход в Roblox VNG может навсегда перенести ваш аккаунт и лишить доступа к глобальному приложению Roblox. Voidstrap не может это отменить.
+
+Введите в точности фразу, показанную ниже, чтобы принять эти ограничения и продолжить.</value>
+  </data>
+  <data name="Vng.Countdown" xml:space="preserve">
+    <value>{0} ({1} с)</value>
+  </data>
+  <data name="Vng.Description" xml:space="preserve">
+    <value>Вьетнамский клиент для игроков. Вход переносит ваш аккаунт и лишает доступа к глобальному приложению.</value>
+  </data>
+  <data name="Vng.UseForLaunches" xml:space="preserve">
+    <value>Использовать VNG для запуска игры</value>
+  </data>
+  <data name="Vng.UninstallWarning" xml:space="preserve">
+    <value>Удаление VNG не отменяет перенос аккаунта и не восстанавливает доступ к глобальному приложению.</value>
+  </data>
+  <data name="Mtu.Description" xml:space="preserve">
+    <value>Ограничивает размер пакетов для всех приложений, включая Roblox. Требует прав администратора и сохраняется после перезагрузки. Может не улучшить пинг.</value>
+  </data>
+  <data name="Mtu.Adapter" xml:space="preserve">
+    <value>Выберите сетевой адаптер и версию IP</value>
+  </data>
+  <data name="Mtu.CustomValue" xml:space="preserve">
+    <value>Свой MTU (байт)</value>
+  </data>
+  <data name="Mtu.Current" xml:space="preserve">
+    <value>Текущий: {0} байт. Минимум: {1} байт.</value>
+  </data>
+  <data name="Mtu.NoAdapters" xml:space="preserve">
+    <value>Поддерживаемые сетевые адаптеры не найдены. Обновите, чтобы попробовать снова.</value>
+  </data>
+  <data name="Mtu.Invalid" xml:space="preserve">
+    <value>Введите целое число от {0} до {1}. Windows также проверяет размер пакета, поддерживаемый адаптером.</value>
+  </data>
+  <data name="Mtu.Apply" xml:space="preserve">
+    <value>Применить</value>
+  </data>
+  <data name="Mtu.Restore" xml:space="preserve">
+    <value>Восстановить</value>
+  </data>
+  <data name="Mtu.Refresh" xml:space="preserve">
+    <value>Обновить</value>
+  </data>
+  <data name="Mtu.Loading" xml:space="preserve">
+    <value>Чтение сетевых адаптеров Windows...</value>
+  </data>
+  <data name="Mtu.Applying" xml:space="preserve">
+    <value>Ожидание подтверждения администратора и применение MTU...</value>
+  </data>
+  <data name="Mtu.AdapterUnavailable" xml:space="preserve">
+    <value>Выбранный адаптер недоступен. Обновите и выберите адаптер.</value>
+  </data>
+  <data name="Mtu.Rejected" xml:space="preserve">
+    <value>Windows не удалось применить MTU, код {0}. Возможно, ваш адаптер не поддерживает это значение.</value>
+  </data>
+  <data name="Mtu.Applied" xml:space="preserve">
+    <value>MTU установлен на {0} байт и проверен. Применяется ко всем приложениям на выбранном адаптере.</value>
+  </data>
+  <data name="Mtu.Restored" xml:space="preserve">
+    <value>Прежний MTU {0} байт восстановлен и проверен.</value>
+  </data>
+  <data name="Mtu.VerificationFailed" xml:space="preserve">
+    <value>Windows не сообщила запрошенный MTU. Обновите, чтобы проверить текущее значение.</value>
+  </data>
+  <data name="Mtu.Cancelled" xml:space="preserve">
+    <value>Запрос администратора отменён. MTU не изменён.</value>
+  </data>
+  <data name="Mtu.Error" xml:space="preserve">
+    <value>Не удалось выполнить операцию с MTU. Обновите, чтобы проверить текущее значение.</value>
+  </data>
+  <data name="Menu_FastFlagEditor_Rename" xml:space="preserve">
+    <value>Переименовать</value>
+  </data>
+  <data name="Menu_FastFlagEditor_EditValue" xml:space="preserve">
+    <value>Изменить значение</value>
+  </data>
+  <data name="Menu_FastFlagEditor_CopySelected" xml:space="preserve">
+    <value>Копировать выделенное как JSON</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Title" xml:space="preserve">
+    <value>Акцентный цвет</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Description" xml:space="preserve">
+    <value>Выберите цвет элементов управления приложения и оттенка фона.</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Choose" xml:space="preserve">
+    <value>Выбрать цвет</value>
+  </data>
+  <data name="Menu.Appearance.Accent.System" xml:space="preserve">
+    <value>Использовать системный цвет</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Picker" xml:space="preserve">
+    <value>Выбрать акцентный цвет</value>
+  </data>
+  <data name="Menu.Shortcuts.Customize" xml:space="preserve">
+    <value>Имя и иконка</value>
+  </data>
+  <data name="Menu.Shortcuts.InvalidName" xml:space="preserve">
+    <value>Используйте допустимое имя ярлыка без косых черт и зарезервированных имён файлов.</value>
+  </data>
+  <data name="Menu.Shortcuts.NameExists" xml:space="preserve">
+    <value>Ярлык с таким именем уже существует. Выберите другое имя.</value>
+  </data>
+  <data name="Menu.Shortcuts.ChooseIcon" xml:space="preserve">
+    <value>Выберите иконку ярлыка</value>
+  </data>
+  <data name="Menu.Shortcuts.IconFilter" xml:space="preserve">
+    <value>Файлы иконок и изображений|*.ico;*.png;*.jpg;*.jpeg;*.bmp;*.webp</value>
+  </data>
+  <data name="Menu.Shortcuts.InvalidIcon" xml:space="preserve">
+    <value>Выберите допустимую иконку или изображение размером меньше 8 МБ.</value>
+  </data>
+  <data name="Menu.LaunchDropdownOnRight" xml:space="preserve">
+    <value>Разместить список версий справа</value>
+  </data>
+  <data name="OverlayDiagnostics.Bounds" xml:space="preserve">
+    <value>Размер и положение на экране</value>
+  </data>
+  <data name="OverlayDiagnostics.CollectionError" xml:space="preserve">
+    <value>Не удалось собрать текущий замер: {0}</value>
+  </data>
+  <data name="OverlayDiagnostics.CompositeCrosshair" xml:space="preserve">
+    <value>Прицел композитора активен</value>
+  </data>
+  <data name="OverlayDiagnostics.Compositor" xml:space="preserve">
+    <value>Композитор инициализирован</value>
+  </data>
+  <data name="OverlayDiagnostics.Configuration" xml:space="preserve">
+    <value>Настроенные функции, эти переключатели не подтверждают отрисовку</value>
+  </data>
+  <data name="OverlayDiagnostics.Crosshair" xml:space="preserve">
+    <value>Прицел</value>
+  </data>
+  <data name="OverlayDiagnostics.Disabled" xml:space="preserve">
+    <value>Все проверяемые функции оверлея отключены в настройках.</value>
+  </data>
+  <data name="OverlayDiagnostics.DispatcherRequired" xml:space="preserve">
+    <value>Диагностика оверлея должна выполняться в диспетчере окна.</value>
+  </data>
+  <data name="OverlayDiagnostics.FakeBorderless" xml:space="preserve">
+    <value>Ложный полноэкранный режим без рамки</value>
+  </data>
+  <data name="OverlayDiagnostics.FakeExclusive" xml:space="preserve">
+    <value>Ложный эксклюзивный полноэкранный режим</value>
+  </data>
+  <data name="OverlayDiagnostics.Findings" xml:space="preserve">
+    <value>Проверки и ограничения</value>
+  </data>
+  <data name="OverlayDiagnostics.Foreground" xml:space="preserve">
+    <value>Roblox или его оверлей в фокусе</value>
+  </data>
+  <data name="OverlayDiagnostics.FullscreenUnknown" xml:space="preserve">
+    <value>Эксклюзивный полноэкранный режим не подтверждён. Размер окна и стиль рамки не позволяют определить режим отображения.</value>
+  </data>
+  <data name="OverlayDiagnostics.GameEffects" xml:space="preserve">
+    <value>Игровые эффекты</value>
+  </data>
+  <data name="OverlayDiagnostics.GameLease" xml:space="preserve">
+    <value>Игровая аренда Linux подтверждена</value>
+  </data>
+  <data name="OverlayDiagnostics.GameSession" xml:space="preserve">
+    <value>Игровой сеанс наблюдателя активности</value>
+  </data>
+  <data name="OverlayDiagnostics.GameSignal" xml:space="preserve">
+    <value>Игровой сигнал хаба оверлеев</value>
+  </data>
+  <data name="OverlayDiagnostics.Handle" xml:space="preserve">
+    <value>Дескриптор окна</value>
+  </data>
+  <data name="OverlayDiagnostics.Homepage" xml:space="preserve">
+    <value>Фон главной страницы</value>
+  </data>
+  <data name="OverlayDiagnostics.HomepageInGame" xml:space="preserve">
+    <value>Хаб оверлеев сообщает об игровом сеансе, пока процесс главной страницы Linux ещё работает. Процесс может работать, ничего не отрисовывая.</value>
+  </data>
+  <data name="OverlayDiagnostics.HomepageWorker" xml:space="preserve">
+    <value>Процесс главной страницы Linux работает</value>
+  </data>
+  <data name="OverlayDiagnostics.Intersects" xml:space="preserve">
+    <value>Прямоугольник пересекается с Roblox</value>
+  </data>
+  <data name="OverlayDiagnostics.Minimized" xml:space="preserve">
+    <value>Нативное окно свёрнуто</value>
+  </data>
+  <data name="OverlayDiagnostics.MissingCrosshair" xml:space="preserve">
+    <value>Прицел настроен, но в этом процессе не найдено ни окна прицела, ни активного прицела композитора.</value>
+  </data>
+  <data name="OverlayDiagnostics.MissingStats" xml:space="preserve">
+    <value>Статистика настроена, но в этом процессе не найдено окно статистики. Это не доказывает сбой создания и не исключает другой процесс Voidstrap.</value>
+  </data>
+  <data name="OverlayDiagnostics.MonitorCoverage" xml:space="preserve">
+    <value>Клиент без рамки занимает весь монитор</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeLive" xml:space="preserve">
+    <value>Нативный дескриптор действителен</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeTopmost" xml:space="preserve">
+    <value>Нативный флаг поверх всех окон</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeVisible" xml:space="preserve">
+    <value>Нативное окно видимо</value>
+  </data>
+  <data name="OverlayDiagnostics.No" xml:space="preserve">
+    <value>Нет</value>
+  </data>
+  <data name="OverlayDiagnostics.NoUsableWindow" xml:space="preserve">
+    <value>Не удалось измерить подходящий прямоугольник клиента Roblox. Roblox может быть закрыт, свёрнут, скрыт, запускаться или быть недоступен.</value>
+  </data>
+  <data name="OverlayDiagnostics.NoWindows" xml:space="preserve">
+    <value>В этом процессе не найдено окон оверлея.</value>
+  </data>
+  <data name="OverlayDiagnostics.Opacity" xml:space="preserve">
+    <value>Прозрачность WPF</value>
+  </data>
+  <data name="OverlayDiagnostics.PixelsUnknown" xml:space="preserve">
+    <value>Флаги видимости, прозрачности и поверх всех окон не доказывают, что пиксели выводятся, не перекрыты или видны пользователю. Этот отчёт не проверяет вывод кадров GPU и перекрытие.</value>
+  </data>
+  <data name="OverlayDiagnostics.Place" xml:space="preserve">
+    <value>ID места наблюдателя активности</value>
+  </data>
+  <data name="OverlayDiagnostics.RegisteredWindow" xml:space="preserve">
+    <value>Зарегистрированный нативный оверлей</value>
+  </data>
+  <data name="OverlayDiagnostics.RobloxWindow" xml:space="preserve">
+    <value>Обнаруженное окно Roblox</value>
+  </data>
+  <data name="OverlayDiagnostics.Runtime" xml:space="preserve">
+    <value>Обнаруженное состояние выполнения</value>
+  </data>
+  <data name="OverlayDiagnostics.Sample" xml:space="preserve">
+    <value>Замер {0:HH:mm:ss.fff zzz}, обновляется каждую секунду и при изменении окон</value>
+  </data>
+  <data name="OverlayDiagnostics.Scope" xml:space="preserve">
+    <value>Эти показания относятся к этому процессу Voidstrap. Окна другого процесса могут не отображаться.</value>
+  </data>
+  <data name="OverlayDiagnostics.Stats" xml:space="preserve">
+    <value>Оверлей статистики</value>
+  </data>
+  <data name="OverlayDiagnostics.Teleporting" xml:space="preserve">
+    <value>Выполняется телепорт наблюдателя активности</value>
+  </data>
+  <data name="OverlayDiagnostics.Title" xml:space="preserve">
+    <value>Диагностика оверлея</value>
+  </data>
+  <data name="OverlayDiagnostics.Transition" xml:space="preserve">
+    <value>Переход в игре</value>
+  </data>
+  <data name="OverlayDiagnostics.Unavailable" xml:space="preserve">
+    <value>Недоступно</value>
+  </data>
+  <data name="OverlayDiagnostics.Unfocused" xml:space="preserve">
+    <value>Сейчас Roblox не в фокусе. Оверлеи могут намеренно скрываться, пока активно другое окно, включая это окно диагностики.</value>
+  </data>
+  <data name="OverlayDiagnostics.UsableRect" xml:space="preserve">
+    <value>Подходящий отслеживаемый прямоугольник клиента</value>
+  </data>
+  <data name="OverlayDiagnostics.Visible" xml:space="preserve">
+    <value>Видимо в WPF</value>
+  </data>
+  <data name="OverlayDiagnostics.Windows" xml:space="preserve">
+    <value>Обнаруженные окна оверлея</value>
+  </data>
+  <data name="OverlayDiagnostics.Worker" xml:space="preserve">
+    <value>Рабочий поток композитора активен</value>
+  </data>
+  <data name="OverlayDiagnostics.WpfTopmost" xml:space="preserve">
+    <value>Запрошен режим WPF поверх всех окон</value>
+  </data>
+  <data name="OverlayDiagnostics.X11" xml:space="preserve">
+    <value>Подключение X11 доступно</value>
+  </data>
+  <data name="OverlayDiagnostics.X11Compositor" xml:space="preserve">
+    <value>Обнаружен композитор X11</value>
+  </data>
+  <data name="OverlayDiagnostics.X11Unavailable" xml:space="preserve">
+    <value>Подключение X11 недоступно. Проверка нативных окон невозможна; возможно, дело в ограничениях Wayland или разрешениях песочницы.</value>
+  </data>
+  <data name="OverlayDiagnostics.Yes" xml:space="preserve">
+    <value>Да</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeCompositor" xml:space="preserve">
+    <value>Нативное окно композитора GPU</value>
+  </data>
+  <data name="FlagSearch.Loading" xml:space="preserve">
+    <value>Загрузка источников…</value>
+  </data>
+  <data name="FlagSearch.Loaded" xml:space="preserve">
+    <value>Загружено</value>
+  </data>
+  <data name="FlagSearch.Unavailable" xml:space="preserve">
+    <value>Недоступно</value>
+  </data>
+  <data name="FlagSearch.Pending" xml:space="preserve">
+    <value>Ожидание</value>
+  </data>
+  <data name="FlagSearch.LoadedSummary" xml:space="preserve">
+    <value>Загружено {0:N0} уникальных имён из {1} из {2} источников. Подробности в разделе Источники данных.</value>
+  </data>
+  <data name="FlagSearch.LoadError" xml:space="preserve">
+    <value>Не удалось загрузить источники. Подробности в журнале.</value>
+  </data>
+  <data name="FlagSearch.ObjectRequired" xml:space="preserve">
+    <value>JSON флагов должен содержать объект.</value>
+  </data>
+  <data name="FlagSearch.EmptySource" xml:space="preserve">
+    <value>Источник не вернул распознанных имён флагов.</value>
+  </data>
+  <data name="FlagSearch.ResultCount" xml:space="preserve">
+    <value>Показано {0:N0} из {1:N0} совпадений</value>
+  </data>
+  <data name="FlagSearch.SearchError" xml:space="preserve">
+    <value>Поиск не удался. Подробности в журнале.</value>
+  </data>
+  <data name="FlagSearch.Validating" xml:space="preserve">
+    <value>Проверка имён флагов и введённых значений…</value>
+  </data>
+  <data name="FlagSearch.Found" xml:space="preserve">
+    <value>Найден</value>
+  </data>
+  <data name="FlagSearch.ValueError" xml:space="preserve">
+    <value>Ошибка значения</value>
+  </data>
+  <data name="FlagSearch.NotFound" xml:space="preserve">
+    <value>Не найден</value>
+  </data>
+  <data name="FlagSearch.FoundNote" xml:space="preserve">
+    <value>Найден в загруженных источниках. Поддержка локального переопределения не подтверждена.</value>
+  </data>
+  <data name="FlagSearch.NotFoundNote" xml:space="preserve">
+    <value>Отсутствует в загруженных источниках, это не доказывает, что флаг недействителен.</value>
+  </data>
+  <data name="FlagSearch.ValidationSummary" xml:space="preserve">
+    <value>Проверено флагов: {0:N0}, {1:N0} записей совпали с источником и ожидаемым типом значения.</value>
+  </data>
+  <data name="FlagSearch.NameError" xml:space="preserve">
+    <value>Используйте распознанное имя Fast Flag без пробелов.</value>
+  </data>
+  <data name="FlagSearch.TooMany" xml:space="preserve">
+    <value>Ввод содержит слишком много флагов.</value>
+  </data>
+  <data name="FlagSearch.ScalarRequired" xml:space="preserve">
+    <value>Значения флагов должны быть строками, числами или логическими значениями.</value>
+  </data>
+  <data name="FlagSearch.LineError" xml:space="preserve">
+    <value>Каждая строка текста должна иметь вид имя=значение.</value>
+  </data>
+  <data name="FlagSearch.EmptyInput" xml:space="preserve">
+    <value>Записи флагов не найдены.</value>
+  </data>
+  <data name="FlagSearch.Label1" xml:space="preserve">
+    <value>Поиск Fast Flag</value>
+  </data>
+  <data name="FlagSearch.Label2" xml:space="preserve">
+    <value>Поиск Fast Flag</value>
+  </data>
+  <data name="FlagSearch.Label3" xml:space="preserve">
+    <value>Поиск и проверка Fast Flag</value>
+  </data>
+  <data name="FlagSearch.Label4" xml:space="preserve">
+    <value>Ищите, проверяйте и находите Fast Flag из нескольких источников</value>
+  </data>
+  <data name="FlagSearch.Label5" xml:space="preserve">
+    <value>Обновить источники</value>
+  </data>
+  <data name="FlagSearch.Label6" xml:space="preserve">
+    <value>Готово</value>
+  </data>
+  <data name="FlagSearch.Label7" xml:space="preserve">
+    <value>Живой поиск</value>
+  </data>
+  <data name="FlagSearch.Label8" xml:space="preserve">
+    <value>Живой поиск флагов</value>
+  </data>
+  <data name="FlagSearch.Label9" xml:space="preserve">
+    <value>Ищите полные имена или ключевые слова. Точные совпадения отображаются первыми. Экспорт включает все совпадающие известные значения.</value>
+  </data>
+  <data name="FlagSearch.Label10" xml:space="preserve">
+    <value>Введите имя флага или ключевое слово...</value>
+  </data>
+  <data name="FlagSearch.Label11" xml:space="preserve">
+    <value>Экспорт результатов</value>
+  </data>
+  <data name="FlagSearch.Label12" xml:space="preserve">
+    <value>Все значения</value>
+  </data>
+  <data name="FlagSearch.Label13" xml:space="preserve">
+    <value>Значения true</value>
+  </data>
+  <data name="FlagSearch.Label14" xml:space="preserve">
+    <value>Значения false</value>
+  </data>
+  <data name="FlagSearch.Label15" xml:space="preserve">
+    <value>Имя флага</value>
+  </data>
+  <data name="FlagSearch.Label16" xml:space="preserve">
+    <value>Значение</value>
+  </data>
+  <data name="FlagSearch.Label17" xml:space="preserve">
+    <value>Источник</value>
+  </data>
+  <data name="FlagSearch.Label18" xml:space="preserve">
+    <value>Совпадений нет. Попробуйте другое имя или фильтр значений.</value>
+  </data>
+  <data name="FlagSearch.Label19" xml:space="preserve">
+    <value>0 результатов</value>
+  </data>
+  <data name="FlagSearch.Label20" xml:space="preserve">
+    <value>Массовая проверка</value>
+  </data>
+  <data name="FlagSearch.Label21" xml:space="preserve">
+    <value>Массовая проверка флагов</value>
+  </data>
+  <data name="FlagSearch.Label22" xml:space="preserve">
+    <value>Проверяет наличие в источниках и типы значений. Совпадение не гарантирует, что Roblox разрешит локальное переопределение.</value>
+  </data>
+  <data name="FlagSearch.Label23" xml:space="preserve">
+    <value>Загрузить файл</value>
+  </data>
+  <data name="FlagSearch.Label24" xml:space="preserve">
+    <value>Проверить</value>
+  </data>
+  <data name="FlagSearch.Label25" xml:space="preserve">
+    <value>Очистить</value>
+  </data>
+  <data name="FlagSearch.Label26" xml:space="preserve">
+    <value>Вставить</value>
+  </data>
+  <data name="FlagSearch.Label28" xml:space="preserve">
+    <value>Выделить всё</value>
+  </data>
+  <data name="FlagSearch.Label30" xml:space="preserve">
+    <value>Очистить</value>
+  </data>
+  <data name="FlagSearch.Label31" xml:space="preserve">
+    <value>Результаты проверки</value>
+  </data>
+  <data name="FlagSearch.Label32" xml:space="preserve">
+    <value>Имя флага</value>
+  </data>
+  <data name="FlagSearch.Label33" xml:space="preserve">
+    <value>Введённое значение</value>
+  </data>
+  <data name="FlagSearch.Label34" xml:space="preserve">
+    <value>Статус</value>
+  </data>
+  <data name="FlagSearch.Label35" xml:space="preserve">
+    <value>Значение в источнике</value>
+  </data>
+  <data name="FlagSearch.Label36" xml:space="preserve">
+    <value>Примечания</value>
+  </data>
+  <data name="FlagSearch.Label37" xml:space="preserve">
+    <value>Экспорт проверенных данных</value>
+  </data>
+  <data name="FlagSearch.Label38" xml:space="preserve">
+    <value>0 результатов</value>
+  </data>
+  <data name="FlagSearch.Label39" xml:space="preserve">
+    <value>Источники данных</value>
+  </data>
+  <data name="FlagSearch.Label40" xml:space="preserve">
+    <value>Доступность источников в реальном времени и время получения. Наличие в источнике не означает, что Roblox принимает локальное переопределение. Эти источники не сообщают даты недавних изменений.</value>
+  </data>
+  <data name="FlagSearch.Label41" xml:space="preserve">
+    <value>Источник</value>
+  </data>
+  <data name="FlagSearch.Label42" xml:space="preserve">
+    <value>Статус</value>
+  </data>
+  <data name="FlagSearch.Label43" xml:space="preserve">
+    <value>Флаги</value>
+  </data>
+  <data name="FlagSearch.Label44" xml:space="preserve">
+    <value>Получено</value>
+  </data>
+  <data name="FlagSearch.Label45" xml:space="preserve">
+    <value>Закрыть</value>
+  </data>
+  <data name="FlagSearch.Message1" xml:space="preserve">
+    <value>Введите флаги для проверки.</value>
+  </data>
+  <data name="FlagSearch.Message2" xml:space="preserve">
+    <value>Нет данных</value>
+  </data>
+  <data name="FlagSearch.Message3" xml:space="preserve">
+    <value>Эти данные флагов слишком велики для проверки.</value>
+  </data>
+  <data name="FlagSearch.Message4" xml:space="preserve">
+    <value>Слишком много данных</value>
+  </data>
+  <data name="FlagSearch.Message5" xml:space="preserve">
+    <value>Во введённых данных найдены повторяющиеся флаги: </value>
+  </data>
+  <data name="FlagSearch.Message6" xml:space="preserve">
+    <value>Обнаружены дубликаты</value>
+  </data>
+  <data name="FlagSearch.Message7" xml:space="preserve">
+    <value>Ошибка при проверке флагов</value>
+  </data>
+  <data name="FlagSearch.Message8" xml:space="preserve">
+    <value>Ошибка при проверке флагов: </value>
+  </data>
+  <data name="FlagSearch.Message9" xml:space="preserve">
+    <value>Ошибка проверки</value>
+  </data>
+  <data name="FlagSearch.Message10" xml:space="preserve">
+    <value>Выберите файл флагов для проверки</value>
+  </data>
+  <data name="FlagSearch.Message11" xml:space="preserve">
+    <value>Ошибка загрузки файла: </value>
+  </data>
+  <data name="FlagSearch.Message12" xml:space="preserve">
+    <value>Ошибка файла</value>
+  </data>
+  <data name="FlagSearch.Message13" xml:space="preserve">
+    <value>Недопустимый размер файла флагов</value>
+  </data>
+  <data name="FlagSearch.Message14" xml:space="preserve">
+    <value>Файл флагов изменился во время чтения</value>
+  </data>
+  <data name="FlagSearch.Message15" xml:space="preserve">
+    <value>Данные флагов слишком велики</value>
+  </data>
+  <data name="FlagSearch.Message16" xml:space="preserve">
+    <value>Экспортировано {flags.Count} флагов в {dialog.FileName}</value>
+  </data>
+  <data name="FlagSearch.Message17" xml:space="preserve">
+    <value>Экспорт завершён</value>
+  </data>
+  <data name="FlagSearch.Message18" xml:space="preserve">
+    <value>Ошибка экспорта флагов: </value>
+  </data>
+  <data name="FlagSearch.Message19" xml:space="preserve">
+    <value>Ошибка экспорта</value>
+  </data>
+  <data name="FlagSearch.Message20" xml:space="preserve">
+    <value>Ошибка вставки из буфера обмена: </value>
+  </data>
+  <data name="FlagSearch.Message21" xml:space="preserve">
+    <value>Ошибка вставки</value>
+  </data>
+  <data name="FlagSearch.ExportSummary" xml:space="preserve">
+    <value>Экспортировано {0:N0} флагов в {1}</value>
+  </data>
+  <data name="FlagSearch.ValueNote" xml:space="preserve">
+    <value>Введённое значение не соответствует типу имени флага. Логические флаги требуют true или false, целочисленные флаги требуют целое 32-битное число.</value>
+  </data>
+  <data name="Notifications.Title" xml:space="preserve">
+    <value>Уведомления</value>
+  </data>
+  <data name="Notifications.Updates" xml:space="preserve">
+    <value>Обновления</value>
+  </data>
+  <data name="Notifications.Roblox" xml:space="preserve">
+    <value>Roblox и моды</value>
+  </data>
+  <data name="Notifications.Recovery" xml:space="preserve">
+    <value>Восстановление настроек</value>
+  </data>
+  <data name="Notifications.Errors" xml:space="preserve">
+    <value>Ошибки и сбои</value>
+  </data>
+  <data name="Notifications.GameJoins" xml:space="preserve">
+    <value>Вход в игру</value>
+  </data>
+  <data name="Notifications.App" xml:space="preserve">
+    <value>Уведомления приложения</value>
+  </data>
+  <data name="Notifications.AppDescription" xml:space="preserve">
+    <value>Показывать уведомления приложения.</value>
+  </data>
+  <data name="Bootstrapper.Uninstall.NvidiaFailed" xml:space="preserve">
+    <value>Не удалось выполнить очистку NVIDIA. Всё равно удалить? Оставшиеся настройки NVIDIA останутся применёнными.
+
+{0}</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Latest" xml:space="preserve">
+    <value>Новые</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Oldest" xml:space="preserve">
+    <value>Старые</value>
+  </data>
+  <data name="ContextMenu.GameHistory.MostPlayed" xml:space="preserve">
+    <value>Самые долгие визиты</value>
+  </data>
+  <data name="ContextMenu.GameHistory.NameAscending" xml:space="preserve">
+    <value>Имя, по возрастанию</value>
+  </data>
+  <data name="ContextMenu.GameHistory.NameDescending" xml:space="preserve">
+    <value>Имя, по убыванию</value>
+  </data>
+  <data name="ContextMenu.GameHistory.AllServers" xml:space="preserve">
+    <value>Все серверы</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Public" xml:space="preserve">
+    <value>Публичный</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Private" xml:space="preserve">
+    <value>Приватный</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Reserved" xml:space="preserve">
+    <value>Зарезервированный</value>
+  </data>
+  <data name="ContextMenu.GameHistory.EndUnknown" xml:space="preserve">
+    <value>Не записано</value>
+  </data>
+  <data name="ContextMenu.GameHistory.CopyLink" xml:space="preserve">
+    <value>Копировать ссылку</value>
+  </data>
+  <data name="ContextMenu.GameHistory.LoadFailed" xml:space="preserve">
+    <value>Не удалось загрузить историю.</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Empty" xml:space="preserve">
+    <value>Нет визитов для отображения.</value>
+  </data>
+  <data name="ContextMenu.GameHistory.StatusUnknown" xml:space="preserve">
+    <value>Неизвестно</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Online" xml:space="preserve">
+    <value>В сети</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Offline" xml:space="preserve">
+    <value>Не в сети</value>
+  </data>
+  <data name="ContextMenu.GameHistory.CheckedAt" xml:space="preserve">
+    <value>Проверено: {0}</value>
+  </data>
+  <data name="ContextMenu.GameHistory.LaunchFailed" xml:space="preserve">
+    <value>Не удалось запустить Roblox.</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.MaxOnly" xml:space="preserve">
+    <value>Макс. {0}</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.Unknown" xml:space="preserve">
+    <value>Неизвестно</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.InGame" xml:space="preserve">
+    <value>{0:N0} в игре</value>
+  </data>
+  <data name="ServerInfo.Hint.Updated" xml:space="preserve">
+    <value>Обновлено {0} назад.</value>
+  </data>
+  <data name="ServerInfo.Hint.RateLimited" xml:space="preserve">
+    <value>Roblox ограничивает поиск серверов, повтор через {0}.</value>
+  </data>
+  <data name="ServerInfo.Hint.RateLimitedStale" xml:space="preserve">
+    <value>Roblox ограничивает поиск серверов. Показано число {0} назад, обновление через {1}.</value>
+  </data>
+  <data name="ServerInfo.Hint.NotListed" xml:space="preserve">
+    <value>Этого сервера нет в части публичного списка серверов, которой делится Roblox, повторная проверка через {0}.</value>
+  </data>
+  <data name="ServerInfo.Hint.NotListedStale" xml:space="preserve">
+    <value>Последний раз виден {0} назад. Сейчас этого сервера нет в части публичного списка серверов, которой делится Roblox.</value>
+  </data>
+  <data name="ServerInfo.Hint.PrivateNotListed" xml:space="preserve">
+    <value>Этого приватного сервера нет в списке серверов, доступном вашему аккаунту, поэтому число игроков прочитать нельзя.</value>
+  </data>
+  <data name="ServerInfo.Hint.PrivateSignedOut" xml:space="preserve">
+    <value>Roblox сообщает число игроков на приватных серверах только аккаунтам, выполнившим вход. Войдите в Roblox в Voidstrap, чтобы увидеть его.</value>
+  </data>
+  <data name="ServerInfo.Hint.Reserved" xml:space="preserve">
+    <value>Roblox не показывает зарезервированные серверы, используемые для телепортов и групп, поэтому число их игроков прочитать нельзя.</value>
+  </data>
+  <data name="ServerInfo.Hint.Unavailable" xml:space="preserve">
+    <value>Не удалось связаться с Roblox, повтор через {0}.</value>
+  </data>
+  <data name="ServerInfo.Hint.UnavailableStale" xml:space="preserve">
+    <value>Не удалось связаться с Roblox. Показано число {0} назад, повтор через {1}.</value>
+  </data>
+  <data name="ServerInfo.Hint.Full" xml:space="preserve">
+    <value>Этот сервер заполнен. Roblox не включает заполненные серверы в публичный список, поэтому он отображается заполненным, пока не освободится место.</value>
+  </data>
+  <data name="Shortcuts.GameTab" xml:space="preserve">
+    <value>Игра</value>
+  </data>
+  <data name="Shortcuts.SubplaceTab" xml:space="preserve">
+    <value>Подместо</value>
+  </data>
+  <data name="Shortcuts.SubplaceDescription" xml:space="preserve">
+    <value>Найдите другие места в этой игре.</value>
+  </data>
+  <data name="Shortcuts.LoadSubplaces" xml:space="preserve">
+    <value>Загрузить подместа</value>
+  </data>
+  <data name="Shortcuts.SubplaceAccess" xml:space="preserve">
+    <value>Создатель должен разрешить прямое подключение. Для некоторых подмест нужен телепорт внутри игры.</value>
+  </data>
+  <data name="Shortcuts.SubplaceInitial" xml:space="preserve">
+    <value>Введите ID игры, чтобы автоматически загрузить её подместа.</value>
+  </data>
+  <data name="Shortcuts.SubplaceRetry" xml:space="preserve">
+    <value>Откройте эту вкладку снова, чтобы повторить попытку.</value>
+  </data>
+  <data name="Shortcuts.SubplaceInvalidId" xml:space="preserve">
+    <value>Введите допустимый числовой ID игры.</value>
+  </data>
+  <data name="Shortcuts.SubplaceLoading" xml:space="preserve">
+    <value>Загрузка подмест...</value>
+  </data>
+  <data name="Shortcuts.SubplaceEmpty" xml:space="preserve">
+    <value>В этой игре нет перечисленных подмест.</value>
+  </data>
+  <data name="Shortcuts.SubplaceChoose" xml:space="preserve">
+    <value>Выберите подместо ниже.</value>
+  </data>
+  <data name="Shortcuts.SubplaceTimeout" xml:space="preserve">
+    <value>Время ожидания запроса истекло. Откройте эту вкладку снова, чтобы повторить попытку.</value>
+  </data>
+  <data name="Shortcuts.SubplaceFailed" xml:space="preserve">
+    <value>Не удалось загрузить подместа. Проверьте ID игры и подключение, затем повторите попытку.</value>
+  </data>
+  <data name="Shortcuts.SubplaceReload" xml:space="preserve">
+    <value>Подместа загружаются автоматически, когда вы вводите допустимый ID игры.</value>
+  </data>
+  <data name="Shortcuts.SubplaceRequired" xml:space="preserve">
+    <value>Дождитесь загрузки подмест и выберите одно, прежде чем продолжить.</value>
+  </data>
+  <data name="Library.SubplacesTab" xml:space="preserve">
+    <value>Подместа</value>
+  </data>
+  <data name="SettingsProfiles.Title" xml:space="preserve">
+    <value>Профили настроек</value>
+  </data>
+  <data name="SettingsProfiles.Name" xml:space="preserve">
+    <value>Имя профиля</value>
+  </data>
+  <data name="SettingsProfiles.NameHint" xml:space="preserve">
+    <value>Пример: VoidstrapProfile</value>
+  </data>
+  <data name="SettingsProfiles.Save" xml:space="preserve">
+    <value>Сохранить профиль</value>
+  </data>
+  <data name="SettingsProfiles.Saved" xml:space="preserve">
+    <value>Сохранённые профили</value>
+  </data>
+  <data name="SettingsProfiles.Apply" xml:space="preserve">
+    <value>Применить профиль</value>
+  </data>
+  <data name="SettingsProfiles.Folder" xml:space="preserve">
+    <value>Открыть папку</value>
+  </data>
+  <data name="SettingsProfiles.Empty" xml:space="preserve">
+    <value>Профилей пока нет. Введите имя и выберите Сохранить профиль.</value>
+  </data>
+  <data name="SettingsProfiles.Location" xml:space="preserve">
+    <value>Сохранено в {0}</value>
+  </data>
+  <data name="SettingsProfiles.InvalidName" xml:space="preserve">
+    <value>Используйте имя длиной от 1 до 80 символов без символов, недопустимых в именах файлов, и зарезервированных имён устройств.</value>
+  </data>
+  <data name="SettingsProfiles.InvalidFile" xml:space="preserve">
+    <value>Этот профиль недействителен или использует неподдерживаемый формат.</value>
+  </data>
+  <data name="SettingsProfiles.RestoreFailed" xml:space="preserve">
+    <value>Не удалось применить профиль и восстановить прежние настройки.</value>
+  </data>
+  <data name="SettingsProfiles.Overwrite" xml:space="preserve">
+    <value>Заменить сохранённый профиль "{0}" вашими текущими настройками?</value>
+  </data>
+  <data name="SettingsProfiles.SavedStatus" xml:space="preserve">
+    <value>Сохранено: "{0}"</value>
+  </data>
+  <data name="SettingsProfiles.ApplyConfirm" xml:space="preserve">
+    <value>Применить "{0}"? Это заменит ваши текущие настройки Voidstrap и FastFlags, а затем снова откроет настройки Voidstrap.</value>
+  </data>
+  <data name="SettingsProfiles.RestartFailed" xml:space="preserve">
+    <value>Профиль применён. Перезапустите Voidstrap, чтобы обновить все страницы настроек.</value>
+  </data>
+  <data name="SettingsProfiles.Restart" xml:space="preserve">
+    <value>Перезапустить сейчас</value>
+  </data>
+  <data name="SettingsProfiles.DeleteConfirm" xml:space="preserve">
+    <value>Удалить сохранённый профиль "{0}"? Ваши текущие настройки останутся без изменений.</value>
+  </data>
+  <data name="SettingsProfiles.Deleted" xml:space="preserve">
+    <value>Удалено: "{0}".</value>
+  </data>
+  <data name="SettingsProfiles.Error" xml:space="preserve">
+    <value>Не удалось выполнить действие с профилем: {0}</value>
+  </data>
+  <data name="GlobalProfiles.Title" xml:space="preserve">
+    <value>Профили глобальных настроек</value>
+  </data>
+  <data name="GlobalProfiles.ApplyConfirm" xml:space="preserve">
+    <value>Применить "{0}"? Это заменит ваши текущие глобальные настройки Roblox. Перезайдите в Roblox, чтобы увидеть все изменения.</value>
+  </data>
+  <data name="GlobalProfiles.Applied" xml:space="preserve">
+    <value>Применено: "{0}"</value>
+  </data>
+  <data name="GlobalProfiles.SaveFailed" xml:space="preserve">
+    <value>Не удалось записать файл настроек Roblox. Закройте Roblox и попробуйте снова.</value>
+  </data>
+  <data name="AssetWarp.RemoveTexturesDescription" xml:space="preserve">
+    <value>Блокирует загрузку ресурсов текстур и наборов текстур</value>
+  </data>
+  <data name="AssetWarp.RemoveDecalsDescription" xml:space="preserve">
+    <value>Блокирует загрузку ресурсов декалей</value>
+  </data>
+  <data name="AssetWarp.RemoveImagesDescription" xml:space="preserve">
+    <value>Блокирует загрузку ресурсов изображений. Roblox также использует изображения для текстур и декалей</value>
+  </data>
+  <data name="AssetWarp.RemoveAnimationsDescription" xml:space="preserve">
+    <value>Блокирует загрузку ресурсов анимаций. Игры без запасной анимации могут перестать работать правильно</value>
+  </data>
+  <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
+    <value>Блокирует загрузку ресурсов мешей и MeshPart. Геометрия мешей станет невидимой</value>
+  </data>
+  <data name="SwiftTunnel.Summary" xml:space="preserve">
+    <value>Направляйте трафик Roblox через SwiftTunnel, пока другие приложения используют обычное подключение</value>
+  </data>
+  <data name="SwiftTunnel.Description" xml:space="preserve">
+    <value>SwiftTunnel является оптимизатором игрового подключения для Windows с раздельным туннелированием и выбором региональных ретрансляторов</value>
+  </data>
+  <data name="SwiftTunnel.Setup" xml:space="preserve">
+    <value>Установка скачивает последнюю официальную версию SwiftTunnel и после настройки открывает приложение для компьютера. Войдите в нём и выберите подключение. Для оптимизации сети могут потребоваться права администратора</value>
+  </data>
+  <data name="SwiftTunnel.Network" xml:space="preserve">
+    <value>Сеть</value>
+  </data>
+  <data name="SwiftTunnel.Routing" xml:space="preserve">
+    <value>Маршрутизация</value>
+  </data>
+  <data name="SwiftTunnel.Install" xml:space="preserve">
+    <value>Установить</value>
+  </data>
+  <data name="SwiftTunnel.Uninstall" xml:space="preserve">
+    <value>Удалить</value>
+  </data>
+  <data name="SwiftTunnel.Installed" xml:space="preserve">
+    <value>Установлено</value>
+  </data>
+  <data name="SwiftTunnel.NotInstalled" xml:space="preserve">
+    <value>Не установлено</value>
+  </data>
+  <data name="SwiftTunnel.Working" xml:space="preserve">
+    <value>Выполняется</value>
+  </data>
+  <data name="SwiftTunnel.Downloading" xml:space="preserve">
+    <value>Загрузка SwiftTunnel</value>
+  </data>
+  <data name="SwiftTunnel.InstallerFailed" xml:space="preserve">
+    <value>Не удалось открыть установщик SwiftTunnel</value>
+  </data>
+  <data name="SwiftTunnel.InstallerExit" xml:space="preserve">
+    <value>Установщик SwiftTunnel вернул код {0}</value>
+  </data>
+  <data name="SwiftTunnel.Error" xml:space="preserve">
+    <value>Не удалось выполнить действие SwiftTunnel: {0}</value>
+  </data>
+  <data name="SwiftTunnel.UninstallUnavailable" xml:space="preserve">
+    <value>Запись удаления SwiftTunnel неполная. Удалите SwiftTunnel через Параметры Windows, Приложения</value>
+  </data>
+  <data name="SwiftTunnel.CleanupFailed" xml:space="preserve">
+    <value>SwiftTunnel не удалось восстановить свои сетевые настройки. Его файлы сохранены, чтобы очистку можно было повторить</value>
+  </data>
+  <data name="SwiftTunnel.ConfirmUninstall" xml:space="preserve">
+    <value>Полностью удалить SwiftTunnel? Сначала будут восстановлены его сетевой драйвер и системные настройки, затем SwiftTunnel будет удалён. После начала отменить это нельзя.</value>
+  </data>
+  <data name="SwiftTunnel.UninstallIncomplete" xml:space="preserve">
+    <value>Не удалось завершить удаление SwiftTunnel. Закройте SwiftTunnel и повторите попытку с правами администратора</value>
+  </data>
+  <data name="SwiftTunnel.UnsafeDirectory" xml:space="preserve">
+    <value>SwiftTunnel установлен в общую или нераспознанную папку. Переместите его в отдельную папку SwiftTunnel, прежде чем использовать полное удаление</value>
+  </data>
+  <data name="SwiftTunnel.NotInstalledError" xml:space="preserve">
+    <value>SwiftTunnel не установлен. Сначала установите его в разделе Расширения</value>
+  </data>
+  <data name="SwiftTunnel.Missing" xml:space="preserve">
+    <value>SwiftTunnel зарегистрирован, но его файлы отсутствуют. Удалите и установите его заново, чтобы исправить</value>
+  </data>
+  <data name="SwiftTunnel.NoInstaller" xml:space="preserve">
+    <value>В последней версии SwiftTunnel нет проверенного установщика Windows для этого компьютера</value>
+  </data>
+  <data name="Installer.MacOS.DataLocation.Title" xml:space="preserve">
+    <value>Выберите, где хранить данные Voidstrap</value>
+  </data>
+  <data name="Installer.MacOS.DataLocation.Text" xml:space="preserve">
+    <value>Voidstrap хранит здесь свои настройки и моды. Само приложение остаётся на текущем месте. Roblox устанавливается отдельно в папку Программы.</value>
+  </data>
+  <data name="Installer.MacOS.Completion.Text" xml:space="preserve">
+    <value>Voidstrap готов.
+
+Roblox будет скачан при первом запуске через Voidstrap. Перед запуском вы можете изменить настройки.
+
+Что вы хотите сделать?</value>
+  </data>
+  <data name="Installer.MacOS.Roblox.Title" xml:space="preserve">
+    <value>Roblox для macOS</value>
+  </data>
+  <data name="Installer.MacOS.Roblox.Text" xml:space="preserve">
+    <value>Voidstrap скачивает официальное приложение Roblox в папку Программы при первом нажатии кнопки Запустить и затем поддерживает его в актуальном состоянии. Отдельная установка не требуется.</value>
+  </data>
+  <data name="HomepageMedia.Preview.FileMissing" xml:space="preserve">
+    <value>Выбранный медиафайл не найден.</value>
+  </data>
+  <data name="HomepageMedia.Preview.DecodeError" xml:space="preserve">
+    <value>Не удалось декодировать этот файл. Выберите другое изображение или видео.</value>
+  </data>
+  <data name="HomepageMedia.Preview.RenderError" xml:space="preserve">
+    <value>Не удалось отобразить предпросмотр медиафайла.</value>
+  </data>
+  <data name="HomepageMedia.Picker.ImagesAndVideos" xml:space="preserve">
+    <value>Изображения и видео</value>
+  </data>
+  <data name="HomepageMedia.Picker.Images" xml:space="preserve">
+    <value>Изображения</value>
+  </data>
+  <data name="HomepageMedia.Picker.Videos" xml:space="preserve">
+    <value>Видео</value>
+  </data>
+  <data name="Appearance.Backdrop.Sidebar" xml:space="preserve">
+    <value>Боковая панель</value>
+  </data>
+  <data name="Appearance.Backdrop.Popover" xml:space="preserve">
+    <value>Всплывающее окно</value>
+  </data>
+  <data name="Appearance.Backdrop.Hud" xml:space="preserve">
+    <value>Проекционный дисплей</value>
+  </data>
+  <data name="Appearance.Backdrop.UnderWindow" xml:space="preserve">
+    <value>Под окном</value>
+  </data>
+  <data name="Appearance.Backdrop.UnderPage" xml:space="preserve">
+    <value>Под страницей</value>
+  </data>
+  <data name="Menu.MacVirtualDisplay.Title" xml:space="preserve">
+    <value>Виртуальный дисплей 240 Гц</value>
+  </data>
+  <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Дублирует главный экран, пока работает Roblox, и восстанавливает его после закрытия Roblox. Физический экран сохраняет собственное ограничение частоты обновления.</value>
+  </data>
 </root>

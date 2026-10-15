@@ -1727,4 +1727,1343 @@ Ar norite pakeisti pageidaujamą kanalą į {0}?</value>
   <data name="Menu.News.DialogTitle" xml:space="preserve">
     <value>Naujienos detalės</value>
   </data>
+  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
+    <value>Voidstrap nepavyko pašalinti likusio AssetWarp nukreipimo iš Windows hosts failo. Roblox negalės įkelti tekstūrų ir kitų išteklių, kol jis nebus pašalintas. Paleiskite Voidstrap kaip administratorius, kad jį išvalytumėte.</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
+    <value>Abu</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
+    <value>Žaidėjas</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
+    <value>Serverių naršyklė</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
+    <value>Vieta {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
+    <value>{0}  •  Vieta {1}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
+    <value>Nuskenuota serverių: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
+    <value>Atnaujinti</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
+    <value>Įkelti daugiau serverių</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
+    <value>Slėpti pilnus serverius</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
+    <value>Ieškoti miesto, šalies arba serverio ID</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
+    <value>Daugiausia žaidėjų</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
+    <value>Mažiausiai žaidėjų</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
+    <value>Mažiausias ping</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
+    <value>Prisijungti</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
+    <value>Dabartinis</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
+    <value>Įkeliami vieši serveriai</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
+    <value>Viešų serverių nerasta</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
+    <value>Prieš atidarydami serverių naršyklę, prisijunkite prie žaidimo</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
+    <value>Serverių sąrašas pristabdytas, nes Roblox riboja užklausas</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
+    <value>Nepavyko įkelti viešų serverių</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
+    <value>Įkelta serverių: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
+    <value>{0} iš {1} žaidėjų</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
+    <value>Žaidėjų: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
+    <value>Nežinoma</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
+    <value>Geriausias atitikmuo</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
+    <value>Geriausias atitikmuo</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
+    <value>Užblokuota</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
+    <value>Apie {0} ms nuo jūsų</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
+    <value>Kol kas rasta serverių vietų: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
+    <value>Rasta {0} iš {1} serverių vietų</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
+    <value>Perkeliama į {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
+    <value>Nepavyko prisijungti prie to serverio</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
+    <value>Prisijunkite skiltyje Nustatymai &gt; Server Matchmaker, kad Voidstrap galėtų nustatyti, kur yra kiekvienas serveris</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
+    <value>Nepavyko nustatyti jūsų vietos, todėl serverių negalima rikiuoti pagal ping</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
+    <value>Roblox neatskleidė, kur yra šie serveriai, bandykite dar kartą po akimirkos</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
+    <value>Visi rasti serveriai yra jūsų užblokuotame duomenų centre</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
+    <value>Visi rasti serveriai yra toli nuo jūsų, todėl matchmaker leistų rinktis Roblox</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
+    <value>Žaidimų naršyklė</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
+    <value>Tęsti</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
+    <value>Mėgstami</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
+    <value>Ieškoti</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
+    <value>Ieškoti Roblox žaidimų</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
+    <value>Įkeliami žaidimai</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
+    <value>Šioje sesijoje nėra naujausių žaidimų</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
+    <value>Nėra išsaugotų mėgstamų žaidimų</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
+    <value>Ieškokite Roblox žaidimo pagal pavadinimą</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
+    <value>Žaidimų pagal {0} nerasta</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
+    <value>Nepavyko įkelti žaidimų</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
+    <value>Žaidžia: {0}</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
+    <value>Prisijungti</value>
+  </data>
+  <data name="Enums.Theme.Berry" xml:space="preserve">
+    <value>Uogų</value>
+  </data>
+  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
+    <value>Automatinis vertimas</value>
+  </data>
+  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
+    <value>Versti į</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
+    <value>Automatinio vertimo kalba</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
+    <value>Išverskite visą Voidstrap sąsają į bet kurią kalbą. Pirmiausia naudojami įtaisyti vertimai, o likęs tekstas verčiamas realiuoju laiku.</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
+    <value>Automatiškai versti Discord RPC</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
+    <value>Automatiškai išverčia Discord Rich Presence tekstą į pasirinktą kalbą.</value>
+  </data>
+  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
+    <value>Ši funkcija pasiekiama tik Windows sistemoje.</value>
+  </data>
+  <data name="About.Translators.Description" xml:space="preserve">
+    <value>Visi čia išvardyti dosniai skyrė savo laiko ir pastangų Voidstrap vertimui. Didžiulis ačiū visiems!</value>
+  </data>
+  <data name="Menu.Channel.Description" xml:space="preserve">
+    <value>Pakeiskite Roblox ir Voidstrap diegimo ir platinimo nustatymus.</value>
+  </data>
+  <data name="Common.Channel" xml:space="preserve">
+    <value>Kanalas</value>
+  </data>
+  <data name="Menu.ChannelChanger.Description" xml:space="preserve">
+    <value>Pasirinkite platinimo kanalą. Nekeiskite, jei nežinote, ką darote.</value>
+  </data>
+  <data name="Common.Version" xml:space="preserve">
+    <value>Versija</value>
+  </data>
+  <data name="Menu.Channel.RobloxUpgrades" xml:space="preserve">
+    <value>Roblox naujiniai</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
+    <value>Tamsusis režimas</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
+    <value>Telemetrija</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
+    <value>Tamsusis režimas</value>
+  </data>
+  <data name="Menu.Sober.Description" xml:space="preserve">
+    <value>Konfigūruokite Linux aplinkas, su kuriomis Voidstrap paleidžia Roblox. Sober paleidžia grotuvą, Vinegar paleidžia Studio. Voidstrap keičia tik tas parinktis, kurias aiškiai perrašote.</value>
+  </data>
+  <data name="Menu.Sober.Default" xml:space="preserve">
+    <value>Naudoti Sober numatytąją reikšmę</value>
+  </data>
+  <data name="Menu.Sober.Enabled" xml:space="preserve">
+    <value>Įjungta</value>
+  </data>
+  <data name="Menu.Sober.Disabled" xml:space="preserve">
+    <value>Išjungta</value>
+  </data>
+  <data name="Menu.Sober.DefaultNotice" xml:space="preserve">
+    <value>Naudoti Sober numatytąją reikšmę palieka nustatymą Sober valdymui. Pašalinus perrašymą atkuriama reikšmė, kurios atsarginę kopiją padarė Voidstrap.</value>
+  </data>
+  <data name="Menu.Sober.RuntimeNotice" xml:space="preserve">
+    <value>Prieš nustatydami perrašymus užbaikite pirmąjį Sober paleidimą, o prieš juos keisdami uždarykite Sober. Išsaugoti pakeitimai pritaikomi kitą kartą paleidus Sober.</value>
+  </data>
+  <data name="Menu.Sober.Group.Session" xml:space="preserve">
+    <value>Sesija ir veikla</value>
+  </data>
+  <data name="Menu.Sober.Group.Input" xml:space="preserve">
+    <value>Valdymas ir patirtis</value>
+  </data>
+  <data name="Menu.Sober.Group.Graphics" xml:space="preserve">
+    <value>Grafika ir darbalaukis</value>
+  </data>
+  <data name="Menu.Sober.AllowGamepad.Title" xml:space="preserve">
+    <value>Leisti prieigą prie valdiklio</value>
+  </data>
+  <data name="Menu.Sober.AllowGamepad.Description" xml:space="preserve">
+    <value>Leidžia Sober prašyti prieigos prie prijungtų valdiklių. Pakeitus leidimus gali reikėti dar kartą paleisti Sober.</value>
+  </data>
+  <data name="Menu.Sober.CloseOnLeave.Title" xml:space="preserve">
+    <value>Uždaryti išeinant</value>
+  </data>
+  <data name="Menu.Sober.CloseOnLeave.Description" xml:space="preserve">
+    <value>Uždaro Sober palikus patirtį.</value>
+  </data>
+  <data name="Menu.Sober.DiscordRpc.Description" xml:space="preserve">
+    <value>Leidžia Sober rodyti žaidimo veiklą per Discord Rich Presence.</value>
+  </data>
+  <data name="Menu.Sober.DiscordJoin.Title" xml:space="preserve">
+    <value>Discord prisijungimo mygtukas</value>
+  </data>
+  <data name="Menu.Sober.DiscordJoin.Description" xml:space="preserve">
+    <value>Leidžia Sober pridėti prisijungimo mygtuką į Discord Rich Presence.</value>
+  </data>
+  <data name="Menu.Sober.GameMode.Title" xml:space="preserve">
+    <value>GameMode integracija</value>
+  </data>
+  <data name="Menu.Sober.GameMode.Description" xml:space="preserve">
+    <value>Leidžia Sober prašyti GameMode našumo derinimo, kai GameMode pasiekiamas.</value>
+  </data>
+  <data name="Menu.Sober.HiDpi.Title" xml:space="preserve">
+    <value>Didelio DPI mastelis</value>
+  </data>
+  <data name="Menu.Sober.HiDpi.Description" xml:space="preserve">
+    <value>Naudoja įtaisytąjį mastelį didelio tankio ekranams.</value>
+  </data>
+  <data name="Menu.Sober.MobileHome.Title" xml:space="preserve">
+    <value>Mobilusis pradžios ekranas</value>
+  </data>
+  <data name="Menu.Sober.MobileHome.Description" xml:space="preserve">
+    <value>Naudoja mobiliojo stiliaus Roblox pradžios ekraną.</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Title" xml:space="preserve">
+    <value>Grafikos optimizavimo režimas</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Description" xml:space="preserve">
+    <value>Pasirenka Sober grafikos optimizavimo nuostatą.</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Quality" xml:space="preserve">
+    <value>Kokybė</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Balanced" xml:space="preserve">
+    <value>Subalansuotas</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Performance" xml:space="preserve">
+    <value>Našumas</value>
+  </data>
+  <data name="Menu.Sober.ServerLocation.Title" xml:space="preserve">
+    <value>Serverio vietos indikatorius</value>
+  </data>
+  <data name="Menu.Sober.ServerLocation.Description" xml:space="preserve">
+    <value>Žaidžiant rodo Sober serverio vietos indikatorių.</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Title" xml:space="preserve">
+    <value>Lietimo režimas</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Description" xml:space="preserve">
+    <value>Pasirenka, kaip Sober praneša apie lietimo įvesties palaikymą.</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Off" xml:space="preserve">
+    <value>Išjungta</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.On" xml:space="preserve">
+    <value>Įjungta</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.FakeOff" xml:space="preserve">
+    <value>Tariamai išjungta</value>
+  </data>
+  <data name="Menu.Sober.ConsoleExperience.Title" xml:space="preserve">
+    <value>Konsolės patirtis</value>
+  </data>
+  <data name="Menu.Sober.ConsoleExperience.Description" xml:space="preserve">
+    <value>Naudoja konsolės stiliaus Roblox patirtį.</value>
+  </data>
+  <data name="Menu.Sober.Libsecret.Title" xml:space="preserve">
+    <value>Secret Service saugykla</value>
+  </data>
+  <data name="Menu.Sober.Libsecret.Description" xml:space="preserve">
+    <value>Saugo palaikomus prisijungimo duomenis per darbalaukio Secret Service.</value>
+  </data>
+  <data name="Menu.Sober.OpenGl.Title" xml:space="preserve">
+    <value>OpenGL atvaizdavimas</value>
+  </data>
+  <data name="Menu.Sober.OpenGl.Description" xml:space="preserve">
+    <value>Naudoja OpenGL vietoje numatytosios Sober grafikos posistemės.</value>
+  </data>
+  <data name="Installer.Appearance.BackgroundUI.Title" xml:space="preserve">
+    <value>Fonas ir sąsaja</value>
+  </data>
+  <data name="Installer.Appearance.BackgroundUI.Description" xml:space="preserve">
+    <value>Pritaikykite diegimo programą ir pagrindinę programėlę.</value>
+  </data>
+  <data name="Installer.Appearance.Snow.Title" xml:space="preserve">
+    <value>Sniegas fone</value>
+  </data>
+  <data name="Installer.Appearance.Snow.Description" xml:space="preserve">
+    <value>Prideda subtilų sniego efektą fone.</value>
+  </data>
+  <data name="Installer.Appearance.GradientMovement.Title" xml:space="preserve">
+    <value>Gradiento judėjimas</value>
+  </data>
+  <data name="Installer.Appearance.GradientMovement.Description" xml:space="preserve">
+    <value>Fono gradientas seka žymeklį.</value>
+  </data>
+  <data name="Installer.Appearance.SmoothScrolling.Title" xml:space="preserve">
+    <value>Sklandus slinkimas</value>
+  </data>
+  <data name="Installer.Appearance.SmoothScrolling.Description" xml:space="preserve">
+    <value>Animuoja slinkimą visoje sąsajoje.</value>
+  </data>
+  <data name="Installer.Appearance.ClearFont.Title" xml:space="preserve">
+    <value>Aiškus šriftas</value>
+  </data>
+  <data name="Installer.Appearance.ClearFont.Description" xml:space="preserve">
+    <value>Iš naujo paleidus Voidstrap naudoja ryškesnį teksto atvaizdavimą.</value>
+  </data>
+  <data name="Installer.Appearance.Background.Title" xml:space="preserve">
+    <value>Pasirinktinis fonas</value>
+  </data>
+  <data name="Installer.Appearance.Background.Description" xml:space="preserve">
+    <value>Naudokite paveikslėlį, GIF arba vaizdo įrašą ir sureguliuokite, kaip jis atrodo.</value>
+  </data>
+  <data name="Installer.Appearance.GradientOpacity" xml:space="preserve">
+    <value>Gradiento nepermatomumas</value>
+  </data>
+  <data name="Installer.Appearance.DarkOverlay" xml:space="preserve">
+    <value>Tamsus sluoksnis</value>
+  </data>
+  <data name="Installer.Appearance.DisplayEverywhere" xml:space="preserve">
+    <value>Rodyti visur</value>
+  </data>
+  <data name="Installer.Appearance.RemoveBackground" xml:space="preserve">
+    <value>Pašalinti foną</value>
+  </data>
+  <data name="Installer.Appearance.Theme.Description" xml:space="preserve">
+    <value>Pasirinkite temą, naudojamą visuose Voidstrap languose.</value>
+  </data>
+  <data name="Installer.Appearance.Theme.Customize" xml:space="preserve">
+    <value>Tinkinti</value>
+  </data>
+  <data name="Installer.Appearance.Backdrop.Title" xml:space="preserve">
+    <value>Lango fonas</value>
+  </data>
+  <data name="Installer.Appearance.Backdrop.Description" xml:space="preserve">
+    <value>Pasirinkite medžiagą, rodomą už Voidstrap langų.</value>
+  </data>
+  <data name="Installer.Appearance.PageZoom.Title" xml:space="preserve">
+    <value>Puslapio mastelis</value>
+  </data>
+  <data name="Installer.Appearance.PageZoom.Description" xml:space="preserve">
+    <value>Sureguliuokite nustatymų puslapių dydį.</value>
+  </data>
+  <data name="Vng.WarningTitle" xml:space="preserve">
+    <value>Roblox VNG: nuolatinis paskyros apribojimas</value>
+  </data>
+  <data name="Vng.Warning" xml:space="preserve">
+    <value>STOP: PERSKAITYKITE PRIEŠ TĘSDAMI
+
+Pirmą kartą prisijungus prie Roblox VNG jūsų paskyra perkeliama į VNG. Pasak Roblox, tos paskyros nebegalėsite naudoti visuotinėje Roblox programėlėje.
+
+Laikykite šį paskyros perkėlimą nuolatiniu. Voidstrap negali jo atšaukti. VNG pašalinimas arba šios parinkties išjungimas neatkuria visuotinės prieigos prie paskyros. Bus taikomi VNG paskyros ir regioniniai apribojimai.
+
+Vien failų atsisiuntimas jūsų paskyros neperkelia. Prisijungimas arba paleidimas su esama paskyra gali tą paskyrą perkelti.
+
+Tęskite tik jei sutinkate prarasti prieigą prie visuotinės programėlės kiekvienai su VNG naudojamai paskyrai. Mygtukas Taip atsirakins po dešimties sekundžių.</value>
+  </data>
+  <data name="Vng.Confirmation" xml:space="preserve">
+    <value>Ar tikrai?</value>
+  </data>
+  <data name="Vng.Agreement" xml:space="preserve">
+    <value>Paskutinis įspėjimas: prisijungus prie Roblox VNG jūsų paskyra gali būti visam laikui perkelta ir prarasta prieiga prie visuotinės Roblox programėlės. Voidstrap negali to atšaukti.
+
+Tiksliai įveskite toliau rodomą frazę, kad sutiktumėte su šiais apribojimais ir tęstumėte.</value>
+  </data>
+  <data name="Vng.Countdown" xml:space="preserve">
+    <value>{0} ({1} s)</value>
+  </data>
+  <data name="Vng.Description" xml:space="preserve">
+    <value>Vietnamo žaidėjų klientas. Prisijungimas perkelia jūsų paskyrą ir panaikina prieigą prie visuotinės programėlės.</value>
+  </data>
+  <data name="Vng.UseForLaunches" xml:space="preserve">
+    <value>Naudoti VNG žaidėjo paleidimams</value>
+  </data>
+  <data name="Vng.UninstallWarning" xml:space="preserve">
+    <value>Pašalinus VNG paskyros perkėlimas neatšaukiamas ir prieiga prie visuotinės programėlės neatkuriama.</value>
+  </data>
+  <data name="Mtu.Description" xml:space="preserve">
+    <value>Riboja paketų dydį visoms programoms, įskaitant Roblox. Reikia administratoriaus teisių ir išlieka paleidus iš naujo. Gali nepagerinti ping.</value>
+  </data>
+  <data name="Mtu.Adapter" xml:space="preserve">
+    <value>Pasirinkite tinklo adapterį ir IP versiją</value>
+  </data>
+  <data name="Mtu.CustomValue" xml:space="preserve">
+    <value>Pasirinktinis MTU (baitai)</value>
+  </data>
+  <data name="Mtu.Current" xml:space="preserve">
+    <value>Dabartinis: {0} baitų. Mažiausiai: {1} baitų.</value>
+  </data>
+  <data name="Mtu.NoAdapters" xml:space="preserve">
+    <value>Palaikomų tinklo adapterių nerasta. Atnaujinkite, kad bandytumėte dar kartą.</value>
+  </data>
+  <data name="Mtu.Invalid" xml:space="preserve">
+    <value>Įveskite sveikąjį skaičių nuo {0} iki {1}. Windows taip pat tikrina adapterio palaikomą paketo dydį.</value>
+  </data>
+  <data name="Mtu.Apply" xml:space="preserve">
+    <value>Taikyti</value>
+  </data>
+  <data name="Mtu.Restore" xml:space="preserve">
+    <value>Atkurti</value>
+  </data>
+  <data name="Mtu.Refresh" xml:space="preserve">
+    <value>Atnaujinti</value>
+  </data>
+  <data name="Mtu.Loading" xml:space="preserve">
+    <value>Skaitomi Windows tinklo adapteriai...</value>
+  </data>
+  <data name="Mtu.Applying" xml:space="preserve">
+    <value>Laukiama administratoriaus patvirtinimo ir taikomas MTU...</value>
+  </data>
+  <data name="Mtu.AdapterUnavailable" xml:space="preserve">
+    <value>Pasirinktas adapteris nepasiekiamas. Atnaujinkite ir pasirinkite adapterį.</value>
+  </data>
+  <data name="Mtu.Rejected" xml:space="preserve">
+    <value>Windows nepavyko pritaikyti MTU, kodas {0}. Jūsų adapteris gali nepalaikyti šios reikšmės.</value>
+  </data>
+  <data name="Mtu.Applied" xml:space="preserve">
+    <value>MTU nustatytas į {0} baitų ir patikrintas. Taikoma visoms pasirinkto adapterio programoms.</value>
+  </data>
+  <data name="Mtu.Restored" xml:space="preserve">
+    <value>Ankstesnis MTU atkurtas į {0} baitų ir patikrintas.</value>
+  </data>
+  <data name="Mtu.VerificationFailed" xml:space="preserve">
+    <value>Windows nepranešė prašomo MTU. Atnaujinkite, kad patikrintumėte dabartinę reikšmę.</value>
+  </data>
+  <data name="Mtu.Cancelled" xml:space="preserve">
+    <value>Administratoriaus užklausa atšaukta. MTU nepakeistas.</value>
+  </data>
+  <data name="Mtu.Error" xml:space="preserve">
+    <value>MTU operacija nepavyko. Atnaujinkite, kad patikrintumėte dabartinę reikšmę.</value>
+  </data>
+  <data name="Menu_FastFlagEditor_Rename" xml:space="preserve">
+    <value>Pervadinti</value>
+  </data>
+  <data name="Menu_FastFlagEditor_EditValue" xml:space="preserve">
+    <value>Redaguoti reikšmę</value>
+  </data>
+  <data name="Menu_FastFlagEditor_CopySelected" xml:space="preserve">
+    <value>Kopijuoti pasirinkimą kaip JSON</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Title" xml:space="preserve">
+    <value>Akcento spalva</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Description" xml:space="preserve">
+    <value>Pasirinkite programėlės valdiklių ir fono atspalvio spalvą.</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Choose" xml:space="preserve">
+    <value>Pasirinkti spalvą</value>
+  </data>
+  <data name="Menu.Appearance.Accent.System" xml:space="preserve">
+    <value>Naudoti sistemos spalvą</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Picker" xml:space="preserve">
+    <value>Pasirinkti akcento spalvą</value>
+  </data>
+  <data name="Menu.Shortcuts.Customize" xml:space="preserve">
+    <value>Pavadinimas ir piktograma</value>
+  </data>
+  <data name="Menu.Shortcuts.InvalidName" xml:space="preserve">
+    <value>Naudokite tinkamą nuorodos pavadinimą be pasvirųjų brūkšnių ir rezervuotų failų pavadinimų.</value>
+  </data>
+  <data name="Menu.Shortcuts.NameExists" xml:space="preserve">
+    <value>Nuoroda tokiu pavadinimu jau yra. Pasirinkite kitą pavadinimą.</value>
+  </data>
+  <data name="Menu.Shortcuts.ChooseIcon" xml:space="preserve">
+    <value>Pasirinkite nuorodos piktogramą</value>
+  </data>
+  <data name="Menu.Shortcuts.IconFilter" xml:space="preserve">
+    <value>Piktogramų ir paveikslėlių failai|*.ico;*.png;*.jpg;*.jpeg;*.bmp;*.webp</value>
+  </data>
+  <data name="Menu.Shortcuts.InvalidIcon" xml:space="preserve">
+    <value>Pasirinkite tinkamą piktogramą arba paveikslėlį, mažesnį nei 8 MB.</value>
+  </data>
+  <data name="Menu.LaunchDropdownOnRight" xml:space="preserve">
+    <value>Versijų pasirinkimą rodyti dešinėje</value>
+  </data>
+  <data name="OverlayDiagnostics.Bounds" xml:space="preserve">
+    <value>Dydis ir padėtis ekrane</value>
+  </data>
+  <data name="OverlayDiagnostics.CollectionError" xml:space="preserve">
+    <value>Nepavyko surinkti dabartinio mėginio: {0}</value>
+  </data>
+  <data name="OverlayDiagnostics.CompositeCrosshair" xml:space="preserve">
+    <value>Kompozitoriaus taikiklis aktyvus</value>
+  </data>
+  <data name="OverlayDiagnostics.Compositor" xml:space="preserve">
+    <value>Kompozitorius inicijuotas</value>
+  </data>
+  <data name="OverlayDiagnostics.Configuration" xml:space="preserve">
+    <value>Sukonfigūruotos funkcijos, šie jungikliai neįrodo atvaizdavimo</value>
+  </data>
+  <data name="OverlayDiagnostics.Crosshair" xml:space="preserve">
+    <value>Taikiklis</value>
+  </data>
+  <data name="OverlayDiagnostics.Disabled" xml:space="preserve">
+    <value>Visos tikrinamos perdangos funkcijos nustatymuose išjungtos.</value>
+  </data>
+  <data name="OverlayDiagnostics.DispatcherRequired" xml:space="preserve">
+    <value>Perdangos diagnostika turi veikti lango dispečeryje.</value>
+  </data>
+  <data name="OverlayDiagnostics.FakeBorderless" xml:space="preserve">
+    <value>Netikras viso ekrano režimas be rėmelio</value>
+  </data>
+  <data name="OverlayDiagnostics.FakeExclusive" xml:space="preserve">
+    <value>Netikras išskirtinis viso ekrano režimas</value>
+  </data>
+  <data name="OverlayDiagnostics.Findings" xml:space="preserve">
+    <value>Patikros ir apribojimai</value>
+  </data>
+  <data name="OverlayDiagnostics.Foreground" xml:space="preserve">
+    <value>Roblox arba jo perdanga turi fokusą</value>
+  </data>
+  <data name="OverlayDiagnostics.FullscreenUnknown" xml:space="preserve">
+    <value>Išskirtinis viso ekrano režimas nepatvirtintas. Lango dydis ir rėmelio stilius negali nustatyti rodymo režimo.</value>
+  </data>
+  <data name="OverlayDiagnostics.GameEffects" xml:space="preserve">
+    <value>Žaidimo efektai</value>
+  </data>
+  <data name="OverlayDiagnostics.GameLease" xml:space="preserve">
+    <value>Linux žaidimo nuoma patvirtinta</value>
+  </data>
+  <data name="OverlayDiagnostics.GameSession" xml:space="preserve">
+    <value>Veiklos stebėtojo žaidimo sesija</value>
+  </data>
+  <data name="OverlayDiagnostics.GameSignal" xml:space="preserve">
+    <value>Perdangų centro žaidimo signalas</value>
+  </data>
+  <data name="OverlayDiagnostics.Handle" xml:space="preserve">
+    <value>Lango rankena</value>
+  </data>
+  <data name="OverlayDiagnostics.Homepage" xml:space="preserve">
+    <value>Pradžios puslapio fonas</value>
+  </data>
+  <data name="OverlayDiagnostics.HomepageInGame" xml:space="preserve">
+    <value>Perdangų centras praneša apie žaidimo sesiją, kol Linux pradžios puslapio procesas vis dar veikia. Procesas gali veikti nieko nepiešdamas.</value>
+  </data>
+  <data name="OverlayDiagnostics.HomepageWorker" xml:space="preserve">
+    <value>Linux pradžios puslapio procesas veikia</value>
+  </data>
+  <data name="OverlayDiagnostics.Intersects" xml:space="preserve">
+    <value>Stačiakampis kertasi su Roblox</value>
+  </data>
+  <data name="OverlayDiagnostics.Minimized" xml:space="preserve">
+    <value>Vietinis langas sumažintas</value>
+  </data>
+  <data name="OverlayDiagnostics.MissingCrosshair" xml:space="preserve">
+    <value>Taikiklis sukonfigūruotas, tačiau šiame procese nerastas nei taikiklio langas, nei aktyvus kompozitoriaus taikiklis.</value>
+  </data>
+  <data name="OverlayDiagnostics.MissingStats" xml:space="preserve">
+    <value>Statistika sukonfigūruota, tačiau šiame procese nerastas statistikos langas. Tai neįrodo kūrimo klaidos ir neatmeta kito Voidstrap proceso.</value>
+  </data>
+  <data name="OverlayDiagnostics.MonitorCoverage" xml:space="preserve">
+    <value>Klientas be rėmelio užima visą monitorių</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeLive" xml:space="preserve">
+    <value>Vietinė rankena galiojanti</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeTopmost" xml:space="preserve">
+    <value>Vietinė visada viršuje žymė</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeVisible" xml:space="preserve">
+    <value>Vietinis langas matomas</value>
+  </data>
+  <data name="OverlayDiagnostics.No" xml:space="preserve">
+    <value>Ne</value>
+  </data>
+  <data name="OverlayDiagnostics.NoUsableWindow" xml:space="preserve">
+    <value>Neišmatuotas joks tinkamas Roblox kliento stačiakampis. Roblox gali būti uždarytas, sumažintas, paslėptas, paleidžiamas arba nepasiekiamas.</value>
+  </data>
+  <data name="OverlayDiagnostics.NoWindows" xml:space="preserve">
+    <value>Šiame procese perdangos langų nerasta.</value>
+  </data>
+  <data name="OverlayDiagnostics.Opacity" xml:space="preserve">
+    <value>WPF nepermatomumas</value>
+  </data>
+  <data name="OverlayDiagnostics.PixelsUnknown" xml:space="preserve">
+    <value>Matomumo, nepermatomumo ir visada viršuje žymės neįrodo, kad pikseliai rodomi, neuždengti ar matomi naudotojui. Ši ataskaita netikrina GPU kadrų pateikimo ir uždengimo.</value>
+  </data>
+  <data name="OverlayDiagnostics.Place" xml:space="preserve">
+    <value>Veiklos stebėtojo vietos ID</value>
+  </data>
+  <data name="OverlayDiagnostics.RegisteredWindow" xml:space="preserve">
+    <value>Užregistruota vietinė perdanga</value>
+  </data>
+  <data name="OverlayDiagnostics.RobloxWindow" xml:space="preserve">
+    <value>Aptiktas Roblox langas</value>
+  </data>
+  <data name="OverlayDiagnostics.Runtime" xml:space="preserve">
+    <value>Aptikta vykdymo būsena</value>
+  </data>
+  <data name="OverlayDiagnostics.Sample" xml:space="preserve">
+    <value>Mėginys {0:HH:mm:ss.fff zzz}, atnaujinamas kas sekundę ir pasikeitus langams</value>
+  </data>
+  <data name="OverlayDiagnostics.Scope" xml:space="preserve">
+    <value>Šie rodmenys aprašo šį Voidstrap procesą. Kitam procesui priklausantys langai gali būti neišvardyti.</value>
+  </data>
+  <data name="OverlayDiagnostics.Stats" xml:space="preserve">
+    <value>Statistikos perdanga</value>
+  </data>
+  <data name="OverlayDiagnostics.Teleporting" xml:space="preserve">
+    <value>Vyksta veiklos stebėtojo teleportas</value>
+  </data>
+  <data name="OverlayDiagnostics.Title" xml:space="preserve">
+    <value>Perdangos diagnostika</value>
+  </data>
+  <data name="OverlayDiagnostics.Transition" xml:space="preserve">
+    <value>Žaidimo perėjimas</value>
+  </data>
+  <data name="OverlayDiagnostics.Unavailable" xml:space="preserve">
+    <value>Nepasiekiama</value>
+  </data>
+  <data name="OverlayDiagnostics.Unfocused" xml:space="preserve">
+    <value>Roblox šiuo metu neturi fokuso. Perdangos gali tyčia slėptis, kol aktyvus kitas langas, įskaitant šį diagnostikos langą.</value>
+  </data>
+  <data name="OverlayDiagnostics.UsableRect" xml:space="preserve">
+    <value>Tinkamas sekamas kliento stačiakampis</value>
+  </data>
+  <data name="OverlayDiagnostics.Visible" xml:space="preserve">
+    <value>Matomas WPF</value>
+  </data>
+  <data name="OverlayDiagnostics.Windows" xml:space="preserve">
+    <value>Aptikti perdangos langai</value>
+  </data>
+  <data name="OverlayDiagnostics.Worker" xml:space="preserve">
+    <value>Kompozitoriaus darbinė gija veikia</value>
+  </data>
+  <data name="OverlayDiagnostics.WpfTopmost" xml:space="preserve">
+    <value>Paprašyta WPF visada viršuje</value>
+  </data>
+  <data name="OverlayDiagnostics.X11" xml:space="preserve">
+    <value>X11 ryšys pasiekiamas</value>
+  </data>
+  <data name="OverlayDiagnostics.X11Compositor" xml:space="preserve">
+    <value>Aptiktas X11 kompozitorius</value>
+  </data>
+  <data name="OverlayDiagnostics.X11Unavailable" xml:space="preserve">
+    <value>X11 ryšys nepasiekiamas. Vietinių langų tikrinimas negalimas; gali turėti įtakos Wayland apribojimai arba smėlio dėžės leidimai.</value>
+  </data>
+  <data name="OverlayDiagnostics.Yes" xml:space="preserve">
+    <value>Taip</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeCompositor" xml:space="preserve">
+    <value>Vietinis GPU kompozitoriaus langas</value>
+  </data>
+  <data name="FlagSearch.Loading" xml:space="preserve">
+    <value>Įkeliami šaltiniai…</value>
+  </data>
+  <data name="FlagSearch.Loaded" xml:space="preserve">
+    <value>Įkelta</value>
+  </data>
+  <data name="FlagSearch.Unavailable" xml:space="preserve">
+    <value>Nepasiekiama</value>
+  </data>
+  <data name="FlagSearch.Pending" xml:space="preserve">
+    <value>Laukiama</value>
+  </data>
+  <data name="FlagSearch.LoadedSummary" xml:space="preserve">
+    <value>Įkelta {0:N0} unikalių pavadinimų iš {1} iš {2} šaltinių. Daugiau informacijos skiltyje Duomenų šaltiniai.</value>
+  </data>
+  <data name="FlagSearch.LoadError" xml:space="preserve">
+    <value>Nepavyko įkelti šaltinių. Daugiau informacijos žurnale.</value>
+  </data>
+  <data name="FlagSearch.ObjectRequired" xml:space="preserve">
+    <value>Vėliavėlių JSON turi turėti objektą.</value>
+  </data>
+  <data name="FlagSearch.EmptySource" xml:space="preserve">
+    <value>Šaltinis negrąžino atpažintų vėliavėlių pavadinimų.</value>
+  </data>
+  <data name="FlagSearch.ResultCount" xml:space="preserve">
+    <value>Rodoma {0:N0} iš {1:N0} atitikmenų</value>
+  </data>
+  <data name="FlagSearch.SearchError" xml:space="preserve">
+    <value>Paieška nepavyko. Daugiau informacijos žurnale.</value>
+  </data>
+  <data name="FlagSearch.Validating" xml:space="preserve">
+    <value>Tikrinami vėliavėlių pavadinimai ir įvestos reikšmės…</value>
+  </data>
+  <data name="FlagSearch.Found" xml:space="preserve">
+    <value>Rasta</value>
+  </data>
+  <data name="FlagSearch.ValueError" xml:space="preserve">
+    <value>Reikšmės klaida</value>
+  </data>
+  <data name="FlagSearch.NotFound" xml:space="preserve">
+    <value>Nerasta</value>
+  </data>
+  <data name="FlagSearch.FoundNote" xml:space="preserve">
+    <value>Rasta įkeltuose šaltiniuose. Vietinio perrašymo palaikymas nepatvirtintas.</value>
+  </data>
+  <data name="FlagSearch.NotFoundNote" xml:space="preserve">
+    <value>Nėra įkeltuose šaltiniuose, tai neįrodo, kad vėliavėlė negalioja.</value>
+  </data>
+  <data name="FlagSearch.ValidationSummary" xml:space="preserve">
+    <value>Patikrinta vėliavėlių: {0:N0}, {1:N0} įvestys atitiko šaltinį ir laukiamą reikšmės tipą.</value>
+  </data>
+  <data name="FlagSearch.NameError" xml:space="preserve">
+    <value>Naudokite atpažintą Fast Flag pavadinimą be tarpų.</value>
+  </data>
+  <data name="FlagSearch.TooMany" xml:space="preserve">
+    <value>Įvestyje per daug vėliavėlių.</value>
+  </data>
+  <data name="FlagSearch.ScalarRequired" xml:space="preserve">
+    <value>Vėliavėlių reikšmės turi būti eilutės, skaičiai arba loginės reikšmės.</value>
+  </data>
+  <data name="FlagSearch.LineError" xml:space="preserve">
+    <value>Kiekviena teksto eilutė turi būti formato pavadinimas=reikšmė.</value>
+  </data>
+  <data name="FlagSearch.EmptyInput" xml:space="preserve">
+    <value>Vėliavėlių įrašų nerasta.</value>
+  </data>
+  <data name="FlagSearch.Label1" xml:space="preserve">
+    <value>Rasti Fast Flag</value>
+  </data>
+  <data name="FlagSearch.Label2" xml:space="preserve">
+    <value>Rasti Fast Flag</value>
+  </data>
+  <data name="FlagSearch.Label3" xml:space="preserve">
+    <value>Fast Flag paieška ir tikrinimas</value>
+  </data>
+  <data name="FlagSearch.Label4" xml:space="preserve">
+    <value>Ieškokite, tikrinkite ir atraskite Fast Flag iš kelių šaltinių</value>
+  </data>
+  <data name="FlagSearch.Label5" xml:space="preserve">
+    <value>Atnaujinti šaltinius</value>
+  </data>
+  <data name="FlagSearch.Label6" xml:space="preserve">
+    <value>Paruošta</value>
+  </data>
+  <data name="FlagSearch.Label7" xml:space="preserve">
+    <value>Tiesioginė paieška</value>
+  </data>
+  <data name="FlagSearch.Label8" xml:space="preserve">
+    <value>Tiesioginė vėliavėlių paieška</value>
+  </data>
+  <data name="FlagSearch.Label9" xml:space="preserve">
+    <value>Ieškokite pilnų pavadinimų arba raktažodžių. Tikslūs atitikmenys rodomi pirmi. Eksportas apima visas atitinkančias žinomas reikšmes.</value>
+  </data>
+  <data name="FlagSearch.Label10" xml:space="preserve">
+    <value>Įveskite vėliavėlės pavadinimą arba raktažodį...</value>
+  </data>
+  <data name="FlagSearch.Label11" xml:space="preserve">
+    <value>Eksportuoti rezultatus</value>
+  </data>
+  <data name="FlagSearch.Label12" xml:space="preserve">
+    <value>Visos reikšmės</value>
+  </data>
+  <data name="FlagSearch.Label13" xml:space="preserve">
+    <value>True reikšmės</value>
+  </data>
+  <data name="FlagSearch.Label14" xml:space="preserve">
+    <value>False reikšmės</value>
+  </data>
+  <data name="FlagSearch.Label15" xml:space="preserve">
+    <value>Vėliavėlės pavadinimas</value>
+  </data>
+  <data name="FlagSearch.Label16" xml:space="preserve">
+    <value>Reikšmė</value>
+  </data>
+  <data name="FlagSearch.Label17" xml:space="preserve">
+    <value>Šaltinis</value>
+  </data>
+  <data name="FlagSearch.Label18" xml:space="preserve">
+    <value>Atitikmenų nėra. Pabandykite kitą pavadinimą arba reikšmės filtrą.</value>
+  </data>
+  <data name="FlagSearch.Label19" xml:space="preserve">
+    <value>0 rezultatų</value>
+  </data>
+  <data name="FlagSearch.Label20" xml:space="preserve">
+    <value>Masinis tikrinimas</value>
+  </data>
+  <data name="FlagSearch.Label21" xml:space="preserve">
+    <value>Masinis vėliavėlių tikrinimas</value>
+  </data>
+  <data name="FlagSearch.Label22" xml:space="preserve">
+    <value>Tikrina buvimą šaltiniuose ir reikšmių tipus. Atitikmuo negarantuoja, kad Roblox leidžia vietinį perrašymą.</value>
+  </data>
+  <data name="FlagSearch.Label23" xml:space="preserve">
+    <value>Įkelti failą</value>
+  </data>
+  <data name="FlagSearch.Label24" xml:space="preserve">
+    <value>Tikrinti</value>
+  </data>
+  <data name="FlagSearch.Label25" xml:space="preserve">
+    <value>Išvalyti</value>
+  </data>
+  <data name="FlagSearch.Label26" xml:space="preserve">
+    <value>Įklijuoti</value>
+  </data>
+  <data name="FlagSearch.Label28" xml:space="preserve">
+    <value>Žymėti viską</value>
+  </data>
+  <data name="FlagSearch.Label30" xml:space="preserve">
+    <value>Išvalyti</value>
+  </data>
+  <data name="FlagSearch.Label31" xml:space="preserve">
+    <value>Tikrinimo rezultatai</value>
+  </data>
+  <data name="FlagSearch.Label32" xml:space="preserve">
+    <value>Vėliavėlės pavadinimas</value>
+  </data>
+  <data name="FlagSearch.Label33" xml:space="preserve">
+    <value>Įvesta reikšmė</value>
+  </data>
+  <data name="FlagSearch.Label34" xml:space="preserve">
+    <value>Būsena</value>
+  </data>
+  <data name="FlagSearch.Label35" xml:space="preserve">
+    <value>Šaltinio reikšmė</value>
+  </data>
+  <data name="FlagSearch.Label36" xml:space="preserve">
+    <value>Pastabos</value>
+  </data>
+  <data name="FlagSearch.Label37" xml:space="preserve">
+    <value>Eksportuoti patikrintą įvestį</value>
+  </data>
+  <data name="FlagSearch.Label38" xml:space="preserve">
+    <value>0 rezultatų</value>
+  </data>
+  <data name="FlagSearch.Label39" xml:space="preserve">
+    <value>Duomenų šaltiniai</value>
+  </data>
+  <data name="FlagSearch.Label40" xml:space="preserve">
+    <value>Tiesioginių šaltinių pasiekiamumas ir gavimo laikas. Buvimas šaltinyje nereiškia, kad Roblox priima vietinį perrašymą. Šie šaltiniai nepateikia naujausių pakeitimų datų.</value>
+  </data>
+  <data name="FlagSearch.Label41" xml:space="preserve">
+    <value>Šaltinis</value>
+  </data>
+  <data name="FlagSearch.Label42" xml:space="preserve">
+    <value>Būsena</value>
+  </data>
+  <data name="FlagSearch.Label43" xml:space="preserve">
+    <value>Vėliavėlės</value>
+  </data>
+  <data name="FlagSearch.Label44" xml:space="preserve">
+    <value>Gauta</value>
+  </data>
+  <data name="FlagSearch.Label45" xml:space="preserve">
+    <value>Uždaryti</value>
+  </data>
+  <data name="FlagSearch.Message1" xml:space="preserve">
+    <value>Įveskite tikrintinas vėliavėles.</value>
+  </data>
+  <data name="FlagSearch.Message2" xml:space="preserve">
+    <value>Nėra įvesties</value>
+  </data>
+  <data name="FlagSearch.Message3" xml:space="preserve">
+    <value>Ši vėliavėlių įvestis per didelė tikrinti.</value>
+  </data>
+  <data name="FlagSearch.Message4" xml:space="preserve">
+    <value>Per didelė įvestis</value>
+  </data>
+  <data name="FlagSearch.Message5" xml:space="preserve">
+    <value>Įvestyje rastos pasikartojančios vėliavėlės: </value>
+  </data>
+  <data name="FlagSearch.Message6" xml:space="preserve">
+    <value>Aptikti dublikatai</value>
+  </data>
+  <data name="FlagSearch.Message7" xml:space="preserve">
+    <value>Klaida tikrinant vėliavėles</value>
+  </data>
+  <data name="FlagSearch.Message8" xml:space="preserve">
+    <value>Klaida tikrinant vėliavėles: </value>
+  </data>
+  <data name="FlagSearch.Message9" xml:space="preserve">
+    <value>Tikrinimo klaida</value>
+  </data>
+  <data name="FlagSearch.Message10" xml:space="preserve">
+    <value>Pasirinkite tikrintiną vėliavėlių failą</value>
+  </data>
+  <data name="FlagSearch.Message11" xml:space="preserve">
+    <value>Klaida įkeliant failą: </value>
+  </data>
+  <data name="FlagSearch.Message12" xml:space="preserve">
+    <value>Failo klaida</value>
+  </data>
+  <data name="FlagSearch.Message13" xml:space="preserve">
+    <value>Vėliavėlių failo dydis netinkamas</value>
+  </data>
+  <data name="FlagSearch.Message14" xml:space="preserve">
+    <value>Vėliavėlių failas pasikeitė jį skaitant</value>
+  </data>
+  <data name="FlagSearch.Message15" xml:space="preserve">
+    <value>Vėliavėlių įvestis per didelė</value>
+  </data>
+  <data name="FlagSearch.Message16" xml:space="preserve">
+    <value>Eksportuota {flags.Count} vėliavėlių į {dialog.FileName}</value>
+  </data>
+  <data name="FlagSearch.Message17" xml:space="preserve">
+    <value>Eksportas baigtas</value>
+  </data>
+  <data name="FlagSearch.Message18" xml:space="preserve">
+    <value>Klaida eksportuojant vėliavėles: </value>
+  </data>
+  <data name="FlagSearch.Message19" xml:space="preserve">
+    <value>Eksporto klaida</value>
+  </data>
+  <data name="FlagSearch.Message20" xml:space="preserve">
+    <value>Klaida įklijuojant iš iškarpinės: </value>
+  </data>
+  <data name="FlagSearch.Message21" xml:space="preserve">
+    <value>Įklijavimo klaida</value>
+  </data>
+  <data name="FlagSearch.ExportSummary" xml:space="preserve">
+    <value>Eksportuota {0:N0} vėliavėlių į {1}</value>
+  </data>
+  <data name="FlagSearch.ValueNote" xml:space="preserve">
+    <value>Įvesta reikšmė neatitinka vėliavėlės pavadinimo tipo. Loginėms vėliavėlėms reikia true arba false, sveikųjų skaičių vėliavėlėms reikia sveiko 32 bitų skaičiaus.</value>
+  </data>
+  <data name="Notifications.Title" xml:space="preserve">
+    <value>Pranešimai</value>
+  </data>
+  <data name="Notifications.Updates" xml:space="preserve">
+    <value>Naujiniai</value>
+  </data>
+  <data name="Notifications.Roblox" xml:space="preserve">
+    <value>Roblox ir modifikacijos</value>
+  </data>
+  <data name="Notifications.Recovery" xml:space="preserve">
+    <value>Nustatymų atkūrimas</value>
+  </data>
+  <data name="Notifications.Errors" xml:space="preserve">
+    <value>Klaidos ir strigtys</value>
+  </data>
+  <data name="Notifications.GameJoins" xml:space="preserve">
+    <value>Prisijungta prie žaidimo</value>
+  </data>
+  <data name="Notifications.App" xml:space="preserve">
+    <value>Programėlės pranešimai</value>
+  </data>
+  <data name="Notifications.AppDescription" xml:space="preserve">
+    <value>Rodyti programėlės pranešimus.</value>
+  </data>
+  <data name="Bootstrapper.Uninstall.NvidiaFailed" xml:space="preserve">
+    <value>NVIDIA valymas nepavyko. Vis tiek pašalinti? Likę NVIDIA nustatymai liks pritaikyti.
+
+{0}</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Latest" xml:space="preserve">
+    <value>Naujausi</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Oldest" xml:space="preserve">
+    <value>Seniausi</value>
+  </data>
+  <data name="ContextMenu.GameHistory.MostPlayed" xml:space="preserve">
+    <value>Ilgiausi apsilankymai</value>
+  </data>
+  <data name="ContextMenu.GameHistory.NameAscending" xml:space="preserve">
+    <value>Pavadinimas, didėjančiai</value>
+  </data>
+  <data name="ContextMenu.GameHistory.NameDescending" xml:space="preserve">
+    <value>Pavadinimas, mažėjančiai</value>
+  </data>
+  <data name="ContextMenu.GameHistory.AllServers" xml:space="preserve">
+    <value>Visi serveriai</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Public" xml:space="preserve">
+    <value>Viešas</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Private" xml:space="preserve">
+    <value>Privatus</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Reserved" xml:space="preserve">
+    <value>Rezervuotas</value>
+  </data>
+  <data name="ContextMenu.GameHistory.EndUnknown" xml:space="preserve">
+    <value>Neįrašyta</value>
+  </data>
+  <data name="ContextMenu.GameHistory.CopyLink" xml:space="preserve">
+    <value>Kopijuoti nuorodą</value>
+  </data>
+  <data name="ContextMenu.GameHistory.LoadFailed" xml:space="preserve">
+    <value>Nepavyko įkelti istorijos.</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Empty" xml:space="preserve">
+    <value>Nėra apsilankymų.</value>
+  </data>
+  <data name="ContextMenu.GameHistory.StatusUnknown" xml:space="preserve">
+    <value>Nežinoma</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Online" xml:space="preserve">
+    <value>Prisijungęs</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Offline" xml:space="preserve">
+    <value>Neprisijungęs</value>
+  </data>
+  <data name="ContextMenu.GameHistory.CheckedAt" xml:space="preserve">
+    <value>Patikrinta: {0}</value>
+  </data>
+  <data name="ContextMenu.GameHistory.LaunchFailed" xml:space="preserve">
+    <value>Nepavyko paleisti Roblox.</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.MaxOnly" xml:space="preserve">
+    <value>Daugiausia {0}</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.Unknown" xml:space="preserve">
+    <value>Nežinoma</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.InGame" xml:space="preserve">
+    <value>Žaidime: {0:N0}</value>
+  </data>
+  <data name="ServerInfo.Hint.Updated" xml:space="preserve">
+    <value>Atnaujinta prieš {0}.</value>
+  </data>
+  <data name="ServerInfo.Hint.RateLimited" xml:space="preserve">
+    <value>Roblox riboja serverių paiešką, bus bandoma dar kartą po {0}.</value>
+  </data>
+  <data name="ServerInfo.Hint.RateLimitedStale" xml:space="preserve">
+    <value>Roblox riboja serverių paiešką. Rodomas skaičius prieš {0}, vėl atnaujinama po {1}.</value>
+  </data>
+  <data name="ServerInfo.Hint.NotListed" xml:space="preserve">
+    <value>Šio serverio nėra toje viešo serverių sąrašo dalyje, kurią bendrina Roblox, vėl tikrinama po {0}.</value>
+  </data>
+  <data name="ServerInfo.Hint.NotListedStale" xml:space="preserve">
+    <value>Paskutinį kartą matytas prieš {0}. Šiuo metu šio serverio nėra toje viešo serverių sąrašo dalyje, kurią bendrina Roblox.</value>
+  </data>
+  <data name="ServerInfo.Hint.PrivateNotListed" xml:space="preserve">
+    <value>Šio privataus serverio nėra serverių sąraše, kurį mato jūsų paskyra, todėl žaidėjų skaičiaus nuskaityti negalima.</value>
+  </data>
+  <data name="ServerInfo.Hint.PrivateSignedOut" xml:space="preserve">
+    <value>Roblox privačių serverių žaidėjų skaičių bendrina tik su prisijungusia paskyra. Prisijunkite prie Roblox Voidstrap programoje, kad jį pamatytumėte.</value>
+  </data>
+  <data name="ServerInfo.Hint.Reserved" xml:space="preserve">
+    <value>Roblox nerodo rezervuotų serverių, naudojamų teleportams ir grupėms, todėl jų žaidėjų skaičiaus nuskaityti negalima.</value>
+  </data>
+  <data name="ServerInfo.Hint.Unavailable" xml:space="preserve">
+    <value>Nepavyko pasiekti Roblox, bus bandoma dar kartą po {0}.</value>
+  </data>
+  <data name="ServerInfo.Hint.UnavailableStale" xml:space="preserve">
+    <value>Nepavyko pasiekti Roblox. Rodomas skaičius prieš {0}, bus bandoma dar kartą po {1}.</value>
+  </data>
+  <data name="ServerInfo.Hint.Full" xml:space="preserve">
+    <value>Šis serveris pilnas. Roblox neįtraukia pilnų serverių į viešą serverių sąrašą, todėl jis rodomas kaip pilnas, kol atsilaisvins vieta.</value>
+  </data>
+  <data name="Shortcuts.GameTab" xml:space="preserve">
+    <value>Žaidimas</value>
+  </data>
+  <data name="Shortcuts.SubplaceTab" xml:space="preserve">
+    <value>Povietė</value>
+  </data>
+  <data name="Shortcuts.SubplaceDescription" xml:space="preserve">
+    <value>Raskite kitas šios patirties vietas.</value>
+  </data>
+  <data name="Shortcuts.LoadSubplaces" xml:space="preserve">
+    <value>Įkelti povietes</value>
+  </data>
+  <data name="Shortcuts.SubplaceAccess" xml:space="preserve">
+    <value>Kūrėjas turi leisti tiesioginį prisijungimą. Kai kurioms povietėms reikia teleporto žaidime.</value>
+  </data>
+  <data name="Shortcuts.SubplaceInitial" xml:space="preserve">
+    <value>Įveskite žaidimo ID, kad jo povietės būtų įkeltos automatiškai.</value>
+  </data>
+  <data name="Shortcuts.SubplaceRetry" xml:space="preserve">
+    <value>Atidarykite šį skirtuką iš naujo, kad bandytumėte dar kartą.</value>
+  </data>
+  <data name="Shortcuts.SubplaceInvalidId" xml:space="preserve">
+    <value>Įveskite tinkamą skaitinį žaidimo ID.</value>
+  </data>
+  <data name="Shortcuts.SubplaceLoading" xml:space="preserve">
+    <value>Įkeliamos povietės...</value>
+  </data>
+  <data name="Shortcuts.SubplaceEmpty" xml:space="preserve">
+    <value>Ši patirtis neturi išvardytų poviečių.</value>
+  </data>
+  <data name="Shortcuts.SubplaceChoose" xml:space="preserve">
+    <value>Pasirinkite povietę žemiau.</value>
+  </data>
+  <data name="Shortcuts.SubplaceTimeout" xml:space="preserve">
+    <value>Baigėsi užklausos laikas. Atidarykite šį skirtuką iš naujo, kad bandytumėte dar kartą.</value>
+  </data>
+  <data name="Shortcuts.SubplaceFailed" xml:space="preserve">
+    <value>Nepavyko įkelti poviečių. Patikrinkite žaidimo ID ir ryšį, tada bandykite dar kartą.</value>
+  </data>
+  <data name="Shortcuts.SubplaceReload" xml:space="preserve">
+    <value>Povietės įkeliamos automatiškai, kai įvedate tinkamą žaidimo ID.</value>
+  </data>
+  <data name="Shortcuts.SubplaceRequired" xml:space="preserve">
+    <value>Palaukite, kol povietės bus įkeltos, ir prieš tęsdami pasirinkite vieną.</value>
+  </data>
+  <data name="Library.SubplacesTab" xml:space="preserve">
+    <value>Povietės</value>
+  </data>
+  <data name="SettingsProfiles.Title" xml:space="preserve">
+    <value>Nustatymų profiliai</value>
+  </data>
+  <data name="SettingsProfiles.Name" xml:space="preserve">
+    <value>Profilio pavadinimas</value>
+  </data>
+  <data name="SettingsProfiles.NameHint" xml:space="preserve">
+    <value>Pavyzdys: VoidstrapProfile</value>
+  </data>
+  <data name="SettingsProfiles.Save" xml:space="preserve">
+    <value>Išsaugoti profilį</value>
+  </data>
+  <data name="SettingsProfiles.Saved" xml:space="preserve">
+    <value>Išsaugoti profiliai</value>
+  </data>
+  <data name="SettingsProfiles.Apply" xml:space="preserve">
+    <value>Taikyti profilį</value>
+  </data>
+  <data name="SettingsProfiles.Folder" xml:space="preserve">
+    <value>Atidaryti aplanką</value>
+  </data>
+  <data name="SettingsProfiles.Empty" xml:space="preserve">
+    <value>Profilių dar nėra. Įveskite pavadinimą ir pasirinkite Išsaugoti profilį.</value>
+  </data>
+  <data name="SettingsProfiles.Location" xml:space="preserve">
+    <value>Išsaugota {0}</value>
+  </data>
+  <data name="SettingsProfiles.InvalidName" xml:space="preserve">
+    <value>Naudokite pavadinimą nuo 1 iki 80 simbolių, be failų pavadinimų simbolių ir rezervuotų įrenginių pavadinimų.</value>
+  </data>
+  <data name="SettingsProfiles.InvalidFile" xml:space="preserve">
+    <value>Šis profilis netinkamas arba naudoja nepalaikomą formatą.</value>
+  </data>
+  <data name="SettingsProfiles.RestoreFailed" xml:space="preserve">
+    <value>Nepavyko pritaikyti profilio ir atkurti ankstesnių nustatymų.</value>
+  </data>
+  <data name="SettingsProfiles.Overwrite" xml:space="preserve">
+    <value>Pakeisti išsaugotą profilį „{0}“ dabartiniais nustatymais?</value>
+  </data>
+  <data name="SettingsProfiles.SavedStatus" xml:space="preserve">
+    <value>Išsaugota „{0}“</value>
+  </data>
+  <data name="SettingsProfiles.ApplyConfirm" xml:space="preserve">
+    <value>Taikyti „{0}“? Tai pakeis jūsų dabartinius Voidstrap nustatymus ir FastFlags, o tada vėl atidarys Voidstrap nustatymus.</value>
+  </data>
+  <data name="SettingsProfiles.RestartFailed" xml:space="preserve">
+    <value>Profilis pritaikytas. Paleiskite Voidstrap iš naujo, kad atnaujintumėte visus nustatymų puslapius.</value>
+  </data>
+  <data name="SettingsProfiles.Restart" xml:space="preserve">
+    <value>Paleisti iš naujo dabar</value>
+  </data>
+  <data name="SettingsProfiles.DeleteConfirm" xml:space="preserve">
+    <value>Ištrinti išsaugotą profilį „{0}“? Jūsų dabartiniai nustatymai liks nepakeisti.</value>
+  </data>
+  <data name="SettingsProfiles.Deleted" xml:space="preserve">
+    <value>Ištrinta „{0}“.</value>
+  </data>
+  <data name="SettingsProfiles.Error" xml:space="preserve">
+    <value>Nepavyko atlikti profilio veiksmo: {0}</value>
+  </data>
+  <data name="GlobalProfiles.Title" xml:space="preserve">
+    <value>Visuotinių nustatymų profiliai</value>
+  </data>
+  <data name="GlobalProfiles.ApplyConfirm" xml:space="preserve">
+    <value>Taikyti „{0}“? Tai pakeis jūsų dabartinius visuotinius Roblox nustatymus. Prisijunkite prie Roblox iš naujo, kad pamatytumėte visus pakeitimus.</value>
+  </data>
+  <data name="GlobalProfiles.Applied" xml:space="preserve">
+    <value>Pritaikyta „{0}“</value>
+  </data>
+  <data name="GlobalProfiles.SaveFailed" xml:space="preserve">
+    <value>Nepavyko įrašyti Roblox nustatymų failo. Uždarykite Roblox ir bandykite dar kartą.</value>
+  </data>
+  <data name="AssetWarp.RemoveTexturesDescription" xml:space="preserve">
+    <value>Blokuoja tekstūrų ir tekstūrų paketų išteklių atsisiuntimą</value>
+  </data>
+  <data name="AssetWarp.RemoveDecalsDescription" xml:space="preserve">
+    <value>Blokuoja lipdukų išteklių atsisiuntimą</value>
+  </data>
+  <data name="AssetWarp.RemoveImagesDescription" xml:space="preserve">
+    <value>Blokuoja paveikslėlių išteklių atsisiuntimą. Roblox paveikslėlius naudoja ir tekstūroms bei lipdukams</value>
+  </data>
+  <data name="AssetWarp.RemoveAnimationsDescription" xml:space="preserve">
+    <value>Blokuoja animacijų išteklių atsisiuntimą. Žaidimai be atsarginės animacijos gali nustoti tinkamai veikti</value>
+  </data>
+  <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
+    <value>Blokuoja tinklelių ir MeshPart išteklių atsisiuntimą. Tinklelių geometrija taps nematoma</value>
+  </data>
+  <data name="SwiftTunnel.Summary" xml:space="preserve">
+    <value>Nukreipkite Roblox srautą per SwiftTunnel, kol kitos programos naudoja įprastą ryšį</value>
+  </data>
+  <data name="SwiftTunnel.Description" xml:space="preserve">
+    <value>SwiftTunnel yra Windows žaidimų ryšio optimizatorius su padalytu tuneliavimu ir regioninių retransliatorių pasirinkimu</value>
+  </data>
+  <data name="SwiftTunnel.Setup" xml:space="preserve">
+    <value>Įdiegimas atsisiunčia naujausią oficialią SwiftTunnel versiją ir po sąrankos atidaro darbalaukio programėlę. Ten prisijunkite ir pasirinkite ryšį. Tinklo optimizavimui gali reikėti administratoriaus teisių</value>
+  </data>
+  <data name="SwiftTunnel.Network" xml:space="preserve">
+    <value>Tinklas</value>
+  </data>
+  <data name="SwiftTunnel.Routing" xml:space="preserve">
+    <value>Nukreipimas</value>
+  </data>
+  <data name="SwiftTunnel.Install" xml:space="preserve">
+    <value>Įdiegti</value>
+  </data>
+  <data name="SwiftTunnel.Uninstall" xml:space="preserve">
+    <value>Pašalinti</value>
+  </data>
+  <data name="SwiftTunnel.Installed" xml:space="preserve">
+    <value>Įdiegta</value>
+  </data>
+  <data name="SwiftTunnel.NotInstalled" xml:space="preserve">
+    <value>Neįdiegta</value>
+  </data>
+  <data name="SwiftTunnel.Working" xml:space="preserve">
+    <value>Vykdoma</value>
+  </data>
+  <data name="SwiftTunnel.Downloading" xml:space="preserve">
+    <value>Atsisiunčiama SwiftTunnel</value>
+  </data>
+  <data name="SwiftTunnel.InstallerFailed" xml:space="preserve">
+    <value>Nepavyko atidaryti SwiftTunnel sąrankos</value>
+  </data>
+  <data name="SwiftTunnel.InstallerExit" xml:space="preserve">
+    <value>SwiftTunnel sąranka grąžino kodą {0}</value>
+  </data>
+  <data name="SwiftTunnel.Error" xml:space="preserve">
+    <value>Nepavyko atlikti SwiftTunnel veiksmo: {0}</value>
+  </data>
+  <data name="SwiftTunnel.UninstallUnavailable" xml:space="preserve">
+    <value>SwiftTunnel pašalinimo įrašas neišsamus. Pašalinkite SwiftTunnel per Windows nustatymus, Programos</value>
+  </data>
+  <data name="SwiftTunnel.CleanupFailed" xml:space="preserve">
+    <value>SwiftTunnel nepavyko atkurti savo tinklo nustatymų. Jo failai palikti, kad valymą būtų galima pakartoti</value>
+  </data>
+  <data name="SwiftTunnel.ConfirmUninstall" xml:space="preserve">
+    <value>Visiškai pašalinti SwiftTunnel? Pirmiausia atkuriama jo tinklo tvarkyklė ir sistemos nustatymai, tada SwiftTunnel pašalinamas. Pradėjus to atšaukti negalima.</value>
+  </data>
+  <data name="SwiftTunnel.UninstallIncomplete" xml:space="preserve">
+    <value>Nepavyko užbaigti SwiftTunnel pašalinimo. Uždarykite SwiftTunnel ir bandykite dar kartą su administratoriaus teisėmis</value>
+  </data>
+  <data name="SwiftTunnel.UnsafeDirectory" xml:space="preserve">
+    <value>SwiftTunnel įdiegtas bendrame arba neatpažintame aplanke. Prieš naudodami visišką pašalinimą, perkelkite jį į atskirą SwiftTunnel aplanką</value>
+  </data>
+  <data name="SwiftTunnel.NotInstalledError" xml:space="preserve">
+    <value>SwiftTunnel neįdiegtas. Pirmiausia įdiekite jį iš skilties Plėtiniai</value>
+  </data>
+  <data name="SwiftTunnel.Missing" xml:space="preserve">
+    <value>SwiftTunnel užregistruotas, tačiau trūksta jo failų. Pašalinkite ir įdiekite jį iš naujo, kad pataisytumėte</value>
+  </data>
+  <data name="SwiftTunnel.NoInstaller" xml:space="preserve">
+    <value>Naujausioje SwiftTunnel versijoje nėra šiam kompiuteriui patikrintos Windows diegimo programos</value>
+  </data>
+  <data name="Installer.MacOS.DataLocation.Title" xml:space="preserve">
+    <value>Pasirinkite, kur saugoti Voidstrap duomenis</value>
+  </data>
+  <data name="Installer.MacOS.DataLocation.Text" xml:space="preserve">
+    <value>Voidstrap čia laiko savo nustatymus ir modifikacijas. Programa lieka dabartinėje vietoje. Roblox įdiegiamas atskirai į aplanką Programos.</value>
+  </data>
+  <data name="Installer.MacOS.Completion.Text" xml:space="preserve">
+    <value>Voidstrap paruoštas.
+
+Roblox bus atsisiųstas, kai pirmą kartą jį paleisite per Voidstrap. Prieš paleisdami galite pakeisti nustatymus.
+
+Ką norėtumėte daryti?</value>
+  </data>
+  <data name="Installer.MacOS.Roblox.Title" xml:space="preserve">
+    <value>Roblox, skirtas macOS</value>
+  </data>
+  <data name="Installer.MacOS.Roblox.Text" xml:space="preserve">
+    <value>Voidstrap atsisiunčia oficialią Roblox programėlę į aplanką Programos, kai pirmą kartą spustelite Paleisti, ir vėliau ją atnaujina. Atskiro diegimo nereikia.</value>
+  </data>
+  <data name="HomepageMedia.Preview.FileMissing" xml:space="preserve">
+    <value>Pasirinktas medijos failas nerastas.</value>
+  </data>
+  <data name="HomepageMedia.Preview.DecodeError" xml:space="preserve">
+    <value>Nepavyko iškoduoti šios medijos. Pasirinkite kitą paveikslėlį arba vaizdo įrašą.</value>
+  </data>
+  <data name="HomepageMedia.Preview.RenderError" xml:space="preserve">
+    <value>Nepavyko parodyti medijos peržiūros.</value>
+  </data>
+  <data name="HomepageMedia.Picker.ImagesAndVideos" xml:space="preserve">
+    <value>Paveikslėliai ir vaizdo įrašai</value>
+  </data>
+  <data name="HomepageMedia.Picker.Images" xml:space="preserve">
+    <value>Paveikslėliai</value>
+  </data>
+  <data name="HomepageMedia.Picker.Videos" xml:space="preserve">
+    <value>Vaizdo įrašai</value>
+  </data>
+  <data name="Appearance.Backdrop.Sidebar" xml:space="preserve">
+    <value>Šoninė juosta</value>
+  </data>
+  <data name="Appearance.Backdrop.Popover" xml:space="preserve">
+    <value>Iššokantis langas</value>
+  </data>
+  <data name="Appearance.Backdrop.Hud" xml:space="preserve">
+    <value>Projekcinis ekranas</value>
+  </data>
+  <data name="Appearance.Backdrop.UnderWindow" xml:space="preserve">
+    <value>Po langu</value>
+  </data>
+  <data name="Appearance.Backdrop.UnderPage" xml:space="preserve">
+    <value>Po puslapiu</value>
+  </data>
+  <data name="Menu.MacVirtualDisplay.Title" xml:space="preserve">
+    <value>240 Hz virtualus ekranas</value>
+  </data>
+  <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Dubliuoja pagrindinį ekraną, kol veikia Roblox, ir atkuria jį, kai Roblox uždaromas. Fizinis ekranas išlaiko savo atnaujinimo dažnio ribą.</value>
+  </data>
 </root>

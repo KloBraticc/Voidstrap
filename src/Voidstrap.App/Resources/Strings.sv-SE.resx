@@ -1672,4 +1672,1322 @@ Vill du byta din föredragna kanal till {0}?</value>
   <data name="Menu.News.DialogTitle" xml:space="preserve">
     <value>Nyhetsdetaljer</value>
   </data>
+  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
+    <value>Voidstrap kunde inte ta bort kvarvarande AssetWarp-routning från Windows hosts-fil. Roblox kan inte läsa in texturer eller andra resurser förrän den har tagits bort. Kör Voidstrap som administratör för att rensa den.</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
+    <value>Båda</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
+    <value>Spelare</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
+    <value>Serverbläddrare</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
+    <value>Plats {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
+    <value>{0}  •  Plats {1}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
+    <value>{0} servrar skannade</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
+    <value>Uppdatera</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
+    <value>Läs in fler servrar</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
+    <value>Dölj fulla servrar</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
+    <value>Sök stad, land eller server-ID</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
+    <value>Flest spelare</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
+    <value>Minst spelare</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
+    <value>Lägst ping</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
+    <value>Gå med</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
+    <value>Nuvarande</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
+    <value>Läser in offentliga servrar</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
+    <value>Inga offentliga servrar hittades</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
+    <value>Gå med i ett spel innan du öppnar serverbläddraren</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
+    <value>Serverlistan är pausad eftersom Roblox begränsar förfrågningar</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
+    <value>Kunde inte läsa in offentliga servrar</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
+    <value>{0} servrar inlästa</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
+    <value>{0} av {1} spelare</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
+    <value>{0} spelare</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
+    <value>Okänd</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
+    <value>Bästa matchning</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
+    <value>Bästa matchning</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
+    <value>Blockerad</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
+    <value>Ungefär {0} ms från dig</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
+    <value>{0} servrar lokaliserade hittills</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
+    <value>{0} av {1} servrar lokaliserade</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
+    <value>Flyttar dig till {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
+    <value>Kunde inte gå med i den servern</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
+    <value>Logga in via Inställningar &gt; Server Matchmaker så att Voidstrap kan hitta var varje server finns</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
+    <value>Din plats kunde inte hittas, så servrarna kan inte sorteras efter ping</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
+    <value>Roblox avslöjade inte var de här servrarna finns, försök igen om en stund</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
+    <value>Alla hittade servrar finns i ett datacenter som du har blockerat</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
+    <value>Alla hittade servrar ligger långt från dig, matchmakern skulle låta Roblox välja i stället</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
+    <value>Spelbläddrare</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
+    <value>Fortsätt</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
+    <value>Favoriter</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
+    <value>Sök</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
+    <value>Sök Roblox-spel</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
+    <value>Läser in spel</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
+    <value>Inga senaste spel i den här sessionen</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
+    <value>Inga favoritspel sparade</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
+    <value>Sök efter ett Roblox-spel med namn</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
+    <value>Inga spel hittades för {0}</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
+    <value>Kunde inte läsa in spel</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
+    <value>{0} spelar</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
+    <value>Gå med</value>
+  </data>
+  <data name="Enums.Theme.Berry" xml:space="preserve">
+    <value>Bär</value>
+  </data>
+  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
+    <value>Automatisk översättning</value>
+  </data>
+  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
+    <value>Översätt till</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
+    <value>Språk för automatisk översättning</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
+    <value>Översätt hela Voidstrap-gränssnittet till valfritt språk. Inbyggda översättningar används först och resten av texten översätts direkt.</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
+    <value>Översätt Discord-RPC automatiskt</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
+    <value>Översätter texten i Discord Rich Presence automatiskt till det valda språket.</value>
+  </data>
+  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
+    <value>Den här funktionen finns bara på Windows.</value>
+  </data>
+  <data name="About.Translators.Description" xml:space="preserve">
+    <value>Alla som listas här har generöst lagt ner sin tid och sitt arbete på att översätta Voidstrap. Ett enormt tack till alla!</value>
+  </data>
+  <data name="Menu.Channel.Description" xml:space="preserve">
+    <value>Ändra distributions- och installationsinställningar för Roblox och Voidstrap.</value>
+  </data>
+  <data name="Common.Channel" xml:space="preserve">
+    <value>Kanal</value>
+  </data>
+  <data name="Menu.ChannelChanger.Description" xml:space="preserve">
+    <value>Välj distributionskanal. Ändra inte om du inte vet vad du gör.</value>
+  </data>
+  <data name="Menu.Channel.RobloxUpgrades" xml:space="preserve">
+    <value>Roblox-uppdateringar</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
+    <value>Mörkt läge</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
+    <value>Telemetri</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
+    <value>Mörkt läge</value>
+  </data>
+  <data name="Menu.Sober.Description" xml:space="preserve">
+    <value>Konfigurera de Linux-miljöer som Voidstrap startar Roblox med. Sober kör spelaren, Vinegar kör Studio. Voidstrap ändrar bara alternativ som du uttryckligen åsidosätter.</value>
+  </data>
+  <data name="Menu.Sober.Default" xml:space="preserve">
+    <value>Använd Sobers standard</value>
+  </data>
+  <data name="Menu.Sober.Enabled" xml:space="preserve">
+    <value>Aktiverad</value>
+  </data>
+  <data name="Menu.Sober.Disabled" xml:space="preserve">
+    <value>Inaktiverad</value>
+  </data>
+  <data name="Menu.Sober.DefaultNotice" xml:space="preserve">
+    <value>Använd Sobers standard låter Sober styra inställningen. Om du tar bort en åsidosättning återställs värdet som Voidstrap säkerhetskopierade.</value>
+  </data>
+  <data name="Menu.Sober.RuntimeNotice" xml:space="preserve">
+    <value>Slutför Sobers första start innan du anger åsidosättningar och stäng sedan Sober innan du ändrar dem. Sparade ändringar tillämpas nästa gång Sober startar.</value>
+  </data>
+  <data name="Menu.Sober.Group.Session" xml:space="preserve">
+    <value>Session och aktivitet</value>
+  </data>
+  <data name="Menu.Sober.Group.Input" xml:space="preserve">
+    <value>Inmatning och upplevelse</value>
+  </data>
+  <data name="Menu.Sober.Group.Graphics" xml:space="preserve">
+    <value>Grafik och skrivbord</value>
+  </data>
+  <data name="Menu.Sober.AllowGamepad.Title" xml:space="preserve">
+    <value>Tillåt åtkomst till handkontroll</value>
+  </data>
+  <data name="Menu.Sober.AllowGamepad.Description" xml:space="preserve">
+    <value>Låter Sober begära åtkomst till anslutna handkontroller. Behörighetsändringar kan kräva en ny start av Sober.</value>
+  </data>
+  <data name="Menu.Sober.CloseOnLeave.Title" xml:space="preserve">
+    <value>Stäng vid lämnande</value>
+  </data>
+  <data name="Menu.Sober.CloseOnLeave.Description" xml:space="preserve">
+    <value>Stänger Sober efter att du har lämnat en upplevelse.</value>
+  </data>
+  <data name="Menu.Sober.DiscordRpc.Description" xml:space="preserve">
+    <value>Låter Sober visa spelaktivitet via Discord Rich Presence.</value>
+  </data>
+  <data name="Menu.Sober.DiscordJoin.Title" xml:space="preserve">
+    <value>Discords gå med-knapp</value>
+  </data>
+  <data name="Menu.Sober.DiscordJoin.Description" xml:space="preserve">
+    <value>Låter Sober lägga till en gå med-knapp i Discord Rich Presence.</value>
+  </data>
+  <data name="Menu.Sober.GameMode.Title" xml:space="preserve">
+    <value>GameMode-integration</value>
+  </data>
+  <data name="Menu.Sober.GameMode.Description" xml:space="preserve">
+    <value>Låter Sober begära prestandajustering från GameMode när GameMode är tillgängligt.</value>
+  </data>
+  <data name="Menu.Sober.HiDpi.Title" xml:space="preserve">
+    <value>Skalning för hög DPI</value>
+  </data>
+  <data name="Menu.Sober.HiDpi.Description" xml:space="preserve">
+    <value>Använder inbyggd skalning för skärmar med hög täthet.</value>
+  </data>
+  <data name="Menu.Sober.MobileHome.Title" xml:space="preserve">
+    <value>Mobil startskärm</value>
+  </data>
+  <data name="Menu.Sober.MobileHome.Description" xml:space="preserve">
+    <value>Använder Roblox-startskärmen i mobil stil.</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Title" xml:space="preserve">
+    <value>Grafikoptimeringsläge</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Description" xml:space="preserve">
+    <value>Väljer Sobers inställning för grafikoptimering.</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Quality" xml:space="preserve">
+    <value>Kvalitet</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Balanced" xml:space="preserve">
+    <value>Balanserad</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Performance" xml:space="preserve">
+    <value>Prestanda</value>
+  </data>
+  <data name="Menu.Sober.ServerLocation.Title" xml:space="preserve">
+    <value>Indikator för serverplats</value>
+  </data>
+  <data name="Menu.Sober.ServerLocation.Description" xml:space="preserve">
+    <value>Visar Sobers indikator för serverplats när du spelar.</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Title" xml:space="preserve">
+    <value>Pekläge</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Description" xml:space="preserve">
+    <value>Väljer hur Sober rapporterar stöd för pekinmatning.</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Off" xml:space="preserve">
+    <value>Av</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.On" xml:space="preserve">
+    <value>På</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.FakeOff" xml:space="preserve">
+    <value>Låtsas av</value>
+  </data>
+  <data name="Menu.Sober.ConsoleExperience.Title" xml:space="preserve">
+    <value>Konsolupplevelse</value>
+  </data>
+  <data name="Menu.Sober.ConsoleExperience.Description" xml:space="preserve">
+    <value>Använder Roblox-upplevelsen i konsolstil.</value>
+  </data>
+  <data name="Menu.Sober.Libsecret.Title" xml:space="preserve">
+    <value>Secret Service-lagring</value>
+  </data>
+  <data name="Menu.Sober.Libsecret.Description" xml:space="preserve">
+    <value>Lagrar inloggningsuppgifter som stöds via skrivbordets Secret Service.</value>
+  </data>
+  <data name="Menu.Sober.OpenGl.Title" xml:space="preserve">
+    <value>OpenGL-renderare</value>
+  </data>
+  <data name="Menu.Sober.OpenGl.Description" xml:space="preserve">
+    <value>Använder OpenGL i stället för Sobers standardgrafikbackend.</value>
+  </data>
+  <data name="Installer.Appearance.BackgroundUI.Title" xml:space="preserve">
+    <value>Bakgrund och gränssnitt</value>
+  </data>
+  <data name="Installer.Appearance.BackgroundUI.Description" xml:space="preserve">
+    <value>Anpassa installationsprogrammet och huvudappen.</value>
+  </data>
+  <data name="Installer.Appearance.Snow.Title" xml:space="preserve">
+    <value>Snö i bakgrunden</value>
+  </data>
+  <data name="Installer.Appearance.Snow.Description" xml:space="preserve">
+    <value>Lägger till en diskret snöeffekt i bakgrunden.</value>
+  </data>
+  <data name="Installer.Appearance.GradientMovement.Title" xml:space="preserve">
+    <value>Gradientrörelse</value>
+  </data>
+  <data name="Installer.Appearance.GradientMovement.Description" xml:space="preserve">
+    <value>Låter bakgrundsgradienten följa pekaren.</value>
+  </data>
+  <data name="Installer.Appearance.SmoothScrolling.Title" xml:space="preserve">
+    <value>Mjuk rullning</value>
+  </data>
+  <data name="Installer.Appearance.SmoothScrolling.Description" xml:space="preserve">
+    <value>Animerar rullningen i hela gränssnittet.</value>
+  </data>
+  <data name="Installer.Appearance.ClearFont.Title" xml:space="preserve">
+    <value>Tydligt teckensnitt</value>
+  </data>
+  <data name="Installer.Appearance.ClearFont.Description" xml:space="preserve">
+    <value>Använder skarpare textåtergivning efter att Voidstrap har startats om.</value>
+  </data>
+  <data name="Installer.Appearance.Background.Title" xml:space="preserve">
+    <value>Anpassad bakgrund</value>
+  </data>
+  <data name="Installer.Appearance.Background.Description" xml:space="preserve">
+    <value>Använd en bild, en GIF eller en video och justera hur den visas.</value>
+  </data>
+  <data name="Installer.Appearance.GradientOpacity" xml:space="preserve">
+    <value>Gradientens opacitet</value>
+  </data>
+  <data name="Installer.Appearance.DarkOverlay" xml:space="preserve">
+    <value>Mörk överlagring</value>
+  </data>
+  <data name="Installer.Appearance.DisplayEverywhere" xml:space="preserve">
+    <value>Visa överallt</value>
+  </data>
+  <data name="Installer.Appearance.RemoveBackground" xml:space="preserve">
+    <value>Ta bort bakgrund</value>
+  </data>
+  <data name="Installer.Appearance.Theme.Description" xml:space="preserve">
+    <value>Välj temat som används i alla Voidstrap-fönster.</value>
+  </data>
+  <data name="Installer.Appearance.Theme.Customize" xml:space="preserve">
+    <value>Anpassa</value>
+  </data>
+  <data name="Installer.Appearance.Backdrop.Title" xml:space="preserve">
+    <value>Fönsterbakgrund</value>
+  </data>
+  <data name="Installer.Appearance.Backdrop.Description" xml:space="preserve">
+    <value>Välj materialet som visas bakom Voidstrap-fönster.</value>
+  </data>
+  <data name="Installer.Appearance.PageZoom.Title" xml:space="preserve">
+    <value>Sidzoom</value>
+  </data>
+  <data name="Installer.Appearance.PageZoom.Description" xml:space="preserve">
+    <value>Justera storleken på inställningssidorna.</value>
+  </data>
+  <data name="Vng.WarningTitle" xml:space="preserve">
+    <value>Roblox VNG: permanent kontobegränsning</value>
+  </data>
+  <data name="Vng.Warning" xml:space="preserve">
+    <value>STOPP: LÄS INNAN DU FORTSÄTTER
+
+När du loggar in på Roblox VNG för första gången flyttas ditt konto till VNG. Enligt Roblox kommer du inte längre att kunna använda det kontot i den globala Roblox-appen.
+
+Betrakta den här kontoflytten som permanent. Voidstrap kan inte ångra den. Att avinstallera VNG eller inaktivera det här alternativet återställer inte den globala åtkomsten till kontot. VNG:s konto- och regionsbegränsningar gäller.
+
+Att bara ladda ner filerna flyttar inte ditt konto. Att logga in eller starta med ett befintligt konto kan utsätta det kontot för flytt.
+
+Fortsätt bara om du accepterar att förlora åtkomsten till den globala appen för alla konton som du använder med VNG. Knappen Ja låses upp efter tio sekunder.</value>
+  </data>
+  <data name="Vng.Confirmation" xml:space="preserve">
+    <value>Är du säker?</value>
+  </data>
+  <data name="Vng.Agreement" xml:space="preserve">
+    <value>Sista varningen: att logga in på Roblox VNG kan permanent flytta ditt konto och ta bort åtkomsten till den globala Roblox-appen. Voidstrap kan inte ångra detta.
+
+Skriv exakt frasen som visas nedan för att godkänna begränsningarna och fortsätta.</value>
+  </data>
+  <data name="Vng.Countdown" xml:space="preserve">
+    <value>{0} ({1} s)</value>
+  </data>
+  <data name="Vng.Description" xml:space="preserve">
+    <value>Den vietnamesiska spelarklienten. Inloggning flyttar ditt konto och tar bort åtkomsten till den globala appen.</value>
+  </data>
+  <data name="Vng.UseForLaunches" xml:space="preserve">
+    <value>Använd VNG för spelarstarter</value>
+  </data>
+  <data name="Vng.UninstallWarning" xml:space="preserve">
+    <value>Att ta bort VNG ångrar inte en kontoflytt och återställer inte åtkomsten till den globala appen.</value>
+  </data>
+  <data name="Mtu.Description" xml:space="preserve">
+    <value>Begränsar paketstorleken för alla appar, inklusive Roblox. Kräver administratörsbehörighet och finns kvar efter omstart. Förbättrar kanske inte pingen.</value>
+  </data>
+  <data name="Mtu.Adapter" xml:space="preserve">
+    <value>Välj ett nätverkskort och en IP-version</value>
+  </data>
+  <data name="Mtu.CustomValue" xml:space="preserve">
+    <value>Anpassad MTU (byte)</value>
+  </data>
+  <data name="Mtu.Current" xml:space="preserve">
+    <value>Nuvarande: {0} byte. Minimum: {1} byte.</value>
+  </data>
+  <data name="Mtu.NoAdapters" xml:space="preserve">
+    <value>Inga nätverkskort som stöds hittades. Uppdatera för att försöka igen.</value>
+  </data>
+  <data name="Mtu.Invalid" xml:space="preserve">
+    <value>Ange ett heltal från {0} till {1}. Windows kontrollerar också den paketstorlek som kortet stöder.</value>
+  </data>
+  <data name="Mtu.Apply" xml:space="preserve">
+    <value>Tillämpa</value>
+  </data>
+  <data name="Mtu.Restore" xml:space="preserve">
+    <value>Återställ</value>
+  </data>
+  <data name="Mtu.Refresh" xml:space="preserve">
+    <value>Uppdatera</value>
+  </data>
+  <data name="Mtu.Loading" xml:space="preserve">
+    <value>Läser Windows nätverkskort...</value>
+  </data>
+  <data name="Mtu.Applying" xml:space="preserve">
+    <value>Väntar på administratörsgodkännande och tillämpar MTU...</value>
+  </data>
+  <data name="Mtu.AdapterUnavailable" xml:space="preserve">
+    <value>Det valda nätverkskortet är inte tillgängligt. Uppdatera och välj ett nätverkskort.</value>
+  </data>
+  <data name="Mtu.Rejected" xml:space="preserve">
+    <value>Windows kunde inte tillämpa MTU, kod {0}. Ditt nätverkskort stöder kanske inte det här värdet.</value>
+  </data>
+  <data name="Mtu.Applied" xml:space="preserve">
+    <value>MTU har ställts in på {0} byte och verifierats. Gäller alla appar på det valda nätverkskortet.</value>
+  </data>
+  <data name="Mtu.Restored" xml:space="preserve">
+    <value>Tidigare MTU har återställts till {0} byte och verifierats.</value>
+  </data>
+  <data name="Mtu.VerificationFailed" xml:space="preserve">
+    <value>Windows rapporterade inte den begärda MTU:n. Uppdatera för att kontrollera det aktuella värdet.</value>
+  </data>
+  <data name="Mtu.Cancelled" xml:space="preserve">
+    <value>Administratörsbegäran avbröts. MTU ändrades inte.</value>
+  </data>
+  <data name="Mtu.Error" xml:space="preserve">
+    <value>MTU-åtgärden misslyckades. Uppdatera för att kontrollera det aktuella värdet.</value>
+  </data>
+  <data name="Menu_FastFlagEditor_Rename" xml:space="preserve">
+    <value>Byt namn</value>
+  </data>
+  <data name="Menu_FastFlagEditor_EditValue" xml:space="preserve">
+    <value>Redigera värde</value>
+  </data>
+  <data name="Menu_FastFlagEditor_CopySelected" xml:space="preserve">
+    <value>Kopiera markering som JSON</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Title" xml:space="preserve">
+    <value>Accentfärg</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Description" xml:space="preserve">
+    <value>Välj en färg för appens kontroller och bakgrundens nyans.</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Choose" xml:space="preserve">
+    <value>Välj färg</value>
+  </data>
+  <data name="Menu.Appearance.Accent.System" xml:space="preserve">
+    <value>Använd systemfärg</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Picker" xml:space="preserve">
+    <value>Välj accentfärg</value>
+  </data>
+  <data name="Menu.Shortcuts.Customize" xml:space="preserve">
+    <value>Namn och ikon</value>
+  </data>
+  <data name="Menu.Shortcuts.InvalidName" xml:space="preserve">
+    <value>Använd ett giltigt genvägsnamn utan snedstreck eller reserverade filnamn.</value>
+  </data>
+  <data name="Menu.Shortcuts.NameExists" xml:space="preserve">
+    <value>Det finns redan en genväg med det här namnet. Välj ett annat namn.</value>
+  </data>
+  <data name="Menu.Shortcuts.ChooseIcon" xml:space="preserve">
+    <value>Välj en ikon för genvägen</value>
+  </data>
+  <data name="Menu.Shortcuts.IconFilter" xml:space="preserve">
+    <value>Ikon- och bildfiler|*.ico;*.png;*.jpg;*.jpeg;*.bmp;*.webp</value>
+  </data>
+  <data name="Menu.Shortcuts.InvalidIcon" xml:space="preserve">
+    <value>Välj en giltig ikon eller bild som är mindre än 8 MB.</value>
+  </data>
+  <data name="Menu.LaunchDropdownOnRight" xml:space="preserve">
+    <value>Placera versionsväljaren till höger</value>
+  </data>
+  <data name="OverlayDiagnostics.Bounds" xml:space="preserve">
+    <value>Storlek och skärmposition</value>
+  </data>
+  <data name="OverlayDiagnostics.CollectionError" xml:space="preserve">
+    <value>Det aktuella provet kunde inte samlas in: {0}</value>
+  </data>
+  <data name="OverlayDiagnostics.CompositeCrosshair" xml:space="preserve">
+    <value>Kompositörens hårkors aktivt</value>
+  </data>
+  <data name="OverlayDiagnostics.Compositor" xml:space="preserve">
+    <value>Kompositören initierad</value>
+  </data>
+  <data name="OverlayDiagnostics.Configuration" xml:space="preserve">
+    <value>Konfigurerade funktioner, de här växlarna bevisar inte rendering</value>
+  </data>
+  <data name="OverlayDiagnostics.Crosshair" xml:space="preserve">
+    <value>Hårkors</value>
+  </data>
+  <data name="OverlayDiagnostics.Disabled" xml:space="preserve">
+    <value>Alla kontrollerade överlagringsfunktioner är inaktiverade i inställningarna.</value>
+  </data>
+  <data name="OverlayDiagnostics.DispatcherRequired" xml:space="preserve">
+    <value>Överlagringsdiagnostiken måste köras på fönstrets dispatcher.</value>
+  </data>
+  <data name="OverlayDiagnostics.FakeBorderless" xml:space="preserve">
+    <value>Falsk kantlös helskärm</value>
+  </data>
+  <data name="OverlayDiagnostics.FakeExclusive" xml:space="preserve">
+    <value>Falsk exklusiv helskärm</value>
+  </data>
+  <data name="OverlayDiagnostics.Findings" xml:space="preserve">
+    <value>Kontroller och begränsningar</value>
+  </data>
+  <data name="OverlayDiagnostics.Foreground" xml:space="preserve">
+    <value>Roblox eller dess överlagring har fokus</value>
+  </data>
+  <data name="OverlayDiagnostics.FullscreenUnknown" xml:space="preserve">
+    <value>Exklusiv helskärm är inte bekräftad. Fönsterstorlek och kantstil kan inte fastställa visningsläget.</value>
+  </data>
+  <data name="OverlayDiagnostics.GameEffects" xml:space="preserve">
+    <value>Speleffekter</value>
+  </data>
+  <data name="OverlayDiagnostics.GameLease" xml:space="preserve">
+    <value>Linux-spellån bekräftat</value>
+  </data>
+  <data name="OverlayDiagnostics.GameSession" xml:space="preserve">
+    <value>Aktivitetsbevakarens spelsession</value>
+  </data>
+  <data name="OverlayDiagnostics.GameSignal" xml:space="preserve">
+    <value>Överlagringshubbens spelsignal</value>
+  </data>
+  <data name="OverlayDiagnostics.Handle" xml:space="preserve">
+    <value>Fönsterhandtag</value>
+  </data>
+  <data name="OverlayDiagnostics.Homepage" xml:space="preserve">
+    <value>Startsidans bakgrund</value>
+  </data>
+  <data name="OverlayDiagnostics.HomepageInGame" xml:space="preserve">
+    <value>Överlagringshubben rapporterar en spelsession medan Linux-startsidans process fortfarande körs. En process kan köras utan att rita.</value>
+  </data>
+  <data name="OverlayDiagnostics.HomepageWorker" xml:space="preserve">
+    <value>Linux-startsidans process körs</value>
+  </data>
+  <data name="OverlayDiagnostics.Intersects" xml:space="preserve">
+    <value>Rektangeln överlappar Roblox</value>
+  </data>
+  <data name="OverlayDiagnostics.Minimized" xml:space="preserve">
+    <value>Inbyggt fönster minimerat</value>
+  </data>
+  <data name="OverlayDiagnostics.MissingCrosshair" xml:space="preserve">
+    <value>Hårkorset är konfigurerat, men varken ett hårkorsfönster eller ett aktivt kompositörshårkors hittades i den här processen.</value>
+  </data>
+  <data name="OverlayDiagnostics.MissingStats" xml:space="preserve">
+    <value>Statistik är konfigurerad, men inget statistikfönster hittades i den här processen. Det bevisar inte att skapandet misslyckades och utesluter inte en annan Voidstrap-process.</value>
+  </data>
+  <data name="OverlayDiagnostics.MonitorCoverage" xml:space="preserve">
+    <value>Kantlös klient täcker sin skärm</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeLive" xml:space="preserve">
+    <value>Inbyggt handtag giltigt</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeTopmost" xml:space="preserve">
+    <value>Inbyggd flagga för alltid överst</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeVisible" xml:space="preserve">
+    <value>Inbyggt fönster synligt</value>
+  </data>
+  <data name="OverlayDiagnostics.No" xml:space="preserve">
+    <value>Nej</value>
+  </data>
+  <data name="OverlayDiagnostics.NoUsableWindow" xml:space="preserve">
+    <value>Ingen användbar Roblox-klientrektangel mättes. Roblox kan vara stängt, minimerat, dolt, startande eller otillgängligt.</value>
+  </data>
+  <data name="OverlayDiagnostics.NoWindows" xml:space="preserve">
+    <value>Inga överlagringsfönster hittades i den här processen.</value>
+  </data>
+  <data name="OverlayDiagnostics.Opacity" xml:space="preserve">
+    <value>WPF-opacitet</value>
+  </data>
+  <data name="OverlayDiagnostics.PixelsUnknown" xml:space="preserve">
+    <value>Flaggor för synlighet, opacitet och alltid överst bevisar inte att pixlar visas, inte skyms eller är synliga för användaren. GPU-bildleverans och skymning verifieras inte av den här rapporten.</value>
+  </data>
+  <data name="OverlayDiagnostics.Place" xml:space="preserve">
+    <value>Aktivitetsbevakarens plats-ID</value>
+  </data>
+  <data name="OverlayDiagnostics.RegisteredWindow" xml:space="preserve">
+    <value>Registrerad inbyggd överlagring</value>
+  </data>
+  <data name="OverlayDiagnostics.RobloxWindow" xml:space="preserve">
+    <value>Observerat Roblox-fönster</value>
+  </data>
+  <data name="OverlayDiagnostics.Runtime" xml:space="preserve">
+    <value>Observerat körtillstånd</value>
+  </data>
+  <data name="OverlayDiagnostics.Sample" xml:space="preserve">
+    <value>Prov {0:HH:mm:ss.fff zzz}, uppdateras varje sekund och vid fönsterändringar</value>
+  </data>
+  <data name="OverlayDiagnostics.Scope" xml:space="preserve">
+    <value>De här värdena beskriver den här Voidstrap-processen. Fönster som ägs av en annan process listas kanske inte.</value>
+  </data>
+  <data name="OverlayDiagnostics.Stats" xml:space="preserve">
+    <value>Statistiköverlagring</value>
+  </data>
+  <data name="OverlayDiagnostics.Teleporting" xml:space="preserve">
+    <value>Aktivitetsbevakarens teleport pågår</value>
+  </data>
+  <data name="OverlayDiagnostics.Title" xml:space="preserve">
+    <value>Överlagringsdiagnostik</value>
+  </data>
+  <data name="OverlayDiagnostics.Transition" xml:space="preserve">
+    <value>Spelövergång</value>
+  </data>
+  <data name="OverlayDiagnostics.Unavailable" xml:space="preserve">
+    <value>Inte tillgänglig</value>
+  </data>
+  <data name="OverlayDiagnostics.Unfocused" xml:space="preserve">
+    <value>Roblox har inte fokus just nu. Överlagringar kan avsiktligt döljas medan ett annat fönster är aktivt, även det här diagnostikfönstret.</value>
+  </data>
+  <data name="OverlayDiagnostics.UsableRect" xml:space="preserve">
+    <value>Användbar spårad klientrektangel</value>
+  </data>
+  <data name="OverlayDiagnostics.Visible" xml:space="preserve">
+    <value>Synlig i WPF</value>
+  </data>
+  <data name="OverlayDiagnostics.Windows" xml:space="preserve">
+    <value>Observerade överlagringsfönster</value>
+  </data>
+  <data name="OverlayDiagnostics.Worker" xml:space="preserve">
+    <value>Kompositörens arbetstråd körs</value>
+  </data>
+  <data name="OverlayDiagnostics.WpfTopmost" xml:space="preserve">
+    <value>WPF alltid överst begärt</value>
+  </data>
+  <data name="OverlayDiagnostics.X11" xml:space="preserve">
+    <value>X11-anslutning tillgänglig</value>
+  </data>
+  <data name="OverlayDiagnostics.X11Compositor" xml:space="preserve">
+    <value>X11-kompositör upptäckt</value>
+  </data>
+  <data name="OverlayDiagnostics.X11Unavailable" xml:space="preserve">
+    <value>Ingen X11-anslutning finns. Inbyggda fönster kan inte inspekteras; Wayland-begränsningar eller sandlådebehörigheter kan vara orsaken.</value>
+  </data>
+  <data name="OverlayDiagnostics.Yes" xml:space="preserve">
+    <value>Ja</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeCompositor" xml:space="preserve">
+    <value>Inbyggt GPU-kompositörsfönster</value>
+  </data>
+  <data name="FlagSearch.Loading" xml:space="preserve">
+    <value>Läser in källor…</value>
+  </data>
+  <data name="FlagSearch.Loaded" xml:space="preserve">
+    <value>Inläst</value>
+  </data>
+  <data name="FlagSearch.Unavailable" xml:space="preserve">
+    <value>Inte tillgänglig</value>
+  </data>
+  <data name="FlagSearch.Pending" xml:space="preserve">
+    <value>Väntar</value>
+  </data>
+  <data name="FlagSearch.LoadedSummary" xml:space="preserve">
+    <value>{0:N0} unika namn inlästa från {1} av {2} källor. Se Datakällor för mer information.</value>
+  </data>
+  <data name="FlagSearch.LoadError" xml:space="preserve">
+    <value>Inläsningen av källor misslyckades. Se loggen för mer information.</value>
+  </data>
+  <data name="FlagSearch.ObjectRequired" xml:space="preserve">
+    <value>Flagg-JSON måste innehålla ett objekt.</value>
+  </data>
+  <data name="FlagSearch.EmptySource" xml:space="preserve">
+    <value>Källan returnerade inga kända flaggnamn.</value>
+  </data>
+  <data name="FlagSearch.ResultCount" xml:space="preserve">
+    <value>Visar {0:N0} av {1:N0} träffar</value>
+  </data>
+  <data name="FlagSearch.SearchError" xml:space="preserve">
+    <value>Sökningen misslyckades. Se loggen för mer information.</value>
+  </data>
+  <data name="FlagSearch.Validating" xml:space="preserve">
+    <value>Kontrollerar flaggnamn och inmatade värden…</value>
+  </data>
+  <data name="FlagSearch.Found" xml:space="preserve">
+    <value>Hittad</value>
+  </data>
+  <data name="FlagSearch.ValueError" xml:space="preserve">
+    <value>Värdefel</value>
+  </data>
+  <data name="FlagSearch.NotFound" xml:space="preserve">
+    <value>Hittades inte</value>
+  </data>
+  <data name="FlagSearch.FoundNote" xml:space="preserve">
+    <value>Hittad i de inlästa källorna. Stöd för lokal åsidosättning är inte verifierat.</value>
+  </data>
+  <data name="FlagSearch.NotFoundNote" xml:space="preserve">
+    <value>Saknas i de inlästa källorna, det bevisar inte att flaggan är ogiltig.</value>
+  </data>
+  <data name="FlagSearch.ValidationSummary" xml:space="preserve">
+    <value>{0:N0} flaggor kontrollerade, {1:N0} inmatningar matchade en källa och den förväntade värdetypen.</value>
+  </data>
+  <data name="FlagSearch.NameError" xml:space="preserve">
+    <value>Använd ett känt Fast Flag-namn utan mellanslag.</value>
+  </data>
+  <data name="FlagSearch.TooMany" xml:space="preserve">
+    <value>Inmatningen innehåller för många flaggor.</value>
+  </data>
+  <data name="FlagSearch.ScalarRequired" xml:space="preserve">
+    <value>Flaggvärden måste vara strängar, tal eller booleska värden.</value>
+  </data>
+  <data name="FlagSearch.LineError" xml:space="preserve">
+    <value>Varje textrad måste använda namn=värde.</value>
+  </data>
+  <data name="FlagSearch.EmptyInput" xml:space="preserve">
+    <value>Inga flaggposter hittades.</value>
+  </data>
+  <data name="FlagSearch.Label1" xml:space="preserve">
+    <value>Hitta Fast Flags</value>
+  </data>
+  <data name="FlagSearch.Label2" xml:space="preserve">
+    <value>Hitta Fast Flags</value>
+  </data>
+  <data name="FlagSearch.Label3" xml:space="preserve">
+    <value>Sökning och validering av Fast Flags</value>
+  </data>
+  <data name="FlagSearch.Label4" xml:space="preserve">
+    <value>Sök, validera och upptäck Fast Flags från flera källor</value>
+  </data>
+  <data name="FlagSearch.Label5" xml:space="preserve">
+    <value>Uppdatera källor</value>
+  </data>
+  <data name="FlagSearch.Label6" xml:space="preserve">
+    <value>Klar</value>
+  </data>
+  <data name="FlagSearch.Label7" xml:space="preserve">
+    <value>Livesökning</value>
+  </data>
+  <data name="FlagSearch.Label8" xml:space="preserve">
+    <value>Livesökning av flaggor</value>
+  </data>
+  <data name="FlagSearch.Label9" xml:space="preserve">
+    <value>Sök efter fullständiga namn eller nyckelord. Exakta träffar visas först. Exporten innehåller alla matchande kända värden.</value>
+  </data>
+  <data name="FlagSearch.Label10" xml:space="preserve">
+    <value>Ange flaggnamn eller nyckelord...</value>
+  </data>
+  <data name="FlagSearch.Label11" xml:space="preserve">
+    <value>Exportera resultat</value>
+  </data>
+  <data name="FlagSearch.Label12" xml:space="preserve">
+    <value>Alla värden</value>
+  </data>
+  <data name="FlagSearch.Label13" xml:space="preserve">
+    <value>True-värden</value>
+  </data>
+  <data name="FlagSearch.Label14" xml:space="preserve">
+    <value>False-värden</value>
+  </data>
+  <data name="FlagSearch.Label15" xml:space="preserve">
+    <value>Flaggnamn</value>
+  </data>
+  <data name="FlagSearch.Label16" xml:space="preserve">
+    <value>Värde</value>
+  </data>
+  <data name="FlagSearch.Label17" xml:space="preserve">
+    <value>Källa</value>
+  </data>
+  <data name="FlagSearch.Label18" xml:space="preserve">
+    <value>Inga träffar. Prova ett annat namn eller värdefilter.</value>
+  </data>
+  <data name="FlagSearch.Label19" xml:space="preserve">
+    <value>0 resultat</value>
+  </data>
+  <data name="FlagSearch.Label20" xml:space="preserve">
+    <value>Massvalidering</value>
+  </data>
+  <data name="FlagSearch.Label21" xml:space="preserve">
+    <value>Massvalidering av flaggor</value>
+  </data>
+  <data name="FlagSearch.Label22" xml:space="preserve">
+    <value>Kontrollerar källtillhörighet och värdetyper. En träff garanterar inte att Roblox tillåter den lokala åsidosättningen.</value>
+  </data>
+  <data name="FlagSearch.Label23" xml:space="preserve">
+    <value>Läs in fil</value>
+  </data>
+  <data name="FlagSearch.Label24" xml:space="preserve">
+    <value>Validera</value>
+  </data>
+  <data name="FlagSearch.Label25" xml:space="preserve">
+    <value>Rensa</value>
+  </data>
+  <data name="FlagSearch.Label26" xml:space="preserve">
+    <value>Klistra in</value>
+  </data>
+  <data name="FlagSearch.Label28" xml:space="preserve">
+    <value>Markera allt</value>
+  </data>
+  <data name="FlagSearch.Label30" xml:space="preserve">
+    <value>Rensa</value>
+  </data>
+  <data name="FlagSearch.Label31" xml:space="preserve">
+    <value>Valideringsresultat</value>
+  </data>
+  <data name="FlagSearch.Label32" xml:space="preserve">
+    <value>Flaggnamn</value>
+  </data>
+  <data name="FlagSearch.Label33" xml:space="preserve">
+    <value>Inmatat värde</value>
+  </data>
+  <data name="FlagSearch.Label35" xml:space="preserve">
+    <value>Källvärde</value>
+  </data>
+  <data name="FlagSearch.Label36" xml:space="preserve">
+    <value>Anteckningar</value>
+  </data>
+  <data name="FlagSearch.Label37" xml:space="preserve">
+    <value>Exportera kontrollerad inmatning</value>
+  </data>
+  <data name="FlagSearch.Label38" xml:space="preserve">
+    <value>0 resultat</value>
+  </data>
+  <data name="FlagSearch.Label39" xml:space="preserve">
+    <value>Datakällor</value>
+  </data>
+  <data name="FlagSearch.Label40" xml:space="preserve">
+    <value>Tillgänglighet för livekällor och hämtningstider. Att finnas i en källa betyder inte att Roblox accepterar en lokal åsidosättning. De här källorna anger inga datum för senaste ändringar.</value>
+  </data>
+  <data name="FlagSearch.Label41" xml:space="preserve">
+    <value>Källa</value>
+  </data>
+  <data name="FlagSearch.Label43" xml:space="preserve">
+    <value>Flaggor</value>
+  </data>
+  <data name="FlagSearch.Label44" xml:space="preserve">
+    <value>Hämtad</value>
+  </data>
+  <data name="FlagSearch.Label45" xml:space="preserve">
+    <value>Stäng</value>
+  </data>
+  <data name="FlagSearch.Message1" xml:space="preserve">
+    <value>Ange flaggor att validera.</value>
+  </data>
+  <data name="FlagSearch.Message2" xml:space="preserve">
+    <value>Ingen inmatning</value>
+  </data>
+  <data name="FlagSearch.Message3" xml:space="preserve">
+    <value>Den flagginmatningen är för stor för att valideras.</value>
+  </data>
+  <data name="FlagSearch.Message4" xml:space="preserve">
+    <value>För stor inmatning</value>
+  </data>
+  <data name="FlagSearch.Message5" xml:space="preserve">
+    <value>Dubbletter av flaggor hittades i inmatningen: </value>
+  </data>
+  <data name="FlagSearch.Message6" xml:space="preserve">
+    <value>Dubbletter upptäckta</value>
+  </data>
+  <data name="FlagSearch.Message7" xml:space="preserve">
+    <value>Fel vid validering av flaggor</value>
+  </data>
+  <data name="FlagSearch.Message8" xml:space="preserve">
+    <value>Fel vid validering av flaggor: </value>
+  </data>
+  <data name="FlagSearch.Message9" xml:space="preserve">
+    <value>Valideringsfel</value>
+  </data>
+  <data name="FlagSearch.Message10" xml:space="preserve">
+    <value>Välj flaggfil att validera</value>
+  </data>
+  <data name="FlagSearch.Message11" xml:space="preserve">
+    <value>Fel vid inläsning av fil: </value>
+  </data>
+  <data name="FlagSearch.Message12" xml:space="preserve">
+    <value>Filfel</value>
+  </data>
+  <data name="FlagSearch.Message13" xml:space="preserve">
+    <value>Flaggfilens storlek är ogiltig</value>
+  </data>
+  <data name="FlagSearch.Message14" xml:space="preserve">
+    <value>Flaggfilen ändrades medan den lästes</value>
+  </data>
+  <data name="FlagSearch.Message15" xml:space="preserve">
+    <value>Flagginmatningen är för stor</value>
+  </data>
+  <data name="FlagSearch.Message16" xml:space="preserve">
+    <value>Exporterade {flags.Count} flaggor till {dialog.FileName}</value>
+  </data>
+  <data name="FlagSearch.Message17" xml:space="preserve">
+    <value>Exporten är klar</value>
+  </data>
+  <data name="FlagSearch.Message18" xml:space="preserve">
+    <value>Fel vid export av flaggor: </value>
+  </data>
+  <data name="FlagSearch.Message19" xml:space="preserve">
+    <value>Exportfel</value>
+  </data>
+  <data name="FlagSearch.Message20" xml:space="preserve">
+    <value>Fel vid inklistring från urklipp: </value>
+  </data>
+  <data name="FlagSearch.Message21" xml:space="preserve">
+    <value>Inklistringsfel</value>
+  </data>
+  <data name="FlagSearch.ExportSummary" xml:space="preserve">
+    <value>Exporterade {0:N0} flaggor till {1}</value>
+  </data>
+  <data name="FlagSearch.ValueNote" xml:space="preserve">
+    <value>Det inmatade värdet passar inte flaggnamnets typ. Booleska flaggor kräver true eller false, heltalsflaggor kräver ett helt 32-bitarstal.</value>
+  </data>
+  <data name="Notifications.Title" xml:space="preserve">
+    <value>Aviseringar</value>
+  </data>
+  <data name="Notifications.Updates" xml:space="preserve">
+    <value>Uppdateringar</value>
+  </data>
+  <data name="Notifications.Roblox" xml:space="preserve">
+    <value>Roblox och moddar</value>
+  </data>
+  <data name="Notifications.Recovery" xml:space="preserve">
+    <value>Återställning av inställningar</value>
+  </data>
+  <data name="Notifications.Errors" xml:space="preserve">
+    <value>Fel och krascher</value>
+  </data>
+  <data name="Notifications.GameJoins" xml:space="preserve">
+    <value>Gick med i spel</value>
+  </data>
+  <data name="Notifications.App" xml:space="preserve">
+    <value>Appaviseringar</value>
+  </data>
+  <data name="Notifications.AppDescription" xml:space="preserve">
+    <value>Visa appaviseringar.</value>
+  </data>
+  <data name="Bootstrapper.Uninstall.NvidiaFailed" xml:space="preserve">
+    <value>NVIDIA-rensningen misslyckades. Avinstallera ändå? Återstående NVIDIA-inställningar förblir tillämpade.
+
+{0}</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Latest" xml:space="preserve">
+    <value>Senaste</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Oldest" xml:space="preserve">
+    <value>Äldsta</value>
+  </data>
+  <data name="ContextMenu.GameHistory.MostPlayed" xml:space="preserve">
+    <value>Längsta besök</value>
+  </data>
+  <data name="ContextMenu.GameHistory.NameAscending" xml:space="preserve">
+    <value>Namn, stigande</value>
+  </data>
+  <data name="ContextMenu.GameHistory.NameDescending" xml:space="preserve">
+    <value>Namn, fallande</value>
+  </data>
+  <data name="ContextMenu.GameHistory.AllServers" xml:space="preserve">
+    <value>Alla servrar</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Public" xml:space="preserve">
+    <value>Offentlig</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Private" xml:space="preserve">
+    <value>Privat</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Reserved" xml:space="preserve">
+    <value>Reserverad</value>
+  </data>
+  <data name="ContextMenu.GameHistory.EndUnknown" xml:space="preserve">
+    <value>Inte registrerat</value>
+  </data>
+  <data name="ContextMenu.GameHistory.CopyLink" xml:space="preserve">
+    <value>Kopiera länk</value>
+  </data>
+  <data name="ContextMenu.GameHistory.LoadFailed" xml:space="preserve">
+    <value>Kunde inte läsa in historiken.</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Empty" xml:space="preserve">
+    <value>Inga besök att visa.</value>
+  </data>
+  <data name="ContextMenu.GameHistory.StatusUnknown" xml:space="preserve">
+    <value>Okänd</value>
+  </data>
+  <data name="ContextMenu.GameHistory.CheckedAt" xml:space="preserve">
+    <value>Kontrollerad: {0}</value>
+  </data>
+  <data name="ContextMenu.GameHistory.LaunchFailed" xml:space="preserve">
+    <value>Kunde inte starta Roblox.</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.Unknown" xml:space="preserve">
+    <value>Okänd</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.InGame" xml:space="preserve">
+    <value>{0:N0} i spelet</value>
+  </data>
+  <data name="ServerInfo.Hint.Updated" xml:space="preserve">
+    <value>Uppdaterad för {0} sedan.</value>
+  </data>
+  <data name="ServerInfo.Hint.RateLimited" xml:space="preserve">
+    <value>Roblox begränsar serversökningar, försöker igen om {0}.</value>
+  </data>
+  <data name="ServerInfo.Hint.RateLimitedStale" xml:space="preserve">
+    <value>Roblox begränsar serversökningar. Visar antalet från {0} sedan, uppdaterar igen om {1}.</value>
+  </data>
+  <data name="ServerInfo.Hint.NotListed" xml:space="preserve">
+    <value>Den här servern finns inte i den del av den offentliga serverlistan som Roblox delar, kontrollerar igen om {0}.</value>
+  </data>
+  <data name="ServerInfo.Hint.NotListedStale" xml:space="preserve">
+    <value>Senast sedd för {0} sedan. Den här servern finns just nu inte i den del av den offentliga serverlistan som Roblox delar.</value>
+  </data>
+  <data name="ServerInfo.Hint.PrivateNotListed" xml:space="preserve">
+    <value>Den här privata servern finns inte i serverlistan som ditt konto kan se, så antalet spelare kan inte läsas.</value>
+  </data>
+  <data name="ServerInfo.Hint.PrivateSignedOut" xml:space="preserve">
+    <value>Roblox delar bara antalet spelare på privata servrar med ett inloggat konto. Logga in på Roblox i Voidstrap för att se det.</value>
+  </data>
+  <data name="ServerInfo.Hint.Reserved" xml:space="preserve">
+    <value>Roblox listar inte reserverade servrar, som används för teleporter och partyn, så deras antal spelare kan inte läsas.</value>
+  </data>
+  <data name="ServerInfo.Hint.Unavailable" xml:space="preserve">
+    <value>Kunde inte nå Roblox, försöker igen om {0}.</value>
+  </data>
+  <data name="ServerInfo.Hint.UnavailableStale" xml:space="preserve">
+    <value>Kunde inte nå Roblox. Visar antalet från {0} sedan, försöker igen om {1}.</value>
+  </data>
+  <data name="ServerInfo.Hint.Full" xml:space="preserve">
+    <value>Den här servern är full. Roblox utelämnar fulla servrar från den offentliga serverlistan, så den visas som full tills en plats blir ledig.</value>
+  </data>
+  <data name="Shortcuts.GameTab" xml:space="preserve">
+    <value>Spel</value>
+  </data>
+  <data name="Shortcuts.SubplaceTab" xml:space="preserve">
+    <value>Underplats</value>
+  </data>
+  <data name="Shortcuts.SubplaceDescription" xml:space="preserve">
+    <value>Hitta de andra platserna i den här upplevelsen.</value>
+  </data>
+  <data name="Shortcuts.LoadSubplaces" xml:space="preserve">
+    <value>Läs in underplatser</value>
+  </data>
+  <data name="Shortcuts.SubplaceAccess" xml:space="preserve">
+    <value>Skaparen måste tillåta direkta anslutningar. Vissa underplatser kräver en teleport i spelet.</value>
+  </data>
+  <data name="Shortcuts.SubplaceInitial" xml:space="preserve">
+    <value>Ange ett spel-ID för att läsa in dess underplatser automatiskt.</value>
+  </data>
+  <data name="Shortcuts.SubplaceRetry" xml:space="preserve">
+    <value>Öppna fliken igen för att försöka på nytt.</value>
+  </data>
+  <data name="Shortcuts.SubplaceInvalidId" xml:space="preserve">
+    <value>Ange ett giltigt numeriskt spel-ID.</value>
+  </data>
+  <data name="Shortcuts.SubplaceLoading" xml:space="preserve">
+    <value>Läser in underplatser...</value>
+  </data>
+  <data name="Shortcuts.SubplaceEmpty" xml:space="preserve">
+    <value>Den här upplevelsen har inga listade underplatser.</value>
+  </data>
+  <data name="Shortcuts.SubplaceChoose" xml:space="preserve">
+    <value>Välj en underplats nedan.</value>
+  </data>
+  <data name="Shortcuts.SubplaceTimeout" xml:space="preserve">
+    <value>Förfrågan tog för lång tid. Öppna fliken igen för att försöka på nytt.</value>
+  </data>
+  <data name="Shortcuts.SubplaceFailed" xml:space="preserve">
+    <value>Underplatserna kunde inte läsas in. Kontrollera spel-ID och anslutning och försök sedan igen.</value>
+  </data>
+  <data name="Shortcuts.SubplaceReload" xml:space="preserve">
+    <value>Underplatser läses in automatiskt när du anger ett giltigt spel-ID.</value>
+  </data>
+  <data name="Shortcuts.SubplaceRequired" xml:space="preserve">
+    <value>Vänta tills underplatserna har lästs in och välj sedan en innan du fortsätter.</value>
+  </data>
+  <data name="Library.SubplacesTab" xml:space="preserve">
+    <value>Underplatser</value>
+  </data>
+  <data name="SettingsProfiles.Title" xml:space="preserve">
+    <value>Inställningsprofiler</value>
+  </data>
+  <data name="SettingsProfiles.Name" xml:space="preserve">
+    <value>Profilnamn</value>
+  </data>
+  <data name="SettingsProfiles.NameHint" xml:space="preserve">
+    <value>Exempel: VoidstrapProfile</value>
+  </data>
+  <data name="SettingsProfiles.Save" xml:space="preserve">
+    <value>Spara profil</value>
+  </data>
+  <data name="SettingsProfiles.Saved" xml:space="preserve">
+    <value>Sparade profiler</value>
+  </data>
+  <data name="SettingsProfiles.Apply" xml:space="preserve">
+    <value>Tillämpa profil</value>
+  </data>
+  <data name="SettingsProfiles.Folder" xml:space="preserve">
+    <value>Öppna mapp</value>
+  </data>
+  <data name="SettingsProfiles.Empty" xml:space="preserve">
+    <value>Inga profiler än. Ange ett namn och välj Spara profil.</value>
+  </data>
+  <data name="SettingsProfiles.Location" xml:space="preserve">
+    <value>Sparad i {0}</value>
+  </data>
+  <data name="SettingsProfiles.InvalidName" xml:space="preserve">
+    <value>Använd ett namn med 1 till 80 tecken, utan filnamnssymboler eller reserverade enhetsnamn.</value>
+  </data>
+  <data name="SettingsProfiles.InvalidFile" xml:space="preserve">
+    <value>Den här profilen är ogiltig eller använder ett format som inte stöds.</value>
+  </data>
+  <data name="SettingsProfiles.RestoreFailed" xml:space="preserve">
+    <value>Profilen kunde inte tillämpas och de tidigare inställningarna kunde inte återställas.</value>
+  </data>
+  <data name="SettingsProfiles.Overwrite" xml:space="preserve">
+    <value>Ersätta den sparade profilen "{0}" med dina nuvarande inställningar?</value>
+  </data>
+  <data name="SettingsProfiles.SavedStatus" xml:space="preserve">
+    <value>Sparade "{0}"</value>
+  </data>
+  <data name="SettingsProfiles.ApplyConfirm" xml:space="preserve">
+    <value>Tillämpa "{0}"? Det här ersätter dina nuvarande Voidstrap-inställningar och FastFlags och öppnar sedan Voidstrap-inställningarna igen.</value>
+  </data>
+  <data name="SettingsProfiles.RestartFailed" xml:space="preserve">
+    <value>Profilen har tillämpats. Starta om Voidstrap för att uppdatera alla inställningssidor.</value>
+  </data>
+  <data name="SettingsProfiles.Restart" xml:space="preserve">
+    <value>Starta om nu</value>
+  </data>
+  <data name="SettingsProfiles.DeleteConfirm" xml:space="preserve">
+    <value>Ta bort den sparade profilen "{0}"? Dina nuvarande inställningar förblir som de är.</value>
+  </data>
+  <data name="SettingsProfiles.Deleted" xml:space="preserve">
+    <value>Tog bort "{0}".</value>
+  </data>
+  <data name="SettingsProfiles.Error" xml:space="preserve">
+    <value>Profilåtgärden kunde inte slutföras: {0}</value>
+  </data>
+  <data name="GlobalProfiles.Title" xml:space="preserve">
+    <value>Globala inställningsprofiler</value>
+  </data>
+  <data name="GlobalProfiles.ApplyConfirm" xml:space="preserve">
+    <value>Tillämpa "{0}"? Det här ersätter dina nuvarande globala Roblox-inställningar. Gå med i Roblox igen för att se alla ändringar.</value>
+  </data>
+  <data name="GlobalProfiles.Applied" xml:space="preserve">
+    <value>Tillämpade "{0}"</value>
+  </data>
+  <data name="GlobalProfiles.SaveFailed" xml:space="preserve">
+    <value>Roblox-inställningsfilen kunde inte skrivas. Stäng Roblox och försök igen.</value>
+  </data>
+  <data name="AssetWarp.RemoveTexturesDescription" xml:space="preserve">
+    <value>Blockerar nedladdning av textur- och texturpaketresurser</value>
+  </data>
+  <data name="AssetWarp.RemoveDecalsDescription" xml:space="preserve">
+    <value>Blockerar nedladdning av dekalresurser</value>
+  </data>
+  <data name="AssetWarp.RemoveImagesDescription" xml:space="preserve">
+    <value>Blockerar nedladdning av bildresurser. Roblox använder även bilder för texturer och dekaler</value>
+  </data>
+  <data name="AssetWarp.RemoveAnimationsDescription" xml:space="preserve">
+    <value>Blockerar nedladdning av animationsresurser. Spel utan reservanimation kan sluta fungera korrekt</value>
+  </data>
+  <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
+    <value>Blockerar nedladdning av mesh- och MeshPart-resurser. Meshgeometri blir osynlig</value>
+  </data>
+  <data name="SwiftTunnel.Summary" xml:space="preserve">
+    <value>Skicka Roblox-trafik via SwiftTunnel medan andra appar använder din vanliga anslutning</value>
+  </data>
+  <data name="SwiftTunnel.Description" xml:space="preserve">
+    <value>SwiftTunnel är en optimerare för spelanslutningar på Windows med delad tunnling och val av regionala reläer</value>
+  </data>
+  <data name="SwiftTunnel.Setup" xml:space="preserve">
+    <value>Installera laddar ner den senaste officiella SwiftTunnel-versionen och öppnar skrivbordsappen efter installationen. Logga in där och välj din anslutning. Nätverksoptimering kan kräva administratörsbehörighet</value>
+  </data>
+  <data name="SwiftTunnel.Network" xml:space="preserve">
+    <value>Nätverk</value>
+  </data>
+  <data name="SwiftTunnel.Routing" xml:space="preserve">
+    <value>Routning</value>
+  </data>
+  <data name="SwiftTunnel.Install" xml:space="preserve">
+    <value>Installera</value>
+  </data>
+  <data name="SwiftTunnel.Uninstall" xml:space="preserve">
+    <value>Avinstallera</value>
+  </data>
+  <data name="SwiftTunnel.Installed" xml:space="preserve">
+    <value>Installerad</value>
+  </data>
+  <data name="SwiftTunnel.NotInstalled" xml:space="preserve">
+    <value>Inte installerad</value>
+  </data>
+  <data name="SwiftTunnel.Working" xml:space="preserve">
+    <value>Arbetar</value>
+  </data>
+  <data name="SwiftTunnel.Downloading" xml:space="preserve">
+    <value>Laddar ner SwiftTunnel</value>
+  </data>
+  <data name="SwiftTunnel.InstallerFailed" xml:space="preserve">
+    <value>Kunde inte öppna SwiftTunnel-installationen</value>
+  </data>
+  <data name="SwiftTunnel.InstallerExit" xml:space="preserve">
+    <value>SwiftTunnel-installationen returnerade kod {0}</value>
+  </data>
+  <data name="SwiftTunnel.Error" xml:space="preserve">
+    <value>Kunde inte slutföra SwiftTunnel-åtgärden: {0}</value>
+  </data>
+  <data name="SwiftTunnel.UninstallUnavailable" xml:space="preserve">
+    <value>SwiftTunnels avinstallationspost är ofullständig. Ta bort SwiftTunnel via Windows-inställningar, Appar i stället</value>
+  </data>
+  <data name="SwiftTunnel.CleanupFailed" xml:space="preserve">
+    <value>SwiftTunnel kunde inte återställa sina nätverksinställningar. Filerna behölls så att rensningen kan göras om</value>
+  </data>
+  <data name="SwiftTunnel.ConfirmUninstall" xml:space="preserve">
+    <value>Ta bort SwiftTunnel helt? Först återställs nätverksdrivrutinen och systeminställningarna, sedan avinstalleras SwiftTunnel. När det har startat kan det inte avbrytas.</value>
+  </data>
+  <data name="SwiftTunnel.UninstallIncomplete" xml:space="preserve">
+    <value>Borttagningen av SwiftTunnel kunde inte slutföras. Stäng SwiftTunnel och försök igen med administratörsbehörighet</value>
+  </data>
+  <data name="SwiftTunnel.UnsafeDirectory" xml:space="preserve">
+    <value>SwiftTunnel är installerat i en delad eller okänd mapp. Flytta det till en egen SwiftTunnel-mapp innan du använder fullständig borttagning</value>
+  </data>
+  <data name="SwiftTunnel.NotInstalledError" xml:space="preserve">
+    <value>SwiftTunnel är inte installerat. Installera det först från Tillägg</value>
+  </data>
+  <data name="SwiftTunnel.Missing" xml:space="preserve">
+    <value>SwiftTunnel är registrerat men dess appfiler saknas. Avinstallera och installera det igen för att reparera det</value>
+  </data>
+  <data name="SwiftTunnel.NoInstaller" xml:space="preserve">
+    <value>Den senaste SwiftTunnel-versionen har inget verifierat Windows-installationsprogram för den här datorn</value>
+  </data>
+  <data name="Installer.MacOS.DataLocation.Title" xml:space="preserve">
+    <value>Välj var Voidstrap-data ska lagras</value>
+  </data>
+  <data name="Installer.MacOS.DataLocation.Text" xml:space="preserve">
+    <value>Voidstrap sparar sina inställningar och moddar här. Programmet stannar på sin nuvarande plats. Roblox installeras separat i Program.</value>
+  </data>
+  <data name="Installer.MacOS.Completion.Text" xml:space="preserve">
+    <value>Voidstrap är klart.
+
+Roblox laddas ner när du startar det för första gången via Voidstrap. Du kan justera dina inställningar innan du startar.
+
+Vad vill du göra?</value>
+  </data>
+  <data name="Installer.MacOS.Roblox.Title" xml:space="preserve">
+    <value>Roblox för macOS</value>
+  </data>
+  <data name="Installer.MacOS.Roblox.Text" xml:space="preserve">
+    <value>Voidstrap laddar ner den officiella Roblox-appen till Program första gången du klickar på Starta och håller den sedan uppdaterad. Ingen separat installation behövs.</value>
+  </data>
+  <data name="HomepageMedia.Preview.FileMissing" xml:space="preserve">
+    <value>Den valda mediefilen hittades inte.</value>
+  </data>
+  <data name="HomepageMedia.Preview.DecodeError" xml:space="preserve">
+    <value>Det här mediet kunde inte avkodas. Välj en annan bild eller video.</value>
+  </data>
+  <data name="HomepageMedia.Preview.RenderError" xml:space="preserve">
+    <value>Förhandsvisningen av mediet kunde inte visas.</value>
+  </data>
+  <data name="HomepageMedia.Picker.ImagesAndVideos" xml:space="preserve">
+    <value>Bilder och videor</value>
+  </data>
+  <data name="HomepageMedia.Picker.Images" xml:space="preserve">
+    <value>Bilder</value>
+  </data>
+  <data name="HomepageMedia.Picker.Videos" xml:space="preserve">
+    <value>Videor</value>
+  </data>
+  <data name="Appearance.Backdrop.Sidebar" xml:space="preserve">
+    <value>Sidofält</value>
+  </data>
+  <data name="Appearance.Backdrop.Hud" xml:space="preserve">
+    <value>Head up-display</value>
+  </data>
+  <data name="Appearance.Backdrop.UnderWindow" xml:space="preserve">
+    <value>Under fönstret</value>
+  </data>
+  <data name="Appearance.Backdrop.UnderPage" xml:space="preserve">
+    <value>Under sidan</value>
+  </data>
+  <data name="Menu.MacVirtualDisplay.Title" xml:space="preserve">
+    <value>Virtuell 240 Hz-skärm</value>
+  </data>
+  <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Speglar huvudskärmen medan Roblox körs och återställer den när Roblox stängs. Den fysiska skärmen behåller sin egen uppdateringsgräns.</value>
+  </data>
 </root>

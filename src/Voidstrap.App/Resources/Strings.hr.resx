@@ -1686,4 +1686,1349 @@ Molimo zatvorite bilo koju aplikaciju koja bi mogla koristiti Robloxove datoteke
   <data name="Menu.News.DialogTitle" xml:space="preserve">
     <value>Detalji vijesti</value>
   </data>
+  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
+    <value>Voidstrap nije mogao ukloniti preostalo AssetWarp usmjeravanje iz Windows datoteke hosts. Roblox neće moći učitati teksture ni druge resurse dok se ono ne ukloni. Pokreni Voidstrap kao administrator da ga očistiš.</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
+    <value>Oboje</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
+    <value>Igrač</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
+    <value>Preglednik poslužitelja</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
+    <value>Mjesto {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
+    <value>{0}  •  Mjesto {1}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
+    <value>Skenirano poslužitelja: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
+    <value>Osvježi</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
+    <value>Učitaj još poslužitelja</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
+    <value>Sakrij pune poslužitelje</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
+    <value>Traži grad, državu ili ID poslužitelja</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
+    <value>Najviše igrača</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
+    <value>Najmanje igrača</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
+    <value>Najmanji ping</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
+    <value>Pridruži se</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
+    <value>Trenutno</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
+    <value>Učitavanje javnih poslužitelja</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
+    <value>Nije pronađen nijedan javni poslužitelj</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
+    <value>Pridruži se igri prije otvaranja preglednika poslužitelja</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
+    <value>Popis poslužitelja je pauziran jer Roblox ograničava zahtjeve</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
+    <value>Nije moguće učitati javne poslužitelje</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
+    <value>Učitano poslužitelja: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
+    <value>{0} od {1} igrača</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
+    <value>Igrača: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
+    <value>Nepoznato</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
+    <value>Najbolje podudaranje</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
+    <value>Najbolje podudaranje</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
+    <value>Blokirano</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
+    <value>Oko {0} ms od tebe</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
+    <value>Do sada pronađeno poslužitelja: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
+    <value>Pronađeno {0} od {1} poslužitelja</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
+    <value>Premještanje na {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
+    <value>Nije moguće pridružiti se tom poslužitelju</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
+    <value>Prijavi se u Postavke &gt; Server Matchmaker kako bi Voidstrap mogao pronaći gdje se nalazi svaki poslužitelj</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
+    <value>Tvoju lokaciju nije moguće pronaći, pa se poslužitelji ne mogu poredati po pingu</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
+    <value>Roblox nije otkrio gdje se nalaze ti poslužitelji, pokušaj ponovno za trenutak</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
+    <value>Svi pronađeni poslužitelji nalaze se u podatkovnom centru koji si blokirao</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
+    <value>Svi pronađeni poslužitelji daleko su od tebe, pa bi matchmaker prepustio odabir Robloxu</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
+    <value>Preglednik igara</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
+    <value>Nastavi</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
+    <value>Favoriti</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
+    <value>Traži</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
+    <value>Traži Roblox igre</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
+    <value>Učitavanje igara</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
+    <value>Nema nedavnih igara u ovoj sesiji</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
+    <value>Nema spremljenih omiljenih igara</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
+    <value>Pretraži Roblox igru po nazivu</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
+    <value>Nije pronađena nijedna igra za {0}</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
+    <value>Nije moguće učitati igre</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
+    <value>Igra: {0}</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
+    <value>Pridruži se</value>
+  </data>
+  <data name="Enums.Theme.Berry" xml:space="preserve">
+    <value>Bobičasta</value>
+  </data>
+  <data name="Menu.About.DiscordServer" xml:space="preserve">
+    <value>Discord poslužitelj</value>
+  </data>
+  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
+    <value>Automatski prijevod</value>
+  </data>
+  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
+    <value>Prevedi na</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
+    <value>Jezik automatskog prijevoda</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
+    <value>Prevedi cijelo sučelje Voidstrapa na bilo koji jezik. Najprije se koriste ugrađeni prijevodi, a preostali tekst prevodi se uživo.</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
+    <value>Automatski prevodi Discord RPC</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
+    <value>Automatski prevodi tekst Discord Rich Presence na odabrani jezik.</value>
+  </data>
+  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
+    <value>Ova je značajka dostupna samo na sustavu Windows.</value>
+  </data>
+  <data name="About.Translators.Description" xml:space="preserve">
+    <value>Svi ovdje navedeni velikodušno su uložili svoje vrijeme i trud u prevođenje Voidstrapa. Veliko hvala svima!</value>
+  </data>
+  <data name="Menu.Channel.Description" xml:space="preserve">
+    <value>Promijeni postavke uvođenja i instalacije za Roblox i Voidstrap.</value>
+  </data>
+  <data name="Common.Channel" xml:space="preserve">
+    <value>Kanal</value>
+  </data>
+  <data name="Menu.ChannelChanger.Description" xml:space="preserve">
+    <value>Odaberi kanal uvođenja. Ne mijenjaj ga ako ne znaš što radiš.</value>
+  </data>
+  <data name="Common.Version" xml:space="preserve">
+    <value>Verzija</value>
+  </data>
+  <data name="Menu.Channel.RobloxUpgrades" xml:space="preserve">
+    <value>Roblox ažuriranja</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
+    <value>Tamni način</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
+    <value>Telemetrija</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
+    <value>Tamni način</value>
+  </data>
+  <data name="Common.Debug" xml:space="preserve">
+    <value>Otklanjanje pogrešaka</value>
+  </data>
+  <data name="Menu.Sober.Description" xml:space="preserve">
+    <value>Konfiguriraj Linux okruženja s kojima Voidstrap pokreće Roblox. Sober pokreće player, a Vinegar pokreće Studio. Voidstrap mijenja samo opcije koje izričito nadjačaš.</value>
+  </data>
+  <data name="Menu.Sober.Default" xml:space="preserve">
+    <value>Koristi Sober zadano</value>
+  </data>
+  <data name="Menu.Sober.Enabled" xml:space="preserve">
+    <value>Uključeno</value>
+  </data>
+  <data name="Menu.Sober.Disabled" xml:space="preserve">
+    <value>Isključeno</value>
+  </data>
+  <data name="Menu.Sober.DefaultNotice" xml:space="preserve">
+    <value>Koristi Sober zadano prepušta postavku Soberu. Uklanjanjem nadjačavanja vraća se vrijednost koju je Voidstrap sigurnosno kopirao.</value>
+  </data>
+  <data name="Menu.Sober.RuntimeNotice" xml:space="preserve">
+    <value>Dovrši prvo pokretanje Sobera prije postavljanja nadjačavanja, a zatim zatvori Sober prije nego što ih promijeniš. Spremljene promjene primjenjuju se pri sljedećem pokretanju Sobera.</value>
+  </data>
+  <data name="Menu.Sober.Group.Session" xml:space="preserve">
+    <value>Sesija i aktivnost</value>
+  </data>
+  <data name="Menu.Sober.Group.Input" xml:space="preserve">
+    <value>Unos i doživljaj</value>
+  </data>
+  <data name="Menu.Sober.Group.Graphics" xml:space="preserve">
+    <value>Grafika i radna površina</value>
+  </data>
+  <data name="Menu.Sober.AllowGamepad.Title" xml:space="preserve">
+    <value>Dopusti pristup kontroleru</value>
+  </data>
+  <data name="Menu.Sober.AllowGamepad.Description" xml:space="preserve">
+    <value>Dopušta Soberu da zatraži pristup povezanim kontrolerima. Promjene dopuštenja mogu zahtijevati ponovno pokretanje Sobera.</value>
+  </data>
+  <data name="Menu.Sober.CloseOnLeave.Title" xml:space="preserve">
+    <value>Zatvori pri izlasku</value>
+  </data>
+  <data name="Menu.Sober.CloseOnLeave.Description" xml:space="preserve">
+    <value>Zatvara Sober nakon izlaska iz doživljaja.</value>
+  </data>
+  <data name="Menu.Sober.DiscordRpc.Description" xml:space="preserve">
+    <value>Dopušta Soberu da prikazuje aktivnost u igri putem Discord Rich Presence.</value>
+  </data>
+  <data name="Menu.Sober.DiscordJoin.Title" xml:space="preserve">
+    <value>Discord gumb za pridruživanje</value>
+  </data>
+  <data name="Menu.Sober.DiscordJoin.Description" xml:space="preserve">
+    <value>Dopušta Soberu da doda gumb za pridruživanje u Discord Rich Presence.</value>
+  </data>
+  <data name="Menu.Sober.GameMode.Title" xml:space="preserve">
+    <value>Integracija s GameModeom</value>
+  </data>
+  <data name="Menu.Sober.GameMode.Description" xml:space="preserve">
+    <value>Dopušta Soberu da zatraži GameMode optimizaciju performansi kada je GameMode dostupan.</value>
+  </data>
+  <data name="Menu.Sober.HiDpi.Title" xml:space="preserve">
+    <value>Skaliranje za visoki DPI</value>
+  </data>
+  <data name="Menu.Sober.HiDpi.Description" xml:space="preserve">
+    <value>Koristi izvorno skaliranje za zaslone visoke gustoće.</value>
+  </data>
+  <data name="Menu.Sober.MobileHome.Title" xml:space="preserve">
+    <value>Mobilni početni zaslon</value>
+  </data>
+  <data name="Menu.Sober.MobileHome.Description" xml:space="preserve">
+    <value>Koristi Roblox početni zaslon u mobilnom stilu.</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Title" xml:space="preserve">
+    <value>Način grafičke optimizacije</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Description" xml:space="preserve">
+    <value>Odabire Soberovu postavku grafičke optimizacije.</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Quality" xml:space="preserve">
+    <value>Kvaliteta</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Balanced" xml:space="preserve">
+    <value>Uravnoteženo</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Performance" xml:space="preserve">
+    <value>Performanse</value>
+  </data>
+  <data name="Menu.Sober.ServerLocation.Title" xml:space="preserve">
+    <value>Pokazatelj lokacije poslužitelja</value>
+  </data>
+  <data name="Menu.Sober.ServerLocation.Description" xml:space="preserve">
+    <value>Prikazuje Soberov pokazatelj lokacije poslužitelja tijekom igranja.</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Title" xml:space="preserve">
+    <value>Način dodira</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Description" xml:space="preserve">
+    <value>Odabire kako Sober prijavljuje podršku za dodirni unos.</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Off" xml:space="preserve">
+    <value>Isključeno</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.On" xml:space="preserve">
+    <value>Uključeno</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.FakeOff" xml:space="preserve">
+    <value>Lažno isključeno</value>
+  </data>
+  <data name="Menu.Sober.ConsoleExperience.Title" xml:space="preserve">
+    <value>Doživljaj konzole</value>
+  </data>
+  <data name="Menu.Sober.ConsoleExperience.Description" xml:space="preserve">
+    <value>Koristi Roblox doživljaj u stilu konzole.</value>
+  </data>
+  <data name="Menu.Sober.Libsecret.Title" xml:space="preserve">
+    <value>Secret Service pohrana</value>
+  </data>
+  <data name="Menu.Sober.Libsecret.Description" xml:space="preserve">
+    <value>Pohranjuje podržane vjerodajnice putem Secret Servicea radne površine.</value>
+  </data>
+  <data name="Menu.Sober.OpenGl.Title" xml:space="preserve">
+    <value>OpenGL iscrtavanje</value>
+  </data>
+  <data name="Menu.Sober.OpenGl.Description" xml:space="preserve">
+    <value>Koristi OpenGL umjesto Soberove zadane grafičke pozadine.</value>
+  </data>
+  <data name="Installer.Appearance.BackgroundUI.Title" xml:space="preserve">
+    <value>Pozadina i sučelje</value>
+  </data>
+  <data name="Installer.Appearance.BackgroundUI.Description" xml:space="preserve">
+    <value>Prilagodi instalacijski program i glavnu aplikaciju.</value>
+  </data>
+  <data name="Installer.Appearance.Snow.Title" xml:space="preserve">
+    <value>Snijeg u pozadini</value>
+  </data>
+  <data name="Installer.Appearance.Snow.Description" xml:space="preserve">
+    <value>Dodaje suptilan efekt snijega u pozadinu.</value>
+  </data>
+  <data name="Installer.Appearance.GradientMovement.Title" xml:space="preserve">
+    <value>Pomicanje prijelaza boja</value>
+  </data>
+  <data name="Installer.Appearance.GradientMovement.Description" xml:space="preserve">
+    <value>Prijelaz boja u pozadini prati pokazivač.</value>
+  </data>
+  <data name="Installer.Appearance.SmoothScrolling.Title" xml:space="preserve">
+    <value>Glatko pomicanje</value>
+  </data>
+  <data name="Installer.Appearance.SmoothScrolling.Description" xml:space="preserve">
+    <value>Animira pomicanje u cijelom sučelju.</value>
+  </data>
+  <data name="Installer.Appearance.ClearFont.Title" xml:space="preserve">
+    <value>Jasan font</value>
+  </data>
+  <data name="Installer.Appearance.ClearFont.Description" xml:space="preserve">
+    <value>Koristi oštrije iscrtavanje teksta nakon ponovnog pokretanja Voidstrapa.</value>
+  </data>
+  <data name="Installer.Appearance.Background.Title" xml:space="preserve">
+    <value>Prilagođena pozadina</value>
+  </data>
+  <data name="Installer.Appearance.Background.Description" xml:space="preserve">
+    <value>Koristi sliku, GIF ili videozapis i prilagodi kako se prikazuje.</value>
+  </data>
+  <data name="Installer.Appearance.GradientOpacity" xml:space="preserve">
+    <value>Neprozirnost prijelaza boja</value>
+  </data>
+  <data name="Installer.Appearance.DarkOverlay" xml:space="preserve">
+    <value>Tamni sloj</value>
+  </data>
+  <data name="Installer.Appearance.DisplayEverywhere" xml:space="preserve">
+    <value>Prikaži posvuda</value>
+  </data>
+  <data name="Installer.Appearance.RemoveBackground" xml:space="preserve">
+    <value>Ukloni pozadinu</value>
+  </data>
+  <data name="Installer.Appearance.Theme.Description" xml:space="preserve">
+    <value>Odaberi temu koja se koristi u svim prozorima Voidstrapa.</value>
+  </data>
+  <data name="Installer.Appearance.Theme.Customize" xml:space="preserve">
+    <value>Prilagodi</value>
+  </data>
+  <data name="Installer.Appearance.Backdrop.Title" xml:space="preserve">
+    <value>Pozadina prozora</value>
+  </data>
+  <data name="Installer.Appearance.Backdrop.Description" xml:space="preserve">
+    <value>Odaberi materijal koji se prikazuje iza prozora Voidstrapa.</value>
+  </data>
+  <data name="Installer.Appearance.PageZoom.Title" xml:space="preserve">
+    <value>Zumiranje stranice</value>
+  </data>
+  <data name="Installer.Appearance.PageZoom.Description" xml:space="preserve">
+    <value>Prilagodi veličinu stranica postavki.</value>
+  </data>
+  <data name="Vng.WarningTitle" xml:space="preserve">
+    <value>Roblox VNG: trajno ograničenje računa</value>
+  </data>
+  <data name="Vng.Warning" xml:space="preserve">
+    <value>STOP: PROČITAJ PRIJE NASTAVKA
+
+Prva prijava u Roblox VNG premješta tvoj račun u VNG. Roblox navodi da taj račun više nećeš moći koristiti u globalnoj aplikaciji Roblox.
+
+Smatraj ovo premještanje računa trajnim. Voidstrap ga ne može poništiti. Deinstaliranje VNG-a ili isključivanje ove opcije ne vraća globalni pristup računu. Primjenjivat će se VNG ograničenja računa i regije.
+
+Samo preuzimanje datoteka ne premješta tvoj račun. Prijava ili pokretanje s postojećim računom može taj račun izložiti premještanju.
+
+Nastavi samo ako prihvaćaš gubitak pristupa globalnoj aplikaciji za svaki račun koji koristiš s VNG-om. Gumb Da otključava se nakon deset sekundi.</value>
+  </data>
+  <data name="Vng.Confirmation" xml:space="preserve">
+    <value>Jesi li siguran?</value>
+  </data>
+  <data name="Vng.Agreement" xml:space="preserve">
+    <value>Posljednje upozorenje: prijava u Roblox VNG može trajno premjestiti tvoj račun i ukloniti pristup globalnoj aplikaciji Roblox. Voidstrap to ne može poništiti.
+
+Upiši točno frazu prikazanu ispod kako bi prihvatio ova ograničenja i nastavio.</value>
+  </data>
+  <data name="Vng.Countdown" xml:space="preserve">
+    <value>{0} ({1} s)</value>
+  </data>
+  <data name="Vng.Description" xml:space="preserve">
+    <value>Vijetnamski klijent za igrače. Prijava premješta tvoj račun i uklanja pristup globalnoj aplikaciji.</value>
+  </data>
+  <data name="Vng.UseForLaunches" xml:space="preserve">
+    <value>Koristi VNG za pokretanje igrača</value>
+  </data>
+  <data name="Vng.UninstallWarning" xml:space="preserve">
+    <value>Uklanjanje VNG-a ne poništava premještanje računa niti vraća pristup globalnoj aplikaciji.</value>
+  </data>
+  <data name="Mtu.Description" xml:space="preserve">
+    <value>Ograničava veličinu paketa za sve aplikacije, uključujući Roblox. Zahtijeva administratorski pristup i ostaje nakon ponovnog pokretanja. Možda neće poboljšati ping.</value>
+  </data>
+  <data name="Mtu.Adapter" xml:space="preserve">
+    <value>Odaberi mrežni adapter i verziju IP-a</value>
+  </data>
+  <data name="Mtu.CustomValue" xml:space="preserve">
+    <value>Prilagođeni MTU (bajtovi)</value>
+  </data>
+  <data name="Mtu.Current" xml:space="preserve">
+    <value>Trenutno: {0} bajtova. Najmanje: {1} bajtova.</value>
+  </data>
+  <data name="Mtu.NoAdapters" xml:space="preserve">
+    <value>Nije pronađen nijedan podržani mrežni adapter. Osvježi za ponovni pokušaj.</value>
+  </data>
+  <data name="Mtu.Invalid" xml:space="preserve">
+    <value>Unesi cijeli broj od {0} do {1}. Windows također provjerava veličinu paketa koju adapter podržava.</value>
+  </data>
+  <data name="Mtu.Apply" xml:space="preserve">
+    <value>Primijeni</value>
+  </data>
+  <data name="Mtu.Restore" xml:space="preserve">
+    <value>Vrati</value>
+  </data>
+  <data name="Mtu.Refresh" xml:space="preserve">
+    <value>Osvježi</value>
+  </data>
+  <data name="Mtu.Loading" xml:space="preserve">
+    <value>Čitanje Windows mrežnih adaptera...</value>
+  </data>
+  <data name="Mtu.Applying" xml:space="preserve">
+    <value>Čekanje odobrenja administratora i primjena MTU-a...</value>
+  </data>
+  <data name="Mtu.AdapterUnavailable" xml:space="preserve">
+    <value>Odabrani adapter nije dostupan. Osvježi i odaberi adapter.</value>
+  </data>
+  <data name="Mtu.Rejected" xml:space="preserve">
+    <value>Windows nije mogao primijeniti MTU, kôd {0}. Tvoj adapter možda ne podržava ovu vrijednost.</value>
+  </data>
+  <data name="Mtu.Applied" xml:space="preserve">
+    <value>MTU je postavljen na {0} bajtova i provjeren. Vrijedi za sve aplikacije na odabranom adapteru.</value>
+  </data>
+  <data name="Mtu.Restored" xml:space="preserve">
+    <value>Prethodni MTU vraćen je na {0} bajtova i provjeren.</value>
+  </data>
+  <data name="Mtu.VerificationFailed" xml:space="preserve">
+    <value>Windows nije prijavio traženi MTU. Osvježi da provjeriš trenutnu vrijednost.</value>
+  </data>
+  <data name="Mtu.Cancelled" xml:space="preserve">
+    <value>Zahtjev administratora je otkazan. MTU nije promijenjen.</value>
+  </data>
+  <data name="Mtu.Error" xml:space="preserve">
+    <value>MTU operacija nije uspjela. Osvježi da provjeriš trenutnu vrijednost.</value>
+  </data>
+  <data name="Menu_FastFlagEditor_Rename" xml:space="preserve">
+    <value>Preimenuj</value>
+  </data>
+  <data name="Menu_FastFlagEditor_EditValue" xml:space="preserve">
+    <value>Uredi vrijednost</value>
+  </data>
+  <data name="Menu_FastFlagEditor_CopySelected" xml:space="preserve">
+    <value>Kopiraj odabrano kao JSON</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Title" xml:space="preserve">
+    <value>Boja naglaska</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Description" xml:space="preserve">
+    <value>Odaberi boju za kontrole aplikacije i nijansu pozadine.</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Choose" xml:space="preserve">
+    <value>Odaberi boju</value>
+  </data>
+  <data name="Menu.Appearance.Accent.System" xml:space="preserve">
+    <value>Koristi boju sustava</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Picker" xml:space="preserve">
+    <value>Odaberi boju naglaska</value>
+  </data>
+  <data name="Menu.Shortcuts.Customize" xml:space="preserve">
+    <value>Naziv i ikona</value>
+  </data>
+  <data name="Menu.Shortcuts.InvalidName" xml:space="preserve">
+    <value>Koristi valjan naziv prečaca bez kosih crta ili rezerviranih naziva datoteka.</value>
+  </data>
+  <data name="Menu.Shortcuts.NameExists" xml:space="preserve">
+    <value>Prečac s tim nazivom već postoji. Odaberi drugi naziv.</value>
+  </data>
+  <data name="Menu.Shortcuts.ChooseIcon" xml:space="preserve">
+    <value>Odaberi ikonu prečaca</value>
+  </data>
+  <data name="Menu.Shortcuts.IconFilter" xml:space="preserve">
+    <value>Datoteke ikona i slika|*.ico;*.png;*.jpg;*.jpeg;*.bmp;*.webp</value>
+  </data>
+  <data name="Menu.Shortcuts.InvalidIcon" xml:space="preserve">
+    <value>Odaberi valjanu ikonu ili sliku manju od 8 MB.</value>
+  </data>
+  <data name="Menu.LaunchDropdownOnRight" xml:space="preserve">
+    <value>Postavi izbornik verzija desno</value>
+  </data>
+  <data name="OverlayDiagnostics.Bounds" xml:space="preserve">
+    <value>Veličina i položaj na zaslonu</value>
+  </data>
+  <data name="OverlayDiagnostics.CollectionError" xml:space="preserve">
+    <value>Trenutni uzorak nije moguće prikupiti: {0}</value>
+  </data>
+  <data name="OverlayDiagnostics.CompositeCrosshair" xml:space="preserve">
+    <value>Nišan kompozitora aktivan</value>
+  </data>
+  <data name="OverlayDiagnostics.Compositor" xml:space="preserve">
+    <value>Kompozitor inicijaliziran</value>
+  </data>
+  <data name="OverlayDiagnostics.Configuration" xml:space="preserve">
+    <value>Konfigurirane značajke, ovi prekidači ne dokazuju iscrtavanje</value>
+  </data>
+  <data name="OverlayDiagnostics.Crosshair" xml:space="preserve">
+    <value>Nišan</value>
+  </data>
+  <data name="OverlayDiagnostics.Disabled" xml:space="preserve">
+    <value>Sve provjerene značajke preklapanja isključene su u postavkama.</value>
+  </data>
+  <data name="OverlayDiagnostics.DispatcherRequired" xml:space="preserve">
+    <value>Dijagnostika preklapanja mora se izvoditi na dispečeru prozora.</value>
+  </data>
+  <data name="OverlayDiagnostics.FakeBorderless" xml:space="preserve">
+    <value>Lažni cijeli zaslon bez obruba</value>
+  </data>
+  <data name="OverlayDiagnostics.FakeExclusive" xml:space="preserve">
+    <value>Lažni ekskluzivni cijeli zaslon</value>
+  </data>
+  <data name="OverlayDiagnostics.Findings" xml:space="preserve">
+    <value>Provjere i ograničenja</value>
+  </data>
+  <data name="OverlayDiagnostics.Foreground" xml:space="preserve">
+    <value>Roblox ili njegovo preklapanje ima fokus</value>
+  </data>
+  <data name="OverlayDiagnostics.FullscreenUnknown" xml:space="preserve">
+    <value>Ekskluzivni cijeli zaslon nije potvrđen. Veličina prozora i stil obruba ne mogu utvrditi način prikaza.</value>
+  </data>
+  <data name="OverlayDiagnostics.GameEffects" xml:space="preserve">
+    <value>Efekti u igri</value>
+  </data>
+  <data name="OverlayDiagnostics.GameLease" xml:space="preserve">
+    <value>Linux najam igre potvrđen</value>
+  </data>
+  <data name="OverlayDiagnostics.GameSession" xml:space="preserve">
+    <value>Sesija igre promatrača aktivnosti</value>
+  </data>
+  <data name="OverlayDiagnostics.GameSignal" xml:space="preserve">
+    <value>Signal igre središta preklapanja</value>
+  </data>
+  <data name="OverlayDiagnostics.Handle" xml:space="preserve">
+    <value>Ručka prozora</value>
+  </data>
+  <data name="OverlayDiagnostics.Homepage" xml:space="preserve">
+    <value>Pozadina početne stranice</value>
+  </data>
+  <data name="OverlayDiagnostics.HomepageInGame" xml:space="preserve">
+    <value>Središte preklapanja prijavljuje sesiju igre dok proces početne stranice Linuxa još radi. Proces može raditi bez iscrtavanja.</value>
+  </data>
+  <data name="OverlayDiagnostics.HomepageWorker" xml:space="preserve">
+    <value>Proces početne stranice Linuxa radi</value>
+  </data>
+  <data name="OverlayDiagnostics.Intersects" xml:space="preserve">
+    <value>Pravokutnik presijeca Roblox</value>
+  </data>
+  <data name="OverlayDiagnostics.Minimized" xml:space="preserve">
+    <value>Izvorni prozor minimiziran</value>
+  </data>
+  <data name="OverlayDiagnostics.MissingCrosshair" xml:space="preserve">
+    <value>Nišan je konfiguriran, ali u ovom procesu nije pronađen ni prozor nišana ni aktivni nišan kompozitora.</value>
+  </data>
+  <data name="OverlayDiagnostics.MissingStats" xml:space="preserve">
+    <value>Statistika je konfigurirana, ali u ovom procesu nije pronađen prozor statistike. To ne dokazuje neuspjeh stvaranja niti isključuje drugi proces Voidstrapa.</value>
+  </data>
+  <data name="OverlayDiagnostics.MonitorCoverage" xml:space="preserve">
+    <value>Klijent bez obruba pokriva svoj monitor</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeLive" xml:space="preserve">
+    <value>Izvorna ručka valjana</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeTopmost" xml:space="preserve">
+    <value>Izvorna oznaka uvijek na vrhu</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeVisible" xml:space="preserve">
+    <value>Izvorni prozor vidljiv</value>
+  </data>
+  <data name="OverlayDiagnostics.No" xml:space="preserve">
+    <value>Ne</value>
+  </data>
+  <data name="OverlayDiagnostics.NoUsableWindow" xml:space="preserve">
+    <value>Nije izmjeren nijedan upotrebljiv pravokutnik Roblox klijenta. Roblox je možda zatvoren, minimiziran, skriven, u pokretanju ili nedostupan.</value>
+  </data>
+  <data name="OverlayDiagnostics.NoWindows" xml:space="preserve">
+    <value>U ovom procesu nisu pronađeni prozori preklapanja.</value>
+  </data>
+  <data name="OverlayDiagnostics.Opacity" xml:space="preserve">
+    <value>WPF neprozirnost</value>
+  </data>
+  <data name="OverlayDiagnostics.PixelsUnknown" xml:space="preserve">
+    <value>Oznake vidljivosti, neprozirnosti i uvijek na vrhu ne dokazuju da se pikseli prikazuju, da nisu zaklonjeni ili da su vidljivi korisniku. Ovo izvješće ne provjerava isporuku sličica GPU-a ni zaklanjanje.</value>
+  </data>
+  <data name="OverlayDiagnostics.Place" xml:space="preserve">
+    <value>ID mjesta promatrača aktivnosti</value>
+  </data>
+  <data name="OverlayDiagnostics.RegisteredWindow" xml:space="preserve">
+    <value>Registrirano izvorno preklapanje</value>
+  </data>
+  <data name="OverlayDiagnostics.RobloxWindow" xml:space="preserve">
+    <value>Uočeni Roblox prozor</value>
+  </data>
+  <data name="OverlayDiagnostics.Runtime" xml:space="preserve">
+    <value>Uočeno stanje izvođenja</value>
+  </data>
+  <data name="OverlayDiagnostics.Sample" xml:space="preserve">
+    <value>Uzorak {0:HH:mm:ss.fff zzz}, osvježava se svake sekunde i pri promjenama prozora</value>
+  </data>
+  <data name="OverlayDiagnostics.Scope" xml:space="preserve">
+    <value>Ova očitanja opisuju ovaj proces Voidstrapa. Prozori drugog procesa možda neće biti navedeni.</value>
+  </data>
+  <data name="OverlayDiagnostics.Stats" xml:space="preserve">
+    <value>Preklapanje statistike</value>
+  </data>
+  <data name="OverlayDiagnostics.Teleporting" xml:space="preserve">
+    <value>Teleport promatrača aktivnosti u tijeku</value>
+  </data>
+  <data name="OverlayDiagnostics.Title" xml:space="preserve">
+    <value>Dijagnostika preklapanja</value>
+  </data>
+  <data name="OverlayDiagnostics.Transition" xml:space="preserve">
+    <value>Prijelaz u igri</value>
+  </data>
+  <data name="OverlayDiagnostics.Unavailable" xml:space="preserve">
+    <value>Nedostupno</value>
+  </data>
+  <data name="OverlayDiagnostics.Unfocused" xml:space="preserve">
+    <value>Roblox trenutno nema fokus. Preklapanja se mogu namjerno sakriti dok je aktivan drugi prozor, uključujući ovaj prozor dijagnostike.</value>
+  </data>
+  <data name="OverlayDiagnostics.UsableRect" xml:space="preserve">
+    <value>Upotrebljivi praćeni pravokutnik klijenta</value>
+  </data>
+  <data name="OverlayDiagnostics.Visible" xml:space="preserve">
+    <value>Vidljivo u WPF-u</value>
+  </data>
+  <data name="OverlayDiagnostics.Windows" xml:space="preserve">
+    <value>Uočeni prozori preklapanja</value>
+  </data>
+  <data name="OverlayDiagnostics.Worker" xml:space="preserve">
+    <value>Radna nit kompozitora radi</value>
+  </data>
+  <data name="OverlayDiagnostics.WpfTopmost" xml:space="preserve">
+    <value>Zatražen WPF uvijek na vrhu</value>
+  </data>
+  <data name="OverlayDiagnostics.X11" xml:space="preserve">
+    <value>X11 veza dostupna</value>
+  </data>
+  <data name="OverlayDiagnostics.X11Compositor" xml:space="preserve">
+    <value>Otkriven X11 kompozitor</value>
+  </data>
+  <data name="OverlayDiagnostics.X11Unavailable" xml:space="preserve">
+    <value>Nema dostupne X11 veze. Pregled izvornih prozora nije moguć; uzrok mogu biti Wayland ograničenja ili dopuštenja sandboxa.</value>
+  </data>
+  <data name="OverlayDiagnostics.Yes" xml:space="preserve">
+    <value>Da</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeCompositor" xml:space="preserve">
+    <value>Izvorni prozor GPU kompozitora</value>
+  </data>
+  <data name="FlagSearch.Loading" xml:space="preserve">
+    <value>Učitavanje izvora…</value>
+  </data>
+  <data name="FlagSearch.Loaded" xml:space="preserve">
+    <value>Učitano</value>
+  </data>
+  <data name="FlagSearch.Unavailable" xml:space="preserve">
+    <value>Nedostupno</value>
+  </data>
+  <data name="FlagSearch.Pending" xml:space="preserve">
+    <value>Na čekanju</value>
+  </data>
+  <data name="FlagSearch.LoadedSummary" xml:space="preserve">
+    <value>Učitano {0:N0} jedinstvenih naziva iz {1} od {2} izvora. Pojedinosti potraži u Izvorima podataka.</value>
+  </data>
+  <data name="FlagSearch.LoadError" xml:space="preserve">
+    <value>Učitavanje izvora nije uspjelo. Pojedinosti potraži u zapisniku.</value>
+  </data>
+  <data name="FlagSearch.ObjectRequired" xml:space="preserve">
+    <value>JSON flagova mora sadržavati objekt.</value>
+  </data>
+  <data name="FlagSearch.EmptySource" xml:space="preserve">
+    <value>Izvor nije vratio prepoznate nazive flagova.</value>
+  </data>
+  <data name="FlagSearch.ResultCount" xml:space="preserve">
+    <value>Prikazano {0:N0} od {1:N0} podudaranja</value>
+  </data>
+  <data name="FlagSearch.SearchError" xml:space="preserve">
+    <value>Pretraživanje nije uspjelo. Pojedinosti potraži u zapisniku.</value>
+  </data>
+  <data name="FlagSearch.Validating" xml:space="preserve">
+    <value>Provjera naziva flagova i unesenih vrijednosti…</value>
+  </data>
+  <data name="FlagSearch.Found" xml:space="preserve">
+    <value>Pronađeno</value>
+  </data>
+  <data name="FlagSearch.ValueError" xml:space="preserve">
+    <value>Pogreška vrijednosti</value>
+  </data>
+  <data name="FlagSearch.NotFound" xml:space="preserve">
+    <value>Nije pronađeno</value>
+  </data>
+  <data name="FlagSearch.FoundNote" xml:space="preserve">
+    <value>Pronađeno u učitanim izvorima. Podrška za lokalno nadjačavanje nije potvrđena.</value>
+  </data>
+  <data name="FlagSearch.NotFoundNote" xml:space="preserve">
+    <value>Nema ga u učitanim izvorima, to ne dokazuje da je flag nevaljan.</value>
+  </data>
+  <data name="FlagSearch.ValidationSummary" xml:space="preserve">
+    <value>Provjereno flagova: {0:N0}, {1:N0} unosa podudaralo se s izvorom i očekivanom vrstom vrijednosti.</value>
+  </data>
+  <data name="FlagSearch.NameError" xml:space="preserve">
+    <value>Koristi prepoznat naziv Fast Flaga bez razmaka.</value>
+  </data>
+  <data name="FlagSearch.TooMany" xml:space="preserve">
+    <value>Unos sadrži previše flagova.</value>
+  </data>
+  <data name="FlagSearch.ScalarRequired" xml:space="preserve">
+    <value>Vrijednosti flagova moraju biti nizovi, brojevi ili logičke vrijednosti.</value>
+  </data>
+  <data name="FlagSearch.LineError" xml:space="preserve">
+    <value>Svaki redak teksta mora koristiti naziv=vrijednost.</value>
+  </data>
+  <data name="FlagSearch.EmptyInput" xml:space="preserve">
+    <value>Nisu pronađeni unosi flagova.</value>
+  </data>
+  <data name="FlagSearch.Label1" xml:space="preserve">
+    <value>Pronađi Fast Flagove</value>
+  </data>
+  <data name="FlagSearch.Label2" xml:space="preserve">
+    <value>Pronađi Fast Flagove</value>
+  </data>
+  <data name="FlagSearch.Label3" xml:space="preserve">
+    <value>Pretraživanje i provjera Fast Flagova</value>
+  </data>
+  <data name="FlagSearch.Label4" xml:space="preserve">
+    <value>Pretražuj, provjeravaj i otkrivaj Fast Flagove iz više izvora</value>
+  </data>
+  <data name="FlagSearch.Label5" xml:space="preserve">
+    <value>Osvježi izvore</value>
+  </data>
+  <data name="FlagSearch.Label6" xml:space="preserve">
+    <value>Spremno</value>
+  </data>
+  <data name="FlagSearch.Label7" xml:space="preserve">
+    <value>Pretraživanje uživo</value>
+  </data>
+  <data name="FlagSearch.Label8" xml:space="preserve">
+    <value>Pretraživanje flagova uživo</value>
+  </data>
+  <data name="FlagSearch.Label9" xml:space="preserve">
+    <value>Traži pune nazive ili ključne riječi. Točna podudaranja prikazuju se prva. Izvoz uključuje sve odgovarajuće poznate vrijednosti.</value>
+  </data>
+  <data name="FlagSearch.Label10" xml:space="preserve">
+    <value>Unesi naziv flaga ili ključnu riječ...</value>
+  </data>
+  <data name="FlagSearch.Label11" xml:space="preserve">
+    <value>Izvezi rezultate</value>
+  </data>
+  <data name="FlagSearch.Label12" xml:space="preserve">
+    <value>Sve vrijednosti</value>
+  </data>
+  <data name="FlagSearch.Label13" xml:space="preserve">
+    <value>True vrijednosti</value>
+  </data>
+  <data name="FlagSearch.Label14" xml:space="preserve">
+    <value>False vrijednosti</value>
+  </data>
+  <data name="FlagSearch.Label15" xml:space="preserve">
+    <value>Naziv flaga</value>
+  </data>
+  <data name="FlagSearch.Label16" xml:space="preserve">
+    <value>Vrijednost</value>
+  </data>
+  <data name="FlagSearch.Label17" xml:space="preserve">
+    <value>Izvor</value>
+  </data>
+  <data name="FlagSearch.Label18" xml:space="preserve">
+    <value>Nema podudaranja. Pokušaj s drugim nazivom ili filtrom vrijednosti.</value>
+  </data>
+  <data name="FlagSearch.Label19" xml:space="preserve">
+    <value>0 rezultata</value>
+  </data>
+  <data name="FlagSearch.Label20" xml:space="preserve">
+    <value>Skupna provjera</value>
+  </data>
+  <data name="FlagSearch.Label21" xml:space="preserve">
+    <value>Skupna provjera flagova</value>
+  </data>
+  <data name="FlagSearch.Label22" xml:space="preserve">
+    <value>Provjerava prisutnost u izvorima i vrste vrijednosti. Podudaranje ne jamči da Roblox dopušta lokalno nadjačavanje.</value>
+  </data>
+  <data name="FlagSearch.Label23" xml:space="preserve">
+    <value>Učitaj datoteku</value>
+  </data>
+  <data name="FlagSearch.Label24" xml:space="preserve">
+    <value>Provjeri</value>
+  </data>
+  <data name="FlagSearch.Label25" xml:space="preserve">
+    <value>Očisti</value>
+  </data>
+  <data name="FlagSearch.Label26" xml:space="preserve">
+    <value>Zalijepi</value>
+  </data>
+  <data name="FlagSearch.Label28" xml:space="preserve">
+    <value>Odaberi sve</value>
+  </data>
+  <data name="FlagSearch.Label30" xml:space="preserve">
+    <value>Očisti</value>
+  </data>
+  <data name="FlagSearch.Label31" xml:space="preserve">
+    <value>Rezultati provjere</value>
+  </data>
+  <data name="FlagSearch.Label32" xml:space="preserve">
+    <value>Naziv flaga</value>
+  </data>
+  <data name="FlagSearch.Label33" xml:space="preserve">
+    <value>Unesena vrijednost</value>
+  </data>
+  <data name="FlagSearch.Label34" xml:space="preserve">
+    <value>Stanje</value>
+  </data>
+  <data name="FlagSearch.Label35" xml:space="preserve">
+    <value>Vrijednost u izvoru</value>
+  </data>
+  <data name="FlagSearch.Label36" xml:space="preserve">
+    <value>Napomene</value>
+  </data>
+  <data name="FlagSearch.Label37" xml:space="preserve">
+    <value>Izvezi provjereni unos</value>
+  </data>
+  <data name="FlagSearch.Label38" xml:space="preserve">
+    <value>0 rezultata</value>
+  </data>
+  <data name="FlagSearch.Label39" xml:space="preserve">
+    <value>Izvori podataka</value>
+  </data>
+  <data name="FlagSearch.Label40" xml:space="preserve">
+    <value>Dostupnost izvora uživo i vrijeme dohvaćanja. Prisutnost u izvoru ne znači da Roblox prihvaća lokalno nadjačavanje. Ovi izvori ne navode datume nedavnih promjena.</value>
+  </data>
+  <data name="FlagSearch.Label41" xml:space="preserve">
+    <value>Izvor</value>
+  </data>
+  <data name="FlagSearch.Label42" xml:space="preserve">
+    <value>Stanje</value>
+  </data>
+  <data name="FlagSearch.Label43" xml:space="preserve">
+    <value>Flagovi</value>
+  </data>
+  <data name="FlagSearch.Label44" xml:space="preserve">
+    <value>Dohvaćeno</value>
+  </data>
+  <data name="FlagSearch.Label45" xml:space="preserve">
+    <value>Zatvori</value>
+  </data>
+  <data name="FlagSearch.Message1" xml:space="preserve">
+    <value>Unesi flagove za provjeru.</value>
+  </data>
+  <data name="FlagSearch.Message2" xml:space="preserve">
+    <value>Nema unosa</value>
+  </data>
+  <data name="FlagSearch.Message3" xml:space="preserve">
+    <value>Taj unos flagova prevelik je za provjeru.</value>
+  </data>
+  <data name="FlagSearch.Message4" xml:space="preserve">
+    <value>Unos je prevelik</value>
+  </data>
+  <data name="FlagSearch.Message5" xml:space="preserve">
+    <value>U unosu su pronađeni dvostruki flagovi: </value>
+  </data>
+  <data name="FlagSearch.Message6" xml:space="preserve">
+    <value>Otkriveni duplikati</value>
+  </data>
+  <data name="FlagSearch.Message7" xml:space="preserve">
+    <value>Pogreška pri provjeri flagova</value>
+  </data>
+  <data name="FlagSearch.Message8" xml:space="preserve">
+    <value>Pogreška pri provjeri flagova: </value>
+  </data>
+  <data name="FlagSearch.Message9" xml:space="preserve">
+    <value>Pogreška provjere</value>
+  </data>
+  <data name="FlagSearch.Message10" xml:space="preserve">
+    <value>Odaberi datoteku flagova za provjeru</value>
+  </data>
+  <data name="FlagSearch.Message11" xml:space="preserve">
+    <value>Pogreška pri učitavanju datoteke: </value>
+  </data>
+  <data name="FlagSearch.Message12" xml:space="preserve">
+    <value>Pogreška datoteke</value>
+  </data>
+  <data name="FlagSearch.Message13" xml:space="preserve">
+    <value>Veličina datoteke flagova nije valjana</value>
+  </data>
+  <data name="FlagSearch.Message14" xml:space="preserve">
+    <value>Datoteka flagova promijenila se tijekom čitanja</value>
+  </data>
+  <data name="FlagSearch.Message15" xml:space="preserve">
+    <value>Unos flagova je prevelik</value>
+  </data>
+  <data name="FlagSearch.Message16" xml:space="preserve">
+    <value>Izvezeno {flags.Count} flagova u {dialog.FileName}</value>
+  </data>
+  <data name="FlagSearch.Message17" xml:space="preserve">
+    <value>Izvoz dovršen</value>
+  </data>
+  <data name="FlagSearch.Message18" xml:space="preserve">
+    <value>Pogreška pri izvozu flagova: </value>
+  </data>
+  <data name="FlagSearch.Message19" xml:space="preserve">
+    <value>Pogreška izvoza</value>
+  </data>
+  <data name="FlagSearch.Message20" xml:space="preserve">
+    <value>Pogreška pri lijepljenju iz međuspremnika: </value>
+  </data>
+  <data name="FlagSearch.Message21" xml:space="preserve">
+    <value>Pogreška lijepljenja</value>
+  </data>
+  <data name="FlagSearch.ExportSummary" xml:space="preserve">
+    <value>Izvezeno {0:N0} flagova u {1}</value>
+  </data>
+  <data name="FlagSearch.ValueNote" xml:space="preserve">
+    <value>Unesena vrijednost ne odgovara vrsti naziva flaga. Logički flagovi zahtijevaju true ili false, a cjelobrojni flagovi cijeli 32-bitni broj.</value>
+  </data>
+  <data name="Notifications.Title" xml:space="preserve">
+    <value>Obavijesti</value>
+  </data>
+  <data name="Notifications.Updates" xml:space="preserve">
+    <value>Ažuriranja</value>
+  </data>
+  <data name="Notifications.Roblox" xml:space="preserve">
+    <value>Roblox i modovi</value>
+  </data>
+  <data name="Notifications.Recovery" xml:space="preserve">
+    <value>Oporavak postavki</value>
+  </data>
+  <data name="Notifications.Errors" xml:space="preserve">
+    <value>Pogreške i rušenja</value>
+  </data>
+  <data name="Notifications.GameJoins" xml:space="preserve">
+    <value>Pridruživanje igri</value>
+  </data>
+  <data name="Notifications.App" xml:space="preserve">
+    <value>Obavijesti aplikacije</value>
+  </data>
+  <data name="Notifications.AppDescription" xml:space="preserve">
+    <value>Prikazuj obavijesti aplikacije.</value>
+  </data>
+  <data name="Bootstrapper.Uninstall.NvidiaFailed" xml:space="preserve">
+    <value>NVIDIA čišćenje nije uspjelo. Svejedno deinstalirati? Preostale NVIDIA postavke ostat će primijenjene.
+
+{0}</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Latest" xml:space="preserve">
+    <value>Najnovije</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Oldest" xml:space="preserve">
+    <value>Najstarije</value>
+  </data>
+  <data name="ContextMenu.GameHistory.MostPlayed" xml:space="preserve">
+    <value>Najdulji posjeti</value>
+  </data>
+  <data name="ContextMenu.GameHistory.NameAscending" xml:space="preserve">
+    <value>Naziv, uzlazno</value>
+  </data>
+  <data name="ContextMenu.GameHistory.NameDescending" xml:space="preserve">
+    <value>Naziv, silazno</value>
+  </data>
+  <data name="ContextMenu.GameHistory.AllServers" xml:space="preserve">
+    <value>Svi poslužitelji</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Public" xml:space="preserve">
+    <value>Javni</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Private" xml:space="preserve">
+    <value>Privatni</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Reserved" xml:space="preserve">
+    <value>Rezervirani</value>
+  </data>
+  <data name="ContextMenu.GameHistory.EndUnknown" xml:space="preserve">
+    <value>Nije zabilježeno</value>
+  </data>
+  <data name="ContextMenu.GameHistory.CopyLink" xml:space="preserve">
+    <value>Kopiraj poveznicu</value>
+  </data>
+  <data name="ContextMenu.GameHistory.LoadFailed" xml:space="preserve">
+    <value>Nije moguće učitati povijest.</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Empty" xml:space="preserve">
+    <value>Nema posjeta za prikaz.</value>
+  </data>
+  <data name="ContextMenu.GameHistory.StatusUnknown" xml:space="preserve">
+    <value>Nepoznato</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Online" xml:space="preserve">
+    <value>Na mreži</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Offline" xml:space="preserve">
+    <value>Izvan mreže</value>
+  </data>
+  <data name="ContextMenu.GameHistory.CheckedAt" xml:space="preserve">
+    <value>Provjereno: {0}</value>
+  </data>
+  <data name="ContextMenu.GameHistory.LaunchFailed" xml:space="preserve">
+    <value>Nije moguće pokrenuti Roblox.</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.MaxOnly" xml:space="preserve">
+    <value>Najviše {0}</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.Unknown" xml:space="preserve">
+    <value>Nepoznato</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.InGame" xml:space="preserve">
+    <value>{0:N0} u igri</value>
+  </data>
+  <data name="ServerInfo.Hint.Updated" xml:space="preserve">
+    <value>Ažurirano prije {0}.</value>
+  </data>
+  <data name="ServerInfo.Hint.RateLimited" xml:space="preserve">
+    <value>Roblox ograničava traženje poslužitelja, ponovni pokušaj za {0}.</value>
+  </data>
+  <data name="ServerInfo.Hint.RateLimitedStale" xml:space="preserve">
+    <value>Roblox ograničava traženje poslužitelja. Prikazuje se broj od prije {0}, ponovno ažuriranje za {1}.</value>
+  </data>
+  <data name="ServerInfo.Hint.NotListed" xml:space="preserve">
+    <value>Ovaj poslužitelj nije u dijelu javnog popisa poslužitelja koji Roblox dijeli, ponovna provjera za {0}.</value>
+  </data>
+  <data name="ServerInfo.Hint.NotListedStale" xml:space="preserve">
+    <value>Zadnji put viđen prije {0}. Ovaj poslužitelj trenutno nije u dijelu javnog popisa poslužitelja koji Roblox dijeli.</value>
+  </data>
+  <data name="ServerInfo.Hint.PrivateNotListed" xml:space="preserve">
+    <value>Ovaj privatni poslužitelj nije na popisu poslužitelja koji tvoj račun može vidjeti, pa se broj igrača ne može očitati.</value>
+  </data>
+  <data name="ServerInfo.Hint.PrivateSignedOut" xml:space="preserve">
+    <value>Roblox dijeli broj igrača na privatnim poslužiteljima samo s prijavljenim računom. Prijavi se u Roblox u Voidstrapu da ga vidiš.</value>
+  </data>
+  <data name="ServerInfo.Hint.Reserved" xml:space="preserve">
+    <value>Roblox ne navodi rezervirane poslužitelje koji se koriste za teleporte i grupe, pa se njihov broj igrača ne može očitati.</value>
+  </data>
+  <data name="ServerInfo.Hint.Unavailable" xml:space="preserve">
+    <value>Roblox nije dostupan, ponovni pokušaj za {0}.</value>
+  </data>
+  <data name="ServerInfo.Hint.UnavailableStale" xml:space="preserve">
+    <value>Roblox nije dostupan. Prikazuje se broj od prije {0}, ponovni pokušaj za {1}.</value>
+  </data>
+  <data name="ServerInfo.Hint.Full" xml:space="preserve">
+    <value>Ovaj poslužitelj je pun. Roblox izostavlja pune poslužitelje s javnog popisa, pa se prikazuje kao pun dok se ne oslobodi mjesto.</value>
+  </data>
+  <data name="Shortcuts.GameTab" xml:space="preserve">
+    <value>Igra</value>
+  </data>
+  <data name="Shortcuts.SubplaceTab" xml:space="preserve">
+    <value>Podmjesto</value>
+  </data>
+  <data name="Shortcuts.SubplaceDescription" xml:space="preserve">
+    <value>Pronađi ostala mjesta u ovom doživljaju.</value>
+  </data>
+  <data name="Shortcuts.LoadSubplaces" xml:space="preserve">
+    <value>Učitaj podmjesta</value>
+  </data>
+  <data name="Shortcuts.SubplaceAccess" xml:space="preserve">
+    <value>Autor mora dopustiti izravno pridruživanje. Neka podmjesta zahtijevaju teleport u igri.</value>
+  </data>
+  <data name="Shortcuts.SubplaceInitial" xml:space="preserve">
+    <value>Unesi ID igre da se njezina podmjesta automatski učitaju.</value>
+  </data>
+  <data name="Shortcuts.SubplaceRetry" xml:space="preserve">
+    <value>Ponovno otvori ovu karticu za novi pokušaj.</value>
+  </data>
+  <data name="Shortcuts.SubplaceInvalidId" xml:space="preserve">
+    <value>Unesi valjan brojčani ID igre.</value>
+  </data>
+  <data name="Shortcuts.SubplaceLoading" xml:space="preserve">
+    <value>Učitavanje podmjesta...</value>
+  </data>
+  <data name="Shortcuts.SubplaceEmpty" xml:space="preserve">
+    <value>Ovaj doživljaj nema navedenih podmjesta.</value>
+  </data>
+  <data name="Shortcuts.SubplaceChoose" xml:space="preserve">
+    <value>Odaberi podmjesto u nastavku.</value>
+  </data>
+  <data name="Shortcuts.SubplaceTimeout" xml:space="preserve">
+    <value>Vrijeme zahtjeva je isteklo. Ponovno otvori ovu karticu za novi pokušaj.</value>
+  </data>
+  <data name="Shortcuts.SubplaceFailed" xml:space="preserve">
+    <value>Nije moguće učitati podmjesta. Provjeri ID igre i vezu, a zatim pokušaj ponovno.</value>
+  </data>
+  <data name="Shortcuts.SubplaceReload" xml:space="preserve">
+    <value>Podmjesta se učitavaju automatski kada uneseš valjan ID igre.</value>
+  </data>
+  <data name="Shortcuts.SubplaceRequired" xml:space="preserve">
+    <value>Pričekaj da se podmjesta učitaju, a zatim odaberi jedno prije nastavka.</value>
+  </data>
+  <data name="Library.SubplacesTab" xml:space="preserve">
+    <value>Podmjesta</value>
+  </data>
+  <data name="SettingsProfiles.Title" xml:space="preserve">
+    <value>Profili postavki</value>
+  </data>
+  <data name="SettingsProfiles.Name" xml:space="preserve">
+    <value>Naziv profila</value>
+  </data>
+  <data name="SettingsProfiles.NameHint" xml:space="preserve">
+    <value>Primjer: VoidstrapProfile</value>
+  </data>
+  <data name="SettingsProfiles.Save" xml:space="preserve">
+    <value>Spremi profil</value>
+  </data>
+  <data name="SettingsProfiles.Saved" xml:space="preserve">
+    <value>Spremljeni profili</value>
+  </data>
+  <data name="SettingsProfiles.Apply" xml:space="preserve">
+    <value>Primijeni profil</value>
+  </data>
+  <data name="SettingsProfiles.Folder" xml:space="preserve">
+    <value>Otvori mapu</value>
+  </data>
+  <data name="SettingsProfiles.Empty" xml:space="preserve">
+    <value>Još nema profila. Unesi naziv i odaberi Spremi profil.</value>
+  </data>
+  <data name="SettingsProfiles.Location" xml:space="preserve">
+    <value>Spremljeno u {0}</value>
+  </data>
+  <data name="SettingsProfiles.InvalidName" xml:space="preserve">
+    <value>Koristi naziv od 1 do 80 znakova, bez simbola za nazive datoteka ili rezerviranih naziva uređaja.</value>
+  </data>
+  <data name="SettingsProfiles.InvalidFile" xml:space="preserve">
+    <value>Ovaj profil nije valjan ili koristi nepodržani format.</value>
+  </data>
+  <data name="SettingsProfiles.RestoreFailed" xml:space="preserve">
+    <value>Profil nije moguće primijeniti, a prethodne postavke nije moguće vratiti.</value>
+  </data>
+  <data name="SettingsProfiles.Overwrite" xml:space="preserve">
+    <value>Zamijeniti spremljeni profil "{0}" tvojim trenutnim postavkama?</value>
+  </data>
+  <data name="SettingsProfiles.SavedStatus" xml:space="preserve">
+    <value>Spremljeno "{0}"</value>
+  </data>
+  <data name="SettingsProfiles.ApplyConfirm" xml:space="preserve">
+    <value>Primijeniti "{0}"? Time se zamjenjuju tvoje trenutne postavke Voidstrapa i FastFlags, a zatim se ponovno otvaraju postavke Voidstrapa.</value>
+  </data>
+  <data name="SettingsProfiles.RestartFailed" xml:space="preserve">
+    <value>Profil je primijenjen. Ponovno pokreni Voidstrap da osvježiš sve stranice postavki.</value>
+  </data>
+  <data name="SettingsProfiles.Restart" xml:space="preserve">
+    <value>Ponovno pokreni sada</value>
+  </data>
+  <data name="SettingsProfiles.DeleteConfirm" xml:space="preserve">
+    <value>Izbrisati spremljeni profil "{0}"? Tvoje trenutne postavke ostat će nepromijenjene.</value>
+  </data>
+  <data name="SettingsProfiles.Deleted" xml:space="preserve">
+    <value>Izbrisano "{0}".</value>
+  </data>
+  <data name="SettingsProfiles.Error" xml:space="preserve">
+    <value>Radnju profila nije moguće dovršiti: {0}</value>
+  </data>
+  <data name="GlobalProfiles.Title" xml:space="preserve">
+    <value>Profili globalnih postavki</value>
+  </data>
+  <data name="GlobalProfiles.ApplyConfirm" xml:space="preserve">
+    <value>Primijeniti "{0}"? Time se zamjenjuju tvoje trenutne globalne postavke Robloxa. Ponovno se pridruži Robloxu da vidiš sve promjene.</value>
+  </data>
+  <data name="GlobalProfiles.Applied" xml:space="preserve">
+    <value>Primijenjeno "{0}"</value>
+  </data>
+  <data name="GlobalProfiles.SaveFailed" xml:space="preserve">
+    <value>Datoteku postavki Robloxa nije moguće zapisati. Zatvori Roblox i pokušaj ponovno.</value>
+  </data>
+  <data name="AssetWarp.RemoveTexturesDescription" xml:space="preserve">
+    <value>Blokira preuzimanje resursa tekstura i paketa tekstura</value>
+  </data>
+  <data name="AssetWarp.RemoveDecalsDescription" xml:space="preserve">
+    <value>Blokira preuzimanje resursa naljepnica</value>
+  </data>
+  <data name="AssetWarp.RemoveImagesDescription" xml:space="preserve">
+    <value>Blokira preuzimanje slikovnih resursa. Roblox koristi slike i za teksture i naljepnice</value>
+  </data>
+  <data name="AssetWarp.RemoveAnimationsDescription" xml:space="preserve">
+    <value>Blokira preuzimanje resursa animacija. Igre bez zamjenske animacije mogu prestati ispravno raditi</value>
+  </data>
+  <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
+    <value>Blokira preuzimanje mesh i MeshPart resursa. Mesh geometrija bit će nevidljiva</value>
+  </data>
+  <data name="SwiftTunnel.Summary" xml:space="preserve">
+    <value>Usmjeri Roblox promet kroz SwiftTunnel dok druge aplikacije koriste tvoju uobičajenu vezu</value>
+  </data>
+  <data name="SwiftTunnel.Description" xml:space="preserve">
+    <value>SwiftTunnel je optimizator veze za igre na Windowsu s podijeljenim tuneliranjem i odabirom regionalnih releja</value>
+  </data>
+  <data name="SwiftTunnel.Setup" xml:space="preserve">
+    <value>Instalacija preuzima najnovije službeno izdanje SwiftTunnela i nakon postavljanja otvara aplikaciju za radnu površinu. Ondje se prijavi i odaberi vezu. Optimizacija mreže može zahtijevati administratorski pristup</value>
+  </data>
+  <data name="SwiftTunnel.Network" xml:space="preserve">
+    <value>Mreža</value>
+  </data>
+  <data name="SwiftTunnel.Routing" xml:space="preserve">
+    <value>Usmjeravanje</value>
+  </data>
+  <data name="SwiftTunnel.Install" xml:space="preserve">
+    <value>Instaliraj</value>
+  </data>
+  <data name="SwiftTunnel.Uninstall" xml:space="preserve">
+    <value>Deinstaliraj</value>
+  </data>
+  <data name="SwiftTunnel.Installed" xml:space="preserve">
+    <value>Instalirano</value>
+  </data>
+  <data name="SwiftTunnel.NotInstalled" xml:space="preserve">
+    <value>Nije instalirano</value>
+  </data>
+  <data name="SwiftTunnel.Working" xml:space="preserve">
+    <value>U tijeku</value>
+  </data>
+  <data name="SwiftTunnel.Downloading" xml:space="preserve">
+    <value>Preuzimanje SwiftTunnela</value>
+  </data>
+  <data name="SwiftTunnel.InstallerFailed" xml:space="preserve">
+    <value>Nije moguće otvoriti instalaciju SwiftTunnela</value>
+  </data>
+  <data name="SwiftTunnel.InstallerExit" xml:space="preserve">
+    <value>Instalacija SwiftTunnela vratila je kôd {0}</value>
+  </data>
+  <data name="SwiftTunnel.Error" xml:space="preserve">
+    <value>Nije moguće dovršiti radnju SwiftTunnela: {0}</value>
+  </data>
+  <data name="SwiftTunnel.UninstallUnavailable" xml:space="preserve">
+    <value>Unos za deinstalaciju SwiftTunnela nije potpun. Ukloni SwiftTunnel putem Windows postavki, Aplikacije</value>
+  </data>
+  <data name="SwiftTunnel.CleanupFailed" xml:space="preserve">
+    <value>SwiftTunnel nije mogao vratiti svoje mrežne postavke. Njegove datoteke su zadržane kako bi se čišćenje moglo ponoviti</value>
+  </data>
+  <data name="SwiftTunnel.ConfirmUninstall" xml:space="preserve">
+    <value>Potpuno ukloniti SwiftTunnel? Najprije se vraćaju njegov mrežni upravljački program i postavke sustava, a zatim se SwiftTunnel deinstalira. Nakon pokretanja ne može se otkazati.</value>
+  </data>
+  <data name="SwiftTunnel.UninstallIncomplete" xml:space="preserve">
+    <value>Uklanjanje SwiftTunnela nije dovršeno. Zatvori SwiftTunnel i pokušaj ponovno s administratorskim pristupom</value>
+  </data>
+  <data name="SwiftTunnel.UnsafeDirectory" xml:space="preserve">
+    <value>SwiftTunnel je instaliran u zajedničku ili neprepoznatu mapu. Premjesti ga u vlastitu SwiftTunnel mapu prije potpunog uklanjanja</value>
+  </data>
+  <data name="SwiftTunnel.NotInstalledError" xml:space="preserve">
+    <value>SwiftTunnel nije instaliran. Najprije ga instaliraj iz Proširenja</value>
+  </data>
+  <data name="SwiftTunnel.Missing" xml:space="preserve">
+    <value>SwiftTunnel je registriran, ali nedostaju njegove datoteke. Deinstaliraj ga i ponovno instaliraj da ga popraviš</value>
+  </data>
+  <data name="SwiftTunnel.NoInstaller" xml:space="preserve">
+    <value>Najnovije izdanje SwiftTunnela nema provjereni Windows instalacijski program za ovo računalo</value>
+  </data>
+  <data name="Installer.MacOS.DataLocation.Title" xml:space="preserve">
+    <value>Odaberi gdje spremati podatke Voidstrapa</value>
+  </data>
+  <data name="Installer.MacOS.DataLocation.Text" xml:space="preserve">
+    <value>Voidstrap ovdje čuva svoje postavke i modove. Aplikacija ostaje na trenutnom mjestu. Roblox se instalira zasebno u Aplikacije.</value>
+  </data>
+  <data name="Installer.MacOS.Completion.Text" xml:space="preserve">
+    <value>Voidstrap je spreman.
+
+Roblox će se preuzeti kada ga prvi put pokreneš putem Voidstrapa. Postavke možeš prilagoditi prije pokretanja.
+
+Što želiš učiniti?</value>
+  </data>
+  <data name="Installer.MacOS.Roblox.Title" xml:space="preserve">
+    <value>Roblox za macOS</value>
+  </data>
+  <data name="Installer.MacOS.Roblox.Text" xml:space="preserve">
+    <value>Voidstrap preuzima službenu aplikaciju Roblox u Aplikacije pri prvom kliku na Pokreni i zatim je održava ažurnom. Zasebna instalacija nije potrebna.</value>
+  </data>
+  <data name="HomepageMedia.Preview.FileMissing" xml:space="preserve">
+    <value>Odabrana medijska datoteka nije pronađena.</value>
+  </data>
+  <data name="HomepageMedia.Preview.DecodeError" xml:space="preserve">
+    <value>Ovaj medij nije moguće dekodirati. Odaberi drugu sliku ili videozapis.</value>
+  </data>
+  <data name="HomepageMedia.Preview.RenderError" xml:space="preserve">
+    <value>Pregled medija nije moguće prikazati.</value>
+  </data>
+  <data name="HomepageMedia.Picker.ImagesAndVideos" xml:space="preserve">
+    <value>Slike i videozapisi</value>
+  </data>
+  <data name="HomepageMedia.Picker.Images" xml:space="preserve">
+    <value>Slike</value>
+  </data>
+  <data name="HomepageMedia.Picker.Videos" xml:space="preserve">
+    <value>Videozapisi</value>
+  </data>
+  <data name="Appearance.Backdrop.Sidebar" xml:space="preserve">
+    <value>Bočna traka</value>
+  </data>
+  <data name="Appearance.Backdrop.Popover" xml:space="preserve">
+    <value>Skočni prozor</value>
+  </data>
+  <data name="Appearance.Backdrop.Hud" xml:space="preserve">
+    <value>Prozirni zaslon</value>
+  </data>
+  <data name="Appearance.Backdrop.UnderWindow" xml:space="preserve">
+    <value>Ispod prozora</value>
+  </data>
+  <data name="Appearance.Backdrop.UnderPage" xml:space="preserve">
+    <value>Ispod stranice</value>
+  </data>
+  <data name="Menu.MacVirtualDisplay.Title" xml:space="preserve">
+    <value>Virtualni zaslon od 240 Hz</value>
+  </data>
+  <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Zrcali glavni zaslon dok Roblox radi i vraća ga kada se Roblox zatvori. Fizički zaslon zadržava vlastito ograničenje osvježavanja.</value>
+  </data>
 </root>

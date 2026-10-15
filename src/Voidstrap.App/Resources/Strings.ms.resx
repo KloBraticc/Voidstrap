@@ -1663,4 +1663,1334 @@ Adakah anda ingin menukar saluran pilihan kepada {0}?</value>
   <data name="Menu.News.DialogTitle" xml:space="preserve">
     <value>Butiran Berita</value>
   </data>
+  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
+    <value>Voidstrap tidak dapat membuang laluan AssetWarp yang tertinggal daripada fail hosts Windows. Roblox tidak akan dapat memuatkan tekstur atau aset lain sehingga ia dibuang. Jalankan Voidstrap sebagai pentadbir untuk membersihkannya.</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
+    <value>Kedua-duanya</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
+    <value>Pemain</value>
+  </data>
+  <data name="ContextMenu.ServerInformation.InstanceId" xml:space="preserve">
+    <value>ID instans</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
+    <value>Pelayar pelayan</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
+    <value>Tempat {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
+    <value>{0}  •  Tempat {1}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
+    <value>{0} pelayan diimbas</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
+    <value>Muat semula</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
+    <value>Muatkan lebih banyak pelayan</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
+    <value>Sembunyikan pelayan yang penuh</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
+    <value>Cari bandar, negara atau ID pelayan</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
+    <value>Pemain paling ramai</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
+    <value>Pemain paling sedikit</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
+    <value>Ping terendah</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
+    <value>Sertai</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
+    <value>Semasa</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
+    <value>Memuatkan pelayan awam</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
+    <value>Tiada pelayan awam ditemui</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
+    <value>Sertai permainan sebelum membuka pelayar pelayan</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
+    <value>Senarai pelayan dijeda kerana Roblox mengehadkan permintaan</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
+    <value>Tidak dapat memuatkan pelayan awam</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
+    <value>{0} pelayan dimuatkan</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
+    <value>{0} daripada {1} pemain</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
+    <value>{0} pemain</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
+    <value>Tidak diketahui</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
+    <value>Padanan terbaik</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
+    <value>Padanan terbaik</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
+    <value>Disekat</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
+    <value>Kira-kira {0} ms dari anda</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
+    <value>{0} pelayan telah dikesan setakat ini</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
+    <value>{0} daripada {1} pelayan dikesan</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
+    <value>Memindahkan anda ke {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
+    <value>Tidak dapat menyertai pelayan itu</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
+    <value>Log masuk melalui Tetapan &gt; Server Matchmaker supaya Voidstrap dapat mencari lokasi setiap pelayan</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
+    <value>Lokasi anda tidak dapat ditemui, jadi pelayan tidak boleh disusun mengikut ping</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
+    <value>Roblox tidak mendedahkan lokasi pelayan ini, cuba lagi sebentar lagi</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
+    <value>Semua pelayan yang ditemui berada di pusat data yang anda sekat</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
+    <value>Semua pelayan yang ditemui jauh dari anda, jadi matchmaker akan membiarkan Roblox memilih</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
+    <value>Pelayar permainan</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
+    <value>Teruskan</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
+    <value>Kegemaran</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
+    <value>Cari</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
+    <value>Cari permainan Roblox</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
+    <value>Memuatkan permainan</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
+    <value>Tiada permainan terkini dalam sesi ini</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
+    <value>Tiada permainan kegemaran disimpan</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
+    <value>Cari permainan Roblox mengikut nama</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
+    <value>Tiada permainan ditemui untuk {0}</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
+    <value>Tidak dapat memuatkan permainan</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
+    <value>{0} sedang bermain</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
+    <value>Sertai</value>
+  </data>
+  <data name="Enums.Theme.Berry" xml:space="preserve">
+    <value>Beri</value>
+  </data>
+  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
+    <value>Terjemahan automatik</value>
+  </data>
+  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
+    <value>Terjemahkan ke</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
+    <value>Bahasa terjemahan automatik</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
+    <value>Terjemahkan seluruh antara muka Voidstrap ke mana-mana bahasa. Terjemahan terbina dalam digunakan dahulu, dan teks yang selebihnya diterjemahkan secara langsung.</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
+    <value>Terjemah RPC Discord secara automatik</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
+    <value>Menterjemah teks Discord Rich Presence secara automatik ke bahasa yang dipilih.</value>
+  </data>
+  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
+    <value>Ciri ini hanya tersedia pada Windows.</value>
+  </data>
+  <data name="About.Translators.Description" xml:space="preserve">
+    <value>Semua orang yang disenaraikan di sini telah meluangkan masa dan usaha mereka dengan murah hati untuk membantu menterjemah Voidstrap. Terima kasih yang tidak terhingga kepada semua!</value>
+  </data>
+  <data name="Menu.Channel.Description" xml:space="preserve">
+    <value>Tukar tetapan pengedaran dan pemasangan untuk Roblox dan Voidstrap.</value>
+  </data>
+  <data name="Common.Channel" xml:space="preserve">
+    <value>Saluran</value>
+  </data>
+  <data name="Menu.ChannelChanger.Description" xml:space="preserve">
+    <value>Pilih saluran pengedaran. Jangan ubah melainkan anda tahu apa yang anda lakukan.</value>
+  </data>
+  <data name="Common.Version" xml:space="preserve">
+    <value>Versi</value>
+  </data>
+  <data name="Menu.Channel.RobloxUpgrades" xml:space="preserve">
+    <value>Kemas kini Roblox</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
+    <value>Mod gelap</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
+    <value>Telemetri</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
+    <value>Mod gelap</value>
+  </data>
+  <data name="Menu.Sober.Description" xml:space="preserve">
+    <value>Konfigurasikan masa jalan Linux yang digunakan Voidstrap untuk melancarkan Roblox. Sober menjalankan pemain, Vinegar menjalankan Studio. Voidstrap hanya mengubah pilihan yang anda gantikan secara jelas.</value>
+  </data>
+  <data name="Menu.Sober.Default" xml:space="preserve">
+    <value>Guna lalai Sober</value>
+  </data>
+  <data name="Menu.Sober.Enabled" xml:space="preserve">
+    <value>Didayakan</value>
+  </data>
+  <data name="Menu.Sober.Disabled" xml:space="preserve">
+    <value>Dilumpuhkan</value>
+  </data>
+  <data name="Menu.Sober.DefaultNotice" xml:space="preserve">
+    <value>Guna lalai Sober membiarkan tetapan dikawal oleh Sober. Membuang penggantian akan memulihkan nilai yang disandarkan oleh Voidstrap.</value>
+  </data>
+  <data name="Menu.Sober.RuntimeNotice" xml:space="preserve">
+    <value>Selesaikan larian pertama Sober sebelum menetapkan penggantian, kemudian tutup Sober sebelum mengubahnya. Perubahan yang disimpan dikenakan apabila Sober dimulakan seterusnya.</value>
+  </data>
+  <data name="Menu.Sober.Group.Session" xml:space="preserve">
+    <value>Sesi dan aktiviti</value>
+  </data>
+  <data name="Menu.Sober.Group.Input" xml:space="preserve">
+    <value>Input dan pengalaman</value>
+  </data>
+  <data name="Menu.Sober.Group.Graphics" xml:space="preserve">
+    <value>Grafik dan desktop</value>
+  </data>
+  <data name="Menu.Sober.AllowGamepad.Title" xml:space="preserve">
+    <value>Benarkan akses pad permainan</value>
+  </data>
+  <data name="Menu.Sober.AllowGamepad.Description" xml:space="preserve">
+    <value>Membenarkan Sober meminta akses kepada pad permainan yang disambungkan. Perubahan kebenaran mungkin memerlukan Sober dilancarkan semula.</value>
+  </data>
+  <data name="Menu.Sober.CloseOnLeave.Title" xml:space="preserve">
+    <value>Tutup apabila keluar</value>
+  </data>
+  <data name="Menu.Sober.CloseOnLeave.Description" xml:space="preserve">
+    <value>Menutup Sober selepas keluar daripada pengalaman.</value>
+  </data>
+  <data name="Menu.Sober.DiscordRpc.Description" xml:space="preserve">
+    <value>Membenarkan Sober memaparkan aktiviti permainan melalui Discord Rich Presence.</value>
+  </data>
+  <data name="Menu.Sober.DiscordJoin.Title" xml:space="preserve">
+    <value>Butang sertai Discord</value>
+  </data>
+  <data name="Menu.Sober.DiscordJoin.Description" xml:space="preserve">
+    <value>Membenarkan Sober menambah butang sertai dalam Discord Rich Presence.</value>
+  </data>
+  <data name="Menu.Sober.GameMode.Title" xml:space="preserve">
+    <value>Integrasi GameMode</value>
+  </data>
+  <data name="Menu.Sober.GameMode.Description" xml:space="preserve">
+    <value>Membenarkan Sober meminta penalaan prestasi GameMode apabila GameMode tersedia.</value>
+  </data>
+  <data name="Menu.Sober.HiDpi.Title" xml:space="preserve">
+    <value>Penskalaan DPI tinggi</value>
+  </data>
+  <data name="Menu.Sober.HiDpi.Description" xml:space="preserve">
+    <value>Menggunakan penskalaan asli untuk paparan berketumpatan tinggi.</value>
+  </data>
+  <data name="Menu.Sober.MobileHome.Title" xml:space="preserve">
+    <value>Skrin utama mudah alih</value>
+  </data>
+  <data name="Menu.Sober.MobileHome.Description" xml:space="preserve">
+    <value>Menggunakan skrin utama Roblox gaya mudah alih.</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Title" xml:space="preserve">
+    <value>Mod pengoptimuman grafik</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Description" xml:space="preserve">
+    <value>Memilih keutamaan pengoptimuman grafik Sober.</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Quality" xml:space="preserve">
+    <value>Kualiti</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Balanced" xml:space="preserve">
+    <value>Seimbang</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Performance" xml:space="preserve">
+    <value>Prestasi</value>
+  </data>
+  <data name="Menu.Sober.ServerLocation.Title" xml:space="preserve">
+    <value>Penunjuk lokasi pelayan</value>
+  </data>
+  <data name="Menu.Sober.ServerLocation.Description" xml:space="preserve">
+    <value>Menunjukkan penunjuk lokasi pelayan Sober semasa bermain.</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Title" xml:space="preserve">
+    <value>Mod sentuh</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Description" xml:space="preserve">
+    <value>Memilih cara Sober melaporkan sokongan input sentuh.</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Off" xml:space="preserve">
+    <value>Mati</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.On" xml:space="preserve">
+    <value>Hidup</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.FakeOff" xml:space="preserve">
+    <value>Mati palsu</value>
+  </data>
+  <data name="Menu.Sober.ConsoleExperience.Title" xml:space="preserve">
+    <value>Pengalaman konsol</value>
+  </data>
+  <data name="Menu.Sober.ConsoleExperience.Description" xml:space="preserve">
+    <value>Menggunakan pengalaman Roblox gaya konsol.</value>
+  </data>
+  <data name="Menu.Sober.Libsecret.Title" xml:space="preserve">
+    <value>Storan Secret Service</value>
+  </data>
+  <data name="Menu.Sober.Libsecret.Description" xml:space="preserve">
+    <value>Menyimpan kelayakan yang disokong melalui Secret Service desktop.</value>
+  </data>
+  <data name="Menu.Sober.OpenGl.Title" xml:space="preserve">
+    <value>Pemapar OpenGL</value>
+  </data>
+  <data name="Menu.Sober.OpenGl.Description" xml:space="preserve">
+    <value>Menggunakan OpenGL dan bukannya bahagian belakang grafik lalai Sober.</value>
+  </data>
+  <data name="Installer.Appearance.BackgroundUI.Title" xml:space="preserve">
+    <value>Latar belakang dan UI</value>
+  </data>
+  <data name="Installer.Appearance.BackgroundUI.Description" xml:space="preserve">
+    <value>Peribadikan pemasang dan aplikasi utama.</value>
+  </data>
+  <data name="Installer.Appearance.Snow.Title" xml:space="preserve">
+    <value>Salji di latar belakang</value>
+  </data>
+  <data name="Installer.Appearance.Snow.Description" xml:space="preserve">
+    <value>Menambah kesan salji yang halus pada latar belakang.</value>
+  </data>
+  <data name="Installer.Appearance.GradientMovement.Title" xml:space="preserve">
+    <value>Pergerakan gradien</value>
+  </data>
+  <data name="Installer.Appearance.GradientMovement.Description" xml:space="preserve">
+    <value>Menjadikan gradien latar belakang mengikut penuding.</value>
+  </data>
+  <data name="Installer.Appearance.SmoothScrolling.Title" xml:space="preserve">
+    <value>Tatal lancar</value>
+  </data>
+  <data name="Installer.Appearance.SmoothScrolling.Description" xml:space="preserve">
+    <value>Menganimasikan penatalan di seluruh antara muka.</value>
+  </data>
+  <data name="Installer.Appearance.ClearFont.Title" xml:space="preserve">
+    <value>Fon jelas</value>
+  </data>
+  <data name="Installer.Appearance.ClearFont.Description" xml:space="preserve">
+    <value>Menggunakan pemaparan teks yang lebih tajam selepas Voidstrap dimulakan semula.</value>
+  </data>
+  <data name="Installer.Appearance.Background.Title" xml:space="preserve">
+    <value>Latar belakang tersuai</value>
+  </data>
+  <data name="Installer.Appearance.Background.Description" xml:space="preserve">
+    <value>Gunakan imej, GIF atau video dan laraskan paparannya.</value>
+  </data>
+  <data name="Installer.Appearance.GradientOpacity" xml:space="preserve">
+    <value>Kelegapan gradien</value>
+  </data>
+  <data name="Installer.Appearance.DarkOverlay" xml:space="preserve">
+    <value>Tindanan gelap</value>
+  </data>
+  <data name="Installer.Appearance.DisplayEverywhere" xml:space="preserve">
+    <value>Paparkan di mana-mana</value>
+  </data>
+  <data name="Installer.Appearance.RemoveBackground" xml:space="preserve">
+    <value>Buang latar belakang</value>
+  </data>
+  <data name="Installer.Appearance.Theme.Description" xml:space="preserve">
+    <value>Pilih tema yang digunakan di semua tetingkap Voidstrap.</value>
+  </data>
+  <data name="Installer.Appearance.Theme.Customize" xml:space="preserve">
+    <value>Sesuaikan</value>
+  </data>
+  <data name="Installer.Appearance.Backdrop.Title" xml:space="preserve">
+    <value>Latar tetingkap</value>
+  </data>
+  <data name="Installer.Appearance.Backdrop.Description" xml:space="preserve">
+    <value>Pilih bahan yang dipaparkan di belakang tetingkap Voidstrap.</value>
+  </data>
+  <data name="Installer.Appearance.PageZoom.Title" xml:space="preserve">
+    <value>Zum halaman</value>
+  </data>
+  <data name="Installer.Appearance.PageZoom.Description" xml:space="preserve">
+    <value>Laraskan saiz halaman tetapan.</value>
+  </data>
+  <data name="Vng.WarningTitle" xml:space="preserve">
+    <value>Roblox VNG: sekatan akaun kekal</value>
+  </data>
+  <data name="Vng.Warning" xml:space="preserve">
+    <value>BERHENTI: BACA SEBELUM MENERUSKAN
+
+Log masuk ke Roblox VNG buat kali pertama akan memindahkan akaun anda ke VNG. Roblox menyatakan bahawa anda tidak lagi dapat menggunakan akaun itu dalam aplikasi Roblox global.
+
+Anggap pemindahan akaun ini kekal. Voidstrap tidak dapat membatalkannya. Menyahpasang VNG atau melumpuhkan pilihan ini tidak memulihkan akses akaun global. Sekatan akaun dan wilayah VNG akan dikenakan.
+
+Memuat turun fail sahaja tidak memindahkan akaun anda. Log masuk atau melancarkan dengan akaun sedia ada boleh mendedahkan akaun itu kepada pemindahan.
+
+Teruskan hanya jika anda menerima kehilangan akses aplikasi global untuk mana-mana akaun yang anda gunakan dengan VNG. Butang Ya akan dibuka selepas sepuluh saat.</value>
+  </data>
+  <data name="Vng.Confirmation" xml:space="preserve">
+    <value>Adakah anda pasti?</value>
+  </data>
+  <data name="Vng.Agreement" xml:space="preserve">
+    <value>Amaran terakhir: log masuk ke Roblox VNG boleh memindahkan akaun anda secara kekal dan membuang akses kepada aplikasi Roblox global. Voidstrap tidak dapat membatalkannya.
+
+Taip frasa yang ditunjukkan di bawah dengan tepat untuk menerima sekatan ini dan meneruskan.</value>
+  </data>
+  <data name="Vng.Countdown" xml:space="preserve">
+    <value>{0} ({1} s)</value>
+  </data>
+  <data name="Vng.Description" xml:space="preserve">
+    <value>Klien pemain Vietnam. Log masuk akan memindahkan akaun anda dan membuang akses aplikasi global.</value>
+  </data>
+  <data name="Vng.UseForLaunches" xml:space="preserve">
+    <value>Guna VNG untuk pelancaran pemain</value>
+  </data>
+  <data name="Vng.UninstallWarning" xml:space="preserve">
+    <value>Membuang VNG tidak membatalkan pemindahan akaun dan tidak memulihkan akses aplikasi global.</value>
+  </data>
+  <data name="Mtu.Description" xml:space="preserve">
+    <value>Mengehadkan saiz paket untuk semua aplikasi, termasuk Roblox. Memerlukan akses pentadbir dan kekal selepas dimulakan semula. Mungkin tidak memperbaiki ping.</value>
+  </data>
+  <data name="Mtu.Adapter" xml:space="preserve">
+    <value>Pilih penyesuai rangkaian dan versi IP</value>
+  </data>
+  <data name="Mtu.CustomValue" xml:space="preserve">
+    <value>MTU tersuai (bait)</value>
+  </data>
+  <data name="Mtu.Current" xml:space="preserve">
+    <value>Semasa: {0} bait. Minimum: {1} bait.</value>
+  </data>
+  <data name="Mtu.NoAdapters" xml:space="preserve">
+    <value>Tiada penyesuai rangkaian yang disokong ditemui. Muat semula untuk mencuba lagi.</value>
+  </data>
+  <data name="Mtu.Invalid" xml:space="preserve">
+    <value>Masukkan nombor bulat dari {0} hingga {1}. Windows juga menyemak saiz paket yang disokong oleh penyesuai.</value>
+  </data>
+  <data name="Mtu.Apply" xml:space="preserve">
+    <value>Guna</value>
+  </data>
+  <data name="Mtu.Restore" xml:space="preserve">
+    <value>Pulihkan</value>
+  </data>
+  <data name="Mtu.Refresh" xml:space="preserve">
+    <value>Muat semula</value>
+  </data>
+  <data name="Mtu.Loading" xml:space="preserve">
+    <value>Membaca penyesuai rangkaian Windows...</value>
+  </data>
+  <data name="Mtu.Applying" xml:space="preserve">
+    <value>Menunggu kelulusan pentadbir dan mengenakan MTU...</value>
+  </data>
+  <data name="Mtu.AdapterUnavailable" xml:space="preserve">
+    <value>Penyesuai yang dipilih tidak tersedia. Muat semula dan pilih penyesuai.</value>
+  </data>
+  <data name="Mtu.Rejected" xml:space="preserve">
+    <value>Windows tidak dapat mengenakan MTU, kod {0}. Penyesuai anda mungkin tidak menyokong nilai ini.</value>
+  </data>
+  <data name="Mtu.Applied" xml:space="preserve">
+    <value>MTU ditetapkan kepada {0} bait dan disahkan. Dikenakan pada semua aplikasi di penyesuai yang dipilih.</value>
+  </data>
+  <data name="Mtu.Restored" xml:space="preserve">
+    <value>MTU sebelumnya dipulihkan kepada {0} bait dan disahkan.</value>
+  </data>
+  <data name="Mtu.VerificationFailed" xml:space="preserve">
+    <value>Windows tidak melaporkan MTU yang diminta. Muat semula untuk menyemak nilai semasa.</value>
+  </data>
+  <data name="Mtu.Cancelled" xml:space="preserve">
+    <value>Permintaan pentadbir dibatalkan. MTU tidak diubah.</value>
+  </data>
+  <data name="Mtu.Error" xml:space="preserve">
+    <value>Operasi MTU gagal. Muat semula untuk menyemak nilai semasa.</value>
+  </data>
+  <data name="Menu_FastFlagEditor_Rename" xml:space="preserve">
+    <value>Namakan semula</value>
+  </data>
+  <data name="Menu_FastFlagEditor_EditValue" xml:space="preserve">
+    <value>Edit nilai</value>
+  </data>
+  <data name="Menu_FastFlagEditor_CopySelected" xml:space="preserve">
+    <value>Salin pilihan sebagai JSON</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Title" xml:space="preserve">
+    <value>Warna aksen</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Description" xml:space="preserve">
+    <value>Pilih warna untuk kawalan aplikasi dan rona latar belakang.</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Choose" xml:space="preserve">
+    <value>Pilih warna</value>
+  </data>
+  <data name="Menu.Appearance.Accent.System" xml:space="preserve">
+    <value>Guna warna sistem</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Picker" xml:space="preserve">
+    <value>Pilih warna aksen</value>
+  </data>
+  <data name="Menu.Shortcuts.Customize" xml:space="preserve">
+    <value>Nama dan ikon</value>
+  </data>
+  <data name="Menu.Shortcuts.InvalidName" xml:space="preserve">
+    <value>Gunakan nama pintasan yang sah tanpa garis condong atau nama fail yang dikhaskan.</value>
+  </data>
+  <data name="Menu.Shortcuts.NameExists" xml:space="preserve">
+    <value>Pintasan dengan nama ini sudah wujud. Pilih nama lain.</value>
+  </data>
+  <data name="Menu.Shortcuts.ChooseIcon" xml:space="preserve">
+    <value>Pilih ikon pintasan</value>
+  </data>
+  <data name="Menu.Shortcuts.IconFilter" xml:space="preserve">
+    <value>Fail ikon dan imej|*.ico;*.png;*.jpg;*.jpeg;*.bmp;*.webp</value>
+  </data>
+  <data name="Menu.Shortcuts.InvalidIcon" xml:space="preserve">
+    <value>Pilih ikon atau imej sah yang lebih kecil daripada 8 MB.</value>
+  </data>
+  <data name="Menu.LaunchDropdownOnRight" xml:space="preserve">
+    <value>Letakkan pemilih versi di sebelah kanan</value>
+  </data>
+  <data name="OverlayDiagnostics.Bounds" xml:space="preserve">
+    <value>Saiz dan kedudukan skrin</value>
+  </data>
+  <data name="OverlayDiagnostics.CollectionError" xml:space="preserve">
+    <value>Sampel semasa tidak dapat dikumpulkan: {0}</value>
+  </data>
+  <data name="OverlayDiagnostics.CompositeCrosshair" xml:space="preserve">
+    <value>Crosshair pengkompositan aktif</value>
+  </data>
+  <data name="OverlayDiagnostics.Compositor" xml:space="preserve">
+    <value>Pengkompositan dimulakan</value>
+  </data>
+  <data name="OverlayDiagnostics.Configuration" xml:space="preserve">
+    <value>Ciri yang dikonfigurasikan, suis ini tidak membuktikan pemaparan</value>
+  </data>
+  <data name="OverlayDiagnostics.Disabled" xml:space="preserve">
+    <value>Semua ciri tindanan yang disemak dilumpuhkan dalam tetapan.</value>
+  </data>
+  <data name="OverlayDiagnostics.DispatcherRequired" xml:space="preserve">
+    <value>Diagnostik tindanan mesti berjalan pada dispatcher tetingkap.</value>
+  </data>
+  <data name="OverlayDiagnostics.FakeBorderless" xml:space="preserve">
+    <value>Skrin penuh tanpa sempadan palsu</value>
+  </data>
+  <data name="OverlayDiagnostics.FakeExclusive" xml:space="preserve">
+    <value>Skrin penuh eksklusif palsu</value>
+  </data>
+  <data name="OverlayDiagnostics.Findings" xml:space="preserve">
+    <value>Semakan dan had</value>
+  </data>
+  <data name="OverlayDiagnostics.Foreground" xml:space="preserve">
+    <value>Roblox atau tindanannya mempunyai fokus</value>
+  </data>
+  <data name="OverlayDiagnostics.FullscreenUnknown" xml:space="preserve">
+    <value>Skrin penuh eksklusif tidak disahkan. Saiz tetingkap dan gaya sempadan tidak dapat menentukan mod persembahan.</value>
+  </data>
+  <data name="OverlayDiagnostics.GameEffects" xml:space="preserve">
+    <value>Kesan permainan</value>
+  </data>
+  <data name="OverlayDiagnostics.GameLease" xml:space="preserve">
+    <value>Pajakan permainan Linux disahkan</value>
+  </data>
+  <data name="OverlayDiagnostics.GameSession" xml:space="preserve">
+    <value>Sesi permainan pemerhati aktiviti</value>
+  </data>
+  <data name="OverlayDiagnostics.GameSignal" xml:space="preserve">
+    <value>Isyarat permainan hab tindanan</value>
+  </data>
+  <data name="OverlayDiagnostics.Handle" xml:space="preserve">
+    <value>Pemegang tetingkap</value>
+  </data>
+  <data name="OverlayDiagnostics.Homepage" xml:space="preserve">
+    <value>Latar belakang halaman utama</value>
+  </data>
+  <data name="OverlayDiagnostics.HomepageInGame" xml:space="preserve">
+    <value>Hab tindanan melaporkan sesi permainan sedangkan proses halaman utama Linux masih berjalan. Proses boleh berjalan tanpa melukis.</value>
+  </data>
+  <data name="OverlayDiagnostics.HomepageWorker" xml:space="preserve">
+    <value>Proses halaman utama Linux berjalan</value>
+  </data>
+  <data name="OverlayDiagnostics.Intersects" xml:space="preserve">
+    <value>Segi empat bersilang dengan Roblox</value>
+  </data>
+  <data name="OverlayDiagnostics.Minimized" xml:space="preserve">
+    <value>Tetingkap asli diminimumkan</value>
+  </data>
+  <data name="OverlayDiagnostics.MissingCrosshair" xml:space="preserve">
+    <value>Crosshair dikonfigurasikan, tetapi tiada tetingkap crosshair atau crosshair pengkompositan aktif ditemui dalam proses ini.</value>
+  </data>
+  <data name="OverlayDiagnostics.MissingStats" xml:space="preserve">
+    <value>Statistik dikonfigurasikan, tetapi tiada tetingkap statistik ditemui dalam proses ini. Ini tidak membuktikan kegagalan penciptaan dan tidak menolak proses Voidstrap lain.</value>
+  </data>
+  <data name="OverlayDiagnostics.MonitorCoverage" xml:space="preserve">
+    <value>Klien tanpa sempadan meliputi monitornya</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeLive" xml:space="preserve">
+    <value>Pemegang asli sah</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeTopmost" xml:space="preserve">
+    <value>Penanda asli sentiasa di atas</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeVisible" xml:space="preserve">
+    <value>Tetingkap asli kelihatan</value>
+  </data>
+  <data name="OverlayDiagnostics.No" xml:space="preserve">
+    <value>Tidak</value>
+  </data>
+  <data name="OverlayDiagnostics.NoUsableWindow" xml:space="preserve">
+    <value>Tiada segi empat klien Roblox yang boleh digunakan diukur. Roblox mungkin ditutup, diminimumkan, tersembunyi, sedang bermula atau tidak boleh diakses.</value>
+  </data>
+  <data name="OverlayDiagnostics.NoWindows" xml:space="preserve">
+    <value>Tiada tetingkap tindanan ditemui dalam proses ini.</value>
+  </data>
+  <data name="OverlayDiagnostics.Opacity" xml:space="preserve">
+    <value>Kelegapan WPF</value>
+  </data>
+  <data name="OverlayDiagnostics.PixelsUnknown" xml:space="preserve">
+    <value>Penanda keterlihatan, kelegapan dan sentiasa di atas tidak membuktikan piksel sedang dipaparkan, tidak terlindung atau kelihatan kepada pengguna. Penghantaran bingkai GPU dan oklusi tidak disahkan oleh laporan ini.</value>
+  </data>
+  <data name="OverlayDiagnostics.Place" xml:space="preserve">
+    <value>ID tempat pemerhati aktiviti</value>
+  </data>
+  <data name="OverlayDiagnostics.RegisteredWindow" xml:space="preserve">
+    <value>Tindanan asli berdaftar</value>
+  </data>
+  <data name="OverlayDiagnostics.RobloxWindow" xml:space="preserve">
+    <value>Tetingkap Roblox yang diperhatikan</value>
+  </data>
+  <data name="OverlayDiagnostics.Runtime" xml:space="preserve">
+    <value>Keadaan masa jalan yang diperhatikan</value>
+  </data>
+  <data name="OverlayDiagnostics.Sample" xml:space="preserve">
+    <value>Disampel {0:HH:mm:ss.fff zzz}, dimuat semula setiap saat dan apabila tetingkap berubah</value>
+  </data>
+  <data name="OverlayDiagnostics.Scope" xml:space="preserve">
+    <value>Bacaan ini menerangkan proses Voidstrap ini. Tetingkap milik proses lain mungkin tidak disenaraikan.</value>
+  </data>
+  <data name="OverlayDiagnostics.Stats" xml:space="preserve">
+    <value>Tindanan statistik</value>
+  </data>
+  <data name="OverlayDiagnostics.Teleporting" xml:space="preserve">
+    <value>Teleport pemerhati aktiviti sedang berjalan</value>
+  </data>
+  <data name="OverlayDiagnostics.Title" xml:space="preserve">
+    <value>Diagnostik tindanan</value>
+  </data>
+  <data name="OverlayDiagnostics.Transition" xml:space="preserve">
+    <value>Peralihan permainan</value>
+  </data>
+  <data name="OverlayDiagnostics.Unavailable" xml:space="preserve">
+    <value>Tidak tersedia</value>
+  </data>
+  <data name="OverlayDiagnostics.Unfocused" xml:space="preserve">
+    <value>Roblox tidak mempunyai fokus sekarang. Tindanan mungkin sengaja disembunyikan semasa tetingkap lain aktif, termasuk tetingkap diagnostik ini.</value>
+  </data>
+  <data name="OverlayDiagnostics.UsableRect" xml:space="preserve">
+    <value>Segi empat klien yang dijejak dan boleh digunakan</value>
+  </data>
+  <data name="OverlayDiagnostics.Visible" xml:space="preserve">
+    <value>Kelihatan dalam WPF</value>
+  </data>
+  <data name="OverlayDiagnostics.Windows" xml:space="preserve">
+    <value>Tetingkap tindanan yang diperhatikan</value>
+  </data>
+  <data name="OverlayDiagnostics.Worker" xml:space="preserve">
+    <value>Bebenang pekerja pengkompositan berjalan</value>
+  </data>
+  <data name="OverlayDiagnostics.WpfTopmost" xml:space="preserve">
+    <value>WPF sentiasa di atas diminta</value>
+  </data>
+  <data name="OverlayDiagnostics.X11" xml:space="preserve">
+    <value>Sambungan X11 tersedia</value>
+  </data>
+  <data name="OverlayDiagnostics.X11Compositor" xml:space="preserve">
+    <value>Pengkompositan X11 dikesan</value>
+  </data>
+  <data name="OverlayDiagnostics.X11Unavailable" xml:space="preserve">
+    <value>Tiada sambungan X11 tersedia. Pemeriksaan tetingkap asli tidak tersedia; sekatan Wayland atau kebenaran kotak pasir mungkin terlibat.</value>
+  </data>
+  <data name="OverlayDiagnostics.Yes" xml:space="preserve">
+    <value>Ya</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeCompositor" xml:space="preserve">
+    <value>Tetingkap asli pengkompositan GPU</value>
+  </data>
+  <data name="FlagSearch.Loading" xml:space="preserve">
+    <value>Memuatkan sumber…</value>
+  </data>
+  <data name="FlagSearch.Loaded" xml:space="preserve">
+    <value>Dimuatkan</value>
+  </data>
+  <data name="FlagSearch.Unavailable" xml:space="preserve">
+    <value>Tidak tersedia</value>
+  </data>
+  <data name="FlagSearch.Pending" xml:space="preserve">
+    <value>Belum selesai</value>
+  </data>
+  <data name="FlagSearch.LoadedSummary" xml:space="preserve">
+    <value>{0:N0} nama unik dimuatkan daripada {1} daripada {2} sumber. Lihat Sumber data untuk butiran.</value>
+  </data>
+  <data name="FlagSearch.LoadError" xml:space="preserve">
+    <value>Pemuatan sumber gagal. Lihat log untuk butiran.</value>
+  </data>
+  <data name="FlagSearch.ObjectRequired" xml:space="preserve">
+    <value>JSON flag mesti mengandungi objek.</value>
+  </data>
+  <data name="FlagSearch.EmptySource" xml:space="preserve">
+    <value>Sumber tidak mengembalikan nama flag yang dikenali.</value>
+  </data>
+  <data name="FlagSearch.ResultCount" xml:space="preserve">
+    <value>Menunjukkan {0:N0} daripada {1:N0} padanan</value>
+  </data>
+  <data name="FlagSearch.SearchError" xml:space="preserve">
+    <value>Carian gagal. Lihat log untuk butiran.</value>
+  </data>
+  <data name="FlagSearch.Validating" xml:space="preserve">
+    <value>Menyemak nama flag dan nilai input…</value>
+  </data>
+  <data name="FlagSearch.Found" xml:space="preserve">
+    <value>Ditemui</value>
+  </data>
+  <data name="FlagSearch.ValueError" xml:space="preserve">
+    <value>Ralat nilai</value>
+  </data>
+  <data name="FlagSearch.NotFound" xml:space="preserve">
+    <value>Tidak ditemui</value>
+  </data>
+  <data name="FlagSearch.FoundNote" xml:space="preserve">
+    <value>Ditemui dalam sumber yang dimuatkan. Sokongan penggantian setempat tidak disahkan.</value>
+  </data>
+  <data name="FlagSearch.NotFoundNote" xml:space="preserve">
+    <value>Tiada dalam sumber yang dimuatkan, ini tidak membuktikan flag itu tidak sah.</value>
+  </data>
+  <data name="FlagSearch.ValidationSummary" xml:space="preserve">
+    <value>{0:N0} flag disemak, {1:N0} input sepadan dengan sumber dan jenis nilai yang dijangka.</value>
+  </data>
+  <data name="FlagSearch.NameError" xml:space="preserve">
+    <value>Gunakan nama Fast Flag yang dikenali tanpa ruang.</value>
+  </data>
+  <data name="FlagSearch.TooMany" xml:space="preserve">
+    <value>Input mengandungi terlalu banyak flag.</value>
+  </data>
+  <data name="FlagSearch.ScalarRequired" xml:space="preserve">
+    <value>Nilai flag mesti rentetan, nombor atau boolean.</value>
+  </data>
+  <data name="FlagSearch.LineError" xml:space="preserve">
+    <value>Setiap baris teks mesti menggunakan nama=nilai.</value>
+  </data>
+  <data name="FlagSearch.EmptyInput" xml:space="preserve">
+    <value>Tiada entri flag ditemui.</value>
+  </data>
+  <data name="FlagSearch.Label1" xml:space="preserve">
+    <value>Cari Fast Flag</value>
+  </data>
+  <data name="FlagSearch.Label2" xml:space="preserve">
+    <value>Cari Fast Flag</value>
+  </data>
+  <data name="FlagSearch.Label3" xml:space="preserve">
+    <value>Carian dan pengesahan Fast Flag</value>
+  </data>
+  <data name="FlagSearch.Label4" xml:space="preserve">
+    <value>Cari, sahkan dan temui Fast Flag daripada pelbagai sumber</value>
+  </data>
+  <data name="FlagSearch.Label5" xml:space="preserve">
+    <value>Muat semula sumber</value>
+  </data>
+  <data name="FlagSearch.Label6" xml:space="preserve">
+    <value>Sedia</value>
+  </data>
+  <data name="FlagSearch.Label7" xml:space="preserve">
+    <value>Carian langsung</value>
+  </data>
+  <data name="FlagSearch.Label8" xml:space="preserve">
+    <value>Carian flag langsung</value>
+  </data>
+  <data name="FlagSearch.Label9" xml:space="preserve">
+    <value>Cari nama penuh atau kata kunci. Padanan tepat dipaparkan dahulu. Eksport merangkumi semua nilai diketahui yang sepadan.</value>
+  </data>
+  <data name="FlagSearch.Label10" xml:space="preserve">
+    <value>Masukkan nama flag atau kata kunci...</value>
+  </data>
+  <data name="FlagSearch.Label11" xml:space="preserve">
+    <value>Eksport keputusan</value>
+  </data>
+  <data name="FlagSearch.Label12" xml:space="preserve">
+    <value>Semua nilai</value>
+  </data>
+  <data name="FlagSearch.Label13" xml:space="preserve">
+    <value>Nilai true</value>
+  </data>
+  <data name="FlagSearch.Label14" xml:space="preserve">
+    <value>Nilai false</value>
+  </data>
+  <data name="FlagSearch.Label15" xml:space="preserve">
+    <value>Nama flag</value>
+  </data>
+  <data name="FlagSearch.Label16" xml:space="preserve">
+    <value>Nilai</value>
+  </data>
+  <data name="FlagSearch.Label17" xml:space="preserve">
+    <value>Sumber</value>
+  </data>
+  <data name="FlagSearch.Label18" xml:space="preserve">
+    <value>Tiada padanan. Cuba nama atau penapis nilai lain.</value>
+  </data>
+  <data name="FlagSearch.Label19" xml:space="preserve">
+    <value>0 keputusan</value>
+  </data>
+  <data name="FlagSearch.Label20" xml:space="preserve">
+    <value>Pengesahan pukal</value>
+  </data>
+  <data name="FlagSearch.Label21" xml:space="preserve">
+    <value>Pengesahan flag pukal</value>
+  </data>
+  <data name="FlagSearch.Label22" xml:space="preserve">
+    <value>Menyemak keahlian sumber dan jenis nilai. Padanan tidak menjamin Roblox membenarkan penggantian setempat.</value>
+  </data>
+  <data name="FlagSearch.Label23" xml:space="preserve">
+    <value>Muatkan fail</value>
+  </data>
+  <data name="FlagSearch.Label24" xml:space="preserve">
+    <value>Sahkan</value>
+  </data>
+  <data name="FlagSearch.Label25" xml:space="preserve">
+    <value>Kosongkan</value>
+  </data>
+  <data name="FlagSearch.Label26" xml:space="preserve">
+    <value>Tampal</value>
+  </data>
+  <data name="FlagSearch.Label28" xml:space="preserve">
+    <value>Pilih semua</value>
+  </data>
+  <data name="FlagSearch.Label30" xml:space="preserve">
+    <value>Kosongkan</value>
+  </data>
+  <data name="FlagSearch.Label31" xml:space="preserve">
+    <value>Keputusan pengesahan</value>
+  </data>
+  <data name="FlagSearch.Label32" xml:space="preserve">
+    <value>Nama flag</value>
+  </data>
+  <data name="FlagSearch.Label33" xml:space="preserve">
+    <value>Nilai input</value>
+  </data>
+  <data name="FlagSearch.Label35" xml:space="preserve">
+    <value>Nilai sumber</value>
+  </data>
+  <data name="FlagSearch.Label36" xml:space="preserve">
+    <value>Nota</value>
+  </data>
+  <data name="FlagSearch.Label37" xml:space="preserve">
+    <value>Eksport input yang disemak</value>
+  </data>
+  <data name="FlagSearch.Label38" xml:space="preserve">
+    <value>0 keputusan</value>
+  </data>
+  <data name="FlagSearch.Label39" xml:space="preserve">
+    <value>Sumber data</value>
+  </data>
+  <data name="FlagSearch.Label40" xml:space="preserve">
+    <value>Ketersediaan sumber langsung dan masa pengambilan. Keahlian sumber tidak bermakna Roblox menerima penggantian setempat. Sumber ini tidak memberikan tarikh perubahan terkini.</value>
+  </data>
+  <data name="FlagSearch.Label41" xml:space="preserve">
+    <value>Sumber</value>
+  </data>
+  <data name="FlagSearch.Label43" xml:space="preserve">
+    <value>Flag</value>
+  </data>
+  <data name="FlagSearch.Label44" xml:space="preserve">
+    <value>Diambil</value>
+  </data>
+  <data name="FlagSearch.Label45" xml:space="preserve">
+    <value>Tutup</value>
+  </data>
+  <data name="FlagSearch.Message1" xml:space="preserve">
+    <value>Sila masukkan flag untuk disahkan.</value>
+  </data>
+  <data name="FlagSearch.Message2" xml:space="preserve">
+    <value>Tiada input</value>
+  </data>
+  <data name="FlagSearch.Message3" xml:space="preserve">
+    <value>Input flag itu terlalu besar untuk disahkan.</value>
+  </data>
+  <data name="FlagSearch.Message4" xml:space="preserve">
+    <value>Input terlalu besar</value>
+  </data>
+  <data name="FlagSearch.Message5" xml:space="preserve">
+    <value>Flag pendua ditemui dalam input: </value>
+  </data>
+  <data name="FlagSearch.Message6" xml:space="preserve">
+    <value>Pendua dikesan</value>
+  </data>
+  <data name="FlagSearch.Message7" xml:space="preserve">
+    <value>Ralat semasa mengesahkan flag</value>
+  </data>
+  <data name="FlagSearch.Message8" xml:space="preserve">
+    <value>Ralat semasa mengesahkan flag: </value>
+  </data>
+  <data name="FlagSearch.Message9" xml:space="preserve">
+    <value>Ralat pengesahan</value>
+  </data>
+  <data name="FlagSearch.Message10" xml:space="preserve">
+    <value>Pilih fail flag untuk disahkan</value>
+  </data>
+  <data name="FlagSearch.Message11" xml:space="preserve">
+    <value>Ralat semasa memuatkan fail: </value>
+  </data>
+  <data name="FlagSearch.Message12" xml:space="preserve">
+    <value>Ralat fail</value>
+  </data>
+  <data name="FlagSearch.Message13" xml:space="preserve">
+    <value>Saiz fail flag tidak sah</value>
+  </data>
+  <data name="FlagSearch.Message14" xml:space="preserve">
+    <value>Fail flag berubah semasa dibaca</value>
+  </data>
+  <data name="FlagSearch.Message15" xml:space="preserve">
+    <value>Input flag terlalu besar</value>
+  </data>
+  <data name="FlagSearch.Message16" xml:space="preserve">
+    <value>{flags.Count} flag dieksport ke {dialog.FileName}</value>
+  </data>
+  <data name="FlagSearch.Message17" xml:space="preserve">
+    <value>Eksport selesai</value>
+  </data>
+  <data name="FlagSearch.Message18" xml:space="preserve">
+    <value>Ralat semasa mengeksport flag: </value>
+  </data>
+  <data name="FlagSearch.Message19" xml:space="preserve">
+    <value>Ralat eksport</value>
+  </data>
+  <data name="FlagSearch.Message20" xml:space="preserve">
+    <value>Ralat semasa menampal dari papan keratan: </value>
+  </data>
+  <data name="FlagSearch.Message21" xml:space="preserve">
+    <value>Ralat tampal</value>
+  </data>
+  <data name="FlagSearch.ExportSummary" xml:space="preserve">
+    <value>{0:N0} flag dieksport ke {1}</value>
+  </data>
+  <data name="FlagSearch.ValueNote" xml:space="preserve">
+    <value>Nilai input tidak sepadan dengan jenis nama flag. Flag boolean memerlukan true atau false, flag integer memerlukan nombor bulat 32 bit.</value>
+  </data>
+  <data name="Notifications.Title" xml:space="preserve">
+    <value>Pemberitahuan</value>
+  </data>
+  <data name="Notifications.Updates" xml:space="preserve">
+    <value>Kemas kini</value>
+  </data>
+  <data name="Notifications.Roblox" xml:space="preserve">
+    <value>Roblox dan mod</value>
+  </data>
+  <data name="Notifications.Recovery" xml:space="preserve">
+    <value>Pemulihan tetapan</value>
+  </data>
+  <data name="Notifications.Errors" xml:space="preserve">
+    <value>Ralat dan ranap</value>
+  </data>
+  <data name="Notifications.GameJoins" xml:space="preserve">
+    <value>Permainan disertai</value>
+  </data>
+  <data name="Notifications.App" xml:space="preserve">
+    <value>Pemberitahuan aplikasi</value>
+  </data>
+  <data name="Notifications.AppDescription" xml:space="preserve">
+    <value>Tunjukkan pemberitahuan aplikasi.</value>
+  </data>
+  <data name="Bootstrapper.Uninstall.NvidiaFailed" xml:space="preserve">
+    <value>Pembersihan NVIDIA gagal. Nyahpasang juga? Tetapan NVIDIA yang tinggal akan kekal dikenakan.
+
+{0}</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Latest" xml:space="preserve">
+    <value>Terkini</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Oldest" xml:space="preserve">
+    <value>Terlama</value>
+  </data>
+  <data name="ContextMenu.GameHistory.MostPlayed" xml:space="preserve">
+    <value>Lawatan terpanjang</value>
+  </data>
+  <data name="ContextMenu.GameHistory.NameAscending" xml:space="preserve">
+    <value>Nama, menaik</value>
+  </data>
+  <data name="ContextMenu.GameHistory.NameDescending" xml:space="preserve">
+    <value>Nama, menurun</value>
+  </data>
+  <data name="ContextMenu.GameHistory.AllServers" xml:space="preserve">
+    <value>Semua pelayan</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Public" xml:space="preserve">
+    <value>Awam</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Private" xml:space="preserve">
+    <value>Peribadi</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Reserved" xml:space="preserve">
+    <value>Dikhaskan</value>
+  </data>
+  <data name="ContextMenu.GameHistory.EndUnknown" xml:space="preserve">
+    <value>Tidak direkodkan</value>
+  </data>
+  <data name="ContextMenu.GameHistory.CopyLink" xml:space="preserve">
+    <value>Salin pautan</value>
+  </data>
+  <data name="ContextMenu.GameHistory.LoadFailed" xml:space="preserve">
+    <value>Tidak dapat memuatkan sejarah.</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Empty" xml:space="preserve">
+    <value>Tiada lawatan untuk ditunjukkan.</value>
+  </data>
+  <data name="ContextMenu.GameHistory.StatusUnknown" xml:space="preserve">
+    <value>Tidak diketahui</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Online" xml:space="preserve">
+    <value>Dalam talian</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Offline" xml:space="preserve">
+    <value>Luar talian</value>
+  </data>
+  <data name="ContextMenu.GameHistory.CheckedAt" xml:space="preserve">
+    <value>Disemak: {0}</value>
+  </data>
+  <data name="ContextMenu.GameHistory.LaunchFailed" xml:space="preserve">
+    <value>Tidak dapat melancarkan Roblox.</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.MaxOnly" xml:space="preserve">
+    <value>Maks {0}</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.Unknown" xml:space="preserve">
+    <value>Tidak diketahui</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.InGame" xml:space="preserve">
+    <value>{0:N0} dalam permainan</value>
+  </data>
+  <data name="ServerInfo.Hint.Updated" xml:space="preserve">
+    <value>Dikemas kini {0} yang lalu.</value>
+  </data>
+  <data name="ServerInfo.Hint.RateLimited" xml:space="preserve">
+    <value>Roblox mengehadkan carian pelayan, mencuba lagi dalam {0}.</value>
+  </data>
+  <data name="ServerInfo.Hint.RateLimitedStale" xml:space="preserve">
+    <value>Roblox mengehadkan carian pelayan. Menunjukkan bilangan dari {0} yang lalu, dikemas kini semula dalam {1}.</value>
+  </data>
+  <data name="ServerInfo.Hint.NotListed" xml:space="preserve">
+    <value>Pelayan ini tiada dalam bahagian senarai pelayan awam yang dikongsi Roblox, menyemak semula dalam {0}.</value>
+  </data>
+  <data name="ServerInfo.Hint.NotListedStale" xml:space="preserve">
+    <value>Kali terakhir dilihat {0} yang lalu. Pelayan ini tiada dalam bahagian senarai pelayan awam yang dikongsi Roblox sekarang.</value>
+  </data>
+  <data name="ServerInfo.Hint.PrivateNotListed" xml:space="preserve">
+    <value>Pelayan peribadi ini tiada dalam senarai pelayan yang boleh dilihat oleh akaun anda, jadi bilangan pemainnya tidak dapat dibaca.</value>
+  </data>
+  <data name="ServerInfo.Hint.PrivateSignedOut" xml:space="preserve">
+    <value>Roblox hanya berkongsi bilangan pemain pelayan peribadi dengan akaun yang telah log masuk. Log masuk ke Roblox dalam Voidstrap untuk melihatnya.</value>
+  </data>
+  <data name="ServerInfo.Hint.Reserved" xml:space="preserve">
+    <value>Roblox tidak menyenaraikan pelayan yang dikhaskan, yang digunakan untuk teleport dan parti, jadi bilangan pemainnya tidak dapat dibaca.</value>
+  </data>
+  <data name="ServerInfo.Hint.Unavailable" xml:space="preserve">
+    <value>Tidak dapat menghubungi Roblox, mencuba lagi dalam {0}.</value>
+  </data>
+  <data name="ServerInfo.Hint.UnavailableStale" xml:space="preserve">
+    <value>Tidak dapat menghubungi Roblox. Menunjukkan bilangan dari {0} yang lalu, mencuba lagi dalam {1}.</value>
+  </data>
+  <data name="ServerInfo.Hint.Full" xml:space="preserve">
+    <value>Pelayan ini penuh. Roblox tidak memasukkan pelayan penuh dalam senarai pelayan awam, jadi ia ditunjukkan penuh sehingga ada tempat kosong.</value>
+  </data>
+  <data name="Shortcuts.GameTab" xml:space="preserve">
+    <value>Permainan</value>
+  </data>
+  <data name="Shortcuts.SubplaceTab" xml:space="preserve">
+    <value>Subtempat</value>
+  </data>
+  <data name="Shortcuts.SubplaceDescription" xml:space="preserve">
+    <value>Cari tempat lain dalam pengalaman ini.</value>
+  </data>
+  <data name="Shortcuts.LoadSubplaces" xml:space="preserve">
+    <value>Muatkan subtempat</value>
+  </data>
+  <data name="Shortcuts.SubplaceAccess" xml:space="preserve">
+    <value>Pencipta mesti membenarkan penyertaan terus. Sesetengah subtempat memerlukan teleport dalam permainan.</value>
+  </data>
+  <data name="Shortcuts.SubplaceInitial" xml:space="preserve">
+    <value>Masukkan ID permainan untuk memuatkan subtempatnya secara automatik.</value>
+  </data>
+  <data name="Shortcuts.SubplaceRetry" xml:space="preserve">
+    <value>Buka semula tab ini untuk mencuba lagi.</value>
+  </data>
+  <data name="Shortcuts.SubplaceInvalidId" xml:space="preserve">
+    <value>Masukkan ID permainan berangka yang sah.</value>
+  </data>
+  <data name="Shortcuts.SubplaceLoading" xml:space="preserve">
+    <value>Memuatkan subtempat...</value>
+  </data>
+  <data name="Shortcuts.SubplaceEmpty" xml:space="preserve">
+    <value>Pengalaman ini tiada subtempat yang disenaraikan.</value>
+  </data>
+  <data name="Shortcuts.SubplaceChoose" xml:space="preserve">
+    <value>Pilih subtempat di bawah.</value>
+  </data>
+  <data name="Shortcuts.SubplaceTimeout" xml:space="preserve">
+    <value>Permintaan tamat masa. Buka semula tab ini untuk mencuba lagi.</value>
+  </data>
+  <data name="Shortcuts.SubplaceFailed" xml:space="preserve">
+    <value>Subtempat tidak dapat dimuatkan. Semak ID permainan dan sambungan, kemudian cuba lagi.</value>
+  </data>
+  <data name="Shortcuts.SubplaceReload" xml:space="preserve">
+    <value>Subtempat dimuatkan secara automatik apabila anda memasukkan ID permainan yang sah.</value>
+  </data>
+  <data name="Shortcuts.SubplaceRequired" xml:space="preserve">
+    <value>Tunggu subtempat dimuatkan, kemudian pilih satu sebelum meneruskan.</value>
+  </data>
+  <data name="Library.SubplacesTab" xml:space="preserve">
+    <value>Subtempat</value>
+  </data>
+  <data name="SettingsProfiles.Title" xml:space="preserve">
+    <value>Profil tetapan</value>
+  </data>
+  <data name="SettingsProfiles.Name" xml:space="preserve">
+    <value>Nama profil</value>
+  </data>
+  <data name="SettingsProfiles.NameHint" xml:space="preserve">
+    <value>Contoh: VoidstrapProfile</value>
+  </data>
+  <data name="SettingsProfiles.Save" xml:space="preserve">
+    <value>Simpan profil</value>
+  </data>
+  <data name="SettingsProfiles.Saved" xml:space="preserve">
+    <value>Profil tersimpan</value>
+  </data>
+  <data name="SettingsProfiles.Apply" xml:space="preserve">
+    <value>Guna profil</value>
+  </data>
+  <data name="SettingsProfiles.Folder" xml:space="preserve">
+    <value>Buka folder</value>
+  </data>
+  <data name="SettingsProfiles.Empty" xml:space="preserve">
+    <value>Belum ada profil. Masukkan nama dan pilih Simpan profil.</value>
+  </data>
+  <data name="SettingsProfiles.Location" xml:space="preserve">
+    <value>Disimpan dalam {0}</value>
+  </data>
+  <data name="SettingsProfiles.InvalidName" xml:space="preserve">
+    <value>Gunakan nama dengan 1 hingga 80 aksara, tanpa simbol nama fail atau nama peranti yang dikhaskan.</value>
+  </data>
+  <data name="SettingsProfiles.InvalidFile" xml:space="preserve">
+    <value>Profil ini tidak sah atau menggunakan format yang tidak disokong.</value>
+  </data>
+  <data name="SettingsProfiles.RestoreFailed" xml:space="preserve">
+    <value>Profil tidak dapat digunakan dan tetapan sebelumnya tidak dapat dipulihkan.</value>
+  </data>
+  <data name="SettingsProfiles.Overwrite" xml:space="preserve">
+    <value>Gantikan profil tersimpan "{0}" dengan tetapan semasa anda?</value>
+  </data>
+  <data name="SettingsProfiles.SavedStatus" xml:space="preserve">
+    <value>"{0}" disimpan</value>
+  </data>
+  <data name="SettingsProfiles.ApplyConfirm" xml:space="preserve">
+    <value>Guna "{0}"? Ini menggantikan tetapan Voidstrap dan FastFlags semasa anda, kemudian membuka semula tetapan Voidstrap.</value>
+  </data>
+  <data name="SettingsProfiles.RestartFailed" xml:space="preserve">
+    <value>Profil telah digunakan. Mulakan semula Voidstrap untuk memuat semula semua halaman tetapan.</value>
+  </data>
+  <data name="SettingsProfiles.Restart" xml:space="preserve">
+    <value>Mulakan semula sekarang</value>
+  </data>
+  <data name="SettingsProfiles.DeleteConfirm" xml:space="preserve">
+    <value>Padam profil tersimpan "{0}"? Tetapan semasa anda akan kekal seperti sedia ada.</value>
+  </data>
+  <data name="SettingsProfiles.Deleted" xml:space="preserve">
+    <value>"{0}" dipadam.</value>
+  </data>
+  <data name="SettingsProfiles.Error" xml:space="preserve">
+    <value>Tindakan profil tidak dapat diselesaikan: {0}</value>
+  </data>
+  <data name="GlobalProfiles.Title" xml:space="preserve">
+    <value>Profil tetapan global</value>
+  </data>
+  <data name="GlobalProfiles.ApplyConfirm" xml:space="preserve">
+    <value>Guna "{0}"? Ini menggantikan tetapan global Roblox semasa anda. Sertai semula Roblox untuk melihat semua perubahan.</value>
+  </data>
+  <data name="GlobalProfiles.Applied" xml:space="preserve">
+    <value>"{0}" digunakan</value>
+  </data>
+  <data name="GlobalProfiles.SaveFailed" xml:space="preserve">
+    <value>Fail tetapan Roblox tidak dapat ditulis. Tutup Roblox dan cuba lagi.</value>
+  </data>
+  <data name="AssetWarp.RemoveTexturesDescription" xml:space="preserve">
+    <value>Menyekat muat turun aset tekstur dan pek tekstur</value>
+  </data>
+  <data name="AssetWarp.RemoveDecalsDescription" xml:space="preserve">
+    <value>Menyekat muat turun aset decal</value>
+  </data>
+  <data name="AssetWarp.RemoveImagesDescription" xml:space="preserve">
+    <value>Menyekat muat turun aset imej. Roblox juga menggunakan imej untuk tekstur dan decal</value>
+  </data>
+  <data name="AssetWarp.RemoveAnimationsDescription" xml:space="preserve">
+    <value>Menyekat muat turun aset animasi. Permainan tanpa animasi sandaran mungkin berhenti berfungsi dengan betul</value>
+  </data>
+  <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
+    <value>Menyekat muat turun aset mesh dan MeshPart. Geometri mesh akan menjadi tidak kelihatan</value>
+  </data>
+  <data name="SwiftTunnel.Summary" xml:space="preserve">
+    <value>Halakan trafik Roblox melalui SwiftTunnel sementara aplikasi lain menggunakan sambungan biasa anda</value>
+  </data>
+  <data name="SwiftTunnel.Description" xml:space="preserve">
+    <value>SwiftTunnel ialah pengoptimum sambungan permainan Windows dengan split tunneling dan pemilihan geganti serantau</value>
+  </data>
+  <data name="SwiftTunnel.Setup" xml:space="preserve">
+    <value>Pasang memuat turun keluaran rasmi SwiftTunnel terkini dan membuka aplikasi desktop selepas persediaan. Log masuk di sana dan pilih sambungan anda. Pengoptimuman rangkaian mungkin memerlukan akses pentadbir</value>
+  </data>
+  <data name="SwiftTunnel.Network" xml:space="preserve">
+    <value>Rangkaian</value>
+  </data>
+  <data name="SwiftTunnel.Routing" xml:space="preserve">
+    <value>Penghalaan</value>
+  </data>
+  <data name="SwiftTunnel.Install" xml:space="preserve">
+    <value>Pasang</value>
+  </data>
+  <data name="SwiftTunnel.Uninstall" xml:space="preserve">
+    <value>Nyahpasang</value>
+  </data>
+  <data name="SwiftTunnel.Installed" xml:space="preserve">
+    <value>Dipasang</value>
+  </data>
+  <data name="SwiftTunnel.NotInstalled" xml:space="preserve">
+    <value>Tidak dipasang</value>
+  </data>
+  <data name="SwiftTunnel.Working" xml:space="preserve">
+    <value>Sedang berjalan</value>
+  </data>
+  <data name="SwiftTunnel.Downloading" xml:space="preserve">
+    <value>Memuat turun SwiftTunnel</value>
+  </data>
+  <data name="SwiftTunnel.InstallerFailed" xml:space="preserve">
+    <value>Tidak dapat membuka persediaan SwiftTunnel</value>
+  </data>
+  <data name="SwiftTunnel.InstallerExit" xml:space="preserve">
+    <value>Persediaan SwiftTunnel mengembalikan kod {0}</value>
+  </data>
+  <data name="SwiftTunnel.Error" xml:space="preserve">
+    <value>Tidak dapat menyelesaikan tindakan SwiftTunnel: {0}</value>
+  </data>
+  <data name="SwiftTunnel.UninstallUnavailable" xml:space="preserve">
+    <value>Entri nyahpasang SwiftTunnel tidak lengkap. Buang SwiftTunnel melalui Tetapan Windows, Aplikasi</value>
+  </data>
+  <data name="SwiftTunnel.CleanupFailed" xml:space="preserve">
+    <value>SwiftTunnel tidak dapat memulihkan tetapan rangkaiannya. Failnya disimpan supaya pembersihan boleh dicuba semula</value>
+  </data>
+  <data name="SwiftTunnel.ConfirmUninstall" xml:space="preserve">
+    <value>Buang SwiftTunnel sepenuhnya? Pemacu rangkaian dan tetapan sistemnya dipulihkan dahulu, kemudian SwiftTunnel dinyahpasang. Setelah dimulakan, ia tidak boleh dibatalkan.</value>
+  </data>
+  <data name="SwiftTunnel.UninstallIncomplete" xml:space="preserve">
+    <value>Pembuangan SwiftTunnel tidak dapat diselesaikan. Tutup SwiftTunnel dan cuba lagi dengan akses pentadbir</value>
+  </data>
+  <data name="SwiftTunnel.UnsafeDirectory" xml:space="preserve">
+    <value>SwiftTunnel dipasang dalam folder kongsi atau tidak dikenali. Alihkannya ke folder SwiftTunnel tersendiri sebelum menggunakan pembuangan penuh</value>
+  </data>
+  <data name="SwiftTunnel.NotInstalledError" xml:space="preserve">
+    <value>SwiftTunnel tidak dipasang. Pasangkannya dahulu daripada Sambungan</value>
+  </data>
+  <data name="SwiftTunnel.Missing" xml:space="preserve">
+    <value>SwiftTunnel berdaftar tetapi fail aplikasinya hilang. Nyahpasang dan pasangkannya semula untuk membaikinya</value>
+  </data>
+  <data name="SwiftTunnel.NoInstaller" xml:space="preserve">
+    <value>Keluaran SwiftTunnel terkini tiada pemasang Windows yang disahkan untuk komputer ini</value>
+  </data>
+  <data name="Installer.MacOS.DataLocation.Title" xml:space="preserve">
+    <value>Pilih tempat untuk menyimpan data Voidstrap</value>
+  </data>
+  <data name="Installer.MacOS.DataLocation.Text" xml:space="preserve">
+    <value>Voidstrap menyimpan tetapan dan modnya di sini. Aplikasi kekal di lokasi semasanya. Roblox dipasang secara berasingan dalam Aplikasi.</value>
+  </data>
+  <data name="Installer.MacOS.Completion.Text" xml:space="preserve">
+    <value>Voidstrap sudah sedia.
+
+Roblox akan dimuat turun apabila anda melancarkannya buat kali pertama melalui Voidstrap. Anda boleh melaraskan tetapan sebelum melancarkan.
+
+Apakah yang anda mahu lakukan?</value>
+  </data>
+  <data name="Installer.MacOS.Roblox.Title" xml:space="preserve">
+    <value>Roblox untuk macOS</value>
+  </data>
+  <data name="Installer.MacOS.Roblox.Text" xml:space="preserve">
+    <value>Voidstrap memuat turun aplikasi Roblox rasmi ke Aplikasi kali pertama anda mengklik Lancar, dan sentiasa mengemas kininya selepas itu. Pemasangan berasingan tidak diperlukan.</value>
+  </data>
+  <data name="HomepageMedia.Preview.FileMissing" xml:space="preserve">
+    <value>Fail media yang dipilih tidak dapat ditemui.</value>
+  </data>
+  <data name="HomepageMedia.Preview.DecodeError" xml:space="preserve">
+    <value>Media ini tidak dapat dinyahkod. Pilih imej atau video lain.</value>
+  </data>
+  <data name="HomepageMedia.Preview.RenderError" xml:space="preserve">
+    <value>Pratonton media tidak dapat dipaparkan.</value>
+  </data>
+  <data name="HomepageMedia.Picker.ImagesAndVideos" xml:space="preserve">
+    <value>Imej dan video</value>
+  </data>
+  <data name="HomepageMedia.Picker.Images" xml:space="preserve">
+    <value>Imej</value>
+  </data>
+  <data name="HomepageMedia.Picker.Videos" xml:space="preserve">
+    <value>Video</value>
+  </data>
+  <data name="Appearance.Backdrop.Sidebar" xml:space="preserve">
+    <value>Bar sisi</value>
+  </data>
+  <data name="Appearance.Backdrop.Hud" xml:space="preserve">
+    <value>Paparan pandu depan</value>
+  </data>
+  <data name="Appearance.Backdrop.UnderWindow" xml:space="preserve">
+    <value>Di bawah tetingkap</value>
+  </data>
+  <data name="Appearance.Backdrop.UnderPage" xml:space="preserve">
+    <value>Di bawah halaman</value>
+  </data>
+  <data name="Menu.MacVirtualDisplay.Title" xml:space="preserve">
+    <value>Paparan maya 240 Hz</value>
+  </data>
+  <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Mencerminkan skrin utama semasa Roblox berjalan dan memulihkannya apabila Roblox ditutup. Skrin fizikal mengekalkan had segar semulanya sendiri.</value>
+  </data>
 </root>

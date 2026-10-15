@@ -1643,4 +1643,1385 @@ Voidstrap จะติดตั้งไว้ที่ "{1}"</value>
   <data name="Menu.News.DialogTitle" xml:space="preserve">
     <value>รายละเอียดข่าว</value>
   </data>
+  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
+    <value>Voidstrap ไม่สามารถลบเส้นทาง AssetWarp ที่ค้างอยู่ออกจากไฟล์ hosts ของ Windows ได้ Roblox จะโหลดเท็กซ์เจอร์หรือแอสเซ็ตอื่นไม่ได้จนกว่าจะลบออก เรียกใช้ Voidstrap ในฐานะผู้ดูแลระบบเพื่อล้างข้อมูลนี้</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
+    <value>ทั้งสองอย่าง</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
+    <value>ผู้เล่น</value>
+  </data>
+  <data name="ContextMenu.ServerInformation.InstanceId" xml:space="preserve">
+    <value>ID อินสแตนซ์</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
+    <value>เบราว์เซอร์เซิร์ฟเวอร์</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
+    <value>เพลส {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
+    <value>{0}  •  เพลส {1}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
+    <value>สแกนแล้ว {0} เซิร์ฟเวอร์</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
+    <value>รีเฟรช</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
+    <value>โหลดเซิร์ฟเวอร์เพิ่ม</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
+    <value>ซ่อนเซิร์ฟเวอร์ที่เต็ม</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
+    <value>ค้นหาเมือง ประเทศ หรือ ID เซิร์ฟเวอร์</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
+    <value>ผู้เล่นมากที่สุด</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
+    <value>ผู้เล่นน้อยที่สุด</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
+    <value>ปิงต่ำที่สุด</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
+    <value>เข้าร่วม</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
+    <value>ปัจจุบัน</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
+    <value>กำลังโหลดเซิร์ฟเวอร์สาธารณะ</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
+    <value>ไม่พบเซิร์ฟเวอร์สาธารณะ</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
+    <value>เข้าเกมก่อนเปิดเบราว์เซอร์เซิร์ฟเวอร์</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
+    <value>รายการเซิร์ฟเวอร์หยุดชั่วคราวเพราะ Roblox จำกัดจำนวนคำขอ</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
+    <value>ไม่สามารถโหลดเซิร์ฟเวอร์สาธารณะได้</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
+    <value>โหลดแล้ว {0} เซิร์ฟเวอร์</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
+    <value>{0} จาก {1} ผู้เล่น</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
+    <value>{0} ผู้เล่น</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Metrics" xml:space="preserve">
+    <value>ปิง {0} ms, FPS {1}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
+    <value>ไม่ทราบ</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
+    <value>ตรงที่สุด</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
+    <value>ตรงที่สุด</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
+    <value>ถูกบล็อก</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
+    <value>ห่างจากคุณประมาณ {0} ms</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
+    <value>ระบุตำแหน่งแล้ว {0} เซิร์ฟเวอร์</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
+    <value>ระบุตำแหน่งแล้ว {0} จาก {1} เซิร์ฟเวอร์</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
+    <value>กำลังย้ายคุณไปที่ {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
+    <value>ไม่สามารถเข้าร่วมเซิร์ฟเวอร์นั้นได้</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
+    <value>ลงชื่อเข้าใช้ที่ การตั้งค่า &gt; Server Matchmaker เพื่อให้ Voidstrap หาตำแหน่งของแต่ละเซิร์ฟเวอร์ได้</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
+    <value>ไม่พบตำแหน่งของคุณ จึงเรียงเซิร์ฟเวอร์ตามปิงไม่ได้</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
+    <value>Roblox ไม่ได้เปิดเผยตำแหน่งของเซิร์ฟเวอร์เหล่านี้ ลองอีกครั้งในอีกสักครู่</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
+    <value>เซิร์ฟเวอร์ที่พบทั้งหมดอยู่ในดาต้าเซ็นเตอร์ที่คุณบล็อกไว้</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
+    <value>เซิร์ฟเวอร์ที่พบทั้งหมดอยู่ไกลจากคุณ matchmaker จึงให้ Roblox เลือกเอง</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
+    <value>เบราว์เซอร์เกม</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
+    <value>เล่นต่อ</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
+    <value>รายการโปรด</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
+    <value>ค้นหา</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
+    <value>ค้นหาเกม Roblox</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
+    <value>กำลังโหลดเกม</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
+    <value>ไม่มีเกมล่าสุดในเซสชันนี้</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
+    <value>ยังไม่มีเกมโปรดที่บันทึกไว้</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
+    <value>ค้นหาเกม Roblox ตามชื่อ</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
+    <value>ไม่พบเกมสำหรับ {0}</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
+    <value>ไม่สามารถโหลดเกมได้</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
+    <value>{0} กำลังเล่น</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
+    <value>เข้าร่วม</value>
+  </data>
+  <data name="Enums.BootstrapperStyle.FluentAeroDialog" xml:space="preserve">
+    <value>Voidstrap (กระจก)</value>
+  </data>
+  <data name="Enums.BootstrapperStyle.LegacyDialog2008" xml:space="preserve">
+    <value>รุ่นเก่า (2008 - 2011)</value>
+  </data>
+  <data name="Enums.BootstrapperStyle.LegacyDialog2011" xml:space="preserve">
+    <value>รุ่นเก่า (2011 - 2014)</value>
+  </data>
+  <data name="Enums.CursorType.From2006" xml:space="preserve">
+    <value>2006 (การ์ตูน)</value>
+  </data>
+  <data name="Enums.CursorType.From2013" xml:space="preserve">
+    <value>2013 (เหลี่ยม)</value>
+  </data>
+  <data name="Enums.FlagPresets.LightingMode.Future" xml:space="preserve">
+    <value>Future (ระยะที่ 3)</value>
+  </data>
+  <data name="Enums.FlagPresets.LightingMode.ShadowMap" xml:space="preserve">
+    <value>Shadow Map (ระยะที่ 2)</value>
+  </data>
+  <data name="Enums.FlagPresets.LightingMode.Voxel" xml:space="preserve">
+    <value>Voxel (ระยะที่ 1)</value>
+  </data>
+  <data name="Enums.Theme.Berry" xml:space="preserve">
+    <value>เบอร์รี่</value>
+  </data>
+  <data name="Menu.About.Contributors.Code" xml:space="preserve">
+    <value>โค้ด</value>
+  </data>
+  <data name="Menu.FontFiles" xml:space="preserve">
+    <value>ไฟล์ฟอนต์</value>
+  </data>
+  <data name="Menu.IconFiles" xml:space="preserve">
+    <value>ไฟล์ไอคอน</value>
+  </data>
+  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
+    <value>แปลอัตโนมัติ</value>
+  </data>
+  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
+    <value>แปลเป็น</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
+    <value>ภาษาแปลอัตโนมัติ</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
+    <value>แปลอินเทอร์เฟซทั้งหมดของ Voidstrap เป็นภาษาใดก็ได้ ใช้คำแปลในตัวก่อน แล้วแปลข้อความที่เหลือแบบสด</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
+    <value>แปล Discord RPC อัตโนมัติ</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
+    <value>แปลข้อความ Discord Rich Presence เป็นภาษาที่เลือกโดยอัตโนมัติ</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.MSAA.Title" xml:space="preserve">
+    <value>คุณภาพการลดรอยหยัก (MSAA)</value>
+  </data>
+  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
+    <value>ฟีเจอร์นี้ใช้ได้บน Windows เท่านั้น</value>
+  </data>
+  <data name="About.Translators.Description" xml:space="preserve">
+    <value>ทุกคนในรายชื่อนี้สละเวลาและแรงกายช่วยแปล Voidstrap ขอขอบคุณทุกคนเป็นอย่างยิ่ง!</value>
+  </data>
+  <data name="Menu.Channel.Description" xml:space="preserve">
+    <value>เปลี่ยนการตั้งค่าการปรับใช้และการติดตั้งของ Roblox และ Voidstrap</value>
+  </data>
+  <data name="Common.Channel" xml:space="preserve">
+    <value>ช่องทาง</value>
+  </data>
+  <data name="Menu.ChannelChanger.Description" xml:space="preserve">
+    <value>เลือกช่องทางการปรับใช้ อย่าเปลี่ยนหากไม่แน่ใจว่ากำลังทำอะไร</value>
+  </data>
+  <data name="Common.Version" xml:space="preserve">
+    <value>เวอร์ชัน</value>
+  </data>
+  <data name="Menu.Channel.RobloxUpgrades" xml:space="preserve">
+    <value>อัปเดต Roblox</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
+    <value>โหมดมืด</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
+    <value>การส่งข้อมูลระยะไกล</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
+    <value>โหมดมืด</value>
+  </data>
+  <data name="Menu.Sober.Description" xml:space="preserve">
+    <value>กำหนดค่ารันไทม์ Linux ที่ Voidstrap ใช้เปิด Roblox โดย Sober ใช้เล่นเกม Vinegar ใช้เปิด Studio Voidstrap จะเปลี่ยนเฉพาะตัวเลือกที่คุณแทนที่อย่างชัดเจนเท่านั้น</value>
+  </data>
+  <data name="Menu.Sober.Default" xml:space="preserve">
+    <value>ใช้ค่าเริ่มต้นของ Sober</value>
+  </data>
+  <data name="Menu.Sober.Enabled" xml:space="preserve">
+    <value>เปิดใช้งาน</value>
+  </data>
+  <data name="Menu.Sober.Disabled" xml:space="preserve">
+    <value>ปิดใช้งาน</value>
+  </data>
+  <data name="Menu.Sober.DefaultNotice" xml:space="preserve">
+    <value>ใช้ค่าเริ่มต้นของ Sober จะให้ Sober ควบคุมการตั้งค่า การลบค่าแทนที่จะคืนค่าที่ Voidstrap สำรองไว้</value>
+  </data>
+  <data name="Menu.Sober.RuntimeNotice" xml:space="preserve">
+    <value>ทำการเปิด Sober ครั้งแรกให้เสร็จก่อนตั้งค่าแทนที่ แล้วปิด Sober ก่อนเปลี่ยนค่า การเปลี่ยนแปลงที่บันทึกจะมีผลเมื่อเปิด Sober ครั้งถัดไป</value>
+  </data>
+  <data name="Menu.Sober.Group.Session" xml:space="preserve">
+    <value>เซสชันและกิจกรรม</value>
+  </data>
+  <data name="Menu.Sober.Group.Input" xml:space="preserve">
+    <value>อินพุตและประสบการณ์</value>
+  </data>
+  <data name="Menu.Sober.Group.Graphics" xml:space="preserve">
+    <value>กราฟิกและเดสก์ท็อป</value>
+  </data>
+  <data name="Menu.Sober.AllowGamepad.Title" xml:space="preserve">
+    <value>อนุญาตให้เข้าถึงจอยเกม</value>
+  </data>
+  <data name="Menu.Sober.AllowGamepad.Description" xml:space="preserve">
+    <value>อนุญาตให้ Sober ขอเข้าถึงจอยเกมที่เชื่อมต่ออยู่ การเปลี่ยนสิทธิ์อาจต้องเปิด Sober ใหม่</value>
+  </data>
+  <data name="Menu.Sober.CloseOnLeave.Title" xml:space="preserve">
+    <value>ปิดเมื่อออก</value>
+  </data>
+  <data name="Menu.Sober.CloseOnLeave.Description" xml:space="preserve">
+    <value>ปิด Sober หลังออกจากประสบการณ์</value>
+  </data>
+  <data name="Menu.Sober.DiscordRpc.Description" xml:space="preserve">
+    <value>อนุญาตให้ Sober แสดงกิจกรรมในเกมผ่าน Discord Rich Presence</value>
+  </data>
+  <data name="Menu.Sober.DiscordJoin.Title" xml:space="preserve">
+    <value>ปุ่มเข้าร่วมใน Discord</value>
+  </data>
+  <data name="Menu.Sober.DiscordJoin.Description" xml:space="preserve">
+    <value>อนุญาตให้ Sober เพิ่มปุ่มเข้าร่วมใน Discord Rich Presence</value>
+  </data>
+  <data name="Menu.Sober.GameMode.Title" xml:space="preserve">
+    <value>การผสานรวม GameMode</value>
+  </data>
+  <data name="Menu.Sober.GameMode.Description" xml:space="preserve">
+    <value>อนุญาตให้ Sober ขอปรับแต่งประสิทธิภาพจาก GameMode เมื่อมี GameMode</value>
+  </data>
+  <data name="Menu.Sober.HiDpi.Title" xml:space="preserve">
+    <value>การปรับขนาด DPI สูง</value>
+  </data>
+  <data name="Menu.Sober.HiDpi.Description" xml:space="preserve">
+    <value>ใช้การปรับขนาดแบบเนทีฟสำหรับจอความละเอียดสูง</value>
+  </data>
+  <data name="Menu.Sober.MobileHome.Title" xml:space="preserve">
+    <value>หน้าแรกแบบมือถือ</value>
+  </data>
+  <data name="Menu.Sober.MobileHome.Description" xml:space="preserve">
+    <value>ใช้หน้าแรก Roblox แบบมือถือ</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Title" xml:space="preserve">
+    <value>โหมดปรับแต่งกราฟิก</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Description" xml:space="preserve">
+    <value>เลือกลำดับความสำคัญในการปรับแต่งกราฟิกของ Sober</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Quality" xml:space="preserve">
+    <value>คุณภาพ</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Balanced" xml:space="preserve">
+    <value>สมดุล</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Performance" xml:space="preserve">
+    <value>ประสิทธิภาพ</value>
+  </data>
+  <data name="Menu.Sober.ServerLocation.Title" xml:space="preserve">
+    <value>ตัวบอกตำแหน่งเซิร์ฟเวอร์</value>
+  </data>
+  <data name="Menu.Sober.ServerLocation.Description" xml:space="preserve">
+    <value>แสดงตัวบอกตำแหน่งเซิร์ฟเวอร์ของ Sober ระหว่างเล่น</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Title" xml:space="preserve">
+    <value>โหมดสัมผัส</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Description" xml:space="preserve">
+    <value>เลือกวิธีที่ Sober รายงานการรองรับการสัมผัส</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Off" xml:space="preserve">
+    <value>ปิด</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.On" xml:space="preserve">
+    <value>เปิด</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.FakeOff" xml:space="preserve">
+    <value>ปิดแบบหลอก</value>
+  </data>
+  <data name="Menu.Sober.ConsoleExperience.Title" xml:space="preserve">
+    <value>ประสบการณ์แบบคอนโซล</value>
+  </data>
+  <data name="Menu.Sober.ConsoleExperience.Description" xml:space="preserve">
+    <value>ใช้ประสบการณ์ Roblox แบบคอนโซล</value>
+  </data>
+  <data name="Menu.Sober.Libsecret.Title" xml:space="preserve">
+    <value>พื้นที่เก็บ Secret Service</value>
+  </data>
+  <data name="Menu.Sober.Libsecret.Description" xml:space="preserve">
+    <value>เก็บข้อมูลรับรองที่รองรับผ่าน Secret Service ของเดสก์ท็อป</value>
+  </data>
+  <data name="Menu.Sober.OpenGl.Title" xml:space="preserve">
+    <value>ตัวเรนเดอร์ OpenGL</value>
+  </data>
+  <data name="Menu.Sober.OpenGl.Description" xml:space="preserve">
+    <value>ใช้ OpenGL แทนแบ็กเอนด์กราฟิกเริ่มต้นของ Sober</value>
+  </data>
+  <data name="Installer.Appearance.BackgroundUI.Title" xml:space="preserve">
+    <value>พื้นหลังและ UI</value>
+  </data>
+  <data name="Installer.Appearance.BackgroundUI.Description" xml:space="preserve">
+    <value>ปรับแต่งตัวติดตั้งและแอปหลักตามสไตล์คุณ</value>
+  </data>
+  <data name="Installer.Appearance.Snow.Title" xml:space="preserve">
+    <value>หิมะบนพื้นหลัง</value>
+  </data>
+  <data name="Installer.Appearance.Snow.Description" xml:space="preserve">
+    <value>เพิ่มเอฟเฟกต์หิมะบางๆ บนพื้นหลัง</value>
+  </data>
+  <data name="Installer.Appearance.GradientMovement.Title" xml:space="preserve">
+    <value>การเคลื่อนไหวของเกรเดียนต์</value>
+  </data>
+  <data name="Installer.Appearance.GradientMovement.Description" xml:space="preserve">
+    <value>ให้เกรเดียนต์พื้นหลังเคลื่อนตามเคอร์เซอร์</value>
+  </data>
+  <data name="Installer.Appearance.SmoothScrolling.Title" xml:space="preserve">
+    <value>เลื่อนอย่างลื่นไหล</value>
+  </data>
+  <data name="Installer.Appearance.SmoothScrolling.Description" xml:space="preserve">
+    <value>ทำให้การเลื่อนมีแอนิเมชันทั่วทั้งอินเทอร์เฟซ</value>
+  </data>
+  <data name="Installer.Appearance.ClearFont.Title" xml:space="preserve">
+    <value>ฟอนต์คมชัด</value>
+  </data>
+  <data name="Installer.Appearance.ClearFont.Description" xml:space="preserve">
+    <value>ใช้การเรนเดอร์ข้อความที่คมชัดขึ้นหลังรีสตาร์ท Voidstrap</value>
+  </data>
+  <data name="Installer.Appearance.Background.Title" xml:space="preserve">
+    <value>พื้นหลังกำหนดเอง</value>
+  </data>
+  <data name="Installer.Appearance.Background.Description" xml:space="preserve">
+    <value>ใช้รูปภาพ GIF หรือวิดีโอ และปรับการแสดงผล</value>
+  </data>
+  <data name="Installer.Appearance.GradientOpacity" xml:space="preserve">
+    <value>ความทึบของเกรเดียนต์</value>
+  </data>
+  <data name="Installer.Appearance.DarkOverlay" xml:space="preserve">
+    <value>เลเยอร์ทับสีเข้ม</value>
+  </data>
+  <data name="Installer.Appearance.DisplayEverywhere" xml:space="preserve">
+    <value>แสดงทุกที่</value>
+  </data>
+  <data name="Installer.Appearance.RemoveBackground" xml:space="preserve">
+    <value>ลบพื้นหลัง</value>
+  </data>
+  <data name="Installer.Appearance.Theme.Description" xml:space="preserve">
+    <value>เลือกธีมที่ใช้กับทุกหน้าต่างของ Voidstrap</value>
+  </data>
+  <data name="Installer.Appearance.Theme.Customize" xml:space="preserve">
+    <value>ปรับแต่ง</value>
+  </data>
+  <data name="Installer.Appearance.Backdrop.Title" xml:space="preserve">
+    <value>ฉากหลังหน้าต่าง</value>
+  </data>
+  <data name="Installer.Appearance.Backdrop.Description" xml:space="preserve">
+    <value>เลือกวัสดุที่แสดงด้านหลังหน้าต่าง Voidstrap</value>
+  </data>
+  <data name="Installer.Appearance.PageZoom.Title" xml:space="preserve">
+    <value>ซูมหน้า</value>
+  </data>
+  <data name="Installer.Appearance.PageZoom.Description" xml:space="preserve">
+    <value>ปรับขนาดหน้าการตั้งค่า</value>
+  </data>
+  <data name="Vng.WarningTitle" xml:space="preserve">
+    <value>Roblox VNG: ข้อจำกัดบัญชีถาวร</value>
+  </data>
+  <data name="Vng.Warning" xml:space="preserve">
+    <value>หยุดก่อน: อ่านก่อนดำเนินการต่อ
+
+การเข้าสู่ระบบ Roblox VNG ครั้งแรกจะย้ายบัญชีของคุณไปยัง VNG Roblox ระบุว่าคุณจะใช้บัญชีนั้นในแอป Roblox ทั่วโลกไม่ได้อีกต่อไป
+
+ให้ถือว่าการย้ายบัญชีนี้เป็นการถาวร Voidstrap ไม่สามารถย้อนกลับได้ การถอนการติดตั้ง VNG หรือปิดตัวเลือกนี้จะไม่คืนสิทธิ์เข้าถึงบัญชีทั่วโลก ข้อจำกัดด้านบัญชีและภูมิภาคของ VNG จะมีผล
+
+การดาวน์โหลดไฟล์อย่างเดียวไม่ได้ย้ายบัญชีของคุณ การเข้าสู่ระบบหรือเปิดเกมด้วยบัญชีที่มีอยู่อาจทำให้บัญชีนั้นถูกย้าย
+
+ดำเนินการต่อเฉพาะเมื่อคุณยอมรับการเสียสิทธิ์เข้าถึงแอปทั่วโลกของทุกบัญชีที่ใช้กับ VNG ปุ่มใช่จะเปิดหลังผ่านไปสิบวินาที</value>
+  </data>
+  <data name="Vng.Confirmation" xml:space="preserve">
+    <value>คุณแน่ใจหรือไม่</value>
+  </data>
+  <data name="Vng.Agreement" xml:space="preserve">
+    <value>คำเตือนสุดท้าย: การเข้าสู่ระบบ Roblox VNG อาจย้ายบัญชีของคุณอย่างถาวรและทำให้เข้าถึงแอป Roblox ทั่วโลกไม่ได้ Voidstrap ไม่สามารถย้อนกลับได้
+
+พิมพ์วลีด้านล่างให้ตรงทุกตัวอักษรเพื่อยอมรับข้อจำกัดนี้และดำเนินการต่อ</value>
+  </data>
+  <data name="Vng.Countdown" xml:space="preserve">
+    <value>{0} ({1} วินาที)</value>
+  </data>
+  <data name="Vng.Description" xml:space="preserve">
+    <value>ไคลเอนต์ผู้เล่นสำหรับเวียดนาม การเข้าสู่ระบบจะย้ายบัญชีของคุณและทำให้เข้าถึงแอปทั่วโลกไม่ได้</value>
+  </data>
+  <data name="Vng.UseForLaunches" xml:space="preserve">
+    <value>ใช้ VNG เมื่อเปิดเกม</value>
+  </data>
+  <data name="Vng.UninstallWarning" xml:space="preserve">
+    <value>การลบ VNG ไม่ได้ย้อนการย้ายบัญชีและไม่คืนสิทธิ์เข้าถึงแอปทั่วโลก</value>
+  </data>
+  <data name="Mtu.Description" xml:space="preserve">
+    <value>จำกัดขนาดแพ็กเก็ตสำหรับทุกแอป รวมถึง Roblox ต้องใช้สิทธิ์ผู้ดูแลระบบและยังคงอยู่หลังรีสตาร์ท อาจไม่ช่วยให้ปิงดีขึ้น</value>
+  </data>
+  <data name="Mtu.Adapter" xml:space="preserve">
+    <value>เลือกอะแดปเตอร์เครือข่ายและเวอร์ชัน IP</value>
+  </data>
+  <data name="Mtu.CustomValue" xml:space="preserve">
+    <value>MTU กำหนดเอง (ไบต์)</value>
+  </data>
+  <data name="Mtu.Current" xml:space="preserve">
+    <value>ปัจจุบัน: {0} ไบต์ ขั้นต่ำ: {1} ไบต์</value>
+  </data>
+  <data name="Mtu.NoAdapters" xml:space="preserve">
+    <value>ไม่พบอะแดปเตอร์เครือข่ายที่รองรับ รีเฟรชเพื่อลองอีกครั้ง</value>
+  </data>
+  <data name="Mtu.Invalid" xml:space="preserve">
+    <value>ป้อนจำนวนเต็มตั้งแต่ {0} ถึง {1} Windows จะตรวจสอบขนาดแพ็กเก็ตที่อะแดปเตอร์รองรับด้วย</value>
+  </data>
+  <data name="Mtu.Apply" xml:space="preserve">
+    <value>ใช้</value>
+  </data>
+  <data name="Mtu.Restore" xml:space="preserve">
+    <value>คืนค่า</value>
+  </data>
+  <data name="Mtu.Refresh" xml:space="preserve">
+    <value>รีเฟรช</value>
+  </data>
+  <data name="Mtu.Loading" xml:space="preserve">
+    <value>กำลังอ่านอะแดปเตอร์เครือข่ายของ Windows...</value>
+  </data>
+  <data name="Mtu.Applying" xml:space="preserve">
+    <value>กำลังรอการอนุมัติจากผู้ดูแลระบบและใช้ MTU...</value>
+  </data>
+  <data name="Mtu.AdapterUnavailable" xml:space="preserve">
+    <value>อะแดปเตอร์ที่เลือกไม่พร้อมใช้งาน รีเฟรชแล้วเลือกอะแดปเตอร์</value>
+  </data>
+  <data name="Mtu.Rejected" xml:space="preserve">
+    <value>Windows ใช้ MTU ไม่ได้ รหัส {0} อะแดปเตอร์ของคุณอาจไม่รองรับค่านี้</value>
+  </data>
+  <data name="Mtu.Applied" xml:space="preserve">
+    <value>ตั้งค่าและยืนยัน MTU เป็น {0} ไบต์แล้ว มีผลกับทุกแอปบนอะแดปเตอร์ที่เลือก</value>
+  </data>
+  <data name="Mtu.Restored" xml:space="preserve">
+    <value>คืนค่าและยืนยัน MTU เดิม {0} ไบต์แล้ว</value>
+  </data>
+  <data name="Mtu.VerificationFailed" xml:space="preserve">
+    <value>Windows ไม่ได้รายงาน MTU ที่ร้องขอ รีเฟรชเพื่อตรวจสอบค่าปัจจุบัน</value>
+  </data>
+  <data name="Mtu.Cancelled" xml:space="preserve">
+    <value>ยกเลิกคำขอสิทธิ์ผู้ดูแลระบบแล้ว MTU ไม่ถูกเปลี่ยน</value>
+  </data>
+  <data name="Mtu.Error" xml:space="preserve">
+    <value>การดำเนินการ MTU ล้มเหลว รีเฟรชเพื่อตรวจสอบค่าปัจจุบัน</value>
+  </data>
+  <data name="Menu_FastFlagEditor_Rename" xml:space="preserve">
+    <value>เปลี่ยนชื่อ</value>
+  </data>
+  <data name="Menu_FastFlagEditor_EditValue" xml:space="preserve">
+    <value>แก้ไขค่า</value>
+  </data>
+  <data name="Menu_FastFlagEditor_CopySelected" xml:space="preserve">
+    <value>คัดลอกรายการที่เลือกเป็น JSON</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Title" xml:space="preserve">
+    <value>สีเน้น</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Description" xml:space="preserve">
+    <value>เลือกสีสำหรับตัวควบคุมของแอปและโทนสีพื้นหลัง</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Choose" xml:space="preserve">
+    <value>เลือกสี</value>
+  </data>
+  <data name="Menu.Appearance.Accent.System" xml:space="preserve">
+    <value>ใช้สีของระบบ</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Picker" xml:space="preserve">
+    <value>เลือกสีเน้น</value>
+  </data>
+  <data name="Menu.Shortcuts.Customize" xml:space="preserve">
+    <value>ชื่อและไอคอน</value>
+  </data>
+  <data name="Menu.Shortcuts.InvalidName" xml:space="preserve">
+    <value>ใช้ชื่อทางลัดที่ถูกต้อง ไม่มีเครื่องหมายทับหรือชื่อไฟล์ที่สงวนไว้</value>
+  </data>
+  <data name="Menu.Shortcuts.NameExists" xml:space="preserve">
+    <value>มีทางลัดชื่อนี้อยู่แล้ว เลือกชื่ออื่น</value>
+  </data>
+  <data name="Menu.Shortcuts.ChooseIcon" xml:space="preserve">
+    <value>เลือกไอคอนทางลัด</value>
+  </data>
+  <data name="Menu.Shortcuts.IconFilter" xml:space="preserve">
+    <value>ไฟล์ไอคอนและรูปภาพ|*.ico;*.png;*.jpg;*.jpeg;*.bmp;*.webp</value>
+  </data>
+  <data name="Menu.Shortcuts.InvalidIcon" xml:space="preserve">
+    <value>เลือกไอคอนหรือรูปภาพที่ถูกต้องซึ่งเล็กกว่า 8 MB</value>
+  </data>
+  <data name="Menu.LaunchDropdownOnRight" xml:space="preserve">
+    <value>วางตัวเลือกเวอร์ชันไว้ทางขวา</value>
+  </data>
+  <data name="OverlayDiagnostics.Bounds" xml:space="preserve">
+    <value>ขนาดและตำแหน่งบนหน้าจอ</value>
+  </data>
+  <data name="OverlayDiagnostics.CollectionError" xml:space="preserve">
+    <value>ไม่สามารถเก็บตัวอย่างปัจจุบันได้: {0}</value>
+  </data>
+  <data name="OverlayDiagnostics.CompositeCrosshair" xml:space="preserve">
+    <value>เป้าเล็งแบบคอมโพสิตทำงานอยู่</value>
+  </data>
+  <data name="OverlayDiagnostics.Compositor" xml:space="preserve">
+    <value>เริ่มคอมโพสิตแล้ว</value>
+  </data>
+  <data name="OverlayDiagnostics.Configuration" xml:space="preserve">
+    <value>ฟีเจอร์ที่กำหนดค่าไว้ สวิตช์เหล่านี้ไม่ได้พิสูจน์ว่ามีการเรนเดอร์</value>
+  </data>
+  <data name="OverlayDiagnostics.Crosshair" xml:space="preserve">
+    <value>เป้าเล็ง</value>
+  </data>
+  <data name="OverlayDiagnostics.Disabled" xml:space="preserve">
+    <value>ฟีเจอร์โอเวอร์เลย์ที่ตรวจสอบทั้งหมดถูกปิดในการตั้งค่า</value>
+  </data>
+  <data name="OverlayDiagnostics.DispatcherRequired" xml:space="preserve">
+    <value>การวินิจฉัยโอเวอร์เลย์ต้องทำงานบน dispatcher ของหน้าต่าง</value>
+  </data>
+  <data name="OverlayDiagnostics.FakeBorderless" xml:space="preserve">
+    <value>เต็มหน้าจอแบบไร้ขอบหลอก</value>
+  </data>
+  <data name="OverlayDiagnostics.FakeExclusive" xml:space="preserve">
+    <value>เต็มหน้าจอแบบเอกสิทธิ์หลอก</value>
+  </data>
+  <data name="OverlayDiagnostics.Findings" xml:space="preserve">
+    <value>การตรวจสอบและข้อจำกัด</value>
+  </data>
+  <data name="OverlayDiagnostics.Foreground" xml:space="preserve">
+    <value>Roblox หรือโอเวอร์เลย์ของ Roblox มีโฟกัส</value>
+  </data>
+  <data name="OverlayDiagnostics.FullscreenUnknown" xml:space="preserve">
+    <value>ยังไม่ได้ยืนยันเต็มหน้าจอแบบเอกสิทธิ์ ขนาดหน้าต่างและรูปแบบขอบไม่สามารถระบุโหมดการแสดงผลได้</value>
+  </data>
+  <data name="OverlayDiagnostics.GameEffects" xml:space="preserve">
+    <value>เอฟเฟกต์เกม</value>
+  </data>
+  <data name="OverlayDiagnostics.GameLease" xml:space="preserve">
+    <value>ยืนยันสิทธิ์เกมบน Linux แล้ว</value>
+  </data>
+  <data name="OverlayDiagnostics.GameSession" xml:space="preserve">
+    <value>เซสชันเกมของตัวติดตามกิจกรรม</value>
+  </data>
+  <data name="OverlayDiagnostics.GameSignal" xml:space="preserve">
+    <value>สัญญาณเกมจากศูนย์โอเวอร์เลย์</value>
+  </data>
+  <data name="OverlayDiagnostics.Handle" xml:space="preserve">
+    <value>แฮนเดิลหน้าต่าง</value>
+  </data>
+  <data name="OverlayDiagnostics.Homepage" xml:space="preserve">
+    <value>พื้นหลังหน้าแรก</value>
+  </data>
+  <data name="OverlayDiagnostics.HomepageInGame" xml:space="preserve">
+    <value>ศูนย์โอเวอร์เลย์รายงานเซสชันเกมขณะที่กระบวนการหน้าแรกของ Linux ยังทำงานอยู่ กระบวนการอาจทำงานโดยไม่วาดภาพ</value>
+  </data>
+  <data name="OverlayDiagnostics.HomepageWorker" xml:space="preserve">
+    <value>กระบวนการหน้าแรกของ Linux กำลังทำงาน</value>
+  </data>
+  <data name="OverlayDiagnostics.Intersects" xml:space="preserve">
+    <value>สี่เหลี่ยมซ้อนทับกับ Roblox</value>
+  </data>
+  <data name="OverlayDiagnostics.Minimized" xml:space="preserve">
+    <value>หน้าต่างเนทีฟถูกย่อ</value>
+  </data>
+  <data name="OverlayDiagnostics.MissingCrosshair" xml:space="preserve">
+    <value>กำหนดค่าเป้าเล็งแล้ว แต่ไม่พบหน้าต่างเป้าเล็งหรือเป้าเล็งแบบคอมโพสิตที่ทำงานอยู่ในกระบวนการนี้</value>
+  </data>
+  <data name="OverlayDiagnostics.MissingStats" xml:space="preserve">
+    <value>กำหนดค่าสถิติแล้ว แต่ไม่พบหน้าต่างสถิติในกระบวนการนี้ ซึ่งไม่ได้พิสูจน์ว่าการสร้างล้มเหลวและไม่ได้ตัดกระบวนการ Voidstrap อื่นออก</value>
+  </data>
+  <data name="OverlayDiagnostics.MonitorCoverage" xml:space="preserve">
+    <value>ไคลเอนต์ไร้ขอบครอบคลุมจอภาพ</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeLive" xml:space="preserve">
+    <value>แฮนเดิลเนทีฟถูกต้อง</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeTopmost" xml:space="preserve">
+    <value>ตัวบ่งชี้อยู่บนสุดแบบเนทีฟ</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeVisible" xml:space="preserve">
+    <value>หน้าต่างเนทีฟมองเห็นได้</value>
+  </data>
+  <data name="OverlayDiagnostics.No" xml:space="preserve">
+    <value>ไม่</value>
+  </data>
+  <data name="OverlayDiagnostics.NoUsableWindow" xml:space="preserve">
+    <value>ไม่ได้วัดพื้นที่ไคลเอนต์ Roblox ที่ใช้งานได้ Roblox อาจปิด ย่อ ซ่อน กำลังเริ่มทำงาน หรือเข้าถึงไม่ได้</value>
+  </data>
+  <data name="OverlayDiagnostics.NoWindows" xml:space="preserve">
+    <value>ไม่พบหน้าต่างโอเวอร์เลย์ในกระบวนการนี้</value>
+  </data>
+  <data name="OverlayDiagnostics.Opacity" xml:space="preserve">
+    <value>ความทึบ WPF</value>
+  </data>
+  <data name="OverlayDiagnostics.PixelsUnknown" xml:space="preserve">
+    <value>ตัวบ่งชี้การมองเห็น ความทึบ และอยู่บนสุดไม่ได้พิสูจน์ว่าพิกเซลถูกเรนเดอร์ ไม่ถูกบัง หรือผู้ใช้มองเห็น รายงานนี้ไม่ได้ยืนยันการส่งเฟรมของ GPU และการถูกบัง</value>
+  </data>
+  <data name="OverlayDiagnostics.Place" xml:space="preserve">
+    <value>ID เพลสของตัวติดตามกิจกรรม</value>
+  </data>
+  <data name="OverlayDiagnostics.RegisteredWindow" xml:space="preserve">
+    <value>โอเวอร์เลย์เนทีฟที่ลงทะเบียน</value>
+  </data>
+  <data name="OverlayDiagnostics.RobloxWindow" xml:space="preserve">
+    <value>หน้าต่าง Roblox ที่สังเกตได้</value>
+  </data>
+  <data name="OverlayDiagnostics.Runtime" xml:space="preserve">
+    <value>สถานะรันไทม์ที่สังเกตได้</value>
+  </data>
+  <data name="OverlayDiagnostics.Sample" xml:space="preserve">
+    <value>สุ่มตัวอย่างเมื่อ {0:HH:mm:ss.fff zzz} รีเฟรชทุกวินาทีและเมื่อหน้าต่างเปลี่ยน</value>
+  </data>
+  <data name="OverlayDiagnostics.Scope" xml:space="preserve">
+    <value>ค่าที่อ่านได้เหล่านี้อธิบายกระบวนการ Voidstrap นี้ หน้าต่างของกระบวนการอื่นอาจไม่แสดงอยู่ในรายการ</value>
+  </data>
+  <data name="OverlayDiagnostics.Stats" xml:space="preserve">
+    <value>โอเวอร์เลย์สถิติ</value>
+  </data>
+  <data name="OverlayDiagnostics.Teleporting" xml:space="preserve">
+    <value>ตัวติดตามกิจกรรมกำลังเทเลพอร์ต</value>
+  </data>
+  <data name="OverlayDiagnostics.Title" xml:space="preserve">
+    <value>การวินิจฉัยโอเวอร์เลย์</value>
+  </data>
+  <data name="OverlayDiagnostics.Transition" xml:space="preserve">
+    <value>การเปลี่ยนเกม</value>
+  </data>
+  <data name="OverlayDiagnostics.Unavailable" xml:space="preserve">
+    <value>ไม่พร้อมใช้งาน</value>
+  </data>
+  <data name="OverlayDiagnostics.Unfocused" xml:space="preserve">
+    <value>ขณะนี้ Roblox ไม่มีโฟกัส โอเวอร์เลย์อาจถูกซ่อนโดยตั้งใจขณะที่หน้าต่างอื่นทำงานอยู่ รวมถึงหน้าต่างวินิจฉัยนี้</value>
+  </data>
+  <data name="OverlayDiagnostics.UsableRect" xml:space="preserve">
+    <value>พื้นที่ไคลเอนต์ที่ใช้งานได้ซึ่งติดตามไว้</value>
+  </data>
+  <data name="OverlayDiagnostics.Visible" xml:space="preserve">
+    <value>มองเห็นได้ใน WPF</value>
+  </data>
+  <data name="OverlayDiagnostics.Windows" xml:space="preserve">
+    <value>หน้าต่างโอเวอร์เลย์ที่สังเกตได้</value>
+  </data>
+  <data name="OverlayDiagnostics.Worker" xml:space="preserve">
+    <value>เธรดคอมโพสิตกำลังทำงาน</value>
+  </data>
+  <data name="OverlayDiagnostics.WpfTopmost" xml:space="preserve">
+    <value>ร้องขอ WPF อยู่บนสุด</value>
+  </data>
+  <data name="OverlayDiagnostics.X11" xml:space="preserve">
+    <value>มีการเชื่อมต่อ X11</value>
+  </data>
+  <data name="OverlayDiagnostics.X11Compositor" xml:space="preserve">
+    <value>ตรวจพบการคอมโพสิต X11</value>
+  </data>
+  <data name="OverlayDiagnostics.X11Unavailable" xml:space="preserve">
+    <value>ไม่มีการเชื่อมต่อ X11 ไม่สามารถตรวจสอบหน้าต่างเนทีฟได้ อาจเกิดจากข้อจำกัดของ Wayland หรือสิทธิ์แซนด์บ็อกซ์</value>
+  </data>
+  <data name="OverlayDiagnostics.Yes" xml:space="preserve">
+    <value>ใช่</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeCompositor" xml:space="preserve">
+    <value>หน้าต่างเนทีฟคอมโพสิตด้วย GPU</value>
+  </data>
+  <data name="FlagSearch.Loading" xml:space="preserve">
+    <value>กำลังโหลดแหล่งข้อมูล…</value>
+  </data>
+  <data name="FlagSearch.Loaded" xml:space="preserve">
+    <value>โหลดแล้ว</value>
+  </data>
+  <data name="FlagSearch.Unavailable" xml:space="preserve">
+    <value>ไม่พร้อมใช้งาน</value>
+  </data>
+  <data name="FlagSearch.Pending" xml:space="preserve">
+    <value>รอดำเนินการ</value>
+  </data>
+  <data name="FlagSearch.LoadedSummary" xml:space="preserve">
+    <value>โหลดชื่อที่ไม่ซ้ำ {0:N0} ชื่อจาก {1} จาก {2} แหล่ง ดูรายละเอียดที่แหล่งข้อมูล</value>
+  </data>
+  <data name="FlagSearch.LoadError" xml:space="preserve">
+    <value>โหลดแหล่งข้อมูลล้มเหลว ดูรายละเอียดในบันทึก</value>
+  </data>
+  <data name="FlagSearch.ObjectRequired" xml:space="preserve">
+    <value>JSON ของ flag ต้องมีออบเจ็กต์</value>
+  </data>
+  <data name="FlagSearch.EmptySource" xml:space="preserve">
+    <value>แหล่งข้อมูลไม่ได้ส่งชื่อ flag ที่รู้จักกลับมา</value>
+  </data>
+  <data name="FlagSearch.ResultCount" xml:space="preserve">
+    <value>แสดง {0:N0} จาก {1:N0} รายการที่ตรงกัน</value>
+  </data>
+  <data name="FlagSearch.SearchError" xml:space="preserve">
+    <value>การค้นหาล้มเหลว ดูรายละเอียดในบันทึก</value>
+  </data>
+  <data name="FlagSearch.Validating" xml:space="preserve">
+    <value>กำลังตรวจสอบชื่อ flag และค่าที่ป้อน…</value>
+  </data>
+  <data name="FlagSearch.Found" xml:space="preserve">
+    <value>พบ</value>
+  </data>
+  <data name="FlagSearch.ValueError" xml:space="preserve">
+    <value>ค่าผิดพลาด</value>
+  </data>
+  <data name="FlagSearch.NotFound" xml:space="preserve">
+    <value>ไม่พบ</value>
+  </data>
+  <data name="FlagSearch.FoundNote" xml:space="preserve">
+    <value>พบในแหล่งข้อมูลที่โหลด ยังไม่ได้ยืนยันการรองรับการแทนที่ในเครื่อง</value>
+  </data>
+  <data name="FlagSearch.NotFoundNote" xml:space="preserve">
+    <value>ไม่อยู่ในแหล่งข้อมูลที่โหลด ซึ่งไม่ได้พิสูจน์ว่า flag ไม่ถูกต้อง</value>
+  </data>
+  <data name="FlagSearch.ValidationSummary" xml:space="preserve">
+    <value>ตรวจสอบแล้ว {0:N0} flag มี {1:N0} รายการที่ตรงกับแหล่งข้อมูลและประเภทค่าที่คาดไว้</value>
+  </data>
+  <data name="FlagSearch.NameError" xml:space="preserve">
+    <value>ใช้ชื่อ Fast Flag ที่รู้จักโดยไม่มีช่องว่าง</value>
+  </data>
+  <data name="FlagSearch.TooMany" xml:space="preserve">
+    <value>ข้อมูลที่ป้อนมี flag มากเกินไป</value>
+  </data>
+  <data name="FlagSearch.ScalarRequired" xml:space="preserve">
+    <value>ค่า flag ต้องเป็นสตริง ตัวเลข หรือ boolean</value>
+  </data>
+  <data name="FlagSearch.LineError" xml:space="preserve">
+    <value>ข้อความแต่ละบรรทัดต้องอยู่ในรูปแบบ ชื่อ=ค่า</value>
+  </data>
+  <data name="FlagSearch.EmptyInput" xml:space="preserve">
+    <value>ไม่พบรายการ flag</value>
+  </data>
+  <data name="FlagSearch.Label1" xml:space="preserve">
+    <value>ค้นหา Fast Flag</value>
+  </data>
+  <data name="FlagSearch.Label2" xml:space="preserve">
+    <value>ค้นหา Fast Flag</value>
+  </data>
+  <data name="FlagSearch.Label3" xml:space="preserve">
+    <value>ค้นหาและตรวจสอบ Fast Flag</value>
+  </data>
+  <data name="FlagSearch.Label4" xml:space="preserve">
+    <value>ค้นหา ตรวจสอบ และค้นพบ Fast Flag จากหลายแหล่ง</value>
+  </data>
+  <data name="FlagSearch.Label5" xml:space="preserve">
+    <value>รีเฟรชแหล่งข้อมูล</value>
+  </data>
+  <data name="FlagSearch.Label6" xml:space="preserve">
+    <value>พร้อม</value>
+  </data>
+  <data name="FlagSearch.Label7" xml:space="preserve">
+    <value>ค้นหาสด</value>
+  </data>
+  <data name="FlagSearch.Label8" xml:space="preserve">
+    <value>ค้นหา flag แบบสด</value>
+  </data>
+  <data name="FlagSearch.Label9" xml:space="preserve">
+    <value>ค้นหาชื่อเต็มหรือคีย์เวิร์ด ผลที่ตรงทุกตัวอักษรจะแสดงก่อน การส่งออกจะรวมทุกค่าที่รู้จักซึ่งตรงกัน</value>
+  </data>
+  <data name="FlagSearch.Label10" xml:space="preserve">
+    <value>ป้อนชื่อ flag หรือคีย์เวิร์ด...</value>
+  </data>
+  <data name="FlagSearch.Label11" xml:space="preserve">
+    <value>ส่งออกผลลัพธ์</value>
+  </data>
+  <data name="FlagSearch.Label12" xml:space="preserve">
+    <value>ค่าทั้งหมด</value>
+  </data>
+  <data name="FlagSearch.Label13" xml:space="preserve">
+    <value>ค่า true</value>
+  </data>
+  <data name="FlagSearch.Label14" xml:space="preserve">
+    <value>ค่า false</value>
+  </data>
+  <data name="FlagSearch.Label15" xml:space="preserve">
+    <value>ชื่อ flag</value>
+  </data>
+  <data name="FlagSearch.Label16" xml:space="preserve">
+    <value>ค่า</value>
+  </data>
+  <data name="FlagSearch.Label17" xml:space="preserve">
+    <value>แหล่งข้อมูล</value>
+  </data>
+  <data name="FlagSearch.Label18" xml:space="preserve">
+    <value>ไม่พบรายการที่ตรงกัน ลองชื่อหรือตัวกรองค่าอื่น</value>
+  </data>
+  <data name="FlagSearch.Label19" xml:space="preserve">
+    <value>0 ผลลัพธ์</value>
+  </data>
+  <data name="FlagSearch.Label20" xml:space="preserve">
+    <value>ตรวจสอบแบบกลุ่ม</value>
+  </data>
+  <data name="FlagSearch.Label21" xml:space="preserve">
+    <value>ตรวจสอบ flag แบบกลุ่ม</value>
+  </data>
+  <data name="FlagSearch.Label22" xml:space="preserve">
+    <value>ตรวจสอบการมีอยู่ในแหล่งข้อมูลและประเภทค่า การตรงกันไม่ได้รับประกันว่า Roblox จะอนุญาตการแทนที่ในเครื่อง</value>
+  </data>
+  <data name="FlagSearch.Label23" xml:space="preserve">
+    <value>โหลดไฟล์</value>
+  </data>
+  <data name="FlagSearch.Label24" xml:space="preserve">
+    <value>ตรวจสอบ</value>
+  </data>
+  <data name="FlagSearch.Label25" xml:space="preserve">
+    <value>ล้าง</value>
+  </data>
+  <data name="FlagSearch.Label26" xml:space="preserve">
+    <value>วาง</value>
+  </data>
+  <data name="FlagSearch.Label28" xml:space="preserve">
+    <value>เลือกทั้งหมด</value>
+  </data>
+  <data name="FlagSearch.Label30" xml:space="preserve">
+    <value>ล้าง</value>
+  </data>
+  <data name="FlagSearch.Label31" xml:space="preserve">
+    <value>ผลการตรวจสอบ</value>
+  </data>
+  <data name="FlagSearch.Label32" xml:space="preserve">
+    <value>ชื่อ flag</value>
+  </data>
+  <data name="FlagSearch.Label33" xml:space="preserve">
+    <value>ค่าที่ป้อน</value>
+  </data>
+  <data name="FlagSearch.Label34" xml:space="preserve">
+    <value>สถานะ</value>
+  </data>
+  <data name="FlagSearch.Label35" xml:space="preserve">
+    <value>ค่าจากแหล่งข้อมูล</value>
+  </data>
+  <data name="FlagSearch.Label36" xml:space="preserve">
+    <value>หมายเหตุ</value>
+  </data>
+  <data name="FlagSearch.Label37" xml:space="preserve">
+    <value>ส่งออกข้อมูลที่ตรวจสอบแล้ว</value>
+  </data>
+  <data name="FlagSearch.Label38" xml:space="preserve">
+    <value>0 ผลลัพธ์</value>
+  </data>
+  <data name="FlagSearch.Label39" xml:space="preserve">
+    <value>แหล่งข้อมูล</value>
+  </data>
+  <data name="FlagSearch.Label40" xml:space="preserve">
+    <value>ความพร้อมใช้งานของแหล่งข้อมูลแบบสดและเวลาที่ดึงข้อมูล การอยู่ในแหล่งข้อมูลไม่ได้หมายความว่า Roblox ยอมรับการแทนที่ในเครื่อง แหล่งข้อมูลเหล่านี้ไม่ได้ระบุวันที่เปลี่ยนแปลงล่าสุด</value>
+  </data>
+  <data name="FlagSearch.Label41" xml:space="preserve">
+    <value>แหล่งข้อมูล</value>
+  </data>
+  <data name="FlagSearch.Label42" xml:space="preserve">
+    <value>สถานะ</value>
+  </data>
+  <data name="FlagSearch.Label43" xml:space="preserve">
+    <value>Flag</value>
+  </data>
+  <data name="FlagSearch.Label44" xml:space="preserve">
+    <value>ดึงข้อมูลเมื่อ</value>
+  </data>
+  <data name="FlagSearch.Label45" xml:space="preserve">
+    <value>ปิด</value>
+  </data>
+  <data name="FlagSearch.Message1" xml:space="preserve">
+    <value>โปรดป้อน flag ที่ต้องการตรวจสอบ</value>
+  </data>
+  <data name="FlagSearch.Message2" xml:space="preserve">
+    <value>ไม่มีข้อมูลที่ป้อน</value>
+  </data>
+  <data name="FlagSearch.Message3" xml:space="preserve">
+    <value>ข้อมูล flag ที่ป้อนใหญ่เกินกว่าจะตรวจสอบได้</value>
+  </data>
+  <data name="FlagSearch.Message4" xml:space="preserve">
+    <value>ข้อมูลที่ป้อนใหญ่เกินไป</value>
+  </data>
+  <data name="FlagSearch.Message5" xml:space="preserve">
+    <value>พบ flag ซ้ำในข้อมูลที่ป้อน: </value>
+  </data>
+  <data name="FlagSearch.Message6" xml:space="preserve">
+    <value>ตรวจพบรายการซ้ำ</value>
+  </data>
+  <data name="FlagSearch.Message7" xml:space="preserve">
+    <value>เกิดข้อผิดพลาดขณะตรวจสอบ flag</value>
+  </data>
+  <data name="FlagSearch.Message8" xml:space="preserve">
+    <value>เกิดข้อผิดพลาดขณะตรวจสอบ flag: </value>
+  </data>
+  <data name="FlagSearch.Message9" xml:space="preserve">
+    <value>ข้อผิดพลาดการตรวจสอบ</value>
+  </data>
+  <data name="FlagSearch.Message10" xml:space="preserve">
+    <value>เลือกไฟล์ flag ที่ต้องการตรวจสอบ</value>
+  </data>
+  <data name="FlagSearch.Message11" xml:space="preserve">
+    <value>เกิดข้อผิดพลาดขณะโหลดไฟล์: </value>
+  </data>
+  <data name="FlagSearch.Message12" xml:space="preserve">
+    <value>ข้อผิดพลาดไฟล์</value>
+  </data>
+  <data name="FlagSearch.Message13" xml:space="preserve">
+    <value>ขนาดไฟล์ flag ไม่ถูกต้อง</value>
+  </data>
+  <data name="FlagSearch.Message14" xml:space="preserve">
+    <value>ไฟล์ flag เปลี่ยนแปลงขณะกำลังอ่าน</value>
+  </data>
+  <data name="FlagSearch.Message15" xml:space="preserve">
+    <value>ข้อมูล flag ใหญ่เกินไป</value>
+  </data>
+  <data name="FlagSearch.Message16" xml:space="preserve">
+    <value>ส่งออก {flags.Count} flag ไปยัง {dialog.FileName} แล้ว</value>
+  </data>
+  <data name="FlagSearch.Message17" xml:space="preserve">
+    <value>ส่งออกเสร็จสมบูรณ์</value>
+  </data>
+  <data name="FlagSearch.Message18" xml:space="preserve">
+    <value>เกิดข้อผิดพลาดขณะส่งออก flag: </value>
+  </data>
+  <data name="FlagSearch.Message19" xml:space="preserve">
+    <value>ข้อผิดพลาดการส่งออก</value>
+  </data>
+  <data name="FlagSearch.Message20" xml:space="preserve">
+    <value>เกิดข้อผิดพลาดขณะวางจากคลิปบอร์ด: </value>
+  </data>
+  <data name="FlagSearch.Message21" xml:space="preserve">
+    <value>ข้อผิดพลาดการวาง</value>
+  </data>
+  <data name="FlagSearch.ExportSummary" xml:space="preserve">
+    <value>ส่งออก {0:N0} flag ไปยัง {1} แล้ว</value>
+  </data>
+  <data name="FlagSearch.ValueNote" xml:space="preserve">
+    <value>ค่าที่ป้อนไม่ตรงกับประเภทของชื่อ flag flag แบบ boolean ต้องเป็น true หรือ false และ flag แบบจำนวนเต็มต้องเป็นจำนวนเต็ม 32 บิต</value>
+  </data>
+  <data name="Notifications.Title" xml:space="preserve">
+    <value>การแจ้งเตือน</value>
+  </data>
+  <data name="Notifications.Updates" xml:space="preserve">
+    <value>อัปเดต</value>
+  </data>
+  <data name="Notifications.Roblox" xml:space="preserve">
+    <value>Roblox และม็อด</value>
+  </data>
+  <data name="Notifications.Recovery" xml:space="preserve">
+    <value>การกู้คืนการตั้งค่า</value>
+  </data>
+  <data name="Notifications.Errors" xml:space="preserve">
+    <value>ข้อผิดพลาดและการแครช</value>
+  </data>
+  <data name="Notifications.GameJoins" xml:space="preserve">
+    <value>เข้าเกมแล้ว</value>
+  </data>
+  <data name="Notifications.App" xml:space="preserve">
+    <value>การแจ้งเตือนของแอป</value>
+  </data>
+  <data name="Notifications.AppDescription" xml:space="preserve">
+    <value>แสดงการแจ้งเตือนของแอป</value>
+  </data>
+  <data name="Bootstrapper.Uninstall.NvidiaFailed" xml:space="preserve">
+    <value>ล้างข้อมูล NVIDIA ล้มเหลว ถอนการติดตั้งต่อไหม การตั้งค่า NVIDIA ที่เหลืออยู่จะยังมีผล
+
+{0}</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Latest" xml:space="preserve">
+    <value>ใหม่ที่สุด</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Oldest" xml:space="preserve">
+    <value>เก่าที่สุด</value>
+  </data>
+  <data name="ContextMenu.GameHistory.MostPlayed" xml:space="preserve">
+    <value>เข้าเล่นนานที่สุด</value>
+  </data>
+  <data name="ContextMenu.GameHistory.NameAscending" xml:space="preserve">
+    <value>ชื่อ จากน้อยไปมาก</value>
+  </data>
+  <data name="ContextMenu.GameHistory.NameDescending" xml:space="preserve">
+    <value>ชื่อ จากมากไปน้อย</value>
+  </data>
+  <data name="ContextMenu.GameHistory.AllServers" xml:space="preserve">
+    <value>เซิร์ฟเวอร์ทั้งหมด</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Public" xml:space="preserve">
+    <value>สาธารณะ</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Private" xml:space="preserve">
+    <value>ส่วนตัว</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Reserved" xml:space="preserve">
+    <value>สงวนไว้</value>
+  </data>
+  <data name="ContextMenu.GameHistory.EndUnknown" xml:space="preserve">
+    <value>ไม่ได้บันทึก</value>
+  </data>
+  <data name="ContextMenu.GameHistory.CopyLink" xml:space="preserve">
+    <value>คัดลอกลิงก์</value>
+  </data>
+  <data name="ContextMenu.GameHistory.LoadFailed" xml:space="preserve">
+    <value>ไม่สามารถโหลดประวัติได้</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Empty" xml:space="preserve">
+    <value>ไม่มีการเข้าเล่นที่จะแสดง</value>
+  </data>
+  <data name="ContextMenu.GameHistory.StatusUnknown" xml:space="preserve">
+    <value>ไม่ทราบ</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Online" xml:space="preserve">
+    <value>ออนไลน์</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Offline" xml:space="preserve">
+    <value>ออฟไลน์</value>
+  </data>
+  <data name="ContextMenu.GameHistory.CheckedAt" xml:space="preserve">
+    <value>ตรวจสอบเมื่อ: {0}</value>
+  </data>
+  <data name="ContextMenu.GameHistory.LaunchFailed" xml:space="preserve">
+    <value>ไม่สามารถเปิด Roblox ได้</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.MaxOnly" xml:space="preserve">
+    <value>สูงสุด {0}</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.Unknown" xml:space="preserve">
+    <value>ไม่ทราบ</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.InGame" xml:space="preserve">
+    <value>{0:N0} อยู่ในเกม</value>
+  </data>
+  <data name="ServerInfo.Hint.Updated" xml:space="preserve">
+    <value>อัปเดตเมื่อ {0} ที่แล้ว</value>
+  </data>
+  <data name="ServerInfo.Hint.RateLimited" xml:space="preserve">
+    <value>Roblox กำลังจำกัดการค้นหาเซิร์ฟเวอร์ จะลองอีกครั้งใน {0}</value>
+  </data>
+  <data name="ServerInfo.Hint.RateLimitedStale" xml:space="preserve">
+    <value>Roblox กำลังจำกัดการค้นหาเซิร์ฟเวอร์ แสดงจำนวนจาก {0} ที่แล้ว จะอัปเดตอีกครั้งใน {1}</value>
+  </data>
+  <data name="ServerInfo.Hint.NotListed" xml:space="preserve">
+    <value>เซิร์ฟเวอร์นี้ไม่อยู่ในส่วนของรายการเซิร์ฟเวอร์สาธารณะที่ Roblox แชร์ จะตรวจสอบอีกครั้งใน {0}</value>
+  </data>
+  <data name="ServerInfo.Hint.NotListedStale" xml:space="preserve">
+    <value>เห็นล่าสุดเมื่อ {0} ที่แล้ว ขณะนี้เซิร์ฟเวอร์นี้ไม่อยู่ในส่วนของรายการเซิร์ฟเวอร์สาธารณะที่ Roblox แชร์</value>
+  </data>
+  <data name="ServerInfo.Hint.PrivateNotListed" xml:space="preserve">
+    <value>เซิร์ฟเวอร์ส่วนตัวนี้ไม่อยู่ในรายการเซิร์ฟเวอร์ที่บัญชีของคุณมองเห็น จึงอ่านจำนวนผู้เล่นไม่ได้</value>
+  </data>
+  <data name="ServerInfo.Hint.PrivateSignedOut" xml:space="preserve">
+    <value>Roblox แชร์จำนวนผู้เล่นของเซิร์ฟเวอร์ส่วนตัวเฉพาะกับบัญชีที่ลงชื่อเข้าใช้ ลงชื่อเข้าใช้ Roblox ใน Voidstrap เพื่อดู</value>
+  </data>
+  <data name="ServerInfo.Hint.Reserved" xml:space="preserve">
+    <value>Roblox ไม่แสดงรายการเซิร์ฟเวอร์ที่สงวนไว้ ซึ่งใช้สำหรับการเทเลพอร์ตและปาร์ตี้ จึงอ่านจำนวนผู้เล่นไม่ได้</value>
+  </data>
+  <data name="ServerInfo.Hint.Unavailable" xml:space="preserve">
+    <value>ติดต่อ Roblox ไม่ได้ จะลองอีกครั้งใน {0}</value>
+  </data>
+  <data name="ServerInfo.Hint.UnavailableStale" xml:space="preserve">
+    <value>ติดต่อ Roblox ไม่ได้ แสดงจำนวนจาก {0} ที่แล้ว จะลองอีกครั้งใน {1}</value>
+  </data>
+  <data name="ServerInfo.Hint.Full" xml:space="preserve">
+    <value>เซิร์ฟเวอร์นี้เต็มแล้ว Roblox ไม่รวมเซิร์ฟเวอร์ที่เต็มไว้ในรายการเซิร์ฟเวอร์สาธารณะ จึงแสดงว่าเต็มจนกว่าจะมีที่ว่าง</value>
+  </data>
+  <data name="Shortcuts.GameTab" xml:space="preserve">
+    <value>เกม</value>
+  </data>
+  <data name="Shortcuts.SubplaceTab" xml:space="preserve">
+    <value>เพลสย่อย</value>
+  </data>
+  <data name="Shortcuts.SubplaceDescription" xml:space="preserve">
+    <value>ค้นหาเพลสอื่นในประสบการณ์นี้</value>
+  </data>
+  <data name="Shortcuts.LoadSubplaces" xml:space="preserve">
+    <value>โหลดเพลสย่อย</value>
+  </data>
+  <data name="Shortcuts.SubplaceAccess" xml:space="preserve">
+    <value>ผู้สร้างต้องอนุญาตการเข้าร่วมโดยตรง บางเพลสย่อยต้องเทเลพอร์ตภายในเกม</value>
+  </data>
+  <data name="Shortcuts.SubplaceInitial" xml:space="preserve">
+    <value>ป้อน ID เกมเพื่อโหลดเพลสย่อยโดยอัตโนมัติ</value>
+  </data>
+  <data name="Shortcuts.SubplaceRetry" xml:space="preserve">
+    <value>เปิดแท็บนี้อีกครั้งเพื่อลองใหม่</value>
+  </data>
+  <data name="Shortcuts.SubplaceInvalidId" xml:space="preserve">
+    <value>ป้อน ID เกมที่เป็นตัวเลขที่ถูกต้อง</value>
+  </data>
+  <data name="Shortcuts.SubplaceLoading" xml:space="preserve">
+    <value>กำลังโหลดเพลสย่อย...</value>
+  </data>
+  <data name="Shortcuts.SubplaceEmpty" xml:space="preserve">
+    <value>ประสบการณ์นี้ไม่มีเพลสย่อยในรายการ</value>
+  </data>
+  <data name="Shortcuts.SubplaceChoose" xml:space="preserve">
+    <value>เลือกเพลสย่อยด้านล่าง</value>
+  </data>
+  <data name="Shortcuts.SubplaceTimeout" xml:space="preserve">
+    <value>คำขอหมดเวลา เปิดแท็บนี้อีกครั้งเพื่อลองใหม่</value>
+  </data>
+  <data name="Shortcuts.SubplaceFailed" xml:space="preserve">
+    <value>โหลดเพลสย่อยไม่ได้ ตรวจสอบ ID เกมและการเชื่อมต่อ แล้วลองอีกครั้ง</value>
+  </data>
+  <data name="Shortcuts.SubplaceReload" xml:space="preserve">
+    <value>เพลสย่อยจะโหลดอัตโนมัติเมื่อคุณป้อน ID เกมที่ถูกต้อง</value>
+  </data>
+  <data name="Shortcuts.SubplaceRequired" xml:space="preserve">
+    <value>รอให้เพลสย่อยโหลดเสร็จ แล้วเลือกหนึ่งรายการก่อนดำเนินการต่อ</value>
+  </data>
+  <data name="Library.SubplacesTab" xml:space="preserve">
+    <value>เพลสย่อย</value>
+  </data>
+  <data name="SettingsProfiles.Title" xml:space="preserve">
+    <value>โปรไฟล์การตั้งค่า</value>
+  </data>
+  <data name="SettingsProfiles.Name" xml:space="preserve">
+    <value>ชื่อโปรไฟล์</value>
+  </data>
+  <data name="SettingsProfiles.NameHint" xml:space="preserve">
+    <value>ตัวอย่าง: VoidstrapProfile</value>
+  </data>
+  <data name="SettingsProfiles.Save" xml:space="preserve">
+    <value>บันทึกโปรไฟล์</value>
+  </data>
+  <data name="SettingsProfiles.Saved" xml:space="preserve">
+    <value>โปรไฟล์ที่บันทึกไว้</value>
+  </data>
+  <data name="SettingsProfiles.Apply" xml:space="preserve">
+    <value>ใช้โปรไฟล์</value>
+  </data>
+  <data name="SettingsProfiles.Folder" xml:space="preserve">
+    <value>เปิดโฟลเดอร์</value>
+  </data>
+  <data name="SettingsProfiles.Empty" xml:space="preserve">
+    <value>ยังไม่มีโปรไฟล์ ป้อนชื่อแล้วเลือก บันทึกโปรไฟล์</value>
+  </data>
+  <data name="SettingsProfiles.Location" xml:space="preserve">
+    <value>บันทึกไว้ใน {0}</value>
+  </data>
+  <data name="SettingsProfiles.InvalidName" xml:space="preserve">
+    <value>ใช้ชื่อที่มี 1 ถึง 80 อักขระ ไม่มีสัญลักษณ์ชื่อไฟล์หรือชื่ออุปกรณ์ที่สงวนไว้</value>
+  </data>
+  <data name="SettingsProfiles.InvalidFile" xml:space="preserve">
+    <value>โปรไฟล์นี้ไม่ถูกต้องหรือใช้รูปแบบที่ไม่รองรับ</value>
+  </data>
+  <data name="SettingsProfiles.RestoreFailed" xml:space="preserve">
+    <value>ใช้โปรไฟล์ไม่ได้ และไม่สามารถคืนค่าการตั้งค่าเดิมได้</value>
+  </data>
+  <data name="SettingsProfiles.Overwrite" xml:space="preserve">
+    <value>แทนที่โปรไฟล์ที่บันทึกไว้ "{0}" ด้วยการตั้งค่าปัจจุบันของคุณไหม</value>
+  </data>
+  <data name="SettingsProfiles.SavedStatus" xml:space="preserve">
+    <value>บันทึก "{0}" แล้ว</value>
+  </data>
+  <data name="SettingsProfiles.ApplyConfirm" xml:space="preserve">
+    <value>ใช้ "{0}" ไหม การดำเนินการนี้จะแทนที่การตั้งค่า Voidstrap และ FastFlags ปัจจุบัน แล้วเปิดการตั้งค่า Voidstrap ใหม่</value>
+  </data>
+  <data name="SettingsProfiles.RestartFailed" xml:space="preserve">
+    <value>ใช้โปรไฟล์แล้ว รีสตาร์ท Voidstrap เพื่อโหลดหน้าการตั้งค่าทั้งหมดใหม่</value>
+  </data>
+  <data name="SettingsProfiles.Restart" xml:space="preserve">
+    <value>รีสตาร์ทเลย</value>
+  </data>
+  <data name="SettingsProfiles.DeleteConfirm" xml:space="preserve">
+    <value>ลบโปรไฟล์ที่บันทึกไว้ "{0}" ไหม การตั้งค่าปัจจุบันของคุณจะยังคงเหมือนเดิม</value>
+  </data>
+  <data name="SettingsProfiles.Deleted" xml:space="preserve">
+    <value>ลบ "{0}" แล้ว</value>
+  </data>
+  <data name="SettingsProfiles.Error" xml:space="preserve">
+    <value>ดำเนินการกับโปรไฟล์ไม่สำเร็จ: {0}</value>
+  </data>
+  <data name="GlobalProfiles.Title" xml:space="preserve">
+    <value>โปรไฟล์การตั้งค่าทั่วไป</value>
+  </data>
+  <data name="GlobalProfiles.ApplyConfirm" xml:space="preserve">
+    <value>ใช้ "{0}" ไหม การดำเนินการนี้จะแทนที่การตั้งค่าทั่วไปของ Roblox ปัจจุบัน เข้าร่วม Roblox อีกครั้งเพื่อดูการเปลี่ยนแปลงทั้งหมด</value>
+  </data>
+  <data name="GlobalProfiles.Applied" xml:space="preserve">
+    <value>ใช้ "{0}" แล้ว</value>
+  </data>
+  <data name="GlobalProfiles.SaveFailed" xml:space="preserve">
+    <value>เขียนไฟล์การตั้งค่า Roblox ไม่ได้ ปิด Roblox แล้วลองอีกครั้ง</value>
+  </data>
+  <data name="AssetWarp.RemoveTexturesDescription" xml:space="preserve">
+    <value>บล็อกการดาวน์โหลดแอสเซ็ตเท็กซ์เจอร์และแพ็กเท็กซ์เจอร์</value>
+  </data>
+  <data name="AssetWarp.RemoveDecalsDescription" xml:space="preserve">
+    <value>บล็อกการดาวน์โหลดแอสเซ็ตเดคอล</value>
+  </data>
+  <data name="AssetWarp.RemoveImagesDescription" xml:space="preserve">
+    <value>บล็อกการดาวน์โหลดแอสเซ็ตรูปภาพ Roblox ใช้รูปภาพสำหรับเท็กซ์เจอร์และเดคอลด้วย</value>
+  </data>
+  <data name="AssetWarp.RemoveAnimationsDescription" xml:space="preserve">
+    <value>บล็อกการดาวน์โหลดแอสเซ็ตแอนิเมชัน เกมที่ไม่มีแอนิเมชันสำรองอาจทำงานผิดปกติ</value>
+  </data>
+  <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
+    <value>บล็อกการดาวน์โหลดแอสเซ็ต mesh และ MeshPart รูปทรง mesh จะมองไม่เห็น</value>
+  </data>
+  <data name="SwiftTunnel.Summary" xml:space="preserve">
+    <value>ส่งทราฟฟิกของ Roblox ผ่าน SwiftTunnel ขณะที่แอปอื่นใช้การเชื่อมต่อปกติของคุณ</value>
+  </data>
+  <data name="SwiftTunnel.Description" xml:space="preserve">
+    <value>SwiftTunnel คือตัวปรับแต่งการเชื่อมต่อเกมสำหรับ Windows ที่มี split tunneling และการเลือกรีเลย์ตามภูมิภาค</value>
+  </data>
+  <data name="SwiftTunnel.Setup" xml:space="preserve">
+    <value>ติดตั้ง จะดาวน์โหลด SwiftTunnel รุ่นทางการล่าสุดและเปิดแอปหลังตั้งค่าเสร็จ ลงชื่อเข้าใช้ที่นั่นแล้วเลือกการเชื่อมต่อ การปรับแต่งเครือข่ายอาจต้องใช้สิทธิ์ผู้ดูแลระบบ</value>
+  </data>
+  <data name="SwiftTunnel.Network" xml:space="preserve">
+    <value>เครือข่าย</value>
+  </data>
+  <data name="SwiftTunnel.Routing" xml:space="preserve">
+    <value>การกำหนดเส้นทาง</value>
+  </data>
+  <data name="SwiftTunnel.Install" xml:space="preserve">
+    <value>ติดตั้ง</value>
+  </data>
+  <data name="SwiftTunnel.Uninstall" xml:space="preserve">
+    <value>ถอนการติดตั้ง</value>
+  </data>
+  <data name="SwiftTunnel.Installed" xml:space="preserve">
+    <value>ติดตั้งแล้ว</value>
+  </data>
+  <data name="SwiftTunnel.NotInstalled" xml:space="preserve">
+    <value>ยังไม่ได้ติดตั้ง</value>
+  </data>
+  <data name="SwiftTunnel.Working" xml:space="preserve">
+    <value>กำลังทำงาน</value>
+  </data>
+  <data name="SwiftTunnel.Downloading" xml:space="preserve">
+    <value>กำลังดาวน์โหลด SwiftTunnel</value>
+  </data>
+  <data name="SwiftTunnel.InstallerFailed" xml:space="preserve">
+    <value>ไม่สามารถเปิดตัวติดตั้ง SwiftTunnel ได้</value>
+  </data>
+  <data name="SwiftTunnel.InstallerExit" xml:space="preserve">
+    <value>ตัวติดตั้ง SwiftTunnel ส่งรหัส {0} กลับมา</value>
+  </data>
+  <data name="SwiftTunnel.Error" xml:space="preserve">
+    <value>ดำเนินการ SwiftTunnel ไม่สำเร็จ: {0}</value>
+  </data>
+  <data name="SwiftTunnel.UninstallUnavailable" xml:space="preserve">
+    <value>รายการถอนการติดตั้งของ SwiftTunnel ไม่สมบูรณ์ ลบ SwiftTunnel ผ่านการตั้งค่า Windows, แอป</value>
+  </data>
+  <data name="SwiftTunnel.CleanupFailed" xml:space="preserve">
+    <value>SwiftTunnel คืนค่าการตั้งค่าเครือข่ายไม่ได้ ไฟล์ถูกเก็บไว้เพื่อให้ลองล้างข้อมูลอีกครั้งได้</value>
+  </data>
+  <data name="SwiftTunnel.ConfirmUninstall" xml:space="preserve">
+    <value>ลบ SwiftTunnel ทั้งหมดไหม ไดรเวอร์เครือข่ายและการตั้งค่าระบบของโปรแกรมจะถูกคืนค่าก่อน แล้วจึงถอนการติดตั้ง SwiftTunnel เมื่อเริ่มแล้วจะยกเลิกไม่ได้</value>
+  </data>
+  <data name="SwiftTunnel.UninstallIncomplete" xml:space="preserve">
+    <value>ลบ SwiftTunnel ไม่สำเร็จ ปิด SwiftTunnel แล้วลองอีกครั้งด้วยสิทธิ์ผู้ดูแลระบบ</value>
+  </data>
+  <data name="SwiftTunnel.UnsafeDirectory" xml:space="preserve">
+    <value>SwiftTunnel ติดตั้งอยู่ในโฟลเดอร์ที่ใช้ร่วมกันหรือไม่รู้จัก ย้ายไปไว้ในโฟลเดอร์ SwiftTunnel ของตัวเองก่อนใช้การลบทั้งหมด</value>
+  </data>
+  <data name="SwiftTunnel.NotInstalledError" xml:space="preserve">
+    <value>ยังไม่ได้ติดตั้ง SwiftTunnel ติดตั้งจากการเชื่อมต่อก่อน</value>
+  </data>
+  <data name="SwiftTunnel.Missing" xml:space="preserve">
+    <value>SwiftTunnel ลงทะเบียนอยู่แต่ไฟล์แอปหายไป ถอนการติดตั้งแล้วติดตั้งใหม่เพื่อแก้ไข</value>
+  </data>
+  <data name="SwiftTunnel.NoInstaller" xml:space="preserve">
+    <value>SwiftTunnel รุ่นล่าสุดไม่มีตัวติดตั้ง Windows ที่ยืนยันแล้วสำหรับคอมพิวเตอร์เครื่องนี้</value>
+  </data>
+  <data name="Installer.MacOS.DataLocation.Title" xml:space="preserve">
+    <value>เลือกที่เก็บข้อมูล Voidstrap</value>
+  </data>
+  <data name="Installer.MacOS.DataLocation.Text" xml:space="preserve">
+    <value>Voidstrap จะบันทึกการตั้งค่าและม็อดไว้ที่นี่ ตัวแอปยังอยู่ที่ตำแหน่งเดิม Roblox ติดตั้งแยกไว้ใน Applications</value>
+  </data>
+  <data name="Installer.MacOS.Completion.Text" xml:space="preserve">
+    <value>Voidstrap พร้อมใช้งานแล้ว
+
+Roblox จะถูกดาวน์โหลดเมื่อคุณเปิดผ่าน Voidstrap เป็นครั้งแรก คุณสามารถปรับการตั้งค่าก่อนเปิดได้
+
+คุณต้องการทำอะไร</value>
+  </data>
+  <data name="Installer.MacOS.Roblox.Title" xml:space="preserve">
+    <value>Roblox สำหรับ macOS</value>
+  </data>
+  <data name="Installer.MacOS.Roblox.Text" xml:space="preserve">
+    <value>Voidstrap จะดาวน์โหลดแอป Roblox ทางการไปไว้ใน Applications เมื่อคุณคลิกเปิดครั้งแรก และอัปเดตให้เสมอหลังจากนั้น ไม่ต้องติดตั้งแยก</value>
+  </data>
+  <data name="HomepageMedia.Preview.FileMissing" xml:space="preserve">
+    <value>ไม่พบไฟล์สื่อที่เลือก</value>
+  </data>
+  <data name="HomepageMedia.Preview.DecodeError" xml:space="preserve">
+    <value>ถอดรหัสสื่อนี้ไม่ได้ เลือกรูปภาพหรือวิดีโออื่น</value>
+  </data>
+  <data name="HomepageMedia.Preview.RenderError" xml:space="preserve">
+    <value>แสดงตัวอย่างสื่อไม่ได้</value>
+  </data>
+  <data name="HomepageMedia.Picker.ImagesAndVideos" xml:space="preserve">
+    <value>รูปภาพและวิดีโอ</value>
+  </data>
+  <data name="HomepageMedia.Picker.Images" xml:space="preserve">
+    <value>รูปภาพ</value>
+  </data>
+  <data name="HomepageMedia.Picker.Videos" xml:space="preserve">
+    <value>วิดีโอ</value>
+  </data>
+  <data name="Appearance.Backdrop.Sidebar" xml:space="preserve">
+    <value>แถบด้านข้าง</value>
+  </data>
+  <data name="Appearance.Backdrop.Popover" xml:space="preserve">
+    <value>ป๊อปโอเวอร์</value>
+  </data>
+  <data name="Appearance.Backdrop.Hud" xml:space="preserve">
+    <value>หน้าจอแสดงข้อมูลด้านหน้า</value>
+  </data>
+  <data name="Appearance.Backdrop.UnderWindow" xml:space="preserve">
+    <value>ใต้หน้าต่าง</value>
+  </data>
+  <data name="Appearance.Backdrop.UnderPage" xml:space="preserve">
+    <value>ใต้หน้า</value>
+  </data>
+  <data name="Menu.MacVirtualDisplay.Title" xml:space="preserve">
+    <value>จอเสมือน 240 Hz</value>
+  </data>
+  <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>สะท้อนหน้าจอหลักขณะ Roblox ทำงานและคืนค่าเมื่อปิด Roblox หน้าจอจริงยังคงใช้ขีดจำกัดอัตรารีเฟรชของตัวเอง</value>
+  </data>
 </root>

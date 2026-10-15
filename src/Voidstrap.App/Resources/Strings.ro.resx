@@ -1670,4 +1670,1346 @@ Dorești să schimbi canalul preferat la {0}?</value>
   <data name="Menu.News.DialogTitle" xml:space="preserve">
     <value>Detalii știre</value>
   </data>
+  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
+    <value>Voidstrap nu a putut elimina rutarea AssetWarp rămasă din fișierul hosts al Windows. Roblox nu va putea încărca texturi sau alte resurse până când aceasta nu este eliminată. Rulează Voidstrap ca administrator pentru a o șterge.</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
+    <value>Ambele</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
+    <value>Jucător</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
+    <value>Browser de servere</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
+    <value>Loc {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
+    <value>{0}  •  Loc {1}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
+    <value>{0} servere scanate</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
+    <value>Reîmprospătează</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
+    <value>Încarcă mai multe servere</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
+    <value>Ascunde serverele pline</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
+    <value>Caută oraș, țară sau ID server</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
+    <value>Cei mai mulți jucători</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
+    <value>Cei mai puțini jucători</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
+    <value>Cel mai mic ping</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
+    <value>Intră</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
+    <value>Curent</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
+    <value>Se încarcă serverele publice</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
+    <value>Nu s-au găsit servere publice</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
+    <value>Intră într-un joc înainte de a deschide browserul de servere</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
+    <value>Lista de servere este întreruptă pentru că Roblox limitează cererile</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
+    <value>Nu s-au putut încărca serverele publice</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
+    <value>{0} servere încărcate</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
+    <value>{0} din {1} jucători</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
+    <value>{0} jucători</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
+    <value>Necunoscut</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
+    <value>Cea mai bună potrivire</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
+    <value>Cea mai bună potrivire</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
+    <value>Blocat</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
+    <value>La aproximativ {0} ms de tine</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
+    <value>{0} servere localizate până acum</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
+    <value>{0} din {1} servere localizate</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
+    <value>Te mutăm pe {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
+    <value>Nu s-a putut intra pe acel server</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
+    <value>Conectează-te din Setări &gt; Server Matchmaker ca Voidstrap să poată afla unde se află fiecare server</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
+    <value>Locația ta nu a putut fi găsită, așa că serverele nu pot fi ordonate după ping</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
+    <value>Roblox nu a dezvăluit unde se află aceste servere, încearcă din nou într-o clipă</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
+    <value>Toate serverele găsite sunt într-un centru de date pe care l-ai blocat</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
+    <value>Toate serverele găsite sunt departe de tine, matchmakerul ar lăsa Roblox să aleagă</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
+    <value>Browser de jocuri</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
+    <value>Continuă</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
+    <value>Favorite</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
+    <value>Caută</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
+    <value>Caută jocuri Roblox</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
+    <value>Se încarcă jocurile</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
+    <value>Niciun joc recent în această sesiune</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
+    <value>Niciun joc favorit salvat</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
+    <value>Caută un joc Roblox după nume</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
+    <value>Nu s-au găsit jocuri pentru {0}</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
+    <value>Nu s-au putut încărca jocurile</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
+    <value>{0} joacă</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
+    <value>Intră</value>
+  </data>
+  <data name="Enums.BootstrapperStyle.LegacyDialog2008" xml:space="preserve">
+    <value>Vechi (2008 - 2011)</value>
+  </data>
+  <data name="Enums.BootstrapperStyle.LegacyDialog2011" xml:space="preserve">
+    <value>Vechi (2011 - 2014)</value>
+  </data>
+  <data name="Enums.CursorType.From2006" xml:space="preserve">
+    <value>2006 (Desen animat)</value>
+  </data>
+  <data name="Enums.CursorType.From2013" xml:space="preserve">
+    <value>2013 (Unghiular)</value>
+  </data>
+  <data name="Enums.Theme.Berry" xml:space="preserve">
+    <value>Fructe de pădure</value>
+  </data>
+  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
+    <value>Traducere automată</value>
+  </data>
+  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
+    <value>Tradu în</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
+    <value>Limba traducerii automate</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
+    <value>Tradu întreaga interfață Voidstrap în orice limbă. Mai întâi se folosesc traducerile integrate, iar restul textului este tradus în timp real.</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
+    <value>Tradu automat RPC Discord</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
+    <value>Traduce automat textul Discord Rich Presence în limba selectată.</value>
+  </data>
+  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
+    <value>Această funcție este disponibilă doar pe Windows.</value>
+  </data>
+  <data name="About.Translators.Description" xml:space="preserve">
+    <value>Toți cei enumerați aici și-au oferit cu generozitate timpul și efortul pentru a ajuta la traducerea Voidstrap. Mulțumim enorm tuturor!</value>
+  </data>
+  <data name="Menu.Channel.Description" xml:space="preserve">
+    <value>Modifică setările de implementare și instalare pentru Roblox și Voidstrap.</value>
+  </data>
+  <data name="Common.Channel" xml:space="preserve">
+    <value>Canal</value>
+  </data>
+  <data name="Menu.ChannelChanger.Description" xml:space="preserve">
+    <value>Alege canalul de implementare. Nu îl schimba decât dacă știi ce faci.</value>
+  </data>
+  <data name="Common.Version" xml:space="preserve">
+    <value>Versiune</value>
+  </data>
+  <data name="Menu.Channel.RobloxUpgrades" xml:space="preserve">
+    <value>Actualizări Roblox</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
+    <value>Mod întunecat</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
+    <value>Telemetrie</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
+    <value>Mod întunecat</value>
+  </data>
+  <data name="Menu.Sober.Description" xml:space="preserve">
+    <value>Configurează mediile Linux cu care Voidstrap lansează Roblox. Sober rulează playerul, Vinegar rulează Studio. Voidstrap modifică doar opțiunile pe care le suprascrii explicit.</value>
+  </data>
+  <data name="Menu.Sober.Default" xml:space="preserve">
+    <value>Folosește valoarea implicită Sober</value>
+  </data>
+  <data name="Menu.Sober.Enabled" xml:space="preserve">
+    <value>Activat</value>
+  </data>
+  <data name="Menu.Sober.Disabled" xml:space="preserve">
+    <value>Dezactivat</value>
+  </data>
+  <data name="Menu.Sober.DefaultNotice" xml:space="preserve">
+    <value>Folosește valoarea implicită Sober lasă setarea sub controlul Sober. Eliminarea unei suprascrieri restaurează valoarea salvată de Voidstrap.</value>
+  </data>
+  <data name="Menu.Sober.RuntimeNotice" xml:space="preserve">
+    <value>Finalizează prima rulare Sober înainte de a seta suprascrieri, apoi închide Sober înainte de a le modifica. Modificările salvate se aplică la următoarea pornire Sober.</value>
+  </data>
+  <data name="Menu.Sober.Group.Session" xml:space="preserve">
+    <value>Sesiune și activitate</value>
+  </data>
+  <data name="Menu.Sober.Group.Input" xml:space="preserve">
+    <value>Control și experiență</value>
+  </data>
+  <data name="Menu.Sober.Group.Graphics" xml:space="preserve">
+    <value>Grafică și desktop</value>
+  </data>
+  <data name="Menu.Sober.AllowGamepad.Title" xml:space="preserve">
+    <value>Permite accesul la controller</value>
+  </data>
+  <data name="Menu.Sober.AllowGamepad.Description" xml:space="preserve">
+    <value>Permite Sober să solicite acces la controllerele conectate. Schimbările de permisiuni pot necesita o nouă lansare Sober.</value>
+  </data>
+  <data name="Menu.Sober.CloseOnLeave.Title" xml:space="preserve">
+    <value>Închide la ieșire</value>
+  </data>
+  <data name="Menu.Sober.CloseOnLeave.Description" xml:space="preserve">
+    <value>Închide Sober după ce părăsești o experiență.</value>
+  </data>
+  <data name="Menu.Sober.DiscordRpc.Description" xml:space="preserve">
+    <value>Permite Sober să afișeze activitatea din joc prin Discord Rich Presence.</value>
+  </data>
+  <data name="Menu.Sober.DiscordJoin.Title" xml:space="preserve">
+    <value>Buton de intrare Discord</value>
+  </data>
+  <data name="Menu.Sober.DiscordJoin.Description" xml:space="preserve">
+    <value>Permite Sober să adauge un buton de intrare în Discord Rich Presence.</value>
+  </data>
+  <data name="Menu.Sober.GameMode.Title" xml:space="preserve">
+    <value>Integrare GameMode</value>
+  </data>
+  <data name="Menu.Sober.GameMode.Description" xml:space="preserve">
+    <value>Permite Sober să solicite optimizarea performanței GameMode când este disponibil.</value>
+  </data>
+  <data name="Menu.Sober.HiDpi.Title" xml:space="preserve">
+    <value>Scalare DPI ridicat</value>
+  </data>
+  <data name="Menu.Sober.HiDpi.Description" xml:space="preserve">
+    <value>Folosește scalarea nativă pentru ecranele cu densitate mare.</value>
+  </data>
+  <data name="Menu.Sober.MobileHome.Title" xml:space="preserve">
+    <value>Ecran de pornire mobil</value>
+  </data>
+  <data name="Menu.Sober.MobileHome.Description" xml:space="preserve">
+    <value>Folosește ecranul de pornire Roblox în stil mobil.</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Title" xml:space="preserve">
+    <value>Modul de optimizare grafică</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Description" xml:space="preserve">
+    <value>Selectează preferința de optimizare grafică Sober.</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Quality" xml:space="preserve">
+    <value>Calitate</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Balanced" xml:space="preserve">
+    <value>Echilibrat</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Performance" xml:space="preserve">
+    <value>Performanță</value>
+  </data>
+  <data name="Menu.Sober.ServerLocation.Title" xml:space="preserve">
+    <value>Indicator locație server</value>
+  </data>
+  <data name="Menu.Sober.ServerLocation.Description" xml:space="preserve">
+    <value>Afișează indicatorul locației serverului Sober în timpul jocului.</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Title" xml:space="preserve">
+    <value>Mod tactil</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Description" xml:space="preserve">
+    <value>Selectează modul în care Sober raportează suportul pentru atingere.</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Off" xml:space="preserve">
+    <value>Oprit</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.On" xml:space="preserve">
+    <value>Pornit</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.FakeOff" xml:space="preserve">
+    <value>Oprit fals</value>
+  </data>
+  <data name="Menu.Sober.ConsoleExperience.Title" xml:space="preserve">
+    <value>Experiență de consolă</value>
+  </data>
+  <data name="Menu.Sober.ConsoleExperience.Description" xml:space="preserve">
+    <value>Folosește experiența Roblox în stil de consolă.</value>
+  </data>
+  <data name="Menu.Sober.Libsecret.Title" xml:space="preserve">
+    <value>Stocare Secret Service</value>
+  </data>
+  <data name="Menu.Sober.Libsecret.Description" xml:space="preserve">
+    <value>Stochează datele de autentificare acceptate prin Secret Service al desktopului.</value>
+  </data>
+  <data name="Menu.Sober.OpenGl.Title" xml:space="preserve">
+    <value>Randare OpenGL</value>
+  </data>
+  <data name="Menu.Sober.OpenGl.Description" xml:space="preserve">
+    <value>Folosește OpenGL în locul backendului grafic implicit Sober.</value>
+  </data>
+  <data name="Installer.Appearance.BackgroundUI.Title" xml:space="preserve">
+    <value>Fundal și interfață</value>
+  </data>
+  <data name="Installer.Appearance.BackgroundUI.Description" xml:space="preserve">
+    <value>Personalizează programul de instalare și aplicația principală.</value>
+  </data>
+  <data name="Installer.Appearance.Snow.Title" xml:space="preserve">
+    <value>Zăpadă pe fundal</value>
+  </data>
+  <data name="Installer.Appearance.Snow.Description" xml:space="preserve">
+    <value>Adaugă un efect subtil de zăpadă pe fundal.</value>
+  </data>
+  <data name="Installer.Appearance.GradientMovement.Title" xml:space="preserve">
+    <value>Mișcarea gradientului</value>
+  </data>
+  <data name="Installer.Appearance.GradientMovement.Description" xml:space="preserve">
+    <value>Face ca gradientul fundalului să urmeze cursorul.</value>
+  </data>
+  <data name="Installer.Appearance.SmoothScrolling.Title" xml:space="preserve">
+    <value>Derulare lină</value>
+  </data>
+  <data name="Installer.Appearance.SmoothScrolling.Description" xml:space="preserve">
+    <value>Animează derularea în toată interfața.</value>
+  </data>
+  <data name="Installer.Appearance.ClearFont.Title" xml:space="preserve">
+    <value>Font clar</value>
+  </data>
+  <data name="Installer.Appearance.ClearFont.Description" xml:space="preserve">
+    <value>Folosește o randare mai clară a textului după repornirea Voidstrap.</value>
+  </data>
+  <data name="Installer.Appearance.Background.Title" xml:space="preserve">
+    <value>Fundal personalizat</value>
+  </data>
+  <data name="Installer.Appearance.Background.Description" xml:space="preserve">
+    <value>Folosește o imagine, un GIF sau un videoclip și ajustează cum apare.</value>
+  </data>
+  <data name="Installer.Appearance.GradientOpacity" xml:space="preserve">
+    <value>Opacitatea gradientului</value>
+  </data>
+  <data name="Installer.Appearance.DarkOverlay" xml:space="preserve">
+    <value>Suprapunere întunecată</value>
+  </data>
+  <data name="Installer.Appearance.DisplayEverywhere" xml:space="preserve">
+    <value>Afișează peste tot</value>
+  </data>
+  <data name="Installer.Appearance.RemoveBackground" xml:space="preserve">
+    <value>Elimină fundalul</value>
+  </data>
+  <data name="Installer.Appearance.Theme.Description" xml:space="preserve">
+    <value>Alege tema folosită în toate ferestrele Voidstrap.</value>
+  </data>
+  <data name="Installer.Appearance.Theme.Customize" xml:space="preserve">
+    <value>Personalizează</value>
+  </data>
+  <data name="Installer.Appearance.Backdrop.Title" xml:space="preserve">
+    <value>Fundalul ferestrei</value>
+  </data>
+  <data name="Installer.Appearance.Backdrop.Description" xml:space="preserve">
+    <value>Alege materialul afișat în spatele ferestrelor Voidstrap.</value>
+  </data>
+  <data name="Installer.Appearance.PageZoom.Title" xml:space="preserve">
+    <value>Zoomul paginii</value>
+  </data>
+  <data name="Installer.Appearance.PageZoom.Description" xml:space="preserve">
+    <value>Ajustează dimensiunea paginilor de setări.</value>
+  </data>
+  <data name="Vng.WarningTitle" xml:space="preserve">
+    <value>Roblox VNG: restricție permanentă a contului</value>
+  </data>
+  <data name="Vng.Warning" xml:space="preserve">
+    <value>STOP: CITEȘTE ÎNAINTE DE A CONTINUA
+
+Prima conectare la Roblox VNG îți migrează contul în VNG. Roblox afirmă că nu vei mai putea folosi acel cont în aplicația Roblox globală.
+
+Consideră această migrare a contului permanentă. Voidstrap nu o poate anula. Dezinstalarea VNG sau dezactivarea acestei opțiuni nu restabilește accesul global la cont. Se vor aplica restricțiile de cont și regionale VNG.
+
+Simpla descărcare a fișierelor nu îți migrează contul. Conectarea sau lansarea cu un cont existent poate expune acel cont migrării.
+
+Continuă doar dacă accepți să pierzi accesul la aplicația globală pentru orice cont pe care îl folosești cu VNG. Butonul Da se deblochează după zece secunde.</value>
+  </data>
+  <data name="Vng.Confirmation" xml:space="preserve">
+    <value>Ești sigur?</value>
+  </data>
+  <data name="Vng.Agreement" xml:space="preserve">
+    <value>Ultimul avertisment: conectarea la Roblox VNG îți poate migra contul permanent și poate elimina accesul la aplicația Roblox globală. Voidstrap nu poate anula acest lucru.
+
+Scrie exact fraza afișată mai jos pentru a accepta aceste restricții și a continua.</value>
+  </data>
+  <data name="Vng.Countdown" xml:space="preserve">
+    <value>{0} ({1} s)</value>
+  </data>
+  <data name="Vng.Description" xml:space="preserve">
+    <value>Clientul de jucător din Vietnam. Conectarea îți migrează contul și elimină accesul la aplicația globală.</value>
+  </data>
+  <data name="Vng.UseForLaunches" xml:space="preserve">
+    <value>Folosește VNG pentru lansările jucătorului</value>
+  </data>
+  <data name="Vng.UninstallWarning" xml:space="preserve">
+    <value>Eliminarea VNG nu anulează o migrare a contului și nu restabilește accesul la aplicația globală.</value>
+  </data>
+  <data name="Mtu.Description" xml:space="preserve">
+    <value>Limitează dimensiunea pachetelor pentru toate aplicațiile, inclusiv Roblox. Necesită drepturi de administrator și rămâne după repornire. S-ar putea să nu îmbunătățească pingul.</value>
+  </data>
+  <data name="Mtu.Adapter" xml:space="preserve">
+    <value>Selectează un adaptor de rețea și versiunea IP</value>
+  </data>
+  <data name="Mtu.CustomValue" xml:space="preserve">
+    <value>MTU personalizat (octeți)</value>
+  </data>
+  <data name="Mtu.Current" xml:space="preserve">
+    <value>Curent: {0} octeți. Minim: {1} octeți.</value>
+  </data>
+  <data name="Mtu.NoAdapters" xml:space="preserve">
+    <value>Nu s-au găsit adaptoare de rețea compatibile. Reîmprospătează pentru a încerca din nou.</value>
+  </data>
+  <data name="Mtu.Invalid" xml:space="preserve">
+    <value>Introdu un număr întreg între {0} și {1}. Windows verifică și dimensiunea pachetelor acceptată de adaptor.</value>
+  </data>
+  <data name="Mtu.Apply" xml:space="preserve">
+    <value>Aplică</value>
+  </data>
+  <data name="Mtu.Restore" xml:space="preserve">
+    <value>Restaurează</value>
+  </data>
+  <data name="Mtu.Refresh" xml:space="preserve">
+    <value>Reîmprospătează</value>
+  </data>
+  <data name="Mtu.Loading" xml:space="preserve">
+    <value>Se citesc adaptoarele de rețea Windows...</value>
+  </data>
+  <data name="Mtu.Applying" xml:space="preserve">
+    <value>Se așteaptă aprobarea administratorului și se aplică MTU...</value>
+  </data>
+  <data name="Mtu.AdapterUnavailable" xml:space="preserve">
+    <value>Adaptorul selectat nu este disponibil. Reîmprospătează și alege un adaptor.</value>
+  </data>
+  <data name="Mtu.Rejected" xml:space="preserve">
+    <value>Windows nu a putut aplica MTU, cod {0}. Este posibil ca adaptorul tău să nu accepte această valoare.</value>
+  </data>
+  <data name="Mtu.Applied" xml:space="preserve">
+    <value>MTU setat la {0} octeți și verificat. Se aplică tuturor aplicațiilor de pe adaptorul selectat.</value>
+  </data>
+  <data name="Mtu.Restored" xml:space="preserve">
+    <value>MTU anterior restaurat la {0} octeți și verificat.</value>
+  </data>
+  <data name="Mtu.VerificationFailed" xml:space="preserve">
+    <value>Windows nu a raportat MTU solicitat. Reîmprospătează pentru a verifica valoarea curentă.</value>
+  </data>
+  <data name="Mtu.Cancelled" xml:space="preserve">
+    <value>Cererea de administrator a fost anulată. MTU nu a fost modificat.</value>
+  </data>
+  <data name="Mtu.Error" xml:space="preserve">
+    <value>Operațiunea MTU a eșuat. Reîmprospătează pentru a verifica valoarea curentă.</value>
+  </data>
+  <data name="Menu_FastFlagEditor_Rename" xml:space="preserve">
+    <value>Redenumește</value>
+  </data>
+  <data name="Menu_FastFlagEditor_EditValue" xml:space="preserve">
+    <value>Editează valoarea</value>
+  </data>
+  <data name="Menu_FastFlagEditor_CopySelected" xml:space="preserve">
+    <value>Copiază selecția ca JSON</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Title" xml:space="preserve">
+    <value>Culoare de accent</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Description" xml:space="preserve">
+    <value>Alege o culoare pentru controalele aplicației și nuanța fundalului.</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Choose" xml:space="preserve">
+    <value>Alege culoarea</value>
+  </data>
+  <data name="Menu.Appearance.Accent.System" xml:space="preserve">
+    <value>Folosește culoarea sistemului</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Picker" xml:space="preserve">
+    <value>Alege culoarea de accent</value>
+  </data>
+  <data name="Menu.Shortcuts.Customize" xml:space="preserve">
+    <value>Nume și pictogramă</value>
+  </data>
+  <data name="Menu.Shortcuts.InvalidName" xml:space="preserve">
+    <value>Folosește un nume de scurtătură valid, fără bare oblice sau nume de fișiere rezervate.</value>
+  </data>
+  <data name="Menu.Shortcuts.NameExists" xml:space="preserve">
+    <value>Există deja o scurtătură cu acest nume. Alege alt nume.</value>
+  </data>
+  <data name="Menu.Shortcuts.ChooseIcon" xml:space="preserve">
+    <value>Alege o pictogramă pentru scurtătură</value>
+  </data>
+  <data name="Menu.Shortcuts.IconFilter" xml:space="preserve">
+    <value>Fișiere de pictograme și imagini|*.ico;*.png;*.jpg;*.jpeg;*.bmp;*.webp</value>
+  </data>
+  <data name="Menu.Shortcuts.InvalidIcon" xml:space="preserve">
+    <value>Alege o pictogramă sau o imagine validă mai mică de 8 MB.</value>
+  </data>
+  <data name="Menu.LaunchDropdownOnRight" xml:space="preserve">
+    <value>Plasează selectorul de versiuni în dreapta</value>
+  </data>
+  <data name="OverlayDiagnostics.Bounds" xml:space="preserve">
+    <value>Dimensiune și poziție pe ecran</value>
+  </data>
+  <data name="OverlayDiagnostics.CollectionError" xml:space="preserve">
+    <value>Eșantionul curent nu a putut fi colectat: {0}</value>
+  </data>
+  <data name="OverlayDiagnostics.CompositeCrosshair" xml:space="preserve">
+    <value>Ținta compozitorului activă</value>
+  </data>
+  <data name="OverlayDiagnostics.Compositor" xml:space="preserve">
+    <value>Compozitor inițializat</value>
+  </data>
+  <data name="OverlayDiagnostics.Configuration" xml:space="preserve">
+    <value>Funcții configurate, aceste comutatoare nu dovedesc randarea</value>
+  </data>
+  <data name="OverlayDiagnostics.Crosshair" xml:space="preserve">
+    <value>Țintă</value>
+  </data>
+  <data name="OverlayDiagnostics.Disabled" xml:space="preserve">
+    <value>Toate funcțiile de suprapunere verificate sunt dezactivate în setări.</value>
+  </data>
+  <data name="OverlayDiagnostics.DispatcherRequired" xml:space="preserve">
+    <value>Diagnosticarea suprapunerii trebuie să ruleze pe dispatcherul ferestrei.</value>
+  </data>
+  <data name="OverlayDiagnostics.FakeBorderless" xml:space="preserve">
+    <value>Ecran complet fără margini fals</value>
+  </data>
+  <data name="OverlayDiagnostics.FakeExclusive" xml:space="preserve">
+    <value>Ecran complet exclusiv fals</value>
+  </data>
+  <data name="OverlayDiagnostics.Findings" xml:space="preserve">
+    <value>Verificări și limitări</value>
+  </data>
+  <data name="OverlayDiagnostics.Foreground" xml:space="preserve">
+    <value>Roblox sau suprapunerea sa are focusul</value>
+  </data>
+  <data name="OverlayDiagnostics.FullscreenUnknown" xml:space="preserve">
+    <value>Ecranul complet exclusiv nu este confirmat. Dimensiunea ferestrei și stilul marginii nu pot stabili modul de afișare.</value>
+  </data>
+  <data name="OverlayDiagnostics.GameEffects" xml:space="preserve">
+    <value>Efecte de joc</value>
+  </data>
+  <data name="OverlayDiagnostics.GameLease" xml:space="preserve">
+    <value>Închiriere de joc Linux confirmată</value>
+  </data>
+  <data name="OverlayDiagnostics.GameSession" xml:space="preserve">
+    <value>Sesiunea de joc a monitorului de activitate</value>
+  </data>
+  <data name="OverlayDiagnostics.GameSignal" xml:space="preserve">
+    <value>Semnalul de joc al hubului de suprapuneri</value>
+  </data>
+  <data name="OverlayDiagnostics.Handle" xml:space="preserve">
+    <value>Handle fereastră</value>
+  </data>
+  <data name="OverlayDiagnostics.Homepage" xml:space="preserve">
+    <value>Fundalul paginii de start</value>
+  </data>
+  <data name="OverlayDiagnostics.HomepageInGame" xml:space="preserve">
+    <value>Hubul de suprapuneri raportează o sesiune de joc în timp ce procesul paginii de start Linux încă rulează. Un proces poate rula fără să deseneze.</value>
+  </data>
+  <data name="OverlayDiagnostics.HomepageWorker" xml:space="preserve">
+    <value>Procesul paginii de start Linux rulează</value>
+  </data>
+  <data name="OverlayDiagnostics.Intersects" xml:space="preserve">
+    <value>Dreptunghiul intersectează Roblox</value>
+  </data>
+  <data name="OverlayDiagnostics.Minimized" xml:space="preserve">
+    <value>Fereastra nativă minimizată</value>
+  </data>
+  <data name="OverlayDiagnostics.MissingCrosshair" xml:space="preserve">
+    <value>Ținta este configurată, dar în acest proces nu s-a găsit nici o fereastră de țintă, nici o țintă activă a compozitorului.</value>
+  </data>
+  <data name="OverlayDiagnostics.MissingStats" xml:space="preserve">
+    <value>Statisticile sunt configurate, dar în acest proces nu s-a găsit nicio fereastră de statistici. Aceasta nu dovedește o eroare la creare și nu exclude un alt proces Voidstrap.</value>
+  </data>
+  <data name="OverlayDiagnostics.MonitorCoverage" xml:space="preserve">
+    <value>Clientul fără margini acoperă monitorul</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeLive" xml:space="preserve">
+    <value>Handle nativ valid</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeTopmost" xml:space="preserve">
+    <value>Indicator nativ mereu deasupra</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeVisible" xml:space="preserve">
+    <value>Fereastra nativă vizibilă</value>
+  </data>
+  <data name="OverlayDiagnostics.No" xml:space="preserve">
+    <value>Nu</value>
+  </data>
+  <data name="OverlayDiagnostics.NoUsableWindow" xml:space="preserve">
+    <value>Nu s-a măsurat niciun dreptunghi utilizabil al clientului Roblox. Roblox poate fi închis, minimizat, ascuns, în pornire sau inaccesibil.</value>
+  </data>
+  <data name="OverlayDiagnostics.NoWindows" xml:space="preserve">
+    <value>Nu s-au găsit ferestre de suprapunere în acest proces.</value>
+  </data>
+  <data name="OverlayDiagnostics.Opacity" xml:space="preserve">
+    <value>Opacitate WPF</value>
+  </data>
+  <data name="OverlayDiagnostics.PixelsUnknown" xml:space="preserve">
+    <value>Indicatorii de vizibilitate, opacitate și mereu deasupra nu dovedesc că pixelii sunt afișați, neacoperiți sau vizibili pentru utilizator. Acest raport nu verifică livrarea cadrelor GPU și acoperirea.</value>
+  </data>
+  <data name="OverlayDiagnostics.Place" xml:space="preserve">
+    <value>ID loc al monitorului de activitate</value>
+  </data>
+  <data name="OverlayDiagnostics.RegisteredWindow" xml:space="preserve">
+    <value>Suprapunere nativă înregistrată</value>
+  </data>
+  <data name="OverlayDiagnostics.RobloxWindow" xml:space="preserve">
+    <value>Fereastra Roblox observată</value>
+  </data>
+  <data name="OverlayDiagnostics.Runtime" xml:space="preserve">
+    <value>Starea de rulare observată</value>
+  </data>
+  <data name="OverlayDiagnostics.Sample" xml:space="preserve">
+    <value>Eșantion {0:HH:mm:ss.fff zzz}, reîmprospătat în fiecare secundă și la schimbările ferestrelor</value>
+  </data>
+  <data name="OverlayDiagnostics.Scope" xml:space="preserve">
+    <value>Aceste citiri descriu acest proces Voidstrap. Ferestrele altui proces s-ar putea să nu fie listate.</value>
+  </data>
+  <data name="OverlayDiagnostics.Stats" xml:space="preserve">
+    <value>Suprapunerea statisticilor</value>
+  </data>
+  <data name="OverlayDiagnostics.Teleporting" xml:space="preserve">
+    <value>Teleportare a monitorului de activitate în curs</value>
+  </data>
+  <data name="OverlayDiagnostics.Title" xml:space="preserve">
+    <value>Diagnosticarea suprapunerii</value>
+  </data>
+  <data name="OverlayDiagnostics.Transition" xml:space="preserve">
+    <value>Tranziție de joc</value>
+  </data>
+  <data name="OverlayDiagnostics.Unavailable" xml:space="preserve">
+    <value>Indisponibil</value>
+  </data>
+  <data name="OverlayDiagnostics.Unfocused" xml:space="preserve">
+    <value>Roblox nu are focusul acum. Suprapunerile se pot ascunde intenționat cât timp altă fereastră este activă, inclusiv această fereastră de diagnosticare.</value>
+  </data>
+  <data name="OverlayDiagnostics.UsableRect" xml:space="preserve">
+    <value>Dreptunghi utilizabil al clientului urmărit</value>
+  </data>
+  <data name="OverlayDiagnostics.Visible" xml:space="preserve">
+    <value>Vizibil în WPF</value>
+  </data>
+  <data name="OverlayDiagnostics.Windows" xml:space="preserve">
+    <value>Ferestre de suprapunere observate</value>
+  </data>
+  <data name="OverlayDiagnostics.Worker" xml:space="preserve">
+    <value>Firul de lucru al compozitorului rulează</value>
+  </data>
+  <data name="OverlayDiagnostics.WpfTopmost" xml:space="preserve">
+    <value>WPF mereu deasupra solicitat</value>
+  </data>
+  <data name="OverlayDiagnostics.X11" xml:space="preserve">
+    <value>Conexiune X11 disponibilă</value>
+  </data>
+  <data name="OverlayDiagnostics.X11Compositor" xml:space="preserve">
+    <value>Compozitor X11 detectat</value>
+  </data>
+  <data name="OverlayDiagnostics.X11Unavailable" xml:space="preserve">
+    <value>Nu este disponibilă nicio conexiune X11. Inspectarea ferestrelor native nu este posibilă; pot fi implicate restricții Wayland sau permisiuni sandbox.</value>
+  </data>
+  <data name="OverlayDiagnostics.Yes" xml:space="preserve">
+    <value>Da</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeCompositor" xml:space="preserve">
+    <value>Fereastra nativă a compozitorului GPU</value>
+  </data>
+  <data name="FlagSearch.Loading" xml:space="preserve">
+    <value>Se încarcă sursele…</value>
+  </data>
+  <data name="FlagSearch.Loaded" xml:space="preserve">
+    <value>Încărcat</value>
+  </data>
+  <data name="FlagSearch.Unavailable" xml:space="preserve">
+    <value>Indisponibil</value>
+  </data>
+  <data name="FlagSearch.Pending" xml:space="preserve">
+    <value>În așteptare</value>
+  </data>
+  <data name="FlagSearch.LoadedSummary" xml:space="preserve">
+    <value>{0:N0} nume unice încărcate din {1} din {2} surse. Vezi Surse de date pentru detalii.</value>
+  </data>
+  <data name="FlagSearch.LoadError" xml:space="preserve">
+    <value>Încărcarea surselor a eșuat. Vezi jurnalul pentru detalii.</value>
+  </data>
+  <data name="FlagSearch.ObjectRequired" xml:space="preserve">
+    <value>JSON-ul de flaguri trebuie să conțină un obiect.</value>
+  </data>
+  <data name="FlagSearch.EmptySource" xml:space="preserve">
+    <value>Sursa nu a returnat nume de flaguri recunoscute.</value>
+  </data>
+  <data name="FlagSearch.ResultCount" xml:space="preserve">
+    <value>Se afișează {0:N0} din {1:N0} rezultate</value>
+  </data>
+  <data name="FlagSearch.SearchError" xml:space="preserve">
+    <value>Căutarea a eșuat. Vezi jurnalul pentru detalii.</value>
+  </data>
+  <data name="FlagSearch.Validating" xml:space="preserve">
+    <value>Se verifică numele flagurilor și valorile introduse…</value>
+  </data>
+  <data name="FlagSearch.Found" xml:space="preserve">
+    <value>Găsit</value>
+  </data>
+  <data name="FlagSearch.ValueError" xml:space="preserve">
+    <value>Eroare de valoare</value>
+  </data>
+  <data name="FlagSearch.NotFound" xml:space="preserve">
+    <value>Negăsit</value>
+  </data>
+  <data name="FlagSearch.FoundNote" xml:space="preserve">
+    <value>Găsit în sursele încărcate. Suportul pentru suprascrierea locală nu este verificat.</value>
+  </data>
+  <data name="FlagSearch.NotFoundNote" xml:space="preserve">
+    <value>Lipsește din sursele încărcate, asta nu dovedește că flagul este invalid.</value>
+  </data>
+  <data name="FlagSearch.ValidationSummary" xml:space="preserve">
+    <value>{0:N0} flaguri verificate, {1:N0} intrări s-au potrivit cu o sursă și cu tipul de valoare așteptat.</value>
+  </data>
+  <data name="FlagSearch.NameError" xml:space="preserve">
+    <value>Folosește un nume de Fast Flag recunoscut, fără spații.</value>
+  </data>
+  <data name="FlagSearch.TooMany" xml:space="preserve">
+    <value>Intrarea conține prea multe flaguri.</value>
+  </data>
+  <data name="FlagSearch.ScalarRequired" xml:space="preserve">
+    <value>Valorile flagurilor trebuie să fie șiruri, numere sau valori booleene.</value>
+  </data>
+  <data name="FlagSearch.LineError" xml:space="preserve">
+    <value>Fiecare linie de text trebuie să folosească nume=valoare.</value>
+  </data>
+  <data name="FlagSearch.EmptyInput" xml:space="preserve">
+    <value>Nu s-au găsit intrări de flaguri.</value>
+  </data>
+  <data name="FlagSearch.Label1" xml:space="preserve">
+    <value>Găsește Fast Flaguri</value>
+  </data>
+  <data name="FlagSearch.Label2" xml:space="preserve">
+    <value>Găsește Fast Flaguri</value>
+  </data>
+  <data name="FlagSearch.Label3" xml:space="preserve">
+    <value>Căutare și validare Fast Flag</value>
+  </data>
+  <data name="FlagSearch.Label4" xml:space="preserve">
+    <value>Caută, validează și descoperă Fast Flaguri din mai multe surse</value>
+  </data>
+  <data name="FlagSearch.Label5" xml:space="preserve">
+    <value>Reîmprospătează sursele</value>
+  </data>
+  <data name="FlagSearch.Label6" xml:space="preserve">
+    <value>Gata</value>
+  </data>
+  <data name="FlagSearch.Label7" xml:space="preserve">
+    <value>Căutare live</value>
+  </data>
+  <data name="FlagSearch.Label8" xml:space="preserve">
+    <value>Căutare live de flaguri</value>
+  </data>
+  <data name="FlagSearch.Label9" xml:space="preserve">
+    <value>Caută nume complete sau cuvinte cheie. Potrivirile exacte apar primele. Exportul include toate valorile cunoscute care se potrivesc.</value>
+  </data>
+  <data name="FlagSearch.Label10" xml:space="preserve">
+    <value>Introdu numele flagului sau un cuvânt cheie...</value>
+  </data>
+  <data name="FlagSearch.Label11" xml:space="preserve">
+    <value>Exportă rezultatele</value>
+  </data>
+  <data name="FlagSearch.Label12" xml:space="preserve">
+    <value>Toate valorile</value>
+  </data>
+  <data name="FlagSearch.Label13" xml:space="preserve">
+    <value>Valori true</value>
+  </data>
+  <data name="FlagSearch.Label14" xml:space="preserve">
+    <value>Valori false</value>
+  </data>
+  <data name="FlagSearch.Label15" xml:space="preserve">
+    <value>Numele flagului</value>
+  </data>
+  <data name="FlagSearch.Label16" xml:space="preserve">
+    <value>Valoare</value>
+  </data>
+  <data name="FlagSearch.Label17" xml:space="preserve">
+    <value>Sursă</value>
+  </data>
+  <data name="FlagSearch.Label18" xml:space="preserve">
+    <value>Nicio potrivire. Încearcă alt nume sau filtru de valoare.</value>
+  </data>
+  <data name="FlagSearch.Label19" xml:space="preserve">
+    <value>0 rezultate</value>
+  </data>
+  <data name="FlagSearch.Label20" xml:space="preserve">
+    <value>Validare în bloc</value>
+  </data>
+  <data name="FlagSearch.Label21" xml:space="preserve">
+    <value>Validarea flagurilor în bloc</value>
+  </data>
+  <data name="FlagSearch.Label22" xml:space="preserve">
+    <value>Verifică prezența în surse și tipurile de valori. O potrivire nu garantează că Roblox permite suprascrierea locală.</value>
+  </data>
+  <data name="FlagSearch.Label23" xml:space="preserve">
+    <value>Încarcă fișier</value>
+  </data>
+  <data name="FlagSearch.Label24" xml:space="preserve">
+    <value>Validează</value>
+  </data>
+  <data name="FlagSearch.Label25" xml:space="preserve">
+    <value>Golește</value>
+  </data>
+  <data name="FlagSearch.Label26" xml:space="preserve">
+    <value>Lipește</value>
+  </data>
+  <data name="FlagSearch.Label28" xml:space="preserve">
+    <value>Selectează tot</value>
+  </data>
+  <data name="FlagSearch.Label30" xml:space="preserve">
+    <value>Golește</value>
+  </data>
+  <data name="FlagSearch.Label31" xml:space="preserve">
+    <value>Rezultatele validării</value>
+  </data>
+  <data name="FlagSearch.Label32" xml:space="preserve">
+    <value>Numele flagului</value>
+  </data>
+  <data name="FlagSearch.Label33" xml:space="preserve">
+    <value>Valoare introdusă</value>
+  </data>
+  <data name="FlagSearch.Label34" xml:space="preserve">
+    <value>Stare</value>
+  </data>
+  <data name="FlagSearch.Label35" xml:space="preserve">
+    <value>Valoare din sursă</value>
+  </data>
+  <data name="FlagSearch.Label36" xml:space="preserve">
+    <value>Note</value>
+  </data>
+  <data name="FlagSearch.Label37" xml:space="preserve">
+    <value>Exportă intrarea verificată</value>
+  </data>
+  <data name="FlagSearch.Label38" xml:space="preserve">
+    <value>0 rezultate</value>
+  </data>
+  <data name="FlagSearch.Label39" xml:space="preserve">
+    <value>Surse de date</value>
+  </data>
+  <data name="FlagSearch.Label40" xml:space="preserve">
+    <value>Disponibilitatea surselor live și orele de preluare. Prezența într-o sursă nu înseamnă că Roblox acceptă o suprascriere locală. Aceste surse nu oferă datele modificărilor recente.</value>
+  </data>
+  <data name="FlagSearch.Label41" xml:space="preserve">
+    <value>Sursă</value>
+  </data>
+  <data name="FlagSearch.Label42" xml:space="preserve">
+    <value>Stare</value>
+  </data>
+  <data name="FlagSearch.Label43" xml:space="preserve">
+    <value>Flaguri</value>
+  </data>
+  <data name="FlagSearch.Label44" xml:space="preserve">
+    <value>Preluat</value>
+  </data>
+  <data name="FlagSearch.Label45" xml:space="preserve">
+    <value>Închide</value>
+  </data>
+  <data name="FlagSearch.Message1" xml:space="preserve">
+    <value>Introdu flagurile de validat.</value>
+  </data>
+  <data name="FlagSearch.Message2" xml:space="preserve">
+    <value>Nicio intrare</value>
+  </data>
+  <data name="FlagSearch.Message3" xml:space="preserve">
+    <value>Această intrare de flaguri este prea mare pentru validare.</value>
+  </data>
+  <data name="FlagSearch.Message4" xml:space="preserve">
+    <value>Intrare prea mare</value>
+  </data>
+  <data name="FlagSearch.Message5" xml:space="preserve">
+    <value>Flaguri duplicate găsite în intrare: </value>
+  </data>
+  <data name="FlagSearch.Message6" xml:space="preserve">
+    <value>Duplicate detectate</value>
+  </data>
+  <data name="FlagSearch.Message7" xml:space="preserve">
+    <value>Eroare la validarea flagurilor</value>
+  </data>
+  <data name="FlagSearch.Message8" xml:space="preserve">
+    <value>Eroare la validarea flagurilor: </value>
+  </data>
+  <data name="FlagSearch.Message9" xml:space="preserve">
+    <value>Eroare de validare</value>
+  </data>
+  <data name="FlagSearch.Message10" xml:space="preserve">
+    <value>Selectează fișierul de flaguri de validat</value>
+  </data>
+  <data name="FlagSearch.Message11" xml:space="preserve">
+    <value>Eroare la încărcarea fișierului: </value>
+  </data>
+  <data name="FlagSearch.Message12" xml:space="preserve">
+    <value>Eroare de fișier</value>
+  </data>
+  <data name="FlagSearch.Message13" xml:space="preserve">
+    <value>Dimensiunea fișierului de flaguri este invalidă</value>
+  </data>
+  <data name="FlagSearch.Message14" xml:space="preserve">
+    <value>Fișierul de flaguri s-a modificat în timpul citirii</value>
+  </data>
+  <data name="FlagSearch.Message15" xml:space="preserve">
+    <value>Intrarea de flaguri este prea mare</value>
+  </data>
+  <data name="FlagSearch.Message16" xml:space="preserve">
+    <value>{flags.Count} flaguri exportate în {dialog.FileName}</value>
+  </data>
+  <data name="FlagSearch.Message17" xml:space="preserve">
+    <value>Export finalizat</value>
+  </data>
+  <data name="FlagSearch.Message18" xml:space="preserve">
+    <value>Eroare la exportarea flagurilor: </value>
+  </data>
+  <data name="FlagSearch.Message19" xml:space="preserve">
+    <value>Eroare de export</value>
+  </data>
+  <data name="FlagSearch.Message20" xml:space="preserve">
+    <value>Eroare la lipirea din clipboard: </value>
+  </data>
+  <data name="FlagSearch.Message21" xml:space="preserve">
+    <value>Eroare la lipire</value>
+  </data>
+  <data name="FlagSearch.ExportSummary" xml:space="preserve">
+    <value>{0:N0} flaguri exportate în {1}</value>
+  </data>
+  <data name="FlagSearch.ValueNote" xml:space="preserve">
+    <value>Valoarea introdusă nu corespunde tipului numelui flagului. Flagurile booleene necesită true sau false, flagurile întregi necesită un număr întreg pe 32 de biți.</value>
+  </data>
+  <data name="Notifications.Title" xml:space="preserve">
+    <value>Notificări</value>
+  </data>
+  <data name="Notifications.Updates" xml:space="preserve">
+    <value>Actualizări</value>
+  </data>
+  <data name="Notifications.Roblox" xml:space="preserve">
+    <value>Roblox și moduri</value>
+  </data>
+  <data name="Notifications.Recovery" xml:space="preserve">
+    <value>Recuperarea setărilor</value>
+  </data>
+  <data name="Notifications.Errors" xml:space="preserve">
+    <value>Erori și blocări</value>
+  </data>
+  <data name="Notifications.GameJoins" xml:space="preserve">
+    <value>Ai intrat într-un joc</value>
+  </data>
+  <data name="Notifications.App" xml:space="preserve">
+    <value>Notificările aplicației</value>
+  </data>
+  <data name="Notifications.AppDescription" xml:space="preserve">
+    <value>Afișează notificările aplicației.</value>
+  </data>
+  <data name="Bootstrapper.Uninstall.NvidiaFailed" xml:space="preserve">
+    <value>Curățarea NVIDIA a eșuat. Dezinstalezi oricum? Setările NVIDIA rămase vor rămâne aplicate.
+
+{0}</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Latest" xml:space="preserve">
+    <value>Cele mai noi</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Oldest" xml:space="preserve">
+    <value>Cele mai vechi</value>
+  </data>
+  <data name="ContextMenu.GameHistory.MostPlayed" xml:space="preserve">
+    <value>Cele mai lungi vizite</value>
+  </data>
+  <data name="ContextMenu.GameHistory.NameAscending" xml:space="preserve">
+    <value>Nume, crescător</value>
+  </data>
+  <data name="ContextMenu.GameHistory.NameDescending" xml:space="preserve">
+    <value>Nume, descrescător</value>
+  </data>
+  <data name="ContextMenu.GameHistory.AllServers" xml:space="preserve">
+    <value>Toate serverele</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Private" xml:space="preserve">
+    <value>Privat</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Reserved" xml:space="preserve">
+    <value>Rezervat</value>
+  </data>
+  <data name="ContextMenu.GameHistory.EndUnknown" xml:space="preserve">
+    <value>Neînregistrat</value>
+  </data>
+  <data name="ContextMenu.GameHistory.CopyLink" xml:space="preserve">
+    <value>Copiază linkul</value>
+  </data>
+  <data name="ContextMenu.GameHistory.LoadFailed" xml:space="preserve">
+    <value>Istoricul nu a putut fi încărcat.</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Empty" xml:space="preserve">
+    <value>Nicio vizită de afișat.</value>
+  </data>
+  <data name="ContextMenu.GameHistory.StatusUnknown" xml:space="preserve">
+    <value>Necunoscut</value>
+  </data>
+  <data name="ContextMenu.GameHistory.CheckedAt" xml:space="preserve">
+    <value>Verificat: {0}</value>
+  </data>
+  <data name="ContextMenu.GameHistory.LaunchFailed" xml:space="preserve">
+    <value>Roblox nu a putut fi lansat.</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.MaxOnly" xml:space="preserve">
+    <value>Max. {0}</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.Unknown" xml:space="preserve">
+    <value>Necunoscut</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.InGame" xml:space="preserve">
+    <value>{0:N0} în joc</value>
+  </data>
+  <data name="ServerInfo.Hint.Updated" xml:space="preserve">
+    <value>Actualizat acum {0}.</value>
+  </data>
+  <data name="ServerInfo.Hint.RateLimited" xml:space="preserve">
+    <value>Roblox limitează căutările de servere, se reîncearcă în {0}.</value>
+  </data>
+  <data name="ServerInfo.Hint.RateLimitedStale" xml:space="preserve">
+    <value>Roblox limitează căutările de servere. Se afișează numărul de acum {0}, se actualizează din nou în {1}.</value>
+  </data>
+  <data name="ServerInfo.Hint.NotListed" xml:space="preserve">
+    <value>Acest server nu se află în partea listei publice de servere pe care o partajează Roblox, se verifică din nou în {0}.</value>
+  </data>
+  <data name="ServerInfo.Hint.NotListedStale" xml:space="preserve">
+    <value>Văzut ultima dată acum {0}. Acest server nu se află acum în partea listei publice de servere pe care o partajează Roblox.</value>
+  </data>
+  <data name="ServerInfo.Hint.PrivateNotListed" xml:space="preserve">
+    <value>Acest server privat nu se află în lista de servere pe care o poate vedea contul tău, așa că numărul de jucători nu poate fi citit.</value>
+  </data>
+  <data name="ServerInfo.Hint.PrivateSignedOut" xml:space="preserve">
+    <value>Roblox partajează numărul de jucători al serverelor private doar cu un cont conectat. Conectează-te la Roblox în Voidstrap ca să îl vezi.</value>
+  </data>
+  <data name="ServerInfo.Hint.Reserved" xml:space="preserve">
+    <value>Roblox nu listează serverele rezervate, folosite pentru teleportări și grupuri, așa că numărul lor de jucători nu poate fi citit.</value>
+  </data>
+  <data name="ServerInfo.Hint.Unavailable" xml:space="preserve">
+    <value>Roblox nu a putut fi contactat, se reîncearcă în {0}.</value>
+  </data>
+  <data name="ServerInfo.Hint.UnavailableStale" xml:space="preserve">
+    <value>Roblox nu a putut fi contactat. Se afișează numărul de acum {0}, se reîncearcă în {1}.</value>
+  </data>
+  <data name="ServerInfo.Hint.Full" xml:space="preserve">
+    <value>Acest server este plin. Roblox omite serverele pline din lista publică, așa că este afișat ca plin până se eliberează un loc.</value>
+  </data>
+  <data name="Shortcuts.GameTab" xml:space="preserve">
+    <value>Joc</value>
+  </data>
+  <data name="Shortcuts.SubplaceTab" xml:space="preserve">
+    <value>Subloc</value>
+  </data>
+  <data name="Shortcuts.SubplaceDescription" xml:space="preserve">
+    <value>Găsește celelalte locuri din această experiență.</value>
+  </data>
+  <data name="Shortcuts.LoadSubplaces" xml:space="preserve">
+    <value>Încarcă sublocurile</value>
+  </data>
+  <data name="Shortcuts.SubplaceAccess" xml:space="preserve">
+    <value>Creatorul trebuie să permită intrarea directă. Unele sublocuri necesită o teleportare în joc.</value>
+  </data>
+  <data name="Shortcuts.SubplaceInitial" xml:space="preserve">
+    <value>Introdu un ID de joc pentru a-i încărca automat sublocurile.</value>
+  </data>
+  <data name="Shortcuts.SubplaceRetry" xml:space="preserve">
+    <value>Redeschide această filă pentru a încerca din nou.</value>
+  </data>
+  <data name="Shortcuts.SubplaceInvalidId" xml:space="preserve">
+    <value>Introdu un ID de joc numeric valid.</value>
+  </data>
+  <data name="Shortcuts.SubplaceLoading" xml:space="preserve">
+    <value>Se încarcă sublocurile...</value>
+  </data>
+  <data name="Shortcuts.SubplaceEmpty" xml:space="preserve">
+    <value>Această experiență nu are sublocuri listate.</value>
+  </data>
+  <data name="Shortcuts.SubplaceChoose" xml:space="preserve">
+    <value>Alege un subloc mai jos.</value>
+  </data>
+  <data name="Shortcuts.SubplaceTimeout" xml:space="preserve">
+    <value>Cererea a expirat. Redeschide această filă pentru a încerca din nou.</value>
+  </data>
+  <data name="Shortcuts.SubplaceFailed" xml:space="preserve">
+    <value>Sublocurile nu au putut fi încărcate. Verifică ID-ul jocului și conexiunea, apoi încearcă din nou.</value>
+  </data>
+  <data name="Shortcuts.SubplaceReload" xml:space="preserve">
+    <value>Sublocurile se încarcă automat când introduci un ID de joc valid.</value>
+  </data>
+  <data name="Shortcuts.SubplaceRequired" xml:space="preserve">
+    <value>Așteaptă încărcarea sublocurilor, apoi alege unul înainte de a continua.</value>
+  </data>
+  <data name="Library.SubplacesTab" xml:space="preserve">
+    <value>Sublocuri</value>
+  </data>
+  <data name="SettingsProfiles.Title" xml:space="preserve">
+    <value>Profiluri de setări</value>
+  </data>
+  <data name="SettingsProfiles.Name" xml:space="preserve">
+    <value>Numele profilului</value>
+  </data>
+  <data name="SettingsProfiles.NameHint" xml:space="preserve">
+    <value>Exemplu: VoidstrapProfile</value>
+  </data>
+  <data name="SettingsProfiles.Save" xml:space="preserve">
+    <value>Salvează profilul</value>
+  </data>
+  <data name="SettingsProfiles.Saved" xml:space="preserve">
+    <value>Profiluri salvate</value>
+  </data>
+  <data name="SettingsProfiles.Apply" xml:space="preserve">
+    <value>Aplică profilul</value>
+  </data>
+  <data name="SettingsProfiles.Folder" xml:space="preserve">
+    <value>Deschide folderul</value>
+  </data>
+  <data name="SettingsProfiles.Empty" xml:space="preserve">
+    <value>Încă nu există profiluri. Introdu un nume și alege Salvează profilul.</value>
+  </data>
+  <data name="SettingsProfiles.Location" xml:space="preserve">
+    <value>Salvat în {0}</value>
+  </data>
+  <data name="SettingsProfiles.InvalidName" xml:space="preserve">
+    <value>Folosește un nume între 1 și 80 de caractere, fără simboluri de nume de fișier sau nume de dispozitive rezervate.</value>
+  </data>
+  <data name="SettingsProfiles.InvalidFile" xml:space="preserve">
+    <value>Acest profil este invalid sau folosește un format neacceptat.</value>
+  </data>
+  <data name="SettingsProfiles.RestoreFailed" xml:space="preserve">
+    <value>Profilul nu a putut fi aplicat, iar setările anterioare nu au putut fi restaurate.</value>
+  </data>
+  <data name="SettingsProfiles.Overwrite" xml:space="preserve">
+    <value>Înlocuiești profilul salvat "{0}" cu setările tale curente?</value>
+  </data>
+  <data name="SettingsProfiles.SavedStatus" xml:space="preserve">
+    <value>"{0}" salvat</value>
+  </data>
+  <data name="SettingsProfiles.ApplyConfirm" xml:space="preserve">
+    <value>Aplici "{0}"? Aceasta înlocuiește setările Voidstrap și FastFlags curente, apoi redeschide setările Voidstrap.</value>
+  </data>
+  <data name="SettingsProfiles.RestartFailed" xml:space="preserve">
+    <value>Profilul a fost aplicat. Repornește Voidstrap pentru a reîmprospăta toate paginile de setări.</value>
+  </data>
+  <data name="SettingsProfiles.Restart" xml:space="preserve">
+    <value>Repornește acum</value>
+  </data>
+  <data name="SettingsProfiles.DeleteConfirm" xml:space="preserve">
+    <value>Ștergi profilul salvat "{0}"? Setările tale curente vor rămâne neschimbate.</value>
+  </data>
+  <data name="SettingsProfiles.Deleted" xml:space="preserve">
+    <value>"{0}" șters.</value>
+  </data>
+  <data name="SettingsProfiles.Error" xml:space="preserve">
+    <value>Acțiunea profilului nu a putut fi finalizată: {0}</value>
+  </data>
+  <data name="GlobalProfiles.Title" xml:space="preserve">
+    <value>Profiluri de setări globale</value>
+  </data>
+  <data name="GlobalProfiles.ApplyConfirm" xml:space="preserve">
+    <value>Aplici "{0}"? Aceasta înlocuiește setările globale Roblox curente. Reintră în Roblox pentru a vedea toate modificările.</value>
+  </data>
+  <data name="GlobalProfiles.Applied" xml:space="preserve">
+    <value>"{0}" aplicat</value>
+  </data>
+  <data name="GlobalProfiles.SaveFailed" xml:space="preserve">
+    <value>Fișierul de setări Roblox nu a putut fi scris. Închide Roblox și încearcă din nou.</value>
+  </data>
+  <data name="AssetWarp.RemoveTexturesDescription" xml:space="preserve">
+    <value>Blochează descărcarea resurselor de texturi și pachete de texturi</value>
+  </data>
+  <data name="AssetWarp.RemoveDecalsDescription" xml:space="preserve">
+    <value>Blochează descărcarea resurselor de decaluri</value>
+  </data>
+  <data name="AssetWarp.RemoveImagesDescription" xml:space="preserve">
+    <value>Blochează descărcarea resurselor de imagini. Roblox folosește imagini și pentru texturi și decaluri</value>
+  </data>
+  <data name="AssetWarp.RemoveAnimationsDescription" xml:space="preserve">
+    <value>Blochează descărcarea resurselor de animații. Jocurile fără o animație de rezervă pot să nu mai funcționeze corect</value>
+  </data>
+  <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
+    <value>Blochează descărcarea resurselor mesh și MeshPart. Geometria mesh va fi invizibilă</value>
+  </data>
+  <data name="SwiftTunnel.Summary" xml:space="preserve">
+    <value>Direcționează traficul Roblox prin SwiftTunnel în timp ce celelalte aplicații folosesc conexiunea ta obișnuită</value>
+  </data>
+  <data name="SwiftTunnel.Description" xml:space="preserve">
+    <value>SwiftTunnel este un optimizator de conexiune pentru jocuri pe Windows, cu tunelare divizată și selecție de relee regionale</value>
+  </data>
+  <data name="SwiftTunnel.Setup" xml:space="preserve">
+    <value>Instalarea descarcă cea mai recentă versiune oficială SwiftTunnel și deschide aplicația desktop după configurare. Conectează-te acolo și alege conexiunea. Optimizarea rețelei poate necesita drepturi de administrator</value>
+  </data>
+  <data name="SwiftTunnel.Network" xml:space="preserve">
+    <value>Rețea</value>
+  </data>
+  <data name="SwiftTunnel.Routing" xml:space="preserve">
+    <value>Rutare</value>
+  </data>
+  <data name="SwiftTunnel.Install" xml:space="preserve">
+    <value>Instalează</value>
+  </data>
+  <data name="SwiftTunnel.Uninstall" xml:space="preserve">
+    <value>Dezinstalează</value>
+  </data>
+  <data name="SwiftTunnel.Installed" xml:space="preserve">
+    <value>Instalat</value>
+  </data>
+  <data name="SwiftTunnel.NotInstalled" xml:space="preserve">
+    <value>Neinstalat</value>
+  </data>
+  <data name="SwiftTunnel.Working" xml:space="preserve">
+    <value>În lucru</value>
+  </data>
+  <data name="SwiftTunnel.Downloading" xml:space="preserve">
+    <value>Se descarcă SwiftTunnel</value>
+  </data>
+  <data name="SwiftTunnel.InstallerFailed" xml:space="preserve">
+    <value>Nu s-a putut deschide instalarea SwiftTunnel</value>
+  </data>
+  <data name="SwiftTunnel.InstallerExit" xml:space="preserve">
+    <value>Instalarea SwiftTunnel a returnat codul {0}</value>
+  </data>
+  <data name="SwiftTunnel.Error" xml:space="preserve">
+    <value>Nu s-a putut finaliza acțiunea SwiftTunnel: {0}</value>
+  </data>
+  <data name="SwiftTunnel.UninstallUnavailable" xml:space="preserve">
+    <value>Intrarea de dezinstalare SwiftTunnel este incompletă. Elimină SwiftTunnel din Setări Windows, Aplicații</value>
+  </data>
+  <data name="SwiftTunnel.CleanupFailed" xml:space="preserve">
+    <value>SwiftTunnel nu și-a putut restaura setările de rețea. Fișierele au fost păstrate ca curățarea să poată fi reîncercată</value>
+  </data>
+  <data name="SwiftTunnel.ConfirmUninstall" xml:space="preserve">
+    <value>Elimini complet SwiftTunnel? Mai întâi se restaurează driverul de rețea și setările de sistem, apoi SwiftTunnel este dezinstalat. După pornire, operațiunea nu poate fi anulată.</value>
+  </data>
+  <data name="SwiftTunnel.UninstallIncomplete" xml:space="preserve">
+    <value>Eliminarea SwiftTunnel nu a putut fi finalizată. Închide SwiftTunnel și încearcă din nou cu drepturi de administrator</value>
+  </data>
+  <data name="SwiftTunnel.UnsafeDirectory" xml:space="preserve">
+    <value>SwiftTunnel este instalat într-un folder partajat sau nerecunoscut. Mută-l în propriul folder SwiftTunnel înainte de a folosi eliminarea completă</value>
+  </data>
+  <data name="SwiftTunnel.NotInstalledError" xml:space="preserve">
+    <value>SwiftTunnel nu este instalat. Instalează-l mai întâi din Extensii</value>
+  </data>
+  <data name="SwiftTunnel.Missing" xml:space="preserve">
+    <value>SwiftTunnel este înregistrat, dar fișierele aplicației lipsesc. Dezinstalează-l și instalează-l din nou pentru a-l repara</value>
+  </data>
+  <data name="SwiftTunnel.NoInstaller" xml:space="preserve">
+    <value>Cea mai recentă versiune SwiftTunnel nu are un program de instalare Windows verificat pentru acest computer</value>
+  </data>
+  <data name="Installer.MacOS.DataLocation.Title" xml:space="preserve">
+    <value>Alege unde să fie stocate datele Voidstrap</value>
+  </data>
+  <data name="Installer.MacOS.DataLocation.Text" xml:space="preserve">
+    <value>Voidstrap își păstrează aici setările și modurile. Aplicația rămâne în locația curentă. Roblox este instalat separat în Aplicații.</value>
+  </data>
+  <data name="Installer.MacOS.Completion.Text" xml:space="preserve">
+    <value>Voidstrap este gata.
+
+Roblox va fi descărcat când îl lansezi prima dată prin Voidstrap. Îți poți ajusta setările înainte de lansare.
+
+Ce vrei să faci?</value>
+  </data>
+  <data name="Installer.MacOS.Roblox.Title" xml:space="preserve">
+    <value>Roblox pentru macOS</value>
+  </data>
+  <data name="Installer.MacOS.Roblox.Text" xml:space="preserve">
+    <value>Voidstrap descarcă aplicația oficială Roblox în Aplicații prima dată când apeși Lansează și o menține actualizată după aceea. Nu este necesară o instalare separată.</value>
+  </data>
+  <data name="HomepageMedia.Preview.FileMissing" xml:space="preserve">
+    <value>Fișierul media selectat nu a fost găsit.</value>
+  </data>
+  <data name="HomepageMedia.Preview.DecodeError" xml:space="preserve">
+    <value>Acest fișier media nu a putut fi decodat. Alege altă imagine sau alt videoclip.</value>
+  </data>
+  <data name="HomepageMedia.Preview.RenderError" xml:space="preserve">
+    <value>Previzualizarea media nu a putut fi afișată.</value>
+  </data>
+  <data name="HomepageMedia.Picker.ImagesAndVideos" xml:space="preserve">
+    <value>Imagini și videoclipuri</value>
+  </data>
+  <data name="HomepageMedia.Picker.Images" xml:space="preserve">
+    <value>Imagini</value>
+  </data>
+  <data name="HomepageMedia.Picker.Videos" xml:space="preserve">
+    <value>Videoclipuri</value>
+  </data>
+  <data name="Appearance.Backdrop.Sidebar" xml:space="preserve">
+    <value>Bară laterală</value>
+  </data>
+  <data name="Appearance.Backdrop.Popover" xml:space="preserve">
+    <value>Fereastră pop-up</value>
+  </data>
+  <data name="Appearance.Backdrop.Hud" xml:space="preserve">
+    <value>Afișaj head-up</value>
+  </data>
+  <data name="Appearance.Backdrop.UnderWindow" xml:space="preserve">
+    <value>Sub fereastră</value>
+  </data>
+  <data name="Appearance.Backdrop.UnderPage" xml:space="preserve">
+    <value>Sub pagină</value>
+  </data>
+  <data name="Menu.MacVirtualDisplay.Title" xml:space="preserve">
+    <value>Afișaj virtual de 240 Hz</value>
+  </data>
+  <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Oglindește ecranul principal cât timp rulează Roblox și îl restaurează când Roblox se închide. Ecranul fizic își păstrează propria limită de reîmprospătare.</value>
+  </data>
 </root>

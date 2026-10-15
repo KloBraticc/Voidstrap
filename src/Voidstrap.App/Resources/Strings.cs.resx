@@ -1670,4 +1670,1346 @@ Chcete přepnout svůj preferovaný kanál na {0}?</value>
   <data name="Menu.News.DialogTitle" xml:space="preserve">
     <value>Podrobnosti novinky</value>
   </data>
+  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
+    <value>Voidstrap nemohl odstranit zbývající směrování AssetWarp ze souboru hosts systému Windows. Roblox nebude moci načítat textury ani jiné prostředky, dokud nebude odstraněno. Spusťte Voidstrap jako správce, abyste ho odstranili.</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
+    <value>Obojí</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
+    <value>Hráč</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
+    <value>Prohlížeč serverů</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
+    <value>Místo {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
+    <value>{0}  •  Místo {1}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
+    <value>Prohledáno serverů: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
+    <value>Obnovit</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
+    <value>Načíst další servery</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
+    <value>Skrýt plné servery</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
+    <value>Hledat město, zemi nebo ID serveru</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
+    <value>Nejvíce hráčů</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
+    <value>Nejméně hráčů</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
+    <value>Nejnižší ping</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
+    <value>Připojit se</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
+    <value>Aktuální</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
+    <value>Načítání veřejných serverů</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
+    <value>Nebyly nalezeny žádné veřejné servery</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
+    <value>Před otevřením prohlížeče serverů se připojte ke hře</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
+    <value>Seznam serverů je pozastaven, protože Roblox omezuje požadavky</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
+    <value>Veřejné servery se nepodařilo načíst</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
+    <value>Načteno serverů: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
+    <value>{0} z {1} hráčů</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
+    <value>Hráčů: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
+    <value>Neznámé</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
+    <value>Nejlepší shoda</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
+    <value>Nejlepší shoda</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
+    <value>Blokováno</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
+    <value>Asi {0} ms od vás</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
+    <value>Zatím nalezeno serverů: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
+    <value>Nalezeno {0} z {1} serverů</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
+    <value>Přesouvání na {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
+    <value>K tomuto serveru se nepodařilo připojit</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
+    <value>Přihlaste se v Nastavení &gt; Server Matchmaker, aby Voidstrap mohl zjistit, kde se jednotlivé servery nachází</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
+    <value>Vaši polohu se nepodařilo zjistit, takže servery nelze seřadit podle pingu</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
+    <value>Roblox neprozradil, kde se tyto servery nachází, zkuste to za chvíli znovu</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
+    <value>Všechny nalezené servery jsou v datovém centru, které jste zablokovali</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
+    <value>Všechny nalezené servery jsou od vás daleko, matchmaker by nechal vybrat Roblox</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
+    <value>Prohlížeč her</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
+    <value>Pokračovat</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
+    <value>Oblíbené</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
+    <value>Hledat</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
+    <value>Hledat hry Roblox</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
+    <value>Načítání her</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
+    <value>V této relaci nejsou žádné nedávné hry</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
+    <value>Nejsou uloženy žádné oblíbené hry</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
+    <value>Vyhledejte hru Roblox podle názvu</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
+    <value>Pro {0} nebyly nalezeny žádné hry</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
+    <value>Hry se nepodařilo načíst</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
+    <value>Hraje: {0}</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
+    <value>Připojit se</value>
+  </data>
+  <data name="Enums.BootstrapperStyle.LegacyDialog2008" xml:space="preserve">
+    <value>Starší (2008 - 2011)</value>
+  </data>
+  <data name="Enums.BootstrapperStyle.LegacyDialog2011" xml:space="preserve">
+    <value>Starší (2011 - 2014)</value>
+  </data>
+  <data name="Enums.Theme.Berry" xml:space="preserve">
+    <value>Bobulový</value>
+  </data>
+  <data name="Menu.About.DiscordServer" xml:space="preserve">
+    <value>Server na Discordu</value>
+  </data>
+  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
+    <value>Automatický překlad</value>
+  </data>
+  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
+    <value>Přeložit do</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
+    <value>Jazyk automatického překladu</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
+    <value>Přeložte celé rozhraní Voidstrap do libovolného jazyka. Nejdříve se použijí vestavěné překlady a zbývající text se překládá průběžně.</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
+    <value>Automaticky překládat Discord RPC</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
+    <value>Automaticky překládá text Discord Rich Presence do zvoleného jazyka.</value>
+  </data>
+  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
+    <value>Tato funkce je dostupná pouze ve Windows.</value>
+  </data>
+  <data name="About.Translators.Description" xml:space="preserve">
+    <value>Všichni zde uvedení velkoryse věnovali svůj čas a úsilí překladu Voidstrap. Obrovské díky všem!</value>
+  </data>
+  <data name="Menu.Channel.Description" xml:space="preserve">
+    <value>Změňte nastavení nasazení a instalace pro Roblox a Voidstrap.</value>
+  </data>
+  <data name="Common.Channel" xml:space="preserve">
+    <value>Kanál</value>
+  </data>
+  <data name="Menu.ChannelChanger.Description" xml:space="preserve">
+    <value>Vyberte kanál nasazení. Neměňte ho, pokud nevíte, co děláte.</value>
+  </data>
+  <data name="Common.Version" xml:space="preserve">
+    <value>Verze</value>
+  </data>
+  <data name="Menu.Channel.RobloxUpgrades" xml:space="preserve">
+    <value>Aktualizace Robloxu</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
+    <value>Tmavý režim</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
+    <value>Telemetrie</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
+    <value>Tmavý režim</value>
+  </data>
+  <data name="Menu.Sober.Description" xml:space="preserve">
+    <value>Nastavte linuxová prostředí, se kterými Voidstrap spouští Roblox. Sober spouští přehrávač, Vinegar spouští Studio. Voidstrap mění pouze možnosti, které výslovně přepíšete.</value>
+  </data>
+  <data name="Menu.Sober.Default" xml:space="preserve">
+    <value>Použít výchozí hodnotu Sober</value>
+  </data>
+  <data name="Menu.Sober.Enabled" xml:space="preserve">
+    <value>Zapnuto</value>
+  </data>
+  <data name="Menu.Sober.Disabled" xml:space="preserve">
+    <value>Vypnuto</value>
+  </data>
+  <data name="Menu.Sober.DefaultNotice" xml:space="preserve">
+    <value>Použít výchozí hodnotu Sober ponechá nastavení pod správou Sober. Odebráním přepsání se obnoví hodnota, kterou Voidstrap zálohoval.</value>
+  </data>
+  <data name="Menu.Sober.RuntimeNotice" xml:space="preserve">
+    <value>Před nastavením přepsání dokončete první spuštění Sober a před jejich změnou Sober zavřete. Uložené změny se použijí při příštím spuštění Sober.</value>
+  </data>
+  <data name="Menu.Sober.Group.Session" xml:space="preserve">
+    <value>Relace a aktivita</value>
+  </data>
+  <data name="Menu.Sober.Group.Input" xml:space="preserve">
+    <value>Ovládání a zážitek</value>
+  </data>
+  <data name="Menu.Sober.Group.Graphics" xml:space="preserve">
+    <value>Grafika a plocha</value>
+  </data>
+  <data name="Menu.Sober.AllowGamepad.Title" xml:space="preserve">
+    <value>Povolit přístup k ovladači</value>
+  </data>
+  <data name="Menu.Sober.AllowGamepad.Description" xml:space="preserve">
+    <value>Umožní Sober žádat o přístup k připojeným ovladačům. Změny oprávnění mohou vyžadovat další spuštění Sober.</value>
+  </data>
+  <data name="Menu.Sober.CloseOnLeave.Title" xml:space="preserve">
+    <value>Zavřít po odchodu</value>
+  </data>
+  <data name="Menu.Sober.CloseOnLeave.Description" xml:space="preserve">
+    <value>Zavře Sober po opuštění zážitku.</value>
+  </data>
+  <data name="Menu.Sober.DiscordRpc.Description" xml:space="preserve">
+    <value>Umožní Sober zobrazovat herní aktivitu přes Discord Rich Presence.</value>
+  </data>
+  <data name="Menu.Sober.DiscordJoin.Title" xml:space="preserve">
+    <value>Tlačítko připojení na Discordu</value>
+  </data>
+  <data name="Menu.Sober.DiscordJoin.Description" xml:space="preserve">
+    <value>Umožní Sober přidat do Discord Rich Presence tlačítko pro připojení.</value>
+  </data>
+  <data name="Menu.Sober.GameMode.Title" xml:space="preserve">
+    <value>Integrace GameMode</value>
+  </data>
+  <data name="Menu.Sober.GameMode.Description" xml:space="preserve">
+    <value>Umožní Sober žádat o optimalizaci výkonu GameMode, pokud je k dispozici.</value>
+  </data>
+  <data name="Menu.Sober.HiDpi.Title" xml:space="preserve">
+    <value>Škálování pro vysoké DPI</value>
+  </data>
+  <data name="Menu.Sober.HiDpi.Description" xml:space="preserve">
+    <value>Používá nativní škálování pro displeje s vysokou hustotou.</value>
+  </data>
+  <data name="Menu.Sober.MobileHome.Title" xml:space="preserve">
+    <value>Mobilní domovská obrazovka</value>
+  </data>
+  <data name="Menu.Sober.MobileHome.Description" xml:space="preserve">
+    <value>Používá domovskou obrazovku Robloxu v mobilním stylu.</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Title" xml:space="preserve">
+    <value>Režim optimalizace grafiky</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Description" xml:space="preserve">
+    <value>Vybírá předvolbu optimalizace grafiky Sober.</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Quality" xml:space="preserve">
+    <value>Kvalita</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Balanced" xml:space="preserve">
+    <value>Vyvážený</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Performance" xml:space="preserve">
+    <value>Výkon</value>
+  </data>
+  <data name="Menu.Sober.ServerLocation.Title" xml:space="preserve">
+    <value>Ukazatel umístění serveru</value>
+  </data>
+  <data name="Menu.Sober.ServerLocation.Description" xml:space="preserve">
+    <value>Během hraní zobrazuje ukazatel umístění serveru Sober.</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Title" xml:space="preserve">
+    <value>Dotykový režim</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Description" xml:space="preserve">
+    <value>Vybírá, jak Sober hlásí podporu dotykového vstupu.</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Off" xml:space="preserve">
+    <value>Vypnuto</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.On" xml:space="preserve">
+    <value>Zapnuto</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.FakeOff" xml:space="preserve">
+    <value>Falešně vypnuto</value>
+  </data>
+  <data name="Menu.Sober.ConsoleExperience.Title" xml:space="preserve">
+    <value>Konzolový zážitek</value>
+  </data>
+  <data name="Menu.Sober.ConsoleExperience.Description" xml:space="preserve">
+    <value>Používá zážitek Robloxu v konzolovém stylu.</value>
+  </data>
+  <data name="Menu.Sober.Libsecret.Title" xml:space="preserve">
+    <value>Úložiště Secret Service</value>
+  </data>
+  <data name="Menu.Sober.Libsecret.Description" xml:space="preserve">
+    <value>Ukládá podporované přihlašovací údaje přes Secret Service plochy.</value>
+  </data>
+  <data name="Menu.Sober.OpenGl.Title" xml:space="preserve">
+    <value>Vykreslovač OpenGL</value>
+  </data>
+  <data name="Menu.Sober.OpenGl.Description" xml:space="preserve">
+    <value>Používá OpenGL místo výchozího grafického backendu Sober.</value>
+  </data>
+  <data name="Installer.Appearance.BackgroundUI.Title" xml:space="preserve">
+    <value>Pozadí a rozhraní</value>
+  </data>
+  <data name="Installer.Appearance.BackgroundUI.Description" xml:space="preserve">
+    <value>Přizpůsobte instalátor a hlavní aplikaci.</value>
+  </data>
+  <data name="Installer.Appearance.Snow.Title" xml:space="preserve">
+    <value>Sníh v pozadí</value>
+  </data>
+  <data name="Installer.Appearance.Snow.Description" xml:space="preserve">
+    <value>Přidá do pozadí jemný efekt sněhu.</value>
+  </data>
+  <data name="Installer.Appearance.GradientMovement.Title" xml:space="preserve">
+    <value>Pohyb přechodu</value>
+  </data>
+  <data name="Installer.Appearance.GradientMovement.Description" xml:space="preserve">
+    <value>Přechod pozadí bude sledovat ukazatel.</value>
+  </data>
+  <data name="Installer.Appearance.SmoothScrolling.Title" xml:space="preserve">
+    <value>Plynulé posouvání</value>
+  </data>
+  <data name="Installer.Appearance.SmoothScrolling.Description" xml:space="preserve">
+    <value>Animuje posouvání v celém rozhraní.</value>
+  </data>
+  <data name="Installer.Appearance.ClearFont.Title" xml:space="preserve">
+    <value>Ostré písmo</value>
+  </data>
+  <data name="Installer.Appearance.ClearFont.Description" xml:space="preserve">
+    <value>Po restartu Voidstrap použije ostřejší vykreslování textu.</value>
+  </data>
+  <data name="Installer.Appearance.Background.Title" xml:space="preserve">
+    <value>Vlastní pozadí</value>
+  </data>
+  <data name="Installer.Appearance.Background.Description" xml:space="preserve">
+    <value>Použijte obrázek, GIF nebo video a upravte, jak se zobrazí.</value>
+  </data>
+  <data name="Installer.Appearance.GradientOpacity" xml:space="preserve">
+    <value>Neprůhlednost přechodu</value>
+  </data>
+  <data name="Installer.Appearance.DarkOverlay" xml:space="preserve">
+    <value>Tmavý překryv</value>
+  </data>
+  <data name="Installer.Appearance.DisplayEverywhere" xml:space="preserve">
+    <value>Zobrazit všude</value>
+  </data>
+  <data name="Installer.Appearance.RemoveBackground" xml:space="preserve">
+    <value>Odebrat pozadí</value>
+  </data>
+  <data name="Installer.Appearance.Theme.Description" xml:space="preserve">
+    <value>Vyberte motiv používaný ve všech oknech Voidstrap.</value>
+  </data>
+  <data name="Installer.Appearance.Theme.Customize" xml:space="preserve">
+    <value>Přizpůsobit</value>
+  </data>
+  <data name="Installer.Appearance.Backdrop.Title" xml:space="preserve">
+    <value>Pozadí okna</value>
+  </data>
+  <data name="Installer.Appearance.Backdrop.Description" xml:space="preserve">
+    <value>Vyberte materiál zobrazený za okny Voidstrap.</value>
+  </data>
+  <data name="Installer.Appearance.PageZoom.Title" xml:space="preserve">
+    <value>Přiblížení stránky</value>
+  </data>
+  <data name="Installer.Appearance.PageZoom.Description" xml:space="preserve">
+    <value>Upravte velikost stránek nastavení.</value>
+  </data>
+  <data name="Vng.WarningTitle" xml:space="preserve">
+    <value>Roblox VNG: trvalé omezení účtu</value>
+  </data>
+  <data name="Vng.Warning" xml:space="preserve">
+    <value>STOP: PŘED POKRAČOVÁNÍM SI PŘEČTĚTE
+
+První přihlášení do Roblox VNG převede váš účet do VNG. Roblox uvádí, že tento účet poté už nebudete moci používat v globální aplikaci Roblox.
+
+Považujte tento převod účtu za trvalý. Voidstrap ho nemůže vrátit. Odinstalování VNG ani vypnutí této možnosti globální přístup k účtu neobnoví. Budou platit omezení účtu a regionální omezení VNG.
+
+Samotné stažení souborů účet nepřevede. Přihlášení nebo spuštění s existujícím účtem může tento účet vystavit převodu.
+
+Pokračujte, jen pokud souhlasíte se ztrátou přístupu ke globální aplikaci u každého účtu, který s VNG použijete. Tlačítko Ano se odemkne po deseti sekundách.</value>
+  </data>
+  <data name="Vng.Confirmation" xml:space="preserve">
+    <value>Jste si jisti?</value>
+  </data>
+  <data name="Vng.Agreement" xml:space="preserve">
+    <value>Poslední varování: přihlášení do Roblox VNG může trvale převést váš účet a odebrat přístup ke globální aplikaci Roblox. Voidstrap to nemůže vrátit.
+
+Přesně opište frázi zobrazenou níže, abyste tato omezení přijali a pokračovali.</value>
+  </data>
+  <data name="Vng.Countdown" xml:space="preserve">
+    <value>{0} ({1} s)</value>
+  </data>
+  <data name="Vng.Description" xml:space="preserve">
+    <value>Vietnamský herní klient. Přihlášení převede váš účet a odebere přístup ke globální aplikaci.</value>
+  </data>
+  <data name="Vng.UseForLaunches" xml:space="preserve">
+    <value>Používat VNG ke spouštění hry</value>
+  </data>
+  <data name="Vng.UninstallWarning" xml:space="preserve">
+    <value>Odebrání VNG nevrátí převod účtu ani neobnoví přístup ke globální aplikaci.</value>
+  </data>
+  <data name="Mtu.Description" xml:space="preserve">
+    <value>Omezuje velikost paketů pro všechny aplikace včetně Robloxu. Vyžaduje oprávnění správce a zůstává i po restartu. Nemusí zlepšit ping.</value>
+  </data>
+  <data name="Mtu.Adapter" xml:space="preserve">
+    <value>Vyberte síťový adaptér a verzi IP</value>
+  </data>
+  <data name="Mtu.CustomValue" xml:space="preserve">
+    <value>Vlastní MTU (bajty)</value>
+  </data>
+  <data name="Mtu.Current" xml:space="preserve">
+    <value>Aktuální: {0} bajtů. Minimum: {1} bajtů.</value>
+  </data>
+  <data name="Mtu.NoAdapters" xml:space="preserve">
+    <value>Nebyly nalezeny žádné podporované síťové adaptéry. Obnovte a zkuste to znovu.</value>
+  </data>
+  <data name="Mtu.Invalid" xml:space="preserve">
+    <value>Zadejte celé číslo od {0} do {1}. Windows také kontroluje velikost paketu podporovanou adaptérem.</value>
+  </data>
+  <data name="Mtu.Apply" xml:space="preserve">
+    <value>Použít</value>
+  </data>
+  <data name="Mtu.Restore" xml:space="preserve">
+    <value>Obnovit</value>
+  </data>
+  <data name="Mtu.Refresh" xml:space="preserve">
+    <value>Obnovit</value>
+  </data>
+  <data name="Mtu.Loading" xml:space="preserve">
+    <value>Čtení síťových adaptérů Windows...</value>
+  </data>
+  <data name="Mtu.Applying" xml:space="preserve">
+    <value>Čekání na schválení správcem a použití MTU...</value>
+  </data>
+  <data name="Mtu.AdapterUnavailable" xml:space="preserve">
+    <value>Vybraný adaptér není dostupný. Obnovte a vyberte adaptér.</value>
+  </data>
+  <data name="Mtu.Rejected" xml:space="preserve">
+    <value>Windows nemohl použít MTU, kód {0}. Váš adaptér tuto hodnotu možná nepodporuje.</value>
+  </data>
+  <data name="Mtu.Applied" xml:space="preserve">
+    <value>MTU nastaveno na {0} bajtů a ověřeno. Platí pro všechny aplikace na vybraném adaptéru.</value>
+  </data>
+  <data name="Mtu.Restored" xml:space="preserve">
+    <value>Předchozí MTU obnoveno na {0} bajtů a ověřeno.</value>
+  </data>
+  <data name="Mtu.VerificationFailed" xml:space="preserve">
+    <value>Windows neohlásil požadované MTU. Obnovte a zkontrolujte aktuální hodnotu.</value>
+  </data>
+  <data name="Mtu.Cancelled" xml:space="preserve">
+    <value>Požadavek správce byl zrušen. MTU nebylo změněno.</value>
+  </data>
+  <data name="Mtu.Error" xml:space="preserve">
+    <value>Operace MTU selhala. Obnovte a zkontrolujte aktuální hodnotu.</value>
+  </data>
+  <data name="Menu_FastFlagEditor_Rename" xml:space="preserve">
+    <value>Přejmenovat</value>
+  </data>
+  <data name="Menu_FastFlagEditor_EditValue" xml:space="preserve">
+    <value>Upravit hodnotu</value>
+  </data>
+  <data name="Menu_FastFlagEditor_CopySelected" xml:space="preserve">
+    <value>Kopírovat výběr jako JSON</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Title" xml:space="preserve">
+    <value>Zvýrazňující barva</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Description" xml:space="preserve">
+    <value>Vyberte barvu ovládacích prvků aplikace a odstínu pozadí.</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Choose" xml:space="preserve">
+    <value>Vybrat barvu</value>
+  </data>
+  <data name="Menu.Appearance.Accent.System" xml:space="preserve">
+    <value>Použít systémovou barvu</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Picker" xml:space="preserve">
+    <value>Vybrat zvýrazňující barvu</value>
+  </data>
+  <data name="Menu.Shortcuts.Customize" xml:space="preserve">
+    <value>Název a ikona</value>
+  </data>
+  <data name="Menu.Shortcuts.InvalidName" xml:space="preserve">
+    <value>Použijte platný název zástupce bez lomítek a rezervovaných názvů souborů.</value>
+  </data>
+  <data name="Menu.Shortcuts.NameExists" xml:space="preserve">
+    <value>Zástupce s tímto názvem již existuje. Zvolte jiný název.</value>
+  </data>
+  <data name="Menu.Shortcuts.ChooseIcon" xml:space="preserve">
+    <value>Vyberte ikonu zástupce</value>
+  </data>
+  <data name="Menu.Shortcuts.IconFilter" xml:space="preserve">
+    <value>Soubory ikon a obrázků|*.ico;*.png;*.jpg;*.jpeg;*.bmp;*.webp</value>
+  </data>
+  <data name="Menu.Shortcuts.InvalidIcon" xml:space="preserve">
+    <value>Vyberte platnou ikonu nebo obrázek menší než 8 MB.</value>
+  </data>
+  <data name="Menu.LaunchDropdownOnRight" xml:space="preserve">
+    <value>Umístit výběr verze vpravo</value>
+  </data>
+  <data name="OverlayDiagnostics.Bounds" xml:space="preserve">
+    <value>Velikost a poloha na obrazovce</value>
+  </data>
+  <data name="OverlayDiagnostics.CollectionError" xml:space="preserve">
+    <value>Aktuální vzorek se nepodařilo získat: {0}</value>
+  </data>
+  <data name="OverlayDiagnostics.CompositeCrosshair" xml:space="preserve">
+    <value>Zaměřovač kompozitoru aktivní</value>
+  </data>
+  <data name="OverlayDiagnostics.Compositor" xml:space="preserve">
+    <value>Kompozitor inicializován</value>
+  </data>
+  <data name="OverlayDiagnostics.Configuration" xml:space="preserve">
+    <value>Nastavené funkce, tyto přepínače neprokazují vykreslování</value>
+  </data>
+  <data name="OverlayDiagnostics.Crosshair" xml:space="preserve">
+    <value>Zaměřovač</value>
+  </data>
+  <data name="OverlayDiagnostics.Disabled" xml:space="preserve">
+    <value>Všechny kontrolované funkce překryvu jsou v nastavení vypnuté.</value>
+  </data>
+  <data name="OverlayDiagnostics.DispatcherRequired" xml:space="preserve">
+    <value>Diagnostika překryvu musí běžet v dispečeru okna.</value>
+  </data>
+  <data name="OverlayDiagnostics.FakeBorderless" xml:space="preserve">
+    <value>Falešný celoobrazovkový režim bez okrajů</value>
+  </data>
+  <data name="OverlayDiagnostics.FakeExclusive" xml:space="preserve">
+    <value>Falešný exkluzivní celoobrazovkový režim</value>
+  </data>
+  <data name="OverlayDiagnostics.Findings" xml:space="preserve">
+    <value>Kontroly a omezení</value>
+  </data>
+  <data name="OverlayDiagnostics.Foreground" xml:space="preserve">
+    <value>Roblox nebo jeho překryv má fokus</value>
+  </data>
+  <data name="OverlayDiagnostics.FullscreenUnknown" xml:space="preserve">
+    <value>Exkluzivní celoobrazovkový režim není ověřen. Velikost okna a styl okraje nemohou určit režim zobrazení.</value>
+  </data>
+  <data name="OverlayDiagnostics.GameEffects" xml:space="preserve">
+    <value>Herní efekty</value>
+  </data>
+  <data name="OverlayDiagnostics.GameLease" xml:space="preserve">
+    <value>Herní pronájem Linux potvrzen</value>
+  </data>
+  <data name="OverlayDiagnostics.GameSession" xml:space="preserve">
+    <value>Herní relace sledovače aktivity</value>
+  </data>
+  <data name="OverlayDiagnostics.GameSignal" xml:space="preserve">
+    <value>Herní signál centra překryvů</value>
+  </data>
+  <data name="OverlayDiagnostics.Handle" xml:space="preserve">
+    <value>Popisovač okna</value>
+  </data>
+  <data name="OverlayDiagnostics.Homepage" xml:space="preserve">
+    <value>Pozadí domovské stránky</value>
+  </data>
+  <data name="OverlayDiagnostics.HomepageInGame" xml:space="preserve">
+    <value>Centrum překryvů hlásí herní relaci, zatímco proces domovské stránky Linux stále běží. Proces může běžet, aniž by vykresloval.</value>
+  </data>
+  <data name="OverlayDiagnostics.HomepageWorker" xml:space="preserve">
+    <value>Proces domovské stránky Linux běží</value>
+  </data>
+  <data name="OverlayDiagnostics.Intersects" xml:space="preserve">
+    <value>Obdélník se překrývá s Robloxem</value>
+  </data>
+  <data name="OverlayDiagnostics.Minimized" xml:space="preserve">
+    <value>Nativní okno minimalizováno</value>
+  </data>
+  <data name="OverlayDiagnostics.MissingCrosshair" xml:space="preserve">
+    <value>Zaměřovač je nastaven, ale v tomto procesu nebylo nalezeno okno zaměřovače ani aktivní zaměřovač kompozitoru.</value>
+  </data>
+  <data name="OverlayDiagnostics.MissingStats" xml:space="preserve">
+    <value>Statistiky jsou nastaveny, ale v tomto procesu nebylo nalezeno okno statistik. To neprokazuje selhání vytvoření ani nevylučuje jiný proces Voidstrap.</value>
+  </data>
+  <data name="OverlayDiagnostics.MonitorCoverage" xml:space="preserve">
+    <value>Klient bez okrajů pokrývá svůj monitor</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeLive" xml:space="preserve">
+    <value>Nativní popisovač platný</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeTopmost" xml:space="preserve">
+    <value>Nativní příznak vždy navrchu</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeVisible" xml:space="preserve">
+    <value>Nativní okno viditelné</value>
+  </data>
+  <data name="OverlayDiagnostics.No" xml:space="preserve">
+    <value>Ne</value>
+  </data>
+  <data name="OverlayDiagnostics.NoUsableWindow" xml:space="preserve">
+    <value>Nebyl změřen žádný použitelný obdélník klienta Roblox. Roblox může být zavřený, minimalizovaný, skrytý, spouštěný nebo nedostupný.</value>
+  </data>
+  <data name="OverlayDiagnostics.NoWindows" xml:space="preserve">
+    <value>V tomto procesu nebyla nalezena žádná okna překryvu.</value>
+  </data>
+  <data name="OverlayDiagnostics.Opacity" xml:space="preserve">
+    <value>Neprůhlednost WPF</value>
+  </data>
+  <data name="OverlayDiagnostics.PixelsUnknown" xml:space="preserve">
+    <value>Příznaky viditelnosti, neprůhlednosti a vždy navrchu neprokazují, že se pixely zobrazují, nejsou zakryté nebo jsou pro uživatele viditelné. Tato zpráva neověřuje doručování snímků GPU ani zakrytí.</value>
+  </data>
+  <data name="OverlayDiagnostics.Place" xml:space="preserve">
+    <value>ID místa sledovače aktivity</value>
+  </data>
+  <data name="OverlayDiagnostics.RegisteredWindow" xml:space="preserve">
+    <value>Registrovaný nativní překryv</value>
+  </data>
+  <data name="OverlayDiagnostics.RobloxWindow" xml:space="preserve">
+    <value>Zjištěné okno Roblox</value>
+  </data>
+  <data name="OverlayDiagnostics.Runtime" xml:space="preserve">
+    <value>Zjištěný stav běhu</value>
+  </data>
+  <data name="OverlayDiagnostics.Sample" xml:space="preserve">
+    <value>Vzorek z {0:HH:mm:ss.fff zzz}, obnovuje se každou sekundu a při změnách oken</value>
+  </data>
+  <data name="OverlayDiagnostics.Scope" xml:space="preserve">
+    <value>Tyto údaje popisují tento proces Voidstrap. Okna jiného procesu nemusí být uvedena.</value>
+  </data>
+  <data name="OverlayDiagnostics.Stats" xml:space="preserve">
+    <value>Překryv statistik</value>
+  </data>
+  <data name="OverlayDiagnostics.Teleporting" xml:space="preserve">
+    <value>Probíhá teleport sledovače aktivity</value>
+  </data>
+  <data name="OverlayDiagnostics.Title" xml:space="preserve">
+    <value>Diagnostika překryvu</value>
+  </data>
+  <data name="OverlayDiagnostics.Transition" xml:space="preserve">
+    <value>Herní přechod</value>
+  </data>
+  <data name="OverlayDiagnostics.Unavailable" xml:space="preserve">
+    <value>Nedostupné</value>
+  </data>
+  <data name="OverlayDiagnostics.Unfocused" xml:space="preserve">
+    <value>Roblox teď nemá fokus. Překryvy se mohou záměrně skrývat, když je aktivní jiné okno, včetně tohoto diagnostického okna.</value>
+  </data>
+  <data name="OverlayDiagnostics.UsableRect" xml:space="preserve">
+    <value>Použitelný sledovaný obdélník klienta</value>
+  </data>
+  <data name="OverlayDiagnostics.Visible" xml:space="preserve">
+    <value>Viditelné ve WPF</value>
+  </data>
+  <data name="OverlayDiagnostics.Windows" xml:space="preserve">
+    <value>Zjištěná okna překryvu</value>
+  </data>
+  <data name="OverlayDiagnostics.Worker" xml:space="preserve">
+    <value>Pracovní vlákno kompozitoru běží</value>
+  </data>
+  <data name="OverlayDiagnostics.WpfTopmost" xml:space="preserve">
+    <value>Požadováno WPF vždy navrchu</value>
+  </data>
+  <data name="OverlayDiagnostics.X11" xml:space="preserve">
+    <value>Připojení X11 dostupné</value>
+  </data>
+  <data name="OverlayDiagnostics.X11Compositor" xml:space="preserve">
+    <value>Zjištěn kompozitor X11</value>
+  </data>
+  <data name="OverlayDiagnostics.X11Unavailable" xml:space="preserve">
+    <value>Připojení X11 není dostupné. Kontrola nativních oken není možná; může se jednat o omezení Waylandu nebo oprávnění sandboxu.</value>
+  </data>
+  <data name="OverlayDiagnostics.Yes" xml:space="preserve">
+    <value>Ano</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeCompositor" xml:space="preserve">
+    <value>Nativní okno kompozitoru GPU</value>
+  </data>
+  <data name="FlagSearch.Loading" xml:space="preserve">
+    <value>Načítání zdrojů…</value>
+  </data>
+  <data name="FlagSearch.Loaded" xml:space="preserve">
+    <value>Načteno</value>
+  </data>
+  <data name="FlagSearch.Unavailable" xml:space="preserve">
+    <value>Nedostupné</value>
+  </data>
+  <data name="FlagSearch.Pending" xml:space="preserve">
+    <value>Čeká</value>
+  </data>
+  <data name="FlagSearch.LoadedSummary" xml:space="preserve">
+    <value>Načteno {0:N0} jedinečných názvů z {1} z {2} zdrojů. Podrobnosti najdete v části Zdroje dat.</value>
+  </data>
+  <data name="FlagSearch.LoadError" xml:space="preserve">
+    <value>Načítání zdrojů selhalo. Podrobnosti najdete v záznamu.</value>
+  </data>
+  <data name="FlagSearch.ObjectRequired" xml:space="preserve">
+    <value>JSON flagů musí obsahovat objekt.</value>
+  </data>
+  <data name="FlagSearch.EmptySource" xml:space="preserve">
+    <value>Zdroj nevrátil žádné rozpoznané názvy flagů.</value>
+  </data>
+  <data name="FlagSearch.ResultCount" xml:space="preserve">
+    <value>Zobrazeno {0:N0} z {1:N0} shod</value>
+  </data>
+  <data name="FlagSearch.SearchError" xml:space="preserve">
+    <value>Hledání selhalo. Podrobnosti najdete v záznamu.</value>
+  </data>
+  <data name="FlagSearch.Validating" xml:space="preserve">
+    <value>Kontrola názvů flagů a zadaných hodnot…</value>
+  </data>
+  <data name="FlagSearch.Found" xml:space="preserve">
+    <value>Nalezeno</value>
+  </data>
+  <data name="FlagSearch.ValueError" xml:space="preserve">
+    <value>Chyba hodnoty</value>
+  </data>
+  <data name="FlagSearch.NotFound" xml:space="preserve">
+    <value>Nenalezeno</value>
+  </data>
+  <data name="FlagSearch.FoundNote" xml:space="preserve">
+    <value>Nalezeno v načtených zdrojích. Podpora místního přepsání není ověřena.</value>
+  </data>
+  <data name="FlagSearch.NotFoundNote" xml:space="preserve">
+    <value>Chybí v načtených zdrojích, to neprokazuje, že je flag neplatný.</value>
+  </data>
+  <data name="FlagSearch.ValidationSummary" xml:space="preserve">
+    <value>Zkontrolováno {0:N0} flagů, {1:N0} vstupů odpovídalo zdroji a očekávanému typu hodnoty.</value>
+  </data>
+  <data name="FlagSearch.NameError" xml:space="preserve">
+    <value>Použijte rozpoznaný název Fast Flag bez mezer.</value>
+  </data>
+  <data name="FlagSearch.TooMany" xml:space="preserve">
+    <value>Vstup obsahuje příliš mnoho flagů.</value>
+  </data>
+  <data name="FlagSearch.ScalarRequired" xml:space="preserve">
+    <value>Hodnoty flagů musí být řetězce, čísla nebo logické hodnoty.</value>
+  </data>
+  <data name="FlagSearch.LineError" xml:space="preserve">
+    <value>Každý řádek textu musí mít tvar název=hodnota.</value>
+  </data>
+  <data name="FlagSearch.EmptyInput" xml:space="preserve">
+    <value>Nebyly nalezeny žádné položky flagů.</value>
+  </data>
+  <data name="FlagSearch.Label1" xml:space="preserve">
+    <value>Najít Fast Flagy</value>
+  </data>
+  <data name="FlagSearch.Label2" xml:space="preserve">
+    <value>Najít Fast Flagy</value>
+  </data>
+  <data name="FlagSearch.Label3" xml:space="preserve">
+    <value>Hledání a ověřování Fast Flagů</value>
+  </data>
+  <data name="FlagSearch.Label4" xml:space="preserve">
+    <value>Hledejte, ověřujte a objevujte Fast Flagy z více zdrojů</value>
+  </data>
+  <data name="FlagSearch.Label5" xml:space="preserve">
+    <value>Obnovit zdroje</value>
+  </data>
+  <data name="FlagSearch.Label6" xml:space="preserve">
+    <value>Připraveno</value>
+  </data>
+  <data name="FlagSearch.Label7" xml:space="preserve">
+    <value>Živé hledání</value>
+  </data>
+  <data name="FlagSearch.Label8" xml:space="preserve">
+    <value>Živé hledání flagů</value>
+  </data>
+  <data name="FlagSearch.Label9" xml:space="preserve">
+    <value>Hledejte celé názvy nebo klíčová slova. Přesné shody se zobrazí první. Export obsahuje všechny odpovídající známé hodnoty.</value>
+  </data>
+  <data name="FlagSearch.Label10" xml:space="preserve">
+    <value>Zadejte název flagu nebo klíčové slovo...</value>
+  </data>
+  <data name="FlagSearch.Label11" xml:space="preserve">
+    <value>Exportovat výsledky</value>
+  </data>
+  <data name="FlagSearch.Label12" xml:space="preserve">
+    <value>Všechny hodnoty</value>
+  </data>
+  <data name="FlagSearch.Label13" xml:space="preserve">
+    <value>Hodnoty true</value>
+  </data>
+  <data name="FlagSearch.Label14" xml:space="preserve">
+    <value>Hodnoty false</value>
+  </data>
+  <data name="FlagSearch.Label15" xml:space="preserve">
+    <value>Název flagu</value>
+  </data>
+  <data name="FlagSearch.Label16" xml:space="preserve">
+    <value>Hodnota</value>
+  </data>
+  <data name="FlagSearch.Label17" xml:space="preserve">
+    <value>Zdroj</value>
+  </data>
+  <data name="FlagSearch.Label18" xml:space="preserve">
+    <value>Žádné shody. Zkuste jiný název nebo filtr hodnot.</value>
+  </data>
+  <data name="FlagSearch.Label19" xml:space="preserve">
+    <value>0 výsledků</value>
+  </data>
+  <data name="FlagSearch.Label20" xml:space="preserve">
+    <value>Hromadné ověření</value>
+  </data>
+  <data name="FlagSearch.Label21" xml:space="preserve">
+    <value>Hromadné ověření flagů</value>
+  </data>
+  <data name="FlagSearch.Label22" xml:space="preserve">
+    <value>Kontroluje výskyt ve zdrojích a typy hodnot. Shoda nezaručuje, že Roblox místní přepsání povolí.</value>
+  </data>
+  <data name="FlagSearch.Label23" xml:space="preserve">
+    <value>Načíst soubor</value>
+  </data>
+  <data name="FlagSearch.Label24" xml:space="preserve">
+    <value>Ověřit</value>
+  </data>
+  <data name="FlagSearch.Label25" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="FlagSearch.Label26" xml:space="preserve">
+    <value>Vložit</value>
+  </data>
+  <data name="FlagSearch.Label28" xml:space="preserve">
+    <value>Vybrat vše</value>
+  </data>
+  <data name="FlagSearch.Label30" xml:space="preserve">
+    <value>Vymazat</value>
+  </data>
+  <data name="FlagSearch.Label31" xml:space="preserve">
+    <value>Výsledky ověření</value>
+  </data>
+  <data name="FlagSearch.Label32" xml:space="preserve">
+    <value>Název flagu</value>
+  </data>
+  <data name="FlagSearch.Label33" xml:space="preserve">
+    <value>Zadaná hodnota</value>
+  </data>
+  <data name="FlagSearch.Label34" xml:space="preserve">
+    <value>Stav</value>
+  </data>
+  <data name="FlagSearch.Label35" xml:space="preserve">
+    <value>Hodnota ve zdroji</value>
+  </data>
+  <data name="FlagSearch.Label36" xml:space="preserve">
+    <value>Poznámky</value>
+  </data>
+  <data name="FlagSearch.Label37" xml:space="preserve">
+    <value>Exportovat zkontrolovaný vstup</value>
+  </data>
+  <data name="FlagSearch.Label38" xml:space="preserve">
+    <value>0 výsledků</value>
+  </data>
+  <data name="FlagSearch.Label39" xml:space="preserve">
+    <value>Zdroje dat</value>
+  </data>
+  <data name="FlagSearch.Label40" xml:space="preserve">
+    <value>Dostupnost živých zdrojů a časy načtení. Výskyt ve zdroji neznamená, že Roblox přijme místní přepsání. Tyto zdroje neuvádějí data nedávných změn.</value>
+  </data>
+  <data name="FlagSearch.Label41" xml:space="preserve">
+    <value>Zdroj</value>
+  </data>
+  <data name="FlagSearch.Label42" xml:space="preserve">
+    <value>Stav</value>
+  </data>
+  <data name="FlagSearch.Label43" xml:space="preserve">
+    <value>Flagy</value>
+  </data>
+  <data name="FlagSearch.Label44" xml:space="preserve">
+    <value>Načteno</value>
+  </data>
+  <data name="FlagSearch.Label45" xml:space="preserve">
+    <value>Zavřít</value>
+  </data>
+  <data name="FlagSearch.Message1" xml:space="preserve">
+    <value>Zadejte flagy k ověření.</value>
+  </data>
+  <data name="FlagSearch.Message2" xml:space="preserve">
+    <value>Žádný vstup</value>
+  </data>
+  <data name="FlagSearch.Message3" xml:space="preserve">
+    <value>Tento vstup flagů je pro ověření příliš velký.</value>
+  </data>
+  <data name="FlagSearch.Message4" xml:space="preserve">
+    <value>Příliš velký vstup</value>
+  </data>
+  <data name="FlagSearch.Message5" xml:space="preserve">
+    <value>Ve vstupu byly nalezeny duplicitní flagy: </value>
+  </data>
+  <data name="FlagSearch.Message6" xml:space="preserve">
+    <value>Zjištěny duplicity</value>
+  </data>
+  <data name="FlagSearch.Message7" xml:space="preserve">
+    <value>Chyba při ověřování flagů</value>
+  </data>
+  <data name="FlagSearch.Message8" xml:space="preserve">
+    <value>Chyba při ověřování flagů: </value>
+  </data>
+  <data name="FlagSearch.Message9" xml:space="preserve">
+    <value>Chyba ověření</value>
+  </data>
+  <data name="FlagSearch.Message10" xml:space="preserve">
+    <value>Vyberte soubor flagů k ověření</value>
+  </data>
+  <data name="FlagSearch.Message11" xml:space="preserve">
+    <value>Chyba při načítání souboru: </value>
+  </data>
+  <data name="FlagSearch.Message12" xml:space="preserve">
+    <value>Chyba souboru</value>
+  </data>
+  <data name="FlagSearch.Message13" xml:space="preserve">
+    <value>Velikost souboru flagů je neplatná</value>
+  </data>
+  <data name="FlagSearch.Message14" xml:space="preserve">
+    <value>Soubor flagů se během čtení změnil</value>
+  </data>
+  <data name="FlagSearch.Message15" xml:space="preserve">
+    <value>Vstup flagů je příliš velký</value>
+  </data>
+  <data name="FlagSearch.Message16" xml:space="preserve">
+    <value>Exportováno {flags.Count} flagů do {dialog.FileName}</value>
+  </data>
+  <data name="FlagSearch.Message17" xml:space="preserve">
+    <value>Export dokončen</value>
+  </data>
+  <data name="FlagSearch.Message18" xml:space="preserve">
+    <value>Chyba při exportu flagů: </value>
+  </data>
+  <data name="FlagSearch.Message19" xml:space="preserve">
+    <value>Chyba exportu</value>
+  </data>
+  <data name="FlagSearch.Message20" xml:space="preserve">
+    <value>Chyba při vkládání ze schránky: </value>
+  </data>
+  <data name="FlagSearch.Message21" xml:space="preserve">
+    <value>Chyba vložení</value>
+  </data>
+  <data name="FlagSearch.ExportSummary" xml:space="preserve">
+    <value>Exportováno {0:N0} flagů do {1}</value>
+  </data>
+  <data name="FlagSearch.ValueNote" xml:space="preserve">
+    <value>Zadaná hodnota neodpovídá typu názvu flagu. Logické flagy vyžadují true nebo false, celočíselné flagy vyžadují celé 32bitové číslo.</value>
+  </data>
+  <data name="Notifications.Title" xml:space="preserve">
+    <value>Oznámení</value>
+  </data>
+  <data name="Notifications.Updates" xml:space="preserve">
+    <value>Aktualizace</value>
+  </data>
+  <data name="Notifications.Roblox" xml:space="preserve">
+    <value>Roblox a mody</value>
+  </data>
+  <data name="Notifications.Recovery" xml:space="preserve">
+    <value>Obnovení nastavení</value>
+  </data>
+  <data name="Notifications.Errors" xml:space="preserve">
+    <value>Chyby a pády</value>
+  </data>
+  <data name="Notifications.GameJoins" xml:space="preserve">
+    <value>Připojení ke hře</value>
+  </data>
+  <data name="Notifications.App" xml:space="preserve">
+    <value>Oznámení aplikace</value>
+  </data>
+  <data name="Notifications.AppDescription" xml:space="preserve">
+    <value>Zobrazovat oznámení aplikace.</value>
+  </data>
+  <data name="Bootstrapper.Uninstall.NvidiaFailed" xml:space="preserve">
+    <value>Vyčištění NVIDIA selhalo. Přesto odinstalovat? Zbývající nastavení NVIDIA zůstanou použita.
+
+{0}</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Latest" xml:space="preserve">
+    <value>Nejnovější</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Oldest" xml:space="preserve">
+    <value>Nejstarší</value>
+  </data>
+  <data name="ContextMenu.GameHistory.MostPlayed" xml:space="preserve">
+    <value>Nejdelší návštěvy</value>
+  </data>
+  <data name="ContextMenu.GameHistory.NameAscending" xml:space="preserve">
+    <value>Název, vzestupně</value>
+  </data>
+  <data name="ContextMenu.GameHistory.NameDescending" xml:space="preserve">
+    <value>Název, sestupně</value>
+  </data>
+  <data name="ContextMenu.GameHistory.AllServers" xml:space="preserve">
+    <value>Všechny servery</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Public" xml:space="preserve">
+    <value>Veřejný</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Private" xml:space="preserve">
+    <value>Soukromý</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Reserved" xml:space="preserve">
+    <value>Rezervovaný</value>
+  </data>
+  <data name="ContextMenu.GameHistory.EndUnknown" xml:space="preserve">
+    <value>Nezaznamenáno</value>
+  </data>
+  <data name="ContextMenu.GameHistory.CopyLink" xml:space="preserve">
+    <value>Kopírovat odkaz</value>
+  </data>
+  <data name="ContextMenu.GameHistory.LoadFailed" xml:space="preserve">
+    <value>Historii se nepodařilo načíst.</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Empty" xml:space="preserve">
+    <value>Žádné návštěvy k zobrazení.</value>
+  </data>
+  <data name="ContextMenu.GameHistory.StatusUnknown" xml:space="preserve">
+    <value>Neznámé</value>
+  </data>
+  <data name="ContextMenu.GameHistory.CheckedAt" xml:space="preserve">
+    <value>Zkontrolováno: {0}</value>
+  </data>
+  <data name="ContextMenu.GameHistory.LaunchFailed" xml:space="preserve">
+    <value>Roblox se nepodařilo spustit.</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.MaxOnly" xml:space="preserve">
+    <value>Max. {0}</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.Unknown" xml:space="preserve">
+    <value>Neznámé</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.InGame" xml:space="preserve">
+    <value>{0:N0} ve hře</value>
+  </data>
+  <data name="ServerInfo.Hint.Updated" xml:space="preserve">
+    <value>Aktualizováno před {0}.</value>
+  </data>
+  <data name="ServerInfo.Hint.RateLimited" xml:space="preserve">
+    <value>Roblox omezuje vyhledávání serverů, další pokus za {0}.</value>
+  </data>
+  <data name="ServerInfo.Hint.RateLimitedStale" xml:space="preserve">
+    <value>Roblox omezuje vyhledávání serverů. Zobrazen počet z doby před {0}, další aktualizace za {1}.</value>
+  </data>
+  <data name="ServerInfo.Hint.NotListed" xml:space="preserve">
+    <value>Tento server není v části veřejného seznamu serverů, kterou Roblox sdílí, další kontrola za {0}.</value>
+  </data>
+  <data name="ServerInfo.Hint.NotListedStale" xml:space="preserve">
+    <value>Naposledy viděn před {0}. Tento server teď není v části veřejného seznamu serverů, kterou Roblox sdílí.</value>
+  </data>
+  <data name="ServerInfo.Hint.PrivateNotListed" xml:space="preserve">
+    <value>Tento soukromý server není v seznamu serverů, který váš účet vidí, takže počet hráčů nelze přečíst.</value>
+  </data>
+  <data name="ServerInfo.Hint.PrivateSignedOut" xml:space="preserve">
+    <value>Roblox sdílí počet hráčů soukromých serverů pouze s přihlášeným účtem. Přihlaste se do Robloxu ve Voidstrapu, abyste ho viděli.</value>
+  </data>
+  <data name="ServerInfo.Hint.Reserved" xml:space="preserve">
+    <value>Roblox nezobrazuje rezervované servery používané pro teleporty a party, takže jejich počet hráčů nelze přečíst.</value>
+  </data>
+  <data name="ServerInfo.Hint.Unavailable" xml:space="preserve">
+    <value>Roblox není dostupný, další pokus za {0}.</value>
+  </data>
+  <data name="ServerInfo.Hint.UnavailableStale" xml:space="preserve">
+    <value>Roblox není dostupný. Zobrazen počet z doby před {0}, další pokus za {1}.</value>
+  </data>
+  <data name="ServerInfo.Hint.Full" xml:space="preserve">
+    <value>Tento server je plný. Roblox plné servery z veřejného seznamu vynechává, takže se zobrazuje jako plný, dokud se neuvolní místo.</value>
+  </data>
+  <data name="Shortcuts.GameTab" xml:space="preserve">
+    <value>Hra</value>
+  </data>
+  <data name="Shortcuts.SubplaceTab" xml:space="preserve">
+    <value>Podmísto</value>
+  </data>
+  <data name="Shortcuts.SubplaceDescription" xml:space="preserve">
+    <value>Najděte další místa v tomto zážitku.</value>
+  </data>
+  <data name="Shortcuts.LoadSubplaces" xml:space="preserve">
+    <value>Načíst podmísta</value>
+  </data>
+  <data name="Shortcuts.SubplaceAccess" xml:space="preserve">
+    <value>Tvůrce musí povolit přímé připojení. Některá podmísta vyžadují teleport ve hře.</value>
+  </data>
+  <data name="Shortcuts.SubplaceInitial" xml:space="preserve">
+    <value>Zadejte ID hry pro automatické načtení jejích podmíst.</value>
+  </data>
+  <data name="Shortcuts.SubplaceRetry" xml:space="preserve">
+    <value>Otevřete tuto kartu znovu a zkuste to ještě jednou.</value>
+  </data>
+  <data name="Shortcuts.SubplaceInvalidId" xml:space="preserve">
+    <value>Zadejte platné číselné ID hry.</value>
+  </data>
+  <data name="Shortcuts.SubplaceLoading" xml:space="preserve">
+    <value>Načítání podmíst...</value>
+  </data>
+  <data name="Shortcuts.SubplaceEmpty" xml:space="preserve">
+    <value>Tento zážitek nemá žádná uvedená podmísta.</value>
+  </data>
+  <data name="Shortcuts.SubplaceChoose" xml:space="preserve">
+    <value>Vyberte podmísto níže.</value>
+  </data>
+  <data name="Shortcuts.SubplaceTimeout" xml:space="preserve">
+    <value>Vypršel časový limit požadavku. Otevřete tuto kartu znovu a zkuste to ještě jednou.</value>
+  </data>
+  <data name="Shortcuts.SubplaceFailed" xml:space="preserve">
+    <value>Podmísta se nepodařilo načíst. Zkontrolujte ID hry a připojení a zkuste to znovu.</value>
+  </data>
+  <data name="Shortcuts.SubplaceReload" xml:space="preserve">
+    <value>Podmísta se načtou automaticky, když zadáte platné ID hry.</value>
+  </data>
+  <data name="Shortcuts.SubplaceRequired" xml:space="preserve">
+    <value>Počkejte na načtení podmíst a před pokračováním jedno vyberte.</value>
+  </data>
+  <data name="Library.SubplacesTab" xml:space="preserve">
+    <value>Podmísta</value>
+  </data>
+  <data name="SettingsProfiles.Title" xml:space="preserve">
+    <value>Profily nastavení</value>
+  </data>
+  <data name="SettingsProfiles.Name" xml:space="preserve">
+    <value>Název profilu</value>
+  </data>
+  <data name="SettingsProfiles.NameHint" xml:space="preserve">
+    <value>Příklad: VoidstrapProfile</value>
+  </data>
+  <data name="SettingsProfiles.Save" xml:space="preserve">
+    <value>Uložit profil</value>
+  </data>
+  <data name="SettingsProfiles.Saved" xml:space="preserve">
+    <value>Uložené profily</value>
+  </data>
+  <data name="SettingsProfiles.Apply" xml:space="preserve">
+    <value>Použít profil</value>
+  </data>
+  <data name="SettingsProfiles.Folder" xml:space="preserve">
+    <value>Otevřít složku</value>
+  </data>
+  <data name="SettingsProfiles.Empty" xml:space="preserve">
+    <value>Zatím žádné profily. Zadejte název a zvolte Uložit profil.</value>
+  </data>
+  <data name="SettingsProfiles.Location" xml:space="preserve">
+    <value>Uloženo v {0}</value>
+  </data>
+  <data name="SettingsProfiles.InvalidName" xml:space="preserve">
+    <value>Použijte název o délce 1 až 80 znaků bez symbolů pro názvy souborů a rezervovaných názvů zařízení.</value>
+  </data>
+  <data name="SettingsProfiles.InvalidFile" xml:space="preserve">
+    <value>Tento profil je neplatný nebo používá nepodporovaný formát.</value>
+  </data>
+  <data name="SettingsProfiles.RestoreFailed" xml:space="preserve">
+    <value>Profil se nepodařilo použít a předchozí nastavení se nepodařilo obnovit.</value>
+  </data>
+  <data name="SettingsProfiles.Overwrite" xml:space="preserve">
+    <value>Nahradit uložený profil "{0}" vaším aktuálním nastavením?</value>
+  </data>
+  <data name="SettingsProfiles.SavedStatus" xml:space="preserve">
+    <value>Uloženo "{0}"</value>
+  </data>
+  <data name="SettingsProfiles.ApplyConfirm" xml:space="preserve">
+    <value>Použít "{0}"? Tím se nahradí vaše aktuální nastavení Voidstrap a FastFlags a nastavení Voidstrap se znovu otevře.</value>
+  </data>
+  <data name="SettingsProfiles.RestartFailed" xml:space="preserve">
+    <value>Profil byl použit. Restartujte Voidstrap, aby se obnovily všechny stránky nastavení.</value>
+  </data>
+  <data name="SettingsProfiles.Restart" xml:space="preserve">
+    <value>Restartovat nyní</value>
+  </data>
+  <data name="SettingsProfiles.DeleteConfirm" xml:space="preserve">
+    <value>Smazat uložený profil "{0}"? Vaše aktuální nastavení zůstane beze změny.</value>
+  </data>
+  <data name="SettingsProfiles.Deleted" xml:space="preserve">
+    <value>Smazáno "{0}".</value>
+  </data>
+  <data name="SettingsProfiles.Error" xml:space="preserve">
+    <value>Akci profilu se nepodařilo dokončit: {0}</value>
+  </data>
+  <data name="GlobalProfiles.Title" xml:space="preserve">
+    <value>Profily globálního nastavení</value>
+  </data>
+  <data name="GlobalProfiles.ApplyConfirm" xml:space="preserve">
+    <value>Použít "{0}"? Tím se nahradí vaše aktuální globální nastavení Robloxu. Znovu se připojte do Robloxu, abyste viděli všechny změny.</value>
+  </data>
+  <data name="GlobalProfiles.Applied" xml:space="preserve">
+    <value>Použito "{0}"</value>
+  </data>
+  <data name="GlobalProfiles.SaveFailed" xml:space="preserve">
+    <value>Soubor nastavení Robloxu se nepodařilo zapsat. Zavřete Roblox a zkuste to znovu.</value>
+  </data>
+  <data name="AssetWarp.RemoveTexturesDescription" xml:space="preserve">
+    <value>Blokuje stahování prostředků textur a balíčků textur</value>
+  </data>
+  <data name="AssetWarp.RemoveDecalsDescription" xml:space="preserve">
+    <value>Blokuje stahování prostředků obtisků</value>
+  </data>
+  <data name="AssetWarp.RemoveImagesDescription" xml:space="preserve">
+    <value>Blokuje stahování obrazových prostředků. Roblox používá obrázky také pro textury a obtisky</value>
+  </data>
+  <data name="AssetWarp.RemoveAnimationsDescription" xml:space="preserve">
+    <value>Blokuje stahování prostředků animací. Hry bez náhradní animace nemusí správně fungovat</value>
+  </data>
+  <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
+    <value>Blokuje stahování prostředků sítí a MeshPart. Geometrie sítí bude neviditelná</value>
+  </data>
+  <data name="SwiftTunnel.Summary" xml:space="preserve">
+    <value>Směrujte provoz Robloxu přes SwiftTunnel, zatímco ostatní aplikace používají běžné připojení</value>
+  </data>
+  <data name="SwiftTunnel.Description" xml:space="preserve">
+    <value>SwiftTunnel je optimalizátor herního připojení pro Windows s děleným tunelováním a výběrem regionálních přenosových serverů</value>
+  </data>
+  <data name="SwiftTunnel.Setup" xml:space="preserve">
+    <value>Instalace stáhne nejnovější oficiální verzi SwiftTunnel a po nastavení otevře desktopovou aplikaci. Přihlaste se v ní a vyberte připojení. Optimalizace sítě může vyžadovat oprávnění správce</value>
+  </data>
+  <data name="SwiftTunnel.Network" xml:space="preserve">
+    <value>Síť</value>
+  </data>
+  <data name="SwiftTunnel.Routing" xml:space="preserve">
+    <value>Směrování</value>
+  </data>
+  <data name="SwiftTunnel.Install" xml:space="preserve">
+    <value>Nainstalovat</value>
+  </data>
+  <data name="SwiftTunnel.Uninstall" xml:space="preserve">
+    <value>Odinstalovat</value>
+  </data>
+  <data name="SwiftTunnel.Installed" xml:space="preserve">
+    <value>Nainstalováno</value>
+  </data>
+  <data name="SwiftTunnel.NotInstalled" xml:space="preserve">
+    <value>Nenainstalováno</value>
+  </data>
+  <data name="SwiftTunnel.Working" xml:space="preserve">
+    <value>Probíhá</value>
+  </data>
+  <data name="SwiftTunnel.Downloading" xml:space="preserve">
+    <value>Stahování SwiftTunnel</value>
+  </data>
+  <data name="SwiftTunnel.InstallerFailed" xml:space="preserve">
+    <value>Instalaci SwiftTunnel se nepodařilo otevřít</value>
+  </data>
+  <data name="SwiftTunnel.InstallerExit" xml:space="preserve">
+    <value>Instalace SwiftTunnel vrátila kód {0}</value>
+  </data>
+  <data name="SwiftTunnel.Error" xml:space="preserve">
+    <value>Akci SwiftTunnel se nepodařilo dokončit: {0}</value>
+  </data>
+  <data name="SwiftTunnel.UninstallUnavailable" xml:space="preserve">
+    <value>Položka pro odinstalaci SwiftTunnel je neúplná. Odeberte SwiftTunnel v Nastavení Windows, Aplikace</value>
+  </data>
+  <data name="SwiftTunnel.CleanupFailed" xml:space="preserve">
+    <value>SwiftTunnel nemohl obnovit svá síťová nastavení. Jeho soubory byly ponechány, aby bylo možné čištění zopakovat</value>
+  </data>
+  <data name="SwiftTunnel.ConfirmUninstall" xml:space="preserve">
+    <value>Úplně odebrat SwiftTunnel? Nejdříve se obnoví jeho síťový ovladač a nastavení systému, poté se SwiftTunnel odinstaluje. Po spuštění to nelze zrušit.</value>
+  </data>
+  <data name="SwiftTunnel.UninstallIncomplete" xml:space="preserve">
+    <value>Odebrání SwiftTunnel se nepodařilo dokončit. Zavřete SwiftTunnel a zkuste to znovu s oprávněním správce</value>
+  </data>
+  <data name="SwiftTunnel.UnsafeDirectory" xml:space="preserve">
+    <value>SwiftTunnel je nainstalován ve sdílené nebo nerozpoznané složce. Před úplným odebráním ho přesuňte do jeho vlastní složky SwiftTunnel</value>
+  </data>
+  <data name="SwiftTunnel.NotInstalledError" xml:space="preserve">
+    <value>SwiftTunnel není nainstalován. Nejdříve ho nainstalujte v části Rozšíření</value>
+  </data>
+  <data name="SwiftTunnel.Missing" xml:space="preserve">
+    <value>SwiftTunnel je zaregistrován, ale chybí jeho soubory. Odinstalujte ho a nainstalujte znovu, abyste ho opravili</value>
+  </data>
+  <data name="SwiftTunnel.NoInstaller" xml:space="preserve">
+    <value>Nejnovější verze SwiftTunnel nemá pro tento počítač ověřený instalátor Windows</value>
+  </data>
+  <data name="Installer.MacOS.DataLocation.Title" xml:space="preserve">
+    <value>Vyberte, kam ukládat data Voidstrap</value>
+  </data>
+  <data name="Installer.MacOS.DataLocation.Text" xml:space="preserve">
+    <value>Voidstrap zde uchovává svá nastavení a mody. Aplikace zůstává na současném místě. Roblox se instaluje zvlášť do složky Aplikace.</value>
+  </data>
+  <data name="Installer.MacOS.Completion.Text" xml:space="preserve">
+    <value>Voidstrap je připraven.
+
+Roblox se stáhne při prvním spuštění přes Voidstrap. Před spuštěním můžete upravit nastavení.
+
+Co chcete udělat?</value>
+  </data>
+  <data name="Installer.MacOS.Roblox.Title" xml:space="preserve">
+    <value>Roblox pro macOS</value>
+  </data>
+  <data name="Installer.MacOS.Roblox.Text" xml:space="preserve">
+    <value>Voidstrap stáhne oficiální aplikaci Roblox do složky Aplikace při prvním kliknutí na Spustit a poté ji udržuje aktuální. Samostatná instalace není potřeba.</value>
+  </data>
+  <data name="HomepageMedia.Preview.FileMissing" xml:space="preserve">
+    <value>Vybraný mediální soubor nebyl nalezen.</value>
+  </data>
+  <data name="HomepageMedia.Preview.DecodeError" xml:space="preserve">
+    <value>Toto médium se nepodařilo dekódovat. Vyberte jiný obrázek nebo video.</value>
+  </data>
+  <data name="HomepageMedia.Preview.RenderError" xml:space="preserve">
+    <value>Náhled média se nepodařilo zobrazit.</value>
+  </data>
+  <data name="HomepageMedia.Picker.ImagesAndVideos" xml:space="preserve">
+    <value>Obrázky a videa</value>
+  </data>
+  <data name="HomepageMedia.Picker.Images" xml:space="preserve">
+    <value>Obrázky</value>
+  </data>
+  <data name="HomepageMedia.Picker.Videos" xml:space="preserve">
+    <value>Videa</value>
+  </data>
+  <data name="Appearance.Backdrop.Sidebar" xml:space="preserve">
+    <value>Postranní panel</value>
+  </data>
+  <data name="Appearance.Backdrop.Popover" xml:space="preserve">
+    <value>Vyskakovací okno</value>
+  </data>
+  <data name="Appearance.Backdrop.Hud" xml:space="preserve">
+    <value>Průhledový displej</value>
+  </data>
+  <data name="Appearance.Backdrop.UnderWindow" xml:space="preserve">
+    <value>Pod oknem</value>
+  </data>
+  <data name="Appearance.Backdrop.UnderPage" xml:space="preserve">
+    <value>Pod stránkou</value>
+  </data>
+  <data name="Menu.MacVirtualDisplay.Title" xml:space="preserve">
+    <value>Virtuální displej 240 Hz</value>
+  </data>
+  <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Zrcadlí hlavní obrazovku, dokud běží Roblox, a po zavření Robloxu ji obnoví. Fyzická obrazovka si zachová vlastní limit obnovovací frekvence.</value>
+  </data>
 </root>

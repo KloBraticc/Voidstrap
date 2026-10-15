@@ -1690,4 +1690,1352 @@ Bạn có muốn chuyển kênh ưa thích sang {0} không?</value>
   <data name="Menu.News.DialogTitle" xml:space="preserve">
     <value>Chi tiết tin tức</value>
   </data>
+  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
+    <value>Voidstrap không thể xóa tuyến AssetWarp còn sót lại khỏi tệp hosts của Windows. Roblox sẽ không thể tải texture hoặc các tài nguyên khác cho đến khi tuyến này được xóa. Hãy chạy Voidstrap với quyền quản trị viên để dọn dẹp.</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
+    <value>Cả hai</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
+    <value>Người chơi</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
+    <value>Trình duyệt máy chủ</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
+    <value>Địa điểm {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
+    <value>{0}  •  Địa điểm {1}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
+    <value>Đã quét {0} máy chủ</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
+    <value>Làm mới</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
+    <value>Tải thêm máy chủ</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
+    <value>Ẩn máy chủ đã đầy</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
+    <value>Tìm thành phố, quốc gia hoặc ID máy chủ</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
+    <value>Nhiều người chơi nhất</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
+    <value>Ít người chơi nhất</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
+    <value>Ping thấp nhất</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
+    <value>Tham gia</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
+    <value>Hiện tại</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
+    <value>Đang tải máy chủ công khai</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
+    <value>Không tìm thấy máy chủ công khai</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
+    <value>Hãy vào một trò chơi trước khi mở trình duyệt máy chủ</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
+    <value>Danh sách máy chủ tạm dừng vì Roblox đang giới hạn yêu cầu</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
+    <value>Không thể tải máy chủ công khai</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
+    <value>Đã tải {0} máy chủ</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
+    <value>{0} trên {1} người chơi</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
+    <value>{0} người chơi</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
+    <value>Không rõ</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
+    <value>Phù hợp nhất</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
+    <value>Phù hợp nhất</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
+    <value>Đã chặn</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
+    <value>Cách bạn khoảng {0} ms</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
+    <value>Đã định vị {0} máy chủ cho đến nay</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
+    <value>Đã định vị {0} trên {1} máy chủ</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
+    <value>Đang chuyển bạn đến {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
+    <value>Không thể tham gia máy chủ đó</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
+    <value>Đăng nhập tại Cài đặt &gt; Server Matchmaker để Voidstrap có thể tìm vị trí của từng máy chủ</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
+    <value>Không thể xác định vị trí của bạn nên không thể sắp xếp máy chủ theo ping</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
+    <value>Roblox không cho biết các máy chủ này ở đâu, hãy thử lại sau ít phút</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
+    <value>Tất cả máy chủ tìm thấy đều nằm ở trung tâm dữ liệu mà bạn đã chặn</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
+    <value>Tất cả máy chủ tìm thấy đều ở xa bạn nên matchmaker sẽ để Roblox tự chọn</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
+    <value>Trình duyệt trò chơi</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
+    <value>Tiếp tục</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
+    <value>Yêu thích</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
+    <value>Tìm kiếm</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
+    <value>Tìm trò chơi Roblox</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
+    <value>Đang tải trò chơi</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
+    <value>Không có trò chơi gần đây trong phiên này</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
+    <value>Chưa lưu trò chơi yêu thích nào</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
+    <value>Tìm trò chơi Roblox theo tên</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
+    <value>Không tìm thấy trò chơi nào cho {0}</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
+    <value>Không thể tải trò chơi</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
+    <value>{0} đang chơi</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
+    <value>Tham gia</value>
+  </data>
+  <data name="Enums.BootstrapperStyle.LegacyDialog2011" xml:space="preserve">
+    <value>Cũ (2011 - 2014)</value>
+  </data>
+  <data name="Enums.CursorType.From2006" xml:space="preserve">
+    <value>2006 (Hoạt hình)</value>
+  </data>
+  <data name="Enums.CursorType.From2013" xml:space="preserve">
+    <value>2013 (Góc cạnh)</value>
+  </data>
+  <data name="Enums.Theme.Berry" xml:space="preserve">
+    <value>Quả mọng</value>
+  </data>
+  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
+    <value>Tự động dịch</value>
+  </data>
+  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
+    <value>Dịch sang</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
+    <value>Ngôn ngữ tự động dịch</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
+    <value>Dịch toàn bộ giao diện Voidstrap sang bất kỳ ngôn ngữ nào. Bản dịch có sẵn được dùng trước, phần văn bản còn lại được dịch trực tiếp.</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
+    <value>Tự động dịch Discord RPC</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
+    <value>Tự động dịch văn bản Discord Rich Presence sang ngôn ngữ đã chọn.</value>
+  </data>
+  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
+    <value>Tính năng này chỉ có trên Windows.</value>
+  </data>
+  <data name="About.Translators.Description" xml:space="preserve">
+    <value>Tất cả những người có tên ở đây đã hào phóng dành thời gian và công sức để giúp dịch Voidstrap. Xin chân thành cảm ơn tất cả mọi người!</value>
+  </data>
+  <data name="Menu.Channel.Description" xml:space="preserve">
+    <value>Thay đổi cài đặt triển khai và cài đặt cho Roblox và Voidstrap.</value>
+  </data>
+  <data name="Common.Channel" xml:space="preserve">
+    <value>Kênh</value>
+  </data>
+  <data name="Menu.ChannelChanger.Description" xml:space="preserve">
+    <value>Chọn kênh triển khai. Đừng thay đổi nếu bạn không biết mình đang làm gì.</value>
+  </data>
+  <data name="Common.Version" xml:space="preserve">
+    <value>Phiên bản</value>
+  </data>
+  <data name="Menu.Channel.RobloxUpgrades" xml:space="preserve">
+    <value>Cập nhật Roblox</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
+    <value>Chế độ tối</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
+    <value>Đo từ xa</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
+    <value>Chế độ tối</value>
+  </data>
+  <data name="Menu.Sober.Description" xml:space="preserve">
+    <value>Cấu hình môi trường chạy Linux mà Voidstrap dùng để khởi chạy Roblox. Sober chạy trình chơi, Vinegar chạy Studio. Voidstrap chỉ thay đổi những tùy chọn bạn ghi đè rõ ràng.</value>
+  </data>
+  <data name="Menu.Sober.Default" xml:space="preserve">
+    <value>Dùng mặc định của Sober</value>
+  </data>
+  <data name="Menu.Sober.Enabled" xml:space="preserve">
+    <value>Bật</value>
+  </data>
+  <data name="Menu.Sober.Disabled" xml:space="preserve">
+    <value>Tắt</value>
+  </data>
+  <data name="Menu.Sober.DefaultNotice" xml:space="preserve">
+    <value>Dùng mặc định của Sober để Sober kiểm soát cài đặt. Xóa ghi đè sẽ khôi phục giá trị mà Voidstrap đã sao lưu.</value>
+  </data>
+  <data name="Menu.Sober.RuntimeNotice" xml:space="preserve">
+    <value>Hãy hoàn tất lần chạy đầu tiên của Sober trước khi đặt ghi đè, sau đó đóng Sober trước khi thay đổi. Các thay đổi đã lưu sẽ áp dụng vào lần mở Sober tiếp theo.</value>
+  </data>
+  <data name="Menu.Sober.Group.Session" xml:space="preserve">
+    <value>Phiên và hoạt động</value>
+  </data>
+  <data name="Menu.Sober.Group.Input" xml:space="preserve">
+    <value>Đầu vào và trải nghiệm</value>
+  </data>
+  <data name="Menu.Sober.Group.Graphics" xml:space="preserve">
+    <value>Đồ họa và màn hình</value>
+  </data>
+  <data name="Menu.Sober.AllowGamepad.Title" xml:space="preserve">
+    <value>Cho phép truy cập tay cầm</value>
+  </data>
+  <data name="Menu.Sober.AllowGamepad.Description" xml:space="preserve">
+    <value>Cho phép Sober yêu cầu quyền truy cập tay cầm đã kết nối. Thay đổi quyền có thể cần khởi chạy lại Sober.</value>
+  </data>
+  <data name="Menu.Sober.CloseOnLeave.Title" xml:space="preserve">
+    <value>Đóng khi thoát</value>
+  </data>
+  <data name="Menu.Sober.CloseOnLeave.Description" xml:space="preserve">
+    <value>Đóng Sober sau khi rời khỏi một trải nghiệm.</value>
+  </data>
+  <data name="Menu.Sober.DiscordRpc.Description" xml:space="preserve">
+    <value>Cho phép Sober hiển thị hoạt động trong trò chơi qua Discord Rich Presence.</value>
+  </data>
+  <data name="Menu.Sober.DiscordJoin.Title" xml:space="preserve">
+    <value>Nút tham gia trên Discord</value>
+  </data>
+  <data name="Menu.Sober.DiscordJoin.Description" xml:space="preserve">
+    <value>Cho phép Sober thêm nút tham gia vào Discord Rich Presence.</value>
+  </data>
+  <data name="Menu.Sober.GameMode.Title" xml:space="preserve">
+    <value>Tích hợp GameMode</value>
+  </data>
+  <data name="Menu.Sober.GameMode.Description" xml:space="preserve">
+    <value>Cho phép Sober yêu cầu tinh chỉnh hiệu năng GameMode khi có GameMode.</value>
+  </data>
+  <data name="Menu.Sober.HiDpi.Title" xml:space="preserve">
+    <value>Tỷ lệ DPI cao</value>
+  </data>
+  <data name="Menu.Sober.HiDpi.Description" xml:space="preserve">
+    <value>Dùng tỷ lệ gốc cho màn hình mật độ cao.</value>
+  </data>
+  <data name="Menu.Sober.MobileHome.Title" xml:space="preserve">
+    <value>Màn hình chính kiểu di động</value>
+  </data>
+  <data name="Menu.Sober.MobileHome.Description" xml:space="preserve">
+    <value>Dùng màn hình chính Roblox kiểu di động.</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Title" xml:space="preserve">
+    <value>Chế độ tối ưu đồ họa</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Description" xml:space="preserve">
+    <value>Chọn ưu tiên tối ưu đồ họa của Sober.</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Quality" xml:space="preserve">
+    <value>Chất lượng</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Balanced" xml:space="preserve">
+    <value>Cân bằng</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Performance" xml:space="preserve">
+    <value>Hiệu năng</value>
+  </data>
+  <data name="Menu.Sober.ServerLocation.Title" xml:space="preserve">
+    <value>Chỉ báo vị trí máy chủ</value>
+  </data>
+  <data name="Menu.Sober.ServerLocation.Description" xml:space="preserve">
+    <value>Hiển thị chỉ báo vị trí máy chủ của Sober khi chơi.</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Title" xml:space="preserve">
+    <value>Chế độ cảm ứng</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Description" xml:space="preserve">
+    <value>Chọn cách Sober báo cáo hỗ trợ cảm ứng.</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Off" xml:space="preserve">
+    <value>Tắt</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.On" xml:space="preserve">
+    <value>Bật</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.FakeOff" xml:space="preserve">
+    <value>Tắt giả</value>
+  </data>
+  <data name="Menu.Sober.ConsoleExperience.Title" xml:space="preserve">
+    <value>Trải nghiệm kiểu console</value>
+  </data>
+  <data name="Menu.Sober.ConsoleExperience.Description" xml:space="preserve">
+    <value>Dùng trải nghiệm Roblox kiểu console.</value>
+  </data>
+  <data name="Menu.Sober.Libsecret.Title" xml:space="preserve">
+    <value>Lưu trữ Secret Service</value>
+  </data>
+  <data name="Menu.Sober.Libsecret.Description" xml:space="preserve">
+    <value>Lưu thông tin đăng nhập được hỗ trợ qua Secret Service của máy tính.</value>
+  </data>
+  <data name="Menu.Sober.OpenGl.Title" xml:space="preserve">
+    <value>Trình kết xuất OpenGL</value>
+  </data>
+  <data name="Menu.Sober.OpenGl.Description" xml:space="preserve">
+    <value>Dùng OpenGL thay cho backend đồ họa mặc định của Sober.</value>
+  </data>
+  <data name="Installer.Appearance.BackgroundUI.Title" xml:space="preserve">
+    <value>Nền và giao diện</value>
+  </data>
+  <data name="Installer.Appearance.BackgroundUI.Description" xml:space="preserve">
+    <value>Cá nhân hóa trình cài đặt và ứng dụng chính.</value>
+  </data>
+  <data name="Installer.Appearance.Snow.Title" xml:space="preserve">
+    <value>Tuyết trên nền</value>
+  </data>
+  <data name="Installer.Appearance.Snow.Description" xml:space="preserve">
+    <value>Thêm hiệu ứng tuyết nhẹ cho nền.</value>
+  </data>
+  <data name="Installer.Appearance.GradientMovement.Title" xml:space="preserve">
+    <value>Chuyển động gradient</value>
+  </data>
+  <data name="Installer.Appearance.GradientMovement.Description" xml:space="preserve">
+    <value>Làm gradient nền di chuyển theo con trỏ.</value>
+  </data>
+  <data name="Installer.Appearance.SmoothScrolling.Title" xml:space="preserve">
+    <value>Cuộn mượt</value>
+  </data>
+  <data name="Installer.Appearance.SmoothScrolling.Description" xml:space="preserve">
+    <value>Tạo hiệu ứng cuộn trên toàn bộ giao diện.</value>
+  </data>
+  <data name="Installer.Appearance.ClearFont.Title" xml:space="preserve">
+    <value>Phông chữ sắc nét</value>
+  </data>
+  <data name="Installer.Appearance.ClearFont.Description" xml:space="preserve">
+    <value>Dùng kết xuất chữ sắc nét hơn sau khi khởi động lại Voidstrap.</value>
+  </data>
+  <data name="Installer.Appearance.Background.Title" xml:space="preserve">
+    <value>Nền tùy chỉnh</value>
+  </data>
+  <data name="Installer.Appearance.Background.Description" xml:space="preserve">
+    <value>Dùng ảnh, GIF hoặc video và điều chỉnh cách hiển thị.</value>
+  </data>
+  <data name="Installer.Appearance.GradientOpacity" xml:space="preserve">
+    <value>Độ mờ gradient</value>
+  </data>
+  <data name="Installer.Appearance.DarkOverlay" xml:space="preserve">
+    <value>Lớp phủ tối</value>
+  </data>
+  <data name="Installer.Appearance.DisplayEverywhere" xml:space="preserve">
+    <value>Hiển thị ở mọi nơi</value>
+  </data>
+  <data name="Installer.Appearance.RemoveBackground" xml:space="preserve">
+    <value>Xóa nền</value>
+  </data>
+  <data name="Installer.Appearance.Theme.Description" xml:space="preserve">
+    <value>Chọn chủ đề dùng cho mọi cửa sổ Voidstrap.</value>
+  </data>
+  <data name="Installer.Appearance.Theme.Customize" xml:space="preserve">
+    <value>Tùy chỉnh</value>
+  </data>
+  <data name="Installer.Appearance.Backdrop.Title" xml:space="preserve">
+    <value>Nền cửa sổ</value>
+  </data>
+  <data name="Installer.Appearance.Backdrop.Description" xml:space="preserve">
+    <value>Chọn chất liệu hiển thị phía sau cửa sổ Voidstrap.</value>
+  </data>
+  <data name="Installer.Appearance.PageZoom.Title" xml:space="preserve">
+    <value>Thu phóng trang</value>
+  </data>
+  <data name="Installer.Appearance.PageZoom.Description" xml:space="preserve">
+    <value>Điều chỉnh kích thước các trang cài đặt.</value>
+  </data>
+  <data name="Vng.WarningTitle" xml:space="preserve">
+    <value>Roblox VNG: hạn chế tài khoản vĩnh viễn</value>
+  </data>
+  <data name="Vng.Warning" xml:space="preserve">
+    <value>DỪNG LẠI: ĐỌC KỸ TRƯỚC KHI TIẾP TỤC
+
+Đăng nhập Roblox VNG lần đầu sẽ chuyển tài khoản của bạn sang VNG. Roblox cho biết bạn sẽ không thể dùng tài khoản đó trên ứng dụng Roblox toàn cầu nữa.
+
+Hãy coi việc chuyển tài khoản này là vĩnh viễn. Voidstrap không thể hoàn tác. Gỡ cài đặt VNG hoặc tắt tùy chọn này không khôi phục quyền truy cập toàn cầu. Các hạn chế về tài khoản và khu vực của VNG sẽ được áp dụng.
+
+Chỉ tải tệp xuống thì không chuyển tài khoản. Đăng nhập hoặc khởi chạy bằng tài khoản có sẵn có thể khiến tài khoản đó bị chuyển.
+
+Chỉ tiếp tục nếu bạn chấp nhận mất quyền truy cập ứng dụng toàn cầu cho mọi tài khoản dùng với VNG. Nút Có sẽ mở sau mười giây.</value>
+  </data>
+  <data name="Vng.Confirmation" xml:space="preserve">
+    <value>Bạn có chắc không?</value>
+  </data>
+  <data name="Vng.Agreement" xml:space="preserve">
+    <value>Cảnh báo cuối: đăng nhập Roblox VNG có thể chuyển tài khoản của bạn vĩnh viễn và mất quyền truy cập ứng dụng Roblox toàn cầu. Voidstrap không thể hoàn tác.
+
+Nhập chính xác cụm từ bên dưới để chấp nhận hạn chế này và tiếp tục.</value>
+  </data>
+  <data name="Vng.Countdown" xml:space="preserve">
+    <value>{0} ({1} giây)</value>
+  </data>
+  <data name="Vng.Description" xml:space="preserve">
+    <value>Trình chơi dành cho Việt Nam. Đăng nhập sẽ chuyển tài khoản và mất quyền truy cập ứng dụng toàn cầu.</value>
+  </data>
+  <data name="Vng.UseForLaunches" xml:space="preserve">
+    <value>Dùng VNG khi khởi chạy trình chơi</value>
+  </data>
+  <data name="Vng.UninstallWarning" xml:space="preserve">
+    <value>Xóa VNG không hoàn tác việc chuyển tài khoản và không khôi phục quyền truy cập ứng dụng toàn cầu.</value>
+  </data>
+  <data name="Mtu.Description" xml:space="preserve">
+    <value>Giới hạn kích thước gói tin cho mọi ứng dụng, kể cả Roblox. Cần quyền quản trị viên và vẫn giữ sau khi khởi động lại. Có thể không cải thiện ping.</value>
+  </data>
+  <data name="Mtu.Adapter" xml:space="preserve">
+    <value>Chọn bộ điều hợp mạng và phiên bản IP</value>
+  </data>
+  <data name="Mtu.CustomValue" xml:space="preserve">
+    <value>MTU tùy chỉnh (byte)</value>
+  </data>
+  <data name="Mtu.Current" xml:space="preserve">
+    <value>Hiện tại: {0} byte. Tối thiểu: {1} byte.</value>
+  </data>
+  <data name="Mtu.NoAdapters" xml:space="preserve">
+    <value>Không tìm thấy bộ điều hợp mạng được hỗ trợ. Làm mới để thử lại.</value>
+  </data>
+  <data name="Mtu.Invalid" xml:space="preserve">
+    <value>Nhập số nguyên từ {0} đến {1}. Windows cũng kiểm tra kích thước gói tin mà bộ điều hợp hỗ trợ.</value>
+  </data>
+  <data name="Mtu.Apply" xml:space="preserve">
+    <value>Áp dụng</value>
+  </data>
+  <data name="Mtu.Restore" xml:space="preserve">
+    <value>Khôi phục</value>
+  </data>
+  <data name="Mtu.Refresh" xml:space="preserve">
+    <value>Làm mới</value>
+  </data>
+  <data name="Mtu.Loading" xml:space="preserve">
+    <value>Đang đọc bộ điều hợp mạng Windows...</value>
+  </data>
+  <data name="Mtu.Applying" xml:space="preserve">
+    <value>Đang chờ quản trị viên phê duyệt và áp dụng MTU...</value>
+  </data>
+  <data name="Mtu.AdapterUnavailable" xml:space="preserve">
+    <value>Bộ điều hợp đã chọn không khả dụng. Làm mới và chọn một bộ điều hợp.</value>
+  </data>
+  <data name="Mtu.Rejected" xml:space="preserve">
+    <value>Windows không thể áp dụng MTU, mã {0}. Bộ điều hợp của bạn có thể không hỗ trợ giá trị này.</value>
+  </data>
+  <data name="Mtu.Applied" xml:space="preserve">
+    <value>Đã đặt và xác minh MTU {0} byte. Áp dụng cho mọi ứng dụng trên bộ điều hợp đã chọn.</value>
+  </data>
+  <data name="Mtu.Restored" xml:space="preserve">
+    <value>Đã khôi phục và xác minh MTU trước đó {0} byte.</value>
+  </data>
+  <data name="Mtu.VerificationFailed" xml:space="preserve">
+    <value>Windows không báo cáo MTU đã yêu cầu. Làm mới để kiểm tra giá trị hiện tại.</value>
+  </data>
+  <data name="Mtu.Cancelled" xml:space="preserve">
+    <value>Đã hủy yêu cầu quản trị viên. MTU không thay đổi.</value>
+  </data>
+  <data name="Mtu.Error" xml:space="preserve">
+    <value>Thao tác MTU thất bại. Làm mới để kiểm tra giá trị hiện tại.</value>
+  </data>
+  <data name="Menu_FastFlagEditor_Rename" xml:space="preserve">
+    <value>Đổi tên</value>
+  </data>
+  <data name="Menu_FastFlagEditor_EditValue" xml:space="preserve">
+    <value>Sửa giá trị</value>
+  </data>
+  <data name="Menu_FastFlagEditor_CopySelected" xml:space="preserve">
+    <value>Sao chép mục đã chọn dạng JSON</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Title" xml:space="preserve">
+    <value>Màu nhấn</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Description" xml:space="preserve">
+    <value>Chọn màu cho các điều khiển của ứng dụng và sắc nền.</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Choose" xml:space="preserve">
+    <value>Chọn màu</value>
+  </data>
+  <data name="Menu.Appearance.Accent.System" xml:space="preserve">
+    <value>Dùng màu hệ thống</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Picker" xml:space="preserve">
+    <value>Chọn màu nhấn</value>
+  </data>
+  <data name="Menu.Shortcuts.Customize" xml:space="preserve">
+    <value>Tên và biểu tượng</value>
+  </data>
+  <data name="Menu.Shortcuts.InvalidName" xml:space="preserve">
+    <value>Dùng tên lối tắt hợp lệ, không có dấu gạch chéo hoặc tên tệp dành riêng.</value>
+  </data>
+  <data name="Menu.Shortcuts.NameExists" xml:space="preserve">
+    <value>Đã có lối tắt cùng tên. Hãy chọn tên khác.</value>
+  </data>
+  <data name="Menu.Shortcuts.ChooseIcon" xml:space="preserve">
+    <value>Chọn biểu tượng lối tắt</value>
+  </data>
+  <data name="Menu.Shortcuts.IconFilter" xml:space="preserve">
+    <value>Tệp biểu tượng và hình ảnh|*.ico;*.png;*.jpg;*.jpeg;*.bmp;*.webp</value>
+  </data>
+  <data name="Menu.Shortcuts.InvalidIcon" xml:space="preserve">
+    <value>Chọn biểu tượng hoặc hình ảnh hợp lệ nhỏ hơn 8 MB.</value>
+  </data>
+  <data name="Menu.LaunchDropdownOnRight" xml:space="preserve">
+    <value>Đặt bộ chọn phiên bản ở bên phải</value>
+  </data>
+  <data name="OverlayDiagnostics.Bounds" xml:space="preserve">
+    <value>Kích thước và vị trí màn hình</value>
+  </data>
+  <data name="OverlayDiagnostics.CollectionError" xml:space="preserve">
+    <value>Không thể thu thập mẫu hiện tại: {0}</value>
+  </data>
+  <data name="OverlayDiagnostics.CompositeCrosshair" xml:space="preserve">
+    <value>Tâm ngắm compositing đang hoạt động</value>
+  </data>
+  <data name="OverlayDiagnostics.Compositor" xml:space="preserve">
+    <value>Đã khởi động compositing</value>
+  </data>
+  <data name="OverlayDiagnostics.Configuration" xml:space="preserve">
+    <value>Tính năng đã cấu hình, các công tắc này không chứng minh việc kết xuất</value>
+  </data>
+  <data name="OverlayDiagnostics.Crosshair" xml:space="preserve">
+    <value>Tâm ngắm</value>
+  </data>
+  <data name="OverlayDiagnostics.Disabled" xml:space="preserve">
+    <value>Tất cả tính năng lớp phủ được kiểm tra đều đang tắt trong cài đặt.</value>
+  </data>
+  <data name="OverlayDiagnostics.DispatcherRequired" xml:space="preserve">
+    <value>Chẩn đoán lớp phủ phải chạy trên dispatcher của cửa sổ.</value>
+  </data>
+  <data name="OverlayDiagnostics.FakeBorderless" xml:space="preserve">
+    <value>Toàn màn hình không viền giả</value>
+  </data>
+  <data name="OverlayDiagnostics.FakeExclusive" xml:space="preserve">
+    <value>Toàn màn hình độc quyền giả</value>
+  </data>
+  <data name="OverlayDiagnostics.Findings" xml:space="preserve">
+    <value>Kiểm tra và giới hạn</value>
+  </data>
+  <data name="OverlayDiagnostics.Foreground" xml:space="preserve">
+    <value>Roblox hoặc lớp phủ của nó đang được chọn</value>
+  </data>
+  <data name="OverlayDiagnostics.FullscreenUnknown" xml:space="preserve">
+    <value>Chưa xác minh toàn màn hình độc quyền. Kích thước cửa sổ và kiểu viền không thể xác định chế độ hiển thị.</value>
+  </data>
+  <data name="OverlayDiagnostics.GameEffects" xml:space="preserve">
+    <value>Hiệu ứng trò chơi</value>
+  </data>
+  <data name="OverlayDiagnostics.GameLease" xml:space="preserve">
+    <value>Đã xác nhận phiên trò chơi trên Linux</value>
+  </data>
+  <data name="OverlayDiagnostics.GameSession" xml:space="preserve">
+    <value>Phiên trò chơi của trình theo dõi hoạt động</value>
+  </data>
+  <data name="OverlayDiagnostics.GameSignal" xml:space="preserve">
+    <value>Tín hiệu trò chơi từ trung tâm lớp phủ</value>
+  </data>
+  <data name="OverlayDiagnostics.Handle" xml:space="preserve">
+    <value>Handle cửa sổ</value>
+  </data>
+  <data name="OverlayDiagnostics.Homepage" xml:space="preserve">
+    <value>Nền trang chủ</value>
+  </data>
+  <data name="OverlayDiagnostics.HomepageInGame" xml:space="preserve">
+    <value>Trung tâm lớp phủ báo có phiên trò chơi trong khi tiến trình trang chủ Linux vẫn đang chạy. Tiến trình có thể chạy mà không vẽ.</value>
+  </data>
+  <data name="OverlayDiagnostics.HomepageWorker" xml:space="preserve">
+    <value>Tiến trình trang chủ Linux đang chạy</value>
+  </data>
+  <data name="OverlayDiagnostics.Intersects" xml:space="preserve">
+    <value>Hình chữ nhật giao với Roblox</value>
+  </data>
+  <data name="OverlayDiagnostics.Minimized" xml:space="preserve">
+    <value>Cửa sổ gốc đang thu nhỏ</value>
+  </data>
+  <data name="OverlayDiagnostics.MissingCrosshair" xml:space="preserve">
+    <value>Đã cấu hình tâm ngắm nhưng không tìm thấy cửa sổ tâm ngắm hoặc tâm ngắm compositing đang hoạt động trong tiến trình này.</value>
+  </data>
+  <data name="OverlayDiagnostics.MissingStats" xml:space="preserve">
+    <value>Đã cấu hình thống kê nhưng không tìm thấy cửa sổ thống kê trong tiến trình này. Điều này không chứng minh việc tạo thất bại và không loại trừ tiến trình Voidstrap khác.</value>
+  </data>
+  <data name="OverlayDiagnostics.MonitorCoverage" xml:space="preserve">
+    <value>Vùng client không viền phủ kín màn hình</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeLive" xml:space="preserve">
+    <value>Handle gốc hợp lệ</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeTopmost" xml:space="preserve">
+    <value>Cờ luôn ở trên gốc</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeVisible" xml:space="preserve">
+    <value>Cửa sổ gốc đang hiển thị</value>
+  </data>
+  <data name="OverlayDiagnostics.No" xml:space="preserve">
+    <value>Không</value>
+  </data>
+  <data name="OverlayDiagnostics.NoUsableWindow" xml:space="preserve">
+    <value>Không đo được vùng client Roblox nào dùng được. Roblox có thể đã đóng, thu nhỏ, ẩn, đang khởi động hoặc không truy cập được.</value>
+  </data>
+  <data name="OverlayDiagnostics.NoWindows" xml:space="preserve">
+    <value>Không tìm thấy cửa sổ lớp phủ nào trong tiến trình này.</value>
+  </data>
+  <data name="OverlayDiagnostics.Opacity" xml:space="preserve">
+    <value>Độ mờ WPF</value>
+  </data>
+  <data name="OverlayDiagnostics.PixelsUnknown" xml:space="preserve">
+    <value>Cờ hiển thị, độ mờ và luôn ở trên không chứng minh điểm ảnh đã được kết xuất, không bị che hoặc người dùng nhìn thấy được. Báo cáo này không xác nhận việc gửi khung hình GPU và tình trạng bị che.</value>
+  </data>
+  <data name="OverlayDiagnostics.Place" xml:space="preserve">
+    <value>ID địa điểm của trình theo dõi hoạt động</value>
+  </data>
+  <data name="OverlayDiagnostics.RegisteredWindow" xml:space="preserve">
+    <value>Lớp phủ gốc đã đăng ký</value>
+  </data>
+  <data name="OverlayDiagnostics.RobloxWindow" xml:space="preserve">
+    <value>Cửa sổ Roblox được quan sát</value>
+  </data>
+  <data name="OverlayDiagnostics.Runtime" xml:space="preserve">
+    <value>Trạng thái runtime được quan sát</value>
+  </data>
+  <data name="OverlayDiagnostics.Sample" xml:space="preserve">
+    <value>Lấy mẫu lúc {0:HH:mm:ss.fff zzz}, làm mới mỗi giây và khi cửa sổ thay đổi</value>
+  </data>
+  <data name="OverlayDiagnostics.Scope" xml:space="preserve">
+    <value>Các số liệu này mô tả tiến trình Voidstrap hiện tại. Cửa sổ thuộc tiến trình khác có thể không được liệt kê.</value>
+  </data>
+  <data name="OverlayDiagnostics.Stats" xml:space="preserve">
+    <value>Lớp phủ thống kê</value>
+  </data>
+  <data name="OverlayDiagnostics.Teleporting" xml:space="preserve">
+    <value>Trình theo dõi hoạt động đang dịch chuyển</value>
+  </data>
+  <data name="OverlayDiagnostics.Title" xml:space="preserve">
+    <value>Chẩn đoán lớp phủ</value>
+  </data>
+  <data name="OverlayDiagnostics.Transition" xml:space="preserve">
+    <value>Chuyển đổi trò chơi</value>
+  </data>
+  <data name="OverlayDiagnostics.Unavailable" xml:space="preserve">
+    <value>Không khả dụng</value>
+  </data>
+  <data name="OverlayDiagnostics.Unfocused" xml:space="preserve">
+    <value>Roblox hiện không được chọn. Lớp phủ có thể được ẩn có chủ đích khi cửa sổ khác đang hoạt động, kể cả cửa sổ chẩn đoán này.</value>
+  </data>
+  <data name="OverlayDiagnostics.UsableRect" xml:space="preserve">
+    <value>Vùng client dùng được đã theo dõi</value>
+  </data>
+  <data name="OverlayDiagnostics.Visible" xml:space="preserve">
+    <value>Hiển thị trong WPF</value>
+  </data>
+  <data name="OverlayDiagnostics.Windows" xml:space="preserve">
+    <value>Cửa sổ lớp phủ được quan sát</value>
+  </data>
+  <data name="OverlayDiagnostics.Worker" xml:space="preserve">
+    <value>Luồng xử lý compositing đang chạy</value>
+  </data>
+  <data name="OverlayDiagnostics.WpfTopmost" xml:space="preserve">
+    <value>Đã yêu cầu WPF luôn ở trên</value>
+  </data>
+  <data name="OverlayDiagnostics.X11" xml:space="preserve">
+    <value>Có kết nối X11</value>
+  </data>
+  <data name="OverlayDiagnostics.X11Compositor" xml:space="preserve">
+    <value>Đã phát hiện X11 compositing</value>
+  </data>
+  <data name="OverlayDiagnostics.X11Unavailable" xml:space="preserve">
+    <value>Không có kết nối X11. Không thể kiểm tra cửa sổ gốc; có thể do hạn chế của Wayland hoặc quyền sandbox.</value>
+  </data>
+  <data name="OverlayDiagnostics.Yes" xml:space="preserve">
+    <value>Có</value>
+  </data>
+  <data name="OverlayDiagnostics.NativeCompositor" xml:space="preserve">
+    <value>Cửa sổ gốc compositing GPU</value>
+  </data>
+  <data name="FlagSearch.Loading" xml:space="preserve">
+    <value>Đang tải nguồn…</value>
+  </data>
+  <data name="FlagSearch.Loaded" xml:space="preserve">
+    <value>Đã tải</value>
+  </data>
+  <data name="FlagSearch.Unavailable" xml:space="preserve">
+    <value>Không khả dụng</value>
+  </data>
+  <data name="FlagSearch.Pending" xml:space="preserve">
+    <value>Đang chờ</value>
+  </data>
+  <data name="FlagSearch.LoadedSummary" xml:space="preserve">
+    <value>Đã tải {0:N0} tên duy nhất từ {1} trên {2} nguồn. Xem Nguồn dữ liệu để biết chi tiết.</value>
+  </data>
+  <data name="FlagSearch.LoadError" xml:space="preserve">
+    <value>Tải nguồn thất bại. Xem nhật ký để biết chi tiết.</value>
+  </data>
+  <data name="FlagSearch.ObjectRequired" xml:space="preserve">
+    <value>JSON flag phải chứa một đối tượng.</value>
+  </data>
+  <data name="FlagSearch.EmptySource" xml:space="preserve">
+    <value>Nguồn không trả về tên flag nào được nhận dạng.</value>
+  </data>
+  <data name="FlagSearch.ResultCount" xml:space="preserve">
+    <value>Đang hiển thị {0:N0} trên {1:N0} kết quả khớp</value>
+  </data>
+  <data name="FlagSearch.SearchError" xml:space="preserve">
+    <value>Tìm kiếm thất bại. Xem nhật ký để biết chi tiết.</value>
+  </data>
+  <data name="FlagSearch.Validating" xml:space="preserve">
+    <value>Đang kiểm tra tên flag và giá trị nhập…</value>
+  </data>
+  <data name="FlagSearch.Found" xml:space="preserve">
+    <value>Đã tìm thấy</value>
+  </data>
+  <data name="FlagSearch.ValueError" xml:space="preserve">
+    <value>Lỗi giá trị</value>
+  </data>
+  <data name="FlagSearch.NotFound" xml:space="preserve">
+    <value>Không tìm thấy</value>
+  </data>
+  <data name="FlagSearch.FoundNote" xml:space="preserve">
+    <value>Tìm thấy trong nguồn đã tải. Chưa xác minh hỗ trợ ghi đè cục bộ.</value>
+  </data>
+  <data name="FlagSearch.NotFoundNote" xml:space="preserve">
+    <value>Không có trong nguồn đã tải, điều này không chứng minh flag không hợp lệ.</value>
+  </data>
+  <data name="FlagSearch.ValidationSummary" xml:space="preserve">
+    <value>Đã kiểm tra {0:N0} flag, {1:N0} mục nhập khớp với nguồn và loại giá trị mong đợi.</value>
+  </data>
+  <data name="FlagSearch.NameError" xml:space="preserve">
+    <value>Dùng tên Fast Flag được nhận dạng, không có khoảng trắng.</value>
+  </data>
+  <data name="FlagSearch.TooMany" xml:space="preserve">
+    <value>Dữ liệu nhập chứa quá nhiều flag.</value>
+  </data>
+  <data name="FlagSearch.ScalarRequired" xml:space="preserve">
+    <value>Giá trị flag phải là chuỗi, số hoặc boolean.</value>
+  </data>
+  <data name="FlagSearch.LineError" xml:space="preserve">
+    <value>Mỗi dòng văn bản phải có dạng tên=giá trị.</value>
+  </data>
+  <data name="FlagSearch.EmptyInput" xml:space="preserve">
+    <value>Không tìm thấy mục flag nào.</value>
+  </data>
+  <data name="FlagSearch.Label1" xml:space="preserve">
+    <value>Tìm Fast Flag</value>
+  </data>
+  <data name="FlagSearch.Label2" xml:space="preserve">
+    <value>Tìm Fast Flag</value>
+  </data>
+  <data name="FlagSearch.Label3" xml:space="preserve">
+    <value>Tìm kiếm và kiểm tra Fast Flag</value>
+  </data>
+  <data name="FlagSearch.Label4" xml:space="preserve">
+    <value>Tìm, kiểm tra và khám phá Fast Flag từ nhiều nguồn</value>
+  </data>
+  <data name="FlagSearch.Label5" xml:space="preserve">
+    <value>Làm mới nguồn</value>
+  </data>
+  <data name="FlagSearch.Label6" xml:space="preserve">
+    <value>Sẵn sàng</value>
+  </data>
+  <data name="FlagSearch.Label7" xml:space="preserve">
+    <value>Tìm kiếm trực tiếp</value>
+  </data>
+  <data name="FlagSearch.Label8" xml:space="preserve">
+    <value>Tìm flag trực tiếp</value>
+  </data>
+  <data name="FlagSearch.Label9" xml:space="preserve">
+    <value>Tìm tên đầy đủ hoặc từ khóa. Kết quả khớp chính xác hiển thị trước. Bản xuất gồm mọi giá trị đã biết khớp.</value>
+  </data>
+  <data name="FlagSearch.Label10" xml:space="preserve">
+    <value>Nhập tên flag hoặc từ khóa...</value>
+  </data>
+  <data name="FlagSearch.Label11" xml:space="preserve">
+    <value>Xuất kết quả</value>
+  </data>
+  <data name="FlagSearch.Label12" xml:space="preserve">
+    <value>Tất cả giá trị</value>
+  </data>
+  <data name="FlagSearch.Label13" xml:space="preserve">
+    <value>Giá trị true</value>
+  </data>
+  <data name="FlagSearch.Label14" xml:space="preserve">
+    <value>Giá trị false</value>
+  </data>
+  <data name="FlagSearch.Label15" xml:space="preserve">
+    <value>Tên flag</value>
+  </data>
+  <data name="FlagSearch.Label16" xml:space="preserve">
+    <value>Giá trị</value>
+  </data>
+  <data name="FlagSearch.Label17" xml:space="preserve">
+    <value>Nguồn</value>
+  </data>
+  <data name="FlagSearch.Label18" xml:space="preserve">
+    <value>Không có kết quả. Hãy thử tên hoặc bộ lọc giá trị khác.</value>
+  </data>
+  <data name="FlagSearch.Label19" xml:space="preserve">
+    <value>0 kết quả</value>
+  </data>
+  <data name="FlagSearch.Label20" xml:space="preserve">
+    <value>Kiểm tra hàng loạt</value>
+  </data>
+  <data name="FlagSearch.Label21" xml:space="preserve">
+    <value>Kiểm tra flag hàng loạt</value>
+  </data>
+  <data name="FlagSearch.Label22" xml:space="preserve">
+    <value>Kiểm tra sự có mặt trong nguồn và loại giá trị. Khớp không đảm bảo Roblox cho phép ghi đè cục bộ.</value>
+  </data>
+  <data name="FlagSearch.Label23" xml:space="preserve">
+    <value>Tải tệp</value>
+  </data>
+  <data name="FlagSearch.Label24" xml:space="preserve">
+    <value>Kiểm tra</value>
+  </data>
+  <data name="FlagSearch.Label25" xml:space="preserve">
+    <value>Xóa</value>
+  </data>
+  <data name="FlagSearch.Label26" xml:space="preserve">
+    <value>Dán</value>
+  </data>
+  <data name="FlagSearch.Label28" xml:space="preserve">
+    <value>Chọn tất cả</value>
+  </data>
+  <data name="FlagSearch.Label30" xml:space="preserve">
+    <value>Xóa</value>
+  </data>
+  <data name="FlagSearch.Label31" xml:space="preserve">
+    <value>Kết quả kiểm tra</value>
+  </data>
+  <data name="FlagSearch.Label32" xml:space="preserve">
+    <value>Tên flag</value>
+  </data>
+  <data name="FlagSearch.Label33" xml:space="preserve">
+    <value>Giá trị nhập</value>
+  </data>
+  <data name="FlagSearch.Label34" xml:space="preserve">
+    <value>Trạng thái</value>
+  </data>
+  <data name="FlagSearch.Label35" xml:space="preserve">
+    <value>Giá trị nguồn</value>
+  </data>
+  <data name="FlagSearch.Label36" xml:space="preserve">
+    <value>Ghi chú</value>
+  </data>
+  <data name="FlagSearch.Label37" xml:space="preserve">
+    <value>Xuất dữ liệu đã kiểm tra</value>
+  </data>
+  <data name="FlagSearch.Label38" xml:space="preserve">
+    <value>0 kết quả</value>
+  </data>
+  <data name="FlagSearch.Label39" xml:space="preserve">
+    <value>Nguồn dữ liệu</value>
+  </data>
+  <data name="FlagSearch.Label40" xml:space="preserve">
+    <value>Tình trạng nguồn trực tiếp và thời gian lấy. Có mặt trong nguồn không có nghĩa Roblox chấp nhận ghi đè cục bộ. Các nguồn này không cung cấp ngày thay đổi gần nhất.</value>
+  </data>
+  <data name="FlagSearch.Label41" xml:space="preserve">
+    <value>Nguồn</value>
+  </data>
+  <data name="FlagSearch.Label42" xml:space="preserve">
+    <value>Trạng thái</value>
+  </data>
+  <data name="FlagSearch.Label43" xml:space="preserve">
+    <value>Flag</value>
+  </data>
+  <data name="FlagSearch.Label44" xml:space="preserve">
+    <value>Đã lấy</value>
+  </data>
+  <data name="FlagSearch.Label45" xml:space="preserve">
+    <value>Đóng</value>
+  </data>
+  <data name="FlagSearch.Message1" xml:space="preserve">
+    <value>Vui lòng nhập flag cần kiểm tra.</value>
+  </data>
+  <data name="FlagSearch.Message2" xml:space="preserve">
+    <value>Không có dữ liệu nhập</value>
+  </data>
+  <data name="FlagSearch.Message3" xml:space="preserve">
+    <value>Dữ liệu flag quá lớn để kiểm tra.</value>
+  </data>
+  <data name="FlagSearch.Message4" xml:space="preserve">
+    <value>Dữ liệu nhập quá lớn</value>
+  </data>
+  <data name="FlagSearch.Message5" xml:space="preserve">
+    <value>Có flag trùng lặp trong dữ liệu nhập: </value>
+  </data>
+  <data name="FlagSearch.Message6" xml:space="preserve">
+    <value>Phát hiện trùng lặp</value>
+  </data>
+  <data name="FlagSearch.Message7" xml:space="preserve">
+    <value>Lỗi khi kiểm tra flag</value>
+  </data>
+  <data name="FlagSearch.Message8" xml:space="preserve">
+    <value>Lỗi khi kiểm tra flag: </value>
+  </data>
+  <data name="FlagSearch.Message9" xml:space="preserve">
+    <value>Lỗi kiểm tra</value>
+  </data>
+  <data name="FlagSearch.Message10" xml:space="preserve">
+    <value>Chọn tệp flag cần kiểm tra</value>
+  </data>
+  <data name="FlagSearch.Message11" xml:space="preserve">
+    <value>Lỗi khi tải tệp: </value>
+  </data>
+  <data name="FlagSearch.Message12" xml:space="preserve">
+    <value>Lỗi tệp</value>
+  </data>
+  <data name="FlagSearch.Message13" xml:space="preserve">
+    <value>Kích thước tệp flag không hợp lệ</value>
+  </data>
+  <data name="FlagSearch.Message14" xml:space="preserve">
+    <value>Tệp flag đã thay đổi trong khi đọc</value>
+  </data>
+  <data name="FlagSearch.Message15" xml:space="preserve">
+    <value>Dữ liệu flag quá lớn</value>
+  </data>
+  <data name="FlagSearch.Message16" xml:space="preserve">
+    <value>Đã xuất {flags.Count} flag sang {dialog.FileName}</value>
+  </data>
+  <data name="FlagSearch.Message17" xml:space="preserve">
+    <value>Xuất hoàn tất</value>
+  </data>
+  <data name="FlagSearch.Message18" xml:space="preserve">
+    <value>Lỗi khi xuất flag: </value>
+  </data>
+  <data name="FlagSearch.Message19" xml:space="preserve">
+    <value>Lỗi xuất</value>
+  </data>
+  <data name="FlagSearch.Message20" xml:space="preserve">
+    <value>Lỗi khi dán từ bảng nhớ tạm: </value>
+  </data>
+  <data name="FlagSearch.Message21" xml:space="preserve">
+    <value>Lỗi dán</value>
+  </data>
+  <data name="FlagSearch.ExportSummary" xml:space="preserve">
+    <value>Đã xuất {0:N0} flag sang {1}</value>
+  </data>
+  <data name="FlagSearch.ValueNote" xml:space="preserve">
+    <value>Giá trị nhập không khớp với loại của tên flag. Flag boolean cần true hoặc false, flag số nguyên cần số nguyên 32 bit.</value>
+  </data>
+  <data name="Notifications.Title" xml:space="preserve">
+    <value>Thông báo</value>
+  </data>
+  <data name="Notifications.Updates" xml:space="preserve">
+    <value>Bản cập nhật</value>
+  </data>
+  <data name="Notifications.Roblox" xml:space="preserve">
+    <value>Roblox và mod</value>
+  </data>
+  <data name="Notifications.Recovery" xml:space="preserve">
+    <value>Khôi phục cài đặt</value>
+  </data>
+  <data name="Notifications.Errors" xml:space="preserve">
+    <value>Lỗi và sự cố</value>
+  </data>
+  <data name="Notifications.GameJoins" xml:space="preserve">
+    <value>Đã vào trò chơi</value>
+  </data>
+  <data name="Notifications.App" xml:space="preserve">
+    <value>Thông báo ứng dụng</value>
+  </data>
+  <data name="Notifications.AppDescription" xml:space="preserve">
+    <value>Hiển thị thông báo ứng dụng.</value>
+  </data>
+  <data name="Bootstrapper.Uninstall.NvidiaFailed" xml:space="preserve">
+    <value>Dọn dẹp NVIDIA thất bại. Vẫn gỡ cài đặt? Các cài đặt NVIDIA còn lại sẽ vẫn được áp dụng.
+
+{0}</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Latest" xml:space="preserve">
+    <value>Mới nhất</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Oldest" xml:space="preserve">
+    <value>Cũ nhất</value>
+  </data>
+  <data name="ContextMenu.GameHistory.MostPlayed" xml:space="preserve">
+    <value>Lượt chơi lâu nhất</value>
+  </data>
+  <data name="ContextMenu.GameHistory.NameAscending" xml:space="preserve">
+    <value>Tên, tăng dần</value>
+  </data>
+  <data name="ContextMenu.GameHistory.NameDescending" xml:space="preserve">
+    <value>Tên, giảm dần</value>
+  </data>
+  <data name="ContextMenu.GameHistory.AllServers" xml:space="preserve">
+    <value>Tất cả máy chủ</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Public" xml:space="preserve">
+    <value>Công khai</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Private" xml:space="preserve">
+    <value>Riêng tư</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Reserved" xml:space="preserve">
+    <value>Dành riêng</value>
+  </data>
+  <data name="ContextMenu.GameHistory.EndUnknown" xml:space="preserve">
+    <value>Không được ghi lại</value>
+  </data>
+  <data name="ContextMenu.GameHistory.CopyLink" xml:space="preserve">
+    <value>Sao chép liên kết</value>
+  </data>
+  <data name="ContextMenu.GameHistory.LoadFailed" xml:space="preserve">
+    <value>Không thể tải lịch sử.</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Empty" xml:space="preserve">
+    <value>Không có lượt chơi nào để hiển thị.</value>
+  </data>
+  <data name="ContextMenu.GameHistory.StatusUnknown" xml:space="preserve">
+    <value>Không rõ</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Online" xml:space="preserve">
+    <value>Trực tuyến</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Offline" xml:space="preserve">
+    <value>Ngoại tuyến</value>
+  </data>
+  <data name="ContextMenu.GameHistory.CheckedAt" xml:space="preserve">
+    <value>Đã kiểm tra: {0}</value>
+  </data>
+  <data name="ContextMenu.GameHistory.LaunchFailed" xml:space="preserve">
+    <value>Không thể khởi chạy Roblox.</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.MaxOnly" xml:space="preserve">
+    <value>Tối đa {0}</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.Unknown" xml:space="preserve">
+    <value>Không rõ</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.InGame" xml:space="preserve">
+    <value>{0:N0} đang trong trò chơi</value>
+  </data>
+  <data name="ServerInfo.Hint.Updated" xml:space="preserve">
+    <value>Cập nhật {0} trước.</value>
+  </data>
+  <data name="ServerInfo.Hint.RateLimited" xml:space="preserve">
+    <value>Roblox đang giới hạn tra cứu máy chủ, thử lại sau {0}.</value>
+  </data>
+  <data name="ServerInfo.Hint.RateLimitedStale" xml:space="preserve">
+    <value>Roblox đang giới hạn tra cứu máy chủ. Đang hiển thị số liệu từ {0} trước, cập nhật lại sau {1}.</value>
+  </data>
+  <data name="ServerInfo.Hint.NotListed" xml:space="preserve">
+    <value>Máy chủ này không có trong phần danh sách máy chủ công khai mà Roblox chia sẻ, kiểm tra lại sau {0}.</value>
+  </data>
+  <data name="ServerInfo.Hint.NotListedStale" xml:space="preserve">
+    <value>Thấy lần cuối {0} trước. Máy chủ này hiện không có trong phần danh sách máy chủ công khai mà Roblox chia sẻ.</value>
+  </data>
+  <data name="ServerInfo.Hint.PrivateNotListed" xml:space="preserve">
+    <value>Máy chủ riêng này không có trong danh sách máy chủ mà tài khoản của bạn có thể xem, nên không thể đọc số người chơi.</value>
+  </data>
+  <data name="ServerInfo.Hint.PrivateSignedOut" xml:space="preserve">
+    <value>Roblox chỉ chia sẻ số người chơi của máy chủ riêng với tài khoản đã đăng nhập. Hãy đăng nhập Roblox trong Voidstrap để xem.</value>
+  </data>
+  <data name="ServerInfo.Hint.Reserved" xml:space="preserve">
+    <value>Roblox không liệt kê máy chủ dành riêng, loại dùng cho dịch chuyển và nhóm, nên không thể đọc số người chơi.</value>
+  </data>
+  <data name="ServerInfo.Hint.Unavailable" xml:space="preserve">
+    <value>Không thể kết nối Roblox, thử lại sau {0}.</value>
+  </data>
+  <data name="ServerInfo.Hint.UnavailableStale" xml:space="preserve">
+    <value>Không thể kết nối Roblox. Đang hiển thị số liệu từ {0} trước, thử lại sau {1}.</value>
+  </data>
+  <data name="ServerInfo.Hint.Full" xml:space="preserve">
+    <value>Máy chủ này đã đầy. Roblox không đưa máy chủ đầy vào danh sách máy chủ công khai, nên nó được hiển thị là đầy cho đến khi có chỗ trống.</value>
+  </data>
+  <data name="Shortcuts.GameTab" xml:space="preserve">
+    <value>Trò chơi</value>
+  </data>
+  <data name="Shortcuts.SubplaceTab" xml:space="preserve">
+    <value>Địa điểm con</value>
+  </data>
+  <data name="Shortcuts.SubplaceDescription" xml:space="preserve">
+    <value>Tìm địa điểm khác trong trải nghiệm này.</value>
+  </data>
+  <data name="Shortcuts.LoadSubplaces" xml:space="preserve">
+    <value>Tải địa điểm con</value>
+  </data>
+  <data name="Shortcuts.SubplaceAccess" xml:space="preserve">
+    <value>Người tạo phải cho phép tham gia trực tiếp. Một số địa điểm con cần dịch chuyển trong trò chơi.</value>
+  </data>
+  <data name="Shortcuts.SubplaceInitial" xml:space="preserve">
+    <value>Nhập ID trò chơi để tự động tải các địa điểm con.</value>
+  </data>
+  <data name="Shortcuts.SubplaceRetry" xml:space="preserve">
+    <value>Mở lại tab này để thử lại.</value>
+  </data>
+  <data name="Shortcuts.SubplaceInvalidId" xml:space="preserve">
+    <value>Nhập ID trò chơi dạng số hợp lệ.</value>
+  </data>
+  <data name="Shortcuts.SubplaceLoading" xml:space="preserve">
+    <value>Đang tải địa điểm con...</value>
+  </data>
+  <data name="Shortcuts.SubplaceEmpty" xml:space="preserve">
+    <value>Trải nghiệm này không có địa điểm con nào được liệt kê.</value>
+  </data>
+  <data name="Shortcuts.SubplaceChoose" xml:space="preserve">
+    <value>Chọn một địa điểm con bên dưới.</value>
+  </data>
+  <data name="Shortcuts.SubplaceTimeout" xml:space="preserve">
+    <value>Yêu cầu đã hết thời gian chờ. Mở lại tab này để thử lại.</value>
+  </data>
+  <data name="Shortcuts.SubplaceFailed" xml:space="preserve">
+    <value>Không thể tải địa điểm con. Kiểm tra ID trò chơi và kết nối rồi thử lại.</value>
+  </data>
+  <data name="Shortcuts.SubplaceReload" xml:space="preserve">
+    <value>Địa điểm con được tải tự động khi bạn nhập ID trò chơi hợp lệ.</value>
+  </data>
+  <data name="Shortcuts.SubplaceRequired" xml:space="preserve">
+    <value>Chờ địa điểm con tải xong, sau đó chọn một trước khi tiếp tục.</value>
+  </data>
+  <data name="Library.SubplacesTab" xml:space="preserve">
+    <value>Địa điểm con</value>
+  </data>
+  <data name="SettingsProfiles.Title" xml:space="preserve">
+    <value>Hồ sơ cài đặt</value>
+  </data>
+  <data name="SettingsProfiles.Name" xml:space="preserve">
+    <value>Tên hồ sơ</value>
+  </data>
+  <data name="SettingsProfiles.NameHint" xml:space="preserve">
+    <value>Ví dụ: VoidstrapProfile</value>
+  </data>
+  <data name="SettingsProfiles.Save" xml:space="preserve">
+    <value>Lưu hồ sơ</value>
+  </data>
+  <data name="SettingsProfiles.Saved" xml:space="preserve">
+    <value>Hồ sơ đã lưu</value>
+  </data>
+  <data name="SettingsProfiles.Apply" xml:space="preserve">
+    <value>Áp dụng hồ sơ</value>
+  </data>
+  <data name="SettingsProfiles.Folder" xml:space="preserve">
+    <value>Mở thư mục</value>
+  </data>
+  <data name="SettingsProfiles.Empty" xml:space="preserve">
+    <value>Chưa có hồ sơ nào. Nhập tên và chọn Lưu hồ sơ.</value>
+  </data>
+  <data name="SettingsProfiles.Location" xml:space="preserve">
+    <value>Đã lưu trong {0}</value>
+  </data>
+  <data name="SettingsProfiles.InvalidName" xml:space="preserve">
+    <value>Dùng tên từ 1 đến 80 ký tự, không có ký hiệu tên tệp hoặc tên thiết bị dành riêng.</value>
+  </data>
+  <data name="SettingsProfiles.InvalidFile" xml:space="preserve">
+    <value>Hồ sơ này không hợp lệ hoặc dùng định dạng không được hỗ trợ.</value>
+  </data>
+  <data name="SettingsProfiles.RestoreFailed" xml:space="preserve">
+    <value>Không thể áp dụng hồ sơ và không thể khôi phục cài đặt trước đó.</value>
+  </data>
+  <data name="SettingsProfiles.Overwrite" xml:space="preserve">
+    <value>Thay hồ sơ đã lưu "{0}" bằng cài đặt hiện tại của bạn?</value>
+  </data>
+  <data name="SettingsProfiles.SavedStatus" xml:space="preserve">
+    <value>Đã lưu "{0}"</value>
+  </data>
+  <data name="SettingsProfiles.ApplyConfirm" xml:space="preserve">
+    <value>Áp dụng "{0}"? Thao tác này thay thế cài đặt Voidstrap và FastFlags hiện tại, sau đó mở lại cài đặt Voidstrap.</value>
+  </data>
+  <data name="SettingsProfiles.RestartFailed" xml:space="preserve">
+    <value>Đã áp dụng hồ sơ. Khởi động lại Voidstrap để tải lại tất cả trang cài đặt.</value>
+  </data>
+  <data name="SettingsProfiles.Restart" xml:space="preserve">
+    <value>Khởi động lại ngay</value>
+  </data>
+  <data name="SettingsProfiles.DeleteConfirm" xml:space="preserve">
+    <value>Xóa hồ sơ đã lưu "{0}"? Cài đặt hiện tại của bạn sẽ giữ nguyên.</value>
+  </data>
+  <data name="SettingsProfiles.Deleted" xml:space="preserve">
+    <value>Đã xóa "{0}".</value>
+  </data>
+  <data name="SettingsProfiles.Error" xml:space="preserve">
+    <value>Không thể hoàn tất thao tác hồ sơ: {0}</value>
+  </data>
+  <data name="GlobalProfiles.Title" xml:space="preserve">
+    <value>Hồ sơ cài đặt chung</value>
+  </data>
+  <data name="GlobalProfiles.ApplyConfirm" xml:space="preserve">
+    <value>Áp dụng "{0}"? Thao tác này thay thế cài đặt chung Roblox hiện tại của bạn. Tham gia lại Roblox để thấy mọi thay đổi.</value>
+  </data>
+  <data name="GlobalProfiles.Applied" xml:space="preserve">
+    <value>Đã áp dụng "{0}"</value>
+  </data>
+  <data name="GlobalProfiles.SaveFailed" xml:space="preserve">
+    <value>Không thể ghi tệp cài đặt Roblox. Hãy đóng Roblox và thử lại.</value>
+  </data>
+  <data name="AssetWarp.RemoveTexturesDescription" xml:space="preserve">
+    <value>Chặn tải xuống tài nguyên texture và gói texture</value>
+  </data>
+  <data name="AssetWarp.RemoveDecalsDescription" xml:space="preserve">
+    <value>Chặn tải xuống tài nguyên decal</value>
+  </data>
+  <data name="AssetWarp.RemoveImagesDescription" xml:space="preserve">
+    <value>Chặn tải xuống tài nguyên hình ảnh. Roblox cũng dùng hình ảnh cho texture và decal</value>
+  </data>
+  <data name="AssetWarp.RemoveAnimationsDescription" xml:space="preserve">
+    <value>Chặn tải xuống tài nguyên hoạt ảnh. Trò chơi không có hoạt ảnh dự phòng có thể không hoạt động đúng</value>
+  </data>
+  <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
+    <value>Chặn tải xuống tài nguyên mesh và MeshPart. Hình khối mesh sẽ trở nên vô hình</value>
+  </data>
+  <data name="SwiftTunnel.Summary" xml:space="preserve">
+    <value>Định tuyến lưu lượng Roblox qua SwiftTunnel trong khi các ứng dụng khác dùng kết nối thông thường</value>
+  </data>
+  <data name="SwiftTunnel.Description" xml:space="preserve">
+    <value>SwiftTunnel là công cụ tối ưu kết nối trò chơi cho Windows với split tunneling và chọn relay theo khu vực</value>
+  </data>
+  <data name="SwiftTunnel.Setup" xml:space="preserve">
+    <value>Cài đặt sẽ tải bản phát hành chính thức mới nhất của SwiftTunnel và mở ứng dụng sau khi thiết lập. Hãy đăng nhập ở đó và chọn kết nối. Tối ưu mạng có thể cần quyền quản trị viên</value>
+  </data>
+  <data name="SwiftTunnel.Network" xml:space="preserve">
+    <value>Mạng</value>
+  </data>
+  <data name="SwiftTunnel.Routing" xml:space="preserve">
+    <value>Định tuyến</value>
+  </data>
+  <data name="SwiftTunnel.Install" xml:space="preserve">
+    <value>Cài đặt</value>
+  </data>
+  <data name="SwiftTunnel.Uninstall" xml:space="preserve">
+    <value>Gỡ cài đặt</value>
+  </data>
+  <data name="SwiftTunnel.Installed" xml:space="preserve">
+    <value>Đã cài đặt</value>
+  </data>
+  <data name="SwiftTunnel.NotInstalled" xml:space="preserve">
+    <value>Chưa cài đặt</value>
+  </data>
+  <data name="SwiftTunnel.Working" xml:space="preserve">
+    <value>Đang chạy</value>
+  </data>
+  <data name="SwiftTunnel.Downloading" xml:space="preserve">
+    <value>Đang tải SwiftTunnel</value>
+  </data>
+  <data name="SwiftTunnel.InstallerFailed" xml:space="preserve">
+    <value>Không thể mở trình thiết lập SwiftTunnel</value>
+  </data>
+  <data name="SwiftTunnel.InstallerExit" xml:space="preserve">
+    <value>Trình thiết lập SwiftTunnel trả về mã {0}</value>
+  </data>
+  <data name="SwiftTunnel.Error" xml:space="preserve">
+    <value>Không thể hoàn tất thao tác SwiftTunnel: {0}</value>
+  </data>
+  <data name="SwiftTunnel.UninstallUnavailable" xml:space="preserve">
+    <value>Mục gỡ cài đặt của SwiftTunnel chưa đầy đủ. Hãy gỡ SwiftTunnel trong Cài đặt Windows, Ứng dụng</value>
+  </data>
+  <data name="SwiftTunnel.CleanupFailed" xml:space="preserve">
+    <value>SwiftTunnel không thể khôi phục cài đặt mạng. Các tệp của nó được giữ lại để có thể thử dọn dẹp lại</value>
+  </data>
+  <data name="SwiftTunnel.ConfirmUninstall" xml:space="preserve">
+    <value>Gỡ hoàn toàn SwiftTunnel? Trình điều khiển mạng và cài đặt hệ thống của nó sẽ được khôi phục trước, sau đó SwiftTunnel được gỡ cài đặt. Khi đã bắt đầu thì không thể hủy.</value>
+  </data>
+  <data name="SwiftTunnel.UninstallIncomplete" xml:space="preserve">
+    <value>Không thể hoàn tất gỡ SwiftTunnel. Hãy đóng SwiftTunnel và thử lại với quyền quản trị viên</value>
+  </data>
+  <data name="SwiftTunnel.UnsafeDirectory" xml:space="preserve">
+    <value>SwiftTunnel được cài trong thư mục dùng chung hoặc không xác định. Hãy chuyển nó vào thư mục SwiftTunnel riêng trước khi gỡ hoàn toàn</value>
+  </data>
+  <data name="SwiftTunnel.NotInstalledError" xml:space="preserve">
+    <value>SwiftTunnel chưa được cài đặt. Hãy cài đặt từ mục Kết nối trước</value>
+  </data>
+  <data name="SwiftTunnel.Missing" xml:space="preserve">
+    <value>SwiftTunnel đã đăng ký nhưng thiếu tệp ứng dụng. Hãy gỡ và cài lại để sửa</value>
+  </data>
+  <data name="SwiftTunnel.NoInstaller" xml:space="preserve">
+    <value>Bản phát hành SwiftTunnel mới nhất không có trình cài đặt Windows đã xác minh cho máy tính này</value>
+  </data>
+  <data name="Installer.MacOS.DataLocation.Title" xml:space="preserve">
+    <value>Chọn nơi lưu dữ liệu Voidstrap</value>
+  </data>
+  <data name="Installer.MacOS.DataLocation.Text" xml:space="preserve">
+    <value>Voidstrap lưu cài đặt và mod tại đây. Ứng dụng vẫn ở vị trí hiện tại. Roblox được cài riêng trong Applications.</value>
+  </data>
+  <data name="Installer.MacOS.Completion.Text" xml:space="preserve">
+    <value>Voidstrap đã sẵn sàng.
+
+Roblox sẽ được tải xuống khi bạn khởi chạy lần đầu qua Voidstrap. Bạn có thể điều chỉnh cài đặt trước khi khởi chạy.
+
+Bạn muốn làm gì?</value>
+  </data>
+  <data name="Installer.MacOS.Roblox.Title" xml:space="preserve">
+    <value>Roblox cho macOS</value>
+  </data>
+  <data name="Installer.MacOS.Roblox.Text" xml:space="preserve">
+    <value>Voidstrap tải ứng dụng Roblox chính thức vào Applications lần đầu bạn nhấn Khởi chạy và luôn cập nhật nó sau đó. Không cần cài đặt riêng.</value>
+  </data>
+  <data name="HomepageMedia.Preview.FileMissing" xml:space="preserve">
+    <value>Không tìm thấy tệp phương tiện đã chọn.</value>
+  </data>
+  <data name="HomepageMedia.Preview.DecodeError" xml:space="preserve">
+    <value>Không thể giải mã phương tiện này. Hãy chọn ảnh hoặc video khác.</value>
+  </data>
+  <data name="HomepageMedia.Preview.RenderError" xml:space="preserve">
+    <value>Không thể hiển thị bản xem trước phương tiện.</value>
+  </data>
+  <data name="HomepageMedia.Picker.ImagesAndVideos" xml:space="preserve">
+    <value>Ảnh và video</value>
+  </data>
+  <data name="HomepageMedia.Picker.Images" xml:space="preserve">
+    <value>Ảnh</value>
+  </data>
+  <data name="HomepageMedia.Picker.Videos" xml:space="preserve">
+    <value>Video</value>
+  </data>
+  <data name="Appearance.Backdrop.Sidebar" xml:space="preserve">
+    <value>Thanh bên</value>
+  </data>
+  <data name="Appearance.Backdrop.Popover" xml:space="preserve">
+    <value>Cửa sổ bật lên</value>
+  </data>
+  <data name="Appearance.Backdrop.Hud" xml:space="preserve">
+    <value>Màn hình hiển thị thông tin</value>
+  </data>
+  <data name="Appearance.Backdrop.UnderWindow" xml:space="preserve">
+    <value>Dưới cửa sổ</value>
+  </data>
+  <data name="Appearance.Backdrop.UnderPage" xml:space="preserve">
+    <value>Dưới trang</value>
+  </data>
+  <data name="Menu.MacVirtualDisplay.Title" xml:space="preserve">
+    <value>Màn hình ảo 240 Hz</value>
+  </data>
+  <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
+    <value>Phản chiếu màn hình chính khi Roblox đang chạy và khôi phục khi Roblox đóng. Màn hình vật lý vẫn giữ giới hạn tần số quét của riêng nó.</value>
+  </data>
 </root>
