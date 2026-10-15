@@ -15,7 +15,7 @@ use std::{
         atomic::{AtomicBool, Ordering},
     },
     thread,
-    time::Instant,
+    time::{Duration, Instant},
 };
 
 type Ref = *mut c_void;
@@ -83,6 +83,7 @@ unsafe extern "C" {
     fn CGDisplayMirrorsDisplay(display: u32) -> u32;
     fn CGGetActiveDisplayList(max: u32, displays: *mut u32, count: *mut u32) -> i32;
     fn CGDisplayCopyDisplayMode(display: u32) -> Ref;
+    fn CGDisplayCopyAllDisplayModes(display: u32, options: Ref) -> Ref;
     fn CGDisplayModeGetWidth(mode: Ref) -> usize;
     fn CGDisplayModeGetHeight(mode: Ref) -> usize;
     fn CGDisplayModeGetPixelWidth(mode: Ref) -> usize;
@@ -100,6 +101,8 @@ unsafe extern "C" {
 unsafe extern "C" {
     static kCFRunLoopDefaultMode: Ref;
     fn CFRelease(value: Ref);
+    fn CFArrayGetCount(array: Ref) -> isize;
+    fn CFArrayGetValueAtIndex(array: Ref, index: isize) -> Ref;
     fn CFRunLoopGetCurrent() -> Ref;
     fn CFRunLoopStop(run_loop: Ref);
     fn CFRunLoopWakeUp(run_loop: Ref);
@@ -130,6 +133,7 @@ unsafe extern "C" {
 
 const NULL_DISPLAY: u32 = 0;
 const POLL_SECONDS: f64 = 0.5;
+const MODE_RETRY: Duration = Duration::from_secs(2);
 
 struct OwnedRef(Ref);
 
@@ -398,6 +402,8 @@ struct Session {
     run_loop: Ref,
     mirrored: bool,
     ready: bool,
+    refresh: f64,
+    mode_requested: Option<Instant>,
     error: Option<String>,
     stopped: Arc<AtomicBool>,
     started: Instant,
@@ -501,6 +507,8 @@ impl Session {
             run_loop: unsafe { CFRunLoopGetCurrent() },
             mirrored: false,
             ready: false,
+            refresh: config.refresh as f64,
+            mode_requested: None,
             error: None,
             stopped,
             started,
@@ -531,6 +539,16 @@ impl Session {
             let current = OwnedRef(current);
             unsafe { CGDisplayModeGetRefreshRate(current.0) }
         };
+        if (refresh - self.refresh).abs() >= 0.5 {
+            if self
+                .mode_requested
+                .is_none_or(|requested| requested.elapsed() >= MODE_RETRY)
+            {
+                self.mode_requested = Some(Instant::now());
+                self.select_requested_mode()?;
+            }
+            return Ok(());
+        }
         self.ready = true;
         status(format_args!(
             "{{\"ready\":true,\"physical\":{},\"virtual\":{},\"refresh\":{},\"startup_us\":{}}}",
@@ -566,6 +584,40 @@ impl Session {
         )?;
         transaction.commit()?;
         self.mirrored = true;
+        Ok(())
+    }
+
+    fn select_requested_mode(&self) -> Result<(), String> {
+        let modes = unsafe { CGDisplayCopyAllDisplayModes(self.virtual_id, ptr::null_mut()) };
+        if modes.is_null() {
+            return Ok(());
+        }
+        let modes = OwnedRef(modes);
+        for index in 0..unsafe { CFArrayGetCount(modes.0) } {
+            let mode = unsafe { CFArrayGetValueAtIndex(modes.0, index) };
+            if (unsafe { CGDisplayModeGetRefreshRate(mode) } - self.refresh).abs() >= 0.5 {
+                continue;
+            }
+            let transaction = Transaction::begin()?;
+            check(
+                unsafe {
+                    CGConfigureDisplayWithDisplayMode(
+                        transaction.0,
+                        self.virtual_id,
+                        mode,
+                        ptr::null_mut(),
+                    )
+                },
+                "Select virtual display mode",
+            )?;
+            check(
+                unsafe {
+                    CGConfigureDisplayMirrorOfDisplay(transaction.0, self.physical, self.virtual_id)
+                },
+                "Keep virtual display mirroring",
+            )?;
+            return transaction.commit();
+        }
         Ok(())
     }
 
