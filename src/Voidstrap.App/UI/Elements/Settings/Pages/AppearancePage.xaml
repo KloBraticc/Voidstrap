@@ -327,16 +327,42 @@
             </HeaderedContentControl.Header>
             <StackPanel IsEnabled="{Binding LauncherExtrasEnabled, Mode=OneWay}">
               <controls:OptionControl Header="Background" Description="Choose an image for the launcher background.">
-                <StackPanel Orientation="Horizontal">
-                  <ui:Button Content="Choose image" Icon="ImageAdd24" Margin="0,0,8,0" Command="{Binding ImportBackgroundCommand}" />
-                  <ui:Button Content="Remove" Icon="Delete24" Appearance="Danger" Command="{Binding RemoveBackgroundCommand}" />
-                </StackPanel>
+                <ui:Button>
+                  <ui:Button.Style>
+                    <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
+                      <Setter Property="Content" Value="Choose image" />
+                      <Setter Property="Command" Value="{Binding ImportBackgroundCommand}" />
+                      <Setter Property="Icon" Value="ImageAdd24" />
+                      <Style.Triggers>
+                        <DataTrigger Binding="{Binding HasLauncherBackground}" Value="True">
+                          <Setter Property="Content" Value="Remove" />
+                          <Setter Property="Command" Value="{Binding RemoveBackgroundCommand}" />
+                          <Setter Property="Appearance" Value="Danger" />
+                          <Setter Property="Icon" Value="Delete24" />
+                        </DataTrigger>
+                      </Style.Triggers>
+                    </Style>
+                  </ui:Button.Style>
+                </ui:Button>
               </controls:OptionControl>
               <controls:OptionControl Header="Startup sound" Description="Choose audio to play when the launcher opens.">
-                <StackPanel Orientation="Horizontal">
-                  <ui:Button Content="Choose audio" Icon="MusicNote124" Margin="0,0,8,0" Command="{Binding ImportStartupAudioCommand}" />
-                  <ui:Button Content="Remove" Icon="Delete24" Appearance="Danger" Command="{Binding RemoveStartupAudioCommand}" />
-                </StackPanel>
+                <ui:Button>
+                  <ui:Button.Style>
+                    <Style TargetType="ui:Button" BasedOn="{StaticResource {x:Type ui:Button}}">
+                      <Setter Property="Content" Value="Choose audio" />
+                      <Setter Property="Command" Value="{Binding ImportStartupAudioCommand}" />
+                      <Setter Property="Icon" Value="MusicNote124" />
+                      <Style.Triggers>
+                        <DataTrigger Binding="{Binding HasStartupAudio}" Value="True">
+                          <Setter Property="Content" Value="Remove" />
+                          <Setter Property="Command" Value="{Binding RemoveStartupAudioCommand}" />
+                          <Setter Property="Appearance" Value="Danger" />
+                          <Setter Property="Icon" Value="Delete24" />
+                        </DataTrigger>
+                      </Style.Triggers>
+                    </Style>
+                  </ui:Button.Style>
+                </ui:Button>
               </controls:OptionControl>
             </StackPanel>
           </ui:CardExpander>

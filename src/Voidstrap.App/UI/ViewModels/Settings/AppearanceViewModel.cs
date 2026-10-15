@@ -319,6 +319,22 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
 
     public ICommand RemoveStartupAudioCommand { get; }
 
+    public bool HasLauncherBackground => HasMedia("bootstrapper_bg.*");
+
+    public bool HasStartupAudio => HasMedia("startup_audio.*");
+
+    private static bool HasMedia(string pattern)
+    {
+        try
+        {
+            return Directory.Exists(Paths.Media) && Directory.EnumerateFiles(Paths.Media, pattern).Any();
+        }
+        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+        {
+            return false;
+        }
+    }
+
     public ICommand ManageAppFontCommand => new RelayCommand(ManageAppFont);
 
     public IReadOnlyList<WindowCornerStyle> WindowCornerStyles { get; } = Enum.GetValues<WindowCornerStyle>();
@@ -1079,10 +1095,10 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
         _selectedLanguage = App.Settings.Prop.AutoTranslate
             ? _autoTranslateOption
             : Locale.SupportedLocales.TryGetValue(App.Settings.Prop.Locale, out string? configuredLocale) ? configuredLocale : Locale.SupportedLocales[Locale.DefaultLocale];
-        ImportBackgroundCommand = new RelayCommand(ImportBackground);
-        RemoveBackgroundCommand = new RelayCommand(RemoveBackground);
-        ImportStartupAudioCommand = new RelayCommand(ImportStartupAudio);
-        RemoveStartupAudioCommand = new RelayCommand(RemoveStartupAudio);
+        ImportBackgroundCommand = new RelayCommand(() => { ImportBackground(); OnPropertyChanged(nameof(HasLauncherBackground)); });
+        RemoveBackgroundCommand = new RelayCommand(() => { RemoveBackground(); OnPropertyChanged(nameof(HasLauncherBackground)); });
+        ImportStartupAudioCommand = new RelayCommand(() => { ImportStartupAudio(); OnPropertyChanged(nameof(HasStartupAudio)); });
+        RemoveStartupAudioCommand = new RelayCommand(() => { RemoveStartupAudio(); OnPropertyChanged(nameof(HasStartupAudio)); });
         MoveSidebarItemUpCommand = new RelayCommand<SidebarItemEditor>(item => MoveSidebarItem(item, -1));
         MoveSidebarItemDownCommand = new RelayCommand<SidebarItemEditor>(item => MoveSidebarItem(item, 1));
         ToggleSidebarItemVisibilityCommand = new RelayCommand<SidebarItemEditor>(ToggleSidebarItemVisibility);
