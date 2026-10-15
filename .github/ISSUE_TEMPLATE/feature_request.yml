@@ -6,7 +6,10 @@ labels:
 body:
   - type: markdown
     attributes:
-      value: Thanks for suggesting a feature. Explaining the problem it solves helps the most.
+      value: |
+        <p align="center"><img width="96" alt="Voidstrap" src="https://raw.githubusercontent.com/KloBraticc/Voidstrap/main/assets/Images/Voidstrap.png"></p>
+
+        Explain the problem first, then describe the change that would solve it. Add examples when they help clarify the idea.
   - type: checkboxes
     id: checks
     attributes:
@@ -30,22 +33,24 @@ body:
   - type: textarea
     id: problem
     attributes:
-      label: What problem would this solve?
-      description: Describe what you are trying to do and why it is hard today.
+      label: Problem to solve
+      description: What are you trying to do, and what makes it difficult today?
+      placeholder: Describe the current limitation and who it affects.
     validations:
       required: true
   - type: textarea
     id: solution
     attributes:
       label: What should Voidstrap do?
-      description: Describe the feature you would like.
+      description: Describe the behavior you want and how you would use it.
+      placeholder: Explain the change from a user's point of view.
     validations:
       required: true
   - type: textarea
     id: alternatives
     attributes:
       label: Alternatives you have tried
-      description: Optional. Other tools or workarounds you have used.
+      description: Optional. List workarounds or other approaches you considered.
   - type: checkboxes
     id: conduct
     attributes:
