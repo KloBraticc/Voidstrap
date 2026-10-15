@@ -3415,4 +3415,511 @@
   <data name="Ui.Appearance.Customization" xml:space="preserve">
     <value>التخصيص</value>
   </data>
+  <data name="Ui.Mods.Choose" xml:space="preserve">
+    <value>اختيار</value>
+  </data>
+  <data name="Ui.Mods.Remove" xml:space="preserve">
+    <value>إزالة</value>
+  </data>
+  <data name="Ui.Mods.FindMods" xml:space="preserve">
+    <value>البحث عن تعديلات</value>
+  </data>
+  <data name="Ui.Mods.BrowseCommunityModsOnGamebanana" xml:space="preserve">
+    <value>تصفح تعديلات المجتمع على GameBanana.</value>
+  </data>
+  <data name="Ui.Mods.ModExplorer" xml:space="preserve">
+    <value>مستكشف التعديلات</value>
+  </data>
+  <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
+    <value>اعرض ملفات تثبيت Roblox وأدرها.</value>
+  </data>
+  <data name="Ui.Mods.ChooseWhetherYourModsAreApplied" xml:space="preserve">
+    <value>اختر ما إذا كانت التعديلات تُطبَّق على مشغّل Roblox أو Roblox Studio أو كليهما.</value>
+  </data>
+  <data name="Ui.Mods.ApplyModsTo" xml:space="preserve">
+    <value>تطبيق التعديلات على</value>
+  </data>
+  <data name="Ui.Mods.Cursor" xml:space="preserve">
+    <value>المؤشر</value>
+  </data>
+  <data name="Ui.Mods.CursorStyle" xml:space="preserve">
+    <value>نمط المؤشر</value>
+  </data>
+  <data name="Ui.Mods.UseTheRobloxCursorABuilt" xml:space="preserve">
+    <value>استخدم مؤشر Roblox أو نمطًا مدمجًا أو صورك الخاصة.</value>
+  </data>
+  <data name="Ui.Mods.CustomCursor" xml:space="preserve">
+    <value>مؤشر مخصص</value>
+  </data>
+  <data name="Ui.Mods.UseOneImageForThePointer" xml:space="preserve">
+    <value>استخدم صورة واحدة للمؤشر والمؤشر خارج النطاق ومؤشر النص.</value>
+  </data>
+  <data name="Ui.Mods.CustomDragCursor" xml:space="preserve">
+    <value>مؤشر سحب مخصص</value>
+  </data>
+  <data name="Ui.Mods.ShownWhileDraggingInRobloxStudio" xml:space="preserve">
+    <value>يظهر أثناء السحب في Roblox Studio.</value>
+  </data>
+  <data name="Ui.Mods.CustomShiftlock" xml:space="preserve">
+    <value>قفل Shift مخصص</value>
+  </data>
+  <data name="Ui.Mods.ShownInTheMiddleOfThe" xml:space="preserve">
+    <value>يظهر في منتصف الشاشة أثناء تفعيل قفل Shift. يعمل مع كل أنماط المؤشر.</value>
+  </data>
+  <data name="Ui.Mods.CustomCursorSets" xml:space="preserve">
+    <value>مجموعات مؤشرات مخصصة</value>
+  </data>
+  <data name="Ui.Mods.KeepSeveralCursorSetsReadyAnd" xml:space="preserve">
+    <value>احتفظ بعدة مجموعات مؤشرات جاهزة وبدّل بينها بنقرة واحدة.</value>
+  </data>
+  <data name="Ui.Mods.NoCursorSetsYetPressNew" xml:space="preserve">
+    <value>لا توجد مجموعات مؤشرات بعد. اضغط جديد لإنشاء واحدة أو استورد ملف zip.</value>
+  </data>
+  <data name="Ui.Mods.Folder" xml:space="preserve">
+    <value>المجلد</value>
+  </data>
+  <data name="Ui.Mods.OpenTheCursorSetsFolder" xml:space="preserve">
+    <value>فتح مجلد مجموعات المؤشرات</value>
+  </data>
+  <data name="Ui.Mods.UseThisSet" xml:space="preserve">
+    <value>استخدام هذه المجموعة</value>
+  </data>
+  <data name="Ui.Mods.CopyCurrentCursor" xml:space="preserve">
+    <value>نسخ المؤشر الحالي</value>
+  </data>
+  <data name="Ui.Mods.ReplaceThisSetWithYourCurrent" xml:space="preserve">
+    <value>استبدال هذه المجموعة بمؤشرك المخصص الحالي وأيقونة قفل Shift</value>
+  </data>
+  <data name="Ui.Mods.Interface" xml:space="preserve">
+    <value>الواجهة</value>
+  </data>
+  <data name="Ui.Mods.OldRobloxTopbarUi" xml:space="preserve">
+    <value>شريط Roblox العلوي القديم</value>
+  </data>
+  <data name="Ui.Mods.The2014To2015TopbarAnd" xml:space="preserve">
+    <value>الشريط العلوي وقائمة اللعبة من 2014 إلى 2015 كطبقة فوقية.</value>
+  </data>
+  <data name="Ui.Mods.Ps4ButtonIcons" xml:space="preserve">
+    <value>أيقونات أزرار PS4</value>
+  </data>
+  <data name="Ui.Mods.SwapsTheXboxButtonPromptsFor" xml:space="preserve">
+    <value>يستبدل تلميحات أزرار Xbox بأيقونات PS4 الرسمية.</value>
+  </data>
+  <data name="Ui.Mods.HideEveryCoreguiIcon" xml:space="preserve">
+    <value>إخفاء كل أيقونات CoreGui</value>
+  </data>
+  <data name="Ui.Mods.BlanksTheRemainingRobloxInterfaceArt" xml:space="preserve">
+    <value>يُخفي بقية رسومات واجهة Roblox. يبقى مفعّلًا ما دام الشريط العلوي القديم مفعّلًا.</value>
+  </data>
+  <data name="Ui.Mods.Sounds" xml:space="preserve">
+    <value>الأصوات</value>
+  </data>
+  <data name="Ui.Mods.CustomDeathSound" xml:space="preserve">
+    <value>صوت موت مخصص</value>
+  </data>
+  <data name="Ui.Mods.ReplacesTheDeathSoundWithYour" xml:space="preserve">
+    <value>يستبدل صوت الموت بصوتك الخاص.</value>
+  </data>
+  <data name="Ui.Mods.ChooseSound" xml:space="preserve">
+    <value>اختيار صوت...</value>
+  </data>
+  <data name="Ui.Mods.RemoveCustomDeathSound" xml:space="preserve">
+    <value>إزالة صوت الموت المخصص</value>
+  </data>
+  <data name="Ui.Mods.Volume" xml:space="preserve">
+    <value>مستوى الصوت</value>
+  </data>
+  <data name="Ui.Mods.SkyboxManager" xml:space="preserve">
+    <value>مدير السماء</value>
+  </data>
+  <data name="Ui.Mods.ChooseASkyboxOnceVoidstrapDownloads" xml:space="preserve">
+    <value>اختر سماء مرة واحدة. ينزّلها Voidstrap ويطبّقها بأمان عند بدء Roblox.</value>
+  </data>
+  <data name="Ui.Mods.CustomSkybox" xml:space="preserve">
+    <value>سماء مخصصة</value>
+  </data>
+  <data name="Ui.Mods.UseOneImageOrChooseEvery" xml:space="preserve">
+    <value>استخدم صورة واحدة أو اختر كل وجه من المكعب.</value>
+  </data>
+  <data name="Ui.Mods.UseOneImageForEverySide" xml:space="preserve">
+    <value>استخدام صورة واحدة لكل الجوانب</value>
+  </data>
+  <data name="Ui.Mods.Down" xml:space="preserve">
+    <value>أسفل</value>
+  </data>
+  <data name="Ui.Mods.Front" xml:space="preserve">
+    <value>أمام</value>
+  </data>
+  <data name="Ui.Mods.Left" xml:space="preserve">
+    <value>يسار</value>
+  </data>
+  <data name="Ui.Mods.Right" xml:space="preserve">
+    <value>يمين</value>
+  </data>
+  <data name="Ui.Mods.Up" xml:space="preserve">
+    <value>أعلى</value>
+  </data>
+  <data name="Ui.Mods.RemoveCustom" xml:space="preserve">
+    <value>إزالة المخصص</value>
+  </data>
+  <data name="Ui.Mods.SaveAndUse" xml:space="preserve">
+    <value>حفظ واستخدام</value>
+  </data>
+  <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
+    <value>تحديث السماوات</value>
+  </data>
+  <data name="Ui.Mods.FontManager" xml:space="preserve">
+    <value>مدير الخطوط</value>
+  </data>
+  <data name="Ui.Mods.UseALocalFontOrUse" xml:space="preserve">
+    <value>استخدم خطًا محليًا أو Google Fonts</value>
+  </data>
+  <data name="Ui.Mods.RefreshFonts" xml:space="preserve">
+    <value>تحديث الخطوط</value>
+  </data>
+  <data name="Ui.Mods.ChooseLocalFont" xml:space="preserve">
+    <value>اختيار خط محلي</value>
+  </data>
+  <data name="Ui.Mods.RemoveFont" xml:space="preserve">
+    <value>إزالة الخط</value>
+  </data>
+  <data name="Ui.Mods.UseFont" xml:space="preserve">
+    <value>استخدام الخط</value>
+  </data>
+  <data name="Ui.Mods.Size" xml:space="preserve">
+    <value>الحجم</value>
+  </data>
+  <data name="Ui.Mods.HelpAndFixes" xml:space="preserve">
+    <value>المساعدة والإصلاحات</value>
+  </data>
+  <data name="Ui.Mods.ModPacks" xml:space="preserve">
+    <value>حزم التعديلات</value>
+  </data>
+  <data name="Ui.Mods.SearchRobloxMods" xml:space="preserve">
+    <value>البحث في تعديلات Roblox</value>
+  </data>
+  <data name="Ui.Mods.Categories" xml:space="preserve">
+    <value>الفئات</value>
+  </data>
+  <data name="Ui.Mods.AllCategories" xml:space="preserve">
+    <value>كل الفئات</value>
+  </data>
+  <data name="Ui.Mods.NoModPacksToShow" xml:space="preserve">
+    <value>لا توجد حزم تعديلات لعرضها</value>
+  </data>
+  <data name="Ui.Mods.AnythingThatFailsTheRobloxAnd" xml:space="preserve">
+    <value>يُخفى كل ما لا يجتاز فحوصات Roblox والأمان، لذا قد تبدو فئة ما فارغة فعلًا.</value>
+  </data>
+  <data name="Ui.Mods.Page" xml:space="preserve">
+    <value>الصفحة</value>
+  </data>
+  <data name="Ui.Mods.View" xml:space="preserve">
+    <value>العرض</value>
+  </data>
+  <data name="Ui.Mods.LoadMore" xml:space="preserve">
+    <value>تحميل المزيد</value>
+  </data>
+  <data name="Ui.Mods.BackToModPacks" xml:space="preserve">
+    <value>العودة إلى حزم التعديلات</value>
+  </data>
+  <data name="Ui.Mods.By" xml:space="preserve">
+    <value>   بواسطة </value>
+  </data>
+  <data name="Ui.Mods.OpenTheModPage" xml:space="preserve">
+    <value>فتح صفحة التعديل</value>
+  </data>
+  <data name="Ui.Mods.Download" xml:space="preserve">
+    <value>تنزيل</value>
+  </data>
+  <data name="Ui.Mods.ApplyToMyMods" xml:space="preserve">
+    <value>تطبيق على تعديلاتي</value>
+  </data>
+  <data name="Ui.Mods.ApplyForVoidstrap" xml:space="preserve">
+    <value>تطبيق لـ Voidstrap</value>
+  </data>
+  <data name="Ui.Mods.ApplyForFleasion" xml:space="preserve">
+    <value>تطبيق لـ Fleasion</value>
+  </data>
+  <data name="Ui.Mods.License" xml:space="preserve">
+    <value>الترخيص</value>
+  </data>
+  <data name="Ui.Mods.Gallery" xml:space="preserve">
+    <value>المعرض</value>
+  </data>
+  <data name="Ui.Mods.NoCommentsHaveBeenPostedYet" xml:space="preserve">
+    <value>لم تُنشر أي تعليقات بعد.</value>
+  </data>
+  <data name="Ui.Mods.NoUpdatesHaveBeenPublished" xml:space="preserve">
+    <value>لم تُنشر أي تحديثات.</value>
+  </data>
+  <data name="Ui.Mods.NoIssuesAreCurrentlyListed" xml:space="preserve">
+    <value>لا توجد مشكلات مدرجة حاليًا.</value>
+  </data>
+  <data name="Ui.Mods.MyMods" xml:space="preserve">
+    <value>تعديلاتي</value>
+  </data>
+  <data name="Ui.Mods.AddAMod" xml:space="preserve">
+    <value>إضافة تعديل</value>
+  </data>
+  <data name="Ui.Mods.RefreshTheList" xml:space="preserve">
+    <value>تحديث القائمة</value>
+  </data>
+  <data name="Ui.Mods.OpenTheModLibraryFolder" xml:space="preserve">
+    <value>فتح مجلد مكتبة التعديلات</value>
+  </data>
+  <data name="Ui.Mods.SearchMods" xml:space="preserve">
+    <value>البحث في التعديلات...</value>
+  </data>
+  <data name="Ui.Mods.AddMod" xml:space="preserve">
+    <value>إضافة تعديل</value>
+  </data>
+  <data name="Ui.Mods.MoreModActions" xml:space="preserve">
+    <value>إجراءات أخرى للتعديل</value>
+  </data>
+  <data name="Ui.Mods.OpenLibrary" xml:space="preserve">
+    <value>فتح المكتبة</value>
+  </data>
+  <data name="Ui.Mods.Or" xml:space="preserve">
+    <value>أو</value>
+  </data>
+  <data name="Ui.Mods.DragModToChangeApplyOrder" xml:space="preserve">
+    <value>اسحب التعديل لتغيير ترتيب التطبيق</value>
+  </data>
+  <data name="Ui.Mods.EnableOrDisableThisMod" xml:space="preserve">
+    <value>تفعيل هذا التعديل أو تعطيله</value>
+  </data>
+  <data name="Ui.Mods.Id" xml:space="preserve">
+    <value>   المعرّف: </value>
+  </data>
+  <data name="Ui.Mods.ViewThisModPack" xml:space="preserve">
+    <value>عرض حزمة التعديلات هذه</value>
+  </data>
+  <data name="Ui.Mods.OpenModFolder" xml:space="preserve">
+    <value>فتح مجلد التعديل</value>
+  </data>
+  <data name="Ui.Mods.EditOptions" xml:space="preserve">
+    <value>تعديل الخيارات</value>
+  </data>
+  <data name="Ui.Mods.EditModOptions" xml:space="preserve">
+    <value>تعديل خيارات التعديل</value>
+  </data>
+  <data name="Ui.Mods.RenameMod" xml:space="preserve">
+    <value>إعادة تسمية التعديل</value>
+  </data>
+  <data name="Ui.Mods.CopyFullModIdentifier" xml:space="preserve">
+    <value>نسخ المعرّف الكامل للتعديل</value>
+  </data>
+  <data name="Ui.Mods.RemoveMod" xml:space="preserve">
+    <value>إزالة التعديل</value>
+  </data>
+  <data name="Ui.Mods.Overlays" xml:space="preserve">
+    <value>الطبقات الفوقية</value>
+  </data>
+  <data name="Ui.Mods.SessionDock" xml:space="preserve">
+    <value>شريط الجلسة</value>
+  </data>
+  <data name="Ui.Mods.ResetShortcut" xml:space="preserve">
+    <value>إعادة تعيين الاختصار</value>
+  </data>
+  <data name="Ui.Mods.HomepageBackground" xml:space="preserve">
+    <value>خلفية الصفحة الرئيسية</value>
+  </data>
+  <data name="Ui.Mods.ReplaceTheDarkRobloxHomeBackground" xml:space="preserve">
+    <value>استبدل الخلفية الداكنة لصفحة Roblox الرئيسية بلون أو تدرج أو صورة أو فيديو</value>
+  </data>
+  <data name="Ui.Mods.WhatToShowBehindTheHome" xml:space="preserve">
+    <value>ما يظهر خلف الصفحة الرئيسية.</value>
+  </data>
+  <data name="Ui.Mods.Colors" xml:space="preserve">
+    <value>الألوان</value>
+  </data>
+  <data name="Ui.Mods.StartAndEndOfTheGradient" xml:space="preserve">
+    <value>بداية التدرج ونهايته.</value>
+  </data>
+  <data name="Ui.Mods.Direction" xml:space="preserve">
+    <value>الاتجاه</value>
+  </data>
+  <data name="Ui.Mods.File" xml:space="preserve">
+    <value>الملف</value>
+  </data>
+  <data name="Ui.Mods.Display" xml:space="preserve">
+    <value>العرض</value>
+  </data>
+  <data name="Ui.Mods.ScreenColor" xml:space="preserve">
+    <value>لون الشاشة</value>
+  </data>
+  <data name="Ui.Mods.Saturation" xml:space="preserve">
+    <value>التشبع</value>
+  </data>
+  <data name="Ui.Mods.100IsNormal" xml:space="preserve">
+    <value>100 هو الوضع الطبيعي.</value>
+  </data>
+  <data name="Ui.Mods.Contrast" xml:space="preserve">
+    <value>التباين</value>
+  </data>
+  <data name="Ui.Mods.Warmth" xml:space="preserve">
+    <value>الدفء</value>
+  </data>
+  <data name="Ui.Mods.NegativeIsCoolerPositiveIsWarmer" xml:space="preserve">
+    <value>السالب أبرد والموجب أدفأ.</value>
+  </data>
+  <data name="Ui.Mods.SmoothingAndFrames" xml:space="preserve">
+    <value>التنعيم والإطارات</value>
+  </data>
+  <data name="Ui.Mods.AntiAliasing" xml:space="preserve">
+    <value>تنعيم الحواف</value>
+  </data>
+  <data name="Ui.Mods.SmoothsJaggedEdgesUsingYourGpu" xml:space="preserve">
+    <value>ينعّم الحواف المسننة باستخدام معالج الرسوميات.</value>
+  </data>
+  <data name="Ui.Mods.MotionBlur" xml:space="preserve">
+    <value>ضبابية الحركة</value>
+  </data>
+  <data name="Ui.Mods.AddsAMotionTrailToMovement" xml:space="preserve">
+    <value>يضيف أثرًا للحركة في المناطق المتحركة فقط ليبقى شكل الواجهة واضحًا.</value>
+  </data>
+  <data name="Ui.Mods.CustomMotionBlur" xml:space="preserve">
+    <value>ضبابية حركة مخصصة</value>
+  </data>
+  <data name="Ui.Mods.100IsNormal200IsExtreme" xml:space="preserve">
+    <value>100 هو عادي و200 هو شديد، ويصل حتى 500.</value>
+  </data>
+  <data name="Ui.Mods.FrameGenerationV100" xml:space="preserve">
+    <value>توليد الإطارات V1.0.0</value>
+  </data>
+  <data name="Ui.Mods.AddsGeneratedFramesBetweenRealOnes" xml:space="preserve">
+    <value>يضيف إطارات مولّدة بين الإطارات الحقيقية. يضيف تأخيرًا بسيطًا في الإدخال.</value>
+  </data>
+  <data name="Ui.Mods.ShowGeneratedFrames" xml:space="preserve">
+    <value>إظهار الإطارات المولّدة</value>
+  </data>
+  <data name="Ui.Mods.DisplaysHowManyFramesAreBeing" xml:space="preserve">
+    <value>يعرض عدد الإطارات التي يتم توليدها.</value>
+  </data>
+  <data name="Ui.Mods.FixFrameCap" xml:space="preserve">
+    <value>إصلاح حد الإطارات</value>
+  </data>
+  <data name="Ui.Mods.ColorBlindness" xml:space="preserve">
+    <value>عمى الألوان</value>
+  </data>
+  <data name="Ui.Mods.RecolorsTheScreenSoColorsAre" xml:space="preserve">
+    <value>يعيد تلوين الشاشة لتسهيل التمييز بين الألوان</value>
+  </data>
+  <data name="Ui.Mods.ProtanopiaRedGreen" xml:space="preserve">
+    <value>عمى الأحمر (أحمر/أخضر)</value>
+  </data>
+  <data name="Ui.Mods.DeuteranopiaRedGreen" xml:space="preserve">
+    <value>عمى الأخضر (أحمر/أخضر)</value>
+  </data>
+  <data name="Ui.Mods.TritanopiaBlueYellow" xml:space="preserve">
+    <value>عمى الأزرق (أزرق/أصفر)</value>
+  </data>
+  <data name="Ui.Mods.Strength" xml:space="preserve">
+    <value>القوة</value>
+  </data>
+  <data name="Ui.Mods.SimulateInstead" xml:space="preserve">
+    <value>المحاكاة بدلًا من ذلك</value>
+  </data>
+  <data name="Ui.Mods.ShowsWhatColorBlindPeopleSee" xml:space="preserve">
+    <value>يعرض ما يراه المصابون بعمى الألوان بدلًا من تصحيحه.</value>
+  </data>
+  <data name="Ui.Mods.InGameTools" xml:space="preserve">
+    <value>أدوات داخل اللعبة</value>
+  </data>
+  <data name="Ui.Mods.Clock" xml:space="preserve">
+    <value>الساعة</value>
+  </data>
+  <data name="Ui.Mods.ShowsTheTimeInTheCorner" xml:space="preserve">
+    <value>يعرض الوقت في الزاوية أثناء اللعب.</value>
+  </data>
+  <data name="Ui.Mods.TimeZone" xml:space="preserve">
+    <value>المنطقة الزمنية</value>
+  </data>
+  <data name="Ui.Mods.SystemFollowsThisComputer" xml:space="preserve">
+    <value>يتبع خيار النظام هذا الكمبيوتر.</value>
+  </data>
+  <data name="Ui.Mods.24HourClock" xml:space="preserve">
+    <value>ساعة 24 ساعة</value>
+  </data>
+  <data name="Ui.Mods.1430InsteadOf230" xml:space="preserve">
+    <value>14:30 بدلًا من 2:30 PM.</value>
+  </data>
+  <data name="Ui.Mods.Crosshair" xml:space="preserve">
+    <value>علامة التصويب</value>
+  </data>
+  <data name="Ui.Mods.DrawYourOwnCrosshairOverThe" xml:space="preserve">
+    <value>ارسم علامة التصويب الخاصة بك فوق اللعبة</value>
+  </data>
+  <data name="Ui.Mods.GifLink" xml:space="preserve">
+    <value>رابط GIF</value>
+  </data>
+  <data name="Ui.Mods.AnimatedGifUrlToUseAs" xml:space="preserve">
+    <value>رابط GIF متحرك لاستخدامه كعلامة تصويب.</value>
+  </data>
+  <data name="Ui.Mods.FillAndOutline" xml:space="preserve">
+    <value>التعبئة والحد.</value>
+  </data>
+  <data name="Ui.Mods.Pick" xml:space="preserve">
+    <value>اختيار</value>
+  </data>
+  <data name="Ui.Mods.Thickness" xml:space="preserve">
+    <value>السماكة</value>
+  </data>
+  <data name="Ui.Mods.CenterGap" xml:space="preserve">
+    <value>الفجوة المركزية</value>
+  </data>
+  <data name="Ui.Mods.Opacity" xml:space="preserve">
+    <value>العتامة</value>
+  </data>
+  <data name="Ui.Mods.ShareOrPasteACrosshairCode" xml:space="preserve">
+    <value>شارك رمز علامة تصويب أو الصقه.</value>
+  </data>
+  <data name="Ui.Mods.Generate" xml:space="preserve">
+    <value>توليد</value>
+  </data>
+  <data name="Ui.Mods.SaveAsFile" xml:space="preserve">
+    <value>حفظ كملف</value>
+  </data>
+  <data name="Ui.Mods.BrowseRobloxAssetsPreviewFilesAnd" xml:space="preserve">
+    <value>تصفح أصول Roblox وعاين الملفات وأنشئ بدائل للتعديلات.</value>
+  </data>
+  <data name="Ui.Mods.CloseModExplorer" xml:space="preserve">
+    <value>إغلاق مستكشف التعديلات</value>
+  </data>
+  <data name="Ui.Mods.SearchThisFolder" xml:space="preserve">
+    <value>البحث في هذا المجلد</value>
+  </data>
+  <data name="Ui.Mods.Modified" xml:space="preserve">
+    <value>تاريخ التعديل</value>
+  </data>
+  <data name="Ui.Mods.FileOperations" xml:space="preserve">
+    <value>عمليات الملفات</value>
+  </data>
+  <data name="Ui.Mods.Details" xml:space="preserve">
+    <value>التفاصيل</value>
+  </data>
+  <data name="Ui.Mods.Replace" xml:space="preserve">
+    <value>استبدال</value>
+  </data>
+  <data name="Ui.Mods.ChooseALocalReplacementForThis" xml:space="preserve">
+    <value>اختر بديلًا محليًا لهذا الأصل</value>
+  </data>
+  <data name="Ui.Mods.Adjust" xml:space="preserve">
+    <value>ضبط</value>
+  </data>
+  <data name="Ui.Mods.RotateFlipOrResizeThisImage" xml:space="preserve">
+    <value>تدوير هذه الصورة أو قلبها أو تغيير حجمها</value>
+  </data>
+  <data name="Ui.Mods.Recolor" xml:space="preserve">
+    <value>إعادة التلوين</value>
+  </data>
+  <data name="Ui.Mods.TintThisImage" xml:space="preserve">
+    <value>تلوين هذه الصورة</value>
+  </data>
+  <data name="Ui.Mods.SaveThisFileToYourComputer" xml:space="preserve">
+    <value>حفظ هذا الملف على جهازك</value>
+  </data>
+  <data name="Ui.Mods.FindMods2" xml:space="preserve">
+    <value>البحث عن تعديلات</value>
+  </data>
 </root>

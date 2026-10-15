@@ -3366,4 +3366,511 @@ O que você gostaria de fazer?</value>
   <data name="Ui.Appearance.Customization" xml:space="preserve">
     <value>Personalização</value>
   </data>
+  <data name="Ui.Mods.Choose" xml:space="preserve">
+    <value>Escolher</value>
+  </data>
+  <data name="Ui.Mods.Remove" xml:space="preserve">
+    <value>Remover</value>
+  </data>
+  <data name="Ui.Mods.FindMods" xml:space="preserve">
+    <value>Encontrar mods</value>
+  </data>
+  <data name="Ui.Mods.BrowseCommunityModsOnGamebanana" xml:space="preserve">
+    <value>Navegue pelos mods da comunidade no GameBanana.</value>
+  </data>
+  <data name="Ui.Mods.ModExplorer" xml:space="preserve">
+    <value>Explorador de mods</value>
+  </data>
+  <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
+    <value>Veja e gerencie os arquivos da sua instalação do Roblox.</value>
+  </data>
+  <data name="Ui.Mods.ChooseWhetherYourModsAreApplied" xml:space="preserve">
+    <value>Escolha se seus mods são aplicados ao Roblox Player, ao Roblox Studio ou aos dois.</value>
+  </data>
+  <data name="Ui.Mods.ApplyModsTo" xml:space="preserve">
+    <value>Aplicar mods a</value>
+  </data>
+  <data name="Ui.Mods.Cursor" xml:space="preserve">
+    <value>Cursor</value>
+  </data>
+  <data name="Ui.Mods.CursorStyle" xml:space="preserve">
+    <value>Estilo do cursor</value>
+  </data>
+  <data name="Ui.Mods.UseTheRobloxCursorABuilt" xml:space="preserve">
+    <value>Use o cursor do Roblox, um estilo integrado ou suas próprias imagens.</value>
+  </data>
+  <data name="Ui.Mods.CustomCursor" xml:space="preserve">
+    <value>Cursor personalizado</value>
+  </data>
+  <data name="Ui.Mods.UseOneImageForThePointer" xml:space="preserve">
+    <value>Use uma imagem para o ponteiro, o ponteiro fora de alcance e o cursor de texto.</value>
+  </data>
+  <data name="Ui.Mods.CustomDragCursor" xml:space="preserve">
+    <value>Cursor de arrastar personalizado</value>
+  </data>
+  <data name="Ui.Mods.ShownWhileDraggingInRobloxStudio" xml:space="preserve">
+    <value>Mostrado ao arrastar no Roblox Studio.</value>
+  </data>
+  <data name="Ui.Mods.CustomShiftlock" xml:space="preserve">
+    <value>Shift lock personalizado</value>
+  </data>
+  <data name="Ui.Mods.ShownInTheMiddleOfThe" xml:space="preserve">
+    <value>Mostrado no centro da tela enquanto o shift lock está ativo. Funciona com todos os estilos de cursor.</value>
+  </data>
+  <data name="Ui.Mods.CustomCursorSets" xml:space="preserve">
+    <value>Conjuntos de cursores personalizados</value>
+  </data>
+  <data name="Ui.Mods.KeepSeveralCursorSetsReadyAnd" xml:space="preserve">
+    <value>Mantenha vários conjuntos de cursores prontos e alterne entre eles com um clique.</value>
+  </data>
+  <data name="Ui.Mods.NoCursorSetsYetPressNew" xml:space="preserve">
+    <value>Ainda não há conjuntos de cursores. Clique em Novo para criar um ou importe um zip.</value>
+  </data>
+  <data name="Ui.Mods.Folder" xml:space="preserve">
+    <value>Pasta</value>
+  </data>
+  <data name="Ui.Mods.OpenTheCursorSetsFolder" xml:space="preserve">
+    <value>Abrir a pasta de conjuntos de cursores</value>
+  </data>
+  <data name="Ui.Mods.UseThisSet" xml:space="preserve">
+    <value>Usar este conjunto</value>
+  </data>
+  <data name="Ui.Mods.CopyCurrentCursor" xml:space="preserve">
+    <value>Copiar o cursor atual</value>
+  </data>
+  <data name="Ui.Mods.ReplaceThisSetWithYourCurrent" xml:space="preserve">
+    <value>Substituir este conjunto pelo seu cursor personalizado e ícone de shift lock atuais</value>
+  </data>
+  <data name="Ui.Mods.Interface" xml:space="preserve">
+    <value>Interface</value>
+  </data>
+  <data name="Ui.Mods.OldRobloxTopbarUi" xml:space="preserve">
+    <value>Barra superior antiga do Roblox</value>
+  </data>
+  <data name="Ui.Mods.The2014To2015TopbarAnd" xml:space="preserve">
+    <value>A barra superior e o menu do jogo de 2014 a 2015, como sobreposição.</value>
+  </data>
+  <data name="Ui.Mods.Ps4ButtonIcons" xml:space="preserve">
+    <value>Ícones de botões do PS4</value>
+  </data>
+  <data name="Ui.Mods.SwapsTheXboxButtonPromptsFor" xml:space="preserve">
+    <value>Troca os avisos de botões do Xbox pelos oficiais do PS4.</value>
+  </data>
+  <data name="Ui.Mods.HideEveryCoreguiIcon" xml:space="preserve">
+    <value>Ocultar todos os ícones do CoreGui</value>
+  </data>
+  <data name="Ui.Mods.BlanksTheRemainingRobloxInterfaceArt" xml:space="preserve">
+    <value>Oculta o restante da arte da interface do Roblox. Fica ativado enquanto a barra superior antiga estiver ligada.</value>
+  </data>
+  <data name="Ui.Mods.Sounds" xml:space="preserve">
+    <value>Sons</value>
+  </data>
+  <data name="Ui.Mods.CustomDeathSound" xml:space="preserve">
+    <value>Som de morte personalizado</value>
+  </data>
+  <data name="Ui.Mods.ReplacesTheDeathSoundWithYour" xml:space="preserve">
+    <value>Substitui o som de morte pelo seu próprio áudio.</value>
+  </data>
+  <data name="Ui.Mods.ChooseSound" xml:space="preserve">
+    <value>Escolher som...</value>
+  </data>
+  <data name="Ui.Mods.RemoveCustomDeathSound" xml:space="preserve">
+    <value>Remover som de morte personalizado</value>
+  </data>
+  <data name="Ui.Mods.Volume" xml:space="preserve">
+    <value>Volume</value>
+  </data>
+  <data name="Ui.Mods.SkyboxManager" xml:space="preserve">
+    <value>Gerenciador de skybox</value>
+  </data>
+  <data name="Ui.Mods.ChooseASkyboxOnceVoidstrapDownloads" xml:space="preserve">
+    <value>Escolha uma skybox uma vez. O Voidstrap baixa e aplica com segurança quando o Roblox inicia.</value>
+  </data>
+  <data name="Ui.Mods.CustomSkybox" xml:space="preserve">
+    <value>Skybox personalizada</value>
+  </data>
+  <data name="Ui.Mods.UseOneImageOrChooseEvery" xml:space="preserve">
+    <value>Use uma imagem ou escolha cada face do cubo.</value>
+  </data>
+  <data name="Ui.Mods.UseOneImageForEverySide" xml:space="preserve">
+    <value>Usar uma imagem para todos os lados</value>
+  </data>
+  <data name="Ui.Mods.Down" xml:space="preserve">
+    <value>Baixo</value>
+  </data>
+  <data name="Ui.Mods.Front" xml:space="preserve">
+    <value>Frente</value>
+  </data>
+  <data name="Ui.Mods.Left" xml:space="preserve">
+    <value>Esquerda</value>
+  </data>
+  <data name="Ui.Mods.Right" xml:space="preserve">
+    <value>Direita</value>
+  </data>
+  <data name="Ui.Mods.Up" xml:space="preserve">
+    <value>Cima</value>
+  </data>
+  <data name="Ui.Mods.RemoveCustom" xml:space="preserve">
+    <value>Remover personalizada</value>
+  </data>
+  <data name="Ui.Mods.SaveAndUse" xml:space="preserve">
+    <value>Salvar e usar</value>
+  </data>
+  <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
+    <value>Atualizar skyboxes</value>
+  </data>
+  <data name="Ui.Mods.FontManager" xml:space="preserve">
+    <value>Gerenciador de fontes</value>
+  </data>
+  <data name="Ui.Mods.UseALocalFontOrUse" xml:space="preserve">
+    <value>Use uma fonte local ou o Google Fonts</value>
+  </data>
+  <data name="Ui.Mods.RefreshFonts" xml:space="preserve">
+    <value>Atualizar fontes</value>
+  </data>
+  <data name="Ui.Mods.ChooseLocalFont" xml:space="preserve">
+    <value>Escolher fonte local</value>
+  </data>
+  <data name="Ui.Mods.RemoveFont" xml:space="preserve">
+    <value>Remover fonte</value>
+  </data>
+  <data name="Ui.Mods.UseFont" xml:space="preserve">
+    <value>Usar fonte</value>
+  </data>
+  <data name="Ui.Mods.Size" xml:space="preserve">
+    <value>Tamanho</value>
+  </data>
+  <data name="Ui.Mods.HelpAndFixes" xml:space="preserve">
+    <value>Ajuda e correções</value>
+  </data>
+  <data name="Ui.Mods.ModPacks" xml:space="preserve">
+    <value>Pacotes de mods</value>
+  </data>
+  <data name="Ui.Mods.SearchRobloxMods" xml:space="preserve">
+    <value>Pesquisar mods do Roblox</value>
+  </data>
+  <data name="Ui.Mods.Categories" xml:space="preserve">
+    <value>Categorias</value>
+  </data>
+  <data name="Ui.Mods.AllCategories" xml:space="preserve">
+    <value>Todas as categorias</value>
+  </data>
+  <data name="Ui.Mods.NoModPacksToShow" xml:space="preserve">
+    <value>Nenhum pacote de mods para mostrar</value>
+  </data>
+  <data name="Ui.Mods.AnythingThatFailsTheRobloxAnd" xml:space="preserve">
+    <value>Tudo o que não passa nas verificações do Roblox e de segurança fica oculto, então uma categoria pode realmente parecer vazia.</value>
+  </data>
+  <data name="Ui.Mods.Page" xml:space="preserve">
+    <value>Página</value>
+  </data>
+  <data name="Ui.Mods.View" xml:space="preserve">
+    <value>Exibir</value>
+  </data>
+  <data name="Ui.Mods.LoadMore" xml:space="preserve">
+    <value>Carregar mais</value>
+  </data>
+  <data name="Ui.Mods.BackToModPacks" xml:space="preserve">
+    <value>Voltar aos pacotes de mods</value>
+  </data>
+  <data name="Ui.Mods.By" xml:space="preserve">
+    <value>   por </value>
+  </data>
+  <data name="Ui.Mods.OpenTheModPage" xml:space="preserve">
+    <value>Abrir a página do mod</value>
+  </data>
+  <data name="Ui.Mods.Download" xml:space="preserve">
+    <value>Baixar</value>
+  </data>
+  <data name="Ui.Mods.ApplyToMyMods" xml:space="preserve">
+    <value>Aplicar em Meus mods</value>
+  </data>
+  <data name="Ui.Mods.ApplyForVoidstrap" xml:space="preserve">
+    <value>Aplicar para o Voidstrap</value>
+  </data>
+  <data name="Ui.Mods.ApplyForFleasion" xml:space="preserve">
+    <value>Aplicar para o Fleasion</value>
+  </data>
+  <data name="Ui.Mods.License" xml:space="preserve">
+    <value>Licença</value>
+  </data>
+  <data name="Ui.Mods.Gallery" xml:space="preserve">
+    <value>Galeria</value>
+  </data>
+  <data name="Ui.Mods.NoCommentsHaveBeenPostedYet" xml:space="preserve">
+    <value>Nenhum comentário foi publicado ainda.</value>
+  </data>
+  <data name="Ui.Mods.NoUpdatesHaveBeenPublished" xml:space="preserve">
+    <value>Nenhuma atualização foi publicada.</value>
+  </data>
+  <data name="Ui.Mods.NoIssuesAreCurrentlyListed" xml:space="preserve">
+    <value>Nenhum problema listado no momento.</value>
+  </data>
+  <data name="Ui.Mods.MyMods" xml:space="preserve">
+    <value>Meus mods</value>
+  </data>
+  <data name="Ui.Mods.AddAMod" xml:space="preserve">
+    <value>Adicionar um mod</value>
+  </data>
+  <data name="Ui.Mods.RefreshTheList" xml:space="preserve">
+    <value>Atualizar a lista</value>
+  </data>
+  <data name="Ui.Mods.OpenTheModLibraryFolder" xml:space="preserve">
+    <value>Abrir a pasta da biblioteca de mods</value>
+  </data>
+  <data name="Ui.Mods.SearchMods" xml:space="preserve">
+    <value>Pesquisar mods...</value>
+  </data>
+  <data name="Ui.Mods.AddMod" xml:space="preserve">
+    <value>Adicionar mod</value>
+  </data>
+  <data name="Ui.Mods.MoreModActions" xml:space="preserve">
+    <value>Mais ações do mod</value>
+  </data>
+  <data name="Ui.Mods.OpenLibrary" xml:space="preserve">
+    <value>Abrir biblioteca</value>
+  </data>
+  <data name="Ui.Mods.Or" xml:space="preserve">
+    <value>OU</value>
+  </data>
+  <data name="Ui.Mods.DragModToChangeApplyOrder" xml:space="preserve">
+    <value>Arraste o mod para mudar a ordem de aplicação</value>
+  </data>
+  <data name="Ui.Mods.EnableOrDisableThisMod" xml:space="preserve">
+    <value>Ativar ou desativar este mod</value>
+  </data>
+  <data name="Ui.Mods.Id" xml:space="preserve">
+    <value>   ID: </value>
+  </data>
+  <data name="Ui.Mods.ViewThisModPack" xml:space="preserve">
+    <value>Ver este pacote de mods</value>
+  </data>
+  <data name="Ui.Mods.OpenModFolder" xml:space="preserve">
+    <value>Abrir pasta do mod</value>
+  </data>
+  <data name="Ui.Mods.EditOptions" xml:space="preserve">
+    <value>Editar opções</value>
+  </data>
+  <data name="Ui.Mods.EditModOptions" xml:space="preserve">
+    <value>Editar opções do mod</value>
+  </data>
+  <data name="Ui.Mods.RenameMod" xml:space="preserve">
+    <value>Renomear mod</value>
+  </data>
+  <data name="Ui.Mods.CopyFullModIdentifier" xml:space="preserve">
+    <value>Copiar o identificador completo do mod</value>
+  </data>
+  <data name="Ui.Mods.RemoveMod" xml:space="preserve">
+    <value>Remover mod</value>
+  </data>
+  <data name="Ui.Mods.Overlays" xml:space="preserve">
+    <value>Sobreposições</value>
+  </data>
+  <data name="Ui.Mods.SessionDock" xml:space="preserve">
+    <value>Barra da sessão</value>
+  </data>
+  <data name="Ui.Mods.ResetShortcut" xml:space="preserve">
+    <value>Redefinir atalho</value>
+  </data>
+  <data name="Ui.Mods.HomepageBackground" xml:space="preserve">
+    <value>Fundo da página inicial</value>
+  </data>
+  <data name="Ui.Mods.ReplaceTheDarkRobloxHomeBackground" xml:space="preserve">
+    <value>Substitui o fundo escuro da página inicial do Roblox por uma cor, gradiente, imagem ou vídeo</value>
+  </data>
+  <data name="Ui.Mods.WhatToShowBehindTheHome" xml:space="preserve">
+    <value>O que aparece atrás da página inicial.</value>
+  </data>
+  <data name="Ui.Mods.Colors" xml:space="preserve">
+    <value>Cores</value>
+  </data>
+  <data name="Ui.Mods.StartAndEndOfTheGradient" xml:space="preserve">
+    <value>Início e fim do gradiente.</value>
+  </data>
+  <data name="Ui.Mods.Direction" xml:space="preserve">
+    <value>Direção</value>
+  </data>
+  <data name="Ui.Mods.File" xml:space="preserve">
+    <value>Arquivo</value>
+  </data>
+  <data name="Ui.Mods.Display" xml:space="preserve">
+    <value>Tela</value>
+  </data>
+  <data name="Ui.Mods.ScreenColor" xml:space="preserve">
+    <value>Cor da tela</value>
+  </data>
+  <data name="Ui.Mods.Saturation" xml:space="preserve">
+    <value>Saturação</value>
+  </data>
+  <data name="Ui.Mods.100IsNormal" xml:space="preserve">
+    <value>100 é o normal.</value>
+  </data>
+  <data name="Ui.Mods.Contrast" xml:space="preserve">
+    <value>Contraste</value>
+  </data>
+  <data name="Ui.Mods.Warmth" xml:space="preserve">
+    <value>Calor</value>
+  </data>
+  <data name="Ui.Mods.NegativeIsCoolerPositiveIsWarmer" xml:space="preserve">
+    <value>Negativo é mais frio, positivo é mais quente.</value>
+  </data>
+  <data name="Ui.Mods.SmoothingAndFrames" xml:space="preserve">
+    <value>Suavização e quadros</value>
+  </data>
+  <data name="Ui.Mods.AntiAliasing" xml:space="preserve">
+    <value>Antisserrilhamento</value>
+  </data>
+  <data name="Ui.Mods.SmoothsJaggedEdgesUsingYourGpu" xml:space="preserve">
+    <value>Suaviza bordas serrilhadas usando sua GPU.</value>
+  </data>
+  <data name="Ui.Mods.MotionBlur" xml:space="preserve">
+    <value>Desfoque de movimento</value>
+  </data>
+  <data name="Ui.Mods.AddsAMotionTrailToMovement" xml:space="preserve">
+    <value>Adiciona um rastro ao movimento, limitado às áreas em movimento para a interface continuar nítida.</value>
+  </data>
+  <data name="Ui.Mods.CustomMotionBlur" xml:space="preserve">
+    <value>Desfoque de movimento personalizado</value>
+  </data>
+  <data name="Ui.Mods.100IsNormal200IsExtreme" xml:space="preserve">
+    <value>100 é Normal, 200 é Extremo, e vai até 500.</value>
+  </data>
+  <data name="Ui.Mods.FrameGenerationV100" xml:space="preserve">
+    <value>Geração de quadros V1.0.0</value>
+  </data>
+  <data name="Ui.Mods.AddsGeneratedFramesBetweenRealOnes" xml:space="preserve">
+    <value>Adiciona quadros gerados entre os reais. Aumenta um pouco o atraso de entrada.</value>
+  </data>
+  <data name="Ui.Mods.ShowGeneratedFrames" xml:space="preserve">
+    <value>Mostrar quadros gerados</value>
+  </data>
+  <data name="Ui.Mods.DisplaysHowManyFramesAreBeing" xml:space="preserve">
+    <value>Mostra quantos quadros estão sendo gerados.</value>
+  </data>
+  <data name="Ui.Mods.FixFrameCap" xml:space="preserve">
+    <value>Corrigir limite de quadros</value>
+  </data>
+  <data name="Ui.Mods.ColorBlindness" xml:space="preserve">
+    <value>Daltonismo</value>
+  </data>
+  <data name="Ui.Mods.RecolorsTheScreenSoColorsAre" xml:space="preserve">
+    <value>Recolore a tela para facilitar a distinção entre as cores</value>
+  </data>
+  <data name="Ui.Mods.ProtanopiaRedGreen" xml:space="preserve">
+    <value>Protanopia (vermelho/verde)</value>
+  </data>
+  <data name="Ui.Mods.DeuteranopiaRedGreen" xml:space="preserve">
+    <value>Deuteranopia (vermelho/verde)</value>
+  </data>
+  <data name="Ui.Mods.TritanopiaBlueYellow" xml:space="preserve">
+    <value>Tritanopia (azul/amarelo)</value>
+  </data>
+  <data name="Ui.Mods.Strength" xml:space="preserve">
+    <value>Intensidade</value>
+  </data>
+  <data name="Ui.Mods.SimulateInstead" xml:space="preserve">
+    <value>Simular em vez disso</value>
+  </data>
+  <data name="Ui.Mods.ShowsWhatColorBlindPeopleSee" xml:space="preserve">
+    <value>Mostra o que pessoas daltônicas veem em vez de corrigir.</value>
+  </data>
+  <data name="Ui.Mods.InGameTools" xml:space="preserve">
+    <value>Ferramentas no jogo</value>
+  </data>
+  <data name="Ui.Mods.Clock" xml:space="preserve">
+    <value>Relógio</value>
+  </data>
+  <data name="Ui.Mods.ShowsTheTimeInTheCorner" xml:space="preserve">
+    <value>Mostra a hora no canto enquanto você joga.</value>
+  </data>
+  <data name="Ui.Mods.TimeZone" xml:space="preserve">
+    <value>Fuso horário</value>
+  </data>
+  <data name="Ui.Mods.SystemFollowsThisComputer" xml:space="preserve">
+    <value>Sistema segue este computador.</value>
+  </data>
+  <data name="Ui.Mods.24HourClock" xml:space="preserve">
+    <value>Relógio de 24 horas</value>
+  </data>
+  <data name="Ui.Mods.1430InsteadOf230" xml:space="preserve">
+    <value>14:30 em vez de 2:30 PM.</value>
+  </data>
+  <data name="Ui.Mods.Crosshair" xml:space="preserve">
+    <value>Mira</value>
+  </data>
+  <data name="Ui.Mods.DrawYourOwnCrosshairOverThe" xml:space="preserve">
+    <value>Desenhe sua própria mira sobre o jogo</value>
+  </data>
+  <data name="Ui.Mods.GifLink" xml:space="preserve">
+    <value>Link do GIF</value>
+  </data>
+  <data name="Ui.Mods.AnimatedGifUrlToUseAs" xml:space="preserve">
+    <value>URL do GIF animado a ser usado como mira.</value>
+  </data>
+  <data name="Ui.Mods.FillAndOutline" xml:space="preserve">
+    <value>Preenchimento e contorno.</value>
+  </data>
+  <data name="Ui.Mods.Pick" xml:space="preserve">
+    <value>Escolher</value>
+  </data>
+  <data name="Ui.Mods.Thickness" xml:space="preserve">
+    <value>Espessura</value>
+  </data>
+  <data name="Ui.Mods.CenterGap" xml:space="preserve">
+    <value>Espaço central</value>
+  </data>
+  <data name="Ui.Mods.Opacity" xml:space="preserve">
+    <value>Opacidade</value>
+  </data>
+  <data name="Ui.Mods.ShareOrPasteACrosshairCode" xml:space="preserve">
+    <value>Compartilhe ou cole um código de mira.</value>
+  </data>
+  <data name="Ui.Mods.Generate" xml:space="preserve">
+    <value>Gerar</value>
+  </data>
+  <data name="Ui.Mods.SaveAsFile" xml:space="preserve">
+    <value>Salvar como arquivo</value>
+  </data>
+  <data name="Ui.Mods.BrowseRobloxAssetsPreviewFilesAnd" xml:space="preserve">
+    <value>Navegue pelos recursos do Roblox, visualize arquivos e crie substituições de mods.</value>
+  </data>
+  <data name="Ui.Mods.CloseModExplorer" xml:space="preserve">
+    <value>Fechar o explorador de mods</value>
+  </data>
+  <data name="Ui.Mods.SearchThisFolder" xml:space="preserve">
+    <value>Pesquisar nesta pasta</value>
+  </data>
+  <data name="Ui.Mods.Modified" xml:space="preserve">
+    <value>Modificado</value>
+  </data>
+  <data name="Ui.Mods.FileOperations" xml:space="preserve">
+    <value>Operações de arquivo</value>
+  </data>
+  <data name="Ui.Mods.Details" xml:space="preserve">
+    <value>Detalhes</value>
+  </data>
+  <data name="Ui.Mods.Replace" xml:space="preserve">
+    <value>Substituir</value>
+  </data>
+  <data name="Ui.Mods.ChooseALocalReplacementForThis" xml:space="preserve">
+    <value>Escolha uma substituição local para este recurso</value>
+  </data>
+  <data name="Ui.Mods.Adjust" xml:space="preserve">
+    <value>Ajustar</value>
+  </data>
+  <data name="Ui.Mods.RotateFlipOrResizeThisImage" xml:space="preserve">
+    <value>Girar, espelhar ou redimensionar esta imagem</value>
+  </data>
+  <data name="Ui.Mods.Recolor" xml:space="preserve">
+    <value>Recolorir</value>
+  </data>
+  <data name="Ui.Mods.TintThisImage" xml:space="preserve">
+    <value>Tingir esta imagem</value>
+  </data>
+  <data name="Ui.Mods.SaveThisFileToYourComputer" xml:space="preserve">
+    <value>Salvar este arquivo no seu computador</value>
+  </data>
+  <data name="Ui.Mods.FindMods2" xml:space="preserve">
+    <value>Encontrar mods</value>
+  </data>
 </root>

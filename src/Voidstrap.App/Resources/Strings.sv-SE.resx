@@ -3344,4 +3344,511 @@ Vad vill du göra?</value>
   <data name="Ui.Appearance.Customization" xml:space="preserve">
     <value>Anpassning</value>
   </data>
+  <data name="Ui.Mods.Choose" xml:space="preserve">
+    <value>Välj</value>
+  </data>
+  <data name="Ui.Mods.Remove" xml:space="preserve">
+    <value>Ta bort</value>
+  </data>
+  <data name="Ui.Mods.FindMods" xml:space="preserve">
+    <value>Hitta moddar</value>
+  </data>
+  <data name="Ui.Mods.BrowseCommunityModsOnGamebanana" xml:space="preserve">
+    <value>Bläddra bland communitymoddar på GameBanana.</value>
+  </data>
+  <data name="Ui.Mods.ModExplorer" xml:space="preserve">
+    <value>Moddutforskare</value>
+  </data>
+  <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
+    <value>Visa och hantera filerna i din Roblox-installation.</value>
+  </data>
+  <data name="Ui.Mods.ChooseWhetherYourModsAreApplied" xml:space="preserve">
+    <value>Välj om dina moddar ska tillämpas på Roblox-spelaren, Roblox Studio eller båda.</value>
+  </data>
+  <data name="Ui.Mods.ApplyModsTo" xml:space="preserve">
+    <value>Tillämpa moddar på</value>
+  </data>
+  <data name="Ui.Mods.Cursor" xml:space="preserve">
+    <value>Muspekare</value>
+  </data>
+  <data name="Ui.Mods.CursorStyle" xml:space="preserve">
+    <value>Pekarstil</value>
+  </data>
+  <data name="Ui.Mods.UseTheRobloxCursorABuilt" xml:space="preserve">
+    <value>Använd Roblox-pekaren, en inbyggd stil eller dina egna bilder.</value>
+  </data>
+  <data name="Ui.Mods.CustomCursor" xml:space="preserve">
+    <value>Egen pekare</value>
+  </data>
+  <data name="Ui.Mods.UseOneImageForThePointer" xml:space="preserve">
+    <value>Använd en bild för pekaren, pekaren utom räckhåll och textmarkören.</value>
+  </data>
+  <data name="Ui.Mods.CustomDragCursor" xml:space="preserve">
+    <value>Egen dragpekare</value>
+  </data>
+  <data name="Ui.Mods.ShownWhileDraggingInRobloxStudio" xml:space="preserve">
+    <value>Visas när du drar i Roblox Studio.</value>
+  </data>
+  <data name="Ui.Mods.CustomShiftlock" xml:space="preserve">
+    <value>Egen shiftlock</value>
+  </data>
+  <data name="Ui.Mods.ShownInTheMiddleOfThe" xml:space="preserve">
+    <value>Visas mitt på skärmen när shiftlock är på. Fungerar med alla pekarstilar.</value>
+  </data>
+  <data name="Ui.Mods.CustomCursorSets" xml:space="preserve">
+    <value>Egna pekaruppsättningar</value>
+  </data>
+  <data name="Ui.Mods.KeepSeveralCursorSetsReadyAnd" xml:space="preserve">
+    <value>Ha flera pekaruppsättningar redo och växla mellan dem med ett klick.</value>
+  </data>
+  <data name="Ui.Mods.NoCursorSetsYetPressNew" xml:space="preserve">
+    <value>Inga pekaruppsättningar än. Tryck på Ny för att skapa en, eller importera en zip.</value>
+  </data>
+  <data name="Ui.Mods.Folder" xml:space="preserve">
+    <value>Mapp</value>
+  </data>
+  <data name="Ui.Mods.OpenTheCursorSetsFolder" xml:space="preserve">
+    <value>Öppna mappen med pekaruppsättningar</value>
+  </data>
+  <data name="Ui.Mods.UseThisSet" xml:space="preserve">
+    <value>Använd den här uppsättningen</value>
+  </data>
+  <data name="Ui.Mods.CopyCurrentCursor" xml:space="preserve">
+    <value>Kopiera nuvarande pekare</value>
+  </data>
+  <data name="Ui.Mods.ReplaceThisSetWithYourCurrent" xml:space="preserve">
+    <value>Ersätt den här uppsättningen med din nuvarande egna pekare och shiftlock-ikon</value>
+  </data>
+  <data name="Ui.Mods.Interface" xml:space="preserve">
+    <value>Gränssnitt</value>
+  </data>
+  <data name="Ui.Mods.OldRobloxTopbarUi" xml:space="preserve">
+    <value>Gammalt Roblox-toppfält</value>
+  </data>
+  <data name="Ui.Mods.The2014To2015TopbarAnd" xml:space="preserve">
+    <value>Toppfältet och spelmenyn från 2014 till 2015, som överlägg.</value>
+  </data>
+  <data name="Ui.Mods.Ps4ButtonIcons" xml:space="preserve">
+    <value>PS4-knappikoner</value>
+  </data>
+  <data name="Ui.Mods.SwapsTheXboxButtonPromptsFor" xml:space="preserve">
+    <value>Byter Xbox-knapptipsen mot de officiella PS4-ikonerna.</value>
+  </data>
+  <data name="Ui.Mods.HideEveryCoreguiIcon" xml:space="preserve">
+    <value>Dölj alla CoreGui-ikoner</value>
+  </data>
+  <data name="Ui.Mods.BlanksTheRemainingRobloxInterfaceArt" xml:space="preserve">
+    <value>Döljer resten av Roblox gränssnittsgrafik. Är låst på så länge det gamla toppfältet är på.</value>
+  </data>
+  <data name="Ui.Mods.Sounds" xml:space="preserve">
+    <value>Ljud</value>
+  </data>
+  <data name="Ui.Mods.CustomDeathSound" xml:space="preserve">
+    <value>Eget dödsljud</value>
+  </data>
+  <data name="Ui.Mods.ReplacesTheDeathSoundWithYour" xml:space="preserve">
+    <value>Ersätter dödsljudet med ditt eget ljud.</value>
+  </data>
+  <data name="Ui.Mods.ChooseSound" xml:space="preserve">
+    <value>Välj ljud...</value>
+  </data>
+  <data name="Ui.Mods.RemoveCustomDeathSound" xml:space="preserve">
+    <value>Ta bort eget dödsljud</value>
+  </data>
+  <data name="Ui.Mods.Volume" xml:space="preserve">
+    <value>Volym</value>
+  </data>
+  <data name="Ui.Mods.SkyboxManager" xml:space="preserve">
+    <value>Skyboxhanterare</value>
+  </data>
+  <data name="Ui.Mods.ChooseASkyboxOnceVoidstrapDownloads" xml:space="preserve">
+    <value>Välj en skybox en gång. Voidstrap laddar ned och tillämpar den säkert när Roblox startar.</value>
+  </data>
+  <data name="Ui.Mods.CustomSkybox" xml:space="preserve">
+    <value>Egen skybox</value>
+  </data>
+  <data name="Ui.Mods.UseOneImageOrChooseEvery" xml:space="preserve">
+    <value>Använd en bild eller välj varje sida av kuben.</value>
+  </data>
+  <data name="Ui.Mods.UseOneImageForEverySide" xml:space="preserve">
+    <value>Använd en bild för varje sida</value>
+  </data>
+  <data name="Ui.Mods.Down" xml:space="preserve">
+    <value>Ned</value>
+  </data>
+  <data name="Ui.Mods.Front" xml:space="preserve">
+    <value>Fram</value>
+  </data>
+  <data name="Ui.Mods.Left" xml:space="preserve">
+    <value>Vänster</value>
+  </data>
+  <data name="Ui.Mods.Right" xml:space="preserve">
+    <value>Höger</value>
+  </data>
+  <data name="Ui.Mods.Up" xml:space="preserve">
+    <value>Upp</value>
+  </data>
+  <data name="Ui.Mods.RemoveCustom" xml:space="preserve">
+    <value>Ta bort egen</value>
+  </data>
+  <data name="Ui.Mods.SaveAndUse" xml:space="preserve">
+    <value>Spara och använd</value>
+  </data>
+  <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
+    <value>Uppdatera skyboxar</value>
+  </data>
+  <data name="Ui.Mods.FontManager" xml:space="preserve">
+    <value>Typsnittshanterare</value>
+  </data>
+  <data name="Ui.Mods.UseALocalFontOrUse" xml:space="preserve">
+    <value>Använd ett lokalt typsnitt eller Google Fonts</value>
+  </data>
+  <data name="Ui.Mods.RefreshFonts" xml:space="preserve">
+    <value>Uppdatera typsnitt</value>
+  </data>
+  <data name="Ui.Mods.ChooseLocalFont" xml:space="preserve">
+    <value>Välj lokalt typsnitt</value>
+  </data>
+  <data name="Ui.Mods.RemoveFont" xml:space="preserve">
+    <value>Ta bort typsnitt</value>
+  </data>
+  <data name="Ui.Mods.UseFont" xml:space="preserve">
+    <value>Använd typsnitt</value>
+  </data>
+  <data name="Ui.Mods.Size" xml:space="preserve">
+    <value>Storlek</value>
+  </data>
+  <data name="Ui.Mods.HelpAndFixes" xml:space="preserve">
+    <value>Hjälp och lösningar</value>
+  </data>
+  <data name="Ui.Mods.ModPacks" xml:space="preserve">
+    <value>Moddpaket</value>
+  </data>
+  <data name="Ui.Mods.SearchRobloxMods" xml:space="preserve">
+    <value>Sök Roblox-moddar</value>
+  </data>
+  <data name="Ui.Mods.Categories" xml:space="preserve">
+    <value>Kategorier</value>
+  </data>
+  <data name="Ui.Mods.AllCategories" xml:space="preserve">
+    <value>Alla kategorier</value>
+  </data>
+  <data name="Ui.Mods.NoModPacksToShow" xml:space="preserve">
+    <value>Inga moddpaket att visa</value>
+  </data>
+  <data name="Ui.Mods.AnythingThatFailsTheRobloxAnd" xml:space="preserve">
+    <value>Allt som inte klarar Roblox- och säkerhetskontrollerna döljs, så en kategori kan faktiskt se tom ut.</value>
+  </data>
+  <data name="Ui.Mods.Page" xml:space="preserve">
+    <value>Sida</value>
+  </data>
+  <data name="Ui.Mods.View" xml:space="preserve">
+    <value>Visa</value>
+  </data>
+  <data name="Ui.Mods.LoadMore" xml:space="preserve">
+    <value>Läs in fler</value>
+  </data>
+  <data name="Ui.Mods.BackToModPacks" xml:space="preserve">
+    <value>Tillbaka till moddpaket</value>
+  </data>
+  <data name="Ui.Mods.By" xml:space="preserve">
+    <value>   av </value>
+  </data>
+  <data name="Ui.Mods.OpenTheModPage" xml:space="preserve">
+    <value>Öppna moddens sida</value>
+  </data>
+  <data name="Ui.Mods.Download" xml:space="preserve">
+    <value>Ladda ned</value>
+  </data>
+  <data name="Ui.Mods.ApplyToMyMods" xml:space="preserve">
+    <value>Tillämpa i Mina moddar</value>
+  </data>
+  <data name="Ui.Mods.ApplyForVoidstrap" xml:space="preserve">
+    <value>Tillämpa för Voidstrap</value>
+  </data>
+  <data name="Ui.Mods.ApplyForFleasion" xml:space="preserve">
+    <value>Tillämpa för Fleasion</value>
+  </data>
+  <data name="Ui.Mods.License" xml:space="preserve">
+    <value>Licens</value>
+  </data>
+  <data name="Ui.Mods.Gallery" xml:space="preserve">
+    <value>Galleri</value>
+  </data>
+  <data name="Ui.Mods.NoCommentsHaveBeenPostedYet" xml:space="preserve">
+    <value>Inga kommentarer har publicerats än.</value>
+  </data>
+  <data name="Ui.Mods.NoUpdatesHaveBeenPublished" xml:space="preserve">
+    <value>Inga uppdateringar har publicerats.</value>
+  </data>
+  <data name="Ui.Mods.NoIssuesAreCurrentlyListed" xml:space="preserve">
+    <value>Inga problem finns listade just nu.</value>
+  </data>
+  <data name="Ui.Mods.MyMods" xml:space="preserve">
+    <value>Mina moddar</value>
+  </data>
+  <data name="Ui.Mods.AddAMod" xml:space="preserve">
+    <value>Lägg till en modd</value>
+  </data>
+  <data name="Ui.Mods.RefreshTheList" xml:space="preserve">
+    <value>Uppdatera listan</value>
+  </data>
+  <data name="Ui.Mods.OpenTheModLibraryFolder" xml:space="preserve">
+    <value>Öppna moddbibliotekets mapp</value>
+  </data>
+  <data name="Ui.Mods.SearchMods" xml:space="preserve">
+    <value>Sök moddar...</value>
+  </data>
+  <data name="Ui.Mods.AddMod" xml:space="preserve">
+    <value>Lägg till modd</value>
+  </data>
+  <data name="Ui.Mods.MoreModActions" xml:space="preserve">
+    <value>Fler moddåtgärder</value>
+  </data>
+  <data name="Ui.Mods.OpenLibrary" xml:space="preserve">
+    <value>Öppna biblioteket</value>
+  </data>
+  <data name="Ui.Mods.Or" xml:space="preserve">
+    <value>ELLER</value>
+  </data>
+  <data name="Ui.Mods.DragModToChangeApplyOrder" xml:space="preserve">
+    <value>Dra modden för att ändra tillämpningsordningen</value>
+  </data>
+  <data name="Ui.Mods.EnableOrDisableThisMod" xml:space="preserve">
+    <value>Aktivera eller inaktivera den här modden</value>
+  </data>
+  <data name="Ui.Mods.Id" xml:space="preserve">
+    <value>   ID: </value>
+  </data>
+  <data name="Ui.Mods.ViewThisModPack" xml:space="preserve">
+    <value>Visa det här moddpaketet</value>
+  </data>
+  <data name="Ui.Mods.OpenModFolder" xml:space="preserve">
+    <value>Öppna moddens mapp</value>
+  </data>
+  <data name="Ui.Mods.EditOptions" xml:space="preserve">
+    <value>Redigera alternativ</value>
+  </data>
+  <data name="Ui.Mods.EditModOptions" xml:space="preserve">
+    <value>Redigera moddalternativ</value>
+  </data>
+  <data name="Ui.Mods.RenameMod" xml:space="preserve">
+    <value>Byt namn på modden</value>
+  </data>
+  <data name="Ui.Mods.CopyFullModIdentifier" xml:space="preserve">
+    <value>Kopiera moddens fullständiga id</value>
+  </data>
+  <data name="Ui.Mods.RemoveMod" xml:space="preserve">
+    <value>Ta bort modden</value>
+  </data>
+  <data name="Ui.Mods.Overlays" xml:space="preserve">
+    <value>Överlägg</value>
+  </data>
+  <data name="Ui.Mods.SessionDock" xml:space="preserve">
+    <value>Sessionsfält</value>
+  </data>
+  <data name="Ui.Mods.ResetShortcut" xml:space="preserve">
+    <value>Återställ kortkommando</value>
+  </data>
+  <data name="Ui.Mods.HomepageBackground" xml:space="preserve">
+    <value>Startsidans bakgrund</value>
+  </data>
+  <data name="Ui.Mods.ReplaceTheDarkRobloxHomeBackground" xml:space="preserve">
+    <value>Ersätt Roblox mörka startsidebakgrund med en färg, övertoning, bild eller video</value>
+  </data>
+  <data name="Ui.Mods.WhatToShowBehindTheHome" xml:space="preserve">
+    <value>Vad som visas bakom startsidan.</value>
+  </data>
+  <data name="Ui.Mods.Colors" xml:space="preserve">
+    <value>Färger</value>
+  </data>
+  <data name="Ui.Mods.StartAndEndOfTheGradient" xml:space="preserve">
+    <value>Början och slutet av övertoningen.</value>
+  </data>
+  <data name="Ui.Mods.Direction" xml:space="preserve">
+    <value>Riktning</value>
+  </data>
+  <data name="Ui.Mods.File" xml:space="preserve">
+    <value>Fil</value>
+  </data>
+  <data name="Ui.Mods.Display" xml:space="preserve">
+    <value>Visning</value>
+  </data>
+  <data name="Ui.Mods.ScreenColor" xml:space="preserve">
+    <value>Skärmfärg</value>
+  </data>
+  <data name="Ui.Mods.Saturation" xml:space="preserve">
+    <value>Mättnad</value>
+  </data>
+  <data name="Ui.Mods.100IsNormal" xml:space="preserve">
+    <value>100 är normalt.</value>
+  </data>
+  <data name="Ui.Mods.Contrast" xml:space="preserve">
+    <value>Kontrast</value>
+  </data>
+  <data name="Ui.Mods.Warmth" xml:space="preserve">
+    <value>Värme</value>
+  </data>
+  <data name="Ui.Mods.NegativeIsCoolerPositiveIsWarmer" xml:space="preserve">
+    <value>Negativt är kallare, positivt är varmare.</value>
+  </data>
+  <data name="Ui.Mods.SmoothingAndFrames" xml:space="preserve">
+    <value>Utjämning och bildrutor</value>
+  </data>
+  <data name="Ui.Mods.AntiAliasing" xml:space="preserve">
+    <value>Kantutjämning</value>
+  </data>
+  <data name="Ui.Mods.SmoothsJaggedEdgesUsingYourGpu" xml:space="preserve">
+    <value>Jämnar ut ojämna kanter med ditt grafikkort.</value>
+  </data>
+  <data name="Ui.Mods.MotionBlur" xml:space="preserve">
+    <value>Rörelseoskärpa</value>
+  </data>
+  <data name="Ui.Mods.AddsAMotionTrailToMovement" xml:space="preserve">
+    <value>Lägger till ett rörelsespår, bara i rörliga områden så att gränssnittet förblir skarpt.</value>
+  </data>
+  <data name="Ui.Mods.CustomMotionBlur" xml:space="preserve">
+    <value>Egen rörelseoskärpa</value>
+  </data>
+  <data name="Ui.Mods.100IsNormal200IsExtreme" xml:space="preserve">
+    <value>100 är Normal, 200 är Extrem, och det går upp till 500.</value>
+  </data>
+  <data name="Ui.Mods.FrameGenerationV100" xml:space="preserve">
+    <value>Bildrutegenerering V1.0.0</value>
+  </data>
+  <data name="Ui.Mods.AddsGeneratedFramesBetweenRealOnes" xml:space="preserve">
+    <value>Lägger till genererade bildrutor mellan de riktiga. Ger lite indatafördröjning.</value>
+  </data>
+  <data name="Ui.Mods.ShowGeneratedFrames" xml:space="preserve">
+    <value>Visa genererade bildrutor</value>
+  </data>
+  <data name="Ui.Mods.DisplaysHowManyFramesAreBeing" xml:space="preserve">
+    <value>Visar hur många bildrutor som genereras.</value>
+  </data>
+  <data name="Ui.Mods.FixFrameCap" xml:space="preserve">
+    <value>Åtgärda bildrutegräns</value>
+  </data>
+  <data name="Ui.Mods.ColorBlindness" xml:space="preserve">
+    <value>Färgblindhet</value>
+  </data>
+  <data name="Ui.Mods.RecolorsTheScreenSoColorsAre" xml:space="preserve">
+    <value>Färgar om skärmen så att färger blir lättare att skilja åt</value>
+  </data>
+  <data name="Ui.Mods.ProtanopiaRedGreen" xml:space="preserve">
+    <value>Protanopi (röd/grön)</value>
+  </data>
+  <data name="Ui.Mods.DeuteranopiaRedGreen" xml:space="preserve">
+    <value>Deuteranopi (röd/grön)</value>
+  </data>
+  <data name="Ui.Mods.TritanopiaBlueYellow" xml:space="preserve">
+    <value>Tritanopi (blå/gul)</value>
+  </data>
+  <data name="Ui.Mods.Strength" xml:space="preserve">
+    <value>Styrka</value>
+  </data>
+  <data name="Ui.Mods.SimulateInstead" xml:space="preserve">
+    <value>Simulera i stället</value>
+  </data>
+  <data name="Ui.Mods.ShowsWhatColorBlindPeopleSee" xml:space="preserve">
+    <value>Visar vad färgblinda ser i stället för att korrigera det.</value>
+  </data>
+  <data name="Ui.Mods.InGameTools" xml:space="preserve">
+    <value>Verktyg i spelet</value>
+  </data>
+  <data name="Ui.Mods.Clock" xml:space="preserve">
+    <value>Klocka</value>
+  </data>
+  <data name="Ui.Mods.ShowsTheTimeInTheCorner" xml:space="preserve">
+    <value>Visar tiden i hörnet medan du spelar.</value>
+  </data>
+  <data name="Ui.Mods.TimeZone" xml:space="preserve">
+    <value>Tidszon</value>
+  </data>
+  <data name="Ui.Mods.SystemFollowsThisComputer" xml:space="preserve">
+    <value>System följer den här datorn.</value>
+  </data>
+  <data name="Ui.Mods.24HourClock" xml:space="preserve">
+    <value>24-timmarsklocka</value>
+  </data>
+  <data name="Ui.Mods.1430InsteadOf230" xml:space="preserve">
+    <value>14:30 i stället för 2:30 PM.</value>
+  </data>
+  <data name="Ui.Mods.Crosshair" xml:space="preserve">
+    <value>Hårkors</value>
+  </data>
+  <data name="Ui.Mods.DrawYourOwnCrosshairOverThe" xml:space="preserve">
+    <value>Rita ditt eget hårkors över spelet</value>
+  </data>
+  <data name="Ui.Mods.GifLink" xml:space="preserve">
+    <value>GIF-länk</value>
+  </data>
+  <data name="Ui.Mods.AnimatedGifUrlToUseAs" xml:space="preserve">
+    <value>URL till animerad GIF som används som hårkors.</value>
+  </data>
+  <data name="Ui.Mods.FillAndOutline" xml:space="preserve">
+    <value>Fyllning och kontur.</value>
+  </data>
+  <data name="Ui.Mods.Pick" xml:space="preserve">
+    <value>Välj</value>
+  </data>
+  <data name="Ui.Mods.Thickness" xml:space="preserve">
+    <value>Tjocklek</value>
+  </data>
+  <data name="Ui.Mods.CenterGap" xml:space="preserve">
+    <value>Mittavstånd</value>
+  </data>
+  <data name="Ui.Mods.Opacity" xml:space="preserve">
+    <value>Opacitet</value>
+  </data>
+  <data name="Ui.Mods.ShareOrPasteACrosshairCode" xml:space="preserve">
+    <value>Dela eller klistra in en hårkorskod.</value>
+  </data>
+  <data name="Ui.Mods.Generate" xml:space="preserve">
+    <value>Generera</value>
+  </data>
+  <data name="Ui.Mods.SaveAsFile" xml:space="preserve">
+    <value>Spara som fil</value>
+  </data>
+  <data name="Ui.Mods.BrowseRobloxAssetsPreviewFilesAnd" xml:space="preserve">
+    <value>Bläddra bland Roblox-resurser, förhandsgranska filer och skapa moddersättningar.</value>
+  </data>
+  <data name="Ui.Mods.CloseModExplorer" xml:space="preserve">
+    <value>Stäng moddutforskaren</value>
+  </data>
+  <data name="Ui.Mods.SearchThisFolder" xml:space="preserve">
+    <value>Sök i den här mappen</value>
+  </data>
+  <data name="Ui.Mods.Modified" xml:space="preserve">
+    <value>Ändrad</value>
+  </data>
+  <data name="Ui.Mods.FileOperations" xml:space="preserve">
+    <value>Filåtgärder</value>
+  </data>
+  <data name="Ui.Mods.Details" xml:space="preserve">
+    <value>Detaljer</value>
+  </data>
+  <data name="Ui.Mods.Replace" xml:space="preserve">
+    <value>Ersätt</value>
+  </data>
+  <data name="Ui.Mods.ChooseALocalReplacementForThis" xml:space="preserve">
+    <value>Välj en lokal ersättning för den här resursen</value>
+  </data>
+  <data name="Ui.Mods.Adjust" xml:space="preserve">
+    <value>Justera</value>
+  </data>
+  <data name="Ui.Mods.RotateFlipOrResizeThisImage" xml:space="preserve">
+    <value>Rotera, vänd eller ändra storlek på bilden</value>
+  </data>
+  <data name="Ui.Mods.Recolor" xml:space="preserve">
+    <value>Färga om</value>
+  </data>
+  <data name="Ui.Mods.TintThisImage" xml:space="preserve">
+    <value>Tona den här bilden</value>
+  </data>
+  <data name="Ui.Mods.SaveThisFileToYourComputer" xml:space="preserve">
+    <value>Spara filen på din dator</value>
+  </data>
+  <data name="Ui.Mods.FindMods2" xml:space="preserve">
+    <value>Hitta moddar</value>
+  </data>
 </root>

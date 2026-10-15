@@ -3347,4 +3347,511 @@ Apakah yang anda mahu lakukan?</value>
   <data name="Ui.Appearance.Customization" xml:space="preserve">
     <value>Penyesuaian</value>
   </data>
+  <data name="Ui.Mods.Choose" xml:space="preserve">
+    <value>Pilih</value>
+  </data>
+  <data name="Ui.Mods.Remove" xml:space="preserve">
+    <value>Buang</value>
+  </data>
+  <data name="Ui.Mods.FindMods" xml:space="preserve">
+    <value>Cari mod</value>
+  </data>
+  <data name="Ui.Mods.BrowseCommunityModsOnGamebanana" xml:space="preserve">
+    <value>Semak imbas mod komuniti di GameBanana.</value>
+  </data>
+  <data name="Ui.Mods.ModExplorer" xml:space="preserve">
+    <value>Peneroka mod</value>
+  </data>
+  <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
+    <value>Lihat dan urus fail dalam pemasangan Roblox anda.</value>
+  </data>
+  <data name="Ui.Mods.ChooseWhetherYourModsAreApplied" xml:space="preserve">
+    <value>Pilih sama ada mod digunakan pada pemain Roblox, Roblox Studio atau kedua-duanya.</value>
+  </data>
+  <data name="Ui.Mods.ApplyModsTo" xml:space="preserve">
+    <value>Gunakan mod pada</value>
+  </data>
+  <data name="Ui.Mods.Cursor" xml:space="preserve">
+    <value>Kursor</value>
+  </data>
+  <data name="Ui.Mods.CursorStyle" xml:space="preserve">
+    <value>Gaya kursor</value>
+  </data>
+  <data name="Ui.Mods.UseTheRobloxCursorABuilt" xml:space="preserve">
+    <value>Gunakan kursor Roblox, gaya terbina dalam atau imej anda sendiri.</value>
+  </data>
+  <data name="Ui.Mods.CustomCursor" xml:space="preserve">
+    <value>Kursor tersuai</value>
+  </data>
+  <data name="Ui.Mods.UseOneImageForThePointer" xml:space="preserve">
+    <value>Gunakan satu imej untuk penuding, penuding luar jangkauan dan kursor teks.</value>
+  </data>
+  <data name="Ui.Mods.CustomDragCursor" xml:space="preserve">
+    <value>Kursor seret tersuai</value>
+  </data>
+  <data name="Ui.Mods.ShownWhileDraggingInRobloxStudio" xml:space="preserve">
+    <value>Dipaparkan semasa menyeret dalam Roblox Studio.</value>
+  </data>
+  <data name="Ui.Mods.CustomShiftlock" xml:space="preserve">
+    <value>Shift lock tersuai</value>
+  </data>
+  <data name="Ui.Mods.ShownInTheMiddleOfThe" xml:space="preserve">
+    <value>Dipaparkan di tengah skrin semasa shift lock aktif. Berfungsi dengan semua gaya kursor.</value>
+  </data>
+  <data name="Ui.Mods.CustomCursorSets" xml:space="preserve">
+    <value>Set kursor tersuai</value>
+  </data>
+  <data name="Ui.Mods.KeepSeveralCursorSetsReadyAnd" xml:space="preserve">
+    <value>Sediakan beberapa set kursor dan tukar antaranya dengan satu klik.</value>
+  </data>
+  <data name="Ui.Mods.NoCursorSetsYetPressNew" xml:space="preserve">
+    <value>Belum ada set kursor. Tekan Baharu untuk mencipta satu, atau import zip.</value>
+  </data>
+  <data name="Ui.Mods.Folder" xml:space="preserve">
+    <value>Folder</value>
+  </data>
+  <data name="Ui.Mods.OpenTheCursorSetsFolder" xml:space="preserve">
+    <value>Buka folder set kursor</value>
+  </data>
+  <data name="Ui.Mods.UseThisSet" xml:space="preserve">
+    <value>Gunakan set ini</value>
+  </data>
+  <data name="Ui.Mods.CopyCurrentCursor" xml:space="preserve">
+    <value>Salin kursor semasa</value>
+  </data>
+  <data name="Ui.Mods.ReplaceThisSetWithYourCurrent" xml:space="preserve">
+    <value>Gantikan set ini dengan kursor tersuai dan ikon shift lock semasa anda</value>
+  </data>
+  <data name="Ui.Mods.Interface" xml:space="preserve">
+    <value>Antara muka</value>
+  </data>
+  <data name="Ui.Mods.OldRobloxTopbarUi" xml:space="preserve">
+    <value>Bar atas Roblox lama</value>
+  </data>
+  <data name="Ui.Mods.The2014To2015TopbarAnd" xml:space="preserve">
+    <value>Bar atas dan menu permainan dari 2014 hingga 2015, sebagai tindanan.</value>
+  </data>
+  <data name="Ui.Mods.Ps4ButtonIcons" xml:space="preserve">
+    <value>Ikon butang PS4</value>
+  </data>
+  <data name="Ui.Mods.SwapsTheXboxButtonPromptsFor" xml:space="preserve">
+    <value>Menukar petunjuk butang Xbox kepada ikon PS4 rasmi.</value>
+  </data>
+  <data name="Ui.Mods.HideEveryCoreguiIcon" xml:space="preserve">
+    <value>Sembunyikan semua ikon CoreGui</value>
+  </data>
+  <data name="Ui.Mods.BlanksTheRemainingRobloxInterfaceArt" xml:space="preserve">
+    <value>Menyembunyikan baki grafik antara muka Roblox. Kekal hidup selagi bar atas lama hidup.</value>
+  </data>
+  <data name="Ui.Mods.Sounds" xml:space="preserve">
+    <value>Bunyi</value>
+  </data>
+  <data name="Ui.Mods.CustomDeathSound" xml:space="preserve">
+    <value>Bunyi kematian tersuai</value>
+  </data>
+  <data name="Ui.Mods.ReplacesTheDeathSoundWithYour" xml:space="preserve">
+    <value>Menggantikan bunyi kematian dengan audio anda sendiri.</value>
+  </data>
+  <data name="Ui.Mods.ChooseSound" xml:space="preserve">
+    <value>Pilih bunyi...</value>
+  </data>
+  <data name="Ui.Mods.RemoveCustomDeathSound" xml:space="preserve">
+    <value>Buang bunyi kematian tersuai</value>
+  </data>
+  <data name="Ui.Mods.Volume" xml:space="preserve">
+    <value>Kelantangan</value>
+  </data>
+  <data name="Ui.Mods.SkyboxManager" xml:space="preserve">
+    <value>Pengurus skybox</value>
+  </data>
+  <data name="Ui.Mods.ChooseASkyboxOnceVoidstrapDownloads" xml:space="preserve">
+    <value>Pilih skybox sekali. Voidstrap memuat turun dan menggunakannya dengan selamat apabila Roblox bermula.</value>
+  </data>
+  <data name="Ui.Mods.CustomSkybox" xml:space="preserve">
+    <value>Skybox tersuai</value>
+  </data>
+  <data name="Ui.Mods.UseOneImageOrChooseEvery" xml:space="preserve">
+    <value>Gunakan satu imej atau pilih setiap muka kiub.</value>
+  </data>
+  <data name="Ui.Mods.UseOneImageForEverySide" xml:space="preserve">
+    <value>Gunakan satu imej untuk setiap sisi</value>
+  </data>
+  <data name="Ui.Mods.Down" xml:space="preserve">
+    <value>Bawah</value>
+  </data>
+  <data name="Ui.Mods.Front" xml:space="preserve">
+    <value>Depan</value>
+  </data>
+  <data name="Ui.Mods.Left" xml:space="preserve">
+    <value>Kiri</value>
+  </data>
+  <data name="Ui.Mods.Right" xml:space="preserve">
+    <value>Kanan</value>
+  </data>
+  <data name="Ui.Mods.Up" xml:space="preserve">
+    <value>Atas</value>
+  </data>
+  <data name="Ui.Mods.RemoveCustom" xml:space="preserve">
+    <value>Buang tersuai</value>
+  </data>
+  <data name="Ui.Mods.SaveAndUse" xml:space="preserve">
+    <value>Simpan dan gunakan</value>
+  </data>
+  <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
+    <value>Muat semula skybox</value>
+  </data>
+  <data name="Ui.Mods.FontManager" xml:space="preserve">
+    <value>Pengurus fon</value>
+  </data>
+  <data name="Ui.Mods.UseALocalFontOrUse" xml:space="preserve">
+    <value>Gunakan fon tempatan atau Google Fonts</value>
+  </data>
+  <data name="Ui.Mods.RefreshFonts" xml:space="preserve">
+    <value>Muat semula fon</value>
+  </data>
+  <data name="Ui.Mods.ChooseLocalFont" xml:space="preserve">
+    <value>Pilih fon tempatan</value>
+  </data>
+  <data name="Ui.Mods.RemoveFont" xml:space="preserve">
+    <value>Buang fon</value>
+  </data>
+  <data name="Ui.Mods.UseFont" xml:space="preserve">
+    <value>Gunakan fon</value>
+  </data>
+  <data name="Ui.Mods.Size" xml:space="preserve">
+    <value>Saiz</value>
+  </data>
+  <data name="Ui.Mods.HelpAndFixes" xml:space="preserve">
+    <value>Bantuan dan pembaikan</value>
+  </data>
+  <data name="Ui.Mods.ModPacks" xml:space="preserve">
+    <value>Pek mod</value>
+  </data>
+  <data name="Ui.Mods.SearchRobloxMods" xml:space="preserve">
+    <value>Cari mod Roblox</value>
+  </data>
+  <data name="Ui.Mods.Categories" xml:space="preserve">
+    <value>Kategori</value>
+  </data>
+  <data name="Ui.Mods.AllCategories" xml:space="preserve">
+    <value>Semua kategori</value>
+  </data>
+  <data name="Ui.Mods.NoModPacksToShow" xml:space="preserve">
+    <value>Tiada pek mod untuk dipaparkan</value>
+  </data>
+  <data name="Ui.Mods.AnythingThatFailsTheRobloxAnd" xml:space="preserve">
+    <value>Apa-apa yang gagal dalam semakan Roblox dan keselamatan disembunyikan, jadi kategori memang boleh kelihatan kosong.</value>
+  </data>
+  <data name="Ui.Mods.Page" xml:space="preserve">
+    <value>Halaman</value>
+  </data>
+  <data name="Ui.Mods.View" xml:space="preserve">
+    <value>Paparan</value>
+  </data>
+  <data name="Ui.Mods.LoadMore" xml:space="preserve">
+    <value>Muatkan lagi</value>
+  </data>
+  <data name="Ui.Mods.BackToModPacks" xml:space="preserve">
+    <value>Kembali ke pek mod</value>
+  </data>
+  <data name="Ui.Mods.By" xml:space="preserve">
+    <value>   oleh </value>
+  </data>
+  <data name="Ui.Mods.OpenTheModPage" xml:space="preserve">
+    <value>Buka halaman mod</value>
+  </data>
+  <data name="Ui.Mods.Download" xml:space="preserve">
+    <value>Muat turun</value>
+  </data>
+  <data name="Ui.Mods.ApplyToMyMods" xml:space="preserve">
+    <value>Gunakan pada Mod saya</value>
+  </data>
+  <data name="Ui.Mods.ApplyForVoidstrap" xml:space="preserve">
+    <value>Gunakan untuk Voidstrap</value>
+  </data>
+  <data name="Ui.Mods.ApplyForFleasion" xml:space="preserve">
+    <value>Gunakan untuk Fleasion</value>
+  </data>
+  <data name="Ui.Mods.License" xml:space="preserve">
+    <value>Lesen</value>
+  </data>
+  <data name="Ui.Mods.Gallery" xml:space="preserve">
+    <value>Galeri</value>
+  </data>
+  <data name="Ui.Mods.NoCommentsHaveBeenPostedYet" xml:space="preserve">
+    <value>Belum ada komen.</value>
+  </data>
+  <data name="Ui.Mods.NoUpdatesHaveBeenPublished" xml:space="preserve">
+    <value>Belum ada kemas kini diterbitkan.</value>
+  </data>
+  <data name="Ui.Mods.NoIssuesAreCurrentlyListed" xml:space="preserve">
+    <value>Tiada isu disenaraikan pada masa ini.</value>
+  </data>
+  <data name="Ui.Mods.MyMods" xml:space="preserve">
+    <value>Mod saya</value>
+  </data>
+  <data name="Ui.Mods.AddAMod" xml:space="preserve">
+    <value>Tambah mod</value>
+  </data>
+  <data name="Ui.Mods.RefreshTheList" xml:space="preserve">
+    <value>Muat semula senarai</value>
+  </data>
+  <data name="Ui.Mods.OpenTheModLibraryFolder" xml:space="preserve">
+    <value>Buka folder pustaka mod</value>
+  </data>
+  <data name="Ui.Mods.SearchMods" xml:space="preserve">
+    <value>Cari mod...</value>
+  </data>
+  <data name="Ui.Mods.AddMod" xml:space="preserve">
+    <value>Tambah mod</value>
+  </data>
+  <data name="Ui.Mods.MoreModActions" xml:space="preserve">
+    <value>Lagi tindakan mod</value>
+  </data>
+  <data name="Ui.Mods.OpenLibrary" xml:space="preserve">
+    <value>Buka pustaka</value>
+  </data>
+  <data name="Ui.Mods.Or" xml:space="preserve">
+    <value>ATAU</value>
+  </data>
+  <data name="Ui.Mods.DragModToChangeApplyOrder" xml:space="preserve">
+    <value>Seret mod untuk menukar susunan penggunaan</value>
+  </data>
+  <data name="Ui.Mods.EnableOrDisableThisMod" xml:space="preserve">
+    <value>Dayakan atau lumpuhkan mod ini</value>
+  </data>
+  <data name="Ui.Mods.Id" xml:space="preserve">
+    <value>   ID: </value>
+  </data>
+  <data name="Ui.Mods.ViewThisModPack" xml:space="preserve">
+    <value>Lihat pek mod ini</value>
+  </data>
+  <data name="Ui.Mods.OpenModFolder" xml:space="preserve">
+    <value>Buka folder mod</value>
+  </data>
+  <data name="Ui.Mods.EditOptions" xml:space="preserve">
+    <value>Edit pilihan</value>
+  </data>
+  <data name="Ui.Mods.EditModOptions" xml:space="preserve">
+    <value>Edit pilihan mod</value>
+  </data>
+  <data name="Ui.Mods.RenameMod" xml:space="preserve">
+    <value>Namakan semula mod</value>
+  </data>
+  <data name="Ui.Mods.CopyFullModIdentifier" xml:space="preserve">
+    <value>Salin pengecam penuh mod</value>
+  </data>
+  <data name="Ui.Mods.RemoveMod" xml:space="preserve">
+    <value>Buang mod</value>
+  </data>
+  <data name="Ui.Mods.Overlays" xml:space="preserve">
+    <value>Tindanan</value>
+  </data>
+  <data name="Ui.Mods.SessionDock" xml:space="preserve">
+    <value>Bar sesi</value>
+  </data>
+  <data name="Ui.Mods.ResetShortcut" xml:space="preserve">
+    <value>Tetapkan semula pintasan</value>
+  </data>
+  <data name="Ui.Mods.HomepageBackground" xml:space="preserve">
+    <value>Latar belakang laman utama</value>
+  </data>
+  <data name="Ui.Mods.ReplaceTheDarkRobloxHomeBackground" xml:space="preserve">
+    <value>Gantikan latar belakang gelap laman utama Roblox dengan warna, gradien, imej atau video</value>
+  </data>
+  <data name="Ui.Mods.WhatToShowBehindTheHome" xml:space="preserve">
+    <value>Apa yang dipaparkan di belakang laman utama.</value>
+  </data>
+  <data name="Ui.Mods.Colors" xml:space="preserve">
+    <value>Warna</value>
+  </data>
+  <data name="Ui.Mods.StartAndEndOfTheGradient" xml:space="preserve">
+    <value>Permulaan dan akhir gradien.</value>
+  </data>
+  <data name="Ui.Mods.Direction" xml:space="preserve">
+    <value>Arah</value>
+  </data>
+  <data name="Ui.Mods.File" xml:space="preserve">
+    <value>Fail</value>
+  </data>
+  <data name="Ui.Mods.Display" xml:space="preserve">
+    <value>Paparan</value>
+  </data>
+  <data name="Ui.Mods.ScreenColor" xml:space="preserve">
+    <value>Warna skrin</value>
+  </data>
+  <data name="Ui.Mods.Saturation" xml:space="preserve">
+    <value>Ketepuan</value>
+  </data>
+  <data name="Ui.Mods.100IsNormal" xml:space="preserve">
+    <value>100 ialah normal.</value>
+  </data>
+  <data name="Ui.Mods.Contrast" xml:space="preserve">
+    <value>Kontras</value>
+  </data>
+  <data name="Ui.Mods.Warmth" xml:space="preserve">
+    <value>Kehangatan</value>
+  </data>
+  <data name="Ui.Mods.NegativeIsCoolerPositiveIsWarmer" xml:space="preserve">
+    <value>Negatif lebih sejuk, positif lebih hangat.</value>
+  </data>
+  <data name="Ui.Mods.SmoothingAndFrames" xml:space="preserve">
+    <value>Pelicinan dan bingkai</value>
+  </data>
+  <data name="Ui.Mods.AntiAliasing" xml:space="preserve">
+    <value>Anti aliasing</value>
+  </data>
+  <data name="Ui.Mods.SmoothsJaggedEdgesUsingYourGpu" xml:space="preserve">
+    <value>Melicinkan tepi bergerigi menggunakan GPU anda.</value>
+  </data>
+  <data name="Ui.Mods.MotionBlur" xml:space="preserve">
+    <value>Kabur gerakan</value>
+  </data>
+  <data name="Ui.Mods.AddsAMotionTrailToMovement" xml:space="preserve">
+    <value>Menambah jejak pada gerakan, hanya di kawasan yang bergerak supaya antara muka kekal tajam.</value>
+  </data>
+  <data name="Ui.Mods.CustomMotionBlur" xml:space="preserve">
+    <value>Kabur gerakan tersuai</value>
+  </data>
+  <data name="Ui.Mods.100IsNormal200IsExtreme" xml:space="preserve">
+    <value>100 ialah Normal, 200 ialah Ekstrem, dan maksimum ialah 500.</value>
+  </data>
+  <data name="Ui.Mods.FrameGenerationV100" xml:space="preserve">
+    <value>Penjanaan bingkai V1.0.0</value>
+  </data>
+  <data name="Ui.Mods.AddsGeneratedFramesBetweenRealOnes" xml:space="preserve">
+    <value>Menambah bingkai yang dijana antara bingkai sebenar. Menambah sedikit lengah input.</value>
+  </data>
+  <data name="Ui.Mods.ShowGeneratedFrames" xml:space="preserve">
+    <value>Paparkan bingkai yang dijana</value>
+  </data>
+  <data name="Ui.Mods.DisplaysHowManyFramesAreBeing" xml:space="preserve">
+    <value>Memaparkan berapa banyak bingkai yang dijana.</value>
+  </data>
+  <data name="Ui.Mods.FixFrameCap" xml:space="preserve">
+    <value>Baiki had bingkai</value>
+  </data>
+  <data name="Ui.Mods.ColorBlindness" xml:space="preserve">
+    <value>Buta warna</value>
+  </data>
+  <data name="Ui.Mods.RecolorsTheScreenSoColorsAre" xml:space="preserve">
+    <value>Mewarnakan semula skrin supaya warna lebih mudah dibezakan</value>
+  </data>
+  <data name="Ui.Mods.ProtanopiaRedGreen" xml:space="preserve">
+    <value>Protanopia (merah/hijau)</value>
+  </data>
+  <data name="Ui.Mods.DeuteranopiaRedGreen" xml:space="preserve">
+    <value>Deuteranopia (merah/hijau)</value>
+  </data>
+  <data name="Ui.Mods.TritanopiaBlueYellow" xml:space="preserve">
+    <value>Tritanopia (biru/kuning)</value>
+  </data>
+  <data name="Ui.Mods.Strength" xml:space="preserve">
+    <value>Kekuatan</value>
+  </data>
+  <data name="Ui.Mods.SimulateInstead" xml:space="preserve">
+    <value>Simulasikan sahaja</value>
+  </data>
+  <data name="Ui.Mods.ShowsWhatColorBlindPeopleSee" xml:space="preserve">
+    <value>Menunjukkan apa yang dilihat oleh orang buta warna dan bukannya membetulkannya.</value>
+  </data>
+  <data name="Ui.Mods.InGameTools" xml:space="preserve">
+    <value>Alat dalam permainan</value>
+  </data>
+  <data name="Ui.Mods.Clock" xml:space="preserve">
+    <value>Jam</value>
+  </data>
+  <data name="Ui.Mods.ShowsTheTimeInTheCorner" xml:space="preserve">
+    <value>Memaparkan masa di sudut semasa anda bermain.</value>
+  </data>
+  <data name="Ui.Mods.TimeZone" xml:space="preserve">
+    <value>Zon waktu</value>
+  </data>
+  <data name="Ui.Mods.SystemFollowsThisComputer" xml:space="preserve">
+    <value>Sistem mengikut komputer ini.</value>
+  </data>
+  <data name="Ui.Mods.24HourClock" xml:space="preserve">
+    <value>Jam 24 jam</value>
+  </data>
+  <data name="Ui.Mods.1430InsteadOf230" xml:space="preserve">
+    <value>14:30 dan bukannya 2:30 PM.</value>
+  </data>
+  <data name="Ui.Mods.Crosshair" xml:space="preserve">
+    <value>Silang sasaran</value>
+  </data>
+  <data name="Ui.Mods.DrawYourOwnCrosshairOverThe" xml:space="preserve">
+    <value>Lukis silang sasaran anda sendiri di atas permainan</value>
+  </data>
+  <data name="Ui.Mods.GifLink" xml:space="preserve">
+    <value>Pautan GIF</value>
+  </data>
+  <data name="Ui.Mods.AnimatedGifUrlToUseAs" xml:space="preserve">
+    <value>URL GIF beranimasi yang digunakan sebagai silang sasaran.</value>
+  </data>
+  <data name="Ui.Mods.FillAndOutline" xml:space="preserve">
+    <value>Isian dan garis luar.</value>
+  </data>
+  <data name="Ui.Mods.Pick" xml:space="preserve">
+    <value>Pilih</value>
+  </data>
+  <data name="Ui.Mods.Thickness" xml:space="preserve">
+    <value>Ketebalan</value>
+  </data>
+  <data name="Ui.Mods.CenterGap" xml:space="preserve">
+    <value>Jarak tengah</value>
+  </data>
+  <data name="Ui.Mods.Opacity" xml:space="preserve">
+    <value>Kelegapan</value>
+  </data>
+  <data name="Ui.Mods.ShareOrPasteACrosshairCode" xml:space="preserve">
+    <value>Kongsi atau tampal kod silang sasaran.</value>
+  </data>
+  <data name="Ui.Mods.Generate" xml:space="preserve">
+    <value>Jana</value>
+  </data>
+  <data name="Ui.Mods.SaveAsFile" xml:space="preserve">
+    <value>Simpan sebagai fail</value>
+  </data>
+  <data name="Ui.Mods.BrowseRobloxAssetsPreviewFilesAnd" xml:space="preserve">
+    <value>Semak imbas aset Roblox, pratonton fail dan cipta penggantian mod.</value>
+  </data>
+  <data name="Ui.Mods.CloseModExplorer" xml:space="preserve">
+    <value>Tutup peneroka mod</value>
+  </data>
+  <data name="Ui.Mods.SearchThisFolder" xml:space="preserve">
+    <value>Cari dalam folder ini</value>
+  </data>
+  <data name="Ui.Mods.Modified" xml:space="preserve">
+    <value>Diubah suai</value>
+  </data>
+  <data name="Ui.Mods.FileOperations" xml:space="preserve">
+    <value>Operasi fail</value>
+  </data>
+  <data name="Ui.Mods.Details" xml:space="preserve">
+    <value>Butiran</value>
+  </data>
+  <data name="Ui.Mods.Replace" xml:space="preserve">
+    <value>Ganti</value>
+  </data>
+  <data name="Ui.Mods.ChooseALocalReplacementForThis" xml:space="preserve">
+    <value>Pilih pengganti tempatan untuk aset ini</value>
+  </data>
+  <data name="Ui.Mods.Adjust" xml:space="preserve">
+    <value>Laraskan</value>
+  </data>
+  <data name="Ui.Mods.RotateFlipOrResizeThisImage" xml:space="preserve">
+    <value>Putar, terbalikkan atau ubah saiz imej ini</value>
+  </data>
+  <data name="Ui.Mods.Recolor" xml:space="preserve">
+    <value>Warna semula</value>
+  </data>
+  <data name="Ui.Mods.TintThisImage" xml:space="preserve">
+    <value>Beri warna imej ini</value>
+  </data>
+  <data name="Ui.Mods.SaveThisFileToYourComputer" xml:space="preserve">
+    <value>Simpan fail ini ke komputer anda</value>
+  </data>
+  <data name="Ui.Mods.FindMods2" xml:space="preserve">
+    <value>Cari mod</value>
+  </data>
 </root>

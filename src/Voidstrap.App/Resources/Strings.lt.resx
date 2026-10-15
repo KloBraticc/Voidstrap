@@ -3420,4 +3420,511 @@ Ką norėtumėte daryti?</value>
   <data name="Ui.Appearance.Customization" xml:space="preserve">
     <value>Tinkinimas</value>
   </data>
+  <data name="Ui.Mods.Choose" xml:space="preserve">
+    <value>Pasirinkti</value>
+  </data>
+  <data name="Ui.Mods.Remove" xml:space="preserve">
+    <value>Pašalinti</value>
+  </data>
+  <data name="Ui.Mods.FindMods" xml:space="preserve">
+    <value>Rasti modus</value>
+  </data>
+  <data name="Ui.Mods.BrowseCommunityModsOnGamebanana" xml:space="preserve">
+    <value>Naršykite bendruomenės modus GameBanana svetainėje.</value>
+  </data>
+  <data name="Ui.Mods.ModExplorer" xml:space="preserve">
+    <value>Modų naršyklė</value>
+  </data>
+  <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
+    <value>Peržiūrėkite ir tvarkykite Roblox diegimo failus.</value>
+  </data>
+  <data name="Ui.Mods.ChooseWhetherYourModsAreApplied" xml:space="preserve">
+    <value>Pasirinkite, ar modai taikomi Roblox žaidėjui, Roblox Studio ar abiem.</value>
+  </data>
+  <data name="Ui.Mods.ApplyModsTo" xml:space="preserve">
+    <value>Taikyti modus</value>
+  </data>
+  <data name="Ui.Mods.Cursor" xml:space="preserve">
+    <value>Žymeklis</value>
+  </data>
+  <data name="Ui.Mods.CursorStyle" xml:space="preserve">
+    <value>Žymeklio stilius</value>
+  </data>
+  <data name="Ui.Mods.UseTheRobloxCursorABuilt" xml:space="preserve">
+    <value>Naudokite Roblox žymeklį, įtaisytą stilių ar savo paveikslėlius.</value>
+  </data>
+  <data name="Ui.Mods.CustomCursor" xml:space="preserve">
+    <value>Savas žymeklis</value>
+  </data>
+  <data name="Ui.Mods.UseOneImageForThePointer" xml:space="preserve">
+    <value>Vienas paveikslėlis rodyklei, rodyklei už pasiekiamumo ribų ir teksto žymekliui.</value>
+  </data>
+  <data name="Ui.Mods.CustomDragCursor" xml:space="preserve">
+    <value>Savas tempimo žymeklis</value>
+  </data>
+  <data name="Ui.Mods.ShownWhileDraggingInRobloxStudio" xml:space="preserve">
+    <value>Rodomas tempiant Roblox Studio.</value>
+  </data>
+  <data name="Ui.Mods.CustomShiftlock" xml:space="preserve">
+    <value>Savas shift lock</value>
+  </data>
+  <data name="Ui.Mods.ShownInTheMiddleOfThe" xml:space="preserve">
+    <value>Rodomas ekrano viduryje, kol įjungtas shift lock. Veikia su visais žymeklio stiliais.</value>
+  </data>
+  <data name="Ui.Mods.CustomCursorSets" xml:space="preserve">
+    <value>Savi žymeklių rinkiniai</value>
+  </data>
+  <data name="Ui.Mods.KeepSeveralCursorSetsReadyAnd" xml:space="preserve">
+    <value>Laikykite kelis žymeklių rinkinius paruoštus ir perjunkite juos vienu spustelėjimu.</value>
+  </data>
+  <data name="Ui.Mods.NoCursorSetsYetPressNew" xml:space="preserve">
+    <value>Žymeklių rinkinių dar nėra. Spauskite Naujas, kad sukurtumėte, arba importuokite zip.</value>
+  </data>
+  <data name="Ui.Mods.Folder" xml:space="preserve">
+    <value>Aplankas</value>
+  </data>
+  <data name="Ui.Mods.OpenTheCursorSetsFolder" xml:space="preserve">
+    <value>Atidaryti žymeklių rinkinių aplanką</value>
+  </data>
+  <data name="Ui.Mods.UseThisSet" xml:space="preserve">
+    <value>Naudoti šį rinkinį</value>
+  </data>
+  <data name="Ui.Mods.CopyCurrentCursor" xml:space="preserve">
+    <value>Kopijuoti dabartinį žymeklį</value>
+  </data>
+  <data name="Ui.Mods.ReplaceThisSetWithYourCurrent" xml:space="preserve">
+    <value>Pakeisti šį rinkinį dabartiniu savu žymekliu ir shift lock piktograma</value>
+  </data>
+  <data name="Ui.Mods.Interface" xml:space="preserve">
+    <value>Sąsaja</value>
+  </data>
+  <data name="Ui.Mods.OldRobloxTopbarUi" xml:space="preserve">
+    <value>Senoji Roblox viršutinė juosta</value>
+  </data>
+  <data name="Ui.Mods.The2014To2015TopbarAnd" xml:space="preserve">
+    <value>2014 ir 2015 metų viršutinė juosta ir žaidimo meniu kaip perdanga.</value>
+  </data>
+  <data name="Ui.Mods.Ps4ButtonIcons" xml:space="preserve">
+    <value>PS4 mygtukų piktogramos</value>
+  </data>
+  <data name="Ui.Mods.SwapsTheXboxButtonPromptsFor" xml:space="preserve">
+    <value>Pakeičia Xbox mygtukų nuorodas oficialiomis PS4 piktogramomis.</value>
+  </data>
+  <data name="Ui.Mods.HideEveryCoreguiIcon" xml:space="preserve">
+    <value>Slėpti visas CoreGui piktogramas</value>
+  </data>
+  <data name="Ui.Mods.BlanksTheRemainingRobloxInterfaceArt" xml:space="preserve">
+    <value>Paslepia likusią Roblox sąsajos grafiką. Lieka įjungta, kol įjungta senoji viršutinė juosta.</value>
+  </data>
+  <data name="Ui.Mods.Sounds" xml:space="preserve">
+    <value>Garsai</value>
+  </data>
+  <data name="Ui.Mods.CustomDeathSound" xml:space="preserve">
+    <value>Savas mirties garsas</value>
+  </data>
+  <data name="Ui.Mods.ReplacesTheDeathSoundWithYour" xml:space="preserve">
+    <value>Pakeičia mirties garsą jūsų garsu.</value>
+  </data>
+  <data name="Ui.Mods.ChooseSound" xml:space="preserve">
+    <value>Pasirinkti garsą...</value>
+  </data>
+  <data name="Ui.Mods.RemoveCustomDeathSound" xml:space="preserve">
+    <value>Pašalinti savą mirties garsą</value>
+  </data>
+  <data name="Ui.Mods.Volume" xml:space="preserve">
+    <value>Garsumas</value>
+  </data>
+  <data name="Ui.Mods.SkyboxManager" xml:space="preserve">
+    <value>Skybox tvarkyklė</value>
+  </data>
+  <data name="Ui.Mods.ChooseASkyboxOnceVoidstrapDownloads" xml:space="preserve">
+    <value>Pasirinkite skybox vieną kartą. Voidstrap jį atsisiunčia ir saugiai pritaiko paleidžiant Roblox.</value>
+  </data>
+  <data name="Ui.Mods.CustomSkybox" xml:space="preserve">
+    <value>Savas skybox</value>
+  </data>
+  <data name="Ui.Mods.UseOneImageOrChooseEvery" xml:space="preserve">
+    <value>Naudokite vieną paveikslėlį arba pasirinkite kiekvieną kubo sieną.</value>
+  </data>
+  <data name="Ui.Mods.UseOneImageForEverySide" xml:space="preserve">
+    <value>Naudoti vieną paveikslėlį visoms pusėms</value>
+  </data>
+  <data name="Ui.Mods.Down" xml:space="preserve">
+    <value>Apačia</value>
+  </data>
+  <data name="Ui.Mods.Front" xml:space="preserve">
+    <value>Priekis</value>
+  </data>
+  <data name="Ui.Mods.Left" xml:space="preserve">
+    <value>Kairė</value>
+  </data>
+  <data name="Ui.Mods.Right" xml:space="preserve">
+    <value>Dešinė</value>
+  </data>
+  <data name="Ui.Mods.Up" xml:space="preserve">
+    <value>Viršus</value>
+  </data>
+  <data name="Ui.Mods.RemoveCustom" xml:space="preserve">
+    <value>Pašalinti savą</value>
+  </data>
+  <data name="Ui.Mods.SaveAndUse" xml:space="preserve">
+    <value>Išsaugoti ir naudoti</value>
+  </data>
+  <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
+    <value>Atnaujinti skybox</value>
+  </data>
+  <data name="Ui.Mods.FontManager" xml:space="preserve">
+    <value>Šriftų tvarkyklė</value>
+  </data>
+  <data name="Ui.Mods.UseALocalFontOrUse" xml:space="preserve">
+    <value>Naudokite vietinį šriftą arba Google Fonts</value>
+  </data>
+  <data name="Ui.Mods.RefreshFonts" xml:space="preserve">
+    <value>Atnaujinti šriftus</value>
+  </data>
+  <data name="Ui.Mods.ChooseLocalFont" xml:space="preserve">
+    <value>Pasirinkti vietinį šriftą</value>
+  </data>
+  <data name="Ui.Mods.RemoveFont" xml:space="preserve">
+    <value>Pašalinti šriftą</value>
+  </data>
+  <data name="Ui.Mods.UseFont" xml:space="preserve">
+    <value>Naudoti šriftą</value>
+  </data>
+  <data name="Ui.Mods.Size" xml:space="preserve">
+    <value>Dydis</value>
+  </data>
+  <data name="Ui.Mods.HelpAndFixes" xml:space="preserve">
+    <value>Pagalba ir pataisymai</value>
+  </data>
+  <data name="Ui.Mods.ModPacks" xml:space="preserve">
+    <value>Modų paketai</value>
+  </data>
+  <data name="Ui.Mods.SearchRobloxMods" xml:space="preserve">
+    <value>Ieškoti Roblox modų</value>
+  </data>
+  <data name="Ui.Mods.Categories" xml:space="preserve">
+    <value>Kategorijos</value>
+  </data>
+  <data name="Ui.Mods.AllCategories" xml:space="preserve">
+    <value>Visos kategorijos</value>
+  </data>
+  <data name="Ui.Mods.NoModPacksToShow" xml:space="preserve">
+    <value>Nėra modų paketų</value>
+  </data>
+  <data name="Ui.Mods.AnythingThatFailsTheRobloxAnd" xml:space="preserve">
+    <value>Viskas, kas neišlaiko Roblox ir saugumo patikrų, paslepiama, todėl kategorija tikrai gali atrodyti tuščia.</value>
+  </data>
+  <data name="Ui.Mods.Page" xml:space="preserve">
+    <value>Puslapis</value>
+  </data>
+  <data name="Ui.Mods.View" xml:space="preserve">
+    <value>Rodinys</value>
+  </data>
+  <data name="Ui.Mods.LoadMore" xml:space="preserve">
+    <value>Įkelti daugiau</value>
+  </data>
+  <data name="Ui.Mods.BackToModPacks" xml:space="preserve">
+    <value>Atgal į modų paketus</value>
+  </data>
+  <data name="Ui.Mods.By" xml:space="preserve">
+    <value>   autorius </value>
+  </data>
+  <data name="Ui.Mods.OpenTheModPage" xml:space="preserve">
+    <value>Atidaryti modo puslapį</value>
+  </data>
+  <data name="Ui.Mods.Download" xml:space="preserve">
+    <value>Atsisiųsti</value>
+  </data>
+  <data name="Ui.Mods.ApplyToMyMods" xml:space="preserve">
+    <value>Taikyti Mano moduose</value>
+  </data>
+  <data name="Ui.Mods.ApplyForVoidstrap" xml:space="preserve">
+    <value>Taikyti Voidstrap</value>
+  </data>
+  <data name="Ui.Mods.ApplyForFleasion" xml:space="preserve">
+    <value>Taikyti Fleasion</value>
+  </data>
+  <data name="Ui.Mods.License" xml:space="preserve">
+    <value>Licencija</value>
+  </data>
+  <data name="Ui.Mods.Gallery" xml:space="preserve">
+    <value>Galerija</value>
+  </data>
+  <data name="Ui.Mods.NoCommentsHaveBeenPostedYet" xml:space="preserve">
+    <value>Komentarų dar nėra.</value>
+  </data>
+  <data name="Ui.Mods.NoUpdatesHaveBeenPublished" xml:space="preserve">
+    <value>Atnaujinimų dar nepaskelbta.</value>
+  </data>
+  <data name="Ui.Mods.NoIssuesAreCurrentlyListed" xml:space="preserve">
+    <value>Šiuo metu nėra nurodytų problemų.</value>
+  </data>
+  <data name="Ui.Mods.MyMods" xml:space="preserve">
+    <value>Mano modai</value>
+  </data>
+  <data name="Ui.Mods.AddAMod" xml:space="preserve">
+    <value>Pridėti modą</value>
+  </data>
+  <data name="Ui.Mods.RefreshTheList" xml:space="preserve">
+    <value>Atnaujinti sąrašą</value>
+  </data>
+  <data name="Ui.Mods.OpenTheModLibraryFolder" xml:space="preserve">
+    <value>Atidaryti modų bibliotekos aplanką</value>
+  </data>
+  <data name="Ui.Mods.SearchMods" xml:space="preserve">
+    <value>Ieškoti modų...</value>
+  </data>
+  <data name="Ui.Mods.AddMod" xml:space="preserve">
+    <value>Pridėti modą</value>
+  </data>
+  <data name="Ui.Mods.MoreModActions" xml:space="preserve">
+    <value>Daugiau modo veiksmų</value>
+  </data>
+  <data name="Ui.Mods.OpenLibrary" xml:space="preserve">
+    <value>Atidaryti biblioteką</value>
+  </data>
+  <data name="Ui.Mods.Or" xml:space="preserve">
+    <value>ARBA</value>
+  </data>
+  <data name="Ui.Mods.DragModToChangeApplyOrder" xml:space="preserve">
+    <value>Vilkite modą, kad pakeistumėte taikymo tvarką</value>
+  </data>
+  <data name="Ui.Mods.EnableOrDisableThisMod" xml:space="preserve">
+    <value>Įjungti arba išjungti šį modą</value>
+  </data>
+  <data name="Ui.Mods.Id" xml:space="preserve">
+    <value>   ID: </value>
+  </data>
+  <data name="Ui.Mods.ViewThisModPack" xml:space="preserve">
+    <value>Peržiūrėti šį modų paketą</value>
+  </data>
+  <data name="Ui.Mods.OpenModFolder" xml:space="preserve">
+    <value>Atidaryti modo aplanką</value>
+  </data>
+  <data name="Ui.Mods.EditOptions" xml:space="preserve">
+    <value>Redaguoti parinktis</value>
+  </data>
+  <data name="Ui.Mods.EditModOptions" xml:space="preserve">
+    <value>Redaguoti modo parinktis</value>
+  </data>
+  <data name="Ui.Mods.RenameMod" xml:space="preserve">
+    <value>Pervadinti modą</value>
+  </data>
+  <data name="Ui.Mods.CopyFullModIdentifier" xml:space="preserve">
+    <value>Kopijuoti visą modo identifikatorių</value>
+  </data>
+  <data name="Ui.Mods.RemoveMod" xml:space="preserve">
+    <value>Pašalinti modą</value>
+  </data>
+  <data name="Ui.Mods.Overlays" xml:space="preserve">
+    <value>Perdangos</value>
+  </data>
+  <data name="Ui.Mods.SessionDock" xml:space="preserve">
+    <value>Seanso juosta</value>
+  </data>
+  <data name="Ui.Mods.ResetShortcut" xml:space="preserve">
+    <value>Atkurti spartųjį klavišą</value>
+  </data>
+  <data name="Ui.Mods.HomepageBackground" xml:space="preserve">
+    <value>Pradžios puslapio fonas</value>
+  </data>
+  <data name="Ui.Mods.ReplaceTheDarkRobloxHomeBackground" xml:space="preserve">
+    <value>Pakeičia tamsų Roblox pradžios puslapio foną spalva, gradientu, paveikslėliu ar vaizdo įrašu</value>
+  </data>
+  <data name="Ui.Mods.WhatToShowBehindTheHome" xml:space="preserve">
+    <value>Kas rodoma už pradžios puslapio.</value>
+  </data>
+  <data name="Ui.Mods.Colors" xml:space="preserve">
+    <value>Spalvos</value>
+  </data>
+  <data name="Ui.Mods.StartAndEndOfTheGradient" xml:space="preserve">
+    <value>Gradiento pradžia ir pabaiga.</value>
+  </data>
+  <data name="Ui.Mods.Direction" xml:space="preserve">
+    <value>Kryptis</value>
+  </data>
+  <data name="Ui.Mods.File" xml:space="preserve">
+    <value>Failas</value>
+  </data>
+  <data name="Ui.Mods.Display" xml:space="preserve">
+    <value>Ekranas</value>
+  </data>
+  <data name="Ui.Mods.ScreenColor" xml:space="preserve">
+    <value>Ekrano spalva</value>
+  </data>
+  <data name="Ui.Mods.Saturation" xml:space="preserve">
+    <value>Sodrumas</value>
+  </data>
+  <data name="Ui.Mods.100IsNormal" xml:space="preserve">
+    <value>100 yra įprasta.</value>
+  </data>
+  <data name="Ui.Mods.Contrast" xml:space="preserve">
+    <value>Kontrastas</value>
+  </data>
+  <data name="Ui.Mods.Warmth" xml:space="preserve">
+    <value>Šiltumas</value>
+  </data>
+  <data name="Ui.Mods.NegativeIsCoolerPositiveIsWarmer" xml:space="preserve">
+    <value>Neigiama vertė vėsesnė, teigiama šiltesnė.</value>
+  </data>
+  <data name="Ui.Mods.SmoothingAndFrames" xml:space="preserve">
+    <value>Glotninimas ir kadrai</value>
+  </data>
+  <data name="Ui.Mods.AntiAliasing" xml:space="preserve">
+    <value>Kraštų glotninimas</value>
+  </data>
+  <data name="Ui.Mods.SmoothsJaggedEdgesUsingYourGpu" xml:space="preserve">
+    <value>Glotnina dantytus kraštus naudojant GPU.</value>
+  </data>
+  <data name="Ui.Mods.MotionBlur" xml:space="preserve">
+    <value>Judesio suliejimas</value>
+  </data>
+  <data name="Ui.Mods.AddsAMotionTrailToMovement" xml:space="preserve">
+    <value>Prideda judesio pėdsaką tik judančiose srityse, kad sąsaja liktų ryški.</value>
+  </data>
+  <data name="Ui.Mods.CustomMotionBlur" xml:space="preserve">
+    <value>Savas judesio suliejimas</value>
+  </data>
+  <data name="Ui.Mods.100IsNormal200IsExtreme" xml:space="preserve">
+    <value>100 yra Įprastas, 200 yra Ekstremalus, o didžiausia vertė 500.</value>
+  </data>
+  <data name="Ui.Mods.FrameGenerationV100" xml:space="preserve">
+    <value>Kadrų generavimas V1.0.0</value>
+  </data>
+  <data name="Ui.Mods.AddsGeneratedFramesBetweenRealOnes" xml:space="preserve">
+    <value>Prideda sugeneruotus kadrus tarp tikrųjų. Šiek tiek padidina įvesties delsą.</value>
+  </data>
+  <data name="Ui.Mods.ShowGeneratedFrames" xml:space="preserve">
+    <value>Rodyti sugeneruotus kadrus</value>
+  </data>
+  <data name="Ui.Mods.DisplaysHowManyFramesAreBeing" xml:space="preserve">
+    <value>Rodo, kiek kadrų generuojama.</value>
+  </data>
+  <data name="Ui.Mods.FixFrameCap" xml:space="preserve">
+    <value>Pataisyti kadrų ribą</value>
+  </data>
+  <data name="Ui.Mods.ColorBlindness" xml:space="preserve">
+    <value>Daltonizmas</value>
+  </data>
+  <data name="Ui.Mods.RecolorsTheScreenSoColorsAre" xml:space="preserve">
+    <value>Perdažo ekraną, kad spalvas būtų lengviau atskirti</value>
+  </data>
+  <data name="Ui.Mods.ProtanopiaRedGreen" xml:space="preserve">
+    <value>Protanopija (raudona/žalia)</value>
+  </data>
+  <data name="Ui.Mods.DeuteranopiaRedGreen" xml:space="preserve">
+    <value>Deuteranopija (raudona/žalia)</value>
+  </data>
+  <data name="Ui.Mods.TritanopiaBlueYellow" xml:space="preserve">
+    <value>Tritanopija (mėlyna/geltona)</value>
+  </data>
+  <data name="Ui.Mods.Strength" xml:space="preserve">
+    <value>Stiprumas</value>
+  </data>
+  <data name="Ui.Mods.SimulateInstead" xml:space="preserve">
+    <value>Vietoj to imituoti</value>
+  </data>
+  <data name="Ui.Mods.ShowsWhatColorBlindPeopleSee" xml:space="preserve">
+    <value>Rodo, ką mato daltonikai, užuot tai taisęs.</value>
+  </data>
+  <data name="Ui.Mods.InGameTools" xml:space="preserve">
+    <value>Įrankiai žaidime</value>
+  </data>
+  <data name="Ui.Mods.Clock" xml:space="preserve">
+    <value>Laikrodis</value>
+  </data>
+  <data name="Ui.Mods.ShowsTheTimeInTheCorner" xml:space="preserve">
+    <value>Žaidžiant rodo laiką kampe.</value>
+  </data>
+  <data name="Ui.Mods.TimeZone" xml:space="preserve">
+    <value>Laiko juosta</value>
+  </data>
+  <data name="Ui.Mods.SystemFollowsThisComputer" xml:space="preserve">
+    <value>Sistema atitinka šį kompiuterį.</value>
+  </data>
+  <data name="Ui.Mods.24HourClock" xml:space="preserve">
+    <value>24 valandų laikrodis</value>
+  </data>
+  <data name="Ui.Mods.1430InsteadOf230" xml:space="preserve">
+    <value>14:30 vietoj 2:30 PM.</value>
+  </data>
+  <data name="Ui.Mods.Crosshair" xml:space="preserve">
+    <value>Taikiklis</value>
+  </data>
+  <data name="Ui.Mods.DrawYourOwnCrosshairOverThe" xml:space="preserve">
+    <value>Nupieškite savo taikiklį virš žaidimo</value>
+  </data>
+  <data name="Ui.Mods.GifLink" xml:space="preserve">
+    <value>GIF nuoroda</value>
+  </data>
+  <data name="Ui.Mods.AnimatedGifUrlToUseAs" xml:space="preserve">
+    <value>Animuoto GIF URL, naudojamas kaip taikiklis.</value>
+  </data>
+  <data name="Ui.Mods.FillAndOutline" xml:space="preserve">
+    <value>Užpildas ir kontūras.</value>
+  </data>
+  <data name="Ui.Mods.Pick" xml:space="preserve">
+    <value>Pasirinkti</value>
+  </data>
+  <data name="Ui.Mods.Thickness" xml:space="preserve">
+    <value>Storis</value>
+  </data>
+  <data name="Ui.Mods.CenterGap" xml:space="preserve">
+    <value>Tarpas centre</value>
+  </data>
+  <data name="Ui.Mods.Opacity" xml:space="preserve">
+    <value>Nepermatomumas</value>
+  </data>
+  <data name="Ui.Mods.ShareOrPasteACrosshairCode" xml:space="preserve">
+    <value>Bendrinkite arba įklijuokite taikiklio kodą.</value>
+  </data>
+  <data name="Ui.Mods.Generate" xml:space="preserve">
+    <value>Generuoti</value>
+  </data>
+  <data name="Ui.Mods.SaveAsFile" xml:space="preserve">
+    <value>Išsaugoti kaip failą</value>
+  </data>
+  <data name="Ui.Mods.BrowseRobloxAssetsPreviewFilesAnd" xml:space="preserve">
+    <value>Naršykite Roblox išteklius, peržiūrėkite failus ir kurkite modų pakeitimus.</value>
+  </data>
+  <data name="Ui.Mods.CloseModExplorer" xml:space="preserve">
+    <value>Uždaryti modų naršyklę</value>
+  </data>
+  <data name="Ui.Mods.SearchThisFolder" xml:space="preserve">
+    <value>Ieškoti šiame aplanke</value>
+  </data>
+  <data name="Ui.Mods.Modified" xml:space="preserve">
+    <value>Pakeista</value>
+  </data>
+  <data name="Ui.Mods.FileOperations" xml:space="preserve">
+    <value>Failų operacijos</value>
+  </data>
+  <data name="Ui.Mods.Details" xml:space="preserve">
+    <value>Išsami informacija</value>
+  </data>
+  <data name="Ui.Mods.Replace" xml:space="preserve">
+    <value>Pakeisti</value>
+  </data>
+  <data name="Ui.Mods.ChooseALocalReplacementForThis" xml:space="preserve">
+    <value>Pasirinkti vietinį šio ištekliaus pakaitalą</value>
+  </data>
+  <data name="Ui.Mods.Adjust" xml:space="preserve">
+    <value>Koreguoti</value>
+  </data>
+  <data name="Ui.Mods.RotateFlipOrResizeThisImage" xml:space="preserve">
+    <value>Pasukti, apversti arba pakeisti šio paveikslėlio dydį</value>
+  </data>
+  <data name="Ui.Mods.Recolor" xml:space="preserve">
+    <value>Perdažyti</value>
+  </data>
+  <data name="Ui.Mods.TintThisImage" xml:space="preserve">
+    <value>Atspalvinti šį paveikslėlį</value>
+  </data>
+  <data name="Ui.Mods.SaveThisFileToYourComputer" xml:space="preserve">
+    <value>Išsaugoti šį failą kompiuteryje</value>
+  </data>
+  <data name="Ui.Mods.FindMods2" xml:space="preserve">
+    <value>Rasti modus</value>
+  </data>
 </root>

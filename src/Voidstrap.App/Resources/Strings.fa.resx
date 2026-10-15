@@ -3424,4 +3424,511 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
   <data name="Ui.Appearance.Customization" xml:space="preserve">
     <value>شخصی‌سازی</value>
   </data>
+  <data name="Ui.Mods.Choose" xml:space="preserve">
+    <value>انتخاب</value>
+  </data>
+  <data name="Ui.Mods.Remove" xml:space="preserve">
+    <value>حذف</value>
+  </data>
+  <data name="Ui.Mods.FindMods" xml:space="preserve">
+    <value>یافتن مادها</value>
+  </data>
+  <data name="Ui.Mods.BrowseCommunityModsOnGamebanana" xml:space="preserve">
+    <value>مادهای جامعه را در GameBanana مرور کنید.</value>
+  </data>
+  <data name="Ui.Mods.ModExplorer" xml:space="preserve">
+    <value>کاوشگر ماد</value>
+  </data>
+  <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
+    <value>فایل‌های نصب Roblox را ببینید و مدیریت کنید.</value>
+  </data>
+  <data name="Ui.Mods.ChooseWhetherYourModsAreApplied" xml:space="preserve">
+    <value>انتخاب کنید مادها روی بازیکن Roblox، Roblox Studio یا هر دو اعمال شوند.</value>
+  </data>
+  <data name="Ui.Mods.ApplyModsTo" xml:space="preserve">
+    <value>اعمال مادها روی</value>
+  </data>
+  <data name="Ui.Mods.Cursor" xml:space="preserve">
+    <value>نشانگر</value>
+  </data>
+  <data name="Ui.Mods.CursorStyle" xml:space="preserve">
+    <value>سبک نشانگر</value>
+  </data>
+  <data name="Ui.Mods.UseTheRobloxCursorABuilt" xml:space="preserve">
+    <value>از نشانگر Roblox، یک سبک داخلی یا تصاویر خودتان استفاده کنید.</value>
+  </data>
+  <data name="Ui.Mods.CustomCursor" xml:space="preserve">
+    <value>نشانگر سفارشی</value>
+  </data>
+  <data name="Ui.Mods.UseOneImageForThePointer" xml:space="preserve">
+    <value>یک تصویر برای اشاره‌گر، اشاره‌گر خارج از دسترس و نشانگر متن به کار ببرید.</value>
+  </data>
+  <data name="Ui.Mods.CustomDragCursor" xml:space="preserve">
+    <value>نشانگر کشیدن سفارشی</value>
+  </data>
+  <data name="Ui.Mods.ShownWhileDraggingInRobloxStudio" xml:space="preserve">
+    <value>هنگام کشیدن در Roblox Studio نمایش داده می‌شود.</value>
+  </data>
+  <data name="Ui.Mods.CustomShiftlock" xml:space="preserve">
+    <value>Shift lock سفارشی</value>
+  </data>
+  <data name="Ui.Mods.ShownInTheMiddleOfThe" xml:space="preserve">
+    <value>وقتی shift lock روشن است در وسط صفحه نمایش داده می‌شود. با همهٔ سبک‌های نشانگر کار می‌کند.</value>
+  </data>
+  <data name="Ui.Mods.CustomCursorSets" xml:space="preserve">
+    <value>مجموعه‌های نشانگر سفارشی</value>
+  </data>
+  <data name="Ui.Mods.KeepSeveralCursorSetsReadyAnd" xml:space="preserve">
+    <value>چند مجموعه نشانگر آماده داشته باشید و با یک کلیک بینشان جابه‌جا شوید.</value>
+  </data>
+  <data name="Ui.Mods.NoCursorSetsYetPressNew" xml:space="preserve">
+    <value>هنوز مجموعهٔ نشانگری ندارید. برای ساخت، جدید را بزنید یا یک zip وارد کنید.</value>
+  </data>
+  <data name="Ui.Mods.Folder" xml:space="preserve">
+    <value>پوشه</value>
+  </data>
+  <data name="Ui.Mods.OpenTheCursorSetsFolder" xml:space="preserve">
+    <value>باز کردن پوشهٔ مجموعه‌های نشانگر</value>
+  </data>
+  <data name="Ui.Mods.UseThisSet" xml:space="preserve">
+    <value>استفاده از این مجموعه</value>
+  </data>
+  <data name="Ui.Mods.CopyCurrentCursor" xml:space="preserve">
+    <value>کپی نشانگر فعلی</value>
+  </data>
+  <data name="Ui.Mods.ReplaceThisSetWithYourCurrent" xml:space="preserve">
+    <value>جایگزینی این مجموعه با نشانگر سفارشی و نماد shift lock فعلی شما</value>
+  </data>
+  <data name="Ui.Mods.Interface" xml:space="preserve">
+    <value>رابط</value>
+  </data>
+  <data name="Ui.Mods.OldRobloxTopbarUi" xml:space="preserve">
+    <value>نوار بالای قدیمی Roblox</value>
+  </data>
+  <data name="Ui.Mods.The2014To2015TopbarAnd" xml:space="preserve">
+    <value>نوار بالا و منوی بازی سال‌های 2014 تا 2015 به‌صورت لایهٔ رو.</value>
+  </data>
+  <data name="Ui.Mods.Ps4ButtonIcons" xml:space="preserve">
+    <value>نمادهای دکمهٔ PS4</value>
+  </data>
+  <data name="Ui.Mods.SwapsTheXboxButtonPromptsFor" xml:space="preserve">
+    <value>راهنمای دکمه‌های Xbox را با نمادهای رسمی PS4 جایگزین می‌کند.</value>
+  </data>
+  <data name="Ui.Mods.HideEveryCoreguiIcon" xml:space="preserve">
+    <value>پنهان کردن همهٔ نمادهای CoreGui</value>
+  </data>
+  <data name="Ui.Mods.BlanksTheRemainingRobloxInterfaceArt" xml:space="preserve">
+    <value>بقیهٔ گرافیک رابط Roblox را پنهان می‌کند. تا وقتی نوار بالای قدیمی روشن است روشن می‌ماند.</value>
+  </data>
+  <data name="Ui.Mods.Sounds" xml:space="preserve">
+    <value>صداها</value>
+  </data>
+  <data name="Ui.Mods.CustomDeathSound" xml:space="preserve">
+    <value>صدای مرگ سفارشی</value>
+  </data>
+  <data name="Ui.Mods.ReplacesTheDeathSoundWithYour" xml:space="preserve">
+    <value>صدای مرگ را با صدای خودتان جایگزین می‌کند.</value>
+  </data>
+  <data name="Ui.Mods.ChooseSound" xml:space="preserve">
+    <value>انتخاب صدا...</value>
+  </data>
+  <data name="Ui.Mods.RemoveCustomDeathSound" xml:space="preserve">
+    <value>حذف صدای مرگ سفارشی</value>
+  </data>
+  <data name="Ui.Mods.Volume" xml:space="preserve">
+    <value>حجم صدا</value>
+  </data>
+  <data name="Ui.Mods.SkyboxManager" xml:space="preserve">
+    <value>مدیریت آسمان</value>
+  </data>
+  <data name="Ui.Mods.ChooseASkyboxOnceVoidstrapDownloads" xml:space="preserve">
+    <value>یک بار آسمان را انتخاب کنید. Voidstrap هنگام شروع Roblox آن را دانلود و با امنیت اعمال می‌کند.</value>
+  </data>
+  <data name="Ui.Mods.CustomSkybox" xml:space="preserve">
+    <value>آسمان سفارشی</value>
+  </data>
+  <data name="Ui.Mods.UseOneImageOrChooseEvery" xml:space="preserve">
+    <value>یک تصویر به کار ببرید یا هر وجه مکعب را انتخاب کنید.</value>
+  </data>
+  <data name="Ui.Mods.UseOneImageForEverySide" xml:space="preserve">
+    <value>یک تصویر برای همهٔ وجه‌ها</value>
+  </data>
+  <data name="Ui.Mods.Down" xml:space="preserve">
+    <value>پایین</value>
+  </data>
+  <data name="Ui.Mods.Front" xml:space="preserve">
+    <value>جلو</value>
+  </data>
+  <data name="Ui.Mods.Left" xml:space="preserve">
+    <value>چپ</value>
+  </data>
+  <data name="Ui.Mods.Right" xml:space="preserve">
+    <value>راست</value>
+  </data>
+  <data name="Ui.Mods.Up" xml:space="preserve">
+    <value>بالا</value>
+  </data>
+  <data name="Ui.Mods.RemoveCustom" xml:space="preserve">
+    <value>حذف سفارشی</value>
+  </data>
+  <data name="Ui.Mods.SaveAndUse" xml:space="preserve">
+    <value>ذخیره و استفاده</value>
+  </data>
+  <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
+    <value>تازه‌سازی آسمان‌ها</value>
+  </data>
+  <data name="Ui.Mods.FontManager" xml:space="preserve">
+    <value>مدیریت قلم</value>
+  </data>
+  <data name="Ui.Mods.UseALocalFontOrUse" xml:space="preserve">
+    <value>از یک قلم محلی یا Google Fonts استفاده کنید</value>
+  </data>
+  <data name="Ui.Mods.RefreshFonts" xml:space="preserve">
+    <value>تازه‌سازی قلم‌ها</value>
+  </data>
+  <data name="Ui.Mods.ChooseLocalFont" xml:space="preserve">
+    <value>انتخاب قلم محلی</value>
+  </data>
+  <data name="Ui.Mods.RemoveFont" xml:space="preserve">
+    <value>حذف قلم</value>
+  </data>
+  <data name="Ui.Mods.UseFont" xml:space="preserve">
+    <value>استفاده از قلم</value>
+  </data>
+  <data name="Ui.Mods.Size" xml:space="preserve">
+    <value>اندازه</value>
+  </data>
+  <data name="Ui.Mods.HelpAndFixes" xml:space="preserve">
+    <value>راهنما و رفع مشکل</value>
+  </data>
+  <data name="Ui.Mods.ModPacks" xml:space="preserve">
+    <value>بسته‌های ماد</value>
+  </data>
+  <data name="Ui.Mods.SearchRobloxMods" xml:space="preserve">
+    <value>جست‌وجوی مادهای Roblox</value>
+  </data>
+  <data name="Ui.Mods.Categories" xml:space="preserve">
+    <value>دسته‌ها</value>
+  </data>
+  <data name="Ui.Mods.AllCategories" xml:space="preserve">
+    <value>همهٔ دسته‌ها</value>
+  </data>
+  <data name="Ui.Mods.NoModPacksToShow" xml:space="preserve">
+    <value>بستهٔ مادی برای نمایش نیست</value>
+  </data>
+  <data name="Ui.Mods.AnythingThatFailsTheRobloxAnd" xml:space="preserve">
+    <value>هر چیزی که از بررسی‌های Roblox و امنیت رد نشود پنهان می‌شود، پس ممکن است یک دسته واقعاً خالی به نظر برسد.</value>
+  </data>
+  <data name="Ui.Mods.Page" xml:space="preserve">
+    <value>صفحه</value>
+  </data>
+  <data name="Ui.Mods.View" xml:space="preserve">
+    <value>نما</value>
+  </data>
+  <data name="Ui.Mods.LoadMore" xml:space="preserve">
+    <value>بارگذاری بیشتر</value>
+  </data>
+  <data name="Ui.Mods.BackToModPacks" xml:space="preserve">
+    <value>بازگشت به بسته‌های ماد</value>
+  </data>
+  <data name="Ui.Mods.By" xml:space="preserve">
+    <value>   از </value>
+  </data>
+  <data name="Ui.Mods.OpenTheModPage" xml:space="preserve">
+    <value>باز کردن صفحهٔ ماد</value>
+  </data>
+  <data name="Ui.Mods.Download" xml:space="preserve">
+    <value>دانلود</value>
+  </data>
+  <data name="Ui.Mods.ApplyToMyMods" xml:space="preserve">
+    <value>اعمال در مادهای من</value>
+  </data>
+  <data name="Ui.Mods.ApplyForVoidstrap" xml:space="preserve">
+    <value>اعمال برای Voidstrap</value>
+  </data>
+  <data name="Ui.Mods.ApplyForFleasion" xml:space="preserve">
+    <value>اعمال برای Fleasion</value>
+  </data>
+  <data name="Ui.Mods.License" xml:space="preserve">
+    <value>مجوز</value>
+  </data>
+  <data name="Ui.Mods.Gallery" xml:space="preserve">
+    <value>گالری</value>
+  </data>
+  <data name="Ui.Mods.NoCommentsHaveBeenPostedYet" xml:space="preserve">
+    <value>هنوز نظری ثبت نشده است.</value>
+  </data>
+  <data name="Ui.Mods.NoUpdatesHaveBeenPublished" xml:space="preserve">
+    <value>هنوز به‌روزرسانی‌ای منتشر نشده است.</value>
+  </data>
+  <data name="Ui.Mods.NoIssuesAreCurrentlyListed" xml:space="preserve">
+    <value>در حال حاضر مشکلی ثبت نشده است.</value>
+  </data>
+  <data name="Ui.Mods.MyMods" xml:space="preserve">
+    <value>مادهای من</value>
+  </data>
+  <data name="Ui.Mods.AddAMod" xml:space="preserve">
+    <value>افزودن ماد</value>
+  </data>
+  <data name="Ui.Mods.RefreshTheList" xml:space="preserve">
+    <value>تازه‌سازی فهرست</value>
+  </data>
+  <data name="Ui.Mods.OpenTheModLibraryFolder" xml:space="preserve">
+    <value>باز کردن پوشهٔ کتابخانهٔ ماد</value>
+  </data>
+  <data name="Ui.Mods.SearchMods" xml:space="preserve">
+    <value>جست‌وجوی مادها...</value>
+  </data>
+  <data name="Ui.Mods.AddMod" xml:space="preserve">
+    <value>افزودن ماد</value>
+  </data>
+  <data name="Ui.Mods.MoreModActions" xml:space="preserve">
+    <value>کارهای بیشتر ماد</value>
+  </data>
+  <data name="Ui.Mods.OpenLibrary" xml:space="preserve">
+    <value>باز کردن کتابخانه</value>
+  </data>
+  <data name="Ui.Mods.Or" xml:space="preserve">
+    <value>یا</value>
+  </data>
+  <data name="Ui.Mods.DragModToChangeApplyOrder" xml:space="preserve">
+    <value>برای تغییر ترتیب اعمال، ماد را بکشید</value>
+  </data>
+  <data name="Ui.Mods.EnableOrDisableThisMod" xml:space="preserve">
+    <value>فعال یا غیرفعال کردن این ماد</value>
+  </data>
+  <data name="Ui.Mods.Id" xml:space="preserve">
+    <value>   شناسه: </value>
+  </data>
+  <data name="Ui.Mods.ViewThisModPack" xml:space="preserve">
+    <value>مشاهدهٔ این بستهٔ ماد</value>
+  </data>
+  <data name="Ui.Mods.OpenModFolder" xml:space="preserve">
+    <value>باز کردن پوشهٔ ماد</value>
+  </data>
+  <data name="Ui.Mods.EditOptions" xml:space="preserve">
+    <value>ویرایش گزینه‌ها</value>
+  </data>
+  <data name="Ui.Mods.EditModOptions" xml:space="preserve">
+    <value>ویرایش گزینه‌های ماد</value>
+  </data>
+  <data name="Ui.Mods.RenameMod" xml:space="preserve">
+    <value>تغییر نام ماد</value>
+  </data>
+  <data name="Ui.Mods.CopyFullModIdentifier" xml:space="preserve">
+    <value>کپی شناسهٔ کامل ماد</value>
+  </data>
+  <data name="Ui.Mods.RemoveMod" xml:space="preserve">
+    <value>حذف ماد</value>
+  </data>
+  <data name="Ui.Mods.Overlays" xml:space="preserve">
+    <value>لایه‌های رو</value>
+  </data>
+  <data name="Ui.Mods.SessionDock" xml:space="preserve">
+    <value>نوار جلسه</value>
+  </data>
+  <data name="Ui.Mods.ResetShortcut" xml:space="preserve">
+    <value>بازنشانی میان‌بر</value>
+  </data>
+  <data name="Ui.Mods.HomepageBackground" xml:space="preserve">
+    <value>پس‌زمینهٔ صفحهٔ اصلی</value>
+  </data>
+  <data name="Ui.Mods.ReplaceTheDarkRobloxHomeBackground" xml:space="preserve">
+    <value>پس‌زمینهٔ تیرهٔ صفحهٔ اصلی Roblox را با رنگ، گرادیان، تصویر یا ویدیو جایگزین کنید</value>
+  </data>
+  <data name="Ui.Mods.WhatToShowBehindTheHome" xml:space="preserve">
+    <value>آنچه پشت صفحهٔ اصلی نمایش داده می‌شود.</value>
+  </data>
+  <data name="Ui.Mods.Colors" xml:space="preserve">
+    <value>رنگ‌ها</value>
+  </data>
+  <data name="Ui.Mods.StartAndEndOfTheGradient" xml:space="preserve">
+    <value>آغاز و پایان گرادیان.</value>
+  </data>
+  <data name="Ui.Mods.Direction" xml:space="preserve">
+    <value>جهت</value>
+  </data>
+  <data name="Ui.Mods.File" xml:space="preserve">
+    <value>فایل</value>
+  </data>
+  <data name="Ui.Mods.Display" xml:space="preserve">
+    <value>نمایش</value>
+  </data>
+  <data name="Ui.Mods.ScreenColor" xml:space="preserve">
+    <value>رنگ صفحه</value>
+  </data>
+  <data name="Ui.Mods.Saturation" xml:space="preserve">
+    <value>اشباع</value>
+  </data>
+  <data name="Ui.Mods.100IsNormal" xml:space="preserve">
+    <value>100 حالت عادی است.</value>
+  </data>
+  <data name="Ui.Mods.Contrast" xml:space="preserve">
+    <value>کنتراست</value>
+  </data>
+  <data name="Ui.Mods.Warmth" xml:space="preserve">
+    <value>گرمی</value>
+  </data>
+  <data name="Ui.Mods.NegativeIsCoolerPositiveIsWarmer" xml:space="preserve">
+    <value>منفی سردتر و مثبت گرم‌تر است.</value>
+  </data>
+  <data name="Ui.Mods.SmoothingAndFrames" xml:space="preserve">
+    <value>هموارسازی و فریم‌ها</value>
+  </data>
+  <data name="Ui.Mods.AntiAliasing" xml:space="preserve">
+    <value>ضدپلگی</value>
+  </data>
+  <data name="Ui.Mods.SmoothsJaggedEdgesUsingYourGpu" xml:space="preserve">
+    <value>لبه‌های دندانه‌دار را با GPU شما هموار می‌کند.</value>
+  </data>
+  <data name="Ui.Mods.MotionBlur" xml:space="preserve">
+    <value>تاری حرکت</value>
+  </data>
+  <data name="Ui.Mods.AddsAMotionTrailToMovement" xml:space="preserve">
+    <value>به حرکت ردی اضافه می‌کند، فقط در بخش‌های متحرک، تا رابط واضح بماند.</value>
+  </data>
+  <data name="Ui.Mods.CustomMotionBlur" xml:space="preserve">
+    <value>تاری حرکت سفارشی</value>
+  </data>
+  <data name="Ui.Mods.100IsNormal200IsExtreme" xml:space="preserve">
+    <value>100 عادی، 200 شدید است و تا 500 بالا می‌رود.</value>
+  </data>
+  <data name="Ui.Mods.FrameGenerationV100" xml:space="preserve">
+    <value>تولید فریم V1.0.0</value>
+  </data>
+  <data name="Ui.Mods.AddsGeneratedFramesBetweenRealOnes" xml:space="preserve">
+    <value>بین فریم‌های واقعی فریم‌های تولیدشده اضافه می‌کند. کمی تأخیر ورودی اضافه می‌کند.</value>
+  </data>
+  <data name="Ui.Mods.ShowGeneratedFrames" xml:space="preserve">
+    <value>نمایش فریم‌های تولیدشده</value>
+  </data>
+  <data name="Ui.Mods.DisplaysHowManyFramesAreBeing" xml:space="preserve">
+    <value>نشان می‌دهد چند فریم تولید می‌شود.</value>
+  </data>
+  <data name="Ui.Mods.FixFrameCap" xml:space="preserve">
+    <value>رفع محدودیت فریم</value>
+  </data>
+  <data name="Ui.Mods.ColorBlindness" xml:space="preserve">
+    <value>کوررنگی</value>
+  </data>
+  <data name="Ui.Mods.RecolorsTheScreenSoColorsAre" xml:space="preserve">
+    <value>رنگ صفحه را تغییر می‌دهد تا تشخیص رنگ‌ها آسان‌تر شود</value>
+  </data>
+  <data name="Ui.Mods.ProtanopiaRedGreen" xml:space="preserve">
+    <value>پروتانوپی (قرمز/سبز)</value>
+  </data>
+  <data name="Ui.Mods.DeuteranopiaRedGreen" xml:space="preserve">
+    <value>دوترانوپی (قرمز/سبز)</value>
+  </data>
+  <data name="Ui.Mods.TritanopiaBlueYellow" xml:space="preserve">
+    <value>تریتانوپی (آبی/زرد)</value>
+  </data>
+  <data name="Ui.Mods.Strength" xml:space="preserve">
+    <value>شدت</value>
+  </data>
+  <data name="Ui.Mods.SimulateInstead" xml:space="preserve">
+    <value>به‌جای آن شبیه‌سازی کن</value>
+  </data>
+  <data name="Ui.Mods.ShowsWhatColorBlindPeopleSee" xml:space="preserve">
+    <value>به‌جای اصلاح، آنچه افراد کوررنگ می‌بینند را نشان می‌دهد.</value>
+  </data>
+  <data name="Ui.Mods.InGameTools" xml:space="preserve">
+    <value>ابزارهای درون بازی</value>
+  </data>
+  <data name="Ui.Mods.Clock" xml:space="preserve">
+    <value>ساعت</value>
+  </data>
+  <data name="Ui.Mods.ShowsTheTimeInTheCorner" xml:space="preserve">
+    <value>هنگام بازی ساعت را در گوشه نشان می‌دهد.</value>
+  </data>
+  <data name="Ui.Mods.TimeZone" xml:space="preserve">
+    <value>منطقهٔ زمانی</value>
+  </data>
+  <data name="Ui.Mods.SystemFollowsThisComputer" xml:space="preserve">
+    <value>سیستم از این رایانه پیروی می‌کند.</value>
+  </data>
+  <data name="Ui.Mods.24HourClock" xml:space="preserve">
+    <value>ساعت 24 ساعته</value>
+  </data>
+  <data name="Ui.Mods.1430InsteadOf230" xml:space="preserve">
+    <value>14:30 به‌جای 2:30 PM.</value>
+  </data>
+  <data name="Ui.Mods.Crosshair" xml:space="preserve">
+    <value>نشانهٔ هدف</value>
+  </data>
+  <data name="Ui.Mods.DrawYourOwnCrosshairOverThe" xml:space="preserve">
+    <value>نشانهٔ هدف خودتان را روی بازی بکشید</value>
+  </data>
+  <data name="Ui.Mods.GifLink" xml:space="preserve">
+    <value>پیوند GIF</value>
+  </data>
+  <data name="Ui.Mods.AnimatedGifUrlToUseAs" xml:space="preserve">
+    <value>نشانی GIF متحرکی که به‌عنوان نشانهٔ هدف استفاده می‌شود.</value>
+  </data>
+  <data name="Ui.Mods.FillAndOutline" xml:space="preserve">
+    <value>پرشدگی و حاشیه.</value>
+  </data>
+  <data name="Ui.Mods.Pick" xml:space="preserve">
+    <value>انتخاب</value>
+  </data>
+  <data name="Ui.Mods.Thickness" xml:space="preserve">
+    <value>ضخامت</value>
+  </data>
+  <data name="Ui.Mods.CenterGap" xml:space="preserve">
+    <value>فاصلهٔ وسط</value>
+  </data>
+  <data name="Ui.Mods.Opacity" xml:space="preserve">
+    <value>کدری</value>
+  </data>
+  <data name="Ui.Mods.ShareOrPasteACrosshairCode" xml:space="preserve">
+    <value>کد نشانهٔ هدف را به اشتراک بگذارید یا جای‌گذاری کنید.</value>
+  </data>
+  <data name="Ui.Mods.Generate" xml:space="preserve">
+    <value>ساختن</value>
+  </data>
+  <data name="Ui.Mods.SaveAsFile" xml:space="preserve">
+    <value>ذخیره به‌عنوان فایل</value>
+  </data>
+  <data name="Ui.Mods.BrowseRobloxAssetsPreviewFilesAnd" xml:space="preserve">
+    <value>دارایی‌های Roblox را مرور کنید، فایل‌ها را پیش‌نمایش کنید و جایگزین‌های ماد بسازید.</value>
+  </data>
+  <data name="Ui.Mods.CloseModExplorer" xml:space="preserve">
+    <value>بستن کاوشگر ماد</value>
+  </data>
+  <data name="Ui.Mods.SearchThisFolder" xml:space="preserve">
+    <value>جست‌وجو در این پوشه</value>
+  </data>
+  <data name="Ui.Mods.Modified" xml:space="preserve">
+    <value>تاریخ تغییر</value>
+  </data>
+  <data name="Ui.Mods.FileOperations" xml:space="preserve">
+    <value>عملیات فایل</value>
+  </data>
+  <data name="Ui.Mods.Details" xml:space="preserve">
+    <value>جزئیات</value>
+  </data>
+  <data name="Ui.Mods.Replace" xml:space="preserve">
+    <value>جایگزینی</value>
+  </data>
+  <data name="Ui.Mods.ChooseALocalReplacementForThis" xml:space="preserve">
+    <value>یک جایگزین محلی برای این دارایی انتخاب کنید</value>
+  </data>
+  <data name="Ui.Mods.Adjust" xml:space="preserve">
+    <value>تنظیم</value>
+  </data>
+  <data name="Ui.Mods.RotateFlipOrResizeThisImage" xml:space="preserve">
+    <value>چرخاندن، برگرداندن یا تغییر اندازهٔ این تصویر</value>
+  </data>
+  <data name="Ui.Mods.Recolor" xml:space="preserve">
+    <value>رنگ‌آمیزی دوباره</value>
+  </data>
+  <data name="Ui.Mods.TintThisImage" xml:space="preserve">
+    <value>ته‌رنگ دادن به این تصویر</value>
+  </data>
+  <data name="Ui.Mods.SaveThisFileToYourComputer" xml:space="preserve">
+    <value>ذخیرهٔ این فایل در رایانهٔ شما</value>
+  </data>
+  <data name="Ui.Mods.FindMods2" xml:space="preserve">
+    <value>یافتن مادها</value>
+  </data>
 </root>

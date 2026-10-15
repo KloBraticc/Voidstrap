@@ -3386,4 +3386,511 @@ Voidstrap 安裝在 "{1}"。</value>
   <data name="Ui.Appearance.Customization" xml:space="preserve">
     <value>自訂</value>
   </data>
+  <data name="Ui.Mods.Choose" xml:space="preserve">
+    <value>選擇</value>
+  </data>
+  <data name="Ui.Mods.Remove" xml:space="preserve">
+    <value>移除</value>
+  </data>
+  <data name="Ui.Mods.FindMods" xml:space="preserve">
+    <value>尋找模組</value>
+  </data>
+  <data name="Ui.Mods.BrowseCommunityModsOnGamebanana" xml:space="preserve">
+    <value>在 GameBanana 上瀏覽社群模組。</value>
+  </data>
+  <data name="Ui.Mods.ModExplorer" xml:space="preserve">
+    <value>模組瀏覽器</value>
+  </data>
+  <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
+    <value>檢視和管理 Roblox 安裝中的檔案。</value>
+  </data>
+  <data name="Ui.Mods.ChooseWhetherYourModsAreApplied" xml:space="preserve">
+    <value>選擇將模組套用到 Roblox 玩家端、Roblox Studio 還是兩者。</value>
+  </data>
+  <data name="Ui.Mods.ApplyModsTo" xml:space="preserve">
+    <value>將模組套用到</value>
+  </data>
+  <data name="Ui.Mods.Cursor" xml:space="preserve">
+    <value>游標</value>
+  </data>
+  <data name="Ui.Mods.CursorStyle" xml:space="preserve">
+    <value>游標樣式</value>
+  </data>
+  <data name="Ui.Mods.UseTheRobloxCursorABuilt" xml:space="preserve">
+    <value>使用 Roblox 游標、內建樣式或你自己的圖片。</value>
+  </data>
+  <data name="Ui.Mods.CustomCursor" xml:space="preserve">
+    <value>自訂游標</value>
+  </data>
+  <data name="Ui.Mods.UseOneImageForThePointer" xml:space="preserve">
+    <value>為指標、超出範圍的指標和文字游標使用同一張圖片。</value>
+  </data>
+  <data name="Ui.Mods.CustomDragCursor" xml:space="preserve">
+    <value>自訂拖曳游標</value>
+  </data>
+  <data name="Ui.Mods.ShownWhileDraggingInRobloxStudio" xml:space="preserve">
+    <value>在 Roblox Studio 中拖曳時顯示。</value>
+  </data>
+  <data name="Ui.Mods.CustomShiftlock" xml:space="preserve">
+    <value>自訂 Shift Lock</value>
+  </data>
+  <data name="Ui.Mods.ShownInTheMiddleOfThe" xml:space="preserve">
+    <value>開啟 Shift Lock 時顯示在畫面中央。適用於所有游標樣式。</value>
+  </data>
+  <data name="Ui.Mods.CustomCursorSets" xml:space="preserve">
+    <value>自訂游標組</value>
+  </data>
+  <data name="Ui.Mods.KeepSeveralCursorSetsReadyAnd" xml:space="preserve">
+    <value>準備多個游標組，一鍵切換。</value>
+  </data>
+  <data name="Ui.Mods.NoCursorSetsYetPressNew" xml:space="preserve">
+    <value>還沒有游標組。按新增來建立，或匯入 zip。</value>
+  </data>
+  <data name="Ui.Mods.Folder" xml:space="preserve">
+    <value>資料夾</value>
+  </data>
+  <data name="Ui.Mods.OpenTheCursorSetsFolder" xml:space="preserve">
+    <value>開啟游標組資料夾</value>
+  </data>
+  <data name="Ui.Mods.UseThisSet" xml:space="preserve">
+    <value>使用此組</value>
+  </data>
+  <data name="Ui.Mods.CopyCurrentCursor" xml:space="preserve">
+    <value>複製目前的游標</value>
+  </data>
+  <data name="Ui.Mods.ReplaceThisSetWithYourCurrent" xml:space="preserve">
+    <value>用目前的自訂游標和 Shift Lock 圖示取代此組</value>
+  </data>
+  <data name="Ui.Mods.Interface" xml:space="preserve">
+    <value>介面</value>
+  </data>
+  <data name="Ui.Mods.OldRobloxTopbarUi" xml:space="preserve">
+    <value>舊版 Roblox 頂端列</value>
+  </data>
+  <data name="Ui.Mods.The2014To2015TopbarAnd" xml:space="preserve">
+    <value>以覆疊方式顯示 2014 至 2015 年的頂端列和遊戲選單。</value>
+  </data>
+  <data name="Ui.Mods.Ps4ButtonIcons" xml:space="preserve">
+    <value>PS4 按鍵圖示</value>
+  </data>
+  <data name="Ui.Mods.SwapsTheXboxButtonPromptsFor" xml:space="preserve">
+    <value>將 Xbox 按鍵提示換成官方 PS4 圖示。</value>
+  </data>
+  <data name="Ui.Mods.HideEveryCoreguiIcon" xml:space="preserve">
+    <value>隱藏所有 CoreGui 圖示</value>
+  </data>
+  <data name="Ui.Mods.BlanksTheRemainingRobloxInterfaceArt" xml:space="preserve">
+    <value>隱藏其餘的 Roblox 介面圖像。開啟舊版頂端列時會保持開啟。</value>
+  </data>
+  <data name="Ui.Mods.Sounds" xml:space="preserve">
+    <value>音效</value>
+  </data>
+  <data name="Ui.Mods.CustomDeathSound" xml:space="preserve">
+    <value>自訂死亡音效</value>
+  </data>
+  <data name="Ui.Mods.ReplacesTheDeathSoundWithYour" xml:space="preserve">
+    <value>用你自己的音訊取代死亡音效。</value>
+  </data>
+  <data name="Ui.Mods.ChooseSound" xml:space="preserve">
+    <value>選擇音效...</value>
+  </data>
+  <data name="Ui.Mods.RemoveCustomDeathSound" xml:space="preserve">
+    <value>移除自訂死亡音效</value>
+  </data>
+  <data name="Ui.Mods.Volume" xml:space="preserve">
+    <value>音量</value>
+  </data>
+  <data name="Ui.Mods.SkyboxManager" xml:space="preserve">
+    <value>天空盒管理員</value>
+  </data>
+  <data name="Ui.Mods.ChooseASkyboxOnceVoidstrapDownloads" xml:space="preserve">
+    <value>只要選擇一次天空盒，Voidstrap 會在 Roblox 啟動時安全地下載並套用。</value>
+  </data>
+  <data name="Ui.Mods.CustomSkybox" xml:space="preserve">
+    <value>自訂天空盒</value>
+  </data>
+  <data name="Ui.Mods.UseOneImageOrChooseEvery" xml:space="preserve">
+    <value>使用一張圖片或分別選擇立方體的每一面。</value>
+  </data>
+  <data name="Ui.Mods.UseOneImageForEverySide" xml:space="preserve">
+    <value>所有面使用同一張圖片</value>
+  </data>
+  <data name="Ui.Mods.Down" xml:space="preserve">
+    <value>下</value>
+  </data>
+  <data name="Ui.Mods.Front" xml:space="preserve">
+    <value>前</value>
+  </data>
+  <data name="Ui.Mods.Left" xml:space="preserve">
+    <value>左</value>
+  </data>
+  <data name="Ui.Mods.Right" xml:space="preserve">
+    <value>右</value>
+  </data>
+  <data name="Ui.Mods.Up" xml:space="preserve">
+    <value>上</value>
+  </data>
+  <data name="Ui.Mods.RemoveCustom" xml:space="preserve">
+    <value>移除自訂</value>
+  </data>
+  <data name="Ui.Mods.SaveAndUse" xml:space="preserve">
+    <value>儲存並使用</value>
+  </data>
+  <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
+    <value>重新整理天空盒</value>
+  </data>
+  <data name="Ui.Mods.FontManager" xml:space="preserve">
+    <value>字型管理員</value>
+  </data>
+  <data name="Ui.Mods.UseALocalFontOrUse" xml:space="preserve">
+    <value>使用本機字型或 Google Fonts</value>
+  </data>
+  <data name="Ui.Mods.RefreshFonts" xml:space="preserve">
+    <value>重新整理字型</value>
+  </data>
+  <data name="Ui.Mods.ChooseLocalFont" xml:space="preserve">
+    <value>選擇本機字型</value>
+  </data>
+  <data name="Ui.Mods.RemoveFont" xml:space="preserve">
+    <value>移除字型</value>
+  </data>
+  <data name="Ui.Mods.UseFont" xml:space="preserve">
+    <value>使用字型</value>
+  </data>
+  <data name="Ui.Mods.Size" xml:space="preserve">
+    <value>大小</value>
+  </data>
+  <data name="Ui.Mods.HelpAndFixes" xml:space="preserve">
+    <value>說明與修正</value>
+  </data>
+  <data name="Ui.Mods.ModPacks" xml:space="preserve">
+    <value>模組包</value>
+  </data>
+  <data name="Ui.Mods.SearchRobloxMods" xml:space="preserve">
+    <value>搜尋 Roblox 模組</value>
+  </data>
+  <data name="Ui.Mods.Categories" xml:space="preserve">
+    <value>分類</value>
+  </data>
+  <data name="Ui.Mods.AllCategories" xml:space="preserve">
+    <value>所有分類</value>
+  </data>
+  <data name="Ui.Mods.NoModPacksToShow" xml:space="preserve">
+    <value>沒有可顯示的模組包</value>
+  </data>
+  <data name="Ui.Mods.AnythingThatFailsTheRobloxAnd" xml:space="preserve">
+    <value>未通過 Roblox 與安全檢查的內容會被隱藏，因此某個分類可能真的會顯示為空。</value>
+  </data>
+  <data name="Ui.Mods.Page" xml:space="preserve">
+    <value>頁</value>
+  </data>
+  <data name="Ui.Mods.View" xml:space="preserve">
+    <value>檢視</value>
+  </data>
+  <data name="Ui.Mods.LoadMore" xml:space="preserve">
+    <value>載入更多</value>
+  </data>
+  <data name="Ui.Mods.BackToModPacks" xml:space="preserve">
+    <value>返回模組包</value>
+  </data>
+  <data name="Ui.Mods.By" xml:space="preserve">
+    <value>   作者 </value>
+  </data>
+  <data name="Ui.Mods.OpenTheModPage" xml:space="preserve">
+    <value>開啟模組頁面</value>
+  </data>
+  <data name="Ui.Mods.Download" xml:space="preserve">
+    <value>下載</value>
+  </data>
+  <data name="Ui.Mods.ApplyToMyMods" xml:space="preserve">
+    <value>套用到我的模組</value>
+  </data>
+  <data name="Ui.Mods.ApplyForVoidstrap" xml:space="preserve">
+    <value>為 Voidstrap 套用</value>
+  </data>
+  <data name="Ui.Mods.ApplyForFleasion" xml:space="preserve">
+    <value>為 Fleasion 套用</value>
+  </data>
+  <data name="Ui.Mods.License" xml:space="preserve">
+    <value>授權</value>
+  </data>
+  <data name="Ui.Mods.Gallery" xml:space="preserve">
+    <value>圖庫</value>
+  </data>
+  <data name="Ui.Mods.NoCommentsHaveBeenPostedYet" xml:space="preserve">
+    <value>還沒有人留言。</value>
+  </data>
+  <data name="Ui.Mods.NoUpdatesHaveBeenPublished" xml:space="preserve">
+    <value>尚未發布任何更新。</value>
+  </data>
+  <data name="Ui.Mods.NoIssuesAreCurrentlyListed" xml:space="preserve">
+    <value>目前沒有列出的問題。</value>
+  </data>
+  <data name="Ui.Mods.MyMods" xml:space="preserve">
+    <value>我的模組</value>
+  </data>
+  <data name="Ui.Mods.AddAMod" xml:space="preserve">
+    <value>新增模組</value>
+  </data>
+  <data name="Ui.Mods.RefreshTheList" xml:space="preserve">
+    <value>重新整理清單</value>
+  </data>
+  <data name="Ui.Mods.OpenTheModLibraryFolder" xml:space="preserve">
+    <value>開啟模組庫資料夾</value>
+  </data>
+  <data name="Ui.Mods.SearchMods" xml:space="preserve">
+    <value>搜尋模組...</value>
+  </data>
+  <data name="Ui.Mods.AddMod" xml:space="preserve">
+    <value>新增模組</value>
+  </data>
+  <data name="Ui.Mods.MoreModActions" xml:space="preserve">
+    <value>更多模組動作</value>
+  </data>
+  <data name="Ui.Mods.OpenLibrary" xml:space="preserve">
+    <value>開啟模組庫</value>
+  </data>
+  <data name="Ui.Mods.Or" xml:space="preserve">
+    <value>或</value>
+  </data>
+  <data name="Ui.Mods.DragModToChangeApplyOrder" xml:space="preserve">
+    <value>拖曳模組以變更套用順序</value>
+  </data>
+  <data name="Ui.Mods.EnableOrDisableThisMod" xml:space="preserve">
+    <value>啟用或停用此模組</value>
+  </data>
+  <data name="Ui.Mods.Id" xml:space="preserve">
+    <value>   ID: </value>
+  </data>
+  <data name="Ui.Mods.ViewThisModPack" xml:space="preserve">
+    <value>檢視此模組包</value>
+  </data>
+  <data name="Ui.Mods.OpenModFolder" xml:space="preserve">
+    <value>開啟模組資料夾</value>
+  </data>
+  <data name="Ui.Mods.EditOptions" xml:space="preserve">
+    <value>編輯選項</value>
+  </data>
+  <data name="Ui.Mods.EditModOptions" xml:space="preserve">
+    <value>編輯模組選項</value>
+  </data>
+  <data name="Ui.Mods.RenameMod" xml:space="preserve">
+    <value>重新命名模組</value>
+  </data>
+  <data name="Ui.Mods.CopyFullModIdentifier" xml:space="preserve">
+    <value>複製模組完整識別碼</value>
+  </data>
+  <data name="Ui.Mods.RemoveMod" xml:space="preserve">
+    <value>移除模組</value>
+  </data>
+  <data name="Ui.Mods.Overlays" xml:space="preserve">
+    <value>覆疊</value>
+  </data>
+  <data name="Ui.Mods.SessionDock" xml:space="preserve">
+    <value>工作階段停駐列</value>
+  </data>
+  <data name="Ui.Mods.ResetShortcut" xml:space="preserve">
+    <value>重設快速鍵</value>
+  </data>
+  <data name="Ui.Mods.HomepageBackground" xml:space="preserve">
+    <value>首頁背景</value>
+  </data>
+  <data name="Ui.Mods.ReplaceTheDarkRobloxHomeBackground" xml:space="preserve">
+    <value>以色彩、漸層、圖片或影片取代 Roblox 首頁的深色背景</value>
+  </data>
+  <data name="Ui.Mods.WhatToShowBehindTheHome" xml:space="preserve">
+    <value>首頁後方要顯示的內容。</value>
+  </data>
+  <data name="Ui.Mods.Colors" xml:space="preserve">
+    <value>色彩</value>
+  </data>
+  <data name="Ui.Mods.StartAndEndOfTheGradient" xml:space="preserve">
+    <value>漸層的起點和終點。</value>
+  </data>
+  <data name="Ui.Mods.Direction" xml:space="preserve">
+    <value>方向</value>
+  </data>
+  <data name="Ui.Mods.File" xml:space="preserve">
+    <value>檔案</value>
+  </data>
+  <data name="Ui.Mods.Display" xml:space="preserve">
+    <value>顯示</value>
+  </data>
+  <data name="Ui.Mods.ScreenColor" xml:space="preserve">
+    <value>畫面色彩</value>
+  </data>
+  <data name="Ui.Mods.Saturation" xml:space="preserve">
+    <value>飽和度</value>
+  </data>
+  <data name="Ui.Mods.100IsNormal" xml:space="preserve">
+    <value>100 為正常。</value>
+  </data>
+  <data name="Ui.Mods.Contrast" xml:space="preserve">
+    <value>對比</value>
+  </data>
+  <data name="Ui.Mods.Warmth" xml:space="preserve">
+    <value>色溫</value>
+  </data>
+  <data name="Ui.Mods.NegativeIsCoolerPositiveIsWarmer" xml:space="preserve">
+    <value>負值較冷，正值較暖。</value>
+  </data>
+  <data name="Ui.Mods.SmoothingAndFrames" xml:space="preserve">
+    <value>平滑與影格</value>
+  </data>
+  <data name="Ui.Mods.AntiAliasing" xml:space="preserve">
+    <value>反鋸齒</value>
+  </data>
+  <data name="Ui.Mods.SmoothsJaggedEdgesUsingYourGpu" xml:space="preserve">
+    <value>使用 GPU 平滑鋸齒狀邊緣。</value>
+  </data>
+  <data name="Ui.Mods.MotionBlur" xml:space="preserve">
+    <value>動態模糊</value>
+  </data>
+  <data name="Ui.Mods.AddsAMotionTrailToMovement" xml:space="preserve">
+    <value>為動作加入殘影，只作用於移動中的區域，讓介面保持清晰。</value>
+  </data>
+  <data name="Ui.Mods.CustomMotionBlur" xml:space="preserve">
+    <value>自訂動態模糊</value>
+  </data>
+  <data name="Ui.Mods.100IsNormal200IsExtreme" xml:space="preserve">
+    <value>100 為正常，200 為極強，最高可到 500。</value>
+  </data>
+  <data name="Ui.Mods.FrameGenerationV100" xml:space="preserve">
+    <value>影格生成 V1.0.0</value>
+  </data>
+  <data name="Ui.Mods.AddsGeneratedFramesBetweenRealOnes" xml:space="preserve">
+    <value>在真實影格之間加入生成的影格。會稍微增加輸入延遲。</value>
+  </data>
+  <data name="Ui.Mods.ShowGeneratedFrames" xml:space="preserve">
+    <value>顯示生成的影格</value>
+  </data>
+  <data name="Ui.Mods.DisplaysHowManyFramesAreBeing" xml:space="preserve">
+    <value>顯示正在生成的影格數量。</value>
+  </data>
+  <data name="Ui.Mods.FixFrameCap" xml:space="preserve">
+    <value>修正影格率上限</value>
+  </data>
+  <data name="Ui.Mods.ColorBlindness" xml:space="preserve">
+    <value>色盲輔助</value>
+  </data>
+  <data name="Ui.Mods.RecolorsTheScreenSoColorsAre" xml:space="preserve">
+    <value>重新調整畫面色彩，讓顏色更容易分辨</value>
+  </data>
+  <data name="Ui.Mods.ProtanopiaRedGreen" xml:space="preserve">
+    <value>紅色盲 (紅/綠)</value>
+  </data>
+  <data name="Ui.Mods.DeuteranopiaRedGreen" xml:space="preserve">
+    <value>綠色盲 (紅/綠)</value>
+  </data>
+  <data name="Ui.Mods.TritanopiaBlueYellow" xml:space="preserve">
+    <value>藍色盲 (藍/黃)</value>
+  </data>
+  <data name="Ui.Mods.Strength" xml:space="preserve">
+    <value>強度</value>
+  </data>
+  <data name="Ui.Mods.SimulateInstead" xml:space="preserve">
+    <value>改為模擬</value>
+  </data>
+  <data name="Ui.Mods.ShowsWhatColorBlindPeopleSee" xml:space="preserve">
+    <value>顯示色盲者看到的樣子，而不是進行校正。</value>
+  </data>
+  <data name="Ui.Mods.InGameTools" xml:space="preserve">
+    <value>遊戲內工具</value>
+  </data>
+  <data name="Ui.Mods.Clock" xml:space="preserve">
+    <value>時鐘</value>
+  </data>
+  <data name="Ui.Mods.ShowsTheTimeInTheCorner" xml:space="preserve">
+    <value>遊玩時在角落顯示時間。</value>
+  </data>
+  <data name="Ui.Mods.TimeZone" xml:space="preserve">
+    <value>時區</value>
+  </data>
+  <data name="Ui.Mods.SystemFollowsThisComputer" xml:space="preserve">
+    <value>系統會跟隨這台電腦。</value>
+  </data>
+  <data name="Ui.Mods.24HourClock" xml:space="preserve">
+    <value>24 小時制</value>
+  </data>
+  <data name="Ui.Mods.1430InsteadOf230" xml:space="preserve">
+    <value>14:30 而不是 2:30 PM。</value>
+  </data>
+  <data name="Ui.Mods.Crosshair" xml:space="preserve">
+    <value>準心</value>
+  </data>
+  <data name="Ui.Mods.DrawYourOwnCrosshairOverThe" xml:space="preserve">
+    <value>在遊戲上繪製你自己的準心</value>
+  </data>
+  <data name="Ui.Mods.GifLink" xml:space="preserve">
+    <value>GIF 連結</value>
+  </data>
+  <data name="Ui.Mods.AnimatedGifUrlToUseAs" xml:space="preserve">
+    <value>用作準心的動態 GIF 網址。</value>
+  </data>
+  <data name="Ui.Mods.FillAndOutline" xml:space="preserve">
+    <value>填色和外框。</value>
+  </data>
+  <data name="Ui.Mods.Pick" xml:space="preserve">
+    <value>選取</value>
+  </data>
+  <data name="Ui.Mods.Thickness" xml:space="preserve">
+    <value>粗細</value>
+  </data>
+  <data name="Ui.Mods.CenterGap" xml:space="preserve">
+    <value>中央間距</value>
+  </data>
+  <data name="Ui.Mods.Opacity" xml:space="preserve">
+    <value>不透明度</value>
+  </data>
+  <data name="Ui.Mods.ShareOrPasteACrosshairCode" xml:space="preserve">
+    <value>分享或貼上準心代碼。</value>
+  </data>
+  <data name="Ui.Mods.Generate" xml:space="preserve">
+    <value>產生</value>
+  </data>
+  <data name="Ui.Mods.SaveAsFile" xml:space="preserve">
+    <value>另存為檔案</value>
+  </data>
+  <data name="Ui.Mods.BrowseRobloxAssetsPreviewFilesAnd" xml:space="preserve">
+    <value>瀏覽 Roblox 資源、預覽檔案並建立模組替換。</value>
+  </data>
+  <data name="Ui.Mods.CloseModExplorer" xml:space="preserve">
+    <value>關閉模組瀏覽器</value>
+  </data>
+  <data name="Ui.Mods.SearchThisFolder" xml:space="preserve">
+    <value>在此資料夾中搜尋</value>
+  </data>
+  <data name="Ui.Mods.Modified" xml:space="preserve">
+    <value>修改日期</value>
+  </data>
+  <data name="Ui.Mods.FileOperations" xml:space="preserve">
+    <value>檔案操作</value>
+  </data>
+  <data name="Ui.Mods.Details" xml:space="preserve">
+    <value>詳細資料</value>
+  </data>
+  <data name="Ui.Mods.Replace" xml:space="preserve">
+    <value>取代</value>
+  </data>
+  <data name="Ui.Mods.ChooseALocalReplacementForThis" xml:space="preserve">
+    <value>為此資源選擇本機替換檔案</value>
+  </data>
+  <data name="Ui.Mods.Adjust" xml:space="preserve">
+    <value>調整</value>
+  </data>
+  <data name="Ui.Mods.RotateFlipOrResizeThisImage" xml:space="preserve">
+    <value>旋轉、翻轉或調整此圖片大小</value>
+  </data>
+  <data name="Ui.Mods.Recolor" xml:space="preserve">
+    <value>重新上色</value>
+  </data>
+  <data name="Ui.Mods.TintThisImage" xml:space="preserve">
+    <value>為此圖片上色</value>
+  </data>
+  <data name="Ui.Mods.SaveThisFileToYourComputer" xml:space="preserve">
+    <value>將此檔案儲存到你的電腦</value>
+  </data>
+  <data name="Ui.Mods.FindMods2" xml:space="preserve">
+    <value>尋找模組</value>
+  </data>
 </root>

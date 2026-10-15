@@ -3378,4 +3378,511 @@ Ne yapmak istersiniz?</value>
   <data name="Ui.Appearance.Customization" xml:space="preserve">
     <value>Özelleştirme</value>
   </data>
+  <data name="Ui.Mods.Choose" xml:space="preserve">
+    <value>Seç</value>
+  </data>
+  <data name="Ui.Mods.Remove" xml:space="preserve">
+    <value>Kaldır</value>
+  </data>
+  <data name="Ui.Mods.FindMods" xml:space="preserve">
+    <value>Mod bul</value>
+  </data>
+  <data name="Ui.Mods.BrowseCommunityModsOnGamebanana" xml:space="preserve">
+    <value>GameBanana'daki topluluk modlarına göz atın.</value>
+  </data>
+  <data name="Ui.Mods.ModExplorer" xml:space="preserve">
+    <value>Mod gezgini</value>
+  </data>
+  <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
+    <value>Roblox kurulumunuzdaki dosyaları görüntüleyin ve yönetin.</value>
+  </data>
+  <data name="Ui.Mods.ChooseWhetherYourModsAreApplied" xml:space="preserve">
+    <value>Modlarınızın Roblox oynatıcısına mı, Roblox Studio'ya mı yoksa ikisine birden mi uygulanacağını seçin.</value>
+  </data>
+  <data name="Ui.Mods.ApplyModsTo" xml:space="preserve">
+    <value>Modları uygula</value>
+  </data>
+  <data name="Ui.Mods.Cursor" xml:space="preserve">
+    <value>İmleç</value>
+  </data>
+  <data name="Ui.Mods.CursorStyle" xml:space="preserve">
+    <value>İmleç stili</value>
+  </data>
+  <data name="Ui.Mods.UseTheRobloxCursorABuilt" xml:space="preserve">
+    <value>Roblox imlecini, yerleşik bir stili veya kendi resimlerinizi kullanın.</value>
+  </data>
+  <data name="Ui.Mods.CustomCursor" xml:space="preserve">
+    <value>Özel imleç</value>
+  </data>
+  <data name="Ui.Mods.UseOneImageForThePointer" xml:space="preserve">
+    <value>İşaretçi, erişim dışı işaretçi ve metin imleci için tek bir resim kullanın.</value>
+  </data>
+  <data name="Ui.Mods.CustomDragCursor" xml:space="preserve">
+    <value>Özel sürükleme imleci</value>
+  </data>
+  <data name="Ui.Mods.ShownWhileDraggingInRobloxStudio" xml:space="preserve">
+    <value>Roblox Studio'da sürüklerken gösterilir.</value>
+  </data>
+  <data name="Ui.Mods.CustomShiftlock" xml:space="preserve">
+    <value>Özel shift lock</value>
+  </data>
+  <data name="Ui.Mods.ShownInTheMiddleOfThe" xml:space="preserve">
+    <value>Shift lock açıkken ekranın ortasında gösterilir. Tüm imleç stilleriyle çalışır.</value>
+  </data>
+  <data name="Ui.Mods.CustomCursorSets" xml:space="preserve">
+    <value>Özel imleç setleri</value>
+  </data>
+  <data name="Ui.Mods.KeepSeveralCursorSetsReadyAnd" xml:space="preserve">
+    <value>Birkaç imleç setini hazır tutun ve tek tıkla aralarında geçiş yapın.</value>
+  </data>
+  <data name="Ui.Mods.NoCursorSetsYetPressNew" xml:space="preserve">
+    <value>Henüz imleç seti yok. Oluşturmak için Yeni'ye basın veya bir zip içe aktarın.</value>
+  </data>
+  <data name="Ui.Mods.Folder" xml:space="preserve">
+    <value>Klasör</value>
+  </data>
+  <data name="Ui.Mods.OpenTheCursorSetsFolder" xml:space="preserve">
+    <value>İmleç setleri klasörünü aç</value>
+  </data>
+  <data name="Ui.Mods.UseThisSet" xml:space="preserve">
+    <value>Bu seti kullan</value>
+  </data>
+  <data name="Ui.Mods.CopyCurrentCursor" xml:space="preserve">
+    <value>Geçerli imleci kopyala</value>
+  </data>
+  <data name="Ui.Mods.ReplaceThisSetWithYourCurrent" xml:space="preserve">
+    <value>Bu seti geçerli özel imlecinizle ve shift lock simgenizle değiştirin</value>
+  </data>
+  <data name="Ui.Mods.Interface" xml:space="preserve">
+    <value>Arayüz</value>
+  </data>
+  <data name="Ui.Mods.OldRobloxTopbarUi" xml:space="preserve">
+    <value>Eski Roblox üst çubuğu</value>
+  </data>
+  <data name="Ui.Mods.The2014To2015TopbarAnd" xml:space="preserve">
+    <value>2014 ile 2015 arasındaki üst çubuk ve oyun menüsü, katman olarak.</value>
+  </data>
+  <data name="Ui.Mods.Ps4ButtonIcons" xml:space="preserve">
+    <value>PS4 düğme simgeleri</value>
+  </data>
+  <data name="Ui.Mods.SwapsTheXboxButtonPromptsFor" xml:space="preserve">
+    <value>Xbox düğme ipuçlarını resmi PS4 simgeleriyle değiştirir.</value>
+  </data>
+  <data name="Ui.Mods.HideEveryCoreguiIcon" xml:space="preserve">
+    <value>Tüm CoreGui simgelerini gizle</value>
+  </data>
+  <data name="Ui.Mods.BlanksTheRemainingRobloxInterfaceArt" xml:space="preserve">
+    <value>Kalan Roblox arayüz görsellerini gizler. Eski üst çubuk açıkken açık kalır.</value>
+  </data>
+  <data name="Ui.Mods.Sounds" xml:space="preserve">
+    <value>Sesler</value>
+  </data>
+  <data name="Ui.Mods.CustomDeathSound" xml:space="preserve">
+    <value>Özel ölüm sesi</value>
+  </data>
+  <data name="Ui.Mods.ReplacesTheDeathSoundWithYour" xml:space="preserve">
+    <value>Ölüm sesini kendi sesinizle değiştirir.</value>
+  </data>
+  <data name="Ui.Mods.ChooseSound" xml:space="preserve">
+    <value>Ses seç...</value>
+  </data>
+  <data name="Ui.Mods.RemoveCustomDeathSound" xml:space="preserve">
+    <value>Özel ölüm sesini kaldır</value>
+  </data>
+  <data name="Ui.Mods.Volume" xml:space="preserve">
+    <value>Ses düzeyi</value>
+  </data>
+  <data name="Ui.Mods.SkyboxManager" xml:space="preserve">
+    <value>Skybox yöneticisi</value>
+  </data>
+  <data name="Ui.Mods.ChooseASkyboxOnceVoidstrapDownloads" xml:space="preserve">
+    <value>Bir kez skybox seçin. Voidstrap, Roblox başladığında onu indirir ve güvenle uygular.</value>
+  </data>
+  <data name="Ui.Mods.CustomSkybox" xml:space="preserve">
+    <value>Özel skybox</value>
+  </data>
+  <data name="Ui.Mods.UseOneImageOrChooseEvery" xml:space="preserve">
+    <value>Tek bir resim kullanın veya küpün her yüzünü seçin.</value>
+  </data>
+  <data name="Ui.Mods.UseOneImageForEverySide" xml:space="preserve">
+    <value>Her yüz için tek resim kullan</value>
+  </data>
+  <data name="Ui.Mods.Down" xml:space="preserve">
+    <value>Alt</value>
+  </data>
+  <data name="Ui.Mods.Front" xml:space="preserve">
+    <value>Ön</value>
+  </data>
+  <data name="Ui.Mods.Left" xml:space="preserve">
+    <value>Sol</value>
+  </data>
+  <data name="Ui.Mods.Right" xml:space="preserve">
+    <value>Sağ</value>
+  </data>
+  <data name="Ui.Mods.Up" xml:space="preserve">
+    <value>Üst</value>
+  </data>
+  <data name="Ui.Mods.RemoveCustom" xml:space="preserve">
+    <value>Özeli kaldır</value>
+  </data>
+  <data name="Ui.Mods.SaveAndUse" xml:space="preserve">
+    <value>Kaydet ve kullan</value>
+  </data>
+  <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
+    <value>Skybox'ları yenile</value>
+  </data>
+  <data name="Ui.Mods.FontManager" xml:space="preserve">
+    <value>Yazı tipi yöneticisi</value>
+  </data>
+  <data name="Ui.Mods.UseALocalFontOrUse" xml:space="preserve">
+    <value>Yerel bir yazı tipi veya Google Fonts kullanın</value>
+  </data>
+  <data name="Ui.Mods.RefreshFonts" xml:space="preserve">
+    <value>Yazı tiplerini yenile</value>
+  </data>
+  <data name="Ui.Mods.ChooseLocalFont" xml:space="preserve">
+    <value>Yerel yazı tipi seç</value>
+  </data>
+  <data name="Ui.Mods.RemoveFont" xml:space="preserve">
+    <value>Yazı tipini kaldır</value>
+  </data>
+  <data name="Ui.Mods.UseFont" xml:space="preserve">
+    <value>Yazı tipini kullan</value>
+  </data>
+  <data name="Ui.Mods.Size" xml:space="preserve">
+    <value>Boyut</value>
+  </data>
+  <data name="Ui.Mods.HelpAndFixes" xml:space="preserve">
+    <value>Yardım ve düzeltmeler</value>
+  </data>
+  <data name="Ui.Mods.ModPacks" xml:space="preserve">
+    <value>Mod paketleri</value>
+  </data>
+  <data name="Ui.Mods.SearchRobloxMods" xml:space="preserve">
+    <value>Roblox modlarında ara</value>
+  </data>
+  <data name="Ui.Mods.Categories" xml:space="preserve">
+    <value>Kategoriler</value>
+  </data>
+  <data name="Ui.Mods.AllCategories" xml:space="preserve">
+    <value>Tüm kategoriler</value>
+  </data>
+  <data name="Ui.Mods.NoModPacksToShow" xml:space="preserve">
+    <value>Gösterilecek mod paketi yok</value>
+  </data>
+  <data name="Ui.Mods.AnythingThatFailsTheRobloxAnd" xml:space="preserve">
+    <value>Roblox ve güvenlik denetimlerini geçemeyen her şey gizlenir, bu yüzden bir kategori gerçekten boş görünebilir.</value>
+  </data>
+  <data name="Ui.Mods.Page" xml:space="preserve">
+    <value>Sayfa</value>
+  </data>
+  <data name="Ui.Mods.View" xml:space="preserve">
+    <value>Görünüm</value>
+  </data>
+  <data name="Ui.Mods.LoadMore" xml:space="preserve">
+    <value>Daha fazla yükle</value>
+  </data>
+  <data name="Ui.Mods.BackToModPacks" xml:space="preserve">
+    <value>Mod paketlerine dön</value>
+  </data>
+  <data name="Ui.Mods.By" xml:space="preserve">
+    <value>   yapan: </value>
+  </data>
+  <data name="Ui.Mods.OpenTheModPage" xml:space="preserve">
+    <value>Mod sayfasını aç</value>
+  </data>
+  <data name="Ui.Mods.Download" xml:space="preserve">
+    <value>İndir</value>
+  </data>
+  <data name="Ui.Mods.ApplyToMyMods" xml:space="preserve">
+    <value>Modlarım'a uygula</value>
+  </data>
+  <data name="Ui.Mods.ApplyForVoidstrap" xml:space="preserve">
+    <value>Voidstrap için uygula</value>
+  </data>
+  <data name="Ui.Mods.ApplyForFleasion" xml:space="preserve">
+    <value>Fleasion için uygula</value>
+  </data>
+  <data name="Ui.Mods.License" xml:space="preserve">
+    <value>Lisans</value>
+  </data>
+  <data name="Ui.Mods.Gallery" xml:space="preserve">
+    <value>Galeri</value>
+  </data>
+  <data name="Ui.Mods.NoCommentsHaveBeenPostedYet" xml:space="preserve">
+    <value>Henüz yorum yapılmadı.</value>
+  </data>
+  <data name="Ui.Mods.NoUpdatesHaveBeenPublished" xml:space="preserve">
+    <value>Henüz güncelleme yayımlanmadı.</value>
+  </data>
+  <data name="Ui.Mods.NoIssuesAreCurrentlyListed" xml:space="preserve">
+    <value>Şu anda listelenen sorun yok.</value>
+  </data>
+  <data name="Ui.Mods.MyMods" xml:space="preserve">
+    <value>Modlarım</value>
+  </data>
+  <data name="Ui.Mods.AddAMod" xml:space="preserve">
+    <value>Mod ekle</value>
+  </data>
+  <data name="Ui.Mods.RefreshTheList" xml:space="preserve">
+    <value>Listeyi yenile</value>
+  </data>
+  <data name="Ui.Mods.OpenTheModLibraryFolder" xml:space="preserve">
+    <value>Mod kitaplığı klasörünü aç</value>
+  </data>
+  <data name="Ui.Mods.SearchMods" xml:space="preserve">
+    <value>Mod ara...</value>
+  </data>
+  <data name="Ui.Mods.AddMod" xml:space="preserve">
+    <value>Mod ekle</value>
+  </data>
+  <data name="Ui.Mods.MoreModActions" xml:space="preserve">
+    <value>Diğer mod işlemleri</value>
+  </data>
+  <data name="Ui.Mods.OpenLibrary" xml:space="preserve">
+    <value>Kitaplığı aç</value>
+  </data>
+  <data name="Ui.Mods.Or" xml:space="preserve">
+    <value>VEYA</value>
+  </data>
+  <data name="Ui.Mods.DragModToChangeApplyOrder" xml:space="preserve">
+    <value>Uygulama sırasını değiştirmek için modu sürükleyin</value>
+  </data>
+  <data name="Ui.Mods.EnableOrDisableThisMod" xml:space="preserve">
+    <value>Bu modu etkinleştir veya devre dışı bırak</value>
+  </data>
+  <data name="Ui.Mods.Id" xml:space="preserve">
+    <value>   ID: </value>
+  </data>
+  <data name="Ui.Mods.ViewThisModPack" xml:space="preserve">
+    <value>Bu mod paketini görüntüle</value>
+  </data>
+  <data name="Ui.Mods.OpenModFolder" xml:space="preserve">
+    <value>Mod klasörünü aç</value>
+  </data>
+  <data name="Ui.Mods.EditOptions" xml:space="preserve">
+    <value>Seçenekleri düzenle</value>
+  </data>
+  <data name="Ui.Mods.EditModOptions" xml:space="preserve">
+    <value>Mod seçeneklerini düzenle</value>
+  </data>
+  <data name="Ui.Mods.RenameMod" xml:space="preserve">
+    <value>Modu yeniden adlandır</value>
+  </data>
+  <data name="Ui.Mods.CopyFullModIdentifier" xml:space="preserve">
+    <value>Tam mod kimliğini kopyala</value>
+  </data>
+  <data name="Ui.Mods.RemoveMod" xml:space="preserve">
+    <value>Modu kaldır</value>
+  </data>
+  <data name="Ui.Mods.Overlays" xml:space="preserve">
+    <value>Katmanlar</value>
+  </data>
+  <data name="Ui.Mods.SessionDock" xml:space="preserve">
+    <value>Oturum çubuğu</value>
+  </data>
+  <data name="Ui.Mods.ResetShortcut" xml:space="preserve">
+    <value>Kısayolu sıfırla</value>
+  </data>
+  <data name="Ui.Mods.HomepageBackground" xml:space="preserve">
+    <value>Ana sayfa arka planı</value>
+  </data>
+  <data name="Ui.Mods.ReplaceTheDarkRobloxHomeBackground" xml:space="preserve">
+    <value>Koyu Roblox ana sayfa arka planını bir renk, geçiş, resim veya videoyla değiştirin</value>
+  </data>
+  <data name="Ui.Mods.WhatToShowBehindTheHome" xml:space="preserve">
+    <value>Ana sayfanın arkasında ne gösterileceği.</value>
+  </data>
+  <data name="Ui.Mods.Colors" xml:space="preserve">
+    <value>Renkler</value>
+  </data>
+  <data name="Ui.Mods.StartAndEndOfTheGradient" xml:space="preserve">
+    <value>Geçişin başlangıcı ve sonu.</value>
+  </data>
+  <data name="Ui.Mods.Direction" xml:space="preserve">
+    <value>Yön</value>
+  </data>
+  <data name="Ui.Mods.File" xml:space="preserve">
+    <value>Dosya</value>
+  </data>
+  <data name="Ui.Mods.Display" xml:space="preserve">
+    <value>Ekran</value>
+  </data>
+  <data name="Ui.Mods.ScreenColor" xml:space="preserve">
+    <value>Ekran rengi</value>
+  </data>
+  <data name="Ui.Mods.Saturation" xml:space="preserve">
+    <value>Doygunluk</value>
+  </data>
+  <data name="Ui.Mods.100IsNormal" xml:space="preserve">
+    <value>100 normaldir.</value>
+  </data>
+  <data name="Ui.Mods.Contrast" xml:space="preserve">
+    <value>Kontrast</value>
+  </data>
+  <data name="Ui.Mods.Warmth" xml:space="preserve">
+    <value>Sıcaklık</value>
+  </data>
+  <data name="Ui.Mods.NegativeIsCoolerPositiveIsWarmer" xml:space="preserve">
+    <value>Negatif daha soğuk, pozitif daha sıcaktır.</value>
+  </data>
+  <data name="Ui.Mods.SmoothingAndFrames" xml:space="preserve">
+    <value>Yumuşatma ve kareler</value>
+  </data>
+  <data name="Ui.Mods.AntiAliasing" xml:space="preserve">
+    <value>Kenar yumuşatma</value>
+  </data>
+  <data name="Ui.Mods.SmoothsJaggedEdgesUsingYourGpu" xml:space="preserve">
+    <value>Pürüzlü kenarları GPU'nuzla yumuşatır.</value>
+  </data>
+  <data name="Ui.Mods.MotionBlur" xml:space="preserve">
+    <value>Hareket bulanıklığı</value>
+  </data>
+  <data name="Ui.Mods.AddsAMotionTrailToMovement" xml:space="preserve">
+    <value>Harekete iz ekler, yalnızca hareketli alanlarda, böylece arayüz keskin kalır.</value>
+  </data>
+  <data name="Ui.Mods.CustomMotionBlur" xml:space="preserve">
+    <value>Özel hareket bulanıklığı</value>
+  </data>
+  <data name="Ui.Mods.100IsNormal200IsExtreme" xml:space="preserve">
+    <value>100 Normal, 200 Aşırı, en fazla 500'e çıkar.</value>
+  </data>
+  <data name="Ui.Mods.FrameGenerationV100" xml:space="preserve">
+    <value>Kare üretimi V1.0.0</value>
+  </data>
+  <data name="Ui.Mods.AddsGeneratedFramesBetweenRealOnes" xml:space="preserve">
+    <value>Gerçek kareler arasına üretilmiş kareler ekler. Biraz giriş gecikmesi ekler.</value>
+  </data>
+  <data name="Ui.Mods.ShowGeneratedFrames" xml:space="preserve">
+    <value>Üretilen kareleri göster</value>
+  </data>
+  <data name="Ui.Mods.DisplaysHowManyFramesAreBeing" xml:space="preserve">
+    <value>Kaç kare üretildiğini gösterir.</value>
+  </data>
+  <data name="Ui.Mods.FixFrameCap" xml:space="preserve">
+    <value>Kare sınırını düzelt</value>
+  </data>
+  <data name="Ui.Mods.ColorBlindness" xml:space="preserve">
+    <value>Renk körlüğü</value>
+  </data>
+  <data name="Ui.Mods.RecolorsTheScreenSoColorsAre" xml:space="preserve">
+    <value>Renkleri ayırt etmeyi kolaylaştırmak için ekranı yeniden renklendirir</value>
+  </data>
+  <data name="Ui.Mods.ProtanopiaRedGreen" xml:space="preserve">
+    <value>Protanopi (kırmızı/yeşil)</value>
+  </data>
+  <data name="Ui.Mods.DeuteranopiaRedGreen" xml:space="preserve">
+    <value>Döteranopi (kırmızı/yeşil)</value>
+  </data>
+  <data name="Ui.Mods.TritanopiaBlueYellow" xml:space="preserve">
+    <value>Tritanopi (mavi/sarı)</value>
+  </data>
+  <data name="Ui.Mods.Strength" xml:space="preserve">
+    <value>Güç</value>
+  </data>
+  <data name="Ui.Mods.SimulateInstead" xml:space="preserve">
+    <value>Bunun yerine simüle et</value>
+  </data>
+  <data name="Ui.Mods.ShowsWhatColorBlindPeopleSee" xml:space="preserve">
+    <value>Düzeltmek yerine renk körü kişilerin ne gördüğünü gösterir.</value>
+  </data>
+  <data name="Ui.Mods.InGameTools" xml:space="preserve">
+    <value>Oyun içi araçlar</value>
+  </data>
+  <data name="Ui.Mods.Clock" xml:space="preserve">
+    <value>Saat</value>
+  </data>
+  <data name="Ui.Mods.ShowsTheTimeInTheCorner" xml:space="preserve">
+    <value>Oynarken saati köşede gösterir.</value>
+  </data>
+  <data name="Ui.Mods.TimeZone" xml:space="preserve">
+    <value>Saat dilimi</value>
+  </data>
+  <data name="Ui.Mods.SystemFollowsThisComputer" xml:space="preserve">
+    <value>Sistem bu bilgisayarı izler.</value>
+  </data>
+  <data name="Ui.Mods.24HourClock" xml:space="preserve">
+    <value>24 saat biçimi</value>
+  </data>
+  <data name="Ui.Mods.1430InsteadOf230" xml:space="preserve">
+    <value>2:30 PM yerine 14:30.</value>
+  </data>
+  <data name="Ui.Mods.Crosshair" xml:space="preserve">
+    <value>Nişangâh</value>
+  </data>
+  <data name="Ui.Mods.DrawYourOwnCrosshairOverThe" xml:space="preserve">
+    <value>Oyunun üzerine kendi nişangâhınızı çizin</value>
+  </data>
+  <data name="Ui.Mods.GifLink" xml:space="preserve">
+    <value>GIF bağlantısı</value>
+  </data>
+  <data name="Ui.Mods.AnimatedGifUrlToUseAs" xml:space="preserve">
+    <value>Nişangâh olarak kullanılacak hareketli GIF URL'si.</value>
+  </data>
+  <data name="Ui.Mods.FillAndOutline" xml:space="preserve">
+    <value>Dolgu ve kenar.</value>
+  </data>
+  <data name="Ui.Mods.Pick" xml:space="preserve">
+    <value>Seç</value>
+  </data>
+  <data name="Ui.Mods.Thickness" xml:space="preserve">
+    <value>Kalınlık</value>
+  </data>
+  <data name="Ui.Mods.CenterGap" xml:space="preserve">
+    <value>Orta boşluk</value>
+  </data>
+  <data name="Ui.Mods.Opacity" xml:space="preserve">
+    <value>Opaklık</value>
+  </data>
+  <data name="Ui.Mods.ShareOrPasteACrosshairCode" xml:space="preserve">
+    <value>Bir nişangâh kodu paylaşın veya yapıştırın.</value>
+  </data>
+  <data name="Ui.Mods.Generate" xml:space="preserve">
+    <value>Oluştur</value>
+  </data>
+  <data name="Ui.Mods.SaveAsFile" xml:space="preserve">
+    <value>Dosya olarak kaydet</value>
+  </data>
+  <data name="Ui.Mods.BrowseRobloxAssetsPreviewFilesAnd" xml:space="preserve">
+    <value>Roblox varlıklarına göz atın, dosyaları önizleyin ve mod değişimleri oluşturun.</value>
+  </data>
+  <data name="Ui.Mods.CloseModExplorer" xml:space="preserve">
+    <value>Mod gezginini kapat</value>
+  </data>
+  <data name="Ui.Mods.SearchThisFolder" xml:space="preserve">
+    <value>Bu klasörde ara</value>
+  </data>
+  <data name="Ui.Mods.Modified" xml:space="preserve">
+    <value>Değiştirilme</value>
+  </data>
+  <data name="Ui.Mods.FileOperations" xml:space="preserve">
+    <value>Dosya işlemleri</value>
+  </data>
+  <data name="Ui.Mods.Details" xml:space="preserve">
+    <value>Ayrıntılar</value>
+  </data>
+  <data name="Ui.Mods.Replace" xml:space="preserve">
+    <value>Değiştir</value>
+  </data>
+  <data name="Ui.Mods.ChooseALocalReplacementForThis" xml:space="preserve">
+    <value>Bu varlık için yerel bir değişim seç</value>
+  </data>
+  <data name="Ui.Mods.Adjust" xml:space="preserve">
+    <value>Ayarla</value>
+  </data>
+  <data name="Ui.Mods.RotateFlipOrResizeThisImage" xml:space="preserve">
+    <value>Bu resmi döndür, çevir veya yeniden boyutlandır</value>
+  </data>
+  <data name="Ui.Mods.Recolor" xml:space="preserve">
+    <value>Yeniden renklendir</value>
+  </data>
+  <data name="Ui.Mods.TintThisImage" xml:space="preserve">
+    <value>Bu resmi renklendir</value>
+  </data>
+  <data name="Ui.Mods.SaveThisFileToYourComputer" xml:space="preserve">
+    <value>Bu dosyayı bilgisayarına kaydet</value>
+  </data>
+  <data name="Ui.Mods.FindMods2" xml:space="preserve">
+    <value>Mod bul</value>
+  </data>
 </root>

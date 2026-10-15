@@ -3378,4 +3378,511 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
   <data name="Ui.Appearance.Customization" xml:space="preserve">
     <value>การปรับแต่ง</value>
   </data>
+  <data name="Ui.Mods.Choose" xml:space="preserve">
+    <value>เลือก</value>
+  </data>
+  <data name="Ui.Mods.Remove" xml:space="preserve">
+    <value>นำออก</value>
+  </data>
+  <data name="Ui.Mods.FindMods" xml:space="preserve">
+    <value>ค้นหาม็อด</value>
+  </data>
+  <data name="Ui.Mods.BrowseCommunityModsOnGamebanana" xml:space="preserve">
+    <value>เรียกดูม็อดจากชุมชนบน GameBanana</value>
+  </data>
+  <data name="Ui.Mods.ModExplorer" xml:space="preserve">
+    <value>ตัวสำรวจม็อด</value>
+  </data>
+  <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
+    <value>ดูและจัดการไฟล์ในการติดตั้ง Roblox ของคุณ</value>
+  </data>
+  <data name="Ui.Mods.ChooseWhetherYourModsAreApplied" xml:space="preserve">
+    <value>เลือกว่าจะใช้ม็อดกับ Roblox Player, Roblox Studio หรือทั้งสองอย่าง</value>
+  </data>
+  <data name="Ui.Mods.ApplyModsTo" xml:space="preserve">
+    <value>ใช้ม็อดกับ</value>
+  </data>
+  <data name="Ui.Mods.Cursor" xml:space="preserve">
+    <value>เคอร์เซอร์</value>
+  </data>
+  <data name="Ui.Mods.CursorStyle" xml:space="preserve">
+    <value>สไตล์เคอร์เซอร์</value>
+  </data>
+  <data name="Ui.Mods.UseTheRobloxCursorABuilt" xml:space="preserve">
+    <value>ใช้เคอร์เซอร์ของ Roblox สไตล์ในตัว หรือรูปภาพของคุณเอง</value>
+  </data>
+  <data name="Ui.Mods.CustomCursor" xml:space="preserve">
+    <value>เคอร์เซอร์แบบกำหนดเอง</value>
+  </data>
+  <data name="Ui.Mods.UseOneImageForThePointer" xml:space="preserve">
+    <value>ใช้รูปเดียวสำหรับตัวชี้ ตัวชี้นอกระยะ และเคอร์เซอร์ข้อความ</value>
+  </data>
+  <data name="Ui.Mods.CustomDragCursor" xml:space="preserve">
+    <value>เคอร์เซอร์ลากแบบกำหนดเอง</value>
+  </data>
+  <data name="Ui.Mods.ShownWhileDraggingInRobloxStudio" xml:space="preserve">
+    <value>แสดงขณะลากใน Roblox Studio</value>
+  </data>
+  <data name="Ui.Mods.CustomShiftlock" xml:space="preserve">
+    <value>Shift lock แบบกำหนดเอง</value>
+  </data>
+  <data name="Ui.Mods.ShownInTheMiddleOfThe" xml:space="preserve">
+    <value>แสดงกลางหน้าจอขณะเปิด shift lock ใช้ได้กับทุกสไตล์เคอร์เซอร์</value>
+  </data>
+  <data name="Ui.Mods.CustomCursorSets" xml:space="preserve">
+    <value>ชุดเคอร์เซอร์แบบกำหนดเอง</value>
+  </data>
+  <data name="Ui.Mods.KeepSeveralCursorSetsReadyAnd" xml:space="preserve">
+    <value>เตรียมชุดเคอร์เซอร์ไว้หลายชุดและสลับได้ในคลิกเดียว</value>
+  </data>
+  <data name="Ui.Mods.NoCursorSetsYetPressNew" xml:space="preserve">
+    <value>ยังไม่มีชุดเคอร์เซอร์ กด ใหม่ เพื่อสร้าง หรือนำเข้าไฟล์ zip</value>
+  </data>
+  <data name="Ui.Mods.Folder" xml:space="preserve">
+    <value>โฟลเดอร์</value>
+  </data>
+  <data name="Ui.Mods.OpenTheCursorSetsFolder" xml:space="preserve">
+    <value>เปิดโฟลเดอร์ชุดเคอร์เซอร์</value>
+  </data>
+  <data name="Ui.Mods.UseThisSet" xml:space="preserve">
+    <value>ใช้ชุดนี้</value>
+  </data>
+  <data name="Ui.Mods.CopyCurrentCursor" xml:space="preserve">
+    <value>คัดลอกเคอร์เซอร์ปัจจุบัน</value>
+  </data>
+  <data name="Ui.Mods.ReplaceThisSetWithYourCurrent" xml:space="preserve">
+    <value>แทนที่ชุดนี้ด้วยเคอร์เซอร์แบบกำหนดเองและไอคอน shift lock ปัจจุบันของคุณ</value>
+  </data>
+  <data name="Ui.Mods.Interface" xml:space="preserve">
+    <value>อินเทอร์เฟซ</value>
+  </data>
+  <data name="Ui.Mods.OldRobloxTopbarUi" xml:space="preserve">
+    <value>แถบด้านบน Roblox แบบเก่า</value>
+  </data>
+  <data name="Ui.Mods.The2014To2015TopbarAnd" xml:space="preserve">
+    <value>แถบด้านบนและเมนูเกมจากปี 2014 ถึง 2015 แบบโอเวอร์เลย์</value>
+  </data>
+  <data name="Ui.Mods.Ps4ButtonIcons" xml:space="preserve">
+    <value>ไอคอนปุ่ม PS4</value>
+  </data>
+  <data name="Ui.Mods.SwapsTheXboxButtonPromptsFor" xml:space="preserve">
+    <value>เปลี่ยนคำแนะนำปุ่ม Xbox เป็นไอคอน PS4 อย่างเป็นทางการ</value>
+  </data>
+  <data name="Ui.Mods.HideEveryCoreguiIcon" xml:space="preserve">
+    <value>ซ่อนไอคอน CoreGui ทั้งหมด</value>
+  </data>
+  <data name="Ui.Mods.BlanksTheRemainingRobloxInterfaceArt" xml:space="preserve">
+    <value>ซ่อนภาพอินเทอร์เฟซ Roblox ที่เหลือ เปิดค้างไว้ตลอดขณะที่เปิดแถบด้านบนแบบเก่า</value>
+  </data>
+  <data name="Ui.Mods.Sounds" xml:space="preserve">
+    <value>เสียง</value>
+  </data>
+  <data name="Ui.Mods.CustomDeathSound" xml:space="preserve">
+    <value>เสียงตายแบบกำหนดเอง</value>
+  </data>
+  <data name="Ui.Mods.ReplacesTheDeathSoundWithYour" xml:space="preserve">
+    <value>แทนที่เสียงตายด้วยเสียงของคุณเอง</value>
+  </data>
+  <data name="Ui.Mods.ChooseSound" xml:space="preserve">
+    <value>เลือกเสียง...</value>
+  </data>
+  <data name="Ui.Mods.RemoveCustomDeathSound" xml:space="preserve">
+    <value>นำเสียงตายแบบกำหนดเองออก</value>
+  </data>
+  <data name="Ui.Mods.Volume" xml:space="preserve">
+    <value>ระดับเสียง</value>
+  </data>
+  <data name="Ui.Mods.SkyboxManager" xml:space="preserve">
+    <value>ตัวจัดการสกายบ็อกซ์</value>
+  </data>
+  <data name="Ui.Mods.ChooseASkyboxOnceVoidstrapDownloads" xml:space="preserve">
+    <value>เลือกสกายบ็อกซ์ครั้งเดียว Voidstrap จะดาวน์โหลดและใช้อย่างปลอดภัยเมื่อ Roblox เริ่มทำงาน</value>
+  </data>
+  <data name="Ui.Mods.CustomSkybox" xml:space="preserve">
+    <value>สกายบ็อกซ์แบบกำหนดเอง</value>
+  </data>
+  <data name="Ui.Mods.UseOneImageOrChooseEvery" xml:space="preserve">
+    <value>ใช้รูปเดียวหรือเลือกทุกด้านของลูกบาศก์</value>
+  </data>
+  <data name="Ui.Mods.UseOneImageForEverySide" xml:space="preserve">
+    <value>ใช้รูปเดียวสำหรับทุกด้าน</value>
+  </data>
+  <data name="Ui.Mods.Down" xml:space="preserve">
+    <value>ล่าง</value>
+  </data>
+  <data name="Ui.Mods.Front" xml:space="preserve">
+    <value>หน้า</value>
+  </data>
+  <data name="Ui.Mods.Left" xml:space="preserve">
+    <value>ซ้าย</value>
+  </data>
+  <data name="Ui.Mods.Right" xml:space="preserve">
+    <value>ขวา</value>
+  </data>
+  <data name="Ui.Mods.Up" xml:space="preserve">
+    <value>บน</value>
+  </data>
+  <data name="Ui.Mods.RemoveCustom" xml:space="preserve">
+    <value>นำแบบกำหนดเองออก</value>
+  </data>
+  <data name="Ui.Mods.SaveAndUse" xml:space="preserve">
+    <value>บันทึกและใช้</value>
+  </data>
+  <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
+    <value>รีเฟรชสกายบ็อกซ์</value>
+  </data>
+  <data name="Ui.Mods.FontManager" xml:space="preserve">
+    <value>ตัวจัดการฟอนต์</value>
+  </data>
+  <data name="Ui.Mods.UseALocalFontOrUse" xml:space="preserve">
+    <value>ใช้ฟอนต์ในเครื่องหรือ Google Fonts</value>
+  </data>
+  <data name="Ui.Mods.RefreshFonts" xml:space="preserve">
+    <value>รีเฟรชฟอนต์</value>
+  </data>
+  <data name="Ui.Mods.ChooseLocalFont" xml:space="preserve">
+    <value>เลือกฟอนต์ในเครื่อง</value>
+  </data>
+  <data name="Ui.Mods.RemoveFont" xml:space="preserve">
+    <value>นำฟอนต์ออก</value>
+  </data>
+  <data name="Ui.Mods.UseFont" xml:space="preserve">
+    <value>ใช้ฟอนต์</value>
+  </data>
+  <data name="Ui.Mods.Size" xml:space="preserve">
+    <value>ขนาด</value>
+  </data>
+  <data name="Ui.Mods.HelpAndFixes" xml:space="preserve">
+    <value>ความช่วยเหลือและการแก้ไข</value>
+  </data>
+  <data name="Ui.Mods.ModPacks" xml:space="preserve">
+    <value>แพ็กม็อด</value>
+  </data>
+  <data name="Ui.Mods.SearchRobloxMods" xml:space="preserve">
+    <value>ค้นหาม็อด Roblox</value>
+  </data>
+  <data name="Ui.Mods.Categories" xml:space="preserve">
+    <value>หมวดหมู่</value>
+  </data>
+  <data name="Ui.Mods.AllCategories" xml:space="preserve">
+    <value>ทุกหมวดหมู่</value>
+  </data>
+  <data name="Ui.Mods.NoModPacksToShow" xml:space="preserve">
+    <value>ไม่มีแพ็กม็อดให้แสดง</value>
+  </data>
+  <data name="Ui.Mods.AnythingThatFailsTheRobloxAnd" xml:space="preserve">
+    <value>สิ่งที่ไม่ผ่านการตรวจสอบของ Roblox และความปลอดภัยจะถูกซ่อน หมวดหมู่จึงอาจดูว่างเปล่าจริงๆ</value>
+  </data>
+  <data name="Ui.Mods.Page" xml:space="preserve">
+    <value>หน้า</value>
+  </data>
+  <data name="Ui.Mods.View" xml:space="preserve">
+    <value>มุมมอง</value>
+  </data>
+  <data name="Ui.Mods.LoadMore" xml:space="preserve">
+    <value>โหลดเพิ่ม</value>
+  </data>
+  <data name="Ui.Mods.BackToModPacks" xml:space="preserve">
+    <value>กลับไปที่แพ็กม็อด</value>
+  </data>
+  <data name="Ui.Mods.By" xml:space="preserve">
+    <value>   โดย </value>
+  </data>
+  <data name="Ui.Mods.OpenTheModPage" xml:space="preserve">
+    <value>เปิดหน้าม็อด</value>
+  </data>
+  <data name="Ui.Mods.Download" xml:space="preserve">
+    <value>ดาวน์โหลด</value>
+  </data>
+  <data name="Ui.Mods.ApplyToMyMods" xml:space="preserve">
+    <value>ใช้กับม็อดของฉัน</value>
+  </data>
+  <data name="Ui.Mods.ApplyForVoidstrap" xml:space="preserve">
+    <value>ใช้กับ Voidstrap</value>
+  </data>
+  <data name="Ui.Mods.ApplyForFleasion" xml:space="preserve">
+    <value>ใช้กับ Fleasion</value>
+  </data>
+  <data name="Ui.Mods.License" xml:space="preserve">
+    <value>สัญญาอนุญาต</value>
+  </data>
+  <data name="Ui.Mods.Gallery" xml:space="preserve">
+    <value>แกลเลอรี</value>
+  </data>
+  <data name="Ui.Mods.NoCommentsHaveBeenPostedYet" xml:space="preserve">
+    <value>ยังไม่มีความคิดเห็น</value>
+  </data>
+  <data name="Ui.Mods.NoUpdatesHaveBeenPublished" xml:space="preserve">
+    <value>ยังไม่มีการเผยแพร่อัปเดต</value>
+  </data>
+  <data name="Ui.Mods.NoIssuesAreCurrentlyListed" xml:space="preserve">
+    <value>ขณะนี้ไม่มีปัญหาที่แสดงไว้</value>
+  </data>
+  <data name="Ui.Mods.MyMods" xml:space="preserve">
+    <value>ม็อดของฉัน</value>
+  </data>
+  <data name="Ui.Mods.AddAMod" xml:space="preserve">
+    <value>เพิ่มม็อด</value>
+  </data>
+  <data name="Ui.Mods.RefreshTheList" xml:space="preserve">
+    <value>รีเฟรชรายการ</value>
+  </data>
+  <data name="Ui.Mods.OpenTheModLibraryFolder" xml:space="preserve">
+    <value>เปิดโฟลเดอร์คลังม็อด</value>
+  </data>
+  <data name="Ui.Mods.SearchMods" xml:space="preserve">
+    <value>ค้นหาม็อด...</value>
+  </data>
+  <data name="Ui.Mods.AddMod" xml:space="preserve">
+    <value>เพิ่มม็อด</value>
+  </data>
+  <data name="Ui.Mods.MoreModActions" xml:space="preserve">
+    <value>การดำเนินการม็อดเพิ่มเติม</value>
+  </data>
+  <data name="Ui.Mods.OpenLibrary" xml:space="preserve">
+    <value>เปิดคลัง</value>
+  </data>
+  <data name="Ui.Mods.Or" xml:space="preserve">
+    <value>หรือ</value>
+  </data>
+  <data name="Ui.Mods.DragModToChangeApplyOrder" xml:space="preserve">
+    <value>ลากม็อดเพื่อเปลี่ยนลำดับการใช้</value>
+  </data>
+  <data name="Ui.Mods.EnableOrDisableThisMod" xml:space="preserve">
+    <value>เปิดหรือปิดม็อดนี้</value>
+  </data>
+  <data name="Ui.Mods.Id" xml:space="preserve">
+    <value>   ID: </value>
+  </data>
+  <data name="Ui.Mods.ViewThisModPack" xml:space="preserve">
+    <value>ดูแพ็กม็อดนี้</value>
+  </data>
+  <data name="Ui.Mods.OpenModFolder" xml:space="preserve">
+    <value>เปิดโฟลเดอร์ม็อด</value>
+  </data>
+  <data name="Ui.Mods.EditOptions" xml:space="preserve">
+    <value>แก้ไขตัวเลือก</value>
+  </data>
+  <data name="Ui.Mods.EditModOptions" xml:space="preserve">
+    <value>แก้ไขตัวเลือกม็อด</value>
+  </data>
+  <data name="Ui.Mods.RenameMod" xml:space="preserve">
+    <value>เปลี่ยนชื่อม็อด</value>
+  </data>
+  <data name="Ui.Mods.CopyFullModIdentifier" xml:space="preserve">
+    <value>คัดลอกตัวระบุม็อดแบบเต็ม</value>
+  </data>
+  <data name="Ui.Mods.RemoveMod" xml:space="preserve">
+    <value>นำม็อดออก</value>
+  </data>
+  <data name="Ui.Mods.Overlays" xml:space="preserve">
+    <value>โอเวอร์เลย์</value>
+  </data>
+  <data name="Ui.Mods.SessionDock" xml:space="preserve">
+    <value>แถบเซสชัน</value>
+  </data>
+  <data name="Ui.Mods.ResetShortcut" xml:space="preserve">
+    <value>รีเซ็ตทางลัด</value>
+  </data>
+  <data name="Ui.Mods.HomepageBackground" xml:space="preserve">
+    <value>พื้นหลังหน้าแรก</value>
+  </data>
+  <data name="Ui.Mods.ReplaceTheDarkRobloxHomeBackground" xml:space="preserve">
+    <value>แทนที่พื้นหลังสีเข้มของหน้าแรก Roblox ด้วยสี ไล่สี รูปภาพ หรือวิดีโอ</value>
+  </data>
+  <data name="Ui.Mods.WhatToShowBehindTheHome" xml:space="preserve">
+    <value>สิ่งที่แสดงด้านหลังหน้าแรก</value>
+  </data>
+  <data name="Ui.Mods.Colors" xml:space="preserve">
+    <value>สี</value>
+  </data>
+  <data name="Ui.Mods.StartAndEndOfTheGradient" xml:space="preserve">
+    <value>จุดเริ่มต้นและจุดสิ้นสุดของการไล่สี</value>
+  </data>
+  <data name="Ui.Mods.Direction" xml:space="preserve">
+    <value>ทิศทาง</value>
+  </data>
+  <data name="Ui.Mods.File" xml:space="preserve">
+    <value>ไฟล์</value>
+  </data>
+  <data name="Ui.Mods.Display" xml:space="preserve">
+    <value>การแสดงผล</value>
+  </data>
+  <data name="Ui.Mods.ScreenColor" xml:space="preserve">
+    <value>สีหน้าจอ</value>
+  </data>
+  <data name="Ui.Mods.Saturation" xml:space="preserve">
+    <value>ความอิ่มตัว</value>
+  </data>
+  <data name="Ui.Mods.100IsNormal" xml:space="preserve">
+    <value>100 คือปกติ</value>
+  </data>
+  <data name="Ui.Mods.Contrast" xml:space="preserve">
+    <value>คอนทราสต์</value>
+  </data>
+  <data name="Ui.Mods.Warmth" xml:space="preserve">
+    <value>ความอุ่น</value>
+  </data>
+  <data name="Ui.Mods.NegativeIsCoolerPositiveIsWarmer" xml:space="preserve">
+    <value>ค่าลบเย็นลง ค่าบวกอุ่นขึ้น</value>
+  </data>
+  <data name="Ui.Mods.SmoothingAndFrames" xml:space="preserve">
+    <value>การทำให้เรียบและเฟรม</value>
+  </data>
+  <data name="Ui.Mods.AntiAliasing" xml:space="preserve">
+    <value>ลดรอยหยัก</value>
+  </data>
+  <data name="Ui.Mods.SmoothsJaggedEdgesUsingYourGpu" xml:space="preserve">
+    <value>ทำให้ขอบหยักเรียบขึ้นโดยใช้ GPU ของคุณ</value>
+  </data>
+  <data name="Ui.Mods.MotionBlur" xml:space="preserve">
+    <value>ภาพเบลอจากการเคลื่อนไหว</value>
+  </data>
+  <data name="Ui.Mods.AddsAMotionTrailToMovement" xml:space="preserve">
+    <value>เพิ่มร่องรอยการเคลื่อนไหวเฉพาะบริเวณที่เคลื่อนที่ เพื่อให้อินเทอร์เฟซคมชัด</value>
+  </data>
+  <data name="Ui.Mods.CustomMotionBlur" xml:space="preserve">
+    <value>ภาพเบลอจากการเคลื่อนไหวแบบกำหนดเอง</value>
+  </data>
+  <data name="Ui.Mods.100IsNormal200IsExtreme" xml:space="preserve">
+    <value>100 คือปกติ 200 คือสุดขีด และสูงสุดได้ถึง 500</value>
+  </data>
+  <data name="Ui.Mods.FrameGenerationV100" xml:space="preserve">
+    <value>การสร้างเฟรม V1.0.0</value>
+  </data>
+  <data name="Ui.Mods.AddsGeneratedFramesBetweenRealOnes" xml:space="preserve">
+    <value>เพิ่มเฟรมที่สร้างขึ้นระหว่างเฟรมจริง เพิ่มความหน่วงอินพุตเล็กน้อย</value>
+  </data>
+  <data name="Ui.Mods.ShowGeneratedFrames" xml:space="preserve">
+    <value>แสดงเฟรมที่สร้างขึ้น</value>
+  </data>
+  <data name="Ui.Mods.DisplaysHowManyFramesAreBeing" xml:space="preserve">
+    <value>แสดงจำนวนเฟรมที่กำลังสร้าง</value>
+  </data>
+  <data name="Ui.Mods.FixFrameCap" xml:space="preserve">
+    <value>แก้ไขขีดจำกัดเฟรม</value>
+  </data>
+  <data name="Ui.Mods.ColorBlindness" xml:space="preserve">
+    <value>ตาบอดสี</value>
+  </data>
+  <data name="Ui.Mods.RecolorsTheScreenSoColorsAre" xml:space="preserve">
+    <value>ปรับสีหน้าจอให้แยกแยะสีได้ง่ายขึ้น</value>
+  </data>
+  <data name="Ui.Mods.ProtanopiaRedGreen" xml:space="preserve">
+    <value>Protanopia (แดง/เขียว)</value>
+  </data>
+  <data name="Ui.Mods.DeuteranopiaRedGreen" xml:space="preserve">
+    <value>Deuteranopia (แดง/เขียว)</value>
+  </data>
+  <data name="Ui.Mods.TritanopiaBlueYellow" xml:space="preserve">
+    <value>Tritanopia (น้ำเงิน/เหลือง)</value>
+  </data>
+  <data name="Ui.Mods.Strength" xml:space="preserve">
+    <value>ความแรง</value>
+  </data>
+  <data name="Ui.Mods.SimulateInstead" xml:space="preserve">
+    <value>จำลองแทน</value>
+  </data>
+  <data name="Ui.Mods.ShowsWhatColorBlindPeopleSee" xml:space="preserve">
+    <value>แสดงสิ่งที่ผู้ตาบอดสีมองเห็นแทนการแก้ไข</value>
+  </data>
+  <data name="Ui.Mods.InGameTools" xml:space="preserve">
+    <value>เครื่องมือในเกม</value>
+  </data>
+  <data name="Ui.Mods.Clock" xml:space="preserve">
+    <value>นาฬิกา</value>
+  </data>
+  <data name="Ui.Mods.ShowsTheTimeInTheCorner" xml:space="preserve">
+    <value>แสดงเวลาที่มุมจอขณะเล่น</value>
+  </data>
+  <data name="Ui.Mods.TimeZone" xml:space="preserve">
+    <value>เขตเวลา</value>
+  </data>
+  <data name="Ui.Mods.SystemFollowsThisComputer" xml:space="preserve">
+    <value>ระบบ จะใช้ตามคอมพิวเตอร์เครื่องนี้</value>
+  </data>
+  <data name="Ui.Mods.24HourClock" xml:space="preserve">
+    <value>นาฬิกา 24 ชั่วโมง</value>
+  </data>
+  <data name="Ui.Mods.1430InsteadOf230" xml:space="preserve">
+    <value>14:30 แทน 2:30 PM</value>
+  </data>
+  <data name="Ui.Mods.Crosshair" xml:space="preserve">
+    <value>เป้าเล็ง</value>
+  </data>
+  <data name="Ui.Mods.DrawYourOwnCrosshairOverThe" xml:space="preserve">
+    <value>วาดเป้าเล็งของคุณเองบนเกม</value>
+  </data>
+  <data name="Ui.Mods.GifLink" xml:space="preserve">
+    <value>ลิงก์ GIF</value>
+  </data>
+  <data name="Ui.Mods.AnimatedGifUrlToUseAs" xml:space="preserve">
+    <value>URL ของ GIF เคลื่อนไหวที่ใช้เป็นเป้าเล็ง</value>
+  </data>
+  <data name="Ui.Mods.FillAndOutline" xml:space="preserve">
+    <value>สีเติมและเส้นขอบ</value>
+  </data>
+  <data name="Ui.Mods.Pick" xml:space="preserve">
+    <value>เลือก</value>
+  </data>
+  <data name="Ui.Mods.Thickness" xml:space="preserve">
+    <value>ความหนา</value>
+  </data>
+  <data name="Ui.Mods.CenterGap" xml:space="preserve">
+    <value>ช่องว่างตรงกลาง</value>
+  </data>
+  <data name="Ui.Mods.Opacity" xml:space="preserve">
+    <value>ความทึบ</value>
+  </data>
+  <data name="Ui.Mods.ShareOrPasteACrosshairCode" xml:space="preserve">
+    <value>แชร์หรือวางโค้ดเป้าเล็ง</value>
+  </data>
+  <data name="Ui.Mods.Generate" xml:space="preserve">
+    <value>สร้าง</value>
+  </data>
+  <data name="Ui.Mods.SaveAsFile" xml:space="preserve">
+    <value>บันทึกเป็นไฟล์</value>
+  </data>
+  <data name="Ui.Mods.BrowseRobloxAssetsPreviewFilesAnd" xml:space="preserve">
+    <value>เรียกดูแอสเซ็ตของ Roblox ดูตัวอย่างไฟล์ และสร้างไฟล์แทนที่สำหรับม็อด</value>
+  </data>
+  <data name="Ui.Mods.CloseModExplorer" xml:space="preserve">
+    <value>ปิดตัวสำรวจม็อด</value>
+  </data>
+  <data name="Ui.Mods.SearchThisFolder" xml:space="preserve">
+    <value>ค้นหาในโฟลเดอร์นี้</value>
+  </data>
+  <data name="Ui.Mods.Modified" xml:space="preserve">
+    <value>แก้ไขเมื่อ</value>
+  </data>
+  <data name="Ui.Mods.FileOperations" xml:space="preserve">
+    <value>การดำเนินการกับไฟล์</value>
+  </data>
+  <data name="Ui.Mods.Details" xml:space="preserve">
+    <value>รายละเอียด</value>
+  </data>
+  <data name="Ui.Mods.Replace" xml:space="preserve">
+    <value>แทนที่</value>
+  </data>
+  <data name="Ui.Mods.ChooseALocalReplacementForThis" xml:space="preserve">
+    <value>เลือกไฟล์แทนที่ในเครื่องสำหรับแอสเซ็ตนี้</value>
+  </data>
+  <data name="Ui.Mods.Adjust" xml:space="preserve">
+    <value>ปรับ</value>
+  </data>
+  <data name="Ui.Mods.RotateFlipOrResizeThisImage" xml:space="preserve">
+    <value>หมุน พลิก หรือปรับขนาดรูปนี้</value>
+  </data>
+  <data name="Ui.Mods.Recolor" xml:space="preserve">
+    <value>เปลี่ยนสี</value>
+  </data>
+  <data name="Ui.Mods.TintThisImage" xml:space="preserve">
+    <value>แต่งสีรูปนี้</value>
+  </data>
+  <data name="Ui.Mods.SaveThisFileToYourComputer" xml:space="preserve">
+    <value>บันทึกไฟล์นี้ลงในคอมพิวเตอร์</value>
+  </data>
+  <data name="Ui.Mods.FindMods2" xml:space="preserve">
+    <value>ค้นหาม็อด</value>
+  </data>
 </root>

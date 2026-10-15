@@ -3409,4 +3409,511 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
   <data name="Ui.Appearance.Customization" xml:space="preserve">
     <value>カスタマイズ</value>
   </data>
+  <data name="Ui.Mods.Choose" xml:space="preserve">
+    <value>選択</value>
+  </data>
+  <data name="Ui.Mods.Remove" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="Ui.Mods.FindMods" xml:space="preserve">
+    <value>Mod を探す</value>
+  </data>
+  <data name="Ui.Mods.BrowseCommunityModsOnGamebanana" xml:space="preserve">
+    <value>GameBanana でコミュニティの Mod を閲覧します。</value>
+  </data>
+  <data name="Ui.Mods.ModExplorer" xml:space="preserve">
+    <value>Mod エクスプローラー</value>
+  </data>
+  <data name="Ui.Mods.ViewAndManageFilesInYour" xml:space="preserve">
+    <value>Roblox のインストールにあるファイルを表示、管理します。</value>
+  </data>
+  <data name="Ui.Mods.ChooseWhetherYourModsAreApplied" xml:space="preserve">
+    <value>Mod を Roblox プレイヤー、Roblox Studio、または両方に適用するかを選択します。</value>
+  </data>
+  <data name="Ui.Mods.ApplyModsTo" xml:space="preserve">
+    <value>Mod の適用先</value>
+  </data>
+  <data name="Ui.Mods.Cursor" xml:space="preserve">
+    <value>カーソル</value>
+  </data>
+  <data name="Ui.Mods.CursorStyle" xml:space="preserve">
+    <value>カーソルのスタイル</value>
+  </data>
+  <data name="Ui.Mods.UseTheRobloxCursorABuilt" xml:space="preserve">
+    <value>Roblox のカーソル、組み込みスタイル、または自分の画像を使用します。</value>
+  </data>
+  <data name="Ui.Mods.CustomCursor" xml:space="preserve">
+    <value>カスタムカーソル</value>
+  </data>
+  <data name="Ui.Mods.UseOneImageForThePointer" xml:space="preserve">
+    <value>ポインター、範囲外ポインター、テキストカーソルに 1 枚の画像を使います。</value>
+  </data>
+  <data name="Ui.Mods.CustomDragCursor" xml:space="preserve">
+    <value>カスタムドラッグカーソル</value>
+  </data>
+  <data name="Ui.Mods.ShownWhileDraggingInRobloxStudio" xml:space="preserve">
+    <value>Roblox Studio でドラッグ中に表示されます。</value>
+  </data>
+  <data name="Ui.Mods.CustomShiftlock" xml:space="preserve">
+    <value>カスタムシフトロック</value>
+  </data>
+  <data name="Ui.Mods.ShownInTheMiddleOfThe" xml:space="preserve">
+    <value>シフトロック中に画面中央に表示されます。すべてのカーソルスタイルで動作します。</value>
+  </data>
+  <data name="Ui.Mods.CustomCursorSets" xml:space="preserve">
+    <value>カスタムカーソルセット</value>
+  </data>
+  <data name="Ui.Mods.KeepSeveralCursorSetsReadyAnd" xml:space="preserve">
+    <value>複数のカーソルセットを用意し、ワンクリックで切り替えられます。</value>
+  </data>
+  <data name="Ui.Mods.NoCursorSetsYetPressNew" xml:space="preserve">
+    <value>カーソルセットはまだありません。新規を押して作成するか、zip をインポートしてください。</value>
+  </data>
+  <data name="Ui.Mods.Folder" xml:space="preserve">
+    <value>フォルダー</value>
+  </data>
+  <data name="Ui.Mods.OpenTheCursorSetsFolder" xml:space="preserve">
+    <value>カーソルセットのフォルダーを開く</value>
+  </data>
+  <data name="Ui.Mods.UseThisSet" xml:space="preserve">
+    <value>このセットを使う</value>
+  </data>
+  <data name="Ui.Mods.CopyCurrentCursor" xml:space="preserve">
+    <value>現在のカーソルをコピー</value>
+  </data>
+  <data name="Ui.Mods.ReplaceThisSetWithYourCurrent" xml:space="preserve">
+    <value>このセットを現在のカスタムカーソルとシフトロックアイコンで置き換える</value>
+  </data>
+  <data name="Ui.Mods.Interface" xml:space="preserve">
+    <value>インターフェース</value>
+  </data>
+  <data name="Ui.Mods.OldRobloxTopbarUi" xml:space="preserve">
+    <value>旧 Roblox トップバー</value>
+  </data>
+  <data name="Ui.Mods.The2014To2015TopbarAnd" xml:space="preserve">
+    <value>2014 年から 2015 年のトップバーとゲームメニューをオーバーレイで表示します。</value>
+  </data>
+  <data name="Ui.Mods.Ps4ButtonIcons" xml:space="preserve">
+    <value>PS4 ボタンアイコン</value>
+  </data>
+  <data name="Ui.Mods.SwapsTheXboxButtonPromptsFor" xml:space="preserve">
+    <value>Xbox のボタン表示を公式の PS4 アイコンに置き換えます。</value>
+  </data>
+  <data name="Ui.Mods.HideEveryCoreguiIcon" xml:space="preserve">
+    <value>すべての CoreGui アイコンを非表示</value>
+  </data>
+  <data name="Ui.Mods.BlanksTheRemainingRobloxInterfaceArt" xml:space="preserve">
+    <value>残りの Roblox インターフェースの画像を非表示にします。旧トップバーがオンの間は常にオンになります。</value>
+  </data>
+  <data name="Ui.Mods.Sounds" xml:space="preserve">
+    <value>サウンド</value>
+  </data>
+  <data name="Ui.Mods.CustomDeathSound" xml:space="preserve">
+    <value>カスタム死亡サウンド</value>
+  </data>
+  <data name="Ui.Mods.ReplacesTheDeathSoundWithYour" xml:space="preserve">
+    <value>死亡時のサウンドを自分の音声に置き換えます。</value>
+  </data>
+  <data name="Ui.Mods.ChooseSound" xml:space="preserve">
+    <value>サウンドを選択...</value>
+  </data>
+  <data name="Ui.Mods.RemoveCustomDeathSound" xml:space="preserve">
+    <value>カスタム死亡サウンドを削除</value>
+  </data>
+  <data name="Ui.Mods.Volume" xml:space="preserve">
+    <value>音量</value>
+  </data>
+  <data name="Ui.Mods.SkyboxManager" xml:space="preserve">
+    <value>スカイボックス管理</value>
+  </data>
+  <data name="Ui.Mods.ChooseASkyboxOnceVoidstrapDownloads" xml:space="preserve">
+    <value>スカイボックスを一度選ぶだけで、Roblox の起動時に Voidstrap が安全にダウンロードして適用します。</value>
+  </data>
+  <data name="Ui.Mods.CustomSkybox" xml:space="preserve">
+    <value>カスタムスカイボックス</value>
+  </data>
+  <data name="Ui.Mods.UseOneImageOrChooseEvery" xml:space="preserve">
+    <value>1 枚の画像を使うか、立方体の各面を選択します。</value>
+  </data>
+  <data name="Ui.Mods.UseOneImageForEverySide" xml:space="preserve">
+    <value>すべての面に 1 枚の画像を使う</value>
+  </data>
+  <data name="Ui.Mods.Down" xml:space="preserve">
+    <value>下</value>
+  </data>
+  <data name="Ui.Mods.Front" xml:space="preserve">
+    <value>前</value>
+  </data>
+  <data name="Ui.Mods.Left" xml:space="preserve">
+    <value>左</value>
+  </data>
+  <data name="Ui.Mods.Right" xml:space="preserve">
+    <value>右</value>
+  </data>
+  <data name="Ui.Mods.Up" xml:space="preserve">
+    <value>上</value>
+  </data>
+  <data name="Ui.Mods.RemoveCustom" xml:space="preserve">
+    <value>カスタムを削除</value>
+  </data>
+  <data name="Ui.Mods.SaveAndUse" xml:space="preserve">
+    <value>保存して使用</value>
+  </data>
+  <data name="Ui.Mods.RefreshSkyboxes" xml:space="preserve">
+    <value>スカイボックスを更新</value>
+  </data>
+  <data name="Ui.Mods.FontManager" xml:space="preserve">
+    <value>フォント管理</value>
+  </data>
+  <data name="Ui.Mods.UseALocalFontOrUse" xml:space="preserve">
+    <value>ローカルフォントまたは Google Fonts を使用します</value>
+  </data>
+  <data name="Ui.Mods.RefreshFonts" xml:space="preserve">
+    <value>フォントを更新</value>
+  </data>
+  <data name="Ui.Mods.ChooseLocalFont" xml:space="preserve">
+    <value>ローカルフォントを選択</value>
+  </data>
+  <data name="Ui.Mods.RemoveFont" xml:space="preserve">
+    <value>フォントを削除</value>
+  </data>
+  <data name="Ui.Mods.UseFont" xml:space="preserve">
+    <value>フォントを使用</value>
+  </data>
+  <data name="Ui.Mods.Size" xml:space="preserve">
+    <value>サイズ</value>
+  </data>
+  <data name="Ui.Mods.HelpAndFixes" xml:space="preserve">
+    <value>ヘルプと修正</value>
+  </data>
+  <data name="Ui.Mods.ModPacks" xml:space="preserve">
+    <value>Mod パック</value>
+  </data>
+  <data name="Ui.Mods.SearchRobloxMods" xml:space="preserve">
+    <value>Roblox の Mod を検索</value>
+  </data>
+  <data name="Ui.Mods.Categories" xml:space="preserve">
+    <value>カテゴリ</value>
+  </data>
+  <data name="Ui.Mods.AllCategories" xml:space="preserve">
+    <value>すべてのカテゴリ</value>
+  </data>
+  <data name="Ui.Mods.NoModPacksToShow" xml:space="preserve">
+    <value>表示する Mod パックはありません</value>
+  </data>
+  <data name="Ui.Mods.AnythingThatFailsTheRobloxAnd" xml:space="preserve">
+    <value>Roblox と安全性のチェックに通らないものは非表示になるため、カテゴリが実際に空に見えることがあります。</value>
+  </data>
+  <data name="Ui.Mods.Page" xml:space="preserve">
+    <value>ページ</value>
+  </data>
+  <data name="Ui.Mods.View" xml:space="preserve">
+    <value>表示</value>
+  </data>
+  <data name="Ui.Mods.LoadMore" xml:space="preserve">
+    <value>さらに読み込む</value>
+  </data>
+  <data name="Ui.Mods.BackToModPacks" xml:space="preserve">
+    <value>Mod パックに戻る</value>
+  </data>
+  <data name="Ui.Mods.By" xml:space="preserve">
+    <value>   作成者 </value>
+  </data>
+  <data name="Ui.Mods.OpenTheModPage" xml:space="preserve">
+    <value>Mod のページを開く</value>
+  </data>
+  <data name="Ui.Mods.Download" xml:space="preserve">
+    <value>ダウンロード</value>
+  </data>
+  <data name="Ui.Mods.ApplyToMyMods" xml:space="preserve">
+    <value>マイ Mod に適用</value>
+  </data>
+  <data name="Ui.Mods.ApplyForVoidstrap" xml:space="preserve">
+    <value>Voidstrap 用に適用</value>
+  </data>
+  <data name="Ui.Mods.ApplyForFleasion" xml:space="preserve">
+    <value>Fleasion 用に適用</value>
+  </data>
+  <data name="Ui.Mods.License" xml:space="preserve">
+    <value>ライセンス</value>
+  </data>
+  <data name="Ui.Mods.Gallery" xml:space="preserve">
+    <value>ギャラリー</value>
+  </data>
+  <data name="Ui.Mods.NoCommentsHaveBeenPostedYet" xml:space="preserve">
+    <value>まだコメントはありません。</value>
+  </data>
+  <data name="Ui.Mods.NoUpdatesHaveBeenPublished" xml:space="preserve">
+    <value>アップデートはまだ公開されていません。</value>
+  </data>
+  <data name="Ui.Mods.NoIssuesAreCurrentlyListed" xml:space="preserve">
+    <value>現在、報告されている問題はありません。</value>
+  </data>
+  <data name="Ui.Mods.MyMods" xml:space="preserve">
+    <value>マイ Mod</value>
+  </data>
+  <data name="Ui.Mods.AddAMod" xml:space="preserve">
+    <value>Mod を追加</value>
+  </data>
+  <data name="Ui.Mods.RefreshTheList" xml:space="preserve">
+    <value>一覧を更新</value>
+  </data>
+  <data name="Ui.Mods.OpenTheModLibraryFolder" xml:space="preserve">
+    <value>Mod ライブラリのフォルダーを開く</value>
+  </data>
+  <data name="Ui.Mods.SearchMods" xml:space="preserve">
+    <value>Mod を検索...</value>
+  </data>
+  <data name="Ui.Mods.AddMod" xml:space="preserve">
+    <value>Mod を追加</value>
+  </data>
+  <data name="Ui.Mods.MoreModActions" xml:space="preserve">
+    <value>その他の Mod 操作</value>
+  </data>
+  <data name="Ui.Mods.OpenLibrary" xml:space="preserve">
+    <value>ライブラリを開く</value>
+  </data>
+  <data name="Ui.Mods.Or" xml:space="preserve">
+    <value>または</value>
+  </data>
+  <data name="Ui.Mods.DragModToChangeApplyOrder" xml:space="preserve">
+    <value>ドラッグして適用順を変更</value>
+  </data>
+  <data name="Ui.Mods.EnableOrDisableThisMod" xml:space="preserve">
+    <value>この Mod を有効または無効にする</value>
+  </data>
+  <data name="Ui.Mods.Id" xml:space="preserve">
+    <value>   ID: </value>
+  </data>
+  <data name="Ui.Mods.ViewThisModPack" xml:space="preserve">
+    <value>この Mod パックを表示</value>
+  </data>
+  <data name="Ui.Mods.OpenModFolder" xml:space="preserve">
+    <value>Mod フォルダーを開く</value>
+  </data>
+  <data name="Ui.Mods.EditOptions" xml:space="preserve">
+    <value>オプションを編集</value>
+  </data>
+  <data name="Ui.Mods.EditModOptions" xml:space="preserve">
+    <value>Mod のオプションを編集</value>
+  </data>
+  <data name="Ui.Mods.RenameMod" xml:space="preserve">
+    <value>Mod の名前を変更</value>
+  </data>
+  <data name="Ui.Mods.CopyFullModIdentifier" xml:space="preserve">
+    <value>Mod の完全な識別子をコピー</value>
+  </data>
+  <data name="Ui.Mods.RemoveMod" xml:space="preserve">
+    <value>Mod を削除</value>
+  </data>
+  <data name="Ui.Mods.Overlays" xml:space="preserve">
+    <value>オーバーレイ</value>
+  </data>
+  <data name="Ui.Mods.SessionDock" xml:space="preserve">
+    <value>セッションドック</value>
+  </data>
+  <data name="Ui.Mods.ResetShortcut" xml:space="preserve">
+    <value>ショートカットをリセット</value>
+  </data>
+  <data name="Ui.Mods.HomepageBackground" xml:space="preserve">
+    <value>ホームページの背景</value>
+  </data>
+  <data name="Ui.Mods.ReplaceTheDarkRobloxHomeBackground" xml:space="preserve">
+    <value>Roblox のホームの暗い背景を色、グラデーション、画像、動画に置き換えます</value>
+  </data>
+  <data name="Ui.Mods.WhatToShowBehindTheHome" xml:space="preserve">
+    <value>ホームページの背後に表示するもの。</value>
+  </data>
+  <data name="Ui.Mods.Colors" xml:space="preserve">
+    <value>色</value>
+  </data>
+  <data name="Ui.Mods.StartAndEndOfTheGradient" xml:space="preserve">
+    <value>グラデーションの始点と終点。</value>
+  </data>
+  <data name="Ui.Mods.Direction" xml:space="preserve">
+    <value>方向</value>
+  </data>
+  <data name="Ui.Mods.File" xml:space="preserve">
+    <value>ファイル</value>
+  </data>
+  <data name="Ui.Mods.Display" xml:space="preserve">
+    <value>表示</value>
+  </data>
+  <data name="Ui.Mods.ScreenColor" xml:space="preserve">
+    <value>画面の色</value>
+  </data>
+  <data name="Ui.Mods.Saturation" xml:space="preserve">
+    <value>彩度</value>
+  </data>
+  <data name="Ui.Mods.100IsNormal" xml:space="preserve">
+    <value>100 が標準です。</value>
+  </data>
+  <data name="Ui.Mods.Contrast" xml:space="preserve">
+    <value>コントラスト</value>
+  </data>
+  <data name="Ui.Mods.Warmth" xml:space="preserve">
+    <value>暖かさ</value>
+  </data>
+  <data name="Ui.Mods.NegativeIsCoolerPositiveIsWarmer" xml:space="preserve">
+    <value>マイナスで寒色、プラスで暖色になります。</value>
+  </data>
+  <data name="Ui.Mods.SmoothingAndFrames" xml:space="preserve">
+    <value>スムージングとフレーム</value>
+  </data>
+  <data name="Ui.Mods.AntiAliasing" xml:space="preserve">
+    <value>アンチエイリアス</value>
+  </data>
+  <data name="Ui.Mods.SmoothsJaggedEdgesUsingYourGpu" xml:space="preserve">
+    <value>GPU を使ってギザギザの輪郭を滑らかにします。</value>
+  </data>
+  <data name="Ui.Mods.MotionBlur" xml:space="preserve">
+    <value>モーションブラー</value>
+  </data>
+  <data name="Ui.Mods.AddsAMotionTrailToMovement" xml:space="preserve">
+    <value>動きに残像を加えます。動いている部分だけに適用されるのでインターフェースは鮮明なままです。</value>
+  </data>
+  <data name="Ui.Mods.CustomMotionBlur" xml:space="preserve">
+    <value>カスタムモーションブラー</value>
+  </data>
+  <data name="Ui.Mods.100IsNormal200IsExtreme" xml:space="preserve">
+    <value>100 が標準、200 が最大級で、500 まで上げられます。</value>
+  </data>
+  <data name="Ui.Mods.FrameGenerationV100" xml:space="preserve">
+    <value>フレーム生成 V1.0.0</value>
+  </data>
+  <data name="Ui.Mods.AddsGeneratedFramesBetweenRealOnes" xml:space="preserve">
+    <value>実際のフレームの間に生成フレームを追加します。入力遅延が少し増えます。</value>
+  </data>
+  <data name="Ui.Mods.ShowGeneratedFrames" xml:space="preserve">
+    <value>生成フレームを表示</value>
+  </data>
+  <data name="Ui.Mods.DisplaysHowManyFramesAreBeing" xml:space="preserve">
+    <value>生成されているフレーム数を表示します。</value>
+  </data>
+  <data name="Ui.Mods.FixFrameCap" xml:space="preserve">
+    <value>フレーム上限を修正</value>
+  </data>
+  <data name="Ui.Mods.ColorBlindness" xml:space="preserve">
+    <value>色覚補正</value>
+  </data>
+  <data name="Ui.Mods.RecolorsTheScreenSoColorsAre" xml:space="preserve">
+    <value>色を見分けやすくするよう画面の色を調整します</value>
+  </data>
+  <data name="Ui.Mods.ProtanopiaRedGreen" xml:space="preserve">
+    <value>1 型色覚 (赤/緑)</value>
+  </data>
+  <data name="Ui.Mods.DeuteranopiaRedGreen" xml:space="preserve">
+    <value>2 型色覚 (赤/緑)</value>
+  </data>
+  <data name="Ui.Mods.TritanopiaBlueYellow" xml:space="preserve">
+    <value>3 型色覚 (青/黄)</value>
+  </data>
+  <data name="Ui.Mods.Strength" xml:space="preserve">
+    <value>強さ</value>
+  </data>
+  <data name="Ui.Mods.SimulateInstead" xml:space="preserve">
+    <value>代わりにシミュレート</value>
+  </data>
+  <data name="Ui.Mods.ShowsWhatColorBlindPeopleSee" xml:space="preserve">
+    <value>補正する代わりに、色覚の特性がある人の見え方を表示します。</value>
+  </data>
+  <data name="Ui.Mods.InGameTools" xml:space="preserve">
+    <value>ゲーム内ツール</value>
+  </data>
+  <data name="Ui.Mods.Clock" xml:space="preserve">
+    <value>時計</value>
+  </data>
+  <data name="Ui.Mods.ShowsTheTimeInTheCorner" xml:space="preserve">
+    <value>プレイ中に画面の隅に時刻を表示します。</value>
+  </data>
+  <data name="Ui.Mods.TimeZone" xml:space="preserve">
+    <value>タイムゾーン</value>
+  </data>
+  <data name="Ui.Mods.SystemFollowsThisComputer" xml:space="preserve">
+    <value>システムはこのコンピューターに従います。</value>
+  </data>
+  <data name="Ui.Mods.24HourClock" xml:space="preserve">
+    <value>24 時間表示</value>
+  </data>
+  <data name="Ui.Mods.1430InsteadOf230" xml:space="preserve">
+    <value>2:30 PM ではなく 14:30。</value>
+  </data>
+  <data name="Ui.Mods.Crosshair" xml:space="preserve">
+    <value>クロスヘア</value>
+  </data>
+  <data name="Ui.Mods.DrawYourOwnCrosshairOverThe" xml:space="preserve">
+    <value>ゲームの上に自分だけのクロスヘアを描きます</value>
+  </data>
+  <data name="Ui.Mods.GifLink" xml:space="preserve">
+    <value>GIF リンク</value>
+  </data>
+  <data name="Ui.Mods.AnimatedGifUrlToUseAs" xml:space="preserve">
+    <value>クロスヘアに使うアニメーション GIF の URL。</value>
+  </data>
+  <data name="Ui.Mods.FillAndOutline" xml:space="preserve">
+    <value>塗りと輪郭。</value>
+  </data>
+  <data name="Ui.Mods.Pick" xml:space="preserve">
+    <value>選択</value>
+  </data>
+  <data name="Ui.Mods.Thickness" xml:space="preserve">
+    <value>太さ</value>
+  </data>
+  <data name="Ui.Mods.CenterGap" xml:space="preserve">
+    <value>中央の隙間</value>
+  </data>
+  <data name="Ui.Mods.Opacity" xml:space="preserve">
+    <value>不透明度</value>
+  </data>
+  <data name="Ui.Mods.ShareOrPasteACrosshairCode" xml:space="preserve">
+    <value>クロスヘアコードを共有、または貼り付けます。</value>
+  </data>
+  <data name="Ui.Mods.Generate" xml:space="preserve">
+    <value>生成</value>
+  </data>
+  <data name="Ui.Mods.SaveAsFile" xml:space="preserve">
+    <value>ファイルとして保存</value>
+  </data>
+  <data name="Ui.Mods.BrowseRobloxAssetsPreviewFilesAnd" xml:space="preserve">
+    <value>Roblox のアセットを参照し、ファイルをプレビューして、Mod の置き換えを作成します。</value>
+  </data>
+  <data name="Ui.Mods.CloseModExplorer" xml:space="preserve">
+    <value>Mod エクスプローラーを閉じる</value>
+  </data>
+  <data name="Ui.Mods.SearchThisFolder" xml:space="preserve">
+    <value>このフォルダーを検索</value>
+  </data>
+  <data name="Ui.Mods.Modified" xml:space="preserve">
+    <value>更新日時</value>
+  </data>
+  <data name="Ui.Mods.FileOperations" xml:space="preserve">
+    <value>ファイル操作</value>
+  </data>
+  <data name="Ui.Mods.Details" xml:space="preserve">
+    <value>詳細</value>
+  </data>
+  <data name="Ui.Mods.Replace" xml:space="preserve">
+    <value>置き換え</value>
+  </data>
+  <data name="Ui.Mods.ChooseALocalReplacementForThis" xml:space="preserve">
+    <value>このアセットのローカルの置き換えを選択</value>
+  </data>
+  <data name="Ui.Mods.Adjust" xml:space="preserve">
+    <value>調整</value>
+  </data>
+  <data name="Ui.Mods.RotateFlipOrResizeThisImage" xml:space="preserve">
+    <value>この画像を回転、反転、サイズ変更</value>
+  </data>
+  <data name="Ui.Mods.Recolor" xml:space="preserve">
+    <value>色の変更</value>
+  </data>
+  <data name="Ui.Mods.TintThisImage" xml:space="preserve">
+    <value>この画像に色を付ける</value>
+  </data>
+  <data name="Ui.Mods.SaveThisFileToYourComputer" xml:space="preserve">
+    <value>このファイルをコンピューターに保存</value>
+  </data>
+  <data name="Ui.Mods.FindMods2" xml:space="preserve">
+    <value>Mod を探す</value>
+  </data>
 </root>

@@ -299,6 +299,344 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Appearance_Customization => ResourceManager.GetString("Ui.Appearance.Customization", resourceCulture);
 
+        public static string Ui_Mods_Choose => ResourceManager.GetString("Ui.Mods.Choose", resourceCulture);
+
+        public static string Ui_Mods_Remove => ResourceManager.GetString("Ui.Mods.Remove", resourceCulture);
+
+        public static string Ui_Mods_FindMods => ResourceManager.GetString("Ui.Mods.FindMods", resourceCulture);
+
+        public static string Ui_Mods_BrowseCommunityModsOnGamebanana => ResourceManager.GetString("Ui.Mods.BrowseCommunityModsOnGamebanana", resourceCulture);
+
+        public static string Ui_Mods_ModExplorer => ResourceManager.GetString("Ui.Mods.ModExplorer", resourceCulture);
+
+        public static string Ui_Mods_ViewAndManageFilesInYour => ResourceManager.GetString("Ui.Mods.ViewAndManageFilesInYour", resourceCulture);
+
+        public static string Ui_Mods_ChooseWhetherYourModsAreApplied => ResourceManager.GetString("Ui.Mods.ChooseWhetherYourModsAreApplied", resourceCulture);
+
+        public static string Ui_Mods_ApplyModsTo => ResourceManager.GetString("Ui.Mods.ApplyModsTo", resourceCulture);
+
+        public static string Ui_Mods_Cursor => ResourceManager.GetString("Ui.Mods.Cursor", resourceCulture);
+
+        public static string Ui_Mods_CursorStyle => ResourceManager.GetString("Ui.Mods.CursorStyle", resourceCulture);
+
+        public static string Ui_Mods_UseTheRobloxCursorABuilt => ResourceManager.GetString("Ui.Mods.UseTheRobloxCursorABuilt", resourceCulture);
+
+        public static string Ui_Mods_CustomCursor => ResourceManager.GetString("Ui.Mods.CustomCursor", resourceCulture);
+
+        public static string Ui_Mods_UseOneImageForThePointer => ResourceManager.GetString("Ui.Mods.UseOneImageForThePointer", resourceCulture);
+
+        public static string Ui_Mods_CustomDragCursor => ResourceManager.GetString("Ui.Mods.CustomDragCursor", resourceCulture);
+
+        public static string Ui_Mods_ShownWhileDraggingInRobloxStudio => ResourceManager.GetString("Ui.Mods.ShownWhileDraggingInRobloxStudio", resourceCulture);
+
+        public static string Ui_Mods_CustomShiftlock => ResourceManager.GetString("Ui.Mods.CustomShiftlock", resourceCulture);
+
+        public static string Ui_Mods_ShownInTheMiddleOfThe => ResourceManager.GetString("Ui.Mods.ShownInTheMiddleOfThe", resourceCulture);
+
+        public static string Ui_Mods_CustomCursorSets => ResourceManager.GetString("Ui.Mods.CustomCursorSets", resourceCulture);
+
+        public static string Ui_Mods_KeepSeveralCursorSetsReadyAnd => ResourceManager.GetString("Ui.Mods.KeepSeveralCursorSetsReadyAnd", resourceCulture);
+
+        public static string Ui_Mods_NoCursorSetsYetPressNew => ResourceManager.GetString("Ui.Mods.NoCursorSetsYetPressNew", resourceCulture);
+
+        public static string Ui_Mods_Folder => ResourceManager.GetString("Ui.Mods.Folder", resourceCulture);
+
+        public static string Ui_Mods_OpenTheCursorSetsFolder => ResourceManager.GetString("Ui.Mods.OpenTheCursorSetsFolder", resourceCulture);
+
+        public static string Ui_Mods_UseThisSet => ResourceManager.GetString("Ui.Mods.UseThisSet", resourceCulture);
+
+        public static string Ui_Mods_CopyCurrentCursor => ResourceManager.GetString("Ui.Mods.CopyCurrentCursor", resourceCulture);
+
+        public static string Ui_Mods_ReplaceThisSetWithYourCurrent => ResourceManager.GetString("Ui.Mods.ReplaceThisSetWithYourCurrent", resourceCulture);
+
+        public static string Ui_Mods_Interface => ResourceManager.GetString("Ui.Mods.Interface", resourceCulture);
+
+        public static string Ui_Mods_OldRobloxTopbarUi => ResourceManager.GetString("Ui.Mods.OldRobloxTopbarUi", resourceCulture);
+
+        public static string Ui_Mods_The2014To2015TopbarAnd => ResourceManager.GetString("Ui.Mods.The2014To2015TopbarAnd", resourceCulture);
+
+        public static string Ui_Mods_Ps4ButtonIcons => ResourceManager.GetString("Ui.Mods.Ps4ButtonIcons", resourceCulture);
+
+        public static string Ui_Mods_SwapsTheXboxButtonPromptsFor => ResourceManager.GetString("Ui.Mods.SwapsTheXboxButtonPromptsFor", resourceCulture);
+
+        public static string Ui_Mods_HideEveryCoreguiIcon => ResourceManager.GetString("Ui.Mods.HideEveryCoreguiIcon", resourceCulture);
+
+        public static string Ui_Mods_BlanksTheRemainingRobloxInterfaceArt => ResourceManager.GetString("Ui.Mods.BlanksTheRemainingRobloxInterfaceArt", resourceCulture);
+
+        public static string Ui_Mods_Sounds => ResourceManager.GetString("Ui.Mods.Sounds", resourceCulture);
+
+        public static string Ui_Mods_CustomDeathSound => ResourceManager.GetString("Ui.Mods.CustomDeathSound", resourceCulture);
+
+        public static string Ui_Mods_ReplacesTheDeathSoundWithYour => ResourceManager.GetString("Ui.Mods.ReplacesTheDeathSoundWithYour", resourceCulture);
+
+        public static string Ui_Mods_ChooseSound => ResourceManager.GetString("Ui.Mods.ChooseSound", resourceCulture);
+
+        public static string Ui_Mods_RemoveCustomDeathSound => ResourceManager.GetString("Ui.Mods.RemoveCustomDeathSound", resourceCulture);
+
+        public static string Ui_Mods_Volume => ResourceManager.GetString("Ui.Mods.Volume", resourceCulture);
+
+        public static string Ui_Mods_SkyboxManager => ResourceManager.GetString("Ui.Mods.SkyboxManager", resourceCulture);
+
+        public static string Ui_Mods_ChooseASkyboxOnceVoidstrapDownloads => ResourceManager.GetString("Ui.Mods.ChooseASkyboxOnceVoidstrapDownloads", resourceCulture);
+
+        public static string Ui_Mods_CustomSkybox => ResourceManager.GetString("Ui.Mods.CustomSkybox", resourceCulture);
+
+        public static string Ui_Mods_UseOneImageOrChooseEvery => ResourceManager.GetString("Ui.Mods.UseOneImageOrChooseEvery", resourceCulture);
+
+        public static string Ui_Mods_UseOneImageForEverySide => ResourceManager.GetString("Ui.Mods.UseOneImageForEverySide", resourceCulture);
+
+        public static string Ui_Mods_Down => ResourceManager.GetString("Ui.Mods.Down", resourceCulture);
+
+        public static string Ui_Mods_Front => ResourceManager.GetString("Ui.Mods.Front", resourceCulture);
+
+        public static string Ui_Mods_Left => ResourceManager.GetString("Ui.Mods.Left", resourceCulture);
+
+        public static string Ui_Mods_Right => ResourceManager.GetString("Ui.Mods.Right", resourceCulture);
+
+        public static string Ui_Mods_Up => ResourceManager.GetString("Ui.Mods.Up", resourceCulture);
+
+        public static string Ui_Mods_RemoveCustom => ResourceManager.GetString("Ui.Mods.RemoveCustom", resourceCulture);
+
+        public static string Ui_Mods_SaveAndUse => ResourceManager.GetString("Ui.Mods.SaveAndUse", resourceCulture);
+
+        public static string Ui_Mods_RefreshSkyboxes => ResourceManager.GetString("Ui.Mods.RefreshSkyboxes", resourceCulture);
+
+        public static string Ui_Mods_FontManager => ResourceManager.GetString("Ui.Mods.FontManager", resourceCulture);
+
+        public static string Ui_Mods_UseALocalFontOrUse => ResourceManager.GetString("Ui.Mods.UseALocalFontOrUse", resourceCulture);
+
+        public static string Ui_Mods_RefreshFonts => ResourceManager.GetString("Ui.Mods.RefreshFonts", resourceCulture);
+
+        public static string Ui_Mods_ChooseLocalFont => ResourceManager.GetString("Ui.Mods.ChooseLocalFont", resourceCulture);
+
+        public static string Ui_Mods_RemoveFont => ResourceManager.GetString("Ui.Mods.RemoveFont", resourceCulture);
+
+        public static string Ui_Mods_UseFont => ResourceManager.GetString("Ui.Mods.UseFont", resourceCulture);
+
+        public static string Ui_Mods_Size => ResourceManager.GetString("Ui.Mods.Size", resourceCulture);
+
+        public static string Ui_Mods_HelpAndFixes => ResourceManager.GetString("Ui.Mods.HelpAndFixes", resourceCulture);
+
+        public static string Ui_Mods_ModPacks => ResourceManager.GetString("Ui.Mods.ModPacks", resourceCulture);
+
+        public static string Ui_Mods_SearchRobloxMods => ResourceManager.GetString("Ui.Mods.SearchRobloxMods", resourceCulture);
+
+        public static string Ui_Mods_Categories => ResourceManager.GetString("Ui.Mods.Categories", resourceCulture);
+
+        public static string Ui_Mods_AllCategories => ResourceManager.GetString("Ui.Mods.AllCategories", resourceCulture);
+
+        public static string Ui_Mods_NoModPacksToShow => ResourceManager.GetString("Ui.Mods.NoModPacksToShow", resourceCulture);
+
+        public static string Ui_Mods_AnythingThatFailsTheRobloxAnd => ResourceManager.GetString("Ui.Mods.AnythingThatFailsTheRobloxAnd", resourceCulture);
+
+        public static string Ui_Mods_Page => ResourceManager.GetString("Ui.Mods.Page", resourceCulture);
+
+        public static string Ui_Mods_View => ResourceManager.GetString("Ui.Mods.View", resourceCulture);
+
+        public static string Ui_Mods_LoadMore => ResourceManager.GetString("Ui.Mods.LoadMore", resourceCulture);
+
+        public static string Ui_Mods_BackToModPacks => ResourceManager.GetString("Ui.Mods.BackToModPacks", resourceCulture);
+
+        public static string Ui_Mods_By => ResourceManager.GetString("Ui.Mods.By", resourceCulture);
+
+        public static string Ui_Mods_OpenTheModPage => ResourceManager.GetString("Ui.Mods.OpenTheModPage", resourceCulture);
+
+        public static string Ui_Mods_Download => ResourceManager.GetString("Ui.Mods.Download", resourceCulture);
+
+        public static string Ui_Mods_ApplyToMyMods => ResourceManager.GetString("Ui.Mods.ApplyToMyMods", resourceCulture);
+
+        public static string Ui_Mods_ApplyForVoidstrap => ResourceManager.GetString("Ui.Mods.ApplyForVoidstrap", resourceCulture);
+
+        public static string Ui_Mods_ApplyForFleasion => ResourceManager.GetString("Ui.Mods.ApplyForFleasion", resourceCulture);
+
+        public static string Ui_Mods_License => ResourceManager.GetString("Ui.Mods.License", resourceCulture);
+
+        public static string Ui_Mods_Gallery => ResourceManager.GetString("Ui.Mods.Gallery", resourceCulture);
+
+        public static string Ui_Mods_NoCommentsHaveBeenPostedYet => ResourceManager.GetString("Ui.Mods.NoCommentsHaveBeenPostedYet", resourceCulture);
+
+        public static string Ui_Mods_NoUpdatesHaveBeenPublished => ResourceManager.GetString("Ui.Mods.NoUpdatesHaveBeenPublished", resourceCulture);
+
+        public static string Ui_Mods_NoIssuesAreCurrentlyListed => ResourceManager.GetString("Ui.Mods.NoIssuesAreCurrentlyListed", resourceCulture);
+
+        public static string Ui_Mods_MyMods => ResourceManager.GetString("Ui.Mods.MyMods", resourceCulture);
+
+        public static string Ui_Mods_AddAMod => ResourceManager.GetString("Ui.Mods.AddAMod", resourceCulture);
+
+        public static string Ui_Mods_RefreshTheList => ResourceManager.GetString("Ui.Mods.RefreshTheList", resourceCulture);
+
+        public static string Ui_Mods_OpenTheModLibraryFolder => ResourceManager.GetString("Ui.Mods.OpenTheModLibraryFolder", resourceCulture);
+
+        public static string Ui_Mods_SearchMods => ResourceManager.GetString("Ui.Mods.SearchMods", resourceCulture);
+
+        public static string Ui_Mods_AddMod => ResourceManager.GetString("Ui.Mods.AddMod", resourceCulture);
+
+        public static string Ui_Mods_MoreModActions => ResourceManager.GetString("Ui.Mods.MoreModActions", resourceCulture);
+
+        public static string Ui_Mods_OpenLibrary => ResourceManager.GetString("Ui.Mods.OpenLibrary", resourceCulture);
+
+        public static string Ui_Mods_Or => ResourceManager.GetString("Ui.Mods.Or", resourceCulture);
+
+        public static string Ui_Mods_DragModToChangeApplyOrder => ResourceManager.GetString("Ui.Mods.DragModToChangeApplyOrder", resourceCulture);
+
+        public static string Ui_Mods_EnableOrDisableThisMod => ResourceManager.GetString("Ui.Mods.EnableOrDisableThisMod", resourceCulture);
+
+        public static string Ui_Mods_Id => ResourceManager.GetString("Ui.Mods.Id", resourceCulture);
+
+        public static string Ui_Mods_ViewThisModPack => ResourceManager.GetString("Ui.Mods.ViewThisModPack", resourceCulture);
+
+        public static string Ui_Mods_OpenModFolder => ResourceManager.GetString("Ui.Mods.OpenModFolder", resourceCulture);
+
+        public static string Ui_Mods_EditOptions => ResourceManager.GetString("Ui.Mods.EditOptions", resourceCulture);
+
+        public static string Ui_Mods_EditModOptions => ResourceManager.GetString("Ui.Mods.EditModOptions", resourceCulture);
+
+        public static string Ui_Mods_RenameMod => ResourceManager.GetString("Ui.Mods.RenameMod", resourceCulture);
+
+        public static string Ui_Mods_CopyFullModIdentifier => ResourceManager.GetString("Ui.Mods.CopyFullModIdentifier", resourceCulture);
+
+        public static string Ui_Mods_RemoveMod => ResourceManager.GetString("Ui.Mods.RemoveMod", resourceCulture);
+
+        public static string Ui_Mods_Overlays => ResourceManager.GetString("Ui.Mods.Overlays", resourceCulture);
+
+        public static string Ui_Mods_SessionDock => ResourceManager.GetString("Ui.Mods.SessionDock", resourceCulture);
+
+        public static string Ui_Mods_ResetShortcut => ResourceManager.GetString("Ui.Mods.ResetShortcut", resourceCulture);
+
+        public static string Ui_Mods_HomepageBackground => ResourceManager.GetString("Ui.Mods.HomepageBackground", resourceCulture);
+
+        public static string Ui_Mods_ReplaceTheDarkRobloxHomeBackground => ResourceManager.GetString("Ui.Mods.ReplaceTheDarkRobloxHomeBackground", resourceCulture);
+
+        public static string Ui_Mods_WhatToShowBehindTheHome => ResourceManager.GetString("Ui.Mods.WhatToShowBehindTheHome", resourceCulture);
+
+        public static string Ui_Mods_Colors => ResourceManager.GetString("Ui.Mods.Colors", resourceCulture);
+
+        public static string Ui_Mods_StartAndEndOfTheGradient => ResourceManager.GetString("Ui.Mods.StartAndEndOfTheGradient", resourceCulture);
+
+        public static string Ui_Mods_Direction => ResourceManager.GetString("Ui.Mods.Direction", resourceCulture);
+
+        public static string Ui_Mods_File => ResourceManager.GetString("Ui.Mods.File", resourceCulture);
+
+        public static string Ui_Mods_Display => ResourceManager.GetString("Ui.Mods.Display", resourceCulture);
+
+        public static string Ui_Mods_ScreenColor => ResourceManager.GetString("Ui.Mods.ScreenColor", resourceCulture);
+
+        public static string Ui_Mods_Saturation => ResourceManager.GetString("Ui.Mods.Saturation", resourceCulture);
+
+        public static string Ui_Mods_100IsNormal => ResourceManager.GetString("Ui.Mods.100IsNormal", resourceCulture);
+
+        public static string Ui_Mods_Contrast => ResourceManager.GetString("Ui.Mods.Contrast", resourceCulture);
+
+        public static string Ui_Mods_Warmth => ResourceManager.GetString("Ui.Mods.Warmth", resourceCulture);
+
+        public static string Ui_Mods_NegativeIsCoolerPositiveIsWarmer => ResourceManager.GetString("Ui.Mods.NegativeIsCoolerPositiveIsWarmer", resourceCulture);
+
+        public static string Ui_Mods_SmoothingAndFrames => ResourceManager.GetString("Ui.Mods.SmoothingAndFrames", resourceCulture);
+
+        public static string Ui_Mods_AntiAliasing => ResourceManager.GetString("Ui.Mods.AntiAliasing", resourceCulture);
+
+        public static string Ui_Mods_SmoothsJaggedEdgesUsingYourGpu => ResourceManager.GetString("Ui.Mods.SmoothsJaggedEdgesUsingYourGpu", resourceCulture);
+
+        public static string Ui_Mods_MotionBlur => ResourceManager.GetString("Ui.Mods.MotionBlur", resourceCulture);
+
+        public static string Ui_Mods_AddsAMotionTrailToMovement => ResourceManager.GetString("Ui.Mods.AddsAMotionTrailToMovement", resourceCulture);
+
+        public static string Ui_Mods_CustomMotionBlur => ResourceManager.GetString("Ui.Mods.CustomMotionBlur", resourceCulture);
+
+        public static string Ui_Mods_100IsNormal200IsExtreme => ResourceManager.GetString("Ui.Mods.100IsNormal200IsExtreme", resourceCulture);
+
+        public static string Ui_Mods_FrameGenerationV100 => ResourceManager.GetString("Ui.Mods.FrameGenerationV100", resourceCulture);
+
+        public static string Ui_Mods_AddsGeneratedFramesBetweenRealOnes => ResourceManager.GetString("Ui.Mods.AddsGeneratedFramesBetweenRealOnes", resourceCulture);
+
+        public static string Ui_Mods_ShowGeneratedFrames => ResourceManager.GetString("Ui.Mods.ShowGeneratedFrames", resourceCulture);
+
+        public static string Ui_Mods_DisplaysHowManyFramesAreBeing => ResourceManager.GetString("Ui.Mods.DisplaysHowManyFramesAreBeing", resourceCulture);
+
+        public static string Ui_Mods_FixFrameCap => ResourceManager.GetString("Ui.Mods.FixFrameCap", resourceCulture);
+
+        public static string Ui_Mods_ColorBlindness => ResourceManager.GetString("Ui.Mods.ColorBlindness", resourceCulture);
+
+        public static string Ui_Mods_RecolorsTheScreenSoColorsAre => ResourceManager.GetString("Ui.Mods.RecolorsTheScreenSoColorsAre", resourceCulture);
+
+        public static string Ui_Mods_ProtanopiaRedGreen => ResourceManager.GetString("Ui.Mods.ProtanopiaRedGreen", resourceCulture);
+
+        public static string Ui_Mods_DeuteranopiaRedGreen => ResourceManager.GetString("Ui.Mods.DeuteranopiaRedGreen", resourceCulture);
+
+        public static string Ui_Mods_TritanopiaBlueYellow => ResourceManager.GetString("Ui.Mods.TritanopiaBlueYellow", resourceCulture);
+
+        public static string Ui_Mods_Strength => ResourceManager.GetString("Ui.Mods.Strength", resourceCulture);
+
+        public static string Ui_Mods_SimulateInstead => ResourceManager.GetString("Ui.Mods.SimulateInstead", resourceCulture);
+
+        public static string Ui_Mods_ShowsWhatColorBlindPeopleSee => ResourceManager.GetString("Ui.Mods.ShowsWhatColorBlindPeopleSee", resourceCulture);
+
+        public static string Ui_Mods_InGameTools => ResourceManager.GetString("Ui.Mods.InGameTools", resourceCulture);
+
+        public static string Ui_Mods_Clock => ResourceManager.GetString("Ui.Mods.Clock", resourceCulture);
+
+        public static string Ui_Mods_ShowsTheTimeInTheCorner => ResourceManager.GetString("Ui.Mods.ShowsTheTimeInTheCorner", resourceCulture);
+
+        public static string Ui_Mods_TimeZone => ResourceManager.GetString("Ui.Mods.TimeZone", resourceCulture);
+
+        public static string Ui_Mods_SystemFollowsThisComputer => ResourceManager.GetString("Ui.Mods.SystemFollowsThisComputer", resourceCulture);
+
+        public static string Ui_Mods_24HourClock => ResourceManager.GetString("Ui.Mods.24HourClock", resourceCulture);
+
+        public static string Ui_Mods_1430InsteadOf230 => ResourceManager.GetString("Ui.Mods.1430InsteadOf230", resourceCulture);
+
+        public static string Ui_Mods_Crosshair => ResourceManager.GetString("Ui.Mods.Crosshair", resourceCulture);
+
+        public static string Ui_Mods_DrawYourOwnCrosshairOverThe => ResourceManager.GetString("Ui.Mods.DrawYourOwnCrosshairOverThe", resourceCulture);
+
+        public static string Ui_Mods_GifLink => ResourceManager.GetString("Ui.Mods.GifLink", resourceCulture);
+
+        public static string Ui_Mods_AnimatedGifUrlToUseAs => ResourceManager.GetString("Ui.Mods.AnimatedGifUrlToUseAs", resourceCulture);
+
+        public static string Ui_Mods_FillAndOutline => ResourceManager.GetString("Ui.Mods.FillAndOutline", resourceCulture);
+
+        public static string Ui_Mods_Pick => ResourceManager.GetString("Ui.Mods.Pick", resourceCulture);
+
+        public static string Ui_Mods_Thickness => ResourceManager.GetString("Ui.Mods.Thickness", resourceCulture);
+
+        public static string Ui_Mods_CenterGap => ResourceManager.GetString("Ui.Mods.CenterGap", resourceCulture);
+
+        public static string Ui_Mods_Opacity => ResourceManager.GetString("Ui.Mods.Opacity", resourceCulture);
+
+        public static string Ui_Mods_ShareOrPasteACrosshairCode => ResourceManager.GetString("Ui.Mods.ShareOrPasteACrosshairCode", resourceCulture);
+
+        public static string Ui_Mods_Generate => ResourceManager.GetString("Ui.Mods.Generate", resourceCulture);
+
+        public static string Ui_Mods_SaveAsFile => ResourceManager.GetString("Ui.Mods.SaveAsFile", resourceCulture);
+
+        public static string Ui_Mods_BrowseRobloxAssetsPreviewFilesAnd => ResourceManager.GetString("Ui.Mods.BrowseRobloxAssetsPreviewFilesAnd", resourceCulture);
+
+        public static string Ui_Mods_CloseModExplorer => ResourceManager.GetString("Ui.Mods.CloseModExplorer", resourceCulture);
+
+        public static string Ui_Mods_SearchThisFolder => ResourceManager.GetString("Ui.Mods.SearchThisFolder", resourceCulture);
+
+        public static string Ui_Mods_Modified => ResourceManager.GetString("Ui.Mods.Modified", resourceCulture);
+
+        public static string Ui_Mods_FileOperations => ResourceManager.GetString("Ui.Mods.FileOperations", resourceCulture);
+
+        public static string Ui_Mods_Details => ResourceManager.GetString("Ui.Mods.Details", resourceCulture);
+
+        public static string Ui_Mods_Replace => ResourceManager.GetString("Ui.Mods.Replace", resourceCulture);
+
+        public static string Ui_Mods_ChooseALocalReplacementForThis => ResourceManager.GetString("Ui.Mods.ChooseALocalReplacementForThis", resourceCulture);
+
+        public static string Ui_Mods_Adjust => ResourceManager.GetString("Ui.Mods.Adjust", resourceCulture);
+
+        public static string Ui_Mods_RotateFlipOrResizeThisImage => ResourceManager.GetString("Ui.Mods.RotateFlipOrResizeThisImage", resourceCulture);
+
+        public static string Ui_Mods_Recolor => ResourceManager.GetString("Ui.Mods.Recolor", resourceCulture);
+
+        public static string Ui_Mods_TintThisImage => ResourceManager.GetString("Ui.Mods.TintThisImage", resourceCulture);
+
+        public static string Ui_Mods_SaveThisFileToYourComputer => ResourceManager.GetString("Ui.Mods.SaveThisFileToYourComputer", resourceCulture);
+
+        public static string Ui_Mods_FindMods2 => ResourceManager.GetString("Ui.Mods.FindMods2", resourceCulture);
+
         public static string Menu_Appearance_Accent_Title => ResourceManager.GetString("Menu.Appearance.Accent.Title", resourceCulture);
 
         public static string Menu_Appearance_Accent_Description => ResourceManager.GetString("Menu.Appearance.Accent.Description", resourceCulture);
