@@ -163,6 +163,9 @@
   <data name="Bootstrapper.Status.WaitingOtherInstances" xml:space="preserve">
     <value>در حال صبر کردن برای موارد دیگر...</value>
   </data>
+  <data name="Enums.BootstrapperIcon.IconEarly2015" xml:space="preserve">
+    <value>اوایل 2015</value>
+  </data>
   <data name="Enums.CustomThemeTemplate.Blank" xml:space="preserve">
     <value>خالی</value>
   </data>

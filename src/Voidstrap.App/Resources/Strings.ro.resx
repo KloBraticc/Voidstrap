@@ -123,6 +123,9 @@
   <data name="Bootstrapper.ConfirmLaunch" xml:space="preserve">
     <value>Roblox rulează în acest moment, și lansând o altă instanță îl va închide. Ești sigur că vrei să continui lansarea?</value>
   </data>
+  <data name="Dialog.Connectivity.Preventing" xml:space="preserve">
+    <value>Este posibil ca ceva să împiedice Voidstrap să se conecteze la internet.</value>
+  </data>
   <data name="Dialog.Connectivity.RobloxDown" xml:space="preserve">
     <value>Roblox poate să fie în mentenanță acum. Vezi {0} pentru mai multe informații.</value>
   </data>
@@ -162,6 +165,12 @@
   </data>
   <data name="Bootstrapper.Status.WaitingOtherInstances" xml:space="preserve">
     <value>Așteptând pentru celelalte instanțe...</value>
+  </data>
+  <data name="Dialog.Connectivity.TimedOut" xml:space="preserve">
+    <value>Conexiunea a expirat, ceea ce ar putea indica o conexiune slabă la internet sau un firewall care împiedică accesul.</value>
+  </data>
+  <data name="Enums.BootstrapperIcon.IconEarly2015" xml:space="preserve">
+    <value>Începutul lui 2015</value>
   </data>
   <data name="Enums.CustomThemeTemplate.Blank" xml:space="preserve">
     <value>Gol</value>

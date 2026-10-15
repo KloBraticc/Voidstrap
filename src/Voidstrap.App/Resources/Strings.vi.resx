@@ -123,6 +123,9 @@
   <data name="Bootstrapper.ConfirmLaunch" xml:space="preserve">
     <value>Tiến trình Roblox hiện tại đang chạy, và việc khởi động tiến trình Roblox khác sẽ đóng nó. Bạn có chắc chắn muốn tiếp tục khởi động không?</value>
   </data>
+  <data name="Dialog.Connectivity.Preventing" xml:space="preserve">
+    <value>Có gì đó đang ngăn chặn Voidstrap kết nối đến Internet.</value>
+  </data>
   <data name="Dialog.Connectivity.RobloxDown" xml:space="preserve">
     <value>Roblox có thể đang có vấn đề. Xem {0} để có thêm thông tin.</value>
   </data>
@@ -162,6 +165,12 @@
   </data>
   <data name="Bootstrapper.Status.WaitingOtherInstances" xml:space="preserve">
     <value>Đang đợi các tiến trình khác...</value>
+  </data>
+  <data name="Dialog.Connectivity.TimedOut" xml:space="preserve">
+    <value>Kết nối đã bị gián đoạn, có thể là bởi kết nối mạng không ổn định hoặc là đã bị chặn bởi tường lửa.</value>
+  </data>
+  <data name="Enums.BootstrapperIcon.IconEarly2015" xml:space="preserve">
+    <value>Đầu năm 2015</value>
   </data>
   <data name="Enums.CustomThemeTemplate.Blank" xml:space="preserve">
     <value>Trống</value>

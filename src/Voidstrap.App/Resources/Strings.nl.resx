@@ -163,6 +163,9 @@
   <data name="Bootstrapper.Status.WaitingOtherInstances" xml:space="preserve">
     <value>Wachten op andere instanties...</value>
   </data>
+  <data name="Enums.BootstrapperIcon.IconEarly2015" xml:space="preserve">
+    <value>Begin 2015</value>
+  </data>
   <data name="Enums.CustomThemeTemplate.Blank" xml:space="preserve">
     <value>Leeg</value>
   </data>

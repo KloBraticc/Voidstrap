@@ -123,6 +123,9 @@
   <data name="Bootstrapper.ConfirmLaunch" xml:space="preserve">
     <value>Roblox körs för närvarande och att starta en annan instans kommer att stänga den. Är du säker på att du vill fortsätta att starta?</value>
   </data>
+  <data name="Dialog.Connectivity.Preventing" xml:space="preserve">
+    <value>Någonting hindrar förmodligen Voidstrap från att ansluta till internet.</value>
+  </data>
   <data name="Dialog.Connectivity.RobloxDown" xml:space="preserve">
     <value>Roblox kan vara nere just nu. Se {0} för mer information.</value>
   </data>
@@ -162,6 +165,12 @@
   </data>
   <data name="Bootstrapper.Status.WaitingOtherInstances" xml:space="preserve">
     <value>Väntar på andra instanser...</value>
+  </data>
+  <data name="Dialog.Connectivity.TimedOut" xml:space="preserve">
+    <value>Anslutningen tog för lång tid, vilket kan peka på en dålig internetuppkoppling eller en block från din brandvägg.</value>
+  </data>
+  <data name="Enums.BootstrapperIcon.IconEarly2015" xml:space="preserve">
+    <value>Tidigt 2015</value>
   </data>
   <data name="Enums.CustomThemeTemplate.Blank" xml:space="preserve">
     <value>Tom</value>

@@ -123,6 +123,9 @@
   <data name="Bootstrapper.ConfirmLaunch" xml:space="preserve">
     <value>Roblox กําลังทํางานอยู่เเละการเปิดอีกหน้าต่างจะปิด Roblox คุณเเน่ใจไหมว่าคุณจะเปิดอีกหน้าต่าง?</value>
   </data>
+  <data name="Dialog.Connectivity.Preventing" xml:space="preserve">
+    <value>มีบางอย่างที่อาจทำให้ Voidstrap ไม่สามารถเชื่อมต่อกับอินเทอร์เน็ตได้</value>
+  </data>
   <data name="Dialog.Connectivity.RobloxDown" xml:space="preserve">
     <value>Roblox อาจจะล่มตอนนี้. ดู {0} เพื่อข้อมูลเพิ่มเติม</value>
   </data>
@@ -162,6 +165,12 @@
   </data>
   <data name="Bootstrapper.Status.WaitingOtherInstances" xml:space="preserve">
     <value>กำลังรออินสแตนซ์อื่นๆ...</value>
+  </data>
+  <data name="Dialog.Connectivity.TimedOut" xml:space="preserve">
+    <value>การเชื่อมต่อหมดเวลา, สึ่งอาจเป็นเพราะการเชื่อมต่ออินเทอร์เน็ตที่ไม่ดีหรือการบล็อกไฟร์วอลล์</value>
+  </data>
+  <data name="Enums.BootstrapperIcon.IconEarly2015" xml:space="preserve">
+    <value>ช่วงเริ่มต้นปี 2015</value>
   </data>
   <data name="Enums.CustomThemeTemplate.Blank" xml:space="preserve">
     <value>ว่าง</value>
