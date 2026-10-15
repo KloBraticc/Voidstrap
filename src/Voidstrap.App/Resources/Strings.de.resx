@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
+    <value>Voidstrap konnte das übrig gebliebene AssetWarp Routing nicht aus der Windows hosts Datei entfernen. Roblox kann keine Texturen oder anderen Assets laden, bis es entfernt ist. Starte Voidstrap als Administrator, um es zu entfernen.</value>
+  </data>
   <data name="Bootstrapper.AutoUpdateFailed" xml:space="preserve">
     <value>Voidstrap konnte nicht automatisch auf die Version {0} aktualisieren. Bitte aktualisiere es manuell, indem du es von der Webseite herunterlädst und ausführst.</value>
   </data>
@@ -162,6 +165,12 @@
   </data>
   <data name="Bootstrapper.Status.WaitingOtherInstances" xml:space="preserve">
     <value>Warte auf andere Instanzen...</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
+    <value>Beide</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
+    <value>Spieler</value>
   </data>
   <data name="Enums.CustomThemeTemplate.Blank" xml:space="preserve">
     <value>Leer</value>
@@ -426,6 +435,150 @@ Klicke für mehr Informationen</value>
   <data name="ContextMenu.ServerInformation.Type" xml:space="preserve">
     <value>Art</value>
   </data>
+  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
+    <value>Serverbrowser</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
+    <value>Ort {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
+    <value>{0}  •  Ort {1}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
+    <value>{0} Server gescannt</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
+    <value>Aktualisieren</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
+    <value>Weitere Server laden</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
+    <value>Volle Server ausblenden</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
+    <value>Stadt, Land oder Server-ID suchen</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
+    <value>Meiste Spieler</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
+    <value>Wenigste Spieler</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
+    <value>Niedrigster Ping</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
+    <value>Beitreten</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
+    <value>Aktuell</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
+    <value>Öffentliche Server werden geladen</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
+    <value>Keine öffentlichen Server gefunden</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
+    <value>Tritt einem Spiel bei, bevor du den Serverbrowser öffnest</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
+    <value>Die Serverliste ist pausiert, weil Roblox Anfragen begrenzt</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
+    <value>Öffentliche Server konnten nicht geladen werden</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
+    <value>{0} Server geladen</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
+    <value>{0} von {1} Spielern</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
+    <value>{0} Spieler</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
+    <value>Unbekannt</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
+    <value>Beste Übereinstimmung</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
+    <value>Beste Übereinstimmung</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
+    <value>Blockiert</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
+    <value>Etwa {0} ms von dir entfernt</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
+    <value>Bisher {0} Server gefunden</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
+    <value>{0} von {1} Servern gefunden</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
+    <value>Du wirst zu {0} verschoben</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
+    <value>Diesem Server konnte nicht beigetreten werden</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
+    <value>Melde dich unter Einstellungen &gt; Server Matchmaker an, damit Voidstrap herausfinden kann, wo sich jeder Server befindet</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
+    <value>Dein Standort konnte nicht ermittelt werden, daher können Server nicht nach Ping sortiert werden</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
+    <value>Roblox hat nicht verraten, wo sich diese Server befinden, versuche es gleich noch einmal</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
+    <value>Alle gefundenen Server befinden sich in einem Rechenzentrum, das du blockiert hast</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
+    <value>Alle gefundenen Server sind weit von dir entfernt, der Matchmaker würde stattdessen Roblox wählen lassen</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
+    <value>Spielebrowser</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
+    <value>Fortsetzen</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
+    <value>Favoriten</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
+    <value>Suchen</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
+    <value>Roblox-Spiele suchen</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
+    <value>Spiele werden geladen</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
+    <value>Keine kürzlich gespielten Spiele in dieser Sitzung</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
+    <value>Keine Lieblingsspiele gespeichert</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
+    <value>Suche ein Roblox-Spiel nach Namen</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
+    <value>Keine Spiele für {0} gefunden</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
+    <value>Spiele konnten nicht geladen werden</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
+    <value>{0} spielen</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
+    <value>Beitreten</value>
+  </data>
   <data name="Dialog.AddFastFlag.Title" xml:space="preserve">
     <value>Fast Flag hinzufügen</value>
   </data>
@@ -462,6 +615,9 @@ Falls nicht, solltest du diesen Fehler über ein [GitHub Issue]({1}) mit einer K
   <data name="Enums.BootstrapperIcon.IconLate2015" xml:space="preserve">
     <value>Ende 2015</value>
   </data>
+  <data name="Enums.BootstrapperStyle.ByfronDialog" xml:space="preserve">
+    <value>Gefälschtes Byfron (2023)</value>
+  </data>
   <data name="Enums.BootstrapperStyle.ClassicFluentDialog" xml:space="preserve">
     <value>Voidstrap (Klassisch)</value>
   </data>
@@ -471,8 +627,14 @@ Falls nicht, solltest du diesen Fehler über ein [GitHub Issue]({1}) mit einer K
   <data name="Enums.BootstrapperStyle.LegacyDialog2008" xml:space="preserve">
     <value>Legacy (2008-2011)</value>
   </data>
+  <data name="Enums.BootstrapperStyle.LegacyDialog2011" xml:space="preserve">
+    <value>Veraltet (2011 - 2014)</value>
+  </data>
   <data name="Enums.BootstrapperStyle.VistaDialog" xml:space="preserve">
     <value>Vista (2008-2011)</value>
+  </data>
+  <data name="Enums.CursorType.From2006" xml:space="preserve">
+    <value>2006 (Cartoonhaft)</value>
   </data>
   <data name="Enums.CursorType.From2013" xml:space="preserve">
     <value>2013 (Eckig)</value>
@@ -482,6 +644,12 @@ Falls nicht, solltest du diesen Fehler über ein [GitHub Issue]({1}) mit einer K
   </data>
   <data name="Enums.FlagPresets.LightingMode.Default" xml:space="preserve">
     <value>Vom Spiel ausgewählt</value>
+  </data>
+  <data name="Enums.FlagPresets.LightingMode.Future" xml:space="preserve">
+    <value>Zukunft (Phase 3)</value>
+  </data>
+  <data name="Enums.FlagPresets.LightingMode.ShadowMap" xml:space="preserve">
+    <value>Schattenkarte (Phase 2)</value>
   </data>
   <data name="Enums.ServerType.Private" xml:space="preserve">
     <value>Privater Server</value>
@@ -498,11 +666,17 @@ Falls nicht, solltest du diesen Fehler über ein [GitHub Issue]({1}) mit einer K
   <data name="Enums.Theme.Yellow" xml:space="preserve">
     <value>Gelb</value>
   </data>
+  <data name="Enums.Theme.Pink" xml:space="preserve">
+    <value>Rosa</value>
+  </data>
   <data name="Enums.Theme.Custom" xml:space="preserve">
     <value>Benutzerdefiniert</value>
   </data>
   <data name="Enums.Theme.Purple" xml:space="preserve">
     <value>Lila</value>
+  </data>
+  <data name="Enums.Theme.Berry" xml:space="preserve">
+    <value>Beere</value>
   </data>
   <data name="Enums.Theme.Green" xml:space="preserve">
     <value>Grün</value>
@@ -933,6 +1107,12 @@ Wenn du 'Nein' wählst, wird diese Warnung ignoriert und die Installation fortge
   <data name="Dialog.LanguageSelector.Header" xml:space="preserve">
     <value>Bevorzugte Sprache wählen</value>
   </data>
+  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
+    <value>Automatisch übersetzen</value>
+  </data>
+  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
+    <value>Übersetzen in</value>
+  </data>
   <data name="Dialog.LanguageSelector.Subtext" xml:space="preserve">
     <value>Wähle eine Sprache, bevor du mit der Installation fortfährst.</value>
   </data>
@@ -941,6 +1121,18 @@ Wenn du 'Nein' wählst, wird diese Warnung ignoriert und die Installation fortge
   </data>
   <data name="Menu.Appearance.Language.Description" xml:space="preserve">
     <value>Einige Texte sind möglicherweise nicht in die bevorzugte Sprache übersetzt.</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
+    <value>Sprache für automatische Übersetzung</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
+    <value>Übersetze die gesamte Voidstrap-Oberfläche in jede Sprache. Native Übersetzungen werden zuerst verwendet, der restliche Text wird live übersetzt.</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
+    <value>Discord-RPCs automatisch übersetzen</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
+    <value>Übersetzt den Text der Discord Rich Presence automatisch in die ausgewählte Sprache.</value>
   </data>
   <data name="Menu.Behaviour.ForceRobloxLanguage.Title" xml:space="preserve">
     <value>Erlaube die Verwendung von nicht unterstützten Roblox Sprachen</value>
@@ -980,6 +1172,12 @@ Wenn du 'Nein' wählst, wird diese Warnung ignoriert und die Installation fortge
   </data>
   <data name="Enums.FlagPresets.TextureQuality.Level0" xml:space="preserve">
     <value>Level 0 (Niedrigste)</value>
+  </data>
+  <data name="Enums.FlagPresets.TextureQuality.Level1" xml:space="preserve">
+    <value>Stufe 1</value>
+  </data>
+  <data name="Enums.FlagPresets.TextureQuality.Level2" xml:space="preserve">
+    <value>Stufe 2</value>
   </data>
   <data name="Enums.FlagPresets.TextureQuality.Level3" xml:space="preserve">
     <value>Level 3 (Höchste)</value>
@@ -1265,6 +1463,9 @@ Bitte lösche Voidstrap.exe manuell aus dem Installationsverzeichnis oder versuc
   <data name="Common.NotAvailable" xml:space="preserve">
     <value>Nicht verfügbar</value>
   </data>
+  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
+    <value>Diese Funktion ist nur unter Windows verfügbar.</value>
+  </data>
   <data name="Menu.Mods.Misc.CompatibilitySettings.Title" xml:space="preserve">
     <value>Kompatibilitätseinstellungen verwalten</value>
   </data>
@@ -1330,6 +1531,9 @@ Bei aktiviertem Testmodus werden die Einstellungen für dich nach dem Schließen
 
 Möchtest du den Testmodus aktivieren?</value>
   </data>
+  <data name="About.Translators.Description" xml:space="preserve">
+    <value>Alle hier aufgeführten Personen haben freiwillig ihre Zeit und Mühe investiert, um Voidstrap zu übersetzen. Ein riesiges Dankeschön an alle!</value>
+  </data>
   <data name="Common.Navigation.Install" xml:space="preserve">
     <value>Installieren</value>
     <comment>The word "Install" is being used as a verb in this instance, like the other navigation button texts of "Next" and "Back"</comment>
@@ -1337,6 +1541,10 @@ Möchtest du den Testmodus aktivieren?</value>
   <data name="LaunchMenu.Donate" xml:space="preserve">
     <value>Tritt unserem Discord-Server bei</value>
     <comment>Call-to-action button</comment>
+  </data>
+  <data name="Paths.Icons" xml:space="preserve">
+    <value>Symbole</value>
+    <comment>Name of the folder that gets created according to the "create shortcut icons" option. Ensure that it is a valid folder name.</comment>
   </data>
   <data name="Menu_FlagProfiles_Title" xml:space="preserve">
     <value>Fast-Flag-Backups</value>
@@ -1409,6 +1617,18 @@ Bitte schließe alle Anwendungen, die möglicherweise auf die Dateien von Roblox
   <data name="Dialog.Connectivity.TimedOut" xml:space="preserve">
     <value>Die Verbindung wurde wegen einer Zeitüberschreitung unterbrochen, was entweder auf eine schlechte Internetverbindung oder einen Firewall-Block hinweist.</value>
   </data>
+  <data name="Menu.Channel.Description" xml:space="preserve">
+    <value>Ändere die Bereitstellungs- und Installationseinstellungen für Roblox und Voidstrap.</value>
+  </data>
+  <data name="Common.Channel" xml:space="preserve">
+    <value>Kanal</value>
+  </data>
+  <data name="Menu.ChannelChanger.Description" xml:space="preserve">
+    <value>Wähle den Bereitstellungskanal. Ändere ihn nur, wenn du weißt, was du tust.</value>
+  </data>
+  <data name="Menu.Channel.RobloxUpgrades" xml:space="preserve">
+    <value>Roblox-Updates</value>
+  </data>
   <data name="Menu.Channel.RobloxUpgrades.Description" xml:space="preserve">
     <value>Wenn deaktiviert, aktualisiert sich der Roblox-Client nicht auf eine neuere Version.</value>
   </data>
@@ -1439,8 +1659,17 @@ Bitte schließe alle Anwendungen, die möglicherweise auf die Dateien von Roblox
   <data name="Menu.FastFlags.Presets.Layered.Description" xml:space="preserve">
     <value>Verhindert das Rendern von Schichten-Kleidung auf Avataren anderer Spieler.</value>
   </data>
+  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
+    <value>Dunkelmodus</value>
+  </data>
   <data name="Menu.FastFlags.Presets.DarkMode.Description" xml:space="preserve">
     <value>Aktiviert Robloxs Early-Access-DarkMode</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
+    <value>Telemetrie</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
+    <value>Dunkelmodus</value>
   </data>
   <data name="Menu.FastFlags.Presets.Preload" xml:space="preserve">
     <value>Vorladen</value>
@@ -1625,234 +1854,6 @@ Möchtest du deinen bevorzugten Kanal auf {0} ändern?</value>
   </data>
   <data name="Menu.News.DialogTitle" xml:space="preserve">
     <value>Nachrichten-Details</value>
-  </data>
-  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
-    <value>Voidstrap konnte das übrig gebliebene AssetWarp Routing nicht aus der Windows hosts Datei entfernen. Roblox kann keine Texturen oder anderen Assets laden, bis es entfernt ist. Starte Voidstrap als Administrator, um es zu entfernen.</value>
-  </data>
-  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
-    <value>Beide</value>
-  </data>
-  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
-    <value>Spieler</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
-    <value>Serverbrowser</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
-    <value>Ort {0}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
-    <value>{0}  •  Ort {1}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
-    <value>{0} Server gescannt</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
-    <value>Aktualisieren</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
-    <value>Weitere Server laden</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
-    <value>Volle Server ausblenden</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
-    <value>Stadt, Land oder Server-ID suchen</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
-    <value>Meiste Spieler</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
-    <value>Wenigste Spieler</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
-    <value>Niedrigster Ping</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
-    <value>Beitreten</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
-    <value>Aktuell</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
-    <value>Öffentliche Server werden geladen</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
-    <value>Keine öffentlichen Server gefunden</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
-    <value>Tritt einem Spiel bei, bevor du den Serverbrowser öffnest</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
-    <value>Die Serverliste ist pausiert, weil Roblox Anfragen begrenzt</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
-    <value>Öffentliche Server konnten nicht geladen werden</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
-    <value>{0} Server geladen</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
-    <value>{0} von {1} Spielern</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
-    <value>{0} Spieler</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
-    <value>Unbekannt</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
-    <value>Beste Übereinstimmung</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
-    <value>Beste Übereinstimmung</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
-    <value>Blockiert</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
-    <value>Etwa {0} ms von dir entfernt</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
-    <value>Bisher {0} Server gefunden</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
-    <value>{0} von {1} Servern gefunden</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
-    <value>Du wirst zu {0} verschoben</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
-    <value>Diesem Server konnte nicht beigetreten werden</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
-    <value>Melde dich unter Einstellungen &gt; Server Matchmaker an, damit Voidstrap herausfinden kann, wo sich jeder Server befindet</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
-    <value>Dein Standort konnte nicht ermittelt werden, daher können Server nicht nach Ping sortiert werden</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
-    <value>Roblox hat nicht verraten, wo sich diese Server befinden, versuche es gleich noch einmal</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
-    <value>Alle gefundenen Server befinden sich in einem Rechenzentrum, das du blockiert hast</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
-    <value>Alle gefundenen Server sind weit von dir entfernt, der Matchmaker würde stattdessen Roblox wählen lassen</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
-    <value>Spielebrowser</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
-    <value>Fortsetzen</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
-    <value>Favoriten</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
-    <value>Suchen</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
-    <value>Roblox-Spiele suchen</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
-    <value>Spiele werden geladen</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
-    <value>Keine kürzlich gespielten Spiele in dieser Sitzung</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
-    <value>Keine Lieblingsspiele gespeichert</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
-    <value>Suche ein Roblox-Spiel nach Namen</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
-    <value>Keine Spiele für {0} gefunden</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
-    <value>Spiele konnten nicht geladen werden</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
-    <value>{0} spielen</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
-    <value>Beitreten</value>
-  </data>
-  <data name="Enums.BootstrapperStyle.ByfronDialog" xml:space="preserve">
-    <value>Gefälschtes Byfron (2023)</value>
-  </data>
-  <data name="Enums.BootstrapperStyle.LegacyDialog2011" xml:space="preserve">
-    <value>Veraltet (2011 - 2014)</value>
-  </data>
-  <data name="Enums.CursorType.From2006" xml:space="preserve">
-    <value>2006 (Cartoonhaft)</value>
-  </data>
-  <data name="Enums.FlagPresets.LightingMode.Future" xml:space="preserve">
-    <value>Zukunft (Phase 3)</value>
-  </data>
-  <data name="Enums.FlagPresets.LightingMode.ShadowMap" xml:space="preserve">
-    <value>Schattenkarte (Phase 2)</value>
-  </data>
-  <data name="Enums.Theme.Pink" xml:space="preserve">
-    <value>Rosa</value>
-  </data>
-  <data name="Enums.Theme.Berry" xml:space="preserve">
-    <value>Beere</value>
-  </data>
-  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
-    <value>Automatisch übersetzen</value>
-  </data>
-  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
-    <value>Übersetzen in</value>
-  </data>
-  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
-    <value>Sprache für automatische Übersetzung</value>
-  </data>
-  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
-    <value>Übersetze die gesamte Voidstrap-Oberfläche in jede Sprache. Native Übersetzungen werden zuerst verwendet, der restliche Text wird live übersetzt.</value>
-  </data>
-  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
-    <value>Discord-RPCs automatisch übersetzen</value>
-  </data>
-  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
-    <value>Übersetzt den Text der Discord Rich Presence automatisch in die ausgewählte Sprache.</value>
-  </data>
-  <data name="Enums.FlagPresets.TextureQuality.Level1" xml:space="preserve">
-    <value>Stufe 1</value>
-  </data>
-  <data name="Enums.FlagPresets.TextureQuality.Level2" xml:space="preserve">
-    <value>Stufe 2</value>
-  </data>
-  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
-    <value>Diese Funktion ist nur unter Windows verfügbar.</value>
-  </data>
-  <data name="About.Translators.Description" xml:space="preserve">
-    <value>Alle hier aufgeführten Personen haben freiwillig ihre Zeit und Mühe investiert, um Voidstrap zu übersetzen. Ein riesiges Dankeschön an alle!</value>
-  </data>
-  <data name="Paths.Icons" xml:space="preserve">
-    <value>Symbole</value>
-  </data>
-  <data name="Menu.Channel.Description" xml:space="preserve">
-    <value>Ändere die Bereitstellungs- und Installationseinstellungen für Roblox und Voidstrap.</value>
-  </data>
-  <data name="Common.Channel" xml:space="preserve">
-    <value>Kanal</value>
-  </data>
-  <data name="Menu.ChannelChanger.Description" xml:space="preserve">
-    <value>Wähle den Bereitstellungskanal. Ändere ihn nur, wenn du weißt, was du tust.</value>
-  </data>
-  <data name="Menu.Channel.RobloxUpgrades" xml:space="preserve">
-    <value>Roblox-Updates</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
-    <value>Dunkelmodus</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
-    <value>Telemetrie</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
-    <value>Dunkelmodus</value>
   </data>
   <data name="Menu.Sober.Description" xml:space="preserve">
     <value>Konfiguriere die Linux-Laufzeitumgebungen, mit denen Voidstrap Roblox startet. Sober führt den Player aus, Vinegar führt Studio aus. Voidstrap ändert nur Optionen, die du ausdrücklich überschreibst.</value>

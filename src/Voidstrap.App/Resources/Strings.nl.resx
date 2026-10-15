@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
+    <value>Voidstrap kon de overgebleven AssetWarp-routering niet uit het Windows-hostsbestand verwijderen. Roblox kan geen texturen of andere assets laden totdat deze is verwijderd. Start Voidstrap als administrator om het op te ruimen.</value>
+  </data>
   <data name="Bootstrapper.AutoUpdateFailed" xml:space="preserve">
     <value>Voidstrap kon niet automatisch updaten naar versie {0}. Update het alstublieft manueel door het te downloaden en openen via de website.</value>
   </data>
@@ -162,6 +165,12 @@
   </data>
   <data name="Bootstrapper.Status.WaitingOtherInstances" xml:space="preserve">
     <value>Wachten op andere instanties...</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
+    <value>Beide</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
+    <value>Speler</value>
   </data>
   <data name="Enums.CustomThemeTemplate.Blank" xml:space="preserve">
     <value>Leeg</value>
@@ -423,6 +432,150 @@ Klik voor meer informatie</value>
   <data name="ContextMenu.ServerInformation.Title" xml:space="preserve">
     <value>Serverinformatie</value>
   </data>
+  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
+    <value>Serverbrowser</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
+    <value>Plaats {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
+    <value>{0}  •  Plaats {1}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
+    <value>{0} servers gescand</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
+    <value>Vernieuwen</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
+    <value>Meer servers laden</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
+    <value>Volle servers verbergen</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
+    <value>Zoek op stad, land of server-ID</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
+    <value>Meeste spelers</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
+    <value>Minste spelers</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
+    <value>Laagste ping</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
+    <value>Deelnemen</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
+    <value>Huidig</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
+    <value>Openbare servers laden</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
+    <value>Geen openbare servers gevonden</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
+    <value>Neem deel aan een game voordat je de serverbrowser opent</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
+    <value>De serverlijst is gepauzeerd omdat Roblox verzoeken beperkt</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
+    <value>Kan openbare servers niet laden</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
+    <value>{0} servers geladen</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
+    <value>{0} van {1} spelers</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
+    <value>{0} spelers</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
+    <value>Onbekend</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
+    <value>Beste match</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
+    <value>Beste match</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
+    <value>Geblokkeerd</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
+    <value>Ongeveer {0} ms van je vandaan</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
+    <value>Tot nu toe {0} servers gevonden</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
+    <value>{0} van {1} servers gevonden</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
+    <value>Je wordt verplaatst naar {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
+    <value>Kan niet deelnemen aan die server</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
+    <value>Meld je aan via Instellingen &gt; Server Matchmaker zodat Voidstrap kan vinden waar elke server staat</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
+    <value>Je locatie kon niet worden gevonden, dus servers kunnen niet op ping worden gesorteerd</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
+    <value>Roblox heeft niet laten zien waar deze servers staan, probeer het zo opnieuw</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
+    <value>Alle gevonden servers staan in een datacenter dat je hebt geblokkeerd</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
+    <value>Alle gevonden servers zijn ver van je vandaan, de matchmaker zou Roblox laten kiezen</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
+    <value>Gamebrowser</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
+    <value>Verder spelen</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
+    <value>Favorieten</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
+    <value>Zoeken</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
+    <value>Roblox-games zoeken</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
+    <value>Games laden</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
+    <value>Geen recente games in deze sessie</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
+    <value>Geen favoriete games opgeslagen</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
+    <value>Zoek een Roblox-game op naam</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
+    <value>Geen games gevonden voor {0}</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
+    <value>Kan games niet laden</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
+    <value>{0} spelen</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
+    <value>Deelnemen</value>
+  </data>
   <data name="Dialog.AddFastFlag.Title" xml:space="preserve">
     <value>Voeg Fast Flag toe</value>
   </data>
@@ -524,6 +677,9 @@ Als dat niet het geval is, rapporteer deze uitzondering dan alstublieft door een
   </data>
   <data name="Enums.Theme.Purple" xml:space="preserve">
     <value>Paars</value>
+  </data>
+  <data name="Enums.Theme.Berry" xml:space="preserve">
+    <value>Bes</value>
   </data>
   <data name="Enums.Theme.Green" xml:space="preserve">
     <value>Groen</value>
@@ -964,6 +1120,12 @@ Als je 'Nee' selecteert, wordt deze waarschuwing genegeerd en wordt de installat
   <data name="Dialog.LanguageSelector.Header" xml:space="preserve">
     <value>Kies voorkeurstaal</value>
   </data>
+  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
+    <value>Automatisch vertalen</value>
+  </data>
+  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
+    <value>Vertalen naar</value>
+  </data>
   <data name="Dialog.LanguageSelector.Subtext" xml:space="preserve">
     <value>Kies een taal voordat je verder gaat met de installatie.</value>
   </data>
@@ -972,6 +1134,18 @@ Als je 'Nee' selecteert, wordt deze waarschuwing genegeerd en wordt de installat
   </data>
   <data name="Menu.Appearance.Language.Description" xml:space="preserve">
     <value>Sommige teksten zijn mogelijk niet vertaald naar de gewenste taal.</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
+    <value>Taal voor automatisch vertalen</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
+    <value>Vertaal de hele Voidstrap-interface naar elke taal. Eigen vertalingen worden eerst gebruikt en de rest van de tekst wordt live vertaald.</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
+    <value>Discord-RPC's automatisch vertalen</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
+    <value>Vertaalt de tekst van Discord Rich Presence automatisch naar de gekozen taal.</value>
   </data>
   <data name="Menu.Behaviour.ForceRobloxLanguage.Title" xml:space="preserve">
     <value>Sta gebruik van niet ondersteunde Roblox talen toe</value>
@@ -1071,6 +1245,9 @@ Als je 'Nee' selecteert, wordt deze waarschuwing genegeerd en wordt de installat
   </data>
   <data name="Menu.FastFlagEditor.InvalidPlaceFilter" xml:space="preserve">
     <value>De invoer voor '{0}' is niet geldig omdat de plaatsfilter niet correct is opgemaakt.</value>
+  </data>
+  <data name="Installer.Title" xml:space="preserve">
+    <value>Voidstrap-installatieprogramma</value>
   </data>
   <data name="Installer.Welcome.Title" xml:space="preserve">
     <value>Welkom</value>
@@ -1269,6 +1446,9 @@ Elke persoon hier is gerangschikt op basis van hun totale bijdrage.</value>
   <data name="ContextMenu.GameHistory.Title" xml:space="preserve">
     <value>Spel geschiedenis</value>
   </data>
+  <data name="ContextMenu.GameHistory.Rejoin" xml:space="preserve">
+    <value>Opnieuw deelnemen</value>
+  </data>
   <data name="ActivityWatcher.RichPresenceLoadFailed" xml:space="preserve">
     <value>Je huidige spel zal niet verschijnen op je Discord activiteit, omdat er een fout is opgetreden bij het laden van de spelinformatie.</value>
   </data>
@@ -1294,6 +1474,9 @@ Verwijder handmatig Voidstrap.EXE van de installatielocatie of probeer je systee
   </data>
   <data name="Common.NotAvailable" xml:space="preserve">
     <value>Niet beschikbaar</value>
+  </data>
+  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
+    <value>Deze functie is alleen beschikbaar op Windows.</value>
   </data>
   <data name="Menu.Mods.Misc.CompatibilitySettings.Title" xml:space="preserve">
     <value>Compatibiliteitsinstellingen beheren</value>
@@ -1359,6 +1542,9 @@ Verwijder handmatig Voidstrap.EXE van de installatielocatie of probeer je systee
 Wanneer ingeschakeld, zal Roblox automatisch starten na het sluiten van de instellingen, en de Instellingen heropenen na het sluiten van Roblox, in een cyclus totdat u het uitschakelt.
 
 Wilt u de testmodus inschakelen?</value>
+  </data>
+  <data name="About.Translators.Description" xml:space="preserve">
+    <value>Iedereen die hier staat, heeft vrijwillig tijd en moeite gestoken in het vertalen van Voidstrap. Iedereen enorm bedankt!</value>
   </data>
   <data name="Common.Navigation.Install" xml:space="preserve">
     <value>Installeer</value>
@@ -1440,6 +1626,12 @@ Sluit alstublieft alle applicaties die mogelijk de bestanden van Roblox gebruike
     <value>Alle Voidstrap logs</value>
     <comment>Label that appears next to a checkbox</comment>
   </data>
+  <data name="Dialog.Connectivity.Preventing" xml:space="preserve">
+    <value>Iets verhindert waarschijnlijk dat Voidstrap verbinding maakt met internet.</value>
+  </data>
+  <data name="Dialog.Connectivity.TimedOut" xml:space="preserve">
+    <value>Er is een time-out opgetreden bij de verbinding, wat kan wijzen op een slechte internetverbinding of een blokkade door een firewall.</value>
+  </data>
   <data name="Menu.Channel.Description" xml:space="preserve">
     <value>Wijzig de implementatie- en installatie-instellingen voor Roblox en Voidstrap.</value>
   </data>
@@ -1488,8 +1680,17 @@ Sluit alstublieft alle applicaties die mogelijk de bestanden van Roblox gebruike
   <data name="Menu.FastFlags.Presets.Layered.Description" xml:space="preserve">
     <value>Voorkomt dat gelaagde kleding wordt weergegeven op de avatars van andere spelers.</value>
   </data>
+  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
+    <value>Donkere modus</value>
+  </data>
   <data name="Menu.FastFlags.Presets.DarkMode.Description" xml:space="preserve">
     <value>Activeert Roblox' early access DarkMode</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
+    <value>Telemetrie</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
+    <value>Donkere modus</value>
   </data>
   <data name="Menu.FastFlags.Presets.Preload" xml:space="preserve">
     <value>Voorladen</value>
@@ -1675,207 +1876,6 @@ Wil je je voorkeurskanaal wijzigen naar {0}?</value>
   </data>
   <data name="Menu.News.DialogTitle" xml:space="preserve">
     <value>Nieuwsdetails</value>
-  </data>
-  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
-    <value>Voidstrap kon de overgebleven AssetWarp-routering niet uit het Windows-hostsbestand verwijderen. Roblox kan geen texturen of andere assets laden totdat deze is verwijderd. Start Voidstrap als administrator om het op te ruimen.</value>
-  </data>
-  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
-    <value>Beide</value>
-  </data>
-  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
-    <value>Speler</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
-    <value>Serverbrowser</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
-    <value>Plaats {0}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
-    <value>{0}  •  Plaats {1}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
-    <value>{0} servers gescand</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
-    <value>Vernieuwen</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
-    <value>Meer servers laden</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
-    <value>Volle servers verbergen</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
-    <value>Zoek op stad, land of server-ID</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
-    <value>Meeste spelers</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
-    <value>Minste spelers</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
-    <value>Laagste ping</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
-    <value>Deelnemen</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
-    <value>Huidig</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
-    <value>Openbare servers laden</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
-    <value>Geen openbare servers gevonden</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
-    <value>Neem deel aan een game voordat je de serverbrowser opent</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
-    <value>De serverlijst is gepauzeerd omdat Roblox verzoeken beperkt</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
-    <value>Kan openbare servers niet laden</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
-    <value>{0} servers geladen</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
-    <value>{0} van {1} spelers</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
-    <value>{0} spelers</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
-    <value>Onbekend</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
-    <value>Beste match</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
-    <value>Beste match</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
-    <value>Geblokkeerd</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
-    <value>Ongeveer {0} ms van je vandaan</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
-    <value>Tot nu toe {0} servers gevonden</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
-    <value>{0} van {1} servers gevonden</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
-    <value>Je wordt verplaatst naar {0}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
-    <value>Kan niet deelnemen aan die server</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
-    <value>Meld je aan via Instellingen &gt; Server Matchmaker zodat Voidstrap kan vinden waar elke server staat</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
-    <value>Je locatie kon niet worden gevonden, dus servers kunnen niet op ping worden gesorteerd</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
-    <value>Roblox heeft niet laten zien waar deze servers staan, probeer het zo opnieuw</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
-    <value>Alle gevonden servers staan in een datacenter dat je hebt geblokkeerd</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
-    <value>Alle gevonden servers zijn ver van je vandaan, de matchmaker zou Roblox laten kiezen</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
-    <value>Gamebrowser</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
-    <value>Verder spelen</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
-    <value>Favorieten</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
-    <value>Zoeken</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
-    <value>Roblox-games zoeken</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
-    <value>Games laden</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
-    <value>Geen recente games in deze sessie</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
-    <value>Geen favoriete games opgeslagen</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
-    <value>Zoek een Roblox-game op naam</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
-    <value>Geen games gevonden voor {0}</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
-    <value>Kan games niet laden</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
-    <value>{0} spelen</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
-    <value>Deelnemen</value>
-  </data>
-  <data name="Enums.Theme.Berry" xml:space="preserve">
-    <value>Bes</value>
-  </data>
-  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
-    <value>Automatisch vertalen</value>
-  </data>
-  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
-    <value>Vertalen naar</value>
-  </data>
-  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
-    <value>Taal voor automatisch vertalen</value>
-  </data>
-  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
-    <value>Vertaal de hele Voidstrap-interface naar elke taal. Eigen vertalingen worden eerst gebruikt en de rest van de tekst wordt live vertaald.</value>
-  </data>
-  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
-    <value>Discord-RPC's automatisch vertalen</value>
-  </data>
-  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
-    <value>Vertaalt de tekst van Discord Rich Presence automatisch naar de gekozen taal.</value>
-  </data>
-  <data name="Installer.Title" xml:space="preserve">
-    <value>Voidstrap-installatieprogramma</value>
-  </data>
-  <data name="ContextMenu.GameHistory.Rejoin" xml:space="preserve">
-    <value>Opnieuw deelnemen</value>
-  </data>
-  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
-    <value>Deze functie is alleen beschikbaar op Windows.</value>
-  </data>
-  <data name="About.Translators.Description" xml:space="preserve">
-    <value>Iedereen die hier staat, heeft vrijwillig tijd en moeite gestoken in het vertalen van Voidstrap. Iedereen enorm bedankt!</value>
-  </data>
-  <data name="Dialog.Connectivity.Preventing" xml:space="preserve">
-    <value>Iets verhindert waarschijnlijk dat Voidstrap verbinding maakt met internet.</value>
-  </data>
-  <data name="Dialog.Connectivity.TimedOut" xml:space="preserve">
-    <value>Er is een time-out opgetreden bij de verbinding, wat kan wijzen op een slechte internetverbinding of een blokkade door een firewall.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
-    <value>Donkere modus</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
-    <value>Telemetrie</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
-    <value>Donkere modus</value>
   </data>
   <data name="Menu.Sober.Description" xml:space="preserve">
     <value>Stel de Linux-runtimes in waarmee Voidstrap Roblox start. Sober draait de speler, Vinegar draait Studio. Voidstrap wijzigt alleen opties die je expliciet overschrijft.</value>

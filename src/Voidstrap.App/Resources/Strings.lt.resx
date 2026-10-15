@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
+    <value>Voidstrap nepavyko pašalinti likusio AssetWarp nukreipimo iš Windows hosts failo. Roblox negalės įkelti tekstūrų ir kitų išteklių, kol jis nebus pašalintas. Paleiskite Voidstrap kaip administratorius, kad jį išvalytumėte.</value>
+  </data>
   <data name="Bootstrapper.AutoUpdateFailed" xml:space="preserve">
     <value>„Voidstrap“ nepavyko automatiškai atnaujinti į {0} versiją. Atnaujinkite ją rankiniu būdu atsisiųsdami ir paleisdami iš svetainės.</value>
   </data>
@@ -162,6 +165,12 @@
   </data>
   <data name="Bootstrapper.Status.WaitingOtherInstances" xml:space="preserve">
     <value>Laukiama kitų serverių...</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
+    <value>Abu</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
+    <value>Žaidėjas</value>
   </data>
   <data name="Enums.CustomThemeTemplate.Blank" xml:space="preserve">
     <value>Tuščias</value>
@@ -435,6 +444,150 @@ Spustelėkite norėdami gauti daugiau informacijos.</value>
   <data name="ContextMenu.ServerInformation.Type" xml:space="preserve">
     <value>Tipas</value>
   </data>
+  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
+    <value>Serverių naršyklė</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
+    <value>Vieta {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
+    <value>{0}  •  Vieta {1}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
+    <value>Nuskenuota serverių: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
+    <value>Atnaujinti</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
+    <value>Įkelti daugiau serverių</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
+    <value>Slėpti pilnus serverius</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
+    <value>Ieškoti miesto, šalies arba serverio ID</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
+    <value>Daugiausia žaidėjų</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
+    <value>Mažiausiai žaidėjų</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
+    <value>Mažiausias ping</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
+    <value>Prisijungti</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
+    <value>Dabartinis</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
+    <value>Įkeliami vieši serveriai</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
+    <value>Viešų serverių nerasta</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
+    <value>Prieš atidarydami serverių naršyklę, prisijunkite prie žaidimo</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
+    <value>Serverių sąrašas pristabdytas, nes Roblox riboja užklausas</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
+    <value>Nepavyko įkelti viešų serverių</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
+    <value>Įkelta serverių: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
+    <value>{0} iš {1} žaidėjų</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
+    <value>Žaidėjų: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
+    <value>Nežinoma</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
+    <value>Geriausias atitikmuo</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
+    <value>Geriausias atitikmuo</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
+    <value>Užblokuota</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
+    <value>Apie {0} ms nuo jūsų</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
+    <value>Kol kas rasta serverių vietų: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
+    <value>Rasta {0} iš {1} serverių vietų</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
+    <value>Perkeliama į {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
+    <value>Nepavyko prisijungti prie to serverio</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
+    <value>Prisijunkite skiltyje Nustatymai &gt; Server Matchmaker, kad Voidstrap galėtų nustatyti, kur yra kiekvienas serveris</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
+    <value>Nepavyko nustatyti jūsų vietos, todėl serverių negalima rikiuoti pagal ping</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
+    <value>Roblox neatskleidė, kur yra šie serveriai, bandykite dar kartą po akimirkos</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
+    <value>Visi rasti serveriai yra jūsų užblokuotame duomenų centre</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
+    <value>Visi rasti serveriai yra toli nuo jūsų, todėl matchmaker leistų rinktis Roblox</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
+    <value>Žaidimų naršyklė</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
+    <value>Tęsti</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
+    <value>Mėgstami</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
+    <value>Ieškoti</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
+    <value>Ieškoti Roblox žaidimų</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
+    <value>Įkeliami žaidimai</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
+    <value>Šioje sesijoje nėra naujausių žaidimų</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
+    <value>Nėra išsaugotų mėgstamų žaidimų</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
+    <value>Ieškokite Roblox žaidimo pagal pavadinimą</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
+    <value>Žaidimų pagal {0} nerasta</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
+    <value>Nepavyko įkelti žaidimų</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
+    <value>Žaidžia: {0}</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
+    <value>Prisijungti</value>
+  </data>
   <data name="Dialog.AddFastFlag.Title" xml:space="preserve">
     <value>Pridėti „Fast Flag“</value>
   </data>
@@ -566,6 +719,9 @@ Jei ne, praneškite apie šią išimtį per [„GitHub“ problemą]({1}) kartu 
   </data>
   <data name="Enums.Theme.Purple" xml:space="preserve">
     <value>Violetinė</value>
+  </data>
+  <data name="Enums.Theme.Berry" xml:space="preserve">
+    <value>Uogų</value>
   </data>
   <data name="Enums.Theme.Green" xml:space="preserve">
     <value>Žalia</value>
@@ -1015,6 +1171,12 @@ Pasirinkus Ne, šis įspėjimas bus ignoruojamas ir diegimas bus tęsiamas.</val
   <data name="Dialog.LanguageSelector.Header" xml:space="preserve">
     <value>Pasirinkite pageidaujamą kalbą</value>
   </data>
+  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
+    <value>Automatinis vertimas</value>
+  </data>
+  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
+    <value>Versti į</value>
+  </data>
   <data name="Dialog.LanguageSelector.Subtext" xml:space="preserve">
     <value>Prieš tęsiant diegimą, pasirinkite kalbą.</value>
   </data>
@@ -1023,6 +1185,18 @@ Pasirinkus Ne, šis įspėjimas bus ignoruojamas ir diegimas bus tęsiamas.</val
   </data>
   <data name="Menu.Appearance.Language.Description" xml:space="preserve">
     <value>Kai kurie tekstai gali būti neišversti į pageidaujamą kalbą.</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
+    <value>Automatinio vertimo kalba</value>
+  </data>
+  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
+    <value>Išverskite visą Voidstrap sąsają į bet kurią kalbą. Pirmiausia naudojami įtaisyti vertimai, o likęs tekstas verčiamas realiuoju laiku.</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
+    <value>Automatiškai versti Discord RPC</value>
+  </data>
+  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
+    <value>Automatiškai išverčia Discord Rich Presence tekstą į pasirinktą kalbą.</value>
   </data>
   <data name="Menu.Behaviour.ForceRobloxLanguage.Title" xml:space="preserve">
     <value>Leisti naudoti nepalaikomas „Roblox“ kalbas</value>
@@ -1353,6 +1527,9 @@ Rankiniu būdu ištrinkite Voidstrap.exe iš diegimo vietos arba bandykite iš n
   <data name="Common.NotAvailable" xml:space="preserve">
     <value>Nepasiekiama</value>
   </data>
+  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
+    <value>Ši funkcija pasiekiama tik Windows sistemoje.</value>
+  </data>
   <data name="Menu.Mods.Misc.CompatibilitySettings.Title" xml:space="preserve">
     <value>Tvarkyti suderinamumo nustatymus</value>
   </data>
@@ -1417,6 +1594,9 @@ Rankiniu būdu ištrinkite Voidstrap.exe iš diegimo vietos arba bandykite iš n
 Kai režimas įjungtas, jis automatiškai paleis „Roblox“ uždarius nustatymus ir vėl atidarys nustatymus uždarius „Roblox“ cikle, tol, kol jį išjungsite.
 
 Ar norėtumėte įjungti bandymo režimą?</value>
+  </data>
+  <data name="About.Translators.Description" xml:space="preserve">
+    <value>Visi čia išvardyti dosniai skyrė savo laiko ir pastangų Voidstrap vertimui. Didžiulis ačiū visiems!</value>
   </data>
   <data name="Common.Navigation.Install" xml:space="preserve">
     <value>Diegti</value>
@@ -1504,6 +1684,21 @@ Uždarykite visas programas, kurios gali naudoti „Roblox“ failus, ir paleisk
   <data name="Dialog.Connectivity.TimedOut" xml:space="preserve">
     <value>Ryšys nutrūko, o tai gali reikšti prastą interneto ryšį arba užkardos blokavimą.</value>
   </data>
+  <data name="Menu.Channel.Description" xml:space="preserve">
+    <value>Pakeiskite Roblox ir Voidstrap diegimo ir platinimo nustatymus.</value>
+  </data>
+  <data name="Common.Channel" xml:space="preserve">
+    <value>Kanalas</value>
+  </data>
+  <data name="Menu.ChannelChanger.Description" xml:space="preserve">
+    <value>Pasirinkite platinimo kanalą. Nekeiskite, jei nežinote, ką darote.</value>
+  </data>
+  <data name="Common.Version" xml:space="preserve">
+    <value>Versija</value>
+  </data>
+  <data name="Menu.Channel.RobloxUpgrades" xml:space="preserve">
+    <value>Roblox naujiniai</value>
+  </data>
   <data name="Menu.Channel.RobloxUpgrades.Description" xml:space="preserve">
     <value>Kai išjungta, „Roblox“ klientas neatnaujins į naujesnę versiją.</value>
   </data>
@@ -1534,8 +1729,17 @@ Uždarykite visas programas, kurios gali naudoti „Roblox“ failus, ir paleisk
   <data name="Menu.FastFlags.Presets.Layered.Description" xml:space="preserve">
     <value>Neleidžia sluoksniuotiems drabužiams atvaizduoti kitų žaidėjų avataruose.</value>
   </data>
+  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
+    <value>Tamsusis režimas</value>
+  </data>
   <data name="Menu.FastFlags.Presets.DarkMode.Description" xml:space="preserve">
     <value>Suaktyvina „Roblox“ ankstyvojo prieigos DarkMode</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
+    <value>Telemetrija</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
+    <value>Tamsusis režimas</value>
   </data>
   <data name="Menu.FastFlags.Presets.Preload" xml:space="preserve">
     <value>Iš anksto įkelti</value>
@@ -1726,210 +1930,6 @@ Ar norite pakeisti pageidaujamą kanalą į {0}?</value>
   </data>
   <data name="Menu.News.DialogTitle" xml:space="preserve">
     <value>Naujienos detalės</value>
-  </data>
-  <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
-    <value>Voidstrap nepavyko pašalinti likusio AssetWarp nukreipimo iš Windows hosts failo. Roblox negalės įkelti tekstūrų ir kitų išteklių, kol jis nebus pašalintas. Paleiskite Voidstrap kaip administratorius, kad jį išvalytumėte.</value>
-  </data>
-  <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
-    <value>Abu</value>
-  </data>
-  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
-    <value>Žaidėjas</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
-    <value>Serverių naršyklė</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
-    <value>Vieta {0}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
-    <value>{0}  •  Vieta {1}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.ScanSummary" xml:space="preserve">
-    <value>Nuskenuota serverių: {0}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Refresh" xml:space="preserve">
-    <value>Atnaujinti</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.LoadMore" xml:space="preserve">
-    <value>Įkelti daugiau serverių</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.ExcludeFull" xml:space="preserve">
-    <value>Slėpti pilnus serverius</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Search" xml:space="preserve">
-    <value>Ieškoti miesto, šalies arba serverio ID</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Population" xml:space="preserve">
-    <value>Daugiausia žaidėjų</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Empty" xml:space="preserve">
-    <value>Mažiausiai žaidėjų</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Ping" xml:space="preserve">
-    <value>Mažiausias ping</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Join" xml:space="preserve">
-    <value>Prisijungti</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Current" xml:space="preserve">
-    <value>Dabartinis</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Loading" xml:space="preserve">
-    <value>Įkeliami vieši serveriai</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.NoServers" xml:space="preserve">
-    <value>Viešų serverių nerasta</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.NotInGame" xml:space="preserve">
-    <value>Prieš atidarydami serverių naršyklę, prisijunkite prie žaidimo</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.RateLimited" xml:space="preserve">
-    <value>Serverių sąrašas pristabdytas, nes Roblox riboja užklausas</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Failed" xml:space="preserve">
-    <value>Nepavyko įkelti viešų serverių</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Count" xml:space="preserve">
-    <value>Įkelta serverių: {0}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Capacity" xml:space="preserve">
-    <value>{0} iš {1} žaidėjų</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.CapacityUnknown" xml:space="preserve">
-    <value>Žaidėjų: {0}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Unknown" xml:space="preserve">
-    <value>Nežinoma</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Sort.Best" xml:space="preserve">
-    <value>Geriausias atitikmuo</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.BestMatch" xml:space="preserve">
-    <value>Geriausias atitikmuo</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Blocked" xml:space="preserve">
-    <value>Užblokuota</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.EstimatedPing" xml:space="preserve">
-    <value>Apie {0} ms nuo jūsų</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Probing" xml:space="preserve">
-    <value>Kol kas rasta serverių vietų: {0}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.ProbeSummary" xml:space="preserve">
-    <value>Rasta {0} iš {1} serverių vietų</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Joining" xml:space="preserve">
-    <value>Perkeliama į {0}</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.JoinFailed" xml:space="preserve">
-    <value>Nepavyko prisijungti prie to serverio</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.SignedOut" xml:space="preserve">
-    <value>Prisijunkite skiltyje Nustatymai &gt; Server Matchmaker, kad Voidstrap galėtų nustatyti, kur yra kiekvienas serveris</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.NoLocation" xml:space="preserve">
-    <value>Nepavyko nustatyti jūsų vietos, todėl serverių negalima rikiuoti pagal ping</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.Unresolved" xml:space="preserve">
-    <value>Roblox neatskleidė, kur yra šie serveriai, bandykite dar kartą po akimirkos</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.AllBlocked" xml:space="preserve">
-    <value>Visi rasti serveriai yra jūsų užblokuotame duomenų centre</value>
-  </data>
-  <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
-    <value>Visi rasti serveriai yra toli nuo jūsų, todėl matchmaker leistų rinktis Roblox</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
-    <value>Žaidimų naršyklė</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
-    <value>Tęsti</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Favorites" xml:space="preserve">
-    <value>Mėgstami</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Search" xml:space="preserve">
-    <value>Ieškoti</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.SearchPlaceholder" xml:space="preserve">
-    <value>Ieškoti Roblox žaidimų</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Loading" xml:space="preserve">
-    <value>Įkeliami žaidimai</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.NoContinue" xml:space="preserve">
-    <value>Šioje sesijoje nėra naujausių žaidimų</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.NoFavorites" xml:space="preserve">
-    <value>Nėra išsaugotų mėgstamų žaidimų</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.SearchPrompt" xml:space="preserve">
-    <value>Ieškokite Roblox žaidimo pagal pavadinimą</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.NoResults" xml:space="preserve">
-    <value>Žaidimų pagal {0} nerasta</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Failed" xml:space="preserve">
-    <value>Nepavyko įkelti žaidimų</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Playing" xml:space="preserve">
-    <value>Žaidžia: {0}</value>
-  </data>
-  <data name="ContextMenu.GameBrowser.Join" xml:space="preserve">
-    <value>Prisijungti</value>
-  </data>
-  <data name="Enums.Theme.Berry" xml:space="preserve">
-    <value>Uogų</value>
-  </data>
-  <data name="Dialog.LanguageSelector.AutoTranslate" xml:space="preserve">
-    <value>Automatinis vertimas</value>
-  </data>
-  <data name="Dialog.LanguageSelector.TranslateTo" xml:space="preserve">
-    <value>Versti į</value>
-  </data>
-  <data name="Menu.Appearance.Language.AutoTranslateLanguage" xml:space="preserve">
-    <value>Automatinio vertimo kalba</value>
-  </data>
-  <data name="Menu.Appearance.Language.AutoTranslateLanguage.Description" xml:space="preserve">
-    <value>Išverskite visą Voidstrap sąsają į bet kurią kalbą. Pirmiausia naudojami įtaisyti vertimai, o likęs tekstas verčiamas realiuoju laiku.</value>
-  </data>
-  <data name="Menu.Appearance.Language.RpcAutoTranslate" xml:space="preserve">
-    <value>Automatiškai versti Discord RPC</value>
-  </data>
-  <data name="Menu.Appearance.Language.RpcAutoTranslate.Description" xml:space="preserve">
-    <value>Automatiškai išverčia Discord Rich Presence tekstą į pasirinktą kalbą.</value>
-  </data>
-  <data name="Common.NotAvailableOnPlatform" xml:space="preserve">
-    <value>Ši funkcija pasiekiama tik Windows sistemoje.</value>
-  </data>
-  <data name="About.Translators.Description" xml:space="preserve">
-    <value>Visi čia išvardyti dosniai skyrė savo laiko ir pastangų Voidstrap vertimui. Didžiulis ačiū visiems!</value>
-  </data>
-  <data name="Menu.Channel.Description" xml:space="preserve">
-    <value>Pakeiskite Roblox ir Voidstrap diegimo ir platinimo nustatymus.</value>
-  </data>
-  <data name="Common.Channel" xml:space="preserve">
-    <value>Kanalas</value>
-  </data>
-  <data name="Menu.ChannelChanger.Description" xml:space="preserve">
-    <value>Pasirinkite platinimo kanalą. Nekeiskite, jei nežinote, ką darote.</value>
-  </data>
-  <data name="Common.Version" xml:space="preserve">
-    <value>Versija</value>
-  </data>
-  <data name="Menu.Channel.RobloxUpgrades" xml:space="preserve">
-    <value>Roblox naujiniai</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
-    <value>Tamsusis režimas</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
-    <value>Telemetrija</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
-    <value>Tamsusis režimas</value>
   </data>
   <data name="Menu.Sober.Description" xml:space="preserve">
     <value>Konfigūruokite Linux aplinkas, su kuriomis Voidstrap paleidžia Roblox. Sober paleidžia grotuvą, Vinegar paleidžia Studio. Voidstrap keičia tik tas parinktis, kurias aiškiai perrašote.</value>
