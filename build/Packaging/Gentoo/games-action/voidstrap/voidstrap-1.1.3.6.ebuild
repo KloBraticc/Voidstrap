@@ -1,13 +1,15 @@
 EAPI=8
 
-inherit desktop
+inherit desktop rust
 
 DESCRIPTION="Roblox bootstrapper for Linux, fork of Bloxstrap (launches Roblox through Sober)"
 HOMEPAGE="https://github.com/KloBraticc/Voidstrap"
 
+WPFUI_COMMIT="6b11b97f7fb44721c89ca731737eaafbd855989b"
+
 SRC_URI="
         https://github.com/KloBraticc/Voidstrap/archive/refs/tags/v${PV}.tar.gz -> ${P}.tar.gz
-        https://github.com/bloxstraplabs/wpfui/archive/f710123e72d9dcc8d09fccc4e2a783cc5cf5e652.tar.gz
+        ${WPFUI_COMMIT:+https://github.com/KloBraticc/wpfui/archive/${WPFUI_COMMIT}.tar.gz -> wpfui-${WPFUI_COMMIT}.tar.gz}
 "
 
 S="${WORKDIR}/Voidstrap-${PV}"
@@ -49,11 +51,14 @@ RDEPEND="
 "
 
 pkg_setup() {
+        rust_pkg_setup
         export DOTNET_CLI_TELEMETRY_OPTOUT=1
         export DOTNET_NOLOGO=1
         export DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
         export MSBUILDDISABLENODEREUSE=1
         export DOTNET_CLI_HOME="${T}/dotnet-home"
+        export CARGO_HOME="${T}/cargo-home"
+        export VOIDSTRAP_VOIDIMAGE_NO_ZIG=1
 
         mkdir -p "${DOTNET_CLI_HOME}" || die
 
@@ -82,6 +87,14 @@ pkg_setup() {
         einfo "CHOST: ${CHOST}"
         einfo "ARCH: ${ARCH}"
         einfo "Voidstrap RID: ${VOIDSTRAP_RID}"
+}
+
+src_prepare() {
+        if [[ -n ${WPFUI_COMMIT} ]]; then
+                rm -rf external/wpfui || die
+                mv "${WORKDIR}/wpfui-${WPFUI_COMMIT}" external/wpfui || die
+        fi
+        default
 }
 
 src_compile() {

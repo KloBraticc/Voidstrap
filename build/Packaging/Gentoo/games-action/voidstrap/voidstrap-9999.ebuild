@@ -1,17 +1,13 @@
 EAPI=8
 
-inherit desktop git-r3
+inherit desktop git-r3 rust
 
 DESCRIPTION="Roblox bootstrapper for Linux, fork of Bloxstrap (launches Roblox through Sober)"
 HOMEPAGE="https://github.com/KloBraticc/Voidstrap"
 
 EGIT_REPO_URI="https://github.com/KloBraticc/Voidstrap.git"
 EGIT_BRANCH="main"
-EGIT_SUBMODULES=( external/wpfui )
-
-SRC_URI="
-	https://github.com/bloxstraplabs/wpfui/archive/f710123e72d9dcc8d09fccc4e2a783cc5cf5e652.tar.gz
-"
+EGIT_SUBMODULES=( wpfui )
 
 LICENSE="MIT GPL-3 OFL-1.1 CC-BY-4.0 Apache-2.0 BSD-2 BSD ZLIB Unicode-DFS-2016"
 SLOT="0"
@@ -50,11 +46,14 @@ RDEPEND="
 "
 
 pkg_setup() {
+	rust_pkg_setup
 	export DOTNET_CLI_TELEMETRY_OPTOUT=1
 	export DOTNET_NOLOGO=1
 	export DOTNET_SKIP_FIRST_TIME_EXPERIENCE=1
 	export MSBUILDDISABLENODEREUSE=1
 	export DOTNET_CLI_HOME="${T}/dotnet-home"
+	export CARGO_HOME="${T}/cargo-home"
+	export VOIDSTRAP_VOIDIMAGE_NO_ZIG=1
 
 	mkdir -p "${DOTNET_CLI_HOME}" || die
 

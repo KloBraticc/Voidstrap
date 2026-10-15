@@ -7,7 +7,6 @@ HOMEPAGE="https://github.com/KloBraticc/Voidstrap"
 
 SRC_URI="
         https://github.com/KloBraticc/Voidstrap/archive/refs/tags/v${PV}.tar.gz -> ${P}.tar.gz
-        https://github.com/bloxstraplabs/wpfui/archive/f710123e72d9dcc8d09fccc4e2a783cc5cf5e652.tar.gz
 "
 
 S="${WORKDIR}/Voidstrap-${PV}"
