@@ -586,7 +586,7 @@
               <TabItem.Header>
                 <StackPanel Orientation="Horizontal">
                   <ui:SymbolIcon Symbol="Info24" Margin="0,0,6,0" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=TabItem}}" />
-                  <TextBlock Text="About" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=TabItem}}" />
+                  <TextBlock Text="{resources:Loc Menu_About_Title}" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=TabItem}}" />
                 </StackPanel>
               </TabItem.Header>
               <StackPanel Margin="12">

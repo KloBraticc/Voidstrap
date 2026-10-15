@@ -63,7 +63,7 @@
         </Grid>
         <StackPanel Grid.Column="1" Margin="16,0,0,0" VerticalAlignment="Center">
           <StackPanel Orientation="Horizontal">
-            <TextBlock VerticalAlignment="Center" FontSize="24" FontWeight="SemiBold" Text="Voidstrap" />
+            <TextBlock VerticalAlignment="Center" FontSize="24" FontWeight="SemiBold" Text="{resources:Loc Enums_Theme_Voidstrap}" />
             <Border Margin="10,2,0,0" Padding="8,2" VerticalAlignment="Center" CornerRadius="1" Background="{DynamicResource ControlFillColorSecondaryBrush}" BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="1">
               <TextBlock FontSize="12" FontWeight="Medium" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding Version, Mode=OneTime}" />
             </Border>
@@ -279,7 +279,7 @@
           </Grid.ColumnDefinitions>
           <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,4,20,4" FontSize="14" FontWeight="Medium" Text="Updated" />
           <TextBlock Grid.Row="0" Grid.Column="1" Margin="0,4,0,4" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding BuildTimestamp, Mode=OneTime}" />
-          <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,4,20,4" FontSize="14" FontWeight="Medium" Text="Version" />
+          <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,4,20,4" FontSize="14" FontWeight="Medium" Text="{resources:Loc Common_Version}" />
           <TextBlock Grid.Row="1" Grid.Column="1" Margin="0,4,0,4" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding Version, Mode=OneTime}" />
           <TextBlock Grid.Row="2" Grid.Column="0" Margin="0,4,20,4" FontSize="14" FontWeight="Medium" Text="Commit Hash" Visibility="{Binding BuildCommitVisibility, Mode=OneTime}" />
           <TextBlock Grid.Row="2" Grid.Column="1" Margin="0,4,0,4" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Visibility="{Binding BuildCommitVisibility, Mode=OneTime}">

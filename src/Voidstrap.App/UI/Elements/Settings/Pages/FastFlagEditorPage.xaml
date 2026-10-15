@@ -49,7 +49,7 @@
         </FrameworkElement.Style>
       </ui:Button>
       <ui:Button Margin="0,0,10,12" Content="Delete all" Icon="Delete48" Click="DeleteAllButton_Click" />
-      <ui:Button Width="95" Margin="0,0,10,12" VerticalAlignment="Top" Content="Profiles" Icon="Edit28" Click="FlagProfiles_Click" />
+      <ui:Button Width="95" Margin="0,0,10,12" VerticalAlignment="Top" Content="{resources:Loc Common_Profiles}" Icon="Edit28" Click="FlagProfiles_Click" />
       <ToggleButton Name="TogglePresetsButton" Margin="0,0,10,12" VerticalAlignment="Top" Content="{resources:Loc Menu_FastFlagEditor_ShowPresetFlags}" Click="ToggleButton_Click" />
     </WrapPanel>
 

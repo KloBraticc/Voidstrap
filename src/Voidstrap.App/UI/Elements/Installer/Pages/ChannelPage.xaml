@@ -6,7 +6,7 @@
       <ComboBox MinWidth="300" Height="35" Padding="10,5,10,5" VerticalContentAlignment="Center" DisplayMemberPath="Display" ItemsSource="{Binding Mirrors}" SelectedItem="{Binding SelectedMirror, Mode=TwoWay}" />
     </controls:OptionControl>
 
-    <TextBlock Margin="0,24,0,0" FontSize="20" FontWeight="SemiBold" Text="Channel" TextWrapping="Wrap" />
+    <TextBlock Margin="0,24,0,0" FontSize="20" FontWeight="SemiBold" Text="{resources:Loc Menu_Behaviour_Channel_Title}" TextWrapping="Wrap" />
     <TextBlock Margin="0,4,0,0" FontSize="14" LineHeight="20" Foreground="{DynamicResource TextFillColorSecondaryBrush}" TextWrapping="Wrap" Text="The deployment channel Roblox is installed from. Production is the default and is what almost everyone wants. Other channels such as LIVE or zlive are Roblox test builds and may be unavailable, which shows up as a 403 or 404 while downloading" />
     <controls:OptionControl Margin="0,0,0,4" Header="Preferred channel" Description="Leave this as Production unless you know the channel you are typing exists">
       <ui:TextBox MinWidth="300" Height="35" VerticalContentAlignment="Center" PlaceholderText="Production" Text="{Binding Channel, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />

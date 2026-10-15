@@ -1,4 +1,4 @@
-<UserControl x:Class="Voidstrap.UI.Elements.Controls.RinColorPicker"
+<UserControl xmlns:resources="clr-namespace:Voidstrap.Resources" x:Class="Voidstrap.UI.Elements.Controls.RinColorPicker"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              Width="324">
@@ -121,7 +121,7 @@
         <ColumnDefinition Width="*" />
       </Grid.ColumnDefinitions>
       <StackPanel Grid.Column="0">
-        <TextBlock x:Name="C1Label" Text="Red" FontSize="12" Margin="2,0,0,4">
+        <TextBlock x:Name="C1Label" Text="{resources:Loc Enums_Theme_Red}" FontSize="12" Margin="2,0,0,4">
           <TextBlock.Foreground>
             <SolidColorBrush Color="{DynamicResource TextFillColorSecondary}" />
           </TextBlock.Foreground>
@@ -129,7 +129,7 @@
         <TextBox x:Name="C1Box" MaxLength="3" TextChanged="Channel_TextChanged" />
       </StackPanel>
       <StackPanel Grid.Column="2">
-        <TextBlock x:Name="C2Label" Text="Green" FontSize="12" Margin="2,0,0,4">
+        <TextBlock x:Name="C2Label" Text="{resources:Loc Enums_Theme_Green}" FontSize="12" Margin="2,0,0,4">
           <TextBlock.Foreground>
             <SolidColorBrush Color="{DynamicResource TextFillColorSecondary}" />
           </TextBlock.Foreground>
@@ -137,7 +137,7 @@
         <TextBox x:Name="C2Box" MaxLength="3" TextChanged="Channel_TextChanged" />
       </StackPanel>
       <StackPanel Grid.Column="4">
-        <TextBlock x:Name="C3Label" Text="Blue" FontSize="12" Margin="2,0,0,4">
+        <TextBlock x:Name="C3Label" Text="{resources:Loc Enums_Theme_Blue}" FontSize="12" Margin="2,0,0,4">
           <TextBlock.Foreground>
             <SolidColorBrush Color="{DynamicResource TextFillColorSecondary}" />
           </TextBlock.Foreground>

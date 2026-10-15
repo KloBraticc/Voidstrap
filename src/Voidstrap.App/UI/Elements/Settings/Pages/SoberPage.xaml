@@ -6,11 +6,11 @@
         <TabItem.Header>
           <StackPanel Orientation="Horizontal">
             <Image Width="16" Height="16" Margin="0,0,6,0" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality" Source="pack://application:,,,/Resources/SoberIcon.png" />
-            <TextBlock Text="Sober" VerticalAlignment="Center" />
+            <TextBlock Text="{resources:Loc Menu_Sober_Title}" VerticalAlignment="Center" />
           </StackPanel>
         </TabItem.Header>
         <StackPanel Margin="10" DataContext="{Binding Sober, Mode=OneWay}">
-          <controls:OptionControl x:Name="UninstallSoberOption" Header="Sober" Description="{Binding InstallationStatus, Mode=OneWay}" IsEnabled="{Binding CanRunAction, Mode=OneWay}">
+          <controls:OptionControl x:Name="UninstallSoberOption" Header="{resources:Loc Menu_Sober_Title}" Description="{Binding InstallationStatus, Mode=OneWay}" IsEnabled="{Binding CanRunAction, Mode=OneWay}">
             <ui:Button Content="{Binding ActionLabel, Mode=OneWay}" Appearance="{Binding ActionAppearance, Mode=OneWay}" Command="{Binding RunActionCommand}" />
           </controls:OptionControl>
           <controls:OptionControl x:Name="SoberRobloxOption" Margin="0,0,0,8" Header="Roblox" Description="{Binding RobloxStatus, Mode=OneWay}">
@@ -111,7 +111,7 @@
                 <ComboBox Width="230" ItemsSource="{Binding GpuChoices, Mode=OneWay}" DisplayMemberPath="Display" SelectedItem="{Binding GpuChoice, Mode=TwoWay}" />
               </controls:OptionControl>
               <controls:OptionControl x:Name="VinegarVirtualDesktopOption" Header="Virtual desktop" Description="Runs Studio inside a Wine virtual desktop of this size, for example 1920x1080.">
-                <ui:TextBox Width="230" Text="{Binding VirtualDesktop, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" PlaceholderText="Off" />
+                <ui:TextBox Width="230" Text="{Binding VirtualDesktop, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" PlaceholderText="{resources:Loc Menu_Sober_TouchMode_Off}" />
               </controls:OptionControl>
             </StackPanel>
           </Expander>
@@ -122,7 +122,7 @@
                 <ui:TextBox Width="230" Text="{Binding Launcher, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" PlaceholderText="None" />
               </controls:OptionControl>
               <controls:OptionControl x:Name="VinegarChannelOption" Header="Deployment channel" Description="Roblox deployment channel Vinegar downloads Studio from.">
-                <ui:TextBox Width="230" Text="{Binding Channel, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" PlaceholderText="Default" />
+                <ui:TextBox Width="230" Text="{Binding Channel, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" PlaceholderText="{resources:Loc Common_Default}" />
               </controls:OptionControl>
               <controls:OptionControl x:Name="VinegarForcedVersionOption" Header="Forced version" Description="Pins Studio to one version GUID instead of the newest one.">
                 <ui:TextBox Width="230" Text="{Binding ForcedVersion, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" PlaceholderText="Newest" />

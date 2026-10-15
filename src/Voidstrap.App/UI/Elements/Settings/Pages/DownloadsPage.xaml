@@ -260,7 +260,7 @@
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="Version" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Column="0" Text="{resources:Loc Common_Version}" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" />
                                     <Border Grid.Column="1" MaxWidth="150" Padding="10,5" CornerRadius="8" Background="{DynamicResource ControlFillColorSecondaryBrush}" BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="1">
                                         <TextBlock Text="{Binding VersionText}" FontSize="12" TextTrimming="CharacterEllipsis" ToolTip="{Binding VersionText}" />
                                     </Border>
@@ -346,7 +346,7 @@
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
                                         <TextBlock Grid.Column="0" Text="{Binding ProgressDetail}" FontSize="11" Opacity="0.7" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
-                                        <ui:Button Grid.Column="1" Padding="8,3" FontSize="11" Appearance="Secondary" Content="Cancel" Command="{Binding CancelCommand}" />
+                                        <ui:Button Grid.Column="1" Padding="8,3" FontSize="11" Appearance="Secondary" Content="{resources:Loc Common_Cancel}" Command="{Binding CancelCommand}" />
                                     </Grid>
                                 </StackPanel>
                             </StackPanel>
@@ -366,7 +366,7 @@
                         <ui:Button Grid.Column="0" Width="42" Height="42" Padding="0" Appearance="Secondary" Icon="FolderOpen24" FontSize="18" ToolTip="Open install folder" Command="{Binding OpenFolderCommand}" />
                         <ui:Button Grid.Column="2" Width="42" Height="42" Padding="0" Appearance="Secondary" Icon="DocumentSearch24" FontSize="18" ToolTip="Verify files" AutomationProperties.Name="Verify files" IsEnabled="{Binding CanVerify}" Command="{Binding VerifyCommand}" />
                         <ui:Button Grid.Column="4" Height="42" Icon="ArrowDownload24" FontSize="15" FontWeight="SemiBold" Appearance="Primary" Content="{Binding PrimaryButtonText}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" IsEnabled="{Binding CanPrimary}" Command="{Binding InstallCommand}" />
-                        <ui:Button Grid.Column="6" Width="42" Height="42" Padding="0" Appearance="Danger" Icon="Delete24" FontSize="18" ToolTip="Uninstall" IsEnabled="{Binding CanUninstall}" Command="{Binding UninstallCommand}" />
+                        <ui:Button Grid.Column="6" Width="42" Height="42" Padding="0" Appearance="Danger" Icon="Delete24" FontSize="18" ToolTip="{resources:Loc Uninstaller_Uninstall}" IsEnabled="{Binding CanUninstall}" Command="{Binding UninstallCommand}" />
                     </Grid>
                 </Grid>
             </Grid>

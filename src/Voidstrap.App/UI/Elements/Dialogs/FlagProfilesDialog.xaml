@@ -23,12 +23,12 @@
         <TabItem.Header>
           <StackPanel Orientation="Horizontal">
             <ui:SymbolIcon Symbol="Save24" Margin="0,0,6,0" />
-            <TextBlock Text="Save" />
+            <TextBlock Text="{resources:Loc CustomTheme_Editor_Save}" />
           </StackPanel>
         </TabItem.Header>
         <Grid Margin="11">
           <TextBox Name="SaveBackup" Height="32" MaxLength="48" VerticalContentAlignment="Center" TextChanged="SaveBackup_TextChanged" />
-          <TextBlock Margin="10,0,0,0" VerticalAlignment="Center" Foreground="#FFA9A9A9" IsHitTestVisible="False" Text="Profile name">
+          <TextBlock Margin="10,0,0,0" VerticalAlignment="Center" Foreground="#FFA9A9A9" IsHitTestVisible="False" Text="{resources:Loc SettingsProfiles_Name}">
             <TextBlock.Style>
               <Style TargetType="TextBlock">
                 <Setter Property="Visibility" Value="Collapsed" />
@@ -46,7 +46,7 @@
         <TabItem.Header>
           <StackPanel Orientation="Horizontal">
             <ui:SymbolIcon Symbol="FolderOpen24" Margin="0,0,6,0" />
-            <TextBlock Text="Load" />
+            <TextBlock Text="{resources:Loc Menu_Load}" />
           </StackPanel>
         </TabItem.Header>
         <Grid Margin="10">
@@ -62,7 +62,7 @@
               <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <TextBox Name="RenameProfileName" Height="32" MaxLength="48" VerticalContentAlignment="Center" TextChanged="RenameProfileName_TextChanged" />
-            <Button Name="RenameButton" Grid.Column="1" Width="90" Margin="8,0,0,0" Content="Rename" Click="RenameButton_Click" />
+            <Button Name="RenameButton" Grid.Column="1" Width="90" Margin="8,0,0,0" Content="{resources:Loc Common_Rename}" Click="RenameButton_Click" />
           </Grid>
         </Grid>
       </TabItem>
@@ -98,8 +98,8 @@
               </Style>
             </Button.Style>
           </Button>
-          <Button Name="OKButton" Width="80" Margin="10,0,0,0" Content="OK" Click="OKButton_Click" />
-          <Button Width="90" Margin="10,0,0,0" Content="Close" IsCancel="True" />
+          <Button Name="OKButton" Width="80" Margin="10,0,0,0" Content="{resources:Loc Common_OK}" Click="OKButton_Click" />
+          <Button Width="90" Margin="10,0,0,0" Content="{resources:Loc Common_Close}" IsCancel="True" />
         </StackPanel>
       </Grid>
     </Border>

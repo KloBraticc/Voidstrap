@@ -11,7 +11,7 @@
 
     <controls:ProfilesExpander Kind="Global" />
     <controls:OptionControl Margin="0,-4,0,0" Header="Reset to Default Settings" Description="Restore all preferences to default.">
-      <Button Content="Reset" Width="120" Command="{Binding ResetToDefaultsCommand}" />
+      <Button Content="{resources:Loc Common_Reset}" Width="120" Command="{Binding ResetToDefaultsCommand}" />
     </controls:OptionControl>
 
     <TextBlock Style="{StaticResource SectionHeading}" Text="Settings File" />

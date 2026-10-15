@@ -1,4 +1,4 @@
-<Window x:Class="Voidstrap.UI.Elements.Overlay.SessionServerBrowser"
+<Window xmlns:resources="clr-namespace:Voidstrap.Resources" x:Class="Voidstrap.UI.Elements.Overlay.SessionServerBrowser"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
@@ -106,9 +106,9 @@
           <RowDefinition Height="Auto" />
           <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        <TextBlock Text="Type" Style="{StaticResource InfoLabel}" />
+        <TextBlock Text="{resources:Loc ContextMenu_ServerInformation_Type}" Style="{StaticResource InfoLabel}" />
         <TextBlock x:Name="TypeText" Grid.Column="1" Style="{StaticResource InfoValue}" Margin="0,0,16,0" />
-        <TextBlock Grid.Row="1" Text="Instance ID" Style="{StaticResource InfoLabel}" Margin="0,8,14,0" />
+        <TextBlock Grid.Row="1" Text="{resources:Loc ContextMenu_ServerInformation_InstanceId}" Style="{StaticResource InfoLabel}" Margin="0,8,14,0" />
         <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal" Margin="0,8,16,0">
           <TextBlock x:Name="InstanceText" FontFamily="Cascadia Mono, Consolas" FontSize="12" MaxWidth="210" VerticalAlignment="Center"
                      TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
@@ -116,7 +116,7 @@
             <TextBlock x:Name="CopyGlyph" Text="&#xE8C8;" Style="{StaticResource Glyph}" FontSize="12" />
           </ui:Button>
         </StackPanel>
-        <TextBlock Grid.Column="2" Text="Location" Style="{StaticResource InfoLabel}" />
+        <TextBlock Grid.Column="2" Text="{resources:Loc ContextMenu_ServerInformation_Location}" Style="{StaticResource InfoLabel}" />
         <TextBlock x:Name="LocationText" Grid.Column="3" Style="{StaticResource InfoValue}" Margin="0,0,16,0" />
         <TextBlock Grid.Row="1" Grid.Column="2" Text="Uptime" Style="{StaticResource InfoLabel}" Margin="0,8,14,0" />
         <TextBlock x:Name="UptimeText" Grid.Row="1" Grid.Column="3" Style="{StaticResource InfoValue}" Margin="0,8,16,0" />
@@ -162,7 +162,7 @@
                     ToolTip="Place" DisplayMemberPath="Name" SelectionChanged="PlaceBox_SelectionChanged" />
           <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="0,2,16,2">
             <ui:ToggleSwitch x:Name="HideFullToggle" Click="Filter_Changed" />
-            <TextBlock Text="Hide full servers" FontSize="14" VerticalAlignment="Center" Margin="10,0,0,0" />
+            <TextBlock Text="{resources:Loc ContextMenu_ServerBrowser_ExcludeFull}" FontSize="14" VerticalAlignment="Center" Margin="10,0,0,0" />
           </StackPanel>
         </WrapPanel>
         <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
@@ -170,7 +170,7 @@
           <ui:Button x:Name="RefreshButton" Appearance="Secondary" Focusable="False" Click="RefreshButton_Click" MinWidth="104">
             <StackPanel Orientation="Horizontal">
               <TextBlock Text="&#xE72C;" Style="{StaticResource Glyph}" Margin="0,0,8,0" />
-              <TextBlock Text="Refresh" FontSize="14" VerticalAlignment="Center" />
+              <TextBlock Text="{resources:Loc ContextMenu_ServerBrowser_Refresh}" FontSize="14" VerticalAlignment="Center" />
             </StackPanel>
           </ui:Button>
         </StackPanel>

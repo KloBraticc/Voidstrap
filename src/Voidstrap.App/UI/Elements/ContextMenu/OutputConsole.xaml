@@ -68,9 +68,9 @@
 	<Grid Grid.Row="3" Margin="8,0,8,8">
 	  <TextBlock Text="{Binding StatusText}" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
 	  <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-	  <Button Content="Clear" Command="{Binding ClearCommand}" Margin="0,0,8,0" Padding="12,6" />
+	  <Button Content="{resources:Loc FlagSearch_Label25}" Command="{Binding ClearCommand}" Margin="0,0,8,0" Padding="12,6" />
 	  <Button Content="Download CSV" Command="{Binding ExportCommand}" Margin="0,0,8,0" Padding="12,6" />
-	  <Button Content="Close" Command="{Binding CloseWindowCommand}" Padding="12,6" />
+	  <Button Content="{resources:Loc Common_Close}" Command="{Binding CloseWindowCommand}" Padding="12,6" />
 	  </StackPanel>
 	</Grid>
   </Grid>

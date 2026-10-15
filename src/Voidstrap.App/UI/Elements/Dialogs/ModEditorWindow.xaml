@@ -131,7 +131,7 @@
         <TextBlock x:Name="StatusText" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
         <StackPanel Grid.Column="1" Orientation="Horizontal">
           <Button MinWidth="100" Content="{resources:Loc Common_Cancel}" Click="Cancel_Click" />
-          <ui:Button x:Name="SaveButton" MinWidth="100" Margin="8,0,0,0" Appearance="Primary" Content="Save" IsEnabled="False" Click="Save_Click" />
+          <ui:Button x:Name="SaveButton" MinWidth="100" Margin="8,0,0,0" Appearance="Primary" Content="{resources:Loc CustomTheme_Editor_Save}" IsEnabled="False" Click="Save_Click" />
         </StackPanel>
       </Grid>
     </Border>

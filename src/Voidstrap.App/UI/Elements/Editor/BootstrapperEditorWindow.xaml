@@ -247,7 +247,7 @@
           <Grid Grid.Row="0" Margin="14,12,10,10">
                         <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
               <ui:Button Style="{StaticResource ToolButton}" Margin="0" Icon="DocumentAdd24" ToolTip="New file" Click="NewFile_Click" />
-              <ui:Button Style="{StaticResource ToolButton}" Icon="ArrowImport24" ToolTip="Import" Click="ImportFile_Click" />
+              <ui:Button Style="{StaticResource ToolButton}" Icon="ArrowImport24" ToolTip="{resources:Loc Common_Import}" Click="ImportFile_Click" />
               <ui:Button Style="{StaticResource ToolButton}" Icon="FolderAdd24" ToolTip="New folder" Click="NewFolder_Click" />
               <ui:Button Style="{StaticResource ToolButton}" Icon="ArrowClockwise24" ToolTip="Reload" Click="RefreshFiles_Click" />
             </StackPanel>
@@ -270,14 +270,14 @@
             </ListBox.ItemTemplate>
             <ListBox.ContextMenu>
               <ContextMenu>
-                <MenuItem Header="Rename" Click="RenameFile_Click" />
+                <MenuItem Header="{resources:Loc Common_Rename}" Click="RenameFile_Click" />
                 <MenuItem Header="Replace" Click="ReplaceFile_Click" />
                 <MenuItem Header="Duplicate" Click="DuplicateFile_Click" />
                 <Separator />
                 <MenuItem Header="Copy theme path" Click="CopyThemePath_Click" />
                 <MenuItem Header="Show in folder" Click="ShowInFolder_Click" />
                 <Separator />
-                <MenuItem Header="Delete" Click="DeleteFile_Click" />
+                <MenuItem Header="{resources:Loc Common_Delete}" Click="DeleteFile_Click" />
               </ContextMenu>
             </ListBox.ContextMenu>
           </ListBox>
@@ -344,8 +344,8 @@
                 <TextBlock Name="MediaInfo" Grid.Row="1" Margin="0,16,0,0" HorizontalAlignment="Center" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" TextAlignment="Center" TextWrapping="Wrap" />
                 <StackPanel Grid.Row="2" Margin="0,16,0,0" Orientation="Horizontal" HorizontalAlignment="Center">
                   <ui:Button Appearance="Primary" Icon="ArrowSwap24" Content="Replace" Click="ReplaceFile_Click" />
-                  <ui:Button Margin="8,0,0,0" Appearance="Secondary" Icon="Rename24" Content="Rename" Click="RenameFile_Click" />
-                  <ui:Button Margin="8,0,0,0" Appearance="Secondary" Icon="Delete24" Content="Delete" Click="DeleteFile_Click" />
+                  <ui:Button Margin="8,0,0,0" Appearance="Secondary" Icon="Rename24" Content="{resources:Loc Common_Rename}" Click="RenameFile_Click" />
+                  <ui:Button Margin="8,0,0,0" Appearance="Secondary" Icon="Delete24" Content="{resources:Loc Common_Delete}" Click="DeleteFile_Click" />
                 </StackPanel>
               </Grid>
             </Border>
@@ -383,7 +383,7 @@
             <StackPanel>
               <StackPanel Orientation="Horizontal">
                 <ui:SymbolIcon Name="PreviewStatusIcon" Margin="0,0,9,0" VerticalAlignment="Center" FontSize="16" Symbol="CheckmarkCircle24" />
-                <TextBlock Name="PreviewStatusTitle" VerticalAlignment="Center" FontSize="13" FontWeight="SemiBold" Text="Ready" />
+                <TextBlock Name="PreviewStatusTitle" VerticalAlignment="Center" FontSize="13" FontWeight="SemiBold" Text="{resources:Loc FlagSearch_Label6}" />
               </StackPanel>
               <TextBlock Name="PreviewStatusDetail" Margin="25,5,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" TextWrapping="Wrap" Visibility="Collapsed" />
               <TextBlock Name="PreviewStatusHint" Margin="25,6,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" Visibility="Collapsed" />

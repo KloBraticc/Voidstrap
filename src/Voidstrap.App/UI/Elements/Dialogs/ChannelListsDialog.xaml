@@ -70,15 +70,15 @@
         </DataGrid.CellStyle>
         <DataGrid.Columns>
           <DataGridTextColumn Header="Channel Name" Width="180" Binding="{Binding ChannelName}" />
-          <DataGridTextColumn Header="Version" Width="*" Binding="{Binding Version}" />
+          <DataGridTextColumn Header="{resources:Loc Common_Version}" Width="*" Binding="{Binding Version}" />
           <DataGridTextColumn Header="Version GUID" Width="*" Binding="{Binding VersionGuid}" />
         </DataGrid.Columns>
       </DataGrid>
     </Grid>
     <Border Grid.Row="3" Margin="0,8,0,0" Padding="16,12" Background="{DynamicResource ControlFillColorTertiaryBrush}" BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="1,0,0,0">
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-        <ui:Button Appearance="Primary" Width="120" Content="Refresh" Icon="ArrowSync24" Margin="0,0,10,0" Command="{Binding RefreshCommand}" />
-        <ui:Button Appearance="Secondary" Content="Close" IsCancel="True" Click="Close_Click" />
+        <ui:Button Appearance="Primary" Width="120" Content="{resources:Loc ContextMenu_ServerBrowser_Refresh}" Icon="ArrowSync24" Margin="0,0,10,0" Command="{Binding RefreshCommand}" />
+        <ui:Button Appearance="Secondary" Content="{resources:Loc Common_Close}" IsCancel="True" Click="Close_Click" />
       </StackPanel>
     </Border>
   </Grid>

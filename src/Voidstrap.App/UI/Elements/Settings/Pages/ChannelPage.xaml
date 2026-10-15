@@ -8,11 +8,11 @@
         <TabItem.Header>
           <StackPanel Orientation="Horizontal">
             <Image Width="16" Height="16" Margin="0,0,6,0" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality" Source="pack://application:,,,/Voidstrap.png" />
-            <TextBlock Text="Voidstrap" />
+            <TextBlock Text="{resources:Loc Enums_Theme_Voidstrap}" />
           </StackPanel>
         </TabItem.Header>
         <StackPanel Margin="10">
-          <TextBlock Margin="0,0,0,4" FontSize="20" FontWeight="Medium" Text="Voidstrap" />
+          <TextBlock Margin="0,0,0,4" FontSize="20" FontWeight="Medium" Text="{resources:Loc Enums_Theme_Voidstrap}" />
           <controls:OptionControl Header="Install Location" Description="Move where Voidstrap is installed. The app restarts automatically when done." Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
             <StackPanel>
               <ui:TextBox Width="360" Margin="0,0,0,6" Text="{Binding InstallLocationText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
@@ -90,7 +90,7 @@
                   <TextBox Width="220" HorizontalAlignment="Left" Margin="0,6,0,0" Text="{Binding PlaceId, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding UsePlaceId}" />
                   <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
                     <ComboBox DisplayMemberPath="DisplayName" Width="220" ItemsSource="{Binding AvailableResolutionsInGame}" SelectedItem="{Binding SelectedResolutionInGame, Mode=TwoWay}" />
-                    <ui:Button Margin="8,0,0,0" Content="Clear" Command="{Binding ClearInGameResolutionCommand}" />
+                    <ui:Button Margin="8,0,0,0" Content="{resources:Loc FlagSearch_Label25}" Command="{Binding ClearInGameResolutionCommand}" />
                   </StackPanel>
                 </StackPanel>
               </controls:OptionControl>
@@ -111,7 +111,7 @@
             <ui:Button Content="Factory reset" Appearance="Danger" Margin="0,8,8,0" Icon="ArrowReset24" Click="ResetSettingsButton_Click" />
             <ui:Button Content="Donate" Icon="Heart24" Margin="0,8,8,0" Click="DonateButton_Click" />
             <ui:Button Content="Logs" Icon="DocumentText24" Margin="0,8,8,0" Click="LogsButton_Click" />
-            <ui:Button Content="Uninstall" Icon="Delete24" Margin="0,8,8,0" Click="UninstallButton_Click" />
+            <ui:Button Content="{resources:Loc Uninstaller_Uninstall}" Icon="Delete24" Margin="0,8,8,0" Click="UninstallButton_Click" />
           </StackPanel>
         </StackPanel>
       </TabItem>
@@ -150,11 +150,11 @@
         <TabItem.Header>
           <StackPanel Orientation="Horizontal">
             <Image Width="16" Height="16" Margin="0,0,6,0" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality" Source="pack://application:,,,/Resources/RobloxPlayerIcon.png" />
-            <TextBlock Text="Game" />
+            <TextBlock Text="{resources:Loc Shortcuts_GameTab}" />
           </StackPanel>
         </TabItem.Header>
         <StackPanel Margin="10">
-          <TextBlock Margin="0,0,0,4" FontSize="20" FontWeight="Medium" Text="Game" />
+          <TextBlock Margin="0,0,0,4" FontSize="20" FontWeight="Medium" Text="{resources:Loc Shortcuts_GameTab}" />
                         <ui:CardControl Margin="0,8,0,0" Focusable="False" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
                             <ui:CardControl.Header>
                                 <StackPanel>

@@ -1,4 +1,4 @@
-<UserControl x:Class="Voidstrap.UI.Elements.Controls.AssetPreviewPanel" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls;assembly=Voidstrap" Loaded="Panel_Loaded" Unloaded="Panel_Unloaded">
+<UserControl xmlns:resources="clr-namespace:Voidstrap.Resources" x:Class="Voidstrap.UI.Elements.Controls.AssetPreviewPanel" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls;assembly=Voidstrap" Loaded="Panel_Loaded" Unloaded="Panel_Unloaded">
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
@@ -48,7 +48,7 @@
               <ComboBoxItem Content="AAC (M4A)" />
               <ComboBoxItem Content="WMA" />
             </ComboBox>
-            <ui:Button Content="Save" Padding="10,4" Margin="6,0,0,0" ToolTip="Download / convert this audio" Click="AudioDownload_Click" />
+            <ui:Button Content="{resources:Loc CustomTheme_Editor_Save}" Padding="10,4" Margin="6,0,0,0" ToolTip="Download / convert this audio" Click="AudioDownload_Click" />
           </StackPanel>
         </StackPanel>
         <ui:Button Name="HelpButton" Content="?" Width="30" Height="30" Padding="0" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10" Visibility="Collapsed" ToolTip="Camera controls" Opacity="0.9" Click="Help_Click" />

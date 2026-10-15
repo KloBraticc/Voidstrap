@@ -88,7 +88,7 @@
         <StackPanel Grid.Column="1">
           <TextBlock FontSize="16" FontWeight="SemiBold" Text="Destination" />
           <TextBlock Margin="0,2,0,10" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Use the place ID from the Roblox game URL." TextWrapping="Wrap" />
-          <TextBlock Text="Game ID" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+          <TextBlock Text="{resources:Loc Menu_Integrations_Custom_GameID}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
           <ui:TextBox Margin="0,4,0,0" PlaceholderText="Example: 1818" Text="{Binding GameID, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
           <TabControl Margin="0,12,0,0">
             <TabItem Header="{resources:Loc Shortcuts_GameTab}">
@@ -99,10 +99,10 @@
                     <ColumnDefinition Width="Auto" />
                   </Grid.ColumnDefinitions>
                   <StackPanel>
-                    <TextBlock FontWeight="Medium" Text="Private server" />
+                    <TextBlock FontWeight="Medium" Text="{resources:Loc Enums_ServerType_Private}" />
                     <TextBlock Margin="0,2,12,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Use a private server share link or access code" TextWrapping="Wrap" />
                   </StackPanel>
-                  <ui:ToggleSwitch Grid.Column="1" VerticalAlignment="Center" AutomationProperties.Name="Private server" IsChecked="{Binding IsPrivateServer, Mode=TwoWay}" />
+                  <ui:ToggleSwitch Grid.Column="1" VerticalAlignment="Center" AutomationProperties.Name="{resources:Loc Enums_ServerType_Private}" IsChecked="{Binding IsPrivateServer, Mode=TwoWay}" />
                 </Grid>
                 <StackPanel Margin="0,10,0,0" Visibility="{Binding IsPrivateServer, Converter={StaticResource BoolToVisibilityConverter}}">
                   <TextBlock Text="Share link or access code" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />

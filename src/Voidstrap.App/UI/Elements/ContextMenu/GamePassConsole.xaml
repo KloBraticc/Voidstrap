@@ -89,14 +89,14 @@
         </Style>
       </DataGrid.CellStyle>
       <DataGrid.Columns>
-        <DataGridTemplateColumn Header="Icon" Width="64">
+        <DataGridTemplateColumn Header="{resources:Loc Menu_Appearance_Icon_Title}" Width="64">
           <DataGridTemplateColumn.CellTemplate>
             <DataTemplate>
               <Image Width="48" Height="48" Stretch="UniformToFill" Margin="4" ClipToBounds="True" Source="{Binding IconUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}" util:DynamicRenderSystem.LinuxImageSource="{Binding IconUrl}" />
             </DataTemplate>
           </DataGridTemplateColumn.CellTemplate>
         </DataGridTemplateColumn>
-        <DataGridTextColumn Header="Name" Width="2*" Binding="{Binding Name}" />
+        <DataGridTextColumn Header="{resources:Loc Common_Name}" Width="2*" Binding="{Binding Name}" />
         <DataGridTextColumn Header="Description" Width="3*" Binding="{Binding Description}" />
         <DataGridTextColumn Header="Price (R$)" Width="*" Binding="{Binding DisplayPrice}" />
         <DataGridTextColumn Header="Creator" Width="*" Binding="{Binding CreatorName}" />

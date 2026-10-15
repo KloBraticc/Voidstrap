@@ -8,10 +8,10 @@
         </StackPanel>
       </ui:CardAction>
       <controls:OptionControl Header="Apply Changes" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Description="{Binding ApplyDescription}">
-        <ui:Button Content="Apply" Icon="CheckmarkCircle24" Click="Apply_Click" />
+        <ui:Button Content="{resources:Loc Mtu_Apply}" Icon="CheckmarkCircle24" Click="Apply_Click" />
       </controls:OptionControl>
     </StackPanel>
-    <TextBlock Margin="0,16,0,0" FontSize="17.65" FontWeight="Medium" Text="FastFlags" />
+    <TextBlock Margin="0,16,0,0" FontSize="17.65" FontWeight="Medium" Text="{resources:Loc Menu_FastFlags_Title}" />
     <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
       <HeaderedContentControl.Header>
         <StackPanel>

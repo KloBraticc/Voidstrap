@@ -6,7 +6,7 @@
         <HeaderedContentControl.Header>
           <StackPanel Orientation="Horizontal">
             <ui:SymbolIcon Symbol="Settings24" Margin="0,0,6,0" />
-            <TextBlock Text="General" />
+            <TextBlock Text="{resources:Loc Menu_Shortcuts_General_Title}" />
           </StackPanel>
         </HeaderedContentControl.Header>
         <StackPanel Margin="10">
@@ -206,7 +206,7 @@
                   <TextBlock FontSize="14" FontWeight="Medium" Text="Skipped games" />
                   <TextBlock Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" Text="{Binding ExcludedGamesSummary}" />
                 </StackPanel>
-                <ui:Button Grid.Column="1" Margin="12,0,8,0" VerticalAlignment="Center" Content="Clear" Icon="ArrowReset24" Visibility="{Binding HasExcludedGames, Converter={StaticResource BooleanToVisibilityConverter}}" Command="{Binding ClearExcludedGamesCommand}" />
+                <ui:Button Grid.Column="1" Margin="12,0,8,0" VerticalAlignment="Center" Content="{resources:Loc FlagSearch_Label25}" Icon="ArrowReset24" Visibility="{Binding HasExcludedGames, Converter={StaticResource BooleanToVisibilityConverter}}" Command="{Binding ClearExcludedGamesCommand}" />
               </Grid>
             </HeaderedContentControl.Header>
             <StackPanel>
@@ -244,7 +244,7 @@
               <Border BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="4" MaxHeight="320" Visibility="{Binding HasExcludedGames, Converter={StaticResource BooleanToVisibilityConverter}}">
                 <DataGrid AutoGenerateColumns="False" HeadersVisibility="Column" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" GridLinesVisibility="None" IsReadOnly="True" RowHeaderWidth="0" Background="#00FFFFFF" BorderThickness="0" RowHeight="48" AlternatingRowBackground="{DynamicResource SubtleFillColorTertiaryBrush}" ItemsSource="{Binding ExcludedGames}">
                   <DataGrid.Columns>
-                    <DataGridTemplateColumn Header="Game" Width="*" MinWidth="200">
+                    <DataGridTemplateColumn Header="{resources:Loc Shortcuts_GameTab}" Width="*" MinWidth="200">
                       <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                           <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
@@ -312,8 +312,8 @@
           </controls:OptionControl>
           <ui:InfoBar Padding="8" Margin="0,4,0,0" IsClosable="False" IsOpen="True" Severity="Warning" Title="Overlays are hidden in exclusive fullscreen" Message="Your Windows mouse cursor and every overlay are hidden" Visibility="{Binding ShowExclusiveFullscreenWarning, Converter={StaticResource BooleanToVisibilityConverter}}" />
           <ui:InfoBar Padding="8" Margin="0,4,0,4" IsClosable="False" IsOpen="True" Severity="Informational" Title="Needs XWayland on Linux" Message="The title, game name, game icon and server info only apply on Wayland when Run Roblox through XWayland is on in the Sober page." Visibility="{Binding LinuxTitleNeedsXWayland, Converter={StaticResource BooleanToVisibilityConverter}}" />
-          <controls:OptionControl Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}" Header="Title" Description="Leave blank to keep the title Roblox sets">
-            <ui:TextBox Width="220" PlaceholderText="Voidstrap" Text="{Binding RobloxTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+          <controls:OptionControl Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}" Header="{resources:Loc Menu_Appearance_CustomisationTitle_Title}" Description="Leave blank to keep the title Roblox sets">
+            <ui:TextBox Width="220" PlaceholderText="{resources:Loc Enums_Theme_Voidstrap}" Text="{Binding RobloxTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
           </controls:OptionControl>
           <controls:OptionControl Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}" Header="Add the game name" Description="Shows the experience you are playing in the title bar">
             <ui:ToggleSwitch IsChecked="{Binding CycleTitleWithGameName, Mode=TwoWay}" />
@@ -324,7 +324,7 @@
           <controls:OptionControl Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}" Header="Add the server info" Description="Shows the server region and player count in the title bar">
             <ui:ToggleSwitch IsChecked="{Binding ShowServerInfoInTitle, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="Window backdrop" Description="Backdrop material to Roblox's window frame. Requires Windows 11" IsEnabled="{Binding IsWindows11}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+          <controls:OptionControl Header="{resources:Loc Installer_Appearance_Backdrop_Title}" Description="Backdrop material to Roblox's window frame. Requires Windows 11" IsEnabled="{Binding IsWindows11}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
             <ComboBox Width="240" Padding="10,5,10,5" ItemsSource="{Binding BackdropOptions}" SelectedValue="{Binding RobloxBackdropType, Mode=TwoWay}" DisplayMemberPath="Display" SelectedValuePath="Value" IsEnabled="{Binding IsWindows11}" />
           </controls:OptionControl>
 

@@ -47,7 +47,7 @@
       </ui:Button>
       <ui:Button Margin="0,0,10,12" Content="Delete all" Icon="Delete48" Click="DeleteAll_Click" />
       <ui:Button MinWidth="108" Margin="0,0,10,12" VerticalAlignment="Top" Content="Reset NIP" Icon="DeleteDismiss24" Click="ResetNipFile_Click" />
-      <ui:Button Width="95" Margin="0,0,10,12" VerticalAlignment="Top" Content="Apply" Icon="CheckmarkCircle24" Click="Apply_Click" />
+      <ui:Button Width="95" Margin="0,0,10,12" VerticalAlignment="Top" Content="{resources:Loc Mtu_Apply}" Icon="CheckmarkCircle24" Click="Apply_Click" />
     </WrapPanel>
 
     <Grid Grid.Row="2" Margin="0,0,0,8">
@@ -98,7 +98,7 @@
                 CurrentCellChanged="DataGrid_CurrentCellChanged"
                 SelectionChanged="DataGrid_SelectionChanged">
         <DataGrid.Columns>
-          <DataGridTemplateColumn Header="Type" Width="110" CanUserSort="False">
+          <DataGridTemplateColumn Header="{resources:Loc ContextMenu_ServerInformation_Type}" Width="110" CanUserSort="False">
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
                 <Border Style="{StaticResource FastFlagsTagPill}" Background="{Binding ValueType, Converter={StaticResource TagColorConverter}}">
@@ -151,7 +151,7 @@
     <WrapPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,10,0,0">
       <ui:Button Width="140" VerticalAlignment="Center" Content="Export .NIP" Icon="ArrowExit20" Margin="0,0,10,0" Click="ExportNip_Click" />
       <ui:Button Margin="0,0,10,0" VerticalAlignment="Top" Content="Copy flags" Icon="Clipboard16" Click="CopySelected_Click" />
-      <ui:Button Margin="0,0,10,0" VerticalAlignment="Top" Content="Back" Click="BackButton" />
+      <ui:Button Margin="0,0,10,0" VerticalAlignment="Top" Content="{resources:Loc Menu_FastFlagEditor_Back}" Click="BackButton" />
     </WrapPanel>
 
     <Expander Grid.Row="5" Margin="0,6,0,0" Background="{DynamicResource ControlFillColorTertiaryBrush}" ExpandDirection="Up" Header="NVIDIA Flag History" IsExpanded="False" ToolTip="Tracks changes made to NVIDIA flags this session.">

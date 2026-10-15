@@ -1,4 +1,4 @@
-<base:WpfUiWindow
+<base:WpfUiWindowxmlns:resources="clr-namespace:Voidstrap.Resources" 
     x:Class="Voidstrap.UI.Elements.RiShade.RiShadeWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -57,7 +57,7 @@
                         <ui:Button Icon="Document24" Width="36" Height="34" Padding="0" Margin="6,0,0,0" ToolTip="Import a ReShade ini" Command="{Binding ImportReShadeCommand}" />
                         <ui:Button Icon="Delete24" Width="36" Height="34" Padding="0" Margin="6,0,0,0" Appearance="Danger" ToolTip="Delete the selected preset" Command="{Binding DeletePresetCommand}" />
                     </StackPanel>
-                    <ui:Button DockPanel.Dock="Right" Margin="8,0,0,0" Height="34" Appearance="Primary" Icon="Save24" Content="Save" Command="{Binding SavePresetCommand}" />
+                    <ui:Button DockPanel.Dock="Right" Margin="8,0,0,0" Height="34" Appearance="Primary" Icon="Save24" Content="{resources:Loc CustomTheme_Editor_Save}" Command="{Binding SavePresetCommand}" />
                     <ui:TextBox PlaceholderText="Name this look to save it" Text="{Binding PresetName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </DockPanel>
             </Grid>
@@ -80,7 +80,7 @@
                                     <ColumnDefinition Width="Auto" />
                                 </Grid.ColumnDefinitions>
                                 <TextBlock Text="{Binding Name}" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
-                                <Ellipse Grid.Column="1" Width="7" Height="7" Margin="8,0,4,0" VerticalAlignment="Center" Fill="{DynamicResource SystemAccentColorPrimaryBrush}" ToolTip="On" Visibility="{Binding IsOn, Converter={StaticResource BoolToVis}}" />
+                                <Ellipse Grid.Column="1" Width="7" Height="7" Margin="8,0,4,0" VerticalAlignment="Center" Fill="{DynamicResource SystemAccentColorPrimaryBrush}" ToolTip="{resources:Loc Menu_Sober_TouchMode_On}" Visibility="{Binding IsOn, Converter={StaticResource BoolToVis}}" />
                             </Grid>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -103,7 +103,7 @@
                             <TextBlock x:Name="GroupTitle" FontSize="17" FontWeight="SemiBold" />
                             <TextBlock x:Name="GroupHint" FontSize="12" Margin="0,2,0,0" Foreground="{DynamicResource TextFillColorSecondaryBrush}" TextWrapping="Wrap" />
                         </StackPanel>
-                        <ui:Button x:Name="GroupReset" Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center" Appearance="Secondary" Icon="ArrowReset24" Content="Reset" Click="GroupReset_Click" />
+                        <ui:Button x:Name="GroupReset" Grid.Column="1" Margin="10,0,10,0" VerticalAlignment="Center" Appearance="Secondary" Icon="ArrowReset24" Content="{resources:Loc Common_Reset}" Click="GroupReset_Click" />
                         <ui:ToggleSwitch x:Name="GroupToggle" Grid.Column="2" VerticalAlignment="Center" />
                     </Grid>
                     <Border Grid.Row="0" Height="1" VerticalAlignment="Bottom" Background="{DynamicResource ControlElevationBorderBrush}" />

@@ -1,4 +1,4 @@
-<base:WpfUiWindow x:Class="Voidstrap.UI.Elements.Dialogs.LaunchMenuDialog" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Voidstrap.UI.Elements.Dialogs" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:models="clr-namespace:Voidstrap.UI.ViewModels" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" Title="Voidstrap" Width="580" MinWidth="0" MinHeight="0" BorderBrush="Transparent" BorderThickness="0" ExtendsContentIntoTitleBar="True" ResizeMode="NoResize" SizeToContent="Height" AllowsTransparency="True" WindowBackdropType="Aero" WindowStyle="None" WindowStartupLocation="CenterScreen" Background="{ui:ThemeResource ApplicationBackgroundBrush}">
+<base:WpfUiWindow x:Class="Voidstrap.UI.Elements.Dialogs.LaunchMenuDialog" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Voidstrap.UI.Elements.Dialogs" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:models="clr-namespace:Voidstrap.UI.ViewModels" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" Title="{resources:Loc Enums_Theme_Voidstrap}" Width="580" MinWidth="0" MinHeight="0" BorderBrush="Transparent" BorderThickness="0" ExtendsContentIntoTitleBar="True" ResizeMode="NoResize" SizeToContent="Height" AllowsTransparency="True" WindowBackdropType="Aero" WindowStyle="None" WindowStartupLocation="CenterScreen" Background="{ui:ThemeResource ApplicationBackgroundBrush}">
   <Grid>
     <Panel.Background>
       <LinearGradientBrush StartPoint="0,1" EndPoint="1,0" SpreadMethod="Pad">
@@ -13,7 +13,7 @@
       <RowDefinition Height="*" />
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
-    <ui:TitleBar Title="Voidstrap" Grid.Row="0" Padding="8" CanMaximize="False" Icon="pack://application:,,,/Voidstrap.png" KeyboardNavigation.TabNavigation="None" ShowMaximize="False" ShowMinimize="True" />
+    <ui:TitleBar Title="{resources:Loc Enums_Theme_Voidstrap}" Grid.Row="0" Padding="8" CanMaximize="False" Icon="pack://application:,,,/Voidstrap.png" KeyboardNavigation.TabNavigation="None" ShowMaximize="False" ShowMinimize="True" />
     <Grid Name="grid" Grid.Row="1" Margin="0,0,0,16">
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="280" />
@@ -27,7 +27,7 @@
           </Grid.ColumnDefinitions>
           <Image Grid.Column="0" Width="72" Height="72" Source="pack://application:,,,/Voidstrap.png" RenderOptions.BitmapScalingMode="HighQuality" />
           <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
-            <TextBlock Name="LaunchTitle" Text="Voidstrap" FontSize="24" FontWeight="SemiBold" />
+            <TextBlock Name="LaunchTitle" Text="{resources:Loc Enums_Theme_Voidstrap}" FontSize="24" FontWeight="SemiBold" />
             <TextBlock Margin="0,1,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding Version, Mode=OneTime}" />
           </StackPanel>
         </Grid>
@@ -49,7 +49,7 @@
             <TextBlock FontSize="14" TextTrimming="None" Text="Settings" />
           </ui:CardAction>
           <ui:CardAction Grid.Column="1" Margin="4,0,0,0" Padding="13,13,13,12" IsChevronVisible="False" Icon="WindowDevTools24" IconFilled="False" TabIndex="2" Command="{Binding LaunchRobloxStudioCommand, Mode=OneTime}">
-            <TextBlock FontSize="14" TextTrimming="None" Text="Studio" />
+            <TextBlock FontSize="14" TextTrimming="None" Text="{resources:Loc Common_Studio}" />
           </ui:CardAction>
         </Grid>
         <ui:CardAction Margin="0,12,0,0" Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="https://github.com/KloBraticc/Voidstrap" Icon="Code24" IconFilled="False" TabIndex="3">

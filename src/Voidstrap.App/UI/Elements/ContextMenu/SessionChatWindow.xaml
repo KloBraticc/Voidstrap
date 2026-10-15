@@ -1,4 +1,4 @@
-<Window x:Class="Voidstrap.UI.Elements.Overlay.SessionChatWindow"
+<Window xmlns:resources="clr-namespace:Voidstrap.Resources" x:Class="Voidstrap.UI.Elements.Overlay.SessionChatWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
@@ -71,7 +71,7 @@
           <ui:Button x:Name="FriendsTab" Grid.Column="2" Content="Friends" HorizontalAlignment="Stretch" Appearance="Secondary" Click="FriendsTab_Click" />
         </Grid>
         <ui:TextBox x:Name="FilterBox" Grid.Row="1" Margin="0,0,0,8" ClearButtonEnabled="True"
-                    PlaceholderText="Search" TextChanged="FilterBox_TextChanged" />
+                    PlaceholderText="{resources:Loc ContextMenu_GameBrowser_Search}" TextChanged="FilterBox_TextChanged" />
         <ListBox x:Name="ConversationList" Grid.Row="2" BorderThickness="0" Background="Transparent"
                  ItemContainerStyle="{StaticResource ChatListItem}" SelectionChanged="ConversationList_SelectionChanged"
                  VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling"
@@ -162,7 +162,7 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
           </Grid.ColumnDefinitions>
-          <ui:TextBox x:Name="InputBox" PlaceholderText="Message" MaxLength="500" IsEnabled="False"
+          <ui:TextBox x:Name="InputBox" PlaceholderText="{resources:Loc Common_Message}" MaxLength="500" IsEnabled="False"
                       PreviewKeyDown="InputBox_PreviewKeyDown" TextChanged="InputBox_TextChanged" />
           <ui:Button x:Name="SendButton" Grid.Column="1" Margin="8,0,0,0" Content="Send" Appearance="Primary"
                      IsEnabled="False" Click="SendButton_Click" />

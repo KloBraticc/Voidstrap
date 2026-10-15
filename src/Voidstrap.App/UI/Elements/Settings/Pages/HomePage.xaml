@@ -167,7 +167,7 @@
                         </ui:Button.Style>
                         <StackPanel Orientation="Horizontal">
                             <Image Width="16" Height="16" Margin="0,0,7,0" RenderOptions.BitmapScalingMode="HighQuality" Source="pack://application:,,,/Resources/RobloxStudioIcon.png" />
-                            <TextBlock VerticalAlignment="Center" Text="Studio" />
+                            <TextBlock VerticalAlignment="Center" Text="{resources:Loc Common_Studio}" />
                         </StackPanel>
                     </ui:Button>
                 </StackPanel>
@@ -175,8 +175,8 @@
             <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal" Visibility="{Binding StudioTabVisibility}">
                 <ProgressBar Width="120" Height="3" Margin="0,0,12,0" VerticalAlignment="Center" IsIndeterminate="True"
                              Visibility="{Binding IsStudioLoading, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                <ui:Button Content="Refresh" Icon="ArrowSync24" Appearance="Secondary" Command="{Binding RefreshStudioCommand}" />
-                <ui:Button Margin="8,0,0,0" Appearance="Primary" Command="{Binding LaunchStudioCommand}" ToolTip="Launch Roblox Studio">
+                <ui:Button Content="{resources:Loc ContextMenu_ServerBrowser_Refresh}" Icon="ArrowSync24" Appearance="Secondary" Command="{Binding RefreshStudioCommand}" />
+                <ui:Button Margin="8,0,0,0" Appearance="Primary" Command="{Binding LaunchStudioCommand}" ToolTip="{resources:Loc LaunchMenu_LaunchRobloxStudio}">
                     <StackPanel Orientation="Horizontal">
                         <Image Width="16" Height="16" Margin="0,0,7,0" RenderOptions.BitmapScalingMode="HighQuality" Source="pack://application:,,,/Resources/RobloxStudioIcon.png" />
                         <TextBlock VerticalAlignment="Center" Text="Open Studio" />

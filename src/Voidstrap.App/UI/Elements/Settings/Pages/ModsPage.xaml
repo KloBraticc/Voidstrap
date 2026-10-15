@@ -62,7 +62,7 @@
           <TabItem.Header>
             <StackPanel Orientation="Horizontal">
               <ui:SymbolIcon Symbol="Color24" Margin="0,0,6,0" />
-              <TextBlock Text="Customize" />
+              <TextBlock Text="{resources:Loc Installer_Appearance_Theme_Customize}" />
             </StackPanel>
           </TabItem.Header>
           <StackPanel Margin="12">
@@ -129,8 +129,8 @@
                   <ComboBox HorizontalAlignment="Stretch" Padding="10,5,10,5" ItemsSource="{Binding CursorSettings.SavedSets}" SelectedItem="{Binding CursorSettings.SelectedSet, Mode=TwoWay}" Visibility="{Binding CursorSettings.HasSavedSets, Converter={StaticResource BooleanToVisibilityConverter}}" />
                   <TextBlock VerticalAlignment="Center" FontSize="13" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="No cursor sets yet. Press New to make one, or import a zip." TextWrapping="Wrap" Visibility="{Binding CursorSettings.HasNoSavedSets, Converter={StaticResource BooleanToVisibilityConverter}}" />
                   <StackPanel Grid.Column="1" Margin="8,0,0,0" Orientation="Horizontal">
-                    <ui:Button Icon="Add24" Content="New" Command="{Binding CursorSettings.NewSetCommand}" />
-                    <ui:Button Margin="8,0,0,0" Icon="FolderZip24" Content="Import" Command="{Binding CursorSettings.ImportSetCommand}" />
+                    <ui:Button Icon="Add24" Content="{resources:Loc Common_New}" Command="{Binding CursorSettings.NewSetCommand}" />
+                    <ui:Button Margin="8,0,0,0" Icon="FolderZip24" Content="{resources:Loc Common_Import}" Command="{Binding CursorSettings.ImportSetCommand}" />
                     <ui:Button Margin="8,0,0,0" Icon="FolderOpen24" Content="Folder" ToolTip="Open the cursor sets folder" Command="{Binding CursorSettings.OpenSetsFolderCommand}" />
                   </StackPanel>
                 </Grid>
@@ -139,9 +139,9 @@
                   <WrapPanel Margin="0,4,0,0">
                     <ui:Button Margin="0,0,8,8" Appearance="Primary" Icon="Checkmark20" Content="Use this set" Command="{Binding CursorSettings.UseSetCommand}" />
                     <ui:Button Margin="0,0,8,8" Icon="CollectionsAdd24" Content="Copy current cursor" ToolTip="Replace this set with your current custom cursor and shift lock icon" Command="{Binding CursorSettings.CopyCurrentToSetCommand}" />
-                    <ui:Button Margin="0,0,8,8" Icon="Edit24" Content="Rename" Command="{Binding CursorSettings.RenameSetCommand}" />
-                    <ui:Button Margin="0,0,8,8" Icon="ArrowExportRtl24" Content="Export" Command="{Binding CursorSettings.ExportSetCommand}" />
-                    <ui:Button Margin="0,0,0,8" Appearance="Danger" Icon="Delete24" Content="Delete" Command="{Binding CursorSettings.DeleteSetCommand}" />
+                    <ui:Button Margin="0,0,8,8" Icon="Edit24" Content="{resources:Loc Common_Rename}" Command="{Binding CursorSettings.RenameSetCommand}" />
+                    <ui:Button Margin="0,0,8,8" Icon="ArrowExportRtl24" Content="{resources:Loc Common_Export}" Command="{Binding CursorSettings.ExportSetCommand}" />
+                    <ui:Button Margin="0,0,0,8" Appearance="Danger" Icon="Delete24" Content="{resources:Loc Common_Delete}" Command="{Binding CursorSettings.DeleteSetCommand}" />
                   </WrapPanel>
                 </StackPanel>
               </StackPanel>
@@ -176,7 +176,7 @@
               </StackPanel>
             </controls:OptionControl>
 
-            <TextBlock Margin="2,24,0,0" FontSize="16" FontWeight="SemiBold" Text="Appearance" />
+            <TextBlock Margin="2,24,0,0" FontSize="16" FontWeight="SemiBold" Text="{resources:Loc Menu_Appearance_Title}" />
             <controls:OptionControl Description="{resources:Loc Menu_Mods_Presets_OldAvatarEditor_Description}" Header="{resources:Loc Menu_Mods_Presets_OldAvatarEditor_Title}">
               <ui:ToggleSwitch IsChecked="{Binding OldAvatarBackgroundTask.NewState, Mode=TwoWay}" />
             </controls:OptionControl>
@@ -205,7 +205,7 @@
                         <ColumnDefinition Width="52" />
                         <ColumnDefinition Width="*" />
                       </Grid.ColumnDefinitions>
-                      <TextBlock VerticalAlignment="Center" Text="Back" />
+                      <TextBlock VerticalAlignment="Center" Text="{resources:Loc Menu_FastFlagEditor_Back}" />
                       <ui:Button Grid.Column="1" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left" Content="{Binding CustomSkyboxBack}" ToolTip="{Binding CustomSkyboxBack}" Command="{Binding ChooseSkyboxFaceCommand}" CommandParameter="Back" IsEnabled="{Binding CustomSkyboxControlsEnabled}" />
                     </Grid>
                     <Grid Margin="0,6,0,0">
@@ -751,7 +751,7 @@
                           </MenuItem.Icon>
                         </MenuItem>
                         <Separator />
-                        <MenuItem Header="Refresh" Command="{Binding RefreshManagedModsCommand}">
+                        <MenuItem Header="{resources:Loc ContextMenu_ServerBrowser_Refresh}" Command="{Binding RefreshManagedModsCommand}">
                           <MenuItem.Icon>
                             <ui:SymbolIcon Symbol="ArrowSync24" />
                           </MenuItem.Icon>
@@ -858,7 +858,7 @@
                 </Grid>
               </HeaderedContentControl.Header>
               <StackPanel>
-                <controls:OptionControl Header="Style" Description="What to show behind the home page.">
+                <controls:OptionControl Header="{resources:Loc Menu_Appearance_Style_Title}" Description="What to show behind the home page.">
                   <ComboBox Width="190" Padding="10,5" ItemsSource="{Binding HomepageBackgroundModes}" SelectedItem="{Binding SelectedHomepageBackgroundMode, Mode=TwoWay}" />
                 </controls:OptionControl>
                 <controls:OptionControl Header="Color" Visibility="{Binding ShowHomepageSolidColor, Converter={StaticResource BooleanToVisibilityConverter}}">
@@ -992,7 +992,7 @@
                 </Grid>
               </HeaderedContentControl.Header>
               <StackPanel>
-                <controls:OptionControl Header="Type">
+                <controls:OptionControl Header="{resources:Loc ContextMenu_ServerInformation_Type}">
                   <ComboBox SelectedIndex="{Binding ColorBlindnessType, Mode=TwoWay}">
                     <ComboBoxItem Content="Protanopia (red/green)" />
                     <ComboBoxItem Content="Deuteranopia (red/green)" />
@@ -1078,16 +1078,16 @@
                     <TextBlock Width="44" Margin="8,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Text="{Binding CursorOpacity, StringFormat=0.00}" />
                   </StackPanel>
                 </controls:OptionControl>
-                <controls:OptionControl Header="Preview">
+                <controls:OptionControl Header="{resources:Loc CustomTheme_Editor_Preview}">
                   <Border Width="160" Height="160" BorderThickness="1" BorderBrush="{DynamicResource ControlElevationBorderBrush}" CornerRadius="6">
                     <Image Stretch="Uniform" Margin="8" Source="{Binding CursorPreview, TargetNullValue={x:Null}}" />
                   </Border>
                 </controls:OptionControl>
-                <controls:OptionControl Header="Code" Description="Share or paste a crosshair code.">
+                <controls:OptionControl Header="{resources:Loc Menu_About_Contributors_Code}" Description="Share or paste a crosshair code.">
                   <StackPanel Orientation="Horizontal">
                     <TextBox Width="200" Text="{Binding CursorCode, Mode=TwoWay}" />
                     <ui:Button Content="Generate" Margin="4,0,0,0" Command="{Binding GenerateCursorCodeCommand}" />
-                    <ui:Button Content="Apply" Margin="4,0,0,0" Command="{Binding ApplyCursorCodeCommand}" />
+                    <ui:Button Content="{resources:Loc Mtu_Apply}" Margin="4,0,0,0" Command="{Binding ApplyCursorCodeCommand}" />
                   </StackPanel>
                 </controls:OptionControl>
                 <controls:OptionControl Header="Save as file">
@@ -1127,7 +1127,7 @@
           <ColumnDefinition Width="*" />
           <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
-        <ui:Button Grid.Column="0" Width="36" Height="36" Padding="0" Margin="0,0,8,0" Icon="ArrowLeft24" ToolTip="Go back" Command="{Binding GoBackCommand}" IsEnabled="{Binding ExplorerCanGoBack}" />
+        <ui:Button Grid.Column="0" Width="36" Height="36" Padding="0" Margin="0,0,8,0" Icon="ArrowLeft24" ToolTip="{resources:Loc Menu_FastFlagEditor_Warning_Back}" Command="{Binding GoBackCommand}" IsEnabled="{Binding ExplorerCanGoBack}" />
         <Border Grid.Column="1" MinWidth="180" Padding="12,0" Margin="0,0,12,0" Background="{DynamicResource ControlFillColorDefaultBrush}" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="4">
           <TextBlock VerticalAlignment="Center" FontWeight="Medium" Text="{Binding ExplorerPathDisplay}" TextTrimming="CharacterEllipsis" ToolTip="{Binding CurrentExplorerPath}" />
         </Border>
@@ -1151,7 +1151,7 @@
                   ScrollViewer.VerticalScrollBarVisibility="Auto"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled">
           <DataGrid.Columns>
-            <DataGridTemplateColumn Header="Name" Width="*">
+            <DataGridTemplateColumn Header="{resources:Loc Common_Name}" Width="*">
               <DataGridTemplateColumn.CellTemplate>
                 <DataTemplate>
                   <StackPanel Orientation="Horizontal">
@@ -1161,8 +1161,8 @@
                 </DataTemplate>
               </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
-            <DataGridTextColumn Header="Type" Width="60" Binding="{Binding Type}" />
-            <DataGridTemplateColumn Header="Status" Width="90">
+            <DataGridTextColumn Header="{resources:Loc ContextMenu_ServerInformation_Type}" Width="60" Binding="{Binding Type}" />
+            <DataGridTemplateColumn Header="{resources:Loc FlagSearch_Label34}" Width="90">
               <DataGridTemplateColumn.CellTemplate>
                 <DataTemplate>
                   <TextBlock VerticalAlignment="Center" Margin="4,0" FontWeight="SemiBold" Text="{Binding Status}">
@@ -1230,7 +1230,7 @@
                 <ui:Button Content="Replace" Icon="ArrowSwap24" Appearance="Primary" ToolTip="Choose a local replacement for this asset" Command="{Binding ReplaceFileCommand}" IsEnabled="{Binding ExplorerSelectedFile}" />
                 <ui:Button Content="Adjust" Icon="Edit24" ToolTip="Rotate, flip, or resize this image" Command="{Binding AdjustImageCommand}" Visibility="{Binding ExplorerSelectedImage, Converter={StaticResource BooleanToVisibilityConverter}}" />
                 <ui:Button Content="Recolor" Icon="Color24" ToolTip="Tint this image" Command="{Binding RecolorImageCommand}" Visibility="{Binding ExplorerSelectedImage, Converter={StaticResource BooleanToVisibilityConverter}}" />
-                <ui:Button Content="Export" Icon="ArrowDownload24" ToolTip="Save this file to your computer" Command="{Binding ExportFileCommand}" IsEnabled="{Binding ExplorerSelectedFile}" />
+                <ui:Button Content="{resources:Loc Common_Export}" Icon="ArrowDownload24" ToolTip="Save this file to your computer" Command="{Binding ExportFileCommand}" IsEnabled="{Binding ExplorerSelectedFile}" />
               </WrapPanel>
             </StackPanel>
           </Border>
@@ -1243,9 +1243,9 @@
           <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <StackPanel Orientation="Horizontal">
-          <ui:Button Content="Refresh" Icon="ArrowClockwise24" Appearance="Primary" Margin="0,0,8,0" Command="{Binding RefreshModFilesCommand}" />
-          <ui:Button Content="Open folder" Icon="FolderOpen24" Margin="0,0,8,0" Command="{Binding OpenModFileFolderCommand}" />
-          <ui:Button Content="Delete" Icon="Delete24" Appearance="Danger" Command="{Binding DeleteModFileCommand}" IsEnabled="{Binding ExplorerHasSelection}" />
+          <ui:Button Content="{resources:Loc ContextMenu_ServerBrowser_Refresh}" Icon="ArrowClockwise24" Appearance="Primary" Margin="0,0,8,0" Command="{Binding RefreshModFilesCommand}" />
+          <ui:Button Content="{resources:Loc SettingsProfiles_Folder}" Icon="FolderOpen24" Margin="0,0,8,0" Command="{Binding OpenModFileFolderCommand}" />
+          <ui:Button Content="{resources:Loc Common_Delete}" Icon="Delete24" Appearance="Danger" Command="{Binding DeleteModFileCommand}" IsEnabled="{Binding ExplorerHasSelection}" />
         </StackPanel>
         <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
           <TextBlock Margin="0,0,14,0" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding ExplorerItemCountText}" />

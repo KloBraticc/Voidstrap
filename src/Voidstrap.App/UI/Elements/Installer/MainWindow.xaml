@@ -14,7 +14,7 @@
       <ui:NavigationStore Name="RootNavigation" Visibility="Collapsed" IsHitTestVisible="False" Focusable="False" SelectedPageIndex="0" Frame="{Binding ElementName=RootFrame}">
         <ui:NavigationBase.Items>
           <ui:NavigationItem Content="{resources:Loc Installer_Install_Title}" Icon="ArrowDownload24" PageType="{x:Type pages:InstallPage}" />
-          <ui:NavigationItem Content="Channel" Icon="Globe24" PageType="{x:Type pages:ChannelPage}" />
+          <ui:NavigationItem Content="{resources:Loc Menu_Behaviour_Channel_Title}" Icon="Globe24" PageType="{x:Type pages:ChannelPage}" />
           <ui:NavigationItem Content="{resources:Loc Menu_Mods_Title}" Icon="PaintBrush24" PageType="{x:Type pages:InstallerModsPage}" />
           <ui:NavigationItem Content="{resources:Loc Menu_Appearance_Title}" Icon="Color24" PageType="{x:Type pages:InstallerAppearancePage}" />
           <ui:NavigationItem Content="Manager" Icon="Apps24" PageType="{x:Type settingspages:DownloadsPage}" />

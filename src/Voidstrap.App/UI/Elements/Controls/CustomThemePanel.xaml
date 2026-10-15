@@ -1,4 +1,4 @@
-<UserControl x:Class="Voidstrap.UI.Elements.Controls.CustomThemePanel" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" Loaded="Panel_Loaded" Unloaded="Panel_Unloaded" IsVisibleChanged="Panel_IsVisibleChanged">
+<UserControl xmlns:resources="clr-namespace:Voidstrap.Resources" x:Class="Voidstrap.UI.Elements.Controls.CustomThemePanel" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" Loaded="Panel_Loaded" Unloaded="Panel_Unloaded" IsVisibleChanged="Panel_IsVisibleChanged">
   <UserControl.Resources>
     <DataTemplate x:Key="ThemeColorTile">
       <Grid Margin="0,0,8,8" Opacity="{Binding RowOpacity}">
@@ -33,7 +33,7 @@
         <ColumnDefinition Width="Auto" />
       </Grid.ColumnDefinitions>
       <ComboBox Name="ProfileBox" Grid.Column="0" Padding="10,5" VerticalAlignment="Center" ToolTip="Your saved theme profiles" SelectionChanged="ProfileBox_SelectionChanged" />
-      <ui:Button Grid.Column="1" Margin="8,0,0,0" Appearance="Secondary" Content="Save" ToolTip="Save your colours to this profile" Click="ProfileSave_Click" />
+      <ui:Button Grid.Column="1" Margin="8,0,0,0" Appearance="Secondary" Content="{resources:Loc CustomTheme_Editor_Save}" ToolTip="Save your colours to this profile" Click="ProfileSave_Click" />
       <ui:Button Name="MoreButton" Grid.Column="2" Margin="8,0,0,0" Appearance="Secondary" Content="More" ToolTip="More profile options" Click="More_Click" />
     </Grid>
 

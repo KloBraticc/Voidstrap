@@ -14,7 +14,7 @@
           <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
             <HeaderedContentControl.Header>
               <StackPanel>
-                <TextBlock FontSize="14" Text="Background and UI" />
+                <TextBlock FontSize="14" Text="{resources:Loc Installer_Appearance_BackgroundUI_Title}" />
                 <TextBlock Margin="0,2,0,0" FontSize="12" Text="Customize background ui and options" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
               </StackPanel>
             </HeaderedContentControl.Header>
@@ -46,13 +46,13 @@
                   </ui:Button.Style>
                 </ui:Button>
               </controls:OptionControl>
-              <controls:OptionControl Header="Gradient opacity" Description="Set from the image lighting on import. You can change it afterwards.">
+              <controls:OptionControl Header="{resources:Loc Installer_Appearance_GradientOpacity}" Description="Set from the image lighting on import. You can change it afterwards.">
                 <StackPanel Orientation="Horizontal">
                   <Slider Width="200" VerticalAlignment="Center" Minimum="0" Maximum="1" SmallChange="0.01" LargeChange="0.1" Value="{Binding GradientOpacity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                   <TextBlock MinWidth="44" Margin="10,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding GradientOpacity, StringFormat={}{0:P0}}" />
                 </StackPanel>
               </controls:OptionControl>
-              <controls:OptionControl Header="Dark overlay" Description="Darkens the background so text stays readable.">
+              <controls:OptionControl Header="{resources:Loc Installer_Appearance_DarkOverlay}" Description="Darkens the background so text stays readable.">
                 <StackPanel Orientation="Horizontal">
                   <Slider Width="200" VerticalAlignment="Center" Minimum="0" Maximum="1" SmallChange="0.01" LargeChange="0.1" Value="{Binding BlackOverlayOpacity, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                   <TextBlock MinWidth="44" Margin="10,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding BlackOverlayOpacity, StringFormat={}{0:P0}}" />
@@ -64,7 +64,7 @@
               <controls:OptionControl Header="Snow" Description="Adds falling snow to the background.">
                 <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding Snowww, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl Header="Gradient movement" Description="Moves the background gradient with your cursor.">
+              <controls:OptionControl Header="{resources:Loc Installer_Appearance_GradientMovement_Title}" Description="Moves the background gradient with your cursor.">
                 <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding GRADmentFR, Mode=TwoWay}" />
               </controls:OptionControl>
               <TextBlock Margin="4,16,0,6" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Shape" />
@@ -84,7 +84,7 @@
                 </StackPanel>
               </controls:OptionControl>
               <TextBlock Margin="4,16,0,6" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Text and scrolling" Visibility="{Binding WindowsOnlyVisibility}" />
-              <controls:OptionControl Header="Clear font" Description="Uses sharper text rendering after Voidstrap restarts." Visibility="{Binding WindowsOnlyVisibility}">
+              <controls:OptionControl Header="{resources:Loc Installer_Appearance_ClearFont_Title}" Description="{resources:Loc Installer_Appearance_ClearFont_Description}" Visibility="{Binding WindowsOnlyVisibility}">
                 <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding ClearFont, Mode=TwoWay}" />
               </controls:OptionControl>
               <controls:OptionControl Header="Smooth scrollbar" Description="Scrolls smoothly instead of jumping." Visibility="{Binding WindowsOnlyVisibility}">
@@ -137,7 +137,7 @@
               <ui:Button Appearance="Danger" Icon="Delete16" Command="{Binding ManageAppFontCommand}" Content="{Binding AppFontName, Mode=OneWay}" FontFamily="{Binding AppFontFamily, Mode=OneWay}" Visibility="{Binding RemoveAppFontVisibility, Mode=OneWay}" />
             </StackPanel>
           </controls:OptionControl>
-          <controls:OptionControl Header="Page zoom" Description="{Binding PageZoomDescription, Mode=OneTime}">
+          <controls:OptionControl Header="{resources:Loc Installer_Appearance_PageZoom_Title}" Description="{Binding PageZoomDescription, Mode=OneTime}">
             <ComboBox Width="110" Padding="10,5" ItemsSource="{Binding ZoomOptions}" SelectedItem="{Binding UiZoomPercent, Mode=TwoWay}">
               <ItemsControl.ItemTemplate>
                 <DataTemplate>
@@ -157,7 +157,7 @@
         </TabItem.Header>
         <StackPanel>
         <StackPanel Margin="10">
-          <TextBlock Margin="0,0,0,4" FontSize="20" FontWeight="Medium" Text="Language" />
+          <TextBlock Margin="0,0,0,4" FontSize="20" FontWeight="Medium" Text="{resources:Loc Menu_Appearance_Language_Title}" />
           <controls:OptionControl Header="{resources:Loc Menu_Appearance_Language_Title}" Description="{resources:Loc Menu_Appearance_Language_Description}">
             <ComboBox Width="260" Padding="10,5,10,5" ItemsSource="{Binding LanguageOptions, Mode=OneWay}" SelectedItem="{Binding SelectedLanguage, Mode=TwoWay}">
               <ComboBox.Resources>
@@ -195,9 +195,9 @@
               <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <StackPanel Grid.Column="0" Margin="0,0,16,0">
-              <TextBlock Text="Bootstrapper" FontSize="20" FontWeight="Medium" />
+              <TextBlock Text="{resources:Loc Menu_Appearance_Bootstrapper_Title}" FontSize="20" FontWeight="Medium" />
                         </StackPanel>
-            <ui:Button Grid.Column="1" Icon="Play24" Content="Preview" VerticalAlignment="Center" Command="{Binding PreviewBootstrapperCommand}" />
+            <ui:Button Grid.Column="1" Icon="Play24" Content="{resources:Loc CustomTheme_Editor_Preview}" VerticalAlignment="Center" Command="{Binding PreviewBootstrapperCommand}" />
           </Grid>
 
           <controls:OptionControl Header="Launcher style" Description="Choose a built in launcher or use one of your own themes.">
@@ -256,7 +256,7 @@
                     <ColumnDefinition Width="*" />
                   </Grid.ColumnDefinitions>
                   <ui:Button Grid.Column="0" Margin="0,0,4,0" Icon="Add24" Content="New theme" Appearance="Primary" HorizontalAlignment="Stretch" Command="{Binding AddCustomThemeCommand, Mode=OneTime}" />
-                  <ui:Button Grid.Column="1" Margin="4,0,0,0" Icon="Delete24" Content="Delete" Appearance="Danger" HorizontalAlignment="Stretch" IsEnabled="{Binding IsCustomThemeSelected, Mode=OneWay}" Command="{Binding DeleteCustomThemeCommand, Mode=OneTime}" />
+                  <ui:Button Grid.Column="1" Margin="4,0,0,0" Icon="Delete24" Content="{resources:Loc Common_Delete}" Appearance="Danger" HorizontalAlignment="Stretch" IsEnabled="{Binding IsCustomThemeSelected, Mode=OneWay}" Command="{Binding DeleteCustomThemeCommand, Mode=OneTime}" />
                 </Grid>
 
                 <StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Margin="5,0,0,0">
@@ -287,7 +287,7 @@
                       <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <ui:Button Grid.Column="0" Margin="0,0,4,0" Icon="DesktopEdit24" Content="Open editor" Appearance="Primary" HorizontalAlignment="Stretch" Command="{Binding EditCustomThemeCommand, Mode=OneTime}" />
-                    <ui:Button Grid.Column="1" Margin="4,0,0,0" Icon="Play24" Content="Preview" HorizontalAlignment="Stretch" Command="{Binding PreviewBootstrapperCommand}" />
+                    <ui:Button Grid.Column="1" Margin="4,0,0,0" Icon="Play24" Content="{resources:Loc CustomTheme_Editor_Preview}" HorizontalAlignment="Stretch" Command="{Binding PreviewBootstrapperCommand}" />
                   </Grid>
 
                   <Expander Margin="0,10,0,0" Header="More actions" IsExpanded="False">
@@ -297,7 +297,7 @@
                         <ColumnDefinition Width="*" />
                       </Grid.ColumnDefinitions>
                       <ui:Button Grid.Column="0" Margin="0,0,4,0" Icon="ImageMultiple24" Content="View files" HorizontalAlignment="Stretch" Command="{Binding ViewCustomThemeFilesCommand, Mode=OneTime}" />
-                      <ui:Button Grid.Column="1" Margin="4,0,0,0" Icon="ArrowExportRtl24" Content="Export" HorizontalAlignment="Stretch" Command="{Binding ExportCustomThemeCommand, Mode=OneTime}" />
+                      <ui:Button Grid.Column="1" Margin="4,0,0,0" Icon="ArrowExportRtl24" Content="{resources:Loc Common_Export}" HorizontalAlignment="Stretch" Command="{Binding ExportCustomThemeCommand, Mode=OneTime}" />
                     </Grid>
                   </Expander>
                 </StackPanel>
@@ -405,14 +405,14 @@
                   </Style>
                 </DataGrid.Resources>
                 <DataGrid.Columns>
-                  <DataGridTemplateColumn Header="Name" Width="*" MinWidth="160">
+                  <DataGridTemplateColumn Header="{resources:Loc Common_Name}" Width="*" MinWidth="160">
                     <DataGridTemplateColumn.CellTemplate>
                       <DataTemplate>
                         <ui:TextBox Margin="4,3" MaxLength="48" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
                       </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                   </DataGridTemplateColumn>
-                  <DataGridTemplateColumn Header="Icon" Width="138" CanUserSort="False">
+                  <DataGridTemplateColumn Header="{resources:Loc Menu_Appearance_Icon_Title}" Width="138" CanUserSort="False">
                     <DataGridTemplateColumn.CellTemplate>
                       <DataTemplate>
                         <ui:Button Height="30" Margin="4,3" Padding="8,0" HorizontalContentAlignment="Left" ToolTip="Change sidebar icon" Tag="{Binding}" Click="SidebarIconButton_Click">
@@ -572,7 +572,7 @@
             </HeaderedContentControl.Header>
             <StackPanel>
               <controls:OptionControl Header="App name" Description="Replaces the app name everywhere it is shown. Leave it empty to use the original name.">
-                <ui:TextBox Width="220" MaxLength="32" PlaceholderText="Voidstrap" Text="{Binding BrandName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <ui:TextBox Width="220" MaxLength="32" PlaceholderText="{resources:Loc Enums_Theme_Voidstrap}" Text="{Binding BrandName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
               </controls:OptionControl>
               <controls:OptionControl Header="App icon">
                 <StackPanel Orientation="Horizontal">
@@ -580,7 +580,7 @@
                     <Image Width="28" Height="28" Source="{Binding AppIconPreview}" RenderOptions.BitmapScalingMode="HighQuality" />
                   </Border>
                   <ui:Button Content="Choose image" Icon="ImageAdd24" Command="{Binding ChooseAppIconCommand}" />
-                  <ui:Button Margin="8,0,0,0" Content="Reset" Icon="ArrowReset24" Appearance="Secondary" Visibility="{Binding ResetAppIconVisibility}" Command="{Binding ResetAppIconCommand}" />
+                  <ui:Button Margin="8,0,0,0" Content="{resources:Loc Common_Reset}" Icon="ArrowReset24" Appearance="Secondary" Visibility="{Binding ResetAppIconVisibility}" Command="{Binding ResetAppIconCommand}" />
                 </StackPanel>
               </controls:OptionControl>
             </StackPanel>
@@ -592,11 +592,11 @@
         <TabItem.Header>
           <StackPanel Orientation="Horizontal">
             <ui:SymbolIcon Symbol="Grid24" Margin="0,0,6,0" />
-            <TextBlock Text="Icons" />
+            <TextBlock Text="{resources:Loc Paths_Icons}" />
           </StackPanel>
         </TabItem.Header>
         <StackPanel Margin="10">
-          <TextBlock Margin="0,0,0,4" FontSize="20" FontWeight="Medium" Text="Icons" />
+          <TextBlock Margin="0,0,0,4" FontSize="20" FontWeight="Medium" Text="{resources:Loc Paths_Icons}" />
           <controls:OptionControl x:Name="IconSelector" Header="{resources:Loc Menu_Appearance_Icon_Title}" Description="{resources:Loc Menu_Appearance_Icon_Description}">
             <ComboBox Padding="10,5,10,5" SelectedValuePath="IconType" ItemsSource="{Binding Icons, Mode=OneWay}" SelectedValue="{Binding Icon, Mode=TwoWay}">
               <ItemsControl.ItemTemplate>

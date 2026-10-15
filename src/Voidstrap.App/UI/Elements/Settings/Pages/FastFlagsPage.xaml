@@ -16,7 +16,7 @@
           </StackPanel>
         </TabItem.Header>
         <StackPanel Margin="10">
-          <controls:OptionControl Header="Profiles" Visibility="Collapsed">
+          <controls:OptionControl Header="{resources:Loc Common_Profiles}" Visibility="Collapsed">
       <ComboBox Width="200" Margin="5,0,0,0" Padding="10,5,10,5" ItemsSource="{Binding ProfileModes.Keys, Mode=OneTime}" Text="{Binding SelectedProfileMods, Mode=TwoWay}">
         <ItemsControl.ItemTemplate>
           <DataTemplate>
@@ -72,7 +72,7 @@
         </Border>
       </StackPanel>
     </ui:CardExpander>
-    <TextBlock Margin="0,16,0,0" FontSize="17.65" FontWeight="Medium" Text="FastFlags" />
+    <TextBlock Margin="0,16,0,0" FontSize="17.65" FontWeight="Medium" Text="{resources:Loc Menu_FastFlags_Title}" />
     <controls:OptionControl Description="Reduces or scales grass movement in Roblox for performance or visual comfort." Header="Grass Movement Factor">
       <ComboBox Width="200" Margin="5,0,0,0" Padding="10,5,10,5" SelectedValuePath="Key" ItemsSource="{Binding GrassMovementOptions}" SelectedValue="{Binding SelectedGrassMovementFactor, Mode=TwoWay}">
         <ItemsControl.ItemTemplate>
@@ -177,7 +177,7 @@
             </ItemsControl.ItemTemplate>
           </ComboBox>
         </controls:OptionControl>
-        <controls:OptionControl Description="Adjust the quality of textures. Higher levels increase quality." Header="Texture quality">
+        <controls:OptionControl Description="Adjust the quality of textures. Higher levels increase quality." Header="{resources:Loc Menu_FastFlags_Presets_TextureQuality_Title}">
           <ComboBox Width="200" Margin="5,0,0,0" Padding="10,5,10,5" ItemsSource="{Binding TextureQualities.Keys, Mode=OneTime}" Text="{Binding SelectedTextureQuality, Mode=TwoWay}">
             <ItemsControl.ItemTemplate>
               <DataTemplate>
@@ -233,7 +233,7 @@
           </StackPanel>
         </TabItem.Header>
         <StackPanel Margin="10">
-          <ui:Button Margin="0,0,0,8" Icon="ArrowLeft24" Content="Back" Click="CloseAdvancedFlags_Click" />
+          <ui:Button Margin="0,0,0,8" Icon="ArrowLeft24" Content="{resources:Loc Menu_FastFlagEditor_Back}" Click="CloseAdvancedFlags_Click" />
           <ui:InfoBar Padding="8" IsClosable="False" IsOpen="True" Severity="Informational" Message="These options only swap some of Roblox's built in texture files, like particles, studs, terrain and water. Most games use their own textures and effects, so you may not notice much of a difference." />
           <controls:OptionControl Header="Particles" Description="Fire, smoke, explosions, sparkles and force fields">
             <ComboBox Width="200" Padding="10,5,10,5" SelectedIndex="{Binding TextureParticleStyle, Mode=TwoWay}">

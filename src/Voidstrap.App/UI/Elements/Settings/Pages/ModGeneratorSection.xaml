@@ -1,4 +1,4 @@
-<UserControl x:Class="Voidstrap.UI.Elements.Settings.Pages.ModGeneratorSection"
+<UserControl xmlns:resources="clr-namespace:Voidstrap.Resources" x:Class="Voidstrap.UI.Elements.Settings.Pages.ModGeneratorSection"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
@@ -268,7 +268,7 @@
         </StackPanel>
       </ui:CardControl.Header>
       <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-        <ui:Button x:Name="CancelButton" Margin="0,0,8,0" Content="Cancel" Icon="Dismiss24" Appearance="Secondary" Visibility="Collapsed" Click="Cancel_Click" />
+        <ui:Button x:Name="CancelButton" Margin="0,0,8,0" Content="{resources:Loc Common_Cancel}" Icon="Dismiss24" Appearance="Secondary" Visibility="Collapsed" Click="Cancel_Click" />
         <ui:Button x:Name="GenerateButton" Content="Generate mod" Icon="Wand24" Appearance="Primary" Background="{DynamicResource SystemAccentColorSecondaryBrush}" Click="Generate_Click" />
       </StackPanel>
     </ui:CardControl>
