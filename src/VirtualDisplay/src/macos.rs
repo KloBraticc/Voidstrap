@@ -32,6 +32,7 @@ unsafe impl Encode for Size {
 }
 
 #[repr(C)]
+#[derive(Clone, Copy)]
 struct Point {
     x: f64,
     y: f64,
@@ -39,6 +40,17 @@ struct Point {
 
 unsafe impl Encode for Point {
     const ENCODING: Encoding = Encoding::Struct("CGPoint", &[Encoding::Double, Encoding::Double]);
+}
+
+#[repr(C)]
+#[derive(Clone, Copy)]
+struct Rect {
+    origin: Point,
+    size: Size,
+}
+
+unsafe impl Encode for Rect {
+    const ENCODING: Encoding = Encoding::Struct("CGRect", &[Point::ENCODING, Size::ENCODING]);
 }
 
 #[repr(C)]
@@ -67,13 +79,10 @@ struct TimerContext {
 #[link(name = "CoreGraphics", kind = "framework")]
 unsafe extern "C" {
     fn CGMainDisplayID() -> u32;
-    fn CGDisplayIsActive(display: u32) -> u32;
-    fn CGDisplayIsOnline(display: u32) -> u32;
     fn CGDisplayIsInMirrorSet(display: u32) -> u32;
     fn CGDisplayMirrorsDisplay(display: u32) -> u32;
-    fn CGDisplayScreenSize(display: u32) -> Size;
+    fn CGGetActiveDisplayList(max: u32, displays: *mut u32, count: *mut u32) -> i32;
     fn CGDisplayCopyDisplayMode(display: u32) -> Ref;
-    fn CGDisplayCopyAllDisplayModes(display: u32, options: Ref) -> Ref;
     fn CGDisplayModeGetWidth(mode: Ref) -> usize;
     fn CGDisplayModeGetHeight(mode: Ref) -> usize;
     fn CGDisplayModeGetPixelWidth(mode: Ref) -> usize;
@@ -85,22 +94,12 @@ unsafe extern "C" {
     -> i32;
     fn CGCompleteDisplayConfiguration(config: Ref, option: u32) -> i32;
     fn CGCancelDisplayConfiguration(config: Ref) -> i32;
-    fn CGDisplayRegisterReconfigurationCallback(
-        callback: unsafe extern "C" fn(u32, u32, Ref),
-        context: Ref,
-    ) -> i32;
-    fn CGDisplayRemoveReconfigurationCallback(
-        callback: unsafe extern "C" fn(u32, u32, Ref),
-        context: Ref,
-    ) -> i32;
 }
 
 #[link(name = "CoreFoundation", kind = "framework")]
 unsafe extern "C" {
     static kCFRunLoopDefaultMode: Ref;
     fn CFRelease(value: Ref);
-    fn CFArrayGetCount(array: Ref) -> isize;
-    fn CFArrayGetValueAtIndex(array: Ref, index: isize) -> Ref;
     fn CFRunLoopGetCurrent() -> Ref;
     fn CFRunLoopStop(run_loop: Ref);
     fn CFRunLoopWakeUp(run_loop: Ref);
@@ -120,7 +119,6 @@ unsafe extern "C" {
     ) -> Ref;
     fn CFRunLoopAddTimer(run_loop: Ref, timer: Ref, mode: Ref);
     fn CFRunLoopTimerInvalidate(timer: Ref);
-    fn CFRunLoopTimerSetNextFireDate(timer: Ref, fire: f64);
 }
 
 #[link(name = "Foundation", kind = "framework")]
@@ -129,6 +127,9 @@ unsafe extern "C" {}
 unsafe extern "C" {
     static _dispatch_main_q: u8;
 }
+
+const NULL_DISPLAY: u32 = 0;
+const POLL_SECONDS: f64 = 0.5;
 
 struct OwnedRef(Ref);
 
@@ -186,6 +187,7 @@ fn status(message: std::fmt::Arguments<'_>) -> Result<(), String> {
         .and_then(|_| output.flush())
         .map_err(|error| error.to_string())
 }
+
 fn check(code: i32, action: &str) -> Result<(), String> {
     if code == 0 {
         Ok(())
@@ -203,12 +205,58 @@ fn new_object(name: &CStr) -> Result<Retained<AnyObject>, String> {
     value.ok_or_else(|| format!("Could not create {}", name.to_string_lossy()))
 }
 
+fn string(value: &CStr) -> Result<Retained<AnyObject>, String> {
+    let value: Option<Retained<AnyObject>> =
+        unsafe { msg_send![class(c"NSString")?, stringWithUTF8String: value.as_ptr()] };
+    value.ok_or_else(|| "Could not create a string".into())
+}
+
 fn mode(width: usize, height: usize, refresh: f64) -> Result<Retained<AnyObject>, String> {
     let allocated: Allocated<AnyObject> =
         unsafe { msg_send![class(c"CGVirtualDisplayMode")?, alloc] };
     let value: Option<Retained<AnyObject>> =
         unsafe { msg_send![allocated, initWithWidth: width, height: height, refreshRate: refresh] };
     value.ok_or_else(|| "Could not create a virtual display mode".into())
+}
+
+fn physical_size_in_millimeters(screen: &AnyObject, frame: Size) -> Size {
+    let fallback = Size {
+        width: 600.0,
+        height: 340.0,
+    };
+    let Ok(key) = string(c"NSDeviceResolution") else {
+        return fallback;
+    };
+    let description: Option<Retained<AnyObject>> = unsafe { msg_send![screen, deviceDescription] };
+    let Some(description) = description else {
+        return fallback;
+    };
+    let value: Option<Retained<AnyObject>> =
+        unsafe { msg_send![&*description, objectForKey: &*key] };
+    let Some(value) = value else {
+        return fallback;
+    };
+    let dpi: Size = unsafe { msg_send![&*value, sizeValue] };
+    if dpi.width <= 0.0 || dpi.height <= 0.0 {
+        return fallback;
+    }
+    Size {
+        width: frame.width / dpi.width * 25.4,
+        height: frame.height / dpi.height * 25.4,
+    }
+}
+
+fn is_active_display(display: u32) -> bool {
+    let mut count = 0u32;
+    if unsafe { CGGetActiveDisplayList(0, ptr::null_mut(), &mut count) } != 0 || count == 0 {
+        return false;
+    }
+    let mut ids = vec![0u32; count as usize];
+    if unsafe { CGGetActiveDisplayList(count, ids.as_mut_ptr(), &mut count) } != 0 {
+        return false;
+    }
+    ids.truncate(count as usize);
+    ids.contains(&display)
 }
 
 struct Wake {
@@ -222,12 +270,6 @@ impl Wake {
             CFRunLoopSourceSignal(self.source);
             CFRunLoopWakeUp(self.run_loop);
         }
-    }
-}
-
-unsafe extern "C" fn display_changed(_: u32, flags: u32, context: Ref) {
-    if flags & 1 == 0 {
-        unsafe { &*(context as *const Wake) }.signal();
     }
 }
 
@@ -350,39 +392,20 @@ fn event(ident: usize, filter: i16, flags: u16, fflags: u32) -> libc::kevent {
 struct Session {
     application: Retained<AnyObject>,
     display: Option<Retained<AnyObject>>,
-    original: OwnedRef,
+    native_mode: Option<OwnedRef>,
     physical: u32,
     virtual_id: u32,
-    refresh: f64,
     run_loop: Ref,
-    changed: bool,
+    mirrored: bool,
     ready: bool,
-    timeout: bool,
     error: Option<String>,
     stopped: Arc<AtomicBool>,
     started: Instant,
-    last_configuration: Option<Instant>,
-    mirror_lost: Option<Instant>,
-    startup_valid_since: Option<Instant>,
-    timer: Ref,
 }
 
 impl Session {
     fn create(config: Config, stopped: Arc<AtomicBool>) -> Result<Self, String> {
         let started = Instant::now();
-        let physical = unsafe { CGMainDisplayID() };
-        if physical == 0 || unsafe { CGDisplayIsOnline(physical) } == 0 {
-            return Err("No active main display".into());
-        }
-        if unsafe { CGDisplayIsInMirrorSet(physical) } != 0 {
-            return Err(
-                "Stop existing screen mirroring before starting the virtual display".into(),
-            );
-        }
-        let original = OwnedRef::checked(
-            unsafe { CGDisplayCopyDisplayMode(physical) },
-            "The main display mode is unavailable",
-        )?;
         if unsafe {
             libc::dlopen(
                 c"/System/Library/Frameworks/AppKit.framework/AppKit".as_ptr(),
@@ -398,80 +421,58 @@ impl Session {
         unsafe {
             let _: bool = msg_send![&*application, setActivationPolicy: 1isize];
         }
+        let screen: Option<Retained<AnyObject>> =
+            unsafe { msg_send![class(c"NSScreen")?, mainScreen] };
+        let screen = screen.ok_or_else(|| "No main screen is available".to_string())?;
+        let physical = unsafe { CGMainDisplayID() };
+        if physical == 0 {
+            return Err("No active main display".into());
+        }
+
+        let backing: f64 = unsafe { msg_send![&*screen, backingScaleFactor] };
+        let frame: Rect = unsafe { msg_send![&*screen, frame] };
+        let native_scale = (backing.round() as usize).max(1);
+        let is_native = config.size.is_none();
         let (width, height) = config
             .size
             .map(|(w, h)| (w as usize, h as usize))
-            .unwrap_or_else(|| unsafe {
-                (
-                    CGDisplayModeGetWidth(original.0),
-                    CGDisplayModeGetHeight(original.0),
-                )
-            });
-        let (pixels_wide, pixels_high) = if config.size.is_none() {
-            unsafe {
-                (
-                    CGDisplayModeGetPixelWidth(original.0),
-                    CGDisplayModeGetPixelHeight(original.0),
-                )
-            }
-        } else {
-            (width, height)
-        };
-        if width == 0
-            || height == 0
-            || pixels_wide > u32::MAX as usize
-            || pixels_high > u32::MAX as usize
-        {
+            .unwrap_or((frame.size.width as usize, frame.size.height as usize));
+        if width == 0 || height == 0 {
             return Err("The main display dimensions are invalid".into());
         }
+        let scale = if is_native { native_scale } else { 1 };
+        let pixels_wide = u32::try_from(width * scale)
+            .map_err(|_| "The main display dimensions are invalid".to_string())?;
+        let pixels_high = u32::try_from(height * scale)
+            .map_err(|_| "The main display dimensions are invalid".to_string())?;
+
         let descriptor = new_object(c"CGVirtualDisplayDescriptor")?;
-        let name: Retained<AnyObject> = unsafe {
-            msg_send![class(c"NSString")?, stringWithUTF8String: c"Voidstrap Virtual Display".as_ptr()]
-        };
+        let name = string(c"Voidstrap Virtual Display")?;
         unsafe {
-            let _: () = msg_send![&*descriptor, setName: &*name];
-            let _: () = msg_send![&*descriptor, setMaxPixelsWide: pixels_wide as u32];
-            let _: () = msg_send![&*descriptor, setMaxPixelsHigh: pixels_high as u32];
-            let _: () =
-                msg_send![&*descriptor, setSizeInMillimeters: CGDisplayScreenSize(physical)];
-            let _: () = msg_send![&*descriptor, setVendorID: 0x5653u32];
-            let _: () = msg_send![&*descriptor, setProductID: 0x240u32];
-            let _: () = msg_send![&*descriptor, setSerialNum: 1u32];
             let _: () =
                 msg_send![&*descriptor, setDispatchQueue: ptr::addr_of!(_dispatch_main_q) as Ref];
+            let _: () = msg_send![&*descriptor, setName: &*name];
+            let _: () = msg_send![&*descriptor, setMaxPixelsWide: pixels_wide];
+            let _: () = msg_send![&*descriptor, setMaxPixelsHigh: pixels_high];
+            let _: () = msg_send![&*descriptor, setSizeInMillimeters: physical_size_in_millimeters(&screen, frame.size)];
+            let _: () = msg_send![&*descriptor, setProductID: 0x240u32];
+            let _: () = msg_send![&*descriptor, setVendorID: 0x5653u32];
+            let _: () = msg_send![&*descriptor, setSerialNum: 1u32];
         }
+
         let allocated: Allocated<AnyObject> =
             unsafe { msg_send![class(c"CGVirtualDisplay")?, alloc] };
         let display: Option<Retained<AnyObject>> =
             unsafe { msg_send![allocated, initWithDescriptor: &*descriptor] };
         let display =
             display.ok_or_else(|| "macOS refused to create the virtual display".to_string())?;
-        let display_pointer = Retained::as_ptr(&display);
-        let mut session = Self {
-            application,
-            display: Some(display),
-            original,
-            physical,
-            virtual_id: 0,
-            refresh: config.refresh as f64,
-            run_loop: unsafe { CFRunLoopGetCurrent() },
-            changed: false,
-            ready: false,
-            timeout: false,
-            error: None,
-            stopped,
-            started,
-            last_configuration: None,
-            mirror_lost: None,
-            startup_valid_since: None,
-            timer: ptr::null_mut(),
-        };
+
         let settings = new_object(c"CGVirtualDisplaySettings")?;
         let fast = mode(width, height, config.refresh as f64)?;
-        let fallback = mode(width, height, 60.0)?;
-        let objects = [Retained::as_ptr(&fast), Retained::as_ptr(&fallback)];
+        let standard = mode(width, height, 60.0)?;
+        let objects = [Retained::as_ptr(&fast), Retained::as_ptr(&standard)];
         let mode_count = if config.refresh == 60 {
-            1usize
+            1
         } else {
             objects.len()
         };
@@ -479,170 +480,129 @@ impl Session {
             msg_send![class(c"NSArray")?, arrayWithObjects: objects.as_ptr(), count: mode_count]
         };
         unsafe {
-            let _: () = msg_send![&*settings, setHiDPI: u32::from(config.size.is_none() && pixels_wide > width)];
+            let _: () = msg_send![&*settings, setHiDPI: u32::from(is_native && scale > 1)];
             let _: () = msg_send![&*settings, setModes: &*modes];
-            let applied: bool = msg_send![&*display_pointer, applySettings: &*settings];
+            let applied: bool = msg_send![&*display, applySettings: &*settings];
             if !applied {
                 return Err("macOS refused the virtual display modes".into());
             }
         }
-        let virtual_id: u32 = unsafe { msg_send![&*display_pointer, displayID] };
+        let virtual_id: u32 = unsafe { msg_send![&*display, displayID] };
         if virtual_id == 0 {
             return Err("macOS returned an invalid virtual display identifier".into());
         }
-        session.virtual_id = virtual_id;
-        Ok(session)
+
+        Ok(Self {
+            application,
+            display: Some(display),
+            native_mode: None,
+            physical,
+            virtual_id,
+            run_loop: unsafe { CFRunLoopGetCurrent() },
+            mirrored: false,
+            ready: false,
+            error: None,
+            stopped,
+            started,
+        })
     }
 
-    fn update(&mut self) -> Result<(), String> {
+    fn poll(&mut self) -> Result<(), String> {
         if self.stopped.load(Ordering::Acquire) {
             self.stop();
             return Ok(());
         }
-        if unsafe { CGDisplayIsOnline(self.physical) } == 0 {
-            return Err("The main display was disconnected".into());
-        }
         if self.ready {
-            if unsafe { CGDisplayMirrorsDisplay(self.physical) } != self.virtual_id {
-                if self
-                    .mirror_lost
-                    .is_some_and(|lost| lost.elapsed().as_millis() >= 500)
-                {
-                    return Err(format!(
-                        "Virtual display mirroring ended: main {}, physical {}, virtual {}, physical master {}, virtual master {}, physical mirror set {}, virtual mirror set {}",
-                        unsafe { CGMainDisplayID() },
-                        self.physical,
-                        self.virtual_id,
-                        unsafe { CGDisplayMirrorsDisplay(self.physical) },
-                        unsafe { CGDisplayMirrorsDisplay(self.virtual_id) },
-                        unsafe { CGDisplayIsInMirrorSet(self.physical) },
-                        unsafe { CGDisplayIsInMirrorSet(self.virtual_id) }
-                    ));
-                }
-                if self.mirror_lost.is_none() {
-                    self.mirror_lost = Some(Instant::now());
-                    unsafe {
-                        CFRunLoopTimerSetNextFireDate(self.timer, CFAbsoluteTimeGetCurrent() + 0.5)
-                    };
-                }
-            } else {
-                self.mirror_lost = None;
+            return Ok(());
+        }
+        if !self.mirrored {
+            if !is_active_display(self.virtual_id) {
+                return Ok(());
             }
-            return Ok(());
-        }
-        if self.timeout {
-            let mut rates = Vec::new();
-            let modes = unsafe { CGDisplayCopyAllDisplayModes(self.virtual_id, ptr::null_mut()) };
-            if !modes.is_null() {
-                let modes = OwnedRef(modes);
-                for index in 0..unsafe { CFArrayGetCount(modes.0) } {
-                    rates.push(unsafe {
-                        CGDisplayModeGetRefreshRate(CFArrayGetValueAtIndex(modes.0, index))
-                    });
-                }
-            }
-            return Err(format!(
-                "Timed out waiting for the virtual display: active {}, online {}, mirror {}, configured {}, rates {:?}",
-                unsafe { CGDisplayIsActive(self.virtual_id) },
-                unsafe { CGDisplayIsOnline(self.virtual_id) },
-                unsafe { CGDisplayMirrorsDisplay(self.physical) },
-                self.changed,
-                rates
-            ));
-        }
-        if unsafe { CGDisplayMirrorsDisplay(self.physical) } != self.virtual_id
-            || unsafe { CGMainDisplayID() } != self.virtual_id
-        {
-            self.startup_valid_since = None;
-        }
-        if unsafe { CGDisplayIsActive(self.virtual_id) } == 0 {
-            self.startup_valid_since = None;
-            return Ok(());
-        }
-        if self
-            .last_configuration
-            .is_some_and(|last| last.elapsed().as_millis() < 500)
-        {
-            return Ok(());
+            self.enable_mirroring()?;
         }
         if unsafe { CGDisplayMirrorsDisplay(self.physical) } != self.virtual_id {
+            return Ok(());
+        }
+        let current = unsafe { CGDisplayCopyDisplayMode(self.virtual_id) };
+        let refresh = if current.is_null() {
+            0.0
+        } else {
+            let current = OwnedRef(current);
+            unsafe { CGDisplayModeGetRefreshRate(current.0) }
+        };
+        self.ready = true;
+        status(format_args!(
+            "{{\"ready\":true,\"physical\":{},\"virtual\":{},\"refresh\":{},\"startup_us\":{}}}",
+            self.physical,
+            self.virtual_id,
+            refresh,
+            self.started.elapsed().as_micros()
+        ))
+    }
+
+    fn enable_mirroring(&mut self) -> Result<(), String> {
+        self.native_mode = OwnedRef::checked(
+            unsafe { CGDisplayCopyDisplayMode(self.physical) },
+            "The main display mode is unavailable",
+        )
+        .ok();
+        if unsafe { CGDisplayIsInMirrorSet(self.physical) } != 0 {
             let transaction = Transaction::begin()?;
             check(
                 unsafe {
-                    CGConfigureDisplayMirrorOfDisplay(transaction.0, self.physical, self.virtual_id)
+                    CGConfigureDisplayMirrorOfDisplay(transaction.0, self.physical, NULL_DISPLAY)
                 },
-                "Enable virtual display mirroring",
+                "Stop existing mirroring",
             )?;
-            self.changed = true;
             transaction.commit()?;
-            self.last_configuration = Some(Instant::now());
         }
-        if unsafe { CGDisplayMirrorsDisplay(self.physical) } == self.virtual_id {
-            let current = unsafe { CGDisplayCopyDisplayMode(self.virtual_id) };
-            if current.is_null() {
-                self.startup_valid_since = None;
-                return Ok(());
-            }
-            let current = OwnedRef(current);
-            let refresh = unsafe { CGDisplayModeGetRefreshRate(current.0) };
-            if (refresh - self.refresh).abs() >= 0.5 {
-                self.startup_valid_since = None;
-                let modes =
-                    unsafe { CGDisplayCopyAllDisplayModes(self.virtual_id, ptr::null_mut()) };
-                if modes.is_null() {
-                    return Ok(());
-                }
-                let modes = OwnedRef(modes);
-                for index in 0..unsafe { CFArrayGetCount(modes.0) } {
-                    let mode = unsafe { CFArrayGetValueAtIndex(modes.0, index) };
-                    if (unsafe { CGDisplayModeGetRefreshRate(mode) } - self.refresh).abs() < 0.5 {
-                        let transaction = Transaction::begin()?;
-                        check(
-                            unsafe {
-                                CGConfigureDisplayWithDisplayMode(
-                                    transaction.0,
-                                    self.virtual_id,
-                                    mode,
-                                    ptr::null_mut(),
-                                )
-                            },
-                            "Select virtual display mode",
-                        )?;
-                        check(
-                            unsafe {
-                                CGConfigureDisplayMirrorOfDisplay(
-                                    transaction.0,
-                                    self.physical,
-                                    self.virtual_id,
-                                )
-                            },
-                            "Retain virtual display mirroring",
-                        )?;
-                        transaction.commit()?;
-                        self.last_configuration = Some(Instant::now());
-                        break;
-                    }
-                }
-                return Ok(());
-            }
-            if unsafe { CGMainDisplayID() } != self.virtual_id {
-                self.startup_valid_since = None;
-                return Ok(());
-            }
-            let valid_since = self.startup_valid_since.get_or_insert_with(Instant::now);
-            if cfg!(target_arch = "x86_64") && valid_since.elapsed().as_secs() < 2 {
-                return Ok(());
-            }
-            self.ready = true;
-            status(format_args!(
-                "{{\"ready\":true,\"physical\":{},\"virtual\":{},\"refresh\":{},\"startup_us\":{}}}",
-                self.physical,
-                self.virtual_id,
-                refresh,
-                self.started.elapsed().as_micros()
-            ))?;
-        }
+        let transaction = Transaction::begin()?;
+        check(
+            unsafe {
+                CGConfigureDisplayMirrorOfDisplay(transaction.0, self.physical, self.virtual_id)
+            },
+            "Enable virtual display mirroring",
+        )?;
+        transaction.commit()?;
+        self.mirrored = true;
         Ok(())
+    }
+
+    fn disable_mirroring(&mut self) -> Result<(), String> {
+        let native_mode = self.native_mode.take();
+        if !self.mirrored || unsafe { CGDisplayIsInMirrorSet(self.physical) } == 0 {
+            self.mirrored = false;
+            return Ok(());
+        }
+        self.mirrored = false;
+        let transaction = Transaction::begin()?;
+        check(
+            unsafe {
+                CGConfigureDisplayMirrorOfDisplay(transaction.0, self.physical, NULL_DISPLAY)
+            },
+            "Restore display mirroring",
+        )?;
+        if let Some(mode) = native_mode {
+            check(
+                unsafe {
+                    CGConfigureDisplayWithDisplayMode(
+                        transaction.0,
+                        self.physical,
+                        mode.0,
+                        ptr::null_mut(),
+                    )
+                },
+                "Restore original display mode",
+            )?;
+        }
+        transaction.commit()
+    }
+
+    fn restore(&mut self) -> Result<(), String> {
+        let result = self.disable_mirroring();
+        self.display.take();
+        result
     }
 
     fn stop(&self) {
@@ -657,47 +617,6 @@ impl Session {
             CFRunLoopStop(self.run_loop);
         }
     }
-
-    fn restore(&mut self) -> Result<(), String> {
-        if !self.changed && self.display.is_none() {
-            return Ok(());
-        }
-        if unsafe { CGDisplayIsOnline(self.physical) } == 0 {
-            self.display.take();
-            self.changed = false;
-            return Ok(());
-        }
-        let mirror = unsafe { CGDisplayMirrorsDisplay(self.physical) };
-        if mirror != 0 && mirror != self.virtual_id {
-            self.display.take();
-            self.changed = false;
-            return Ok(());
-        }
-        if mirror != 0 {
-            let transaction = Transaction::begin()?;
-            check(
-                unsafe { CGConfigureDisplayMirrorOfDisplay(transaction.0, self.physical, 0) },
-                "Restore display mirroring",
-            )?;
-            transaction.commit()?;
-        }
-        self.display.take();
-        let transaction = Transaction::begin()?;
-        check(
-            unsafe {
-                CGConfigureDisplayWithDisplayMode(
-                    transaction.0,
-                    self.physical,
-                    self.original.0,
-                    ptr::null_mut(),
-                )
-            },
-            "Restore original display mode",
-        )?;
-        transaction.commit()?;
-        self.changed = false;
-        Ok(())
-    }
 }
 
 impl Drop for Session {
@@ -711,24 +630,18 @@ impl Drop for Session {
 unsafe extern "C" fn perform(context: Ref) {
     autoreleasepool(|_| {
         let session = unsafe { &mut **(context as *mut *mut Session) };
-        if let Err(error) = session.update() {
+        if let Err(error) = session.poll() {
             session.error = Some(error);
             session.stop();
         }
     });
 }
 
-unsafe extern "C" fn timeout(timer: Ref, context: Ref) {
-    {
-        let session = unsafe { &mut **(context as *mut *mut Session) };
-        session.timeout = !session.ready && session.started.elapsed().as_secs() >= 10;
-    }
+unsafe extern "C" fn tick(timer: Ref, context: Ref) {
     unsafe { perform(context) };
     let session = unsafe { &**(context as *const *mut Session) };
-    if session.error.is_some() || session.stopped.load(Ordering::Acquire) {
+    if session.ready || session.error.is_some() || session.stopped.load(Ordering::Acquire) {
         unsafe { CFRunLoopTimerInvalidate(timer) };
-    } else if session.ready && session.mirror_lost.is_none() {
-        unsafe { CFRunLoopTimerSetNextFireDate(timer, CFAbsoluteTimeGetCurrent() + 1e12) };
     }
 }
 
@@ -809,7 +722,6 @@ fn run_inner(config: Config) -> Result<(), String> {
         source: source.0,
         run_loop: unsafe { CFRunLoopGetCurrent() },
     });
-    let wake_context = (&*wake as *const Wake).cast_mut().cast();
     let monitor = StopMonitor::start(&wake, stopped.clone(), config.watch_stdin)?;
     if stopped.load(Ordering::Acquire) {
         status(format_args!("{{\"restored\":true}}"))?;
@@ -817,10 +729,6 @@ fn run_inner(config: Config) -> Result<(), String> {
     }
     let mut session = Box::new(Session::create(config, stopped)?);
     unsafe { ptr::write(context.cast::<*mut Session>(), &mut *session) };
-    check(
-        unsafe { CGDisplayRegisterReconfigurationCallback(display_changed, wake_context) },
-        "Watch display changes",
-    )?;
     unsafe { CFRunLoopAddSource(session.run_loop, source.0, kCFRunLoopDefaultMode) };
     let mut timer_context = TimerContext {
         version: 0,
@@ -832,37 +740,29 @@ fn run_inner(config: Config) -> Result<(), String> {
     let timer = unsafe {
         CFRunLoopTimerCreate(
             ptr::null_mut(),
-            CFAbsoluteTimeGetCurrent() + 0.5,
-            0.5,
+            CFAbsoluteTimeGetCurrent() + POLL_SECONDS,
+            POLL_SECONDS,
             0,
             0,
-            timeout,
+            tick,
             &mut timer_context,
         )
     };
     if timer.is_null() {
         drop(monitor);
-        unsafe {
-            CGDisplayRemoveReconfigurationCallback(display_changed, wake_context);
-            CFRunLoopRemoveSource(session.run_loop, source.0, kCFRunLoopDefaultMode);
-        }
-        return Err("Could not create the display startup deadline".into());
+        unsafe { CFRunLoopRemoveSource(session.run_loop, source.0, kCFRunLoopDefaultMode) };
+        return Err("Could not create the display polling timer".into());
     }
-    session.timer = timer;
     unsafe { CFRunLoopAddTimer(session.run_loop, timer, kCFRunLoopDefaultMode) };
-    wake.signal();
     let application = Retained::as_ptr(&session.application);
     unsafe {
         let _: () = msg_send![&*application, run];
     }
     drop(monitor);
     unsafe {
-        CGDisplayRemoveReconfigurationCallback(display_changed, wake_context);
         CFRunLoopRemoveSource(session.run_loop, source.0, kCFRunLoopDefaultMode);
-        if !timer.is_null() {
-            CFRunLoopTimerInvalidate(timer);
-            CFRelease(timer);
-        }
+        CFRunLoopTimerInvalidate(timer);
+        CFRelease(timer);
     }
     session.restore()?;
     if let Some(error) = session.error.take() {
