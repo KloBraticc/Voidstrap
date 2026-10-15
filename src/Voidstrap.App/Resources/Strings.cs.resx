@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -59,46 +59,46 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -163,6 +163,172 @@
   <data name="Bootstrapper.Status.WaitingOtherInstances" xml:space="preserve">
     <value>Čeká se na ostatní objekty...</value>
   </data>
+  <data name="Enums.CustomThemeTemplate.Blank" xml:space="preserve">
+    <value>Prázdný</value>
+  </data>
+  <data name="Menu.Integrations.Custom.SpecifyGame" xml:space="preserve">
+    <value>Spustit v konkrétní hře</value>
+  </data>
+  <data name="Menu.Integrations.Custom.GameID" xml:space="preserve">
+    <value>ID hry</value>
+  </data>
+  <data name="Menu.Integrations.Custom.AutoCloseOnGame" xml:space="preserve">
+    <value>Automaticky zavřít při ukončení hry</value>
+  </data>
+  <data name="Enums.CustomThemeTemplate.Simple" xml:space="preserve">
+    <value>Jednoduchý</value>
+  </data>
+  <data name="CustomTheme.Errors.InvalidRoot" xml:space="preserve">
+    <value>Kořen XML motivu není {0}</value>
+  </data>
+  <data name="CustomTheme.Errors.DialogAlreadyInitialised" xml:space="preserve">
+    <value>Vlastní dialog již byl inicializován</value>
+  </data>
+  <data name="CustomTheme.Errors.TooManyElements" xml:space="preserve">
+    <value>Vlastní bootstrappery mohou mít maximálně {0} prvků, nalezeno {1}.</value>
+  </data>
+  <data name="CustomTheme.Errors.VersionNotSet" xml:space="preserve">
+    <value>Verze {0} není nastavena</value>
+  </data>
+  <data name="CustomTheme.Errors.VersionNotNumber" xml:space="preserve">
+    <value>Verze {0} není číslo</value>
+  </data>
+  <data name="CustomTheme.Errors.VersionNotSupported" xml:space="preserve">
+    <value>Verze {0} {1} již není podporována</value>
+  </data>
+  <data name="CustomTheme.Errors.VersionNotRecognised" xml:space="preserve">
+    <value>Verze {0} {1} není rozpoznána</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementInvalidChild" xml:space="preserve">
+    <value>{0} nemůže mít potomka {1}</value>
+  </data>
+  <data name="CustomTheme.Errors.UnknownElement" xml:space="preserve">
+    <value>Neznámý prvek {0}</value>
+  </data>
+  <data name="CustomTheme.Errors.XMLParseFailed" xml:space="preserve">
+    <value>Nepodařilo se rozpoznat soubor s motivem: {0}</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeConversionError" xml:space="preserve">
+    <value>{0} má neplatný {1}: {2}</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeMissing" xml:space="preserve">
+    <value>Element {0} postrádá atribut {1}</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeInvalidType" xml:space="preserve">
+    <value>{0} {1} není platný {2}</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeMustBeLargerThanMin" xml:space="preserve">
+    <value>{0} {1} musí být větší než {2}</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeMustBeSmallerThanMax" xml:space="preserve">
+    <value>{0} {1} musí být menší než {2}</value>
+  </data>
+  <data name="CustomTheme.Errors.UnknownEnumValue" xml:space="preserve">
+    <value>{0} neznámé {1} {2}</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeMultipleDefinitions" xml:space="preserve">
+    <value>{0} může mít definováno pouze jeden {1}</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeMultipleChildren" xml:space="preserve">
+    <value>{0}.{1} může mít pouze jednoho potomka</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementMultipleChildren" xml:space="preserve">
+    <value>{0} může mít pouze jednoho potomka</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeMissingChild" xml:space="preserve">
+    <value>{0}.{1} chybí jeho potomek</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeParseError" xml:space="preserve">
+    <value>{0}.{1} nelze rozpoznat jako {2}</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeParseErrorNull" xml:space="preserve">
+    <value>{0}.{1} {2} je null</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeBlacklistedUriScheme" xml:space="preserve">
+    <value>{0}.{1} používá zakázané schéma {2}</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementTypeCreationFailed" xml:space="preserve">
+    <value>{0} se nepodařilo vytvořit {1}: {2}</value>
+  </data>
+  <data name="CustomTheme.Editor.Title" xml:space="preserve">
+    <value>Úprava "{0}"</value>
+  </data>
+  <data name="CustomTheme.Editor.Save.Success" xml:space="preserve">
+    <value>Motiv byl úspěšně uložen!</value>
+  </data>
+  <data name="CustomTheme.Editor.Save.Error" xml:space="preserve">
+    <value>Při ukládání motivu došlo k chybě.</value>
+  </data>
+  <data name="CustomTheme.Editor.ConfirmSave" xml:space="preserve">
+    <value>Uložit změny v {0}?</value>
+  </data>
+  <data name="CustomTheme.Editor.Save" xml:space="preserve">
+    <value>Uložit</value>
+  </data>
+  <data name="CustomTheme.Editor.Preview" xml:space="preserve">
+    <value>Náhled</value>
+  </data>
+  <data name="CustomTheme.Editor.OpenThemeDirectory" xml:space="preserve">
+    <value>Otevřít adresář motivu</value>
+  </data>
+  <data name="Common.CreateNew" xml:space="preserve">
+    <value>Vytvořit nový</value>
+  </data>
+  <data name="Common.Import" xml:space="preserve">
+    <value>Importovat</value>
+  </data>
+  <data name="CustomTheme.Add.Title" xml:space="preserve">
+    <value>Přidat vlastní motiv</value>
+  </data>
+  <data name="Common.Template" xml:space="preserve">
+    <value>Šablona</value>
+  </data>
+  <data name="CustomTheme.Add.Errors.NameEmpty" xml:space="preserve">
+    <value>Název nemůže být prázdný</value>
+  </data>
+  <data name="CustomTheme.Add.Errors.NameIllegalCharacters" xml:space="preserve">
+    <value>Název obsahuje nepovolené znaky</value>
+  </data>
+  <data name="CustomTheme.Add.Errors.NameReserved" xml:space="preserve">
+    <value>Název nelze použít</value>
+  </data>
+  <data name="CustomTheme.Add.Errors.Unknown" xml:space="preserve">
+    <value>Neznámá chyba</value>
+  </data>
+  <data name="CustomTheme.Add.Errors.NameTaken" xml:space="preserve">
+    <value>Název je již používán</value>
+  </data>
+  <data name="CustomTheme.Add.Errors.FileNotZip" xml:space="preserve">
+    <value>Soubor musí být ZIP</value>
+  </data>
+  <data name="CustomTheme.Add.Errors.ZipMissingThemeFile" xml:space="preserve">
+    <value>Soubor s motivem nebyl nalezen v souboru ZIP</value>
+  </data>
+  <data name="CustomTheme.Add.Errors.ZipInvalidData" xml:space="preserve">
+    <value>Neplatný nebo poškozený ZIP soubor</value>
+  </data>
+  <data name="CustomTheme.Errors.NoThemeSelected" xml:space="preserve">
+    <value>Není vybrán žádný vlastní motiv</value>
+  </data>
+  <data name="CustomTheme.Errors.SetupFailed" xml:space="preserve">
+    <value>Nepodařilo se nastavit vlastní bootstrapper: {0}.
+ Vrácení na Fluent.</value>
+  </data>
+  <data name="Menu.Appearance.CustomThemes.NoneSelected" xml:space="preserve">
+    <value>Není vybrán žádný vlastní motiv.</value>
+  </data>
+  <data name="Common.Rename" xml:space="preserve">
+    <value>Přejmenovat</value>
+  </data>
+  <data name="Common.Edit" xml:space="preserve">
+    <value>Upravit</value>
+  </data>
+  <data name="Menu.Appearance.CustomThemes.DeleteFailed" xml:space="preserve">
+    <value>Nepodařilo se odstranit vlastní motiv {0}: {1}</value>
+  </data>
+  <data name="Menu.Appearance.CustomThemes.RenameFailed" xml:space="preserve">
+    <value>Nepodařilo se přejmenovat vlastní motiv {0}: {1}</value>
+  </data>
   <data name="Bootstrapper.StylePreview.ImageCancel" xml:space="preserve">
     <value>Náhled stylu - Klikněte na tlačítko X v pravém horním rohu pro zavření</value>
     <comment>Text for style previews that use an X button. Currently only applies to Byfron</comment>
@@ -196,9 +362,6 @@ Chtěli nyní zavřít Roblox?</value>
   <data name="Common.Delete" xml:space="preserve">
     <value>Smazat</value>
   </data>
-  <data name="Common.DiscordRichPresence" xml:space="preserve">
-    <value>Discord Rich Presence</value>
-  </data>
   <data name="Common.Help" xml:space="preserve">
     <value>Pomoc</value>
   </data>
@@ -219,9 +382,6 @@ Chtěli nyní zavřít Roblox?</value>
   </data>
   <data name="Common.No" xml:space="preserve">
     <value>Ne</value>
-  </data>
-  <data name="Common.OK" xml:space="preserve">
-    <value>OK</value>
   </data>
   <data name="Common.Presets" xml:space="preserve">
     <value>Předvolby</value>
@@ -300,9 +460,6 @@ Pokud ne, prosím nahlaste tuto výjimku prostřednictvím [GitHub issue]({1}) s
   <data name="Common.Custom" xml:space="preserve">
     <value>Vlastní</value>
   </data>
-  <data name="Enums.BootstrapperIcon.IconEarly2015" xml:space="preserve">
-    <value>Začátek 2015</value>
-  </data>
   <data name="Enums.BootstrapperIcon.IconLate2015" xml:space="preserve">
     <value>Pozdější 2015</value>
   </data>
@@ -315,47 +472,14 @@ Pokud ne, prosím nahlaste tuto výjimku prostřednictvím [GitHub issue]({1}) s
   <data name="Enums.BootstrapperStyle.FluentAeroDialog" xml:space="preserve">
     <value>Voidstrap (Sklo)</value>
   </data>
-  <data name="Enums.BootstrapperStyle.LegacyDialog2008" xml:space="preserve">
-    <value>Legacy (2008 - 2011)</value>
-  </data>
-  <data name="Enums.BootstrapperStyle.LegacyDialog2011" xml:space="preserve">
-    <value>Legacy (2011 - 2014)</value>
-  </data>
-  <data name="Enums.BootstrapperStyle.ProgressDialog" xml:space="preserve">
-    <value>Roblox (~2014)</value>
-  </data>
-  <data name="Enums.BootstrapperStyle.VistaDialog" xml:space="preserve">
-    <value>Vista (2008 - 2011)</value>
-  </data>
   <data name="Enums.CursorType.From2006" xml:space="preserve">
     <value>2006 (Cartoonové)</value>
   </data>
   <data name="Enums.CursorType.From2013" xml:space="preserve">
     <value>2013 (Hranaté)</value>
   </data>
-  <data name="Enums.EmojiType.Catmoji" xml:space="preserve">
-    <value>Catmoji</value>
-  </data>
   <data name="Enums.EmojiType.Default" xml:space="preserve">
     <value>Výchozí (Twemoji)</value>
-  </data>
-  <data name="Enums.EmojiType.Windows10" xml:space="preserve">
-    <value>Windows 10</value>
-  </data>
-  <data name="Enums.EmojiType.Windows11" xml:space="preserve">
-    <value>Windows 11</value>
-  </data>
-  <data name="Enums.EmojiType.Windows8" xml:space="preserve">
-    <value>Windows 8</value>
-  </data>
-  <data name="Enums.FlagPresets.InGameMenuVersion.V1" xml:space="preserve">
-    <value>2015 (V1)</value>
-  </data>
-  <data name="Enums.FlagPresets.InGameMenuVersion.V2" xml:space="preserve">
-    <value>2020 (V2)</value>
-  </data>
-  <data name="Enums.FlagPresets.InGameMenuVersion.V4" xml:space="preserve">
-    <value>2023 (V4)</value>
   </data>
   <data name="Enums.FlagPresets.LightingMode.Default" xml:space="preserve">
     <value>Vybráno hrou</value>
@@ -369,12 +493,6 @@ Pokud ne, prosím nahlaste tuto výjimku prostřednictvím [GitHub issue]({1}) s
   <data name="Enums.FlagPresets.LightingMode.Voxel" xml:space="preserve">
     <value>Voxel (Fáze 1.)</value>
   </data>
-  <data name="Enums.FlagPresets.RenderingMode.D3D10" xml:space="preserve">
-    <value>Direct3D 10</value>
-  </data>
-  <data name="Enums.FlagPresets.RenderingMode.D3D11" xml:space="preserve">
-    <value>Direct3D 11</value>
-  </data>
   <data name="Enums.ServerType.Private" xml:space="preserve">
     <value>Privátní server</value>
   </data>
@@ -386,6 +504,27 @@ Pokud ne, prosím nahlaste tuto výjimku prostřednictvím [GitHub issue]({1}) s
   </data>
   <data name="Enums.Theme.Dark" xml:space="preserve">
     <value>Tmavé</value>
+  </data>
+  <data name="Enums.Theme.Yellow" xml:space="preserve">
+    <value>Žlutá</value>
+  </data>
+  <data name="Enums.Theme.Cyan" xml:space="preserve">
+    <value>Tyrkysová</value>
+  </data>
+  <data name="Enums.Theme.Pink" xml:space="preserve">
+    <value>Růžová</value>
+  </data>
+  <data name="Enums.Theme.Custom" xml:space="preserve">
+    <value>Vlastní</value>
+  </data>
+  <data name="Enums.Theme.Purple" xml:space="preserve">
+    <value>Fialová</value>
+  </data>
+  <data name="Enums.Theme.Green" xml:space="preserve">
+    <value>Zelená</value>
+  </data>
+  <data name="Enums.Theme.Orange" xml:space="preserve">
+    <value>Oranžová</value>
   </data>
   <data name="Enums.Theme.Light" xml:space="preserve">
     <value>Světlý</value>
@@ -419,9 +558,6 @@ Pokud ne, prosím nahlaste tuto výjimku prostřednictvím [GitHub issue]({1}) s
   </data>
   <data name="Menu.About.Description" xml:space="preserve">
     <value>Alternativní bootstrapper pro Roblox s řadou extra funkcí.</value>
-  </data>
-  <data name="Menu.About.DiscordServer" xml:space="preserve">
-    <value>Discord server</value>
   </data>
   <data name="Menu.About.GithubRepository" xml:space="preserve">
     <value>GitHub repozitář</value>
@@ -459,9 +595,6 @@ Pokud ne, prosím nahlaste tuto výjimku prostřednictvím [GitHub issue]({1}) s
   </data>
   <data name="Menu.Appearance.Bootstrapper.Description" xml:space="preserve">
     <value>Můžete tomu změnit vzhled, aby to vypadalo jinak, retro, nebo prostě jako Roblox.</value>
-  </data>
-  <data name="Menu.Appearance.Bootstrapper.Title" xml:space="preserve">
-    <value>Bootstrapper</value>
   </data>
   <data name="Menu.Appearance.Customisation.Description" xml:space="preserve">
     <value>Konfigurovat jiné různé nastavení.</value>
@@ -525,9 +658,6 @@ Pokud ne, prosím nahlaste tuto výjimku prostřednictvím [GitHub issue]({1}) s
   </data>
   <data name="Menu.Behaviour.ForceRobloxReinstall.Title" xml:space="preserve">
     <value>Vynutit přeinstalování Robloxu</value>
-  </data>
-  <data name="Menu.Behaviour.Title" xml:space="preserve">
-    <value>Bootstrapper</value>
   </data>
   <data name="Menu.FastFlagEditor.AddNew" xml:space="preserve">
     <value>Přidat nové</value>
@@ -897,6 +1027,9 @@ Při výběru 'Ne' bude toto varování ignorováno a bude pokračovat v instala
   <data name="Menu.FastFlags.Presets.DisableTerrainTextures.Title" xml:space="preserve">
     <value>Vypnout terénové textury</value>
   </data>
+  <data name="Menu.FastFlags.Presets.DisableGrass.Title" xml:space="preserve">
+    <value>Vypnout pohyb trávy</value>
+  </data>
   <data name="Dialog.Connectivity.UnableToDownload" xml:space="preserve">
     <value>Voidstrap nemůže stáhnout Roblox</value>
   </data>
@@ -909,7 +1042,7 @@ Při výběru 'Ne' bude toto varování ignorováno a bude pokračovat v instala
   </data>
   <data name="FileTypes.JSONFiles" xml:space="preserve">
     <value>soubory JSON</value>
-    <comment>Shown in the open file dialog, where the file type selection dropdown is, e.g. "JSON files (*.json)"</comment>
+    <comment>Allows selection of JSON, TXT, and Markdown files (*.json;*.txt;*.md)</comment>
   </data>
   <data name="Menu.FastFlagEditor.InvalidBoolValue" xml:space="preserve">
     <value>Záznam pro '{0}' není platný, protože hodnota musí být logická (buď 'True' nebo 'False')</value>
@@ -1232,15 +1365,53 @@ Chcete zapnout testovací režim?</value>
     <value>Instalovat</value>
     <comment>The word "Install" is being used as a verb in this instance, like the other navigation button texts of "Next" and "Back"</comment>
   </data>
+  <data name="LaunchMenu.Donate" xml:space="preserve">
+    <value>Připojte se k našemu Discord serveru</value>
+    <comment>Call-to-action button</comment>
+  </data>
   <data name="Paths.Icons" xml:space="preserve">
     <value>Ikony</value>
     <comment>Name of the folder that gets created according to the "create shortcut icons" option. Ensure that it is a valid folder name.</comment>
+  </data>
+  <data name="Menu_FlagProfiles_Title" xml:space="preserve">
+    <value>Zálohy Fast Flag</value>
+  </data>
+  <data name="Menu_FlagProfiles_Description" xml:space="preserve">
+    <value>Ukládejte a načítejte zálohy Fast Flag.</value>
+  </data>
+  <data name="Common_FastFlags" xml:space="preserve">
+    <value>Editor Fast Flags</value>
+  </data>
+  <data name="Menu_FastFlagProfiles_Save" xml:space="preserve">
+    <value>Uložit aktuální flags</value>
+  </data>
+  <data name="Menu.FastFlagEditor.ProfilesDescription" xml:space="preserve">
+    <value>Zálohy FFlag</value>
+  </data>
+  <data name="Menu.Load" xml:space="preserve">
+    <value>Načíst</value>
+  </data>
+  <data name="Bootstrapper.Status.CancelUpgrade" xml:space="preserve">
+    <value>Rušení aktualizace Robloxu.</value>
+  </data>
+  <data name="Menu.Behaviour.RenameToEurotrucks.Title" xml:space="preserve">
+    <value>Podpora Bloxshade</value>
+  </data>
+  <data name="Menu.Behaviour.RenameToEurotrucks.Description" xml:space="preserve">
+    <value>Pro optimální výkon je vyžadována podporovaná grafická karta.
+Tato funkce je nezbytná pro správné fungování shaderů.</value>
+  </data>
+  <data name="Menu.Behaviour.Channel.Title" xml:space="preserve">
+    <value>Kanál</value>
   </data>
   <data name="LaunchMenu.LaunchRobloxStudio" xml:space="preserve">
     <value>Spustit Roblox Studio</value>
   </data>
   <data name="Dialog.Exception.Version" xml:space="preserve">
     <value>Verze {0}</value>
+  </data>
+  <data name="Enums.BootstrapperStyle.CustomDialog" xml:space="preserve">
+    <value>Vlastní</value>
   </data>
   <data name="Bootstrapper.FilesInUse" xml:space="preserve">
     <value>Voidstrap se pokusil aktualizovat Roblox, ale nemůže, protože soubory Robloxu jsou stále používány.
@@ -1256,30 +1427,215 @@ Zavřete všechny aplikace, které mohou používat soubory Robloxu, a znovu spu
     <value>Exportovat</value>
     <comment>Currently used under the "Voidstrap" settings tab for the button to export diagnostic data</comment>
   </data>
-  <data name="Dialog.Connectivity.Preventing" xml:space="preserve">
-    <value>Něco pravděpodobně brání Voidstrapu připojení k internetu.</value>
+  <data name="Menu.Voidstrap.ExportData.Title" xml:space="preserve">
+    <value>Exportovat diagnostická data</value>
   </data>
-  <data name="Dialog.Connectivity.TimedOut" xml:space="preserve">
-    <value>Vypršel časový limit připojení, což může znamenat špatné připojení k internetu nebo zablokování brány firewall.</value>
+  <data name="Menu.Voidstrap.ExportData.Description" xml:space="preserve">
+    <value>Shromáždi informace, které lze nahrát online k řešení tvého problému.</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Menu.Channel.Description" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
+  <data name="Menu.Voidstrap.ExportData.ExportConfig" xml:space="preserve">
+    <value>Konfigurace Voidstrap</value>
+    <comment>Label that appears next to a checkbox</comment>
   </data>
-  <data name="Common.Channel" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
+  <data name="Menu.Voidstrap.ExportData.ExportLogs" xml:space="preserve">
+    <value>Všechny záznamy Voidstrap</value>
+    <comment>Label that appears next to a checkbox</comment>
   </data>
-  <data name="Menu.ChannelChanger.Description" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
+  <data name="Menu.Channel.RobloxUpgrades.Description" xml:space="preserve">
+    <value>Pokud je vypnuto, Roblox klient se nebude aktualizovat na novější verzi.</value>
   </data>
-  <data name="Common.Version" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
+  <data name="Bootstrapper.Status.Downloading" xml:space="preserve">
+    <value>Stahování</value>
   </data>
-  <data name="Common.VersionGuid" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
+  <data name="Menu.Appearance.BootstrapperDownloading.Title" xml:space="preserve">
+    <value>Stav stahování bootstrapperu</value>
   </data>
-  <data name="Menu.Channel.RobloxUpgrades" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
+  <data name="Menu.Appearance.BootstrapperDownloading.Description" xml:space="preserve">
+    <value>Změnit text stahování. {0} je název balíčku, {1} je velikost stažených balíčků a {2} je celková velikost balíčků.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Telemetry.Title" xml:space="preserve">
+    <value>Zakázat telemetrii Robloxu</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Telemetry.Description" xml:space="preserve">
+    <value>Pamatujte, že tato funkce vypíná pouze část telemetrie Robloxu.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Preload.Title" xml:space="preserve">
+    <value>Předběžné načítání</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Preload.Description" xml:space="preserve">
+    <value>Předem načte většinu textur a fontů (Upozornění: může prodloužit dobu načítání!)</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Layered.Title" xml:space="preserve">
+    <value>Vrstvené oblečení</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Layered.Description" xml:space="preserve">
+    <value>Zabraňuje vykreslování vrstveného oblečení na avatarech ostatních hráčů.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode.Description" xml:space="preserve">
+    <value>Aktivuje experimentální DarkMode Robloxu</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Preload" xml:space="preserve">
+    <value>Předběžné načítání</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Layered" xml:space="preserve">
+    <value>Vrstvené</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Chromeui.Description" xml:space="preserve">
+    <value>Pokud je vypnuto, Roblox bude používat starou horní lištu.</value>
+  </data>
+  <data name="Menu.FlagProfiles.ClearFlags" xml:space="preserve">
+    <value>Vymazat aktuální FFlags</value>
+  </data>
+  <data name="Menu.Deployment.Channel.OutOfDate" xml:space="preserve">
+    <value>Tento kanál je zastaralý a pravděpodobně se již neaktualizuje. Použijte jiný kanál.</value>
+  </data>
+  <data name="Bootstrapper.Dialog.ChannelOutOfDate" xml:space="preserve">
+    <value>Kanál, který právě používáte ({0}), je zastaralý a zdá se, že již nedostává aktualizace.\n
+Chcete přepnout na výchozí kanál ({1})?</value>
+  </data>
+  <data name="Menu.Channel.ChangeAction.Title" xml:space="preserve">
+    <value>Akce automatické změny kanálu</value>
+  </data>
+  <data name="Menu.Channel.ChangeAction.Description" xml:space="preserve">
+    <value>Roblox nebo Voidstrap se může pokusit změnit váš preferovaný kanál.</value>
+  </data>
+  <data name="Menu.Channel.ChangeAction.Automatic" xml:space="preserve">
+    <value>Změnit automaticky</value>
+  </data>
+  <data name="Menu.Channel.ChangeAction.Prompt" xml:space="preserve">
+    <value>Vždy se ptát</value>
+  </data>
+  <data name="Menu.Channel.ChangeAction.Ignore" xml:space="preserve">
+    <value>Nikdy neměnit</value>
+  </data>
+  <data name="Common.Debug" xml:space="preserve">
+    <value>Ladění</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Categories.IngameMenu" xml:space="preserve">
+    <value>Menu Robloxu</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Categories.IngameMenu.Description" xml:space="preserve">
+    <value>Vyčistěte menu Robloxu vlastními přepínači</value>
+  </data>
+  <data name="Common.Deployment" xml:space="preserve">
+    <value>Nasazení</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.VRToggle.Title" xml:space="preserve">
+    <value>Přepínač VR</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.SoothsayerCheck.Title" xml:space="preserve">
+    <value>Tlačítko zpětné vazby</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.LanguageSelector.Title" xml:space="preserve">
+    <value>Volba jazyka</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.Haptics.Title" xml:space="preserve">
+    <value>Tlačítko haptiky</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.Framerate.Title" xml:space="preserve">
+    <value>Limit FPS</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.ChatTranslation.Title" xml:space="preserve">
+    <value>Překlad chatu</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.VRToggle.Description" xml:space="preserve">
+    <value>Umožňuje vypnout přepínač VR režimu.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.SoothsayerCheck.Description" xml:space="preserve">
+    <value>Skryje tlačítko pro odeslání zpětné vazby ohledně kvality překladu.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.Haptics.Description" xml:space="preserve">
+    <value>Vypne funkce haptické zpětné vazby, jako jsou vibrace ovladačů.</value>
+  </data>
+  <data name="Bootstrapper.Bootstrapper.Dialog.PromptChannelChange" xml:space="preserve">
+    <value>Roblox se pokouší nastavit váš kanál na {0}, ale váš aktuální preferovaný kanál je {1}.
+
+Chcete přepnout svůj preferovaný kanál na {0}?</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.Framerate.Description" xml:space="preserve">
+    <value>Odebere přednastavené FPS z menu.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.LanguageSelector.Description" xml:space="preserve">
+    <value>Umožňuje hráčům vypnout překlad rozhraní.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.ChatTranslation.Description" xml:space="preserve">
+    <value>Vypne automatický překlad chatových zpráv.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.FlagState.Title" xml:space="preserve">
+    <value>Stav flagu</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.FlagState.Description" xml:space="preserve">
+    <value>Zobrazí hodnoty zadaných flagů během běhu. Každý flag je oddělen čárkou.</value>
+  </data>
+  <data name="Menu.Context.PlayerLogs" xml:space="preserve">
+    <value>Záznamy hráčů</value>
+  </data>
+  <data name="Menu.Context.PlayerLogs.Description" xml:space="preserve">
+    <value>Zobrazuje hráče vstupující/opouštějící server, na kterém jste.</value>
+  </data>
+  <data name="Common.Type" xml:space="preserve">
+    <value>Typ</value>
+  </data>
+  <data name="Common.UserId" xml:space="preserve">
+    <value>ID uživatele</value>
+  </data>
+  <data name="Common.Username" xml:space="preserve">
+    <value>Uživatelské jméno</value>
+  </data>
+  <data name="Common.Time" xml:space="preserve">
+    <value>Čas</value>
+  </data>
+  <data name="Menu.Channel.VersionHash.Title" xml:space="preserve">
+    <value>Hash verze</value>
+  </data>
+  <data name="Menu.Channel.VersionHash.Desription" xml:space="preserve">
+    <value>Vynutit, aby Voidstrap stáhl verzi z konkrétního hashe. Pokud nevíte, co to dělá, neměňte to.</value>
+  </data>
+  <data name="Menu.SaveAndLaunch" xml:space="preserve">
+    <value>Uložit a spustit</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.PingBreakdown.Title" xml:space="preserve">
+    <value>Rozpis pingu</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.PingBreakdown.Description" xml:space="preserve">
+    <value>Posílá podrobné informace o pingu do konzole Robloxu.</value>
+  </data>
+  <data name="Bootstrapper.Dialog.NoUpgradeWithoutClient" xml:space="preserve">
+    <value>Spuštění selhalo kvůli chybějícímu klientovi.
+		Prosím povolte aktualizace Robloxu.</value>
+  </data>
+  <data name="ContextMenu.PlayerLogs.Title" xml:space="preserve">
+    <value>Záznamy hráčů</value>
+  </data>
+  <data name="Menu.Channel.Switcher.Unauthorized" xml:space="preserve">
+    <value>Zadaný kanál buď neexistuje, nebo je soukromý</value>
+  </data>
+  <data name="Boostrapper.Dialog.UnauthorizedChannel" xml:space="preserve">
+    <value>Kanál, který právě používáte ({0}), je nyní omezen pro veřejné použití. Budete přepnuti na výchozí kanál ({1}).</value>
+  </data>
+  <data name="Menu.Channel.Switcher.Fetching" xml:space="preserve">
+    <value>Načítání nejnovějších informací o nasazení, prosím čekejte...</value>
+  </data>
+  <data name="Common.Message" xml:space="preserve">
+    <value>Zpráva</value>
+  </data>
+  <data name="ContextMenu.MessageLogs.Title" xml:space="preserve">
+    <value>Záznamy zpráv</value>
+  </data>
+  <data name="ContextMenu.MessageLogs.Description" xml:space="preserve">
+    <value>Zobrazuje nedávno odeslané zprávy od hráčů.</value>
+  </data>
+  <data name="Menu.Behaviour.AnselBanner" xml:space="preserve">
+    <value>Pro shadery je vyžadována podpora Bloxshade.</value>
+  </data>
+  <data name="Dialog.Bloxshade.ThankYou" xml:space="preserve">
+    <value>Děkujeme, že používáte Bloxshade s Voidstrap</value>
+  </data>
+  <data name="Dialog.Bloxshade.Setting" xml:space="preserve">
+    <value>Podpora Bloxshade byla zapnuta</value>
+  </data>
+  <data name="Common.Profiles" xml:space="preserve">
+    <value>Profily</value>
   </data>
   <data name="Common.Open" xml:space="preserve">
     <value>Otevřít</value>
@@ -1304,489 +1660,5 @@ Zavřete všechny aplikace, které mohou používat soubory Robloxu, a znovu spu
   </data>
   <data name="Menu.News.DialogTitle" xml:space="preserve">
     <value>Podrobnosti novinky</value>
-  </data>
-
-  <data name="Common.CreateNew" xml:space="preserve">
-    <value>Vytvořit nový</value>
-  </data>
-  <data name="Common.Debug" xml:space="preserve">
-    <value>Ladění</value>
-  </data>
-  <data name="Common.Deployment" xml:space="preserve">
-    <value>Nasazení</value>
-  </data>
-  <data name="Common.Edit" xml:space="preserve">
-    <value>Upravit</value>
-  </data>
-  <data name="Common.Import" xml:space="preserve">
-    <value>Importovat</value>
-  </data>
-  <data name="Common.Message" xml:space="preserve">
-    <value>Zpráva</value>
-  </data>
-  <data name="Common.Profiles" xml:space="preserve">
-    <value>Profily</value>
-  </data>
-  <data name="Common.Rename" xml:space="preserve">
-    <value>Přejmenovat</value>
-  </data>
-  <data name="Common.RobloxStudio" xml:space="preserve">
-    <value>Roblox Studio</value>
-  </data>
-  <data name="Common.Studio" xml:space="preserve">
-    <value>Studio</value>
-  </data>
-  <data name="Common.Template" xml:space="preserve">
-    <value>Šablona</value>
-  </data>
-  <data name="Common.Time" xml:space="preserve">
-    <value>Čas</value>
-  </data>
-  <data name="Common.Type" xml:space="preserve">
-    <value>Typ</value>
-  </data>
-  <data name="Common.UserId" xml:space="preserve">
-    <value>ID uživatele</value>
-  </data>
-  <data name="Common.Username" xml:space="preserve">
-    <value>Uživatelské jméno</value>
-  </data>
-  <data name="Common_FastFlags" xml:space="preserve">
-    <value>Editor Fast Flags</value>
-  </data>
-  <data name="Enums.Theme.Berry" xml:space="preserve">
-    <value>Berry</value>
-  </data>
-  <data name="Enums.Theme.Custom" xml:space="preserve">
-    <value>Vlastní</value>
-  </data>
-  <data name="Enums.Theme.Cyan" xml:space="preserve">
-    <value>Tyrkysová</value>
-  </data>
-  <data name="Enums.Theme.Green" xml:space="preserve">
-    <value>Zelená</value>
-  </data>
-  <data name="Enums.Theme.Orange" xml:space="preserve">
-    <value>Oranžová</value>
-  </data>
-  <data name="Enums.Theme.Pink" xml:space="preserve">
-    <value>Růžová</value>
-  </data>
-  <data name="Enums.Theme.Purple" xml:space="preserve">
-    <value>Fialová</value>
-  </data>
-  <data name="Enums.Theme.UltraGray" xml:space="preserve">
-    <value>UltraGray</value>
-  </data>
-  <data name="Enums.Theme.Voidstrap" xml:space="preserve">
-    <value>Voidstrap</value>
-  </data>
-  <data name="Enums.Theme.Yellow" xml:space="preserve">
-    <value>Žlutá</value>
-  </data>
-  <data name="Enums.CursorType.CleanCursor" xml:space="preserve">
-    <value>CleanCursor</value>
-  </data>
-  <data name="Enums.CursorType.FPSCursor" xml:space="preserve">
-    <value>FPSCursor</value>
-  </data>
-  <data name="Enums.CursorType.StoofsCursor" xml:space="preserve">
-    <value>StoofsCursor</value>
-  </data>
-  <data name="Enums.FlagPresets.RenderingMode.OpenGL" xml:space="preserve">
-    <value>OpenGL</value>
-  </data>
-  <data name="Enums.FlagPresets.RenderingMode.Vulkan" xml:space="preserve">
-    <value>Vulkan</value>
-  </data>
-  <data name="Enums.BootstrapperStyle.CustomDialog" xml:space="preserve">
-    <value>Vlastní</value>
-  </data>
-  <data name="Enums.CustomThemeTemplate.Blank" xml:space="preserve">
-    <value>Prázdný</value>
-  </data>
-  <data name="Enums.CustomThemeTemplate.Simple" xml:space="preserve">
-    <value>Jednoduchý</value>
-  </data>
-  <data name="Menu.Load" xml:space="preserve">
-    <value>Načíst</value>
-  </data>
-  <data name="Menu.SaveAndLaunch" xml:space="preserve">
-    <value>Uložit a spustit</value>
-  </data>
-  <data name="Menu.FlagProfiles.ClearFlags" xml:space="preserve">
-    <value>Vymazat aktuální FFlags</value>
-  </data>
-  <data name="Menu_FastFlagProfiles_Save" xml:space="preserve">
-    <value>Uložit aktuální flags</value>
-  </data>
-  <data name="Menu_FlagProfiles_Title" xml:space="preserve">
-    <value>Zálohy Fast Flag</value>
-  </data>
-  <data name="Menu_FlagProfiles_Description" xml:space="preserve">
-    <value>Ukládejte a načítejte zálohy Fast Flag.</value>
-  </data>
-  <data name="LaunchMenu.Donate" xml:space="preserve">
-    <value>Připojte se k našemu Discord serveru</value>
-  </data>
-  <data name="Menu.About.Licenses.Apache" xml:space="preserve">
-    <value>Apache License 2.0</value>
-  </data>
-  <data name="ContextMenu.PlayerLogs.Title" xml:space="preserve">
-    <value>Záznamy hráčů</value>
-  </data>
-  <data name="ContextMenu.MessageLogs.Title" xml:space="preserve">
-    <value>Záznamy zpráv</value>
-  </data>
-  <data name="ContextMenu.MessageLogs.Description" xml:space="preserve">
-    <value>Zobrazuje nedávno odeslané zprávy od hráčů.</value>
-  </data>
-  <data name="Menu.Context.PlayerLogs" xml:space="preserve">
-    <value>Záznamy hráčů</value>
-  </data>
-  <data name="Menu.Context.PlayerLogs.Description" xml:space="preserve">
-    <value>Zobrazuje hráče vstupující/opouštějící server, na kterém jste.</value>
-  </data>
-
-  <data name="Menu.Channel.ChangeAction.Automatic" xml:space="preserve">
-    <value>Změnit automaticky</value>
-  </data>
-  <data name="Menu.Channel.ChangeAction.Description" xml:space="preserve">
-    <value>Roblox nebo Voidstrap se může pokusit změnit váš preferovaný kanál.</value>
-  </data>
-  <data name="Menu.Channel.ChangeAction.Ignore" xml:space="preserve">
-    <value>Nikdy neměnit</value>
-  </data>
-  <data name="Menu.Channel.ChangeAction.Prompt" xml:space="preserve">
-    <value>Vždy se ptát</value>
-  </data>
-  <data name="Menu.Channel.ChangeAction.Title" xml:space="preserve">
-    <value>Akce automatické změny kanálu</value>
-  </data>
-  <data name="Menu.Channel.RobloxUpgrades.Description" xml:space="preserve">
-    <value>Pokud je vypnuto, Roblox klient se nebude aktualizovat na novější verzi.</value>
-  </data>
-  <data name="Menu.Channel.Switcher.Fetching" xml:space="preserve">
-    <value>Načítání nejnovějších informací o nasazení, prosím čekejte...</value>
-  </data>
-  <data name="Menu.Channel.Switcher.Unauthorized" xml:space="preserve">
-    <value>Zadaný kanál buď neexistuje, nebo je soukromý</value>
-  </data>
-  <data name="Menu.Channel.VersionHash.Desription" xml:space="preserve">
-    <value>Vynutit, aby Voidstrap stáhl verzi z konkrétního hashe. Pokud nevíte, co to dělá, neměňte to.</value>
-  </data>
-  <data name="Menu.Channel.VersionHash.Title" xml:space="preserve">
-    <value>Hash verze</value>
-  </data>
-  <data name="Menu.Deployment.Channel.OutOfDate" xml:space="preserve">
-    <value>Tento kanál je zastaralý a pravděpodobně se již neaktualizuje. Použijte jiný kanál.</value>
-  </data>
-  <data name="Menu.Behaviour.AnselBanner" xml:space="preserve">
-    <value>Pro shadery je vyžadována podpora Bloxshade.</value>
-  </data>
-  <data name="Menu.Behaviour.Channel.Title" xml:space="preserve">
-    <value>Kanál</value>
-  </data>
-  <data name="Menu.Behaviour.RenameToEurotrucks.Description" xml:space="preserve">
-    <value>Pro optimální výkon je vyžadována podporovaná grafická karta.
-Tato funkce je nezbytná pro správné fungování shaderů.</value>
-  </data>
-  <data name="Menu.Behaviour.RenameToEurotrucks.Title" xml:space="preserve">
-    <value>Podpora Bloxshade</value>
-  </data>
-  <data name="Dialog.Bloxshade.Setting" xml:space="preserve">
-    <value>Podpora Bloxshade byla zapnuta</value>
-  </data>
-  <data name="Dialog.Bloxshade.ThankYou" xml:space="preserve">
-    <value>Děkujeme, že používáte Bloxshade s Voidstrap</value>
-  </data>
-  <data name="Menu.Voidstrap.ExportData.Title" xml:space="preserve">
-    <value>Exportovat diagnostická data</value>
-  </data>
-  <data name="Menu.Voidstrap.ExportData.Description" xml:space="preserve">
-    <value>Shromáždi informace, které lze nahrát online k řešení tvého problému.</value>
-  </data>
-  <data name="Menu.Voidstrap.ExportData.ExportConfig" xml:space="preserve">
-    <value>Konfigurace Voidstrap</value>
-  </data>
-  <data name="Menu.Voidstrap.ExportData.ExportLogs" xml:space="preserve">
-    <value>Všechny záznamy Voidstrap</value>
-  </data>
-  <data name="Menu.FastFlagEditor.ProfilesDescription" xml:space="preserve">
-    <value>Zálohy FFlag</value>
-  </data>
-  <data name="Menu.Integrations.Custom.AutoCloseOnGame" xml:space="preserve">
-    <value>Automaticky zavřít při ukončení hry</value>
-  </data>
-  <data name="Menu.Integrations.Custom.GameID" xml:space="preserve">
-    <value>ID hry</value>
-  </data>
-  <data name="Menu.Integrations.Custom.SpecifyGame" xml:space="preserve">
-    <value>Spustit v konkrétní hře</value>
-  </data>
-  <data name="Menu.Appearance.BootstrapperDownloading.Title" xml:space="preserve">
-    <value>Stav stahování bootstrapperu</value>
-  </data>
-  <data name="Menu.Appearance.BootstrapperDownloading.Description" xml:space="preserve">
-    <value>Změnit text stahování. {0} je název balíčku, {1} je velikost stažených balíčků a {2} je celková velikost balíčků.</value>
-  </data>
-  <data name="Menu.Appearance.CustomThemes.DeleteFailed" xml:space="preserve">
-    <value>Nepodařilo se odstranit vlastní motiv {0}: {1}</value>
-  </data>
-  <data name="Menu.Appearance.CustomThemes.NoneSelected" xml:space="preserve">
-    <value>Není vybrán žádný vlastní motiv.</value>
-  </data>
-  <data name="Menu.Appearance.CustomThemes.RenameFailed" xml:space="preserve">
-    <value>Nepodařilo se přejmenovat vlastní motiv {0}: {1}</value>
-  </data>
-
-  <data name="CustomTheme.Add.Title" xml:space="preserve">
-    <value>Přidat vlastní motiv</value>
-  </data>
-  <data name="CustomTheme.Add.Errors.FileNotZip" xml:space="preserve">
-    <value>Soubor musí být ZIP</value>
-  </data>
-  <data name="CustomTheme.Add.Errors.NameEmpty" xml:space="preserve">
-    <value>Název nemůže být prázdný</value>
-  </data>
-  <data name="CustomTheme.Add.Errors.NameIllegalCharacters" xml:space="preserve">
-    <value>Název obsahuje nepovolené znaky</value>
-  </data>
-  <data name="CustomTheme.Add.Errors.NameReserved" xml:space="preserve">
-    <value>Název nelze použít</value>
-  </data>
-  <data name="CustomTheme.Add.Errors.NameTaken" xml:space="preserve">
-    <value>Název je již používán</value>
-  </data>
-  <data name="CustomTheme.Add.Errors.Unknown" xml:space="preserve">
-    <value>Neznámá chyba</value>
-  </data>
-  <data name="CustomTheme.Add.Errors.ZipInvalidData" xml:space="preserve">
-    <value>Neplatný nebo poškozený ZIP soubor</value>
-  </data>
-  <data name="CustomTheme.Add.Errors.ZipMissingThemeFile" xml:space="preserve">
-    <value>Soubor s motivem nebyl nalezen v souboru ZIP</value>
-  </data>
-  <data name="CustomTheme.Editor.Title" xml:space="preserve">
-    <value>Úprava "{0}"</value>
-  </data>
-  <data name="CustomTheme.Editor.ConfirmSave" xml:space="preserve">
-    <value>Uložit změny v {0}?</value>
-  </data>
-  <data name="CustomTheme.Editor.OpenThemeDirectory" xml:space="preserve">
-    <value>Otevřít adresář motivu</value>
-  </data>
-  <data name="CustomTheme.Editor.Preview" xml:space="preserve">
-    <value>Náhled</value>
-  </data>
-  <data name="CustomTheme.Editor.Save" xml:space="preserve">
-    <value>Uložit</value>
-  </data>
-  <data name="CustomTheme.Editor.Save.Error" xml:space="preserve">
-    <value>Při ukládání motivu došlo k chybě.</value>
-  </data>
-  <data name="CustomTheme.Editor.Save.Success" xml:space="preserve">
-    <value>Motiv byl úspěšně uložen!</value>
-  </data>
-  <data name="CustomTheme.Errors.DialogAlreadyInitialised" xml:space="preserve">
-    <value>Vlastní dialog již byl inicializován</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeBlacklistedUriScheme" xml:space="preserve">
-    <value>{0}.{1} používá zakázané schéma {2}</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeConversionError" xml:space="preserve">
-    <value>{0} má neplatný {1}: {2}</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeInvalidType" xml:space="preserve">
-    <value>{0} {1} není platný {2}</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeMissing" xml:space="preserve">
-    <value>Element {0} postrádá atribut {1}</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeMissingChild" xml:space="preserve">
-    <value>{0}.{1} chybí jeho potomek</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeMultipleChildren" xml:space="preserve">
-    <value>{0}.{1} může mít pouze jednoho potomka</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeMultipleDefinitions" xml:space="preserve">
-    <value>{0} může mít definováno pouze jeden {1}</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeMustBeLargerThanMin" xml:space="preserve">
-    <value>{0} {1} musí být větší než {2}</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeMustBeSmallerThanMax" xml:space="preserve">
-    <value>{0} {1} musí být menší než {2}</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeParseError" xml:space="preserve">
-    <value>{0}.{1} nelze rozpoznat jako {2}</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeParseErrorNull" xml:space="preserve">
-    <value>{0}.{1} {2} je null</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementInvalidChild" xml:space="preserve">
-    <value>{0} nemůže mít potomka {1}</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementMultipleChildren" xml:space="preserve">
-    <value>{0} může mít pouze jednoho potomka</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementTypeCreationFailed" xml:space="preserve">
-    <value>{0} se nepodařilo vytvořit {1}: {2}</value>
-  </data>
-  <data name="CustomTheme.Errors.InvalidRoot" xml:space="preserve">
-    <value>Kořen XML motivu není {0}</value>
-  </data>
-  <data name="CustomTheme.Errors.NoThemeSelected" xml:space="preserve">
-    <value>Není vybrán žádný vlastní motiv</value>
-  </data>
-  <data name="CustomTheme.Errors.SetupFailed" xml:space="preserve">
-    <value>Nepodařilo se nastavit vlastní bootstrapper: {0}.
- Vrácení na Fluent.</value>
-  </data>
-  <data name="CustomTheme.Errors.TooManyElements" xml:space="preserve">
-    <value>Vlastní bootstrappery mohou mít maximálně {0} prvků, nalezeno {1}.</value>
-  </data>
-  <data name="CustomTheme.Errors.UnknownElement" xml:space="preserve">
-    <value>Neznámý prvek {0}</value>
-  </data>
-  <data name="CustomTheme.Errors.UnknownEnumValue" xml:space="preserve">
-    <value>{0} neznámé {1} {2}</value>
-  </data>
-  <data name="CustomTheme.Errors.VersionNotNumber" xml:space="preserve">
-    <value>Verze {0} není číslo</value>
-  </data>
-  <data name="CustomTheme.Errors.VersionNotRecognised" xml:space="preserve">
-    <value>Verze {0} {1} není rozpoznána</value>
-  </data>
-  <data name="CustomTheme.Errors.VersionNotSet" xml:space="preserve">
-    <value>Verze {0} není nastavena</value>
-  </data>
-  <data name="CustomTheme.Errors.VersionNotSupported" xml:space="preserve">
-    <value>Verze {0} {1} již není podporována</value>
-  </data>
-  <data name="CustomTheme.Errors.XMLParseFailed" xml:space="preserve">
-    <value>Nepodařilo se rozpoznat soubor s motivem: {0}</value>
-  </data>
-
-  <data name="Boostrapper.Dialog.UnauthorizedChannel" xml:space="preserve">
-    <value>Kanál, který právě používáte ({0}), je nyní omezen pro veřejné použití. Budete přepnuti na výchozí kanál ({1}).</value>
-  </data>
-  <data name="Bootstrapper.Bootstrapper.Dialog.PromptChannelChange" xml:space="preserve">
-    <value>Roblox se pokouší nastavit váš kanál na {0}, ale váš aktuální preferovaný kanál je {1}.
-
-Chcete přepnout svůj preferovaný kanál na {0}?</value>
-  </data>
-  <data name="Bootstrapper.Dialog.ChannelOutOfDate" xml:space="preserve">
-    <value>Kanál, který právě používáte ({0}), je zastaralý a zdá se, že již nedostává aktualizace.\n
-Chcete přepnout na výchozí kanál ({1})?</value>
-  </data>
-  <data name="Bootstrapper.Dialog.NoUpgradeWithoutClient" xml:space="preserve">
-    <value>Spuštění selhalo kvůli chybějícímu klientovi.
-		Prosím povolte aktualizace Robloxu.</value>
-  </data>
-  <data name="Bootstrapper.Status.CancelUpgrade" xml:space="preserve">
-    <value>Rušení aktualizace Robloxu.</value>
-  </data>
-  <data name="Bootstrapper.Status.Downloading" xml:space="preserve">
-    <value>Stahování</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Categories.IngameMenu" xml:space="preserve">
-    <value>Menu Robloxu</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Categories.IngameMenu.Description" xml:space="preserve">
-    <value>Vyčistěte menu Robloxu vlastními přepínači</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Chromeui.Title" xml:space="preserve">
-    <value>Chrome UI</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Chromeui.Description" xml:space="preserve">
-    <value>Pokud je vypnuto, Roblox bude používat starou horní lištu.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
-    <value>DarkMode</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
-    <value>DarkMode</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DarkMode.Description" xml:space="preserve">
-    <value>Aktivuje experimentální DarkMode Robloxu</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DisableGrass.Title" xml:space="preserve">
-    <value>Vypnout pohyb trávy</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.FlagState.Title" xml:space="preserve">
-    <value>Stav flagu</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.FlagState.Description" xml:space="preserve">
-    <value>Zobrazí hodnoty zadaných flagů během běhu. Každý flag je oddělen čárkou.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.ChatTranslation.Title" xml:space="preserve">
-    <value>Překlad chatu</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.ChatTranslation.Description" xml:space="preserve">
-    <value>Vypne automatický překlad chatových zpráv.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.Framerate.Title" xml:space="preserve">
-    <value>Limit FPS</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.Framerate.Description" xml:space="preserve">
-    <value>Odebere přednastavené FPS z menu.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.Haptics.Title" xml:space="preserve">
-    <value>Tlačítko haptiky</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.Haptics.Description" xml:space="preserve">
-    <value>Vypne funkce haptické zpětné vazby, jako jsou vibrace ovladačů.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.LanguageSelector.Title" xml:space="preserve">
-    <value>Volba jazyka</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.LanguageSelector.Description" xml:space="preserve">
-    <value>Umožňuje hráčům vypnout překlad rozhraní.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.SoothsayerCheck.Title" xml:space="preserve">
-    <value>Tlačítko zpětné vazby</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.SoothsayerCheck.Description" xml:space="preserve">
-    <value>Skryje tlačítko pro odeslání zpětné vazby ohledně kvality překladu.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.VRToggle.Title" xml:space="preserve">
-    <value>Přepínač VR</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.VRToggle.Description" xml:space="preserve">
-    <value>Umožňuje vypnout přepínač VR režimu.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Layered" xml:space="preserve">
-    <value>Vrstvené</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Layered.Title" xml:space="preserve">
-    <value>Vrstvené oblečení</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Layered.Description" xml:space="preserve">
-    <value>Zabraňuje vykreslování vrstveného oblečení na avatarech ostatních hráčů.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.PingBreakdown.Title" xml:space="preserve">
-    <value>Rozpis pingu</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.PingBreakdown.Description" xml:space="preserve">
-    <value>Posílá podrobné informace o pingu do konzole Robloxu.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Preload" xml:space="preserve">
-    <value>Předběžné načítání</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Preload.Title" xml:space="preserve">
-    <value>Předběžné načítání</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Preload.Description" xml:space="preserve">
-    <value>Předem načte většinu textur a fontů (Upozornění: může prodloužit dobu načítání!)</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
-    <value>Telemetry</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Telemetry.Title" xml:space="preserve">
-    <value>Zakázat telemetrii Robloxu</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Telemetry.Description" xml:space="preserve">
-    <value>Pamatujte, že tato funkce vypíná pouze část telemetrie Robloxu.</value>
   </data>
 </root>

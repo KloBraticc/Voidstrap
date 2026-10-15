@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -59,46 +59,46 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -163,6 +163,169 @@
   <data name="Bootstrapper.Status.WaitingOtherInstances" xml:space="preserve">
     <value>Wachten op andere instanties...</value>
   </data>
+  <data name="Enums.CustomThemeTemplate.Blank" xml:space="preserve">
+    <value>Leeg</value>
+  </data>
+  <data name="Menu.Integrations.Custom.SpecifyGame" xml:space="preserve">
+    <value>Uitvoeren op een specifiek spel</value>
+  </data>
+  <data name="Menu.Integrations.Custom.GameID" xml:space="preserve">
+    <value>Spel-ID</value>
+  </data>
+  <data name="Menu.Integrations.Custom.AutoCloseOnGame" xml:space="preserve">
+    <value>Automatisch sluiten wanneer het spel sluit</value>
+  </data>
+  <data name="Enums.CustomThemeTemplate.Simple" xml:space="preserve">
+    <value>Eenvoudig</value>
+  </data>
+  <data name="CustomTheme.Errors.InvalidRoot" xml:space="preserve">
+    <value>Thema-XML-root is niet {0}</value>
+  </data>
+  <data name="CustomTheme.Errors.DialogAlreadyInitialised" xml:space="preserve">
+    <value>Aangepast dialoogvenster is al geïnitialiseerd</value>
+  </data>
+  <data name="CustomTheme.Errors.TooManyElements" xml:space="preserve">
+    <value>Aangepaste bootstrappers kunnen maximaal {0} elementen hebben, {1} ontvangen.</value>
+  </data>
+  <data name="CustomTheme.Errors.VersionNotSet" xml:space="preserve">
+    <value>{0}-versie is niet ingesteld</value>
+  </data>
+  <data name="CustomTheme.Errors.VersionNotNumber" xml:space="preserve">
+    <value>{0}-versie is geen getal</value>
+  </data>
+  <data name="CustomTheme.Errors.VersionNotSupported" xml:space="preserve">
+    <value>Versie {0} {1} wordt niet meer ondersteund</value>
+  </data>
+  <data name="CustomTheme.Errors.VersionNotRecognised" xml:space="preserve">
+    <value>Versie {0} {1} niet herkend</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementInvalidChild" xml:space="preserve">
+    <value>{0} kan geen onderliggend element {1} hebben</value>
+  </data>
+  <data name="CustomTheme.Errors.UnknownElement" xml:space="preserve">
+    <value>Onbekend element {0}</value>
+  </data>
+  <data name="CustomTheme.Errors.XMLParseFailed" xml:space="preserve">
+    <value>Themabestand kon niet worden geparseerd: {0}</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeConversionError" xml:space="preserve">
+    <value>{0} heeft ongeldige {1}: {2}</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeMissing" xml:space="preserve">
+    <value>Element {0} mist het attribuut {1}</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeInvalidType" xml:space="preserve">
+    <value>{0} {1} is geen geldige {2}</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeMustBeLargerThanMin" xml:space="preserve">
+    <value>{0} {1} moet groter zijn dan {2}</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeMustBeSmallerThanMax" xml:space="preserve">
+    <value>{0} {1} moet kleiner zijn dan {2}</value>
+  </data>
+  <data name="CustomTheme.Errors.UnknownEnumValue" xml:space="preserve">
+    <value>{0} onbekend {1} {2}</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeMultipleDefinitions" xml:space="preserve">
+    <value>{0} kan slechts één {1} hebben gedefinieerd</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeMultipleChildren" xml:space="preserve">
+    <value>{0}.{1} kan slechts één onderliggend element hebben</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementMultipleChildren" xml:space="preserve">
+    <value>{0} kan slechts één onderliggend element hebben</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeMissingChild" xml:space="preserve">
+    <value>{0}.{1} mist zijn onderliggende element</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeParseError" xml:space="preserve">
+    <value>{0}.{1} kon niet worden geparseerd naar {2}</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeBlacklistedUriScheme" xml:space="preserve">
+    <value>{0}.{1} gebruikt een verboden schema {2}</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementTypeCreationFailed" xml:space="preserve">
+    <value>{0} kon {1} niet maken: {2}</value>
+  </data>
+  <data name="CustomTheme.Editor.Title" xml:space="preserve">
+    <value>"{0}" bewerken</value>
+  </data>
+  <data name="CustomTheme.Editor.Save.Success" xml:space="preserve">
+    <value>Thema succesvol opgeslagen!</value>
+  </data>
+  <data name="CustomTheme.Editor.Save.Error" xml:space="preserve">
+    <value>Er is een fout opgetreden bij het opslaan van je thema.</value>
+  </data>
+  <data name="CustomTheme.Editor.ConfirmSave" xml:space="preserve">
+    <value>Wijzigingen in {0} opslaan?</value>
+  </data>
+  <data name="CustomTheme.Editor.Save" xml:space="preserve">
+    <value>Opslaan</value>
+  </data>
+  <data name="CustomTheme.Editor.Preview" xml:space="preserve">
+    <value>Voorbeeld</value>
+  </data>
+  <data name="CustomTheme.Editor.OpenThemeDirectory" xml:space="preserve">
+    <value>Themamap openen</value>
+  </data>
+  <data name="Common.CreateNew" xml:space="preserve">
+    <value>Nieuw maken</value>
+  </data>
+  <data name="Common.Import" xml:space="preserve">
+    <value>Importeren</value>
+  </data>
+  <data name="CustomTheme.Add.Title" xml:space="preserve">
+    <value>Aangepast thema toevoegen</value>
+  </data>
+  <data name="Common.Template" xml:space="preserve">
+    <value>Sjabloon</value>
+  </data>
+  <data name="CustomTheme.Add.Errors.NameEmpty" xml:space="preserve">
+    <value>Naam mag niet leeg zijn</value>
+  </data>
+  <data name="CustomTheme.Add.Errors.NameIllegalCharacters" xml:space="preserve">
+    <value>Naam bevat ongeldige tekens</value>
+  </data>
+  <data name="CustomTheme.Add.Errors.NameReserved" xml:space="preserve">
+    <value>Naam kan niet worden gebruikt</value>
+  </data>
+  <data name="CustomTheme.Add.Errors.Unknown" xml:space="preserve">
+    <value>Onbekende fout</value>
+  </data>
+  <data name="CustomTheme.Add.Errors.NameTaken" xml:space="preserve">
+    <value>Naam is al in gebruik</value>
+  </data>
+  <data name="CustomTheme.Add.Errors.FileNotZip" xml:space="preserve">
+    <value>Bestand moet een ZIP zijn</value>
+  </data>
+  <data name="CustomTheme.Add.Errors.ZipMissingThemeFile" xml:space="preserve">
+    <value>Themabestand niet gevonden in het ZIP-bestand</value>
+  </data>
+  <data name="CustomTheme.Add.Errors.ZipInvalidData" xml:space="preserve">
+    <value>Ongeldig of beschadigd ZIP-bestand</value>
+  </data>
+  <data name="CustomTheme.Errors.NoThemeSelected" xml:space="preserve">
+    <value>Geen aangepast thema geselecteerd</value>
+  </data>
+  <data name="CustomTheme.Errors.SetupFailed" xml:space="preserve">
+    <value>Aangepaste bootstrapper instellen mislukt: {0}.
+ Standaard naar Fluent.</value>
+  </data>
+  <data name="Menu.Appearance.CustomThemes.NoneSelected" xml:space="preserve">
+    <value>Geen aangepast thema geselecteerd.</value>
+  </data>
+  <data name="Common.Rename" xml:space="preserve">
+    <value>Hernoemen</value>
+  </data>
+  <data name="Common.Edit" xml:space="preserve">
+    <value>Bewerken</value>
+  </data>
+  <data name="Menu.Appearance.CustomThemes.DeleteFailed" xml:space="preserve">
+    <value>Verwijderen van aangepast thema {0} mislukt: {1}</value>
+  </data>
+  <data name="Menu.Appearance.CustomThemes.RenameFailed" xml:space="preserve">
+    <value>Hernoemen van aangepast thema {0} mislukt: {1}</value>
+  </data>
   <data name="Bootstrapper.StylePreview.ImageCancel" xml:space="preserve">
     <value>Stijlvoorbeeld - Klik op de knop X rechtsboven om te sluiten</value>
     <comment>Text for style previews that use an X button. Currently only applies to Byfron</comment>
@@ -194,12 +357,6 @@
   </data>
   <data name="Common.Delete" xml:space="preserve">
     <value>Verwijder</value>
-  </data>
-  <data name="Common.DiscordRichPresence" xml:space="preserve">
-    <value>Discord Rich Presence</value>
-  </data>
-  <data name="Common.Help" xml:space="preserve">
-    <value>Help</value>
   </data>
   <data name="Common.ImportJson" xml:space="preserve">
     <value>Importeer JSON</value>
@@ -266,9 +423,6 @@ Klik voor meer informatie</value>
   <data name="ContextMenu.ServerInformation.Title" xml:space="preserve">
     <value>Serverinformatie</value>
   </data>
-  <data name="ContextMenu.ServerInformation.Type" xml:space="preserve">
-    <value>Type</value>
-  </data>
   <data name="Dialog.AddFastFlag.Title" xml:space="preserve">
     <value>Voeg Fast Flag toe</value>
   </data>
@@ -299,9 +453,6 @@ Als dat niet het geval is, rapporteer deze uitzondering dan alstublieft door een
   <data name="Common.Custom" xml:space="preserve">
     <value>Aangepast</value>
   </data>
-  <data name="Enums.BootstrapperIcon.IconEarly2015" xml:space="preserve">
-    <value>Begin 2015</value>
-  </data>
   <data name="Enums.BootstrapperIcon.IconLate2015" xml:space="preserve">
     <value>Eind 2015</value>
   </data>
@@ -320,9 +471,6 @@ Als dat niet het geval is, rapporteer deze uitzondering dan alstublieft door een
   <data name="Enums.BootstrapperStyle.LegacyDialog2011" xml:space="preserve">
     <value>Legacy (2011-2014)</value>
   </data>
-  <data name="Enums.BootstrapperStyle.ProgressDialog" xml:space="preserve">
-    <value>Roblox (~2014)</value>
-  </data>
   <data name="Enums.BootstrapperStyle.VistaDialog" xml:space="preserve">
     <value>Vista (2008-2011)</value>
   </data>
@@ -332,29 +480,8 @@ Als dat niet het geval is, rapporteer deze uitzondering dan alstublieft door een
   <data name="Enums.CursorType.From2013" xml:space="preserve">
     <value>2013 (Hoekig)</value>
   </data>
-  <data name="Enums.EmojiType.Catmoji" xml:space="preserve">
-    <value>Catmoji</value>
-  </data>
   <data name="Enums.EmojiType.Default" xml:space="preserve">
     <value>Standaard (Twemoji)</value>
-  </data>
-  <data name="Enums.EmojiType.Windows10" xml:space="preserve">
-    <value>Windows 10</value>
-  </data>
-  <data name="Enums.EmojiType.Windows11" xml:space="preserve">
-    <value>Windows 11</value>
-  </data>
-  <data name="Enums.EmojiType.Windows8" xml:space="preserve">
-    <value>Windows 8</value>
-  </data>
-  <data name="Enums.FlagPresets.InGameMenuVersion.V1" xml:space="preserve">
-    <value>2015 (V1)</value>
-  </data>
-  <data name="Enums.FlagPresets.InGameMenuVersion.V2" xml:space="preserve">
-    <value>2020 (V2)</value>
-  </data>
-  <data name="Enums.FlagPresets.InGameMenuVersion.V4" xml:space="preserve">
-    <value>2023 (V4)</value>
   </data>
   <data name="Enums.FlagPresets.LightingMode.Default" xml:space="preserve">
     <value>Gekozen door spel</value>
@@ -368,12 +495,6 @@ Als dat niet het geval is, rapporteer deze uitzondering dan alstublieft door een
   <data name="Enums.FlagPresets.LightingMode.Voxel" xml:space="preserve">
     <value>Voxel (Fase 1)</value>
   </data>
-  <data name="Enums.FlagPresets.RenderingMode.D3D10" xml:space="preserve">
-    <value>Direct3D 10</value>
-  </data>
-  <data name="Enums.FlagPresets.RenderingMode.D3D11" xml:space="preserve">
-    <value>Direct3D 11</value>
-  </data>
   <data name="Enums.ServerType.Private" xml:space="preserve">
     <value>Privéserver</value>
   </data>
@@ -385,6 +506,27 @@ Als dat niet het geval is, rapporteer deze uitzondering dan alstublieft door een
   </data>
   <data name="Enums.Theme.Dark" xml:space="preserve">
     <value>Donker</value>
+  </data>
+  <data name="Enums.Theme.Yellow" xml:space="preserve">
+    <value>Geel</value>
+  </data>
+  <data name="Enums.Theme.Cyan" xml:space="preserve">
+    <value>Cyaan</value>
+  </data>
+  <data name="Enums.Theme.Pink" xml:space="preserve">
+    <value>Roze</value>
+  </data>
+  <data name="Enums.Theme.Custom" xml:space="preserve">
+    <value>Aangepast</value>
+  </data>
+  <data name="Enums.Theme.Purple" xml:space="preserve">
+    <value>Paars</value>
+  </data>
+  <data name="Enums.Theme.Green" xml:space="preserve">
+    <value>Groen</value>
+  </data>
+  <data name="Enums.Theme.Orange" xml:space="preserve">
+    <value>Oranje</value>
   </data>
   <data name="Enums.Theme.Light" xml:space="preserve">
     <value>Licht</value>
@@ -404,9 +546,6 @@ Wil je je huidige geïnstalleerde versie bijwerken?</value>
   </data>
   <data name="Menu.About.Contributors" xml:space="preserve">
     <value>Bijdragers</value>
-  </data>
-  <data name="Menu.About.Contributors.Code" xml:space="preserve">
-    <value>Code</value>
   </data>
   <data name="Menu.About.Contributors.Description" xml:space="preserve">
     <value>Dit zijn de mensen die een opmerkelijke bijdrage hebben geleverd aan Voidstrap en het hebben gemaakt tot wat het is.</value>
@@ -459,9 +598,6 @@ Wil je je huidige geïnstalleerde versie bijwerken?</value>
   </data>
   <data name="Menu.Appearance.Bootstrapper.Description" xml:space="preserve">
     <value>Je kunt het er anders, retro of zelfs net als Roblox laten uitzien.</value>
-  </data>
-  <data name="Menu.Appearance.Bootstrapper.Title" xml:space="preserve">
-    <value>Bootstrapper</value>
   </data>
   <data name="Menu.Appearance.Customisation.Description" xml:space="preserve">
     <value>Configureer andere diverse aanpasbare opties.</value>
@@ -525,9 +661,6 @@ Wil je je huidige geïnstalleerde versie bijwerken?</value>
   </data>
   <data name="Menu.Behaviour.ForceRobloxReinstall.Title" xml:space="preserve">
     <value>Roblox herinstallatie forceren</value>
-  </data>
-  <data name="Menu.Behaviour.Title" xml:space="preserve">
-    <value>Bootstrapper</value>
   </data>
   <data name="Menu.FastFlagEditor.AddNew" xml:space="preserve">
     <value>Nieuw toevoegen</value>
@@ -897,6 +1030,9 @@ Als je 'Nee' selecteert, wordt deze waarschuwing genegeerd en wordt de installat
   <data name="Menu.FastFlags.Presets.DisableTerrainTextures.Title" xml:space="preserve">
     <value>Schakel terreintexturen uit</value>
   </data>
+  <data name="Menu.FastFlags.Presets.DisableGrass.Title" xml:space="preserve">
+    <value>Grasbeweging uitschakelen</value>
+  </data>
   <data name="Dialog.Connectivity.UnableToDownload" xml:space="preserve">
     <value>Voidstrap kan Roblox niet downloaden</value>
   </data>
@@ -909,7 +1045,7 @@ Als je 'Nee' selecteert, wordt deze waarschuwing genegeerd en wordt de installat
   </data>
   <data name="FileTypes.JSONFiles" xml:space="preserve">
     <value>JSON-bestanden</value>
-    <comment>Shown in the open file dialog, where the file type selection dropdown is, e.g. "JSON files (*.json)"</comment>
+    <comment>Allows selection of JSON, TXT, and Markdown files (*.json;*.txt;*.md)</comment>
   </data>
   <data name="Menu.FastFlagEditor.InvalidBoolValue" xml:space="preserve">
     <value>De invoer voor '{0}' is ongeldig, omdat de waarde een booleaanse waarde moet zijn (ofwel 'True' of 'False')</value>
@@ -932,9 +1068,6 @@ Als je 'Nee' selecteert, wordt deze waarschuwing genegeerd en wordt de installat
   </data>
   <data name="Menu.FastFlagEditor.InvalidPlaceFilter" xml:space="preserve">
     <value>De invoer voor '{0}' is niet geldig omdat de plaatsfilter niet correct is opgemaakt.</value>
-  </data>
-  <data name="Installer.Title" xml:space="preserve">
-    <value>Voidstrap Installer</value>
   </data>
   <data name="Installer.Welcome.Title" xml:space="preserve">
     <value>Welkom</value>
@@ -1133,9 +1266,6 @@ Elke persoon hier is gerangschikt op basis van hun totale bijdrage.</value>
   <data name="ContextMenu.GameHistory.Title" xml:space="preserve">
     <value>Spel geschiedenis</value>
   </data>
-  <data name="ContextMenu.GameHistory.Rejoin" xml:space="preserve">
-    <value>Rejoin</value>
-  </data>
   <data name="ActivityWatcher.RichPresenceLoadFailed" xml:space="preserve">
     <value>Je huidige spel zal niet verschijnen op je Discord activiteit, omdat er een fout is opgetreden bij het laden van de spelinformatie.</value>
   </data>
@@ -1231,15 +1361,53 @@ Wilt u de testmodus inschakelen?</value>
     <value>Installeer</value>
     <comment>The word "Install" is being used as a verb in this instance, like the other navigation button texts of "Next" and "Back"</comment>
   </data>
+  <data name="LaunchMenu.Donate" xml:space="preserve">
+    <value>Word lid van onze Discord-server</value>
+    <comment>Call-to-action button</comment>
+  </data>
   <data name="Paths.Icons" xml:space="preserve">
     <value>Iconen</value>
     <comment>Name of the folder that gets created according to the "create shortcut icons" option. Ensure that it is a valid folder name.</comment>
+  </data>
+  <data name="Menu_FlagProfiles_Title" xml:space="preserve">
+    <value>Fast Flag-back-ups</value>
+  </data>
+  <data name="Menu_FlagProfiles_Description" xml:space="preserve">
+    <value>Sla Fast Flag-back-ups op en laad ze.</value>
+  </data>
+  <data name="Common_FastFlags" xml:space="preserve">
+    <value>Fast Flag-editor</value>
+  </data>
+  <data name="Menu_FastFlagProfiles_Save" xml:space="preserve">
+    <value>Huidige flags opslaan</value>
+  </data>
+  <data name="Menu.FastFlagEditor.ProfilesDescription" xml:space="preserve">
+    <value>FFlag-back-ups</value>
+  </data>
+  <data name="Menu.Load" xml:space="preserve">
+    <value>Laden</value>
+  </data>
+  <data name="Bootstrapper.Status.CancelUpgrade" xml:space="preserve">
+    <value>Roblox-upgrade annuleren.</value>
+  </data>
+  <data name="Menu.Behaviour.RenameToEurotrucks.Title" xml:space="preserve">
+    <value>Bloxshade-ondersteuning</value>
+  </data>
+  <data name="Menu.Behaviour.RenameToEurotrucks.Description" xml:space="preserve">
+    <value>Voor optimale prestaties is een ondersteunde grafische kaart vereist.
+Deze functie is essentieel voor het correct functioneren van shaders.</value>
+  </data>
+  <data name="Menu.Behaviour.Channel.Title" xml:space="preserve">
+    <value>Kanaal</value>
   </data>
   <data name="LaunchMenu.LaunchRobloxStudio" xml:space="preserve">
     <value>Start Roblox Studio</value>
   </data>
   <data name="Dialog.Exception.Version" xml:space="preserve">
     <value>Versie {0}</value>
+  </data>
+  <data name="Enums.BootstrapperStyle.CustomDialog" xml:space="preserve">
+    <value>Aangepast</value>
   </data>
   <data name="Bootstrapper.FilesInUse" xml:space="preserve">
     <value>Voidstrap heeft geprobeerd Roblox bij te werken, maar kan dit niet omdat de bestanden van Roblox nog in gebruik zijn.
@@ -1269,6 +1437,218 @@ Sluit alstublieft alle applicaties die mogelijk de bestanden van Roblox gebruike
     <value>Alle Voidstrap logs</value>
     <comment>Label that appears next to a checkbox</comment>
   </data>
+  <data name="Menu.Channel.Description" xml:space="preserve">
+    <value>Wijzig de implementatie- en installatie-instellingen voor Roblox en Voidstrap.</value>
+  </data>
+  <data name="Common.Channel" xml:space="preserve">
+    <value>Kanaal</value>
+  </data>
+  <data name="Menu.ChannelChanger.Description" xml:space="preserve">
+    <value>Kies een implementatiekanaal. Verander niet tenzij je weet wat je doet.</value>
+  </data>
+  <data name="Common.Version" xml:space="preserve">
+    <value>Versie</value>
+  </data>
+  <data name="Common.VersionGuid" xml:space="preserve">
+    <value>Versie-GUID</value>
+  </data>
+  <data name="Menu.Channel.RobloxUpgrades" xml:space="preserve">
+    <value>Roblox-upgrades</value>
+  </data>
+  <data name="Menu.Channel.RobloxUpgrades.Description" xml:space="preserve">
+    <value>Indien uitgeschakeld, zal de Roblox-client niet upgraden naar een nieuwere versie.</value>
+  </data>
+  <data name="Bootstrapper.Status.Downloading" xml:space="preserve">
+    <value>Downloaden</value>
+  </data>
+  <data name="Menu.Appearance.BootstrapperDownloading.Title" xml:space="preserve">
+    <value>Bootstrapper-downloadstatus</value>
+  </data>
+  <data name="Menu.Appearance.BootstrapperDownloading.Description" xml:space="preserve">
+    <value>Wijzig de downloadtekst. {0} is de pakketnaam, {1} is de gedownloade pakketgrootte en {2} is de totale grootte van pakketten.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Telemetry.Title" xml:space="preserve">
+    <value>Roblox-telemetrie uitschakelen</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Telemetry.Description" xml:space="preserve">
+    <value>Opmerking: dit schakelt slechts een deel van de Roblox-telemetrie uit.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Preload.Title" xml:space="preserve">
+    <value>Voorladen</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Preload.Description" xml:space="preserve">
+    <value>Laadt de meeste texturen en lettertypen voor (Waarschuwing: kan de laadtijd verlengen!)</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Layered.Title" xml:space="preserve">
+    <value>Gelaagde kleding</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Layered.Description" xml:space="preserve">
+    <value>Voorkomt dat gelaagde kleding wordt weergegeven op de avatars van andere spelers.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode.Description" xml:space="preserve">
+    <value>Activeert Roblox' early access DarkMode</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Preload" xml:space="preserve">
+    <value>Voorladen</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Layered" xml:space="preserve">
+    <value>Gelaagd</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Chromeui.Description" xml:space="preserve">
+    <value>Indien uitgeschakeld, gebruikt Roblox de oude bovenste balk.</value>
+  </data>
+  <data name="Menu.FlagProfiles.ClearFlags" xml:space="preserve">
+    <value>Huidige FFlags wissen</value>
+  </data>
+  <data name="Menu.Deployment.Channel.OutOfDate" xml:space="preserve">
+    <value>Dit kanaal is verouderd en wordt waarschijnlijk niet meer bijgewerkt. Gebruik een ander kanaal.</value>
+  </data>
+  <data name="Bootstrapper.Dialog.ChannelOutOfDate" xml:space="preserve">
+    <value>Het kanaal dat je momenteel gebruikt ({0}) is verouderd en lijkt geen updates meer te ontvangen.\n
+Wil je overschakelen naar het standaardkanaal ({1})?</value>
+  </data>
+  <data name="Menu.Channel.ChangeAction.Title" xml:space="preserve">
+    <value>Actie bij automatische kanaalwijziging</value>
+  </data>
+  <data name="Menu.Channel.ChangeAction.Description" xml:space="preserve">
+    <value>Roblox of Voidstrap kan proberen je voorkeurskanaal te wijzigen.</value>
+  </data>
+  <data name="Menu.Channel.ChangeAction.Automatic" xml:space="preserve">
+    <value>Automatisch wijzigen</value>
+  </data>
+  <data name="Menu.Channel.ChangeAction.Prompt" xml:space="preserve">
+    <value>Altijd vragen</value>
+  </data>
+  <data name="Menu.Channel.ChangeAction.Ignore" xml:space="preserve">
+    <value>Nooit wijzigen</value>
+  </data>
+  <data name="Common.Debug" xml:space="preserve">
+    <value>Foutopsporing</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Categories.IngameMenu" xml:space="preserve">
+    <value>Roblox-menu</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Categories.IngameMenu.Description" xml:space="preserve">
+    <value>Roblox-menu opschonen met aangepaste schakelaars</value>
+  </data>
+  <data name="Common.Deployment" xml:space="preserve">
+    <value>Implementatie</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.VRToggle.Title" xml:space="preserve">
+    <value>VR-schakelaar</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.SoothsayerCheck.Title" xml:space="preserve">
+    <value>Feedbackknop</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.LanguageSelector.Title" xml:space="preserve">
+    <value>Taalkeuze</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.Haptics.Title" xml:space="preserve">
+    <value>Haptische knop</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.Framerate.Title" xml:space="preserve">
+    <value>Framerate-limiet</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.ChatTranslation.Title" xml:space="preserve">
+    <value>Chatvertaling</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.VRToggle.Description" xml:space="preserve">
+    <value>Maakt het mogelijk de VR-modusschakelaar uit te schakelen.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.SoothsayerCheck.Description" xml:space="preserve">
+    <value>Verbergt de knop voor het indienen van feedback over de vertaalkwaliteit.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.Haptics.Description" xml:space="preserve">
+    <value>Schakelt haptische feedback-functies uit, zoals trillingen voor controllers.</value>
+  </data>
+  <data name="Bootstrapper.Bootstrapper.Dialog.PromptChannelChange" xml:space="preserve">
+    <value>Roblox probeert je kanaal in te stellen op {0}, maar je huidige voorkeurskanaal is {1}.
+
+
+Wil je je voorkeurskanaal wijzigen naar {0}?</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.Framerate.Description" xml:space="preserve">
+    <value>Verwijdert FPS-voorinstellingen uit het menu.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.LanguageSelector.Description" xml:space="preserve">
+    <value>Stelt spelers in staat de interfacevertaling uit te schakelen.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.ChatTranslation.Description" xml:space="preserve">
+    <value>Schakelt automatische vertaling van chatberichten uit.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.FlagState.Title" xml:space="preserve">
+    <value>Flag-status</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.FlagState.Description" xml:space="preserve">
+    <value>Toon de waarden van opgegeven flags tijdens runtime. Elke flag is gescheiden door komma's.</value>
+  </data>
+  <data name="Menu.Context.PlayerLogs" xml:space="preserve">
+    <value>Spelerslogs</value>
+  </data>
+  <data name="Menu.Context.PlayerLogs.Description" xml:space="preserve">
+    <value>Toont spelers die je server verlaten of erbij komen.</value>
+  </data>
+  <data name="Common.UserId" xml:space="preserve">
+    <value>Gebruikers-ID</value>
+  </data>
+  <data name="Common.Username" xml:space="preserve">
+    <value>Gebruikersnaam</value>
+  </data>
+  <data name="Common.Time" xml:space="preserve">
+    <value>Tijd</value>
+  </data>
+  <data name="Menu.Channel.VersionHash.Title" xml:space="preserve">
+    <value>Versie-hash</value>
+  </data>
+  <data name="Menu.Channel.VersionHash.Desription" xml:space="preserve">
+    <value>Dwing Voidstrap om de versie van een specifieke hash te downloaden. Verander dit niet als je niet weet wat het doet.</value>
+  </data>
+  <data name="Menu.SaveAndLaunch" xml:space="preserve">
+    <value>Opslaan en starten</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.PingBreakdown.Title" xml:space="preserve">
+    <value>Ping-overzicht</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.PingBreakdown.Description" xml:space="preserve">
+    <value>Stuurt gedetailleerde ping-informatie naar de Roblox-console.</value>
+  </data>
+  <data name="Bootstrapper.Dialog.NoUpgradeWithoutClient" xml:space="preserve">
+    <value>Starten mislukt vanwege ontbrekende client.
+		Schakel Roblox-upgrades in.</value>
+  </data>
+  <data name="ContextMenu.PlayerLogs.Title" xml:space="preserve">
+    <value>Spelerslogs</value>
+  </data>
+  <data name="Menu.Channel.Switcher.Unauthorized" xml:space="preserve">
+    <value>Het opgegeven kanaal bestaat niet of is privé</value>
+  </data>
+  <data name="Boostrapper.Dialog.UnauthorizedChannel" xml:space="preserve">
+    <value>Het kanaal dat je momenteel gebruikt ({0}) is nu beperkt voor openbaar gebruik. Je bent nu op het standaardkanaal ({1}).</value>
+  </data>
+  <data name="Menu.Channel.Switcher.Fetching" xml:space="preserve">
+    <value>Nieuwste implementatie-informatie ophalen, even geduld...</value>
+  </data>
+  <data name="Common.Message" xml:space="preserve">
+    <value>Bericht</value>
+  </data>
+  <data name="ContextMenu.MessageLogs.Title" xml:space="preserve">
+    <value>Berichtenlogs</value>
+  </data>
+  <data name="ContextMenu.MessageLogs.Description" xml:space="preserve">
+    <value>Toont recent verzonden berichten van spelers.</value>
+  </data>
+  <data name="Menu.Behaviour.AnselBanner" xml:space="preserve">
+    <value>Bloxshade-ondersteuning is vereist voor shaders.</value>
+  </data>
+  <data name="Dialog.Bloxshade.ThankYou" xml:space="preserve">
+    <value>Bedankt voor het gebruiken van Bloxshade met Voidstrap</value>
+  </data>
+  <data name="Dialog.Bloxshade.Setting" xml:space="preserve">
+    <value>Bloxshade-ondersteuning is ingeschakeld</value>
+  </data>
+  <data name="Common.Profiles" xml:space="preserve">
+    <value>Profielen</value>
+  </data>
   <data name="Common.Open" xml:space="preserve">
     <value>Openen</value>
   </data>
@@ -1292,503 +1672,5 @@ Sluit alstublieft alle applicaties die mogelijk de bestanden van Roblox gebruike
   </data>
   <data name="Menu.News.DialogTitle" xml:space="preserve">
     <value>Nieuwsdetails</value>
-  </data>
-
-  <data name="Common.Channel" xml:space="preserve">
-    <value>Kanaal</value>
-  </data>
-  <data name="Common.CreateNew" xml:space="preserve">
-    <value>Nieuw maken</value>
-  </data>
-  <data name="Common.Debug" xml:space="preserve">
-    <value>Foutopsporing</value>
-  </data>
-  <data name="Common.Deployment" xml:space="preserve">
-    <value>Implementatie</value>
-  </data>
-  <data name="Common.Edit" xml:space="preserve">
-    <value>Bewerken</value>
-  </data>
-  <data name="Common.Import" xml:space="preserve">
-    <value>Importeren</value>
-  </data>
-  <data name="Common.Message" xml:space="preserve">
-    <value>Bericht</value>
-  </data>
-  <data name="Common.Profiles" xml:space="preserve">
-    <value>Profielen</value>
-  </data>
-  <data name="Common.Rename" xml:space="preserve">
-    <value>Hernoemen</value>
-  </data>
-  <data name="Common.RobloxStudio" xml:space="preserve">
-    <value>Roblox Studio</value>
-  </data>
-  <data name="Common.Studio" xml:space="preserve">
-    <value>Studio</value>
-  </data>
-  <data name="Common.Template" xml:space="preserve">
-    <value>Sjabloon</value>
-  </data>
-  <data name="Common.Time" xml:space="preserve">
-    <value>Tijd</value>
-  </data>
-  <data name="Common.Type" xml:space="preserve">
-    <value>Type</value>
-  </data>
-  <data name="Common.UserId" xml:space="preserve">
-    <value>Gebruikers-ID</value>
-  </data>
-  <data name="Common.Username" xml:space="preserve">
-    <value>Gebruikersnaam</value>
-  </data>
-  <data name="Common.Version" xml:space="preserve">
-    <value>Versie</value>
-  </data>
-  <data name="Common.VersionGuid" xml:space="preserve">
-    <value>Versie-GUID</value>
-  </data>
-  <data name="Common_FastFlags" xml:space="preserve">
-    <value>Fast Flag-editor</value>
-  </data>
-  <data name="Enums.Theme.Berry" xml:space="preserve">
-    <value>Berry</value>
-  </data>
-  <data name="Enums.Theme.Custom" xml:space="preserve">
-    <value>Aangepast</value>
-  </data>
-  <data name="Enums.Theme.Cyan" xml:space="preserve">
-    <value>Cyaan</value>
-  </data>
-  <data name="Enums.Theme.Green" xml:space="preserve">
-    <value>Groen</value>
-  </data>
-  <data name="Enums.Theme.Orange" xml:space="preserve">
-    <value>Oranje</value>
-  </data>
-  <data name="Enums.Theme.Pink" xml:space="preserve">
-    <value>Roze</value>
-  </data>
-  <data name="Enums.Theme.Purple" xml:space="preserve">
-    <value>Paars</value>
-  </data>
-  <data name="Enums.Theme.UltraGray" xml:space="preserve">
-    <value>UltraGray</value>
-  </data>
-  <data name="Enums.Theme.Voidstrap" xml:space="preserve">
-    <value>Voidstrap</value>
-  </data>
-  <data name="Enums.Theme.Yellow" xml:space="preserve">
-    <value>Geel</value>
-  </data>
-  <data name="Enums.CursorType.CleanCursor" xml:space="preserve">
-    <value>CleanCursor</value>
-  </data>
-  <data name="Enums.CursorType.FPSCursor" xml:space="preserve">
-    <value>FPSCursor</value>
-  </data>
-  <data name="Enums.CursorType.StoofsCursor" xml:space="preserve">
-    <value>StoofsCursor</value>
-  </data>
-  <data name="Enums.FlagPresets.RenderingMode.OpenGL" xml:space="preserve">
-    <value>OpenGL</value>
-  </data>
-  <data name="Enums.FlagPresets.RenderingMode.Vulkan" xml:space="preserve">
-    <value>Vulkan</value>
-  </data>
-  <data name="Enums.BootstrapperStyle.CustomDialog" xml:space="preserve">
-    <value>Aangepast</value>
-  </data>
-  <data name="Enums.CustomThemeTemplate.Blank" xml:space="preserve">
-    <value>Leeg</value>
-  </data>
-  <data name="Enums.CustomThemeTemplate.Simple" xml:space="preserve">
-    <value>Eenvoudig</value>
-  </data>
-  <data name="Menu.Load" xml:space="preserve">
-    <value>Laden</value>
-  </data>
-  <data name="Menu.SaveAndLaunch" xml:space="preserve">
-    <value>Opslaan en starten</value>
-  </data>
-  <data name="Menu.FlagProfiles.ClearFlags" xml:space="preserve">
-    <value>Huidige FFlags wissen</value>
-  </data>
-  <data name="Menu_FastFlagProfiles_Save" xml:space="preserve">
-    <value>Huidige flags opslaan</value>
-  </data>
-  <data name="Menu_FlagProfiles_Title" xml:space="preserve">
-    <value>Fast Flag-back-ups</value>
-  </data>
-  <data name="Menu_FlagProfiles_Description" xml:space="preserve">
-    <value>Sla Fast Flag-back-ups op en laad ze.</value>
-  </data>
-  <data name="LaunchMenu.Donate" xml:space="preserve">
-    <value>Word lid van onze Discord-server</value>
-  </data>
-  <data name="Menu.About.Licenses.Apache" xml:space="preserve">
-    <value>Apache License 2.0</value>
-  </data>
-  <data name="ContextMenu.PlayerLogs.Title" xml:space="preserve">
-    <value>Spelerslogs</value>
-  </data>
-  <data name="ContextMenu.MessageLogs.Title" xml:space="preserve">
-    <value>Berichtenlogs</value>
-  </data>
-  <data name="ContextMenu.MessageLogs.Description" xml:space="preserve">
-    <value>Toont recent verzonden berichten van spelers.</value>
-  </data>
-  <data name="Menu.Context.PlayerLogs" xml:space="preserve">
-    <value>Spelerslogs</value>
-  </data>
-  <data name="Menu.Context.PlayerLogs.Description" xml:space="preserve">
-    <value>Toont spelers die je server verlaten of erbij komen.</value>
-  </data>
-
-  <data name="Menu.Channel.ChangeAction.Automatic" xml:space="preserve">
-    <value>Automatisch wijzigen</value>
-  </data>
-  <data name="Menu.Channel.ChangeAction.Description" xml:space="preserve">
-    <value>Roblox of Voidstrap kan proberen je voorkeurskanaal te wijzigen.</value>
-  </data>
-  <data name="Menu.Channel.ChangeAction.Ignore" xml:space="preserve">
-    <value>Nooit wijzigen</value>
-  </data>
-  <data name="Menu.Channel.ChangeAction.Prompt" xml:space="preserve">
-    <value>Altijd vragen</value>
-  </data>
-  <data name="Menu.Channel.ChangeAction.Title" xml:space="preserve">
-    <value>Actie bij automatische kanaalwijziging</value>
-  </data>
-  <data name="Menu.Channel.Description" xml:space="preserve">
-    <value>Wijzig de implementatie- en installatie-instellingen voor Roblox en Voidstrap.</value>
-  </data>
-  <data name="Menu.Channel.RobloxUpgrades" xml:space="preserve">
-    <value>Roblox-upgrades</value>
-  </data>
-  <data name="Menu.Channel.RobloxUpgrades.Description" xml:space="preserve">
-    <value>Indien uitgeschakeld, zal de Roblox-client niet upgraden naar een nieuwere versie.</value>
-  </data>
-  <data name="Menu.Channel.Switcher.Fetching" xml:space="preserve">
-    <value>Nieuwste implementatie-informatie ophalen, even geduld...</value>
-  </data>
-  <data name="Menu.Channel.Switcher.Unauthorized" xml:space="preserve">
-    <value>Het opgegeven kanaal bestaat niet of is privé</value>
-  </data>
-  <data name="Menu.Channel.VersionHash.Desription" xml:space="preserve">
-    <value>Dwing Voidstrap om de versie van een specifieke hash te downloaden. Verander dit niet als je niet weet wat het doet.</value>
-  </data>
-  <data name="Menu.Channel.VersionHash.Title" xml:space="preserve">
-    <value>Versie-hash</value>
-  </data>
-  <data name="Menu.ChannelChanger.Description" xml:space="preserve">
-    <value>Kies een implementatiekanaal. Verander niet tenzij je weet wat je doet.</value>
-  </data>
-  <data name="Menu.Deployment.Channel.OutOfDate" xml:space="preserve">
-    <value>Dit kanaal is verouderd en wordt waarschijnlijk niet meer bijgewerkt. Gebruik een ander kanaal.</value>
-  </data>
-  <data name="Menu.Behaviour.AnselBanner" xml:space="preserve">
-    <value>Bloxshade-ondersteuning is vereist voor shaders.</value>
-  </data>
-  <data name="Menu.Behaviour.Channel.Title" xml:space="preserve">
-    <value>Kanaal</value>
-  </data>
-  <data name="Menu.Behaviour.RenameToEurotrucks.Description" xml:space="preserve">
-    <value>Voor optimale prestaties is een ondersteunde grafische kaart vereist.
-Deze functie is essentieel voor het correct functioneren van shaders.</value>
-  </data>
-  <data name="Menu.Behaviour.RenameToEurotrucks.Title" xml:space="preserve">
-    <value>Bloxshade-ondersteuning</value>
-  </data>
-  <data name="Dialog.Bloxshade.Setting" xml:space="preserve">
-    <value>Bloxshade-ondersteuning is ingeschakeld</value>
-  </data>
-  <data name="Dialog.Bloxshade.ThankYou" xml:space="preserve">
-    <value>Bedankt voor het gebruiken van Bloxshade met Voidstrap</value>
-  </data>
-  <data name="Menu.FastFlagEditor.ProfilesDescription" xml:space="preserve">
-    <value>FFlag-back-ups</value>
-  </data>
-  <data name="Menu.Integrations.Custom.AutoCloseOnGame" xml:space="preserve">
-    <value>Automatisch sluiten wanneer het spel sluit</value>
-  </data>
-  <data name="Menu.Integrations.Custom.GameID" xml:space="preserve">
-    <value>Spel-ID</value>
-  </data>
-  <data name="Menu.Integrations.Custom.SpecifyGame" xml:space="preserve">
-    <value>Uitvoeren op een specifiek spel</value>
-  </data>
-  <data name="Menu.Appearance.BootstrapperDownloading.Title" xml:space="preserve">
-    <value>Bootstrapper-downloadstatus</value>
-  </data>
-  <data name="Menu.Appearance.BootstrapperDownloading.Description" xml:space="preserve">
-    <value>Wijzig de downloadtekst. {0} is de pakketnaam, {1} is de gedownloade pakketgrootte en {2} is de totale grootte van pakketten.</value>
-  </data>
-  <data name="Menu.Appearance.CustomThemes.DeleteFailed" xml:space="preserve">
-    <value>Verwijderen van aangepast thema {0} mislukt: {1}</value>
-  </data>
-  <data name="Menu.Appearance.CustomThemes.NoneSelected" xml:space="preserve">
-    <value>Geen aangepast thema geselecteerd.</value>
-  </data>
-  <data name="Menu.Appearance.CustomThemes.RenameFailed" xml:space="preserve">
-    <value>Hernoemen van aangepast thema {0} mislukt: {1}</value>
-  </data>
-
-  <data name="CustomTheme.Add.Title" xml:space="preserve">
-    <value>Aangepast thema toevoegen</value>
-  </data>
-  <data name="CustomTheme.Add.Errors.FileNotZip" xml:space="preserve">
-    <value>Bestand moet een ZIP zijn</value>
-  </data>
-  <data name="CustomTheme.Add.Errors.NameEmpty" xml:space="preserve">
-    <value>Naam mag niet leeg zijn</value>
-  </data>
-  <data name="CustomTheme.Add.Errors.NameIllegalCharacters" xml:space="preserve">
-    <value>Naam bevat ongeldige tekens</value>
-  </data>
-  <data name="CustomTheme.Add.Errors.NameReserved" xml:space="preserve">
-    <value>Naam kan niet worden gebruikt</value>
-  </data>
-  <data name="CustomTheme.Add.Errors.NameTaken" xml:space="preserve">
-    <value>Naam is al in gebruik</value>
-  </data>
-  <data name="CustomTheme.Add.Errors.Unknown" xml:space="preserve">
-    <value>Onbekende fout</value>
-  </data>
-  <data name="CustomTheme.Add.Errors.ZipInvalidData" xml:space="preserve">
-    <value>Ongeldig of beschadigd ZIP-bestand</value>
-  </data>
-  <data name="CustomTheme.Add.Errors.ZipMissingThemeFile" xml:space="preserve">
-    <value>Themabestand niet gevonden in het ZIP-bestand</value>
-  </data>
-  <data name="CustomTheme.Editor.Title" xml:space="preserve">
-    <value>"{0}" bewerken</value>
-  </data>
-  <data name="CustomTheme.Editor.ConfirmSave" xml:space="preserve">
-    <value>Wijzigingen in {0} opslaan?</value>
-  </data>
-  <data name="CustomTheme.Editor.OpenThemeDirectory" xml:space="preserve">
-    <value>Themamap openen</value>
-  </data>
-  <data name="CustomTheme.Editor.Preview" xml:space="preserve">
-    <value>Voorbeeld</value>
-  </data>
-  <data name="CustomTheme.Editor.Save" xml:space="preserve">
-    <value>Opslaan</value>
-  </data>
-  <data name="CustomTheme.Editor.Save.Error" xml:space="preserve">
-    <value>Er is een fout opgetreden bij het opslaan van je thema.</value>
-  </data>
-  <data name="CustomTheme.Editor.Save.Success" xml:space="preserve">
-    <value>Thema succesvol opgeslagen!</value>
-  </data>
-  <data name="CustomTheme.Errors.DialogAlreadyInitialised" xml:space="preserve">
-    <value>Aangepast dialoogvenster is al geïnitialiseerd</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeBlacklistedUriScheme" xml:space="preserve">
-    <value>{0}.{1} gebruikt een verboden schema {2}</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeConversionError" xml:space="preserve">
-    <value>{0} heeft ongeldige {1}: {2}</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeInvalidType" xml:space="preserve">
-    <value>{0} {1} is geen geldige {2}</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeMissing" xml:space="preserve">
-    <value>Element {0} mist het attribuut {1}</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeMissingChild" xml:space="preserve">
-    <value>{0}.{1} mist zijn onderliggende element</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeMultipleChildren" xml:space="preserve">
-    <value>{0}.{1} kan slechts één onderliggend element hebben</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeMultipleDefinitions" xml:space="preserve">
-    <value>{0} kan slechts één {1} hebben gedefinieerd</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeMustBeLargerThanMin" xml:space="preserve">
-    <value>{0} {1} moet groter zijn dan {2}</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeMustBeSmallerThanMax" xml:space="preserve">
-    <value>{0} {1} moet kleiner zijn dan {2}</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeParseError" xml:space="preserve">
-    <value>{0}.{1} kon niet worden geparseerd naar {2}</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeParseErrorNull" xml:space="preserve">
-    <value>{0}.{1} {2} is null</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementInvalidChild" xml:space="preserve">
-    <value>{0} kan geen onderliggend element {1} hebben</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementMultipleChildren" xml:space="preserve">
-    <value>{0} kan slechts één onderliggend element hebben</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementTypeCreationFailed" xml:space="preserve">
-    <value>{0} kon {1} niet maken: {2}</value>
-  </data>
-  <data name="CustomTheme.Errors.InvalidRoot" xml:space="preserve">
-    <value>Thema-XML-root is niet {0}</value>
-  </data>
-  <data name="CustomTheme.Errors.NoThemeSelected" xml:space="preserve">
-    <value>Geen aangepast thema geselecteerd</value>
-  </data>
-  <data name="CustomTheme.Errors.SetupFailed" xml:space="preserve">
-    <value>Aangepaste bootstrapper instellen mislukt: {0}.
- Standaard naar Fluent.</value>
-  </data>
-  <data name="CustomTheme.Errors.TooManyElements" xml:space="preserve">
-    <value>Aangepaste bootstrappers kunnen maximaal {0} elementen hebben, {1} ontvangen.</value>
-  </data>
-  <data name="CustomTheme.Errors.UnknownElement" xml:space="preserve">
-    <value>Onbekend element {0}</value>
-  </data>
-  <data name="CustomTheme.Errors.UnknownEnumValue" xml:space="preserve">
-    <value>{0} onbekend {1} {2}</value>
-  </data>
-  <data name="CustomTheme.Errors.VersionNotNumber" xml:space="preserve">
-    <value>{0}-versie is geen getal</value>
-  </data>
-  <data name="CustomTheme.Errors.VersionNotRecognised" xml:space="preserve">
-    <value>Versie {0} {1} niet herkend</value>
-  </data>
-  <data name="CustomTheme.Errors.VersionNotSet" xml:space="preserve">
-    <value>{0}-versie is niet ingesteld</value>
-  </data>
-  <data name="CustomTheme.Errors.VersionNotSupported" xml:space="preserve">
-    <value>Versie {0} {1} wordt niet meer ondersteund</value>
-  </data>
-  <data name="CustomTheme.Errors.XMLParseFailed" xml:space="preserve">
-    <value>Themabestand kon niet worden geparseerd: {0}</value>
-  </data>
-
-  <data name="Boostrapper.Dialog.UnauthorizedChannel" xml:space="preserve">
-    <value>Het kanaal dat je momenteel gebruikt ({0}) is nu beperkt voor openbaar gebruik. Je bent nu op het standaardkanaal ({1}).</value>
-  </data>
-  <data name="Bootstrapper.Bootstrapper.Dialog.PromptChannelChange" xml:space="preserve">
-    <value>Roblox probeert je kanaal in te stellen op {0}, maar je huidige voorkeurskanaal is {1}.
-
-
-Wil je je voorkeurskanaal wijzigen naar {0}?</value>
-  </data>
-  <data name="Bootstrapper.Dialog.ChannelOutOfDate" xml:space="preserve">
-    <value>Het kanaal dat je momenteel gebruikt ({0}) is verouderd en lijkt geen updates meer te ontvangen.\n
-Wil je overschakelen naar het standaardkanaal ({1})?</value>
-  </data>
-  <data name="Bootstrapper.Dialog.NoUpgradeWithoutClient" xml:space="preserve">
-    <value>Starten mislukt vanwege ontbrekende client.
-		Schakel Roblox-upgrades in.</value>
-  </data>
-  <data name="Bootstrapper.Status.CancelUpgrade" xml:space="preserve">
-    <value>Roblox-upgrade annuleren.</value>
-  </data>
-  <data name="Bootstrapper.Status.Downloading" xml:space="preserve">
-    <value>Downloaden</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Categories.IngameMenu" xml:space="preserve">
-    <value>Roblox-menu</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Categories.IngameMenu.Description" xml:space="preserve">
-    <value>Roblox-menu opschonen met aangepaste schakelaars</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Chromeui.Title" xml:space="preserve">
-    <value>Chrome UI</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Chromeui.Description" xml:space="preserve">
-    <value>Indien uitgeschakeld, gebruikt Roblox de oude bovenste balk.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
-    <value>DarkMode</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
-    <value>DarkMode</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DarkMode.Description" xml:space="preserve">
-    <value>Activeert Roblox' early access DarkMode</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DisableGrass.Title" xml:space="preserve">
-    <value>Grasbeweging uitschakelen</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.FlagState.Title" xml:space="preserve">
-    <value>Flag-status</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.FlagState.Description" xml:space="preserve">
-    <value>Toon de waarden van opgegeven flags tijdens runtime. Elke flag is gescheiden door komma's.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.ChatTranslation.Title" xml:space="preserve">
-    <value>Chatvertaling</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.ChatTranslation.Description" xml:space="preserve">
-    <value>Schakelt automatische vertaling van chatberichten uit.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.Framerate.Title" xml:space="preserve">
-    <value>Framerate-limiet</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.Framerate.Description" xml:space="preserve">
-    <value>Verwijdert FPS-voorinstellingen uit het menu.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.Haptics.Title" xml:space="preserve">
-    <value>Haptische knop</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.Haptics.Description" xml:space="preserve">
-    <value>Schakelt haptische feedback-functies uit, zoals trillingen voor controllers.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.LanguageSelector.Title" xml:space="preserve">
-    <value>Taalkeuze</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.LanguageSelector.Description" xml:space="preserve">
-    <value>Stelt spelers in staat de interfacevertaling uit te schakelen.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.SoothsayerCheck.Title" xml:space="preserve">
-    <value>Feedbackknop</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.SoothsayerCheck.Description" xml:space="preserve">
-    <value>Verbergt de knop voor het indienen van feedback over de vertaalkwaliteit.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.VRToggle.Title" xml:space="preserve">
-    <value>VR-schakelaar</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.VRToggle.Description" xml:space="preserve">
-    <value>Maakt het mogelijk de VR-modusschakelaar uit te schakelen.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Layered" xml:space="preserve">
-    <value>Gelaagd</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Layered.Title" xml:space="preserve">
-    <value>Gelaagde kleding</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Layered.Description" xml:space="preserve">
-    <value>Voorkomt dat gelaagde kleding wordt weergegeven op de avatars van andere spelers.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.PingBreakdown.Title" xml:space="preserve">
-    <value>Ping-overzicht</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.PingBreakdown.Description" xml:space="preserve">
-    <value>Stuurt gedetailleerde ping-informatie naar de Roblox-console.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Preload" xml:space="preserve">
-    <value>Voorladen</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Preload.Title" xml:space="preserve">
-    <value>Voorladen</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Preload.Description" xml:space="preserve">
-    <value>Laadt de meeste texturen en lettertypen voor (Waarschuwing: kan de laadtijd verlengen!)</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
-    <value>Telemetry</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Telemetry.Title" xml:space="preserve">
-    <value>Roblox-telemetrie uitschakelen</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Telemetry.Description" xml:space="preserve">
-    <value>Opmerking: dit schakelt slechts een deel van de Roblox-telemetrie uit.</value>
-  </data>
-
-  <data name="Dialog.Connectivity.Preventing" xml:space="preserve">
-    <value />
-  </data>
-  <data name="Dialog.Connectivity.TimedOut" xml:space="preserve">
-    <value />
   </data>
 </root>

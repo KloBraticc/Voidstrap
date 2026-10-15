@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -59,46 +59,46 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -163,6 +163,172 @@
   <data name="Bootstrapper.Status.WaitingOtherInstances" xml:space="preserve">
     <value>Изчакване на други инстанции...</value>
   </data>
+  <data name="Enums.CustomThemeTemplate.Blank" xml:space="preserve">
+    <value>Празен</value>
+  </data>
+  <data name="Menu.Integrations.Custom.SpecifyGame" xml:space="preserve">
+    <value>Стартирай в конкретна игра</value>
+  </data>
+  <data name="Menu.Integrations.Custom.GameID" xml:space="preserve">
+    <value>ИД на играта</value>
+  </data>
+  <data name="Menu.Integrations.Custom.AutoCloseOnGame" xml:space="preserve">
+    <value>Автоматично затваряне при затваряне на играта</value>
+  </data>
+  <data name="Enums.CustomThemeTemplate.Simple" xml:space="preserve">
+    <value>Прост</value>
+  </data>
+  <data name="CustomTheme.Errors.InvalidRoot" xml:space="preserve">
+    <value>Корен на XML на темата не е {0}</value>
+  </data>
+  <data name="CustomTheme.Errors.DialogAlreadyInitialised" xml:space="preserve">
+    <value>Персонализираният диалог вече е инициализиран</value>
+  </data>
+  <data name="CustomTheme.Errors.TooManyElements" xml:space="preserve">
+    <value>Персонализираните bootstrapper могат да имат максимум {0} елемента, получени {1}.</value>
+  </data>
+  <data name="CustomTheme.Errors.VersionNotSet" xml:space="preserve">
+    <value>Версията на {0} не е зададена</value>
+  </data>
+  <data name="CustomTheme.Errors.VersionNotNumber" xml:space="preserve">
+    <value>Версията на {0} не е число</value>
+  </data>
+  <data name="CustomTheme.Errors.VersionNotSupported" xml:space="preserve">
+    <value>Версия {0} {1} вече не се поддържа</value>
+  </data>
+  <data name="CustomTheme.Errors.VersionNotRecognised" xml:space="preserve">
+    <value>Версия {0} {1} не е разпозната</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementInvalidChild" xml:space="preserve">
+    <value>{0} не може да има дете {1}</value>
+  </data>
+  <data name="CustomTheme.Errors.UnknownElement" xml:space="preserve">
+    <value>Неизвестен елемент {0}</value>
+  </data>
+  <data name="CustomTheme.Errors.XMLParseFailed" xml:space="preserve">
+    <value>Неуспешно анализиране на файла с тема: {0}</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeConversionError" xml:space="preserve">
+    <value>{0} има невалиден {1}: {2}</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeMissing" xml:space="preserve">
+    <value>Елементът {0} липсва атрибутът {1}</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeInvalidType" xml:space="preserve">
+    <value>{0} {1} не е валиден {2}</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeMustBeLargerThanMin" xml:space="preserve">
+    <value>{0} {1} трябва да е по-голямо от {2}</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeMustBeSmallerThanMax" xml:space="preserve">
+    <value>{0} {1} трябва да е по-малко от {2}</value>
+  </data>
+  <data name="CustomTheme.Errors.UnknownEnumValue" xml:space="preserve">
+    <value>{0} неизвестно {1} {2}</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeMultipleDefinitions" xml:space="preserve">
+    <value>{0} може да има само едно {1} дефинирано</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeMultipleChildren" xml:space="preserve">
+    <value>{0}.{1} може да има само едно дете</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementMultipleChildren" xml:space="preserve">
+    <value>{0} може да има само едно дете</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeMissingChild" xml:space="preserve">
+    <value>На {0}.{1} липсва неговото дете</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeParseError" xml:space="preserve">
+    <value>{0}.{1} не може да бъде анализирано в {2}</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeParseErrorNull" xml:space="preserve">
+    <value>{0}.{1} {2} е null</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeBlacklistedUriScheme" xml:space="preserve">
+    <value>{0}.{1} използва забранена схема {2}</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementTypeCreationFailed" xml:space="preserve">
+    <value>{0} не успя да създаде {1}: {2}</value>
+  </data>
+  <data name="CustomTheme.Editor.Title" xml:space="preserve">
+    <value>Редактиране на "{0}"</value>
+  </data>
+  <data name="CustomTheme.Editor.Save.Success" xml:space="preserve">
+    <value>Темата е запазена успешно!</value>
+  </data>
+  <data name="CustomTheme.Editor.Save.Error" xml:space="preserve">
+    <value>Възникна грешка при запазване на темата.</value>
+  </data>
+  <data name="CustomTheme.Editor.ConfirmSave" xml:space="preserve">
+    <value>Запазване на промените в {0}?</value>
+  </data>
+  <data name="CustomTheme.Editor.Save" xml:space="preserve">
+    <value>Запази</value>
+  </data>
+  <data name="CustomTheme.Editor.Preview" xml:space="preserve">
+    <value>Преглед</value>
+  </data>
+  <data name="CustomTheme.Editor.OpenThemeDirectory" xml:space="preserve">
+    <value>Отвори директорията на темата</value>
+  </data>
+  <data name="Common.CreateNew" xml:space="preserve">
+    <value>Създай нов</value>
+  </data>
+  <data name="Common.Import" xml:space="preserve">
+    <value>Импортиране</value>
+  </data>
+  <data name="CustomTheme.Add.Title" xml:space="preserve">
+    <value>Добавяне на персонализирана тема</value>
+  </data>
+  <data name="Common.Template" xml:space="preserve">
+    <value>Шаблон</value>
+  </data>
+  <data name="CustomTheme.Add.Errors.NameEmpty" xml:space="preserve">
+    <value>Името не може да е празно</value>
+  </data>
+  <data name="CustomTheme.Add.Errors.NameIllegalCharacters" xml:space="preserve">
+    <value>Името съдържа непозволени символи</value>
+  </data>
+  <data name="CustomTheme.Add.Errors.NameReserved" xml:space="preserve">
+    <value>Името не може да бъде използвано</value>
+  </data>
+  <data name="CustomTheme.Add.Errors.Unknown" xml:space="preserve">
+    <value>Неизвестна грешка</value>
+  </data>
+  <data name="CustomTheme.Add.Errors.NameTaken" xml:space="preserve">
+    <value>Името вече се използва</value>
+  </data>
+  <data name="CustomTheme.Add.Errors.FileNotZip" xml:space="preserve">
+    <value>Файлът трябва да е ZIP</value>
+  </data>
+  <data name="CustomTheme.Add.Errors.ZipMissingThemeFile" xml:space="preserve">
+    <value>Файлът с темата не може да бъде намерен в ZIP файла</value>
+  </data>
+  <data name="CustomTheme.Add.Errors.ZipInvalidData" xml:space="preserve">
+    <value>Невалиден или повреден ZIP файл</value>
+  </data>
+  <data name="CustomTheme.Errors.NoThemeSelected" xml:space="preserve">
+    <value>Не е избрана персонализирана тема</value>
+  </data>
+  <data name="CustomTheme.Errors.SetupFailed" xml:space="preserve">
+    <value>Неуспешна настройка на персонализиран bootstrapper: {0}.
+ Връщане към Fluent.</value>
+  </data>
+  <data name="Menu.Appearance.CustomThemes.NoneSelected" xml:space="preserve">
+    <value>Не е избрана персонализирана тема.</value>
+  </data>
+  <data name="Common.Rename" xml:space="preserve">
+    <value>Преименуване</value>
+  </data>
+  <data name="Common.Edit" xml:space="preserve">
+    <value>Редактиране</value>
+  </data>
+  <data name="Menu.Appearance.CustomThemes.DeleteFailed" xml:space="preserve">
+    <value>Неуспешно изтриване на персонализирана тема {0}: {1}</value>
+  </data>
+  <data name="Menu.Appearance.CustomThemes.RenameFailed" xml:space="preserve">
+    <value>Неуспешно преименуване на персонализирана тема {0}: {1}</value>
+  </data>
   <data name="Bootstrapper.StylePreview.ImageCancel" xml:space="preserve">
     <value>Преглед на стила - Натиснете бутона X в горния десен ъгъл, за да затворите</value>
     <comment>Text for style previews that use an X button. Currently only applies to Byfron</comment>
@@ -194,9 +360,6 @@
   </data>
   <data name="Common.Delete" xml:space="preserve">
     <value>Изтрий</value>
-  </data>
-  <data name="Common.DiscordRichPresence" xml:space="preserve">
-    <value>Discord Rich Presence</value>
   </data>
   <data name="Common.Help" xml:space="preserve">
     <value>Помощ</value>
@@ -299,62 +462,11 @@
   <data name="Common.Custom" xml:space="preserve">
     <value>Персонализиран</value>
   </data>
-  <data name="Enums.BootstrapperIcon.IconEarly2015" xml:space="preserve">
-    <value>Early 2015</value>
-  </data>
-  <data name="Enums.BootstrapperIcon.IconLate2015" xml:space="preserve">
-    <value>Late 2015</value>
-  </data>
-  <data name="Enums.BootstrapperStyle.ByfronDialog" xml:space="preserve">
-    <value>Fake Byfron (2023)</value>
-  </data>
   <data name="Enums.BootstrapperStyle.ClassicFluentDialog" xml:space="preserve">
     <value>Voidstrap (Класическо)</value>
   </data>
   <data name="Enums.BootstrapperStyle.FluentAeroDialog" xml:space="preserve">
     <value>Voidstrap (Прозрачно)</value>
-  </data>
-  <data name="Enums.BootstrapperStyle.LegacyDialog2008" xml:space="preserve">
-    <value>Legacy (2008 - 2011)</value>
-  </data>
-  <data name="Enums.BootstrapperStyle.LegacyDialog2011" xml:space="preserve">
-    <value>Legacy (2011 - 2014)</value>
-  </data>
-  <data name="Enums.BootstrapperStyle.ProgressDialog" xml:space="preserve">
-    <value>Roblox (~2014)</value>
-  </data>
-  <data name="Enums.BootstrapperStyle.VistaDialog" xml:space="preserve">
-    <value>Vista (2008 - 2011)</value>
-  </data>
-  <data name="Enums.CursorType.From2006" xml:space="preserve">
-    <value>2006 (Cartoony)</value>
-  </data>
-  <data name="Enums.CursorType.From2013" xml:space="preserve">
-    <value>2013 (Angular)</value>
-  </data>
-  <data name="Enums.EmojiType.Catmoji" xml:space="preserve">
-    <value>Catmoji</value>
-  </data>
-  <data name="Enums.EmojiType.Default" xml:space="preserve">
-    <value>Default (Twemoji)</value>
-  </data>
-  <data name="Enums.EmojiType.Windows10" xml:space="preserve">
-    <value>Windows 10</value>
-  </data>
-  <data name="Enums.EmojiType.Windows11" xml:space="preserve">
-    <value>Windows 11</value>
-  </data>
-  <data name="Enums.EmojiType.Windows8" xml:space="preserve">
-    <value>Windows 8</value>
-  </data>
-  <data name="Enums.FlagPresets.InGameMenuVersion.V1" xml:space="preserve">
-    <value>2015 (V1)</value>
-  </data>
-  <data name="Enums.FlagPresets.InGameMenuVersion.V2" xml:space="preserve">
-    <value>2020 (V2)</value>
-  </data>
-  <data name="Enums.FlagPresets.InGameMenuVersion.V4" xml:space="preserve">
-    <value>2023 (V4)</value>
   </data>
   <data name="Enums.FlagPresets.LightingMode.Default" xml:space="preserve">
     <value>Избрано от играта</value>
@@ -368,12 +480,6 @@
   <data name="Enums.FlagPresets.LightingMode.Voxel" xml:space="preserve">
     <value>Voxel (Фаза 1)</value>
   </data>
-  <data name="Enums.FlagPresets.RenderingMode.D3D10" xml:space="preserve">
-    <value>Direct3D 10</value>
-  </data>
-  <data name="Enums.FlagPresets.RenderingMode.D3D11" xml:space="preserve">
-    <value>Direct3D 11</value>
-  </data>
   <data name="Enums.ServerType.Private" xml:space="preserve">
     <value>Личен сървър</value>
   </data>
@@ -385,6 +491,27 @@
   </data>
   <data name="Enums.Theme.Dark" xml:space="preserve">
     <value>Тъмна</value>
+  </data>
+  <data name="Enums.Theme.Yellow" xml:space="preserve">
+    <value>Жълто</value>
+  </data>
+  <data name="Enums.Theme.Cyan" xml:space="preserve">
+    <value>Циан</value>
+  </data>
+  <data name="Enums.Theme.Pink" xml:space="preserve">
+    <value>Розово</value>
+  </data>
+  <data name="Enums.Theme.Custom" xml:space="preserve">
+    <value>Персонализиран</value>
+  </data>
+  <data name="Enums.Theme.Purple" xml:space="preserve">
+    <value>Лилаво</value>
+  </data>
+  <data name="Enums.Theme.Green" xml:space="preserve">
+    <value>Зелено</value>
+  </data>
+  <data name="Enums.Theme.Orange" xml:space="preserve">
+    <value>Оранжево</value>
   </data>
   <data name="Enums.Theme.Light" xml:space="preserve">
     <value>Светла</value>
@@ -896,6 +1023,9 @@
   <data name="Menu.FastFlags.Presets.DisableTerrainTextures.Title" xml:space="preserve">
     <value>Изключете текстурите за терен</value>
   </data>
+  <data name="Menu.FastFlags.Presets.DisableGrass.Title" xml:space="preserve">
+    <value>Изключи движението на тревата</value>
+  </data>
   <data name="Dialog.Connectivity.UnableToDownload" xml:space="preserve">
     <value>Voidstrap не може да изтегли Roblox</value>
   </data>
@@ -908,7 +1038,7 @@
   </data>
   <data name="FileTypes.JSONFiles" xml:space="preserve">
     <value>JSON файлове</value>
-    <comment>Shown in the open file dialog, where the file type selection dropdown is, e.g. "JSON files (*.json)"</comment>
+    <comment>Allows selection of JSON, TXT, and Markdown files (*.json;*.txt;*.md)</comment>
   </data>
   <data name="Menu.FastFlagEditor.InvalidBoolValue" xml:space="preserve">
     <value>Въведената стойност за '{0}' не е валидна, защото трябва да бъде булев тип (True или False)</value>
@@ -1231,15 +1361,53 @@ Voidstrap е инсталиран на „{1}“.</value>
     <value>Инсталирай</value>
     <comment>The word "Install" is being used as a verb in this instance, like the other navigation button texts of "Next" and "Back"</comment>
   </data>
+  <data name="LaunchMenu.Donate" xml:space="preserve">
+    <value>Присъединете се към нашия Discord сървър</value>
+    <comment>Call-to-action button</comment>
+  </data>
   <data name="Paths.Icons" xml:space="preserve">
     <value>Икони</value>
     <comment>Name of the folder that gets created according to the "create shortcut icons" option. Ensure that it is a valid folder name.</comment>
+  </data>
+  <data name="Menu_FlagProfiles_Title" xml:space="preserve">
+    <value>Резервни копия на Fast Flag</value>
+  </data>
+  <data name="Menu_FlagProfiles_Description" xml:space="preserve">
+    <value>Запазвайте и зареждайте резервни копия на Fast Flag.</value>
+  </data>
+  <data name="Common_FastFlags" xml:space="preserve">
+    <value>Редактор на Fast Flags</value>
+  </data>
+  <data name="Menu_FastFlagProfiles_Save" xml:space="preserve">
+    <value>Запази текущите flags</value>
+  </data>
+  <data name="Menu.FastFlagEditor.ProfilesDescription" xml:space="preserve">
+    <value>Резервни копия на FFlag</value>
+  </data>
+  <data name="Menu.Load" xml:space="preserve">
+    <value>Зареди</value>
+  </data>
+  <data name="Bootstrapper.Status.CancelUpgrade" xml:space="preserve">
+    <value>Отмяна на надстройката на Roblox.</value>
+  </data>
+  <data name="Menu.Behaviour.RenameToEurotrucks.Title" xml:space="preserve">
+    <value>Поддръжка на Bloxshade</value>
+  </data>
+  <data name="Menu.Behaviour.RenameToEurotrucks.Description" xml:space="preserve">
+    <value>За оптимална производителност е необходима поддържана видеокарта.
+Тази функция е необходима за правилно функциониране на шейдърите.</value>
+  </data>
+  <data name="Menu.Behaviour.Channel.Title" xml:space="preserve">
+    <value>Канал</value>
   </data>
   <data name="LaunchMenu.LaunchRobloxStudio" xml:space="preserve">
     <value>Стартирай Roblox Studio</value>
   </data>
   <data name="Dialog.Exception.Version" xml:space="preserve">
     <value>Версия {0}</value>
+  </data>
+  <data name="Enums.BootstrapperStyle.CustomDialog" xml:space="preserve">
+    <value>Персонализиран</value>
   </data>
   <data name="Bootstrapper.FilesInUse" xml:space="preserve">
     <value>Voidstrap се опита да актуализира Roblox, но бе неуспешен, защото файловете на Roblox все още се използват.
@@ -1255,30 +1423,218 @@ Voidstrap е инсталиран на „{1}“.</value>
     <value>Експортирай</value>
     <comment>Currently used under the "Voidstrap" settings tab for the button to export diagnostic data</comment>
   </data>
-  <data name="Dialog.Connectivity.Preventing" xml:space="preserve">
-    <value>Нещо пречи на Voidstrap да се свърже с интернет.</value>
+  <data name="Menu.Voidstrap.ExportData.Title" xml:space="preserve">
+    <value>Експортиране на диагностични данни</value>
   </data>
-  <data name="Dialog.Connectivity.TimedOut" xml:space="preserve">
-    <value>Времето за изчакване на връзката изтече, което може да означава лоша интернет връзка или блокиране от защитната стена.</value>
+  <data name="Menu.Voidstrap.ExportData.Description" xml:space="preserve">
+    <value>Съберете информация, която може да бъде качена онлайн за отстраняване на проблема ви.</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Menu.Channel.Description" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
+  <data name="Menu.Voidstrap.ExportData.ExportConfig" xml:space="preserve">
+    <value>Конфигурация на Voidstrap</value>
+    <comment>Label that appears next to a checkbox</comment>
   </data>
-  <data name="Common.Channel" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
+  <data name="Menu.Voidstrap.ExportData.ExportLogs" xml:space="preserve">
+    <value>Всички логове на Voidstrap</value>
+    <comment>Label that appears next to a checkbox</comment>
   </data>
-  <data name="Menu.ChannelChanger.Description" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
+  <data name="Menu.Channel.RobloxUpgrades.Description" xml:space="preserve">
+    <value>Когато е изключено, клиентът на Roblox няма да се надстройва до по-нова версия.</value>
   </data>
-  <data name="Common.Version" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
+  <data name="Bootstrapper.Status.Downloading" xml:space="preserve">
+    <value>Изтегляне</value>
   </data>
-  <data name="Common.VersionGuid" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
+  <data name="Menu.Appearance.BootstrapperDownloading.Title" xml:space="preserve">
+    <value>Статус на сваляне на bootstrapper</value>
   </data>
-  <data name="Menu.Channel.RobloxUpgrades" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
+  <data name="Menu.Appearance.BootstrapperDownloading.Description" xml:space="preserve">
+    <value>Промяна на низа за изтегляне. {0} е името на пакета, {1} е размерът на изтеглените пакети, а {2} е общият размер на пакетите.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Telemetry.Title" xml:space="preserve">
+    <value>Изключи телеметрията на Roblox</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Telemetry.Description" xml:space="preserve">
+    <value>Забележете, че това изключва само част от телеметрията на Roblox.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Preload.Title" xml:space="preserve">
+    <value>Предварително зареждане</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Preload.Description" xml:space="preserve">
+    <value>Предварително зарежда повечето текстури и шрифтове (Предупреждение: може да увеличи времето за зареждане!)</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Layered.Title" xml:space="preserve">
+    <value>Многослойни дрехи</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Layered.Description" xml:space="preserve">
+    <value>Предотвратява изобразяването на многослойни дрехи върху аватарите на други играчи.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode.Description" xml:space="preserve">
+    <value>Активира експерименталния DarkMode на Roblox</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Preload" xml:space="preserve">
+    <value>Предварително зареждане</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Layered" xml:space="preserve">
+    <value>Многослойно</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Chromeui.Description" xml:space="preserve">
+    <value>Когато е изключено, Roblox ще използва старата горна лента.</value>
+  </data>
+  <data name="Menu.FlagProfiles.ClearFlags" xml:space="preserve">
+    <value>Изчисти текущите FFlags</value>
+  </data>
+  <data name="Menu.Deployment.Channel.OutOfDate" xml:space="preserve">
+    <value>Този канал е остарял и вероятно вече не се актуализира. Моля използвайте друг канал.</value>
+  </data>
+  <data name="Bootstrapper.Dialog.ChannelOutOfDate" xml:space="preserve">
+    <value>Каналът, който в момента използвате ({0}), е остарял и изглежда вече не получава актуализации.\n
+Искате ли да преминете към канала по подразбиране ({1})?</value>
+  </data>
+  <data name="Menu.Channel.ChangeAction.Title" xml:space="preserve">
+    <value>Действие при автоматична смяна на канал</value>
+  </data>
+  <data name="Menu.Channel.ChangeAction.Description" xml:space="preserve">
+    <value>Roblox или Voidstrap може да се опита да промени предпочитания ви канал.</value>
+  </data>
+  <data name="Menu.Channel.ChangeAction.Automatic" xml:space="preserve">
+    <value>Промени автоматично</value>
+  </data>
+  <data name="Menu.Channel.ChangeAction.Prompt" xml:space="preserve">
+    <value>Винаги питай</value>
+  </data>
+  <data name="Menu.Channel.ChangeAction.Ignore" xml:space="preserve">
+    <value>Никога не променяй</value>
+  </data>
+  <data name="Common.Debug" xml:space="preserve">
+    <value>Дебъг</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Categories.IngameMenu" xml:space="preserve">
+    <value>Меню на Roblox</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Categories.IngameMenu.Description" xml:space="preserve">
+    <value>Освежете менюто на Roblox с персонализирани превключватели</value>
+  </data>
+  <data name="Common.Deployment" xml:space="preserve">
+    <value>Внедряване</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.VRToggle.Title" xml:space="preserve">
+    <value>VR превключвател</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.SoothsayerCheck.Title" xml:space="preserve">
+    <value>Бутон за обратна връзка</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.LanguageSelector.Title" xml:space="preserve">
+    <value>Избор на език</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.Haptics.Title" xml:space="preserve">
+    <value>Бутон за хаптика</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.Framerate.Title" xml:space="preserve">
+    <value>Ограничение на кадровата честота</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.ChatTranslation.Title" xml:space="preserve">
+    <value>Превод на чата</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.VRToggle.Description" xml:space="preserve">
+    <value>Позволява изключване на VR режима.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.SoothsayerCheck.Description" xml:space="preserve">
+    <value>Скрива бутона за изпращане на обратна връзка относно качеството на превода.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.Haptics.Description" xml:space="preserve">
+    <value>Изключва функциите за обратна тактилна връзка, като вибрации за контролери.</value>
+  </data>
+  <data name="Bootstrapper.Bootstrapper.Dialog.PromptChannelChange" xml:space="preserve">
+    <value>Roblox се опитва да зададе вашия канал на {0}, но текущият ви предпочитан канал е {1}.
+
+Искате ли да смените предпочитания си канал на {0}?</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.Framerate.Description" xml:space="preserve">
+    <value>Премахва FPS пресетите от менюто.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.LanguageSelector.Description" xml:space="preserve">
+    <value>Позволява на играчите да изключат превода на интерфейса.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.ChatTranslation.Description" xml:space="preserve">
+    <value>Изключва автоматичния превод на чат съобщения.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.FlagState.Title" xml:space="preserve">
+    <value>Състояние на флаг</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.FlagState.Description" xml:space="preserve">
+    <value>Показва стойностите на зададени flag-ове по време на изпълнение. Всеки флаг е разделен със запетая.</value>
+  </data>
+  <data name="Common.Studio" xml:space="preserve">
+    <value>Студио</value>
+  </data>
+  <data name="Menu.Context.PlayerLogs" xml:space="preserve">
+    <value>Логове на играчите</value>
+  </data>
+  <data name="Menu.Context.PlayerLogs.Description" xml:space="preserve">
+    <value>Показва играчите, които напускат/влизат в сървъра, в който сте.</value>
+  </data>
+  <data name="Common.Type" xml:space="preserve">
+    <value>Тип</value>
+  </data>
+  <data name="Common.UserId" xml:space="preserve">
+    <value>ИД на потребител</value>
+  </data>
+  <data name="Common.Username" xml:space="preserve">
+    <value>Потребителско име</value>
+  </data>
+  <data name="Common.Time" xml:space="preserve">
+    <value>Време</value>
+  </data>
+  <data name="Menu.Channel.VersionHash.Title" xml:space="preserve">
+    <value>Хеш на версия</value>
+  </data>
+  <data name="Menu.Channel.VersionHash.Desription" xml:space="preserve">
+    <value>Принудете Voidstrap да изтегли версията от определен хеш. Моля не променяйте, ако не знаете какво прави това.</value>
+  </data>
+  <data name="Menu.SaveAndLaunch" xml:space="preserve">
+    <value>Запази и стартирай</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.PingBreakdown.Title" xml:space="preserve">
+    <value>Разбивка на пинга</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.PingBreakdown.Description" xml:space="preserve">
+    <value>Изпраща подробна информация за пинга в конзолата на Roblox.</value>
+  </data>
+  <data name="Bootstrapper.Dialog.NoUpgradeWithoutClient" xml:space="preserve">
+    <value>Стартирането е неуспешно поради липсващ клиент.
+		Моля, активирайте надстройките на Roblox.</value>
+  </data>
+  <data name="ContextMenu.PlayerLogs.Title" xml:space="preserve">
+    <value>Логове на играчите</value>
+  </data>
+  <data name="Menu.Channel.Switcher.Unauthorized" xml:space="preserve">
+    <value>Зададеният канал не съществува или е частен</value>
+  </data>
+  <data name="Boostrapper.Dialog.UnauthorizedChannel" xml:space="preserve">
+    <value>Каналът, който в момента използвате ({0}), вече е ограничен за публично ползване. Ще бъдете на канала по подразбиране ({1}).</value>
+  </data>
+  <data name="Menu.Channel.Switcher.Fetching" xml:space="preserve">
+    <value>Извличане на най-новата информация за внедряване, моля изчакайте...</value>
+  </data>
+  <data name="Common.Message" xml:space="preserve">
+    <value>Съобщение</value>
+  </data>
+  <data name="ContextMenu.MessageLogs.Title" xml:space="preserve">
+    <value>Логове на съобщения</value>
+  </data>
+  <data name="ContextMenu.MessageLogs.Description" xml:space="preserve">
+    <value>Показва наскоро изпратени съобщения от играчите.</value>
+  </data>
+  <data name="Menu.Behaviour.AnselBanner" xml:space="preserve">
+    <value>Поддръжка на Bloxshade е необходима за шейдъри.</value>
+  </data>
+  <data name="Dialog.Bloxshade.ThankYou" xml:space="preserve">
+    <value>Благодарим, че използвате Bloxshade с Voidstrap</value>
+  </data>
+  <data name="Dialog.Bloxshade.Setting" xml:space="preserve">
+    <value>Поддръжката на Bloxshade е активирана</value>
+  </data>
+  <data name="Common.Profiles" xml:space="preserve">
+    <value>Профили</value>
   </data>
   <data name="Common.Open" xml:space="preserve">
     <value>Отвори</value>
@@ -1303,489 +1659,5 @@ Voidstrap е инсталиран на „{1}“.</value>
   </data>
   <data name="Menu.News.DialogTitle" xml:space="preserve">
     <value>Подробности за новината</value>
-  </data>
-
-  <data name="Common.CreateNew" xml:space="preserve">
-    <value>Създай нов</value>
-  </data>
-  <data name="Common.Debug" xml:space="preserve">
-    <value>Дебъг</value>
-  </data>
-  <data name="Common.Deployment" xml:space="preserve">
-    <value>Внедряване</value>
-  </data>
-  <data name="Common.Edit" xml:space="preserve">
-    <value>Редактиране</value>
-  </data>
-  <data name="Common.Import" xml:space="preserve">
-    <value>Импортиране</value>
-  </data>
-  <data name="Common.Message" xml:space="preserve">
-    <value>Съобщение</value>
-  </data>
-  <data name="Common.Profiles" xml:space="preserve">
-    <value>Профили</value>
-  </data>
-  <data name="Common.Rename" xml:space="preserve">
-    <value>Преименуване</value>
-  </data>
-  <data name="Common.RobloxStudio" xml:space="preserve">
-    <value>Roblox Studio</value>
-  </data>
-  <data name="Common.Studio" xml:space="preserve">
-    <value>Студио</value>
-  </data>
-  <data name="Common.Template" xml:space="preserve">
-    <value>Шаблон</value>
-  </data>
-  <data name="Common.Time" xml:space="preserve">
-    <value>Време</value>
-  </data>
-  <data name="Common.Type" xml:space="preserve">
-    <value>Тип</value>
-  </data>
-  <data name="Common.UserId" xml:space="preserve">
-    <value>ИД на потребител</value>
-  </data>
-  <data name="Common.Username" xml:space="preserve">
-    <value>Потребителско име</value>
-  </data>
-  <data name="Common_FastFlags" xml:space="preserve">
-    <value>Редактор на Fast Flags</value>
-  </data>
-  <data name="Enums.Theme.Berry" xml:space="preserve">
-    <value>Berry</value>
-  </data>
-  <data name="Enums.Theme.Custom" xml:space="preserve">
-    <value>Персонализиран</value>
-  </data>
-  <data name="Enums.Theme.Cyan" xml:space="preserve">
-    <value>Циан</value>
-  </data>
-  <data name="Enums.Theme.Green" xml:space="preserve">
-    <value>Зелено</value>
-  </data>
-  <data name="Enums.Theme.Orange" xml:space="preserve">
-    <value>Оранжево</value>
-  </data>
-  <data name="Enums.Theme.Pink" xml:space="preserve">
-    <value>Розово</value>
-  </data>
-  <data name="Enums.Theme.Purple" xml:space="preserve">
-    <value>Лилаво</value>
-  </data>
-  <data name="Enums.Theme.UltraGray" xml:space="preserve">
-    <value>UltraGray</value>
-  </data>
-  <data name="Enums.Theme.Voidstrap" xml:space="preserve">
-    <value>Voidstrap</value>
-  </data>
-  <data name="Enums.Theme.Yellow" xml:space="preserve">
-    <value>Жълто</value>
-  </data>
-  <data name="Enums.CursorType.CleanCursor" xml:space="preserve">
-    <value>CleanCursor</value>
-  </data>
-  <data name="Enums.CursorType.FPSCursor" xml:space="preserve">
-    <value>FPSCursor</value>
-  </data>
-  <data name="Enums.CursorType.StoofsCursor" xml:space="preserve">
-    <value>StoofsCursor</value>
-  </data>
-  <data name="Enums.FlagPresets.RenderingMode.OpenGL" xml:space="preserve">
-    <value>OpenGL</value>
-  </data>
-  <data name="Enums.FlagPresets.RenderingMode.Vulkan" xml:space="preserve">
-    <value>Vulkan</value>
-  </data>
-  <data name="Enums.BootstrapperStyle.CustomDialog" xml:space="preserve">
-    <value>Персонализиран</value>
-  </data>
-  <data name="Enums.CustomThemeTemplate.Blank" xml:space="preserve">
-    <value>Празен</value>
-  </data>
-  <data name="Enums.CustomThemeTemplate.Simple" xml:space="preserve">
-    <value>Прост</value>
-  </data>
-  <data name="Menu.Load" xml:space="preserve">
-    <value>Зареди</value>
-  </data>
-  <data name="Menu.SaveAndLaunch" xml:space="preserve">
-    <value>Запази и стартирай</value>
-  </data>
-  <data name="Menu.FlagProfiles.ClearFlags" xml:space="preserve">
-    <value>Изчисти текущите FFlags</value>
-  </data>
-  <data name="Menu_FastFlagProfiles_Save" xml:space="preserve">
-    <value>Запази текущите flags</value>
-  </data>
-  <data name="Menu_FlagProfiles_Title" xml:space="preserve">
-    <value>Резервни копия на Fast Flag</value>
-  </data>
-  <data name="Menu_FlagProfiles_Description" xml:space="preserve">
-    <value>Запазвайте и зареждайте резервни копия на Fast Flag.</value>
-  </data>
-  <data name="LaunchMenu.Donate" xml:space="preserve">
-    <value>Присъединете се към нашия Discord сървър</value>
-  </data>
-  <data name="Menu.About.Licenses.Apache" xml:space="preserve">
-    <value>Apache License 2.0</value>
-  </data>
-  <data name="ContextMenu.PlayerLogs.Title" xml:space="preserve">
-    <value>Логове на играчите</value>
-  </data>
-  <data name="ContextMenu.MessageLogs.Title" xml:space="preserve">
-    <value>Логове на съобщения</value>
-  </data>
-  <data name="ContextMenu.MessageLogs.Description" xml:space="preserve">
-    <value>Показва наскоро изпратени съобщения от играчите.</value>
-  </data>
-  <data name="Menu.Context.PlayerLogs" xml:space="preserve">
-    <value>Логове на играчите</value>
-  </data>
-  <data name="Menu.Context.PlayerLogs.Description" xml:space="preserve">
-    <value>Показва играчите, които напускат/влизат в сървъра, в който сте.</value>
-  </data>
-
-  <data name="Menu.Channel.ChangeAction.Automatic" xml:space="preserve">
-    <value>Промени автоматично</value>
-  </data>
-  <data name="Menu.Channel.ChangeAction.Description" xml:space="preserve">
-    <value>Roblox или Voidstrap може да се опита да промени предпочитания ви канал.</value>
-  </data>
-  <data name="Menu.Channel.ChangeAction.Ignore" xml:space="preserve">
-    <value>Никога не променяй</value>
-  </data>
-  <data name="Menu.Channel.ChangeAction.Prompt" xml:space="preserve">
-    <value>Винаги питай</value>
-  </data>
-  <data name="Menu.Channel.ChangeAction.Title" xml:space="preserve">
-    <value>Действие при автоматична смяна на канал</value>
-  </data>
-  <data name="Menu.Channel.RobloxUpgrades.Description" xml:space="preserve">
-    <value>Когато е изключено, клиентът на Roblox няма да се надстройва до по-нова версия.</value>
-  </data>
-  <data name="Menu.Channel.Switcher.Fetching" xml:space="preserve">
-    <value>Извличане на най-новата информация за внедряване, моля изчакайте...</value>
-  </data>
-  <data name="Menu.Channel.Switcher.Unauthorized" xml:space="preserve">
-    <value>Зададеният канал не съществува или е частен</value>
-  </data>
-  <data name="Menu.Channel.VersionHash.Desription" xml:space="preserve">
-    <value>Принудете Voidstrap да изтегли версията от определен хеш. Моля не променяйте, ако не знаете какво прави това.</value>
-  </data>
-  <data name="Menu.Channel.VersionHash.Title" xml:space="preserve">
-    <value>Хеш на версия</value>
-  </data>
-  <data name="Menu.Deployment.Channel.OutOfDate" xml:space="preserve">
-    <value>Този канал е остарял и вероятно вече не се актуализира. Моля използвайте друг канал.</value>
-  </data>
-  <data name="Menu.Behaviour.AnselBanner" xml:space="preserve">
-    <value>Поддръжка на Bloxshade е необходима за шейдъри.</value>
-  </data>
-  <data name="Menu.Behaviour.Channel.Title" xml:space="preserve">
-    <value>Канал</value>
-  </data>
-  <data name="Menu.Behaviour.RenameToEurotrucks.Description" xml:space="preserve">
-    <value>За оптимална производителност е необходима поддържана видеокарта.
-Тази функция е необходима за правилно функциониране на шейдърите.</value>
-  </data>
-  <data name="Menu.Behaviour.RenameToEurotrucks.Title" xml:space="preserve">
-    <value>Поддръжка на Bloxshade</value>
-  </data>
-  <data name="Dialog.Bloxshade.Setting" xml:space="preserve">
-    <value>Поддръжката на Bloxshade е активирана</value>
-  </data>
-  <data name="Dialog.Bloxshade.ThankYou" xml:space="preserve">
-    <value>Благодарим, че използвате Bloxshade с Voidstrap</value>
-  </data>
-  <data name="Menu.Voidstrap.ExportData.Title" xml:space="preserve">
-    <value>Експортиране на диагностични данни</value>
-  </data>
-  <data name="Menu.Voidstrap.ExportData.Description" xml:space="preserve">
-    <value>Съберете информация, която може да бъде качена онлайн за отстраняване на проблема ви.</value>
-  </data>
-  <data name="Menu.Voidstrap.ExportData.ExportConfig" xml:space="preserve">
-    <value>Конфигурация на Voidstrap</value>
-  </data>
-  <data name="Menu.Voidstrap.ExportData.ExportLogs" xml:space="preserve">
-    <value>Всички логове на Voidstrap</value>
-  </data>
-  <data name="Menu.FastFlagEditor.ProfilesDescription" xml:space="preserve">
-    <value>Резервни копия на FFlag</value>
-  </data>
-  <data name="Menu.Integrations.Custom.AutoCloseOnGame" xml:space="preserve">
-    <value>Автоматично затваряне при затваряне на играта</value>
-  </data>
-  <data name="Menu.Integrations.Custom.GameID" xml:space="preserve">
-    <value>ИД на играта</value>
-  </data>
-  <data name="Menu.Integrations.Custom.SpecifyGame" xml:space="preserve">
-    <value>Стартирай в конкретна игра</value>
-  </data>
-  <data name="Menu.Appearance.BootstrapperDownloading.Title" xml:space="preserve">
-    <value>Статус на сваляне на bootstrapper</value>
-  </data>
-  <data name="Menu.Appearance.BootstrapperDownloading.Description" xml:space="preserve">
-    <value>Промяна на низа за изтегляне. {0} е името на пакета, {1} е размерът на изтеглените пакети, а {2} е общият размер на пакетите.</value>
-  </data>
-  <data name="Menu.Appearance.CustomThemes.DeleteFailed" xml:space="preserve">
-    <value>Неуспешно изтриване на персонализирана тема {0}: {1}</value>
-  </data>
-  <data name="Menu.Appearance.CustomThemes.NoneSelected" xml:space="preserve">
-    <value>Не е избрана персонализирана тема.</value>
-  </data>
-  <data name="Menu.Appearance.CustomThemes.RenameFailed" xml:space="preserve">
-    <value>Неуспешно преименуване на персонализирана тема {0}: {1}</value>
-  </data>
-
-  <data name="CustomTheme.Add.Title" xml:space="preserve">
-    <value>Добавяне на персонализирана тема</value>
-  </data>
-  <data name="CustomTheme.Add.Errors.FileNotZip" xml:space="preserve">
-    <value>Файлът трябва да е ZIP</value>
-  </data>
-  <data name="CustomTheme.Add.Errors.NameEmpty" xml:space="preserve">
-    <value>Името не може да е празно</value>
-  </data>
-  <data name="CustomTheme.Add.Errors.NameIllegalCharacters" xml:space="preserve">
-    <value>Името съдържа непозволени символи</value>
-  </data>
-  <data name="CustomTheme.Add.Errors.NameReserved" xml:space="preserve">
-    <value>Името не може да бъде използвано</value>
-  </data>
-  <data name="CustomTheme.Add.Errors.NameTaken" xml:space="preserve">
-    <value>Името вече се използва</value>
-  </data>
-  <data name="CustomTheme.Add.Errors.Unknown" xml:space="preserve">
-    <value>Неизвестна грешка</value>
-  </data>
-  <data name="CustomTheme.Add.Errors.ZipInvalidData" xml:space="preserve">
-    <value>Невалиден или повреден ZIP файл</value>
-  </data>
-  <data name="CustomTheme.Add.Errors.ZipMissingThemeFile" xml:space="preserve">
-    <value>Файлът с темата не може да бъде намерен в ZIP файла</value>
-  </data>
-  <data name="CustomTheme.Editor.Title" xml:space="preserve">
-    <value>Редактиране на "{0}"</value>
-  </data>
-  <data name="CustomTheme.Editor.ConfirmSave" xml:space="preserve">
-    <value>Запазване на промените в {0}?</value>
-  </data>
-  <data name="CustomTheme.Editor.OpenThemeDirectory" xml:space="preserve">
-    <value>Отвори директорията на темата</value>
-  </data>
-  <data name="CustomTheme.Editor.Preview" xml:space="preserve">
-    <value>Преглед</value>
-  </data>
-  <data name="CustomTheme.Editor.Save" xml:space="preserve">
-    <value>Запази</value>
-  </data>
-  <data name="CustomTheme.Editor.Save.Error" xml:space="preserve">
-    <value>Възникна грешка при запазване на темата.</value>
-  </data>
-  <data name="CustomTheme.Editor.Save.Success" xml:space="preserve">
-    <value>Темата е запазена успешно!</value>
-  </data>
-  <data name="CustomTheme.Errors.DialogAlreadyInitialised" xml:space="preserve">
-    <value>Персонализираният диалог вече е инициализиран</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeBlacklistedUriScheme" xml:space="preserve">
-    <value>{0}.{1} използва забранена схема {2}</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeConversionError" xml:space="preserve">
-    <value>{0} има невалиден {1}: {2}</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeInvalidType" xml:space="preserve">
-    <value>{0} {1} не е валиден {2}</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeMissing" xml:space="preserve">
-    <value>Елементът {0} липсва атрибутът {1}</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeMissingChild" xml:space="preserve">
-    <value>На {0}.{1} липсва неговото дете</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeMultipleChildren" xml:space="preserve">
-    <value>{0}.{1} може да има само едно дете</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeMultipleDefinitions" xml:space="preserve">
-    <value>{0} може да има само едно {1} дефинирано</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeMustBeLargerThanMin" xml:space="preserve">
-    <value>{0} {1} трябва да е по-голямо от {2}</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeMustBeSmallerThanMax" xml:space="preserve">
-    <value>{0} {1} трябва да е по-малко от {2}</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeParseError" xml:space="preserve">
-    <value>{0}.{1} не може да бъде анализирано в {2}</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeParseErrorNull" xml:space="preserve">
-    <value>{0}.{1} {2} е null</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementInvalidChild" xml:space="preserve">
-    <value>{0} не може да има дете {1}</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementMultipleChildren" xml:space="preserve">
-    <value>{0} може да има само едно дете</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementTypeCreationFailed" xml:space="preserve">
-    <value>{0} не успя да създаде {1}: {2}</value>
-  </data>
-  <data name="CustomTheme.Errors.InvalidRoot" xml:space="preserve">
-    <value>Корен на XML на темата не е {0}</value>
-  </data>
-  <data name="CustomTheme.Errors.NoThemeSelected" xml:space="preserve">
-    <value>Не е избрана персонализирана тема</value>
-  </data>
-  <data name="CustomTheme.Errors.SetupFailed" xml:space="preserve">
-    <value>Неуспешна настройка на персонализиран bootstrapper: {0}.
- Връщане към Fluent.</value>
-  </data>
-  <data name="CustomTheme.Errors.TooManyElements" xml:space="preserve">
-    <value>Персонализираните bootstrapper могат да имат максимум {0} елемента, получени {1}.</value>
-  </data>
-  <data name="CustomTheme.Errors.UnknownElement" xml:space="preserve">
-    <value>Неизвестен елемент {0}</value>
-  </data>
-  <data name="CustomTheme.Errors.UnknownEnumValue" xml:space="preserve">
-    <value>{0} неизвестно {1} {2}</value>
-  </data>
-  <data name="CustomTheme.Errors.VersionNotNumber" xml:space="preserve">
-    <value>Версията на {0} не е число</value>
-  </data>
-  <data name="CustomTheme.Errors.VersionNotRecognised" xml:space="preserve">
-    <value>Версия {0} {1} не е разпозната</value>
-  </data>
-  <data name="CustomTheme.Errors.VersionNotSet" xml:space="preserve">
-    <value>Версията на {0} не е зададена</value>
-  </data>
-  <data name="CustomTheme.Errors.VersionNotSupported" xml:space="preserve">
-    <value>Версия {0} {1} вече не се поддържа</value>
-  </data>
-  <data name="CustomTheme.Errors.XMLParseFailed" xml:space="preserve">
-    <value>Неуспешно анализиране на файла с тема: {0}</value>
-  </data>
-
-  <data name="Boostrapper.Dialog.UnauthorizedChannel" xml:space="preserve">
-    <value>Каналът, който в момента използвате ({0}), вече е ограничен за публично ползване. Ще бъдете на канала по подразбиране ({1}).</value>
-  </data>
-  <data name="Bootstrapper.Bootstrapper.Dialog.PromptChannelChange" xml:space="preserve">
-    <value>Roblox се опитва да зададе вашия канал на {0}, но текущият ви предпочитан канал е {1}.
-
-Искате ли да смените предпочитания си канал на {0}?</value>
-  </data>
-  <data name="Bootstrapper.Dialog.ChannelOutOfDate" xml:space="preserve">
-    <value>Каналът, който в момента използвате ({0}), е остарял и изглежда вече не получава актуализации.\n
-Искате ли да преминете към канала по подразбиране ({1})?</value>
-  </data>
-  <data name="Bootstrapper.Dialog.NoUpgradeWithoutClient" xml:space="preserve">
-    <value>Стартирането е неуспешно поради липсващ клиент.
-		Моля, активирайте надстройките на Roblox.</value>
-  </data>
-  <data name="Bootstrapper.Status.CancelUpgrade" xml:space="preserve">
-    <value>Отмяна на надстройката на Roblox.</value>
-  </data>
-  <data name="Bootstrapper.Status.Downloading" xml:space="preserve">
-    <value>Изтегляне</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Categories.IngameMenu" xml:space="preserve">
-    <value>Меню на Roblox</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Categories.IngameMenu.Description" xml:space="preserve">
-    <value>Освежете менюто на Roblox с персонализирани превключватели</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Chromeui.Title" xml:space="preserve">
-    <value>Chrome UI</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Chromeui.Description" xml:space="preserve">
-    <value>Когато е изключено, Roblox ще използва старата горна лента.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
-    <value>DarkMode</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
-    <value>DarkMode</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DarkMode.Description" xml:space="preserve">
-    <value>Активира експерименталния DarkMode на Roblox</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DisableGrass.Title" xml:space="preserve">
-    <value>Изключи движението на тревата</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.FlagState.Title" xml:space="preserve">
-    <value>Състояние на флаг</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.FlagState.Description" xml:space="preserve">
-    <value>Показва стойностите на зададени flag-ове по време на изпълнение. Всеки флаг е разделен със запетая.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.ChatTranslation.Title" xml:space="preserve">
-    <value>Превод на чата</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.ChatTranslation.Description" xml:space="preserve">
-    <value>Изключва автоматичния превод на чат съобщения.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.Framerate.Title" xml:space="preserve">
-    <value>Ограничение на кадровата честота</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.Framerate.Description" xml:space="preserve">
-    <value>Премахва FPS пресетите от менюто.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.Haptics.Title" xml:space="preserve">
-    <value>Бутон за хаптика</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.Haptics.Description" xml:space="preserve">
-    <value>Изключва функциите за обратна тактилна връзка, като вибрации за контролери.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.LanguageSelector.Title" xml:space="preserve">
-    <value>Избор на език</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.LanguageSelector.Description" xml:space="preserve">
-    <value>Позволява на играчите да изключат превода на интерфейса.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.SoothsayerCheck.Title" xml:space="preserve">
-    <value>Бутон за обратна връзка</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.SoothsayerCheck.Description" xml:space="preserve">
-    <value>Скрива бутона за изпращане на обратна връзка относно качеството на превода.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.VRToggle.Title" xml:space="preserve">
-    <value>VR превключвател</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.VRToggle.Description" xml:space="preserve">
-    <value>Позволява изключване на VR режима.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Layered" xml:space="preserve">
-    <value>Многослойно</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Layered.Title" xml:space="preserve">
-    <value>Многослойни дрехи</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Layered.Description" xml:space="preserve">
-    <value>Предотвратява изобразяването на многослойни дрехи върху аватарите на други играчи.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.PingBreakdown.Title" xml:space="preserve">
-    <value>Разбивка на пинга</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.PingBreakdown.Description" xml:space="preserve">
-    <value>Изпраща подробна информация за пинга в конзолата на Roblox.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Preload" xml:space="preserve">
-    <value>Предварително зареждане</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Preload.Title" xml:space="preserve">
-    <value>Предварително зареждане</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Preload.Description" xml:space="preserve">
-    <value>Предварително зарежда повечето текстури и шрифтове (Предупреждение: може да увеличи времето за зареждане!)</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
-    <value>Telemetry</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Telemetry.Title" xml:space="preserve">
-    <value>Изключи телеметрията на Roblox</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Telemetry.Description" xml:space="preserve">
-    <value>Забележете, че това изключва само част от телеметрията на Roblox.</value>
   </data>
 </root>

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -59,46 +59,46 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+  <xsd:schema xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" id="root">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string" />
-              <xsd:attribute name="type" type="xsd:string" />
-              <xsd:attribute name="mimetype" type="xsd:string" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string" />
-              <xsd:attribute name="name" type="xsd:string" />
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
-              <xsd:attribute ref="xml:space" />
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" />
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -163,6 +163,172 @@
   <data name="Bootstrapper.Status.WaitingOtherInstances" xml:space="preserve">
     <value>Čekanje ostalih slučajeva...</value>
   </data>
+  <data name="Enums.CustomThemeTemplate.Blank" xml:space="preserve">
+    <value>Prazno</value>
+  </data>
+  <data name="Menu.Integrations.Custom.SpecifyGame" xml:space="preserve">
+    <value>Pokreni u određenoj igri</value>
+  </data>
+  <data name="Menu.Integrations.Custom.GameID" xml:space="preserve">
+    <value>ID igre</value>
+  </data>
+  <data name="Menu.Integrations.Custom.AutoCloseOnGame" xml:space="preserve">
+    <value>Automatski zatvori kada se igra zatvori</value>
+  </data>
+  <data name="Enums.CustomThemeTemplate.Simple" xml:space="preserve">
+    <value>Jednostavno</value>
+  </data>
+  <data name="CustomTheme.Errors.InvalidRoot" xml:space="preserve">
+    <value>Korijen XML teme nije {0}</value>
+  </data>
+  <data name="CustomTheme.Errors.DialogAlreadyInitialised" xml:space="preserve">
+    <value>Prilagođeni dijaloški okvir već je inicijaliziran</value>
+  </data>
+  <data name="CustomTheme.Errors.TooManyElements" xml:space="preserve">
+    <value>Prilagođeni bootstrapperi mogu imati najviše {0} elemenata, dobiveno {1}.</value>
+  </data>
+  <data name="CustomTheme.Errors.VersionNotSet" xml:space="preserve">
+    <value>Verzija {0} nije postavljena</value>
+  </data>
+  <data name="CustomTheme.Errors.VersionNotNumber" xml:space="preserve">
+    <value>Verzija {0} nije broj</value>
+  </data>
+  <data name="CustomTheme.Errors.VersionNotSupported" xml:space="preserve">
+    <value>Verzija {0} {1} više nije podržana</value>
+  </data>
+  <data name="CustomTheme.Errors.VersionNotRecognised" xml:space="preserve">
+    <value>Verzija {0} {1} nije prepoznata</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementInvalidChild" xml:space="preserve">
+    <value>{0} ne može imati dijete {1}</value>
+  </data>
+  <data name="CustomTheme.Errors.UnknownElement" xml:space="preserve">
+    <value>Nepoznati element {0}</value>
+  </data>
+  <data name="CustomTheme.Errors.XMLParseFailed" xml:space="preserve">
+    <value>Neuspješno raščlanjivanje datoteke teme: {0}</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeConversionError" xml:space="preserve">
+    <value>{0} ima nevažeći {1}: {2}</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeMissing" xml:space="preserve">
+    <value>Elementu {0} nedostaje atribut {1}</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeInvalidType" xml:space="preserve">
+    <value>{0} {1} nije važeći {2}</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeMustBeLargerThanMin" xml:space="preserve">
+    <value>{0} {1} mora biti veće od {2}</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeMustBeSmallerThanMax" xml:space="preserve">
+    <value>{0} {1} mora biti manje od {2}</value>
+  </data>
+  <data name="CustomTheme.Errors.UnknownEnumValue" xml:space="preserve">
+    <value>{0} nepoznato {1} {2}</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeMultipleDefinitions" xml:space="preserve">
+    <value>{0} može imati definirano samo jedno {1}</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeMultipleChildren" xml:space="preserve">
+    <value>{0}.{1} može imati samo jedno dijete</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementMultipleChildren" xml:space="preserve">
+    <value>{0} može imati samo jedno dijete</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeMissingChild" xml:space="preserve">
+    <value>{0}.{1} nedostaje njegovo dijete</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeParseError" xml:space="preserve">
+    <value>{0}.{1} ne može se raščlaniti u {2}</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeParseErrorNull" xml:space="preserve">
+    <value>{0}.{1} {2} je null</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementAttributeBlacklistedUriScheme" xml:space="preserve">
+    <value>{0}.{1} koristi blokiranu shemu {2}</value>
+  </data>
+  <data name="CustomTheme.Errors.ElementTypeCreationFailed" xml:space="preserve">
+    <value>{0} nije uspio stvoriti {1}: {2}</value>
+  </data>
+  <data name="CustomTheme.Editor.Title" xml:space="preserve">
+    <value>Uređivanje "{0}"</value>
+  </data>
+  <data name="CustomTheme.Editor.Save.Success" xml:space="preserve">
+    <value>Tema je uspješno spremljena!</value>
+  </data>
+  <data name="CustomTheme.Editor.Save.Error" xml:space="preserve">
+    <value>Došlo je do greške pri spremanju teme.</value>
+  </data>
+  <data name="CustomTheme.Editor.ConfirmSave" xml:space="preserve">
+    <value>Spremiti promjene u {0}?</value>
+  </data>
+  <data name="CustomTheme.Editor.Save" xml:space="preserve">
+    <value>Spremi</value>
+  </data>
+  <data name="CustomTheme.Editor.Preview" xml:space="preserve">
+    <value>Pretpregled</value>
+  </data>
+  <data name="CustomTheme.Editor.OpenThemeDirectory" xml:space="preserve">
+    <value>Otvori direktorij teme</value>
+  </data>
+  <data name="Common.CreateNew" xml:space="preserve">
+    <value>Stvori novo</value>
+  </data>
+  <data name="Common.Import" xml:space="preserve">
+    <value>Uvezi</value>
+  </data>
+  <data name="CustomTheme.Add.Title" xml:space="preserve">
+    <value>Dodaj prilagođenu temu</value>
+  </data>
+  <data name="Common.Template" xml:space="preserve">
+    <value>Predložak</value>
+  </data>
+  <data name="CustomTheme.Add.Errors.NameEmpty" xml:space="preserve">
+    <value>Naziv ne može biti prazan</value>
+  </data>
+  <data name="CustomTheme.Add.Errors.NameIllegalCharacters" xml:space="preserve">
+    <value>Naziv sadrži nedopuštene znakove</value>
+  </data>
+  <data name="CustomTheme.Add.Errors.NameReserved" xml:space="preserve">
+    <value>Naziv nije moguće koristiti</value>
+  </data>
+  <data name="CustomTheme.Add.Errors.Unknown" xml:space="preserve">
+    <value>Nepoznata pogreška</value>
+  </data>
+  <data name="CustomTheme.Add.Errors.NameTaken" xml:space="preserve">
+    <value>Naziv je već u upotrebi</value>
+  </data>
+  <data name="CustomTheme.Add.Errors.FileNotZip" xml:space="preserve">
+    <value>Datoteka mora biti ZIP</value>
+  </data>
+  <data name="CustomTheme.Add.Errors.ZipMissingThemeFile" xml:space="preserve">
+    <value>Datoteka teme nije pronađena u ZIP datoteci</value>
+  </data>
+  <data name="CustomTheme.Add.Errors.ZipInvalidData" xml:space="preserve">
+    <value>Nevažeća ili oštećena ZIP datoteka</value>
+  </data>
+  <data name="CustomTheme.Errors.NoThemeSelected" xml:space="preserve">
+    <value>Nije odabrana prilagođena tema</value>
+  </data>
+  <data name="CustomTheme.Errors.SetupFailed" xml:space="preserve">
+    <value>Postavljanje prilagođenog bootstrappera nije uspjelo: {0}.
+ Vraćam na Fluent.</value>
+  </data>
+  <data name="Menu.Appearance.CustomThemes.NoneSelected" xml:space="preserve">
+    <value>Nije odabrana prilagođena tema.</value>
+  </data>
+  <data name="Common.Rename" xml:space="preserve">
+    <value>Preimenuj</value>
+  </data>
+  <data name="Common.Edit" xml:space="preserve">
+    <value>Uredi</value>
+  </data>
+  <data name="Menu.Appearance.CustomThemes.DeleteFailed" xml:space="preserve">
+    <value>Neuspješno brisanje prilagođene teme {0}: {1}</value>
+  </data>
+  <data name="Menu.Appearance.CustomThemes.RenameFailed" xml:space="preserve">
+    <value>Neuspješno preimenovanje prilagođene teme {0}: {1}</value>
+  </data>
   <data name="Bootstrapper.StylePreview.ImageCancel" xml:space="preserve">
     <value>Pretpregled stila - Kliknite gumb X gore desno kako biste zatvorili</value>
     <comment>Text for style previews that use an X button. Currently only applies to Byfron</comment>
@@ -194,9 +360,6 @@
   </data>
   <data name="Common.Delete" xml:space="preserve">
     <value>Izbriši</value>
-  </data>
-  <data name="Common.DiscordRichPresence" xml:space="preserve">
-    <value>Discord Rich Presence</value>
   </data>
   <data name="Common.Help" xml:space="preserve">
     <value>Pomoć</value>
@@ -299,9 +462,6 @@ Ako nije, molimo prijavite ovu iznimku preko [GitHub issue]({1}) zajedno sa kopi
   <data name="Common.Custom" xml:space="preserve">
     <value>Prilagođeno</value>
   </data>
-  <data name="Enums.BootstrapperIcon.IconEarly2015" xml:space="preserve">
-    <value>Rana 2015-ta</value>
-  </data>
   <data name="Enums.BootstrapperIcon.IconLate2015" xml:space="preserve">
     <value>Kasna 2015-ta</value>
   </data>
@@ -320,9 +480,6 @@ Ako nije, molimo prijavite ovu iznimku preko [GitHub issue]({1}) zajedno sa kopi
   <data name="Enums.BootstrapperStyle.LegacyDialog2011" xml:space="preserve">
     <value>Nasledje (2011-2014)</value>
   </data>
-  <data name="Enums.BootstrapperStyle.ProgressDialog" xml:space="preserve">
-    <value>Roblox (~2014)</value>
-  </data>
   <data name="Enums.BootstrapperStyle.VistaDialog" xml:space="preserve">
     <value>Vista (2008-2011)</value>
   </data>
@@ -338,24 +495,6 @@ Ako nije, molimo prijavite ovu iznimku preko [GitHub issue]({1}) zajedno sa kopi
   <data name="Enums.EmojiType.Default" xml:space="preserve">
     <value>Normalno (TweMoudži)</value>
   </data>
-  <data name="Enums.EmojiType.Windows10" xml:space="preserve">
-    <value>Windows 10</value>
-  </data>
-  <data name="Enums.EmojiType.Windows11" xml:space="preserve">
-    <value>Windows 11</value>
-  </data>
-  <data name="Enums.EmojiType.Windows8" xml:space="preserve">
-    <value>Windows 8</value>
-  </data>
-  <data name="Enums.FlagPresets.InGameMenuVersion.V1" xml:space="preserve">
-    <value>2015 (V1)</value>
-  </data>
-  <data name="Enums.FlagPresets.InGameMenuVersion.V2" xml:space="preserve">
-    <value>2020 (V2)</value>
-  </data>
-  <data name="Enums.FlagPresets.InGameMenuVersion.V4" xml:space="preserve">
-    <value>2023 (V4)</value>
-  </data>
   <data name="Enums.FlagPresets.LightingMode.Default" xml:space="preserve">
     <value>Izabrano od strane igrice</value>
   </data>
@@ -368,12 +507,6 @@ Ako nije, molimo prijavite ovu iznimku preko [GitHub issue]({1}) zajedno sa kopi
   <data name="Enums.FlagPresets.LightingMode.Voxel" xml:space="preserve">
     <value>Voksel Stil Osvjetljenja (Faza 1)</value>
   </data>
-  <data name="Enums.FlagPresets.RenderingMode.D3D10" xml:space="preserve">
-    <value>Direct3D 10</value>
-  </data>
-  <data name="Enums.FlagPresets.RenderingMode.D3D11" xml:space="preserve">
-    <value>Direct3D 11</value>
-  </data>
   <data name="Enums.ServerType.Private" xml:space="preserve">
     <value>Privatan server</value>
   </data>
@@ -385,6 +518,27 @@ Ako nije, molimo prijavite ovu iznimku preko [GitHub issue]({1}) zajedno sa kopi
   </data>
   <data name="Enums.Theme.Dark" xml:space="preserve">
     <value>Tamno</value>
+  </data>
+  <data name="Enums.Theme.Yellow" xml:space="preserve">
+    <value>Žuta</value>
+  </data>
+  <data name="Enums.Theme.Cyan" xml:space="preserve">
+    <value>Cijan</value>
+  </data>
+  <data name="Enums.Theme.Pink" xml:space="preserve">
+    <value>Ružičasta</value>
+  </data>
+  <data name="Enums.Theme.Custom" xml:space="preserve">
+    <value>Prilagođeno</value>
+  </data>
+  <data name="Enums.Theme.Purple" xml:space="preserve">
+    <value>Ljubičasta</value>
+  </data>
+  <data name="Enums.Theme.Green" xml:space="preserve">
+    <value>Zelena</value>
+  </data>
+  <data name="Enums.Theme.Orange" xml:space="preserve">
+    <value>Narančasta</value>
   </data>
   <data name="Enums.Theme.Light" xml:space="preserve">
     <value>Svjetlo</value>
@@ -418,9 +572,6 @@ Ako nije, molimo prijavite ovu iznimku preko [GitHub issue]({1}) zajedno sa kopi
   </data>
   <data name="Menu.About.Description" xml:space="preserve">
     <value>Alternativni bootstrapper za Roblox s nekoliko dodatnih dodataka.</value>
-  </data>
-  <data name="Menu.About.DiscordServer" xml:space="preserve">
-    <value>Discord server</value>
   </data>
   <data name="Menu.About.GithubRepository" xml:space="preserve">
     <value>GitHub repozitorij</value>
@@ -895,6 +1046,9 @@ Promjena na iduću lokaciju je preporučena: {0}
   <data name="Menu.FastFlags.Presets.DisableTerrainTextures.Title" xml:space="preserve">
     <value>Onemogući teksture terena</value>
   </data>
+  <data name="Menu.FastFlags.Presets.DisableGrass.Title" xml:space="preserve">
+    <value>Onemogući kretanje trave</value>
+  </data>
   <data name="Dialog.Connectivity.UnableToDownload" xml:space="preserve">
     <value>Voidstrap ne može preuzeti Roblox</value>
   </data>
@@ -907,7 +1061,7 @@ Promjena na iduću lokaciju je preporučena: {0}
   </data>
   <data name="FileTypes.JSONFiles" xml:space="preserve">
     <value>JSON datoteke</value>
-    <comment>Shown in the open file dialog, where the file type selection dropdown is, e.g. "JSON files (*.json)"</comment>
+    <comment>Allows selection of JSON, TXT, and Markdown files (*.json;*.txt;*.md)</comment>
   </data>
   <data name="Menu.FastFlagEditor.InvalidBoolValue" xml:space="preserve">
     <value>Unos za '{0}' ne važi jer vrijednost mora biti boolean (ili 'True' ili 'False')</value>
@@ -1230,15 +1384,53 @@ Kada uključen, automatski će pokrenuti Roblox nakon zatvaranja postavki, i pon
     <value>Instaliraj</value>
     <comment>The word "Install" is being used as a verb in this instance, like the other navigation button texts of "Next" and "Back"</comment>
   </data>
+  <data name="LaunchMenu.Donate" xml:space="preserve">
+    <value>Pridružite se našem Discord poslužitelju</value>
+    <comment>Call-to-action button</comment>
+  </data>
   <data name="Paths.Icons" xml:space="preserve">
     <value>Ikone</value>
     <comment>Name of the folder that gets created according to the "create shortcut icons" option. Ensure that it is a valid folder name.</comment>
+  </data>
+  <data name="Menu_FlagProfiles_Title" xml:space="preserve">
+    <value>Sigurnosne kopije Fast Flag</value>
+  </data>
+  <data name="Menu_FlagProfiles_Description" xml:space="preserve">
+    <value>Spremite i učitajte sigurnosne kopije Fast Flag.</value>
+  </data>
+  <data name="Common_FastFlags" xml:space="preserve">
+    <value>Uređivač Fast Flag</value>
+  </data>
+  <data name="Menu_FastFlagProfiles_Save" xml:space="preserve">
+    <value>Spremi trenutne flags</value>
+  </data>
+  <data name="Menu.FastFlagEditor.ProfilesDescription" xml:space="preserve">
+    <value>Sigurnosne kopije FFlag</value>
+  </data>
+  <data name="Menu.Load" xml:space="preserve">
+    <value>Učitaj</value>
+  </data>
+  <data name="Bootstrapper.Status.CancelUpgrade" xml:space="preserve">
+    <value>Otkazivanje nadogradnje Robloxa.</value>
+  </data>
+  <data name="Menu.Behaviour.RenameToEurotrucks.Title" xml:space="preserve">
+    <value>Podrška za Bloxshade</value>
+  </data>
+  <data name="Menu.Behaviour.RenameToEurotrucks.Description" xml:space="preserve">
+    <value>Za optimalne performanse potrebna je podržana grafička kartica.
+Ova značajka je ključna za pravilno funkcioniranje shadera.</value>
+  </data>
+  <data name="Menu.Behaviour.Channel.Title" xml:space="preserve">
+    <value>Kanal</value>
   </data>
   <data name="LaunchMenu.LaunchRobloxStudio" xml:space="preserve">
     <value>Pokreni Roblox Studio</value>
   </data>
   <data name="Dialog.Exception.Version" xml:space="preserve">
     <value>Verzija {0}</value>
+  </data>
+  <data name="Enums.BootstrapperStyle.CustomDialog" xml:space="preserve">
+    <value>Prilagođeno</value>
   </data>
   <data name="Bootstrapper.FilesInUse" xml:space="preserve">
     <value>Voidstrap je pokušao ažurirati Roblox, ali ne može jer se Robloxove datoteke još dalje koriste.
@@ -1254,30 +1446,212 @@ Molimo zatvorite bilo koju aplikaciju koja bi mogla koristiti Robloxove datoteke
     <value>Izvezi</value>
     <comment>Currently used under the "Voidstrap" settings tab for the button to export diagnostic data</comment>
   </data>
-  <data name="Dialog.Connectivity.Preventing" xml:space="preserve">
-    <value>Nešto vjerojatno prekida Voidstrap od spajanja na internet.</value>
+  <data name="Menu.Voidstrap.ExportData.Title" xml:space="preserve">
+    <value>Izvoz dijagnostičkih podataka</value>
   </data>
-  <data name="Dialog.Connectivity.TimedOut" xml:space="preserve">
-    <value>Veza je istekla, što može naznačiti lošu internetsku vezu ili blokadu vatrozida.</value>
+  <data name="Menu.Voidstrap.ExportData.Description" xml:space="preserve">
+    <value>Prikupite informacije koje se mogu prenijeti online za rješavanje vašeg problema.</value>
   </data>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="Menu.Channel.Description" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
+  <data name="Menu.Voidstrap.ExportData.ExportConfig" xml:space="preserve">
+    <value>Konfiguracija Voidstrapa</value>
+    <comment>Label that appears next to a checkbox</comment>
   </data>
-  <data name="Common.Channel" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
+  <data name="Menu.Voidstrap.ExportData.ExportLogs" xml:space="preserve">
+    <value>Svi zapisi Voidstrapa</value>
+    <comment>Label that appears next to a checkbox</comment>
   </data>
-  <data name="Menu.ChannelChanger.Description" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
+  <data name="Menu.Channel.RobloxUpgrades.Description" xml:space="preserve">
+    <value>Kada je onemogućeno, Roblox klijent neće se nadograditi na noviju verziju.</value>
   </data>
-  <data name="Common.Version" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
+  <data name="Bootstrapper.Status.Downloading" xml:space="preserve">
+    <value>Preuzimanje</value>
   </data>
-  <data name="Common.VersionGuid" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
+  <data name="Menu.Appearance.BootstrapperDownloading.Title" xml:space="preserve">
+    <value>Status preuzimanja bootstrappera</value>
   </data>
-  <data name="Menu.Channel.RobloxUpgrades" type="System.Resources.ResXNullRef, System.Windows.Forms">
-    <value />
+  <data name="Menu.Appearance.BootstrapperDownloading.Description" xml:space="preserve">
+    <value>Promijeni tekst preuzimanja. {0} je naziv paketa, {1} je veličina preuzetih paketa, a {2} je ukupna veličina paketa.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Telemetry.Title" xml:space="preserve">
+    <value>Onemogući Roblox telemetriju</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Telemetry.Description" xml:space="preserve">
+    <value>Napomena: ovo onemogućuje samo dio Roblox telemetrije.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Preload.Title" xml:space="preserve">
+    <value>Predučitavanje</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Preload.Description" xml:space="preserve">
+    <value>Predučitava većinu tekstura i fontova (Upozorenje: može produžiti vrijeme učitavanja!)</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Layered.Title" xml:space="preserve">
+    <value>Slojevita odjeća</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Layered.Description" xml:space="preserve">
+    <value>Sprječava renderiranje slojevite odjeće na avatarima drugih igrača.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.DarkMode.Description" xml:space="preserve">
+    <value>Aktivira Robloxov rani pristup DarkMode</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Preload" xml:space="preserve">
+    <value>Predučitavanje</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Layered" xml:space="preserve">
+    <value>Slojevito</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Chromeui.Description" xml:space="preserve">
+    <value>Kada je onemogućeno, Roblox će koristiti staru gornju traku.</value>
+  </data>
+  <data name="Menu.FlagProfiles.ClearFlags" xml:space="preserve">
+    <value>Očisti trenutne FFlags</value>
+  </data>
+  <data name="Menu.Deployment.Channel.OutOfDate" xml:space="preserve">
+    <value>Ovaj kanal je zastario i vjerojatno se više ne ažurira. Molimo koristite drugi kanal.</value>
+  </data>
+  <data name="Bootstrapper.Dialog.ChannelOutOfDate" xml:space="preserve">
+    <value>Kanal koji trenutno koristite ({0}) je zastario i čini se da više ne prima ažuriranja.\n
+Želite li prijeći na zadani kanal ({1})?</value>
+  </data>
+  <data name="Menu.Channel.ChangeAction.Title" xml:space="preserve">
+    <value>Radnja automatske promjene kanala</value>
+  </data>
+  <data name="Menu.Channel.ChangeAction.Description" xml:space="preserve">
+    <value>Roblox ili Voidstrap može pokušati promijeniti vaš preferirani kanal.</value>
+  </data>
+  <data name="Menu.Channel.ChangeAction.Automatic" xml:space="preserve">
+    <value>Mijenjaj automatski</value>
+  </data>
+  <data name="Menu.Channel.ChangeAction.Prompt" xml:space="preserve">
+    <value>Uvijek pitaj</value>
+  </data>
+  <data name="Menu.Channel.ChangeAction.Ignore" xml:space="preserve">
+    <value>Nikad ne mijenjaj</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Categories.IngameMenu" xml:space="preserve">
+    <value>Roblox izbornik</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Categories.IngameMenu.Description" xml:space="preserve">
+    <value>Pojednostavite Roblox izbornik prilagođenim prekidačima</value>
+  </data>
+  <data name="Common.Deployment" xml:space="preserve">
+    <value>Implementacija</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.VRToggle.Title" xml:space="preserve">
+    <value>VR prekidač</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.SoothsayerCheck.Title" xml:space="preserve">
+    <value>Gumb za povratne informacije</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.LanguageSelector.Title" xml:space="preserve">
+    <value>Birač jezika</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.Haptics.Title" xml:space="preserve">
+    <value>Gumb haptike</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.Framerate.Title" xml:space="preserve">
+    <value>Ograničenje broja sličica</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.ChatTranslation.Title" xml:space="preserve">
+    <value>Prijevod chata</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.VRToggle.Description" xml:space="preserve">
+    <value>Omogućuje onemogućavanje VR moda.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.SoothsayerCheck.Description" xml:space="preserve">
+    <value>Skriva gumb za slanje povratnih informacija o kvaliteti prijevoda.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.Haptics.Description" xml:space="preserve">
+    <value>Onemogućuje značajke haptičke povratne informacije, poput vibracija za kontrolere.</value>
+  </data>
+  <data name="Bootstrapper.Bootstrapper.Dialog.PromptChannelChange" xml:space="preserve">
+    <value>Roblox pokušava postaviti vaš kanal na {0}, ali vaš trenutni preferirani kanal je {1}.
+
+Želite li promijeniti svoj preferirani kanal u {0}?</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.Framerate.Description" xml:space="preserve">
+    <value>Uklanja FPS unaprijed postavljene postavke iz izbornika.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.LanguageSelector.Description" xml:space="preserve">
+    <value>Omogućuje igračima da onemoguće prijevod sučelja.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.ChatTranslation.Description" xml:space="preserve">
+    <value>Onemogućuje automatski prijevod poruka chata.</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.FlagState.Title" xml:space="preserve">
+    <value>Stanje flaga</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.FlagState.Description" xml:space="preserve">
+    <value>Prikaži vrijednosti navedenih flagova tijekom izvođenja. Svaki flag odvojen zarezom.</value>
+  </data>
+  <data name="Menu.Context.PlayerLogs" xml:space="preserve">
+    <value>Zapisi igrača</value>
+  </data>
+  <data name="Menu.Context.PlayerLogs.Description" xml:space="preserve">
+    <value>Prikazuje igrače koji se pridružuju/napuštaju vaš server.</value>
+  </data>
+  <data name="Common.Type" xml:space="preserve">
+    <value>Tip</value>
+  </data>
+  <data name="Common.UserId" xml:space="preserve">
+    <value>ID korisnika</value>
+  </data>
+  <data name="Common.Username" xml:space="preserve">
+    <value>Korisničko ime</value>
+  </data>
+  <data name="Common.Time" xml:space="preserve">
+    <value>Vrijeme</value>
+  </data>
+  <data name="Menu.Channel.VersionHash.Title" xml:space="preserve">
+    <value>Hash verzije</value>
+  </data>
+  <data name="Menu.Channel.VersionHash.Desription" xml:space="preserve">
+    <value>Prisili Voidstrap da preuzme verziju s određenog hasha. Molimo ne mijenjati ako ne znate što ovo radi.</value>
+  </data>
+  <data name="Menu.SaveAndLaunch" xml:space="preserve">
+    <value>Spremi i pokreni</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.PingBreakdown.Title" xml:space="preserve">
+    <value>Razlomak pinga</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.PingBreakdown.Description" xml:space="preserve">
+    <value>Šalje detaljne informacije o pingu u Roblox konzolu.</value>
+  </data>
+  <data name="Bootstrapper.Dialog.NoUpgradeWithoutClient" xml:space="preserve">
+    <value>Pokretanje nije uspjelo zbog nedostajućeg klijenta.
+		Molimo omogućite nadogradnje Robloxa.</value>
+  </data>
+  <data name="ContextMenu.PlayerLogs.Title" xml:space="preserve">
+    <value>Zapisi igrača</value>
+  </data>
+  <data name="Menu.Channel.Switcher.Unauthorized" xml:space="preserve">
+    <value>Navedeni kanal ne postoji ili je privatan</value>
+  </data>
+  <data name="Boostrapper.Dialog.UnauthorizedChannel" xml:space="preserve">
+    <value>Kanal koji trenutno koristite ({0}) sada je ograničen za javnu uporabu. Sada ćete biti na zadanom kanalu ({1}).</value>
+  </data>
+  <data name="Menu.Channel.Switcher.Fetching" xml:space="preserve">
+    <value>Dohvaćanje najnovijih informacija o implementaciji, molimo pričekajte...</value>
+  </data>
+  <data name="Common.Message" xml:space="preserve">
+    <value>Poruka</value>
+  </data>
+  <data name="ContextMenu.MessageLogs.Title" xml:space="preserve">
+    <value>Zapisi poruka</value>
+  </data>
+  <data name="ContextMenu.MessageLogs.Description" xml:space="preserve">
+    <value>Prikazuje nedavno poslane poruke igrača.</value>
+  </data>
+  <data name="Menu.Behaviour.AnselBanner" xml:space="preserve">
+    <value>Za shadere je potrebna podrška za Bloxshade.</value>
+  </data>
+  <data name="Dialog.Bloxshade.ThankYou" xml:space="preserve">
+    <value>Hvala što koristite Bloxshade s Voidstrap</value>
+  </data>
+  <data name="Dialog.Bloxshade.Setting" xml:space="preserve">
+    <value>Podrška za Bloxshade je omogućena</value>
+  </data>
+  <data name="Common.Profiles" xml:space="preserve">
+    <value>Profili</value>
   </data>
   <data name="Common.Open" xml:space="preserve">
     <value>Otvori</value>
@@ -1302,489 +1676,5 @@ Molimo zatvorite bilo koju aplikaciju koja bi mogla koristiti Robloxove datoteke
   </data>
   <data name="Menu.News.DialogTitle" xml:space="preserve">
     <value>Detalji vijesti</value>
-  </data>
-
-  <data name="Common.CreateNew" xml:space="preserve">
-    <value>Stvori novo</value>
-  </data>
-  <data name="Common.Debug" xml:space="preserve">
-    <value>Debug</value>
-  </data>
-  <data name="Common.Deployment" xml:space="preserve">
-    <value>Implementacija</value>
-  </data>
-  <data name="Common.Edit" xml:space="preserve">
-    <value>Uredi</value>
-  </data>
-  <data name="Common.Import" xml:space="preserve">
-    <value>Uvezi</value>
-  </data>
-  <data name="Common.Message" xml:space="preserve">
-    <value>Poruka</value>
-  </data>
-  <data name="Common.Profiles" xml:space="preserve">
-    <value>Profili</value>
-  </data>
-  <data name="Common.Rename" xml:space="preserve">
-    <value>Preimenuj</value>
-  </data>
-  <data name="Common.RobloxStudio" xml:space="preserve">
-    <value>Roblox Studio</value>
-  </data>
-  <data name="Common.Studio" xml:space="preserve">
-    <value>Studio</value>
-  </data>
-  <data name="Common.Template" xml:space="preserve">
-    <value>Predložak</value>
-  </data>
-  <data name="Common.Time" xml:space="preserve">
-    <value>Vrijeme</value>
-  </data>
-  <data name="Common.Type" xml:space="preserve">
-    <value>Tip</value>
-  </data>
-  <data name="Common.UserId" xml:space="preserve">
-    <value>ID korisnika</value>
-  </data>
-  <data name="Common.Username" xml:space="preserve">
-    <value>Korisničko ime</value>
-  </data>
-  <data name="Common_FastFlags" xml:space="preserve">
-    <value>Uređivač Fast Flag</value>
-  </data>
-  <data name="Enums.Theme.Berry" xml:space="preserve">
-    <value>Berry</value>
-  </data>
-  <data name="Enums.Theme.Custom" xml:space="preserve">
-    <value>Prilagođeno</value>
-  </data>
-  <data name="Enums.Theme.Cyan" xml:space="preserve">
-    <value>Cijan</value>
-  </data>
-  <data name="Enums.Theme.Green" xml:space="preserve">
-    <value>Zelena</value>
-  </data>
-  <data name="Enums.Theme.Orange" xml:space="preserve">
-    <value>Narančasta</value>
-  </data>
-  <data name="Enums.Theme.Pink" xml:space="preserve">
-    <value>Ružičasta</value>
-  </data>
-  <data name="Enums.Theme.Purple" xml:space="preserve">
-    <value>Ljubičasta</value>
-  </data>
-  <data name="Enums.Theme.UltraGray" xml:space="preserve">
-    <value>UltraGray</value>
-  </data>
-  <data name="Enums.Theme.Voidstrap" xml:space="preserve">
-    <value>Voidstrap</value>
-  </data>
-  <data name="Enums.Theme.Yellow" xml:space="preserve">
-    <value>Žuta</value>
-  </data>
-  <data name="Enums.CursorType.CleanCursor" xml:space="preserve">
-    <value>CleanCursor</value>
-  </data>
-  <data name="Enums.CursorType.FPSCursor" xml:space="preserve">
-    <value>FPSCursor</value>
-  </data>
-  <data name="Enums.CursorType.StoofsCursor" xml:space="preserve">
-    <value>StoofsCursor</value>
-  </data>
-  <data name="Enums.FlagPresets.RenderingMode.OpenGL" xml:space="preserve">
-    <value>OpenGL</value>
-  </data>
-  <data name="Enums.FlagPresets.RenderingMode.Vulkan" xml:space="preserve">
-    <value>Vulkan</value>
-  </data>
-  <data name="Enums.BootstrapperStyle.CustomDialog" xml:space="preserve">
-    <value>Prilagođeno</value>
-  </data>
-  <data name="Enums.CustomThemeTemplate.Blank" xml:space="preserve">
-    <value>Prazno</value>
-  </data>
-  <data name="Enums.CustomThemeTemplate.Simple" xml:space="preserve">
-    <value>Jednostavno</value>
-  </data>
-  <data name="Menu.Load" xml:space="preserve">
-    <value>Učitaj</value>
-  </data>
-  <data name="Menu.SaveAndLaunch" xml:space="preserve">
-    <value>Spremi i pokreni</value>
-  </data>
-  <data name="Menu.FlagProfiles.ClearFlags" xml:space="preserve">
-    <value>Očisti trenutne FFlags</value>
-  </data>
-  <data name="Menu_FastFlagProfiles_Save" xml:space="preserve">
-    <value>Spremi trenutne flags</value>
-  </data>
-  <data name="Menu_FlagProfiles_Title" xml:space="preserve">
-    <value>Sigurnosne kopije Fast Flag</value>
-  </data>
-  <data name="Menu_FlagProfiles_Description" xml:space="preserve">
-    <value>Spremite i učitajte sigurnosne kopije Fast Flag.</value>
-  </data>
-  <data name="LaunchMenu.Donate" xml:space="preserve">
-    <value>Pridružite se našem Discord poslužitelju</value>
-  </data>
-  <data name="Menu.About.Licenses.Apache" xml:space="preserve">
-    <value>Apache License 2.0</value>
-  </data>
-  <data name="ContextMenu.PlayerLogs.Title" xml:space="preserve">
-    <value>Zapisi igrača</value>
-  </data>
-  <data name="ContextMenu.MessageLogs.Title" xml:space="preserve">
-    <value>Zapisi poruka</value>
-  </data>
-  <data name="ContextMenu.MessageLogs.Description" xml:space="preserve">
-    <value>Prikazuje nedavno poslane poruke igrača.</value>
-  </data>
-  <data name="Menu.Context.PlayerLogs" xml:space="preserve">
-    <value>Zapisi igrača</value>
-  </data>
-  <data name="Menu.Context.PlayerLogs.Description" xml:space="preserve">
-    <value>Prikazuje igrače koji se pridružuju/napuštaju vaš server.</value>
-  </data>
-
-  <data name="Menu.Channel.ChangeAction.Automatic" xml:space="preserve">
-    <value>Mijenjaj automatski</value>
-  </data>
-  <data name="Menu.Channel.ChangeAction.Description" xml:space="preserve">
-    <value>Roblox ili Voidstrap može pokušati promijeniti vaš preferirani kanal.</value>
-  </data>
-  <data name="Menu.Channel.ChangeAction.Ignore" xml:space="preserve">
-    <value>Nikad ne mijenjaj</value>
-  </data>
-  <data name="Menu.Channel.ChangeAction.Prompt" xml:space="preserve">
-    <value>Uvijek pitaj</value>
-  </data>
-  <data name="Menu.Channel.ChangeAction.Title" xml:space="preserve">
-    <value>Radnja automatske promjene kanala</value>
-  </data>
-  <data name="Menu.Channel.RobloxUpgrades.Description" xml:space="preserve">
-    <value>Kada je onemogućeno, Roblox klijent neće se nadograditi na noviju verziju.</value>
-  </data>
-  <data name="Menu.Channel.Switcher.Fetching" xml:space="preserve">
-    <value>Dohvaćanje najnovijih informacija o implementaciji, molimo pričekajte...</value>
-  </data>
-  <data name="Menu.Channel.Switcher.Unauthorized" xml:space="preserve">
-    <value>Navedeni kanal ne postoji ili je privatan</value>
-  </data>
-  <data name="Menu.Channel.VersionHash.Desription" xml:space="preserve">
-    <value>Prisili Voidstrap da preuzme verziju s određenog hasha. Molimo ne mijenjati ako ne znate što ovo radi.</value>
-  </data>
-  <data name="Menu.Channel.VersionHash.Title" xml:space="preserve">
-    <value>Hash verzije</value>
-  </data>
-  <data name="Menu.Deployment.Channel.OutOfDate" xml:space="preserve">
-    <value>Ovaj kanal je zastario i vjerojatno se više ne ažurira. Molimo koristite drugi kanal.</value>
-  </data>
-  <data name="Menu.Behaviour.AnselBanner" xml:space="preserve">
-    <value>Za shadere je potrebna podrška za Bloxshade.</value>
-  </data>
-  <data name="Menu.Behaviour.Channel.Title" xml:space="preserve">
-    <value>Kanal</value>
-  </data>
-  <data name="Menu.Behaviour.RenameToEurotrucks.Description" xml:space="preserve">
-    <value>Za optimalne performanse potrebna je podržana grafička kartica.
-Ova značajka je ključna za pravilno funkcioniranje shadera.</value>
-  </data>
-  <data name="Menu.Behaviour.RenameToEurotrucks.Title" xml:space="preserve">
-    <value>Podrška za Bloxshade</value>
-  </data>
-  <data name="Dialog.Bloxshade.Setting" xml:space="preserve">
-    <value>Podrška za Bloxshade je omogućena</value>
-  </data>
-  <data name="Dialog.Bloxshade.ThankYou" xml:space="preserve">
-    <value>Hvala što koristite Bloxshade s Voidstrap</value>
-  </data>
-  <data name="Menu.Voidstrap.ExportData.Title" xml:space="preserve">
-    <value>Izvoz dijagnostičkih podataka</value>
-  </data>
-  <data name="Menu.Voidstrap.ExportData.Description" xml:space="preserve">
-    <value>Prikupite informacije koje se mogu prenijeti online za rješavanje vašeg problema.</value>
-  </data>
-  <data name="Menu.Voidstrap.ExportData.ExportConfig" xml:space="preserve">
-    <value>Konfiguracija Voidstrapa</value>
-  </data>
-  <data name="Menu.Voidstrap.ExportData.ExportLogs" xml:space="preserve">
-    <value>Svi zapisi Voidstrapa</value>
-  </data>
-  <data name="Menu.FastFlagEditor.ProfilesDescription" xml:space="preserve">
-    <value>Sigurnosne kopije FFlag</value>
-  </data>
-  <data name="Menu.Integrations.Custom.AutoCloseOnGame" xml:space="preserve">
-    <value>Automatski zatvori kada se igra zatvori</value>
-  </data>
-  <data name="Menu.Integrations.Custom.GameID" xml:space="preserve">
-    <value>ID igre</value>
-  </data>
-  <data name="Menu.Integrations.Custom.SpecifyGame" xml:space="preserve">
-    <value>Pokreni u određenoj igri</value>
-  </data>
-  <data name="Menu.Appearance.BootstrapperDownloading.Title" xml:space="preserve">
-    <value>Status preuzimanja bootstrappera</value>
-  </data>
-  <data name="Menu.Appearance.BootstrapperDownloading.Description" xml:space="preserve">
-    <value>Promijeni tekst preuzimanja. {0} je naziv paketa, {1} je veličina preuzetih paketa, a {2} je ukupna veličina paketa.</value>
-  </data>
-  <data name="Menu.Appearance.CustomThemes.DeleteFailed" xml:space="preserve">
-    <value>Neuspješno brisanje prilagođene teme {0}: {1}</value>
-  </data>
-  <data name="Menu.Appearance.CustomThemes.NoneSelected" xml:space="preserve">
-    <value>Nije odabrana prilagođena tema.</value>
-  </data>
-  <data name="Menu.Appearance.CustomThemes.RenameFailed" xml:space="preserve">
-    <value>Neuspješno preimenovanje prilagođene teme {0}: {1}</value>
-  </data>
-
-  <data name="CustomTheme.Add.Title" xml:space="preserve">
-    <value>Dodaj prilagođenu temu</value>
-  </data>
-  <data name="CustomTheme.Add.Errors.FileNotZip" xml:space="preserve">
-    <value>Datoteka mora biti ZIP</value>
-  </data>
-  <data name="CustomTheme.Add.Errors.NameEmpty" xml:space="preserve">
-    <value>Naziv ne može biti prazan</value>
-  </data>
-  <data name="CustomTheme.Add.Errors.NameIllegalCharacters" xml:space="preserve">
-    <value>Naziv sadrži nedopuštene znakove</value>
-  </data>
-  <data name="CustomTheme.Add.Errors.NameReserved" xml:space="preserve">
-    <value>Naziv nije moguće koristiti</value>
-  </data>
-  <data name="CustomTheme.Add.Errors.NameTaken" xml:space="preserve">
-    <value>Naziv je već u upotrebi</value>
-  </data>
-  <data name="CustomTheme.Add.Errors.Unknown" xml:space="preserve">
-    <value>Nepoznata pogreška</value>
-  </data>
-  <data name="CustomTheme.Add.Errors.ZipInvalidData" xml:space="preserve">
-    <value>Nevažeća ili oštećena ZIP datoteka</value>
-  </data>
-  <data name="CustomTheme.Add.Errors.ZipMissingThemeFile" xml:space="preserve">
-    <value>Datoteka teme nije pronađena u ZIP datoteci</value>
-  </data>
-  <data name="CustomTheme.Editor.Title" xml:space="preserve">
-    <value>Uređivanje "{0}"</value>
-  </data>
-  <data name="CustomTheme.Editor.ConfirmSave" xml:space="preserve">
-    <value>Spremiti promjene u {0}?</value>
-  </data>
-  <data name="CustomTheme.Editor.OpenThemeDirectory" xml:space="preserve">
-    <value>Otvori direktorij teme</value>
-  </data>
-  <data name="CustomTheme.Editor.Preview" xml:space="preserve">
-    <value>Pretpregled</value>
-  </data>
-  <data name="CustomTheme.Editor.Save" xml:space="preserve">
-    <value>Spremi</value>
-  </data>
-  <data name="CustomTheme.Editor.Save.Error" xml:space="preserve">
-    <value>Došlo je do greške pri spremanju teme.</value>
-  </data>
-  <data name="CustomTheme.Editor.Save.Success" xml:space="preserve">
-    <value>Tema je uspješno spremljena!</value>
-  </data>
-  <data name="CustomTheme.Errors.DialogAlreadyInitialised" xml:space="preserve">
-    <value>Prilagođeni dijaloški okvir već je inicijaliziran</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeBlacklistedUriScheme" xml:space="preserve">
-    <value>{0}.{1} koristi blokiranu shemu {2}</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeConversionError" xml:space="preserve">
-    <value>{0} ima nevažeći {1}: {2}</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeInvalidType" xml:space="preserve">
-    <value>{0} {1} nije važeći {2}</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeMissing" xml:space="preserve">
-    <value>Elementu {0} nedostaje atribut {1}</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeMissingChild" xml:space="preserve">
-    <value>{0}.{1} nedostaje njegovo dijete</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeMultipleChildren" xml:space="preserve">
-    <value>{0}.{1} može imati samo jedno dijete</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeMultipleDefinitions" xml:space="preserve">
-    <value>{0} može imati definirano samo jedno {1}</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeMustBeLargerThanMin" xml:space="preserve">
-    <value>{0} {1} mora biti veće od {2}</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeMustBeSmallerThanMax" xml:space="preserve">
-    <value>{0} {1} mora biti manje od {2}</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeParseError" xml:space="preserve">
-    <value>{0}.{1} ne može se raščlaniti u {2}</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementAttributeParseErrorNull" xml:space="preserve">
-    <value>{0}.{1} {2} je null</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementInvalidChild" xml:space="preserve">
-    <value>{0} ne može imati dijete {1}</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementMultipleChildren" xml:space="preserve">
-    <value>{0} može imati samo jedno dijete</value>
-  </data>
-  <data name="CustomTheme.Errors.ElementTypeCreationFailed" xml:space="preserve">
-    <value>{0} nije uspio stvoriti {1}: {2}</value>
-  </data>
-  <data name="CustomTheme.Errors.InvalidRoot" xml:space="preserve">
-    <value>Korijen XML teme nije {0}</value>
-  </data>
-  <data name="CustomTheme.Errors.NoThemeSelected" xml:space="preserve">
-    <value>Nije odabrana prilagođena tema</value>
-  </data>
-  <data name="CustomTheme.Errors.SetupFailed" xml:space="preserve">
-    <value>Postavljanje prilagođenog bootstrappera nije uspjelo: {0}.
- Vraćam na Fluent.</value>
-  </data>
-  <data name="CustomTheme.Errors.TooManyElements" xml:space="preserve">
-    <value>Prilagođeni bootstrapperi mogu imati najviše {0} elemenata, dobiveno {1}.</value>
-  </data>
-  <data name="CustomTheme.Errors.UnknownElement" xml:space="preserve">
-    <value>Nepoznati element {0}</value>
-  </data>
-  <data name="CustomTheme.Errors.UnknownEnumValue" xml:space="preserve">
-    <value>{0} nepoznato {1} {2}</value>
-  </data>
-  <data name="CustomTheme.Errors.VersionNotNumber" xml:space="preserve">
-    <value>Verzija {0} nije broj</value>
-  </data>
-  <data name="CustomTheme.Errors.VersionNotRecognised" xml:space="preserve">
-    <value>Verzija {0} {1} nije prepoznata</value>
-  </data>
-  <data name="CustomTheme.Errors.VersionNotSet" xml:space="preserve">
-    <value>Verzija {0} nije postavljena</value>
-  </data>
-  <data name="CustomTheme.Errors.VersionNotSupported" xml:space="preserve">
-    <value>Verzija {0} {1} više nije podržana</value>
-  </data>
-  <data name="CustomTheme.Errors.XMLParseFailed" xml:space="preserve">
-    <value>Neuspješno raščlanjivanje datoteke teme: {0}</value>
-  </data>
-
-  <data name="Boostrapper.Dialog.UnauthorizedChannel" xml:space="preserve">
-    <value>Kanal koji trenutno koristite ({0}) sada je ograničen za javnu uporabu. Sada ćete biti na zadanom kanalu ({1}).</value>
-  </data>
-  <data name="Bootstrapper.Bootstrapper.Dialog.PromptChannelChange" xml:space="preserve">
-    <value>Roblox pokušava postaviti vaš kanal na {0}, ali vaš trenutni preferirani kanal je {1}.
-
-Želite li promijeniti svoj preferirani kanal u {0}?</value>
-  </data>
-  <data name="Bootstrapper.Dialog.ChannelOutOfDate" xml:space="preserve">
-    <value>Kanal koji trenutno koristite ({0}) je zastario i čini se da više ne prima ažuriranja.\n
-Želite li prijeći na zadani kanal ({1})?</value>
-  </data>
-  <data name="Bootstrapper.Dialog.NoUpgradeWithoutClient" xml:space="preserve">
-    <value>Pokretanje nije uspjelo zbog nedostajućeg klijenta.
-		Molimo omogućite nadogradnje Robloxa.</value>
-  </data>
-  <data name="Bootstrapper.Status.CancelUpgrade" xml:space="preserve">
-    <value>Otkazivanje nadogradnje Robloxa.</value>
-  </data>
-  <data name="Bootstrapper.Status.Downloading" xml:space="preserve">
-    <value>Preuzimanje</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Categories.IngameMenu" xml:space="preserve">
-    <value>Roblox izbornik</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Categories.IngameMenu.Description" xml:space="preserve">
-    <value>Pojednostavite Roblox izbornik prilagođenim prekidačima</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Chromeui.Title" xml:space="preserve">
-    <value>Chrome UI</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Chromeui.Description" xml:space="preserve">
-    <value>Kada je onemogućeno, Roblox će koristiti staru gornju traku.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DarkMode" xml:space="preserve">
-    <value>DarkMode</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DarkMode.Title" xml:space="preserve">
-    <value>DarkMode</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DarkMode.Description" xml:space="preserve">
-    <value>Aktivira Robloxov rani pristup DarkMode</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.DisableGrass.Title" xml:space="preserve">
-    <value>Onemogući kretanje trave</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.FlagState.Title" xml:space="preserve">
-    <value>Stanje flaga</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.FlagState.Description" xml:space="preserve">
-    <value>Prikaži vrijednosti navedenih flagova tijekom izvođenja. Svaki flag odvojen zarezom.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.ChatTranslation.Title" xml:space="preserve">
-    <value>Prijevod chata</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.ChatTranslation.Description" xml:space="preserve">
-    <value>Onemogućuje automatski prijevod poruka chata.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.Framerate.Title" xml:space="preserve">
-    <value>Ograničenje broja sličica</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.Framerate.Description" xml:space="preserve">
-    <value>Uklanja FPS unaprijed postavljene postavke iz izbornika.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.Haptics.Title" xml:space="preserve">
-    <value>Gumb haptike</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.Haptics.Description" xml:space="preserve">
-    <value>Onemogućuje značajke haptičke povratne informacije, poput vibracija za kontrolere.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.LanguageSelector.Title" xml:space="preserve">
-    <value>Birač jezika</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.LanguageSelector.Description" xml:space="preserve">
-    <value>Omogućuje igračima da onemoguće prijevod sučelja.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.SoothsayerCheck.Title" xml:space="preserve">
-    <value>Gumb za povratne informacije</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.SoothsayerCheck.Description" xml:space="preserve">
-    <value>Skriva gumb za slanje povratnih informacija o kvaliteti prijevoda.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.VRToggle.Title" xml:space="preserve">
-    <value>VR prekidač</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.IngameMenu.VRToggle.Description" xml:space="preserve">
-    <value>Omogućuje onemogućavanje VR moda.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Layered" xml:space="preserve">
-    <value>Slojevito</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Layered.Title" xml:space="preserve">
-    <value>Slojevita odjeća</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Layered.Description" xml:space="preserve">
-    <value>Sprječava renderiranje slojevite odjeće na avatarima drugih igrača.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.PingBreakdown.Title" xml:space="preserve">
-    <value>Razlomak pinga</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.PingBreakdown.Description" xml:space="preserve">
-    <value>Šalje detaljne informacije o pingu u Roblox konzolu.</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Preload" xml:space="preserve">
-    <value>Predučitavanje</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Preload.Title" xml:space="preserve">
-    <value>Predučitavanje</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Preload.Description" xml:space="preserve">
-    <value>Predučitava većinu tekstura i fontova (Upozorenje: može produžiti vrijeme učitavanja!)</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
-    <value>Telemetry</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Telemetry.Title" xml:space="preserve">
-    <value>Onemogući Roblox telemetriju</value>
-  </data>
-  <data name="Menu.FastFlags.Presets.Telemetry.Description" xml:space="preserve">
-    <value>Napomena: ovo onemogućuje samo dio Roblox telemetrije.</value>
   </data>
 </root>
