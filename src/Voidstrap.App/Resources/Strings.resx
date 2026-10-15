@@ -631,7 +631,7 @@ If not, then please report this exception through a [GitHub issue]({1}) along wi
     <value>Custom</value>
   </data>
   <data name="Enums.BootstrapperIcon.IconEarly2015" xml:space="preserve">
-    <value />
+    <value>Early 2015</value>
   </data>
   <data name="Enums.BootstrapperIcon.IconLate2015" xml:space="preserve">
     <value>Late 2015</value>
@@ -1708,10 +1708,10 @@ Please close any applications that may be using Roblox's files, and relaunch.</v
     <comment>Label that appears next to a checkbox</comment>
   </data>
   <data name="Dialog.Connectivity.Preventing" xml:space="preserve">
-    <value />
+    <value>Something is likely preventing Voidstrap from connecting to the internet.</value>
   </data>
   <data name="Dialog.Connectivity.TimedOut" xml:space="preserve">
-    <value />
+    <value>The connection timed out, which could indicate a poor internet connection or a firewall block.</value>
   </data>
   <data name="Menu.Channel.Description" xml:space="preserve">
     <value>Change deployment and installation settings for Roblox &amp; Voidstrap.</value>
