@@ -125,9 +125,6 @@
 
 您确定要继续启动吗？</value>
   </data>
-  <data name="Dialog.Connectivity.Preventing" xml:space="preserve">
-    <value>某些东西可能正在阻止 Voidstrap 连接至互联网。</value>
-  </data>
   <data name="Dialog.Connectivity.RobloxDown" xml:space="preserve">
     <value>Roblox 的服务器目前可能已经熟透了；请参阅 {0} 来了解更多信息。</value>
   </data>
@@ -167,12 +164,6 @@
   </data>
   <data name="Bootstrapper.Status.WaitingOtherInstances" xml:space="preserve">
     <value>正在等待其他 Roblox 进程退出...</value>
-  </data>
-  <data name="Dialog.Connectivity.TimedOut" xml:space="preserve">
-    <value>连接超时；可能表明当前网络连接不畅或被防火墙阻止。</value>
-  </data>
-  <data name="Enums.BootstrapperIcon.IconEarly2015" xml:space="preserve">
-    <value>2015 前半年</value>
   </data>
   <data name="Enums.CustomThemeTemplate.Blank" xml:space="preserve">
     <value>空白</value>
@@ -477,6 +468,9 @@
   </data>
   <data name="Common.Custom" xml:space="preserve">
     <value>自定义</value>
+  </data>
+  <data name="Enums.BootstrapperIcon.IconEarly2015" xml:space="preserve">
+    <value>2015 前半年</value>
   </data>
   <data name="Enums.BootstrapperIcon.IconLate2015" xml:space="preserve">
     <value>2015 后半年</value>
@@ -1493,6 +1487,12 @@ Voidstrap 的安装路径是：
   <data name="Menu.Voidstrap.ExportData.ExportLogs" xml:space="preserve">
     <value>所有 Voidstrap 日志</value>
     <comment>Label that appears next to a checkbox</comment>
+  </data>
+  <data name="Dialog.Connectivity.Preventing" xml:space="preserve">
+    <value>某些东西可能正在阻止 Voidstrap 连接至互联网。</value>
+  </data>
+  <data name="Dialog.Connectivity.TimedOut" xml:space="preserve">
+    <value>连接超时；可能表明当前网络连接不畅或被防火墙阻止。</value>
   </data>
   <data name="Menu.Channel.RobloxUpgrades.Description" xml:space="preserve">
     <value>禁用后，Roblox 客户端不会升级到新版本。</value>

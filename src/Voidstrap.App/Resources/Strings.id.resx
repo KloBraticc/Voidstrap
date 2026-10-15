@@ -163,9 +163,6 @@
   <data name="Bootstrapper.Status.WaitingOtherInstances" xml:space="preserve">
     <value>Menunggu untuk instansi lainnya...</value>
   </data>
-  <data name="Enums.BootstrapperIcon.IconEarly2015" xml:space="preserve">
-    <value>Awal 2015</value>
-  </data>
   <data name="Enums.CustomThemeTemplate.Blank" xml:space="preserve">
     <value>Kosong</value>
   </data>
@@ -454,6 +451,9 @@ Jika belym, Mohon laporkan masalah ini melalui [GitHub issue]({1}) bersama file 
   </data>
   <data name="Common.Custom" xml:space="preserve">
     <value>Kustom</value>
+  </data>
+  <data name="Enums.BootstrapperIcon.IconEarly2015" xml:space="preserve">
+    <value>Awal 2015</value>
   </data>
   <data name="Enums.BootstrapperIcon.IconLate2015" xml:space="preserve">
     <value>Akhir 2015</value>

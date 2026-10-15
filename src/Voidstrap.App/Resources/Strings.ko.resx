@@ -166,9 +166,6 @@
   <data name="Bootstrapper.Status.WaitingOtherInstances" xml:space="preserve">
     <value>다른 인스턴스를 기다리는 중...</value>
   </data>
-  <data name="Enums.BootstrapperIcon.IconEarly2015" xml:space="preserve">
-    <value>2015 초</value>
-  </data>
   <data name="Enums.ModApplyTarget.Both" xml:space="preserve">
     <value>모두</value>
   </data>
@@ -479,6 +476,9 @@
   </data>
   <data name="Common.Custom" xml:space="preserve">
     <value>사용자 지정</value>
+  </data>
+  <data name="Enums.BootstrapperIcon.IconEarly2015" xml:space="preserve">
+    <value>2015 초</value>
   </data>
   <data name="Enums.BootstrapperIcon.IconLate2015" xml:space="preserve">
     <value>2015 말</value>
