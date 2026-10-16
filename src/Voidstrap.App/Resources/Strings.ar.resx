@@ -4609,4 +4609,181 @@
   <data name="Ui.Integrations.PlaceID" xml:space="preserve">
     <value>Place ID</value>
   </data>
+  <data name="Ui.Channel.InstallLocation" xml:space="preserve">
+    <value>موقع التثبيت</value>
+  </data>
+  <data name="Ui.Channel.MoveWhereVoidstrapIsInstalledThe" xml:space="preserve">
+    <value>ينقل مكان تثبيت Voidstrap. يُعاد تشغيل التطبيق تلقائيًا عند الانتهاء.</value>
+  </data>
+  <data name="Ui.Channel.Browse" xml:space="preserve">
+    <value>استعراض...</value>
+  </data>
+  <data name="Ui.Channel.VoidstrapCPULimit" xml:space="preserve">
+    <value>حد المعالج لـ Voidstrap</value>
+  </data>
+  <data name="Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity" xml:space="preserve">
+    <value>يحدّ من تقارب المعالج لـ Voidstrap نفسه. اتركه على الحد الأقصى ما لم يحتج تطبيق نشط آخر إلى أنوية محجوزة.</value>
+  </data>
+  <data name="Ui.Channel.IncludePreReleaseVersions" xml:space="preserve">
+    <value>تضمين الإصدارات التجريبية</value>
+  </data>
+  <data name="Ui.Channel.UpdatesToTestBuildsAsSoon" xml:space="preserve">
+    <value>يحدّث إلى إصدارات الاختبار فور نشرها. هي أقل اختبارًا من الإصدارات العادية وقد تتعطل، لذا اتركه متوقفًا ما لم ترغب في الإصدارات المبكرة.</value>
+  </data>
+  <data name="Ui.Channel.LaunchRobloxWithoutVoidstrap" xml:space="preserve">
+    <value>تشغيل Roblox بدون Voidstrap</value>
+  </data>
+  <data name="Ui.Channel.JoiningAGameFromYourBrowser" xml:space="preserve">
+    <value>الانضمام إلى لعبة من المتصفح يفتح Roblox مباشرة، والتشغيل من Voidstrap يغلقه فور بدء Roblox. تتوقف الطبقات وجميع ميزات Voidstrap الأخرى داخل اللعبة.</value>
+  </data>
+  <data name="Ui.Channel.DisplayAndResolution" xml:space="preserve">
+    <value>العرض والدقة</value>
+  </data>
+  <data name="Ui.Channel.Identify" xml:space="preserve">
+    <value>تعريف</value>
+  </data>
+  <data name="Ui.Channel.ResolutionChanger" xml:space="preserve">
+    <value>مغيّر الدقة</value>
+  </data>
+  <data name="Ui.Channel.ChangesTheResolutionOfTheSelected" xml:space="preserve">
+    <value>يغيّر دقة الشاشة المحددة.</value>
+  </data>
+  <data name="Ui.Channel.ResolutionChangerInGame" xml:space="preserve">
+    <value>مغيّر الدقة (داخل اللعبة)</value>
+  </data>
+  <data name="Ui.Channel.AppliesToTheSelectedMonitorWhile" xml:space="preserve">
+    <value>يُطبَّق على الشاشة المحددة أثناء وجودك في لعبة Roblox، ثم يستعيد دقتك السابقة عند المغادرة.</value>
+  </data>
+  <data name="Ui.Channel.OnlyApplyForASpecificPlaceId" xml:space="preserve">
+    <value>التطبيق فقط على PlaceId محدد</value>
+  </data>
+  <data name="Ui.Channel.AppSettings" xml:space="preserve">
+    <value>إعدادات التطبيق</value>
+  </data>
+  <data name="Ui.Channel.HardwareAcceleration" xml:space="preserve">
+    <value>تسريع العتاد</value>
+  </data>
+  <data name="Ui.Channel.UsesTheGPUToRenderVoidstrap" xml:space="preserve">
+    <value>يستخدم GPU لعرض Voidstrap. أوقفه للتوافق أو لتقليل استخدام ذاكرة الفيديو.</value>
+  </data>
+  <data name="Ui.Channel.DisplaysVoidstrapsDiscordRPC" xml:space="preserve">
+    <value>يعرض Discord RPC الخاص بـ Voidstrap.</value>
+  </data>
+  <data name="Ui.Channel.VoidstrapRPC" xml:space="preserve">
+    <value>Voidstrap RPC</value>
+  </data>
+  <data name="Ui.Channel.FactoryReset" xml:space="preserve">
+    <value>إعادة ضبط المصنع</value>
+  </data>
+  <data name="Ui.Channel.Donate" xml:space="preserve">
+    <value>تبرّع</value>
+  </data>
+  <data name="Ui.Channel.Installer" xml:space="preserve">
+    <value>المثبّت</value>
+  </data>
+  <data name="Ui.Channel.DownloadServer" xml:space="preserve">
+    <value>خادم التنزيل</value>
+  </data>
+  <data name="Ui.Channel.UsedWhenRobloxIsInstalledOr" xml:space="preserve">
+    <value>يُستخدم عند تثبيت Roblox أو تحديثه</value>
+  </data>
+  <data name="Ui.Channel.DownloadBufferSizeKB" xml:space="preserve">
+    <value>حجم مخزن التنزيل (KB)</value>
+  </data>
+  <data name="Ui.Channel.LargerBuffersCanSpeedUpDownloads" xml:space="preserve">
+    <value>المخازن الأكبر قد تسرّع التنزيل على الاتصالات السريعة</value>
+  </data>
+  <data name="Ui.Channel.ConcurrentDownloads" xml:space="preserve">
+    <value>التنزيلات المتزامنة</value>
+  </data>
+  <data name="Ui.Channel.HowManyPackagesDownloadAtThe" xml:space="preserve">
+    <value>عدد الحزم التي تُنزَّل في الوقت نفسه. الأعلى أسرع لكنه يستهلك نطاقًا أكبر</value>
+  </data>
+  <data name="Ui.Channel.SegmentsPerFile" xml:space="preserve">
+    <value>المقاطع لكل ملف</value>
+  </data>
+  <data name="Ui.Channel.SplitsEachPackageIntoParallelChunks" xml:space="preserve">
+    <value>يقسّم كل حزمة إلى أجزاء متوازية لتنزيل أسرع</value>
+  </data>
+  <data name="Ui.Channel.StaticDirectory" xml:space="preserve">
+    <value>مجلد ثابت</value>
+  </data>
+  <data name="Ui.Channel.SwitchFromVersionXxxToBinaryType" xml:space="preserve">
+    <value>يتحول من مجلدات version xxx إلى مجلدات تثبيت مبنية على BinaryType.</value>
+  </data>
+  <data name="Ui.Channel.CompressRobloxInstalls" xml:space="preserve">
+    <value>ضغط تثبيتات Roblox</value>
+  </data>
+  <data name="Ui.Channel.PacksRobloxIntoACompressedArchive" xml:space="preserve">
+    <value>يحزم Roblox في أرشيف مضغوط أثناء إغلاقه، أصغر بنحو 40% على القرص. يُفك ضغط النسخة التي تشغّلها أولًا فقط، ويستغرق ذلك ثانية أو اثنتين.</value>
+  </data>
+  <data name="Ui.Channel.AllocatedMemory" xml:space="preserve">
+    <value>الذاكرة المخصصة</value>
+  </data>
+  <data name="Ui.Channel.HowMuchMemoryRobloxIsAllowed" xml:space="preserve">
+    <value>مقدار الذاكرة المسموح لـ Roblox باستخدامها</value>
+  </data>
+  <data name="Ui.Channel.GameUpdateDelivery" xml:space="preserve">
+    <value>تسليم تحديثات اللعبة</value>
+  </data>
+  <data name="Ui.Channel.SelectWhenYouDLikeTo" xml:space="preserve">
+    <value>اختر متى تريد تلقي تحديثات Roblox</value>
+  </data>
+  <data name="Ui.Channel.Normal" xml:space="preserve">
+    <value>عادي</value>
+  </data>
+  <data name="Ui.Channel.YouGetEachRobloxUpdateOn" xml:space="preserve">
+    <value>تحصل على كل تحديث لـ Roblox عند التشغيل التالي بعد صدوره</value>
+  </data>
+  <data name="Ui.Channel.EarlyOptIn" xml:space="preserve">
+    <value>مبكر (Opt in)</value>
+  </data>
+  <data name="Ui.Channel.ChecksRobloxSOwnVersionServer" xml:space="preserve">
+    <value>يسأل خادم إصدارات Roblox أولًا، فيُلتقط التحديث الجديد فور صدوره بدلًا من انتظار النسخة المخزنة</value>
+  </data>
+  <data name="Ui.Channel.LateOptOut" xml:space="preserve">
+    <value>متأخر (Opt out)</value>
+  </data>
+  <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
+    <value>يحتفظ بإصدارك 3 أيام بعد كل تحديث لـ Roblox لتُصلح الأخطاء المبكرة أولًا، ثم يحدّث نفسه. التثبيت المفقود أو التالف يُحدَّث دائمًا فورًا</value>
+  </data>
+  <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
+    <value>وضع الكفاءة</value>
+  </data>
+  <data name="Ui.Channel.RobloxPriority" xml:space="preserve">
+    <value>أولوية Roblox</value>
+  </data>
+  <data name="Ui.Channel.WhenDisabledRobloxWonTUpdate" xml:space="preserve">
+    <value>عند التعطيل، لن يتحدث Roblox إلى الإصدارات الأحدث.</value>
+  </data>
+  <data name="Ui.Channel.RobloxUpdates" xml:space="preserve">
+    <value>تحديثات Roblox</value>
+  </data>
+  <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
+    <value>القنوات   [Roblox Build]</value>
+  </data>
+  <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
+    <value>أدخل اسم قناة النشر. القنوات غير الصالحة ستسبب الخطأين 403 404!</value>
+  </data>
+  <data name="Ui.Channel.EnterDeploymentChannelEGProduction" xml:space="preserve">
+    <value>أدخل قناة النشر (مثل production, zlive, live)</value>
+  </data>
+  <data name="Ui.Channel.DeploymentChannel" xml:space="preserve">
+    <value>قناة النشر</value>
+  </data>
+  <data name="Ui.Channel.ApplyChannel" xml:space="preserve">
+    <value>تطبيق القناة</value>
+  </data>
+  <data name="Ui.Channel.Channels" xml:space="preserve">
+    <value>القنوات</value>
+  </data>
+  <data name="Ui.Channel.ApplyingADifferentChannelClearsThe" xml:space="preserve">
+    <value>تطبيق قناة مختلفة يمسح إصدار Roblox المنزَّل حتى تتمكن القناة الجديدة من التثبيت</value>
+  </data>
+  <data name="Ui.Channel.RendererBackend" xml:space="preserve">
+    <value>واجهة العرض الخلفية</value>
+  </data>
+  <data name="Ui.Channel.ChoosesTheGraphicsBackendVoidstrapDraws" xml:space="preserve">
+    <value>يختار الواجهة الرسومية التي يرسم بها Voidstrap نفسه. التلقائي يختار الأسرع الذي يدعمه نظامك. يسري التغيير عند تشغيل Voidstrap في المرة القادمة.</value>
+  </data>
 </root>

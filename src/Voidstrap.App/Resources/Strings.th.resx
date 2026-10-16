@@ -4572,4 +4572,181 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
   <data name="Ui.Integrations.PlaceID" xml:space="preserve">
     <value>Place ID</value>
   </data>
+  <data name="Ui.Channel.InstallLocation" xml:space="preserve">
+    <value>ตำแหน่งติดตั้ง</value>
+  </data>
+  <data name="Ui.Channel.MoveWhereVoidstrapIsInstalledThe" xml:space="preserve">
+    <value>ย้ายตำแหน่งที่ติดตั้ง Voidstrap แอปจะรีสตาร์ทอัตโนมัติเมื่อเสร็จ</value>
+  </data>
+  <data name="Ui.Channel.Browse" xml:space="preserve">
+    <value>เรียกดู...</value>
+  </data>
+  <data name="Ui.Channel.VoidstrapCPULimit" xml:space="preserve">
+    <value>ขีดจำกัด CPU ของ Voidstrap</value>
+  </data>
+  <data name="Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity" xml:space="preserve">
+    <value>จำกัดความสัมพันธ์ของโปรเซสเซอร์ของ Voidstrap เอง ปล่อยไว้สูงสุดเว้นแต่แอปอื่นที่ทำงานอยู่ต้องการคอร์ที่สงวนไว้</value>
+  </data>
+  <data name="Ui.Channel.IncludePreReleaseVersions" xml:space="preserve">
+    <value>รวมเวอร์ชันก่อนเผยแพร่</value>
+  </data>
+  <data name="Ui.Channel.UpdatesToTestBuildsAsSoon" xml:space="preserve">
+    <value>อัปเดตเป็นบิลด์ทดสอบทันทีที่เผยแพร่ บิลด์เหล่านี้ทดสอบน้อยกว่ารุ่นปกติและอาจเสียได้ จึงควรปิดไว้เว้นแต่คุณต้องการบิลด์ก่อนใคร</value>
+  </data>
+  <data name="Ui.Channel.LaunchRobloxWithoutVoidstrap" xml:space="preserve">
+    <value>เปิด Roblox โดยไม่ใช้ Voidstrap</value>
+  </data>
+  <data name="Ui.Channel.JoiningAGameFromYourBrowser" xml:space="preserve">
+    <value>การเข้าเกมจากเบราว์เซอร์จะเปิด Roblox โดยตรง และการเปิดจาก Voidstrap จะปิดตัวเองเมื่อ Roblox เริ่มทำงาน โอเวอร์เลย์และฟีเจอร์อื่นของ Voidstrap ในเกมจะหยุดทำงาน</value>
+  </data>
+  <data name="Ui.Channel.DisplayAndResolution" xml:space="preserve">
+    <value>จอแสดงผลและความละเอียด</value>
+  </data>
+  <data name="Ui.Channel.Identify" xml:space="preserve">
+    <value>ระบุ</value>
+  </data>
+  <data name="Ui.Channel.ResolutionChanger" xml:space="preserve">
+    <value>ตัวเปลี่ยนความละเอียด</value>
+  </data>
+  <data name="Ui.Channel.ChangesTheResolutionOfTheSelected" xml:space="preserve">
+    <value>เปลี่ยนความละเอียดของจอที่เลือก</value>
+  </data>
+  <data name="Ui.Channel.ResolutionChangerInGame" xml:space="preserve">
+    <value>ตัวเปลี่ยนความละเอียด (ในเกม)</value>
+  </data>
+  <data name="Ui.Channel.AppliesToTheSelectedMonitorWhile" xml:space="preserve">
+    <value>ใช้กับจอที่เลือกขณะคุณอยู่ในเกม Roblox แล้วคืนความละเอียดเดิมเมื่อคุณออก</value>
+  </data>
+  <data name="Ui.Channel.OnlyApplyForASpecificPlaceId" xml:space="preserve">
+    <value>ใช้เฉพาะกับ PlaceId ที่ระบุ</value>
+  </data>
+  <data name="Ui.Channel.AppSettings" xml:space="preserve">
+    <value>การตั้งค่าแอป</value>
+  </data>
+  <data name="Ui.Channel.HardwareAcceleration" xml:space="preserve">
+    <value>การเร่งด้วยฮาร์ดแวร์</value>
+  </data>
+  <data name="Ui.Channel.UsesTheGPUToRenderVoidstrap" xml:space="preserve">
+    <value>ใช้ GPU ในการแสดงผล Voidstrap ปิดเพื่อความเข้ากันได้หรือลดการใช้หน่วยความจำวิดีโอ</value>
+  </data>
+  <data name="Ui.Channel.DisplaysVoidstrapsDiscordRPC" xml:space="preserve">
+    <value>แสดง Discord RPC ของ Voidstrap</value>
+  </data>
+  <data name="Ui.Channel.VoidstrapRPC" xml:space="preserve">
+    <value>Voidstrap RPC</value>
+  </data>
+  <data name="Ui.Channel.FactoryReset" xml:space="preserve">
+    <value>รีเซ็ตเป็นค่าโรงงาน</value>
+  </data>
+  <data name="Ui.Channel.Donate" xml:space="preserve">
+    <value>บริจาค</value>
+  </data>
+  <data name="Ui.Channel.Installer" xml:space="preserve">
+    <value>ตัวติดตั้ง</value>
+  </data>
+  <data name="Ui.Channel.DownloadServer" xml:space="preserve">
+    <value>เซิร์ฟเวอร์ดาวน์โหลด</value>
+  </data>
+  <data name="Ui.Channel.UsedWhenRobloxIsInstalledOr" xml:space="preserve">
+    <value>ใช้เมื่อติดตั้งหรืออัปเดต Roblox</value>
+  </data>
+  <data name="Ui.Channel.DownloadBufferSizeKB" xml:space="preserve">
+    <value>ขนาดบัฟเฟอร์ดาวน์โหลด (KB)</value>
+  </data>
+  <data name="Ui.Channel.LargerBuffersCanSpeedUpDownloads" xml:space="preserve">
+    <value>บัฟเฟอร์ที่ใหญ่ขึ้นช่วยให้ดาวน์โหลดเร็วขึ้นบนการเชื่อมต่อที่เร็ว</value>
+  </data>
+  <data name="Ui.Channel.ConcurrentDownloads" xml:space="preserve">
+    <value>ดาวน์โหลดพร้อมกัน</value>
+  </data>
+  <data name="Ui.Channel.HowManyPackagesDownloadAtThe" xml:space="preserve">
+    <value>จำนวนแพ็กเกจที่ดาวน์โหลดพร้อมกัน มากขึ้นเร็วขึ้นแต่ใช้แบนด์วิดท์มากขึ้น</value>
+  </data>
+  <data name="Ui.Channel.SegmentsPerFile" xml:space="preserve">
+    <value>จำนวนส่วนต่อไฟล์</value>
+  </data>
+  <data name="Ui.Channel.SplitsEachPackageIntoParallelChunks" xml:space="preserve">
+    <value>แบ่งแต่ละแพ็กเกจเป็นส่วนย่อยแบบขนานเพื่อดาวน์โหลดเร็วขึ้น</value>
+  </data>
+  <data name="Ui.Channel.StaticDirectory" xml:space="preserve">
+    <value>ไดเรกทอรีคงที่</value>
+  </data>
+  <data name="Ui.Channel.SwitchFromVersionXxxToBinaryType" xml:space="preserve">
+    <value>เปลี่ยนจากไดเรกทอรี version xxx เป็นไดเรกทอรีติดตั้งตาม BinaryType</value>
+  </data>
+  <data name="Ui.Channel.CompressRobloxInstalls" xml:space="preserve">
+    <value>บีบอัดการติดตั้ง Roblox</value>
+  </data>
+  <data name="Ui.Channel.PacksRobloxIntoACompressedArchive" xml:space="preserve">
+    <value>แพ็ก Roblox เป็นไฟล์บีบอัดขณะปิดอยู่ เล็กลงประมาณ 40% บนดิสก์ เฉพาะเวอร์ชันที่คุณเปิดจะถูกแตกไฟล์ก่อน ใช้เวลาหนึ่งถึงสองวินาที</value>
+  </data>
+  <data name="Ui.Channel.AllocatedMemory" xml:space="preserve">
+    <value>หน่วยความจำที่จัดสรร</value>
+  </data>
+  <data name="Ui.Channel.HowMuchMemoryRobloxIsAllowed" xml:space="preserve">
+    <value>ปริมาณหน่วยความจำที่ Roblox ใช้ได้</value>
+  </data>
+  <data name="Ui.Channel.GameUpdateDelivery" xml:space="preserve">
+    <value>การส่งอัปเดตเกม</value>
+  </data>
+  <data name="Ui.Channel.SelectWhenYouDLikeTo" xml:space="preserve">
+    <value>เลือกเวลาที่คุณต้องการรับอัปเดต Roblox</value>
+  </data>
+  <data name="Ui.Channel.Normal" xml:space="preserve">
+    <value>ปกติ</value>
+  </data>
+  <data name="Ui.Channel.YouGetEachRobloxUpdateOn" xml:space="preserve">
+    <value>คุณจะได้รับแต่ละอัปเดตของ Roblox ในการเปิดครั้งถัดไปหลังเผยแพร่</value>
+  </data>
+  <data name="Ui.Channel.EarlyOptIn" xml:space="preserve">
+    <value>เร็ว (Opt in)</value>
+  </data>
+  <data name="Ui.Channel.ChecksRobloxSOwnVersionServer" xml:space="preserve">
+    <value>ถามเซิร์ฟเวอร์เวอร์ชันของ Roblox ก่อน เพื่อรับอัปเดตใหม่ทันทีที่ออกแทนการรอสำเนาในแคช</value>
+  </data>
+  <data name="Ui.Channel.LateOptOut" xml:space="preserve">
+    <value>ช้า (Opt out)</value>
+  </data>
+  <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
+    <value>เก็บเวอร์ชันของคุณไว้ 3 วันหลังแต่ละอัปเดตของ Roblox เพื่อให้แก้บั๊กช่วงแรกก่อน แล้วจึงอัปเดตเอง การติดตั้งที่หายไปหรือเสียจะอัปเดตทันทีเสมอ</value>
+  </data>
+  <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
+    <value>โหมดประหยัดพลังงาน</value>
+  </data>
+  <data name="Ui.Channel.RobloxPriority" xml:space="preserve">
+    <value>ลำดับความสำคัญของ Roblox</value>
+  </data>
+  <data name="Ui.Channel.WhenDisabledRobloxWonTUpdate" xml:space="preserve">
+    <value>เมื่อปิด Roblox จะไม่อัปเดตเป็นเวอร์ชันใหม่</value>
+  </data>
+  <data name="Ui.Channel.RobloxUpdates" xml:space="preserve">
+    <value>อัปเดต Roblox</value>
+  </data>
+  <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
+    <value>ช่อง   [Roblox Build]</value>
+  </data>
+  <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
+    <value>ใส่ชื่อช่องการปรับใช้ ช่องที่ไม่ถูกต้องจะทำให้เกิดข้อผิดพลาด 403 404!</value>
+  </data>
+  <data name="Ui.Channel.EnterDeploymentChannelEGProduction" xml:space="preserve">
+    <value>ใส่ช่องการปรับใช้ (เช่น production, zlive, live)</value>
+  </data>
+  <data name="Ui.Channel.DeploymentChannel" xml:space="preserve">
+    <value>ช่องการปรับใช้</value>
+  </data>
+  <data name="Ui.Channel.ApplyChannel" xml:space="preserve">
+    <value>ใช้ช่อง</value>
+  </data>
+  <data name="Ui.Channel.Channels" xml:space="preserve">
+    <value>ช่อง</value>
+  </data>
+  <data name="Ui.Channel.ApplyingADifferentChannelClearsThe" xml:space="preserve">
+    <value>การใช้ช่องอื่นจะล้างเวอร์ชัน Roblox ที่ดาวน์โหลดไว้เพื่อให้ช่องใหม่ติดตั้งได้</value>
+  </data>
+  <data name="Ui.Channel.RendererBackend" xml:space="preserve">
+    <value>แบ็กเอนด์การเรนเดอร์</value>
+  </data>
+  <data name="Ui.Channel.ChoosesTheGraphicsBackendVoidstrapDraws" xml:space="preserve">
+    <value>เลือกแบ็กเอนด์กราฟิกที่ Voidstrap ใช้วาดตัวเอง อัตโนมัติจะเลือกตัวที่เร็วที่สุดที่ระบบรองรับ การเปลี่ยนแปลงจะมีผลเมื่อเปิด Voidstrap ครั้งถัดไป</value>
+  </data>
 </root>

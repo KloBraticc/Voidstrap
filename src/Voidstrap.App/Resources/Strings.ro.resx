@@ -4560,4 +4560,181 @@ Ce vrei să faci?</value>
   <data name="Ui.Integrations.PlaceID" xml:space="preserve">
     <value>Place ID</value>
   </data>
+  <data name="Ui.Channel.InstallLocation" xml:space="preserve">
+    <value>Locația instalării</value>
+  </data>
+  <data name="Ui.Channel.MoveWhereVoidstrapIsInstalledThe" xml:space="preserve">
+    <value>Mută locul unde este instalat Voidstrap. Aplicația repornește automat la final.</value>
+  </data>
+  <data name="Ui.Channel.Browse" xml:space="preserve">
+    <value>Răsfoiește...</value>
+  </data>
+  <data name="Ui.Channel.VoidstrapCPULimit" xml:space="preserve">
+    <value>Limită CPU pentru Voidstrap</value>
+  </data>
+  <data name="Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity" xml:space="preserve">
+    <value>Limitează afinitatea procesorului pentru Voidstrap. Las o la maxim dacă o altă aplicație activă nu are nevoie de nuclee rezervate.</value>
+  </data>
+  <data name="Ui.Channel.IncludePreReleaseVersions" xml:space="preserve">
+    <value>Include versiunile de previzualizare</value>
+  </data>
+  <data name="Ui.Channel.UpdatesToTestBuildsAsSoon" xml:space="preserve">
+    <value>Actualizează la versiunile de test imediat ce apar. Sunt mai puțin testate decât cele normale și pot avea erori, așa că lasă dezactivat dacă nu vrei versiuni timpurii.</value>
+  </data>
+  <data name="Ui.Channel.LaunchRobloxWithoutVoidstrap" xml:space="preserve">
+    <value>Pornește Roblox fără Voidstrap</value>
+  </data>
+  <data name="Ui.Channel.JoiningAGameFromYourBrowser" xml:space="preserve">
+    <value>Intrarea într un joc din browser deschide Roblox direct, iar pornirea din Voidstrap îl închide după ce Roblox pornește. Suprapunerile și toate celelalte funcții Voidstrap din joc nu mai funcționează.</value>
+  </data>
+  <data name="Ui.Channel.DisplayAndResolution" xml:space="preserve">
+    <value>Afișaj și rezoluție</value>
+  </data>
+  <data name="Ui.Channel.Identify" xml:space="preserve">
+    <value>Identifică</value>
+  </data>
+  <data name="Ui.Channel.ResolutionChanger" xml:space="preserve">
+    <value>Schimbare rezoluție</value>
+  </data>
+  <data name="Ui.Channel.ChangesTheResolutionOfTheSelected" xml:space="preserve">
+    <value>Schimbă rezoluția monitorului selectat.</value>
+  </data>
+  <data name="Ui.Channel.ResolutionChangerInGame" xml:space="preserve">
+    <value>Schimbare rezoluție (în joc)</value>
+  </data>
+  <data name="Ui.Channel.AppliesToTheSelectedMonitorWhile" xml:space="preserve">
+    <value>Se aplică monitorului selectat cât ești într un joc Roblox, apoi restabilește rezoluția anterioară când ieși.</value>
+  </data>
+  <data name="Ui.Channel.OnlyApplyForASpecificPlaceId" xml:space="preserve">
+    <value>Aplică doar pentru un anumit PlaceId</value>
+  </data>
+  <data name="Ui.Channel.AppSettings" xml:space="preserve">
+    <value>Setările aplicației</value>
+  </data>
+  <data name="Ui.Channel.HardwareAcceleration" xml:space="preserve">
+    <value>Accelerare hardware</value>
+  </data>
+  <data name="Ui.Channel.UsesTheGPUToRenderVoidstrap" xml:space="preserve">
+    <value>Folosește GPU ul pentru afișarea Voidstrap. Dezactiveaz o pentru compatibilitate sau mai puțină memorie video.</value>
+  </data>
+  <data name="Ui.Channel.DisplaysVoidstrapsDiscordRPC" xml:space="preserve">
+    <value>Afișează Discord RPC ul Voidstrap.</value>
+  </data>
+  <data name="Ui.Channel.VoidstrapRPC" xml:space="preserve">
+    <value>Voidstrap RPC</value>
+  </data>
+  <data name="Ui.Channel.FactoryReset" xml:space="preserve">
+    <value>Resetare la setările din fabrică</value>
+  </data>
+  <data name="Ui.Channel.Donate" xml:space="preserve">
+    <value>Donează</value>
+  </data>
+  <data name="Ui.Channel.Installer" xml:space="preserve">
+    <value>Instalator</value>
+  </data>
+  <data name="Ui.Channel.DownloadServer" xml:space="preserve">
+    <value>Server de descărcare</value>
+  </data>
+  <data name="Ui.Channel.UsedWhenRobloxIsInstalledOr" xml:space="preserve">
+    <value>Folosit la instalarea sau actualizarea Roblox</value>
+  </data>
+  <data name="Ui.Channel.DownloadBufferSizeKB" xml:space="preserve">
+    <value>Dimensiunea bufferului de descărcare (KB)</value>
+  </data>
+  <data name="Ui.Channel.LargerBuffersCanSpeedUpDownloads" xml:space="preserve">
+    <value>Bufferele mai mari pot accelera descărcările pe conexiuni rapide</value>
+  </data>
+  <data name="Ui.Channel.ConcurrentDownloads" xml:space="preserve">
+    <value>Descărcări simultane</value>
+  </data>
+  <data name="Ui.Channel.HowManyPackagesDownloadAtThe" xml:space="preserve">
+    <value>Câte pachete se descarcă în același timp. Mai mult e mai rapid, dar folosește mai multă lățime de bandă</value>
+  </data>
+  <data name="Ui.Channel.SegmentsPerFile" xml:space="preserve">
+    <value>Segmente pe fișier</value>
+  </data>
+  <data name="Ui.Channel.SplitsEachPackageIntoParallelChunks" xml:space="preserve">
+    <value>Împarte fiecare pachet în bucăți paralele pentru descărcare mai rapidă</value>
+  </data>
+  <data name="Ui.Channel.StaticDirectory" xml:space="preserve">
+    <value>Director static</value>
+  </data>
+  <data name="Ui.Channel.SwitchFromVersionXxxToBinaryType" xml:space="preserve">
+    <value>Trece de la directoare version xxx la directoare de instalare bazate pe BinaryType.</value>
+  </data>
+  <data name="Ui.Channel.CompressRobloxInstalls" xml:space="preserve">
+    <value>Comprimă instalările Roblox</value>
+  </data>
+  <data name="Ui.Channel.PacksRobloxIntoACompressedArchive" xml:space="preserve">
+    <value>Împachetează Roblox într o arhivă comprimată cât e închis, cu aproximativ 40% mai mic pe disc. Doar versiunea pornită e dezarhivată întâi, ceea ce durează o secundă sau două.</value>
+  </data>
+  <data name="Ui.Channel.AllocatedMemory" xml:space="preserve">
+    <value>Memorie alocată</value>
+  </data>
+  <data name="Ui.Channel.HowMuchMemoryRobloxIsAllowed" xml:space="preserve">
+    <value>Câtă memorie poate folosi Roblox</value>
+  </data>
+  <data name="Ui.Channel.GameUpdateDelivery" xml:space="preserve">
+    <value>Livrarea actualizărilor</value>
+  </data>
+  <data name="Ui.Channel.SelectWhenYouDLikeTo" xml:space="preserve">
+    <value>Alege când vrei să primești actualizările Roblox</value>
+  </data>
+  <data name="Ui.Channel.Normal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="Ui.Channel.YouGetEachRobloxUpdateOn" xml:space="preserve">
+    <value>Primești fiecare actualizare Roblox la următoarea pornire după lansare</value>
+  </data>
+  <data name="Ui.Channel.EarlyOptIn" xml:space="preserve">
+    <value>Devreme (Opt in)</value>
+  </data>
+  <data name="Ui.Channel.ChecksRobloxSOwnVersionServer" xml:space="preserve">
+    <value>Întreabă întâi serverul de versiuni Roblox, ca o actualizare nouă să fie preluată imediat în loc să aștepte copia din cache</value>
+  </data>
+  <data name="Ui.Channel.LateOptOut" xml:space="preserve">
+    <value>Târziu (Opt out)</value>
+  </data>
+  <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
+    <value>Păstrează versiunea ta 3 zile după fiecare actualizare Roblox ca erorile timpurii să fie reparate, apoi se actualizează singur. O instalare lipsă sau stricată se actualizează mereu imediat</value>
+  </data>
+  <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
+    <value>Mod eficiență</value>
+  </data>
+  <data name="Ui.Channel.RobloxPriority" xml:space="preserve">
+    <value>Prioritatea Roblox</value>
+  </data>
+  <data name="Ui.Channel.WhenDisabledRobloxWonTUpdate" xml:space="preserve">
+    <value>Când e dezactivat, Roblox nu se actualizează la versiuni noi.</value>
+  </data>
+  <data name="Ui.Channel.RobloxUpdates" xml:space="preserve">
+    <value>Actualizări Roblox</value>
+  </data>
+  <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
+    <value>Canale   [Roblox Build]</value>
+  </data>
+  <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
+    <value>Introdu numele canalului de implementare. Canalele invalide vor cauza erorile 403 404!</value>
+  </data>
+  <data name="Ui.Channel.EnterDeploymentChannelEGProduction" xml:space="preserve">
+    <value>Introdu canalul de implementare (de ex. production, zlive, live)</value>
+  </data>
+  <data name="Ui.Channel.DeploymentChannel" xml:space="preserve">
+    <value>Canal de implementare</value>
+  </data>
+  <data name="Ui.Channel.ApplyChannel" xml:space="preserve">
+    <value>Aplică canalul</value>
+  </data>
+  <data name="Ui.Channel.Channels" xml:space="preserve">
+    <value>Canale</value>
+  </data>
+  <data name="Ui.Channel.ApplyingADifferentChannelClearsThe" xml:space="preserve">
+    <value>Aplicarea altui canal șterge versiunea Roblox descărcată ca noul canal să se poată instala</value>
+  </data>
+  <data name="Ui.Channel.RendererBackend" xml:space="preserve">
+    <value>Backend de randare</value>
+  </data>
+  <data name="Ui.Channel.ChoosesTheGraphicsBackendVoidstrapDraws" xml:space="preserve">
+    <value>Alege backendul grafic cu care se desenează Voidstrap. Automat alege cel mai rapid suportat de sistem. Schimbarea se aplică la următoarea pornire a Voidstrap.</value>
+  </data>
 </root>

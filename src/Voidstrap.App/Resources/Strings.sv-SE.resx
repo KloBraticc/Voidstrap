@@ -4538,4 +4538,181 @@ Vad vill du göra?</value>
   <data name="Ui.Integrations.PlaceID" xml:space="preserve">
     <value>Place ID</value>
   </data>
+  <data name="Ui.Channel.InstallLocation" xml:space="preserve">
+    <value>Installationsplats</value>
+  </data>
+  <data name="Ui.Channel.MoveWhereVoidstrapIsInstalledThe" xml:space="preserve">
+    <value>Flyttar var Voidstrap är installerat. Appen startar om automatiskt när det är klart.</value>
+  </data>
+  <data name="Ui.Channel.Browse" xml:space="preserve">
+    <value>Bläddra...</value>
+  </data>
+  <data name="Ui.Channel.VoidstrapCPULimit" xml:space="preserve">
+    <value>CPU gräns för Voidstrap</value>
+  </data>
+  <data name="Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity" xml:space="preserve">
+    <value>Begränsar processortillhörigheten för Voidstrap självt. Lämna den på max om inte en annan aktiv app behöver reserverade kärnor.</value>
+  </data>
+  <data name="Ui.Channel.IncludePreReleaseVersions" xml:space="preserve">
+    <value>Inkludera förhandsversioner</value>
+  </data>
+  <data name="Ui.Channel.UpdatesToTestBuildsAsSoon" xml:space="preserve">
+    <value>Uppdaterar till testversioner så snart de publiceras. De är mindre testade än vanliga versioner och kan gå sönder, så lämna detta av om du inte vill ha tidiga versioner.</value>
+  </data>
+  <data name="Ui.Channel.LaunchRobloxWithoutVoidstrap" xml:space="preserve">
+    <value>Starta Roblox utan Voidstrap</value>
+  </data>
+  <data name="Ui.Channel.JoiningAGameFromYourBrowser" xml:space="preserve">
+    <value>Att ansluta till ett spel från webbläsaren öppnar Roblox direkt, och start från Voidstrap stänger det när Roblox har startat. Överlägg och alla andra Voidstrap funktioner i spelet slutar fungera.</value>
+  </data>
+  <data name="Ui.Channel.DisplayAndResolution" xml:space="preserve">
+    <value>Skärm och upplösning</value>
+  </data>
+  <data name="Ui.Channel.Identify" xml:space="preserve">
+    <value>Identifiera</value>
+  </data>
+  <data name="Ui.Channel.ResolutionChanger" xml:space="preserve">
+    <value>Upplösningsändring</value>
+  </data>
+  <data name="Ui.Channel.ChangesTheResolutionOfTheSelected" xml:space="preserve">
+    <value>Ändrar upplösningen för den valda skärmen.</value>
+  </data>
+  <data name="Ui.Channel.ResolutionChangerInGame" xml:space="preserve">
+    <value>Upplösningsändring (i spelet)</value>
+  </data>
+  <data name="Ui.Channel.AppliesToTheSelectedMonitorWhile" xml:space="preserve">
+    <value>Gäller den valda skärmen medan du är i ett Roblox spel och återställer sedan din tidigare upplösning när du lämnar.</value>
+  </data>
+  <data name="Ui.Channel.OnlyApplyForASpecificPlaceId" xml:space="preserve">
+    <value>Gäller bara ett visst PlaceId</value>
+  </data>
+  <data name="Ui.Channel.AppSettings" xml:space="preserve">
+    <value>Appinställningar</value>
+  </data>
+  <data name="Ui.Channel.HardwareAcceleration" xml:space="preserve">
+    <value>Maskinvaruacceleration</value>
+  </data>
+  <data name="Ui.Channel.UsesTheGPUToRenderVoidstrap" xml:space="preserve">
+    <value>Använder GPU:n för att rendera Voidstrap. Stäng av för kompatibilitet eller lägre användning av videominne.</value>
+  </data>
+  <data name="Ui.Channel.DisplaysVoidstrapsDiscordRPC" xml:space="preserve">
+    <value>Visar Voidstraps Discord RPC.</value>
+  </data>
+  <data name="Ui.Channel.VoidstrapRPC" xml:space="preserve">
+    <value>Voidstrap RPC</value>
+  </data>
+  <data name="Ui.Channel.FactoryReset" xml:space="preserve">
+    <value>Fabriksåterställning</value>
+  </data>
+  <data name="Ui.Channel.Donate" xml:space="preserve">
+    <value>Donera</value>
+  </data>
+  <data name="Ui.Channel.Installer" xml:space="preserve">
+    <value>Installation</value>
+  </data>
+  <data name="Ui.Channel.DownloadServer" xml:space="preserve">
+    <value>Nedladdningsserver</value>
+  </data>
+  <data name="Ui.Channel.UsedWhenRobloxIsInstalledOr" xml:space="preserve">
+    <value>Används när Roblox installeras eller uppdateras</value>
+  </data>
+  <data name="Ui.Channel.DownloadBufferSizeKB" xml:space="preserve">
+    <value>Nedladdningsbuffertens storlek (KB)</value>
+  </data>
+  <data name="Ui.Channel.LargerBuffersCanSpeedUpDownloads" xml:space="preserve">
+    <value>Större buffertar kan snabba upp nedladdningar på snabba anslutningar</value>
+  </data>
+  <data name="Ui.Channel.ConcurrentDownloads" xml:space="preserve">
+    <value>Samtidiga nedladdningar</value>
+  </data>
+  <data name="Ui.Channel.HowManyPackagesDownloadAtThe" xml:space="preserve">
+    <value>Hur många paket som laddas ned samtidigt. Högre är snabbare men använder mer bandbredd</value>
+  </data>
+  <data name="Ui.Channel.SegmentsPerFile" xml:space="preserve">
+    <value>Segment per fil</value>
+  </data>
+  <data name="Ui.Channel.SplitsEachPackageIntoParallelChunks" xml:space="preserve">
+    <value>Delar upp varje paket i parallella delar för snabbare nedladdning</value>
+  </data>
+  <data name="Ui.Channel.StaticDirectory" xml:space="preserve">
+    <value>Statisk mapp</value>
+  </data>
+  <data name="Ui.Channel.SwitchFromVersionXxxToBinaryType" xml:space="preserve">
+    <value>Byter från mappar per version xxx till installationsmappar baserade på BinaryType.</value>
+  </data>
+  <data name="Ui.Channel.CompressRobloxInstalls" xml:space="preserve">
+    <value>Komprimera Roblox installationer</value>
+  </data>
+  <data name="Ui.Channel.PacksRobloxIntoACompressedArchive" xml:space="preserve">
+    <value>Packar Roblox i ett komprimerat arkiv medan det är stängt, cirka 40% mindre på disken. Bara den du startar packas upp först, vilket tar en sekund eller två.</value>
+  </data>
+  <data name="Ui.Channel.AllocatedMemory" xml:space="preserve">
+    <value>Tilldelat minne</value>
+  </data>
+  <data name="Ui.Channel.HowMuchMemoryRobloxIsAllowed" xml:space="preserve">
+    <value>Hur mycket minne Roblox får använda</value>
+  </data>
+  <data name="Ui.Channel.GameUpdateDelivery" xml:space="preserve">
+    <value>Leverans av speluppdateringar</value>
+  </data>
+  <data name="Ui.Channel.SelectWhenYouDLikeTo" xml:space="preserve">
+    <value>Välj när du vill få Roblox uppdateringar</value>
+  </data>
+  <data name="Ui.Channel.Normal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="Ui.Channel.YouGetEachRobloxUpdateOn" xml:space="preserve">
+    <value>Du får varje Roblox uppdatering vid nästa start efter att den släppts</value>
+  </data>
+  <data name="Ui.Channel.EarlyOptIn" xml:space="preserve">
+    <value>Tidigt (Opt in)</value>
+  </data>
+  <data name="Ui.Channel.ChecksRobloxSOwnVersionServer" xml:space="preserve">
+    <value>Frågar Roblox egen versionsserver först, så att en ny uppdatering hämtas direkt när den släpps i stället för att vänta på den cachade kopian</value>
+  </data>
+  <data name="Ui.Channel.LateOptOut" xml:space="preserve">
+    <value>Sent (Opt out)</value>
+  </data>
+  <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
+    <value>Behåller din version i 3 dagar efter varje Roblox uppdatering så att tidiga buggar hinner åtgärdas, och uppdaterar sedan av sig själv. En saknad eller trasig installation uppdateras alltid direkt</value>
+  </data>
+  <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
+    <value>Effektivitetsläge</value>
+  </data>
+  <data name="Ui.Channel.RobloxPriority" xml:space="preserve">
+    <value>Roblox prioritet</value>
+  </data>
+  <data name="Ui.Channel.WhenDisabledRobloxWonTUpdate" xml:space="preserve">
+    <value>När det är av uppdateras inte Roblox till nyare versioner.</value>
+  </data>
+  <data name="Ui.Channel.RobloxUpdates" xml:space="preserve">
+    <value>Roblox uppdateringar</value>
+  </data>
+  <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
+    <value>Kanaler   [Roblox Build]</value>
+  </data>
+  <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
+    <value>Ange namnet på distributionskanalen. Ogiltiga kanaler orsakar felen 403 404!</value>
+  </data>
+  <data name="Ui.Channel.EnterDeploymentChannelEGProduction" xml:space="preserve">
+    <value>Ange distributionskanal (t.ex. production, zlive, live)</value>
+  </data>
+  <data name="Ui.Channel.DeploymentChannel" xml:space="preserve">
+    <value>Distributionskanal</value>
+  </data>
+  <data name="Ui.Channel.ApplyChannel" xml:space="preserve">
+    <value>Använd kanal</value>
+  </data>
+  <data name="Ui.Channel.Channels" xml:space="preserve">
+    <value>Kanaler</value>
+  </data>
+  <data name="Ui.Channel.ApplyingADifferentChannelClearsThe" xml:space="preserve">
+    <value>När en annan kanal används rensas den nedladdade Roblox versionen så att den nya kanalen kan installeras</value>
+  </data>
+  <data name="Ui.Channel.RendererBackend" xml:space="preserve">
+    <value>Renderingsbackend</value>
+  </data>
+  <data name="Ui.Channel.ChoosesTheGraphicsBackendVoidstrapDraws" xml:space="preserve">
+    <value>Väljer grafikbackend som Voidstrap ritar sig själv med. Automatiskt väljer den snabbaste som ditt system stöder. Ändringen gäller nästa gång Voidstrap startar.</value>
+  </data>
 </root>

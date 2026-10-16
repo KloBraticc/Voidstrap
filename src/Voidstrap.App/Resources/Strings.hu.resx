@@ -4576,4 +4576,181 @@ Mit szeretnél tenni?</value>
   <data name="Ui.Integrations.PlaceID" xml:space="preserve">
     <value>Place ID</value>
   </data>
+  <data name="Ui.Channel.InstallLocation" xml:space="preserve">
+    <value>Telepítési hely</value>
+  </data>
+  <data name="Ui.Channel.MoveWhereVoidstrapIsInstalledThe" xml:space="preserve">
+    <value>Áthelyezi a Voidstrap telepítési helyét. Az alkalmazás a végén automatikusan újraindul.</value>
+  </data>
+  <data name="Ui.Channel.Browse" xml:space="preserve">
+    <value>Tallózás...</value>
+  </data>
+  <data name="Ui.Channel.VoidstrapCPULimit" xml:space="preserve">
+    <value>Voidstrap CPU korlát</value>
+  </data>
+  <data name="Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity" xml:space="preserve">
+    <value>Korlátozza a Voidstrap saját processzor-affinitását. Hagyd maximumon, hacsak egy másik aktív alkalmazásnak nincs szüksége fenntartott magokra.</value>
+  </data>
+  <data name="Ui.Channel.IncludePreReleaseVersions" xml:space="preserve">
+    <value>Előzetes verziók is</value>
+  </data>
+  <data name="Ui.Channel.UpdatesToTestBuildsAsSoon" xml:space="preserve">
+    <value>Teszt buildekre frissít, amint megjelennek. Ezek kevésbé teszteltek a normál kiadásoknál és hibásak lehetnek, ezért hagyd kikapcsolva, hacsak nem akarsz korai buildeket.</value>
+  </data>
+  <data name="Ui.Channel.LaunchRobloxWithoutVoidstrap" xml:space="preserve">
+    <value>Roblox indítása Voidstrap nélkül</value>
+  </data>
+  <data name="Ui.Channel.JoiningAGameFromYourBrowser" xml:space="preserve">
+    <value>A böngészőből való csatlakozás közvetlenül a Robloxot nyitja meg, a Voidstrapból indítva pedig bezárul, amint a Roblox elindul. Az átfedések és minden más játékbeli Voidstrap funkció nem működik.</value>
+  </data>
+  <data name="Ui.Channel.DisplayAndResolution" xml:space="preserve">
+    <value>Kijelző és felbontás</value>
+  </data>
+  <data name="Ui.Channel.Identify" xml:space="preserve">
+    <value>Azonosítás</value>
+  </data>
+  <data name="Ui.Channel.ResolutionChanger" xml:space="preserve">
+    <value>Felbontásváltó</value>
+  </data>
+  <data name="Ui.Channel.ChangesTheResolutionOfTheSelected" xml:space="preserve">
+    <value>Megváltoztatja a kiválasztott monitor felbontását.</value>
+  </data>
+  <data name="Ui.Channel.ResolutionChangerInGame" xml:space="preserve">
+    <value>Felbontásváltó (játékban)</value>
+  </data>
+  <data name="Ui.Channel.AppliesToTheSelectedMonitorWhile" xml:space="preserve">
+    <value>A kiválasztott monitorra érvényes, amíg Roblox játékban vagy, kilépéskor visszaállítja az előző felbontást.</value>
+  </data>
+  <data name="Ui.Channel.OnlyApplyForASpecificPlaceId" xml:space="preserve">
+    <value>Csak egy adott PlaceId esetén</value>
+  </data>
+  <data name="Ui.Channel.AppSettings" xml:space="preserve">
+    <value>Alkalmazásbeállítások</value>
+  </data>
+  <data name="Ui.Channel.HardwareAcceleration" xml:space="preserve">
+    <value>Hardveres gyorsítás</value>
+  </data>
+  <data name="Ui.Channel.UsesTheGPUToRenderVoidstrap" xml:space="preserve">
+    <value>A GPU-t használja a Voidstrap megjelenítéséhez. Kapcsold ki a kompatibilitás vagy kevesebb videomemória érdekében.</value>
+  </data>
+  <data name="Ui.Channel.DisplaysVoidstrapsDiscordRPC" xml:space="preserve">
+    <value>Megjeleníti a Voidstrap Discord RPC-jét.</value>
+  </data>
+  <data name="Ui.Channel.VoidstrapRPC" xml:space="preserve">
+    <value>Voidstrap RPC</value>
+  </data>
+  <data name="Ui.Channel.FactoryReset" xml:space="preserve">
+    <value>Gyári visszaállítás</value>
+  </data>
+  <data name="Ui.Channel.Donate" xml:space="preserve">
+    <value>Adományozás</value>
+  </data>
+  <data name="Ui.Channel.Installer" xml:space="preserve">
+    <value>Telepítő</value>
+  </data>
+  <data name="Ui.Channel.DownloadServer" xml:space="preserve">
+    <value>Letöltési szerver</value>
+  </data>
+  <data name="Ui.Channel.UsedWhenRobloxIsInstalledOr" xml:space="preserve">
+    <value>A Roblox telepítésekor vagy frissítésekor használatos</value>
+  </data>
+  <data name="Ui.Channel.DownloadBufferSizeKB" xml:space="preserve">
+    <value>Letöltési puffer mérete (KB)</value>
+  </data>
+  <data name="Ui.Channel.LargerBuffersCanSpeedUpDownloads" xml:space="preserve">
+    <value>Nagyobb puffer gyorsíthatja a letöltést gyors kapcsolaton</value>
+  </data>
+  <data name="Ui.Channel.ConcurrentDownloads" xml:space="preserve">
+    <value>Egyidejű letöltések</value>
+  </data>
+  <data name="Ui.Channel.HowManyPackagesDownloadAtThe" xml:space="preserve">
+    <value>Hány csomag töltődik le egyszerre. A több gyorsabb, de több sávszélességet használ</value>
+  </data>
+  <data name="Ui.Channel.SegmentsPerFile" xml:space="preserve">
+    <value>Szegmensek fájlonként</value>
+  </data>
+  <data name="Ui.Channel.SplitsEachPackageIntoParallelChunks" xml:space="preserve">
+    <value>Párhuzamos részekre bontja a csomagokat a gyorsabb letöltésért</value>
+  </data>
+  <data name="Ui.Channel.StaticDirectory" xml:space="preserve">
+    <value>Statikus mappa</value>
+  </data>
+  <data name="Ui.Channel.SwitchFromVersionXxxToBinaryType" xml:space="preserve">
+    <value>A version xxx mappákról BinaryType alapú telepítési mappákra vált.</value>
+  </data>
+  <data name="Ui.Channel.CompressRobloxInstalls" xml:space="preserve">
+    <value>Roblox telepítések tömörítése</value>
+  </data>
+  <data name="Ui.Channel.PacksRobloxIntoACompressedArchive" xml:space="preserve">
+    <value>Tömörített archívumba csomagolja a Robloxot, amíg zárva van, kb. 40%-kal kisebb a lemezen. Csak az indított verzió bomlik ki először, ami egy-két másodperc.</value>
+  </data>
+  <data name="Ui.Channel.AllocatedMemory" xml:space="preserve">
+    <value>Lefoglalt memória</value>
+  </data>
+  <data name="Ui.Channel.HowMuchMemoryRobloxIsAllowed" xml:space="preserve">
+    <value>Mennyi memóriát használhat a Roblox</value>
+  </data>
+  <data name="Ui.Channel.GameUpdateDelivery" xml:space="preserve">
+    <value>Játékfrissítések kézbesítése</value>
+  </data>
+  <data name="Ui.Channel.SelectWhenYouDLikeTo" xml:space="preserve">
+    <value>Válaszd ki, mikor kapd meg a Roblox frissítéseit</value>
+  </data>
+  <data name="Ui.Channel.Normal" xml:space="preserve">
+    <value>Normál</value>
+  </data>
+  <data name="Ui.Channel.YouGetEachRobloxUpdateOn" xml:space="preserve">
+    <value>Minden Roblox frissítést a megjelenése utáni következő indításkor kapsz meg</value>
+  </data>
+  <data name="Ui.Channel.EarlyOptIn" xml:space="preserve">
+    <value>Korai (Opt in)</value>
+  </data>
+  <data name="Ui.Channel.ChecksRobloxSOwnVersionServer" xml:space="preserve">
+    <value>Először a Roblox verziószerverét kérdezi, így az új frissítés azonnal érkezik, nem kell a gyorsítótárazott példányra várni</value>
+  </data>
+  <data name="Ui.Channel.LateOptOut" xml:space="preserve">
+    <value>Késői (Opt out)</value>
+  </data>
+  <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
+    <value>Minden Roblox frissítés után 3 napig megtartja a verziódat, hogy a korai hibákat kijavítsák, aztán magától frissít. Hiányzó vagy sérült telepítés mindig azonnal frissül</value>
+  </data>
+  <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
+    <value>Hatékonysági mód</value>
+  </data>
+  <data name="Ui.Channel.RobloxPriority" xml:space="preserve">
+    <value>Roblox prioritás</value>
+  </data>
+  <data name="Ui.Channel.WhenDisabledRobloxWonTUpdate" xml:space="preserve">
+    <value>Kikapcsolva a Roblox nem frissül újabb verziókra.</value>
+  </data>
+  <data name="Ui.Channel.RobloxUpdates" xml:space="preserve">
+    <value>Roblox frissítések</value>
+  </data>
+  <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
+    <value>Csatornák   [Roblox Build]</value>
+  </data>
+  <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
+    <value>Add meg a telepítési csatorna nevét. Érvénytelen csatorna 403 404 hibát okoz!</value>
+  </data>
+  <data name="Ui.Channel.EnterDeploymentChannelEGProduction" xml:space="preserve">
+    <value>Add meg a telepítési csatornát (pl. production, zlive, live)</value>
+  </data>
+  <data name="Ui.Channel.DeploymentChannel" xml:space="preserve">
+    <value>Telepítési csatorna</value>
+  </data>
+  <data name="Ui.Channel.ApplyChannel" xml:space="preserve">
+    <value>Csatorna alkalmazása</value>
+  </data>
+  <data name="Ui.Channel.Channels" xml:space="preserve">
+    <value>Csatornák</value>
+  </data>
+  <data name="Ui.Channel.ApplyingADifferentChannelClearsThe" xml:space="preserve">
+    <value>Másik csatorna alkalmazásakor a letöltött Roblox verzió törlődik, hogy az új csatorna települhessen</value>
+  </data>
+  <data name="Ui.Channel.RendererBackend" xml:space="preserve">
+    <value>Megjelenítő háttérrendszer</value>
+  </data>
+  <data name="Ui.Channel.ChoosesTheGraphicsBackendVoidstrapDraws" xml:space="preserve">
+    <value>Kiválasztja a grafikus háttérrendszert, amellyel a Voidstrap rajzol. Az Automatikus a rendszered által támogatott leggyorsabbat választja. A változás a Voidstrap következő indításakor érvényes.</value>
+  </data>
 </root>

@@ -4590,4 +4590,181 @@ Roblox는 Voidstrap으로 처음 실행할 때 다운로드됩니다. 실행하�
   <data name="Ui.Integrations.PlaceID" xml:space="preserve">
     <value>Place ID</value>
   </data>
+  <data name="Ui.Channel.InstallLocation" xml:space="preserve">
+    <value>설치 위치</value>
+  </data>
+  <data name="Ui.Channel.MoveWhereVoidstrapIsInstalledThe" xml:space="preserve">
+    <value>Voidstrap 설치 위치를 옮깁니다. 완료되면 앱이 자동으로 다시 시작됩니다.</value>
+  </data>
+  <data name="Ui.Channel.Browse" xml:space="preserve">
+    <value>찾아보기...</value>
+  </data>
+  <data name="Ui.Channel.VoidstrapCPULimit" xml:space="preserve">
+    <value>Voidstrap CPU 제한</value>
+  </data>
+  <data name="Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity" xml:space="preserve">
+    <value>Voidstrap 자체의 프로세서 선호도를 제한합니다. 다른 활성 앱에 예약된 코어가 필요하지 않다면 최대로 두십시오.</value>
+  </data>
+  <data name="Ui.Channel.IncludePreReleaseVersions" xml:space="preserve">
+    <value>시험판 버전 포함</value>
+  </data>
+  <data name="Ui.Channel.UpdatesToTestBuildsAsSoon" xml:space="preserve">
+    <value>테스트 빌드가 게시되는 즉시 업데이트합니다. 일반 릴리스보다 덜 테스트되어 문제가 생길 수 있으므로 초기 빌드를 원하지 않으면 꺼 두십시오.</value>
+  </data>
+  <data name="Ui.Channel.LaunchRobloxWithoutVoidstrap" xml:space="preserve">
+    <value>Voidstrap 없이 Roblox 실행</value>
+  </data>
+  <data name="Ui.Channel.JoiningAGameFromYourBrowser" xml:space="preserve">
+    <value>브라우저에서 게임에 참여하면 Roblox가 바로 열리고, Voidstrap에서 실행하면 Roblox가 시작되는 즉시 Voidstrap이 닫힙니다. 오버레이와 게임 내 다른 모든 Voidstrap 기능이 작동하지 않습니다.</value>
+  </data>
+  <data name="Ui.Channel.DisplayAndResolution" xml:space="preserve">
+    <value>디스플레이 및 해상도</value>
+  </data>
+  <data name="Ui.Channel.Identify" xml:space="preserve">
+    <value>식별</value>
+  </data>
+  <data name="Ui.Channel.ResolutionChanger" xml:space="preserve">
+    <value>해상도 변경</value>
+  </data>
+  <data name="Ui.Channel.ChangesTheResolutionOfTheSelected" xml:space="preserve">
+    <value>선택한 모니터의 해상도를 변경합니다.</value>
+  </data>
+  <data name="Ui.Channel.ResolutionChangerInGame" xml:space="preserve">
+    <value>해상도 변경 (게임 중)</value>
+  </data>
+  <data name="Ui.Channel.AppliesToTheSelectedMonitorWhile" xml:space="preserve">
+    <value>Roblox 게임 중에는 선택한 모니터에 적용하고, 나가면 이전 해상도로 되돌립니다.</value>
+  </data>
+  <data name="Ui.Channel.OnlyApplyForASpecificPlaceId" xml:space="preserve">
+    <value>특정 PlaceId에만 적용</value>
+  </data>
+  <data name="Ui.Channel.AppSettings" xml:space="preserve">
+    <value>앱 설정</value>
+  </data>
+  <data name="Ui.Channel.HardwareAcceleration" xml:space="preserve">
+    <value>하드웨어 가속</value>
+  </data>
+  <data name="Ui.Channel.UsesTheGPUToRenderVoidstrap" xml:space="preserve">
+    <value>GPU를 사용해 Voidstrap을 렌더링합니다. 호환성이나 비디오 메모리 사용량을 줄이려면 끄십시오.</value>
+  </data>
+  <data name="Ui.Channel.DisplaysVoidstrapsDiscordRPC" xml:space="preserve">
+    <value>Voidstrap의 Discord RPC를 표시합니다.</value>
+  </data>
+  <data name="Ui.Channel.VoidstrapRPC" xml:space="preserve">
+    <value>Voidstrap RPC</value>
+  </data>
+  <data name="Ui.Channel.FactoryReset" xml:space="preserve">
+    <value>초기화</value>
+  </data>
+  <data name="Ui.Channel.Donate" xml:space="preserve">
+    <value>후원</value>
+  </data>
+  <data name="Ui.Channel.Installer" xml:space="preserve">
+    <value>설치 프로그램</value>
+  </data>
+  <data name="Ui.Channel.DownloadServer" xml:space="preserve">
+    <value>다운로드 서버</value>
+  </data>
+  <data name="Ui.Channel.UsedWhenRobloxIsInstalledOr" xml:space="preserve">
+    <value>Roblox를 설치하거나 업데이트할 때 사용됩니다</value>
+  </data>
+  <data name="Ui.Channel.DownloadBufferSizeKB" xml:space="preserve">
+    <value>다운로드 버퍼 크기 (KB)</value>
+  </data>
+  <data name="Ui.Channel.LargerBuffersCanSpeedUpDownloads" xml:space="preserve">
+    <value>버퍼가 클수록 빠른 연결에서 다운로드가 빨라질 수 있습니다</value>
+  </data>
+  <data name="Ui.Channel.ConcurrentDownloads" xml:space="preserve">
+    <value>동시 다운로드</value>
+  </data>
+  <data name="Ui.Channel.HowManyPackagesDownloadAtThe" xml:space="preserve">
+    <value>동시에 다운로드할 패키지 수입니다. 많을수록 빠르지만 대역폭을 더 사용합니다</value>
+  </data>
+  <data name="Ui.Channel.SegmentsPerFile" xml:space="preserve">
+    <value>파일당 세그먼트</value>
+  </data>
+  <data name="Ui.Channel.SplitsEachPackageIntoParallelChunks" xml:space="preserve">
+    <value>각 패키지를 병렬 조각으로 나눠 더 빠르게 다운로드합니다</value>
+  </data>
+  <data name="Ui.Channel.StaticDirectory" xml:space="preserve">
+    <value>고정 디렉터리</value>
+  </data>
+  <data name="Ui.Channel.SwitchFromVersionXxxToBinaryType" xml:space="preserve">
+    <value>version xxx 디렉터리에서 BinaryType 기반 설치 디렉터리로 전환합니다.</value>
+  </data>
+  <data name="Ui.Channel.CompressRobloxInstalls" xml:space="preserve">
+    <value>Roblox 설치 압축</value>
+  </data>
+  <data name="Ui.Channel.PacksRobloxIntoACompressedArchive" xml:space="preserve">
+    <value>Roblox가 닫혀 있는 동안 압축 보관 파일로 묶어 디스크에서 약 40% 작게 만듭니다. 실행하는 버전만 먼저 압축을 풀며 1~2초가 걸립니다.</value>
+  </data>
+  <data name="Ui.Channel.AllocatedMemory" xml:space="preserve">
+    <value>할당 메모리</value>
+  </data>
+  <data name="Ui.Channel.HowMuchMemoryRobloxIsAllowed" xml:space="preserve">
+    <value>Roblox가 사용할 수 있는 메모리 양</value>
+  </data>
+  <data name="Ui.Channel.GameUpdateDelivery" xml:space="preserve">
+    <value>게임 업데이트 제공</value>
+  </data>
+  <data name="Ui.Channel.SelectWhenYouDLikeTo" xml:space="preserve">
+    <value>Roblox 업데이트를 받을 시점을 선택하십시오</value>
+  </data>
+  <data name="Ui.Channel.Normal" xml:space="preserve">
+    <value>보통</value>
+  </data>
+  <data name="Ui.Channel.YouGetEachRobloxUpdateOn" xml:space="preserve">
+    <value>각 Roblox 업데이트는 출시 후 다음 실행 시 받습니다</value>
+  </data>
+  <data name="Ui.Channel.EarlyOptIn" xml:space="preserve">
+    <value>빠르게 (Opt in)</value>
+  </data>
+  <data name="Ui.Channel.ChecksRobloxSOwnVersionServer" xml:space="preserve">
+    <value>Roblox 자체 버전 서버를 먼저 확인하여 캐시된 사본을 기다리지 않고 새 업데이트를 출시 즉시 받습니다</value>
+  </data>
+  <data name="Ui.Channel.LateOptOut" xml:space="preserve">
+    <value>늦게 (Opt out)</value>
+  </data>
+  <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
+    <value>초기 버그가 먼저 수정되도록 Roblox 업데이트마다 현재 버전을 3일간 유지한 뒤 자동으로 업데이트합니다. 설치가 없거나 손상된 경우에는 항상 즉시 업데이트합니다</value>
+  </data>
+  <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
+    <value>효율 모드</value>
+  </data>
+  <data name="Ui.Channel.RobloxPriority" xml:space="preserve">
+    <value>Roblox 우선순위</value>
+  </data>
+  <data name="Ui.Channel.WhenDisabledRobloxWonTUpdate" xml:space="preserve">
+    <value>비활성화하면 Roblox가 새 버전으로 업데이트되지 않습니다.</value>
+  </data>
+  <data name="Ui.Channel.RobloxUpdates" xml:space="preserve">
+    <value>Roblox 업데이트</value>
+  </data>
+  <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
+    <value>채널   [Roblox Build]</value>
+  </data>
+  <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
+    <value>배포 채널 이름을 입력하십시오. 잘못된 채널은 403 404 오류를 일으킵니다!</value>
+  </data>
+  <data name="Ui.Channel.EnterDeploymentChannelEGProduction" xml:space="preserve">
+    <value>배포 채널 입력 (예: production, zlive, live)</value>
+  </data>
+  <data name="Ui.Channel.DeploymentChannel" xml:space="preserve">
+    <value>배포 채널</value>
+  </data>
+  <data name="Ui.Channel.ApplyChannel" xml:space="preserve">
+    <value>채널 적용</value>
+  </data>
+  <data name="Ui.Channel.Channels" xml:space="preserve">
+    <value>채널</value>
+  </data>
+  <data name="Ui.Channel.ApplyingADifferentChannelClearsThe" xml:space="preserve">
+    <value>다른 채널을 적용하면 새 채널을 설치할 수 있도록 다운로드된 Roblox 버전이 삭제됩니다</value>
+  </data>
+  <data name="Ui.Channel.RendererBackend" xml:space="preserve">
+    <value>렌더러 백엔드</value>
+  </data>
+  <data name="Ui.Channel.ChoosesTheGraphicsBackendVoidstrapDraws" xml:space="preserve">
+    <value>Voidstrap이 자신을 그리는 그래픽 백엔드를 선택합니다. 자동은 시스템이 지원하는 가장 빠른 것을 선택합니다. 변경 사항은 다음에 Voidstrap을 시작할 때 적용됩니다.</value>
+  </data>
 </root>

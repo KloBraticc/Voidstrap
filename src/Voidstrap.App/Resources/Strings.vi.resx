@@ -4586,4 +4586,181 @@ Bạn muốn làm gì?</value>
   <data name="Ui.Integrations.PlaceID" xml:space="preserve">
     <value>Place ID</value>
   </data>
+  <data name="Ui.Channel.InstallLocation" xml:space="preserve">
+    <value>Vị trí cài đặt</value>
+  </data>
+  <data name="Ui.Channel.MoveWhereVoidstrapIsInstalledThe" xml:space="preserve">
+    <value>Di chuyển nơi cài đặt Voidstrap. Ứng dụng tự khởi động lại khi xong.</value>
+  </data>
+  <data name="Ui.Channel.Browse" xml:space="preserve">
+    <value>Duyệt...</value>
+  </data>
+  <data name="Ui.Channel.VoidstrapCPULimit" xml:space="preserve">
+    <value>Giới hạn CPU của Voidstrap</value>
+  </data>
+  <data name="Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity" xml:space="preserve">
+    <value>Giới hạn mối quan hệ bộ xử lý của chính Voidstrap. Hãy để ở mức tối đa trừ khi ứng dụng đang chạy khác cần các nhân dành riêng.</value>
+  </data>
+  <data name="Ui.Channel.IncludePreReleaseVersions" xml:space="preserve">
+    <value>Bao gồm bản phát hành trước</value>
+  </data>
+  <data name="Ui.Channel.UpdatesToTestBuildsAsSoon" xml:space="preserve">
+    <value>Cập nhật lên bản thử nghiệm ngay khi được phát hành. Chúng ít được kiểm thử hơn bản thường và có thể lỗi, nên hãy tắt trừ khi bạn muốn bản sớm.</value>
+  </data>
+  <data name="Ui.Channel.LaunchRobloxWithoutVoidstrap" xml:space="preserve">
+    <value>Khởi chạy Roblox không qua Voidstrap</value>
+  </data>
+  <data name="Ui.Channel.JoiningAGameFromYourBrowser" xml:space="preserve">
+    <value>Tham gia trò chơi từ trình duyệt sẽ mở thẳng Roblox, còn khởi chạy từ Voidstrap sẽ đóng nó ngay khi Roblox bắt đầu. Lớp phủ và mọi tính năng Voidstrap khác trong trò chơi ngừng hoạt động.</value>
+  </data>
+  <data name="Ui.Channel.DisplayAndResolution" xml:space="preserve">
+    <value>Màn hình và độ phân giải</value>
+  </data>
+  <data name="Ui.Channel.Identify" xml:space="preserve">
+    <value>Nhận diện</value>
+  </data>
+  <data name="Ui.Channel.ResolutionChanger" xml:space="preserve">
+    <value>Đổi độ phân giải</value>
+  </data>
+  <data name="Ui.Channel.ChangesTheResolutionOfTheSelected" xml:space="preserve">
+    <value>Đổi độ phân giải của màn hình đã chọn.</value>
+  </data>
+  <data name="Ui.Channel.ResolutionChangerInGame" xml:space="preserve">
+    <value>Đổi độ phân giải (trong trò chơi)</value>
+  </data>
+  <data name="Ui.Channel.AppliesToTheSelectedMonitorWhile" xml:space="preserve">
+    <value>Áp dụng cho màn hình đã chọn khi bạn đang trong trò chơi Roblox, rồi khôi phục độ phân giải cũ khi bạn rời đi.</value>
+  </data>
+  <data name="Ui.Channel.OnlyApplyForASpecificPlaceId" xml:space="preserve">
+    <value>Chỉ áp dụng cho một PlaceId cụ thể</value>
+  </data>
+  <data name="Ui.Channel.AppSettings" xml:space="preserve">
+    <value>Cài đặt ứng dụng</value>
+  </data>
+  <data name="Ui.Channel.HardwareAcceleration" xml:space="preserve">
+    <value>Tăng tốc phần cứng</value>
+  </data>
+  <data name="Ui.Channel.UsesTheGPUToRenderVoidstrap" xml:space="preserve">
+    <value>Dùng GPU để hiển thị Voidstrap. Tắt để tương thích hoặc giảm dùng bộ nhớ video.</value>
+  </data>
+  <data name="Ui.Channel.DisplaysVoidstrapsDiscordRPC" xml:space="preserve">
+    <value>Hiển thị Discord RPC của Voidstrap.</value>
+  </data>
+  <data name="Ui.Channel.VoidstrapRPC" xml:space="preserve">
+    <value>Voidstrap RPC</value>
+  </data>
+  <data name="Ui.Channel.FactoryReset" xml:space="preserve">
+    <value>Khôi phục cài đặt gốc</value>
+  </data>
+  <data name="Ui.Channel.Donate" xml:space="preserve">
+    <value>Ủng hộ</value>
+  </data>
+  <data name="Ui.Channel.Installer" xml:space="preserve">
+    <value>Trình cài đặt</value>
+  </data>
+  <data name="Ui.Channel.DownloadServer" xml:space="preserve">
+    <value>Máy chủ tải xuống</value>
+  </data>
+  <data name="Ui.Channel.UsedWhenRobloxIsInstalledOr" xml:space="preserve">
+    <value>Được dùng khi cài đặt hoặc cập nhật Roblox</value>
+  </data>
+  <data name="Ui.Channel.DownloadBufferSizeKB" xml:space="preserve">
+    <value>Kích thước bộ đệm tải xuống (KB)</value>
+  </data>
+  <data name="Ui.Channel.LargerBuffersCanSpeedUpDownloads" xml:space="preserve">
+    <value>Bộ đệm lớn hơn có thể tăng tốc tải xuống trên kết nối nhanh</value>
+  </data>
+  <data name="Ui.Channel.ConcurrentDownloads" xml:space="preserve">
+    <value>Tải xuống đồng thời</value>
+  </data>
+  <data name="Ui.Channel.HowManyPackagesDownloadAtThe" xml:space="preserve">
+    <value>Số gói được tải cùng lúc. Cao hơn thì nhanh hơn nhưng tốn băng thông hơn</value>
+  </data>
+  <data name="Ui.Channel.SegmentsPerFile" xml:space="preserve">
+    <value>Số phần mỗi tệp</value>
+  </data>
+  <data name="Ui.Channel.SplitsEachPackageIntoParallelChunks" xml:space="preserve">
+    <value>Chia mỗi gói thành các phần song song để tải nhanh hơn</value>
+  </data>
+  <data name="Ui.Channel.StaticDirectory" xml:space="preserve">
+    <value>Thư mục cố định</value>
+  </data>
+  <data name="Ui.Channel.SwitchFromVersionXxxToBinaryType" xml:space="preserve">
+    <value>Chuyển từ thư mục version xxx sang thư mục cài đặt theo BinaryType.</value>
+  </data>
+  <data name="Ui.Channel.CompressRobloxInstalls" xml:space="preserve">
+    <value>Nén các bản cài Roblox</value>
+  </data>
+  <data name="Ui.Channel.PacksRobloxIntoACompressedArchive" xml:space="preserve">
+    <value>Đóng gói Roblox vào kho nén khi đang tắt, nhỏ hơn khoảng 40% trên ổ đĩa. Chỉ bản bạn khởi chạy được giải nén trước, mất một hai giây.</value>
+  </data>
+  <data name="Ui.Channel.AllocatedMemory" xml:space="preserve">
+    <value>Bộ nhớ được cấp</value>
+  </data>
+  <data name="Ui.Channel.HowMuchMemoryRobloxIsAllowed" xml:space="preserve">
+    <value>Lượng bộ nhớ Roblox được phép dùng</value>
+  </data>
+  <data name="Ui.Channel.GameUpdateDelivery" xml:space="preserve">
+    <value>Phân phối bản cập nhật</value>
+  </data>
+  <data name="Ui.Channel.SelectWhenYouDLikeTo" xml:space="preserve">
+    <value>Chọn thời điểm bạn muốn nhận bản cập nhật Roblox</value>
+  </data>
+  <data name="Ui.Channel.Normal" xml:space="preserve">
+    <value>Bình thường</value>
+  </data>
+  <data name="Ui.Channel.YouGetEachRobloxUpdateOn" xml:space="preserve">
+    <value>Bạn nhận mỗi bản cập nhật Roblox ở lần khởi chạy tiếp theo sau khi phát hành</value>
+  </data>
+  <data name="Ui.Channel.EarlyOptIn" xml:space="preserve">
+    <value>Sớm (Opt in)</value>
+  </data>
+  <data name="Ui.Channel.ChecksRobloxSOwnVersionServer" xml:space="preserve">
+    <value>Hỏi máy chủ phiên bản của Roblox trước, để bản cập nhật mới được nhận ngay khi ra mắt thay vì chờ bản lưu đệm</value>
+  </data>
+  <data name="Ui.Channel.LateOptOut" xml:space="preserve">
+    <value>Muộn (Opt out)</value>
+  </data>
+  <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
+    <value>Giữ phiên bản của bạn 3 ngày sau mỗi bản cập nhật Roblox để lỗi sớm được sửa trước, rồi tự cập nhật. Bản cài bị thiếu hoặc hỏng luôn được cập nhật ngay</value>
+  </data>
+  <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
+    <value>Chế độ hiệu quả</value>
+  </data>
+  <data name="Ui.Channel.RobloxPriority" xml:space="preserve">
+    <value>Mức ưu tiên Roblox</value>
+  </data>
+  <data name="Ui.Channel.WhenDisabledRobloxWonTUpdate" xml:space="preserve">
+    <value>Khi tắt, Roblox sẽ không cập nhật lên phiên bản mới hơn.</value>
+  </data>
+  <data name="Ui.Channel.RobloxUpdates" xml:space="preserve">
+    <value>Cập nhật Roblox</value>
+  </data>
+  <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
+    <value>Kênh   [Roblox Build]</value>
+  </data>
+  <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
+    <value>Nhập tên kênh triển khai. Kênh không hợp lệ sẽ gây lỗi 403 404!</value>
+  </data>
+  <data name="Ui.Channel.EnterDeploymentChannelEGProduction" xml:space="preserve">
+    <value>Nhập kênh triển khai (ví dụ production, zlive, live)</value>
+  </data>
+  <data name="Ui.Channel.DeploymentChannel" xml:space="preserve">
+    <value>Kênh triển khai</value>
+  </data>
+  <data name="Ui.Channel.ApplyChannel" xml:space="preserve">
+    <value>Áp dụng kênh</value>
+  </data>
+  <data name="Ui.Channel.Channels" xml:space="preserve">
+    <value>Kênh</value>
+  </data>
+  <data name="Ui.Channel.ApplyingADifferentChannelClearsThe" xml:space="preserve">
+    <value>Áp dụng kênh khác sẽ xóa phiên bản Roblox đã tải để kênh mới có thể cài đặt</value>
+  </data>
+  <data name="Ui.Channel.RendererBackend" xml:space="preserve">
+    <value>Nền tảng kết xuất</value>
+  </data>
+  <data name="Ui.Channel.ChoosesTheGraphicsBackendVoidstrapDraws" xml:space="preserve">
+    <value>Chọn nền tảng đồ họa mà Voidstrap dùng để vẽ chính nó. Tự động chọn nền tảng nhanh nhất hệ thống bạn hỗ trợ. Thay đổi có hiệu lực ở lần khởi động Voidstrap tiếp theo.</value>
+  </data>
 </root>

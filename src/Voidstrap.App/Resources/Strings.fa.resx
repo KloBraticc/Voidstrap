@@ -4618,4 +4618,181 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
   <data name="Ui.Integrations.PlaceID" xml:space="preserve">
     <value>Place ID</value>
   </data>
+  <data name="Ui.Channel.InstallLocation" xml:space="preserve">
+    <value>محل نصب</value>
+  </data>
+  <data name="Ui.Channel.MoveWhereVoidstrapIsInstalledThe" xml:space="preserve">
+    <value>محل نصب Voidstrap را جابه‌جا می‌کند. برنامه در پایان خودکار دوباره اجرا می‌شود.</value>
+  </data>
+  <data name="Ui.Channel.Browse" xml:space="preserve">
+    <value>مرور...</value>
+  </data>
+  <data name="Ui.Channel.VoidstrapCPULimit" xml:space="preserve">
+    <value>محدودیت CPU برای Voidstrap</value>
+  </data>
+  <data name="Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity" xml:space="preserve">
+    <value>وابستگی پردازنده خود Voidstrap را محدود می‌کند. آن را روی حداکثر بگذارید مگر اینکه برنامه فعال دیگری به هسته‌های رزروشده نیاز داشته باشد.</value>
+  </data>
+  <data name="Ui.Channel.IncludePreReleaseVersions" xml:space="preserve">
+    <value>شامل نسخه‌های پیش‌انتشار</value>
+  </data>
+  <data name="Ui.Channel.UpdatesToTestBuildsAsSoon" xml:space="preserve">
+    <value>به محض انتشار، به نسخه‌های آزمایشی به‌روزرسانی می‌کند. این نسخه‌ها کمتر از انتشارهای عادی آزمایش شده‌اند و ممکن است خراب شوند، پس اگر نسخه‌های زودهنگام نمی‌خواهید خاموش بگذارید.</value>
+  </data>
+  <data name="Ui.Channel.LaunchRobloxWithoutVoidstrap" xml:space="preserve">
+    <value>اجرای Roblox بدون Voidstrap</value>
+  </data>
+  <data name="Ui.Channel.JoiningAGameFromYourBrowser" xml:space="preserve">
+    <value>پیوستن به بازی از مرورگر Roblox را مستقیم باز می‌کند و اجرا از Voidstrap پس از شروع Roblox آن را می‌بندد. روکش‌ها و همه قابلیت‌های دیگر Voidstrap در بازی کار نمی‌کنند.</value>
+  </data>
+  <data name="Ui.Channel.DisplayAndResolution" xml:space="preserve">
+    <value>نمایشگر و وضوح</value>
+  </data>
+  <data name="Ui.Channel.Identify" xml:space="preserve">
+    <value>شناسایی</value>
+  </data>
+  <data name="Ui.Channel.ResolutionChanger" xml:space="preserve">
+    <value>تغییر وضوح</value>
+  </data>
+  <data name="Ui.Channel.ChangesTheResolutionOfTheSelected" xml:space="preserve">
+    <value>وضوح نمایشگر انتخاب‌شده را تغییر می‌دهد.</value>
+  </data>
+  <data name="Ui.Channel.ResolutionChangerInGame" xml:space="preserve">
+    <value>تغییر وضوح (در بازی)</value>
+  </data>
+  <data name="Ui.Channel.AppliesToTheSelectedMonitorWhile" xml:space="preserve">
+    <value>تا وقتی در بازی Roblox هستید روی نمایشگر انتخاب‌شده اعمال می‌شود و هنگام خروج وضوح قبلی را برمی‌گرداند.</value>
+  </data>
+  <data name="Ui.Channel.OnlyApplyForASpecificPlaceId" xml:space="preserve">
+    <value>فقط برای یک PlaceId خاص اعمال شود</value>
+  </data>
+  <data name="Ui.Channel.AppSettings" xml:space="preserve">
+    <value>تنظیمات برنامه</value>
+  </data>
+  <data name="Ui.Channel.HardwareAcceleration" xml:space="preserve">
+    <value>شتاب سخت‌افزاری</value>
+  </data>
+  <data name="Ui.Channel.UsesTheGPUToRenderVoidstrap" xml:space="preserve">
+    <value>برای نمایش Voidstrap از GPU استفاده می‌کند. برای سازگاری یا مصرف کمتر حافظه گرافیکی خاموشش کنید.</value>
+  </data>
+  <data name="Ui.Channel.DisplaysVoidstrapsDiscordRPC" xml:space="preserve">
+    <value>Discord RPC مربوط به Voidstrap را نمایش می‌دهد.</value>
+  </data>
+  <data name="Ui.Channel.VoidstrapRPC" xml:space="preserve">
+    <value>Voidstrap RPC</value>
+  </data>
+  <data name="Ui.Channel.FactoryReset" xml:space="preserve">
+    <value>بازنشانی کارخانه</value>
+  </data>
+  <data name="Ui.Channel.Donate" xml:space="preserve">
+    <value>حمایت مالی</value>
+  </data>
+  <data name="Ui.Channel.Installer" xml:space="preserve">
+    <value>نصب‌کننده</value>
+  </data>
+  <data name="Ui.Channel.DownloadServer" xml:space="preserve">
+    <value>سرور دانلود</value>
+  </data>
+  <data name="Ui.Channel.UsedWhenRobloxIsInstalledOr" xml:space="preserve">
+    <value>هنگام نصب یا به‌روزرسانی Roblox استفاده می‌شود</value>
+  </data>
+  <data name="Ui.Channel.DownloadBufferSizeKB" xml:space="preserve">
+    <value>اندازه بافر دانلود (KB)</value>
+  </data>
+  <data name="Ui.Channel.LargerBuffersCanSpeedUpDownloads" xml:space="preserve">
+    <value>بافرهای بزرگ‌تر می‌توانند دانلود را در اتصال‌های سریع تسریع کنند</value>
+  </data>
+  <data name="Ui.Channel.ConcurrentDownloads" xml:space="preserve">
+    <value>دانلودهای هم‌زمان</value>
+  </data>
+  <data name="Ui.Channel.HowManyPackagesDownloadAtThe" xml:space="preserve">
+    <value>چند بسته هم‌زمان دانلود شوند. بیشتر سریع‌تر است اما پهنای باند بیشتری مصرف می‌کند</value>
+  </data>
+  <data name="Ui.Channel.SegmentsPerFile" xml:space="preserve">
+    <value>بخش در هر فایل</value>
+  </data>
+  <data name="Ui.Channel.SplitsEachPackageIntoParallelChunks" xml:space="preserve">
+    <value>هر بسته را برای دانلود سریع‌تر به بخش‌های موازی تقسیم می‌کند</value>
+  </data>
+  <data name="Ui.Channel.StaticDirectory" xml:space="preserve">
+    <value>پوشه ثابت</value>
+  </data>
+  <data name="Ui.Channel.SwitchFromVersionXxxToBinaryType" xml:space="preserve">
+    <value>از پوشه‌های version xxx به پوشه‌های نصب مبتنی بر BinaryType تغییر می‌کند.</value>
+  </data>
+  <data name="Ui.Channel.CompressRobloxInstalls" xml:space="preserve">
+    <value>فشرده‌سازی نصب‌های Roblox</value>
+  </data>
+  <data name="Ui.Channel.PacksRobloxIntoACompressedArchive" xml:space="preserve">
+    <value>تا وقتی Roblox بسته است آن را در یک آرشیو فشرده بسته‌بندی می‌کند، حدود 40% کوچک‌تر روی دیسک. فقط نسخه‌ای که اجرا می‌کنید ابتدا باز می‌شود که یکی دو ثانیه طول می‌کشد.</value>
+  </data>
+  <data name="Ui.Channel.AllocatedMemory" xml:space="preserve">
+    <value>حافظه تخصیص‌یافته</value>
+  </data>
+  <data name="Ui.Channel.HowMuchMemoryRobloxIsAllowed" xml:space="preserve">
+    <value>Roblox مجاز است چه مقدار حافظه استفاده کند</value>
+  </data>
+  <data name="Ui.Channel.GameUpdateDelivery" xml:space="preserve">
+    <value>تحویل به‌روزرسانی بازی</value>
+  </data>
+  <data name="Ui.Channel.SelectWhenYouDLikeTo" xml:space="preserve">
+    <value>انتخاب کنید چه زمانی به‌روزرسانی‌های Roblox را دریافت کنید</value>
+  </data>
+  <data name="Ui.Channel.Normal" xml:space="preserve">
+    <value>عادی</value>
+  </data>
+  <data name="Ui.Channel.YouGetEachRobloxUpdateOn" xml:space="preserve">
+    <value>هر به‌روزرسانی Roblox را در اجرای بعدی پس از انتشار دریافت می‌کنید</value>
+  </data>
+  <data name="Ui.Channel.EarlyOptIn" xml:space="preserve">
+    <value>زودهنگام (Opt in)</value>
+  </data>
+  <data name="Ui.Channel.ChecksRobloxSOwnVersionServer" xml:space="preserve">
+    <value>ابتدا از سرور نسخه Roblox می‌پرسد تا به‌روزرسانی جدید به محض انتشار گرفته شود و منتظر نسخه کش‌شده نماند</value>
+  </data>
+  <data name="Ui.Channel.LateOptOut" xml:space="preserve">
+    <value>دیرهنگام (Opt out)</value>
+  </data>
+  <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
+    <value>پس از هر به‌روزرسانی Roblox نسخه شما را 3 روز نگه می‌دارد تا خطاهای اولیه رفع شوند، سپس خودش به‌روز می‌شود. نصب گم‌شده یا خراب همیشه فوراً به‌روز می‌شود</value>
+  </data>
+  <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
+    <value>حالت بهره‌وری</value>
+  </data>
+  <data name="Ui.Channel.RobloxPriority" xml:space="preserve">
+    <value>اولویت Roblox</value>
+  </data>
+  <data name="Ui.Channel.WhenDisabledRobloxWonTUpdate" xml:space="preserve">
+    <value>وقتی غیرفعال باشد، Roblox به نسخه‌های جدیدتر به‌روز نمی‌شود.</value>
+  </data>
+  <data name="Ui.Channel.RobloxUpdates" xml:space="preserve">
+    <value>به‌روزرسانی‌های Roblox</value>
+  </data>
+  <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
+    <value>کانال‌ها   [Roblox Build]</value>
+  </data>
+  <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
+    <value>نام کانال استقرار را وارد کنید. کانال‌های نامعتبر باعث خطای 403 404 می‌شوند!</value>
+  </data>
+  <data name="Ui.Channel.EnterDeploymentChannelEGProduction" xml:space="preserve">
+    <value>کانال استقرار را وارد کنید (مثلاً production, zlive, live)</value>
+  </data>
+  <data name="Ui.Channel.DeploymentChannel" xml:space="preserve">
+    <value>کانال استقرار</value>
+  </data>
+  <data name="Ui.Channel.ApplyChannel" xml:space="preserve">
+    <value>اعمال کانال</value>
+  </data>
+  <data name="Ui.Channel.Channels" xml:space="preserve">
+    <value>کانال‌ها</value>
+  </data>
+  <data name="Ui.Channel.ApplyingADifferentChannelClearsThe" xml:space="preserve">
+    <value>اعمال کانال دیگر نسخه دانلودشده Roblox را پاک می‌کند تا کانال جدید نصب شود</value>
+  </data>
+  <data name="Ui.Channel.RendererBackend" xml:space="preserve">
+    <value>پشتیبان رندر</value>
+  </data>
+  <data name="Ui.Channel.ChoosesTheGraphicsBackendVoidstrapDraws" xml:space="preserve">
+    <value>پشتیبان گرافیکی را که Voidstrap با آن خودش را می‌کشد انتخاب می‌کند. خودکار سریع‌ترین مورد پشتیبانی‌شده سیستم شما را انتخاب می‌کند. تغییر در اجرای بعدی Voidstrap اعمال می‌شود.</value>
+  </data>
 </root>

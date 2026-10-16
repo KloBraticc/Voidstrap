@@ -4601,4 +4601,181 @@ Voidstrap 的安装路径是：
   <data name="Ui.Integrations.PlaceID" xml:space="preserve">
     <value>Place ID</value>
   </data>
+  <data name="Ui.Channel.InstallLocation" xml:space="preserve">
+    <value>安装位置</value>
+  </data>
+  <data name="Ui.Channel.MoveWhereVoidstrapIsInstalledThe" xml:space="preserve">
+    <value>移动 Voidstrap 的安装位置。完成后应用会自动重启。</value>
+  </data>
+  <data name="Ui.Channel.Browse" xml:space="preserve">
+    <value>浏览...</value>
+  </data>
+  <data name="Ui.Channel.VoidstrapCPULimit" xml:space="preserve">
+    <value>Voidstrap CPU 限制</value>
+  </data>
+  <data name="Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity" xml:space="preserve">
+    <value>限制 Voidstrap 自身的处理器关联。除非其他活动应用需要预留核心，否则请保持最大值。</value>
+  </data>
+  <data name="Ui.Channel.IncludePreReleaseVersions" xml:space="preserve">
+    <value>包含预发布版本</value>
+  </data>
+  <data name="Ui.Channel.UpdatesToTestBuildsAsSoon" xml:space="preserve">
+    <value>测试版本一发布就更新。它们比正式版本测试得少，可能会出问题，因此除非您想要抢先版本，否则请保持关闭。</value>
+  </data>
+  <data name="Ui.Channel.LaunchRobloxWithoutVoidstrap" xml:space="preserve">
+    <value>不通过 Voidstrap 启动 Roblox</value>
+  </data>
+  <data name="Ui.Channel.JoiningAGameFromYourBrowser" xml:space="preserve">
+    <value>从浏览器加入游戏会直接打开 Roblox，从 Voidstrap 启动时会在 Roblox 启动后关闭 Voidstrap。叠加层和其他所有游戏内 Voidstrap 功能将停止工作。</value>
+  </data>
+  <data name="Ui.Channel.DisplayAndResolution" xml:space="preserve">
+    <value>显示和分辨率</value>
+  </data>
+  <data name="Ui.Channel.Identify" xml:space="preserve">
+    <value>识别</value>
+  </data>
+  <data name="Ui.Channel.ResolutionChanger" xml:space="preserve">
+    <value>分辨率切换</value>
+  </data>
+  <data name="Ui.Channel.ChangesTheResolutionOfTheSelected" xml:space="preserve">
+    <value>更改所选显示器的分辨率。</value>
+  </data>
+  <data name="Ui.Channel.ResolutionChangerInGame" xml:space="preserve">
+    <value>分辨率切换（游戏中）</value>
+  </data>
+  <data name="Ui.Channel.AppliesToTheSelectedMonitorWhile" xml:space="preserve">
+    <value>在您进入 Roblox 游戏时应用于所选显示器，离开后恢复之前的分辨率。</value>
+  </data>
+  <data name="Ui.Channel.OnlyApplyForASpecificPlaceId" xml:space="preserve">
+    <value>仅对特定 PlaceId 应用</value>
+  </data>
+  <data name="Ui.Channel.AppSettings" xml:space="preserve">
+    <value>应用设置</value>
+  </data>
+  <data name="Ui.Channel.HardwareAcceleration" xml:space="preserve">
+    <value>硬件加速</value>
+  </data>
+  <data name="Ui.Channel.UsesTheGPUToRenderVoidstrap" xml:space="preserve">
+    <value>使用 GPU 渲染 Voidstrap。为了兼容性或降低显存占用可将其关闭。</value>
+  </data>
+  <data name="Ui.Channel.DisplaysVoidstrapsDiscordRPC" xml:space="preserve">
+    <value>显示 Voidstrap 的 Discord RPC。</value>
+  </data>
+  <data name="Ui.Channel.VoidstrapRPC" xml:space="preserve">
+    <value>Voidstrap RPC</value>
+  </data>
+  <data name="Ui.Channel.FactoryReset" xml:space="preserve">
+    <value>恢复出厂设置</value>
+  </data>
+  <data name="Ui.Channel.Donate" xml:space="preserve">
+    <value>捐赠</value>
+  </data>
+  <data name="Ui.Channel.Installer" xml:space="preserve">
+    <value>安装程序</value>
+  </data>
+  <data name="Ui.Channel.DownloadServer" xml:space="preserve">
+    <value>下载服务器</value>
+  </data>
+  <data name="Ui.Channel.UsedWhenRobloxIsInstalledOr" xml:space="preserve">
+    <value>安装或更新 Roblox 时使用</value>
+  </data>
+  <data name="Ui.Channel.DownloadBufferSizeKB" xml:space="preserve">
+    <value>下载缓冲区大小 (KB)</value>
+  </data>
+  <data name="Ui.Channel.LargerBuffersCanSpeedUpDownloads" xml:space="preserve">
+    <value>在高速网络上，更大的缓冲区可以加快下载</value>
+  </data>
+  <data name="Ui.Channel.ConcurrentDownloads" xml:space="preserve">
+    <value>同时下载数</value>
+  </data>
+  <data name="Ui.Channel.HowManyPackagesDownloadAtThe" xml:space="preserve">
+    <value>同时下载的包数量。越多越快，但占用更多带宽</value>
+  </data>
+  <data name="Ui.Channel.SegmentsPerFile" xml:space="preserve">
+    <value>每个文件的分段数</value>
+  </data>
+  <data name="Ui.Channel.SplitsEachPackageIntoParallelChunks" xml:space="preserve">
+    <value>将每个包拆分为并行分块以加快下载</value>
+  </data>
+  <data name="Ui.Channel.StaticDirectory" xml:space="preserve">
+    <value>固定目录</value>
+  </data>
+  <data name="Ui.Channel.SwitchFromVersionXxxToBinaryType" xml:space="preserve">
+    <value>从 version xxx 目录切换为基于 BinaryType 的安装目录。</value>
+  </data>
+  <data name="Ui.Channel.CompressRobloxInstalls" xml:space="preserve">
+    <value>压缩 Roblox 安装</value>
+  </data>
+  <data name="Ui.Channel.PacksRobloxIntoACompressedArchive" xml:space="preserve">
+    <value>在 Roblox 关闭时将其打包为压缩归档，磁盘占用约减少 40%。只有您启动的版本会先被解压，需要一两秒。</value>
+  </data>
+  <data name="Ui.Channel.AllocatedMemory" xml:space="preserve">
+    <value>分配的内存</value>
+  </data>
+  <data name="Ui.Channel.HowMuchMemoryRobloxIsAllowed" xml:space="preserve">
+    <value>Roblox 可使用的内存量</value>
+  </data>
+  <data name="Ui.Channel.GameUpdateDelivery" xml:space="preserve">
+    <value>游戏更新推送</value>
+  </data>
+  <data name="Ui.Channel.SelectWhenYouDLikeTo" xml:space="preserve">
+    <value>选择何时接收 Roblox 更新</value>
+  </data>
+  <data name="Ui.Channel.Normal" xml:space="preserve">
+    <value>正常</value>
+  </data>
+  <data name="Ui.Channel.YouGetEachRobloxUpdateOn" xml:space="preserve">
+    <value>每次 Roblox 更新发布后，您会在下次启动时收到</value>
+  </data>
+  <data name="Ui.Channel.EarlyOptIn" xml:space="preserve">
+    <value>抢先 (Opt in)</value>
+  </data>
+  <data name="Ui.Channel.ChecksRobloxSOwnVersionServer" xml:space="preserve">
+    <value>优先查询 Roblox 自己的版本服务器，新更新上线即可获取，无需等待缓存副本</value>
+  </data>
+  <data name="Ui.Channel.LateOptOut" xml:space="preserve">
+    <value>延后 (Opt out)</value>
+  </data>
+  <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
+    <value>每次 Roblox 更新后保留当前版本 3 天，以便先修复早期错误，然后自动更新。缺失或损坏的安装始终会立即更新</value>
+  </data>
+  <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
+    <value>效率模式</value>
+  </data>
+  <data name="Ui.Channel.RobloxPriority" xml:space="preserve">
+    <value>Roblox 优先级</value>
+  </data>
+  <data name="Ui.Channel.WhenDisabledRobloxWonTUpdate" xml:space="preserve">
+    <value>禁用后，Roblox 不会更新到更新的版本。</value>
+  </data>
+  <data name="Ui.Channel.RobloxUpdates" xml:space="preserve">
+    <value>Roblox 更新</value>
+  </data>
+  <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
+    <value>频道   [Roblox Build]</value>
+  </data>
+  <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
+    <value>请输入部署频道名称。无效频道会导致 403 404 错误！</value>
+  </data>
+  <data name="Ui.Channel.EnterDeploymentChannelEGProduction" xml:space="preserve">
+    <value>输入部署频道（例如 production, zlive, live）</value>
+  </data>
+  <data name="Ui.Channel.DeploymentChannel" xml:space="preserve">
+    <value>部署频道</value>
+  </data>
+  <data name="Ui.Channel.ApplyChannel" xml:space="preserve">
+    <value>应用频道</value>
+  </data>
+  <data name="Ui.Channel.Channels" xml:space="preserve">
+    <value>频道</value>
+  </data>
+  <data name="Ui.Channel.ApplyingADifferentChannelClearsThe" xml:space="preserve">
+    <value>应用其他频道会清除已下载的 Roblox 版本，以便新频道进行安装</value>
+  </data>
+  <data name="Ui.Channel.RendererBackend" xml:space="preserve">
+    <value>渲染后端</value>
+  </data>
+  <data name="Ui.Channel.ChoosesTheGraphicsBackendVoidstrapDraws" xml:space="preserve">
+    <value>选择 Voidstrap 绘制自身所用的图形后端。自动会选择您系统支持的最快后端。更改将在 Voidstrap 下次启动时生效。</value>
+  </data>
 </root>

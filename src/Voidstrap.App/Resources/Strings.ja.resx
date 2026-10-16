@@ -4603,4 +4603,181 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
   <data name="Ui.Integrations.PlaceID" xml:space="preserve">
     <value>Place ID</value>
   </data>
+  <data name="Ui.Channel.InstallLocation" xml:space="preserve">
+    <value>インストール先</value>
+  </data>
+  <data name="Ui.Channel.MoveWhereVoidstrapIsInstalledThe" xml:space="preserve">
+    <value>Voidstrap のインストール先を移動します。完了するとアプリは自動的に再起動します。</value>
+  </data>
+  <data name="Ui.Channel.Browse" xml:space="preserve">
+    <value>参照...</value>
+  </data>
+  <data name="Ui.Channel.VoidstrapCPULimit" xml:space="preserve">
+    <value>Voidstrap の CPU 上限</value>
+  </data>
+  <data name="Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity" xml:space="preserve">
+    <value>Voidstrap 自身のプロセッサアフィニティを制限します。他のアクティブなアプリが予約コアを必要としない限り、最大のままにしてください。</value>
+  </data>
+  <data name="Ui.Channel.IncludePreReleaseVersions" xml:space="preserve">
+    <value>プレリリース版を含める</value>
+  </data>
+  <data name="Ui.Channel.UpdatesToTestBuildsAsSoon" xml:space="preserve">
+    <value>テストビルドが公開されるとすぐに更新します。通常のリリースよりテストが少なく不具合が起きる場合があるため、早期ビルドが不要ならオフのままにしてください。</value>
+  </data>
+  <data name="Ui.Channel.LaunchRobloxWithoutVoidstrap" xml:space="preserve">
+    <value>Voidstrap なしで Roblox を起動</value>
+  </data>
+  <data name="Ui.Channel.JoiningAGameFromYourBrowser" xml:space="preserve">
+    <value>ブラウザーからゲームに参加すると Roblox が直接開き、Voidstrap から起動すると Roblox の起動後に Voidstrap は終了します。オーバーレイやゲーム内のその他の Voidstrap 機能は動作しなくなります。</value>
+  </data>
+  <data name="Ui.Channel.DisplayAndResolution" xml:space="preserve">
+    <value>ディスプレイと解像度</value>
+  </data>
+  <data name="Ui.Channel.Identify" xml:space="preserve">
+    <value>識別</value>
+  </data>
+  <data name="Ui.Channel.ResolutionChanger" xml:space="preserve">
+    <value>解像度の変更</value>
+  </data>
+  <data name="Ui.Channel.ChangesTheResolutionOfTheSelected" xml:space="preserve">
+    <value>選択したモニターの解像度を変更します。</value>
+  </data>
+  <data name="Ui.Channel.ResolutionChangerInGame" xml:space="preserve">
+    <value>解像度の変更 (ゲーム内)</value>
+  </data>
+  <data name="Ui.Channel.AppliesToTheSelectedMonitorWhile" xml:space="preserve">
+    <value>Roblox のゲーム中は選択したモニターに適用し、退出すると元の解像度に戻します。</value>
+  </data>
+  <data name="Ui.Channel.OnlyApplyForASpecificPlaceId" xml:space="preserve">
+    <value>特定の PlaceId のみに適用</value>
+  </data>
+  <data name="Ui.Channel.AppSettings" xml:space="preserve">
+    <value>アプリの設定</value>
+  </data>
+  <data name="Ui.Channel.HardwareAcceleration" xml:space="preserve">
+    <value>ハードウェアアクセラレーション</value>
+  </data>
+  <data name="Ui.Channel.UsesTheGPUToRenderVoidstrap" xml:space="preserve">
+    <value>GPU を使って Voidstrap を描画します。互換性やビデオメモリ使用量の削減のためにオフにできます。</value>
+  </data>
+  <data name="Ui.Channel.DisplaysVoidstrapsDiscordRPC" xml:space="preserve">
+    <value>Voidstrap の Discord RPC を表示します。</value>
+  </data>
+  <data name="Ui.Channel.VoidstrapRPC" xml:space="preserve">
+    <value>Voidstrap RPC</value>
+  </data>
+  <data name="Ui.Channel.FactoryReset" xml:space="preserve">
+    <value>初期化</value>
+  </data>
+  <data name="Ui.Channel.Donate" xml:space="preserve">
+    <value>寄付</value>
+  </data>
+  <data name="Ui.Channel.Installer" xml:space="preserve">
+    <value>インストーラー</value>
+  </data>
+  <data name="Ui.Channel.DownloadServer" xml:space="preserve">
+    <value>ダウンロードサーバー</value>
+  </data>
+  <data name="Ui.Channel.UsedWhenRobloxIsInstalledOr" xml:space="preserve">
+    <value>Roblox のインストールや更新時に使用されます</value>
+  </data>
+  <data name="Ui.Channel.DownloadBufferSizeKB" xml:space="preserve">
+    <value>ダウンロードバッファーサイズ (KB)</value>
+  </data>
+  <data name="Ui.Channel.LargerBuffersCanSpeedUpDownloads" xml:space="preserve">
+    <value>バッファーを大きくすると高速回線でのダウンロードが速くなる場合があります</value>
+  </data>
+  <data name="Ui.Channel.ConcurrentDownloads" xml:space="preserve">
+    <value>同時ダウンロード数</value>
+  </data>
+  <data name="Ui.Channel.HowManyPackagesDownloadAtThe" xml:space="preserve">
+    <value>同時にダウンロードするパッケージの数。多いほど高速ですが帯域を多く使います</value>
+  </data>
+  <data name="Ui.Channel.SegmentsPerFile" xml:space="preserve">
+    <value>ファイルあたりの分割数</value>
+  </data>
+  <data name="Ui.Channel.SplitsEachPackageIntoParallelChunks" xml:space="preserve">
+    <value>各パッケージを並列のチャンクに分割して高速にダウンロードします</value>
+  </data>
+  <data name="Ui.Channel.StaticDirectory" xml:space="preserve">
+    <value>固定ディレクトリ</value>
+  </data>
+  <data name="Ui.Channel.SwitchFromVersionXxxToBinaryType" xml:space="preserve">
+    <value>version xxx 形式のフォルダーから BinaryType ベースのインストールフォルダーに切り替えます。</value>
+  </data>
+  <data name="Ui.Channel.CompressRobloxInstalls" xml:space="preserve">
+    <value>Roblox のインストールを圧縮</value>
+  </data>
+  <data name="Ui.Channel.PacksRobloxIntoACompressedArchive" xml:space="preserve">
+    <value>閉じている間 Roblox を圧縮アーカイブにまとめ、ディスク上で約 40% 小さくします。起動するものだけを先に展開し、1 秒か 2 秒かかります。</value>
+  </data>
+  <data name="Ui.Channel.AllocatedMemory" xml:space="preserve">
+    <value>割り当てメモリ</value>
+  </data>
+  <data name="Ui.Channel.HowMuchMemoryRobloxIsAllowed" xml:space="preserve">
+    <value>Roblox が使用できるメモリ量</value>
+  </data>
+  <data name="Ui.Channel.GameUpdateDelivery" xml:space="preserve">
+    <value>ゲーム更新の配信</value>
+  </data>
+  <data name="Ui.Channel.SelectWhenYouDLikeTo" xml:space="preserve">
+    <value>Roblox の更新を受け取るタイミングを選択します</value>
+  </data>
+  <data name="Ui.Channel.Normal" xml:space="preserve">
+    <value>通常</value>
+  </data>
+  <data name="Ui.Channel.YouGetEachRobloxUpdateOn" xml:space="preserve">
+    <value>各 Roblox 更新はリリース後の次回起動時に受け取ります</value>
+  </data>
+  <data name="Ui.Channel.EarlyOptIn" xml:space="preserve">
+    <value>早期 (Opt in)</value>
+  </data>
+  <data name="Ui.Channel.ChecksRobloxSOwnVersionServer" xml:space="preserve">
+    <value>まず Roblox のバージョンサーバーを確認し、キャッシュを待たずに新しい更新を公開直後に取得します</value>
+  </data>
+  <data name="Ui.Channel.LateOptOut" xml:space="preserve">
+    <value>遅延 (Opt out)</value>
+  </data>
+  <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
+    <value>初期のバグが修正されるよう、Roblox の更新ごとに現在のバージョンを 3 日間維持し、その後自動で更新します。インストールが見つからないか壊れている場合は常に即時更新します</value>
+  </data>
+  <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
+    <value>効率モード</value>
+  </data>
+  <data name="Ui.Channel.RobloxPriority" xml:space="preserve">
+    <value>Roblox の優先度</value>
+  </data>
+  <data name="Ui.Channel.WhenDisabledRobloxWonTUpdate" xml:space="preserve">
+    <value>無効にすると、Roblox は新しいバージョンに更新されません。</value>
+  </data>
+  <data name="Ui.Channel.RobloxUpdates" xml:space="preserve">
+    <value>Roblox の更新</value>
+  </data>
+  <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
+    <value>チャンネル   [Roblox Build]</value>
+  </data>
+  <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
+    <value>デプロイチャンネル名を入力してください。無効なチャンネルは 403 404 エラーの原因になります！</value>
+  </data>
+  <data name="Ui.Channel.EnterDeploymentChannelEGProduction" xml:space="preserve">
+    <value>デプロイチャンネルを入力 (例: production, zlive, live)</value>
+  </data>
+  <data name="Ui.Channel.DeploymentChannel" xml:space="preserve">
+    <value>デプロイチャンネル</value>
+  </data>
+  <data name="Ui.Channel.ApplyChannel" xml:space="preserve">
+    <value>チャンネルを適用</value>
+  </data>
+  <data name="Ui.Channel.Channels" xml:space="preserve">
+    <value>チャンネル</value>
+  </data>
+  <data name="Ui.Channel.ApplyingADifferentChannelClearsThe" xml:space="preserve">
+    <value>別のチャンネルを適用すると、新しいチャンネルをインストールできるようダウンロード済みの Roblox バージョンが削除されます</value>
+  </data>
+  <data name="Ui.Channel.RendererBackend" xml:space="preserve">
+    <value>レンダラーのバックエンド</value>
+  </data>
+  <data name="Ui.Channel.ChoosesTheGraphicsBackendVoidstrapDraws" xml:space="preserve">
+    <value>Voidstrap 自身の描画に使うグラフィックバックエンドを選択します。自動を選ぶとシステムが対応する最速のものになります。変更は次回 Voidstrap を起動したときに反映されます。</value>
+  </data>
 </root>

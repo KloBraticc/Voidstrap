@@ -4614,4 +4614,181 @@ Ką norėtumėte daryti?</value>
   <data name="Ui.Integrations.PlaceID" xml:space="preserve">
     <value>Place ID</value>
   </data>
+  <data name="Ui.Channel.InstallLocation" xml:space="preserve">
+    <value>Diegimo vieta</value>
+  </data>
+  <data name="Ui.Channel.MoveWhereVoidstrapIsInstalledThe" xml:space="preserve">
+    <value>Perkelia Voidstrap diegimo vietą. Baigus programa automatiškai paleidžiama iš naujo.</value>
+  </data>
+  <data name="Ui.Channel.Browse" xml:space="preserve">
+    <value>Naršyti...</value>
+  </data>
+  <data name="Ui.Channel.VoidstrapCPULimit" xml:space="preserve">
+    <value>Voidstrap procesoriaus riba</value>
+  </data>
+  <data name="Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity" xml:space="preserve">
+    <value>Riboja paties Voidstrap procesoriaus susiejimą. Palikite maksimumą, nebent kitai aktyviai programai reikia rezervuotų branduolių.</value>
+  </data>
+  <data name="Ui.Channel.IncludePreReleaseVersions" xml:space="preserve">
+    <value>Įtraukti išankstines versijas</value>
+  </data>
+  <data name="Ui.Channel.UpdatesToTestBuildsAsSoon" xml:space="preserve">
+    <value>Atnaujina į bandomąsias versijas vos jas išleidus. Jos mažiau išbandytos nei įprasti leidimai ir gali sugesti, todėl palikite išjungtą, nebent norite ankstyvų versijų.</value>
+  </data>
+  <data name="Ui.Channel.LaunchRobloxWithoutVoidstrap" xml:space="preserve">
+    <value>Paleisti Roblox be Voidstrap</value>
+  </data>
+  <data name="Ui.Channel.JoiningAGameFromYourBrowser" xml:space="preserve">
+    <value>Prisijungimas prie žaidimo iš naršyklės atidaro Roblox tiesiogiai, o paleidus iš Voidstrap jis užsidaro, kai Roblox pasileidžia. Perdangos ir visos kitos Voidstrap funkcijos žaidime nustoja veikti.</value>
+  </data>
+  <data name="Ui.Channel.DisplayAndResolution" xml:space="preserve">
+    <value>Ekranas ir raiška</value>
+  </data>
+  <data name="Ui.Channel.Identify" xml:space="preserve">
+    <value>Identifikuoti</value>
+  </data>
+  <data name="Ui.Channel.ResolutionChanger" xml:space="preserve">
+    <value>Raiškos keitiklis</value>
+  </data>
+  <data name="Ui.Channel.ChangesTheResolutionOfTheSelected" xml:space="preserve">
+    <value>Keičia pasirinkto monitoriaus raišką.</value>
+  </data>
+  <data name="Ui.Channel.ResolutionChangerInGame" xml:space="preserve">
+    <value>Raiškos keitiklis (žaidime)</value>
+  </data>
+  <data name="Ui.Channel.AppliesToTheSelectedMonitorWhile" xml:space="preserve">
+    <value>Taikoma pasirinktam monitoriui, kol esate Roblox žaidime, o išėjus atkuria ankstesnę raišką.</value>
+  </data>
+  <data name="Ui.Channel.OnlyApplyForASpecificPlaceId" xml:space="preserve">
+    <value>Taikyti tik konkrečiam PlaceId</value>
+  </data>
+  <data name="Ui.Channel.AppSettings" xml:space="preserve">
+    <value>Programos nustatymai</value>
+  </data>
+  <data name="Ui.Channel.HardwareAcceleration" xml:space="preserve">
+    <value>Aparatinis spartinimas</value>
+  </data>
+  <data name="Ui.Channel.UsesTheGPUToRenderVoidstrap" xml:space="preserve">
+    <value>Naudoja GPU Voidstrap atvaizdavimui. Išjunkite dėl suderinamumo ar mažesnio vaizdo atminties naudojimo.</value>
+  </data>
+  <data name="Ui.Channel.DisplaysVoidstrapsDiscordRPC" xml:space="preserve">
+    <value>Rodo Voidstrap Discord RPC.</value>
+  </data>
+  <data name="Ui.Channel.VoidstrapRPC" xml:space="preserve">
+    <value>Voidstrap RPC</value>
+  </data>
+  <data name="Ui.Channel.FactoryReset" xml:space="preserve">
+    <value>Gamyklinių nustatymų atkūrimas</value>
+  </data>
+  <data name="Ui.Channel.Donate" xml:space="preserve">
+    <value>Paremti</value>
+  </data>
+  <data name="Ui.Channel.Installer" xml:space="preserve">
+    <value>Diegimo programa</value>
+  </data>
+  <data name="Ui.Channel.DownloadServer" xml:space="preserve">
+    <value>Atsisiuntimo serveris</value>
+  </data>
+  <data name="Ui.Channel.UsedWhenRobloxIsInstalledOr" xml:space="preserve">
+    <value>Naudojamas diegiant ar atnaujinant Roblox</value>
+  </data>
+  <data name="Ui.Channel.DownloadBufferSizeKB" xml:space="preserve">
+    <value>Atsisiuntimo buferio dydis (KB)</value>
+  </data>
+  <data name="Ui.Channel.LargerBuffersCanSpeedUpDownloads" xml:space="preserve">
+    <value>Didesni buferiai gali pagreitinti atsisiuntimą per greitą ryšį</value>
+  </data>
+  <data name="Ui.Channel.ConcurrentDownloads" xml:space="preserve">
+    <value>Vienu metu siunčiami</value>
+  </data>
+  <data name="Ui.Channel.HowManyPackagesDownloadAtThe" xml:space="preserve">
+    <value>Kiek paketų atsisiunčiama vienu metu. Daugiau yra greičiau, bet naudoja daugiau pralaidumo</value>
+  </data>
+  <data name="Ui.Channel.SegmentsPerFile" xml:space="preserve">
+    <value>Segmentai faile</value>
+  </data>
+  <data name="Ui.Channel.SplitsEachPackageIntoParallelChunks" xml:space="preserve">
+    <value>Padalija kiekvieną paketą į lygiagrečias dalis greitesniam atsisiuntimui</value>
+  </data>
+  <data name="Ui.Channel.StaticDirectory" xml:space="preserve">
+    <value>Statinis katalogas</value>
+  </data>
+  <data name="Ui.Channel.SwitchFromVersionXxxToBinaryType" xml:space="preserve">
+    <value>Perjungia iš version xxx katalogų į diegimo katalogus pagal BinaryType.</value>
+  </data>
+  <data name="Ui.Channel.CompressRobloxInstalls" xml:space="preserve">
+    <value>Glaudinti Roblox diegimus</value>
+  </data>
+  <data name="Ui.Channel.PacksRobloxIntoACompressedArchive" xml:space="preserve">
+    <value>Kol Roblox uždarytas, supakuoja jį į suglaudintą archyvą, apie 40% mažiau vietos diske. Pirmiausia išpakuojama tik paleidžiama versija, tai trunka sekundę ar dvi.</value>
+  </data>
+  <data name="Ui.Channel.AllocatedMemory" xml:space="preserve">
+    <value>Skirta atmintis</value>
+  </data>
+  <data name="Ui.Channel.HowMuchMemoryRobloxIsAllowed" xml:space="preserve">
+    <value>Kiek atminties gali naudoti Roblox</value>
+  </data>
+  <data name="Ui.Channel.GameUpdateDelivery" xml:space="preserve">
+    <value>Žaidimo atnaujinimų pristatymas</value>
+  </data>
+  <data name="Ui.Channel.SelectWhenYouDLikeTo" xml:space="preserve">
+    <value>Pasirinkite, kada gauti Roblox atnaujinimus</value>
+  </data>
+  <data name="Ui.Channel.Normal" xml:space="preserve">
+    <value>Įprastai</value>
+  </data>
+  <data name="Ui.Channel.YouGetEachRobloxUpdateOn" xml:space="preserve">
+    <value>Kiekvieną Roblox atnaujinimą gaunate kitą kartą paleidę po jo išleidimo</value>
+  </data>
+  <data name="Ui.Channel.EarlyOptIn" xml:space="preserve">
+    <value>Anksti (Opt in)</value>
+  </data>
+  <data name="Ui.Channel.ChecksRobloxSOwnVersionServer" xml:space="preserve">
+    <value>Pirmiausia klausia Roblox versijų serverio, todėl naujas atnaujinimas paimamas iškart, nelaukiant talpyklos kopijos</value>
+  </data>
+  <data name="Ui.Channel.LateOptOut" xml:space="preserve">
+    <value>Vėlai (Opt out)</value>
+  </data>
+  <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
+    <value>Po kiekvieno Roblox atnaujinimo 3 dienas laiko jūsų versiją, kad ankstyvos klaidos būtų ištaisytos, tada atsinaujina pats. Trūkstamas ar sugadintas diegimas visada atnaujinamas iškart</value>
+  </data>
+  <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
+    <value>Efektyvumo režimas</value>
+  </data>
+  <data name="Ui.Channel.RobloxPriority" xml:space="preserve">
+    <value>Roblox prioritetas</value>
+  </data>
+  <data name="Ui.Channel.WhenDisabledRobloxWonTUpdate" xml:space="preserve">
+    <value>Išjungus Roblox nebus atnaujinamas į naujesnes versijas.</value>
+  </data>
+  <data name="Ui.Channel.RobloxUpdates" xml:space="preserve">
+    <value>Roblox atnaujinimai</value>
+  </data>
+  <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
+    <value>Kanalai   [Roblox Build]</value>
+  </data>
+  <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
+    <value>Įveskite diegimo kanalo pavadinimą. Netinkami kanalai sukels klaidas 403 404!</value>
+  </data>
+  <data name="Ui.Channel.EnterDeploymentChannelEGProduction" xml:space="preserve">
+    <value>Įveskite diegimo kanalą (pvz., production, zlive, live)</value>
+  </data>
+  <data name="Ui.Channel.DeploymentChannel" xml:space="preserve">
+    <value>Diegimo kanalas</value>
+  </data>
+  <data name="Ui.Channel.ApplyChannel" xml:space="preserve">
+    <value>Taikyti kanalą</value>
+  </data>
+  <data name="Ui.Channel.Channels" xml:space="preserve">
+    <value>Kanalai</value>
+  </data>
+  <data name="Ui.Channel.ApplyingADifferentChannelClearsThe" xml:space="preserve">
+    <value>Pritaikius kitą kanalą, atsisiųsta Roblox versija ištrinama, kad naujas kanalas galėtų įsidiegti</value>
+  </data>
+  <data name="Ui.Channel.RendererBackend" xml:space="preserve">
+    <value>Atvaizdavimo sąsaja</value>
+  </data>
+  <data name="Ui.Channel.ChoosesTheGraphicsBackendVoidstrapDraws" xml:space="preserve">
+    <value>Pasirenka grafikos sąsają, kuria Voidstrap piešia save. Automatinis pasirenka greičiausią, kurią palaiko jūsų sistema. Pakeitimas įsigalios kitą kartą paleidus Voidstrap.</value>
+  </data>
 </root>

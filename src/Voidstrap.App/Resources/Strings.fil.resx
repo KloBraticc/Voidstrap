@@ -4353,4 +4353,181 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Integrations.PlaceID" xml:space="preserve">
     <value>Place ID</value>
   </data>
+  <data name="Ui.Channel.InstallLocation" xml:space="preserve">
+    <value>Lokasyon ng install</value>
+  </data>
+  <data name="Ui.Channel.MoveWhereVoidstrapIsInstalledThe" xml:space="preserve">
+    <value>Inililipat kung saan naka install ang Voidstrap. Awtomatikong magre restart ang app kapag tapos na.</value>
+  </data>
+  <data name="Ui.Channel.Browse" xml:space="preserve">
+    <value>Mag browse...</value>
+  </data>
+  <data name="Ui.Channel.VoidstrapCPULimit" xml:space="preserve">
+    <value>CPU limit ng Voidstrap</value>
+  </data>
+  <data name="Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity" xml:space="preserve">
+    <value>Nililimitahan ang processor affinity ng Voidstrap mismo. Iwanan sa maximum maliban kung may ibang aktibong app na kailangan ng nakareserbang core.</value>
+  </data>
+  <data name="Ui.Channel.IncludePreReleaseVersions" xml:space="preserve">
+    <value>Isama ang mga pre release na bersyon</value>
+  </data>
+  <data name="Ui.Channel.UpdatesToTestBuildsAsSoon" xml:space="preserve">
+    <value>Nag a update sa mga test build kapag nailabas na. Mas kaunti ang test sa mga ito kaysa sa normal na release at puwedeng masira, kaya iwanang naka off maliban kung gusto mo ng maagang build.</value>
+  </data>
+  <data name="Ui.Channel.LaunchRobloxWithoutVoidstrap" xml:space="preserve">
+    <value>Ilunsad ang Roblox nang walang Voidstrap</value>
+  </data>
+  <data name="Ui.Channel.JoiningAGameFromYourBrowser" xml:space="preserve">
+    <value>Ang pagsali sa laro mula sa browser ay direktang nagbubukas ng Roblox, at ang paglunsad mula sa Voidstrap ay nagsasara rito kapag nagsimula na ang Roblox. Hihinto ang mga overlay at lahat ng iba pang feature ng Voidstrap sa laro.</value>
+  </data>
+  <data name="Ui.Channel.DisplayAndResolution" xml:space="preserve">
+    <value>Display at resolution</value>
+  </data>
+  <data name="Ui.Channel.Identify" xml:space="preserve">
+    <value>Tukuyin</value>
+  </data>
+  <data name="Ui.Channel.ResolutionChanger" xml:space="preserve">
+    <value>Pampalit ng resolution</value>
+  </data>
+  <data name="Ui.Channel.ChangesTheResolutionOfTheSelected" xml:space="preserve">
+    <value>Pinapalitan ang resolution ng napiling monitor.</value>
+  </data>
+  <data name="Ui.Channel.ResolutionChangerInGame" xml:space="preserve">
+    <value>Pampalit ng resolution (sa laro)</value>
+  </data>
+  <data name="Ui.Channel.AppliesToTheSelectedMonitorWhile" xml:space="preserve">
+    <value>Para sa napiling monitor habang nasa laro ng Roblox ka, at ibinabalik ang dating resolution kapag umalis ka.</value>
+  </data>
+  <data name="Ui.Channel.OnlyApplyForASpecificPlaceId" xml:space="preserve">
+    <value>Ilapat lang para sa partikular na PlaceId</value>
+  </data>
+  <data name="Ui.Channel.AppSettings" xml:space="preserve">
+    <value>Mga setting ng app</value>
+  </data>
+  <data name="Ui.Channel.HardwareAcceleration" xml:space="preserve">
+    <value>Hardware acceleration</value>
+  </data>
+  <data name="Ui.Channel.UsesTheGPUToRenderVoidstrap" xml:space="preserve">
+    <value>Ginagamit ang GPU para i render ang Voidstrap. Patayin para sa compatibility o mas mababang paggamit ng video memory.</value>
+  </data>
+  <data name="Ui.Channel.DisplaysVoidstrapsDiscordRPC" xml:space="preserve">
+    <value>Ipinapakita ang Discord RPC ng Voidstrap.</value>
+  </data>
+  <data name="Ui.Channel.VoidstrapRPC" xml:space="preserve">
+    <value>Voidstrap RPC</value>
+  </data>
+  <data name="Ui.Channel.FactoryReset" xml:space="preserve">
+    <value>Factory reset</value>
+  </data>
+  <data name="Ui.Channel.Donate" xml:space="preserve">
+    <value>Mag donate</value>
+  </data>
+  <data name="Ui.Channel.Installer" xml:space="preserve">
+    <value>Installer</value>
+  </data>
+  <data name="Ui.Channel.DownloadServer" xml:space="preserve">
+    <value>Download server</value>
+  </data>
+  <data name="Ui.Channel.UsedWhenRobloxIsInstalledOr" xml:space="preserve">
+    <value>Ginagamit kapag ini install o ina update ang Roblox</value>
+  </data>
+  <data name="Ui.Channel.DownloadBufferSizeKB" xml:space="preserve">
+    <value>Laki ng download buffer (KB)</value>
+  </data>
+  <data name="Ui.Channel.LargerBuffersCanSpeedUpDownloads" xml:space="preserve">
+    <value>Mapapabilis ng mas malalaking buffer ang download sa mabilis na koneksyon</value>
+  </data>
+  <data name="Ui.Channel.ConcurrentDownloads" xml:space="preserve">
+    <value>Sabay sabay na download</value>
+  </data>
+  <data name="Ui.Channel.HowManyPackagesDownloadAtThe" xml:space="preserve">
+    <value>Ilang package ang sabay na dina download. Mas mataas ay mas mabilis pero mas maraming bandwidth</value>
+  </data>
+  <data name="Ui.Channel.SegmentsPerFile" xml:space="preserve">
+    <value>Segment bawat file</value>
+  </data>
+  <data name="Ui.Channel.SplitsEachPackageIntoParallelChunks" xml:space="preserve">
+    <value>Hinahati ang bawat package sa mga sabay na piraso para mas mabilis mag download</value>
+  </data>
+  <data name="Ui.Channel.StaticDirectory" xml:space="preserve">
+    <value>Static na direktoryo</value>
+  </data>
+  <data name="Ui.Channel.SwitchFromVersionXxxToBinaryType" xml:space="preserve">
+    <value>Lumilipat mula sa mga direktoryong version xxx papunta sa mga install directory na batay sa BinaryType.</value>
+  </data>
+  <data name="Ui.Channel.CompressRobloxInstalls" xml:space="preserve">
+    <value>I compress ang mga install ng Roblox</value>
+  </data>
+  <data name="Ui.Channel.PacksRobloxIntoACompressedArchive" xml:space="preserve">
+    <value>Ipinapakete ang Roblox sa isang naka compress na archive habang sarado ito, mga 40% na mas maliit sa disk. Ang inilunsad mo lang ang unang ina unpack, na tumatagal ng isa o dalawang segundo.</value>
+  </data>
+  <data name="Ui.Channel.AllocatedMemory" xml:space="preserve">
+    <value>Nakalaang memory</value>
+  </data>
+  <data name="Ui.Channel.HowMuchMemoryRobloxIsAllowed" xml:space="preserve">
+    <value>Gaano karaming memory ang puwedeng gamitin ng Roblox</value>
+  </data>
+  <data name="Ui.Channel.GameUpdateDelivery" xml:space="preserve">
+    <value>Paghahatid ng update ng laro</value>
+  </data>
+  <data name="Ui.Channel.SelectWhenYouDLikeTo" xml:space="preserve">
+    <value>Piliin kung kailan mo gustong matanggap ang mga update ng Roblox</value>
+  </data>
+  <data name="Ui.Channel.Normal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="Ui.Channel.YouGetEachRobloxUpdateOn" xml:space="preserve">
+    <value>Matatanggap mo ang bawat update ng Roblox sa susunod mong paglunsad pagkalabas nito</value>
+  </data>
+  <data name="Ui.Channel.EarlyOptIn" xml:space="preserve">
+    <value>Maaga (Opt in)</value>
+  </data>
+  <data name="Ui.Channel.ChecksRobloxSOwnVersionServer" xml:space="preserve">
+    <value>Tinatanong muna ang version server ng Roblox, para makuha agad ang bagong update pagkalabas nito sa halip na hintayin ang naka cache na kopya</value>
+  </data>
+  <data name="Ui.Channel.LateOptOut" xml:space="preserve">
+    <value>Huli (Opt out)</value>
+  </data>
+  <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
+    <value>Pinapanatili ang bersyon mo nang 3 araw pagkatapos ng bawat update ng Roblox para maayos muna ang mga maagang bug, saka kusang nag a update. Ang nawawala o sirang install ay laging agad na ina update</value>
+  </data>
+  <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
+    <value>Efficiency mode</value>
+  </data>
+  <data name="Ui.Channel.RobloxPriority" xml:space="preserve">
+    <value>Priyoridad ng Roblox</value>
+  </data>
+  <data name="Ui.Channel.WhenDisabledRobloxWonTUpdate" xml:space="preserve">
+    <value>Kapag naka off, hindi mag a update ang Roblox sa mas bagong bersyon.</value>
+  </data>
+  <data name="Ui.Channel.RobloxUpdates" xml:space="preserve">
+    <value>Mga update ng Roblox</value>
+  </data>
+  <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
+    <value>Mga channel   [Roblox Build]</value>
+  </data>
+  <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
+    <value>Ilagay ang pangalan ng deployment channel. Magdudulot ng error 403 404 ang mga invalid na channel!</value>
+  </data>
+  <data name="Ui.Channel.EnterDeploymentChannelEGProduction" xml:space="preserve">
+    <value>Ilagay ang deployment channel (hal. production, zlive, live)</value>
+  </data>
+  <data name="Ui.Channel.DeploymentChannel" xml:space="preserve">
+    <value>Deployment channel</value>
+  </data>
+  <data name="Ui.Channel.ApplyChannel" xml:space="preserve">
+    <value>Ilapat ang channel</value>
+  </data>
+  <data name="Ui.Channel.Channels" xml:space="preserve">
+    <value>Mga channel</value>
+  </data>
+  <data name="Ui.Channel.ApplyingADifferentChannelClearsThe" xml:space="preserve">
+    <value>Ang paglapat ng ibang channel ay nagbubura sa na download na bersyon ng Roblox para makapag install ang bagong channel</value>
+  </data>
+  <data name="Ui.Channel.RendererBackend" xml:space="preserve">
+    <value>Renderer backend</value>
+  </data>
+  <data name="Ui.Channel.ChoosesTheGraphicsBackendVoidstrapDraws" xml:space="preserve">
+    <value>Pinipili ang graphics backend na ginagamit ng Voidstrap para iguhit ang sarili nito. Pinipili ng Awtomatiko ang pinakamabilis na sinusuportahan ng system mo. Magkakabisa ang pagbabago sa susunod na pagbukas ng Voidstrap.</value>
+  </data>
 </root>

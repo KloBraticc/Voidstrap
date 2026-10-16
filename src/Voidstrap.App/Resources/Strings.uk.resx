@@ -4590,4 +4590,181 @@ Roblox буде завантажено під час першого запуск
   <data name="Ui.Integrations.PlaceID" xml:space="preserve">
     <value>Place ID</value>
   </data>
+  <data name="Ui.Channel.InstallLocation" xml:space="preserve">
+    <value>Місце встановлення</value>
+  </data>
+  <data name="Ui.Channel.MoveWhereVoidstrapIsInstalledThe" xml:space="preserve">
+    <value>Переміщує місце встановлення Voidstrap. Після завершення застосунок перезапуститься автоматично.</value>
+  </data>
+  <data name="Ui.Channel.Browse" xml:space="preserve">
+    <value>Огляд...</value>
+  </data>
+  <data name="Ui.Channel.VoidstrapCPULimit" xml:space="preserve">
+    <value>Ліміт ЦП для Voidstrap</value>
+  </data>
+  <data name="Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity" xml:space="preserve">
+    <value>Обмежує прив'язку до процесора самого Voidstrap. Залиште максимум, якщо іншому активному застосунку не потрібні зарезервовані ядра.</value>
+  </data>
+  <data name="Ui.Channel.IncludePreReleaseVersions" xml:space="preserve">
+    <value>Включати попередні версії</value>
+  </data>
+  <data name="Ui.Channel.UpdatesToTestBuildsAsSoon" xml:space="preserve">
+    <value>Оновлює до тестових збірок одразу після їх виходу. Вони перевірені гірше за звичайні випуски й можуть працювати з помилками, тож не вмикайте, якщо не хочете ранніх збірок.</value>
+  </data>
+  <data name="Ui.Channel.LaunchRobloxWithoutVoidstrap" xml:space="preserve">
+    <value>Запускати Roblox без Voidstrap</value>
+  </data>
+  <data name="Ui.Channel.JoiningAGameFromYourBrowser" xml:space="preserve">
+    <value>Вхід у гру з браузера відкриває Roblox напряму, а під час запуску з Voidstrap він закривається одразу після старту Roblox. Оверлеї та всі інші функції Voidstrap у грі перестають працювати.</value>
+  </data>
+  <data name="Ui.Channel.DisplayAndResolution" xml:space="preserve">
+    <value>Екран і роздільність</value>
+  </data>
+  <data name="Ui.Channel.Identify" xml:space="preserve">
+    <value>Визначити</value>
+  </data>
+  <data name="Ui.Channel.ResolutionChanger" xml:space="preserve">
+    <value>Зміна роздільності</value>
+  </data>
+  <data name="Ui.Channel.ChangesTheResolutionOfTheSelected" xml:space="preserve">
+    <value>Змінює роздільність вибраного монітора.</value>
+  </data>
+  <data name="Ui.Channel.ResolutionChangerInGame" xml:space="preserve">
+    <value>Зміна роздільності (у грі)</value>
+  </data>
+  <data name="Ui.Channel.AppliesToTheSelectedMonitorWhile" xml:space="preserve">
+    <value>Застосовується до вибраного монітора, поки Ви в грі Roblox, і відновлює попередню роздільність після виходу.</value>
+  </data>
+  <data name="Ui.Channel.OnlyApplyForASpecificPlaceId" xml:space="preserve">
+    <value>Застосовувати лише для певного PlaceId</value>
+  </data>
+  <data name="Ui.Channel.AppSettings" xml:space="preserve">
+    <value>Налаштування застосунку</value>
+  </data>
+  <data name="Ui.Channel.HardwareAcceleration" xml:space="preserve">
+    <value>Апаратне прискорення</value>
+  </data>
+  <data name="Ui.Channel.UsesTheGPUToRenderVoidstrap" xml:space="preserve">
+    <value>Використовує GPU для відображення Voidstrap. Вимкніть для сумісності або меншого використання відеопам'яті.</value>
+  </data>
+  <data name="Ui.Channel.DisplaysVoidstrapsDiscordRPC" xml:space="preserve">
+    <value>Показує Discord RPC від Voidstrap.</value>
+  </data>
+  <data name="Ui.Channel.VoidstrapRPC" xml:space="preserve">
+    <value>Voidstrap RPC</value>
+  </data>
+  <data name="Ui.Channel.FactoryReset" xml:space="preserve">
+    <value>Скидання до заводських налаштувань</value>
+  </data>
+  <data name="Ui.Channel.Donate" xml:space="preserve">
+    <value>Підтримати</value>
+  </data>
+  <data name="Ui.Channel.Installer" xml:space="preserve">
+    <value>Інсталятор</value>
+  </data>
+  <data name="Ui.Channel.DownloadServer" xml:space="preserve">
+    <value>Сервер завантаження</value>
+  </data>
+  <data name="Ui.Channel.UsedWhenRobloxIsInstalledOr" xml:space="preserve">
+    <value>Використовується під час встановлення або оновлення Roblox</value>
+  </data>
+  <data name="Ui.Channel.DownloadBufferSizeKB" xml:space="preserve">
+    <value>Розмір буфера завантаження (КБ)</value>
+  </data>
+  <data name="Ui.Channel.LargerBuffersCanSpeedUpDownloads" xml:space="preserve">
+    <value>Більші буфери можуть пришвидшити завантаження на швидких з'єднаннях</value>
+  </data>
+  <data name="Ui.Channel.ConcurrentDownloads" xml:space="preserve">
+    <value>Одночасні завантаження</value>
+  </data>
+  <data name="Ui.Channel.HowManyPackagesDownloadAtThe" xml:space="preserve">
+    <value>Скільки пакетів завантажується одночасно. Більше швидше, але витрачає більше трафіку</value>
+  </data>
+  <data name="Ui.Channel.SegmentsPerFile" xml:space="preserve">
+    <value>Частин на файл</value>
+  </data>
+  <data name="Ui.Channel.SplitsEachPackageIntoParallelChunks" xml:space="preserve">
+    <value>Ділить кожен пакет на паралельні частини для швидшого завантаження</value>
+  </data>
+  <data name="Ui.Channel.StaticDirectory" xml:space="preserve">
+    <value>Постійна папка</value>
+  </data>
+  <data name="Ui.Channel.SwitchFromVersionXxxToBinaryType" xml:space="preserve">
+    <value>Переходить із папок version xxx на папки встановлення за BinaryType.</value>
+  </data>
+  <data name="Ui.Channel.CompressRobloxInstalls" xml:space="preserve">
+    <value>Стискати встановлення Roblox</value>
+  </data>
+  <data name="Ui.Channel.PacksRobloxIntoACompressedArchive" xml:space="preserve">
+    <value>Пакує Roblox у стиснений архів, поки він закритий, приблизно на 40% менше на диску. Спершу розпаковується лише версія, яку Ви запускаєте, це займає секунду-дві.</value>
+  </data>
+  <data name="Ui.Channel.AllocatedMemory" xml:space="preserve">
+    <value>Виділена пам'ять</value>
+  </data>
+  <data name="Ui.Channel.HowMuchMemoryRobloxIsAllowed" xml:space="preserve">
+    <value>Скільки пам'яті дозволено використовувати Roblox</value>
+  </data>
+  <data name="Ui.Channel.GameUpdateDelivery" xml:space="preserve">
+    <value>Доставка оновлень гри</value>
+  </data>
+  <data name="Ui.Channel.SelectWhenYouDLikeTo" xml:space="preserve">
+    <value>Оберіть, коли отримувати оновлення Roblox</value>
+  </data>
+  <data name="Ui.Channel.Normal" xml:space="preserve">
+    <value>Звичайно</value>
+  </data>
+  <data name="Ui.Channel.YouGetEachRobloxUpdateOn" xml:space="preserve">
+    <value>Кожне оновлення Roblox надходить під час наступного запуску після його виходу</value>
+  </data>
+  <data name="Ui.Channel.EarlyOptIn" xml:space="preserve">
+    <value>Рано (Opt in)</value>
+  </data>
+  <data name="Ui.Channel.ChecksRobloxSOwnVersionServer" xml:space="preserve">
+    <value>Спершу опитує сервер версій Roblox, щоб нове оновлення підхоплювалося одразу, а не після кешованої копії</value>
+  </data>
+  <data name="Ui.Channel.LateOptOut" xml:space="preserve">
+    <value>Пізно (Opt out)</value>
+  </data>
+  <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
+    <value>Зберігає Вашу версію 3 дні після кожного оновлення Roblox, щоб ранні помилки встигли виправити, потім оновлюється сам. Відсутнє або пошкоджене встановлення завжди оновлюється одразу</value>
+  </data>
+  <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
+    <value>Режим ефективності</value>
+  </data>
+  <data name="Ui.Channel.RobloxPriority" xml:space="preserve">
+    <value>Пріоритет Roblox</value>
+  </data>
+  <data name="Ui.Channel.WhenDisabledRobloxWonTUpdate" xml:space="preserve">
+    <value>Якщо вимкнено, Roblox не оновлюватиметься до новіших версій.</value>
+  </data>
+  <data name="Ui.Channel.RobloxUpdates" xml:space="preserve">
+    <value>Оновлення Roblox</value>
+  </data>
+  <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
+    <value>Канали   [Roblox Build]</value>
+  </data>
+  <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
+    <value>Введіть назву каналу розгортання. Неправильний канал спричинить помилки 403 404!</value>
+  </data>
+  <data name="Ui.Channel.EnterDeploymentChannelEGProduction" xml:space="preserve">
+    <value>Введіть канал розгортання (наприклад, production, zlive, live)</value>
+  </data>
+  <data name="Ui.Channel.DeploymentChannel" xml:space="preserve">
+    <value>Канал розгортання</value>
+  </data>
+  <data name="Ui.Channel.ApplyChannel" xml:space="preserve">
+    <value>Застосувати канал</value>
+  </data>
+  <data name="Ui.Channel.Channels" xml:space="preserve">
+    <value>Канали</value>
+  </data>
+  <data name="Ui.Channel.ApplyingADifferentChannelClearsThe" xml:space="preserve">
+    <value>Застосування іншого каналу видаляє завантажену версію Roblox, щоб новий канал міг встановитися</value>
+  </data>
+  <data name="Ui.Channel.RendererBackend" xml:space="preserve">
+    <value>Рушій відображення</value>
+  </data>
+  <data name="Ui.Channel.ChoosesTheGraphicsBackendVoidstrapDraws" xml:space="preserve">
+    <value>Обирає графічний рушій, яким Voidstrap малює себе. Автоматично обирається найшвидший із підтримуваних системою. Зміна набуде чинності під час наступного запуску Voidstrap.</value>
+  </data>
 </root>

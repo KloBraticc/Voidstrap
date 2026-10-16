@@ -1095,6 +1095,124 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Integrations_PlaceID => ResourceManager.GetString("Ui.Integrations.PlaceID", resourceCulture);
 
+        public static string Ui_Channel_InstallLocation => ResourceManager.GetString("Ui.Channel.InstallLocation", resourceCulture);
+
+        public static string Ui_Channel_MoveWhereVoidstrapIsInstalledThe => ResourceManager.GetString("Ui.Channel.MoveWhereVoidstrapIsInstalledThe", resourceCulture);
+
+        public static string Ui_Channel_Browse => ResourceManager.GetString("Ui.Channel.Browse", resourceCulture);
+
+        public static string Ui_Channel_VoidstrapCPULimit => ResourceManager.GetString("Ui.Channel.VoidstrapCPULimit", resourceCulture);
+
+        public static string Ui_Channel_LimitsVoidstrapSOwnProcessorAffinity => ResourceManager.GetString("Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity", resourceCulture);
+
+        public static string Ui_Channel_IncludePreReleaseVersions => ResourceManager.GetString("Ui.Channel.IncludePreReleaseVersions", resourceCulture);
+
+        public static string Ui_Channel_UpdatesToTestBuildsAsSoon => ResourceManager.GetString("Ui.Channel.UpdatesToTestBuildsAsSoon", resourceCulture);
+
+        public static string Ui_Channel_LaunchRobloxWithoutVoidstrap => ResourceManager.GetString("Ui.Channel.LaunchRobloxWithoutVoidstrap", resourceCulture);
+
+        public static string Ui_Channel_JoiningAGameFromYourBrowser => ResourceManager.GetString("Ui.Channel.JoiningAGameFromYourBrowser", resourceCulture);
+
+        public static string Ui_Channel_DisplayAndResolution => ResourceManager.GetString("Ui.Channel.DisplayAndResolution", resourceCulture);
+
+        public static string Ui_Channel_Identify => ResourceManager.GetString("Ui.Channel.Identify", resourceCulture);
+
+        public static string Ui_Channel_ResolutionChanger => ResourceManager.GetString("Ui.Channel.ResolutionChanger", resourceCulture);
+
+        public static string Ui_Channel_ChangesTheResolutionOfTheSelected => ResourceManager.GetString("Ui.Channel.ChangesTheResolutionOfTheSelected", resourceCulture);
+
+        public static string Ui_Channel_ResolutionChangerInGame => ResourceManager.GetString("Ui.Channel.ResolutionChangerInGame", resourceCulture);
+
+        public static string Ui_Channel_AppliesToTheSelectedMonitorWhile => ResourceManager.GetString("Ui.Channel.AppliesToTheSelectedMonitorWhile", resourceCulture);
+
+        public static string Ui_Channel_OnlyApplyForASpecificPlaceId => ResourceManager.GetString("Ui.Channel.OnlyApplyForASpecificPlaceId", resourceCulture);
+
+        public static string Ui_Channel_AppSettings => ResourceManager.GetString("Ui.Channel.AppSettings", resourceCulture);
+
+        public static string Ui_Channel_HardwareAcceleration => ResourceManager.GetString("Ui.Channel.HardwareAcceleration", resourceCulture);
+
+        public static string Ui_Channel_UsesTheGPUToRenderVoidstrap => ResourceManager.GetString("Ui.Channel.UsesTheGPUToRenderVoidstrap", resourceCulture);
+
+        public static string Ui_Channel_DisplaysVoidstrapsDiscordRPC => ResourceManager.GetString("Ui.Channel.DisplaysVoidstrapsDiscordRPC", resourceCulture);
+
+        public static string Ui_Channel_VoidstrapRPC => ResourceManager.GetString("Ui.Channel.VoidstrapRPC", resourceCulture);
+
+        public static string Ui_Channel_FactoryReset => ResourceManager.GetString("Ui.Channel.FactoryReset", resourceCulture);
+
+        public static string Ui_Channel_Donate => ResourceManager.GetString("Ui.Channel.Donate", resourceCulture);
+
+        public static string Ui_Channel_Installer => ResourceManager.GetString("Ui.Channel.Installer", resourceCulture);
+
+        public static string Ui_Channel_DownloadServer => ResourceManager.GetString("Ui.Channel.DownloadServer", resourceCulture);
+
+        public static string Ui_Channel_UsedWhenRobloxIsInstalledOr => ResourceManager.GetString("Ui.Channel.UsedWhenRobloxIsInstalledOr", resourceCulture);
+
+        public static string Ui_Channel_DownloadBufferSizeKB => ResourceManager.GetString("Ui.Channel.DownloadBufferSizeKB", resourceCulture);
+
+        public static string Ui_Channel_LargerBuffersCanSpeedUpDownloads => ResourceManager.GetString("Ui.Channel.LargerBuffersCanSpeedUpDownloads", resourceCulture);
+
+        public static string Ui_Channel_ConcurrentDownloads => ResourceManager.GetString("Ui.Channel.ConcurrentDownloads", resourceCulture);
+
+        public static string Ui_Channel_HowManyPackagesDownloadAtThe => ResourceManager.GetString("Ui.Channel.HowManyPackagesDownloadAtThe", resourceCulture);
+
+        public static string Ui_Channel_SegmentsPerFile => ResourceManager.GetString("Ui.Channel.SegmentsPerFile", resourceCulture);
+
+        public static string Ui_Channel_SplitsEachPackageIntoParallelChunks => ResourceManager.GetString("Ui.Channel.SplitsEachPackageIntoParallelChunks", resourceCulture);
+
+        public static string Ui_Channel_StaticDirectory => ResourceManager.GetString("Ui.Channel.StaticDirectory", resourceCulture);
+
+        public static string Ui_Channel_SwitchFromVersionXxxToBinaryType => ResourceManager.GetString("Ui.Channel.SwitchFromVersionXxxToBinaryType", resourceCulture);
+
+        public static string Ui_Channel_CompressRobloxInstalls => ResourceManager.GetString("Ui.Channel.CompressRobloxInstalls", resourceCulture);
+
+        public static string Ui_Channel_PacksRobloxIntoACompressedArchive => ResourceManager.GetString("Ui.Channel.PacksRobloxIntoACompressedArchive", resourceCulture);
+
+        public static string Ui_Channel_AllocatedMemory => ResourceManager.GetString("Ui.Channel.AllocatedMemory", resourceCulture);
+
+        public static string Ui_Channel_HowMuchMemoryRobloxIsAllowed => ResourceManager.GetString("Ui.Channel.HowMuchMemoryRobloxIsAllowed", resourceCulture);
+
+        public static string Ui_Channel_GameUpdateDelivery => ResourceManager.GetString("Ui.Channel.GameUpdateDelivery", resourceCulture);
+
+        public static string Ui_Channel_SelectWhenYouDLikeTo => ResourceManager.GetString("Ui.Channel.SelectWhenYouDLikeTo", resourceCulture);
+
+        public static string Ui_Channel_Normal => ResourceManager.GetString("Ui.Channel.Normal", resourceCulture);
+
+        public static string Ui_Channel_YouGetEachRobloxUpdateOn => ResourceManager.GetString("Ui.Channel.YouGetEachRobloxUpdateOn", resourceCulture);
+
+        public static string Ui_Channel_EarlyOptIn => ResourceManager.GetString("Ui.Channel.EarlyOptIn", resourceCulture);
+
+        public static string Ui_Channel_ChecksRobloxSOwnVersionServer => ResourceManager.GetString("Ui.Channel.ChecksRobloxSOwnVersionServer", resourceCulture);
+
+        public static string Ui_Channel_LateOptOut => ResourceManager.GetString("Ui.Channel.LateOptOut", resourceCulture);
+
+        public static string Ui_Channel_KeepsTheVersionYouHaveFor => ResourceManager.GetString("Ui.Channel.KeepsTheVersionYouHaveFor", resourceCulture);
+
+        public static string Ui_Channel_EfficiencyMode => ResourceManager.GetString("Ui.Channel.EfficiencyMode", resourceCulture);
+
+        public static string Ui_Channel_RobloxPriority => ResourceManager.GetString("Ui.Channel.RobloxPriority", resourceCulture);
+
+        public static string Ui_Channel_WhenDisabledRobloxWonTUpdate => ResourceManager.GetString("Ui.Channel.WhenDisabledRobloxWonTUpdate", resourceCulture);
+
+        public static string Ui_Channel_RobloxUpdates => ResourceManager.GetString("Ui.Channel.RobloxUpdates", resourceCulture);
+
+        public static string Ui_Channel_ChannelsRobloxBuild => ResourceManager.GetString("Ui.Channel.ChannelsRobloxBuild", resourceCulture);
+
+        public static string Ui_Channel_EnterDeploymentChannelNameInvalidChannels => ResourceManager.GetString("Ui.Channel.EnterDeploymentChannelNameInvalidChannels", resourceCulture);
+
+        public static string Ui_Channel_EnterDeploymentChannelEGProduction => ResourceManager.GetString("Ui.Channel.EnterDeploymentChannelEGProduction", resourceCulture);
+
+        public static string Ui_Channel_DeploymentChannel => ResourceManager.GetString("Ui.Channel.DeploymentChannel", resourceCulture);
+
+        public static string Ui_Channel_ApplyChannel => ResourceManager.GetString("Ui.Channel.ApplyChannel", resourceCulture);
+
+        public static string Ui_Channel_Channels => ResourceManager.GetString("Ui.Channel.Channels", resourceCulture);
+
+        public static string Ui_Channel_ApplyingADifferentChannelClearsThe => ResourceManager.GetString("Ui.Channel.ApplyingADifferentChannelClearsThe", resourceCulture);
+
+        public static string Ui_Channel_RendererBackend => ResourceManager.GetString("Ui.Channel.RendererBackend", resourceCulture);
+
+        public static string Ui_Channel_ChoosesTheGraphicsBackendVoidstrapDraws => ResourceManager.GetString("Ui.Channel.ChoosesTheGraphicsBackendVoidstrapDraws", resourceCulture);
+
         public static string Menu_Appearance_Accent_Title => ResourceManager.GetString("Menu.Appearance.Accent.Title", resourceCulture);
 
         public static string Menu_Appearance_Accent_Description => ResourceManager.GetString("Menu.Appearance.Accent.Description", resourceCulture);

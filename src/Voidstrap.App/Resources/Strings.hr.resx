@@ -4579,4 +4579,181 @@ Roblox će se preuzeti kada ga prvi put pokreneš putem Voidstrapa. Postavke mo�
   <data name="Ui.Integrations.PlaceID" xml:space="preserve">
     <value>Place ID</value>
   </data>
+  <data name="Ui.Channel.InstallLocation" xml:space="preserve">
+    <value>Lokacija instalacije</value>
+  </data>
+  <data name="Ui.Channel.MoveWhereVoidstrapIsInstalledThe" xml:space="preserve">
+    <value>Premješta mjesto instalacije Voidstrapa. Aplikacija se na kraju automatski ponovno pokreće.</value>
+  </data>
+  <data name="Ui.Channel.Browse" xml:space="preserve">
+    <value>Pregledaj...</value>
+  </data>
+  <data name="Ui.Channel.VoidstrapCPULimit" xml:space="preserve">
+    <value>Ograničenje CPU a za Voidstrap</value>
+  </data>
+  <data name="Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity" xml:space="preserve">
+    <value>Ograničava afinitet procesora samog Voidstrapa. Ostavi na maksimumu osim ako druga aktivna aplikacija treba rezervirane jezgre.</value>
+  </data>
+  <data name="Ui.Channel.IncludePreReleaseVersions" xml:space="preserve">
+    <value>Uključi pretpregledne verzije</value>
+  </data>
+  <data name="Ui.Channel.UpdatesToTestBuildsAsSoon" xml:space="preserve">
+    <value>Ažurira na testne verzije čim se objave. Manje su testirane od običnih izdanja i mogu se pokvariti, pa ostavi isključeno osim ako želiš rane verzije.</value>
+  </data>
+  <data name="Ui.Channel.LaunchRobloxWithoutVoidstrap" xml:space="preserve">
+    <value>Pokreni Roblox bez Voidstrapa</value>
+  </data>
+  <data name="Ui.Channel.JoiningAGameFromYourBrowser" xml:space="preserve">
+    <value>Ulazak u igru iz preglednika otvara Roblox izravno, a pokretanje iz Voidstrapa ga zatvara čim se Roblox pokrene. Preklapanja i sve ostale Voidstrap značajke u igri prestaju raditi.</value>
+  </data>
+  <data name="Ui.Channel.DisplayAndResolution" xml:space="preserve">
+    <value>Zaslon i razlučivost</value>
+  </data>
+  <data name="Ui.Channel.Identify" xml:space="preserve">
+    <value>Identificiraj</value>
+  </data>
+  <data name="Ui.Channel.ResolutionChanger" xml:space="preserve">
+    <value>Promjena razlučivosti</value>
+  </data>
+  <data name="Ui.Channel.ChangesTheResolutionOfTheSelected" xml:space="preserve">
+    <value>Mijenja razlučivost odabranog monitora.</value>
+  </data>
+  <data name="Ui.Channel.ResolutionChangerInGame" xml:space="preserve">
+    <value>Promjena razlučivosti (u igri)</value>
+  </data>
+  <data name="Ui.Channel.AppliesToTheSelectedMonitorWhile" xml:space="preserve">
+    <value>Vrijedi za odabrani monitor dok si u Roblox igri, a pri izlasku vraća prethodnu razlučivost.</value>
+  </data>
+  <data name="Ui.Channel.OnlyApplyForASpecificPlaceId" xml:space="preserve">
+    <value>Primijeni samo za određeni PlaceId</value>
+  </data>
+  <data name="Ui.Channel.AppSettings" xml:space="preserve">
+    <value>Postavke aplikacije</value>
+  </data>
+  <data name="Ui.Channel.HardwareAcceleration" xml:space="preserve">
+    <value>Hardversko ubrzanje</value>
+  </data>
+  <data name="Ui.Channel.UsesTheGPUToRenderVoidstrap" xml:space="preserve">
+    <value>Koristi GPU za prikaz Voidstrapa. Isključi radi kompatibilnosti ili manje video memorije.</value>
+  </data>
+  <data name="Ui.Channel.DisplaysVoidstrapsDiscordRPC" xml:space="preserve">
+    <value>Prikazuje Voidstrapov Discord RPC.</value>
+  </data>
+  <data name="Ui.Channel.VoidstrapRPC" xml:space="preserve">
+    <value>Voidstrap RPC</value>
+  </data>
+  <data name="Ui.Channel.FactoryReset" xml:space="preserve">
+    <value>Vraćanje na tvorničke postavke</value>
+  </data>
+  <data name="Ui.Channel.Donate" xml:space="preserve">
+    <value>Doniraj</value>
+  </data>
+  <data name="Ui.Channel.Installer" xml:space="preserve">
+    <value>Instalacijski program</value>
+  </data>
+  <data name="Ui.Channel.DownloadServer" xml:space="preserve">
+    <value>Poslužitelj za preuzimanje</value>
+  </data>
+  <data name="Ui.Channel.UsedWhenRobloxIsInstalledOr" xml:space="preserve">
+    <value>Koristi se pri instalaciji ili ažuriranju Robloxa</value>
+  </data>
+  <data name="Ui.Channel.DownloadBufferSizeKB" xml:space="preserve">
+    <value>Veličina međuspremnika preuzimanja (KB)</value>
+  </data>
+  <data name="Ui.Channel.LargerBuffersCanSpeedUpDownloads" xml:space="preserve">
+    <value>Veći međuspremnici mogu ubrzati preuzimanje na brzim vezama</value>
+  </data>
+  <data name="Ui.Channel.ConcurrentDownloads" xml:space="preserve">
+    <value>Istodobna preuzimanja</value>
+  </data>
+  <data name="Ui.Channel.HowManyPackagesDownloadAtThe" xml:space="preserve">
+    <value>Koliko se paketa preuzima odjednom. Više je brže, ali troši više propusnosti</value>
+  </data>
+  <data name="Ui.Channel.SegmentsPerFile" xml:space="preserve">
+    <value>Segmenti po datoteci</value>
+  </data>
+  <data name="Ui.Channel.SplitsEachPackageIntoParallelChunks" xml:space="preserve">
+    <value>Dijeli svaki paket na paralelne dijelove za brže preuzimanje</value>
+  </data>
+  <data name="Ui.Channel.StaticDirectory" xml:space="preserve">
+    <value>Statična mapa</value>
+  </data>
+  <data name="Ui.Channel.SwitchFromVersionXxxToBinaryType" xml:space="preserve">
+    <value>Prelazi s mapa version xxx na instalacijske mape prema BinaryType.</value>
+  </data>
+  <data name="Ui.Channel.CompressRobloxInstalls" xml:space="preserve">
+    <value>Komprimiraj Roblox instalacije</value>
+  </data>
+  <data name="Ui.Channel.PacksRobloxIntoACompressedArchive" xml:space="preserve">
+    <value>Pakira Roblox u komprimiranu arhivu dok je zatvoren, oko 40% manje na disku. Prvo se raspakira samo verzija koju pokreneš, što traje sekundu ili dvije.</value>
+  </data>
+  <data name="Ui.Channel.AllocatedMemory" xml:space="preserve">
+    <value>Dodijeljena memorija</value>
+  </data>
+  <data name="Ui.Channel.HowMuchMemoryRobloxIsAllowed" xml:space="preserve">
+    <value>Koliko memorije Roblox smije koristiti</value>
+  </data>
+  <data name="Ui.Channel.GameUpdateDelivery" xml:space="preserve">
+    <value>Isporuka ažuriranja igre</value>
+  </data>
+  <data name="Ui.Channel.SelectWhenYouDLikeTo" xml:space="preserve">
+    <value>Odaberi kada želiš primati Roblox ažuriranja</value>
+  </data>
+  <data name="Ui.Channel.Normal" xml:space="preserve">
+    <value>Normalno</value>
+  </data>
+  <data name="Ui.Channel.YouGetEachRobloxUpdateOn" xml:space="preserve">
+    <value>Svako Roblox ažuriranje dobivaš pri sljedećem pokretanju nakon objave</value>
+  </data>
+  <data name="Ui.Channel.EarlyOptIn" xml:space="preserve">
+    <value>Rano (Opt in)</value>
+  </data>
+  <data name="Ui.Channel.ChecksRobloxSOwnVersionServer" xml:space="preserve">
+    <value>Prvo pita Robloxov poslužitelj verzija, pa se novo ažuriranje preuzima čim izađe umjesto čekanja na kopiju iz predmemorije</value>
+  </data>
+  <data name="Ui.Channel.LateOptOut" xml:space="preserve">
+    <value>Kasno (Opt out)</value>
+  </data>
+  <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
+    <value>Zadržava tvoju verziju 3 dana nakon svakog Roblox ažuriranja kako bi se rane greške ispravile, a zatim se sam ažurira. Nedostajuća ili oštećena instalacija uvijek se odmah ažurira</value>
+  </data>
+  <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
+    <value>Način učinkovitosti</value>
+  </data>
+  <data name="Ui.Channel.RobloxPriority" xml:space="preserve">
+    <value>Prioritet Robloxa</value>
+  </data>
+  <data name="Ui.Channel.WhenDisabledRobloxWonTUpdate" xml:space="preserve">
+    <value>Kad je isključeno, Roblox se neće ažurirati na novije verzije.</value>
+  </data>
+  <data name="Ui.Channel.RobloxUpdates" xml:space="preserve">
+    <value>Roblox ažuriranja</value>
+  </data>
+  <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
+    <value>Kanali   [Roblox Build]</value>
+  </data>
+  <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
+    <value>Unesi naziv kanala implementacije. Neispravni kanali uzrokovat će greške 403 404!</value>
+  </data>
+  <data name="Ui.Channel.EnterDeploymentChannelEGProduction" xml:space="preserve">
+    <value>Unesi kanal implementacije (npr. production, zlive, live)</value>
+  </data>
+  <data name="Ui.Channel.DeploymentChannel" xml:space="preserve">
+    <value>Kanal implementacije</value>
+  </data>
+  <data name="Ui.Channel.ApplyChannel" xml:space="preserve">
+    <value>Primijeni kanal</value>
+  </data>
+  <data name="Ui.Channel.Channels" xml:space="preserve">
+    <value>Kanali</value>
+  </data>
+  <data name="Ui.Channel.ApplyingADifferentChannelClearsThe" xml:space="preserve">
+    <value>Primjena drugog kanala briše preuzetu Roblox verziju kako bi se novi kanal mogao instalirati</value>
+  </data>
+  <data name="Ui.Channel.RendererBackend" xml:space="preserve">
+    <value>Pozadinski sustav iscrtavanja</value>
+  </data>
+  <data name="Ui.Channel.ChoosesTheGraphicsBackendVoidstrapDraws" xml:space="preserve">
+    <value>Bira grafički sustav kojim Voidstrap iscrtava sebe. Automatski bira najbrži koji tvoj sustav podržava. Promjena vrijedi pri sljedećem pokretanju Voidstrapa.</value>
+  </data>
 </root>

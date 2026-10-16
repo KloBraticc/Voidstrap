@@ -4574,4 +4574,181 @@ Co chcesz zrobić?</value>
   <data name="Ui.Integrations.PlaceID" xml:space="preserve">
     <value>Place ID</value>
   </data>
+  <data name="Ui.Channel.InstallLocation" xml:space="preserve">
+    <value>Lokalizacja instalacji</value>
+  </data>
+  <data name="Ui.Channel.MoveWhereVoidstrapIsInstalledThe" xml:space="preserve">
+    <value>Zmienia miejsce instalacji Voidstrap. Aplikacja po zakończeniu uruchomi się ponownie.</value>
+  </data>
+  <data name="Ui.Channel.Browse" xml:space="preserve">
+    <value>Przeglądaj...</value>
+  </data>
+  <data name="Ui.Channel.VoidstrapCPULimit" xml:space="preserve">
+    <value>Limit CPU dla Voidstrap</value>
+  </data>
+  <data name="Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity" xml:space="preserve">
+    <value>Ogranicza koligację procesora samego Voidstrap. Zostaw maksimum, chyba że inna aktywna aplikacja potrzebuje zarezerwowanych rdzeni.</value>
+  </data>
+  <data name="Ui.Channel.IncludePreReleaseVersions" xml:space="preserve">
+    <value>Uwzględniaj wersje przedpremierowe</value>
+  </data>
+  <data name="Ui.Channel.UpdatesToTestBuildsAsSoon" xml:space="preserve">
+    <value>Aktualizuje do wersji testowych zaraz po ich publikacji. Są mniej przetestowane niż zwykłe wydania i mogą się psuć, więc zostaw to wyłączone, chyba że chcesz wczesnych wersji.</value>
+  </data>
+  <data name="Ui.Channel.LaunchRobloxWithoutVoidstrap" xml:space="preserve">
+    <value>Uruchamiaj Roblox bez Voidstrap</value>
+  </data>
+  <data name="Ui.Channel.JoiningAGameFromYourBrowser" xml:space="preserve">
+    <value>Dołączenie do gry z przeglądarki otwiera Roblox bezpośrednio, a uruchomienie z Voidstrap zamyka go, gdy Roblox wystartuje. Nakładki i wszystkie inne funkcje Voidstrap w grze przestają działać.</value>
+  </data>
+  <data name="Ui.Channel.DisplayAndResolution" xml:space="preserve">
+    <value>Ekran i rozdzielczość</value>
+  </data>
+  <data name="Ui.Channel.Identify" xml:space="preserve">
+    <value>Identyfikuj</value>
+  </data>
+  <data name="Ui.Channel.ResolutionChanger" xml:space="preserve">
+    <value>Zmiana rozdzielczości</value>
+  </data>
+  <data name="Ui.Channel.ChangesTheResolutionOfTheSelected" xml:space="preserve">
+    <value>Zmienia rozdzielczość wybranego monitora.</value>
+  </data>
+  <data name="Ui.Channel.ResolutionChangerInGame" xml:space="preserve">
+    <value>Zmiana rozdzielczości (w grze)</value>
+  </data>
+  <data name="Ui.Channel.AppliesToTheSelectedMonitorWhile" xml:space="preserve">
+    <value>Dotyczy wybranego monitora, gdy jesteś w grze Roblox, a po wyjściu przywraca poprzednią rozdzielczość.</value>
+  </data>
+  <data name="Ui.Channel.OnlyApplyForASpecificPlaceId" xml:space="preserve">
+    <value>Stosuj tylko dla konkretnego PlaceId</value>
+  </data>
+  <data name="Ui.Channel.AppSettings" xml:space="preserve">
+    <value>Ustawienia aplikacji</value>
+  </data>
+  <data name="Ui.Channel.HardwareAcceleration" xml:space="preserve">
+    <value>Akceleracja sprzętowa</value>
+  </data>
+  <data name="Ui.Channel.UsesTheGPUToRenderVoidstrap" xml:space="preserve">
+    <value>Używa GPU do wyświetlania Voidstrap. Wyłącz dla zgodności lub mniejszego użycia pamięci wideo.</value>
+  </data>
+  <data name="Ui.Channel.DisplaysVoidstrapsDiscordRPC" xml:space="preserve">
+    <value>Wyświetla Discord RPC Voidstrap.</value>
+  </data>
+  <data name="Ui.Channel.VoidstrapRPC" xml:space="preserve">
+    <value>Voidstrap RPC</value>
+  </data>
+  <data name="Ui.Channel.FactoryReset" xml:space="preserve">
+    <value>Przywróć ustawienia fabryczne</value>
+  </data>
+  <data name="Ui.Channel.Donate" xml:space="preserve">
+    <value>Wesprzyj</value>
+  </data>
+  <data name="Ui.Channel.Installer" xml:space="preserve">
+    <value>Instalator</value>
+  </data>
+  <data name="Ui.Channel.DownloadServer" xml:space="preserve">
+    <value>Serwer pobierania</value>
+  </data>
+  <data name="Ui.Channel.UsedWhenRobloxIsInstalledOr" xml:space="preserve">
+    <value>Używany przy instalacji lub aktualizacji Roblox</value>
+  </data>
+  <data name="Ui.Channel.DownloadBufferSizeKB" xml:space="preserve">
+    <value>Rozmiar bufora pobierania (KB)</value>
+  </data>
+  <data name="Ui.Channel.LargerBuffersCanSpeedUpDownloads" xml:space="preserve">
+    <value>Większe bufory mogą przyspieszyć pobieranie na szybkich łączach</value>
+  </data>
+  <data name="Ui.Channel.ConcurrentDownloads" xml:space="preserve">
+    <value>Równoczesne pobierania</value>
+  </data>
+  <data name="Ui.Channel.HowManyPackagesDownloadAtThe" xml:space="preserve">
+    <value>Ile pakietów pobiera się jednocześnie. Więcej to szybciej, ale zużywa więcej przepustowości</value>
+  </data>
+  <data name="Ui.Channel.SegmentsPerFile" xml:space="preserve">
+    <value>Segmenty na plik</value>
+  </data>
+  <data name="Ui.Channel.SplitsEachPackageIntoParallelChunks" xml:space="preserve">
+    <value>Dzieli każdy pakiet na równoległe części, aby pobierać szybciej</value>
+  </data>
+  <data name="Ui.Channel.StaticDirectory" xml:space="preserve">
+    <value>Stały katalog</value>
+  </data>
+  <data name="Ui.Channel.SwitchFromVersionXxxToBinaryType" xml:space="preserve">
+    <value>Przełącza z katalogów version xxx na katalogi instalacji oparte na BinaryType.</value>
+  </data>
+  <data name="Ui.Channel.CompressRobloxInstalls" xml:space="preserve">
+    <value>Kompresuj instalacje Roblox</value>
+  </data>
+  <data name="Ui.Channel.PacksRobloxIntoACompressedArchive" xml:space="preserve">
+    <value>Pakuje Roblox do skompresowanego archiwum, gdy jest zamknięty, około 40% mniej miejsca na dysku. Najpierw rozpakowywana jest tylko uruchamiana wersja, co trwa sekundę lub dwie.</value>
+  </data>
+  <data name="Ui.Channel.AllocatedMemory" xml:space="preserve">
+    <value>Przydzielona pamięć</value>
+  </data>
+  <data name="Ui.Channel.HowMuchMemoryRobloxIsAllowed" xml:space="preserve">
+    <value>Ile pamięci może używać Roblox</value>
+  </data>
+  <data name="Ui.Channel.GameUpdateDelivery" xml:space="preserve">
+    <value>Dostarczanie aktualizacji</value>
+  </data>
+  <data name="Ui.Channel.SelectWhenYouDLikeTo" xml:space="preserve">
+    <value>Wybierz, kiedy chcesz otrzymywać aktualizacje Roblox</value>
+  </data>
+  <data name="Ui.Channel.Normal" xml:space="preserve">
+    <value>Normalnie</value>
+  </data>
+  <data name="Ui.Channel.YouGetEachRobloxUpdateOn" xml:space="preserve">
+    <value>Każdą aktualizację Roblox dostajesz przy następnym uruchomieniu po jej wydaniu</value>
+  </data>
+  <data name="Ui.Channel.EarlyOptIn" xml:space="preserve">
+    <value>Wcześnie (Opt in)</value>
+  </data>
+  <data name="Ui.Channel.ChecksRobloxSOwnVersionServer" xml:space="preserve">
+    <value>Najpierw pyta serwer wersji Roblox, więc nowa aktualizacja jest wykrywana od razu, zamiast czekać na kopię w pamięci podręcznej</value>
+  </data>
+  <data name="Ui.Channel.LateOptOut" xml:space="preserve">
+    <value>Później (Opt out)</value>
+  </data>
+  <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
+    <value>Zatrzymuje twoją wersję na 3 dni po każdej aktualizacji Roblox, aby najpierw naprawiono wczesne błędy, a potem aktualizuje się sam. Brakująca lub uszkodzona instalacja zawsze aktualizuje się od razu</value>
+  </data>
+  <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
+    <value>Tryb wydajności</value>
+  </data>
+  <data name="Ui.Channel.RobloxPriority" xml:space="preserve">
+    <value>Priorytet Roblox</value>
+  </data>
+  <data name="Ui.Channel.WhenDisabledRobloxWonTUpdate" xml:space="preserve">
+    <value>Gdy wyłączone, Roblox nie zaktualizuje się do nowszych wersji.</value>
+  </data>
+  <data name="Ui.Channel.RobloxUpdates" xml:space="preserve">
+    <value>Aktualizacje Roblox</value>
+  </data>
+  <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
+    <value>Kanały   [Roblox Build]</value>
+  </data>
+  <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
+    <value>Wpisz nazwę kanału wdrożenia. Nieprawidłowe kanały spowodują błędy 403 404!</value>
+  </data>
+  <data name="Ui.Channel.EnterDeploymentChannelEGProduction" xml:space="preserve">
+    <value>Wpisz kanał wdrożenia (np. production, zlive, live)</value>
+  </data>
+  <data name="Ui.Channel.DeploymentChannel" xml:space="preserve">
+    <value>Kanał wdrożenia</value>
+  </data>
+  <data name="Ui.Channel.ApplyChannel" xml:space="preserve">
+    <value>Zastosuj kanał</value>
+  </data>
+  <data name="Ui.Channel.Channels" xml:space="preserve">
+    <value>Kanały</value>
+  </data>
+  <data name="Ui.Channel.ApplyingADifferentChannelClearsThe" xml:space="preserve">
+    <value>Zastosowanie innego kanału usuwa pobraną wersję Roblox, aby nowy kanał mógł się zainstalować</value>
+  </data>
+  <data name="Ui.Channel.RendererBackend" xml:space="preserve">
+    <value>Backend renderowania</value>
+  </data>
+  <data name="Ui.Channel.ChoosesTheGraphicsBackendVoidstrapDraws" xml:space="preserve">
+    <value>Wybiera backend graficzny, którym Voidstrap się rysuje. Automatycznie wybiera najszybszy obsługiwany przez twój system. Zmiana działa od następnego uruchomienia Voidstrap.</value>
+  </data>
 </root>

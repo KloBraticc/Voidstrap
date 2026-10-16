@@ -4572,4 +4572,181 @@ Ne yapmak istersiniz?</value>
   <data name="Ui.Integrations.PlaceID" xml:space="preserve">
     <value>Place ID</value>
   </data>
+  <data name="Ui.Channel.InstallLocation" xml:space="preserve">
+    <value>Kurulum konumu</value>
+  </data>
+  <data name="Ui.Channel.MoveWhereVoidstrapIsInstalledThe" xml:space="preserve">
+    <value>Voidstrap'in kurulu olduğu yeri taşır. İşlem bitince uygulama otomatik olarak yeniden başlar.</value>
+  </data>
+  <data name="Ui.Channel.Browse" xml:space="preserve">
+    <value>Gözat...</value>
+  </data>
+  <data name="Ui.Channel.VoidstrapCPULimit" xml:space="preserve">
+    <value>Voidstrap CPU sınırı</value>
+  </data>
+  <data name="Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity" xml:space="preserve">
+    <value>Voidstrap'in kendi işlemci benzeşimini sınırlar. Başka etkin bir uygulama ayrılmış çekirdek gerektirmiyorsa en yüksekte bırakın.</value>
+  </data>
+  <data name="Ui.Channel.IncludePreReleaseVersions" xml:space="preserve">
+    <value>Ön sürümleri dahil et</value>
+  </data>
+  <data name="Ui.Channel.UpdatesToTestBuildsAsSoon" xml:space="preserve">
+    <value>Test sürümlerine yayımlanır yayımlanmaz güncellenir. Bunlar normal sürümlerden daha az test edilmiştir ve bozulabilir, bu yüzden erken sürüm istemiyorsanız kapalı bırakın.</value>
+  </data>
+  <data name="Ui.Channel.LaunchRobloxWithoutVoidstrap" xml:space="preserve">
+    <value>Roblox'u Voidstrap olmadan başlat</value>
+  </data>
+  <data name="Ui.Channel.JoiningAGameFromYourBrowser" xml:space="preserve">
+    <value>Tarayıcıdan oyuna katılmak Roblox'u doğrudan açar, Voidstrap'ten başlatıldığında ise Roblox açılır açılmaz Voidstrap kapanır. Katmanlar ve oyun içindeki diğer tüm Voidstrap özellikleri çalışmaz.</value>
+  </data>
+  <data name="Ui.Channel.DisplayAndResolution" xml:space="preserve">
+    <value>Ekran ve çözünürlük</value>
+  </data>
+  <data name="Ui.Channel.Identify" xml:space="preserve">
+    <value>Tanımla</value>
+  </data>
+  <data name="Ui.Channel.ResolutionChanger" xml:space="preserve">
+    <value>Çözünürlük değiştirici</value>
+  </data>
+  <data name="Ui.Channel.ChangesTheResolutionOfTheSelected" xml:space="preserve">
+    <value>Seçili monitörün çözünürlüğünü değiştirir.</value>
+  </data>
+  <data name="Ui.Channel.ResolutionChangerInGame" xml:space="preserve">
+    <value>Çözünürlük değiştirici (oyun içi)</value>
+  </data>
+  <data name="Ui.Channel.AppliesToTheSelectedMonitorWhile" xml:space="preserve">
+    <value>Bir Roblox oyunundayken seçili monitöre uygulanır, ayrıldığınızda önceki çözünürlüğü geri yükler.</value>
+  </data>
+  <data name="Ui.Channel.OnlyApplyForASpecificPlaceId" xml:space="preserve">
+    <value>Yalnızca belirli bir PlaceId için uygula</value>
+  </data>
+  <data name="Ui.Channel.AppSettings" xml:space="preserve">
+    <value>Uygulama ayarları</value>
+  </data>
+  <data name="Ui.Channel.HardwareAcceleration" xml:space="preserve">
+    <value>Donanım hızlandırma</value>
+  </data>
+  <data name="Ui.Channel.UsesTheGPUToRenderVoidstrap" xml:space="preserve">
+    <value>Voidstrap'i çizmek için GPU kullanır. Uyumluluk veya daha az video belleği için kapatın.</value>
+  </data>
+  <data name="Ui.Channel.DisplaysVoidstrapsDiscordRPC" xml:space="preserve">
+    <value>Voidstrap'in Discord RPC'sini gösterir.</value>
+  </data>
+  <data name="Ui.Channel.VoidstrapRPC" xml:space="preserve">
+    <value>Voidstrap RPC</value>
+  </data>
+  <data name="Ui.Channel.FactoryReset" xml:space="preserve">
+    <value>Fabrika ayarlarına sıfırla</value>
+  </data>
+  <data name="Ui.Channel.Donate" xml:space="preserve">
+    <value>Bağış yap</value>
+  </data>
+  <data name="Ui.Channel.Installer" xml:space="preserve">
+    <value>Yükleyici</value>
+  </data>
+  <data name="Ui.Channel.DownloadServer" xml:space="preserve">
+    <value>İndirme sunucusu</value>
+  </data>
+  <data name="Ui.Channel.UsedWhenRobloxIsInstalledOr" xml:space="preserve">
+    <value>Roblox kurulurken veya güncellenirken kullanılır</value>
+  </data>
+  <data name="Ui.Channel.DownloadBufferSizeKB" xml:space="preserve">
+    <value>İndirme arabelleği boyutu (KB)</value>
+  </data>
+  <data name="Ui.Channel.LargerBuffersCanSpeedUpDownloads" xml:space="preserve">
+    <value>Daha büyük arabellekler hızlı bağlantılarda indirmeyi hızlandırabilir</value>
+  </data>
+  <data name="Ui.Channel.ConcurrentDownloads" xml:space="preserve">
+    <value>Eşzamanlı indirmeler</value>
+  </data>
+  <data name="Ui.Channel.HowManyPackagesDownloadAtThe" xml:space="preserve">
+    <value>Aynı anda kaç paket indirileceği. Daha yüksek daha hızlıdır ama daha fazla bant genişliği kullanır</value>
+  </data>
+  <data name="Ui.Channel.SegmentsPerFile" xml:space="preserve">
+    <value>Dosya başına parça</value>
+  </data>
+  <data name="Ui.Channel.SplitsEachPackageIntoParallelChunks" xml:space="preserve">
+    <value>Daha hızlı indirme için her paketi paralel parçalara böler</value>
+  </data>
+  <data name="Ui.Channel.StaticDirectory" xml:space="preserve">
+    <value>Sabit klasör</value>
+  </data>
+  <data name="Ui.Channel.SwitchFromVersionXxxToBinaryType" xml:space="preserve">
+    <value>version xxx klasörlerinden BinaryType tabanlı kurulum klasörlerine geçer.</value>
+  </data>
+  <data name="Ui.Channel.CompressRobloxInstalls" xml:space="preserve">
+    <value>Roblox kurulumlarını sıkıştır</value>
+  </data>
+  <data name="Ui.Channel.PacksRobloxIntoACompressedArchive" xml:space="preserve">
+    <value>Roblox kapalıyken sıkıştırılmış bir arşive paketler, diskte yaklaşık %40 daha küçük. Yalnızca başlattığınız sürüm önce açılır, bu bir iki saniye sürer.</value>
+  </data>
+  <data name="Ui.Channel.AllocatedMemory" xml:space="preserve">
+    <value>Ayrılan bellek</value>
+  </data>
+  <data name="Ui.Channel.HowMuchMemoryRobloxIsAllowed" xml:space="preserve">
+    <value>Roblox'un ne kadar bellek kullanabileceği</value>
+  </data>
+  <data name="Ui.Channel.GameUpdateDelivery" xml:space="preserve">
+    <value>Oyun güncellemesi teslimi</value>
+  </data>
+  <data name="Ui.Channel.SelectWhenYouDLikeTo" xml:space="preserve">
+    <value>Roblox güncellemelerini ne zaman almak istediğinizi seçin</value>
+  </data>
+  <data name="Ui.Channel.Normal" xml:space="preserve">
+    <value>Normal</value>
+  </data>
+  <data name="Ui.Channel.YouGetEachRobloxUpdateOn" xml:space="preserve">
+    <value>Her Roblox güncellemesini yayımlandıktan sonraki ilk açılışta alırsınız</value>
+  </data>
+  <data name="Ui.Channel.EarlyOptIn" xml:space="preserve">
+    <value>Erken (Opt in)</value>
+  </data>
+  <data name="Ui.Channel.ChecksRobloxSOwnVersionServer" xml:space="preserve">
+    <value>Önce Roblox'un sürüm sunucusunu sorgular, böylece yeni güncelleme önbellekteki kopyayı beklemeden yayımlandığı anda alınır</value>
+  </data>
+  <data name="Ui.Channel.LateOptOut" xml:space="preserve">
+    <value>Geç (Opt out)</value>
+  </data>
+  <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
+    <value>Erken hatalar düzeltilsin diye her Roblox güncellemesinden sonra sürümünüzü 3 gün korur, sonra kendi güncellenir. Eksik veya bozuk bir kurulum her zaman hemen güncellenir</value>
+  </data>
+  <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
+    <value>Verimlilik modu</value>
+  </data>
+  <data name="Ui.Channel.RobloxPriority" xml:space="preserve">
+    <value>Roblox önceliği</value>
+  </data>
+  <data name="Ui.Channel.WhenDisabledRobloxWonTUpdate" xml:space="preserve">
+    <value>Kapalıyken Roblox yeni sürümlere güncellenmez.</value>
+  </data>
+  <data name="Ui.Channel.RobloxUpdates" xml:space="preserve">
+    <value>Roblox güncellemeleri</value>
+  </data>
+  <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
+    <value>Kanallar   [Roblox Build]</value>
+  </data>
+  <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
+    <value>Dağıtım kanalı adını girin. Geçersiz kanallar 403 404 hatalarına neden olur!</value>
+  </data>
+  <data name="Ui.Channel.EnterDeploymentChannelEGProduction" xml:space="preserve">
+    <value>Dağıtım kanalını girin (örn. production, zlive, live)</value>
+  </data>
+  <data name="Ui.Channel.DeploymentChannel" xml:space="preserve">
+    <value>Dağıtım kanalı</value>
+  </data>
+  <data name="Ui.Channel.ApplyChannel" xml:space="preserve">
+    <value>Kanalı uygula</value>
+  </data>
+  <data name="Ui.Channel.Channels" xml:space="preserve">
+    <value>Kanallar</value>
+  </data>
+  <data name="Ui.Channel.ApplyingADifferentChannelClearsThe" xml:space="preserve">
+    <value>Farklı bir kanal uygulamak, yeni kanalın kurulabilmesi için indirilmiş Roblox sürümünü siler</value>
+  </data>
+  <data name="Ui.Channel.RendererBackend" xml:space="preserve">
+    <value>Oluşturucu arka ucu</value>
+  </data>
+  <data name="Ui.Channel.ChoosesTheGraphicsBackendVoidstrapDraws" xml:space="preserve">
+    <value>Voidstrap'in kendini çizdiği grafik arka ucunu seçer. Otomatik, sisteminizin desteklediği en hızlısını seçer. Değişiklik Voidstrap bir sonraki açılışında geçerli olur.</value>
+  </data>
 </root>

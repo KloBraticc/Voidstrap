@@ -4572,4 +4572,181 @@ Mitä haluat tehdä?</value>
   <data name="Ui.Integrations.PlaceID" xml:space="preserve">
     <value>Place ID</value>
   </data>
+  <data name="Ui.Channel.InstallLocation" xml:space="preserve">
+    <value>Asennuspaikka</value>
+  </data>
+  <data name="Ui.Channel.MoveWhereVoidstrapIsInstalledThe" xml:space="preserve">
+    <value>Siirtää Voidstrapin asennuspaikan. Sovellus käynnistyy lopuksi automaattisesti uudelleen.</value>
+  </data>
+  <data name="Ui.Channel.Browse" xml:space="preserve">
+    <value>Selaa...</value>
+  </data>
+  <data name="Ui.Channel.VoidstrapCPULimit" xml:space="preserve">
+    <value>Voidstrapin suoritinraja</value>
+  </data>
+  <data name="Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity" xml:space="preserve">
+    <value>Rajoittaa Voidstrapin oman suoritinaffiniteetin. Pidä se maksimissa, ellei jokin muu aktiivinen sovellus tarvitse varattuja ytimiä.</value>
+  </data>
+  <data name="Ui.Channel.IncludePreReleaseVersions" xml:space="preserve">
+    <value>Sisällytä esiversiot</value>
+  </data>
+  <data name="Ui.Channel.UpdatesToTestBuildsAsSoon" xml:space="preserve">
+    <value>Päivittää testiversioihin heti niiden julkaisun jälkeen. Niitä on testattu tavallisia julkaisuja vähemmän ja ne voivat rikkoutua, joten pidä tämä pois päältä, ellet halua varhaisia versioita.</value>
+  </data>
+  <data name="Ui.Channel.LaunchRobloxWithoutVoidstrap" xml:space="preserve">
+    <value>Käynnistä Roblox ilman Voidstrapia</value>
+  </data>
+  <data name="Ui.Channel.JoiningAGameFromYourBrowser" xml:space="preserve">
+    <value>Peliin liittyminen selaimesta avaa Robloxin suoraan, ja Voidstrapista käynnistettäessä se sulkeutuu heti, kun Roblox käynnistyy. Peittokuvat ja kaikki muut Voidstrapin pelinsisäiset toiminnot lakkaavat toimimasta.</value>
+  </data>
+  <data name="Ui.Channel.DisplayAndResolution" xml:space="preserve">
+    <value>Näyttö ja tarkkuus</value>
+  </data>
+  <data name="Ui.Channel.Identify" xml:space="preserve">
+    <value>Tunnista</value>
+  </data>
+  <data name="Ui.Channel.ResolutionChanger" xml:space="preserve">
+    <value>Tarkkuuden vaihto</value>
+  </data>
+  <data name="Ui.Channel.ChangesTheResolutionOfTheSelected" xml:space="preserve">
+    <value>Vaihtaa valitun näytön tarkkuuden.</value>
+  </data>
+  <data name="Ui.Channel.ResolutionChangerInGame" xml:space="preserve">
+    <value>Tarkkuuden vaihto (pelissä)</value>
+  </data>
+  <data name="Ui.Channel.AppliesToTheSelectedMonitorWhile" xml:space="preserve">
+    <value>Koskee valittua näyttöä, kun olet Roblox-pelissä, ja palauttaa aiemman tarkkuuden, kun poistut.</value>
+  </data>
+  <data name="Ui.Channel.OnlyApplyForASpecificPlaceId" xml:space="preserve">
+    <value>Käytä vain tietylle PlaceId:lle</value>
+  </data>
+  <data name="Ui.Channel.AppSettings" xml:space="preserve">
+    <value>Sovelluksen asetukset</value>
+  </data>
+  <data name="Ui.Channel.HardwareAcceleration" xml:space="preserve">
+    <value>Laitteistokiihdytys</value>
+  </data>
+  <data name="Ui.Channel.UsesTheGPUToRenderVoidstrap" xml:space="preserve">
+    <value>Käyttää näytönohjainta Voidstrapin piirtämiseen. Poista käytöstä yhteensopivuuden tai pienemmän videomuistin käytön vuoksi.</value>
+  </data>
+  <data name="Ui.Channel.DisplaysVoidstrapsDiscordRPC" xml:space="preserve">
+    <value>Näyttää Voidstrapin Discord RPC:n.</value>
+  </data>
+  <data name="Ui.Channel.VoidstrapRPC" xml:space="preserve">
+    <value>Voidstrap RPC</value>
+  </data>
+  <data name="Ui.Channel.FactoryReset" xml:space="preserve">
+    <value>Palauta tehdasasetukset</value>
+  </data>
+  <data name="Ui.Channel.Donate" xml:space="preserve">
+    <value>Lahjoita</value>
+  </data>
+  <data name="Ui.Channel.Installer" xml:space="preserve">
+    <value>Asennusohjelma</value>
+  </data>
+  <data name="Ui.Channel.DownloadServer" xml:space="preserve">
+    <value>Latauspalvelin</value>
+  </data>
+  <data name="Ui.Channel.UsedWhenRobloxIsInstalledOr" xml:space="preserve">
+    <value>Käytetään, kun Roblox asennetaan tai päivitetään</value>
+  </data>
+  <data name="Ui.Channel.DownloadBufferSizeKB" xml:space="preserve">
+    <value>Latauspuskurin koko (kt)</value>
+  </data>
+  <data name="Ui.Channel.LargerBuffersCanSpeedUpDownloads" xml:space="preserve">
+    <value>Suuremmat puskurit voivat nopeuttaa latauksia nopeilla yhteyksillä</value>
+  </data>
+  <data name="Ui.Channel.ConcurrentDownloads" xml:space="preserve">
+    <value>Samanaikaiset lataukset</value>
+  </data>
+  <data name="Ui.Channel.HowManyPackagesDownloadAtThe" xml:space="preserve">
+    <value>Kuinka monta pakettia ladataan yhtä aikaa. Suurempi on nopeampi mutta käyttää enemmän kaistaa</value>
+  </data>
+  <data name="Ui.Channel.SegmentsPerFile" xml:space="preserve">
+    <value>Osia tiedostoa kohden</value>
+  </data>
+  <data name="Ui.Channel.SplitsEachPackageIntoParallelChunks" xml:space="preserve">
+    <value>Jakaa jokaisen paketin rinnakkaisiin osiin nopeampaa latausta varten</value>
+  </data>
+  <data name="Ui.Channel.StaticDirectory" xml:space="preserve">
+    <value>Kiinteä kansio</value>
+  </data>
+  <data name="Ui.Channel.SwitchFromVersionXxxToBinaryType" xml:space="preserve">
+    <value>Vaihtaa version xxx -kansioista BinaryType-pohjaisiin asennuskansioihin.</value>
+  </data>
+  <data name="Ui.Channel.CompressRobloxInstalls" xml:space="preserve">
+    <value>Pakkaa Roblox-asennukset</value>
+  </data>
+  <data name="Ui.Channel.PacksRobloxIntoACompressedArchive" xml:space="preserve">
+    <value>Pakkaa Robloxin arkistoon, kun se on suljettuna, noin 40% pienempi levyllä. Vain käynnistämäsi versio puretaan ensin, mikä kestää sekunnin tai kaksi.</value>
+  </data>
+  <data name="Ui.Channel.AllocatedMemory" xml:space="preserve">
+    <value>Varattu muisti</value>
+  </data>
+  <data name="Ui.Channel.HowMuchMemoryRobloxIsAllowed" xml:space="preserve">
+    <value>Kuinka paljon muistia Roblox saa käyttää</value>
+  </data>
+  <data name="Ui.Channel.GameUpdateDelivery" xml:space="preserve">
+    <value>Pelipäivitysten toimitus</value>
+  </data>
+  <data name="Ui.Channel.SelectWhenYouDLikeTo" xml:space="preserve">
+    <value>Valitse, milloin haluat saada Robloxin päivitykset</value>
+  </data>
+  <data name="Ui.Channel.Normal" xml:space="preserve">
+    <value>Normaali</value>
+  </data>
+  <data name="Ui.Channel.YouGetEachRobloxUpdateOn" xml:space="preserve">
+    <value>Saat jokaisen Roblox-päivityksen julkaisua seuraavalla käynnistyskerralla</value>
+  </data>
+  <data name="Ui.Channel.EarlyOptIn" xml:space="preserve">
+    <value>Aikaisin (Opt in)</value>
+  </data>
+  <data name="Ui.Channel.ChecksRobloxSOwnVersionServer" xml:space="preserve">
+    <value>Kysyy ensin Robloxin omalta versiopalvelimelta, joten uusi päivitys havaitaan heti julkaisun jälkeen eikä välimuistikopiota tarvitse odottaa</value>
+  </data>
+  <data name="Ui.Channel.LateOptOut" xml:space="preserve">
+    <value>Myöhään (Opt out)</value>
+  </data>
+  <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
+    <value>Pitää nykyisen version 3 päivää jokaisen Roblox-päivityksen jälkeen, jotta varhaiset virheet ehditään korjata, ja päivittää sitten itse. Puuttuva tai rikkinäinen asennus päivitetään aina heti</value>
+  </data>
+  <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
+    <value>Tehokkuustila</value>
+  </data>
+  <data name="Ui.Channel.RobloxPriority" xml:space="preserve">
+    <value>Robloxin prioriteetti</value>
+  </data>
+  <data name="Ui.Channel.WhenDisabledRobloxWonTUpdate" xml:space="preserve">
+    <value>Kun tämä on pois päältä, Roblox ei päivity uudempiin versioihin.</value>
+  </data>
+  <data name="Ui.Channel.RobloxUpdates" xml:space="preserve">
+    <value>Robloxin päivitykset</value>
+  </data>
+  <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
+    <value>Kanavat   [Roblox Build]</value>
+  </data>
+  <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
+    <value>Anna käyttöönottokanavan nimi. Virheelliset kanavat aiheuttavat virheet 403 404!</value>
+  </data>
+  <data name="Ui.Channel.EnterDeploymentChannelEGProduction" xml:space="preserve">
+    <value>Anna käyttöönottokanava (esim. production, zlive, live)</value>
+  </data>
+  <data name="Ui.Channel.DeploymentChannel" xml:space="preserve">
+    <value>Käyttöönottokanava</value>
+  </data>
+  <data name="Ui.Channel.ApplyChannel" xml:space="preserve">
+    <value>Käytä kanavaa</value>
+  </data>
+  <data name="Ui.Channel.Channels" xml:space="preserve">
+    <value>Kanavat</value>
+  </data>
+  <data name="Ui.Channel.ApplyingADifferentChannelClearsThe" xml:space="preserve">
+    <value>Toisen kanavan käyttöönotto poistaa ladatun Roblox-version, jotta uusi kanava voidaan asentaa</value>
+  </data>
+  <data name="Ui.Channel.RendererBackend" xml:space="preserve">
+    <value>Piirtotausta</value>
+  </data>
+  <data name="Ui.Channel.ChoosesTheGraphicsBackendVoidstrapDraws" xml:space="preserve">
+    <value>Valitsee grafiikkataustan, jolla Voidstrap piirtää itsensä. Automaattinen valitsee nopeimman järjestelmäsi tukeman. Muutos tulee voimaan, kun Voidstrap käynnistetään seuraavan kerran.</value>
+  </data>
 </root>

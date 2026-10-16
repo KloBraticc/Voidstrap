@@ -4541,4 +4541,181 @@ Apakah yang anda mahu lakukan?</value>
   <data name="Ui.Integrations.PlaceID" xml:space="preserve">
     <value>Place ID</value>
   </data>
+  <data name="Ui.Channel.InstallLocation" xml:space="preserve">
+    <value>Lokasi pemasangan</value>
+  </data>
+  <data name="Ui.Channel.MoveWhereVoidstrapIsInstalledThe" xml:space="preserve">
+    <value>Mengalihkan tempat Voidstrap dipasang. Aplikasi dimulakan semula secara automatik apabila selesai.</value>
+  </data>
+  <data name="Ui.Channel.Browse" xml:space="preserve">
+    <value>Semak imbas...</value>
+  </data>
+  <data name="Ui.Channel.VoidstrapCPULimit" xml:space="preserve">
+    <value>Had CPU Voidstrap</value>
+  </data>
+  <data name="Ui.Channel.LimitsVoidstrapSOwnProcessorAffinity" xml:space="preserve">
+    <value>Mengehadkan afiniti pemproses Voidstrap sendiri. Biarkan pada maksimum melainkan aplikasi aktif lain memerlukan teras yang dikhaskan.</value>
+  </data>
+  <data name="Ui.Channel.IncludePreReleaseVersions" xml:space="preserve">
+    <value>Sertakan versi pralepas</value>
+  </data>
+  <data name="Ui.Channel.UpdatesToTestBuildsAsSoon" xml:space="preserve">
+    <value>Mengemas kini kepada binaan ujian sebaik sahaja diterbitkan. Ia kurang diuji berbanding keluaran biasa dan boleh rosak, jadi biarkan mati melainkan anda mahu binaan awal.</value>
+  </data>
+  <data name="Ui.Channel.LaunchRobloxWithoutVoidstrap" xml:space="preserve">
+    <value>Lancarkan Roblox tanpa Voidstrap</value>
+  </data>
+  <data name="Ui.Channel.JoiningAGameFromYourBrowser" xml:space="preserve">
+    <value>Menyertai permainan dari pelayar membuka Roblox terus, dan melancarkan dari Voidstrap menutupnya sebaik Roblox bermula. Tindanan dan semua ciri Voidstrap lain dalam permainan berhenti berfungsi.</value>
+  </data>
+  <data name="Ui.Channel.DisplayAndResolution" xml:space="preserve">
+    <value>Paparan dan resolusi</value>
+  </data>
+  <data name="Ui.Channel.Identify" xml:space="preserve">
+    <value>Kenal pasti</value>
+  </data>
+  <data name="Ui.Channel.ResolutionChanger" xml:space="preserve">
+    <value>Penukar resolusi</value>
+  </data>
+  <data name="Ui.Channel.ChangesTheResolutionOfTheSelected" xml:space="preserve">
+    <value>Menukar resolusi monitor yang dipilih.</value>
+  </data>
+  <data name="Ui.Channel.ResolutionChangerInGame" xml:space="preserve">
+    <value>Penukar resolusi (dalam permainan)</value>
+  </data>
+  <data name="Ui.Channel.AppliesToTheSelectedMonitorWhile" xml:space="preserve">
+    <value>Digunakan pada monitor yang dipilih semasa anda dalam permainan Roblox, kemudian memulihkan resolusi sebelumnya apabila anda keluar.</value>
+  </data>
+  <data name="Ui.Channel.OnlyApplyForASpecificPlaceId" xml:space="preserve">
+    <value>Gunakan hanya untuk PlaceId tertentu</value>
+  </data>
+  <data name="Ui.Channel.AppSettings" xml:space="preserve">
+    <value>Tetapan aplikasi</value>
+  </data>
+  <data name="Ui.Channel.HardwareAcceleration" xml:space="preserve">
+    <value>Pecutan perkakasan</value>
+  </data>
+  <data name="Ui.Channel.UsesTheGPUToRenderVoidstrap" xml:space="preserve">
+    <value>Menggunakan GPU untuk memaparkan Voidstrap. Matikan untuk keserasian atau penggunaan memori video yang lebih rendah.</value>
+  </data>
+  <data name="Ui.Channel.DisplaysVoidstrapsDiscordRPC" xml:space="preserve">
+    <value>Memaparkan Discord RPC Voidstrap.</value>
+  </data>
+  <data name="Ui.Channel.VoidstrapRPC" xml:space="preserve">
+    <value>Voidstrap RPC</value>
+  </data>
+  <data name="Ui.Channel.FactoryReset" xml:space="preserve">
+    <value>Tetapan semula kilang</value>
+  </data>
+  <data name="Ui.Channel.Donate" xml:space="preserve">
+    <value>Derma</value>
+  </data>
+  <data name="Ui.Channel.Installer" xml:space="preserve">
+    <value>Pemasang</value>
+  </data>
+  <data name="Ui.Channel.DownloadServer" xml:space="preserve">
+    <value>Pelayan muat turun</value>
+  </data>
+  <data name="Ui.Channel.UsedWhenRobloxIsInstalledOr" xml:space="preserve">
+    <value>Digunakan semasa Roblox dipasang atau dikemas kini</value>
+  </data>
+  <data name="Ui.Channel.DownloadBufferSizeKB" xml:space="preserve">
+    <value>Saiz penimbal muat turun (KB)</value>
+  </data>
+  <data name="Ui.Channel.LargerBuffersCanSpeedUpDownloads" xml:space="preserve">
+    <value>Penimbal lebih besar boleh mempercepatkan muat turun pada sambungan pantas</value>
+  </data>
+  <data name="Ui.Channel.ConcurrentDownloads" xml:space="preserve">
+    <value>Muat turun serentak</value>
+  </data>
+  <data name="Ui.Channel.HowManyPackagesDownloadAtThe" xml:space="preserve">
+    <value>Berapa banyak pakej dimuat turun serentak. Lebih tinggi lebih pantas tetapi menggunakan lebih banyak lebar jalur</value>
+  </data>
+  <data name="Ui.Channel.SegmentsPerFile" xml:space="preserve">
+    <value>Segmen setiap fail</value>
+  </data>
+  <data name="Ui.Channel.SplitsEachPackageIntoParallelChunks" xml:space="preserve">
+    <value>Membahagikan setiap pakej kepada bahagian selari untuk muat turun lebih pantas</value>
+  </data>
+  <data name="Ui.Channel.StaticDirectory" xml:space="preserve">
+    <value>Direktori statik</value>
+  </data>
+  <data name="Ui.Channel.SwitchFromVersionXxxToBinaryType" xml:space="preserve">
+    <value>Bertukar daripada direktori version xxx kepada direktori pemasangan berasaskan BinaryType.</value>
+  </data>
+  <data name="Ui.Channel.CompressRobloxInstalls" xml:space="preserve">
+    <value>Mampatkan pemasangan Roblox</value>
+  </data>
+  <data name="Ui.Channel.PacksRobloxIntoACompressedArchive" xml:space="preserve">
+    <value>Membungkus Roblox ke dalam arkib termampat semasa ditutup, kira kira 40% lebih kecil pada cakera. Hanya versi yang anda lancarkan dinyahmampat dahulu, mengambil masa sesaat dua.</value>
+  </data>
+  <data name="Ui.Channel.AllocatedMemory" xml:space="preserve">
+    <value>Memori yang diperuntukkan</value>
+  </data>
+  <data name="Ui.Channel.HowMuchMemoryRobloxIsAllowed" xml:space="preserve">
+    <value>Berapa banyak memori yang boleh digunakan Roblox</value>
+  </data>
+  <data name="Ui.Channel.GameUpdateDelivery" xml:space="preserve">
+    <value>Penghantaran kemas kini permainan</value>
+  </data>
+  <data name="Ui.Channel.SelectWhenYouDLikeTo" xml:space="preserve">
+    <value>Pilih bila anda mahu menerima kemas kini Roblox</value>
+  </data>
+  <data name="Ui.Channel.Normal" xml:space="preserve">
+    <value>Biasa</value>
+  </data>
+  <data name="Ui.Channel.YouGetEachRobloxUpdateOn" xml:space="preserve">
+    <value>Anda menerima setiap kemas kini Roblox pada pelancaran seterusnya selepas ia dikeluarkan</value>
+  </data>
+  <data name="Ui.Channel.EarlyOptIn" xml:space="preserve">
+    <value>Awal (Opt in)</value>
+  </data>
+  <data name="Ui.Channel.ChecksRobloxSOwnVersionServer" xml:space="preserve">
+    <value>Bertanya kepada pelayan versi Roblox dahulu, supaya kemas kini baharu diambil sebaik ia dikeluarkan dan bukannya menunggu salinan cache</value>
+  </data>
+  <data name="Ui.Channel.LateOptOut" xml:space="preserve">
+    <value>Lewat (Opt out)</value>
+  </data>
+  <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
+    <value>Mengekalkan versi anda selama 3 hari selepas setiap kemas kini Roblox supaya pepijat awal dibaiki dahulu, kemudian dikemas kini sendiri. Pemasangan yang hilang atau rosak sentiasa dikemas kini serta merta</value>
+  </data>
+  <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
+    <value>Mod kecekapan</value>
+  </data>
+  <data name="Ui.Channel.RobloxPriority" xml:space="preserve">
+    <value>Keutamaan Roblox</value>
+  </data>
+  <data name="Ui.Channel.WhenDisabledRobloxWonTUpdate" xml:space="preserve">
+    <value>Apabila dimatikan, Roblox tidak akan dikemas kini ke versi baharu.</value>
+  </data>
+  <data name="Ui.Channel.RobloxUpdates" xml:space="preserve">
+    <value>Kemas kini Roblox</value>
+  </data>
+  <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
+    <value>Saluran   [Roblox Build]</value>
+  </data>
+  <data name="Ui.Channel.EnterDeploymentChannelNameInvalidChannels" xml:space="preserve">
+    <value>Masukkan nama saluran penggunaan. Saluran tidak sah akan menyebabkan ralat 403 404!</value>
+  </data>
+  <data name="Ui.Channel.EnterDeploymentChannelEGProduction" xml:space="preserve">
+    <value>Masukkan saluran penggunaan (cth. production, zlive, live)</value>
+  </data>
+  <data name="Ui.Channel.DeploymentChannel" xml:space="preserve">
+    <value>Saluran penggunaan</value>
+  </data>
+  <data name="Ui.Channel.ApplyChannel" xml:space="preserve">
+    <value>Gunakan saluran</value>
+  </data>
+  <data name="Ui.Channel.Channels" xml:space="preserve">
+    <value>Saluran</value>
+  </data>
+  <data name="Ui.Channel.ApplyingADifferentChannelClearsThe" xml:space="preserve">
+    <value>Menggunakan saluran lain memadam versi Roblox yang dimuat turun supaya saluran baharu boleh dipasang</value>
+  </data>
+  <data name="Ui.Channel.RendererBackend" xml:space="preserve">
+    <value>Bahagian belakang pemapar</value>
+  </data>
+  <data name="Ui.Channel.ChoosesTheGraphicsBackendVoidstrapDraws" xml:space="preserve">
+    <value>Memilih bahagian belakang grafik yang digunakan Voidstrap untuk melukis dirinya. Automatik memilih yang terpantas disokong sistem anda. Perubahan berkuat kuasa apabila Voidstrap dimulakan seterusnya.</value>
+  </data>
 </root>
