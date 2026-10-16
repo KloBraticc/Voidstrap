@@ -4753,4 +4753,139 @@ Mit szeretnél tenni?</value>
   <data name="Ui.Channel.ChoosesTheGraphicsBackendVoidstrapDraws" xml:space="preserve">
     <value>Kiválasztja a grafikus háttérrendszert, amellyel a Voidstrap rajzol. Az Automatikus a rendszered által támogatott leggyorsabbat választja. A változás a Voidstrap következő indításakor érvényes.</value>
   </data>
+  <data name="Ui.SessionNotify.Overlay" xml:space="preserve">
+    <value>Átfedés</value>
+  </data>
+  <data name="Ui.SessionNotify.OverlayShortcut" xml:space="preserve">
+    <value>Átfedés billentyűparancsa</value>
+  </data>
+  <data name="Ui.SessionNotify.TheKeyCombinationThatOpensThe" xml:space="preserve">
+    <value>Az átfedést megnyitó billentyűkombináció.</value>
+  </data>
+  <data name="Ui.SessionNotify.ClickThenPressANewCombination" xml:space="preserve">
+    <value>Kattints, majd nyomj meg egy új kombinációt</value>
+  </data>
+  <data name="Ui.SessionNotify.RemoveTheShortcut" xml:space="preserve">
+    <value>Billentyűparancs eltávolítása</value>
+  </data>
+  <data name="Ui.SessionNotify.ClickToPlayTheAnimation" xml:space="preserve">
+    <value>Kattints az animáció lejátszásához</value>
+  </data>
+  <data name="Ui.SessionNotify.TestNotification" xml:space="preserve">
+    <value>Tesztértesítés</value>
+  </data>
+  <data name="Ui.SessionNotify.ThisIsHowVoidstrapNotificationsLook" xml:space="preserve">
+    <value>Így néznek ki a Voidstrap értesítések.</value>
+  </data>
+  <data name="Ui.SessionNotify.SendATestNotification" xml:space="preserve">
+    <value>Tesztértesítés küldése</value>
+  </data>
+  <data name="Ui.SessionNotify.Corner" xml:space="preserve">
+    <value>Sarok</value>
+  </data>
+  <data name="Ui.SessionNotify.Floating" xml:space="preserve">
+    <value>Lebegő</value>
+  </data>
+  <data name="Ui.SessionNotify.SpaceFromEdge" xml:space="preserve">
+    <value>Távolság a széltől</value>
+  </data>
+  <data name="Ui.SessionNotify.Position" xml:space="preserve">
+    <value>Pozíció</value>
+  </data>
+  <data name="Ui.SessionNotify.TopLeft" xml:space="preserve">
+    <value>Bal felső</value>
+  </data>
+  <data name="Ui.SessionNotify.Top" xml:space="preserve">
+    <value>Felül</value>
+  </data>
+  <data name="Ui.SessionNotify.TopRight" xml:space="preserve">
+    <value>Jobb felső</value>
+  </data>
+  <data name="Ui.SessionNotify.BottomLeft" xml:space="preserve">
+    <value>Bal alsó</value>
+  </data>
+  <data name="Ui.SessionNotify.Bottom" xml:space="preserve">
+    <value>Alul</value>
+  </data>
+  <data name="Ui.SessionNotify.BottomRight" xml:space="preserve">
+    <value>Jobb alsó</value>
+  </data>
+  <data name="Ui.SessionNotify.Horizontal" xml:space="preserve">
+    <value>Vízszintes</value>
+  </data>
+  <data name="Ui.SessionNotify.Vertical" xml:space="preserve">
+    <value>Függőleges</value>
+  </data>
+  <data name="Ui.SessionNotify.CornerRadius" xml:space="preserve">
+    <value>Sarok lekerekítése</value>
+  </data>
+  <data name="Ui.SessionNotify.Width" xml:space="preserve">
+    <value>Szélesség</value>
+  </data>
+  <data name="Ui.SessionNotify.TextSize" xml:space="preserve">
+    <value>Szövegméret</value>
+  </data>
+  <data name="Ui.SessionNotify.ShowFor" xml:space="preserve">
+    <value>Megjelenítés ideje</value>
+  </data>
+  <data name="Ui.SessionNotify.Animation" xml:space="preserve">
+    <value>Animáció</value>
+  </data>
+  <data name="Ui.SessionNotify.Entrance" xml:space="preserve">
+    <value>Belépés</value>
+  </data>
+  <data name="Ui.SessionNotify.Exit" xml:space="preserve">
+    <value>Kilépés</value>
+  </data>
+  <data name="Ui.SessionNotify.EntranceSpeed" xml:space="preserve">
+    <value>Belépési sebesség</value>
+  </data>
+  <data name="Ui.SessionNotify.ExitSpeed" xml:space="preserve">
+    <value>Kilépési sebesség</value>
+  </data>
+  <data name="Ui.SessionNotify.VoidstrapHeader" xml:space="preserve">
+    <value>Voidstrap fejléc</value>
+  </data>
+  <data name="Ui.SessionNotify.BadgesAndTheShortcutReminderFollow" xml:space="preserve">
+    <value>A jelvények és a billentyűparancs emlékeztető a Szerver beállítást követik</value>
+  </data>
+  <data name="Ui.SessionNotify.Server" xml:space="preserve">
+    <value>Szerver</value>
+  </data>
+  <data name="Ui.SessionNotify.Friends" xml:space="preserve">
+    <value>Barátok</value>
+  </data>
+  <data name="Ui.SessionNotify.Both" xml:space="preserve">
+    <value>Mindkettő</value>
+  </data>
+  <data name="Ui.SessionNotify.PauseWhileHovered" xml:space="preserve">
+    <value>Szünet rámutatáskor</value>
+  </data>
+  <data name="Ui.SessionNotify.CloseButtonOnHover" xml:space="preserve">
+    <value>Bezárás gomb rámutatáskor</value>
+  </data>
+  <data name="Ui.SessionNotify.NotifyMeAbout" xml:space="preserve">
+    <value>Értesíts erről</value>
+  </data>
+  <data name="Ui.SessionNotify.ServerDetails" xml:space="preserve">
+    <value>Szerver részletei</value>
+  </data>
+  <data name="Ui.SessionNotify.WhenOffTheseShowAsWindows" xml:space="preserve">
+    <value>Kikapcsolva ezek Windows értesítésként jelennek meg</value>
+  </data>
+  <data name="Ui.SessionNotify.StartingAGameJoiningYourGame" xml:space="preserve">
+    <value>Játék indítása, csatlakozás a játékodhoz vagy a szerveredhez.</value>
+  </data>
+  <data name="Ui.SessionNotify.Badges" xml:space="preserve">
+    <value>Jelvények</value>
+  </data>
+  <data name="Ui.SessionNotify.WhenYouEarnOne" xml:space="preserve">
+    <value>Amikor szerzel egyet.</value>
+  </data>
+  <data name="Ui.SessionNotify.TheOverlayShortcutWhenAGame" xml:space="preserve">
+    <value>Az átfedés billentyűparancsa játék indításakor</value>
+  </data>
+  <data name="Ui.SessionNotify.ResetToDefaults" xml:space="preserve">
+    <value>Alapértékek visszaállítása</value>
+  </data>
 </root>

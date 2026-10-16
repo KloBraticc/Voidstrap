@@ -1213,6 +1213,96 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Channel_ChoosesTheGraphicsBackendVoidstrapDraws => ResourceManager.GetString("Ui.Channel.ChoosesTheGraphicsBackendVoidstrapDraws", resourceCulture);
 
+        public static string Ui_SessionNotify_Overlay => ResourceManager.GetString("Ui.SessionNotify.Overlay", resourceCulture);
+
+        public static string Ui_SessionNotify_OverlayShortcut => ResourceManager.GetString("Ui.SessionNotify.OverlayShortcut", resourceCulture);
+
+        public static string Ui_SessionNotify_TheKeyCombinationThatOpensThe => ResourceManager.GetString("Ui.SessionNotify.TheKeyCombinationThatOpensThe", resourceCulture);
+
+        public static string Ui_SessionNotify_ClickThenPressANewCombination => ResourceManager.GetString("Ui.SessionNotify.ClickThenPressANewCombination", resourceCulture);
+
+        public static string Ui_SessionNotify_RemoveTheShortcut => ResourceManager.GetString("Ui.SessionNotify.RemoveTheShortcut", resourceCulture);
+
+        public static string Ui_SessionNotify_ClickToPlayTheAnimation => ResourceManager.GetString("Ui.SessionNotify.ClickToPlayTheAnimation", resourceCulture);
+
+        public static string Ui_SessionNotify_TestNotification => ResourceManager.GetString("Ui.SessionNotify.TestNotification", resourceCulture);
+
+        public static string Ui_SessionNotify_ThisIsHowVoidstrapNotificationsLook => ResourceManager.GetString("Ui.SessionNotify.ThisIsHowVoidstrapNotificationsLook", resourceCulture);
+
+        public static string Ui_SessionNotify_SendATestNotification => ResourceManager.GetString("Ui.SessionNotify.SendATestNotification", resourceCulture);
+
+        public static string Ui_SessionNotify_Corner => ResourceManager.GetString("Ui.SessionNotify.Corner", resourceCulture);
+
+        public static string Ui_SessionNotify_Floating => ResourceManager.GetString("Ui.SessionNotify.Floating", resourceCulture);
+
+        public static string Ui_SessionNotify_SpaceFromEdge => ResourceManager.GetString("Ui.SessionNotify.SpaceFromEdge", resourceCulture);
+
+        public static string Ui_SessionNotify_Position => ResourceManager.GetString("Ui.SessionNotify.Position", resourceCulture);
+
+        public static string Ui_SessionNotify_TopLeft => ResourceManager.GetString("Ui.SessionNotify.TopLeft", resourceCulture);
+
+        public static string Ui_SessionNotify_Top => ResourceManager.GetString("Ui.SessionNotify.Top", resourceCulture);
+
+        public static string Ui_SessionNotify_TopRight => ResourceManager.GetString("Ui.SessionNotify.TopRight", resourceCulture);
+
+        public static string Ui_SessionNotify_BottomLeft => ResourceManager.GetString("Ui.SessionNotify.BottomLeft", resourceCulture);
+
+        public static string Ui_SessionNotify_Bottom => ResourceManager.GetString("Ui.SessionNotify.Bottom", resourceCulture);
+
+        public static string Ui_SessionNotify_BottomRight => ResourceManager.GetString("Ui.SessionNotify.BottomRight", resourceCulture);
+
+        public static string Ui_SessionNotify_Horizontal => ResourceManager.GetString("Ui.SessionNotify.Horizontal", resourceCulture);
+
+        public static string Ui_SessionNotify_Vertical => ResourceManager.GetString("Ui.SessionNotify.Vertical", resourceCulture);
+
+        public static string Ui_SessionNotify_CornerRadius => ResourceManager.GetString("Ui.SessionNotify.CornerRadius", resourceCulture);
+
+        public static string Ui_SessionNotify_Width => ResourceManager.GetString("Ui.SessionNotify.Width", resourceCulture);
+
+        public static string Ui_SessionNotify_TextSize => ResourceManager.GetString("Ui.SessionNotify.TextSize", resourceCulture);
+
+        public static string Ui_SessionNotify_ShowFor => ResourceManager.GetString("Ui.SessionNotify.ShowFor", resourceCulture);
+
+        public static string Ui_SessionNotify_Animation => ResourceManager.GetString("Ui.SessionNotify.Animation", resourceCulture);
+
+        public static string Ui_SessionNotify_Entrance => ResourceManager.GetString("Ui.SessionNotify.Entrance", resourceCulture);
+
+        public static string Ui_SessionNotify_Exit => ResourceManager.GetString("Ui.SessionNotify.Exit", resourceCulture);
+
+        public static string Ui_SessionNotify_EntranceSpeed => ResourceManager.GetString("Ui.SessionNotify.EntranceSpeed", resourceCulture);
+
+        public static string Ui_SessionNotify_ExitSpeed => ResourceManager.GetString("Ui.SessionNotify.ExitSpeed", resourceCulture);
+
+        public static string Ui_SessionNotify_VoidstrapHeader => ResourceManager.GetString("Ui.SessionNotify.VoidstrapHeader", resourceCulture);
+
+        public static string Ui_SessionNotify_BadgesAndTheShortcutReminderFollow => ResourceManager.GetString("Ui.SessionNotify.BadgesAndTheShortcutReminderFollow", resourceCulture);
+
+        public static string Ui_SessionNotify_Server => ResourceManager.GetString("Ui.SessionNotify.Server", resourceCulture);
+
+        public static string Ui_SessionNotify_Friends => ResourceManager.GetString("Ui.SessionNotify.Friends", resourceCulture);
+
+        public static string Ui_SessionNotify_Both => ResourceManager.GetString("Ui.SessionNotify.Both", resourceCulture);
+
+        public static string Ui_SessionNotify_PauseWhileHovered => ResourceManager.GetString("Ui.SessionNotify.PauseWhileHovered", resourceCulture);
+
+        public static string Ui_SessionNotify_CloseButtonOnHover => ResourceManager.GetString("Ui.SessionNotify.CloseButtonOnHover", resourceCulture);
+
+        public static string Ui_SessionNotify_NotifyMeAbout => ResourceManager.GetString("Ui.SessionNotify.NotifyMeAbout", resourceCulture);
+
+        public static string Ui_SessionNotify_ServerDetails => ResourceManager.GetString("Ui.SessionNotify.ServerDetails", resourceCulture);
+
+        public static string Ui_SessionNotify_WhenOffTheseShowAsWindows => ResourceManager.GetString("Ui.SessionNotify.WhenOffTheseShowAsWindows", resourceCulture);
+
+        public static string Ui_SessionNotify_StartingAGameJoiningYourGame => ResourceManager.GetString("Ui.SessionNotify.StartingAGameJoiningYourGame", resourceCulture);
+
+        public static string Ui_SessionNotify_Badges => ResourceManager.GetString("Ui.SessionNotify.Badges", resourceCulture);
+
+        public static string Ui_SessionNotify_WhenYouEarnOne => ResourceManager.GetString("Ui.SessionNotify.WhenYouEarnOne", resourceCulture);
+
+        public static string Ui_SessionNotify_TheOverlayShortcutWhenAGame => ResourceManager.GetString("Ui.SessionNotify.TheOverlayShortcutWhenAGame", resourceCulture);
+
+        public static string Ui_SessionNotify_ResetToDefaults => ResourceManager.GetString("Ui.SessionNotify.ResetToDefaults", resourceCulture);
+
         public static string Menu_Appearance_Accent_Title => ResourceManager.GetString("Menu.Appearance.Accent.Title", resourceCulture);
 
         public static string Menu_Appearance_Accent_Description => ResourceManager.GetString("Menu.Appearance.Accent.Description", resourceCulture);

@@ -4749,4 +4749,139 @@ Ne yapmak istersiniz?</value>
   <data name="Ui.Channel.ChoosesTheGraphicsBackendVoidstrapDraws" xml:space="preserve">
     <value>Voidstrap'in kendini çizdiği grafik arka ucunu seçer. Otomatik, sisteminizin desteklediği en hızlısını seçer. Değişiklik Voidstrap bir sonraki açılışında geçerli olur.</value>
   </data>
+  <data name="Ui.SessionNotify.Overlay" xml:space="preserve">
+    <value>Katman</value>
+  </data>
+  <data name="Ui.SessionNotify.OverlayShortcut" xml:space="preserve">
+    <value>Katman kısayolu</value>
+  </data>
+  <data name="Ui.SessionNotify.TheKeyCombinationThatOpensThe" xml:space="preserve">
+    <value>Katmanı açan tuş bileşimi.</value>
+  </data>
+  <data name="Ui.SessionNotify.ClickThenPressANewCombination" xml:space="preserve">
+    <value>Tıklayın, sonra yeni bir bileşime basın</value>
+  </data>
+  <data name="Ui.SessionNotify.RemoveTheShortcut" xml:space="preserve">
+    <value>Kısayolu kaldır</value>
+  </data>
+  <data name="Ui.SessionNotify.ClickToPlayTheAnimation" xml:space="preserve">
+    <value>Animasyonu oynatmak için tıklayın</value>
+  </data>
+  <data name="Ui.SessionNotify.TestNotification" xml:space="preserve">
+    <value>Test bildirimi</value>
+  </data>
+  <data name="Ui.SessionNotify.ThisIsHowVoidstrapNotificationsLook" xml:space="preserve">
+    <value>Voidstrap bildirimleri böyle görünür.</value>
+  </data>
+  <data name="Ui.SessionNotify.SendATestNotification" xml:space="preserve">
+    <value>Test bildirimi gönder</value>
+  </data>
+  <data name="Ui.SessionNotify.Corner" xml:space="preserve">
+    <value>Köşe</value>
+  </data>
+  <data name="Ui.SessionNotify.Floating" xml:space="preserve">
+    <value>Yüzen</value>
+  </data>
+  <data name="Ui.SessionNotify.SpaceFromEdge" xml:space="preserve">
+    <value>Kenardan uzaklık</value>
+  </data>
+  <data name="Ui.SessionNotify.Position" xml:space="preserve">
+    <value>Konum</value>
+  </data>
+  <data name="Ui.SessionNotify.TopLeft" xml:space="preserve">
+    <value>Sol üst</value>
+  </data>
+  <data name="Ui.SessionNotify.Top" xml:space="preserve">
+    <value>Üst</value>
+  </data>
+  <data name="Ui.SessionNotify.TopRight" xml:space="preserve">
+    <value>Sağ üst</value>
+  </data>
+  <data name="Ui.SessionNotify.BottomLeft" xml:space="preserve">
+    <value>Sol alt</value>
+  </data>
+  <data name="Ui.SessionNotify.Bottom" xml:space="preserve">
+    <value>Alt</value>
+  </data>
+  <data name="Ui.SessionNotify.BottomRight" xml:space="preserve">
+    <value>Sağ alt</value>
+  </data>
+  <data name="Ui.SessionNotify.Horizontal" xml:space="preserve">
+    <value>Yatay</value>
+  </data>
+  <data name="Ui.SessionNotify.Vertical" xml:space="preserve">
+    <value>Dikey</value>
+  </data>
+  <data name="Ui.SessionNotify.CornerRadius" xml:space="preserve">
+    <value>Köşe yarıçapı</value>
+  </data>
+  <data name="Ui.SessionNotify.Width" xml:space="preserve">
+    <value>Genişlik</value>
+  </data>
+  <data name="Ui.SessionNotify.TextSize" xml:space="preserve">
+    <value>Metin boyutu</value>
+  </data>
+  <data name="Ui.SessionNotify.ShowFor" xml:space="preserve">
+    <value>Gösterme süresi</value>
+  </data>
+  <data name="Ui.SessionNotify.Animation" xml:space="preserve">
+    <value>Animasyon</value>
+  </data>
+  <data name="Ui.SessionNotify.Entrance" xml:space="preserve">
+    <value>Giriş</value>
+  </data>
+  <data name="Ui.SessionNotify.Exit" xml:space="preserve">
+    <value>Çıkış</value>
+  </data>
+  <data name="Ui.SessionNotify.EntranceSpeed" xml:space="preserve">
+    <value>Giriş hızı</value>
+  </data>
+  <data name="Ui.SessionNotify.ExitSpeed" xml:space="preserve">
+    <value>Çıkış hızı</value>
+  </data>
+  <data name="Ui.SessionNotify.VoidstrapHeader" xml:space="preserve">
+    <value>Voidstrap başlığı</value>
+  </data>
+  <data name="Ui.SessionNotify.BadgesAndTheShortcutReminderFollow" xml:space="preserve">
+    <value>Rozetler ve kısayol hatırlatıcısı Sunucu ayarını izler</value>
+  </data>
+  <data name="Ui.SessionNotify.Server" xml:space="preserve">
+    <value>Sunucu</value>
+  </data>
+  <data name="Ui.SessionNotify.Friends" xml:space="preserve">
+    <value>Arkadaşlar</value>
+  </data>
+  <data name="Ui.SessionNotify.Both" xml:space="preserve">
+    <value>İkisi</value>
+  </data>
+  <data name="Ui.SessionNotify.PauseWhileHovered" xml:space="preserve">
+    <value>Üzerine gelince duraklat</value>
+  </data>
+  <data name="Ui.SessionNotify.CloseButtonOnHover" xml:space="preserve">
+    <value>Üzerine gelince kapat düğmesi</value>
+  </data>
+  <data name="Ui.SessionNotify.NotifyMeAbout" xml:space="preserve">
+    <value>Beni şunlardan haberdar et</value>
+  </data>
+  <data name="Ui.SessionNotify.ServerDetails" xml:space="preserve">
+    <value>Sunucu ayrıntıları</value>
+  </data>
+  <data name="Ui.SessionNotify.WhenOffTheseShowAsWindows" xml:space="preserve">
+    <value>Kapalıyken bunlar Windows bildirimi olarak gösterilir</value>
+  </data>
+  <data name="Ui.SessionNotify.StartingAGameJoiningYourGame" xml:space="preserve">
+    <value>Oyun başlatma, oyununuza veya sunucunuza katılma.</value>
+  </data>
+  <data name="Ui.SessionNotify.Badges" xml:space="preserve">
+    <value>Rozetler</value>
+  </data>
+  <data name="Ui.SessionNotify.WhenYouEarnOne" xml:space="preserve">
+    <value>Bir tane kazandığınızda.</value>
+  </data>
+  <data name="Ui.SessionNotify.TheOverlayShortcutWhenAGame" xml:space="preserve">
+    <value>Oyun başladığında katman kısayolu</value>
+  </data>
+  <data name="Ui.SessionNotify.ResetToDefaults" xml:space="preserve">
+    <value>Varsayılanlara sıfırla</value>
+  </data>
 </root>

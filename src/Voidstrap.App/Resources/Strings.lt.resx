@@ -4791,4 +4791,139 @@ Ką norėtumėte daryti?</value>
   <data name="Ui.Channel.ChoosesTheGraphicsBackendVoidstrapDraws" xml:space="preserve">
     <value>Pasirenka grafikos sąsają, kuria Voidstrap piešia save. Automatinis pasirenka greičiausią, kurią palaiko jūsų sistema. Pakeitimas įsigalios kitą kartą paleidus Voidstrap.</value>
   </data>
+  <data name="Ui.SessionNotify.Overlay" xml:space="preserve">
+    <value>Perdanga</value>
+  </data>
+  <data name="Ui.SessionNotify.OverlayShortcut" xml:space="preserve">
+    <value>Perdangos spartusis klavišas</value>
+  </data>
+  <data name="Ui.SessionNotify.TheKeyCombinationThatOpensThe" xml:space="preserve">
+    <value>Klavišų derinys, atidarantis perdangą.</value>
+  </data>
+  <data name="Ui.SessionNotify.ClickThenPressANewCombination" xml:space="preserve">
+    <value>Spustelėkite, tada paspauskite naują derinį</value>
+  </data>
+  <data name="Ui.SessionNotify.RemoveTheShortcut" xml:space="preserve">
+    <value>Pašalinti spartųjį klavišą</value>
+  </data>
+  <data name="Ui.SessionNotify.ClickToPlayTheAnimation" xml:space="preserve">
+    <value>Spustelėkite, kad paleistumėte animaciją</value>
+  </data>
+  <data name="Ui.SessionNotify.TestNotification" xml:space="preserve">
+    <value>Bandomasis pranešimas</value>
+  </data>
+  <data name="Ui.SessionNotify.ThisIsHowVoidstrapNotificationsLook" xml:space="preserve">
+    <value>Taip atrodo Voidstrap pranešimai.</value>
+  </data>
+  <data name="Ui.SessionNotify.SendATestNotification" xml:space="preserve">
+    <value>Siųsti bandomąjį pranešimą</value>
+  </data>
+  <data name="Ui.SessionNotify.Corner" xml:space="preserve">
+    <value>Kampas</value>
+  </data>
+  <data name="Ui.SessionNotify.Floating" xml:space="preserve">
+    <value>Plaukiojantis</value>
+  </data>
+  <data name="Ui.SessionNotify.SpaceFromEdge" xml:space="preserve">
+    <value>Atstumas nuo krašto</value>
+  </data>
+  <data name="Ui.SessionNotify.Position" xml:space="preserve">
+    <value>Padėtis</value>
+  </data>
+  <data name="Ui.SessionNotify.TopLeft" xml:space="preserve">
+    <value>Viršuje kairėje</value>
+  </data>
+  <data name="Ui.SessionNotify.Top" xml:space="preserve">
+    <value>Viršuje</value>
+  </data>
+  <data name="Ui.SessionNotify.TopRight" xml:space="preserve">
+    <value>Viršuje dešinėje</value>
+  </data>
+  <data name="Ui.SessionNotify.BottomLeft" xml:space="preserve">
+    <value>Apačioje kairėje</value>
+  </data>
+  <data name="Ui.SessionNotify.Bottom" xml:space="preserve">
+    <value>Apačioje</value>
+  </data>
+  <data name="Ui.SessionNotify.BottomRight" xml:space="preserve">
+    <value>Apačioje dešinėje</value>
+  </data>
+  <data name="Ui.SessionNotify.Horizontal" xml:space="preserve">
+    <value>Horizontaliai</value>
+  </data>
+  <data name="Ui.SessionNotify.Vertical" xml:space="preserve">
+    <value>Vertikaliai</value>
+  </data>
+  <data name="Ui.SessionNotify.CornerRadius" xml:space="preserve">
+    <value>Kampų spindulys</value>
+  </data>
+  <data name="Ui.SessionNotify.Width" xml:space="preserve">
+    <value>Plotis</value>
+  </data>
+  <data name="Ui.SessionNotify.TextSize" xml:space="preserve">
+    <value>Teksto dydis</value>
+  </data>
+  <data name="Ui.SessionNotify.ShowFor" xml:space="preserve">
+    <value>Rodyti</value>
+  </data>
+  <data name="Ui.SessionNotify.Animation" xml:space="preserve">
+    <value>Animacija</value>
+  </data>
+  <data name="Ui.SessionNotify.Entrance" xml:space="preserve">
+    <value>Atsiradimas</value>
+  </data>
+  <data name="Ui.SessionNotify.Exit" xml:space="preserve">
+    <value>Išnykimas</value>
+  </data>
+  <data name="Ui.SessionNotify.EntranceSpeed" xml:space="preserve">
+    <value>Atsiradimo greitis</value>
+  </data>
+  <data name="Ui.SessionNotify.ExitSpeed" xml:space="preserve">
+    <value>Išnykimo greitis</value>
+  </data>
+  <data name="Ui.SessionNotify.VoidstrapHeader" xml:space="preserve">
+    <value>Voidstrap antraštė</value>
+  </data>
+  <data name="Ui.SessionNotify.BadgesAndTheShortcutReminderFollow" xml:space="preserve">
+    <value>Ženkleliai ir sparčiojo klavišo priminimas atitinka Serveris</value>
+  </data>
+  <data name="Ui.SessionNotify.Server" xml:space="preserve">
+    <value>Serveris</value>
+  </data>
+  <data name="Ui.SessionNotify.Friends" xml:space="preserve">
+    <value>Draugai</value>
+  </data>
+  <data name="Ui.SessionNotify.Both" xml:space="preserve">
+    <value>Abu</value>
+  </data>
+  <data name="Ui.SessionNotify.PauseWhileHovered" xml:space="preserve">
+    <value>Pristabdyti užvedus žymeklį</value>
+  </data>
+  <data name="Ui.SessionNotify.CloseButtonOnHover" xml:space="preserve">
+    <value>Uždarymo mygtukas užvedus žymeklį</value>
+  </data>
+  <data name="Ui.SessionNotify.NotifyMeAbout" xml:space="preserve">
+    <value>Pranešti man apie</value>
+  </data>
+  <data name="Ui.SessionNotify.ServerDetails" xml:space="preserve">
+    <value>Serverio informacija</value>
+  </data>
+  <data name="Ui.SessionNotify.WhenOffTheseShowAsWindows" xml:space="preserve">
+    <value>Išjungus jie rodomi kaip Windows pranešimai</value>
+  </data>
+  <data name="Ui.SessionNotify.StartingAGameJoiningYourGame" xml:space="preserve">
+    <value>Žaidimo paleidimas, prisijungimas prie jūsų žaidimo ar serverio.</value>
+  </data>
+  <data name="Ui.SessionNotify.Badges" xml:space="preserve">
+    <value>Ženkleliai</value>
+  </data>
+  <data name="Ui.SessionNotify.WhenYouEarnOne" xml:space="preserve">
+    <value>Kai jį gaunate.</value>
+  </data>
+  <data name="Ui.SessionNotify.TheOverlayShortcutWhenAGame" xml:space="preserve">
+    <value>Perdangos spartusis klavišas paleidus žaidimą</value>
+  </data>
+  <data name="Ui.SessionNotify.ResetToDefaults" xml:space="preserve">
+    <value>Atkurti numatytuosius</value>
+  </data>
 </root>

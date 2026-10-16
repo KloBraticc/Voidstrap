@@ -4530,4 +4530,139 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Channel.ChoosesTheGraphicsBackendVoidstrapDraws" xml:space="preserve">
     <value>Pinipili ang graphics backend na ginagamit ng Voidstrap para iguhit ang sarili nito. Pinipili ng Awtomatiko ang pinakamabilis na sinusuportahan ng system mo. Magkakabisa ang pagbabago sa susunod na pagbukas ng Voidstrap.</value>
   </data>
+  <data name="Ui.SessionNotify.Overlay" xml:space="preserve">
+    <value>Overlay</value>
+  </data>
+  <data name="Ui.SessionNotify.OverlayShortcut" xml:space="preserve">
+    <value>Shortcut ng overlay</value>
+  </data>
+  <data name="Ui.SessionNotify.TheKeyCombinationThatOpensThe" xml:space="preserve">
+    <value>Ang kombinasyon ng key na nagbubukas ng overlay.</value>
+  </data>
+  <data name="Ui.SessionNotify.ClickThenPressANewCombination" xml:space="preserve">
+    <value>I click, saka pindutin ang bagong kombinasyon</value>
+  </data>
+  <data name="Ui.SessionNotify.RemoveTheShortcut" xml:space="preserve">
+    <value>Alisin ang shortcut</value>
+  </data>
+  <data name="Ui.SessionNotify.ClickToPlayTheAnimation" xml:space="preserve">
+    <value>I click para i play ang animation</value>
+  </data>
+  <data name="Ui.SessionNotify.TestNotification" xml:space="preserve">
+    <value>Test na notification</value>
+  </data>
+  <data name="Ui.SessionNotify.ThisIsHowVoidstrapNotificationsLook" xml:space="preserve">
+    <value>Ganito ang hitsura ng mga notification ng Voidstrap.</value>
+  </data>
+  <data name="Ui.SessionNotify.SendATestNotification" xml:space="preserve">
+    <value>Magpadala ng test na notification</value>
+  </data>
+  <data name="Ui.SessionNotify.Corner" xml:space="preserve">
+    <value>Sulok</value>
+  </data>
+  <data name="Ui.SessionNotify.Floating" xml:space="preserve">
+    <value>Lumulutang</value>
+  </data>
+  <data name="Ui.SessionNotify.SpaceFromEdge" xml:space="preserve">
+    <value>Layo mula sa gilid</value>
+  </data>
+  <data name="Ui.SessionNotify.Position" xml:space="preserve">
+    <value>Posisyon</value>
+  </data>
+  <data name="Ui.SessionNotify.TopLeft" xml:space="preserve">
+    <value>Kaliwang itaas</value>
+  </data>
+  <data name="Ui.SessionNotify.Top" xml:space="preserve">
+    <value>Itaas</value>
+  </data>
+  <data name="Ui.SessionNotify.TopRight" xml:space="preserve">
+    <value>Kanang itaas</value>
+  </data>
+  <data name="Ui.SessionNotify.BottomLeft" xml:space="preserve">
+    <value>Kaliwang ibaba</value>
+  </data>
+  <data name="Ui.SessionNotify.Bottom" xml:space="preserve">
+    <value>Ibaba</value>
+  </data>
+  <data name="Ui.SessionNotify.BottomRight" xml:space="preserve">
+    <value>Kanang ibaba</value>
+  </data>
+  <data name="Ui.SessionNotify.Horizontal" xml:space="preserve">
+    <value>Pahalang</value>
+  </data>
+  <data name="Ui.SessionNotify.Vertical" xml:space="preserve">
+    <value>Patayo</value>
+  </data>
+  <data name="Ui.SessionNotify.CornerRadius" xml:space="preserve">
+    <value>Radius ng sulok</value>
+  </data>
+  <data name="Ui.SessionNotify.Width" xml:space="preserve">
+    <value>Lapad</value>
+  </data>
+  <data name="Ui.SessionNotify.TextSize" xml:space="preserve">
+    <value>Laki ng text</value>
+  </data>
+  <data name="Ui.SessionNotify.ShowFor" xml:space="preserve">
+    <value>Ipakita nang</value>
+  </data>
+  <data name="Ui.SessionNotify.Animation" xml:space="preserve">
+    <value>Animation</value>
+  </data>
+  <data name="Ui.SessionNotify.Entrance" xml:space="preserve">
+    <value>Pagpasok</value>
+  </data>
+  <data name="Ui.SessionNotify.Exit" xml:space="preserve">
+    <value>Paglabas</value>
+  </data>
+  <data name="Ui.SessionNotify.EntranceSpeed" xml:space="preserve">
+    <value>Bilis ng pagpasok</value>
+  </data>
+  <data name="Ui.SessionNotify.ExitSpeed" xml:space="preserve">
+    <value>Bilis ng paglabas</value>
+  </data>
+  <data name="Ui.SessionNotify.VoidstrapHeader" xml:space="preserve">
+    <value>Header ng Voidstrap</value>
+  </data>
+  <data name="Ui.SessionNotify.BadgesAndTheShortcutReminderFollow" xml:space="preserve">
+    <value>Sumusunod sa Server ang mga badge at paalala ng shortcut</value>
+  </data>
+  <data name="Ui.SessionNotify.Server" xml:space="preserve">
+    <value>Server</value>
+  </data>
+  <data name="Ui.SessionNotify.Friends" xml:space="preserve">
+    <value>Mga kaibigan</value>
+  </data>
+  <data name="Ui.SessionNotify.Both" xml:space="preserve">
+    <value>Pareho</value>
+  </data>
+  <data name="Ui.SessionNotify.PauseWhileHovered" xml:space="preserve">
+    <value>I pause kapag hino hover</value>
+  </data>
+  <data name="Ui.SessionNotify.CloseButtonOnHover" xml:space="preserve">
+    <value>Close button kapag hino hover</value>
+  </data>
+  <data name="Ui.SessionNotify.NotifyMeAbout" xml:space="preserve">
+    <value>Abisuhan ako tungkol sa</value>
+  </data>
+  <data name="Ui.SessionNotify.ServerDetails" xml:space="preserve">
+    <value>Detalye ng server</value>
+  </data>
+  <data name="Ui.SessionNotify.WhenOffTheseShowAsWindows" xml:space="preserve">
+    <value>Kapag naka off, lalabas ang mga ito bilang Windows notification</value>
+  </data>
+  <data name="Ui.SessionNotify.StartingAGameJoiningYourGame" xml:space="preserve">
+    <value>Pagsimula ng laro, pagsali sa laro mo o sa server mo.</value>
+  </data>
+  <data name="Ui.SessionNotify.Badges" xml:space="preserve">
+    <value>Mga badge</value>
+  </data>
+  <data name="Ui.SessionNotify.WhenYouEarnOne" xml:space="preserve">
+    <value>Kapag nakakuha ka ng isa.</value>
+  </data>
+  <data name="Ui.SessionNotify.TheOverlayShortcutWhenAGame" xml:space="preserve">
+    <value>Ang shortcut ng overlay kapag nagsimula ang laro</value>
+  </data>
+  <data name="Ui.SessionNotify.ResetToDefaults" xml:space="preserve">
+    <value>I reset sa default</value>
+  </data>
 </root>

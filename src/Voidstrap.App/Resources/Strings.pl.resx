@@ -4751,4 +4751,139 @@ Co chcesz zrobić?</value>
   <data name="Ui.Channel.ChoosesTheGraphicsBackendVoidstrapDraws" xml:space="preserve">
     <value>Wybiera backend graficzny, którym Voidstrap się rysuje. Automatycznie wybiera najszybszy obsługiwany przez twój system. Zmiana działa od następnego uruchomienia Voidstrap.</value>
   </data>
+  <data name="Ui.SessionNotify.Overlay" xml:space="preserve">
+    <value>Nakładka</value>
+  </data>
+  <data name="Ui.SessionNotify.OverlayShortcut" xml:space="preserve">
+    <value>Skrót nakładki</value>
+  </data>
+  <data name="Ui.SessionNotify.TheKeyCombinationThatOpensThe" xml:space="preserve">
+    <value>Kombinacja klawiszy otwierająca nakładkę.</value>
+  </data>
+  <data name="Ui.SessionNotify.ClickThenPressANewCombination" xml:space="preserve">
+    <value>Kliknij, a potem naciśnij nową kombinację</value>
+  </data>
+  <data name="Ui.SessionNotify.RemoveTheShortcut" xml:space="preserve">
+    <value>Usuń skrót</value>
+  </data>
+  <data name="Ui.SessionNotify.ClickToPlayTheAnimation" xml:space="preserve">
+    <value>Kliknij, aby odtworzyć animację</value>
+  </data>
+  <data name="Ui.SessionNotify.TestNotification" xml:space="preserve">
+    <value>Powiadomienie testowe</value>
+  </data>
+  <data name="Ui.SessionNotify.ThisIsHowVoidstrapNotificationsLook" xml:space="preserve">
+    <value>Tak wyglądają powiadomienia Voidstrap.</value>
+  </data>
+  <data name="Ui.SessionNotify.SendATestNotification" xml:space="preserve">
+    <value>Wyślij powiadomienie testowe</value>
+  </data>
+  <data name="Ui.SessionNotify.Corner" xml:space="preserve">
+    <value>Narożnik</value>
+  </data>
+  <data name="Ui.SessionNotify.Floating" xml:space="preserve">
+    <value>Pływające</value>
+  </data>
+  <data name="Ui.SessionNotify.SpaceFromEdge" xml:space="preserve">
+    <value>Odstęp od krawędzi</value>
+  </data>
+  <data name="Ui.SessionNotify.Position" xml:space="preserve">
+    <value>Pozycja</value>
+  </data>
+  <data name="Ui.SessionNotify.TopLeft" xml:space="preserve">
+    <value>Lewy górny</value>
+  </data>
+  <data name="Ui.SessionNotify.Top" xml:space="preserve">
+    <value>Góra</value>
+  </data>
+  <data name="Ui.SessionNotify.TopRight" xml:space="preserve">
+    <value>Prawy górny</value>
+  </data>
+  <data name="Ui.SessionNotify.BottomLeft" xml:space="preserve">
+    <value>Lewy dolny</value>
+  </data>
+  <data name="Ui.SessionNotify.Bottom" xml:space="preserve">
+    <value>Dół</value>
+  </data>
+  <data name="Ui.SessionNotify.BottomRight" xml:space="preserve">
+    <value>Prawy dolny</value>
+  </data>
+  <data name="Ui.SessionNotify.Horizontal" xml:space="preserve">
+    <value>Poziomo</value>
+  </data>
+  <data name="Ui.SessionNotify.Vertical" xml:space="preserve">
+    <value>Pionowo</value>
+  </data>
+  <data name="Ui.SessionNotify.CornerRadius" xml:space="preserve">
+    <value>Promień narożników</value>
+  </data>
+  <data name="Ui.SessionNotify.Width" xml:space="preserve">
+    <value>Szerokość</value>
+  </data>
+  <data name="Ui.SessionNotify.TextSize" xml:space="preserve">
+    <value>Rozmiar tekstu</value>
+  </data>
+  <data name="Ui.SessionNotify.ShowFor" xml:space="preserve">
+    <value>Pokazuj przez</value>
+  </data>
+  <data name="Ui.SessionNotify.Animation" xml:space="preserve">
+    <value>Animacja</value>
+  </data>
+  <data name="Ui.SessionNotify.Entrance" xml:space="preserve">
+    <value>Wejście</value>
+  </data>
+  <data name="Ui.SessionNotify.Exit" xml:space="preserve">
+    <value>Wyjście</value>
+  </data>
+  <data name="Ui.SessionNotify.EntranceSpeed" xml:space="preserve">
+    <value>Szybkość wejścia</value>
+  </data>
+  <data name="Ui.SessionNotify.ExitSpeed" xml:space="preserve">
+    <value>Szybkość wyjścia</value>
+  </data>
+  <data name="Ui.SessionNotify.VoidstrapHeader" xml:space="preserve">
+    <value>Nagłówek Voidstrap</value>
+  </data>
+  <data name="Ui.SessionNotify.BadgesAndTheShortcutReminderFollow" xml:space="preserve">
+    <value>Odznaki i przypomnienie o skrócie działają jak Serwer</value>
+  </data>
+  <data name="Ui.SessionNotify.Server" xml:space="preserve">
+    <value>Serwer</value>
+  </data>
+  <data name="Ui.SessionNotify.Friends" xml:space="preserve">
+    <value>Znajomi</value>
+  </data>
+  <data name="Ui.SessionNotify.Both" xml:space="preserve">
+    <value>Oba</value>
+  </data>
+  <data name="Ui.SessionNotify.PauseWhileHovered" xml:space="preserve">
+    <value>Wstrzymaj po najechaniu</value>
+  </data>
+  <data name="Ui.SessionNotify.CloseButtonOnHover" xml:space="preserve">
+    <value>Przycisk zamknięcia po najechaniu</value>
+  </data>
+  <data name="Ui.SessionNotify.NotifyMeAbout" xml:space="preserve">
+    <value>Powiadamiaj mnie o</value>
+  </data>
+  <data name="Ui.SessionNotify.ServerDetails" xml:space="preserve">
+    <value>Szczegóły serwera</value>
+  </data>
+  <data name="Ui.SessionNotify.WhenOffTheseShowAsWindows" xml:space="preserve">
+    <value>Gdy wyłączone, pojawiają się jako powiadomienia Windows</value>
+  </data>
+  <data name="Ui.SessionNotify.StartingAGameJoiningYourGame" xml:space="preserve">
+    <value>Uruchomienie gry, dołączenie do twojej gry lub serwera.</value>
+  </data>
+  <data name="Ui.SessionNotify.Badges" xml:space="preserve">
+    <value>Odznaki</value>
+  </data>
+  <data name="Ui.SessionNotify.WhenYouEarnOne" xml:space="preserve">
+    <value>Gdy zdobędziesz odznakę.</value>
+  </data>
+  <data name="Ui.SessionNotify.TheOverlayShortcutWhenAGame" xml:space="preserve">
+    <value>Skrót nakładki przy starcie gry</value>
+  </data>
+  <data name="Ui.SessionNotify.ResetToDefaults" xml:space="preserve">
+    <value>Przywróć domyślne</value>
+  </data>
 </root>
