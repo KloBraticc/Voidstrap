@@ -144,7 +144,9 @@ internal static partial class SearchCatalog
 		{
 			return string.Empty;
 		}
-		Match match = StringsResourcePattern.Match(value);
+		Match match = LocResourcePattern.Match(value);
+		if (!match.Success)
+			match = StringsResourcePattern.Match(value);
 		if (match.Success)
 		{
 			string name = match.Groups[1].Value;
@@ -168,6 +170,8 @@ internal static partial class SearchCatalog
 
     [GeneratedRegex(@"PlatformFeatureVisibility\.(?<member>[A-Za-z0-9_]+)")]
     private static partial Regex PlatformVisibilityMemberPattern { get; }
+    [GeneratedRegex(@"\{\s*resources:Loc\s+(?:Key\s*=\s*)?([A-Za-z0-9_]+)\s*\}")]
+    private static partial Regex LocResourcePattern { get; }
     [GeneratedRegex("Strings\\.([A-Za-z0-9_]+)")]
     private static partial Regex StringsResourcePattern { get; }
 }
