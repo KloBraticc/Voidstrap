@@ -754,7 +754,6 @@ jobs:
           }
           EOF
           dotnet run --project "$check/OverlayCheck.csproj" -warnaserror
-      - run: dotnet publish src/Voidstrap.Cross/Voidstrap.Cross.csproj -c Release -r ${{ matrix.rid }} --self-contained true -o artifacts/${{ matrix.rid }}
       - run: bash build/Packaging/MacOS/package.sh ${{ matrix.rid }} "" artifacts/package-${{ matrix.rid }}
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
