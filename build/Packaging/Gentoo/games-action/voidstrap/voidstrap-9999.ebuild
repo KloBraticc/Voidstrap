@@ -6,12 +6,18 @@ DESCRIPTION="Roblox bootstrapper for Linux, fork of Bloxstrap (launches Roblox t
 HOMEPAGE="https://github.com/KloBraticc/Voidstrap"
 
 EGIT_REPO_URI="https://github.com/KloBraticc/Voidstrap.git"
-EGIT_BRANCH="main"
-EGIT_SUBMODULES=( wpfui )
+EGIT_SUBMODULES=( external/wpfui )
+
+if [[ ${PV} == 9999 ]]; then
+	EGIT_BRANCH="main"
+	KEYWORDS=""
+else
+	EGIT_COMMIT="v${PV}"
+	KEYWORDS="~amd64 ~arm64"
+fi
 
 LICENSE="MIT GPL-3 OFL-1.1 CC-BY-4.0 Apache-2.0 BSD-2 BSD ZLIB Unicode-DFS-2016"
 SLOT="0"
-KEYWORDS=""
 
 RESTRICT="network-sandbox mirror strip"
 
