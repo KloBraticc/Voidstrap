@@ -24,8 +24,6 @@ public partial class ModsPage : UiPage{
 
 	private ModsViewModel ViewModel;
 
-	private ModGeneratorPage? _generatorPage;
-
 	private readonly System.Windows.Threading.DispatcherTimer _fgWarningTimer;
 
 	private static readonly string[] PreviewableCategories = new string[9] { "Image", "Mesh", "Audio", "Model", "Data", "Pending", "Animation", "Texture", "Other" };
@@ -105,8 +103,7 @@ public partial class ModsPage : UiPage{
 
 	private void OpenModGenerator_Click(object sender, RoutedEventArgs e)
 	{
-		_generatorPage ??= new ModGeneratorPage { DataContext = ViewModel };
-		NavigationService?.Navigate(_generatorPage);
+		NavigationService?.Navigate(new ModGeneratorPage { DataContext = ViewModel });
 	}
 
 	private void ModsTabs_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -427,15 +424,25 @@ public partial class ModsPage : UiPage{
 
 	private async void ManagedModCard_Drop(object sender, DragEventArgs e)
 	{
-		if (sender is not Border { DataContext: ManagedModItem target } card || !TryGetDraggedManagedMod(e, out ManagedModItem? source) || source.Id == target.Id)
+		try
 		{
+			if (sender is not Border { DataContext: ManagedModItem target } card || !TryGetDraggedManagedMod(e, out ManagedModItem? source) || source.Id == target.Id)
+			{
+				ResetManagedModDrag();
+				return;
+			}
+			bool insertAfter = e.GetPosition(card).Y >= card.ActualHeight / 2;
 			ResetManagedModDrag();
-			return;
+			e.Handled = true;
+			await ViewModel.ReorderManagedModAsync(source, target, insertAfter);
 		}
-		bool insertAfter = e.GetPosition(card).Y >= card.ActualHeight / 2;
-		ResetManagedModDrag();
-		e.Handled = true;
-		await ViewModel.ReorderManagedModAsync(source, target, insertAfter);
+		catch (OperationCanceledException)
+		{
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteException("ModsPage::ManagedModCard_Drop", ex);
+		}
 	}
 
 	private void UpdateManagedModDropVisual(object sender, DragEventArgs e)
