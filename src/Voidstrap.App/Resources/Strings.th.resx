@@ -5652,4 +5652,448 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
   <data name="Ui.Misc.Bundled" xml:space="preserve">
     <value>มากับแอป</value>
   </data>
+  <data name="Ui.Pages.Library" xml:space="preserve">
+    <value>คลัง</value>
+  </data>
+  <data name="Ui.Pages.Play" xml:space="preserve">
+    <value>เล่น</value>
+  </data>
+  <data name="Ui.Pages.RemoveFromLibrary" xml:space="preserve">
+    <value>ลบออกจากคลัง</value>
+  </data>
+  <data name="Ui.Pages.LibraryHome" xml:space="preserve">
+    <value>หน้าแรกคลัง</value>
+  </data>
+  <data name="Ui.Pages.SearchGames" xml:space="preserve">
+    <value>ค้นหาเกม</value>
+  </data>
+  <data name="Ui.Pages.RefreshLibrary" xml:space="preserve">
+    <value>รีเฟรชคลัง</value>
+  </data>
+  <data name="Ui.Pages.AddByPlaceIdOrLink" xml:space="preserve">
+    <value>เพิ่มด้วย PlaceId หรือลิงก์</value>
+  </data>
+  <data name="Ui.Pages.AddThisGameToYourLibrary" xml:space="preserve">
+    <value>เพิ่มเกมนี้ลงในคลังของคุณ</value>
+  </data>
+  <data name="Ui.Pages.YourLibraryIsEmptyPlayA" xml:space="preserve">
+    <value>คลังของคุณว่างเปล่า เล่นเกมผ่าน Voidstrap หรือเพิ่มด้วย PlaceId จากแถบด้านข้าง</value>
+  </data>
+  <data name="Ui.Pages.Events" xml:space="preserve">
+    <value>กิจกรรม</value>
+  </data>
+  <data name="Ui.Pages.ViewEvent" xml:space="preserve">
+    <value>ดูกิจกรรม</value>
+  </data>
+  <data name="Ui.Pages.WhatSNew" xml:space="preserve">
+    <value>มีอะไรใหม่</value>
+  </data>
+  <data name="Ui.Pages.RecentGames" xml:space="preserve">
+    <value>เกมล่าสุด</value>
+  </data>
+  <data name="Ui.Pages.RemoveThisGameFromYourLibrary" xml:space="preserve">
+    <value>ลบเกมนี้ออกจากคลังของคุณ</value>
+  </data>
+  <data name="Ui.Pages.LASTPLAYED" xml:space="preserve">
+    <value>เล่นล่าสุด</value>
+  </data>
+  <data name="Ui.Pages.PLAYTIME" xml:space="preserve">
+    <value>เวลาเล่น</value>
+  </data>
+  <data name="Ui.Pages.PLAYINGNOW" xml:space="preserve">
+    <value>กำลังเล่น</value>
+  </data>
+  <data name="Ui.Pages.RATING" xml:space="preserve">
+    <value>คะแนน</value>
+  </data>
+  <data name="Ui.Pages.Genre" xml:space="preserve">
+    <value>ประเภท</value>
+  </data>
+  <data name="Ui.Pages.MaxPlayers" xml:space="preserve">
+    <value>ผู้เล่นสูงสุด</value>
+  </data>
+  <data name="Ui.Pages.Visits" xml:space="preserve">
+    <value>การเข้าชม</value>
+  </data>
+  <data name="Ui.Pages.Created" xml:space="preserve">
+    <value>สร้างเมื่อ</value>
+  </data>
+  <data name="Ui.Pages.Updated" xml:space="preserve">
+    <value>อัปเดตเมื่อ</value>
+  </data>
+  <data name="Ui.Pages.Store" xml:space="preserve">
+    <value>ร้านค้า</value>
+  </data>
+  <data name="Ui.Pages.OpenThisGamepassOnRobloxCom" xml:space="preserve">
+    <value>เปิดเกมพาสนี้บน roblox.com</value>
+  </data>
+  <data name="Ui.Pages.AddNVIDIASettings" xml:space="preserve">
+    <value>เพิ่มการตั้งค่า NVIDIA</value>
+  </data>
+  <data name="Ui.Pages.AddOneSettingOrImportSeveral" xml:space="preserve">
+    <value>เพิ่มการตั้งค่าเดียวหรือนำเข้าหลายรายการพร้อมกัน</value>
+  </data>
+  <data name="Ui.Pages.Single" xml:space="preserve">
+    <value>เดี่ยว</value>
+  </data>
+  <data name="Ui.Pages.SettingDetails" xml:space="preserve">
+    <value>รายละเอียดการตั้งค่า</value>
+  </data>
+  <data name="Ui.Pages.UseTheValuesShownByNVIDIA" xml:space="preserve">
+    <value>ใช้ค่าที่ NVIDIA Profile Inspector แสดง</value>
+  </data>
+  <data name="Ui.Pages.ExampleFrameRateLimiter" xml:space="preserve">
+    <value>ตัวอย่าง: Frame rate limiter</value>
+  </data>
+  <data name="Ui.Pages.SettingID" xml:space="preserve">
+    <value>ID การตั้งค่า</value>
+  </data>
+  <data name="Ui.Pages.ValueType" xml:space="preserve">
+    <value>ชนิดค่า</value>
+  </data>
+  <data name="Ui.Pages.DecimalOr0xHex" xml:space="preserve">
+    <value>ฐานสิบหรือ hex 0x</value>
+  </data>
+  <data name="Ui.Pages.BooleanAcceptsTrueFalse1Or" xml:space="preserve">
+    <value>Boolean รับค่า true, false, 1 หรือ 0</value>
+  </data>
+  <data name="Ui.Pages.NIPProfile" xml:space="preserve">
+    <value>โปรไฟล์ NIP</value>
+  </data>
+  <data name="Ui.Pages.ImportAProfile" xml:space="preserve">
+    <value>นำเข้าโปรไฟล์</value>
+  </data>
+  <data name="Ui.Pages.ChooseANIPFileOrPaste" xml:space="preserve">
+    <value>เลือกไฟล์ NIP หรือวางเนื้อหาด้านล่าง</value>
+  </data>
+  <data name="Ui.Pages.ChooseNIPFile" xml:space="preserve">
+    <value>เลือกไฟล์ NIP</value>
+  </data>
+  <data name="Ui.Pages.PasteRows" xml:space="preserve">
+    <value>วางแถว</value>
+  </data>
+  <data name="Ui.Pages.PasteSettings" xml:space="preserve">
+    <value>วางการตั้งค่า</value>
+  </data>
+  <data name="Ui.Pages.EnterOneSettingPerLineName" xml:space="preserve">
+    <value>หนึ่งการตั้งค่าต่อบรรทัด: ชื่อ | ID | ค่า | ชนิด</value>
+  </data>
+  <data name="Ui.Pages.SupportedTypesDwordBooleanAndHex" xml:space="preserve">
+    <value>ชนิดที่รองรับ: Dword, Boolean และ Hex</value>
+  </data>
+  <data name="Ui.Pages.AddSettings" xml:space="preserve">
+    <value>เพิ่มการตั้งค่า</value>
+  </data>
+  <data name="Ui.Pages.GameShortcut" xml:space="preserve">
+    <value>ทางลัดเกม</value>
+  </data>
+  <data name="Ui.Pages.LaunchAGameNowOrCreate" xml:space="preserve">
+    <value>เปิดเกมตอนนี้หรือสร้างทางลัดบนเดสก์ท็อปไว้ใช้ซ้ำ</value>
+  </data>
+  <data name="Ui.Pages.Destination" xml:space="preserve">
+    <value>ปลายทาง</value>
+  </data>
+  <data name="Ui.Pages.UseThePlaceIDFromThe" xml:space="preserve">
+    <value>ใช้ place ID จาก URL ของเกม Roblox</value>
+  </data>
+  <data name="Ui.Pages.Example1818" xml:space="preserve">
+    <value>ตัวอย่าง: 1818</value>
+  </data>
+  <data name="Ui.Pages.UseAPrivateServerShareLink" xml:space="preserve">
+    <value>ใช้ลิงก์แชร์หรือรหัสเข้าถึงของเซิร์ฟเวอร์ส่วนตัว</value>
+  </data>
+  <data name="Ui.Pages.ShareLinkOrAccessCode" xml:space="preserve">
+    <value>ลิงก์แชร์หรือรหัสเข้าถึง</value>
+  </data>
+  <data name="Ui.Pages.PasteTheCompletePrivateServerLink" xml:space="preserve">
+    <value>วางลิงก์เซิร์ฟเวอร์ส่วนตัวแบบเต็ม</value>
+  </data>
+  <data name="Ui.Pages.ServerInstanceID" xml:space="preserve">
+    <value>ID อินสแตนซ์เซิร์ฟเวอร์</value>
+  </data>
+  <data name="Ui.Pages.OptionalPublicServerInstance" xml:space="preserve">
+    <value>อินสแตนซ์เซิร์ฟเวอร์สาธารณะ (ไม่บังคับ)</value>
+  </data>
+  <data name="Ui.Pages.LaunchGame" xml:space="preserve">
+    <value>เปิดเกม</value>
+  </data>
+  <data name="Ui.Pages.CreateDesktopShortcut" xml:space="preserve">
+    <value>สร้างทางลัดบนเดสก์ท็อป</value>
+  </data>
+  <data name="Ui.Pages.AdvancedEditor" xml:space="preserve">
+    <value>ตัวแก้ไขขั้นสูง</value>
+  </data>
+  <data name="Ui.Pages.OpenTheRawNVIDIAProfileInspector" xml:space="preserve">
+    <value>เปิดตัวแก้ไขดิบของ NVIDIA Profile Inspector แนะนำสำหรับผู้ใช้ขั้นสูงเท่านั้น</value>
+  </data>
+  <data name="Ui.Pages.ApplyChanges" xml:space="preserve">
+    <value>ใช้การเปลี่ยนแปลง</value>
+  </data>
+  <data name="Ui.Pages.GameDetails" xml:space="preserve">
+    <value>รายละเอียดเกม</value>
+  </data>
+  <data name="Ui.Pages.ImageQualityFramePacingAndPerformance" xml:space="preserve">
+    <value>คุณภาพภาพ จังหวะเฟรม และตัวเลือกด้านประสิทธิภาพ</value>
+  </data>
+  <data name="Ui.Pages.TextureQualityLODBias" xml:space="preserve">
+    <value>คุณภาพพื้นผิว (LOD Bias)</value>
+  </data>
+  <data name="Ui.Pages.LowerValuesProduceSharperTexturesHigher" xml:space="preserve">
+    <value>ค่าที่ต่ำให้พื้นผิวคมขึ้น ค่าที่สูงเพิ่มประสิทธิภาพแต่ลดรายละเอียด</value>
+  </data>
+  <data name="Ui.Pages.ImprovesAntiAliasingQualityByCombining" xml:space="preserve">
+    <value>ปรับปรุงการลดรอยหยักด้วยการรวมตัวอย่าง MSAA ข้ามเฟรมโดยแทบไม่กระทบประสิทธิภาพ</value>
+  </data>
+  <data name="Ui.Pages.GammaCorrection" xml:space="preserve">
+    <value>การแก้แกมมา</value>
+  </data>
+  <data name="Ui.Pages.AdjustsHowBrightnessValuesAreMapped" xml:space="preserve">
+    <value>ปรับการแมปค่าความสว่าง ซึ่งส่งผลต่อคอนทราสต์ รายละเอียดเงา และโทนกลาง</value>
+  </data>
+  <data name="Ui.Pages.BenchmarkOverlay" xml:space="preserve">
+    <value>โอเวอร์เลย์เบนช์มาร์ก</value>
+  </data>
+  <data name="Ui.Pages.FrameRateLimiter" xml:space="preserve">
+    <value>ตัวจำกัดเฟรมเรต</value>
+  </data>
+  <data name="Ui.Pages.BackgroundApplicationFrameRateLimit" xml:space="preserve">
+    <value>จำกัดเฟรมเรตของแอปเบื้องหลัง</value>
+  </data>
+  <data name="Ui.Pages.LimitsTheMaximumFrameRateWhen" xml:space="preserve">
+    <value>จำกัดเฟรมเรตสูงสุดเมื่อแอปทำงานเบื้องหลังเพื่อลดการใช้ GPU และ CPU</value>
+  </data>
+  <data name="Ui.Pages.LowLatencyModes" xml:space="preserve">
+    <value>โหมดความหน่วงต่ำ</value>
+  </data>
+  <data name="Ui.Pages.ControlsHowManyFramesAreQueued" xml:space="preserve">
+    <value>ควบคุมจำนวนเฟรมที่เข้าคิวเพื่อลดความหน่วงของอินพุต</value>
+  </data>
+  <data name="Ui.Pages.CPLLowLatencyMode" xml:space="preserve">
+    <value>โหมดความหน่วงต่ำ CPL</value>
+  </data>
+  <data name="Ui.Pages.FRLLowLatencyMode" xml:space="preserve">
+    <value>โหมดความหน่วงต่ำ FRL</value>
+  </data>
+  <data name="Ui.Pages.DriverLevelLowLatencyControlUsing" xml:space="preserve">
+    <value>การควบคุมความหน่วงต่ำระดับไดรเวอร์ด้วยตรรกะของตัวจำกัดเฟรมเรต</value>
+  </data>
+  <data name="Ui.Pages.HardwareAndDriverOverrides" xml:space="preserve">
+    <value>การแทนที่ฮาร์ดแวร์และไดรเวอร์</value>
+  </data>
+  <data name="Ui.Pages.OverridesThatAffectGPUBehaviorAnd" xml:space="preserve">
+    <value>การแทนที่ที่ส่งผลต่อพฤติกรรม GPU และฟีเจอร์ไดรเวอร์</value>
+  </data>
+  <data name="Ui.Pages.ResizableBAR" xml:space="preserve">
+    <value>Resizable BAR</value>
+  </data>
+  <data name="Ui.Pages.AllowsTheCPUToAccessThe" xml:space="preserve">
+    <value>ให้ CPU เข้าถึงหน่วยความจำ GPU ทั้งหมดบนระบบที่รองรับ</value>
+  </data>
+  <data name="Ui.Pages.SILKSmoothness" xml:space="preserve">
+    <value>ความลื่นไหล SILK</value>
+  </data>
+  <data name="Ui.Pages.ControlsNVIDIASILKFrameSmoothingIntensity" xml:space="preserve">
+    <value>ควบคุมความแรงของการปรับเฟรมให้ลื่นของ NVIDIA SILK</value>
+  </data>
+  <data name="Ui.Pages.BrowseAndManageExtensionsForVoidstrap" xml:space="preserve">
+    <value>เรียกดูและจัดการส่วนขยายสำหรับ Voidstrap และชุมชน</value>
+  </data>
+  <data name="Ui.Pages.SearchExtensions" xml:space="preserve">
+    <value>ค้นหาส่วนขยาย</value>
+  </data>
+  <data name="Ui.Pages.VoidstrapAssets" xml:space="preserve">
+    <value>แอสเซ็ต Voidstrap</value>
+  </data>
+  <data name="Ui.Pages.BackToExtensions" xml:space="preserve">
+    <value>กลับไปที่ส่วนขยาย</value>
+  </data>
+  <data name="Ui.Pages.OpenTheSourcePage" xml:space="preserve">
+    <value>เปิดหน้าต้นทาง</value>
+  </data>
+  <data name="Ui.Pages.Description" xml:space="preserve">
+    <value>คำอธิบาย</value>
+  </data>
+  <data name="Ui.Pages.ProjectTools" xml:space="preserve">
+    <value>เครื่องมือโปรเจกต์</value>
+  </data>
+  <data name="Ui.Pages.ProjectFolder" xml:space="preserve">
+    <value>โฟลเดอร์โปรเจกต์</value>
+  </data>
+  <data name="Ui.Pages.NewProject" xml:space="preserve">
+    <value>โปรเจกต์ใหม่</value>
+  </data>
+  <data name="Ui.Pages.BuildPlace" xml:space="preserve">
+    <value>สร้าง place</value>
+  </data>
+  <data name="Ui.Pages.InstallStudioPlugin" xml:space="preserve">
+    <value>ติดตั้งปลั๊กอิน Studio</value>
+  </data>
+  <data name="Ui.Pages.Versions" xml:space="preserve">
+    <value>เวอร์ชัน</value>
+  </data>
+  <data name="Ui.Pages.OpenOnGitHub" xml:space="preserve">
+    <value>เปิดบน GitHub</value>
+  </data>
+  <data name="Ui.Pages.WorksWith" xml:space="preserve">
+    <value>ใช้งานร่วมกับ</value>
+  </data>
+  <data name="Ui.Pages.Tags" xml:space="preserve">
+    <value>แท็ก</value>
+  </data>
+  <data name="Ui.Pages.Creators" xml:space="preserve">
+    <value>ผู้สร้าง</value>
+  </data>
+  <data name="Ui.Pages.NVIDIAFFlagEditor" xml:space="preserve">
+    <value>ตัวแก้ไข FFlag ของ NVIDIA</value>
+  </data>
+  <data name="Ui.Pages.ManageNVIDIASettingsSavedInYour" xml:space="preserve">
+    <value>จัดการการตั้งค่า NVIDIA ที่บันทึกในโปรไฟล์ NIP ของคุณ</value>
+  </data>
+  <data name="Ui.Pages.AddNew" xml:space="preserve">
+    <value>เพิ่มใหม่</value>
+  </data>
+  <data name="Ui.Pages.DeleteSelected" xml:space="preserve">
+    <value>ลบที่เลือก</value>
+  </data>
+  <data name="Ui.Pages.DeleteAll" xml:space="preserve">
+    <value>ลบทั้งหมด</value>
+  </data>
+  <data name="Ui.Pages.ResetNIP" xml:space="preserve">
+    <value>รีเซ็ต NIP</value>
+  </data>
+  <data name="Ui.Pages.SearchFlags" xml:space="preserve">
+    <value>ค้นหาแฟล็ก</value>
+  </data>
+  <data name="Ui.Pages.LookingFor" xml:space="preserve">
+    <value>กำลังค้นหา</value>
+  </data>
+  <data name="Ui.Pages.AddAnNVIDIASettingToGet" xml:space="preserve">
+    <value>เพิ่มการตั้งค่า NVIDIA เพื่อเริ่มต้น</value>
+  </data>
+  <data name="Ui.Pages.ExportNIP" xml:space="preserve">
+    <value>ส่งออก .NIP</value>
+  </data>
+  <data name="Ui.Pages.CopyFlags" xml:space="preserve">
+    <value>คัดลอกแฟล็ก</value>
+  </data>
+  <data name="Ui.Pages.NVIDIAFlagHistory" xml:space="preserve">
+    <value>ประวัติแฟล็ก NVIDIA</value>
+  </data>
+  <data name="Ui.Pages.TracksChangesMadeToNVIDIAFlags" xml:space="preserve">
+    <value>ติดตามการเปลี่ยนแปลงแฟล็ก NVIDIA ในเซสชันนี้</value>
+  </data>
+  <data name="Ui.Pages.UndoSelected" xml:space="preserve">
+    <value>เลิกทำที่เลือก</value>
+  </data>
+  <data name="Ui.Pages.ClearHistory" xml:space="preserve">
+    <value>ล้างประวัติ</value>
+  </data>
+  <data name="Ui.Pages.NoChangesRecorded" xml:space="preserve">
+    <value>ไม่มีการเปลี่ยนแปลงที่บันทึก</value>
+  </data>
+  <data name="Ui.Pages.DoubleClickToRevertThisChange" xml:space="preserve">
+    <value>ดับเบิลคลิกเพื่อย้อนการเปลี่ยนแปลงนี้</value>
+  </data>
+  <data name="Ui.Pages.ManageYourFastFlagsACheckmarkIn" xml:space="preserve">
+    <value>จัดการ FastFlags ของคุณ เครื่องหมายถูกใน Preset หมายถึงแฟล็กมีในการตั้งค่า FFlag ส่วนเครื่องหมายกากบาทหมายถึงไม่มี</value>
+  </data>
+  <data name="Ui.Pages.Preset" xml:space="preserve">
+    <value>Preset</value>
+  </data>
+  <data name="Ui.Pages.GoToFFlagSettingsToAdd" xml:space="preserve">
+    <value>ไปที่การตั้งค่า FFlag เพื่อเพิ่ม FFlag แบบ Preset</value>
+  </data>
+  <data name="Ui.Pages.Find" xml:space="preserve">
+    <value>ค้นหา</value>
+  </data>
+  <data name="Ui.Pages.FFlagHistory" xml:space="preserve">
+    <value>ประวัติ FFlag</value>
+  </data>
+  <data name="Ui.Pages.TracksEveryChangeYouMakeTo" xml:space="preserve">
+    <value>ติดตามทุกการเปลี่ยนแปลงแฟล็กในเซสชันนี้ เลือกรายการแล้วกด เลิกทำที่เลือก หรือดับเบิลคลิกเพื่อย้อนการเปลี่ยนแปลง</value>
+  </data>
+  <data name="Ui.Pages.History" xml:space="preserve">
+    <value>ประวัติ</value>
+  </data>
+  <data name="Ui.Pages.ContinueWhereYouLeftOff" xml:space="preserve">
+    <value>เล่นต่อจากที่ค้างไว้</value>
+  </data>
+  <data name="Ui.Pages.ClearAll" xml:space="preserve">
+    <value>ล้างทั้งหมด</value>
+  </data>
+  <data name="Ui.Pages.SearchByGameNameCreatorOr" xml:space="preserve">
+    <value>ค้นหาตามชื่อเกม ผู้สร้าง หรือ place ID...</value>
+  </data>
+  <data name="Ui.Pages.Downloads" xml:space="preserve">
+    <value>ดาวน์โหลด</value>
+  </data>
+  <data name="Ui.Pages.Installed" xml:space="preserve">
+    <value>ติดตั้งแล้ว</value>
+  </data>
+  <data name="Ui.Pages.Update" xml:space="preserve">
+    <value>อัปเดต</value>
+  </data>
+  <data name="Ui.Pages.SearchYourInstalls" xml:space="preserve">
+    <value>ค้นหาการติดตั้งของคุณ</value>
+  </data>
+  <data name="Ui.Pages.InstallFolder" xml:space="preserve">
+    <value>โฟลเดอร์ติดตั้ง</value>
+  </data>
+  <data name="Ui.Pages.ClassicClients" xml:space="preserve">
+    <value>ไคลเอนต์คลาสสิก</value>
+  </data>
+  <data name="Ui.Pages.Map" xml:space="preserve">
+    <value>แผนที่</value>
+  </data>
+  <data name="Ui.Pages.PickAnInstallOnTheLeft" xml:space="preserve">
+    <value>เลือกการติดตั้งทางซ้ายเพื่อดูรายละเอียด</value>
+  </data>
+  <data name="Ui.Pages.Addons" xml:space="preserve">
+    <value>ส่วนเสริม</value>
+  </data>
+  <data name="Ui.Pages.FleasionOpenInExtensions" xml:space="preserve">
+    <value>Fleasion เปิดในส่วนขยาย</value>
+  </data>
+  <data name="Ui.Pages.RiShadeOpenInExtensions" xml:space="preserve">
+    <value>RiShade เปิดในส่วนขยาย</value>
+  </data>
+  <data name="Ui.Pages.RojoOpenInExtensions" xml:space="preserve">
+    <value>Rojo เปิดในส่วนขยาย</value>
+  </data>
+  <data name="Ui.Pages.VoidstrapStudioPluginOpenInExtensions" xml:space="preserve">
+    <value>ปลั๊กอิน Studio ของ Voidstrap เปิดในส่วนขยาย</value>
+  </data>
+  <data name="Ui.Pages.ChangeInstallLocation" xml:space="preserve">
+    <value>เปลี่ยนตำแหน่งติดตั้ง</value>
+  </data>
+  <data name="Ui.Pages.OpenInstallFolder" xml:space="preserve">
+    <value>เปิดโฟลเดอร์ติดตั้ง</value>
+  </data>
+  <data name="Ui.Pages.VerifyFiles" xml:space="preserve">
+    <value>ตรวจสอบไฟล์</value>
+  </data>
+  <data name="Ui.Pages.MyPresets" xml:space="preserve">
+    <value>พรีเซ็ตของฉัน</value>
+  </data>
+  <data name="Ui.Pages.ImportAPreset" xml:space="preserve">
+    <value>นำเข้าพรีเซ็ต</value>
+  </data>
+  <data name="Ui.Pages.ExportThisPreset" xml:space="preserve">
+    <value>ส่งออกพรีเซ็ตนี้</value>
+  </data>
+  <data name="Ui.Pages.ImportAReShadeIni" xml:space="preserve">
+    <value>นำเข้า ini ของ ReShade</value>
+  </data>
+  <data name="Ui.Pages.DeleteTheSelectedPreset" xml:space="preserve">
+    <value>ลบพรีเซ็ตที่เลือก</value>
+  </data>
+  <data name="Ui.Pages.NameThisLookToSaveIt" xml:space="preserve">
+    <value>ตั้งชื่อลุคนี้เพื่อบันทึก</value>
+  </data>
+  <data name="Ui.Pages.F8OpensAndClosesThisWindow" xml:space="preserve">
+    <value>F8 เปิดและปิดหน้าต่างนี้ในเกม</value>
+  </data>
+  <data name="Ui.Pages.TurnEverythingOff" xml:space="preserve">
+    <value>ปิดทั้งหมด</value>
+  </data>
 </root>

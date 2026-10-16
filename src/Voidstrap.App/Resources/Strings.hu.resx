@@ -5656,4 +5656,448 @@ Mit szeretnél tenni?</value>
   <data name="Ui.Misc.Bundled" xml:space="preserve">
     <value>Mellékelt</value>
   </data>
+  <data name="Ui.Pages.Library" xml:space="preserve">
+    <value>Könyvtár</value>
+  </data>
+  <data name="Ui.Pages.Play" xml:space="preserve">
+    <value>Játék</value>
+  </data>
+  <data name="Ui.Pages.RemoveFromLibrary" xml:space="preserve">
+    <value>Eltávolítás a könyvtárból</value>
+  </data>
+  <data name="Ui.Pages.LibraryHome" xml:space="preserve">
+    <value>Könyvtár kezdőlap</value>
+  </data>
+  <data name="Ui.Pages.SearchGames" xml:space="preserve">
+    <value>Játékok keresése</value>
+  </data>
+  <data name="Ui.Pages.RefreshLibrary" xml:space="preserve">
+    <value>Könyvtár frissítése</value>
+  </data>
+  <data name="Ui.Pages.AddByPlaceIdOrLink" xml:space="preserve">
+    <value>Hozzáadás PlaceId vagy hivatkozás alapján</value>
+  </data>
+  <data name="Ui.Pages.AddThisGameToYourLibrary" xml:space="preserve">
+    <value>A játék hozzáadása a könyvtáradhoz</value>
+  </data>
+  <data name="Ui.Pages.YourLibraryIsEmptyPlayA" xml:space="preserve">
+    <value>A könyvtárad üres. Játssz egy játékot a Voidstrapon keresztül, vagy adj hozzá egyet PlaceId alapján az oldalsávból.</value>
+  </data>
+  <data name="Ui.Pages.Events" xml:space="preserve">
+    <value>Események</value>
+  </data>
+  <data name="Ui.Pages.ViewEvent" xml:space="preserve">
+    <value>Esemény megtekintése</value>
+  </data>
+  <data name="Ui.Pages.WhatSNew" xml:space="preserve">
+    <value>Újdonságok</value>
+  </data>
+  <data name="Ui.Pages.RecentGames" xml:space="preserve">
+    <value>Legutóbbi játékok</value>
+  </data>
+  <data name="Ui.Pages.RemoveThisGameFromYourLibrary" xml:space="preserve">
+    <value>A játék eltávolítása a könyvtáradból</value>
+  </data>
+  <data name="Ui.Pages.LASTPLAYED" xml:space="preserve">
+    <value>UTOLJÁRA JÁTSZVA</value>
+  </data>
+  <data name="Ui.Pages.PLAYTIME" xml:space="preserve">
+    <value>JÁTÉKIDŐ</value>
+  </data>
+  <data name="Ui.Pages.PLAYINGNOW" xml:space="preserve">
+    <value>MOST JÁTSZIK</value>
+  </data>
+  <data name="Ui.Pages.RATING" xml:space="preserve">
+    <value>ÉRTÉKELÉS</value>
+  </data>
+  <data name="Ui.Pages.Genre" xml:space="preserve">
+    <value>Műfaj</value>
+  </data>
+  <data name="Ui.Pages.MaxPlayers" xml:space="preserve">
+    <value>Max. játékos</value>
+  </data>
+  <data name="Ui.Pages.Visits" xml:space="preserve">
+    <value>Látogatások</value>
+  </data>
+  <data name="Ui.Pages.Created" xml:space="preserve">
+    <value>Létrehozva</value>
+  </data>
+  <data name="Ui.Pages.Updated" xml:space="preserve">
+    <value>Frissítve</value>
+  </data>
+  <data name="Ui.Pages.Store" xml:space="preserve">
+    <value>Bolt</value>
+  </data>
+  <data name="Ui.Pages.OpenThisGamepassOnRobloxCom" xml:space="preserve">
+    <value>A gamepass megnyitása a roblox.com oldalon</value>
+  </data>
+  <data name="Ui.Pages.AddNVIDIASettings" xml:space="preserve">
+    <value>NVIDIA beállítások hozzáadása</value>
+  </data>
+  <data name="Ui.Pages.AddOneSettingOrImportSeveral" xml:space="preserve">
+    <value>Adj hozzá egy beállítást, vagy importálj többet egyszerre.</value>
+  </data>
+  <data name="Ui.Pages.Single" xml:space="preserve">
+    <value>Egyedi</value>
+  </data>
+  <data name="Ui.Pages.SettingDetails" xml:space="preserve">
+    <value>Beállítás részletei</value>
+  </data>
+  <data name="Ui.Pages.UseTheValuesShownByNVIDIA" xml:space="preserve">
+    <value>Használd az NVIDIA Profile Inspector által mutatott értékeket.</value>
+  </data>
+  <data name="Ui.Pages.ExampleFrameRateLimiter" xml:space="preserve">
+    <value>Példa: Frame rate limiter</value>
+  </data>
+  <data name="Ui.Pages.SettingID" xml:space="preserve">
+    <value>Beállítás azonosítója</value>
+  </data>
+  <data name="Ui.Pages.ValueType" xml:space="preserve">
+    <value>Érték típusa</value>
+  </data>
+  <data name="Ui.Pages.DecimalOr0xHex" xml:space="preserve">
+    <value>Decimális vagy 0x hex</value>
+  </data>
+  <data name="Ui.Pages.BooleanAcceptsTrueFalse1Or" xml:space="preserve">
+    <value>A Boolean a true, false, 1 vagy 0 értéket fogadja el.</value>
+  </data>
+  <data name="Ui.Pages.NIPProfile" xml:space="preserve">
+    <value>NIP profil</value>
+  </data>
+  <data name="Ui.Pages.ImportAProfile" xml:space="preserve">
+    <value>Profil importálása</value>
+  </data>
+  <data name="Ui.Pages.ChooseANIPFileOrPaste" xml:space="preserve">
+    <value>Válassz egy NIP fájlt, vagy illeszd be a tartalmát alább.</value>
+  </data>
+  <data name="Ui.Pages.ChooseNIPFile" xml:space="preserve">
+    <value>NIP fájl kiválasztása</value>
+  </data>
+  <data name="Ui.Pages.PasteRows" xml:space="preserve">
+    <value>Sorok beillesztése</value>
+  </data>
+  <data name="Ui.Pages.PasteSettings" xml:space="preserve">
+    <value>Beállítások beillesztése</value>
+  </data>
+  <data name="Ui.Pages.EnterOneSettingPerLineName" xml:space="preserve">
+    <value>Soronként egy beállítás: Név | ID | Érték | Típus</value>
+  </data>
+  <data name="Ui.Pages.SupportedTypesDwordBooleanAndHex" xml:space="preserve">
+    <value>Támogatott típusok: Dword, Boolean és Hex.</value>
+  </data>
+  <data name="Ui.Pages.AddSettings" xml:space="preserve">
+    <value>Beállítások hozzáadása</value>
+  </data>
+  <data name="Ui.Pages.GameShortcut" xml:space="preserve">
+    <value>Játék parancsikonja</value>
+  </data>
+  <data name="Ui.Pages.LaunchAGameNowOrCreate" xml:space="preserve">
+    <value>Indíts el egy játékot most, vagy hozz létre újrahasználható asztali parancsikont</value>
+  </data>
+  <data name="Ui.Pages.Destination" xml:space="preserve">
+    <value>Cél</value>
+  </data>
+  <data name="Ui.Pages.UseThePlaceIDFromThe" xml:space="preserve">
+    <value>Használd a Roblox játék URL-jében lévő place ID-t.</value>
+  </data>
+  <data name="Ui.Pages.Example1818" xml:space="preserve">
+    <value>Példa: 1818</value>
+  </data>
+  <data name="Ui.Pages.UseAPrivateServerShareLink" xml:space="preserve">
+    <value>Privát szerver megosztási hivatkozásának vagy hozzáférési kódjának használata</value>
+  </data>
+  <data name="Ui.Pages.ShareLinkOrAccessCode" xml:space="preserve">
+    <value>Megosztási hivatkozás vagy hozzáférési kód</value>
+  </data>
+  <data name="Ui.Pages.PasteTheCompletePrivateServerLink" xml:space="preserve">
+    <value>Illeszd be a privát szerver teljes hivatkozását</value>
+  </data>
+  <data name="Ui.Pages.ServerInstanceID" xml:space="preserve">
+    <value>Szerverpéldány azonosítója</value>
+  </data>
+  <data name="Ui.Pages.OptionalPublicServerInstance" xml:space="preserve">
+    <value>Opcionális nyilvános szerverpéldány</value>
+  </data>
+  <data name="Ui.Pages.LaunchGame" xml:space="preserve">
+    <value>Játék indítása</value>
+  </data>
+  <data name="Ui.Pages.CreateDesktopShortcut" xml:space="preserve">
+    <value>Asztali parancsikon létrehozása</value>
+  </data>
+  <data name="Ui.Pages.AdvancedEditor" xml:space="preserve">
+    <value>Speciális szerkesztő</value>
+  </data>
+  <data name="Ui.Pages.OpenTheRawNVIDIAProfileInspector" xml:space="preserve">
+    <value>Megnyitja a nyers NVIDIA Profile Inspector szerkesztőt. Csak haladóknak ajánlott.</value>
+  </data>
+  <data name="Ui.Pages.ApplyChanges" xml:space="preserve">
+    <value>Módosítások alkalmazása</value>
+  </data>
+  <data name="Ui.Pages.GameDetails" xml:space="preserve">
+    <value>Játék részletei</value>
+  </data>
+  <data name="Ui.Pages.ImageQualityFramePacingAndPerformance" xml:space="preserve">
+    <value>Képminőség, képkockaütemezés és teljesítménnyel kapcsolatos beállítások.</value>
+  </data>
+  <data name="Ui.Pages.TextureQualityLODBias" xml:space="preserve">
+    <value>Textúraminőség (LOD Bias)</value>
+  </data>
+  <data name="Ui.Pages.LowerValuesProduceSharperTexturesHigher" xml:space="preserve">
+    <value>Kisebb érték élesebb textúrákat ad. Nagyobb érték javítja a teljesítményt a részletek rovására.</value>
+  </data>
+  <data name="Ui.Pages.ImprovesAntiAliasingQualityByCombining" xml:space="preserve">
+    <value>Javítja az élsimítást az MSAA minták képkockák közötti kombinálásával, minimális teljesítményvesztéssel.</value>
+  </data>
+  <data name="Ui.Pages.GammaCorrection" xml:space="preserve">
+    <value>Gammakorrekció</value>
+  </data>
+  <data name="Ui.Pages.AdjustsHowBrightnessValuesAreMapped" xml:space="preserve">
+    <value>Beállítja a fényerőértékek leképezését, ami hat a kontrasztra, az árnyékrészletekre és a középtónusokra.</value>
+  </data>
+  <data name="Ui.Pages.BenchmarkOverlay" xml:space="preserve">
+    <value>Benchmark átfedés</value>
+  </data>
+  <data name="Ui.Pages.FrameRateLimiter" xml:space="preserve">
+    <value>Képkockasebesség-korlátozó</value>
+  </data>
+  <data name="Ui.Pages.BackgroundApplicationFrameRateLimit" xml:space="preserve">
+    <value>Háttéralkalmazások képkockasebesség-korlátja</value>
+  </data>
+  <data name="Ui.Pages.LimitsTheMaximumFrameRateWhen" xml:space="preserve">
+    <value>Korlátozza a maximális képkockasebességet, amikor az alkalmazás a háttérben fut, a GPU- és CPU-használat csökkentésére.</value>
+  </data>
+  <data name="Ui.Pages.LowLatencyModes" xml:space="preserve">
+    <value>Alacsony késleltetésű módok</value>
+  </data>
+  <data name="Ui.Pages.ControlsHowManyFramesAreQueued" xml:space="preserve">
+    <value>Szabályozza, hány képkocka várakozik a sorban a bemeneti késés csökkentéséhez.</value>
+  </data>
+  <data name="Ui.Pages.CPLLowLatencyMode" xml:space="preserve">
+    <value>CPL alacsony késleltetésű mód</value>
+  </data>
+  <data name="Ui.Pages.FRLLowLatencyMode" xml:space="preserve">
+    <value>FRL alacsony késleltetésű mód</value>
+  </data>
+  <data name="Ui.Pages.DriverLevelLowLatencyControlUsing" xml:space="preserve">
+    <value>Illesztőprogram-szintű alacsony késleltetés a képkockasebesség-korlátozó logikájával.</value>
+  </data>
+  <data name="Ui.Pages.HardwareAndDriverOverrides" xml:space="preserve">
+    <value>Hardver- és illesztőprogram-felülbírálások</value>
+  </data>
+  <data name="Ui.Pages.OverridesThatAffectGPUBehaviorAnd" xml:space="preserve">
+    <value>A GPU viselkedését és az illesztőprogram funkcióit befolyásoló felülbírálások.</value>
+  </data>
+  <data name="Ui.Pages.ResizableBAR" xml:space="preserve">
+    <value>Resizable BAR</value>
+  </data>
+  <data name="Ui.Pages.AllowsTheCPUToAccessThe" xml:space="preserve">
+    <value>Támogatott rendszereken a CPU hozzáférhet a teljes GPU-memóriához.</value>
+  </data>
+  <data name="Ui.Pages.SILKSmoothness" xml:space="preserve">
+    <value>SILK simaság</value>
+  </data>
+  <data name="Ui.Pages.ControlsNVIDIASILKFrameSmoothingIntensity" xml:space="preserve">
+    <value>Az NVIDIA SILK képkockasimítás erősségét szabályozza.</value>
+  </data>
+  <data name="Ui.Pages.BrowseAndManageExtensionsForVoidstrap" xml:space="preserve">
+    <value>Böngészd és kezeld a Voidstrap és közössége bővítményeit.</value>
+  </data>
+  <data name="Ui.Pages.SearchExtensions" xml:space="preserve">
+    <value>Bővítmények keresése</value>
+  </data>
+  <data name="Ui.Pages.VoidstrapAssets" xml:space="preserve">
+    <value>Voidstrap erőforrások</value>
+  </data>
+  <data name="Ui.Pages.BackToExtensions" xml:space="preserve">
+    <value>Vissza a bővítményekhez</value>
+  </data>
+  <data name="Ui.Pages.OpenTheSourcePage" xml:space="preserve">
+    <value>Forrásoldal megnyitása</value>
+  </data>
+  <data name="Ui.Pages.Description" xml:space="preserve">
+    <value>Leírás</value>
+  </data>
+  <data name="Ui.Pages.ProjectTools" xml:space="preserve">
+    <value>Projekteszközök</value>
+  </data>
+  <data name="Ui.Pages.ProjectFolder" xml:space="preserve">
+    <value>Projektmappa</value>
+  </data>
+  <data name="Ui.Pages.NewProject" xml:space="preserve">
+    <value>Új projekt</value>
+  </data>
+  <data name="Ui.Pages.BuildPlace" xml:space="preserve">
+    <value>Place építése</value>
+  </data>
+  <data name="Ui.Pages.InstallStudioPlugin" xml:space="preserve">
+    <value>Studio bővítmény telepítése</value>
+  </data>
+  <data name="Ui.Pages.Versions" xml:space="preserve">
+    <value>Verziók</value>
+  </data>
+  <data name="Ui.Pages.OpenOnGitHub" xml:space="preserve">
+    <value>Megnyitás a GitHubon</value>
+  </data>
+  <data name="Ui.Pages.WorksWith" xml:space="preserve">
+    <value>Kompatibilis</value>
+  </data>
+  <data name="Ui.Pages.Tags" xml:space="preserve">
+    <value>Címkék</value>
+  </data>
+  <data name="Ui.Pages.Creators" xml:space="preserve">
+    <value>Készítők</value>
+  </data>
+  <data name="Ui.Pages.NVIDIAFFlagEditor" xml:space="preserve">
+    <value>NVIDIA FFlag szerkesztő</value>
+  </data>
+  <data name="Ui.Pages.ManageNVIDIASettingsSavedInYour" xml:space="preserve">
+    <value>A NIP profilodban mentett NVIDIA beállítások kezelése.</value>
+  </data>
+  <data name="Ui.Pages.AddNew" xml:space="preserve">
+    <value>Új hozzáadása</value>
+  </data>
+  <data name="Ui.Pages.DeleteSelected" xml:space="preserve">
+    <value>Kijelöltek törlése</value>
+  </data>
+  <data name="Ui.Pages.DeleteAll" xml:space="preserve">
+    <value>Összes törlése</value>
+  </data>
+  <data name="Ui.Pages.ResetNIP" xml:space="preserve">
+    <value>NIP visszaállítása</value>
+  </data>
+  <data name="Ui.Pages.SearchFlags" xml:space="preserve">
+    <value>Flagek keresése</value>
+  </data>
+  <data name="Ui.Pages.LookingFor" xml:space="preserve">
+    <value>Keresés</value>
+  </data>
+  <data name="Ui.Pages.AddAnNVIDIASettingToGet" xml:space="preserve">
+    <value>Kezdésként adj hozzá egy NVIDIA beállítást.</value>
+  </data>
+  <data name="Ui.Pages.ExportNIP" xml:space="preserve">
+    <value>.NIP exportálása</value>
+  </data>
+  <data name="Ui.Pages.CopyFlags" xml:space="preserve">
+    <value>Flagek másolása</value>
+  </data>
+  <data name="Ui.Pages.NVIDIAFlagHistory" xml:space="preserve">
+    <value>NVIDIA flag előzmények</value>
+  </data>
+  <data name="Ui.Pages.TracksChangesMadeToNVIDIAFlags" xml:space="preserve">
+    <value>Követi az NVIDIA flagek módosításait ebben a munkamenetben.</value>
+  </data>
+  <data name="Ui.Pages.UndoSelected" xml:space="preserve">
+    <value>Kijelölt visszavonása</value>
+  </data>
+  <data name="Ui.Pages.ClearHistory" xml:space="preserve">
+    <value>Előzmények törlése</value>
+  </data>
+  <data name="Ui.Pages.NoChangesRecorded" xml:space="preserve">
+    <value>Nincs rögzített módosítás</value>
+  </data>
+  <data name="Ui.Pages.DoubleClickToRevertThisChange" xml:space="preserve">
+    <value>Kattints duplán a módosítás visszavonásához</value>
+  </data>
+  <data name="Ui.Pages.ManageYourFastFlagsACheckmarkIn" xml:space="preserve">
+    <value>Kezeld a FastFlageidet. A pipa a Preset oszlopban azt jelenti, hogy a flag elérhető az FFlag beállításokban, a kereszt azt, hogy nem.</value>
+  </data>
+  <data name="Ui.Pages.Preset" xml:space="preserve">
+    <value>Preset</value>
+  </data>
+  <data name="Ui.Pages.GoToFFlagSettingsToAdd" xml:space="preserve">
+    <value>Lépj az FFlag beállításokhoz Preset FFlagek hozzáadásához.</value>
+  </data>
+  <data name="Ui.Pages.Find" xml:space="preserve">
+    <value>Keresés</value>
+  </data>
+  <data name="Ui.Pages.FFlagHistory" xml:space="preserve">
+    <value>FFlag előzmények</value>
+  </data>
+  <data name="Ui.Pages.TracksEveryChangeYouMakeTo" xml:space="preserve">
+    <value>Követi a flagjeid minden módosítását ebben a munkamenetben. Válassz egy bejegyzést és nyomd meg a Kijelölt visszavonása gombot, vagy kattints rá duplán a módosítás visszavonásához.</value>
+  </data>
+  <data name="Ui.Pages.History" xml:space="preserve">
+    <value>Előzmények</value>
+  </data>
+  <data name="Ui.Pages.ContinueWhereYouLeftOff" xml:space="preserve">
+    <value>Folytasd ott, ahol abbahagytad</value>
+  </data>
+  <data name="Ui.Pages.ClearAll" xml:space="preserve">
+    <value>Összes törlése</value>
+  </data>
+  <data name="Ui.Pages.SearchByGameNameCreatorOr" xml:space="preserve">
+    <value>Keresés játéknév, készítő vagy place ID alapján...</value>
+  </data>
+  <data name="Ui.Pages.Downloads" xml:space="preserve">
+    <value>Letöltések</value>
+  </data>
+  <data name="Ui.Pages.Installed" xml:space="preserve">
+    <value>Telepítve</value>
+  </data>
+  <data name="Ui.Pages.Update" xml:space="preserve">
+    <value>Frissítés</value>
+  </data>
+  <data name="Ui.Pages.SearchYourInstalls" xml:space="preserve">
+    <value>Telepítések keresése</value>
+  </data>
+  <data name="Ui.Pages.InstallFolder" xml:space="preserve">
+    <value>Telepítési mappa</value>
+  </data>
+  <data name="Ui.Pages.ClassicClients" xml:space="preserve">
+    <value>Klasszikus kliensek</value>
+  </data>
+  <data name="Ui.Pages.Map" xml:space="preserve">
+    <value>Térkép</value>
+  </data>
+  <data name="Ui.Pages.PickAnInstallOnTheLeft" xml:space="preserve">
+    <value>Válassz bal oldalt egy telepítést a részletek megtekintéséhez.</value>
+  </data>
+  <data name="Ui.Pages.Addons" xml:space="preserve">
+    <value>Kiegészítők</value>
+  </data>
+  <data name="Ui.Pages.FleasionOpenInExtensions" xml:space="preserve">
+    <value>Fleasion, megnyitás a Bővítményekben</value>
+  </data>
+  <data name="Ui.Pages.RiShadeOpenInExtensions" xml:space="preserve">
+    <value>RiShade, megnyitás a Bővítményekben</value>
+  </data>
+  <data name="Ui.Pages.RojoOpenInExtensions" xml:space="preserve">
+    <value>Rojo, megnyitás a Bővítményekben</value>
+  </data>
+  <data name="Ui.Pages.VoidstrapStudioPluginOpenInExtensions" xml:space="preserve">
+    <value>Voidstrap Studio bővítmény, megnyitás a Bővítményekben</value>
+  </data>
+  <data name="Ui.Pages.ChangeInstallLocation" xml:space="preserve">
+    <value>Telepítési hely módosítása</value>
+  </data>
+  <data name="Ui.Pages.OpenInstallFolder" xml:space="preserve">
+    <value>Telepítési mappa megnyitása</value>
+  </data>
+  <data name="Ui.Pages.VerifyFiles" xml:space="preserve">
+    <value>Fájlok ellenőrzése</value>
+  </data>
+  <data name="Ui.Pages.MyPresets" xml:space="preserve">
+    <value>Előbeállításaim</value>
+  </data>
+  <data name="Ui.Pages.ImportAPreset" xml:space="preserve">
+    <value>Előbeállítás importálása</value>
+  </data>
+  <data name="Ui.Pages.ExportThisPreset" xml:space="preserve">
+    <value>Ennek az előbeállításnak az exportálása</value>
+  </data>
+  <data name="Ui.Pages.ImportAReShadeIni" xml:space="preserve">
+    <value>ReShade ini importálása</value>
+  </data>
+  <data name="Ui.Pages.DeleteTheSelectedPreset" xml:space="preserve">
+    <value>A kijelölt előbeállítás törlése</value>
+  </data>
+  <data name="Ui.Pages.NameThisLookToSaveIt" xml:space="preserve">
+    <value>Nevezd el ezt a megjelenést a mentéshez</value>
+  </data>
+  <data name="Ui.Pages.F8OpensAndClosesThisWindow" xml:space="preserve">
+    <value>Az F8 megnyitja és bezárja ezt az ablakot játékban</value>
+  </data>
+  <data name="Ui.Pages.TurnEverythingOff" xml:space="preserve">
+    <value>Minden kikapcsolása</value>
+  </data>
 </root>

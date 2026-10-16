@@ -5434,4 +5434,448 @@ What would you like to do?</value>
   <data name="Ui.Misc.Bundled" xml:space="preserve">
     <value>Bundled</value>
   </data>
+  <data name="Ui.Pages.Library" xml:space="preserve">
+    <value>Library</value>
+  </data>
+  <data name="Ui.Pages.Play" xml:space="preserve">
+    <value>Play</value>
+  </data>
+  <data name="Ui.Pages.RemoveFromLibrary" xml:space="preserve">
+    <value>Remove from library</value>
+  </data>
+  <data name="Ui.Pages.LibraryHome" xml:space="preserve">
+    <value>Library Home</value>
+  </data>
+  <data name="Ui.Pages.SearchGames" xml:space="preserve">
+    <value>Search games</value>
+  </data>
+  <data name="Ui.Pages.RefreshLibrary" xml:space="preserve">
+    <value>Refresh library</value>
+  </data>
+  <data name="Ui.Pages.AddByPlaceIdOrLink" xml:space="preserve">
+    <value>Add by PlaceId or link</value>
+  </data>
+  <data name="Ui.Pages.AddThisGameToYourLibrary" xml:space="preserve">
+    <value>Add this game to your library</value>
+  </data>
+  <data name="Ui.Pages.YourLibraryIsEmptyPlayA" xml:space="preserve">
+    <value>Your library is empty. Play a game through Voidstrap or add one by PlaceId from the sidebar.</value>
+  </data>
+  <data name="Ui.Pages.Events" xml:space="preserve">
+    <value>Events</value>
+  </data>
+  <data name="Ui.Pages.ViewEvent" xml:space="preserve">
+    <value>View event</value>
+  </data>
+  <data name="Ui.Pages.WhatSNew" xml:space="preserve">
+    <value>What's New</value>
+  </data>
+  <data name="Ui.Pages.RecentGames" xml:space="preserve">
+    <value>Recent Games</value>
+  </data>
+  <data name="Ui.Pages.RemoveThisGameFromYourLibrary" xml:space="preserve">
+    <value>Remove this game from your library</value>
+  </data>
+  <data name="Ui.Pages.LASTPLAYED" xml:space="preserve">
+    <value>LAST PLAYED</value>
+  </data>
+  <data name="Ui.Pages.PLAYTIME" xml:space="preserve">
+    <value>PLAY TIME</value>
+  </data>
+  <data name="Ui.Pages.PLAYINGNOW" xml:space="preserve">
+    <value>PLAYING NOW</value>
+  </data>
+  <data name="Ui.Pages.RATING" xml:space="preserve">
+    <value>RATING</value>
+  </data>
+  <data name="Ui.Pages.Genre" xml:space="preserve">
+    <value>Genre</value>
+  </data>
+  <data name="Ui.Pages.MaxPlayers" xml:space="preserve">
+    <value>Max players</value>
+  </data>
+  <data name="Ui.Pages.Visits" xml:space="preserve">
+    <value>Visits</value>
+  </data>
+  <data name="Ui.Pages.Created" xml:space="preserve">
+    <value>Created</value>
+  </data>
+  <data name="Ui.Pages.Updated" xml:space="preserve">
+    <value>Updated</value>
+  </data>
+  <data name="Ui.Pages.Store" xml:space="preserve">
+    <value>Store</value>
+  </data>
+  <data name="Ui.Pages.OpenThisGamepassOnRobloxCom" xml:space="preserve">
+    <value>Open this gamepass on roblox.com</value>
+  </data>
+  <data name="Ui.Pages.AddNVIDIASettings" xml:space="preserve">
+    <value>Add NVIDIA Settings</value>
+  </data>
+  <data name="Ui.Pages.AddOneSettingOrImportSeveral" xml:space="preserve">
+    <value>Add one setting or import several at once.</value>
+  </data>
+  <data name="Ui.Pages.Single" xml:space="preserve">
+    <value>Single</value>
+  </data>
+  <data name="Ui.Pages.SettingDetails" xml:space="preserve">
+    <value>Setting details</value>
+  </data>
+  <data name="Ui.Pages.UseTheValuesShownByNVIDIA" xml:space="preserve">
+    <value>Use the values shown by NVIDIA Profile Inspector.</value>
+  </data>
+  <data name="Ui.Pages.ExampleFrameRateLimiter" xml:space="preserve">
+    <value>Example: Frame rate limiter</value>
+  </data>
+  <data name="Ui.Pages.SettingID" xml:space="preserve">
+    <value>Setting ID</value>
+  </data>
+  <data name="Ui.Pages.ValueType" xml:space="preserve">
+    <value>Value type</value>
+  </data>
+  <data name="Ui.Pages.DecimalOr0xHex" xml:space="preserve">
+    <value>Decimal or 0x hex</value>
+  </data>
+  <data name="Ui.Pages.BooleanAcceptsTrueFalse1Or" xml:space="preserve">
+    <value>Boolean accepts true, false, 1, or 0.</value>
+  </data>
+  <data name="Ui.Pages.NIPProfile" xml:space="preserve">
+    <value>NIP Profile</value>
+  </data>
+  <data name="Ui.Pages.ImportAProfile" xml:space="preserve">
+    <value>Import a profile</value>
+  </data>
+  <data name="Ui.Pages.ChooseANIPFileOrPaste" xml:space="preserve">
+    <value>Choose a NIP file or paste its contents below.</value>
+  </data>
+  <data name="Ui.Pages.ChooseNIPFile" xml:space="preserve">
+    <value>Choose NIP File</value>
+  </data>
+  <data name="Ui.Pages.PasteRows" xml:space="preserve">
+    <value>Paste Rows</value>
+  </data>
+  <data name="Ui.Pages.PasteSettings" xml:space="preserve">
+    <value>Paste settings</value>
+  </data>
+  <data name="Ui.Pages.EnterOneSettingPerLineName" xml:space="preserve">
+    <value>Enter one setting per line: Name | ID | Value | Type</value>
+  </data>
+  <data name="Ui.Pages.SupportedTypesDwordBooleanAndHex" xml:space="preserve">
+    <value>Supported types: Dword, Boolean, and Hex.</value>
+  </data>
+  <data name="Ui.Pages.AddSettings" xml:space="preserve">
+    <value>Add Settings</value>
+  </data>
+  <data name="Ui.Pages.GameShortcut" xml:space="preserve">
+    <value>Game shortcut</value>
+  </data>
+  <data name="Ui.Pages.LaunchAGameNowOrCreate" xml:space="preserve">
+    <value>Launch a game now or create a reusable desktop shortcut</value>
+  </data>
+  <data name="Ui.Pages.Destination" xml:space="preserve">
+    <value>Destination</value>
+  </data>
+  <data name="Ui.Pages.UseThePlaceIDFromThe" xml:space="preserve">
+    <value>Use the place ID from the Roblox game URL.</value>
+  </data>
+  <data name="Ui.Pages.Example1818" xml:space="preserve">
+    <value>Example: 1818</value>
+  </data>
+  <data name="Ui.Pages.UseAPrivateServerShareLink" xml:space="preserve">
+    <value>Use a private server share link or access code</value>
+  </data>
+  <data name="Ui.Pages.ShareLinkOrAccessCode" xml:space="preserve">
+    <value>Share link or access code</value>
+  </data>
+  <data name="Ui.Pages.PasteTheCompletePrivateServerLink" xml:space="preserve">
+    <value>Paste the complete private server link</value>
+  </data>
+  <data name="Ui.Pages.ServerInstanceID" xml:space="preserve">
+    <value>Server instance ID</value>
+  </data>
+  <data name="Ui.Pages.OptionalPublicServerInstance" xml:space="preserve">
+    <value>Optional public server instance</value>
+  </data>
+  <data name="Ui.Pages.LaunchGame" xml:space="preserve">
+    <value>Launch game</value>
+  </data>
+  <data name="Ui.Pages.CreateDesktopShortcut" xml:space="preserve">
+    <value>Create desktop shortcut</value>
+  </data>
+  <data name="Ui.Pages.AdvancedEditor" xml:space="preserve">
+    <value>Advanced Editor</value>
+  </data>
+  <data name="Ui.Pages.OpenTheRawNVIDIAProfileInspector" xml:space="preserve">
+    <value>Open the raw NVIDIA Profile Inspector editor. Recommended for advanced users only.</value>
+  </data>
+  <data name="Ui.Pages.ApplyChanges" xml:space="preserve">
+    <value>Apply Changes</value>
+  </data>
+  <data name="Ui.Pages.GameDetails" xml:space="preserve">
+    <value>Game Details</value>
+  </data>
+  <data name="Ui.Pages.ImageQualityFramePacingAndPerformance" xml:space="preserve">
+    <value>Image quality, frame pacing, and performance related options.</value>
+  </data>
+  <data name="Ui.Pages.TextureQualityLODBias" xml:space="preserve">
+    <value>Texture Quality (LOD Bias)</value>
+  </data>
+  <data name="Ui.Pages.LowerValuesProduceSharperTexturesHigher" xml:space="preserve">
+    <value>Lower values produce sharper textures. Higher values improve performance at the cost of detail.</value>
+  </data>
+  <data name="Ui.Pages.ImprovesAntiAliasingQualityByCombining" xml:space="preserve">
+    <value>Improves anti aliasing quality by combining MSAA samples across frames with minimal performance impact.</value>
+  </data>
+  <data name="Ui.Pages.GammaCorrection" xml:space="preserve">
+    <value>Gamma Correction</value>
+  </data>
+  <data name="Ui.Pages.AdjustsHowBrightnessValuesAreMapped" xml:space="preserve">
+    <value>Adjusts how brightness values are mapped, affecting contrast, shadow detail, and mid tone visibility.</value>
+  </data>
+  <data name="Ui.Pages.BenchmarkOverlay" xml:space="preserve">
+    <value>Benchmark Overlay</value>
+  </data>
+  <data name="Ui.Pages.FrameRateLimiter" xml:space="preserve">
+    <value>Frame Rate Limiter</value>
+  </data>
+  <data name="Ui.Pages.BackgroundApplicationFrameRateLimit" xml:space="preserve">
+    <value>Background Application Frame Rate Limit</value>
+  </data>
+  <data name="Ui.Pages.LimitsTheMaximumFrameRateWhen" xml:space="preserve">
+    <value>Limits the maximum frame rate when the application is running in the background to reduce GPU and CPU usage.</value>
+  </data>
+  <data name="Ui.Pages.LowLatencyModes" xml:space="preserve">
+    <value>Low Latency Modes</value>
+  </data>
+  <data name="Ui.Pages.ControlsHowManyFramesAreQueued" xml:space="preserve">
+    <value>Controls how many frames are queued to reduce input latency.</value>
+  </data>
+  <data name="Ui.Pages.CPLLowLatencyMode" xml:space="preserve">
+    <value>CPL Low Latency Mode</value>
+  </data>
+  <data name="Ui.Pages.FRLLowLatencyMode" xml:space="preserve">
+    <value>FRL Low Latency Mode</value>
+  </data>
+  <data name="Ui.Pages.DriverLevelLowLatencyControlUsing" xml:space="preserve">
+    <value>Driver level low latency control using Frame Rate Limiter logic.</value>
+  </data>
+  <data name="Ui.Pages.HardwareAndDriverOverrides" xml:space="preserve">
+    <value>Hardware and Driver Overrides</value>
+  </data>
+  <data name="Ui.Pages.OverridesThatAffectGPUBehaviorAnd" xml:space="preserve">
+    <value>Overrides that affect GPU behavior and driver features.</value>
+  </data>
+  <data name="Ui.Pages.ResizableBAR" xml:space="preserve">
+    <value>Resizable BAR</value>
+  </data>
+  <data name="Ui.Pages.AllowsTheCPUToAccessThe" xml:space="preserve">
+    <value>Allows the CPU to access the full GPU memory range on supported systems.</value>
+  </data>
+  <data name="Ui.Pages.SILKSmoothness" xml:space="preserve">
+    <value>SILK Smoothness</value>
+  </data>
+  <data name="Ui.Pages.ControlsNVIDIASILKFrameSmoothingIntensity" xml:space="preserve">
+    <value>Controls NVIDIA SILK frame smoothing intensity.</value>
+  </data>
+  <data name="Ui.Pages.BrowseAndManageExtensionsForVoidstrap" xml:space="preserve">
+    <value>Browse and manage extensions for Voidstrap and its community.</value>
+  </data>
+  <data name="Ui.Pages.SearchExtensions" xml:space="preserve">
+    <value>Search extensions</value>
+  </data>
+  <data name="Ui.Pages.VoidstrapAssets" xml:space="preserve">
+    <value>Voidstrap Assets</value>
+  </data>
+  <data name="Ui.Pages.BackToExtensions" xml:space="preserve">
+    <value>Back to extensions</value>
+  </data>
+  <data name="Ui.Pages.OpenTheSourcePage" xml:space="preserve">
+    <value>Open the source page</value>
+  </data>
+  <data name="Ui.Pages.Description" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Ui.Pages.ProjectTools" xml:space="preserve">
+    <value>Project tools</value>
+  </data>
+  <data name="Ui.Pages.ProjectFolder" xml:space="preserve">
+    <value>Project folder</value>
+  </data>
+  <data name="Ui.Pages.NewProject" xml:space="preserve">
+    <value>New project</value>
+  </data>
+  <data name="Ui.Pages.BuildPlace" xml:space="preserve">
+    <value>Build place</value>
+  </data>
+  <data name="Ui.Pages.InstallStudioPlugin" xml:space="preserve">
+    <value>Install Studio plugin</value>
+  </data>
+  <data name="Ui.Pages.Versions" xml:space="preserve">
+    <value>Versions</value>
+  </data>
+  <data name="Ui.Pages.OpenOnGitHub" xml:space="preserve">
+    <value>Open on GitHub</value>
+  </data>
+  <data name="Ui.Pages.WorksWith" xml:space="preserve">
+    <value>Works with</value>
+  </data>
+  <data name="Ui.Pages.Tags" xml:space="preserve">
+    <value>Tags</value>
+  </data>
+  <data name="Ui.Pages.Creators" xml:space="preserve">
+    <value>Creators</value>
+  </data>
+  <data name="Ui.Pages.NVIDIAFFlagEditor" xml:space="preserve">
+    <value>NVIDIA FFlag Editor</value>
+  </data>
+  <data name="Ui.Pages.ManageNVIDIASettingsSavedInYour" xml:space="preserve">
+    <value>Manage NVIDIA settings saved in your NIP profile.</value>
+  </data>
+  <data name="Ui.Pages.AddNew" xml:space="preserve">
+    <value>Add New</value>
+  </data>
+  <data name="Ui.Pages.DeleteSelected" xml:space="preserve">
+    <value>Delete Selected</value>
+  </data>
+  <data name="Ui.Pages.DeleteAll" xml:space="preserve">
+    <value>Delete all</value>
+  </data>
+  <data name="Ui.Pages.ResetNIP" xml:space="preserve">
+    <value>Reset NIP</value>
+  </data>
+  <data name="Ui.Pages.SearchFlags" xml:space="preserve">
+    <value>Search flags</value>
+  </data>
+  <data name="Ui.Pages.LookingFor" xml:space="preserve">
+    <value>Looking For</value>
+  </data>
+  <data name="Ui.Pages.AddAnNVIDIASettingToGet" xml:space="preserve">
+    <value>Add an NVIDIA setting to get started.</value>
+  </data>
+  <data name="Ui.Pages.ExportNIP" xml:space="preserve">
+    <value>Export .NIP</value>
+  </data>
+  <data name="Ui.Pages.CopyFlags" xml:space="preserve">
+    <value>Copy flags</value>
+  </data>
+  <data name="Ui.Pages.NVIDIAFlagHistory" xml:space="preserve">
+    <value>NVIDIA Flag History</value>
+  </data>
+  <data name="Ui.Pages.TracksChangesMadeToNVIDIAFlags" xml:space="preserve">
+    <value>Tracks changes made to NVIDIA flags this session.</value>
+  </data>
+  <data name="Ui.Pages.UndoSelected" xml:space="preserve">
+    <value>Undo Selected</value>
+  </data>
+  <data name="Ui.Pages.ClearHistory" xml:space="preserve">
+    <value>Clear History</value>
+  </data>
+  <data name="Ui.Pages.NoChangesRecorded" xml:space="preserve">
+    <value>No changes recorded</value>
+  </data>
+  <data name="Ui.Pages.DoubleClickToRevertThisChange" xml:space="preserve">
+    <value>Double click to revert this change</value>
+  </data>
+  <data name="Ui.Pages.ManageYourFastFlagsACheckmarkIn" xml:space="preserve">
+    <value>Manage your FastFlags. A checkmark in Preset means the flag is available in FFlag Settings, while a cross means it is not.</value>
+  </data>
+  <data name="Ui.Pages.Preset" xml:space="preserve">
+    <value>Preset</value>
+  </data>
+  <data name="Ui.Pages.GoToFFlagSettingsToAdd" xml:space="preserve">
+    <value>Go to FFlag Settings to add Preset FFlags.</value>
+  </data>
+  <data name="Ui.Pages.Find" xml:space="preserve">
+    <value>Find</value>
+  </data>
+  <data name="Ui.Pages.FFlagHistory" xml:space="preserve">
+    <value>FFlag History</value>
+  </data>
+  <data name="Ui.Pages.TracksEveryChangeYouMakeTo" xml:space="preserve">
+    <value>Tracks every change you make to your flags this session. Select an entry and press Undo Selected, or double click it, to revert that change.</value>
+  </data>
+  <data name="Ui.Pages.History" xml:space="preserve">
+    <value>History</value>
+  </data>
+  <data name="Ui.Pages.ContinueWhereYouLeftOff" xml:space="preserve">
+    <value>Continue where you left off</value>
+  </data>
+  <data name="Ui.Pages.ClearAll" xml:space="preserve">
+    <value>Clear All</value>
+  </data>
+  <data name="Ui.Pages.SearchByGameNameCreatorOr" xml:space="preserve">
+    <value>Search by game name, creator, or place ID...</value>
+  </data>
+  <data name="Ui.Pages.Downloads" xml:space="preserve">
+    <value>Downloads</value>
+  </data>
+  <data name="Ui.Pages.Installed" xml:space="preserve">
+    <value>Installed</value>
+  </data>
+  <data name="Ui.Pages.Update" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="Ui.Pages.SearchYourInstalls" xml:space="preserve">
+    <value>Search your installs</value>
+  </data>
+  <data name="Ui.Pages.InstallFolder" xml:space="preserve">
+    <value>Install folder</value>
+  </data>
+  <data name="Ui.Pages.ClassicClients" xml:space="preserve">
+    <value>Classic clients</value>
+  </data>
+  <data name="Ui.Pages.Map" xml:space="preserve">
+    <value>Map</value>
+  </data>
+  <data name="Ui.Pages.PickAnInstallOnTheLeft" xml:space="preserve">
+    <value>Pick an install on the left to see its details.</value>
+  </data>
+  <data name="Ui.Pages.Addons" xml:space="preserve">
+    <value>Addons</value>
+  </data>
+  <data name="Ui.Pages.FleasionOpenInExtensions" xml:space="preserve">
+    <value>Fleasion, open in Extensions</value>
+  </data>
+  <data name="Ui.Pages.RiShadeOpenInExtensions" xml:space="preserve">
+    <value>RiShade, open in Extensions</value>
+  </data>
+  <data name="Ui.Pages.RojoOpenInExtensions" xml:space="preserve">
+    <value>Rojo, open in Extensions</value>
+  </data>
+  <data name="Ui.Pages.VoidstrapStudioPluginOpenInExtensions" xml:space="preserve">
+    <value>Voidstrap Studio plugin, open in Extensions</value>
+  </data>
+  <data name="Ui.Pages.ChangeInstallLocation" xml:space="preserve">
+    <value>Change install location</value>
+  </data>
+  <data name="Ui.Pages.OpenInstallFolder" xml:space="preserve">
+    <value>Open install folder</value>
+  </data>
+  <data name="Ui.Pages.VerifyFiles" xml:space="preserve">
+    <value>Verify files</value>
+  </data>
+  <data name="Ui.Pages.MyPresets" xml:space="preserve">
+    <value>My presets</value>
+  </data>
+  <data name="Ui.Pages.ImportAPreset" xml:space="preserve">
+    <value>Import a preset</value>
+  </data>
+  <data name="Ui.Pages.ExportThisPreset" xml:space="preserve">
+    <value>Export this preset</value>
+  </data>
+  <data name="Ui.Pages.ImportAReShadeIni" xml:space="preserve">
+    <value>Import a ReShade ini</value>
+  </data>
+  <data name="Ui.Pages.DeleteTheSelectedPreset" xml:space="preserve">
+    <value>Delete the selected preset</value>
+  </data>
+  <data name="Ui.Pages.NameThisLookToSaveIt" xml:space="preserve">
+    <value>Name this look to save it</value>
+  </data>
+  <data name="Ui.Pages.F8OpensAndClosesThisWindow" xml:space="preserve">
+    <value>F8 opens and closes this window in game</value>
+  </data>
+  <data name="Ui.Pages.TurnEverythingOff" xml:space="preserve">
+    <value>Turn everything off</value>
+  </data>
 </root>

@@ -5652,4 +5652,448 @@ Ne yapmak istersiniz?</value>
   <data name="Ui.Misc.Bundled" xml:space="preserve">
     <value>Paketle gelen</value>
   </data>
+  <data name="Ui.Pages.Library" xml:space="preserve">
+    <value>Kütüphane</value>
+  </data>
+  <data name="Ui.Pages.Play" xml:space="preserve">
+    <value>Oyna</value>
+  </data>
+  <data name="Ui.Pages.RemoveFromLibrary" xml:space="preserve">
+    <value>Kütüphaneden kaldır</value>
+  </data>
+  <data name="Ui.Pages.LibraryHome" xml:space="preserve">
+    <value>Kütüphane ana sayfası</value>
+  </data>
+  <data name="Ui.Pages.SearchGames" xml:space="preserve">
+    <value>Oyun ara</value>
+  </data>
+  <data name="Ui.Pages.RefreshLibrary" xml:space="preserve">
+    <value>Kütüphaneyi yenile</value>
+  </data>
+  <data name="Ui.Pages.AddByPlaceIdOrLink" xml:space="preserve">
+    <value>PlaceId veya bağlantıyla ekle</value>
+  </data>
+  <data name="Ui.Pages.AddThisGameToYourLibrary" xml:space="preserve">
+    <value>Bu oyunu kütüphanene ekle</value>
+  </data>
+  <data name="Ui.Pages.YourLibraryIsEmptyPlayA" xml:space="preserve">
+    <value>Kütüphaneniz boş. Voidstrap üzerinden bir oyun oynayın veya kenar çubuğundan PlaceId ile bir tane ekleyin.</value>
+  </data>
+  <data name="Ui.Pages.Events" xml:space="preserve">
+    <value>Etkinlikler</value>
+  </data>
+  <data name="Ui.Pages.ViewEvent" xml:space="preserve">
+    <value>Etkinliği görüntüle</value>
+  </data>
+  <data name="Ui.Pages.WhatSNew" xml:space="preserve">
+    <value>Yenilikler</value>
+  </data>
+  <data name="Ui.Pages.RecentGames" xml:space="preserve">
+    <value>Son oyunlar</value>
+  </data>
+  <data name="Ui.Pages.RemoveThisGameFromYourLibrary" xml:space="preserve">
+    <value>Bu oyunu kütüphanenizden kaldırın</value>
+  </data>
+  <data name="Ui.Pages.LASTPLAYED" xml:space="preserve">
+    <value>SON OYNAMA</value>
+  </data>
+  <data name="Ui.Pages.PLAYTIME" xml:space="preserve">
+    <value>OYUN SÜRESİ</value>
+  </data>
+  <data name="Ui.Pages.PLAYINGNOW" xml:space="preserve">
+    <value>ŞU AN OYNUYOR</value>
+  </data>
+  <data name="Ui.Pages.RATING" xml:space="preserve">
+    <value>PUAN</value>
+  </data>
+  <data name="Ui.Pages.Genre" xml:space="preserve">
+    <value>Tür</value>
+  </data>
+  <data name="Ui.Pages.MaxPlayers" xml:space="preserve">
+    <value>En fazla oyuncu</value>
+  </data>
+  <data name="Ui.Pages.Visits" xml:space="preserve">
+    <value>Ziyaretler</value>
+  </data>
+  <data name="Ui.Pages.Created" xml:space="preserve">
+    <value>Oluşturulma</value>
+  </data>
+  <data name="Ui.Pages.Updated" xml:space="preserve">
+    <value>Güncellenme</value>
+  </data>
+  <data name="Ui.Pages.Store" xml:space="preserve">
+    <value>Mağaza</value>
+  </data>
+  <data name="Ui.Pages.OpenThisGamepassOnRobloxCom" xml:space="preserve">
+    <value>Bu gamepass'i roblox.com'da aç</value>
+  </data>
+  <data name="Ui.Pages.AddNVIDIASettings" xml:space="preserve">
+    <value>NVIDIA ayarları ekle</value>
+  </data>
+  <data name="Ui.Pages.AddOneSettingOrImportSeveral" xml:space="preserve">
+    <value>Bir ayar ekleyin veya birkaçını birden içe aktarın.</value>
+  </data>
+  <data name="Ui.Pages.Single" xml:space="preserve">
+    <value>Tek</value>
+  </data>
+  <data name="Ui.Pages.SettingDetails" xml:space="preserve">
+    <value>Ayar ayrıntıları</value>
+  </data>
+  <data name="Ui.Pages.UseTheValuesShownByNVIDIA" xml:space="preserve">
+    <value>NVIDIA Profile Inspector'ın gösterdiği değerleri kullanın.</value>
+  </data>
+  <data name="Ui.Pages.ExampleFrameRateLimiter" xml:space="preserve">
+    <value>Örnek: Frame rate limiter</value>
+  </data>
+  <data name="Ui.Pages.SettingID" xml:space="preserve">
+    <value>Ayar kimliği</value>
+  </data>
+  <data name="Ui.Pages.ValueType" xml:space="preserve">
+    <value>Değer türü</value>
+  </data>
+  <data name="Ui.Pages.DecimalOr0xHex" xml:space="preserve">
+    <value>Ondalık veya 0x hex</value>
+  </data>
+  <data name="Ui.Pages.BooleanAcceptsTrueFalse1Or" xml:space="preserve">
+    <value>Boolean true, false, 1 veya 0 kabul eder.</value>
+  </data>
+  <data name="Ui.Pages.NIPProfile" xml:space="preserve">
+    <value>NIP profili</value>
+  </data>
+  <data name="Ui.Pages.ImportAProfile" xml:space="preserve">
+    <value>Profil içe aktar</value>
+  </data>
+  <data name="Ui.Pages.ChooseANIPFileOrPaste" xml:space="preserve">
+    <value>Bir NIP dosyası seçin veya içeriğini aşağıya yapıştırın.</value>
+  </data>
+  <data name="Ui.Pages.ChooseNIPFile" xml:space="preserve">
+    <value>NIP dosyası seç</value>
+  </data>
+  <data name="Ui.Pages.PasteRows" xml:space="preserve">
+    <value>Satırları yapıştır</value>
+  </data>
+  <data name="Ui.Pages.PasteSettings" xml:space="preserve">
+    <value>Ayarları yapıştır</value>
+  </data>
+  <data name="Ui.Pages.EnterOneSettingPerLineName" xml:space="preserve">
+    <value>Her satıra bir ayar: Ad | ID | Değer | Tür</value>
+  </data>
+  <data name="Ui.Pages.SupportedTypesDwordBooleanAndHex" xml:space="preserve">
+    <value>Desteklenen türler: Dword, Boolean ve Hex.</value>
+  </data>
+  <data name="Ui.Pages.AddSettings" xml:space="preserve">
+    <value>Ayarları ekle</value>
+  </data>
+  <data name="Ui.Pages.GameShortcut" xml:space="preserve">
+    <value>Oyun kısayolu</value>
+  </data>
+  <data name="Ui.Pages.LaunchAGameNowOrCreate" xml:space="preserve">
+    <value>Bir oyunu şimdi başlatın veya yeniden kullanılabilir bir masaüstü kısayolu oluşturun</value>
+  </data>
+  <data name="Ui.Pages.Destination" xml:space="preserve">
+    <value>Hedef</value>
+  </data>
+  <data name="Ui.Pages.UseThePlaceIDFromThe" xml:space="preserve">
+    <value>Roblox oyun URL'sindeki place ID'yi kullanın.</value>
+  </data>
+  <data name="Ui.Pages.Example1818" xml:space="preserve">
+    <value>Örnek: 1818</value>
+  </data>
+  <data name="Ui.Pages.UseAPrivateServerShareLink" xml:space="preserve">
+    <value>Özel sunucu paylaşım bağlantısı veya erişim kodu kullan</value>
+  </data>
+  <data name="Ui.Pages.ShareLinkOrAccessCode" xml:space="preserve">
+    <value>Paylaşım bağlantısı veya erişim kodu</value>
+  </data>
+  <data name="Ui.Pages.PasteTheCompletePrivateServerLink" xml:space="preserve">
+    <value>Özel sunucunun tam bağlantısını yapıştırın</value>
+  </data>
+  <data name="Ui.Pages.ServerInstanceID" xml:space="preserve">
+    <value>Sunucu örneği kimliği</value>
+  </data>
+  <data name="Ui.Pages.OptionalPublicServerInstance" xml:space="preserve">
+    <value>İsteğe bağlı herkese açık sunucu örneği</value>
+  </data>
+  <data name="Ui.Pages.LaunchGame" xml:space="preserve">
+    <value>Oyunu başlat</value>
+  </data>
+  <data name="Ui.Pages.CreateDesktopShortcut" xml:space="preserve">
+    <value>Masaüstü kısayolu oluştur</value>
+  </data>
+  <data name="Ui.Pages.AdvancedEditor" xml:space="preserve">
+    <value>Gelişmiş düzenleyici</value>
+  </data>
+  <data name="Ui.Pages.OpenTheRawNVIDIAProfileInspector" xml:space="preserve">
+    <value>Ham NVIDIA Profile Inspector düzenleyicisini açar. Yalnızca ileri düzey kullanıcılar için önerilir.</value>
+  </data>
+  <data name="Ui.Pages.ApplyChanges" xml:space="preserve">
+    <value>Değişiklikleri uygula</value>
+  </data>
+  <data name="Ui.Pages.GameDetails" xml:space="preserve">
+    <value>Oyun ayrıntıları</value>
+  </data>
+  <data name="Ui.Pages.ImageQualityFramePacingAndPerformance" xml:space="preserve">
+    <value>Görüntü kalitesi, kare zamanlaması ve performansla ilgili seçenekler.</value>
+  </data>
+  <data name="Ui.Pages.TextureQualityLODBias" xml:space="preserve">
+    <value>Doku kalitesi (LOD Bias)</value>
+  </data>
+  <data name="Ui.Pages.LowerValuesProduceSharperTexturesHigher" xml:space="preserve">
+    <value>Düşük değerler daha keskin dokular verir. Yüksek değerler ayrıntı pahasına performansı artırır.</value>
+  </data>
+  <data name="Ui.Pages.ImprovesAntiAliasingQualityByCombining" xml:space="preserve">
+    <value>MSAA örneklerini kareler arasında birleştirerek kenar yumuşatmayı iyileştirir, performansa etkisi azdır.</value>
+  </data>
+  <data name="Ui.Pages.GammaCorrection" xml:space="preserve">
+    <value>Gama düzeltmesi</value>
+  </data>
+  <data name="Ui.Pages.AdjustsHowBrightnessValuesAreMapped" xml:space="preserve">
+    <value>Parlaklık değerlerinin eşlenme biçimini ayarlar; kontrastı, gölge ayrıntısını ve orta tonları etkiler.</value>
+  </data>
+  <data name="Ui.Pages.BenchmarkOverlay" xml:space="preserve">
+    <value>Benchmark katmanı</value>
+  </data>
+  <data name="Ui.Pages.FrameRateLimiter" xml:space="preserve">
+    <value>Kare hızı sınırlayıcı</value>
+  </data>
+  <data name="Ui.Pages.BackgroundApplicationFrameRateLimit" xml:space="preserve">
+    <value>Arka plan uygulamaları kare hızı sınırı</value>
+  </data>
+  <data name="Ui.Pages.LimitsTheMaximumFrameRateWhen" xml:space="preserve">
+    <value>Uygulama arka planda çalışırken GPU ve CPU kullanımını azaltmak için en yüksek kare hızını sınırlar.</value>
+  </data>
+  <data name="Ui.Pages.LowLatencyModes" xml:space="preserve">
+    <value>Düşük gecikme modları</value>
+  </data>
+  <data name="Ui.Pages.ControlsHowManyFramesAreQueued" xml:space="preserve">
+    <value>Giriş gecikmesini azaltmak için sıraya alınan kare sayısını denetler.</value>
+  </data>
+  <data name="Ui.Pages.CPLLowLatencyMode" xml:space="preserve">
+    <value>CPL düşük gecikme modu</value>
+  </data>
+  <data name="Ui.Pages.FRLLowLatencyMode" xml:space="preserve">
+    <value>FRL düşük gecikme modu</value>
+  </data>
+  <data name="Ui.Pages.DriverLevelLowLatencyControlUsing" xml:space="preserve">
+    <value>Kare hızı sınırlayıcı mantığıyla sürücü düzeyinde düşük gecikme denetimi.</value>
+  </data>
+  <data name="Ui.Pages.HardwareAndDriverOverrides" xml:space="preserve">
+    <value>Donanım ve sürücü geçersiz kılmaları</value>
+  </data>
+  <data name="Ui.Pages.OverridesThatAffectGPUBehaviorAnd" xml:space="preserve">
+    <value>GPU davranışını ve sürücü özelliklerini etkileyen geçersiz kılmalar.</value>
+  </data>
+  <data name="Ui.Pages.ResizableBAR" xml:space="preserve">
+    <value>Resizable BAR</value>
+  </data>
+  <data name="Ui.Pages.AllowsTheCPUToAccessThe" xml:space="preserve">
+    <value>Desteklenen sistemlerde CPU'nun GPU belleğinin tamamına erişmesini sağlar.</value>
+  </data>
+  <data name="Ui.Pages.SILKSmoothness" xml:space="preserve">
+    <value>SILK akıcılığı</value>
+  </data>
+  <data name="Ui.Pages.ControlsNVIDIASILKFrameSmoothingIntensity" xml:space="preserve">
+    <value>NVIDIA SILK kare yumuşatma yoğunluğunu denetler.</value>
+  </data>
+  <data name="Ui.Pages.BrowseAndManageExtensionsForVoidstrap" xml:space="preserve">
+    <value>Voidstrap ve topluluğu için uzantılara göz atın ve yönetin.</value>
+  </data>
+  <data name="Ui.Pages.SearchExtensions" xml:space="preserve">
+    <value>Uzantı ara</value>
+  </data>
+  <data name="Ui.Pages.VoidstrapAssets" xml:space="preserve">
+    <value>Voidstrap varlıkları</value>
+  </data>
+  <data name="Ui.Pages.BackToExtensions" xml:space="preserve">
+    <value>Uzantılara dön</value>
+  </data>
+  <data name="Ui.Pages.OpenTheSourcePage" xml:space="preserve">
+    <value>Kaynak sayfasını aç</value>
+  </data>
+  <data name="Ui.Pages.Description" xml:space="preserve">
+    <value>Açıklama</value>
+  </data>
+  <data name="Ui.Pages.ProjectTools" xml:space="preserve">
+    <value>Proje araçları</value>
+  </data>
+  <data name="Ui.Pages.ProjectFolder" xml:space="preserve">
+    <value>Proje klasörü</value>
+  </data>
+  <data name="Ui.Pages.NewProject" xml:space="preserve">
+    <value>Yeni proje</value>
+  </data>
+  <data name="Ui.Pages.BuildPlace" xml:space="preserve">
+    <value>Place oluştur</value>
+  </data>
+  <data name="Ui.Pages.InstallStudioPlugin" xml:space="preserve">
+    <value>Studio eklentisini yükle</value>
+  </data>
+  <data name="Ui.Pages.Versions" xml:space="preserve">
+    <value>Sürümler</value>
+  </data>
+  <data name="Ui.Pages.OpenOnGitHub" xml:space="preserve">
+    <value>GitHub'da aç</value>
+  </data>
+  <data name="Ui.Pages.WorksWith" xml:space="preserve">
+    <value>Uyumlu</value>
+  </data>
+  <data name="Ui.Pages.Tags" xml:space="preserve">
+    <value>Etiketler</value>
+  </data>
+  <data name="Ui.Pages.Creators" xml:space="preserve">
+    <value>Yapımcılar</value>
+  </data>
+  <data name="Ui.Pages.NVIDIAFFlagEditor" xml:space="preserve">
+    <value>NVIDIA FFlag düzenleyici</value>
+  </data>
+  <data name="Ui.Pages.ManageNVIDIASettingsSavedInYour" xml:space="preserve">
+    <value>NIP profilinizde kayıtlı NVIDIA ayarlarını yönetin.</value>
+  </data>
+  <data name="Ui.Pages.AddNew" xml:space="preserve">
+    <value>Yeni ekle</value>
+  </data>
+  <data name="Ui.Pages.DeleteSelected" xml:space="preserve">
+    <value>Seçilenleri sil</value>
+  </data>
+  <data name="Ui.Pages.DeleteAll" xml:space="preserve">
+    <value>Tümünü sil</value>
+  </data>
+  <data name="Ui.Pages.ResetNIP" xml:space="preserve">
+    <value>NIP'i sıfırla</value>
+  </data>
+  <data name="Ui.Pages.SearchFlags" xml:space="preserve">
+    <value>Bayrak ara</value>
+  </data>
+  <data name="Ui.Pages.LookingFor" xml:space="preserve">
+    <value>Aranan</value>
+  </data>
+  <data name="Ui.Pages.AddAnNVIDIASettingToGet" xml:space="preserve">
+    <value>Başlamak için bir NVIDIA ayarı ekleyin.</value>
+  </data>
+  <data name="Ui.Pages.ExportNIP" xml:space="preserve">
+    <value>.NIP dışa aktar</value>
+  </data>
+  <data name="Ui.Pages.CopyFlags" xml:space="preserve">
+    <value>Bayrakları kopyala</value>
+  </data>
+  <data name="Ui.Pages.NVIDIAFlagHistory" xml:space="preserve">
+    <value>NVIDIA bayrak geçmişi</value>
+  </data>
+  <data name="Ui.Pages.TracksChangesMadeToNVIDIAFlags" xml:space="preserve">
+    <value>Bu oturumda NVIDIA bayraklarında yapılan değişiklikleri izler.</value>
+  </data>
+  <data name="Ui.Pages.UndoSelected" xml:space="preserve">
+    <value>Seçileni geri al</value>
+  </data>
+  <data name="Ui.Pages.ClearHistory" xml:space="preserve">
+    <value>Geçmişi temizle</value>
+  </data>
+  <data name="Ui.Pages.NoChangesRecorded" xml:space="preserve">
+    <value>Kayıtlı değişiklik yok</value>
+  </data>
+  <data name="Ui.Pages.DoubleClickToRevertThisChange" xml:space="preserve">
+    <value>Bu değişikliği geri almak için çift tıklayın</value>
+  </data>
+  <data name="Ui.Pages.ManageYourFastFlagsACheckmarkIn" xml:space="preserve">
+    <value>FastFlags ayarlarınızı yönetin. Preset sütunundaki onay işareti bayrağın FFlag ayarlarında bulunduğunu, çarpı ise bulunmadığını gösterir.</value>
+  </data>
+  <data name="Ui.Pages.Preset" xml:space="preserve">
+    <value>Preset</value>
+  </data>
+  <data name="Ui.Pages.GoToFFlagSettingsToAdd" xml:space="preserve">
+    <value>Preset FFlags eklemek için FFlag ayarlarına gidin.</value>
+  </data>
+  <data name="Ui.Pages.Find" xml:space="preserve">
+    <value>Bul</value>
+  </data>
+  <data name="Ui.Pages.FFlagHistory" xml:space="preserve">
+    <value>FFlag geçmişi</value>
+  </data>
+  <data name="Ui.Pages.TracksEveryChangeYouMakeTo" xml:space="preserve">
+    <value>Bu oturumda bayraklarınızda yaptığınız her değişikliği izler. Bir girdi seçip Seçileni geri al'a basın veya çift tıklayarak değişikliği geri alın.</value>
+  </data>
+  <data name="Ui.Pages.History" xml:space="preserve">
+    <value>Geçmiş</value>
+  </data>
+  <data name="Ui.Pages.ContinueWhereYouLeftOff" xml:space="preserve">
+    <value>Kaldığınız yerden devam edin</value>
+  </data>
+  <data name="Ui.Pages.ClearAll" xml:space="preserve">
+    <value>Tümünü temizle</value>
+  </data>
+  <data name="Ui.Pages.SearchByGameNameCreatorOr" xml:space="preserve">
+    <value>Oyun adı, yapımcı veya place ID ile ara...</value>
+  </data>
+  <data name="Ui.Pages.Downloads" xml:space="preserve">
+    <value>İndirmeler</value>
+  </data>
+  <data name="Ui.Pages.Installed" xml:space="preserve">
+    <value>Yüklü</value>
+  </data>
+  <data name="Ui.Pages.Update" xml:space="preserve">
+    <value>Güncelle</value>
+  </data>
+  <data name="Ui.Pages.SearchYourInstalls" xml:space="preserve">
+    <value>Kurulumlarınızda ara</value>
+  </data>
+  <data name="Ui.Pages.InstallFolder" xml:space="preserve">
+    <value>Kurulum klasörü</value>
+  </data>
+  <data name="Ui.Pages.ClassicClients" xml:space="preserve">
+    <value>Klasik istemciler</value>
+  </data>
+  <data name="Ui.Pages.Map" xml:space="preserve">
+    <value>Harita</value>
+  </data>
+  <data name="Ui.Pages.PickAnInstallOnTheLeft" xml:space="preserve">
+    <value>Ayrıntılarını görmek için soldan bir kurulum seçin.</value>
+  </data>
+  <data name="Ui.Pages.Addons" xml:space="preserve">
+    <value>Eklentiler</value>
+  </data>
+  <data name="Ui.Pages.FleasionOpenInExtensions" xml:space="preserve">
+    <value>Fleasion, Uzantılar'da aç</value>
+  </data>
+  <data name="Ui.Pages.RiShadeOpenInExtensions" xml:space="preserve">
+    <value>RiShade, Uzantılar'da aç</value>
+  </data>
+  <data name="Ui.Pages.RojoOpenInExtensions" xml:space="preserve">
+    <value>Rojo, Uzantılar'da aç</value>
+  </data>
+  <data name="Ui.Pages.VoidstrapStudioPluginOpenInExtensions" xml:space="preserve">
+    <value>Voidstrap Studio eklentisi, Uzantılar'da aç</value>
+  </data>
+  <data name="Ui.Pages.ChangeInstallLocation" xml:space="preserve">
+    <value>Kurulum konumunu değiştir</value>
+  </data>
+  <data name="Ui.Pages.OpenInstallFolder" xml:space="preserve">
+    <value>Kurulum klasörünü aç</value>
+  </data>
+  <data name="Ui.Pages.VerifyFiles" xml:space="preserve">
+    <value>Dosyaları doğrula</value>
+  </data>
+  <data name="Ui.Pages.MyPresets" xml:space="preserve">
+    <value>Hazır ayarlarım</value>
+  </data>
+  <data name="Ui.Pages.ImportAPreset" xml:space="preserve">
+    <value>Hazır ayar içe aktar</value>
+  </data>
+  <data name="Ui.Pages.ExportThisPreset" xml:space="preserve">
+    <value>Bu hazır ayarı dışa aktar</value>
+  </data>
+  <data name="Ui.Pages.ImportAReShadeIni" xml:space="preserve">
+    <value>ReShade ini içe aktar</value>
+  </data>
+  <data name="Ui.Pages.DeleteTheSelectedPreset" xml:space="preserve">
+    <value>Seçili hazır ayarı sil</value>
+  </data>
+  <data name="Ui.Pages.NameThisLookToSaveIt" xml:space="preserve">
+    <value>Kaydetmek için bu görünüme bir ad verin</value>
+  </data>
+  <data name="Ui.Pages.F8OpensAndClosesThisWindow" xml:space="preserve">
+    <value>F8 oyun içinde bu pencereyi açar ve kapatır</value>
+  </data>
+  <data name="Ui.Pages.TurnEverythingOff" xml:space="preserve">
+    <value>Her şeyi kapat</value>
+  </data>
 </root>

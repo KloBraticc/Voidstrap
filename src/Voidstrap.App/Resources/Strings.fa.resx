@@ -5698,4 +5698,448 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
   <data name="Ui.Misc.Bundled" xml:space="preserve">
     <value>همراه</value>
   </data>
+  <data name="Ui.Pages.Library" xml:space="preserve">
+    <value>کتابخانه</value>
+  </data>
+  <data name="Ui.Pages.Play" xml:space="preserve">
+    <value>بازی کن</value>
+  </data>
+  <data name="Ui.Pages.RemoveFromLibrary" xml:space="preserve">
+    <value>حذف از کتابخانه</value>
+  </data>
+  <data name="Ui.Pages.LibraryHome" xml:space="preserve">
+    <value>صفحه اصلی کتابخانه</value>
+  </data>
+  <data name="Ui.Pages.SearchGames" xml:space="preserve">
+    <value>جستجوی بازی‌ها</value>
+  </data>
+  <data name="Ui.Pages.RefreshLibrary" xml:space="preserve">
+    <value>تازه‌سازی کتابخانه</value>
+  </data>
+  <data name="Ui.Pages.AddByPlaceIdOrLink" xml:space="preserve">
+    <value>افزودن با PlaceId یا پیوند</value>
+  </data>
+  <data name="Ui.Pages.AddThisGameToYourLibrary" xml:space="preserve">
+    <value>افزودن این بازی به کتابخانه شما</value>
+  </data>
+  <data name="Ui.Pages.YourLibraryIsEmptyPlayA" xml:space="preserve">
+    <value>کتابخانه شما خالی است. یک بازی را از طریق Voidstrap بازی کنید یا از نوار کناری با PlaceId اضافه کنید.</value>
+  </data>
+  <data name="Ui.Pages.Events" xml:space="preserve">
+    <value>رویدادها</value>
+  </data>
+  <data name="Ui.Pages.ViewEvent" xml:space="preserve">
+    <value>دیدن رویداد</value>
+  </data>
+  <data name="Ui.Pages.WhatSNew" xml:space="preserve">
+    <value>تازه‌ها</value>
+  </data>
+  <data name="Ui.Pages.RecentGames" xml:space="preserve">
+    <value>بازی‌های اخیر</value>
+  </data>
+  <data name="Ui.Pages.RemoveThisGameFromYourLibrary" xml:space="preserve">
+    <value>حذف این بازی از کتابخانه شما</value>
+  </data>
+  <data name="Ui.Pages.LASTPLAYED" xml:space="preserve">
+    <value>آخرین بازی</value>
+  </data>
+  <data name="Ui.Pages.PLAYTIME" xml:space="preserve">
+    <value>زمان بازی</value>
+  </data>
+  <data name="Ui.Pages.PLAYINGNOW" xml:space="preserve">
+    <value>در حال بازی</value>
+  </data>
+  <data name="Ui.Pages.RATING" xml:space="preserve">
+    <value>امتیاز</value>
+  </data>
+  <data name="Ui.Pages.Genre" xml:space="preserve">
+    <value>ژانر</value>
+  </data>
+  <data name="Ui.Pages.MaxPlayers" xml:space="preserve">
+    <value>حداکثر بازیکن</value>
+  </data>
+  <data name="Ui.Pages.Visits" xml:space="preserve">
+    <value>بازدیدها</value>
+  </data>
+  <data name="Ui.Pages.Created" xml:space="preserve">
+    <value>ساخته‌شده</value>
+  </data>
+  <data name="Ui.Pages.Updated" xml:space="preserve">
+    <value>به‌روزشده</value>
+  </data>
+  <data name="Ui.Pages.Store" xml:space="preserve">
+    <value>فروشگاه</value>
+  </data>
+  <data name="Ui.Pages.OpenThisGamepassOnRobloxCom" xml:space="preserve">
+    <value>باز کردن این gamepass در roblox.com</value>
+  </data>
+  <data name="Ui.Pages.AddNVIDIASettings" xml:space="preserve">
+    <value>افزودن تنظیمات NVIDIA</value>
+  </data>
+  <data name="Ui.Pages.AddOneSettingOrImportSeveral" xml:space="preserve">
+    <value>یک تنظیم اضافه کنید یا چند تنظیم را یک‌جا وارد کنید.</value>
+  </data>
+  <data name="Ui.Pages.Single" xml:space="preserve">
+    <value>تکی</value>
+  </data>
+  <data name="Ui.Pages.SettingDetails" xml:space="preserve">
+    <value>جزئیات تنظیم</value>
+  </data>
+  <data name="Ui.Pages.UseTheValuesShownByNVIDIA" xml:space="preserve">
+    <value>از مقادیری که NVIDIA Profile Inspector نشان می‌دهد استفاده کنید.</value>
+  </data>
+  <data name="Ui.Pages.ExampleFrameRateLimiter" xml:space="preserve">
+    <value>مثال: Frame rate limiter</value>
+  </data>
+  <data name="Ui.Pages.SettingID" xml:space="preserve">
+    <value>شناسه تنظیم</value>
+  </data>
+  <data name="Ui.Pages.ValueType" xml:space="preserve">
+    <value>نوع مقدار</value>
+  </data>
+  <data name="Ui.Pages.DecimalOr0xHex" xml:space="preserve">
+    <value>دهدهی یا 0x هگز</value>
+  </data>
+  <data name="Ui.Pages.BooleanAcceptsTrueFalse1Or" xml:space="preserve">
+    <value>Boolean مقادیر true، false، 1 یا 0 را می‌پذیرد.</value>
+  </data>
+  <data name="Ui.Pages.NIPProfile" xml:space="preserve">
+    <value>نمایه NIP</value>
+  </data>
+  <data name="Ui.Pages.ImportAProfile" xml:space="preserve">
+    <value>وارد کردن نمایه</value>
+  </data>
+  <data name="Ui.Pages.ChooseANIPFileOrPaste" xml:space="preserve">
+    <value>یک فایل NIP انتخاب کنید یا محتوای آن را در زیر بچسبانید.</value>
+  </data>
+  <data name="Ui.Pages.ChooseNIPFile" xml:space="preserve">
+    <value>انتخاب فایل NIP</value>
+  </data>
+  <data name="Ui.Pages.PasteRows" xml:space="preserve">
+    <value>چسباندن ردیف‌ها</value>
+  </data>
+  <data name="Ui.Pages.PasteSettings" xml:space="preserve">
+    <value>چسباندن تنظیمات</value>
+  </data>
+  <data name="Ui.Pages.EnterOneSettingPerLineName" xml:space="preserve">
+    <value>در هر خط یک تنظیم: نام | ID | مقدار | نوع</value>
+  </data>
+  <data name="Ui.Pages.SupportedTypesDwordBooleanAndHex" xml:space="preserve">
+    <value>انواع پشتیبانی‌شده: Dword، Boolean و Hex.</value>
+  </data>
+  <data name="Ui.Pages.AddSettings" xml:space="preserve">
+    <value>افزودن تنظیمات</value>
+  </data>
+  <data name="Ui.Pages.GameShortcut" xml:space="preserve">
+    <value>میان‌بر بازی</value>
+  </data>
+  <data name="Ui.Pages.LaunchAGameNowOrCreate" xml:space="preserve">
+    <value>اکنون بازی را اجرا کنید یا یک میان‌بر قابل استفاده دوباره روی دسکتاپ بسازید</value>
+  </data>
+  <data name="Ui.Pages.Destination" xml:space="preserve">
+    <value>مقصد</value>
+  </data>
+  <data name="Ui.Pages.UseThePlaceIDFromThe" xml:space="preserve">
+    <value>از place ID در نشانی بازی Roblox استفاده کنید.</value>
+  </data>
+  <data name="Ui.Pages.Example1818" xml:space="preserve">
+    <value>مثال: 1818</value>
+  </data>
+  <data name="Ui.Pages.UseAPrivateServerShareLink" xml:space="preserve">
+    <value>استفاده از پیوند اشتراک یا کد دسترسی سرور خصوصی</value>
+  </data>
+  <data name="Ui.Pages.ShareLinkOrAccessCode" xml:space="preserve">
+    <value>پیوند اشتراک یا کد دسترسی</value>
+  </data>
+  <data name="Ui.Pages.PasteTheCompletePrivateServerLink" xml:space="preserve">
+    <value>پیوند کامل سرور خصوصی را بچسبانید</value>
+  </data>
+  <data name="Ui.Pages.ServerInstanceID" xml:space="preserve">
+    <value>شناسه نمونه سرور</value>
+  </data>
+  <data name="Ui.Pages.OptionalPublicServerInstance" xml:space="preserve">
+    <value>نمونه سرور عمومی اختیاری</value>
+  </data>
+  <data name="Ui.Pages.LaunchGame" xml:space="preserve">
+    <value>اجرای بازی</value>
+  </data>
+  <data name="Ui.Pages.CreateDesktopShortcut" xml:space="preserve">
+    <value>ساخت میان‌بر دسکتاپ</value>
+  </data>
+  <data name="Ui.Pages.AdvancedEditor" xml:space="preserve">
+    <value>ویرایشگر پیشرفته</value>
+  </data>
+  <data name="Ui.Pages.OpenTheRawNVIDIAProfileInspector" xml:space="preserve">
+    <value>ویرایشگر خام NVIDIA Profile Inspector را باز می‌کند. فقط برای کاربران حرفه‌ای توصیه می‌شود.</value>
+  </data>
+  <data name="Ui.Pages.ApplyChanges" xml:space="preserve">
+    <value>اعمال تغییرات</value>
+  </data>
+  <data name="Ui.Pages.GameDetails" xml:space="preserve">
+    <value>جزئیات بازی</value>
+  </data>
+  <data name="Ui.Pages.ImageQualityFramePacingAndPerformance" xml:space="preserve">
+    <value>کیفیت تصویر، ریتم فریم و گزینه‌های مرتبط با کارایی.</value>
+  </data>
+  <data name="Ui.Pages.TextureQualityLODBias" xml:space="preserve">
+    <value>کیفیت بافت (LOD Bias)</value>
+  </data>
+  <data name="Ui.Pages.LowerValuesProduceSharperTexturesHigher" xml:space="preserve">
+    <value>مقادیر کمتر بافت‌های واضح‌تری می‌دهند. مقادیر بیشتر به قیمت جزئیات کارایی را بهتر می‌کنند.</value>
+  </data>
+  <data name="Ui.Pages.ImprovesAntiAliasingQualityByCombining" xml:space="preserve">
+    <value>با ترکیب نمونه‌های MSAA در فریم‌ها کیفیت ضدپله‌ای را با کمترین تأثیر بر کارایی بهتر می‌کند.</value>
+  </data>
+  <data name="Ui.Pages.GammaCorrection" xml:space="preserve">
+    <value>تصحیح گاما</value>
+  </data>
+  <data name="Ui.Pages.AdjustsHowBrightnessValuesAreMapped" xml:space="preserve">
+    <value>نحوه نگاشت مقادیر روشنایی را تنظیم می‌کند که بر کنتراست، جزئیات سایه و تن‌های میانی اثر دارد.</value>
+  </data>
+  <data name="Ui.Pages.BenchmarkOverlay" xml:space="preserve">
+    <value>روکش بنچمارک</value>
+  </data>
+  <data name="Ui.Pages.FrameRateLimiter" xml:space="preserve">
+    <value>محدودکننده نرخ فریم</value>
+  </data>
+  <data name="Ui.Pages.BackgroundApplicationFrameRateLimit" xml:space="preserve">
+    <value>محدودیت نرخ فریم برنامه‌های پس‌زمینه</value>
+  </data>
+  <data name="Ui.Pages.LimitsTheMaximumFrameRateWhen" xml:space="preserve">
+    <value>وقتی برنامه در پس‌زمینه اجرا می‌شود حداکثر نرخ فریم را برای کاهش مصرف GPU و CPU محدود می‌کند.</value>
+  </data>
+  <data name="Ui.Pages.LowLatencyModes" xml:space="preserve">
+    <value>حالت‌های تأخیر کم</value>
+  </data>
+  <data name="Ui.Pages.ControlsHowManyFramesAreQueued" xml:space="preserve">
+    <value>تعداد فریم‌های صف‌شده را برای کاهش تأخیر ورودی کنترل می‌کند.</value>
+  </data>
+  <data name="Ui.Pages.CPLLowLatencyMode" xml:space="preserve">
+    <value>حالت تأخیر کم CPL</value>
+  </data>
+  <data name="Ui.Pages.FRLLowLatencyMode" xml:space="preserve">
+    <value>حالت تأخیر کم FRL</value>
+  </data>
+  <data name="Ui.Pages.DriverLevelLowLatencyControlUsing" xml:space="preserve">
+    <value>کنترل تأخیر کم در سطح درایور با منطق محدودکننده نرخ فریم.</value>
+  </data>
+  <data name="Ui.Pages.HardwareAndDriverOverrides" xml:space="preserve">
+    <value>بازنویسی‌های سخت‌افزار و درایور</value>
+  </data>
+  <data name="Ui.Pages.OverridesThatAffectGPUBehaviorAnd" xml:space="preserve">
+    <value>بازنویسی‌هایی که بر رفتار GPU و قابلیت‌های درایور اثر می‌گذارند.</value>
+  </data>
+  <data name="Ui.Pages.ResizableBAR" xml:space="preserve">
+    <value>Resizable BAR</value>
+  </data>
+  <data name="Ui.Pages.AllowsTheCPUToAccessThe" xml:space="preserve">
+    <value>در سیستم‌های پشتیبانی‌شده به CPU اجازه دسترسی به کل حافظه GPU را می‌دهد.</value>
+  </data>
+  <data name="Ui.Pages.SILKSmoothness" xml:space="preserve">
+    <value>نرمی SILK</value>
+  </data>
+  <data name="Ui.Pages.ControlsNVIDIASILKFrameSmoothingIntensity" xml:space="preserve">
+    <value>شدت نرم‌سازی فریم NVIDIA SILK را کنترل می‌کند.</value>
+  </data>
+  <data name="Ui.Pages.BrowseAndManageExtensionsForVoidstrap" xml:space="preserve">
+    <value>افزونه‌های Voidstrap و جامعه آن را مرور و مدیریت کنید.</value>
+  </data>
+  <data name="Ui.Pages.SearchExtensions" xml:space="preserve">
+    <value>جستجوی افزونه‌ها</value>
+  </data>
+  <data name="Ui.Pages.VoidstrapAssets" xml:space="preserve">
+    <value>منابع Voidstrap</value>
+  </data>
+  <data name="Ui.Pages.BackToExtensions" xml:space="preserve">
+    <value>بازگشت به افزونه‌ها</value>
+  </data>
+  <data name="Ui.Pages.OpenTheSourcePage" xml:space="preserve">
+    <value>باز کردن صفحه منبع</value>
+  </data>
+  <data name="Ui.Pages.Description" xml:space="preserve">
+    <value>توضیحات</value>
+  </data>
+  <data name="Ui.Pages.ProjectTools" xml:space="preserve">
+    <value>ابزارهای پروژه</value>
+  </data>
+  <data name="Ui.Pages.ProjectFolder" xml:space="preserve">
+    <value>پوشه پروژه</value>
+  </data>
+  <data name="Ui.Pages.NewProject" xml:space="preserve">
+    <value>پروژه جدید</value>
+  </data>
+  <data name="Ui.Pages.BuildPlace" xml:space="preserve">
+    <value>ساخت place</value>
+  </data>
+  <data name="Ui.Pages.InstallStudioPlugin" xml:space="preserve">
+    <value>نصب افزونه Studio</value>
+  </data>
+  <data name="Ui.Pages.Versions" xml:space="preserve">
+    <value>نسخه‌ها</value>
+  </data>
+  <data name="Ui.Pages.OpenOnGitHub" xml:space="preserve">
+    <value>باز کردن در GitHub</value>
+  </data>
+  <data name="Ui.Pages.WorksWith" xml:space="preserve">
+    <value>سازگار با</value>
+  </data>
+  <data name="Ui.Pages.Tags" xml:space="preserve">
+    <value>برچسب‌ها</value>
+  </data>
+  <data name="Ui.Pages.Creators" xml:space="preserve">
+    <value>سازندگان</value>
+  </data>
+  <data name="Ui.Pages.NVIDIAFFlagEditor" xml:space="preserve">
+    <value>ویرایشگر FFlag برای NVIDIA</value>
+  </data>
+  <data name="Ui.Pages.ManageNVIDIASettingsSavedInYour" xml:space="preserve">
+    <value>تنظیمات NVIDIA ذخیره‌شده در نمایه NIP خود را مدیریت کنید.</value>
+  </data>
+  <data name="Ui.Pages.AddNew" xml:space="preserve">
+    <value>افزودن جدید</value>
+  </data>
+  <data name="Ui.Pages.DeleteSelected" xml:space="preserve">
+    <value>حذف موارد انتخاب‌شده</value>
+  </data>
+  <data name="Ui.Pages.DeleteAll" xml:space="preserve">
+    <value>حذف همه</value>
+  </data>
+  <data name="Ui.Pages.ResetNIP" xml:space="preserve">
+    <value>بازنشانی NIP</value>
+  </data>
+  <data name="Ui.Pages.SearchFlags" xml:space="preserve">
+    <value>جستجوی پرچم‌ها</value>
+  </data>
+  <data name="Ui.Pages.LookingFor" xml:space="preserve">
+    <value>در حال جستجو</value>
+  </data>
+  <data name="Ui.Pages.AddAnNVIDIASettingToGet" xml:space="preserve">
+    <value>برای شروع یک تنظیم NVIDIA اضافه کنید.</value>
+  </data>
+  <data name="Ui.Pages.ExportNIP" xml:space="preserve">
+    <value>صادر کردن .NIP</value>
+  </data>
+  <data name="Ui.Pages.CopyFlags" xml:space="preserve">
+    <value>کپی پرچم‌ها</value>
+  </data>
+  <data name="Ui.Pages.NVIDIAFlagHistory" xml:space="preserve">
+    <value>تاریخچه پرچم‌های NVIDIA</value>
+  </data>
+  <data name="Ui.Pages.TracksChangesMadeToNVIDIAFlags" xml:space="preserve">
+    <value>تغییرات پرچم‌های NVIDIA را در این نشست دنبال می‌کند.</value>
+  </data>
+  <data name="Ui.Pages.UndoSelected" xml:space="preserve">
+    <value>واگرد موارد انتخاب‌شده</value>
+  </data>
+  <data name="Ui.Pages.ClearHistory" xml:space="preserve">
+    <value>پاک کردن تاریخچه</value>
+  </data>
+  <data name="Ui.Pages.NoChangesRecorded" xml:space="preserve">
+    <value>تغییری ثبت نشده</value>
+  </data>
+  <data name="Ui.Pages.DoubleClickToRevertThisChange" xml:space="preserve">
+    <value>برای برگرداندن این تغییر دوبار کلیک کنید</value>
+  </data>
+  <data name="Ui.Pages.ManageYourFastFlagsACheckmarkIn" xml:space="preserve">
+    <value>FastFlags خود را مدیریت کنید. تیک در Preset یعنی پرچم در تنظیمات FFlag موجود است و ضربدر یعنی موجود نیست.</value>
+  </data>
+  <data name="Ui.Pages.Preset" xml:space="preserve">
+    <value>Preset</value>
+  </data>
+  <data name="Ui.Pages.GoToFFlagSettingsToAdd" xml:space="preserve">
+    <value>برای افزودن FFlags از Preset به تنظیمات FFlag بروید.</value>
+  </data>
+  <data name="Ui.Pages.Find" xml:space="preserve">
+    <value>یافتن</value>
+  </data>
+  <data name="Ui.Pages.FFlagHistory" xml:space="preserve">
+    <value>تاریخچه FFlag</value>
+  </data>
+  <data name="Ui.Pages.TracksEveryChangeYouMakeTo" xml:space="preserve">
+    <value>هر تغییر پرچم‌ها در این نشست را دنبال می‌کند. یک مورد را انتخاب و واگرد موارد انتخاب‌شده را بزنید، یا روی آن دوبار کلیک کنید تا تغییر برگردد.</value>
+  </data>
+  <data name="Ui.Pages.History" xml:space="preserve">
+    <value>تاریخچه</value>
+  </data>
+  <data name="Ui.Pages.ContinueWhereYouLeftOff" xml:space="preserve">
+    <value>از همان جایی که ماندید ادامه دهید</value>
+  </data>
+  <data name="Ui.Pages.ClearAll" xml:space="preserve">
+    <value>پاک کردن همه</value>
+  </data>
+  <data name="Ui.Pages.SearchByGameNameCreatorOr" xml:space="preserve">
+    <value>جستجو با نام بازی، سازنده یا place ID...</value>
+  </data>
+  <data name="Ui.Pages.Downloads" xml:space="preserve">
+    <value>دانلودها</value>
+  </data>
+  <data name="Ui.Pages.Installed" xml:space="preserve">
+    <value>نصب‌شده</value>
+  </data>
+  <data name="Ui.Pages.Update" xml:space="preserve">
+    <value>به‌روزرسانی</value>
+  </data>
+  <data name="Ui.Pages.SearchYourInstalls" xml:space="preserve">
+    <value>جستجو در نصب‌های شما</value>
+  </data>
+  <data name="Ui.Pages.InstallFolder" xml:space="preserve">
+    <value>پوشه نصب</value>
+  </data>
+  <data name="Ui.Pages.ClassicClients" xml:space="preserve">
+    <value>کلاینت‌های کلاسیک</value>
+  </data>
+  <data name="Ui.Pages.Map" xml:space="preserve">
+    <value>نقشه</value>
+  </data>
+  <data name="Ui.Pages.PickAnInstallOnTheLeft" xml:space="preserve">
+    <value>برای دیدن جزئیات، یک نصب را از سمت چپ انتخاب کنید.</value>
+  </data>
+  <data name="Ui.Pages.Addons" xml:space="preserve">
+    <value>افزودنی‌ها</value>
+  </data>
+  <data name="Ui.Pages.FleasionOpenInExtensions" xml:space="preserve">
+    <value>Fleasion، باز کردن در افزونه‌ها</value>
+  </data>
+  <data name="Ui.Pages.RiShadeOpenInExtensions" xml:space="preserve">
+    <value>RiShade، باز کردن در افزونه‌ها</value>
+  </data>
+  <data name="Ui.Pages.RojoOpenInExtensions" xml:space="preserve">
+    <value>Rojo، باز کردن در افزونه‌ها</value>
+  </data>
+  <data name="Ui.Pages.VoidstrapStudioPluginOpenInExtensions" xml:space="preserve">
+    <value>افزونه Studio از Voidstrap، باز کردن در افزونه‌ها</value>
+  </data>
+  <data name="Ui.Pages.ChangeInstallLocation" xml:space="preserve">
+    <value>تغییر محل نصب</value>
+  </data>
+  <data name="Ui.Pages.OpenInstallFolder" xml:space="preserve">
+    <value>باز کردن پوشه نصب</value>
+  </data>
+  <data name="Ui.Pages.VerifyFiles" xml:space="preserve">
+    <value>بررسی فایل‌ها</value>
+  </data>
+  <data name="Ui.Pages.MyPresets" xml:space="preserve">
+    <value>پیش‌تنظیم‌های من</value>
+  </data>
+  <data name="Ui.Pages.ImportAPreset" xml:space="preserve">
+    <value>وارد کردن پیش‌تنظیم</value>
+  </data>
+  <data name="Ui.Pages.ExportThisPreset" xml:space="preserve">
+    <value>صادر کردن این پیش‌تنظیم</value>
+  </data>
+  <data name="Ui.Pages.ImportAReShadeIni" xml:space="preserve">
+    <value>وارد کردن ini از ReShade</value>
+  </data>
+  <data name="Ui.Pages.DeleteTheSelectedPreset" xml:space="preserve">
+    <value>حذف پیش‌تنظیم انتخاب‌شده</value>
+  </data>
+  <data name="Ui.Pages.NameThisLookToSaveIt" xml:space="preserve">
+    <value>برای ذخیره این ظاهر نامی برایش بگذارید</value>
+  </data>
+  <data name="Ui.Pages.F8OpensAndClosesThisWindow" xml:space="preserve">
+    <value>F8 این پنجره را درون بازی باز و بسته می‌کند</value>
+  </data>
+  <data name="Ui.Pages.TurnEverythingOff" xml:space="preserve">
+    <value>خاموش کردن همه</value>
+  </data>
 </root>

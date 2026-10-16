@@ -5670,4 +5670,448 @@ Roblox는 Voidstrap으로 처음 실행할 때 다운로드됩니다. 실행하�
   <data name="Ui.Misc.Bundled" xml:space="preserve">
     <value>포함됨</value>
   </data>
+  <data name="Ui.Pages.Library" xml:space="preserve">
+    <value>라이브러리</value>
+  </data>
+  <data name="Ui.Pages.Play" xml:space="preserve">
+    <value>플레이</value>
+  </data>
+  <data name="Ui.Pages.RemoveFromLibrary" xml:space="preserve">
+    <value>라이브러리에서 제거</value>
+  </data>
+  <data name="Ui.Pages.LibraryHome" xml:space="preserve">
+    <value>라이브러리 홈</value>
+  </data>
+  <data name="Ui.Pages.SearchGames" xml:space="preserve">
+    <value>게임 검색</value>
+  </data>
+  <data name="Ui.Pages.RefreshLibrary" xml:space="preserve">
+    <value>라이브러리 새로고침</value>
+  </data>
+  <data name="Ui.Pages.AddByPlaceIdOrLink" xml:space="preserve">
+    <value>PlaceId 또는 링크로 추가</value>
+  </data>
+  <data name="Ui.Pages.AddThisGameToYourLibrary" xml:space="preserve">
+    <value>이 게임을 라이브러리에 추가</value>
+  </data>
+  <data name="Ui.Pages.YourLibraryIsEmptyPlayA" xml:space="preserve">
+    <value>라이브러리가 비어 있습니다. Voidstrap으로 게임을 플레이하거나 사이드바에서 PlaceId로 추가하십시오.</value>
+  </data>
+  <data name="Ui.Pages.Events" xml:space="preserve">
+    <value>이벤트</value>
+  </data>
+  <data name="Ui.Pages.ViewEvent" xml:space="preserve">
+    <value>이벤트 보기</value>
+  </data>
+  <data name="Ui.Pages.WhatSNew" xml:space="preserve">
+    <value>새로운 소식</value>
+  </data>
+  <data name="Ui.Pages.RecentGames" xml:space="preserve">
+    <value>최근 게임</value>
+  </data>
+  <data name="Ui.Pages.RemoveThisGameFromYourLibrary" xml:space="preserve">
+    <value>이 게임을 라이브러리에서 제거</value>
+  </data>
+  <data name="Ui.Pages.LASTPLAYED" xml:space="preserve">
+    <value>마지막 플레이</value>
+  </data>
+  <data name="Ui.Pages.PLAYTIME" xml:space="preserve">
+    <value>플레이 시간</value>
+  </data>
+  <data name="Ui.Pages.PLAYINGNOW" xml:space="preserve">
+    <value>지금 플레이 중</value>
+  </data>
+  <data name="Ui.Pages.RATING" xml:space="preserve">
+    <value>평점</value>
+  </data>
+  <data name="Ui.Pages.Genre" xml:space="preserve">
+    <value>장르</value>
+  </data>
+  <data name="Ui.Pages.MaxPlayers" xml:space="preserve">
+    <value>최대 플레이어</value>
+  </data>
+  <data name="Ui.Pages.Visits" xml:space="preserve">
+    <value>방문 수</value>
+  </data>
+  <data name="Ui.Pages.Created" xml:space="preserve">
+    <value>생성일</value>
+  </data>
+  <data name="Ui.Pages.Updated" xml:space="preserve">
+    <value>업데이트일</value>
+  </data>
+  <data name="Ui.Pages.Store" xml:space="preserve">
+    <value>상점</value>
+  </data>
+  <data name="Ui.Pages.OpenThisGamepassOnRobloxCom" xml:space="preserve">
+    <value>roblox.com에서 이 게임패스 열기</value>
+  </data>
+  <data name="Ui.Pages.AddNVIDIASettings" xml:space="preserve">
+    <value>NVIDIA 설정 추가</value>
+  </data>
+  <data name="Ui.Pages.AddOneSettingOrImportSeveral" xml:space="preserve">
+    <value>설정을 하나 추가하거나 여러 개를 한 번에 가져옵니다.</value>
+  </data>
+  <data name="Ui.Pages.Single" xml:space="preserve">
+    <value>단일</value>
+  </data>
+  <data name="Ui.Pages.SettingDetails" xml:space="preserve">
+    <value>설정 세부 정보</value>
+  </data>
+  <data name="Ui.Pages.UseTheValuesShownByNVIDIA" xml:space="preserve">
+    <value>NVIDIA Profile Inspector에 표시된 값을 사용하십시오.</value>
+  </data>
+  <data name="Ui.Pages.ExampleFrameRateLimiter" xml:space="preserve">
+    <value>예: Frame rate limiter</value>
+  </data>
+  <data name="Ui.Pages.SettingID" xml:space="preserve">
+    <value>설정 ID</value>
+  </data>
+  <data name="Ui.Pages.ValueType" xml:space="preserve">
+    <value>값 유형</value>
+  </data>
+  <data name="Ui.Pages.DecimalOr0xHex" xml:space="preserve">
+    <value>10진수 또는 0x 16진수</value>
+  </data>
+  <data name="Ui.Pages.BooleanAcceptsTrueFalse1Or" xml:space="preserve">
+    <value>Boolean은 true, false, 1 또는 0을 받습니다.</value>
+  </data>
+  <data name="Ui.Pages.NIPProfile" xml:space="preserve">
+    <value>NIP 프로필</value>
+  </data>
+  <data name="Ui.Pages.ImportAProfile" xml:space="preserve">
+    <value>프로필 가져오기</value>
+  </data>
+  <data name="Ui.Pages.ChooseANIPFileOrPaste" xml:space="preserve">
+    <value>NIP 파일을 선택하거나 아래에 내용을 붙여 넣으십시오.</value>
+  </data>
+  <data name="Ui.Pages.ChooseNIPFile" xml:space="preserve">
+    <value>NIP 파일 선택</value>
+  </data>
+  <data name="Ui.Pages.PasteRows" xml:space="preserve">
+    <value>행 붙여 넣기</value>
+  </data>
+  <data name="Ui.Pages.PasteSettings" xml:space="preserve">
+    <value>설정 붙여 넣기</value>
+  </data>
+  <data name="Ui.Pages.EnterOneSettingPerLineName" xml:space="preserve">
+    <value>한 줄에 설정 하나: 이름 | ID | 값 | 유형</value>
+  </data>
+  <data name="Ui.Pages.SupportedTypesDwordBooleanAndHex" xml:space="preserve">
+    <value>지원 유형: Dword, Boolean, Hex.</value>
+  </data>
+  <data name="Ui.Pages.AddSettings" xml:space="preserve">
+    <value>설정 추가</value>
+  </data>
+  <data name="Ui.Pages.GameShortcut" xml:space="preserve">
+    <value>게임 바로 가기</value>
+  </data>
+  <data name="Ui.Pages.LaunchAGameNowOrCreate" xml:space="preserve">
+    <value>지금 게임을 실행하거나 다시 쓸 수 있는 바탕 화면 바로 가기를 만듭니다</value>
+  </data>
+  <data name="Ui.Pages.Destination" xml:space="preserve">
+    <value>대상</value>
+  </data>
+  <data name="Ui.Pages.UseThePlaceIDFromThe" xml:space="preserve">
+    <value>Roblox 게임 URL의 place ID를 사용하십시오.</value>
+  </data>
+  <data name="Ui.Pages.Example1818" xml:space="preserve">
+    <value>예: 1818</value>
+  </data>
+  <data name="Ui.Pages.UseAPrivateServerShareLink" xml:space="preserve">
+    <value>비공개 서버 공유 링크 또는 액세스 코드 사용</value>
+  </data>
+  <data name="Ui.Pages.ShareLinkOrAccessCode" xml:space="preserve">
+    <value>공유 링크 또는 액세스 코드</value>
+  </data>
+  <data name="Ui.Pages.PasteTheCompletePrivateServerLink" xml:space="preserve">
+    <value>비공개 서버 링크 전체를 붙여 넣으십시오</value>
+  </data>
+  <data name="Ui.Pages.ServerInstanceID" xml:space="preserve">
+    <value>서버 인스턴스 ID</value>
+  </data>
+  <data name="Ui.Pages.OptionalPublicServerInstance" xml:space="preserve">
+    <value>선택 사항: 공개 서버 인스턴스</value>
+  </data>
+  <data name="Ui.Pages.LaunchGame" xml:space="preserve">
+    <value>게임 실행</value>
+  </data>
+  <data name="Ui.Pages.CreateDesktopShortcut" xml:space="preserve">
+    <value>바탕 화면 바로 가기 만들기</value>
+  </data>
+  <data name="Ui.Pages.AdvancedEditor" xml:space="preserve">
+    <value>고급 편집기</value>
+  </data>
+  <data name="Ui.Pages.OpenTheRawNVIDIAProfileInspector" xml:space="preserve">
+    <value>NVIDIA Profile Inspector 원본 편집기를 엽니다. 고급 사용자에게만 권장합니다.</value>
+  </data>
+  <data name="Ui.Pages.ApplyChanges" xml:space="preserve">
+    <value>변경 사항 적용</value>
+  </data>
+  <data name="Ui.Pages.GameDetails" xml:space="preserve">
+    <value>게임 세부 정보</value>
+  </data>
+  <data name="Ui.Pages.ImageQualityFramePacingAndPerformance" xml:space="preserve">
+    <value>화질, 프레임 페이싱 및 성능 관련 옵션입니다.</value>
+  </data>
+  <data name="Ui.Pages.TextureQualityLODBias" xml:space="preserve">
+    <value>텍스처 품질 (LOD Bias)</value>
+  </data>
+  <data name="Ui.Pages.LowerValuesProduceSharperTexturesHigher" xml:space="preserve">
+    <value>값이 낮을수록 텍스처가 선명해집니다. 값이 높을수록 디테일을 희생하고 성능이 향상됩니다.</value>
+  </data>
+  <data name="Ui.Pages.ImprovesAntiAliasingQualityByCombining" xml:space="preserve">
+    <value>여러 프레임의 MSAA 샘플을 결합해 성능 영향은 최소화하면서 안티 앨리어싱 품질을 높입니다.</value>
+  </data>
+  <data name="Ui.Pages.GammaCorrection" xml:space="preserve">
+    <value>감마 보정</value>
+  </data>
+  <data name="Ui.Pages.AdjustsHowBrightnessValuesAreMapped" xml:space="preserve">
+    <value>밝기 값의 매핑을 조정해 대비, 그림자 디테일, 중간 톤에 영향을 줍니다.</value>
+  </data>
+  <data name="Ui.Pages.BenchmarkOverlay" xml:space="preserve">
+    <value>벤치마크 오버레이</value>
+  </data>
+  <data name="Ui.Pages.FrameRateLimiter" xml:space="preserve">
+    <value>프레임 속도 제한기</value>
+  </data>
+  <data name="Ui.Pages.BackgroundApplicationFrameRateLimit" xml:space="preserve">
+    <value>백그라운드 앱 프레임 속도 제한</value>
+  </data>
+  <data name="Ui.Pages.LimitsTheMaximumFrameRateWhen" xml:space="preserve">
+    <value>앱이 백그라운드에서 실행될 때 최대 프레임 속도를 제한해 GPU와 CPU 사용량을 줄입니다.</value>
+  </data>
+  <data name="Ui.Pages.LowLatencyModes" xml:space="preserve">
+    <value>저지연 모드</value>
+  </data>
+  <data name="Ui.Pages.ControlsHowManyFramesAreQueued" xml:space="preserve">
+    <value>입력 지연을 줄이기 위해 대기열에 넣는 프레임 수를 제어합니다.</value>
+  </data>
+  <data name="Ui.Pages.CPLLowLatencyMode" xml:space="preserve">
+    <value>CPL 저지연 모드</value>
+  </data>
+  <data name="Ui.Pages.FRLLowLatencyMode" xml:space="preserve">
+    <value>FRL 저지연 모드</value>
+  </data>
+  <data name="Ui.Pages.DriverLevelLowLatencyControlUsing" xml:space="preserve">
+    <value>프레임 속도 제한기 로직을 사용한 드라이버 수준의 저지연 제어입니다.</value>
+  </data>
+  <data name="Ui.Pages.HardwareAndDriverOverrides" xml:space="preserve">
+    <value>하드웨어 및 드라이버 재정의</value>
+  </data>
+  <data name="Ui.Pages.OverridesThatAffectGPUBehaviorAnd" xml:space="preserve">
+    <value>GPU 동작과 드라이버 기능에 영향을 주는 재정의입니다.</value>
+  </data>
+  <data name="Ui.Pages.ResizableBAR" xml:space="preserve">
+    <value>Resizable BAR</value>
+  </data>
+  <data name="Ui.Pages.AllowsTheCPUToAccessThe" xml:space="preserve">
+    <value>지원되는 시스템에서 CPU가 GPU 메모리 전체에 접근할 수 있게 합니다.</value>
+  </data>
+  <data name="Ui.Pages.SILKSmoothness" xml:space="preserve">
+    <value>SILK 부드러움</value>
+  </data>
+  <data name="Ui.Pages.ControlsNVIDIASILKFrameSmoothingIntensity" xml:space="preserve">
+    <value>NVIDIA SILK 프레임 평활화 강도를 제어합니다.</value>
+  </data>
+  <data name="Ui.Pages.BrowseAndManageExtensionsForVoidstrap" xml:space="preserve">
+    <value>Voidstrap과 커뮤니티의 확장 프로그램을 둘러보고 관리합니다.</value>
+  </data>
+  <data name="Ui.Pages.SearchExtensions" xml:space="preserve">
+    <value>확장 프로그램 검색</value>
+  </data>
+  <data name="Ui.Pages.VoidstrapAssets" xml:space="preserve">
+    <value>Voidstrap 에셋</value>
+  </data>
+  <data name="Ui.Pages.BackToExtensions" xml:space="preserve">
+    <value>확장 프로그램으로 돌아가기</value>
+  </data>
+  <data name="Ui.Pages.OpenTheSourcePage" xml:space="preserve">
+    <value>소스 페이지 열기</value>
+  </data>
+  <data name="Ui.Pages.Description" xml:space="preserve">
+    <value>설명</value>
+  </data>
+  <data name="Ui.Pages.ProjectTools" xml:space="preserve">
+    <value>프로젝트 도구</value>
+  </data>
+  <data name="Ui.Pages.ProjectFolder" xml:space="preserve">
+    <value>프로젝트 폴더</value>
+  </data>
+  <data name="Ui.Pages.NewProject" xml:space="preserve">
+    <value>새 프로젝트</value>
+  </data>
+  <data name="Ui.Pages.BuildPlace" xml:space="preserve">
+    <value>place 빌드</value>
+  </data>
+  <data name="Ui.Pages.InstallStudioPlugin" xml:space="preserve">
+    <value>Studio 플러그인 설치</value>
+  </data>
+  <data name="Ui.Pages.Versions" xml:space="preserve">
+    <value>버전</value>
+  </data>
+  <data name="Ui.Pages.OpenOnGitHub" xml:space="preserve">
+    <value>GitHub에서 열기</value>
+  </data>
+  <data name="Ui.Pages.WorksWith" xml:space="preserve">
+    <value>호환 대상</value>
+  </data>
+  <data name="Ui.Pages.Tags" xml:space="preserve">
+    <value>태그</value>
+  </data>
+  <data name="Ui.Pages.Creators" xml:space="preserve">
+    <value>제작자</value>
+  </data>
+  <data name="Ui.Pages.NVIDIAFFlagEditor" xml:space="preserve">
+    <value>NVIDIA FFlag 편집기</value>
+  </data>
+  <data name="Ui.Pages.ManageNVIDIASettingsSavedInYour" xml:space="preserve">
+    <value>NIP 프로필에 저장된 NVIDIA 설정을 관리합니다.</value>
+  </data>
+  <data name="Ui.Pages.AddNew" xml:space="preserve">
+    <value>새로 추가</value>
+  </data>
+  <data name="Ui.Pages.DeleteSelected" xml:space="preserve">
+    <value>선택 항목 삭제</value>
+  </data>
+  <data name="Ui.Pages.DeleteAll" xml:space="preserve">
+    <value>모두 삭제</value>
+  </data>
+  <data name="Ui.Pages.ResetNIP" xml:space="preserve">
+    <value>NIP 재설정</value>
+  </data>
+  <data name="Ui.Pages.SearchFlags" xml:space="preserve">
+    <value>플래그 검색</value>
+  </data>
+  <data name="Ui.Pages.LookingFor" xml:space="preserve">
+    <value>찾는 중</value>
+  </data>
+  <data name="Ui.Pages.AddAnNVIDIASettingToGet" xml:space="preserve">
+    <value>시작하려면 NVIDIA 설정을 추가하십시오.</value>
+  </data>
+  <data name="Ui.Pages.ExportNIP" xml:space="preserve">
+    <value>.NIP 내보내기</value>
+  </data>
+  <data name="Ui.Pages.CopyFlags" xml:space="preserve">
+    <value>플래그 복사</value>
+  </data>
+  <data name="Ui.Pages.NVIDIAFlagHistory" xml:space="preserve">
+    <value>NVIDIA 플래그 기록</value>
+  </data>
+  <data name="Ui.Pages.TracksChangesMadeToNVIDIAFlags" xml:space="preserve">
+    <value>이 세션에서 NVIDIA 플래그 변경 사항을 추적합니다.</value>
+  </data>
+  <data name="Ui.Pages.UndoSelected" xml:space="preserve">
+    <value>선택 항목 실행 취소</value>
+  </data>
+  <data name="Ui.Pages.ClearHistory" xml:space="preserve">
+    <value>기록 지우기</value>
+  </data>
+  <data name="Ui.Pages.NoChangesRecorded" xml:space="preserve">
+    <value>기록된 변경 사항 없음</value>
+  </data>
+  <data name="Ui.Pages.DoubleClickToRevertThisChange" xml:space="preserve">
+    <value>두 번 클릭하여 이 변경 사항을 되돌리기</value>
+  </data>
+  <data name="Ui.Pages.ManageYourFastFlagsACheckmarkIn" xml:space="preserve">
+    <value>FastFlags를 관리합니다. Preset의 체크 표시는 플래그가 FFlag 설정에 있다는 뜻이고, X 표시는 없다는 뜻입니다.</value>
+  </data>
+  <data name="Ui.Pages.Preset" xml:space="preserve">
+    <value>Preset</value>
+  </data>
+  <data name="Ui.Pages.GoToFFlagSettingsToAdd" xml:space="preserve">
+    <value>Preset FFlags를 추가하려면 FFlag 설정으로 이동하십시오.</value>
+  </data>
+  <data name="Ui.Pages.Find" xml:space="preserve">
+    <value>찾기</value>
+  </data>
+  <data name="Ui.Pages.FFlagHistory" xml:space="preserve">
+    <value>FFlag 기록</value>
+  </data>
+  <data name="Ui.Pages.TracksEveryChangeYouMakeTo" xml:space="preserve">
+    <value>이 세션에서 플래그에 대한 모든 변경을 추적합니다. 항목을 선택하고 선택 항목 실행 취소를 누르거나 두 번 클릭하면 변경 사항이 되돌아갑니다.</value>
+  </data>
+  <data name="Ui.Pages.History" xml:space="preserve">
+    <value>기록</value>
+  </data>
+  <data name="Ui.Pages.ContinueWhereYouLeftOff" xml:space="preserve">
+    <value>중단한 곳에서 계속하기</value>
+  </data>
+  <data name="Ui.Pages.ClearAll" xml:space="preserve">
+    <value>모두 지우기</value>
+  </data>
+  <data name="Ui.Pages.SearchByGameNameCreatorOr" xml:space="preserve">
+    <value>게임 이름, 제작자 또는 place ID로 검색...</value>
+  </data>
+  <data name="Ui.Pages.Downloads" xml:space="preserve">
+    <value>다운로드</value>
+  </data>
+  <data name="Ui.Pages.Installed" xml:space="preserve">
+    <value>설치됨</value>
+  </data>
+  <data name="Ui.Pages.Update" xml:space="preserve">
+    <value>업데이트</value>
+  </data>
+  <data name="Ui.Pages.SearchYourInstalls" xml:space="preserve">
+    <value>설치 항목 검색</value>
+  </data>
+  <data name="Ui.Pages.InstallFolder" xml:space="preserve">
+    <value>설치 폴더</value>
+  </data>
+  <data name="Ui.Pages.ClassicClients" xml:space="preserve">
+    <value>클래식 클라이언트</value>
+  </data>
+  <data name="Ui.Pages.Map" xml:space="preserve">
+    <value>지도</value>
+  </data>
+  <data name="Ui.Pages.PickAnInstallOnTheLeft" xml:space="preserve">
+    <value>왼쪽에서 설치 항목을 선택하면 세부 정보가 표시됩니다.</value>
+  </data>
+  <data name="Ui.Pages.Addons" xml:space="preserve">
+    <value>애드온</value>
+  </data>
+  <data name="Ui.Pages.FleasionOpenInExtensions" xml:space="preserve">
+    <value>Fleasion, 확장 프로그램에서 열기</value>
+  </data>
+  <data name="Ui.Pages.RiShadeOpenInExtensions" xml:space="preserve">
+    <value>RiShade, 확장 프로그램에서 열기</value>
+  </data>
+  <data name="Ui.Pages.RojoOpenInExtensions" xml:space="preserve">
+    <value>Rojo, 확장 프로그램에서 열기</value>
+  </data>
+  <data name="Ui.Pages.VoidstrapStudioPluginOpenInExtensions" xml:space="preserve">
+    <value>Voidstrap Studio 플러그인, 확장 프로그램에서 열기</value>
+  </data>
+  <data name="Ui.Pages.ChangeInstallLocation" xml:space="preserve">
+    <value>설치 위치 변경</value>
+  </data>
+  <data name="Ui.Pages.OpenInstallFolder" xml:space="preserve">
+    <value>설치 폴더 열기</value>
+  </data>
+  <data name="Ui.Pages.VerifyFiles" xml:space="preserve">
+    <value>파일 확인</value>
+  </data>
+  <data name="Ui.Pages.MyPresets" xml:space="preserve">
+    <value>내 프리셋</value>
+  </data>
+  <data name="Ui.Pages.ImportAPreset" xml:space="preserve">
+    <value>프리셋 가져오기</value>
+  </data>
+  <data name="Ui.Pages.ExportThisPreset" xml:space="preserve">
+    <value>이 프리셋 내보내기</value>
+  </data>
+  <data name="Ui.Pages.ImportAReShadeIni" xml:space="preserve">
+    <value>ReShade ini 가져오기</value>
+  </data>
+  <data name="Ui.Pages.DeleteTheSelectedPreset" xml:space="preserve">
+    <value>선택한 프리셋 삭제</value>
+  </data>
+  <data name="Ui.Pages.NameThisLookToSaveIt" xml:space="preserve">
+    <value>이 모습에 이름을 지정해 저장하십시오</value>
+  </data>
+  <data name="Ui.Pages.F8OpensAndClosesThisWindow" xml:space="preserve">
+    <value>F8로 게임 중 이 창을 열고 닫습니다</value>
+  </data>
+  <data name="Ui.Pages.TurnEverythingOff" xml:space="preserve">
+    <value>모두 끄기</value>
+  </data>
 </root>

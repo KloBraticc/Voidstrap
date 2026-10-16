@@ -5433,4 +5433,448 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Misc.Bundled" xml:space="preserve">
     <value>Kasama</value>
   </data>
+  <data name="Ui.Pages.Library" xml:space="preserve">
+    <value>Library</value>
+  </data>
+  <data name="Ui.Pages.Play" xml:space="preserve">
+    <value>Maglaro</value>
+  </data>
+  <data name="Ui.Pages.RemoveFromLibrary" xml:space="preserve">
+    <value>Alisin sa library</value>
+  </data>
+  <data name="Ui.Pages.LibraryHome" xml:space="preserve">
+    <value>Home ng library</value>
+  </data>
+  <data name="Ui.Pages.SearchGames" xml:space="preserve">
+    <value>Maghanap ng laro</value>
+  </data>
+  <data name="Ui.Pages.RefreshLibrary" xml:space="preserve">
+    <value>I refresh ang library</value>
+  </data>
+  <data name="Ui.Pages.AddByPlaceIdOrLink" xml:space="preserve">
+    <value>Magdagdag gamit ang PlaceId o link</value>
+  </data>
+  <data name="Ui.Pages.AddThisGameToYourLibrary" xml:space="preserve">
+    <value>Idagdag ang larong ito sa library mo</value>
+  </data>
+  <data name="Ui.Pages.YourLibraryIsEmptyPlayA" xml:space="preserve">
+    <value>Walang laman ang library mo. Maglaro gamit ang Voidstrap o magdagdag gamit ang PlaceId mula sa sidebar.</value>
+  </data>
+  <data name="Ui.Pages.Events" xml:space="preserve">
+    <value>Mga event</value>
+  </data>
+  <data name="Ui.Pages.ViewEvent" xml:space="preserve">
+    <value>Tingnan ang event</value>
+  </data>
+  <data name="Ui.Pages.WhatSNew" xml:space="preserve">
+    <value>Ano ang bago</value>
+  </data>
+  <data name="Ui.Pages.RecentGames" xml:space="preserve">
+    <value>Mga kamakailang laro</value>
+  </data>
+  <data name="Ui.Pages.RemoveThisGameFromYourLibrary" xml:space="preserve">
+    <value>Alisin ang larong ito sa library mo</value>
+  </data>
+  <data name="Ui.Pages.LASTPLAYED" xml:space="preserve">
+    <value>HULING NILARO</value>
+  </data>
+  <data name="Ui.Pages.PLAYTIME" xml:space="preserve">
+    <value>ORAS NG PAGLALARO</value>
+  </data>
+  <data name="Ui.Pages.PLAYINGNOW" xml:space="preserve">
+    <value>NAGLALARO NGAYON</value>
+  </data>
+  <data name="Ui.Pages.RATING" xml:space="preserve">
+    <value>RATING</value>
+  </data>
+  <data name="Ui.Pages.Genre" xml:space="preserve">
+    <value>Genre</value>
+  </data>
+  <data name="Ui.Pages.MaxPlayers" xml:space="preserve">
+    <value>Max na player</value>
+  </data>
+  <data name="Ui.Pages.Visits" xml:space="preserve">
+    <value>Mga bisita</value>
+  </data>
+  <data name="Ui.Pages.Created" xml:space="preserve">
+    <value>Ginawa</value>
+  </data>
+  <data name="Ui.Pages.Updated" xml:space="preserve">
+    <value>Na update</value>
+  </data>
+  <data name="Ui.Pages.Store" xml:space="preserve">
+    <value>Store</value>
+  </data>
+  <data name="Ui.Pages.OpenThisGamepassOnRobloxCom" xml:space="preserve">
+    <value>Buksan ang gamepass na ito sa roblox.com</value>
+  </data>
+  <data name="Ui.Pages.AddNVIDIASettings" xml:space="preserve">
+    <value>Magdagdag ng NVIDIA setting</value>
+  </data>
+  <data name="Ui.Pages.AddOneSettingOrImportSeveral" xml:space="preserve">
+    <value>Magdagdag ng isang setting o mag import ng marami nang sabay.</value>
+  </data>
+  <data name="Ui.Pages.Single" xml:space="preserve">
+    <value>Isa</value>
+  </data>
+  <data name="Ui.Pages.SettingDetails" xml:space="preserve">
+    <value>Detalye ng setting</value>
+  </data>
+  <data name="Ui.Pages.UseTheValuesShownByNVIDIA" xml:space="preserve">
+    <value>Gamitin ang mga value na ipinapakita ng NVIDIA Profile Inspector.</value>
+  </data>
+  <data name="Ui.Pages.ExampleFrameRateLimiter" xml:space="preserve">
+    <value>Halimbawa: Frame rate limiter</value>
+  </data>
+  <data name="Ui.Pages.SettingID" xml:space="preserve">
+    <value>ID ng setting</value>
+  </data>
+  <data name="Ui.Pages.ValueType" xml:space="preserve">
+    <value>Uri ng value</value>
+  </data>
+  <data name="Ui.Pages.DecimalOr0xHex" xml:space="preserve">
+    <value>Decimal o 0x hex</value>
+  </data>
+  <data name="Ui.Pages.BooleanAcceptsTrueFalse1Or" xml:space="preserve">
+    <value>Tumatanggap ang Boolean ng true, false, 1, o 0.</value>
+  </data>
+  <data name="Ui.Pages.NIPProfile" xml:space="preserve">
+    <value>NIP profile</value>
+  </data>
+  <data name="Ui.Pages.ImportAProfile" xml:space="preserve">
+    <value>Mag import ng profile</value>
+  </data>
+  <data name="Ui.Pages.ChooseANIPFileOrPaste" xml:space="preserve">
+    <value>Pumili ng NIP file o i paste ang laman nito sa ibaba.</value>
+  </data>
+  <data name="Ui.Pages.ChooseNIPFile" xml:space="preserve">
+    <value>Pumili ng NIP file</value>
+  </data>
+  <data name="Ui.Pages.PasteRows" xml:space="preserve">
+    <value>I paste ang mga row</value>
+  </data>
+  <data name="Ui.Pages.PasteSettings" xml:space="preserve">
+    <value>I paste ang mga setting</value>
+  </data>
+  <data name="Ui.Pages.EnterOneSettingPerLineName" xml:space="preserve">
+    <value>Isang setting bawat linya: Pangalan | ID | Value | Uri</value>
+  </data>
+  <data name="Ui.Pages.SupportedTypesDwordBooleanAndHex" xml:space="preserve">
+    <value>Mga suportadong uri: Dword, Boolean, at Hex.</value>
+  </data>
+  <data name="Ui.Pages.AddSettings" xml:space="preserve">
+    <value>Idagdag ang mga setting</value>
+  </data>
+  <data name="Ui.Pages.GameShortcut" xml:space="preserve">
+    <value>Shortcut ng laro</value>
+  </data>
+  <data name="Ui.Pages.LaunchAGameNowOrCreate" xml:space="preserve">
+    <value>Maglunsad ng laro ngayon o gumawa ng magagamit muli na desktop shortcut</value>
+  </data>
+  <data name="Ui.Pages.Destination" xml:space="preserve">
+    <value>Destinasyon</value>
+  </data>
+  <data name="Ui.Pages.UseThePlaceIDFromThe" xml:space="preserve">
+    <value>Gamitin ang place ID mula sa URL ng laro sa Roblox.</value>
+  </data>
+  <data name="Ui.Pages.Example1818" xml:space="preserve">
+    <value>Halimbawa: 1818</value>
+  </data>
+  <data name="Ui.Pages.UseAPrivateServerShareLink" xml:space="preserve">
+    <value>Gumamit ng share link o access code ng private server</value>
+  </data>
+  <data name="Ui.Pages.ShareLinkOrAccessCode" xml:space="preserve">
+    <value>Share link o access code</value>
+  </data>
+  <data name="Ui.Pages.PasteTheCompletePrivateServerLink" xml:space="preserve">
+    <value>I paste ang kumpletong link ng private server</value>
+  </data>
+  <data name="Ui.Pages.ServerInstanceID" xml:space="preserve">
+    <value>Server instance ID</value>
+  </data>
+  <data name="Ui.Pages.OptionalPublicServerInstance" xml:space="preserve">
+    <value>Opsyonal na public server instance</value>
+  </data>
+  <data name="Ui.Pages.LaunchGame" xml:space="preserve">
+    <value>Ilunsad ang laro</value>
+  </data>
+  <data name="Ui.Pages.CreateDesktopShortcut" xml:space="preserve">
+    <value>Gumawa ng desktop shortcut</value>
+  </data>
+  <data name="Ui.Pages.AdvancedEditor" xml:space="preserve">
+    <value>Advanced editor</value>
+  </data>
+  <data name="Ui.Pages.OpenTheRawNVIDIAProfileInspector" xml:space="preserve">
+    <value>Binubuksan ang raw na NVIDIA Profile Inspector editor. Para lang sa mga advanced na user.</value>
+  </data>
+  <data name="Ui.Pages.ApplyChanges" xml:space="preserve">
+    <value>Ilapat ang mga pagbabago</value>
+  </data>
+  <data name="Ui.Pages.GameDetails" xml:space="preserve">
+    <value>Detalye ng laro</value>
+  </data>
+  <data name="Ui.Pages.ImageQualityFramePacingAndPerformance" xml:space="preserve">
+    <value>Kalidad ng larawan, frame pacing, at mga opsyong may kinalaman sa performance.</value>
+  </data>
+  <data name="Ui.Pages.TextureQualityLODBias" xml:space="preserve">
+    <value>Kalidad ng texture (LOD Bias)</value>
+  </data>
+  <data name="Ui.Pages.LowerValuesProduceSharperTexturesHigher" xml:space="preserve">
+    <value>Mas matalas ang texture sa mas mababang value. Pinapabuti ng mas mataas na value ang performance kapalit ng detalye.</value>
+  </data>
+  <data name="Ui.Pages.ImprovesAntiAliasingQualityByCombining" xml:space="preserve">
+    <value>Pinapabuti ang anti aliasing sa pagsasama ng mga MSAA sample sa iba't ibang frame na halos walang epekto sa performance.</value>
+  </data>
+  <data name="Ui.Pages.GammaCorrection" xml:space="preserve">
+    <value>Gamma correction</value>
+  </data>
+  <data name="Ui.Pages.AdjustsHowBrightnessValuesAreMapped" xml:space="preserve">
+    <value>Inaayos kung paano mina map ang liwanag, na nakakaapekto sa contrast, detalye ng anino, at mid tone.</value>
+  </data>
+  <data name="Ui.Pages.BenchmarkOverlay" xml:space="preserve">
+    <value>Benchmark overlay</value>
+  </data>
+  <data name="Ui.Pages.FrameRateLimiter" xml:space="preserve">
+    <value>Frame rate limiter</value>
+  </data>
+  <data name="Ui.Pages.BackgroundApplicationFrameRateLimit" xml:space="preserve">
+    <value>Frame rate limit ng background app</value>
+  </data>
+  <data name="Ui.Pages.LimitsTheMaximumFrameRateWhen" xml:space="preserve">
+    <value>Nililimitahan ang maximum na frame rate kapag tumatakbo ang app sa background para bawasan ang paggamit ng GPU at CPU.</value>
+  </data>
+  <data name="Ui.Pages.LowLatencyModes" xml:space="preserve">
+    <value>Mga low latency mode</value>
+  </data>
+  <data name="Ui.Pages.ControlsHowManyFramesAreQueued" xml:space="preserve">
+    <value>Kinokontrol kung ilang frame ang nakapila para bawasan ang input latency.</value>
+  </data>
+  <data name="Ui.Pages.CPLLowLatencyMode" xml:space="preserve">
+    <value>CPL low latency mode</value>
+  </data>
+  <data name="Ui.Pages.FRLLowLatencyMode" xml:space="preserve">
+    <value>FRL low latency mode</value>
+  </data>
+  <data name="Ui.Pages.DriverLevelLowLatencyControlUsing" xml:space="preserve">
+    <value>Low latency control sa antas ng driver gamit ang logic ng frame rate limiter.</value>
+  </data>
+  <data name="Ui.Pages.HardwareAndDriverOverrides" xml:space="preserve">
+    <value>Mga override ng hardware at driver</value>
+  </data>
+  <data name="Ui.Pages.OverridesThatAffectGPUBehaviorAnd" xml:space="preserve">
+    <value>Mga override na nakakaapekto sa kilos ng GPU at mga feature ng driver.</value>
+  </data>
+  <data name="Ui.Pages.ResizableBAR" xml:space="preserve">
+    <value>Resizable BAR</value>
+  </data>
+  <data name="Ui.Pages.AllowsTheCPUToAccessThe" xml:space="preserve">
+    <value>Pinapayagan ang CPU na ma access ang buong memory ng GPU sa mga suportadong system.</value>
+  </data>
+  <data name="Ui.Pages.SILKSmoothness" xml:space="preserve">
+    <value>SILK smoothness</value>
+  </data>
+  <data name="Ui.Pages.ControlsNVIDIASILKFrameSmoothingIntensity" xml:space="preserve">
+    <value>Kinokontrol ang lakas ng NVIDIA SILK frame smoothing.</value>
+  </data>
+  <data name="Ui.Pages.BrowseAndManageExtensionsForVoidstrap" xml:space="preserve">
+    <value>Mag browse at mamahala ng mga extension para sa Voidstrap at sa komunidad nito.</value>
+  </data>
+  <data name="Ui.Pages.SearchExtensions" xml:space="preserve">
+    <value>Maghanap ng extension</value>
+  </data>
+  <data name="Ui.Pages.VoidstrapAssets" xml:space="preserve">
+    <value>Voidstrap Assets</value>
+  </data>
+  <data name="Ui.Pages.BackToExtensions" xml:space="preserve">
+    <value>Bumalik sa mga extension</value>
+  </data>
+  <data name="Ui.Pages.OpenTheSourcePage" xml:space="preserve">
+    <value>Buksan ang source page</value>
+  </data>
+  <data name="Ui.Pages.Description" xml:space="preserve">
+    <value>Paglalarawan</value>
+  </data>
+  <data name="Ui.Pages.ProjectTools" xml:space="preserve">
+    <value>Mga tool ng proyekto</value>
+  </data>
+  <data name="Ui.Pages.ProjectFolder" xml:space="preserve">
+    <value>Folder ng proyekto</value>
+  </data>
+  <data name="Ui.Pages.NewProject" xml:space="preserve">
+    <value>Bagong proyekto</value>
+  </data>
+  <data name="Ui.Pages.BuildPlace" xml:space="preserve">
+    <value>I build ang place</value>
+  </data>
+  <data name="Ui.Pages.InstallStudioPlugin" xml:space="preserve">
+    <value>I install ang Studio plugin</value>
+  </data>
+  <data name="Ui.Pages.Versions" xml:space="preserve">
+    <value>Mga bersyon</value>
+  </data>
+  <data name="Ui.Pages.OpenOnGitHub" xml:space="preserve">
+    <value>Buksan sa GitHub</value>
+  </data>
+  <data name="Ui.Pages.WorksWith" xml:space="preserve">
+    <value>Gumagana sa</value>
+  </data>
+  <data name="Ui.Pages.Tags" xml:space="preserve">
+    <value>Mga tag</value>
+  </data>
+  <data name="Ui.Pages.Creators" xml:space="preserve">
+    <value>Mga gumawa</value>
+  </data>
+  <data name="Ui.Pages.NVIDIAFFlagEditor" xml:space="preserve">
+    <value>NVIDIA FFlag Editor</value>
+  </data>
+  <data name="Ui.Pages.ManageNVIDIASettingsSavedInYour" xml:space="preserve">
+    <value>Pamahalaan ang mga NVIDIA setting na naka save sa NIP profile mo.</value>
+  </data>
+  <data name="Ui.Pages.AddNew" xml:space="preserve">
+    <value>Magdagdag</value>
+  </data>
+  <data name="Ui.Pages.DeleteSelected" xml:space="preserve">
+    <value>Burahin ang napili</value>
+  </data>
+  <data name="Ui.Pages.DeleteAll" xml:space="preserve">
+    <value>Burahin lahat</value>
+  </data>
+  <data name="Ui.Pages.ResetNIP" xml:space="preserve">
+    <value>I reset ang NIP</value>
+  </data>
+  <data name="Ui.Pages.SearchFlags" xml:space="preserve">
+    <value>Maghanap ng flag</value>
+  </data>
+  <data name="Ui.Pages.LookingFor" xml:space="preserve">
+    <value>Hinahanap</value>
+  </data>
+  <data name="Ui.Pages.AddAnNVIDIASettingToGet" xml:space="preserve">
+    <value>Magdagdag ng NVIDIA setting para magsimula.</value>
+  </data>
+  <data name="Ui.Pages.ExportNIP" xml:space="preserve">
+    <value>I export ang .NIP</value>
+  </data>
+  <data name="Ui.Pages.CopyFlags" xml:space="preserve">
+    <value>Kopyahin ang mga flag</value>
+  </data>
+  <data name="Ui.Pages.NVIDIAFlagHistory" xml:space="preserve">
+    <value>History ng NVIDIA flag</value>
+  </data>
+  <data name="Ui.Pages.TracksChangesMadeToNVIDIAFlags" xml:space="preserve">
+    <value>Sinusubaybayan ang mga pagbabago sa NVIDIA flag ngayong session.</value>
+  </data>
+  <data name="Ui.Pages.UndoSelected" xml:space="preserve">
+    <value>I undo ang napili</value>
+  </data>
+  <data name="Ui.Pages.ClearHistory" xml:space="preserve">
+    <value>I clear ang history</value>
+  </data>
+  <data name="Ui.Pages.NoChangesRecorded" xml:space="preserve">
+    <value>Walang naitalang pagbabago</value>
+  </data>
+  <data name="Ui.Pages.DoubleClickToRevertThisChange" xml:space="preserve">
+    <value>I double click para ibalik ang pagbabagong ito</value>
+  </data>
+  <data name="Ui.Pages.ManageYourFastFlagsACheckmarkIn" xml:space="preserve">
+    <value>Pamahalaan ang FastFlags mo. Ang check sa Preset ay nangangahulugang available ang flag sa FFlag Settings, at ang ekis ay hindi.</value>
+  </data>
+  <data name="Ui.Pages.Preset" xml:space="preserve">
+    <value>Preset</value>
+  </data>
+  <data name="Ui.Pages.GoToFFlagSettingsToAdd" xml:space="preserve">
+    <value>Pumunta sa FFlag Settings para magdagdag ng Preset FFlags.</value>
+  </data>
+  <data name="Ui.Pages.Find" xml:space="preserve">
+    <value>Hanapin</value>
+  </data>
+  <data name="Ui.Pages.FFlagHistory" xml:space="preserve">
+    <value>History ng FFlag</value>
+  </data>
+  <data name="Ui.Pages.TracksEveryChangeYouMakeTo" xml:space="preserve">
+    <value>Sinusubaybayan ang bawat pagbabago sa mga flag mo ngayong session. Pumili ng entry at pindutin ang I undo ang napili, o i double click ito, para ibalik ang pagbabago.</value>
+  </data>
+  <data name="Ui.Pages.History" xml:space="preserve">
+    <value>History</value>
+  </data>
+  <data name="Ui.Pages.ContinueWhereYouLeftOff" xml:space="preserve">
+    <value>Ituloy kung saan ka huminto</value>
+  </data>
+  <data name="Ui.Pages.ClearAll" xml:space="preserve">
+    <value>I clear lahat</value>
+  </data>
+  <data name="Ui.Pages.SearchByGameNameCreatorOr" xml:space="preserve">
+    <value>Maghanap ayon sa pangalan ng laro, gumawa, o place ID...</value>
+  </data>
+  <data name="Ui.Pages.Downloads" xml:space="preserve">
+    <value>Mga download</value>
+  </data>
+  <data name="Ui.Pages.Installed" xml:space="preserve">
+    <value>Naka install</value>
+  </data>
+  <data name="Ui.Pages.Update" xml:space="preserve">
+    <value>I update</value>
+  </data>
+  <data name="Ui.Pages.SearchYourInstalls" xml:space="preserve">
+    <value>Hanapin sa mga install mo</value>
+  </data>
+  <data name="Ui.Pages.InstallFolder" xml:space="preserve">
+    <value>Install folder</value>
+  </data>
+  <data name="Ui.Pages.ClassicClients" xml:space="preserve">
+    <value>Mga classic client</value>
+  </data>
+  <data name="Ui.Pages.Map" xml:space="preserve">
+    <value>Mapa</value>
+  </data>
+  <data name="Ui.Pages.PickAnInstallOnTheLeft" xml:space="preserve">
+    <value>Pumili ng install sa kaliwa para makita ang detalye nito.</value>
+  </data>
+  <data name="Ui.Pages.Addons" xml:space="preserve">
+    <value>Mga addon</value>
+  </data>
+  <data name="Ui.Pages.FleasionOpenInExtensions" xml:space="preserve">
+    <value>Fleasion, buksan sa Extensions</value>
+  </data>
+  <data name="Ui.Pages.RiShadeOpenInExtensions" xml:space="preserve">
+    <value>RiShade, buksan sa Extensions</value>
+  </data>
+  <data name="Ui.Pages.RojoOpenInExtensions" xml:space="preserve">
+    <value>Rojo, buksan sa Extensions</value>
+  </data>
+  <data name="Ui.Pages.VoidstrapStudioPluginOpenInExtensions" xml:space="preserve">
+    <value>Voidstrap Studio plugin, buksan sa Extensions</value>
+  </data>
+  <data name="Ui.Pages.ChangeInstallLocation" xml:space="preserve">
+    <value>Palitan ang lokasyon ng install</value>
+  </data>
+  <data name="Ui.Pages.OpenInstallFolder" xml:space="preserve">
+    <value>Buksan ang install folder</value>
+  </data>
+  <data name="Ui.Pages.VerifyFiles" xml:space="preserve">
+    <value>I verify ang mga file</value>
+  </data>
+  <data name="Ui.Pages.MyPresets" xml:space="preserve">
+    <value>Mga preset ko</value>
+  </data>
+  <data name="Ui.Pages.ImportAPreset" xml:space="preserve">
+    <value>Mag import ng preset</value>
+  </data>
+  <data name="Ui.Pages.ExportThisPreset" xml:space="preserve">
+    <value>I export ang preset na ito</value>
+  </data>
+  <data name="Ui.Pages.ImportAReShadeIni" xml:space="preserve">
+    <value>Mag import ng ReShade ini</value>
+  </data>
+  <data name="Ui.Pages.DeleteTheSelectedPreset" xml:space="preserve">
+    <value>Burahin ang napiling preset</value>
+  </data>
+  <data name="Ui.Pages.NameThisLookToSaveIt" xml:space="preserve">
+    <value>Pangalanan ang itsurang ito para i save</value>
+  </data>
+  <data name="Ui.Pages.F8OpensAndClosesThisWindow" xml:space="preserve">
+    <value>Binubuksan at isinasara ng F8 ang window na ito sa laro</value>
+  </data>
+  <data name="Ui.Pages.TurnEverythingOff" xml:space="preserve">
+    <value>Patayin lahat</value>
+  </data>
 </root>

@@ -5621,4 +5621,448 @@ Apakah yang anda mahu lakukan?</value>
   <data name="Ui.Misc.Bundled" xml:space="preserve">
     <value>Disertakan</value>
   </data>
+  <data name="Ui.Pages.Library" xml:space="preserve">
+    <value>Pustaka</value>
+  </data>
+  <data name="Ui.Pages.Play" xml:space="preserve">
+    <value>Main</value>
+  </data>
+  <data name="Ui.Pages.RemoveFromLibrary" xml:space="preserve">
+    <value>Buang daripada pustaka</value>
+  </data>
+  <data name="Ui.Pages.LibraryHome" xml:space="preserve">
+    <value>Laman utama pustaka</value>
+  </data>
+  <data name="Ui.Pages.SearchGames" xml:space="preserve">
+    <value>Cari permainan</value>
+  </data>
+  <data name="Ui.Pages.RefreshLibrary" xml:space="preserve">
+    <value>Muat semula pustaka</value>
+  </data>
+  <data name="Ui.Pages.AddByPlaceIdOrLink" xml:space="preserve">
+    <value>Tambah melalui PlaceId atau pautan</value>
+  </data>
+  <data name="Ui.Pages.AddThisGameToYourLibrary" xml:space="preserve">
+    <value>Tambah permainan ini ke pustaka anda</value>
+  </data>
+  <data name="Ui.Pages.YourLibraryIsEmptyPlayA" xml:space="preserve">
+    <value>Pustaka anda kosong. Mainkan permainan melalui Voidstrap atau tambah satu melalui PlaceId dari bar sisi.</value>
+  </data>
+  <data name="Ui.Pages.Events" xml:space="preserve">
+    <value>Acara</value>
+  </data>
+  <data name="Ui.Pages.ViewEvent" xml:space="preserve">
+    <value>Lihat acara</value>
+  </data>
+  <data name="Ui.Pages.WhatSNew" xml:space="preserve">
+    <value>Apa yang baharu</value>
+  </data>
+  <data name="Ui.Pages.RecentGames" xml:space="preserve">
+    <value>Permainan terkini</value>
+  </data>
+  <data name="Ui.Pages.RemoveThisGameFromYourLibrary" xml:space="preserve">
+    <value>Buang permainan ini daripada pustaka anda</value>
+  </data>
+  <data name="Ui.Pages.LASTPLAYED" xml:space="preserve">
+    <value>TERAKHIR DIMAINKAN</value>
+  </data>
+  <data name="Ui.Pages.PLAYTIME" xml:space="preserve">
+    <value>MASA BERMAIN</value>
+  </data>
+  <data name="Ui.Pages.PLAYINGNOW" xml:space="preserve">
+    <value>SEDANG BERMAIN</value>
+  </data>
+  <data name="Ui.Pages.RATING" xml:space="preserve">
+    <value>PENILAIAN</value>
+  </data>
+  <data name="Ui.Pages.Genre" xml:space="preserve">
+    <value>Genre</value>
+  </data>
+  <data name="Ui.Pages.MaxPlayers" xml:space="preserve">
+    <value>Pemain maks.</value>
+  </data>
+  <data name="Ui.Pages.Visits" xml:space="preserve">
+    <value>Lawatan</value>
+  </data>
+  <data name="Ui.Pages.Created" xml:space="preserve">
+    <value>Dicipta</value>
+  </data>
+  <data name="Ui.Pages.Updated" xml:space="preserve">
+    <value>Dikemas kini</value>
+  </data>
+  <data name="Ui.Pages.Store" xml:space="preserve">
+    <value>Kedai</value>
+  </data>
+  <data name="Ui.Pages.OpenThisGamepassOnRobloxCom" xml:space="preserve">
+    <value>Buka gamepass ini di roblox.com</value>
+  </data>
+  <data name="Ui.Pages.AddNVIDIASettings" xml:space="preserve">
+    <value>Tambah tetapan NVIDIA</value>
+  </data>
+  <data name="Ui.Pages.AddOneSettingOrImportSeveral" xml:space="preserve">
+    <value>Tambah satu tetapan atau import beberapa sekali gus.</value>
+  </data>
+  <data name="Ui.Pages.Single" xml:space="preserve">
+    <value>Tunggal</value>
+  </data>
+  <data name="Ui.Pages.SettingDetails" xml:space="preserve">
+    <value>Butiran tetapan</value>
+  </data>
+  <data name="Ui.Pages.UseTheValuesShownByNVIDIA" xml:space="preserve">
+    <value>Gunakan nilai yang dipaparkan oleh NVIDIA Profile Inspector.</value>
+  </data>
+  <data name="Ui.Pages.ExampleFrameRateLimiter" xml:space="preserve">
+    <value>Contoh: Frame rate limiter</value>
+  </data>
+  <data name="Ui.Pages.SettingID" xml:space="preserve">
+    <value>ID tetapan</value>
+  </data>
+  <data name="Ui.Pages.ValueType" xml:space="preserve">
+    <value>Jenis nilai</value>
+  </data>
+  <data name="Ui.Pages.DecimalOr0xHex" xml:space="preserve">
+    <value>Perpuluhan atau hex 0x</value>
+  </data>
+  <data name="Ui.Pages.BooleanAcceptsTrueFalse1Or" xml:space="preserve">
+    <value>Boolean menerima true, false, 1 atau 0.</value>
+  </data>
+  <data name="Ui.Pages.NIPProfile" xml:space="preserve">
+    <value>Profil NIP</value>
+  </data>
+  <data name="Ui.Pages.ImportAProfile" xml:space="preserve">
+    <value>Import profil</value>
+  </data>
+  <data name="Ui.Pages.ChooseANIPFileOrPaste" xml:space="preserve">
+    <value>Pilih fail NIP atau tampal kandungannya di bawah.</value>
+  </data>
+  <data name="Ui.Pages.ChooseNIPFile" xml:space="preserve">
+    <value>Pilih fail NIP</value>
+  </data>
+  <data name="Ui.Pages.PasteRows" xml:space="preserve">
+    <value>Tampal baris</value>
+  </data>
+  <data name="Ui.Pages.PasteSettings" xml:space="preserve">
+    <value>Tampal tetapan</value>
+  </data>
+  <data name="Ui.Pages.EnterOneSettingPerLineName" xml:space="preserve">
+    <value>Satu tetapan setiap baris: Nama | ID | Nilai | Jenis</value>
+  </data>
+  <data name="Ui.Pages.SupportedTypesDwordBooleanAndHex" xml:space="preserve">
+    <value>Jenis yang disokong: Dword, Boolean dan Hex.</value>
+  </data>
+  <data name="Ui.Pages.AddSettings" xml:space="preserve">
+    <value>Tambah tetapan</value>
+  </data>
+  <data name="Ui.Pages.GameShortcut" xml:space="preserve">
+    <value>Pintasan permainan</value>
+  </data>
+  <data name="Ui.Pages.LaunchAGameNowOrCreate" xml:space="preserve">
+    <value>Lancarkan permainan sekarang atau cipta pintasan desktop yang boleh diguna semula</value>
+  </data>
+  <data name="Ui.Pages.Destination" xml:space="preserve">
+    <value>Destinasi</value>
+  </data>
+  <data name="Ui.Pages.UseThePlaceIDFromThe" xml:space="preserve">
+    <value>Gunakan place ID daripada URL permainan Roblox.</value>
+  </data>
+  <data name="Ui.Pages.Example1818" xml:space="preserve">
+    <value>Contoh: 1818</value>
+  </data>
+  <data name="Ui.Pages.UseAPrivateServerShareLink" xml:space="preserve">
+    <value>Guna pautan kongsi atau kod akses pelayan peribadi</value>
+  </data>
+  <data name="Ui.Pages.ShareLinkOrAccessCode" xml:space="preserve">
+    <value>Pautan kongsi atau kod akses</value>
+  </data>
+  <data name="Ui.Pages.PasteTheCompletePrivateServerLink" xml:space="preserve">
+    <value>Tampal pautan penuh pelayan peribadi</value>
+  </data>
+  <data name="Ui.Pages.ServerInstanceID" xml:space="preserve">
+    <value>ID tika pelayan</value>
+  </data>
+  <data name="Ui.Pages.OptionalPublicServerInstance" xml:space="preserve">
+    <value>Tika pelayan awam pilihan</value>
+  </data>
+  <data name="Ui.Pages.LaunchGame" xml:space="preserve">
+    <value>Lancarkan permainan</value>
+  </data>
+  <data name="Ui.Pages.CreateDesktopShortcut" xml:space="preserve">
+    <value>Cipta pintasan desktop</value>
+  </data>
+  <data name="Ui.Pages.AdvancedEditor" xml:space="preserve">
+    <value>Editor lanjutan</value>
+  </data>
+  <data name="Ui.Pages.OpenTheRawNVIDIAProfileInspector" xml:space="preserve">
+    <value>Membuka editor mentah NVIDIA Profile Inspector. Disyorkan untuk pengguna mahir sahaja.</value>
+  </data>
+  <data name="Ui.Pages.ApplyChanges" xml:space="preserve">
+    <value>Guna perubahan</value>
+  </data>
+  <data name="Ui.Pages.GameDetails" xml:space="preserve">
+    <value>Butiran permainan</value>
+  </data>
+  <data name="Ui.Pages.ImageQualityFramePacingAndPerformance" xml:space="preserve">
+    <value>Kualiti imej, rentak bingkai dan pilihan berkaitan prestasi.</value>
+  </data>
+  <data name="Ui.Pages.TextureQualityLODBias" xml:space="preserve">
+    <value>Kualiti tekstur (LOD Bias)</value>
+  </data>
+  <data name="Ui.Pages.LowerValuesProduceSharperTexturesHigher" xml:space="preserve">
+    <value>Nilai lebih rendah menghasilkan tekstur lebih tajam. Nilai lebih tinggi meningkatkan prestasi dengan mengorbankan perincian.</value>
+  </data>
+  <data name="Ui.Pages.ImprovesAntiAliasingQualityByCombining" xml:space="preserve">
+    <value>Meningkatkan anti aliasing dengan menggabungkan sampel MSAA merentas bingkai dengan kesan prestasi minimum.</value>
+  </data>
+  <data name="Ui.Pages.GammaCorrection" xml:space="preserve">
+    <value>Pembetulan gama</value>
+  </data>
+  <data name="Ui.Pages.AdjustsHowBrightnessValuesAreMapped" xml:space="preserve">
+    <value>Melaraskan pemetaan nilai kecerahan, yang menjejaskan kontras, perincian bayang dan ton pertengahan.</value>
+  </data>
+  <data name="Ui.Pages.BenchmarkOverlay" xml:space="preserve">
+    <value>Tindanan penanda aras</value>
+  </data>
+  <data name="Ui.Pages.FrameRateLimiter" xml:space="preserve">
+    <value>Pengehad kadar bingkai</value>
+  </data>
+  <data name="Ui.Pages.BackgroundApplicationFrameRateLimit" xml:space="preserve">
+    <value>Had kadar bingkai aplikasi latar</value>
+  </data>
+  <data name="Ui.Pages.LimitsTheMaximumFrameRateWhen" xml:space="preserve">
+    <value>Mengehadkan kadar bingkai maksimum apabila aplikasi berjalan di latar untuk mengurangkan penggunaan GPU dan CPU.</value>
+  </data>
+  <data name="Ui.Pages.LowLatencyModes" xml:space="preserve">
+    <value>Mod kependaman rendah</value>
+  </data>
+  <data name="Ui.Pages.ControlsHowManyFramesAreQueued" xml:space="preserve">
+    <value>Mengawal berapa banyak bingkai dibariskan untuk mengurangkan kependaman input.</value>
+  </data>
+  <data name="Ui.Pages.CPLLowLatencyMode" xml:space="preserve">
+    <value>Mod kependaman rendah CPL</value>
+  </data>
+  <data name="Ui.Pages.FRLLowLatencyMode" xml:space="preserve">
+    <value>Mod kependaman rendah FRL</value>
+  </data>
+  <data name="Ui.Pages.DriverLevelLowLatencyControlUsing" xml:space="preserve">
+    <value>Kawalan kependaman rendah pada peringkat pemacu menggunakan logik pengehad kadar bingkai.</value>
+  </data>
+  <data name="Ui.Pages.HardwareAndDriverOverrides" xml:space="preserve">
+    <value>Penggantian perkakasan dan pemacu</value>
+  </data>
+  <data name="Ui.Pages.OverridesThatAffectGPUBehaviorAnd" xml:space="preserve">
+    <value>Penggantian yang menjejaskan tingkah laku GPU dan ciri pemacu.</value>
+  </data>
+  <data name="Ui.Pages.ResizableBAR" xml:space="preserve">
+    <value>Resizable BAR</value>
+  </data>
+  <data name="Ui.Pages.AllowsTheCPUToAccessThe" xml:space="preserve">
+    <value>Membenarkan CPU mengakses seluruh memori GPU pada sistem yang disokong.</value>
+  </data>
+  <data name="Ui.Pages.SILKSmoothness" xml:space="preserve">
+    <value>Kelancaran SILK</value>
+  </data>
+  <data name="Ui.Pages.ControlsNVIDIASILKFrameSmoothingIntensity" xml:space="preserve">
+    <value>Mengawal keamatan pelicinan bingkai NVIDIA SILK.</value>
+  </data>
+  <data name="Ui.Pages.BrowseAndManageExtensionsForVoidstrap" xml:space="preserve">
+    <value>Semak imbas dan urus sambungan untuk Voidstrap dan komunitinya.</value>
+  </data>
+  <data name="Ui.Pages.SearchExtensions" xml:space="preserve">
+    <value>Cari sambungan</value>
+  </data>
+  <data name="Ui.Pages.VoidstrapAssets" xml:space="preserve">
+    <value>Aset Voidstrap</value>
+  </data>
+  <data name="Ui.Pages.BackToExtensions" xml:space="preserve">
+    <value>Kembali ke sambungan</value>
+  </data>
+  <data name="Ui.Pages.OpenTheSourcePage" xml:space="preserve">
+    <value>Buka halaman sumber</value>
+  </data>
+  <data name="Ui.Pages.Description" xml:space="preserve">
+    <value>Penerangan</value>
+  </data>
+  <data name="Ui.Pages.ProjectTools" xml:space="preserve">
+    <value>Alat projek</value>
+  </data>
+  <data name="Ui.Pages.ProjectFolder" xml:space="preserve">
+    <value>Folder projek</value>
+  </data>
+  <data name="Ui.Pages.NewProject" xml:space="preserve">
+    <value>Projek baharu</value>
+  </data>
+  <data name="Ui.Pages.BuildPlace" xml:space="preserve">
+    <value>Bina place</value>
+  </data>
+  <data name="Ui.Pages.InstallStudioPlugin" xml:space="preserve">
+    <value>Pasang pemalam Studio</value>
+  </data>
+  <data name="Ui.Pages.Versions" xml:space="preserve">
+    <value>Versi</value>
+  </data>
+  <data name="Ui.Pages.OpenOnGitHub" xml:space="preserve">
+    <value>Buka di GitHub</value>
+  </data>
+  <data name="Ui.Pages.WorksWith" xml:space="preserve">
+    <value>Berfungsi dengan</value>
+  </data>
+  <data name="Ui.Pages.Tags" xml:space="preserve">
+    <value>Teg</value>
+  </data>
+  <data name="Ui.Pages.Creators" xml:space="preserve">
+    <value>Pencipta</value>
+  </data>
+  <data name="Ui.Pages.NVIDIAFFlagEditor" xml:space="preserve">
+    <value>Editor FFlag NVIDIA</value>
+  </data>
+  <data name="Ui.Pages.ManageNVIDIASettingsSavedInYour" xml:space="preserve">
+    <value>Urus tetapan NVIDIA yang disimpan dalam profil NIP anda.</value>
+  </data>
+  <data name="Ui.Pages.AddNew" xml:space="preserve">
+    <value>Tambah baharu</value>
+  </data>
+  <data name="Ui.Pages.DeleteSelected" xml:space="preserve">
+    <value>Padam yang dipilih</value>
+  </data>
+  <data name="Ui.Pages.DeleteAll" xml:space="preserve">
+    <value>Padam semua</value>
+  </data>
+  <data name="Ui.Pages.ResetNIP" xml:space="preserve">
+    <value>Tetapkan semula NIP</value>
+  </data>
+  <data name="Ui.Pages.SearchFlags" xml:space="preserve">
+    <value>Cari bendera</value>
+  </data>
+  <data name="Ui.Pages.LookingFor" xml:space="preserve">
+    <value>Mencari</value>
+  </data>
+  <data name="Ui.Pages.AddAnNVIDIASettingToGet" xml:space="preserve">
+    <value>Tambah tetapan NVIDIA untuk bermula.</value>
+  </data>
+  <data name="Ui.Pages.ExportNIP" xml:space="preserve">
+    <value>Eksport .NIP</value>
+  </data>
+  <data name="Ui.Pages.CopyFlags" xml:space="preserve">
+    <value>Salin bendera</value>
+  </data>
+  <data name="Ui.Pages.NVIDIAFlagHistory" xml:space="preserve">
+    <value>Sejarah bendera NVIDIA</value>
+  </data>
+  <data name="Ui.Pages.TracksChangesMadeToNVIDIAFlags" xml:space="preserve">
+    <value>Menjejaki perubahan pada bendera NVIDIA dalam sesi ini.</value>
+  </data>
+  <data name="Ui.Pages.UndoSelected" xml:space="preserve">
+    <value>Buat asal yang dipilih</value>
+  </data>
+  <data name="Ui.Pages.ClearHistory" xml:space="preserve">
+    <value>Kosongkan sejarah</value>
+  </data>
+  <data name="Ui.Pages.NoChangesRecorded" xml:space="preserve">
+    <value>Tiada perubahan direkodkan</value>
+  </data>
+  <data name="Ui.Pages.DoubleClickToRevertThisChange" xml:space="preserve">
+    <value>Dwiklik untuk membatalkan perubahan ini</value>
+  </data>
+  <data name="Ui.Pages.ManageYourFastFlagsACheckmarkIn" xml:space="preserve">
+    <value>Urus FastFlags anda. Tanda semak dalam Preset bermaksud bendera itu tersedia dalam tetapan FFlag, manakala pangkah bermaksud tidak.</value>
+  </data>
+  <data name="Ui.Pages.Preset" xml:space="preserve">
+    <value>Preset</value>
+  </data>
+  <data name="Ui.Pages.GoToFFlagSettingsToAdd" xml:space="preserve">
+    <value>Pergi ke tetapan FFlag untuk menambah FFlags Preset.</value>
+  </data>
+  <data name="Ui.Pages.Find" xml:space="preserve">
+    <value>Cari</value>
+  </data>
+  <data name="Ui.Pages.FFlagHistory" xml:space="preserve">
+    <value>Sejarah FFlag</value>
+  </data>
+  <data name="Ui.Pages.TracksEveryChangeYouMakeTo" xml:space="preserve">
+    <value>Menjejaki setiap perubahan pada bendera anda dalam sesi ini. Pilih entri dan tekan Buat asal yang dipilih, atau dwiklik, untuk membatalkan perubahan itu.</value>
+  </data>
+  <data name="Ui.Pages.History" xml:space="preserve">
+    <value>Sejarah</value>
+  </data>
+  <data name="Ui.Pages.ContinueWhereYouLeftOff" xml:space="preserve">
+    <value>Sambung dari tempat anda berhenti</value>
+  </data>
+  <data name="Ui.Pages.ClearAll" xml:space="preserve">
+    <value>Kosongkan semua</value>
+  </data>
+  <data name="Ui.Pages.SearchByGameNameCreatorOr" xml:space="preserve">
+    <value>Cari mengikut nama permainan, pencipta atau place ID...</value>
+  </data>
+  <data name="Ui.Pages.Downloads" xml:space="preserve">
+    <value>Muat turun</value>
+  </data>
+  <data name="Ui.Pages.Installed" xml:space="preserve">
+    <value>Dipasang</value>
+  </data>
+  <data name="Ui.Pages.Update" xml:space="preserve">
+    <value>Kemas kini</value>
+  </data>
+  <data name="Ui.Pages.SearchYourInstalls" xml:space="preserve">
+    <value>Cari pemasangan anda</value>
+  </data>
+  <data name="Ui.Pages.InstallFolder" xml:space="preserve">
+    <value>Folder pemasangan</value>
+  </data>
+  <data name="Ui.Pages.ClassicClients" xml:space="preserve">
+    <value>Klien klasik</value>
+  </data>
+  <data name="Ui.Pages.Map" xml:space="preserve">
+    <value>Peta</value>
+  </data>
+  <data name="Ui.Pages.PickAnInstallOnTheLeft" xml:space="preserve">
+    <value>Pilih pemasangan di sebelah kiri untuk melihat butirannya.</value>
+  </data>
+  <data name="Ui.Pages.Addons" xml:space="preserve">
+    <value>Alat tambahan</value>
+  </data>
+  <data name="Ui.Pages.FleasionOpenInExtensions" xml:space="preserve">
+    <value>Fleasion, buka dalam Sambungan</value>
+  </data>
+  <data name="Ui.Pages.RiShadeOpenInExtensions" xml:space="preserve">
+    <value>RiShade, buka dalam Sambungan</value>
+  </data>
+  <data name="Ui.Pages.RojoOpenInExtensions" xml:space="preserve">
+    <value>Rojo, buka dalam Sambungan</value>
+  </data>
+  <data name="Ui.Pages.VoidstrapStudioPluginOpenInExtensions" xml:space="preserve">
+    <value>Pemalam Studio Voidstrap, buka dalam Sambungan</value>
+  </data>
+  <data name="Ui.Pages.ChangeInstallLocation" xml:space="preserve">
+    <value>Tukar lokasi pemasangan</value>
+  </data>
+  <data name="Ui.Pages.OpenInstallFolder" xml:space="preserve">
+    <value>Buka folder pemasangan</value>
+  </data>
+  <data name="Ui.Pages.VerifyFiles" xml:space="preserve">
+    <value>Sahkan fail</value>
+  </data>
+  <data name="Ui.Pages.MyPresets" xml:space="preserve">
+    <value>Pratetap saya</value>
+  </data>
+  <data name="Ui.Pages.ImportAPreset" xml:space="preserve">
+    <value>Import pratetap</value>
+  </data>
+  <data name="Ui.Pages.ExportThisPreset" xml:space="preserve">
+    <value>Eksport pratetap ini</value>
+  </data>
+  <data name="Ui.Pages.ImportAReShadeIni" xml:space="preserve">
+    <value>Import ini ReShade</value>
+  </data>
+  <data name="Ui.Pages.DeleteTheSelectedPreset" xml:space="preserve">
+    <value>Padam pratetap yang dipilih</value>
+  </data>
+  <data name="Ui.Pages.NameThisLookToSaveIt" xml:space="preserve">
+    <value>Namakan rupa ini untuk menyimpannya</value>
+  </data>
+  <data name="Ui.Pages.F8OpensAndClosesThisWindow" xml:space="preserve">
+    <value>F8 membuka dan menutup tetingkap ini dalam permainan</value>
+  </data>
+  <data name="Ui.Pages.TurnEverythingOff" xml:space="preserve">
+    <value>Matikan semuanya</value>
+  </data>
 </root>

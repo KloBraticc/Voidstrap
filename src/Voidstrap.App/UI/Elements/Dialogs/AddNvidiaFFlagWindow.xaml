@@ -1,4 +1,4 @@
-<base:WpfUiWindow xmlns:resources="clr-namespace:Voidstrap.Resources" x:Class="Voidstrap.UI.Elements.Dialogs.AddNvidiaFFlagWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" Title="Add NVIDIA Settings" Width="600" Height="570" MinWidth="600" MinHeight="570" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" ExtendsContentIntoTitleBar="True" Background="{ui:ThemeResource ApplicationBackgroundBrush}">
+<base:WpfUiWindow xmlns:resources="clr-namespace:Voidstrap.Resources" x:Class="Voidstrap.UI.Elements.Dialogs.AddNvidiaFFlagWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" Title="{resources:Loc Ui_Pages_AddNVIDIASettings}" Width="600" Height="570" MinWidth="600" MinHeight="570" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" ExtendsContentIntoTitleBar="True" Background="{ui:ThemeResource ApplicationBackgroundBrush}">
   <Grid>
     <Panel.Background>
       <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
@@ -13,14 +13,14 @@
       <RowDefinition Height="*" />
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
-    <ui:TitleBar Icon="pack://application:,,,/Voidstrap.png" Grid.Row="0" Title="Add NVIDIA Settings" Padding="8" CanMaximize="False" ShowMaximize="False" ShowMinimize="False" />
-    <TextBlock Grid.Row="1" Margin="20,8,20,12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Add one setting or import several at once." />
+    <ui:TitleBar Icon="pack://application:,,,/Voidstrap.png" Grid.Row="0" Title="{resources:Loc Ui_Pages_AddNVIDIASettings}" Padding="8" CanMaximize="False" ShowMaximize="False" ShowMinimize="False" />
+    <TextBlock Grid.Row="1" Margin="20,8,20,12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_Pages_AddOneSettingOrImportSeveral}" />
     <TabControl Name="Tabs" Grid.Row="2" Margin="16,0,16,16" SelectionChanged="Tabs_SelectionChanged">
       <TabItem>
         <TabItem.Header>
           <StackPanel Orientation="Horizontal">
             <ui:SymbolIcon Symbol="Add24" Margin="0,0,6,0" />
-            <TextBlock Text="Single" />
+            <TextBlock Text="{resources:Loc Ui_Pages_Single}" />
           </StackPanel>
         </TabItem.Header>
         <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -37,18 +37,18 @@
               <RowDefinition Height="Auto" />
               <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <TextBlock FontSize="15" FontWeight="SemiBold" Text="Setting details" />
-            <TextBlock Grid.Row="1" Margin="0,4,0,16" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Use the values shown by NVIDIA Profile Inspector." />
+            <TextBlock FontSize="15" FontWeight="SemiBold" Text="{resources:Loc Ui_Pages_SettingDetails}" />
+            <TextBlock Grid.Row="1" Margin="0,4,0,16" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_Pages_UseTheValuesShownByNVIDIA}" />
             <TextBlock Grid.Row="2" Text="{resources:Loc Common_Name}" />
-            <ui:TextBox Name="NameBox" Grid.Row="3" Margin="0,5,0,12" PlaceholderText="Example: Frame rate limiter" TextChanged="Input_TextChanged" />
+            <ui:TextBox Name="NameBox" Grid.Row="3" Margin="0,5,0,12" PlaceholderText="{resources:Loc Ui_Pages_ExampleFrameRateLimiter}" TextChanged="Input_TextChanged" />
             <Grid Grid.Row="4">
               <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="16" />
                 <ColumnDefinition Width="*" />
               </Grid.ColumnDefinitions>
-              <TextBlock Text="Setting ID" />
-              <TextBlock Grid.Column="2" Text="Value type" />
+              <TextBlock Text="{resources:Loc Ui_Pages_SettingID}" />
+              <TextBlock Grid.Column="2" Text="{resources:Loc Ui_Pages_ValueType}" />
             </Grid>
             <Grid Grid.Row="5" Margin="0,5,0,12">
               <Grid.ColumnDefinitions>
@@ -56,7 +56,7 @@
                 <ColumnDefinition Width="16" />
                 <ColumnDefinition Width="*" />
               </Grid.ColumnDefinitions>
-              <ui:TextBox Name="SettingIdBox" PlaceholderText="Decimal or 0x hex" TextChanged="Input_TextChanged" />
+              <ui:TextBox Name="SettingIdBox" PlaceholderText="{resources:Loc Ui_Pages_DecimalOr0xHex}" TextChanged="Input_TextChanged" />
               <ComboBox Name="ValueTypeBox" Grid.Column="2" Height="32" SelectionChanged="Input_SelectionChanged">
                 <ComboBoxItem Content="Dword" IsSelected="True" />
                 <ComboBoxItem Content="Boolean" />
@@ -65,7 +65,7 @@
             </Grid>
             <TextBlock Grid.Row="6" Text="{resources:Loc Common_Value}" />
             <ui:TextBox Name="ValueBox" Grid.Row="7" Margin="0,5,0,4" PlaceholderText="0" TextChanged="Input_TextChanged" />
-            <TextBlock Grid.Row="8" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Boolean accepts true, false, 1, or 0." />
+            <TextBlock Grid.Row="8" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Pages_BooleanAcceptsTrueFalse1Or}" />
             <TextBlock Name="SingleStatusText" Grid.Row="9" Margin="0,14,0,0" Foreground="{DynamicResource SystemFillColorCriticalBrush}" TextWrapping="Wrap" />
           </Grid>
         </ScrollViewer>
@@ -74,7 +74,7 @@
         <TabItem.Header>
           <StackPanel Orientation="Horizontal">
             <ui:SymbolIcon Symbol="ArrowDownload24" Margin="0,0,6,0" />
-            <TextBlock Text="NIP Profile" />
+            <TextBlock Text="{resources:Loc Ui_Pages_NIPProfile}" />
           </StackPanel>
         </TabItem.Header>
         <Grid Margin="18">
@@ -84,17 +84,17 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
           </Grid.RowDefinitions>
-          <TextBlock FontSize="15" FontWeight="SemiBold" Text="Import a profile" />
-          <TextBlock Grid.Row="1" Margin="0,4,0,12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Choose a NIP file or paste its contents below." />
+          <TextBlock FontSize="15" FontWeight="SemiBold" Text="{resources:Loc Ui_Pages_ImportAProfile}" />
+          <TextBlock Grid.Row="1" Margin="0,4,0,12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_Pages_ChooseANIPFileOrPaste}" />
           <ui:TextBox Name="NipTextBox" Grid.Row="2" MinHeight="210" Padding="10" AcceptsReturn="True" AcceptsTab="True" FontFamily="Consolas" FontSize="13" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" TextChanged="Input_TextChanged" />
-          <ui:Button Grid.Row="3" Margin="0,12,0,0" HorizontalAlignment="Stretch" Content="Choose NIP File" Icon="FolderOpen24" Click="ImportFromFile_Click" />
+          <ui:Button Grid.Row="3" Margin="0,12,0,0" HorizontalAlignment="Stretch" Content="{resources:Loc Ui_Pages_ChooseNIPFile}" Icon="FolderOpen24" Click="ImportFromFile_Click" />
         </Grid>
       </TabItem>
       <TabItem>
         <TabItem.Header>
           <StackPanel Orientation="Horizontal">
             <ui:SymbolIcon Symbol="Document24" Margin="0,0,6,0" />
-            <TextBlock Text="Paste Rows" />
+            <TextBlock Text="{resources:Loc Ui_Pages_PasteRows}" />
           </StackPanel>
         </TabItem.Header>
         <Grid Margin="18">
@@ -104,10 +104,10 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
           </Grid.RowDefinitions>
-          <TextBlock FontSize="15" FontWeight="SemiBold" Text="Paste settings" />
-          <TextBlock Grid.Row="1" Margin="0,4,0,12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Enter one setting per line: Name | ID | Value | Type" />
+          <TextBlock FontSize="15" FontWeight="SemiBold" Text="{resources:Loc Ui_Pages_PasteSettings}" />
+          <TextBlock Grid.Row="1" Margin="0,4,0,12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_Pages_EnterOneSettingPerLineName}" />
           <ui:TextBox Name="FullValueBox" Grid.Row="2" MinHeight="210" Padding="10" AcceptsReturn="True" AcceptsTab="True" FontFamily="Consolas" FontSize="13" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" TextChanged="Input_TextChanged" />
-          <TextBlock Grid.Row="3" Margin="0,10,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Supported types: Dword, Boolean, and Hex." />
+          <TextBlock Grid.Row="3" Margin="0,10,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Pages_SupportedTypesDwordBooleanAndHex}" />
         </Grid>
       </TabItem>
     </TabControl>
@@ -116,7 +116,7 @@
         <TextBlock Name="ImportStatusText" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
         <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
           <ui:Button MinWidth="100" Margin="0,0,10,0" Content="{resources:Loc Common_Cancel}" IsCancel="True" />
-          <ui:Button Name="AddButton" MinWidth="120" Appearance="Primary" Content="Add Settings" Icon="AddCircle24" Click="Add_Click" />
+          <ui:Button Name="AddButton" MinWidth="120" Appearance="Primary" Content="{resources:Loc Ui_Pages_AddSettings}" Icon="AddCircle24" Click="Add_Click" />
         </StackPanel>
       </Grid>
     </Border>

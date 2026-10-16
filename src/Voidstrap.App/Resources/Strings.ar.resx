@@ -5689,4 +5689,448 @@
   <data name="Ui.Misc.Bundled" xml:space="preserve">
     <value>المرفق</value>
   </data>
+  <data name="Ui.Pages.Library" xml:space="preserve">
+    <value>المكتبة</value>
+  </data>
+  <data name="Ui.Pages.Play" xml:space="preserve">
+    <value>العب</value>
+  </data>
+  <data name="Ui.Pages.RemoveFromLibrary" xml:space="preserve">
+    <value>إزالة من المكتبة</value>
+  </data>
+  <data name="Ui.Pages.LibraryHome" xml:space="preserve">
+    <value>الصفحة الرئيسية للمكتبة</value>
+  </data>
+  <data name="Ui.Pages.SearchGames" xml:space="preserve">
+    <value>البحث عن ألعاب</value>
+  </data>
+  <data name="Ui.Pages.RefreshLibrary" xml:space="preserve">
+    <value>تحديث المكتبة</value>
+  </data>
+  <data name="Ui.Pages.AddByPlaceIdOrLink" xml:space="preserve">
+    <value>إضافة عبر PlaceId أو رابط</value>
+  </data>
+  <data name="Ui.Pages.AddThisGameToYourLibrary" xml:space="preserve">
+    <value>إضافة هذه اللعبة إلى مكتبتك</value>
+  </data>
+  <data name="Ui.Pages.YourLibraryIsEmptyPlayA" xml:space="preserve">
+    <value>مكتبتك فارغة. العب لعبة عبر Voidstrap أو أضف واحدة عبر PlaceId من الشريط الجانبي.</value>
+  </data>
+  <data name="Ui.Pages.Events" xml:space="preserve">
+    <value>الأحداث</value>
+  </data>
+  <data name="Ui.Pages.ViewEvent" xml:space="preserve">
+    <value>عرض الحدث</value>
+  </data>
+  <data name="Ui.Pages.WhatSNew" xml:space="preserve">
+    <value>الجديد</value>
+  </data>
+  <data name="Ui.Pages.RecentGames" xml:space="preserve">
+    <value>الألعاب الأخيرة</value>
+  </data>
+  <data name="Ui.Pages.RemoveThisGameFromYourLibrary" xml:space="preserve">
+    <value>إزالة هذه اللعبة من مكتبتك</value>
+  </data>
+  <data name="Ui.Pages.LASTPLAYED" xml:space="preserve">
+    <value>آخر لعب</value>
+  </data>
+  <data name="Ui.Pages.PLAYTIME" xml:space="preserve">
+    <value>وقت اللعب</value>
+  </data>
+  <data name="Ui.Pages.PLAYINGNOW" xml:space="preserve">
+    <value>يلعب الآن</value>
+  </data>
+  <data name="Ui.Pages.RATING" xml:space="preserve">
+    <value>التقييم</value>
+  </data>
+  <data name="Ui.Pages.Genre" xml:space="preserve">
+    <value>النوع</value>
+  </data>
+  <data name="Ui.Pages.MaxPlayers" xml:space="preserve">
+    <value>الحد الأقصى للاعبين</value>
+  </data>
+  <data name="Ui.Pages.Visits" xml:space="preserve">
+    <value>الزيارات</value>
+  </data>
+  <data name="Ui.Pages.Created" xml:space="preserve">
+    <value>تاريخ الإنشاء</value>
+  </data>
+  <data name="Ui.Pages.Updated" xml:space="preserve">
+    <value>تاريخ التحديث</value>
+  </data>
+  <data name="Ui.Pages.Store" xml:space="preserve">
+    <value>المتجر</value>
+  </data>
+  <data name="Ui.Pages.OpenThisGamepassOnRobloxCom" xml:space="preserve">
+    <value>فتح هذا الـ gamepass على roblox.com</value>
+  </data>
+  <data name="Ui.Pages.AddNVIDIASettings" xml:space="preserve">
+    <value>إضافة إعدادات NVIDIA</value>
+  </data>
+  <data name="Ui.Pages.AddOneSettingOrImportSeveral" xml:space="preserve">
+    <value>أضف إعدادًا واحدًا أو استورد عدة إعدادات معًا.</value>
+  </data>
+  <data name="Ui.Pages.Single" xml:space="preserve">
+    <value>فردي</value>
+  </data>
+  <data name="Ui.Pages.SettingDetails" xml:space="preserve">
+    <value>تفاصيل الإعداد</value>
+  </data>
+  <data name="Ui.Pages.UseTheValuesShownByNVIDIA" xml:space="preserve">
+    <value>استخدم القيم التي يعرضها NVIDIA Profile Inspector.</value>
+  </data>
+  <data name="Ui.Pages.ExampleFrameRateLimiter" xml:space="preserve">
+    <value>مثال: Frame rate limiter</value>
+  </data>
+  <data name="Ui.Pages.SettingID" xml:space="preserve">
+    <value>معرّف الإعداد</value>
+  </data>
+  <data name="Ui.Pages.ValueType" xml:space="preserve">
+    <value>نوع القيمة</value>
+  </data>
+  <data name="Ui.Pages.DecimalOr0xHex" xml:space="preserve">
+    <value>عشري أو 0x سداسي عشري</value>
+  </data>
+  <data name="Ui.Pages.BooleanAcceptsTrueFalse1Or" xml:space="preserve">
+    <value>يقبل Boolean القيم true أو false أو 1 أو 0.</value>
+  </data>
+  <data name="Ui.Pages.NIPProfile" xml:space="preserve">
+    <value>ملف NIP</value>
+  </data>
+  <data name="Ui.Pages.ImportAProfile" xml:space="preserve">
+    <value>استيراد ملف تعريف</value>
+  </data>
+  <data name="Ui.Pages.ChooseANIPFileOrPaste" xml:space="preserve">
+    <value>اختر ملف NIP أو الصق محتواه أدناه.</value>
+  </data>
+  <data name="Ui.Pages.ChooseNIPFile" xml:space="preserve">
+    <value>اختيار ملف NIP</value>
+  </data>
+  <data name="Ui.Pages.PasteRows" xml:space="preserve">
+    <value>لصق الصفوف</value>
+  </data>
+  <data name="Ui.Pages.PasteSettings" xml:space="preserve">
+    <value>لصق الإعدادات</value>
+  </data>
+  <data name="Ui.Pages.EnterOneSettingPerLineName" xml:space="preserve">
+    <value>إعداد واحد في كل سطر: الاسم | ID | القيمة | النوع</value>
+  </data>
+  <data name="Ui.Pages.SupportedTypesDwordBooleanAndHex" xml:space="preserve">
+    <value>الأنواع المدعومة: Dword وBoolean وHex.</value>
+  </data>
+  <data name="Ui.Pages.AddSettings" xml:space="preserve">
+    <value>إضافة الإعدادات</value>
+  </data>
+  <data name="Ui.Pages.GameShortcut" xml:space="preserve">
+    <value>اختصار اللعبة</value>
+  </data>
+  <data name="Ui.Pages.LaunchAGameNowOrCreate" xml:space="preserve">
+    <value>شغّل لعبة الآن أو أنشئ اختصارًا على سطح المكتب لإعادة استخدامه</value>
+  </data>
+  <data name="Ui.Pages.Destination" xml:space="preserve">
+    <value>الوجهة</value>
+  </data>
+  <data name="Ui.Pages.UseThePlaceIDFromThe" xml:space="preserve">
+    <value>استخدم place ID من رابط لعبة Roblox.</value>
+  </data>
+  <data name="Ui.Pages.Example1818" xml:space="preserve">
+    <value>مثال: 1818</value>
+  </data>
+  <data name="Ui.Pages.UseAPrivateServerShareLink" xml:space="preserve">
+    <value>استخدام رابط مشاركة أو رمز وصول لخادم خاص</value>
+  </data>
+  <data name="Ui.Pages.ShareLinkOrAccessCode" xml:space="preserve">
+    <value>رابط المشاركة أو رمز الوصول</value>
+  </data>
+  <data name="Ui.Pages.PasteTheCompletePrivateServerLink" xml:space="preserve">
+    <value>الصق رابط الخادم الخاص كاملًا</value>
+  </data>
+  <data name="Ui.Pages.ServerInstanceID" xml:space="preserve">
+    <value>معرّف نسخة الخادم</value>
+  </data>
+  <data name="Ui.Pages.OptionalPublicServerInstance" xml:space="preserve">
+    <value>نسخة خادم عام اختيارية</value>
+  </data>
+  <data name="Ui.Pages.LaunchGame" xml:space="preserve">
+    <value>تشغيل اللعبة</value>
+  </data>
+  <data name="Ui.Pages.CreateDesktopShortcut" xml:space="preserve">
+    <value>إنشاء اختصار على سطح المكتب</value>
+  </data>
+  <data name="Ui.Pages.AdvancedEditor" xml:space="preserve">
+    <value>المحرر المتقدم</value>
+  </data>
+  <data name="Ui.Pages.OpenTheRawNVIDIAProfileInspector" xml:space="preserve">
+    <value>يفتح المحرر الخام لـ NVIDIA Profile Inspector. يُنصح به للمستخدمين المتقدمين فقط.</value>
+  </data>
+  <data name="Ui.Pages.ApplyChanges" xml:space="preserve">
+    <value>تطبيق التغييرات</value>
+  </data>
+  <data name="Ui.Pages.GameDetails" xml:space="preserve">
+    <value>تفاصيل اللعبة</value>
+  </data>
+  <data name="Ui.Pages.ImageQualityFramePacingAndPerformance" xml:space="preserve">
+    <value>جودة الصورة وتوقيت الإطارات وخيارات الأداء.</value>
+  </data>
+  <data name="Ui.Pages.TextureQualityLODBias" xml:space="preserve">
+    <value>جودة الخامات (LOD Bias)</value>
+  </data>
+  <data name="Ui.Pages.LowerValuesProduceSharperTexturesHigher" xml:space="preserve">
+    <value>القيم الأقل تعطي خامات أوضح. القيم الأعلى تحسّن الأداء على حساب التفاصيل.</value>
+  </data>
+  <data name="Ui.Pages.ImprovesAntiAliasingQualityByCombining" xml:space="preserve">
+    <value>يحسّن مانع التعرج بدمج عينات MSAA عبر الإطارات بأقل تأثير على الأداء.</value>
+  </data>
+  <data name="Ui.Pages.GammaCorrection" xml:space="preserve">
+    <value>تصحيح جاما</value>
+  </data>
+  <data name="Ui.Pages.AdjustsHowBrightnessValuesAreMapped" xml:space="preserve">
+    <value>يضبط طريقة تعيين قيم السطوع، ما يؤثر في التباين وتفاصيل الظلال والألوان المتوسطة.</value>
+  </data>
+  <data name="Ui.Pages.BenchmarkOverlay" xml:space="preserve">
+    <value>طبقة قياس الأداء</value>
+  </data>
+  <data name="Ui.Pages.FrameRateLimiter" xml:space="preserve">
+    <value>محدد معدل الإطارات</value>
+  </data>
+  <data name="Ui.Pages.BackgroundApplicationFrameRateLimit" xml:space="preserve">
+    <value>حد معدل الإطارات لتطبيقات الخلفية</value>
+  </data>
+  <data name="Ui.Pages.LimitsTheMaximumFrameRateWhen" xml:space="preserve">
+    <value>يحد من أقصى معدل إطارات عند عمل التطبيق في الخلفية لتقليل استخدام GPU وCPU.</value>
+  </data>
+  <data name="Ui.Pages.LowLatencyModes" xml:space="preserve">
+    <value>أوضاع زمن الاستجابة المنخفض</value>
+  </data>
+  <data name="Ui.Pages.ControlsHowManyFramesAreQueued" xml:space="preserve">
+    <value>يتحكم في عدد الإطارات المصطفة لتقليل تأخر الإدخال.</value>
+  </data>
+  <data name="Ui.Pages.CPLLowLatencyMode" xml:space="preserve">
+    <value>وضع زمن الاستجابة المنخفض CPL</value>
+  </data>
+  <data name="Ui.Pages.FRLLowLatencyMode" xml:space="preserve">
+    <value>وضع زمن الاستجابة المنخفض FRL</value>
+  </data>
+  <data name="Ui.Pages.DriverLevelLowLatencyControlUsing" xml:space="preserve">
+    <value>تحكم في زمن الاستجابة المنخفض على مستوى التعريف باستخدام منطق محدد معدل الإطارات.</value>
+  </data>
+  <data name="Ui.Pages.HardwareAndDriverOverrides" xml:space="preserve">
+    <value>تجاوزات العتاد والتعريف</value>
+  </data>
+  <data name="Ui.Pages.OverridesThatAffectGPUBehaviorAnd" xml:space="preserve">
+    <value>تجاوزات تؤثر في سلوك GPU وميزات التعريف.</value>
+  </data>
+  <data name="Ui.Pages.ResizableBAR" xml:space="preserve">
+    <value>Resizable BAR</value>
+  </data>
+  <data name="Ui.Pages.AllowsTheCPUToAccessThe" xml:space="preserve">
+    <value>يسمح لـ CPU بالوصول إلى كامل ذاكرة GPU في الأنظمة المدعومة.</value>
+  </data>
+  <data name="Ui.Pages.SILKSmoothness" xml:space="preserve">
+    <value>سلاسة SILK</value>
+  </data>
+  <data name="Ui.Pages.ControlsNVIDIASILKFrameSmoothingIntensity" xml:space="preserve">
+    <value>يتحكم في شدة تنعيم الإطارات في NVIDIA SILK.</value>
+  </data>
+  <data name="Ui.Pages.BrowseAndManageExtensionsForVoidstrap" xml:space="preserve">
+    <value>تصفح الإضافات لـ Voidstrap ومجتمعه وأدرها.</value>
+  </data>
+  <data name="Ui.Pages.SearchExtensions" xml:space="preserve">
+    <value>البحث عن إضافات</value>
+  </data>
+  <data name="Ui.Pages.VoidstrapAssets" xml:space="preserve">
+    <value>موارد Voidstrap</value>
+  </data>
+  <data name="Ui.Pages.BackToExtensions" xml:space="preserve">
+    <value>العودة إلى الإضافات</value>
+  </data>
+  <data name="Ui.Pages.OpenTheSourcePage" xml:space="preserve">
+    <value>فتح صفحة المصدر</value>
+  </data>
+  <data name="Ui.Pages.Description" xml:space="preserve">
+    <value>الوصف</value>
+  </data>
+  <data name="Ui.Pages.ProjectTools" xml:space="preserve">
+    <value>أدوات المشروع</value>
+  </data>
+  <data name="Ui.Pages.ProjectFolder" xml:space="preserve">
+    <value>مجلد المشروع</value>
+  </data>
+  <data name="Ui.Pages.NewProject" xml:space="preserve">
+    <value>مشروع جديد</value>
+  </data>
+  <data name="Ui.Pages.BuildPlace" xml:space="preserve">
+    <value>بناء المكان</value>
+  </data>
+  <data name="Ui.Pages.InstallStudioPlugin" xml:space="preserve">
+    <value>تثبيت إضافة Studio</value>
+  </data>
+  <data name="Ui.Pages.Versions" xml:space="preserve">
+    <value>الإصدارات</value>
+  </data>
+  <data name="Ui.Pages.OpenOnGitHub" xml:space="preserve">
+    <value>فتح على GitHub</value>
+  </data>
+  <data name="Ui.Pages.WorksWith" xml:space="preserve">
+    <value>يعمل مع</value>
+  </data>
+  <data name="Ui.Pages.Tags" xml:space="preserve">
+    <value>الوسوم</value>
+  </data>
+  <data name="Ui.Pages.Creators" xml:space="preserve">
+    <value>المنشئون</value>
+  </data>
+  <data name="Ui.Pages.NVIDIAFFlagEditor" xml:space="preserve">
+    <value>محرر FFlag لـ NVIDIA</value>
+  </data>
+  <data name="Ui.Pages.ManageNVIDIASettingsSavedInYour" xml:space="preserve">
+    <value>أدر إعدادات NVIDIA المحفوظة في ملف NIP الخاص بك.</value>
+  </data>
+  <data name="Ui.Pages.AddNew" xml:space="preserve">
+    <value>إضافة جديد</value>
+  </data>
+  <data name="Ui.Pages.DeleteSelected" xml:space="preserve">
+    <value>حذف المحدد</value>
+  </data>
+  <data name="Ui.Pages.DeleteAll" xml:space="preserve">
+    <value>حذف الكل</value>
+  </data>
+  <data name="Ui.Pages.ResetNIP" xml:space="preserve">
+    <value>إعادة ضبط NIP</value>
+  </data>
+  <data name="Ui.Pages.SearchFlags" xml:space="preserve">
+    <value>البحث عن العلامات</value>
+  </data>
+  <data name="Ui.Pages.LookingFor" xml:space="preserve">
+    <value>جارٍ البحث عن</value>
+  </data>
+  <data name="Ui.Pages.AddAnNVIDIASettingToGet" xml:space="preserve">
+    <value>أضف إعداد NVIDIA للبدء.</value>
+  </data>
+  <data name="Ui.Pages.ExportNIP" xml:space="preserve">
+    <value>تصدير .NIP</value>
+  </data>
+  <data name="Ui.Pages.CopyFlags" xml:space="preserve">
+    <value>نسخ العلامات</value>
+  </data>
+  <data name="Ui.Pages.NVIDIAFlagHistory" xml:space="preserve">
+    <value>سجل علامات NVIDIA</value>
+  </data>
+  <data name="Ui.Pages.TracksChangesMadeToNVIDIAFlags" xml:space="preserve">
+    <value>يتتبع التغييرات على علامات NVIDIA في هذه الجلسة.</value>
+  </data>
+  <data name="Ui.Pages.UndoSelected" xml:space="preserve">
+    <value>التراجع عن المحدد</value>
+  </data>
+  <data name="Ui.Pages.ClearHistory" xml:space="preserve">
+    <value>مسح السجل</value>
+  </data>
+  <data name="Ui.Pages.NoChangesRecorded" xml:space="preserve">
+    <value>لا توجد تغييرات مسجلة</value>
+  </data>
+  <data name="Ui.Pages.DoubleClickToRevertThisChange" xml:space="preserve">
+    <value>انقر نقرًا مزدوجًا للتراجع عن هذا التغيير</value>
+  </data>
+  <data name="Ui.Pages.ManageYourFastFlagsACheckmarkIn" xml:space="preserve">
+    <value>أدر FastFlags الخاصة بك. علامة الصح في Preset تعني أن العلامة متاحة في إعدادات FFlag، والإكس يعني أنها غير متاحة.</value>
+  </data>
+  <data name="Ui.Pages.Preset" xml:space="preserve">
+    <value>Preset</value>
+  </data>
+  <data name="Ui.Pages.GoToFFlagSettingsToAdd" xml:space="preserve">
+    <value>انتقل إلى إعدادات FFlag لإضافة FFlags من Preset.</value>
+  </data>
+  <data name="Ui.Pages.Find" xml:space="preserve">
+    <value>بحث</value>
+  </data>
+  <data name="Ui.Pages.FFlagHistory" xml:space="preserve">
+    <value>سجل FFlag</value>
+  </data>
+  <data name="Ui.Pages.TracksEveryChangeYouMakeTo" xml:space="preserve">
+    <value>يتتبع كل تغيير تجريه على علاماتك في هذه الجلسة. اختر إدخالًا واضغط التراجع عن المحدد، أو انقر عليه نقرًا مزدوجًا، للتراجع عن ذلك التغيير.</value>
+  </data>
+  <data name="Ui.Pages.History" xml:space="preserve">
+    <value>السجل</value>
+  </data>
+  <data name="Ui.Pages.ContinueWhereYouLeftOff" xml:space="preserve">
+    <value>تابع من حيث توقفت</value>
+  </data>
+  <data name="Ui.Pages.ClearAll" xml:space="preserve">
+    <value>مسح الكل</value>
+  </data>
+  <data name="Ui.Pages.SearchByGameNameCreatorOr" xml:space="preserve">
+    <value>البحث باسم اللعبة أو المنشئ أو place ID...</value>
+  </data>
+  <data name="Ui.Pages.Downloads" xml:space="preserve">
+    <value>التنزيلات</value>
+  </data>
+  <data name="Ui.Pages.Installed" xml:space="preserve">
+    <value>مثبّت</value>
+  </data>
+  <data name="Ui.Pages.Update" xml:space="preserve">
+    <value>تحديث</value>
+  </data>
+  <data name="Ui.Pages.SearchYourInstalls" xml:space="preserve">
+    <value>البحث في تثبيتاتك</value>
+  </data>
+  <data name="Ui.Pages.InstallFolder" xml:space="preserve">
+    <value>مجلد التثبيت</value>
+  </data>
+  <data name="Ui.Pages.ClassicClients" xml:space="preserve">
+    <value>العملاء الكلاسيكيون</value>
+  </data>
+  <data name="Ui.Pages.Map" xml:space="preserve">
+    <value>الخريطة</value>
+  </data>
+  <data name="Ui.Pages.PickAnInstallOnTheLeft" xml:space="preserve">
+    <value>اختر تثبيتًا من اليسار لعرض تفاصيله.</value>
+  </data>
+  <data name="Ui.Pages.Addons" xml:space="preserve">
+    <value>الإضافات</value>
+  </data>
+  <data name="Ui.Pages.FleasionOpenInExtensions" xml:space="preserve">
+    <value>Fleasion، فتح في الإضافات</value>
+  </data>
+  <data name="Ui.Pages.RiShadeOpenInExtensions" xml:space="preserve">
+    <value>RiShade، فتح في الإضافات</value>
+  </data>
+  <data name="Ui.Pages.RojoOpenInExtensions" xml:space="preserve">
+    <value>Rojo، فتح في الإضافات</value>
+  </data>
+  <data name="Ui.Pages.VoidstrapStudioPluginOpenInExtensions" xml:space="preserve">
+    <value>إضافة Studio من Voidstrap، فتح في الإضافات</value>
+  </data>
+  <data name="Ui.Pages.ChangeInstallLocation" xml:space="preserve">
+    <value>تغيير موقع التثبيت</value>
+  </data>
+  <data name="Ui.Pages.OpenInstallFolder" xml:space="preserve">
+    <value>فتح مجلد التثبيت</value>
+  </data>
+  <data name="Ui.Pages.VerifyFiles" xml:space="preserve">
+    <value>التحقق من الملفات</value>
+  </data>
+  <data name="Ui.Pages.MyPresets" xml:space="preserve">
+    <value>إعداداتي المسبقة</value>
+  </data>
+  <data name="Ui.Pages.ImportAPreset" xml:space="preserve">
+    <value>استيراد إعداد مسبق</value>
+  </data>
+  <data name="Ui.Pages.ExportThisPreset" xml:space="preserve">
+    <value>تصدير هذا الإعداد المسبق</value>
+  </data>
+  <data name="Ui.Pages.ImportAReShadeIni" xml:space="preserve">
+    <value>استيراد ini من ReShade</value>
+  </data>
+  <data name="Ui.Pages.DeleteTheSelectedPreset" xml:space="preserve">
+    <value>حذف الإعداد المسبق المحدد</value>
+  </data>
+  <data name="Ui.Pages.NameThisLookToSaveIt" xml:space="preserve">
+    <value>سمِّ هذا المظهر لحفظه</value>
+  </data>
+  <data name="Ui.Pages.F8OpensAndClosesThisWindow" xml:space="preserve">
+    <value>يفتح F8 هذه النافذة ويغلقها داخل اللعبة</value>
+  </data>
+  <data name="Ui.Pages.TurnEverythingOff" xml:space="preserve">
+    <value>إيقاف كل شيء</value>
+  </data>
 </root>

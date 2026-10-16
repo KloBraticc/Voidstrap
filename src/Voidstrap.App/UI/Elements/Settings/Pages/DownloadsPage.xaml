@@ -7,7 +7,7 @@
            xmlns:pages="clr-namespace:Voidstrap.UI.Elements.Settings.Pages"
            xmlns:fx="clr-namespace:Voidstrap.UI"
            xmlns:resources="clr-namespace:Voidstrap.Resources"
-           Title="Downloads" Scrollable="False">
+           Title="{resources:Loc Ui_Pages_Downloads}" Scrollable="False">
     <FrameworkElement.Resources>
         <ResourceDictionary>
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
@@ -92,13 +92,13 @@
                             <Border HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Padding="7,2" CornerRadius="6" Background="#CC1E1E24" Visibility="{Binding IsInstalled, Converter={StaticResource BooleanToVisibilityConverter}}">
                                 <StackPanel Orientation="Horizontal">
                                     <ui:SymbolIcon Symbol="CheckmarkCircle16" FontSize="12" Foreground="{DynamicResource SystemFillColorSuccessBrush}" VerticalAlignment="Center" />
-                                    <TextBlock Text="Installed" FontSize="11" Foreground="White" Margin="4,0,0,0" VerticalAlignment="Center" />
+                                    <TextBlock Text="{resources:Loc Ui_Pages_Installed}" FontSize="11" Foreground="White" Margin="4,0,0,0" VerticalAlignment="Center" />
                                 </StackPanel>
                             </Border>
                             <Border HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Padding="7,2" CornerRadius="6" Background="#CC1E1E24" Visibility="{Binding UpdateAvailable, Converter={StaticResource BooleanToVisibilityConverter}}">
                                 <StackPanel Orientation="Horizontal">
                                     <ui:SymbolIcon Symbol="ArrowSync16" FontSize="12" Foreground="{DynamicResource AccentFillColorDefaultBrush}" VerticalAlignment="Center" />
-                                    <TextBlock Text="Update" FontSize="11" Foreground="White" Margin="4,0,0,0" VerticalAlignment="Center" />
+                                    <TextBlock Text="{resources:Loc Ui_Pages_Update}" FontSize="11" Foreground="White" Margin="4,0,0,0" VerticalAlignment="Center" />
                                 </StackPanel>
                             </Border>
                             <Border VerticalAlignment="Bottom" Margin="1" Padding="10,8" CornerRadius="0,0,10,10" Background="#CC1E1E24" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
@@ -154,10 +154,10 @@
                         </ComboBox>
                         <Rectangle Grid.Column="1" Width="1" Margin="4,10" Fill="{DynamicResource ControlElevationBorderBrush}" />
                         <TextBox x:Name="SearchBox" Grid.Column="2" Margin="4,0,6,0" VerticalAlignment="Center" BorderThickness="0" Background="Transparent" FontSize="13" TextChanged="SearchBox_TextChanged" />
-                        <TextBlock x:Name="SearchPlaceholder" Grid.Column="2" Margin="14,0,0,0" VerticalAlignment="Center" FontSize="13" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Search your installs" IsHitTestVisible="False" />
+                        <TextBlock x:Name="SearchPlaceholder" Grid.Column="2" Margin="14,0,0,0" VerticalAlignment="Center" FontSize="13" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Pages_SearchYourInstalls}" IsHitTestVisible="False" />
                     </Grid>
                 </Border>
-                <ui:Button Grid.Column="2" Height="44" Margin="10,0,0,0" Padding="14,0" Icon="FolderOpen24" Content="Install folder" Appearance="Secondary" Command="{Binding OpenRootCommand}" />
+                <ui:Button Grid.Column="2" Height="44" Margin="10,0,0,0" Padding="14,0" Icon="FolderOpen24" Content="{resources:Loc Ui_Pages_InstallFolder}" Appearance="Secondary" Command="{Binding OpenRootCommand}" />
             </Grid>
 
             <ui:DynamicScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="0,0,10,0">
@@ -180,8 +180,8 @@
                                 <ColumnDefinition Width="Auto" />
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="Classic clients" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center" />
-                            <TextBlock Grid.Column="1" Text="Map" FontSize="12" Opacity="0.7" Margin="0,0,8,0" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="0" Text="{resources:Loc Ui_Pages_ClassicClients}" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center" />
+                            <TextBlock Grid.Column="1" Text="{resources:Loc Ui_Pages_Map}" FontSize="12" Opacity="0.7" Margin="0,0,8,0" VerticalAlignment="Center" />
                             <ComboBox Grid.Column="2" MinWidth="170" Padding="10,5" ItemsSource="{Binding ClientMaps}" SelectedItem="{Binding SelectedClassicMap, Mode=TwoWay}" VerticalAlignment="Center" />
                         </Grid>
                         <ItemsControl x:Name="ClassicItems" ItemsSource="{Binding ClientItems}" ItemTemplate="{StaticResource PosterCardTemplate}">
@@ -198,7 +198,7 @@
 
         <Border x:Name="DetailPanel" Grid.Column="1" CornerRadius="12" Background="{DynamicResource ControlFillColorDefaultBrush}" BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="1" Margin="0,0,0,4" Visibility="Collapsed">
             <Grid>
-                <TextBlock Text="Pick an install on the left to see its details." FontSize="13" Opacity="0.6" Margin="24" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <TextBlock Text="{resources:Loc Ui_Pages_PickAnInstallOnTheLeft}" FontSize="13" Opacity="0.6" Margin="24" TextWrapping="Wrap" TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center">
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
                             <Setter Property="Visibility" Value="Visible" />
@@ -283,7 +283,7 @@
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="Size" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Column="0" Text="{resources:Loc Ui_Mods_Size}" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" />
                                     <Border Grid.Column="1" Padding="10,5" CornerRadius="8" Background="{DynamicResource ControlFillColorSecondaryBrush}" BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="1">
                                         <TextBlock Text="{Binding SizeText}" FontSize="12" />
                                     </Border>
@@ -294,21 +294,21 @@
                                         <ColumnDefinition Width="*" />
                                         <ColumnDefinition Width="Auto" />
                                     </Grid.ColumnDefinitions>
-                                    <TextBlock Grid.Column="0" Text="Addons" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" />
+                                    <TextBlock Grid.Column="0" Text="{resources:Loc Ui_Pages_Addons}" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" />
                                     <StackPanel Grid.Column="1" Orientation="Horizontal">
-                                        <Button x:Name="FleasionAddonButton" Style="{StaticResource AddonChipStyle}" Click="Addon_Click" ToolTip="Fleasion, open in Extensions" Visibility="{Binding ShowFleasion, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        <Button x:Name="FleasionAddonButton" Style="{StaticResource AddonChipStyle}" Click="Addon_Click" ToolTip="{resources:Loc Ui_Pages_FleasionOpenInExtensions}" Visibility="{Binding ShowFleasion, Converter={StaticResource BooleanToVisibilityConverter}}">
                                             <Image Width="20" Height="20" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" Source="pack://application:,,,/Voidstrap;component/Resources/AppImages/ext-fleasion.png" />
                                         </Button>
-                                        <Button x:Name="RiShadeAddonButton" Style="{StaticResource AddonChipStyle}" Click="Addon_Click" ToolTip="RiShade, open in Extensions" Visibility="{Binding ShowFleasion, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        <Button x:Name="RiShadeAddonButton" Style="{StaticResource AddonChipStyle}" Click="Addon_Click" ToolTip="{resources:Loc Ui_Pages_RiShadeOpenInExtensions}" Visibility="{Binding ShowFleasion, Converter={StaticResource BooleanToVisibilityConverter}}">
                                             <Image Width="20" Height="20" util:DynamicRenderSystem.LazyImageSource="https://raw.githubusercontent.com/KloBraticc/RiShade/main/Images/RiShde.png" />
                                         </Button>
                                         <Button Style="{StaticResource AddonChipStyle}" Click="Addon_Click" Tag="swifttunnel" ToolTip="SwiftTunnel" Visibility="{Binding ShowSwiftTunnel, Converter={StaticResource BooleanToVisibilityConverter}}">
                                             <Image Width="20" Height="20" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" Source="pack://application:,,,/Voidstrap;component/Resources/AppImages/ext-swifttunnel.png" />
                                         </Button>
-                                        <Button x:Name="RojoAddonButton" Style="{StaticResource AddonChipStyle}" Click="Addon_Click" ToolTip="Rojo, open in Extensions" Visibility="{Binding ShowStudioAddons, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        <Button x:Name="RojoAddonButton" Style="{StaticResource AddonChipStyle}" Click="Addon_Click" ToolTip="{resources:Loc Ui_Pages_RojoOpenInExtensions}" Visibility="{Binding ShowStudioAddons, Converter={StaticResource BooleanToVisibilityConverter}}">
                                             <Image Width="20" Height="20" util:DynamicRenderSystem.LazyImageSource="https://github.com/rojo-rbx.png" />
                                         </Button>
-                                        <Button x:Name="StudioPluginAddonButton" Style="{StaticResource AddonChipStyle}" Margin="0" Click="Addon_Click" ToolTip="Voidstrap Studio plugin, open in Extensions" Visibility="{Binding ShowStudioAddons, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                        <Button x:Name="StudioPluginAddonButton" Style="{StaticResource AddonChipStyle}" Margin="0" Click="Addon_Click" ToolTip="{resources:Loc Ui_Pages_VoidstrapStudioPluginOpenInExtensions}" Visibility="{Binding ShowStudioAddons, Converter={StaticResource BooleanToVisibilityConverter}}">
                                             <Image Width="20" Height="20" Source="pack://application:,,,/Voidstrap.png" />
                                         </Button>
                                     </StackPanel>
@@ -323,7 +323,7 @@
                                         </Grid.ColumnDefinitions>
                                         <ui:SymbolIcon Grid.Column="0" Symbol="Folder24" FontSize="15" Foreground="{DynamicResource AccentFillColorDefaultBrush}" VerticalAlignment="Center" />
                                         <TextBlock Grid.Column="1" Text="{Binding LocationText}" FontSize="12" Margin="8,0" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
-                                        <ui:Button Grid.Column="2" Width="26" Height="26" Padding="0" Appearance="Transparent" Icon="ArrowSwap20" FontSize="14" ToolTip="Change install location" Command="{Binding ChangeLocationCommand}" />
+                                        <ui:Button Grid.Column="2" Width="26" Height="26" Padding="0" Appearance="Transparent" Icon="ArrowSwap20" FontSize="14" ToolTip="{resources:Loc Ui_Pages_ChangeInstallLocation}" Command="{Binding ChangeLocationCommand}" />
                                     </Grid>
                                 </Border>
 
@@ -363,8 +363,8 @@
                             <ColumnDefinition Width="8" />
                             <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <ui:Button Grid.Column="0" Width="42" Height="42" Padding="0" Appearance="Secondary" Icon="FolderOpen24" FontSize="18" ToolTip="Open install folder" Command="{Binding OpenFolderCommand}" />
-                        <ui:Button Grid.Column="2" Width="42" Height="42" Padding="0" Appearance="Secondary" Icon="DocumentSearch24" FontSize="18" ToolTip="Verify files" AutomationProperties.Name="Verify files" IsEnabled="{Binding CanVerify}" Command="{Binding VerifyCommand}" />
+                        <ui:Button Grid.Column="0" Width="42" Height="42" Padding="0" Appearance="Secondary" Icon="FolderOpen24" FontSize="18" ToolTip="{resources:Loc Ui_Pages_OpenInstallFolder}" Command="{Binding OpenFolderCommand}" />
+                        <ui:Button Grid.Column="2" Width="42" Height="42" Padding="0" Appearance="Secondary" Icon="DocumentSearch24" FontSize="18" ToolTip="{resources:Loc Ui_Pages_VerifyFiles}" AutomationProperties.Name="{resources:Loc Ui_Pages_VerifyFiles}" IsEnabled="{Binding CanVerify}" Command="{Binding VerifyCommand}" />
                         <ui:Button Grid.Column="4" Height="42" Icon="ArrowDownload24" FontSize="15" FontWeight="SemiBold" Appearance="Primary" Content="{Binding PrimaryButtonText}" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center" IsEnabled="{Binding CanPrimary}" Command="{Binding InstallCommand}" />
                         <ui:Button Grid.Column="6" Width="42" Height="42" Padding="0" Appearance="Danger" Icon="Delete24" FontSize="18" ToolTip="{resources:Loc Uninstaller_Uninstall}" IsEnabled="{Binding CanUninstall}" Command="{Binding UninstallCommand}" />
                     </Grid>

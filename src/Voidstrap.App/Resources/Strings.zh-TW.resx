@@ -5660,4 +5660,448 @@ Voidstrap 安裝在 "{1}"。</value>
   <data name="Ui.Misc.Bundled" xml:space="preserve">
     <value>內建</value>
   </data>
+  <data name="Ui.Pages.Library" xml:space="preserve">
+    <value>收藏庫</value>
+  </data>
+  <data name="Ui.Pages.Play" xml:space="preserve">
+    <value>開始遊玩</value>
+  </data>
+  <data name="Ui.Pages.RemoveFromLibrary" xml:space="preserve">
+    <value>從收藏庫移除</value>
+  </data>
+  <data name="Ui.Pages.LibraryHome" xml:space="preserve">
+    <value>收藏庫首頁</value>
+  </data>
+  <data name="Ui.Pages.SearchGames" xml:space="preserve">
+    <value>搜尋遊戲</value>
+  </data>
+  <data name="Ui.Pages.RefreshLibrary" xml:space="preserve">
+    <value>重新整理收藏庫</value>
+  </data>
+  <data name="Ui.Pages.AddByPlaceIdOrLink" xml:space="preserve">
+    <value>透過 PlaceId 或連結新增</value>
+  </data>
+  <data name="Ui.Pages.AddThisGameToYourLibrary" xml:space="preserve">
+    <value>將這款遊戲加入收藏庫</value>
+  </data>
+  <data name="Ui.Pages.YourLibraryIsEmptyPlayA" xml:space="preserve">
+    <value>你的收藏庫是空的。透過 Voidstrap 玩一款遊戲，或在側邊欄透過 PlaceId 新增。</value>
+  </data>
+  <data name="Ui.Pages.Events" xml:space="preserve">
+    <value>活動</value>
+  </data>
+  <data name="Ui.Pages.ViewEvent" xml:space="preserve">
+    <value>查看活動</value>
+  </data>
+  <data name="Ui.Pages.WhatSNew" xml:space="preserve">
+    <value>最新內容</value>
+  </data>
+  <data name="Ui.Pages.RecentGames" xml:space="preserve">
+    <value>最近的遊戲</value>
+  </data>
+  <data name="Ui.Pages.RemoveThisGameFromYourLibrary" xml:space="preserve">
+    <value>從收藏庫移除這款遊戲</value>
+  </data>
+  <data name="Ui.Pages.LASTPLAYED" xml:space="preserve">
+    <value>上次遊玩</value>
+  </data>
+  <data name="Ui.Pages.PLAYTIME" xml:space="preserve">
+    <value>遊玩時間</value>
+  </data>
+  <data name="Ui.Pages.PLAYINGNOW" xml:space="preserve">
+    <value>正在遊玩</value>
+  </data>
+  <data name="Ui.Pages.RATING" xml:space="preserve">
+    <value>評分</value>
+  </data>
+  <data name="Ui.Pages.Genre" xml:space="preserve">
+    <value>類型</value>
+  </data>
+  <data name="Ui.Pages.MaxPlayers" xml:space="preserve">
+    <value>玩家上限</value>
+  </data>
+  <data name="Ui.Pages.Visits" xml:space="preserve">
+    <value>造訪次數</value>
+  </data>
+  <data name="Ui.Pages.Created" xml:space="preserve">
+    <value>建立時間</value>
+  </data>
+  <data name="Ui.Pages.Updated" xml:space="preserve">
+    <value>更新時間</value>
+  </data>
+  <data name="Ui.Pages.Store" xml:space="preserve">
+    <value>商店</value>
+  </data>
+  <data name="Ui.Pages.OpenThisGamepassOnRobloxCom" xml:space="preserve">
+    <value>在 roblox.com 開啟此遊戲通行證</value>
+  </data>
+  <data name="Ui.Pages.AddNVIDIASettings" xml:space="preserve">
+    <value>新增 NVIDIA 設定</value>
+  </data>
+  <data name="Ui.Pages.AddOneSettingOrImportSeveral" xml:space="preserve">
+    <value>新增一項設定或一次匯入多項。</value>
+  </data>
+  <data name="Ui.Pages.Single" xml:space="preserve">
+    <value>單項</value>
+  </data>
+  <data name="Ui.Pages.SettingDetails" xml:space="preserve">
+    <value>設定詳細資訊</value>
+  </data>
+  <data name="Ui.Pages.UseTheValuesShownByNVIDIA" xml:space="preserve">
+    <value>使用 NVIDIA Profile Inspector 顯示的值。</value>
+  </data>
+  <data name="Ui.Pages.ExampleFrameRateLimiter" xml:space="preserve">
+    <value>範例：Frame rate limiter</value>
+  </data>
+  <data name="Ui.Pages.SettingID" xml:space="preserve">
+    <value>設定 ID</value>
+  </data>
+  <data name="Ui.Pages.ValueType" xml:space="preserve">
+    <value>值類型</value>
+  </data>
+  <data name="Ui.Pages.DecimalOr0xHex" xml:space="preserve">
+    <value>十進位或 0x 十六進位</value>
+  </data>
+  <data name="Ui.Pages.BooleanAcceptsTrueFalse1Or" xml:space="preserve">
+    <value>Boolean 接受 true、false、1 或 0。</value>
+  </data>
+  <data name="Ui.Pages.NIPProfile" xml:space="preserve">
+    <value>NIP 設定檔</value>
+  </data>
+  <data name="Ui.Pages.ImportAProfile" xml:space="preserve">
+    <value>匯入設定檔</value>
+  </data>
+  <data name="Ui.Pages.ChooseANIPFileOrPaste" xml:space="preserve">
+    <value>選擇 NIP 檔案或在下方貼上內容。</value>
+  </data>
+  <data name="Ui.Pages.ChooseNIPFile" xml:space="preserve">
+    <value>選擇 NIP 檔案</value>
+  </data>
+  <data name="Ui.Pages.PasteRows" xml:space="preserve">
+    <value>貼上列</value>
+  </data>
+  <data name="Ui.Pages.PasteSettings" xml:space="preserve">
+    <value>貼上設定</value>
+  </data>
+  <data name="Ui.Pages.EnterOneSettingPerLineName" xml:space="preserve">
+    <value>每行一項設定：名稱 | ID | 值 | 類型</value>
+  </data>
+  <data name="Ui.Pages.SupportedTypesDwordBooleanAndHex" xml:space="preserve">
+    <value>支援的類型：Dword、Boolean 和 Hex。</value>
+  </data>
+  <data name="Ui.Pages.AddSettings" xml:space="preserve">
+    <value>新增設定</value>
+  </data>
+  <data name="Ui.Pages.GameShortcut" xml:space="preserve">
+    <value>遊戲捷徑</value>
+  </data>
+  <data name="Ui.Pages.LaunchAGameNowOrCreate" xml:space="preserve">
+    <value>立即啟動遊戲，或建立可重複使用的桌面捷徑</value>
+  </data>
+  <data name="Ui.Pages.Destination" xml:space="preserve">
+    <value>目的地</value>
+  </data>
+  <data name="Ui.Pages.UseThePlaceIDFromThe" xml:space="preserve">
+    <value>使用 Roblox 遊戲網址中的 place ID。</value>
+  </data>
+  <data name="Ui.Pages.Example1818" xml:space="preserve">
+    <value>範例：1818</value>
+  </data>
+  <data name="Ui.Pages.UseAPrivateServerShareLink" xml:space="preserve">
+    <value>使用私人伺服器的分享連結或存取碼</value>
+  </data>
+  <data name="Ui.Pages.ShareLinkOrAccessCode" xml:space="preserve">
+    <value>分享連結或存取碼</value>
+  </data>
+  <data name="Ui.Pages.PasteTheCompletePrivateServerLink" xml:space="preserve">
+    <value>貼上完整的私人伺服器連結</value>
+  </data>
+  <data name="Ui.Pages.ServerInstanceID" xml:space="preserve">
+    <value>伺服器執行個體 ID</value>
+  </data>
+  <data name="Ui.Pages.OptionalPublicServerInstance" xml:space="preserve">
+    <value>選用的公開伺服器執行個體</value>
+  </data>
+  <data name="Ui.Pages.LaunchGame" xml:space="preserve">
+    <value>啟動遊戲</value>
+  </data>
+  <data name="Ui.Pages.CreateDesktopShortcut" xml:space="preserve">
+    <value>建立桌面捷徑</value>
+  </data>
+  <data name="Ui.Pages.AdvancedEditor" xml:space="preserve">
+    <value>進階編輯器</value>
+  </data>
+  <data name="Ui.Pages.OpenTheRawNVIDIAProfileInspector" xml:space="preserve">
+    <value>開啟 NVIDIA Profile Inspector 原始編輯器。僅建議進階使用者使用。</value>
+  </data>
+  <data name="Ui.Pages.ApplyChanges" xml:space="preserve">
+    <value>套用變更</value>
+  </data>
+  <data name="Ui.Pages.GameDetails" xml:space="preserve">
+    <value>遊戲詳細資訊</value>
+  </data>
+  <data name="Ui.Pages.ImageQualityFramePacingAndPerformance" xml:space="preserve">
+    <value>畫質、影格節奏和效能相關選項。</value>
+  </data>
+  <data name="Ui.Pages.TextureQualityLODBias" xml:space="preserve">
+    <value>材質品質 (LOD Bias)</value>
+  </data>
+  <data name="Ui.Pages.LowerValuesProduceSharperTexturesHigher" xml:space="preserve">
+    <value>數值越低材質越銳利。數值越高效能越好，但細節會減少。</value>
+  </data>
+  <data name="Ui.Pages.ImprovesAntiAliasingQualityByCombining" xml:space="preserve">
+    <value>透過在多個影格間組合 MSAA 取樣來提升反鋸齒品質，對效能影響極小。</value>
+  </data>
+  <data name="Ui.Pages.GammaCorrection" xml:space="preserve">
+    <value>Gamma 校正</value>
+  </data>
+  <data name="Ui.Pages.AdjustsHowBrightnessValuesAreMapped" xml:space="preserve">
+    <value>調整亮度值的對應方式，影響對比、暗部細節和中間調。</value>
+  </data>
+  <data name="Ui.Pages.BenchmarkOverlay" xml:space="preserve">
+    <value>基準測試疊加層</value>
+  </data>
+  <data name="Ui.Pages.FrameRateLimiter" xml:space="preserve">
+    <value>影格率限制器</value>
+  </data>
+  <data name="Ui.Pages.BackgroundApplicationFrameRateLimit" xml:space="preserve">
+    <value>背景應用程式影格率限制</value>
+  </data>
+  <data name="Ui.Pages.LimitsTheMaximumFrameRateWhen" xml:space="preserve">
+    <value>在應用程式於背景執行時限制最大影格率，以降低 GPU 和 CPU 使用量。</value>
+  </data>
+  <data name="Ui.Pages.LowLatencyModes" xml:space="preserve">
+    <value>低延遲模式</value>
+  </data>
+  <data name="Ui.Pages.ControlsHowManyFramesAreQueued" xml:space="preserve">
+    <value>控制排隊的影格數以降低輸入延遲。</value>
+  </data>
+  <data name="Ui.Pages.CPLLowLatencyMode" xml:space="preserve">
+    <value>CPL 低延遲模式</value>
+  </data>
+  <data name="Ui.Pages.FRLLowLatencyMode" xml:space="preserve">
+    <value>FRL 低延遲模式</value>
+  </data>
+  <data name="Ui.Pages.DriverLevelLowLatencyControlUsing" xml:space="preserve">
+    <value>使用影格率限制器邏輯的驅動程式層級低延遲控制。</value>
+  </data>
+  <data name="Ui.Pages.HardwareAndDriverOverrides" xml:space="preserve">
+    <value>硬體和驅動程式覆寫</value>
+  </data>
+  <data name="Ui.Pages.OverridesThatAffectGPUBehaviorAnd" xml:space="preserve">
+    <value>影響 GPU 行為和驅動程式功能的覆寫設定。</value>
+  </data>
+  <data name="Ui.Pages.ResizableBAR" xml:space="preserve">
+    <value>Resizable BAR</value>
+  </data>
+  <data name="Ui.Pages.AllowsTheCPUToAccessThe" xml:space="preserve">
+    <value>在支援的系統上允許 CPU 存取全部 GPU 記憶體。</value>
+  </data>
+  <data name="Ui.Pages.SILKSmoothness" xml:space="preserve">
+    <value>SILK 平滑度</value>
+  </data>
+  <data name="Ui.Pages.ControlsNVIDIASILKFrameSmoothingIntensity" xml:space="preserve">
+    <value>控制 NVIDIA SILK 影格平滑的強度。</value>
+  </data>
+  <data name="Ui.Pages.BrowseAndManageExtensionsForVoidstrap" xml:space="preserve">
+    <value>瀏覽和管理 Voidstrap 及其社群的擴充功能。</value>
+  </data>
+  <data name="Ui.Pages.SearchExtensions" xml:space="preserve">
+    <value>搜尋擴充功能</value>
+  </data>
+  <data name="Ui.Pages.VoidstrapAssets" xml:space="preserve">
+    <value>Voidstrap 資源</value>
+  </data>
+  <data name="Ui.Pages.BackToExtensions" xml:space="preserve">
+    <value>返回擴充功能</value>
+  </data>
+  <data name="Ui.Pages.OpenTheSourcePage" xml:space="preserve">
+    <value>開啟來源頁面</value>
+  </data>
+  <data name="Ui.Pages.Description" xml:space="preserve">
+    <value>說明</value>
+  </data>
+  <data name="Ui.Pages.ProjectTools" xml:space="preserve">
+    <value>專案工具</value>
+  </data>
+  <data name="Ui.Pages.ProjectFolder" xml:space="preserve">
+    <value>專案資料夾</value>
+  </data>
+  <data name="Ui.Pages.NewProject" xml:space="preserve">
+    <value>新增專案</value>
+  </data>
+  <data name="Ui.Pages.BuildPlace" xml:space="preserve">
+    <value>建置場景</value>
+  </data>
+  <data name="Ui.Pages.InstallStudioPlugin" xml:space="preserve">
+    <value>安裝 Studio 外掛程式</value>
+  </data>
+  <data name="Ui.Pages.Versions" xml:space="preserve">
+    <value>版本</value>
+  </data>
+  <data name="Ui.Pages.OpenOnGitHub" xml:space="preserve">
+    <value>在 GitHub 上開啟</value>
+  </data>
+  <data name="Ui.Pages.WorksWith" xml:space="preserve">
+    <value>適用於</value>
+  </data>
+  <data name="Ui.Pages.Tags" xml:space="preserve">
+    <value>標籤</value>
+  </data>
+  <data name="Ui.Pages.Creators" xml:space="preserve">
+    <value>創作者</value>
+  </data>
+  <data name="Ui.Pages.NVIDIAFFlagEditor" xml:space="preserve">
+    <value>NVIDIA FFlag 編輯器</value>
+  </data>
+  <data name="Ui.Pages.ManageNVIDIASettingsSavedInYour" xml:space="preserve">
+    <value>管理儲存在 NIP 設定檔中的 NVIDIA 設定。</value>
+  </data>
+  <data name="Ui.Pages.AddNew" xml:space="preserve">
+    <value>新增</value>
+  </data>
+  <data name="Ui.Pages.DeleteSelected" xml:space="preserve">
+    <value>刪除所選</value>
+  </data>
+  <data name="Ui.Pages.DeleteAll" xml:space="preserve">
+    <value>全部刪除</value>
+  </data>
+  <data name="Ui.Pages.ResetNIP" xml:space="preserve">
+    <value>重設 NIP</value>
+  </data>
+  <data name="Ui.Pages.SearchFlags" xml:space="preserve">
+    <value>搜尋旗標</value>
+  </data>
+  <data name="Ui.Pages.LookingFor" xml:space="preserve">
+    <value>正在尋找</value>
+  </data>
+  <data name="Ui.Pages.AddAnNVIDIASettingToGet" xml:space="preserve">
+    <value>新增一項 NVIDIA 設定即可開始。</value>
+  </data>
+  <data name="Ui.Pages.ExportNIP" xml:space="preserve">
+    <value>匯出 .NIP</value>
+  </data>
+  <data name="Ui.Pages.CopyFlags" xml:space="preserve">
+    <value>複製旗標</value>
+  </data>
+  <data name="Ui.Pages.NVIDIAFlagHistory" xml:space="preserve">
+    <value>NVIDIA 旗標紀錄</value>
+  </data>
+  <data name="Ui.Pages.TracksChangesMadeToNVIDIAFlags" xml:space="preserve">
+    <value>記錄這次工作階段中對 NVIDIA 旗標的變更。</value>
+  </data>
+  <data name="Ui.Pages.UndoSelected" xml:space="preserve">
+    <value>復原所選</value>
+  </data>
+  <data name="Ui.Pages.ClearHistory" xml:space="preserve">
+    <value>清除紀錄</value>
+  </data>
+  <data name="Ui.Pages.NoChangesRecorded" xml:space="preserve">
+    <value>沒有記錄的變更</value>
+  </data>
+  <data name="Ui.Pages.DoubleClickToRevertThisChange" xml:space="preserve">
+    <value>按兩下即可還原此變更</value>
+  </data>
+  <data name="Ui.Pages.ManageYourFastFlagsACheckmarkIn" xml:space="preserve">
+    <value>管理你的 FastFlags。Preset 中的勾號表示該旗標在 FFlag 設定中可用，叉號表示不可用。</value>
+  </data>
+  <data name="Ui.Pages.Preset" xml:space="preserve">
+    <value>Preset</value>
+  </data>
+  <data name="Ui.Pages.GoToFFlagSettingsToAdd" xml:space="preserve">
+    <value>前往 FFlag 設定以新增 Preset FFlags。</value>
+  </data>
+  <data name="Ui.Pages.Find" xml:space="preserve">
+    <value>尋找</value>
+  </data>
+  <data name="Ui.Pages.FFlagHistory" xml:space="preserve">
+    <value>FFlag 紀錄</value>
+  </data>
+  <data name="Ui.Pages.TracksEveryChangeYouMakeTo" xml:space="preserve">
+    <value>記錄這次工作階段中對旗標的每次變更。選取一個項目並按復原所選，或按兩下該項目，即可還原變更。</value>
+  </data>
+  <data name="Ui.Pages.History" xml:space="preserve">
+    <value>紀錄</value>
+  </data>
+  <data name="Ui.Pages.ContinueWhereYouLeftOff" xml:space="preserve">
+    <value>從上次離開的地方繼續</value>
+  </data>
+  <data name="Ui.Pages.ClearAll" xml:space="preserve">
+    <value>全部清除</value>
+  </data>
+  <data name="Ui.Pages.SearchByGameNameCreatorOr" xml:space="preserve">
+    <value>依遊戲名稱、創作者或 place ID 搜尋...</value>
+  </data>
+  <data name="Ui.Pages.Downloads" xml:space="preserve">
+    <value>下載</value>
+  </data>
+  <data name="Ui.Pages.Installed" xml:space="preserve">
+    <value>已安裝</value>
+  </data>
+  <data name="Ui.Pages.Update" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="Ui.Pages.SearchYourInstalls" xml:space="preserve">
+    <value>搜尋你的安裝</value>
+  </data>
+  <data name="Ui.Pages.InstallFolder" xml:space="preserve">
+    <value>安裝資料夾</value>
+  </data>
+  <data name="Ui.Pages.ClassicClients" xml:space="preserve">
+    <value>經典用戶端</value>
+  </data>
+  <data name="Ui.Pages.Map" xml:space="preserve">
+    <value>地圖</value>
+  </data>
+  <data name="Ui.Pages.PickAnInstallOnTheLeft" xml:space="preserve">
+    <value>在左側選擇一個安裝以查看詳細資訊。</value>
+  </data>
+  <data name="Ui.Pages.Addons" xml:space="preserve">
+    <value>附加元件</value>
+  </data>
+  <data name="Ui.Pages.FleasionOpenInExtensions" xml:space="preserve">
+    <value>Fleasion，在擴充功能中開啟</value>
+  </data>
+  <data name="Ui.Pages.RiShadeOpenInExtensions" xml:space="preserve">
+    <value>RiShade，在擴充功能中開啟</value>
+  </data>
+  <data name="Ui.Pages.RojoOpenInExtensions" xml:space="preserve">
+    <value>Rojo，在擴充功能中開啟</value>
+  </data>
+  <data name="Ui.Pages.VoidstrapStudioPluginOpenInExtensions" xml:space="preserve">
+    <value>Voidstrap Studio 外掛程式，在擴充功能中開啟</value>
+  </data>
+  <data name="Ui.Pages.ChangeInstallLocation" xml:space="preserve">
+    <value>變更安裝位置</value>
+  </data>
+  <data name="Ui.Pages.OpenInstallFolder" xml:space="preserve">
+    <value>開啟安裝資料夾</value>
+  </data>
+  <data name="Ui.Pages.VerifyFiles" xml:space="preserve">
+    <value>驗證檔案</value>
+  </data>
+  <data name="Ui.Pages.MyPresets" xml:space="preserve">
+    <value>我的預設集</value>
+  </data>
+  <data name="Ui.Pages.ImportAPreset" xml:space="preserve">
+    <value>匯入預設集</value>
+  </data>
+  <data name="Ui.Pages.ExportThisPreset" xml:space="preserve">
+    <value>匯出此預設集</value>
+  </data>
+  <data name="Ui.Pages.ImportAReShadeIni" xml:space="preserve">
+    <value>匯入 ReShade ini</value>
+  </data>
+  <data name="Ui.Pages.DeleteTheSelectedPreset" xml:space="preserve">
+    <value>刪除所選預設集</value>
+  </data>
+  <data name="Ui.Pages.NameThisLookToSaveIt" xml:space="preserve">
+    <value>為此外觀命名以儲存</value>
+  </data>
+  <data name="Ui.Pages.F8OpensAndClosesThisWindow" xml:space="preserve">
+    <value>在遊戲中按 F8 開啟和關閉此視窗</value>
+  </data>
+  <data name="Ui.Pages.TurnEverythingOff" xml:space="preserve">
+    <value>全部關閉</value>
+  </data>
 </root>

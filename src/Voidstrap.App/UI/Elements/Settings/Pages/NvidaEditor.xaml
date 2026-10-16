@@ -4,7 +4,7 @@
            xmlns:resources="clr-namespace:Voidstrap.Resources"
            xmlns:conv="clr-namespace:Voidstrap.UI.Converters"
            xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-           Title="NVIDIA FFlag Editor"
+           Title="{resources:Loc Ui_Pages_NVIDIAFFlagEditor}"
            Loaded="Page_Loaded" Unloaded="Page_Unloaded">
 
   <FrameworkElement.Resources>
@@ -24,11 +24,11 @@
     </Grid.RowDefinitions>
 
     <TextBlock Grid.Row="0" Margin="0,0,0,14" Style="{StaticResource FastFlagsCaption}" TextWrapping="Wrap"
-               Text="Manage NVIDIA settings saved in your NIP profile." />
+               Text="{resources:Loc Ui_Pages_ManageNVIDIASettingsSavedInYour}" />
 
     <WrapPanel Grid.Row="1" Orientation="Horizontal">
-      <ui:Button Width="110" Margin="0,0,10,12" Content="Add New" Icon="AddCircle24" Click="Add_Click" />
-      <ui:Button Margin="0,0,10,12" VerticalAlignment="Top" Appearance="Danger" Background="#ff3334" Content="Delete Selected" Icon="SlideEraser24" Click="DeleteSelected_Click">
+      <ui:Button Width="110" Margin="0,0,10,12" Content="{resources:Loc Ui_Pages_AddNew}" Icon="AddCircle24" Click="Add_Click" />
+      <ui:Button Margin="0,0,10,12" VerticalAlignment="Top" Appearance="Danger" Background="#ff3334" Content="{resources:Loc Ui_Pages_DeleteSelected}" Icon="SlideEraser24" Click="DeleteSelected_Click">
         <ui:Button.PressedBackground>
           <SolidColorBrush Opacity="0.7" Color="#ff5c5d" />
         </ui:Button.PressedBackground>
@@ -45,8 +45,8 @@
           </Style>
         </FrameworkElement.Style>
       </ui:Button>
-      <ui:Button Margin="0,0,10,12" Content="Delete all" Icon="Delete48" Click="DeleteAll_Click" />
-      <ui:Button MinWidth="108" Margin="0,0,10,12" VerticalAlignment="Top" Content="Reset NIP" Icon="DeleteDismiss24" Click="ResetNipFile_Click" />
+      <ui:Button Margin="0,0,10,12" Content="{resources:Loc Ui_Pages_DeleteAll}" Icon="Delete48" Click="DeleteAll_Click" />
+      <ui:Button MinWidth="108" Margin="0,0,10,12" VerticalAlignment="Top" Content="{resources:Loc Ui_Pages_ResetNIP}" Icon="DeleteDismiss24" Click="ResetNipFile_Click" />
       <ui:Button Width="95" Margin="0,0,10,12" VerticalAlignment="Top" Content="{resources:Loc Mtu_Apply}" Icon="CheckmarkCircle24" Click="Apply_Click" />
     </WrapPanel>
 
@@ -58,7 +58,7 @@
 
       <Grid Grid.Column="0" Height="34">
         <ui:TextBox Name="SearchTextBox" Height="32" HorizontalContentAlignment="Left" VerticalContentAlignment="Center"
-                    BorderThickness="0" FontSize="14" Icon="Search48" PlaceholderText="Search flags"
+                    BorderThickness="0" FontSize="14" Icon="Search48" PlaceholderText="{resources:Loc Ui_Pages_SearchFlags}"
                     FocusVisualStyle="{x:Null}" TextChanged="SearchTextBox_TextChanged" />
         <TextBlock Name="SuggestionTextBlock" Margin="12,0,11,0" HorizontalAlignment="Right" VerticalAlignment="Center"
                    Cursor="Hand" FontSize="13.85" Foreground="#FF51A2ED" Opacity="0"
@@ -67,7 +67,7 @@
           <UIElement.RenderTransform>
             <TranslateTransform x:Name="SuggestionTranslateTransform" X="10" />
           </UIElement.RenderTransform>
-          <Run Text="Looking For" /> <Run Name="SuggestionKeywordRun" FontWeight="Bold" Text="" /> <Run Text="?" />
+          <Run Text="{resources:Loc Ui_Pages_LookingFor}" /> <Run Name="SuggestionKeywordRun" FontWeight="Bold" Text="" /> <Run Text="?" />
         </TextBlock>
       </Grid>
 
@@ -122,7 +122,7 @@
             </DataGridTextColumn.ElementStyle>
           </DataGridTextColumn>
 
-          <DataGridTextColumn x:Name="IdColumn" Width="*" Header="Setting ID" Binding="{Binding SettingId}">
+          <DataGridTextColumn x:Name="IdColumn" Width="*" Header="{resources:Loc Ui_Pages_SettingID}" Binding="{Binding SettingId}">
             <DataGridTextColumn.ElementStyle>
               <Style TargetType="{x:Type TextBlock}">
                 <Setter Property="VerticalAlignment" Value="Center" />
@@ -145,25 +145,25 @@
 
     <StackPanel Name="EmptyStatePanel" Grid.Row="3" Margin="24" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False" Visibility="Collapsed">
       <ui:SymbolIcon Symbol="Flag24" FontSize="42" HorizontalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-      <TextBlock Name="EmptyStateTextBlock" Margin="0,12,0,0" FontSize="14" TextAlignment="Center" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Add an NVIDIA setting to get started." />
+      <TextBlock Name="EmptyStateTextBlock" Margin="0,12,0,0" FontSize="14" TextAlignment="Center" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_Pages_AddAnNVIDIASettingToGet}" />
     </StackPanel>
 
     <WrapPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,10,0,0">
-      <ui:Button Width="140" VerticalAlignment="Center" Content="Export .NIP" Icon="ArrowExit20" Margin="0,0,10,0" Click="ExportNip_Click" />
-      <ui:Button Margin="0,0,10,0" VerticalAlignment="Top" Content="Copy flags" Icon="Clipboard16" Click="CopySelected_Click" />
+      <ui:Button Width="140" VerticalAlignment="Center" Content="{resources:Loc Ui_Pages_ExportNIP}" Icon="ArrowExit20" Margin="0,0,10,0" Click="ExportNip_Click" />
+      <ui:Button Margin="0,0,10,0" VerticalAlignment="Top" Content="{resources:Loc Ui_Pages_CopyFlags}" Icon="Clipboard16" Click="CopySelected_Click" />
       <ui:Button Margin="0,0,10,0" VerticalAlignment="Top" Content="{resources:Loc Menu_FastFlagEditor_Back}" Click="BackButton" />
     </WrapPanel>
 
-    <Expander Grid.Row="5" Margin="0,6,0,0" Background="{DynamicResource ControlFillColorTertiaryBrush}" ExpandDirection="Up" Header="NVIDIA Flag History" IsExpanded="False" ToolTip="Tracks changes made to NVIDIA flags this session.">
+    <Expander Grid.Row="5" Margin="0,6,0,0" Background="{DynamicResource ControlFillColorTertiaryBrush}" ExpandDirection="Up" Header="{resources:Loc Ui_Pages_NVIDIAFlagHistory}" IsExpanded="False" ToolTip="{resources:Loc Ui_Pages_TracksChangesMadeToNVIDIAFlags}">
       <Grid Margin="8,6,8,8">
         <Grid.RowDefinitions>
           <RowDefinition Height="Auto" />
           <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
-          <ui:Button Content="Undo Selected" Icon="ArrowUndo24" Margin="0,0,10,0" Click="UndoHistoryButton_Click" />
-          <ui:Button Content="Clear History" Icon="Delete24" Margin="0,0,10,0" Click="ClearHistoryButton_Click" />
-          <TextBlock Name="HistoryCountTextBlock" VerticalAlignment="Center" Style="{StaticResource FastFlagsCaption}" Text="No changes recorded" />
+          <ui:Button Content="{resources:Loc Ui_Pages_UndoSelected}" Icon="ArrowUndo24" Margin="0,0,10,0" Click="UndoHistoryButton_Click" />
+          <ui:Button Content="{resources:Loc Ui_Pages_ClearHistory}" Icon="Delete24" Margin="0,0,10,0" Click="ClearHistoryButton_Click" />
+          <TextBlock Name="HistoryCountTextBlock" VerticalAlignment="Center" Style="{StaticResource FastFlagsCaption}" Text="{resources:Loc Ui_Pages_NoChangesRecorded}" />
         </StackPanel>
         <ListBox Name="HistoryListBox" Grid.Row="1" MaxHeight="200" Background="Transparent" BorderThickness="0" FontSize="13"
                  Foreground="{DynamicResource TextFillColorPrimaryBrush}"
@@ -173,7 +173,7 @@
                  MouseDoubleClick="HistoryListBox_MouseDoubleClick">
           <ItemsControl.ItemTemplate>
             <DataTemplate>
-              <TextBlock TextWrapping="Wrap" Text="{Binding}" ToolTip="Double click to revert this change" />
+              <TextBlock TextWrapping="Wrap" Text="{Binding}" ToolTip="{resources:Loc Ui_Pages_DoubleClickToRevertThisChange}" />
             </DataTemplate>
           </ItemsControl.ItemTemplate>
         </ListBox>

@@ -27,7 +27,7 @@
     </Grid.RowDefinitions>
 
     <TextBlock Grid.Row="0" Margin="0,0,0,14" Style="{StaticResource FastFlagsCaption}" TextWrapping="Wrap"
-               Text="Manage your FastFlags. A checkmark in Preset means the flag is available in FFlag Settings, while a cross means it is not." />
+               Text="{resources:Loc Ui_Pages_ManageYourFastFlagsACheckmarkIn}" />
 
     <WrapPanel Grid.Row="1" Orientation="Horizontal">
       <ui:Button Width="110" Margin="0,0,10,12" Content="{resources:Loc Menu_FastFlagEditor_AddNew}" Icon="AddCircle24" Click="AddButton_Click" />
@@ -48,7 +48,7 @@
           </Style>
         </FrameworkElement.Style>
       </ui:Button>
-      <ui:Button Margin="0,0,10,12" Content="Delete all" Icon="Delete48" Click="DeleteAllButton_Click" />
+      <ui:Button Margin="0,0,10,12" Content="{resources:Loc Ui_Pages_DeleteAll}" Icon="Delete48" Click="DeleteAllButton_Click" />
       <ui:Button Width="95" Margin="0,0,10,12" VerticalAlignment="Top" Content="{resources:Loc Common_Profiles}" Icon="Edit28" Click="FlagProfiles_Click" />
       <ToggleButton Name="TogglePresetsButton" Margin="0,0,10,12" VerticalAlignment="Top" Content="{resources:Loc Menu_FastFlagEditor_ShowPresetFlags}" Click="ToggleButton_Click" />
     </WrapPanel>
@@ -71,7 +71,7 @@
           <UIElement.RenderTransform>
             <TranslateTransform x:Name="SuggestionTranslateTransform" X="10" />
           </UIElement.RenderTransform>
-          <Run Text="Looking For" /> <Run Name="SuggestionKeywordRun" FontWeight="Bold" Text="" /> <Run Text="?" /></TextBlock>
+          <Run Text="{resources:Loc Ui_Pages_LookingFor}" /> <Run Name="SuggestionKeywordRun" FontWeight="Bold" Text="" /> <Run Text="?" /></TextBlock>
       </Grid>
 
       <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="14,0,0,0" VerticalAlignment="Center">
@@ -110,7 +110,7 @@
           </ContextMenu>
         </DataGrid.ContextMenu>
         <DataGrid.Columns>
-          <DataGridTemplateColumn Header="Tags" Width="230" IsReadOnly="True" CanUserSort="False">
+          <DataGridTemplateColumn Header="{resources:Loc Ui_Pages_Tags}" Width="230" IsReadOnly="True" CanUserSort="False">
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
                 <ItemsControl ItemsSource="{Binding VisibleTags}">
@@ -131,7 +131,7 @@
             </DataGridTemplateColumn.CellTemplate>
           </DataGridTemplateColumn>
 
-          <DataGridTemplateColumn x:Name="PresetColumn" Header="Preset" Width="60" IsReadOnly="True" CanUserSort="False">
+          <DataGridTemplateColumn x:Name="PresetColumn" Header="{resources:Loc Ui_Pages_Preset}" Width="60" IsReadOnly="True" CanUserSort="False">
             <DataGridTemplateColumn.CellTemplate>
               <DataTemplate>
                 <Image Width="20" Height="20" HorizontalAlignment="Center"
@@ -163,25 +163,25 @@
 
     <StackPanel Name="EmptyStatePanel" Grid.Row="3" Margin="24" HorizontalAlignment="Center" VerticalAlignment="Center" IsHitTestVisible="False" Visibility="Collapsed">
       <ui:SymbolIcon Name="EmptyStateIcon" Symbol="Flag24" FontSize="42" HorizontalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-      <TextBlock Name="EmptyStateTextBlock" Margin="0,12,0,0" FontSize="14" TextAlignment="Center" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Go to FFlag Settings to add Preset FFlags." />
+      <TextBlock Name="EmptyStateTextBlock" Margin="0,12,0,0" FontSize="14" TextAlignment="Center" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_Pages_GoToFFlagSettingsToAdd}" />
     </StackPanel>
 
     <WrapPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Left" Margin="0,10,0,0">
       <ui:Button Width="140" VerticalAlignment="Center" Content="{resources:Loc Menu_FastFlagEditor_ExportJson}" Icon="ArrowExit20" Margin="0,0,10,0" Click="ExportJSONButton_Click" />
-      <ui:Button Margin="0,0,10,0" VerticalAlignment="Top" Content="Find" Icon="Book24" Click="FlagFind_Click" />
-      <ui:Button Margin="0,0,10,0" VerticalAlignment="Top" Content="Copy flags" Icon="Clipboard16" Click="CopyFlagsButton_Click" />
+      <ui:Button Margin="0,0,10,0" VerticalAlignment="Top" Content="{resources:Loc Ui_Pages_Find}" Icon="Book24" Click="FlagFind_Click" />
+      <ui:Button Margin="0,0,10,0" VerticalAlignment="Top" Content="{resources:Loc Ui_Pages_CopyFlags}" Icon="Clipboard16" Click="CopyFlagsButton_Click" />
     </WrapPanel>
 
-    <Expander Grid.Row="5" Margin="0,6,0,0" Background="{DynamicResource ControlFillColorTertiaryBrush}" ExpandDirection="Up" Header="FFlag History" IsExpanded="False" ToolTip="Tracks every change you make to your flags this session. Select an entry and press Undo Selected, or double click it, to revert that change.">
+    <Expander Grid.Row="5" Margin="0,6,0,0" Background="{DynamicResource ControlFillColorTertiaryBrush}" ExpandDirection="Up" Header="{resources:Loc Ui_Pages_FFlagHistory}" IsExpanded="False" ToolTip="{resources:Loc Ui_Pages_TracksEveryChangeYouMakeTo}">
       <Grid Margin="8,6,8,8">
         <Grid.RowDefinitions>
           <RowDefinition Height="Auto" />
           <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
-          <ui:Button Content="Undo Selected" Icon="ArrowUndo24" Margin="0,0,10,0" Click="UndoHistoryButton_Click" />
-          <ui:Button Content="Clear History" Icon="Delete24" Margin="0,0,10,0" Click="ClearHistoryButton_Click" />
-          <TextBlock Name="HistoryCountTextBlock" VerticalAlignment="Center" Style="{StaticResource FastFlagsCaption}" Text="No changes recorded" />
+          <ui:Button Content="{resources:Loc Ui_Pages_UndoSelected}" Icon="ArrowUndo24" Margin="0,0,10,0" Click="UndoHistoryButton_Click" />
+          <ui:Button Content="{resources:Loc Ui_Pages_ClearHistory}" Icon="Delete24" Margin="0,0,10,0" Click="ClearHistoryButton_Click" />
+          <TextBlock Name="HistoryCountTextBlock" VerticalAlignment="Center" Style="{StaticResource FastFlagsCaption}" Text="{resources:Loc Ui_Pages_NoChangesRecorded}" />
         </StackPanel>
         <ListBox Name="HistoryListBox" Grid.Row="1" MaxHeight="200" Background="Transparent" BorderThickness="0" FontSize="13"
                  Foreground="{DynamicResource TextFillColorPrimaryBrush}"
@@ -191,7 +191,7 @@
                  MouseDoubleClick="HistoryListBox_MouseDoubleClick">
           <ItemsControl.ItemTemplate>
             <DataTemplate>
-              <TextBlock TextWrapping="Wrap" Text="{Binding}" ToolTip="Double click to revert this change" />
+              <TextBlock TextWrapping="Wrap" Text="{Binding}" ToolTip="{resources:Loc Ui_Pages_DoubleClickToRevertThisChange}" />
             </DataTemplate>
           </ItemsControl.ItemTemplate>
         </ListBox>

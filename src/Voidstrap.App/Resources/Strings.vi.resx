@@ -5666,4 +5666,448 @@ Bạn muốn làm gì?</value>
   <data name="Ui.Misc.Bundled" xml:space="preserve">
     <value>Đi kèm</value>
   </data>
+  <data name="Ui.Pages.Library" xml:space="preserve">
+    <value>Thư viện</value>
+  </data>
+  <data name="Ui.Pages.Play" xml:space="preserve">
+    <value>Chơi</value>
+  </data>
+  <data name="Ui.Pages.RemoveFromLibrary" xml:space="preserve">
+    <value>Xóa khỏi thư viện</value>
+  </data>
+  <data name="Ui.Pages.LibraryHome" xml:space="preserve">
+    <value>Trang chủ thư viện</value>
+  </data>
+  <data name="Ui.Pages.SearchGames" xml:space="preserve">
+    <value>Tìm trò chơi</value>
+  </data>
+  <data name="Ui.Pages.RefreshLibrary" xml:space="preserve">
+    <value>Làm mới thư viện</value>
+  </data>
+  <data name="Ui.Pages.AddByPlaceIdOrLink" xml:space="preserve">
+    <value>Thêm bằng PlaceId hoặc liên kết</value>
+  </data>
+  <data name="Ui.Pages.AddThisGameToYourLibrary" xml:space="preserve">
+    <value>Thêm trò chơi này vào thư viện</value>
+  </data>
+  <data name="Ui.Pages.YourLibraryIsEmptyPlayA" xml:space="preserve">
+    <value>Thư viện của bạn trống. Hãy chơi một trò chơi qua Voidstrap hoặc thêm bằng PlaceId từ thanh bên.</value>
+  </data>
+  <data name="Ui.Pages.Events" xml:space="preserve">
+    <value>Sự kiện</value>
+  </data>
+  <data name="Ui.Pages.ViewEvent" xml:space="preserve">
+    <value>Xem sự kiện</value>
+  </data>
+  <data name="Ui.Pages.WhatSNew" xml:space="preserve">
+    <value>Có gì mới</value>
+  </data>
+  <data name="Ui.Pages.RecentGames" xml:space="preserve">
+    <value>Trò chơi gần đây</value>
+  </data>
+  <data name="Ui.Pages.RemoveThisGameFromYourLibrary" xml:space="preserve">
+    <value>Xóa trò chơi này khỏi thư viện</value>
+  </data>
+  <data name="Ui.Pages.LASTPLAYED" xml:space="preserve">
+    <value>LẦN CHƠI CUỐI</value>
+  </data>
+  <data name="Ui.Pages.PLAYTIME" xml:space="preserve">
+    <value>THỜI GIAN CHƠI</value>
+  </data>
+  <data name="Ui.Pages.PLAYINGNOW" xml:space="preserve">
+    <value>ĐANG CHƠI</value>
+  </data>
+  <data name="Ui.Pages.RATING" xml:space="preserve">
+    <value>ĐÁNH GIÁ</value>
+  </data>
+  <data name="Ui.Pages.Genre" xml:space="preserve">
+    <value>Thể loại</value>
+  </data>
+  <data name="Ui.Pages.MaxPlayers" xml:space="preserve">
+    <value>Số người chơi tối đa</value>
+  </data>
+  <data name="Ui.Pages.Visits" xml:space="preserve">
+    <value>Lượt truy cập</value>
+  </data>
+  <data name="Ui.Pages.Created" xml:space="preserve">
+    <value>Ngày tạo</value>
+  </data>
+  <data name="Ui.Pages.Updated" xml:space="preserve">
+    <value>Ngày cập nhật</value>
+  </data>
+  <data name="Ui.Pages.Store" xml:space="preserve">
+    <value>Cửa hàng</value>
+  </data>
+  <data name="Ui.Pages.OpenThisGamepassOnRobloxCom" xml:space="preserve">
+    <value>Mở gamepass này trên roblox.com</value>
+  </data>
+  <data name="Ui.Pages.AddNVIDIASettings" xml:space="preserve">
+    <value>Thêm cài đặt NVIDIA</value>
+  </data>
+  <data name="Ui.Pages.AddOneSettingOrImportSeveral" xml:space="preserve">
+    <value>Thêm một cài đặt hoặc nhập nhiều cài đặt cùng lúc.</value>
+  </data>
+  <data name="Ui.Pages.Single" xml:space="preserve">
+    <value>Một</value>
+  </data>
+  <data name="Ui.Pages.SettingDetails" xml:space="preserve">
+    <value>Chi tiết cài đặt</value>
+  </data>
+  <data name="Ui.Pages.UseTheValuesShownByNVIDIA" xml:space="preserve">
+    <value>Dùng các giá trị NVIDIA Profile Inspector hiển thị.</value>
+  </data>
+  <data name="Ui.Pages.ExampleFrameRateLimiter" xml:space="preserve">
+    <value>Ví dụ: Frame rate limiter</value>
+  </data>
+  <data name="Ui.Pages.SettingID" xml:space="preserve">
+    <value>ID cài đặt</value>
+  </data>
+  <data name="Ui.Pages.ValueType" xml:space="preserve">
+    <value>Kiểu giá trị</value>
+  </data>
+  <data name="Ui.Pages.DecimalOr0xHex" xml:space="preserve">
+    <value>Thập phân hoặc hex 0x</value>
+  </data>
+  <data name="Ui.Pages.BooleanAcceptsTrueFalse1Or" xml:space="preserve">
+    <value>Boolean chấp nhận true, false, 1 hoặc 0.</value>
+  </data>
+  <data name="Ui.Pages.NIPProfile" xml:space="preserve">
+    <value>Hồ sơ NIP</value>
+  </data>
+  <data name="Ui.Pages.ImportAProfile" xml:space="preserve">
+    <value>Nhập hồ sơ</value>
+  </data>
+  <data name="Ui.Pages.ChooseANIPFileOrPaste" xml:space="preserve">
+    <value>Chọn tệp NIP hoặc dán nội dung bên dưới.</value>
+  </data>
+  <data name="Ui.Pages.ChooseNIPFile" xml:space="preserve">
+    <value>Chọn tệp NIP</value>
+  </data>
+  <data name="Ui.Pages.PasteRows" xml:space="preserve">
+    <value>Dán các dòng</value>
+  </data>
+  <data name="Ui.Pages.PasteSettings" xml:space="preserve">
+    <value>Dán cài đặt</value>
+  </data>
+  <data name="Ui.Pages.EnterOneSettingPerLineName" xml:space="preserve">
+    <value>Mỗi dòng một cài đặt: Tên | ID | Giá trị | Kiểu</value>
+  </data>
+  <data name="Ui.Pages.SupportedTypesDwordBooleanAndHex" xml:space="preserve">
+    <value>Kiểu được hỗ trợ: Dword, Boolean và Hex.</value>
+  </data>
+  <data name="Ui.Pages.AddSettings" xml:space="preserve">
+    <value>Thêm cài đặt</value>
+  </data>
+  <data name="Ui.Pages.GameShortcut" xml:space="preserve">
+    <value>Lối tắt trò chơi</value>
+  </data>
+  <data name="Ui.Pages.LaunchAGameNowOrCreate" xml:space="preserve">
+    <value>Khởi chạy trò chơi ngay hoặc tạo lối tắt trên màn hình nền để dùng lại</value>
+  </data>
+  <data name="Ui.Pages.Destination" xml:space="preserve">
+    <value>Đích</value>
+  </data>
+  <data name="Ui.Pages.UseThePlaceIDFromThe" xml:space="preserve">
+    <value>Dùng place ID từ URL trò chơi Roblox.</value>
+  </data>
+  <data name="Ui.Pages.Example1818" xml:space="preserve">
+    <value>Ví dụ: 1818</value>
+  </data>
+  <data name="Ui.Pages.UseAPrivateServerShareLink" xml:space="preserve">
+    <value>Dùng liên kết chia sẻ hoặc mã truy cập máy chủ riêng</value>
+  </data>
+  <data name="Ui.Pages.ShareLinkOrAccessCode" xml:space="preserve">
+    <value>Liên kết chia sẻ hoặc mã truy cập</value>
+  </data>
+  <data name="Ui.Pages.PasteTheCompletePrivateServerLink" xml:space="preserve">
+    <value>Dán toàn bộ liên kết máy chủ riêng</value>
+  </data>
+  <data name="Ui.Pages.ServerInstanceID" xml:space="preserve">
+    <value>ID phiên bản máy chủ</value>
+  </data>
+  <data name="Ui.Pages.OptionalPublicServerInstance" xml:space="preserve">
+    <value>Phiên bản máy chủ công khai tùy chọn</value>
+  </data>
+  <data name="Ui.Pages.LaunchGame" xml:space="preserve">
+    <value>Khởi chạy trò chơi</value>
+  </data>
+  <data name="Ui.Pages.CreateDesktopShortcut" xml:space="preserve">
+    <value>Tạo lối tắt trên màn hình nền</value>
+  </data>
+  <data name="Ui.Pages.AdvancedEditor" xml:space="preserve">
+    <value>Trình chỉnh sửa nâng cao</value>
+  </data>
+  <data name="Ui.Pages.OpenTheRawNVIDIAProfileInspector" xml:space="preserve">
+    <value>Mở trình chỉnh sửa thô của NVIDIA Profile Inspector. Chỉ khuyên dùng cho người dùng nâng cao.</value>
+  </data>
+  <data name="Ui.Pages.ApplyChanges" xml:space="preserve">
+    <value>Áp dụng thay đổi</value>
+  </data>
+  <data name="Ui.Pages.GameDetails" xml:space="preserve">
+    <value>Chi tiết trò chơi</value>
+  </data>
+  <data name="Ui.Pages.ImageQualityFramePacingAndPerformance" xml:space="preserve">
+    <value>Chất lượng hình ảnh, nhịp khung hình và các tùy chọn liên quan hiệu năng.</value>
+  </data>
+  <data name="Ui.Pages.TextureQualityLODBias" xml:space="preserve">
+    <value>Chất lượng kết cấu (LOD Bias)</value>
+  </data>
+  <data name="Ui.Pages.LowerValuesProduceSharperTexturesHigher" xml:space="preserve">
+    <value>Giá trị thấp cho kết cấu sắc nét hơn. Giá trị cao cải thiện hiệu năng nhưng giảm chi tiết.</value>
+  </data>
+  <data name="Ui.Pages.ImprovesAntiAliasingQualityByCombining" xml:space="preserve">
+    <value>Cải thiện khử răng cưa bằng cách kết hợp mẫu MSAA giữa các khung hình với ảnh hưởng hiệu năng tối thiểu.</value>
+  </data>
+  <data name="Ui.Pages.GammaCorrection" xml:space="preserve">
+    <value>Hiệu chỉnh gamma</value>
+  </data>
+  <data name="Ui.Pages.AdjustsHowBrightnessValuesAreMapped" xml:space="preserve">
+    <value>Điều chỉnh cách ánh xạ độ sáng, ảnh hưởng đến độ tương phản, chi tiết vùng tối và tông trung.</value>
+  </data>
+  <data name="Ui.Pages.BenchmarkOverlay" xml:space="preserve">
+    <value>Lớp phủ benchmark</value>
+  </data>
+  <data name="Ui.Pages.FrameRateLimiter" xml:space="preserve">
+    <value>Giới hạn khung hình</value>
+  </data>
+  <data name="Ui.Pages.BackgroundApplicationFrameRateLimit" xml:space="preserve">
+    <value>Giới hạn khung hình cho ứng dụng nền</value>
+  </data>
+  <data name="Ui.Pages.LimitsTheMaximumFrameRateWhen" xml:space="preserve">
+    <value>Giới hạn tốc độ khung hình tối đa khi ứng dụng chạy nền để giảm dùng GPU và CPU.</value>
+  </data>
+  <data name="Ui.Pages.LowLatencyModes" xml:space="preserve">
+    <value>Chế độ độ trễ thấp</value>
+  </data>
+  <data name="Ui.Pages.ControlsHowManyFramesAreQueued" xml:space="preserve">
+    <value>Điều khiển số khung hình xếp hàng để giảm độ trễ đầu vào.</value>
+  </data>
+  <data name="Ui.Pages.CPLLowLatencyMode" xml:space="preserve">
+    <value>Chế độ độ trễ thấp CPL</value>
+  </data>
+  <data name="Ui.Pages.FRLLowLatencyMode" xml:space="preserve">
+    <value>Chế độ độ trễ thấp FRL</value>
+  </data>
+  <data name="Ui.Pages.DriverLevelLowLatencyControlUsing" xml:space="preserve">
+    <value>Điều khiển độ trễ thấp ở cấp trình điều khiển bằng logic giới hạn khung hình.</value>
+  </data>
+  <data name="Ui.Pages.HardwareAndDriverOverrides" xml:space="preserve">
+    <value>Ghi đè phần cứng và trình điều khiển</value>
+  </data>
+  <data name="Ui.Pages.OverridesThatAffectGPUBehaviorAnd" xml:space="preserve">
+    <value>Các ghi đè ảnh hưởng đến hành vi GPU và tính năng trình điều khiển.</value>
+  </data>
+  <data name="Ui.Pages.ResizableBAR" xml:space="preserve">
+    <value>Resizable BAR</value>
+  </data>
+  <data name="Ui.Pages.AllowsTheCPUToAccessThe" xml:space="preserve">
+    <value>Cho phép CPU truy cập toàn bộ bộ nhớ GPU trên hệ thống được hỗ trợ.</value>
+  </data>
+  <data name="Ui.Pages.SILKSmoothness" xml:space="preserve">
+    <value>Độ mượt SILK</value>
+  </data>
+  <data name="Ui.Pages.ControlsNVIDIASILKFrameSmoothingIntensity" xml:space="preserve">
+    <value>Điều khiển cường độ làm mượt khung hình NVIDIA SILK.</value>
+  </data>
+  <data name="Ui.Pages.BrowseAndManageExtensionsForVoidstrap" xml:space="preserve">
+    <value>Duyệt và quản lý tiện ích mở rộng cho Voidstrap và cộng đồng.</value>
+  </data>
+  <data name="Ui.Pages.SearchExtensions" xml:space="preserve">
+    <value>Tìm tiện ích mở rộng</value>
+  </data>
+  <data name="Ui.Pages.VoidstrapAssets" xml:space="preserve">
+    <value>Tài nguyên Voidstrap</value>
+  </data>
+  <data name="Ui.Pages.BackToExtensions" xml:space="preserve">
+    <value>Quay lại tiện ích mở rộng</value>
+  </data>
+  <data name="Ui.Pages.OpenTheSourcePage" xml:space="preserve">
+    <value>Mở trang nguồn</value>
+  </data>
+  <data name="Ui.Pages.Description" xml:space="preserve">
+    <value>Mô tả</value>
+  </data>
+  <data name="Ui.Pages.ProjectTools" xml:space="preserve">
+    <value>Công cụ dự án</value>
+  </data>
+  <data name="Ui.Pages.ProjectFolder" xml:space="preserve">
+    <value>Thư mục dự án</value>
+  </data>
+  <data name="Ui.Pages.NewProject" xml:space="preserve">
+    <value>Dự án mới</value>
+  </data>
+  <data name="Ui.Pages.BuildPlace" xml:space="preserve">
+    <value>Dựng place</value>
+  </data>
+  <data name="Ui.Pages.InstallStudioPlugin" xml:space="preserve">
+    <value>Cài plugin Studio</value>
+  </data>
+  <data name="Ui.Pages.Versions" xml:space="preserve">
+    <value>Phiên bản</value>
+  </data>
+  <data name="Ui.Pages.OpenOnGitHub" xml:space="preserve">
+    <value>Mở trên GitHub</value>
+  </data>
+  <data name="Ui.Pages.WorksWith" xml:space="preserve">
+    <value>Hoạt động với</value>
+  </data>
+  <data name="Ui.Pages.Tags" xml:space="preserve">
+    <value>Thẻ</value>
+  </data>
+  <data name="Ui.Pages.Creators" xml:space="preserve">
+    <value>Người tạo</value>
+  </data>
+  <data name="Ui.Pages.NVIDIAFFlagEditor" xml:space="preserve">
+    <value>Trình chỉnh sửa FFlag NVIDIA</value>
+  </data>
+  <data name="Ui.Pages.ManageNVIDIASettingsSavedInYour" xml:space="preserve">
+    <value>Quản lý cài đặt NVIDIA đã lưu trong hồ sơ NIP.</value>
+  </data>
+  <data name="Ui.Pages.AddNew" xml:space="preserve">
+    <value>Thêm mới</value>
+  </data>
+  <data name="Ui.Pages.DeleteSelected" xml:space="preserve">
+    <value>Xóa mục đã chọn</value>
+  </data>
+  <data name="Ui.Pages.DeleteAll" xml:space="preserve">
+    <value>Xóa tất cả</value>
+  </data>
+  <data name="Ui.Pages.ResetNIP" xml:space="preserve">
+    <value>Đặt lại NIP</value>
+  </data>
+  <data name="Ui.Pages.SearchFlags" xml:space="preserve">
+    <value>Tìm flag</value>
+  </data>
+  <data name="Ui.Pages.LookingFor" xml:space="preserve">
+    <value>Đang tìm</value>
+  </data>
+  <data name="Ui.Pages.AddAnNVIDIASettingToGet" xml:space="preserve">
+    <value>Thêm một cài đặt NVIDIA để bắt đầu.</value>
+  </data>
+  <data name="Ui.Pages.ExportNIP" xml:space="preserve">
+    <value>Xuất .NIP</value>
+  </data>
+  <data name="Ui.Pages.CopyFlags" xml:space="preserve">
+    <value>Sao chép flag</value>
+  </data>
+  <data name="Ui.Pages.NVIDIAFlagHistory" xml:space="preserve">
+    <value>Lịch sử flag NVIDIA</value>
+  </data>
+  <data name="Ui.Pages.TracksChangesMadeToNVIDIAFlags" xml:space="preserve">
+    <value>Theo dõi thay đổi flag NVIDIA trong phiên này.</value>
+  </data>
+  <data name="Ui.Pages.UndoSelected" xml:space="preserve">
+    <value>Hoàn tác mục đã chọn</value>
+  </data>
+  <data name="Ui.Pages.ClearHistory" xml:space="preserve">
+    <value>Xóa lịch sử</value>
+  </data>
+  <data name="Ui.Pages.NoChangesRecorded" xml:space="preserve">
+    <value>Chưa ghi nhận thay đổi nào</value>
+  </data>
+  <data name="Ui.Pages.DoubleClickToRevertThisChange" xml:space="preserve">
+    <value>Nhấp đúp để hoàn tác thay đổi này</value>
+  </data>
+  <data name="Ui.Pages.ManageYourFastFlagsACheckmarkIn" xml:space="preserve">
+    <value>Quản lý FastFlags của bạn. Dấu tích ở Preset nghĩa là flag có trong cài đặt FFlag, dấu chéo nghĩa là không.</value>
+  </data>
+  <data name="Ui.Pages.Preset" xml:space="preserve">
+    <value>Preset</value>
+  </data>
+  <data name="Ui.Pages.GoToFFlagSettingsToAdd" xml:space="preserve">
+    <value>Đi tới cài đặt FFlag để thêm FFlag Preset.</value>
+  </data>
+  <data name="Ui.Pages.Find" xml:space="preserve">
+    <value>Tìm</value>
+  </data>
+  <data name="Ui.Pages.FFlagHistory" xml:space="preserve">
+    <value>Lịch sử FFlag</value>
+  </data>
+  <data name="Ui.Pages.TracksEveryChangeYouMakeTo" xml:space="preserve">
+    <value>Theo dõi mọi thay đổi flag trong phiên này. Chọn một mục rồi nhấn Hoàn tác mục đã chọn, hoặc nhấp đúp, để hoàn tác thay đổi đó.</value>
+  </data>
+  <data name="Ui.Pages.History" xml:space="preserve">
+    <value>Lịch sử</value>
+  </data>
+  <data name="Ui.Pages.ContinueWhereYouLeftOff" xml:space="preserve">
+    <value>Tiếp tục từ chỗ bạn dừng</value>
+  </data>
+  <data name="Ui.Pages.ClearAll" xml:space="preserve">
+    <value>Xóa tất cả</value>
+  </data>
+  <data name="Ui.Pages.SearchByGameNameCreatorOr" xml:space="preserve">
+    <value>Tìm theo tên trò chơi, người tạo hoặc place ID...</value>
+  </data>
+  <data name="Ui.Pages.Downloads" xml:space="preserve">
+    <value>Tải xuống</value>
+  </data>
+  <data name="Ui.Pages.Installed" xml:space="preserve">
+    <value>Đã cài đặt</value>
+  </data>
+  <data name="Ui.Pages.Update" xml:space="preserve">
+    <value>Cập nhật</value>
+  </data>
+  <data name="Ui.Pages.SearchYourInstalls" xml:space="preserve">
+    <value>Tìm trong các bản cài</value>
+  </data>
+  <data name="Ui.Pages.InstallFolder" xml:space="preserve">
+    <value>Thư mục cài đặt</value>
+  </data>
+  <data name="Ui.Pages.ClassicClients" xml:space="preserve">
+    <value>Máy khách cổ điển</value>
+  </data>
+  <data name="Ui.Pages.Map" xml:space="preserve">
+    <value>Bản đồ</value>
+  </data>
+  <data name="Ui.Pages.PickAnInstallOnTheLeft" xml:space="preserve">
+    <value>Chọn một bản cài bên trái để xem chi tiết.</value>
+  </data>
+  <data name="Ui.Pages.Addons" xml:space="preserve">
+    <value>Tiện ích bổ sung</value>
+  </data>
+  <data name="Ui.Pages.FleasionOpenInExtensions" xml:space="preserve">
+    <value>Fleasion, mở trong Tiện ích mở rộng</value>
+  </data>
+  <data name="Ui.Pages.RiShadeOpenInExtensions" xml:space="preserve">
+    <value>RiShade, mở trong Tiện ích mở rộng</value>
+  </data>
+  <data name="Ui.Pages.RojoOpenInExtensions" xml:space="preserve">
+    <value>Rojo, mở trong Tiện ích mở rộng</value>
+  </data>
+  <data name="Ui.Pages.VoidstrapStudioPluginOpenInExtensions" xml:space="preserve">
+    <value>Plugin Studio của Voidstrap, mở trong Tiện ích mở rộng</value>
+  </data>
+  <data name="Ui.Pages.ChangeInstallLocation" xml:space="preserve">
+    <value>Đổi vị trí cài đặt</value>
+  </data>
+  <data name="Ui.Pages.OpenInstallFolder" xml:space="preserve">
+    <value>Mở thư mục cài đặt</value>
+  </data>
+  <data name="Ui.Pages.VerifyFiles" xml:space="preserve">
+    <value>Xác minh tệp</value>
+  </data>
+  <data name="Ui.Pages.MyPresets" xml:space="preserve">
+    <value>Thiết lập sẵn của tôi</value>
+  </data>
+  <data name="Ui.Pages.ImportAPreset" xml:space="preserve">
+    <value>Nhập thiết lập sẵn</value>
+  </data>
+  <data name="Ui.Pages.ExportThisPreset" xml:space="preserve">
+    <value>Xuất thiết lập sẵn này</value>
+  </data>
+  <data name="Ui.Pages.ImportAReShadeIni" xml:space="preserve">
+    <value>Nhập ini ReShade</value>
+  </data>
+  <data name="Ui.Pages.DeleteTheSelectedPreset" xml:space="preserve">
+    <value>Xóa thiết lập sẵn đã chọn</value>
+  </data>
+  <data name="Ui.Pages.NameThisLookToSaveIt" xml:space="preserve">
+    <value>Đặt tên cho giao diện này để lưu</value>
+  </data>
+  <data name="Ui.Pages.F8OpensAndClosesThisWindow" xml:space="preserve">
+    <value>F8 mở và đóng cửa sổ này trong trò chơi</value>
+  </data>
+  <data name="Ui.Pages.TurnEverythingOff" xml:space="preserve">
+    <value>Tắt tất cả</value>
+  </data>
 </root>

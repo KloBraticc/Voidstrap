@@ -5694,4 +5694,448 @@ Ką norėtumėte daryti?</value>
   <data name="Ui.Misc.Bundled" xml:space="preserve">
     <value>Pridėtoji</value>
   </data>
+  <data name="Ui.Pages.Library" xml:space="preserve">
+    <value>Biblioteka</value>
+  </data>
+  <data name="Ui.Pages.Play" xml:space="preserve">
+    <value>Žaisti</value>
+  </data>
+  <data name="Ui.Pages.RemoveFromLibrary" xml:space="preserve">
+    <value>Pašalinti iš bibliotekos</value>
+  </data>
+  <data name="Ui.Pages.LibraryHome" xml:space="preserve">
+    <value>Bibliotekos pradžia</value>
+  </data>
+  <data name="Ui.Pages.SearchGames" xml:space="preserve">
+    <value>Ieškoti žaidimų</value>
+  </data>
+  <data name="Ui.Pages.RefreshLibrary" xml:space="preserve">
+    <value>Atnaujinti biblioteką</value>
+  </data>
+  <data name="Ui.Pages.AddByPlaceIdOrLink" xml:space="preserve">
+    <value>Pridėti pagal PlaceId ar nuorodą</value>
+  </data>
+  <data name="Ui.Pages.AddThisGameToYourLibrary" xml:space="preserve">
+    <value>Pridėti šį žaidimą į biblioteką</value>
+  </data>
+  <data name="Ui.Pages.YourLibraryIsEmptyPlayA" xml:space="preserve">
+    <value>Jūsų biblioteka tuščia. Žaiskite žaidimą per Voidstrap arba pridėkite jį pagal PlaceId šoninėje juostoje.</value>
+  </data>
+  <data name="Ui.Pages.Events" xml:space="preserve">
+    <value>Renginiai</value>
+  </data>
+  <data name="Ui.Pages.ViewEvent" xml:space="preserve">
+    <value>Peržiūrėti renginį</value>
+  </data>
+  <data name="Ui.Pages.WhatSNew" xml:space="preserve">
+    <value>Kas naujo</value>
+  </data>
+  <data name="Ui.Pages.RecentGames" xml:space="preserve">
+    <value>Naujausi žaidimai</value>
+  </data>
+  <data name="Ui.Pages.RemoveThisGameFromYourLibrary" xml:space="preserve">
+    <value>Pašalinti šį žaidimą iš bibliotekos</value>
+  </data>
+  <data name="Ui.Pages.LASTPLAYED" xml:space="preserve">
+    <value>PASKUTINĮ KARTĄ ŽAISTA</value>
+  </data>
+  <data name="Ui.Pages.PLAYTIME" xml:space="preserve">
+    <value>ŽAIDIMO LAIKAS</value>
+  </data>
+  <data name="Ui.Pages.PLAYINGNOW" xml:space="preserve">
+    <value>ŽAIDŽIA DABAR</value>
+  </data>
+  <data name="Ui.Pages.RATING" xml:space="preserve">
+    <value>ĮVERTINIMAS</value>
+  </data>
+  <data name="Ui.Pages.Genre" xml:space="preserve">
+    <value>Žanras</value>
+  </data>
+  <data name="Ui.Pages.MaxPlayers" xml:space="preserve">
+    <value>Daugiausia žaidėjų</value>
+  </data>
+  <data name="Ui.Pages.Visits" xml:space="preserve">
+    <value>Apsilankymai</value>
+  </data>
+  <data name="Ui.Pages.Created" xml:space="preserve">
+    <value>Sukurta</value>
+  </data>
+  <data name="Ui.Pages.Updated" xml:space="preserve">
+    <value>Atnaujinta</value>
+  </data>
+  <data name="Ui.Pages.Store" xml:space="preserve">
+    <value>Parduotuvė</value>
+  </data>
+  <data name="Ui.Pages.OpenThisGamepassOnRobloxCom" xml:space="preserve">
+    <value>Atidaryti šį gamepass roblox.com</value>
+  </data>
+  <data name="Ui.Pages.AddNVIDIASettings" xml:space="preserve">
+    <value>Pridėti NVIDIA nustatymų</value>
+  </data>
+  <data name="Ui.Pages.AddOneSettingOrImportSeveral" xml:space="preserve">
+    <value>Pridėkite vieną nustatymą arba importuokite kelis iškart.</value>
+  </data>
+  <data name="Ui.Pages.Single" xml:space="preserve">
+    <value>Vienas</value>
+  </data>
+  <data name="Ui.Pages.SettingDetails" xml:space="preserve">
+    <value>Nustatymo informacija</value>
+  </data>
+  <data name="Ui.Pages.UseTheValuesShownByNVIDIA" xml:space="preserve">
+    <value>Naudokite NVIDIA Profile Inspector rodomas reikšmes.</value>
+  </data>
+  <data name="Ui.Pages.ExampleFrameRateLimiter" xml:space="preserve">
+    <value>Pavyzdys: Frame rate limiter</value>
+  </data>
+  <data name="Ui.Pages.SettingID" xml:space="preserve">
+    <value>Nustatymo ID</value>
+  </data>
+  <data name="Ui.Pages.ValueType" xml:space="preserve">
+    <value>Reikšmės tipas</value>
+  </data>
+  <data name="Ui.Pages.DecimalOr0xHex" xml:space="preserve">
+    <value>Dešimtainis arba 0x hex</value>
+  </data>
+  <data name="Ui.Pages.BooleanAcceptsTrueFalse1Or" xml:space="preserve">
+    <value>Boolean priima true, false, 1 arba 0.</value>
+  </data>
+  <data name="Ui.Pages.NIPProfile" xml:space="preserve">
+    <value>NIP profilis</value>
+  </data>
+  <data name="Ui.Pages.ImportAProfile" xml:space="preserve">
+    <value>Importuoti profilį</value>
+  </data>
+  <data name="Ui.Pages.ChooseANIPFileOrPaste" xml:space="preserve">
+    <value>Pasirinkite NIP failą arba įklijuokite jo turinį žemiau.</value>
+  </data>
+  <data name="Ui.Pages.ChooseNIPFile" xml:space="preserve">
+    <value>Pasirinkti NIP failą</value>
+  </data>
+  <data name="Ui.Pages.PasteRows" xml:space="preserve">
+    <value>Įklijuoti eilutes</value>
+  </data>
+  <data name="Ui.Pages.PasteSettings" xml:space="preserve">
+    <value>Įklijuoti nustatymus</value>
+  </data>
+  <data name="Ui.Pages.EnterOneSettingPerLineName" xml:space="preserve">
+    <value>Vienas nustatymas eilutėje: Pavadinimas | ID | Reikšmė | Tipas</value>
+  </data>
+  <data name="Ui.Pages.SupportedTypesDwordBooleanAndHex" xml:space="preserve">
+    <value>Palaikomi tipai: Dword, Boolean ir Hex.</value>
+  </data>
+  <data name="Ui.Pages.AddSettings" xml:space="preserve">
+    <value>Pridėti nustatymus</value>
+  </data>
+  <data name="Ui.Pages.GameShortcut" xml:space="preserve">
+    <value>Žaidimo nuoroda</value>
+  </data>
+  <data name="Ui.Pages.LaunchAGameNowOrCreate" xml:space="preserve">
+    <value>Paleiskite žaidimą dabar arba sukurkite pakartotinai naudojamą darbalaukio nuorodą</value>
+  </data>
+  <data name="Ui.Pages.Destination" xml:space="preserve">
+    <value>Paskirtis</value>
+  </data>
+  <data name="Ui.Pages.UseThePlaceIDFromThe" xml:space="preserve">
+    <value>Naudokite place ID iš Roblox žaidimo URL.</value>
+  </data>
+  <data name="Ui.Pages.Example1818" xml:space="preserve">
+    <value>Pavyzdys: 1818</value>
+  </data>
+  <data name="Ui.Pages.UseAPrivateServerShareLink" xml:space="preserve">
+    <value>Naudoti privataus serverio bendrinimo nuorodą arba prieigos kodą</value>
+  </data>
+  <data name="Ui.Pages.ShareLinkOrAccessCode" xml:space="preserve">
+    <value>Bendrinimo nuoroda arba prieigos kodas</value>
+  </data>
+  <data name="Ui.Pages.PasteTheCompletePrivateServerLink" xml:space="preserve">
+    <value>Įklijuokite visą privataus serverio nuorodą</value>
+  </data>
+  <data name="Ui.Pages.ServerInstanceID" xml:space="preserve">
+    <value>Serverio egzemplioriaus ID</value>
+  </data>
+  <data name="Ui.Pages.OptionalPublicServerInstance" xml:space="preserve">
+    <value>Nebūtinas viešo serverio egzempliorius</value>
+  </data>
+  <data name="Ui.Pages.LaunchGame" xml:space="preserve">
+    <value>Paleisti žaidimą</value>
+  </data>
+  <data name="Ui.Pages.CreateDesktopShortcut" xml:space="preserve">
+    <value>Sukurti darbalaukio nuorodą</value>
+  </data>
+  <data name="Ui.Pages.AdvancedEditor" xml:space="preserve">
+    <value>Išplėstinis redaktorius</value>
+  </data>
+  <data name="Ui.Pages.OpenTheRawNVIDIAProfileInspector" xml:space="preserve">
+    <value>Atidaro neapdorotą NVIDIA Profile Inspector redaktorių. Rekomenduojama tik patyrusiems naudotojams.</value>
+  </data>
+  <data name="Ui.Pages.ApplyChanges" xml:space="preserve">
+    <value>Taikyti pakeitimus</value>
+  </data>
+  <data name="Ui.Pages.GameDetails" xml:space="preserve">
+    <value>Žaidimo informacija</value>
+  </data>
+  <data name="Ui.Pages.ImageQualityFramePacingAndPerformance" xml:space="preserve">
+    <value>Vaizdo kokybė, kadrų tolygumas ir su našumu susijusios parinktys.</value>
+  </data>
+  <data name="Ui.Pages.TextureQualityLODBias" xml:space="preserve">
+    <value>Tekstūrų kokybė (LOD Bias)</value>
+  </data>
+  <data name="Ui.Pages.LowerValuesProduceSharperTexturesHigher" xml:space="preserve">
+    <value>Mažesnės reikšmės suteikia ryškesnes tekstūras. Didesnės pagerina našumą detalių sąskaita.</value>
+  </data>
+  <data name="Ui.Pages.ImprovesAntiAliasingQualityByCombining" xml:space="preserve">
+    <value>Pagerina kraštų glotninimą sujungdamas MSAA pavyzdžius tarp kadrų, minimaliai paveikdamas našumą.</value>
+  </data>
+  <data name="Ui.Pages.GammaCorrection" xml:space="preserve">
+    <value>Gama korekcija</value>
+  </data>
+  <data name="Ui.Pages.AdjustsHowBrightnessValuesAreMapped" xml:space="preserve">
+    <value>Koreguoja ryškumo reikšmių atvaizdavimą, paveikdamas kontrastą, šešėlių detales ir vidutinius tonus.</value>
+  </data>
+  <data name="Ui.Pages.BenchmarkOverlay" xml:space="preserve">
+    <value>Testavimo perdanga</value>
+  </data>
+  <data name="Ui.Pages.FrameRateLimiter" xml:space="preserve">
+    <value>Kadrų dažnio ribotuvas</value>
+  </data>
+  <data name="Ui.Pages.BackgroundApplicationFrameRateLimit" xml:space="preserve">
+    <value>Fono programų kadrų dažnio riba</value>
+  </data>
+  <data name="Ui.Pages.LimitsTheMaximumFrameRateWhen" xml:space="preserve">
+    <value>Riboja didžiausią kadrų dažnį, kai programa veikia fone, kad sumažėtų GPU ir CPU naudojimas.</value>
+  </data>
+  <data name="Ui.Pages.LowLatencyModes" xml:space="preserve">
+    <value>Mažos delsos režimai</value>
+  </data>
+  <data name="Ui.Pages.ControlsHowManyFramesAreQueued" xml:space="preserve">
+    <value>Valdo, kiek kadrų laukia eilėje, kad sumažėtų įvesties delsa.</value>
+  </data>
+  <data name="Ui.Pages.CPLLowLatencyMode" xml:space="preserve">
+    <value>CPL mažos delsos režimas</value>
+  </data>
+  <data name="Ui.Pages.FRLLowLatencyMode" xml:space="preserve">
+    <value>FRL mažos delsos režimas</value>
+  </data>
+  <data name="Ui.Pages.DriverLevelLowLatencyControlUsing" xml:space="preserve">
+    <value>Mažos delsos valdymas tvarkyklės lygiu naudojant kadrų dažnio ribotuvo logiką.</value>
+  </data>
+  <data name="Ui.Pages.HardwareAndDriverOverrides" xml:space="preserve">
+    <value>Aparatinės įrangos ir tvarkyklės nepaisymai</value>
+  </data>
+  <data name="Ui.Pages.OverridesThatAffectGPUBehaviorAnd" xml:space="preserve">
+    <value>Nepaisymai, kurie veikia GPU elgseną ir tvarkyklės funkcijas.</value>
+  </data>
+  <data name="Ui.Pages.ResizableBAR" xml:space="preserve">
+    <value>Resizable BAR</value>
+  </data>
+  <data name="Ui.Pages.AllowsTheCPUToAccessThe" xml:space="preserve">
+    <value>Leidžia CPU pasiekti visą GPU atmintį palaikomose sistemose.</value>
+  </data>
+  <data name="Ui.Pages.SILKSmoothness" xml:space="preserve">
+    <value>SILK sklandumas</value>
+  </data>
+  <data name="Ui.Pages.ControlsNVIDIASILKFrameSmoothingIntensity" xml:space="preserve">
+    <value>Valdo NVIDIA SILK kadrų glotninimo stiprumą.</value>
+  </data>
+  <data name="Ui.Pages.BrowseAndManageExtensionsForVoidstrap" xml:space="preserve">
+    <value>Naršykite ir tvarkykite Voidstrap ir jo bendruomenės plėtinius.</value>
+  </data>
+  <data name="Ui.Pages.SearchExtensions" xml:space="preserve">
+    <value>Ieškoti plėtinių</value>
+  </data>
+  <data name="Ui.Pages.VoidstrapAssets" xml:space="preserve">
+    <value>Voidstrap ištekliai</value>
+  </data>
+  <data name="Ui.Pages.BackToExtensions" xml:space="preserve">
+    <value>Atgal į plėtinius</value>
+  </data>
+  <data name="Ui.Pages.OpenTheSourcePage" xml:space="preserve">
+    <value>Atidaryti šaltinio puslapį</value>
+  </data>
+  <data name="Ui.Pages.Description" xml:space="preserve">
+    <value>Aprašymas</value>
+  </data>
+  <data name="Ui.Pages.ProjectTools" xml:space="preserve">
+    <value>Projekto įrankiai</value>
+  </data>
+  <data name="Ui.Pages.ProjectFolder" xml:space="preserve">
+    <value>Projekto aplankas</value>
+  </data>
+  <data name="Ui.Pages.NewProject" xml:space="preserve">
+    <value>Naujas projektas</value>
+  </data>
+  <data name="Ui.Pages.BuildPlace" xml:space="preserve">
+    <value>Sukurti place</value>
+  </data>
+  <data name="Ui.Pages.InstallStudioPlugin" xml:space="preserve">
+    <value>Įdiegti Studio papildinį</value>
+  </data>
+  <data name="Ui.Pages.Versions" xml:space="preserve">
+    <value>Versijos</value>
+  </data>
+  <data name="Ui.Pages.OpenOnGitHub" xml:space="preserve">
+    <value>Atidaryti GitHub</value>
+  </data>
+  <data name="Ui.Pages.WorksWith" xml:space="preserve">
+    <value>Veikia su</value>
+  </data>
+  <data name="Ui.Pages.Tags" xml:space="preserve">
+    <value>Žymos</value>
+  </data>
+  <data name="Ui.Pages.Creators" xml:space="preserve">
+    <value>Kūrėjai</value>
+  </data>
+  <data name="Ui.Pages.NVIDIAFFlagEditor" xml:space="preserve">
+    <value>NVIDIA FFlag redaktorius</value>
+  </data>
+  <data name="Ui.Pages.ManageNVIDIASettingsSavedInYour" xml:space="preserve">
+    <value>Tvarkykite NVIDIA nustatymus, išsaugotus jūsų NIP profilyje.</value>
+  </data>
+  <data name="Ui.Pages.AddNew" xml:space="preserve">
+    <value>Pridėti naują</value>
+  </data>
+  <data name="Ui.Pages.DeleteSelected" xml:space="preserve">
+    <value>Ištrinti pasirinktus</value>
+  </data>
+  <data name="Ui.Pages.DeleteAll" xml:space="preserve">
+    <value>Ištrinti viską</value>
+  </data>
+  <data name="Ui.Pages.ResetNIP" xml:space="preserve">
+    <value>Atkurti NIP</value>
+  </data>
+  <data name="Ui.Pages.SearchFlags" xml:space="preserve">
+    <value>Ieškoti vėliavėlių</value>
+  </data>
+  <data name="Ui.Pages.LookingFor" xml:space="preserve">
+    <value>Ieškoma</value>
+  </data>
+  <data name="Ui.Pages.AddAnNVIDIASettingToGet" xml:space="preserve">
+    <value>Norėdami pradėti, pridėkite NVIDIA nustatymą.</value>
+  </data>
+  <data name="Ui.Pages.ExportNIP" xml:space="preserve">
+    <value>Eksportuoti .NIP</value>
+  </data>
+  <data name="Ui.Pages.CopyFlags" xml:space="preserve">
+    <value>Kopijuoti vėliavėles</value>
+  </data>
+  <data name="Ui.Pages.NVIDIAFlagHistory" xml:space="preserve">
+    <value>NVIDIA vėliavėlių istorija</value>
+  </data>
+  <data name="Ui.Pages.TracksChangesMadeToNVIDIAFlags" xml:space="preserve">
+    <value>Seka NVIDIA vėliavėlių pakeitimus šiame seanse.</value>
+  </data>
+  <data name="Ui.Pages.UndoSelected" xml:space="preserve">
+    <value>Atšaukti pasirinktus</value>
+  </data>
+  <data name="Ui.Pages.ClearHistory" xml:space="preserve">
+    <value>Išvalyti istoriją</value>
+  </data>
+  <data name="Ui.Pages.NoChangesRecorded" xml:space="preserve">
+    <value>Pakeitimų neužfiksuota</value>
+  </data>
+  <data name="Ui.Pages.DoubleClickToRevertThisChange" xml:space="preserve">
+    <value>Dukart spustelėkite, kad atšauktumėte šį pakeitimą</value>
+  </data>
+  <data name="Ui.Pages.ManageYourFastFlagsACheckmarkIn" xml:space="preserve">
+    <value>Tvarkykite savo FastFlags. Varnelė stulpelyje Preset reiškia, kad vėliavėlė yra FFlag nustatymuose, o kryžiukas, kad nėra.</value>
+  </data>
+  <data name="Ui.Pages.Preset" xml:space="preserve">
+    <value>Preset</value>
+  </data>
+  <data name="Ui.Pages.GoToFFlagSettingsToAdd" xml:space="preserve">
+    <value>Eikite į FFlag nustatymus, kad pridėtumėte Preset FFlags.</value>
+  </data>
+  <data name="Ui.Pages.Find" xml:space="preserve">
+    <value>Rasti</value>
+  </data>
+  <data name="Ui.Pages.FFlagHistory" xml:space="preserve">
+    <value>FFlag istorija</value>
+  </data>
+  <data name="Ui.Pages.TracksEveryChangeYouMakeTo" xml:space="preserve">
+    <value>Seka kiekvieną jūsų vėliavėlių pakeitimą šiame seanse. Pasirinkite įrašą ir paspauskite Atšaukti pasirinktus arba dukart jį spustelėkite, kad atšauktumėte pakeitimą.</value>
+  </data>
+  <data name="Ui.Pages.History" xml:space="preserve">
+    <value>Istorija</value>
+  </data>
+  <data name="Ui.Pages.ContinueWhereYouLeftOff" xml:space="preserve">
+    <value>Tęskite ten, kur baigėte</value>
+  </data>
+  <data name="Ui.Pages.ClearAll" xml:space="preserve">
+    <value>Išvalyti viską</value>
+  </data>
+  <data name="Ui.Pages.SearchByGameNameCreatorOr" xml:space="preserve">
+    <value>Ieškoti pagal žaidimo pavadinimą, kūrėją ar place ID...</value>
+  </data>
+  <data name="Ui.Pages.Downloads" xml:space="preserve">
+    <value>Atsisiuntimai</value>
+  </data>
+  <data name="Ui.Pages.Installed" xml:space="preserve">
+    <value>Įdiegta</value>
+  </data>
+  <data name="Ui.Pages.Update" xml:space="preserve">
+    <value>Atnaujinti</value>
+  </data>
+  <data name="Ui.Pages.SearchYourInstalls" xml:space="preserve">
+    <value>Ieškoti diegimuose</value>
+  </data>
+  <data name="Ui.Pages.InstallFolder" xml:space="preserve">
+    <value>Diegimo aplankas</value>
+  </data>
+  <data name="Ui.Pages.ClassicClients" xml:space="preserve">
+    <value>Klasikiniai klientai</value>
+  </data>
+  <data name="Ui.Pages.Map" xml:space="preserve">
+    <value>Žemėlapis</value>
+  </data>
+  <data name="Ui.Pages.PickAnInstallOnTheLeft" xml:space="preserve">
+    <value>Pasirinkite diegimą kairėje, kad pamatytumėte išsamią informaciją.</value>
+  </data>
+  <data name="Ui.Pages.Addons" xml:space="preserve">
+    <value>Priedai</value>
+  </data>
+  <data name="Ui.Pages.FleasionOpenInExtensions" xml:space="preserve">
+    <value>Fleasion, atidaryti plėtiniuose</value>
+  </data>
+  <data name="Ui.Pages.RiShadeOpenInExtensions" xml:space="preserve">
+    <value>RiShade, atidaryti plėtiniuose</value>
+  </data>
+  <data name="Ui.Pages.RojoOpenInExtensions" xml:space="preserve">
+    <value>Rojo, atidaryti plėtiniuose</value>
+  </data>
+  <data name="Ui.Pages.VoidstrapStudioPluginOpenInExtensions" xml:space="preserve">
+    <value>Voidstrap Studio papildinys, atidaryti plėtiniuose</value>
+  </data>
+  <data name="Ui.Pages.ChangeInstallLocation" xml:space="preserve">
+    <value>Keisti diegimo vietą</value>
+  </data>
+  <data name="Ui.Pages.OpenInstallFolder" xml:space="preserve">
+    <value>Atidaryti diegimo aplanką</value>
+  </data>
+  <data name="Ui.Pages.VerifyFiles" xml:space="preserve">
+    <value>Patikrinti failus</value>
+  </data>
+  <data name="Ui.Pages.MyPresets" xml:space="preserve">
+    <value>Mano išankstiniai nustatymai</value>
+  </data>
+  <data name="Ui.Pages.ImportAPreset" xml:space="preserve">
+    <value>Importuoti išankstinį nustatymą</value>
+  </data>
+  <data name="Ui.Pages.ExportThisPreset" xml:space="preserve">
+    <value>Eksportuoti šį išankstinį nustatymą</value>
+  </data>
+  <data name="Ui.Pages.ImportAReShadeIni" xml:space="preserve">
+    <value>Importuoti ReShade ini</value>
+  </data>
+  <data name="Ui.Pages.DeleteTheSelectedPreset" xml:space="preserve">
+    <value>Ištrinti pasirinktą išankstinį nustatymą</value>
+  </data>
+  <data name="Ui.Pages.NameThisLookToSaveIt" xml:space="preserve">
+    <value>Pavadinkite šią išvaizdą, kad ją išsaugotumėte</value>
+  </data>
+  <data name="Ui.Pages.F8OpensAndClosesThisWindow" xml:space="preserve">
+    <value>F8 atidaro ir uždaro šį langą žaidime</value>
+  </data>
+  <data name="Ui.Pages.TurnEverythingOff" xml:space="preserve">
+    <value>Išjungti viską</value>
+  </data>
 </root>

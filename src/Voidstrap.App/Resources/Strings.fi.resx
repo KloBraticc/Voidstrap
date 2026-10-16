@@ -5652,4 +5652,448 @@ Mitä haluat tehdä?</value>
   <data name="Ui.Misc.Bundled" xml:space="preserve">
     <value>Mukana tuleva</value>
   </data>
+  <data name="Ui.Pages.Library" xml:space="preserve">
+    <value>Kirjasto</value>
+  </data>
+  <data name="Ui.Pages.Play" xml:space="preserve">
+    <value>Pelaa</value>
+  </data>
+  <data name="Ui.Pages.RemoveFromLibrary" xml:space="preserve">
+    <value>Poista kirjastosta</value>
+  </data>
+  <data name="Ui.Pages.LibraryHome" xml:space="preserve">
+    <value>Kirjaston etusivu</value>
+  </data>
+  <data name="Ui.Pages.SearchGames" xml:space="preserve">
+    <value>Hae pelejä</value>
+  </data>
+  <data name="Ui.Pages.RefreshLibrary" xml:space="preserve">
+    <value>Päivitä kirjasto</value>
+  </data>
+  <data name="Ui.Pages.AddByPlaceIdOrLink" xml:space="preserve">
+    <value>Lisää PlaceId:llä tai linkillä</value>
+  </data>
+  <data name="Ui.Pages.AddThisGameToYourLibrary" xml:space="preserve">
+    <value>Lisää tämä peli kirjastoosi</value>
+  </data>
+  <data name="Ui.Pages.YourLibraryIsEmptyPlayA" xml:space="preserve">
+    <value>Kirjastosi on tyhjä. Pelaa peliä Voidstrapin kautta tai lisää peli PlaceId:llä sivupalkista.</value>
+  </data>
+  <data name="Ui.Pages.Events" xml:space="preserve">
+    <value>Tapahtumat</value>
+  </data>
+  <data name="Ui.Pages.ViewEvent" xml:space="preserve">
+    <value>Näytä tapahtuma</value>
+  </data>
+  <data name="Ui.Pages.WhatSNew" xml:space="preserve">
+    <value>Uutta</value>
+  </data>
+  <data name="Ui.Pages.RecentGames" xml:space="preserve">
+    <value>Viimeisimmät pelit</value>
+  </data>
+  <data name="Ui.Pages.RemoveThisGameFromYourLibrary" xml:space="preserve">
+    <value>Poista tämä peli kirjastostasi</value>
+  </data>
+  <data name="Ui.Pages.LASTPLAYED" xml:space="preserve">
+    <value>VIIMEKSI PELATTU</value>
+  </data>
+  <data name="Ui.Pages.PLAYTIME" xml:space="preserve">
+    <value>PELIAIKA</value>
+  </data>
+  <data name="Ui.Pages.PLAYINGNOW" xml:space="preserve">
+    <value>PELAA NYT</value>
+  </data>
+  <data name="Ui.Pages.RATING" xml:space="preserve">
+    <value>ARVIO</value>
+  </data>
+  <data name="Ui.Pages.Genre" xml:space="preserve">
+    <value>Lajityyppi</value>
+  </data>
+  <data name="Ui.Pages.MaxPlayers" xml:space="preserve">
+    <value>Pelaajia enintään</value>
+  </data>
+  <data name="Ui.Pages.Visits" xml:space="preserve">
+    <value>Käynnit</value>
+  </data>
+  <data name="Ui.Pages.Created" xml:space="preserve">
+    <value>Luotu</value>
+  </data>
+  <data name="Ui.Pages.Updated" xml:space="preserve">
+    <value>Päivitetty</value>
+  </data>
+  <data name="Ui.Pages.Store" xml:space="preserve">
+    <value>Kauppa</value>
+  </data>
+  <data name="Ui.Pages.OpenThisGamepassOnRobloxCom" xml:space="preserve">
+    <value>Avaa tämä pelipassi roblox.comissa</value>
+  </data>
+  <data name="Ui.Pages.AddNVIDIASettings" xml:space="preserve">
+    <value>Lisää NVIDIA-asetuksia</value>
+  </data>
+  <data name="Ui.Pages.AddOneSettingOrImportSeveral" xml:space="preserve">
+    <value>Lisää yksi asetus tai tuo useita kerralla.</value>
+  </data>
+  <data name="Ui.Pages.Single" xml:space="preserve">
+    <value>Yksittäinen</value>
+  </data>
+  <data name="Ui.Pages.SettingDetails" xml:space="preserve">
+    <value>Asetuksen tiedot</value>
+  </data>
+  <data name="Ui.Pages.UseTheValuesShownByNVIDIA" xml:space="preserve">
+    <value>Käytä NVIDIA Profile Inspectorin näyttämiä arvoja.</value>
+  </data>
+  <data name="Ui.Pages.ExampleFrameRateLimiter" xml:space="preserve">
+    <value>Esimerkki: Frame rate limiter</value>
+  </data>
+  <data name="Ui.Pages.SettingID" xml:space="preserve">
+    <value>Asetuksen tunnus</value>
+  </data>
+  <data name="Ui.Pages.ValueType" xml:space="preserve">
+    <value>Arvon tyyppi</value>
+  </data>
+  <data name="Ui.Pages.DecimalOr0xHex" xml:space="preserve">
+    <value>Desimaali tai 0x-heksa</value>
+  </data>
+  <data name="Ui.Pages.BooleanAcceptsTrueFalse1Or" xml:space="preserve">
+    <value>Boolean hyväksyy arvot true, false, 1 tai 0.</value>
+  </data>
+  <data name="Ui.Pages.NIPProfile" xml:space="preserve">
+    <value>NIP-profiili</value>
+  </data>
+  <data name="Ui.Pages.ImportAProfile" xml:space="preserve">
+    <value>Tuo profiili</value>
+  </data>
+  <data name="Ui.Pages.ChooseANIPFileOrPaste" xml:space="preserve">
+    <value>Valitse NIP-tiedosto tai liitä sen sisältö alle.</value>
+  </data>
+  <data name="Ui.Pages.ChooseNIPFile" xml:space="preserve">
+    <value>Valitse NIP-tiedosto</value>
+  </data>
+  <data name="Ui.Pages.PasteRows" xml:space="preserve">
+    <value>Liitä rivit</value>
+  </data>
+  <data name="Ui.Pages.PasteSettings" xml:space="preserve">
+    <value>Liitä asetukset</value>
+  </data>
+  <data name="Ui.Pages.EnterOneSettingPerLineName" xml:space="preserve">
+    <value>Yksi asetus riviä kohden: Nimi | ID | Arvo | Tyyppi</value>
+  </data>
+  <data name="Ui.Pages.SupportedTypesDwordBooleanAndHex" xml:space="preserve">
+    <value>Tuetut tyypit: Dword, Boolean ja Hex.</value>
+  </data>
+  <data name="Ui.Pages.AddSettings" xml:space="preserve">
+    <value>Lisää asetukset</value>
+  </data>
+  <data name="Ui.Pages.GameShortcut" xml:space="preserve">
+    <value>Pelin pikakuvake</value>
+  </data>
+  <data name="Ui.Pages.LaunchAGameNowOrCreate" xml:space="preserve">
+    <value>Käynnistä peli nyt tai luo uudelleenkäytettävä pikakuvake työpöydälle</value>
+  </data>
+  <data name="Ui.Pages.Destination" xml:space="preserve">
+    <value>Kohde</value>
+  </data>
+  <data name="Ui.Pages.UseThePlaceIDFromThe" xml:space="preserve">
+    <value>Käytä Roblox-pelin URL-osoitteen place ID:tä.</value>
+  </data>
+  <data name="Ui.Pages.Example1818" xml:space="preserve">
+    <value>Esimerkki: 1818</value>
+  </data>
+  <data name="Ui.Pages.UseAPrivateServerShareLink" xml:space="preserve">
+    <value>Käytä yksityisen palvelimen jakolinkkiä tai pääsykoodia</value>
+  </data>
+  <data name="Ui.Pages.ShareLinkOrAccessCode" xml:space="preserve">
+    <value>Jakolinkki tai pääsykoodi</value>
+  </data>
+  <data name="Ui.Pages.PasteTheCompletePrivateServerLink" xml:space="preserve">
+    <value>Liitä yksityisen palvelimen koko linkki</value>
+  </data>
+  <data name="Ui.Pages.ServerInstanceID" xml:space="preserve">
+    <value>Palvelininstanssin tunnus</value>
+  </data>
+  <data name="Ui.Pages.OptionalPublicServerInstance" xml:space="preserve">
+    <value>Valinnainen julkinen palvelininstanssi</value>
+  </data>
+  <data name="Ui.Pages.LaunchGame" xml:space="preserve">
+    <value>Käynnistä peli</value>
+  </data>
+  <data name="Ui.Pages.CreateDesktopShortcut" xml:space="preserve">
+    <value>Luo pikakuvake työpöydälle</value>
+  </data>
+  <data name="Ui.Pages.AdvancedEditor" xml:space="preserve">
+    <value>Lisäeditori</value>
+  </data>
+  <data name="Ui.Pages.OpenTheRawNVIDIAProfileInspector" xml:space="preserve">
+    <value>Avaa NVIDIA Profile Inspectorin raakaeditorin. Suositellaan vain kokeneille käyttäjille.</value>
+  </data>
+  <data name="Ui.Pages.ApplyChanges" xml:space="preserve">
+    <value>Ota muutokset käyttöön</value>
+  </data>
+  <data name="Ui.Pages.GameDetails" xml:space="preserve">
+    <value>Pelin tiedot</value>
+  </data>
+  <data name="Ui.Pages.ImageQualityFramePacingAndPerformance" xml:space="preserve">
+    <value>Kuvanlaatu, kuvien tahdistus ja suorituskykyyn liittyvät asetukset.</value>
+  </data>
+  <data name="Ui.Pages.TextureQualityLODBias" xml:space="preserve">
+    <value>Tekstuurien laatu (LOD Bias)</value>
+  </data>
+  <data name="Ui.Pages.LowerValuesProduceSharperTexturesHigher" xml:space="preserve">
+    <value>Pienemmät arvot tuottavat terävämmät tekstuurit. Suuremmat parantavat suorituskykyä yksityiskohtien kustannuksella.</value>
+  </data>
+  <data name="Ui.Pages.ImprovesAntiAliasingQualityByCombining" xml:space="preserve">
+    <value>Parantaa reunanpehmennystä yhdistämällä MSAA-näytteitä kuvien välillä vähäisellä suorituskykyvaikutuksella.</value>
+  </data>
+  <data name="Ui.Pages.GammaCorrection" xml:space="preserve">
+    <value>Gammakorjaus</value>
+  </data>
+  <data name="Ui.Pages.AdjustsHowBrightnessValuesAreMapped" xml:space="preserve">
+    <value>Säätää kirkkausarvojen muuntamista, mikä vaikuttaa kontrastiin, varjojen yksityiskohtiin ja keskisävyihin.</value>
+  </data>
+  <data name="Ui.Pages.BenchmarkOverlay" xml:space="preserve">
+    <value>Benchmark-peittokuva</value>
+  </data>
+  <data name="Ui.Pages.FrameRateLimiter" xml:space="preserve">
+    <value>Kuvataajuuden rajoitin</value>
+  </data>
+  <data name="Ui.Pages.BackgroundApplicationFrameRateLimit" xml:space="preserve">
+    <value>Taustasovellusten kuvataajuusraja</value>
+  </data>
+  <data name="Ui.Pages.LimitsTheMaximumFrameRateWhen" xml:space="preserve">
+    <value>Rajoittaa enimmäiskuvataajuutta, kun sovellus on taustalla, GPU:n ja CPU:n käytön vähentämiseksi.</value>
+  </data>
+  <data name="Ui.Pages.LowLatencyModes" xml:space="preserve">
+    <value>Pienen viiveen tilat</value>
+  </data>
+  <data name="Ui.Pages.ControlsHowManyFramesAreQueued" xml:space="preserve">
+    <value>Säätää jonossa olevien kuvien määrää syöteviiveen pienentämiseksi.</value>
+  </data>
+  <data name="Ui.Pages.CPLLowLatencyMode" xml:space="preserve">
+    <value>CPL-pienen viiveen tila</value>
+  </data>
+  <data name="Ui.Pages.FRLLowLatencyMode" xml:space="preserve">
+    <value>FRL-pienen viiveen tila</value>
+  </data>
+  <data name="Ui.Pages.DriverLevelLowLatencyControlUsing" xml:space="preserve">
+    <value>Ajuritason pienen viiveen hallinta kuvataajuuden rajoittimen logiikalla.</value>
+  </data>
+  <data name="Ui.Pages.HardwareAndDriverOverrides" xml:space="preserve">
+    <value>Laitteiston ja ajurin ohitukset</value>
+  </data>
+  <data name="Ui.Pages.OverridesThatAffectGPUBehaviorAnd" xml:space="preserve">
+    <value>Ohitukset, jotka vaikuttavat GPU:n toimintaan ja ajurin ominaisuuksiin.</value>
+  </data>
+  <data name="Ui.Pages.ResizableBAR" xml:space="preserve">
+    <value>Resizable BAR</value>
+  </data>
+  <data name="Ui.Pages.AllowsTheCPUToAccessThe" xml:space="preserve">
+    <value>Antaa CPU:n käyttää koko GPU-muistia tuetuissa järjestelmissä.</value>
+  </data>
+  <data name="Ui.Pages.SILKSmoothness" xml:space="preserve">
+    <value>SILK-sulavuus</value>
+  </data>
+  <data name="Ui.Pages.ControlsNVIDIASILKFrameSmoothingIntensity" xml:space="preserve">
+    <value>Säätää NVIDIA SILK -kuvien pehmennyksen voimakkuutta.</value>
+  </data>
+  <data name="Ui.Pages.BrowseAndManageExtensionsForVoidstrap" xml:space="preserve">
+    <value>Selaa ja hallitse Voidstrapin ja sen yhteisön laajennuksia.</value>
+  </data>
+  <data name="Ui.Pages.SearchExtensions" xml:space="preserve">
+    <value>Hae laajennuksia</value>
+  </data>
+  <data name="Ui.Pages.VoidstrapAssets" xml:space="preserve">
+    <value>Voidstrap-resurssit</value>
+  </data>
+  <data name="Ui.Pages.BackToExtensions" xml:space="preserve">
+    <value>Takaisin laajennuksiin</value>
+  </data>
+  <data name="Ui.Pages.OpenTheSourcePage" xml:space="preserve">
+    <value>Avaa lähdesivu</value>
+  </data>
+  <data name="Ui.Pages.Description" xml:space="preserve">
+    <value>Kuvaus</value>
+  </data>
+  <data name="Ui.Pages.ProjectTools" xml:space="preserve">
+    <value>Projektin työkalut</value>
+  </data>
+  <data name="Ui.Pages.ProjectFolder" xml:space="preserve">
+    <value>Projektikansio</value>
+  </data>
+  <data name="Ui.Pages.NewProject" xml:space="preserve">
+    <value>Uusi projekti</value>
+  </data>
+  <data name="Ui.Pages.BuildPlace" xml:space="preserve">
+    <value>Rakenna place</value>
+  </data>
+  <data name="Ui.Pages.InstallStudioPlugin" xml:space="preserve">
+    <value>Asenna Studio-liitännäinen</value>
+  </data>
+  <data name="Ui.Pages.Versions" xml:space="preserve">
+    <value>Versiot</value>
+  </data>
+  <data name="Ui.Pages.OpenOnGitHub" xml:space="preserve">
+    <value>Avaa GitHubissa</value>
+  </data>
+  <data name="Ui.Pages.WorksWith" xml:space="preserve">
+    <value>Toimii yhdessä</value>
+  </data>
+  <data name="Ui.Pages.Tags" xml:space="preserve">
+    <value>Tunnisteet</value>
+  </data>
+  <data name="Ui.Pages.Creators" xml:space="preserve">
+    <value>Tekijät</value>
+  </data>
+  <data name="Ui.Pages.NVIDIAFFlagEditor" xml:space="preserve">
+    <value>NVIDIA FFlag -editori</value>
+  </data>
+  <data name="Ui.Pages.ManageNVIDIASettingsSavedInYour" xml:space="preserve">
+    <value>Hallitse NIP-profiiliisi tallennettuja NVIDIA-asetuksia.</value>
+  </data>
+  <data name="Ui.Pages.AddNew" xml:space="preserve">
+    <value>Lisää uusi</value>
+  </data>
+  <data name="Ui.Pages.DeleteSelected" xml:space="preserve">
+    <value>Poista valitut</value>
+  </data>
+  <data name="Ui.Pages.DeleteAll" xml:space="preserve">
+    <value>Poista kaikki</value>
+  </data>
+  <data name="Ui.Pages.ResetNIP" xml:space="preserve">
+    <value>Palauta NIP</value>
+  </data>
+  <data name="Ui.Pages.SearchFlags" xml:space="preserve">
+    <value>Hae lippuja</value>
+  </data>
+  <data name="Ui.Pages.LookingFor" xml:space="preserve">
+    <value>Etsitään</value>
+  </data>
+  <data name="Ui.Pages.AddAnNVIDIASettingToGet" xml:space="preserve">
+    <value>Aloita lisäämällä NVIDIA-asetus.</value>
+  </data>
+  <data name="Ui.Pages.ExportNIP" xml:space="preserve">
+    <value>Vie .NIP</value>
+  </data>
+  <data name="Ui.Pages.CopyFlags" xml:space="preserve">
+    <value>Kopioi liput</value>
+  </data>
+  <data name="Ui.Pages.NVIDIAFlagHistory" xml:space="preserve">
+    <value>NVIDIA-lippujen historia</value>
+  </data>
+  <data name="Ui.Pages.TracksChangesMadeToNVIDIAFlags" xml:space="preserve">
+    <value>Seuraa NVIDIA-lippujen muutoksia tämän istunnon aikana.</value>
+  </data>
+  <data name="Ui.Pages.UndoSelected" xml:space="preserve">
+    <value>Kumoa valitut</value>
+  </data>
+  <data name="Ui.Pages.ClearHistory" xml:space="preserve">
+    <value>Tyhjennä historia</value>
+  </data>
+  <data name="Ui.Pages.NoChangesRecorded" xml:space="preserve">
+    <value>Ei tallennettuja muutoksia</value>
+  </data>
+  <data name="Ui.Pages.DoubleClickToRevertThisChange" xml:space="preserve">
+    <value>Kumoa muutos kaksoisnapsauttamalla</value>
+  </data>
+  <data name="Ui.Pages.ManageYourFastFlagsACheckmarkIn" xml:space="preserve">
+    <value>Hallitse FastFlagejasi. Valintamerkki Preset-sarakkeessa tarkoittaa, että lippu on saatavilla FFlag-asetuksissa, ja risti, ettei ole.</value>
+  </data>
+  <data name="Ui.Pages.Preset" xml:space="preserve">
+    <value>Preset</value>
+  </data>
+  <data name="Ui.Pages.GoToFFlagSettingsToAdd" xml:space="preserve">
+    <value>Lisää Preset-FFlageja FFlag-asetuksista.</value>
+  </data>
+  <data name="Ui.Pages.Find" xml:space="preserve">
+    <value>Etsi</value>
+  </data>
+  <data name="Ui.Pages.FFlagHistory" xml:space="preserve">
+    <value>FFlag-historia</value>
+  </data>
+  <data name="Ui.Pages.TracksEveryChangeYouMakeTo" xml:space="preserve">
+    <value>Seuraa jokaista lippujesi muutosta tämän istunnon aikana. Valitse merkintä ja paina Kumoa valitut tai kaksoisnapsauta sitä kumotaksesi muutoksen.</value>
+  </data>
+  <data name="Ui.Pages.History" xml:space="preserve">
+    <value>Historia</value>
+  </data>
+  <data name="Ui.Pages.ContinueWhereYouLeftOff" xml:space="preserve">
+    <value>Jatka siitä, mihin jäit</value>
+  </data>
+  <data name="Ui.Pages.ClearAll" xml:space="preserve">
+    <value>Tyhjennä kaikki</value>
+  </data>
+  <data name="Ui.Pages.SearchByGameNameCreatorOr" xml:space="preserve">
+    <value>Hae pelin nimen, tekijän tai place ID:n mukaan...</value>
+  </data>
+  <data name="Ui.Pages.Downloads" xml:space="preserve">
+    <value>Lataukset</value>
+  </data>
+  <data name="Ui.Pages.Installed" xml:space="preserve">
+    <value>Asennettu</value>
+  </data>
+  <data name="Ui.Pages.Update" xml:space="preserve">
+    <value>Päivitä</value>
+  </data>
+  <data name="Ui.Pages.SearchYourInstalls" xml:space="preserve">
+    <value>Hae asennuksistasi</value>
+  </data>
+  <data name="Ui.Pages.InstallFolder" xml:space="preserve">
+    <value>Asennuskansio</value>
+  </data>
+  <data name="Ui.Pages.ClassicClients" xml:space="preserve">
+    <value>Klassiset asiakasohjelmat</value>
+  </data>
+  <data name="Ui.Pages.Map" xml:space="preserve">
+    <value>Kartta</value>
+  </data>
+  <data name="Ui.Pages.PickAnInstallOnTheLeft" xml:space="preserve">
+    <value>Valitse asennus vasemmalta nähdäksesi sen tiedot.</value>
+  </data>
+  <data name="Ui.Pages.Addons" xml:space="preserve">
+    <value>Lisäosat</value>
+  </data>
+  <data name="Ui.Pages.FleasionOpenInExtensions" xml:space="preserve">
+    <value>Fleasion, avaa laajennuksissa</value>
+  </data>
+  <data name="Ui.Pages.RiShadeOpenInExtensions" xml:space="preserve">
+    <value>RiShade, avaa laajennuksissa</value>
+  </data>
+  <data name="Ui.Pages.RojoOpenInExtensions" xml:space="preserve">
+    <value>Rojo, avaa laajennuksissa</value>
+  </data>
+  <data name="Ui.Pages.VoidstrapStudioPluginOpenInExtensions" xml:space="preserve">
+    <value>Voidstrapin Studio-liitännäinen, avaa laajennuksissa</value>
+  </data>
+  <data name="Ui.Pages.ChangeInstallLocation" xml:space="preserve">
+    <value>Vaihda asennuspaikkaa</value>
+  </data>
+  <data name="Ui.Pages.OpenInstallFolder" xml:space="preserve">
+    <value>Avaa asennuskansio</value>
+  </data>
+  <data name="Ui.Pages.VerifyFiles" xml:space="preserve">
+    <value>Tarkista tiedostot</value>
+  </data>
+  <data name="Ui.Pages.MyPresets" xml:space="preserve">
+    <value>Omat esiasetukset</value>
+  </data>
+  <data name="Ui.Pages.ImportAPreset" xml:space="preserve">
+    <value>Tuo esiasetus</value>
+  </data>
+  <data name="Ui.Pages.ExportThisPreset" xml:space="preserve">
+    <value>Vie tämä esiasetus</value>
+  </data>
+  <data name="Ui.Pages.ImportAReShadeIni" xml:space="preserve">
+    <value>Tuo ReShade-ini</value>
+  </data>
+  <data name="Ui.Pages.DeleteTheSelectedPreset" xml:space="preserve">
+    <value>Poista valittu esiasetus</value>
+  </data>
+  <data name="Ui.Pages.NameThisLookToSaveIt" xml:space="preserve">
+    <value>Nimeä tämä ulkoasu tallentaaksesi sen</value>
+  </data>
+  <data name="Ui.Pages.F8OpensAndClosesThisWindow" xml:space="preserve">
+    <value>F8 avaa ja sulkee tämän ikkunan pelissä</value>
+  </data>
+  <data name="Ui.Pages.TurnEverythingOff" xml:space="preserve">
+    <value>Poista kaikki käytöstä</value>
+  </data>
 </root>

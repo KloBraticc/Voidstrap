@@ -5683,4 +5683,448 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
   <data name="Ui.Misc.Bundled" xml:space="preserve">
     <value>同梱</value>
   </data>
+  <data name="Ui.Pages.Library" xml:space="preserve">
+    <value>ライブラリ</value>
+  </data>
+  <data name="Ui.Pages.Play" xml:space="preserve">
+    <value>プレイ</value>
+  </data>
+  <data name="Ui.Pages.RemoveFromLibrary" xml:space="preserve">
+    <value>ライブラリから削除</value>
+  </data>
+  <data name="Ui.Pages.LibraryHome" xml:space="preserve">
+    <value>ライブラリのホーム</value>
+  </data>
+  <data name="Ui.Pages.SearchGames" xml:space="preserve">
+    <value>ゲームを検索</value>
+  </data>
+  <data name="Ui.Pages.RefreshLibrary" xml:space="preserve">
+    <value>ライブラリを更新</value>
+  </data>
+  <data name="Ui.Pages.AddByPlaceIdOrLink" xml:space="preserve">
+    <value>PlaceId またはリンクで追加</value>
+  </data>
+  <data name="Ui.Pages.AddThisGameToYourLibrary" xml:space="preserve">
+    <value>このゲームをライブラリに追加</value>
+  </data>
+  <data name="Ui.Pages.YourLibraryIsEmptyPlayA" xml:space="preserve">
+    <value>ライブラリは空です。Voidstrap でゲームをプレイするか、サイドバーから PlaceId で追加してください。</value>
+  </data>
+  <data name="Ui.Pages.Events" xml:space="preserve">
+    <value>イベント</value>
+  </data>
+  <data name="Ui.Pages.ViewEvent" xml:space="preserve">
+    <value>イベントを見る</value>
+  </data>
+  <data name="Ui.Pages.WhatSNew" xml:space="preserve">
+    <value>新着情報</value>
+  </data>
+  <data name="Ui.Pages.RecentGames" xml:space="preserve">
+    <value>最近のゲーム</value>
+  </data>
+  <data name="Ui.Pages.RemoveThisGameFromYourLibrary" xml:space="preserve">
+    <value>このゲームをライブラリから削除</value>
+  </data>
+  <data name="Ui.Pages.LASTPLAYED" xml:space="preserve">
+    <value>最終プレイ</value>
+  </data>
+  <data name="Ui.Pages.PLAYTIME" xml:space="preserve">
+    <value>プレイ時間</value>
+  </data>
+  <data name="Ui.Pages.PLAYINGNOW" xml:space="preserve">
+    <value>プレイ中</value>
+  </data>
+  <data name="Ui.Pages.RATING" xml:space="preserve">
+    <value>評価</value>
+  </data>
+  <data name="Ui.Pages.Genre" xml:space="preserve">
+    <value>ジャンル</value>
+  </data>
+  <data name="Ui.Pages.MaxPlayers" xml:space="preserve">
+    <value>最大プレイヤー数</value>
+  </data>
+  <data name="Ui.Pages.Visits" xml:space="preserve">
+    <value>訪問数</value>
+  </data>
+  <data name="Ui.Pages.Created" xml:space="preserve">
+    <value>作成日</value>
+  </data>
+  <data name="Ui.Pages.Updated" xml:space="preserve">
+    <value>更新日</value>
+  </data>
+  <data name="Ui.Pages.Store" xml:space="preserve">
+    <value>ストア</value>
+  </data>
+  <data name="Ui.Pages.OpenThisGamepassOnRobloxCom" xml:space="preserve">
+    <value>この Gamepass を roblox.com で開く</value>
+  </data>
+  <data name="Ui.Pages.AddNVIDIASettings" xml:space="preserve">
+    <value>NVIDIA 設定を追加</value>
+  </data>
+  <data name="Ui.Pages.AddOneSettingOrImportSeveral" xml:space="preserve">
+    <value>設定を 1 つ追加するか、複数をまとめてインポートします。</value>
+  </data>
+  <data name="Ui.Pages.Single" xml:space="preserve">
+    <value>単一</value>
+  </data>
+  <data name="Ui.Pages.SettingDetails" xml:space="preserve">
+    <value>設定の詳細</value>
+  </data>
+  <data name="Ui.Pages.UseTheValuesShownByNVIDIA" xml:space="preserve">
+    <value>NVIDIA Profile Inspector に表示される値を使用してください。</value>
+  </data>
+  <data name="Ui.Pages.ExampleFrameRateLimiter" xml:space="preserve">
+    <value>例: Frame rate limiter</value>
+  </data>
+  <data name="Ui.Pages.SettingID" xml:space="preserve">
+    <value>設定 ID</value>
+  </data>
+  <data name="Ui.Pages.ValueType" xml:space="preserve">
+    <value>値の種類</value>
+  </data>
+  <data name="Ui.Pages.DecimalOr0xHex" xml:space="preserve">
+    <value>10 進数または 0x の 16 進数</value>
+  </data>
+  <data name="Ui.Pages.BooleanAcceptsTrueFalse1Or" xml:space="preserve">
+    <value>Boolean は true、false、1、0 を受け付けます。</value>
+  </data>
+  <data name="Ui.Pages.NIPProfile" xml:space="preserve">
+    <value>NIP プロファイル</value>
+  </data>
+  <data name="Ui.Pages.ImportAProfile" xml:space="preserve">
+    <value>プロファイルをインポート</value>
+  </data>
+  <data name="Ui.Pages.ChooseANIPFileOrPaste" xml:space="preserve">
+    <value>NIP ファイルを選ぶか、内容を下に貼り付けてください。</value>
+  </data>
+  <data name="Ui.Pages.ChooseNIPFile" xml:space="preserve">
+    <value>NIP ファイルを選択</value>
+  </data>
+  <data name="Ui.Pages.PasteRows" xml:space="preserve">
+    <value>行を貼り付け</value>
+  </data>
+  <data name="Ui.Pages.PasteSettings" xml:space="preserve">
+    <value>設定を貼り付け</value>
+  </data>
+  <data name="Ui.Pages.EnterOneSettingPerLineName" xml:space="preserve">
+    <value>1 行に 1 つの設定: 名前 | ID | 値 | 種類</value>
+  </data>
+  <data name="Ui.Pages.SupportedTypesDwordBooleanAndHex" xml:space="preserve">
+    <value>対応する種類: Dword、Boolean、Hex。</value>
+  </data>
+  <data name="Ui.Pages.AddSettings" xml:space="preserve">
+    <value>設定を追加</value>
+  </data>
+  <data name="Ui.Pages.GameShortcut" xml:space="preserve">
+    <value>ゲームのショートカット</value>
+  </data>
+  <data name="Ui.Pages.LaunchAGameNowOrCreate" xml:space="preserve">
+    <value>今すぐゲームを起動するか、再利用できるデスクトップショートカットを作成します</value>
+  </data>
+  <data name="Ui.Pages.Destination" xml:space="preserve">
+    <value>移動先</value>
+  </data>
+  <data name="Ui.Pages.UseThePlaceIDFromThe" xml:space="preserve">
+    <value>Roblox ゲームの URL にある place ID を使用してください。</value>
+  </data>
+  <data name="Ui.Pages.Example1818" xml:space="preserve">
+    <value>例: 1818</value>
+  </data>
+  <data name="Ui.Pages.UseAPrivateServerShareLink" xml:space="preserve">
+    <value>プライベートサーバーの共有リンクまたはアクセスコードを使用</value>
+  </data>
+  <data name="Ui.Pages.ShareLinkOrAccessCode" xml:space="preserve">
+    <value>共有リンクまたはアクセスコード</value>
+  </data>
+  <data name="Ui.Pages.PasteTheCompletePrivateServerLink" xml:space="preserve">
+    <value>プライベートサーバーのリンクを全体ごと貼り付けてください</value>
+  </data>
+  <data name="Ui.Pages.ServerInstanceID" xml:space="preserve">
+    <value>サーバーインスタンス ID</value>
+  </data>
+  <data name="Ui.Pages.OptionalPublicServerInstance" xml:space="preserve">
+    <value>任意の公開サーバーインスタンス</value>
+  </data>
+  <data name="Ui.Pages.LaunchGame" xml:space="preserve">
+    <value>ゲームを起動</value>
+  </data>
+  <data name="Ui.Pages.CreateDesktopShortcut" xml:space="preserve">
+    <value>デスクトップショートカットを作成</value>
+  </data>
+  <data name="Ui.Pages.AdvancedEditor" xml:space="preserve">
+    <value>詳細エディター</value>
+  </data>
+  <data name="Ui.Pages.OpenTheRawNVIDIAProfileInspector" xml:space="preserve">
+    <value>NVIDIA Profile Inspector の生のエディターを開きます。上級者のみにおすすめします。</value>
+  </data>
+  <data name="Ui.Pages.ApplyChanges" xml:space="preserve">
+    <value>変更を適用</value>
+  </data>
+  <data name="Ui.Pages.GameDetails" xml:space="preserve">
+    <value>ゲームの詳細</value>
+  </data>
+  <data name="Ui.Pages.ImageQualityFramePacingAndPerformance" xml:space="preserve">
+    <value>画質、フレームペーシング、パフォーマンス関連のオプション。</value>
+  </data>
+  <data name="Ui.Pages.TextureQualityLODBias" xml:space="preserve">
+    <value>テクスチャ品質 (LOD Bias)</value>
+  </data>
+  <data name="Ui.Pages.LowerValuesProduceSharperTexturesHigher" xml:space="preserve">
+    <value>値が小さいほどテクスチャがシャープになります。値が大きいほど細部を犠牲にしてパフォーマンスが向上します。</value>
+  </data>
+  <data name="Ui.Pages.ImprovesAntiAliasingQualityByCombining" xml:space="preserve">
+    <value>複数フレームの MSAA サンプルを組み合わせ、パフォーマンスへの影響を最小限にしてアンチエイリアスの品質を高めます。</value>
+  </data>
+  <data name="Ui.Pages.GammaCorrection" xml:space="preserve">
+    <value>ガンマ補正</value>
+  </data>
+  <data name="Ui.Pages.AdjustsHowBrightnessValuesAreMapped" xml:space="preserve">
+    <value>明るさの値の割り当てを調整し、コントラスト、暗部のディテール、中間調に影響します。</value>
+  </data>
+  <data name="Ui.Pages.BenchmarkOverlay" xml:space="preserve">
+    <value>ベンチマークオーバーレイ</value>
+  </data>
+  <data name="Ui.Pages.FrameRateLimiter" xml:space="preserve">
+    <value>フレームレートリミッター</value>
+  </data>
+  <data name="Ui.Pages.BackgroundApplicationFrameRateLimit" xml:space="preserve">
+    <value>バックグラウンドアプリのフレームレート制限</value>
+  </data>
+  <data name="Ui.Pages.LimitsTheMaximumFrameRateWhen" xml:space="preserve">
+    <value>アプリがバックグラウンドで動作しているときに最大フレームレートを制限し、GPU と CPU の使用量を減らします。</value>
+  </data>
+  <data name="Ui.Pages.LowLatencyModes" xml:space="preserve">
+    <value>低遅延モード</value>
+  </data>
+  <data name="Ui.Pages.ControlsHowManyFramesAreQueued" xml:space="preserve">
+    <value>入力遅延を減らすため、キューに入るフレーム数を制御します。</value>
+  </data>
+  <data name="Ui.Pages.CPLLowLatencyMode" xml:space="preserve">
+    <value>CPL 低遅延モード</value>
+  </data>
+  <data name="Ui.Pages.FRLLowLatencyMode" xml:space="preserve">
+    <value>FRL 低遅延モード</value>
+  </data>
+  <data name="Ui.Pages.DriverLevelLowLatencyControlUsing" xml:space="preserve">
+    <value>フレームレートリミッターのロジックを使ったドライバーレベルの低遅延制御。</value>
+  </data>
+  <data name="Ui.Pages.HardwareAndDriverOverrides" xml:space="preserve">
+    <value>ハードウェアとドライバーの上書き</value>
+  </data>
+  <data name="Ui.Pages.OverridesThatAffectGPUBehaviorAnd" xml:space="preserve">
+    <value>GPU の動作とドライバー機能に影響する上書き設定。</value>
+  </data>
+  <data name="Ui.Pages.ResizableBAR" xml:space="preserve">
+    <value>Resizable BAR</value>
+  </data>
+  <data name="Ui.Pages.AllowsTheCPUToAccessThe" xml:space="preserve">
+    <value>対応システムで CPU が GPU メモリ全体にアクセスできるようにします。</value>
+  </data>
+  <data name="Ui.Pages.SILKSmoothness" xml:space="preserve">
+    <value>SILK の滑らかさ</value>
+  </data>
+  <data name="Ui.Pages.ControlsNVIDIASILKFrameSmoothingIntensity" xml:space="preserve">
+    <value>NVIDIA SILK のフレーム平滑化の強さを制御します。</value>
+  </data>
+  <data name="Ui.Pages.BrowseAndManageExtensionsForVoidstrap" xml:space="preserve">
+    <value>Voidstrap とそのコミュニティの拡張機能を閲覧、管理します。</value>
+  </data>
+  <data name="Ui.Pages.SearchExtensions" xml:space="preserve">
+    <value>拡張機能を検索</value>
+  </data>
+  <data name="Ui.Pages.VoidstrapAssets" xml:space="preserve">
+    <value>Voidstrap アセット</value>
+  </data>
+  <data name="Ui.Pages.BackToExtensions" xml:space="preserve">
+    <value>拡張機能に戻る</value>
+  </data>
+  <data name="Ui.Pages.OpenTheSourcePage" xml:space="preserve">
+    <value>ソースページを開く</value>
+  </data>
+  <data name="Ui.Pages.Description" xml:space="preserve">
+    <value>説明</value>
+  </data>
+  <data name="Ui.Pages.ProjectTools" xml:space="preserve">
+    <value>プロジェクトツール</value>
+  </data>
+  <data name="Ui.Pages.ProjectFolder" xml:space="preserve">
+    <value>プロジェクトフォルダー</value>
+  </data>
+  <data name="Ui.Pages.NewProject" xml:space="preserve">
+    <value>新しいプロジェクト</value>
+  </data>
+  <data name="Ui.Pages.BuildPlace" xml:space="preserve">
+    <value>place をビルド</value>
+  </data>
+  <data name="Ui.Pages.InstallStudioPlugin" xml:space="preserve">
+    <value>Studio プラグインをインストール</value>
+  </data>
+  <data name="Ui.Pages.Versions" xml:space="preserve">
+    <value>バージョン</value>
+  </data>
+  <data name="Ui.Pages.OpenOnGitHub" xml:space="preserve">
+    <value>GitHub で開く</value>
+  </data>
+  <data name="Ui.Pages.WorksWith" xml:space="preserve">
+    <value>対応</value>
+  </data>
+  <data name="Ui.Pages.Tags" xml:space="preserve">
+    <value>タグ</value>
+  </data>
+  <data name="Ui.Pages.Creators" xml:space="preserve">
+    <value>作成者</value>
+  </data>
+  <data name="Ui.Pages.NVIDIAFFlagEditor" xml:space="preserve">
+    <value>NVIDIA FFlag エディター</value>
+  </data>
+  <data name="Ui.Pages.ManageNVIDIASettingsSavedInYour" xml:space="preserve">
+    <value>NIP プロファイルに保存された NVIDIA 設定を管理します。</value>
+  </data>
+  <data name="Ui.Pages.AddNew" xml:space="preserve">
+    <value>新規追加</value>
+  </data>
+  <data name="Ui.Pages.DeleteSelected" xml:space="preserve">
+    <value>選択項目を削除</value>
+  </data>
+  <data name="Ui.Pages.DeleteAll" xml:space="preserve">
+    <value>すべて削除</value>
+  </data>
+  <data name="Ui.Pages.ResetNIP" xml:space="preserve">
+    <value>NIP をリセット</value>
+  </data>
+  <data name="Ui.Pages.SearchFlags" xml:space="preserve">
+    <value>フラグを検索</value>
+  </data>
+  <data name="Ui.Pages.LookingFor" xml:space="preserve">
+    <value>検索</value>
+  </data>
+  <data name="Ui.Pages.AddAnNVIDIASettingToGet" xml:space="preserve">
+    <value>NVIDIA 設定を追加して始めましょう。</value>
+  </data>
+  <data name="Ui.Pages.ExportNIP" xml:space="preserve">
+    <value>.NIP をエクスポート</value>
+  </data>
+  <data name="Ui.Pages.CopyFlags" xml:space="preserve">
+    <value>フラグをコピー</value>
+  </data>
+  <data name="Ui.Pages.NVIDIAFlagHistory" xml:space="preserve">
+    <value>NVIDIA フラグの履歴</value>
+  </data>
+  <data name="Ui.Pages.TracksChangesMadeToNVIDIAFlags" xml:space="preserve">
+    <value>このセッションでの NVIDIA フラグの変更を記録します。</value>
+  </data>
+  <data name="Ui.Pages.UndoSelected" xml:space="preserve">
+    <value>選択項目を元に戻す</value>
+  </data>
+  <data name="Ui.Pages.ClearHistory" xml:space="preserve">
+    <value>履歴を消去</value>
+  </data>
+  <data name="Ui.Pages.NoChangesRecorded" xml:space="preserve">
+    <value>記録された変更はありません</value>
+  </data>
+  <data name="Ui.Pages.DoubleClickToRevertThisChange" xml:space="preserve">
+    <value>ダブルクリックでこの変更を元に戻します</value>
+  </data>
+  <data name="Ui.Pages.ManageYourFastFlagsACheckmarkIn" xml:space="preserve">
+    <value>FastFlags を管理します。Preset のチェックマークはそのフラグが FFlag 設定で使えることを、バツ印は使えないことを示します。</value>
+  </data>
+  <data name="Ui.Pages.Preset" xml:space="preserve">
+    <value>Preset</value>
+  </data>
+  <data name="Ui.Pages.GoToFFlagSettingsToAdd" xml:space="preserve">
+    <value>Preset の FFlags を追加するには FFlag 設定に移動してください。</value>
+  </data>
+  <data name="Ui.Pages.Find" xml:space="preserve">
+    <value>検索</value>
+  </data>
+  <data name="Ui.Pages.FFlagHistory" xml:space="preserve">
+    <value>FFlag の履歴</value>
+  </data>
+  <data name="Ui.Pages.TracksEveryChangeYouMakeTo" xml:space="preserve">
+    <value>このセッションでのフラグの変更をすべて記録します。項目を選んで 選択項目を元に戻す を押すか、ダブルクリックすると変更を元に戻せます。</value>
+  </data>
+  <data name="Ui.Pages.History" xml:space="preserve">
+    <value>履歴</value>
+  </data>
+  <data name="Ui.Pages.ContinueWhereYouLeftOff" xml:space="preserve">
+    <value>前回の続きから</value>
+  </data>
+  <data name="Ui.Pages.ClearAll" xml:space="preserve">
+    <value>すべて消去</value>
+  </data>
+  <data name="Ui.Pages.SearchByGameNameCreatorOr" xml:space="preserve">
+    <value>ゲーム名、作成者、place ID で検索...</value>
+  </data>
+  <data name="Ui.Pages.Downloads" xml:space="preserve">
+    <value>ダウンロード</value>
+  </data>
+  <data name="Ui.Pages.Installed" xml:space="preserve">
+    <value>インストール済み</value>
+  </data>
+  <data name="Ui.Pages.Update" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="Ui.Pages.SearchYourInstalls" xml:space="preserve">
+    <value>インストールを検索</value>
+  </data>
+  <data name="Ui.Pages.InstallFolder" xml:space="preserve">
+    <value>インストールフォルダー</value>
+  </data>
+  <data name="Ui.Pages.ClassicClients" xml:space="preserve">
+    <value>クラシッククライアント</value>
+  </data>
+  <data name="Ui.Pages.Map" xml:space="preserve">
+    <value>マップ</value>
+  </data>
+  <data name="Ui.Pages.PickAnInstallOnTheLeft" xml:space="preserve">
+    <value>左側でインストールを選ぶと詳細が表示されます。</value>
+  </data>
+  <data name="Ui.Pages.Addons" xml:space="preserve">
+    <value>アドオン</value>
+  </data>
+  <data name="Ui.Pages.FleasionOpenInExtensions" xml:space="preserve">
+    <value>Fleasion、拡張機能で開く</value>
+  </data>
+  <data name="Ui.Pages.RiShadeOpenInExtensions" xml:space="preserve">
+    <value>RiShade、拡張機能で開く</value>
+  </data>
+  <data name="Ui.Pages.RojoOpenInExtensions" xml:space="preserve">
+    <value>Rojo、拡張機能で開く</value>
+  </data>
+  <data name="Ui.Pages.VoidstrapStudioPluginOpenInExtensions" xml:space="preserve">
+    <value>Voidstrap の Studio プラグイン、拡張機能で開く</value>
+  </data>
+  <data name="Ui.Pages.ChangeInstallLocation" xml:space="preserve">
+    <value>インストール先を変更</value>
+  </data>
+  <data name="Ui.Pages.OpenInstallFolder" xml:space="preserve">
+    <value>インストールフォルダーを開く</value>
+  </data>
+  <data name="Ui.Pages.VerifyFiles" xml:space="preserve">
+    <value>ファイルを検証</value>
+  </data>
+  <data name="Ui.Pages.MyPresets" xml:space="preserve">
+    <value>マイプリセット</value>
+  </data>
+  <data name="Ui.Pages.ImportAPreset" xml:space="preserve">
+    <value>プリセットをインポート</value>
+  </data>
+  <data name="Ui.Pages.ExportThisPreset" xml:space="preserve">
+    <value>このプリセットをエクスポート</value>
+  </data>
+  <data name="Ui.Pages.ImportAReShadeIni" xml:space="preserve">
+    <value>ReShade の ini をインポート</value>
+  </data>
+  <data name="Ui.Pages.DeleteTheSelectedPreset" xml:space="preserve">
+    <value>選択したプリセットを削除</value>
+  </data>
+  <data name="Ui.Pages.NameThisLookToSaveIt" xml:space="preserve">
+    <value>この見た目に名前を付けて保存</value>
+  </data>
+  <data name="Ui.Pages.F8OpensAndClosesThisWindow" xml:space="preserve">
+    <value>F8 でゲーム中にこのウィンドウを開閉します</value>
+  </data>
+  <data name="Ui.Pages.TurnEverythingOff" xml:space="preserve">
+    <value>すべてオフにする</value>
+  </data>
 </root>

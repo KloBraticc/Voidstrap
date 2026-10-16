@@ -1815,6 +1815,302 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Misc_Bundled => ResourceManager.GetString("Ui.Misc.Bundled", resourceCulture);
 
+        public static string Ui_Pages_Library => ResourceManager.GetString("Ui.Pages.Library", resourceCulture);
+
+        public static string Ui_Pages_Play => ResourceManager.GetString("Ui.Pages.Play", resourceCulture);
+
+        public static string Ui_Pages_RemoveFromLibrary => ResourceManager.GetString("Ui.Pages.RemoveFromLibrary", resourceCulture);
+
+        public static string Ui_Pages_LibraryHome => ResourceManager.GetString("Ui.Pages.LibraryHome", resourceCulture);
+
+        public static string Ui_Pages_SearchGames => ResourceManager.GetString("Ui.Pages.SearchGames", resourceCulture);
+
+        public static string Ui_Pages_RefreshLibrary => ResourceManager.GetString("Ui.Pages.RefreshLibrary", resourceCulture);
+
+        public static string Ui_Pages_AddByPlaceIdOrLink => ResourceManager.GetString("Ui.Pages.AddByPlaceIdOrLink", resourceCulture);
+
+        public static string Ui_Pages_AddThisGameToYourLibrary => ResourceManager.GetString("Ui.Pages.AddThisGameToYourLibrary", resourceCulture);
+
+        public static string Ui_Pages_YourLibraryIsEmptyPlayA => ResourceManager.GetString("Ui.Pages.YourLibraryIsEmptyPlayA", resourceCulture);
+
+        public static string Ui_Pages_Events => ResourceManager.GetString("Ui.Pages.Events", resourceCulture);
+
+        public static string Ui_Pages_ViewEvent => ResourceManager.GetString("Ui.Pages.ViewEvent", resourceCulture);
+
+        public static string Ui_Pages_WhatSNew => ResourceManager.GetString("Ui.Pages.WhatSNew", resourceCulture);
+
+        public static string Ui_Pages_RecentGames => ResourceManager.GetString("Ui.Pages.RecentGames", resourceCulture);
+
+        public static string Ui_Pages_RemoveThisGameFromYourLibrary => ResourceManager.GetString("Ui.Pages.RemoveThisGameFromYourLibrary", resourceCulture);
+
+        public static string Ui_Pages_LASTPLAYED => ResourceManager.GetString("Ui.Pages.LASTPLAYED", resourceCulture);
+
+        public static string Ui_Pages_PLAYTIME => ResourceManager.GetString("Ui.Pages.PLAYTIME", resourceCulture);
+
+        public static string Ui_Pages_PLAYINGNOW => ResourceManager.GetString("Ui.Pages.PLAYINGNOW", resourceCulture);
+
+        public static string Ui_Pages_RATING => ResourceManager.GetString("Ui.Pages.RATING", resourceCulture);
+
+        public static string Ui_Pages_Genre => ResourceManager.GetString("Ui.Pages.Genre", resourceCulture);
+
+        public static string Ui_Pages_MaxPlayers => ResourceManager.GetString("Ui.Pages.MaxPlayers", resourceCulture);
+
+        public static string Ui_Pages_Visits => ResourceManager.GetString("Ui.Pages.Visits", resourceCulture);
+
+        public static string Ui_Pages_Created => ResourceManager.GetString("Ui.Pages.Created", resourceCulture);
+
+        public static string Ui_Pages_Updated => ResourceManager.GetString("Ui.Pages.Updated", resourceCulture);
+
+        public static string Ui_Pages_Store => ResourceManager.GetString("Ui.Pages.Store", resourceCulture);
+
+        public static string Ui_Pages_OpenThisGamepassOnRobloxCom => ResourceManager.GetString("Ui.Pages.OpenThisGamepassOnRobloxCom", resourceCulture);
+
+        public static string Ui_Pages_AddNVIDIASettings => ResourceManager.GetString("Ui.Pages.AddNVIDIASettings", resourceCulture);
+
+        public static string Ui_Pages_AddOneSettingOrImportSeveral => ResourceManager.GetString("Ui.Pages.AddOneSettingOrImportSeveral", resourceCulture);
+
+        public static string Ui_Pages_Single => ResourceManager.GetString("Ui.Pages.Single", resourceCulture);
+
+        public static string Ui_Pages_SettingDetails => ResourceManager.GetString("Ui.Pages.SettingDetails", resourceCulture);
+
+        public static string Ui_Pages_UseTheValuesShownByNVIDIA => ResourceManager.GetString("Ui.Pages.UseTheValuesShownByNVIDIA", resourceCulture);
+
+        public static string Ui_Pages_ExampleFrameRateLimiter => ResourceManager.GetString("Ui.Pages.ExampleFrameRateLimiter", resourceCulture);
+
+        public static string Ui_Pages_SettingID => ResourceManager.GetString("Ui.Pages.SettingID", resourceCulture);
+
+        public static string Ui_Pages_ValueType => ResourceManager.GetString("Ui.Pages.ValueType", resourceCulture);
+
+        public static string Ui_Pages_DecimalOr0xHex => ResourceManager.GetString("Ui.Pages.DecimalOr0xHex", resourceCulture);
+
+        public static string Ui_Pages_BooleanAcceptsTrueFalse1Or => ResourceManager.GetString("Ui.Pages.BooleanAcceptsTrueFalse1Or", resourceCulture);
+
+        public static string Ui_Pages_NIPProfile => ResourceManager.GetString("Ui.Pages.NIPProfile", resourceCulture);
+
+        public static string Ui_Pages_ImportAProfile => ResourceManager.GetString("Ui.Pages.ImportAProfile", resourceCulture);
+
+        public static string Ui_Pages_ChooseANIPFileOrPaste => ResourceManager.GetString("Ui.Pages.ChooseANIPFileOrPaste", resourceCulture);
+
+        public static string Ui_Pages_ChooseNIPFile => ResourceManager.GetString("Ui.Pages.ChooseNIPFile", resourceCulture);
+
+        public static string Ui_Pages_PasteRows => ResourceManager.GetString("Ui.Pages.PasteRows", resourceCulture);
+
+        public static string Ui_Pages_PasteSettings => ResourceManager.GetString("Ui.Pages.PasteSettings", resourceCulture);
+
+        public static string Ui_Pages_EnterOneSettingPerLineName => ResourceManager.GetString("Ui.Pages.EnterOneSettingPerLineName", resourceCulture);
+
+        public static string Ui_Pages_SupportedTypesDwordBooleanAndHex => ResourceManager.GetString("Ui.Pages.SupportedTypesDwordBooleanAndHex", resourceCulture);
+
+        public static string Ui_Pages_AddSettings => ResourceManager.GetString("Ui.Pages.AddSettings", resourceCulture);
+
+        public static string Ui_Pages_GameShortcut => ResourceManager.GetString("Ui.Pages.GameShortcut", resourceCulture);
+
+        public static string Ui_Pages_LaunchAGameNowOrCreate => ResourceManager.GetString("Ui.Pages.LaunchAGameNowOrCreate", resourceCulture);
+
+        public static string Ui_Pages_Destination => ResourceManager.GetString("Ui.Pages.Destination", resourceCulture);
+
+        public static string Ui_Pages_UseThePlaceIDFromThe => ResourceManager.GetString("Ui.Pages.UseThePlaceIDFromThe", resourceCulture);
+
+        public static string Ui_Pages_Example1818 => ResourceManager.GetString("Ui.Pages.Example1818", resourceCulture);
+
+        public static string Ui_Pages_UseAPrivateServerShareLink => ResourceManager.GetString("Ui.Pages.UseAPrivateServerShareLink", resourceCulture);
+
+        public static string Ui_Pages_ShareLinkOrAccessCode => ResourceManager.GetString("Ui.Pages.ShareLinkOrAccessCode", resourceCulture);
+
+        public static string Ui_Pages_PasteTheCompletePrivateServerLink => ResourceManager.GetString("Ui.Pages.PasteTheCompletePrivateServerLink", resourceCulture);
+
+        public static string Ui_Pages_ServerInstanceID => ResourceManager.GetString("Ui.Pages.ServerInstanceID", resourceCulture);
+
+        public static string Ui_Pages_OptionalPublicServerInstance => ResourceManager.GetString("Ui.Pages.OptionalPublicServerInstance", resourceCulture);
+
+        public static string Ui_Pages_LaunchGame => ResourceManager.GetString("Ui.Pages.LaunchGame", resourceCulture);
+
+        public static string Ui_Pages_CreateDesktopShortcut => ResourceManager.GetString("Ui.Pages.CreateDesktopShortcut", resourceCulture);
+
+        public static string Ui_Pages_AdvancedEditor => ResourceManager.GetString("Ui.Pages.AdvancedEditor", resourceCulture);
+
+        public static string Ui_Pages_OpenTheRawNVIDIAProfileInspector => ResourceManager.GetString("Ui.Pages.OpenTheRawNVIDIAProfileInspector", resourceCulture);
+
+        public static string Ui_Pages_ApplyChanges => ResourceManager.GetString("Ui.Pages.ApplyChanges", resourceCulture);
+
+        public static string Ui_Pages_GameDetails => ResourceManager.GetString("Ui.Pages.GameDetails", resourceCulture);
+
+        public static string Ui_Pages_ImageQualityFramePacingAndPerformance => ResourceManager.GetString("Ui.Pages.ImageQualityFramePacingAndPerformance", resourceCulture);
+
+        public static string Ui_Pages_TextureQualityLODBias => ResourceManager.GetString("Ui.Pages.TextureQualityLODBias", resourceCulture);
+
+        public static string Ui_Pages_LowerValuesProduceSharperTexturesHigher => ResourceManager.GetString("Ui.Pages.LowerValuesProduceSharperTexturesHigher", resourceCulture);
+
+        public static string Ui_Pages_ImprovesAntiAliasingQualityByCombining => ResourceManager.GetString("Ui.Pages.ImprovesAntiAliasingQualityByCombining", resourceCulture);
+
+        public static string Ui_Pages_GammaCorrection => ResourceManager.GetString("Ui.Pages.GammaCorrection", resourceCulture);
+
+        public static string Ui_Pages_AdjustsHowBrightnessValuesAreMapped => ResourceManager.GetString("Ui.Pages.AdjustsHowBrightnessValuesAreMapped", resourceCulture);
+
+        public static string Ui_Pages_BenchmarkOverlay => ResourceManager.GetString("Ui.Pages.BenchmarkOverlay", resourceCulture);
+
+        public static string Ui_Pages_FrameRateLimiter => ResourceManager.GetString("Ui.Pages.FrameRateLimiter", resourceCulture);
+
+        public static string Ui_Pages_BackgroundApplicationFrameRateLimit => ResourceManager.GetString("Ui.Pages.BackgroundApplicationFrameRateLimit", resourceCulture);
+
+        public static string Ui_Pages_LimitsTheMaximumFrameRateWhen => ResourceManager.GetString("Ui.Pages.LimitsTheMaximumFrameRateWhen", resourceCulture);
+
+        public static string Ui_Pages_LowLatencyModes => ResourceManager.GetString("Ui.Pages.LowLatencyModes", resourceCulture);
+
+        public static string Ui_Pages_ControlsHowManyFramesAreQueued => ResourceManager.GetString("Ui.Pages.ControlsHowManyFramesAreQueued", resourceCulture);
+
+        public static string Ui_Pages_CPLLowLatencyMode => ResourceManager.GetString("Ui.Pages.CPLLowLatencyMode", resourceCulture);
+
+        public static string Ui_Pages_FRLLowLatencyMode => ResourceManager.GetString("Ui.Pages.FRLLowLatencyMode", resourceCulture);
+
+        public static string Ui_Pages_DriverLevelLowLatencyControlUsing => ResourceManager.GetString("Ui.Pages.DriverLevelLowLatencyControlUsing", resourceCulture);
+
+        public static string Ui_Pages_HardwareAndDriverOverrides => ResourceManager.GetString("Ui.Pages.HardwareAndDriverOverrides", resourceCulture);
+
+        public static string Ui_Pages_OverridesThatAffectGPUBehaviorAnd => ResourceManager.GetString("Ui.Pages.OverridesThatAffectGPUBehaviorAnd", resourceCulture);
+
+        public static string Ui_Pages_ResizableBAR => ResourceManager.GetString("Ui.Pages.ResizableBAR", resourceCulture);
+
+        public static string Ui_Pages_AllowsTheCPUToAccessThe => ResourceManager.GetString("Ui.Pages.AllowsTheCPUToAccessThe", resourceCulture);
+
+        public static string Ui_Pages_SILKSmoothness => ResourceManager.GetString("Ui.Pages.SILKSmoothness", resourceCulture);
+
+        public static string Ui_Pages_ControlsNVIDIASILKFrameSmoothingIntensity => ResourceManager.GetString("Ui.Pages.ControlsNVIDIASILKFrameSmoothingIntensity", resourceCulture);
+
+        public static string Ui_Pages_BrowseAndManageExtensionsForVoidstrap => ResourceManager.GetString("Ui.Pages.BrowseAndManageExtensionsForVoidstrap", resourceCulture);
+
+        public static string Ui_Pages_SearchExtensions => ResourceManager.GetString("Ui.Pages.SearchExtensions", resourceCulture);
+
+        public static string Ui_Pages_VoidstrapAssets => ResourceManager.GetString("Ui.Pages.VoidstrapAssets", resourceCulture);
+
+        public static string Ui_Pages_BackToExtensions => ResourceManager.GetString("Ui.Pages.BackToExtensions", resourceCulture);
+
+        public static string Ui_Pages_OpenTheSourcePage => ResourceManager.GetString("Ui.Pages.OpenTheSourcePage", resourceCulture);
+
+        public static string Ui_Pages_Description => ResourceManager.GetString("Ui.Pages.Description", resourceCulture);
+
+        public static string Ui_Pages_ProjectTools => ResourceManager.GetString("Ui.Pages.ProjectTools", resourceCulture);
+
+        public static string Ui_Pages_ProjectFolder => ResourceManager.GetString("Ui.Pages.ProjectFolder", resourceCulture);
+
+        public static string Ui_Pages_NewProject => ResourceManager.GetString("Ui.Pages.NewProject", resourceCulture);
+
+        public static string Ui_Pages_BuildPlace => ResourceManager.GetString("Ui.Pages.BuildPlace", resourceCulture);
+
+        public static string Ui_Pages_InstallStudioPlugin => ResourceManager.GetString("Ui.Pages.InstallStudioPlugin", resourceCulture);
+
+        public static string Ui_Pages_Versions => ResourceManager.GetString("Ui.Pages.Versions", resourceCulture);
+
+        public static string Ui_Pages_OpenOnGitHub => ResourceManager.GetString("Ui.Pages.OpenOnGitHub", resourceCulture);
+
+        public static string Ui_Pages_WorksWith => ResourceManager.GetString("Ui.Pages.WorksWith", resourceCulture);
+
+        public static string Ui_Pages_Tags => ResourceManager.GetString("Ui.Pages.Tags", resourceCulture);
+
+        public static string Ui_Pages_Creators => ResourceManager.GetString("Ui.Pages.Creators", resourceCulture);
+
+        public static string Ui_Pages_NVIDIAFFlagEditor => ResourceManager.GetString("Ui.Pages.NVIDIAFFlagEditor", resourceCulture);
+
+        public static string Ui_Pages_ManageNVIDIASettingsSavedInYour => ResourceManager.GetString("Ui.Pages.ManageNVIDIASettingsSavedInYour", resourceCulture);
+
+        public static string Ui_Pages_AddNew => ResourceManager.GetString("Ui.Pages.AddNew", resourceCulture);
+
+        public static string Ui_Pages_DeleteSelected => ResourceManager.GetString("Ui.Pages.DeleteSelected", resourceCulture);
+
+        public static string Ui_Pages_DeleteAll => ResourceManager.GetString("Ui.Pages.DeleteAll", resourceCulture);
+
+        public static string Ui_Pages_ResetNIP => ResourceManager.GetString("Ui.Pages.ResetNIP", resourceCulture);
+
+        public static string Ui_Pages_SearchFlags => ResourceManager.GetString("Ui.Pages.SearchFlags", resourceCulture);
+
+        public static string Ui_Pages_LookingFor => ResourceManager.GetString("Ui.Pages.LookingFor", resourceCulture);
+
+        public static string Ui_Pages_AddAnNVIDIASettingToGet => ResourceManager.GetString("Ui.Pages.AddAnNVIDIASettingToGet", resourceCulture);
+
+        public static string Ui_Pages_ExportNIP => ResourceManager.GetString("Ui.Pages.ExportNIP", resourceCulture);
+
+        public static string Ui_Pages_CopyFlags => ResourceManager.GetString("Ui.Pages.CopyFlags", resourceCulture);
+
+        public static string Ui_Pages_NVIDIAFlagHistory => ResourceManager.GetString("Ui.Pages.NVIDIAFlagHistory", resourceCulture);
+
+        public static string Ui_Pages_TracksChangesMadeToNVIDIAFlags => ResourceManager.GetString("Ui.Pages.TracksChangesMadeToNVIDIAFlags", resourceCulture);
+
+        public static string Ui_Pages_UndoSelected => ResourceManager.GetString("Ui.Pages.UndoSelected", resourceCulture);
+
+        public static string Ui_Pages_ClearHistory => ResourceManager.GetString("Ui.Pages.ClearHistory", resourceCulture);
+
+        public static string Ui_Pages_NoChangesRecorded => ResourceManager.GetString("Ui.Pages.NoChangesRecorded", resourceCulture);
+
+        public static string Ui_Pages_DoubleClickToRevertThisChange => ResourceManager.GetString("Ui.Pages.DoubleClickToRevertThisChange", resourceCulture);
+
+        public static string Ui_Pages_ManageYourFastFlagsACheckmarkIn => ResourceManager.GetString("Ui.Pages.ManageYourFastFlagsACheckmarkIn", resourceCulture);
+
+        public static string Ui_Pages_Preset => ResourceManager.GetString("Ui.Pages.Preset", resourceCulture);
+
+        public static string Ui_Pages_GoToFFlagSettingsToAdd => ResourceManager.GetString("Ui.Pages.GoToFFlagSettingsToAdd", resourceCulture);
+
+        public static string Ui_Pages_Find => ResourceManager.GetString("Ui.Pages.Find", resourceCulture);
+
+        public static string Ui_Pages_FFlagHistory => ResourceManager.GetString("Ui.Pages.FFlagHistory", resourceCulture);
+
+        public static string Ui_Pages_TracksEveryChangeYouMakeTo => ResourceManager.GetString("Ui.Pages.TracksEveryChangeYouMakeTo", resourceCulture);
+
+        public static string Ui_Pages_History => ResourceManager.GetString("Ui.Pages.History", resourceCulture);
+
+        public static string Ui_Pages_ContinueWhereYouLeftOff => ResourceManager.GetString("Ui.Pages.ContinueWhereYouLeftOff", resourceCulture);
+
+        public static string Ui_Pages_ClearAll => ResourceManager.GetString("Ui.Pages.ClearAll", resourceCulture);
+
+        public static string Ui_Pages_SearchByGameNameCreatorOr => ResourceManager.GetString("Ui.Pages.SearchByGameNameCreatorOr", resourceCulture);
+
+        public static string Ui_Pages_Downloads => ResourceManager.GetString("Ui.Pages.Downloads", resourceCulture);
+
+        public static string Ui_Pages_Installed => ResourceManager.GetString("Ui.Pages.Installed", resourceCulture);
+
+        public static string Ui_Pages_Update => ResourceManager.GetString("Ui.Pages.Update", resourceCulture);
+
+        public static string Ui_Pages_SearchYourInstalls => ResourceManager.GetString("Ui.Pages.SearchYourInstalls", resourceCulture);
+
+        public static string Ui_Pages_InstallFolder => ResourceManager.GetString("Ui.Pages.InstallFolder", resourceCulture);
+
+        public static string Ui_Pages_ClassicClients => ResourceManager.GetString("Ui.Pages.ClassicClients", resourceCulture);
+
+        public static string Ui_Pages_Map => ResourceManager.GetString("Ui.Pages.Map", resourceCulture);
+
+        public static string Ui_Pages_PickAnInstallOnTheLeft => ResourceManager.GetString("Ui.Pages.PickAnInstallOnTheLeft", resourceCulture);
+
+        public static string Ui_Pages_Addons => ResourceManager.GetString("Ui.Pages.Addons", resourceCulture);
+
+        public static string Ui_Pages_FleasionOpenInExtensions => ResourceManager.GetString("Ui.Pages.FleasionOpenInExtensions", resourceCulture);
+
+        public static string Ui_Pages_RiShadeOpenInExtensions => ResourceManager.GetString("Ui.Pages.RiShadeOpenInExtensions", resourceCulture);
+
+        public static string Ui_Pages_RojoOpenInExtensions => ResourceManager.GetString("Ui.Pages.RojoOpenInExtensions", resourceCulture);
+
+        public static string Ui_Pages_VoidstrapStudioPluginOpenInExtensions => ResourceManager.GetString("Ui.Pages.VoidstrapStudioPluginOpenInExtensions", resourceCulture);
+
+        public static string Ui_Pages_ChangeInstallLocation => ResourceManager.GetString("Ui.Pages.ChangeInstallLocation", resourceCulture);
+
+        public static string Ui_Pages_OpenInstallFolder => ResourceManager.GetString("Ui.Pages.OpenInstallFolder", resourceCulture);
+
+        public static string Ui_Pages_VerifyFiles => ResourceManager.GetString("Ui.Pages.VerifyFiles", resourceCulture);
+
+        public static string Ui_Pages_MyPresets => ResourceManager.GetString("Ui.Pages.MyPresets", resourceCulture);
+
+        public static string Ui_Pages_ImportAPreset => ResourceManager.GetString("Ui.Pages.ImportAPreset", resourceCulture);
+
+        public static string Ui_Pages_ExportThisPreset => ResourceManager.GetString("Ui.Pages.ExportThisPreset", resourceCulture);
+
+        public static string Ui_Pages_ImportAReShadeIni => ResourceManager.GetString("Ui.Pages.ImportAReShadeIni", resourceCulture);
+
+        public static string Ui_Pages_DeleteTheSelectedPreset => ResourceManager.GetString("Ui.Pages.DeleteTheSelectedPreset", resourceCulture);
+
+        public static string Ui_Pages_NameThisLookToSaveIt => ResourceManager.GetString("Ui.Pages.NameThisLookToSaveIt", resourceCulture);
+
+        public static string Ui_Pages_F8OpensAndClosesThisWindow => ResourceManager.GetString("Ui.Pages.F8OpensAndClosesThisWindow", resourceCulture);
+
+        public static string Ui_Pages_TurnEverythingOff => ResourceManager.GetString("Ui.Pages.TurnEverythingOff", resourceCulture);
+
         public static string Menu_Appearance_Accent_Title => ResourceManager.GetString("Menu.Appearance.Accent.Title", resourceCulture);
 
         public static string Menu_Appearance_Accent_Description => ResourceManager.GetString("Menu.Appearance.Accent.Description", resourceCulture);
