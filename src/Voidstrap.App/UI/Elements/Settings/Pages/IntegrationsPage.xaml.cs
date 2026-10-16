@@ -24,6 +24,7 @@ public partial class IntegrationsPage : UiPage{
 		_viewModel = new IntegrationsViewModel(activeWatcher ?? new ActivityWatcher(), activeWatcher == null);
 		base.DataContext = _viewModel;
 		InitializeComponent();
+		MatchmakerTab.DataContext = new BehaviourViewModel();
 		Loaded += OnPageLoaded;
 		Unloaded += OnPageUnloaded;
 	}
@@ -85,5 +86,13 @@ public partial class IntegrationsPage : UiPage{
 
 	private void ToggleSwitch_Checked(object sender, RoutedEventArgs e)
 	{
+	}
+
+	private void ResetDatacenters_Click(object sender, RoutedEventArgs e)
+	{
+		if (MatchmakerTab.DataContext is BehaviourViewModel behaviourViewModel)
+		{
+			behaviourViewModel.ResetDatacenters();
+		}
 	}
 }

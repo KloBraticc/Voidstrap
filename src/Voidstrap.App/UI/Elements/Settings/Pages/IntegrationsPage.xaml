@@ -1,4 +1,4 @@
-﻿<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.IntegrationsPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:models="clr-namespace:Voidstrap.UI.ViewModels" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:platform="clr-namespace:Voidstrap.UI" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" x:Name="IntegrationsPageView" Title="IntegrationsPage" Scrollable="True" xmlns:pages="clr-namespace:Voidstrap.UI.Elements.Settings.Pages">
+﻿<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.IntegrationsPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:models="clr-namespace:Voidstrap.UI.ViewModels" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:platform="clr-namespace:Voidstrap.UI" xmlns:util="clr-namespace:Voidstrap.Utility" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" x:Name="IntegrationsPageView" Title="IntegrationsPage" Scrollable="True" xmlns:pages="clr-namespace:Voidstrap.UI.Elements.Settings.Pages">
   <StackPanel Margin="0,0,14,14">
     <TextBlock FontSize="14" Margin="0,0,0,12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Menu_Integrations_Description}" />
 
@@ -277,6 +277,185 @@
                 </StackPanel>
       </TabItem>
 
+      <TabItem x:Name="MatchmakerTab">
+        <HeaderedContentControl.Header>
+          <StackPanel Orientation="Horizontal">
+            <ui:SymbolIcon Symbol="Globe24" Margin="0,0,6,0" />
+            <TextBlock Text="{resources:Loc Ui_Bootstrapper_VoidstrapMatchmaker}" />
+          </StackPanel>
+        </HeaderedContentControl.Header>
+        <StackPanel Margin="10">
+          <ui:InfoBar Padding="8" IsClosable="False" IsOpen="True" Severity="Informational" Message="{Binding UserLocationText}" />
+          <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_Enable}" Description="{resources:Loc Ui_Bootstrapper_PickMyServerForMe}">
+            <ui:ToggleSwitch IsChecked="{Binding VoidstrapMatchmakerEnabled, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_WhatToJoin}" Description="{resources:Loc Ui_Bootstrapper_HowVoidstrapChoosesBetweenTheServers}">
+            <ComboBox Width="280" Padding="10,5,10,5" DisplayMemberPath="Display" SelectedValuePath="Value" IsEnabled="{Binding VoidstrapMatchmakerEnabled}" ItemsSource="{Binding MatchmakerModes}" SelectedValue="{Binding MatchmakerMode, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_AskBeforeMovingServers}" Description="{resources:Loc Ui_Bootstrapper_WhenABetterServerIsFound}">
+            <ui:ToggleSwitch IsEnabled="{Binding VoidstrapMatchmakerEnabled}" IsChecked="{Binding MatchmakerAskBeforeMoving, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <ui:CardExpander Margin="0,8,0,0" IsExpanded="False" Visibility="{Binding ShowPreferredDatacenterPicker, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <HeaderedContentControl.Header>
+              <StackPanel>
+                <TextBlock FontSize="14" Text="{resources:Loc Ui_Bootstrapper_WhichDatacenter}" />
+                <TextBlock Margin="0,2,0,0" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Bootstrapper_ClickAPinToPickA}" />
+              </StackPanel>
+            </HeaderedContentControl.Header>
+            <StackPanel>
+            <controls:WorldServerMap Height="420" IsEnabled="{Binding VoidstrapMatchmakerEnabled}" Datacenters="{Binding Datacenters}" SelectedKey="{Binding PreferredDatacenterKey, Mode=TwoWay}" UserLatitude="{Binding UserLatitude}" UserLongitude="{Binding UserLongitude}" />
+            <controls:OptionControl Margin="0,8,0,0" Header="{resources:Loc Ui_Bootstrapper_PreferredDatacenter}" Description="{resources:Loc Ui_Bootstrapper_VoidstrapWillAlwaysTryThisOne}">
+              <ComboBox Width="280" Padding="10,5,10,5" DisplayMemberPath="Display" IsEnabled="{Binding VoidstrapMatchmakerEnabled}" ItemsSource="{Binding PreferredDatacenterOptions}" SelectedItem="{Binding SelectedPreferredDatacenter, Mode=TwoWay}" />
+            </controls:OptionControl>
+            </StackPanel>
+          </ui:CardExpander>
+          <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
+            <HeaderedContentControl.Header>
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                  <TextBlock FontSize="14" FontWeight="Medium" Text="{resources:Loc Ui_Bootstrapper_Datacenters}" />
+                  <TextBlock Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" Text="{Binding BlockedDatacenterSummary}" />
+                </StackPanel>
+                <ui:Button Grid.Column="1" Margin="12,0,8,0" VerticalAlignment="Center" Content="{resources:Loc Ui_Bootstrapper_AllowAll}" Icon="ArrowReset24" Click="ResetDatacenters_Click" />
+              </Grid>
+            </HeaderedContentControl.Header>
+            <StackPanel>
+              <TextBlock Margin="0,0,0,8" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Bootstrapper_TurnOneOffToNeverBe}" />
+              <ui:TextBox Margin="0,0,0,8" Padding="10,5,10,5" Icon="Search24" PlaceholderText="{resources:Loc Ui_Bootstrapper_SearchByCityRegionOrCountry}" Text="{Binding DatacenterSearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+              <Border BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="4" MaxHeight="420">
+                <DataGrid Name="DatacentersGrid" AutoGenerateColumns="False" HeadersVisibility="Column" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" GridLinesVisibility="None" IsReadOnly="True" RowHeaderWidth="0" Background="#00FFFFFF" BorderThickness="0" RowHeight="42" AlternatingRowBackground="{DynamicResource SubtleFillColorTertiaryBrush}" ItemsSource="{Binding FilteredDatacenters}">
+                  <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="{resources:Loc Ui_Bootstrapper_Allow}" Width="70" CanUserSort="False">
+                      <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                          <ui:ToggleSwitch HorizontalAlignment="Center" VerticalAlignment="Center" AutomationProperties.Name="{Binding Location}" IsChecked="{Binding IsAllowed, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                        </DataTemplate>
+                      </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="{resources:Loc Ui_Bootstrapper_Datacenter}" Width="*" MinWidth="180">
+                      <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                          <StackPanel VerticalAlignment="Center" ToolTip="{Binding ServerIps}">
+                            <TextBlock TextTrimming="CharacterEllipsis" Text="{Binding Location}" />
+                            <TextBlock FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding DistanceDisplay}" />
+                          </StackPanel>
+                        </DataTemplate>
+                      </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="{resources:Loc Ui_Bootstrapper_Latency}" Width="100" MinWidth="80" Binding="{Binding PingDisplay}" />
+                  </DataGrid.Columns>
+                </DataGrid>
+              </Border>
+            </StackPanel>
+          </ui:CardExpander>
+          <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
+            <HeaderedContentControl.Header>
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                  <TextBlock FontSize="14" FontWeight="Medium" Text="{resources:Loc Ui_Bootstrapper_SkippedGames}" />
+                  <TextBlock Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" Text="{Binding ExcludedGamesSummary}" />
+                </StackPanel>
+                <ui:Button Grid.Column="1" Margin="12,0,8,0" VerticalAlignment="Center" Content="{resources:Loc FlagSearch_Label25}" Icon="ArrowReset24" Visibility="{Binding HasExcludedGames, Converter={StaticResource BooleanToVisibilityConverter}}" Command="{Binding ClearExcludedGamesCommand}" />
+              </Grid>
+            </HeaderedContentControl.Header>
+            <StackPanel>
+              <TextBlock Margin="0,0,0,8" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Bootstrapper_AddThoseHereAndVoidstrapJoins}" />
+              <ui:TextBox Margin="0,0,0,8" Padding="10,5,10,5" PlaceholderText="{resources:Loc Ui_Bootstrapper_SearchForAGameByName}" Text="{Binding GameSearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+              <TextBlock Margin="0,0,0,8" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding GameSearchStatus}" Visibility="{Binding HasGameSearchStatus, Converter={StaticResource BooleanToVisibilityConverter}}" />
+              <Border Margin="0,0,0,8" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="4" MaxHeight="260" Visibility="{Binding HasGameSearchResults, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                  <ItemsControl ItemsSource="{Binding GameSearchResults}">
+                    <ItemsControl.ItemTemplate>
+                      <DataTemplate>
+                        <Grid Margin="8,6,8,6">
+                          <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                          </Grid.ColumnDefinitions>
+                          <Border Grid.Column="0" Width="40" Height="40" Margin="0,0,10,0" CornerRadius="6" Background="{DynamicResource SubtleFillColorSecondaryBrush}">
+                            <Image Source="{Binding IconUrl}" util:DynamicRenderSystem.LinuxImageSource="{Binding IconUrl}" Width="40" Height="40" Visibility="{Binding HasIcon, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                          </Border>
+                          <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                            <TextBlock FontWeight="Medium" TextTrimming="CharacterEllipsis" Text="{Binding Name}" />
+                            <StackPanel Orientation="Horizontal" Margin="0,2,0,0">
+                              <TextBlock FontSize="11" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding Players}" Visibility="{Binding HasPlayers, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                              <TextBlock FontSize="11" Margin="8,0,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextTrimming="CharacterEllipsis" Text="{Binding Detail}" Visibility="{Binding HasDetail, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                            </StackPanel>
+                          </StackPanel>
+                          <ui:Button Grid.Column="2" VerticalAlignment="Center" Icon="Add24" Content="{resources:Loc Ui_Bootstrapper_Skip}" ToolTip="{resources:Loc Ui_Bootstrapper_NeverLetVoidstrapPickAServer}" Command="{Binding DataContext.AddSearchResultCommand, RelativeSource={RelativeSource AncestorType=Page}}" CommandParameter="{Binding}" />
+                        </Grid>
+                      </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                  </ItemsControl>
+                </ScrollViewer>
+              </Border>
+              <Border BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="4" MaxHeight="320" Visibility="{Binding HasExcludedGames, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <DataGrid AutoGenerateColumns="False" HeadersVisibility="Column" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" GridLinesVisibility="None" IsReadOnly="True" RowHeaderWidth="0" Background="#00FFFFFF" BorderThickness="0" RowHeight="48" AlternatingRowBackground="{DynamicResource SubtleFillColorTertiaryBrush}" ItemsSource="{Binding ExcludedGames}">
+                  <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="{resources:Loc Shortcuts_GameTab}" Width="*" MinWidth="200">
+                      <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                          <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <Border Width="32" Height="32" Margin="0,0,10,0" CornerRadius="6" Background="{DynamicResource SubtleFillColorSecondaryBrush}">
+                              <Image Source="{Binding IconUrl}" util:DynamicRenderSystem.LinuxImageSource="{Binding IconUrl}" Width="32" Height="32" Visibility="{Binding HasIcon, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                            </Border>
+                            <TextBlock VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Text="{Binding Name}" />
+                          </StackPanel>
+                        </DataTemplate>
+                      </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="{resources:Loc Ui_Bootstrapper_PlaceId}" Width="140" MinWidth="110" Binding="{Binding PlaceIdDisplay}" />
+                    <DataGridTemplateColumn Header="" Width="60" CanUserSort="False">
+                      <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                          <ui:Button HorizontalAlignment="Center" VerticalAlignment="Center" Icon="Delete24" Appearance="Secondary" ToolTip="{resources:Loc Ui_Bootstrapper_LetVoidstrapPickServersForThis}" Command="{Binding DataContext.RemoveExcludedGameCommand, RelativeSource={RelativeSource AncestorType=Page}}" CommandParameter="{Binding}" />
+                        </DataTemplate>
+                      </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                  </DataGrid.Columns>
+                </DataGrid>
+              </Border>
+            </StackPanel>
+          </ui:CardExpander>
+          <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
+            <HeaderedContentControl.Header>
+              <StackPanel>
+                <TextBlock FontSize="14" FontWeight="Medium" Text="{resources:Loc Ui_Bootstrapper_Advanced}" />
+                <TextBlock Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Bootstrapper_TheDefaultsAreRightForAlmost}" />
+              </StackPanel>
+            </HeaderedContentControl.Header>
+            <StackPanel>
+              <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_HowHardToSearch}" Description="{Binding SearchDepthDescription}">
+                <StackPanel Orientation="Horizontal" Margin="0,2">
+                  <ui:ToggleSwitch VerticalAlignment="Center" Margin="0,0,8,0" IsChecked="{Binding VoidstrapMatchmakerAutoCandidates, Mode=TwoWay}" />
+                  <TextBlock Text="{resources:Loc Ui_Bootstrapper_Auto}" VerticalAlignment="Center" Margin="0,0,16,0" />
+                  <Slider Width="170" Minimum="8" Maximum="64" TickFrequency="4" IsSnapToTickEnabled="True" IsEnabled="{Binding VoidstrapMatchmakerManualCandidates}" Value="{Binding VoidstrapMatchmakerMaxCandidates, Mode=TwoWay}" />
+                  <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" FontWeight="SemiBold" Text="{Binding EffectiveMatchmakerCandidates}" />
+                </StackPanel>
+              </controls:OptionControl>
+              <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_ReconnectLimit}" Description="{resources:Loc Ui_Bootstrapper_VoidstrapStopsTryingAfterThisMany}">
+                <StackPanel Orientation="Horizontal" Margin="0,2">
+                  <Slider Width="200" Minimum="1" Maximum="20" TickFrequency="1" IsSnapToTickEnabled="True" Value="{Binding ServerMatchmakerMaxRetries, Mode=TwoWay}" />
+                  <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" Text="{Binding ServerMatchmakerMaxRetries}" />
+                </StackPanel>
+              </controls:OptionControl>
+              <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_JoinAPI}" Description="{resources:Loc Ui_Bootstrapper_WhichRobloxJoinEndpointVoidstrapAsks}">
+                <ComboBox Width="240" Padding="10,5,10,5" DisplayMemberPath="Display" SelectedValuePath="Value" ItemsSource="{Binding GamejoinApiOptions}" SelectedValue="{Binding GamejoinApiVersion, Mode=TwoWay}" />
+              </controls:OptionControl>
+              <ui:InfoBar Padding="8" IsClosable="False" IsOpen="True" Margin="0,8,0,0" Severity="Success" Message="{Binding VoidstrapMatchmakerLearnedStats}" Visibility="{Binding HasLearnedData, Converter={StaticResource BooleanToVisibilityConverter}}" />
+            </StackPanel>
+          </ui:CardExpander>
+        </StackPanel>
+      </TabItem>
     </TabControl>
   </StackPanel>
 </ui:UiPage>
