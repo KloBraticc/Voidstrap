@@ -6557,4 +6557,22 @@ Subukan ulit ang pag alis?</value>
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>Kailangan ng background ng homepage ang access sa Screen Recording sa macOS para makita ang home screen ng Roblox. Payagan ang Voidstrap sa System Settings, Privacy and Security, Screen Recording, pagkatapos ay i-restart ang Voidstrap. Binabasa lang nito ang window ng Roblox at hindi kailanman nagre-record o nagse-save ng kahit ano.</value>
   </data>
+  <data name="Ui.Main.PalettePages" xml:space="preserve">
+    <value>Mga pahina</value>
+  </data>
+  <data name="Ui.Main.PaletteSettings" xml:space="preserve">
+    <value>Mga setting</value>
+  </data>
+  <data name="Ui.Main.PaletteNoResults" xml:space="preserve">
+    <value>Walang resulta para sa “{0}”</value>
+  </data>
+  <data name="Ui.Main.PaletteSearching" xml:space="preserve">
+    <value>Naghahanap</value>
+  </data>
+  <data name="Ui.Main.PaletteOneResult" xml:space="preserve">
+    <value>1 resulta</value>
+  </data>
+  <data name="Ui.Main.PaletteResults" xml:space="preserve">
+    <value>{0} resulta</value>
+  </data>
 </root>

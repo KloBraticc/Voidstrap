@@ -6805,4 +6805,22 @@ Voidstrap 的安装路径是：
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>主页背景需要 macOS 的屏幕录制权限才能看到 Roblox 主屏幕。请在系统设置的隐私与安全性、屏幕录制中允许 Voidstrap，然后重新启动 Voidstrap。它只读取 Roblox 窗口，从不录制或保存任何内容。</value>
   </data>
+  <data name="Ui.Main.PalettePages" xml:space="preserve">
+    <value>页面</value>
+  </data>
+  <data name="Ui.Main.PaletteSettings" xml:space="preserve">
+    <value>设置</value>
+  </data>
+  <data name="Ui.Main.PaletteNoResults" xml:space="preserve">
+    <value>没有找到“{0}”的结果</value>
+  </data>
+  <data name="Ui.Main.PaletteSearching" xml:space="preserve">
+    <value>正在搜索</value>
+  </data>
+  <data name="Ui.Main.PaletteOneResult" xml:space="preserve">
+    <value>1 个结果</value>
+  </data>
+  <data name="Ui.Main.PaletteResults" xml:space="preserve">
+    <value>{0} 个结果</value>
+  </data>
 </root>

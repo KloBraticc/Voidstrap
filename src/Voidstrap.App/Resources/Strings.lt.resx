@@ -6818,4 +6818,22 @@ Bandyti pašalinti dar kartą?</value>
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>Pagrindinio puslapio fonui macOS sistemoje reikia ekrano įrašymo prieigos, kad matytų Roblox pagrindinį ekraną. Leiskite Voidstrap sistemos nustatymuose, Privatumas ir sauga, Ekrano įrašymas, tada iš naujo paleiskite Voidstrap. Jis tik nuskaito Roblox langą ir niekada nieko neįrašo ir neišsaugo.</value>
   </data>
+  <data name="Ui.Main.PalettePages" xml:space="preserve">
+    <value>Puslapiai</value>
+  </data>
+  <data name="Ui.Main.PaletteSettings" xml:space="preserve">
+    <value>Nustatymai</value>
+  </data>
+  <data name="Ui.Main.PaletteNoResults" xml:space="preserve">
+    <value>Nėra rezultatų pagal „{0}“</value>
+  </data>
+  <data name="Ui.Main.PaletteSearching" xml:space="preserve">
+    <value>Ieškoma</value>
+  </data>
+  <data name="Ui.Main.PaletteOneResult" xml:space="preserve">
+    <value>1 rezultatas</value>
+  </data>
+  <data name="Ui.Main.PaletteResults" xml:space="preserve">
+    <value>Rezultatai: {0}</value>
+  </data>
 </root>

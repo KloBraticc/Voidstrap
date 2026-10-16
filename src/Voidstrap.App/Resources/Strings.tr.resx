@@ -6776,4 +6776,22 @@ Kaldırma yeniden denensin mi?</value>
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>Ana sayfa arka planı, Roblox ana ekranını görebilmek için macOS üzerinde Ekran Kaydı erişimine ihtiyaç duyar. Sistem Ayarları, Gizlilik ve Güvenlik, Ekran Kaydı bölümünden Voidstrap uygulamasına izin verin, ardından Voidstrap uygulamasını yeniden başlatın. Yalnızca Roblox penceresini okur ve hiçbir şeyi kaydetmez veya saklamaz.</value>
   </data>
+  <data name="Ui.Main.PalettePages" xml:space="preserve">
+    <value>Sayfalar</value>
+  </data>
+  <data name="Ui.Main.PaletteSettings" xml:space="preserve">
+    <value>Ayarlar</value>
+  </data>
+  <data name="Ui.Main.PaletteNoResults" xml:space="preserve">
+    <value>“{0}” için sonuç yok</value>
+  </data>
+  <data name="Ui.Main.PaletteSearching" xml:space="preserve">
+    <value>Aranıyor</value>
+  </data>
+  <data name="Ui.Main.PaletteOneResult" xml:space="preserve">
+    <value>1 sonuç</value>
+  </data>
+  <data name="Ui.Main.PaletteResults" xml:space="preserve">
+    <value>{0} sonuç</value>
+  </data>
 </root>

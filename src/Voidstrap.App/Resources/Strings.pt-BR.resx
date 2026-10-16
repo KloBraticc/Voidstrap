@@ -6764,4 +6764,22 @@ Tentar a remoção de novo?</value>
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>O fundo da página inicial precisa de acesso à Gravação de Tela no macOS para ver a tela inicial do Roblox. Permita o Voidstrap em Ajustes do Sistema, Privacidade e Segurança, Gravação de Tela, e depois reinicie o Voidstrap. Ele só lê a janela do Roblox e nunca grava nem salva nada.</value>
   </data>
+  <data name="Ui.Main.PalettePages" xml:space="preserve">
+    <value>Páginas</value>
+  </data>
+  <data name="Ui.Main.PaletteSettings" xml:space="preserve">
+    <value>Configurações</value>
+  </data>
+  <data name="Ui.Main.PaletteNoResults" xml:space="preserve">
+    <value>Nenhum resultado para “{0}”</value>
+  </data>
+  <data name="Ui.Main.PaletteSearching" xml:space="preserve">
+    <value>Pesquisando</value>
+  </data>
+  <data name="Ui.Main.PaletteOneResult" xml:space="preserve">
+    <value>1 resultado</value>
+  </data>
+  <data name="Ui.Main.PaletteResults" xml:space="preserve">
+    <value>{0} resultados</value>
+  </data>
 </root>

@@ -6776,4 +6776,22 @@ Yritetäänkö poistoa uudelleen?</value>
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>Aloitussivun tausta tarvitsee macOS:ssä näytön tallennuksen käyttöoikeuden nähdäkseen Robloxin aloitusnäytön. Salli Voidstrap kohdassa Järjestelmäasetukset, Tietosuoja ja turvallisuus, Näytön tallennus, ja käynnistä Voidstrap sitten uudelleen. Se vain lukee Roblox ikkunaa eikä koskaan tallenna mitään.</value>
   </data>
+  <data name="Ui.Main.PalettePages" xml:space="preserve">
+    <value>Sivut</value>
+  </data>
+  <data name="Ui.Main.PaletteSettings" xml:space="preserve">
+    <value>Asetukset</value>
+  </data>
+  <data name="Ui.Main.PaletteNoResults" xml:space="preserve">
+    <value>Ei tuloksia haulle ”{0}”</value>
+  </data>
+  <data name="Ui.Main.PaletteSearching" xml:space="preserve">
+    <value>Haetaan</value>
+  </data>
+  <data name="Ui.Main.PaletteOneResult" xml:space="preserve">
+    <value>1 tulos</value>
+  </data>
+  <data name="Ui.Main.PaletteResults" xml:space="preserve">
+    <value>{0} tulosta</value>
+  </data>
 </root>

@@ -6813,4 +6813,22 @@
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>تحتاج خلفية الصفحة الرئيسية إلى إذن تسجيل الشاشة على macOS لرؤية شاشة Roblox الرئيسية. اسمح لـ Voidstrap في إعدادات النظام، الخصوصية والأمان، تسجيل الشاشة، ثم أعد تشغيل Voidstrap. يقرأ نافذة Roblox فقط ولا يسجل أو يحفظ أي شيء.</value>
   </data>
+  <data name="Ui.Main.PalettePages" xml:space="preserve">
+    <value>الصفحات</value>
+  </data>
+  <data name="Ui.Main.PaletteSettings" xml:space="preserve">
+    <value>الإعدادات</value>
+  </data>
+  <data name="Ui.Main.PaletteNoResults" xml:space="preserve">
+    <value>لا توجد نتائج لـ “{0}”</value>
+  </data>
+  <data name="Ui.Main.PaletteSearching" xml:space="preserve">
+    <value>جارٍ البحث</value>
+  </data>
+  <data name="Ui.Main.PaletteOneResult" xml:space="preserve">
+    <value>نتيجة واحدة</value>
+  </data>
+  <data name="Ui.Main.PaletteResults" xml:space="preserve">
+    <value>{0} نتائج</value>
+  </data>
 </root>

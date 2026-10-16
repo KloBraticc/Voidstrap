@@ -6775,4 +6775,22 @@ Roblox se descargará cuando lo inicies por primera vez a través de Voidstrap. 
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>El fondo de la página de inicio necesita acceso a Grabación de pantalla en macOS para ver la pantalla de inicio de Roblox. Permite Voidstrap en Ajustes del Sistema, Privacidad y seguridad, Grabación de pantalla, y luego reinicia Voidstrap. Solo lee la ventana de Roblox y nunca graba ni guarda nada.</value>
   </data>
+  <data name="Ui.Main.PalettePages" xml:space="preserve">
+    <value>Páginas</value>
+  </data>
+  <data name="Ui.Main.PaletteSettings" xml:space="preserve">
+    <value>Ajustes</value>
+  </data>
+  <data name="Ui.Main.PaletteNoResults" xml:space="preserve">
+    <value>No hay resultados para “{0}”</value>
+  </data>
+  <data name="Ui.Main.PaletteSearching" xml:space="preserve">
+    <value>Buscando</value>
+  </data>
+  <data name="Ui.Main.PaletteOneResult" xml:space="preserve">
+    <value>1 resultado</value>
+  </data>
+  <data name="Ui.Main.PaletteResults" xml:space="preserve">
+    <value>{0} resultados</value>
+  </data>
 </root>

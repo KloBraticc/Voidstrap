@@ -6742,4 +6742,22 @@ Försöka ta bort igen?</value>
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>Startsidans bakgrund behöver åtkomst till Skärminspelning på macOS för att se Roblox startskärm. Tillåt Voidstrap i Systeminställningar, Integritet och säkerhet, Skärminspelning, och starta sedan om Voidstrap. Den läser bara Roblox fönstret och spelar aldrig in eller sparar något.</value>
   </data>
+  <data name="Ui.Main.PalettePages" xml:space="preserve">
+    <value>Sidor</value>
+  </data>
+  <data name="Ui.Main.PaletteSettings" xml:space="preserve">
+    <value>Inställningar</value>
+  </data>
+  <data name="Ui.Main.PaletteNoResults" xml:space="preserve">
+    <value>Inga resultat för ”{0}”</value>
+  </data>
+  <data name="Ui.Main.PaletteSearching" xml:space="preserve">
+    <value>Söker</value>
+  </data>
+  <data name="Ui.Main.PaletteOneResult" xml:space="preserve">
+    <value>1 resultat</value>
+  </data>
+  <data name="Ui.Main.PaletteResults" xml:space="preserve">
+    <value>{0} resultat</value>
+  </data>
 </root>

@@ -2039,7 +2039,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             string section = SidebarCustomizationItems.FirstOrDefault(definition => definition.Key == item.Name)?.Section ?? "Footer";
             pages.Add(new CommandPalettePage(pageType, pageName, icon, GetNavShortcutLabel(pageType), () => NavigateTopNav(pageType), section));
         }
-        pages.Add(new CommandPalettePage(typeof(Page), "Library", SymbolRegular.Apps24, "", () => TopNavLibrary_Click(this, new RoutedEventArgs())));
+        pages.Add(new CommandPalettePage(typeof(Page), Strings.Ui_Pages_Library, SymbolRegular.Apps24, "", () => TopNavLibrary_Click(this, new RoutedEventArgs())));
         return new CommandPaletteSnapshot(query, pages, pageNames, pageIcons, _topSearchEntriesList.ToArray());
     }
 
@@ -2152,7 +2152,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
         else if (pages.Count > 0)
         {
-            _commandPaletteRows.Add(new CommandPaletteRow { IsHeader = true, Title = "Pages" });
+            _commandPaletteRows.Add(new CommandPaletteRow { IsHeader = true, Title = Strings.Ui_Main_PalettePages });
             foreach (CommandPalettePage page in pages)
             {
                 _commandPaletteRows.Add(CreateCommandPaletteRow(page.Name, page.Shortcut, page.Icon, snapshot.Query, page.Open));
@@ -2168,7 +2168,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 .ToList();
             if (shown.Count > 0)
             {
-                _commandPaletteRows.Add(new CommandPaletteRow { IsHeader = true, Title = "Settings" });
+                _commandPaletteRows.Add(new CommandPaletteRow { IsHeader = true, Title = Strings.Ui_Main_PaletteSettings });
                 foreach (TopSearchEntry entry in shown)
                 {
                     TopSearchEntry captured = entry;
@@ -2184,9 +2184,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
         bool searching = rankedSettings == null && snapshot.Query.Length > 0;
         CommandPaletteEmpty.Visibility = !searching && results == 0 ? Visibility.Visible : Visibility.Collapsed;
-        CommandPaletteEmptyText.Text = "No results for \u201C" + snapshot.Query + "\u201D";
+        CommandPaletteEmptyText.Text = string.Format(System.Globalization.CultureInfo.CurrentCulture, Strings.Ui_Main_PaletteNoResults, snapshot.Query);
         CommandPaletteResultsScroll.Visibility = results == 0 ? Visibility.Collapsed : Visibility.Visible;
-        CommandPaletteCount.Text = snapshot.Query.Length == 0 ? "" : searching ? "Searching" : results == 1 ? "1 result" : results + " results";
+        CommandPaletteCount.Text = snapshot.Query.Length == 0 ? "" : searching ? Strings.Ui_Main_PaletteSearching : results == 1 ? Strings.Ui_Main_PaletteOneResult : string.Format(System.Globalization.CultureInfo.CurrentCulture, Strings.Ui_Main_PaletteResults, results);
         int keep = keepTitle == null ? -1 : _commandPaletteRows.ToList().FindIndex(row => !row.IsHeader && row.Title + "\n" + row.Detail == keepTitle);
         if (keep >= 0)
         {

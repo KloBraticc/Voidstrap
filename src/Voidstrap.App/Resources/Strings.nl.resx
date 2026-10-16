@@ -6740,4 +6740,22 @@ Het verwijderen opnieuw proberen?</value>
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>De achtergrond van de startpagina heeft op macOS toegang tot Schermopname nodig om het Roblox startscherm te zien. Sta Voidstrap toe in Systeeminstellingen, Privacy en beveiliging, Schermopname, en herstart Voidstrap daarna. Het leest alleen het Roblox venster en neemt nooit iets op of slaat niets op.</value>
   </data>
+  <data name="Ui.Main.PalettePages" xml:space="preserve">
+    <value>Pagina's</value>
+  </data>
+  <data name="Ui.Main.PaletteSettings" xml:space="preserve">
+    <value>Instellingen</value>
+  </data>
+  <data name="Ui.Main.PaletteNoResults" xml:space="preserve">
+    <value>Geen resultaten voor ‘{0}’</value>
+  </data>
+  <data name="Ui.Main.PaletteSearching" xml:space="preserve">
+    <value>Zoeken</value>
+  </data>
+  <data name="Ui.Main.PaletteOneResult" xml:space="preserve">
+    <value>1 resultaat</value>
+  </data>
+  <data name="Ui.Main.PaletteResults" xml:space="preserve">
+    <value>{0} resultaten</value>
+  </data>
 </root>

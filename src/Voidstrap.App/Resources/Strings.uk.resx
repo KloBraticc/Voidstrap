@@ -6794,4 +6794,22 @@ Roblox буде завантажено під час першого запуск
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>Фону головної сторінки потрібен доступ до запису екрана в macOS, щоб бачити головний екран Roblox. Дозвольте Voidstrap у Системних параметрах, Приватність і безпека, Запис екрана, а потім перезапустіть Voidstrap. Він лише читає вікно Roblox і ніколи нічого не записує й не зберігає.</value>
   </data>
+  <data name="Ui.Main.PalettePages" xml:space="preserve">
+    <value>Сторінки</value>
+  </data>
+  <data name="Ui.Main.PaletteSettings" xml:space="preserve">
+    <value>Налаштування</value>
+  </data>
+  <data name="Ui.Main.PaletteNoResults" xml:space="preserve">
+    <value>Немає результатів для «{0}»</value>
+  </data>
+  <data name="Ui.Main.PaletteSearching" xml:space="preserve">
+    <value>Пошук</value>
+  </data>
+  <data name="Ui.Main.PaletteOneResult" xml:space="preserve">
+    <value>1 результат</value>
+  </data>
+  <data name="Ui.Main.PaletteResults" xml:space="preserve">
+    <value>Результатів: {0}</value>
+  </data>
 </root>

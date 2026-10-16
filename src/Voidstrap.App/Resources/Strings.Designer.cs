@@ -2563,6 +2563,18 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Mods_HomepageScreenRecording => ResourceManager.GetString("Ui.Mods.HomepageScreenRecording", resourceCulture);
 
+        public static string Ui_Main_PalettePages => ResourceManager.GetString("Ui.Main.PalettePages", resourceCulture);
+
+        public static string Ui_Main_PaletteSettings => ResourceManager.GetString("Ui.Main.PaletteSettings", resourceCulture);
+
+        public static string Ui_Main_PaletteNoResults => ResourceManager.GetString("Ui.Main.PaletteNoResults", resourceCulture);
+
+        public static string Ui_Main_PaletteSearching => ResourceManager.GetString("Ui.Main.PaletteSearching", resourceCulture);
+
+        public static string Ui_Main_PaletteOneResult => ResourceManager.GetString("Ui.Main.PaletteOneResult", resourceCulture);
+
+        public static string Ui_Main_PaletteResults => ResourceManager.GetString("Ui.Main.PaletteResults", resourceCulture);
+
         public static string Menu_Appearance_Accent_Title => ResourceManager.GetString("Menu.Appearance.Accent.Title", resourceCulture);
 
         public static string Menu_Appearance_Accent_Description => ResourceManager.GetString("Menu.Appearance.Accent.Description", resourceCulture);
