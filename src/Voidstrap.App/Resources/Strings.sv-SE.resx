@@ -5402,4 +5402,220 @@ Vad vill du göra?</value>
   <data name="Ui.Session.RemoveSavedAccount" xml:space="preserve">
     <value>Ta bort sparat konto</value>
   </data>
+  <data name="Ui.Misc.ClickToChangeThisColour" xml:space="preserve">
+    <value>Klicka för att ändra den här färgen</value>
+  </data>
+  <data name="Ui.Misc.UseTheDefault" xml:space="preserve">
+    <value>Använd standard</value>
+  </data>
+  <data name="Ui.Misc.YourSavedThemeProfiles" xml:space="preserve">
+    <value>Dina sparade temaprofiler</value>
+  </data>
+  <data name="Ui.Misc.SaveYourColoursToThisProfile" xml:space="preserve">
+    <value>Spara dina färger i den här profilen</value>
+  </data>
+  <data name="Ui.Misc.MoreProfileOptions" xml:space="preserve">
+    <value>Fler profilalternativ</value>
+  </data>
+  <data name="Ui.Misc.BackgroundGradient" xml:space="preserve">
+    <value>Bakgrundstoning</value>
+  </data>
+  <data name="Ui.Misc.BlendUpTo8ColoursBehind" xml:space="preserve">
+    <value>Blanda upp till 8 färger bakom hela appen.</value>
+  </data>
+  <data name="Ui.Misc.TurnTheSwitchOnToBuild" xml:space="preserve">
+    <value>Slå på reglaget för att skapa en toning.</value>
+  </data>
+  <data name="Ui.Misc.CentreX" xml:space="preserve">
+    <value>Mitt X</value>
+  </data>
+  <data name="Ui.Misc.CentreY" xml:space="preserve">
+    <value>Mitt Y</value>
+  </data>
+  <data name="Ui.Misc.RemoveThisColour" xml:space="preserve">
+    <value>Ta bort den här färgen</value>
+  </data>
+  <data name="Ui.Misc.AddColour" xml:space="preserve">
+    <value>Lägg till färg</value>
+  </data>
+  <data name="Ui.Misc.Reverse" xml:space="preserve">
+    <value>Vänd</value>
+  </data>
+  <data name="Ui.Misc.EvenSpacing" xml:space="preserve">
+    <value>Jämnt avstånd</value>
+  </data>
+  <data name="Ui.Misc.UseWindowColours" xml:space="preserve">
+    <value>Använd fönsterfärger</value>
+  </data>
+  <data name="Ui.Misc.AdvancedColours" xml:space="preserve">
+    <value>Avancerade färger</value>
+  </data>
+  <data name="Ui.Misc.TextControlsCardsAndBordersFaded" xml:space="preserve">
+    <value>Text, kontroller, kort och kanter. Bleka använder det vanliga utseendet.</value>
+  </data>
+  <data name="Ui.Misc.ThemeCode" xml:space="preserve">
+    <value>Temakod</value>
+  </data>
+  <data name="Ui.Misc.ForExpertsValidChangesApplyRight" xml:space="preserve">
+    <value>För experter. Giltiga ändringar gäller direkt.</value>
+  </data>
+  <data name="Ui.Misc.Format" xml:space="preserve">
+    <value>Formatera</value>
+  </data>
+  <data name="Ui.Misc.InsertColour" xml:space="preserve">
+    <value>Infoga färg</value>
+  </data>
+  <data name="Ui.Misc.Copy" xml:space="preserve">
+    <value>Kopiera</value>
+  </data>
+  <data name="Ui.Misc.OpenInAnotherEditor" xml:space="preserve">
+    <value>Öppna i en annan redigerare</value>
+  </data>
+  <data name="Ui.Misc.SavingThereUpdatesVoidstrapRightAway" xml:space="preserve">
+    <value>Att spara där uppdaterar Voidstrap direkt.</value>
+  </data>
+  <data name="Ui.Misc.SearchOptions" xml:space="preserve">
+    <value>Sökalternativ</value>
+  </data>
+  <data name="Ui.Misc.CloseSearch" xml:space="preserve">
+    <value>Stäng sökningen</value>
+  </data>
+  <data name="Ui.Misc.NewFile" xml:space="preserve">
+    <value>Ny fil</value>
+  </data>
+  <data name="Ui.Misc.NewFolder" xml:space="preserve">
+    <value>Ny mapp</value>
+  </data>
+  <data name="Ui.Misc.Reload" xml:space="preserve">
+    <value>Läs in igen</value>
+  </data>
+  <data name="Ui.Misc.Duplicate" xml:space="preserve">
+    <value>Duplicera</value>
+  </data>
+  <data name="Ui.Misc.CopyThemePath" xml:space="preserve">
+    <value>Kopiera temasökväg</value>
+  </data>
+  <data name="Ui.Misc.ShowInFolder" xml:space="preserve">
+    <value>Visa i mappen</value>
+  </data>
+  <data name="Ui.Misc.Undo" xml:space="preserve">
+    <value>Ångra</value>
+  </data>
+  <data name="Ui.Misc.Redo" xml:space="preserve">
+    <value>Gör om</value>
+  </data>
+  <data name="Ui.Misc.FindInFile" xml:space="preserve">
+    <value>Sök i filen</value>
+  </data>
+  <data name="Ui.Misc.Live" xml:space="preserve">
+    <value>Live</value>
+  </data>
+  <data name="Ui.Misc.RebuildWhileYouType" xml:space="preserve">
+    <value>Bygg om medan du skriver</value>
+  </data>
+  <data name="Ui.Misc.RebuildNow" xml:space="preserve">
+    <value>Bygg om nu</value>
+  </data>
+  <data name="Ui.Misc.NothingToShowYet" xml:space="preserve">
+    <value>Inget att visa än</value>
+  </data>
+  <data name="Ui.Misc.GoToLine" xml:space="preserve">
+    <value>Gå till rad</value>
+  </data>
+  <data name="Ui.Misc.OpenEditor" xml:space="preserve">
+    <value>Öppna redigeraren</value>
+  </data>
+  <data name="Ui.Misc.EditInAnotherProgramSavingThere" xml:space="preserve">
+    <value>Redigera i ett annat program. Att spara där uppdaterar det här fönstret.</value>
+  </data>
+  <data name="Ui.Misc.Launcher" xml:space="preserve">
+    <value>Startprogram</value>
+  </data>
+  <data name="Ui.Misc.CommandPlacedInFrontOfSober" xml:space="preserve">
+    <value>Kommando före Sober, till exempel prime run på bärbara datorer med två grafikkort, gamemoderun eller mangohud.</value>
+  </data>
+  <data name="Ui.Misc.None" xml:space="preserve">
+    <value>Inget</value>
+  </data>
+  <data name="Ui.Misc.RunRobloxThroughXWayland" xml:space="preserve">
+    <value>Kör Roblox via XWayland</value>
+  </data>
+  <data name="Ui.Misc.OnlyNeededForCustomRobloxCursors" xml:space="preserve">
+    <value>Behövs bara för egna Roblox-muspekare och spelnamnet eller ikonen på Roblox-fönstret under Wayland. Medan det är på kan musen glida över till andra skärmar när du vrider kameran med högerklick.</value>
+  </data>
+  <data name="Ui.Misc.AutoFullscreen" xml:space="preserve">
+    <value>Automatisk helskärm</value>
+  </data>
+  <data name="Ui.Misc.PutsRobloxIntoFullscreenWhenIt" xml:space="preserve">
+    <value>Sätter Roblox i helskärm när det öppnas.</value>
+  </data>
+  <data name="Ui.Misc.Sharpness" xml:space="preserve">
+    <value>Skärpa</value>
+  </data>
+  <data name="Ui.Misc.SharpensTheGameToCounterThe" xml:space="preserve">
+    <value>Skärper spelet mot det suddiga utseendet.</value>
+  </data>
+  <data name="Ui.Misc.StudioSession" xml:space="preserve">
+    <value>Studio-session</value>
+  </data>
+  <data name="Ui.Misc.ApplyVoidstrapFastFlags" xml:space="preserve">
+    <value>Använd Voidstrap FastFlags</value>
+  </data>
+  <data name="Ui.Misc.WritesTheFastFlagsFromTheEditor" xml:space="preserve">
+    <value>Skriver FastFlags från redigeraren till Vinegars Studio-konfiguration.</value>
+  </data>
+  <data name="Ui.Misc.DiscordRichPresence" xml:space="preserve">
+    <value>Discord Rich Presence</value>
+  </data>
+  <data name="Ui.Misc.LetsVinegarShowYourStudioSession" xml:space="preserve">
+    <value>Låter Vinegar visa din Studio-session på Discord.</value>
+  </data>
+  <data name="Ui.Misc.Renderer" xml:space="preserve">
+    <value>Renderare</value>
+  </data>
+  <data name="Ui.Misc.TheGraphicsBackendWineUsesFor" xml:space="preserve">
+    <value>Grafikbackend som Wine använder för Studio. DXVK passar de flesta system.</value>
+  </data>
+  <data name="Ui.Misc.FeralGameMode" xml:space="preserve">
+    <value>Feral GameMode</value>
+  </data>
+  <data name="Ui.Misc.AsksGameModeToTuneTheSystem" xml:space="preserve">
+    <value>Ber GameMode att justera systemet medan Studio körs.</value>
+  </data>
+  <data name="Ui.Misc.GraphicsCard" xml:space="preserve">
+    <value>Grafikkort</value>
+  </data>
+  <data name="Ui.Misc.WhichGraphicsCardStudioRendersOn" xml:space="preserve">
+    <value>Vilket grafikkort Studio renderar på.</value>
+  </data>
+  <data name="Ui.Misc.VirtualDesktop" xml:space="preserve">
+    <value>Virtuellt skrivbord</value>
+  </data>
+  <data name="Ui.Misc.RunsStudioInsideAWineVirtual" xml:space="preserve">
+    <value>Kör Studio i ett virtuellt Wine-skrivbord av den här storleken, till exempel 1920x1080.</value>
+  </data>
+  <data name="Ui.Misc.CommandPlacedInFrontOfStudio" xml:space="preserve">
+    <value>Kommando före Studio, till exempel gamemoderun eller mangohud.</value>
+  </data>
+  <data name="Ui.Misc.RobloxDeploymentChannelVinegarDownloadsStudio" xml:space="preserve">
+    <value>Roblox-distributionskanal som Vinegar laddar ned Studio från.</value>
+  </data>
+  <data name="Ui.Misc.ForcedVersion" xml:space="preserve">
+    <value>Tvingad version</value>
+  </data>
+  <data name="Ui.Misc.PinsStudioToOneVersionGUID" xml:space="preserve">
+    <value>Låser Studio till ett versions-GUID i stället för det senaste.</value>
+  </data>
+  <data name="Ui.Misc.Newest" xml:space="preserve">
+    <value>Senaste</value>
+  </data>
+  <data name="Ui.Misc.WineRoot" xml:space="preserve">
+    <value>Wine-rot</value>
+  </data>
+  <data name="Ui.Misc.PathToTheWineBuildVinegar" xml:space="preserve">
+    <value>Sökväg till Wine-bygget som Vinegar ska använda. Lämna tomt för det medföljande.</value>
+  </data>
+  <data name="Ui.Misc.Bundled" xml:space="preserve">
+    <value>Medföljande</value>
+  </data>
 </root>

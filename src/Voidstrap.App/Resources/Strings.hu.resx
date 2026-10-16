@@ -5440,4 +5440,220 @@ Mit szeretnél tenni?</value>
   <data name="Ui.Session.RemoveSavedAccount" xml:space="preserve">
     <value>Mentett fiók eltávolítása</value>
   </data>
+  <data name="Ui.Misc.ClickToChangeThisColour" xml:space="preserve">
+    <value>Kattints a szín módosításához</value>
+  </data>
+  <data name="Ui.Misc.UseTheDefault" xml:space="preserve">
+    <value>Alapértelmezett használata</value>
+  </data>
+  <data name="Ui.Misc.YourSavedThemeProfiles" xml:space="preserve">
+    <value>Mentett témaprofiljaid</value>
+  </data>
+  <data name="Ui.Misc.SaveYourColoursToThisProfile" xml:space="preserve">
+    <value>Színeid mentése ebbe a profilba</value>
+  </data>
+  <data name="Ui.Misc.MoreProfileOptions" xml:space="preserve">
+    <value>További profilbeállítások</value>
+  </data>
+  <data name="Ui.Misc.BackgroundGradient" xml:space="preserve">
+    <value>Háttérszínátmenet</value>
+  </data>
+  <data name="Ui.Misc.BlendUpTo8ColoursBehind" xml:space="preserve">
+    <value>Keverj akár 8 színt az egész alkalmazás mögé.</value>
+  </data>
+  <data name="Ui.Misc.TurnTheSwitchOnToBuild" xml:space="preserve">
+    <value>Kapcsold be a kapcsolót egy színátmenet készítéséhez.</value>
+  </data>
+  <data name="Ui.Misc.CentreX" xml:space="preserve">
+    <value>Közép X</value>
+  </data>
+  <data name="Ui.Misc.CentreY" xml:space="preserve">
+    <value>Közép Y</value>
+  </data>
+  <data name="Ui.Misc.RemoveThisColour" xml:space="preserve">
+    <value>Szín eltávolítása</value>
+  </data>
+  <data name="Ui.Misc.AddColour" xml:space="preserve">
+    <value>Szín hozzáadása</value>
+  </data>
+  <data name="Ui.Misc.Reverse" xml:space="preserve">
+    <value>Megfordítás</value>
+  </data>
+  <data name="Ui.Misc.EvenSpacing" xml:space="preserve">
+    <value>Egyenletes térköz</value>
+  </data>
+  <data name="Ui.Misc.UseWindowColours" xml:space="preserve">
+    <value>Ablakszínek használata</value>
+  </data>
+  <data name="Ui.Misc.AdvancedColours" xml:space="preserve">
+    <value>Speciális színek</value>
+  </data>
+  <data name="Ui.Misc.TextControlsCardsAndBordersFaded" xml:space="preserve">
+    <value>Szöveg, vezérlők, kártyák és szegélyek. A halványak a normál megjelenést használják.</value>
+  </data>
+  <data name="Ui.Misc.ThemeCode" xml:space="preserve">
+    <value>Témakód</value>
+  </data>
+  <data name="Ui.Misc.ForExpertsValidChangesApplyRight" xml:space="preserve">
+    <value>Haladóknak. Az érvényes módosítások azonnal érvénybe lépnek.</value>
+  </data>
+  <data name="Ui.Misc.Format" xml:space="preserve">
+    <value>Formázás</value>
+  </data>
+  <data name="Ui.Misc.InsertColour" xml:space="preserve">
+    <value>Szín beszúrása</value>
+  </data>
+  <data name="Ui.Misc.Copy" xml:space="preserve">
+    <value>Másolás</value>
+  </data>
+  <data name="Ui.Misc.OpenInAnotherEditor" xml:space="preserve">
+    <value>Megnyitás másik szerkesztőben</value>
+  </data>
+  <data name="Ui.Misc.SavingThereUpdatesVoidstrapRightAway" xml:space="preserve">
+    <value>Az ottani mentés azonnal frissíti a Voidstrapot.</value>
+  </data>
+  <data name="Ui.Misc.SearchOptions" xml:space="preserve">
+    <value>Keresési beállítások</value>
+  </data>
+  <data name="Ui.Misc.CloseSearch" xml:space="preserve">
+    <value>Keresés bezárása</value>
+  </data>
+  <data name="Ui.Misc.NewFile" xml:space="preserve">
+    <value>Új fájl</value>
+  </data>
+  <data name="Ui.Misc.NewFolder" xml:space="preserve">
+    <value>Új mappa</value>
+  </data>
+  <data name="Ui.Misc.Reload" xml:space="preserve">
+    <value>Újratöltés</value>
+  </data>
+  <data name="Ui.Misc.Duplicate" xml:space="preserve">
+    <value>Kettőzés</value>
+  </data>
+  <data name="Ui.Misc.CopyThemePath" xml:space="preserve">
+    <value>Téma útvonalának másolása</value>
+  </data>
+  <data name="Ui.Misc.ShowInFolder" xml:space="preserve">
+    <value>Megjelenítés mappában</value>
+  </data>
+  <data name="Ui.Misc.Undo" xml:space="preserve">
+    <value>Visszavonás</value>
+  </data>
+  <data name="Ui.Misc.Redo" xml:space="preserve">
+    <value>Újra</value>
+  </data>
+  <data name="Ui.Misc.FindInFile" xml:space="preserve">
+    <value>Keresés a fájlban</value>
+  </data>
+  <data name="Ui.Misc.Live" xml:space="preserve">
+    <value>Élő</value>
+  </data>
+  <data name="Ui.Misc.RebuildWhileYouType" xml:space="preserve">
+    <value>Újraépítés gépelés közben</value>
+  </data>
+  <data name="Ui.Misc.RebuildNow" xml:space="preserve">
+    <value>Újraépítés most</value>
+  </data>
+  <data name="Ui.Misc.NothingToShowYet" xml:space="preserve">
+    <value>Még nincs mit megjeleníteni</value>
+  </data>
+  <data name="Ui.Misc.GoToLine" xml:space="preserve">
+    <value>Ugrás sorra</value>
+  </data>
+  <data name="Ui.Misc.OpenEditor" xml:space="preserve">
+    <value>Szerkesztő megnyitása</value>
+  </data>
+  <data name="Ui.Misc.EditInAnotherProgramSavingThere" xml:space="preserve">
+    <value>Szerkeszd egy másik programban. Az ottani mentés frissíti ezt az ablakot.</value>
+  </data>
+  <data name="Ui.Misc.Launcher" xml:space="preserve">
+    <value>Indító</value>
+  </data>
+  <data name="Ui.Misc.CommandPlacedInFrontOfSober" xml:space="preserve">
+    <value>A Sober elé kerülő parancs, például prime run két videokártyás laptopokon, gamemoderun vagy mangohud.</value>
+  </data>
+  <data name="Ui.Misc.None" xml:space="preserve">
+    <value>Nincs</value>
+  </data>
+  <data name="Ui.Misc.RunRobloxThroughXWayland" xml:space="preserve">
+    <value>Roblox futtatása XWaylanden</value>
+  </data>
+  <data name="Ui.Misc.OnlyNeededForCustomRobloxCursors" xml:space="preserve">
+    <value>Csak egyéni Roblox kurzorokhoz, valamint a játék nevéhez vagy ikonjához kell a Roblox ablakon Wayland alatt. Amíg be van kapcsolva, a kamera jobb gombos forgatásakor az egér átcsúszhat más monitorokra.</value>
+  </data>
+  <data name="Ui.Misc.AutoFullscreen" xml:space="preserve">
+    <value>Automatikus teljes képernyő</value>
+  </data>
+  <data name="Ui.Misc.PutsRobloxIntoFullscreenWhenIt" xml:space="preserve">
+    <value>Megnyitáskor teljes képernyőre állítja a Robloxot.</value>
+  </data>
+  <data name="Ui.Misc.Sharpness" xml:space="preserve">
+    <value>Élesség</value>
+  </data>
+  <data name="Ui.Misc.SharpensTheGameToCounterThe" xml:space="preserve">
+    <value>Élesíti a játékot az elmosódott hatás ellen.</value>
+  </data>
+  <data name="Ui.Misc.StudioSession" xml:space="preserve">
+    <value>Studio munkamenet</value>
+  </data>
+  <data name="Ui.Misc.ApplyVoidstrapFastFlags" xml:space="preserve">
+    <value>Voidstrap FastFlagek alkalmazása</value>
+  </data>
+  <data name="Ui.Misc.WritesTheFastFlagsFromTheEditor" xml:space="preserve">
+    <value>A szerkesztő FastFlagjeit a Vinegar Studio konfigurációjába írja.</value>
+  </data>
+  <data name="Ui.Misc.DiscordRichPresence" xml:space="preserve">
+    <value>Discord Rich Presence</value>
+  </data>
+  <data name="Ui.Misc.LetsVinegarShowYourStudioSession" xml:space="preserve">
+    <value>Lehetővé teszi, hogy a Vinegar megmutassa a Studio munkamenetedet a Discordon.</value>
+  </data>
+  <data name="Ui.Misc.Renderer" xml:space="preserve">
+    <value>Megjelenítő</value>
+  </data>
+  <data name="Ui.Misc.TheGraphicsBackendWineUsesFor" xml:space="preserve">
+    <value>A grafikus háttérrendszer, amelyet a Wine a Studióhoz használ. A DXVK a legtöbb rendszerhez megfelel.</value>
+  </data>
+  <data name="Ui.Misc.FeralGameMode" xml:space="preserve">
+    <value>Feral GameMode</value>
+  </data>
+  <data name="Ui.Misc.AsksGameModeToTuneTheSystem" xml:space="preserve">
+    <value>Megkéri a GameMode-ot, hogy hangolja a rendszert, amíg a Studio fut.</value>
+  </data>
+  <data name="Ui.Misc.GraphicsCard" xml:space="preserve">
+    <value>Videokártya</value>
+  </data>
+  <data name="Ui.Misc.WhichGraphicsCardStudioRendersOn" xml:space="preserve">
+    <value>Melyik videokártyán renderel a Studio.</value>
+  </data>
+  <data name="Ui.Misc.VirtualDesktop" xml:space="preserve">
+    <value>Virtuális asztal</value>
+  </data>
+  <data name="Ui.Misc.RunsStudioInsideAWineVirtual" xml:space="preserve">
+    <value>A Studiót ekkora Wine virtuális asztalon futtatja, például 1920x1080.</value>
+  </data>
+  <data name="Ui.Misc.CommandPlacedInFrontOfStudio" xml:space="preserve">
+    <value>A Studio elé kerülő parancs, például gamemoderun vagy mangohud.</value>
+  </data>
+  <data name="Ui.Misc.RobloxDeploymentChannelVinegarDownloadsStudio" xml:space="preserve">
+    <value>A Roblox telepítési csatorna, ahonnan a Vinegar letölti a Studiót.</value>
+  </data>
+  <data name="Ui.Misc.ForcedVersion" xml:space="preserve">
+    <value>Kényszerített verzió</value>
+  </data>
+  <data name="Ui.Misc.PinsStudioToOneVersionGUID" xml:space="preserve">
+    <value>A Studiót egy verzió GUID-hoz rögzíti a legújabb helyett.</value>
+  </data>
+  <data name="Ui.Misc.Newest" xml:space="preserve">
+    <value>Legújabb</value>
+  </data>
+  <data name="Ui.Misc.WineRoot" xml:space="preserve">
+    <value>Wine gyökér</value>
+  </data>
+  <data name="Ui.Misc.PathToTheWineBuildVinegar" xml:space="preserve">
+    <value>A Wine build útvonala, amelyet a Vinegar használjon. Hagyd üresen a mellékelthez.</value>
+  </data>
+  <data name="Ui.Misc.Bundled" xml:space="preserve">
+    <value>Mellékelt</value>
+  </data>
 </root>

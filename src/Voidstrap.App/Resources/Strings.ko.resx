@@ -5454,4 +5454,220 @@ Roblox는 Voidstrap으로 처음 실행할 때 다운로드됩니다. 실행하�
   <data name="Ui.Session.RemoveSavedAccount" xml:space="preserve">
     <value>저장된 계정 제거</value>
   </data>
+  <data name="Ui.Misc.ClickToChangeThisColour" xml:space="preserve">
+    <value>클릭하여 이 색상 변경</value>
+  </data>
+  <data name="Ui.Misc.UseTheDefault" xml:space="preserve">
+    <value>기본값 사용</value>
+  </data>
+  <data name="Ui.Misc.YourSavedThemeProfiles" xml:space="preserve">
+    <value>저장된 테마 프로필</value>
+  </data>
+  <data name="Ui.Misc.SaveYourColoursToThisProfile" xml:space="preserve">
+    <value>이 프로필에 색상 저장</value>
+  </data>
+  <data name="Ui.Misc.MoreProfileOptions" xml:space="preserve">
+    <value>추가 프로필 옵션</value>
+  </data>
+  <data name="Ui.Misc.BackgroundGradient" xml:space="preserve">
+    <value>배경 그라데이션</value>
+  </data>
+  <data name="Ui.Misc.BlendUpTo8ColoursBehind" xml:space="preserve">
+    <value>앱 전체 뒤에 최대 8가지 색을 섞습니다.</value>
+  </data>
+  <data name="Ui.Misc.TurnTheSwitchOnToBuild" xml:space="preserve">
+    <value>그라데이션을 만들려면 스위치를 켜십시오.</value>
+  </data>
+  <data name="Ui.Misc.CentreX" xml:space="preserve">
+    <value>중심 X</value>
+  </data>
+  <data name="Ui.Misc.CentreY" xml:space="preserve">
+    <value>중심 Y</value>
+  </data>
+  <data name="Ui.Misc.RemoveThisColour" xml:space="preserve">
+    <value>이 색상 제거</value>
+  </data>
+  <data name="Ui.Misc.AddColour" xml:space="preserve">
+    <value>색상 추가</value>
+  </data>
+  <data name="Ui.Misc.Reverse" xml:space="preserve">
+    <value>반전</value>
+  </data>
+  <data name="Ui.Misc.EvenSpacing" xml:space="preserve">
+    <value>균등 간격</value>
+  </data>
+  <data name="Ui.Misc.UseWindowColours" xml:space="preserve">
+    <value>창 색상 사용</value>
+  </data>
+  <data name="Ui.Misc.AdvancedColours" xml:space="preserve">
+    <value>고급 색상</value>
+  </data>
+  <data name="Ui.Misc.TextControlsCardsAndBordersFaded" xml:space="preserve">
+    <value>텍스트, 컨트롤, 카드, 테두리입니다. 흐리게 표시된 항목은 기본 모양을 사용합니다.</value>
+  </data>
+  <data name="Ui.Misc.ThemeCode" xml:space="preserve">
+    <value>테마 코드</value>
+  </data>
+  <data name="Ui.Misc.ForExpertsValidChangesApplyRight" xml:space="preserve">
+    <value>전문가용입니다. 올바른 변경 사항은 바로 적용됩니다.</value>
+  </data>
+  <data name="Ui.Misc.Format" xml:space="preserve">
+    <value>서식 지정</value>
+  </data>
+  <data name="Ui.Misc.InsertColour" xml:space="preserve">
+    <value>색상 삽입</value>
+  </data>
+  <data name="Ui.Misc.Copy" xml:space="preserve">
+    <value>복사</value>
+  </data>
+  <data name="Ui.Misc.OpenInAnotherEditor" xml:space="preserve">
+    <value>다른 편집기에서 열기</value>
+  </data>
+  <data name="Ui.Misc.SavingThereUpdatesVoidstrapRightAway" xml:space="preserve">
+    <value>그곳에서 저장하면 Voidstrap이 바로 업데이트됩니다.</value>
+  </data>
+  <data name="Ui.Misc.SearchOptions" xml:space="preserve">
+    <value>검색 옵션</value>
+  </data>
+  <data name="Ui.Misc.CloseSearch" xml:space="preserve">
+    <value>검색 닫기</value>
+  </data>
+  <data name="Ui.Misc.NewFile" xml:space="preserve">
+    <value>새 파일</value>
+  </data>
+  <data name="Ui.Misc.NewFolder" xml:space="preserve">
+    <value>새 폴더</value>
+  </data>
+  <data name="Ui.Misc.Reload" xml:space="preserve">
+    <value>다시 불러오기</value>
+  </data>
+  <data name="Ui.Misc.Duplicate" xml:space="preserve">
+    <value>복제</value>
+  </data>
+  <data name="Ui.Misc.CopyThemePath" xml:space="preserve">
+    <value>테마 경로 복사</value>
+  </data>
+  <data name="Ui.Misc.ShowInFolder" xml:space="preserve">
+    <value>폴더에 표시</value>
+  </data>
+  <data name="Ui.Misc.Undo" xml:space="preserve">
+    <value>실행 취소</value>
+  </data>
+  <data name="Ui.Misc.Redo" xml:space="preserve">
+    <value>다시 실행</value>
+  </data>
+  <data name="Ui.Misc.FindInFile" xml:space="preserve">
+    <value>파일에서 찾기</value>
+  </data>
+  <data name="Ui.Misc.Live" xml:space="preserve">
+    <value>실시간</value>
+  </data>
+  <data name="Ui.Misc.RebuildWhileYouType" xml:space="preserve">
+    <value>입력하는 동안 다시 빌드</value>
+  </data>
+  <data name="Ui.Misc.RebuildNow" xml:space="preserve">
+    <value>지금 다시 빌드</value>
+  </data>
+  <data name="Ui.Misc.NothingToShowYet" xml:space="preserve">
+    <value>아직 표시할 내용이 없습니다</value>
+  </data>
+  <data name="Ui.Misc.GoToLine" xml:space="preserve">
+    <value>줄로 이동</value>
+  </data>
+  <data name="Ui.Misc.OpenEditor" xml:space="preserve">
+    <value>편집기 열기</value>
+  </data>
+  <data name="Ui.Misc.EditInAnotherProgramSavingThere" xml:space="preserve">
+    <value>다른 프로그램에서 편집하십시오. 그곳에서 저장하면 이 창이 업데이트됩니다.</value>
+  </data>
+  <data name="Ui.Misc.Launcher" xml:space="preserve">
+    <value>실행기</value>
+  </data>
+  <data name="Ui.Misc.CommandPlacedInFrontOfSober" xml:space="preserve">
+    <value>Sober 앞에 붙는 명령입니다. 예: 그래픽 카드가 두 개인 노트북의 prime run, gamemoderun 또는 mangohud.</value>
+  </data>
+  <data name="Ui.Misc.None" xml:space="preserve">
+    <value>없음</value>
+  </data>
+  <data name="Ui.Misc.RunRobloxThroughXWayland" xml:space="preserve">
+    <value>XWayland로 Roblox 실행</value>
+  </data>
+  <data name="Ui.Misc.OnlyNeededForCustomRobloxCursors" xml:space="preserve">
+    <value>Wayland에서 사용자 지정 Roblox 커서와 Roblox 창의 게임 이름 또는 아이콘을 쓸 때만 필요합니다. 켜져 있는 동안 오른쪽 클릭으로 카메라를 돌리면 마우스가 다른 모니터로 넘어갈 수 있습니다.</value>
+  </data>
+  <data name="Ui.Misc.AutoFullscreen" xml:space="preserve">
+    <value>자동 전체 화면</value>
+  </data>
+  <data name="Ui.Misc.PutsRobloxIntoFullscreenWhenIt" xml:space="preserve">
+    <value>Roblox를 열 때 전체 화면으로 전환합니다.</value>
+  </data>
+  <data name="Ui.Misc.Sharpness" xml:space="preserve">
+    <value>선명도</value>
+  </data>
+  <data name="Ui.Misc.SharpensTheGameToCounterThe" xml:space="preserve">
+    <value>흐릿한 화면을 보완하도록 게임을 선명하게 합니다.</value>
+  </data>
+  <data name="Ui.Misc.StudioSession" xml:space="preserve">
+    <value>Studio 세션</value>
+  </data>
+  <data name="Ui.Misc.ApplyVoidstrapFastFlags" xml:space="preserve">
+    <value>Voidstrap FastFlags 적용</value>
+  </data>
+  <data name="Ui.Misc.WritesTheFastFlagsFromTheEditor" xml:space="preserve">
+    <value>편집기의 FastFlags를 Vinegar Studio 구성에 기록합니다.</value>
+  </data>
+  <data name="Ui.Misc.DiscordRichPresence" xml:space="preserve">
+    <value>Discord Rich Presence</value>
+  </data>
+  <data name="Ui.Misc.LetsVinegarShowYourStudioSession" xml:space="preserve">
+    <value>Vinegar가 Discord에 Studio 세션을 표시하도록 합니다.</value>
+  </data>
+  <data name="Ui.Misc.Renderer" xml:space="preserve">
+    <value>렌더러</value>
+  </data>
+  <data name="Ui.Misc.TheGraphicsBackendWineUsesFor" xml:space="preserve">
+    <value>Wine이 Studio에 사용하는 그래픽 백엔드입니다. 대부분의 시스템에는 DXVK가 적합합니다.</value>
+  </data>
+  <data name="Ui.Misc.FeralGameMode" xml:space="preserve">
+    <value>Feral GameMode</value>
+  </data>
+  <data name="Ui.Misc.AsksGameModeToTuneTheSystem" xml:space="preserve">
+    <value>Studio가 실행되는 동안 GameMode에 시스템 조정을 요청합니다.</value>
+  </data>
+  <data name="Ui.Misc.GraphicsCard" xml:space="preserve">
+    <value>그래픽 카드</value>
+  </data>
+  <data name="Ui.Misc.WhichGraphicsCardStudioRendersOn" xml:space="preserve">
+    <value>Studio가 렌더링에 사용하는 그래픽 카드입니다.</value>
+  </data>
+  <data name="Ui.Misc.VirtualDesktop" xml:space="preserve">
+    <value>가상 데스크톱</value>
+  </data>
+  <data name="Ui.Misc.RunsStudioInsideAWineVirtual" xml:space="preserve">
+    <value>이 크기의 Wine 가상 데스크톱에서 Studio를 실행합니다. 예: 1920x1080.</value>
+  </data>
+  <data name="Ui.Misc.CommandPlacedInFrontOfStudio" xml:space="preserve">
+    <value>Studio 앞에 붙는 명령입니다. 예: gamemoderun 또는 mangohud.</value>
+  </data>
+  <data name="Ui.Misc.RobloxDeploymentChannelVinegarDownloadsStudio" xml:space="preserve">
+    <value>Vinegar가 Studio를 다운로드하는 Roblox 배포 채널입니다.</value>
+  </data>
+  <data name="Ui.Misc.ForcedVersion" xml:space="preserve">
+    <value>강제 버전</value>
+  </data>
+  <data name="Ui.Misc.PinsStudioToOneVersionGUID" xml:space="preserve">
+    <value>최신 버전 대신 하나의 버전 GUID에 Studio를 고정합니다.</value>
+  </data>
+  <data name="Ui.Misc.Newest" xml:space="preserve">
+    <value>최신</value>
+  </data>
+  <data name="Ui.Misc.WineRoot" xml:space="preserve">
+    <value>Wine 루트</value>
+  </data>
+  <data name="Ui.Misc.PathToTheWineBuildVinegar" xml:space="preserve">
+    <value>Vinegar가 사용할 Wine 빌드의 경로입니다. 포함된 버전을 쓰려면 비워 두십시오.</value>
+  </data>
+  <data name="Ui.Misc.Bundled" xml:space="preserve">
+    <value>포함됨</value>
+  </data>
 </root>

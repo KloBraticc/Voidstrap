@@ -5443,4 +5443,220 @@ Roblox će se preuzeti kada ga prvi put pokreneš putem Voidstrapa. Postavke mo�
   <data name="Ui.Session.RemoveSavedAccount" xml:space="preserve">
     <value>Ukloni spremljeni račun</value>
   </data>
+  <data name="Ui.Misc.ClickToChangeThisColour" xml:space="preserve">
+    <value>Klikni za promjenu ove boje</value>
+  </data>
+  <data name="Ui.Misc.UseTheDefault" xml:space="preserve">
+    <value>Koristi zadano</value>
+  </data>
+  <data name="Ui.Misc.YourSavedThemeProfiles" xml:space="preserve">
+    <value>Tvoji spremljeni profili teme</value>
+  </data>
+  <data name="Ui.Misc.SaveYourColoursToThisProfile" xml:space="preserve">
+    <value>Spremi svoje boje u ovaj profil</value>
+  </data>
+  <data name="Ui.Misc.MoreProfileOptions" xml:space="preserve">
+    <value>Više mogućnosti profila</value>
+  </data>
+  <data name="Ui.Misc.BackgroundGradient" xml:space="preserve">
+    <value>Gradijent pozadine</value>
+  </data>
+  <data name="Ui.Misc.BlendUpTo8ColoursBehind" xml:space="preserve">
+    <value>Pomiješaj do 8 boja iza cijele aplikacije.</value>
+  </data>
+  <data name="Ui.Misc.TurnTheSwitchOnToBuild" xml:space="preserve">
+    <value>Uključi prekidač za izradu gradijenta.</value>
+  </data>
+  <data name="Ui.Misc.CentreX" xml:space="preserve">
+    <value>Središte X</value>
+  </data>
+  <data name="Ui.Misc.CentreY" xml:space="preserve">
+    <value>Središte Y</value>
+  </data>
+  <data name="Ui.Misc.RemoveThisColour" xml:space="preserve">
+    <value>Ukloni ovu boju</value>
+  </data>
+  <data name="Ui.Misc.AddColour" xml:space="preserve">
+    <value>Dodaj boju</value>
+  </data>
+  <data name="Ui.Misc.Reverse" xml:space="preserve">
+    <value>Obrni</value>
+  </data>
+  <data name="Ui.Misc.EvenSpacing" xml:space="preserve">
+    <value>Jednaki razmaci</value>
+  </data>
+  <data name="Ui.Misc.UseWindowColours" xml:space="preserve">
+    <value>Koristi boje prozora</value>
+  </data>
+  <data name="Ui.Misc.AdvancedColours" xml:space="preserve">
+    <value>Napredne boje</value>
+  </data>
+  <data name="Ui.Misc.TextControlsCardsAndBordersFaded" xml:space="preserve">
+    <value>Tekst, kontrole, kartice i obrubi. Izblijedjeli koriste uobičajeni izgled.</value>
+  </data>
+  <data name="Ui.Misc.ThemeCode" xml:space="preserve">
+    <value>Kod teme</value>
+  </data>
+  <data name="Ui.Misc.ForExpertsValidChangesApplyRight" xml:space="preserve">
+    <value>Za stručnjake. Ispravne promjene primjenjuju se odmah.</value>
+  </data>
+  <data name="Ui.Misc.Format" xml:space="preserve">
+    <value>Oblikuj</value>
+  </data>
+  <data name="Ui.Misc.InsertColour" xml:space="preserve">
+    <value>Umetni boju</value>
+  </data>
+  <data name="Ui.Misc.Copy" xml:space="preserve">
+    <value>Kopiraj</value>
+  </data>
+  <data name="Ui.Misc.OpenInAnotherEditor" xml:space="preserve">
+    <value>Otvori u drugom uređivaču</value>
+  </data>
+  <data name="Ui.Misc.SavingThereUpdatesVoidstrapRightAway" xml:space="preserve">
+    <value>Spremanje tamo odmah ažurira Voidstrap.</value>
+  </data>
+  <data name="Ui.Misc.SearchOptions" xml:space="preserve">
+    <value>Mogućnosti pretrage</value>
+  </data>
+  <data name="Ui.Misc.CloseSearch" xml:space="preserve">
+    <value>Zatvori pretragu</value>
+  </data>
+  <data name="Ui.Misc.NewFile" xml:space="preserve">
+    <value>Nova datoteka</value>
+  </data>
+  <data name="Ui.Misc.NewFolder" xml:space="preserve">
+    <value>Nova mapa</value>
+  </data>
+  <data name="Ui.Misc.Reload" xml:space="preserve">
+    <value>Ponovno učitaj</value>
+  </data>
+  <data name="Ui.Misc.Duplicate" xml:space="preserve">
+    <value>Dupliciraj</value>
+  </data>
+  <data name="Ui.Misc.CopyThemePath" xml:space="preserve">
+    <value>Kopiraj putanju teme</value>
+  </data>
+  <data name="Ui.Misc.ShowInFolder" xml:space="preserve">
+    <value>Prikaži u mapi</value>
+  </data>
+  <data name="Ui.Misc.Undo" xml:space="preserve">
+    <value>Poništi</value>
+  </data>
+  <data name="Ui.Misc.Redo" xml:space="preserve">
+    <value>Ponovi</value>
+  </data>
+  <data name="Ui.Misc.FindInFile" xml:space="preserve">
+    <value>Pronađi u datoteci</value>
+  </data>
+  <data name="Ui.Misc.Live" xml:space="preserve">
+    <value>Uživo</value>
+  </data>
+  <data name="Ui.Misc.RebuildWhileYouType" xml:space="preserve">
+    <value>Ponovno izgradi tijekom tipkanja</value>
+  </data>
+  <data name="Ui.Misc.RebuildNow" xml:space="preserve">
+    <value>Izgradi sada</value>
+  </data>
+  <data name="Ui.Misc.NothingToShowYet" xml:space="preserve">
+    <value>Još nema ničega za prikaz</value>
+  </data>
+  <data name="Ui.Misc.GoToLine" xml:space="preserve">
+    <value>Idi na redak</value>
+  </data>
+  <data name="Ui.Misc.OpenEditor" xml:space="preserve">
+    <value>Otvori uređivač</value>
+  </data>
+  <data name="Ui.Misc.EditInAnotherProgramSavingThere" xml:space="preserve">
+    <value>Uredi u drugom programu. Spremanje tamo ažurira ovaj prozor.</value>
+  </data>
+  <data name="Ui.Misc.Launcher" xml:space="preserve">
+    <value>Pokretač</value>
+  </data>
+  <data name="Ui.Misc.CommandPlacedInFrontOfSober" xml:space="preserve">
+    <value>Naredba ispred Sobera, na primjer prime run na prijenosnicima s dvije grafičke kartice, gamemoderun ili mangohud.</value>
+  </data>
+  <data name="Ui.Misc.None" xml:space="preserve">
+    <value>Ništa</value>
+  </data>
+  <data name="Ui.Misc.RunRobloxThroughXWayland" xml:space="preserve">
+    <value>Pokreni Roblox kroz XWayland</value>
+  </data>
+  <data name="Ui.Misc.OnlyNeededForCustomRobloxCursors" xml:space="preserve">
+    <value>Potrebno samo za vlastite Roblox pokazivače i naziv ili ikonu igre na Roblox prozoru pod Waylandom. Dok je uključeno, okretanje kamere desnim klikom može pomaknuti miš na druge monitore.</value>
+  </data>
+  <data name="Ui.Misc.AutoFullscreen" xml:space="preserve">
+    <value>Automatski cijeli zaslon</value>
+  </data>
+  <data name="Ui.Misc.PutsRobloxIntoFullscreenWhenIt" xml:space="preserve">
+    <value>Stavlja Roblox na cijeli zaslon pri otvaranju.</value>
+  </data>
+  <data name="Ui.Misc.Sharpness" xml:space="preserve">
+    <value>Oštrina</value>
+  </data>
+  <data name="Ui.Misc.SharpensTheGameToCounterThe" xml:space="preserve">
+    <value>Izoštrava igru protiv mutnog izgleda.</value>
+  </data>
+  <data name="Ui.Misc.StudioSession" xml:space="preserve">
+    <value>Studio sesija</value>
+  </data>
+  <data name="Ui.Misc.ApplyVoidstrapFastFlags" xml:space="preserve">
+    <value>Primijeni Voidstrap FastFlags</value>
+  </data>
+  <data name="Ui.Misc.WritesTheFastFlagsFromTheEditor" xml:space="preserve">
+    <value>Zapisuje FastFlags iz uređivača u Vinegar Studio konfiguraciju.</value>
+  </data>
+  <data name="Ui.Misc.DiscordRichPresence" xml:space="preserve">
+    <value>Discord Rich Presence</value>
+  </data>
+  <data name="Ui.Misc.LetsVinegarShowYourStudioSession" xml:space="preserve">
+    <value>Omogućuje Vinegaru da prikaže tvoju Studio sesiju na Discordu.</value>
+  </data>
+  <data name="Ui.Misc.Renderer" xml:space="preserve">
+    <value>Iscrtavač</value>
+  </data>
+  <data name="Ui.Misc.TheGraphicsBackendWineUsesFor" xml:space="preserve">
+    <value>Grafički sustav koji Wine koristi za Studio. DXVK odgovara većini sustava.</value>
+  </data>
+  <data name="Ui.Misc.FeralGameMode" xml:space="preserve">
+    <value>Feral GameMode</value>
+  </data>
+  <data name="Ui.Misc.AsksGameModeToTuneTheSystem" xml:space="preserve">
+    <value>Traži od GameModea da podesi sustav dok Studio radi.</value>
+  </data>
+  <data name="Ui.Misc.GraphicsCard" xml:space="preserve">
+    <value>Grafička kartica</value>
+  </data>
+  <data name="Ui.Misc.WhichGraphicsCardStudioRendersOn" xml:space="preserve">
+    <value>Na kojoj grafičkoj kartici Studio iscrtava.</value>
+  </data>
+  <data name="Ui.Misc.VirtualDesktop" xml:space="preserve">
+    <value>Virtualna radna površina</value>
+  </data>
+  <data name="Ui.Misc.RunsStudioInsideAWineVirtual" xml:space="preserve">
+    <value>Pokreće Studio unutar Wine virtualne radne površine ove veličine, na primjer 1920x1080.</value>
+  </data>
+  <data name="Ui.Misc.CommandPlacedInFrontOfStudio" xml:space="preserve">
+    <value>Naredba ispred Studija, na primjer gamemoderun ili mangohud.</value>
+  </data>
+  <data name="Ui.Misc.RobloxDeploymentChannelVinegarDownloadsStudio" xml:space="preserve">
+    <value>Roblox kanal implementacije iz kojeg Vinegar preuzima Studio.</value>
+  </data>
+  <data name="Ui.Misc.ForcedVersion" xml:space="preserve">
+    <value>Prisilna verzija</value>
+  </data>
+  <data name="Ui.Misc.PinsStudioToOneVersionGUID" xml:space="preserve">
+    <value>Zaključava Studio na jedan GUID verzije umjesto najnovije.</value>
+  </data>
+  <data name="Ui.Misc.Newest" xml:space="preserve">
+    <value>Najnovija</value>
+  </data>
+  <data name="Ui.Misc.WineRoot" xml:space="preserve">
+    <value>Wine korijen</value>
+  </data>
+  <data name="Ui.Misc.PathToTheWineBuildVinegar" xml:space="preserve">
+    <value>Putanja do Wine verzije koju Vinegar treba koristiti. Ostavi prazno za priloženu.</value>
+  </data>
+  <data name="Ui.Misc.Bundled" xml:space="preserve">
+    <value>Priložena</value>
+  </data>
 </root>

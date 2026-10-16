@@ -5400,4 +5400,220 @@ Wat wil je doen?</value>
   <data name="Ui.Session.RemoveSavedAccount" xml:space="preserve">
     <value>Opgeslagen account verwijderen</value>
   </data>
+  <data name="Ui.Misc.ClickToChangeThisColour" xml:space="preserve">
+    <value>Klik om deze kleur te wijzigen</value>
+  </data>
+  <data name="Ui.Misc.UseTheDefault" xml:space="preserve">
+    <value>Standaard gebruiken</value>
+  </data>
+  <data name="Ui.Misc.YourSavedThemeProfiles" xml:space="preserve">
+    <value>Je opgeslagen themaprofielen</value>
+  </data>
+  <data name="Ui.Misc.SaveYourColoursToThisProfile" xml:space="preserve">
+    <value>Je kleuren in dit profiel opslaan</value>
+  </data>
+  <data name="Ui.Misc.MoreProfileOptions" xml:space="preserve">
+    <value>Meer profielopties</value>
+  </data>
+  <data name="Ui.Misc.BackgroundGradient" xml:space="preserve">
+    <value>Achtergrondverloop</value>
+  </data>
+  <data name="Ui.Misc.BlendUpTo8ColoursBehind" xml:space="preserve">
+    <value>Meng tot 8 kleuren achter de hele app.</value>
+  </data>
+  <data name="Ui.Misc.TurnTheSwitchOnToBuild" xml:space="preserve">
+    <value>Zet de schakelaar aan om een verloop te maken.</value>
+  </data>
+  <data name="Ui.Misc.CentreX" xml:space="preserve">
+    <value>Midden X</value>
+  </data>
+  <data name="Ui.Misc.CentreY" xml:space="preserve">
+    <value>Midden Y</value>
+  </data>
+  <data name="Ui.Misc.RemoveThisColour" xml:space="preserve">
+    <value>Deze kleur verwijderen</value>
+  </data>
+  <data name="Ui.Misc.AddColour" xml:space="preserve">
+    <value>Kleur toevoegen</value>
+  </data>
+  <data name="Ui.Misc.Reverse" xml:space="preserve">
+    <value>Omkeren</value>
+  </data>
+  <data name="Ui.Misc.EvenSpacing" xml:space="preserve">
+    <value>Gelijke afstand</value>
+  </data>
+  <data name="Ui.Misc.UseWindowColours" xml:space="preserve">
+    <value>Vensterkleuren gebruiken</value>
+  </data>
+  <data name="Ui.Misc.AdvancedColours" xml:space="preserve">
+    <value>Geavanceerde kleuren</value>
+  </data>
+  <data name="Ui.Misc.TextControlsCardsAndBordersFaded" xml:space="preserve">
+    <value>Tekst, bedieningselementen, kaarten en randen. Vervaagde gebruiken het normale uiterlijk.</value>
+  </data>
+  <data name="Ui.Misc.ThemeCode" xml:space="preserve">
+    <value>Themacode</value>
+  </data>
+  <data name="Ui.Misc.ForExpertsValidChangesApplyRight" xml:space="preserve">
+    <value>Voor experts. Geldige wijzigingen worden meteen toegepast.</value>
+  </data>
+  <data name="Ui.Misc.Format" xml:space="preserve">
+    <value>Opmaken</value>
+  </data>
+  <data name="Ui.Misc.InsertColour" xml:space="preserve">
+    <value>Kleur invoegen</value>
+  </data>
+  <data name="Ui.Misc.Copy" xml:space="preserve">
+    <value>Kopiëren</value>
+  </data>
+  <data name="Ui.Misc.OpenInAnotherEditor" xml:space="preserve">
+    <value>Openen in een andere editor</value>
+  </data>
+  <data name="Ui.Misc.SavingThereUpdatesVoidstrapRightAway" xml:space="preserve">
+    <value>Daar opslaan werkt Voidstrap meteen bij.</value>
+  </data>
+  <data name="Ui.Misc.SearchOptions" xml:space="preserve">
+    <value>Zoekopties</value>
+  </data>
+  <data name="Ui.Misc.CloseSearch" xml:space="preserve">
+    <value>Zoeken sluiten</value>
+  </data>
+  <data name="Ui.Misc.NewFile" xml:space="preserve">
+    <value>Nieuw bestand</value>
+  </data>
+  <data name="Ui.Misc.NewFolder" xml:space="preserve">
+    <value>Nieuwe map</value>
+  </data>
+  <data name="Ui.Misc.Reload" xml:space="preserve">
+    <value>Herladen</value>
+  </data>
+  <data name="Ui.Misc.Duplicate" xml:space="preserve">
+    <value>Dupliceren</value>
+  </data>
+  <data name="Ui.Misc.CopyThemePath" xml:space="preserve">
+    <value>Themapad kopiëren</value>
+  </data>
+  <data name="Ui.Misc.ShowInFolder" xml:space="preserve">
+    <value>Tonen in map</value>
+  </data>
+  <data name="Ui.Misc.Undo" xml:space="preserve">
+    <value>Ongedaan maken</value>
+  </data>
+  <data name="Ui.Misc.Redo" xml:space="preserve">
+    <value>Opnieuw</value>
+  </data>
+  <data name="Ui.Misc.FindInFile" xml:space="preserve">
+    <value>Zoeken in bestand</value>
+  </data>
+  <data name="Ui.Misc.Live" xml:space="preserve">
+    <value>Live</value>
+  </data>
+  <data name="Ui.Misc.RebuildWhileYouType" xml:space="preserve">
+    <value>Opnieuw bouwen tijdens het typen</value>
+  </data>
+  <data name="Ui.Misc.RebuildNow" xml:space="preserve">
+    <value>Nu opnieuw bouwen</value>
+  </data>
+  <data name="Ui.Misc.NothingToShowYet" xml:space="preserve">
+    <value>Nog niets om te tonen</value>
+  </data>
+  <data name="Ui.Misc.GoToLine" xml:space="preserve">
+    <value>Ga naar regel</value>
+  </data>
+  <data name="Ui.Misc.OpenEditor" xml:space="preserve">
+    <value>Editor openen</value>
+  </data>
+  <data name="Ui.Misc.EditInAnotherProgramSavingThere" xml:space="preserve">
+    <value>Bewerk in een ander programma. Daar opslaan werkt dit venster bij.</value>
+  </data>
+  <data name="Ui.Misc.Launcher" xml:space="preserve">
+    <value>Starter</value>
+  </data>
+  <data name="Ui.Misc.CommandPlacedInFrontOfSober" xml:space="preserve">
+    <value>Opdracht voor Sober, bijvoorbeeld prime run op laptops met twee videokaarten, gamemoderun of mangohud.</value>
+  </data>
+  <data name="Ui.Misc.None" xml:space="preserve">
+    <value>Geen</value>
+  </data>
+  <data name="Ui.Misc.RunRobloxThroughXWayland" xml:space="preserve">
+    <value>Roblox via XWayland uitvoeren</value>
+  </data>
+  <data name="Ui.Misc.OnlyNeededForCustomRobloxCursors" xml:space="preserve">
+    <value>Alleen nodig voor eigen Roblox-muisaanwijzers en de gamenaam of het pictogram op het Roblox-venster onder Wayland. Zolang dit aan staat, kan de muis bij het draaien van de camera met rechts klikken naar andere monitoren schuiven.</value>
+  </data>
+  <data name="Ui.Misc.AutoFullscreen" xml:space="preserve">
+    <value>Automatisch volledig scherm</value>
+  </data>
+  <data name="Ui.Misc.PutsRobloxIntoFullscreenWhenIt" xml:space="preserve">
+    <value>Zet Roblox bij het openen op volledig scherm.</value>
+  </data>
+  <data name="Ui.Misc.Sharpness" xml:space="preserve">
+    <value>Scherpte</value>
+  </data>
+  <data name="Ui.Misc.SharpensTheGameToCounterThe" xml:space="preserve">
+    <value>Maakt de game scherper tegen het wazige uiterlijk.</value>
+  </data>
+  <data name="Ui.Misc.StudioSession" xml:space="preserve">
+    <value>Studio-sessie</value>
+  </data>
+  <data name="Ui.Misc.ApplyVoidstrapFastFlags" xml:space="preserve">
+    <value>Voidstrap FastFlags toepassen</value>
+  </data>
+  <data name="Ui.Misc.WritesTheFastFlagsFromTheEditor" xml:space="preserve">
+    <value>Schrijft de FastFlags uit de editor naar de Studio-configuratie van Vinegar.</value>
+  </data>
+  <data name="Ui.Misc.DiscordRichPresence" xml:space="preserve">
+    <value>Discord Rich Presence</value>
+  </data>
+  <data name="Ui.Misc.LetsVinegarShowYourStudioSession" xml:space="preserve">
+    <value>Laat Vinegar je Studio-sessie op Discord tonen.</value>
+  </data>
+  <data name="Ui.Misc.Renderer" xml:space="preserve">
+    <value>Renderer</value>
+  </data>
+  <data name="Ui.Misc.TheGraphicsBackendWineUsesFor" xml:space="preserve">
+    <value>De grafische backend die Wine voor Studio gebruikt. DXVK past bij de meeste systemen.</value>
+  </data>
+  <data name="Ui.Misc.FeralGameMode" xml:space="preserve">
+    <value>Feral GameMode</value>
+  </data>
+  <data name="Ui.Misc.AsksGameModeToTuneTheSystem" xml:space="preserve">
+    <value>Vraagt GameMode het systeem af te stemmen terwijl Studio draait.</value>
+  </data>
+  <data name="Ui.Misc.GraphicsCard" xml:space="preserve">
+    <value>Videokaart</value>
+  </data>
+  <data name="Ui.Misc.WhichGraphicsCardStudioRendersOn" xml:space="preserve">
+    <value>Op welke videokaart Studio rendert.</value>
+  </data>
+  <data name="Ui.Misc.VirtualDesktop" xml:space="preserve">
+    <value>Virtueel bureaublad</value>
+  </data>
+  <data name="Ui.Misc.RunsStudioInsideAWineVirtual" xml:space="preserve">
+    <value>Draait Studio in een virtueel Wine-bureaublad van deze grootte, bijvoorbeeld 1920x1080.</value>
+  </data>
+  <data name="Ui.Misc.CommandPlacedInFrontOfStudio" xml:space="preserve">
+    <value>Opdracht voor Studio, bijvoorbeeld gamemoderun of mangohud.</value>
+  </data>
+  <data name="Ui.Misc.RobloxDeploymentChannelVinegarDownloadsStudio" xml:space="preserve">
+    <value>Roblox-implementatiekanaal waarvan Vinegar Studio downloadt.</value>
+  </data>
+  <data name="Ui.Misc.ForcedVersion" xml:space="preserve">
+    <value>Geforceerde versie</value>
+  </data>
+  <data name="Ui.Misc.PinsStudioToOneVersionGUID" xml:space="preserve">
+    <value>Zet Studio vast op één versie-GUID in plaats van de nieuwste.</value>
+  </data>
+  <data name="Ui.Misc.Newest" xml:space="preserve">
+    <value>Nieuwste</value>
+  </data>
+  <data name="Ui.Misc.WineRoot" xml:space="preserve">
+    <value>Wine-hoofdmap</value>
+  </data>
+  <data name="Ui.Misc.PathToTheWineBuildVinegar" xml:space="preserve">
+    <value>Pad naar de Wine-build die Vinegar moet gebruiken. Laat leeg voor de meegeleverde.</value>
+  </data>
+  <data name="Ui.Misc.Bundled" xml:space="preserve">
+    <value>Meegeleverd</value>
+  </data>
 </root>

@@ -5482,4 +5482,220 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
   <data name="Ui.Session.RemoveSavedAccount" xml:space="preserve">
     <value>حذف حساب ذخیره‌شده</value>
   </data>
+  <data name="Ui.Misc.ClickToChangeThisColour" xml:space="preserve">
+    <value>برای تغییر این رنگ کلیک کنید</value>
+  </data>
+  <data name="Ui.Misc.UseTheDefault" xml:space="preserve">
+    <value>استفاده از پیش‌فرض</value>
+  </data>
+  <data name="Ui.Misc.YourSavedThemeProfiles" xml:space="preserve">
+    <value>نمایه‌های تم ذخیره‌شده شما</value>
+  </data>
+  <data name="Ui.Misc.SaveYourColoursToThisProfile" xml:space="preserve">
+    <value>ذخیره رنگ‌ها در این نمایه</value>
+  </data>
+  <data name="Ui.Misc.MoreProfileOptions" xml:space="preserve">
+    <value>گزینه‌های بیشتر نمایه</value>
+  </data>
+  <data name="Ui.Misc.BackgroundGradient" xml:space="preserve">
+    <value>گرادیان پس‌زمینه</value>
+  </data>
+  <data name="Ui.Misc.BlendUpTo8ColoursBehind" xml:space="preserve">
+    <value>تا 8 رنگ را پشت کل برنامه ترکیب کنید.</value>
+  </data>
+  <data name="Ui.Misc.TurnTheSwitchOnToBuild" xml:space="preserve">
+    <value>برای ساخت گرادیان کلید را روشن کنید.</value>
+  </data>
+  <data name="Ui.Misc.CentreX" xml:space="preserve">
+    <value>مرکز X</value>
+  </data>
+  <data name="Ui.Misc.CentreY" xml:space="preserve">
+    <value>مرکز Y</value>
+  </data>
+  <data name="Ui.Misc.RemoveThisColour" xml:space="preserve">
+    <value>حذف این رنگ</value>
+  </data>
+  <data name="Ui.Misc.AddColour" xml:space="preserve">
+    <value>افزودن رنگ</value>
+  </data>
+  <data name="Ui.Misc.Reverse" xml:space="preserve">
+    <value>وارونه</value>
+  </data>
+  <data name="Ui.Misc.EvenSpacing" xml:space="preserve">
+    <value>فاصله یکسان</value>
+  </data>
+  <data name="Ui.Misc.UseWindowColours" xml:space="preserve">
+    <value>استفاده از رنگ‌های پنجره</value>
+  </data>
+  <data name="Ui.Misc.AdvancedColours" xml:space="preserve">
+    <value>رنگ‌های پیشرفته</value>
+  </data>
+  <data name="Ui.Misc.TextControlsCardsAndBordersFaded" xml:space="preserve">
+    <value>متن، کنترل‌ها، کارت‌ها و حاشیه‌ها. موارد کم‌رنگ از ظاهر عادی استفاده می‌کنند.</value>
+  </data>
+  <data name="Ui.Misc.ThemeCode" xml:space="preserve">
+    <value>کد تم</value>
+  </data>
+  <data name="Ui.Misc.ForExpertsValidChangesApplyRight" xml:space="preserve">
+    <value>برای کاربران حرفه‌ای. تغییرات معتبر فوراً اعمال می‌شوند.</value>
+  </data>
+  <data name="Ui.Misc.Format" xml:space="preserve">
+    <value>قالب‌بندی</value>
+  </data>
+  <data name="Ui.Misc.InsertColour" xml:space="preserve">
+    <value>درج رنگ</value>
+  </data>
+  <data name="Ui.Misc.Copy" xml:space="preserve">
+    <value>کپی</value>
+  </data>
+  <data name="Ui.Misc.OpenInAnotherEditor" xml:space="preserve">
+    <value>باز کردن در ویرایشگر دیگر</value>
+  </data>
+  <data name="Ui.Misc.SavingThereUpdatesVoidstrapRightAway" xml:space="preserve">
+    <value>ذخیره در آنجا Voidstrap را فوراً به‌روز می‌کند.</value>
+  </data>
+  <data name="Ui.Misc.SearchOptions" xml:space="preserve">
+    <value>گزینه‌های جستجو</value>
+  </data>
+  <data name="Ui.Misc.CloseSearch" xml:space="preserve">
+    <value>بستن جستجو</value>
+  </data>
+  <data name="Ui.Misc.NewFile" xml:space="preserve">
+    <value>فایل جدید</value>
+  </data>
+  <data name="Ui.Misc.NewFolder" xml:space="preserve">
+    <value>پوشه جدید</value>
+  </data>
+  <data name="Ui.Misc.Reload" xml:space="preserve">
+    <value>بارگذاری دوباره</value>
+  </data>
+  <data name="Ui.Misc.Duplicate" xml:space="preserve">
+    <value>تکثیر</value>
+  </data>
+  <data name="Ui.Misc.CopyThemePath" xml:space="preserve">
+    <value>کپی مسیر تم</value>
+  </data>
+  <data name="Ui.Misc.ShowInFolder" xml:space="preserve">
+    <value>نمایش در پوشه</value>
+  </data>
+  <data name="Ui.Misc.Undo" xml:space="preserve">
+    <value>واگرد</value>
+  </data>
+  <data name="Ui.Misc.Redo" xml:space="preserve">
+    <value>انجام دوباره</value>
+  </data>
+  <data name="Ui.Misc.FindInFile" xml:space="preserve">
+    <value>یافتن در فایل</value>
+  </data>
+  <data name="Ui.Misc.Live" xml:space="preserve">
+    <value>زنده</value>
+  </data>
+  <data name="Ui.Misc.RebuildWhileYouType" xml:space="preserve">
+    <value>بازسازی هنگام تایپ</value>
+  </data>
+  <data name="Ui.Misc.RebuildNow" xml:space="preserve">
+    <value>بازسازی اکنون</value>
+  </data>
+  <data name="Ui.Misc.NothingToShowYet" xml:space="preserve">
+    <value>هنوز چیزی برای نمایش نیست</value>
+  </data>
+  <data name="Ui.Misc.GoToLine" xml:space="preserve">
+    <value>رفتن به خط</value>
+  </data>
+  <data name="Ui.Misc.OpenEditor" xml:space="preserve">
+    <value>باز کردن ویرایشگر</value>
+  </data>
+  <data name="Ui.Misc.EditInAnotherProgramSavingThere" xml:space="preserve">
+    <value>در برنامه دیگری ویرایش کنید. ذخیره در آنجا این پنجره را به‌روز می‌کند.</value>
+  </data>
+  <data name="Ui.Misc.Launcher" xml:space="preserve">
+    <value>اجراکننده</value>
+  </data>
+  <data name="Ui.Misc.CommandPlacedInFrontOfSober" xml:space="preserve">
+    <value>فرمانی که پیش از Sober قرار می‌گیرد، مثلاً prime run در لپ‌تاپ‌های دو کارت گرافیک، gamemoderun یا mangohud.</value>
+  </data>
+  <data name="Ui.Misc.None" xml:space="preserve">
+    <value>هیچ</value>
+  </data>
+  <data name="Ui.Misc.RunRobloxThroughXWayland" xml:space="preserve">
+    <value>اجرای Roblox از طریق XWayland</value>
+  </data>
+  <data name="Ui.Misc.OnlyNeededForCustomRobloxCursors" xml:space="preserve">
+    <value>فقط برای نشانگرهای سفارشی Roblox و نام یا نماد بازی روی پنجره Roblox در Wayland لازم است. تا وقتی روشن است، چرخاندن دوربین با کلیک راست ممکن است ماوس را به نمایشگرهای دیگر ببرد.</value>
+  </data>
+  <data name="Ui.Misc.AutoFullscreen" xml:space="preserve">
+    <value>تمام‌صفحه خودکار</value>
+  </data>
+  <data name="Ui.Misc.PutsRobloxIntoFullscreenWhenIt" xml:space="preserve">
+    <value>Roblox را هنگام باز شدن تمام‌صفحه می‌کند.</value>
+  </data>
+  <data name="Ui.Misc.Sharpness" xml:space="preserve">
+    <value>وضوح</value>
+  </data>
+  <data name="Ui.Misc.SharpensTheGameToCounterThe" xml:space="preserve">
+    <value>بازی را برای مقابله با ظاهر تار واضح‌تر می‌کند.</value>
+  </data>
+  <data name="Ui.Misc.StudioSession" xml:space="preserve">
+    <value>نشست Studio</value>
+  </data>
+  <data name="Ui.Misc.ApplyVoidstrapFastFlags" xml:space="preserve">
+    <value>اعمال FastFlags از Voidstrap</value>
+  </data>
+  <data name="Ui.Misc.WritesTheFastFlagsFromTheEditor" xml:space="preserve">
+    <value>FastFlags ویرایشگر را در پیکربندی Studio در Vinegar می‌نویسد.</value>
+  </data>
+  <data name="Ui.Misc.DiscordRichPresence" xml:space="preserve">
+    <value>Discord Rich Presence</value>
+  </data>
+  <data name="Ui.Misc.LetsVinegarShowYourStudioSession" xml:space="preserve">
+    <value>به Vinegar اجازه می‌دهد نشست Studio شما را در Discord نشان دهد.</value>
+  </data>
+  <data name="Ui.Misc.Renderer" xml:space="preserve">
+    <value>رندرکننده</value>
+  </data>
+  <data name="Ui.Misc.TheGraphicsBackendWineUsesFor" xml:space="preserve">
+    <value>پشتیبان گرافیکی که Wine برای Studio استفاده می‌کند. DXVK برای بیشتر سیستم‌ها مناسب است.</value>
+  </data>
+  <data name="Ui.Misc.FeralGameMode" xml:space="preserve">
+    <value>Feral GameMode</value>
+  </data>
+  <data name="Ui.Misc.AsksGameModeToTuneTheSystem" xml:space="preserve">
+    <value>از GameMode می‌خواهد تا هنگام اجرای Studio سیستم را تنظیم کند.</value>
+  </data>
+  <data name="Ui.Misc.GraphicsCard" xml:space="preserve">
+    <value>کارت گرافیک</value>
+  </data>
+  <data name="Ui.Misc.WhichGraphicsCardStudioRendersOn" xml:space="preserve">
+    <value>Studio روی کدام کارت گرافیک رندر می‌کند.</value>
+  </data>
+  <data name="Ui.Misc.VirtualDesktop" xml:space="preserve">
+    <value>دسکتاپ مجازی</value>
+  </data>
+  <data name="Ui.Misc.RunsStudioInsideAWineVirtual" xml:space="preserve">
+    <value>Studio را درون یک دسکتاپ مجازی Wine با این اندازه اجرا می‌کند، مثلاً 1920x1080.</value>
+  </data>
+  <data name="Ui.Misc.CommandPlacedInFrontOfStudio" xml:space="preserve">
+    <value>فرمانی که پیش از Studio قرار می‌گیرد، مثلاً gamemoderun یا mangohud.</value>
+  </data>
+  <data name="Ui.Misc.RobloxDeploymentChannelVinegarDownloadsStudio" xml:space="preserve">
+    <value>کانال استقرار Roblox که Vinegar از آن Studio را دانلود می‌کند.</value>
+  </data>
+  <data name="Ui.Misc.ForcedVersion" xml:space="preserve">
+    <value>نسخه اجباری</value>
+  </data>
+  <data name="Ui.Misc.PinsStudioToOneVersionGUID" xml:space="preserve">
+    <value>Studio را به جای جدیدترین نسخه روی یک GUID نسخه ثابت می‌کند.</value>
+  </data>
+  <data name="Ui.Misc.Newest" xml:space="preserve">
+    <value>جدیدترین</value>
+  </data>
+  <data name="Ui.Misc.WineRoot" xml:space="preserve">
+    <value>ریشه Wine</value>
+  </data>
+  <data name="Ui.Misc.PathToTheWineBuildVinegar" xml:space="preserve">
+    <value>مسیر نسخه Wine که Vinegar باید استفاده کند. برای نسخه همراه خالی بگذارید.</value>
+  </data>
+  <data name="Ui.Misc.Bundled" xml:space="preserve">
+    <value>همراه</value>
+  </data>
 </root>

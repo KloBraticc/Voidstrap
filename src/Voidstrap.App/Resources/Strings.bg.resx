@@ -5444,4 +5444,220 @@ Roblox ще бъде изтеглен, когато го стартирате з
   <data name="Ui.Session.RemoveSavedAccount" xml:space="preserve">
     <value>Премахване на запазения акаунт</value>
   </data>
+  <data name="Ui.Misc.ClickToChangeThisColour" xml:space="preserve">
+    <value>Щракнете, за да смените този цвят</value>
+  </data>
+  <data name="Ui.Misc.UseTheDefault" xml:space="preserve">
+    <value>Използване на стандартния</value>
+  </data>
+  <data name="Ui.Misc.YourSavedThemeProfiles" xml:space="preserve">
+    <value>Вашите запазени профили на темата</value>
+  </data>
+  <data name="Ui.Misc.SaveYourColoursToThisProfile" xml:space="preserve">
+    <value>Запазване на цветовете в този профил</value>
+  </data>
+  <data name="Ui.Misc.MoreProfileOptions" xml:space="preserve">
+    <value>Още опции за профила</value>
+  </data>
+  <data name="Ui.Misc.BackgroundGradient" xml:space="preserve">
+    <value>Градиент на фона</value>
+  </data>
+  <data name="Ui.Misc.BlendUpTo8ColoursBehind" xml:space="preserve">
+    <value>Смесете до 8 цвята зад цялото приложение.</value>
+  </data>
+  <data name="Ui.Misc.TurnTheSwitchOnToBuild" xml:space="preserve">
+    <value>Включете превключвателя, за да създадете градиент.</value>
+  </data>
+  <data name="Ui.Misc.CentreX" xml:space="preserve">
+    <value>Център X</value>
+  </data>
+  <data name="Ui.Misc.CentreY" xml:space="preserve">
+    <value>Център Y</value>
+  </data>
+  <data name="Ui.Misc.RemoveThisColour" xml:space="preserve">
+    <value>Премахване на този цвят</value>
+  </data>
+  <data name="Ui.Misc.AddColour" xml:space="preserve">
+    <value>Добавяне на цвят</value>
+  </data>
+  <data name="Ui.Misc.Reverse" xml:space="preserve">
+    <value>Обръщане</value>
+  </data>
+  <data name="Ui.Misc.EvenSpacing" xml:space="preserve">
+    <value>Равномерно разстояние</value>
+  </data>
+  <data name="Ui.Misc.UseWindowColours" xml:space="preserve">
+    <value>Използване на цветовете на прозореца</value>
+  </data>
+  <data name="Ui.Misc.AdvancedColours" xml:space="preserve">
+    <value>Разширени цветове</value>
+  </data>
+  <data name="Ui.Misc.TextControlsCardsAndBordersFaded" xml:space="preserve">
+    <value>Текст, контроли, карти и рамки. Избледнелите използват нормалния вид.</value>
+  </data>
+  <data name="Ui.Misc.ThemeCode" xml:space="preserve">
+    <value>Код на темата</value>
+  </data>
+  <data name="Ui.Misc.ForExpertsValidChangesApplyRight" xml:space="preserve">
+    <value>За напреднали. Валидните промени се прилагат веднага.</value>
+  </data>
+  <data name="Ui.Misc.Format" xml:space="preserve">
+    <value>Форматиране</value>
+  </data>
+  <data name="Ui.Misc.InsertColour" xml:space="preserve">
+    <value>Вмъкване на цвят</value>
+  </data>
+  <data name="Ui.Misc.Copy" xml:space="preserve">
+    <value>Копиране</value>
+  </data>
+  <data name="Ui.Misc.OpenInAnotherEditor" xml:space="preserve">
+    <value>Отваряне в друг редактор</value>
+  </data>
+  <data name="Ui.Misc.SavingThereUpdatesVoidstrapRightAway" xml:space="preserve">
+    <value>Запазването там веднага обновява Voidstrap.</value>
+  </data>
+  <data name="Ui.Misc.SearchOptions" xml:space="preserve">
+    <value>Опции за търсене</value>
+  </data>
+  <data name="Ui.Misc.CloseSearch" xml:space="preserve">
+    <value>Затваряне на търсенето</value>
+  </data>
+  <data name="Ui.Misc.NewFile" xml:space="preserve">
+    <value>Нов файл</value>
+  </data>
+  <data name="Ui.Misc.NewFolder" xml:space="preserve">
+    <value>Нова папка</value>
+  </data>
+  <data name="Ui.Misc.Reload" xml:space="preserve">
+    <value>Презареждане</value>
+  </data>
+  <data name="Ui.Misc.Duplicate" xml:space="preserve">
+    <value>Дублиране</value>
+  </data>
+  <data name="Ui.Misc.CopyThemePath" xml:space="preserve">
+    <value>Копиране на пътя на темата</value>
+  </data>
+  <data name="Ui.Misc.ShowInFolder" xml:space="preserve">
+    <value>Показване в папката</value>
+  </data>
+  <data name="Ui.Misc.Undo" xml:space="preserve">
+    <value>Отмяна</value>
+  </data>
+  <data name="Ui.Misc.Redo" xml:space="preserve">
+    <value>Повторение</value>
+  </data>
+  <data name="Ui.Misc.FindInFile" xml:space="preserve">
+    <value>Търсене във файла</value>
+  </data>
+  <data name="Ui.Misc.Live" xml:space="preserve">
+    <value>На живо</value>
+  </data>
+  <data name="Ui.Misc.RebuildWhileYouType" xml:space="preserve">
+    <value>Повторно изграждане при писане</value>
+  </data>
+  <data name="Ui.Misc.RebuildNow" xml:space="preserve">
+    <value>Изграждане сега</value>
+  </data>
+  <data name="Ui.Misc.NothingToShowYet" xml:space="preserve">
+    <value>Все още няма какво да се покаже</value>
+  </data>
+  <data name="Ui.Misc.GoToLine" xml:space="preserve">
+    <value>Към ред</value>
+  </data>
+  <data name="Ui.Misc.OpenEditor" xml:space="preserve">
+    <value>Отваряне на редактора</value>
+  </data>
+  <data name="Ui.Misc.EditInAnotherProgramSavingThere" xml:space="preserve">
+    <value>Редактирайте в друга програма. Запазването там обновява този прозорец.</value>
+  </data>
+  <data name="Ui.Misc.Launcher" xml:space="preserve">
+    <value>Стартер</value>
+  </data>
+  <data name="Ui.Misc.CommandPlacedInFrontOfSober" xml:space="preserve">
+    <value>Команда пред Sober, например prime run на лаптопи с две видеокарти, gamemoderun или mangohud.</value>
+  </data>
+  <data name="Ui.Misc.None" xml:space="preserve">
+    <value>Няма</value>
+  </data>
+  <data name="Ui.Misc.RunRobloxThroughXWayland" xml:space="preserve">
+    <value>Стартиране на Roblox през XWayland</value>
+  </data>
+  <data name="Ui.Misc.OnlyNeededForCustomRobloxCursors" xml:space="preserve">
+    <value>Нужно е само за собствени курсори на Roblox и името или иконата на играта в прозореца на Roblox под Wayland. Докато е включено, завъртането на камерата с десен бутон може да изкара мишката на други монитори.</value>
+  </data>
+  <data name="Ui.Misc.AutoFullscreen" xml:space="preserve">
+    <value>Автоматичен цял екран</value>
+  </data>
+  <data name="Ui.Misc.PutsRobloxIntoFullscreenWhenIt" xml:space="preserve">
+    <value>Пуска Roblox на цял екран при отваряне.</value>
+  </data>
+  <data name="Ui.Misc.Sharpness" xml:space="preserve">
+    <value>Острота</value>
+  </data>
+  <data name="Ui.Misc.SharpensTheGameToCounterThe" xml:space="preserve">
+    <value>Изостря играта срещу размития вид.</value>
+  </data>
+  <data name="Ui.Misc.StudioSession" xml:space="preserve">
+    <value>Сесия на Studio</value>
+  </data>
+  <data name="Ui.Misc.ApplyVoidstrapFastFlags" xml:space="preserve">
+    <value>Прилагане на FastFlags от Voidstrap</value>
+  </data>
+  <data name="Ui.Misc.WritesTheFastFlagsFromTheEditor" xml:space="preserve">
+    <value>Записва FastFlags от редактора в конфигурацията на Studio във Vinegar.</value>
+  </data>
+  <data name="Ui.Misc.DiscordRichPresence" xml:space="preserve">
+    <value>Discord Rich Presence</value>
+  </data>
+  <data name="Ui.Misc.LetsVinegarShowYourStudioSession" xml:space="preserve">
+    <value>Позволява на Vinegar да показва сесията Ви в Studio в Discord.</value>
+  </data>
+  <data name="Ui.Misc.Renderer" xml:space="preserve">
+    <value>Рендеринг</value>
+  </data>
+  <data name="Ui.Misc.TheGraphicsBackendWineUsesFor" xml:space="preserve">
+    <value>Графичният бекенд, който Wine използва за Studio. DXVK е подходящ за повечето системи.</value>
+  </data>
+  <data name="Ui.Misc.FeralGameMode" xml:space="preserve">
+    <value>Feral GameMode</value>
+  </data>
+  <data name="Ui.Misc.AsksGameModeToTuneTheSystem" xml:space="preserve">
+    <value>Кара GameMode да настрои системата, докато Studio работи.</value>
+  </data>
+  <data name="Ui.Misc.GraphicsCard" xml:space="preserve">
+    <value>Видеокарта</value>
+  </data>
+  <data name="Ui.Misc.WhichGraphicsCardStudioRendersOn" xml:space="preserve">
+    <value>На коя видеокарта рендерира Studio.</value>
+  </data>
+  <data name="Ui.Misc.VirtualDesktop" xml:space="preserve">
+    <value>Виртуален работен плот</value>
+  </data>
+  <data name="Ui.Misc.RunsStudioInsideAWineVirtual" xml:space="preserve">
+    <value>Пуска Studio във виртуален работен плот на Wine с този размер, например 1920x1080.</value>
+  </data>
+  <data name="Ui.Misc.CommandPlacedInFrontOfStudio" xml:space="preserve">
+    <value>Команда пред Studio, например gamemoderun или mangohud.</value>
+  </data>
+  <data name="Ui.Misc.RobloxDeploymentChannelVinegarDownloadsStudio" xml:space="preserve">
+    <value>Канал за внедряване на Roblox, от който Vinegar изтегля Studio.</value>
+  </data>
+  <data name="Ui.Misc.ForcedVersion" xml:space="preserve">
+    <value>Принудителна версия</value>
+  </data>
+  <data name="Ui.Misc.PinsStudioToOneVersionGUID" xml:space="preserve">
+    <value>Фиксира Studio към един GUID на версия вместо най-новата.</value>
+  </data>
+  <data name="Ui.Misc.Newest" xml:space="preserve">
+    <value>Най-новата</value>
+  </data>
+  <data name="Ui.Misc.WineRoot" xml:space="preserve">
+    <value>Корен на Wine</value>
+  </data>
+  <data name="Ui.Misc.PathToTheWineBuildVinegar" xml:space="preserve">
+    <value>Път до версията на Wine, която Vinegar да използва. Оставете празно за вградената.</value>
+  </data>
+  <data name="Ui.Misc.Bundled" xml:space="preserve">
+    <value>Вградена</value>
+  </data>
 </root>

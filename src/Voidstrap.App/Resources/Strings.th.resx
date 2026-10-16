@@ -5436,4 +5436,220 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
   <data name="Ui.Session.RemoveSavedAccount" xml:space="preserve">
     <value>ลบบัญชีที่บันทึกไว้</value>
   </data>
+  <data name="Ui.Misc.ClickToChangeThisColour" xml:space="preserve">
+    <value>คลิกเพื่อเปลี่ยนสีนี้</value>
+  </data>
+  <data name="Ui.Misc.UseTheDefault" xml:space="preserve">
+    <value>ใช้ค่าเริ่มต้น</value>
+  </data>
+  <data name="Ui.Misc.YourSavedThemeProfiles" xml:space="preserve">
+    <value>โปรไฟล์ธีมที่คุณบันทึกไว้</value>
+  </data>
+  <data name="Ui.Misc.SaveYourColoursToThisProfile" xml:space="preserve">
+    <value>บันทึกสีของคุณลงในโปรไฟล์นี้</value>
+  </data>
+  <data name="Ui.Misc.MoreProfileOptions" xml:space="preserve">
+    <value>ตัวเลือกโปรไฟล์เพิ่มเติม</value>
+  </data>
+  <data name="Ui.Misc.BackgroundGradient" xml:space="preserve">
+    <value>ไล่สีพื้นหลัง</value>
+  </data>
+  <data name="Ui.Misc.BlendUpTo8ColoursBehind" xml:space="preserve">
+    <value>ผสมได้สูงสุด 8 สีด้านหลังทั้งแอป</value>
+  </data>
+  <data name="Ui.Misc.TurnTheSwitchOnToBuild" xml:space="preserve">
+    <value>เปิดสวิตช์เพื่อสร้างการไล่สี</value>
+  </data>
+  <data name="Ui.Misc.CentreX" xml:space="preserve">
+    <value>จุดกึ่งกลาง X</value>
+  </data>
+  <data name="Ui.Misc.CentreY" xml:space="preserve">
+    <value>จุดกึ่งกลาง Y</value>
+  </data>
+  <data name="Ui.Misc.RemoveThisColour" xml:space="preserve">
+    <value>ลบสีนี้</value>
+  </data>
+  <data name="Ui.Misc.AddColour" xml:space="preserve">
+    <value>เพิ่มสี</value>
+  </data>
+  <data name="Ui.Misc.Reverse" xml:space="preserve">
+    <value>กลับด้าน</value>
+  </data>
+  <data name="Ui.Misc.EvenSpacing" xml:space="preserve">
+    <value>ระยะห่างเท่ากัน</value>
+  </data>
+  <data name="Ui.Misc.UseWindowColours" xml:space="preserve">
+    <value>ใช้สีของหน้าต่าง</value>
+  </data>
+  <data name="Ui.Misc.AdvancedColours" xml:space="preserve">
+    <value>สีขั้นสูง</value>
+  </data>
+  <data name="Ui.Misc.TextControlsCardsAndBordersFaded" xml:space="preserve">
+    <value>ข้อความ ตัวควบคุม การ์ด และขอบ รายการที่จางจะใช้ลักษณะปกติ</value>
+  </data>
+  <data name="Ui.Misc.ThemeCode" xml:space="preserve">
+    <value>โค้ดธีม</value>
+  </data>
+  <data name="Ui.Misc.ForExpertsValidChangesApplyRight" xml:space="preserve">
+    <value>สำหรับผู้เชี่ยวชาญ การเปลี่ยนแปลงที่ถูกต้องจะมีผลทันที</value>
+  </data>
+  <data name="Ui.Misc.Format" xml:space="preserve">
+    <value>จัดรูปแบบ</value>
+  </data>
+  <data name="Ui.Misc.InsertColour" xml:space="preserve">
+    <value>แทรกสี</value>
+  </data>
+  <data name="Ui.Misc.Copy" xml:space="preserve">
+    <value>คัดลอก</value>
+  </data>
+  <data name="Ui.Misc.OpenInAnotherEditor" xml:space="preserve">
+    <value>เปิดในตัวแก้ไขอื่น</value>
+  </data>
+  <data name="Ui.Misc.SavingThereUpdatesVoidstrapRightAway" xml:space="preserve">
+    <value>บันทึกที่นั่นแล้ว Voidstrap จะอัปเดตทันที</value>
+  </data>
+  <data name="Ui.Misc.SearchOptions" xml:space="preserve">
+    <value>ตัวเลือกการค้นหา</value>
+  </data>
+  <data name="Ui.Misc.CloseSearch" xml:space="preserve">
+    <value>ปิดการค้นหา</value>
+  </data>
+  <data name="Ui.Misc.NewFile" xml:space="preserve">
+    <value>ไฟล์ใหม่</value>
+  </data>
+  <data name="Ui.Misc.NewFolder" xml:space="preserve">
+    <value>โฟลเดอร์ใหม่</value>
+  </data>
+  <data name="Ui.Misc.Reload" xml:space="preserve">
+    <value>โหลดซ้ำ</value>
+  </data>
+  <data name="Ui.Misc.Duplicate" xml:space="preserve">
+    <value>ทำซ้ำ</value>
+  </data>
+  <data name="Ui.Misc.CopyThemePath" xml:space="preserve">
+    <value>คัดลอกเส้นทางธีม</value>
+  </data>
+  <data name="Ui.Misc.ShowInFolder" xml:space="preserve">
+    <value>แสดงในโฟลเดอร์</value>
+  </data>
+  <data name="Ui.Misc.Undo" xml:space="preserve">
+    <value>เลิกทำ</value>
+  </data>
+  <data name="Ui.Misc.Redo" xml:space="preserve">
+    <value>ทำซ้ำอีกครั้ง</value>
+  </data>
+  <data name="Ui.Misc.FindInFile" xml:space="preserve">
+    <value>ค้นหาในไฟล์</value>
+  </data>
+  <data name="Ui.Misc.Live" xml:space="preserve">
+    <value>สด</value>
+  </data>
+  <data name="Ui.Misc.RebuildWhileYouType" xml:space="preserve">
+    <value>สร้างใหม่ขณะพิมพ์</value>
+  </data>
+  <data name="Ui.Misc.RebuildNow" xml:space="preserve">
+    <value>สร้างใหม่ตอนนี้</value>
+  </data>
+  <data name="Ui.Misc.NothingToShowYet" xml:space="preserve">
+    <value>ยังไม่มีอะไรให้แสดง</value>
+  </data>
+  <data name="Ui.Misc.GoToLine" xml:space="preserve">
+    <value>ไปที่บรรทัด</value>
+  </data>
+  <data name="Ui.Misc.OpenEditor" xml:space="preserve">
+    <value>เปิดตัวแก้ไข</value>
+  </data>
+  <data name="Ui.Misc.EditInAnotherProgramSavingThere" xml:space="preserve">
+    <value>แก้ไขในโปรแกรมอื่น บันทึกที่นั่นแล้วหน้าต่างนี้จะอัปเดต</value>
+  </data>
+  <data name="Ui.Misc.Launcher" xml:space="preserve">
+    <value>ตัวเปิด</value>
+  </data>
+  <data name="Ui.Misc.CommandPlacedInFrontOfSober" xml:space="preserve">
+    <value>คำสั่งที่วางหน้า Sober เช่น prime run บนแล็ปท็อปที่มีการ์ดจอสองตัว gamemoderun หรือ mangohud</value>
+  </data>
+  <data name="Ui.Misc.None" xml:space="preserve">
+    <value>ไม่มี</value>
+  </data>
+  <data name="Ui.Misc.RunRobloxThroughXWayland" xml:space="preserve">
+    <value>เรียกใช้ Roblox ผ่าน XWayland</value>
+  </data>
+  <data name="Ui.Misc.OnlyNeededForCustomRobloxCursors" xml:space="preserve">
+    <value>จำเป็นเฉพาะสำหรับเคอร์เซอร์ Roblox แบบกำหนดเองและชื่อหรือไอคอนเกมบนหน้าต่าง Roblox ภายใต้ Wayland ขณะเปิดอยู่ การหมุนกล้องด้วยคลิกขวาอาจทำให้เมาส์เลื่อนไปยังจออื่น</value>
+  </data>
+  <data name="Ui.Misc.AutoFullscreen" xml:space="preserve">
+    <value>เต็มหน้าจออัตโนมัติ</value>
+  </data>
+  <data name="Ui.Misc.PutsRobloxIntoFullscreenWhenIt" xml:space="preserve">
+    <value>ทำให้ Roblox เต็มหน้าจอเมื่อเปิด</value>
+  </data>
+  <data name="Ui.Misc.Sharpness" xml:space="preserve">
+    <value>ความคมชัด</value>
+  </data>
+  <data name="Ui.Misc.SharpensTheGameToCounterThe" xml:space="preserve">
+    <value>เพิ่มความคมชัดให้เกมเพื่อลดความเบลอ</value>
+  </data>
+  <data name="Ui.Misc.StudioSession" xml:space="preserve">
+    <value>เซสชัน Studio</value>
+  </data>
+  <data name="Ui.Misc.ApplyVoidstrapFastFlags" xml:space="preserve">
+    <value>ใช้ FastFlags ของ Voidstrap</value>
+  </data>
+  <data name="Ui.Misc.WritesTheFastFlagsFromTheEditor" xml:space="preserve">
+    <value>เขียน FastFlags จากตัวแก้ไขลงในการกำหนดค่า Studio ของ Vinegar</value>
+  </data>
+  <data name="Ui.Misc.DiscordRichPresence" xml:space="preserve">
+    <value>Discord Rich Presence</value>
+  </data>
+  <data name="Ui.Misc.LetsVinegarShowYourStudioSession" xml:space="preserve">
+    <value>ให้ Vinegar แสดงเซสชัน Studio ของคุณบน Discord</value>
+  </data>
+  <data name="Ui.Misc.Renderer" xml:space="preserve">
+    <value>ตัวเรนเดอร์</value>
+  </data>
+  <data name="Ui.Misc.TheGraphicsBackendWineUsesFor" xml:space="preserve">
+    <value>แบ็กเอนด์กราฟิกที่ Wine ใช้สำหรับ Studio DXVK เหมาะกับระบบส่วนใหญ่</value>
+  </data>
+  <data name="Ui.Misc.FeralGameMode" xml:space="preserve">
+    <value>Feral GameMode</value>
+  </data>
+  <data name="Ui.Misc.AsksGameModeToTuneTheSystem" xml:space="preserve">
+    <value>ขอให้ GameMode ปรับแต่งระบบขณะ Studio ทำงาน</value>
+  </data>
+  <data name="Ui.Misc.GraphicsCard" xml:space="preserve">
+    <value>การ์ดจอ</value>
+  </data>
+  <data name="Ui.Misc.WhichGraphicsCardStudioRendersOn" xml:space="preserve">
+    <value>การ์ดจอที่ Studio ใช้เรนเดอร์</value>
+  </data>
+  <data name="Ui.Misc.VirtualDesktop" xml:space="preserve">
+    <value>เดสก์ท็อปเสมือน</value>
+  </data>
+  <data name="Ui.Misc.RunsStudioInsideAWineVirtual" xml:space="preserve">
+    <value>เรียกใช้ Studio ในเดสก์ท็อปเสมือนของ Wine ขนาดนี้ เช่น 1920x1080</value>
+  </data>
+  <data name="Ui.Misc.CommandPlacedInFrontOfStudio" xml:space="preserve">
+    <value>คำสั่งที่วางหน้า Studio เช่น gamemoderun หรือ mangohud</value>
+  </data>
+  <data name="Ui.Misc.RobloxDeploymentChannelVinegarDownloadsStudio" xml:space="preserve">
+    <value>ช่องการปรับใช้ของ Roblox ที่ Vinegar ดาวน์โหลด Studio</value>
+  </data>
+  <data name="Ui.Misc.ForcedVersion" xml:space="preserve">
+    <value>เวอร์ชันที่บังคับ</value>
+  </data>
+  <data name="Ui.Misc.PinsStudioToOneVersionGUID" xml:space="preserve">
+    <value>ตรึง Studio ไว้กับ GUID เวอร์ชันเดียวแทนเวอร์ชันใหม่สุด</value>
+  </data>
+  <data name="Ui.Misc.Newest" xml:space="preserve">
+    <value>ใหม่สุด</value>
+  </data>
+  <data name="Ui.Misc.WineRoot" xml:space="preserve">
+    <value>รูทของ Wine</value>
+  </data>
+  <data name="Ui.Misc.PathToTheWineBuildVinegar" xml:space="preserve">
+    <value>เส้นทางไปยังบิลด์ Wine ที่ Vinegar ควรใช้ เว้นว่างไว้เพื่อใช้ตัวที่มากับแอป</value>
+  </data>
+  <data name="Ui.Misc.Bundled" xml:space="preserve">
+    <value>มากับแอป</value>
+  </data>
 </root>

@@ -2,7 +2,7 @@
   <UserControl.Resources>
     <DataTemplate x:Key="ThemeColorTile">
       <Grid Margin="0,0,8,8" Opacity="{Binding RowOpacity}">
-        <Button Padding="8,6" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" ToolTip="Click to change this colour" Click="Swatch_Click">
+        <Button Padding="8,6" HorizontalAlignment="Stretch" HorizontalContentAlignment="Stretch" ToolTip="{resources:Loc Ui_Misc_ClickToChangeThisColour}" Click="Swatch_Click">
           <Grid>
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="Auto" />
@@ -15,7 +15,7 @@
             </StackPanel>
           </Grid>
         </Button>
-        <ui:Button Width="26" Height="26" Padding="0" Margin="0,0,6,0" HorizontalAlignment="Right" VerticalAlignment="Center" Appearance="Transparent" Icon="ArrowReset24" FontSize="12" ToolTip="Use the default" Visibility="{Binding ResetVisibility}" Click="ResetColor_Click" />
+        <ui:Button Width="26" Height="26" Padding="0" Margin="0,0,6,0" HorizontalAlignment="Right" VerticalAlignment="Center" Appearance="Transparent" Icon="ArrowReset24" FontSize="12" ToolTip="{resources:Loc Ui_Misc_UseTheDefault}" Visibility="{Binding ResetVisibility}" Click="ResetColor_Click" />
       </Grid>
     </DataTemplate>
     <DataTemplate x:Key="GroupHeader">
@@ -32,9 +32,9 @@
         <ColumnDefinition Width="Auto" />
         <ColumnDefinition Width="Auto" />
       </Grid.ColumnDefinitions>
-      <ComboBox Name="ProfileBox" Grid.Column="0" Padding="10,5" VerticalAlignment="Center" ToolTip="Your saved theme profiles" SelectionChanged="ProfileBox_SelectionChanged" />
-      <ui:Button Grid.Column="1" Margin="8,0,0,0" Appearance="Secondary" Content="{resources:Loc CustomTheme_Editor_Save}" ToolTip="Save your colours to this profile" Click="ProfileSave_Click" />
-      <ui:Button Name="MoreButton" Grid.Column="2" Margin="8,0,0,0" Appearance="Secondary" Content="More" ToolTip="More profile options" Click="More_Click" />
+      <ComboBox Name="ProfileBox" Grid.Column="0" Padding="10,5" VerticalAlignment="Center" ToolTip="{resources:Loc Ui_Misc_YourSavedThemeProfiles}" SelectionChanged="ProfileBox_SelectionChanged" />
+      <ui:Button Grid.Column="1" Margin="8,0,0,0" Appearance="Secondary" Content="{resources:Loc CustomTheme_Editor_Save}" ToolTip="{resources:Loc Ui_Misc_SaveYourColoursToThisProfile}" Click="ProfileSave_Click" />
+      <ui:Button Name="MoreButton" Grid.Column="2" Margin="8,0,0,0" Appearance="Secondary" Content="{resources:Loc Ui_Nav_More}" ToolTip="{resources:Loc Ui_Misc_MoreProfileOptions}" Click="More_Click" />
     </Grid>
 
     <Border Name="StatusBorder" Margin="0,8,0,0" Padding="12,8" CornerRadius="6" Visibility="Collapsed" BorderThickness="1">
@@ -54,14 +54,14 @@
       <ui:CardExpander.Header>
         <Grid>
           <StackPanel>
-            <TextBlock FontWeight="SemiBold" Text="Background gradient" />
-            <TextBlock Margin="0,2,0,0" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Blend up to 8 colours behind the whole app." />
+            <TextBlock FontWeight="SemiBold" Text="{resources:Loc Ui_Misc_BackgroundGradient}" />
+            <TextBlock Margin="0,2,0,0" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Misc_BlendUpTo8ColoursBehind}" />
           </StackPanel>
           <ui:ToggleSwitch Name="GradientToggle" Margin="0,0,12,0" HorizontalAlignment="Right" VerticalAlignment="Center" Checked="GradientToggle_Changed" Unchecked="GradientToggle_Changed" />
         </Grid>
       </ui:CardExpander.Header>
       <StackPanel>
-        <TextBlock Name="GradientOffHint" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Turn the switch on to build a gradient." />
+        <TextBlock Name="GradientOffHint" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Misc_TurnTheSwitchOnToBuild}" />
         <StackPanel Name="GradientPanel" Visibility="Collapsed">
           <Border Name="GradientBar" Height="52" CornerRadius="6" BorderThickness="1" BorderBrush="{DynamicResource ControlElevationBorderBrush}" />
           <Grid Margin="0,12,0,0">
@@ -79,7 +79,7 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="44" />
               </Grid.ColumnDefinitions>
-              <TextBlock VerticalAlignment="Center" Text="Angle" />
+              <TextBlock VerticalAlignment="Center" Text="{resources:Loc Ui_ModGen_Angle}" />
               <Slider Name="AngleSlider" Grid.Column="1" VerticalAlignment="Center" Minimum="0" Maximum="360" SmallChange="1" LargeChange="15" ValueChanged="GradientSlider_ValueChanged" />
               <TextBlock Name="AngleText" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Text="45°" />
             </Grid>
@@ -90,7 +90,7 @@
                   <ColumnDefinition Width="*" />
                   <ColumnDefinition Width="44" />
                 </Grid.ColumnDefinitions>
-                <TextBlock VerticalAlignment="Center" Text="Size" />
+                <TextBlock VerticalAlignment="Center" Text="{resources:Loc Ui_Mods_Size}" />
                 <Slider Name="RadiusSlider" Grid.Column="1" VerticalAlignment="Center" Minimum="10" Maximum="200" SmallChange="1" LargeChange="10" ValueChanged="GradientSlider_ValueChanged" />
                 <TextBlock Name="RadiusText" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Text="75%" />
               </Grid>
@@ -100,7 +100,7 @@
                   <ColumnDefinition Width="*" />
                   <ColumnDefinition Width="44" />
                 </Grid.ColumnDefinitions>
-                <TextBlock VerticalAlignment="Center" Text="Centre X" />
+                <TextBlock VerticalAlignment="Center" Text="{resources:Loc Ui_Misc_CentreX}" />
                 <Slider Name="CenterXSlider" Grid.Column="1" VerticalAlignment="Center" Minimum="0" Maximum="100" SmallChange="1" LargeChange="10" ValueChanged="GradientSlider_ValueChanged" />
                 <TextBlock Name="CenterXText" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Text="50%" />
               </Grid>
@@ -110,7 +110,7 @@
                   <ColumnDefinition Width="*" />
                   <ColumnDefinition Width="44" />
                 </Grid.ColumnDefinitions>
-                <TextBlock VerticalAlignment="Center" Text="Centre Y" />
+                <TextBlock VerticalAlignment="Center" Text="{resources:Loc Ui_Misc_CentreY}" />
                 <Slider Name="CenterYSlider" Grid.Column="1" VerticalAlignment="Center" Minimum="0" Maximum="100" SmallChange="1" LargeChange="10" ValueChanged="GradientSlider_ValueChanged" />
                 <TextBlock Name="CenterYText" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Text="50%" />
               </Grid>
@@ -129,18 +129,18 @@
                   <Button Grid.Column="0" Width="32" Height="32" Padding="0" ToolTip="{Binding Hex}" Click="StopSwatch_Click">
                     <Border Width="22" Height="22" CornerRadius="4" BorderThickness="1" BorderBrush="#55FFFFFF" Background="{Binding Swatch}" />
                   </Button>
-                  <Slider Grid.Column="1" Margin="8,0" VerticalAlignment="Center" Minimum="0" Maximum="100" SmallChange="1" LargeChange="10" ToolTip="Position" Value="{Binding Position, Mode=TwoWay}" />
+                  <Slider Grid.Column="1" Margin="8,0" VerticalAlignment="Center" Minimum="0" Maximum="100" SmallChange="1" LargeChange="10" ToolTip="{resources:Loc Ui_SessionNotify_Position}" Value="{Binding Position, Mode=TwoWay}" />
                   <TextBlock Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right" Text="{Binding PositionText}" />
-                  <ui:Button Grid.Column="3" Width="30" Height="30" Padding="0" Margin="4,0,0,0" Appearance="Transparent" Icon="Dismiss16" ToolTip="Remove this colour" Click="RemoveStop_Click" />
+                  <ui:Button Grid.Column="3" Width="30" Height="30" Padding="0" Margin="4,0,0,0" Appearance="Transparent" Icon="Dismiss16" ToolTip="{resources:Loc Ui_Misc_RemoveThisColour}" Click="RemoveStop_Click" />
                 </Grid>
               </DataTemplate>
             </ItemsControl.ItemTemplate>
           </ItemsControl>
           <WrapPanel Margin="0,8,0,0">
-            <ui:Button Name="AddStopButton" Margin="0,0,8,6" Content="Add colour" Click="AddStop_Click" />
-            <ui:Button Margin="0,0,8,6" Content="Reverse" Click="ReverseStops_Click" />
-            <ui:Button Margin="0,0,8,6" Content="Even spacing" Click="EvenStops_Click" />
-            <ui:Button Margin="0,0,8,6" Content="Use window colours" Click="SeedStops_Click" />
+            <ui:Button Name="AddStopButton" Margin="0,0,8,6" Content="{resources:Loc Ui_Misc_AddColour}" Click="AddStop_Click" />
+            <ui:Button Margin="0,0,8,6" Content="{resources:Loc Ui_Misc_Reverse}" Click="ReverseStops_Click" />
+            <ui:Button Margin="0,0,8,6" Content="{resources:Loc Ui_Misc_EvenSpacing}" Click="EvenStops_Click" />
+            <ui:Button Margin="0,0,8,6" Content="{resources:Loc Ui_Misc_UseWindowColours}" Click="SeedStops_Click" />
           </WrapPanel>
         </StackPanel>
       </StackPanel>
@@ -149,8 +149,8 @@
     <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
       <ui:CardExpander.Header>
         <StackPanel>
-          <TextBlock FontWeight="SemiBold" Text="Advanced colours" />
-          <TextBlock Margin="0,2,0,0" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Text, controls, cards and borders. Faded ones use the normal look." />
+          <TextBlock FontWeight="SemiBold" Text="{resources:Loc Ui_Misc_AdvancedColours}" />
+          <TextBlock Margin="0,2,0,0" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Misc_TextControlsCardsAndBordersFaded}" />
         </StackPanel>
       </ui:CardExpander.Header>
       <ItemsControl Name="AdvancedList" ItemTemplate="{StaticResource ThemeColorTile}" ItemsPanel="{StaticResource TileGrid}">
@@ -163,16 +163,16 @@
     <ui:CardExpander Name="CodeExpander" Margin="0,8,0,0" IsExpanded="False" Expanded="CodeExpander_Expanded">
       <ui:CardExpander.Header>
         <StackPanel>
-          <TextBlock FontWeight="SemiBold" Text="Theme code" />
-          <TextBlock Margin="0,2,0,0" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="For experts. Valid changes apply right away." />
+          <TextBlock FontWeight="SemiBold" Text="{resources:Loc Ui_Misc_ThemeCode}" />
+          <TextBlock Margin="0,2,0,0" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Misc_ForExpertsValidChangesApplyRight}" />
         </StackPanel>
       </ui:CardExpander.Header>
       <StackPanel>
         <WrapPanel Margin="0,0,0,8">
-          <ui:Button Content="Format" Appearance="Secondary" Margin="0,0,8,6" Click="Format_Click" />
-          <ui:Button Content="Insert colour" Appearance="Secondary" Margin="0,0,8,6" Click="PickColor_Click" />
-          <ui:Button Content="Copy" Appearance="Secondary" Margin="0,0,8,6" Click="CopyCode_Click" />
-          <ui:Button Content="Open in another editor" Appearance="Secondary" Margin="0,0,8,6" ToolTip="Saving there updates Voidstrap right away." Click="OpenExternal_Click" />
+          <ui:Button Content="{resources:Loc Ui_Misc_Format}" Appearance="Secondary" Margin="0,0,8,6" Click="Format_Click" />
+          <ui:Button Content="{resources:Loc Ui_Misc_InsertColour}" Appearance="Secondary" Margin="0,0,8,6" Click="PickColor_Click" />
+          <ui:Button Content="{resources:Loc Ui_Misc_Copy}" Appearance="Secondary" Margin="0,0,8,6" Click="CopyCode_Click" />
+          <ui:Button Content="{resources:Loc Ui_Misc_OpenInAnotherEditor}" Appearance="Secondary" Margin="0,0,8,6" ToolTip="{resources:Loc Ui_Misc_SavingThereUpdatesVoidstrapRightAway}" Click="OpenExternal_Click" />
         </WrapPanel>
         <Border Name="CodeHost" Height="320" CornerRadius="6" BorderThickness="1" BorderBrush="{DynamicResource ControlElevationBorderBrush}" ClipToBounds="True" />
       </StackPanel>

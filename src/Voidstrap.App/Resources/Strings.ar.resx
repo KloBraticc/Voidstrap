@@ -5473,4 +5473,220 @@
   <data name="Ui.Session.RemoveSavedAccount" xml:space="preserve">
     <value>إزالة الحساب المحفوظ</value>
   </data>
+  <data name="Ui.Misc.ClickToChangeThisColour" xml:space="preserve">
+    <value>انقر لتغيير هذا اللون</value>
+  </data>
+  <data name="Ui.Misc.UseTheDefault" xml:space="preserve">
+    <value>استخدام الافتراضي</value>
+  </data>
+  <data name="Ui.Misc.YourSavedThemeProfiles" xml:space="preserve">
+    <value>ملفات السمات المحفوظة لديك</value>
+  </data>
+  <data name="Ui.Misc.SaveYourColoursToThisProfile" xml:space="preserve">
+    <value>حفظ ألوانك في هذا الملف</value>
+  </data>
+  <data name="Ui.Misc.MoreProfileOptions" xml:space="preserve">
+    <value>خيارات ملف إضافية</value>
+  </data>
+  <data name="Ui.Misc.BackgroundGradient" xml:space="preserve">
+    <value>تدرج الخلفية</value>
+  </data>
+  <data name="Ui.Misc.BlendUpTo8ColoursBehind" xml:space="preserve">
+    <value>امزج حتى 8 ألوان خلف التطبيق بأكمله.</value>
+  </data>
+  <data name="Ui.Misc.TurnTheSwitchOnToBuild" xml:space="preserve">
+    <value>شغّل المفتاح لإنشاء تدرج.</value>
+  </data>
+  <data name="Ui.Misc.CentreX" xml:space="preserve">
+    <value>المركز X</value>
+  </data>
+  <data name="Ui.Misc.CentreY" xml:space="preserve">
+    <value>المركز Y</value>
+  </data>
+  <data name="Ui.Misc.RemoveThisColour" xml:space="preserve">
+    <value>إزالة هذا اللون</value>
+  </data>
+  <data name="Ui.Misc.AddColour" xml:space="preserve">
+    <value>إضافة لون</value>
+  </data>
+  <data name="Ui.Misc.Reverse" xml:space="preserve">
+    <value>عكس</value>
+  </data>
+  <data name="Ui.Misc.EvenSpacing" xml:space="preserve">
+    <value>تباعد متساوٍ</value>
+  </data>
+  <data name="Ui.Misc.UseWindowColours" xml:space="preserve">
+    <value>استخدام ألوان النافذة</value>
+  </data>
+  <data name="Ui.Misc.AdvancedColours" xml:space="preserve">
+    <value>ألوان متقدمة</value>
+  </data>
+  <data name="Ui.Misc.TextControlsCardsAndBordersFaded" xml:space="preserve">
+    <value>النص وعناصر التحكم والبطاقات والحدود. الباهتة تستخدم المظهر العادي.</value>
+  </data>
+  <data name="Ui.Misc.ThemeCode" xml:space="preserve">
+    <value>رمز السمة</value>
+  </data>
+  <data name="Ui.Misc.ForExpertsValidChangesApplyRight" xml:space="preserve">
+    <value>للخبراء. التغييرات الصالحة تُطبَّق فورًا.</value>
+  </data>
+  <data name="Ui.Misc.Format" xml:space="preserve">
+    <value>تنسيق</value>
+  </data>
+  <data name="Ui.Misc.InsertColour" xml:space="preserve">
+    <value>إدراج لون</value>
+  </data>
+  <data name="Ui.Misc.Copy" xml:space="preserve">
+    <value>نسخ</value>
+  </data>
+  <data name="Ui.Misc.OpenInAnotherEditor" xml:space="preserve">
+    <value>فتح في محرر آخر</value>
+  </data>
+  <data name="Ui.Misc.SavingThereUpdatesVoidstrapRightAway" xml:space="preserve">
+    <value>الحفظ هناك يحدّث Voidstrap فورًا.</value>
+  </data>
+  <data name="Ui.Misc.SearchOptions" xml:space="preserve">
+    <value>خيارات البحث</value>
+  </data>
+  <data name="Ui.Misc.CloseSearch" xml:space="preserve">
+    <value>إغلاق البحث</value>
+  </data>
+  <data name="Ui.Misc.NewFile" xml:space="preserve">
+    <value>ملف جديد</value>
+  </data>
+  <data name="Ui.Misc.NewFolder" xml:space="preserve">
+    <value>مجلد جديد</value>
+  </data>
+  <data name="Ui.Misc.Reload" xml:space="preserve">
+    <value>إعادة التحميل</value>
+  </data>
+  <data name="Ui.Misc.Duplicate" xml:space="preserve">
+    <value>تكرار</value>
+  </data>
+  <data name="Ui.Misc.CopyThemePath" xml:space="preserve">
+    <value>نسخ مسار السمة</value>
+  </data>
+  <data name="Ui.Misc.ShowInFolder" xml:space="preserve">
+    <value>الإظهار في المجلد</value>
+  </data>
+  <data name="Ui.Misc.Undo" xml:space="preserve">
+    <value>تراجع</value>
+  </data>
+  <data name="Ui.Misc.Redo" xml:space="preserve">
+    <value>إعادة</value>
+  </data>
+  <data name="Ui.Misc.FindInFile" xml:space="preserve">
+    <value>البحث في الملف</value>
+  </data>
+  <data name="Ui.Misc.Live" xml:space="preserve">
+    <value>مباشر</value>
+  </data>
+  <data name="Ui.Misc.RebuildWhileYouType" xml:space="preserve">
+    <value>إعادة البناء أثناء الكتابة</value>
+  </data>
+  <data name="Ui.Misc.RebuildNow" xml:space="preserve">
+    <value>إعادة البناء الآن</value>
+  </data>
+  <data name="Ui.Misc.NothingToShowYet" xml:space="preserve">
+    <value>لا شيء لعرضه بعد</value>
+  </data>
+  <data name="Ui.Misc.GoToLine" xml:space="preserve">
+    <value>الانتقال إلى السطر</value>
+  </data>
+  <data name="Ui.Misc.OpenEditor" xml:space="preserve">
+    <value>فتح المحرر</value>
+  </data>
+  <data name="Ui.Misc.EditInAnotherProgramSavingThere" xml:space="preserve">
+    <value>حرّر في برنامج آخر. الحفظ هناك يحدّث هذه النافذة.</value>
+  </data>
+  <data name="Ui.Misc.Launcher" xml:space="preserve">
+    <value>المشغّل</value>
+  </data>
+  <data name="Ui.Misc.CommandPlacedInFrontOfSober" xml:space="preserve">
+    <value>أمر يوضع قبل Sober، مثل prime run على الحواسيب المحمولة ذات بطاقتي رسوميات، أو gamemoderun أو mangohud.</value>
+  </data>
+  <data name="Ui.Misc.None" xml:space="preserve">
+    <value>لا شيء</value>
+  </data>
+  <data name="Ui.Misc.RunRobloxThroughXWayland" xml:space="preserve">
+    <value>تشغيل Roblox عبر XWayland</value>
+  </data>
+  <data name="Ui.Misc.OnlyNeededForCustomRobloxCursors" xml:space="preserve">
+    <value>مطلوب فقط لمؤشرات Roblox المخصصة واسم اللعبة أو أيقونتها على نافذة Roblox ضمن Wayland. أثناء تفعيله، قد يؤدي تدوير الكاميرا بالنقر الأيمن إلى انتقال الفأرة إلى شاشات أخرى.</value>
+  </data>
+  <data name="Ui.Misc.AutoFullscreen" xml:space="preserve">
+    <value>ملء الشاشة تلقائيًا</value>
+  </data>
+  <data name="Ui.Misc.PutsRobloxIntoFullscreenWhenIt" xml:space="preserve">
+    <value>يجعل Roblox بملء الشاشة عند فتحه.</value>
+  </data>
+  <data name="Ui.Misc.Sharpness" xml:space="preserve">
+    <value>الحدة</value>
+  </data>
+  <data name="Ui.Misc.SharpensTheGameToCounterThe" xml:space="preserve">
+    <value>يزيد حدة اللعبة لمقاومة المظهر الضبابي.</value>
+  </data>
+  <data name="Ui.Misc.StudioSession" xml:space="preserve">
+    <value>جلسة Studio</value>
+  </data>
+  <data name="Ui.Misc.ApplyVoidstrapFastFlags" xml:space="preserve">
+    <value>تطبيق FastFlags من Voidstrap</value>
+  </data>
+  <data name="Ui.Misc.WritesTheFastFlagsFromTheEditor" xml:space="preserve">
+    <value>يكتب FastFlags من المحرر في إعدادات Studio الخاصة بـ Vinegar.</value>
+  </data>
+  <data name="Ui.Misc.DiscordRichPresence" xml:space="preserve">
+    <value>Discord Rich Presence</value>
+  </data>
+  <data name="Ui.Misc.LetsVinegarShowYourStudioSession" xml:space="preserve">
+    <value>يسمح لـ Vinegar بعرض جلسة Studio الخاصة بك على Discord.</value>
+  </data>
+  <data name="Ui.Misc.Renderer" xml:space="preserve">
+    <value>العارض</value>
+  </data>
+  <data name="Ui.Misc.TheGraphicsBackendWineUsesFor" xml:space="preserve">
+    <value>الواجهة الرسومية التي يستخدمها Wine لـ Studio. يناسب DXVK معظم الأنظمة.</value>
+  </data>
+  <data name="Ui.Misc.FeralGameMode" xml:space="preserve">
+    <value>Feral GameMode</value>
+  </data>
+  <data name="Ui.Misc.AsksGameModeToTuneTheSystem" xml:space="preserve">
+    <value>يطلب من GameMode ضبط النظام أثناء تشغيل Studio.</value>
+  </data>
+  <data name="Ui.Misc.GraphicsCard" xml:space="preserve">
+    <value>بطاقة الرسوميات</value>
+  </data>
+  <data name="Ui.Misc.WhichGraphicsCardStudioRendersOn" xml:space="preserve">
+    <value>بطاقة الرسوميات التي يعرض عليها Studio.</value>
+  </data>
+  <data name="Ui.Misc.VirtualDesktop" xml:space="preserve">
+    <value>سطح مكتب افتراضي</value>
+  </data>
+  <data name="Ui.Misc.RunsStudioInsideAWineVirtual" xml:space="preserve">
+    <value>يشغّل Studio داخل سطح مكتب افتراضي من Wine بهذا الحجم، مثل 1920x1080.</value>
+  </data>
+  <data name="Ui.Misc.CommandPlacedInFrontOfStudio" xml:space="preserve">
+    <value>أمر يوضع قبل Studio، مثل gamemoderun أو mangohud.</value>
+  </data>
+  <data name="Ui.Misc.RobloxDeploymentChannelVinegarDownloadsStudio" xml:space="preserve">
+    <value>قناة نشر Roblox التي ينزّل منها Vinegar برنامج Studio.</value>
+  </data>
+  <data name="Ui.Misc.ForcedVersion" xml:space="preserve">
+    <value>إصدار مفروض</value>
+  </data>
+  <data name="Ui.Misc.PinsStudioToOneVersionGUID" xml:space="preserve">
+    <value>يثبّت Studio على GUID إصدار واحد بدلًا من الأحدث.</value>
+  </data>
+  <data name="Ui.Misc.Newest" xml:space="preserve">
+    <value>الأحدث</value>
+  </data>
+  <data name="Ui.Misc.WineRoot" xml:space="preserve">
+    <value>جذر Wine</value>
+  </data>
+  <data name="Ui.Misc.PathToTheWineBuildVinegar" xml:space="preserve">
+    <value>مسار إصدار Wine الذي يجب أن يستخدمه Vinegar. اتركه فارغًا للإصدار المرفق.</value>
+  </data>
+  <data name="Ui.Misc.Bundled" xml:space="preserve">
+    <value>المرفق</value>
+  </data>
 </root>

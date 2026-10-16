@@ -5467,4 +5467,220 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
   <data name="Ui.Session.RemoveSavedAccount" xml:space="preserve">
     <value>保存済みアカウントを削除</value>
   </data>
+  <data name="Ui.Misc.ClickToChangeThisColour" xml:space="preserve">
+    <value>クリックしてこの色を変更</value>
+  </data>
+  <data name="Ui.Misc.UseTheDefault" xml:space="preserve">
+    <value>既定を使用</value>
+  </data>
+  <data name="Ui.Misc.YourSavedThemeProfiles" xml:space="preserve">
+    <value>保存済みのテーマプロファイル</value>
+  </data>
+  <data name="Ui.Misc.SaveYourColoursToThisProfile" xml:space="preserve">
+    <value>このプロファイルに色を保存</value>
+  </data>
+  <data name="Ui.Misc.MoreProfileOptions" xml:space="preserve">
+    <value>その他のプロファイルオプション</value>
+  </data>
+  <data name="Ui.Misc.BackgroundGradient" xml:space="preserve">
+    <value>背景グラデーション</value>
+  </data>
+  <data name="Ui.Misc.BlendUpTo8ColoursBehind" xml:space="preserve">
+    <value>アプリ全体の背景に最大 8 色をブレンドします。</value>
+  </data>
+  <data name="Ui.Misc.TurnTheSwitchOnToBuild" xml:space="preserve">
+    <value>スイッチをオンにするとグラデーションを作成できます。</value>
+  </data>
+  <data name="Ui.Misc.CentreX" xml:space="preserve">
+    <value>中心 X</value>
+  </data>
+  <data name="Ui.Misc.CentreY" xml:space="preserve">
+    <value>中心 Y</value>
+  </data>
+  <data name="Ui.Misc.RemoveThisColour" xml:space="preserve">
+    <value>この色を削除</value>
+  </data>
+  <data name="Ui.Misc.AddColour" xml:space="preserve">
+    <value>色を追加</value>
+  </data>
+  <data name="Ui.Misc.Reverse" xml:space="preserve">
+    <value>反転</value>
+  </data>
+  <data name="Ui.Misc.EvenSpacing" xml:space="preserve">
+    <value>均等な間隔</value>
+  </data>
+  <data name="Ui.Misc.UseWindowColours" xml:space="preserve">
+    <value>ウィンドウの色を使用</value>
+  </data>
+  <data name="Ui.Misc.AdvancedColours" xml:space="preserve">
+    <value>詳細な色</value>
+  </data>
+  <data name="Ui.Misc.TextControlsCardsAndBordersFaded" xml:space="preserve">
+    <value>テキスト、コントロール、カード、枠線。薄く表示されたものは通常の外観を使います。</value>
+  </data>
+  <data name="Ui.Misc.ThemeCode" xml:space="preserve">
+    <value>テーマコード</value>
+  </data>
+  <data name="Ui.Misc.ForExpertsValidChangesApplyRight" xml:space="preserve">
+    <value>上級者向け。有効な変更はすぐに反映されます。</value>
+  </data>
+  <data name="Ui.Misc.Format" xml:space="preserve">
+    <value>整形</value>
+  </data>
+  <data name="Ui.Misc.InsertColour" xml:space="preserve">
+    <value>色を挿入</value>
+  </data>
+  <data name="Ui.Misc.Copy" xml:space="preserve">
+    <value>コピー</value>
+  </data>
+  <data name="Ui.Misc.OpenInAnotherEditor" xml:space="preserve">
+    <value>別のエディターで開く</value>
+  </data>
+  <data name="Ui.Misc.SavingThereUpdatesVoidstrapRightAway" xml:space="preserve">
+    <value>そちらで保存すると Voidstrap がすぐに更新されます。</value>
+  </data>
+  <data name="Ui.Misc.SearchOptions" xml:space="preserve">
+    <value>検索オプション</value>
+  </data>
+  <data name="Ui.Misc.CloseSearch" xml:space="preserve">
+    <value>検索を閉じる</value>
+  </data>
+  <data name="Ui.Misc.NewFile" xml:space="preserve">
+    <value>新しいファイル</value>
+  </data>
+  <data name="Ui.Misc.NewFolder" xml:space="preserve">
+    <value>新しいフォルダー</value>
+  </data>
+  <data name="Ui.Misc.Reload" xml:space="preserve">
+    <value>再読み込み</value>
+  </data>
+  <data name="Ui.Misc.Duplicate" xml:space="preserve">
+    <value>複製</value>
+  </data>
+  <data name="Ui.Misc.CopyThemePath" xml:space="preserve">
+    <value>テーマのパスをコピー</value>
+  </data>
+  <data name="Ui.Misc.ShowInFolder" xml:space="preserve">
+    <value>フォルダーに表示</value>
+  </data>
+  <data name="Ui.Misc.Undo" xml:space="preserve">
+    <value>元に戻す</value>
+  </data>
+  <data name="Ui.Misc.Redo" xml:space="preserve">
+    <value>やり直し</value>
+  </data>
+  <data name="Ui.Misc.FindInFile" xml:space="preserve">
+    <value>ファイル内を検索</value>
+  </data>
+  <data name="Ui.Misc.Live" xml:space="preserve">
+    <value>ライブ</value>
+  </data>
+  <data name="Ui.Misc.RebuildWhileYouType" xml:space="preserve">
+    <value>入力中に再構築</value>
+  </data>
+  <data name="Ui.Misc.RebuildNow" xml:space="preserve">
+    <value>今すぐ再構築</value>
+  </data>
+  <data name="Ui.Misc.NothingToShowYet" xml:space="preserve">
+    <value>まだ表示するものがありません</value>
+  </data>
+  <data name="Ui.Misc.GoToLine" xml:space="preserve">
+    <value>行へ移動</value>
+  </data>
+  <data name="Ui.Misc.OpenEditor" xml:space="preserve">
+    <value>エディターを開く</value>
+  </data>
+  <data name="Ui.Misc.EditInAnotherProgramSavingThere" xml:space="preserve">
+    <value>別のプログラムで編集します。そちらで保存するとこのウィンドウが更新されます。</value>
+  </data>
+  <data name="Ui.Misc.Launcher" xml:space="preserve">
+    <value>ランチャー</value>
+  </data>
+  <data name="Ui.Misc.CommandPlacedInFrontOfSober" xml:space="preserve">
+    <value>Sober の前に置くコマンド。例: GPU を 2 基搭載したノート PC の prime run、gamemoderun、mangohud。</value>
+  </data>
+  <data name="Ui.Misc.None" xml:space="preserve">
+    <value>なし</value>
+  </data>
+  <data name="Ui.Misc.RunRobloxThroughXWayland" xml:space="preserve">
+    <value>XWayland 経由で Roblox を実行</value>
+  </data>
+  <data name="Ui.Misc.OnlyNeededForCustomRobloxCursors" xml:space="preserve">
+    <value>Wayland でカスタム Roblox カーソルや Roblox ウィンドウのゲーム名・アイコンを使う場合にのみ必要です。オンの間は、右クリックでカメラを回すとマウスが他のモニターに移ることがあります。</value>
+  </data>
+  <data name="Ui.Misc.AutoFullscreen" xml:space="preserve">
+    <value>自動全画面</value>
+  </data>
+  <data name="Ui.Misc.PutsRobloxIntoFullscreenWhenIt" xml:space="preserve">
+    <value>Roblox を開いたときに全画面にします。</value>
+  </data>
+  <data name="Ui.Misc.Sharpness" xml:space="preserve">
+    <value>シャープネス</value>
+  </data>
+  <data name="Ui.Misc.SharpensTheGameToCounterThe" xml:space="preserve">
+    <value>ぼやけた見た目を抑えるためにゲームをシャープにします。</value>
+  </data>
+  <data name="Ui.Misc.StudioSession" xml:space="preserve">
+    <value>Studio セッション</value>
+  </data>
+  <data name="Ui.Misc.ApplyVoidstrapFastFlags" xml:space="preserve">
+    <value>Voidstrap の FastFlags を適用</value>
+  </data>
+  <data name="Ui.Misc.WritesTheFastFlagsFromTheEditor" xml:space="preserve">
+    <value>エディターの FastFlags を Vinegar の Studio 構成に書き込みます。</value>
+  </data>
+  <data name="Ui.Misc.DiscordRichPresence" xml:space="preserve">
+    <value>Discord Rich Presence</value>
+  </data>
+  <data name="Ui.Misc.LetsVinegarShowYourStudioSession" xml:space="preserve">
+    <value>Vinegar が Discord に Studio セッションを表示できるようにします。</value>
+  </data>
+  <data name="Ui.Misc.Renderer" xml:space="preserve">
+    <value>レンダラー</value>
+  </data>
+  <data name="Ui.Misc.TheGraphicsBackendWineUsesFor" xml:space="preserve">
+    <value>Wine が Studio に使うグラフィックバックエンド。ほとんどのシステムには DXVK が適しています。</value>
+  </data>
+  <data name="Ui.Misc.FeralGameMode" xml:space="preserve">
+    <value>Feral GameMode</value>
+  </data>
+  <data name="Ui.Misc.AsksGameModeToTuneTheSystem" xml:space="preserve">
+    <value>Studio の実行中に GameMode にシステムの調整を依頼します。</value>
+  </data>
+  <data name="Ui.Misc.GraphicsCard" xml:space="preserve">
+    <value>グラフィックカード</value>
+  </data>
+  <data name="Ui.Misc.WhichGraphicsCardStudioRendersOn" xml:space="preserve">
+    <value>Studio が描画に使うグラフィックカード。</value>
+  </data>
+  <data name="Ui.Misc.VirtualDesktop" xml:space="preserve">
+    <value>仮想デスクトップ</value>
+  </data>
+  <data name="Ui.Misc.RunsStudioInsideAWineVirtual" xml:space="preserve">
+    <value>このサイズの Wine 仮想デスクトップ内で Studio を実行します。例: 1920x1080。</value>
+  </data>
+  <data name="Ui.Misc.CommandPlacedInFrontOfStudio" xml:space="preserve">
+    <value>Studio の前に置くコマンド。例: gamemoderun、mangohud。</value>
+  </data>
+  <data name="Ui.Misc.RobloxDeploymentChannelVinegarDownloadsStudio" xml:space="preserve">
+    <value>Vinegar が Studio をダウンロードする Roblox のデプロイチャンネル。</value>
+  </data>
+  <data name="Ui.Misc.ForcedVersion" xml:space="preserve">
+    <value>固定バージョン</value>
+  </data>
+  <data name="Ui.Misc.PinsStudioToOneVersionGUID" xml:space="preserve">
+    <value>最新ではなく特定のバージョン GUID に Studio を固定します。</value>
+  </data>
+  <data name="Ui.Misc.Newest" xml:space="preserve">
+    <value>最新</value>
+  </data>
+  <data name="Ui.Misc.WineRoot" xml:space="preserve">
+    <value>Wine ルート</value>
+  </data>
+  <data name="Ui.Misc.PathToTheWineBuildVinegar" xml:space="preserve">
+    <value>Vinegar が使用する Wine ビルドのパス。同梱版を使う場合は空欄にします。</value>
+  </data>
+  <data name="Ui.Misc.Bundled" xml:space="preserve">
+    <value>同梱</value>
+  </data>
 </root>

@@ -22,8 +22,8 @@
               <controls:OptionControl x:Name="CloseOnLeaveOption" Header="{resources:Loc Menu_Sober_CloseOnLeave_Title}" Description="{resources:Loc Menu_Sober_CloseOnLeave_Description}">
                 <ComboBox Width="230" ItemsSource="{Binding BooleanChoices}" DisplayMemberPath="Display" SelectedItem="{Binding CloseOnLeaveChoice, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl x:Name="SoberLauncherOption" Header="Launcher" Description="Command placed in front of Sober, for example prime-run on laptops with two graphics cards, gamemoderun or mangohud.">
-                <ui:TextBox Width="230" Text="{Binding Launcher, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" PlaceholderText="None" />
+              <controls:OptionControl x:Name="SoberLauncherOption" Header="{resources:Loc Ui_Misc_Launcher}" Description="{resources:Loc Ui_Misc_CommandPlacedInFrontOfSober}">
+                <ui:TextBox Width="230" Text="{Binding Launcher, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" PlaceholderText="{resources:Loc Ui_Misc_None}" />
               </controls:OptionControl>
             </StackPanel>
           </Expander>
@@ -42,7 +42,7 @@
               <controls:OptionControl x:Name="ConsoleExperienceOption" Header="{resources:Loc Menu_Sober_ConsoleExperience_Title}" Description="{resources:Loc Menu_Sober_ConsoleExperience_Description}">
                 <ComboBox Width="230" ItemsSource="{Binding BooleanChoices}" DisplayMemberPath="Display" SelectedItem="{Binding UseConsoleExperienceChoice, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl x:Name="PreferXWaylandOption" Header="Run Roblox through XWayland" Description="Only needed for custom Roblox cursors and the game name or icon on the Roblox window under Wayland. While it is on, turning the camera with right click can let the mouse drift onto other monitors.">
+              <controls:OptionControl x:Name="PreferXWaylandOption" Header="{resources:Loc Ui_Misc_RunRobloxThroughXWayland}" Description="{resources:Loc Ui_Misc_OnlyNeededForCustomRobloxCursors}">
                 <ui:ToggleSwitch IsChecked="{Binding PreferXWayland, Mode=TwoWay}" />
               </controls:OptionControl>
             </StackPanel>
@@ -56,10 +56,10 @@
               <controls:OptionControl x:Name="HiDpiOption" Header="{resources:Loc Menu_Sober_HiDpi_Title}" Description="{resources:Loc Menu_Sober_HiDpi_Description}">
                 <ComboBox Width="230" ItemsSource="{Binding BooleanChoices}" DisplayMemberPath="Display" SelectedItem="{Binding EnableHiDpiChoice, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl x:Name="AutoFullscreenOption" Header="Auto fullscreen" Description="Puts Roblox into fullscreen when it opens.">
+              <controls:OptionControl x:Name="AutoFullscreenOption" Header="{resources:Loc Ui_Misc_AutoFullscreen}" Description="{resources:Loc Ui_Misc_PutsRobloxIntoFullscreenWhenIt}">
                 <ui:ToggleSwitch IsChecked="{Binding AutoFullscreen, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl x:Name="SharpnessOption" Header="Sharpness" Description="Sharpens the game to counter the blurry look.">
+              <controls:OptionControl x:Name="SharpnessOption" Header="{resources:Loc Ui_Misc_Sharpness}" Description="{resources:Loc Ui_Misc_SharpensTheGameToCounterThe}">
                 <ComboBox Width="230" ItemsSource="{Binding SharpnessChoices}" DisplayMemberPath="Display" SelectedItem="{Binding SharpnessChoice, Mode=TwoWay}" />
               </controls:OptionControl>
               <controls:OptionControl x:Name="GraphicsModeOption" Header="{resources:Loc Menu_Sober_GraphicsMode_Title}" Description="{resources:Loc Menu_Sober_GraphicsMode_Description}">
@@ -88,47 +88,47 @@
             <ui:Button Content="{Binding ActionLabel, Mode=OneWay}" Appearance="{Binding ActionAppearance, Mode=OneWay}" Command="{Binding RunActionCommand}" />
           </controls:OptionControl>
 
-          <Expander Header="Studio session" IsExpanded="True">
+          <Expander Header="{resources:Loc Ui_Misc_StudioSession}" IsExpanded="True">
             <StackPanel Margin="0,6,0,8">
-              <controls:OptionControl x:Name="VinegarFastFlagsOption" Header="Apply Voidstrap FastFlags" Description="Writes the FastFlags from the editor into the Vinegar Studio configuration.">
+              <controls:OptionControl x:Name="VinegarFastFlagsOption" Header="{resources:Loc Ui_Misc_ApplyVoidstrapFastFlags}" Description="{resources:Loc Ui_Misc_WritesTheFastFlagsFromTheEditor}">
                 <ui:ToggleSwitch IsChecked="{Binding ApplyFastFlags, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl x:Name="VinegarDiscordRpcOption" Header="Discord rich presence" Description="Lets Vinegar show your Studio session on Discord.">
+              <controls:OptionControl x:Name="VinegarDiscordRpcOption" Header="{resources:Loc Ui_Misc_DiscordRichPresence}" Description="{resources:Loc Ui_Misc_LetsVinegarShowYourStudioSession}">
                 <ComboBox Width="230" ItemsSource="{Binding BooleanChoices}" DisplayMemberPath="Display" SelectedItem="{Binding DiscordRpcChoice, Mode=TwoWay}" />
               </controls:OptionControl>
             </StackPanel>
           </Expander>
 
-          <Expander Margin="0,6,0,0" Header="Graphics" IsExpanded="True">
+          <Expander Margin="0,6,0,0" Header="{resources:Loc Ui_Gbs_Graphics}" IsExpanded="True">
             <StackPanel Margin="0,6,0,8">
-              <controls:OptionControl x:Name="VinegarRendererOption" Header="Renderer" Description="The graphics backend Wine uses for Studio. DXVK suits most systems.">
+              <controls:OptionControl x:Name="VinegarRendererOption" Header="{resources:Loc Ui_Misc_Renderer}" Description="{resources:Loc Ui_Misc_TheGraphicsBackendWineUsesFor}">
                 <ComboBox Width="230" ItemsSource="{Binding RendererChoices}" DisplayMemberPath="Display" SelectedItem="{Binding RendererChoice, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl x:Name="VinegarGameModeOption" Header="Feral GameMode" Description="Asks GameMode to tune the system while Studio runs.">
+              <controls:OptionControl x:Name="VinegarGameModeOption" Header="{resources:Loc Ui_Misc_FeralGameMode}" Description="{resources:Loc Ui_Misc_AsksGameModeToTuneTheSystem}">
                 <ComboBox Width="230" ItemsSource="{Binding BooleanChoices}" DisplayMemberPath="Display" SelectedItem="{Binding EnableGameModeChoice, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl x:Name="VinegarGpuOption" Header="Graphics card" Description="Which graphics card Studio renders on.">
+              <controls:OptionControl x:Name="VinegarGpuOption" Header="{resources:Loc Ui_Misc_GraphicsCard}" Description="{resources:Loc Ui_Misc_WhichGraphicsCardStudioRendersOn}">
                 <ComboBox Width="230" ItemsSource="{Binding GpuChoices, Mode=OneWay}" DisplayMemberPath="Display" SelectedItem="{Binding GpuChoice, Mode=TwoWay}" />
               </controls:OptionControl>
-              <controls:OptionControl x:Name="VinegarVirtualDesktopOption" Header="Virtual desktop" Description="Runs Studio inside a Wine virtual desktop of this size, for example 1920x1080.">
+              <controls:OptionControl x:Name="VinegarVirtualDesktopOption" Header="{resources:Loc Ui_Misc_VirtualDesktop}" Description="{resources:Loc Ui_Misc_RunsStudioInsideAWineVirtual}">
                 <ui:TextBox Width="230" Text="{Binding VirtualDesktop, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" PlaceholderText="{resources:Loc Menu_Sober_TouchMode_Off}" />
               </controls:OptionControl>
             </StackPanel>
           </Expander>
 
-          <Expander Margin="0,6,0,0" Header="Advanced" IsExpanded="False">
+          <Expander Margin="0,6,0,0" Header="{resources:Loc Ui_Bootstrapper_Advanced}" IsExpanded="False">
             <StackPanel Margin="0,6,0,8">
-              <controls:OptionControl x:Name="VinegarLauncherOption" Header="Launcher" Description="Command placed in front of Studio, for example gamemoderun or mangohud.">
-                <ui:TextBox Width="230" Text="{Binding Launcher, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" PlaceholderText="None" />
+              <controls:OptionControl x:Name="VinegarLauncherOption" Header="{resources:Loc Ui_Misc_Launcher}" Description="{resources:Loc Ui_Misc_CommandPlacedInFrontOfStudio}">
+                <ui:TextBox Width="230" Text="{Binding Launcher, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" PlaceholderText="{resources:Loc Ui_Misc_None}" />
               </controls:OptionControl>
-              <controls:OptionControl x:Name="VinegarChannelOption" Header="Deployment channel" Description="Roblox deployment channel Vinegar downloads Studio from.">
+              <controls:OptionControl x:Name="VinegarChannelOption" Header="{resources:Loc Ui_Channel_DeploymentChannel}" Description="{resources:Loc Ui_Misc_RobloxDeploymentChannelVinegarDownloadsStudio}">
                 <ui:TextBox Width="230" Text="{Binding Channel, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" PlaceholderText="{resources:Loc Common_Default}" />
               </controls:OptionControl>
-              <controls:OptionControl x:Name="VinegarForcedVersionOption" Header="Forced version" Description="Pins Studio to one version GUID instead of the newest one.">
-                <ui:TextBox Width="230" Text="{Binding ForcedVersion, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" PlaceholderText="Newest" />
+              <controls:OptionControl x:Name="VinegarForcedVersionOption" Header="{resources:Loc Ui_Misc_ForcedVersion}" Description="{resources:Loc Ui_Misc_PinsStudioToOneVersionGUID}">
+                <ui:TextBox Width="230" Text="{Binding ForcedVersion, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" PlaceholderText="{resources:Loc Ui_Misc_Newest}" />
               </controls:OptionControl>
-              <controls:OptionControl x:Name="VinegarWineRootOption" Header="Wine root" Description="Path to the Wine build Vinegar should use. Leave empty for the bundled one.">
-                <ui:TextBox Width="230" Text="{Binding WineRoot, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" PlaceholderText="Bundled" />
+              <controls:OptionControl x:Name="VinegarWineRootOption" Header="{resources:Loc Ui_Misc_WineRoot}" Description="{resources:Loc Ui_Misc_PathToTheWineBuildVinegar}">
+                <ui:TextBox Width="230" Text="{Binding WineRoot, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" PlaceholderText="{resources:Loc Ui_Misc_Bundled}" />
               </controls:OptionControl>
             </StackPanel>
           </Expander>

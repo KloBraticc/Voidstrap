@@ -175,7 +175,7 @@
                     </Binding>
                   </TextBox.Text>
                 </TextBox>
-                <avalonedit:DropDownButton Style="{StaticResource EditorSearchDropDown}" ToolTip="Search options">
+                <avalonedit:DropDownButton Style="{StaticResource EditorSearchDropDown}" ToolTip="{resources:Loc Ui_Misc_SearchOptions}">
                   <avalonedit:DropDownButton.DropDownContent>
                     <Popup x:Name="PART_dropdownPopup" StaysOpen="False" AllowsTransparency="True">
                       <Border Margin="0,5,0,0" Padding="5" MinWidth="190" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="7">
@@ -194,7 +194,7 @@
                 <Button Style="{StaticResource EditorSearchButton}" Command="avalonedit:SearchCommands.FindNext" ToolTip="{Binding Localization.FindNextText, RelativeSource={RelativeSource TemplatedParent}}">
                   <Path Width="8" Height="12" Data="M 1,1 L 6,6 L 1,11" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.6" StrokeStartLineCap="Round" StrokeEndLineCap="Round" />
                 </Button>
-                <Button Style="{StaticResource EditorSearchButton}" Command="avalonedit:SearchCommands.CloseSearchPanel" ToolTip="Close search" Focusable="False">
+                <Button Style="{StaticResource EditorSearchButton}" Command="avalonedit:SearchCommands.CloseSearchPanel" ToolTip="{resources:Loc Ui_Misc_CloseSearch}" Focusable="False">
                   <Path Width="10" Height="10" Data="M 1,1 L 9,9 M 9,1 L 1,9" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" StrokeThickness="1.5" StrokeStartLineCap="Round" StrokeEndLineCap="Round" />
                 </Button>
               </StackPanel>
@@ -246,10 +246,10 @@
 
           <Grid Grid.Row="0" Margin="14,12,10,10">
                         <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-              <ui:Button Style="{StaticResource ToolButton}" Margin="0" Icon="DocumentAdd24" ToolTip="New file" Click="NewFile_Click" />
+              <ui:Button Style="{StaticResource ToolButton}" Margin="0" Icon="DocumentAdd24" ToolTip="{resources:Loc Ui_Misc_NewFile}" Click="NewFile_Click" />
               <ui:Button Style="{StaticResource ToolButton}" Icon="ArrowImport24" ToolTip="{resources:Loc Common_Import}" Click="ImportFile_Click" />
-              <ui:Button Style="{StaticResource ToolButton}" Icon="FolderAdd24" ToolTip="New folder" Click="NewFolder_Click" />
-              <ui:Button Style="{StaticResource ToolButton}" Icon="ArrowClockwise24" ToolTip="Reload" Click="RefreshFiles_Click" />
+              <ui:Button Style="{StaticResource ToolButton}" Icon="FolderAdd24" ToolTip="{resources:Loc Ui_Misc_NewFolder}" Click="NewFolder_Click" />
+              <ui:Button Style="{StaticResource ToolButton}" Icon="ArrowClockwise24" ToolTip="{resources:Loc Ui_Misc_Reload}" Click="RefreshFiles_Click" />
             </StackPanel>
           </Grid>
 
@@ -271,11 +271,11 @@
             <ListBox.ContextMenu>
               <ContextMenu>
                 <MenuItem Header="{resources:Loc Common_Rename}" Click="RenameFile_Click" />
-                <MenuItem Header="Replace" Click="ReplaceFile_Click" />
-                <MenuItem Header="Duplicate" Click="DuplicateFile_Click" />
+                <MenuItem Header="{resources:Loc Ui_Mods_Replace}" Click="ReplaceFile_Click" />
+                <MenuItem Header="{resources:Loc Ui_Misc_Duplicate}" Click="DuplicateFile_Click" />
                 <Separator />
-                <MenuItem Header="Copy theme path" Click="CopyThemePath_Click" />
-                <MenuItem Header="Show in folder" Click="ShowInFolder_Click" />
+                <MenuItem Header="{resources:Loc Ui_Misc_CopyThemePath}" Click="CopyThemePath_Click" />
+                <MenuItem Header="{resources:Loc Ui_Misc_ShowInFolder}" Click="ShowInFolder_Click" />
                 <Separator />
                 <MenuItem Header="{resources:Loc Common_Delete}" Click="DeleteFile_Click" />
               </ContextMenu>
@@ -303,9 +303,9 @@
               <TextBlock Name="EditorDirtyLabel" Margin="8,0,0,0" VerticalAlignment="Center" FontSize="11" Foreground="{DynamicResource SystemFillColorCautionBrush}" Text="" />
             </StackPanel>
             <StackPanel Grid.Column="1" Orientation="Horizontal">
-              <ui:Button Style="{StaticResource ToolButton}" Margin="0" Icon="ArrowUndo24" ToolTip="Undo" Click="UndoEditor_Click" />
-              <ui:Button Style="{StaticResource ToolButton}" Icon="ArrowRedo24" ToolTip="Redo" Click="RedoEditor_Click" />
-              <ui:Button Style="{StaticResource ToolButton}" Icon="Search24" ToolTip="Find in file" Click="FindEditor_Click" />
+              <ui:Button Style="{StaticResource ToolButton}" Margin="0" Icon="ArrowUndo24" ToolTip="{resources:Loc Ui_Misc_Undo}" Click="UndoEditor_Click" />
+              <ui:Button Style="{StaticResource ToolButton}" Icon="ArrowRedo24" ToolTip="{resources:Loc Ui_Misc_Redo}" Click="RedoEditor_Click" />
+              <ui:Button Style="{StaticResource ToolButton}" Icon="Search24" ToolTip="{resources:Loc Ui_Misc_FindInFile}" Click="FindEditor_Click" />
             </StackPanel>
           </Grid>
 
@@ -324,9 +324,9 @@
                   <TextBlock Margin="16,0,0,0" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="XML" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                  <ui:Button Style="{StaticResource ToolButton}" Margin="0" Padding="5,1" Icon="Subtract24" ToolTip="Zoom out" Click="ZoomOutEditor_Click" />
+                  <ui:Button Style="{StaticResource ToolButton}" Margin="0" Padding="5,1" Icon="Subtract24" ToolTip="{resources:Loc Ui_Main_ZoomOut}" Click="ZoomOutEditor_Click" />
                   <TextBlock Name="EditorZoomLabel" Width="42" VerticalAlignment="Center" TextAlignment="Center" FontSize="11" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="100%" />
-                  <ui:Button Style="{StaticResource ToolButton}" Margin="0" Padding="5,1" Icon="Add24" ToolTip="Zoom in" Click="ZoomInEditor_Click" />
+                  <ui:Button Style="{StaticResource ToolButton}" Margin="0" Padding="5,1" Icon="Add24" ToolTip="{resources:Loc Ui_Main_ZoomIn}" Click="ZoomInEditor_Click" />
                 </StackPanel>
               </Grid>
             </Border>
@@ -343,7 +343,7 @@
                 </Border>
                 <TextBlock Name="MediaInfo" Grid.Row="1" Margin="0,16,0,0" HorizontalAlignment="Center" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" TextAlignment="Center" TextWrapping="Wrap" />
                 <StackPanel Grid.Row="2" Margin="0,16,0,0" Orientation="Horizontal" HorizontalAlignment="Center">
-                  <ui:Button Appearance="Primary" Icon="ArrowSwap24" Content="Replace" Click="ReplaceFile_Click" />
+                  <ui:Button Appearance="Primary" Icon="ArrowSwap24" Content="{resources:Loc Ui_Mods_Replace}" Click="ReplaceFile_Click" />
                   <ui:Button Margin="8,0,0,0" Appearance="Secondary" Icon="Rename24" Content="{resources:Loc Common_Rename}" Click="RenameFile_Click" />
                   <ui:Button Margin="8,0,0,0" Appearance="Secondary" Icon="Delete24" Content="{resources:Loc Common_Delete}" Click="DeleteFile_Click" />
                 </StackPanel>
@@ -365,8 +365,8 @@
 
           <Grid Grid.Row="0" Margin="14,12,10,10">
                         <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
-              <CheckBox Name="LiveToggle" Margin="0" Padding="8,0,0,0" MinWidth="0" VerticalAlignment="Center" FontSize="12" IsChecked="True" Content="Live" ToolTip="Rebuild while you type" />
-              <ui:Button Style="{StaticResource ToolButton}" Margin="6,0,0,0" Icon="ArrowClockwise24" ToolTip="Rebuild now" Click="RefreshPreview_Click" />
+              <CheckBox Name="LiveToggle" Margin="0" Padding="8,0,0,0" MinWidth="0" VerticalAlignment="Center" FontSize="12" IsChecked="True" Content="{resources:Loc Ui_Misc_Live}" ToolTip="{resources:Loc Ui_Misc_RebuildWhileYouType}" />
+              <ui:Button Style="{StaticResource ToolButton}" Margin="6,0,0,0" Icon="ArrowClockwise24" ToolTip="{resources:Loc Ui_Misc_RebuildNow}" Click="RefreshPreview_Click" />
             </StackPanel>
           </Grid>
 
@@ -375,7 +375,7 @@
               <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
                 <Border Name="PreviewHost" Margin="14" HorizontalAlignment="Center" VerticalAlignment="Center" />
               </ScrollViewer>
-              <TextBlock Name="PreviewPlaceholder" Margin="24" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextAlignment="Center" TextWrapping="Wrap" Text="Nothing to show yet??" />
+              <TextBlock Name="PreviewPlaceholder" Margin="24" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextAlignment="Center" TextWrapping="Wrap" Text="{resources:Loc Ui_Misc_NothingToShowYet}" />
             </Grid>
           </Border>
 
@@ -387,7 +387,7 @@
               </StackPanel>
               <TextBlock Name="PreviewStatusDetail" Margin="25,5,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" TextWrapping="Wrap" Visibility="Collapsed" />
               <TextBlock Name="PreviewStatusHint" Margin="25,6,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" Visibility="Collapsed" />
-              <ui:Button Name="PreviewGoTo" Margin="25,10,0,0" Padding="10,4" Appearance="Secondary" FontSize="12" Content="Go to line" Visibility="Collapsed" Click="PreviewGoTo_Click" />
+              <ui:Button Name="PreviewGoTo" Margin="25,10,0,0" Padding="10,4" Appearance="Secondary" FontSize="12" Content="{resources:Loc Ui_Misc_GoToLine}" Visibility="Collapsed" Click="PreviewGoTo_Click" />
             </StackPanel>
           </Border>
         </Grid>
@@ -397,7 +397,7 @@
     <Grid Grid.Row="2" Margin="14,10,14,12">
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
         <ui:Button Appearance="Secondary" Icon="FolderOpen24" Content="{resources:Loc CustomTheme_Editor_OpenThemeDirectory}" Command="{Binding Path=OpenThemeFolderCommand, Mode=OneTime}" />
-        <ui:Button Name="ExternalButton" Margin="8,0,0,0" Appearance="Secondary" Icon="Open24" Content="Open Editor" ToolTip="Edit in another program. Saving there updates this window." Click="OpenExternal_Click" />
+        <ui:Button Name="ExternalButton" Margin="8,0,0,0" Appearance="Secondary" Icon="Open24" Content="{resources:Loc Ui_Misc_OpenEditor}" ToolTip="{resources:Loc Ui_Misc_EditInAnotherProgramSavingThere}" Click="OpenExternal_Click" />
       </StackPanel>
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
         <ui:Button MinWidth="92" Appearance="Secondary" Content="{resources:Loc CustomTheme_Editor_Preview}" Command="{Binding Path=PreviewCommand, Mode=OneTime}" />

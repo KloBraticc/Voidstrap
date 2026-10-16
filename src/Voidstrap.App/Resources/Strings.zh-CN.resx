@@ -5465,4 +5465,220 @@ Voidstrap 的安装路径是：
   <data name="Ui.Session.RemoveSavedAccount" xml:space="preserve">
     <value>移除已保存的账户</value>
   </data>
+  <data name="Ui.Misc.ClickToChangeThisColour" xml:space="preserve">
+    <value>点击更改此颜色</value>
+  </data>
+  <data name="Ui.Misc.UseTheDefault" xml:space="preserve">
+    <value>使用默认值</value>
+  </data>
+  <data name="Ui.Misc.YourSavedThemeProfiles" xml:space="preserve">
+    <value>您保存的主题配置</value>
+  </data>
+  <data name="Ui.Misc.SaveYourColoursToThisProfile" xml:space="preserve">
+    <value>将颜色保存到此配置</value>
+  </data>
+  <data name="Ui.Misc.MoreProfileOptions" xml:space="preserve">
+    <value>更多配置选项</value>
+  </data>
+  <data name="Ui.Misc.BackgroundGradient" xml:space="preserve">
+    <value>背景渐变</value>
+  </data>
+  <data name="Ui.Misc.BlendUpTo8ColoursBehind" xml:space="preserve">
+    <value>在整个应用背后混合最多 8 种颜色。</value>
+  </data>
+  <data name="Ui.Misc.TurnTheSwitchOnToBuild" xml:space="preserve">
+    <value>打开开关即可创建渐变。</value>
+  </data>
+  <data name="Ui.Misc.CentreX" xml:space="preserve">
+    <value>中心 X</value>
+  </data>
+  <data name="Ui.Misc.CentreY" xml:space="preserve">
+    <value>中心 Y</value>
+  </data>
+  <data name="Ui.Misc.RemoveThisColour" xml:space="preserve">
+    <value>移除此颜色</value>
+  </data>
+  <data name="Ui.Misc.AddColour" xml:space="preserve">
+    <value>添加颜色</value>
+  </data>
+  <data name="Ui.Misc.Reverse" xml:space="preserve">
+    <value>反转</value>
+  </data>
+  <data name="Ui.Misc.EvenSpacing" xml:space="preserve">
+    <value>均匀间距</value>
+  </data>
+  <data name="Ui.Misc.UseWindowColours" xml:space="preserve">
+    <value>使用窗口颜色</value>
+  </data>
+  <data name="Ui.Misc.AdvancedColours" xml:space="preserve">
+    <value>高级颜色</value>
+  </data>
+  <data name="Ui.Misc.TextControlsCardsAndBordersFaded" xml:space="preserve">
+    <value>文字、控件、卡片和边框。变淡的项目使用常规外观。</value>
+  </data>
+  <data name="Ui.Misc.ThemeCode" xml:space="preserve">
+    <value>主题代码</value>
+  </data>
+  <data name="Ui.Misc.ForExpertsValidChangesApplyRight" xml:space="preserve">
+    <value>适合高级用户。有效的更改会立即生效。</value>
+  </data>
+  <data name="Ui.Misc.Format" xml:space="preserve">
+    <value>格式化</value>
+  </data>
+  <data name="Ui.Misc.InsertColour" xml:space="preserve">
+    <value>插入颜色</value>
+  </data>
+  <data name="Ui.Misc.Copy" xml:space="preserve">
+    <value>复制</value>
+  </data>
+  <data name="Ui.Misc.OpenInAnotherEditor" xml:space="preserve">
+    <value>在其他编辑器中打开</value>
+  </data>
+  <data name="Ui.Misc.SavingThereUpdatesVoidstrapRightAway" xml:space="preserve">
+    <value>在那里保存会立即更新 Voidstrap。</value>
+  </data>
+  <data name="Ui.Misc.SearchOptions" xml:space="preserve">
+    <value>搜索选项</value>
+  </data>
+  <data name="Ui.Misc.CloseSearch" xml:space="preserve">
+    <value>关闭搜索</value>
+  </data>
+  <data name="Ui.Misc.NewFile" xml:space="preserve">
+    <value>新建文件</value>
+  </data>
+  <data name="Ui.Misc.NewFolder" xml:space="preserve">
+    <value>新建文件夹</value>
+  </data>
+  <data name="Ui.Misc.Reload" xml:space="preserve">
+    <value>重新加载</value>
+  </data>
+  <data name="Ui.Misc.Duplicate" xml:space="preserve">
+    <value>复制一份</value>
+  </data>
+  <data name="Ui.Misc.CopyThemePath" xml:space="preserve">
+    <value>复制主题路径</value>
+  </data>
+  <data name="Ui.Misc.ShowInFolder" xml:space="preserve">
+    <value>在文件夹中显示</value>
+  </data>
+  <data name="Ui.Misc.Undo" xml:space="preserve">
+    <value>撤销</value>
+  </data>
+  <data name="Ui.Misc.Redo" xml:space="preserve">
+    <value>重做</value>
+  </data>
+  <data name="Ui.Misc.FindInFile" xml:space="preserve">
+    <value>在文件中查找</value>
+  </data>
+  <data name="Ui.Misc.Live" xml:space="preserve">
+    <value>实时</value>
+  </data>
+  <data name="Ui.Misc.RebuildWhileYouType" xml:space="preserve">
+    <value>输入时重新构建</value>
+  </data>
+  <data name="Ui.Misc.RebuildNow" xml:space="preserve">
+    <value>立即重新构建</value>
+  </data>
+  <data name="Ui.Misc.NothingToShowYet" xml:space="preserve">
+    <value>暂无可显示的内容</value>
+  </data>
+  <data name="Ui.Misc.GoToLine" xml:space="preserve">
+    <value>转到行</value>
+  </data>
+  <data name="Ui.Misc.OpenEditor" xml:space="preserve">
+    <value>打开编辑器</value>
+  </data>
+  <data name="Ui.Misc.EditInAnotherProgramSavingThere" xml:space="preserve">
+    <value>在其他程序中编辑。在那里保存会更新此窗口。</value>
+  </data>
+  <data name="Ui.Misc.Launcher" xml:space="preserve">
+    <value>启动器</value>
+  </data>
+  <data name="Ui.Misc.CommandPlacedInFrontOfSober" xml:space="preserve">
+    <value>放在 Sober 前面的命令，例如双显卡笔记本上的 prime run、gamemoderun 或 mangohud。</value>
+  </data>
+  <data name="Ui.Misc.None" xml:space="preserve">
+    <value>无</value>
+  </data>
+  <data name="Ui.Misc.RunRobloxThroughXWayland" xml:space="preserve">
+    <value>通过 XWayland 运行 Roblox</value>
+  </data>
+  <data name="Ui.Misc.OnlyNeededForCustomRobloxCursors" xml:space="preserve">
+    <value>仅在 Wayland 下使用自定义 Roblox 光标以及在 Roblox 窗口显示游戏名称或图标时需要。开启时，用右键转动镜头可能会让鼠标移到其他显示器上。</value>
+  </data>
+  <data name="Ui.Misc.AutoFullscreen" xml:space="preserve">
+    <value>自动全屏</value>
+  </data>
+  <data name="Ui.Misc.PutsRobloxIntoFullscreenWhenIt" xml:space="preserve">
+    <value>打开 Roblox 时自动全屏。</value>
+  </data>
+  <data name="Ui.Misc.Sharpness" xml:space="preserve">
+    <value>锐度</value>
+  </data>
+  <data name="Ui.Misc.SharpensTheGameToCounterThe" xml:space="preserve">
+    <value>锐化游戏画面以减轻模糊感。</value>
+  </data>
+  <data name="Ui.Misc.StudioSession" xml:space="preserve">
+    <value>Studio 会话</value>
+  </data>
+  <data name="Ui.Misc.ApplyVoidstrapFastFlags" xml:space="preserve">
+    <value>应用 Voidstrap FastFlags</value>
+  </data>
+  <data name="Ui.Misc.WritesTheFastFlagsFromTheEditor" xml:space="preserve">
+    <value>将编辑器中的 FastFlags 写入 Vinegar 的 Studio 配置。</value>
+  </data>
+  <data name="Ui.Misc.DiscordRichPresence" xml:space="preserve">
+    <value>Discord Rich Presence</value>
+  </data>
+  <data name="Ui.Misc.LetsVinegarShowYourStudioSession" xml:space="preserve">
+    <value>让 Vinegar 在 Discord 上显示您的 Studio 会话。</value>
+  </data>
+  <data name="Ui.Misc.Renderer" xml:space="preserve">
+    <value>渲染器</value>
+  </data>
+  <data name="Ui.Misc.TheGraphicsBackendWineUsesFor" xml:space="preserve">
+    <value>Wine 为 Studio 使用的图形后端。DXVK 适合大多数系统。</value>
+  </data>
+  <data name="Ui.Misc.FeralGameMode" xml:space="preserve">
+    <value>Feral GameMode</value>
+  </data>
+  <data name="Ui.Misc.AsksGameModeToTuneTheSystem" xml:space="preserve">
+    <value>在 Studio 运行时请求 GameMode 调整系统。</value>
+  </data>
+  <data name="Ui.Misc.GraphicsCard" xml:space="preserve">
+    <value>显卡</value>
+  </data>
+  <data name="Ui.Misc.WhichGraphicsCardStudioRendersOn" xml:space="preserve">
+    <value>Studio 使用哪块显卡进行渲染。</value>
+  </data>
+  <data name="Ui.Misc.VirtualDesktop" xml:space="preserve">
+    <value>虚拟桌面</value>
+  </data>
+  <data name="Ui.Misc.RunsStudioInsideAWineVirtual" xml:space="preserve">
+    <value>在此尺寸的 Wine 虚拟桌面中运行 Studio，例如 1920x1080。</value>
+  </data>
+  <data name="Ui.Misc.CommandPlacedInFrontOfStudio" xml:space="preserve">
+    <value>放在 Studio 前面的命令，例如 gamemoderun 或 mangohud。</value>
+  </data>
+  <data name="Ui.Misc.RobloxDeploymentChannelVinegarDownloadsStudio" xml:space="preserve">
+    <value>Vinegar 下载 Studio 所用的 Roblox 部署频道。</value>
+  </data>
+  <data name="Ui.Misc.ForcedVersion" xml:space="preserve">
+    <value>强制版本</value>
+  </data>
+  <data name="Ui.Misc.PinsStudioToOneVersionGUID" xml:space="preserve">
+    <value>将 Studio 固定到某个版本 GUID，而不是最新版本。</value>
+  </data>
+  <data name="Ui.Misc.Newest" xml:space="preserve">
+    <value>最新</value>
+  </data>
+  <data name="Ui.Misc.WineRoot" xml:space="preserve">
+    <value>Wine 根目录</value>
+  </data>
+  <data name="Ui.Misc.PathToTheWineBuildVinegar" xml:space="preserve">
+    <value>Vinegar 应使用的 Wine 构建路径。留空则使用内置版本。</value>
+  </data>
+  <data name="Ui.Misc.Bundled" xml:space="preserve">
+    <value>内置</value>
+  </data>
 </root>

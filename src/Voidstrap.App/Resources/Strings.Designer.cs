@@ -1671,6 +1671,150 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Session_RemoveSavedAccount => ResourceManager.GetString("Ui.Session.RemoveSavedAccount", resourceCulture);
 
+        public static string Ui_Misc_ClickToChangeThisColour => ResourceManager.GetString("Ui.Misc.ClickToChangeThisColour", resourceCulture);
+
+        public static string Ui_Misc_UseTheDefault => ResourceManager.GetString("Ui.Misc.UseTheDefault", resourceCulture);
+
+        public static string Ui_Misc_YourSavedThemeProfiles => ResourceManager.GetString("Ui.Misc.YourSavedThemeProfiles", resourceCulture);
+
+        public static string Ui_Misc_SaveYourColoursToThisProfile => ResourceManager.GetString("Ui.Misc.SaveYourColoursToThisProfile", resourceCulture);
+
+        public static string Ui_Misc_MoreProfileOptions => ResourceManager.GetString("Ui.Misc.MoreProfileOptions", resourceCulture);
+
+        public static string Ui_Misc_BackgroundGradient => ResourceManager.GetString("Ui.Misc.BackgroundGradient", resourceCulture);
+
+        public static string Ui_Misc_BlendUpTo8ColoursBehind => ResourceManager.GetString("Ui.Misc.BlendUpTo8ColoursBehind", resourceCulture);
+
+        public static string Ui_Misc_TurnTheSwitchOnToBuild => ResourceManager.GetString("Ui.Misc.TurnTheSwitchOnToBuild", resourceCulture);
+
+        public static string Ui_Misc_CentreX => ResourceManager.GetString("Ui.Misc.CentreX", resourceCulture);
+
+        public static string Ui_Misc_CentreY => ResourceManager.GetString("Ui.Misc.CentreY", resourceCulture);
+
+        public static string Ui_Misc_RemoveThisColour => ResourceManager.GetString("Ui.Misc.RemoveThisColour", resourceCulture);
+
+        public static string Ui_Misc_AddColour => ResourceManager.GetString("Ui.Misc.AddColour", resourceCulture);
+
+        public static string Ui_Misc_Reverse => ResourceManager.GetString("Ui.Misc.Reverse", resourceCulture);
+
+        public static string Ui_Misc_EvenSpacing => ResourceManager.GetString("Ui.Misc.EvenSpacing", resourceCulture);
+
+        public static string Ui_Misc_UseWindowColours => ResourceManager.GetString("Ui.Misc.UseWindowColours", resourceCulture);
+
+        public static string Ui_Misc_AdvancedColours => ResourceManager.GetString("Ui.Misc.AdvancedColours", resourceCulture);
+
+        public static string Ui_Misc_TextControlsCardsAndBordersFaded => ResourceManager.GetString("Ui.Misc.TextControlsCardsAndBordersFaded", resourceCulture);
+
+        public static string Ui_Misc_ThemeCode => ResourceManager.GetString("Ui.Misc.ThemeCode", resourceCulture);
+
+        public static string Ui_Misc_ForExpertsValidChangesApplyRight => ResourceManager.GetString("Ui.Misc.ForExpertsValidChangesApplyRight", resourceCulture);
+
+        public static string Ui_Misc_Format => ResourceManager.GetString("Ui.Misc.Format", resourceCulture);
+
+        public static string Ui_Misc_InsertColour => ResourceManager.GetString("Ui.Misc.InsertColour", resourceCulture);
+
+        public static string Ui_Misc_Copy => ResourceManager.GetString("Ui.Misc.Copy", resourceCulture);
+
+        public static string Ui_Misc_OpenInAnotherEditor => ResourceManager.GetString("Ui.Misc.OpenInAnotherEditor", resourceCulture);
+
+        public static string Ui_Misc_SavingThereUpdatesVoidstrapRightAway => ResourceManager.GetString("Ui.Misc.SavingThereUpdatesVoidstrapRightAway", resourceCulture);
+
+        public static string Ui_Misc_SearchOptions => ResourceManager.GetString("Ui.Misc.SearchOptions", resourceCulture);
+
+        public static string Ui_Misc_CloseSearch => ResourceManager.GetString("Ui.Misc.CloseSearch", resourceCulture);
+
+        public static string Ui_Misc_NewFile => ResourceManager.GetString("Ui.Misc.NewFile", resourceCulture);
+
+        public static string Ui_Misc_NewFolder => ResourceManager.GetString("Ui.Misc.NewFolder", resourceCulture);
+
+        public static string Ui_Misc_Reload => ResourceManager.GetString("Ui.Misc.Reload", resourceCulture);
+
+        public static string Ui_Misc_Duplicate => ResourceManager.GetString("Ui.Misc.Duplicate", resourceCulture);
+
+        public static string Ui_Misc_CopyThemePath => ResourceManager.GetString("Ui.Misc.CopyThemePath", resourceCulture);
+
+        public static string Ui_Misc_ShowInFolder => ResourceManager.GetString("Ui.Misc.ShowInFolder", resourceCulture);
+
+        public static string Ui_Misc_Undo => ResourceManager.GetString("Ui.Misc.Undo", resourceCulture);
+
+        public static string Ui_Misc_Redo => ResourceManager.GetString("Ui.Misc.Redo", resourceCulture);
+
+        public static string Ui_Misc_FindInFile => ResourceManager.GetString("Ui.Misc.FindInFile", resourceCulture);
+
+        public static string Ui_Misc_Live => ResourceManager.GetString("Ui.Misc.Live", resourceCulture);
+
+        public static string Ui_Misc_RebuildWhileYouType => ResourceManager.GetString("Ui.Misc.RebuildWhileYouType", resourceCulture);
+
+        public static string Ui_Misc_RebuildNow => ResourceManager.GetString("Ui.Misc.RebuildNow", resourceCulture);
+
+        public static string Ui_Misc_NothingToShowYet => ResourceManager.GetString("Ui.Misc.NothingToShowYet", resourceCulture);
+
+        public static string Ui_Misc_GoToLine => ResourceManager.GetString("Ui.Misc.GoToLine", resourceCulture);
+
+        public static string Ui_Misc_OpenEditor => ResourceManager.GetString("Ui.Misc.OpenEditor", resourceCulture);
+
+        public static string Ui_Misc_EditInAnotherProgramSavingThere => ResourceManager.GetString("Ui.Misc.EditInAnotherProgramSavingThere", resourceCulture);
+
+        public static string Ui_Misc_Launcher => ResourceManager.GetString("Ui.Misc.Launcher", resourceCulture);
+
+        public static string Ui_Misc_CommandPlacedInFrontOfSober => ResourceManager.GetString("Ui.Misc.CommandPlacedInFrontOfSober", resourceCulture);
+
+        public static string Ui_Misc_None => ResourceManager.GetString("Ui.Misc.None", resourceCulture);
+
+        public static string Ui_Misc_RunRobloxThroughXWayland => ResourceManager.GetString("Ui.Misc.RunRobloxThroughXWayland", resourceCulture);
+
+        public static string Ui_Misc_OnlyNeededForCustomRobloxCursors => ResourceManager.GetString("Ui.Misc.OnlyNeededForCustomRobloxCursors", resourceCulture);
+
+        public static string Ui_Misc_AutoFullscreen => ResourceManager.GetString("Ui.Misc.AutoFullscreen", resourceCulture);
+
+        public static string Ui_Misc_PutsRobloxIntoFullscreenWhenIt => ResourceManager.GetString("Ui.Misc.PutsRobloxIntoFullscreenWhenIt", resourceCulture);
+
+        public static string Ui_Misc_Sharpness => ResourceManager.GetString("Ui.Misc.Sharpness", resourceCulture);
+
+        public static string Ui_Misc_SharpensTheGameToCounterThe => ResourceManager.GetString("Ui.Misc.SharpensTheGameToCounterThe", resourceCulture);
+
+        public static string Ui_Misc_StudioSession => ResourceManager.GetString("Ui.Misc.StudioSession", resourceCulture);
+
+        public static string Ui_Misc_ApplyVoidstrapFastFlags => ResourceManager.GetString("Ui.Misc.ApplyVoidstrapFastFlags", resourceCulture);
+
+        public static string Ui_Misc_WritesTheFastFlagsFromTheEditor => ResourceManager.GetString("Ui.Misc.WritesTheFastFlagsFromTheEditor", resourceCulture);
+
+        public static string Ui_Misc_DiscordRichPresence => ResourceManager.GetString("Ui.Misc.DiscordRichPresence", resourceCulture);
+
+        public static string Ui_Misc_LetsVinegarShowYourStudioSession => ResourceManager.GetString("Ui.Misc.LetsVinegarShowYourStudioSession", resourceCulture);
+
+        public static string Ui_Misc_Renderer => ResourceManager.GetString("Ui.Misc.Renderer", resourceCulture);
+
+        public static string Ui_Misc_TheGraphicsBackendWineUsesFor => ResourceManager.GetString("Ui.Misc.TheGraphicsBackendWineUsesFor", resourceCulture);
+
+        public static string Ui_Misc_FeralGameMode => ResourceManager.GetString("Ui.Misc.FeralGameMode", resourceCulture);
+
+        public static string Ui_Misc_AsksGameModeToTuneTheSystem => ResourceManager.GetString("Ui.Misc.AsksGameModeToTuneTheSystem", resourceCulture);
+
+        public static string Ui_Misc_GraphicsCard => ResourceManager.GetString("Ui.Misc.GraphicsCard", resourceCulture);
+
+        public static string Ui_Misc_WhichGraphicsCardStudioRendersOn => ResourceManager.GetString("Ui.Misc.WhichGraphicsCardStudioRendersOn", resourceCulture);
+
+        public static string Ui_Misc_VirtualDesktop => ResourceManager.GetString("Ui.Misc.VirtualDesktop", resourceCulture);
+
+        public static string Ui_Misc_RunsStudioInsideAWineVirtual => ResourceManager.GetString("Ui.Misc.RunsStudioInsideAWineVirtual", resourceCulture);
+
+        public static string Ui_Misc_CommandPlacedInFrontOfStudio => ResourceManager.GetString("Ui.Misc.CommandPlacedInFrontOfStudio", resourceCulture);
+
+        public static string Ui_Misc_RobloxDeploymentChannelVinegarDownloadsStudio => ResourceManager.GetString("Ui.Misc.RobloxDeploymentChannelVinegarDownloadsStudio", resourceCulture);
+
+        public static string Ui_Misc_ForcedVersion => ResourceManager.GetString("Ui.Misc.ForcedVersion", resourceCulture);
+
+        public static string Ui_Misc_PinsStudioToOneVersionGUID => ResourceManager.GetString("Ui.Misc.PinsStudioToOneVersionGUID", resourceCulture);
+
+        public static string Ui_Misc_Newest => ResourceManager.GetString("Ui.Misc.Newest", resourceCulture);
+
+        public static string Ui_Misc_WineRoot => ResourceManager.GetString("Ui.Misc.WineRoot", resourceCulture);
+
+        public static string Ui_Misc_PathToTheWineBuildVinegar => ResourceManager.GetString("Ui.Misc.PathToTheWineBuildVinegar", resourceCulture);
+
+        public static string Ui_Misc_Bundled => ResourceManager.GetString("Ui.Misc.Bundled", resourceCulture);
+
         public static string Menu_Appearance_Accent_Title => ResourceManager.GetString("Menu.Appearance.Accent.Title", resourceCulture);
 
         public static string Menu_Appearance_Accent_Description => ResourceManager.GetString("Menu.Appearance.Accent.Description", resourceCulture);
