@@ -6602,4 +6602,9 @@ Apakah yang anda mahu lakukan?</value>
   <data name="Ui.Misc3.Donate2000R" xml:space="preserve">
     <value>Derma 2000R</value>
   </data>
+  <data name="SwiftTunnel.RetryPrompt" xml:space="preserve">
+    <value>{0}
+
+Cuba buang semula?</value>
+  </data>
 </root>

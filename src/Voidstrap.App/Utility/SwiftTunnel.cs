@@ -199,7 +199,7 @@ internal static class SwiftTunnel
                 }
                 if ($payload.Executable -ne '') {
                     $cleanup = Start-Process -FilePath $payload.Executable -ArgumentList '--cleanup' -PassThru -WindowStyle Hidden
-                    if (-not $cleanup.WaitForExit(60000)) { $cleanup | Stop-Process -Force; exit 10 }
+                    $cleanup.WaitForExit()
                     if ($cleanup.ExitCode -ne 0) { exit 10 }
                 }
                 $uninstaller = Start-Process -FilePath $payload.Installer -ArgumentList @('/x', $payload.ProductCode, '/qb!', '/norestart') -PassThru -Wait

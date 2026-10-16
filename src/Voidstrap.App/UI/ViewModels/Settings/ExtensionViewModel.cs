@@ -88,8 +88,19 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                         return;
                     if (Frontend.ShowMessageBox(SwiftTunnel.Text("ConfirmUninstall"), MessageBoxImage.Question, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
                         return;
-                    await SwiftTunnel.UninstallAsync(installation.Value, ct);
-                    return;
+                    while (true)
+                    {
+                        try
+                        {
+                            await SwiftTunnel.UninstallAsync(installation.Value, ct);
+                            return;
+                        }
+                        catch (InvalidOperationException ex) when (ex.Message == SwiftTunnel.Text("CleanupFailed") || ex.Message == SwiftTunnel.Text("UninstallIncomplete"))
+                        {
+                            if (Frontend.ShowMessageBox(string.Format(SwiftTunnel.Text("RetryPrompt"), ex.Message), MessageBoxImage.Error, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+                                return;
+                        }
+                    }
                 }
                 ct.ThrowIfCancellationRequested();
                 OnProgressChanged?.Invoke("", -1.0, false);

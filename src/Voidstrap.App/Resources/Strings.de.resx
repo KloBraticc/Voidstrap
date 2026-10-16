@@ -6569,4 +6569,9 @@ Was möchtest du tun?</value>
   <data name="Ui.Misc3.Donate2000R" xml:space="preserve">
     <value>Spenden 2000R</value>
   </data>
+  <data name="SwiftTunnel.RetryPrompt" xml:space="preserve">
+    <value>{0}
+
+Entfernen erneut versuchen?</value>
+  </data>
 </root>

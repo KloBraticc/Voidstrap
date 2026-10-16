@@ -2469,6 +2469,8 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Misc3_Donate2000R => ResourceManager.GetString("Ui.Misc3.Donate2000R", resourceCulture);
 
+        public static string SwiftTunnel_RetryPrompt => ResourceManager.GetString("SwiftTunnel.RetryPrompt", resourceCulture);
+
         public static string Menu_Appearance_Accent_Title => ResourceManager.GetString("Menu.Appearance.Accent.Title", resourceCulture);
 
         public static string Menu_Appearance_Accent_Description => ResourceManager.GetString("Menu.Appearance.Accent.Description", resourceCulture);

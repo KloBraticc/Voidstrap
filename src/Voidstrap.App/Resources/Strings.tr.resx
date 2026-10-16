@@ -6633,4 +6633,9 @@ Ne yapmak istersiniz?</value>
   <data name="Ui.Misc3.Donate2000R" xml:space="preserve">
     <value>Bağış yap 2000R</value>
   </data>
+  <data name="SwiftTunnel.RetryPrompt" xml:space="preserve">
+    <value>{0}
+
+Kaldırma yeniden denensin mi?</value>
+  </data>
 </root>

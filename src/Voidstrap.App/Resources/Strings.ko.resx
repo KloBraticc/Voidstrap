@@ -6651,4 +6651,9 @@ Roblox는 Voidstrap으로 처음 실행할 때 다운로드됩니다. 실행하�
   <data name="Ui.Misc3.Donate2000R" xml:space="preserve">
     <value>후원 2000R</value>
   </data>
+  <data name="SwiftTunnel.RetryPrompt" xml:space="preserve">
+    <value>{0}
+
+제거를 다시 시도하시겠습니까?</value>
+  </data>
 </root>
