@@ -555,7 +555,7 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 		{
 			if (Voidstrap.Utility.Platform.IsMacOS)
 				return App.Settings.Prop.MacVirtualDisplayEnabled;
-			return App.GlobalSettings.GetInt("FramerateCap", 0) > 240;
+			return App.Settings.Prop.FpsUnlockerEnabled ?? App.GlobalSettings.GetInt("FramerateCap", 0) > 240;
 		}
 		set
 		{
@@ -568,8 +568,11 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 				OnPropertyChanged(nameof(UncapFPS));
 				return;
 			}
+			App.Settings.Prop.FpsUnlockerEnabled = value;
+			App.Settings.SaveDeferred();
 			if (App.GlobalSettings.SetProperty("FramerateCap", value ? 9999 : 240))
 				App.GlobalSettings.Save();
+			OnPropertyChanged(nameof(UncapFPS));
 		}
 	}
 

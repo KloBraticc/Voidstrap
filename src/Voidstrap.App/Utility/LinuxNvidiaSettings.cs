@@ -114,6 +114,11 @@ internal static class LinuxNvidiaSettings
 			App.GlobalSettings.Load();
 			if (App.GlobalSettings.GetInt("FramerateCap", 0) == choices.FrameRateLimit)
 				return;
+			if (App.Settings.Prop.FpsUnlockerEnabled != null)
+			{
+				App.Settings.Prop.FpsUnlockerEnabled = choices.FrameRateLimit > 240;
+				App.Settings.SaveDeferred();
+			}
 			if (App.GlobalSettings.SetInt("FramerateCap", choices.FrameRateLimit) && App.GlobalSettings.Save())
 				App.Logger.WriteLine("LinuxNvidiaSettings", "Roblox frame rate limited to " + choices.FrameRateLimit.ToString(CultureInfo.InvariantCulture));
 			else

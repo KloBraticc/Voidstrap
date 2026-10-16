@@ -98,6 +98,11 @@ public class GBSEditorViewModel : NotifyPropertyChangedViewModel, IDisposable
 		set
 		{
 			Write("FramerateCap", value);
+			if (App.Settings.Prop.FpsUnlockerEnabled != null)
+			{
+				App.Settings.Prop.FpsUnlockerEnabled = App.GlobalSettings.GetInt("FramerateCap", 0) > 240;
+				App.Settings.SaveDeferred();
+			}
 			Voidstrap.Integrations.FrameGeneration.FrameGenManager.SetTargetCap(App.GlobalSettings.GetInt("FramerateCap", 0));
 			OnPropertyChanged(nameof(FramerateCap));
 		}

@@ -1509,6 +1509,25 @@ public class Bootstrapper
         return false;
     }
 
+    private static void ReapplyFpsUnlocker()
+    {
+        if (Voidstrap.Utility.Platform.IsMacOS || App.Settings.Prop.FpsUnlockerEnabled != true || Voidstrap.Integrations.FrameGeneration.FrameGenSettings.ModeIndex != 0)
+            return;
+        try
+        {
+            int cap = App.GlobalSettings.GetInt("FramerateCap", 0);
+            if (cap > 240)
+                return;
+            if (App.GlobalSettings.SetProperty("FramerateCap", 9999))
+                App.GlobalSettings.Save();
+            App.Logger.WriteLine("Bootstrapper::ReapplyFpsUnlocker", "Roblox reset FramerateCap to " + cap + ", restored the unlimited cap");
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("Bootstrapper::ReapplyFpsUnlocker", ex);
+        }
+    }
+
     private async Task StartRoblox(CancellationToken ct = default)
     {
 		Stopwatch startTimer = Stopwatch.StartNew();
@@ -1517,6 +1536,8 @@ public class Bootstrapper
             _safeLaunch = true;
         else
             await MaybeApplyVoidstrapMatchmakerAsync(ct);
+        if (_launchMode == LaunchMode.Player)
+            ReapplyFpsUnlocker();
         if (!Voidstrap.Utility.Platform.SupportsWindowsClient)
         {
             if (await TryLaunchNonWindowsClientAsync(_launchCommandLine, _launchMode, ct))

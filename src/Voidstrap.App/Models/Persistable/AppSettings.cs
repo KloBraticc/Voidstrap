@@ -25,6 +25,7 @@ namespace Voidstrap.Models.Persistable
         public int FrameGenResumeIndex { get; set; } = 0;
         public bool FrameGenAutoElevate { get; set; } = true;
         public bool FrameGenUncap { get; set; } = false;
+        public bool? FpsUnlockerEnabled { get; set; }
         public bool FrameGenSplitCompare { get; set; } = false;
         public int FrameGenTargetFps { get; set; } = 0;
         public bool RobloxApiDumpTool { get; set; } = false;
