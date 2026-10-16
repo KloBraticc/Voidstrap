@@ -244,7 +244,7 @@
                 <Setter Property="Template">
                   <Setter.Value>
                     <ControlTemplate TargetType="{x:Type GroupItem}">
-                      <StackPanel>
+                      <StackPanel x:Name="GroupRoot" Margin="0,0,14,0">
                         <ToggleButton x:Name="GroupToggle" IsChecked="True" Focusable="False" Cursor="Hand">
                           <ToggleButton.Template>
                             <ControlTemplate TargetType="{x:Type ToggleButton}">
@@ -307,6 +307,9 @@
                         </Border>
                       </StackPanel>
                       <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}" Value="icons">
+                          <Setter TargetName="GroupRoot" Property="Margin" Value="0" />
+                        </DataTrigger>
                         <Trigger SourceName="GroupToggle" Property="IsChecked" Value="False">
                           <Trigger.EnterActions>
                             <BeginStoryboard>
