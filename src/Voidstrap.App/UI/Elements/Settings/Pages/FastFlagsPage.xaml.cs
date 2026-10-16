@@ -199,6 +199,8 @@ public partial class FastFlagsPage : UiPage{
 		Wpf.Ui.Controls.Breadcrumb.AddBackRequestedHandler(this, OnBreadcrumbBack);
 	}
 
+	internal bool IsAdvancedTabSelected => ReferenceEquals(FlagTabs.SelectedItem, AdvancedFlagsTab);
+
 	private void OnBreadcrumbBack(object sender, RoutedEventArgs e)
 	{
 		if (ReferenceEquals(FlagTabs.SelectedItem, AdvancedFlagsTab))
@@ -231,6 +233,8 @@ public partial class FastFlagsPage : UiPage{
 			Voidstrap.UI.BreadcrumbHeader.SetLocalized(this, nameof(Voidstrap.Resources.Strings.Ui_FastFlags_AdvancedFFlags));
 		else
 			Voidstrap.UI.BreadcrumbHeader.Clear(this);
+		if (Window.GetWindow(this) is Voidstrap.UI.Elements.Settings.MainWindow mainWindow)
+			mainWindow.RefreshGlobalSearchBoxVisibility();
 		if (ReferenceEquals(FlagTabs.SelectedItem, NvidiaTab))
 			ShowNvidiaWarning();
 		else

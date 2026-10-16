@@ -1018,14 +1018,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(() => LogPageReady(readyContent)));
         Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(DetachDiscardedPage));
         object content = e.Content;
-        if (content != null && _pagesToHideSearchBox.Contains(content.GetType()))
-        {
-            GlobalSearchBox.Visibility = Visibility.Collapsed;
-        }
-        else
-        {
-            GlobalSearchBox.Visibility = Visibility.Visible;
-        }
+        RefreshGlobalSearchBoxVisibility();
         if (BreadcrumbPanel != null)
         {
             BreadcrumbPanel.Visibility = content is LibraryPage ? Visibility.Collapsed : Visibility.Visible;
@@ -1049,6 +1042,13 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             PageBreadcrumb.Icon = value;
         }
+    }
+
+    internal void RefreshGlobalSearchBoxVisibility()
+    {
+        object? content = RootFrame.Content;
+        bool hideSearchBox = content != null && (_pagesToHideSearchBox.Contains(content.GetType()) || content is Voidstrap.UI.Elements.Settings.Pages.FastFlagsPage fastFlagsPage && fastFlagsPage.IsAdvancedTabSelected);
+        GlobalSearchBox.Visibility = hideSearchBox ? Visibility.Collapsed : Visibility.Visible;
     }
 
     private void UpdateTopNavActive(object? content)
