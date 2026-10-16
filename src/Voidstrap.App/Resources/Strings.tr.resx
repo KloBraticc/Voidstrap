@@ -3651,9 +3651,6 @@ Ne yapmak istersiniz?</value>
   <data name="Ui.Mods.EnableOrDisableThisMod" xml:space="preserve">
     <value>Bu modu etkinleştir veya devre dışı bırak</value>
   </data>
-  <data name="Ui.Mods.Id" xml:space="preserve">
-    <value>   ID: </value>
-  </data>
   <data name="Ui.Mods.ViewThisModPack" xml:space="preserve">
     <value>Bu mod paketini görüntüle</value>
   </data>
@@ -3945,9 +3942,6 @@ Ne yapmak istersiniz?</value>
   <data name="Ui.FastFlags.GrassDistance" xml:space="preserve">
     <value>Çim mesafesi</value>
   </data>
-  <data name="Ui.FastFlags.Min" xml:space="preserve">
-    <value>Min</value>
-  </data>
   <data name="Ui.FastFlags.Max" xml:space="preserve">
     <value>Maks</value>
   </data>
@@ -3980,9 +3974,6 @@ Ne yapmak istersiniz?</value>
   </data>
   <data name="Ui.FastFlags.HowSolidTheSquaresLook" xml:space="preserve">
     <value>Karelerin ne kadar dolu göründüğü</value>
-  </data>
-  <data name="Ui.FastFlags.Studs" xml:space="preserve">
-    <value>Studs</value>
   </data>
   <data name="Ui.FastFlags.TheStudPatternOnParts" xml:space="preserve">
     <value>Parçalardaki studs deseni</value>
@@ -4254,9 +4245,6 @@ Ne yapmak istersiniz?</value>
   <data name="Ui.Bootstrapper.ReduceResourcesWhenRobloxIsUnfocused" xml:space="preserve">
     <value>Roblox odakta değilken kaynakları azalt</value>
   </data>
-  <data name="Ui.Bootstrapper.VoidstrapMatchmaker" xml:space="preserve">
-    <value>Voidstrap Matchmaker</value>
-  </data>
   <data name="Ui.Bootstrapper.Enable" xml:space="preserve">
     <value>Etkinleştir</value>
   </data>
@@ -4323,9 +4311,6 @@ Ne yapmak istersiniz?</value>
   <data name="Ui.Bootstrapper.NeverLetVoidstrapPickAServer" xml:space="preserve">
     <value>Bu oyun için Voidstrap'in asla sunucu seçmesine izin verme</value>
   </data>
-  <data name="Ui.Bootstrapper.PlaceId" xml:space="preserve">
-    <value>Place id</value>
-  </data>
   <data name="Ui.Bootstrapper.LetVoidstrapPickServersForThis" xml:space="preserve">
     <value>Bu oyun için Voidstrap'in yeniden sunucu seçmesine izin ver</value>
   </data>
@@ -4346,9 +4331,6 @@ Ne yapmak istersiniz?</value>
   </data>
   <data name="Ui.Bootstrapper.VoidstrapStopsTryingAfterThisMany" xml:space="preserve">
     <value>Voidstrap asla döngüye girmemek için bu kadar yeniden bağlanmadan sonra denemeyi bırakır.</value>
-  </data>
-  <data name="Ui.Bootstrapper.JoinAPI" xml:space="preserve">
-    <value>Join API</value>
   </data>
   <data name="Ui.Bootstrapper.WhichRobloxJoinEndpointVoidstrapAsks" xml:space="preserve">
     <value>Voidstrap'in sunucu konumlarını sorduğu Roblox katılım uç noktası. Yalnızca katılımlar çalışmayı bırakırsa değiştirin.</value>
@@ -4569,9 +4551,6 @@ Ne yapmak istersiniz?</value>
   <data name="Ui.Integrations.CloseWhenLeavingThatGame" xml:space="preserve">
     <value>O oyundan çıkınca kapat</value>
   </data>
-  <data name="Ui.Integrations.PlaceID" xml:space="preserve">
-    <value>Place ID</value>
-  </data>
   <data name="Ui.Channel.InstallLocation" xml:space="preserve">
     <value>Kurulum konumu</value>
   </data>
@@ -4632,9 +4611,6 @@ Ne yapmak istersiniz?</value>
   <data name="Ui.Channel.DisplaysVoidstrapsDiscordRPC" xml:space="preserve">
     <value>Voidstrap'in Discord RPC'sini gösterir.</value>
   </data>
-  <data name="Ui.Channel.VoidstrapRPC" xml:space="preserve">
-    <value>Voidstrap RPC</value>
-  </data>
   <data name="Ui.Channel.FactoryReset" xml:space="preserve">
     <value>Fabrika ayarlarına sıfırla</value>
   </data>
@@ -4691,9 +4667,6 @@ Ne yapmak istersiniz?</value>
   </data>
   <data name="Ui.Channel.SelectWhenYouDLikeTo" xml:space="preserve">
     <value>Roblox güncellemelerini ne zaman almak istediğinizi seçin</value>
-  </data>
-  <data name="Ui.Channel.Normal" xml:space="preserve">
-    <value>Normal</value>
   </data>
   <data name="Ui.Channel.YouGetEachRobloxUpdateOn" xml:space="preserve">
     <value>Her Roblox güncellemesini yayımlandıktan sonraki ilk açılışta alırsınız</value>
@@ -5139,9 +5112,6 @@ Ne yapmak istersiniz?</value>
   <data name="Ui.Gbs.EnableVignetteForMotionSicknessReduction" xml:space="preserve">
     <value>Hareket tutmasını azaltmak için vinyeti etkinleştir.</value>
   </data>
-  <data name="Ui.Gbs.MicroProfiler" xml:space="preserve">
-    <value>Micro Profiler</value>
-  </data>
   <data name="Ui.Gbs.EnableRobloxMicroprofilerServer" xml:space="preserve">
     <value>Roblox mikro profil oluşturucu sunucusunu etkinleştir.</value>
   </data>
@@ -5418,9 +5388,6 @@ Ne yapmak istersiniz?</value>
   <data name="Ui.Session.PasteAFullROBLOSECURITYValueOnly" xml:space="preserve">
     <value>Tam bir .ROBLOSECURITY değeri yapıştırın. Yalnızca size ait çerezleri yapıştırın.</value>
   </data>
-  <data name="Ui.Session.WARNINGDONOTSHARETHIS" xml:space="preserve">
-    <value>_|WARNING: DO NOT SHARE THIS...</value>
-  </data>
   <data name="Ui.Session.CURRENT" xml:space="preserve">
     <value>GEÇERLİ</value>
   </data>
@@ -5609,9 +5576,6 @@ Ne yapmak istersiniz?</value>
   </data>
   <data name="Ui.Misc.TheGraphicsBackendWineUsesFor" xml:space="preserve">
     <value>Wine'ın Studio için kullandığı grafik arka ucu. DXVK çoğu sisteme uyar.</value>
-  </data>
-  <data name="Ui.Misc.FeralGameMode" xml:space="preserve">
-    <value>Feral GameMode</value>
   </data>
   <data name="Ui.Misc.AsksGameModeToTuneTheSystem" xml:space="preserve">
     <value>Studio çalışırken sistemi ayarlaması için GameMode'a istekte bulunur.</value>
@@ -5883,9 +5847,6 @@ Ne yapmak istersiniz?</value>
   <data name="Ui.Pages.OverridesThatAffectGPUBehaviorAnd" xml:space="preserve">
     <value>GPU davranışını ve sürücü özelliklerini etkileyen geçersiz kılmalar.</value>
   </data>
-  <data name="Ui.Pages.ResizableBAR" xml:space="preserve">
-    <value>Resizable BAR</value>
-  </data>
   <data name="Ui.Pages.AllowsTheCPUToAccessThe" xml:space="preserve">
     <value>Desteklenen sistemlerde CPU'nun GPU belleğinin tamamına erişmesini sağlar.</value>
   </data>
@@ -5996,9 +5957,6 @@ Ne yapmak istersiniz?</value>
   </data>
   <data name="Ui.Pages.ManageYourFastFlagsACheckmarkIn" xml:space="preserve">
     <value>FastFlags ayarlarınızı yönetin. Preset sütunundaki onay işareti bayrağın FFlag ayarlarında bulunduğunu, çarpı ise bulunmadığını gösterir.</value>
-  </data>
-  <data name="Ui.Pages.Preset" xml:space="preserve">
-    <value>Preset</value>
   </data>
   <data name="Ui.Pages.GoToFFlagSettingsToAdd" xml:space="preserve">
     <value>Preset FFlags eklemek için FFlag ayarlarına gidin.</value>
@@ -6135,26 +6093,17 @@ Ne yapmak istersiniz?</value>
   <data name="Ui.Misc2.TheClassicTopbarOptionRebuildsTwo" xml:space="preserve">
     <value>Klasik üst çubuk seçeneği iki topluluk modunu yeniden oluşturur. 2014 ile 2015 arası üst çubuk ve oyun menüsü görselleri ile davranışı HockuTM tarafından yapılan "2014 2015 Topbar and Menu (Improvised GUI)" modundan gelir. Modern üst çubuğu gizlemek için Einshine tarafından yapılan "NoGuiRBX, Hide TopBar!" kullanılır. İkisi de Creative Commons BY NC ND 4.0 koşullarıyla teşekkürle kullanılır, dosyaları paketlenmek yerine doğrudan GameBanana'dan indirilir ve yazarlardan hiçbiri Voidstrap ile bağlantılı değildir.</value>
   </data>
-  <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
-  </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>Topluluk modları</value>
   </data>
   <data name="Ui.Misc2.CommunityModsListsRobloxSubmissionsFrom" xml:space="preserve">
     <value>Topluluk modları, TheKliko'nun Kliko modloader'ı için yönettiği Kliko's Mods ile GameBanana'daki Roblox gönderimlerini listeler. Voidstrap ikisiyle de bağlantılı değildir ve onlar tarafından desteklenmez. Tüm modlar, görseller ve açıklamalar, her girdide belirtilen yazarlarına aittir. Voidstrap yalnızca herkese açık verilerini okur ve sizin adınıza asla bir şey yüklemez.</value>
   </data>
-  <data name="Ui.Misc2.GithubComKlikosModloaderMarketplace" xml:space="preserve">
-    <value>github.com/klikos modloader/marketplace</value>
-  </data>
   <data name="Ui.Misc2.CanTSeeOverlays" xml:space="preserve">
     <value>Katmanları göremiyor musunuz?</value>
   </data>
   <data name="Ui.Misc2.Info" xml:space="preserve">
     <value>Bilgi</value>
-  </data>
-  <data name="Ui.Misc2.FFlags" xml:space="preserve">
-    <value>FFlags</value>
   </data>
   <data name="Ui.Misc2.PlayTime" xml:space="preserve">
     <value>Oynama süresi</value>
