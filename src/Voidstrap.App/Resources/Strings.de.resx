@@ -4820,4 +4820,100 @@ Was möchtest du tun?</value>
   <data name="Ui.SessionNotify.ResetToDefaults" xml:space="preserve">
     <value>Auf Standard zurücksetzen</value>
   </data>
+  <data name="Ui.ModGen.ModGenerator" xml:space="preserve">
+    <value>Mod Generator</value>
+  </data>
+  <data name="Ui.ModGen.RecolourRobloxSMenuAndTop" xml:space="preserve">
+    <value>Färbe die Menü- und Leistensymbole von Roblox um und speichere das Ergebnis als Mod.</value>
+  </data>
+  <data name="Ui.ModGen.Original" xml:space="preserve">
+    <value>Original</value>
+  </data>
+  <data name="Ui.ModGen.YourMod" xml:space="preserve">
+    <value>Deine Mod</value>
+  </data>
+  <data name="Ui.ModGen.IconFont" xml:space="preserve">
+    <value>Symbolschrift</value>
+  </data>
+  <data name="Ui.ModGen.RealIconsFromYourRobloxBuild" xml:space="preserve">
+    <value>Echte Symbole aus deinem Roblox Build</value>
+  </data>
+  <data name="Ui.ModGen.Colour" xml:space="preserve">
+    <value>Farbe</value>
+  </data>
+  <data name="Ui.ModGen.Start" xml:space="preserve">
+    <value>Anfang</value>
+  </data>
+  <data name="Ui.ModGen.MiddleOptional" xml:space="preserve">
+    <value>Mitte (optional)</value>
+  </data>
+  <data name="Ui.ModGen.End" xml:space="preserve">
+    <value>Ende</value>
+  </data>
+  <data name="Ui.ModGen.Angle" xml:space="preserve">
+    <value>Winkel</value>
+  </data>
+  <data name="Ui.ModGen.NoImageChosen" xml:space="preserve">
+    <value>Kein Bild ausgewählt</value>
+  </data>
+  <data name="Ui.ModGen.EveryIconIsFilledWithThis" xml:space="preserve">
+    <value>Jedes Symbol wird mit diesem Bild gefüllt und auf seine Form zugeschnitten.</value>
+  </data>
+  <data name="Ui.ModGen.MoreOptions" xml:space="preserve">
+    <value>Weitere Optionen</value>
+  </data>
+  <data name="Ui.ModGen.IconSizesShadingWhichIconsChange" xml:space="preserve">
+    <value>Symbolgrößen, Schattierung, welche Symbole sich ändern und ein eigenes Roblox Logo</value>
+  </data>
+  <data name="Ui.ModGen.RobloxPicksASizeForYour" xml:space="preserve">
+    <value>Roblox wählt eine Größe für deinen Bildschirm, daher sind alle Größen am sichersten.</value>
+  </data>
+  <data name="Ui.ModGen.IconSizes" xml:space="preserve">
+    <value>Symbolgrößen</value>
+  </data>
+  <data name="Ui.ModGen.RobloxDrawsMostNewMenuAnd" xml:space="preserve">
+    <value>Roblox zeichnet die meisten neuen Menü- und Leistensymbole mit der Schrift Builder Icons statt mit Bildern. Bei einer Bildfüllung wird deren Durchschnittsfarbe verwendet.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourTheIconFont" xml:space="preserve">
+    <value>Symbolschrift umfärben</value>
+  </data>
+  <data name="Ui.ModGen.TwoToneIconsKeepTheirDarker" xml:space="preserve">
+    <value>Zweifarbige Symbole behalten ihre dunkleren Details, statt zu einer flachen Form zu werden.</value>
+  </data>
+  <data name="Ui.ModGen.KeepIconShading" xml:space="preserve">
+    <value>Symbolschattierung beibehalten</value>
+  </data>
+  <data name="Ui.ModGen.LeavesBadgesCurrencyReactionsLogosAnd" xml:space="preserve">
+    <value>Lässt Abzeichen, Währung, Reaktionen, Logos und andere vollfarbige Grafiken unverändert.</value>
+  </data>
+  <data name="Ui.ModGen.KeepColouredIconsAsTheyAre" xml:space="preserve">
+    <value>Farbige Symbole unverändert lassen</value>
+  </data>
+  <data name="Ui.ModGen.RobloxNormallyTintsTheseShapesWhile" xml:space="preserve">
+    <value>Roblox färbt diese Formen normalerweise zur Laufzeit ein, lass das also aus, außer du willst alles im Design.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourButtonsBubblesAndBackgrounds" xml:space="preserve">
+    <value>Schaltflächen, Blasen und Hintergründe umfärben</value>
+  </data>
+  <data name="Ui.ModGen.IncludesLooseInGameAndApp" xml:space="preserve">
+    <value>Umfasst einzelne Spiel- und App-Texturen wie Einstellungen, Chat, Spielerliste und Inspektionsmenü.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourOtherUITextures" xml:space="preserve">
+    <value>Andere UI Texturen umfärben</value>
+  </data>
+  <data name="Ui.ModGen.CustomRobloxLogo" xml:space="preserve">
+    <value>Eigenes Roblox Logo</value>
+  </data>
+  <data name="Ui.ModGen.ReplacesTheRobloxLogoInMenus" xml:space="preserve">
+    <value>Ersetzt das Roblox Logo in Menüs, der App und dem Ladebildschirm</value>
+  </data>
+  <data name="Ui.ModGen.ModNameGeneratedUITheme" xml:space="preserve">
+    <value>Modname (Generiertes UI Design)</value>
+  </data>
+  <data name="Ui.ModGen.ReadyToGenerate" xml:space="preserve">
+    <value>Bereit zum Erstellen</value>
+  </data>
+  <data name="Ui.ModGen.GenerateMod" xml:space="preserve">
+    <value>Mod erstellen</value>
+  </data>
 </root>

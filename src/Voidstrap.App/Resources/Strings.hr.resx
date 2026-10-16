@@ -4891,4 +4891,100 @@ Roblox će se preuzeti kada ga prvi put pokreneš putem Voidstrapa. Postavke mo�
   <data name="Ui.SessionNotify.ResetToDefaults" xml:space="preserve">
     <value>Vrati zadane postavke</value>
   </data>
+  <data name="Ui.ModGen.ModGenerator" xml:space="preserve">
+    <value>Generator modova</value>
+  </data>
+  <data name="Ui.ModGen.RecolourRobloxSMenuAndTop" xml:space="preserve">
+    <value>Preboji ikone izbornika i gornje trake Robloxa, a zatim ih spremi kao mod.</value>
+  </data>
+  <data name="Ui.ModGen.Original" xml:space="preserve">
+    <value>Izvornik</value>
+  </data>
+  <data name="Ui.ModGen.YourMod" xml:space="preserve">
+    <value>Tvoj mod</value>
+  </data>
+  <data name="Ui.ModGen.IconFont" xml:space="preserve">
+    <value>Font ikona</value>
+  </data>
+  <data name="Ui.ModGen.RealIconsFromYourRobloxBuild" xml:space="preserve">
+    <value>Prave ikone iz tvoje verzije Robloxa</value>
+  </data>
+  <data name="Ui.ModGen.Colour" xml:space="preserve">
+    <value>Boja</value>
+  </data>
+  <data name="Ui.ModGen.Start" xml:space="preserve">
+    <value>Početak</value>
+  </data>
+  <data name="Ui.ModGen.MiddleOptional" xml:space="preserve">
+    <value>Sredina (neobavezno)</value>
+  </data>
+  <data name="Ui.ModGen.End" xml:space="preserve">
+    <value>Kraj</value>
+  </data>
+  <data name="Ui.ModGen.Angle" xml:space="preserve">
+    <value>Kut</value>
+  </data>
+  <data name="Ui.ModGen.NoImageChosen" xml:space="preserve">
+    <value>Nije odabrana slika</value>
+  </data>
+  <data name="Ui.ModGen.EveryIconIsFilledWithThis" xml:space="preserve">
+    <value>Svaka ikona ispunjava se ovom slikom, izrezanom prema njezinu obliku.</value>
+  </data>
+  <data name="Ui.ModGen.MoreOptions" xml:space="preserve">
+    <value>Više mogućnosti</value>
+  </data>
+  <data name="Ui.ModGen.IconSizesShadingWhichIconsChange" xml:space="preserve">
+    <value>Veličine ikona, sjenčanje, koje se ikone mijenjaju i vlastiti Roblox logotip</value>
+  </data>
+  <data name="Ui.ModGen.RobloxPicksASizeForYour" xml:space="preserve">
+    <value>Roblox bira veličinu za tvoj zaslon, pa su sve veličine najsigurniji izbor.</value>
+  </data>
+  <data name="Ui.ModGen.IconSizes" xml:space="preserve">
+    <value>Veličine ikona</value>
+  </data>
+  <data name="Ui.ModGen.RobloxDrawsMostNewMenuAnd" xml:space="preserve">
+    <value>Roblox većinu novih ikona izbornika i gornje trake crta fontom Builder Icons umjesto slikama. Kod ispune slikom koristi se njezina prosječna boja.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourTheIconFont" xml:space="preserve">
+    <value>Preboji font ikona</value>
+  </data>
+  <data name="Ui.ModGen.TwoToneIconsKeepTheirDarker" xml:space="preserve">
+    <value>Dvobojne ikone zadržavaju tamnije detalje umjesto da postanu ravan oblik.</value>
+  </data>
+  <data name="Ui.ModGen.KeepIconShading" xml:space="preserve">
+    <value>Zadrži sjenčanje ikona</value>
+  </data>
+  <data name="Ui.ModGen.LeavesBadgesCurrencyReactionsLogosAnd" xml:space="preserve">
+    <value>Ne dira značke, valutu, reakcije, logotipe i drugu grafiku u boji.</value>
+  </data>
+  <data name="Ui.ModGen.KeepColouredIconsAsTheyAre" xml:space="preserve">
+    <value>Zadrži obojene ikone kakve jesu</value>
+  </data>
+  <data name="Ui.ModGen.RobloxNormallyTintsTheseShapesWhile" xml:space="preserve">
+    <value>Roblox inače boja ove oblike tijekom rada, pa ostavi isključeno osim ako želiš sve u temi.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourButtonsBubblesAndBackgrounds" xml:space="preserve">
+    <value>Preboji gumbe, oblačiće i pozadine</value>
+  </data>
+  <data name="Ui.ModGen.IncludesLooseInGameAndApp" xml:space="preserve">
+    <value>Uključuje zasebne teksture igre i aplikacije, poput ikona postavki, chata, popisa igrača i izbornika pregleda.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourOtherUITextures" xml:space="preserve">
+    <value>Preboji ostale teksture sučelja</value>
+  </data>
+  <data name="Ui.ModGen.CustomRobloxLogo" xml:space="preserve">
+    <value>Vlastiti Roblox logotip</value>
+  </data>
+  <data name="Ui.ModGen.ReplacesTheRobloxLogoInMenus" xml:space="preserve">
+    <value>Zamjenjuje Roblox logotip u izbornicima, aplikaciji i zaslonu učitavanja</value>
+  </data>
+  <data name="Ui.ModGen.ModNameGeneratedUITheme" xml:space="preserve">
+    <value>Naziv moda (generirana tema sučelja)</value>
+  </data>
+  <data name="Ui.ModGen.ReadyToGenerate" xml:space="preserve">
+    <value>Spremno za generiranje</value>
+  </data>
+  <data name="Ui.ModGen.GenerateMod" xml:space="preserve">
+    <value>Generiraj mod</value>
+  </data>
 </root>

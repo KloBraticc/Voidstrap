@@ -1303,6 +1303,70 @@ namespace Voidstrap.Resources {
 
         public static string Ui_SessionNotify_ResetToDefaults => ResourceManager.GetString("Ui.SessionNotify.ResetToDefaults", resourceCulture);
 
+        public static string Ui_ModGen_ModGenerator => ResourceManager.GetString("Ui.ModGen.ModGenerator", resourceCulture);
+
+        public static string Ui_ModGen_RecolourRobloxSMenuAndTop => ResourceManager.GetString("Ui.ModGen.RecolourRobloxSMenuAndTop", resourceCulture);
+
+        public static string Ui_ModGen_Original => ResourceManager.GetString("Ui.ModGen.Original", resourceCulture);
+
+        public static string Ui_ModGen_YourMod => ResourceManager.GetString("Ui.ModGen.YourMod", resourceCulture);
+
+        public static string Ui_ModGen_IconFont => ResourceManager.GetString("Ui.ModGen.IconFont", resourceCulture);
+
+        public static string Ui_ModGen_RealIconsFromYourRobloxBuild => ResourceManager.GetString("Ui.ModGen.RealIconsFromYourRobloxBuild", resourceCulture);
+
+        public static string Ui_ModGen_Colour => ResourceManager.GetString("Ui.ModGen.Colour", resourceCulture);
+
+        public static string Ui_ModGen_Start => ResourceManager.GetString("Ui.ModGen.Start", resourceCulture);
+
+        public static string Ui_ModGen_MiddleOptional => ResourceManager.GetString("Ui.ModGen.MiddleOptional", resourceCulture);
+
+        public static string Ui_ModGen_End => ResourceManager.GetString("Ui.ModGen.End", resourceCulture);
+
+        public static string Ui_ModGen_Angle => ResourceManager.GetString("Ui.ModGen.Angle", resourceCulture);
+
+        public static string Ui_ModGen_NoImageChosen => ResourceManager.GetString("Ui.ModGen.NoImageChosen", resourceCulture);
+
+        public static string Ui_ModGen_EveryIconIsFilledWithThis => ResourceManager.GetString("Ui.ModGen.EveryIconIsFilledWithThis", resourceCulture);
+
+        public static string Ui_ModGen_MoreOptions => ResourceManager.GetString("Ui.ModGen.MoreOptions", resourceCulture);
+
+        public static string Ui_ModGen_IconSizesShadingWhichIconsChange => ResourceManager.GetString("Ui.ModGen.IconSizesShadingWhichIconsChange", resourceCulture);
+
+        public static string Ui_ModGen_RobloxPicksASizeForYour => ResourceManager.GetString("Ui.ModGen.RobloxPicksASizeForYour", resourceCulture);
+
+        public static string Ui_ModGen_IconSizes => ResourceManager.GetString("Ui.ModGen.IconSizes", resourceCulture);
+
+        public static string Ui_ModGen_RobloxDrawsMostNewMenuAnd => ResourceManager.GetString("Ui.ModGen.RobloxDrawsMostNewMenuAnd", resourceCulture);
+
+        public static string Ui_ModGen_RecolourTheIconFont => ResourceManager.GetString("Ui.ModGen.RecolourTheIconFont", resourceCulture);
+
+        public static string Ui_ModGen_TwoToneIconsKeepTheirDarker => ResourceManager.GetString("Ui.ModGen.TwoToneIconsKeepTheirDarker", resourceCulture);
+
+        public static string Ui_ModGen_KeepIconShading => ResourceManager.GetString("Ui.ModGen.KeepIconShading", resourceCulture);
+
+        public static string Ui_ModGen_LeavesBadgesCurrencyReactionsLogosAnd => ResourceManager.GetString("Ui.ModGen.LeavesBadgesCurrencyReactionsLogosAnd", resourceCulture);
+
+        public static string Ui_ModGen_KeepColouredIconsAsTheyAre => ResourceManager.GetString("Ui.ModGen.KeepColouredIconsAsTheyAre", resourceCulture);
+
+        public static string Ui_ModGen_RobloxNormallyTintsTheseShapesWhile => ResourceManager.GetString("Ui.ModGen.RobloxNormallyTintsTheseShapesWhile", resourceCulture);
+
+        public static string Ui_ModGen_RecolourButtonsBubblesAndBackgrounds => ResourceManager.GetString("Ui.ModGen.RecolourButtonsBubblesAndBackgrounds", resourceCulture);
+
+        public static string Ui_ModGen_IncludesLooseInGameAndApp => ResourceManager.GetString("Ui.ModGen.IncludesLooseInGameAndApp", resourceCulture);
+
+        public static string Ui_ModGen_RecolourOtherUITextures => ResourceManager.GetString("Ui.ModGen.RecolourOtherUITextures", resourceCulture);
+
+        public static string Ui_ModGen_CustomRobloxLogo => ResourceManager.GetString("Ui.ModGen.CustomRobloxLogo", resourceCulture);
+
+        public static string Ui_ModGen_ReplacesTheRobloxLogoInMenus => ResourceManager.GetString("Ui.ModGen.ReplacesTheRobloxLogoInMenus", resourceCulture);
+
+        public static string Ui_ModGen_ModNameGeneratedUITheme => ResourceManager.GetString("Ui.ModGen.ModNameGeneratedUITheme", resourceCulture);
+
+        public static string Ui_ModGen_ReadyToGenerate => ResourceManager.GetString("Ui.ModGen.ReadyToGenerate", resourceCulture);
+
+        public static string Ui_ModGen_GenerateMod => ResourceManager.GetString("Ui.ModGen.GenerateMod", resourceCulture);
+
         public static string Menu_Appearance_Accent_Title => ResourceManager.GetString("Menu.Appearance.Accent.Title", resourceCulture);
 
         public static string Menu_Appearance_Accent_Description => ResourceManager.GetString("Menu.Appearance.Accent.Description", resourceCulture);

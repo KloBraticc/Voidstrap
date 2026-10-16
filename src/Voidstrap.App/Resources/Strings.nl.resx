@@ -4848,4 +4848,100 @@ Wat wil je doen?</value>
   <data name="Ui.SessionNotify.ResetToDefaults" xml:space="preserve">
     <value>Standaardwaarden herstellen</value>
   </data>
+  <data name="Ui.ModGen.ModGenerator" xml:space="preserve">
+    <value>Mod generator</value>
+  </data>
+  <data name="Ui.ModGen.RecolourRobloxSMenuAndTop" xml:space="preserve">
+    <value>Geef de menu- en bovenbalkpictogrammen van Roblox een nieuwe kleur en sla het op als mod.</value>
+  </data>
+  <data name="Ui.ModGen.Original" xml:space="preserve">
+    <value>Origineel</value>
+  </data>
+  <data name="Ui.ModGen.YourMod" xml:space="preserve">
+    <value>Jouw mod</value>
+  </data>
+  <data name="Ui.ModGen.IconFont" xml:space="preserve">
+    <value>Pictogramlettertype</value>
+  </data>
+  <data name="Ui.ModGen.RealIconsFromYourRobloxBuild" xml:space="preserve">
+    <value>Echte pictogrammen uit je Roblox build</value>
+  </data>
+  <data name="Ui.ModGen.Colour" xml:space="preserve">
+    <value>Kleur</value>
+  </data>
+  <data name="Ui.ModGen.Start" xml:space="preserve">
+    <value>Begin</value>
+  </data>
+  <data name="Ui.ModGen.MiddleOptional" xml:space="preserve">
+    <value>Midden (optioneel)</value>
+  </data>
+  <data name="Ui.ModGen.End" xml:space="preserve">
+    <value>Einde</value>
+  </data>
+  <data name="Ui.ModGen.Angle" xml:space="preserve">
+    <value>Hoek</value>
+  </data>
+  <data name="Ui.ModGen.NoImageChosen" xml:space="preserve">
+    <value>Geen afbeelding gekozen</value>
+  </data>
+  <data name="Ui.ModGen.EveryIconIsFilledWithThis" xml:space="preserve">
+    <value>Elk pictogram wordt gevuld met deze afbeelding, bijgesneden tot zijn vorm.</value>
+  </data>
+  <data name="Ui.ModGen.MoreOptions" xml:space="preserve">
+    <value>Meer opties</value>
+  </data>
+  <data name="Ui.ModGen.IconSizesShadingWhichIconsChange" xml:space="preserve">
+    <value>Pictogramgroottes, schaduw, welke pictogrammen veranderen en een eigen Roblox logo</value>
+  </data>
+  <data name="Ui.ModGen.RobloxPicksASizeForYour" xml:space="preserve">
+    <value>Roblox kiest een grootte voor je scherm, dus alle groottes is het veiligst.</value>
+  </data>
+  <data name="Ui.ModGen.IconSizes" xml:space="preserve">
+    <value>Pictogramgroottes</value>
+  </data>
+  <data name="Ui.ModGen.RobloxDrawsMostNewMenuAnd" xml:space="preserve">
+    <value>Roblox tekent de meeste nieuwe menu- en bovenbalkpictogrammen met het lettertype Builder Icons in plaats van afbeeldingen. Bij een afbeeldingsvulling wordt de gemiddelde kleur gebruikt.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourTheIconFont" xml:space="preserve">
+    <value>Pictogramlettertype herkleuren</value>
+  </data>
+  <data name="Ui.ModGen.TwoToneIconsKeepTheirDarker" xml:space="preserve">
+    <value>Tweekleurige pictogrammen houden hun donkere details in plaats van één platte vorm te worden.</value>
+  </data>
+  <data name="Ui.ModGen.KeepIconShading" xml:space="preserve">
+    <value>Pictogramschaduw behouden</value>
+  </data>
+  <data name="Ui.ModGen.LeavesBadgesCurrencyReactionsLogosAnd" xml:space="preserve">
+    <value>Laat badges, valuta, reacties, logo's en andere volledig gekleurde afbeeldingen ongemoeid.</value>
+  </data>
+  <data name="Ui.ModGen.KeepColouredIconsAsTheyAre" xml:space="preserve">
+    <value>Gekleurde pictogrammen laten zoals ze zijn</value>
+  </data>
+  <data name="Ui.ModGen.RobloxNormallyTintsTheseShapesWhile" xml:space="preserve">
+    <value>Roblox kleurt deze vormen normaal tijdens het draaien, dus laat dit uit tenzij je alles in thema wilt.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourButtonsBubblesAndBackgrounds" xml:space="preserve">
+    <value>Knoppen, ballonnen en achtergronden herkleuren</value>
+  </data>
+  <data name="Ui.ModGen.IncludesLooseInGameAndApp" xml:space="preserve">
+    <value>Inclusief losse game- en apptexturen zoals de pictogrammen van instellingen, chat, spelerslijst en inspectiemenu.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourOtherUITextures" xml:space="preserve">
+    <value>Andere UI texturen herkleuren</value>
+  </data>
+  <data name="Ui.ModGen.CustomRobloxLogo" xml:space="preserve">
+    <value>Eigen Roblox logo</value>
+  </data>
+  <data name="Ui.ModGen.ReplacesTheRobloxLogoInMenus" xml:space="preserve">
+    <value>Vervangt het Roblox logo in menu's, de app en het laadscherm</value>
+  </data>
+  <data name="Ui.ModGen.ModNameGeneratedUITheme" xml:space="preserve">
+    <value>Modnaam (gegenereerd UI thema)</value>
+  </data>
+  <data name="Ui.ModGen.ReadyToGenerate" xml:space="preserve">
+    <value>Klaar om te genereren</value>
+  </data>
+  <data name="Ui.ModGen.GenerateMod" xml:space="preserve">
+    <value>Mod genereren</value>
+  </data>
 </root>

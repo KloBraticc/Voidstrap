@@ -4930,4 +4930,100 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
   <data name="Ui.SessionNotify.ResetToDefaults" xml:space="preserve">
     <value>بازنشانی به پیش‌فرض</value>
   </data>
+  <data name="Ui.ModGen.ModGenerator" xml:space="preserve">
+    <value>سازنده ماد</value>
+  </data>
+  <data name="Ui.ModGen.RecolourRobloxSMenuAndTop" xml:space="preserve">
+    <value>نمادهای منو و نوار بالای Roblox را دوباره رنگ کنید و سپس به‌عنوان ماد ذخیره کنید.</value>
+  </data>
+  <data name="Ui.ModGen.Original" xml:space="preserve">
+    <value>اصلی</value>
+  </data>
+  <data name="Ui.ModGen.YourMod" xml:space="preserve">
+    <value>ماد شما</value>
+  </data>
+  <data name="Ui.ModGen.IconFont" xml:space="preserve">
+    <value>فونت نماد</value>
+  </data>
+  <data name="Ui.ModGen.RealIconsFromYourRobloxBuild" xml:space="preserve">
+    <value>نمادهای واقعی از نسخه Roblox شما</value>
+  </data>
+  <data name="Ui.ModGen.Colour" xml:space="preserve">
+    <value>رنگ</value>
+  </data>
+  <data name="Ui.ModGen.Start" xml:space="preserve">
+    <value>شروع</value>
+  </data>
+  <data name="Ui.ModGen.MiddleOptional" xml:space="preserve">
+    <value>میانه (اختیاری)</value>
+  </data>
+  <data name="Ui.ModGen.End" xml:space="preserve">
+    <value>پایان</value>
+  </data>
+  <data name="Ui.ModGen.Angle" xml:space="preserve">
+    <value>زاویه</value>
+  </data>
+  <data name="Ui.ModGen.NoImageChosen" xml:space="preserve">
+    <value>تصویری انتخاب نشده</value>
+  </data>
+  <data name="Ui.ModGen.EveryIconIsFilledWithThis" xml:space="preserve">
+    <value>هر نماد با این تصویر پر می‌شود و به شکل آن بریده می‌شود.</value>
+  </data>
+  <data name="Ui.ModGen.MoreOptions" xml:space="preserve">
+    <value>گزینه‌های بیشتر</value>
+  </data>
+  <data name="Ui.ModGen.IconSizesShadingWhichIconsChange" xml:space="preserve">
+    <value>اندازه نمادها، سایه‌زنی، نمادهایی که تغییر می‌کنند و لوگوی سفارشی Roblox</value>
+  </data>
+  <data name="Ui.ModGen.RobloxPicksASizeForYour" xml:space="preserve">
+    <value>Roblox اندازه‌ای برای صفحه شما انتخاب می‌کند، پس همه اندازه‌ها امن‌ترین گزینه است.</value>
+  </data>
+  <data name="Ui.ModGen.IconSizes" xml:space="preserve">
+    <value>اندازه نمادها</value>
+  </data>
+  <data name="Ui.ModGen.RobloxDrawsMostNewMenuAnd" xml:space="preserve">
+    <value>Roblox بیشتر نمادهای جدید منو و نوار بالا را به جای تصویر با فونت Builder Icons می‌کشد. با پرکردن تصویری، رنگ میانگین آن استفاده می‌شود.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourTheIconFont" xml:space="preserve">
+    <value>رنگ‌آمیزی دوباره فونت نماد</value>
+  </data>
+  <data name="Ui.ModGen.TwoToneIconsKeepTheirDarker" xml:space="preserve">
+    <value>نمادهای دورنگ جزئیات تیره‌تر خود را حفظ می‌کنند و به شکلی تخت تبدیل نمی‌شوند.</value>
+  </data>
+  <data name="Ui.ModGen.KeepIconShading" xml:space="preserve">
+    <value>حفظ سایه‌زنی نمادها</value>
+  </data>
+  <data name="Ui.ModGen.LeavesBadgesCurrencyReactionsLogosAnd" xml:space="preserve">
+    <value>نشان‌ها، واحد پول، واکنش‌ها، لوگوها و دیگر تصاویر تمام‌رنگی را دست‌نخورده می‌گذارد.</value>
+  </data>
+  <data name="Ui.ModGen.KeepColouredIconsAsTheyAre" xml:space="preserve">
+    <value>نمادهای رنگی را همان‌طور نگه دار</value>
+  </data>
+  <data name="Ui.ModGen.RobloxNormallyTintsTheseShapesWhile" xml:space="preserve">
+    <value>Roblox معمولاً این شکل‌ها را هنگام اجرا رنگ می‌کند، پس مگر اینکه بخواهید همه‌چیز تم‌دار شود خاموش بگذارید.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourButtonsBubblesAndBackgrounds" xml:space="preserve">
+    <value>رنگ‌آمیزی دوباره دکمه‌ها، حباب‌ها و پس‌زمینه‌ها</value>
+  </data>
+  <data name="Ui.ModGen.IncludesLooseInGameAndApp" xml:space="preserve">
+    <value>شامل بافت‌های جداگانه بازی و برنامه مانند نمادهای تنظیمات، گفتگو، فهرست بازیکنان و منوی بازرسی است.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourOtherUITextures" xml:space="preserve">
+    <value>رنگ‌آمیزی دوباره دیگر بافت‌های رابط</value>
+  </data>
+  <data name="Ui.ModGen.CustomRobloxLogo" xml:space="preserve">
+    <value>لوگوی سفارشی Roblox</value>
+  </data>
+  <data name="Ui.ModGen.ReplacesTheRobloxLogoInMenus" xml:space="preserve">
+    <value>لوگوی Roblox را در منوها، برنامه و صفحه بارگذاری جایگزین می‌کند</value>
+  </data>
+  <data name="Ui.ModGen.ModNameGeneratedUITheme" xml:space="preserve">
+    <value>نام ماد (تم رابط ساخته‌شده)</value>
+  </data>
+  <data name="Ui.ModGen.ReadyToGenerate" xml:space="preserve">
+    <value>آماده ساخت</value>
+  </data>
+  <data name="Ui.ModGen.GenerateMod" xml:space="preserve">
+    <value>ساخت ماد</value>
+  </data>
 </root>

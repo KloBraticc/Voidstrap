@@ -4884,4 +4884,100 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
   <data name="Ui.SessionNotify.ResetToDefaults" xml:space="preserve">
     <value>รีเซ็ตเป็นค่าเริ่มต้น</value>
   </data>
+  <data name="Ui.ModGen.ModGenerator" xml:space="preserve">
+    <value>ตัวสร้างม็อด</value>
+  </data>
+  <data name="Ui.ModGen.RecolourRobloxSMenuAndTop" xml:space="preserve">
+    <value>เปลี่ยนสีไอคอนเมนูและแถบด้านบนของ Roblox แล้วบันทึกเป็นม็อด</value>
+  </data>
+  <data name="Ui.ModGen.Original" xml:space="preserve">
+    <value>ต้นฉบับ</value>
+  </data>
+  <data name="Ui.ModGen.YourMod" xml:space="preserve">
+    <value>ม็อดของคุณ</value>
+  </data>
+  <data name="Ui.ModGen.IconFont" xml:space="preserve">
+    <value>ฟอนต์ไอคอน</value>
+  </data>
+  <data name="Ui.ModGen.RealIconsFromYourRobloxBuild" xml:space="preserve">
+    <value>ไอคอนจริงจากบิลด์ Roblox ของคุณ</value>
+  </data>
+  <data name="Ui.ModGen.Colour" xml:space="preserve">
+    <value>สี</value>
+  </data>
+  <data name="Ui.ModGen.Start" xml:space="preserve">
+    <value>เริ่มต้น</value>
+  </data>
+  <data name="Ui.ModGen.MiddleOptional" xml:space="preserve">
+    <value>ตรงกลาง (ไม่บังคับ)</value>
+  </data>
+  <data name="Ui.ModGen.End" xml:space="preserve">
+    <value>สิ้นสุด</value>
+  </data>
+  <data name="Ui.ModGen.Angle" xml:space="preserve">
+    <value>มุม</value>
+  </data>
+  <data name="Ui.ModGen.NoImageChosen" xml:space="preserve">
+    <value>ยังไม่ได้เลือกรูปภาพ</value>
+  </data>
+  <data name="Ui.ModGen.EveryIconIsFilledWithThis" xml:space="preserve">
+    <value>ทุกไอคอนจะถูกเติมด้วยรูปนี้ โดยตัดตามรูปทรงของไอคอน</value>
+  </data>
+  <data name="Ui.ModGen.MoreOptions" xml:space="preserve">
+    <value>ตัวเลือกเพิ่มเติม</value>
+  </data>
+  <data name="Ui.ModGen.IconSizesShadingWhichIconsChange" xml:space="preserve">
+    <value>ขนาดไอคอน การแรเงา ไอคอนที่จะเปลี่ยน และโลโก้ Roblox แบบกำหนดเอง</value>
+  </data>
+  <data name="Ui.ModGen.RobloxPicksASizeForYour" xml:space="preserve">
+    <value>Roblox เลือกขนาดตามหน้าจอของคุณ การเลือกทุกขนาดจึงปลอดภัยที่สุด</value>
+  </data>
+  <data name="Ui.ModGen.IconSizes" xml:space="preserve">
+    <value>ขนาดไอคอน</value>
+  </data>
+  <data name="Ui.ModGen.RobloxDrawsMostNewMenuAnd" xml:space="preserve">
+    <value>Roblox วาดไอคอนเมนูและแถบด้านบนใหม่ส่วนใหญ่ด้วยฟอนต์ Builder Icons แทนรูปภาพ เมื่อเติมด้วยรูปภาพจะใช้สีเฉลี่ยของรูป</value>
+  </data>
+  <data name="Ui.ModGen.RecolourTheIconFont" xml:space="preserve">
+    <value>เปลี่ยนสีฟอนต์ไอคอน</value>
+  </data>
+  <data name="Ui.ModGen.TwoToneIconsKeepTheirDarker" xml:space="preserve">
+    <value>ไอคอนสองโทนจะคงรายละเอียดที่เข้มกว่าไว้แทนที่จะกลายเป็นรูปทรงเรียบ</value>
+  </data>
+  <data name="Ui.ModGen.KeepIconShading" xml:space="preserve">
+    <value>คงการแรเงาไอคอน</value>
+  </data>
+  <data name="Ui.ModGen.LeavesBadgesCurrencyReactionsLogosAnd" xml:space="preserve">
+    <value>ไม่แตะต้องตรา สกุลเงิน รีแอคชัน โลโก้ และภาพสีเต็มอื่น ๆ</value>
+  </data>
+  <data name="Ui.ModGen.KeepColouredIconsAsTheyAre" xml:space="preserve">
+    <value>คงไอคอนสีไว้ตามเดิม</value>
+  </data>
+  <data name="Ui.ModGen.RobloxNormallyTintsTheseShapesWhile" xml:space="preserve">
+    <value>ปกติ Roblox จะย้อมสีรูปทรงเหล่านี้ขณะทำงาน จึงควรปิดไว้เว้นแต่คุณต้องการให้ทุกอย่างเป็นธีม</value>
+  </data>
+  <data name="Ui.ModGen.RecolourButtonsBubblesAndBackgrounds" xml:space="preserve">
+    <value>เปลี่ยนสีปุ่ม บับเบิล และพื้นหลัง</value>
+  </data>
+  <data name="Ui.ModGen.IncludesLooseInGameAndApp" xml:space="preserve">
+    <value>รวมพื้นผิวแยกในเกมและแอป เช่น ไอคอนการตั้งค่า แชท รายชื่อผู้เล่น และเมนูตรวจสอบ</value>
+  </data>
+  <data name="Ui.ModGen.RecolourOtherUITextures" xml:space="preserve">
+    <value>เปลี่ยนสีพื้นผิว UI อื่น ๆ</value>
+  </data>
+  <data name="Ui.ModGen.CustomRobloxLogo" xml:space="preserve">
+    <value>โลโก้ Roblox แบบกำหนดเอง</value>
+  </data>
+  <data name="Ui.ModGen.ReplacesTheRobloxLogoInMenus" xml:space="preserve">
+    <value>แทนที่โลโก้ Roblox ในเมนู แอป และหน้าจอโหลด</value>
+  </data>
+  <data name="Ui.ModGen.ModNameGeneratedUITheme" xml:space="preserve">
+    <value>ชื่อม็อด (ธีม UI ที่สร้างขึ้น)</value>
+  </data>
+  <data name="Ui.ModGen.ReadyToGenerate" xml:space="preserve">
+    <value>พร้อมสร้าง</value>
+  </data>
+  <data name="Ui.ModGen.GenerateMod" xml:space="preserve">
+    <value>สร้างม็อด</value>
+  </data>
 </root>

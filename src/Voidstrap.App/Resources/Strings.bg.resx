@@ -4892,4 +4892,100 @@ Roblox ще бъде изтеглен, когато го стартирате з
   <data name="Ui.SessionNotify.ResetToDefaults" xml:space="preserve">
     <value>Връщане на стойностите по подразбиране</value>
   </data>
+  <data name="Ui.ModGen.ModGenerator" xml:space="preserve">
+    <value>Генератор на модове</value>
+  </data>
+  <data name="Ui.ModGen.RecolourRobloxSMenuAndTop" xml:space="preserve">
+    <value>Пребоядисайте иконите на менюто и горната лента на Roblox и ги запазете като мод.</value>
+  </data>
+  <data name="Ui.ModGen.Original" xml:space="preserve">
+    <value>Оригинал</value>
+  </data>
+  <data name="Ui.ModGen.YourMod" xml:space="preserve">
+    <value>Вашият мод</value>
+  </data>
+  <data name="Ui.ModGen.IconFont" xml:space="preserve">
+    <value>Шрифт на иконите</value>
+  </data>
+  <data name="Ui.ModGen.RealIconsFromYourRobloxBuild" xml:space="preserve">
+    <value>Истински икони от Вашата версия на Roblox</value>
+  </data>
+  <data name="Ui.ModGen.Colour" xml:space="preserve">
+    <value>Цвят</value>
+  </data>
+  <data name="Ui.ModGen.Start" xml:space="preserve">
+    <value>Начало</value>
+  </data>
+  <data name="Ui.ModGen.MiddleOptional" xml:space="preserve">
+    <value>Среда (по избор)</value>
+  </data>
+  <data name="Ui.ModGen.End" xml:space="preserve">
+    <value>Край</value>
+  </data>
+  <data name="Ui.ModGen.Angle" xml:space="preserve">
+    <value>Ъгъл</value>
+  </data>
+  <data name="Ui.ModGen.NoImageChosen" xml:space="preserve">
+    <value>Няма избрано изображение</value>
+  </data>
+  <data name="Ui.ModGen.EveryIconIsFilledWithThis" xml:space="preserve">
+    <value>Всяка икона се запълва с това изображение, изрязано по формата ѝ.</value>
+  </data>
+  <data name="Ui.ModGen.MoreOptions" xml:space="preserve">
+    <value>Още опции</value>
+  </data>
+  <data name="Ui.ModGen.IconSizesShadingWhichIconsChange" xml:space="preserve">
+    <value>Размери на иконите, засенчване, кои икони се променят и собствено лого на Roblox</value>
+  </data>
+  <data name="Ui.ModGen.RobloxPicksASizeForYour" xml:space="preserve">
+    <value>Roblox избира размер за Вашия екран, затова всички размери е най-сигурният избор.</value>
+  </data>
+  <data name="Ui.ModGen.IconSizes" xml:space="preserve">
+    <value>Размери на иконите</value>
+  </data>
+  <data name="Ui.ModGen.RobloxDrawsMostNewMenuAnd" xml:space="preserve">
+    <value>Roblox рисува повечето нови икони на менюто и горната лента с шрифта Builder Icons вместо с изображения. При запълване с изображение се използва средният му цвят.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourTheIconFont" xml:space="preserve">
+    <value>Пребоядисване на шрифта на иконите</value>
+  </data>
+  <data name="Ui.ModGen.TwoToneIconsKeepTheirDarker" xml:space="preserve">
+    <value>Двуцветните икони запазват по-тъмните си детайли, вместо да станат плоска форма.</value>
+  </data>
+  <data name="Ui.ModGen.KeepIconShading" xml:space="preserve">
+    <value>Запазване на засенчването на иконите</value>
+  </data>
+  <data name="Ui.ModGen.LeavesBadgesCurrencyReactionsLogosAnd" xml:space="preserve">
+    <value>Оставя непроменени значките, валутата, реакциите, логата и другите цветни изображения.</value>
+  </data>
+  <data name="Ui.ModGen.KeepColouredIconsAsTheyAre" xml:space="preserve">
+    <value>Запазване на цветните икони</value>
+  </data>
+  <data name="Ui.ModGen.RobloxNormallyTintsTheseShapesWhile" xml:space="preserve">
+    <value>Roblox обикновено оцветява тези форми по време на работа, затова оставете изключено, освен ако не искате всичко в темата.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourButtonsBubblesAndBackgrounds" xml:space="preserve">
+    <value>Пребоядисване на бутони, балончета и фонове</value>
+  </data>
+  <data name="Ui.ModGen.IncludesLooseInGameAndApp" xml:space="preserve">
+    <value>Включва отделни текстури на играта и приложението, като иконите на настройките, чата, списъка с играчи и менюто за преглед.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourOtherUITextures" xml:space="preserve">
+    <value>Пребоядисване на други текстури на интерфейса</value>
+  </data>
+  <data name="Ui.ModGen.CustomRobloxLogo" xml:space="preserve">
+    <value>Собствено лого на Roblox</value>
+  </data>
+  <data name="Ui.ModGen.ReplacesTheRobloxLogoInMenus" xml:space="preserve">
+    <value>Заменя логото на Roblox в менютата, приложението и екрана за зареждане</value>
+  </data>
+  <data name="Ui.ModGen.ModNameGeneratedUITheme" xml:space="preserve">
+    <value>Име на мода (генерирана тема на интерфейса)</value>
+  </data>
+  <data name="Ui.ModGen.ReadyToGenerate" xml:space="preserve">
+    <value>Готово за генериране</value>
+  </data>
+  <data name="Ui.ModGen.GenerateMod" xml:space="preserve">
+    <value>Генериране на мод</value>
+  </data>
 </root>

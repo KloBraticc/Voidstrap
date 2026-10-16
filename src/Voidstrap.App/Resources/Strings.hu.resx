@@ -4888,4 +4888,100 @@ Mit szeretnél tenni?</value>
   <data name="Ui.SessionNotify.ResetToDefaults" xml:space="preserve">
     <value>Alapértékek visszaállítása</value>
   </data>
+  <data name="Ui.ModGen.ModGenerator" xml:space="preserve">
+    <value>Mod generátor</value>
+  </data>
+  <data name="Ui.ModGen.RecolourRobloxSMenuAndTop" xml:space="preserve">
+    <value>Színezd át a Roblox menü- és felső sáv ikonjait, majd mentsd el modként.</value>
+  </data>
+  <data name="Ui.ModGen.Original" xml:space="preserve">
+    <value>Eredeti</value>
+  </data>
+  <data name="Ui.ModGen.YourMod" xml:space="preserve">
+    <value>A te modod</value>
+  </data>
+  <data name="Ui.ModGen.IconFont" xml:space="preserve">
+    <value>Ikonbetűtípus</value>
+  </data>
+  <data name="Ui.ModGen.RealIconsFromYourRobloxBuild" xml:space="preserve">
+    <value>Valódi ikonok a Roblox buildedből</value>
+  </data>
+  <data name="Ui.ModGen.Colour" xml:space="preserve">
+    <value>Szín</value>
+  </data>
+  <data name="Ui.ModGen.Start" xml:space="preserve">
+    <value>Kezdet</value>
+  </data>
+  <data name="Ui.ModGen.MiddleOptional" xml:space="preserve">
+    <value>Közép (nem kötelező)</value>
+  </data>
+  <data name="Ui.ModGen.End" xml:space="preserve">
+    <value>Vég</value>
+  </data>
+  <data name="Ui.ModGen.Angle" xml:space="preserve">
+    <value>Szög</value>
+  </data>
+  <data name="Ui.ModGen.NoImageChosen" xml:space="preserve">
+    <value>Nincs kiválasztott kép</value>
+  </data>
+  <data name="Ui.ModGen.EveryIconIsFilledWithThis" xml:space="preserve">
+    <value>Minden ikont ez a kép tölt ki, az ikon alakjára vágva.</value>
+  </data>
+  <data name="Ui.ModGen.MoreOptions" xml:space="preserve">
+    <value>További lehetőségek</value>
+  </data>
+  <data name="Ui.ModGen.IconSizesShadingWhichIconsChange" xml:space="preserve">
+    <value>Ikonméretek, árnyékolás, mely ikonok változnak, és egyéni Roblox logó</value>
+  </data>
+  <data name="Ui.ModGen.RobloxPicksASizeForYour" xml:space="preserve">
+    <value>A Roblox a képernyődhöz választ méretet, ezért az összes méret a legbiztosabb.</value>
+  </data>
+  <data name="Ui.ModGen.IconSizes" xml:space="preserve">
+    <value>Ikonméretek</value>
+  </data>
+  <data name="Ui.ModGen.RobloxDrawsMostNewMenuAnd" xml:space="preserve">
+    <value>A Roblox a legtöbb új menü- és felső sáv ikont a Builder Icons betűtípussal rajzolja képek helyett. Képkitöltésnél a kép átlagos színe kerül felhasználásra.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourTheIconFont" xml:space="preserve">
+    <value>Ikonbetűtípus átszínezése</value>
+  </data>
+  <data name="Ui.ModGen.TwoToneIconsKeepTheirDarker" xml:space="preserve">
+    <value>A kéttónusú ikonok megtartják sötétebb részleteiket, ahelyett hogy egyszínű formává válnának.</value>
+  </data>
+  <data name="Ui.ModGen.KeepIconShading" xml:space="preserve">
+    <value>Ikonárnyékolás megtartása</value>
+  </data>
+  <data name="Ui.ModGen.LeavesBadgesCurrencyReactionsLogosAnd" xml:space="preserve">
+    <value>Érintetlenül hagyja a jelvényeket, a pénznemet, a reakciókat, a logókat és más színes grafikákat.</value>
+  </data>
+  <data name="Ui.ModGen.KeepColouredIconsAsTheyAre" xml:space="preserve">
+    <value>Színes ikonok változatlanul hagyása</value>
+  </data>
+  <data name="Ui.ModGen.RobloxNormallyTintsTheseShapesWhile" xml:space="preserve">
+    <value>A Roblox futás közben általában maga színezi ezeket a formákat, ezért hagyd kikapcsolva, hacsak nem akarsz mindent témázni.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourButtonsBubblesAndBackgrounds" xml:space="preserve">
+    <value>Gombok, buborékok és hátterek átszínezése</value>
+  </data>
+  <data name="Ui.ModGen.IncludesLooseInGameAndApp" xml:space="preserve">
+    <value>Tartalmazza a különálló játék- és alkalmazástextúrákat, például a beállítások, a csevegés, a játékoslista és a vizsgálati menü ikonjait.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourOtherUITextures" xml:space="preserve">
+    <value>Más felülettextúrák átszínezése</value>
+  </data>
+  <data name="Ui.ModGen.CustomRobloxLogo" xml:space="preserve">
+    <value>Egyéni Roblox logó</value>
+  </data>
+  <data name="Ui.ModGen.ReplacesTheRobloxLogoInMenus" xml:space="preserve">
+    <value>Lecseréli a Roblox logót a menükben, az alkalmazásban és a betöltőképernyőn</value>
+  </data>
+  <data name="Ui.ModGen.ModNameGeneratedUITheme" xml:space="preserve">
+    <value>Mod neve (generált felülettéma)</value>
+  </data>
+  <data name="Ui.ModGen.ReadyToGenerate" xml:space="preserve">
+    <value>Készen áll a generálásra</value>
+  </data>
+  <data name="Ui.ModGen.GenerateMod" xml:space="preserve">
+    <value>Mod generálása</value>
+  </data>
 </root>

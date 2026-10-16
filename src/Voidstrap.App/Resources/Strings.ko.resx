@@ -4902,4 +4902,100 @@ Roblox는 Voidstrap으로 처음 실행할 때 다운로드됩니다. 실행하�
   <data name="Ui.SessionNotify.ResetToDefaults" xml:space="preserve">
     <value>기본값으로 재설정</value>
   </data>
+  <data name="Ui.ModGen.ModGenerator" xml:space="preserve">
+    <value>모드 생성기</value>
+  </data>
+  <data name="Ui.ModGen.RecolourRobloxSMenuAndTop" xml:space="preserve">
+    <value>Roblox 메뉴와 상단 바 아이콘의 색을 바꾼 뒤 모드로 저장합니다.</value>
+  </data>
+  <data name="Ui.ModGen.Original" xml:space="preserve">
+    <value>원본</value>
+  </data>
+  <data name="Ui.ModGen.YourMod" xml:space="preserve">
+    <value>내 모드</value>
+  </data>
+  <data name="Ui.ModGen.IconFont" xml:space="preserve">
+    <value>아이콘 글꼴</value>
+  </data>
+  <data name="Ui.ModGen.RealIconsFromYourRobloxBuild" xml:space="preserve">
+    <value>내 Roblox 빌드의 실제 아이콘</value>
+  </data>
+  <data name="Ui.ModGen.Colour" xml:space="preserve">
+    <value>색상</value>
+  </data>
+  <data name="Ui.ModGen.Start" xml:space="preserve">
+    <value>시작</value>
+  </data>
+  <data name="Ui.ModGen.MiddleOptional" xml:space="preserve">
+    <value>중간 (선택 사항)</value>
+  </data>
+  <data name="Ui.ModGen.End" xml:space="preserve">
+    <value>끝</value>
+  </data>
+  <data name="Ui.ModGen.Angle" xml:space="preserve">
+    <value>각도</value>
+  </data>
+  <data name="Ui.ModGen.NoImageChosen" xml:space="preserve">
+    <value>선택한 이미지 없음</value>
+  </data>
+  <data name="Ui.ModGen.EveryIconIsFilledWithThis" xml:space="preserve">
+    <value>각 아이콘을 이 이미지로 채우고 아이콘 모양에 맞게 자릅니다.</value>
+  </data>
+  <data name="Ui.ModGen.MoreOptions" xml:space="preserve">
+    <value>추가 옵션</value>
+  </data>
+  <data name="Ui.ModGen.IconSizesShadingWhichIconsChange" xml:space="preserve">
+    <value>아이콘 크기, 음영, 바뀔 아이콘, 사용자 지정 Roblox 로고</value>
+  </data>
+  <data name="Ui.ModGen.RobloxPicksASizeForYour" xml:space="preserve">
+    <value>Roblox가 화면에 맞는 크기를 선택하므로 모든 크기가 가장 안전합니다.</value>
+  </data>
+  <data name="Ui.ModGen.IconSizes" xml:space="preserve">
+    <value>아이콘 크기</value>
+  </data>
+  <data name="Ui.ModGen.RobloxDrawsMostNewMenuAnd" xml:space="preserve">
+    <value>Roblox는 새 메뉴와 상단 바 아이콘 대부분을 이미지 대신 Builder Icons 글꼴로 그립니다. 이미지 채우기를 사용하면 이미지의 평균 색상이 사용됩니다.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourTheIconFont" xml:space="preserve">
+    <value>아이콘 글꼴 색 바꾸기</value>
+  </data>
+  <data name="Ui.ModGen.TwoToneIconsKeepTheirDarker" xml:space="preserve">
+    <value>두 가지 톤의 아이콘은 평평한 모양이 되지 않고 어두운 세부 표현을 유지합니다.</value>
+  </data>
+  <data name="Ui.ModGen.KeepIconShading" xml:space="preserve">
+    <value>아이콘 음영 유지</value>
+  </data>
+  <data name="Ui.ModGen.LeavesBadgesCurrencyReactionsLogosAnd" xml:space="preserve">
+    <value>배지, 통화, 반응, 로고 및 기타 풀 컬러 이미지는 그대로 둡니다.</value>
+  </data>
+  <data name="Ui.ModGen.KeepColouredIconsAsTheyAre" xml:space="preserve">
+    <value>색이 있는 아이콘 그대로 두기</value>
+  </data>
+  <data name="Ui.ModGen.RobloxNormallyTintsTheseShapesWhile" xml:space="preserve">
+    <value>Roblox는 보통 실행 중에 이 모양들에 색을 입히므로 모든 것을 테마로 바꾸려는 경우가 아니면 꺼 두십시오.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourButtonsBubblesAndBackgrounds" xml:space="preserve">
+    <value>버튼, 말풍선, 배경 색 바꾸기</value>
+  </data>
+  <data name="Ui.ModGen.IncludesLooseInGameAndApp" xml:space="preserve">
+    <value>설정, 채팅, 플레이어 목록, 검사 메뉴 아이콘 같은 게임과 앱의 개별 텍스처를 포함합니다.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourOtherUITextures" xml:space="preserve">
+    <value>기타 UI 텍스처 색 바꾸기</value>
+  </data>
+  <data name="Ui.ModGen.CustomRobloxLogo" xml:space="preserve">
+    <value>사용자 지정 Roblox 로고</value>
+  </data>
+  <data name="Ui.ModGen.ReplacesTheRobloxLogoInMenus" xml:space="preserve">
+    <value>메뉴, 앱, 로딩 화면의 Roblox 로고를 대체합니다</value>
+  </data>
+  <data name="Ui.ModGen.ModNameGeneratedUITheme" xml:space="preserve">
+    <value>모드 이름 (생성된 UI 테마)</value>
+  </data>
+  <data name="Ui.ModGen.ReadyToGenerate" xml:space="preserve">
+    <value>생성 준비 완료</value>
+  </data>
+  <data name="Ui.ModGen.GenerateMod" xml:space="preserve">
+    <value>모드 생성</value>
+  </data>
 </root>

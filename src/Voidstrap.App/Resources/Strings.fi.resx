@@ -4884,4 +4884,100 @@ Mitä haluat tehdä?</value>
   <data name="Ui.SessionNotify.ResetToDefaults" xml:space="preserve">
     <value>Palauta oletukset</value>
   </data>
+  <data name="Ui.ModGen.ModGenerator" xml:space="preserve">
+    <value>Modigeneraattori</value>
+  </data>
+  <data name="Ui.ModGen.RecolourRobloxSMenuAndTop" xml:space="preserve">
+    <value>Väritä Robloxin valikon ja yläpalkin kuvakkeet uudelleen ja tallenna tulos modiksi.</value>
+  </data>
+  <data name="Ui.ModGen.Original" xml:space="preserve">
+    <value>Alkuperäinen</value>
+  </data>
+  <data name="Ui.ModGen.YourMod" xml:space="preserve">
+    <value>Oma modisi</value>
+  </data>
+  <data name="Ui.ModGen.IconFont" xml:space="preserve">
+    <value>Kuvakefontti</value>
+  </data>
+  <data name="Ui.ModGen.RealIconsFromYourRobloxBuild" xml:space="preserve">
+    <value>Aidot kuvakkeet Roblox-versiostasi</value>
+  </data>
+  <data name="Ui.ModGen.Colour" xml:space="preserve">
+    <value>Väri</value>
+  </data>
+  <data name="Ui.ModGen.Start" xml:space="preserve">
+    <value>Alku</value>
+  </data>
+  <data name="Ui.ModGen.MiddleOptional" xml:space="preserve">
+    <value>Keskikohta (valinnainen)</value>
+  </data>
+  <data name="Ui.ModGen.End" xml:space="preserve">
+    <value>Loppu</value>
+  </data>
+  <data name="Ui.ModGen.Angle" xml:space="preserve">
+    <value>Kulma</value>
+  </data>
+  <data name="Ui.ModGen.NoImageChosen" xml:space="preserve">
+    <value>Kuvaa ei ole valittu</value>
+  </data>
+  <data name="Ui.ModGen.EveryIconIsFilledWithThis" xml:space="preserve">
+    <value>Jokainen kuvake täytetään tällä kuvalla, rajattuna sen muotoon.</value>
+  </data>
+  <data name="Ui.ModGen.MoreOptions" xml:space="preserve">
+    <value>Lisää asetuksia</value>
+  </data>
+  <data name="Ui.ModGen.IconSizesShadingWhichIconsChange" xml:space="preserve">
+    <value>Kuvakekoot, varjostus, mitkä kuvakkeet muuttuvat ja oma Roblox-logo</value>
+  </data>
+  <data name="Ui.ModGen.RobloxPicksASizeForYour" xml:space="preserve">
+    <value>Roblox valitsee näytöllesi koon, joten kaikki koot on turvallisin valinta.</value>
+  </data>
+  <data name="Ui.ModGen.IconSizes" xml:space="preserve">
+    <value>Kuvakekoot</value>
+  </data>
+  <data name="Ui.ModGen.RobloxDrawsMostNewMenuAnd" xml:space="preserve">
+    <value>Roblox piirtää useimmat uudet valikon ja yläpalkin kuvakkeet Builder Icons -fontilla kuvien sijaan. Kuvatäytössä käytetään kuvan keskiväriä.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourTheIconFont" xml:space="preserve">
+    <value>Väritä kuvakefontti</value>
+  </data>
+  <data name="Ui.ModGen.TwoToneIconsKeepTheirDarker" xml:space="preserve">
+    <value>Kaksisävyiset kuvakkeet säilyttävät tummemmat yksityiskohtansa eivätkä muutu tasaiseksi muodoksi.</value>
+  </data>
+  <data name="Ui.ModGen.KeepIconShading" xml:space="preserve">
+    <value>Säilytä kuvakkeiden varjostus</value>
+  </data>
+  <data name="Ui.ModGen.LeavesBadgesCurrencyReactionsLogosAnd" xml:space="preserve">
+    <value>Jättää merkit, valuutan, reaktiot, logot ja muun täysvärisen grafiikan ennalleen.</value>
+  </data>
+  <data name="Ui.ModGen.KeepColouredIconsAsTheyAre" xml:space="preserve">
+    <value>Jätä värilliset kuvakkeet ennalleen</value>
+  </data>
+  <data name="Ui.ModGen.RobloxNormallyTintsTheseShapesWhile" xml:space="preserve">
+    <value>Roblox sävyttää nämä muodot yleensä ajon aikana, joten pidä tämä pois päältä, ellet halua teemoittaa kaikkea.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourButtonsBubblesAndBackgrounds" xml:space="preserve">
+    <value>Väritä painikkeet, kuplat ja taustat</value>
+  </data>
+  <data name="Ui.ModGen.IncludesLooseInGameAndApp" xml:space="preserve">
+    <value>Sisältää erilliset pelin ja sovelluksen tekstuurit, kuten asetusten, chatin, pelaajaluettelon ja tarkasteluvalikon kuvakkeet.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourOtherUITextures" xml:space="preserve">
+    <value>Väritä muut käyttöliittymän tekstuurit</value>
+  </data>
+  <data name="Ui.ModGen.CustomRobloxLogo" xml:space="preserve">
+    <value>Oma Roblox-logo</value>
+  </data>
+  <data name="Ui.ModGen.ReplacesTheRobloxLogoInMenus" xml:space="preserve">
+    <value>Korvaa Roblox-logon valikoissa, sovelluksessa ja latausnäytössä</value>
+  </data>
+  <data name="Ui.ModGen.ModNameGeneratedUITheme" xml:space="preserve">
+    <value>Modin nimi (luotu käyttöliittymäteema)</value>
+  </data>
+  <data name="Ui.ModGen.ReadyToGenerate" xml:space="preserve">
+    <value>Valmis luotavaksi</value>
+  </data>
+  <data name="Ui.ModGen.GenerateMod" xml:space="preserve">
+    <value>Luo modi</value>
+  </data>
 </root>

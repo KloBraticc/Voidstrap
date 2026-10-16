@@ -4884,4 +4884,100 @@ Ne yapmak istersiniz?</value>
   <data name="Ui.SessionNotify.ResetToDefaults" xml:space="preserve">
     <value>Varsayılanlara sıfırla</value>
   </data>
+  <data name="Ui.ModGen.ModGenerator" xml:space="preserve">
+    <value>Mod oluşturucu</value>
+  </data>
+  <data name="Ui.ModGen.RecolourRobloxSMenuAndTop" xml:space="preserve">
+    <value>Roblox'un menü ve üst çubuk simgelerini yeniden renklendirin, sonra mod olarak kaydedin.</value>
+  </data>
+  <data name="Ui.ModGen.Original" xml:space="preserve">
+    <value>Orijinal</value>
+  </data>
+  <data name="Ui.ModGen.YourMod" xml:space="preserve">
+    <value>Modunuz</value>
+  </data>
+  <data name="Ui.ModGen.IconFont" xml:space="preserve">
+    <value>Simge yazı tipi</value>
+  </data>
+  <data name="Ui.ModGen.RealIconsFromYourRobloxBuild" xml:space="preserve">
+    <value>Roblox sürümünüzdeki gerçek simgeler</value>
+  </data>
+  <data name="Ui.ModGen.Colour" xml:space="preserve">
+    <value>Renk</value>
+  </data>
+  <data name="Ui.ModGen.Start" xml:space="preserve">
+    <value>Başlangıç</value>
+  </data>
+  <data name="Ui.ModGen.MiddleOptional" xml:space="preserve">
+    <value>Orta (isteğe bağlı)</value>
+  </data>
+  <data name="Ui.ModGen.End" xml:space="preserve">
+    <value>Bitiş</value>
+  </data>
+  <data name="Ui.ModGen.Angle" xml:space="preserve">
+    <value>Açı</value>
+  </data>
+  <data name="Ui.ModGen.NoImageChosen" xml:space="preserve">
+    <value>Görsel seçilmedi</value>
+  </data>
+  <data name="Ui.ModGen.EveryIconIsFilledWithThis" xml:space="preserve">
+    <value>Her simge, kendi şekline kırpılmış bu görselle doldurulur.</value>
+  </data>
+  <data name="Ui.ModGen.MoreOptions" xml:space="preserve">
+    <value>Daha fazla seçenek</value>
+  </data>
+  <data name="Ui.ModGen.IconSizesShadingWhichIconsChange" xml:space="preserve">
+    <value>Simge boyutları, gölgelendirme, hangi simgelerin değişeceği ve özel bir Roblox logosu</value>
+  </data>
+  <data name="Ui.ModGen.RobloxPicksASizeForYour" xml:space="preserve">
+    <value>Roblox ekranınız için bir boyut seçer, bu yüzden tüm boyutlar en güvenlisidir.</value>
+  </data>
+  <data name="Ui.ModGen.IconSizes" xml:space="preserve">
+    <value>Simge boyutları</value>
+  </data>
+  <data name="Ui.ModGen.RobloxDrawsMostNewMenuAnd" xml:space="preserve">
+    <value>Roblox yeni menü ve üst çubuk simgelerinin çoğunu görseller yerine Builder Icons yazı tipiyle çizer. Görsel dolgusunda görselin ortalama rengi kullanılır.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourTheIconFont" xml:space="preserve">
+    <value>Simge yazı tipini yeniden renklendir</value>
+  </data>
+  <data name="Ui.ModGen.TwoToneIconsKeepTheirDarker" xml:space="preserve">
+    <value>İki tonlu simgeler düz bir şekle dönüşmek yerine koyu ayrıntılarını korur.</value>
+  </data>
+  <data name="Ui.ModGen.KeepIconShading" xml:space="preserve">
+    <value>Simge gölgelendirmesini koru</value>
+  </data>
+  <data name="Ui.ModGen.LeavesBadgesCurrencyReactionsLogosAnd" xml:space="preserve">
+    <value>Rozetlere, para birimine, tepkilere, logolara ve diğer tam renkli görsellere dokunmaz.</value>
+  </data>
+  <data name="Ui.ModGen.KeepColouredIconsAsTheyAre" xml:space="preserve">
+    <value>Renkli simgeleri olduğu gibi bırak</value>
+  </data>
+  <data name="Ui.ModGen.RobloxNormallyTintsTheseShapesWhile" xml:space="preserve">
+    <value>Roblox bu şekilleri normalde çalışırken renklendirir, bu yüzden her şeyin temalı olmasını istemiyorsanız kapalı bırakın.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourButtonsBubblesAndBackgrounds" xml:space="preserve">
+    <value>Düğmeleri, balonları ve arka planları yeniden renklendir</value>
+  </data>
+  <data name="Ui.ModGen.IncludesLooseInGameAndApp" xml:space="preserve">
+    <value>Ayarlar, sohbet, oyuncu listesi ve inceleme menüsü simgeleri gibi ayrı oyun ve uygulama dokularını içerir.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourOtherUITextures" xml:space="preserve">
+    <value>Diğer arayüz dokularını yeniden renklendir</value>
+  </data>
+  <data name="Ui.ModGen.CustomRobloxLogo" xml:space="preserve">
+    <value>Özel Roblox logosu</value>
+  </data>
+  <data name="Ui.ModGen.ReplacesTheRobloxLogoInMenus" xml:space="preserve">
+    <value>Menülerde, uygulamada ve yükleme ekranında Roblox logosunu değiştirir</value>
+  </data>
+  <data name="Ui.ModGen.ModNameGeneratedUITheme" xml:space="preserve">
+    <value>Mod adı (oluşturulan arayüz teması)</value>
+  </data>
+  <data name="Ui.ModGen.ReadyToGenerate" xml:space="preserve">
+    <value>Oluşturmaya hazır</value>
+  </data>
+  <data name="Ui.ModGen.GenerateMod" xml:space="preserve">
+    <value>Mod oluştur</value>
+  </data>
 </root>

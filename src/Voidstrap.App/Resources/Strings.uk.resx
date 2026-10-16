@@ -4902,4 +4902,100 @@ Roblox буде завантажено під час першого запуск
   <data name="Ui.SessionNotify.ResetToDefaults" xml:space="preserve">
     <value>Скинути до типових</value>
   </data>
+  <data name="Ui.ModGen.ModGenerator" xml:space="preserve">
+    <value>Генератор модів</value>
+  </data>
+  <data name="Ui.ModGen.RecolourRobloxSMenuAndTop" xml:space="preserve">
+    <value>Перефарбуйте значки меню та верхньої панелі Roblox і збережіть результат як мод.</value>
+  </data>
+  <data name="Ui.ModGen.Original" xml:space="preserve">
+    <value>Оригінал</value>
+  </data>
+  <data name="Ui.ModGen.YourMod" xml:space="preserve">
+    <value>Ваш мод</value>
+  </data>
+  <data name="Ui.ModGen.IconFont" xml:space="preserve">
+    <value>Шрифт значків</value>
+  </data>
+  <data name="Ui.ModGen.RealIconsFromYourRobloxBuild" xml:space="preserve">
+    <value>Справжні значки з Вашої збірки Roblox</value>
+  </data>
+  <data name="Ui.ModGen.Colour" xml:space="preserve">
+    <value>Колір</value>
+  </data>
+  <data name="Ui.ModGen.Start" xml:space="preserve">
+    <value>Початок</value>
+  </data>
+  <data name="Ui.ModGen.MiddleOptional" xml:space="preserve">
+    <value>Середина (необов'язково)</value>
+  </data>
+  <data name="Ui.ModGen.End" xml:space="preserve">
+    <value>Кінець</value>
+  </data>
+  <data name="Ui.ModGen.Angle" xml:space="preserve">
+    <value>Кут</value>
+  </data>
+  <data name="Ui.ModGen.NoImageChosen" xml:space="preserve">
+    <value>Зображення не вибрано</value>
+  </data>
+  <data name="Ui.ModGen.EveryIconIsFilledWithThis" xml:space="preserve">
+    <value>Кожен значок заповнюється цим зображенням, обрізаним за його формою.</value>
+  </data>
+  <data name="Ui.ModGen.MoreOptions" xml:space="preserve">
+    <value>Більше параметрів</value>
+  </data>
+  <data name="Ui.ModGen.IconSizesShadingWhichIconsChange" xml:space="preserve">
+    <value>Розміри значків, затінення, які значки змінюються, і власний логотип Roblox</value>
+  </data>
+  <data name="Ui.ModGen.RobloxPicksASizeForYour" xml:space="preserve">
+    <value>Roblox обирає розмір під Ваш екран, тому всі розміри найнадійніше.</value>
+  </data>
+  <data name="Ui.ModGen.IconSizes" xml:space="preserve">
+    <value>Розміри значків</value>
+  </data>
+  <data name="Ui.ModGen.RobloxDrawsMostNewMenuAnd" xml:space="preserve">
+    <value>Більшість нових значків меню та верхньої панелі Roblox малює шрифтом Builder Icons, а не зображеннями. Під час заливки зображенням використовується його середній колір.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourTheIconFont" xml:space="preserve">
+    <value>Перефарбувати шрифт значків</value>
+  </data>
+  <data name="Ui.ModGen.TwoToneIconsKeepTheirDarker" xml:space="preserve">
+    <value>Двоколірні значки зберігають темніші деталі, а не стають пласкою формою.</value>
+  </data>
+  <data name="Ui.ModGen.KeepIconShading" xml:space="preserve">
+    <value>Зберігати затінення значків</value>
+  </data>
+  <data name="Ui.ModGen.LeavesBadgesCurrencyReactionsLogosAnd" xml:space="preserve">
+    <value>Не змінює значки досягнень, валюту, реакції, логотипи та інші кольорові зображення.</value>
+  </data>
+  <data name="Ui.ModGen.KeepColouredIconsAsTheyAre" xml:space="preserve">
+    <value>Залишати кольорові значки як є</value>
+  </data>
+  <data name="Ui.ModGen.RobloxNormallyTintsTheseShapesWhile" xml:space="preserve">
+    <value>Roblox зазвичай тонує ці форми під час роботи, тож не вмикайте, якщо не хочете оформити все.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourButtonsBubblesAndBackgrounds" xml:space="preserve">
+    <value>Перефарбувати кнопки, бульбашки й фони</value>
+  </data>
+  <data name="Ui.ModGen.IncludesLooseInGameAndApp" xml:space="preserve">
+    <value>Містить окремі текстури гри та застосунку, як-от значки налаштувань, чату, списку гравців і меню огляду.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourOtherUITextures" xml:space="preserve">
+    <value>Перефарбувати інші текстури інтерфейсу</value>
+  </data>
+  <data name="Ui.ModGen.CustomRobloxLogo" xml:space="preserve">
+    <value>Власний логотип Roblox</value>
+  </data>
+  <data name="Ui.ModGen.ReplacesTheRobloxLogoInMenus" xml:space="preserve">
+    <value>Замінює логотип Roblox у меню, застосунку та на екрані завантаження</value>
+  </data>
+  <data name="Ui.ModGen.ModNameGeneratedUITheme" xml:space="preserve">
+    <value>Назва мода (згенерована тема інтерфейсу)</value>
+  </data>
+  <data name="Ui.ModGen.ReadyToGenerate" xml:space="preserve">
+    <value>Готово до створення</value>
+  </data>
+  <data name="Ui.ModGen.GenerateMod" xml:space="preserve">
+    <value>Створити мод</value>
+  </data>
 </root>

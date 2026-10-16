@@ -4915,4 +4915,100 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
   <data name="Ui.SessionNotify.ResetToDefaults" xml:space="preserve">
     <value>既定に戻す</value>
   </data>
+  <data name="Ui.ModGen.ModGenerator" xml:space="preserve">
+    <value>Mod ジェネレーター</value>
+  </data>
+  <data name="Ui.ModGen.RecolourRobloxSMenuAndTop" xml:space="preserve">
+    <value>Roblox のメニューとトップバーのアイコンを再着色し、Mod として保存します。</value>
+  </data>
+  <data name="Ui.ModGen.Original" xml:space="preserve">
+    <value>オリジナル</value>
+  </data>
+  <data name="Ui.ModGen.YourMod" xml:space="preserve">
+    <value>あなたの Mod</value>
+  </data>
+  <data name="Ui.ModGen.IconFont" xml:space="preserve">
+    <value>アイコンフォント</value>
+  </data>
+  <data name="Ui.ModGen.RealIconsFromYourRobloxBuild" xml:space="preserve">
+    <value>お使いの Roblox ビルドの実際のアイコン</value>
+  </data>
+  <data name="Ui.ModGen.Colour" xml:space="preserve">
+    <value>色</value>
+  </data>
+  <data name="Ui.ModGen.Start" xml:space="preserve">
+    <value>開始</value>
+  </data>
+  <data name="Ui.ModGen.MiddleOptional" xml:space="preserve">
+    <value>中間 (任意)</value>
+  </data>
+  <data name="Ui.ModGen.End" xml:space="preserve">
+    <value>終了</value>
+  </data>
+  <data name="Ui.ModGen.Angle" xml:space="preserve">
+    <value>角度</value>
+  </data>
+  <data name="Ui.ModGen.NoImageChosen" xml:space="preserve">
+    <value>画像が選択されていません</value>
+  </data>
+  <data name="Ui.ModGen.EveryIconIsFilledWithThis" xml:space="preserve">
+    <value>各アイコンをこの画像で塗りつぶし、アイコンの形に切り抜きます。</value>
+  </data>
+  <data name="Ui.ModGen.MoreOptions" xml:space="preserve">
+    <value>その他のオプション</value>
+  </data>
+  <data name="Ui.ModGen.IconSizesShadingWhichIconsChange" xml:space="preserve">
+    <value>アイコンのサイズ、陰影、変更するアイコン、カスタム Roblox ロゴ</value>
+  </data>
+  <data name="Ui.ModGen.RobloxPicksASizeForYour" xml:space="preserve">
+    <value>Roblox は画面に合わせてサイズを選ぶため、すべてのサイズが最も安全です。</value>
+  </data>
+  <data name="Ui.ModGen.IconSizes" xml:space="preserve">
+    <value>アイコンのサイズ</value>
+  </data>
+  <data name="Ui.ModGen.RobloxDrawsMostNewMenuAnd" xml:space="preserve">
+    <value>Roblox は新しいメニューとトップバーのアイコンの多くを画像ではなく Builder Icons フォントで描画します。画像で塗りつぶす場合は平均色が使われます。</value>
+  </data>
+  <data name="Ui.ModGen.RecolourTheIconFont" xml:space="preserve">
+    <value>アイコンフォントを再着色</value>
+  </data>
+  <data name="Ui.ModGen.TwoToneIconsKeepTheirDarker" xml:space="preserve">
+    <value>2 色のアイコンは平坦な形にならず、暗い部分のディテールを保ちます。</value>
+  </data>
+  <data name="Ui.ModGen.KeepIconShading" xml:space="preserve">
+    <value>アイコンの陰影を保持</value>
+  </data>
+  <data name="Ui.ModGen.LeavesBadgesCurrencyReactionsLogosAnd" xml:space="preserve">
+    <value>バッジ、通貨、リアクション、ロゴなどのフルカラーのアートはそのままにします。</value>
+  </data>
+  <data name="Ui.ModGen.KeepColouredIconsAsTheyAre" xml:space="preserve">
+    <value>色付きアイコンはそのまま</value>
+  </data>
+  <data name="Ui.ModGen.RobloxNormallyTintsTheseShapesWhile" xml:space="preserve">
+    <value>Roblox は通常、実行中にこれらの形に色を付けるため、すべてをテーマ化したい場合以外はオフのままにしてください。</value>
+  </data>
+  <data name="Ui.ModGen.RecolourButtonsBubblesAndBackgrounds" xml:space="preserve">
+    <value>ボタン、吹き出し、背景を再着色</value>
+  </data>
+  <data name="Ui.ModGen.IncludesLooseInGameAndApp" xml:space="preserve">
+    <value>設定、チャット、プレイヤーリスト、調査メニューのアイコンなど、ゲームとアプリの個別テクスチャを含みます。</value>
+  </data>
+  <data name="Ui.ModGen.RecolourOtherUITextures" xml:space="preserve">
+    <value>その他の UI テクスチャを再着色</value>
+  </data>
+  <data name="Ui.ModGen.CustomRobloxLogo" xml:space="preserve">
+    <value>カスタム Roblox ロゴ</value>
+  </data>
+  <data name="Ui.ModGen.ReplacesTheRobloxLogoInMenus" xml:space="preserve">
+    <value>メニュー、アプリ、読み込み画面の Roblox ロゴを置き換えます</value>
+  </data>
+  <data name="Ui.ModGen.ModNameGeneratedUITheme" xml:space="preserve">
+    <value>Mod 名 (生成された UI テーマ)</value>
+  </data>
+  <data name="Ui.ModGen.ReadyToGenerate" xml:space="preserve">
+    <value>生成の準備完了</value>
+  </data>
+  <data name="Ui.ModGen.GenerateMod" xml:space="preserve">
+    <value>Mod を生成</value>
+  </data>
 </root>

@@ -4926,4 +4926,100 @@ Ką norėtumėte daryti?</value>
   <data name="Ui.SessionNotify.ResetToDefaults" xml:space="preserve">
     <value>Atkurti numatytuosius</value>
   </data>
+  <data name="Ui.ModGen.ModGenerator" xml:space="preserve">
+    <value>Modų generatorius</value>
+  </data>
+  <data name="Ui.ModGen.RecolourRobloxSMenuAndTop" xml:space="preserve">
+    <value>Perspalvinkite Roblox meniu ir viršutinės juostos piktogramas ir išsaugokite kaip modą.</value>
+  </data>
+  <data name="Ui.ModGen.Original" xml:space="preserve">
+    <value>Originalas</value>
+  </data>
+  <data name="Ui.ModGen.YourMod" xml:space="preserve">
+    <value>Jūsų modas</value>
+  </data>
+  <data name="Ui.ModGen.IconFont" xml:space="preserve">
+    <value>Piktogramų šriftas</value>
+  </data>
+  <data name="Ui.ModGen.RealIconsFromYourRobloxBuild" xml:space="preserve">
+    <value>Tikros piktogramos iš jūsų Roblox versijos</value>
+  </data>
+  <data name="Ui.ModGen.Colour" xml:space="preserve">
+    <value>Spalva</value>
+  </data>
+  <data name="Ui.ModGen.Start" xml:space="preserve">
+    <value>Pradžia</value>
+  </data>
+  <data name="Ui.ModGen.MiddleOptional" xml:space="preserve">
+    <value>Vidurys (nebūtina)</value>
+  </data>
+  <data name="Ui.ModGen.End" xml:space="preserve">
+    <value>Pabaiga</value>
+  </data>
+  <data name="Ui.ModGen.Angle" xml:space="preserve">
+    <value>Kampas</value>
+  </data>
+  <data name="Ui.ModGen.NoImageChosen" xml:space="preserve">
+    <value>Paveikslėlis nepasirinktas</value>
+  </data>
+  <data name="Ui.ModGen.EveryIconIsFilledWithThis" xml:space="preserve">
+    <value>Kiekviena piktograma užpildoma šiuo paveikslėliu, apkirptu pagal jos formą.</value>
+  </data>
+  <data name="Ui.ModGen.MoreOptions" xml:space="preserve">
+    <value>Daugiau parinkčių</value>
+  </data>
+  <data name="Ui.ModGen.IconSizesShadingWhichIconsChange" xml:space="preserve">
+    <value>Piktogramų dydžiai, šešėliavimas, kurios piktogramos keičiasi, ir savas Roblox logotipas</value>
+  </data>
+  <data name="Ui.ModGen.RobloxPicksASizeForYour" xml:space="preserve">
+    <value>Roblox pasirenka dydį jūsų ekranui, todėl visi dydžiai yra saugiausia.</value>
+  </data>
+  <data name="Ui.ModGen.IconSizes" xml:space="preserve">
+    <value>Piktogramų dydžiai</value>
+  </data>
+  <data name="Ui.ModGen.RobloxDrawsMostNewMenuAnd" xml:space="preserve">
+    <value>Daugumą naujų meniu ir viršutinės juostos piktogramų Roblox piešia šriftu Builder Icons, o ne paveikslėliais. Užpildant paveikslėliu naudojama jo vidutinė spalva.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourTheIconFont" xml:space="preserve">
+    <value>Perspalvinti piktogramų šriftą</value>
+  </data>
+  <data name="Ui.ModGen.TwoToneIconsKeepTheirDarker" xml:space="preserve">
+    <value>Dviejų tonų piktogramos išlaiko tamsesnes detales, užuot tapusios plokščia forma.</value>
+  </data>
+  <data name="Ui.ModGen.KeepIconShading" xml:space="preserve">
+    <value>Išlaikyti piktogramų šešėliavimą</value>
+  </data>
+  <data name="Ui.ModGen.LeavesBadgesCurrencyReactionsLogosAnd" xml:space="preserve">
+    <value>Nekeičia ženklelių, valiutos, reakcijų, logotipų ir kitos spalvotos grafikos.</value>
+  </data>
+  <data name="Ui.ModGen.KeepColouredIconsAsTheyAre" xml:space="preserve">
+    <value>Palikti spalvotas piktogramas kaip yra</value>
+  </data>
+  <data name="Ui.ModGen.RobloxNormallyTintsTheseShapesWhile" xml:space="preserve">
+    <value>Roblox paprastai pats atspalvina šias formas veikimo metu, todėl palikite išjungtą, nebent norite viską pritaikyti temai.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourButtonsBubblesAndBackgrounds" xml:space="preserve">
+    <value>Perspalvinti mygtukus, burbulus ir fonus</value>
+  </data>
+  <data name="Ui.ModGen.IncludesLooseInGameAndApp" xml:space="preserve">
+    <value>Apima atskiras žaidimo ir programos tekstūras, pvz., nustatymų, pokalbių, žaidėjų sąrašo ir apžiūros meniu piktogramas.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourOtherUITextures" xml:space="preserve">
+    <value>Perspalvinti kitas sąsajos tekstūras</value>
+  </data>
+  <data name="Ui.ModGen.CustomRobloxLogo" xml:space="preserve">
+    <value>Savas Roblox logotipas</value>
+  </data>
+  <data name="Ui.ModGen.ReplacesTheRobloxLogoInMenus" xml:space="preserve">
+    <value>Pakeičia Roblox logotipą meniu, programoje ir įkėlimo ekrane</value>
+  </data>
+  <data name="Ui.ModGen.ModNameGeneratedUITheme" xml:space="preserve">
+    <value>Modo pavadinimas (sugeneruota sąsajos tema)</value>
+  </data>
+  <data name="Ui.ModGen.ReadyToGenerate" xml:space="preserve">
+    <value>Paruošta generuoti</value>
+  </data>
+  <data name="Ui.ModGen.GenerateMod" xml:space="preserve">
+    <value>Generuoti modą</value>
+  </data>
 </root>

@@ -4913,4 +4913,100 @@ Voidstrap 的安装路径是：
   <data name="Ui.SessionNotify.ResetToDefaults" xml:space="preserve">
     <value>恢复默认</value>
   </data>
+  <data name="Ui.ModGen.ModGenerator" xml:space="preserve">
+    <value>模组生成器</value>
+  </data>
+  <data name="Ui.ModGen.RecolourRobloxSMenuAndTop" xml:space="preserve">
+    <value>为 Roblox 的菜单和顶栏图标重新着色，然后保存为模组。</value>
+  </data>
+  <data name="Ui.ModGen.Original" xml:space="preserve">
+    <value>原始</value>
+  </data>
+  <data name="Ui.ModGen.YourMod" xml:space="preserve">
+    <value>您的模组</value>
+  </data>
+  <data name="Ui.ModGen.IconFont" xml:space="preserve">
+    <value>图标字体</value>
+  </data>
+  <data name="Ui.ModGen.RealIconsFromYourRobloxBuild" xml:space="preserve">
+    <value>来自您 Roblox 版本的真实图标</value>
+  </data>
+  <data name="Ui.ModGen.Colour" xml:space="preserve">
+    <value>颜色</value>
+  </data>
+  <data name="Ui.ModGen.Start" xml:space="preserve">
+    <value>起点</value>
+  </data>
+  <data name="Ui.ModGen.MiddleOptional" xml:space="preserve">
+    <value>中间（可选）</value>
+  </data>
+  <data name="Ui.ModGen.End" xml:space="preserve">
+    <value>终点</value>
+  </data>
+  <data name="Ui.ModGen.Angle" xml:space="preserve">
+    <value>角度</value>
+  </data>
+  <data name="Ui.ModGen.NoImageChosen" xml:space="preserve">
+    <value>未选择图片</value>
+  </data>
+  <data name="Ui.ModGen.EveryIconIsFilledWithThis" xml:space="preserve">
+    <value>每个图标都会用此图片填充，并按图标形状裁剪。</value>
+  </data>
+  <data name="Ui.ModGen.MoreOptions" xml:space="preserve">
+    <value>更多选项</value>
+  </data>
+  <data name="Ui.ModGen.IconSizesShadingWhichIconsChange" xml:space="preserve">
+    <value>图标尺寸、阴影、要更改的图标以及自定义 Roblox 标志</value>
+  </data>
+  <data name="Ui.ModGen.RobloxPicksASizeForYour" xml:space="preserve">
+    <value>Roblox 会根据您的屏幕选择尺寸，因此选择所有尺寸最稳妥。</value>
+  </data>
+  <data name="Ui.ModGen.IconSizes" xml:space="preserve">
+    <value>图标尺寸</value>
+  </data>
+  <data name="Ui.ModGen.RobloxDrawsMostNewMenuAnd" xml:space="preserve">
+    <value>Roblox 用 Builder Icons 字体而不是图片绘制大多数新的菜单和顶栏图标。使用图片填充时，会取其平均颜色。</value>
+  </data>
+  <data name="Ui.ModGen.RecolourTheIconFont" xml:space="preserve">
+    <value>为图标字体重新着色</value>
+  </data>
+  <data name="Ui.ModGen.TwoToneIconsKeepTheirDarker" xml:space="preserve">
+    <value>双色图标会保留较深的细节，而不会变成单一的平面形状。</value>
+  </data>
+  <data name="Ui.ModGen.KeepIconShading" xml:space="preserve">
+    <value>保留图标阴影</value>
+  </data>
+  <data name="Ui.ModGen.LeavesBadgesCurrencyReactionsLogosAnd" xml:space="preserve">
+    <value>不改动徽章、货币、表情回应、标志和其他全彩图案。</value>
+  </data>
+  <data name="Ui.ModGen.KeepColouredIconsAsTheyAre" xml:space="preserve">
+    <value>保持彩色图标原样</value>
+  </data>
+  <data name="Ui.ModGen.RobloxNormallyTintsTheseShapesWhile" xml:space="preserve">
+    <value>Roblox 通常会在运行时为这些形状着色，因此除非您想让所有内容都套用主题，否则请保持关闭。</value>
+  </data>
+  <data name="Ui.ModGen.RecolourButtonsBubblesAndBackgrounds" xml:space="preserve">
+    <value>为按钮、气泡和背景重新着色</value>
+  </data>
+  <data name="Ui.ModGen.IncludesLooseInGameAndApp" xml:space="preserve">
+    <value>包括游戏和应用中的零散纹理，例如设置、聊天、玩家列表和检查菜单图标。</value>
+  </data>
+  <data name="Ui.ModGen.RecolourOtherUITextures" xml:space="preserve">
+    <value>为其他界面纹理重新着色</value>
+  </data>
+  <data name="Ui.ModGen.CustomRobloxLogo" xml:space="preserve">
+    <value>自定义 Roblox 标志</value>
+  </data>
+  <data name="Ui.ModGen.ReplacesTheRobloxLogoInMenus" xml:space="preserve">
+    <value>替换菜单、应用和加载画面中的 Roblox 标志</value>
+  </data>
+  <data name="Ui.ModGen.ModNameGeneratedUITheme" xml:space="preserve">
+    <value>模组名称（生成的界面主题）</value>
+  </data>
+  <data name="Ui.ModGen.ReadyToGenerate" xml:space="preserve">
+    <value>准备生成</value>
+  </data>
+  <data name="Ui.ModGen.GenerateMod" xml:space="preserve">
+    <value>生成模组</value>
+  </data>
 </root>

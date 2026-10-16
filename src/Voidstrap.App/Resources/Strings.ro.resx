@@ -4872,4 +4872,100 @@ Ce vrei să faci?</value>
   <data name="Ui.SessionNotify.ResetToDefaults" xml:space="preserve">
     <value>Resetează la valorile implicite</value>
   </data>
+  <data name="Ui.ModGen.ModGenerator" xml:space="preserve">
+    <value>Generator de moduri</value>
+  </data>
+  <data name="Ui.ModGen.RecolourRobloxSMenuAndTop" xml:space="preserve">
+    <value>Recolorează pictogramele din meniul și bara de sus Roblox, apoi salvează le ca mod.</value>
+  </data>
+  <data name="Ui.ModGen.Original" xml:space="preserve">
+    <value>Original</value>
+  </data>
+  <data name="Ui.ModGen.YourMod" xml:space="preserve">
+    <value>Modul tău</value>
+  </data>
+  <data name="Ui.ModGen.IconFont" xml:space="preserve">
+    <value>Font de pictograme</value>
+  </data>
+  <data name="Ui.ModGen.RealIconsFromYourRobloxBuild" xml:space="preserve">
+    <value>Pictograme reale din versiunea ta Roblox</value>
+  </data>
+  <data name="Ui.ModGen.Colour" xml:space="preserve">
+    <value>Culoare</value>
+  </data>
+  <data name="Ui.ModGen.Start" xml:space="preserve">
+    <value>Început</value>
+  </data>
+  <data name="Ui.ModGen.MiddleOptional" xml:space="preserve">
+    <value>Mijloc (opțional)</value>
+  </data>
+  <data name="Ui.ModGen.End" xml:space="preserve">
+    <value>Sfârșit</value>
+  </data>
+  <data name="Ui.ModGen.Angle" xml:space="preserve">
+    <value>Unghi</value>
+  </data>
+  <data name="Ui.ModGen.NoImageChosen" xml:space="preserve">
+    <value>Nicio imagine aleasă</value>
+  </data>
+  <data name="Ui.ModGen.EveryIconIsFilledWithThis" xml:space="preserve">
+    <value>Fiecare pictogramă este umplută cu această imagine, decupată după forma ei.</value>
+  </data>
+  <data name="Ui.ModGen.MoreOptions" xml:space="preserve">
+    <value>Mai multe opțiuni</value>
+  </data>
+  <data name="Ui.ModGen.IconSizesShadingWhichIconsChange" xml:space="preserve">
+    <value>Dimensiuni de pictograme, umbrire, ce pictograme se schimbă și un logo Roblox personalizat</value>
+  </data>
+  <data name="Ui.ModGen.RobloxPicksASizeForYour" xml:space="preserve">
+    <value>Roblox alege o dimensiune pentru ecranul tău, așa că toate dimensiunile este cea mai sigură variantă.</value>
+  </data>
+  <data name="Ui.ModGen.IconSizes" xml:space="preserve">
+    <value>Dimensiuni de pictograme</value>
+  </data>
+  <data name="Ui.ModGen.RobloxDrawsMostNewMenuAnd" xml:space="preserve">
+    <value>Roblox desenează majoritatea pictogramelor noi din meniu și bara de sus cu fontul Builder Icons în loc de imagini. La umplerea cu imagine se folosește culoarea ei medie.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourTheIconFont" xml:space="preserve">
+    <value>Recolorează fontul de pictograme</value>
+  </data>
+  <data name="Ui.ModGen.TwoToneIconsKeepTheirDarker" xml:space="preserve">
+    <value>Pictogramele în două tonuri își păstrează detaliile mai închise în loc să devină o formă plată.</value>
+  </data>
+  <data name="Ui.ModGen.KeepIconShading" xml:space="preserve">
+    <value>Păstrează umbrirea pictogramelor</value>
+  </data>
+  <data name="Ui.ModGen.LeavesBadgesCurrencyReactionsLogosAnd" xml:space="preserve">
+    <value>Lasă neschimbate insignele, moneda, reacțiile, logourile și alte grafice color.</value>
+  </data>
+  <data name="Ui.ModGen.KeepColouredIconsAsTheyAre" xml:space="preserve">
+    <value>Păstrează pictogramele colorate așa cum sunt</value>
+  </data>
+  <data name="Ui.ModGen.RobloxNormallyTintsTheseShapesWhile" xml:space="preserve">
+    <value>Roblox colorează de obicei aceste forme în timpul rulării, așa că lasă dezactivat dacă nu vrei totul tematizat.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourButtonsBubblesAndBackgrounds" xml:space="preserve">
+    <value>Recolorează butoane, bule și fundaluri</value>
+  </data>
+  <data name="Ui.ModGen.IncludesLooseInGameAndApp" xml:space="preserve">
+    <value>Include texturi separate din joc și aplicație, precum pictogramele pentru setări, chat, lista de jucători și meniul de inspectare.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourOtherUITextures" xml:space="preserve">
+    <value>Recolorează alte texturi ale interfeței</value>
+  </data>
+  <data name="Ui.ModGen.CustomRobloxLogo" xml:space="preserve">
+    <value>Logo Roblox personalizat</value>
+  </data>
+  <data name="Ui.ModGen.ReplacesTheRobloxLogoInMenus" xml:space="preserve">
+    <value>Înlocuiește logoul Roblox în meniuri, aplicație și ecranul de încărcare</value>
+  </data>
+  <data name="Ui.ModGen.ModNameGeneratedUITheme" xml:space="preserve">
+    <value>Numele modului (temă de interfață generată)</value>
+  </data>
+  <data name="Ui.ModGen.ReadyToGenerate" xml:space="preserve">
+    <value>Gata de generare</value>
+  </data>
+  <data name="Ui.ModGen.GenerateMod" xml:space="preserve">
+    <value>Generează modul</value>
+  </data>
 </root>

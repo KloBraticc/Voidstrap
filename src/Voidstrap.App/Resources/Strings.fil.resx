@@ -4665,4 +4665,100 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.SessionNotify.ResetToDefaults" xml:space="preserve">
     <value>I reset sa default</value>
   </data>
+  <data name="Ui.ModGen.ModGenerator" xml:space="preserve">
+    <value>Mod Generator</value>
+  </data>
+  <data name="Ui.ModGen.RecolourRobloxSMenuAndTop" xml:space="preserve">
+    <value>Kulayan muli ang mga icon ng menu at top bar ng Roblox, saka i save bilang mod.</value>
+  </data>
+  <data name="Ui.ModGen.Original" xml:space="preserve">
+    <value>Orihinal</value>
+  </data>
+  <data name="Ui.ModGen.YourMod" xml:space="preserve">
+    <value>Ang mod mo</value>
+  </data>
+  <data name="Ui.ModGen.IconFont" xml:space="preserve">
+    <value>Font ng icon</value>
+  </data>
+  <data name="Ui.ModGen.RealIconsFromYourRobloxBuild" xml:space="preserve">
+    <value>Mga totoong icon mula sa Roblox build mo</value>
+  </data>
+  <data name="Ui.ModGen.Colour" xml:space="preserve">
+    <value>Kulay</value>
+  </data>
+  <data name="Ui.ModGen.Start" xml:space="preserve">
+    <value>Simula</value>
+  </data>
+  <data name="Ui.ModGen.MiddleOptional" xml:space="preserve">
+    <value>Gitna (opsyonal)</value>
+  </data>
+  <data name="Ui.ModGen.End" xml:space="preserve">
+    <value>Dulo</value>
+  </data>
+  <data name="Ui.ModGen.Angle" xml:space="preserve">
+    <value>Anggulo</value>
+  </data>
+  <data name="Ui.ModGen.NoImageChosen" xml:space="preserve">
+    <value>Walang napiling larawan</value>
+  </data>
+  <data name="Ui.ModGen.EveryIconIsFilledWithThis" xml:space="preserve">
+    <value>Pinupuno ang bawat icon ng larawang ito, na tinabas ayon sa hugis nito.</value>
+  </data>
+  <data name="Ui.ModGen.MoreOptions" xml:space="preserve">
+    <value>Higit pang opsyon</value>
+  </data>
+  <data name="Ui.ModGen.IconSizesShadingWhichIconsChange" xml:space="preserve">
+    <value>Laki ng icon, shading, aling mga icon ang nagbabago, at custom na Roblox logo</value>
+  </data>
+  <data name="Ui.ModGen.RobloxPicksASizeForYour" xml:space="preserve">
+    <value>Pumipili ang Roblox ng laki para sa screen mo, kaya pinakaligtas ang lahat ng laki.</value>
+  </data>
+  <data name="Ui.ModGen.IconSizes" xml:space="preserve">
+    <value>Laki ng icon</value>
+  </data>
+  <data name="Ui.ModGen.RobloxDrawsMostNewMenuAnd" xml:space="preserve">
+    <value>Iginuguhit ng Roblox ang karamihan sa mga bagong icon ng menu at top bar gamit ang Builder Icons font sa halip na mga larawan. Kapag image fill, ginagamit ang average na kulay nito.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourTheIconFont" xml:space="preserve">
+    <value>Kulayan muli ang font ng icon</value>
+  </data>
+  <data name="Ui.ModGen.TwoToneIconsKeepTheirDarker" xml:space="preserve">
+    <value>Pinapanatili ng mga two tone na icon ang mas madilim na detalye sa halip na maging patag na hugis.</value>
+  </data>
+  <data name="Ui.ModGen.KeepIconShading" xml:space="preserve">
+    <value>Panatilihin ang shading ng icon</value>
+  </data>
+  <data name="Ui.ModGen.LeavesBadgesCurrencyReactionsLogosAnd" xml:space="preserve">
+    <value>Hindi ginagalaw ang mga badge, currency, reaction, logo, at iba pang full color na larawan.</value>
+  </data>
+  <data name="Ui.ModGen.KeepColouredIconsAsTheyAre" xml:space="preserve">
+    <value>Panatilihin ang mga makulay na icon</value>
+  </data>
+  <data name="Ui.ModGen.RobloxNormallyTintsTheseShapesWhile" xml:space="preserve">
+    <value>Karaniwang kinukulayan ng Roblox ang mga hugis na ito habang tumatakbo, kaya iwanang naka off maliban kung gusto mong naka theme ang lahat.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourButtonsBubblesAndBackgrounds" xml:space="preserve">
+    <value>Kulayan muli ang mga button, bubble, at background</value>
+  </data>
+  <data name="Ui.ModGen.IncludesLooseInGameAndApp" xml:space="preserve">
+    <value>Kasama ang mga hiwalay na texture ng laro at app gaya ng mga icon ng settings, chat, player list, at inspect menu.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourOtherUITextures" xml:space="preserve">
+    <value>Kulayan muli ang iba pang UI texture</value>
+  </data>
+  <data name="Ui.ModGen.CustomRobloxLogo" xml:space="preserve">
+    <value>Custom na Roblox logo</value>
+  </data>
+  <data name="Ui.ModGen.ReplacesTheRobloxLogoInMenus" xml:space="preserve">
+    <value>Pinapalitan ang Roblox logo sa mga menu, sa app, at sa loading screen</value>
+  </data>
+  <data name="Ui.ModGen.ModNameGeneratedUITheme" xml:space="preserve">
+    <value>Pangalan ng mod (Nabuong UI theme)</value>
+  </data>
+  <data name="Ui.ModGen.ReadyToGenerate" xml:space="preserve">
+    <value>Handa nang buuin</value>
+  </data>
+  <data name="Ui.ModGen.GenerateMod" xml:space="preserve">
+    <value>Buuin ang mod</value>
+  </data>
 </root>

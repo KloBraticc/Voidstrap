@@ -4892,4 +4892,100 @@ Voidstrap 安裝在 "{1}"。</value>
   <data name="Ui.SessionNotify.ResetToDefaults" xml:space="preserve">
     <value>還原預設值</value>
   </data>
+  <data name="Ui.ModGen.ModGenerator" xml:space="preserve">
+    <value>模組產生器</value>
+  </data>
+  <data name="Ui.ModGen.RecolourRobloxSMenuAndTop" xml:space="preserve">
+    <value>為 Roblox 的選單和頂端列圖示重新上色，然後儲存為模組。</value>
+  </data>
+  <data name="Ui.ModGen.Original" xml:space="preserve">
+    <value>原始</value>
+  </data>
+  <data name="Ui.ModGen.YourMod" xml:space="preserve">
+    <value>你的模組</value>
+  </data>
+  <data name="Ui.ModGen.IconFont" xml:space="preserve">
+    <value>圖示字型</value>
+  </data>
+  <data name="Ui.ModGen.RealIconsFromYourRobloxBuild" xml:space="preserve">
+    <value>來自你 Roblox 版本的真實圖示</value>
+  </data>
+  <data name="Ui.ModGen.Colour" xml:space="preserve">
+    <value>顏色</value>
+  </data>
+  <data name="Ui.ModGen.Start" xml:space="preserve">
+    <value>起點</value>
+  </data>
+  <data name="Ui.ModGen.MiddleOptional" xml:space="preserve">
+    <value>中間（選用）</value>
+  </data>
+  <data name="Ui.ModGen.End" xml:space="preserve">
+    <value>終點</value>
+  </data>
+  <data name="Ui.ModGen.Angle" xml:space="preserve">
+    <value>角度</value>
+  </data>
+  <data name="Ui.ModGen.NoImageChosen" xml:space="preserve">
+    <value>未選擇圖片</value>
+  </data>
+  <data name="Ui.ModGen.EveryIconIsFilledWithThis" xml:space="preserve">
+    <value>每個圖示都會用這張圖片填滿，並依圖示形狀裁切。</value>
+  </data>
+  <data name="Ui.ModGen.MoreOptions" xml:space="preserve">
+    <value>更多選項</value>
+  </data>
+  <data name="Ui.ModGen.IconSizesShadingWhichIconsChange" xml:space="preserve">
+    <value>圖示大小、陰影、要變更的圖示以及自訂 Roblox 標誌</value>
+  </data>
+  <data name="Ui.ModGen.RobloxPicksASizeForYour" xml:space="preserve">
+    <value>Roblox 會依你的螢幕選擇大小，因此選擇所有大小最保險。</value>
+  </data>
+  <data name="Ui.ModGen.IconSizes" xml:space="preserve">
+    <value>圖示大小</value>
+  </data>
+  <data name="Ui.ModGen.RobloxDrawsMostNewMenuAnd" xml:space="preserve">
+    <value>Roblox 以 Builder Icons 字型而不是圖片繪製大部分新的選單和頂端列圖示。使用圖片填滿時，會取其平均顏色。</value>
+  </data>
+  <data name="Ui.ModGen.RecolourTheIconFont" xml:space="preserve">
+    <value>為圖示字型重新上色</value>
+  </data>
+  <data name="Ui.ModGen.TwoToneIconsKeepTheirDarker" xml:space="preserve">
+    <value>雙色圖示會保留較深的細節，而不會變成單一的平面形狀。</value>
+  </data>
+  <data name="Ui.ModGen.KeepIconShading" xml:space="preserve">
+    <value>保留圖示陰影</value>
+  </data>
+  <data name="Ui.ModGen.LeavesBadgesCurrencyReactionsLogosAnd" xml:space="preserve">
+    <value>不更動徽章、貨幣、表情回應、標誌和其他全彩圖案。</value>
+  </data>
+  <data name="Ui.ModGen.KeepColouredIconsAsTheyAre" xml:space="preserve">
+    <value>保持彩色圖示原樣</value>
+  </data>
+  <data name="Ui.ModGen.RobloxNormallyTintsTheseShapesWhile" xml:space="preserve">
+    <value>Roblox 通常會在執行時為這些形狀上色，因此除非你想讓所有內容都套用主題，否則請保持關閉。</value>
+  </data>
+  <data name="Ui.ModGen.RecolourButtonsBubblesAndBackgrounds" xml:space="preserve">
+    <value>為按鈕、泡泡和背景重新上色</value>
+  </data>
+  <data name="Ui.ModGen.IncludesLooseInGameAndApp" xml:space="preserve">
+    <value>包含遊戲和應用程式中的零散材質，例如設定、聊天、玩家清單和檢查選單圖示。</value>
+  </data>
+  <data name="Ui.ModGen.RecolourOtherUITextures" xml:space="preserve">
+    <value>為其他介面材質重新上色</value>
+  </data>
+  <data name="Ui.ModGen.CustomRobloxLogo" xml:space="preserve">
+    <value>自訂 Roblox 標誌</value>
+  </data>
+  <data name="Ui.ModGen.ReplacesTheRobloxLogoInMenus" xml:space="preserve">
+    <value>取代選單、應用程式和載入畫面中的 Roblox 標誌</value>
+  </data>
+  <data name="Ui.ModGen.ModNameGeneratedUITheme" xml:space="preserve">
+    <value>模組名稱（產生的介面主題）</value>
+  </data>
+  <data name="Ui.ModGen.ReadyToGenerate" xml:space="preserve">
+    <value>準備產生</value>
+  </data>
+  <data name="Ui.ModGen.GenerateMod" xml:space="preserve">
+    <value>產生模組</value>
+  </data>
 </root>

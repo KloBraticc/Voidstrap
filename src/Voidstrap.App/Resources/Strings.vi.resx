@@ -4898,4 +4898,100 @@ Bạn muốn làm gì?</value>
   <data name="Ui.SessionNotify.ResetToDefaults" xml:space="preserve">
     <value>Khôi phục mặc định</value>
   </data>
+  <data name="Ui.ModGen.ModGenerator" xml:space="preserve">
+    <value>Trình tạo mod</value>
+  </data>
+  <data name="Ui.ModGen.RecolourRobloxSMenuAndTop" xml:space="preserve">
+    <value>Tô màu lại các biểu tượng menu và thanh trên cùng của Roblox, rồi lưu thành mod.</value>
+  </data>
+  <data name="Ui.ModGen.Original" xml:space="preserve">
+    <value>Gốc</value>
+  </data>
+  <data name="Ui.ModGen.YourMod" xml:space="preserve">
+    <value>Mod của bạn</value>
+  </data>
+  <data name="Ui.ModGen.IconFont" xml:space="preserve">
+    <value>Phông biểu tượng</value>
+  </data>
+  <data name="Ui.ModGen.RealIconsFromYourRobloxBuild" xml:space="preserve">
+    <value>Biểu tượng thật từ bản Roblox của bạn</value>
+  </data>
+  <data name="Ui.ModGen.Colour" xml:space="preserve">
+    <value>Màu</value>
+  </data>
+  <data name="Ui.ModGen.Start" xml:space="preserve">
+    <value>Bắt đầu</value>
+  </data>
+  <data name="Ui.ModGen.MiddleOptional" xml:space="preserve">
+    <value>Giữa (tùy chọn)</value>
+  </data>
+  <data name="Ui.ModGen.End" xml:space="preserve">
+    <value>Kết thúc</value>
+  </data>
+  <data name="Ui.ModGen.Angle" xml:space="preserve">
+    <value>Góc</value>
+  </data>
+  <data name="Ui.ModGen.NoImageChosen" xml:space="preserve">
+    <value>Chưa chọn hình ảnh</value>
+  </data>
+  <data name="Ui.ModGen.EveryIconIsFilledWithThis" xml:space="preserve">
+    <value>Mỗi biểu tượng được tô bằng hình này, cắt theo hình dạng của nó.</value>
+  </data>
+  <data name="Ui.ModGen.MoreOptions" xml:space="preserve">
+    <value>Tùy chọn khác</value>
+  </data>
+  <data name="Ui.ModGen.IconSizesShadingWhichIconsChange" xml:space="preserve">
+    <value>Kích thước biểu tượng, đổ bóng, biểu tượng nào thay đổi và logo Roblox tùy chỉnh</value>
+  </data>
+  <data name="Ui.ModGen.RobloxPicksASizeForYour" xml:space="preserve">
+    <value>Roblox chọn kích thước theo màn hình của bạn, nên chọn tất cả kích thước là an toàn nhất.</value>
+  </data>
+  <data name="Ui.ModGen.IconSizes" xml:space="preserve">
+    <value>Kích thước biểu tượng</value>
+  </data>
+  <data name="Ui.ModGen.RobloxDrawsMostNewMenuAnd" xml:space="preserve">
+    <value>Roblox vẽ hầu hết biểu tượng menu và thanh trên cùng mới bằng phông Builder Icons thay vì hình ảnh. Khi tô bằng hình, màu trung bình của hình được dùng.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourTheIconFont" xml:space="preserve">
+    <value>Tô màu lại phông biểu tượng</value>
+  </data>
+  <data name="Ui.ModGen.TwoToneIconsKeepTheirDarker" xml:space="preserve">
+    <value>Biểu tượng hai tông giữ lại chi tiết tối hơn thay vì thành một hình phẳng.</value>
+  </data>
+  <data name="Ui.ModGen.KeepIconShading" xml:space="preserve">
+    <value>Giữ đổ bóng biểu tượng</value>
+  </data>
+  <data name="Ui.ModGen.LeavesBadgesCurrencyReactionsLogosAnd" xml:space="preserve">
+    <value>Giữ nguyên huy hiệu, tiền tệ, biểu cảm, logo và các hình đầy đủ màu khác.</value>
+  </data>
+  <data name="Ui.ModGen.KeepColouredIconsAsTheyAre" xml:space="preserve">
+    <value>Giữ nguyên biểu tượng có màu</value>
+  </data>
+  <data name="Ui.ModGen.RobloxNormallyTintsTheseShapesWhile" xml:space="preserve">
+    <value>Roblox thường tự nhuộm màu các hình này khi chạy, nên hãy tắt trừ khi bạn muốn mọi thứ theo chủ đề.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourButtonsBubblesAndBackgrounds" xml:space="preserve">
+    <value>Tô màu lại nút, bong bóng và nền</value>
+  </data>
+  <data name="Ui.ModGen.IncludesLooseInGameAndApp" xml:space="preserve">
+    <value>Bao gồm các kết cấu rời của trò chơi và ứng dụng như biểu tượng cài đặt, trò chuyện, danh sách người chơi và menu kiểm tra.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourOtherUITextures" xml:space="preserve">
+    <value>Tô màu lại các kết cấu giao diện khác</value>
+  </data>
+  <data name="Ui.ModGen.CustomRobloxLogo" xml:space="preserve">
+    <value>Logo Roblox tùy chỉnh</value>
+  </data>
+  <data name="Ui.ModGen.ReplacesTheRobloxLogoInMenus" xml:space="preserve">
+    <value>Thay logo Roblox trong menu, ứng dụng và màn hình tải</value>
+  </data>
+  <data name="Ui.ModGen.ModNameGeneratedUITheme" xml:space="preserve">
+    <value>Tên mod (chủ đề giao diện được tạo)</value>
+  </data>
+  <data name="Ui.ModGen.ReadyToGenerate" xml:space="preserve">
+    <value>Sẵn sàng tạo</value>
+  </data>
+  <data name="Ui.ModGen.GenerateMod" xml:space="preserve">
+    <value>Tạo mod</value>
+  </data>
 </root>

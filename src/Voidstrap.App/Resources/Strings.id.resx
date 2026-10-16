@@ -4846,4 +4846,100 @@ Apa yang ingin Anda lakukan?</value>
   <data name="Ui.SessionNotify.ResetToDefaults" xml:space="preserve">
     <value>Atur ulang ke bawaan</value>
   </data>
+  <data name="Ui.ModGen.ModGenerator" xml:space="preserve">
+    <value>Pembuat mod</value>
+  </data>
+  <data name="Ui.ModGen.RecolourRobloxSMenuAndTop" xml:space="preserve">
+    <value>Ubah warna ikon menu dan bilah atas Roblox, lalu simpan sebagai mod.</value>
+  </data>
+  <data name="Ui.ModGen.Original" xml:space="preserve">
+    <value>Asli</value>
+  </data>
+  <data name="Ui.ModGen.YourMod" xml:space="preserve">
+    <value>Mod Anda</value>
+  </data>
+  <data name="Ui.ModGen.IconFont" xml:space="preserve">
+    <value>Font ikon</value>
+  </data>
+  <data name="Ui.ModGen.RealIconsFromYourRobloxBuild" xml:space="preserve">
+    <value>Ikon asli dari build Roblox Anda</value>
+  </data>
+  <data name="Ui.ModGen.Colour" xml:space="preserve">
+    <value>Warna</value>
+  </data>
+  <data name="Ui.ModGen.Start" xml:space="preserve">
+    <value>Awal</value>
+  </data>
+  <data name="Ui.ModGen.MiddleOptional" xml:space="preserve">
+    <value>Tengah (opsional)</value>
+  </data>
+  <data name="Ui.ModGen.End" xml:space="preserve">
+    <value>Akhir</value>
+  </data>
+  <data name="Ui.ModGen.Angle" xml:space="preserve">
+    <value>Sudut</value>
+  </data>
+  <data name="Ui.ModGen.NoImageChosen" xml:space="preserve">
+    <value>Belum ada gambar dipilih</value>
+  </data>
+  <data name="Ui.ModGen.EveryIconIsFilledWithThis" xml:space="preserve">
+    <value>Setiap ikon diisi dengan gambar ini, dipotong sesuai bentuknya.</value>
+  </data>
+  <data name="Ui.ModGen.MoreOptions" xml:space="preserve">
+    <value>Opsi lainnya</value>
+  </data>
+  <data name="Ui.ModGen.IconSizesShadingWhichIconsChange" xml:space="preserve">
+    <value>Ukuran ikon, bayangan, ikon mana yang berubah, dan logo Roblox kustom</value>
+  </data>
+  <data name="Ui.ModGen.RobloxPicksASizeForYour" xml:space="preserve">
+    <value>Roblox memilih ukuran untuk layar Anda, jadi semua ukuran adalah pilihan paling aman.</value>
+  </data>
+  <data name="Ui.ModGen.IconSizes" xml:space="preserve">
+    <value>Ukuran ikon</value>
+  </data>
+  <data name="Ui.ModGen.RobloxDrawsMostNewMenuAnd" xml:space="preserve">
+    <value>Roblox menggambar sebagian besar ikon menu dan bilah atas baru dengan font Builder Icons alih alih gambar. Dengan isian gambar, warna rata ratanya yang dipakai.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourTheIconFont" xml:space="preserve">
+    <value>Ubah warna font ikon</value>
+  </data>
+  <data name="Ui.ModGen.TwoToneIconsKeepTheirDarker" xml:space="preserve">
+    <value>Ikon dua warna mempertahankan detail yang lebih gelap alih alih menjadi bentuk datar.</value>
+  </data>
+  <data name="Ui.ModGen.KeepIconShading" xml:space="preserve">
+    <value>Pertahankan bayangan ikon</value>
+  </data>
+  <data name="Ui.ModGen.LeavesBadgesCurrencyReactionsLogosAnd" xml:space="preserve">
+    <value>Membiarkan lencana, mata uang, reaksi, logo, dan gambar berwarna penuh lainnya tetap utuh.</value>
+  </data>
+  <data name="Ui.ModGen.KeepColouredIconsAsTheyAre" xml:space="preserve">
+    <value>Biarkan ikon berwarna seperti apa adanya</value>
+  </data>
+  <data name="Ui.ModGen.RobloxNormallyTintsTheseShapesWhile" xml:space="preserve">
+    <value>Roblox biasanya mewarnai bentuk ini saat berjalan, jadi biarkan mati kecuali Anda ingin semuanya bertema.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourButtonsBubblesAndBackgrounds" xml:space="preserve">
+    <value>Ubah warna tombol, balon, dan latar</value>
+  </data>
+  <data name="Ui.ModGen.IncludesLooseInGameAndApp" xml:space="preserve">
+    <value>Termasuk tekstur lepas di game dan aplikasi seperti ikon pengaturan, chat, daftar pemain, dan menu periksa.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourOtherUITextures" xml:space="preserve">
+    <value>Ubah warna tekstur antarmuka lainnya</value>
+  </data>
+  <data name="Ui.ModGen.CustomRobloxLogo" xml:space="preserve">
+    <value>Logo Roblox kustom</value>
+  </data>
+  <data name="Ui.ModGen.ReplacesTheRobloxLogoInMenus" xml:space="preserve">
+    <value>Mengganti logo Roblox di menu, aplikasi, dan layar pemuatan</value>
+  </data>
+  <data name="Ui.ModGen.ModNameGeneratedUITheme" xml:space="preserve">
+    <value>Nama mod (tema antarmuka yang dibuat)</value>
+  </data>
+  <data name="Ui.ModGen.ReadyToGenerate" xml:space="preserve">
+    <value>Siap dibuat</value>
+  </data>
+  <data name="Ui.ModGen.GenerateMod" xml:space="preserve">
+    <value>Buat mod</value>
+  </data>
 </root>

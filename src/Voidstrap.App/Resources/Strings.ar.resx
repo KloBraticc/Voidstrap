@@ -4921,4 +4921,100 @@
   <data name="Ui.SessionNotify.ResetToDefaults" xml:space="preserve">
     <value>إعادة الافتراضيات</value>
   </data>
+  <data name="Ui.ModGen.ModGenerator" xml:space="preserve">
+    <value>مولّد التعديلات</value>
+  </data>
+  <data name="Ui.ModGen.RecolourRobloxSMenuAndTop" xml:space="preserve">
+    <value>أعد تلوين أيقونات قائمة Roblox والشريط العلوي، ثم احفظها كتعديل.</value>
+  </data>
+  <data name="Ui.ModGen.Original" xml:space="preserve">
+    <value>الأصلي</value>
+  </data>
+  <data name="Ui.ModGen.YourMod" xml:space="preserve">
+    <value>تعديلك</value>
+  </data>
+  <data name="Ui.ModGen.IconFont" xml:space="preserve">
+    <value>خط الأيقونات</value>
+  </data>
+  <data name="Ui.ModGen.RealIconsFromYourRobloxBuild" xml:space="preserve">
+    <value>أيقونات حقيقية من إصدار Roblox لديك</value>
+  </data>
+  <data name="Ui.ModGen.Colour" xml:space="preserve">
+    <value>اللون</value>
+  </data>
+  <data name="Ui.ModGen.Start" xml:space="preserve">
+    <value>البداية</value>
+  </data>
+  <data name="Ui.ModGen.MiddleOptional" xml:space="preserve">
+    <value>المنتصف (اختياري)</value>
+  </data>
+  <data name="Ui.ModGen.End" xml:space="preserve">
+    <value>النهاية</value>
+  </data>
+  <data name="Ui.ModGen.Angle" xml:space="preserve">
+    <value>الزاوية</value>
+  </data>
+  <data name="Ui.ModGen.NoImageChosen" xml:space="preserve">
+    <value>لم يتم اختيار صورة</value>
+  </data>
+  <data name="Ui.ModGen.EveryIconIsFilledWithThis" xml:space="preserve">
+    <value>تُملأ كل أيقونة بهذه الصورة مقصوصةً على شكلها.</value>
+  </data>
+  <data name="Ui.ModGen.MoreOptions" xml:space="preserve">
+    <value>خيارات إضافية</value>
+  </data>
+  <data name="Ui.ModGen.IconSizesShadingWhichIconsChange" xml:space="preserve">
+    <value>أحجام الأيقونات والتظليل والأيقونات التي تتغير وشعار Roblox مخصص</value>
+  </data>
+  <data name="Ui.ModGen.RobloxPicksASizeForYour" xml:space="preserve">
+    <value>يختار Roblox حجمًا لشاشتك، لذا فإن كل الأحجام هو الخيار الأكثر أمانًا.</value>
+  </data>
+  <data name="Ui.ModGen.IconSizes" xml:space="preserve">
+    <value>أحجام الأيقونات</value>
+  </data>
+  <data name="Ui.ModGen.RobloxDrawsMostNewMenuAnd" xml:space="preserve">
+    <value>يرسم Roblox معظم أيقونات القائمة والشريط العلوي الجديدة بخط Builder Icons بدلًا من الصور. عند التعبئة بصورة يُستخدم متوسط لونها.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourTheIconFont" xml:space="preserve">
+    <value>إعادة تلوين خط الأيقونات</value>
+  </data>
+  <data name="Ui.ModGen.TwoToneIconsKeepTheirDarker" xml:space="preserve">
+    <value>تحتفظ الأيقونات ثنائية اللون بتفاصيلها الداكنة بدلًا من أن تصبح شكلًا مسطحًا.</value>
+  </data>
+  <data name="Ui.ModGen.KeepIconShading" xml:space="preserve">
+    <value>الإبقاء على تظليل الأيقونات</value>
+  </data>
+  <data name="Ui.ModGen.LeavesBadgesCurrencyReactionsLogosAnd" xml:space="preserve">
+    <value>يترك الشارات والعملة والتفاعلات والشعارات والرسوم الملونة الأخرى دون تغيير.</value>
+  </data>
+  <data name="Ui.ModGen.KeepColouredIconsAsTheyAre" xml:space="preserve">
+    <value>إبقاء الأيقونات الملونة كما هي</value>
+  </data>
+  <data name="Ui.ModGen.RobloxNormallyTintsTheseShapesWhile" xml:space="preserve">
+    <value>عادةً يلوّن Roblox هذه الأشكال أثناء التشغيل، لذا اتركه متوقفًا ما لم ترد تطبيق السمة على كل شيء.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourButtonsBubblesAndBackgrounds" xml:space="preserve">
+    <value>إعادة تلوين الأزرار والفقاعات والخلفيات</value>
+  </data>
+  <data name="Ui.ModGen.IncludesLooseInGameAndApp" xml:space="preserve">
+    <value>يشمل خامات منفصلة في اللعبة والتطبيق مثل أيقونات الإعدادات والدردشة وقائمة اللاعبين وقائمة الفحص.</value>
+  </data>
+  <data name="Ui.ModGen.RecolourOtherUITextures" xml:space="preserve">
+    <value>إعادة تلوين خامات الواجهة الأخرى</value>
+  </data>
+  <data name="Ui.ModGen.CustomRobloxLogo" xml:space="preserve">
+    <value>شعار Roblox مخصص</value>
+  </data>
+  <data name="Ui.ModGen.ReplacesTheRobloxLogoInMenus" xml:space="preserve">
+    <value>يستبدل شعار Roblox في القوائم والتطبيق وشاشة التحميل</value>
+  </data>
+  <data name="Ui.ModGen.ModNameGeneratedUITheme" xml:space="preserve">
+    <value>اسم التعديل (سمة واجهة مولّدة)</value>
+  </data>
+  <data name="Ui.ModGen.ReadyToGenerate" xml:space="preserve">
+    <value>جاهز للتوليد</value>
+  </data>
+  <data name="Ui.ModGen.GenerateMod" xml:space="preserve">
+    <value>توليد التعديل</value>
+  </data>
 </root>
