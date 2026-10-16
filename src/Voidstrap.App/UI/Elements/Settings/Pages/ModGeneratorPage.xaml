@@ -5,9 +5,9 @@
     xmlns:resources="clr-namespace:Voidstrap.Resources"
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     Title="ModGeneratorPage"
+    ui:Breadcrumb.Header="{resources:Loc Ui_ModGen_ModGenerator}"
     Scrollable="True">
     <StackPanel Margin="0,0,14,14">
-        <ui:Button HorizontalAlignment="Left" Icon="ArrowLeft24" Content="{resources:Loc Menu_FastFlagEditor_Back}" Appearance="Secondary" Click="BackButton_Click" />
-        <pages:ModGeneratorSection Margin="0,-12,0,0" />
+        <pages:ModGeneratorSection Margin="0,-24,0,0" />
     </StackPanel>
 </ui:UiPage>

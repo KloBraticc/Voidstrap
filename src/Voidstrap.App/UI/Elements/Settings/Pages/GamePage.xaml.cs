@@ -41,14 +41,6 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             Voidstrap.Integrations.VoidstrapPresence.Clear(nameof(GamePage));
         }
 
-        private void BackButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (NavigationService?.CanGoBack == true)
-                NavigationService.GoBack();
-            else
-                NavigationService?.Navigate(new HomePage());
-        }
-
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
             if (_placeId == 0)
