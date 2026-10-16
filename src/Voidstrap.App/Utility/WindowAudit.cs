@@ -278,7 +278,7 @@ internal static class WindowAudit
 			WindowStartupLocation = WindowStartupLocation.Manual,
 			Left = 40,
 			Top = 40,
-			Width = 1100,
+			Width = double.TryParse(Environment.GetEnvironmentVariable("VOIDSTRAP_AUDIT_CAPTURE_WIDTH"), out double captureWidth) ? captureWidth : 1100,
 			Height = 720,
 			Topmost = true
 		};
@@ -298,6 +298,12 @@ internal static class WindowAudit
 				continue;
 			window.RootNavigation.Navigate(item.PageType);
 			Pump(1800);
+			string? header = Environment.GetEnvironmentVariable("VOIDSTRAP_AUDIT_CAPTURE_HEADER");
+			if (!string.IsNullOrEmpty(header) && window.RootFrame.Content is DependencyObject shownPage)
+			{
+				Voidstrap.UI.BreadcrumbHeader.Set(shownPage, header);
+				Pump(400);
+			}
 			CaptureScreen(window, System.IO.Path.Combine(folder, name + ".png"));
 		}
 		if (Environment.GetEnvironmentVariable("VOIDSTRAP_AUDIT_CAPTURE_PALETTE") == "1")
