@@ -72,6 +72,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                 await _gate.WaitAsync(ct);
                 locked = true;
                 string argument;
+                string executable = Path.Combine(Environment.SystemDirectory, "msiexec.exe");
                 if (install)
                 {
                     var download = await SwiftTunnel.GetLatestInstallerAsync(client, ct);
@@ -79,7 +80,15 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                     Directory.CreateDirectory(directory);
                     string installer = Path.Combine(directory, download.Name);
                     await DownloadToFileAsync([download.Url], installer, SwiftTunnel.Text("Downloading"), ct, download.Digest);
-                    argument = "/i \"" + installer + "\" /norestart";
+                    if (SwiftTunnel.IsSetupExecutable(installer))
+                    {
+                        executable = installer;
+                        argument = "";
+                    }
+                    else
+                    {
+                        argument = "/i \"" + installer + "\" /norestart";
+                    }
                 }
                 else
                 {
@@ -104,16 +113,20 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                 }
                 ct.ThrowIfCancellationRequested();
                 OnProgressChanged?.Invoke("", -1.0, false);
-                using Process? installerProcess = Process.Start(new ProcessStartInfo(Path.Combine(Environment.SystemDirectory, "msiexec.exe"), argument) { UseShellExecute = true });
+                using Process? installerProcess = Process.Start(new ProcessStartInfo(executable, argument) { UseShellExecute = true });
                 if (installerProcess == null)
                     throw new InvalidOperationException(SwiftTunnel.Text("InstallerFailed"));
                 await installerProcess.WaitForExitAsync();
-                if (installerProcess.ExitCode is not (0 or 1602 or 1641 or 3010))
+                bool installed = SwiftTunnel.FindInstallation() != null;
+                if (!installed && installerProcess.ExitCode is not (0 or 1602 or 1641 or 3010))
                     throw new InvalidOperationException(string.Format(SwiftTunnel.Text("InstallerExit"), installerProcess.ExitCode));
-                if (installerProcess.ExitCode != 1602 && SwiftTunnel.FindInstallation() != null)
+                if (installed && installerProcess.ExitCode != 1602)
                     SwiftTunnel.Open();
             }
             catch (OperationCanceledException)
+            {
+            }
+            catch (System.ComponentModel.Win32Exception ex) when (ex.NativeErrorCode == 1223)
             {
             }
             catch (Exception ex)

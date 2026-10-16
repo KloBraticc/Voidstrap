@@ -27,6 +27,7 @@ internal static class SwiftTunnel
 
     private static (string Name, string Url, string Digest) SelectInstaller(JsonElement release, bool arm)
     {
+        (string Name, string Url, string Digest)? msi = null;
         if (release.ValueKind == JsonValueKind.Object && release.TryGetProperty("assets", out JsonElement assets) && assets.ValueKind == JsonValueKind.Array)
         {
             foreach (JsonElement asset in assets.EnumerateArray())
@@ -36,16 +37,31 @@ internal static class SwiftTunnel
                 string name = ReadString(asset, "name");
                 string url = ReadString(asset, "browser_download_url");
                 string digest = ReadString(asset, "digest");
-                if (name.StartsWith("SwiftTunnel_", StringComparison.Ordinal) && name.EndsWith(arm ? "_arm64_en-US.msi" : "_x64_en-US.msi", StringComparison.Ordinal)
-                    && Path.GetFileName(name) == name && Uri.TryCreate(url, UriKind.Absolute, out Uri? uri)
-                    && uri.Scheme == Uri.UriSchemeHttps && uri.Host.Equals("github.com", StringComparison.OrdinalIgnoreCase)
-                    && uri.AbsolutePath.StartsWith("/Swift-tunnel/swifttunnel-app/releases/download/", StringComparison.OrdinalIgnoreCase)
-                    && digest.StartsWith("sha256:", StringComparison.OrdinalIgnoreCase) && digest.Length == 71 && digest[7..].All(Uri.IsHexDigit))
+                if (Path.GetFileName(name) != name || !Uri.TryCreate(url, UriKind.Absolute, out Uri? uri)
+                    || uri.Scheme != Uri.UriSchemeHttps || !uri.Host.Equals("github.com", StringComparison.OrdinalIgnoreCase)
+                    || !uri.AbsolutePath.StartsWith("/Swift-tunnel/swifttunnel-app/releases/download/", StringComparison.OrdinalIgnoreCase)
+                    || !digest.StartsWith("sha256:", StringComparison.OrdinalIgnoreCase) || digest.Length != 71 || !digest[7..].All(Uri.IsHexDigit))
+                    continue;
+                if (IsSetupName(name, arm))
                     return (name, url, digest[7..]);
+                if (name.StartsWith("SwiftTunnel_", StringComparison.Ordinal) && name.EndsWith(arm ? "_arm64_en-US.msi" : "_x64_en-US.msi", StringComparison.Ordinal))
+                    msi ??= (name, url, digest[7..]);
             }
         }
-        throw new InvalidDataException(Text("NoInstaller"));
+        return msi ?? throw new InvalidDataException(Text("NoInstaller"));
     }
+
+    private static bool IsSetupName(string name, bool arm)
+    {
+        const string prefix = "SwiftTunnel-Setup-";
+        string suffix = arm ? "-arm64.exe" : ".exe";
+        if (!name.StartsWith(prefix, StringComparison.Ordinal) || !name.EndsWith(suffix, StringComparison.Ordinal) || name.Length <= prefix.Length + suffix.Length)
+            return false;
+        string version = name[prefix.Length..^suffix.Length];
+        return !version.EndsWith("-arm64", StringComparison.Ordinal) && version.All(c => char.IsAsciiDigit(c) || c == '.');
+    }
+
+    public static bool IsSetupExecutable(string path) => Path.GetExtension(path).Equals(".exe", StringComparison.OrdinalIgnoreCase);
 
     private static string ReadString(JsonElement element, string property) => element.TryGetProperty(property, out JsonElement value) && value.ValueKind == JsonValueKind.String ? value.GetString() ?? string.Empty : string.Empty;
 
