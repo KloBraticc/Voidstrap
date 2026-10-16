@@ -3111,17 +3111,11 @@ Ce vrei să faci?</value>
   <data name="Ui.Nav.More" xml:space="preserve">
     <value>Mai mult</value>
   </data>
-  <data name="Ui.Nav.Global" xml:space="preserve">
-    <value>Global</value>
-  </data>
   <data name="Ui.Nav.News" xml:space="preserve">
     <value>Noutăți</value>
   </data>
   <data name="Ui.Nav.Extensions" xml:space="preserve">
     <value>Extensii</value>
-  </data>
-  <data name="Ui.Nav.Manager" xml:space="preserve">
-    <value>Manager</value>
   </data>
   <data name="Ui.Nav.Settings" xml:space="preserve">
     <value>Setări</value>
@@ -3390,9 +3384,6 @@ Ce vrei să faci?</value>
   <data name="Ui.Mods.ApplyModsTo" xml:space="preserve">
     <value>Aplică modurile la</value>
   </data>
-  <data name="Ui.Mods.Cursor" xml:space="preserve">
-    <value>Cursor</value>
-  </data>
   <data name="Ui.Mods.CursorStyle" xml:space="preserve">
     <value>Stilul cursorului</value>
   </data>
@@ -3425,9 +3416,6 @@ Ce vrei să faci?</value>
   </data>
   <data name="Ui.Mods.NoCursorSetsYetPressNew" xml:space="preserve">
     <value>Încă nu ai seturi de cursoare. Apasă Nou pentru a crea unul sau importă un zip.</value>
-  </data>
-  <data name="Ui.Mods.Folder" xml:space="preserve">
-    <value>Folder</value>
   </data>
   <data name="Ui.Mods.OpenTheCursorSetsFolder" xml:space="preserve">
     <value>Deschide folderul cu seturi de cursoare</value>
@@ -3639,9 +3627,6 @@ Ce vrei să faci?</value>
   <data name="Ui.Mods.EnableOrDisableThisMod" xml:space="preserve">
     <value>Activează sau dezactivează acest mod</value>
   </data>
-  <data name="Ui.Mods.Id" xml:space="preserve">
-    <value>   ID: </value>
-  </data>
   <data name="Ui.Mods.ViewThisModPack" xml:space="preserve">
     <value>Vezi acest pachet de moduri</value>
   </data>
@@ -3704,9 +3689,6 @@ Ce vrei să faci?</value>
   </data>
   <data name="Ui.Mods.100IsNormal" xml:space="preserve">
     <value>100 este normal.</value>
-  </data>
-  <data name="Ui.Mods.Contrast" xml:space="preserve">
-    <value>Contrast</value>
   </data>
   <data name="Ui.Mods.Warmth" xml:space="preserve">
     <value>Căldură</value>
@@ -3933,12 +3915,6 @@ Ce vrei să faci?</value>
   <data name="Ui.FastFlags.GrassDistance" xml:space="preserve">
     <value>Distanța ierbii</value>
   </data>
-  <data name="Ui.FastFlags.Min" xml:space="preserve">
-    <value>Min</value>
-  </data>
-  <data name="Ui.FastFlags.Max" xml:space="preserve">
-    <value>Max</value>
-  </data>
   <data name="Ui.FastFlags.ConfigureTheRenderingApiForRoblox" xml:space="preserve">
     <value>Configurează API ul de randare pentru Roblox. Apasă Alt Enter când treci pe ecran complet dacă folosești Direct3D. Vulkan poate cauza unele erori!.</value>
   </data>
@@ -3968,9 +3944,6 @@ Ce vrei să faci?</value>
   </data>
   <data name="Ui.FastFlags.HowSolidTheSquaresLook" xml:space="preserve">
     <value>Cât de solide par pătratele</value>
-  </data>
-  <data name="Ui.FastFlags.Studs" xml:space="preserve">
-    <value>Studs</value>
   </data>
   <data name="Ui.FastFlags.TheStudPatternOnParts" xml:space="preserve">
     <value>Modelul de studs de pe piese</value>
@@ -4188,9 +4161,6 @@ Ce vrei să faci?</value>
   <data name="Ui.Bootstrapper.FilesOlderThanTheSetAmount" xml:space="preserve">
     <value>Fișierele mai vechi decât perioada setată vor fi șterse.</value>
   </data>
-  <data name="Ui.Bootstrapper.Cache" xml:space="preserve">
-    <value>Cache</value>
-  </data>
   <data name="Ui.Bootstrapper.WhenShouldTheSetAmountBe" xml:space="preserve">
     <value>Când să fie ștearsă cantitatea setată.</value>
   </data>
@@ -4241,9 +4211,6 @@ Ce vrei să faci?</value>
   </data>
   <data name="Ui.Bootstrapper.ReduceResourcesWhenRobloxIsUnfocused" xml:space="preserve">
     <value>Redu resursele când Roblox nu e în prim plan</value>
-  </data>
-  <data name="Ui.Bootstrapper.VoidstrapMatchmaker" xml:space="preserve">
-    <value>Voidstrap Matchmaker</value>
   </data>
   <data name="Ui.Bootstrapper.Enable" xml:space="preserve">
     <value>Activează</value>
@@ -4311,9 +4278,6 @@ Ce vrei să faci?</value>
   <data name="Ui.Bootstrapper.NeverLetVoidstrapPickAServer" xml:space="preserve">
     <value>Nu lăsa niciodată Voidstrap să aleagă serverul pentru acest joc</value>
   </data>
-  <data name="Ui.Bootstrapper.PlaceId" xml:space="preserve">
-    <value>Place id</value>
-  </data>
   <data name="Ui.Bootstrapper.LetVoidstrapPickServersForThis" xml:space="preserve">
     <value>Lasă din nou Voidstrap să aleagă serverele pentru acest joc</value>
   </data>
@@ -4326,17 +4290,11 @@ Ce vrei să faci?</value>
   <data name="Ui.Bootstrapper.HowHardToSearch" xml:space="preserve">
     <value>Cât de amănunțit să caute</value>
   </data>
-  <data name="Ui.Bootstrapper.Auto" xml:space="preserve">
-    <value>Auto</value>
-  </data>
   <data name="Ui.Bootstrapper.ReconnectLimit" xml:space="preserve">
     <value>Limită de reconectări</value>
   </data>
   <data name="Ui.Bootstrapper.VoidstrapStopsTryingAfterThisMany" xml:space="preserve">
     <value>Voidstrap se oprește după atâtea reconectări ca să nu intre niciodată în buclă.</value>
-  </data>
-  <data name="Ui.Bootstrapper.JoinAPI" xml:space="preserve">
-    <value>Join API</value>
   </data>
   <data name="Ui.Bootstrapper.WhichRobloxJoinEndpointVoidstrapAsks" xml:space="preserve">
     <value>Ce endpoint de alăturare Roblox interoghează Voidstrap pentru locația serverelor. Schimbă doar dacă alăturările nu mai funcționează.</value>
@@ -4412,9 +4370,6 @@ Ce vrei să faci?</value>
   </data>
   <data name="Ui.Integrations.GameIcon" xml:space="preserve">
     <value>Pictograma jocului</value>
-  </data>
-  <data name="Ui.Integrations.Creator" xml:space="preserve">
-    <value>Creator</value>
   </data>
   <data name="Ui.Integrations.ServerType" xml:space="preserve">
     <value>Tipul serverului</value>
@@ -4557,9 +4512,6 @@ Ce vrei să faci?</value>
   <data name="Ui.Integrations.CloseWhenLeavingThatGame" xml:space="preserve">
     <value>Închide la ieșirea din acel joc</value>
   </data>
-  <data name="Ui.Integrations.PlaceID" xml:space="preserve">
-    <value>Place ID</value>
-  </data>
   <data name="Ui.Channel.InstallLocation" xml:space="preserve">
     <value>Locația instalării</value>
   </data>
@@ -4620,9 +4572,6 @@ Ce vrei să faci?</value>
   <data name="Ui.Channel.DisplaysVoidstrapsDiscordRPC" xml:space="preserve">
     <value>Afișează Discord RPC ul Voidstrap.</value>
   </data>
-  <data name="Ui.Channel.VoidstrapRPC" xml:space="preserve">
-    <value>Voidstrap RPC</value>
-  </data>
   <data name="Ui.Channel.FactoryReset" xml:space="preserve">
     <value>Resetare la setările din fabrică</value>
   </data>
@@ -4679,9 +4628,6 @@ Ce vrei să faci?</value>
   </data>
   <data name="Ui.Channel.SelectWhenYouDLikeTo" xml:space="preserve">
     <value>Alege când vrei să primești actualizările Roblox</value>
-  </data>
-  <data name="Ui.Channel.Normal" xml:space="preserve">
-    <value>Normal</value>
   </data>
   <data name="Ui.Channel.YouGetEachRobloxUpdateOn" xml:space="preserve">
     <value>Primești fiecare actualizare Roblox la următoarea pornire după lansare</value>
@@ -4797,9 +4743,6 @@ Ce vrei să faci?</value>
   <data name="Ui.SessionNotify.Horizontal" xml:space="preserve">
     <value>Orizontal</value>
   </data>
-  <data name="Ui.SessionNotify.Vertical" xml:space="preserve">
-    <value>Vertical</value>
-  </data>
   <data name="Ui.SessionNotify.CornerRadius" xml:space="preserve">
     <value>Raza colțurilor</value>
   </data>
@@ -4832,9 +4775,6 @@ Ce vrei să faci?</value>
   </data>
   <data name="Ui.SessionNotify.BadgesAndTheShortcutReminderFollow" xml:space="preserve">
     <value>Insignele și memento ul scurtăturii urmează Server</value>
-  </data>
-  <data name="Ui.SessionNotify.Server" xml:space="preserve">
-    <value>Server</value>
   </data>
   <data name="Ui.SessionNotify.Friends" xml:space="preserve">
     <value>Prieteni</value>
@@ -4877,9 +4817,6 @@ Ce vrei să faci?</value>
   </data>
   <data name="Ui.ModGen.RecolourRobloxSMenuAndTop" xml:space="preserve">
     <value>Recolorează pictogramele din meniul și bara de sus Roblox, apoi salvează le ca mod.</value>
-  </data>
-  <data name="Ui.ModGen.Original" xml:space="preserve">
-    <value>Original</value>
   </data>
   <data name="Ui.ModGen.YourMod" xml:space="preserve">
     <value>Modul tău</value>
@@ -5049,9 +4986,6 @@ Ce vrei să faci?</value>
   <data name="Ui.Gbs.ToggleFullscreenMode" xml:space="preserve">
     <value>Comută modul ecran complet.</value>
   </data>
-  <data name="Ui.Gbs.Audio" xml:space="preserve">
-    <value>Audio</value>
-  </data>
   <data name="Ui.Gbs.MasterVolume" xml:space="preserve">
     <value>Volum principal</value>
   </data>
@@ -5126,9 +5060,6 @@ Ce vrei să faci?</value>
   </data>
   <data name="Ui.Gbs.EnableVignetteForMotionSicknessReduction" xml:space="preserve">
     <value>Activează vigneta pentru a reduce răul de mișcare.</value>
-  </data>
-  <data name="Ui.Gbs.MicroProfiler" xml:space="preserve">
-    <value>Micro Profiler</value>
   </data>
   <data name="Ui.Gbs.EnableRobloxMicroprofilerServer" xml:space="preserve">
     <value>Activează serverul microprofilerului Roblox.</value>
@@ -5223,9 +5154,6 @@ Ce vrei să faci?</value>
   <data name="Ui.Home.SeeWhatSPossibleOnRoblox" xml:space="preserve">
     <value>Vezi ce e posibil pe Roblox în genurile populare cu experiențe gata făcute, sau începe de la zero.</value>
   </data>
-  <data name="Ui.Session.Browser" xml:space="preserve">
-    <value>Browser</value>
-  </data>
   <data name="Ui.Session.MuteOrUnmuteThisTab" xml:space="preserve">
     <value>Dezactivează sau activează sunetul acestei file</value>
   </data>
@@ -5307,9 +5235,6 @@ Ce vrei să faci?</value>
   <data name="Ui.Session.Account" xml:space="preserve">
     <value>Cont</value>
   </data>
-  <data name="Ui.Session.Social" xml:space="preserve">
-    <value>Social</value>
-  </data>
   <data name="Ui.Session.OpenProfile" xml:space="preserve">
     <value>Deschide profilul</value>
   </data>
@@ -5328,9 +5253,6 @@ Ce vrei să faci?</value>
   <data name="Ui.Session.Session" xml:space="preserve">
     <value>Sesiune </value>
   </data>
-  <data name="Ui.Session.Server" xml:space="preserve">
-    <value>  ·  Server </value>
-  </data>
   <data name="Ui.Session.ChatWithFriends" xml:space="preserve">
     <value>Discută cu prietenii</value>
   </data>
@@ -5345,9 +5267,6 @@ Ce vrei să faci?</value>
   </data>
   <data name="Ui.Session.CopyInviteLink" xml:space="preserve">
     <value>Copiază linkul de invitație</value>
-  </data>
-  <data name="Ui.Session.Public" xml:space="preserve">
-    <value>Public</value>
   </data>
   <data name="Ui.Session.Private" xml:space="preserve">
     <value>Privat</value>
@@ -5405,9 +5324,6 @@ Ce vrei să faci?</value>
   </data>
   <data name="Ui.Session.PasteAFullROBLOSECURITYValueOnly" xml:space="preserve">
     <value>Lipește o valoare .ROBLOSECURITY completă. Lipește doar cookie uri care îți aparțin.</value>
-  </data>
-  <data name="Ui.Session.WARNINGDONOTSHARETHIS" xml:space="preserve">
-    <value>_|WARNING: DO NOT SHARE THIS...</value>
   </data>
   <data name="Ui.Session.CURRENT" xml:space="preserve">
     <value>CURENT</value>
@@ -5529,9 +5445,6 @@ Ce vrei să faci?</value>
   <data name="Ui.Misc.FindInFile" xml:space="preserve">
     <value>Caută în fișier</value>
   </data>
-  <data name="Ui.Misc.Live" xml:space="preserve">
-    <value>Live</value>
-  </data>
   <data name="Ui.Misc.RebuildWhileYouType" xml:space="preserve">
     <value>Reconstruiește în timp ce scrii</value>
   </data>
@@ -5597,9 +5510,6 @@ Ce vrei să faci?</value>
   </data>
   <data name="Ui.Misc.TheGraphicsBackendWineUsesFor" xml:space="preserve">
     <value>Backendul grafic pe care Wine îl folosește pentru Studio. DXVK se potrivește majorității sistemelor.</value>
-  </data>
-  <data name="Ui.Misc.FeralGameMode" xml:space="preserve">
-    <value>Feral GameMode</value>
   </data>
   <data name="Ui.Misc.AsksGameModeToTuneTheSystem" xml:space="preserve">
     <value>Cere GameMode să optimizeze sistemul cât rulează Studio.</value>
@@ -5871,9 +5781,6 @@ Ce vrei să faci?</value>
   <data name="Ui.Pages.OverridesThatAffectGPUBehaviorAnd" xml:space="preserve">
     <value>Suprascrieri care afectează comportamentul GPU și funcțiile driverului.</value>
   </data>
-  <data name="Ui.Pages.ResizableBAR" xml:space="preserve">
-    <value>Resizable BAR</value>
-  </data>
   <data name="Ui.Pages.AllowsTheCPUToAccessThe" xml:space="preserve">
     <value>Permite procesorului accesul la toată memoria GPU pe sistemele compatibile.</value>
   </data>
@@ -5984,9 +5891,6 @@ Ce vrei să faci?</value>
   </data>
   <data name="Ui.Pages.ManageYourFastFlagsACheckmarkIn" xml:space="preserve">
     <value>Gestionează FastFlags. O bifă la Preset înseamnă că flagul e disponibil în setările FFlag, iar un X că nu e.</value>
-  </data>
-  <data name="Ui.Pages.Preset" xml:space="preserve">
-    <value>Preset</value>
   </data>
   <data name="Ui.Pages.GoToFFlagSettingsToAdd" xml:space="preserve">
     <value>Mergi la setările FFlag pentru a adăuga FFlags Preset.</value>
@@ -6123,26 +6027,17 @@ Ce vrei să faci?</value>
   <data name="Ui.Misc2.TheClassicTopbarOptionRebuildsTwo" xml:space="preserve">
     <value>Opțiunea de bară superioară clasică recreează două moduri ale comunității. Grafica și comportamentul barei superioare și meniului de joc din 2014 până în 2015 provin din "2014 2015 Topbar and Menu (Improvised GUI)" de HockuTM. Ascunderea barei moderne folosește "NoGuiRBX, Hide TopBar!" de Einshine. Ambele sunt folosite cu mulțumiri conform termenilor Creative Commons BY NC ND 4.0, fișierele lor sunt descărcate direct de pe GameBanana în loc să fie incluse, iar niciun autor nu este afiliat cu Voidstrap.</value>
   </data>
-  <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
-  </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>Moduri ale comunității</value>
   </data>
   <data name="Ui.Misc2.CommunityModsListsRobloxSubmissionsFrom" xml:space="preserve">
     <value>Moduri ale comunității listează contribuții Roblox de pe GameBanana și Kliko's Mods, întreținut de TheKliko pentru modloaderul lui Kliko. Voidstrap nu este afiliat și nici susținut de vreunul dintre ele. Toate modurile, imaginile și descrierile aparțin autorilor, menționați la fiecare intrare. Voidstrap doar citește datele lor publice și nu încarcă niciodată nimic în numele tău.</value>
   </data>
-  <data name="Ui.Misc2.GithubComKlikosModloaderMarketplace" xml:space="preserve">
-    <value>github.com/klikos modloader/marketplace</value>
-  </data>
   <data name="Ui.Misc2.CanTSeeOverlays" xml:space="preserve">
     <value>Nu vezi suprapunerile?</value>
   </data>
   <data name="Ui.Misc2.Info" xml:space="preserve">
     <value>Informații</value>
-  </data>
-  <data name="Ui.Misc2.FFlags" xml:space="preserve">
-    <value>FFlags</value>
   </data>
   <data name="Ui.Misc2.PlayTime" xml:space="preserve">
     <value>Timp de joc</value>
@@ -6305,9 +6200,6 @@ Ce vrei să faci?</value>
   </data>
   <data name="Ui.Misc2.ServerSize" xml:space="preserve">
     <value>Mărimea serverului</value>
-  </data>
-  <data name="Ui.Misc2.Chat" xml:space="preserve">
-    <value>Chat</value>
   </data>
   <data name="Ui.Misc2.Chats" xml:space="preserve">
     <value>Conversații</value>

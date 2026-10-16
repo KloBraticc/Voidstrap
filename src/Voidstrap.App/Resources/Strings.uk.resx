@@ -3669,9 +3669,6 @@ Roblox буде завантажено під час першого запуск
   <data name="Ui.Mods.EnableOrDisableThisMod" xml:space="preserve">
     <value>Увімкнути або вимкнути цей мод</value>
   </data>
-  <data name="Ui.Mods.Id" xml:space="preserve">
-    <value>   ID: </value>
-  </data>
   <data name="Ui.Mods.ViewThisModPack" xml:space="preserve">
     <value>Переглянути цей набір модів</value>
   </data>
@@ -4272,9 +4269,6 @@ Roblox буде завантажено під час першого запуск
   <data name="Ui.Bootstrapper.ReduceResourcesWhenRobloxIsUnfocused" xml:space="preserve">
     <value>Зменшувати ресурси, коли Roblox не у фокусі</value>
   </data>
-  <data name="Ui.Bootstrapper.VoidstrapMatchmaker" xml:space="preserve">
-    <value>Voidstrap Matchmaker</value>
-  </data>
   <data name="Ui.Bootstrapper.Enable" xml:space="preserve">
     <value>Увімкнути</value>
   </data>
@@ -4341,9 +4335,6 @@ Roblox буде завантажено під час першого запуск
   <data name="Ui.Bootstrapper.NeverLetVoidstrapPickAServer" xml:space="preserve">
     <value>Ніколи не дозволяти Voidstrap обирати сервер для цієї гри</value>
   </data>
-  <data name="Ui.Bootstrapper.PlaceId" xml:space="preserve">
-    <value>Place id</value>
-  </data>
   <data name="Ui.Bootstrapper.LetVoidstrapPickServersForThis" xml:space="preserve">
     <value>Знову дозволити Voidstrap обирати сервери для цієї гри</value>
   </data>
@@ -4364,9 +4355,6 @@ Roblox буде завантажено під час першого запуск
   </data>
   <data name="Ui.Bootstrapper.VoidstrapStopsTryingAfterThisMany" xml:space="preserve">
     <value>Voidstrap припиняє спроби після стількох перепідключень, щоб ніколи не зациклитися.</value>
-  </data>
-  <data name="Ui.Bootstrapper.JoinAPI" xml:space="preserve">
-    <value>Join API</value>
   </data>
   <data name="Ui.Bootstrapper.WhichRobloxJoinEndpointVoidstrapAsks" xml:space="preserve">
     <value>Яку точку приєднання Roblox Voidstrap запитує про розташування серверів. Змінюйте, лише якщо приєднання перестало працювати.</value>
@@ -4587,9 +4575,6 @@ Roblox буде завантажено під час першого запуск
   <data name="Ui.Integrations.CloseWhenLeavingThatGame" xml:space="preserve">
     <value>Закривати під час виходу з цієї гри</value>
   </data>
-  <data name="Ui.Integrations.PlaceID" xml:space="preserve">
-    <value>Place ID</value>
-  </data>
   <data name="Ui.Channel.InstallLocation" xml:space="preserve">
     <value>Місце встановлення</value>
   </data>
@@ -4649,9 +4634,6 @@ Roblox буде завантажено під час першого запуск
   </data>
   <data name="Ui.Channel.DisplaysVoidstrapsDiscordRPC" xml:space="preserve">
     <value>Показує Discord RPC від Voidstrap.</value>
-  </data>
-  <data name="Ui.Channel.VoidstrapRPC" xml:space="preserve">
-    <value>Voidstrap RPC</value>
   </data>
   <data name="Ui.Channel.FactoryReset" xml:space="preserve">
     <value>Скидання до заводських налаштувань</value>
@@ -5157,9 +5139,6 @@ Roblox буде завантажено під час першого запуск
   <data name="Ui.Gbs.EnableVignetteForMotionSicknessReduction" xml:space="preserve">
     <value>Увімкнути віньєтку для зменшення заколисування.</value>
   </data>
-  <data name="Ui.Gbs.MicroProfiler" xml:space="preserve">
-    <value>Micro Profiler</value>
-  </data>
   <data name="Ui.Gbs.EnableRobloxMicroprofilerServer" xml:space="preserve">
     <value>Увімкнути сервер мікропрофайлера Roblox.</value>
   </data>
@@ -5436,9 +5415,6 @@ Roblox буде завантажено під час першого запуск
   <data name="Ui.Session.PasteAFullROBLOSECURITYValueOnly" xml:space="preserve">
     <value>Вставте повне значення .ROBLOSECURITY. Вставляйте лише власні cookie.</value>
   </data>
-  <data name="Ui.Session.WARNINGDONOTSHARETHIS" xml:space="preserve">
-    <value>_|WARNING: DO NOT SHARE THIS...</value>
-  </data>
   <data name="Ui.Session.CURRENT" xml:space="preserve">
     <value>ПОТОЧНИЙ</value>
   </data>
@@ -5627,9 +5603,6 @@ Roblox буде завантажено під час першого запуск
   </data>
   <data name="Ui.Misc.TheGraphicsBackendWineUsesFor" xml:space="preserve">
     <value>Графічний рушій, який Wine використовує для Studio. DXVK підходить більшості систем.</value>
-  </data>
-  <data name="Ui.Misc.FeralGameMode" xml:space="preserve">
-    <value>Feral GameMode</value>
   </data>
   <data name="Ui.Misc.AsksGameModeToTuneTheSystem" xml:space="preserve">
     <value>Просить GameMode налаштувати систему, поки працює Studio.</value>
@@ -5901,9 +5874,6 @@ Roblox буде завантажено під час першого запуск
   <data name="Ui.Pages.OverridesThatAffectGPUBehaviorAnd" xml:space="preserve">
     <value>Перевизначення, що впливають на роботу GPU і функції драйвера.</value>
   </data>
-  <data name="Ui.Pages.ResizableBAR" xml:space="preserve">
-    <value>Resizable BAR</value>
-  </data>
   <data name="Ui.Pages.AllowsTheCPUToAccessThe" xml:space="preserve">
     <value>Дає CPU доступ до всієї пам'яті GPU на підтримуваних системах.</value>
   </data>
@@ -6014,9 +5984,6 @@ Roblox буде завантажено під час першого запуск
   </data>
   <data name="Ui.Pages.ManageYourFastFlagsACheckmarkIn" xml:space="preserve">
     <value>Керуйте своїми FastFlags. Позначка в Preset означає, що прапорець є в налаштуваннях FFlag, хрестик означає, що його немає.</value>
-  </data>
-  <data name="Ui.Pages.Preset" xml:space="preserve">
-    <value>Preset</value>
   </data>
   <data name="Ui.Pages.GoToFFlagSettingsToAdd" xml:space="preserve">
     <value>Перейдіть до налаштувань FFlag, щоб додати Preset FFlags.</value>
@@ -6153,26 +6120,17 @@ Roblox буде завантажено під час першого запуск
   <data name="Ui.Misc2.TheClassicTopbarOptionRebuildsTwo" xml:space="preserve">
     <value>Класична верхня панель відтворює два моди спільноти. Оформлення й поведінка верхньої панелі та ігрового меню 2014 2015 років взяті з "2014 2015 Topbar and Menu (Improvised GUI)" від HockuTM. Приховування сучасної панелі використовує "NoGuiRBX, Hide TopBar!" від Einshine. Обидва використовуються з подякою на умовах Creative Commons BY NC ND 4.0, їхні файли завантажуються безпосередньо з GameBanana, а не постачаються з програмою, і жоден автор не пов'язаний з Voidstrap.</value>
   </data>
-  <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
-  </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>Моди спільноти</value>
   </data>
   <data name="Ui.Misc2.CommunityModsListsRobloxSubmissionsFrom" xml:space="preserve">
     <value>Моди спільноти показують роботи для Roblox з GameBanana і Kliko's Mods, який веде TheKliko для модлоадера Kliko. Voidstrap не пов'язаний з жодним із них і не схвалений ними. Усі моди, зображення й описи належать їхнім авторам, зазначеним у кожному записі. Voidstrap лише читає їхні публічні дані й ніколи нічого не завантажує від Вашого імені.</value>
   </data>
-  <data name="Ui.Misc2.GithubComKlikosModloaderMarketplace" xml:space="preserve">
-    <value>github.com/klikos modloader/marketplace</value>
-  </data>
   <data name="Ui.Misc2.CanTSeeOverlays" xml:space="preserve">
     <value>Не бачите оверлеї?</value>
   </data>
   <data name="Ui.Misc2.Info" xml:space="preserve">
     <value>Відомості</value>
-  </data>
-  <data name="Ui.Misc2.FFlags" xml:space="preserve">
-    <value>FFlags</value>
   </data>
   <data name="Ui.Misc2.PlayTime" xml:space="preserve">
     <value>Час у грі</value>

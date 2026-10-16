@@ -3655,9 +3655,6 @@ Mit szeretnél tenni?</value>
   <data name="Ui.Mods.EnableOrDisableThisMod" xml:space="preserve">
     <value>A mod be- vagy kikapcsolása</value>
   </data>
-  <data name="Ui.Mods.Id" xml:space="preserve">
-    <value>   ID: </value>
-  </data>
   <data name="Ui.Mods.ViewThisModPack" xml:space="preserve">
     <value>Modcsomag megtekintése</value>
   </data>
@@ -3948,12 +3945,6 @@ Mit szeretnél tenni?</value>
   </data>
   <data name="Ui.FastFlags.GrassDistance" xml:space="preserve">
     <value>Fű látótávolsága</value>
-  </data>
-  <data name="Ui.FastFlags.Min" xml:space="preserve">
-    <value>Min</value>
-  </data>
-  <data name="Ui.FastFlags.Max" xml:space="preserve">
-    <value>Max</value>
   </data>
   <data name="Ui.FastFlags.ConfigureTheRenderingApiForRoblox" xml:space="preserve">
     <value>A Roblox megjelenítési API beállítása. Direct3D használatakor nyomd meg az Alt Enter billentyűt teljes képernyőre váltáskor. A Vulkan hibákat okozhat!.</value>
@@ -4258,9 +4249,6 @@ Mit szeretnél tenni?</value>
   <data name="Ui.Bootstrapper.ReduceResourcesWhenRobloxIsUnfocused" xml:space="preserve">
     <value>Erőforrások csökkentése, ha a Roblox nincs fókuszban</value>
   </data>
-  <data name="Ui.Bootstrapper.VoidstrapMatchmaker" xml:space="preserve">
-    <value>Voidstrap Matchmaker</value>
-  </data>
   <data name="Ui.Bootstrapper.Enable" xml:space="preserve">
     <value>Bekapcsolás</value>
   </data>
@@ -4327,9 +4315,6 @@ Mit szeretnél tenni?</value>
   <data name="Ui.Bootstrapper.NeverLetVoidstrapPickAServer" xml:space="preserve">
     <value>Soha ne válasszon szervert a Voidstrap ehhez a játékhoz</value>
   </data>
-  <data name="Ui.Bootstrapper.PlaceId" xml:space="preserve">
-    <value>Place id</value>
-  </data>
   <data name="Ui.Bootstrapper.LetVoidstrapPickServersForThis" xml:space="preserve">
     <value>A Voidstrap újra választhat szervert ehhez a játékhoz</value>
   </data>
@@ -4342,17 +4327,11 @@ Mit szeretnél tenni?</value>
   <data name="Ui.Bootstrapper.HowHardToSearch" xml:space="preserve">
     <value>Milyen alaposan keressen</value>
   </data>
-  <data name="Ui.Bootstrapper.Auto" xml:space="preserve">
-    <value>Auto</value>
-  </data>
   <data name="Ui.Bootstrapper.ReconnectLimit" xml:space="preserve">
     <value>Újracsatlakozási korlát</value>
   </data>
   <data name="Ui.Bootstrapper.VoidstrapStopsTryingAfterThisMany" xml:space="preserve">
     <value>A Voidstrap ennyi újracsatlakozás után abbahagyja, így soha nem kerül végtelen ciklusba.</value>
-  </data>
-  <data name="Ui.Bootstrapper.JoinAPI" xml:space="preserve">
-    <value>Join API</value>
   </data>
   <data name="Ui.Bootstrapper.WhichRobloxJoinEndpointVoidstrapAsks" xml:space="preserve">
     <value>Melyik Roblox csatlakozási végpontot kérdezi a Voidstrap a szerverek helyéről. Csak akkor módosítsd, ha a csatlakozás nem működik.</value>
@@ -4573,9 +4552,6 @@ Mit szeretnél tenni?</value>
   <data name="Ui.Integrations.CloseWhenLeavingThatGame" xml:space="preserve">
     <value>Bezárás a játék elhagyásakor</value>
   </data>
-  <data name="Ui.Integrations.PlaceID" xml:space="preserve">
-    <value>Place ID</value>
-  </data>
   <data name="Ui.Channel.InstallLocation" xml:space="preserve">
     <value>Telepítési hely</value>
   </data>
@@ -4635,9 +4611,6 @@ Mit szeretnél tenni?</value>
   </data>
   <data name="Ui.Channel.DisplaysVoidstrapsDiscordRPC" xml:space="preserve">
     <value>Megjeleníti a Voidstrap Discord RPC-jét.</value>
-  </data>
-  <data name="Ui.Channel.VoidstrapRPC" xml:space="preserve">
-    <value>Voidstrap RPC</value>
   </data>
   <data name="Ui.Channel.FactoryReset" xml:space="preserve">
     <value>Gyári visszaállítás</value>
@@ -5143,9 +5116,6 @@ Mit szeretnél tenni?</value>
   <data name="Ui.Gbs.EnableVignetteForMotionSicknessReduction" xml:space="preserve">
     <value>Vignetta bekapcsolása a mozgásbetegség csökkentésére.</value>
   </data>
-  <data name="Ui.Gbs.MicroProfiler" xml:space="preserve">
-    <value>Micro Profiler</value>
-  </data>
   <data name="Ui.Gbs.EnableRobloxMicroprofilerServer" xml:space="preserve">
     <value>A Roblox mikroprofilozó szerverének bekapcsolása.</value>
   </data>
@@ -5422,9 +5392,6 @@ Mit szeretnél tenni?</value>
   <data name="Ui.Session.PasteAFullROBLOSECURITYValueOnly" xml:space="preserve">
     <value>Illessz be egy teljes .ROBLOSECURITY értéket. Csak a saját sütijeidet illeszd be.</value>
   </data>
-  <data name="Ui.Session.WARNINGDONOTSHARETHIS" xml:space="preserve">
-    <value>_|WARNING: DO NOT SHARE THIS...</value>
-  </data>
   <data name="Ui.Session.CURRENT" xml:space="preserve">
     <value>JELENLEGI</value>
   </data>
@@ -5613,9 +5580,6 @@ Mit szeretnél tenni?</value>
   </data>
   <data name="Ui.Misc.TheGraphicsBackendWineUsesFor" xml:space="preserve">
     <value>A grafikus háttérrendszer, amelyet a Wine a Studióhoz használ. A DXVK a legtöbb rendszerhez megfelel.</value>
-  </data>
-  <data name="Ui.Misc.FeralGameMode" xml:space="preserve">
-    <value>Feral GameMode</value>
   </data>
   <data name="Ui.Misc.AsksGameModeToTuneTheSystem" xml:space="preserve">
     <value>Megkéri a GameMode-ot, hogy hangolja a rendszert, amíg a Studio fut.</value>
@@ -5887,9 +5851,6 @@ Mit szeretnél tenni?</value>
   <data name="Ui.Pages.OverridesThatAffectGPUBehaviorAnd" xml:space="preserve">
     <value>A GPU viselkedését és az illesztőprogram funkcióit befolyásoló felülbírálások.</value>
   </data>
-  <data name="Ui.Pages.ResizableBAR" xml:space="preserve">
-    <value>Resizable BAR</value>
-  </data>
   <data name="Ui.Pages.AllowsTheCPUToAccessThe" xml:space="preserve">
     <value>Támogatott rendszereken a CPU hozzáférhet a teljes GPU-memóriához.</value>
   </data>
@@ -6000,9 +5961,6 @@ Mit szeretnél tenni?</value>
   </data>
   <data name="Ui.Pages.ManageYourFastFlagsACheckmarkIn" xml:space="preserve">
     <value>Kezeld a FastFlageidet. A pipa a Preset oszlopban azt jelenti, hogy a flag elérhető az FFlag beállításokban, a kereszt azt, hogy nem.</value>
-  </data>
-  <data name="Ui.Pages.Preset" xml:space="preserve">
-    <value>Preset</value>
   </data>
   <data name="Ui.Pages.GoToFFlagSettingsToAdd" xml:space="preserve">
     <value>Lépj az FFlag beállításokhoz Preset FFlagek hozzáadásához.</value>
@@ -6139,26 +6097,17 @@ Mit szeretnél tenni?</value>
   <data name="Ui.Misc2.TheClassicTopbarOptionRebuildsTwo" xml:space="preserve">
     <value>A klasszikus felső sáv beállítás két közösségi modot épít újra. A 2014 és 2015 közötti felső sáv és játékmenü kinézete és működése a HockuTM által készített "2014 2015 Topbar and Menu (Improvised GUI)" modból származik. A modern felső sáv elrejtése az Einshine által készített "NoGuiRBX, Hide TopBar!" modot használja. Mindkettőt köszönettel használjuk a Creative Commons BY NC ND 4.0 feltételeik szerint, a fájlok közvetlenül a GameBananáról töltődnek le, nincsenek mellékelve, és egyik szerző sem áll kapcsolatban a Voidstrappal.</value>
   </data>
-  <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
-  </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>Közösségi modok</value>
   </data>
   <data name="Ui.Misc2.CommunityModsListsRobloxSubmissionsFrom" xml:space="preserve">
     <value>A Közösségi modok a GameBanana és a Kliko's Mods Roblox beküldéseit listázza, amelyet TheKliko tart fenn Kliko modbetöltőjéhez. A Voidstrap egyikkel sem áll kapcsolatban, és egyik sem támogatja. Minden mod, kép és leírás a szerzőiké, akik minden bejegyzésnél fel vannak tüntetve. A Voidstrap csak a nyilvános adataikat olvassa, és soha nem tölt fel semmit a nevedben.</value>
   </data>
-  <data name="Ui.Misc2.GithubComKlikosModloaderMarketplace" xml:space="preserve">
-    <value>github.com/klikos modloader/marketplace</value>
-  </data>
   <data name="Ui.Misc2.CanTSeeOverlays" xml:space="preserve">
     <value>Nem látod az átfedéseket?</value>
   </data>
   <data name="Ui.Misc2.Info" xml:space="preserve">
     <value>Infó</value>
-  </data>
-  <data name="Ui.Misc2.FFlags" xml:space="preserve">
-    <value>FFlags</value>
   </data>
   <data name="Ui.Misc2.PlayTime" xml:space="preserve">
     <value>Játékidő</value>

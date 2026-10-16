@@ -3366,9 +3366,6 @@ Wat wil je doen?</value>
   <data name="Ui.Mods.ApplyModsTo" xml:space="preserve">
     <value>Mods toepassen op</value>
   </data>
-  <data name="Ui.Mods.Cursor" xml:space="preserve">
-    <value>Cursor</value>
-  </data>
   <data name="Ui.Mods.CursorStyle" xml:space="preserve">
     <value>Cursorstijl</value>
   </data>
@@ -3417,9 +3414,6 @@ Wat wil je doen?</value>
   <data name="Ui.Mods.ReplaceThisSetWithYourCurrent" xml:space="preserve">
     <value>Deze set vervangen door je huidige aangepaste cursor en shiftlock-pictogram</value>
   </data>
-  <data name="Ui.Mods.Interface" xml:space="preserve">
-    <value>Interface</value>
-  </data>
   <data name="Ui.Mods.OldRobloxTopbarUi" xml:space="preserve">
     <value>Oude Roblox-topbalk</value>
   </data>
@@ -3452,9 +3446,6 @@ Wat wil je doen?</value>
   </data>
   <data name="Ui.Mods.RemoveCustomDeathSound" xml:space="preserve">
     <value>Aangepast doodsgeluid verwijderen</value>
-  </data>
-  <data name="Ui.Mods.Volume" xml:space="preserve">
-    <value>Volume</value>
   </data>
   <data name="Ui.Mods.SkyboxManager" xml:space="preserve">
     <value>Skyboxbeheer</value>
@@ -3615,9 +3606,6 @@ Wat wil je doen?</value>
   <data name="Ui.Mods.EnableOrDisableThisMod" xml:space="preserve">
     <value>Deze mod in- of uitschakelen</value>
   </data>
-  <data name="Ui.Mods.Id" xml:space="preserve">
-    <value>   ID: </value>
-  </data>
   <data name="Ui.Mods.ViewThisModPack" xml:space="preserve">
     <value>Dit modpakket bekijken</value>
   </data>
@@ -3638,9 +3626,6 @@ Wat wil je doen?</value>
   </data>
   <data name="Ui.Mods.RemoveMod" xml:space="preserve">
     <value>Mod verwijderen</value>
-  </data>
-  <data name="Ui.Mods.Overlays" xml:space="preserve">
-    <value>Overlays</value>
   </data>
   <data name="Ui.Mods.SessionDock" xml:space="preserve">
     <value>Sessiebalk</value>
@@ -3680,9 +3665,6 @@ Wat wil je doen?</value>
   </data>
   <data name="Ui.Mods.100IsNormal" xml:space="preserve">
     <value>100 is normaal.</value>
-  </data>
-  <data name="Ui.Mods.Contrast" xml:space="preserve">
-    <value>Contrast</value>
   </data>
   <data name="Ui.Mods.Warmth" xml:space="preserve">
     <value>Warmte</value>
@@ -3822,9 +3804,6 @@ Wat wil je doen?</value>
   <data name="Ui.Mods.FileOperations" xml:space="preserve">
     <value>Bestandsbewerkingen</value>
   </data>
-  <data name="Ui.Mods.Details" xml:space="preserve">
-    <value>Details</value>
-  </data>
   <data name="Ui.Mods.Replace" xml:space="preserve">
     <value>Vervangen</value>
   </data>
@@ -3909,12 +3888,6 @@ Wat wil je doen?</value>
   <data name="Ui.FastFlags.GrassDistance" xml:space="preserve">
     <value>Grasafstand</value>
   </data>
-  <data name="Ui.FastFlags.Min" xml:space="preserve">
-    <value>Min</value>
-  </data>
-  <data name="Ui.FastFlags.Max" xml:space="preserve">
-    <value>Max</value>
-  </data>
   <data name="Ui.FastFlags.ConfigureTheRenderingApiForRoblox" xml:space="preserve">
     <value>Stel de render-API voor Roblox in. Druk op Alt Enter bij volledig scherm als je Direct3D gebruikt. Vulkan kan enkele bugs veroorzaken!.</value>
   </data>
@@ -3945,9 +3918,6 @@ Wat wil je doen?</value>
   <data name="Ui.FastFlags.HowSolidTheSquaresLook" xml:space="preserve">
     <value>Hoe massief de vierkanten eruitzien</value>
   </data>
-  <data name="Ui.FastFlags.Studs" xml:space="preserve">
-    <value>Studs</value>
-  </data>
   <data name="Ui.FastFlags.TheStudPatternOnParts" xml:space="preserve">
     <value>Het studpatroon op parts</value>
   </data>
@@ -3956,9 +3926,6 @@ Wat wil je doen?</value>
   </data>
   <data name="Ui.FastFlags.HowBrightFlatSurfacesLook50" xml:space="preserve">
     <value>Hoe helder vlakke oppervlakken eruitzien. 50% komt overeen met de normale helderheid</value>
-  </data>
-  <data name="Ui.FastFlags.Water" xml:space="preserve">
-    <value>Water</value>
   </data>
   <data name="Ui.FastFlags.TheRipplesOnTerrainWater" xml:space="preserve">
     <value>De rimpelingen op terreinwater</value>
@@ -4164,9 +4131,6 @@ Wat wil je doen?</value>
   <data name="Ui.Bootstrapper.FilesOlderThanTheSetAmount" xml:space="preserve">
     <value>Bestanden ouder dan de ingestelde tijd worden verwijderd.</value>
   </data>
-  <data name="Ui.Bootstrapper.Cache" xml:space="preserve">
-    <value>Cache</value>
-  </data>
   <data name="Ui.Bootstrapper.WhenShouldTheSetAmountBe" xml:space="preserve">
     <value>Wanneer de ingestelde hoeveelheid moet worden verwijderd.</value>
   </data>
@@ -4218,9 +4182,6 @@ Wat wil je doen?</value>
   <data name="Ui.Bootstrapper.ReduceResourcesWhenRobloxIsUnfocused" xml:space="preserve">
     <value>Resources verminderen als Roblox geen focus heeft</value>
   </data>
-  <data name="Ui.Bootstrapper.VoidstrapMatchmaker" xml:space="preserve">
-    <value>Voidstrap Matchmaker</value>
-  </data>
   <data name="Ui.Bootstrapper.Enable" xml:space="preserve">
     <value>Inschakelen</value>
   </data>
@@ -4251,9 +4212,6 @@ Wat wil je doen?</value>
   <data name="Ui.Bootstrapper.VoidstrapWillAlwaysTryThisOne" xml:space="preserve">
     <value>Voidstrap probeert altijd eerst dit datacenter en wijkt alleen uit als er geen plek is</value>
   </data>
-  <data name="Ui.Bootstrapper.Datacenters" xml:space="preserve">
-    <value>Datacenters</value>
-  </data>
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>Alles toestaan</value>
   </data>
@@ -4265,9 +4223,6 @@ Wat wil je doen?</value>
   </data>
   <data name="Ui.Bootstrapper.Allow" xml:space="preserve">
     <value>Toestaan</value>
-  </data>
-  <data name="Ui.Bootstrapper.Datacenter" xml:space="preserve">
-    <value>Datacenter</value>
   </data>
   <data name="Ui.Bootstrapper.Latency" xml:space="preserve">
     <value>Latentie</value>
@@ -4287,9 +4242,6 @@ Wat wil je doen?</value>
   <data name="Ui.Bootstrapper.NeverLetVoidstrapPickAServer" xml:space="preserve">
     <value>Voidstrap nooit een server laten kiezen voor deze game</value>
   </data>
-  <data name="Ui.Bootstrapper.PlaceId" xml:space="preserve">
-    <value>Place id</value>
-  </data>
   <data name="Ui.Bootstrapper.LetVoidstrapPickServersForThis" xml:space="preserve">
     <value>Voidstrap weer servers laten kiezen voor deze game</value>
   </data>
@@ -4302,17 +4254,11 @@ Wat wil je doen?</value>
   <data name="Ui.Bootstrapper.HowHardToSearch" xml:space="preserve">
     <value>Hoe grondig zoeken</value>
   </data>
-  <data name="Ui.Bootstrapper.Auto" xml:space="preserve">
-    <value>Auto</value>
-  </data>
   <data name="Ui.Bootstrapper.ReconnectLimit" xml:space="preserve">
     <value>Limiet voor herverbindingen</value>
   </data>
   <data name="Ui.Bootstrapper.VoidstrapStopsTryingAfterThisMany" xml:space="preserve">
     <value>Voidstrap stopt na zoveel herverbindingen zodat het nooit in een lus raakt.</value>
-  </data>
-  <data name="Ui.Bootstrapper.JoinAPI" xml:space="preserve">
-    <value>Join API</value>
   </data>
   <data name="Ui.Bootstrapper.WhichRobloxJoinEndpointVoidstrapAsks" xml:space="preserve">
     <value>Welk Roblox join endpoint Voidstrap vraagt naar serverlocaties. Alleen wijzigen als deelnemen niet meer werkt.</value>
@@ -4533,9 +4479,6 @@ Wat wil je doen?</value>
   <data name="Ui.Integrations.CloseWhenLeavingThatGame" xml:space="preserve">
     <value>Sluiten bij verlaten van die game</value>
   </data>
-  <data name="Ui.Integrations.PlaceID" xml:space="preserve">
-    <value>Place ID</value>
-  </data>
   <data name="Ui.Channel.InstallLocation" xml:space="preserve">
     <value>Installatielocatie</value>
   </data>
@@ -4595,9 +4538,6 @@ Wat wil je doen?</value>
   </data>
   <data name="Ui.Channel.DisplaysVoidstrapsDiscordRPC" xml:space="preserve">
     <value>Toont de Discord RPC van Voidstrap.</value>
-  </data>
-  <data name="Ui.Channel.VoidstrapRPC" xml:space="preserve">
-    <value>Voidstrap RPC</value>
   </data>
   <data name="Ui.Channel.FactoryReset" xml:space="preserve">
     <value>Fabrieksinstellingen herstellen</value>
@@ -4683,9 +4623,6 @@ Wat wil je doen?</value>
   <data name="Ui.Channel.WhenDisabledRobloxWonTUpdate" xml:space="preserve">
     <value>Als dit uit staat, werkt Roblox niet bij naar nieuwere versies.</value>
   </data>
-  <data name="Ui.Channel.RobloxUpdates" xml:space="preserve">
-    <value>Roblox updates</value>
-  </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
     <value>Kanalen   [Roblox Build]</value>
   </data>
@@ -4707,14 +4644,8 @@ Wat wil je doen?</value>
   <data name="Ui.Channel.ApplyingADifferentChannelClearsThe" xml:space="preserve">
     <value>Een ander kanaal toepassen wist de gedownloade Roblox versie zodat het nieuwe kanaal kan installeren</value>
   </data>
-  <data name="Ui.Channel.RendererBackend" xml:space="preserve">
-    <value>Renderer backend</value>
-  </data>
   <data name="Ui.Channel.ChoosesTheGraphicsBackendVoidstrapDraws" xml:space="preserve">
     <value>Kiest de grafische backend waarmee Voidstrap zichzelf tekent. Automatisch kiest de snelste die je systeem ondersteunt. De wijziging werkt bij de volgende start van Voidstrap.</value>
-  </data>
-  <data name="Ui.SessionNotify.Overlay" xml:space="preserve">
-    <value>Overlay</value>
   </data>
   <data name="Ui.SessionNotify.OverlayShortcut" xml:space="preserve">
     <value>Sneltoets voor overlay</value>
@@ -4809,9 +4740,6 @@ Wat wil je doen?</value>
   <data name="Ui.SessionNotify.BadgesAndTheShortcutReminderFollow" xml:space="preserve">
     <value>Badges en de sneltoetsherinnering volgen Server</value>
   </data>
-  <data name="Ui.SessionNotify.Server" xml:space="preserve">
-    <value>Server</value>
-  </data>
   <data name="Ui.SessionNotify.Friends" xml:space="preserve">
     <value>Vrienden</value>
   </data>
@@ -4835,9 +4763,6 @@ Wat wil je doen?</value>
   </data>
   <data name="Ui.SessionNotify.StartingAGameJoiningYourGame" xml:space="preserve">
     <value>Een game starten, aan je game of aan je server deelnemen.</value>
-  </data>
-  <data name="Ui.SessionNotify.Badges" xml:space="preserve">
-    <value>Badges</value>
   </data>
   <data name="Ui.SessionNotify.WhenYouEarnOne" xml:space="preserve">
     <value>Wanneer je er een verdient.</value>
@@ -5004,9 +4929,6 @@ Wat wil je doen?</value>
   <data name="Ui.Gbs.ShowBadgeNotificationsWhilePlaying" xml:space="preserve">
     <value>Badgemeldingen tonen tijdens het spelen.</value>
   </data>
-  <data name="Ui.Gbs.Graphics" xml:space="preserve">
-    <value>Graphics</value>
-  </data>
   <data name="Ui.Gbs.FramerateCap" xml:space="preserve">
     <value>FPS limiet</value>
   </data>
@@ -5024,9 +4946,6 @@ Wat wil je doen?</value>
   </data>
   <data name="Ui.Gbs.ToggleFullscreenMode" xml:space="preserve">
     <value>Volledig scherm aan of uit.</value>
-  </data>
-  <data name="Ui.Gbs.Audio" xml:space="preserve">
-    <value>Audio</value>
   </data>
   <data name="Ui.Gbs.MasterVolume" xml:space="preserve">
     <value>Hoofdvolume</value>
@@ -5102,9 +5021,6 @@ Wat wil je doen?</value>
   </data>
   <data name="Ui.Gbs.EnableVignetteForMotionSicknessReduction" xml:space="preserve">
     <value>Vignet inschakelen tegen bewegingsziekte.</value>
-  </data>
-  <data name="Ui.Gbs.MicroProfiler" xml:space="preserve">
-    <value>Micro Profiler</value>
   </data>
   <data name="Ui.Gbs.EnableRobloxMicroprofilerServer" xml:space="preserve">
     <value>Roblox microprofiler server inschakelen.</value>
@@ -5199,9 +5115,6 @@ Wat wil je doen?</value>
   <data name="Ui.Home.SeeWhatSPossibleOnRoblox" xml:space="preserve">
     <value>Ontdek met kant-en-klare ervaringen wat er mogelijk is op Roblox in populaire genres, of begin vanaf nul.</value>
   </data>
-  <data name="Ui.Session.Browser" xml:space="preserve">
-    <value>Browser</value>
-  </data>
   <data name="Ui.Session.MuteOrUnmuteThisTab" xml:space="preserve">
     <value>Dit tabblad dempen of geluid aanzetten</value>
   </data>
@@ -5280,9 +5193,6 @@ Wat wil je doen?</value>
   <data name="Ui.Session.Verified" xml:space="preserve">
     <value>Geverifieerd</value>
   </data>
-  <data name="Ui.Session.Account" xml:space="preserve">
-    <value>Account</value>
-  </data>
   <data name="Ui.Session.Social" xml:space="preserve">
     <value>Sociaal</value>
   </data>
@@ -5304,17 +5214,8 @@ Wat wil je doen?</value>
   <data name="Ui.Session.Session" xml:space="preserve">
     <value>Sessie </value>
   </data>
-  <data name="Ui.Session.Server" xml:space="preserve">
-    <value>  ·  Server </value>
-  </data>
   <data name="Ui.Session.ChatWithFriends" xml:space="preserve">
     <value>Chatten met vrienden</value>
-  </data>
-  <data name="Ui.Session.Servers" xml:space="preserve">
-    <value>Servers</value>
-  </data>
-  <data name="Ui.Session.Games" xml:space="preserve">
-    <value>Games</value>
   </data>
   <data name="Ui.Session.Music" xml:space="preserve">
     <value>Muziek</value>
@@ -5327,9 +5228,6 @@ Wat wil je doen?</value>
   </data>
   <data name="Ui.Session.Private" xml:space="preserve">
     <value>Privé</value>
-  </data>
-  <data name="Ui.Session.Recent" xml:space="preserve">
-    <value>Recent</value>
   </data>
   <data name="Ui.Session.CopyTheInstanceID" xml:space="preserve">
     <value>Instantie ID kopiëren</value>
@@ -5381,9 +5279,6 @@ Wat wil je doen?</value>
   </data>
   <data name="Ui.Session.PasteAFullROBLOSECURITYValueOnly" xml:space="preserve">
     <value>Plak een volledige .ROBLOSECURITY waarde. Plak alleen cookies die van jou zijn.</value>
-  </data>
-  <data name="Ui.Session.WARNINGDONOTSHARETHIS" xml:space="preserve">
-    <value>_|WARNING: DO NOT SHARE THIS...</value>
   </data>
   <data name="Ui.Session.CURRENT" xml:space="preserve">
     <value>HUIDIG</value>
@@ -5505,9 +5400,6 @@ Wat wil je doen?</value>
   <data name="Ui.Misc.FindInFile" xml:space="preserve">
     <value>Zoeken in bestand</value>
   </data>
-  <data name="Ui.Misc.Live" xml:space="preserve">
-    <value>Live</value>
-  </data>
   <data name="Ui.Misc.RebuildWhileYouType" xml:space="preserve">
     <value>Opnieuw bouwen tijdens het typen</value>
   </data>
@@ -5568,14 +5460,8 @@ Wat wil je doen?</value>
   <data name="Ui.Misc.LetsVinegarShowYourStudioSession" xml:space="preserve">
     <value>Laat Vinegar je Studio-sessie op Discord tonen.</value>
   </data>
-  <data name="Ui.Misc.Renderer" xml:space="preserve">
-    <value>Renderer</value>
-  </data>
   <data name="Ui.Misc.TheGraphicsBackendWineUsesFor" xml:space="preserve">
     <value>De grafische backend die Wine voor Studio gebruikt. DXVK past bij de meeste systemen.</value>
-  </data>
-  <data name="Ui.Misc.FeralGameMode" xml:space="preserve">
-    <value>Feral GameMode</value>
   </data>
   <data name="Ui.Misc.AsksGameModeToTuneTheSystem" xml:space="preserve">
     <value>Vraagt GameMode het systeem af te stemmen terwijl Studio draait.</value>
@@ -5669,9 +5555,6 @@ Wat wil je doen?</value>
   </data>
   <data name="Ui.Pages.RATING" xml:space="preserve">
     <value>BEOORDELING</value>
-  </data>
-  <data name="Ui.Pages.Genre" xml:space="preserve">
-    <value>Genre</value>
   </data>
   <data name="Ui.Pages.MaxPlayers" xml:space="preserve">
     <value>Max. spelers</value>
@@ -5847,9 +5730,6 @@ Wat wil je doen?</value>
   <data name="Ui.Pages.OverridesThatAffectGPUBehaviorAnd" xml:space="preserve">
     <value>Overschrijvingen die GPU-gedrag en driverfuncties beïnvloeden.</value>
   </data>
-  <data name="Ui.Pages.ResizableBAR" xml:space="preserve">
-    <value>Resizable BAR</value>
-  </data>
   <data name="Ui.Pages.AllowsTheCPUToAccessThe" xml:space="preserve">
     <value>Geeft de CPU op ondersteunde systemen toegang tot het volledige GPU-geheugen.</value>
   </data>
@@ -5900,9 +5780,6 @@ Wat wil je doen?</value>
   </data>
   <data name="Ui.Pages.WorksWith" xml:space="preserve">
     <value>Werkt met</value>
-  </data>
-  <data name="Ui.Pages.Tags" xml:space="preserve">
-    <value>Tags</value>
   </data>
   <data name="Ui.Pages.Creators" xml:space="preserve">
     <value>Makers</value>
@@ -5961,9 +5838,6 @@ Wat wil je doen?</value>
   <data name="Ui.Pages.ManageYourFastFlagsACheckmarkIn" xml:space="preserve">
     <value>Beheer je FastFlags. Een vinkje bij Preset betekent dat de flag beschikbaar is in de FFlag-instellingen, een kruis betekent dat dat niet zo is.</value>
   </data>
-  <data name="Ui.Pages.Preset" xml:space="preserve">
-    <value>Preset</value>
-  </data>
   <data name="Ui.Pages.GoToFFlagSettingsToAdd" xml:space="preserve">
     <value>Ga naar de FFlag-instellingen om Preset-FFlags toe te voegen.</value>
   </data>
@@ -5987,9 +5861,6 @@ Wat wil je doen?</value>
   </data>
   <data name="Ui.Pages.SearchByGameNameCreatorOr" xml:space="preserve">
     <value>Zoeken op gamenaam, maker of place ID...</value>
-  </data>
-  <data name="Ui.Pages.Downloads" xml:space="preserve">
-    <value>Downloads</value>
   </data>
   <data name="Ui.Pages.Installed" xml:space="preserve">
     <value>Geïnstalleerd</value>
@@ -6099,26 +5970,14 @@ Wat wil je doen?</value>
   <data name="Ui.Misc2.TheClassicTopbarOptionRebuildsTwo" xml:space="preserve">
     <value>De klassieke topbaroptie bouwt twee communitymods na. Het uiterlijk en gedrag van de topbar en het gamemenu uit 2014 tot 2015 komen uit "2014 2015 Topbar and Menu (Improvised GUI)" van HockuTM. Het verbergen van de moderne topbar gebruikt "NoGuiRBX, Hide TopBar!" van Einshine. Beide worden met dank gebruikt onder hun Creative Commons BY NC ND 4.0-voorwaarden, hun bestanden worden rechtstreeks van GameBanana gedownload in plaats van meegeleverd, en geen van beide makers is verbonden aan Voidstrap.</value>
   </data>
-  <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
-  </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>Communitymods</value>
   </data>
   <data name="Ui.Misc2.CommunityModsListsRobloxSubmissionsFrom" xml:space="preserve">
     <value>Communitymods toont Roblox-inzendingen van GameBanana en Kliko's Mods, onderhouden door TheKliko voor de modloader van Kliko. Voidstrap is niet verbonden aan of goedgekeurd door een van beide. Alle mods, afbeeldingen en beschrijvingen zijn van hun makers, die bij elk item worden genoemd. Voidstrap leest alleen hun openbare gegevens en uploadt nooit iets namens jou.</value>
   </data>
-  <data name="Ui.Misc2.GithubComKlikosModloaderMarketplace" xml:space="preserve">
-    <value>github.com/klikos modloader/marketplace</value>
-  </data>
   <data name="Ui.Misc2.CanTSeeOverlays" xml:space="preserve">
     <value>Zie je geen overlays?</value>
-  </data>
-  <data name="Ui.Misc2.Info" xml:space="preserve">
-    <value>Info</value>
-  </data>
-  <data name="Ui.Misc2.FFlags" xml:space="preserve">
-    <value>FFlags</value>
   </data>
   <data name="Ui.Misc2.PlayTime" xml:space="preserve">
     <value>Speeltijd</value>
@@ -6174,9 +6033,6 @@ Wat wil je doen?</value>
   <data name="Ui.Misc2.MuteUnmute" xml:space="preserve">
     <value>Dempen / geluid aan</value>
   </data>
-  <data name="Ui.Misc2.Equalizer" xml:space="preserve">
-    <value>Equalizer</value>
-  </data>
   <data name="Ui.Misc2.TuneHowYourAudioSoundsPick" xml:space="preserve">
     <value>Stel in hoe je audio klinkt. Kies een preset of sleep de banden, het wordt meteen toegepast en automatisch opgeslagen.</value>
   </data>
@@ -6191,9 +6047,6 @@ Wat wil je doen?</value>
   </data>
   <data name="Ui.Misc2.SelectAnAssetToPreviewIt" xml:space="preserve">
     <value>Selecteer een asset om hem hier te bekijken</value>
-  </data>
-  <data name="Ui.Misc2.Volume" xml:space="preserve">
-    <value>Volume:</value>
   </data>
   <data name="Ui.Misc2.Loop" xml:space="preserve">
     <value>Herhalen</value>
@@ -6281,12 +6134,6 @@ Wat wil je doen?</value>
   </data>
   <data name="Ui.Misc2.ServerSize" xml:space="preserve">
     <value>Servergrootte</value>
-  </data>
-  <data name="Ui.Misc2.Chat" xml:space="preserve">
-    <value>Chat</value>
-  </data>
-  <data name="Ui.Misc2.Chats" xml:space="preserve">
-    <value>Chats</value>
   </data>
   <data name="Ui.Misc2.LoadingYourChats" xml:space="preserve">
     <value>Je chats worden geladen</value>
@@ -6444,9 +6291,6 @@ Wat wil je doen?</value>
   <data name="Ui.Misc2.PriceR" xml:space="preserve">
     <value>Prijs (R$)</value>
   </data>
-  <data name="Ui.Misc2.Releases" xml:space="preserve">
-    <value>Releases</value>
-  </data>
   <data name="Ui.Misc2.SearchReleases" xml:space="preserve">
     <value>Releases zoeken...</value>
   </data>
@@ -6492,9 +6336,6 @@ Wat wil je doen?</value>
   <data name="Ui.Misc2.ApplyFrom" xml:space="preserve">
     <value>Toepassen vanaf</value>
   </data>
-  <data name="Ui.Misc3.Supporters" xml:space="preserve">
-    <value>Supporters</value>
-  </data>
   <data name="Ui.Misc3.ThirdPartyNotices" xml:space="preserve">
     <value>Kennisgevingen van derden</value>
   </data>
@@ -6527,9 +6368,6 @@ Wat wil je doen?</value>
   </data>
   <data name="Ui.Misc3.Sort" xml:space="preserve">
     <value>Sorteren:</value>
-  </data>
-  <data name="Ui.Misc3.Filter" xml:space="preserve">
-    <value>Filter:</value>
   </data>
   <data name="Ui.Misc3.Left" xml:space="preserve">
     <value>Vertrokken: </value>
