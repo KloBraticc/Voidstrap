@@ -5,7 +5,7 @@ inherit desktop rust
 DESCRIPTION="Roblox bootstrapper for Linux, fork of Bloxstrap (launches Roblox through Sober)"
 HOMEPAGE="https://github.com/KloBraticc/Voidstrap"
 
-WPFUI_COMMIT="6b11b97f7fb44721c89ca731737eaafbd855989b"
+WPFUI_COMMIT="9239f684e24bb2b0970457e4d4d8bb5b9a44415d"
 
 SRC_URI="
         https://github.com/KloBraticc/Voidstrap/archive/refs/tags/v${PV}.tar.gz -> ${P}.tar.gz
