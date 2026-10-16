@@ -5223,4 +5223,205 @@ Co chcete udělat?</value>
   <data name="Ui.Home.SeeWhatSPossibleOnRoblox" xml:space="preserve">
     <value>Podívejte se, co je na Robloxu možné v oblíbených žánrech s hotovými zážitky, nebo začněte od nuly.</value>
   </data>
+  <data name="Ui.Session.Browser" xml:space="preserve">
+    <value>Prohlížeč</value>
+  </data>
+  <data name="Ui.Session.MuteOrUnmuteThisTab" xml:space="preserve">
+    <value>Ztlumit nebo zapnout zvuk této karty</value>
+  </data>
+  <data name="Ui.Session.CloseTabCtrlW" xml:space="preserve">
+    <value>Zavřít kartu (Ctrl+W)</value>
+  </data>
+  <data name="Ui.Session.NewTabCtrlT" xml:space="preserve">
+    <value>Nová karta (Ctrl+T)</value>
+  </data>
+  <data name="Ui.Session.NewTab" xml:space="preserve">
+    <value>Nová karta</value>
+  </data>
+  <data name="Ui.Session.BackAltLeft" xml:space="preserve">
+    <value>Zpět (Alt+Left)</value>
+  </data>
+  <data name="Ui.Session.ForwardAltRight" xml:space="preserve">
+    <value>Vpřed (Alt+Right)</value>
+  </data>
+  <data name="Ui.Session.ReloadF5" xml:space="preserve">
+    <value>Znovu načíst (F5)</value>
+  </data>
+  <data name="Ui.Session.SearchOrTypeAnAddress" xml:space="preserve">
+    <value>Vyhledejte nebo zadejte adresu</value>
+  </data>
+  <data name="Ui.Session.ResetZoomCtrl0" xml:space="preserve">
+    <value>Obnovit přiblížení (Ctrl+0)</value>
+  </data>
+  <data name="Ui.Session.CopyLinkCtrlShiftC" xml:space="preserve">
+    <value>Kopírovat odkaz (Ctrl+Shift+C)</value>
+  </data>
+  <data name="Ui.Session.SearchTabsCtrlShiftA" xml:space="preserve">
+    <value>Hledat karty (Ctrl+Shift+A)</value>
+  </data>
+  <data name="Ui.Session.SplitViewCtrlShiftS" xml:space="preserve">
+    <value>Rozdělené zobrazení (Ctrl+Shift+S)</value>
+  </data>
+  <data name="Ui.Session.BrowserMenu" xml:space="preserve">
+    <value>Nabídka prohlížeče</value>
+  </data>
+  <data name="Ui.Session.FindOnPage" xml:space="preserve">
+    <value>Najít na stránce</value>
+  </data>
+  <data name="Ui.Session.PreviousShiftEnter" xml:space="preserve">
+    <value>Předchozí (Shift+Enter)</value>
+  </data>
+  <data name="Ui.Session.NextEnter" xml:space="preserve">
+    <value>Další (Enter)</value>
+  </data>
+  <data name="Ui.Session.CloseEsc" xml:space="preserve">
+    <value>Zavřít (Esc)</value>
+  </data>
+  <data name="Ui.Session.TipStartWithYtWRbx" xml:space="preserve">
+    <value>Tip: začněte !yt, !w, !rbx nebo !dev a hledejte přímo na tom webu</value>
+  </data>
+  <data name="Ui.Session.StartingTheBrowser" xml:space="preserve">
+    <value>Spouštění prohlížeče</value>
+  </data>
+  <data name="Ui.Session.TryAgain" xml:space="preserve">
+    <value>Zkusit znovu</value>
+  </data>
+  <data name="Ui.Session.SearchTabs" xml:space="preserve">
+    <value>Hledat karty</value>
+  </data>
+  <data name="Ui.Session.VoidstrapSession" xml:space="preserve">
+    <value>Relace Voidstrap</value>
+  </data>
+  <data name="Ui.Session.FriendsInThisServer" xml:space="preserve">
+    <value>Přátelé na tomto serveru</value>
+  </data>
+  <data name="Ui.Session.LookingForFriends" xml:space="preserve">
+    <value>Hledání přátel</value>
+  </data>
+  <data name="Ui.Session.CopyInvite" xml:space="preserve">
+    <value>Kopírovat pozvánku</value>
+  </data>
+  <data name="Ui.Session.Verified" xml:space="preserve">
+    <value>Ověřeno</value>
+  </data>
+  <data name="Ui.Session.Account" xml:space="preserve">
+    <value>Účet</value>
+  </data>
+  <data name="Ui.Session.Social" xml:space="preserve">
+    <value>Sociální</value>
+  </data>
+  <data name="Ui.Session.OpenProfile" xml:space="preserve">
+    <value>Otevřít profil</value>
+  </data>
+  <data name="Ui.Session.CopyProfileLink" xml:space="preserve">
+    <value>Kopírovat odkaz na profil</value>
+  </data>
+  <data name="Ui.Session.YourProfile" xml:space="preserve">
+    <value>Váš profil</value>
+  </data>
+  <data name="Ui.Session.SignedOut" xml:space="preserve">
+    <value>Odhlášeno</value>
+  </data>
+  <data name="Ui.Session.GameAndServer" xml:space="preserve">
+    <value>Hra a server</value>
+  </data>
+  <data name="Ui.Session.Session" xml:space="preserve">
+    <value>Relace </value>
+  </data>
+  <data name="Ui.Session.Server" xml:space="preserve">
+    <value>  ·  Server </value>
+  </data>
+  <data name="Ui.Session.ChatWithFriends" xml:space="preserve">
+    <value>Chatovat s přáteli</value>
+  </data>
+  <data name="Ui.Session.Servers" xml:space="preserve">
+    <value>Servery</value>
+  </data>
+  <data name="Ui.Session.Games" xml:space="preserve">
+    <value>Hry</value>
+  </data>
+  <data name="Ui.Session.Music" xml:space="preserve">
+    <value>Hudba</value>
+  </data>
+  <data name="Ui.Session.CopyInviteLink" xml:space="preserve">
+    <value>Kopírovat odkaz s pozvánkou</value>
+  </data>
+  <data name="Ui.Session.Public" xml:space="preserve">
+    <value>Veřejný</value>
+  </data>
+  <data name="Ui.Session.Private" xml:space="preserve">
+    <value>Soukromý</value>
+  </data>
+  <data name="Ui.Session.Recent" xml:space="preserve">
+    <value>Nedávné</value>
+  </data>
+  <data name="Ui.Session.CopyTheInstanceID" xml:space="preserve">
+    <value>Kopírovat ID instance</value>
+  </data>
+  <data name="Ui.Session.Uptime" xml:space="preserve">
+    <value>Doba běhu</value>
+  </data>
+  <data name="Ui.Session.JoinTheServerWithTheLowest" xml:space="preserve">
+    <value>Připojit se na server s nejnižším pingem</value>
+  </data>
+  <data name="Ui.Session.ClosestServer" xml:space="preserve">
+    <value>Nejbližší server</value>
+  </data>
+  <data name="Ui.Session.JoinADifferentRandomServer" xml:space="preserve">
+    <value>Připojit se na jiný náhodný server</value>
+  </data>
+  <data name="Ui.Session.ServerHop" xml:space="preserve">
+    <value>Změnit server</value>
+  </data>
+  <data name="Ui.Session.SortBy" xml:space="preserve">
+    <value>Řadit podle</value>
+  </data>
+  <data name="Ui.Session.Region" xml:space="preserve">
+    <value>Region</value>
+  </data>
+  <data name="Ui.Session.Place" xml:space="preserve">
+    <value>Místo</value>
+  </data>
+  <data name="Ui.Session.RobloxAccountSwitcher" xml:space="preserve">
+    <value>Přepínač účtů Roblox</value>
+  </data>
+  <data name="Ui.Session.SignedInAs" xml:space="preserve">
+    <value>Přihlášen jako</value>
+  </data>
+  <data name="Ui.Session.AddThisAccount" xml:space="preserve">
+    <value>Přidat tento účet</value>
+  </data>
+  <data name="Ui.Session.SignOut" xml:space="preserve">
+    <value>Odhlásit se</value>
+  </data>
+  <data name="Ui.Session.SearchSavedAccountsByNameNote" xml:space="preserve">
+    <value>Hledat uložené účty podle jména, poznámky nebo ID uživatele</value>
+  </data>
+  <data name="Ui.Session.ImportByCookie" xml:space="preserve">
+    <value>Importovat pomocí cookie</value>
+  </data>
+  <data name="Ui.Session.ImportAnAccountFromItsROBLOSECURITY" xml:space="preserve">
+    <value>Importovat účet z jeho cookie .ROBLOSECURITY</value>
+  </data>
+  <data name="Ui.Session.PasteAFullROBLOSECURITYValueOnly" xml:space="preserve">
+    <value>Vložte celou hodnotu .ROBLOSECURITY. Vkládejte jen vlastní cookie.</value>
+  </data>
+  <data name="Ui.Session.WARNINGDONOTSHARETHIS" xml:space="preserve">
+    <value>_|WARNING: DO NOT SHARE THIS...</value>
+  </data>
+  <data name="Ui.Session.CURRENT" xml:space="preserve">
+    <value>AKTUÁLNÍ</value>
+  </data>
+  <data name="Ui.Session.AddANote" xml:space="preserve">
+    <value>Přidat poznámku</value>
+  </data>
+  <data name="Ui.Session.Switch" xml:space="preserve">
+    <value>Přepnout</value>
+  </data>
+  <data name="Ui.Session.CopyUserID" xml:space="preserve">
+    <value>Kopírovat ID uživatele</value>
+  </data>
+  <data name="Ui.Session.RemoveSavedAccount" xml:space="preserve">
+    <value>Odebrat uložený účet</value>
+  </data>
 </root>

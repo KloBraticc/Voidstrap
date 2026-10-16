@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         xmlns:platform="clr-namespace:Voidstrap.UI"
-        Title="Voidstrap Session" Width="1060" Height="96" WindowStyle="None"
+        Title="{resources:Loc Ui_Session_VoidstrapSession}" Width="1060" Height="96" WindowStyle="None"
         AllowsTransparency="True" Background="Transparent" ResizeMode="NoResize"
         ShowInTaskbar="False" ShowActivated="False" Topmost="True"
         WindowStartupLocation="Manual" UseLayoutRounding="True"
@@ -113,7 +113,7 @@
             <ColumnDefinition Width="1.3*" />
           </Grid.ColumnDefinitions>
           <StackPanel>
-            <TextBlock Text="Server" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+            <TextBlock Text="{resources:Loc Ui_SessionNotify_Server}" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
             <TextBlock x:Name="ServerReadout" Margin="0,6,0,0" FontSize="13" LineHeight="20" TextWrapping="Wrap"
                        Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
             <TextBlock x:Name="FriendCountText" Margin="0,10,0,0" FontSize="13" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
@@ -123,7 +123,7 @@
               <RowDefinition Height="Auto" />
               <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <TextBlock x:Name="FriendsHeader" Text="Friends in this server" FontSize="12" FontWeight="SemiBold"
+            <TextBlock x:Name="FriendsHeader" Text="{resources:Loc Ui_Session_FriendsInThisServer}" FontSize="12" FontWeight="SemiBold"
                        Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
             <ScrollViewer Grid.Row="1" Margin="0,6,0,0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
               <ItemsControl x:Name="FriendsList">
@@ -154,12 +154,12 @@
               </ItemsControl>
             </ScrollViewer>
             <TextBlock x:Name="FriendsStatus" Grid.Row="1" Margin="0,6,0,0" FontSize="12" TextWrapping="Wrap"
-                       Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Looking for friends" />
+                       Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Session_LookingForFriends}" />
           </Grid>
         </Grid>
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="12,8,12,12">
-          <ui:Button Content="Server details" Tag="details" Click="OnAction" Style="{StaticResource DockAction}" />
-          <ui:Button Content="Copy invite" Tag="invite" Click="OnAction" Style="{StaticResource DockAction}" />
+          <ui:Button Content="{resources:Loc Ui_SessionNotify_ServerDetails}" Tag="details" Click="OnAction" Style="{StaticResource DockAction}" />
+          <ui:Button Content="{resources:Loc Ui_Session_CopyInvite}" Tag="invite" Click="OnAction" Style="{StaticResource DockAction}" />
         </StackPanel>
       </Grid>
     </Border>
@@ -208,7 +208,7 @@
             <StackPanel Orientation="Horizontal">
               <TextBlock x:Name="ProfileBannerName" Text="Roblox" FontSize="20" FontWeight="SemiBold" Foreground="White" TextTrimming="CharacterEllipsis" MaxWidth="460" />
               <TextBlock x:Name="ProfileVerified" Text="&#xE930;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="15" Margin="8,3,0,0"
-                         VerticalAlignment="Center" Visibility="Collapsed" Foreground="{DynamicResource AccentFillColorDefaultBrush}" ToolTip="Verified" />
+                         VerticalAlignment="Center" Visibility="Collapsed" Foreground="{DynamicResource AccentFillColorDefaultBrush}" ToolTip="{resources:Loc Ui_Session_Verified}" />
             </StackPanel>
             <TextBlock x:Name="ProfileBannerHandle" Margin="0,2,0,0" FontSize="12" Foreground="#DDFFFFFF" TextTrimming="CharacterEllipsis" />
           </StackPanel>
@@ -220,12 +220,12 @@
             <ColumnDefinition Width="1.3*" />
           </Grid.ColumnDefinitions>
           <StackPanel>
-            <TextBlock Text="Account" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+            <TextBlock Text="{resources:Loc Ui_Session_Account}" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
             <TextBlock x:Name="ProfileAccountText" Margin="0,6,0,0" FontSize="13" LineHeight="20" TextWrapping="Wrap"
                        Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
           </StackPanel>
           <StackPanel Grid.Column="2">
-            <TextBlock Text="Social" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+            <TextBlock Text="{resources:Loc Ui_Session_Social}" FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
             <TextBlock x:Name="ProfileSocialText" Margin="0,6,0,0" FontSize="13" LineHeight="20" TextWrapping="Wrap"
                        Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
             <TextBlock x:Name="ProfileAboutText" Margin="0,10,0,0" FontSize="12" TextWrapping="Wrap" MaxHeight="54" TextTrimming="CharacterEllipsis"
@@ -235,8 +235,8 @@
                      Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
         </Grid>
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="12,8,12,12">
-          <ui:Button Content="Open profile" Click="OpenProfile_Click" Style="{StaticResource DockAction}" />
-          <ui:Button x:Name="CopyProfileButton" Content="Copy profile link" Click="CopyProfile_Click" Style="{StaticResource DockAction}" />
+          <ui:Button Content="{resources:Loc Ui_Session_OpenProfile}" Click="OpenProfile_Click" Style="{StaticResource DockAction}" />
+          <ui:Button x:Name="CopyProfileButton" Content="{resources:Loc Ui_Session_CopyProfileLink}" Click="CopyProfile_Click" Style="{StaticResource DockAction}" />
         </StackPanel>
       </Grid>
     </Border>
@@ -268,7 +268,7 @@
         </Grid.ColumnDefinitions>
 
         <!-- You: avatar, display name and username -->
-        <Border x:Name="ProfileCard" Style="{StaticResource DockCard}" ToolTip="Your profile" MouseLeftButtonUp="ProfileCard_MouseLeftButtonUp">
+        <Border x:Name="ProfileCard" Style="{StaticResource DockCard}" ToolTip="{resources:Loc Ui_Session_YourProfile}" MouseLeftButtonUp="ProfileCard_MouseLeftButtonUp">
           <StackPanel Orientation="Horizontal">
             <Grid Width="40" Height="40" Margin="0,0,12,0" VerticalAlignment="Center">
               <Ellipse Fill="{DynamicResource ControlFillColorSecondaryBrush}" />
@@ -288,7 +288,7 @@
             <StackPanel VerticalAlignment="Center" MaxWidth="150">
               <TextBlock x:Name="ProfileName" Text="Roblox" FontSize="14" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
               <TextBlock x:Name="ProfileHandle" Margin="0,1,0,0" FontSize="12" TextTrimming="CharacterEllipsis"
-                         Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Signed out" />
+                         Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_Session_SignedOut}" />
             </StackPanel>
             <TextBlock x:Name="ProfileChevron" Text="&#xE70E;" Style="{StaticResource DockChevron}" />
           </StackPanel>
@@ -296,7 +296,7 @@
         <Rectangle Grid.Column="1" Style="{StaticResource DockDivider}" />
 
         <!-- The game, clickable like an option card, opens the game and server popout above the dock -->
-        <Border x:Name="GameCard" Grid.Column="2" Style="{StaticResource DockCard}" ToolTip="Game and server" MouseLeftButtonUp="GameCard_MouseLeftButtonUp">
+        <Border x:Name="GameCard" Grid.Column="2" Style="{StaticResource DockCard}" ToolTip="{resources:Loc Ui_Session_GameAndServer}" MouseLeftButtonUp="GameCard_MouseLeftButtonUp">
           <StackPanel Orientation="Horizontal">
             <Image x:Name="GamePicture" Width="40" Height="40" Margin="0,0,12,0" VerticalAlignment="Center"
                    Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality">
@@ -323,7 +323,7 @@
                   </Ellipse>
                 </Grid>
                 <TextBlock x:Name="SessionTimes" FontSize="12" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}">
-                  <Run Text="Session " /><Run x:Name="SessionClock" Text="0:00" FontWeight="SemiBold" Foreground="{DynamicResource SystemFillColorSuccessBrush}" /><Run Text="  ·  Server " /><Run x:Name="ServerClock" Text="--" FontWeight="SemiBold" Foreground="{DynamicResource SystemFillColorSuccessBrush}" />
+                  <Run Text="{resources:Loc Ui_Session_Session}" /><Run x:Name="SessionClock" Text="0:00" FontWeight="SemiBold" Foreground="{DynamicResource SystemFillColorSuccessBrush}" /><Run Text="{resources:Loc Ui_Session_Server}" /><Run x:Name="ServerClock" Text="--" FontWeight="SemiBold" Foreground="{DynamicResource SystemFillColorSuccessBrush}" />
                 </TextBlock>
               </StackPanel>
             </StackPanel>
@@ -333,28 +333,28 @@
         <Rectangle Grid.Column="3" Style="{StaticResource DockDivider}" HorizontalAlignment="Left" />
 
         <StackPanel x:Name="ActionButtons" Grid.Column="4" Orientation="Horizontal" VerticalAlignment="Center" Margin="6,0,6,0">
-          <ui:Button ToolTip="Chat with friends" Tag="chat" Click="OnAction" Style="{StaticResource DockIcon}">
+          <ui:Button ToolTip="{resources:Loc Ui_Session_ChatWithFriends}" Tag="chat" Click="OnAction" Style="{StaticResource DockIcon}">
             <TextBlock Text="&#xE8BD;" Style="{StaticResource DockGlyph}" />
           </ui:Button>
-          <ui:Button ToolTip="Servers" Tag="browser" Click="OnAction" Style="{StaticResource DockIcon}">
+          <ui:Button ToolTip="{resources:Loc Ui_Session_Servers}" Tag="browser" Click="OnAction" Style="{StaticResource DockIcon}">
             <TextBlock Text="&#xE753;" Style="{StaticResource DockGlyph}" />
           </ui:Button>
-          <ui:Button ToolTip="Games" Tag="games" Click="OnAction" Style="{StaticResource DockIcon}">
+          <ui:Button ToolTip="{resources:Loc Ui_Session_Games}" Tag="games" Click="OnAction" Style="{StaticResource DockIcon}">
             <TextBlock Text="&#xE7FC;" Style="{StaticResource DockGlyph}" />
           </ui:Button>
           <ui:Button ToolTip="{resources:Loc ContextMenu_GameHistory_Title}" Tag="history" Click="OnAction" Style="{StaticResource DockIcon}">
             <TextBlock Text="&#xE81C;" Style="{StaticResource DockGlyph}" />
           </ui:Button>
-          <ui:Button ToolTip="Music" Tag="music" Click="OnAction" Style="{StaticResource DockIcon}">
+          <ui:Button ToolTip="{resources:Loc Ui_Session_Music}" Tag="music" Click="OnAction" Style="{StaticResource DockIcon}">
             <TextBlock Text="&#xE8D6;" Style="{StaticResource DockGlyph}" />
           </ui:Button>
-          <ui:Button ToolTip="Server details" Tag="details" Click="OnAction" Style="{StaticResource DockIcon}">
+          <ui:Button ToolTip="{resources:Loc Ui_SessionNotify_ServerDetails}" Tag="details" Click="OnAction" Style="{StaticResource DockIcon}">
             <TextBlock Text="&#xE968;" Style="{StaticResource DockGlyph}" />
           </ui:Button>
-          <ui:Button x:Name="WebButton" ToolTip="Browser" Tag="web" Click="OnAction" Style="{StaticResource DockIcon}">
+          <ui:Button x:Name="WebButton" ToolTip="{resources:Loc Ui_Session_Browser}" Tag="web" Click="OnAction" Style="{StaticResource DockIcon}">
             <TextBlock Text="&#xE774;" Style="{StaticResource DockGlyph}" />
           </ui:Button>
-          <ui:Button ToolTip="Settings" Tag="adjustments" Click="OnAction" Style="{StaticResource DockIcon}">
+          <ui:Button ToolTip="{resources:Loc Ui_Nav_Settings}" Tag="adjustments" Click="OnAction" Style="{StaticResource DockIcon}">
             <TextBlock Text="&#xE713;" Style="{StaticResource DockGlyph}" />
           </ui:Button>
         </StackPanel>
@@ -363,7 +363,7 @@
       </Grid>
       </ScrollViewer>
         <StackPanel x:Name="TrailingButtons" Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-          <ui:Button ToolTip="Copy invite link" Tag="invite" Click="OnAction" Style="{StaticResource DockRound}">
+          <ui:Button ToolTip="{resources:Loc Ui_Session_CopyInviteLink}" Tag="invite" Click="OnAction" Style="{StaticResource DockRound}">
             <TextBlock Text="&#xE71B;" Style="{StaticResource DockGlyph}" />
           </ui:Button>
           <ui:Button x:Name="CloseButton" ToolTip="{resources:Loc Common_Close}" Tag="close" Click="OnAction" Style="{StaticResource DockRound}" Margin="8,0,0,0">

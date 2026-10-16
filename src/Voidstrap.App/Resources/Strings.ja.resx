@@ -5266,4 +5266,205 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
   <data name="Ui.Home.SeeWhatSPossibleOnRoblox" xml:space="preserve">
     <value>人気ジャンルの既製エクスペリエンスで Roblox でできることを確かめるか、ゼロから始めましょう。</value>
   </data>
+  <data name="Ui.Session.Browser" xml:space="preserve">
+    <value>ブラウザー</value>
+  </data>
+  <data name="Ui.Session.MuteOrUnmuteThisTab" xml:space="preserve">
+    <value>このタブをミュートまたはミュート解除</value>
+  </data>
+  <data name="Ui.Session.CloseTabCtrlW" xml:space="preserve">
+    <value>タブを閉じる (Ctrl+W)</value>
+  </data>
+  <data name="Ui.Session.NewTabCtrlT" xml:space="preserve">
+    <value>新しいタブ (Ctrl+T)</value>
+  </data>
+  <data name="Ui.Session.NewTab" xml:space="preserve">
+    <value>新しいタブ</value>
+  </data>
+  <data name="Ui.Session.BackAltLeft" xml:space="preserve">
+    <value>戻る (Alt+Left)</value>
+  </data>
+  <data name="Ui.Session.ForwardAltRight" xml:space="preserve">
+    <value>進む (Alt+Right)</value>
+  </data>
+  <data name="Ui.Session.ReloadF5" xml:space="preserve">
+    <value>再読み込み (F5)</value>
+  </data>
+  <data name="Ui.Session.SearchOrTypeAnAddress" xml:space="preserve">
+    <value>検索またはアドレスを入力</value>
+  </data>
+  <data name="Ui.Session.ResetZoomCtrl0" xml:space="preserve">
+    <value>ズームをリセット (Ctrl+0)</value>
+  </data>
+  <data name="Ui.Session.CopyLinkCtrlShiftC" xml:space="preserve">
+    <value>リンクをコピー (Ctrl+Shift+C)</value>
+  </data>
+  <data name="Ui.Session.SearchTabsCtrlShiftA" xml:space="preserve">
+    <value>タブを検索 (Ctrl+Shift+A)</value>
+  </data>
+  <data name="Ui.Session.SplitViewCtrlShiftS" xml:space="preserve">
+    <value>分割表示 (Ctrl+Shift+S)</value>
+  </data>
+  <data name="Ui.Session.BrowserMenu" xml:space="preserve">
+    <value>ブラウザーメニュー</value>
+  </data>
+  <data name="Ui.Session.FindOnPage" xml:space="preserve">
+    <value>ページ内を検索</value>
+  </data>
+  <data name="Ui.Session.PreviousShiftEnter" xml:space="preserve">
+    <value>前へ (Shift+Enter)</value>
+  </data>
+  <data name="Ui.Session.NextEnter" xml:space="preserve">
+    <value>次へ (Enter)</value>
+  </data>
+  <data name="Ui.Session.CloseEsc" xml:space="preserve">
+    <value>閉じる (Esc)</value>
+  </data>
+  <data name="Ui.Session.TipStartWithYtWRbx" xml:space="preserve">
+    <value>ヒント: !yt、!w、!rbx、!dev で始めるとそのサイトを直接検索できます</value>
+  </data>
+  <data name="Ui.Session.StartingTheBrowser" xml:space="preserve">
+    <value>ブラウザーを起動中</value>
+  </data>
+  <data name="Ui.Session.TryAgain" xml:space="preserve">
+    <value>再試行</value>
+  </data>
+  <data name="Ui.Session.SearchTabs" xml:space="preserve">
+    <value>タブを検索</value>
+  </data>
+  <data name="Ui.Session.VoidstrapSession" xml:space="preserve">
+    <value>Voidstrap セッション</value>
+  </data>
+  <data name="Ui.Session.FriendsInThisServer" xml:space="preserve">
+    <value>このサーバーのフレンド</value>
+  </data>
+  <data name="Ui.Session.LookingForFriends" xml:space="preserve">
+    <value>フレンドを探しています</value>
+  </data>
+  <data name="Ui.Session.CopyInvite" xml:space="preserve">
+    <value>招待をコピー</value>
+  </data>
+  <data name="Ui.Session.Verified" xml:space="preserve">
+    <value>認証済み</value>
+  </data>
+  <data name="Ui.Session.Account" xml:space="preserve">
+    <value>アカウント</value>
+  </data>
+  <data name="Ui.Session.Social" xml:space="preserve">
+    <value>ソーシャル</value>
+  </data>
+  <data name="Ui.Session.OpenProfile" xml:space="preserve">
+    <value>プロフィールを開く</value>
+  </data>
+  <data name="Ui.Session.CopyProfileLink" xml:space="preserve">
+    <value>プロフィールのリンクをコピー</value>
+  </data>
+  <data name="Ui.Session.YourProfile" xml:space="preserve">
+    <value>あなたのプロフィール</value>
+  </data>
+  <data name="Ui.Session.SignedOut" xml:space="preserve">
+    <value>サインアウト済み</value>
+  </data>
+  <data name="Ui.Session.GameAndServer" xml:space="preserve">
+    <value>ゲームとサーバー</value>
+  </data>
+  <data name="Ui.Session.Session" xml:space="preserve">
+    <value>セッション </value>
+  </data>
+  <data name="Ui.Session.Server" xml:space="preserve">
+    <value>  ·  サーバー </value>
+  </data>
+  <data name="Ui.Session.ChatWithFriends" xml:space="preserve">
+    <value>フレンドとチャット</value>
+  </data>
+  <data name="Ui.Session.Servers" xml:space="preserve">
+    <value>サーバー</value>
+  </data>
+  <data name="Ui.Session.Games" xml:space="preserve">
+    <value>ゲーム</value>
+  </data>
+  <data name="Ui.Session.Music" xml:space="preserve">
+    <value>音楽</value>
+  </data>
+  <data name="Ui.Session.CopyInviteLink" xml:space="preserve">
+    <value>招待リンクをコピー</value>
+  </data>
+  <data name="Ui.Session.Public" xml:space="preserve">
+    <value>公開</value>
+  </data>
+  <data name="Ui.Session.Private" xml:space="preserve">
+    <value>非公開</value>
+  </data>
+  <data name="Ui.Session.Recent" xml:space="preserve">
+    <value>最近</value>
+  </data>
+  <data name="Ui.Session.CopyTheInstanceID" xml:space="preserve">
+    <value>インスタンス ID をコピー</value>
+  </data>
+  <data name="Ui.Session.Uptime" xml:space="preserve">
+    <value>稼働時間</value>
+  </data>
+  <data name="Ui.Session.JoinTheServerWithTheLowest" xml:space="preserve">
+    <value>最も ping が低いサーバーに参加</value>
+  </data>
+  <data name="Ui.Session.ClosestServer" xml:space="preserve">
+    <value>最寄りのサーバー</value>
+  </data>
+  <data name="Ui.Session.JoinADifferentRandomServer" xml:space="preserve">
+    <value>別のランダムなサーバーに参加</value>
+  </data>
+  <data name="Ui.Session.ServerHop" xml:space="preserve">
+    <value>サーバーを移動</value>
+  </data>
+  <data name="Ui.Session.SortBy" xml:space="preserve">
+    <value>並べ替え</value>
+  </data>
+  <data name="Ui.Session.Region" xml:space="preserve">
+    <value>地域</value>
+  </data>
+  <data name="Ui.Session.Place" xml:space="preserve">
+    <value>場所</value>
+  </data>
+  <data name="Ui.Session.RobloxAccountSwitcher" xml:space="preserve">
+    <value>Roblox アカウント切り替え</value>
+  </data>
+  <data name="Ui.Session.SignedInAs" xml:space="preserve">
+    <value>サインイン中</value>
+  </data>
+  <data name="Ui.Session.AddThisAccount" xml:space="preserve">
+    <value>このアカウントを追加</value>
+  </data>
+  <data name="Ui.Session.SignOut" xml:space="preserve">
+    <value>サインアウト</value>
+  </data>
+  <data name="Ui.Session.SearchSavedAccountsByNameNote" xml:space="preserve">
+    <value>名前、メモ、ユーザー ID で保存済みアカウントを検索</value>
+  </data>
+  <data name="Ui.Session.ImportByCookie" xml:space="preserve">
+    <value>Cookie でインポート</value>
+  </data>
+  <data name="Ui.Session.ImportAnAccountFromItsROBLOSECURITY" xml:space="preserve">
+    <value>.ROBLOSECURITY Cookie からアカウントをインポート</value>
+  </data>
+  <data name="Ui.Session.PasteAFullROBLOSECURITYValueOnly" xml:space="preserve">
+    <value>.ROBLOSECURITY の値を全体ごと貼り付けてください。自分の Cookie だけを貼り付けてください。</value>
+  </data>
+  <data name="Ui.Session.WARNINGDONOTSHARETHIS" xml:space="preserve">
+    <value>_|WARNING: DO NOT SHARE THIS...</value>
+  </data>
+  <data name="Ui.Session.CURRENT" xml:space="preserve">
+    <value>現在</value>
+  </data>
+  <data name="Ui.Session.AddANote" xml:space="preserve">
+    <value>メモを追加</value>
+  </data>
+  <data name="Ui.Session.Switch" xml:space="preserve">
+    <value>切り替え</value>
+  </data>
+  <data name="Ui.Session.CopyUserID" xml:space="preserve">
+    <value>ユーザー ID をコピー</value>
+  </data>
+  <data name="Ui.Session.RemoveSavedAccount" xml:space="preserve">
+    <value>保存済みアカウントを削除</value>
+  </data>
 </root>

@@ -5272,4 +5272,205 @@
   <data name="Ui.Home.SeeWhatSPossibleOnRoblox" xml:space="preserve">
     <value>اكتشف ما يمكن صنعه في Roblox ضمن الأنواع الشائعة بتجارب جاهزة، أو ابدأ من الصفر.</value>
   </data>
+  <data name="Ui.Session.Browser" xml:space="preserve">
+    <value>المتصفح</value>
+  </data>
+  <data name="Ui.Session.MuteOrUnmuteThisTab" xml:space="preserve">
+    <value>كتم صوت هذا التبويب أو إلغاء كتمه</value>
+  </data>
+  <data name="Ui.Session.CloseTabCtrlW" xml:space="preserve">
+    <value>إغلاق التبويب (Ctrl+W)</value>
+  </data>
+  <data name="Ui.Session.NewTabCtrlT" xml:space="preserve">
+    <value>تبويب جديد (Ctrl+T)</value>
+  </data>
+  <data name="Ui.Session.NewTab" xml:space="preserve">
+    <value>تبويب جديد</value>
+  </data>
+  <data name="Ui.Session.BackAltLeft" xml:space="preserve">
+    <value>رجوع (Alt+Left)</value>
+  </data>
+  <data name="Ui.Session.ForwardAltRight" xml:space="preserve">
+    <value>تقدم (Alt+Right)</value>
+  </data>
+  <data name="Ui.Session.ReloadF5" xml:space="preserve">
+    <value>إعادة التحميل (F5)</value>
+  </data>
+  <data name="Ui.Session.SearchOrTypeAnAddress" xml:space="preserve">
+    <value>ابحث أو اكتب عنوانًا</value>
+  </data>
+  <data name="Ui.Session.ResetZoomCtrl0" xml:space="preserve">
+    <value>إعادة ضبط التكبير (Ctrl+0)</value>
+  </data>
+  <data name="Ui.Session.CopyLinkCtrlShiftC" xml:space="preserve">
+    <value>نسخ الرابط (Ctrl+Shift+C)</value>
+  </data>
+  <data name="Ui.Session.SearchTabsCtrlShiftA" xml:space="preserve">
+    <value>البحث في التبويبات (Ctrl+Shift+A)</value>
+  </data>
+  <data name="Ui.Session.SplitViewCtrlShiftS" xml:space="preserve">
+    <value>عرض مقسّم (Ctrl+Shift+S)</value>
+  </data>
+  <data name="Ui.Session.BrowserMenu" xml:space="preserve">
+    <value>قائمة المتصفح</value>
+  </data>
+  <data name="Ui.Session.FindOnPage" xml:space="preserve">
+    <value>البحث في الصفحة</value>
+  </data>
+  <data name="Ui.Session.PreviousShiftEnter" xml:space="preserve">
+    <value>السابق (Shift+Enter)</value>
+  </data>
+  <data name="Ui.Session.NextEnter" xml:space="preserve">
+    <value>التالي (Enter)</value>
+  </data>
+  <data name="Ui.Session.CloseEsc" xml:space="preserve">
+    <value>إغلاق (Esc)</value>
+  </data>
+  <data name="Ui.Session.TipStartWithYtWRbx" xml:space="preserve">
+    <value>تلميح: ابدأ بـ !yt أو !w أو !rbx أو !dev للبحث في ذلك الموقع مباشرة</value>
+  </data>
+  <data name="Ui.Session.StartingTheBrowser" xml:space="preserve">
+    <value>جارٍ تشغيل المتصفح</value>
+  </data>
+  <data name="Ui.Session.TryAgain" xml:space="preserve">
+    <value>إعادة المحاولة</value>
+  </data>
+  <data name="Ui.Session.SearchTabs" xml:space="preserve">
+    <value>البحث في التبويبات</value>
+  </data>
+  <data name="Ui.Session.VoidstrapSession" xml:space="preserve">
+    <value>جلسة Voidstrap</value>
+  </data>
+  <data name="Ui.Session.FriendsInThisServer" xml:space="preserve">
+    <value>الأصدقاء في هذا الخادم</value>
+  </data>
+  <data name="Ui.Session.LookingForFriends" xml:space="preserve">
+    <value>جارٍ البحث عن الأصدقاء</value>
+  </data>
+  <data name="Ui.Session.CopyInvite" xml:space="preserve">
+    <value>نسخ الدعوة</value>
+  </data>
+  <data name="Ui.Session.Verified" xml:space="preserve">
+    <value>موثّق</value>
+  </data>
+  <data name="Ui.Session.Account" xml:space="preserve">
+    <value>الحساب</value>
+  </data>
+  <data name="Ui.Session.Social" xml:space="preserve">
+    <value>اجتماعي</value>
+  </data>
+  <data name="Ui.Session.OpenProfile" xml:space="preserve">
+    <value>فتح الملف الشخصي</value>
+  </data>
+  <data name="Ui.Session.CopyProfileLink" xml:space="preserve">
+    <value>نسخ رابط الملف الشخصي</value>
+  </data>
+  <data name="Ui.Session.YourProfile" xml:space="preserve">
+    <value>ملفك الشخصي</value>
+  </data>
+  <data name="Ui.Session.SignedOut" xml:space="preserve">
+    <value>تم تسجيل الخروج</value>
+  </data>
+  <data name="Ui.Session.GameAndServer" xml:space="preserve">
+    <value>اللعبة والخادم</value>
+  </data>
+  <data name="Ui.Session.Session" xml:space="preserve">
+    <value>الجلسة </value>
+  </data>
+  <data name="Ui.Session.Server" xml:space="preserve">
+    <value>  ·  الخادم </value>
+  </data>
+  <data name="Ui.Session.ChatWithFriends" xml:space="preserve">
+    <value>الدردشة مع الأصدقاء</value>
+  </data>
+  <data name="Ui.Session.Servers" xml:space="preserve">
+    <value>الخوادم</value>
+  </data>
+  <data name="Ui.Session.Games" xml:space="preserve">
+    <value>الألعاب</value>
+  </data>
+  <data name="Ui.Session.Music" xml:space="preserve">
+    <value>الموسيقى</value>
+  </data>
+  <data name="Ui.Session.CopyInviteLink" xml:space="preserve">
+    <value>نسخ رابط الدعوة</value>
+  </data>
+  <data name="Ui.Session.Public" xml:space="preserve">
+    <value>عام</value>
+  </data>
+  <data name="Ui.Session.Private" xml:space="preserve">
+    <value>خاص</value>
+  </data>
+  <data name="Ui.Session.Recent" xml:space="preserve">
+    <value>الأخيرة</value>
+  </data>
+  <data name="Ui.Session.CopyTheInstanceID" xml:space="preserve">
+    <value>نسخ معرّف النسخة</value>
+  </data>
+  <data name="Ui.Session.Uptime" xml:space="preserve">
+    <value>مدة التشغيل</value>
+  </data>
+  <data name="Ui.Session.JoinTheServerWithTheLowest" xml:space="preserve">
+    <value>الانضمام إلى الخادم الأقل زمن استجابة</value>
+  </data>
+  <data name="Ui.Session.ClosestServer" xml:space="preserve">
+    <value>أقرب خادم</value>
+  </data>
+  <data name="Ui.Session.JoinADifferentRandomServer" xml:space="preserve">
+    <value>الانضمام إلى خادم عشوائي آخر</value>
+  </data>
+  <data name="Ui.Session.ServerHop" xml:space="preserve">
+    <value>تبديل الخادم</value>
+  </data>
+  <data name="Ui.Session.SortBy" xml:space="preserve">
+    <value>الترتيب حسب</value>
+  </data>
+  <data name="Ui.Session.Region" xml:space="preserve">
+    <value>المنطقة</value>
+  </data>
+  <data name="Ui.Session.Place" xml:space="preserve">
+    <value>المكان</value>
+  </data>
+  <data name="Ui.Session.RobloxAccountSwitcher" xml:space="preserve">
+    <value>مبدّل حسابات Roblox</value>
+  </data>
+  <data name="Ui.Session.SignedInAs" xml:space="preserve">
+    <value>تم تسجيل الدخول باسم</value>
+  </data>
+  <data name="Ui.Session.AddThisAccount" xml:space="preserve">
+    <value>إضافة هذا الحساب</value>
+  </data>
+  <data name="Ui.Session.SignOut" xml:space="preserve">
+    <value>تسجيل الخروج</value>
+  </data>
+  <data name="Ui.Session.SearchSavedAccountsByNameNote" xml:space="preserve">
+    <value>ابحث في الحسابات المحفوظة بالاسم أو الملاحظة أو معرّف المستخدم</value>
+  </data>
+  <data name="Ui.Session.ImportByCookie" xml:space="preserve">
+    <value>الاستيراد عبر ملف تعريف الارتباط</value>
+  </data>
+  <data name="Ui.Session.ImportAnAccountFromItsROBLOSECURITY" xml:space="preserve">
+    <value>استيراد حساب من ملف تعريف الارتباط .ROBLOSECURITY الخاص به</value>
+  </data>
+  <data name="Ui.Session.PasteAFullROBLOSECURITYValueOnly" xml:space="preserve">
+    <value>الصق قيمة .ROBLOSECURITY كاملة. الصق فقط ملفات تعريف الارتباط التي تملكها.</value>
+  </data>
+  <data name="Ui.Session.WARNINGDONOTSHARETHIS" xml:space="preserve">
+    <value>_|WARNING: DO NOT SHARE THIS...</value>
+  </data>
+  <data name="Ui.Session.CURRENT" xml:space="preserve">
+    <value>الحالي</value>
+  </data>
+  <data name="Ui.Session.AddANote" xml:space="preserve">
+    <value>إضافة ملاحظة</value>
+  </data>
+  <data name="Ui.Session.Switch" xml:space="preserve">
+    <value>تبديل</value>
+  </data>
+  <data name="Ui.Session.CopyUserID" xml:space="preserve">
+    <value>نسخ معرّف المستخدم</value>
+  </data>
+  <data name="Ui.Session.RemoveSavedAccount" xml:space="preserve">
+    <value>إزالة الحساب المحفوظ</value>
+  </data>
 </root>

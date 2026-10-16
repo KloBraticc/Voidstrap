@@ -5253,4 +5253,205 @@ Roblox буде завантажено під час першого запуск
   <data name="Ui.Home.SeeWhatSPossibleOnRoblox" xml:space="preserve">
     <value>Дізнайтеся, що можливо в Roblox у популярних жанрах із готовими досвідами, або почніть з нуля.</value>
   </data>
+  <data name="Ui.Session.Browser" xml:space="preserve">
+    <value>Браузер</value>
+  </data>
+  <data name="Ui.Session.MuteOrUnmuteThisTab" xml:space="preserve">
+    <value>Вимкнути або ввімкнути звук цієї вкладки</value>
+  </data>
+  <data name="Ui.Session.CloseTabCtrlW" xml:space="preserve">
+    <value>Закрити вкладку (Ctrl+W)</value>
+  </data>
+  <data name="Ui.Session.NewTabCtrlT" xml:space="preserve">
+    <value>Нова вкладка (Ctrl+T)</value>
+  </data>
+  <data name="Ui.Session.NewTab" xml:space="preserve">
+    <value>Нова вкладка</value>
+  </data>
+  <data name="Ui.Session.BackAltLeft" xml:space="preserve">
+    <value>Назад (Alt+Left)</value>
+  </data>
+  <data name="Ui.Session.ForwardAltRight" xml:space="preserve">
+    <value>Вперед (Alt+Right)</value>
+  </data>
+  <data name="Ui.Session.ReloadF5" xml:space="preserve">
+    <value>Оновити (F5)</value>
+  </data>
+  <data name="Ui.Session.SearchOrTypeAnAddress" xml:space="preserve">
+    <value>Введіть запит або адресу</value>
+  </data>
+  <data name="Ui.Session.ResetZoomCtrl0" xml:space="preserve">
+    <value>Скинути масштаб (Ctrl+0)</value>
+  </data>
+  <data name="Ui.Session.CopyLinkCtrlShiftC" xml:space="preserve">
+    <value>Копіювати посилання (Ctrl+Shift+C)</value>
+  </data>
+  <data name="Ui.Session.SearchTabsCtrlShiftA" xml:space="preserve">
+    <value>Пошук вкладок (Ctrl+Shift+A)</value>
+  </data>
+  <data name="Ui.Session.SplitViewCtrlShiftS" xml:space="preserve">
+    <value>Розділений вигляд (Ctrl+Shift+S)</value>
+  </data>
+  <data name="Ui.Session.BrowserMenu" xml:space="preserve">
+    <value>Меню браузера</value>
+  </data>
+  <data name="Ui.Session.FindOnPage" xml:space="preserve">
+    <value>Знайти на сторінці</value>
+  </data>
+  <data name="Ui.Session.PreviousShiftEnter" xml:space="preserve">
+    <value>Попереднє (Shift+Enter)</value>
+  </data>
+  <data name="Ui.Session.NextEnter" xml:space="preserve">
+    <value>Наступне (Enter)</value>
+  </data>
+  <data name="Ui.Session.CloseEsc" xml:space="preserve">
+    <value>Закрити (Esc)</value>
+  </data>
+  <data name="Ui.Session.TipStartWithYtWRbx" xml:space="preserve">
+    <value>Порада: почніть з !yt, !w, !rbx або !dev, щоб одразу шукати на цьому сайті</value>
+  </data>
+  <data name="Ui.Session.StartingTheBrowser" xml:space="preserve">
+    <value>Запуск браузера</value>
+  </data>
+  <data name="Ui.Session.TryAgain" xml:space="preserve">
+    <value>Спробувати знову</value>
+  </data>
+  <data name="Ui.Session.SearchTabs" xml:space="preserve">
+    <value>Пошук вкладок</value>
+  </data>
+  <data name="Ui.Session.VoidstrapSession" xml:space="preserve">
+    <value>Сеанс Voidstrap</value>
+  </data>
+  <data name="Ui.Session.FriendsInThisServer" xml:space="preserve">
+    <value>Друзі на цьому сервері</value>
+  </data>
+  <data name="Ui.Session.LookingForFriends" xml:space="preserve">
+    <value>Пошук друзів</value>
+  </data>
+  <data name="Ui.Session.CopyInvite" xml:space="preserve">
+    <value>Копіювати запрошення</value>
+  </data>
+  <data name="Ui.Session.Verified" xml:space="preserve">
+    <value>Підтверджено</value>
+  </data>
+  <data name="Ui.Session.Account" xml:space="preserve">
+    <value>Акаунт</value>
+  </data>
+  <data name="Ui.Session.Social" xml:space="preserve">
+    <value>Спілкування</value>
+  </data>
+  <data name="Ui.Session.OpenProfile" xml:space="preserve">
+    <value>Відкрити профіль</value>
+  </data>
+  <data name="Ui.Session.CopyProfileLink" xml:space="preserve">
+    <value>Копіювати посилання на профіль</value>
+  </data>
+  <data name="Ui.Session.YourProfile" xml:space="preserve">
+    <value>Ваш профіль</value>
+  </data>
+  <data name="Ui.Session.SignedOut" xml:space="preserve">
+    <value>Вхід не виконано</value>
+  </data>
+  <data name="Ui.Session.GameAndServer" xml:space="preserve">
+    <value>Гра та сервер</value>
+  </data>
+  <data name="Ui.Session.Session" xml:space="preserve">
+    <value>Сеанс </value>
+  </data>
+  <data name="Ui.Session.Server" xml:space="preserve">
+    <value>  ·  Сервер </value>
+  </data>
+  <data name="Ui.Session.ChatWithFriends" xml:space="preserve">
+    <value>Чат із друзями</value>
+  </data>
+  <data name="Ui.Session.Servers" xml:space="preserve">
+    <value>Сервери</value>
+  </data>
+  <data name="Ui.Session.Games" xml:space="preserve">
+    <value>Ігри</value>
+  </data>
+  <data name="Ui.Session.Music" xml:space="preserve">
+    <value>Музика</value>
+  </data>
+  <data name="Ui.Session.CopyInviteLink" xml:space="preserve">
+    <value>Копіювати посилання запрошення</value>
+  </data>
+  <data name="Ui.Session.Public" xml:space="preserve">
+    <value>Публічний</value>
+  </data>
+  <data name="Ui.Session.Private" xml:space="preserve">
+    <value>Приватний</value>
+  </data>
+  <data name="Ui.Session.Recent" xml:space="preserve">
+    <value>Нещодавні</value>
+  </data>
+  <data name="Ui.Session.CopyTheInstanceID" xml:space="preserve">
+    <value>Копіювати ID екземпляра</value>
+  </data>
+  <data name="Ui.Session.Uptime" xml:space="preserve">
+    <value>Час роботи</value>
+  </data>
+  <data name="Ui.Session.JoinTheServerWithTheLowest" xml:space="preserve">
+    <value>Зайти на сервер з найнижчим пінгом</value>
+  </data>
+  <data name="Ui.Session.ClosestServer" xml:space="preserve">
+    <value>Найближчий сервер</value>
+  </data>
+  <data name="Ui.Session.JoinADifferentRandomServer" xml:space="preserve">
+    <value>Зайти на інший випадковий сервер</value>
+  </data>
+  <data name="Ui.Session.ServerHop" xml:space="preserve">
+    <value>Змінити сервер</value>
+  </data>
+  <data name="Ui.Session.SortBy" xml:space="preserve">
+    <value>Сортувати за</value>
+  </data>
+  <data name="Ui.Session.Region" xml:space="preserve">
+    <value>Регіон</value>
+  </data>
+  <data name="Ui.Session.Place" xml:space="preserve">
+    <value>Місце</value>
+  </data>
+  <data name="Ui.Session.RobloxAccountSwitcher" xml:space="preserve">
+    <value>Перемикач акаунтів Roblox</value>
+  </data>
+  <data name="Ui.Session.SignedInAs" xml:space="preserve">
+    <value>Ви ввійшли як</value>
+  </data>
+  <data name="Ui.Session.AddThisAccount" xml:space="preserve">
+    <value>Додати цей акаунт</value>
+  </data>
+  <data name="Ui.Session.SignOut" xml:space="preserve">
+    <value>Вийти</value>
+  </data>
+  <data name="Ui.Session.SearchSavedAccountsByNameNote" xml:space="preserve">
+    <value>Пошук збережених акаунтів за іменем, нотаткою або ID користувача</value>
+  </data>
+  <data name="Ui.Session.ImportByCookie" xml:space="preserve">
+    <value>Імпорт за cookie</value>
+  </data>
+  <data name="Ui.Session.ImportAnAccountFromItsROBLOSECURITY" xml:space="preserve">
+    <value>Імпортувати акаунт за його cookie .ROBLOSECURITY</value>
+  </data>
+  <data name="Ui.Session.PasteAFullROBLOSECURITYValueOnly" xml:space="preserve">
+    <value>Вставте повне значення .ROBLOSECURITY. Вставляйте лише власні cookie.</value>
+  </data>
+  <data name="Ui.Session.WARNINGDONOTSHARETHIS" xml:space="preserve">
+    <value>_|WARNING: DO NOT SHARE THIS...</value>
+  </data>
+  <data name="Ui.Session.CURRENT" xml:space="preserve">
+    <value>ПОТОЧНИЙ</value>
+  </data>
+  <data name="Ui.Session.AddANote" xml:space="preserve">
+    <value>Додати нотатку</value>
+  </data>
+  <data name="Ui.Session.Switch" xml:space="preserve">
+    <value>Перемкнути</value>
+  </data>
+  <data name="Ui.Session.CopyUserID" xml:space="preserve">
+    <value>Копіювати ID користувача</value>
+  </data>
+  <data name="Ui.Session.RemoveSavedAccount" xml:space="preserve">
+    <value>Видалити збережений акаунт</value>
+  </data>
 </root>

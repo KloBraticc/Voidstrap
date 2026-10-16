@@ -5235,4 +5235,205 @@ Mitä haluat tehdä?</value>
   <data name="Ui.Home.SeeWhatSPossibleOnRoblox" xml:space="preserve">
     <value>Katso valmiiden kokemusten avulla, mitä Robloxissa voi tehdä suosituissa lajityypeissä, tai aloita tyhjästä.</value>
   </data>
+  <data name="Ui.Session.Browser" xml:space="preserve">
+    <value>Selain</value>
+  </data>
+  <data name="Ui.Session.MuteOrUnmuteThisTab" xml:space="preserve">
+    <value>Mykistä tämä välilehti tai palauta ääni</value>
+  </data>
+  <data name="Ui.Session.CloseTabCtrlW" xml:space="preserve">
+    <value>Sulje välilehti (Ctrl+W)</value>
+  </data>
+  <data name="Ui.Session.NewTabCtrlT" xml:space="preserve">
+    <value>Uusi välilehti (Ctrl+T)</value>
+  </data>
+  <data name="Ui.Session.NewTab" xml:space="preserve">
+    <value>Uusi välilehti</value>
+  </data>
+  <data name="Ui.Session.BackAltLeft" xml:space="preserve">
+    <value>Takaisin (Alt+Left)</value>
+  </data>
+  <data name="Ui.Session.ForwardAltRight" xml:space="preserve">
+    <value>Eteenpäin (Alt+Right)</value>
+  </data>
+  <data name="Ui.Session.ReloadF5" xml:space="preserve">
+    <value>Lataa uudelleen (F5)</value>
+  </data>
+  <data name="Ui.Session.SearchOrTypeAnAddress" xml:space="preserve">
+    <value>Hae tai kirjoita osoite</value>
+  </data>
+  <data name="Ui.Session.ResetZoomCtrl0" xml:space="preserve">
+    <value>Palauta zoomaus (Ctrl+0)</value>
+  </data>
+  <data name="Ui.Session.CopyLinkCtrlShiftC" xml:space="preserve">
+    <value>Kopioi linkki (Ctrl+Shift+C)</value>
+  </data>
+  <data name="Ui.Session.SearchTabsCtrlShiftA" xml:space="preserve">
+    <value>Hae välilehdistä (Ctrl+Shift+A)</value>
+  </data>
+  <data name="Ui.Session.SplitViewCtrlShiftS" xml:space="preserve">
+    <value>Jaettu näkymä (Ctrl+Shift+S)</value>
+  </data>
+  <data name="Ui.Session.BrowserMenu" xml:space="preserve">
+    <value>Selaimen valikko</value>
+  </data>
+  <data name="Ui.Session.FindOnPage" xml:space="preserve">
+    <value>Etsi sivulta</value>
+  </data>
+  <data name="Ui.Session.PreviousShiftEnter" xml:space="preserve">
+    <value>Edellinen (Shift+Enter)</value>
+  </data>
+  <data name="Ui.Session.NextEnter" xml:space="preserve">
+    <value>Seuraava (Enter)</value>
+  </data>
+  <data name="Ui.Session.CloseEsc" xml:space="preserve">
+    <value>Sulje (Esc)</value>
+  </data>
+  <data name="Ui.Session.TipStartWithYtWRbx" xml:space="preserve">
+    <value>Vinkki: aloita !yt, !w, !rbx tai !dev, niin haku tehdään suoraan sillä sivustolla</value>
+  </data>
+  <data name="Ui.Session.StartingTheBrowser" xml:space="preserve">
+    <value>Käynnistetään selainta</value>
+  </data>
+  <data name="Ui.Session.TryAgain" xml:space="preserve">
+    <value>Yritä uudelleen</value>
+  </data>
+  <data name="Ui.Session.SearchTabs" xml:space="preserve">
+    <value>Hae välilehdistä</value>
+  </data>
+  <data name="Ui.Session.VoidstrapSession" xml:space="preserve">
+    <value>Voidstrap-istunto</value>
+  </data>
+  <data name="Ui.Session.FriendsInThisServer" xml:space="preserve">
+    <value>Kaverit tällä palvelimella</value>
+  </data>
+  <data name="Ui.Session.LookingForFriends" xml:space="preserve">
+    <value>Etsitään kavereita</value>
+  </data>
+  <data name="Ui.Session.CopyInvite" xml:space="preserve">
+    <value>Kopioi kutsu</value>
+  </data>
+  <data name="Ui.Session.Verified" xml:space="preserve">
+    <value>Vahvistettu</value>
+  </data>
+  <data name="Ui.Session.Account" xml:space="preserve">
+    <value>Tili</value>
+  </data>
+  <data name="Ui.Session.Social" xml:space="preserve">
+    <value>Sosiaalinen</value>
+  </data>
+  <data name="Ui.Session.OpenProfile" xml:space="preserve">
+    <value>Avaa profiili</value>
+  </data>
+  <data name="Ui.Session.CopyProfileLink" xml:space="preserve">
+    <value>Kopioi profiilin linkki</value>
+  </data>
+  <data name="Ui.Session.YourProfile" xml:space="preserve">
+    <value>Profiilisi</value>
+  </data>
+  <data name="Ui.Session.SignedOut" xml:space="preserve">
+    <value>Kirjauduttu ulos</value>
+  </data>
+  <data name="Ui.Session.GameAndServer" xml:space="preserve">
+    <value>Peli ja palvelin</value>
+  </data>
+  <data name="Ui.Session.Session" xml:space="preserve">
+    <value>Istunto </value>
+  </data>
+  <data name="Ui.Session.Server" xml:space="preserve">
+    <value>  ·  Palvelin </value>
+  </data>
+  <data name="Ui.Session.ChatWithFriends" xml:space="preserve">
+    <value>Keskustele kavereiden kanssa</value>
+  </data>
+  <data name="Ui.Session.Servers" xml:space="preserve">
+    <value>Palvelimet</value>
+  </data>
+  <data name="Ui.Session.Games" xml:space="preserve">
+    <value>Pelit</value>
+  </data>
+  <data name="Ui.Session.Music" xml:space="preserve">
+    <value>Musiikki</value>
+  </data>
+  <data name="Ui.Session.CopyInviteLink" xml:space="preserve">
+    <value>Kopioi kutsulinkki</value>
+  </data>
+  <data name="Ui.Session.Public" xml:space="preserve">
+    <value>Julkinen</value>
+  </data>
+  <data name="Ui.Session.Private" xml:space="preserve">
+    <value>Yksityinen</value>
+  </data>
+  <data name="Ui.Session.Recent" xml:space="preserve">
+    <value>Viimeisimmät</value>
+  </data>
+  <data name="Ui.Session.CopyTheInstanceID" xml:space="preserve">
+    <value>Kopioi instanssin tunnus</value>
+  </data>
+  <data name="Ui.Session.Uptime" xml:space="preserve">
+    <value>Käynnissäoloaika</value>
+  </data>
+  <data name="Ui.Session.JoinTheServerWithTheLowest" xml:space="preserve">
+    <value>Liity palvelimelle, jolla on pienin ping</value>
+  </data>
+  <data name="Ui.Session.ClosestServer" xml:space="preserve">
+    <value>Lähin palvelin</value>
+  </data>
+  <data name="Ui.Session.JoinADifferentRandomServer" xml:space="preserve">
+    <value>Liity toiselle satunnaiselle palvelimelle</value>
+  </data>
+  <data name="Ui.Session.ServerHop" xml:space="preserve">
+    <value>Vaihda palvelinta</value>
+  </data>
+  <data name="Ui.Session.SortBy" xml:space="preserve">
+    <value>Lajitteluperuste</value>
+  </data>
+  <data name="Ui.Session.Region" xml:space="preserve">
+    <value>Alue</value>
+  </data>
+  <data name="Ui.Session.Place" xml:space="preserve">
+    <value>Paikka</value>
+  </data>
+  <data name="Ui.Session.RobloxAccountSwitcher" xml:space="preserve">
+    <value>Roblox-tilinvaihtaja</value>
+  </data>
+  <data name="Ui.Session.SignedInAs" xml:space="preserve">
+    <value>Kirjautuneena käyttäjänä</value>
+  </data>
+  <data name="Ui.Session.AddThisAccount" xml:space="preserve">
+    <value>Lisää tämä tili</value>
+  </data>
+  <data name="Ui.Session.SignOut" xml:space="preserve">
+    <value>Kirjaudu ulos</value>
+  </data>
+  <data name="Ui.Session.SearchSavedAccountsByNameNote" xml:space="preserve">
+    <value>Hae tallennettuja tilejä nimen, muistiinpanon tai käyttäjätunnuksen mukaan</value>
+  </data>
+  <data name="Ui.Session.ImportByCookie" xml:space="preserve">
+    <value>Tuo evästeellä</value>
+  </data>
+  <data name="Ui.Session.ImportAnAccountFromItsROBLOSECURITY" xml:space="preserve">
+    <value>Tuo tili sen .ROBLOSECURITY-evästeestä</value>
+  </data>
+  <data name="Ui.Session.PasteAFullROBLOSECURITYValueOnly" xml:space="preserve">
+    <value>Liitä koko .ROBLOSECURITY-arvo. Liitä vain omia evästeitäsi.</value>
+  </data>
+  <data name="Ui.Session.WARNINGDONOTSHARETHIS" xml:space="preserve">
+    <value>_|WARNING: DO NOT SHARE THIS...</value>
+  </data>
+  <data name="Ui.Session.CURRENT" xml:space="preserve">
+    <value>NYKYINEN</value>
+  </data>
+  <data name="Ui.Session.AddANote" xml:space="preserve">
+    <value>Lisää muistiinpano</value>
+  </data>
+  <data name="Ui.Session.Switch" xml:space="preserve">
+    <value>Vaihda</value>
+  </data>
+  <data name="Ui.Session.CopyUserID" xml:space="preserve">
+    <value>Kopioi käyttäjätunnus</value>
+  </data>
+  <data name="Ui.Session.RemoveSavedAccount" xml:space="preserve">
+    <value>Poista tallennettu tili</value>
+  </data>
 </root>

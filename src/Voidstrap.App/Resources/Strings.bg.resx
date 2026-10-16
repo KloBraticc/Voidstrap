@@ -5243,4 +5243,205 @@ Roblox ще бъде изтеглен, когато го стартирате з
   <data name="Ui.Home.SeeWhatSPossibleOnRoblox" xml:space="preserve">
     <value>Вижте какво е възможно в Roblox в популярни жанрове с готови преживявания или започнете от нулата.</value>
   </data>
+  <data name="Ui.Session.Browser" xml:space="preserve">
+    <value>Браузър</value>
+  </data>
+  <data name="Ui.Session.MuteOrUnmuteThisTab" xml:space="preserve">
+    <value>Заглушаване или включване на звука на този раздел</value>
+  </data>
+  <data name="Ui.Session.CloseTabCtrlW" xml:space="preserve">
+    <value>Затваряне на раздела (Ctrl+W)</value>
+  </data>
+  <data name="Ui.Session.NewTabCtrlT" xml:space="preserve">
+    <value>Нов раздел (Ctrl+T)</value>
+  </data>
+  <data name="Ui.Session.NewTab" xml:space="preserve">
+    <value>Нов раздел</value>
+  </data>
+  <data name="Ui.Session.BackAltLeft" xml:space="preserve">
+    <value>Назад (Alt+Left)</value>
+  </data>
+  <data name="Ui.Session.ForwardAltRight" xml:space="preserve">
+    <value>Напред (Alt+Right)</value>
+  </data>
+  <data name="Ui.Session.ReloadF5" xml:space="preserve">
+    <value>Презареждане (F5)</value>
+  </data>
+  <data name="Ui.Session.SearchOrTypeAnAddress" xml:space="preserve">
+    <value>Търсете или въведете адрес</value>
+  </data>
+  <data name="Ui.Session.ResetZoomCtrl0" xml:space="preserve">
+    <value>Нулиране на мащаба (Ctrl+0)</value>
+  </data>
+  <data name="Ui.Session.CopyLinkCtrlShiftC" xml:space="preserve">
+    <value>Копиране на връзката (Ctrl+Shift+C)</value>
+  </data>
+  <data name="Ui.Session.SearchTabsCtrlShiftA" xml:space="preserve">
+    <value>Търсене в разделите (Ctrl+Shift+A)</value>
+  </data>
+  <data name="Ui.Session.SplitViewCtrlShiftS" xml:space="preserve">
+    <value>Разделен изглед (Ctrl+Shift+S)</value>
+  </data>
+  <data name="Ui.Session.BrowserMenu" xml:space="preserve">
+    <value>Меню на браузъра</value>
+  </data>
+  <data name="Ui.Session.FindOnPage" xml:space="preserve">
+    <value>Търсене в страницата</value>
+  </data>
+  <data name="Ui.Session.PreviousShiftEnter" xml:space="preserve">
+    <value>Предишно (Shift+Enter)</value>
+  </data>
+  <data name="Ui.Session.NextEnter" xml:space="preserve">
+    <value>Следващо (Enter)</value>
+  </data>
+  <data name="Ui.Session.CloseEsc" xml:space="preserve">
+    <value>Затваряне (Esc)</value>
+  </data>
+  <data name="Ui.Session.TipStartWithYtWRbx" xml:space="preserve">
+    <value>Съвет: започнете с !yt, !w, !rbx или !dev, за да търсите направо в този сайт</value>
+  </data>
+  <data name="Ui.Session.StartingTheBrowser" xml:space="preserve">
+    <value>Стартиране на браузъра</value>
+  </data>
+  <data name="Ui.Session.TryAgain" xml:space="preserve">
+    <value>Опитайте отново</value>
+  </data>
+  <data name="Ui.Session.SearchTabs" xml:space="preserve">
+    <value>Търсене в разделите</value>
+  </data>
+  <data name="Ui.Session.VoidstrapSession" xml:space="preserve">
+    <value>Сесия на Voidstrap</value>
+  </data>
+  <data name="Ui.Session.FriendsInThisServer" xml:space="preserve">
+    <value>Приятели на този сървър</value>
+  </data>
+  <data name="Ui.Session.LookingForFriends" xml:space="preserve">
+    <value>Търсене на приятели</value>
+  </data>
+  <data name="Ui.Session.CopyInvite" xml:space="preserve">
+    <value>Копиране на поканата</value>
+  </data>
+  <data name="Ui.Session.Verified" xml:space="preserve">
+    <value>Потвърден</value>
+  </data>
+  <data name="Ui.Session.Account" xml:space="preserve">
+    <value>Акаунт</value>
+  </data>
+  <data name="Ui.Session.Social" xml:space="preserve">
+    <value>Социални</value>
+  </data>
+  <data name="Ui.Session.OpenProfile" xml:space="preserve">
+    <value>Отваряне на профила</value>
+  </data>
+  <data name="Ui.Session.CopyProfileLink" xml:space="preserve">
+    <value>Копиране на връзката към профила</value>
+  </data>
+  <data name="Ui.Session.YourProfile" xml:space="preserve">
+    <value>Вашият профил</value>
+  </data>
+  <data name="Ui.Session.SignedOut" xml:space="preserve">
+    <value>Излезли</value>
+  </data>
+  <data name="Ui.Session.GameAndServer" xml:space="preserve">
+    <value>Игра и сървър</value>
+  </data>
+  <data name="Ui.Session.Session" xml:space="preserve">
+    <value>Сесия </value>
+  </data>
+  <data name="Ui.Session.Server" xml:space="preserve">
+    <value>  ·  Сървър </value>
+  </data>
+  <data name="Ui.Session.ChatWithFriends" xml:space="preserve">
+    <value>Чат с приятели</value>
+  </data>
+  <data name="Ui.Session.Servers" xml:space="preserve">
+    <value>Сървъри</value>
+  </data>
+  <data name="Ui.Session.Games" xml:space="preserve">
+    <value>Игри</value>
+  </data>
+  <data name="Ui.Session.Music" xml:space="preserve">
+    <value>Музика</value>
+  </data>
+  <data name="Ui.Session.CopyInviteLink" xml:space="preserve">
+    <value>Копиране на връзката за покана</value>
+  </data>
+  <data name="Ui.Session.Public" xml:space="preserve">
+    <value>Публичен</value>
+  </data>
+  <data name="Ui.Session.Private" xml:space="preserve">
+    <value>Частен</value>
+  </data>
+  <data name="Ui.Session.Recent" xml:space="preserve">
+    <value>Скорошни</value>
+  </data>
+  <data name="Ui.Session.CopyTheInstanceID" xml:space="preserve">
+    <value>Копиране на ID на инстанцията</value>
+  </data>
+  <data name="Ui.Session.Uptime" xml:space="preserve">
+    <value>Време на работа</value>
+  </data>
+  <data name="Ui.Session.JoinTheServerWithTheLowest" xml:space="preserve">
+    <value>Влизане в сървъра с най-нисък пинг</value>
+  </data>
+  <data name="Ui.Session.ClosestServer" xml:space="preserve">
+    <value>Най-близък сървър</value>
+  </data>
+  <data name="Ui.Session.JoinADifferentRandomServer" xml:space="preserve">
+    <value>Влизане в друг случаен сървър</value>
+  </data>
+  <data name="Ui.Session.ServerHop" xml:space="preserve">
+    <value>Смяна на сървъра</value>
+  </data>
+  <data name="Ui.Session.SortBy" xml:space="preserve">
+    <value>Сортиране по</value>
+  </data>
+  <data name="Ui.Session.Region" xml:space="preserve">
+    <value>Регион</value>
+  </data>
+  <data name="Ui.Session.Place" xml:space="preserve">
+    <value>Място</value>
+  </data>
+  <data name="Ui.Session.RobloxAccountSwitcher" xml:space="preserve">
+    <value>Превключване на акаунти в Roblox</value>
+  </data>
+  <data name="Ui.Session.SignedInAs" xml:space="preserve">
+    <value>Влезли сте като</value>
+  </data>
+  <data name="Ui.Session.AddThisAccount" xml:space="preserve">
+    <value>Добавяне на този акаунт</value>
+  </data>
+  <data name="Ui.Session.SignOut" xml:space="preserve">
+    <value>Изход</value>
+  </data>
+  <data name="Ui.Session.SearchSavedAccountsByNameNote" xml:space="preserve">
+    <value>Търсене на запазени акаунти по име, бележка или потребителски ID</value>
+  </data>
+  <data name="Ui.Session.ImportByCookie" xml:space="preserve">
+    <value>Импортиране чрез бисквитка</value>
+  </data>
+  <data name="Ui.Session.ImportAnAccountFromItsROBLOSECURITY" xml:space="preserve">
+    <value>Импортиране на акаунт чрез бисквитката му .ROBLOSECURITY</value>
+  </data>
+  <data name="Ui.Session.PasteAFullROBLOSECURITYValueOnly" xml:space="preserve">
+    <value>Поставете пълна стойност .ROBLOSECURITY. Поставяйте само свои бисквитки.</value>
+  </data>
+  <data name="Ui.Session.WARNINGDONOTSHARETHIS" xml:space="preserve">
+    <value>_|WARNING: DO NOT SHARE THIS...</value>
+  </data>
+  <data name="Ui.Session.CURRENT" xml:space="preserve">
+    <value>ТЕКУЩ</value>
+  </data>
+  <data name="Ui.Session.AddANote" xml:space="preserve">
+    <value>Добавяне на бележка</value>
+  </data>
+  <data name="Ui.Session.Switch" xml:space="preserve">
+    <value>Превключване</value>
+  </data>
+  <data name="Ui.Session.CopyUserID" xml:space="preserve">
+    <value>Копиране на потребителския ID</value>
+  </data>
+  <data name="Ui.Session.RemoveSavedAccount" xml:space="preserve">
+    <value>Премахване на запазения акаунт</value>
+  </data>
 </root>

@@ -5201,4 +5201,205 @@ Vad vill du göra?</value>
   <data name="Ui.Home.SeeWhatSPossibleOnRoblox" xml:space="preserve">
     <value>Se vad som är möjligt på Roblox i populära genrer med färdiga upplevelser, eller börja från början.</value>
   </data>
+  <data name="Ui.Session.Browser" xml:space="preserve">
+    <value>Webbläsare</value>
+  </data>
+  <data name="Ui.Session.MuteOrUnmuteThisTab" xml:space="preserve">
+    <value>Stäng av eller slå på ljudet för den här fliken</value>
+  </data>
+  <data name="Ui.Session.CloseTabCtrlW" xml:space="preserve">
+    <value>Stäng flik (Ctrl+W)</value>
+  </data>
+  <data name="Ui.Session.NewTabCtrlT" xml:space="preserve">
+    <value>Ny flik (Ctrl+T)</value>
+  </data>
+  <data name="Ui.Session.NewTab" xml:space="preserve">
+    <value>Ny flik</value>
+  </data>
+  <data name="Ui.Session.BackAltLeft" xml:space="preserve">
+    <value>Bakåt (Alt+Left)</value>
+  </data>
+  <data name="Ui.Session.ForwardAltRight" xml:space="preserve">
+    <value>Framåt (Alt+Right)</value>
+  </data>
+  <data name="Ui.Session.ReloadF5" xml:space="preserve">
+    <value>Läs in igen (F5)</value>
+  </data>
+  <data name="Ui.Session.SearchOrTypeAnAddress" xml:space="preserve">
+    <value>Sök eller skriv en adress</value>
+  </data>
+  <data name="Ui.Session.ResetZoomCtrl0" xml:space="preserve">
+    <value>Återställ zoom (Ctrl+0)</value>
+  </data>
+  <data name="Ui.Session.CopyLinkCtrlShiftC" xml:space="preserve">
+    <value>Kopiera länk (Ctrl+Shift+C)</value>
+  </data>
+  <data name="Ui.Session.SearchTabsCtrlShiftA" xml:space="preserve">
+    <value>Sök flikar (Ctrl+Shift+A)</value>
+  </data>
+  <data name="Ui.Session.SplitViewCtrlShiftS" xml:space="preserve">
+    <value>Delad vy (Ctrl+Shift+S)</value>
+  </data>
+  <data name="Ui.Session.BrowserMenu" xml:space="preserve">
+    <value>Webbläsarmeny</value>
+  </data>
+  <data name="Ui.Session.FindOnPage" xml:space="preserve">
+    <value>Sök på sidan</value>
+  </data>
+  <data name="Ui.Session.PreviousShiftEnter" xml:space="preserve">
+    <value>Föregående (Shift+Enter)</value>
+  </data>
+  <data name="Ui.Session.NextEnter" xml:space="preserve">
+    <value>Nästa (Enter)</value>
+  </data>
+  <data name="Ui.Session.CloseEsc" xml:space="preserve">
+    <value>Stäng (Esc)</value>
+  </data>
+  <data name="Ui.Session.TipStartWithYtWRbx" xml:space="preserve">
+    <value>Tips: börja med !yt, !w, !rbx eller !dev för att söka direkt på den webbplatsen</value>
+  </data>
+  <data name="Ui.Session.StartingTheBrowser" xml:space="preserve">
+    <value>Startar webbläsaren</value>
+  </data>
+  <data name="Ui.Session.TryAgain" xml:space="preserve">
+    <value>Försök igen</value>
+  </data>
+  <data name="Ui.Session.SearchTabs" xml:space="preserve">
+    <value>Sök flikar</value>
+  </data>
+  <data name="Ui.Session.VoidstrapSession" xml:space="preserve">
+    <value>Voidstrap session</value>
+  </data>
+  <data name="Ui.Session.FriendsInThisServer" xml:space="preserve">
+    <value>Vänner på den här servern</value>
+  </data>
+  <data name="Ui.Session.LookingForFriends" xml:space="preserve">
+    <value>Letar efter vänner</value>
+  </data>
+  <data name="Ui.Session.CopyInvite" xml:space="preserve">
+    <value>Kopiera inbjudan</value>
+  </data>
+  <data name="Ui.Session.Verified" xml:space="preserve">
+    <value>Verifierad</value>
+  </data>
+  <data name="Ui.Session.Account" xml:space="preserve">
+    <value>Konto</value>
+  </data>
+  <data name="Ui.Session.Social" xml:space="preserve">
+    <value>Socialt</value>
+  </data>
+  <data name="Ui.Session.OpenProfile" xml:space="preserve">
+    <value>Öppna profil</value>
+  </data>
+  <data name="Ui.Session.CopyProfileLink" xml:space="preserve">
+    <value>Kopiera profillänk</value>
+  </data>
+  <data name="Ui.Session.YourProfile" xml:space="preserve">
+    <value>Din profil</value>
+  </data>
+  <data name="Ui.Session.SignedOut" xml:space="preserve">
+    <value>Utloggad</value>
+  </data>
+  <data name="Ui.Session.GameAndServer" xml:space="preserve">
+    <value>Spel och server</value>
+  </data>
+  <data name="Ui.Session.Session" xml:space="preserve">
+    <value>Session </value>
+  </data>
+  <data name="Ui.Session.Server" xml:space="preserve">
+    <value>  ·  Server </value>
+  </data>
+  <data name="Ui.Session.ChatWithFriends" xml:space="preserve">
+    <value>Chatta med vänner</value>
+  </data>
+  <data name="Ui.Session.Servers" xml:space="preserve">
+    <value>Servrar</value>
+  </data>
+  <data name="Ui.Session.Games" xml:space="preserve">
+    <value>Spel</value>
+  </data>
+  <data name="Ui.Session.Music" xml:space="preserve">
+    <value>Musik</value>
+  </data>
+  <data name="Ui.Session.CopyInviteLink" xml:space="preserve">
+    <value>Kopiera inbjudningslänk</value>
+  </data>
+  <data name="Ui.Session.Public" xml:space="preserve">
+    <value>Offentlig</value>
+  </data>
+  <data name="Ui.Session.Private" xml:space="preserve">
+    <value>Privat</value>
+  </data>
+  <data name="Ui.Session.Recent" xml:space="preserve">
+    <value>Senaste</value>
+  </data>
+  <data name="Ui.Session.CopyTheInstanceID" xml:space="preserve">
+    <value>Kopiera instans ID</value>
+  </data>
+  <data name="Ui.Session.Uptime" xml:space="preserve">
+    <value>Drifttid</value>
+  </data>
+  <data name="Ui.Session.JoinTheServerWithTheLowest" xml:space="preserve">
+    <value>Anslut till servern med lägst ping</value>
+  </data>
+  <data name="Ui.Session.ClosestServer" xml:space="preserve">
+    <value>Närmaste server</value>
+  </data>
+  <data name="Ui.Session.JoinADifferentRandomServer" xml:space="preserve">
+    <value>Anslut till en annan slumpmässig server</value>
+  </data>
+  <data name="Ui.Session.ServerHop" xml:space="preserve">
+    <value>Byt server</value>
+  </data>
+  <data name="Ui.Session.SortBy" xml:space="preserve">
+    <value>Sortera efter</value>
+  </data>
+  <data name="Ui.Session.Region" xml:space="preserve">
+    <value>Region</value>
+  </data>
+  <data name="Ui.Session.Place" xml:space="preserve">
+    <value>Plats</value>
+  </data>
+  <data name="Ui.Session.RobloxAccountSwitcher" xml:space="preserve">
+    <value>Roblox kontoväxlare</value>
+  </data>
+  <data name="Ui.Session.SignedInAs" xml:space="preserve">
+    <value>Inloggad som</value>
+  </data>
+  <data name="Ui.Session.AddThisAccount" xml:space="preserve">
+    <value>Lägg till det här kontot</value>
+  </data>
+  <data name="Ui.Session.SignOut" xml:space="preserve">
+    <value>Logga ut</value>
+  </data>
+  <data name="Ui.Session.SearchSavedAccountsByNameNote" xml:space="preserve">
+    <value>Sök sparade konton efter namn, anteckning eller användar ID</value>
+  </data>
+  <data name="Ui.Session.ImportByCookie" xml:space="preserve">
+    <value>Importera med cookie</value>
+  </data>
+  <data name="Ui.Session.ImportAnAccountFromItsROBLOSECURITY" xml:space="preserve">
+    <value>Importera ett konto från dess .ROBLOSECURITY cookie</value>
+  </data>
+  <data name="Ui.Session.PasteAFullROBLOSECURITYValueOnly" xml:space="preserve">
+    <value>Klistra in ett fullständigt .ROBLOSECURITY värde. Klistra bara in dina egna cookies.</value>
+  </data>
+  <data name="Ui.Session.WARNINGDONOTSHARETHIS" xml:space="preserve">
+    <value>_|WARNING: DO NOT SHARE THIS...</value>
+  </data>
+  <data name="Ui.Session.CURRENT" xml:space="preserve">
+    <value>AKTUELL</value>
+  </data>
+  <data name="Ui.Session.AddANote" xml:space="preserve">
+    <value>Lägg till en anteckning</value>
+  </data>
+  <data name="Ui.Session.Switch" xml:space="preserve">
+    <value>Byt</value>
+  </data>
+  <data name="Ui.Session.CopyUserID" xml:space="preserve">
+    <value>Kopiera användar ID</value>
+  </data>
+  <data name="Ui.Session.RemoveSavedAccount" xml:space="preserve">
+    <value>Ta bort sparat konto</value>
+  </data>
 </root>

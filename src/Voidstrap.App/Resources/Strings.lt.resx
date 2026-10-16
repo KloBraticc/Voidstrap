@@ -5277,4 +5277,205 @@ Ką norėtumėte daryti?</value>
   <data name="Ui.Home.SeeWhatSPossibleOnRoblox" xml:space="preserve">
     <value>Pažiūrėkite, ką galima sukurti Roblox populiariuose žanruose su paruoštomis patirtimis, arba pradėkite nuo nulio.</value>
   </data>
+  <data name="Ui.Session.Browser" xml:space="preserve">
+    <value>Naršyklė</value>
+  </data>
+  <data name="Ui.Session.MuteOrUnmuteThisTab" xml:space="preserve">
+    <value>Nutildyti arba įjungti šio skirtuko garsą</value>
+  </data>
+  <data name="Ui.Session.CloseTabCtrlW" xml:space="preserve">
+    <value>Uždaryti skirtuką (Ctrl+W)</value>
+  </data>
+  <data name="Ui.Session.NewTabCtrlT" xml:space="preserve">
+    <value>Naujas skirtukas (Ctrl+T)</value>
+  </data>
+  <data name="Ui.Session.NewTab" xml:space="preserve">
+    <value>Naujas skirtukas</value>
+  </data>
+  <data name="Ui.Session.BackAltLeft" xml:space="preserve">
+    <value>Atgal (Alt+Left)</value>
+  </data>
+  <data name="Ui.Session.ForwardAltRight" xml:space="preserve">
+    <value>Pirmyn (Alt+Right)</value>
+  </data>
+  <data name="Ui.Session.ReloadF5" xml:space="preserve">
+    <value>Įkelti iš naujo (F5)</value>
+  </data>
+  <data name="Ui.Session.SearchOrTypeAnAddress" xml:space="preserve">
+    <value>Ieškokite arba įveskite adresą</value>
+  </data>
+  <data name="Ui.Session.ResetZoomCtrl0" xml:space="preserve">
+    <value>Atkurti mastelį (Ctrl+0)</value>
+  </data>
+  <data name="Ui.Session.CopyLinkCtrlShiftC" xml:space="preserve">
+    <value>Kopijuoti nuorodą (Ctrl+Shift+C)</value>
+  </data>
+  <data name="Ui.Session.SearchTabsCtrlShiftA" xml:space="preserve">
+    <value>Ieškoti skirtukų (Ctrl+Shift+A)</value>
+  </data>
+  <data name="Ui.Session.SplitViewCtrlShiftS" xml:space="preserve">
+    <value>Padalytas rodinys (Ctrl+Shift+S)</value>
+  </data>
+  <data name="Ui.Session.BrowserMenu" xml:space="preserve">
+    <value>Naršyklės meniu</value>
+  </data>
+  <data name="Ui.Session.FindOnPage" xml:space="preserve">
+    <value>Rasti puslapyje</value>
+  </data>
+  <data name="Ui.Session.PreviousShiftEnter" xml:space="preserve">
+    <value>Ankstesnis (Shift+Enter)</value>
+  </data>
+  <data name="Ui.Session.NextEnter" xml:space="preserve">
+    <value>Kitas (Enter)</value>
+  </data>
+  <data name="Ui.Session.CloseEsc" xml:space="preserve">
+    <value>Uždaryti (Esc)</value>
+  </data>
+  <data name="Ui.Session.TipStartWithYtWRbx" xml:space="preserve">
+    <value>Patarimas: pradėkite nuo !yt, !w, !rbx arba !dev, kad iškart ieškotumėte toje svetainėje</value>
+  </data>
+  <data name="Ui.Session.StartingTheBrowser" xml:space="preserve">
+    <value>Paleidžiama naršyklė</value>
+  </data>
+  <data name="Ui.Session.TryAgain" xml:space="preserve">
+    <value>Bandyti dar kartą</value>
+  </data>
+  <data name="Ui.Session.SearchTabs" xml:space="preserve">
+    <value>Ieškoti skirtukų</value>
+  </data>
+  <data name="Ui.Session.VoidstrapSession" xml:space="preserve">
+    <value>Voidstrap seansas</value>
+  </data>
+  <data name="Ui.Session.FriendsInThisServer" xml:space="preserve">
+    <value>Draugai šiame serveryje</value>
+  </data>
+  <data name="Ui.Session.LookingForFriends" xml:space="preserve">
+    <value>Ieškoma draugų</value>
+  </data>
+  <data name="Ui.Session.CopyInvite" xml:space="preserve">
+    <value>Kopijuoti kvietimą</value>
+  </data>
+  <data name="Ui.Session.Verified" xml:space="preserve">
+    <value>Patvirtinta</value>
+  </data>
+  <data name="Ui.Session.Account" xml:space="preserve">
+    <value>Paskyra</value>
+  </data>
+  <data name="Ui.Session.Social" xml:space="preserve">
+    <value>Socialiniai</value>
+  </data>
+  <data name="Ui.Session.OpenProfile" xml:space="preserve">
+    <value>Atidaryti profilį</value>
+  </data>
+  <data name="Ui.Session.CopyProfileLink" xml:space="preserve">
+    <value>Kopijuoti profilio nuorodą</value>
+  </data>
+  <data name="Ui.Session.YourProfile" xml:space="preserve">
+    <value>Jūsų profilis</value>
+  </data>
+  <data name="Ui.Session.SignedOut" xml:space="preserve">
+    <value>Atsijungta</value>
+  </data>
+  <data name="Ui.Session.GameAndServer" xml:space="preserve">
+    <value>Žaidimas ir serveris</value>
+  </data>
+  <data name="Ui.Session.Session" xml:space="preserve">
+    <value>Seansas </value>
+  </data>
+  <data name="Ui.Session.Server" xml:space="preserve">
+    <value>  ·  Serveris </value>
+  </data>
+  <data name="Ui.Session.ChatWithFriends" xml:space="preserve">
+    <value>Kalbėtis su draugais</value>
+  </data>
+  <data name="Ui.Session.Servers" xml:space="preserve">
+    <value>Serveriai</value>
+  </data>
+  <data name="Ui.Session.Games" xml:space="preserve">
+    <value>Žaidimai</value>
+  </data>
+  <data name="Ui.Session.Music" xml:space="preserve">
+    <value>Muzika</value>
+  </data>
+  <data name="Ui.Session.CopyInviteLink" xml:space="preserve">
+    <value>Kopijuoti kvietimo nuorodą</value>
+  </data>
+  <data name="Ui.Session.Public" xml:space="preserve">
+    <value>Viešas</value>
+  </data>
+  <data name="Ui.Session.Private" xml:space="preserve">
+    <value>Privatus</value>
+  </data>
+  <data name="Ui.Session.Recent" xml:space="preserve">
+    <value>Naujausi</value>
+  </data>
+  <data name="Ui.Session.CopyTheInstanceID" xml:space="preserve">
+    <value>Kopijuoti egzemplioriaus ID</value>
+  </data>
+  <data name="Ui.Session.Uptime" xml:space="preserve">
+    <value>Veikimo laikas</value>
+  </data>
+  <data name="Ui.Session.JoinTheServerWithTheLowest" xml:space="preserve">
+    <value>Prisijungti prie serverio su mažiausiu pingu</value>
+  </data>
+  <data name="Ui.Session.ClosestServer" xml:space="preserve">
+    <value>Artimiausias serveris</value>
+  </data>
+  <data name="Ui.Session.JoinADifferentRandomServer" xml:space="preserve">
+    <value>Prisijungti prie kito atsitiktinio serverio</value>
+  </data>
+  <data name="Ui.Session.ServerHop" xml:space="preserve">
+    <value>Keisti serverį</value>
+  </data>
+  <data name="Ui.Session.SortBy" xml:space="preserve">
+    <value>Rikiuoti pagal</value>
+  </data>
+  <data name="Ui.Session.Region" xml:space="preserve">
+    <value>Regionas</value>
+  </data>
+  <data name="Ui.Session.Place" xml:space="preserve">
+    <value>Vieta</value>
+  </data>
+  <data name="Ui.Session.RobloxAccountSwitcher" xml:space="preserve">
+    <value>Roblox paskyrų perjungiklis</value>
+  </data>
+  <data name="Ui.Session.SignedInAs" xml:space="preserve">
+    <value>Prisijungta kaip</value>
+  </data>
+  <data name="Ui.Session.AddThisAccount" xml:space="preserve">
+    <value>Pridėti šią paskyrą</value>
+  </data>
+  <data name="Ui.Session.SignOut" xml:space="preserve">
+    <value>Atsijungti</value>
+  </data>
+  <data name="Ui.Session.SearchSavedAccountsByNameNote" xml:space="preserve">
+    <value>Ieškoti išsaugotų paskyrų pagal vardą, pastabą ar naudotojo ID</value>
+  </data>
+  <data name="Ui.Session.ImportByCookie" xml:space="preserve">
+    <value>Importuoti slapuku</value>
+  </data>
+  <data name="Ui.Session.ImportAnAccountFromItsROBLOSECURITY" xml:space="preserve">
+    <value>Importuoti paskyrą iš jos .ROBLOSECURITY slapuko</value>
+  </data>
+  <data name="Ui.Session.PasteAFullROBLOSECURITYValueOnly" xml:space="preserve">
+    <value>Įklijuokite visą .ROBLOSECURITY reikšmę. Įklijuokite tik savo slapukus.</value>
+  </data>
+  <data name="Ui.Session.WARNINGDONOTSHARETHIS" xml:space="preserve">
+    <value>_|WARNING: DO NOT SHARE THIS...</value>
+  </data>
+  <data name="Ui.Session.CURRENT" xml:space="preserve">
+    <value>DABARTINĖ</value>
+  </data>
+  <data name="Ui.Session.AddANote" xml:space="preserve">
+    <value>Pridėti pastabą</value>
+  </data>
+  <data name="Ui.Session.Switch" xml:space="preserve">
+    <value>Perjungti</value>
+  </data>
+  <data name="Ui.Session.CopyUserID" xml:space="preserve">
+    <value>Kopijuoti naudotojo ID</value>
+  </data>
+  <data name="Ui.Session.RemoveSavedAccount" xml:space="preserve">
+    <value>Pašalinti išsaugotą paskyrą</value>
+  </data>
 </root>

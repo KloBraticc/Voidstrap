@@ -5197,4 +5197,205 @@ Apa yang ingin Anda lakukan?</value>
   <data name="Ui.Home.SeeWhatSPossibleOnRoblox" xml:space="preserve">
     <value>Lihat apa yang bisa dibuat di Roblox dalam genre populer dengan pengalaman siap pakai, atau mulai dari awal.</value>
   </data>
+  <data name="Ui.Session.Browser" xml:space="preserve">
+    <value>Browser</value>
+  </data>
+  <data name="Ui.Session.MuteOrUnmuteThisTab" xml:space="preserve">
+    <value>Bisukan atau bunyikan tab ini</value>
+  </data>
+  <data name="Ui.Session.CloseTabCtrlW" xml:space="preserve">
+    <value>Tutup tab (Ctrl+W)</value>
+  </data>
+  <data name="Ui.Session.NewTabCtrlT" xml:space="preserve">
+    <value>Tab baru (Ctrl+T)</value>
+  </data>
+  <data name="Ui.Session.NewTab" xml:space="preserve">
+    <value>Tab baru</value>
+  </data>
+  <data name="Ui.Session.BackAltLeft" xml:space="preserve">
+    <value>Kembali (Alt+Left)</value>
+  </data>
+  <data name="Ui.Session.ForwardAltRight" xml:space="preserve">
+    <value>Maju (Alt+Right)</value>
+  </data>
+  <data name="Ui.Session.ReloadF5" xml:space="preserve">
+    <value>Muat ulang (F5)</value>
+  </data>
+  <data name="Ui.Session.SearchOrTypeAnAddress" xml:space="preserve">
+    <value>Cari atau ketik alamat</value>
+  </data>
+  <data name="Ui.Session.ResetZoomCtrl0" xml:space="preserve">
+    <value>Atur ulang zoom (Ctrl+0)</value>
+  </data>
+  <data name="Ui.Session.CopyLinkCtrlShiftC" xml:space="preserve">
+    <value>Salin tautan (Ctrl+Shift+C)</value>
+  </data>
+  <data name="Ui.Session.SearchTabsCtrlShiftA" xml:space="preserve">
+    <value>Cari tab (Ctrl+Shift+A)</value>
+  </data>
+  <data name="Ui.Session.SplitViewCtrlShiftS" xml:space="preserve">
+    <value>Tampilan terbagi (Ctrl+Shift+S)</value>
+  </data>
+  <data name="Ui.Session.BrowserMenu" xml:space="preserve">
+    <value>Menu browser</value>
+  </data>
+  <data name="Ui.Session.FindOnPage" xml:space="preserve">
+    <value>Cari di halaman</value>
+  </data>
+  <data name="Ui.Session.PreviousShiftEnter" xml:space="preserve">
+    <value>Sebelumnya (Shift+Enter)</value>
+  </data>
+  <data name="Ui.Session.NextEnter" xml:space="preserve">
+    <value>Berikutnya (Enter)</value>
+  </data>
+  <data name="Ui.Session.CloseEsc" xml:space="preserve">
+    <value>Tutup (Esc)</value>
+  </data>
+  <data name="Ui.Session.TipStartWithYtWRbx" xml:space="preserve">
+    <value>Tips: awali dengan !yt, !w, !rbx, atau !dev untuk langsung mencari di situs itu</value>
+  </data>
+  <data name="Ui.Session.StartingTheBrowser" xml:space="preserve">
+    <value>Memulai browser</value>
+  </data>
+  <data name="Ui.Session.TryAgain" xml:space="preserve">
+    <value>Coba lagi</value>
+  </data>
+  <data name="Ui.Session.SearchTabs" xml:space="preserve">
+    <value>Cari tab</value>
+  </data>
+  <data name="Ui.Session.VoidstrapSession" xml:space="preserve">
+    <value>Sesi Voidstrap</value>
+  </data>
+  <data name="Ui.Session.FriendsInThisServer" xml:space="preserve">
+    <value>Teman di server ini</value>
+  </data>
+  <data name="Ui.Session.LookingForFriends" xml:space="preserve">
+    <value>Mencari teman</value>
+  </data>
+  <data name="Ui.Session.CopyInvite" xml:space="preserve">
+    <value>Salin undangan</value>
+  </data>
+  <data name="Ui.Session.Verified" xml:space="preserve">
+    <value>Terverifikasi</value>
+  </data>
+  <data name="Ui.Session.Account" xml:space="preserve">
+    <value>Akun</value>
+  </data>
+  <data name="Ui.Session.Social" xml:space="preserve">
+    <value>Sosial</value>
+  </data>
+  <data name="Ui.Session.OpenProfile" xml:space="preserve">
+    <value>Buka profil</value>
+  </data>
+  <data name="Ui.Session.CopyProfileLink" xml:space="preserve">
+    <value>Salin tautan profil</value>
+  </data>
+  <data name="Ui.Session.YourProfile" xml:space="preserve">
+    <value>Profil Anda</value>
+  </data>
+  <data name="Ui.Session.SignedOut" xml:space="preserve">
+    <value>Keluar</value>
+  </data>
+  <data name="Ui.Session.GameAndServer" xml:space="preserve">
+    <value>Game dan server</value>
+  </data>
+  <data name="Ui.Session.Session" xml:space="preserve">
+    <value>Sesi </value>
+  </data>
+  <data name="Ui.Session.Server" xml:space="preserve">
+    <value>  ·  Server </value>
+  </data>
+  <data name="Ui.Session.ChatWithFriends" xml:space="preserve">
+    <value>Chat dengan teman</value>
+  </data>
+  <data name="Ui.Session.Servers" xml:space="preserve">
+    <value>Server</value>
+  </data>
+  <data name="Ui.Session.Games" xml:space="preserve">
+    <value>Game</value>
+  </data>
+  <data name="Ui.Session.Music" xml:space="preserve">
+    <value>Musik</value>
+  </data>
+  <data name="Ui.Session.CopyInviteLink" xml:space="preserve">
+    <value>Salin tautan undangan</value>
+  </data>
+  <data name="Ui.Session.Public" xml:space="preserve">
+    <value>Publik</value>
+  </data>
+  <data name="Ui.Session.Private" xml:space="preserve">
+    <value>Privat</value>
+  </data>
+  <data name="Ui.Session.Recent" xml:space="preserve">
+    <value>Terbaru</value>
+  </data>
+  <data name="Ui.Session.CopyTheInstanceID" xml:space="preserve">
+    <value>Salin ID instans</value>
+  </data>
+  <data name="Ui.Session.Uptime" xml:space="preserve">
+    <value>Waktu aktif</value>
+  </data>
+  <data name="Ui.Session.JoinTheServerWithTheLowest" xml:space="preserve">
+    <value>Bergabung ke server dengan ping terendah</value>
+  </data>
+  <data name="Ui.Session.ClosestServer" xml:space="preserve">
+    <value>Server terdekat</value>
+  </data>
+  <data name="Ui.Session.JoinADifferentRandomServer" xml:space="preserve">
+    <value>Bergabung ke server acak lain</value>
+  </data>
+  <data name="Ui.Session.ServerHop" xml:space="preserve">
+    <value>Ganti server</value>
+  </data>
+  <data name="Ui.Session.SortBy" xml:space="preserve">
+    <value>Urutkan menurut</value>
+  </data>
+  <data name="Ui.Session.Region" xml:space="preserve">
+    <value>Wilayah</value>
+  </data>
+  <data name="Ui.Session.Place" xml:space="preserve">
+    <value>Tempat</value>
+  </data>
+  <data name="Ui.Session.RobloxAccountSwitcher" xml:space="preserve">
+    <value>Pengalih akun Roblox</value>
+  </data>
+  <data name="Ui.Session.SignedInAs" xml:space="preserve">
+    <value>Masuk sebagai</value>
+  </data>
+  <data name="Ui.Session.AddThisAccount" xml:space="preserve">
+    <value>Tambahkan akun ini</value>
+  </data>
+  <data name="Ui.Session.SignOut" xml:space="preserve">
+    <value>Keluar</value>
+  </data>
+  <data name="Ui.Session.SearchSavedAccountsByNameNote" xml:space="preserve">
+    <value>Cari akun tersimpan berdasarkan nama, catatan, atau ID pengguna</value>
+  </data>
+  <data name="Ui.Session.ImportByCookie" xml:space="preserve">
+    <value>Impor dengan cookie</value>
+  </data>
+  <data name="Ui.Session.ImportAnAccountFromItsROBLOSECURITY" xml:space="preserve">
+    <value>Impor akun dari cookie .ROBLOSECURITY miliknya</value>
+  </data>
+  <data name="Ui.Session.PasteAFullROBLOSECURITYValueOnly" xml:space="preserve">
+    <value>Tempel nilai .ROBLOSECURITY lengkap. Hanya tempel cookie milik Anda.</value>
+  </data>
+  <data name="Ui.Session.WARNINGDONOTSHARETHIS" xml:space="preserve">
+    <value>_|WARNING: DO NOT SHARE THIS...</value>
+  </data>
+  <data name="Ui.Session.CURRENT" xml:space="preserve">
+    <value>SAAT INI</value>
+  </data>
+  <data name="Ui.Session.AddANote" xml:space="preserve">
+    <value>Tambahkan catatan</value>
+  </data>
+  <data name="Ui.Session.Switch" xml:space="preserve">
+    <value>Ganti</value>
+  </data>
+  <data name="Ui.Session.CopyUserID" xml:space="preserve">
+    <value>Salin ID pengguna</value>
+  </data>
+  <data name="Ui.Session.RemoveSavedAccount" xml:space="preserve">
+    <value>Hapus akun tersimpan</value>
+  </data>
 </root>

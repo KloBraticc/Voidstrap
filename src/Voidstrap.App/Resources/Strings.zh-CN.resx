@@ -5264,4 +5264,205 @@ Voidstrap 的安装路径是：
   <data name="Ui.Home.SeeWhatSPossibleOnRoblox" xml:space="preserve">
     <value>通过现成的体验了解在 Roblox 热门类型中能做什么，或从头开始。</value>
   </data>
+  <data name="Ui.Session.Browser" xml:space="preserve">
+    <value>浏览器</value>
+  </data>
+  <data name="Ui.Session.MuteOrUnmuteThisTab" xml:space="preserve">
+    <value>将此标签页静音或取消静音</value>
+  </data>
+  <data name="Ui.Session.CloseTabCtrlW" xml:space="preserve">
+    <value>关闭标签页 (Ctrl+W)</value>
+  </data>
+  <data name="Ui.Session.NewTabCtrlT" xml:space="preserve">
+    <value>新标签页 (Ctrl+T)</value>
+  </data>
+  <data name="Ui.Session.NewTab" xml:space="preserve">
+    <value>新标签页</value>
+  </data>
+  <data name="Ui.Session.BackAltLeft" xml:space="preserve">
+    <value>后退 (Alt+Left)</value>
+  </data>
+  <data name="Ui.Session.ForwardAltRight" xml:space="preserve">
+    <value>前进 (Alt+Right)</value>
+  </data>
+  <data name="Ui.Session.ReloadF5" xml:space="preserve">
+    <value>重新加载 (F5)</value>
+  </data>
+  <data name="Ui.Session.SearchOrTypeAnAddress" xml:space="preserve">
+    <value>搜索或输入地址</value>
+  </data>
+  <data name="Ui.Session.ResetZoomCtrl0" xml:space="preserve">
+    <value>重置缩放 (Ctrl+0)</value>
+  </data>
+  <data name="Ui.Session.CopyLinkCtrlShiftC" xml:space="preserve">
+    <value>复制链接 (Ctrl+Shift+C)</value>
+  </data>
+  <data name="Ui.Session.SearchTabsCtrlShiftA" xml:space="preserve">
+    <value>搜索标签页 (Ctrl+Shift+A)</value>
+  </data>
+  <data name="Ui.Session.SplitViewCtrlShiftS" xml:space="preserve">
+    <value>分屏视图 (Ctrl+Shift+S)</value>
+  </data>
+  <data name="Ui.Session.BrowserMenu" xml:space="preserve">
+    <value>浏览器菜单</value>
+  </data>
+  <data name="Ui.Session.FindOnPage" xml:space="preserve">
+    <value>在页面中查找</value>
+  </data>
+  <data name="Ui.Session.PreviousShiftEnter" xml:space="preserve">
+    <value>上一个 (Shift+Enter)</value>
+  </data>
+  <data name="Ui.Session.NextEnter" xml:space="preserve">
+    <value>下一个 (Enter)</value>
+  </data>
+  <data name="Ui.Session.CloseEsc" xml:space="preserve">
+    <value>关闭 (Esc)</value>
+  </data>
+  <data name="Ui.Session.TipStartWithYtWRbx" xml:space="preserve">
+    <value>提示：以 !yt、!w、!rbx 或 !dev 开头可直接在该网站搜索</value>
+  </data>
+  <data name="Ui.Session.StartingTheBrowser" xml:space="preserve">
+    <value>正在启动浏览器</value>
+  </data>
+  <data name="Ui.Session.TryAgain" xml:space="preserve">
+    <value>重试</value>
+  </data>
+  <data name="Ui.Session.SearchTabs" xml:space="preserve">
+    <value>搜索标签页</value>
+  </data>
+  <data name="Ui.Session.VoidstrapSession" xml:space="preserve">
+    <value>Voidstrap 会话</value>
+  </data>
+  <data name="Ui.Session.FriendsInThisServer" xml:space="preserve">
+    <value>此服务器中的好友</value>
+  </data>
+  <data name="Ui.Session.LookingForFriends" xml:space="preserve">
+    <value>正在寻找好友</value>
+  </data>
+  <data name="Ui.Session.CopyInvite" xml:space="preserve">
+    <value>复制邀请</value>
+  </data>
+  <data name="Ui.Session.Verified" xml:space="preserve">
+    <value>已验证</value>
+  </data>
+  <data name="Ui.Session.Account" xml:space="preserve">
+    <value>账户</value>
+  </data>
+  <data name="Ui.Session.Social" xml:space="preserve">
+    <value>社交</value>
+  </data>
+  <data name="Ui.Session.OpenProfile" xml:space="preserve">
+    <value>打开个人资料</value>
+  </data>
+  <data name="Ui.Session.CopyProfileLink" xml:space="preserve">
+    <value>复制个人资料链接</value>
+  </data>
+  <data name="Ui.Session.YourProfile" xml:space="preserve">
+    <value>您的个人资料</value>
+  </data>
+  <data name="Ui.Session.SignedOut" xml:space="preserve">
+    <value>已退出登录</value>
+  </data>
+  <data name="Ui.Session.GameAndServer" xml:space="preserve">
+    <value>游戏和服务器</value>
+  </data>
+  <data name="Ui.Session.Session" xml:space="preserve">
+    <value>会话 </value>
+  </data>
+  <data name="Ui.Session.Server" xml:space="preserve">
+    <value>  ·  服务器 </value>
+  </data>
+  <data name="Ui.Session.ChatWithFriends" xml:space="preserve">
+    <value>与好友聊天</value>
+  </data>
+  <data name="Ui.Session.Servers" xml:space="preserve">
+    <value>服务器</value>
+  </data>
+  <data name="Ui.Session.Games" xml:space="preserve">
+    <value>游戏</value>
+  </data>
+  <data name="Ui.Session.Music" xml:space="preserve">
+    <value>音乐</value>
+  </data>
+  <data name="Ui.Session.CopyInviteLink" xml:space="preserve">
+    <value>复制邀请链接</value>
+  </data>
+  <data name="Ui.Session.Public" xml:space="preserve">
+    <value>公开</value>
+  </data>
+  <data name="Ui.Session.Private" xml:space="preserve">
+    <value>私人</value>
+  </data>
+  <data name="Ui.Session.Recent" xml:space="preserve">
+    <value>最近</value>
+  </data>
+  <data name="Ui.Session.CopyTheInstanceID" xml:space="preserve">
+    <value>复制实例 ID</value>
+  </data>
+  <data name="Ui.Session.Uptime" xml:space="preserve">
+    <value>运行时间</value>
+  </data>
+  <data name="Ui.Session.JoinTheServerWithTheLowest" xml:space="preserve">
+    <value>加入延迟最低的服务器</value>
+  </data>
+  <data name="Ui.Session.ClosestServer" xml:space="preserve">
+    <value>最近的服务器</value>
+  </data>
+  <data name="Ui.Session.JoinADifferentRandomServer" xml:space="preserve">
+    <value>加入另一个随机服务器</value>
+  </data>
+  <data name="Ui.Session.ServerHop" xml:space="preserve">
+    <value>切换服务器</value>
+  </data>
+  <data name="Ui.Session.SortBy" xml:space="preserve">
+    <value>排序方式</value>
+  </data>
+  <data name="Ui.Session.Region" xml:space="preserve">
+    <value>地区</value>
+  </data>
+  <data name="Ui.Session.Place" xml:space="preserve">
+    <value>地点</value>
+  </data>
+  <data name="Ui.Session.RobloxAccountSwitcher" xml:space="preserve">
+    <value>Roblox 账户切换器</value>
+  </data>
+  <data name="Ui.Session.SignedInAs" xml:space="preserve">
+    <value>登录身份</value>
+  </data>
+  <data name="Ui.Session.AddThisAccount" xml:space="preserve">
+    <value>添加此账户</value>
+  </data>
+  <data name="Ui.Session.SignOut" xml:space="preserve">
+    <value>退出登录</value>
+  </data>
+  <data name="Ui.Session.SearchSavedAccountsByNameNote" xml:space="preserve">
+    <value>按名称、备注或用户 ID 搜索已保存的账户</value>
+  </data>
+  <data name="Ui.Session.ImportByCookie" xml:space="preserve">
+    <value>通过 Cookie 导入</value>
+  </data>
+  <data name="Ui.Session.ImportAnAccountFromItsROBLOSECURITY" xml:space="preserve">
+    <value>通过 .ROBLOSECURITY Cookie 导入账户</value>
+  </data>
+  <data name="Ui.Session.PasteAFullROBLOSECURITYValueOnly" xml:space="preserve">
+    <value>粘贴完整的 .ROBLOSECURITY 值。只粘贴属于您自己的 Cookie。</value>
+  </data>
+  <data name="Ui.Session.WARNINGDONOTSHARETHIS" xml:space="preserve">
+    <value>_|WARNING: DO NOT SHARE THIS...</value>
+  </data>
+  <data name="Ui.Session.CURRENT" xml:space="preserve">
+    <value>当前</value>
+  </data>
+  <data name="Ui.Session.AddANote" xml:space="preserve">
+    <value>添加备注</value>
+  </data>
+  <data name="Ui.Session.Switch" xml:space="preserve">
+    <value>切换</value>
+  </data>
+  <data name="Ui.Session.CopyUserID" xml:space="preserve">
+    <value>复制用户 ID</value>
+  </data>
+  <data name="Ui.Session.RemoveSavedAccount" xml:space="preserve">
+    <value>移除已保存的账户</value>
+  </data>
 </root>

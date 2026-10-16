@@ -5253,4 +5253,205 @@ Roblox는 Voidstrap으로 처음 실행할 때 다운로드됩니다. 실행하�
   <data name="Ui.Home.SeeWhatSPossibleOnRoblox" xml:space="preserve">
     <value>준비된 경험으로 인기 장르에서 Roblox로 무엇을 할 수 있는지 확인하거나 처음부터 시작하십시오.</value>
   </data>
+  <data name="Ui.Session.Browser" xml:space="preserve">
+    <value>브라우저</value>
+  </data>
+  <data name="Ui.Session.MuteOrUnmuteThisTab" xml:space="preserve">
+    <value>이 탭 음소거 또는 음소거 해제</value>
+  </data>
+  <data name="Ui.Session.CloseTabCtrlW" xml:space="preserve">
+    <value>탭 닫기 (Ctrl+W)</value>
+  </data>
+  <data name="Ui.Session.NewTabCtrlT" xml:space="preserve">
+    <value>새 탭 (Ctrl+T)</value>
+  </data>
+  <data name="Ui.Session.NewTab" xml:space="preserve">
+    <value>새 탭</value>
+  </data>
+  <data name="Ui.Session.BackAltLeft" xml:space="preserve">
+    <value>뒤로 (Alt+Left)</value>
+  </data>
+  <data name="Ui.Session.ForwardAltRight" xml:space="preserve">
+    <value>앞으로 (Alt+Right)</value>
+  </data>
+  <data name="Ui.Session.ReloadF5" xml:space="preserve">
+    <value>새로고침 (F5)</value>
+  </data>
+  <data name="Ui.Session.SearchOrTypeAnAddress" xml:space="preserve">
+    <value>검색어 또는 주소 입력</value>
+  </data>
+  <data name="Ui.Session.ResetZoomCtrl0" xml:space="preserve">
+    <value>확대/축소 초기화 (Ctrl+0)</value>
+  </data>
+  <data name="Ui.Session.CopyLinkCtrlShiftC" xml:space="preserve">
+    <value>링크 복사 (Ctrl+Shift+C)</value>
+  </data>
+  <data name="Ui.Session.SearchTabsCtrlShiftA" xml:space="preserve">
+    <value>탭 검색 (Ctrl+Shift+A)</value>
+  </data>
+  <data name="Ui.Session.SplitViewCtrlShiftS" xml:space="preserve">
+    <value>분할 보기 (Ctrl+Shift+S)</value>
+  </data>
+  <data name="Ui.Session.BrowserMenu" xml:space="preserve">
+    <value>브라우저 메뉴</value>
+  </data>
+  <data name="Ui.Session.FindOnPage" xml:space="preserve">
+    <value>페이지에서 찾기</value>
+  </data>
+  <data name="Ui.Session.PreviousShiftEnter" xml:space="preserve">
+    <value>이전 (Shift+Enter)</value>
+  </data>
+  <data name="Ui.Session.NextEnter" xml:space="preserve">
+    <value>다음 (Enter)</value>
+  </data>
+  <data name="Ui.Session.CloseEsc" xml:space="preserve">
+    <value>닫기 (Esc)</value>
+  </data>
+  <data name="Ui.Session.TipStartWithYtWRbx" xml:space="preserve">
+    <value>팁: !yt, !w, !rbx 또는 !dev로 시작하면 해당 사이트에서 바로 검색합니다</value>
+  </data>
+  <data name="Ui.Session.StartingTheBrowser" xml:space="preserve">
+    <value>브라우저 시작 중</value>
+  </data>
+  <data name="Ui.Session.TryAgain" xml:space="preserve">
+    <value>다시 시도</value>
+  </data>
+  <data name="Ui.Session.SearchTabs" xml:space="preserve">
+    <value>탭 검색</value>
+  </data>
+  <data name="Ui.Session.VoidstrapSession" xml:space="preserve">
+    <value>Voidstrap 세션</value>
+  </data>
+  <data name="Ui.Session.FriendsInThisServer" xml:space="preserve">
+    <value>이 서버의 친구</value>
+  </data>
+  <data name="Ui.Session.LookingForFriends" xml:space="preserve">
+    <value>친구 찾는 중</value>
+  </data>
+  <data name="Ui.Session.CopyInvite" xml:space="preserve">
+    <value>초대 복사</value>
+  </data>
+  <data name="Ui.Session.Verified" xml:space="preserve">
+    <value>인증됨</value>
+  </data>
+  <data name="Ui.Session.Account" xml:space="preserve">
+    <value>계정</value>
+  </data>
+  <data name="Ui.Session.Social" xml:space="preserve">
+    <value>소셜</value>
+  </data>
+  <data name="Ui.Session.OpenProfile" xml:space="preserve">
+    <value>프로필 열기</value>
+  </data>
+  <data name="Ui.Session.CopyProfileLink" xml:space="preserve">
+    <value>프로필 링크 복사</value>
+  </data>
+  <data name="Ui.Session.YourProfile" xml:space="preserve">
+    <value>내 프로필</value>
+  </data>
+  <data name="Ui.Session.SignedOut" xml:space="preserve">
+    <value>로그아웃됨</value>
+  </data>
+  <data name="Ui.Session.GameAndServer" xml:space="preserve">
+    <value>게임 및 서버</value>
+  </data>
+  <data name="Ui.Session.Session" xml:space="preserve">
+    <value>세션 </value>
+  </data>
+  <data name="Ui.Session.Server" xml:space="preserve">
+    <value>  ·  서버 </value>
+  </data>
+  <data name="Ui.Session.ChatWithFriends" xml:space="preserve">
+    <value>친구와 채팅</value>
+  </data>
+  <data name="Ui.Session.Servers" xml:space="preserve">
+    <value>서버</value>
+  </data>
+  <data name="Ui.Session.Games" xml:space="preserve">
+    <value>게임</value>
+  </data>
+  <data name="Ui.Session.Music" xml:space="preserve">
+    <value>음악</value>
+  </data>
+  <data name="Ui.Session.CopyInviteLink" xml:space="preserve">
+    <value>초대 링크 복사</value>
+  </data>
+  <data name="Ui.Session.Public" xml:space="preserve">
+    <value>공개</value>
+  </data>
+  <data name="Ui.Session.Private" xml:space="preserve">
+    <value>비공개</value>
+  </data>
+  <data name="Ui.Session.Recent" xml:space="preserve">
+    <value>최근</value>
+  </data>
+  <data name="Ui.Session.CopyTheInstanceID" xml:space="preserve">
+    <value>인스턴스 ID 복사</value>
+  </data>
+  <data name="Ui.Session.Uptime" xml:space="preserve">
+    <value>가동 시간</value>
+  </data>
+  <data name="Ui.Session.JoinTheServerWithTheLowest" xml:space="preserve">
+    <value>핑이 가장 낮은 서버에 참여</value>
+  </data>
+  <data name="Ui.Session.ClosestServer" xml:space="preserve">
+    <value>가장 가까운 서버</value>
+  </data>
+  <data name="Ui.Session.JoinADifferentRandomServer" xml:space="preserve">
+    <value>다른 무작위 서버에 참여</value>
+  </data>
+  <data name="Ui.Session.ServerHop" xml:space="preserve">
+    <value>서버 이동</value>
+  </data>
+  <data name="Ui.Session.SortBy" xml:space="preserve">
+    <value>정렬 기준</value>
+  </data>
+  <data name="Ui.Session.Region" xml:space="preserve">
+    <value>지역</value>
+  </data>
+  <data name="Ui.Session.Place" xml:space="preserve">
+    <value>장소</value>
+  </data>
+  <data name="Ui.Session.RobloxAccountSwitcher" xml:space="preserve">
+    <value>Roblox 계정 전환기</value>
+  </data>
+  <data name="Ui.Session.SignedInAs" xml:space="preserve">
+    <value>로그인 계정</value>
+  </data>
+  <data name="Ui.Session.AddThisAccount" xml:space="preserve">
+    <value>이 계정 추가</value>
+  </data>
+  <data name="Ui.Session.SignOut" xml:space="preserve">
+    <value>로그아웃</value>
+  </data>
+  <data name="Ui.Session.SearchSavedAccountsByNameNote" xml:space="preserve">
+    <value>이름, 메모 또는 사용자 ID로 저장된 계정 검색</value>
+  </data>
+  <data name="Ui.Session.ImportByCookie" xml:space="preserve">
+    <value>쿠키로 가져오기</value>
+  </data>
+  <data name="Ui.Session.ImportAnAccountFromItsROBLOSECURITY" xml:space="preserve">
+    <value>.ROBLOSECURITY 쿠키로 계정 가져오기</value>
+  </data>
+  <data name="Ui.Session.PasteAFullROBLOSECURITYValueOnly" xml:space="preserve">
+    <value>전체 .ROBLOSECURITY 값을 붙여 넣으십시오. 본인 소유의 쿠키만 붙여 넣으십시오.</value>
+  </data>
+  <data name="Ui.Session.WARNINGDONOTSHARETHIS" xml:space="preserve">
+    <value>_|WARNING: DO NOT SHARE THIS...</value>
+  </data>
+  <data name="Ui.Session.CURRENT" xml:space="preserve">
+    <value>현재</value>
+  </data>
+  <data name="Ui.Session.AddANote" xml:space="preserve">
+    <value>메모 추가</value>
+  </data>
+  <data name="Ui.Session.Switch" xml:space="preserve">
+    <value>전환</value>
+  </data>
+  <data name="Ui.Session.CopyUserID" xml:space="preserve">
+    <value>사용자 ID 복사</value>
+  </data>
+  <data name="Ui.Session.RemoveSavedAccount" xml:space="preserve">
+    <value>저장된 계정 제거</value>
+  </data>
 </root>

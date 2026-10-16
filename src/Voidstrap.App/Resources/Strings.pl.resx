@@ -5237,4 +5237,205 @@ Co chcesz zrobić?</value>
   <data name="Ui.Home.SeeWhatSPossibleOnRoblox" xml:space="preserve">
     <value>Zobacz, co jest możliwe w Roblox w popularnych gatunkach dzięki gotowym doświadczeniom, albo zacznij od zera.</value>
   </data>
+  <data name="Ui.Session.Browser" xml:space="preserve">
+    <value>Przeglądarka</value>
+  </data>
+  <data name="Ui.Session.MuteOrUnmuteThisTab" xml:space="preserve">
+    <value>Wycisz lub włącz dźwięk tej karty</value>
+  </data>
+  <data name="Ui.Session.CloseTabCtrlW" xml:space="preserve">
+    <value>Zamknij kartę (Ctrl+W)</value>
+  </data>
+  <data name="Ui.Session.NewTabCtrlT" xml:space="preserve">
+    <value>Nowa karta (Ctrl+T)</value>
+  </data>
+  <data name="Ui.Session.NewTab" xml:space="preserve">
+    <value>Nowa karta</value>
+  </data>
+  <data name="Ui.Session.BackAltLeft" xml:space="preserve">
+    <value>Wstecz (Alt+Left)</value>
+  </data>
+  <data name="Ui.Session.ForwardAltRight" xml:space="preserve">
+    <value>Dalej (Alt+Right)</value>
+  </data>
+  <data name="Ui.Session.ReloadF5" xml:space="preserve">
+    <value>Odśwież (F5)</value>
+  </data>
+  <data name="Ui.Session.SearchOrTypeAnAddress" xml:space="preserve">
+    <value>Wyszukaj lub wpisz adres</value>
+  </data>
+  <data name="Ui.Session.ResetZoomCtrl0" xml:space="preserve">
+    <value>Resetuj powiększenie (Ctrl+0)</value>
+  </data>
+  <data name="Ui.Session.CopyLinkCtrlShiftC" xml:space="preserve">
+    <value>Kopiuj link (Ctrl+Shift+C)</value>
+  </data>
+  <data name="Ui.Session.SearchTabsCtrlShiftA" xml:space="preserve">
+    <value>Szukaj kart (Ctrl+Shift+A)</value>
+  </data>
+  <data name="Ui.Session.SplitViewCtrlShiftS" xml:space="preserve">
+    <value>Widok podzielony (Ctrl+Shift+S)</value>
+  </data>
+  <data name="Ui.Session.BrowserMenu" xml:space="preserve">
+    <value>Menu przeglądarki</value>
+  </data>
+  <data name="Ui.Session.FindOnPage" xml:space="preserve">
+    <value>Znajdź na stronie</value>
+  </data>
+  <data name="Ui.Session.PreviousShiftEnter" xml:space="preserve">
+    <value>Poprzedni (Shift+Enter)</value>
+  </data>
+  <data name="Ui.Session.NextEnter" xml:space="preserve">
+    <value>Następny (Enter)</value>
+  </data>
+  <data name="Ui.Session.CloseEsc" xml:space="preserve">
+    <value>Zamknij (Esc)</value>
+  </data>
+  <data name="Ui.Session.TipStartWithYtWRbx" xml:space="preserve">
+    <value>Wskazówka: zacznij od !yt, !w, !rbx lub !dev, aby od razu szukać na tej stronie</value>
+  </data>
+  <data name="Ui.Session.StartingTheBrowser" xml:space="preserve">
+    <value>Uruchamianie przeglądarki</value>
+  </data>
+  <data name="Ui.Session.TryAgain" xml:space="preserve">
+    <value>Spróbuj ponownie</value>
+  </data>
+  <data name="Ui.Session.SearchTabs" xml:space="preserve">
+    <value>Szukaj kart</value>
+  </data>
+  <data name="Ui.Session.VoidstrapSession" xml:space="preserve">
+    <value>Sesja Voidstrap</value>
+  </data>
+  <data name="Ui.Session.FriendsInThisServer" xml:space="preserve">
+    <value>Znajomi na tym serwerze</value>
+  </data>
+  <data name="Ui.Session.LookingForFriends" xml:space="preserve">
+    <value>Szukanie znajomych</value>
+  </data>
+  <data name="Ui.Session.CopyInvite" xml:space="preserve">
+    <value>Kopiuj zaproszenie</value>
+  </data>
+  <data name="Ui.Session.Verified" xml:space="preserve">
+    <value>Zweryfikowany</value>
+  </data>
+  <data name="Ui.Session.Account" xml:space="preserve">
+    <value>Konto</value>
+  </data>
+  <data name="Ui.Session.Social" xml:space="preserve">
+    <value>Społeczność</value>
+  </data>
+  <data name="Ui.Session.OpenProfile" xml:space="preserve">
+    <value>Otwórz profil</value>
+  </data>
+  <data name="Ui.Session.CopyProfileLink" xml:space="preserve">
+    <value>Kopiuj link do profilu</value>
+  </data>
+  <data name="Ui.Session.YourProfile" xml:space="preserve">
+    <value>Twój profil</value>
+  </data>
+  <data name="Ui.Session.SignedOut" xml:space="preserve">
+    <value>Wylogowano</value>
+  </data>
+  <data name="Ui.Session.GameAndServer" xml:space="preserve">
+    <value>Gra i serwer</value>
+  </data>
+  <data name="Ui.Session.Session" xml:space="preserve">
+    <value>Sesja </value>
+  </data>
+  <data name="Ui.Session.Server" xml:space="preserve">
+    <value>  ·  Serwer </value>
+  </data>
+  <data name="Ui.Session.ChatWithFriends" xml:space="preserve">
+    <value>Czatuj ze znajomymi</value>
+  </data>
+  <data name="Ui.Session.Servers" xml:space="preserve">
+    <value>Serwery</value>
+  </data>
+  <data name="Ui.Session.Games" xml:space="preserve">
+    <value>Gry</value>
+  </data>
+  <data name="Ui.Session.Music" xml:space="preserve">
+    <value>Muzyka</value>
+  </data>
+  <data name="Ui.Session.CopyInviteLink" xml:space="preserve">
+    <value>Kopiuj link zaproszenia</value>
+  </data>
+  <data name="Ui.Session.Public" xml:space="preserve">
+    <value>Publiczny</value>
+  </data>
+  <data name="Ui.Session.Private" xml:space="preserve">
+    <value>Prywatny</value>
+  </data>
+  <data name="Ui.Session.Recent" xml:space="preserve">
+    <value>Ostatnie</value>
+  </data>
+  <data name="Ui.Session.CopyTheInstanceID" xml:space="preserve">
+    <value>Kopiuj ID instancji</value>
+  </data>
+  <data name="Ui.Session.Uptime" xml:space="preserve">
+    <value>Czas działania</value>
+  </data>
+  <data name="Ui.Session.JoinTheServerWithTheLowest" xml:space="preserve">
+    <value>Dołącz do serwera z najniższym pingiem</value>
+  </data>
+  <data name="Ui.Session.ClosestServer" xml:space="preserve">
+    <value>Najbliższy serwer</value>
+  </data>
+  <data name="Ui.Session.JoinADifferentRandomServer" xml:space="preserve">
+    <value>Dołącz do innego losowego serwera</value>
+  </data>
+  <data name="Ui.Session.ServerHop" xml:space="preserve">
+    <value>Zmień serwer</value>
+  </data>
+  <data name="Ui.Session.SortBy" xml:space="preserve">
+    <value>Sortuj według</value>
+  </data>
+  <data name="Ui.Session.Region" xml:space="preserve">
+    <value>Region</value>
+  </data>
+  <data name="Ui.Session.Place" xml:space="preserve">
+    <value>Miejsce</value>
+  </data>
+  <data name="Ui.Session.RobloxAccountSwitcher" xml:space="preserve">
+    <value>Przełącznik kont Roblox</value>
+  </data>
+  <data name="Ui.Session.SignedInAs" xml:space="preserve">
+    <value>Zalogowano jako</value>
+  </data>
+  <data name="Ui.Session.AddThisAccount" xml:space="preserve">
+    <value>Dodaj to konto</value>
+  </data>
+  <data name="Ui.Session.SignOut" xml:space="preserve">
+    <value>Wyloguj</value>
+  </data>
+  <data name="Ui.Session.SearchSavedAccountsByNameNote" xml:space="preserve">
+    <value>Szukaj zapisanych kont po nazwie, notatce lub ID użytkownika</value>
+  </data>
+  <data name="Ui.Session.ImportByCookie" xml:space="preserve">
+    <value>Importuj przez cookie</value>
+  </data>
+  <data name="Ui.Session.ImportAnAccountFromItsROBLOSECURITY" xml:space="preserve">
+    <value>Zaimportuj konto z jego cookie .ROBLOSECURITY</value>
+  </data>
+  <data name="Ui.Session.PasteAFullROBLOSECURITYValueOnly" xml:space="preserve">
+    <value>Wklej pełną wartość .ROBLOSECURITY. Wklejaj tylko własne cookie.</value>
+  </data>
+  <data name="Ui.Session.WARNINGDONOTSHARETHIS" xml:space="preserve">
+    <value>_|WARNING: DO NOT SHARE THIS...</value>
+  </data>
+  <data name="Ui.Session.CURRENT" xml:space="preserve">
+    <value>BIEŻĄCE</value>
+  </data>
+  <data name="Ui.Session.AddANote" xml:space="preserve">
+    <value>Dodaj notatkę</value>
+  </data>
+  <data name="Ui.Session.Switch" xml:space="preserve">
+    <value>Przełącz</value>
+  </data>
+  <data name="Ui.Session.CopyUserID" xml:space="preserve">
+    <value>Kopiuj ID użytkownika</value>
+  </data>
+  <data name="Ui.Session.RemoveSavedAccount" xml:space="preserve">
+    <value>Usuń zapisane konto</value>
+  </data>
 </root>

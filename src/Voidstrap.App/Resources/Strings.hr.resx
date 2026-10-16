@@ -5242,4 +5242,205 @@ Roblox će se preuzeti kada ga prvi put pokreneš putem Voidstrapa. Postavke mo�
   <data name="Ui.Home.SeeWhatSPossibleOnRoblox" xml:space="preserve">
     <value>Pogledaj što je moguće na Robloxu u popularnim žanrovima s gotovim iskustvima ili kreni od nule.</value>
   </data>
+  <data name="Ui.Session.Browser" xml:space="preserve">
+    <value>Preglednik</value>
+  </data>
+  <data name="Ui.Session.MuteOrUnmuteThisTab" xml:space="preserve">
+    <value>Isključi ili uključi zvuk ove kartice</value>
+  </data>
+  <data name="Ui.Session.CloseTabCtrlW" xml:space="preserve">
+    <value>Zatvori karticu (Ctrl+W)</value>
+  </data>
+  <data name="Ui.Session.NewTabCtrlT" xml:space="preserve">
+    <value>Nova kartica (Ctrl+T)</value>
+  </data>
+  <data name="Ui.Session.NewTab" xml:space="preserve">
+    <value>Nova kartica</value>
+  </data>
+  <data name="Ui.Session.BackAltLeft" xml:space="preserve">
+    <value>Natrag (Alt+Left)</value>
+  </data>
+  <data name="Ui.Session.ForwardAltRight" xml:space="preserve">
+    <value>Naprijed (Alt+Right)</value>
+  </data>
+  <data name="Ui.Session.ReloadF5" xml:space="preserve">
+    <value>Ponovno učitaj (F5)</value>
+  </data>
+  <data name="Ui.Session.SearchOrTypeAnAddress" xml:space="preserve">
+    <value>Pretraži ili upiši adresu</value>
+  </data>
+  <data name="Ui.Session.ResetZoomCtrl0" xml:space="preserve">
+    <value>Vrati zumiranje (Ctrl+0)</value>
+  </data>
+  <data name="Ui.Session.CopyLinkCtrlShiftC" xml:space="preserve">
+    <value>Kopiraj poveznicu (Ctrl+Shift+C)</value>
+  </data>
+  <data name="Ui.Session.SearchTabsCtrlShiftA" xml:space="preserve">
+    <value>Pretraži kartice (Ctrl+Shift+A)</value>
+  </data>
+  <data name="Ui.Session.SplitViewCtrlShiftS" xml:space="preserve">
+    <value>Podijeljeni prikaz (Ctrl+Shift+S)</value>
+  </data>
+  <data name="Ui.Session.BrowserMenu" xml:space="preserve">
+    <value>Izbornik preglednika</value>
+  </data>
+  <data name="Ui.Session.FindOnPage" xml:space="preserve">
+    <value>Pronađi na stranici</value>
+  </data>
+  <data name="Ui.Session.PreviousShiftEnter" xml:space="preserve">
+    <value>Prethodno (Shift+Enter)</value>
+  </data>
+  <data name="Ui.Session.NextEnter" xml:space="preserve">
+    <value>Sljedeće (Enter)</value>
+  </data>
+  <data name="Ui.Session.CloseEsc" xml:space="preserve">
+    <value>Zatvori (Esc)</value>
+  </data>
+  <data name="Ui.Session.TipStartWithYtWRbx" xml:space="preserve">
+    <value>Savjet: započni s !yt, !w, !rbx ili !dev za izravnu pretragu na toj stranici</value>
+  </data>
+  <data name="Ui.Session.StartingTheBrowser" xml:space="preserve">
+    <value>Pokretanje preglednika</value>
+  </data>
+  <data name="Ui.Session.TryAgain" xml:space="preserve">
+    <value>Pokušaj ponovno</value>
+  </data>
+  <data name="Ui.Session.SearchTabs" xml:space="preserve">
+    <value>Pretraži kartice</value>
+  </data>
+  <data name="Ui.Session.VoidstrapSession" xml:space="preserve">
+    <value>Voidstrap sesija</value>
+  </data>
+  <data name="Ui.Session.FriendsInThisServer" xml:space="preserve">
+    <value>Prijatelji na ovom poslužitelju</value>
+  </data>
+  <data name="Ui.Session.LookingForFriends" xml:space="preserve">
+    <value>Traženje prijatelja</value>
+  </data>
+  <data name="Ui.Session.CopyInvite" xml:space="preserve">
+    <value>Kopiraj pozivnicu</value>
+  </data>
+  <data name="Ui.Session.Verified" xml:space="preserve">
+    <value>Potvrđen</value>
+  </data>
+  <data name="Ui.Session.Account" xml:space="preserve">
+    <value>Račun</value>
+  </data>
+  <data name="Ui.Session.Social" xml:space="preserve">
+    <value>Društveno</value>
+  </data>
+  <data name="Ui.Session.OpenProfile" xml:space="preserve">
+    <value>Otvori profil</value>
+  </data>
+  <data name="Ui.Session.CopyProfileLink" xml:space="preserve">
+    <value>Kopiraj poveznicu profila</value>
+  </data>
+  <data name="Ui.Session.YourProfile" xml:space="preserve">
+    <value>Tvoj profil</value>
+  </data>
+  <data name="Ui.Session.SignedOut" xml:space="preserve">
+    <value>Odjavljen</value>
+  </data>
+  <data name="Ui.Session.GameAndServer" xml:space="preserve">
+    <value>Igra i poslužitelj</value>
+  </data>
+  <data name="Ui.Session.Session" xml:space="preserve">
+    <value>Sesija </value>
+  </data>
+  <data name="Ui.Session.Server" xml:space="preserve">
+    <value>  ·  Poslužitelj </value>
+  </data>
+  <data name="Ui.Session.ChatWithFriends" xml:space="preserve">
+    <value>Razgovaraj s prijateljima</value>
+  </data>
+  <data name="Ui.Session.Servers" xml:space="preserve">
+    <value>Poslužitelji</value>
+  </data>
+  <data name="Ui.Session.Games" xml:space="preserve">
+    <value>Igre</value>
+  </data>
+  <data name="Ui.Session.Music" xml:space="preserve">
+    <value>Glazba</value>
+  </data>
+  <data name="Ui.Session.CopyInviteLink" xml:space="preserve">
+    <value>Kopiraj poveznicu pozivnice</value>
+  </data>
+  <data name="Ui.Session.Public" xml:space="preserve">
+    <value>Javni</value>
+  </data>
+  <data name="Ui.Session.Private" xml:space="preserve">
+    <value>Privatni</value>
+  </data>
+  <data name="Ui.Session.Recent" xml:space="preserve">
+    <value>Nedavno</value>
+  </data>
+  <data name="Ui.Session.CopyTheInstanceID" xml:space="preserve">
+    <value>Kopiraj ID instance</value>
+  </data>
+  <data name="Ui.Session.Uptime" xml:space="preserve">
+    <value>Vrijeme rada</value>
+  </data>
+  <data name="Ui.Session.JoinTheServerWithTheLowest" xml:space="preserve">
+    <value>Pridruži se poslužitelju s najnižim pingom</value>
+  </data>
+  <data name="Ui.Session.ClosestServer" xml:space="preserve">
+    <value>Najbliži poslužitelj</value>
+  </data>
+  <data name="Ui.Session.JoinADifferentRandomServer" xml:space="preserve">
+    <value>Pridruži se drugom nasumičnom poslužitelju</value>
+  </data>
+  <data name="Ui.Session.ServerHop" xml:space="preserve">
+    <value>Promijeni poslužitelj</value>
+  </data>
+  <data name="Ui.Session.SortBy" xml:space="preserve">
+    <value>Poredaj po</value>
+  </data>
+  <data name="Ui.Session.Region" xml:space="preserve">
+    <value>Regija</value>
+  </data>
+  <data name="Ui.Session.Place" xml:space="preserve">
+    <value>Mjesto</value>
+  </data>
+  <data name="Ui.Session.RobloxAccountSwitcher" xml:space="preserve">
+    <value>Roblox promjena računa</value>
+  </data>
+  <data name="Ui.Session.SignedInAs" xml:space="preserve">
+    <value>Prijavljen kao</value>
+  </data>
+  <data name="Ui.Session.AddThisAccount" xml:space="preserve">
+    <value>Dodaj ovaj račun</value>
+  </data>
+  <data name="Ui.Session.SignOut" xml:space="preserve">
+    <value>Odjava</value>
+  </data>
+  <data name="Ui.Session.SearchSavedAccountsByNameNote" xml:space="preserve">
+    <value>Pretraži spremljene račune po imenu, bilješci ili korisničkom ID u</value>
+  </data>
+  <data name="Ui.Session.ImportByCookie" xml:space="preserve">
+    <value>Uvezi kolačićem</value>
+  </data>
+  <data name="Ui.Session.ImportAnAccountFromItsROBLOSECURITY" xml:space="preserve">
+    <value>Uvezi račun pomoću njegova .ROBLOSECURITY kolačića</value>
+  </data>
+  <data name="Ui.Session.PasteAFullROBLOSECURITYValueOnly" xml:space="preserve">
+    <value>Zalijepi cijelu .ROBLOSECURITY vrijednost. Lijepi samo vlastite kolačiće.</value>
+  </data>
+  <data name="Ui.Session.WARNINGDONOTSHARETHIS" xml:space="preserve">
+    <value>_|WARNING: DO NOT SHARE THIS...</value>
+  </data>
+  <data name="Ui.Session.CURRENT" xml:space="preserve">
+    <value>TRENUTNI</value>
+  </data>
+  <data name="Ui.Session.AddANote" xml:space="preserve">
+    <value>Dodaj bilješku</value>
+  </data>
+  <data name="Ui.Session.Switch" xml:space="preserve">
+    <value>Promijeni</value>
+  </data>
+  <data name="Ui.Session.CopyUserID" xml:space="preserve">
+    <value>Kopiraj korisnički ID</value>
+  </data>
+  <data name="Ui.Session.RemoveSavedAccount" xml:space="preserve">
+    <value>Ukloni spremljeni račun</value>
+  </data>
 </root>

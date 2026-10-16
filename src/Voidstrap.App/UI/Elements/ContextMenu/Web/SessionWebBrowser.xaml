@@ -1,10 +1,10 @@
-<Window x:Class="Voidstrap.UI.Elements.Overlay.SessionWebBrowser"
+<Window xmlns:resources="clr-namespace:Voidstrap.Resources" x:Class="Voidstrap.UI.Elements.Overlay.SessionWebBrowser"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         xmlns:converters="clr-namespace:Voidstrap.UI.Converters"
         x:Name="BrowserWindow"
-        Title="Browser" Width="960" Height="640" MinWidth="520" MinHeight="360"
+        Title="{resources:Loc Ui_Session_Browser}" Width="960" Height="640" MinWidth="520" MinHeight="360"
         WindowStyle="None" AllowsTransparency="False" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"
         ResizeMode="NoResize" ShowInTaskbar="False" ShowActivated="False" Topmost="True"
         WindowStartupLocation="Manual" FontFamily="Segoe UI">
@@ -127,10 +127,10 @@
           <TextBlock x:Name="TitleText" Grid.Column="1" Text="{Binding Title}" FontSize="12.5" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"
                      Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
           <Button x:Name="AudioButton" Grid.Column="2" Width="22" Height="22" Style="{StaticResource NavButton}" Click="Mute_Click"
-                  Visibility="{Binding ShowsAudio, Converter={StaticResource Visible}}" ToolTip="Mute or unmute this tab">
+                  Visibility="{Binding ShowsAudio, Converter={StaticResource Visible}}" ToolTip="{resources:Loc Ui_Session_MuteOrUnmuteThisTab}">
             <TextBlock Text="{Binding AudioGlyph}" Style="{StaticResource Glyph}" FontSize="11" />
           </Button>
-          <Button x:Name="CloseButton" Grid.Column="3" Width="22" Height="22" Style="{StaticResource NavButton}" ToolTip="Close tab (Ctrl+W)"
+          <Button x:Name="CloseButton" Grid.Column="3" Width="22" Height="22" Style="{StaticResource NavButton}" ToolTip="{resources:Loc Ui_Session_CloseTabCtrlW}"
                   Click="CloseTab_Click" Visibility="Hidden">
             <TextBlock Text="&#xE711;" Style="{StaticResource Glyph}" FontSize="9" />
           </Button>
@@ -189,10 +189,10 @@
           <TextBlock x:Name="TitleText" Grid.Column="1" Text="{Binding Title}" FontSize="12.5" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"
                      Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
           <Button Grid.Column="2" Width="24" Height="24" Style="{StaticResource NavButton}" Click="Mute_Click"
-                  Visibility="{Binding ShowsAudio, Converter={StaticResource Visible}}" ToolTip="Mute or unmute this tab">
+                  Visibility="{Binding ShowsAudio, Converter={StaticResource Visible}}" ToolTip="{resources:Loc Ui_Session_MuteOrUnmuteThisTab}">
             <TextBlock Text="{Binding AudioGlyph}" Style="{StaticResource Glyph}" FontSize="11" />
           </Button>
-          <Button x:Name="CloseButton" Grid.Column="3" Width="24" Height="24" Style="{StaticResource NavButton}" ToolTip="Close tab (Ctrl+W)"
+          <Button x:Name="CloseButton" Grid.Column="3" Width="24" Height="24" Style="{StaticResource NavButton}" ToolTip="{resources:Loc Ui_Session_CloseTabCtrlW}"
                   Click="CloseTab_Click" Visibility="Hidden">
             <TextBlock Text="&#xE711;" Style="{StaticResource Glyph}" FontSize="9" />
           </Button>
@@ -262,10 +262,10 @@
           <RowDefinition Height="Auto" />
           <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <Button Height="34" HorizontalAlignment="Stretch" Width="Auto" Style="{StaticResource NavButton}" Margin="0,0,0,6" Click="NewTab_Click" ToolTip="New tab (Ctrl+T)">
+        <Button Height="34" HorizontalAlignment="Stretch" Width="Auto" Style="{StaticResource NavButton}" Margin="0,0,0,6" Click="NewTab_Click" ToolTip="{resources:Loc Ui_Session_NewTabCtrlT}">
           <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" Margin="10,0,0,0">
             <TextBlock Text="&#xE710;" Style="{StaticResource Glyph}" FontSize="12" Margin="0,0,10,0" />
-            <TextBlock Text="New tab" FontSize="13" VerticalAlignment="Center" />
+            <TextBlock Text="{resources:Loc Ui_Session_NewTab}" FontSize="13" VerticalAlignment="Center" />
           </StackPanel>
         </Button>
         <ScrollViewer x:Name="TabListScroller" Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
@@ -306,7 +306,7 @@
             </ItemsControl>
           </ScrollViewer>
           <StackPanel x:Name="TabRowButtons" Grid.Column="1" Orientation="Horizontal" Margin="2,0,0,0">
-            <Button Style="{StaticResource NavButton}" ToolTip="New tab (Ctrl+T)" Click="NewTab_Click">
+            <Button Style="{StaticResource NavButton}" ToolTip="{resources:Loc Ui_Session_NewTabCtrlT}" Click="NewTab_Click">
               <TextBlock Text="&#xE710;" Style="{StaticResource Glyph}" FontSize="13" />
             </Button>
           </StackPanel>
@@ -321,13 +321,13 @@
             <ColumnDefinition Width="Auto" />
           </Grid.ColumnDefinitions>
           <StackPanel Orientation="Horizontal" Margin="0,0,4,0">
-            <Button x:Name="BackButton" Style="{StaticResource NavButton}" ToolTip="Back (Alt+Left)" Click="Back_Click" IsEnabled="False">
+            <Button x:Name="BackButton" Style="{StaticResource NavButton}" ToolTip="{resources:Loc Ui_Session_BackAltLeft}" Click="Back_Click" IsEnabled="False">
               <TextBlock Text="&#xE72B;" Style="{StaticResource Glyph}" />
             </Button>
-            <Button x:Name="ForwardButton" Style="{StaticResource NavButton}" ToolTip="Forward (Alt+Right)" Click="Forward_Click" IsEnabled="False">
+            <Button x:Name="ForwardButton" Style="{StaticResource NavButton}" ToolTip="{resources:Loc Ui_Session_ForwardAltRight}" Click="Forward_Click" IsEnabled="False">
               <TextBlock Text="&#xE72A;" Style="{StaticResource Glyph}" />
             </Button>
-            <Button x:Name="ReloadButton" Style="{StaticResource NavButton}" ToolTip="Reload (F5)" Click="Reload_Click">
+            <Button x:Name="ReloadButton" Style="{StaticResource NavButton}" ToolTip="{resources:Loc Ui_Session_ReloadF5}" Click="Reload_Click">
               <TextBlock x:Name="ReloadGlyph" Text="&#xE72C;" Style="{StaticResource Glyph}" />
             </Button>
           </StackPanel>
@@ -366,7 +366,7 @@
                 </StackPanel>
               </Border>
               <Grid Grid.Column="2">
-                <TextBlock x:Name="Placeholder" Text="Search or type an address" FontSize="13.5" VerticalAlignment="Center"
+                <TextBlock x:Name="Placeholder" Text="{resources:Loc Ui_Session_SearchOrTypeAnAddress}" FontSize="13.5" VerticalAlignment="Center"
                            IsHitTestVisible="False" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
                 <TextBox x:Name="AddressBox" FontSize="13.5" VerticalAlignment="Center" BorderThickness="0" Background="Transparent" Padding="0"
                          SelectionBrush="{DynamicResource SystemAccentColorPrimaryBrush}" SelectionOpacity="0.55"
@@ -376,12 +376,12 @@
               </Grid>
               <!-- Page zoom, only when it is not 100%; clicking puts it back -->
               <Button x:Name="ZoomPill" Grid.Column="3" Height="24" Width="Auto" Margin="4,0,0,0" Style="{StaticResource NavButton}" Visibility="Collapsed"
-                      ToolTip="Reset zoom (Ctrl+0)" Click="ZoomReset_Click">
+                      ToolTip="{resources:Loc Ui_Session_ResetZoomCtrl0}" Click="ZoomReset_Click">
                 <Border Padding="7,0" CornerRadius="6" Background="{DynamicResource SubtleFillColorSecondaryBrush}" Height="22">
                   <TextBlock x:Name="ZoomText" FontSize="11.5" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
                 </Border>
               </Button>
-              <Button x:Name="CopyLinkButton" Grid.Column="4" Width="26" Height="26" Style="{StaticResource NavButton}" ToolTip="Copy link (Ctrl+Shift+C)" Click="CopyLink_Click">
+              <Button x:Name="CopyLinkButton" Grid.Column="4" Width="26" Height="26" Style="{StaticResource NavButton}" ToolTip="{resources:Loc Ui_Session_CopyLinkCtrlShiftC}" Click="CopyLink_Click">
                 <TextBlock Text="&#xE8C8;" Style="{StaticResource Glyph}" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
               </Button>
             </Grid>
@@ -400,13 +400,13 @@
                 </Border>
               </Grid>
             </Button>
-            <Button x:Name="TabSearchButton" Style="{StaticResource NavButton}" ToolTip="Search tabs (Ctrl+Shift+A)" Click="TabSearch_Click">
+            <Button x:Name="TabSearchButton" Style="{StaticResource NavButton}" ToolTip="{resources:Loc Ui_Session_SearchTabsCtrlShiftA}" Click="TabSearch_Click">
               <TextBlock Text="&#xE70D;" Style="{StaticResource Glyph}" FontSize="12" />
             </Button>
-            <Button x:Name="SplitButton" Style="{StaticResource NavButton}" ToolTip="Split view (Ctrl+Shift+S)" Click="Split_Click">
+            <Button x:Name="SplitButton" Style="{StaticResource NavButton}" ToolTip="{resources:Loc Ui_Session_SplitViewCtrlShiftS}" Click="Split_Click">
               <TextBlock x:Name="SplitGlyph" Text="&#xE8A0;" Style="{StaticResource Glyph}" />
             </Button>
-            <Button x:Name="MenuButton" Style="{StaticResource NavButton}" ToolTip="Browser menu" Click="Menu_Click">
+            <Button x:Name="MenuButton" Style="{StaticResource NavButton}" ToolTip="{resources:Loc Ui_Session_BrowserMenu}" Click="Menu_Click">
               <TextBlock Text="&#xE712;" Style="{StaticResource Glyph}" />
             </Button>
           </StackPanel>
@@ -426,7 +426,7 @@
             </Grid.ColumnDefinitions>
             <TextBlock Text="&#xE721;" Style="{StaticResource Glyph}" FontSize="12.5" Margin="2,0,9,0" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
             <Grid Grid.Column="1">
-              <TextBlock x:Name="FindHint" Text="Find on page" FontSize="13.5" VerticalAlignment="Center" IsHitTestVisible="False"
+              <TextBlock x:Name="FindHint" Text="{resources:Loc Ui_Session_FindOnPage}" FontSize="13.5" VerticalAlignment="Center" IsHitTestVisible="False"
                          Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
               <TextBox x:Name="FindBox" FontSize="13.5" VerticalAlignment="Center" BorderThickness="0" Background="Transparent" Padding="0"
                        SelectionBrush="{DynamicResource SystemAccentColorPrimaryBrush}" SelectionOpacity="0.55"
@@ -435,13 +435,13 @@
             </Grid>
             <TextBlock x:Name="FindCount" Grid.Column="2" FontSize="12.5" Margin="8,0,6,0" VerticalAlignment="Center"
                        Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-            <Button Grid.Column="3" Width="26" Height="26" Style="{StaticResource NavButton}" ToolTip="Previous (Shift+Enter)" Click="FindPrevious_Click">
+            <Button Grid.Column="3" Width="26" Height="26" Style="{StaticResource NavButton}" ToolTip="{resources:Loc Ui_Session_PreviousShiftEnter}" Click="FindPrevious_Click">
               <TextBlock Text="&#xE70E;" Style="{StaticResource Glyph}" FontSize="11" />
             </Button>
-            <Button Grid.Column="4" Width="26" Height="26" Style="{StaticResource NavButton}" ToolTip="Next (Enter)" Click="FindNext_Click">
+            <Button Grid.Column="4" Width="26" Height="26" Style="{StaticResource NavButton}" ToolTip="{resources:Loc Ui_Session_NextEnter}" Click="FindNext_Click">
               <TextBlock Text="&#xE70D;" Style="{StaticResource Glyph}" FontSize="11" />
             </Button>
-            <Button Grid.Column="5" Width="26" Height="26" Style="{StaticResource NavButton}" ToolTip="Close (Esc)" Click="FindClose_Click">
+            <Button Grid.Column="5" Width="26" Height="26" Style="{StaticResource NavButton}" ToolTip="{resources:Loc Ui_Session_CloseEsc}" Click="FindClose_Click">
               <TextBlock Text="&#xE711;" Style="{StaticResource Glyph}" FontSize="10" />
             </Button>
           </Grid>
@@ -479,7 +479,7 @@
                     MouseLeftButtonUp="NewTabSearch_Click">
               <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                 <TextBlock Text="&#xE721;" Style="{StaticResource Glyph}" Margin="0,0,12,0" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-                <TextBlock x:Name="NewTabSearchText" Text="Search or type an address" FontSize="14.5" VerticalAlignment="Center"
+                <TextBlock x:Name="NewTabSearchText" Text="{resources:Loc Ui_Session_SearchOrTypeAnAddress}" FontSize="14.5" VerticalAlignment="Center"
                            Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
               </StackPanel>
             </Border>
@@ -517,16 +517,16 @@
               </ItemsControl.ItemTemplate>
             </ItemsControl>
             <TextBlock Margin="0,22,0,0" HorizontalAlignment="Center" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}"
-                       Text="Tip: start with !yt, !w, !rbx or !dev to search that site straight away" />
+                       Text="{resources:Loc Ui_Session_TipStartWithYtWRbx}" />
           </StackPanel>
         </ScrollViewer>
 
         <StackPanel x:Name="Message" Grid.ColumnSpan="3" HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="420">
-          <TextBlock x:Name="MessageTitle" Text="Starting the browser" FontSize="16" FontWeight="SemiBold" TextAlignment="Center"
+          <TextBlock x:Name="MessageTitle" Text="{resources:Loc Ui_Session_StartingTheBrowser}" FontSize="16" FontWeight="SemiBold" TextAlignment="Center"
                      Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
           <TextBlock x:Name="MessageText" Margin="0,6,0,0" FontSize="13" TextAlignment="Center" TextWrapping="Wrap"
                      Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-          <ui:Button x:Name="RetryButton" Margin="0,14,0,0" HorizontalAlignment="Center" Content="Try again" Appearance="Secondary"
+          <ui:Button x:Name="RetryButton" Margin="0,14,0,0" HorizontalAlignment="Center" Content="{resources:Loc Ui_Session_TryAgain}" Appearance="Secondary"
                      Visibility="Collapsed" Click="Retry_Click" />
         </StackPanel>
       </Grid>
@@ -549,7 +549,7 @@
         <StackPanel>
           <Border Height="32" CornerRadius="8" Padding="10,0" Margin="0,0,0,6" Background="{DynamicResource ControlFillColorDefaultBrush}">
             <Grid>
-              <TextBlock x:Name="TabSearchHint" Text="Search tabs" FontSize="13" VerticalAlignment="Center" IsHitTestVisible="False"
+              <TextBlock x:Name="TabSearchHint" Text="{resources:Loc Ui_Session_SearchTabs}" FontSize="13" VerticalAlignment="Center" IsHitTestVisible="False"
                          Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
               <TextBox x:Name="TabSearchBox" FontSize="13" VerticalAlignment="Center" BorderThickness="0" Background="Transparent" Padding="0"
                        SelectionBrush="{DynamicResource SystemAccentColorPrimaryBrush}" Foreground="{DynamicResource TextFillColorPrimaryBrush}"

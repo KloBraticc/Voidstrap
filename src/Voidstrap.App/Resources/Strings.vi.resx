@@ -5249,4 +5249,205 @@ Bạn muốn làm gì?</value>
   <data name="Ui.Home.SeeWhatSPossibleOnRoblox" xml:space="preserve">
     <value>Xem những gì có thể làm trên Roblox ở các thể loại phổ biến với trải nghiệm làm sẵn, hoặc bắt đầu từ đầu.</value>
   </data>
+  <data name="Ui.Session.Browser" xml:space="preserve">
+    <value>Trình duyệt</value>
+  </data>
+  <data name="Ui.Session.MuteOrUnmuteThisTab" xml:space="preserve">
+    <value>Tắt hoặc bật tiếng tab này</value>
+  </data>
+  <data name="Ui.Session.CloseTabCtrlW" xml:space="preserve">
+    <value>Đóng tab (Ctrl+W)</value>
+  </data>
+  <data name="Ui.Session.NewTabCtrlT" xml:space="preserve">
+    <value>Tab mới (Ctrl+T)</value>
+  </data>
+  <data name="Ui.Session.NewTab" xml:space="preserve">
+    <value>Tab mới</value>
+  </data>
+  <data name="Ui.Session.BackAltLeft" xml:space="preserve">
+    <value>Quay lại (Alt+Left)</value>
+  </data>
+  <data name="Ui.Session.ForwardAltRight" xml:space="preserve">
+    <value>Tiến tới (Alt+Right)</value>
+  </data>
+  <data name="Ui.Session.ReloadF5" xml:space="preserve">
+    <value>Tải lại (F5)</value>
+  </data>
+  <data name="Ui.Session.SearchOrTypeAnAddress" xml:space="preserve">
+    <value>Tìm kiếm hoặc nhập địa chỉ</value>
+  </data>
+  <data name="Ui.Session.ResetZoomCtrl0" xml:space="preserve">
+    <value>Đặt lại thu phóng (Ctrl+0)</value>
+  </data>
+  <data name="Ui.Session.CopyLinkCtrlShiftC" xml:space="preserve">
+    <value>Sao chép liên kết (Ctrl+Shift+C)</value>
+  </data>
+  <data name="Ui.Session.SearchTabsCtrlShiftA" xml:space="preserve">
+    <value>Tìm tab (Ctrl+Shift+A)</value>
+  </data>
+  <data name="Ui.Session.SplitViewCtrlShiftS" xml:space="preserve">
+    <value>Chia đôi màn hình (Ctrl+Shift+S)</value>
+  </data>
+  <data name="Ui.Session.BrowserMenu" xml:space="preserve">
+    <value>Menu trình duyệt</value>
+  </data>
+  <data name="Ui.Session.FindOnPage" xml:space="preserve">
+    <value>Tìm trong trang</value>
+  </data>
+  <data name="Ui.Session.PreviousShiftEnter" xml:space="preserve">
+    <value>Trước (Shift+Enter)</value>
+  </data>
+  <data name="Ui.Session.NextEnter" xml:space="preserve">
+    <value>Tiếp (Enter)</value>
+  </data>
+  <data name="Ui.Session.CloseEsc" xml:space="preserve">
+    <value>Đóng (Esc)</value>
+  </data>
+  <data name="Ui.Session.TipStartWithYtWRbx" xml:space="preserve">
+    <value>Mẹo: bắt đầu bằng !yt, !w, !rbx hoặc !dev để tìm ngay trên trang đó</value>
+  </data>
+  <data name="Ui.Session.StartingTheBrowser" xml:space="preserve">
+    <value>Đang khởi động trình duyệt</value>
+  </data>
+  <data name="Ui.Session.TryAgain" xml:space="preserve">
+    <value>Thử lại</value>
+  </data>
+  <data name="Ui.Session.SearchTabs" xml:space="preserve">
+    <value>Tìm tab</value>
+  </data>
+  <data name="Ui.Session.VoidstrapSession" xml:space="preserve">
+    <value>Phiên Voidstrap</value>
+  </data>
+  <data name="Ui.Session.FriendsInThisServer" xml:space="preserve">
+    <value>Bạn bè trong máy chủ này</value>
+  </data>
+  <data name="Ui.Session.LookingForFriends" xml:space="preserve">
+    <value>Đang tìm bạn bè</value>
+  </data>
+  <data name="Ui.Session.CopyInvite" xml:space="preserve">
+    <value>Sao chép lời mời</value>
+  </data>
+  <data name="Ui.Session.Verified" xml:space="preserve">
+    <value>Đã xác minh</value>
+  </data>
+  <data name="Ui.Session.Account" xml:space="preserve">
+    <value>Tài khoản</value>
+  </data>
+  <data name="Ui.Session.Social" xml:space="preserve">
+    <value>Xã hội</value>
+  </data>
+  <data name="Ui.Session.OpenProfile" xml:space="preserve">
+    <value>Mở hồ sơ</value>
+  </data>
+  <data name="Ui.Session.CopyProfileLink" xml:space="preserve">
+    <value>Sao chép liên kết hồ sơ</value>
+  </data>
+  <data name="Ui.Session.YourProfile" xml:space="preserve">
+    <value>Hồ sơ của bạn</value>
+  </data>
+  <data name="Ui.Session.SignedOut" xml:space="preserve">
+    <value>Đã đăng xuất</value>
+  </data>
+  <data name="Ui.Session.GameAndServer" xml:space="preserve">
+    <value>Trò chơi và máy chủ</value>
+  </data>
+  <data name="Ui.Session.Session" xml:space="preserve">
+    <value>Phiên </value>
+  </data>
+  <data name="Ui.Session.Server" xml:space="preserve">
+    <value>  ·  Máy chủ </value>
+  </data>
+  <data name="Ui.Session.ChatWithFriends" xml:space="preserve">
+    <value>Trò chuyện với bạn bè</value>
+  </data>
+  <data name="Ui.Session.Servers" xml:space="preserve">
+    <value>Máy chủ</value>
+  </data>
+  <data name="Ui.Session.Games" xml:space="preserve">
+    <value>Trò chơi</value>
+  </data>
+  <data name="Ui.Session.Music" xml:space="preserve">
+    <value>Nhạc</value>
+  </data>
+  <data name="Ui.Session.CopyInviteLink" xml:space="preserve">
+    <value>Sao chép liên kết mời</value>
+  </data>
+  <data name="Ui.Session.Public" xml:space="preserve">
+    <value>Công khai</value>
+  </data>
+  <data name="Ui.Session.Private" xml:space="preserve">
+    <value>Riêng tư</value>
+  </data>
+  <data name="Ui.Session.Recent" xml:space="preserve">
+    <value>Gần đây</value>
+  </data>
+  <data name="Ui.Session.CopyTheInstanceID" xml:space="preserve">
+    <value>Sao chép ID phiên bản</value>
+  </data>
+  <data name="Ui.Session.Uptime" xml:space="preserve">
+    <value>Thời gian hoạt động</value>
+  </data>
+  <data name="Ui.Session.JoinTheServerWithTheLowest" xml:space="preserve">
+    <value>Vào máy chủ có ping thấp nhất</value>
+  </data>
+  <data name="Ui.Session.ClosestServer" xml:space="preserve">
+    <value>Máy chủ gần nhất</value>
+  </data>
+  <data name="Ui.Session.JoinADifferentRandomServer" xml:space="preserve">
+    <value>Vào một máy chủ ngẫu nhiên khác</value>
+  </data>
+  <data name="Ui.Session.ServerHop" xml:space="preserve">
+    <value>Đổi máy chủ</value>
+  </data>
+  <data name="Ui.Session.SortBy" xml:space="preserve">
+    <value>Sắp xếp theo</value>
+  </data>
+  <data name="Ui.Session.Region" xml:space="preserve">
+    <value>Khu vực</value>
+  </data>
+  <data name="Ui.Session.Place" xml:space="preserve">
+    <value>Địa điểm</value>
+  </data>
+  <data name="Ui.Session.RobloxAccountSwitcher" xml:space="preserve">
+    <value>Trình chuyển tài khoản Roblox</value>
+  </data>
+  <data name="Ui.Session.SignedInAs" xml:space="preserve">
+    <value>Đã đăng nhập với</value>
+  </data>
+  <data name="Ui.Session.AddThisAccount" xml:space="preserve">
+    <value>Thêm tài khoản này</value>
+  </data>
+  <data name="Ui.Session.SignOut" xml:space="preserve">
+    <value>Đăng xuất</value>
+  </data>
+  <data name="Ui.Session.SearchSavedAccountsByNameNote" xml:space="preserve">
+    <value>Tìm tài khoản đã lưu theo tên, ghi chú hoặc ID người dùng</value>
+  </data>
+  <data name="Ui.Session.ImportByCookie" xml:space="preserve">
+    <value>Nhập bằng cookie</value>
+  </data>
+  <data name="Ui.Session.ImportAnAccountFromItsROBLOSECURITY" xml:space="preserve">
+    <value>Nhập tài khoản từ cookie .ROBLOSECURITY của nó</value>
+  </data>
+  <data name="Ui.Session.PasteAFullROBLOSECURITYValueOnly" xml:space="preserve">
+    <value>Dán toàn bộ giá trị .ROBLOSECURITY. Chỉ dán cookie của chính bạn.</value>
+  </data>
+  <data name="Ui.Session.WARNINGDONOTSHARETHIS" xml:space="preserve">
+    <value>_|WARNING: DO NOT SHARE THIS...</value>
+  </data>
+  <data name="Ui.Session.CURRENT" xml:space="preserve">
+    <value>HIỆN TẠI</value>
+  </data>
+  <data name="Ui.Session.AddANote" xml:space="preserve">
+    <value>Thêm ghi chú</value>
+  </data>
+  <data name="Ui.Session.Switch" xml:space="preserve">
+    <value>Chuyển</value>
+  </data>
+  <data name="Ui.Session.CopyUserID" xml:space="preserve">
+    <value>Sao chép ID người dùng</value>
+  </data>
+  <data name="Ui.Session.RemoveSavedAccount" xml:space="preserve">
+    <value>Xóa tài khoản đã lưu</value>
+  </data>
 </root>

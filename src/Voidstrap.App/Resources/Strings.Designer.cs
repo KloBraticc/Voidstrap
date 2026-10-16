@@ -1537,6 +1537,140 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Home_SeeWhatSPossibleOnRoblox => ResourceManager.GetString("Ui.Home.SeeWhatSPossibleOnRoblox", resourceCulture);
 
+        public static string Ui_Session_Browser => ResourceManager.GetString("Ui.Session.Browser", resourceCulture);
+
+        public static string Ui_Session_MuteOrUnmuteThisTab => ResourceManager.GetString("Ui.Session.MuteOrUnmuteThisTab", resourceCulture);
+
+        public static string Ui_Session_CloseTabCtrlW => ResourceManager.GetString("Ui.Session.CloseTabCtrlW", resourceCulture);
+
+        public static string Ui_Session_NewTabCtrlT => ResourceManager.GetString("Ui.Session.NewTabCtrlT", resourceCulture);
+
+        public static string Ui_Session_NewTab => ResourceManager.GetString("Ui.Session.NewTab", resourceCulture);
+
+        public static string Ui_Session_BackAltLeft => ResourceManager.GetString("Ui.Session.BackAltLeft", resourceCulture);
+
+        public static string Ui_Session_ForwardAltRight => ResourceManager.GetString("Ui.Session.ForwardAltRight", resourceCulture);
+
+        public static string Ui_Session_ReloadF5 => ResourceManager.GetString("Ui.Session.ReloadF5", resourceCulture);
+
+        public static string Ui_Session_SearchOrTypeAnAddress => ResourceManager.GetString("Ui.Session.SearchOrTypeAnAddress", resourceCulture);
+
+        public static string Ui_Session_ResetZoomCtrl0 => ResourceManager.GetString("Ui.Session.ResetZoomCtrl0", resourceCulture);
+
+        public static string Ui_Session_CopyLinkCtrlShiftC => ResourceManager.GetString("Ui.Session.CopyLinkCtrlShiftC", resourceCulture);
+
+        public static string Ui_Session_SearchTabsCtrlShiftA => ResourceManager.GetString("Ui.Session.SearchTabsCtrlShiftA", resourceCulture);
+
+        public static string Ui_Session_SplitViewCtrlShiftS => ResourceManager.GetString("Ui.Session.SplitViewCtrlShiftS", resourceCulture);
+
+        public static string Ui_Session_BrowserMenu => ResourceManager.GetString("Ui.Session.BrowserMenu", resourceCulture);
+
+        public static string Ui_Session_FindOnPage => ResourceManager.GetString("Ui.Session.FindOnPage", resourceCulture);
+
+        public static string Ui_Session_PreviousShiftEnter => ResourceManager.GetString("Ui.Session.PreviousShiftEnter", resourceCulture);
+
+        public static string Ui_Session_NextEnter => ResourceManager.GetString("Ui.Session.NextEnter", resourceCulture);
+
+        public static string Ui_Session_CloseEsc => ResourceManager.GetString("Ui.Session.CloseEsc", resourceCulture);
+
+        public static string Ui_Session_TipStartWithYtWRbx => ResourceManager.GetString("Ui.Session.TipStartWithYtWRbx", resourceCulture);
+
+        public static string Ui_Session_StartingTheBrowser => ResourceManager.GetString("Ui.Session.StartingTheBrowser", resourceCulture);
+
+        public static string Ui_Session_TryAgain => ResourceManager.GetString("Ui.Session.TryAgain", resourceCulture);
+
+        public static string Ui_Session_SearchTabs => ResourceManager.GetString("Ui.Session.SearchTabs", resourceCulture);
+
+        public static string Ui_Session_VoidstrapSession => ResourceManager.GetString("Ui.Session.VoidstrapSession", resourceCulture);
+
+        public static string Ui_Session_FriendsInThisServer => ResourceManager.GetString("Ui.Session.FriendsInThisServer", resourceCulture);
+
+        public static string Ui_Session_LookingForFriends => ResourceManager.GetString("Ui.Session.LookingForFriends", resourceCulture);
+
+        public static string Ui_Session_CopyInvite => ResourceManager.GetString("Ui.Session.CopyInvite", resourceCulture);
+
+        public static string Ui_Session_Verified => ResourceManager.GetString("Ui.Session.Verified", resourceCulture);
+
+        public static string Ui_Session_Account => ResourceManager.GetString("Ui.Session.Account", resourceCulture);
+
+        public static string Ui_Session_Social => ResourceManager.GetString("Ui.Session.Social", resourceCulture);
+
+        public static string Ui_Session_OpenProfile => ResourceManager.GetString("Ui.Session.OpenProfile", resourceCulture);
+
+        public static string Ui_Session_CopyProfileLink => ResourceManager.GetString("Ui.Session.CopyProfileLink", resourceCulture);
+
+        public static string Ui_Session_YourProfile => ResourceManager.GetString("Ui.Session.YourProfile", resourceCulture);
+
+        public static string Ui_Session_SignedOut => ResourceManager.GetString("Ui.Session.SignedOut", resourceCulture);
+
+        public static string Ui_Session_GameAndServer => ResourceManager.GetString("Ui.Session.GameAndServer", resourceCulture);
+
+        public static string Ui_Session_Session => ResourceManager.GetString("Ui.Session.Session", resourceCulture);
+
+        public static string Ui_Session_Server => ResourceManager.GetString("Ui.Session.Server", resourceCulture);
+
+        public static string Ui_Session_ChatWithFriends => ResourceManager.GetString("Ui.Session.ChatWithFriends", resourceCulture);
+
+        public static string Ui_Session_Servers => ResourceManager.GetString("Ui.Session.Servers", resourceCulture);
+
+        public static string Ui_Session_Games => ResourceManager.GetString("Ui.Session.Games", resourceCulture);
+
+        public static string Ui_Session_Music => ResourceManager.GetString("Ui.Session.Music", resourceCulture);
+
+        public static string Ui_Session_CopyInviteLink => ResourceManager.GetString("Ui.Session.CopyInviteLink", resourceCulture);
+
+        public static string Ui_Session_Public => ResourceManager.GetString("Ui.Session.Public", resourceCulture);
+
+        public static string Ui_Session_Private => ResourceManager.GetString("Ui.Session.Private", resourceCulture);
+
+        public static string Ui_Session_Recent => ResourceManager.GetString("Ui.Session.Recent", resourceCulture);
+
+        public static string Ui_Session_CopyTheInstanceID => ResourceManager.GetString("Ui.Session.CopyTheInstanceID", resourceCulture);
+
+        public static string Ui_Session_Uptime => ResourceManager.GetString("Ui.Session.Uptime", resourceCulture);
+
+        public static string Ui_Session_JoinTheServerWithTheLowest => ResourceManager.GetString("Ui.Session.JoinTheServerWithTheLowest", resourceCulture);
+
+        public static string Ui_Session_ClosestServer => ResourceManager.GetString("Ui.Session.ClosestServer", resourceCulture);
+
+        public static string Ui_Session_JoinADifferentRandomServer => ResourceManager.GetString("Ui.Session.JoinADifferentRandomServer", resourceCulture);
+
+        public static string Ui_Session_ServerHop => ResourceManager.GetString("Ui.Session.ServerHop", resourceCulture);
+
+        public static string Ui_Session_SortBy => ResourceManager.GetString("Ui.Session.SortBy", resourceCulture);
+
+        public static string Ui_Session_Region => ResourceManager.GetString("Ui.Session.Region", resourceCulture);
+
+        public static string Ui_Session_Place => ResourceManager.GetString("Ui.Session.Place", resourceCulture);
+
+        public static string Ui_Session_RobloxAccountSwitcher => ResourceManager.GetString("Ui.Session.RobloxAccountSwitcher", resourceCulture);
+
+        public static string Ui_Session_SignedInAs => ResourceManager.GetString("Ui.Session.SignedInAs", resourceCulture);
+
+        public static string Ui_Session_AddThisAccount => ResourceManager.GetString("Ui.Session.AddThisAccount", resourceCulture);
+
+        public static string Ui_Session_SignOut => ResourceManager.GetString("Ui.Session.SignOut", resourceCulture);
+
+        public static string Ui_Session_SearchSavedAccountsByNameNote => ResourceManager.GetString("Ui.Session.SearchSavedAccountsByNameNote", resourceCulture);
+
+        public static string Ui_Session_ImportByCookie => ResourceManager.GetString("Ui.Session.ImportByCookie", resourceCulture);
+
+        public static string Ui_Session_ImportAnAccountFromItsROBLOSECURITY => ResourceManager.GetString("Ui.Session.ImportAnAccountFromItsROBLOSECURITY", resourceCulture);
+
+        public static string Ui_Session_PasteAFullROBLOSECURITYValueOnly => ResourceManager.GetString("Ui.Session.PasteAFullROBLOSECURITYValueOnly", resourceCulture);
+
+        public static string Ui_Session_WARNINGDONOTSHARETHIS => ResourceManager.GetString("Ui.Session.WARNINGDONOTSHARETHIS", resourceCulture);
+
+        public static string Ui_Session_CURRENT => ResourceManager.GetString("Ui.Session.CURRENT", resourceCulture);
+
+        public static string Ui_Session_AddANote => ResourceManager.GetString("Ui.Session.AddANote", resourceCulture);
+
+        public static string Ui_Session_Switch => ResourceManager.GetString("Ui.Session.Switch", resourceCulture);
+
+        public static string Ui_Session_CopyUserID => ResourceManager.GetString("Ui.Session.CopyUserID", resourceCulture);
+
+        public static string Ui_Session_RemoveSavedAccount => ResourceManager.GetString("Ui.Session.RemoveSavedAccount", resourceCulture);
+
         public static string Menu_Appearance_Accent_Title => ResourceManager.GetString("Menu.Appearance.Accent.Title", resourceCulture);
 
         public static string Menu_Appearance_Accent_Description => ResourceManager.GetString("Menu.Appearance.Accent.Description", resourceCulture);
