@@ -3651,6 +3651,9 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
   <data name="Ui.Mods.EnableOrDisableThisMod" xml:space="preserve">
     <value>เปิดหรือปิดม็อดนี้</value>
   </data>
+  <data name="Ui.Mods.Id" xml:space="preserve">
+    <value>   ID: </value>
+  </data>
   <data name="Ui.Mods.ViewThisModPack" xml:space="preserve">
     <value>ดูแพ็กม็อดนี้</value>
   </data>
@@ -3978,6 +3981,9 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
   <data name="Ui.FastFlags.HowSolidTheSquaresLook" xml:space="preserve">
     <value>สี่เหลี่ยมดูทึบแค่ไหน</value>
   </data>
+  <data name="Ui.FastFlags.Studs" xml:space="preserve">
+    <value>Studs</value>
+  </data>
   <data name="Ui.FastFlags.TheStudPatternOnParts" xml:space="preserve">
     <value>ลาย studs บนชิ้นส่วน</value>
   </data>
@@ -4248,6 +4254,9 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
   <data name="Ui.Bootstrapper.ReduceResourcesWhenRobloxIsUnfocused" xml:space="preserve">
     <value>ลดทรัพยากรเมื่อ Roblox ไม่อยู่ในโฟกัส</value>
   </data>
+  <data name="Ui.Bootstrapper.VoidstrapMatchmaker" xml:space="preserve">
+    <value>Voidstrap Matchmaker</value>
+  </data>
   <data name="Ui.Bootstrapper.Enable" xml:space="preserve">
     <value>เปิดใช้งาน</value>
   </data>
@@ -4314,6 +4323,9 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
   <data name="Ui.Bootstrapper.NeverLetVoidstrapPickAServer" xml:space="preserve">
     <value>ไม่ให้ Voidstrap เลือกเซิร์ฟเวอร์สำหรับเกมนี้</value>
   </data>
+  <data name="Ui.Bootstrapper.PlaceId" xml:space="preserve">
+    <value>Place id</value>
+  </data>
   <data name="Ui.Bootstrapper.LetVoidstrapPickServersForThis" xml:space="preserve">
     <value>ให้ Voidstrap เลือกเซิร์ฟเวอร์สำหรับเกมนี้อีกครั้ง</value>
   </data>
@@ -4334,6 +4346,9 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
   </data>
   <data name="Ui.Bootstrapper.VoidstrapStopsTryingAfterThisMany" xml:space="preserve">
     <value>Voidstrap จะหยุดลองหลังเชื่อมต่อใหม่ครบจำนวนนี้เพื่อไม่ให้วนซ้ำไม่จบ</value>
+  </data>
+  <data name="Ui.Bootstrapper.JoinAPI" xml:space="preserve">
+    <value>Join API</value>
   </data>
   <data name="Ui.Bootstrapper.WhichRobloxJoinEndpointVoidstrapAsks" xml:space="preserve">
     <value>จุดเชื่อมต่อการเข้าร่วมของ Roblox ที่ Voidstrap ใช้สอบถามตำแหน่งเซิร์ฟเวอร์ เปลี่ยนเฉพาะเมื่อการเข้าร่วมใช้งานไม่ได้</value>
@@ -4554,6 +4569,9 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
   <data name="Ui.Integrations.CloseWhenLeavingThatGame" xml:space="preserve">
     <value>ปิดเมื่อออกจากเกมนั้น</value>
   </data>
+  <data name="Ui.Integrations.PlaceID" xml:space="preserve">
+    <value>Place ID</value>
+  </data>
   <data name="Ui.Channel.InstallLocation" xml:space="preserve">
     <value>ตำแหน่งติดตั้ง</value>
   </data>
@@ -4613,6 +4631,9 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
   </data>
   <data name="Ui.Channel.DisplaysVoidstrapsDiscordRPC" xml:space="preserve">
     <value>แสดง Discord RPC ของ Voidstrap</value>
+  </data>
+  <data name="Ui.Channel.VoidstrapRPC" xml:space="preserve">
+    <value>Voidstrap RPC</value>
   </data>
   <data name="Ui.Channel.FactoryReset" xml:space="preserve">
     <value>รีเซ็ตเป็นค่าโรงงาน</value>
@@ -5118,6 +5139,9 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
   <data name="Ui.Gbs.EnableVignetteForMotionSicknessReduction" xml:space="preserve">
     <value>เปิดวิกเนตต์เพื่อลดอาการเมาการเคลื่อนไหว</value>
   </data>
+  <data name="Ui.Gbs.MicroProfiler" xml:space="preserve">
+    <value>Micro Profiler</value>
+  </data>
   <data name="Ui.Gbs.EnableRobloxMicroprofilerServer" xml:space="preserve">
     <value>เปิดเซิร์ฟเวอร์ไมโครโปรไฟเลอร์ของ Roblox</value>
   </data>
@@ -5394,6 +5418,9 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
   <data name="Ui.Session.PasteAFullROBLOSECURITYValueOnly" xml:space="preserve">
     <value>วางค่า .ROBLOSECURITY แบบเต็ม วางเฉพาะคุกกี้ของคุณเองเท่านั้น</value>
   </data>
+  <data name="Ui.Session.WARNINGDONOTSHARETHIS" xml:space="preserve">
+    <value>_|WARNING: DO NOT SHARE THIS...</value>
+  </data>
   <data name="Ui.Session.CURRENT" xml:space="preserve">
     <value>ปัจจุบัน</value>
   </data>
@@ -5582,6 +5609,9 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
   </data>
   <data name="Ui.Misc.TheGraphicsBackendWineUsesFor" xml:space="preserve">
     <value>แบ็กเอนด์กราฟิกที่ Wine ใช้สำหรับ Studio DXVK เหมาะกับระบบส่วนใหญ่</value>
+  </data>
+  <data name="Ui.Misc.FeralGameMode" xml:space="preserve">
+    <value>Feral GameMode</value>
   </data>
   <data name="Ui.Misc.AsksGameModeToTuneTheSystem" xml:space="preserve">
     <value>ขอให้ GameMode ปรับแต่งระบบขณะ Studio ทำงาน</value>
@@ -5853,6 +5883,9 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
   <data name="Ui.Pages.OverridesThatAffectGPUBehaviorAnd" xml:space="preserve">
     <value>การแทนที่ที่ส่งผลต่อพฤติกรรม GPU และฟีเจอร์ไดรเวอร์</value>
   </data>
+  <data name="Ui.Pages.ResizableBAR" xml:space="preserve">
+    <value>Resizable BAR</value>
+  </data>
   <data name="Ui.Pages.AllowsTheCPUToAccessThe" xml:space="preserve">
     <value>ให้ CPU เข้าถึงหน่วยความจำ GPU ทั้งหมดบนระบบที่รองรับ</value>
   </data>
@@ -5963,6 +5996,9 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
   </data>
   <data name="Ui.Pages.ManageYourFastFlagsACheckmarkIn" xml:space="preserve">
     <value>จัดการ FastFlags ของคุณ เครื่องหมายถูกใน Preset หมายถึงแฟล็กมีในการตั้งค่า FFlag ส่วนเครื่องหมายกากบาทหมายถึงไม่มี</value>
+  </data>
+  <data name="Ui.Pages.Preset" xml:space="preserve">
+    <value>Preset</value>
   </data>
   <data name="Ui.Pages.GoToFFlagSettingsToAdd" xml:space="preserve">
     <value>ไปที่การตั้งค่า FFlag เพื่อเพิ่ม FFlag แบบ Preset</value>
@@ -6099,17 +6135,26 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
   <data name="Ui.Misc2.TheClassicTopbarOptionRebuildsTwo" xml:space="preserve">
     <value>ตัวเลือกแถบด้านบนแบบคลาสสิกสร้างม็อดชุมชนสองตัวขึ้นใหม่ หน้าตาและการทำงานของแถบด้านบนและเมนูเกมยุค 2014 ถึง 2015 มาจาก "2014 2015 Topbar and Menu (Improvised GUI)" โดย HockuTM การซ่อนแถบด้านบนแบบใหม่ใช้ "NoGuiRBX, Hide TopBar!" โดย Einshine ทั้งสองใช้ด้วยความขอบคุณภายใต้เงื่อนไข Creative Commons BY NC ND 4.0 ไฟล์ดาวน์โหลดตรงจาก GameBanana แทนการรวมมาด้วย และผู้สร้างทั้งสองไม่มีส่วนเกี่ยวข้องกับ Voidstrap</value>
   </data>
+  <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
+    <value>2014 2015 Topbar and Menu by HockuTM</value>
+  </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>ม็อดชุมชน</value>
   </data>
   <data name="Ui.Misc2.CommunityModsListsRobloxSubmissionsFrom" xml:space="preserve">
     <value>ม็อดชุมชนแสดงผลงาน Roblox จาก GameBanana และ Kliko's Mods ซึ่งดูแลโดย TheKliko สำหรับ modloader ของ Kliko Voidstrap ไม่มีส่วนเกี่ยวข้องหรือได้รับการรับรองจากฝ่ายใด ม็อด รูปภาพ และคำอธิบายทั้งหมดเป็นของผู้สร้าง ซึ่งให้เครดิตไว้ในทุกรายการ Voidstrap อ่านเพียงข้อมูลสาธารณะและไม่เคยอัปโหลดสิ่งใดในนามของคุณ</value>
   </data>
+  <data name="Ui.Misc2.GithubComKlikosModloaderMarketplace" xml:space="preserve">
+    <value>github.com/klikos modloader/marketplace</value>
+  </data>
   <data name="Ui.Misc2.CanTSeeOverlays" xml:space="preserve">
     <value>มองไม่เห็นโอเวอร์เลย์ใช่ไหม</value>
   </data>
   <data name="Ui.Misc2.Info" xml:space="preserve">
     <value>ข้อมูล</value>
+  </data>
+  <data name="Ui.Misc2.FFlags" xml:space="preserve">
+    <value>FFlags</value>
   </data>
   <data name="Ui.Misc2.PlayTime" xml:space="preserve">
     <value>เวลาเล่น</value>

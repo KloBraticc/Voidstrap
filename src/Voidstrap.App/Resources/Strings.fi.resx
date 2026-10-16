@@ -3651,6 +3651,9 @@ Mitä haluat tehdä?</value>
   <data name="Ui.Mods.EnableOrDisableThisMod" xml:space="preserve">
     <value>Ota tämä modi käyttöön tai poista se käytöstä</value>
   </data>
+  <data name="Ui.Mods.Id" xml:space="preserve">
+    <value>   ID: </value>
+  </data>
   <data name="Ui.Mods.ViewThisModPack" xml:space="preserve">
     <value>Näytä tämä modipaketti</value>
   </data>
@@ -3941,6 +3944,12 @@ Mitä haluat tehdä?</value>
   </data>
   <data name="Ui.FastFlags.GrassDistance" xml:space="preserve">
     <value>Ruohon etäisyys</value>
+  </data>
+  <data name="Ui.FastFlags.Min" xml:space="preserve">
+    <value>Min</value>
+  </data>
+  <data name="Ui.FastFlags.Max" xml:space="preserve">
+    <value>Max</value>
   </data>
   <data name="Ui.FastFlags.ConfigureTheRenderingApiForRoblox" xml:space="preserve">
     <value>Määritä Robloxin renderöintirajapinta. Paina Alt Enter siirtyessäsi koko näyttöön, jos käytät Direct3D:tä. Vulkan voi aiheuttaa virheitä!.</value>
@@ -4245,6 +4254,9 @@ Mitä haluat tehdä?</value>
   <data name="Ui.Bootstrapper.ReduceResourcesWhenRobloxIsUnfocused" xml:space="preserve">
     <value>Vähennä resursseja, kun Roblox ei ole aktiivinen</value>
   </data>
+  <data name="Ui.Bootstrapper.VoidstrapMatchmaker" xml:space="preserve">
+    <value>Voidstrap Matchmaker</value>
+  </data>
   <data name="Ui.Bootstrapper.Enable" xml:space="preserve">
     <value>Ota käyttöön</value>
   </data>
@@ -4311,6 +4323,9 @@ Mitä haluat tehdä?</value>
   <data name="Ui.Bootstrapper.NeverLetVoidstrapPickAServer" xml:space="preserve">
     <value>Älä koskaan anna Voidstrapin valita palvelinta tälle pelille</value>
   </data>
+  <data name="Ui.Bootstrapper.PlaceId" xml:space="preserve">
+    <value>Place id</value>
+  </data>
   <data name="Ui.Bootstrapper.LetVoidstrapPickServersForThis" xml:space="preserve">
     <value>Anna Voidstrapin taas valita palvelimet tälle pelille</value>
   </data>
@@ -4323,11 +4338,17 @@ Mitä haluat tehdä?</value>
   <data name="Ui.Bootstrapper.HowHardToSearch" xml:space="preserve">
     <value>Kuinka perusteellisesti haetaan</value>
   </data>
+  <data name="Ui.Bootstrapper.Auto" xml:space="preserve">
+    <value>Auto</value>
+  </data>
   <data name="Ui.Bootstrapper.ReconnectLimit" xml:space="preserve">
     <value>Uudelleenyhdistysten raja</value>
   </data>
   <data name="Ui.Bootstrapper.VoidstrapStopsTryingAfterThisMany" xml:space="preserve">
     <value>Voidstrap lopettaa yrittämisen näin monen uudelleenyhdistyksen jälkeen, jotta se ei koskaan jää silmukkaan.</value>
+  </data>
+  <data name="Ui.Bootstrapper.JoinAPI" xml:space="preserve">
+    <value>Join API</value>
   </data>
   <data name="Ui.Bootstrapper.WhichRobloxJoinEndpointVoidstrapAsks" xml:space="preserve">
     <value>Mitä Robloxin liittymisrajapintaa Voidstrap käyttää palvelinten sijaintien selvittämiseen. Muuta vain, jos liittyminen lakkaa toimimasta.</value>
@@ -4548,6 +4569,9 @@ Mitä haluat tehdä?</value>
   <data name="Ui.Integrations.CloseWhenLeavingThatGame" xml:space="preserve">
     <value>Sulje, kun poistut pelistä</value>
   </data>
+  <data name="Ui.Integrations.PlaceID" xml:space="preserve">
+    <value>Place ID</value>
+  </data>
   <data name="Ui.Channel.InstallLocation" xml:space="preserve">
     <value>Asennuspaikka</value>
   </data>
@@ -4607,6 +4631,9 @@ Mitä haluat tehdä?</value>
   </data>
   <data name="Ui.Channel.DisplaysVoidstrapsDiscordRPC" xml:space="preserve">
     <value>Näyttää Voidstrapin Discord RPC:n.</value>
+  </data>
+  <data name="Ui.Channel.VoidstrapRPC" xml:space="preserve">
+    <value>Voidstrap RPC</value>
   </data>
   <data name="Ui.Channel.FactoryReset" xml:space="preserve">
     <value>Palauta tehdasasetukset</value>
@@ -5112,6 +5139,9 @@ Mitä haluat tehdä?</value>
   <data name="Ui.Gbs.EnableVignetteForMotionSicknessReduction" xml:space="preserve">
     <value>Ota vinjetti käyttöön matkapahoinvoinnin vähentämiseksi.</value>
   </data>
+  <data name="Ui.Gbs.MicroProfiler" xml:space="preserve">
+    <value>Micro Profiler</value>
+  </data>
   <data name="Ui.Gbs.EnableRobloxMicroprofilerServer" xml:space="preserve">
     <value>Ota Robloxin mikroprofiloijan palvelin käyttöön.</value>
   </data>
@@ -5388,6 +5418,9 @@ Mitä haluat tehdä?</value>
   <data name="Ui.Session.PasteAFullROBLOSECURITYValueOnly" xml:space="preserve">
     <value>Liitä koko .ROBLOSECURITY-arvo. Liitä vain omia evästeitäsi.</value>
   </data>
+  <data name="Ui.Session.WARNINGDONOTSHARETHIS" xml:space="preserve">
+    <value>_|WARNING: DO NOT SHARE THIS...</value>
+  </data>
   <data name="Ui.Session.CURRENT" xml:space="preserve">
     <value>NYKYINEN</value>
   </data>
@@ -5576,6 +5609,9 @@ Mitä haluat tehdä?</value>
   </data>
   <data name="Ui.Misc.TheGraphicsBackendWineUsesFor" xml:space="preserve">
     <value>Grafiikkatausta, jota Wine käyttää Studiolle. DXVK sopii useimmille järjestelmille.</value>
+  </data>
+  <data name="Ui.Misc.FeralGameMode" xml:space="preserve">
+    <value>Feral GameMode</value>
   </data>
   <data name="Ui.Misc.AsksGameModeToTuneTheSystem" xml:space="preserve">
     <value>Pyytää GameModea säätämään järjestelmää Studion ollessa käynnissä.</value>
@@ -5847,6 +5883,9 @@ Mitä haluat tehdä?</value>
   <data name="Ui.Pages.OverridesThatAffectGPUBehaviorAnd" xml:space="preserve">
     <value>Ohitukset, jotka vaikuttavat GPU:n toimintaan ja ajurin ominaisuuksiin.</value>
   </data>
+  <data name="Ui.Pages.ResizableBAR" xml:space="preserve">
+    <value>Resizable BAR</value>
+  </data>
   <data name="Ui.Pages.AllowsTheCPUToAccessThe" xml:space="preserve">
     <value>Antaa CPU:n käyttää koko GPU-muistia tuetuissa järjestelmissä.</value>
   </data>
@@ -5957,6 +5996,9 @@ Mitä haluat tehdä?</value>
   </data>
   <data name="Ui.Pages.ManageYourFastFlagsACheckmarkIn" xml:space="preserve">
     <value>Hallitse FastFlagejasi. Valintamerkki Preset-sarakkeessa tarkoittaa, että lippu on saatavilla FFlag-asetuksissa, ja risti, ettei ole.</value>
+  </data>
+  <data name="Ui.Pages.Preset" xml:space="preserve">
+    <value>Preset</value>
   </data>
   <data name="Ui.Pages.GoToFFlagSettingsToAdd" xml:space="preserve">
     <value>Lisää Preset-FFlageja FFlag-asetuksista.</value>
@@ -6093,17 +6135,26 @@ Mitä haluat tehdä?</value>
   <data name="Ui.Misc2.TheClassicTopbarOptionRebuildsTwo" xml:space="preserve">
     <value>Klassisen yläpalkin asetus rakentaa uudelleen kaksi yhteisön modia. Vuosien 2014 ja 2015 yläpalkin ja pelivalikon ulkoasu ja toiminta tulevat modista "2014 2015 Topbar and Menu (Improvised GUI)", tekijä HockuTM. Modernin yläpalkin piilotus käyttää modia "NoGuiRBX, Hide TopBar!", tekijä Einshine. Molempia käytetään kiitollisina niiden Creative Commons BY NC ND 4.0 -ehtojen mukaisesti, tiedostot ladataan suoraan GameBananasta eikä niitä toimiteta mukana, eikä kumpikaan tekijä liity Voidstrapiin.</value>
   </data>
+  <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
+    <value>2014 2015 Topbar and Menu by HockuTM</value>
+  </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>Yhteisön modit</value>
   </data>
   <data name="Ui.Misc2.CommunityModsListsRobloxSubmissionsFrom" xml:space="preserve">
     <value>Yhteisön modit listaa Roblox-julkaisuja GameBananasta ja Kliko's Modsista, jota TheKliko ylläpitää Klikon modilataajalle. Voidstrap ei liity kumpaankaan eikä kumpikaan tue sitä. Kaikki modit, kuvat ja kuvaukset kuuluvat tekijöilleen, jotka mainitaan jokaisessa kohteessa. Voidstrap vain lukee niiden julkiset tiedot eikä koskaan lataa mitään puolestasi.</value>
   </data>
+  <data name="Ui.Misc2.GithubComKlikosModloaderMarketplace" xml:space="preserve">
+    <value>github.com/klikos modloader/marketplace</value>
+  </data>
   <data name="Ui.Misc2.CanTSeeOverlays" xml:space="preserve">
     <value>Etkö näe peittokuvia?</value>
   </data>
   <data name="Ui.Misc2.Info" xml:space="preserve">
     <value>Tiedot</value>
+  </data>
+  <data name="Ui.Misc2.FFlags" xml:space="preserve">
+    <value>FFlags</value>
   </data>
   <data name="Ui.Misc2.PlayTime" xml:space="preserve">
     <value>Peliaika</value>
@@ -6267,6 +6318,9 @@ Mitä haluat tehdä?</value>
   <data name="Ui.Misc2.ServerSize" xml:space="preserve">
     <value>Palvelimen koko</value>
   </data>
+  <data name="Ui.Misc2.Chat" xml:space="preserve">
+    <value>Chat</value>
+  </data>
   <data name="Ui.Misc2.Chats" xml:space="preserve">
     <value>Keskustelut</value>
   </data>
@@ -6401,6 +6455,9 @@ Mitä haluat tehdä?</value>
   </data>
   <data name="Ui.Misc2.ChannelName" xml:space="preserve">
     <value>Kanavan nimi</value>
+  </data>
+  <data name="Ui.Misc2.VersionGUID" xml:space="preserve">
+    <value>Version GUID</value>
   </data>
   <data name="Ui.Misc2.Players" xml:space="preserve">
     <value>Pelaajat:</value>
