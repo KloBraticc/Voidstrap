@@ -189,7 +189,7 @@ internal static class SwiftTunnel
                 $prefix = $payload.Directory.TrimEnd('\') + '\'
                 $names = @('SwiftTunnel.exe', 'swifttunnel-desktop.exe')
                 Get-CimInstance Win32_Process | Where-Object {
-                    $_.ExecutablePath -and $names -contains $_.Name -and ($payload.Directory -eq '' -or $_.ExecutablePath.StartsWith($prefix, [StringComparison]::OrdinalIgnoreCase))
+                    $_.Name -eq 'swifttunnel-lite.exe' -or ($_.ExecutablePath -and $names -contains $_.Name -and ($payload.Directory -eq '' -or $_.ExecutablePath.StartsWith($prefix, [StringComparison]::OrdinalIgnoreCase)))
                 } | ForEach-Object {
                     $running = Get-Process -Id $_.ProcessId -ErrorAction SilentlyContinue
                     if ($running) {
@@ -204,7 +204,7 @@ internal static class SwiftTunnel
                 }
                 $uninstaller = Start-Process -FilePath $payload.Installer -ArgumentList @('/x', $payload.ProductCode, '/qb!', '/norestart') -PassThru -Wait
                 if ($uninstaller.ExitCode -eq 1602) { exit 1602 }
-                if ($uninstaller.ExitCode -notin @(0, 1641, 3010)) { exit 11 }
+                if ($uninstaller.ExitCode -notin @(0, 1605, 1641, 3010)) { exit 11 }
             } catch { exit 12 }
             """ + "\n" + removal;
         token.ThrowIfCancellationRequested();
