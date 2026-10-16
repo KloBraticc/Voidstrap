@@ -20,6 +20,40 @@ internal sealed partial class SessionDimmer : IDisposable
     private byte _alpha;
     private bool _portableOpacityApplied;
     private System.Windows.Window? _portable;
+    private Voidstrap.Platform.MacOS.MacOSWindowBackdrop? _macBackdrop;
+    private int _blurWidth;
+    private int _blurHeight;
+
+    private const int WcaAccentPolicy = 19;
+    private const int AccentEnableBlurBehind = 3;
+    private const int AccentEnableAcrylicBlurBehind = 4;
+    private const int AccentFlagUseGradientColor = 2;
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct AccentPolicy
+    {
+        public int State;
+        public int Flags;
+        public int Color;
+        public int AnimationId;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct WindowCompositionAttributeData
+    {
+        public int Attribute;
+        public IntPtr Data;
+        public int Size;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct Margins
+    {
+        public int Left;
+        public int Right;
+        public int Top;
+        public int Bottom;
+    }
 
     public bool IsVisible => _visible;
 
@@ -34,7 +68,7 @@ internal sealed partial class SessionDimmer : IDisposable
                 Title = "Session dimmer",
                 WindowStyle = System.Windows.WindowStyle.None,
                 ResizeMode = System.Windows.ResizeMode.NoResize,
-                Background = System.Windows.Media.Brushes.Black,
+                Background = Voidstrap.Utility.Platform.IsMacOS ? System.Windows.Media.Brushes.Transparent : System.Windows.Media.Brushes.Black,
                 Width = 1,
                 Height = 1,
                 Left = -32000,
@@ -59,6 +93,26 @@ internal sealed partial class SessionDimmer : IDisposable
             return;
         }
         AntiAliasingInterop.SetLayeredWindowAttributes(_hwnd, 0, 0, AntiAliasingInterop.LWA_ALPHA);
+        Margins margins = new() { Left = -1, Right = -1, Top = -1, Bottom = -1 };
+        _ = DwmExtendFrameIntoClientArea(_hwnd, ref margins);
+        AccentPolicy policy = new() { State = AccentEnableAcrylicBlurBehind, Flags = AccentFlagUseGradientColor, Color = 0x22000000 };
+        int size = Marshal.SizeOf<AccentPolicy>();
+        IntPtr dataPointer = Marshal.AllocHGlobal(size);
+        try
+        {
+            Marshal.StructureToPtr(policy, dataPointer, false);
+            WindowCompositionAttributeData data = new() { Attribute = WcaAccentPolicy, Data = dataPointer, Size = size };
+            if (!SetWindowCompositionAttribute(_hwnd, ref data))
+            {
+                policy.State = AccentEnableBlurBehind;
+                Marshal.StructureToPtr(policy, dataPointer, false);
+                _ = SetWindowCompositionAttribute(_hwnd, ref data);
+            }
+        }
+        finally
+        {
+            Marshal.FreeHGlobal(dataPointer);
+        }
     }
 
     private static ushort EnsureClass(IntPtr instance)
@@ -97,9 +151,25 @@ internal sealed partial class SessionDimmer : IDisposable
             return;
         nint handle = PortableOverlay.Handle(_portable);
         if (Voidstrap.Utility.Platform.IsLinux)
+        {
             Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetClickThrough(handle);
+        }
         else
+        {
             Voidstrap.Platform.MacOS.MacOSOverlayWindow.Configure(handle, true, Voidstrap.Platform.MacOS.MacOSOverlayWindow.DimmerWindowLevel);
+            try
+            {
+                _macBackdrop = new Voidstrap.Platform.MacOS.MacOSWindowBackdrop(handle);
+                _macBackdrop.Apply(11, App.Settings.Prop.Theme2.GetFinal() != Voidstrap.Enums.Theme.Light);
+            }
+            catch (Exception ex)
+            {
+                _macBackdrop?.Dispose();
+                _macBackdrop = null;
+                _portable.Background = System.Windows.Media.Brushes.Black;
+                App.Logger.WriteLine("SessionDimmer", "The blur backdrop could not be enabled: " + ex.Message);
+            }
+        }
         _portableOpacityApplied = false;
         SetOpacity(_alpha / 255d);
     }
@@ -137,7 +207,10 @@ internal sealed partial class SessionDimmer : IDisposable
             PortableOverlay.Place(_portable, bounds.Left, bounds.Top, bounds.Width, bounds.Height);
             nint handle = PortableOverlay.Handle(_portable);
             if (Voidstrap.Utility.Platform.IsLinux)
+            {
                 Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetClickThrough(handle);
+                SetPortableBlur(bounds.Width, bounds.Height);
+            }
             else
                 Voidstrap.Platform.MacOS.MacOSOverlayWindow.Configure(handle, true, Voidstrap.Platform.MacOS.MacOSOverlayWindow.DimmerWindowLevel);
             _visible = true;
@@ -155,6 +228,8 @@ internal sealed partial class SessionDimmer : IDisposable
         if (_portable != null && _visible && bounds.Valid)
         {
             PortableOverlay.Place(_portable, bounds.Left, bounds.Top, bounds.Width, bounds.Height, false, false);
+            if (Voidstrap.Utility.Platform.IsLinux)
+                SetPortableBlur(bounds.Width, bounds.Height);
             return;
         }
         if (_hwnd == IntPtr.Zero || !_visible || !bounds.Valid)
@@ -182,6 +257,8 @@ internal sealed partial class SessionDimmer : IDisposable
         if (_portable != null)
         {
             _portable.SourceInitialized -= OnPortableSourceInitialized;
+            _macBackdrop?.Dispose();
+            _macBackdrop = null;
             PortableOverlay.Release(_portable);
             _portable.Close();
             _portable = null;
@@ -193,6 +270,22 @@ internal sealed partial class SessionDimmer : IDisposable
         GC.SuppressFinalize(this);
     }
 
+    private void SetPortableBlur(int width, int height)
+    {
+        if (_portable == null || (width == _blurWidth && height == _blurHeight))
+            return;
+        Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetWindowBlur(PortableOverlay.Handle(_portable), width, height);
+        _blurWidth = width;
+        _blurHeight = height;
+    }
+
     [LibraryImport("gdi32.dll")]
     private static partial IntPtr GetStockObject(int index);
+
+    [LibraryImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool SetWindowCompositionAttribute(IntPtr window, ref WindowCompositionAttributeData data);
+
+    [LibraryImport("dwmapi.dll")]
+    private static partial int DwmExtendFrameIntoClientArea(IntPtr window, ref Margins margins);
 }

@@ -27,7 +27,7 @@ public partial class SessionDock : Window
     private const double DockHeight = 70;
     private const double PopoutHeight = 388;
     private const double PopoutGap = 12;
-    private const double DimmerOpacity = 0.45;
+    private const double DimmerOpacity = 0.22;
     private const int GwlExStyle = -20;
     private const nint WsExToolWindow = 0x80;
     private const nint WsExNoActivate = 0x08000000;

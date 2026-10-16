@@ -1719,6 +1719,34 @@ public static partial class LinuxWindowInterop
 		}
 	}
 
+	public static bool TrySetWindowBlur(nint window, int width, int height)
+	{
+		nint display = Display;
+		if (display == 0 || window == 0 || width <= 0 || height <= 0)
+			return false;
+
+		try
+		{
+			nint region = XInternAtom(display, "_KDE_NET_WM_BLUR_BEHIND_REGION", false);
+			nint cardinal = XInternAtom(display, "CARDINAL", false);
+			if (region == 0 || cardinal == 0)
+				return false;
+
+			nint[] bounds = [0, 0, width, height];
+			XChangeProperty(display, window, region, cardinal, 32, 0, bounds, bounds.Length);
+			_ = XFlush(display);
+			return true;
+		}
+		catch (DllNotFoundException)
+		{
+			return false;
+		}
+		catch (EntryPointNotFoundException)
+		{
+			return false;
+		}
+	}
+
 	public static bool TrySetWindowBackground(nint window, uint rgb)
 	{
 		nint display = Display;
