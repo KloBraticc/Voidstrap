@@ -66,7 +66,7 @@
             </StackPanel>
           </TabItem.Header>
           <StackPanel Margin="12">
-            <ui:CardAction Margin="0,0,0,8" Icon="Layer24" Click="OpenOverlays_Click" Visibility="{x:Static platform:PlatformFeatureVisibility.Overlay}">
+            <ui:CardAction Margin="0" Icon="Layer24" Click="OpenOverlays_Click" Visibility="{x:Static platform:PlatformFeatureVisibility.Overlay}">
               <StackPanel>
                 <TextBlock FontSize="14" Text="{resources:Loc Ui_Mods_Overlays}" FontWeight="Medium" />
                 <TextBlock Margin="0,2,0,0" FontSize="12" Text="{resources:Loc Ui_Mods_OverlaysCardDescription}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" />
