@@ -96,17 +96,27 @@ public partial class MainWindow : WpfUiWindow,INavigationWindow{
 
 	private async void OnPageRequest(object? sender, string type)
 	{
-		if (!_navigating && !(DateTimeOffset.Now.Subtract(_lastNavigation).TotalMilliseconds < 500.0))
+		try
 		{
-			if (type == "next")
+			if (!_navigating && !(DateTimeOffset.Now.Subtract(_lastNavigation).TotalMilliseconds < 500.0))
 			{
-				await NextPageAsync();
+				if (type == "next")
+				{
+					await NextPageAsync();
+				}
+				else if (type == "back")
+				{
+					BackPage();
+				}
+				_lastNavigation = DateTimeOffset.Now;
 			}
-			else if (type == "back")
-			{
-				BackPage();
-			}
-			_lastNavigation = DateTimeOffset.Now;
+		}
+		catch (OperationCanceledException)
+		{
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteException("MainWindow::OnPageRequest", ex);
 		}
 	}
 

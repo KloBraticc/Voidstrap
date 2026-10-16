@@ -78,8 +78,18 @@ public partial class FFlagSearchDialog : WpfUiWindow{
 
 	private async void OnDialogLoaded(object sender, RoutedEventArgs e)
 	{
-		Loaded -= OnDialogLoaded;
-		await LoadDataAsync(_lifetimeToken);
+		try
+		{
+			Loaded -= OnDialogLoaded;
+			await LoadDataAsync(_lifetimeToken);
+		}
+		catch (OperationCanceledException)
+		{
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteException("FFlagSearchDialog::OnDialogLoaded", ex);
+		}
 	}
 
 	private void InitializeDataSources()
@@ -310,18 +320,28 @@ public partial class FFlagSearchDialog : WpfUiWindow{
 
 	private async void ValidateButton_Click(object sender, RoutedEventArgs e)
 	{
-		string? text = ValidationInputTextBox.Text?.Trim();
-		if (string.IsNullOrEmpty(text))
+		try
 		{
-			System.Windows.MessageBox.Show(Text("Message1"), Text("Message2"), MessageBoxButton.OK, MessageBoxImage.Exclamation);
+			string? text = ValidationInputTextBox.Text?.Trim();
+			if (string.IsNullOrEmpty(text))
+			{
+				System.Windows.MessageBox.Show(Text("Message1"), Text("Message2"), MessageBoxButton.OK, MessageBoxImage.Exclamation);
+			}
+			else if (text.Length > MaximumValidationCharacters)
+			{
+				System.Windows.MessageBox.Show(Text("Message3"), Text("Message4"), MessageBoxButton.OK, MessageBoxImage.Exclamation);
+			}
+			else
+			{
+				await ValidateFlagsAsync(text);
+			}
 		}
-		else if (text.Length > MaximumValidationCharacters)
+		catch (OperationCanceledException)
 		{
-			System.Windows.MessageBox.Show(Text("Message3"), Text("Message4"), MessageBoxButton.OK, MessageBoxImage.Exclamation);
 		}
-		else
+		catch (Exception ex)
 		{
-			await ValidateFlagsAsync(text);
+			App.Logger.WriteException("FFlagSearchDialog::ValidateButton_Click", ex);
 		}
 	}
 
@@ -498,13 +518,33 @@ public partial class FFlagSearchDialog : WpfUiWindow{
 
 	private async void ExportSearchResultsButton_Click(object sender, RoutedEventArgs e)
 	{
-		await ExportFlagsAsync(_lastSearchResults.Where(r => r.Source != "FVariables.txt").ToDictionary(r => r.Name, r => ParseFlagValue(r.Name, r.Value)), "search_results");
+		try
+		{
+			await ExportFlagsAsync(_lastSearchResults.Where(r => r.Source != "FVariables.txt").DistinctBy(r => r.Name, StringComparer.Ordinal).ToDictionary(r => r.Name, r => ParseFlagValue(r.Name, r.Value), StringComparer.Ordinal), "search_results");
+		}
+		catch (OperationCanceledException)
+		{
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteException("FFlagSearchDialog::ExportSearchResultsButton_Click", ex);
+		}
 	}
 
 	private async void ExportValidResultsButton_Click(object sender, RoutedEventArgs e)
 	{
-		Dictionary<string, object> flags = _lastValidationResults.Where(r => r.CanExport).ToDictionary(r => r.Name, r => ParseFlagValue(r.Name, r.InputValue));
-		await ExportFlagsAsync(flags, "valid_flags");
+		try
+		{
+			Dictionary<string, object> flags = _lastValidationResults.Where(r => r.CanExport).DistinctBy(r => r.Name, StringComparer.Ordinal).ToDictionary(r => r.Name, r => ParseFlagValue(r.Name, r.InputValue), StringComparer.Ordinal);
+			await ExportFlagsAsync(flags, "valid_flags");
+		}
+		catch (OperationCanceledException)
+		{
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteException("FFlagSearchDialog::ExportValidResultsButton_Click", ex);
+		}
 	}
 
 

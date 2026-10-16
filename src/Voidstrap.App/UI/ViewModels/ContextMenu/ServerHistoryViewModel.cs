@@ -146,7 +146,17 @@ internal sealed class ServerHistoryViewModel : NotifyPropertyChangedViewModel, I
 
 	private async void OnGameLeave(object? sender, EventArgs e)
 	{
-		await LoadDataAsync(_lifetimeToken);
+		try
+		{
+			await LoadDataAsync(_lifetimeToken);
+		}
+		catch (OperationCanceledException)
+		{
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteException("SortByOption::OnGameLeave", ex);
+		}
 	}
 
 	private List<ActivityData> LoadHistoryFromFile()
@@ -247,8 +257,18 @@ internal sealed class ServerHistoryViewModel : NotifyPropertyChangedViewModel, I
 
 	private async void OnStatusTick(object? sender, EventArgs e)
 	{
-		if (IsShown?.Invoke() == true)
-			await RefreshServerStatusesAsync();
+		try
+		{
+			if (IsShown?.Invoke() == true)
+				await RefreshServerStatusesAsync();
+		}
+		catch (OperationCanceledException)
+		{
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteException("SortByOption::OnStatusTick", ex);
+		}
 	}
 
 	private async Task RefreshServerStatusesAsync()

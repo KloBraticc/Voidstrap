@@ -2414,13 +2414,23 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private async void AppMenuAbout_Click(object sender, RoutedEventArgs e)
     {
-        if (!await CloseAppMenuBeforeDialogAsync())
-            return;
-        Voidstrap.UI.Elements.About.MainWindow window = new Voidstrap.UI.Elements.About.MainWindow
+        try
         {
-            Owner = this
-        };
-        window.ShowOwnedDialog();
+            if (!await CloseAppMenuBeforeDialogAsync())
+                return;
+            Voidstrap.UI.Elements.About.MainWindow window = new Voidstrap.UI.Elements.About.MainWindow
+            {
+                Owner = this
+            };
+            window.ShowOwnedDialog();
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("MainWindow::AppMenuAbout_Click", ex);
+        }
     }
 
     private async Task<bool> CloseAppMenuBeforeDialogAsync()
@@ -2432,8 +2442,18 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private async void AppMenuUpdates_Click(object sender, RoutedEventArgs e)
     {
-        AppMenuPopup.IsOpen = false;
-        await CheckForUpdatesAsync();
+        try
+        {
+            AppMenuPopup.IsOpen = false;
+            await CheckForUpdatesAsync();
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("MainWindow::AppMenuUpdates_Click", ex);
+        }
     }
 
     private bool _checkingForUpdates;
@@ -2488,9 +2508,19 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private async void AppMenuReleases_Click(object sender, RoutedEventArgs e)
     {
-        if (!await CloseAppMenuBeforeDialogAsync())
-            return;
-        new Voidstrap.UI.Elements.Dialogs.ReleaseNotesDialog { Owner = this }.ShowOwnedDialog();
+        try
+        {
+            if (!await CloseAppMenuBeforeDialogAsync())
+                return;
+            new Voidstrap.UI.Elements.Dialogs.ReleaseNotesDialog { Owner = this }.ShowOwnedDialog();
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("MainWindow::AppMenuReleases_Click", ex);
+        }
     }
 
     private DispatcherTimer? _logsSubmenuCloseTimer;
@@ -4253,42 +4283,52 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private async void MainWindow_Loaded(object? sender, RoutedEventArgs e)
     {
-        long loadedStarted = System.Diagnostics.Stopwatch.GetTimestamp();
-        InitializeNavigation();
-        ApplyUiZoom();
-        LoadSidebarWidth();
-        ApplyLinuxWindowSize();
-        if (Voidstrap.Utility.Platform.IsMacOS)
-            FitToScreen();
-        SetupNavShortcuts();
-        _ = Dispatcher.BeginInvoke(new Action(ResetNavigationHistory), DispatcherPriority.ApplicationIdle);
-        Microsoft.Win32.SystemEvents.DisplaySettingsChanged -= OnDisplaySettingsChanged;
-        Microsoft.Win32.SystemEvents.DisplaySettingsChanged += OnDisplaySettingsChanged;
-        Voidstrap.Utility.AppNotifications.Changed -= OnAppNotificationsChanged;
-        Voidstrap.Utility.AppNotifications.Changed += OnAppNotificationsChanged;
-        Voidstrap.Utility.AppNotifications.Reload();
-        ApplyNotificationUnread(Voidstrap.Utility.AppNotifications.UnreadCount);
-        if (!Voidstrap.Utility.Platform.IsWindows)
-            StartGradientRendering();
-        else if (App.Settings.Prop.GRADmentFR && !Voidstrap.UI.LinuxUiPerformance.ReducedMotion)
+        try
         {
-            CompositionTarget.Rendering -= CompositionTarget_Rendering;
-            CompositionTarget.Rendering += CompositionTarget_Rendering;
+            long loadedStarted = System.Diagnostics.Stopwatch.GetTimestamp();
+            InitializeNavigation();
+            ApplyUiZoom();
+            LoadSidebarWidth();
+            ApplyLinuxWindowSize();
+            if (Voidstrap.Utility.Platform.IsMacOS)
+                FitToScreen();
+            SetupNavShortcuts();
+            _ = Dispatcher.BeginInvoke(new Action(ResetNavigationHistory), DispatcherPriority.ApplicationIdle);
+            Microsoft.Win32.SystemEvents.DisplaySettingsChanged -= OnDisplaySettingsChanged;
+            Microsoft.Win32.SystemEvents.DisplaySettingsChanged += OnDisplaySettingsChanged;
+            Voidstrap.Utility.AppNotifications.Changed -= OnAppNotificationsChanged;
+            Voidstrap.Utility.AppNotifications.Changed += OnAppNotificationsChanged;
+            Voidstrap.Utility.AppNotifications.Reload();
+            ApplyNotificationUnread(Voidstrap.Utility.AppNotifications.UnreadCount);
+            if (!Voidstrap.Utility.Platform.IsWindows)
+                StartGradientRendering();
+            else if (App.Settings.Prop.GRADmentFR && !Voidstrap.UI.LinuxUiPerformance.ReducedMotion)
+            {
+                CompositionTarget.Rendering -= CompositionTarget_Rendering;
+                CompositionTarget.Rendering += CompositionTarget_Rendering;
+            }
+            if (App.Settings.Prop.SnowWOWSOCOOLWpfSnowbtw && !Voidstrap.UI.LinuxUiPerformance.ReducedMotion)
+            {
+                SnowCanvas?.SetActive(IsActive);
+            }
+            else if (SnowCanvas != null)
+            {
+                SnowCanvas.SetActive(false);
+            }
+            Voidstrap.UI.LinuxUiPerformance.Duration("Settings window loaded work", loadedStarted);
+            await ((DispatcherObject)this).Dispatcher.InvokeAsync((Action)delegate
+            {
+            }, (DispatcherPriority)6);
+            PlayIntro();
+            Voidstrap.Integrations.FleasionCleanup.WarnAtStartup();
         }
-        if (App.Settings.Prop.SnowWOWSOCOOLWpfSnowbtw && !Voidstrap.UI.LinuxUiPerformance.ReducedMotion)
+        catch (OperationCanceledException)
         {
-            SnowCanvas?.SetActive(IsActive);
         }
-        else if (SnowCanvas != null)
+        catch (Exception ex)
         {
-            SnowCanvas.SetActive(false);
+            App.Logger.WriteException("MainWindow::MainWindow_Loaded", ex);
         }
-        Voidstrap.UI.LinuxUiPerformance.Duration("Settings window loaded work", loadedStarted);
-        await ((DispatcherObject)this).Dispatcher.InvokeAsync((Action)delegate
-        {
-        }, (DispatcherPriority)6);
-        PlayIntro();
-        Voidstrap.Integrations.FleasionCleanup.WarnAtStartup();
     }
 
     private bool _navShortcutsReady;
@@ -5792,8 +5832,18 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private async void OnRequestCloseWindow(object? sender, EventArgs e)
     {
-        await Task.Yield();
-        Close();
+        try
+        {
+            await Task.Yield();
+            Close();
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("MainWindow::OnRequestCloseWindow", ex);
+        }
     }
 
     private void OnSaveAndLaunchButtonClick(object sender, EventArgs e)

@@ -349,7 +349,7 @@ public static class RobloxPresence
 		if (missing.Count == 0)
 			return resolved;
 
-		Dictionary<long, ServerFriend> fetched = missing.ToDictionary(id => id, id => new ServerFriend { UserId = id });
+		Dictionary<long, ServerFriend> fetched = missing.Distinct().ToDictionary(id => id, id => new ServerFriend { UserId = id });
 		// Names and pictures are fetched at the same time; they fill different fields of the same entries
 		async Task ResolveNamesAsync()
 		{

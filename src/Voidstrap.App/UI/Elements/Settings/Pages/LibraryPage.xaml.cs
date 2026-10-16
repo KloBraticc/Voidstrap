@@ -45,9 +45,19 @@ public partial class LibraryPage : UiPage{
 
 	private async void Page_Loaded(object sender, RoutedEventArgs e)
 	{
-		_viewModel.SetSubplaceViewActive(true);
-		if (!_viewModel.HasLoaded)
-			await _viewModel.LoadAsync();
+		try
+		{
+			_viewModel.SetSubplaceViewActive(true);
+			if (!_viewModel.HasLoaded)
+				await _viewModel.LoadAsync();
+		}
+		catch (OperationCanceledException)
+		{
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteException("LibraryPage::Page_Loaded", ex);
+		}
 	}
 
 	private void Page_Unloaded(object sender, RoutedEventArgs e)

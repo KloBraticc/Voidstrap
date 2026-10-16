@@ -26,10 +26,20 @@ namespace Voidstrap.UI.Elements.Settings.Pages
 
         private async void GamePage_Loaded(object sender, RoutedEventArgs e)
         {
-            _cts?.Cancel();
-            _cts?.Dispose();
-            _cts = new CancellationTokenSource();
-            await LoadGameAsync(_cts.Token);
+            try
+            {
+                _cts?.Cancel();
+                _cts?.Dispose();
+                _cts = new CancellationTokenSource();
+                await LoadGameAsync(_cts.Token);
+            }
+            catch (OperationCanceledException)
+            {
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteException("GamePage::GamePage_Loaded", ex);
+            }
         }
 
         private void GamePage_Unloaded(object sender, RoutedEventArgs e)

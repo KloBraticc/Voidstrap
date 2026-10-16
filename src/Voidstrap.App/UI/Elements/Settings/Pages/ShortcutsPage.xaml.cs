@@ -216,9 +216,19 @@ public partial class ShortcutsPage : UiPage{
 
 	private async void Page_Loaded(object sender, RoutedEventArgs e)
 	{
-		ShortcutsViewModel viewModel = (ShortcutsViewModel)DataContext;
-		if (viewModel.IsSubplaceMode)
-			await viewModel.LoadSubplacesAsync();
+		try
+		{
+			ShortcutsViewModel viewModel = (ShortcutsViewModel)DataContext;
+			if (viewModel.IsSubplaceMode)
+				await viewModel.LoadSubplacesAsync();
+		}
+		catch (OperationCanceledException)
+		{
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteException("ShortcutsPage::Page_Loaded", ex);
+		}
 	}
 
 	private void Page_Unloaded(object sender, RoutedEventArgs e)

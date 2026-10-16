@@ -791,7 +791,17 @@ public partial class MenuContainer : WpfUiWindow
 
     private async void MemoryTimer_Tick(object? sender, EventArgs e)
     {
-        await UpdateRobloxMemoryAsync();
+        try
+        {
+            await UpdateRobloxMemoryAsync();
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("MenuContainer::MemoryTimer_Tick", ex);
+        }
     }
 
     private async Task UpdateRobloxMemoryAsync()

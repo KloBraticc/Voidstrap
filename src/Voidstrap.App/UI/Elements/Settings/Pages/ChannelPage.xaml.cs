@@ -346,15 +346,25 @@ public partial class ChannelPage : UiPage{
 
 	private async void UninstallButton_Click(object sender, RoutedEventArgs e)
 	{
-		UninstallerDialog uninstallerDialog = new UninstallerDialog();
-		uninstallerDialog.Owner = Window.GetWindow((DependencyObject)(object)this);
-		uninstallerDialog.ShowOwnedDialog();
-		if (uninstallerDialog.Confirmed)
+		try
 		{
-			if (!await Voidstrap.Installer.DoUninstallAsync(uninstallerDialog.KeepData))
-				return;
-			Frontend.ShowMessageBox(Strings.Bootstrapper_SuccessfullyUninstalled, MessageBoxImage.Asterisk);
-			App.Terminate();
+			UninstallerDialog uninstallerDialog = new UninstallerDialog();
+			uninstallerDialog.Owner = Window.GetWindow((DependencyObject)(object)this);
+			uninstallerDialog.ShowOwnedDialog();
+			if (uninstallerDialog.Confirmed)
+			{
+				if (!await Voidstrap.Installer.DoUninstallAsync(uninstallerDialog.KeepData))
+					return;
+				Frontend.ShowMessageBox(Strings.Bootstrapper_SuccessfullyUninstalled, MessageBoxImage.Asterisk);
+				App.Terminate();
+			}
+		}
+		catch (OperationCanceledException)
+		{
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteException("ChannelPage::UninstallButton_Click", ex);
 		}
 	}
 

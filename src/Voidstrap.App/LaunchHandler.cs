@@ -312,48 +312,58 @@ public static class LaunchHandler
 
 	public static async void LaunchUninstaller()
 	{
-		if (Voidstrap.Utility.Platform.IsWindows && !ProcessElevation.IsAdministrator())
+		try
 		{
-			if (ProcessElevation.TryRestartElevated(App.LaunchSettings.Args))
+			if (Voidstrap.Utility.Platform.IsWindows && !ProcessElevation.IsAdministrator())
 			{
-				App.SoftTerminate();
+				if (ProcessElevation.TryRestartElevated(App.LaunchSettings.Args))
+				{
+					App.SoftTerminate();
+					return;
+				}
+				App.Terminate(ErrorCode.ERROR_CANCELLED);
 				return;
 			}
-			App.Terminate(ErrorCode.ERROR_CANCELLED);
-			return;
-		}
-		using InterProcessLock interProcessLock = new InterProcessLock("Uninstaller");
-		if (!interProcessLock.IsAcquired)
-		{
-			Frontend.ShowMessageBox(Strings.Dialog_AlreadyRunning_Uninstaller, MessageBoxImage.Hand);
+			using InterProcessLock interProcessLock = new InterProcessLock("Uninstaller");
+			if (!interProcessLock.IsAcquired)
+			{
+				Frontend.ShowMessageBox(Strings.Dialog_AlreadyRunning_Uninstaller, MessageBoxImage.Hand);
+				App.Terminate();
+				return;
+			}
+			bool keepData = true;
+			bool flag;
+			if (App.LaunchSettings.QuietFlag.Active)
+			{
+				flag = true;
+			}
+			else
+			{
+				UninstallerDialog uninstallerDialog = new UninstallerDialog();
+				uninstallerDialog.ShowTopLevelDialog();
+				flag = uninstallerDialog.Confirmed;
+				keepData = uninstallerDialog.KeepData;
+			}
+			if (!flag)
+			{
+				App.Terminate();
+				return;
+			}
+			if (!await Installer.DoUninstallAsync(keepData))
+			{
+				App.Terminate(ErrorCode.ERROR_INSTALL_FAILURE);
+				return;
+			}
+			Frontend.ShowMessageBox(Strings.Bootstrapper_SuccessfullyUninstalled, MessageBoxImage.Asterisk);
 			App.Terminate();
-			return;
 		}
-		bool keepData = true;
-		bool flag;
-		if (App.LaunchSettings.QuietFlag.Active)
+		catch (OperationCanceledException)
 		{
-			flag = true;
 		}
-		else
+		catch (Exception ex)
 		{
-			UninstallerDialog uninstallerDialog = new UninstallerDialog();
-			uninstallerDialog.ShowTopLevelDialog();
-			flag = uninstallerDialog.Confirmed;
-			keepData = uninstallerDialog.KeepData;
+			App.Logger.WriteException("LaunchHandler::LaunchUninstaller", ex);
 		}
-		if (!flag)
-		{
-			App.Terminate();
-			return;
-		}
-		if (!await Installer.DoUninstallAsync(keepData))
-		{
-			App.Terminate(ErrorCode.ERROR_INSTALL_FAILURE);
-			return;
-		}
-		Frontend.ShowMessageBox(Strings.Bootstrapper_SuccessfullyUninstalled, MessageBoxImage.Asterisk);
-		App.Terminate();
 	}
 
 	public static void LaunchSettings()
