@@ -6781,4 +6781,7 @@ Roblox ще бъде изтеглен, когато го стартирате з
   <data name="Ui.ModGen.WaitingForOther" xml:space="preserve">
     <value>Изчакване на мода, който вече се създава, да завърши</value>
   </data>
+  <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
+    <value>Фонът на началната страница се нуждае от достъп за запис на екрана в macOS, за да вижда началния екран на Roblox. Разрешете Voidstrap в Системни настройки, Поверителност и сигурност, Запис на екрана, след което рестартирайте Voidstrap. Той само чете прозореца на Roblox и никога не записва и не запазва нищо.</value>
+  </data>
 </root>

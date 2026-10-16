@@ -6750,4 +6750,7 @@ Riprovare la rimozione?</value>
   <data name="Ui.ModGen.WaitingForOther" xml:space="preserve">
     <value>In attesa che finisca la mod già in generazione</value>
   </data>
+  <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
+    <value>Lo sfondo della home ha bisogno dell'accesso alla Registrazione schermo su macOS per vedere la schermata home di Roblox. Consenti Voidstrap in Impostazioni di Sistema, Privacy e sicurezza, Registrazione schermo, poi riavvia Voidstrap. Legge solo la finestra di Roblox e non registra né salva mai nulla.</value>
+  </data>
 </root>

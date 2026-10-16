@@ -6702,4 +6702,7 @@ Réessayer la suppression ?</value>
   <data name="Ui.ModGen.WaitingForOther" xml:space="preserve">
     <value>En attente de la fin du mod déjà en cours de génération</value>
   </data>
+  <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
+    <value>L'arrière-plan de la page d'accueil a besoin de l'accès à l'enregistrement de l'écran sur macOS pour voir l'écran d'accueil de Roblox. Autorisez Voidstrap dans Réglages Système, Confidentialité et sécurité, Enregistrement de l'écran, puis redémarrez Voidstrap. Il lit seulement la fenêtre Roblox et n'enregistre ni ne sauvegarde jamais rien.</value>
+  </data>
 </root>

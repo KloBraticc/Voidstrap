@@ -6775,4 +6775,7 @@ Spróbować ponownie usunąć?</value>
   <data name="Ui.ModGen.WaitingForOther" xml:space="preserve">
     <value>Czekanie na zakończenie generowanego już moda</value>
   </data>
+  <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
+    <value>Tło strony głównej potrzebuje w macOS dostępu do nagrywania ekranu, aby widzieć ekran główny Roblox. Zezwól na Voidstrap w Ustawieniach systemowych, Prywatność i ochrona, Nagrywanie ekranu, a potem uruchom ponownie Voidstrap. Odczytuje tylko okno Roblox i nigdy niczego nie nagrywa ani nie zapisuje.</value>
+  </data>
 </root>

@@ -6791,4 +6791,7 @@ Roblox буде завантажено під час першого запуск
   <data name="Ui.ModGen.WaitingForOther" xml:space="preserve">
     <value>Очікування завершення мода, що вже створюється</value>
   </data>
+  <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
+    <value>Фону головної сторінки потрібен доступ до запису екрана в macOS, щоб бачити головний екран Roblox. Дозвольте Voidstrap у Системних параметрах, Приватність і безпека, Запис екрана, а потім перезапустіть Voidstrap. Він лише читає вікно Roblox і ніколи нічого не записує й не зберігає.</value>
+  </data>
 </root>

@@ -1136,6 +1136,18 @@ public ICommand PickCursorColorCommand { get; }
 			App.Settings.SaveDeferred();
 			OnPropertyChanged();
 			Voidstrap.Integrations.Overlays.OverlayHub.Refresh();
+			if (value && Voidstrap.Utility.Platform.IsMacOS && !Voidstrap.Platform.MacOS.MacOSWindowCapture.HasPermission)
+			{
+				if (!Voidstrap.Platform.MacOS.MacOSWindowCapture.RequestPermission())
+				{
+					SettingChangeNotifier.Try(
+						"ModsViewModel::HomepageBackgroundOverlayEnabled",
+						"Screen Recording settings could not be opened.",
+						Voidstrap.Platform.MacOS.MacOSWindowCapture.OpenSettings);
+				}
+				Frontend.ShowMessageBox(Strings.Ui_Mods_HomepageScreenRecording, MessageBoxImage.Information);
+				return;
+			}
 			if (value)
 			{
 				string message = Voidstrap.Utility.Platform.IsLinux

@@ -481,6 +481,8 @@ namespace Voidstrap.Integrations.Overlays
 
 		private static bool _macHomepageStarting;
 
+		private static bool _macHomepagePermissionLogged;
+
 		private static bool StartMacHomepage()
 		{
 			System.Windows.Application? app = System.Windows.Application.Current;
@@ -490,6 +492,15 @@ namespace Voidstrap.Integrations.Overlays
 			{
 				if (_macHomepage != null || _macHomepageStarting || _shutdown || !HomepageBackgroundActive)
 					return;
+				if (!Voidstrap.Platform.MacOS.MacOSWindowCapture.HasPermission)
+				{
+					if (!_macHomepagePermissionLogged)
+					{
+						_macHomepagePermissionLogged = true;
+						App.Logger.WriteLine("OverlayHub::StartMacHomepage", "Screen Recording access is not granted, the homepage background stays off");
+					}
+					return;
+				}
 				_macHomepageStarting = true;
 				try
 				{

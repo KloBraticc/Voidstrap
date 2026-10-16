@@ -6761,4 +6761,7 @@ Zkusit odebrání znovu?</value>
   <data name="Ui.ModGen.WaitingForOther" xml:space="preserve">
     <value>Čeká se na dokončení modu, který se už vytváří</value>
   </data>
+  <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
+    <value>Pozadí domovské stránky potřebuje v macOS přístup k nahrávání obrazovky, aby vidělo domovskou obrazovku Roblox. Povolte Voidstrap v Nastavení systému, Soukromí a zabezpečení, Nahrávání obrazovky, a poté Voidstrap restartujte. Pouze čte okno Roblox a nic nenahrává ani neukládá.</value>
+  </data>
 </root>

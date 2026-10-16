@@ -2561,6 +2561,8 @@ namespace Voidstrap.Resources {
 
         public static string Ui_ModGen_WaitingForOther => ResourceManager.GetString("Ui.ModGen.WaitingForOther", resourceCulture);
 
+        public static string Ui_Mods_HomepageScreenRecording => ResourceManager.GetString("Ui.Mods.HomepageScreenRecording", resourceCulture);
+
         public static string Menu_Appearance_Accent_Title => ResourceManager.GetString("Menu.Appearance.Accent.Title", resourceCulture);
 
         public static string Menu_Appearance_Accent_Description => ResourceManager.GetString("Menu.Appearance.Accent.Description", resourceCulture);

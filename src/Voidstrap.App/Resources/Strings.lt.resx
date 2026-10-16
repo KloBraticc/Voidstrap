@@ -6815,4 +6815,7 @@ Bandyti pašalinti dar kartą?</value>
   <data name="Ui.ModGen.WaitingForOther" xml:space="preserve">
     <value>Laukiama, kol bus baigtas jau kuriamas modas</value>
   </data>
+  <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
+    <value>Pagrindinio puslapio fonui macOS sistemoje reikia ekrano įrašymo prieigos, kad matytų Roblox pagrindinį ekraną. Leiskite Voidstrap sistemos nustatymuose, Privatumas ir sauga, Ekrano įrašymas, tada iš naujo paleiskite Voidstrap. Jis tik nuskaito Roblox langą ir niekada nieko neįrašo ir neišsaugo.</value>
+  </data>
 </root>

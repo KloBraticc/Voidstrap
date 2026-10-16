@@ -6739,4 +6739,7 @@ Försöka ta bort igen?</value>
   <data name="Ui.ModGen.WaitingForOther" xml:space="preserve">
     <value>Väntar på att moden som redan genereras ska bli klar</value>
   </data>
+  <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
+    <value>Startsidans bakgrund behöver åtkomst till Skärminspelning på macOS för att se Roblox startskärm. Tillåt Voidstrap i Systeminställningar, Integritet och säkerhet, Skärminspelning, och starta sedan om Voidstrap. Den läser bara Roblox fönstret och spelar aldrig in eller sparar något.</value>
+  </data>
 </root>

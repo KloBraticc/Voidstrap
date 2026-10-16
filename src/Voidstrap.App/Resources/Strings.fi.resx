@@ -6773,4 +6773,7 @@ Yritetäänkö poistoa uudelleen?</value>
   <data name="Ui.ModGen.WaitingForOther" xml:space="preserve">
     <value>Odotetaan jo luotavan modin valmistumista</value>
   </data>
+  <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
+    <value>Aloitussivun tausta tarvitsee macOS:ssä näytön tallennuksen käyttöoikeuden nähdäkseen Robloxin aloitusnäytön. Salli Voidstrap kohdassa Järjestelmäasetukset, Tietosuoja ja turvallisuus, Näytön tallennus, ja käynnistä Voidstrap sitten uudelleen. Se vain lukee Roblox ikkunaa eikä koskaan tallenna mitään.</value>
+  </data>
 </root>

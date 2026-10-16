@@ -6783,4 +6783,7 @@ Roblox будет скачан при первом запуске через Voi
   <data name="Ui.ModGen.WaitingForOther" xml:space="preserve">
     <value>Ожидание завершения уже создаваемого мода</value>
   </data>
+  <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
+    <value>Фону главной страницы нужен доступ к записи экрана в macOS, чтобы видеть главный экран Roblox. Разрешите Voidstrap в Системных настройках, Конфиденциальность и безопасность, Запись экрана, затем перезапустите Voidstrap. Он только читает окно Roblox и никогда ничего не записывает и не сохраняет.</value>
+  </data>
 </root>

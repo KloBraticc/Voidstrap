@@ -6737,4 +6737,7 @@ Het verwijderen opnieuw proberen?</value>
   <data name="Ui.ModGen.WaitingForOther" xml:space="preserve">
     <value>Wachten tot de mod die al wordt gegenereerd klaar is</value>
   </data>
+  <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
+    <value>De achtergrond van de startpagina heeft op macOS toegang tot Schermopname nodig om het Roblox startscherm te zien. Sta Voidstrap toe in Systeeminstellingen, Privacy en beveiliging, Schermopname, en herstart Voidstrap daarna. Het leest alleen het Roblox venster en neemt nooit iets op of slaat niets op.</value>
+  </data>
 </root>

@@ -14,6 +14,17 @@ public static partial class MacOSWindowCapture
 
 	public static bool RequestPermission() => OperatingSystem.IsMacOS() && CGRequestScreenCaptureAccess();
 
+	public static void OpenSettings()
+	{
+		if (!OperatingSystem.IsMacOS())
+			return;
+		using System.Diagnostics.Process? process = System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo("/usr/bin/open")
+		{
+			UseShellExecute = false,
+			ArgumentList = { "x-apple.systempreferences:com.apple.preference.security?Privacy_ScreenCapture" }
+		});
+	}
+
 	public static bool TryCapture(int windowNumber, bool nominalResolution, ref byte[] buffer, out int width, out int height)
 	{
 		width = 0;

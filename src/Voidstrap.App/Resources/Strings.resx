@@ -6555,4 +6555,7 @@ Try the removal again?</value>
   <data name="Ui.ModGen.WaitingForOther" xml:space="preserve">
     <value>Waiting for the mod that is already being generated to finish</value>
   </data>
+  <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
+    <value>The homepage background needs Screen Recording access on macOS to see the Roblox home screen. Allow Voidstrap in System Settings, Privacy and Security, Screen Recording, then restart Voidstrap. It only reads the Roblox window and never records or saves anything.</value>
+  </data>
 </root>

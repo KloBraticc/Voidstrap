@@ -6787,4 +6787,7 @@ Thử gỡ bỏ lại?</value>
   <data name="Ui.ModGen.WaitingForOther" xml:space="preserve">
     <value>Đang chờ mod đang được tạo hoàn tất</value>
   </data>
+  <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
+    <value>Hình nền trang chủ cần quyền Ghi màn hình trên macOS để nhìn thấy màn hình chính của Roblox. Hãy cho phép Voidstrap trong Cài đặt hệ thống, Quyền riêng tư và bảo mật, Ghi màn hình, rồi khởi động lại Voidstrap. Nó chỉ đọc cửa sổ Roblox và không bao giờ ghi hay lưu bất cứ thứ gì.</value>
+  </data>
 </root>

@@ -6791,4 +6791,7 @@ Roblox는 Voidstrap으로 처음 실행할 때 다운로드됩니다. 실행하�
   <data name="Ui.ModGen.WaitingForOther" xml:space="preserve">
     <value>이미 생성 중인 모드가 끝나기를 기다리는 중</value>
   </data>
+  <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
+    <value>홈페이지 배경이 Roblox 홈 화면을 보려면 macOS에서 화면 기록 권한이 필요합니다. 시스템 설정, 개인정보 보호 및 보안, 화면 기록에서 Voidstrap을 허용한 다음 Voidstrap을 다시 시작하십시오. Roblox 창만 읽으며 아무것도 녹화하거나 저장하지 않습니다.</value>
+  </data>
 </root>

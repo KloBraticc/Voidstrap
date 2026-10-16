@@ -6554,4 +6554,7 @@ Subukan ulit ang pag alis?</value>
   <data name="Ui.ModGen.WaitingForOther" xml:space="preserve">
     <value>Hinihintay matapos ang mod na ginagawa na</value>
   </data>
+  <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
+    <value>Kailangan ng background ng homepage ang access sa Screen Recording sa macOS para makita ang home screen ng Roblox. Payagan ang Voidstrap sa System Settings, Privacy and Security, Screen Recording, pagkatapos ay i-restart ang Voidstrap. Binabasa lang nito ang window ng Roblox at hindi kailanman nagre-record o nagse-save ng kahit ano.</value>
+  </data>
 </root>

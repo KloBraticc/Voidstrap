@@ -6773,4 +6773,7 @@ Kaldırma yeniden denensin mi?</value>
   <data name="Ui.ModGen.WaitingForOther" xml:space="preserve">
     <value>Zaten oluşturulmakta olan modun bitmesi bekleniyor</value>
   </data>
+  <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
+    <value>Ana sayfa arka planı, Roblox ana ekranını görebilmek için macOS üzerinde Ekran Kaydı erişimine ihtiyaç duyar. Sistem Ayarları, Gizlilik ve Güvenlik, Ekran Kaydı bölümünden Voidstrap uygulamasına izin verin, ardından Voidstrap uygulamasını yeniden başlatın. Yalnızca Roblox penceresini okur ve hiçbir şeyi kaydetmez veya saklamaz.</value>
+  </data>
 </root>

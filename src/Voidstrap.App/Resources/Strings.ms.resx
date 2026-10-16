@@ -6742,4 +6742,7 @@ Cuba buang semula?</value>
   <data name="Ui.ModGen.WaitingForOther" xml:space="preserve">
     <value>Menunggu mod yang sedang dijana selesai</value>
   </data>
+  <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
+    <value>Latar belakang laman utama memerlukan akses Rakaman Skrin pada macOS untuk melihat skrin utama Roblox. Benarkan Voidstrap dalam Seting Sistem, Privasi dan Keselamatan, Rakaman Skrin, kemudian mulakan semula Voidstrap. Ia hanya membaca tetingkap Roblox dan tidak pernah merakam atau menyimpan apa-apa.</value>
+  </data>
 </root>

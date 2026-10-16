@@ -21,8 +21,6 @@ internal sealed class MacHomepageBackgroundOverlay : IDisposable
 
 	private const int SettleMilliseconds = 500;
 
-	private static int _permissionRequested;
-
 	private readonly Window _window;
 
 	private readonly Image _image;
@@ -98,11 +96,6 @@ internal sealed class MacHomepageBackgroundOverlay : IDisposable
 		_timer.Tick += OnTick;
 		_window.Show();
 		_timer.Start();
-		if (!Voidstrap.Platform.MacOS.MacOSWindowCapture.HasPermission && Interlocked.Exchange(ref _permissionRequested, 1) == 0)
-		{
-			App.Logger.WriteLine(LogIdent, "Screen Recording permission is needed to read the Roblox home screen, asking macOS for it");
-			Voidstrap.Platform.MacOS.MacOSWindowCapture.RequestPermission();
-		}
 		App.Logger.WriteLine(LogIdent, "Homepage background overlay started");
 	}
 

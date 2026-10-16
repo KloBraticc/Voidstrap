@@ -6804,4 +6804,7 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
   <data name="Ui.ModGen.WaitingForOther" xml:space="preserve">
     <value>生成中の Mod が完了するのを待っています</value>
   </data>
+  <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
+    <value>ホーム画面の背景で Roblox のホーム画面を読み取るには、macOS の画面収録へのアクセスが必要です。システム設定のプライバシーとセキュリティ、画面収録で Voidstrap を許可してから、Voidstrap を再起動してください。Roblox のウィンドウを読み取るだけで、何も録画や保存はしません。</value>
+  </data>
 </root>
