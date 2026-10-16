@@ -777,13 +777,13 @@
             </ControlTemplate>
           </ui:NavigationFluent.Template>
           <ui:NavigationBase.Items>
-            <ui:NavigationItem Content="{resources:Loc Ui_Nav_Core}" IsEnabled="False" Opacity="0.6" />
+            <ui:NavigationItem Name="CoreHeader" Content="{resources:Loc Ui_Nav_Core}" IsEnabled="False" Opacity="0.6" />
             <ui:NavigationItem Cache="True" Name="HomeNavItem" Content="{resources:Loc Ui_Nav_Home}" Icon="Home24" Tag="Home20" PageType="{x:Type pages:HomePage}" />
             <ui:NavigationItem Cache="True" Name="IntegrationsNavItem" Content="{resources:Loc Menu_Integrations_Title}" Icon="Add12" Tag="Add16" PageType="{x:Type pages:IntegrationsPage}" />
             <ui:NavigationItem Cache="True" Name="DeploymentNavItem" Content="{resources:Loc Common_Deployment}" Icon="PlaySettings20" Tag="Play20" PageType="{x:Type pages:BehaviourPage}" />
             <ui:NavigationItem Cache="True" Name="AppearanceNavItem" Content="{resources:Loc Menu_Appearance_Title}" Icon="Color24" Tag="Color20" PageType="{x:Type pages:AppearancePage}" />
             <ui:NavigationSeparator />
-            <ui:NavigationItem Content="{resources:Loc Ui_Nav_Configuration}" IsEnabled="False" Opacity="0.6" />
+            <ui:NavigationItem Name="ConfigurationHeader" Content="{resources:Loc Ui_Nav_Configuration}" IsEnabled="False" Opacity="0.6" />
             <ui:NavigationItem Cache="True" Name="FastFlagSettingsNavItem" Content="{resources:Loc Ui_Nav_FastFlagSettings}" Icon="Settings28" Tag="SettingsChat24" PageType="{x:Type pages:FastFlagsPage}" />
             <ui:NavigationItem Cache="True" Name="FastFlagEditorNavItem" Content="{resources:Loc Ui_Nav_FastFlagEditor}" Icon="Flag28" Tag="Flag20" PageType="{x:Type pages:FastFlagEditorPage}" />
             <ui:NavigationItem Cache="True" Name="ModsNavItem" Content="{resources:Loc Menu_Mods_Title}" Icon="WrenchScrewdriver20" Tag="Wrench24" PageType="{x:Type pages:ModsPage}" />
