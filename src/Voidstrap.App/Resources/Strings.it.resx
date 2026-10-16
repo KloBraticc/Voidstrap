@@ -3043,9 +3043,6 @@ Cosa vuoi fare?</value>
   <data name="Ui.Main.Forward" xml:space="preserve">
     <value>Avanti</value>
   </data>
-  <data name="Ui.Main.TabHome" xml:space="preserve">
-    <value>HOME</value>
-  </data>
   <data name="Ui.Main.TabLibrary" xml:space="preserve">
     <value>LIBRERIA</value>
   </data>
@@ -3084,9 +3081,6 @@ Cosa vuoi fare?</value>
   </data>
   <data name="Ui.Nav.Core" xml:space="preserve">
     <value>Principale</value>
-  </data>
-  <data name="Ui.Nav.Home" xml:space="preserve">
-    <value>Home</value>
   </data>
   <data name="Ui.Nav.Configuration" xml:space="preserve">
     <value>Configurazione</value>
@@ -3466,9 +3460,6 @@ Cosa vuoi fare?</value>
   <data name="Ui.Mods.RemoveCustomDeathSound" xml:space="preserve">
     <value>Rimuovi il suono di morte personalizzato</value>
   </data>
-  <data name="Ui.Mods.Volume" xml:space="preserve">
-    <value>Volume</value>
-  </data>
   <data name="Ui.Mods.SkyboxManager" xml:space="preserve">
     <value>Gestione skybox</value>
   </data>
@@ -3628,9 +3619,6 @@ Cosa vuoi fare?</value>
   <data name="Ui.Mods.EnableOrDisableThisMod" xml:space="preserve">
     <value>Attiva o disattiva questa mod</value>
   </data>
-  <data name="Ui.Mods.Id" xml:space="preserve">
-    <value>   ID: </value>
-  </data>
   <data name="Ui.Mods.ViewThisModPack" xml:space="preserve">
     <value>Visualizza questo pacchetto di mod</value>
   </data>
@@ -3678,9 +3666,6 @@ Cosa vuoi fare?</value>
   </data>
   <data name="Ui.Mods.Direction" xml:space="preserve">
     <value>Direzione</value>
-  </data>
-  <data name="Ui.Mods.File" xml:space="preserve">
-    <value>File</value>
   </data>
   <data name="Ui.Mods.Display" xml:space="preserve">
     <value>Schermo</value>
@@ -3921,12 +3906,6 @@ Cosa vuoi fare?</value>
   </data>
   <data name="Ui.FastFlags.GrassDistance" xml:space="preserve">
     <value>Distanza dell'erba</value>
-  </data>
-  <data name="Ui.FastFlags.Min" xml:space="preserve">
-    <value>Min</value>
-  </data>
-  <data name="Ui.FastFlags.Max" xml:space="preserve">
-    <value>Max</value>
   </data>
   <data name="Ui.FastFlags.ConfigureTheRenderingApiForRoblox" xml:space="preserve">
     <value>Configura l'API di rendering per Roblox. Premi Alt Invio quando passi a schermo intero se usi Direct3D. Vulkan potrebbe causare alcuni bug!.</value>
@@ -4177,9 +4156,6 @@ Cosa vuoi fare?</value>
   <data name="Ui.Bootstrapper.FilesOlderThanTheSetAmount" xml:space="preserve">
     <value>I file più vecchi del periodo impostato verranno eliminati.</value>
   </data>
-  <data name="Ui.Bootstrapper.Cache" xml:space="preserve">
-    <value>Cache</value>
-  </data>
   <data name="Ui.Bootstrapper.WhenShouldTheSetAmountBe" xml:space="preserve">
     <value>Quando eliminare la quantità impostata.</value>
   </data>
@@ -4231,9 +4207,6 @@ Cosa vuoi fare?</value>
   <data name="Ui.Bootstrapper.ReduceResourcesWhenRobloxIsUnfocused" xml:space="preserve">
     <value>Riduci le risorse quando Roblox non è in primo piano</value>
   </data>
-  <data name="Ui.Bootstrapper.VoidstrapMatchmaker" xml:space="preserve">
-    <value>Voidstrap Matchmaker</value>
-  </data>
   <data name="Ui.Bootstrapper.Enable" xml:space="preserve">
     <value>Attiva</value>
   </data>
@@ -4279,9 +4252,6 @@ Cosa vuoi fare?</value>
   <data name="Ui.Bootstrapper.Allow" xml:space="preserve">
     <value>Consenti</value>
   </data>
-  <data name="Ui.Bootstrapper.Datacenter" xml:space="preserve">
-    <value>Datacenter</value>
-  </data>
   <data name="Ui.Bootstrapper.Latency" xml:space="preserve">
     <value>Latenza</value>
   </data>
@@ -4300,9 +4270,6 @@ Cosa vuoi fare?</value>
   <data name="Ui.Bootstrapper.NeverLetVoidstrapPickAServer" xml:space="preserve">
     <value>Non lasciare mai che Voidstrap scelga un server per questo gioco</value>
   </data>
-  <data name="Ui.Bootstrapper.PlaceId" xml:space="preserve">
-    <value>Place id</value>
-  </data>
   <data name="Ui.Bootstrapper.LetVoidstrapPickServersForThis" xml:space="preserve">
     <value>Lascia di nuovo che Voidstrap scelga i server per questo gioco</value>
   </data>
@@ -4315,17 +4282,11 @@ Cosa vuoi fare?</value>
   <data name="Ui.Bootstrapper.HowHardToSearch" xml:space="preserve">
     <value>Intensità della ricerca</value>
   </data>
-  <data name="Ui.Bootstrapper.Auto" xml:space="preserve">
-    <value>Auto</value>
-  </data>
   <data name="Ui.Bootstrapper.ReconnectLimit" xml:space="preserve">
     <value>Limite di riconnessioni</value>
   </data>
   <data name="Ui.Bootstrapper.VoidstrapStopsTryingAfterThisMany" xml:space="preserve">
     <value>Voidstrap smette dopo questo numero di riconnessioni così non va mai in loop.</value>
-  </data>
-  <data name="Ui.Bootstrapper.JoinAPI" xml:space="preserve">
-    <value>Join API</value>
   </data>
   <data name="Ui.Bootstrapper.WhichRobloxJoinEndpointVoidstrapAsks" xml:space="preserve">
     <value>Quale endpoint di accesso di Roblox Voidstrap interroga per la posizione dei server. Cambialo solo se gli accessi smettono di funzionare.</value>
@@ -4546,9 +4507,6 @@ Cosa vuoi fare?</value>
   <data name="Ui.Integrations.CloseWhenLeavingThatGame" xml:space="preserve">
     <value>Chiudi quando esci da quel gioco</value>
   </data>
-  <data name="Ui.Integrations.PlaceID" xml:space="preserve">
-    <value>Place ID</value>
-  </data>
   <data name="Ui.Channel.InstallLocation" xml:space="preserve">
     <value>Percorso di installazione</value>
   </data>
@@ -4608,9 +4566,6 @@ Cosa vuoi fare?</value>
   </data>
   <data name="Ui.Channel.DisplaysVoidstrapsDiscordRPC" xml:space="preserve">
     <value>Mostra la RPC di Discord di Voidstrap.</value>
-  </data>
-  <data name="Ui.Channel.VoidstrapRPC" xml:space="preserve">
-    <value>Voidstrap RPC</value>
   </data>
   <data name="Ui.Channel.FactoryReset" xml:space="preserve">
     <value>Ripristino di fabbrica</value>
@@ -4726,9 +4681,6 @@ Cosa vuoi fare?</value>
   <data name="Ui.Channel.ChoosesTheGraphicsBackendVoidstrapDraws" xml:space="preserve">
     <value>Sceglie il backend grafico con cui Voidstrap si disegna. Automatico sceglie il più veloce supportato dal tuo sistema. La modifica ha effetto al prossimo avvio di Voidstrap.</value>
   </data>
-  <data name="Ui.SessionNotify.Overlay" xml:space="preserve">
-    <value>Overlay</value>
-  </data>
   <data name="Ui.SessionNotify.OverlayShortcut" xml:space="preserve">
     <value>Scorciatoia overlay</value>
   </data>
@@ -4821,9 +4773,6 @@ Cosa vuoi fare?</value>
   </data>
   <data name="Ui.SessionNotify.BadgesAndTheShortcutReminderFollow" xml:space="preserve">
     <value>I badge e il promemoria della scorciatoia seguono Server</value>
-  </data>
-  <data name="Ui.SessionNotify.Server" xml:space="preserve">
-    <value>Server</value>
   </data>
   <data name="Ui.SessionNotify.Friends" xml:space="preserve">
     <value>Amici</value>
@@ -5038,9 +4987,6 @@ Cosa vuoi fare?</value>
   <data name="Ui.Gbs.ToggleFullscreenMode" xml:space="preserve">
     <value>Attiva o disattiva lo schermo intero.</value>
   </data>
-  <data name="Ui.Gbs.Audio" xml:space="preserve">
-    <value>Audio</value>
-  </data>
   <data name="Ui.Gbs.MasterVolume" xml:space="preserve">
     <value>Volume principale</value>
   </data>
@@ -5115,9 +5061,6 @@ Cosa vuoi fare?</value>
   </data>
   <data name="Ui.Gbs.EnableVignetteForMotionSicknessReduction" xml:space="preserve">
     <value>Attiva la vignettatura per ridurre la chinetosi.</value>
-  </data>
-  <data name="Ui.Gbs.MicroProfiler" xml:space="preserve">
-    <value>Micro Profiler</value>
   </data>
   <data name="Ui.Gbs.EnableRobloxMicroprofilerServer" xml:space="preserve">
     <value>Attiva il server del microprofiler di Roblox.</value>
@@ -5212,9 +5155,6 @@ Cosa vuoi fare?</value>
   <data name="Ui.Home.SeeWhatSPossibleOnRoblox" xml:space="preserve">
     <value>Scopri cosa è possibile su Roblox nei generi più popolari con esperienze già pronte, o parti da zero.</value>
   </data>
-  <data name="Ui.Session.Browser" xml:space="preserve">
-    <value>Browser</value>
-  </data>
   <data name="Ui.Session.MuteOrUnmuteThisTab" xml:space="preserve">
     <value>Disattiva o riattiva l'audio di questa scheda</value>
   </data>
@@ -5293,12 +5233,6 @@ Cosa vuoi fare?</value>
   <data name="Ui.Session.Verified" xml:space="preserve">
     <value>Verificato</value>
   </data>
-  <data name="Ui.Session.Account" xml:space="preserve">
-    <value>Account</value>
-  </data>
-  <data name="Ui.Session.Social" xml:space="preserve">
-    <value>Social</value>
-  </data>
   <data name="Ui.Session.OpenProfile" xml:space="preserve">
     <value>Apri profilo</value>
   </data>
@@ -5316,9 +5250,6 @@ Cosa vuoi fare?</value>
   </data>
   <data name="Ui.Session.Session" xml:space="preserve">
     <value>Sessione </value>
-  </data>
-  <data name="Ui.Session.Server" xml:space="preserve">
-    <value>  ·  Server </value>
   </data>
   <data name="Ui.Session.ChatWithFriends" xml:space="preserve">
     <value>Chatta con gli amici</value>
@@ -5394,9 +5325,6 @@ Cosa vuoi fare?</value>
   </data>
   <data name="Ui.Session.PasteAFullROBLOSECURITYValueOnly" xml:space="preserve">
     <value>Incolla un valore .ROBLOSECURITY completo. Incolla solo cookie che ti appartengono.</value>
-  </data>
-  <data name="Ui.Session.WARNINGDONOTSHARETHIS" xml:space="preserve">
-    <value>_|WARNING: DO NOT SHARE THIS...</value>
   </data>
   <data name="Ui.Session.CURRENT" xml:space="preserve">
     <value>ATTUALE</value>
@@ -5581,14 +5509,8 @@ Cosa vuoi fare?</value>
   <data name="Ui.Misc.LetsVinegarShowYourStudioSession" xml:space="preserve">
     <value>Permette a Vinegar di mostrare la tua sessione di Studio su Discord.</value>
   </data>
-  <data name="Ui.Misc.Renderer" xml:space="preserve">
-    <value>Renderer</value>
-  </data>
   <data name="Ui.Misc.TheGraphicsBackendWineUsesFor" xml:space="preserve">
     <value>Il backend grafico che Wine usa per Studio. DXVK va bene per la maggior parte dei sistemi.</value>
-  </data>
-  <data name="Ui.Misc.FeralGameMode" xml:space="preserve">
-    <value>Feral GameMode</value>
   </data>
   <data name="Ui.Misc.AsksGameModeToTuneTheSystem" xml:space="preserve">
     <value>Chiede a GameMode di ottimizzare il sistema mentre Studio è in esecuzione.</value>
@@ -5860,9 +5782,6 @@ Cosa vuoi fare?</value>
   <data name="Ui.Pages.OverridesThatAffectGPUBehaviorAnd" xml:space="preserve">
     <value>Sostituzioni che influiscono sul comportamento della GPU e sulle funzioni del driver.</value>
   </data>
-  <data name="Ui.Pages.ResizableBAR" xml:space="preserve">
-    <value>Resizable BAR</value>
-  </data>
   <data name="Ui.Pages.AllowsTheCPUToAccessThe" xml:space="preserve">
     <value>Consente alla CPU di accedere a tutta la memoria della GPU sui sistemi supportati.</value>
   </data>
@@ -5973,9 +5892,6 @@ Cosa vuoi fare?</value>
   </data>
   <data name="Ui.Pages.ManageYourFastFlagsACheckmarkIn" xml:space="preserve">
     <value>Gestisci le tue FastFlags. Una spunta in Preset significa che il flag è disponibile nelle impostazioni FFlag, una croce che non lo è.</value>
-  </data>
-  <data name="Ui.Pages.Preset" xml:space="preserve">
-    <value>Preset</value>
   </data>
   <data name="Ui.Pages.GoToFFlagSettingsToAdd" xml:space="preserve">
     <value>Vai alle impostazioni FFlag per aggiungere FFlag Preset.</value>
@@ -6112,26 +6028,14 @@ Cosa vuoi fare?</value>
   <data name="Ui.Misc2.TheClassicTopbarOptionRebuildsTwo" xml:space="preserve">
     <value>L'opzione della topbar classica ricrea due mod della community. Grafica e comportamento di topbar e menu di gioco del 2014 2015 provengono da "2014 2015 Topbar and Menu (Improvised GUI)" di HockuTM. Nascondere la topbar moderna usa "NoGuiRBX, Hide TopBar!" di Einshine. Entrambi sono usati con gratitudine secondo i termini Creative Commons BY NC ND 4.0, i loro file vengono scaricati direttamente da GameBanana invece di essere inclusi, e nessuno dei due autori è affiliato a Voidstrap.</value>
   </data>
-  <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
-  </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>Mod della community</value>
   </data>
   <data name="Ui.Misc2.CommunityModsListsRobloxSubmissionsFrom" xml:space="preserve">
     <value>Mod della community elenca contenuti Roblox da GameBanana e Kliko's Mods, gestito da TheKliko per il modloader di Kliko. Voidstrap non è affiliato né approvato da nessuno dei due. Tutte le mod, immagini e descrizioni appartengono ai rispettivi autori, citati in ogni scheda. Voidstrap legge solo i loro dati pubblici e non carica mai nulla per tuo conto.</value>
   </data>
-  <data name="Ui.Misc2.GithubComKlikosModloaderMarketplace" xml:space="preserve">
-    <value>github.com/klikos modloader/marketplace</value>
-  </data>
   <data name="Ui.Misc2.CanTSeeOverlays" xml:space="preserve">
     <value>Non vedi gli overlay?</value>
-  </data>
-  <data name="Ui.Misc2.Info" xml:space="preserve">
-    <value>Info</value>
-  </data>
-  <data name="Ui.Misc2.FFlags" xml:space="preserve">
-    <value>FFlags</value>
   </data>
   <data name="Ui.Misc2.PlayTime" xml:space="preserve">
     <value>Tempo di gioco</value>
@@ -6205,9 +6109,6 @@ Cosa vuoi fare?</value>
   <data name="Ui.Misc2.SelectAnAssetToPreviewIt" xml:space="preserve">
     <value>Seleziona una risorsa per vederla qui</value>
   </data>
-  <data name="Ui.Misc2.Volume" xml:space="preserve">
-    <value>Volume:</value>
-  </data>
   <data name="Ui.Misc2.Loop" xml:space="preserve">
     <value>Ripeti</value>
   </data>
@@ -6225,9 +6126,6 @@ Cosa vuoi fare?</value>
   </data>
   <data name="Ui.Misc2.Options" xml:space="preserve">
     <value>Opzioni</value>
-  </data>
-  <data name="Ui.Misc2.Wireframe" xml:space="preserve">
-    <value>Wireframe</value>
   </data>
   <data name="Ui.Misc2.AutoRotate" xml:space="preserve">
     <value>Rotazione automatica</value>
@@ -6294,9 +6192,6 @@ Cosa vuoi fare?</value>
   </data>
   <data name="Ui.Misc2.ServerSize" xml:space="preserve">
     <value>Dimensione server</value>
-  </data>
-  <data name="Ui.Misc2.Chat" xml:space="preserve">
-    <value>Chat</value>
   </data>
   <data name="Ui.Misc2.Chats" xml:space="preserve">
     <value>Chat</value>
