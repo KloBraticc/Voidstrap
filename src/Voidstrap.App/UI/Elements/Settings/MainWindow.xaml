@@ -328,7 +328,7 @@
     <ui:Snackbar Name="SettingFailureSnackbar" Title="{resources:Loc Ui_Main_SettingNotChanged}" Grid.RowSpan="10" Margin="180,0,180,20" Panel.ZIndex="11" Icon="ErrorCircle24" Timeout="5000" />
     <ui:TitleBar Name="RootTitleBar" Padding="8" Grid.Row="0" Panel.ZIndex="1000" ForceShutdown="False" MinimizeToTray="False" UseSnapLayout="True">
       <ui:TitleBar.Header>
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" FlowDirection="LeftToRight" Margin="0,6,0,-6">
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" FlowDirection="LeftToRight" Margin="0,1,0,-1">
           <Grid Margin="0,0,2,0">
             <Button x:Name="TopSearchButton" Style="{StaticResource TopBarIconButtonStyle}" Click="TopSearchButton_Click">
               <Button.ToolTip>
@@ -340,7 +340,7 @@
               <ui:SymbolIcon Symbol="Search24" FontSize="16" />
             </Button>
           </Grid>
-          <Grid Margin="2,0,4,0">
+          <Grid Margin="2,0,12,0">
             <Button x:Name="NotificationsButton" Style="{StaticResource TopBarIconButtonStyle}" ToolTip="{resources:Loc Notifications_Title}" Click="NotificationsButton_Click">
               <Grid Width="28" Height="28" ClipToBounds="False">
                 <ui:SymbolIcon Symbol="Alert24" FontSize="17" HorizontalAlignment="Center" VerticalAlignment="Center" />
