@@ -6764,4 +6764,16 @@ Ce vrei să faci?</value>
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>Fundalul paginii principale are nevoie de acces la Înregistrarea ecranului pe macOS pentru a vedea ecranul principal Roblox. Permite Voidstrap în Configurări sistem, Confidențialitate și securitate, Înregistrarea ecranului, apoi repornește Voidstrap. Citește doar fereastra Roblox și nu înregistrează și nu salvează niciodată nimic.</value>
   </data>
+  <data name="Ui.Nav.Customization" xml:space="preserve">
+    <value>Personalizare</value>
+  </data>
+  <data name="Ui.Nav.RobloxSettings" xml:space="preserve">
+    <value>Setări Roblox</value>
+  </data>
+  <data name="Ui.Nav.Downloads" xml:space="preserve">
+    <value>Descărcări</value>
+  </data>
+  <data name="Ui.Nav.BottomSection" xml:space="preserve">
+    <value>Jos</value>
+  </data>
 </root>

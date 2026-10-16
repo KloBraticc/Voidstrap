@@ -6753,4 +6753,16 @@ Riprovare la rimozione?</value>
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>Lo sfondo della home ha bisogno dell'accesso alla Registrazione schermo su macOS per vedere la schermata home di Roblox. Consenti Voidstrap in Impostazioni di Sistema, Privacy e sicurezza, Registrazione schermo, poi riavvia Voidstrap. Legge solo la finestra di Roblox e non registra né salva mai nulla.</value>
   </data>
+  <data name="Ui.Nav.Customization" xml:space="preserve">
+    <value>Personalizzazione</value>
+  </data>
+  <data name="Ui.Nav.RobloxSettings" xml:space="preserve">
+    <value>Impostazioni Roblox</value>
+  </data>
+  <data name="Ui.Nav.Downloads" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="Ui.Nav.BottomSection" xml:space="preserve">
+    <value>In basso</value>
+  </data>
 </root>

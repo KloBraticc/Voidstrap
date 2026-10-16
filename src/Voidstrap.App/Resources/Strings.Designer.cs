@@ -2563,6 +2563,14 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Mods_HomepageScreenRecording => ResourceManager.GetString("Ui.Mods.HomepageScreenRecording", resourceCulture);
 
+        public static string Ui_Nav_Customization => ResourceManager.GetString("Ui.Nav.Customization", resourceCulture);
+
+        public static string Ui_Nav_RobloxSettings => ResourceManager.GetString("Ui.Nav.RobloxSettings", resourceCulture);
+
+        public static string Ui_Nav_Downloads => ResourceManager.GetString("Ui.Nav.Downloads", resourceCulture);
+
+        public static string Ui_Nav_BottomSection => ResourceManager.GetString("Ui.Nav.BottomSection", resourceCulture);
+
         public static string Menu_Appearance_Accent_Title => ResourceManager.GetString("Menu.Appearance.Accent.Title", resourceCulture);
 
         public static string Menu_Appearance_Accent_Description => ResourceManager.GetString("Menu.Appearance.Accent.Description", resourceCulture);

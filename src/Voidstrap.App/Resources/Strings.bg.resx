@@ -6784,4 +6784,16 @@ Roblox ще бъде изтеглен, когато го стартирате з
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>Фонът на началната страница се нуждае от достъп за запис на екрана в macOS, за да вижда началния екран на Roblox. Разрешете Voidstrap в Системни настройки, Поверителност и сигурност, Запис на екрана, след което рестартирайте Voidstrap. Той само чете прозореца на Roblox и никога не записва и не запазва нищо.</value>
   </data>
+  <data name="Ui.Nav.Customization" xml:space="preserve">
+    <value>Персонализация</value>
+  </data>
+  <data name="Ui.Nav.RobloxSettings" xml:space="preserve">
+    <value>Настройки на Roblox</value>
+  </data>
+  <data name="Ui.Nav.Downloads" xml:space="preserve">
+    <value>Изтегляния</value>
+  </data>
+  <data name="Ui.Nav.BottomSection" xml:space="preserve">
+    <value>Долу</value>
+  </data>
 </root>

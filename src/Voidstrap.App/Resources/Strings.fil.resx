@@ -1203,7 +1203,7 @@ Ang proseso ng installation ay mabilis at simple lang, at ikaw ang magaayos ng k
     <value>May natagpuang existing data. Ang mods at settings mo ay naiibalik na sa dating kalagayan.</value>
   </data>
   <data name="Common.Shortcuts" xml:space="preserve">
-    <value>Mga Shortcuts</value>
+    <value>Mga shortcut</value>
   </data>
   <data name="Common.Shortcuts.Desktop" xml:space="preserve">
     <value>Desktop na icon</value>
@@ -2893,7 +2893,7 @@ Ano ang gusto mong gawin?</value>
     <value>Home</value>
   </data>
   <data name="Ui.Nav.Configuration" xml:space="preserve">
-    <value>Configuration</value>
+    <value>Pagsasaayos</value>
   </data>
   <data name="Ui.Nav.FastFlagSettings" xml:space="preserve">
     <value>Mga setting ng FastFlag</value>
@@ -6556,5 +6556,20 @@ Subukan ulit ang pag alis?</value>
   </data>
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>Kailangan ng background ng homepage ang access sa Screen Recording sa macOS para makita ang home screen ng Roblox. Payagan ang Voidstrap sa System Settings, Privacy and Security, Screen Recording, pagkatapos ay i-restart ang Voidstrap. Binabasa lang nito ang window ng Roblox at hindi kailanman nagre-record o nagse-save ng kahit ano.</value>
+  </data>
+  <data name="Ui.Nav.Customization" xml:space="preserve">
+    <value>Pag-customize</value>
+  </data>
+  <data name="Ui.Nav.RobloxSettings" xml:space="preserve">
+    <value>Mga setting ng Roblox</value>
+  </data>
+  <data name="Ui.Nav.Downloads" xml:space="preserve">
+    <value>Mga download</value>
+  </data>
+  <data name="Ui.Nav.BottomSection" xml:space="preserve">
+    <value>Ibaba</value>
+  </data>
+  <data name="Common.Deployment" xml:space="preserve">
+    <value>Paglulunsad</value>
   </data>
 </root>

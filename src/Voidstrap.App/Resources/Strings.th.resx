@@ -6776,4 +6776,16 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>พื้นหลังหน้าแรกต้องใช้สิทธิ์การบันทึกหน้าจอบน macOS เพื่อดูหน้าแรกของ Roblox อนุญาต Voidstrap ในการตั้งค่าระบบ ความเป็นส่วนตัวและความปลอดภัย การบันทึกหน้าจอ แล้วรีสตาร์ท Voidstrap โดยจะอ่านเฉพาะหน้าต่าง Roblox และไม่บันทึกหรือเก็บสิ่งใดเลย</value>
   </data>
+  <data name="Ui.Nav.Customization" xml:space="preserve">
+    <value>การปรับแต่ง</value>
+  </data>
+  <data name="Ui.Nav.RobloxSettings" xml:space="preserve">
+    <value>การตั้งค่า Roblox</value>
+  </data>
+  <data name="Ui.Nav.Downloads" xml:space="preserve">
+    <value>ดาวน์โหลด</value>
+  </data>
+  <data name="Ui.Nav.BottomSection" xml:space="preserve">
+    <value>ด้านล่าง</value>
+  </data>
 </root>

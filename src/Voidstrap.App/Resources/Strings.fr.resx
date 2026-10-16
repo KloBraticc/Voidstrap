@@ -6705,4 +6705,16 @@ Réessayer la suppression ?</value>
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>L'arrière-plan de la page d'accueil a besoin de l'accès à l'enregistrement de l'écran sur macOS pour voir l'écran d'accueil de Roblox. Autorisez Voidstrap dans Réglages Système, Confidentialité et sécurité, Enregistrement de l'écran, puis redémarrez Voidstrap. Il lit seulement la fenêtre Roblox et n'enregistre ni ne sauvegarde jamais rien.</value>
   </data>
+  <data name="Ui.Nav.Customization" xml:space="preserve">
+    <value>Personnalisation</value>
+  </data>
+  <data name="Ui.Nav.RobloxSettings" xml:space="preserve">
+    <value>Paramètres Roblox</value>
+  </data>
+  <data name="Ui.Nav.Downloads" xml:space="preserve">
+    <value>Téléchargements</value>
+  </data>
+  <data name="Ui.Nav.BottomSection" xml:space="preserve">
+    <value>Bas</value>
+  </data>
 </root>

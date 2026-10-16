@@ -6745,4 +6745,16 @@ Cuba buang semula?</value>
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>Latar belakang laman utama memerlukan akses Rakaman Skrin pada macOS untuk melihat skrin utama Roblox. Benarkan Voidstrap dalam Seting Sistem, Privasi dan Keselamatan, Rakaman Skrin, kemudian mulakan semula Voidstrap. Ia hanya membaca tetingkap Roblox dan tidak pernah merakam atau menyimpan apa-apa.</value>
   </data>
+  <data name="Ui.Nav.Customization" xml:space="preserve">
+    <value>Penyesuaian</value>
+  </data>
+  <data name="Ui.Nav.RobloxSettings" xml:space="preserve">
+    <value>Tetapan Roblox</value>
+  </data>
+  <data name="Ui.Nav.Downloads" xml:space="preserve">
+    <value>Muat turun</value>
+  </data>
+  <data name="Ui.Nav.BottomSection" xml:space="preserve">
+    <value>Bawah</value>
+  </data>
 </root>

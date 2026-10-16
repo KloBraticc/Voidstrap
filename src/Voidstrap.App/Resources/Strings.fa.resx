@@ -6822,4 +6822,16 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>پس‌زمینهٔ صفحهٔ اصلی در macOS برای دیدن صفحهٔ اصلی Roblox به دسترسی ضبط صفحه نیاز دارد. در تنظیمات سیستم، حریم خصوصی و امنیت، ضبط صفحه به Voidstrap اجازه دهید و سپس Voidstrap را دوباره راه‌اندازی کنید. فقط پنجرهٔ Roblox را می‌خواند و هرگز چیزی را ضبط یا ذخیره نمی‌کند.</value>
   </data>
+  <data name="Ui.Nav.Customization" xml:space="preserve">
+    <value>شخصی‌سازی</value>
+  </data>
+  <data name="Ui.Nav.RobloxSettings" xml:space="preserve">
+    <value>تنظیمات Roblox</value>
+  </data>
+  <data name="Ui.Nav.Downloads" xml:space="preserve">
+    <value>دانلودها</value>
+  </data>
+  <data name="Ui.Nav.BottomSection" xml:space="preserve">
+    <value>پایین</value>
+  </data>
 </root>

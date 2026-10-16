@@ -449,7 +449,7 @@
                       </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                   </DataGridTemplateColumn>
-                  <DataGridTextColumn Header="{resources:Loc Ui_Appearance_Section}" Width="130" IsReadOnly="True" Binding="{Binding Section}" />
+                  <DataGridTextColumn Header="{resources:Loc Ui_Appearance_Section}" Width="130" IsReadOnly="True" Binding="{Binding SectionDisplay}" />
                   <DataGridTemplateColumn Header="{resources:Loc Ui_Appearance_Show}" Width="90" CanUserSort="False">
                     <DataGridTemplateColumn.CellTemplate>
                       <DataTemplate>
@@ -495,7 +495,7 @@
                             <ColumnDefinition Width="Auto" />
                           </Grid.ColumnDefinitions>
                           <ui:TextBox Grid.Column="0" MinWidth="120" Height="32" MaxLength="48" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" />
-                          <TextBlock Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center" Text="{Binding Section}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                          <TextBlock Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center" Text="{Binding SectionDisplay}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
                         </Grid>
                         <WrapPanel Margin="0,8,0,0">
                           <ui:Button Width="136" Height="32" Margin="0,0,6,4" Padding="8,0" HorizontalContentAlignment="Left" ToolTip="{resources:Loc Ui_Appearance_ChangeSidebarIcon}" Tag="{Binding}" Click="SidebarIconButton_Click">
