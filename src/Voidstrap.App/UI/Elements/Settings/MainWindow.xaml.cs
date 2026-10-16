@@ -1047,7 +1047,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         NavigationItem? navigationItem = RootNavigation.Items.OfType<NavigationItem>().Concat(RootNavigation.Footer.OfType<NavigationItem>()).FirstOrDefault((NavigationItem i) => i.IsActive);
         if (navigationItem != null && _defaultIcons.TryGetValue(navigationItem, out var value))
         {
-            BreadcrumbIcon.Symbol = value;
+            PageBreadcrumb.Icon = value;
         }
     }
 
