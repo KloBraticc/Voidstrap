@@ -196,6 +196,13 @@ public partial class FastFlagsPage : UiPage{
 		base.Loaded += StartWaterPreview;
 		base.Loaded += RestartNvidiaWarning;
 		base.Unloaded += FastFlagsPage_Unloaded;
+		Wpf.Ui.Controls.Breadcrumb.AddBackRequestedHandler(this, OnBreadcrumbBack);
+	}
+
+	private void OnBreadcrumbBack(object sender, RoutedEventArgs e)
+	{
+		if (ReferenceEquals(FlagTabs.SelectedItem, AdvancedFlagsTab))
+			FlagTabs.SelectedIndex = 0;
 	}
 
 	private void RestartNvidiaWarning(object sender, RoutedEventArgs e)
@@ -220,6 +227,10 @@ public partial class FastFlagsPage : UiPage{
 	{
 		if (!ReferenceEquals(e.OriginalSource, FlagTabs))
 			return;
+		if (ReferenceEquals(FlagTabs.SelectedItem, AdvancedFlagsTab))
+			Voidstrap.UI.BreadcrumbHeader.SetLocalized(this, nameof(Voidstrap.Resources.Strings.Ui_FastFlags_AdvancedFFlags));
+		else
+			Voidstrap.UI.BreadcrumbHeader.Clear(this);
 		if (ReferenceEquals(FlagTabs.SelectedItem, NvidiaTab))
 			ShowNvidiaWarning();
 		else
@@ -537,10 +548,5 @@ public partial class FastFlagsPage : UiPage{
 	private void OpenAdvancedFlags_Click(object sender, System.Windows.RoutedEventArgs e)
 	{
 		FlagTabs.SelectedItem = AdvancedFlagsTab;
-	}
-
-	private void CloseAdvancedFlags_Click(object sender, System.Windows.RoutedEventArgs e)
-	{
-		FlagTabs.SelectedIndex = 0;
 	}
 }

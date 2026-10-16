@@ -37,6 +37,12 @@ public partial class ExtensionPage : UiPage
 		AssetList.ItemsSource = _assets;
 		Loaded += ExtensionPage_Loaded;
 		Unloaded += ExtensionPage_Unloaded;
+		Breadcrumb.AddBackRequestedHandler(this, OnBreadcrumbBack);
+	}
+
+	private void OnBreadcrumbBack(object sender, RoutedEventArgs e)
+	{
+		BackToBrowse_Click(sender, e);
 	}
 
 	private void ExtensionPage_Loaded(object sender, RoutedEventArgs e)
@@ -161,6 +167,7 @@ public partial class ExtensionPage : UiPage
 		RefreshDetailButtons(asset);
 		DetailTabs.SelectedIndex = 0;
 		OpenDetail();
+		Voidstrap.UI.BreadcrumbHeader.Set(this, asset.Name);
 		Voidstrap.Integrations.VoidstrapPresence.Set(new Voidstrap.Integrations.VoidstrapPresenceContext(
 			nameof(ExtensionPage),
 			Voidstrap.Utility.RpcText.Mark("Viewing") + " " + asset.Name,
@@ -302,6 +309,7 @@ public partial class ExtensionPage : UiPage
 		_detailItem = null;
 		DetailRoot.Visibility = Visibility.Collapsed;
 		BrowseRoot.Visibility = Visibility.Visible;
+		Voidstrap.UI.BreadcrumbHeader.Clear(this);
 		Voidstrap.Integrations.VoidstrapPresence.Clear(nameof(ExtensionPage));
 	}
 

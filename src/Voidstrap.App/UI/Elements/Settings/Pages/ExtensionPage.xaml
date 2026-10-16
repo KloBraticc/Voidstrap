@@ -142,7 +142,6 @@
         <RowDefinition Height="Auto" />
       </Grid.RowDefinitions>
       <StackPanel x:Name="DetailMain" Grid.Column="0" Margin="0,0,20,0">
-        <ui:Button Content="{resources:Loc Ui_Pages_BackToExtensions}" Appearance="Transparent" Icon="ArrowLeft24" Padding="8,4,12,4" Margin="0,0,0,10" Click="BackToBrowse_Click" />
         <Grid>
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />

@@ -65,6 +65,11 @@ public partial class ModsPage : UiPage{
 			ViewModel.CommunityMods.ManagedModsChanged += OnCommunityModInstalled;
 			ViewModel.CommunityMods.PropertyChanged -= OnCommunityModsPropertyChanged;
 			ViewModel.CommunityMods.PropertyChanged += OnCommunityModsPropertyChanged;
+			ViewModel.PropertyChanged -= OnModsPropertyChanged;
+			ViewModel.PropertyChanged += OnModsPropertyChanged;
+			Wpf.Ui.Controls.Breadcrumb.RemoveBackRequestedHandler(this, OnBreadcrumbBack);
+			Wpf.Ui.Controls.Breadcrumb.AddBackRequestedHandler(this, OnBreadcrumbBack);
+			UpdateBreadcrumb();
 			ModsTabs.SelectionChanged -= ModsTabs_SelectionChanged;
 			ModsTabs.SelectionChanged += ModsTabs_SelectionChanged;
 			PublishPresence();
@@ -93,6 +98,8 @@ public partial class ModsPage : UiPage{
 		_fgWarningTimer.Tick -= FgWarningTimer_Tick;
 		ViewModel.CommunityMods.ManagedModsChanged -= OnCommunityModInstalled;
 		ViewModel.CommunityMods.PropertyChanged -= OnCommunityModsPropertyChanged;
+		ViewModel.PropertyChanged -= OnModsPropertyChanged;
+		Wpf.Ui.Controls.Breadcrumb.RemoveBackRequestedHandler(this, OnBreadcrumbBack);
 		ModsTabs.SelectionChanged -= ModsTabs_SelectionChanged;
 		Voidstrap.Integrations.VoidstrapPresence.Clear(nameof(ModsPage));
 		ViewModel.ModPackViewRequested -= OnModPackViewRequested;
@@ -114,6 +121,7 @@ public partial class ModsPage : UiPage{
 		}
 		PublishPresence();
 		ShowModPacksNoticeIfNeeded();
+		UpdateBreadcrumb();
 	}
 
 	private void OnCommunityModsPropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -121,7 +129,32 @@ public partial class ModsPage : UiPage{
 		if (e.PropertyName == nameof(CommunityModsViewModel.SelectedMod))
 		{
 			PublishPresence();
+			UpdateBreadcrumb();
 		}
+	}
+
+	private void OnModsPropertyChanged(object? sender, PropertyChangedEventArgs e)
+	{
+		if (e.PropertyName == nameof(ModsViewModel.ModExplorerVisible))
+			UpdateBreadcrumb();
+	}
+
+	private void UpdateBreadcrumb()
+	{
+		if (ViewModel.ModExplorerVisible)
+			Voidstrap.UI.BreadcrumbHeader.SetLocalized(this, nameof(Voidstrap.Resources.Strings.Ui_Mods_ModExplorer));
+		else if (ReferenceEquals(ModsTabs.SelectedItem, ModPacksTab) && ViewModel.CommunityMods.SelectedMod is { } mod)
+			Voidstrap.UI.BreadcrumbHeader.Set(this, mod.Name);
+		else
+			Voidstrap.UI.BreadcrumbHeader.Clear(this);
+	}
+
+	private void OnBreadcrumbBack(object sender, RoutedEventArgs e)
+	{
+		if (ViewModel.ModExplorerVisible)
+			ViewModel.ModExplorerVisible = false;
+		else if (ViewModel.CommunityMods.SelectedMod != null && ViewModel.CommunityMods.BackCommand.CanExecute(null))
+			ViewModel.CommunityMods.BackCommand.Execute(null);
 	}
 
 	private void ShowModPacksNoticeIfNeeded()

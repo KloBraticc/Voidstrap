@@ -1,4 +1,5 @@
-﻿<Pagexmlns:resources="clr-namespace:Voidstrap.Resources" 
+﻿<Page
+xmlns:resources="clr-namespace:Voidstrap.Resources" 
     x:Class="Voidstrap.UI.Elements.Settings.Pages.RobloxNewsPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -7,7 +8,8 @@
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     xmlns:util="clr-namespace:Voidstrap.Utility"
     xmlns:conv="clr-namespace:Voidstrap.UI.Converters"
-    Title="{resources:Loc Ui_Misc2_RobloxNews}">
+    Title="{resources:Loc Ui_Misc2_RobloxNews}"
+    ui:Breadcrumb.Header="{resources:Loc Ui_Home_LatestRobloxNews}">
 
     <Page.Resources>
         <conv:InvertBooleanToVisibilityConverter x:Key="InvertBoolToVis" />
@@ -20,27 +22,10 @@
         </Grid.RowDefinitions>
 
         <Grid Margin="0,4,28,14">
-            <StackPanel Orientation="Horizontal">
-                <ui:Button Width="36"
-                           Height="36"
-                           Padding="0"
-                           Margin="0,0,12,0"
-                           VerticalAlignment="Top"
-                           Appearance="Secondary"
-                           Icon="ArrowLeft24"
-                           ToolTip="{resources:Loc Menu_FastFlagEditor_Warning_Back}"
-                           Click="Back_Click"/>
-                <StackPanel>
-                    <TextBlock Text="{resources:Loc Ui_Home_LatestRobloxNews}"
-                               FontSize="24"
-                               FontWeight="Bold"
-                               Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
-                    <TextBlock Text="{Binding Status}"
-                               FontSize="12.5"
-                               Margin="0,4,0,0"
-                               Foreground="{DynamicResource TextFillColorTertiaryBrush}"/>
-                </StackPanel>
-            </StackPanel>
+            <TextBlock Text="{Binding Status}"
+                       VerticalAlignment="Center"
+                       FontSize="12.5"
+                       Foreground="{DynamicResource TextFillColorTertiaryBrush}"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
                 <ui:Button Content="{resources:Loc ContextMenu_ServerBrowser_Refresh}"
                            Icon="ArrowSync24"

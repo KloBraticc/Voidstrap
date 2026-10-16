@@ -465,7 +465,6 @@
 
             <Grid Visibility="{Binding DetailVisibility}">
               <StackPanel>
-                <ui:Button Margin="0,0,0,10" Padding="8,4,12,4" Appearance="Transparent" Icon="ArrowLeft24" Content="{resources:Loc Ui_Mods_BackToModPacks}" Command="{Binding BackCommand}" />
 
                 <Border Margin="0,0,0,10" Padding="14" CornerRadius="10" Background="{DynamicResource CardBackgroundBrush}" BorderThickness="1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
                   <Grid>

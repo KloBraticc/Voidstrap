@@ -16,12 +16,6 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             Loaded += OnPageLoaded;
         }
 
-        private void Back_Click(object sender, RoutedEventArgs e)
-        {
-            if (Window.GetWindow(this) is MainWindow window)
-                window.NavigateBack();
-        }
-
         private void OnPageLoaded(object sender, RoutedEventArgs e)
         {
             _ = _viewModel.LoadAsync(false);

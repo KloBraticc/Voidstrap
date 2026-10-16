@@ -233,7 +233,6 @@
           </StackPanel>
         </TabItem.Header>
         <StackPanel Margin="10">
-          <ui:Button Margin="0,0,0,8" Icon="ArrowLeft24" Content="{resources:Loc Menu_FastFlagEditor_Back}" Click="CloseAdvancedFlags_Click" />
           <ui:InfoBar Padding="8" IsClosable="False" IsOpen="True" Severity="Informational" Message="{resources:Loc Ui_FastFlags_TheseOptionsOnlySwapSomeOf}" />
           <controls:OptionControl Header="{resources:Loc Ui_FastFlags_Particles}" Description="{resources:Loc Ui_FastFlags_FireSmokeExplosionsSparklesAndForce}">
             <ComboBox Width="200" Padding="10,5,10,5" SelectedIndex="{Binding TextureParticleStyle, Mode=TwoWay}">
