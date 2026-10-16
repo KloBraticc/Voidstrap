@@ -24,37 +24,6 @@ internal sealed partial class SessionDimmer : IDisposable
     private int _blurWidth;
     private int _blurHeight;
 
-    private const int WcaAccentPolicy = 19;
-    private const int AccentEnableBlurBehind = 3;
-    private const int AccentEnableAcrylicBlurBehind = 4;
-    private const int AccentFlagUseGradientColor = 2;
-
-    [StructLayout(LayoutKind.Sequential)]
-    private struct AccentPolicy
-    {
-        public int State;
-        public int Flags;
-        public int Color;
-        public int AnimationId;
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    private struct WindowCompositionAttributeData
-    {
-        public int Attribute;
-        public IntPtr Data;
-        public int Size;
-    }
-
-    [StructLayout(LayoutKind.Sequential)]
-    private struct Margins
-    {
-        public int Left;
-        public int Right;
-        public int Top;
-        public int Bottom;
-    }
-
     public bool IsVisible => _visible;
 
     public SessionDimmer()
@@ -93,26 +62,6 @@ internal sealed partial class SessionDimmer : IDisposable
             return;
         }
         AntiAliasingInterop.SetLayeredWindowAttributes(_hwnd, 0, 0, AntiAliasingInterop.LWA_ALPHA);
-        Margins margins = new() { Left = -1, Right = -1, Top = -1, Bottom = -1 };
-        _ = DwmExtendFrameIntoClientArea(_hwnd, ref margins);
-        AccentPolicy policy = new() { State = AccentEnableAcrylicBlurBehind, Flags = AccentFlagUseGradientColor, Color = 0x22000000 };
-        int size = Marshal.SizeOf<AccentPolicy>();
-        IntPtr dataPointer = Marshal.AllocHGlobal(size);
-        try
-        {
-            Marshal.StructureToPtr(policy, dataPointer, false);
-            WindowCompositionAttributeData data = new() { Attribute = WcaAccentPolicy, Data = dataPointer, Size = size };
-            if (!SetWindowCompositionAttribute(_hwnd, ref data))
-            {
-                policy.State = AccentEnableBlurBehind;
-                Marshal.StructureToPtr(policy, dataPointer, false);
-                _ = SetWindowCompositionAttribute(_hwnd, ref data);
-            }
-        }
-        finally
-        {
-            Marshal.FreeHGlobal(dataPointer);
-        }
     }
 
     private static ushort EnsureClass(IntPtr instance)
@@ -274,18 +223,12 @@ internal sealed partial class SessionDimmer : IDisposable
     {
         if (_portable == null || (width == _blurWidth && height == _blurHeight))
             return;
-        Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetWindowBlur(PortableOverlay.Handle(_portable), width, height);
+        if (!Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetWindowBlur(PortableOverlay.Handle(_portable), width, height))
+            return;
         _blurWidth = width;
         _blurHeight = height;
     }
 
     [LibraryImport("gdi32.dll")]
     private static partial IntPtr GetStockObject(int index);
-
-    [LibraryImport("user32.dll")]
-    [return: MarshalAs(UnmanagedType.Bool)]
-    private static partial bool SetWindowCompositionAttribute(IntPtr window, ref WindowCompositionAttributeData data);
-
-    [LibraryImport("dwmapi.dll")]
-    private static partial int DwmExtendFrameIntoClientArea(IntPtr window, ref Margins margins);
 }
