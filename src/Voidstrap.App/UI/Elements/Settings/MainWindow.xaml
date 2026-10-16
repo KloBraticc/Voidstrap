@@ -508,7 +508,7 @@
             <Style TargetType="{x:Type ui:NavigationItem}">
               <Setter Property="Cache" Value="False" />
               <Setter Property="ui:RinControlMotion.Enabled" Value="True" />
-              <Setter Property="Margin" Value="0,0,0,3" />
+              <Setter Property="Margin" Value="0,0,0,4" />
               <Setter Property="Cursor" Value="Arrow" />
               <Setter Property="FontSize" Value="14" />
               <Setter Property="IconSize" Value="18" />
