@@ -3092,9 +3092,6 @@ Apakah yang anda mahu lakukan?</value>
   <data name="Ui.Nav.More" xml:space="preserve">
     <value>Lagi</value>
   </data>
-  <data name="Ui.Nav.Global" xml:space="preserve">
-    <value>Global</value>
-  </data>
   <data name="Ui.Nav.News" xml:space="preserve">
     <value>Berita</value>
   </data>
@@ -3407,9 +3404,6 @@ Apakah yang anda mahu lakukan?</value>
   <data name="Ui.Mods.NoCursorSetsYetPressNew" xml:space="preserve">
     <value>Belum ada set kursor. Tekan Baharu untuk mencipta satu, atau import zip.</value>
   </data>
-  <data name="Ui.Mods.Folder" xml:space="preserve">
-    <value>Folder</value>
-  </data>
   <data name="Ui.Mods.OpenTheCursorSetsFolder" xml:space="preserve">
     <value>Buka folder set kursor</value>
   </data>
@@ -3620,9 +3614,6 @@ Apakah yang anda mahu lakukan?</value>
   <data name="Ui.Mods.EnableOrDisableThisMod" xml:space="preserve">
     <value>Dayakan atau lumpuhkan mod ini</value>
   </data>
-  <data name="Ui.Mods.Id" xml:space="preserve">
-    <value>   ID: </value>
-  </data>
   <data name="Ui.Mods.ViewThisModPack" xml:space="preserve">
     <value>Lihat pek mod ini</value>
   </data>
@@ -3697,9 +3688,6 @@ Apakah yang anda mahu lakukan?</value>
   </data>
   <data name="Ui.Mods.SmoothingAndFrames" xml:space="preserve">
     <value>Pelicinan dan bingkai</value>
-  </data>
-  <data name="Ui.Mods.AntiAliasing" xml:space="preserve">
-    <value>Anti aliasing</value>
   </data>
   <data name="Ui.Mods.SmoothsJaggedEdgesUsingYourGpu" xml:space="preserve">
     <value>Melicinkan tepi bergerigi menggunakan GPU anda.</value>
@@ -3914,9 +3902,6 @@ Apakah yang anda mahu lakukan?</value>
   <data name="Ui.FastFlags.GrassDistance" xml:space="preserve">
     <value>Jarak rumput</value>
   </data>
-  <data name="Ui.FastFlags.Min" xml:space="preserve">
-    <value>Min</value>
-  </data>
   <data name="Ui.FastFlags.Max" xml:space="preserve">
     <value>Maks</value>
   </data>
@@ -3949,9 +3934,6 @@ Apakah yang anda mahu lakukan?</value>
   </data>
   <data name="Ui.FastFlags.HowSolidTheSquaresLook" xml:space="preserve">
     <value>Sejauh mana petak kelihatan padat</value>
-  </data>
-  <data name="Ui.FastFlags.Studs" xml:space="preserve">
-    <value>Studs</value>
   </data>
   <data name="Ui.FastFlags.TheStudPatternOnParts" xml:space="preserve">
     <value>Corak studs pada bahagian</value>
@@ -4169,9 +4151,6 @@ Apakah yang anda mahu lakukan?</value>
   <data name="Ui.Bootstrapper.FilesOlderThanTheSetAmount" xml:space="preserve">
     <value>Fail yang lebih lama daripada tempoh yang ditetapkan akan dipadam.</value>
   </data>
-  <data name="Ui.Bootstrapper.Cache" xml:space="preserve">
-    <value>Cache</value>
-  </data>
   <data name="Ui.Bootstrapper.WhenShouldTheSetAmountBe" xml:space="preserve">
     <value>Bila jumlah yang ditetapkan patut dipadam.</value>
   </data>
@@ -4222,9 +4201,6 @@ Apakah yang anda mahu lakukan?</value>
   </data>
   <data name="Ui.Bootstrapper.ReduceResourcesWhenRobloxIsUnfocused" xml:space="preserve">
     <value>Kurangkan sumber apabila Roblox tidak difokuskan</value>
-  </data>
-  <data name="Ui.Bootstrapper.VoidstrapMatchmaker" xml:space="preserve">
-    <value>Voidstrap Matchmaker</value>
   </data>
   <data name="Ui.Bootstrapper.Enable" xml:space="preserve">
     <value>Hidupkan</value>
@@ -4292,9 +4268,6 @@ Apakah yang anda mahu lakukan?</value>
   <data name="Ui.Bootstrapper.NeverLetVoidstrapPickAServer" xml:space="preserve">
     <value>Jangan sekali kali benarkan Voidstrap memilih pelayan untuk permainan ini</value>
   </data>
-  <data name="Ui.Bootstrapper.PlaceId" xml:space="preserve">
-    <value>Place id</value>
-  </data>
   <data name="Ui.Bootstrapper.LetVoidstrapPickServersForThis" xml:space="preserve">
     <value>Benarkan Voidstrap memilih pelayan untuk permainan ini semula</value>
   </data>
@@ -4307,17 +4280,11 @@ Apakah yang anda mahu lakukan?</value>
   <data name="Ui.Bootstrapper.HowHardToSearch" xml:space="preserve">
     <value>Sejauh mana carian dilakukan</value>
   </data>
-  <data name="Ui.Bootstrapper.Auto" xml:space="preserve">
-    <value>Auto</value>
-  </data>
   <data name="Ui.Bootstrapper.ReconnectLimit" xml:space="preserve">
     <value>Had sambung semula</value>
   </data>
   <data name="Ui.Bootstrapper.VoidstrapStopsTryingAfterThisMany" xml:space="preserve">
     <value>Voidstrap berhenti mencuba selepas sekian banyak sambungan semula supaya tidak pernah berulang tanpa henti.</value>
-  </data>
-  <data name="Ui.Bootstrapper.JoinAPI" xml:space="preserve">
-    <value>Join API</value>
   </data>
   <data name="Ui.Bootstrapper.WhichRobloxJoinEndpointVoidstrapAsks" xml:space="preserve">
     <value>Titik akhir penyertaan Roblox mana yang ditanya oleh Voidstrap untuk lokasi pelayan. Tukar hanya jika penyertaan berhenti berfungsi.</value>
@@ -4538,9 +4505,6 @@ Apakah yang anda mahu lakukan?</value>
   <data name="Ui.Integrations.CloseWhenLeavingThatGame" xml:space="preserve">
     <value>Tutup apabila keluar dari permainan itu</value>
   </data>
-  <data name="Ui.Integrations.PlaceID" xml:space="preserve">
-    <value>Place ID</value>
-  </data>
   <data name="Ui.Channel.InstallLocation" xml:space="preserve">
     <value>Lokasi pemasangan</value>
   </data>
@@ -4600,9 +4564,6 @@ Apakah yang anda mahu lakukan?</value>
   </data>
   <data name="Ui.Channel.DisplaysVoidstrapsDiscordRPC" xml:space="preserve">
     <value>Memaparkan Discord RPC Voidstrap.</value>
-  </data>
-  <data name="Ui.Channel.VoidstrapRPC" xml:space="preserve">
-    <value>Voidstrap RPC</value>
   </data>
   <data name="Ui.Channel.FactoryReset" xml:space="preserve">
     <value>Tetapan semula kilang</value>
@@ -5030,9 +4991,6 @@ Apakah yang anda mahu lakukan?</value>
   <data name="Ui.Gbs.ToggleFullscreenMode" xml:space="preserve">
     <value>Togol mod skrin penuh.</value>
   </data>
-  <data name="Ui.Gbs.Audio" xml:space="preserve">
-    <value>Audio</value>
-  </data>
   <data name="Ui.Gbs.MasterVolume" xml:space="preserve">
     <value>Kelantangan utama</value>
   </data>
@@ -5107,9 +5065,6 @@ Apakah yang anda mahu lakukan?</value>
   </data>
   <data name="Ui.Gbs.EnableVignetteForMotionSicknessReduction" xml:space="preserve">
     <value>Hidupkan vignet untuk mengurangkan mabuk gerakan.</value>
-  </data>
-  <data name="Ui.Gbs.MicroProfiler" xml:space="preserve">
-    <value>Micro Profiler</value>
   </data>
   <data name="Ui.Gbs.EnableRobloxMicroprofilerServer" xml:space="preserve">
     <value>Hidupkan pelayan microprofiler Roblox.</value>
@@ -5387,9 +5342,6 @@ Apakah yang anda mahu lakukan?</value>
   <data name="Ui.Session.PasteAFullROBLOSECURITYValueOnly" xml:space="preserve">
     <value>Tampal nilai .ROBLOSECURITY penuh. Tampal hanya kuki milik anda.</value>
   </data>
-  <data name="Ui.Session.WARNINGDONOTSHARETHIS" xml:space="preserve">
-    <value>_|WARNING: DO NOT SHARE THIS...</value>
-  </data>
   <data name="Ui.Session.CURRENT" xml:space="preserve">
     <value>SEMASA</value>
   </data>
@@ -5461,9 +5413,6 @@ Apakah yang anda mahu lakukan?</value>
   </data>
   <data name="Ui.Misc.ForExpertsValidChangesApplyRight" xml:space="preserve">
     <value>Untuk pakar. Perubahan yang sah berkuat kuasa serta merta.</value>
-  </data>
-  <data name="Ui.Misc.Format" xml:space="preserve">
-    <value>Format</value>
   </data>
   <data name="Ui.Misc.InsertColour" xml:space="preserve">
     <value>Sisip warna</value>
@@ -5579,9 +5528,6 @@ Apakah yang anda mahu lakukan?</value>
   <data name="Ui.Misc.TheGraphicsBackendWineUsesFor" xml:space="preserve">
     <value>Bahagian belakang grafik yang digunakan Wine untuk Studio. DXVK sesuai untuk kebanyakan sistem.</value>
   </data>
-  <data name="Ui.Misc.FeralGameMode" xml:space="preserve">
-    <value>Feral GameMode</value>
-  </data>
   <data name="Ui.Misc.AsksGameModeToTuneTheSystem" xml:space="preserve">
     <value>Meminta GameMode melaraskan sistem semasa Studio berjalan.</value>
   </data>
@@ -5674,9 +5620,6 @@ Apakah yang anda mahu lakukan?</value>
   </data>
   <data name="Ui.Pages.RATING" xml:space="preserve">
     <value>PENILAIAN</value>
-  </data>
-  <data name="Ui.Pages.Genre" xml:space="preserve">
-    <value>Genre</value>
   </data>
   <data name="Ui.Pages.MaxPlayers" xml:space="preserve">
     <value>Pemain maks.</value>
@@ -5852,9 +5795,6 @@ Apakah yang anda mahu lakukan?</value>
   <data name="Ui.Pages.OverridesThatAffectGPUBehaviorAnd" xml:space="preserve">
     <value>Penggantian yang menjejaskan tingkah laku GPU dan ciri pemacu.</value>
   </data>
-  <data name="Ui.Pages.ResizableBAR" xml:space="preserve">
-    <value>Resizable BAR</value>
-  </data>
   <data name="Ui.Pages.AllowsTheCPUToAccessThe" xml:space="preserve">
     <value>Membenarkan CPU mengakses seluruh memori GPU pada sistem yang disokong.</value>
   </data>
@@ -5965,9 +5905,6 @@ Apakah yang anda mahu lakukan?</value>
   </data>
   <data name="Ui.Pages.ManageYourFastFlagsACheckmarkIn" xml:space="preserve">
     <value>Urus FastFlags anda. Tanda semak dalam Preset bermaksud bendera itu tersedia dalam tetapan FFlag, manakala pangkah bermaksud tidak.</value>
-  </data>
-  <data name="Ui.Pages.Preset" xml:space="preserve">
-    <value>Preset</value>
   </data>
   <data name="Ui.Pages.GoToFFlagSettingsToAdd" xml:space="preserve">
     <value>Pergi ke tetapan FFlag untuk menambah FFlags Preset.</value>
@@ -6104,26 +6041,17 @@ Apakah yang anda mahu lakukan?</value>
   <data name="Ui.Misc2.TheClassicTopbarOptionRebuildsTwo" xml:space="preserve">
     <value>Pilihan bar atas klasik membina semula dua mod komuniti. Rupa dan tingkah laku bar atas serta menu permainan tahun 2014 hingga 2015 datang daripada "2014 2015 Topbar and Menu (Improvised GUI)" oleh HockuTM. Menyembunyikan bar atas moden menggunakan "NoGuiRBX, Hide TopBar!" oleh Einshine. Kedua duanya digunakan dengan ucapan terima kasih di bawah terma Creative Commons BY NC ND 4.0, failnya dimuat turun terus dari GameBanana dan bukannya disertakan, dan tiada pengarang bergabung dengan Voidstrap.</value>
   </data>
-  <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
-  </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>Mod komuniti</value>
   </data>
   <data name="Ui.Misc2.CommunityModsListsRobloxSubmissionsFrom" xml:space="preserve">
     <value>Mod komuniti menyenaraikan serahan Roblox daripada GameBanana dan Kliko's Mods, yang diselenggara oleh TheKliko untuk modloader Kliko. Voidstrap tidak bergabung dengan atau disokong oleh mana mana pihak. Semua mod, imej dan penerangan milik pengarangnya, yang dikreditkan pada setiap senarai. Voidstrap hanya membaca data awam mereka dan tidak pernah memuat naik apa apa bagi pihak anda.</value>
   </data>
-  <data name="Ui.Misc2.GithubComKlikosModloaderMarketplace" xml:space="preserve">
-    <value>github.com/klikos modloader/marketplace</value>
-  </data>
   <data name="Ui.Misc2.CanTSeeOverlays" xml:space="preserve">
     <value>Tidak nampak tindanan?</value>
   </data>
   <data name="Ui.Misc2.Info" xml:space="preserve">
     <value>Maklumat</value>
-  </data>
-  <data name="Ui.Misc2.FFlags" xml:space="preserve">
-    <value>FFlags</value>
   </data>
   <data name="Ui.Misc2.PlayTime" xml:space="preserve">
     <value>Masa bermain</value>
