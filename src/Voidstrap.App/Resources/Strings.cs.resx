@@ -3639,9 +3639,6 @@ Co chcete udělat?</value>
   <data name="Ui.Mods.EnableOrDisableThisMod" xml:space="preserve">
     <value>Zapnout nebo vypnout tento mod</value>
   </data>
-  <data name="Ui.Mods.Id" xml:space="preserve">
-    <value>   ID: </value>
-  </data>
   <data name="Ui.Mods.ViewThisModPack" xml:space="preserve">
     <value>Zobrazit tento balíček modů</value>
   </data>
@@ -3933,12 +3930,6 @@ Co chcete udělat?</value>
   <data name="Ui.FastFlags.GrassDistance" xml:space="preserve">
     <value>Dohled trávy</value>
   </data>
-  <data name="Ui.FastFlags.Min" xml:space="preserve">
-    <value>Min</value>
-  </data>
-  <data name="Ui.FastFlags.Max" xml:space="preserve">
-    <value>Max</value>
-  </data>
   <data name="Ui.FastFlags.ConfigureTheRenderingApiForRoblox" xml:space="preserve">
     <value>Nastavte vykreslovací API pro Roblox. Při přechodu na celou obrazovku s Direct3D stiskněte Alt Enter. Vulkan může způsobit chyby!.</value>
   </data>
@@ -3968,9 +3959,6 @@ Co chcete udělat?</value>
   </data>
   <data name="Ui.FastFlags.HowSolidTheSquaresLook" xml:space="preserve">
     <value>Jak plné čtverce vypadají</value>
-  </data>
-  <data name="Ui.FastFlags.Studs" xml:space="preserve">
-    <value>Studs</value>
   </data>
   <data name="Ui.FastFlags.TheStudPatternOnParts" xml:space="preserve">
     <value>Vzor studs na dílech</value>
@@ -4242,9 +4230,6 @@ Co chcete udělat?</value>
   <data name="Ui.Bootstrapper.ReduceResourcesWhenRobloxIsUnfocused" xml:space="preserve">
     <value>Omezit prostředky, když Roblox není aktivní</value>
   </data>
-  <data name="Ui.Bootstrapper.VoidstrapMatchmaker" xml:space="preserve">
-    <value>Voidstrap Matchmaker</value>
-  </data>
   <data name="Ui.Bootstrapper.Enable" xml:space="preserve">
     <value>Zapnout</value>
   </data>
@@ -4311,9 +4296,6 @@ Co chcete udělat?</value>
   <data name="Ui.Bootstrapper.NeverLetVoidstrapPickAServer" xml:space="preserve">
     <value>Nikdy nenechat Voidstrap vybírat server pro tuto hru</value>
   </data>
-  <data name="Ui.Bootstrapper.PlaceId" xml:space="preserve">
-    <value>Place id</value>
-  </data>
   <data name="Ui.Bootstrapper.LetVoidstrapPickServersForThis" xml:space="preserve">
     <value>Znovu nechat Voidstrap vybírat servery pro tuto hru</value>
   </data>
@@ -4326,17 +4308,11 @@ Co chcete udělat?</value>
   <data name="Ui.Bootstrapper.HowHardToSearch" xml:space="preserve">
     <value>Jak důkladně hledat</value>
   </data>
-  <data name="Ui.Bootstrapper.Auto" xml:space="preserve">
-    <value>Auto</value>
-  </data>
   <data name="Ui.Bootstrapper.ReconnectLimit" xml:space="preserve">
     <value>Limit opětovných připojení</value>
   </data>
   <data name="Ui.Bootstrapper.VoidstrapStopsTryingAfterThisMany" xml:space="preserve">
     <value>Voidstrap přestane zkoušet po tomto počtu opětovných připojení, aby se nikdy nezacyklil.</value>
-  </data>
-  <data name="Ui.Bootstrapper.JoinAPI" xml:space="preserve">
-    <value>Join API</value>
   </data>
   <data name="Ui.Bootstrapper.WhichRobloxJoinEndpointVoidstrapAsks" xml:space="preserve">
     <value>Který koncový bod připojení Roblox se Voidstrap ptá na umístění serverů. Měňte jen tehdy, když připojování přestane fungovat.</value>
@@ -4557,9 +4533,6 @@ Co chcete udělat?</value>
   <data name="Ui.Integrations.CloseWhenLeavingThatGame" xml:space="preserve">
     <value>Zavřít při opuštění té hry</value>
   </data>
-  <data name="Ui.Integrations.PlaceID" xml:space="preserve">
-    <value>Place ID</value>
-  </data>
   <data name="Ui.Channel.InstallLocation" xml:space="preserve">
     <value>Umístění instalace</value>
   </data>
@@ -4619,9 +4592,6 @@ Co chcete udělat?</value>
   </data>
   <data name="Ui.Channel.DisplaysVoidstrapsDiscordRPC" xml:space="preserve">
     <value>Zobrazuje Discord RPC od Voidstrap.</value>
-  </data>
-  <data name="Ui.Channel.VoidstrapRPC" xml:space="preserve">
-    <value>Voidstrap RPC</value>
   </data>
   <data name="Ui.Channel.FactoryReset" xml:space="preserve">
     <value>Obnovit tovární nastavení</value>
@@ -4832,9 +4802,6 @@ Co chcete udělat?</value>
   </data>
   <data name="Ui.SessionNotify.BadgesAndTheShortcutReminderFollow" xml:space="preserve">
     <value>Odznaky a připomínka zkratky se řídí volbou Server</value>
-  </data>
-  <data name="Ui.SessionNotify.Server" xml:space="preserve">
-    <value>Server</value>
   </data>
   <data name="Ui.SessionNotify.Friends" xml:space="preserve">
     <value>Přátelé</value>
@@ -5127,9 +5094,6 @@ Co chcete udělat?</value>
   <data name="Ui.Gbs.EnableVignetteForMotionSicknessReduction" xml:space="preserve">
     <value>Zapne vinětu pro omezení nevolnosti z pohybu.</value>
   </data>
-  <data name="Ui.Gbs.MicroProfiler" xml:space="preserve">
-    <value>Micro Profiler</value>
-  </data>
   <data name="Ui.Gbs.EnableRobloxMicroprofilerServer" xml:space="preserve">
     <value>Zapne server mikroprofileru Robloxu.</value>
   </data>
@@ -5328,9 +5292,6 @@ Co chcete udělat?</value>
   <data name="Ui.Session.Session" xml:space="preserve">
     <value>Relace </value>
   </data>
-  <data name="Ui.Session.Server" xml:space="preserve">
-    <value>  ·  Server </value>
-  </data>
   <data name="Ui.Session.ChatWithFriends" xml:space="preserve">
     <value>Chatovat s přáteli</value>
   </data>
@@ -5376,9 +5337,6 @@ Co chcete udělat?</value>
   <data name="Ui.Session.SortBy" xml:space="preserve">
     <value>Řadit podle</value>
   </data>
-  <data name="Ui.Session.Region" xml:space="preserve">
-    <value>Region</value>
-  </data>
   <data name="Ui.Session.Place" xml:space="preserve">
     <value>Místo</value>
   </data>
@@ -5405,9 +5363,6 @@ Co chcete udělat?</value>
   </data>
   <data name="Ui.Session.PasteAFullROBLOSECURITYValueOnly" xml:space="preserve">
     <value>Vložte celou hodnotu .ROBLOSECURITY. Vkládejte jen vlastní cookie.</value>
-  </data>
-  <data name="Ui.Session.WARNINGDONOTSHARETHIS" xml:space="preserve">
-    <value>_|WARNING: DO NOT SHARE THIS...</value>
   </data>
   <data name="Ui.Session.CURRENT" xml:space="preserve">
     <value>AKTUÁLNÍ</value>
@@ -5597,9 +5552,6 @@ Co chcete udělat?</value>
   </data>
   <data name="Ui.Misc.TheGraphicsBackendWineUsesFor" xml:space="preserve">
     <value>Grafický backend, který Wine používá pro Studio. DXVK vyhovuje většině systémů.</value>
-  </data>
-  <data name="Ui.Misc.FeralGameMode" xml:space="preserve">
-    <value>Feral GameMode</value>
   </data>
   <data name="Ui.Misc.AsksGameModeToTuneTheSystem" xml:space="preserve">
     <value>Požádá GameMode o vyladění systému, dokud běží Studio.</value>
@@ -5871,9 +5823,6 @@ Co chcete udělat?</value>
   <data name="Ui.Pages.OverridesThatAffectGPUBehaviorAnd" xml:space="preserve">
     <value>Přepsání, která ovlivňují chování GPU a funkce ovladače.</value>
   </data>
-  <data name="Ui.Pages.ResizableBAR" xml:space="preserve">
-    <value>Resizable BAR</value>
-  </data>
   <data name="Ui.Pages.AllowsTheCPUToAccessThe" xml:space="preserve">
     <value>Umožní CPU na podporovaných systémech přístup k celé paměti GPU.</value>
   </data>
@@ -5984,9 +5933,6 @@ Co chcete udělat?</value>
   </data>
   <data name="Ui.Pages.ManageYourFastFlagsACheckmarkIn" xml:space="preserve">
     <value>Spravujte své FastFlags. Zaškrtnutí v Preset znamená, že je flag dostupný v nastavení FFlag, křížek znamená, že není.</value>
-  </data>
-  <data name="Ui.Pages.Preset" xml:space="preserve">
-    <value>Preset</value>
   </data>
   <data name="Ui.Pages.GoToFFlagSettingsToAdd" xml:space="preserve">
     <value>Přejděte do nastavení FFlag a přidejte Preset FFlags.</value>
@@ -6123,26 +6069,14 @@ Co chcete udělat?</value>
   <data name="Ui.Misc2.TheClassicTopbarOptionRebuildsTwo" xml:space="preserve">
     <value>Možnost klasické horní lišty znovu vytváří dva komunitní mody. Grafika a chování horní lišty a herní nabídky z let 2014 až 2015 pocházejí z "2014 2015 Topbar and Menu (Improvised GUI)" od HockuTM. Skrytí moderní lišty používá "NoGuiRBX, Hide TopBar!" od Einshine. Oba se používají s poděkováním podle podmínek Creative Commons BY NC ND 4.0, jejich soubory se stahují přímo z GameBanana místo přibalení a žádný z autorů není s Voidstrapem spojen.</value>
   </data>
-  <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
-  </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>Komunitní mody</value>
   </data>
   <data name="Ui.Misc2.CommunityModsListsRobloxSubmissionsFrom" xml:space="preserve">
     <value>Komunitní mody zobrazují příspěvky pro Roblox z GameBanana a Kliko's Mods, spravované TheKliko pro modloader od Kliko. Voidstrap není s žádným z nich spojen ani jimi podporován. Všechny mody, obrázky a popisy patří jejich autorům, kteří jsou uvedeni u každé položky. Voidstrap jen čte jejich veřejná data a nikdy nic nenahrává vaším jménem.</value>
   </data>
-  <data name="Ui.Misc2.GithubComKlikosModloaderMarketplace" xml:space="preserve">
-    <value>github.com/klikos modloader/marketplace</value>
-  </data>
   <data name="Ui.Misc2.CanTSeeOverlays" xml:space="preserve">
     <value>Nevidíte překryvy?</value>
-  </data>
-  <data name="Ui.Misc2.Info" xml:space="preserve">
-    <value>Info</value>
-  </data>
-  <data name="Ui.Misc2.FFlags" xml:space="preserve">
-    <value>FFlags</value>
   </data>
   <data name="Ui.Misc2.PlayTime" xml:space="preserve">
     <value>Doba hraní</value>
@@ -6305,9 +6239,6 @@ Co chcete udělat?</value>
   </data>
   <data name="Ui.Misc2.ServerSize" xml:space="preserve">
     <value>Velikost serveru</value>
-  </data>
-  <data name="Ui.Misc2.Chat" xml:space="preserve">
-    <value>Chat</value>
   </data>
   <data name="Ui.Misc2.Chats" xml:space="preserve">
     <value>Chaty</value>
