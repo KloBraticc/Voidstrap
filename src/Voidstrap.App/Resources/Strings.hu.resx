@@ -6780,16 +6780,4 @@ Mit szeretnél tenni?</value>
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>A kezdőlap háttérnek macOS rendszeren képernyőfelvételi hozzáférés kell, hogy lássa a Roblox kezdőképernyőt. Engedélyezd a Voidstrapet a Rendszerbeállítások, Adatvédelem és biztonság, Képernyőfelvétel részben, majd indítsd újra a Voidstrapet. Csak a Roblox ablakot olvassa, és soha nem rögzít vagy ment semmit.</value>
   </data>
-  <data name="Ui.Nav.Customization" xml:space="preserve">
-    <value>Testreszabás</value>
-  </data>
-  <data name="Ui.Nav.RobloxSettings" xml:space="preserve">
-    <value>Roblox-beállítások</value>
-  </data>
-  <data name="Ui.Nav.Downloads" xml:space="preserve">
-    <value>Letöltések</value>
-  </data>
-  <data name="Ui.Nav.BottomSection" xml:space="preserve">
-    <value>Alul</value>
-  </data>
 </root>

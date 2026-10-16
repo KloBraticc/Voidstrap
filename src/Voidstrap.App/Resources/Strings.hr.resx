@@ -6783,16 +6783,4 @@ Pokušati uklanjanje ponovno?</value>
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>Pozadina početne stranice treba pristup snimanju zaslona na macOS sustavu kako bi vidjela početni zaslon Robloxa. Dopusti Voidstrap u Postavkama sustava, Privatnost i sigurnost, Snimanje zaslona, a zatim ponovno pokreni Voidstrap. Samo čita prozor Robloxa i nikad ništa ne snima ni ne sprema.</value>
   </data>
-  <data name="Ui.Nav.Customization" xml:space="preserve">
-    <value>Prilagodba</value>
-  </data>
-  <data name="Ui.Nav.RobloxSettings" xml:space="preserve">
-    <value>Postavke Robloxa</value>
-  </data>
-  <data name="Ui.Nav.Downloads" xml:space="preserve">
-    <value>Preuzimanja</value>
-  </data>
-  <data name="Ui.Nav.BottomSection" xml:space="preserve">
-    <value>Dno</value>
-  </data>
 </root>

@@ -79,8 +79,6 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
 
         public string Section { get; }
 
-        public string SectionDisplay { get; }
-
         public bool CanHide { get; }
 
         public SymbolRegular DefaultIcon { get; }
@@ -163,14 +161,6 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
             Key = definition.Key;
             DefaultName = definition.DisplayName;
             Section = definition.Section;
-            SectionDisplay = definition.Section switch
-            {
-                "Core" => Voidstrap.Resources.Strings.Ui_Nav_Core,
-                "Customization" => Voidstrap.Resources.Strings.Ui_Nav_Customization,
-                "Configuration" => Voidstrap.Resources.Strings.Ui_Nav_Configuration,
-                "More" => Voidstrap.Resources.Strings.Ui_Nav_More,
-                _ => Voidstrap.Resources.Strings.Ui_Nav_BottomSection
-            };
             CanHide = definition.CanHide;
             DefaultIcon = definition.DefaultIcon;
             _name = MainWindow.NormalizeSidebarName(name, DefaultName);
@@ -1215,10 +1205,9 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
         return section switch
         {
             "Core" => 0,
-            "Customization" => 1,
-            "Configuration" => 2,
-            "More" => 3,
-            _ => 4
+            "Configuration" => 1,
+            "More" => 2,
+            _ => 3
         };
     }
 
@@ -1278,7 +1267,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
             .Select((key, index) => (key, index))
             .ToDictionary(pair => pair.key, pair => pair.index, StringComparer.Ordinal);
         List<string> merged = new List<string>();
-        foreach (string section in new[] { "Core", "Customization", "Configuration", "More", "Footer" })
+        foreach (string section in new[] { "Core", "Configuration", "More", "Footer" })
         {
             List<MainWindow.SidebarItemDefinition> definitions = MainWindow.SidebarCustomizationItems
                 .Where(item => item.Section == section)

@@ -6738,16 +6738,4 @@ Coba hapus lagi?</value>
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>Latar beranda memerlukan akses Perekaman Layar di macOS untuk melihat layar beranda Roblox. Izinkan Voidstrap di Pengaturan Sistem, Privasi dan Keamanan, Perekaman Layar, lalu mulai ulang Voidstrap. Ini hanya membaca jendela Roblox dan tidak pernah merekam atau menyimpan apa pun.</value>
   </data>
-  <data name="Ui.Nav.Customization" xml:space="preserve">
-    <value>Kustomisasi</value>
-  </data>
-  <data name="Ui.Nav.RobloxSettings" xml:space="preserve">
-    <value>Pengaturan Roblox</value>
-  </data>
-  <data name="Ui.Nav.Downloads" xml:space="preserve">
-    <value>Unduhan</value>
-  </data>
-  <data name="Ui.Nav.BottomSection" xml:space="preserve">
-    <value>Bawah</value>
-  </data>
 </root>

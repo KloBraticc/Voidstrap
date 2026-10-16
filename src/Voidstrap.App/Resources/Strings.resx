@@ -6558,16 +6558,4 @@ Try the removal again?</value>
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>The homepage background needs Screen Recording access on macOS to see the Roblox home screen. Allow Voidstrap in System Settings, Privacy and Security, Screen Recording, then restart Voidstrap. It only reads the Roblox window and never records or saves anything.</value>
   </data>
-  <data name="Ui.Nav.Customization" xml:space="preserve">
-    <value>Customization</value>
-  </data>
-  <data name="Ui.Nav.RobloxSettings" xml:space="preserve">
-    <value>Roblox Settings</value>
-  </data>
-  <data name="Ui.Nav.Downloads" xml:space="preserve">
-    <value>Downloads</value>
-  </data>
-  <data name="Ui.Nav.BottomSection" xml:space="preserve">
-    <value>Bottom</value>
-  </data>
 </root>

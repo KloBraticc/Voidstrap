@@ -6790,16 +6790,4 @@ Thử gỡ bỏ lại?</value>
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>Hình nền trang chủ cần quyền Ghi màn hình trên macOS để nhìn thấy màn hình chính của Roblox. Hãy cho phép Voidstrap trong Cài đặt hệ thống, Quyền riêng tư và bảo mật, Ghi màn hình, rồi khởi động lại Voidstrap. Nó chỉ đọc cửa sổ Roblox và không bao giờ ghi hay lưu bất cứ thứ gì.</value>
   </data>
-  <data name="Ui.Nav.Customization" xml:space="preserve">
-    <value>Tùy chỉnh</value>
-  </data>
-  <data name="Ui.Nav.RobloxSettings" xml:space="preserve">
-    <value>Cài đặt Roblox</value>
-  </data>
-  <data name="Ui.Nav.Downloads" xml:space="preserve">
-    <value>Tải xuống</value>
-  </data>
-  <data name="Ui.Nav.BottomSection" xml:space="preserve">
-    <value>Dưới cùng</value>
-  </data>
 </root>

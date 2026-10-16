@@ -6776,16 +6776,4 @@ Yritetäänkö poistoa uudelleen?</value>
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>Aloitussivun tausta tarvitsee macOS:ssä näytön tallennuksen käyttöoikeuden nähdäkseen Robloxin aloitusnäytön. Salli Voidstrap kohdassa Järjestelmäasetukset, Tietosuoja ja turvallisuus, Näytön tallennus, ja käynnistä Voidstrap sitten uudelleen. Se vain lukee Roblox ikkunaa eikä koskaan tallenna mitään.</value>
   </data>
-  <data name="Ui.Nav.Customization" xml:space="preserve">
-    <value>Mukauttaminen</value>
-  </data>
-  <data name="Ui.Nav.RobloxSettings" xml:space="preserve">
-    <value>Roblox-asetukset</value>
-  </data>
-  <data name="Ui.Nav.Downloads" xml:space="preserve">
-    <value>Lataukset</value>
-  </data>
-  <data name="Ui.Nav.BottomSection" xml:space="preserve">
-    <value>Alaosa</value>
-  </data>
 </root>

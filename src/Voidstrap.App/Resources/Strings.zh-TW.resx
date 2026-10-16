@@ -6784,16 +6784,4 @@ Voidstrap 安裝在 "{1}"。</value>
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>首頁背景需要 macOS 的螢幕錄製權限才能看到 Roblox 主畫面。請在系統設定的隱私權與安全性、螢幕錄製中允許 Voidstrap，然後重新啟動 Voidstrap。它只會讀取 Roblox 視窗，絕不會錄製或儲存任何內容。</value>
   </data>
-  <data name="Ui.Nav.Customization" xml:space="preserve">
-    <value>個人化</value>
-  </data>
-  <data name="Ui.Nav.RobloxSettings" xml:space="preserve">
-    <value>Roblox 設定</value>
-  </data>
-  <data name="Ui.Nav.Downloads" xml:space="preserve">
-    <value>下載</value>
-  </data>
-  <data name="Ui.Nav.BottomSection" xml:space="preserve">
-    <value>底部</value>
-  </data>
 </root>

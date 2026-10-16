@@ -59,16 +59,16 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         new("HomeNavItem", "Home", "Core", SymbolRegular.Home24, false, NameKey: "Ui_Nav_Home"),
         new("IntegrationsNavItem", "Integrations", "Core", SymbolRegular.Add12, NameKey: "Menu_Integrations_Title"),
         new("DeploymentNavItem", "Deployment", "Core", SymbolRegular.PlaySettings20, NameKey: "Common_Deployment"),
-        new("AppearanceNavItem", "Appearance", "Customization", SymbolRegular.Color24, false, NameKey: "Menu_Appearance_Title"),
+        new("AppearanceNavItem", "Appearance", "Core", SymbolRegular.Color24, false, NameKey: "Menu_Appearance_Title"),
         new("FastFlagSettingsNavItem", "FastFlag Settings", "Configuration", SymbolRegular.Settings28, NameKey: "Ui_Nav_FastFlagSettings"),
         new("FastFlagEditorNavItem", "FastFlag Editor", "Configuration", SymbolRegular.Flag28, NameKey: "Ui_Nav_FastFlagEditor"),
-        new("ModsNavItem", "Mods", "Customization", SymbolRegular.WrenchScrewdriver20, NameKey: "Menu_Mods_Title"),
-        new("GlobalNavItem", "Roblox Settings", "Configuration", SymbolRegular.GlobeLocation20, NameKey: "Ui_Nav_RobloxSettings"),
+        new("ModsNavItem", "Mods", "Configuration", SymbolRegular.WrenchScrewdriver20, NameKey: "Menu_Mods_Title"),
         new("MoreNavItem", "More", "Configuration", SymbolRegular.MoreHorizontal24, NameKey: "Ui_Nav_More"),
+        new("GlobalNavItem", "Global", "More", SymbolRegular.GlobeLocation20, NameKey: "Ui_Nav_Global"),
         new("ShortcutsNavItem", "Shortcuts", "More", SymbolRegular.Apps32, NameKey: "Common_Shortcuts"),
         new("NewsNavItem", "News", "More", SymbolRegular.News16, NameKey: "Ui_Nav_News"),
         new("ExtensionsNavItem", "Extensions", "Footer", SymbolRegular.CubeAdd20, NameKey: "Ui_Nav_Extensions"),
-        new("ManagerNavItem", "Downloads", "Footer", SymbolRegular.ArrowDownload24, NameKey: "Ui_Nav_Downloads"),
+        new("ManagerNavItem", "Manager", "Footer", SymbolRegular.ArrowDownload24, NameKey: "Ui_Nav_Manager"),
         new("SoberNavItem", "Sober", "Footer", SymbolRegular.Empty, NameKey: "Menu_Sober_Title"),
         new("SettingsNavItem", "Settings", "Footer", SymbolRegular.Settings28, NameKey: "Ui_Nav_Settings"),
         new("AboutNavItem", "About", "Footer", SymbolRegular.QuestionCircle32, NameKey: "Menu_About_Title")
@@ -98,7 +98,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private static void VerifySidebarCustomization()
     {
         Debug.Assert(SidebarCustomizationItems.Select(item => item.Key).Distinct(StringComparer.Ordinal).Count() == SidebarCustomizationItems.Count);
-        Debug.Assert(SidebarCustomizationItems.All(item => item.Section is "Core" or "Customization" or "Configuration" or "More" or "Footer"));
+        Debug.Assert(SidebarCustomizationItems.All(item => item.Section is "Core" or "Configuration" or "More" or "Footer"));
         Debug.Assert(SidebarCustomizationItems.Where(item => item.Key is "HomeNavItem" or "AppearanceNavItem").All(item => !item.CanHide));
         Debug.Assert(NormalizeSidebarName("  My\nPage  ", "Page") == "My Page");
     }
@@ -1148,39 +1148,37 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 .OrderBy(item => ranks.TryGetValue(item.Key, out int rank) ? rank : int.MaxValue)
                 .ThenBy(item => defaults[item.Key]);
         }
-        List<INavigationControl> main = new List<INavigationControl>();
-        bool anySectionShown = false;
-        foreach ((string section, NavigationItem header, Wpf.Ui.Controls.Navigation.NavigationSeparator? separator) in new (string, NavigationItem, Wpf.Ui.Controls.Navigation.NavigationSeparator?)[]
+        NavigationItem coreHeader = _defaultMainSidebarItems.OfType<NavigationItem>().First(item => !item.IsEnabled && string.Equals(item.Content?.ToString(), "Core", StringComparison.Ordinal));
+        NavigationItem configurationHeader = _defaultMainSidebarItems.OfType<NavigationItem>().First(item => !item.IsEnabled && string.Equals(item.Content?.ToString(), "Configuration", StringComparison.Ordinal));
+        Wpf.Ui.Controls.Navigation.NavigationSeparator separator = _defaultMainSidebarItems.OfType<Wpf.Ui.Controls.Navigation.NavigationSeparator>().First();
+        bool hasConfigurationItems = Ordered("Configuration").Any(definition => items[definition.Key].Visibility == Visibility.Visible);
+        configurationHeader.Visibility = hasConfigurationItems ? Visibility.Visible : Visibility.Collapsed;
+        separator.Visibility = configurationHeader.Visibility;
+        List<INavigationControl> main = new List<INavigationControl> { coreHeader };
+        main.AddRange(Ordered("Core").Select(item => items[item.Key]));
+        main.Add(separator);
+        main.Add(configurationHeader);
+        foreach (SidebarItemDefinition definition in Ordered("Configuration"))
         {
-            ("Core", CoreSectionHeader, null),
-            ("Customization", CustomizationSectionHeader, CustomizationSectionSeparator),
-            ("Configuration", ConfigurationSectionHeader, ConfigurationSectionSeparator)
-        })
-        {
-            List<INavigationControl> sectionItems = new List<INavigationControl>();
-            foreach (SidebarItemDefinition definition in Ordered(section))
+            main.Add(items[definition.Key]);
+            if (definition.Key == "MoreNavItem")
             {
-                sectionItems.Add(items[definition.Key]);
-                if (definition.Key == "MoreNavItem")
-                {
-                    sectionItems.AddRange(Ordered("More").Select(item => items[item.Key]));
-                }
+                main.AddRange(Ordered("More").Select(item => items[item.Key]));
             }
-            bool visible = sectionItems.OfType<NavigationItem>().Any(item => item.Visibility == Visibility.Visible);
-            header.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
-            if (separator != null)
-            {
-                separator.Visibility = visible && anySectionShown ? Visibility.Visible : Visibility.Collapsed;
-                main.Add(separator);
-            }
-            anySectionShown |= visible;
-            main.Add(header);
-            main.AddRange(sectionItems);
         }
-        RootNavigation.Items.Clear();
-        foreach (INavigationControl item in main)
+        foreach (NavigationItem item in items.Values.Where(item => RootNavigation.Items.Contains(item)).ToArray())
         {
-            RootNavigation.Items.Add(item);
+            RootNavigation.Items.Remove(item);
+        }
+        int coreIndex = RootNavigation.Items.IndexOf(coreHeader) + 1;
+        foreach (INavigationControl item in main.Skip(1).TakeWhile(item => !ReferenceEquals(item, separator)))
+        {
+            RootNavigation.Items.Insert(coreIndex++, item);
+        }
+        int configurationIndex = RootNavigation.Items.IndexOf(configurationHeader) + 1;
+        foreach (INavigationControl item in main.SkipWhile(item => !ReferenceEquals(item, configurationHeader)).Skip(1))
+        {
+            RootNavigation.Items.Insert(configurationIndex++, item);
         }
         foreach (NavigationItem item in items.Values.Where(item => RootNavigation.Footer.Contains(item)).ToArray())
         {

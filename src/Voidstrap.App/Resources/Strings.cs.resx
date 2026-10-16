@@ -6764,16 +6764,4 @@ Zkusit odebrání znovu?</value>
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>Pozadí domovské stránky potřebuje v macOS přístup k nahrávání obrazovky, aby vidělo domovskou obrazovku Roblox. Povolte Voidstrap v Nastavení systému, Soukromí a zabezpečení, Nahrávání obrazovky, a poté Voidstrap restartujte. Pouze čte okno Roblox a nic nenahrává ani neukládá.</value>
   </data>
-  <data name="Ui.Nav.Customization" xml:space="preserve">
-    <value>Přizpůsobení</value>
-  </data>
-  <data name="Ui.Nav.RobloxSettings" xml:space="preserve">
-    <value>Nastavení Roblox</value>
-  </data>
-  <data name="Ui.Nav.Downloads" xml:space="preserve">
-    <value>Stahování</value>
-  </data>
-  <data name="Ui.Nav.BottomSection" xml:space="preserve">
-    <value>Dole</value>
-  </data>
 </root>
