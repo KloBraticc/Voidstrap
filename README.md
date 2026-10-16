@@ -235,14 +235,14 @@ Voidstrap includes a Nix flake for `x86_64-linux` and `aarch64-linux`. Nix build
 To try it without installing:
 
 ```bash
-nix run github:KloBraticc/Voidstrap
+nix run "git+https://github.com/KloBraticc/Voidstrap?submodules=1"
 ```
 
 To install it on NixOS, add the flake to your system flake:
 
 ```nix
 {
-  inputs.voidstrap.url = "github:KloBraticc/Voidstrap";
+  inputs.voidstrap.url = "git+https://github.com/KloBraticc/Voidstrap?submodules=1";
 
   outputs = { nixpkgs, voidstrap, ... }: {
     nixosConfigurations.your-hostname = nixpkgs.lib.nixosSystem {
@@ -259,6 +259,8 @@ To install it on NixOS, add the flake to your system flake:
 ```
 
 `hardware.graphics.enable` provides the graphics drivers Voidstrap renders with, and `services.flatpak.enable` lets Voidstrap install and run Sober. The flake also provides `overlays.default`, which adds `pkgs.voidstrap`.
+
+Use the `git+https` URL with `?submodules=1` rather than `github:KloBraticc/Voidstrap`. The build needs the bundled WPF UI submodule, and the `github:` scheme cannot fetch submodules, so `nix flake update` fails with `input attribute 'submodules' not supported by scheme 'github'`.
 
 The flake installs the latest release. To update, run `nix flake update voidstrap` in your configuration and rebuild.
 
