@@ -6735,4 +6735,52 @@ Réessayer la suppression ?</value>
   <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
     <value>Barre de session, arrière plan de l'accueil, couleurs de l'écran et outils en jeu.</value>
   </data>
+  <data name="Ui.Shortcuts.EnterValidGameId" xml:space="preserve">
+    <value>Saisissez un Game ID valide</value>
+  </data>
+  <data name="Ui.Shortcuts.UnknownGame" xml:space="preserve">
+    <value>Jeu inconnu</value>
+  </data>
+  <data name="Ui.Shortcuts.LoadingGame" xml:space="preserve">
+    <value>Chargement du jeu</value>
+  </data>
+  <data name="Ui.Shortcuts.LaunchFailed" xml:space="preserve">
+    <value>Impossible de lancer le jeu.
+
+Erreur : {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.ShortcutFailed" xml:space="preserve">
+    <value>Impossible de créer le raccourci.
+
+Erreur : {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.DesktopWriteFailed" xml:space="preserve">
+    <value>Impossible de créer le raccourci.
+
+Voidstrap n'a pas pu écrire dans le dossier du bureau.</value>
+  </data>
+  <data name="Ui.Shortcuts.ShortcutCreated" xml:space="preserve">
+    <value>Raccourci créé :
+{0}</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidPrivateServer" xml:space="preserve">
+    <value>Saisissez un lien de partage de serveur privé valide, ou indiquez un Game ID et un code d'accès.</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidGameId" xml:space="preserve">
+    <value>Saisissez un Game ID numérique valide.</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidInstanceId" xml:space="preserve">
+    <value>Saisissez un identifiant d'instance de serveur valide.</value>
+  </data>
+  <data name="Ui.Shortcuts.LoadFailed" xml:space="preserve">
+    <value>Impossible de charger les paramètres enregistrés.
+
+Erreur : {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.RequestTimedOut" xml:space="preserve">
+    <value>La requête a expiré.</value>
+  </data>
+  <data name="Ui.Shortcuts.ApplicationsMenu" xml:space="preserve">
+    <value>Menu des applications</value>
+  </data>
 </root>

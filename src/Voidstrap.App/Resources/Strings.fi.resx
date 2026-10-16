@@ -6806,4 +6806,52 @@ Yritetäänkö poistoa uudelleen?</value>
   <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
     <value>Istuntopalkki, aloitussivun tausta, näytön värit ja pelinsisäiset työkalut.</value>
   </data>
+  <data name="Ui.Shortcuts.EnterValidGameId" xml:space="preserve">
+    <value>Anna kelvollinen Game ID</value>
+  </data>
+  <data name="Ui.Shortcuts.UnknownGame" xml:space="preserve">
+    <value>Tuntematon peli</value>
+  </data>
+  <data name="Ui.Shortcuts.LoadingGame" xml:space="preserve">
+    <value>Ladataan peliä</value>
+  </data>
+  <data name="Ui.Shortcuts.LaunchFailed" xml:space="preserve">
+    <value>Pelin käynnistys epäonnistui.
+
+Virhe: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.ShortcutFailed" xml:space="preserve">
+    <value>Pikakuvakkeen luonti epäonnistui.
+
+Virhe: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.DesktopWriteFailed" xml:space="preserve">
+    <value>Pikakuvakkeen luonti epäonnistui.
+
+Voidstrap ei voinut kirjoittaa työpöytäkansioon.</value>
+  </data>
+  <data name="Ui.Shortcuts.ShortcutCreated" xml:space="preserve">
+    <value>Pikakuvake luotu:
+{0}</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidPrivateServer" xml:space="preserve">
+    <value>Anna kelvollinen yksityispalvelimen jakolinkki tai sekä Game ID että käyttökoodi.</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidGameId" xml:space="preserve">
+    <value>Anna kelvollinen numeerinen Game ID.</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidInstanceId" xml:space="preserve">
+    <value>Anna kelvollinen palvelininstanssin tunnus.</value>
+  </data>
+  <data name="Ui.Shortcuts.LoadFailed" xml:space="preserve">
+    <value>Tallennettujen asetusten lataus epäonnistui.
+
+Virhe: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.RequestTimedOut" xml:space="preserve">
+    <value>Pyyntö aikakatkaistiin.</value>
+  </data>
+  <data name="Ui.Shortcuts.ApplicationsMenu" xml:space="preserve">
+    <value>Sovellusvalikko</value>
+  </data>
 </root>

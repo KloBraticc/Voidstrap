@@ -33,7 +33,7 @@ public partial class ShortcutsPage : UiPage{
 		InitializeComponent();
 		if (Voidstrap.Utility.Platform.IsLinux)
 		{
-			StartMenuOption.Header = "Applications menu";
+			StartMenuOption.Header = Voidstrap.Resources.Strings.Ui_Shortcuts_ApplicationsMenu;
 		}
 		try
 		{
@@ -49,7 +49,7 @@ public partial class ShortcutsPage : UiPage{
 		}
 		catch (Exception ex)
 		{
-			Frontend.ShowMessageBox("Failed to load saved settings.\n\nError: " + ex.Message);
+			Frontend.ShowMessageBox(string.Format(System.Globalization.CultureInfo.CurrentCulture, Voidstrap.Resources.Strings.Ui_Shortcuts_LoadFailed, ex.Message));
 		}
 	}
 
@@ -78,7 +78,7 @@ public partial class ShortcutsPage : UiPage{
 		}
 		catch (Exception ex)
 		{
-			Frontend.ShowMessageBox("Failed to launch the game.\n\nError: " + Describe(ex));
+			Frontend.ShowMessageBox(string.Format(System.Globalization.CultureInfo.CurrentCulture, Voidstrap.Resources.Strings.Ui_Shortcuts_LaunchFailed, Describe(ex)));
 		}
 		finally
 		{
@@ -96,7 +96,7 @@ public partial class ShortcutsPage : UiPage{
 		if (launch is null)
 			return;
 		SaveGameSettings();
-		string displayName = SafeShortcutName(shortcutsViewModel.IsSubplaceMode ? shortcutsViewModel.SelectedSubplace?.DisplayName : shortcutsViewModel.DisplayGameName);
+		string displayName = SafeShortcutName(shortcutsViewModel.IsSubplaceMode ? shortcutsViewModel.SelectedSubplace?.DisplayName : shortcutsViewModel.ResolvedGameName);
 		string folderPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
 		string shortcutPath = Path.Combine(folderPath, displayName + Voidstrap.Utility.Shortcut.Suffix);
 		string executable = File.Exists(Paths.Application) ? Paths.Application : Paths.LaunchExecutable;
@@ -120,15 +120,15 @@ public partial class ShortcutsPage : UiPage{
 			Voidstrap.Utility.Shortcut.Create(executable, arguments, shortcutPath, iconPath);
 			if (!Voidstrap.Utility.Shortcut.Exists(shortcutPath))
 			{
-				Frontend.ShowMessageBox("Failed to create shortcut.\n\nVoidstrap could not write to the desktop folder.");
+				Frontend.ShowMessageBox(Voidstrap.Resources.Strings.Ui_Shortcuts_DesktopWriteFailed);
 				return;
 			}
-			Frontend.ShowMessageBox("Shortcut created:\n" + displayName);
+			Frontend.ShowMessageBox(string.Format(System.Globalization.CultureInfo.CurrentCulture, Voidstrap.Resources.Strings.Ui_Shortcuts_ShortcutCreated, displayName));
 		}
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("Shortcuts::CreateShortcut", ex);
-			Frontend.ShowMessageBox("Failed to create shortcut.\n\nError: " + Describe(ex));
+			Frontend.ShowMessageBox(string.Format(System.Globalization.CultureInfo.CurrentCulture, Voidstrap.Resources.Strings.Ui_Shortcuts_ShortcutFailed, Describe(ex)));
 		}
 		finally
 		{
@@ -154,21 +154,21 @@ public partial class ShortcutsPage : UiPage{
 			(string placeId, string code) = await ResolvePrivateServerAsync(gameId, viewModel.PrivateServerCode);
 			if (string.IsNullOrEmpty(placeId) || string.IsNullOrEmpty(code))
 			{
-				Frontend.ShowMessageBox("Enter a valid private server share link, or provide both a Game ID and access code.");
+				Frontend.ShowMessageBox(Voidstrap.Resources.Strings.Ui_Shortcuts_InvalidPrivateServer);
 				return null;
 			}
 			return ("roblox://experiences/start?placeId=" + Uri.EscapeDataString(placeId) + "&privateServerLinkCode=" + Uri.EscapeDataString(code), placeId);
 		}
 		if (!long.TryParse(gameId, out long parsedGameId) || parsedGameId <= 0)
 		{
-			Frontend.ShowMessageBox("Enter a valid numeric Game ID.");
+			Frontend.ShowMessageBox(Voidstrap.Resources.Strings.Ui_Shortcuts_InvalidGameId);
 			return null;
 		}
 		string launchUrl = "roblox://experiences/start?placeId=" + gameId;
 		string instanceId = viewModel.GameInstanceId?.Trim() ?? "";
 		if (instanceId.Length > 128 || instanceId.Any(char.IsControl))
 		{
-			Frontend.ShowMessageBox("Enter a valid server instance ID.");
+			Frontend.ShowMessageBox(Voidstrap.Resources.Strings.Ui_Shortcuts_InvalidInstanceId);
 			return null;
 		}
 		if (instanceId.Length != 0)
@@ -178,7 +178,7 @@ public partial class ShortcutsPage : UiPage{
 
 	private static string SafeShortcutName(string? value)
 	{
-		string name = string.IsNullOrWhiteSpace(value) || value == "Unknown Game" || value == "Enter a valid Game ID" ? "Roblox Game" : value.Trim();
+		string name = string.IsNullOrWhiteSpace(value) ? "Roblox Game" : value.Trim();
 		foreach (char invalid in Path.GetInvalidFileNameChars())
 			name = name.Replace(invalid, '_');
 		name = name.Trim(' ', '.');
@@ -239,7 +239,7 @@ public partial class ShortcutsPage : UiPage{
 	private static string Describe(Exception ex)
 	{
 		return ex is OperationCanceledException
-			? "The request timed out."
+			? Voidstrap.Resources.Strings.Ui_Shortcuts_RequestTimedOut
 			: string.IsNullOrWhiteSpace(ex.Message) ? ex.GetType().Name : ex.Message;
 	}
 

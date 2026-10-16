@@ -2583,6 +2583,32 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Mods_OverlaysCardDescription => ResourceManager.GetString("Ui.Mods.OverlaysCardDescription", resourceCulture);
 
+        public static string Ui_Shortcuts_EnterValidGameId => ResourceManager.GetString("Ui.Shortcuts.EnterValidGameId", resourceCulture);
+
+        public static string Ui_Shortcuts_UnknownGame => ResourceManager.GetString("Ui.Shortcuts.UnknownGame", resourceCulture);
+
+        public static string Ui_Shortcuts_LoadingGame => ResourceManager.GetString("Ui.Shortcuts.LoadingGame", resourceCulture);
+
+        public static string Ui_Shortcuts_LaunchFailed => ResourceManager.GetString("Ui.Shortcuts.LaunchFailed", resourceCulture);
+
+        public static string Ui_Shortcuts_ShortcutFailed => ResourceManager.GetString("Ui.Shortcuts.ShortcutFailed", resourceCulture);
+
+        public static string Ui_Shortcuts_DesktopWriteFailed => ResourceManager.GetString("Ui.Shortcuts.DesktopWriteFailed", resourceCulture);
+
+        public static string Ui_Shortcuts_ShortcutCreated => ResourceManager.GetString("Ui.Shortcuts.ShortcutCreated", resourceCulture);
+
+        public static string Ui_Shortcuts_InvalidPrivateServer => ResourceManager.GetString("Ui.Shortcuts.InvalidPrivateServer", resourceCulture);
+
+        public static string Ui_Shortcuts_InvalidGameId => ResourceManager.GetString("Ui.Shortcuts.InvalidGameId", resourceCulture);
+
+        public static string Ui_Shortcuts_InvalidInstanceId => ResourceManager.GetString("Ui.Shortcuts.InvalidInstanceId", resourceCulture);
+
+        public static string Ui_Shortcuts_LoadFailed => ResourceManager.GetString("Ui.Shortcuts.LoadFailed", resourceCulture);
+
+        public static string Ui_Shortcuts_RequestTimedOut => ResourceManager.GetString("Ui.Shortcuts.RequestTimedOut", resourceCulture);
+
+        public static string Ui_Shortcuts_ApplicationsMenu => ResourceManager.GetString("Ui.Shortcuts.ApplicationsMenu", resourceCulture);
+
         public static string Menu_Appearance_Accent_Title => ResourceManager.GetString("Menu.Appearance.Accent.Title", resourceCulture);
 
         public static string Menu_Appearance_Accent_Description => ResourceManager.GetString("Menu.Appearance.Accent.Description", resourceCulture);

@@ -6806,4 +6806,52 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
   <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
     <value>แถบเซสชัน พื้นหลังหน้าแรก สีหน้าจอ และเครื่องมือในเกม</value>
   </data>
+  <data name="Ui.Shortcuts.EnterValidGameId" xml:space="preserve">
+    <value>ใส่ Game ID ที่ถูกต้อง</value>
+  </data>
+  <data name="Ui.Shortcuts.UnknownGame" xml:space="preserve">
+    <value>เกมที่ไม่รู้จัก</value>
+  </data>
+  <data name="Ui.Shortcuts.LoadingGame" xml:space="preserve">
+    <value>กำลังโหลดเกม</value>
+  </data>
+  <data name="Ui.Shortcuts.LaunchFailed" xml:space="preserve">
+    <value>เปิดเกมไม่สำเร็จ
+
+ข้อผิดพลาด: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.ShortcutFailed" xml:space="preserve">
+    <value>สร้างทางลัดไม่สำเร็จ
+
+ข้อผิดพลาด: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.DesktopWriteFailed" xml:space="preserve">
+    <value>สร้างทางลัดไม่สำเร็จ
+
+Voidstrap เขียนลงในโฟลเดอร์เดสก์ท็อปไม่ได้</value>
+  </data>
+  <data name="Ui.Shortcuts.ShortcutCreated" xml:space="preserve">
+    <value>สร้างทางลัดแล้ว:
+{0}</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidPrivateServer" xml:space="preserve">
+    <value>ใส่ลิงก์แชร์เซิร์ฟเวอร์ส่วนตัวที่ถูกต้อง หรือใส่ทั้ง Game ID และรหัสเข้าถึง</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidGameId" xml:space="preserve">
+    <value>ใส่ Game ID ที่เป็นตัวเลขและถูกต้อง</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidInstanceId" xml:space="preserve">
+    <value>ใส่ ID อินสแตนซ์เซิร์ฟเวอร์ที่ถูกต้อง</value>
+  </data>
+  <data name="Ui.Shortcuts.LoadFailed" xml:space="preserve">
+    <value>โหลดการตั้งค่าที่บันทึกไว้ไม่สำเร็จ
+
+ข้อผิดพลาด: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.RequestTimedOut" xml:space="preserve">
+    <value>คำขอหมดเวลา</value>
+  </data>
+  <data name="Ui.Shortcuts.ApplicationsMenu" xml:space="preserve">
+    <value>เมนูแอปพลิเคชัน</value>
+  </data>
 </root>

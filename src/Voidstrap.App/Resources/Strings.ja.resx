@@ -6837,4 +6837,52 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
   <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
     <value>セッションドック、ホーム画面の背景、画面の色、ゲーム内ツール。</value>
   </data>
+  <data name="Ui.Shortcuts.EnterValidGameId" xml:space="preserve">
+    <value>有効な Game ID を入力してください</value>
+  </data>
+  <data name="Ui.Shortcuts.UnknownGame" xml:space="preserve">
+    <value>不明なゲーム</value>
+  </data>
+  <data name="Ui.Shortcuts.LoadingGame" xml:space="preserve">
+    <value>ゲームを読み込み中</value>
+  </data>
+  <data name="Ui.Shortcuts.LaunchFailed" xml:space="preserve">
+    <value>ゲームを起動できませんでした。
+
+エラー: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.ShortcutFailed" xml:space="preserve">
+    <value>ショートカットを作成できませんでした。
+
+エラー: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.DesktopWriteFailed" xml:space="preserve">
+    <value>ショートカットを作成できませんでした。
+
+Voidstrap がデスクトップ フォルダーに書き込めませんでした。</value>
+  </data>
+  <data name="Ui.Shortcuts.ShortcutCreated" xml:space="preserve">
+    <value>ショートカットを作成しました:
+{0}</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidPrivateServer" xml:space="preserve">
+    <value>有効なプライベートサーバーの共有リンクを入力するか、Game ID とアクセスコードの両方を入力してください。</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidGameId" xml:space="preserve">
+    <value>有効な数字の Game ID を入力してください。</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidInstanceId" xml:space="preserve">
+    <value>有効なサーバーインスタンス ID を入力してください。</value>
+  </data>
+  <data name="Ui.Shortcuts.LoadFailed" xml:space="preserve">
+    <value>保存された設定を読み込めませんでした。
+
+エラー: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.RequestTimedOut" xml:space="preserve">
+    <value>要求がタイムアウトしました。</value>
+  </data>
+  <data name="Ui.Shortcuts.ApplicationsMenu" xml:space="preserve">
+    <value>アプリケーション メニュー</value>
+  </data>
 </root>

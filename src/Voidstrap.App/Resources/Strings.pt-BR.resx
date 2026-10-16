@@ -6794,4 +6794,52 @@ Tentar a remoção de novo?</value>
   <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
     <value>Dock da sessão, fundo da página inicial, cores da tela e ferramentas no jogo.</value>
   </data>
+  <data name="Ui.Shortcuts.EnterValidGameId" xml:space="preserve">
+    <value>Digite um Game ID válido</value>
+  </data>
+  <data name="Ui.Shortcuts.UnknownGame" xml:space="preserve">
+    <value>Jogo desconhecido</value>
+  </data>
+  <data name="Ui.Shortcuts.LoadingGame" xml:space="preserve">
+    <value>Carregando jogo</value>
+  </data>
+  <data name="Ui.Shortcuts.LaunchFailed" xml:space="preserve">
+    <value>Não foi possível iniciar o jogo.
+
+Erro: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.ShortcutFailed" xml:space="preserve">
+    <value>Não foi possível criar o atalho.
+
+Erro: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.DesktopWriteFailed" xml:space="preserve">
+    <value>Não foi possível criar o atalho.
+
+O Voidstrap não conseguiu gravar na pasta da área de trabalho.</value>
+  </data>
+  <data name="Ui.Shortcuts.ShortcutCreated" xml:space="preserve">
+    <value>Atalho criado:
+{0}</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidPrivateServer" xml:space="preserve">
+    <value>Digite um link de compartilhamento válido de servidor privado, ou informe um Game ID e um código de acesso.</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidGameId" xml:space="preserve">
+    <value>Digite um Game ID numérico válido.</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidInstanceId" xml:space="preserve">
+    <value>Digite um ID de instância de servidor válido.</value>
+  </data>
+  <data name="Ui.Shortcuts.LoadFailed" xml:space="preserve">
+    <value>Não foi possível carregar as configurações salvas.
+
+Erro: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.RequestTimedOut" xml:space="preserve">
+    <value>A solicitação expirou.</value>
+  </data>
+  <data name="Ui.Shortcuts.ApplicationsMenu" xml:space="preserve">
+    <value>Menu de aplicativos</value>
+  </data>
 </root>

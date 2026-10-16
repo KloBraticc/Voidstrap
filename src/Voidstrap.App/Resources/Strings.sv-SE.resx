@@ -6772,4 +6772,52 @@ Försöka ta bort igen?</value>
   <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
     <value>Sessionsdocka, startsidans bakgrund, skärmfärger och verktyg i spelet.</value>
   </data>
+  <data name="Ui.Shortcuts.EnterValidGameId" xml:space="preserve">
+    <value>Ange ett giltigt Game ID</value>
+  </data>
+  <data name="Ui.Shortcuts.UnknownGame" xml:space="preserve">
+    <value>Okänt spel</value>
+  </data>
+  <data name="Ui.Shortcuts.LoadingGame" xml:space="preserve">
+    <value>Läser in spelet</value>
+  </data>
+  <data name="Ui.Shortcuts.LaunchFailed" xml:space="preserve">
+    <value>Spelet kunde inte startas.
+
+Fel: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.ShortcutFailed" xml:space="preserve">
+    <value>Genvägen kunde inte skapas.
+
+Fel: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.DesktopWriteFailed" xml:space="preserve">
+    <value>Genvägen kunde inte skapas.
+
+Voidstrap kunde inte skriva till skrivbordsmappen.</value>
+  </data>
+  <data name="Ui.Shortcuts.ShortcutCreated" xml:space="preserve">
+    <value>Genväg skapad:
+{0}</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidPrivateServer" xml:space="preserve">
+    <value>Ange en giltig delningslänk till en privat server, eller ange både ett Game ID och en åtkomstkod.</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidGameId" xml:space="preserve">
+    <value>Ange ett giltigt numeriskt Game ID.</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidInstanceId" xml:space="preserve">
+    <value>Ange ett giltigt serverinstans ID.</value>
+  </data>
+  <data name="Ui.Shortcuts.LoadFailed" xml:space="preserve">
+    <value>Sparade inställningar kunde inte läsas in.
+
+Fel: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.RequestTimedOut" xml:space="preserve">
+    <value>Begäran tog för lång tid.</value>
+  </data>
+  <data name="Ui.Shortcuts.ApplicationsMenu" xml:space="preserve">
+    <value>Programmeny</value>
+  </data>
 </root>

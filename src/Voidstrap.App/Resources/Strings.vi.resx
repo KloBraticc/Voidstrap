@@ -6820,4 +6820,52 @@ Thử gỡ bỏ lại?</value>
   <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
     <value>Thanh phiên, hình nền trang chủ, màu màn hình và công cụ trong game.</value>
   </data>
+  <data name="Ui.Shortcuts.EnterValidGameId" xml:space="preserve">
+    <value>Nhập Game ID hợp lệ</value>
+  </data>
+  <data name="Ui.Shortcuts.UnknownGame" xml:space="preserve">
+    <value>Trò chơi không xác định</value>
+  </data>
+  <data name="Ui.Shortcuts.LoadingGame" xml:space="preserve">
+    <value>Đang tải trò chơi</value>
+  </data>
+  <data name="Ui.Shortcuts.LaunchFailed" xml:space="preserve">
+    <value>Không thể khởi chạy trò chơi.
+
+Lỗi: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.ShortcutFailed" xml:space="preserve">
+    <value>Không thể tạo lối tắt.
+
+Lỗi: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.DesktopWriteFailed" xml:space="preserve">
+    <value>Không thể tạo lối tắt.
+
+Voidstrap không thể ghi vào thư mục màn hình nền.</value>
+  </data>
+  <data name="Ui.Shortcuts.ShortcutCreated" xml:space="preserve">
+    <value>Đã tạo lối tắt:
+{0}</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidPrivateServer" xml:space="preserve">
+    <value>Nhập liên kết chia sẻ máy chủ riêng hợp lệ, hoặc cung cấp cả Game ID và mã truy cập.</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidGameId" xml:space="preserve">
+    <value>Nhập Game ID dạng số hợp lệ.</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidInstanceId" xml:space="preserve">
+    <value>Nhập ID phiên máy chủ hợp lệ.</value>
+  </data>
+  <data name="Ui.Shortcuts.LoadFailed" xml:space="preserve">
+    <value>Không thể tải các cài đặt đã lưu.
+
+Lỗi: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.RequestTimedOut" xml:space="preserve">
+    <value>Yêu cầu đã hết thời gian chờ.</value>
+  </data>
+  <data name="Ui.Shortcuts.ApplicationsMenu" xml:space="preserve">
+    <value>Menu ứng dụng</value>
+  </data>
 </root>

@@ -6816,4 +6816,52 @@ Roblox будет скачан при первом запуске через Voi
   <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
     <value>Панель сеанса, фон главной страницы, цвета экрана и инструменты в игре.</value>
   </data>
+  <data name="Ui.Shortcuts.EnterValidGameId" xml:space="preserve">
+    <value>Введите действительный Game ID</value>
+  </data>
+  <data name="Ui.Shortcuts.UnknownGame" xml:space="preserve">
+    <value>Неизвестная игра</value>
+  </data>
+  <data name="Ui.Shortcuts.LoadingGame" xml:space="preserve">
+    <value>Загрузка игры</value>
+  </data>
+  <data name="Ui.Shortcuts.LaunchFailed" xml:space="preserve">
+    <value>Не удалось запустить игру.
+
+Ошибка: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.ShortcutFailed" xml:space="preserve">
+    <value>Не удалось создать ярлык.
+
+Ошибка: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.DesktopWriteFailed" xml:space="preserve">
+    <value>Не удалось создать ярлык.
+
+Voidstrap не смог записать в папку рабочего стола.</value>
+  </data>
+  <data name="Ui.Shortcuts.ShortcutCreated" xml:space="preserve">
+    <value>Ярлык создан:
+{0}</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidPrivateServer" xml:space="preserve">
+    <value>Введите действительную ссылку на частный сервер или укажите и Game ID, и код доступа.</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidGameId" xml:space="preserve">
+    <value>Введите действительный числовой Game ID.</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidInstanceId" xml:space="preserve">
+    <value>Введите действительный ID экземпляра сервера.</value>
+  </data>
+  <data name="Ui.Shortcuts.LoadFailed" xml:space="preserve">
+    <value>Не удалось загрузить сохранённые настройки.
+
+Ошибка: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.RequestTimedOut" xml:space="preserve">
+    <value>Время ожидания запроса истекло.</value>
+  </data>
+  <data name="Ui.Shortcuts.ApplicationsMenu" xml:space="preserve">
+    <value>Меню приложений</value>
+  </data>
 </root>

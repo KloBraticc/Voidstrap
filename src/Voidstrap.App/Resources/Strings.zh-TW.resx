@@ -6814,4 +6814,52 @@ Voidstrap 安裝在 "{1}"。</value>
   <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
     <value>工作階段列、首頁背景、螢幕色彩和遊戲內工具。</value>
   </data>
+  <data name="Ui.Shortcuts.EnterValidGameId" xml:space="preserve">
+    <value>請輸入有效的 Game ID</value>
+  </data>
+  <data name="Ui.Shortcuts.UnknownGame" xml:space="preserve">
+    <value>未知遊戲</value>
+  </data>
+  <data name="Ui.Shortcuts.LoadingGame" xml:space="preserve">
+    <value>正在載入遊戲</value>
+  </data>
+  <data name="Ui.Shortcuts.LaunchFailed" xml:space="preserve">
+    <value>無法啟動遊戲。
+
+錯誤：{0}</value>
+  </data>
+  <data name="Ui.Shortcuts.ShortcutFailed" xml:space="preserve">
+    <value>無法建立捷徑。
+
+錯誤：{0}</value>
+  </data>
+  <data name="Ui.Shortcuts.DesktopWriteFailed" xml:space="preserve">
+    <value>無法建立捷徑。
+
+Voidstrap 無法寫入桌面資料夾。</value>
+  </data>
+  <data name="Ui.Shortcuts.ShortcutCreated" xml:space="preserve">
+    <value>已建立捷徑：
+{0}</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidPrivateServer" xml:space="preserve">
+    <value>請輸入有效的私人伺服器分享連結，或同時提供 Game ID 和存取碼。</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidGameId" xml:space="preserve">
+    <value>請輸入有效的數字 Game ID。</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidInstanceId" xml:space="preserve">
+    <value>請輸入有效的伺服器執行個體 ID。</value>
+  </data>
+  <data name="Ui.Shortcuts.LoadFailed" xml:space="preserve">
+    <value>無法載入已儲存的設定。
+
+錯誤：{0}</value>
+  </data>
+  <data name="Ui.Shortcuts.RequestTimedOut" xml:space="preserve">
+    <value>要求逾時。</value>
+  </data>
+  <data name="Ui.Shortcuts.ApplicationsMenu" xml:space="preserve">
+    <value>應用程式選單</value>
+  </data>
 </root>

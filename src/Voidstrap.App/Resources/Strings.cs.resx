@@ -6794,4 +6794,52 @@ Zkusit odebrání znovu?</value>
   <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
     <value>Panel relace, pozadí domovské stránky, barvy obrazovky a nástroje ve hře.</value>
   </data>
+  <data name="Ui.Shortcuts.EnterValidGameId" xml:space="preserve">
+    <value>Zadejte platné Game ID</value>
+  </data>
+  <data name="Ui.Shortcuts.UnknownGame" xml:space="preserve">
+    <value>Neznámá hra</value>
+  </data>
+  <data name="Ui.Shortcuts.LoadingGame" xml:space="preserve">
+    <value>Načítání hry</value>
+  </data>
+  <data name="Ui.Shortcuts.LaunchFailed" xml:space="preserve">
+    <value>Hru se nepodařilo spustit.
+
+Chyba: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.ShortcutFailed" xml:space="preserve">
+    <value>Zástupce se nepodařilo vytvořit.
+
+Chyba: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.DesktopWriteFailed" xml:space="preserve">
+    <value>Zástupce se nepodařilo vytvořit.
+
+Voidstrap nemohl zapisovat do složky plochy.</value>
+  </data>
+  <data name="Ui.Shortcuts.ShortcutCreated" xml:space="preserve">
+    <value>Zástupce byl vytvořen:
+{0}</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidPrivateServer" xml:space="preserve">
+    <value>Zadejte platný odkaz pro sdílení soukromého serveru, nebo uveďte Game ID i přístupový kód.</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidGameId" xml:space="preserve">
+    <value>Zadejte platné číselné Game ID.</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidInstanceId" xml:space="preserve">
+    <value>Zadejte platné ID instance serveru.</value>
+  </data>
+  <data name="Ui.Shortcuts.LoadFailed" xml:space="preserve">
+    <value>Uložená nastavení se nepodařilo načíst.
+
+Chyba: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.RequestTimedOut" xml:space="preserve">
+    <value>Vypršel časový limit požadavku.</value>
+  </data>
+  <data name="Ui.Shortcuts.ApplicationsMenu" xml:space="preserve">
+    <value>Nabídka aplikací</value>
+  </data>
 </root>

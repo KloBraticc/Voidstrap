@@ -83,7 +83,7 @@
               </Border>
             </Grid>
           </Border>
-          <TextBlock Width="120" Margin="0,8,0,0" FontSize="14" FontWeight="SemiBold" TextAlignment="Center" TextTrimming="CharacterEllipsis" Text="{Binding DisplayGameName}" ToolTip="{Binding DisplayGameName}" />
+          <TextBlock Width="120" MaxHeight="40" Margin="0,8,0,0" FontSize="13" FontWeight="SemiBold" TextAlignment="Center" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" Text="{Binding DisplayGameName}" ToolTip="{Binding DisplayGameName}" />
         </StackPanel>
         <StackPanel Grid.Column="1">
           <TextBlock FontSize="16" FontWeight="SemiBold" Text="{resources:Loc Ui_Pages_Destination}" />

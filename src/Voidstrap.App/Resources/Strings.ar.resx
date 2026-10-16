@@ -6843,4 +6843,52 @@
   <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
     <value>شريط الجلسة وخلفية الصفحة الرئيسية وألوان الشاشة وأدوات داخل اللعبة.</value>
   </data>
+  <data name="Ui.Shortcuts.EnterValidGameId" xml:space="preserve">
+    <value>أدخل معرف لعبة صالحًا</value>
+  </data>
+  <data name="Ui.Shortcuts.UnknownGame" xml:space="preserve">
+    <value>لعبة غير معروفة</value>
+  </data>
+  <data name="Ui.Shortcuts.LoadingGame" xml:space="preserve">
+    <value>جارٍ تحميل اللعبة</value>
+  </data>
+  <data name="Ui.Shortcuts.LaunchFailed" xml:space="preserve">
+    <value>تعذر تشغيل اللعبة.
+
+الخطأ: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.ShortcutFailed" xml:space="preserve">
+    <value>تعذر إنشاء الاختصار.
+
+الخطأ: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.DesktopWriteFailed" xml:space="preserve">
+    <value>تعذر إنشاء الاختصار.
+
+لم يتمكن Voidstrap من الكتابة في مجلد سطح المكتب.</value>
+  </data>
+  <data name="Ui.Shortcuts.ShortcutCreated" xml:space="preserve">
+    <value>تم إنشاء الاختصار:
+{0}</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidPrivateServer" xml:space="preserve">
+    <value>أدخل رابط مشاركة صالحًا لخادم خاص، أو أدخل معرف اللعبة ورمز الوصول معًا.</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidGameId" xml:space="preserve">
+    <value>أدخل معرف لعبة رقميًا صالحًا.</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidInstanceId" xml:space="preserve">
+    <value>أدخل معرف مثيل خادم صالحًا.</value>
+  </data>
+  <data name="Ui.Shortcuts.LoadFailed" xml:space="preserve">
+    <value>تعذر تحميل الإعدادات المحفوظة.
+
+الخطأ: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.RequestTimedOut" xml:space="preserve">
+    <value>انتهت مهلة الطلب.</value>
+  </data>
+  <data name="Ui.Shortcuts.ApplicationsMenu" xml:space="preserve">
+    <value>قائمة التطبيقات</value>
+  </data>
 </root>

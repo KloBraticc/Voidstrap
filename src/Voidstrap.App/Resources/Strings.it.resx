@@ -6783,4 +6783,52 @@ Riprovare la rimozione?</value>
   <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
     <value>Barra della sessione, sfondo della home, colori dello schermo e strumenti in gioco.</value>
   </data>
+  <data name="Ui.Shortcuts.EnterValidGameId" xml:space="preserve">
+    <value>Inserisci un Game ID valido</value>
+  </data>
+  <data name="Ui.Shortcuts.UnknownGame" xml:space="preserve">
+    <value>Gioco sconosciuto</value>
+  </data>
+  <data name="Ui.Shortcuts.LoadingGame" xml:space="preserve">
+    <value>Caricamento del gioco</value>
+  </data>
+  <data name="Ui.Shortcuts.LaunchFailed" xml:space="preserve">
+    <value>Impossibile avviare il gioco.
+
+Errore: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.ShortcutFailed" xml:space="preserve">
+    <value>Impossibile creare il collegamento.
+
+Errore: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.DesktopWriteFailed" xml:space="preserve">
+    <value>Impossibile creare il collegamento.
+
+Voidstrap non è riuscito a scrivere nella cartella del desktop.</value>
+  </data>
+  <data name="Ui.Shortcuts.ShortcutCreated" xml:space="preserve">
+    <value>Collegamento creato:
+{0}</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidPrivateServer" xml:space="preserve">
+    <value>Inserisci un link di condivisione valido per un server privato, oppure indica sia un Game ID sia un codice di accesso.</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidGameId" xml:space="preserve">
+    <value>Inserisci un Game ID numerico valido.</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidInstanceId" xml:space="preserve">
+    <value>Inserisci un ID di istanza del server valido.</value>
+  </data>
+  <data name="Ui.Shortcuts.LoadFailed" xml:space="preserve">
+    <value>Impossibile caricare le impostazioni salvate.
+
+Errore: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.RequestTimedOut" xml:space="preserve">
+    <value>La richiesta è scaduta.</value>
+  </data>
+  <data name="Ui.Shortcuts.ApplicationsMenu" xml:space="preserve">
+    <value>Menu delle applicazioni</value>
+  </data>
 </root>

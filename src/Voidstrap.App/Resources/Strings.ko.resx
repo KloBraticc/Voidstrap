@@ -6824,4 +6824,52 @@ Roblox는 Voidstrap으로 처음 실행할 때 다운로드됩니다. 실행하�
   <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
     <value>세션 독, 홈페이지 배경, 화면 색상 및 게임 내 도구.</value>
   </data>
+  <data name="Ui.Shortcuts.EnterValidGameId" xml:space="preserve">
+    <value>올바른 Game ID를 입력하십시오</value>
+  </data>
+  <data name="Ui.Shortcuts.UnknownGame" xml:space="preserve">
+    <value>알 수 없는 게임</value>
+  </data>
+  <data name="Ui.Shortcuts.LoadingGame" xml:space="preserve">
+    <value>게임 불러오는 중</value>
+  </data>
+  <data name="Ui.Shortcuts.LaunchFailed" xml:space="preserve">
+    <value>게임을 실행하지 못했습니다.
+
+오류: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.ShortcutFailed" xml:space="preserve">
+    <value>바로 가기를 만들지 못했습니다.
+
+오류: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.DesktopWriteFailed" xml:space="preserve">
+    <value>바로 가기를 만들지 못했습니다.
+
+Voidstrap이 바탕 화면 폴더에 쓸 수 없습니다.</value>
+  </data>
+  <data name="Ui.Shortcuts.ShortcutCreated" xml:space="preserve">
+    <value>바로 가기를 만들었습니다:
+{0}</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidPrivateServer" xml:space="preserve">
+    <value>올바른 비공개 서버 공유 링크를 입력하거나 Game ID와 액세스 코드를 모두 입력하십시오.</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidGameId" xml:space="preserve">
+    <value>올바른 숫자 Game ID를 입력하십시오.</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidInstanceId" xml:space="preserve">
+    <value>올바른 서버 인스턴스 ID를 입력하십시오.</value>
+  </data>
+  <data name="Ui.Shortcuts.LoadFailed" xml:space="preserve">
+    <value>저장된 설정을 불러오지 못했습니다.
+
+오류: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.RequestTimedOut" xml:space="preserve">
+    <value>요청 시간이 초과되었습니다.</value>
+  </data>
+  <data name="Ui.Shortcuts.ApplicationsMenu" xml:space="preserve">
+    <value>응용 프로그램 메뉴</value>
+  </data>
 </root>

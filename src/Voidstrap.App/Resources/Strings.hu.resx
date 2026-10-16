@@ -6810,4 +6810,52 @@ Mit szeretnél tenni?</value>
   <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
     <value>Munkamenetsáv, kezdőlap háttér, képernyőszínek és játékon belüli eszközök.</value>
   </data>
+  <data name="Ui.Shortcuts.EnterValidGameId" xml:space="preserve">
+    <value>Adj meg egy érvényes Game ID-t</value>
+  </data>
+  <data name="Ui.Shortcuts.UnknownGame" xml:space="preserve">
+    <value>Ismeretlen játék</value>
+  </data>
+  <data name="Ui.Shortcuts.LoadingGame" xml:space="preserve">
+    <value>Játék betöltése</value>
+  </data>
+  <data name="Ui.Shortcuts.LaunchFailed" xml:space="preserve">
+    <value>A játékot nem sikerült elindítani.
+
+Hiba: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.ShortcutFailed" xml:space="preserve">
+    <value>A parancsikont nem sikerült létrehozni.
+
+Hiba: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.DesktopWriteFailed" xml:space="preserve">
+    <value>A parancsikont nem sikerült létrehozni.
+
+A Voidstrap nem tudott írni az asztal mappájába.</value>
+  </data>
+  <data name="Ui.Shortcuts.ShortcutCreated" xml:space="preserve">
+    <value>Parancsikon létrehozva:
+{0}</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidPrivateServer" xml:space="preserve">
+    <value>Adj meg egy érvényes privát szerver megosztási linket, vagy add meg a Game ID-t és a hozzáférési kódot is.</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidGameId" xml:space="preserve">
+    <value>Adj meg egy érvényes számjegyekből álló Game ID-t.</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidInstanceId" xml:space="preserve">
+    <value>Adj meg egy érvényes szerverpéldány-azonosítót.</value>
+  </data>
+  <data name="Ui.Shortcuts.LoadFailed" xml:space="preserve">
+    <value>A mentett beállításokat nem sikerült betölteni.
+
+Hiba: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.RequestTimedOut" xml:space="preserve">
+    <value>A kérés túllépte az időkorlátot.</value>
+  </data>
+  <data name="Ui.Shortcuts.ApplicationsMenu" xml:space="preserve">
+    <value>Alkalmazások menü</value>
+  </data>
 </root>

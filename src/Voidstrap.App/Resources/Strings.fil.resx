@@ -6587,4 +6587,52 @@ Subukan ulit ang pag alis?</value>
   <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
     <value>Session dock, background ng homepage, kulay ng screen at mga tool sa loob ng laro.</value>
   </data>
+  <data name="Ui.Shortcuts.EnterValidGameId" xml:space="preserve">
+    <value>Maglagay ng valid na Game ID</value>
+  </data>
+  <data name="Ui.Shortcuts.UnknownGame" xml:space="preserve">
+    <value>Hindi kilalang laro</value>
+  </data>
+  <data name="Ui.Shortcuts.LoadingGame" xml:space="preserve">
+    <value>Nilo-load ang laro</value>
+  </data>
+  <data name="Ui.Shortcuts.LaunchFailed" xml:space="preserve">
+    <value>Hindi nailunsad ang laro.
+
+Error: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.ShortcutFailed" xml:space="preserve">
+    <value>Hindi nagawa ang shortcut.
+
+Error: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.DesktopWriteFailed" xml:space="preserve">
+    <value>Hindi nagawa ang shortcut.
+
+Hindi makasulat ang Voidstrap sa desktop folder.</value>
+  </data>
+  <data name="Ui.Shortcuts.ShortcutCreated" xml:space="preserve">
+    <value>Nagawa ang shortcut:
+{0}</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidPrivateServer" xml:space="preserve">
+    <value>Maglagay ng valid na share link ng private server, o ilagay ang parehong Game ID at access code.</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidGameId" xml:space="preserve">
+    <value>Maglagay ng valid na numerong Game ID.</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidInstanceId" xml:space="preserve">
+    <value>Maglagay ng valid na server instance ID.</value>
+  </data>
+  <data name="Ui.Shortcuts.LoadFailed" xml:space="preserve">
+    <value>Hindi na-load ang mga naka-save na setting.
+
+Error: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.RequestTimedOut" xml:space="preserve">
+    <value>Nag-time out ang request.</value>
+  </data>
+  <data name="Ui.Shortcuts.ApplicationsMenu" xml:space="preserve">
+    <value>Menu ng mga application</value>
+  </data>
 </root>

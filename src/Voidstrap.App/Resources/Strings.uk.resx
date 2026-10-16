@@ -6824,4 +6824,52 @@ Roblox буде завантажено під час першого запуск
   <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
     <value>Панель сеансу, фон головної сторінки, кольори екрана та інструменти в грі.</value>
   </data>
+  <data name="Ui.Shortcuts.EnterValidGameId" xml:space="preserve">
+    <value>Введіть дійсний Game ID</value>
+  </data>
+  <data name="Ui.Shortcuts.UnknownGame" xml:space="preserve">
+    <value>Невідома гра</value>
+  </data>
+  <data name="Ui.Shortcuts.LoadingGame" xml:space="preserve">
+    <value>Завантаження гри</value>
+  </data>
+  <data name="Ui.Shortcuts.LaunchFailed" xml:space="preserve">
+    <value>Не вдалося запустити гру.
+
+Помилка: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.ShortcutFailed" xml:space="preserve">
+    <value>Не вдалося створити ярлик.
+
+Помилка: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.DesktopWriteFailed" xml:space="preserve">
+    <value>Не вдалося створити ярлик.
+
+Voidstrap не зміг записати до теки робочого столу.</value>
+  </data>
+  <data name="Ui.Shortcuts.ShortcutCreated" xml:space="preserve">
+    <value>Ярлик створено:
+{0}</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidPrivateServer" xml:space="preserve">
+    <value>Введіть дійсне посилання на приватний сервер або вкажіть і Game ID, і код доступу.</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidGameId" xml:space="preserve">
+    <value>Введіть дійсний числовий Game ID.</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidInstanceId" xml:space="preserve">
+    <value>Введіть дійсний ID екземпляра сервера.</value>
+  </data>
+  <data name="Ui.Shortcuts.LoadFailed" xml:space="preserve">
+    <value>Не вдалося завантажити збережені налаштування.
+
+Помилка: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.RequestTimedOut" xml:space="preserve">
+    <value>Час очікування запиту минув.</value>
+  </data>
+  <data name="Ui.Shortcuts.ApplicationsMenu" xml:space="preserve">
+    <value>Меню застосунків</value>
+  </data>
 </root>

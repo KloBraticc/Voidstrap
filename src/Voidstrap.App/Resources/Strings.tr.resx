@@ -6806,4 +6806,52 @@ Kaldırma yeniden denensin mi?</value>
   <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
     <value>Oturum çubuğu, ana sayfa arka planı, ekran renkleri ve oyun içi araçlar.</value>
   </data>
+  <data name="Ui.Shortcuts.EnterValidGameId" xml:space="preserve">
+    <value>Geçerli bir Game ID girin</value>
+  </data>
+  <data name="Ui.Shortcuts.UnknownGame" xml:space="preserve">
+    <value>Bilinmeyen oyun</value>
+  </data>
+  <data name="Ui.Shortcuts.LoadingGame" xml:space="preserve">
+    <value>Oyun yükleniyor</value>
+  </data>
+  <data name="Ui.Shortcuts.LaunchFailed" xml:space="preserve">
+    <value>Oyun başlatılamadı.
+
+Hata: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.ShortcutFailed" xml:space="preserve">
+    <value>Kısayol oluşturulamadı.
+
+Hata: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.DesktopWriteFailed" xml:space="preserve">
+    <value>Kısayol oluşturulamadı.
+
+Voidstrap masaüstü klasörüne yazamadı.</value>
+  </data>
+  <data name="Ui.Shortcuts.ShortcutCreated" xml:space="preserve">
+    <value>Kısayol oluşturuldu:
+{0}</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidPrivateServer" xml:space="preserve">
+    <value>Geçerli bir özel sunucu paylaşım bağlantısı girin veya hem Game ID hem de erişim kodu sağlayın.</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidGameId" xml:space="preserve">
+    <value>Geçerli bir sayısal Game ID girin.</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidInstanceId" xml:space="preserve">
+    <value>Geçerli bir sunucu örneği kimliği girin.</value>
+  </data>
+  <data name="Ui.Shortcuts.LoadFailed" xml:space="preserve">
+    <value>Kayıtlı ayarlar yüklenemedi.
+
+Hata: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.RequestTimedOut" xml:space="preserve">
+    <value>İstek zaman aşımına uğradı.</value>
+  </data>
+  <data name="Ui.Shortcuts.ApplicationsMenu" xml:space="preserve">
+    <value>Uygulamalar menüsü</value>
+  </data>
 </root>

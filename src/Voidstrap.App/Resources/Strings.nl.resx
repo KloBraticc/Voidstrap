@@ -6770,4 +6770,52 @@ Het verwijderen opnieuw proberen?</value>
   <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
     <value>Sessiedock, achtergrond van de startpagina, schermkleuren en tools in het spel.</value>
   </data>
+  <data name="Ui.Shortcuts.EnterValidGameId" xml:space="preserve">
+    <value>Voer een geldige Game ID in</value>
+  </data>
+  <data name="Ui.Shortcuts.UnknownGame" xml:space="preserve">
+    <value>Onbekende game</value>
+  </data>
+  <data name="Ui.Shortcuts.LoadingGame" xml:space="preserve">
+    <value>Game laden</value>
+  </data>
+  <data name="Ui.Shortcuts.LaunchFailed" xml:space="preserve">
+    <value>Het spel kon niet worden gestart.
+
+Fout: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.ShortcutFailed" xml:space="preserve">
+    <value>De snelkoppeling kon niet worden gemaakt.
+
+Fout: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.DesktopWriteFailed" xml:space="preserve">
+    <value>De snelkoppeling kon niet worden gemaakt.
+
+Voidstrap kon niet naar de bureaubladmap schrijven.</value>
+  </data>
+  <data name="Ui.Shortcuts.ShortcutCreated" xml:space="preserve">
+    <value>Snelkoppeling gemaakt:
+{0}</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidPrivateServer" xml:space="preserve">
+    <value>Voer een geldige deellink voor een privéserver in, of geef zowel een Game ID als een toegangscode op.</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidGameId" xml:space="preserve">
+    <value>Voer een geldige numerieke Game ID in.</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidInstanceId" xml:space="preserve">
+    <value>Voer een geldige serverinstantie ID in.</value>
+  </data>
+  <data name="Ui.Shortcuts.LoadFailed" xml:space="preserve">
+    <value>Opgeslagen instellingen konden niet worden geladen.
+
+Fout: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.RequestTimedOut" xml:space="preserve">
+    <value>Er is een time-out opgetreden voor de aanvraag.</value>
+  </data>
+  <data name="Ui.Shortcuts.ApplicationsMenu" xml:space="preserve">
+    <value>Toepassingenmenu</value>
+  </data>
 </root>

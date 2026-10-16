@@ -6835,4 +6835,52 @@ Voidstrap 的安装路径是：
   <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
     <value>会话栏、主页背景、屏幕颜色和游戏内工具。</value>
   </data>
+  <data name="Ui.Shortcuts.EnterValidGameId" xml:space="preserve">
+    <value>请输入有效的 Game ID</value>
+  </data>
+  <data name="Ui.Shortcuts.UnknownGame" xml:space="preserve">
+    <value>未知游戏</value>
+  </data>
+  <data name="Ui.Shortcuts.LoadingGame" xml:space="preserve">
+    <value>正在加载游戏</value>
+  </data>
+  <data name="Ui.Shortcuts.LaunchFailed" xml:space="preserve">
+    <value>无法启动游戏。
+
+错误：{0}</value>
+  </data>
+  <data name="Ui.Shortcuts.ShortcutFailed" xml:space="preserve">
+    <value>无法创建快捷方式。
+
+错误：{0}</value>
+  </data>
+  <data name="Ui.Shortcuts.DesktopWriteFailed" xml:space="preserve">
+    <value>无法创建快捷方式。
+
+Voidstrap 无法写入桌面文件夹。</value>
+  </data>
+  <data name="Ui.Shortcuts.ShortcutCreated" xml:space="preserve">
+    <value>已创建快捷方式：
+{0}</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidPrivateServer" xml:space="preserve">
+    <value>请输入有效的私人服务器分享链接，或同时提供 Game ID 和访问码。</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidGameId" xml:space="preserve">
+    <value>请输入有效的数字 Game ID。</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidInstanceId" xml:space="preserve">
+    <value>请输入有效的服务器实例 ID。</value>
+  </data>
+  <data name="Ui.Shortcuts.LoadFailed" xml:space="preserve">
+    <value>无法加载已保存的设置。
+
+错误：{0}</value>
+  </data>
+  <data name="Ui.Shortcuts.RequestTimedOut" xml:space="preserve">
+    <value>请求超时。</value>
+  </data>
+  <data name="Ui.Shortcuts.ApplicationsMenu" xml:space="preserve">
+    <value>应用程序菜单</value>
+  </data>
 </root>

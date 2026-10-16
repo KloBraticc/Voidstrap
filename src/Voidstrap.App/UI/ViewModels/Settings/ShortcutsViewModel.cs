@@ -38,7 +38,11 @@ public class ShortcutsViewModel : NotifyPropertyChangedViewModel
 
 	private bool _isIconVisible;
 
-	private string _displayGameName = "Enter a valid Game ID";
+	private string _displayGameName = Strings.Ui_Shortcuts_EnterValidGameId;
+
+	private bool _hasResolvedGameName;
+
+	private CancellationTokenSource? _gameLookup;
 	private bool _isSubplaceMode;
 	private bool _isLoadingSubplaces;
 	private CancellationTokenSource? _subplaceRequest;
@@ -248,9 +252,11 @@ public class ShortcutsViewModel : NotifyPropertyChangedViewModel
 		}
 		set
 		{
-			if (_gameID != value)
+			string normalized = NormalizeGameId(value);
+			if (_gameID != normalized)
 			{
-				_gameID = value;
+				_gameID = normalized;
+				value = normalized;
 				CancelSubplaceLoading();
 				SelectedSubplace = null;
 				Subplaces = Array.Empty<RobloxSubplaces.Place>();
@@ -258,7 +264,7 @@ public class ShortcutsViewModel : NotifyPropertyChangedViewModel
 				GameInstanceId = null;
 				App.Settings.Prop.LaunchGameID = value;
 				OnPropertyChanged(nameof(GameID));
-				_ = LoadGameIconAsync(value);
+				_ = LookupGameAsync(value, 350);
 				if (IsSubplaceMode)
 					_ = LoadSubplacesAsync(500);
 			}
@@ -305,9 +311,59 @@ public class ShortcutsViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
+	public string? ResolvedGameName => _hasResolvedGameName ? _displayGameName : null;
+
+	public static string NormalizeGameId(string? value)
+	{
+		string text = value?.Trim() ?? "";
+		if (text.Length == 0 || text.All(char.IsAsciiDigit))
+			return value ?? "";
+		if (Uri.TryCreate(text.Contains("://", StringComparison.Ordinal) ? text : "https://" + text, UriKind.Absolute, out Uri? uri)
+			&& (uri.Host.Equals("roblox.com", StringComparison.OrdinalIgnoreCase) || uri.Host.EndsWith(".roblox.com", StringComparison.OrdinalIgnoreCase)))
+		{
+			string[] segments = uri.AbsolutePath.Split('/', StringSplitOptions.RemoveEmptyEntries);
+			int index = Array.FindIndex(segments, segment => segment.Equals("games", StringComparison.OrdinalIgnoreCase));
+			if (index >= 0 && index + 1 < segments.Length && segments[index + 1].All(char.IsAsciiDigit))
+				return segments[index + 1];
+			string? placeId = System.Web.HttpUtility.ParseQueryString(uri.Query)["placeId"];
+			if (!string.IsNullOrEmpty(placeId) && placeId.All(char.IsAsciiDigit))
+				return placeId;
+		}
+		return value ?? "";
+	}
+
+	private async Task LookupGameAsync(string gameId, int delayMilliseconds)
+	{
+		_gameLookup?.Cancel();
+		_gameLookup?.Dispose();
+		CancellationTokenSource lookup = new CancellationTokenSource();
+		_gameLookup = lookup;
+		string trimmed = gameId?.Trim() ?? "";
+		_hasResolvedGameName = false;
+		if (!long.TryParse(trimmed, out long placeId) || placeId <= 0)
+		{
+			GameIconUrl = null;
+			DisplayGameName = Strings.Ui_Shortcuts_EnterValidGameId;
+			return;
+		}
+		DisplayGameName = Strings.Ui_Shortcuts_LoadingGame;
+		try
+		{
+			if (delayMilliseconds > 0)
+				await Task.Delay(delayMilliseconds, lookup.Token);
+		}
+		catch (OperationCanceledException)
+		{
+			return;
+		}
+		if (!ReferenceEquals(_gameLookup, lookup) || !IsCurrentGame(trimmed))
+			return;
+		await LoadGameIconAsync(trimmed);
+	}
+
 	public ShortcutsViewModel()
 	{
-		_ = LoadGameIconAsync(GameID);
+		_ = LookupGameAsync(GameID, 0);
 		LoadPrivateServerCode();
 	}
 
@@ -332,7 +388,7 @@ public class ShortcutsViewModel : NotifyPropertyChangedViewModel
 		if (!long.TryParse(gameId, out long placeId) || placeId <= 0)
 		{
 			GameIconUrl = null;
-			DisplayGameName = "Enter a valid Game ID";
+			DisplayGameName = Strings.Ui_Shortcuts_EnterValidGameId;
 			return;
 		}
 		_ = LoadGameNameAsync(gameId);
@@ -375,7 +431,7 @@ public class ShortcutsViewModel : NotifyPropertyChangedViewModel
 
 	private async Task LoadGameNameAsync(string gameId)
 	{
-		string name = "Unknown Game";
+		string? name = null;
 		try
 		{
 			string requestUri = "https://apis.roblox.com/universes/v1/places/" + gameId + "/universe";
@@ -385,7 +441,7 @@ public class ShortcutsViewModel : NotifyPropertyChangedViewModel
 				string requestUri2 = "https://games.roblox.com/v1/games?universeIds=" + universeId.GetRawText().Trim('"');
 				using JsonDocument gameDoc = JsonDocument.Parse(await Voidstrap.Utility.Http.GetStringBoundedAsync(_httpClient, requestUri2));
 				if (gameDoc.RootElement.TryGetProperty("data", out JsonElement data) && data.GetArrayLength() != 0)
-					name = data[0].GetProperty("name").GetString() ?? name;
+					name = data[0].GetProperty("name").GetString();
 			}
 		}
 		catch
@@ -393,7 +449,8 @@ public class ShortcutsViewModel : NotifyPropertyChangedViewModel
 		}
 		if (!IsCurrentGame(gameId))
 			return;
-		DisplayGameName = name;
+		_hasResolvedGameName = !string.IsNullOrWhiteSpace(name);
+		DisplayGameName = _hasResolvedGameName ? name! : Strings.Ui_Shortcuts_UnknownGame;
 	}
 
 	private bool IsCurrentGame(string gameId)

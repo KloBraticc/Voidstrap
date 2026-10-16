@@ -6768,4 +6768,52 @@ Coba hapus lagi?</value>
   <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
     <value>Dok sesi, latar beranda, warna layar, dan alat dalam game.</value>
   </data>
+  <data name="Ui.Shortcuts.EnterValidGameId" xml:space="preserve">
+    <value>Masukkan Game ID yang valid</value>
+  </data>
+  <data name="Ui.Shortcuts.UnknownGame" xml:space="preserve">
+    <value>Game tidak dikenal</value>
+  </data>
+  <data name="Ui.Shortcuts.LoadingGame" xml:space="preserve">
+    <value>Memuat game</value>
+  </data>
+  <data name="Ui.Shortcuts.LaunchFailed" xml:space="preserve">
+    <value>Game gagal dijalankan.
+
+Kesalahan: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.ShortcutFailed" xml:space="preserve">
+    <value>Pintasan gagal dibuat.
+
+Kesalahan: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.DesktopWriteFailed" xml:space="preserve">
+    <value>Pintasan gagal dibuat.
+
+Voidstrap tidak dapat menulis ke folder desktop.</value>
+  </data>
+  <data name="Ui.Shortcuts.ShortcutCreated" xml:space="preserve">
+    <value>Pintasan dibuat:
+{0}</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidPrivateServer" xml:space="preserve">
+    <value>Masukkan tautan berbagi server pribadi yang valid, atau isi Game ID dan kode akses.</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidGameId" xml:space="preserve">
+    <value>Masukkan Game ID berupa angka yang valid.</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidInstanceId" xml:space="preserve">
+    <value>Masukkan ID instans server yang valid.</value>
+  </data>
+  <data name="Ui.Shortcuts.LoadFailed" xml:space="preserve">
+    <value>Pengaturan tersimpan gagal dimuat.
+
+Kesalahan: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.RequestTimedOut" xml:space="preserve">
+    <value>Waktu permintaan habis.</value>
+  </data>
+  <data name="Ui.Shortcuts.ApplicationsMenu" xml:space="preserve">
+    <value>Menu aplikasi</value>
+  </data>
 </root>

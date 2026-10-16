@@ -6852,4 +6852,52 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
   <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
     <value>نوار جلسه، پس‌زمینهٔ صفحهٔ اصلی، رنگ‌های صفحه و ابزارهای درون بازی.</value>
   </data>
+  <data name="Ui.Shortcuts.EnterValidGameId" xml:space="preserve">
+    <value>یک Game ID معتبر وارد کنید</value>
+  </data>
+  <data name="Ui.Shortcuts.UnknownGame" xml:space="preserve">
+    <value>بازی ناشناخته</value>
+  </data>
+  <data name="Ui.Shortcuts.LoadingGame" xml:space="preserve">
+    <value>در حال بارگذاری بازی</value>
+  </data>
+  <data name="Ui.Shortcuts.LaunchFailed" xml:space="preserve">
+    <value>بازی اجرا نشد.
+
+خطا: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.ShortcutFailed" xml:space="preserve">
+    <value>میانبر ساخته نشد.
+
+خطا: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.DesktopWriteFailed" xml:space="preserve">
+    <value>میانبر ساخته نشد.
+
+Voidstrap نتوانست در پوشهٔ دسکتاپ بنویسد.</value>
+  </data>
+  <data name="Ui.Shortcuts.ShortcutCreated" xml:space="preserve">
+    <value>میانبر ساخته شد:
+{0}</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidPrivateServer" xml:space="preserve">
+    <value>یک پیوند اشتراک‌گذاری معتبر سرور خصوصی وارد کنید، یا هم Game ID و هم کد دسترسی را وارد کنید.</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidGameId" xml:space="preserve">
+    <value>یک Game ID عددی معتبر وارد کنید.</value>
+  </data>
+  <data name="Ui.Shortcuts.InvalidInstanceId" xml:space="preserve">
+    <value>یک شناسهٔ نمونهٔ سرور معتبر وارد کنید.</value>
+  </data>
+  <data name="Ui.Shortcuts.LoadFailed" xml:space="preserve">
+    <value>تنظیمات ذخیره‌شده بارگذاری نشد.
+
+خطا: {0}</value>
+  </data>
+  <data name="Ui.Shortcuts.RequestTimedOut" xml:space="preserve">
+    <value>مهلت درخواست به پایان رسید.</value>
+  </data>
+  <data name="Ui.Shortcuts.ApplicationsMenu" xml:space="preserve">
+    <value>منوی برنامه‌ها</value>
+  </data>
 </root>
