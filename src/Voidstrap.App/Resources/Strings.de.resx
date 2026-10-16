@@ -4916,4 +4916,175 @@ Was möchtest du tun?</value>
   <data name="Ui.ModGen.GenerateMod" xml:space="preserve">
     <value>Mod erstellen</value>
   </data>
+  <data name="Ui.Gbs.TheseAreRobloxSOwnIn" xml:space="preserve">
+    <value>Das sind die eigenen Spieleinstellungen von Roblox</value>
+  </data>
+  <data name="Ui.Gbs.ResetToDefaultSettings" xml:space="preserve">
+    <value>Auf Standardeinstellungen zurücksetzen</value>
+  </data>
+  <data name="Ui.Gbs.RestoreAllPreferencesToDefault" xml:space="preserve">
+    <value>Alle Einstellungen auf Standard zurücksetzen.</value>
+  </data>
+  <data name="Ui.Gbs.SettingsFile" xml:space="preserve">
+    <value>Einstellungsdatei</value>
+  </data>
+  <data name="Ui.Gbs.LockSettingsFile" xml:space="preserve">
+    <value>Einstellungsdatei sperren</value>
+  </data>
+  <data name="Ui.Gbs.MarksTheRobloxSettingsFileRead" xml:space="preserve">
+    <value>Markiert die Roblox-Einstellungsdatei als schreibgeschützt, damit Roblox deine Änderungen nicht überschreibt</value>
+  </data>
+  <data name="Ui.Gbs.UITransparency" xml:space="preserve">
+    <value>UI-Transparenz</value>
+  </data>
+  <data name="Ui.Gbs.SetYourPreferredInterfaceTransparency" xml:space="preserve">
+    <value>Lege deine bevorzugte Transparenz der Oberfläche fest.</value>
+  </data>
+  <data name="Ui.Gbs.TextSize" xml:space="preserve">
+    <value>Textgröße</value>
+  </data>
+  <data name="Ui.Gbs.ControlsTheOverallUITextSize" xml:space="preserve">
+    <value>Steuert die gesamte Textgröße der Oberfläche.</value>
+  </data>
+  <data name="Ui.Gbs.ReducedMotion" xml:space="preserve">
+    <value>Reduzierte Bewegung</value>
+  </data>
+  <data name="Ui.Gbs.DisableUIAnimationsForAccessibility" xml:space="preserve">
+    <value>UI-Animationen für Barrierefreiheit deaktivieren.</value>
+  </data>
+  <data name="Ui.Gbs.HUDVisibility" xml:space="preserve">
+    <value>HUD-Sichtbarkeit</value>
+  </data>
+  <data name="Ui.Gbs.ShowOrHideTheInGame" xml:space="preserve">
+    <value>Das Spiel-HUD ein- oder ausblenden.</value>
+  </data>
+  <data name="Ui.Gbs.ChatVisibility" xml:space="preserve">
+    <value>Chat-Sichtbarkeit</value>
+  </data>
+  <data name="Ui.Gbs.ShowOrHideTheInGame2" xml:space="preserve">
+    <value>Das Chatfenster im Spiel ein- oder ausblenden.</value>
+  </data>
+  <data name="Ui.Gbs.PlayerNamesVisible" xml:space="preserve">
+    <value>Spielernamen sichtbar</value>
+  </data>
+  <data name="Ui.Gbs.ShowOtherPlayerNames" xml:space="preserve">
+    <value>Namen anderer Spieler anzeigen.</value>
+  </data>
+  <data name="Ui.Gbs.BadgeVisible" xml:space="preserve">
+    <value>Abzeichen sichtbar</value>
+  </data>
+  <data name="Ui.Gbs.ShowBadgeNotificationsWhilePlaying" xml:space="preserve">
+    <value>Abzeichenbenachrichtigungen beim Spielen anzeigen.</value>
+  </data>
+  <data name="Ui.Gbs.Graphics" xml:space="preserve">
+    <value>Grafik</value>
+  </data>
+  <data name="Ui.Gbs.FramerateCap" xml:space="preserve">
+    <value>FPS-Begrenzung</value>
+  </data>
+  <data name="Ui.Gbs.LimitMaximumFPS" xml:space="preserve">
+    <value>Maximale FPS begrenzen.</value>
+  </data>
+  <data name="Ui.Gbs.GraphicsQuality" xml:space="preserve">
+    <value>Grafikqualität</value>
+  </data>
+  <data name="Ui.Gbs.ChooseAutomaticOrSetAFixed" xml:space="preserve">
+    <value>Wähle Automatisch oder eine feste Stufe. Höhere Stufen sehen besser aus und laufen langsamer.</value>
+  </data>
+  <data name="Ui.Gbs.Fullscreen" xml:space="preserve">
+    <value>Vollbild</value>
+  </data>
+  <data name="Ui.Gbs.ToggleFullscreenMode" xml:space="preserve">
+    <value>Vollbildmodus umschalten.</value>
+  </data>
+  <data name="Ui.Gbs.Audio" xml:space="preserve">
+    <value>Audio</value>
+  </data>
+  <data name="Ui.Gbs.MasterVolume" xml:space="preserve">
+    <value>Gesamtlautstärke</value>
+  </data>
+  <data name="Ui.Gbs.OverallInGameVolume" xml:space="preserve">
+    <value>Gesamte Lautstärke im Spiel.</value>
+  </data>
+  <data name="Ui.Gbs.VoiceChatVolume" xml:space="preserve">
+    <value>Sprachchat-Lautstärke</value>
+  </data>
+  <data name="Ui.Gbs.VolumeForVoiceCommunication" xml:space="preserve">
+    <value>Lautstärke für Sprachkommunikation.</value>
+  </data>
+  <data name="Ui.Gbs.InputAndControls" xml:space="preserve">
+    <value>Eingabe und Steuerung</value>
+  </data>
+  <data name="Ui.Gbs.MouseSensitivity" xml:space="preserve">
+    <value>Mausempfindlichkeit</value>
+  </data>
+  <data name="Ui.Gbs.AdjustMouseSensitivity" xml:space="preserve">
+    <value>Mausempfindlichkeit anpassen.</value>
+  </data>
+  <data name="Ui.Gbs.InvertYAxis" xml:space="preserve">
+    <value>Y-Achse umkehren</value>
+  </data>
+  <data name="Ui.Gbs.ReverseTheVerticalCameraDirection" xml:space="preserve">
+    <value>Vertikale Kamerarichtung umkehren.</value>
+  </data>
+  <data name="Ui.Gbs.GamepadSensitivity" xml:space="preserve">
+    <value>Gamepad-Empfindlichkeit</value>
+  </data>
+  <data name="Ui.Gbs.AdjustJoystickSensitivity" xml:space="preserve">
+    <value>Joystick-Empfindlichkeit anpassen.</value>
+  </data>
+  <data name="Ui.Gbs.EnableControllerVibration" xml:space="preserve">
+    <value>Controller-Vibration aktivieren</value>
+  </data>
+  <data name="Ui.Gbs.ToggleHapticFeedbackOnControllers" xml:space="preserve">
+    <value>Haptisches Feedback am Controller umschalten.</value>
+  </data>
+  <data name="Ui.Gbs.Network" xml:space="preserve">
+    <value>Netzwerk</value>
+  </data>
+  <data name="Ui.Gbs.NetworkDebugStats" xml:space="preserve">
+    <value>Netzwerk-Debugstatistiken</value>
+  </data>
+  <data name="Ui.Gbs.ShowNetworkPingAndPacketStats" xml:space="preserve">
+    <value>Netzwerkping und Paketstatistiken anzeigen.</value>
+  </data>
+  <data name="Ui.Gbs.ChatTranslation" xml:space="preserve">
+    <value>Chatübersetzung</value>
+  </data>
+  <data name="Ui.Gbs.AutomaticallyTranslateChatMessages" xml:space="preserve">
+    <value>Chatnachrichten automatisch übersetzen.</value>
+  </data>
+  <data name="Ui.Gbs.VirtualReality" xml:space="preserve">
+    <value>Virtuelle Realität</value>
+  </data>
+  <data name="Ui.Gbs.EnableVR" xml:space="preserve">
+    <value>VR aktivieren</value>
+  </data>
+  <data name="Ui.Gbs.ToggleVirtualRealityMode" xml:space="preserve">
+    <value>Modus für virtuelle Realität umschalten.</value>
+  </data>
+  <data name="Ui.Gbs.VRComfortSetting" xml:space="preserve">
+    <value>VR-Komforteinstellung</value>
+  </data>
+  <data name="Ui.Gbs.ControlsCameraMovementInVR" xml:space="preserve">
+    <value>Steuert die Kamerabewegung in VR.</value>
+  </data>
+  <data name="Ui.Gbs.VignetteInVR" xml:space="preserve">
+    <value>Vignette in VR</value>
+  </data>
+  <data name="Ui.Gbs.EnableVignetteForMotionSicknessReduction" xml:space="preserve">
+    <value>Vignette gegen Reiseübelkeit aktivieren.</value>
+  </data>
+  <data name="Ui.Gbs.MicroProfiler" xml:space="preserve">
+    <value>Micro Profiler</value>
+  </data>
+  <data name="Ui.Gbs.EnableRobloxMicroprofilerServer" xml:space="preserve">
+    <value>Roblox-Microprofiler-Server aktivieren.</value>
+  </data>
+  <data name="Ui.Gbs.OnScreenProfiler" xml:space="preserve">
+    <value>Bildschirm-Profiler</value>
+  </data>
+  <data name="Ui.Gbs.ShowFPSAndPerformanceOverlay" xml:space="preserve">
+    <value>FPS- und Leistungsoverlay anzeigen.</value>
+  </data>
 </root>

@@ -4998,4 +4998,175 @@ Roblox는 Voidstrap으로 처음 실행할 때 다운로드됩니다. 실행하�
   <data name="Ui.ModGen.GenerateMod" xml:space="preserve">
     <value>모드 생성</value>
   </data>
+  <data name="Ui.Gbs.TheseAreRobloxSOwnIn" xml:space="preserve">
+    <value>Roblox 자체 게임 내 설정입니다</value>
+  </data>
+  <data name="Ui.Gbs.ResetToDefaultSettings" xml:space="preserve">
+    <value>기본 설정으로 재설정</value>
+  </data>
+  <data name="Ui.Gbs.RestoreAllPreferencesToDefault" xml:space="preserve">
+    <value>모든 기본 설정을 기본값으로 되돌립니다.</value>
+  </data>
+  <data name="Ui.Gbs.SettingsFile" xml:space="preserve">
+    <value>설정 파일</value>
+  </data>
+  <data name="Ui.Gbs.LockSettingsFile" xml:space="preserve">
+    <value>설정 파일 잠그기</value>
+  </data>
+  <data name="Ui.Gbs.MarksTheRobloxSettingsFileRead" xml:space="preserve">
+    <value>Roblox가 변경 사항을 덮어쓰지 못하도록 Roblox 설정 파일을 읽기 전용으로 만듭니다</value>
+  </data>
+  <data name="Ui.Gbs.UITransparency" xml:space="preserve">
+    <value>UI 투명도</value>
+  </data>
+  <data name="Ui.Gbs.SetYourPreferredInterfaceTransparency" xml:space="preserve">
+    <value>원하는 인터페이스 투명도를 설정합니다.</value>
+  </data>
+  <data name="Ui.Gbs.TextSize" xml:space="preserve">
+    <value>글자 크기</value>
+  </data>
+  <data name="Ui.Gbs.ControlsTheOverallUITextSize" xml:space="preserve">
+    <value>전체 UI 글자 크기를 조절합니다.</value>
+  </data>
+  <data name="Ui.Gbs.ReducedMotion" xml:space="preserve">
+    <value>동작 줄이기</value>
+  </data>
+  <data name="Ui.Gbs.DisableUIAnimationsForAccessibility" xml:space="preserve">
+    <value>접근성을 위해 UI 애니메이션을 끕니다.</value>
+  </data>
+  <data name="Ui.Gbs.HUDVisibility" xml:space="preserve">
+    <value>HUD 표시</value>
+  </data>
+  <data name="Ui.Gbs.ShowOrHideTheInGame" xml:space="preserve">
+    <value>게임 내 HUD를 표시하거나 숨깁니다.</value>
+  </data>
+  <data name="Ui.Gbs.ChatVisibility" xml:space="preserve">
+    <value>채팅 표시</value>
+  </data>
+  <data name="Ui.Gbs.ShowOrHideTheInGame2" xml:space="preserve">
+    <value>게임 내 채팅 창을 표시하거나 숨깁니다.</value>
+  </data>
+  <data name="Ui.Gbs.PlayerNamesVisible" xml:space="preserve">
+    <value>플레이어 이름 표시</value>
+  </data>
+  <data name="Ui.Gbs.ShowOtherPlayerNames" xml:space="preserve">
+    <value>다른 플레이어의 이름을 표시합니다.</value>
+  </data>
+  <data name="Ui.Gbs.BadgeVisible" xml:space="preserve">
+    <value>배지 표시</value>
+  </data>
+  <data name="Ui.Gbs.ShowBadgeNotificationsWhilePlaying" xml:space="preserve">
+    <value>플레이 중 배지 알림을 표시합니다.</value>
+  </data>
+  <data name="Ui.Gbs.Graphics" xml:space="preserve">
+    <value>그래픽</value>
+  </data>
+  <data name="Ui.Gbs.FramerateCap" xml:space="preserve">
+    <value>프레임 속도 제한</value>
+  </data>
+  <data name="Ui.Gbs.LimitMaximumFPS" xml:space="preserve">
+    <value>최대 FPS를 제한합니다.</value>
+  </data>
+  <data name="Ui.Gbs.GraphicsQuality" xml:space="preserve">
+    <value>그래픽 품질</value>
+  </data>
+  <data name="Ui.Gbs.ChooseAutomaticOrSetAFixed" xml:space="preserve">
+    <value>자동을 선택하거나 고정 수준을 설정하십시오. 수준이 높을수록 보기 좋지만 느려집니다.</value>
+  </data>
+  <data name="Ui.Gbs.Fullscreen" xml:space="preserve">
+    <value>전체 화면</value>
+  </data>
+  <data name="Ui.Gbs.ToggleFullscreenMode" xml:space="preserve">
+    <value>전체 화면 모드를 전환합니다.</value>
+  </data>
+  <data name="Ui.Gbs.Audio" xml:space="preserve">
+    <value>오디오</value>
+  </data>
+  <data name="Ui.Gbs.MasterVolume" xml:space="preserve">
+    <value>마스터 볼륨</value>
+  </data>
+  <data name="Ui.Gbs.OverallInGameVolume" xml:space="preserve">
+    <value>게임 내 전체 볼륨입니다.</value>
+  </data>
+  <data name="Ui.Gbs.VoiceChatVolume" xml:space="preserve">
+    <value>음성 채팅 볼륨</value>
+  </data>
+  <data name="Ui.Gbs.VolumeForVoiceCommunication" xml:space="preserve">
+    <value>음성 통신 볼륨입니다.</value>
+  </data>
+  <data name="Ui.Gbs.InputAndControls" xml:space="preserve">
+    <value>입력 및 조작</value>
+  </data>
+  <data name="Ui.Gbs.MouseSensitivity" xml:space="preserve">
+    <value>마우스 감도</value>
+  </data>
+  <data name="Ui.Gbs.AdjustMouseSensitivity" xml:space="preserve">
+    <value>마우스 감도를 조절합니다.</value>
+  </data>
+  <data name="Ui.Gbs.InvertYAxis" xml:space="preserve">
+    <value>Y축 반전</value>
+  </data>
+  <data name="Ui.Gbs.ReverseTheVerticalCameraDirection" xml:space="preserve">
+    <value>카메라의 세로 방향을 반전합니다.</value>
+  </data>
+  <data name="Ui.Gbs.GamepadSensitivity" xml:space="preserve">
+    <value>게임패드 감도</value>
+  </data>
+  <data name="Ui.Gbs.AdjustJoystickSensitivity" xml:space="preserve">
+    <value>조이스틱 감도를 조절합니다.</value>
+  </data>
+  <data name="Ui.Gbs.EnableControllerVibration" xml:space="preserve">
+    <value>컨트롤러 진동 사용</value>
+  </data>
+  <data name="Ui.Gbs.ToggleHapticFeedbackOnControllers" xml:space="preserve">
+    <value>컨트롤러의 햅틱 피드백을 전환합니다.</value>
+  </data>
+  <data name="Ui.Gbs.Network" xml:space="preserve">
+    <value>네트워크</value>
+  </data>
+  <data name="Ui.Gbs.NetworkDebugStats" xml:space="preserve">
+    <value>네트워크 디버그 통계</value>
+  </data>
+  <data name="Ui.Gbs.ShowNetworkPingAndPacketStats" xml:space="preserve">
+    <value>네트워크 핑과 패킷 통계를 표시합니다.</value>
+  </data>
+  <data name="Ui.Gbs.ChatTranslation" xml:space="preserve">
+    <value>채팅 번역</value>
+  </data>
+  <data name="Ui.Gbs.AutomaticallyTranslateChatMessages" xml:space="preserve">
+    <value>채팅 메시지를 자동으로 번역합니다.</value>
+  </data>
+  <data name="Ui.Gbs.VirtualReality" xml:space="preserve">
+    <value>가상 현실</value>
+  </data>
+  <data name="Ui.Gbs.EnableVR" xml:space="preserve">
+    <value>VR 사용</value>
+  </data>
+  <data name="Ui.Gbs.ToggleVirtualRealityMode" xml:space="preserve">
+    <value>가상 현실 모드를 전환합니다.</value>
+  </data>
+  <data name="Ui.Gbs.VRComfortSetting" xml:space="preserve">
+    <value>VR 편의 설정</value>
+  </data>
+  <data name="Ui.Gbs.ControlsCameraMovementInVR" xml:space="preserve">
+    <value>VR에서 카메라 움직임을 조절합니다.</value>
+  </data>
+  <data name="Ui.Gbs.VignetteInVR" xml:space="preserve">
+    <value>VR 비네트</value>
+  </data>
+  <data name="Ui.Gbs.EnableVignetteForMotionSicknessReduction" xml:space="preserve">
+    <value>멀미를 줄이기 위해 비네트를 사용합니다.</value>
+  </data>
+  <data name="Ui.Gbs.MicroProfiler" xml:space="preserve">
+    <value>Micro Profiler</value>
+  </data>
+  <data name="Ui.Gbs.EnableRobloxMicroprofilerServer" xml:space="preserve">
+    <value>Roblox 마이크로프로파일러 서버를 사용합니다.</value>
+  </data>
+  <data name="Ui.Gbs.OnScreenProfiler" xml:space="preserve">
+    <value>화면 프로파일러</value>
+  </data>
+  <data name="Ui.Gbs.ShowFPSAndPerformanceOverlay" xml:space="preserve">
+    <value>FPS와 성능 오버레이를 표시합니다.</value>
+  </data>
 </root>

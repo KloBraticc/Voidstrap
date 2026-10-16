@@ -5026,4 +5026,175 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
   <data name="Ui.ModGen.GenerateMod" xml:space="preserve">
     <value>ساخت ماد</value>
   </data>
+  <data name="Ui.Gbs.TheseAreRobloxSOwnIn" xml:space="preserve">
+    <value>این‌ها تنظیمات درون‌بازی خود Roblox هستند</value>
+  </data>
+  <data name="Ui.Gbs.ResetToDefaultSettings" xml:space="preserve">
+    <value>بازنشانی به تنظیمات پیش‌فرض</value>
+  </data>
+  <data name="Ui.Gbs.RestoreAllPreferencesToDefault" xml:space="preserve">
+    <value>همه ترجیحات را به پیش‌فرض بازگردانید.</value>
+  </data>
+  <data name="Ui.Gbs.SettingsFile" xml:space="preserve">
+    <value>فایل تنظیمات</value>
+  </data>
+  <data name="Ui.Gbs.LockSettingsFile" xml:space="preserve">
+    <value>قفل کردن فایل تنظیمات</value>
+  </data>
+  <data name="Ui.Gbs.MarksTheRobloxSettingsFileRead" xml:space="preserve">
+    <value>فایل تنظیمات Roblox را فقط‌خواندنی می‌کند تا Roblox نتواند تغییرات شما را بازنویسی کند</value>
+  </data>
+  <data name="Ui.Gbs.UITransparency" xml:space="preserve">
+    <value>شفافیت رابط</value>
+  </data>
+  <data name="Ui.Gbs.SetYourPreferredInterfaceTransparency" xml:space="preserve">
+    <value>شفافیت دلخواه رابط را تنظیم کنید.</value>
+  </data>
+  <data name="Ui.Gbs.TextSize" xml:space="preserve">
+    <value>اندازه متن</value>
+  </data>
+  <data name="Ui.Gbs.ControlsTheOverallUITextSize" xml:space="preserve">
+    <value>اندازه کلی متن رابط را کنترل می‌کند.</value>
+  </data>
+  <data name="Ui.Gbs.ReducedMotion" xml:space="preserve">
+    <value>کاهش حرکت</value>
+  </data>
+  <data name="Ui.Gbs.DisableUIAnimationsForAccessibility" xml:space="preserve">
+    <value>انیمیشن‌های رابط را برای دسترس‌پذیری غیرفعال می‌کند.</value>
+  </data>
+  <data name="Ui.Gbs.HUDVisibility" xml:space="preserve">
+    <value>نمایش HUD</value>
+  </data>
+  <data name="Ui.Gbs.ShowOrHideTheInGame" xml:space="preserve">
+    <value>نمایش یا پنهان کردن HUD درون بازی.</value>
+  </data>
+  <data name="Ui.Gbs.ChatVisibility" xml:space="preserve">
+    <value>نمایش گفتگو</value>
+  </data>
+  <data name="Ui.Gbs.ShowOrHideTheInGame2" xml:space="preserve">
+    <value>نمایش یا پنهان کردن پنجره گفتگو درون بازی.</value>
+  </data>
+  <data name="Ui.Gbs.PlayerNamesVisible" xml:space="preserve">
+    <value>نام بازیکنان نمایان</value>
+  </data>
+  <data name="Ui.Gbs.ShowOtherPlayerNames" xml:space="preserve">
+    <value>نمایش نام بازیکنان دیگر.</value>
+  </data>
+  <data name="Ui.Gbs.BadgeVisible" xml:space="preserve">
+    <value>نشان‌ها نمایان</value>
+  </data>
+  <data name="Ui.Gbs.ShowBadgeNotificationsWhilePlaying" xml:space="preserve">
+    <value>نمایش اعلان نشان‌ها هنگام بازی.</value>
+  </data>
+  <data name="Ui.Gbs.Graphics" xml:space="preserve">
+    <value>گرافیک</value>
+  </data>
+  <data name="Ui.Gbs.FramerateCap" xml:space="preserve">
+    <value>سقف نرخ فریم</value>
+  </data>
+  <data name="Ui.Gbs.LimitMaximumFPS" xml:space="preserve">
+    <value>محدود کردن حداکثر FPS.</value>
+  </data>
+  <data name="Ui.Gbs.GraphicsQuality" xml:space="preserve">
+    <value>کیفیت گرافیک</value>
+  </data>
+  <data name="Ui.Gbs.ChooseAutomaticOrSetAFixed" xml:space="preserve">
+    <value>خودکار را انتخاب کنید یا سطح ثابتی تعیین کنید. سطوح بالاتر زیباترند و کندتر اجرا می‌شوند.</value>
+  </data>
+  <data name="Ui.Gbs.Fullscreen" xml:space="preserve">
+    <value>تمام‌صفحه</value>
+  </data>
+  <data name="Ui.Gbs.ToggleFullscreenMode" xml:space="preserve">
+    <value>تغییر حالت تمام‌صفحه.</value>
+  </data>
+  <data name="Ui.Gbs.Audio" xml:space="preserve">
+    <value>صدا</value>
+  </data>
+  <data name="Ui.Gbs.MasterVolume" xml:space="preserve">
+    <value>صدای اصلی</value>
+  </data>
+  <data name="Ui.Gbs.OverallInGameVolume" xml:space="preserve">
+    <value>صدای کلی درون بازی.</value>
+  </data>
+  <data name="Ui.Gbs.VoiceChatVolume" xml:space="preserve">
+    <value>صدای گفتگوی صوتی</value>
+  </data>
+  <data name="Ui.Gbs.VolumeForVoiceCommunication" xml:space="preserve">
+    <value>صدای ارتباط صوتی.</value>
+  </data>
+  <data name="Ui.Gbs.InputAndControls" xml:space="preserve">
+    <value>ورودی و کنترل</value>
+  </data>
+  <data name="Ui.Gbs.MouseSensitivity" xml:space="preserve">
+    <value>حساسیت ماوس</value>
+  </data>
+  <data name="Ui.Gbs.AdjustMouseSensitivity" xml:space="preserve">
+    <value>تنظیم حساسیت ماوس.</value>
+  </data>
+  <data name="Ui.Gbs.InvertYAxis" xml:space="preserve">
+    <value>وارونه کردن محور Y</value>
+  </data>
+  <data name="Ui.Gbs.ReverseTheVerticalCameraDirection" xml:space="preserve">
+    <value>جهت عمودی دوربین را وارونه می‌کند.</value>
+  </data>
+  <data name="Ui.Gbs.GamepadSensitivity" xml:space="preserve">
+    <value>حساسیت دسته بازی</value>
+  </data>
+  <data name="Ui.Gbs.AdjustJoystickSensitivity" xml:space="preserve">
+    <value>تنظیم حساسیت جوی‌استیک.</value>
+  </data>
+  <data name="Ui.Gbs.EnableControllerVibration" xml:space="preserve">
+    <value>فعال کردن لرزش دسته</value>
+  </data>
+  <data name="Ui.Gbs.ToggleHapticFeedbackOnControllers" xml:space="preserve">
+    <value>تغییر بازخورد لمسی دسته‌ها.</value>
+  </data>
+  <data name="Ui.Gbs.Network" xml:space="preserve">
+    <value>شبکه</value>
+  </data>
+  <data name="Ui.Gbs.NetworkDebugStats" xml:space="preserve">
+    <value>آمار اشکال‌زدایی شبکه</value>
+  </data>
+  <data name="Ui.Gbs.ShowNetworkPingAndPacketStats" xml:space="preserve">
+    <value>نمایش پینگ شبکه و آمار بسته‌ها.</value>
+  </data>
+  <data name="Ui.Gbs.ChatTranslation" xml:space="preserve">
+    <value>ترجمه گفتگو</value>
+  </data>
+  <data name="Ui.Gbs.AutomaticallyTranslateChatMessages" xml:space="preserve">
+    <value>ترجمه خودکار پیام‌های گفتگو.</value>
+  </data>
+  <data name="Ui.Gbs.VirtualReality" xml:space="preserve">
+    <value>واقعیت مجازی</value>
+  </data>
+  <data name="Ui.Gbs.EnableVR" xml:space="preserve">
+    <value>فعال کردن VR</value>
+  </data>
+  <data name="Ui.Gbs.ToggleVirtualRealityMode" xml:space="preserve">
+    <value>تغییر حالت واقعیت مجازی.</value>
+  </data>
+  <data name="Ui.Gbs.VRComfortSetting" xml:space="preserve">
+    <value>تنظیم راحتی VR</value>
+  </data>
+  <data name="Ui.Gbs.ControlsCameraMovementInVR" xml:space="preserve">
+    <value>حرکت دوربین را در VR کنترل می‌کند.</value>
+  </data>
+  <data name="Ui.Gbs.VignetteInVR" xml:space="preserve">
+    <value>وینیت در VR</value>
+  </data>
+  <data name="Ui.Gbs.EnableVignetteForMotionSicknessReduction" xml:space="preserve">
+    <value>فعال کردن وینیت برای کاهش حالت تهوع حرکتی.</value>
+  </data>
+  <data name="Ui.Gbs.MicroProfiler" xml:space="preserve">
+    <value>Micro Profiler</value>
+  </data>
+  <data name="Ui.Gbs.EnableRobloxMicroprofilerServer" xml:space="preserve">
+    <value>فعال کردن سرور میکروپروفایلر Roblox.</value>
+  </data>
+  <data name="Ui.Gbs.OnScreenProfiler" xml:space="preserve">
+    <value>پروفایلر روی صفحه</value>
+  </data>
+  <data name="Ui.Gbs.ShowFPSAndPerformanceOverlay" xml:space="preserve">
+    <value>نمایش FPS و روکش کارایی.</value>
+  </data>
 </root>

@@ -4946,4 +4946,175 @@ Vad vill du göra?</value>
   <data name="Ui.ModGen.GenerateMod" xml:space="preserve">
     <value>Generera mod</value>
   </data>
+  <data name="Ui.Gbs.TheseAreRobloxSOwnIn" xml:space="preserve">
+    <value>Det här är Roblox egna spelinställningar</value>
+  </data>
+  <data name="Ui.Gbs.ResetToDefaultSettings" xml:space="preserve">
+    <value>Återställ standardinställningar</value>
+  </data>
+  <data name="Ui.Gbs.RestoreAllPreferencesToDefault" xml:space="preserve">
+    <value>Återställ alla inställningar till standard.</value>
+  </data>
+  <data name="Ui.Gbs.SettingsFile" xml:space="preserve">
+    <value>Inställningsfil</value>
+  </data>
+  <data name="Ui.Gbs.LockSettingsFile" xml:space="preserve">
+    <value>Lås inställningsfilen</value>
+  </data>
+  <data name="Ui.Gbs.MarksTheRobloxSettingsFileRead" xml:space="preserve">
+    <value>Gör Roblox inställningsfil skrivskyddad så att Roblox inte kan skriva över dina ändringar</value>
+  </data>
+  <data name="Ui.Gbs.UITransparency" xml:space="preserve">
+    <value>Gränssnittets genomskinlighet</value>
+  </data>
+  <data name="Ui.Gbs.SetYourPreferredInterfaceTransparency" xml:space="preserve">
+    <value>Ange önskad genomskinlighet för gränssnittet.</value>
+  </data>
+  <data name="Ui.Gbs.TextSize" xml:space="preserve">
+    <value>Textstorlek</value>
+  </data>
+  <data name="Ui.Gbs.ControlsTheOverallUITextSize" xml:space="preserve">
+    <value>Styr den övergripande textstorleken i gränssnittet.</value>
+  </data>
+  <data name="Ui.Gbs.ReducedMotion" xml:space="preserve">
+    <value>Minskad rörelse</value>
+  </data>
+  <data name="Ui.Gbs.DisableUIAnimationsForAccessibility" xml:space="preserve">
+    <value>Inaktivera gränssnittsanimationer för tillgänglighet.</value>
+  </data>
+  <data name="Ui.Gbs.HUDVisibility" xml:space="preserve">
+    <value>HUD synlighet</value>
+  </data>
+  <data name="Ui.Gbs.ShowOrHideTheInGame" xml:space="preserve">
+    <value>Visa eller dölj HUD i spelet.</value>
+  </data>
+  <data name="Ui.Gbs.ChatVisibility" xml:space="preserve">
+    <value>Chattsynlighet</value>
+  </data>
+  <data name="Ui.Gbs.ShowOrHideTheInGame2" xml:space="preserve">
+    <value>Visa eller dölj chattfönstret i spelet.</value>
+  </data>
+  <data name="Ui.Gbs.PlayerNamesVisible" xml:space="preserve">
+    <value>Spelarnamn synliga</value>
+  </data>
+  <data name="Ui.Gbs.ShowOtherPlayerNames" xml:space="preserve">
+    <value>Visa andra spelares namn.</value>
+  </data>
+  <data name="Ui.Gbs.BadgeVisible" xml:space="preserve">
+    <value>Märken synliga</value>
+  </data>
+  <data name="Ui.Gbs.ShowBadgeNotificationsWhilePlaying" xml:space="preserve">
+    <value>Visa märkesaviseringar medan du spelar.</value>
+  </data>
+  <data name="Ui.Gbs.Graphics" xml:space="preserve">
+    <value>Grafik</value>
+  </data>
+  <data name="Ui.Gbs.FramerateCap" xml:space="preserve">
+    <value>FPS gräns</value>
+  </data>
+  <data name="Ui.Gbs.LimitMaximumFPS" xml:space="preserve">
+    <value>Begränsa högsta FPS.</value>
+  </data>
+  <data name="Ui.Gbs.GraphicsQuality" xml:space="preserve">
+    <value>Grafikkvalitet</value>
+  </data>
+  <data name="Ui.Gbs.ChooseAutomaticOrSetAFixed" xml:space="preserve">
+    <value>Välj Automatiskt eller ange en fast nivå. Högre nivåer ser bättre ut och går långsammare.</value>
+  </data>
+  <data name="Ui.Gbs.Fullscreen" xml:space="preserve">
+    <value>Helskärm</value>
+  </data>
+  <data name="Ui.Gbs.ToggleFullscreenMode" xml:space="preserve">
+    <value>Växla helskärmsläge.</value>
+  </data>
+  <data name="Ui.Gbs.Audio" xml:space="preserve">
+    <value>Ljud</value>
+  </data>
+  <data name="Ui.Gbs.MasterVolume" xml:space="preserve">
+    <value>Huvudvolym</value>
+  </data>
+  <data name="Ui.Gbs.OverallInGameVolume" xml:space="preserve">
+    <value>Total volym i spelet.</value>
+  </data>
+  <data name="Ui.Gbs.VoiceChatVolume" xml:space="preserve">
+    <value>Volym för röstchatt</value>
+  </data>
+  <data name="Ui.Gbs.VolumeForVoiceCommunication" xml:space="preserve">
+    <value>Volym för röstkommunikation.</value>
+  </data>
+  <data name="Ui.Gbs.InputAndControls" xml:space="preserve">
+    <value>Inmatning och kontroller</value>
+  </data>
+  <data name="Ui.Gbs.MouseSensitivity" xml:space="preserve">
+    <value>Muskänslighet</value>
+  </data>
+  <data name="Ui.Gbs.AdjustMouseSensitivity" xml:space="preserve">
+    <value>Justera muskänsligheten.</value>
+  </data>
+  <data name="Ui.Gbs.InvertYAxis" xml:space="preserve">
+    <value>Invertera Y-axeln</value>
+  </data>
+  <data name="Ui.Gbs.ReverseTheVerticalCameraDirection" xml:space="preserve">
+    <value>Vänd kamerans vertikala riktning.</value>
+  </data>
+  <data name="Ui.Gbs.GamepadSensitivity" xml:space="preserve">
+    <value>Handkontrollens känslighet</value>
+  </data>
+  <data name="Ui.Gbs.AdjustJoystickSensitivity" xml:space="preserve">
+    <value>Justera spakens känslighet.</value>
+  </data>
+  <data name="Ui.Gbs.EnableControllerVibration" xml:space="preserve">
+    <value>Aktivera vibration i handkontroller</value>
+  </data>
+  <data name="Ui.Gbs.ToggleHapticFeedbackOnControllers" xml:space="preserve">
+    <value>Växla haptisk återkoppling i handkontroller.</value>
+  </data>
+  <data name="Ui.Gbs.Network" xml:space="preserve">
+    <value>Nätverk</value>
+  </data>
+  <data name="Ui.Gbs.NetworkDebugStats" xml:space="preserve">
+    <value>Nätverksstatistik för felsökning</value>
+  </data>
+  <data name="Ui.Gbs.ShowNetworkPingAndPacketStats" xml:space="preserve">
+    <value>Visa ping och paketstatistik.</value>
+  </data>
+  <data name="Ui.Gbs.ChatTranslation" xml:space="preserve">
+    <value>Chattöversättning</value>
+  </data>
+  <data name="Ui.Gbs.AutomaticallyTranslateChatMessages" xml:space="preserve">
+    <value>Översätt chattmeddelanden automatiskt.</value>
+  </data>
+  <data name="Ui.Gbs.VirtualReality" xml:space="preserve">
+    <value>Virtuell verklighet</value>
+  </data>
+  <data name="Ui.Gbs.EnableVR" xml:space="preserve">
+    <value>Aktivera VR</value>
+  </data>
+  <data name="Ui.Gbs.ToggleVirtualRealityMode" xml:space="preserve">
+    <value>Växla läge för virtuell verklighet.</value>
+  </data>
+  <data name="Ui.Gbs.VRComfortSetting" xml:space="preserve">
+    <value>Komfort i VR</value>
+  </data>
+  <data name="Ui.Gbs.ControlsCameraMovementInVR" xml:space="preserve">
+    <value>Styr kamerarörelsen i VR.</value>
+  </data>
+  <data name="Ui.Gbs.VignetteInVR" xml:space="preserve">
+    <value>Vinjett i VR</value>
+  </data>
+  <data name="Ui.Gbs.EnableVignetteForMotionSicknessReduction" xml:space="preserve">
+    <value>Aktivera vinjett för att minska åksjuka.</value>
+  </data>
+  <data name="Ui.Gbs.MicroProfiler" xml:space="preserve">
+    <value>Micro Profiler</value>
+  </data>
+  <data name="Ui.Gbs.EnableRobloxMicroprofilerServer" xml:space="preserve">
+    <value>Aktivera Roblox mikroprofilerarserver.</value>
+  </data>
+  <data name="Ui.Gbs.OnScreenProfiler" xml:space="preserve">
+    <value>Profilerare på skärmen</value>
+  </data>
+  <data name="Ui.Gbs.ShowFPSAndPerformanceOverlay" xml:space="preserve">
+    <value>Visa FPS och prestandaöverlägg.</value>
+  </data>
 </root>

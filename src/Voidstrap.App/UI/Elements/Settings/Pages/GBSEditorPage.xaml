@@ -7,53 +7,53 @@
     </Style>
   </ui:UiPage.Resources>
   <StackPanel Margin="0,0,14,14">
-    <TextBlock Margin="0,0,0,2" FontSize="14" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="These are Roblox's own in game settings" />
+    <TextBlock Margin="0,0,0,2" FontSize="14" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_Gbs_TheseAreRobloxSOwnIn}" />
 
     <controls:ProfilesExpander Kind="Global" />
-    <controls:OptionControl Margin="0,-4,0,0" Header="Reset to Default Settings" Description="Restore all preferences to default.">
+    <controls:OptionControl Margin="0,-4,0,0" Header="{resources:Loc Ui_Gbs_ResetToDefaultSettings}" Description="{resources:Loc Ui_Gbs_RestoreAllPreferencesToDefault}">
       <Button Content="{resources:Loc Common_Reset}" Width="120" Command="{Binding ResetToDefaultsCommand}" />
     </controls:OptionControl>
 
-    <TextBlock Style="{StaticResource SectionHeading}" Text="Settings File" />
-    <controls:OptionControl Header="Lock settings file" Description="Marks the Roblox settings file read only so Roblox cannot overwrite your changes">
+    <TextBlock Style="{StaticResource SectionHeading}" Text="{resources:Loc Ui_Gbs_SettingsFile}" />
+    <controls:OptionControl Header="{resources:Loc Ui_Gbs_LockSettingsFile}" Description="{resources:Loc Ui_Gbs_MarksTheRobloxSettingsFileRead}">
       <ui:ToggleSwitch IsChecked="{Binding SettingsFileReadOnly, Mode=TwoWay}" />
     </controls:OptionControl>
 
-    <TextBlock Style="{StaticResource SectionHeading}" Text="Interface" />
-    <controls:OptionControl Header="UI Transparency" Description="Set your preferred interface transparency.">
+    <TextBlock Style="{StaticResource SectionHeading}" Text="{resources:Loc Ui_Mods_Interface}" />
+    <controls:OptionControl Header="{resources:Loc Ui_Gbs_UITransparency}" Description="{resources:Loc Ui_Gbs_SetYourPreferredInterfaceTransparency}">
       <StackPanel Orientation="Horizontal">
         <Slider Minimum="0" Maximum="1" TickFrequency="0.05" IsSnapToTickEnabled="True" Value="{Binding UITransparency, Mode=TwoWay}" Width="200" />
         <TextBlock MinWidth="42" Margin="10,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding UITransparency, StringFormat={}{0:P0}}" />
       </StackPanel>
     </controls:OptionControl>
-    <controls:OptionControl Header="Text Size" Description="Controls the overall UI text size.">
+    <controls:OptionControl Header="{resources:Loc Ui_Gbs_TextSize}" Description="{resources:Loc Ui_Gbs_ControlsTheOverallUITextSize}">
       <ComboBox SelectedValuePath="Tag" Width="200" SelectedValue="{Binding PreferredTextSize, Mode=TwoWay}">
         <ComboBoxItem Content="Small"><FrameworkElement.Tag><sys:Int32>0</sys:Int32></FrameworkElement.Tag></ComboBoxItem>
         <ComboBoxItem Content="Normal"><FrameworkElement.Tag><sys:Int32>1</sys:Int32></FrameworkElement.Tag></ComboBoxItem>
         <ComboBoxItem Content="Large"><FrameworkElement.Tag><sys:Int32>2</sys:Int32></FrameworkElement.Tag></ComboBoxItem>
       </ComboBox>
     </controls:OptionControl>
-    <controls:OptionControl Header="Reduced Motion" Description="Disable UI animations for accessibility.">
+    <controls:OptionControl Header="{resources:Loc Ui_Gbs_ReducedMotion}" Description="{resources:Loc Ui_Gbs_DisableUIAnimationsForAccessibility}">
       <ui:ToggleSwitch IsChecked="{Binding ReducedMotion, Mode=TwoWay}" />
     </controls:OptionControl>
-    <controls:OptionControl Header="HUD Visibility" Description="Show or hide the in game heads up display.">
+    <controls:OptionControl Header="{resources:Loc Ui_Gbs_HUDVisibility}" Description="{resources:Loc Ui_Gbs_ShowOrHideTheInGame}">
       <ui:ToggleSwitch IsChecked="{Binding HudVisible, Mode=TwoWay}" />
     </controls:OptionControl>
-    <controls:OptionControl Header="Chat Visibility" Description="Show or hide the in game chat window.">
+    <controls:OptionControl Header="{resources:Loc Ui_Gbs_ChatVisibility}" Description="{resources:Loc Ui_Gbs_ShowOrHideTheInGame2}">
       <ui:ToggleSwitch IsChecked="{Binding ChatVisible, Mode=TwoWay}" />
     </controls:OptionControl>
-    <controls:OptionControl Header="Player Names Visible" Description="Show other player names.">
+    <controls:OptionControl Header="{resources:Loc Ui_Gbs_PlayerNamesVisible}" Description="{resources:Loc Ui_Gbs_ShowOtherPlayerNames}">
       <ui:ToggleSwitch IsChecked="{Binding PlayerNamesEnabled, Mode=TwoWay}" />
     </controls:OptionControl>
-    <controls:OptionControl Header="Badge Visible" Description="Show badge notifications while playing.">
+    <controls:OptionControl Header="{resources:Loc Ui_Gbs_BadgeVisible}" Description="{resources:Loc Ui_Gbs_ShowBadgeNotificationsWhilePlaying}">
       <ui:ToggleSwitch IsChecked="{Binding BadgeVisible, Mode=TwoWay}" />
     </controls:OptionControl>
 
-    <TextBlock Style="{StaticResource SectionHeading}" Text="Graphics" />
-    <controls:OptionControl Header="Framerate Cap" Description="Limit maximum FPS.">
+    <TextBlock Style="{StaticResource SectionHeading}" Text="{resources:Loc Ui_Gbs_Graphics}" />
+    <controls:OptionControl Header="{resources:Loc Ui_Gbs_FramerateCap}" Description="{resources:Loc Ui_Gbs_LimitMaximumFPS}">
       <ui:TextBox Width="100" MaxLength="5" PreviewTextInput="ValidateUInt32" Text="{Binding FramerateCap, Mode=TwoWay}" />
     </controls:OptionControl>
-    <controls:OptionControl Header="Graphics Quality" Description="Choose Automatic, or set a fixed level. Higher levels look better and run slower.">
+    <controls:OptionControl Header="{resources:Loc Ui_Gbs_GraphicsQuality}" Description="{resources:Loc Ui_Gbs_ChooseAutomaticOrSetAFixed}">
       <ComboBox SelectedValuePath="Tag" Width="200" SelectedValue="{Binding GraphicsQuality, Mode=TwoWay}">
         <ComboBoxItem Content="Automatic"><FrameworkElement.Tag><sys:Int32>0</sys:Int32></FrameworkElement.Tag></ComboBoxItem>
         <ComboBoxItem Content="1 (Lowest)"><FrameworkElement.Tag><sys:Int32>1</sys:Int32></FrameworkElement.Tag></ComboBoxItem>
@@ -68,71 +68,71 @@
         <ComboBoxItem Content="10 (Highest)"><FrameworkElement.Tag><sys:Int32>10</sys:Int32></FrameworkElement.Tag></ComboBoxItem>
       </ComboBox>
     </controls:OptionControl>
-    <controls:OptionControl Header="Fullscreen" Description="Toggle fullscreen mode.">
+    <controls:OptionControl Header="{resources:Loc Ui_Gbs_Fullscreen}" Description="{resources:Loc Ui_Gbs_ToggleFullscreenMode}">
       <ui:ToggleSwitch IsChecked="{Binding Fullscreen, Mode=TwoWay}" />
     </controls:OptionControl>
 
-    <TextBlock Style="{StaticResource SectionHeading}" Text="Audio" />
-    <controls:OptionControl Header="Master Volume" Description="Overall in game volume.">
+    <TextBlock Style="{StaticResource SectionHeading}" Text="{resources:Loc Ui_Gbs_Audio}" />
+    <controls:OptionControl Header="{resources:Loc Ui_Gbs_MasterVolume}" Description="{resources:Loc Ui_Gbs_OverallInGameVolume}">
       <StackPanel Orientation="Horizontal">
         <Slider Minimum="0" Maximum="1" TickFrequency="0.05" IsSnapToTickEnabled="True" Value="{Binding MasterVolume, Mode=TwoWay}" Width="200" />
         <TextBlock MinWidth="42" Margin="10,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding MasterVolume, StringFormat={}{0:P0}}" />
       </StackPanel>
     </controls:OptionControl>
-    <controls:OptionControl Header="Voice Chat Volume" Description="Volume for voice communication.">
+    <controls:OptionControl Header="{resources:Loc Ui_Gbs_VoiceChatVolume}" Description="{resources:Loc Ui_Gbs_VolumeForVoiceCommunication}">
       <StackPanel Orientation="Horizontal">
         <Slider Minimum="0" Maximum="1" TickFrequency="0.05" IsSnapToTickEnabled="True" Value="{Binding VoiceChatVolume, Mode=TwoWay}" Width="200" />
         <TextBlock MinWidth="42" Margin="10,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding VoiceChatVolume, StringFormat={}{0:P0}}" />
       </StackPanel>
     </controls:OptionControl>
 
-    <TextBlock Style="{StaticResource SectionHeading}" Text="Input and Controls" />
-    <controls:OptionControl Header="Mouse Sensitivity" Description="Adjust mouse sensitivity.">
+    <TextBlock Style="{StaticResource SectionHeading}" Text="{resources:Loc Ui_Gbs_InputAndControls}" />
+    <controls:OptionControl Header="{resources:Loc Ui_Gbs_MouseSensitivity}" Description="{resources:Loc Ui_Gbs_AdjustMouseSensitivity}">
       <ui:TextBox Width="100" MaxLength="6" PreviewTextInput="ValidateFloat" Text="{Binding MouseSensitivity, Mode=TwoWay}" />
     </controls:OptionControl>
-    <controls:OptionControl Header="Invert Y Axis" Description="Reverse the vertical camera direction.">
+    <controls:OptionControl Header="{resources:Loc Ui_Gbs_InvertYAxis}" Description="{resources:Loc Ui_Gbs_ReverseTheVerticalCameraDirection}">
       <ui:ToggleSwitch IsChecked="{Binding CameraYInverted, Mode=TwoWay}" />
     </controls:OptionControl>
-    <controls:OptionControl Header="Gamepad Sensitivity" Description="Adjust joystick sensitivity.">
+    <controls:OptionControl Header="{resources:Loc Ui_Gbs_GamepadSensitivity}" Description="{resources:Loc Ui_Gbs_AdjustJoystickSensitivity}">
       <StackPanel Orientation="Horizontal">
         <Slider Minimum="0.1" Maximum="2.0" TickFrequency="0.1" IsSnapToTickEnabled="True" Value="{Binding GamepadSensitivity, Mode=TwoWay}" Width="200" />
         <TextBlock MinWidth="42" Margin="10,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding GamepadSensitivity, StringFormat={}{0:0.0}}" />
       </StackPanel>
     </controls:OptionControl>
-    <controls:OptionControl Header="Enable Controller Vibration" Description="Toggle haptic feedback on controllers.">
+    <controls:OptionControl Header="{resources:Loc Ui_Gbs_EnableControllerVibration}" Description="{resources:Loc Ui_Gbs_ToggleHapticFeedbackOnControllers}">
       <ui:ToggleSwitch IsChecked="{Binding ControllerVibration, Mode=TwoWay}" />
     </controls:OptionControl>
 
-    <TextBlock Style="{StaticResource SectionHeading}" Text="Network" />
-    <controls:OptionControl Header="Network Debug Stats" Description="Show network ping and packet stats.">
+    <TextBlock Style="{StaticResource SectionHeading}" Text="{resources:Loc Ui_Gbs_Network}" />
+    <controls:OptionControl Header="{resources:Loc Ui_Gbs_NetworkDebugStats}" Description="{resources:Loc Ui_Gbs_ShowNetworkPingAndPacketStats}">
       <ui:ToggleSwitch IsChecked="{Binding NetworkStatsVisible, Mode=TwoWay}" />
     </controls:OptionControl>
-    <controls:OptionControl Header="Chat Translation" Description="Automatically translate chat messages.">
+    <controls:OptionControl Header="{resources:Loc Ui_Gbs_ChatTranslation}" Description="{resources:Loc Ui_Gbs_AutomaticallyTranslateChatMessages}">
       <ui:ToggleSwitch IsChecked="{Binding ChatTranslationEnabled, Mode=TwoWay}" />
     </controls:OptionControl>
 
     <StackPanel Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
-    <TextBlock Style="{StaticResource SectionHeading}" Text="Virtual Reality" />
-    <controls:OptionControl Header="Enable VR" Description="Toggle virtual reality mode.">
+    <TextBlock Style="{StaticResource SectionHeading}" Text="{resources:Loc Ui_Gbs_VirtualReality}" />
+    <controls:OptionControl Header="{resources:Loc Ui_Gbs_EnableVR}" Description="{resources:Loc Ui_Gbs_ToggleVirtualRealityMode}">
       <ui:ToggleSwitch IsChecked="{Binding VREnabled, Mode=TwoWay}" />
     </controls:OptionControl>
-    <controls:OptionControl Header="VR Comfort Setting" Description="Controls camera movement in VR.">
+    <controls:OptionControl Header="{resources:Loc Ui_Gbs_VRComfortSetting}" Description="{resources:Loc Ui_Gbs_ControlsCameraMovementInVR}">
       <ComboBox SelectedValuePath="Tag" Width="200" SelectedValue="{Binding VRComfortSetting, Mode=TwoWay}">
         <ComboBoxItem Content="Comfort"><FrameworkElement.Tag><sys:Int32>1</sys:Int32></FrameworkElement.Tag></ComboBoxItem>
         <ComboBoxItem Content="Normal"><FrameworkElement.Tag><sys:Int32>2</sys:Int32></FrameworkElement.Tag></ComboBoxItem>
         <ComboBoxItem Content="Intense"><FrameworkElement.Tag><sys:Int32>3</sys:Int32></FrameworkElement.Tag></ComboBoxItem>
       </ComboBox>
     </controls:OptionControl>
-    <controls:OptionControl Header="Vignette in VR" Description="Enable vignette for motion sickness reduction.">
+    <controls:OptionControl Header="{resources:Loc Ui_Gbs_VignetteInVR}" Description="{resources:Loc Ui_Gbs_EnableVignetteForMotionSicknessReduction}">
       <ui:ToggleSwitch IsChecked="{Binding VignetteEnabled, Mode=TwoWay}" />
     </controls:OptionControl>
     </StackPanel>
 
-    <TextBlock Style="{StaticResource SectionHeading}" Text="Advanced" />
-    <controls:OptionControl Header="Micro Profiler" Description="Enable Roblox microprofiler server.">
+    <TextBlock Style="{StaticResource SectionHeading}" Text="{resources:Loc Ui_Bootstrapper_Advanced}" />
+    <controls:OptionControl Header="{resources:Loc Ui_Gbs_MicroProfiler}" Description="{resources:Loc Ui_Gbs_EnableRobloxMicroprofilerServer}">
       <ui:ToggleSwitch IsChecked="{Binding MicroProfilerWebServerEnabled, Mode=TwoWay}" />
     </controls:OptionControl>
-    <controls:OptionControl Header="On Screen Profiler" Description="Show FPS and performance overlay.">
+    <controls:OptionControl Header="{resources:Loc Ui_Gbs_OnScreenProfiler}" Description="{resources:Loc Ui_Gbs_ShowFPSAndPerformanceOverlay}">
       <ui:ToggleSwitch IsChecked="{Binding OnScreenProfilerEnabled, Mode=TwoWay}" />
     </controls:OptionControl>
   </StackPanel>

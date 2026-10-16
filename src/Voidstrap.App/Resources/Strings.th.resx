@@ -4980,4 +4980,175 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
   <data name="Ui.ModGen.GenerateMod" xml:space="preserve">
     <value>สร้างม็อด</value>
   </data>
+  <data name="Ui.Gbs.TheseAreRobloxSOwnIn" xml:space="preserve">
+    <value>นี่คือการตั้งค่าในเกมของ Roblox เอง</value>
+  </data>
+  <data name="Ui.Gbs.ResetToDefaultSettings" xml:space="preserve">
+    <value>รีเซ็ตเป็นการตั้งค่าเริ่มต้น</value>
+  </data>
+  <data name="Ui.Gbs.RestoreAllPreferencesToDefault" xml:space="preserve">
+    <value>คืนค่าการกำหนดลักษณะทั้งหมดเป็นค่าเริ่มต้น</value>
+  </data>
+  <data name="Ui.Gbs.SettingsFile" xml:space="preserve">
+    <value>ไฟล์การตั้งค่า</value>
+  </data>
+  <data name="Ui.Gbs.LockSettingsFile" xml:space="preserve">
+    <value>ล็อกไฟล์การตั้งค่า</value>
+  </data>
+  <data name="Ui.Gbs.MarksTheRobloxSettingsFileRead" xml:space="preserve">
+    <value>ตั้งไฟล์การตั้งค่าของ Roblox เป็นแบบอ่านอย่างเดียว เพื่อไม่ให้ Roblox เขียนทับการเปลี่ยนแปลงของคุณ</value>
+  </data>
+  <data name="Ui.Gbs.UITransparency" xml:space="preserve">
+    <value>ความโปร่งใสของ UI</value>
+  </data>
+  <data name="Ui.Gbs.SetYourPreferredInterfaceTransparency" xml:space="preserve">
+    <value>ตั้งค่าความโปร่งใสของอินเทอร์เฟซที่ต้องการ</value>
+  </data>
+  <data name="Ui.Gbs.TextSize" xml:space="preserve">
+    <value>ขนาดข้อความ</value>
+  </data>
+  <data name="Ui.Gbs.ControlsTheOverallUITextSize" xml:space="preserve">
+    <value>ควบคุมขนาดข้อความโดยรวมของ UI</value>
+  </data>
+  <data name="Ui.Gbs.ReducedMotion" xml:space="preserve">
+    <value>ลดการเคลื่อนไหว</value>
+  </data>
+  <data name="Ui.Gbs.DisableUIAnimationsForAccessibility" xml:space="preserve">
+    <value>ปิดแอนิเมชัน UI เพื่อการเข้าถึง</value>
+  </data>
+  <data name="Ui.Gbs.HUDVisibility" xml:space="preserve">
+    <value>การแสดง HUD</value>
+  </data>
+  <data name="Ui.Gbs.ShowOrHideTheInGame" xml:space="preserve">
+    <value>แสดงหรือซ่อน HUD ในเกม</value>
+  </data>
+  <data name="Ui.Gbs.ChatVisibility" xml:space="preserve">
+    <value>การแสดงแชท</value>
+  </data>
+  <data name="Ui.Gbs.ShowOrHideTheInGame2" xml:space="preserve">
+    <value>แสดงหรือซ่อนหน้าต่างแชทในเกม</value>
+  </data>
+  <data name="Ui.Gbs.PlayerNamesVisible" xml:space="preserve">
+    <value>แสดงชื่อผู้เล่น</value>
+  </data>
+  <data name="Ui.Gbs.ShowOtherPlayerNames" xml:space="preserve">
+    <value>แสดงชื่อผู้เล่นคนอื่น</value>
+  </data>
+  <data name="Ui.Gbs.BadgeVisible" xml:space="preserve">
+    <value>แสดงตรา</value>
+  </data>
+  <data name="Ui.Gbs.ShowBadgeNotificationsWhilePlaying" xml:space="preserve">
+    <value>แสดงการแจ้งเตือนตราขณะเล่น</value>
+  </data>
+  <data name="Ui.Gbs.Graphics" xml:space="preserve">
+    <value>กราฟิก</value>
+  </data>
+  <data name="Ui.Gbs.FramerateCap" xml:space="preserve">
+    <value>จำกัด FPS</value>
+  </data>
+  <data name="Ui.Gbs.LimitMaximumFPS" xml:space="preserve">
+    <value>จำกัด FPS สูงสุด</value>
+  </data>
+  <data name="Ui.Gbs.GraphicsQuality" xml:space="preserve">
+    <value>คุณภาพกราฟิก</value>
+  </data>
+  <data name="Ui.Gbs.ChooseAutomaticOrSetAFixed" xml:space="preserve">
+    <value>เลือกอัตโนมัติ หรือกำหนดระดับคงที่ ระดับสูงดูดีกว่าแต่ทำงานช้ากว่า</value>
+  </data>
+  <data name="Ui.Gbs.Fullscreen" xml:space="preserve">
+    <value>เต็มหน้าจอ</value>
+  </data>
+  <data name="Ui.Gbs.ToggleFullscreenMode" xml:space="preserve">
+    <value>สลับโหมดเต็มหน้าจอ</value>
+  </data>
+  <data name="Ui.Gbs.Audio" xml:space="preserve">
+    <value>เสียง</value>
+  </data>
+  <data name="Ui.Gbs.MasterVolume" xml:space="preserve">
+    <value>ระดับเสียงหลัก</value>
+  </data>
+  <data name="Ui.Gbs.OverallInGameVolume" xml:space="preserve">
+    <value>ระดับเสียงโดยรวมในเกม</value>
+  </data>
+  <data name="Ui.Gbs.VoiceChatVolume" xml:space="preserve">
+    <value>ระดับเสียงแชทด้วยเสียง</value>
+  </data>
+  <data name="Ui.Gbs.VolumeForVoiceCommunication" xml:space="preserve">
+    <value>ระดับเสียงสำหรับการสื่อสารด้วยเสียง</value>
+  </data>
+  <data name="Ui.Gbs.InputAndControls" xml:space="preserve">
+    <value>การป้อนข้อมูลและการควบคุม</value>
+  </data>
+  <data name="Ui.Gbs.MouseSensitivity" xml:space="preserve">
+    <value>ความไวเมาส์</value>
+  </data>
+  <data name="Ui.Gbs.AdjustMouseSensitivity" xml:space="preserve">
+    <value>ปรับความไวเมาส์</value>
+  </data>
+  <data name="Ui.Gbs.InvertYAxis" xml:space="preserve">
+    <value>กลับแกน Y</value>
+  </data>
+  <data name="Ui.Gbs.ReverseTheVerticalCameraDirection" xml:space="preserve">
+    <value>กลับทิศทางแนวตั้งของกล้อง</value>
+  </data>
+  <data name="Ui.Gbs.GamepadSensitivity" xml:space="preserve">
+    <value>ความไวเกมแพด</value>
+  </data>
+  <data name="Ui.Gbs.AdjustJoystickSensitivity" xml:space="preserve">
+    <value>ปรับความไวจอยสติ๊ก</value>
+  </data>
+  <data name="Ui.Gbs.EnableControllerVibration" xml:space="preserve">
+    <value>เปิดการสั่นของคอนโทรลเลอร์</value>
+  </data>
+  <data name="Ui.Gbs.ToggleHapticFeedbackOnControllers" xml:space="preserve">
+    <value>สลับการตอบสนองแบบสั่นของคอนโทรลเลอร์</value>
+  </data>
+  <data name="Ui.Gbs.Network" xml:space="preserve">
+    <value>เครือข่าย</value>
+  </data>
+  <data name="Ui.Gbs.NetworkDebugStats" xml:space="preserve">
+    <value>สถิติดีบักเครือข่าย</value>
+  </data>
+  <data name="Ui.Gbs.ShowNetworkPingAndPacketStats" xml:space="preserve">
+    <value>แสดง ping เครือข่ายและสถิติแพ็กเก็ต</value>
+  </data>
+  <data name="Ui.Gbs.ChatTranslation" xml:space="preserve">
+    <value>แปลแชท</value>
+  </data>
+  <data name="Ui.Gbs.AutomaticallyTranslateChatMessages" xml:space="preserve">
+    <value>แปลข้อความแชทโดยอัตโนมัติ</value>
+  </data>
+  <data name="Ui.Gbs.VirtualReality" xml:space="preserve">
+    <value>ความเป็นจริงเสมือน</value>
+  </data>
+  <data name="Ui.Gbs.EnableVR" xml:space="preserve">
+    <value>เปิด VR</value>
+  </data>
+  <data name="Ui.Gbs.ToggleVirtualRealityMode" xml:space="preserve">
+    <value>สลับโหมดความเป็นจริงเสมือน</value>
+  </data>
+  <data name="Ui.Gbs.VRComfortSetting" xml:space="preserve">
+    <value>ความสบายใน VR</value>
+  </data>
+  <data name="Ui.Gbs.ControlsCameraMovementInVR" xml:space="preserve">
+    <value>ควบคุมการเคลื่อนไหวของกล้องใน VR</value>
+  </data>
+  <data name="Ui.Gbs.VignetteInVR" xml:space="preserve">
+    <value>วิกเนตต์ใน VR</value>
+  </data>
+  <data name="Ui.Gbs.EnableVignetteForMotionSicknessReduction" xml:space="preserve">
+    <value>เปิดวิกเนตต์เพื่อลดอาการเมาการเคลื่อนไหว</value>
+  </data>
+  <data name="Ui.Gbs.MicroProfiler" xml:space="preserve">
+    <value>Micro Profiler</value>
+  </data>
+  <data name="Ui.Gbs.EnableRobloxMicroprofilerServer" xml:space="preserve">
+    <value>เปิดเซิร์ฟเวอร์ไมโครโปรไฟเลอร์ของ Roblox</value>
+  </data>
+  <data name="Ui.Gbs.OnScreenProfiler" xml:space="preserve">
+    <value>โปรไฟเลอร์บนหน้าจอ</value>
+  </data>
+  <data name="Ui.Gbs.ShowFPSAndPerformanceOverlay" xml:space="preserve">
+    <value>แสดง FPS และโอเวอร์เลย์ประสิทธิภาพ</value>
+  </data>
 </root>

@@ -1367,6 +1367,120 @@ namespace Voidstrap.Resources {
 
         public static string Ui_ModGen_GenerateMod => ResourceManager.GetString("Ui.ModGen.GenerateMod", resourceCulture);
 
+        public static string Ui_Gbs_TheseAreRobloxSOwnIn => ResourceManager.GetString("Ui.Gbs.TheseAreRobloxSOwnIn", resourceCulture);
+
+        public static string Ui_Gbs_ResetToDefaultSettings => ResourceManager.GetString("Ui.Gbs.ResetToDefaultSettings", resourceCulture);
+
+        public static string Ui_Gbs_RestoreAllPreferencesToDefault => ResourceManager.GetString("Ui.Gbs.RestoreAllPreferencesToDefault", resourceCulture);
+
+        public static string Ui_Gbs_SettingsFile => ResourceManager.GetString("Ui.Gbs.SettingsFile", resourceCulture);
+
+        public static string Ui_Gbs_LockSettingsFile => ResourceManager.GetString("Ui.Gbs.LockSettingsFile", resourceCulture);
+
+        public static string Ui_Gbs_MarksTheRobloxSettingsFileRead => ResourceManager.GetString("Ui.Gbs.MarksTheRobloxSettingsFileRead", resourceCulture);
+
+        public static string Ui_Gbs_UITransparency => ResourceManager.GetString("Ui.Gbs.UITransparency", resourceCulture);
+
+        public static string Ui_Gbs_SetYourPreferredInterfaceTransparency => ResourceManager.GetString("Ui.Gbs.SetYourPreferredInterfaceTransparency", resourceCulture);
+
+        public static string Ui_Gbs_TextSize => ResourceManager.GetString("Ui.Gbs.TextSize", resourceCulture);
+
+        public static string Ui_Gbs_ControlsTheOverallUITextSize => ResourceManager.GetString("Ui.Gbs.ControlsTheOverallUITextSize", resourceCulture);
+
+        public static string Ui_Gbs_ReducedMotion => ResourceManager.GetString("Ui.Gbs.ReducedMotion", resourceCulture);
+
+        public static string Ui_Gbs_DisableUIAnimationsForAccessibility => ResourceManager.GetString("Ui.Gbs.DisableUIAnimationsForAccessibility", resourceCulture);
+
+        public static string Ui_Gbs_HUDVisibility => ResourceManager.GetString("Ui.Gbs.HUDVisibility", resourceCulture);
+
+        public static string Ui_Gbs_ShowOrHideTheInGame => ResourceManager.GetString("Ui.Gbs.ShowOrHideTheInGame", resourceCulture);
+
+        public static string Ui_Gbs_ChatVisibility => ResourceManager.GetString("Ui.Gbs.ChatVisibility", resourceCulture);
+
+        public static string Ui_Gbs_ShowOrHideTheInGame2 => ResourceManager.GetString("Ui.Gbs.ShowOrHideTheInGame2", resourceCulture);
+
+        public static string Ui_Gbs_PlayerNamesVisible => ResourceManager.GetString("Ui.Gbs.PlayerNamesVisible", resourceCulture);
+
+        public static string Ui_Gbs_ShowOtherPlayerNames => ResourceManager.GetString("Ui.Gbs.ShowOtherPlayerNames", resourceCulture);
+
+        public static string Ui_Gbs_BadgeVisible => ResourceManager.GetString("Ui.Gbs.BadgeVisible", resourceCulture);
+
+        public static string Ui_Gbs_ShowBadgeNotificationsWhilePlaying => ResourceManager.GetString("Ui.Gbs.ShowBadgeNotificationsWhilePlaying", resourceCulture);
+
+        public static string Ui_Gbs_Graphics => ResourceManager.GetString("Ui.Gbs.Graphics", resourceCulture);
+
+        public static string Ui_Gbs_FramerateCap => ResourceManager.GetString("Ui.Gbs.FramerateCap", resourceCulture);
+
+        public static string Ui_Gbs_LimitMaximumFPS => ResourceManager.GetString("Ui.Gbs.LimitMaximumFPS", resourceCulture);
+
+        public static string Ui_Gbs_GraphicsQuality => ResourceManager.GetString("Ui.Gbs.GraphicsQuality", resourceCulture);
+
+        public static string Ui_Gbs_ChooseAutomaticOrSetAFixed => ResourceManager.GetString("Ui.Gbs.ChooseAutomaticOrSetAFixed", resourceCulture);
+
+        public static string Ui_Gbs_Fullscreen => ResourceManager.GetString("Ui.Gbs.Fullscreen", resourceCulture);
+
+        public static string Ui_Gbs_ToggleFullscreenMode => ResourceManager.GetString("Ui.Gbs.ToggleFullscreenMode", resourceCulture);
+
+        public static string Ui_Gbs_Audio => ResourceManager.GetString("Ui.Gbs.Audio", resourceCulture);
+
+        public static string Ui_Gbs_MasterVolume => ResourceManager.GetString("Ui.Gbs.MasterVolume", resourceCulture);
+
+        public static string Ui_Gbs_OverallInGameVolume => ResourceManager.GetString("Ui.Gbs.OverallInGameVolume", resourceCulture);
+
+        public static string Ui_Gbs_VoiceChatVolume => ResourceManager.GetString("Ui.Gbs.VoiceChatVolume", resourceCulture);
+
+        public static string Ui_Gbs_VolumeForVoiceCommunication => ResourceManager.GetString("Ui.Gbs.VolumeForVoiceCommunication", resourceCulture);
+
+        public static string Ui_Gbs_InputAndControls => ResourceManager.GetString("Ui.Gbs.InputAndControls", resourceCulture);
+
+        public static string Ui_Gbs_MouseSensitivity => ResourceManager.GetString("Ui.Gbs.MouseSensitivity", resourceCulture);
+
+        public static string Ui_Gbs_AdjustMouseSensitivity => ResourceManager.GetString("Ui.Gbs.AdjustMouseSensitivity", resourceCulture);
+
+        public static string Ui_Gbs_InvertYAxis => ResourceManager.GetString("Ui.Gbs.InvertYAxis", resourceCulture);
+
+        public static string Ui_Gbs_ReverseTheVerticalCameraDirection => ResourceManager.GetString("Ui.Gbs.ReverseTheVerticalCameraDirection", resourceCulture);
+
+        public static string Ui_Gbs_GamepadSensitivity => ResourceManager.GetString("Ui.Gbs.GamepadSensitivity", resourceCulture);
+
+        public static string Ui_Gbs_AdjustJoystickSensitivity => ResourceManager.GetString("Ui.Gbs.AdjustJoystickSensitivity", resourceCulture);
+
+        public static string Ui_Gbs_EnableControllerVibration => ResourceManager.GetString("Ui.Gbs.EnableControllerVibration", resourceCulture);
+
+        public static string Ui_Gbs_ToggleHapticFeedbackOnControllers => ResourceManager.GetString("Ui.Gbs.ToggleHapticFeedbackOnControllers", resourceCulture);
+
+        public static string Ui_Gbs_Network => ResourceManager.GetString("Ui.Gbs.Network", resourceCulture);
+
+        public static string Ui_Gbs_NetworkDebugStats => ResourceManager.GetString("Ui.Gbs.NetworkDebugStats", resourceCulture);
+
+        public static string Ui_Gbs_ShowNetworkPingAndPacketStats => ResourceManager.GetString("Ui.Gbs.ShowNetworkPingAndPacketStats", resourceCulture);
+
+        public static string Ui_Gbs_ChatTranslation => ResourceManager.GetString("Ui.Gbs.ChatTranslation", resourceCulture);
+
+        public static string Ui_Gbs_AutomaticallyTranslateChatMessages => ResourceManager.GetString("Ui.Gbs.AutomaticallyTranslateChatMessages", resourceCulture);
+
+        public static string Ui_Gbs_VirtualReality => ResourceManager.GetString("Ui.Gbs.VirtualReality", resourceCulture);
+
+        public static string Ui_Gbs_EnableVR => ResourceManager.GetString("Ui.Gbs.EnableVR", resourceCulture);
+
+        public static string Ui_Gbs_ToggleVirtualRealityMode => ResourceManager.GetString("Ui.Gbs.ToggleVirtualRealityMode", resourceCulture);
+
+        public static string Ui_Gbs_VRComfortSetting => ResourceManager.GetString("Ui.Gbs.VRComfortSetting", resourceCulture);
+
+        public static string Ui_Gbs_ControlsCameraMovementInVR => ResourceManager.GetString("Ui.Gbs.ControlsCameraMovementInVR", resourceCulture);
+
+        public static string Ui_Gbs_VignetteInVR => ResourceManager.GetString("Ui.Gbs.VignetteInVR", resourceCulture);
+
+        public static string Ui_Gbs_EnableVignetteForMotionSicknessReduction => ResourceManager.GetString("Ui.Gbs.EnableVignetteForMotionSicknessReduction", resourceCulture);
+
+        public static string Ui_Gbs_MicroProfiler => ResourceManager.GetString("Ui.Gbs.MicroProfiler", resourceCulture);
+
+        public static string Ui_Gbs_EnableRobloxMicroprofilerServer => ResourceManager.GetString("Ui.Gbs.EnableRobloxMicroprofilerServer", resourceCulture);
+
+        public static string Ui_Gbs_OnScreenProfiler => ResourceManager.GetString("Ui.Gbs.OnScreenProfiler", resourceCulture);
+
+        public static string Ui_Gbs_ShowFPSAndPerformanceOverlay => ResourceManager.GetString("Ui.Gbs.ShowFPSAndPerformanceOverlay", resourceCulture);
+
         public static string Menu_Appearance_Accent_Title => ResourceManager.GetString("Menu.Appearance.Accent.Title", resourceCulture);
 
         public static string Menu_Appearance_Accent_Description => ResourceManager.GetString("Menu.Appearance.Accent.Description", resourceCulture);
