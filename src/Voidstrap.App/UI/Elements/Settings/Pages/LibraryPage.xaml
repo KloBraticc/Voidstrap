@@ -45,7 +45,9 @@
                   <RowDefinition Height="Auto" />
                   <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <StackPanel Grid.Row="0" Orientation="Horizontal" IsItemsHost="True" />
+                <Border Grid.Row="0" HorizontalAlignment="Left" Padding="4" CornerRadius="10" Background="{DynamicResource ControlFillColorDefaultBrush}" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" BorderThickness="1">
+                  <StackPanel Orientation="Horizontal" IsItemsHost="True" />
+                </Border>
                 <Border Grid.Row="1" Margin="0,10,0,0" CornerRadius="8" Background="{DynamicResource ControlFillColorDefaultBrush}">
                   <ContentPresenter ContentSource="SelectedContent" />
                 </Border>
@@ -59,25 +61,30 @@
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Template">
           <Setter.Value>
             <ControlTemplate TargetType="{x:Type TabItem}">
-              <Border Background="Transparent" Padding="14,8,14,6">
-                <StackPanel>
-                  <ContentPresenter ContentSource="Header" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                  <Rectangle x:Name="TabUnderline" Height="2" Margin="0,5,0,0" RadiusX="1" RadiusY="1" HorizontalAlignment="Stretch" Opacity="0" Fill="{DynamicResource SystemAccentBrush}" />
-                </StackPanel>
+              <Border x:Name="TabChip" Margin="0,0,2,0" Padding="14,7" CornerRadius="7" Background="Transparent" BorderBrush="Transparent" BorderThickness="1">
+                <Grid>
+                  <ContentPresenter ContentSource="Header" HorizontalAlignment="Center" VerticalAlignment="Center" TextElement.FontWeight="{TemplateBinding FontWeight}" />
+                  <Rectangle x:Name="TabUnderline" Height="2" Width="16" Margin="0,0,0,-6" RadiusX="1" RadiusY="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" Opacity="0" Fill="{DynamicResource SystemAccentBrush}" />
+                </Grid>
               </Border>
               <ControlTemplate.Triggers>
                 <Trigger Property="IsSelected" Value="True">
+                  <Setter TargetName="TabChip" Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
+                  <Setter TargetName="TabChip" Property="BorderBrush" Value="{DynamicResource ControlElevationBorderBrush}" />
                   <Setter TargetName="TabUnderline" Property="Opacity" Value="1" />
                   <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
+                  <Setter Property="FontWeight" Value="SemiBold" />
                 </Trigger>
                 <MultiTrigger>
                   <MultiTrigger.Conditions>
                     <Condition Property="IsMouseOver" Value="True" />
                     <Condition Property="IsSelected" Value="False" />
                   </MultiTrigger.Conditions>
+                  <Setter TargetName="TabChip" Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
                   <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
                 </MultiTrigger>
               </ControlTemplate.Triggers>
@@ -528,7 +535,7 @@
                           <ColumnDefinition Width="*" />
                           <ColumnDefinition Width="Auto" />
                         </Grid.ColumnDefinitions>
-                        <ui:SymbolIcon Grid.Column="0" Symbol="Trophy16" FontSize="11" Margin="0,0,5,0" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                        <ui:SymbolIcon Grid.Column="0" Symbol="Star24" FontSize="11" Margin="0,0,5,0" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
                         <ProgressBar Grid.Column="1" Height="4" MinHeight="4" VerticalAlignment="Center" Minimum="0" Maximum="100" Value="{Binding BadgeProgressPercent, Mode=OneWay}" />
                         <TextBlock Grid.Column="2" Margin="6,0,0,0" FontSize="10" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding BadgeProgressText}" />
                       </Grid>
@@ -637,7 +644,7 @@
             <TabItem>
               <TabItem.Header>
                 <StackPanel Orientation="Horizontal">
-                  <ui:SymbolIcon Symbol="Trophy24" Margin="0,0,6,0" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=TabItem}}" />
+                  <ui:SymbolIcon Symbol="Star24" Margin="0,0,6,0" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=TabItem}}" />
                   <TextBlock Text="{resources:Loc Library_Badges_Tab}" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=TabItem}}" />
                 </StackPanel>
               </TabItem.Header>
@@ -649,7 +656,7 @@
                       <ColumnDefinition Width="*" />
                       <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <ui:SymbolIcon Grid.Column="0" Symbol="Trophy24" FontSize="28" Margin="0,0,14,0" VerticalAlignment="Center" Foreground="{DynamicResource SystemAccentColorSecondaryBrush}" />
+                    <ui:SymbolIcon Grid.Column="0" Symbol="Star24" FontSize="28" Margin="0,0,14,0" VerticalAlignment="Center" Foreground="{DynamicResource SystemAccentColorSecondaryBrush}" />
                     <StackPanel Grid.Column="1" VerticalAlignment="Center">
                       <Grid>
                         <TextBlock FontSize="15" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding BadgeSummaryText}" />
@@ -674,7 +681,7 @@
                           </Grid.ColumnDefinitions>
                           <Border Width="56" Height="56" CornerRadius="28" ClipToBounds="True" Background="{DynamicResource ControlFillColorSecondaryBrush}">
                             <Grid>
-                              <ui:SymbolIcon Symbol="Trophy24" FontSize="22" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                              <ui:SymbolIcon Symbol="Star24" FontSize="22" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
                               <Image util:DynamicRenderSystem.LazyImageSource="{Binding IconUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}" Stretch="UniformToFill" />
                             </Grid>
                           </Border>
@@ -684,8 +691,8 @@
                             <TextBlock Margin="0,3,0,0" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding RarityText}" Visibility="{Binding RarityVisibility}" />
                           </StackPanel>
                           <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
-                            <ui:SymbolIcon Symbol="CheckmarkCircle20" FontSize="16" Margin="0,0,6,0" Foreground="{DynamicResource SystemFillColorSuccessBrush}" Visibility="{Binding EarnedVisibility}" />
-                            <ui:SymbolIcon Symbol="LockClosed20" FontSize="16" Margin="0,0,6,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Visibility="{Binding LockedVisibility}" />
+                            <ui:SymbolIcon Symbol="CheckmarkCircle24" FontSize="16" Margin="0,0,6,0" Foreground="{DynamicResource SystemFillColorSuccessBrush}" Visibility="{Binding EarnedVisibility}" />
+                            <ui:SymbolIcon Symbol="LockClosed24" FontSize="16" Margin="0,0,6,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Visibility="{Binding LockedVisibility}" />
                             <TextBlock FontSize="12" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding StateText}" />
                           </StackPanel>
                         </Grid>
