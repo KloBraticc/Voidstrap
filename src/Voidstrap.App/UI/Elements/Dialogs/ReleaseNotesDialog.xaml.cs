@@ -313,7 +313,7 @@ public partial class ReleaseNotesDialog : WpfUiWindow
 		}
 	}
 
-	private static void AddInlines(InlineCollection target, ContainerInline? container)
+	private static void AddInlines(InlineCollection target, ContainerInline? container, bool insideLink = false)
 	{
 		if (container == null)
 		{
@@ -321,7 +321,7 @@ public partial class ReleaseNotesDialog : WpfUiWindow
 		}
 		foreach (MarkdownInline inline in container)
 		{
-			DocumentInline? converted = ConvertInline(inline);
+			DocumentInline? converted = ConvertInline(inline, insideLink);
 			if (converted != null)
 			{
 				target.Add(converted);
@@ -329,7 +329,7 @@ public partial class ReleaseNotesDialog : WpfUiWindow
 		}
 	}
 
-	private static DocumentInline? ConvertInline(MarkdownInline inline)
+	private static DocumentInline? ConvertInline(MarkdownInline inline, bool insideLink = false)
 	{
 		switch (inline)
 		{
@@ -346,16 +346,16 @@ public partial class ReleaseNotesDialog : WpfUiWindow
 			case HtmlEntityInline entity:
 				return new Run(entity.Transcoded.ToString());
 			case AutolinkInline autolink:
-				return CreateLink(new Run(autolink.Url), autolink.IsEmail ? "mailto:" + autolink.Url : autolink.Url);
+				return insideLink ? new Run(autolink.Url) : CreateLink(new Run(autolink.Url), autolink.IsEmail ? "mailto:" + autolink.Url : autolink.Url);
 			case LinkInline link:
 			{
 				Span content = new Span();
-				AddInlines(content.Inlines, link);
+				AddInlines(content.Inlines, link, true);
 				if (content.Inlines.Count == 0)
 				{
 					content.Inlines.Add(new Run(link.IsImage ? "Image" : link.Url ?? string.Empty));
 				}
-				return CreateLink(content, link.Url);
+				return insideLink ? content : CreateLink(content, link.Url);
 			}
 			case EmphasisInline emphasis:
 			{
@@ -372,13 +372,13 @@ public partial class ReleaseNotesDialog : WpfUiWindow
 				{
 					span = new Italic();
 				}
-				AddInlines(span.Inlines, emphasis);
+				AddInlines(span.Inlines, emphasis, insideLink);
 				return span;
 			}
 			case ContainerInline container:
 			{
 				Span span = new Span();
-				AddInlines(span.Inlines, container);
+				AddInlines(span.Inlines, container, insideLink);
 				return span;
 			}
 			default:
