@@ -1985,7 +1985,7 @@ public class LibraryViewModel : INotifyPropertyChanged
         CancellationToken token = cancellation.Token;
         try
         {
-            RobloxBadges.Progress progress = await RobloxBadges.GetProgressAsync(universeId, refreshAwarded, token);
+            RobloxBadges.Progress progress = await RobloxBadges.GetProgressAsync(universeId, refreshAwarded, token, foreground: true);
             token.ThrowIfCancellationRequested();
             ApplyBadgeProgressToEntries(universeId, progress);
             if (!IsCurrentBadgeLoad(universeId, version))
@@ -2051,14 +2051,18 @@ public class LibraryViewModel : INotifyPropertyChanged
 
     private void ApplyBadgeProgressToEntries(long universeId, RobloxBadges.Progress progress)
     {
-        int earned = progress.SignedIn ? progress.Earned : -1;
+        ApplyBadgeSummaryToEntries(universeId, progress.SignedIn ? progress.Earned : -1, progress.Total);
+    }
+
+    private void ApplyBadgeSummaryToEntries(long universeId, int earned, int total)
+    {
         foreach (LibraryGameEntry entry in _masterGames)
         {
             if (entry.UniverseId == universeId)
-                entry.SetBadgeProgress(earned, progress.Total);
+                entry.SetBadgeProgress(earned, total);
         }
         if (_selectedGame?.UniverseId == universeId)
-            _selectedGame.SetBadgeProgress(earned, progress.Total);
+            _selectedGame.SetBadgeProgress(earned, total);
     }
 
     private void StartBadgeFill(List<LibraryGameEntry> games)
@@ -2076,9 +2080,31 @@ public class LibraryViewModel : INotifyPropertyChanged
         CancellationToken token = cancellation.Token;
         try
         {
+            long userId = await RobloxBadges.GetSignedInUserIdAsync(token).ConfigureAwait(false);
+            List<long> stale = new();
+            List<(long Universe, int Earned, int Total)> stored = new();
             foreach (long universeId in universes)
             {
+                if (RobloxBadges.TryGetStoredSummary(universeId, userId, out int earned, out int total, out bool fresh))
+                {
+                    stored.Add((universeId, earned, total));
+                    if (fresh)
+                        continue;
+                }
+                stale.Add(universeId);
+            }
+            if (stored.Count > 0)
+            {
+                await UpdateUiAsync(() =>
+                {
+                    foreach ((long universe, int earned, int total) in stored)
+                        ApplyBadgeSummaryToEntries(universe, earned, total);
+                }).ConfigureAwait(false);
+            }
+            foreach (long universeId in stale)
+            {
                 token.ThrowIfCancellationRequested();
+                await RobloxBadges.WaitForForegroundAsync(token).ConfigureAwait(false);
                 try
                 {
                     RobloxBadges.Progress progress = await RobloxBadges.GetProgressAsync(universeId, refreshAwarded: false, token).ConfigureAwait(false);
@@ -2092,7 +2118,7 @@ public class LibraryViewModel : INotifyPropertyChanged
                 {
                     App.Logger.WriteLine("LibraryViewModel", "Badge progress skipped for universe " + universeId + ": " + ex.Message);
                 }
-                await Task.Delay(250, token).ConfigureAwait(false);
+                await Task.Delay(1500, token).ConfigureAwait(false);
             }
         }
         catch (OperationCanceledException) when (token.IsCancellationRequested)
@@ -2100,6 +2126,7 @@ public class LibraryViewModel : INotifyPropertyChanged
         }
         finally
         {
+            RobloxBadges.SaveNow();
             if (ReferenceEquals(_badgeFillCts, cancellation))
                 _badgeFillCts = null;
             cancellation.Dispose();

@@ -34,7 +34,28 @@ public static class RobloxBadges
 
 	private static readonly ConcurrentDictionary<long, string> IconCache = new();
 
-	private static readonly SemaphoreSlim Gate = new(2, 2);
+	private static readonly SemaphoreSlim Gate = new(1, 1);
+
+	private static readonly TimeSpan StoredLifetime = TimeSpan.FromHours(6);
+
+	private static readonly object StoreLock = new();
+
+	private static Dictionary<string, StoredSummary>? _store;
+
+	private static long _storeSavedTicks;
+
+	private static long _cooldownUntilTicks;
+
+	private static int _foreground;
+
+	public sealed class StoredSummary
+	{
+		public int Earned { get; set; }
+
+		public int Total { get; set; }
+
+		public DateTime At { get; set; }
+	}
 
 	private static readonly SemaphoreSlim AccountGate = new(1, 1);
 
@@ -79,11 +100,108 @@ public static class RobloxBadges
 		return true;
 	}
 
-	public static async Task<Progress> GetProgressAsync(long universeId, bool refreshAwarded, CancellationToken token)
+	public static async Task WaitForForegroundAsync(CancellationToken token)
 	{
-		long userId = await GetSignedInUserIdAsync(token).ConfigureAwait(false);
-		if (!refreshAwarded && TryGetCached(universeId, userId, out Progress? cached) && cached != null)
-			return cached;
+		while (Volatile.Read(ref _foreground) > 0)
+			await Task.Delay(500, token).ConfigureAwait(false);
+	}
+
+	public static bool TryGetStoredSummary(long universeId, long userId, out int earned, out int total, out bool fresh)
+	{
+		earned = -1;
+		total = -1;
+		fresh = false;
+		lock (StoreLock)
+		{
+			Dictionary<string, StoredSummary> store = LoadStore();
+			if (!store.TryGetValue(StoreKey(userId, universeId), out StoredSummary? summary))
+				return false;
+			earned = userId > 0 ? summary.Earned : -1;
+			total = summary.Total;
+			fresh = DateTime.UtcNow - summary.At < StoredLifetime;
+			return true;
+		}
+	}
+
+	private static string StoreKey(long userId, long universeId) => userId.ToString(System.Globalization.CultureInfo.InvariantCulture) + ":" + universeId.ToString(System.Globalization.CultureInfo.InvariantCulture);
+
+	private static string StorePath => Path.Combine(Paths.Cache, "BadgeProgress.json");
+
+	private static Dictionary<string, StoredSummary> LoadStore()
+	{
+		if (_store != null)
+			return _store;
+		try
+		{
+			if (File.Exists(StorePath) && new FileInfo(StorePath).Length < 4 * 1024 * 1024)
+				_store = JsonSerializer.Deserialize<Dictionary<string, StoredSummary>>(File.ReadAllText(StorePath));
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("RobloxBadges", "Stored badge progress could not be read: " + ex.Message);
+		}
+		_store ??= new Dictionary<string, StoredSummary>();
+		return _store;
+	}
+
+	private static void Remember(long userId, long universeId, Progress progress)
+	{
+		lock (StoreLock)
+		{
+			Dictionary<string, StoredSummary> store = LoadStore();
+			store[StoreKey(progress.SignedIn ? userId : 0, universeId)] = new StoredSummary { Earned = progress.SignedIn ? progress.Earned : 0, Total = progress.Total, At = DateTime.UtcNow };
+			if (Environment.TickCount64 - _storeSavedTicks >= 5000)
+				SaveStoreLocked();
+		}
+	}
+
+	public static void SaveNow()
+	{
+		lock (StoreLock)
+		{
+			if (_store != null)
+				SaveStoreLocked();
+		}
+	}
+
+	private static void SaveStoreLocked()
+	{
+		_storeSavedTicks = Environment.TickCount64;
+		try
+		{
+			Directory.CreateDirectory(Paths.Cache);
+			string temp = StorePath + ".tmp";
+			File.WriteAllText(temp, JsonSerializer.Serialize(_store));
+			File.Move(temp, StorePath, true);
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("RobloxBadges", "Badge progress could not be saved: " + ex.Message);
+		}
+	}
+
+	public static async Task<Progress> GetProgressAsync(long universeId, bool refreshAwarded, CancellationToken token, bool foreground = false)
+	{
+		if (foreground)
+			Interlocked.Increment(ref _foreground);
+		try
+		{
+			long userId = await GetSignedInUserIdAsync(token).ConfigureAwait(false);
+			if (!refreshAwarded && TryGetCached(universeId, userId, out Progress? cached) && cached != null)
+				return cached;
+			Progress progress = await FetchProgressAsync(universeId, userId, token).ConfigureAwait(false);
+			Remember(userId, universeId, progress);
+			return progress;
+		}
+		finally
+		{
+			if (foreground)
+				Interlocked.Decrement(ref _foreground);
+		}
+	}
+
+	private static async Task<Progress> FetchProgressAsync(long universeId, long userId, CancellationToken token)
+	{
 		await Gate.WaitAsync(token).ConfigureAwait(false);
 		try
 		{
@@ -213,6 +331,9 @@ public static class RobloxBadges
 	{
 		for (int attempt = 0; ; attempt++)
 		{
+			long waitTicks = Interlocked.Read(ref _cooldownUntilTicks) - Environment.TickCount64;
+			if (waitTicks > 0)
+				await Task.Delay(TimeSpan.FromMilliseconds(waitTicks), token).ConfigureAwait(false);
 			using HttpRequestMessage request = new(HttpMethod.Get, url);
 			if (signedIn && RobloxCookie.Get() is { Length: > 0 } cookie)
 				request.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
@@ -231,10 +352,20 @@ public static class RobloxBadges
 				int status = (int)response.StatusCode;
 				if (signedIn && status is 401 or 403)
 					throw new AwardedRefusedException();
-				if ((status == 429 || status >= 500) && attempt < 3)
+				if (status == 429 && attempt < 6)
 				{
-					TimeSpan wait = response.Headers.RetryAfter?.Delta ?? TimeSpan.FromSeconds(3 * (attempt + 1));
-					await Task.Delay(wait > TimeSpan.FromSeconds(15) ? TimeSpan.FromSeconds(15) : wait, token).ConfigureAwait(false);
+					TimeSpan wait = response.Headers.RetryAfter?.Delta ?? TimeSpan.FromSeconds(20 * (attempt + 1));
+					if (wait < TimeSpan.FromSeconds(10))
+						wait = TimeSpan.FromSeconds(10);
+					if (wait > TimeSpan.FromSeconds(90))
+						wait = TimeSpan.FromSeconds(90);
+					Interlocked.Exchange(ref _cooldownUntilTicks, Environment.TickCount64 + (long)wait.TotalMilliseconds);
+					App.Logger.WriteLine("RobloxBadges", "Roblox asked to slow down, waiting " + (int)wait.TotalSeconds + " seconds before asking again");
+					continue;
+				}
+				if (status >= 500 && attempt < 3)
+				{
+					await Task.Delay(TimeSpan.FromSeconds(3 * (attempt + 1)), token).ConfigureAwait(false);
 					continue;
 				}
 				response.EnsureSuccessStatusCode();
