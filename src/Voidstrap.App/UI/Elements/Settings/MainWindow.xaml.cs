@@ -396,7 +396,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private CancellationTokenSource? _commandPaletteSearchCts;
 
-    private sealed record CommandPalettePage(Type PageType, string Name, SymbolRegular Icon, string Shortcut, Action Open);
+    private sealed record CommandPalettePage(Type PageType, string Name, SymbolRegular Icon, string Shortcut, Action Open, string Section = "Footer");
 
     private sealed record CommandPaletteSnapshot(string Query, IReadOnlyList<CommandPalettePage> Pages, IReadOnlyDictionary<Type, string> PageNames, IReadOnlyDictionary<Type, SymbolRegular> PageIcons, TopSearchEntry[] Entries);
 
@@ -2036,7 +2036,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             SymbolRegular icon = item.Icon == SymbolRegular.Empty ? SymbolRegular.Document24 : item.Icon;
             pageIcons.Add(item.PageType, icon);
             Type pageType = item.PageType;
-            pages.Add(new CommandPalettePage(pageType, pageName, icon, GetNavShortcutLabel(pageType), () => NavigateTopNav(pageType)));
+            string section = SidebarCustomizationItems.FirstOrDefault(definition => definition.Key == item.Name)?.Section ?? "Footer";
+            pages.Add(new CommandPalettePage(pageType, pageName, icon, GetNavShortcutLabel(pageType), () => NavigateTopNav(pageType), section));
         }
         pages.Add(new CommandPalettePage(typeof(Page), "Library", SymbolRegular.Apps24, "", () => TopNavLibrary_Click(this, new RoutedEventArgs())));
         return new CommandPaletteSnapshot(query, pages, pageNames, pageIcons, _topSearchEntriesList.ToArray());
@@ -2128,9 +2129,30 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         _commandPaletteRows.Clear();
         _commandPaletteSelected = -1;
         int results = 0;
-        if (pages.Count > 0)
+        if (pages.Count > 0 && snapshot.Query.Length == 0)
         {
-            _commandPaletteRows.Add(new CommandPaletteRow { IsHeader = true, Title = snapshot.Query.Length == 0 ? "Jump to" : "Pages" });
+            foreach ((string section, string title) in new[]
+            {
+                ("Core", Strings.Ui_Nav_Core),
+                ("Configuration", Strings.Ui_Nav_Configuration),
+                ("More", Strings.Ui_Nav_More),
+                ("Footer", Strings.Ui_Appearance_TabApplication)
+            })
+            {
+                List<CommandPalettePage> sectionPages = pages.Where(page => page.Section == section).ToList();
+                if (sectionPages.Count == 0)
+                    continue;
+                _commandPaletteRows.Add(new CommandPaletteRow { IsHeader = true, Title = title });
+                foreach (CommandPalettePage page in sectionPages)
+                {
+                    _commandPaletteRows.Add(CreateCommandPaletteRow(page.Name, page.Shortcut, page.Icon, snapshot.Query, page.Open));
+                    results++;
+                }
+            }
+        }
+        else if (pages.Count > 0)
+        {
+            _commandPaletteRows.Add(new CommandPaletteRow { IsHeader = true, Title = "Pages" });
             foreach (CommandPalettePage page in pages)
             {
                 _commandPaletteRows.Add(CreateCommandPaletteRow(page.Name, page.Shortcut, page.Icon, snapshot.Query, page.Open));
