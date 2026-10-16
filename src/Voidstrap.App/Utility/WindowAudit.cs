@@ -304,6 +304,12 @@ internal static class WindowAudit
 		{
 			typeof(Voidstrap.UI.Elements.Settings.MainWindow).GetMethod("ToggleCommandPalette", BindingFlags.Instance | BindingFlags.NonPublic)?.Invoke(window, null);
 			Pump(1200);
+			string? query = Environment.GetEnvironmentVariable("VOIDSTRAP_AUDIT_CAPTURE_QUERY");
+			if (!string.IsNullOrEmpty(query))
+			{
+				window.CommandPaletteSearchBox.Text = query;
+				Pump(1500);
+			}
 			CaptureScreen(window, System.IO.Path.Combine(folder, "CommandPalette.png"));
 		}
 		Emit("capture: saved pages to " + folder);
