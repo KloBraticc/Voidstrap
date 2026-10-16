@@ -28,7 +28,7 @@
       <Setter Property="BorderThickness" Value="1" />
       <Setter Property="BorderBrush" Value="#33FFFFFF" />
       <Setter Property="Cursor" Value="Hand" />
-      <Setter Property="ToolTip" Value="Pick a colour" />
+      <Setter Property="ToolTip" Value="{resources:Loc Ui_ModGen_PickColour}" />
       <Style.Triggers>
         <Trigger Property="IsMouseOver" Value="True">
           <Setter Property="BorderBrush" Value="#CCFFFFFF" />
@@ -100,9 +100,9 @@
             </Grid.ColumnDefinitions>
             <TextBlock Style="{StaticResource OptionLabel}" FontWeight="SemiBold" Text="{resources:Loc Ui_ModGen_Colour}" />
             <ComboBox x:Name="FillPicker" Grid.Column="1" MinWidth="160" SelectionChanged="Input_Changed">
-              <ComboBoxItem Content="Solid colour" />
-              <ComboBoxItem Content="Gradient" />
-              <ComboBoxItem Content="Image" />
+              <ComboBoxItem Content="{resources:Loc Ui_ModGen_FillSolid}" />
+              <ComboBoxItem Content="{resources:Loc Ui_ModGen_FillGradient}" />
+              <ComboBoxItem Content="{resources:Loc Ui_ModGen_FillImage}" />
             </ComboBox>
           </Grid>
 
@@ -190,11 +190,22 @@
           </Grid.ColumnDefinitions>
           <TextBlock Style="{StaticResource OptionLabel}" Text="{resources:Loc Ui_ModGen_IconSizes}" />
           <ComboBox x:Name="ScalePicker" Grid.Column="1" MinWidth="120" VerticalAlignment="Center" SelectionChanged="Input_Changed">
-            <ComboBoxItem Content="All sizes" />
-            <ComboBoxItem Content="1x only" />
-            <ComboBoxItem Content="2x only" />
-            <ComboBoxItem Content="3x only" />
+            <ComboBoxItem Content="{resources:Loc Ui_ModGen_AllSizes}" />
+            <ComboBoxItem Content="{resources:Loc Ui_ModGen_Size1x}" />
+            <ComboBoxItem Content="{resources:Loc Ui_ModGen_Size2x}" />
+            <ComboBoxItem Content="{resources:Loc Ui_ModGen_Size3x}" />
           </ComboBox>
+        </Grid>
+
+        <Grid Margin="0,10,0,0" ToolTip="{resources:Loc Ui_ModGen_IconOpacityHelp}">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="180" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <TextBlock Style="{StaticResource OptionLabel}" Text="{resources:Loc Ui_ModGen_IconOpacity}" />
+          <Slider x:Name="OpacitySlider" Grid.Column="1" Margin="10,0" Minimum="10" Maximum="100" Value="100" TickFrequency="5" IsSnapToTickEnabled="True" VerticalAlignment="Center" ValueChanged="Opacity_Changed" />
+          <TextBlock x:Name="OpacityText" Grid.Column="2" MinWidth="40" VerticalAlignment="Center" TextAlignment="Right" Text="100%" />
         </Grid>
 
         <Grid Margin="0,10,0,0" ToolTip="{resources:Loc Ui_ModGen_RobloxDrawsMostNewMenuAnd}">
@@ -259,7 +270,14 @@
       </StackPanel>
     </ui:CardExpander>
 
-    <ui:CardControl Margin="0,8,0,0" Focusable="False" ui:RinControlMotion.Enabled="True">
+    <WrapPanel Margin="0,8,0,0">
+      <ui:Button x:Name="RandomizeButton" Margin="0,0,8,8" Content="{resources:Loc Ui_ModGen_Randomize}" Icon="ArrowShuffle24" Appearance="Secondary" Click="Randomize_Click" />
+      <ui:Button x:Name="ResetButton" Margin="0,0,8,8" Content="{resources:Loc Ui_ModGen_Reset}" Icon="ArrowReset24" Appearance="Secondary" Click="Reset_Click" />
+      <ui:Button x:Name="ImportButton" Margin="0,0,8,8" Content="{resources:Loc Ui_ModGen_ImportTheme}" Icon="ArrowDownload24" Appearance="Secondary" Click="Import_Click" />
+      <ui:Button Margin="0,0,8,8" Content="{resources:Loc Ui_ModGen_ExportTheme}" Icon="ArrowUpload24" Appearance="Secondary" Click="Export_Click" />
+    </WrapPanel>
+
+    <ui:CardControl Margin="0,0,0,0" Focusable="False" ui:RinControlMotion.Enabled="True">
       <ui:CardControl.Header>
         <StackPanel Margin="0,0,12,0">
           <ui:TextBox x:Name="ModNameBox" PlaceholderText="{resources:Loc Ui_ModGen_ModNameGeneratedUITheme}" />

@@ -6698,4 +6698,97 @@ Roblox буде завантажено під час першого запуск
   <data name="Library.Badges.Open" xml:space="preserve">
     <value>Відкрити цей значок на roblox.com</value>
   </data>
+  <data name="Ui.ModGen.LastGenerated" xml:space="preserve">
+    <value>Востаннє створено {0}. Перебудовується автоматично після оновлення Roblox.</value>
+  </data>
+  <data name="Ui.ModGen.RegenerateMod" xml:space="preserve">
+    <value>Створити мод знову</value>
+  </data>
+  <data name="Ui.ModGen.EnterHexColour" xml:space="preserve">
+    <value>Введіть колір як шістнадцятковий код, наприклад #FF3B5C.</value>
+  </data>
+  <data name="Ui.ModGen.EnterGradientColours" xml:space="preserve">
+    <value>Введіть початковий і кінцевий кольори як шістнадцяткові коди.</value>
+  </data>
+  <data name="Ui.ModGen.ChooseFillImage" xml:space="preserve">
+    <value>Виберіть зображення для заливки значків.</value>
+  </data>
+  <data name="Ui.ModGen.SliceOfSheet" xml:space="preserve">
+    <value>Фрагмент справжнього аркуша значків</value>
+  </data>
+  <data name="Ui.ModGen.NamedIconsRead" xml:space="preserve">
+    <value>З цієї збірки Roblox прочитано іменованих значків: {0}.</value>
+  </data>
+  <data name="Ui.ModGen.LayoutUnreadable" xml:space="preserve">
+    <value>Не вдалося прочитати розташування значків із цієї збірки, тому значки шукаються на аркушах.</value>
+  </data>
+  <data name="Ui.ModGen.Cancelled" xml:space="preserve">
+    <value>Створення скасовано, попередній мод залишився без змін.</value>
+  </data>
+  <data name="Ui.ModGen.Failed" xml:space="preserve">
+    <value>Не вдалося створити мод: {0}</value>
+  </data>
+  <data name="Ui.ModGen.ImagesFilter" xml:space="preserve">
+    <value>Зображення</value>
+  </data>
+  <data name="Ui.ModGen.PickColour" xml:space="preserve">
+    <value>Виберіть колір</value>
+  </data>
+  <data name="Ui.ModGen.FillSolid" xml:space="preserve">
+    <value>Суцільний колір</value>
+  </data>
+  <data name="Ui.ModGen.FillGradient" xml:space="preserve">
+    <value>Градієнт</value>
+  </data>
+  <data name="Ui.ModGen.FillImage" xml:space="preserve">
+    <value>Зображення</value>
+  </data>
+  <data name="Ui.ModGen.AllSizes" xml:space="preserve">
+    <value>Усі розміри</value>
+  </data>
+  <data name="Ui.ModGen.Size1x" xml:space="preserve">
+    <value>Лише 1x</value>
+  </data>
+  <data name="Ui.ModGen.Size2x" xml:space="preserve">
+    <value>Лише 2x</value>
+  </data>
+  <data name="Ui.ModGen.Size3x" xml:space="preserve">
+    <value>Лише 3x</value>
+  </data>
+  <data name="Ui.ModGen.IconOpacity" xml:space="preserve">
+    <value>Непрозорість значків</value>
+  </data>
+  <data name="Ui.ModGen.IconOpacityHelp" xml:space="preserve">
+    <value>Наскільки щільними виглядають перефарбовані значки. Менші значення пропускають фон. Шрифт значків завжди залишається непрозорим.</value>
+  </data>
+  <data name="Ui.ModGen.Randomize" xml:space="preserve">
+    <value>Здивуйте мене</value>
+  </data>
+  <data name="Ui.ModGen.Reset" xml:space="preserve">
+    <value>Скинути до типових</value>
+  </data>
+  <data name="Ui.ModGen.ImportTheme" xml:space="preserve">
+    <value>Імпортувати тему</value>
+  </data>
+  <data name="Ui.ModGen.ExportTheme" xml:space="preserve">
+    <value>Експортувати тему</value>
+  </data>
+  <data name="Ui.ModGen.ThemeFiles" xml:space="preserve">
+    <value>Теми генератора модів</value>
+  </data>
+  <data name="Ui.ModGen.ThemeSaved" xml:space="preserve">
+    <value>Тему збережено як {0}</value>
+  </data>
+  <data name="Ui.ModGen.ImportFailed" xml:space="preserve">
+    <value>Не вдалося імпортувати тему: {0}</value>
+  </data>
+  <data name="Ui.ModGen.ExportFailed" xml:space="preserve">
+    <value>Не вдалося експортувати тему: {0}</value>
+  </data>
+  <data name="Ui.ModGen.NotATheme" xml:space="preserve">
+    <value>Цей файл не є темою генератора модів.</value>
+  </data>
+  <data name="Ui.ModGen.WaitingForOther" xml:space="preserve">
+    <value>Очікування завершення мода, що вже створюється</value>
+  </data>
 </root>

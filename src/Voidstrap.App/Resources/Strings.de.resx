@@ -6616,4 +6616,97 @@ Entfernen erneut versuchen?</value>
   <data name="Library.Badges.Open" xml:space="preserve">
     <value>Dieses Abzeichen auf roblox.com öffnen</value>
   </data>
+  <data name="Ui.ModGen.LastGenerated" xml:space="preserve">
+    <value>Zuletzt erstellt {0}. Wird bei Roblox Updates automatisch neu erstellt.</value>
+  </data>
+  <data name="Ui.ModGen.RegenerateMod" xml:space="preserve">
+    <value>Mod neu erstellen</value>
+  </data>
+  <data name="Ui.ModGen.EnterHexColour" xml:space="preserve">
+    <value>Gib eine Farbe als Hexcode ein, zum Beispiel #FF3B5C.</value>
+  </data>
+  <data name="Ui.ModGen.EnterGradientColours" xml:space="preserve">
+    <value>Gib eine Start- und Endfarbe als Hexcodes ein.</value>
+  </data>
+  <data name="Ui.ModGen.ChooseFillImage" xml:space="preserve">
+    <value>Wähle ein Bild, mit dem die Symbole gefüllt werden.</value>
+  </data>
+  <data name="Ui.ModGen.SliceOfSheet" xml:space="preserve">
+    <value>Ausschnitt aus einem echten Symbolblatt</value>
+  </data>
+  <data name="Ui.ModGen.NamedIconsRead" xml:space="preserve">
+    <value>{0} benannte Symbole wurden aus diesem Roblox Build gelesen.</value>
+  </data>
+  <data name="Ui.ModGen.LayoutUnreadable" xml:space="preserve">
+    <value>Das Symbollayout konnte aus diesem Build nicht gelesen werden, daher werden die Symbole stattdessen in den Blättern gesucht.</value>
+  </data>
+  <data name="Ui.ModGen.Cancelled" xml:space="preserve">
+    <value>Die Erstellung wurde abgebrochen, deine vorherige Mod bleibt unverändert.</value>
+  </data>
+  <data name="Ui.ModGen.Failed" xml:space="preserve">
+    <value>Die Mod konnte nicht erstellt werden: {0}</value>
+  </data>
+  <data name="Ui.ModGen.ImagesFilter" xml:space="preserve">
+    <value>Bilder</value>
+  </data>
+  <data name="Ui.ModGen.PickColour" xml:space="preserve">
+    <value>Farbe auswählen</value>
+  </data>
+  <data name="Ui.ModGen.FillSolid" xml:space="preserve">
+    <value>Einfarbig</value>
+  </data>
+  <data name="Ui.ModGen.FillGradient" xml:space="preserve">
+    <value>Farbverlauf</value>
+  </data>
+  <data name="Ui.ModGen.FillImage" xml:space="preserve">
+    <value>Bild</value>
+  </data>
+  <data name="Ui.ModGen.AllSizes" xml:space="preserve">
+    <value>Alle Größen</value>
+  </data>
+  <data name="Ui.ModGen.Size1x" xml:space="preserve">
+    <value>Nur 1x</value>
+  </data>
+  <data name="Ui.ModGen.Size2x" xml:space="preserve">
+    <value>Nur 2x</value>
+  </data>
+  <data name="Ui.ModGen.Size3x" xml:space="preserve">
+    <value>Nur 3x</value>
+  </data>
+  <data name="Ui.ModGen.IconOpacity" xml:space="preserve">
+    <value>Symboldeckkraft</value>
+  </data>
+  <data name="Ui.ModGen.IconOpacityHelp" xml:space="preserve">
+    <value>Wie deckend die umgefärbten Symbole wirken. Niedrigere Werte lassen den Hintergrund durchscheinen. Die Symbolschrift bleibt immer deckend.</value>
+  </data>
+  <data name="Ui.ModGen.Randomize" xml:space="preserve">
+    <value>Überrasch mich</value>
+  </data>
+  <data name="Ui.ModGen.Reset" xml:space="preserve">
+    <value>Auf Standard zurücksetzen</value>
+  </data>
+  <data name="Ui.ModGen.ImportTheme" xml:space="preserve">
+    <value>Design importieren</value>
+  </data>
+  <data name="Ui.ModGen.ExportTheme" xml:space="preserve">
+    <value>Design exportieren</value>
+  </data>
+  <data name="Ui.ModGen.ThemeFiles" xml:space="preserve">
+    <value>Mod Generator Designs</value>
+  </data>
+  <data name="Ui.ModGen.ThemeSaved" xml:space="preserve">
+    <value>Design als {0} gespeichert</value>
+  </data>
+  <data name="Ui.ModGen.ImportFailed" xml:space="preserve">
+    <value>Das Design konnte nicht importiert werden: {0}</value>
+  </data>
+  <data name="Ui.ModGen.ExportFailed" xml:space="preserve">
+    <value>Das Design konnte nicht exportiert werden: {0}</value>
+  </data>
+  <data name="Ui.ModGen.NotATheme" xml:space="preserve">
+    <value>Diese Datei ist kein Mod Generator Design.</value>
+  </data>
+  <data name="Ui.ModGen.WaitingForOther" xml:space="preserve">
+    <value>Warte, bis die Mod fertig ist, die gerade erstellt wird</value>
+  </data>
 </root>

@@ -6642,4 +6642,97 @@ Coba hapus lagi?</value>
   <data name="Library.Badges.Open" xml:space="preserve">
     <value>Buka lencana ini di roblox.com</value>
   </data>
+  <data name="Ui.ModGen.LastGenerated" xml:space="preserve">
+    <value>Terakhir dibuat {0}. Dibuat ulang otomatis saat Roblox diperbarui.</value>
+  </data>
+  <data name="Ui.ModGen.RegenerateMod" xml:space="preserve">
+    <value>Buat ulang mod</value>
+  </data>
+  <data name="Ui.ModGen.EnterHexColour" xml:space="preserve">
+    <value>Masukkan warna sebagai kode hex, misalnya #FF3B5C.</value>
+  </data>
+  <data name="Ui.ModGen.EnterGradientColours" xml:space="preserve">
+    <value>Masukkan warna awal dan akhir sebagai kode hex.</value>
+  </data>
+  <data name="Ui.ModGen.ChooseFillImage" xml:space="preserve">
+    <value>Pilih gambar untuk mengisi ikon.</value>
+  </data>
+  <data name="Ui.ModGen.SliceOfSheet" xml:space="preserve">
+    <value>Potongan dari lembar ikon asli</value>
+  </data>
+  <data name="Ui.ModGen.NamedIconsRead" xml:space="preserve">
+    <value>{0} ikon bernama dibaca dari build Roblox ini.</value>
+  </data>
+  <data name="Ui.ModGen.LayoutUnreadable" xml:space="preserve">
+    <value>Tata letak ikon tidak dapat dibaca dari build ini, jadi ikon dicari dari lembarnya.</value>
+  </data>
+  <data name="Ui.ModGen.Cancelled" xml:space="preserve">
+    <value>Pembuatan dibatalkan, mod Anda sebelumnya tetap seperti semula.</value>
+  </data>
+  <data name="Ui.ModGen.Failed" xml:space="preserve">
+    <value>Mod tidak dapat dibuat: {0}</value>
+  </data>
+  <data name="Ui.ModGen.ImagesFilter" xml:space="preserve">
+    <value>Gambar</value>
+  </data>
+  <data name="Ui.ModGen.PickColour" xml:space="preserve">
+    <value>Pilih warna</value>
+  </data>
+  <data name="Ui.ModGen.FillSolid" xml:space="preserve">
+    <value>Warna solid</value>
+  </data>
+  <data name="Ui.ModGen.FillGradient" xml:space="preserve">
+    <value>Gradien</value>
+  </data>
+  <data name="Ui.ModGen.FillImage" xml:space="preserve">
+    <value>Gambar</value>
+  </data>
+  <data name="Ui.ModGen.AllSizes" xml:space="preserve">
+    <value>Semua ukuran</value>
+  </data>
+  <data name="Ui.ModGen.Size1x" xml:space="preserve">
+    <value>Hanya 1x</value>
+  </data>
+  <data name="Ui.ModGen.Size2x" xml:space="preserve">
+    <value>Hanya 2x</value>
+  </data>
+  <data name="Ui.ModGen.Size3x" xml:space="preserve">
+    <value>Hanya 3x</value>
+  </data>
+  <data name="Ui.ModGen.IconOpacity" xml:space="preserve">
+    <value>Opasitas ikon</value>
+  </data>
+  <data name="Ui.ModGen.IconOpacityHelp" xml:space="preserve">
+    <value>Seberapa pekat ikon yang diwarnai ulang. Nilai lebih rendah membuat latar belakang terlihat. Font ikon selalu tetap pekat.</value>
+  </data>
+  <data name="Ui.ModGen.Randomize" xml:space="preserve">
+    <value>Kejutkan saya</value>
+  </data>
+  <data name="Ui.ModGen.Reset" xml:space="preserve">
+    <value>Atur ulang ke bawaan</value>
+  </data>
+  <data name="Ui.ModGen.ImportTheme" xml:space="preserve">
+    <value>Impor tema</value>
+  </data>
+  <data name="Ui.ModGen.ExportTheme" xml:space="preserve">
+    <value>Ekspor tema</value>
+  </data>
+  <data name="Ui.ModGen.ThemeFiles" xml:space="preserve">
+    <value>Tema pembuat mod</value>
+  </data>
+  <data name="Ui.ModGen.ThemeSaved" xml:space="preserve">
+    <value>Tema disimpan sebagai {0}</value>
+  </data>
+  <data name="Ui.ModGen.ImportFailed" xml:space="preserve">
+    <value>Tema tidak dapat diimpor: {0}</value>
+  </data>
+  <data name="Ui.ModGen.ExportFailed" xml:space="preserve">
+    <value>Tema tidak dapat diekspor: {0}</value>
+  </data>
+  <data name="Ui.ModGen.NotATheme" xml:space="preserve">
+    <value>File ini bukan tema pembuat mod.</value>
+  </data>
+  <data name="Ui.ModGen.WaitingForOther" xml:space="preserve">
+    <value>Menunggu mod yang sedang dibuat selesai</value>
+  </data>
 </root>

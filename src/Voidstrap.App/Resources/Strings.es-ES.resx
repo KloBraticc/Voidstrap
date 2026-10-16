@@ -6679,4 +6679,97 @@ Roblox se descargará cuando lo inicies por primera vez a través de Voidstrap. 
   <data name="Library.Badges.Open" xml:space="preserve">
     <value>Abrir esta insignia en roblox.com</value>
   </data>
+  <data name="Ui.ModGen.LastGenerated" xml:space="preserve">
+    <value>Generado por última vez {0}. Se vuelve a crear solo cuando Roblox se actualiza.</value>
+  </data>
+  <data name="Ui.ModGen.RegenerateMod" xml:space="preserve">
+    <value>Volver a generar mod</value>
+  </data>
+  <data name="Ui.ModGen.EnterHexColour" xml:space="preserve">
+    <value>Introduce un color como código hexadecimal, por ejemplo #FF3B5C.</value>
+  </data>
+  <data name="Ui.ModGen.EnterGradientColours" xml:space="preserve">
+    <value>Introduce un color inicial y final como códigos hexadecimales.</value>
+  </data>
+  <data name="Ui.ModGen.ChooseFillImage" xml:space="preserve">
+    <value>Elige una imagen para rellenar los iconos.</value>
+  </data>
+  <data name="Ui.ModGen.SliceOfSheet" xml:space="preserve">
+    <value>Un fragmento de una hoja de iconos real</value>
+  </data>
+  <data name="Ui.ModGen.NamedIconsRead" xml:space="preserve">
+    <value>Se leyeron {0} iconos con nombre de esta versión de Roblox.</value>
+  </data>
+  <data name="Ui.ModGen.LayoutUnreadable" xml:space="preserve">
+    <value>No se pudo leer la distribución de iconos de esta versión, así que los iconos se buscan en las hojas.</value>
+  </data>
+  <data name="Ui.ModGen.Cancelled" xml:space="preserve">
+    <value>Se canceló la generación, tu mod anterior quedó como estaba.</value>
+  </data>
+  <data name="Ui.ModGen.Failed" xml:space="preserve">
+    <value>No se pudo generar el mod: {0}</value>
+  </data>
+  <data name="Ui.ModGen.ImagesFilter" xml:space="preserve">
+    <value>Imágenes</value>
+  </data>
+  <data name="Ui.ModGen.PickColour" xml:space="preserve">
+    <value>Elige un color</value>
+  </data>
+  <data name="Ui.ModGen.FillSolid" xml:space="preserve">
+    <value>Color sólido</value>
+  </data>
+  <data name="Ui.ModGen.FillGradient" xml:space="preserve">
+    <value>Degradado</value>
+  </data>
+  <data name="Ui.ModGen.FillImage" xml:space="preserve">
+    <value>Imagen</value>
+  </data>
+  <data name="Ui.ModGen.AllSizes" xml:space="preserve">
+    <value>Todos los tamaños</value>
+  </data>
+  <data name="Ui.ModGen.Size1x" xml:space="preserve">
+    <value>Solo 1x</value>
+  </data>
+  <data name="Ui.ModGen.Size2x" xml:space="preserve">
+    <value>Solo 2x</value>
+  </data>
+  <data name="Ui.ModGen.Size3x" xml:space="preserve">
+    <value>Solo 3x</value>
+  </data>
+  <data name="Ui.ModGen.IconOpacity" xml:space="preserve">
+    <value>Opacidad de los iconos</value>
+  </data>
+  <data name="Ui.ModGen.IconOpacityHelp" xml:space="preserve">
+    <value>Qué tan sólidos se ven los iconos recoloreados. Los valores bajos dejan ver el fondo. La fuente de iconos siempre queda sólida.</value>
+  </data>
+  <data name="Ui.ModGen.Randomize" xml:space="preserve">
+    <value>Sorpréndeme</value>
+  </data>
+  <data name="Ui.ModGen.Reset" xml:space="preserve">
+    <value>Restablecer valores predeterminados</value>
+  </data>
+  <data name="Ui.ModGen.ImportTheme" xml:space="preserve">
+    <value>Importar tema</value>
+  </data>
+  <data name="Ui.ModGen.ExportTheme" xml:space="preserve">
+    <value>Exportar tema</value>
+  </data>
+  <data name="Ui.ModGen.ThemeFiles" xml:space="preserve">
+    <value>Temas del generador de mods</value>
+  </data>
+  <data name="Ui.ModGen.ThemeSaved" xml:space="preserve">
+    <value>Tema guardado como {0}</value>
+  </data>
+  <data name="Ui.ModGen.ImportFailed" xml:space="preserve">
+    <value>No se pudo importar el tema: {0}</value>
+  </data>
+  <data name="Ui.ModGen.ExportFailed" xml:space="preserve">
+    <value>No se pudo exportar el tema: {0}</value>
+  </data>
+  <data name="Ui.ModGen.NotATheme" xml:space="preserve">
+    <value>Este archivo no es un tema del generador de mods.</value>
+  </data>
+  <data name="Ui.ModGen.WaitingForOther" xml:space="preserve">
+    <value>Esperando a que termine el mod que ya se está generando</value>
+  </data>
 </root>

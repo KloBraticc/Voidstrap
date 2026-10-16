@@ -6668,4 +6668,97 @@ Tentar a remoção de novo?</value>
   <data name="Library.Badges.Open" xml:space="preserve">
     <value>Abrir este emblema no roblox.com</value>
   </data>
+  <data name="Ui.ModGen.LastGenerated" xml:space="preserve">
+    <value>Gerado pela última vez {0}. Ele se recria sozinho quando o Roblox atualiza.</value>
+  </data>
+  <data name="Ui.ModGen.RegenerateMod" xml:space="preserve">
+    <value>Gerar mod novamente</value>
+  </data>
+  <data name="Ui.ModGen.EnterHexColour" xml:space="preserve">
+    <value>Digite uma cor como código hexadecimal, por exemplo #FF3B5C.</value>
+  </data>
+  <data name="Ui.ModGen.EnterGradientColours" xml:space="preserve">
+    <value>Digite uma cor inicial e final como códigos hexadecimais.</value>
+  </data>
+  <data name="Ui.ModGen.ChooseFillImage" xml:space="preserve">
+    <value>Escolha uma imagem para preencher os ícones.</value>
+  </data>
+  <data name="Ui.ModGen.SliceOfSheet" xml:space="preserve">
+    <value>Um trecho de uma folha de ícones real</value>
+  </data>
+  <data name="Ui.ModGen.NamedIconsRead" xml:space="preserve">
+    <value>{0} ícones com nome foram lidos desta versão do Roblox.</value>
+  </data>
+  <data name="Ui.ModGen.LayoutUnreadable" xml:space="preserve">
+    <value>Não foi possível ler o layout dos ícones desta versão, então os ícones são encontrados nas folhas.</value>
+  </data>
+  <data name="Ui.ModGen.Cancelled" xml:space="preserve">
+    <value>A geração foi cancelada, seu mod anterior ficou como estava.</value>
+  </data>
+  <data name="Ui.ModGen.Failed" xml:space="preserve">
+    <value>Não foi possível gerar o mod: {0}</value>
+  </data>
+  <data name="Ui.ModGen.ImagesFilter" xml:space="preserve">
+    <value>Imagens</value>
+  </data>
+  <data name="Ui.ModGen.PickColour" xml:space="preserve">
+    <value>Escolha uma cor</value>
+  </data>
+  <data name="Ui.ModGen.FillSolid" xml:space="preserve">
+    <value>Cor sólida</value>
+  </data>
+  <data name="Ui.ModGen.FillGradient" xml:space="preserve">
+    <value>Gradiente</value>
+  </data>
+  <data name="Ui.ModGen.FillImage" xml:space="preserve">
+    <value>Imagem</value>
+  </data>
+  <data name="Ui.ModGen.AllSizes" xml:space="preserve">
+    <value>Todos os tamanhos</value>
+  </data>
+  <data name="Ui.ModGen.Size1x" xml:space="preserve">
+    <value>Somente 1x</value>
+  </data>
+  <data name="Ui.ModGen.Size2x" xml:space="preserve">
+    <value>Somente 2x</value>
+  </data>
+  <data name="Ui.ModGen.Size3x" xml:space="preserve">
+    <value>Somente 3x</value>
+  </data>
+  <data name="Ui.ModGen.IconOpacity" xml:space="preserve">
+    <value>Opacidade dos ícones</value>
+  </data>
+  <data name="Ui.ModGen.IconOpacityHelp" xml:space="preserve">
+    <value>O quanto os ícones recoloridos parecem sólidos. Valores menores deixam o fundo aparecer. A fonte de ícones sempre fica sólida.</value>
+  </data>
+  <data name="Ui.ModGen.Randomize" xml:space="preserve">
+    <value>Me surpreenda</value>
+  </data>
+  <data name="Ui.ModGen.Reset" xml:space="preserve">
+    <value>Redefinir para o padrão</value>
+  </data>
+  <data name="Ui.ModGen.ImportTheme" xml:space="preserve">
+    <value>Importar tema</value>
+  </data>
+  <data name="Ui.ModGen.ExportTheme" xml:space="preserve">
+    <value>Exportar tema</value>
+  </data>
+  <data name="Ui.ModGen.ThemeFiles" xml:space="preserve">
+    <value>Temas do gerador de mods</value>
+  </data>
+  <data name="Ui.ModGen.ThemeSaved" xml:space="preserve">
+    <value>Tema salvo como {0}</value>
+  </data>
+  <data name="Ui.ModGen.ImportFailed" xml:space="preserve">
+    <value>Não foi possível importar o tema: {0}</value>
+  </data>
+  <data name="Ui.ModGen.ExportFailed" xml:space="preserve">
+    <value>Não foi possível exportar o tema: {0}</value>
+  </data>
+  <data name="Ui.ModGen.NotATheme" xml:space="preserve">
+    <value>Este arquivo não é um tema do gerador de mods.</value>
+  </data>
+  <data name="Ui.ModGen.WaitingForOther" xml:space="preserve">
+    <value>Aguardando o mod que já está sendo gerado terminar</value>
+  </data>
 </root>

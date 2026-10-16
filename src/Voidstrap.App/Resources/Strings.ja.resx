@@ -6711,4 +6711,97 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
   <data name="Library.Badges.Open" xml:space="preserve">
     <value>このバッジを roblox.com で開く</value>
   </data>
+  <data name="Ui.ModGen.LastGenerated" xml:space="preserve">
+    <value>最終生成 {0}。Roblox の更新時に自動で再生成されます。</value>
+  </data>
+  <data name="Ui.ModGen.RegenerateMod" xml:space="preserve">
+    <value>Mod を再生成</value>
+  </data>
+  <data name="Ui.ModGen.EnterHexColour" xml:space="preserve">
+    <value>色を16進コードで入力してください。例: #FF3B5C</value>
+  </data>
+  <data name="Ui.ModGen.EnterGradientColours" xml:space="preserve">
+    <value>開始色と終了色を16進コードで入力してください。</value>
+  </data>
+  <data name="Ui.ModGen.ChooseFillImage" xml:space="preserve">
+    <value>アイコンを塗りつぶす画像を選択してください。</value>
+  </data>
+  <data name="Ui.ModGen.SliceOfSheet" xml:space="preserve">
+    <value>実際のアイコンシートの一部</value>
+  </data>
+  <data name="Ui.ModGen.NamedIconsRead" xml:space="preserve">
+    <value>この Roblox ビルドから名前付きアイコンを {0} 個読み込みました。</value>
+  </data>
+  <data name="Ui.ModGen.LayoutUnreadable" xml:space="preserve">
+    <value>このビルドからアイコンの配置を読み込めなかったため、シートからアイコンを検出します。</value>
+  </data>
+  <data name="Ui.ModGen.Cancelled" xml:space="preserve">
+    <value>生成はキャンセルされました。以前の Mod はそのまま残っています。</value>
+  </data>
+  <data name="Ui.ModGen.Failed" xml:space="preserve">
+    <value>Mod を生成できませんでした: {0}</value>
+  </data>
+  <data name="Ui.ModGen.ImagesFilter" xml:space="preserve">
+    <value>画像</value>
+  </data>
+  <data name="Ui.ModGen.PickColour" xml:space="preserve">
+    <value>色を選択</value>
+  </data>
+  <data name="Ui.ModGen.FillSolid" xml:space="preserve">
+    <value>単色</value>
+  </data>
+  <data name="Ui.ModGen.FillGradient" xml:space="preserve">
+    <value>グラデーション</value>
+  </data>
+  <data name="Ui.ModGen.FillImage" xml:space="preserve">
+    <value>画像</value>
+  </data>
+  <data name="Ui.ModGen.AllSizes" xml:space="preserve">
+    <value>すべてのサイズ</value>
+  </data>
+  <data name="Ui.ModGen.Size1x" xml:space="preserve">
+    <value>1x のみ</value>
+  </data>
+  <data name="Ui.ModGen.Size2x" xml:space="preserve">
+    <value>2x のみ</value>
+  </data>
+  <data name="Ui.ModGen.Size3x" xml:space="preserve">
+    <value>3x のみ</value>
+  </data>
+  <data name="Ui.ModGen.IconOpacity" xml:space="preserve">
+    <value>アイコンの不透明度</value>
+  </data>
+  <data name="Ui.ModGen.IconOpacityHelp" xml:space="preserve">
+    <value>再着色したアイコンの濃さです。値を下げると背景が透けて見えます。アイコンフォントは常に不透明のままです。</value>
+  </data>
+  <data name="Ui.ModGen.Randomize" xml:space="preserve">
+    <value>おまかせ</value>
+  </data>
+  <data name="Ui.ModGen.Reset" xml:space="preserve">
+    <value>既定値に戻す</value>
+  </data>
+  <data name="Ui.ModGen.ImportTheme" xml:space="preserve">
+    <value>テーマをインポート</value>
+  </data>
+  <data name="Ui.ModGen.ExportTheme" xml:space="preserve">
+    <value>テーマをエクスポート</value>
+  </data>
+  <data name="Ui.ModGen.ThemeFiles" xml:space="preserve">
+    <value>Mod ジェネレーターのテーマ</value>
+  </data>
+  <data name="Ui.ModGen.ThemeSaved" xml:space="preserve">
+    <value>テーマを {0} として保存しました</value>
+  </data>
+  <data name="Ui.ModGen.ImportFailed" xml:space="preserve">
+    <value>テーマをインポートできませんでした: {0}</value>
+  </data>
+  <data name="Ui.ModGen.ExportFailed" xml:space="preserve">
+    <value>テーマをエクスポートできませんでした: {0}</value>
+  </data>
+  <data name="Ui.ModGen.NotATheme" xml:space="preserve">
+    <value>このファイルは Mod ジェネレーターのテーマではありません。</value>
+  </data>
+  <data name="Ui.ModGen.WaitingForOther" xml:space="preserve">
+    <value>生成中の Mod が完了するのを待っています</value>
+  </data>
 </root>

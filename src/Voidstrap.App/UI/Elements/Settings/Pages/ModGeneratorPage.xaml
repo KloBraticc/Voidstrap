@@ -1,0 +1,13 @@
+<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.ModGeneratorPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:pages="clr-namespace:Voidstrap.UI.Elements.Settings.Pages"
+    xmlns:resources="clr-namespace:Voidstrap.Resources"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    Title="ModGeneratorPage"
+    Scrollable="True">
+    <StackPanel Margin="0,0,14,14">
+        <ui:Button HorizontalAlignment="Left" Icon="ArrowLeft24" Content="{resources:Loc Menu_FastFlagEditor_Back}" Appearance="Secondary" Click="BackButton_Click" />
+        <pages:ModGeneratorSection Margin="0,-12,0,0" />
+    </StackPanel>
+</ui:UiPage>

@@ -26,6 +26,10 @@ public partial class ModGeneratorSection : UserControl
 
 	private readonly List<Button> _presetButtons = [];
 
+	private const long MaxThemeBytes = 64 * 1024;
+
+	private static readonly System.Text.Json.JsonSerializerOptions ThemeJson = new System.Text.Json.JsonSerializerOptions { WriteIndented = true };
+
 	private CancellationTokenSource? _generateCts;
 
 	private string? _fillImage;
@@ -35,6 +39,14 @@ public partial class ModGeneratorSection : UserControl
 	private bool _loading;
 
 	private int _previewVersion;
+
+	private bool _initialized;
+
+	private bool _previewRunning;
+
+	private bool _previewPending;
+
+	private bool _generating;
 
 	public ModGeneratorSection()
 	{
@@ -57,7 +69,11 @@ public partial class ModGeneratorSection : UserControl
 	private void Section_Loaded(object sender, RoutedEventArgs e)
 	{
 		_previewTimer.Tick += PreviewTimer_Tick;
-		LoadSettings();
+		if (!_initialized)
+		{
+			_initialized = true;
+			LoadSettings();
+		}
 		SchedulePreview();
 	}
 
@@ -65,6 +81,7 @@ public partial class ModGeneratorSection : UserControl
 	{
 		_previewTimer.Stop();
 		_previewTimer.Tick -= PreviewTimer_Tick;
+		_previewPending = false;
 	}
 
 	private void LoadSettings()
@@ -74,6 +91,28 @@ public partial class ModGeneratorSection : UserControl
 		{
 			string? modId = ModGenerator.FindModId();
 			ModGeneratorSettings settings = (modId != null ? ModGenerator.LoadSettings(modId) : null) ?? new ModGeneratorSettings();
+			ApplySettings(settings);
+			if (modId != null && settings.GeneratedUtc != default)
+			{
+				StatusText.Text = string.Format(CultureInfo.CurrentCulture, Voidstrap.Resources.Strings.Ui_ModGen_LastGenerated, settings.GeneratedUtc.ToLocalTime().ToString("g", CultureInfo.CurrentCulture));
+				GenerateButton.Content = Voidstrap.Resources.Strings.Ui_ModGen_RegenerateMod;
+			}
+		}
+		finally
+		{
+			_loading = false;
+		}
+		UpdateVisibility();
+		UpdateSwatches();
+		UpdateImageLabels();
+	}
+
+	private void ApplySettings(ModGeneratorSettings settings)
+	{
+		bool wasLoading = _loading;
+		_loading = true;
+		try
+		{
 			FillPicker.SelectedIndex = (int)settings.Fill;
 			SolidColorBox.Text = settings.SolidColor;
 			GradientStartBox.Text = settings.GradientColors.Count > 0 ? settings.GradientColors[0] : "#FF3B5C";
@@ -87,21 +126,23 @@ public partial class ModGeneratorSection : UserControl
 			IconFontToggle.IsChecked = settings.RecolorIconFont;
 			UiTexturesToggle.IsChecked = settings.IncludeUiTextures;
 			ModNameBox.Text = settings.ModName;
+			OpacitySlider.Value = Math.Round(Math.Clamp(double.IsFinite(settings.IconOpacity) ? settings.IconOpacity : 1.0, 0.1, 1.0) * 100.0);
+			OpacityText.Text = Math.Round(OpacitySlider.Value) + "%";
 			_fillImage = settings.FillImage;
 			_logoImage = settings.LogoImage;
-			if (modId != null && settings.GeneratedUtc != default)
-			{
-				StatusText.Text = "Last generated " + settings.GeneratedUtc.ToLocalTime().ToString("g") + ". It rebuilds itself when Roblox updates.";
-				GenerateButton.Content = "Regenerate mod";
-			}
 		}
 		finally
 		{
-			_loading = false;
+			_loading = wasLoading;
 		}
+	}
+
+	private void RefreshAfterApply()
+	{
 		UpdateVisibility();
 		UpdateSwatches();
 		UpdateImageLabels();
+		SchedulePreview();
 	}
 
 	private ModGeneratorSettings ReadSettings()
@@ -125,6 +166,7 @@ public partial class ModGeneratorSection : UserControl
 			RecolorShapes = RecolorShapesToggle.IsChecked == true,
 			RecolorIconFont = IconFontToggle.IsChecked == true,
 			IncludeUiTextures = UiTexturesToggle.IsChecked == true,
+			IconOpacity = Math.Clamp(OpacitySlider.Value / 100.0, 0.1, 1.0),
 			LogoImage = _logoImage,
 			ModName = string.IsNullOrWhiteSpace(ModNameBox.Text) ? "Generated UI theme" : ModNameBox.Text.Trim()
 		};
@@ -135,11 +177,11 @@ public partial class ModGeneratorSection : UserControl
 		switch (settings.Fill)
 		{
 			case ModGeneratorFill.Solid when !ModGenerator.TryParseColor(settings.SolidColor, out _):
-				return "Enter a colour as a hex code, for example #FF3B5C.";
+				return Voidstrap.Resources.Strings.Ui_ModGen_EnterHexColour;
 			case ModGeneratorFill.Gradient when !ModGenerator.TryParseColor(GradientStartBox.Text, out _) || !ModGenerator.TryParseColor(GradientEndBox.Text, out _):
-				return "Enter a start and end colour as hex codes.";
+				return Voidstrap.Resources.Strings.Ui_ModGen_EnterGradientColours;
 			case ModGeneratorFill.Image when string.IsNullOrWhiteSpace(settings.FillImage) || !File.Exists(settings.FillImage):
-				return "Choose an image to fill the icons with.";
+				return Voidstrap.Resources.Strings.Ui_ModGen_ChooseFillImage;
 			default:
 				return null;
 		}
@@ -159,6 +201,15 @@ public partial class ModGeneratorSection : UserControl
 	private void Angle_Changed(object sender, RoutedPropertyChangedEventArgs<double> e)
 	{
 		AngleText.Text = Math.Round(e.NewValue) + "°";
+		if (!_loading)
+		{
+			SchedulePreview();
+		}
+	}
+
+	private void Opacity_Changed(object sender, RoutedPropertyChangedEventArgs<double> e)
+	{
+		OpacityText.Text = Math.Round(e.NewValue) + "%";
 		if (!_loading)
 		{
 			SchedulePreview();
@@ -231,9 +282,9 @@ public partial class ModGeneratorSection : UserControl
 
 	private void UpdateImageLabels()
 	{
-		FillImageText.Text = string.IsNullOrWhiteSpace(_fillImage) ? "No image chosen" : Path.GetFileName(_fillImage);
+		FillImageText.Text = string.IsNullOrWhiteSpace(_fillImage) ? Voidstrap.Resources.Strings.Ui_ModGen_NoImageChosen : Path.GetFileName(_fillImage);
 		bool hasLogo = !string.IsNullOrWhiteSpace(_logoImage);
-		LogoText.Text = hasLogo ? Path.GetFileName(_logoImage) : "Replaces the Roblox logo in the menu and loading screen";
+		LogoText.Text = hasLogo ? Path.GetFileName(_logoImage) : Voidstrap.Resources.Strings.Ui_ModGen_ReplacesTheRobloxLogoInMenus;
 		ClearLogoButton.Visibility = hasLogo ? Visibility.Visible : Visibility.Collapsed;
 	}
 
@@ -241,7 +292,7 @@ public partial class ModGeneratorSection : UserControl
 	{
 		OpenFileDialog dialog = new OpenFileDialog
 		{
-			Filter = "Images|*.png;*.jpg;*.jpeg;*.bmp;*.gif",
+			Filter = Voidstrap.Resources.Strings.Ui_ModGen_ImagesFilter + "|*.png;*.jpg;*.jpeg;*.bmp;*.gif",
 			Multiselect = false
 		};
 		return dialog.ShowDialog() == true ? dialog.FileName : null;
@@ -285,6 +336,11 @@ public partial class ModGeneratorSection : UserControl
 	private async void PreviewTimer_Tick(object? sender, EventArgs e)
 	{
 		_previewTimer.Stop();
+		if (_previewRunning)
+		{
+			_previewPending = true;
+			return;
+		}
 		ModGeneratorSettings settings = ReadSettings();
 		string? problem = Validate(settings);
 		if (problem != null)
@@ -293,13 +349,35 @@ public partial class ModGeneratorSection : UserControl
 			return;
 		}
 		int version = ++_previewVersion;
+		_previewRunning = true;
 		PreviewRing.Visibility = Visibility.Visible;
-		ModGeneratorPreview? preview = await Task.Run(() => ModGenerator.RenderPreview(settings));
-		if (version != _previewVersion)
+		ModGeneratorPreview? preview = null;
+		try
+		{
+			preview = await Task.Run(() => ModGenerator.RenderPreview(settings));
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("ModGeneratorSection", "The preview could not be rendered: " + ex.Message);
+		}
+		finally
+		{
+			_previewRunning = false;
+			PreviewRing.Visibility = Visibility.Collapsed;
+		}
+		if (_previewPending)
+		{
+			_previewPending = false;
+			if (IsLoaded)
+			{
+				SchedulePreview();
+			}
+			return;
+		}
+		if (version != _previewVersion || !IsLoaded)
 		{
 			return;
 		}
-		PreviewRing.Visibility = Visibility.Collapsed;
 		if (preview == null)
 		{
 			PreviewNote.Text = "";
@@ -310,10 +388,10 @@ public partial class ModGeneratorSection : UserControl
 		}
 		BeforeImage.Source = preview.Before;
 		AfterImage.Source = preview.After;
-		PreviewCaption.Text = preview.NamedIcons > 0 ? "Real icons from your Roblox build" : "A slice of a real icon sheet";
+		PreviewCaption.Text = preview.NamedIcons > 0 ? Voidstrap.Resources.Strings.Ui_ModGen_RealIconsFromYourRobloxBuild : Voidstrap.Resources.Strings.Ui_ModGen_SliceOfSheet;
 		PreviewNote.Text = preview.NamedIcons > 0
-			? preview.NamedIcons.ToString("N0", CultureInfo.CurrentCulture) + " named icons were read from this Roblox build."
-			: "The icon layout could not be read from this build, so icons are found from the sheets instead.";
+			? string.Format(CultureInfo.CurrentCulture, Voidstrap.Resources.Strings.Ui_ModGen_NamedIconsRead, preview.NamedIcons.ToString("N0", CultureInfo.CurrentCulture))
+			: Voidstrap.Resources.Strings.Ui_ModGen_LayoutUnreadable;
 		ShowFontPreview(preview, settings.RecolorIconFont);
 	}
 
@@ -369,6 +447,10 @@ public partial class ModGeneratorSection : UserControl
 
 	private async void Generate_Click(object sender, RoutedEventArgs e)
 	{
+		if (_generating)
+		{
+			return;
+		}
 		ModGeneratorSettings settings = ReadSettings();
 		string? problem = Validate(settings);
 		if (problem != null)
@@ -376,18 +458,26 @@ public partial class ModGeneratorSection : UserControl
 			StatusText.Text = problem;
 			return;
 		}
+		_generating = true;
 		_generateCts?.Dispose();
 		_generateCts = new CancellationTokenSource();
-		GenerateButton.IsEnabled = false;
+		CancellationToken token = _generateCts.Token;
+		bool waiting = ModGenerator.IsGenerating;
+		SetToolsEnabled(false);
 		CancelButton.Visibility = Visibility.Visible;
 		GenerateProgress.Visibility = Visibility.Visible;
+		GenerateProgress.IsIndeterminate = waiting;
 		GenerateProgress.Value = 0;
+		if (waiting)
+		{
+			StatusText.Text = Voidstrap.Resources.Strings.Ui_ModGen_WaitingForOther;
+		}
 		Progress<ModGeneratorProgress> progress = new Progress<ModGeneratorProgress>(OnProgress);
 		try
 		{
-			await ModGenerator.GenerateAsync(settings, progress, _generateCts.Token);
+			await ModGenerator.GenerateAsync(settings, progress, token);
 			StatusText.Text = "";
-			GenerateButton.Content = "Regenerate mod";
+			GenerateButton.Content = Voidstrap.Resources.Strings.Ui_ModGen_RegenerateMod;
 			if (DataContext is Voidstrap.UI.ViewModels.Settings.ModsViewModel mods && mods.RefreshManagedModsCommand.CanExecute(null))
 			{
 				mods.RefreshManagedModsCommand.Execute(null);
@@ -395,18 +485,144 @@ public partial class ModGeneratorSection : UserControl
 		}
 		catch (OperationCanceledException)
 		{
-			StatusText.Text = "Generation was cancelled, your previous mod was left as it was.";
+			StatusText.Text = Voidstrap.Resources.Strings.Ui_ModGen_Cancelled;
 		}
 		catch (Exception ex)
 		{
 			App.Logger.WriteLine("ModGeneratorSection", "Generation failed: " + ex.Message);
-			StatusText.Text = "The mod could not be generated: " + ex.Message;
+			StatusText.Text = string.Format(CultureInfo.CurrentCulture, Voidstrap.Resources.Strings.Ui_ModGen_Failed, ex.Message);
 		}
 		finally
 		{
-			GenerateButton.IsEnabled = true;
+			_generating = false;
+			SetToolsEnabled(true);
 			CancelButton.Visibility = Visibility.Collapsed;
 			GenerateProgress.Visibility = Visibility.Collapsed;
+			GenerateProgress.IsIndeterminate = false;
+		}
+	}
+
+	private void SetToolsEnabled(bool enabled)
+	{
+		GenerateButton.IsEnabled = enabled;
+		ResetButton.IsEnabled = enabled;
+		ImportButton.IsEnabled = enabled;
+		RandomizeButton.IsEnabled = enabled;
+	}
+
+	private void Randomize_Click(object sender, RoutedEventArgs e)
+	{
+		double hue = Random.Shared.NextDouble() * 360.0;
+		string first = FromHsv(hue, 0.72, 1.0);
+		string second = FromHsv((hue + 40.0 + Random.Shared.NextDouble() * 140.0) % 360.0, 0.68, 1.0);
+		_loading = true;
+		try
+		{
+			if (FillPicker.SelectedIndex == (int)ModGeneratorFill.Image)
+			{
+				FillPicker.SelectedIndex = (int)ModGeneratorFill.Gradient;
+			}
+			SolidColorBox.Text = first;
+			GradientStartBox.Text = first;
+			GradientMiddleBox.Text = "";
+			GradientEndBox.Text = second;
+			AngleSlider.Value = Random.Shared.Next(0, 24) * 15;
+		}
+		finally
+		{
+			_loading = false;
+		}
+		RefreshAfterApply();
+	}
+
+	private static string FromHsv(double hue, double saturation, double value)
+	{
+		double chroma = value * saturation;
+		double x = chroma * (1 - Math.Abs(hue / 60.0 % 2 - 1));
+		double m = value - chroma;
+		(double r, double g, double b) = (hue % 360) switch
+		{
+			< 60 => (chroma, x, 0.0),
+			< 120 => (x, chroma, 0.0),
+			< 180 => (0.0, chroma, x),
+			< 240 => (0.0, x, chroma),
+			< 300 => (x, 0.0, chroma),
+			_ => (chroma, 0.0, x)
+		};
+		return "#" + ((byte)Math.Round((r + m) * 255)).ToString("X2", CultureInfo.InvariantCulture)
+			+ ((byte)Math.Round((g + m) * 255)).ToString("X2", CultureInfo.InvariantCulture)
+			+ ((byte)Math.Round((b + m) * 255)).ToString("X2", CultureInfo.InvariantCulture);
+	}
+
+	private void Reset_Click(object sender, RoutedEventArgs e)
+	{
+		ApplySettings(new ModGeneratorSettings { ModName = ModNameBox.Text });
+		RefreshAfterApply();
+	}
+
+	private void Export_Click(object sender, RoutedEventArgs e)
+	{
+		SaveFileDialog dialog = new SaveFileDialog
+		{
+			Filter = Voidstrap.Resources.Strings.Ui_ModGen_ThemeFiles + "|*.json",
+			FileName = "theme.json"
+		};
+		if (dialog.ShowDialog() != true)
+		{
+			return;
+		}
+		try
+		{
+			ModGeneratorSettings settings = ReadSettings();
+			settings.FillImage = null;
+			settings.LogoImage = null;
+			File.WriteAllText(dialog.FileName, System.Text.Json.JsonSerializer.Serialize(settings, ThemeJson));
+			StatusText.Text = string.Format(CultureInfo.CurrentCulture, Voidstrap.Resources.Strings.Ui_ModGen_ThemeSaved, Path.GetFileName(dialog.FileName));
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("ModGeneratorSection", "The theme could not be exported: " + ex.Message);
+			StatusText.Text = string.Format(CultureInfo.CurrentCulture, Voidstrap.Resources.Strings.Ui_ModGen_ExportFailed, ex.Message);
+		}
+	}
+
+	private void Import_Click(object sender, RoutedEventArgs e)
+	{
+		OpenFileDialog dialog = new OpenFileDialog
+		{
+			Filter = Voidstrap.Resources.Strings.Ui_ModGen_ThemeFiles + "|*.json",
+			Multiselect = false
+		};
+		if (dialog.ShowDialog() != true)
+		{
+			return;
+		}
+		try
+		{
+			if (new FileInfo(dialog.FileName).Length > MaxThemeBytes)
+			{
+				throw new InvalidDataException(Voidstrap.Resources.Strings.Ui_ModGen_NotATheme);
+			}
+			ModGeneratorSettings settings = System.Text.Json.JsonSerializer.Deserialize<ModGeneratorSettings>(File.ReadAllText(dialog.FileName), ThemeJson)
+				?? throw new InvalidDataException(Voidstrap.Resources.Strings.Ui_ModGen_NotATheme);
+			if (!Enum.IsDefined(settings.Fill) || settings.Fill == ModGeneratorFill.Image)
+			{
+				settings.Fill = ModGeneratorFill.Solid;
+			}
+			settings.GradientColors ??= [];
+			settings.FillImage = _fillImage;
+			settings.LogoImage = _logoImage;
+			if (string.IsNullOrWhiteSpace(settings.ModName))
+			{
+				settings.ModName = ModNameBox.Text;
+			}
+			ApplySettings(settings);
+			RefreshAfterApply();
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("ModGeneratorSection", "The theme could not be imported: " + ex.Message);
+			StatusText.Text = string.Format(CultureInfo.CurrentCulture, Voidstrap.Resources.Strings.Ui_ModGen_ImportFailed, ex.Message);
 		}
 	}
 

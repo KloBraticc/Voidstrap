@@ -24,6 +24,8 @@ public partial class ModsPage : UiPage{
 
 	private ModsViewModel ViewModel;
 
+	private ModGeneratorPage? _generatorPage;
+
 	private readonly System.Windows.Threading.DispatcherTimer _fgWarningTimer;
 
 	private static readonly string[] PreviewableCategories = new string[9] { "Image", "Mesh", "Audio", "Model", "Data", "Pending", "Animation", "Texture", "Other" };
@@ -99,6 +101,12 @@ public partial class ModsPage : UiPage{
 		ViewModel.ReleaseHomepageMediaPreview();
 		ViewModel.CancelTransientOperations();
 		ResetManagedModDrag();
+	}
+
+	private void OpenModGenerator_Click(object sender, RoutedEventArgs e)
+	{
+		_generatorPage ??= new ModGeneratorPage { DataContext = ViewModel };
+		NavigationService?.Navigate(_generatorPage);
 	}
 
 	private void ModsTabs_SelectionChanged(object sender, SelectionChangedEventArgs e)

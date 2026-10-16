@@ -349,7 +349,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         ["SoberPage"] = ("Sober", "Setting up Roblox on Linux"),
         ["Releases"] = ("Releases", "Reading the release history"),
         ["ServerBrowserPage"] = ("Server Browser", "Searching for a server"),
-        ["NvidiaFastFlagsPage"] = ("NVIDIA FastFlags", "Tweaking NVIDIA GPU settings")
+        ["NvidiaFastFlagsPage"] = ("NVIDIA FastFlags", "Tweaking NVIDIA GPU settings"),
+        ["ModGeneratorPage"] = ("Mod Generator", "Recoloring the Roblox icons")
     };
 
     private AppearanceViewModel.BackgroundSettings _backgroundSettings;

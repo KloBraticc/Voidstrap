@@ -6726,4 +6726,97 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
   <data name="Library.Badges.Open" xml:space="preserve">
     <value>باز کردن این نشان در roblox.com</value>
   </data>
+  <data name="Ui.ModGen.LastGenerated" xml:space="preserve">
+    <value>آخرین ساخت {0}. با به‌روزرسانی Roblox خودکار دوباره ساخته می‌شود.</value>
+  </data>
+  <data name="Ui.ModGen.RegenerateMod" xml:space="preserve">
+    <value>ساخت دوبارهٔ ماد</value>
+  </data>
+  <data name="Ui.ModGen.EnterHexColour" xml:space="preserve">
+    <value>یک رنگ را به‌صورت کد هگز وارد کنید، مثلاً #FF3B5C.</value>
+  </data>
+  <data name="Ui.ModGen.EnterGradientColours" xml:space="preserve">
+    <value>رنگ شروع و پایان را به‌صورت کد هگز وارد کنید.</value>
+  </data>
+  <data name="Ui.ModGen.ChooseFillImage" xml:space="preserve">
+    <value>تصویری برای پر کردن آیکون‌ها انتخاب کنید.</value>
+  </data>
+  <data name="Ui.ModGen.SliceOfSheet" xml:space="preserve">
+    <value>بخشی از یک برگهٔ آیکون واقعی</value>
+  </data>
+  <data name="Ui.ModGen.NamedIconsRead" xml:space="preserve">
+    <value>{0} آیکون نام‌دار از این نسخهٔ Roblox خوانده شد.</value>
+  </data>
+  <data name="Ui.ModGen.LayoutUnreadable" xml:space="preserve">
+    <value>چیدمان آیکون‌ها از این نسخه خوانده نشد، بنابراین آیکون‌ها از برگه‌ها پیدا می‌شوند.</value>
+  </data>
+  <data name="Ui.ModGen.Cancelled" xml:space="preserve">
+    <value>ساخت لغو شد و ماد قبلی شما بدون تغییر ماند.</value>
+  </data>
+  <data name="Ui.ModGen.Failed" xml:space="preserve">
+    <value>ماد ساخته نشد: {0}</value>
+  </data>
+  <data name="Ui.ModGen.ImagesFilter" xml:space="preserve">
+    <value>تصاویر</value>
+  </data>
+  <data name="Ui.ModGen.PickColour" xml:space="preserve">
+    <value>انتخاب رنگ</value>
+  </data>
+  <data name="Ui.ModGen.FillSolid" xml:space="preserve">
+    <value>رنگ یکدست</value>
+  </data>
+  <data name="Ui.ModGen.FillGradient" xml:space="preserve">
+    <value>گرادیان</value>
+  </data>
+  <data name="Ui.ModGen.FillImage" xml:space="preserve">
+    <value>تصویر</value>
+  </data>
+  <data name="Ui.ModGen.AllSizes" xml:space="preserve">
+    <value>همهٔ اندازه‌ها</value>
+  </data>
+  <data name="Ui.ModGen.Size1x" xml:space="preserve">
+    <value>فقط 1x</value>
+  </data>
+  <data name="Ui.ModGen.Size2x" xml:space="preserve">
+    <value>فقط 2x</value>
+  </data>
+  <data name="Ui.ModGen.Size3x" xml:space="preserve">
+    <value>فقط 3x</value>
+  </data>
+  <data name="Ui.ModGen.IconOpacity" xml:space="preserve">
+    <value>کدری آیکون‌ها</value>
+  </data>
+  <data name="Ui.ModGen.IconOpacityHelp" xml:space="preserve">
+    <value>میزان پررنگی آیکون‌های رنگ‌آمیزی‌شده. مقدارهای کمتر پس‌زمینه را نمایان می‌کنند. فونت آیکون همیشه یکدست می‌ماند.</value>
+  </data>
+  <data name="Ui.ModGen.Randomize" xml:space="preserve">
+    <value>غافلگیرم کن</value>
+  </data>
+  <data name="Ui.ModGen.Reset" xml:space="preserve">
+    <value>بازنشانی به پیش‌فرض</value>
+  </data>
+  <data name="Ui.ModGen.ImportTheme" xml:space="preserve">
+    <value>وارد کردن پوسته</value>
+  </data>
+  <data name="Ui.ModGen.ExportTheme" xml:space="preserve">
+    <value>خروجی گرفتن از پوسته</value>
+  </data>
+  <data name="Ui.ModGen.ThemeFiles" xml:space="preserve">
+    <value>پوسته‌های سازندهٔ ماد</value>
+  </data>
+  <data name="Ui.ModGen.ThemeSaved" xml:space="preserve">
+    <value>پوسته با نام {0} ذخیره شد</value>
+  </data>
+  <data name="Ui.ModGen.ImportFailed" xml:space="preserve">
+    <value>پوسته وارد نشد: {0}</value>
+  </data>
+  <data name="Ui.ModGen.ExportFailed" xml:space="preserve">
+    <value>خروجی پوسته گرفته نشد: {0}</value>
+  </data>
+  <data name="Ui.ModGen.NotATheme" xml:space="preserve">
+    <value>این فایل پوستهٔ سازندهٔ ماد نیست.</value>
+  </data>
+  <data name="Ui.ModGen.WaitingForOther" xml:space="preserve">
+    <value>در انتظار پایان ماد در حال ساخت</value>
+  </data>
 </root>

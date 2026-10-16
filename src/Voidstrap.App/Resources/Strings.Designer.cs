@@ -2499,6 +2499,68 @@ namespace Voidstrap.Resources {
 
         public static string Library_Badges_Open => ResourceManager.GetString("Library.Badges.Open", resourceCulture);
 
+        public static string Ui_ModGen_LastGenerated => ResourceManager.GetString("Ui.ModGen.LastGenerated", resourceCulture);
+
+        public static string Ui_ModGen_RegenerateMod => ResourceManager.GetString("Ui.ModGen.RegenerateMod", resourceCulture);
+
+        public static string Ui_ModGen_EnterHexColour => ResourceManager.GetString("Ui.ModGen.EnterHexColour", resourceCulture);
+
+        public static string Ui_ModGen_EnterGradientColours => ResourceManager.GetString("Ui.ModGen.EnterGradientColours", resourceCulture);
+
+        public static string Ui_ModGen_ChooseFillImage => ResourceManager.GetString("Ui.ModGen.ChooseFillImage", resourceCulture);
+
+        public static string Ui_ModGen_SliceOfSheet => ResourceManager.GetString("Ui.ModGen.SliceOfSheet", resourceCulture);
+
+        public static string Ui_ModGen_NamedIconsRead => ResourceManager.GetString("Ui.ModGen.NamedIconsRead", resourceCulture);
+
+        public static string Ui_ModGen_LayoutUnreadable => ResourceManager.GetString("Ui.ModGen.LayoutUnreadable", resourceCulture);
+
+        public static string Ui_ModGen_Cancelled => ResourceManager.GetString("Ui.ModGen.Cancelled", resourceCulture);
+
+        public static string Ui_ModGen_Failed => ResourceManager.GetString("Ui.ModGen.Failed", resourceCulture);
+
+        public static string Ui_ModGen_ImagesFilter => ResourceManager.GetString("Ui.ModGen.ImagesFilter", resourceCulture);
+
+        public static string Ui_ModGen_PickColour => ResourceManager.GetString("Ui.ModGen.PickColour", resourceCulture);
+
+        public static string Ui_ModGen_FillSolid => ResourceManager.GetString("Ui.ModGen.FillSolid", resourceCulture);
+
+        public static string Ui_ModGen_FillGradient => ResourceManager.GetString("Ui.ModGen.FillGradient", resourceCulture);
+
+        public static string Ui_ModGen_FillImage => ResourceManager.GetString("Ui.ModGen.FillImage", resourceCulture);
+
+        public static string Ui_ModGen_AllSizes => ResourceManager.GetString("Ui.ModGen.AllSizes", resourceCulture);
+
+        public static string Ui_ModGen_Size1x => ResourceManager.GetString("Ui.ModGen.Size1x", resourceCulture);
+
+        public static string Ui_ModGen_Size2x => ResourceManager.GetString("Ui.ModGen.Size2x", resourceCulture);
+
+        public static string Ui_ModGen_Size3x => ResourceManager.GetString("Ui.ModGen.Size3x", resourceCulture);
+
+        public static string Ui_ModGen_IconOpacity => ResourceManager.GetString("Ui.ModGen.IconOpacity", resourceCulture);
+
+        public static string Ui_ModGen_IconOpacityHelp => ResourceManager.GetString("Ui.ModGen.IconOpacityHelp", resourceCulture);
+
+        public static string Ui_ModGen_Randomize => ResourceManager.GetString("Ui.ModGen.Randomize", resourceCulture);
+
+        public static string Ui_ModGen_Reset => ResourceManager.GetString("Ui.ModGen.Reset", resourceCulture);
+
+        public static string Ui_ModGen_ImportTheme => ResourceManager.GetString("Ui.ModGen.ImportTheme", resourceCulture);
+
+        public static string Ui_ModGen_ExportTheme => ResourceManager.GetString("Ui.ModGen.ExportTheme", resourceCulture);
+
+        public static string Ui_ModGen_ThemeFiles => ResourceManager.GetString("Ui.ModGen.ThemeFiles", resourceCulture);
+
+        public static string Ui_ModGen_ThemeSaved => ResourceManager.GetString("Ui.ModGen.ThemeSaved", resourceCulture);
+
+        public static string Ui_ModGen_ImportFailed => ResourceManager.GetString("Ui.ModGen.ImportFailed", resourceCulture);
+
+        public static string Ui_ModGen_ExportFailed => ResourceManager.GetString("Ui.ModGen.ExportFailed", resourceCulture);
+
+        public static string Ui_ModGen_NotATheme => ResourceManager.GetString("Ui.ModGen.NotATheme", resourceCulture);
+
+        public static string Ui_ModGen_WaitingForOther => ResourceManager.GetString("Ui.ModGen.WaitingForOther", resourceCulture);
+
         public static string Menu_Appearance_Accent_Title => ResourceManager.GetString("Menu.Appearance.Accent.Title", resourceCulture);
 
         public static string Menu_Appearance_Accent_Description => ResourceManager.GetString("Menu.Appearance.Accent.Description", resourceCulture);

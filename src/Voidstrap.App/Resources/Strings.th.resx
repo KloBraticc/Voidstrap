@@ -6680,4 +6680,97 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
   <data name="Library.Badges.Open" xml:space="preserve">
     <value>เปิดตรานี้บน roblox.com</value>
   </data>
+  <data name="Ui.ModGen.LastGenerated" xml:space="preserve">
+    <value>สร้างล่าสุด {0} จะสร้างใหม่เองเมื่อ Roblox อัปเดต</value>
+  </data>
+  <data name="Ui.ModGen.RegenerateMod" xml:space="preserve">
+    <value>สร้างม็อดใหม่</value>
+  </data>
+  <data name="Ui.ModGen.EnterHexColour" xml:space="preserve">
+    <value>ใส่สีเป็นรหัสฐานสิบหก เช่น #FF3B5C</value>
+  </data>
+  <data name="Ui.ModGen.EnterGradientColours" xml:space="preserve">
+    <value>ใส่สีเริ่มต้นและสีสิ้นสุดเป็นรหัสฐานสิบหก</value>
+  </data>
+  <data name="Ui.ModGen.ChooseFillImage" xml:space="preserve">
+    <value>เลือกรูปภาพสำหรับเติมไอคอน</value>
+  </data>
+  <data name="Ui.ModGen.SliceOfSheet" xml:space="preserve">
+    <value>ส่วนหนึ่งของแผ่นไอคอนจริง</value>
+  </data>
+  <data name="Ui.ModGen.NamedIconsRead" xml:space="preserve">
+    <value>อ่านไอคอนที่มีชื่อได้ {0} รายการจาก Roblox บิลด์นี้</value>
+  </data>
+  <data name="Ui.ModGen.LayoutUnreadable" xml:space="preserve">
+    <value>อ่านการจัดวางไอคอนจากบิลด์นี้ไม่ได้ จึงค้นหาไอคอนจากแผ่นแทน</value>
+  </data>
+  <data name="Ui.ModGen.Cancelled" xml:space="preserve">
+    <value>ยกเลิกการสร้างแล้ว ม็อดก่อนหน้าของคุณยังคงเหมือนเดิม</value>
+  </data>
+  <data name="Ui.ModGen.Failed" xml:space="preserve">
+    <value>สร้างม็อดไม่ได้: {0}</value>
+  </data>
+  <data name="Ui.ModGen.ImagesFilter" xml:space="preserve">
+    <value>รูปภาพ</value>
+  </data>
+  <data name="Ui.ModGen.PickColour" xml:space="preserve">
+    <value>เลือกสี</value>
+  </data>
+  <data name="Ui.ModGen.FillSolid" xml:space="preserve">
+    <value>สีทึบ</value>
+  </data>
+  <data name="Ui.ModGen.FillGradient" xml:space="preserve">
+    <value>ไล่ระดับสี</value>
+  </data>
+  <data name="Ui.ModGen.FillImage" xml:space="preserve">
+    <value>รูปภาพ</value>
+  </data>
+  <data name="Ui.ModGen.AllSizes" xml:space="preserve">
+    <value>ทุกขนาด</value>
+  </data>
+  <data name="Ui.ModGen.Size1x" xml:space="preserve">
+    <value>1x เท่านั้น</value>
+  </data>
+  <data name="Ui.ModGen.Size2x" xml:space="preserve">
+    <value>2x เท่านั้น</value>
+  </data>
+  <data name="Ui.ModGen.Size3x" xml:space="preserve">
+    <value>3x เท่านั้น</value>
+  </data>
+  <data name="Ui.ModGen.IconOpacity" xml:space="preserve">
+    <value>ความทึบของไอคอน</value>
+  </data>
+  <data name="Ui.ModGen.IconOpacityHelp" xml:space="preserve">
+    <value>ความทึบของไอคอนที่เปลี่ยนสี ค่าที่ต่ำลงจะทำให้มองเห็นพื้นหลัง ฟอนต์ไอคอนจะทึบเสมอ</value>
+  </data>
+  <data name="Ui.ModGen.Randomize" xml:space="preserve">
+    <value>สุ่มให้หน่อย</value>
+  </data>
+  <data name="Ui.ModGen.Reset" xml:space="preserve">
+    <value>รีเซ็ตเป็นค่าเริ่มต้น</value>
+  </data>
+  <data name="Ui.ModGen.ImportTheme" xml:space="preserve">
+    <value>นำเข้าธีม</value>
+  </data>
+  <data name="Ui.ModGen.ExportTheme" xml:space="preserve">
+    <value>ส่งออกธีม</value>
+  </data>
+  <data name="Ui.ModGen.ThemeFiles" xml:space="preserve">
+    <value>ธีมตัวสร้างม็อด</value>
+  </data>
+  <data name="Ui.ModGen.ThemeSaved" xml:space="preserve">
+    <value>บันทึกธีมเป็น {0} แล้ว</value>
+  </data>
+  <data name="Ui.ModGen.ImportFailed" xml:space="preserve">
+    <value>นำเข้าธีมไม่ได้: {0}</value>
+  </data>
+  <data name="Ui.ModGen.ExportFailed" xml:space="preserve">
+    <value>ส่งออกธีมไม่ได้: {0}</value>
+  </data>
+  <data name="Ui.ModGen.NotATheme" xml:space="preserve">
+    <value>ไฟล์นี้ไม่ใช่ธีมของตัวสร้างม็อด</value>
+  </data>
+  <data name="Ui.ModGen.WaitingForOther" xml:space="preserve">
+    <value>กำลังรอให้ม็อดที่กำลังสร้างอยู่เสร็จ</value>
+  </data>
 </root>

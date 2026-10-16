@@ -44,6 +44,8 @@ public sealed class ModGeneratorSettings
 
 	public bool IncludeUiTextures { get; set; }
 
+	public double IconOpacity { get; set; } = 1.0;
+
 	public string? LogoImage { get; set; }
 
 	public string ModName { get; set; } = "Generated UI theme";
@@ -231,6 +233,8 @@ public static class ModGenerator
 
 		public bool RecolorShapes;
 
+		public double Opacity = 1.0;
+
 		public byte[]? Logo;
 
 		public int LogoWidth;
@@ -353,20 +357,20 @@ public static class ModGenerator
 
 	public static async Task RefreshOutdatedAsync(string versionDirectory, string versionGuid, CancellationToken token)
 	{
-		string? modId = FindModId();
-		if (modId == null)
-		{
-			return;
-		}
-		ModGeneratorSettings? settings = LoadSettings(modId);
-		if (settings == null || string.Equals(settings.RobloxVersion, versionGuid, StringComparison.OrdinalIgnoreCase))
-		{
-			return;
-		}
-		App.Logger?.WriteLine(LogIdent, "Roblox updated, regenerating " + settings.ModName + " for the new sprite sheets");
 		await GenerateGate.WaitAsync(token).ConfigureAwait(false);
 		try
 		{
+			string? modId = FindModId();
+			if (modId == null)
+			{
+				return;
+			}
+			ModGeneratorSettings? settings = LoadSettings(modId);
+			if (settings == null || string.Equals(settings.RobloxVersion, versionGuid, StringComparison.OrdinalIgnoreCase))
+			{
+				return;
+			}
+			App.Logger?.WriteLine(LogIdent, "Roblox updated, regenerating " + settings.ModName + " for the new sprite sheets");
 			await Task.Run(() => GenerateCore(settings, modId, null, token, versionDirectory, versionGuid), token).ConfigureAwait(false);
 		}
 		catch (OperationCanceledException)
@@ -382,6 +386,8 @@ public static class ModGenerator
 			GenerateGate.Release();
 		}
 	}
+
+	public static bool IsGenerating => GenerateGate.CurrentCount == 0;
 
 	public static ModGeneratorPreview? RenderPreview(ModGeneratorSettings settings)
 	{
@@ -894,7 +900,8 @@ public static class ModGenerator
 			Fill = settings.Fill,
 			KeepColored = settings.KeepColoredIcons,
 			KeepShading = settings.KeepShading,
-			RecolorShapes = settings.RecolorShapes
+			RecolorShapes = settings.RecolorShapes,
+			Opacity = double.IsFinite(settings.IconOpacity) ? Math.Clamp(settings.IconOpacity, 0.1, 1.0) : 1.0
 		};
 		if (!TryParseColor(settings.SolidColor, out painter.Solid))
 		{
@@ -1253,6 +1260,10 @@ public static class ModGenerator
 				pixels[offset] = (byte)Math.Round(color.B * factor);
 				pixels[offset + 1] = (byte)Math.Round(color.G * factor);
 				pixels[offset + 2] = (byte)Math.Round(color.R * factor);
+				if (painter.Opacity < 1.0)
+				{
+					pixels[offset + 3] = (byte)Math.Round(pixels[offset + 3] * painter.Opacity);
+				}
 			}
 		}
 	}
