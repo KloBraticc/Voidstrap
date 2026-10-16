@@ -6669,4 +6669,46 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
 
 削除をもう一度試しますか？</value>
   </data>
+  <data name="Library.Badges.Stat" xml:space="preserve">
+    <value>バッジ</value>
+  </data>
+  <data name="Library.Badges.Tab" xml:space="preserve">
+    <value>バッジ</value>
+  </data>
+  <data name="Library.Badges.StatNone" xml:space="preserve">
+    <value>なし</value>
+  </data>
+  <data name="Library.Badges.Summary" xml:space="preserve">
+    <value>{1} 個中 {0} 個のバッジを獲得</value>
+  </data>
+  <data name="Library.Badges.Percent" xml:space="preserve">
+    <value>{0}% 達成</value>
+  </data>
+  <data name="Library.Badges.EarnedOn" xml:space="preserve">
+    <value>{0} に獲得</value>
+  </data>
+  <data name="Library.Badges.EarnedNoDate" xml:space="preserve">
+    <value>獲得済み</value>
+  </data>
+  <data name="Library.Badges.Locked" xml:space="preserve">
+    <value>未獲得</value>
+  </data>
+  <data name="Library.Badges.Rarity" xml:space="preserve">
+    <value>プレイヤーの {0}% が所持</value>
+  </data>
+  <data name="Library.Badges.None" xml:space="preserve">
+    <value>このゲームにはまだバッジがありません。</value>
+  </data>
+  <data name="Library.Badges.SignedOut" xml:space="preserve">
+    <value>獲得したバッジを確認するには Roblox にサインインしてください。</value>
+  </data>
+  <data name="Library.Badges.Failed" xml:space="preserve">
+    <value>現在バッジを読み込めません。後でもう一度お試しください。</value>
+  </data>
+  <data name="Library.Badges.Refresh" xml:space="preserve">
+    <value>バッジを更新</value>
+  </data>
+  <data name="Library.Badges.Open" xml:space="preserve">
+    <value>このバッジを roblox.com で開く</value>
+  </data>
 </root>

@@ -6642,4 +6642,46 @@ Mit szeretnél tenni?</value>
 
 Újra megpróbálod az eltávolítást?</value>
   </data>
+  <data name="Library.Badges.Stat" xml:space="preserve">
+    <value>JELVÉNYEK</value>
+  </data>
+  <data name="Library.Badges.Tab" xml:space="preserve">
+    <value>Jelvények</value>
+  </data>
+  <data name="Library.Badges.StatNone" xml:space="preserve">
+    <value>Nincs</value>
+  </data>
+  <data name="Library.Badges.Summary" xml:space="preserve">
+    <value>{1} jelvényből {0} megszerezve</value>
+  </data>
+  <data name="Library.Badges.Percent" xml:space="preserve">
+    <value>{0}% kész</value>
+  </data>
+  <data name="Library.Badges.EarnedOn" xml:space="preserve">
+    <value>Megszerezve: {0}</value>
+  </data>
+  <data name="Library.Badges.EarnedNoDate" xml:space="preserve">
+    <value>Megszerezve</value>
+  </data>
+  <data name="Library.Badges.Locked" xml:space="preserve">
+    <value>Még nincs megszerezve</value>
+  </data>
+  <data name="Library.Badges.Rarity" xml:space="preserve">
+    <value>A játékosok {0}%-ának van meg</value>
+  </data>
+  <data name="Library.Badges.None" xml:space="preserve">
+    <value>Ennek a játéknak még nincsenek jelvényei.</value>
+  </data>
+  <data name="Library.Badges.SignedOut" xml:space="preserve">
+    <value>Jelentkezz be a Robloxba, hogy lásd, mely jelvényeket szerezted meg.</value>
+  </data>
+  <data name="Library.Badges.Failed" xml:space="preserve">
+    <value>A jelvényeket most nem sikerült betölteni. Próbáld újra később.</value>
+  </data>
+  <data name="Library.Badges.Refresh" xml:space="preserve">
+    <value>Jelvények frissítése</value>
+  </data>
+  <data name="Library.Badges.Open" xml:space="preserve">
+    <value>A jelvény megnyitása a roblox.com oldalon</value>
+  </data>
 </root>

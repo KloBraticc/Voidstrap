@@ -6615,4 +6615,46 @@ Cosa vuoi fare?</value>
 
 Riprovare la rimozione?</value>
   </data>
+  <data name="Library.Badges.Stat" xml:space="preserve">
+    <value>BADGE</value>
+  </data>
+  <data name="Library.Badges.Tab" xml:space="preserve">
+    <value>Badge</value>
+  </data>
+  <data name="Library.Badges.StatNone" xml:space="preserve">
+    <value>Nessuno</value>
+  </data>
+  <data name="Library.Badges.Summary" xml:space="preserve">
+    <value>{0} badge su {1} ottenuti</value>
+  </data>
+  <data name="Library.Badges.Percent" xml:space="preserve">
+    <value>{0}% completato</value>
+  </data>
+  <data name="Library.Badges.EarnedOn" xml:space="preserve">
+    <value>Ottenuto il {0}</value>
+  </data>
+  <data name="Library.Badges.EarnedNoDate" xml:space="preserve">
+    <value>Ottenuto</value>
+  </data>
+  <data name="Library.Badges.Locked" xml:space="preserve">
+    <value>Non ancora ottenuto</value>
+  </data>
+  <data name="Library.Badges.Rarity" xml:space="preserve">
+    <value>Il {0}% dei giocatori lo ha</value>
+  </data>
+  <data name="Library.Badges.None" xml:space="preserve">
+    <value>Questo gioco non ha ancora badge.</value>
+  </data>
+  <data name="Library.Badges.SignedOut" xml:space="preserve">
+    <value>Accedi a Roblox per vedere quali badge hai ottenuto.</value>
+  </data>
+  <data name="Library.Badges.Failed" xml:space="preserve">
+    <value>Impossibile caricare i badge al momento. Riprova più tardi.</value>
+  </data>
+  <data name="Library.Badges.Refresh" xml:space="preserve">
+    <value>Aggiorna badge</value>
+  </data>
+  <data name="Library.Badges.Open" xml:space="preserve">
+    <value>Apri questo badge su roblox.com</value>
+  </data>
 </root>

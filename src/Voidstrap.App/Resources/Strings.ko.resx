@@ -6656,4 +6656,46 @@ Roblox는 Voidstrap으로 처음 실행할 때 다운로드됩니다. 실행하�
 
 제거를 다시 시도하시겠습니까?</value>
   </data>
+  <data name="Library.Badges.Stat" xml:space="preserve">
+    <value>배지</value>
+  </data>
+  <data name="Library.Badges.Tab" xml:space="preserve">
+    <value>배지</value>
+  </data>
+  <data name="Library.Badges.StatNone" xml:space="preserve">
+    <value>없음</value>
+  </data>
+  <data name="Library.Badges.Summary" xml:space="preserve">
+    <value>배지 {1}개 중 {0}개 획득</value>
+  </data>
+  <data name="Library.Badges.Percent" xml:space="preserve">
+    <value>{0}% 완료</value>
+  </data>
+  <data name="Library.Badges.EarnedOn" xml:space="preserve">
+    <value>{0}에 획득</value>
+  </data>
+  <data name="Library.Badges.EarnedNoDate" xml:space="preserve">
+    <value>획득함</value>
+  </data>
+  <data name="Library.Badges.Locked" xml:space="preserve">
+    <value>아직 획득하지 않음</value>
+  </data>
+  <data name="Library.Badges.Rarity" xml:space="preserve">
+    <value>플레이어의 {0}%가 보유</value>
+  </data>
+  <data name="Library.Badges.None" xml:space="preserve">
+    <value>이 게임에는 아직 배지가 없습니다.</value>
+  </data>
+  <data name="Library.Badges.SignedOut" xml:space="preserve">
+    <value>획득한 배지를 보려면 Roblox에 로그인하십시오.</value>
+  </data>
+  <data name="Library.Badges.Failed" xml:space="preserve">
+    <value>지금은 배지를 불러올 수 없습니다. 나중에 다시 시도하십시오.</value>
+  </data>
+  <data name="Library.Badges.Refresh" xml:space="preserve">
+    <value>배지 새로고침</value>
+  </data>
+  <data name="Library.Badges.Open" xml:space="preserve">
+    <value>roblox.com에서 이 배지 열기</value>
+  </data>
 </root>

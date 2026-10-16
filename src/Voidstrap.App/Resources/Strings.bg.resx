@@ -6646,4 +6646,46 @@ Roblox ще бъде изтеглен, когато го стартирате з
 
 Да се опита ли премахването отново?</value>
   </data>
+  <data name="Library.Badges.Stat" xml:space="preserve">
+    <value>ЗНАЧКИ</value>
+  </data>
+  <data name="Library.Badges.Tab" xml:space="preserve">
+    <value>Значки</value>
+  </data>
+  <data name="Library.Badges.StatNone" xml:space="preserve">
+    <value>Няма</value>
+  </data>
+  <data name="Library.Badges.Summary" xml:space="preserve">
+    <value>Спечелени значки: {0} от {1}</value>
+  </data>
+  <data name="Library.Badges.Percent" xml:space="preserve">
+    <value>{0}% завършено</value>
+  </data>
+  <data name="Library.Badges.EarnedOn" xml:space="preserve">
+    <value>Спечелена на {0}</value>
+  </data>
+  <data name="Library.Badges.EarnedNoDate" xml:space="preserve">
+    <value>Спечелена</value>
+  </data>
+  <data name="Library.Badges.Locked" xml:space="preserve">
+    <value>Още не е спечелена</value>
+  </data>
+  <data name="Library.Badges.Rarity" xml:space="preserve">
+    <value>Има я {0}% от играчите</value>
+  </data>
+  <data name="Library.Badges.None" xml:space="preserve">
+    <value>Тази игра още няма значки.</value>
+  </data>
+  <data name="Library.Badges.SignedOut" xml:space="preserve">
+    <value>Влезте в Roblox, за да видите кои значки сте спечелили.</value>
+  </data>
+  <data name="Library.Badges.Failed" xml:space="preserve">
+    <value>Значките не можаха да се заредят сега. Опитайте по-късно.</value>
+  </data>
+  <data name="Library.Badges.Refresh" xml:space="preserve">
+    <value>Опресняване на значките</value>
+  </data>
+  <data name="Library.Badges.Open" xml:space="preserve">
+    <value>Отваряне на тази значка в roblox.com</value>
+  </data>
 </root>

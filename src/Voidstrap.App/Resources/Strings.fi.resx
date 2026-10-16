@@ -6638,4 +6638,46 @@ Mitä haluat tehdä?</value>
 
 Yritetäänkö poistoa uudelleen?</value>
   </data>
+  <data name="Library.Badges.Stat" xml:space="preserve">
+    <value>MERKIT</value>
+  </data>
+  <data name="Library.Badges.Tab" xml:space="preserve">
+    <value>Merkit</value>
+  </data>
+  <data name="Library.Badges.StatNone" xml:space="preserve">
+    <value>Ei mitään</value>
+  </data>
+  <data name="Library.Badges.Summary" xml:space="preserve">
+    <value>{0}/{1} merkkiä ansaittu</value>
+  </data>
+  <data name="Library.Badges.Percent" xml:space="preserve">
+    <value>{0}% valmiina</value>
+  </data>
+  <data name="Library.Badges.EarnedOn" xml:space="preserve">
+    <value>Ansaittu {0}</value>
+  </data>
+  <data name="Library.Badges.EarnedNoDate" xml:space="preserve">
+    <value>Ansaittu</value>
+  </data>
+  <data name="Library.Badges.Locked" xml:space="preserve">
+    <value>Ei vielä ansaittu</value>
+  </data>
+  <data name="Library.Badges.Rarity" xml:space="preserve">
+    <value>{0}% pelaajista on saanut tämän</value>
+  </data>
+  <data name="Library.Badges.None" xml:space="preserve">
+    <value>Tässä pelissä ei ole vielä merkkejä.</value>
+  </data>
+  <data name="Library.Badges.SignedOut" xml:space="preserve">
+    <value>Kirjaudu Robloxiin nähdäksesi, mitkä merkit olet ansainnut.</value>
+  </data>
+  <data name="Library.Badges.Failed" xml:space="preserve">
+    <value>Merkkejä ei voitu ladata juuri nyt. Yritä myöhemmin uudelleen.</value>
+  </data>
+  <data name="Library.Badges.Refresh" xml:space="preserve">
+    <value>Päivitä merkit</value>
+  </data>
+  <data name="Library.Badges.Open" xml:space="preserve">
+    <value>Avaa tämä merkki roblox.comissa</value>
+  </data>
 </root>

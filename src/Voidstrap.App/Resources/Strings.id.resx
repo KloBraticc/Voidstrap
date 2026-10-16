@@ -6600,4 +6600,46 @@ Apa yang ingin Anda lakukan?</value>
 
 Coba hapus lagi?</value>
   </data>
+  <data name="Library.Badges.Stat" xml:space="preserve">
+    <value>LENCANA</value>
+  </data>
+  <data name="Library.Badges.Tab" xml:space="preserve">
+    <value>Lencana</value>
+  </data>
+  <data name="Library.Badges.StatNone" xml:space="preserve">
+    <value>Tidak ada</value>
+  </data>
+  <data name="Library.Badges.Summary" xml:space="preserve">
+    <value>{0} dari {1} lencana didapat</value>
+  </data>
+  <data name="Library.Badges.Percent" xml:space="preserve">
+    <value>{0}% selesai</value>
+  </data>
+  <data name="Library.Badges.EarnedOn" xml:space="preserve">
+    <value>Didapat {0}</value>
+  </data>
+  <data name="Library.Badges.EarnedNoDate" xml:space="preserve">
+    <value>Didapat</value>
+  </data>
+  <data name="Library.Badges.Locked" xml:space="preserve">
+    <value>Belum didapat</value>
+  </data>
+  <data name="Library.Badges.Rarity" xml:space="preserve">
+    <value>{0}% pemain memilikinya</value>
+  </data>
+  <data name="Library.Badges.None" xml:space="preserve">
+    <value>Game ini belum punya lencana.</value>
+  </data>
+  <data name="Library.Badges.SignedOut" xml:space="preserve">
+    <value>Masuk ke Roblox untuk melihat lencana yang sudah Anda dapatkan.</value>
+  </data>
+  <data name="Library.Badges.Failed" xml:space="preserve">
+    <value>Lencana tidak dapat dimuat sekarang. Coba lagi nanti.</value>
+  </data>
+  <data name="Library.Badges.Refresh" xml:space="preserve">
+    <value>Segarkan lencana</value>
+  </data>
+  <data name="Library.Badges.Open" xml:space="preserve">
+    <value>Buka lencana ini di roblox.com</value>
+  </data>
 </root>

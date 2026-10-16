@@ -6626,4 +6626,46 @@ O que você gostaria de fazer?</value>
 
 Tentar a remoção de novo?</value>
   </data>
+  <data name="Library.Badges.Stat" xml:space="preserve">
+    <value>EMBLEMAS</value>
+  </data>
+  <data name="Library.Badges.Tab" xml:space="preserve">
+    <value>Emblemas</value>
+  </data>
+  <data name="Library.Badges.StatNone" xml:space="preserve">
+    <value>Nenhum</value>
+  </data>
+  <data name="Library.Badges.Summary" xml:space="preserve">
+    <value>{0} de {1} emblemas conquistados</value>
+  </data>
+  <data name="Library.Badges.Percent" xml:space="preserve">
+    <value>{0}% concluído</value>
+  </data>
+  <data name="Library.Badges.EarnedOn" xml:space="preserve">
+    <value>Conquistado em {0}</value>
+  </data>
+  <data name="Library.Badges.EarnedNoDate" xml:space="preserve">
+    <value>Conquistado</value>
+  </data>
+  <data name="Library.Badges.Locked" xml:space="preserve">
+    <value>Ainda não conquistado</value>
+  </data>
+  <data name="Library.Badges.Rarity" xml:space="preserve">
+    <value>{0}% dos jogadores têm este</value>
+  </data>
+  <data name="Library.Badges.None" xml:space="preserve">
+    <value>Este jogo ainda não tem emblemas.</value>
+  </data>
+  <data name="Library.Badges.SignedOut" xml:space="preserve">
+    <value>Entre no Roblox para ver quais emblemas você conquistou.</value>
+  </data>
+  <data name="Library.Badges.Failed" xml:space="preserve">
+    <value>Não foi possível carregar os emblemas agora. Tente de novo mais tarde.</value>
+  </data>
+  <data name="Library.Badges.Refresh" xml:space="preserve">
+    <value>Atualizar emblemas</value>
+  </data>
+  <data name="Library.Badges.Open" xml:space="preserve">
+    <value>Abrir este emblema no roblox.com</value>
+  </data>
 </root>

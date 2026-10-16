@@ -6656,4 +6656,46 @@ Roblox буде завантажено під час першого запуск
 
 Повторити видалення?</value>
   </data>
+  <data name="Library.Badges.Stat" xml:space="preserve">
+    <value>ЗНАЧКИ</value>
+  </data>
+  <data name="Library.Badges.Tab" xml:space="preserve">
+    <value>Значки</value>
+  </data>
+  <data name="Library.Badges.StatNone" xml:space="preserve">
+    <value>Немає</value>
+  </data>
+  <data name="Library.Badges.Summary" xml:space="preserve">
+    <value>Отримано значків: {0} з {1}</value>
+  </data>
+  <data name="Library.Badges.Percent" xml:space="preserve">
+    <value>Виконано на {0}%</value>
+  </data>
+  <data name="Library.Badges.EarnedOn" xml:space="preserve">
+    <value>Отримано {0}</value>
+  </data>
+  <data name="Library.Badges.EarnedNoDate" xml:space="preserve">
+    <value>Отримано</value>
+  </data>
+  <data name="Library.Badges.Locked" xml:space="preserve">
+    <value>Ще не отримано</value>
+  </data>
+  <data name="Library.Badges.Rarity" xml:space="preserve">
+    <value>Є в {0}% гравців</value>
+  </data>
+  <data name="Library.Badges.None" xml:space="preserve">
+    <value>У цій грі поки немає значків.</value>
+  </data>
+  <data name="Library.Badges.SignedOut" xml:space="preserve">
+    <value>Увійдіть у Roblox, щоб побачити, які значки Ви отримали.</value>
+  </data>
+  <data name="Library.Badges.Failed" xml:space="preserve">
+    <value>Зараз не вдалося завантажити значки. Спробуйте пізніше.</value>
+  </data>
+  <data name="Library.Badges.Refresh" xml:space="preserve">
+    <value>Оновити значки</value>
+  </data>
+  <data name="Library.Badges.Open" xml:space="preserve">
+    <value>Відкрити цей значок на roblox.com</value>
+  </data>
 </root>

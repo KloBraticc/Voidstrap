@@ -6419,4 +6419,46 @@ Ano ang gusto mong gawin?</value>
 
 Subukan ulit ang pag alis?</value>
   </data>
+  <data name="Library.Badges.Stat" xml:space="preserve">
+    <value>MGA BADGE</value>
+  </data>
+  <data name="Library.Badges.Tab" xml:space="preserve">
+    <value>Mga badge</value>
+  </data>
+  <data name="Library.Badges.StatNone" xml:space="preserve">
+    <value>Wala</value>
+  </data>
+  <data name="Library.Badges.Summary" xml:space="preserve">
+    <value>{0} sa {1} badge ang nakuha</value>
+  </data>
+  <data name="Library.Badges.Percent" xml:space="preserve">
+    <value>{0}% kumpleto</value>
+  </data>
+  <data name="Library.Badges.EarnedOn" xml:space="preserve">
+    <value>Nakuha noong {0}</value>
+  </data>
+  <data name="Library.Badges.EarnedNoDate" xml:space="preserve">
+    <value>Nakuha</value>
+  </data>
+  <data name="Library.Badges.Locked" xml:space="preserve">
+    <value>Hindi pa nakukuha</value>
+  </data>
+  <data name="Library.Badges.Rarity" xml:space="preserve">
+    <value>Mayroon nito ang {0}% ng mga player</value>
+  </data>
+  <data name="Library.Badges.None" xml:space="preserve">
+    <value>Wala pang badge ang larong ito.</value>
+  </data>
+  <data name="Library.Badges.SignedOut" xml:space="preserve">
+    <value>Mag sign in sa Roblox para makita kung aling mga badge ang nakuha mo.</value>
+  </data>
+  <data name="Library.Badges.Failed" xml:space="preserve">
+    <value>Hindi ma load ang mga badge ngayon. Subukan ulit mamaya.</value>
+  </data>
+  <data name="Library.Badges.Refresh" xml:space="preserve">
+    <value>I refresh ang mga badge</value>
+  </data>
+  <data name="Library.Badges.Open" xml:space="preserve">
+    <value>Buksan ang badge na ito sa roblox.com</value>
+  </data>
 </root>

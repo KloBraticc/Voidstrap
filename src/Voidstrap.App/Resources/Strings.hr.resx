@@ -6645,4 +6645,46 @@ Roblox će se preuzeti kada ga prvi put pokreneš putem Voidstrapa. Postavke mo�
 
 Pokušati uklanjanje ponovno?</value>
   </data>
+  <data name="Library.Badges.Stat" xml:space="preserve">
+    <value>ZNAČKE</value>
+  </data>
+  <data name="Library.Badges.Tab" xml:space="preserve">
+    <value>Značke</value>
+  </data>
+  <data name="Library.Badges.StatNone" xml:space="preserve">
+    <value>Nema</value>
+  </data>
+  <data name="Library.Badges.Summary" xml:space="preserve">
+    <value>Osvojeno {0} od {1} znački</value>
+  </data>
+  <data name="Library.Badges.Percent" xml:space="preserve">
+    <value>Dovršeno {0}%</value>
+  </data>
+  <data name="Library.Badges.EarnedOn" xml:space="preserve">
+    <value>Osvojeno {0}</value>
+  </data>
+  <data name="Library.Badges.EarnedNoDate" xml:space="preserve">
+    <value>Osvojeno</value>
+  </data>
+  <data name="Library.Badges.Locked" xml:space="preserve">
+    <value>Još nije osvojeno</value>
+  </data>
+  <data name="Library.Badges.Rarity" xml:space="preserve">
+    <value>Ima je {0}% igrača</value>
+  </data>
+  <data name="Library.Badges.None" xml:space="preserve">
+    <value>Ova igra još nema znački.</value>
+  </data>
+  <data name="Library.Badges.SignedOut" xml:space="preserve">
+    <value>Prijavi se u Roblox da vidiš koje si značke osvojio.</value>
+  </data>
+  <data name="Library.Badges.Failed" xml:space="preserve">
+    <value>Značke se trenutačno ne mogu učitati. Pokušaj kasnije.</value>
+  </data>
+  <data name="Library.Badges.Refresh" xml:space="preserve">
+    <value>Osvježi značke</value>
+  </data>
+  <data name="Library.Badges.Open" xml:space="preserve">
+    <value>Otvori ovu značku na roblox.com</value>
+  </data>
 </root>

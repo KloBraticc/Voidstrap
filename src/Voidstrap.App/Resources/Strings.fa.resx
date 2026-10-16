@@ -6684,4 +6684,46 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
 
 دوباره برای حذف تلاش شود؟</value>
   </data>
+  <data name="Library.Badges.Stat" xml:space="preserve">
+    <value>نشان‌ها</value>
+  </data>
+  <data name="Library.Badges.Tab" xml:space="preserve">
+    <value>نشان‌ها</value>
+  </data>
+  <data name="Library.Badges.StatNone" xml:space="preserve">
+    <value>هیچ</value>
+  </data>
+  <data name="Library.Badges.Summary" xml:space="preserve">
+    <value>{0} از {1} نشان به دست آمده</value>
+  </data>
+  <data name="Library.Badges.Percent" xml:space="preserve">
+    <value>{0}% کامل</value>
+  </data>
+  <data name="Library.Badges.EarnedOn" xml:space="preserve">
+    <value>به دست آمده در {0}</value>
+  </data>
+  <data name="Library.Badges.EarnedNoDate" xml:space="preserve">
+    <value>به دست آمده</value>
+  </data>
+  <data name="Library.Badges.Locked" xml:space="preserve">
+    <value>هنوز به دست نیامده</value>
+  </data>
+  <data name="Library.Badges.Rarity" xml:space="preserve">
+    <value>{0}% بازیکنان این را دارند</value>
+  </data>
+  <data name="Library.Badges.None" xml:space="preserve">
+    <value>این بازی هنوز نشانی ندارد.</value>
+  </data>
+  <data name="Library.Badges.SignedOut" xml:space="preserve">
+    <value>برای دیدن نشان‌هایی که به دست آورده‌اید وارد Roblox شوید.</value>
+  </data>
+  <data name="Library.Badges.Failed" xml:space="preserve">
+    <value>اکنون نمی‌توان نشان‌ها را بارگذاری کرد. بعداً دوباره تلاش کنید.</value>
+  </data>
+  <data name="Library.Badges.Refresh" xml:space="preserve">
+    <value>تازه‌سازی نشان‌ها</value>
+  </data>
+  <data name="Library.Badges.Open" xml:space="preserve">
+    <value>باز کردن این نشان در roblox.com</value>
+  </data>
 </root>

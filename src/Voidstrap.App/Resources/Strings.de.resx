@@ -6574,4 +6574,46 @@ Was möchtest du tun?</value>
 
 Entfernen erneut versuchen?</value>
   </data>
+  <data name="Library.Badges.Stat" xml:space="preserve">
+    <value>ABZEICHEN</value>
+  </data>
+  <data name="Library.Badges.Tab" xml:space="preserve">
+    <value>Abzeichen</value>
+  </data>
+  <data name="Library.Badges.StatNone" xml:space="preserve">
+    <value>Keine</value>
+  </data>
+  <data name="Library.Badges.Summary" xml:space="preserve">
+    <value>{0} von {1} Abzeichen erhalten</value>
+  </data>
+  <data name="Library.Badges.Percent" xml:space="preserve">
+    <value>{0}% abgeschlossen</value>
+  </data>
+  <data name="Library.Badges.EarnedOn" xml:space="preserve">
+    <value>Erhalten am {0}</value>
+  </data>
+  <data name="Library.Badges.EarnedNoDate" xml:space="preserve">
+    <value>Erhalten</value>
+  </data>
+  <data name="Library.Badges.Locked" xml:space="preserve">
+    <value>Noch nicht erhalten</value>
+  </data>
+  <data name="Library.Badges.Rarity" xml:space="preserve">
+    <value>{0}% der Spieler haben das</value>
+  </data>
+  <data name="Library.Badges.None" xml:space="preserve">
+    <value>Dieses Spiel hat noch keine Abzeichen.</value>
+  </data>
+  <data name="Library.Badges.SignedOut" xml:space="preserve">
+    <value>Melde dich bei Roblox an, um zu sehen, welche Abzeichen du erhalten hast.</value>
+  </data>
+  <data name="Library.Badges.Failed" xml:space="preserve">
+    <value>Abzeichen konnten gerade nicht geladen werden. Versuche es später erneut.</value>
+  </data>
+  <data name="Library.Badges.Refresh" xml:space="preserve">
+    <value>Abzeichen aktualisieren</value>
+  </data>
+  <data name="Library.Badges.Open" xml:space="preserve">
+    <value>Dieses Abzeichen auf roblox.com öffnen</value>
+  </data>
 </root>

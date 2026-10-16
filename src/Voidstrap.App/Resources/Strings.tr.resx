@@ -6638,4 +6638,46 @@ Ne yapmak istersiniz?</value>
 
 Kaldırma yeniden denensin mi?</value>
   </data>
+  <data name="Library.Badges.Stat" xml:space="preserve">
+    <value>ROZETLER</value>
+  </data>
+  <data name="Library.Badges.Tab" xml:space="preserve">
+    <value>Rozetler</value>
+  </data>
+  <data name="Library.Badges.StatNone" xml:space="preserve">
+    <value>Yok</value>
+  </data>
+  <data name="Library.Badges.Summary" xml:space="preserve">
+    <value>{1} rozetten {0} tanesi kazanıldı</value>
+  </data>
+  <data name="Library.Badges.Percent" xml:space="preserve">
+    <value>%{0} tamamlandı</value>
+  </data>
+  <data name="Library.Badges.EarnedOn" xml:space="preserve">
+    <value>{0} tarihinde kazanıldı</value>
+  </data>
+  <data name="Library.Badges.EarnedNoDate" xml:space="preserve">
+    <value>Kazanıldı</value>
+  </data>
+  <data name="Library.Badges.Locked" xml:space="preserve">
+    <value>Henüz kazanılmadı</value>
+  </data>
+  <data name="Library.Badges.Rarity" xml:space="preserve">
+    <value>Oyuncuların %{0} kadarında var</value>
+  </data>
+  <data name="Library.Badges.None" xml:space="preserve">
+    <value>Bu oyunda henüz rozet yok.</value>
+  </data>
+  <data name="Library.Badges.SignedOut" xml:space="preserve">
+    <value>Hangi rozetleri kazandığınızı görmek için Roblox'ta oturum açın.</value>
+  </data>
+  <data name="Library.Badges.Failed" xml:space="preserve">
+    <value>Rozetler şu anda yüklenemedi. Daha sonra tekrar deneyin.</value>
+  </data>
+  <data name="Library.Badges.Refresh" xml:space="preserve">
+    <value>Rozetleri yenile</value>
+  </data>
+  <data name="Library.Badges.Open" xml:space="preserve">
+    <value>Bu rozeti roblox.com'da aç</value>
+  </data>
 </root>

@@ -186,6 +186,48 @@ public class LibraryGameEntry : INotifyPropertyChanged
 
     public string UpdatedDisplay => Updated?.ToLocalTime().ToString("MMM d, yyyy") ?? "Unknown";
 
+    private int _badgeEarned = -1;
+
+    private int _badgeTotal = -1;
+
+    public bool HasBadgeProgress => _badgeTotal > 0 && _badgeEarned >= 0;
+
+    public Visibility BadgeProgressVisibility => HasBadgeProgress ? Visibility.Visible : Visibility.Collapsed;
+
+    public double BadgeProgressPercent => HasBadgeProgress ? _badgeEarned * 100.0 / _badgeTotal : 0;
+
+    public string BadgeProgressText => HasBadgeProgress ? _badgeEarned.ToString("N0") + " / " + _badgeTotal.ToString("N0") : "";
+
+    public string BadgeStatDisplay
+    {
+        get
+        {
+            if (_badgeTotal < 0)
+                return "...";
+            if (_badgeTotal == 0)
+                return Strings.Library_Badges_StatNone;
+            if (_badgeEarned < 0)
+                return _badgeTotal.ToString("N0");
+            return BadgeProgressText;
+        }
+    }
+
+    public string BadgeTooltip => HasBadgeProgress ? string.Format(Strings.Library_Badges_Summary, _badgeEarned.ToString("N0"), _badgeTotal.ToString("N0")) : "";
+
+    public void SetBadgeProgress(int earned, int total)
+    {
+        if (_badgeEarned == earned && _badgeTotal == total)
+            return;
+        _badgeEarned = earned;
+        _badgeTotal = total;
+        OnPropertyChanged(nameof(HasBadgeProgress));
+        OnPropertyChanged(nameof(BadgeProgressVisibility));
+        OnPropertyChanged(nameof(BadgeProgressPercent));
+        OnPropertyChanged(nameof(BadgeProgressText));
+        OnPropertyChanged(nameof(BadgeStatDisplay));
+        OnPropertyChanged(nameof(BadgeTooltip));
+    }
+
     public void RefreshAll()
     {
         OnPropertyChanged(string.Empty);
@@ -197,6 +239,55 @@ public class LibraryGameEntry : INotifyPropertyChanged
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
+}
+
+public class LibraryBadgeEntry : INotifyPropertyChanged
+{
+    private string? _iconUrl;
+
+    public long Id { get; init; }
+
+    public string Name { get; init; } = "";
+
+    public string Description { get; init; } = "";
+
+    public bool Earned { get; init; }
+
+    public DateTime AwardedUtc { get; init; }
+
+    public double WinRate { get; init; }
+
+    public string? IconUrl
+    {
+        get => _iconUrl;
+        set
+        {
+            if (_iconUrl == value)
+                return;
+            _iconUrl = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IconUrl)));
+        }
+    }
+
+    public Visibility DescriptionVisibility => string.IsNullOrWhiteSpace(Description) ? Visibility.Collapsed : Visibility.Visible;
+
+    public double CardOpacity => Earned ? 1.0 : 0.55;
+
+    public Visibility EarnedVisibility => Earned ? Visibility.Visible : Visibility.Collapsed;
+
+    public Visibility LockedVisibility => Earned ? Visibility.Collapsed : Visibility.Visible;
+
+    public string StateText => Earned
+        ? (AwardedUtc > DateTime.MinValue ? string.Format(Strings.Library_Badges_EarnedOn, AwardedUtc.ToLocalTime().ToString("d")) : Strings.Library_Badges_EarnedNoDate)
+        : Strings.Library_Badges_Locked;
+
+    public string RarityText => WinRate > 0
+        ? string.Format(Strings.Library_Badges_Rarity, (WinRate * 100).ToString(WinRate * 100 < 1 ? "0.##" : "0.#"))
+        : "";
+
+    public Visibility RarityVisibility => WinRate > 0 ? Visibility.Visible : Visibility.Collapsed;
+
+    public event PropertyChangedEventHandler? PropertyChanged;
 }
 
 public class GamePassEntry
@@ -384,6 +475,72 @@ public class LibraryViewModel : INotifyPropertyChanged
 
     private long _gamePassLoadVersion;
 
+    private long _badgeLoadVersion;
+
+    private CancellationTokenSource? _badgeLoadCts;
+
+    private CancellationTokenSource? _badgeFillCts;
+
+    private bool _badgesLoading;
+
+    private string _badgeStatus = "";
+
+    private int _badgeEarnedCount;
+
+    private int _badgeTotalCount;
+
+    public ObservableCollection<LibraryBadgeEntry> Badges { get; } = new LibraryCollection<LibraryBadgeEntry>();
+
+    public ICommand OpenBadgeCommand { get; }
+
+    public ICommand RefreshBadgesCommand { get; }
+
+    public bool BadgesLoading
+    {
+        get => _badgesLoading;
+        private set
+        {
+            if (_badgesLoading == value)
+                return;
+            _badgesLoading = value;
+            OnPropertyChanged(nameof(BadgesLoading));
+            OnPropertyChanged(nameof(BadgeSummaryVisibility));
+        }
+    }
+
+    public string BadgeStatus
+    {
+        get => _badgeStatus;
+        private set
+        {
+            if (_badgeStatus == value)
+                return;
+            _badgeStatus = value;
+            OnPropertyChanged(nameof(BadgeStatus));
+            OnPropertyChanged(nameof(BadgeStatusVisibility));
+        }
+    }
+
+    public Visibility BadgeStatusVisibility => string.IsNullOrEmpty(BadgeStatus) ? Visibility.Collapsed : Visibility.Visible;
+
+    public Visibility BadgeSummaryVisibility => _badgeTotalCount > 0 && !BadgesLoading ? Visibility.Visible : Visibility.Collapsed;
+
+    public string BadgeSummaryText => string.Format(Strings.Library_Badges_Summary, _badgeEarnedCount.ToString("N0"), _badgeTotalCount.ToString("N0"));
+
+    public double BadgeSummaryPercent => _badgeTotalCount > 0 ? _badgeEarnedCount * 100.0 / _badgeTotalCount : 0;
+
+    public string BadgeSummaryPercentText => string.Format(Strings.Library_Badges_Percent, Math.Floor(BadgeSummaryPercent).ToString("0"));
+
+    private void SetBadgeSummary(int earned, int total)
+    {
+        _badgeEarnedCount = earned;
+        _badgeTotalCount = total;
+        OnPropertyChanged(nameof(BadgeSummaryVisibility));
+        OnPropertyChanged(nameof(BadgeSummaryText));
+        OnPropertyChanged(nameof(BadgeSummaryPercent));
+        OnPropertyChanged(nameof(BadgeSummaryPercentText));
+    }
+
     public bool HasLoaded { get; private set; }
 
     public ObservableCollection<LibraryGameEntry> SidebarGames { get; } = new LibraryCollection<LibraryGameEntry>();
@@ -430,6 +587,8 @@ public class LibraryViewModel : INotifyPropertyChanged
         RefreshCommand = new RelayCommand(Refresh);
         RemoveGameCommand = new AsyncRelayCommand<LibraryGameEntry>(RemoveGameAsync);
         OpenGamePassCommand = new RelayCommand<GamePassEntry>(OpenGamePass);
+        OpenBadgeCommand = new RelayCommand<LibraryBadgeEntry>(OpenBadge);
+        RefreshBadgesCommand = new RelayCommand(RefreshBadges);
     }
 
     private void OpenGamePass(GamePassEntry? pass)
@@ -478,6 +637,7 @@ public class LibraryViewModel : INotifyPropertyChanged
 					GamePassesLoading = true;
 					_ = LoadGamePassesAsync(value.UniverseId, version, current);
                 }
+                StartBadgeLoad(value, refreshAwarded: true);
             }
         }
     }
@@ -674,6 +834,7 @@ public class LibraryViewModel : INotifyPropertyChanged
             if (usedNetwork)
                 SaveSnapshot(published);
             _ = FetchEventsInBackgroundAsync(published, token);
+            await UpdateUiAsync(() => StartBadgeFill(published)).ConfigureAwait(false);
         }
         catch (OperationCanceledException) when (token.IsCancellationRequested)
         {
@@ -1773,6 +1934,175 @@ public class LibraryViewModel : INotifyPropertyChanged
 				GamePassesLoading = false;
 			}
 			cancellation.Dispose();
+        }
+    }
+
+    private void OpenBadge(LibraryBadgeEntry? badge)
+    {
+        if (badge == null || badge.Id <= 0)
+            return;
+        try
+        {
+            Utilities.OpenWebLink($"https://www.roblox.com/badges/{badge.Id}");
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("LibraryViewModel::OpenBadge", ex);
+        }
+    }
+
+    private void RefreshBadges()
+    {
+        if (_selectedGame != null)
+            StartBadgeLoad(_selectedGame, refreshAwarded: true);
+    }
+
+    private void StartBadgeLoad(LibraryGameEntry? game, bool refreshAwarded)
+    {
+        CancellationTokenSource? previous = _badgeLoadCts;
+        _badgeLoadCts = null;
+        previous?.Cancel();
+        long version = Interlocked.Increment(ref _badgeLoadVersion);
+        Badges.Clear();
+        SetBadgeSummary(0, 0);
+        BadgeStatus = "";
+        BadgesLoading = false;
+        if (game == null || game.UniverseId <= 0)
+            return;
+        CancellationTokenSource current = new();
+        _badgeLoadCts = current;
+        BadgesLoading = true;
+        _ = LoadBadgesAsync(game.UniverseId, version, refreshAwarded, current);
+    }
+
+    private bool IsCurrentBadgeLoad(long universeId, long version)
+    {
+        return _selectedGame?.UniverseId == universeId && Interlocked.Read(ref _badgeLoadVersion) == version;
+    }
+
+    private async Task LoadBadgesAsync(long universeId, long version, bool refreshAwarded, CancellationTokenSource cancellation)
+    {
+        CancellationToken token = cancellation.Token;
+        try
+        {
+            RobloxBadges.Progress progress = await RobloxBadges.GetProgressAsync(universeId, refreshAwarded, token);
+            token.ThrowIfCancellationRequested();
+            ApplyBadgeProgressToEntries(universeId, progress);
+            if (!IsCurrentBadgeLoad(universeId, version))
+                return;
+            List<LibraryBadgeEntry> entries = progress.Badges
+                .Select(badge =>
+                {
+                    bool earned = progress.Awarded.TryGetValue(badge.Id, out DateTime when);
+                    return new LibraryBadgeEntry
+                    {
+                        Id = badge.Id,
+                        Name = badge.Name,
+                        Description = badge.Description,
+                        Earned = earned,
+                        AwardedUtc = earned ? when : DateTime.MinValue,
+                        WinRate = badge.WinRate
+                    };
+                })
+                .OrderByDescending(static entry => entry.Earned)
+                .ThenByDescending(static entry => entry.AwardedUtc)
+                .ThenByDescending(static entry => entry.WinRate)
+                .ToList();
+            Badges.Clear();
+            foreach (LibraryBadgeEntry entry in entries)
+                Badges.Add(entry);
+            if (progress.Total == 0)
+                BadgeStatus = Strings.Library_Badges_None;
+            else if (!progress.SignedIn)
+                BadgeStatus = Strings.Library_Badges_SignedOut;
+            SetBadgeSummary(progress.SignedIn ? progress.Earned : 0, progress.SignedIn ? progress.Total : 0);
+            BadgesLoading = false;
+            if (entries.Count == 0)
+                return;
+            IReadOnlyDictionary<long, string> icons = await RobloxBadges.GetIconsAsync(entries.Select(static entry => entry.Id).ToList(), token);
+            token.ThrowIfCancellationRequested();
+            if (!IsCurrentBadgeLoad(universeId, version))
+                return;
+            foreach (LibraryBadgeEntry entry in entries)
+            {
+                if (icons.TryGetValue(entry.Id, out string? icon))
+                    entry.IconUrl = icon;
+            }
+        }
+        catch (OperationCanceledException) when (token.IsCancellationRequested)
+        {
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("LibraryViewModel", "Badges could not be loaded for universe " + universeId + ": " + ex.Message);
+            if (IsCurrentBadgeLoad(universeId, version) && Badges.Count == 0)
+                BadgeStatus = Strings.Library_Badges_Failed;
+        }
+        finally
+        {
+            if (ReferenceEquals(_badgeLoadCts, cancellation))
+            {
+                _badgeLoadCts = null;
+                BadgesLoading = false;
+            }
+            cancellation.Dispose();
+        }
+    }
+
+    private void ApplyBadgeProgressToEntries(long universeId, RobloxBadges.Progress progress)
+    {
+        int earned = progress.SignedIn ? progress.Earned : -1;
+        foreach (LibraryGameEntry entry in _masterGames)
+        {
+            if (entry.UniverseId == universeId)
+                entry.SetBadgeProgress(earned, progress.Total);
+        }
+        if (_selectedGame?.UniverseId == universeId)
+            _selectedGame.SetBadgeProgress(earned, progress.Total);
+    }
+
+    private void StartBadgeFill(List<LibraryGameEntry> games)
+    {
+        List<long> universes = games.Where(static game => game.UniverseId > 0).Select(static game => game.UniverseId).Distinct().ToList();
+        CancellationTokenSource? previous = _badgeFillCts;
+        CancellationTokenSource current = new();
+        _badgeFillCts = current;
+        previous?.Cancel();
+        _ = FillBadgeProgressAsync(universes, current);
+    }
+
+    private async Task FillBadgeProgressAsync(List<long> universes, CancellationTokenSource cancellation)
+    {
+        CancellationToken token = cancellation.Token;
+        try
+        {
+            foreach (long universeId in universes)
+            {
+                token.ThrowIfCancellationRequested();
+                try
+                {
+                    RobloxBadges.Progress progress = await RobloxBadges.GetProgressAsync(universeId, refreshAwarded: false, token).ConfigureAwait(false);
+                    await UpdateUiAsync(() => ApplyBadgeProgressToEntries(universeId, progress)).ConfigureAwait(false);
+                }
+                catch (OperationCanceledException) when (token.IsCancellationRequested)
+                {
+                    throw;
+                }
+                catch (Exception ex)
+                {
+                    App.Logger.WriteLine("LibraryViewModel", "Badge progress skipped for universe " + universeId + ": " + ex.Message);
+                }
+                await Task.Delay(250, token).ConfigureAwait(false);
+            }
+        }
+        catch (OperationCanceledException) when (token.IsCancellationRequested)
+        {
+        }
+        finally
+        {
+            if (ReferenceEquals(_badgeFillCts, cancellation))
+                _badgeFillCts = null;
+            cancellation.Dispose();
         }
     }
 

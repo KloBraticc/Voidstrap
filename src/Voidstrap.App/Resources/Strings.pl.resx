@@ -6640,4 +6640,46 @@ Co chcesz zrobić?</value>
 
 Spróbować ponownie usunąć?</value>
   </data>
+  <data name="Library.Badges.Stat" xml:space="preserve">
+    <value>ODZNAKI</value>
+  </data>
+  <data name="Library.Badges.Tab" xml:space="preserve">
+    <value>Odznaki</value>
+  </data>
+  <data name="Library.Badges.StatNone" xml:space="preserve">
+    <value>Brak</value>
+  </data>
+  <data name="Library.Badges.Summary" xml:space="preserve">
+    <value>Zdobyto {0} z {1} odznak</value>
+  </data>
+  <data name="Library.Badges.Percent" xml:space="preserve">
+    <value>Ukończono {0}%</value>
+  </data>
+  <data name="Library.Badges.EarnedOn" xml:space="preserve">
+    <value>Zdobyto {0}</value>
+  </data>
+  <data name="Library.Badges.EarnedNoDate" xml:space="preserve">
+    <value>Zdobyta</value>
+  </data>
+  <data name="Library.Badges.Locked" xml:space="preserve">
+    <value>Jeszcze nie zdobyta</value>
+  </data>
+  <data name="Library.Badges.Rarity" xml:space="preserve">
+    <value>{0}% graczy ma tę odznakę</value>
+  </data>
+  <data name="Library.Badges.None" xml:space="preserve">
+    <value>Ta gra nie ma jeszcze odznak.</value>
+  </data>
+  <data name="Library.Badges.SignedOut" xml:space="preserve">
+    <value>Zaloguj się do Roblox, aby zobaczyć, które odznaki zdobyłeś.</value>
+  </data>
+  <data name="Library.Badges.Failed" xml:space="preserve">
+    <value>Nie udało się teraz wczytać odznak. Spróbuj ponownie później.</value>
+  </data>
+  <data name="Library.Badges.Refresh" xml:space="preserve">
+    <value>Odśwież odznaki</value>
+  </data>
+  <data name="Library.Badges.Open" xml:space="preserve">
+    <value>Otwórz tę odznakę na roblox.com</value>
+  </data>
 </root>

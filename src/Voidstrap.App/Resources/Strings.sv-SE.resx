@@ -6604,4 +6604,46 @@ Vad vill du göra?</value>
 
 Försöka ta bort igen?</value>
   </data>
+  <data name="Library.Badges.Stat" xml:space="preserve">
+    <value>MÄRKEN</value>
+  </data>
+  <data name="Library.Badges.Tab" xml:space="preserve">
+    <value>Märken</value>
+  </data>
+  <data name="Library.Badges.StatNone" xml:space="preserve">
+    <value>Inga</value>
+  </data>
+  <data name="Library.Badges.Summary" xml:space="preserve">
+    <value>{0} av {1} märken intjänade</value>
+  </data>
+  <data name="Library.Badges.Percent" xml:space="preserve">
+    <value>{0}% klart</value>
+  </data>
+  <data name="Library.Badges.EarnedOn" xml:space="preserve">
+    <value>Intjänat {0}</value>
+  </data>
+  <data name="Library.Badges.EarnedNoDate" xml:space="preserve">
+    <value>Intjänat</value>
+  </data>
+  <data name="Library.Badges.Locked" xml:space="preserve">
+    <value>Inte intjänat än</value>
+  </data>
+  <data name="Library.Badges.Rarity" xml:space="preserve">
+    <value>{0}% av spelarna har detta</value>
+  </data>
+  <data name="Library.Badges.None" xml:space="preserve">
+    <value>Det här spelet har inga märken än.</value>
+  </data>
+  <data name="Library.Badges.SignedOut" xml:space="preserve">
+    <value>Logga in på Roblox för att se vilka märken du har tjänat in.</value>
+  </data>
+  <data name="Library.Badges.Failed" xml:space="preserve">
+    <value>Märkena kunde inte laddas just nu. Försök igen senare.</value>
+  </data>
+  <data name="Library.Badges.Refresh" xml:space="preserve">
+    <value>Uppdatera märken</value>
+  </data>
+  <data name="Library.Badges.Open" xml:space="preserve">
+    <value>Öppna det här märket på roblox.com</value>
+  </data>
 </root>

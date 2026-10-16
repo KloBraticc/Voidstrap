@@ -6680,4 +6680,46 @@ Ką norėtumėte daryti?</value>
 
 Bandyti pašalinti dar kartą?</value>
   </data>
+  <data name="Library.Badges.Stat" xml:space="preserve">
+    <value>ŽENKLELIAI</value>
+  </data>
+  <data name="Library.Badges.Tab" xml:space="preserve">
+    <value>Ženkleliai</value>
+  </data>
+  <data name="Library.Badges.StatNone" xml:space="preserve">
+    <value>Nėra</value>
+  </data>
+  <data name="Library.Badges.Summary" xml:space="preserve">
+    <value>Gauta ženklelių: {0} iš {1}</value>
+  </data>
+  <data name="Library.Badges.Percent" xml:space="preserve">
+    <value>Įvykdyta {0}%</value>
+  </data>
+  <data name="Library.Badges.EarnedOn" xml:space="preserve">
+    <value>Gauta {0}</value>
+  </data>
+  <data name="Library.Badges.EarnedNoDate" xml:space="preserve">
+    <value>Gauta</value>
+  </data>
+  <data name="Library.Badges.Locked" xml:space="preserve">
+    <value>Dar negauta</value>
+  </data>
+  <data name="Library.Badges.Rarity" xml:space="preserve">
+    <value>Turi {0}% žaidėjų</value>
+  </data>
+  <data name="Library.Badges.None" xml:space="preserve">
+    <value>Šis žaidimas dar neturi ženklelių.</value>
+  </data>
+  <data name="Library.Badges.SignedOut" xml:space="preserve">
+    <value>Prisijunkite prie Roblox, kad matytumėte, kokius ženklelius gavote.</value>
+  </data>
+  <data name="Library.Badges.Failed" xml:space="preserve">
+    <value>Ženklelių šiuo metu nepavyko įkelti. Bandykite vėliau.</value>
+  </data>
+  <data name="Library.Badges.Refresh" xml:space="preserve">
+    <value>Atnaujinti ženklelius</value>
+  </data>
+  <data name="Library.Badges.Open" xml:space="preserve">
+    <value>Atidaryti šį ženklelį roblox.com</value>
+  </data>
 </root>

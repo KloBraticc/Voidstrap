@@ -2471,6 +2471,34 @@ namespace Voidstrap.Resources {
 
         public static string SwiftTunnel_RetryPrompt => ResourceManager.GetString("SwiftTunnel.RetryPrompt", resourceCulture);
 
+        public static string Library_Badges_Stat => ResourceManager.GetString("Library.Badges.Stat", resourceCulture);
+
+        public static string Library_Badges_Tab => ResourceManager.GetString("Library.Badges.Tab", resourceCulture);
+
+        public static string Library_Badges_StatNone => ResourceManager.GetString("Library.Badges.StatNone", resourceCulture);
+
+        public static string Library_Badges_Summary => ResourceManager.GetString("Library.Badges.Summary", resourceCulture);
+
+        public static string Library_Badges_Percent => ResourceManager.GetString("Library.Badges.Percent", resourceCulture);
+
+        public static string Library_Badges_EarnedOn => ResourceManager.GetString("Library.Badges.EarnedOn", resourceCulture);
+
+        public static string Library_Badges_EarnedNoDate => ResourceManager.GetString("Library.Badges.EarnedNoDate", resourceCulture);
+
+        public static string Library_Badges_Locked => ResourceManager.GetString("Library.Badges.Locked", resourceCulture);
+
+        public static string Library_Badges_Rarity => ResourceManager.GetString("Library.Badges.Rarity", resourceCulture);
+
+        public static string Library_Badges_None => ResourceManager.GetString("Library.Badges.None", resourceCulture);
+
+        public static string Library_Badges_SignedOut => ResourceManager.GetString("Library.Badges.SignedOut", resourceCulture);
+
+        public static string Library_Badges_Failed => ResourceManager.GetString("Library.Badges.Failed", resourceCulture);
+
+        public static string Library_Badges_Refresh => ResourceManager.GetString("Library.Badges.Refresh", resourceCulture);
+
+        public static string Library_Badges_Open => ResourceManager.GetString("Library.Badges.Open", resourceCulture);
+
         public static string Menu_Appearance_Accent_Title => ResourceManager.GetString("Menu.Appearance.Accent.Title", resourceCulture);
 
         public static string Menu_Appearance_Accent_Description => ResourceManager.GetString("Menu.Appearance.Accent.Description", resourceCulture);

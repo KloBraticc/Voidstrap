@@ -6626,4 +6626,46 @@ Co chcete udělat?</value>
 
 Zkusit odebrání znovu?</value>
   </data>
+  <data name="Library.Badges.Stat" xml:space="preserve">
+    <value>ODZNAKY</value>
+  </data>
+  <data name="Library.Badges.Tab" xml:space="preserve">
+    <value>Odznaky</value>
+  </data>
+  <data name="Library.Badges.StatNone" xml:space="preserve">
+    <value>Žádné</value>
+  </data>
+  <data name="Library.Badges.Summary" xml:space="preserve">
+    <value>Získáno {0} z {1} odznaků</value>
+  </data>
+  <data name="Library.Badges.Percent" xml:space="preserve">
+    <value>Dokončeno {0}%</value>
+  </data>
+  <data name="Library.Badges.EarnedOn" xml:space="preserve">
+    <value>Získáno {0}</value>
+  </data>
+  <data name="Library.Badges.EarnedNoDate" xml:space="preserve">
+    <value>Získáno</value>
+  </data>
+  <data name="Library.Badges.Locked" xml:space="preserve">
+    <value>Zatím nezískáno</value>
+  </data>
+  <data name="Library.Badges.Rarity" xml:space="preserve">
+    <value>Má ho {0}% hráčů</value>
+  </data>
+  <data name="Library.Badges.None" xml:space="preserve">
+    <value>Tato hra zatím nemá žádné odznaky.</value>
+  </data>
+  <data name="Library.Badges.SignedOut" xml:space="preserve">
+    <value>Přihlaste se do Robloxu a uvidíte, které odznaky jste získali.</value>
+  </data>
+  <data name="Library.Badges.Failed" xml:space="preserve">
+    <value>Odznaky se teď nepodařilo načíst. Zkuste to později.</value>
+  </data>
+  <data name="Library.Badges.Refresh" xml:space="preserve">
+    <value>Obnovit odznaky</value>
+  </data>
+  <data name="Library.Badges.Open" xml:space="preserve">
+    <value>Otevřít tento odznak na roblox.com</value>
+  </data>
 </root>

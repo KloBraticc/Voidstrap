@@ -6602,4 +6602,46 @@ Wat wil je doen?</value>
 
 Het verwijderen opnieuw proberen?</value>
   </data>
+  <data name="Library.Badges.Stat" xml:space="preserve">
+    <value>BADGES</value>
+  </data>
+  <data name="Library.Badges.Tab" xml:space="preserve">
+    <value>Badges</value>
+  </data>
+  <data name="Library.Badges.StatNone" xml:space="preserve">
+    <value>Geen</value>
+  </data>
+  <data name="Library.Badges.Summary" xml:space="preserve">
+    <value>{0} van {1} badges behaald</value>
+  </data>
+  <data name="Library.Badges.Percent" xml:space="preserve">
+    <value>{0}% voltooid</value>
+  </data>
+  <data name="Library.Badges.EarnedOn" xml:space="preserve">
+    <value>Behaald op {0}</value>
+  </data>
+  <data name="Library.Badges.EarnedNoDate" xml:space="preserve">
+    <value>Behaald</value>
+  </data>
+  <data name="Library.Badges.Locked" xml:space="preserve">
+    <value>Nog niet behaald</value>
+  </data>
+  <data name="Library.Badges.Rarity" xml:space="preserve">
+    <value>{0}% van de spelers heeft deze</value>
+  </data>
+  <data name="Library.Badges.None" xml:space="preserve">
+    <value>Deze game heeft nog geen badges.</value>
+  </data>
+  <data name="Library.Badges.SignedOut" xml:space="preserve">
+    <value>Meld je aan bij Roblox om te zien welke badges je hebt behaald.</value>
+  </data>
+  <data name="Library.Badges.Failed" xml:space="preserve">
+    <value>Badges konden nu niet worden geladen. Probeer het later opnieuw.</value>
+  </data>
+  <data name="Library.Badges.Refresh" xml:space="preserve">
+    <value>Badges vernieuwen</value>
+  </data>
+  <data name="Library.Badges.Open" xml:space="preserve">
+    <value>Deze badge openen op roblox.com</value>
+  </data>
 </root>

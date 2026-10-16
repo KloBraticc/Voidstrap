@@ -522,6 +522,16 @@
                         <TextBlock FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" TextTrimming="CharacterEllipsis" Text="{Binding Name}" ToolTip="{Binding Name}" />
                         <ui:SymbolIcon HorizontalAlignment="Right" Symbol="Pin16" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Visibility="{Binding PinIconVisibility}" />
                       </Grid>
+                      <Grid Margin="8,0,8,8" Visibility="{Binding BadgeProgressVisibility}" ToolTip="{Binding BadgeTooltip}">
+                        <Grid.ColumnDefinitions>
+                          <ColumnDefinition Width="Auto" />
+                          <ColumnDefinition Width="*" />
+                          <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <ui:SymbolIcon Grid.Column="0" Symbol="Trophy16" FontSize="11" Margin="0,0,5,0" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                        <ProgressBar Grid.Column="1" Height="4" MinHeight="4" VerticalAlignment="Center" Minimum="0" Maximum="100" Value="{Binding BadgeProgressPercent, Mode=OneWay}" />
+                        <TextBlock Grid.Column="2" Margin="6,0,0,0" FontSize="10" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding BadgeProgressText}" />
+                      </Grid>
                     </StackPanel>
                   </Button>
                 </DataTemplate>
@@ -574,6 +584,10 @@
                 <TextBlock FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Pages_PLAYINGNOW}" />
                 <TextBlock FontSize="13" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding SelectedGame.PlayingDisplay}" />
               </StackPanel>
+              <StackPanel Margin="0,0,22,0" ToolTip="{Binding SelectedGame.BadgeTooltip}">
+                <TextBlock FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Library_Badges_Stat}" />
+                <TextBlock FontSize="13" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding SelectedGame.BadgeStatDisplay}" />
+              </StackPanel>
               <StackPanel>
                 <TextBlock FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Pages_RATING}" />
                 <TextBlock FontSize="13" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding SelectedGame.LikePercent}" />
@@ -618,6 +632,67 @@
                   <TextBlock Grid.Row="5" Grid.Column="0" Margin="0,0,18,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Pages_Updated}" />
                   <TextBlock Grid.Row="5" Grid.Column="1" FontSize="12" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding SelectedGame.UpdatedDisplay}" />
                 </Grid>
+              </StackPanel>
+            </TabItem>
+            <TabItem>
+              <TabItem.Header>
+                <StackPanel Orientation="Horizontal">
+                  <ui:SymbolIcon Symbol="Trophy24" Margin="0,0,6,0" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=TabItem}}" />
+                  <TextBlock Text="{resources:Loc Library_Badges_Tab}" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=TabItem}}" />
+                </StackPanel>
+              </TabItem.Header>
+              <StackPanel Margin="12">
+                <Border Margin="0,0,0,12" Padding="14,12" CornerRadius="8" Background="{DynamicResource ControlFillColorDefaultBrush}" Visibility="{Binding BadgeSummaryVisibility}">
+                  <Grid>
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="Auto" />
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <ui:SymbolIcon Grid.Column="0" Symbol="Trophy24" FontSize="28" Margin="0,0,14,0" VerticalAlignment="Center" Foreground="{DynamicResource SystemAccentColorSecondaryBrush}" />
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                      <Grid>
+                        <TextBlock FontSize="15" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding BadgeSummaryText}" />
+                        <TextBlock HorizontalAlignment="Right" FontSize="13" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding BadgeSummaryPercentText}" />
+                      </Grid>
+                      <ProgressBar Height="8" MinHeight="8" Margin="0,8,0,0" Minimum="0" Maximum="100" Value="{Binding BadgeSummaryPercent, Mode=OneWay}" />
+                    </StackPanel>
+                    <ui:Button Grid.Column="2" Margin="14,0,0,0" VerticalAlignment="Center" Appearance="Secondary" Icon="ArrowSync24" ToolTip="{resources:Loc Library_Badges_Refresh}" Command="{Binding RefreshBadgesCommand}" />
+                  </Grid>
+                </Border>
+                <ProgressBar Height="4" Margin="0,0,0,12" IsIndeterminate="True" Visibility="{Binding BadgesLoading, Converter={StaticResource BoolToVis}}" />
+                <TextBlock Margin="0,0,0,12" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding BadgeStatus}" Visibility="{Binding BadgeStatusVisibility}" />
+                <ItemsControl VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" ItemsSource="{Binding Badges}">
+                  <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                      <Button Style="{StaticResource ShelfCardButton}" Margin="0,0,0,8" AutomationProperties.Name="{Binding Name}" ToolTip="{resources:Loc Library_Badges_Open}" Command="{Binding DataContext.OpenBadgeCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}">
+                        <Grid Margin="10" Opacity="{Binding CardOpacity}">
+                          <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                          </Grid.ColumnDefinitions>
+                          <Border Width="56" Height="56" CornerRadius="28" ClipToBounds="True" Background="{DynamicResource ControlFillColorSecondaryBrush}">
+                            <Grid>
+                              <ui:SymbolIcon Symbol="Trophy24" FontSize="22" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                              <Image util:DynamicRenderSystem.LazyImageSource="{Binding IconUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}" Stretch="UniformToFill" />
+                            </Grid>
+                          </Border>
+                          <StackPanel Grid.Column="1" Margin="12,0,12,0" VerticalAlignment="Center">
+                            <TextBlock FontSize="13" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding Name}" />
+                            <TextBlock Margin="0,2,0,0" FontSize="12" TextWrapping="Wrap" MaxHeight="34" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding Description}" Visibility="{Binding DescriptionVisibility}" />
+                            <TextBlock Margin="0,3,0,0" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding RarityText}" Visibility="{Binding RarityVisibility}" />
+                          </StackPanel>
+                          <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                            <ui:SymbolIcon Symbol="CheckmarkCircle20" FontSize="16" Margin="0,0,6,0" Foreground="{DynamicResource SystemFillColorSuccessBrush}" Visibility="{Binding EarnedVisibility}" />
+                            <ui:SymbolIcon Symbol="LockClosed20" FontSize="16" Margin="0,0,6,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Visibility="{Binding LockedVisibility}" />
+                            <TextBlock FontSize="12" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding StateText}" />
+                          </StackPanel>
+                        </Grid>
+                      </Button>
+                    </DataTemplate>
+                  </ItemsControl.ItemTemplate>
+                </ItemsControl>
               </StackPanel>
             </TabItem>
             <TabItem>

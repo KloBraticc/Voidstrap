@@ -6667,4 +6667,46 @@ Voidstrap 的安装路径是：
 
 要重试移除吗？</value>
   </data>
+  <data name="Library.Badges.Stat" xml:space="preserve">
+    <value>徽章</value>
+  </data>
+  <data name="Library.Badges.Tab" xml:space="preserve">
+    <value>徽章</value>
+  </data>
+  <data name="Library.Badges.StatNone" xml:space="preserve">
+    <value>无</value>
+  </data>
+  <data name="Library.Badges.Summary" xml:space="preserve">
+    <value>已获得 {0}/{1} 个徽章</value>
+  </data>
+  <data name="Library.Badges.Percent" xml:space="preserve">
+    <value>已完成 {0}%</value>
+  </data>
+  <data name="Library.Badges.EarnedOn" xml:space="preserve">
+    <value>获得于 {0}</value>
+  </data>
+  <data name="Library.Badges.EarnedNoDate" xml:space="preserve">
+    <value>已获得</value>
+  </data>
+  <data name="Library.Badges.Locked" xml:space="preserve">
+    <value>尚未获得</value>
+  </data>
+  <data name="Library.Badges.Rarity" xml:space="preserve">
+    <value>{0}% 的玩家拥有</value>
+  </data>
+  <data name="Library.Badges.None" xml:space="preserve">
+    <value>此游戏还没有徽章。</value>
+  </data>
+  <data name="Library.Badges.SignedOut" xml:space="preserve">
+    <value>登录 Roblox 即可查看您已获得的徽章。</value>
+  </data>
+  <data name="Library.Badges.Failed" xml:space="preserve">
+    <value>暂时无法加载徽章，请稍后再试。</value>
+  </data>
+  <data name="Library.Badges.Refresh" xml:space="preserve">
+    <value>刷新徽章</value>
+  </data>
+  <data name="Library.Badges.Open" xml:space="preserve">
+    <value>在 roblox.com 上打开此徽章</value>
+  </data>
 </root>

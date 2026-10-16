@@ -6637,4 +6637,46 @@ Roblox se descargará cuando lo inicies por primera vez a través de Voidstrap. 
 
 ¿Volver a intentar la eliminación?</value>
   </data>
+  <data name="Library.Badges.Stat" xml:space="preserve">
+    <value>INSIGNIAS</value>
+  </data>
+  <data name="Library.Badges.Tab" xml:space="preserve">
+    <value>Insignias</value>
+  </data>
+  <data name="Library.Badges.StatNone" xml:space="preserve">
+    <value>Ninguna</value>
+  </data>
+  <data name="Library.Badges.Summary" xml:space="preserve">
+    <value>{0} de {1} insignias conseguidas</value>
+  </data>
+  <data name="Library.Badges.Percent" xml:space="preserve">
+    <value>{0}% completado</value>
+  </data>
+  <data name="Library.Badges.EarnedOn" xml:space="preserve">
+    <value>Conseguida el {0}</value>
+  </data>
+  <data name="Library.Badges.EarnedNoDate" xml:space="preserve">
+    <value>Conseguida</value>
+  </data>
+  <data name="Library.Badges.Locked" xml:space="preserve">
+    <value>Aún no conseguida</value>
+  </data>
+  <data name="Library.Badges.Rarity" xml:space="preserve">
+    <value>El {0}% de los jugadores la tiene</value>
+  </data>
+  <data name="Library.Badges.None" xml:space="preserve">
+    <value>Este juego aún no tiene insignias.</value>
+  </data>
+  <data name="Library.Badges.SignedOut" xml:space="preserve">
+    <value>Inicia sesión en Roblox para ver qué insignias has conseguido.</value>
+  </data>
+  <data name="Library.Badges.Failed" xml:space="preserve">
+    <value>No se han podido cargar las insignias ahora. Inténtalo más tarde.</value>
+  </data>
+  <data name="Library.Badges.Refresh" xml:space="preserve">
+    <value>Actualizar insignias</value>
+  </data>
+  <data name="Library.Badges.Open" xml:space="preserve">
+    <value>Abrir esta insignia en roblox.com</value>
+  </data>
 </root>

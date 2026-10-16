@@ -6648,4 +6648,46 @@ Roblox будет скачан при первом запуске через Voi
 
 Повторить удаление?</value>
   </data>
+  <data name="Library.Badges.Stat" xml:space="preserve">
+    <value>ЗНАЧКИ</value>
+  </data>
+  <data name="Library.Badges.Tab" xml:space="preserve">
+    <value>Значки</value>
+  </data>
+  <data name="Library.Badges.StatNone" xml:space="preserve">
+    <value>Нет</value>
+  </data>
+  <data name="Library.Badges.Summary" xml:space="preserve">
+    <value>Получено значков: {0} из {1}</value>
+  </data>
+  <data name="Library.Badges.Percent" xml:space="preserve">
+    <value>Выполнено на {0}%</value>
+  </data>
+  <data name="Library.Badges.EarnedOn" xml:space="preserve">
+    <value>Получен {0}</value>
+  </data>
+  <data name="Library.Badges.EarnedNoDate" xml:space="preserve">
+    <value>Получен</value>
+  </data>
+  <data name="Library.Badges.Locked" xml:space="preserve">
+    <value>Ещё не получен</value>
+  </data>
+  <data name="Library.Badges.Rarity" xml:space="preserve">
+    <value>Есть у {0}% игроков</value>
+  </data>
+  <data name="Library.Badges.None" xml:space="preserve">
+    <value>В этой игре пока нет значков.</value>
+  </data>
+  <data name="Library.Badges.SignedOut" xml:space="preserve">
+    <value>Войдите в Roblox, чтобы увидеть, какие значки Вы получили.</value>
+  </data>
+  <data name="Library.Badges.Failed" xml:space="preserve">
+    <value>Сейчас не удалось загрузить значки. Попробуйте позже.</value>
+  </data>
+  <data name="Library.Badges.Refresh" xml:space="preserve">
+    <value>Обновить значки</value>
+  </data>
+  <data name="Library.Badges.Open" xml:space="preserve">
+    <value>Открыть этот значок на roblox.com</value>
+  </data>
 </root>

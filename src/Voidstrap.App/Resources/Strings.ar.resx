@@ -6675,4 +6675,46 @@
 
 هل تريد إعادة محاولة الإزالة؟</value>
   </data>
+  <data name="Library.Badges.Stat" xml:space="preserve">
+    <value>الشارات</value>
+  </data>
+  <data name="Library.Badges.Tab" xml:space="preserve">
+    <value>الشارات</value>
+  </data>
+  <data name="Library.Badges.StatNone" xml:space="preserve">
+    <value>لا شيء</value>
+  </data>
+  <data name="Library.Badges.Summary" xml:space="preserve">
+    <value>تم الحصول على {0} من {1} شارة</value>
+  </data>
+  <data name="Library.Badges.Percent" xml:space="preserve">
+    <value>اكتمل {0}%</value>
+  </data>
+  <data name="Library.Badges.EarnedOn" xml:space="preserve">
+    <value>حصلت عليها في {0}</value>
+  </data>
+  <data name="Library.Badges.EarnedNoDate" xml:space="preserve">
+    <value>تم الحصول عليها</value>
+  </data>
+  <data name="Library.Badges.Locked" xml:space="preserve">
+    <value>لم تحصل عليها بعد</value>
+  </data>
+  <data name="Library.Badges.Rarity" xml:space="preserve">
+    <value>يملكها {0}% من اللاعبين</value>
+  </data>
+  <data name="Library.Badges.None" xml:space="preserve">
+    <value>لا توجد شارات في هذه اللعبة بعد.</value>
+  </data>
+  <data name="Library.Badges.SignedOut" xml:space="preserve">
+    <value>سجّل الدخول إلى Roblox لترى الشارات التي حصلت عليها.</value>
+  </data>
+  <data name="Library.Badges.Failed" xml:space="preserve">
+    <value>تعذر تحميل الشارات الآن. حاول مرة أخرى لاحقًا.</value>
+  </data>
+  <data name="Library.Badges.Refresh" xml:space="preserve">
+    <value>تحديث الشارات</value>
+  </data>
+  <data name="Library.Badges.Open" xml:space="preserve">
+    <value>فتح هذه الشارة على roblox.com</value>
+  </data>
 </root>

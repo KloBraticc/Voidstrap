@@ -6652,4 +6652,46 @@ Bạn muốn làm gì?</value>
 
 Thử gỡ bỏ lại?</value>
   </data>
+  <data name="Library.Badges.Stat" xml:space="preserve">
+    <value>HUY HIỆU</value>
+  </data>
+  <data name="Library.Badges.Tab" xml:space="preserve">
+    <value>Huy hiệu</value>
+  </data>
+  <data name="Library.Badges.StatNone" xml:space="preserve">
+    <value>Không có</value>
+  </data>
+  <data name="Library.Badges.Summary" xml:space="preserve">
+    <value>Đã đạt {0} trên {1} huy hiệu</value>
+  </data>
+  <data name="Library.Badges.Percent" xml:space="preserve">
+    <value>Hoàn thành {0}%</value>
+  </data>
+  <data name="Library.Badges.EarnedOn" xml:space="preserve">
+    <value>Đạt được {0}</value>
+  </data>
+  <data name="Library.Badges.EarnedNoDate" xml:space="preserve">
+    <value>Đã đạt</value>
+  </data>
+  <data name="Library.Badges.Locked" xml:space="preserve">
+    <value>Chưa đạt</value>
+  </data>
+  <data name="Library.Badges.Rarity" xml:space="preserve">
+    <value>{0}% người chơi có huy hiệu này</value>
+  </data>
+  <data name="Library.Badges.None" xml:space="preserve">
+    <value>Trò chơi này chưa có huy hiệu.</value>
+  </data>
+  <data name="Library.Badges.SignedOut" xml:space="preserve">
+    <value>Đăng nhập Roblox để xem bạn đã đạt những huy hiệu nào.</value>
+  </data>
+  <data name="Library.Badges.Failed" xml:space="preserve">
+    <value>Hiện không thể tải huy hiệu. Hãy thử lại sau.</value>
+  </data>
+  <data name="Library.Badges.Refresh" xml:space="preserve">
+    <value>Làm mới huy hiệu</value>
+  </data>
+  <data name="Library.Badges.Open" xml:space="preserve">
+    <value>Mở huy hiệu này trên roblox.com</value>
+  </data>
 </root>
