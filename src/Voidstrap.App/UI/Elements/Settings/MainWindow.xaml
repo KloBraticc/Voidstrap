@@ -819,7 +819,7 @@
           <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
             <ui:TextBox Name="GlobalSearchBox" Margin="0,0,6,0" HorizontalAlignment="Right" Visibility="Collapsed" PlaceholderText="{resources:Loc Ui_Main_SearchPlaceholder}" ClearButtonEnabled="True" Icon="Search24" TextChanged="GlobalSearchBox_TextChanged" />
           </StackPanel>
-          <TextBlock Margin="4,0,28,0" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding AppVersion}" />
+          <ui:InfoBar Margin="0,0,28,0" Grid.Column="2" HorizontalAlignment="Right" Padding="3" IsClosable="True" IsOpen="True" Message="{Binding AppVersion}" appUi:LinuxTextGuard.PreserveCompactLayout="True" />
         </Grid>
         <Border Name="PageSurface" Grid.Row="1" Margin="0" Padding="12,10,2,0" CornerRadius="8,0,0,0" Background="{DynamicResource LayerFillColorDefaultBrush}" BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="1,1,0,0" SnapsToDevicePixels="True" UseLayoutRounding="True">
           <Frame Name="RootFrame" ClipToBounds="True" />
