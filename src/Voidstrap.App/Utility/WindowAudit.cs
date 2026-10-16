@@ -269,6 +269,58 @@ internal static class WindowAudit
 		return failed == 0 && FailedChecks.Count == 0;
 	}
 
+	private static void CaptureMainWindowPages()
+	{
+		string folder = Environment.GetEnvironmentVariable("VOIDSTRAP_AUDIT_CAPTURE_DIR") ?? System.IO.Path.Combine(System.IO.Path.GetTempPath(), "Voidstrap", "captures");
+		System.IO.Directory.CreateDirectory(folder);
+		Voidstrap.UI.Elements.Settings.MainWindow window = new Voidstrap.UI.Elements.Settings.MainWindow(false)
+		{
+			WindowStartupLocation = WindowStartupLocation.Manual,
+			Left = 40,
+			Top = 40,
+			Width = 1100,
+			Height = 720,
+			Topmost = true
+		};
+		window.Show();
+		window.Activate();
+		Pump(2500);
+		List<Wpf.Ui.Controls.NavigationItem> items = window.RootNavigation.Items.OfType<Wpf.Ui.Controls.NavigationItem>()
+			.Concat(window.RootNavigation.Footer.OfType<Wpf.Ui.Controls.NavigationItem>())
+			.Where(item => item.PageType != null && item.Visibility == Visibility.Visible)
+			.ToList();
+		string? only = Environment.GetEnvironmentVariable("VOIDSTRAP_AUDIT_CAPTURE_PAGES");
+		HashSet<string>? wanted = string.IsNullOrWhiteSpace(only) ? null : new HashSet<string>(only.Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries), StringComparer.OrdinalIgnoreCase);
+		foreach (Wpf.Ui.Controls.NavigationItem item in items)
+		{
+			string name = item.PageType!.Name;
+			if (wanted != null && !wanted.Contains(name))
+				continue;
+			window.RootNavigation.Navigate(item.PageType);
+			Pump(1800);
+			CaptureScreen(window, System.IO.Path.Combine(folder, name + ".png"));
+			Emit($"capture: {name} search {window.GlobalSearchBox.ActualWidth}x{window.GlobalSearchBox.ActualHeight} max {window.GlobalSearchBox.MaxWidth} width {window.GlobalSearchBox.Width}");
+		}
+		Emit("capture: saved pages to " + folder);
+		Environment.Exit(0);
+	}
+
+	private static void CaptureScreen(Window window, string path)
+	{
+		PresentationSource? source = PresentationSource.FromVisual(window);
+		double scaleX = source?.CompositionTarget?.TransformToDevice.M11 ?? 1.0;
+		double scaleY = source?.CompositionTarget?.TransformToDevice.M22 ?? 1.0;
+		int x = (int)Math.Round(window.Left * scaleX);
+		int y = (int)Math.Round(window.Top * scaleY);
+		int w = (int)Math.Round(window.ActualWidth * scaleX);
+		int h = (int)Math.Round(window.ActualHeight * scaleY);
+		using System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(w, h);
+		using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(bitmap))
+			graphics.CopyFromScreen(x, y, 0, 0, new System.Drawing.Size(w, h));
+		bitmap.Save(path, System.Drawing.Imaging.ImageFormat.Png);
+		Emit("capture: " + path);
+	}
+
 	private static void AuditJoinNotificationIcon()
 	{
 		Voidstrap.UI.Elements.Overlay.NotificationWindow? window = null;
