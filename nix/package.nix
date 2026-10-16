@@ -68,14 +68,14 @@ let
 in
 buildDotnetModule (finalAttrs: {
   pname = "voidstrap";
-  version = "1.1.3.5";
+  version = "1.1.3.7";
 
   src = fetchFromGitHub {
     owner = "KloBraticc";
     repo = "Voidstrap";
     tag = "v${finalAttrs.version}";
     fetchSubmodules = true;
-    hash = "sha256-xLKSOLN0qXCjZWRNSILExvy4RdFxtlK+MOmJmxdf4o8=";
+    hash = "sha256-JQ1nysuUxCIEOIHplEl+KffUkI04KMXelAEdsrBXKNk=";
   };
 
   projectFile = "src/Voidstrap.Cross/Voidstrap.Cross.csproj";
