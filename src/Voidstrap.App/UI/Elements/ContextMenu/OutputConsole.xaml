@@ -15,7 +15,7 @@
     </Grid.RowDefinitions>
     <ui:TitleBar Name="RootTitleBar" Grid.Row="0" Grid.ColumnSpan="2" Padding="8" Title="{resources:Loc ContextMenu_PlayerLogs_Title}" ShowMinimize="True" ShowMaximize="False" CanMaximize="False" KeyboardNavigation.TabNavigation="None" Icon="pack://application:,,,/Voidstrap.png" />
     <TextBlock Grid.Row="1" Margin="16,8,16,0" Text="{resources:Loc Menu_Context_PlayerLogs_Description}" TextWrapping="Wrap" />
-    <TextBlock Grid.Row="2" Margin="24" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Text="Player join and leave activity will appear here live.">
+    <TextBlock Grid.Row="2" Margin="24" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" Text="{resources:Loc Ui_Misc3_PlayerJoinAndLeaveActivityWill}">
       <FrameworkElement.Style>
         <Style TargetType="{x:Type TextBlock}">
           <Style.Triggers>
@@ -69,7 +69,7 @@
 	  <TextBlock Text="{Binding StatusText}" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
 	  <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
 	  <Button Content="{resources:Loc FlagSearch_Label25}" Command="{Binding ClearCommand}" Margin="0,0,8,0" Padding="12,6" />
-	  <Button Content="Download CSV" Command="{Binding ExportCommand}" Margin="0,0,8,0" Padding="12,6" />
+	  <Button Content="{resources:Loc Ui_Misc3_DownloadCSV}" Command="{Binding ExportCommand}" Margin="0,0,8,0" Padding="12,6" />
 	  <Button Content="{resources:Loc Common_Close}" Command="{Binding CloseWindowCommand}" Padding="12,6" />
 	  </StackPanel>
 	</Grid>

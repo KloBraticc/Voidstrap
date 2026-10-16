@@ -37,8 +37,8 @@
           <data:LicenseEntry Name="Bibata Cursor" Url="https://github.com/ful1e5/Bibata_Cursor/blob/v2.0.7/LICENSE" License="GPL 3.0" />
           <data:LicenseEntry Name="Twemoji Mozilla" Url="https://github.com/mozilla/twemoji-colr/blob/master/LICENSE.md" License="CC BY 4.0" />
         </ItemsControl>
-        <TextBlock Margin="0,18,0,10" FontSize="16" FontWeight="SemiBold" Text="Third party notices" />
-        <TextBlock x:Name="NoticesStatus" Margin="0,0,0,10" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Loading notices" />
+        <TextBlock Margin="0,18,0,10" FontSize="16" FontWeight="SemiBold" Text="{resources:Loc Ui_Misc3_ThirdPartyNotices}" />
+        <TextBlock x:Name="NoticesStatus" Margin="0,0,0,10" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Misc3_LoadingNotices}" />
         <ItemsControl x:Name="NoticeRows" ItemTemplate="{StaticResource NoticeRowTemplate}" />
       </StackPanel>
     </ScrollViewer>

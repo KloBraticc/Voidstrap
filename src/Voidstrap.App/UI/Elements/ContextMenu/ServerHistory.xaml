@@ -27,11 +27,11 @@
         <ColumnDefinition Width="Auto" />
         <ColumnDefinition Width="Auto" />
       </Grid.ColumnDefinitions>
-      <TextBlock Grid.Column="0" VerticalAlignment="Center" FontSize="13" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Sort:" />
+      <TextBlock Grid.Column="0" VerticalAlignment="Center" FontSize="13" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_Misc3_Sort}" />
       <ComboBox Grid.Column="1" Margin="8,0,20,0" Padding="8,4,8,4" FontSize="13"
                 ItemsSource="{Binding SortOptions}" SelectedItem="{Binding SelectedSort, Mode=TwoWay}"
                 DisplayMemberPath="Display" />
-      <TextBlock Grid.Column="3" Margin="0,0,8,0" VerticalAlignment="Center" FontSize="13" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Filter:" />
+      <TextBlock Grid.Column="3" Margin="0,0,8,0" VerticalAlignment="Center" FontSize="13" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_Misc3_Filter}" />
       <ComboBox Grid.Column="4" Padding="8,4,8,4" FontSize="13"
                 ItemsSource="{Binding ServerTypeFilters}" SelectedItem="{Binding SelectedServerTypeFilter, Mode=TwoWay}"
                 DisplayMemberPath="Display" />
@@ -128,11 +128,11 @@
                 <TextBlock Margin="0,4,0,8" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding GameHistoryDescription}" TextTrimming="CharacterEllipsis" />
                 <UniformGrid Columns="2" Rows="1" Margin="0,0,0,8">
                   <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Joined: " Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                    <TextBlock Text="{resources:Loc Ui_Home_Joined}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
                     <TextBlock Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding DisplayTimeJoined}" />
                   </StackPanel>
                   <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Left: " Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                    <TextBlock Text="{resources:Loc Ui_Misc3_Left}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
                     <TextBlock Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding DisplayTimeLeft}" />
                   </StackPanel>
 

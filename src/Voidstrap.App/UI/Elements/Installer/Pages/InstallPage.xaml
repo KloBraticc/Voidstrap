@@ -89,9 +89,9 @@
     </StackPanel>
     <controls:BootstrapperImportControl x:Name="ImportControl" Margin="0,12,0,0" StageOnly="True" />
     <StackPanel Visibility="{x:Static platform:PlatformFeatureVisibility.LinuxIntegration}">
-      <TextBlock Margin="0,28,0,0" FontSize="20" FontWeight="SemiBold" Text="Linux desktop integration" TextWrapping="Wrap" />
-      <TextBlock Margin="0,4,0,0" FontSize="14" LineHeight="20" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Voidstrap will be added to the application menu and registered for Roblox links. You can also create a launcher on the desktop." TextWrapping="Wrap" />
-      <controls:OptionControl Margin="0,4,0,4" Header="Create a desktop launcher">
+      <TextBlock Margin="0,28,0,0" FontSize="20" FontWeight="SemiBold" Text="{resources:Loc Ui_Misc3_LinuxDesktopIntegration}" TextWrapping="Wrap" />
+      <TextBlock Margin="0,4,0,0" FontSize="14" LineHeight="20" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_Misc3_VoidstrapWillBeAddedToThe}" TextWrapping="Wrap" />
+      <controls:OptionControl Margin="0,4,0,4" Header="{resources:Loc Ui_Misc3_CreateADesktopLauncher}">
         <ui:ToggleSwitch IsChecked="{Binding CreateDesktopShortcuts, Mode=TwoWay}" />
       </controls:OptionControl>
       <TextBlock Margin="0,12,0,0" FontSize="14" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding SoberInstallStatus, Mode=OneWay}" TextWrapping="Wrap" />

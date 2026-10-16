@@ -6542,4 +6542,109 @@ Bạn muốn làm gì?</value>
   <data name="Ui.Misc2.ApplyFrom" xml:space="preserve">
     <value>Áp dụng từ</value>
   </data>
+  <data name="Ui.Misc3.Supporters" xml:space="preserve">
+    <value>Người ủng hộ</value>
+  </data>
+  <data name="Ui.Misc3.ThirdPartyNotices" xml:space="preserve">
+    <value>Thông báo bên thứ ba</value>
+  </data>
+  <data name="Ui.Misc3.LoadingNotices" xml:space="preserve">
+    <value>Đang tải thông báo</value>
+  </data>
+  <data name="Ui.Misc3.ThankYouToEveryoneWhoHelps" xml:space="preserve">
+    <value>Cảm ơn mọi người đã giúp Voidstrap tiếp tục hoạt động.</value>
+  </data>
+  <data name="Ui.Misc3.SpecialPeople" xml:space="preserve">
+    <value>Những người đặc biệt</value>
+  </data>
+  <data name="Ui.Misc3.AnimationPreview" xml:space="preserve">
+    <value>Xem trước hoạt ảnh</value>
+  </data>
+  <data name="Ui.Misc3.Speed" xml:space="preserve">
+    <value>Tốc độ</value>
+  </data>
+  <data name="Ui.Misc3.MeshViewer" xml:space="preserve">
+    <value>Trình xem lưới</value>
+  </data>
+  <data name="Ui.Misc3.DragToRotateScrollToZoom" xml:space="preserve">
+    <value>   •   Kéo để xoay, cuộn để thu phóng</value>
+  </data>
+  <data name="Ui.Misc3.PlayerJoinAndLeaveActivityWill" xml:space="preserve">
+    <value>Hoạt động vào và rời của người chơi sẽ hiện ở đây theo thời gian thực.</value>
+  </data>
+  <data name="Ui.Misc3.DownloadCSV" xml:space="preserve">
+    <value>Tải CSV</value>
+  </data>
+  <data name="Ui.Misc3.Sort" xml:space="preserve">
+    <value>Sắp xếp:</value>
+  </data>
+  <data name="Ui.Misc3.Filter" xml:space="preserve">
+    <value>Lọc:</value>
+  </data>
+  <data name="Ui.Misc3.Left" xml:space="preserve">
+    <value>Đã rời: </value>
+  </data>
+  <data name="Ui.Misc3.SearchExperiences" xml:space="preserve">
+    <value>Tìm trải nghiệm</value>
+  </data>
+  <data name="Ui.Misc3.WatchOnYouTube" xml:space="preserve">
+    <value>Xem trên YouTube</value>
+  </data>
+  <data name="Ui.Misc3.SelectPresetValue" xml:space="preserve">
+    <value>Chọn giá trị thiết lập sẵn</value>
+  </data>
+  <data name="Ui.Misc3.PasteBase64" xml:space="preserve">
+    <value>Dán Base64</value>
+  </data>
+  <data name="Ui.Misc3.IsUnableToConnectTo" xml:space="preserve">
+    <value>? không thể kết nối với ?</value>
+  </data>
+  <data name="Ui.Misc3.CursorPreview" xml:space="preserve">
+    <value>Xem trước con trỏ</value>
+  </data>
+  <data name="Ui.Misc3.FFlagPresetValues" xml:space="preserve">
+    <value>Giá trị thiết lập sẵn của FFlag</value>
+  </data>
+  <data name="Ui.Misc3.CheckOutSomeOfOurBuilt" xml:space="preserve">
+    <value>Hãy xem một số chủ đề tích hợp sẵn của chúng tôi!</value>
+  </data>
+  <data name="Ui.Misc3.LinuxDesktopIntegration" xml:space="preserve">
+    <value>Tích hợp màn hình nền Linux</value>
+  </data>
+  <data name="Ui.Misc3.VoidstrapWillBeAddedToThe" xml:space="preserve">
+    <value>Voidstrap sẽ được thêm vào menu ứng dụng và đăng ký cho liên kết Roblox. Bạn cũng có thể tạo trình khởi chạy trên màn hình nền.</value>
+  </data>
+  <data name="Ui.Misc3.CreateADesktopLauncher" xml:space="preserve">
+    <value>Tạo trình khởi chạy trên màn hình nền</value>
+  </data>
+  <data name="Ui.Misc3.Donations" xml:space="preserve">
+    <value>Quyên góp</value>
+  </data>
+  <data name="Ui.Misc3.DonationInfo" xml:space="preserve">
+    <value>Thông tin quyên góp</value>
+  </data>
+  <data name="Ui.Misc3.Donate25R" xml:space="preserve">
+    <value>Quyên góp 25R</value>
+  </data>
+  <data name="Ui.Misc3.Donate50R" xml:space="preserve">
+    <value>Quyên góp 50R</value>
+  </data>
+  <data name="Ui.Misc3.Donate80R" xml:space="preserve">
+    <value>Quyên góp 80R</value>
+  </data>
+  <data name="Ui.Misc3.Donate300R" xml:space="preserve">
+    <value>Quyên góp 300R</value>
+  </data>
+  <data name="Ui.Misc3.Donate500R" xml:space="preserve">
+    <value>Quyên góp 500R</value>
+  </data>
+  <data name="Ui.Misc3.Donate1000R" xml:space="preserve">
+    <value>Quyên góp 1000R</value>
+  </data>
+  <data name="Ui.Misc3.Donate1500R" xml:space="preserve">
+    <value>Quyên góp 1500R</value>
+  </data>
+  <data name="Ui.Misc3.Donate2000R" xml:space="preserve">
+    <value>Quyên góp 2000R</value>
+  </data>
 </root>

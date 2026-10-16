@@ -6457,4 +6457,109 @@ Que souhaitez-vous faire ?</value>
   <data name="Ui.Misc2.ApplyFrom" xml:space="preserve">
     <value>Appliquer depuis</value>
   </data>
+  <data name="Ui.Misc3.Supporters" xml:space="preserve">
+    <value>Soutiens</value>
+  </data>
+  <data name="Ui.Misc3.ThirdPartyNotices" xml:space="preserve">
+    <value>Mentions des tiers</value>
+  </data>
+  <data name="Ui.Misc3.LoadingNotices" xml:space="preserve">
+    <value>Chargement des mentions</value>
+  </data>
+  <data name="Ui.Misc3.ThankYouToEveryoneWhoHelps" xml:space="preserve">
+    <value>Merci à tous ceux qui font vivre Voidstrap.</value>
+  </data>
+  <data name="Ui.Misc3.SpecialPeople" xml:space="preserve">
+    <value>Personnes spéciales</value>
+  </data>
+  <data name="Ui.Misc3.AnimationPreview" xml:space="preserve">
+    <value>Aperçu de l'animation</value>
+  </data>
+  <data name="Ui.Misc3.Speed" xml:space="preserve">
+    <value>Vitesse</value>
+  </data>
+  <data name="Ui.Misc3.MeshViewer" xml:space="preserve">
+    <value>Visionneuse de maillage</value>
+  </data>
+  <data name="Ui.Misc3.DragToRotateScrollToZoom" xml:space="preserve">
+    <value>   •   Faites glisser pour pivoter, défilez pour zoomer</value>
+  </data>
+  <data name="Ui.Misc3.PlayerJoinAndLeaveActivityWill" xml:space="preserve">
+    <value>Les arrivées et départs des joueurs s'afficheront ici en direct.</value>
+  </data>
+  <data name="Ui.Misc3.DownloadCSV" xml:space="preserve">
+    <value>Télécharger le CSV</value>
+  </data>
+  <data name="Ui.Misc3.Sort" xml:space="preserve">
+    <value>Trier :</value>
+  </data>
+  <data name="Ui.Misc3.Filter" xml:space="preserve">
+    <value>Filtrer :</value>
+  </data>
+  <data name="Ui.Misc3.Left" xml:space="preserve">
+    <value>Partis : </value>
+  </data>
+  <data name="Ui.Misc3.SearchExperiences" xml:space="preserve">
+    <value>Rechercher des expériences</value>
+  </data>
+  <data name="Ui.Misc3.WatchOnYouTube" xml:space="preserve">
+    <value>Regarder sur YouTube</value>
+  </data>
+  <data name="Ui.Misc3.SelectPresetValue" xml:space="preserve">
+    <value>Choisir une valeur prédéfinie</value>
+  </data>
+  <data name="Ui.Misc3.PasteBase64" xml:space="preserve">
+    <value>Coller du Base64</value>
+  </data>
+  <data name="Ui.Misc3.IsUnableToConnectTo" xml:space="preserve">
+    <value>? ne parvient pas à se connecter à ?</value>
+  </data>
+  <data name="Ui.Misc3.CursorPreview" xml:space="preserve">
+    <value>Aperçu du curseur</value>
+  </data>
+  <data name="Ui.Misc3.FFlagPresetValues" xml:space="preserve">
+    <value>Valeurs prédéfinies des FFlags</value>
+  </data>
+  <data name="Ui.Misc3.CheckOutSomeOfOurBuilt" xml:space="preserve">
+    <value>Découvrez quelques-uns de nos thèmes personnalisés intégrés !</value>
+  </data>
+  <data name="Ui.Misc3.LinuxDesktopIntegration" xml:space="preserve">
+    <value>Intégration au bureau Linux</value>
+  </data>
+  <data name="Ui.Misc3.VoidstrapWillBeAddedToThe" xml:space="preserve">
+    <value>Voidstrap sera ajouté au menu des applications et enregistré pour les liens Roblox. Vous pouvez aussi créer un lanceur sur le bureau.</value>
+  </data>
+  <data name="Ui.Misc3.CreateADesktopLauncher" xml:space="preserve">
+    <value>Créer un lanceur sur le bureau</value>
+  </data>
+  <data name="Ui.Misc3.Donations" xml:space="preserve">
+    <value>Dons</value>
+  </data>
+  <data name="Ui.Misc3.DonationInfo" xml:space="preserve">
+    <value>Infos sur les dons</value>
+  </data>
+  <data name="Ui.Misc3.Donate25R" xml:space="preserve">
+    <value>Donner 25R</value>
+  </data>
+  <data name="Ui.Misc3.Donate50R" xml:space="preserve">
+    <value>Donner 50R</value>
+  </data>
+  <data name="Ui.Misc3.Donate80R" xml:space="preserve">
+    <value>Donner 80R</value>
+  </data>
+  <data name="Ui.Misc3.Donate300R" xml:space="preserve">
+    <value>Donner 300R</value>
+  </data>
+  <data name="Ui.Misc3.Donate500R" xml:space="preserve">
+    <value>Donner 500R</value>
+  </data>
+  <data name="Ui.Misc3.Donate1000R" xml:space="preserve">
+    <value>Donner 1000R</value>
+  </data>
+  <data name="Ui.Misc3.Donate1500R" xml:space="preserve">
+    <value>Donner 1500R</value>
+  </data>
+  <data name="Ui.Misc3.Donate2000R" xml:space="preserve">
+    <value>Donner 2000R</value>
+  </data>
 </root>

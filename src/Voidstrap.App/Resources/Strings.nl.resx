@@ -6492,4 +6492,109 @@ Wat wil je doen?</value>
   <data name="Ui.Misc2.ApplyFrom" xml:space="preserve">
     <value>Toepassen vanaf</value>
   </data>
+  <data name="Ui.Misc3.Supporters" xml:space="preserve">
+    <value>Supporters</value>
+  </data>
+  <data name="Ui.Misc3.ThirdPartyNotices" xml:space="preserve">
+    <value>Kennisgevingen van derden</value>
+  </data>
+  <data name="Ui.Misc3.LoadingNotices" xml:space="preserve">
+    <value>Kennisgevingen laden</value>
+  </data>
+  <data name="Ui.Misc3.ThankYouToEveryoneWhoHelps" xml:space="preserve">
+    <value>Bedankt aan iedereen die Voidstrap draaiende houdt.</value>
+  </data>
+  <data name="Ui.Misc3.SpecialPeople" xml:space="preserve">
+    <value>Bijzondere mensen</value>
+  </data>
+  <data name="Ui.Misc3.AnimationPreview" xml:space="preserve">
+    <value>Animatievoorbeeld</value>
+  </data>
+  <data name="Ui.Misc3.Speed" xml:space="preserve">
+    <value>Snelheid</value>
+  </data>
+  <data name="Ui.Misc3.MeshViewer" xml:space="preserve">
+    <value>Meshviewer</value>
+  </data>
+  <data name="Ui.Misc3.DragToRotateScrollToZoom" xml:space="preserve">
+    <value>   •   Sleep om te draaien, scrol om te zoomen</value>
+  </data>
+  <data name="Ui.Misc3.PlayerJoinAndLeaveActivityWill" xml:space="preserve">
+    <value>Spelers die joinen en vertrekken verschijnen hier live.</value>
+  </data>
+  <data name="Ui.Misc3.DownloadCSV" xml:space="preserve">
+    <value>CSV downloaden</value>
+  </data>
+  <data name="Ui.Misc3.Sort" xml:space="preserve">
+    <value>Sorteren:</value>
+  </data>
+  <data name="Ui.Misc3.Filter" xml:space="preserve">
+    <value>Filter:</value>
+  </data>
+  <data name="Ui.Misc3.Left" xml:space="preserve">
+    <value>Vertrokken: </value>
+  </data>
+  <data name="Ui.Misc3.SearchExperiences" xml:space="preserve">
+    <value>Ervaringen zoeken</value>
+  </data>
+  <data name="Ui.Misc3.WatchOnYouTube" xml:space="preserve">
+    <value>Bekijken op YouTube</value>
+  </data>
+  <data name="Ui.Misc3.SelectPresetValue" xml:space="preserve">
+    <value>Presetwaarde kiezen</value>
+  </data>
+  <data name="Ui.Misc3.PasteBase64" xml:space="preserve">
+    <value>Base64 plakken</value>
+  </data>
+  <data name="Ui.Misc3.IsUnableToConnectTo" xml:space="preserve">
+    <value>? kan geen verbinding maken met ?</value>
+  </data>
+  <data name="Ui.Misc3.CursorPreview" xml:space="preserve">
+    <value>Voorbeeld muisaanwijzer</value>
+  </data>
+  <data name="Ui.Misc3.FFlagPresetValues" xml:space="preserve">
+    <value>FFlag-presetwaarden</value>
+  </data>
+  <data name="Ui.Misc3.CheckOutSomeOfOurBuilt" xml:space="preserve">
+    <value>Bekijk enkele van onze ingebouwde thema's!</value>
+  </data>
+  <data name="Ui.Misc3.LinuxDesktopIntegration" xml:space="preserve">
+    <value>Linux-bureaubladintegratie</value>
+  </data>
+  <data name="Ui.Misc3.VoidstrapWillBeAddedToThe" xml:space="preserve">
+    <value>Voidstrap wordt toegevoegd aan het toepassingsmenu en geregistreerd voor Roblox-links. Je kunt ook een starter op het bureaublad maken.</value>
+  </data>
+  <data name="Ui.Misc3.CreateADesktopLauncher" xml:space="preserve">
+    <value>Starter op bureaublad maken</value>
+  </data>
+  <data name="Ui.Misc3.Donations" xml:space="preserve">
+    <value>Donaties</value>
+  </data>
+  <data name="Ui.Misc3.DonationInfo" xml:space="preserve">
+    <value>Donatie-info</value>
+  </data>
+  <data name="Ui.Misc3.Donate25R" xml:space="preserve">
+    <value>Doneren 25R</value>
+  </data>
+  <data name="Ui.Misc3.Donate50R" xml:space="preserve">
+    <value>Doneren 50R</value>
+  </data>
+  <data name="Ui.Misc3.Donate80R" xml:space="preserve">
+    <value>Doneren 80R</value>
+  </data>
+  <data name="Ui.Misc3.Donate300R" xml:space="preserve">
+    <value>Doneren 300R</value>
+  </data>
+  <data name="Ui.Misc3.Donate500R" xml:space="preserve">
+    <value>Doneren 500R</value>
+  </data>
+  <data name="Ui.Misc3.Donate1000R" xml:space="preserve">
+    <value>Doneren 1000R</value>
+  </data>
+  <data name="Ui.Misc3.Donate1500R" xml:space="preserve">
+    <value>Doneren 1500R</value>
+  </data>
+  <data name="Ui.Misc3.Donate2000R" xml:space="preserve">
+    <value>Doneren 2000R</value>
+  </data>
 </root>

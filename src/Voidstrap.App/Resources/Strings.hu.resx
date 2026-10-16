@@ -6532,4 +6532,109 @@ Mit szeretnél tenni?</value>
   <data name="Ui.Misc2.ApplyFrom" xml:space="preserve">
     <value>Alkalmazás innen</value>
   </data>
+  <data name="Ui.Misc3.Supporters" xml:space="preserve">
+    <value>Támogatók</value>
+  </data>
+  <data name="Ui.Misc3.ThirdPartyNotices" xml:space="preserve">
+    <value>Harmadik féltől származó közlemények</value>
+  </data>
+  <data name="Ui.Misc3.LoadingNotices" xml:space="preserve">
+    <value>Közlemények betöltése</value>
+  </data>
+  <data name="Ui.Misc3.ThankYouToEveryoneWhoHelps" xml:space="preserve">
+    <value>Köszönjük mindenkinek, aki segít a Voidstrap fenntartásában.</value>
+  </data>
+  <data name="Ui.Misc3.SpecialPeople" xml:space="preserve">
+    <value>Különleges emberek</value>
+  </data>
+  <data name="Ui.Misc3.AnimationPreview" xml:space="preserve">
+    <value>Animáció előnézete</value>
+  </data>
+  <data name="Ui.Misc3.Speed" xml:space="preserve">
+    <value>Sebesség</value>
+  </data>
+  <data name="Ui.Misc3.MeshViewer" xml:space="preserve">
+    <value>Hálónézegető</value>
+  </data>
+  <data name="Ui.Misc3.DragToRotateScrollToZoom" xml:space="preserve">
+    <value>   •   Húzd a forgatáshoz, görgess a nagyításhoz</value>
+  </data>
+  <data name="Ui.Misc3.PlayerJoinAndLeaveActivityWill" xml:space="preserve">
+    <value>A játékosok belépései és kilépései itt jelennek meg élőben.</value>
+  </data>
+  <data name="Ui.Misc3.DownloadCSV" xml:space="preserve">
+    <value>CSV letöltése</value>
+  </data>
+  <data name="Ui.Misc3.Sort" xml:space="preserve">
+    <value>Rendezés:</value>
+  </data>
+  <data name="Ui.Misc3.Filter" xml:space="preserve">
+    <value>Szűrő:</value>
+  </data>
+  <data name="Ui.Misc3.Left" xml:space="preserve">
+    <value>Kilépett: </value>
+  </data>
+  <data name="Ui.Misc3.SearchExperiences" xml:space="preserve">
+    <value>Élmények keresése</value>
+  </data>
+  <data name="Ui.Misc3.WatchOnYouTube" xml:space="preserve">
+    <value>Megtekintés a YouTube-on</value>
+  </data>
+  <data name="Ui.Misc3.SelectPresetValue" xml:space="preserve">
+    <value>Előbeállított érték kiválasztása</value>
+  </data>
+  <data name="Ui.Misc3.PasteBase64" xml:space="preserve">
+    <value>Base64 beillesztése</value>
+  </data>
+  <data name="Ui.Misc3.IsUnableToConnectTo" xml:space="preserve">
+    <value>? nem tud csatlakozni ehhez: ?</value>
+  </data>
+  <data name="Ui.Misc3.CursorPreview" xml:space="preserve">
+    <value>Kurzor előnézete</value>
+  </data>
+  <data name="Ui.Misc3.FFlagPresetValues" xml:space="preserve">
+    <value>FFlag előbeállított értékek</value>
+  </data>
+  <data name="Ui.Misc3.CheckOutSomeOfOurBuilt" xml:space="preserve">
+    <value>Nézd meg néhány beépített témánkat!</value>
+  </data>
+  <data name="Ui.Misc3.LinuxDesktopIntegration" xml:space="preserve">
+    <value>Linux asztali integráció</value>
+  </data>
+  <data name="Ui.Misc3.VoidstrapWillBeAddedToThe" xml:space="preserve">
+    <value>A Voidstrap bekerül az alkalmazásmenübe, és regisztrálva lesz a Roblox hivatkozásokhoz. Indítót is létrehozhatsz az asztalon.</value>
+  </data>
+  <data name="Ui.Misc3.CreateADesktopLauncher" xml:space="preserve">
+    <value>Asztali indító létrehozása</value>
+  </data>
+  <data name="Ui.Misc3.Donations" xml:space="preserve">
+    <value>Adományok</value>
+  </data>
+  <data name="Ui.Misc3.DonationInfo" xml:space="preserve">
+    <value>Adományozási infó</value>
+  </data>
+  <data name="Ui.Misc3.Donate25R" xml:space="preserve">
+    <value>Adományozás 25R</value>
+  </data>
+  <data name="Ui.Misc3.Donate50R" xml:space="preserve">
+    <value>Adományozás 50R</value>
+  </data>
+  <data name="Ui.Misc3.Donate80R" xml:space="preserve">
+    <value>Adományozás 80R</value>
+  </data>
+  <data name="Ui.Misc3.Donate300R" xml:space="preserve">
+    <value>Adományozás 300R</value>
+  </data>
+  <data name="Ui.Misc3.Donate500R" xml:space="preserve">
+    <value>Adományozás 500R</value>
+  </data>
+  <data name="Ui.Misc3.Donate1000R" xml:space="preserve">
+    <value>Adományozás 1000R</value>
+  </data>
+  <data name="Ui.Misc3.Donate1500R" xml:space="preserve">
+    <value>Adományozás 1500R</value>
+  </data>
+  <data name="Ui.Misc3.Donate2000R" xml:space="preserve">
+    <value>Adományozás 2000R</value>
+  </data>
 </root>

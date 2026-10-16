@@ -4,7 +4,7 @@
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         xmlns:utility="clr-namespace:Voidstrap.Utility"
         xmlns:converters="clr-namespace:Voidstrap.UI.Converters"
-        Title="Games" Width="800" Height="560" MinWidth="460" MinHeight="340"
+        Title="{resources:Loc Ui_Session_Games}" Width="800" Height="560" MinWidth="460" MinHeight="340"
         WindowStyle="None" AllowsTransparency="False" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"
         ResizeMode="NoResize" ShowInTaskbar="False" ShowActivated="False" Topmost="True"
         WindowStartupLocation="Manual" FontFamily="Segoe UI">
@@ -92,7 +92,7 @@
         </StackPanel>
       </Border>
       <ui:TextBox x:Name="SearchBox" Grid.Column="1" Margin="10,0,0,0" VerticalContentAlignment="Center" FontSize="14"
-                  PlaceholderText="Search experiences" ClearButtonEnabled="True" TextChanged="SearchBox_TextChanged" />
+                  PlaceholderText="{resources:Loc Ui_Misc3_SearchExperiences}" ClearButtonEnabled="True" TextChanged="SearchBox_TextChanged" />
     </Grid>
 
     <TextBlock x:Name="SectionText" Grid.Row="1" Text="{resources:Loc ContextMenu_GameBrowser_Continue}" FontSize="16" FontWeight="SemiBold" Margin="2,14,0,10"

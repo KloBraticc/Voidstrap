@@ -6538,4 +6538,109 @@ Roblox будет скачан при первом запуске через Voi
   <data name="Ui.Misc2.ApplyFrom" xml:space="preserve">
     <value>Применить из</value>
   </data>
+  <data name="Ui.Misc3.Supporters" xml:space="preserve">
+    <value>Поддержавшие</value>
+  </data>
+  <data name="Ui.Misc3.ThirdPartyNotices" xml:space="preserve">
+    <value>Уведомления о сторонних компонентах</value>
+  </data>
+  <data name="Ui.Misc3.LoadingNotices" xml:space="preserve">
+    <value>Загрузка уведомлений</value>
+  </data>
+  <data name="Ui.Misc3.ThankYouToEveryoneWhoHelps" xml:space="preserve">
+    <value>Спасибо всем, кто помогает развивать Voidstrap.</value>
+  </data>
+  <data name="Ui.Misc3.SpecialPeople" xml:space="preserve">
+    <value>Особые люди</value>
+  </data>
+  <data name="Ui.Misc3.AnimationPreview" xml:space="preserve">
+    <value>Предпросмотр анимации</value>
+  </data>
+  <data name="Ui.Misc3.Speed" xml:space="preserve">
+    <value>Скорость</value>
+  </data>
+  <data name="Ui.Misc3.MeshViewer" xml:space="preserve">
+    <value>Просмотр мешей</value>
+  </data>
+  <data name="Ui.Misc3.DragToRotateScrollToZoom" xml:space="preserve">
+    <value>   •   Перетаскивайте для поворота, прокручивайте для масштаба</value>
+  </data>
+  <data name="Ui.Misc3.PlayerJoinAndLeaveActivityWill" xml:space="preserve">
+    <value>Здесь в реальном времени будут появляться входы и выходы игроков.</value>
+  </data>
+  <data name="Ui.Misc3.DownloadCSV" xml:space="preserve">
+    <value>Скачать CSV</value>
+  </data>
+  <data name="Ui.Misc3.Sort" xml:space="preserve">
+    <value>Сортировка:</value>
+  </data>
+  <data name="Ui.Misc3.Filter" xml:space="preserve">
+    <value>Фильтр:</value>
+  </data>
+  <data name="Ui.Misc3.Left" xml:space="preserve">
+    <value>Вышли: </value>
+  </data>
+  <data name="Ui.Misc3.SearchExperiences" xml:space="preserve">
+    <value>Поиск впечатлений</value>
+  </data>
+  <data name="Ui.Misc3.WatchOnYouTube" xml:space="preserve">
+    <value>Смотреть на YouTube</value>
+  </data>
+  <data name="Ui.Misc3.SelectPresetValue" xml:space="preserve">
+    <value>Выбрать значение пресета</value>
+  </data>
+  <data name="Ui.Misc3.PasteBase64" xml:space="preserve">
+    <value>Вставить Base64</value>
+  </data>
+  <data name="Ui.Misc3.IsUnableToConnectTo" xml:space="preserve">
+    <value>? не удаётся подключиться к ?</value>
+  </data>
+  <data name="Ui.Misc3.CursorPreview" xml:space="preserve">
+    <value>Предпросмотр курсора</value>
+  </data>
+  <data name="Ui.Misc3.FFlagPresetValues" xml:space="preserve">
+    <value>Значения пресетов FFlag</value>
+  </data>
+  <data name="Ui.Misc3.CheckOutSomeOfOurBuilt" xml:space="preserve">
+    <value>Посмотрите наши встроенные темы!</value>
+  </data>
+  <data name="Ui.Misc3.LinuxDesktopIntegration" xml:space="preserve">
+    <value>Интеграция с рабочим столом Linux</value>
+  </data>
+  <data name="Ui.Misc3.VoidstrapWillBeAddedToThe" xml:space="preserve">
+    <value>Voidstrap будет добавлен в меню приложений и зарегистрирован для ссылок Roblox. Также можно создать ярлык запуска на рабочем столе.</value>
+  </data>
+  <data name="Ui.Misc3.CreateADesktopLauncher" xml:space="preserve">
+    <value>Создать ярлык на рабочем столе</value>
+  </data>
+  <data name="Ui.Misc3.Donations" xml:space="preserve">
+    <value>Пожертвования</value>
+  </data>
+  <data name="Ui.Misc3.DonationInfo" xml:space="preserve">
+    <value>Сведения о пожертвованиях</value>
+  </data>
+  <data name="Ui.Misc3.Donate25R" xml:space="preserve">
+    <value>Пожертвовать 25R</value>
+  </data>
+  <data name="Ui.Misc3.Donate50R" xml:space="preserve">
+    <value>Пожертвовать 50R</value>
+  </data>
+  <data name="Ui.Misc3.Donate80R" xml:space="preserve">
+    <value>Пожертвовать 80R</value>
+  </data>
+  <data name="Ui.Misc3.Donate300R" xml:space="preserve">
+    <value>Пожертвовать 300R</value>
+  </data>
+  <data name="Ui.Misc3.Donate500R" xml:space="preserve">
+    <value>Пожертвовать 500R</value>
+  </data>
+  <data name="Ui.Misc3.Donate1000R" xml:space="preserve">
+    <value>Пожертвовать 1000R</value>
+  </data>
+  <data name="Ui.Misc3.Donate1500R" xml:space="preserve">
+    <value>Пожертвовать 1500R</value>
+  </data>
+  <data name="Ui.Misc3.Donate2000R" xml:space="preserve">
+    <value>Пожертвовать 2000R</value>
+  </data>
 </root>

@@ -40,7 +40,7 @@
           <TextBox Name="FlagNameTextBox" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2" Margin="0,0,0,12" />
           <TextBlock Grid.Row="1" Grid.Column="0" MinWidth="100" VerticalAlignment="Center" Text="{resources:Loc Common_Value}" />
           <TextBox Name="FlagValueTextBox" Grid.Row="1" Grid.Column="1" Margin="0,0,8,0" />
-          <Button Grid.Row="1" Grid.Column="2" Width="30" Height="30" Padding="0" ToolTip="Select preset value" Click="PresetValuesButton_Click">
+          <Button Grid.Row="1" Grid.Column="2" Width="30" Height="30" Padding="0" ToolTip="{resources:Loc Ui_Misc3_SelectPresetValue}" Click="PresetValuesButton_Click">
             <ui:SymbolIcon Symbol="ArrowDown24" FontSize="16" />
           </Button>
         </Grid>
@@ -74,7 +74,7 @@
             <RowDefinition Height="Auto" />
           </Grid.RowDefinitions>
           <TextBox Name="Base64TextBox" Grid.Row="0" MinHeight="80" MaxHeight="480" Margin="5" Padding="10" AcceptsReturn="True" AcceptsTab="True" Background="#1E1E1E" BorderBrush="#333" BorderThickness="1" FontFamily="Consolas" FontSize="14" Foreground="#D4D4D4" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" />
-          <ui:Button Grid.Row="1" Margin="4" HorizontalAlignment="Stretch" Content="Paste Base64" Icon="Add16" Click="PasteBase64Button_Click" />
+          <ui:Button Grid.Row="1" Margin="4" HorizontalAlignment="Stretch" Content="{resources:Loc Ui_Misc3_PasteBase64}" Icon="Add16" Click="PasteBase64Button_Click" />
         </Grid>
       </TabItem>
     </TabControl>

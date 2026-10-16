@@ -2399,6 +2399,76 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Misc2_ApplyFrom => ResourceManager.GetString("Ui.Misc2.ApplyFrom", resourceCulture);
 
+        public static string Ui_Misc3_Supporters => ResourceManager.GetString("Ui.Misc3.Supporters", resourceCulture);
+
+        public static string Ui_Misc3_ThirdPartyNotices => ResourceManager.GetString("Ui.Misc3.ThirdPartyNotices", resourceCulture);
+
+        public static string Ui_Misc3_LoadingNotices => ResourceManager.GetString("Ui.Misc3.LoadingNotices", resourceCulture);
+
+        public static string Ui_Misc3_ThankYouToEveryoneWhoHelps => ResourceManager.GetString("Ui.Misc3.ThankYouToEveryoneWhoHelps", resourceCulture);
+
+        public static string Ui_Misc3_SpecialPeople => ResourceManager.GetString("Ui.Misc3.SpecialPeople", resourceCulture);
+
+        public static string Ui_Misc3_AnimationPreview => ResourceManager.GetString("Ui.Misc3.AnimationPreview", resourceCulture);
+
+        public static string Ui_Misc3_Speed => ResourceManager.GetString("Ui.Misc3.Speed", resourceCulture);
+
+        public static string Ui_Misc3_MeshViewer => ResourceManager.GetString("Ui.Misc3.MeshViewer", resourceCulture);
+
+        public static string Ui_Misc3_DragToRotateScrollToZoom => ResourceManager.GetString("Ui.Misc3.DragToRotateScrollToZoom", resourceCulture);
+
+        public static string Ui_Misc3_PlayerJoinAndLeaveActivityWill => ResourceManager.GetString("Ui.Misc3.PlayerJoinAndLeaveActivityWill", resourceCulture);
+
+        public static string Ui_Misc3_DownloadCSV => ResourceManager.GetString("Ui.Misc3.DownloadCSV", resourceCulture);
+
+        public static string Ui_Misc3_Sort => ResourceManager.GetString("Ui.Misc3.Sort", resourceCulture);
+
+        public static string Ui_Misc3_Filter => ResourceManager.GetString("Ui.Misc3.Filter", resourceCulture);
+
+        public static string Ui_Misc3_Left => ResourceManager.GetString("Ui.Misc3.Left", resourceCulture);
+
+        public static string Ui_Misc3_SearchExperiences => ResourceManager.GetString("Ui.Misc3.SearchExperiences", resourceCulture);
+
+        public static string Ui_Misc3_WatchOnYouTube => ResourceManager.GetString("Ui.Misc3.WatchOnYouTube", resourceCulture);
+
+        public static string Ui_Misc3_SelectPresetValue => ResourceManager.GetString("Ui.Misc3.SelectPresetValue", resourceCulture);
+
+        public static string Ui_Misc3_PasteBase64 => ResourceManager.GetString("Ui.Misc3.PasteBase64", resourceCulture);
+
+        public static string Ui_Misc3_IsUnableToConnectTo => ResourceManager.GetString("Ui.Misc3.IsUnableToConnectTo", resourceCulture);
+
+        public static string Ui_Misc3_CursorPreview => ResourceManager.GetString("Ui.Misc3.CursorPreview", resourceCulture);
+
+        public static string Ui_Misc3_FFlagPresetValues => ResourceManager.GetString("Ui.Misc3.FFlagPresetValues", resourceCulture);
+
+        public static string Ui_Misc3_CheckOutSomeOfOurBuilt => ResourceManager.GetString("Ui.Misc3.CheckOutSomeOfOurBuilt", resourceCulture);
+
+        public static string Ui_Misc3_LinuxDesktopIntegration => ResourceManager.GetString("Ui.Misc3.LinuxDesktopIntegration", resourceCulture);
+
+        public static string Ui_Misc3_VoidstrapWillBeAddedToThe => ResourceManager.GetString("Ui.Misc3.VoidstrapWillBeAddedToThe", resourceCulture);
+
+        public static string Ui_Misc3_CreateADesktopLauncher => ResourceManager.GetString("Ui.Misc3.CreateADesktopLauncher", resourceCulture);
+
+        public static string Ui_Misc3_Donations => ResourceManager.GetString("Ui.Misc3.Donations", resourceCulture);
+
+        public static string Ui_Misc3_DonationInfo => ResourceManager.GetString("Ui.Misc3.DonationInfo", resourceCulture);
+
+        public static string Ui_Misc3_Donate25R => ResourceManager.GetString("Ui.Misc3.Donate25R", resourceCulture);
+
+        public static string Ui_Misc3_Donate50R => ResourceManager.GetString("Ui.Misc3.Donate50R", resourceCulture);
+
+        public static string Ui_Misc3_Donate80R => ResourceManager.GetString("Ui.Misc3.Donate80R", resourceCulture);
+
+        public static string Ui_Misc3_Donate300R => ResourceManager.GetString("Ui.Misc3.Donate300R", resourceCulture);
+
+        public static string Ui_Misc3_Donate500R => ResourceManager.GetString("Ui.Misc3.Donate500R", resourceCulture);
+
+        public static string Ui_Misc3_Donate1000R => ResourceManager.GetString("Ui.Misc3.Donate1000R", resourceCulture);
+
+        public static string Ui_Misc3_Donate1500R => ResourceManager.GetString("Ui.Misc3.Donate1500R", resourceCulture);
+
+        public static string Ui_Misc3_Donate2000R => ResourceManager.GetString("Ui.Misc3.Donate2000R", resourceCulture);
+
         public static string Menu_Appearance_Accent_Title => ResourceManager.GetString("Menu.Appearance.Accent.Title", resourceCulture);
 
         public static string Menu_Appearance_Accent_Description => ResourceManager.GetString("Menu.Appearance.Accent.Description", resourceCulture);

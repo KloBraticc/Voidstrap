@@ -72,7 +72,7 @@
         </controls:OptionControl>
       </StackPanel>
     </ui:CardExpander>
-    <controls:OptionControl Margin="0,4,0,0" Header="{resources:Loc Menu_Appearance_Global_Theme_Title}" Description="Check out some of our built-in custom themes!">
+    <controls:OptionControl Margin="0,4,0,0" Header="{resources:Loc Menu_Appearance_Global_Theme_Title}" Description="{resources:Loc Ui_Misc3_CheckOutSomeOfOurBuilt}">
       <StackPanel VerticalAlignment="Center" Orientation="Vertical">
         <ComboBox Width="200" Padding="10,5" ItemsSource="{Binding BindableThemes}" SelectedItem="{Binding Theme, Mode=TwoWay}">
           <ComboBox.Resources>

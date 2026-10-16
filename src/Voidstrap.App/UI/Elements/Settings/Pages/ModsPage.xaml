@@ -524,7 +524,7 @@
                 </Border>
 
                 <TabControl>
-                  <TabItem Header="Description">
+                  <TabItem Header="{resources:Loc Ui_Pages_Description}">
                     <StackPanel Margin="12,12,12,4">
                       <ItemsControl ItemsSource="{Binding DetailParagraphs}" Focusable="False">
                         <ItemsControl.ItemTemplate>

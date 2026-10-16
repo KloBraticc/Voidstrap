@@ -17,8 +17,8 @@
           <ui:NavigationItem Content="{resources:Loc Menu_Behaviour_Channel_Title}" Icon="Globe24" PageType="{x:Type pages:ChannelPage}" />
           <ui:NavigationItem Content="{resources:Loc Menu_Mods_Title}" Icon="PaintBrush24" PageType="{x:Type pages:InstallerModsPage}" />
           <ui:NavigationItem Content="{resources:Loc Menu_Appearance_Title}" Icon="Color24" PageType="{x:Type pages:InstallerAppearancePage}" />
-          <ui:NavigationItem Content="Manager" Icon="Apps24" PageType="{x:Type settingspages:DownloadsPage}" />
-          <ui:NavigationItem Content="Extensions" Icon="PuzzlePiece24" PageType="{x:Type settingspages:ExtensionPage}" />
+          <ui:NavigationItem Content="{resources:Loc Ui_Nav_Manager}" Icon="Apps24" PageType="{x:Type settingspages:DownloadsPage}" />
+          <ui:NavigationItem Content="{resources:Loc Ui_Nav_Extensions}" Icon="PuzzlePiece24" PageType="{x:Type settingspages:ExtensionPage}" />
           <ui:NavigationItem Content="{resources:Loc Installer_Completion_Title}" Icon="CheckmarkCircle24" PageType="{x:Type pages:CompletionPage}" />
         </ui:NavigationBase.Items>
       </ui:NavigationStore>
