@@ -27,10 +27,6 @@ internal sealed class AssetBatchContext
 	public Dictionary<string, string> AssetIds { get; } = new(StringComparer.Ordinal);
 
 	public Dictionary<string, AssetWarpRoute> Routes { get; } = new(StringComparer.Ordinal);
-
-	public HashSet<int> RemovedIndices { get; } = [];
-
-	public HashSet<string> RemovedRequestIds { get; } = new(StringComparer.Ordinal);
 }
 
 public static class TextureStripper
@@ -103,7 +99,7 @@ public static class TextureStripper
 			}
 			var settings = App.Settings.Prop;
 			return string.Join("|",
-				2,
+				3,
 				settings.AssetWarpEnabled,
 				settings.AssetWarpDisableAllTextures,
 				settings.AssetWarpDisableAllDecals,
@@ -167,16 +163,7 @@ public static class TextureStripper
 
 			if (matchedKey == null && ShouldRemove(keys, typeId, typeName, rules))
 			{
-				if (AssetTypeRemovalPolicy.IsTexturePack(typeId, typeName))
-				{
-					modified = true;
-					continue;
-				}
-				batch.RemovedIndices.Add(output.Count);
-				if (requestId.Length > 0)
-					batch.RemovedRequestIds.Add(requestId);
-				batch.RequestIds.Add(requestId);
-				output.Add(entry.DeepClone());
+				modified = true;
 				continue;
 			}
 
@@ -231,7 +218,7 @@ public static class TextureStripper
 
 	internal static byte[]? RewriteBatchResponse(AssetBatchContext? context, byte[] body)
 	{
-		if (context == null || context.Routes.Count == 0 && context.RemovedIndices.Count == 0 || body.Length == 0)
+		if (context == null || context.Routes.Count == 0 || body.Length == 0)
 		{
 			return null;
 		}
@@ -257,24 +244,9 @@ public static class TextureStripper
 				continue;
 			}
 			string requestId = ReadString(item["requestId"]);
-			bool removed = requestId.Length > 0 ? context.RemovedRequestIds.Contains(requestId) : orderedResponse && context.RemovedIndices.Contains(index);
 			if (requestId.Length == 0 && orderedResponse && index < context.RequestIds.Count)
 			{
 				requestId = context.RequestIds[index];
-			}
-			if (removed)
-			{
-				JsonObject blocked = new()
-				{
-					["errors"] = new JsonArray(new JsonObject { ["code"] = 403, ["message"] = "Asset removed by AssetWarp" })
-				};
-				if (item["requestId"] != null)
-					blocked["requestId"] = item["requestId"]!.DeepClone();
-				else if (requestId.Length > 0)
-					blocked["requestId"] = requestId;
-				items[index] = blocked;
-				changed = true;
-				continue;
 			}
 			if (!context.Routes.TryGetValue(requestId, out AssetWarpRoute? route))
 			{
@@ -366,14 +338,11 @@ public static class TextureStripper
 			foreach (JsonElement item in document.RootElement.EnumerateArray())
 			{
 				string requestId = item.TryGetProperty("requestId", out JsonElement requestElement) ? ReadString(requestElement) : "";
-				bool removed = requestId.Length > 0 ? context.RemovedRequestIds.Contains(requestId) : orderedResponse && context.RemovedIndices.Contains(index);
 				if (requestId.Length == 0 && orderedResponse && index < context.RequestIds.Count)
 				{
 					requestId = context.RequestIds[index];
 				}
 				index++;
-				if (removed)
-					continue;
 				if (!item.TryGetProperty("location", out JsonElement locationElement))
 				{
 					continue;

@@ -23,11 +23,4 @@ public static class AssetTypeRemovalPolicy
 		bool meshMatch = meshes && (typeName.Equals("mesh", StringComparison.OrdinalIgnoreCase) || typeName.Equals("meshpart", StringComparison.OrdinalIgnoreCase));
 		return textureMatch || decalMatch || imageMatch || animationMatch || meshMatch;
 	}
-
-	public static bool IsTexturePack(string typeId, string typeName)
-	{
-		if (int.TryParse(typeId, out int numericType) && numericType > 0)
-			return numericType == 63;
-		return typeName.Equals("texture", StringComparison.OrdinalIgnoreCase) || typeName.Equals("texturepack", StringComparison.OrdinalIgnoreCase);
-	}
 }
