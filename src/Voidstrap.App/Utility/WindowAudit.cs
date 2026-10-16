@@ -299,7 +299,6 @@ internal static class WindowAudit
 			window.RootNavigation.Navigate(item.PageType);
 			Pump(1800);
 			CaptureScreen(window, System.IO.Path.Combine(folder, name + ".png"));
-			Emit($"capture: {name} search {window.GlobalSearchBox.ActualWidth}x{window.GlobalSearchBox.ActualHeight} max {window.GlobalSearchBox.MaxWidth} width {window.GlobalSearchBox.Width}");
 		}
 		Emit("capture: saved pages to " + folder);
 		Environment.Exit(0);
@@ -310,16 +309,21 @@ internal static class WindowAudit
 		PresentationSource? source = PresentationSource.FromVisual(window);
 		double scaleX = source?.CompositionTarget?.TransformToDevice.M11 ?? 1.0;
 		double scaleY = source?.CompositionTarget?.TransformToDevice.M22 ?? 1.0;
-		int x = (int)Math.Round(window.Left * scaleX);
-		int y = (int)Math.Round(window.Top * scaleY);
 		int w = (int)Math.Round(window.ActualWidth * scaleX);
 		int h = (int)Math.Round(window.ActualHeight * scaleY);
-		using System.Drawing.Bitmap bitmap = new System.Drawing.Bitmap(w, h);
-		using (System.Drawing.Graphics graphics = System.Drawing.Graphics.FromImage(bitmap))
-			graphics.CopyFromScreen(x, y, 0, 0, new System.Drawing.Size(w, h));
-		bitmap.Save(path, System.Drawing.Imaging.ImageFormat.Png);
+		RenderTargetBitmap target = new RenderTargetBitmap(w, h, 96 * scaleX, 96 * scaleY, PixelFormats.Pbgra32);
+		DrawingVisual backdrop = new DrawingVisual();
+		using (DrawingContext context = backdrop.RenderOpen())
+			context.DrawRectangle(new SolidColorBrush(Color.FromRgb(0x20, 0x20, 0x20)), null, new Rect(0, 0, window.ActualWidth, window.ActualHeight));
+		target.Render(backdrop);
+		target.Render(window);
+		PngBitmapEncoder encoder = new PngBitmapEncoder();
+		encoder.Frames.Add(BitmapFrame.Create(target));
+		using System.IO.FileStream stream = System.IO.File.Create(path);
+		encoder.Save(stream);
 		Emit("capture: " + path);
 	}
+
 
 	private static void AuditJoinNotificationIcon()
 	{
