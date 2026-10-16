@@ -6769,4 +6769,7 @@ Försöka ta bort igen?</value>
   <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
     <value>Exklusiv helskärm</value>
   </data>
+  <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
+    <value>Sessionsdocka, startsidans bakgrund, skärmfärger och verktyg i spelet.</value>
+  </data>
 </root>

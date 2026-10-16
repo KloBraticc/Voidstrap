@@ -6791,4 +6791,7 @@ Ce vrei să faci?</value>
   <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
     <value>Ecran complet exclusiv</value>
   </data>
+  <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
+    <value>Bara sesiunii, fundalul paginii principale, culorile ecranului și instrumente în joc.</value>
+  </data>
 </root>

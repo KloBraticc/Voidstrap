@@ -6805,4 +6805,7 @@ Spróbować ponownie usunąć?</value>
   <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
     <value>Wyłączny pełny ekran</value>
   </data>
+  <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
+    <value>Pasek sesji, tło strony głównej, kolory ekranu i narzędzia w grze.</value>
+  </data>
 </root>

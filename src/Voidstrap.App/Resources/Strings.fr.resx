@@ -6732,4 +6732,7 @@ Réessayer la suppression ?</value>
   <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
     <value>Plein écran exclusif</value>
   </data>
+  <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
+    <value>Barre de session, arrière plan de l'accueil, couleurs de l'écran et outils en jeu.</value>
+  </data>
 </root>

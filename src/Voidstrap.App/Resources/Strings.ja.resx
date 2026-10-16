@@ -6834,4 +6834,7 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
   <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
     <value>排他的全画面</value>
   </data>
+  <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
+    <value>セッションドック、ホーム画面の背景、画面の色、ゲーム内ツール。</value>
+  </data>
 </root>

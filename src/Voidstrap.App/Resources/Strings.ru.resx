@@ -6813,4 +6813,7 @@ Roblox будет скачан при первом запуске через Voi
   <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
     <value>Эксклюзивный полноэкранный</value>
   </data>
+  <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
+    <value>Панель сеанса, фон главной страницы, цвета экрана и инструменты в игре.</value>
+  </data>
 </root>

@@ -6811,4 +6811,7 @@ Roblox ще бъде изтеглен, когато го стартирате з
   <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
     <value>Изключителен цял екран</value>
   </data>
+  <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
+    <value>Лента на сесията, фон на началната страница, цветове на екрана и инструменти в играта.</value>
+  </data>
 </root>

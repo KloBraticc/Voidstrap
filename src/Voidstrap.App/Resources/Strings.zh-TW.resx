@@ -6811,4 +6811,7 @@ Voidstrap 安裝在 "{1}"。</value>
   <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
     <value>獨占全螢幕</value>
   </data>
+  <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
+    <value>工作階段列、首頁背景、螢幕色彩和遊戲內工具。</value>
+  </data>
 </root>

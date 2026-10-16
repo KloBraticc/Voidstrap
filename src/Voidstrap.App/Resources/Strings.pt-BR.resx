@@ -6791,4 +6791,7 @@ Tentar a remoção de novo?</value>
   <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
     <value>Tela cheia exclusiva</value>
   </data>
+  <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
+    <value>Dock da sessão, fundo da página inicial, cores da tela e ferramentas no jogo.</value>
+  </data>
 </root>

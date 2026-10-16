@@ -108,6 +108,11 @@ public partial class ModsPage : UiPage{
 		ResetManagedModDrag();
 	}
 
+	private void OpenOverlays_Click(object sender, RoutedEventArgs e)
+	{
+		NavigationService?.Navigate(new OverlaysPage { DataContext = ViewModel });
+	}
+
 	private void OpenModGenerator_Click(object sender, RoutedEventArgs e)
 	{
 		NavigationService?.Navigate(new ModGeneratorPage { DataContext = ViewModel });

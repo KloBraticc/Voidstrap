@@ -6810,4 +6810,7 @@ Pokušati uklanjanje ponovno?</value>
   <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
     <value>Ekskluzivni cijeli zaslon</value>
   </data>
+  <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
+    <value>Traka sesije, pozadina početne stranice, boje zaslona i alati u igri.</value>
+  </data>
 </root>

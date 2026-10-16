@@ -6802,4 +6802,7 @@ Roblox se descargará cuando lo inicies por primera vez a través de Voidstrap. 
   <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
     <value>Pantalla completa exclusiva</value>
   </data>
+  <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
+    <value>Barra de sesión, fondo de inicio, colores de pantalla y herramientas dentro del juego.</value>
+  </data>
 </root>

@@ -6803,4 +6803,7 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
   <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
     <value>เต็มหน้าจอแบบเอกสิทธิ์</value>
   </data>
+  <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
+    <value>แถบเซสชัน พื้นหลังหน้าแรก สีหน้าจอ และเครื่องมือในเกม</value>
+  </data>
 </root>

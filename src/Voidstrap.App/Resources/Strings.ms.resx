@@ -6772,4 +6772,7 @@ Cuba buang semula?</value>
   <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
     <value>Skrin penuh eksklusif</value>
   </data>
+  <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
+    <value>Dok sesi, latar belakang laman utama, warna skrin dan alat dalam permainan.</value>
+  </data>
 </root>

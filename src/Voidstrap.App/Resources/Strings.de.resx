@@ -6739,4 +6739,7 @@ Entfernen erneut versuchen?</value>
   <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
     <value>Exklusiver Vollbildmodus</value>
   </data>
+  <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
+    <value>Sitzungsleiste, Startseitenhintergrund, Bildschirmfarben und Werkzeuge im Spiel.</value>
+  </data>
 </root>

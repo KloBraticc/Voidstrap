@@ -6821,4 +6821,7 @@ Roblox는 Voidstrap으로 처음 실행할 때 다운로드됩니다. 실행하�
   <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
     <value>전용 전체 화면</value>
   </data>
+  <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
+    <value>세션 독, 홈페이지 배경, 화면 색상 및 게임 내 도구.</value>
+  </data>
 </root>

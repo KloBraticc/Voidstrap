@@ -6791,4 +6791,7 @@ Zkusit odebrání znovu?</value>
   <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
     <value>Exkluzivní celá obrazovka</value>
   </data>
+  <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
+    <value>Panel relace, pozadí domovské stránky, barvy obrazovky a nástroje ve hře.</value>
+  </data>
 </root>

@@ -6584,4 +6584,7 @@ Subukan ulit ang pag alis?</value>
   <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
     <value>Exclusive na fullscreen</value>
   </data>
+  <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
+    <value>Session dock, background ng homepage, kulay ng screen at mga tool sa loob ng laro.</value>
+  </data>
 </root>

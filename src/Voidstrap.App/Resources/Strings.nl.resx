@@ -6767,4 +6767,7 @@ Het verwijderen opnieuw proberen?</value>
   <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
     <value>Exclusief volledig scherm</value>
   </data>
+  <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
+    <value>Sessiedock, achtergrond van de startpagina, schermkleuren en tools in het spel.</value>
+  </data>
 </root>

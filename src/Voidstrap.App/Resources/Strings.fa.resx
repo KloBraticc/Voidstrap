@@ -6849,4 +6849,7 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
   <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
     <value>تمام‌صفحهٔ انحصاری</value>
   </data>
+  <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
+    <value>نوار جلسه، پس‌زمینهٔ صفحهٔ اصلی، رنگ‌های صفحه و ابزارهای درون بازی.</value>
+  </data>
 </root>

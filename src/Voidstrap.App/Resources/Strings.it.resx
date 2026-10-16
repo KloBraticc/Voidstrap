@@ -6780,4 +6780,7 @@ Riprovare la rimozione?</value>
   <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
     <value>Schermo intero esclusivo</value>
   </data>
+  <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
+    <value>Barra della sessione, sfondo della home, colori dello schermo e strumenti in gioco.</value>
+  </data>
 </root>

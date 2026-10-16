@@ -6821,4 +6821,7 @@ Roblox буде завантажено під час першого запуск
   <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
     <value>Ексклюзивний повноекранний</value>
   </data>
+  <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
+    <value>Панель сеансу, фон головної сторінки, кольори екрана та інструменти в грі.</value>
+  </data>
 </root>

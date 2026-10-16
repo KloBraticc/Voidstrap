@@ -6807,4 +6807,7 @@ Mit szeretnél tenni?</value>
   <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
     <value>Kizárólagos teljes képernyő</value>
   </data>
+  <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
+    <value>Munkamenetsáv, kezdőlap háttér, képernyőszínek és játékon belüli eszközök.</value>
+  </data>
 </root>

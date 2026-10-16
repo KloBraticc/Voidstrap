@@ -6817,4 +6817,7 @@ Thử gỡ bỏ lại?</value>
   <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
     <value>Toàn màn hình độc quyền</value>
   </data>
+  <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
+    <value>Thanh phiên, hình nền trang chủ, màu màn hình và công cụ trong game.</value>
+  </data>
 </root>

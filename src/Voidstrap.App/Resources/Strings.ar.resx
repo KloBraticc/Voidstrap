@@ -6840,4 +6840,7 @@
   <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
     <value>ملء الشاشة الحصري</value>
   </data>
+  <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
+    <value>شريط الجلسة وخلفية الصفحة الرئيسية وألوان الشاشة وأدوات داخل اللعبة.</value>
+  </data>
 </root>

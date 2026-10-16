@@ -6803,4 +6803,7 @@ Yritetäänkö poistoa uudelleen?</value>
   <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
     <value>Yksinomainen koko näyttö</value>
   </data>
+  <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
+    <value>Istuntopalkki, aloitussivun tausta, näytön värit ja pelinsisäiset työkalut.</value>
+  </data>
 </root>

@@ -2581,6 +2581,8 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Bootstrapper_FullscreenExclusive => ResourceManager.GetString("Ui.Bootstrapper.FullscreenExclusive", resourceCulture);
 
+        public static string Ui_Mods_OverlaysCardDescription => ResourceManager.GetString("Ui.Mods.OverlaysCardDescription", resourceCulture);
+
         public static string Menu_Appearance_Accent_Title => ResourceManager.GetString("Menu.Appearance.Accent.Title", resourceCulture);
 
         public static string Menu_Appearance_Accent_Description => ResourceManager.GetString("Menu.Appearance.Accent.Description", resourceCulture);

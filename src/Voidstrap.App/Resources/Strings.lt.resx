@@ -6845,4 +6845,7 @@ Bandyti pašalinti dar kartą?</value>
   <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
     <value>Išskirtinis viso ekrano režimas</value>
   </data>
+  <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
+    <value>Seanso juosta, pagrindinio puslapio fonas, ekrano spalvos ir žaidimo įrankiai.</value>
+  </data>
 </root>

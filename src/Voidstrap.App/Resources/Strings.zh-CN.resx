@@ -6832,4 +6832,7 @@ Voidstrap 的安装路径是：
   <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
     <value>独占全屏</value>
   </data>
+  <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
+    <value>会话栏、主页背景、屏幕颜色和游戏内工具。</value>
+  </data>
 </root>

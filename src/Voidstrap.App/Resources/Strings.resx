@@ -6585,4 +6585,7 @@ Try the removal again?</value>
   <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
     <value>Exclusive fullscreen</value>
   </data>
+  <data name="Ui.Mods.OverlaysCardDescription" xml:space="preserve">
+    <value>Session dock, homepage background, screen color and in game tools.</value>
+  </data>
 </root>
