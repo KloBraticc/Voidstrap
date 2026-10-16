@@ -50,16 +50,10 @@
             <TextBlock Margin="0,2,0,0" FontSize="12" Text="{resources:Loc Menu_Mods_OpenModsFolder_Description}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" />
           </StackPanel>
         </ui:CardAction>
-        <ui:CardAction Margin="4,0,4,0" Icon="DocumentSearch24" Command="{Binding ToggleModExplorerCommand}">
+        <ui:CardAction Margin="4,0,0,0" Icon="DocumentSearch24" Command="{Binding ToggleModExplorerCommand}">
           <StackPanel>
             <TextBlock FontSize="14" Text="{resources:Loc Ui_Mods_ModExplorer}" FontWeight="Medium" />
             <TextBlock Margin="0,2,0,0" FontSize="12" Text="{resources:Loc Ui_Mods_ViewAndManageFilesInYour}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" />
-          </StackPanel>
-        </ui:CardAction>
-        <ui:CardAction Margin="4,0,0,0" Icon="Wand24" Click="OpenModGenerator_Click">
-          <StackPanel>
-            <TextBlock FontSize="14" Text="{resources:Loc Ui_ModGen_ModGenerator}" FontWeight="Medium" />
-            <TextBlock Margin="0,2,0,0" FontSize="12" Text="{resources:Loc Ui_ModGen_RecolourRobloxSMenuAndTop}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" />
           </StackPanel>
         </ui:CardAction>
       </UniformGrid>
@@ -302,6 +296,12 @@
             </controls:OptionControl>
 
 
+            <ui:CardAction Margin="0,16,0,0" Icon="Wand24" Click="OpenModGenerator_Click">
+              <StackPanel>
+                <TextBlock FontSize="14" Text="{resources:Loc Ui_ModGen_ModGenerator}" FontWeight="Medium" />
+                <TextBlock Margin="0,2,0,0" FontSize="12" Text="{resources:Loc Ui_ModGen_RecolourRobloxSMenuAndTop}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" />
+              </StackPanel>
+            </ui:CardAction>
             <TextBlock Margin="2,24,0,0" FontSize="16" FontWeight="SemiBold" Text="{resources:Loc Ui_Mods_HelpAndFixes}" />
             <ui:CardAction Margin="0,8,0,0" Icon="BookQuestionMark24" Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="https://github.com/Bloxstraplabs/Bloxstrap/wiki/Adding-custom-mods">
               <StackPanel>
