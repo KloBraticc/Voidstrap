@@ -814,7 +814,7 @@
             <ColumnDefinition Width="Auto" />
           </Grid.ColumnDefinitions>
           <Grid Grid.Column="0" x:Name="BreadcrumbPanel" Margin="0,0,12,0" VerticalAlignment="Center" ClipToBounds="True">
-            <ui:Breadcrumb Name="PageBreadcrumb" HorizontalAlignment="Left" Icon="Add12" Navigation="{Binding ElementName=RootNavigation}" />
+            <ui:Breadcrumb Name="PageBreadcrumb" Margin="6,0,0,0" HorizontalAlignment="Left" Icon="Add12" Navigation="{Binding ElementName=RootNavigation}" />
           </Grid>
           <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
             <ui:TextBox Name="GlobalSearchBox" Width="240" Height="36" Margin="0,0,8,0" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" Visibility="Collapsed" PlaceholderText="{resources:Loc Ui_Main_SearchPlaceholder}" ClearButtonEnabled="True" Icon="Search24" TextChanged="GlobalSearchBox_TextChanged" />
