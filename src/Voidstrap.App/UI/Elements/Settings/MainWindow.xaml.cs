@@ -1148,8 +1148,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 .OrderBy(item => ranks.TryGetValue(item.Key, out int rank) ? rank : int.MaxValue)
                 .ThenBy(item => defaults[item.Key]);
         }
-        NavigationItem coreHeader = items["CoreHeader"];
-        NavigationItem configurationHeader = items["ConfigurationHeader"];
+        NavigationItem[] headers = _defaultMainSidebarItems.OfType<NavigationItem>().Where(item => !item.IsEnabled).Take(2).ToArray();
+        NavigationItem coreHeader = headers[0];
+        NavigationItem configurationHeader = headers[1];
         Wpf.Ui.Controls.Navigation.NavigationSeparator separator = _defaultMainSidebarItems.OfType<Wpf.Ui.Controls.Navigation.NavigationSeparator>().First();
         bool hasConfigurationItems = Ordered("Configuration").Any(definition => items[definition.Key].Visibility == Visibility.Visible);
         configurationHeader.Visibility = hasConfigurationItems ? Visibility.Visible : Visibility.Collapsed;
