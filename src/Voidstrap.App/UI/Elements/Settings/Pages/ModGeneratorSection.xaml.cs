@@ -200,6 +200,10 @@ public partial class ModGeneratorSection : UserControl
 
 	private void Angle_Changed(object sender, RoutedPropertyChangedEventArgs<double> e)
 	{
+		if (AngleText == null)
+		{
+			return;
+		}
 		AngleText.Text = Math.Round(e.NewValue) + "°";
 		if (!_loading)
 		{
@@ -209,6 +213,10 @@ public partial class ModGeneratorSection : UserControl
 
 	private void Opacity_Changed(object sender, RoutedPropertyChangedEventArgs<double> e)
 	{
+		if (OpacityText == null)
+		{
+			return;
+		}
 		OpacityText.Text = Math.Round(e.NewValue) + "%";
 		if (!_loading)
 		{
