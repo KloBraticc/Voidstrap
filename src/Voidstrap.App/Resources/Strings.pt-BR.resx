@@ -3111,9 +3111,6 @@ O que você gostaria de fazer?</value>
   <data name="Ui.Nav.More" xml:space="preserve">
     <value>Mais</value>
   </data>
-  <data name="Ui.Nav.Global" xml:space="preserve">
-    <value>Global</value>
-  </data>
   <data name="Ui.Nav.News" xml:space="preserve">
     <value>Notícias</value>
   </data>
@@ -3390,9 +3387,6 @@ O que você gostaria de fazer?</value>
   <data name="Ui.Mods.ApplyModsTo" xml:space="preserve">
     <value>Aplicar mods a</value>
   </data>
-  <data name="Ui.Mods.Cursor" xml:space="preserve">
-    <value>Cursor</value>
-  </data>
   <data name="Ui.Mods.CursorStyle" xml:space="preserve">
     <value>Estilo do cursor</value>
   </data>
@@ -3441,9 +3435,6 @@ O que você gostaria de fazer?</value>
   <data name="Ui.Mods.ReplaceThisSetWithYourCurrent" xml:space="preserve">
     <value>Substituir este conjunto pelo seu cursor personalizado e ícone de shift lock atuais</value>
   </data>
-  <data name="Ui.Mods.Interface" xml:space="preserve">
-    <value>Interface</value>
-  </data>
   <data name="Ui.Mods.OldRobloxTopbarUi" xml:space="preserve">
     <value>Barra superior antiga do Roblox</value>
   </data>
@@ -3476,9 +3467,6 @@ O que você gostaria de fazer?</value>
   </data>
   <data name="Ui.Mods.RemoveCustomDeathSound" xml:space="preserve">
     <value>Remover som de morte personalizado</value>
-  </data>
-  <data name="Ui.Mods.Volume" xml:space="preserve">
-    <value>Volume</value>
   </data>
   <data name="Ui.Mods.SkyboxManager" xml:space="preserve">
     <value>Gerenciador de skybox</value>
@@ -3638,9 +3626,6 @@ O que você gostaria de fazer?</value>
   </data>
   <data name="Ui.Mods.EnableOrDisableThisMod" xml:space="preserve">
     <value>Ativar ou desativar este mod</value>
-  </data>
-  <data name="Ui.Mods.Id" xml:space="preserve">
-    <value>   ID: </value>
   </data>
   <data name="Ui.Mods.ViewThisModPack" xml:space="preserve">
     <value>Ver este pacote de mods</value>
@@ -3969,9 +3954,6 @@ O que você gostaria de fazer?</value>
   <data name="Ui.FastFlags.HowSolidTheSquaresLook" xml:space="preserve">
     <value>O quanto os quadrados parecem sólidos</value>
   </data>
-  <data name="Ui.FastFlags.Studs" xml:space="preserve">
-    <value>Studs</value>
-  </data>
   <data name="Ui.FastFlags.TheStudPatternOnParts" xml:space="preserve">
     <value>O padrão de studs nas peças</value>
   </data>
@@ -4188,14 +4170,8 @@ O que você gostaria de fazer?</value>
   <data name="Ui.Bootstrapper.FilesOlderThanTheSetAmount" xml:space="preserve">
     <value>Arquivos mais antigos que o tempo definido serão excluídos.</value>
   </data>
-  <data name="Ui.Bootstrapper.Cache" xml:space="preserve">
-    <value>Cache</value>
-  </data>
   <data name="Ui.Bootstrapper.WhenShouldTheSetAmountBe" xml:space="preserve">
     <value>Quando a quantidade definida deve ser excluída.</value>
-  </data>
-  <data name="Ui.Bootstrapper.Logs" xml:space="preserve">
-    <value>Logs</value>
   </data>
   <data name="Ui.Bootstrapper.OldLogFilesWillBeDeleted" xml:space="preserve">
     <value>Arquivos de log antigos serão excluídos.</value>
@@ -4242,9 +4218,6 @@ O que você gostaria de fazer?</value>
   <data name="Ui.Bootstrapper.ReduceResourcesWhenRobloxIsUnfocused" xml:space="preserve">
     <value>Reduzir recursos quando o Roblox estiver fora de foco</value>
   </data>
-  <data name="Ui.Bootstrapper.VoidstrapMatchmaker" xml:space="preserve">
-    <value>Voidstrap Matchmaker</value>
-  </data>
   <data name="Ui.Bootstrapper.Enable" xml:space="preserve">
     <value>Ativar</value>
   </data>
@@ -4275,9 +4248,6 @@ O que você gostaria de fazer?</value>
   <data name="Ui.Bootstrapper.VoidstrapWillAlwaysTryThisOne" xml:space="preserve">
     <value>O Voidstrap sempre tentará este primeiro e só mudará quando não houver espaço</value>
   </data>
-  <data name="Ui.Bootstrapper.Datacenters" xml:space="preserve">
-    <value>Datacenters</value>
-  </data>
   <data name="Ui.Bootstrapper.AllowAll" xml:space="preserve">
     <value>Permitir todos</value>
   </data>
@@ -4289,9 +4259,6 @@ O que você gostaria de fazer?</value>
   </data>
   <data name="Ui.Bootstrapper.Allow" xml:space="preserve">
     <value>Permitir</value>
-  </data>
-  <data name="Ui.Bootstrapper.Datacenter" xml:space="preserve">
-    <value>Datacenter</value>
   </data>
   <data name="Ui.Bootstrapper.Latency" xml:space="preserve">
     <value>Latência</value>
@@ -4311,9 +4278,6 @@ O que você gostaria de fazer?</value>
   <data name="Ui.Bootstrapper.NeverLetVoidstrapPickAServer" xml:space="preserve">
     <value>Nunca deixar o Voidstrap escolher um servidor para este jogo</value>
   </data>
-  <data name="Ui.Bootstrapper.PlaceId" xml:space="preserve">
-    <value>Place id</value>
-  </data>
   <data name="Ui.Bootstrapper.LetVoidstrapPickServersForThis" xml:space="preserve">
     <value>Deixar o Voidstrap escolher servidores para este jogo de novo</value>
   </data>
@@ -4326,17 +4290,11 @@ O que você gostaria de fazer?</value>
   <data name="Ui.Bootstrapper.HowHardToSearch" xml:space="preserve">
     <value>Intensidade da busca</value>
   </data>
-  <data name="Ui.Bootstrapper.Auto" xml:space="preserve">
-    <value>Auto</value>
-  </data>
   <data name="Ui.Bootstrapper.ReconnectLimit" xml:space="preserve">
     <value>Limite de reconexões</value>
   </data>
   <data name="Ui.Bootstrapper.VoidstrapStopsTryingAfterThisMany" xml:space="preserve">
     <value>O Voidstrap para depois desse número de reconexões para nunca entrar em loop.</value>
-  </data>
-  <data name="Ui.Bootstrapper.JoinAPI" xml:space="preserve">
-    <value>Join API</value>
   </data>
   <data name="Ui.Bootstrapper.WhichRobloxJoinEndpointVoidstrapAsks" xml:space="preserve">
     <value>Qual endpoint de entrada do Roblox o Voidstrap consulta para a localização dos servidores. Mude só se as entradas pararem de funcionar.</value>
@@ -4557,9 +4515,6 @@ O que você gostaria de fazer?</value>
   <data name="Ui.Integrations.CloseWhenLeavingThatGame" xml:space="preserve">
     <value>Fechar ao sair desse jogo</value>
   </data>
-  <data name="Ui.Integrations.PlaceID" xml:space="preserve">
-    <value>Place ID</value>
-  </data>
   <data name="Ui.Channel.InstallLocation" xml:space="preserve">
     <value>Local de instalação</value>
   </data>
@@ -4620,9 +4575,6 @@ O que você gostaria de fazer?</value>
   <data name="Ui.Channel.DisplaysVoidstrapsDiscordRPC" xml:space="preserve">
     <value>Mostra o RPC do Discord do Voidstrap.</value>
   </data>
-  <data name="Ui.Channel.VoidstrapRPC" xml:space="preserve">
-    <value>Voidstrap RPC</value>
-  </data>
   <data name="Ui.Channel.FactoryReset" xml:space="preserve">
     <value>Restaurar padrões de fábrica</value>
   </data>
@@ -4679,9 +4631,6 @@ O que você gostaria de fazer?</value>
   </data>
   <data name="Ui.Channel.SelectWhenYouDLikeTo" xml:space="preserve">
     <value>Escolha quando quer receber as atualizações do Roblox</value>
-  </data>
-  <data name="Ui.Channel.Normal" xml:space="preserve">
-    <value>Normal</value>
   </data>
   <data name="Ui.Channel.YouGetEachRobloxUpdateOn" xml:space="preserve">
     <value>Você recebe cada atualização do Roblox na próxima inicialização após o lançamento</value>
@@ -4794,12 +4743,6 @@ O que você gostaria de fazer?</value>
   <data name="Ui.SessionNotify.BottomRight" xml:space="preserve">
     <value>Inferior direito</value>
   </data>
-  <data name="Ui.SessionNotify.Horizontal" xml:space="preserve">
-    <value>Horizontal</value>
-  </data>
-  <data name="Ui.SessionNotify.Vertical" xml:space="preserve">
-    <value>Vertical</value>
-  </data>
   <data name="Ui.SessionNotify.CornerRadius" xml:space="preserve">
     <value>Raio do canto</value>
   </data>
@@ -4877,9 +4820,6 @@ O que você gostaria de fazer?</value>
   </data>
   <data name="Ui.ModGen.RecolourRobloxSMenuAndTop" xml:space="preserve">
     <value>Mude a cor dos ícones do menu e da barra superior do Roblox e salve como mod.</value>
-  </data>
-  <data name="Ui.ModGen.Original" xml:space="preserve">
-    <value>Original</value>
   </data>
   <data name="Ui.ModGen.YourMod" xml:space="preserve">
     <value>Seu mod</value>
@@ -5127,9 +5067,6 @@ O que você gostaria de fazer?</value>
   <data name="Ui.Gbs.EnableVignetteForMotionSicknessReduction" xml:space="preserve">
     <value>Ativa a vinheta para reduzir o enjoo.</value>
   </data>
-  <data name="Ui.Gbs.MicroProfiler" xml:space="preserve">
-    <value>Micro Profiler</value>
-  </data>
   <data name="Ui.Gbs.EnableRobloxMicroprofilerServer" xml:space="preserve">
     <value>Ativa o servidor do microprofiler do Roblox.</value>
   </data>
@@ -5307,9 +5244,6 @@ O que você gostaria de fazer?</value>
   <data name="Ui.Session.Account" xml:space="preserve">
     <value>Conta</value>
   </data>
-  <data name="Ui.Session.Social" xml:space="preserve">
-    <value>Social</value>
-  </data>
   <data name="Ui.Session.OpenProfile" xml:space="preserve">
     <value>Abrir perfil</value>
   </data>
@@ -5405,9 +5339,6 @@ O que você gostaria de fazer?</value>
   </data>
   <data name="Ui.Session.PasteAFullROBLOSECURITYValueOnly" xml:space="preserve">
     <value>Cole um valor .ROBLOSECURITY completo. Só cole cookies que sejam seus.</value>
-  </data>
-  <data name="Ui.Session.WARNINGDONOTSHARETHIS" xml:space="preserve">
-    <value>_|WARNING: DO NOT SHARE THIS...</value>
   </data>
   <data name="Ui.Session.CURRENT" xml:space="preserve">
     <value>ATUAL</value>
@@ -5597,9 +5528,6 @@ O que você gostaria de fazer?</value>
   </data>
   <data name="Ui.Misc.TheGraphicsBackendWineUsesFor" xml:space="preserve">
     <value>O backend gráfico que o Wine usa para o Studio. DXVK serve para a maioria dos sistemas.</value>
-  </data>
-  <data name="Ui.Misc.FeralGameMode" xml:space="preserve">
-    <value>Feral GameMode</value>
   </data>
   <data name="Ui.Misc.AsksGameModeToTuneTheSystem" xml:space="preserve">
     <value>Pede ao GameMode para ajustar o sistema enquanto o Studio roda.</value>
@@ -5871,9 +5799,6 @@ O que você gostaria de fazer?</value>
   <data name="Ui.Pages.OverridesThatAffectGPUBehaviorAnd" xml:space="preserve">
     <value>Substituições que afetam o comportamento da GPU e os recursos do driver.</value>
   </data>
-  <data name="Ui.Pages.ResizableBAR" xml:space="preserve">
-    <value>Resizable BAR</value>
-  </data>
   <data name="Ui.Pages.AllowsTheCPUToAccessThe" xml:space="preserve">
     <value>Permite que a CPU acesse toda a memória da GPU em sistemas compatíveis.</value>
   </data>
@@ -5924,9 +5849,6 @@ O que você gostaria de fazer?</value>
   </data>
   <data name="Ui.Pages.WorksWith" xml:space="preserve">
     <value>Funciona com</value>
-  </data>
-  <data name="Ui.Pages.Tags" xml:space="preserve">
-    <value>Tags</value>
   </data>
   <data name="Ui.Pages.Creators" xml:space="preserve">
     <value>Criadores</value>
@@ -5985,9 +5907,6 @@ O que você gostaria de fazer?</value>
   <data name="Ui.Pages.ManageYourFastFlagsACheckmarkIn" xml:space="preserve">
     <value>Gerencie suas FastFlags. Um visto em Preset significa que a flag está disponível nas configurações de FFlags, e um X significa que não está.</value>
   </data>
-  <data name="Ui.Pages.Preset" xml:space="preserve">
-    <value>Preset</value>
-  </data>
   <data name="Ui.Pages.GoToFFlagSettingsToAdd" xml:space="preserve">
     <value>Vá até as configurações de FFlags para adicionar FFlags Preset.</value>
   </data>
@@ -6011,9 +5930,6 @@ O que você gostaria de fazer?</value>
   </data>
   <data name="Ui.Pages.SearchByGameNameCreatorOr" xml:space="preserve">
     <value>Pesquisar por nome do jogo, criador ou place ID...</value>
-  </data>
-  <data name="Ui.Pages.Downloads" xml:space="preserve">
-    <value>Downloads</value>
   </data>
   <data name="Ui.Pages.Installed" xml:space="preserve">
     <value>Instalado</value>
@@ -6123,26 +6039,14 @@ O que você gostaria de fazer?</value>
   <data name="Ui.Misc2.TheClassicTopbarOptionRebuildsTwo" xml:space="preserve">
     <value>A opção de topbar clássica recria dois mods da comunidade. A arte e o comportamento da topbar e do menu do jogo de 2014 a 2015 vêm de "2014 2015 Topbar and Menu (Improvised GUI)" de HockuTM. Ocultar a topbar moderna usa "NoGuiRBX, Hide TopBar!" de Einshine. Ambos são usados com agradecimento sob os termos Creative Commons BY NC ND 4.0, os arquivos são baixados direto do GameBanana em vez de incluídos, e nenhum autor é afiliado ao Voidstrap.</value>
   </data>
-  <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
-  </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>Mods da comunidade</value>
   </data>
   <data name="Ui.Misc2.CommunityModsListsRobloxSubmissionsFrom" xml:space="preserve">
     <value>Mods da comunidade lista envios do Roblox do GameBanana e do Kliko's Mods, mantido por TheKliko para o modloader do Kliko. O Voidstrap não é afiliado nem endossado por nenhum deles. Todos os mods, imagens e descrições pertencem aos autores, creditados em cada item. O Voidstrap só lê os dados públicos e nunca envia nada em seu nome.</value>
   </data>
-  <data name="Ui.Misc2.GithubComKlikosModloaderMarketplace" xml:space="preserve">
-    <value>github.com/klikos modloader/marketplace</value>
-  </data>
   <data name="Ui.Misc2.CanTSeeOverlays" xml:space="preserve">
     <value>Não vê as sobreposições?</value>
-  </data>
-  <data name="Ui.Misc2.Info" xml:space="preserve">
-    <value>Info</value>
-  </data>
-  <data name="Ui.Misc2.FFlags" xml:space="preserve">
-    <value>FFlags</value>
   </data>
   <data name="Ui.Misc2.PlayTime" xml:space="preserve">
     <value>Tempo de jogo</value>
@@ -6215,9 +6119,6 @@ O que você gostaria de fazer?</value>
   </data>
   <data name="Ui.Misc2.SelectAnAssetToPreviewIt" xml:space="preserve">
     <value>Selecione um recurso para ver a prévia aqui</value>
-  </data>
-  <data name="Ui.Misc2.Volume" xml:space="preserve">
-    <value>Volume:</value>
   </data>
   <data name="Ui.Misc2.Loop" xml:space="preserve">
     <value>Repetir</value>
@@ -6305,9 +6206,6 @@ O que você gostaria de fazer?</value>
   </data>
   <data name="Ui.Misc2.ServerSize" xml:space="preserve">
     <value>Tamanho do servidor</value>
-  </data>
-  <data name="Ui.Misc2.Chat" xml:space="preserve">
-    <value>Chat</value>
   </data>
   <data name="Ui.Misc2.Chats" xml:space="preserve">
     <value>Conversas</value>
