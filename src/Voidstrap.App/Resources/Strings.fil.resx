@@ -6575,4 +6575,13 @@ Subukan ulit ang pag alis?</value>
   <data name="Ui.Main.PaletteResults" xml:space="preserve">
     <value>{0} resulta</value>
   </data>
+  <data name="Ui.Bootstrapper.FullscreenNormal" xml:space="preserve">
+    <value>Normal na window</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenBorderless" xml:space="preserve">
+    <value>Borderless na fullscreen</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
+    <value>Exclusive na fullscreen</value>
+  </data>
 </root>

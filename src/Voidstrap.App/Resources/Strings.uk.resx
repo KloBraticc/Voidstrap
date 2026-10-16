@@ -6812,4 +6812,13 @@ Roblox буде завантажено під час першого запуск
   <data name="Ui.Main.PaletteResults" xml:space="preserve">
     <value>Результатів: {0}</value>
   </data>
+  <data name="Ui.Bootstrapper.FullscreenNormal" xml:space="preserve">
+    <value>Звичайне вікно</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenBorderless" xml:space="preserve">
+    <value>Повноекранний без рамки</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
+    <value>Ексклюзивний повноекранний</value>
+  </data>
 </root>

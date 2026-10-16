@@ -6758,4 +6758,13 @@ Het verwijderen opnieuw proberen?</value>
   <data name="Ui.Main.PaletteResults" xml:space="preserve">
     <value>{0} resultaten</value>
   </data>
+  <data name="Ui.Bootstrapper.FullscreenNormal" xml:space="preserve">
+    <value>Normaal venster</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenBorderless" xml:space="preserve">
+    <value>Randloos volledig scherm</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
+    <value>Exclusief volledig scherm</value>
+  </data>
 </root>

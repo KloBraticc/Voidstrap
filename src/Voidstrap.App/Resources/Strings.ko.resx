@@ -6812,4 +6812,13 @@ Roblox는 Voidstrap으로 처음 실행할 때 다운로드됩니다. 실행하�
   <data name="Ui.Main.PaletteResults" xml:space="preserve">
     <value>결과 {0}개</value>
   </data>
+  <data name="Ui.Bootstrapper.FullscreenNormal" xml:space="preserve">
+    <value>일반 창</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenBorderless" xml:space="preserve">
+    <value>테두리 없는 전체 화면</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
+    <value>전용 전체 화면</value>
+  </data>
 </root>

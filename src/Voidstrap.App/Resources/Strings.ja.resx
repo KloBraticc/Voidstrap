@@ -6825,4 +6825,13 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
   <data name="Ui.Main.PaletteResults" xml:space="preserve">
     <value>{0} 件の結果</value>
   </data>
+  <data name="Ui.Bootstrapper.FullscreenNormal" xml:space="preserve">
+    <value>通常のウィンドウ</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenBorderless" xml:space="preserve">
+    <value>ボーダーレス全画面</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
+    <value>排他的全画面</value>
+  </data>
 </root>

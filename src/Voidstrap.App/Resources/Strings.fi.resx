@@ -6794,4 +6794,13 @@ Yritetäänkö poistoa uudelleen?</value>
   <data name="Ui.Main.PaletteResults" xml:space="preserve">
     <value>{0} tulosta</value>
   </data>
+  <data name="Ui.Bootstrapper.FullscreenNormal" xml:space="preserve">
+    <value>Tavallinen ikkuna</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenBorderless" xml:space="preserve">
+    <value>Reunaton koko näyttö</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
+    <value>Yksinomainen koko näyttö</value>
+  </data>
 </root>

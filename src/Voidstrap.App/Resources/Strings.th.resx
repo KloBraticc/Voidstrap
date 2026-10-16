@@ -6794,4 +6794,13 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
   <data name="Ui.Main.PaletteResults" xml:space="preserve">
     <value>{0} รายการ</value>
   </data>
+  <data name="Ui.Bootstrapper.FullscreenNormal" xml:space="preserve">
+    <value>หน้าต่างปกติ</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenBorderless" xml:space="preserve">
+    <value>เต็มหน้าจอแบบไร้ขอบ</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
+    <value>เต็มหน้าจอแบบเอกสิทธิ์</value>
+  </data>
 </root>

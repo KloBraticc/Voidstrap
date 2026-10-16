@@ -64,9 +64,33 @@ namespace Voidstrap.Integrations.Fullscreen
                 return;
 
             if (Enabled)
-                Apply();
+            {
+                if (!Apply())
+                    _ = RetryApplyAsync();
+            }
             else
                 Restore();
+        }
+
+        private static async System.Threading.Tasks.Task RetryApplyAsync()
+        {
+            for (int attempt = 0; attempt < 20; attempt++)
+            {
+                await System.Threading.Tasks.Task.Delay(1000).ConfigureAwait(false);
+                if (!Enabled || Application.Current == null)
+                    return;
+                try
+                {
+                    if (Apply())
+                        return;
+                }
+                catch (Exception ex)
+                {
+                    App.Logger.WriteLine(LOG_IDENT, "Retry failed: " + ex.Message);
+                    return;
+                }
+            }
+            App.Logger.WriteLine(LOG_IDENT, "The Roblox window never became available, exclusive fullscreen was not applied");
         }
 
         public static void OnGameLeave()

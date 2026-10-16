@@ -6836,4 +6836,13 @@ Bandyti pašalinti dar kartą?</value>
   <data name="Ui.Main.PaletteResults" xml:space="preserve">
     <value>Rezultatai: {0}</value>
   </data>
+  <data name="Ui.Bootstrapper.FullscreenNormal" xml:space="preserve">
+    <value>Įprastas langas</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenBorderless" xml:space="preserve">
+    <value>Viso ekrano režimas be rėmelio</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
+    <value>Išskirtinis viso ekrano režimas</value>
+  </data>
 </root>

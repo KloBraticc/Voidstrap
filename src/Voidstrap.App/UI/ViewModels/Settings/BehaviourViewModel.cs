@@ -2244,14 +2244,12 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		public string Display { get; init; } = "";
 	}
 
-	private static readonly ObservableCollection<FullscreenModeItem> _fullscreenModes = new()
+	public ObservableCollection<FullscreenModeItem> FullscreenModes => new()
 	{
-		new FullscreenModeItem { Value = 0, Display = "Normal window" },
-		new FullscreenModeItem { Value = 1, Display = "Borderless fullscreen" },
-		new FullscreenModeItem { Value = 2, Display = "Exclusive fullscreen" }
+		new FullscreenModeItem { Value = 0, Display = Voidstrap.Resources.Strings.Ui_Bootstrapper_FullscreenNormal },
+		new FullscreenModeItem { Value = 1, Display = Voidstrap.Resources.Strings.Ui_Bootstrapper_FullscreenBorderless },
+		new FullscreenModeItem { Value = 2, Display = Voidstrap.Resources.Strings.Ui_Bootstrapper_FullscreenExclusive }
 	};
-
-	public ObservableCollection<FullscreenModeItem> FullscreenModes => _fullscreenModes;
 
 	public int RobloxFullscreenMode
 	{

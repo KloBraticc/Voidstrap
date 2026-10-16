@@ -6794,4 +6794,13 @@ Kaldırma yeniden denensin mi?</value>
   <data name="Ui.Main.PaletteResults" xml:space="preserve">
     <value>{0} sonuç</value>
   </data>
+  <data name="Ui.Bootstrapper.FullscreenNormal" xml:space="preserve">
+    <value>Normal pencere</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenBorderless" xml:space="preserve">
+    <value>Kenarlıksız tam ekran</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
+    <value>Özel tam ekran</value>
+  </data>
 </root>

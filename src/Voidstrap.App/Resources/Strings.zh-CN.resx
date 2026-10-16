@@ -6823,4 +6823,13 @@ Voidstrap 的安装路径是：
   <data name="Ui.Main.PaletteResults" xml:space="preserve">
     <value>{0} 个结果</value>
   </data>
+  <data name="Ui.Bootstrapper.FullscreenNormal" xml:space="preserve">
+    <value>普通窗口</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenBorderless" xml:space="preserve">
+    <value>无边框全屏</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
+    <value>独占全屏</value>
+  </data>
 </root>

@@ -2575,6 +2575,12 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Main_PaletteResults => ResourceManager.GetString("Ui.Main.PaletteResults", resourceCulture);
 
+        public static string Ui_Bootstrapper_FullscreenNormal => ResourceManager.GetString("Ui.Bootstrapper.FullscreenNormal", resourceCulture);
+
+        public static string Ui_Bootstrapper_FullscreenBorderless => ResourceManager.GetString("Ui.Bootstrapper.FullscreenBorderless", resourceCulture);
+
+        public static string Ui_Bootstrapper_FullscreenExclusive => ResourceManager.GetString("Ui.Bootstrapper.FullscreenExclusive", resourceCulture);
+
         public static string Menu_Appearance_Accent_Title => ResourceManager.GetString("Menu.Appearance.Accent.Title", resourceCulture);
 
         public static string Menu_Appearance_Accent_Description => ResourceManager.GetString("Menu.Appearance.Accent.Description", resourceCulture);

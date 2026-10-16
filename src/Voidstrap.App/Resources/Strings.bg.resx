@@ -6802,4 +6802,13 @@ Roblox ще бъде изтеглен, когато го стартирате з
   <data name="Ui.Main.PaletteResults" xml:space="preserve">
     <value>{0} резултата</value>
   </data>
+  <data name="Ui.Bootstrapper.FullscreenNormal" xml:space="preserve">
+    <value>Нормален прозорец</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenBorderless" xml:space="preserve">
+    <value>Цял екран без рамка</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
+    <value>Изключителен цял екран</value>
+  </data>
 </root>

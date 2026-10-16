@@ -6763,4 +6763,13 @@ Cuba buang semula?</value>
   <data name="Ui.Main.PaletteResults" xml:space="preserve">
     <value>{0} hasil</value>
   </data>
+  <data name="Ui.Bootstrapper.FullscreenNormal" xml:space="preserve">
+    <value>Tetingkap biasa</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenBorderless" xml:space="preserve">
+    <value>Skrin penuh tanpa bingkai</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
+    <value>Skrin penuh eksklusif</value>
+  </data>
 </root>

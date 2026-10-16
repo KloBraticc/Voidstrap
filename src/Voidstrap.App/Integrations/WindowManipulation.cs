@@ -78,7 +78,7 @@ namespace Voidstrap.Integrations
             if (_activityWatcher != null && RobloxWindowTitle.WantsUpdates)
                 _titleUpdater = new RobloxWindowTitle(_activityWatcher, ApplyTitle);
 
-            if (_activityWatcher != null && (_titleUpdater != null || useGameIcon))
+            if (_activityWatcher != null && (_titleUpdater != null || useGameIcon || App.Settings.Prop.FakeBorderlessFullscreen))
             {
                 _activityWatcher.OnGameJoin += OnGameJoin;
                 _activityWatcher.OnGameLeave += OnGameLeave;
@@ -191,6 +191,9 @@ namespace Voidstrap.Integrations
             {
                 if (_disposed || _activityWatcher == null)
                     return;
+
+                if (App.Settings.Prop.FakeBorderlessFullscreen)
+                    FakeBorderless();
 
                 long universeId = _activityWatcher.Data?.UniverseId ?? 0;
                 if (universeId <= 0)

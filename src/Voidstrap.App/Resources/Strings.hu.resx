@@ -6798,4 +6798,13 @@ Mit szeretnél tenni?</value>
   <data name="Ui.Main.PaletteResults" xml:space="preserve">
     <value>{0} találat</value>
   </data>
+  <data name="Ui.Bootstrapper.FullscreenNormal" xml:space="preserve">
+    <value>Normál ablak</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenBorderless" xml:space="preserve">
+    <value>Keret nélküli teljes képernyő</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
+    <value>Kizárólagos teljes képernyő</value>
+  </data>
 </root>

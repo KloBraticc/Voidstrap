@@ -6831,4 +6831,13 @@
   <data name="Ui.Main.PaletteResults" xml:space="preserve">
     <value>{0} نتائج</value>
   </data>
+  <data name="Ui.Bootstrapper.FullscreenNormal" xml:space="preserve">
+    <value>نافذة عادية</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenBorderless" xml:space="preserve">
+    <value>ملء الشاشة بدون حدود</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
+    <value>ملء الشاشة الحصري</value>
+  </data>
 </root>

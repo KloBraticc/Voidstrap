@@ -6760,4 +6760,13 @@ Försöka ta bort igen?</value>
   <data name="Ui.Main.PaletteResults" xml:space="preserve">
     <value>{0} resultat</value>
   </data>
+  <data name="Ui.Bootstrapper.FullscreenNormal" xml:space="preserve">
+    <value>Vanligt fönster</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenBorderless" xml:space="preserve">
+    <value>Kantlös helskärm</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
+    <value>Exklusiv helskärm</value>
+  </data>
 </root>

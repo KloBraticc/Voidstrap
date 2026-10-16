@@ -6802,4 +6802,13 @@ Voidstrap 安裝在 "{1}"。</value>
   <data name="Ui.Main.PaletteResults" xml:space="preserve">
     <value>{0} 筆結果</value>
   </data>
+  <data name="Ui.Bootstrapper.FullscreenNormal" xml:space="preserve">
+    <value>一般視窗</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenBorderless" xml:space="preserve">
+    <value>無邊框全螢幕</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
+    <value>獨占全螢幕</value>
+  </data>
 </root>

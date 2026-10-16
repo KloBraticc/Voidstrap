@@ -6801,4 +6801,13 @@ Pokušati uklanjanje ponovno?</value>
   <data name="Ui.Main.PaletteResults" xml:space="preserve">
     <value>Rezultati: {0}</value>
   </data>
+  <data name="Ui.Bootstrapper.FullscreenNormal" xml:space="preserve">
+    <value>Normalni prozor</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenBorderless" xml:space="preserve">
+    <value>Cijeli zaslon bez obruba</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
+    <value>Ekskluzivni cijeli zaslon</value>
+  </data>
 </root>

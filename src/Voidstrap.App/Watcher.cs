@@ -125,7 +125,7 @@ public partial class Watcher : IDisposable
 		_overlayGameStateEnabled = OverlaysNeedGameState();
 		_discordRichPresenceEnabled = App.Settings.Prop.UseDiscordRichPresence;
 		_disableAppPatchEnabled = App.Settings.Prop.UseDisableAppPatch;
-		if (enableActivityTracking || flag || _overlayGameStateEnabled)
+		if (enableActivityTracking || flag || _overlayGameStateEnabled || FullscreenModeActive)
 		{
 			ActivityWatcher = new ActivityWatcher(_watcherData.LogFile, _watcherData.ProcessId);
 			ActivityWatcher.OnGameJoin += OnRuntimeGameJoin;
@@ -1072,6 +1072,8 @@ public partial class Watcher : IDisposable
 			App.Logger.WriteException("Watcher::ReopenSettingsForTestMode", ex);
 		}
 	}
+
+	public static bool FullscreenModeActive => Voidstrap.Utility.Platform.IsWindows && (App.Settings.Prop.FakeBorderlessFullscreen || App.Settings.Prop.FakeExclusiveFullscreen);
 
 	private static bool IsWindowManipulationEnabled()
 	{

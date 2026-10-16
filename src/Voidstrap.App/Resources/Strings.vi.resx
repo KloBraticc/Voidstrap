@@ -6808,4 +6808,13 @@ Thử gỡ bỏ lại?</value>
   <data name="Ui.Main.PaletteResults" xml:space="preserve">
     <value>{0} kết quả</value>
   </data>
+  <data name="Ui.Bootstrapper.FullscreenNormal" xml:space="preserve">
+    <value>Cửa sổ thường</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenBorderless" xml:space="preserve">
+    <value>Toàn màn hình không viền</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
+    <value>Toàn màn hình độc quyền</value>
+  </data>
 </root>

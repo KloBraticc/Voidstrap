@@ -6771,4 +6771,13 @@ Riprovare la rimozione?</value>
   <data name="Ui.Main.PaletteResults" xml:space="preserve">
     <value>{0} risultati</value>
   </data>
+  <data name="Ui.Bootstrapper.FullscreenNormal" xml:space="preserve">
+    <value>Finestra normale</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenBorderless" xml:space="preserve">
+    <value>Schermo intero senza bordi</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
+    <value>Schermo intero esclusivo</value>
+  </data>
 </root>

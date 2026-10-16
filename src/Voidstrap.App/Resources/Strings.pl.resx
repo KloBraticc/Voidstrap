@@ -6796,4 +6796,13 @@ Spróbować ponownie usunąć?</value>
   <data name="Ui.Main.PaletteResults" xml:space="preserve">
     <value>Wyniki: {0}</value>
   </data>
+  <data name="Ui.Bootstrapper.FullscreenNormal" xml:space="preserve">
+    <value>Normalne okno</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenBorderless" xml:space="preserve">
+    <value>Pełny ekran bez ramki</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
+    <value>Wyłączny pełny ekran</value>
+  </data>
 </root>

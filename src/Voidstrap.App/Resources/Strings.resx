@@ -6576,4 +6576,13 @@ Try the removal again?</value>
   <data name="Ui.Main.PaletteResults" xml:space="preserve">
     <value>{0} results</value>
   </data>
+  <data name="Ui.Bootstrapper.FullscreenNormal" xml:space="preserve">
+    <value>Normal window</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenBorderless" xml:space="preserve">
+    <value>Borderless fullscreen</value>
+  </data>
+  <data name="Ui.Bootstrapper.FullscreenExclusive" xml:space="preserve">
+    <value>Exclusive fullscreen</value>
+  </data>
 </root>

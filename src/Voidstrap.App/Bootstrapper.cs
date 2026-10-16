@@ -2534,7 +2534,8 @@ public class Bootstrapper
 			|| Voidstrap.Integrations.Overlays.OverlaySettings.GameEffectsEnabled;
 		bool shouldKeepSnapTap = _launchMode == LaunchMode.Player && Voidstrap.Utility.Platform.SupportsInputHooks && (App.Settings?.Prop.SnapTapEnabled ?? false);
 		bool shouldCompressAfterExit = RobloxInstallCompression.Supported && (App.Settings?.Prop.CompressRobloxInstalls ?? false);
-		if (!((App.Settings?.Prop.EnableActivityTracking ?? false) || flag || shouldOptimize || shouldTrackOverlays || shouldKeepSnapTap || shouldCompressAfterExit) && !(App.LaunchSettings.TestModeFlag?.Active ?? false))
+		bool shouldManageFullscreen = _launchMode == LaunchMode.Player && Watcher.FullscreenModeActive;
+		if (!((App.Settings?.Prop.EnableActivityTracking ?? false) || flag || shouldOptimize || shouldTrackOverlays || shouldKeepSnapTap || shouldCompressAfterExit || shouldManageFullscreen) && !(App.LaunchSettings.TestModeFlag?.Active ?? false))
         {
             return Task.CompletedTask;
         }
