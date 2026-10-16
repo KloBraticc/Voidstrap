@@ -5169,4 +5169,88 @@ Roblox буде завантажено під час першого запуск
   <data name="Ui.Gbs.ShowFPSAndPerformanceOverlay" xml:space="preserve">
     <value>Показувати FPS і оверлей продуктивності.</value>
   </data>
+  <data name="Ui.Home.OpenStudio" xml:space="preserve">
+    <value>Відкрити Studio</value>
+  </data>
+  <data name="Ui.Home.LatestRobloxNews" xml:space="preserve">
+    <value>Останні новини Roblox</value>
+  </data>
+  <data name="Ui.Home.SeeEveryRobloxAnnouncement" xml:space="preserve">
+    <value>Усі оголошення Roblox</value>
+  </data>
+  <data name="Ui.Home.ExploreAllNews" xml:space="preserve">
+    <value>Переглянути всі новини</value>
+  </data>
+  <data name="Ui.Home.NewOnTheCatalog" xml:space="preserve">
+    <value>Нове в каталозі</value>
+  </data>
+  <data name="Ui.Home.SeeEveryNewItemOnThe" xml:space="preserve">
+    <value>Усі нові предмети в каталозі Roblox</value>
+  </data>
+  <data name="Ui.Home.SeeMore" xml:space="preserve">
+    <value>Показати більше</value>
+  </data>
+  <data name="Ui.Home.LoadingNewCatalogItems" xml:space="preserve">
+    <value>Завантаження нових предметів каталогу...</value>
+  </data>
+  <data name="Ui.Home.NoNewCatalogItemsRightNow" xml:space="preserve">
+    <value>Зараз нових предметів у каталозі немає.</value>
+  </data>
+  <data name="Ui.Home.Limited" xml:space="preserve">
+    <value>Лімітований</value>
+  </data>
+  <data name="Ui.Home.ContinuePlaying" xml:space="preserve">
+    <value>Продовжити гру</value>
+  </data>
+  <data name="Ui.Home.ServerForEveryGame" xml:space="preserve">
+    <value>Сервер для всіх ігор</value>
+  </data>
+  <data name="Ui.Home.UseForAllGames" xml:space="preserve">
+    <value>Використовувати для всіх ігор</value>
+  </data>
+  <data name="Ui.Home.ClearTheServerPickedOnEach" xml:space="preserve">
+    <value>Скинути сервер, вибраний для кожної гри, щоб усі ігри використовували спільний сервер</value>
+  </data>
+  <data name="Ui.Home.NoHistoryYet" xml:space="preserve">
+    <value>Історії поки немає</value>
+  </data>
+  <data name="Ui.Home.GamesYouPlayWillShowUp" xml:space="preserve">
+    <value>Тут з'являтимуться ігри, у які Ви грали, щоб швидко до них повернутися.</value>
+  </data>
+  <data name="Ui.Home.NoMatches" xml:space="preserve">
+    <value>Немає збігів</value>
+  </data>
+  <data name="Ui.Home.NothingInYourHistoryMatchesThat" xml:space="preserve">
+    <value>В історії немає нічого відповідного цьому пошуку.</value>
+  </data>
+  <data name="Ui.Home.ViewGamePage" xml:space="preserve">
+    <value>Відкрити сторінку гри</value>
+  </data>
+  <data name="Ui.Home.Joined" xml:space="preserve">
+    <value>Вхід: </value>
+  </data>
+  <data name="Ui.Home.CopyGameLink" xml:space="preserve">
+    <value>Копіювати посилання на гру</value>
+  </data>
+  <data name="Ui.Home.Favourites" xml:space="preserve">
+    <value>Обране</value>
+  </data>
+  <data name="Ui.Home.MyRecentExperiences" xml:space="preserve">
+    <value>Мої нещодавні досвіди</value>
+  </data>
+  <data name="Ui.Home.MyExperiences" xml:space="preserve">
+    <value>Мої досвіди</value>
+  </data>
+  <data name="Ui.Home.EveryExperienceOnYourAccountNewest" xml:space="preserve">
+    <value>Усі досвіди у Вашому акаунті, спершу найновіші зміни.</value>
+  </data>
+  <data name="Ui.Home.RecentFiles" xml:space="preserve">
+    <value>Нещодавні файли</value>
+  </data>
+  <data name="Ui.Home.OpenATemplate" xml:space="preserve">
+    <value>Відкрити шаблон</value>
+  </data>
+  <data name="Ui.Home.SeeWhatSPossibleOnRoblox" xml:space="preserve">
+    <value>Дізнайтеся, що можливо в Roblox у популярних жанрах із готовими досвідами, або почніть з нуля.</value>
+  </data>
 </root>

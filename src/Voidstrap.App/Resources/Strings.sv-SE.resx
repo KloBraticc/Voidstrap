@@ -5117,4 +5117,88 @@ Vad vill du göra?</value>
   <data name="Ui.Gbs.ShowFPSAndPerformanceOverlay" xml:space="preserve">
     <value>Visa FPS och prestandaöverlägg.</value>
   </data>
+  <data name="Ui.Home.OpenStudio" xml:space="preserve">
+    <value>Öppna Studio</value>
+  </data>
+  <data name="Ui.Home.LatestRobloxNews" xml:space="preserve">
+    <value>Senaste nytt från Roblox</value>
+  </data>
+  <data name="Ui.Home.SeeEveryRobloxAnnouncement" xml:space="preserve">
+    <value>Se alla meddelanden från Roblox</value>
+  </data>
+  <data name="Ui.Home.ExploreAllNews" xml:space="preserve">
+    <value>Utforska alla nyheter</value>
+  </data>
+  <data name="Ui.Home.NewOnTheCatalog" xml:space="preserve">
+    <value>Nytt i katalogen</value>
+  </data>
+  <data name="Ui.Home.SeeEveryNewItemOnThe" xml:space="preserve">
+    <value>Se alla nya föremål i Roblox-katalogen</value>
+  </data>
+  <data name="Ui.Home.SeeMore" xml:space="preserve">
+    <value>Visa mer</value>
+  </data>
+  <data name="Ui.Home.LoadingNewCatalogItems" xml:space="preserve">
+    <value>Laddar nya katalogföremål...</value>
+  </data>
+  <data name="Ui.Home.NoNewCatalogItemsRightNow" xml:space="preserve">
+    <value>Inga nya katalogföremål just nu.</value>
+  </data>
+  <data name="Ui.Home.Limited" xml:space="preserve">
+    <value>Begränsad</value>
+  </data>
+  <data name="Ui.Home.ContinuePlaying" xml:space="preserve">
+    <value>Fortsätt spela</value>
+  </data>
+  <data name="Ui.Home.ServerForEveryGame" xml:space="preserve">
+    <value>Server för alla spel</value>
+  </data>
+  <data name="Ui.Home.UseForAllGames" xml:space="preserve">
+    <value>Använd för alla spel</value>
+  </data>
+  <data name="Ui.Home.ClearTheServerPickedOnEach" xml:space="preserve">
+    <value>Rensa servern som valts för varje spel så att alla spel använder den gemensamma servern</value>
+  </data>
+  <data name="Ui.Home.NoHistoryYet" xml:space="preserve">
+    <value>Ingen historik än</value>
+  </data>
+  <data name="Ui.Home.GamesYouPlayWillShowUp" xml:space="preserve">
+    <value>Spel du spelar visas här så att du snabbt kan hoppa in igen.</value>
+  </data>
+  <data name="Ui.Home.NoMatches" xml:space="preserve">
+    <value>Inga träffar</value>
+  </data>
+  <data name="Ui.Home.NothingInYourHistoryMatchesThat" xml:space="preserve">
+    <value>Inget i din historik matchar sökningen.</value>
+  </data>
+  <data name="Ui.Home.ViewGamePage" xml:space="preserve">
+    <value>Visa spelsidan</value>
+  </data>
+  <data name="Ui.Home.Joined" xml:space="preserve">
+    <value>Anslöt: </value>
+  </data>
+  <data name="Ui.Home.CopyGameLink" xml:space="preserve">
+    <value>Kopiera spellänk</value>
+  </data>
+  <data name="Ui.Home.Favourites" xml:space="preserve">
+    <value>Favoriter</value>
+  </data>
+  <data name="Ui.Home.MyRecentExperiences" xml:space="preserve">
+    <value>Mina senaste upplevelser</value>
+  </data>
+  <data name="Ui.Home.MyExperiences" xml:space="preserve">
+    <value>Mina upplevelser</value>
+  </data>
+  <data name="Ui.Home.EveryExperienceOnYourAccountNewest" xml:space="preserve">
+    <value>Alla upplevelser på ditt konto, senast ändrade först.</value>
+  </data>
+  <data name="Ui.Home.RecentFiles" xml:space="preserve">
+    <value>Senaste filer</value>
+  </data>
+  <data name="Ui.Home.OpenATemplate" xml:space="preserve">
+    <value>Öppna en mall</value>
+  </data>
+  <data name="Ui.Home.SeeWhatSPossibleOnRoblox" xml:space="preserve">
+    <value>Se vad som är möjligt på Roblox i populära genrer med färdiga upplevelser, eller börja från början.</value>
+  </data>
 </root>

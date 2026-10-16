@@ -5087,4 +5087,88 @@ Was möchtest du tun?</value>
   <data name="Ui.Gbs.ShowFPSAndPerformanceOverlay" xml:space="preserve">
     <value>FPS- und Leistungsoverlay anzeigen.</value>
   </data>
+  <data name="Ui.Home.OpenStudio" xml:space="preserve">
+    <value>Studio öffnen</value>
+  </data>
+  <data name="Ui.Home.LatestRobloxNews" xml:space="preserve">
+    <value>Neueste Roblox-News</value>
+  </data>
+  <data name="Ui.Home.SeeEveryRobloxAnnouncement" xml:space="preserve">
+    <value>Alle Roblox-Ankündigungen ansehen</value>
+  </data>
+  <data name="Ui.Home.ExploreAllNews" xml:space="preserve">
+    <value>Alle News entdecken</value>
+  </data>
+  <data name="Ui.Home.NewOnTheCatalog" xml:space="preserve">
+    <value>Neu im Katalog</value>
+  </data>
+  <data name="Ui.Home.SeeEveryNewItemOnThe" xml:space="preserve">
+    <value>Alle neuen Artikel im Roblox-Katalog ansehen</value>
+  </data>
+  <data name="Ui.Home.SeeMore" xml:space="preserve">
+    <value>Mehr anzeigen</value>
+  </data>
+  <data name="Ui.Home.LoadingNewCatalogItems" xml:space="preserve">
+    <value>Neue Katalogartikel werden geladen...</value>
+  </data>
+  <data name="Ui.Home.NoNewCatalogItemsRightNow" xml:space="preserve">
+    <value>Gerade keine neuen Katalogartikel.</value>
+  </data>
+  <data name="Ui.Home.Limited" xml:space="preserve">
+    <value>Limitiert</value>
+  </data>
+  <data name="Ui.Home.ContinuePlaying" xml:space="preserve">
+    <value>Weiterspielen</value>
+  </data>
+  <data name="Ui.Home.ServerForEveryGame" xml:space="preserve">
+    <value>Server für jedes Spiel</value>
+  </data>
+  <data name="Ui.Home.UseForAllGames" xml:space="preserve">
+    <value>Für alle Spiele verwenden</value>
+  </data>
+  <data name="Ui.Home.ClearTheServerPickedOnEach" xml:space="preserve">
+    <value>Den pro Spiel gewählten Server löschen, damit jedes Spiel den gemeinsamen Server nutzt</value>
+  </data>
+  <data name="Ui.Home.NoHistoryYet" xml:space="preserve">
+    <value>Noch kein Verlauf</value>
+  </data>
+  <data name="Ui.Home.GamesYouPlayWillShowUp" xml:space="preserve">
+    <value>Gespielte Spiele erscheinen hier, damit du schnell wieder einsteigen kannst.</value>
+  </data>
+  <data name="Ui.Home.NoMatches" xml:space="preserve">
+    <value>Keine Treffer</value>
+  </data>
+  <data name="Ui.Home.NothingInYourHistoryMatchesThat" xml:space="preserve">
+    <value>Nichts in deinem Verlauf passt zu dieser Suche.</value>
+  </data>
+  <data name="Ui.Home.ViewGamePage" xml:space="preserve">
+    <value>Spielseite ansehen</value>
+  </data>
+  <data name="Ui.Home.Joined" xml:space="preserve">
+    <value>Beigetreten: </value>
+  </data>
+  <data name="Ui.Home.CopyGameLink" xml:space="preserve">
+    <value>Spiellink kopieren</value>
+  </data>
+  <data name="Ui.Home.Favourites" xml:space="preserve">
+    <value>Favoriten</value>
+  </data>
+  <data name="Ui.Home.MyRecentExperiences" xml:space="preserve">
+    <value>Meine letzten Erlebnisse</value>
+  </data>
+  <data name="Ui.Home.MyExperiences" xml:space="preserve">
+    <value>Meine Erlebnisse</value>
+  </data>
+  <data name="Ui.Home.EveryExperienceOnYourAccountNewest" xml:space="preserve">
+    <value>Alle Erlebnisse in deinem Konto, neueste Änderungen zuerst.</value>
+  </data>
+  <data name="Ui.Home.RecentFiles" xml:space="preserve">
+    <value>Zuletzt verwendete Dateien</value>
+  </data>
+  <data name="Ui.Home.OpenATemplate" xml:space="preserve">
+    <value>Vorlage öffnen</value>
+  </data>
+  <data name="Ui.Home.SeeWhatSPossibleOnRoblox" xml:space="preserve">
+    <value>Sieh dir mit fertigen Erlebnissen an, was in beliebten Genres auf Roblox möglich ist, oder fang bei null an.</value>
+  </data>
 </root>

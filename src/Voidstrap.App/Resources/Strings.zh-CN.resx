@@ -5180,4 +5180,88 @@ Voidstrap 的安装路径是：
   <data name="Ui.Gbs.ShowFPSAndPerformanceOverlay" xml:space="preserve">
     <value>显示 FPS 和性能叠加层。</value>
   </data>
+  <data name="Ui.Home.OpenStudio" xml:space="preserve">
+    <value>打开 Studio</value>
+  </data>
+  <data name="Ui.Home.LatestRobloxNews" xml:space="preserve">
+    <value>最新 Roblox 新闻</value>
+  </data>
+  <data name="Ui.Home.SeeEveryRobloxAnnouncement" xml:space="preserve">
+    <value>查看所有 Roblox 公告</value>
+  </data>
+  <data name="Ui.Home.ExploreAllNews" xml:space="preserve">
+    <value>浏览全部新闻</value>
+  </data>
+  <data name="Ui.Home.NewOnTheCatalog" xml:space="preserve">
+    <value>目录新品</value>
+  </data>
+  <data name="Ui.Home.SeeEveryNewItemOnThe" xml:space="preserve">
+    <value>查看 Roblox 目录中的所有新物品</value>
+  </data>
+  <data name="Ui.Home.SeeMore" xml:space="preserve">
+    <value>查看更多</value>
+  </data>
+  <data name="Ui.Home.LoadingNewCatalogItems" xml:space="preserve">
+    <value>正在加载目录新品...</value>
+  </data>
+  <data name="Ui.Home.NoNewCatalogItemsRightNow" xml:space="preserve">
+    <value>目前没有新的目录物品。</value>
+  </data>
+  <data name="Ui.Home.Limited" xml:space="preserve">
+    <value>限量</value>
+  </data>
+  <data name="Ui.Home.ContinuePlaying" xml:space="preserve">
+    <value>继续游戏</value>
+  </data>
+  <data name="Ui.Home.ServerForEveryGame" xml:space="preserve">
+    <value>所有游戏使用的服务器</value>
+  </data>
+  <data name="Ui.Home.UseForAllGames" xml:space="preserve">
+    <value>用于所有游戏</value>
+  </data>
+  <data name="Ui.Home.ClearTheServerPickedOnEach" xml:space="preserve">
+    <value>清除每个游戏单独选择的服务器，让所有游戏都使用通用服务器</value>
+  </data>
+  <data name="Ui.Home.NoHistoryYet" xml:space="preserve">
+    <value>暂无历史记录</value>
+  </data>
+  <data name="Ui.Home.GamesYouPlayWillShowUp" xml:space="preserve">
+    <value>您玩过的游戏会显示在这里，方便快速重新加入。</value>
+  </data>
+  <data name="Ui.Home.NoMatches" xml:space="preserve">
+    <value>没有匹配项</value>
+  </data>
+  <data name="Ui.Home.NothingInYourHistoryMatchesThat" xml:space="preserve">
+    <value>历史记录中没有与该搜索匹配的内容。</value>
+  </data>
+  <data name="Ui.Home.ViewGamePage" xml:space="preserve">
+    <value>查看游戏页面</value>
+  </data>
+  <data name="Ui.Home.Joined" xml:space="preserve">
+    <value>加入时间：</value>
+  </data>
+  <data name="Ui.Home.CopyGameLink" xml:space="preserve">
+    <value>复制游戏链接</value>
+  </data>
+  <data name="Ui.Home.Favourites" xml:space="preserve">
+    <value>收藏</value>
+  </data>
+  <data name="Ui.Home.MyRecentExperiences" xml:space="preserve">
+    <value>我最近的体验</value>
+  </data>
+  <data name="Ui.Home.MyExperiences" xml:space="preserve">
+    <value>我的体验</value>
+  </data>
+  <data name="Ui.Home.EveryExperienceOnYourAccountNewest" xml:space="preserve">
+    <value>您账户中的所有体验，按最近更改排序。</value>
+  </data>
+  <data name="Ui.Home.RecentFiles" xml:space="preserve">
+    <value>最近的文件</value>
+  </data>
+  <data name="Ui.Home.OpenATemplate" xml:space="preserve">
+    <value>打开模板</value>
+  </data>
+  <data name="Ui.Home.SeeWhatSPossibleOnRoblox" xml:space="preserve">
+    <value>通过现成的体验了解在 Roblox 热门类型中能做什么，或从头开始。</value>
+  </data>
 </root>

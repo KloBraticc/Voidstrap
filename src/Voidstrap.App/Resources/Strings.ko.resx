@@ -5169,4 +5169,88 @@ Roblox는 Voidstrap으로 처음 실행할 때 다운로드됩니다. 실행하�
   <data name="Ui.Gbs.ShowFPSAndPerformanceOverlay" xml:space="preserve">
     <value>FPS와 성능 오버레이를 표시합니다.</value>
   </data>
+  <data name="Ui.Home.OpenStudio" xml:space="preserve">
+    <value>Studio 열기</value>
+  </data>
+  <data name="Ui.Home.LatestRobloxNews" xml:space="preserve">
+    <value>최신 Roblox 뉴스</value>
+  </data>
+  <data name="Ui.Home.SeeEveryRobloxAnnouncement" xml:space="preserve">
+    <value>모든 Roblox 공지 보기</value>
+  </data>
+  <data name="Ui.Home.ExploreAllNews" xml:space="preserve">
+    <value>모든 뉴스 살펴보기</value>
+  </data>
+  <data name="Ui.Home.NewOnTheCatalog" xml:space="preserve">
+    <value>카탈로그 신규</value>
+  </data>
+  <data name="Ui.Home.SeeEveryNewItemOnThe" xml:space="preserve">
+    <value>Roblox 카탈로그의 모든 새 아이템 보기</value>
+  </data>
+  <data name="Ui.Home.SeeMore" xml:space="preserve">
+    <value>더 보기</value>
+  </data>
+  <data name="Ui.Home.LoadingNewCatalogItems" xml:space="preserve">
+    <value>새 카탈로그 아이템을 불러오는 중...</value>
+  </data>
+  <data name="Ui.Home.NoNewCatalogItemsRightNow" xml:space="preserve">
+    <value>현재 새 카탈로그 아이템이 없습니다.</value>
+  </data>
+  <data name="Ui.Home.Limited" xml:space="preserve">
+    <value>한정</value>
+  </data>
+  <data name="Ui.Home.ContinuePlaying" xml:space="preserve">
+    <value>계속 플레이</value>
+  </data>
+  <data name="Ui.Home.ServerForEveryGame" xml:space="preserve">
+    <value>모든 게임용 서버</value>
+  </data>
+  <data name="Ui.Home.UseForAllGames" xml:space="preserve">
+    <value>모든 게임에 사용</value>
+  </data>
+  <data name="Ui.Home.ClearTheServerPickedOnEach" xml:space="preserve">
+    <value>게임마다 선택한 서버를 지워 모든 게임이 공통 서버를 사용하게 합니다</value>
+  </data>
+  <data name="Ui.Home.NoHistoryYet" xml:space="preserve">
+    <value>아직 기록이 없습니다</value>
+  </data>
+  <data name="Ui.Home.GamesYouPlayWillShowUp" xml:space="preserve">
+    <value>플레이한 게임이 여기에 표시되어 빠르게 다시 들어갈 수 있습니다.</value>
+  </data>
+  <data name="Ui.Home.NoMatches" xml:space="preserve">
+    <value>일치 항목 없음</value>
+  </data>
+  <data name="Ui.Home.NothingInYourHistoryMatchesThat" xml:space="preserve">
+    <value>기록에 이 검색과 일치하는 항목이 없습니다.</value>
+  </data>
+  <data name="Ui.Home.ViewGamePage" xml:space="preserve">
+    <value>게임 페이지 보기</value>
+  </data>
+  <data name="Ui.Home.Joined" xml:space="preserve">
+    <value>참여: </value>
+  </data>
+  <data name="Ui.Home.CopyGameLink" xml:space="preserve">
+    <value>게임 링크 복사</value>
+  </data>
+  <data name="Ui.Home.Favourites" xml:space="preserve">
+    <value>즐겨찾기</value>
+  </data>
+  <data name="Ui.Home.MyRecentExperiences" xml:space="preserve">
+    <value>최근 경험</value>
+  </data>
+  <data name="Ui.Home.MyExperiences" xml:space="preserve">
+    <value>내 경험</value>
+  </data>
+  <data name="Ui.Home.EveryExperienceOnYourAccountNewest" xml:space="preserve">
+    <value>계정의 모든 경험을 최근 변경 순으로 표시합니다.</value>
+  </data>
+  <data name="Ui.Home.RecentFiles" xml:space="preserve">
+    <value>최근 파일</value>
+  </data>
+  <data name="Ui.Home.OpenATemplate" xml:space="preserve">
+    <value>템플릿 열기</value>
+  </data>
+  <data name="Ui.Home.SeeWhatSPossibleOnRoblox" xml:space="preserve">
+    <value>준비된 경험으로 인기 장르에서 Roblox로 무엇을 할 수 있는지 확인하거나 처음부터 시작하십시오.</value>
+  </data>
 </root>

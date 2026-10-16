@@ -10,7 +10,7 @@
     xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls"
     xmlns:util="clr-namespace:Voidstrap.Utility"
     xmlns:sys="clr-namespace:System;assembly=mscorlib"
-    Title="Home">
+    Title="{resources:Loc Ui_Nav_Home}">
 
     <Page.Resources>
         <DataTemplate x:Key="StudioProjectCard">
@@ -58,7 +58,7 @@
                             <ui:Button Width="26" Height="26" Padding="0"
                                        Appearance="Transparent"
                                        Icon="MoreVertical24"
-                                       ToolTip="More options"
+                                       ToolTip="{resources:Loc Ui_ModGen_MoreOptions}"
                                        Click="StudioMore_Click"/>
                         </StackPanel>
                     </Grid>
@@ -179,7 +179,7 @@
                 <ui:Button Margin="8,0,0,0" Appearance="Primary" Command="{Binding LaunchStudioCommand}" ToolTip="{resources:Loc LaunchMenu_LaunchRobloxStudio}">
                     <StackPanel Orientation="Horizontal">
                         <Image Width="16" Height="16" Margin="0,0,7,0" RenderOptions.BitmapScalingMode="HighQuality" Source="pack://application:,,,/Resources/RobloxStudioIcon.png" />
-                        <TextBlock VerticalAlignment="Center" Text="Open Studio" />
+                        <TextBlock VerticalAlignment="Center" Text="{resources:Loc Ui_Home_OpenStudio}" />
                     </StackPanel>
                 </ui:Button>
             </StackPanel>
@@ -213,7 +213,7 @@
                       Visibility="{Binding HasLatestNews,
                           Converter={StaticResource BooleanToVisibilityConverter}}">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <TextBlock Text="Latest Roblox News"
+                        <TextBlock Text="{resources:Loc Ui_Home_LatestRobloxNews}"
                                    FontSize="21"
                                    FontWeight="Bold"
                                    Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
@@ -227,10 +227,10 @@
                                VerticalAlignment="Center"
                                Appearance="Transparent"
                                Padding="6,3"
-                               ToolTip="See every Roblox announcement"
+                               ToolTip="{resources:Loc Ui_Home_SeeEveryRobloxAnnouncement}"
                                Click="ExploreNews_Click">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="Explore all news"
+                            <TextBlock Text="{resources:Loc Ui_Home_ExploreAllNews}"
                                        FontSize="13.5"
                                        VerticalAlignment="Center"
                                        Foreground="{StaticResource AccentColorSecondaryBrush}"/>
@@ -403,17 +403,17 @@
 
 
                 <Grid Margin="0,8,10,8">
-                    <TextBlock Text="New on the Catalog"
+                    <TextBlock Text="{resources:Loc Ui_Home_NewOnTheCatalog}"
                                FontSize="20" FontWeight="Medium" Foreground="{DynamicResource TextFillColorPrimaryBrush}"
                                VerticalAlignment="Center"/>
                     <ui:Button HorizontalAlignment="Right"
                                VerticalAlignment="Center"
                                Appearance="Transparent"
                                Padding="6,3"
-                               ToolTip="See every new item on the Roblox catalog"
+                               ToolTip="{resources:Loc Ui_Home_SeeEveryNewItemOnThe}"
                                Click="CatalogSeeMore_Click">
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="See more"
+                            <TextBlock Text="{resources:Loc Ui_Home_SeeMore}"
                                        FontSize="13.5"
                                        VerticalAlignment="Center"
                                        Foreground="{StaticResource AccentColorSecondaryBrush}"/>
@@ -443,7 +443,7 @@
                     </TextBlock.Style>
                 </TextBlock>
 
-                <TextBlock Text="Loading new catalog items..."
+                <TextBlock Text="{resources:Loc Ui_Home_LoadingNewCatalogItems}"
                            FontSize="12"
                            Opacity="0.5"
                            Margin="0,0,0,12">
@@ -459,7 +459,7 @@
                     </TextBlock.Style>
                 </TextBlock>
 
-                <TextBlock Text="No new catalog items right now."
+                <TextBlock Text="{resources:Loc Ui_Home_NoNewCatalogItemsRightNow}"
                            FontSize="12"
                            Opacity="0.45"
                            Margin="0,0,0,12">
@@ -552,7 +552,7 @@
                                                         </Style.Triggers>
                                                     </Style>
                                                 </Border.Style>
-                                                <TextBlock Text="Limited"
+                                                <TextBlock Text="{resources:Loc Ui_Home_Limited}"
                                                            FontSize="9"
                                                            FontWeight="SemiBold"
                                                            Foreground="#FFD700"/>
@@ -578,12 +578,12 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="Continue Playing"
+                    <TextBlock Text="{resources:Loc Ui_Home_ContinuePlaying}"
                                FontSize="20"
                                FontWeight="Medium" Foreground="{DynamicResource TextFillColorPrimaryBrush}"
                                VerticalAlignment="Center"/>
                     <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" ToolTip="{Binding GlobalDatacenterToolTip}">
-                        <TextBlock Text="Server for every game"
+                        <TextBlock Text="{resources:Loc Ui_Home_ServerForEveryGame}"
                                    FontSize="12.5"
                                    Margin="0,0,8,0"
                                    VerticalAlignment="Center"
@@ -599,8 +599,8 @@
                                Margin="8,0,0,0"
                                FontSize="12"
                                Icon="ArrowSync24"
-                               Content="Use for all games"
-                               ToolTip="Clear the server picked on each game so every game uses the server for every game"
+                               Content="{resources:Loc Ui_Home_UseForAllGames}"
+                               ToolTip="{resources:Loc Ui_Home_ClearTheServerPickedOnEach}"
                                Command="{Binding UseGlobalForAllCommand}"/>
                 </Grid>
 
@@ -624,13 +624,13 @@
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"/>
                         </Border>
-                        <TextBlock Text="No history yet"
+                        <TextBlock Text="{resources:Loc Ui_Home_NoHistoryYet}"
                                    FontSize="16"
                                    FontWeight="SemiBold"
                                    Margin="0,14,0,5"
                                    HorizontalAlignment="Center"
                                    Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
-                        <TextBlock Text="Games you play will show up here so you can jump back in."
+                        <TextBlock Text="{resources:Loc Ui_Home_GamesYouPlayWillShowUp}"
                                    FontSize="12.5"
                                    HorizontalAlignment="Center"
                                    Foreground="{DynamicResource TextFillColorTertiaryBrush}"/>
@@ -657,13 +657,13 @@
                                            HorizontalAlignment="Center"
                                            VerticalAlignment="Center"/>
                         </Border>
-                        <TextBlock Text="No matches"
+                        <TextBlock Text="{resources:Loc Ui_Home_NoMatches}"
                                    FontSize="16"
                                    FontWeight="SemiBold"
                                    Margin="0,14,0,5"
                                    HorizontalAlignment="Center"
                                    Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
-                        <TextBlock Text="Nothing in your history matches that search."
+                        <TextBlock Text="{resources:Loc Ui_Home_NothingInYourHistoryMatchesThat}"
                                    FontSize="12.5"
                                    HorizontalAlignment="Center"
                                    Foreground="{DynamicResource TextFillColorTertiaryBrush}"/>
@@ -697,7 +697,7 @@
                                             CornerRadius="8,8,0,0"
                                             ClipToBounds="True"
                                             Cursor="Hand"
-                                            ToolTip="View game page"
+                                            ToolTip="{resources:Loc Ui_Home_ViewGamePage}"
                                             MouseLeftButtonUp="GameThumbnail_Click"
                                             Background="#1AFFFFFF">
                                         <Grid>
@@ -766,7 +766,7 @@
                                         </StackPanel>
 
                                         <TextBlock FontSize="10" Opacity="0.45" Margin="0,4,0,0">
-                                            <Run Text="Joined: "/>
+                                            <Run Text="{resources:Loc Ui_Home_Joined}"/>
                                             <Run Text="{Binding TimeJoined,
                                                          StringFormat='{}{0:MMM d, yyyy  h:mm tt}',
                                                          Mode=OneWay}"/>
@@ -794,7 +794,7 @@
                                         <ui:Button Grid.Column="2"
                                                    Icon="Copy24"
                                                    Appearance="Secondary"
-                                                   ToolTip="Copy game link"
+                                                   ToolTip="{resources:Loc Ui_Home_CopyGameLink}"
                                                    Command="{Binding DataContext.CopyLinkCommand,
                                                        RelativeSource={RelativeSource AncestorType=Page}}"
                                                    CommandParameter="{Binding}"/>
@@ -855,23 +855,23 @@
                 </TextBlock>
 
                 <StackPanel Visibility="{Binding StudioFavoritesVisibility}">
-                    <TextBlock Text="Favourites" FontSize="21" FontWeight="Bold" Margin="0,12,0,12" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+                    <TextBlock Text="{resources:Loc Ui_Home_Favourites}" FontSize="21" FontWeight="Bold" Margin="0,12,0,12" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
                     <ItemsControl ItemsSource="{Binding StudioFavorites}" ItemTemplate="{StaticResource StudioProjectCard}" ItemsPanel="{StaticResource StudioGridPanel}"/>
                 </StackPanel>
 
                 <StackPanel Visibility="{Binding StudioRecentVisibility}">
-                    <TextBlock Text="My Recent Experiences" FontSize="21" FontWeight="Bold" Margin="0,12,0,12" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+                    <TextBlock Text="{resources:Loc Ui_Home_MyRecentExperiences}" FontSize="21" FontWeight="Bold" Margin="0,12,0,12" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
                     <ItemsControl ItemsSource="{Binding StudioRecent}" ItemTemplate="{StaticResource StudioProjectCard}" ItemsPanel="{StaticResource StudioGridPanel}"/>
                 </StackPanel>
 
                 <StackPanel Visibility="{Binding StudioOwnedVisibility}">
-                    <TextBlock Text="My Experiences" FontSize="21" FontWeight="Bold" Margin="0,12,0,4" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
-                    <TextBlock Text="Every experience on your account, newest changes first." FontSize="13" Margin="0,0,0,12" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+                    <TextBlock Text="{resources:Loc Ui_Home_MyExperiences}" FontSize="21" FontWeight="Bold" Margin="0,12,0,4" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+                    <TextBlock Text="{resources:Loc Ui_Home_EveryExperienceOnYourAccountNewest}" FontSize="13" Margin="0,0,0,12" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
                     <ItemsControl ItemsSource="{Binding StudioOwned}" ItemTemplate="{StaticResource StudioProjectCard}" ItemsPanel="{StaticResource StudioGridPanel}"/>
                 </StackPanel>
 
                 <StackPanel Visibility="{Binding StudioLocalFilesVisibility}">
-                    <TextBlock Text="Recent Files" FontSize="21" FontWeight="Bold" Margin="0,12,0,12" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+                    <TextBlock Text="{resources:Loc Ui_Home_RecentFiles}" FontSize="21" FontWeight="Bold" Margin="0,12,0,12" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
                     <ItemsControl ItemsSource="{Binding StudioLocalFiles}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
@@ -914,8 +914,8 @@
                 </StackPanel>
 
                 <StackPanel Visibility="{Binding StudioTemplatesVisibility}">
-                    <TextBlock Text="Open a Template" FontSize="21" FontWeight="Bold" Margin="0,12,0,4" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
-                    <TextBlock Text="See what's possible on Roblox in popular genres with ready made experiences, or start from scratch." FontSize="13" Margin="0,0,0,12" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
+                    <TextBlock Text="{resources:Loc Ui_Home_OpenATemplate}" FontSize="21" FontWeight="Bold" Margin="0,12,0,4" Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
+                    <TextBlock Text="{resources:Loc Ui_Home_SeeWhatSPossibleOnRoblox}" FontSize="13" Margin="0,0,0,12" Foreground="{DynamicResource TextFillColorSecondaryBrush}"/>
                     <ItemsControl ItemsSource="{Binding StudioTemplates}" ItemTemplate="{StaticResource StudioTemplateCard}" ItemsPanel="{StaticResource StudioGridPanel}"/>
                 </StackPanel>
             </StackPanel>

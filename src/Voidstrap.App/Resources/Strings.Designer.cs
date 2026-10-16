@@ -1481,6 +1481,62 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Gbs_ShowFPSAndPerformanceOverlay => ResourceManager.GetString("Ui.Gbs.ShowFPSAndPerformanceOverlay", resourceCulture);
 
+        public static string Ui_Home_OpenStudio => ResourceManager.GetString("Ui.Home.OpenStudio", resourceCulture);
+
+        public static string Ui_Home_LatestRobloxNews => ResourceManager.GetString("Ui.Home.LatestRobloxNews", resourceCulture);
+
+        public static string Ui_Home_SeeEveryRobloxAnnouncement => ResourceManager.GetString("Ui.Home.SeeEveryRobloxAnnouncement", resourceCulture);
+
+        public static string Ui_Home_ExploreAllNews => ResourceManager.GetString("Ui.Home.ExploreAllNews", resourceCulture);
+
+        public static string Ui_Home_NewOnTheCatalog => ResourceManager.GetString("Ui.Home.NewOnTheCatalog", resourceCulture);
+
+        public static string Ui_Home_SeeEveryNewItemOnThe => ResourceManager.GetString("Ui.Home.SeeEveryNewItemOnThe", resourceCulture);
+
+        public static string Ui_Home_SeeMore => ResourceManager.GetString("Ui.Home.SeeMore", resourceCulture);
+
+        public static string Ui_Home_LoadingNewCatalogItems => ResourceManager.GetString("Ui.Home.LoadingNewCatalogItems", resourceCulture);
+
+        public static string Ui_Home_NoNewCatalogItemsRightNow => ResourceManager.GetString("Ui.Home.NoNewCatalogItemsRightNow", resourceCulture);
+
+        public static string Ui_Home_Limited => ResourceManager.GetString("Ui.Home.Limited", resourceCulture);
+
+        public static string Ui_Home_ContinuePlaying => ResourceManager.GetString("Ui.Home.ContinuePlaying", resourceCulture);
+
+        public static string Ui_Home_ServerForEveryGame => ResourceManager.GetString("Ui.Home.ServerForEveryGame", resourceCulture);
+
+        public static string Ui_Home_UseForAllGames => ResourceManager.GetString("Ui.Home.UseForAllGames", resourceCulture);
+
+        public static string Ui_Home_ClearTheServerPickedOnEach => ResourceManager.GetString("Ui.Home.ClearTheServerPickedOnEach", resourceCulture);
+
+        public static string Ui_Home_NoHistoryYet => ResourceManager.GetString("Ui.Home.NoHistoryYet", resourceCulture);
+
+        public static string Ui_Home_GamesYouPlayWillShowUp => ResourceManager.GetString("Ui.Home.GamesYouPlayWillShowUp", resourceCulture);
+
+        public static string Ui_Home_NoMatches => ResourceManager.GetString("Ui.Home.NoMatches", resourceCulture);
+
+        public static string Ui_Home_NothingInYourHistoryMatchesThat => ResourceManager.GetString("Ui.Home.NothingInYourHistoryMatchesThat", resourceCulture);
+
+        public static string Ui_Home_ViewGamePage => ResourceManager.GetString("Ui.Home.ViewGamePage", resourceCulture);
+
+        public static string Ui_Home_Joined => ResourceManager.GetString("Ui.Home.Joined", resourceCulture);
+
+        public static string Ui_Home_CopyGameLink => ResourceManager.GetString("Ui.Home.CopyGameLink", resourceCulture);
+
+        public static string Ui_Home_Favourites => ResourceManager.GetString("Ui.Home.Favourites", resourceCulture);
+
+        public static string Ui_Home_MyRecentExperiences => ResourceManager.GetString("Ui.Home.MyRecentExperiences", resourceCulture);
+
+        public static string Ui_Home_MyExperiences => ResourceManager.GetString("Ui.Home.MyExperiences", resourceCulture);
+
+        public static string Ui_Home_EveryExperienceOnYourAccountNewest => ResourceManager.GetString("Ui.Home.EveryExperienceOnYourAccountNewest", resourceCulture);
+
+        public static string Ui_Home_RecentFiles => ResourceManager.GetString("Ui.Home.RecentFiles", resourceCulture);
+
+        public static string Ui_Home_OpenATemplate => ResourceManager.GetString("Ui.Home.OpenATemplate", resourceCulture);
+
+        public static string Ui_Home_SeeWhatSPossibleOnRoblox => ResourceManager.GetString("Ui.Home.SeeWhatSPossibleOnRoblox", resourceCulture);
+
         public static string Menu_Appearance_Accent_Title => ResourceManager.GetString("Menu.Appearance.Accent.Title", resourceCulture);
 
         public static string Menu_Appearance_Accent_Description => ResourceManager.GetString("Menu.Appearance.Accent.Description", resourceCulture);
