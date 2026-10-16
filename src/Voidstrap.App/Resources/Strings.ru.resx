@@ -6106,4 +6106,436 @@ Roblox будет скачан при первом запуске через Voi
   <data name="Ui.Pages.TurnEverythingOff" xml:space="preserve">
     <value>Выключить всё</value>
   </data>
+  <data name="Ui.Misc2.ASimpleYetAdvancedBloxstrapFork" xml:space="preserve">
+    <value>Простой, но продвинутый форк Bloxstrap.</value>
+  </data>
+  <data name="Ui.Misc2.ThankYouErik" xml:space="preserve">
+    <value>Спасибо, Erik</value>
+  </data>
+  <data name="Ui.Misc2.MainContributors" xml:space="preserve">
+    <value>Главные участники</value>
+  </data>
+  <data name="Ui.Misc2.ThePeopleWhoMadeVoidstrapPossible" xml:space="preserve">
+    <value>Люди, благодаря которым появился Voidstrap.</value>
+  </data>
+  <data name="Ui.Misc2.LoveEveryoneWithAPurpose" xml:space="preserve">
+    <value>Люби всех с целью.</value>
+  </data>
+  <data name="Ui.Misc2.FroststrapOwner" xml:space="preserve">
+    <value>Владелец Froststrap</value>
+  </data>
+  <data name="Ui.Misc2.RetiredCoOwnerWasLikeA" xml:space="preserve">
+    <value>Бывший совладелец, был как брат.</value>
+  </data>
+  <data name="Ui.Misc2.AKindSoulThatHelpedOn" xml:space="preserve">
+    <value>Добрая душа, помогавшая на пути.</value>
+  </data>
+  <data name="Ui.Misc2.BuildInformation" xml:space="preserve">
+    <value>Информация о сборке</value>
+  </data>
+  <data name="Ui.Misc2.CommitHash" xml:space="preserve">
+    <value>Хеш коммита</value>
+  </data>
+  <data name="Ui.Misc2.ThirdPartyNotices" xml:space="preserve">
+    <value>Уведомления о сторонних компонентах</value>
+  </data>
+  <data name="Ui.Misc2.ThisSoftwareContainsSourceCodeProvided" xml:space="preserve">
+    <value>Эта программа содержит исходный код, предоставленный NVIDIA Corporation. Генерация кадров использует библиотеку FRUC из NVIDIA Optical Flow SDK на поддерживаемых GPU NVIDIA.</value>
+  </data>
+  <data name="Ui.Misc2.TheClassicTopbarOptionRebuildsTwo" xml:space="preserve">
+    <value>Классическая верхняя панель воссоздаёт два мода сообщества. Оформление и поведение верхней панели и игрового меню 2014 2015 годов взяты из "2014 2015 Topbar and Menu (Improvised GUI)" от HockuTM. Скрытие современной панели использует "NoGuiRBX, Hide TopBar!" от Einshine. Оба используются с благодарностью на условиях Creative Commons BY NC ND 4.0, их файлы загружаются напрямую с GameBanana, а не поставляются вместе с программой, и ни один автор не связан с Voidstrap.</value>
+  </data>
+  <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
+    <value>2014 2015 Topbar and Menu by HockuTM</value>
+  </data>
+  <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
+    <value>Моды сообщества</value>
+  </data>
+  <data name="Ui.Misc2.CommunityModsListsRobloxSubmissionsFrom" xml:space="preserve">
+    <value>Моды сообщества показывают работы для Roblox с GameBanana и Kliko's Mods, который ведёт TheKliko для модлоадера Kliko. Voidstrap не связан ни с одним из них и не одобрен ими. Все моды, изображения и описания принадлежат их авторам, которые указаны в каждой записи. Voidstrap только читает их публичные данные и никогда ничего не загружает от Вашего имени.</value>
+  </data>
+  <data name="Ui.Misc2.GithubComKlikosModloaderMarketplace" xml:space="preserve">
+    <value>github.com/klikos modloader/marketplace</value>
+  </data>
+  <data name="Ui.Misc2.CanTSeeOverlays" xml:space="preserve">
+    <value>Не видите оверлеи?</value>
+  </data>
+  <data name="Ui.Misc2.Info" xml:space="preserve">
+    <value>Сведения</value>
+  </data>
+  <data name="Ui.Misc2.FFlags" xml:space="preserve">
+    <value>FFlags</value>
+  </data>
+  <data name="Ui.Misc2.PlayTime" xml:space="preserve">
+    <value>Время в игре</value>
+  </data>
+  <data name="Ui.Misc2.MemoryDetails" xml:space="preserve">
+    <value>Сведения о памяти</value>
+  </data>
+  <data name="Ui.Misc2.JoinClosestServer" xml:space="preserve">
+    <value>Зайти на ближайший сервер</value>
+  </data>
+  <data name="Ui.Misc2.GamePassInfo" xml:space="preserve">
+    <value>Сведения о GamePass</value>
+  </data>
+  <data name="Ui.Misc2.MusicPlayer" xml:space="preserve">
+    <value>Музыкальный плеер</value>
+  </data>
+  <data name="Ui.Misc2.FrameGen" xml:space="preserve">
+    <value>Генерация кадров</value>
+  </data>
+  <data name="Ui.Misc2.FrameGeneration" xml:space="preserve">
+    <value>Генерация кадров</value>
+  </data>
+  <data name="Ui.Misc2.GeneratedFramesOverlay" xml:space="preserve">
+    <value>Оверлей сгенерированных кадров</value>
+  </data>
+  <data name="Ui.Misc2.SplitScreenCompare" xml:space="preserve">
+    <value>Сравнение на разделённом экране</value>
+  </data>
+  <data name="Ui.Misc2.ColorTemperature" xml:space="preserve">
+    <value>Цветовая температура</value>
+  </data>
+  <data name="Ui.Misc2.SearchLibraryByTitleArtistOr" xml:space="preserve">
+    <value>Поиск в библиотеке по названию, исполнителю или типу...</value>
+  </data>
+  <data name="Ui.Misc2.RemoveTrack" xml:space="preserve">
+    <value>Удалить трек</value>
+  </data>
+  <data name="Ui.Misc2.NoTracksClickImportToAdd" xml:space="preserve">
+    <value>Нет треков. Нажмите Импорт, чтобы добавить аудио.</value>
+  </data>
+  <data name="Ui.Misc2.NoTracksMatchYourSearch" xml:space="preserve">
+    <value>Нет треков, подходящих под поиск.</value>
+  </data>
+  <data name="Ui.Misc2.NowPlaying" xml:space="preserve">
+    <value>Сейчас играет</value>
+  </data>
+  <data name="Ui.Misc2.Previous" xml:space="preserve">
+    <value>Предыдущий</value>
+  </data>
+  <data name="Ui.Misc2.Stop" xml:space="preserve">
+    <value>Стоп</value>
+  </data>
+  <data name="Ui.Misc2.MuteUnmute" xml:space="preserve">
+    <value>Выключить / включить звук</value>
+  </data>
+  <data name="Ui.Misc2.Equalizer" xml:space="preserve">
+    <value>Эквалайзер</value>
+  </data>
+  <data name="Ui.Misc2.TuneHowYourAudioSoundsPick" xml:space="preserve">
+    <value>Настройте звучание. Выберите пресет или перетащите полосы, изменения применяются сразу и сохраняются автоматически.</value>
+  </data>
+  <data name="Ui.Misc2.EnableEqualizer" xml:space="preserve">
+    <value>Включить эквалайзер</value>
+  </data>
+  <data name="Ui.Misc2.BandsAreInHz0DB" xml:space="preserve">
+    <value>Полосы в Гц. 0 дБ нейтрально, до плюс минус 12 дБ.</value>
+  </data>
+  <data name="Ui.Misc2.Preview" xml:space="preserve">
+    <value>Предпросмотр: </value>
+  </data>
+  <data name="Ui.Misc2.SelectAnAssetToPreviewIt" xml:space="preserve">
+    <value>Выберите ресурс для предпросмотра</value>
+  </data>
+  <data name="Ui.Misc2.Volume" xml:space="preserve">
+    <value>Громкость:</value>
+  </data>
+  <data name="Ui.Misc2.Loop" xml:space="preserve">
+    <value>Повтор</value>
+  </data>
+  <data name="Ui.Misc2.OutputFormat" xml:space="preserve">
+    <value>Формат вывода</value>
+  </data>
+  <data name="Ui.Misc2.DownloadConvertThisAudio" xml:space="preserve">
+    <value>Скачать / конвертировать это аудио</value>
+  </data>
+  <data name="Ui.Misc2.CameraControls" xml:space="preserve">
+    <value>Управление камерой</value>
+  </data>
+  <data name="Ui.Misc2.ResetView" xml:space="preserve">
+    <value>Сбросить вид</value>
+  </data>
+  <data name="Ui.Misc2.Options" xml:space="preserve">
+    <value>Параметры</value>
+  </data>
+  <data name="Ui.Misc2.Wireframe" xml:space="preserve">
+    <value>Каркас</value>
+  </data>
+  <data name="Ui.Misc2.AutoRotate" xml:space="preserve">
+    <value>Автоповорот</value>
+  </data>
+  <data name="Ui.Misc2.ShowGrid" xml:space="preserve">
+    <value>Показать сетку</value>
+  </data>
+  <data name="Ui.Misc2.ImageAdjust" xml:space="preserve">
+    <value>Настройка изображения</value>
+  </data>
+  <data name="Ui.Misc2.ImageAdjustments" xml:space="preserve">
+    <value>Настройки изображения</value>
+  </data>
+  <data name="Ui.Misc2.Orientation" xml:space="preserve">
+    <value>Ориентация</value>
+  </data>
+  <data name="Ui.Misc2.Rotate90" xml:space="preserve">
+    <value>Повернуть на 90</value>
+  </data>
+  <data name="Ui.Misc2.FlipH" xml:space="preserve">
+    <value>Отразить по горизонтали</value>
+  </data>
+  <data name="Ui.Misc2.FlipV" xml:space="preserve">
+    <value>Отразить по вертикали</value>
+  </data>
+  <data name="Ui.Misc2.ScaleResize" xml:space="preserve">
+    <value>Масштаб (изменить размер)</value>
+  </data>
+  <data name="Ui.Misc2.ApplyResize" xml:space="preserve">
+    <value>Применить размер</value>
+  </data>
+  <data name="Ui.Misc2.ResetAdjustments" xml:space="preserve">
+    <value>Сбросить настройки</value>
+  </data>
+  <data name="Ui.Misc2.TipUseTheseToFixOrientation" xml:space="preserve">
+    <value>Совет: используйте их, чтобы исправить ориентацию или точно подогнать размер ресурсов.</value>
+  </data>
+  <data name="Ui.Misc2.SaveAsMod" xml:space="preserve">
+    <value>Сохранить как мод</value>
+  </data>
+  <data name="Ui.Misc2.ImageRecolor" xml:space="preserve">
+    <value>Перекрасить изображение</value>
+  </data>
+  <data name="Ui.Misc2.RecolorOptions" xml:space="preserve">
+    <value>Параметры перекраски</value>
+  </data>
+  <data name="Ui.Misc2.TargetColor" xml:space="preserve">
+    <value>Целевой цвет</value>
+  </data>
+  <data name="Ui.Misc2.Intensity" xml:space="preserve">
+    <value>Интенсивность</value>
+  </data>
+  <data name="Ui.Misc2.ResetImage" xml:space="preserve">
+    <value>Сбросить изображение</value>
+  </data>
+  <data name="Ui.Misc2.TipThisWillTintTheImage" xml:space="preserve">
+    <value>Совет: изображение будет окрашено с сохранением прозрачности.</value>
+  </data>
+  <data name="Ui.Misc2.Loading" xml:space="preserve">
+    <value>Загрузка...</value>
+  </data>
+  <data name="Ui.Misc2.Active" xml:space="preserve">
+    <value>Активно</value>
+  </data>
+  <data name="Ui.Misc2.ServerSize" xml:space="preserve">
+    <value>Размер сервера</value>
+  </data>
+  <data name="Ui.Misc2.Chat" xml:space="preserve">
+    <value>Чат</value>
+  </data>
+  <data name="Ui.Misc2.Chats" xml:space="preserve">
+    <value>Чаты</value>
+  </data>
+  <data name="Ui.Misc2.LoadingYourChats" xml:space="preserve">
+    <value>Загрузка Ваших чатов</value>
+  </data>
+  <data name="Ui.Misc2.Send" xml:space="preserve">
+    <value>Отправить</value>
+  </data>
+  <data name="Ui.Misc2.NoNewsYet" xml:space="preserve">
+    <value>Новостей пока нет</value>
+  </data>
+  <data name="Ui.Misc2.NewVoidstrapUpdatesAndAnnouncementsWill" xml:space="preserve">
+    <value>Здесь появятся новые обновления и объявления Voidstrap</value>
+  </data>
+  <data name="Ui.Misc2.ReadMore" xml:space="preserve">
+    <value>Читать далее</value>
+  </data>
+  <data name="Ui.Misc2.Earlier" xml:space="preserve">
+    <value>Ранее</value>
+  </data>
+  <data name="Ui.Misc2.ChooseSidebarIcon" xml:space="preserve">
+    <value>Выбор значка боковой панели</value>
+  </data>
+  <data name="Ui.Misc2.SearchAllWPFUIIcons" xml:space="preserve">
+    <value>Поиск по всем значкам WPF UI</value>
+  </data>
+  <data name="Ui.Misc2.CustomImage" xml:space="preserve">
+    <value>Своё изображение</value>
+  </data>
+  <data name="Ui.Misc2.UseIcon" xml:space="preserve">
+    <value>Использовать значок</value>
+  </data>
+  <data name="Ui.Misc2.EditMod" xml:space="preserve">
+    <value>Изменить мод</value>
+  </data>
+  <data name="Ui.Misc2.GetEveryOptionFromGameBanana" xml:space="preserve">
+    <value>Получить все варианты с GameBanana</value>
+  </data>
+  <data name="Ui.Misc2.RuleName" xml:space="preserve">
+    <value>Название правила</value>
+  </data>
+  <data name="Ui.Misc2.AssetIdsToReplace" xml:space="preserve">
+    <value>ID ресурсов для замены</value>
+  </data>
+  <data name="Ui.Misc2.FlagProfiles" xml:space="preserve">
+    <value>Профили флагов</value>
+  </data>
+  <data name="Ui.Misc2.NoSavedProfiles" xml:space="preserve">
+    <value>Нет сохранённых профилей</value>
+  </data>
+  <data name="Ui.Misc2.ClearExistingFlagsFirst" xml:space="preserve">
+    <value>Сначала очистить существующие флаги</value>
+  </data>
+  <data name="Ui.Misc2.FindACityOrCountry" xml:space="preserve">
+    <value>Найдите город или страну</value>
+  </data>
+  <data name="Ui.Misc2.ClickAPinToChooseA" xml:space="preserve">
+    <value>Нажмите на метку, чтобы выбрать дата-центр</value>
+  </data>
+  <data name="Ui.Misc2.CenterOnSelectedDatacenter" xml:space="preserve">
+    <value>Центрировать на выбранном дата-центре</value>
+  </data>
+  <data name="Ui.Misc2.Under70Ms" xml:space="preserve">
+    <value>меньше 70 мс</value>
+  </data>
+  <data name="Ui.Misc2.Under140Ms" xml:space="preserve">
+    <value>меньше 140 мс</value>
+  </data>
+  <data name="Ui.Misc2.Slower" xml:space="preserve">
+    <value>медленнее</value>
+  </data>
+  <data name="Ui.Misc2.Blocked" xml:space="preserve">
+    <value>заблокирован</value>
+  </data>
+  <data name="Ui.Misc2.BetterBloxDatacenters" xml:space="preserve">
+    <value>Дата-центры BetterBlox</value>
+  </data>
+  <data name="Ui.Misc2.DisplaysAllActiveRobloxDatacentersFrom" xml:space="preserve">
+    <value>Показывает все активные дата-центры Roblox из API BetterBlox.</value>
+  </data>
+  <data name="Ui.Misc2.City" xml:space="preserve">
+    <value>Город</value>
+  </data>
+  <data name="Ui.Misc2.Country" xml:space="preserve">
+    <value>Страна</value>
+  </data>
+  <data name="Ui.Misc2.Organization" xml:space="preserve">
+    <value>Организация</value>
+  </data>
+  <data name="Ui.Misc2.RobloxNews" xml:space="preserve">
+    <value>Новости Roblox</value>
+  </data>
+  <data name="Ui.Misc2.OpenFeed" xml:space="preserve">
+    <value>Открыть ленту</value>
+  </data>
+  <data name="Ui.Misc2.OpenTheAnnouncementsFeedInYour" xml:space="preserve">
+    <value>Открыть ленту объявлений в браузере</value>
+  </data>
+  <data name="Ui.Misc2.LoadingTheLatestRobloxAnnouncements" xml:space="preserve">
+    <value>Загрузка последних объявлений Roblox...</value>
+  </data>
+  <data name="Ui.Misc2.DownloadServer" xml:space="preserve">
+    <value>Сервер загрузки</value>
+  </data>
+  <data name="Ui.Misc2.ChooseTheServerUsedWhenRoblox" xml:space="preserve">
+    <value>Выберите сервер, используемый при установке или обновлении Roblox.</value>
+  </data>
+  <data name="Ui.Misc2.TheDeploymentChannelRobloxIsInstalled" xml:space="preserve">
+    <value>Канал развёртывания, из которого устанавливается Roblox. Production используется по умолчанию и нужен почти всем. Другие каналы, например LIVE или zlive, это тестовые сборки Roblox, они могут быть недоступны, что проявляется как ошибка 403 или 404 при загрузке</value>
+  </data>
+  <data name="Ui.Misc2.PreferredChannel" xml:space="preserve">
+    <value>Предпочитаемый канал</value>
+  </data>
+  <data name="Ui.Misc2.LeaveThisAsProductionUnlessYou" xml:space="preserve">
+    <value>Оставьте Production, если не уверены, что вводимый канал существует</value>
+  </data>
+  <data name="Ui.Misc2.LoadingReleaseNotes" xml:space="preserve">
+    <value>Загрузка заметок о выпуске</value>
+  </data>
+  <data name="Ui.Misc2.ViewOnGitHub" xml:space="preserve">
+    <value>Открыть на GitHub</value>
+  </data>
+  <data name="Ui.Misc2.AvailableChannels" xml:space="preserve">
+    <value>Доступные каналы</value>
+  </data>
+  <data name="Ui.Misc2.BrowseAndSelectFromAllCurrently" xml:space="preserve">
+    <value>Просматривайте и выбирайте из всех доступных каналов развёртывания.</value>
+  </data>
+  <data name="Ui.Misc2.LoadingChannels" xml:space="preserve">
+    <value>Загрузка каналов...</value>
+  </data>
+  <data name="Ui.Misc2.ChannelName" xml:space="preserve">
+    <value>Название канала</value>
+  </data>
+  <data name="Ui.Misc2.VersionGUID" xml:space="preserve">
+    <value>GUID версии</value>
+  </data>
+  <data name="Ui.Misc2.Players" xml:space="preserve">
+    <value>Игроки:</value>
+  </data>
+  <data name="Ui.Misc2.More" xml:space="preserve">
+    <value>ещё</value>
+  </data>
+  <data name="Ui.Misc2.CopyTheInstanceID" xml:space="preserve">
+    <value>Копировать ID экземпляра</value>
+  </data>
+  <data name="Ui.Misc2.CloseThisWindow" xml:space="preserve">
+    <value>Закрыть это окно</value>
+  </data>
+  <data name="Ui.Misc2.PlayerGamepasses" xml:space="preserve">
+    <value>Геймпассы игрока</value>
+  </data>
+  <data name="Ui.Misc2.DisplaysAllGamepassesOwnedOrCreated" xml:space="preserve">
+    <value>Показывает все геймпассы, которыми владеет или которые создал игрок.</value>
+  </data>
+  <data name="Ui.Misc2.PriceR" xml:space="preserve">
+    <value>Цена (R$)</value>
+  </data>
+  <data name="Ui.Misc2.Releases" xml:space="preserve">
+    <value>Выпуски</value>
+  </data>
+  <data name="Ui.Misc2.SearchReleases" xml:space="preserve">
+    <value>Поиск выпусков...</value>
+  </data>
+  <data name="Ui.Misc2.PreRelease" xml:space="preserve">
+    <value>Предварительный выпуск</value>
+  </data>
+  <data name="Ui.Misc2.Draft" xml:space="preserve">
+    <value>Черновик</value>
+  </data>
+  <data name="Ui.Misc2.ExtraPagesGroupedUnderMoreIn" xml:space="preserve">
+    <value>Дополнительные страницы, сгруппированные в разделе Ещё на боковой панели.</value>
+  </data>
+  <data name="Ui.Misc2.EditRobloxSOwnInGame" xml:space="preserve">
+    <value>Изменить собственные игровые настройки Roblox.</value>
+  </data>
+  <data name="Ui.Misc2.ReadVoidstrapNewsUpdatesAndForum" xml:space="preserve">
+    <value>Читайте новости, обновления и посты форума Voidstrap.</value>
+  </data>
+  <data name="Ui.Misc2.ProvidesInfoOnFFlagsFeatures" xml:space="preserve">
+    <value>Сведения о FFlags и функциях.</value>
+  </data>
+  <data name="Ui.Misc2.CommonFFlagIssues" xml:space="preserve">
+    <value>Частые проблемы с FFlag</value>
+  </data>
+  <data name="Ui.Misc2.BootstrapperIssues" xml:space="preserve">
+    <value>Проблемы загрузчика</value>
+  </data>
+  <data name="Ui.Misc2.Features" xml:space="preserve">
+    <value>Функции</value>
+  </data>
+  <data name="Ui.Misc2.Files" xml:space="preserve">
+    <value>Файлы</value>
+  </data>
+  <data name="Ui.Misc2.OnThisPC" xml:space="preserve">
+    <value>На этом ПК</value>
+  </data>
+  <data name="Ui.Misc2.ReleasesSourceAndIssues" xml:space="preserve">
+    <value>Выпуски, исходный код и задачи.</value>
+  </data>
+  <data name="Ui.Misc2.ReportOnBackup" xml:space="preserve">
+    <value>Сообщить в резервной копии</value>
+  </data>
+  <data name="Ui.Misc2.ApplyFrom" xml:space="preserve">
+    <value>Применить из</value>
+  </data>
 </root>

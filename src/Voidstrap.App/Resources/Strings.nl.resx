@@ -6060,4 +6060,436 @@ Wat wil je doen?</value>
   <data name="Ui.Pages.TurnEverythingOff" xml:space="preserve">
     <value>Alles uitschakelen</value>
   </data>
+  <data name="Ui.Misc2.ASimpleYetAdvancedBloxstrapFork" xml:space="preserve">
+    <value>Een eenvoudige maar geavanceerde fork van Bloxstrap.</value>
+  </data>
+  <data name="Ui.Misc2.ThankYouErik" xml:space="preserve">
+    <value>Bedankt, Erik</value>
+  </data>
+  <data name="Ui.Misc2.MainContributors" xml:space="preserve">
+    <value>Belangrijkste bijdragers</value>
+  </data>
+  <data name="Ui.Misc2.ThePeopleWhoMadeVoidstrapPossible" xml:space="preserve">
+    <value>De mensen die Voidstrap mogelijk maakten.</value>
+  </data>
+  <data name="Ui.Misc2.LoveEveryoneWithAPurpose" xml:space="preserve">
+    <value>Houd van iedereen met een doel.</value>
+  </data>
+  <data name="Ui.Misc2.FroststrapOwner" xml:space="preserve">
+    <value>Eigenaar van Froststrap</value>
+  </data>
+  <data name="Ui.Misc2.RetiredCoOwnerWasLikeA" xml:space="preserve">
+    <value>Voormalig mede-eigenaar, was als een broer.</value>
+  </data>
+  <data name="Ui.Misc2.AKindSoulThatHelpedOn" xml:space="preserve">
+    <value>Een vriendelijke ziel die onderweg hielp.</value>
+  </data>
+  <data name="Ui.Misc2.BuildInformation" xml:space="preserve">
+    <value>Buildinformatie</value>
+  </data>
+  <data name="Ui.Misc2.CommitHash" xml:space="preserve">
+    <value>Commit-hash</value>
+  </data>
+  <data name="Ui.Misc2.ThirdPartyNotices" xml:space="preserve">
+    <value>Kennisgevingen van derden</value>
+  </data>
+  <data name="Ui.Misc2.ThisSoftwareContainsSourceCodeProvided" xml:space="preserve">
+    <value>Deze software bevat broncode van NVIDIA Corporation. Framegeneratie gebruikt de FRUC-bibliotheek van de NVIDIA Optical Flow SDK op ondersteunde NVIDIA GPU's.</value>
+  </data>
+  <data name="Ui.Misc2.TheClassicTopbarOptionRebuildsTwo" xml:space="preserve">
+    <value>De klassieke topbaroptie bouwt twee communitymods na. Het uiterlijk en gedrag van de topbar en het gamemenu uit 2014 tot 2015 komen uit "2014 2015 Topbar and Menu (Improvised GUI)" van HockuTM. Het verbergen van de moderne topbar gebruikt "NoGuiRBX, Hide TopBar!" van Einshine. Beide worden met dank gebruikt onder hun Creative Commons BY NC ND 4.0-voorwaarden, hun bestanden worden rechtstreeks van GameBanana gedownload in plaats van meegeleverd, en geen van beide makers is verbonden aan Voidstrap.</value>
+  </data>
+  <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
+    <value>2014 2015 Topbar and Menu by HockuTM</value>
+  </data>
+  <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
+    <value>Communitymods</value>
+  </data>
+  <data name="Ui.Misc2.CommunityModsListsRobloxSubmissionsFrom" xml:space="preserve">
+    <value>Communitymods toont Roblox-inzendingen van GameBanana en Kliko's Mods, onderhouden door TheKliko voor de modloader van Kliko. Voidstrap is niet verbonden aan of goedgekeurd door een van beide. Alle mods, afbeeldingen en beschrijvingen zijn van hun makers, die bij elk item worden genoemd. Voidstrap leest alleen hun openbare gegevens en uploadt nooit iets namens jou.</value>
+  </data>
+  <data name="Ui.Misc2.GithubComKlikosModloaderMarketplace" xml:space="preserve">
+    <value>github.com/klikos modloader/marketplace</value>
+  </data>
+  <data name="Ui.Misc2.CanTSeeOverlays" xml:space="preserve">
+    <value>Zie je geen overlays?</value>
+  </data>
+  <data name="Ui.Misc2.Info" xml:space="preserve">
+    <value>Info</value>
+  </data>
+  <data name="Ui.Misc2.FFlags" xml:space="preserve">
+    <value>FFlags</value>
+  </data>
+  <data name="Ui.Misc2.PlayTime" xml:space="preserve">
+    <value>Speeltijd</value>
+  </data>
+  <data name="Ui.Misc2.MemoryDetails" xml:space="preserve">
+    <value>Geheugendetails</value>
+  </data>
+  <data name="Ui.Misc2.JoinClosestServer" xml:space="preserve">
+    <value>Deelnemen aan dichtstbijzijnde server</value>
+  </data>
+  <data name="Ui.Misc2.GamePassInfo" xml:space="preserve">
+    <value>GamePass-info</value>
+  </data>
+  <data name="Ui.Misc2.MusicPlayer" xml:space="preserve">
+    <value>Muziekspeler</value>
+  </data>
+  <data name="Ui.Misc2.FrameGen" xml:space="preserve">
+    <value>Framegeneratie</value>
+  </data>
+  <data name="Ui.Misc2.FrameGeneration" xml:space="preserve">
+    <value>Framegeneratie</value>
+  </data>
+  <data name="Ui.Misc2.GeneratedFramesOverlay" xml:space="preserve">
+    <value>Overlay voor gegenereerde frames</value>
+  </data>
+  <data name="Ui.Misc2.SplitScreenCompare" xml:space="preserve">
+    <value>Vergelijking met gesplitst scherm</value>
+  </data>
+  <data name="Ui.Misc2.ColorTemperature" xml:space="preserve">
+    <value>Kleurtemperatuur</value>
+  </data>
+  <data name="Ui.Misc2.SearchLibraryByTitleArtistOr" xml:space="preserve">
+    <value>Bibliotheek doorzoeken op titel, artiest of type...</value>
+  </data>
+  <data name="Ui.Misc2.RemoveTrack" xml:space="preserve">
+    <value>Nummer verwijderen</value>
+  </data>
+  <data name="Ui.Misc2.NoTracksClickImportToAdd" xml:space="preserve">
+    <value>Geen nummers. Klik op Importeren om audio toe te voegen.</value>
+  </data>
+  <data name="Ui.Misc2.NoTracksMatchYourSearch" xml:space="preserve">
+    <value>Geen nummers komen overeen met je zoekopdracht.</value>
+  </data>
+  <data name="Ui.Misc2.NowPlaying" xml:space="preserve">
+    <value>Nu aan het spelen</value>
+  </data>
+  <data name="Ui.Misc2.Previous" xml:space="preserve">
+    <value>Vorige</value>
+  </data>
+  <data name="Ui.Misc2.Stop" xml:space="preserve">
+    <value>Stoppen</value>
+  </data>
+  <data name="Ui.Misc2.MuteUnmute" xml:space="preserve">
+    <value>Dempen / geluid aan</value>
+  </data>
+  <data name="Ui.Misc2.Equalizer" xml:space="preserve">
+    <value>Equalizer</value>
+  </data>
+  <data name="Ui.Misc2.TuneHowYourAudioSoundsPick" xml:space="preserve">
+    <value>Stel in hoe je audio klinkt. Kies een preset of sleep de banden, het wordt meteen toegepast en automatisch opgeslagen.</value>
+  </data>
+  <data name="Ui.Misc2.EnableEqualizer" xml:space="preserve">
+    <value>Equalizer inschakelen</value>
+  </data>
+  <data name="Ui.Misc2.BandsAreInHz0DB" xml:space="preserve">
+    <value>Banden in Hz. 0 dB is neutraal, tot plus of min 12 dB.</value>
+  </data>
+  <data name="Ui.Misc2.Preview" xml:space="preserve">
+    <value>Voorbeeld: </value>
+  </data>
+  <data name="Ui.Misc2.SelectAnAssetToPreviewIt" xml:space="preserve">
+    <value>Selecteer een asset om hem hier te bekijken</value>
+  </data>
+  <data name="Ui.Misc2.Volume" xml:space="preserve">
+    <value>Volume:</value>
+  </data>
+  <data name="Ui.Misc2.Loop" xml:space="preserve">
+    <value>Herhalen</value>
+  </data>
+  <data name="Ui.Misc2.OutputFormat" xml:space="preserve">
+    <value>Uitvoerformaat</value>
+  </data>
+  <data name="Ui.Misc2.DownloadConvertThisAudio" xml:space="preserve">
+    <value>Deze audio downloaden / converteren</value>
+  </data>
+  <data name="Ui.Misc2.CameraControls" xml:space="preserve">
+    <value>Camerabediening</value>
+  </data>
+  <data name="Ui.Misc2.ResetView" xml:space="preserve">
+    <value>Weergave herstellen</value>
+  </data>
+  <data name="Ui.Misc2.Options" xml:space="preserve">
+    <value>Opties</value>
+  </data>
+  <data name="Ui.Misc2.Wireframe" xml:space="preserve">
+    <value>Draadmodel</value>
+  </data>
+  <data name="Ui.Misc2.AutoRotate" xml:space="preserve">
+    <value>Automatisch draaien</value>
+  </data>
+  <data name="Ui.Misc2.ShowGrid" xml:space="preserve">
+    <value>Raster tonen</value>
+  </data>
+  <data name="Ui.Misc2.ImageAdjust" xml:space="preserve">
+    <value>Afbeelding aanpassen</value>
+  </data>
+  <data name="Ui.Misc2.ImageAdjustments" xml:space="preserve">
+    <value>Afbeeldingsaanpassingen</value>
+  </data>
+  <data name="Ui.Misc2.Orientation" xml:space="preserve">
+    <value>Oriëntatie</value>
+  </data>
+  <data name="Ui.Misc2.Rotate90" xml:space="preserve">
+    <value>90 graden draaien</value>
+  </data>
+  <data name="Ui.Misc2.FlipH" xml:space="preserve">
+    <value>Horizontaal spiegelen</value>
+  </data>
+  <data name="Ui.Misc2.FlipV" xml:space="preserve">
+    <value>Verticaal spiegelen</value>
+  </data>
+  <data name="Ui.Misc2.ScaleResize" xml:space="preserve">
+    <value>Schalen (formaat wijzigen)</value>
+  </data>
+  <data name="Ui.Misc2.ApplyResize" xml:space="preserve">
+    <value>Formaat toepassen</value>
+  </data>
+  <data name="Ui.Misc2.ResetAdjustments" xml:space="preserve">
+    <value>Aanpassingen herstellen</value>
+  </data>
+  <data name="Ui.Misc2.TipUseTheseToFixOrientation" xml:space="preserve">
+    <value>Tip: gebruik deze om de oriëntatie te corrigeren of assets precies op maat te maken.</value>
+  </data>
+  <data name="Ui.Misc2.SaveAsMod" xml:space="preserve">
+    <value>Opslaan als mod</value>
+  </data>
+  <data name="Ui.Misc2.ImageRecolor" xml:space="preserve">
+    <value>Afbeelding herkleuren</value>
+  </data>
+  <data name="Ui.Misc2.RecolorOptions" xml:space="preserve">
+    <value>Herkleuropties</value>
+  </data>
+  <data name="Ui.Misc2.TargetColor" xml:space="preserve">
+    <value>Doelkleur</value>
+  </data>
+  <data name="Ui.Misc2.Intensity" xml:space="preserve">
+    <value>Intensiteit</value>
+  </data>
+  <data name="Ui.Misc2.ResetImage" xml:space="preserve">
+    <value>Afbeelding herstellen</value>
+  </data>
+  <data name="Ui.Misc2.TipThisWillTintTheImage" xml:space="preserve">
+    <value>Tip: de afbeelding wordt gekleurd terwijl de transparantie behouden blijft.</value>
+  </data>
+  <data name="Ui.Misc2.Loading" xml:space="preserve">
+    <value>Laden...</value>
+  </data>
+  <data name="Ui.Misc2.Active" xml:space="preserve">
+    <value>Actief</value>
+  </data>
+  <data name="Ui.Misc2.ServerSize" xml:space="preserve">
+    <value>Servergrootte</value>
+  </data>
+  <data name="Ui.Misc2.Chat" xml:space="preserve">
+    <value>Chat</value>
+  </data>
+  <data name="Ui.Misc2.Chats" xml:space="preserve">
+    <value>Chats</value>
+  </data>
+  <data name="Ui.Misc2.LoadingYourChats" xml:space="preserve">
+    <value>Je chats worden geladen</value>
+  </data>
+  <data name="Ui.Misc2.Send" xml:space="preserve">
+    <value>Versturen</value>
+  </data>
+  <data name="Ui.Misc2.NoNewsYet" xml:space="preserve">
+    <value>Nog geen nieuws</value>
+  </data>
+  <data name="Ui.Misc2.NewVoidstrapUpdatesAndAnnouncementsWill" xml:space="preserve">
+    <value>Nieuwe Voidstrap-updates en aankondigingen verschijnen hier</value>
+  </data>
+  <data name="Ui.Misc2.ReadMore" xml:space="preserve">
+    <value>Meer lezen</value>
+  </data>
+  <data name="Ui.Misc2.Earlier" xml:space="preserve">
+    <value>Eerder</value>
+  </data>
+  <data name="Ui.Misc2.ChooseSidebarIcon" xml:space="preserve">
+    <value>Zijbalkpictogram kiezen</value>
+  </data>
+  <data name="Ui.Misc2.SearchAllWPFUIIcons" xml:space="preserve">
+    <value>Alle WPF UI-pictogrammen doorzoeken</value>
+  </data>
+  <data name="Ui.Misc2.CustomImage" xml:space="preserve">
+    <value>Eigen afbeelding</value>
+  </data>
+  <data name="Ui.Misc2.UseIcon" xml:space="preserve">
+    <value>Pictogram gebruiken</value>
+  </data>
+  <data name="Ui.Misc2.EditMod" xml:space="preserve">
+    <value>Mod bewerken</value>
+  </data>
+  <data name="Ui.Misc2.GetEveryOptionFromGameBanana" xml:space="preserve">
+    <value>Alle opties van GameBanana ophalen</value>
+  </data>
+  <data name="Ui.Misc2.RuleName" xml:space="preserve">
+    <value>Regelnaam</value>
+  </data>
+  <data name="Ui.Misc2.AssetIdsToReplace" xml:space="preserve">
+    <value>Te vervangen asset-ID's</value>
+  </data>
+  <data name="Ui.Misc2.FlagProfiles" xml:space="preserve">
+    <value>Flagprofielen</value>
+  </data>
+  <data name="Ui.Misc2.NoSavedProfiles" xml:space="preserve">
+    <value>Geen opgeslagen profielen</value>
+  </data>
+  <data name="Ui.Misc2.ClearExistingFlagsFirst" xml:space="preserve">
+    <value>Eerst bestaande flags wissen</value>
+  </data>
+  <data name="Ui.Misc2.FindACityOrCountry" xml:space="preserve">
+    <value>Zoek een stad of land</value>
+  </data>
+  <data name="Ui.Misc2.ClickAPinToChooseA" xml:space="preserve">
+    <value>Klik op een speld om een datacenter te kiezen</value>
+  </data>
+  <data name="Ui.Misc2.CenterOnSelectedDatacenter" xml:space="preserve">
+    <value>Centreren op geselecteerd datacenter</value>
+  </data>
+  <data name="Ui.Misc2.Under70Ms" xml:space="preserve">
+    <value>onder 70 ms</value>
+  </data>
+  <data name="Ui.Misc2.Under140Ms" xml:space="preserve">
+    <value>onder 140 ms</value>
+  </data>
+  <data name="Ui.Misc2.Slower" xml:space="preserve">
+    <value>trager</value>
+  </data>
+  <data name="Ui.Misc2.Blocked" xml:space="preserve">
+    <value>geblokkeerd</value>
+  </data>
+  <data name="Ui.Misc2.BetterBloxDatacenters" xml:space="preserve">
+    <value>BetterBlox-datacenters</value>
+  </data>
+  <data name="Ui.Misc2.DisplaysAllActiveRobloxDatacentersFrom" xml:space="preserve">
+    <value>Toont alle actieve Roblox-datacenters uit de BetterBlox-API.</value>
+  </data>
+  <data name="Ui.Misc2.City" xml:space="preserve">
+    <value>Stad</value>
+  </data>
+  <data name="Ui.Misc2.Country" xml:space="preserve">
+    <value>Land</value>
+  </data>
+  <data name="Ui.Misc2.Organization" xml:space="preserve">
+    <value>Organisatie</value>
+  </data>
+  <data name="Ui.Misc2.RobloxNews" xml:space="preserve">
+    <value>Roblox-nieuws</value>
+  </data>
+  <data name="Ui.Misc2.OpenFeed" xml:space="preserve">
+    <value>Feed openen</value>
+  </data>
+  <data name="Ui.Misc2.OpenTheAnnouncementsFeedInYour" xml:space="preserve">
+    <value>De aankondigingsfeed in je browser openen</value>
+  </data>
+  <data name="Ui.Misc2.LoadingTheLatestRobloxAnnouncements" xml:space="preserve">
+    <value>Laatste Roblox-aankondigingen laden...</value>
+  </data>
+  <data name="Ui.Misc2.DownloadServer" xml:space="preserve">
+    <value>Downloadserver</value>
+  </data>
+  <data name="Ui.Misc2.ChooseTheServerUsedWhenRoblox" xml:space="preserve">
+    <value>Kies de server die wordt gebruikt bij het installeren of bijwerken van Roblox.</value>
+  </data>
+  <data name="Ui.Misc2.TheDeploymentChannelRobloxIsInstalled" xml:space="preserve">
+    <value>Het implementatiekanaal waaruit Roblox wordt geïnstalleerd. Production is de standaard en wat bijna iedereen wil. Andere kanalen zoals LIVE of zlive zijn testversies van Roblox en zijn mogelijk niet beschikbaar, wat bij het downloaden een 403 of 404 geeft</value>
+  </data>
+  <data name="Ui.Misc2.PreferredChannel" xml:space="preserve">
+    <value>Voorkeurskanaal</value>
+  </data>
+  <data name="Ui.Misc2.LeaveThisAsProductionUnlessYou" xml:space="preserve">
+    <value>Laat dit op Production tenzij je weet dat het kanaal dat je typt bestaat</value>
+  </data>
+  <data name="Ui.Misc2.LoadingReleaseNotes" xml:space="preserve">
+    <value>Releasenotes laden</value>
+  </data>
+  <data name="Ui.Misc2.ViewOnGitHub" xml:space="preserve">
+    <value>Bekijken op GitHub</value>
+  </data>
+  <data name="Ui.Misc2.AvailableChannels" xml:space="preserve">
+    <value>Beschikbare kanalen</value>
+  </data>
+  <data name="Ui.Misc2.BrowseAndSelectFromAllCurrently" xml:space="preserve">
+    <value>Blader door en kies uit alle beschikbare implementatiekanalen.</value>
+  </data>
+  <data name="Ui.Misc2.LoadingChannels" xml:space="preserve">
+    <value>Kanalen laden...</value>
+  </data>
+  <data name="Ui.Misc2.ChannelName" xml:space="preserve">
+    <value>Kanaalnaam</value>
+  </data>
+  <data name="Ui.Misc2.VersionGUID" xml:space="preserve">
+    <value>Versie-GUID</value>
+  </data>
+  <data name="Ui.Misc2.Players" xml:space="preserve">
+    <value>Spelers:</value>
+  </data>
+  <data name="Ui.Misc2.More" xml:space="preserve">
+    <value>meer</value>
+  </data>
+  <data name="Ui.Misc2.CopyTheInstanceID" xml:space="preserve">
+    <value>Instantie-ID kopiëren</value>
+  </data>
+  <data name="Ui.Misc2.CloseThisWindow" xml:space="preserve">
+    <value>Dit venster sluiten</value>
+  </data>
+  <data name="Ui.Misc2.PlayerGamepasses" xml:space="preserve">
+    <value>Gamepasses van speler</value>
+  </data>
+  <data name="Ui.Misc2.DisplaysAllGamepassesOwnedOrCreated" xml:space="preserve">
+    <value>Toont alle gamepasses die de speler bezit of heeft gemaakt.</value>
+  </data>
+  <data name="Ui.Misc2.PriceR" xml:space="preserve">
+    <value>Prijs (R$)</value>
+  </data>
+  <data name="Ui.Misc2.Releases" xml:space="preserve">
+    <value>Releases</value>
+  </data>
+  <data name="Ui.Misc2.SearchReleases" xml:space="preserve">
+    <value>Releases zoeken...</value>
+  </data>
+  <data name="Ui.Misc2.PreRelease" xml:space="preserve">
+    <value>Voorlopige versie</value>
+  </data>
+  <data name="Ui.Misc2.Draft" xml:space="preserve">
+    <value>Concept</value>
+  </data>
+  <data name="Ui.Misc2.ExtraPagesGroupedUnderMoreIn" xml:space="preserve">
+    <value>Extra pagina's gegroepeerd onder Meer in de zijbalk.</value>
+  </data>
+  <data name="Ui.Misc2.EditRobloxSOwnInGame" xml:space="preserve">
+    <value>De eigen spelinstellingen van Roblox bewerken.</value>
+  </data>
+  <data name="Ui.Misc2.ReadVoidstrapNewsUpdatesAndForum" xml:space="preserve">
+    <value>Lees Voidstrap-nieuws, updates en forumberichten.</value>
+  </data>
+  <data name="Ui.Misc2.ProvidesInfoOnFFlagsFeatures" xml:space="preserve">
+    <value>Informatie over FFlags en functies.</value>
+  </data>
+  <data name="Ui.Misc2.CommonFFlagIssues" xml:space="preserve">
+    <value>Veelvoorkomende FFlag-problemen</value>
+  </data>
+  <data name="Ui.Misc2.BootstrapperIssues" xml:space="preserve">
+    <value>Bootstrapperproblemen</value>
+  </data>
+  <data name="Ui.Misc2.Features" xml:space="preserve">
+    <value>Functies</value>
+  </data>
+  <data name="Ui.Misc2.Files" xml:space="preserve">
+    <value>Bestanden</value>
+  </data>
+  <data name="Ui.Misc2.OnThisPC" xml:space="preserve">
+    <value>Op deze pc</value>
+  </data>
+  <data name="Ui.Misc2.ReleasesSourceAndIssues" xml:space="preserve">
+    <value>Releases, broncode en issues.</value>
+  </data>
+  <data name="Ui.Misc2.ReportOnBackup" xml:space="preserve">
+    <value>Melden bij back-up</value>
+  </data>
+  <data name="Ui.Misc2.ApplyFrom" xml:space="preserve">
+    <value>Toepassen vanaf</value>
+  </data>
 </root>

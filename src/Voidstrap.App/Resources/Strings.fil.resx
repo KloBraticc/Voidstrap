@@ -5877,4 +5877,436 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Pages.TurnEverythingOff" xml:space="preserve">
     <value>Patayin lahat</value>
   </data>
+  <data name="Ui.Misc2.ASimpleYetAdvancedBloxstrapFork" xml:space="preserve">
+    <value>Isang simple pero advanced na fork ng Bloxstrap.</value>
+  </data>
+  <data name="Ui.Misc2.ThankYouErik" xml:space="preserve">
+    <value>Salamat, Erik</value>
+  </data>
+  <data name="Ui.Misc2.MainContributors" xml:space="preserve">
+    <value>Pangunahing kontribyutor</value>
+  </data>
+  <data name="Ui.Misc2.ThePeopleWhoMadeVoidstrapPossible" xml:space="preserve">
+    <value>Ang mga taong nagpasimula sa Voidstrap.</value>
+  </data>
+  <data name="Ui.Misc2.LoveEveryoneWithAPurpose" xml:space="preserve">
+    <value>Mahalin ang lahat nang may layunin.</value>
+  </data>
+  <data name="Ui.Misc2.FroststrapOwner" xml:space="preserve">
+    <value>May ari ng Froststrap</value>
+  </data>
+  <data name="Ui.Misc2.RetiredCoOwnerWasLikeA" xml:space="preserve">
+    <value>Dating co owner, parang kapatid.</value>
+  </data>
+  <data name="Ui.Misc2.AKindSoulThatHelpedOn" xml:space="preserve">
+    <value>Mabait na kaluluwang tumulong sa daan.</value>
+  </data>
+  <data name="Ui.Misc2.BuildInformation" xml:space="preserve">
+    <value>Impormasyon ng build</value>
+  </data>
+  <data name="Ui.Misc2.CommitHash" xml:space="preserve">
+    <value>Commit hash</value>
+  </data>
+  <data name="Ui.Misc2.ThirdPartyNotices" xml:space="preserve">
+    <value>Mga paunawa ng third party</value>
+  </data>
+  <data name="Ui.Misc2.ThisSoftwareContainsSourceCodeProvided" xml:space="preserve">
+    <value>Naglalaman ang software na ito ng source code mula sa NVIDIA Corporation. Ginagamit ng frame generation ang FRUC library ng NVIDIA Optical Flow SDK sa mga suportadong NVIDIA GPU.</value>
+  </data>
+  <data name="Ui.Misc2.TheClassicTopbarOptionRebuildsTwo" xml:space="preserve">
+    <value>Binubuo muli ng classic topbar option ang dalawang community mod. Ang itsura at kilos ng topbar at game menu mula 2014 hanggang 2015 ay galing sa "2014 2015 Topbar and Menu (Improvised GUI)" ni HockuTM. Ang pagtatago ng modernong topbar ay gumagamit ng "NoGuiRBX, Hide TopBar!" ni Einshine. Parehong ginagamit nang may pasasalamat sa ilalim ng kanilang Creative Commons BY NC ND 4.0 na tuntunin, direktang dina download ang mga file mula sa GameBanana sa halip na isama, at walang kaugnayan sa Voidstrap ang alinmang may akda.</value>
+  </data>
+  <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
+    <value>2014 2015 Topbar and Menu by HockuTM</value>
+  </data>
+  <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
+    <value>Mga community mod</value>
+  </data>
+  <data name="Ui.Misc2.CommunityModsListsRobloxSubmissionsFrom" xml:space="preserve">
+    <value>Inililista ng Community Mods ang mga Roblox submission mula sa GameBanana at Kliko's Mods, na pinapanatili ni TheKliko para sa modloader ni Kliko. Hindi kaugnay o ini endorse ng alinman sa kanila ang Voidstrap. Pag aari ng mga may akda ang lahat ng mod, larawan, at paglalarawan, na binabanggit sa bawat listing. Binabasa lang ng Voidstrap ang kanilang pampublikong data at hindi kailanman nag a upload ng kahit ano para sa iyo.</value>
+  </data>
+  <data name="Ui.Misc2.GithubComKlikosModloaderMarketplace" xml:space="preserve">
+    <value>github.com/klikos modloader/marketplace</value>
+  </data>
+  <data name="Ui.Misc2.CanTSeeOverlays" xml:space="preserve">
+    <value>Hindi makita ang mga overlay?</value>
+  </data>
+  <data name="Ui.Misc2.Info" xml:space="preserve">
+    <value>Info</value>
+  </data>
+  <data name="Ui.Misc2.FFlags" xml:space="preserve">
+    <value>FFlags</value>
+  </data>
+  <data name="Ui.Misc2.PlayTime" xml:space="preserve">
+    <value>Oras ng paglalaro</value>
+  </data>
+  <data name="Ui.Misc2.MemoryDetails" xml:space="preserve">
+    <value>Detalye ng memory</value>
+  </data>
+  <data name="Ui.Misc2.JoinClosestServer" xml:space="preserve">
+    <value>Sumali sa pinakamalapit na server</value>
+  </data>
+  <data name="Ui.Misc2.GamePassInfo" xml:space="preserve">
+    <value>Info ng GamePass</value>
+  </data>
+  <data name="Ui.Misc2.MusicPlayer" xml:space="preserve">
+    <value>Music player</value>
+  </data>
+  <data name="Ui.Misc2.FrameGen" xml:space="preserve">
+    <value>Frame generation</value>
+  </data>
+  <data name="Ui.Misc2.FrameGeneration" xml:space="preserve">
+    <value>Frame generation</value>
+  </data>
+  <data name="Ui.Misc2.GeneratedFramesOverlay" xml:space="preserve">
+    <value>Overlay ng generated frames</value>
+  </data>
+  <data name="Ui.Misc2.SplitScreenCompare" xml:space="preserve">
+    <value>Split screen na paghahambing</value>
+  </data>
+  <data name="Ui.Misc2.ColorTemperature" xml:space="preserve">
+    <value>Color temperature</value>
+  </data>
+  <data name="Ui.Misc2.SearchLibraryByTitleArtistOr" xml:space="preserve">
+    <value>Maghanap sa library ayon sa pamagat, artist, o uri...</value>
+  </data>
+  <data name="Ui.Misc2.RemoveTrack" xml:space="preserve">
+    <value>Alisin ang track</value>
+  </data>
+  <data name="Ui.Misc2.NoTracksClickImportToAdd" xml:space="preserve">
+    <value>Walang track. I click ang Import para magdagdag ng audio.</value>
+  </data>
+  <data name="Ui.Misc2.NoTracksMatchYourSearch" xml:space="preserve">
+    <value>Walang track na tumutugma sa paghahanap mo.</value>
+  </data>
+  <data name="Ui.Misc2.NowPlaying" xml:space="preserve">
+    <value>Tumutugtog ngayon</value>
+  </data>
+  <data name="Ui.Misc2.Previous" xml:space="preserve">
+    <value>Nakaraan</value>
+  </data>
+  <data name="Ui.Misc2.Stop" xml:space="preserve">
+    <value>Itigil</value>
+  </data>
+  <data name="Ui.Misc2.MuteUnmute" xml:space="preserve">
+    <value>I mute / i unmute</value>
+  </data>
+  <data name="Ui.Misc2.Equalizer" xml:space="preserve">
+    <value>Equalizer</value>
+  </data>
+  <data name="Ui.Misc2.TuneHowYourAudioSoundsPick" xml:space="preserve">
+    <value>Ayusin kung paano tumutunog ang audio mo. Pumili ng preset o i drag ang mga band, agad itong ilalapat at awtomatikong ise save.</value>
+  </data>
+  <data name="Ui.Misc2.EnableEqualizer" xml:space="preserve">
+    <value>I enable ang equalizer</value>
+  </data>
+  <data name="Ui.Misc2.BandsAreInHz0DB" xml:space="preserve">
+    <value>Nasa Hz ang mga band. Neutral ang 0 dB, hanggang plus o minus 12 dB.</value>
+  </data>
+  <data name="Ui.Misc2.Preview" xml:space="preserve">
+    <value>Preview: </value>
+  </data>
+  <data name="Ui.Misc2.SelectAnAssetToPreviewIt" xml:space="preserve">
+    <value>Pumili ng asset para i preview dito</value>
+  </data>
+  <data name="Ui.Misc2.Volume" xml:space="preserve">
+    <value>Volume:</value>
+  </data>
+  <data name="Ui.Misc2.Loop" xml:space="preserve">
+    <value>Ulitin</value>
+  </data>
+  <data name="Ui.Misc2.OutputFormat" xml:space="preserve">
+    <value>Output format</value>
+  </data>
+  <data name="Ui.Misc2.DownloadConvertThisAudio" xml:space="preserve">
+    <value>I download / i convert ang audio na ito</value>
+  </data>
+  <data name="Ui.Misc2.CameraControls" xml:space="preserve">
+    <value>Kontrol ng camera</value>
+  </data>
+  <data name="Ui.Misc2.ResetView" xml:space="preserve">
+    <value>I reset ang view</value>
+  </data>
+  <data name="Ui.Misc2.Options" xml:space="preserve">
+    <value>Mga opsyon</value>
+  </data>
+  <data name="Ui.Misc2.Wireframe" xml:space="preserve">
+    <value>Wireframe</value>
+  </data>
+  <data name="Ui.Misc2.AutoRotate" xml:space="preserve">
+    <value>Awtomatikong pag ikot</value>
+  </data>
+  <data name="Ui.Misc2.ShowGrid" xml:space="preserve">
+    <value>Ipakita ang grid</value>
+  </data>
+  <data name="Ui.Misc2.ImageAdjust" xml:space="preserve">
+    <value>Ayusin ang larawan</value>
+  </data>
+  <data name="Ui.Misc2.ImageAdjustments" xml:space="preserve">
+    <value>Mga adjustment ng larawan</value>
+  </data>
+  <data name="Ui.Misc2.Orientation" xml:space="preserve">
+    <value>Oryentasyon</value>
+  </data>
+  <data name="Ui.Misc2.Rotate90" xml:space="preserve">
+    <value>Iikot nang 90</value>
+  </data>
+  <data name="Ui.Misc2.FlipH" xml:space="preserve">
+    <value>I flip pahalang</value>
+  </data>
+  <data name="Ui.Misc2.FlipV" xml:space="preserve">
+    <value>I flip patayo</value>
+  </data>
+  <data name="Ui.Misc2.ScaleResize" xml:space="preserve">
+    <value>Scale (baguhin ang laki)</value>
+  </data>
+  <data name="Ui.Misc2.ApplyResize" xml:space="preserve">
+    <value>Ilapat ang laki</value>
+  </data>
+  <data name="Ui.Misc2.ResetAdjustments" xml:space="preserve">
+    <value>I reset ang mga adjustment</value>
+  </data>
+  <data name="Ui.Misc2.TipUseTheseToFixOrientation" xml:space="preserve">
+    <value>Tip: gamitin ang mga ito para ayusin ang oryentasyon o baguhin ang laki ng asset nang tamang tama.</value>
+  </data>
+  <data name="Ui.Misc2.SaveAsMod" xml:space="preserve">
+    <value>I save bilang mod</value>
+  </data>
+  <data name="Ui.Misc2.ImageRecolor" xml:space="preserve">
+    <value>Kulayan muli ang larawan</value>
+  </data>
+  <data name="Ui.Misc2.RecolorOptions" xml:space="preserve">
+    <value>Mga opsyon sa pagkulay muli</value>
+  </data>
+  <data name="Ui.Misc2.TargetColor" xml:space="preserve">
+    <value>Target na kulay</value>
+  </data>
+  <data name="Ui.Misc2.Intensity" xml:space="preserve">
+    <value>Tindi</value>
+  </data>
+  <data name="Ui.Misc2.ResetImage" xml:space="preserve">
+    <value>I reset ang larawan</value>
+  </data>
+  <data name="Ui.Misc2.TipThisWillTintTheImage" xml:space="preserve">
+    <value>Tip: kukulayan nito ang larawan habang pinapanatili ang transparency.</value>
+  </data>
+  <data name="Ui.Misc2.Loading" xml:space="preserve">
+    <value>Naglo load...</value>
+  </data>
+  <data name="Ui.Misc2.Active" xml:space="preserve">
+    <value>Aktibo</value>
+  </data>
+  <data name="Ui.Misc2.ServerSize" xml:space="preserve">
+    <value>Laki ng server</value>
+  </data>
+  <data name="Ui.Misc2.Chat" xml:space="preserve">
+    <value>Chat</value>
+  </data>
+  <data name="Ui.Misc2.Chats" xml:space="preserve">
+    <value>Mga chat</value>
+  </data>
+  <data name="Ui.Misc2.LoadingYourChats" xml:space="preserve">
+    <value>Nilo load ang mga chat mo</value>
+  </data>
+  <data name="Ui.Misc2.Send" xml:space="preserve">
+    <value>Ipadala</value>
+  </data>
+  <data name="Ui.Misc2.NoNewsYet" xml:space="preserve">
+    <value>Wala pang balita</value>
+  </data>
+  <data name="Ui.Misc2.NewVoidstrapUpdatesAndAnnouncementsWill" xml:space="preserve">
+    <value>Lalabas dito ang mga bagong update at anunsyo ng Voidstrap</value>
+  </data>
+  <data name="Ui.Misc2.ReadMore" xml:space="preserve">
+    <value>Magbasa pa</value>
+  </data>
+  <data name="Ui.Misc2.Earlier" xml:space="preserve">
+    <value>Mas maaga</value>
+  </data>
+  <data name="Ui.Misc2.ChooseSidebarIcon" xml:space="preserve">
+    <value>Pumili ng icon ng sidebar</value>
+  </data>
+  <data name="Ui.Misc2.SearchAllWPFUIIcons" xml:space="preserve">
+    <value>Maghanap sa lahat ng WPF UI icon</value>
+  </data>
+  <data name="Ui.Misc2.CustomImage" xml:space="preserve">
+    <value>Custom na larawan</value>
+  </data>
+  <data name="Ui.Misc2.UseIcon" xml:space="preserve">
+    <value>Gamitin ang icon</value>
+  </data>
+  <data name="Ui.Misc2.EditMod" xml:space="preserve">
+    <value>I edit ang mod</value>
+  </data>
+  <data name="Ui.Misc2.GetEveryOptionFromGameBanana" xml:space="preserve">
+    <value>Kunin ang lahat ng opsyon mula sa GameBanana</value>
+  </data>
+  <data name="Ui.Misc2.RuleName" xml:space="preserve">
+    <value>Pangalan ng rule</value>
+  </data>
+  <data name="Ui.Misc2.AssetIdsToReplace" xml:space="preserve">
+    <value>Mga asset ID na papalitan</value>
+  </data>
+  <data name="Ui.Misc2.FlagProfiles" xml:space="preserve">
+    <value>Mga flag profile</value>
+  </data>
+  <data name="Ui.Misc2.NoSavedProfiles" xml:space="preserve">
+    <value>Walang naka save na profile</value>
+  </data>
+  <data name="Ui.Misc2.ClearExistingFlagsFirst" xml:space="preserve">
+    <value>I clear muna ang mga kasalukuyang flag</value>
+  </data>
+  <data name="Ui.Misc2.FindACityOrCountry" xml:space="preserve">
+    <value>Maghanap ng lungsod o bansa</value>
+  </data>
+  <data name="Ui.Misc2.ClickAPinToChooseA" xml:space="preserve">
+    <value>I click ang pin para pumili ng datacenter</value>
+  </data>
+  <data name="Ui.Misc2.CenterOnSelectedDatacenter" xml:space="preserve">
+    <value>I center sa napiling datacenter</value>
+  </data>
+  <data name="Ui.Misc2.Under70Ms" xml:space="preserve">
+    <value>wala pang 70 ms</value>
+  </data>
+  <data name="Ui.Misc2.Under140Ms" xml:space="preserve">
+    <value>wala pang 140 ms</value>
+  </data>
+  <data name="Ui.Misc2.Slower" xml:space="preserve">
+    <value>mas mabagal</value>
+  </data>
+  <data name="Ui.Misc2.Blocked" xml:space="preserve">
+    <value>naka block</value>
+  </data>
+  <data name="Ui.Misc2.BetterBloxDatacenters" xml:space="preserve">
+    <value>Mga datacenter ng BetterBlox</value>
+  </data>
+  <data name="Ui.Misc2.DisplaysAllActiveRobloxDatacentersFrom" xml:space="preserve">
+    <value>Ipinapakita ang lahat ng aktibong Roblox datacenter mula sa BetterBlox API.</value>
+  </data>
+  <data name="Ui.Misc2.City" xml:space="preserve">
+    <value>Lungsod</value>
+  </data>
+  <data name="Ui.Misc2.Country" xml:space="preserve">
+    <value>Bansa</value>
+  </data>
+  <data name="Ui.Misc2.Organization" xml:space="preserve">
+    <value>Organisasyon</value>
+  </data>
+  <data name="Ui.Misc2.RobloxNews" xml:space="preserve">
+    <value>Balita ng Roblox</value>
+  </data>
+  <data name="Ui.Misc2.OpenFeed" xml:space="preserve">
+    <value>Buksan ang feed</value>
+  </data>
+  <data name="Ui.Misc2.OpenTheAnnouncementsFeedInYour" xml:space="preserve">
+    <value>Buksan ang feed ng anunsyo sa browser mo</value>
+  </data>
+  <data name="Ui.Misc2.LoadingTheLatestRobloxAnnouncements" xml:space="preserve">
+    <value>Nilo load ang pinakabagong anunsyo ng Roblox...</value>
+  </data>
+  <data name="Ui.Misc2.DownloadServer" xml:space="preserve">
+    <value>Download server</value>
+  </data>
+  <data name="Ui.Misc2.ChooseTheServerUsedWhenRoblox" xml:space="preserve">
+    <value>Piliin ang server na ginagamit kapag ini install o ina update ang Roblox.</value>
+  </data>
+  <data name="Ui.Misc2.TheDeploymentChannelRobloxIsInstalled" xml:space="preserve">
+    <value>Ang deployment channel kung saan ini install ang Roblox. Ang Production ang default at ang gusto ng halos lahat. Ang ibang channel gaya ng LIVE o zlive ay mga test build ng Roblox at maaaring hindi available, na lumalabas bilang 403 o 404 habang nagda download</value>
+  </data>
+  <data name="Ui.Misc2.PreferredChannel" xml:space="preserve">
+    <value>Gustong channel</value>
+  </data>
+  <data name="Ui.Misc2.LeaveThisAsProductionUnlessYou" xml:space="preserve">
+    <value>Iwanan sa Production maliban kung alam mong umiiral ang channel na tina type mo</value>
+  </data>
+  <data name="Ui.Misc2.LoadingReleaseNotes" xml:space="preserve">
+    <value>Nilo load ang release notes</value>
+  </data>
+  <data name="Ui.Misc2.ViewOnGitHub" xml:space="preserve">
+    <value>Tingnan sa GitHub</value>
+  </data>
+  <data name="Ui.Misc2.AvailableChannels" xml:space="preserve">
+    <value>Mga available na channel</value>
+  </data>
+  <data name="Ui.Misc2.BrowseAndSelectFromAllCurrently" xml:space="preserve">
+    <value>Mag browse at pumili mula sa lahat ng kasalukuyang available na deployment channel.</value>
+  </data>
+  <data name="Ui.Misc2.LoadingChannels" xml:space="preserve">
+    <value>Nilo load ang mga channel...</value>
+  </data>
+  <data name="Ui.Misc2.ChannelName" xml:space="preserve">
+    <value>Pangalan ng channel</value>
+  </data>
+  <data name="Ui.Misc2.VersionGUID" xml:space="preserve">
+    <value>Version GUID</value>
+  </data>
+  <data name="Ui.Misc2.Players" xml:space="preserve">
+    <value>Mga player:</value>
+  </data>
+  <data name="Ui.Misc2.More" xml:space="preserve">
+    <value>higit pa</value>
+  </data>
+  <data name="Ui.Misc2.CopyTheInstanceID" xml:space="preserve">
+    <value>Kopyahin ang instance ID</value>
+  </data>
+  <data name="Ui.Misc2.CloseThisWindow" xml:space="preserve">
+    <value>Isara ang window na ito</value>
+  </data>
+  <data name="Ui.Misc2.PlayerGamepasses" xml:space="preserve">
+    <value>Mga gamepass ng player</value>
+  </data>
+  <data name="Ui.Misc2.DisplaysAllGamepassesOwnedOrCreated" xml:space="preserve">
+    <value>Ipinapakita ang lahat ng gamepass na pag aari o ginawa ng player.</value>
+  </data>
+  <data name="Ui.Misc2.PriceR" xml:space="preserve">
+    <value>Presyo (R$)</value>
+  </data>
+  <data name="Ui.Misc2.Releases" xml:space="preserve">
+    <value>Mga release</value>
+  </data>
+  <data name="Ui.Misc2.SearchReleases" xml:space="preserve">
+    <value>Maghanap ng release...</value>
+  </data>
+  <data name="Ui.Misc2.PreRelease" xml:space="preserve">
+    <value>Pre release</value>
+  </data>
+  <data name="Ui.Misc2.Draft" xml:space="preserve">
+    <value>Draft</value>
+  </data>
+  <data name="Ui.Misc2.ExtraPagesGroupedUnderMoreIn" xml:space="preserve">
+    <value>Mga dagdag na page na nakagrupo sa Higit pa sa sidebar.</value>
+  </data>
+  <data name="Ui.Misc2.EditRobloxSOwnInGame" xml:space="preserve">
+    <value>I edit ang sariling in game na setting ng Roblox.</value>
+  </data>
+  <data name="Ui.Misc2.ReadVoidstrapNewsUpdatesAndForum" xml:space="preserve">
+    <value>Basahin ang balita, update, at post sa forum ng Voidstrap.</value>
+  </data>
+  <data name="Ui.Misc2.ProvidesInfoOnFFlagsFeatures" xml:space="preserve">
+    <value>Impormasyon tungkol sa FFlags at mga feature.</value>
+  </data>
+  <data name="Ui.Misc2.CommonFFlagIssues" xml:space="preserve">
+    <value>Karaniwang problema sa FFlag</value>
+  </data>
+  <data name="Ui.Misc2.BootstrapperIssues" xml:space="preserve">
+    <value>Mga problema sa bootstrapper</value>
+  </data>
+  <data name="Ui.Misc2.Features" xml:space="preserve">
+    <value>Mga feature</value>
+  </data>
+  <data name="Ui.Misc2.Files" xml:space="preserve">
+    <value>Mga file</value>
+  </data>
+  <data name="Ui.Misc2.OnThisPC" xml:space="preserve">
+    <value>Sa PC na ito</value>
+  </data>
+  <data name="Ui.Misc2.ReleasesSourceAndIssues" xml:space="preserve">
+    <value>Mga release, source, at issue.</value>
+  </data>
+  <data name="Ui.Misc2.ReportOnBackup" xml:space="preserve">
+    <value>Iulat sa backup</value>
+  </data>
+  <data name="Ui.Misc2.ApplyFrom" xml:space="preserve">
+    <value>Ilapat mula sa</value>
+  </data>
 </root>

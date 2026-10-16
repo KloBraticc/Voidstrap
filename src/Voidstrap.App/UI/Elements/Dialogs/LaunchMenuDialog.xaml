@@ -33,7 +33,7 @@
         </Grid>
         <StackPanel HorizontalAlignment="Center">
           <ui:Hyperlink HorizontalAlignment="Center" Icon="QuestionCircle48" Content="{resources:Loc About_Title}" Command="{Binding LaunchAboutCommand, Mode=OneTime}" />
-          <ui:Hyperlink Margin="0,2,0,0" HorizontalAlignment="Center" Icon="Heart20" Content="Donate" NavigateUri="https://github.com/sponsors/KloBraticc" />
+          <ui:Hyperlink Margin="0,2,0,0" HorizontalAlignment="Center" Icon="Heart20" Content="{resources:Loc Ui_Channel_Donate}" NavigateUri="https://github.com/sponsors/KloBraticc" />
         </StackPanel>
       </StackPanel>
       <StackPanel Grid.Column="1" Width="285" Margin="0,9,0,0" HorizontalAlignment="Left">
@@ -46,7 +46,7 @@
             <ColumnDefinition Width="*" />
           </Grid.ColumnDefinitions>
           <ui:CardAction Grid.Column="0" Margin="0,0,4,0" Padding="13,13,13,12" IsChevronVisible="False" Icon="Settings28" TabIndex="1" Command="{Binding LaunchSettingsCommand, Mode=OneTime}">
-            <TextBlock FontSize="14" TextTrimming="None" Text="Settings" />
+            <TextBlock FontSize="14" TextTrimming="None" Text="{resources:Loc Ui_Nav_Settings}" />
           </ui:CardAction>
           <ui:CardAction Grid.Column="1" Margin="4,0,0,0" Padding="13,13,13,12" IsChevronVisible="False" Icon="WindowDevTools24" IconFilled="False" TabIndex="2" Command="{Binding LaunchRobloxStudioCommand, Mode=OneTime}">
             <TextBlock FontSize="14" TextTrimming="None" Text="{resources:Loc Common_Studio}" />
@@ -55,7 +55,7 @@
         <ui:CardAction Margin="0,12,0,0" Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="https://github.com/KloBraticc/Voidstrap" Icon="Code24" IconFilled="False" TabIndex="3">
           <StackPanel>
             <TextBlock FontSize="14" Text="GitHub" />
-            <TextBlock Margin="0,2,0,0" Padding="0,0,16,0" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Releases, source and issues." />
+            <TextBlock Margin="0,2,0,0" Padding="0,0,16,0" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Misc2_ReleasesSourceAndIssues}" />
           </StackPanel>
         </ui:CardAction>
       </StackPanel>

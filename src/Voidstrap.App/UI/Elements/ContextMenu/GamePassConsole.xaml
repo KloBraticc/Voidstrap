@@ -1,4 +1,4 @@
-<base:WpfUiWindow x:Class="Voidstrap.UI.Elements.ContextMenu.GamePassConsole" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:Voidstrap.UI.Elements.ContextMenu" xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:models="clr-namespace:Voidstrap.UI.ViewModels.ContextMenu" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:enums="clr-namespace:Voidstrap.Enums" xmlns:util="clr-namespace:Voidstrap.Utility" Title="Player Gamepasses" MinWidth="550" MinHeight="420" Width="850" Height="520" ExtendsContentIntoTitleBar="True" WindowStartupLocation="CenterScreen" Background="{ui:ThemeResource ApplicationBackgroundBrush}">
+<base:WpfUiWindow x:Class="Voidstrap.UI.Elements.ContextMenu.GamePassConsole" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:local="clr-namespace:Voidstrap.UI.Elements.ContextMenu" xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:models="clr-namespace:Voidstrap.UI.ViewModels.ContextMenu" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:enums="clr-namespace:Voidstrap.Enums" xmlns:util="clr-namespace:Voidstrap.Utility" Title="{resources:Loc Ui_Misc2_PlayerGamepasses}" MinWidth="550" MinHeight="420" Width="850" Height="520" ExtendsContentIntoTitleBar="True" WindowStartupLocation="CenterScreen" Background="{ui:ThemeResource ApplicationBackgroundBrush}">
   <Grid>
     <Panel.Background>
       <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
@@ -13,8 +13,8 @@
       <RowDefinition Height="*" />
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
-    <ui:TitleBar Name="RootTitleBar" Grid.Row="0" Padding="8" Title="Player Gamepasses" ShowMinimize="True" ShowMaximize="False" CanMaximize="False" KeyboardNavigation.TabNavigation="None" Icon="pack://application:,,,/Voidstrap.png" />
-    <TextBlock Grid.Row="1" Margin="16,8,16,0" Text="Displays all gamepasses owned or created by the player." TextWrapping="Wrap" />
+    <ui:TitleBar Name="RootTitleBar" Grid.Row="0" Padding="8" Title="{resources:Loc Ui_Misc2_PlayerGamepasses}" ShowMinimize="True" ShowMaximize="False" CanMaximize="False" KeyboardNavigation.TabNavigation="None" Icon="pack://application:,,,/Voidstrap.png" />
+    <TextBlock Grid.Row="1" Margin="16,8,16,0" Text="{resources:Loc Ui_Misc2_DisplaysAllGamepassesOwnedOrCreated}" TextWrapping="Wrap" />
     <Border Grid.Row="2" Margin="24" Padding="16" HorizontalAlignment="Center" VerticalAlignment="Center" MaxWidth="520" CornerRadius="8" Background="{DynamicResource ControlFillColorSecondaryBrush}">
       <TextBlock Foreground="{DynamicResource TextFillColorPrimaryBrush}" TextAlignment="Center" TextWrapping="Wrap" Text="{Binding ErrorMessage, Mode=OneWay}">
         <FrameworkElement.Style>
@@ -97,9 +97,9 @@
           </DataGridTemplateColumn.CellTemplate>
         </DataGridTemplateColumn>
         <DataGridTextColumn Header="{resources:Loc Common_Name}" Width="2*" Binding="{Binding Name}" />
-        <DataGridTextColumn Header="Description" Width="3*" Binding="{Binding Description}" />
-        <DataGridTextColumn Header="Price (R$)" Width="*" Binding="{Binding DisplayPrice}" />
-        <DataGridTextColumn Header="Creator" Width="*" Binding="{Binding CreatorName}" />
+        <DataGridTextColumn Header="{resources:Loc Ui_Pages_Description}" Width="3*" Binding="{Binding Description}" />
+        <DataGridTextColumn Header="{resources:Loc Ui_Misc2_PriceR}" Width="*" Binding="{Binding DisplayPrice}" />
+        <DataGridTextColumn Header="{resources:Loc Ui_Integrations_Creator}" Width="*" Binding="{Binding CreatorName}" />
       </DataGrid.Columns>
     </DataGrid>
   </Grid>

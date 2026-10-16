@@ -6100,4 +6100,436 @@ Mit szeretnél tenni?</value>
   <data name="Ui.Pages.TurnEverythingOff" xml:space="preserve">
     <value>Minden kikapcsolása</value>
   </data>
+  <data name="Ui.Misc2.ASimpleYetAdvancedBloxstrapFork" xml:space="preserve">
+    <value>Egy egyszerű, mégis fejlett Bloxstrap fork.</value>
+  </data>
+  <data name="Ui.Misc2.ThankYouErik" xml:space="preserve">
+    <value>Köszönjük, Erik</value>
+  </data>
+  <data name="Ui.Misc2.MainContributors" xml:space="preserve">
+    <value>Fő közreműködők</value>
+  </data>
+  <data name="Ui.Misc2.ThePeopleWhoMadeVoidstrapPossible" xml:space="preserve">
+    <value>Az emberek, akik lehetővé tették a Voidstrapot.</value>
+  </data>
+  <data name="Ui.Misc2.LoveEveryoneWithAPurpose" xml:space="preserve">
+    <value>Szeress mindenkit céllal.</value>
+  </data>
+  <data name="Ui.Misc2.FroststrapOwner" xml:space="preserve">
+    <value>A Froststrap tulajdonosa</value>
+  </data>
+  <data name="Ui.Misc2.RetiredCoOwnerWasLikeA" xml:space="preserve">
+    <value>Korábbi társtulajdonos, olyan volt, mint egy testvér.</value>
+  </data>
+  <data name="Ui.Misc2.AKindSoulThatHelpedOn" xml:space="preserve">
+    <value>Egy kedves lélek, aki segített az úton.</value>
+  </data>
+  <data name="Ui.Misc2.BuildInformation" xml:space="preserve">
+    <value>Build információk</value>
+  </data>
+  <data name="Ui.Misc2.CommitHash" xml:space="preserve">
+    <value>Commit hash</value>
+  </data>
+  <data name="Ui.Misc2.ThirdPartyNotices" xml:space="preserve">
+    <value>Harmadik féltől származó közlemények</value>
+  </data>
+  <data name="Ui.Misc2.ThisSoftwareContainsSourceCodeProvided" xml:space="preserve">
+    <value>Ez a szoftver az NVIDIA Corporation által biztosított forráskódot tartalmaz. A képkockagenerálás támogatott NVIDIA GPU-kon az NVIDIA Optical Flow SDK FRUC könyvtárát használja.</value>
+  </data>
+  <data name="Ui.Misc2.TheClassicTopbarOptionRebuildsTwo" xml:space="preserve">
+    <value>A klasszikus felső sáv beállítás két közösségi modot épít újra. A 2014 és 2015 közötti felső sáv és játékmenü kinézete és működése a HockuTM által készített "2014 2015 Topbar and Menu (Improvised GUI)" modból származik. A modern felső sáv elrejtése az Einshine által készített "NoGuiRBX, Hide TopBar!" modot használja. Mindkettőt köszönettel használjuk a Creative Commons BY NC ND 4.0 feltételeik szerint, a fájlok közvetlenül a GameBananáról töltődnek le, nincsenek mellékelve, és egyik szerző sem áll kapcsolatban a Voidstrappal.</value>
+  </data>
+  <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
+    <value>2014 2015 Topbar and Menu by HockuTM</value>
+  </data>
+  <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
+    <value>Közösségi modok</value>
+  </data>
+  <data name="Ui.Misc2.CommunityModsListsRobloxSubmissionsFrom" xml:space="preserve">
+    <value>A Közösségi modok a GameBanana és a Kliko's Mods Roblox beküldéseit listázza, amelyet TheKliko tart fenn Kliko modbetöltőjéhez. A Voidstrap egyikkel sem áll kapcsolatban, és egyik sem támogatja. Minden mod, kép és leírás a szerzőiké, akik minden bejegyzésnél fel vannak tüntetve. A Voidstrap csak a nyilvános adataikat olvassa, és soha nem tölt fel semmit a nevedben.</value>
+  </data>
+  <data name="Ui.Misc2.GithubComKlikosModloaderMarketplace" xml:space="preserve">
+    <value>github.com/klikos modloader/marketplace</value>
+  </data>
+  <data name="Ui.Misc2.CanTSeeOverlays" xml:space="preserve">
+    <value>Nem látod az átfedéseket?</value>
+  </data>
+  <data name="Ui.Misc2.Info" xml:space="preserve">
+    <value>Infó</value>
+  </data>
+  <data name="Ui.Misc2.FFlags" xml:space="preserve">
+    <value>FFlags</value>
+  </data>
+  <data name="Ui.Misc2.PlayTime" xml:space="preserve">
+    <value>Játékidő</value>
+  </data>
+  <data name="Ui.Misc2.MemoryDetails" xml:space="preserve">
+    <value>Memória részletei</value>
+  </data>
+  <data name="Ui.Misc2.JoinClosestServer" xml:space="preserve">
+    <value>Csatlakozás a legközelebbi szerverhez</value>
+  </data>
+  <data name="Ui.Misc2.GamePassInfo" xml:space="preserve">
+    <value>GamePass infó</value>
+  </data>
+  <data name="Ui.Misc2.MusicPlayer" xml:space="preserve">
+    <value>Zenelejátszó</value>
+  </data>
+  <data name="Ui.Misc2.FrameGen" xml:space="preserve">
+    <value>Képkockagenerálás</value>
+  </data>
+  <data name="Ui.Misc2.FrameGeneration" xml:space="preserve">
+    <value>Képkockagenerálás</value>
+  </data>
+  <data name="Ui.Misc2.GeneratedFramesOverlay" xml:space="preserve">
+    <value>Generált képkockák átfedése</value>
+  </data>
+  <data name="Ui.Misc2.SplitScreenCompare" xml:space="preserve">
+    <value>Osztott képernyős összehasonlítás</value>
+  </data>
+  <data name="Ui.Misc2.ColorTemperature" xml:space="preserve">
+    <value>Színhőmérséklet</value>
+  </data>
+  <data name="Ui.Misc2.SearchLibraryByTitleArtistOr" xml:space="preserve">
+    <value>Keresés a könyvtárban cím, előadó vagy típus szerint...</value>
+  </data>
+  <data name="Ui.Misc2.RemoveTrack" xml:space="preserve">
+    <value>Szám eltávolítása</value>
+  </data>
+  <data name="Ui.Misc2.NoTracksClickImportToAdd" xml:space="preserve">
+    <value>Nincsenek számok. Kattints az Importálás gombra hang hozzáadásához.</value>
+  </data>
+  <data name="Ui.Misc2.NoTracksMatchYourSearch" xml:space="preserve">
+    <value>Egy szám sem felel meg a keresésnek.</value>
+  </data>
+  <data name="Ui.Misc2.NowPlaying" xml:space="preserve">
+    <value>Most szól</value>
+  </data>
+  <data name="Ui.Misc2.Previous" xml:space="preserve">
+    <value>Előző</value>
+  </data>
+  <data name="Ui.Misc2.Stop" xml:space="preserve">
+    <value>Leállítás</value>
+  </data>
+  <data name="Ui.Misc2.MuteUnmute" xml:space="preserve">
+    <value>Némítás / hang be</value>
+  </data>
+  <data name="Ui.Misc2.Equalizer" xml:space="preserve">
+    <value>Hangszínszabályzó</value>
+  </data>
+  <data name="Ui.Misc2.TuneHowYourAudioSoundsPick" xml:space="preserve">
+    <value>Állítsd be, hogyan szóljon a hang. Válassz előbeállítást vagy húzd a sávokat, azonnal érvényes és automatikusan mentődik.</value>
+  </data>
+  <data name="Ui.Misc2.EnableEqualizer" xml:space="preserve">
+    <value>Hangszínszabályzó bekapcsolása</value>
+  </data>
+  <data name="Ui.Misc2.BandsAreInHz0DB" xml:space="preserve">
+    <value>A sávok Hz-ben értendők. A 0 dB semleges, legfeljebb plusz vagy mínusz 12 dB.</value>
+  </data>
+  <data name="Ui.Misc2.Preview" xml:space="preserve">
+    <value>Előnézet: </value>
+  </data>
+  <data name="Ui.Misc2.SelectAnAssetToPreviewIt" xml:space="preserve">
+    <value>Válassz egy erőforrást az előnézethez</value>
+  </data>
+  <data name="Ui.Misc2.Volume" xml:space="preserve">
+    <value>Hangerő:</value>
+  </data>
+  <data name="Ui.Misc2.Loop" xml:space="preserve">
+    <value>Ismétlés</value>
+  </data>
+  <data name="Ui.Misc2.OutputFormat" xml:space="preserve">
+    <value>Kimeneti formátum</value>
+  </data>
+  <data name="Ui.Misc2.DownloadConvertThisAudio" xml:space="preserve">
+    <value>A hang letöltése / átalakítása</value>
+  </data>
+  <data name="Ui.Misc2.CameraControls" xml:space="preserve">
+    <value>Kameravezérlés</value>
+  </data>
+  <data name="Ui.Misc2.ResetView" xml:space="preserve">
+    <value>Nézet visszaállítása</value>
+  </data>
+  <data name="Ui.Misc2.Options" xml:space="preserve">
+    <value>Beállítások</value>
+  </data>
+  <data name="Ui.Misc2.Wireframe" xml:space="preserve">
+    <value>Drótváz</value>
+  </data>
+  <data name="Ui.Misc2.AutoRotate" xml:space="preserve">
+    <value>Automatikus forgatás</value>
+  </data>
+  <data name="Ui.Misc2.ShowGrid" xml:space="preserve">
+    <value>Rács megjelenítése</value>
+  </data>
+  <data name="Ui.Misc2.ImageAdjust" xml:space="preserve">
+    <value>Kép igazítása</value>
+  </data>
+  <data name="Ui.Misc2.ImageAdjustments" xml:space="preserve">
+    <value>Képbeállítások</value>
+  </data>
+  <data name="Ui.Misc2.Orientation" xml:space="preserve">
+    <value>Tájolás</value>
+  </data>
+  <data name="Ui.Misc2.Rotate90" xml:space="preserve">
+    <value>Forgatás 90 fokkal</value>
+  </data>
+  <data name="Ui.Misc2.FlipH" xml:space="preserve">
+    <value>Vízszintes tükrözés</value>
+  </data>
+  <data name="Ui.Misc2.FlipV" xml:space="preserve">
+    <value>Függőleges tükrözés</value>
+  </data>
+  <data name="Ui.Misc2.ScaleResize" xml:space="preserve">
+    <value>Méretezés (átméretezés)</value>
+  </data>
+  <data name="Ui.Misc2.ApplyResize" xml:space="preserve">
+    <value>Méret alkalmazása</value>
+  </data>
+  <data name="Ui.Misc2.ResetAdjustments" xml:space="preserve">
+    <value>Beállítások visszaállítása</value>
+  </data>
+  <data name="Ui.Misc2.TipUseTheseToFixOrientation" xml:space="preserve">
+    <value>Tipp: ezekkel javíthatod a tájolást vagy pontosan átméretezheted az erőforrásokat.</value>
+  </data>
+  <data name="Ui.Misc2.SaveAsMod" xml:space="preserve">
+    <value>Mentés modként</value>
+  </data>
+  <data name="Ui.Misc2.ImageRecolor" xml:space="preserve">
+    <value>Kép átszínezése</value>
+  </data>
+  <data name="Ui.Misc2.RecolorOptions" xml:space="preserve">
+    <value>Átszínezési beállítások</value>
+  </data>
+  <data name="Ui.Misc2.TargetColor" xml:space="preserve">
+    <value>Célszín</value>
+  </data>
+  <data name="Ui.Misc2.Intensity" xml:space="preserve">
+    <value>Intenzitás</value>
+  </data>
+  <data name="Ui.Misc2.ResetImage" xml:space="preserve">
+    <value>Kép visszaállítása</value>
+  </data>
+  <data name="Ui.Misc2.TipThisWillTintTheImage" xml:space="preserve">
+    <value>Tipp: a kép színezést kap, az átlátszóság megmarad.</value>
+  </data>
+  <data name="Ui.Misc2.Loading" xml:space="preserve">
+    <value>Betöltés...</value>
+  </data>
+  <data name="Ui.Misc2.Active" xml:space="preserve">
+    <value>Aktív</value>
+  </data>
+  <data name="Ui.Misc2.ServerSize" xml:space="preserve">
+    <value>Szerverméret</value>
+  </data>
+  <data name="Ui.Misc2.Chat" xml:space="preserve">
+    <value>Csevegés</value>
+  </data>
+  <data name="Ui.Misc2.Chats" xml:space="preserve">
+    <value>Csevegések</value>
+  </data>
+  <data name="Ui.Misc2.LoadingYourChats" xml:space="preserve">
+    <value>Csevegéseid betöltése</value>
+  </data>
+  <data name="Ui.Misc2.Send" xml:space="preserve">
+    <value>Küldés</value>
+  </data>
+  <data name="Ui.Misc2.NoNewsYet" xml:space="preserve">
+    <value>Még nincs hír</value>
+  </data>
+  <data name="Ui.Misc2.NewVoidstrapUpdatesAndAnnouncementsWill" xml:space="preserve">
+    <value>Itt jelennek meg az új Voidstrap frissítések és bejelentések</value>
+  </data>
+  <data name="Ui.Misc2.ReadMore" xml:space="preserve">
+    <value>Tovább</value>
+  </data>
+  <data name="Ui.Misc2.Earlier" xml:space="preserve">
+    <value>Korábban</value>
+  </data>
+  <data name="Ui.Misc2.ChooseSidebarIcon" xml:space="preserve">
+    <value>Oldalsáv ikonjának kiválasztása</value>
+  </data>
+  <data name="Ui.Misc2.SearchAllWPFUIIcons" xml:space="preserve">
+    <value>Keresés az összes WPF UI ikon között</value>
+  </data>
+  <data name="Ui.Misc2.CustomImage" xml:space="preserve">
+    <value>Egyéni kép</value>
+  </data>
+  <data name="Ui.Misc2.UseIcon" xml:space="preserve">
+    <value>Ikon használata</value>
+  </data>
+  <data name="Ui.Misc2.EditMod" xml:space="preserve">
+    <value>Mod szerkesztése</value>
+  </data>
+  <data name="Ui.Misc2.GetEveryOptionFromGameBanana" xml:space="preserve">
+    <value>Minden lehetőség lekérése a GameBananáról</value>
+  </data>
+  <data name="Ui.Misc2.RuleName" xml:space="preserve">
+    <value>Szabály neve</value>
+  </data>
+  <data name="Ui.Misc2.AssetIdsToReplace" xml:space="preserve">
+    <value>Lecserélendő erőforrás-azonosítók</value>
+  </data>
+  <data name="Ui.Misc2.FlagProfiles" xml:space="preserve">
+    <value>Flagprofilok</value>
+  </data>
+  <data name="Ui.Misc2.NoSavedProfiles" xml:space="preserve">
+    <value>Nincsenek mentett profilok</value>
+  </data>
+  <data name="Ui.Misc2.ClearExistingFlagsFirst" xml:space="preserve">
+    <value>Meglévő flagek törlése először</value>
+  </data>
+  <data name="Ui.Misc2.FindACityOrCountry" xml:space="preserve">
+    <value>Város vagy ország keresése</value>
+  </data>
+  <data name="Ui.Misc2.ClickAPinToChooseA" xml:space="preserve">
+    <value>Kattints egy jelölőre az adatközpont kiválasztásához</value>
+  </data>
+  <data name="Ui.Misc2.CenterOnSelectedDatacenter" xml:space="preserve">
+    <value>Középre a kiválasztott adatközponton</value>
+  </data>
+  <data name="Ui.Misc2.Under70Ms" xml:space="preserve">
+    <value>70 ms alatt</value>
+  </data>
+  <data name="Ui.Misc2.Under140Ms" xml:space="preserve">
+    <value>140 ms alatt</value>
+  </data>
+  <data name="Ui.Misc2.Slower" xml:space="preserve">
+    <value>lassabb</value>
+  </data>
+  <data name="Ui.Misc2.Blocked" xml:space="preserve">
+    <value>letiltva</value>
+  </data>
+  <data name="Ui.Misc2.BetterBloxDatacenters" xml:space="preserve">
+    <value>BetterBlox adatközpontok</value>
+  </data>
+  <data name="Ui.Misc2.DisplaysAllActiveRobloxDatacentersFrom" xml:space="preserve">
+    <value>A BetterBlox API alapján megjeleníti az összes aktív Roblox adatközpontot.</value>
+  </data>
+  <data name="Ui.Misc2.City" xml:space="preserve">
+    <value>Város</value>
+  </data>
+  <data name="Ui.Misc2.Country" xml:space="preserve">
+    <value>Ország</value>
+  </data>
+  <data name="Ui.Misc2.Organization" xml:space="preserve">
+    <value>Szervezet</value>
+  </data>
+  <data name="Ui.Misc2.RobloxNews" xml:space="preserve">
+    <value>Roblox hírek</value>
+  </data>
+  <data name="Ui.Misc2.OpenFeed" xml:space="preserve">
+    <value>Hírfolyam megnyitása</value>
+  </data>
+  <data name="Ui.Misc2.OpenTheAnnouncementsFeedInYour" xml:space="preserve">
+    <value>A bejelentések hírfolyamának megnyitása a böngészőben</value>
+  </data>
+  <data name="Ui.Misc2.LoadingTheLatestRobloxAnnouncements" xml:space="preserve">
+    <value>A legújabb Roblox bejelentések betöltése...</value>
+  </data>
+  <data name="Ui.Misc2.DownloadServer" xml:space="preserve">
+    <value>Letöltési szerver</value>
+  </data>
+  <data name="Ui.Misc2.ChooseTheServerUsedWhenRoblox" xml:space="preserve">
+    <value>Válaszd ki a Roblox telepítésekor vagy frissítésekor használt szervert.</value>
+  </data>
+  <data name="Ui.Misc2.TheDeploymentChannelRobloxIsInstalled" xml:space="preserve">
+    <value>A telepítési csatorna, ahonnan a Roblox települ. A Production az alapértelmezett, és szinte mindenki ezt szeretné. Más csatornák, például a LIVE vagy a zlive, a Roblox tesztverziói, és lehet, hogy nem érhetők el, ami letöltéskor 403 vagy 404 hibaként jelenik meg</value>
+  </data>
+  <data name="Ui.Misc2.PreferredChannel" xml:space="preserve">
+    <value>Előnyben részesített csatorna</value>
+  </data>
+  <data name="Ui.Misc2.LeaveThisAsProductionUnlessYou" xml:space="preserve">
+    <value>Hagyd Productionön, hacsak nem tudod, hogy a beírt csatorna létezik</value>
+  </data>
+  <data name="Ui.Misc2.LoadingReleaseNotes" xml:space="preserve">
+    <value>Kiadási megjegyzések betöltése</value>
+  </data>
+  <data name="Ui.Misc2.ViewOnGitHub" xml:space="preserve">
+    <value>Megtekintés a GitHubon</value>
+  </data>
+  <data name="Ui.Misc2.AvailableChannels" xml:space="preserve">
+    <value>Elérhető csatornák</value>
+  </data>
+  <data name="Ui.Misc2.BrowseAndSelectFromAllCurrently" xml:space="preserve">
+    <value>Böngészd és válassz az összes jelenleg elérhető telepítési csatorna közül.</value>
+  </data>
+  <data name="Ui.Misc2.LoadingChannels" xml:space="preserve">
+    <value>Csatornák betöltése...</value>
+  </data>
+  <data name="Ui.Misc2.ChannelName" xml:space="preserve">
+    <value>Csatorna neve</value>
+  </data>
+  <data name="Ui.Misc2.VersionGUID" xml:space="preserve">
+    <value>Verzió GUID</value>
+  </data>
+  <data name="Ui.Misc2.Players" xml:space="preserve">
+    <value>Játékosok:</value>
+  </data>
+  <data name="Ui.Misc2.More" xml:space="preserve">
+    <value>több</value>
+  </data>
+  <data name="Ui.Misc2.CopyTheInstanceID" xml:space="preserve">
+    <value>Példányazonosító másolása</value>
+  </data>
+  <data name="Ui.Misc2.CloseThisWindow" xml:space="preserve">
+    <value>Ablak bezárása</value>
+  </data>
+  <data name="Ui.Misc2.PlayerGamepasses" xml:space="preserve">
+    <value>A játékos gamepassai</value>
+  </data>
+  <data name="Ui.Misc2.DisplaysAllGamepassesOwnedOrCreated" xml:space="preserve">
+    <value>Megjeleníti a játékos összes birtokolt vagy készített gamepassát.</value>
+  </data>
+  <data name="Ui.Misc2.PriceR" xml:space="preserve">
+    <value>Ár (R$)</value>
+  </data>
+  <data name="Ui.Misc2.Releases" xml:space="preserve">
+    <value>Kiadások</value>
+  </data>
+  <data name="Ui.Misc2.SearchReleases" xml:space="preserve">
+    <value>Kiadások keresése...</value>
+  </data>
+  <data name="Ui.Misc2.PreRelease" xml:space="preserve">
+    <value>Előzetes kiadás</value>
+  </data>
+  <data name="Ui.Misc2.Draft" xml:space="preserve">
+    <value>Piszkozat</value>
+  </data>
+  <data name="Ui.Misc2.ExtraPagesGroupedUnderMoreIn" xml:space="preserve">
+    <value>Az oldalsávban a Több alatt csoportosított további oldalak.</value>
+  </data>
+  <data name="Ui.Misc2.EditRobloxSOwnInGame" xml:space="preserve">
+    <value>A Roblox saját játékbeli beállításainak szerkesztése.</value>
+  </data>
+  <data name="Ui.Misc2.ReadVoidstrapNewsUpdatesAndForum" xml:space="preserve">
+    <value>Olvasd a Voidstrap híreit, frissítéseit és fórumbejegyzéseit.</value>
+  </data>
+  <data name="Ui.Misc2.ProvidesInfoOnFFlagsFeatures" xml:space="preserve">
+    <value>Információk az FFlagekről és a funkciókról.</value>
+  </data>
+  <data name="Ui.Misc2.CommonFFlagIssues" xml:space="preserve">
+    <value>Gyakori FFlag problémák</value>
+  </data>
+  <data name="Ui.Misc2.BootstrapperIssues" xml:space="preserve">
+    <value>Bootstrapper problémák</value>
+  </data>
+  <data name="Ui.Misc2.Features" xml:space="preserve">
+    <value>Funkciók</value>
+  </data>
+  <data name="Ui.Misc2.Files" xml:space="preserve">
+    <value>Fájlok</value>
+  </data>
+  <data name="Ui.Misc2.OnThisPC" xml:space="preserve">
+    <value>Ezen a gépen</value>
+  </data>
+  <data name="Ui.Misc2.ReleasesSourceAndIssues" xml:space="preserve">
+    <value>Kiadások, forráskód és hibajegyek.</value>
+  </data>
+  <data name="Ui.Misc2.ReportOnBackup" xml:space="preserve">
+    <value>Jelentés a biztonsági mentésnél</value>
+  </data>
+  <data name="Ui.Misc2.ApplyFrom" xml:space="preserve">
+    <value>Alkalmazás innen</value>
+  </data>
 </root>

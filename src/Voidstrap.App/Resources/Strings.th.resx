@@ -6096,4 +6096,436 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
   <data name="Ui.Pages.TurnEverythingOff" xml:space="preserve">
     <value>ปิดทั้งหมด</value>
   </data>
+  <data name="Ui.Misc2.ASimpleYetAdvancedBloxstrapFork" xml:space="preserve">
+    <value>ฟอร์กของ Bloxstrap ที่เรียบง่ายแต่ล้ำหน้า</value>
+  </data>
+  <data name="Ui.Misc2.ThankYouErik" xml:space="preserve">
+    <value>ขอบคุณ Erik</value>
+  </data>
+  <data name="Ui.Misc2.MainContributors" xml:space="preserve">
+    <value>ผู้ร่วมพัฒนาหลัก</value>
+  </data>
+  <data name="Ui.Misc2.ThePeopleWhoMadeVoidstrapPossible" xml:space="preserve">
+    <value>ผู้คนที่ทำให้ Voidstrap เกิดขึ้นได้</value>
+  </data>
+  <data name="Ui.Misc2.LoveEveryoneWithAPurpose" xml:space="preserve">
+    <value>รักทุกคนอย่างมีจุดหมาย</value>
+  </data>
+  <data name="Ui.Misc2.FroststrapOwner" xml:space="preserve">
+    <value>เจ้าของ Froststrap</value>
+  </data>
+  <data name="Ui.Misc2.RetiredCoOwnerWasLikeA" xml:space="preserve">
+    <value>อดีตเจ้าของร่วม เหมือนพี่น้อง</value>
+  </data>
+  <data name="Ui.Misc2.AKindSoulThatHelpedOn" xml:space="preserve">
+    <value>จิตใจดีที่คอยช่วยเหลือตลอดทาง</value>
+  </data>
+  <data name="Ui.Misc2.BuildInformation" xml:space="preserve">
+    <value>ข้อมูลบิลด์</value>
+  </data>
+  <data name="Ui.Misc2.CommitHash" xml:space="preserve">
+    <value>แฮชคอมมิต</value>
+  </data>
+  <data name="Ui.Misc2.ThirdPartyNotices" xml:space="preserve">
+    <value>ประกาศของบุคคลที่สาม</value>
+  </data>
+  <data name="Ui.Misc2.ThisSoftwareContainsSourceCodeProvided" xml:space="preserve">
+    <value>ซอฟต์แวร์นี้มีซอร์สโค้ดที่จัดหาโดย NVIDIA Corporation การสร้างเฟรมใช้ไลบรารี FRUC ของ NVIDIA Optical Flow SDK บน GPU NVIDIA ที่รองรับ</value>
+  </data>
+  <data name="Ui.Misc2.TheClassicTopbarOptionRebuildsTwo" xml:space="preserve">
+    <value>ตัวเลือกแถบด้านบนแบบคลาสสิกสร้างม็อดชุมชนสองตัวขึ้นใหม่ หน้าตาและการทำงานของแถบด้านบนและเมนูเกมยุค 2014 ถึง 2015 มาจาก "2014 2015 Topbar and Menu (Improvised GUI)" โดย HockuTM การซ่อนแถบด้านบนแบบใหม่ใช้ "NoGuiRBX, Hide TopBar!" โดย Einshine ทั้งสองใช้ด้วยความขอบคุณภายใต้เงื่อนไข Creative Commons BY NC ND 4.0 ไฟล์ดาวน์โหลดตรงจาก GameBanana แทนการรวมมาด้วย และผู้สร้างทั้งสองไม่มีส่วนเกี่ยวข้องกับ Voidstrap</value>
+  </data>
+  <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
+    <value>2014 2015 Topbar and Menu by HockuTM</value>
+  </data>
+  <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
+    <value>ม็อดชุมชน</value>
+  </data>
+  <data name="Ui.Misc2.CommunityModsListsRobloxSubmissionsFrom" xml:space="preserve">
+    <value>ม็อดชุมชนแสดงผลงาน Roblox จาก GameBanana และ Kliko's Mods ซึ่งดูแลโดย TheKliko สำหรับ modloader ของ Kliko Voidstrap ไม่มีส่วนเกี่ยวข้องหรือได้รับการรับรองจากฝ่ายใด ม็อด รูปภาพ และคำอธิบายทั้งหมดเป็นของผู้สร้าง ซึ่งให้เครดิตไว้ในทุกรายการ Voidstrap อ่านเพียงข้อมูลสาธารณะและไม่เคยอัปโหลดสิ่งใดในนามของคุณ</value>
+  </data>
+  <data name="Ui.Misc2.GithubComKlikosModloaderMarketplace" xml:space="preserve">
+    <value>github.com/klikos modloader/marketplace</value>
+  </data>
+  <data name="Ui.Misc2.CanTSeeOverlays" xml:space="preserve">
+    <value>มองไม่เห็นโอเวอร์เลย์ใช่ไหม</value>
+  </data>
+  <data name="Ui.Misc2.Info" xml:space="preserve">
+    <value>ข้อมูล</value>
+  </data>
+  <data name="Ui.Misc2.FFlags" xml:space="preserve">
+    <value>FFlags</value>
+  </data>
+  <data name="Ui.Misc2.PlayTime" xml:space="preserve">
+    <value>เวลาเล่น</value>
+  </data>
+  <data name="Ui.Misc2.MemoryDetails" xml:space="preserve">
+    <value>รายละเอียดหน่วยความจำ</value>
+  </data>
+  <data name="Ui.Misc2.JoinClosestServer" xml:space="preserve">
+    <value>เข้าเซิร์ฟเวอร์ที่ใกล้ที่สุด</value>
+  </data>
+  <data name="Ui.Misc2.GamePassInfo" xml:space="preserve">
+    <value>ข้อมูล GamePass</value>
+  </data>
+  <data name="Ui.Misc2.MusicPlayer" xml:space="preserve">
+    <value>เครื่องเล่นเพลง</value>
+  </data>
+  <data name="Ui.Misc2.FrameGen" xml:space="preserve">
+    <value>การสร้างเฟรม</value>
+  </data>
+  <data name="Ui.Misc2.FrameGeneration" xml:space="preserve">
+    <value>การสร้างเฟรม</value>
+  </data>
+  <data name="Ui.Misc2.GeneratedFramesOverlay" xml:space="preserve">
+    <value>โอเวอร์เลย์เฟรมที่สร้างขึ้น</value>
+  </data>
+  <data name="Ui.Misc2.SplitScreenCompare" xml:space="preserve">
+    <value>เปรียบเทียบแบบแบ่งหน้าจอ</value>
+  </data>
+  <data name="Ui.Misc2.ColorTemperature" xml:space="preserve">
+    <value>อุณหภูมิสี</value>
+  </data>
+  <data name="Ui.Misc2.SearchLibraryByTitleArtistOr" xml:space="preserve">
+    <value>ค้นหาในคลังตามชื่อเพลง ศิลปิน หรือประเภท...</value>
+  </data>
+  <data name="Ui.Misc2.RemoveTrack" xml:space="preserve">
+    <value>ลบเพลง</value>
+  </data>
+  <data name="Ui.Misc2.NoTracksClickImportToAdd" xml:space="preserve">
+    <value>ไม่มีเพลง คลิกนำเข้าเพื่อเพิ่มเสียง</value>
+  </data>
+  <data name="Ui.Misc2.NoTracksMatchYourSearch" xml:space="preserve">
+    <value>ไม่มีเพลงที่ตรงกับการค้นหา</value>
+  </data>
+  <data name="Ui.Misc2.NowPlaying" xml:space="preserve">
+    <value>กำลังเล่น</value>
+  </data>
+  <data name="Ui.Misc2.Previous" xml:space="preserve">
+    <value>ก่อนหน้า</value>
+  </data>
+  <data name="Ui.Misc2.Stop" xml:space="preserve">
+    <value>หยุด</value>
+  </data>
+  <data name="Ui.Misc2.MuteUnmute" xml:space="preserve">
+    <value>ปิดเสียง / เปิดเสียง</value>
+  </data>
+  <data name="Ui.Misc2.Equalizer" xml:space="preserve">
+    <value>อีควอไลเซอร์</value>
+  </data>
+  <data name="Ui.Misc2.TuneHowYourAudioSoundsPick" xml:space="preserve">
+    <value>ปรับเสียงตามที่ต้องการ เลือกพรีเซ็ตหรือลากแถบความถี่ มีผลทันทีและบันทึกอัตโนมัติ</value>
+  </data>
+  <data name="Ui.Misc2.EnableEqualizer" xml:space="preserve">
+    <value>เปิดอีควอไลเซอร์</value>
+  </data>
+  <data name="Ui.Misc2.BandsAreInHz0DB" xml:space="preserve">
+    <value>แถบความถี่มีหน่วยเป็น Hz 0 dB คือกลาง ปรับได้บวกหรือลบ 12 dB</value>
+  </data>
+  <data name="Ui.Misc2.Preview" xml:space="preserve">
+    <value>ตัวอย่าง: </value>
+  </data>
+  <data name="Ui.Misc2.SelectAnAssetToPreviewIt" xml:space="preserve">
+    <value>เลือกแอสเซ็ตเพื่อดูตัวอย่างที่นี่</value>
+  </data>
+  <data name="Ui.Misc2.Volume" xml:space="preserve">
+    <value>ระดับเสียง:</value>
+  </data>
+  <data name="Ui.Misc2.Loop" xml:space="preserve">
+    <value>วนซ้ำ</value>
+  </data>
+  <data name="Ui.Misc2.OutputFormat" xml:space="preserve">
+    <value>รูปแบบเอาต์พุต</value>
+  </data>
+  <data name="Ui.Misc2.DownloadConvertThisAudio" xml:space="preserve">
+    <value>ดาวน์โหลด / แปลงเสียงนี้</value>
+  </data>
+  <data name="Ui.Misc2.CameraControls" xml:space="preserve">
+    <value>การควบคุมกล้อง</value>
+  </data>
+  <data name="Ui.Misc2.ResetView" xml:space="preserve">
+    <value>รีเซ็ตมุมมอง</value>
+  </data>
+  <data name="Ui.Misc2.Options" xml:space="preserve">
+    <value>ตัวเลือก</value>
+  </data>
+  <data name="Ui.Misc2.Wireframe" xml:space="preserve">
+    <value>โครงลวด</value>
+  </data>
+  <data name="Ui.Misc2.AutoRotate" xml:space="preserve">
+    <value>หมุนอัตโนมัติ</value>
+  </data>
+  <data name="Ui.Misc2.ShowGrid" xml:space="preserve">
+    <value>แสดงตาราง</value>
+  </data>
+  <data name="Ui.Misc2.ImageAdjust" xml:space="preserve">
+    <value>ปรับรูปภาพ</value>
+  </data>
+  <data name="Ui.Misc2.ImageAdjustments" xml:space="preserve">
+    <value>การปรับรูปภาพ</value>
+  </data>
+  <data name="Ui.Misc2.Orientation" xml:space="preserve">
+    <value>การวางแนว</value>
+  </data>
+  <data name="Ui.Misc2.Rotate90" xml:space="preserve">
+    <value>หมุน 90</value>
+  </data>
+  <data name="Ui.Misc2.FlipH" xml:space="preserve">
+    <value>พลิกแนวนอน</value>
+  </data>
+  <data name="Ui.Misc2.FlipV" xml:space="preserve">
+    <value>พลิกแนวตั้ง</value>
+  </data>
+  <data name="Ui.Misc2.ScaleResize" xml:space="preserve">
+    <value>สเกล (ปรับขนาด)</value>
+  </data>
+  <data name="Ui.Misc2.ApplyResize" xml:space="preserve">
+    <value>ใช้ขนาด</value>
+  </data>
+  <data name="Ui.Misc2.ResetAdjustments" xml:space="preserve">
+    <value>รีเซ็ตการปรับ</value>
+  </data>
+  <data name="Ui.Misc2.TipUseTheseToFixOrientation" xml:space="preserve">
+    <value>เคล็ดลับ: ใช้เพื่อแก้การวางแนวหรือปรับขนาดแอสเซ็ตให้พอดี</value>
+  </data>
+  <data name="Ui.Misc2.SaveAsMod" xml:space="preserve">
+    <value>บันทึกเป็นม็อด</value>
+  </data>
+  <data name="Ui.Misc2.ImageRecolor" xml:space="preserve">
+    <value>เปลี่ยนสีรูปภาพ</value>
+  </data>
+  <data name="Ui.Misc2.RecolorOptions" xml:space="preserve">
+    <value>ตัวเลือกการเปลี่ยนสี</value>
+  </data>
+  <data name="Ui.Misc2.TargetColor" xml:space="preserve">
+    <value>สีเป้าหมาย</value>
+  </data>
+  <data name="Ui.Misc2.Intensity" xml:space="preserve">
+    <value>ความเข้ม</value>
+  </data>
+  <data name="Ui.Misc2.ResetImage" xml:space="preserve">
+    <value>รีเซ็ตรูปภาพ</value>
+  </data>
+  <data name="Ui.Misc2.TipThisWillTintTheImage" xml:space="preserve">
+    <value>เคล็ดลับ: จะย้อมสีรูปภาพโดยคงความโปร่งใสไว้</value>
+  </data>
+  <data name="Ui.Misc2.Loading" xml:space="preserve">
+    <value>กำลังโหลด...</value>
+  </data>
+  <data name="Ui.Misc2.Active" xml:space="preserve">
+    <value>ใช้งานอยู่</value>
+  </data>
+  <data name="Ui.Misc2.ServerSize" xml:space="preserve">
+    <value>ขนาดเซิร์ฟเวอร์</value>
+  </data>
+  <data name="Ui.Misc2.Chat" xml:space="preserve">
+    <value>แชท</value>
+  </data>
+  <data name="Ui.Misc2.Chats" xml:space="preserve">
+    <value>แชท</value>
+  </data>
+  <data name="Ui.Misc2.LoadingYourChats" xml:space="preserve">
+    <value>กำลังโหลดแชทของคุณ</value>
+  </data>
+  <data name="Ui.Misc2.Send" xml:space="preserve">
+    <value>ส่ง</value>
+  </data>
+  <data name="Ui.Misc2.NoNewsYet" xml:space="preserve">
+    <value>ยังไม่มีข่าว</value>
+  </data>
+  <data name="Ui.Misc2.NewVoidstrapUpdatesAndAnnouncementsWill" xml:space="preserve">
+    <value>อัปเดตและประกาศใหม่ของ Voidstrap จะแสดงที่นี่</value>
+  </data>
+  <data name="Ui.Misc2.ReadMore" xml:space="preserve">
+    <value>อ่านเพิ่มเติม</value>
+  </data>
+  <data name="Ui.Misc2.Earlier" xml:space="preserve">
+    <value>ก่อนหน้านี้</value>
+  </data>
+  <data name="Ui.Misc2.ChooseSidebarIcon" xml:space="preserve">
+    <value>เลือกไอคอนแถบด้านข้าง</value>
+  </data>
+  <data name="Ui.Misc2.SearchAllWPFUIIcons" xml:space="preserve">
+    <value>ค้นหาไอคอน WPF UI ทั้งหมด</value>
+  </data>
+  <data name="Ui.Misc2.CustomImage" xml:space="preserve">
+    <value>รูปภาพที่กำหนดเอง</value>
+  </data>
+  <data name="Ui.Misc2.UseIcon" xml:space="preserve">
+    <value>ใช้ไอคอน</value>
+  </data>
+  <data name="Ui.Misc2.EditMod" xml:space="preserve">
+    <value>แก้ไขม็อด</value>
+  </data>
+  <data name="Ui.Misc2.GetEveryOptionFromGameBanana" xml:space="preserve">
+    <value>ดึงตัวเลือกทั้งหมดจาก GameBanana</value>
+  </data>
+  <data name="Ui.Misc2.RuleName" xml:space="preserve">
+    <value>ชื่อกฎ</value>
+  </data>
+  <data name="Ui.Misc2.AssetIdsToReplace" xml:space="preserve">
+    <value>ID แอสเซ็ตที่จะแทนที่</value>
+  </data>
+  <data name="Ui.Misc2.FlagProfiles" xml:space="preserve">
+    <value>โปรไฟล์แฟล็ก</value>
+  </data>
+  <data name="Ui.Misc2.NoSavedProfiles" xml:space="preserve">
+    <value>ไม่มีโปรไฟล์ที่บันทึกไว้</value>
+  </data>
+  <data name="Ui.Misc2.ClearExistingFlagsFirst" xml:space="preserve">
+    <value>ล้างแฟล็กที่มีอยู่ก่อน</value>
+  </data>
+  <data name="Ui.Misc2.FindACityOrCountry" xml:space="preserve">
+    <value>ค้นหาเมืองหรือประเทศ</value>
+  </data>
+  <data name="Ui.Misc2.ClickAPinToChooseA" xml:space="preserve">
+    <value>คลิกหมุดเพื่อเลือกศูนย์ข้อมูล</value>
+  </data>
+  <data name="Ui.Misc2.CenterOnSelectedDatacenter" xml:space="preserve">
+    <value>จัดกึ่งกลางที่ศูนย์ข้อมูลที่เลือก</value>
+  </data>
+  <data name="Ui.Misc2.Under70Ms" xml:space="preserve">
+    <value>ต่ำกว่า 70 ms</value>
+  </data>
+  <data name="Ui.Misc2.Under140Ms" xml:space="preserve">
+    <value>ต่ำกว่า 140 ms</value>
+  </data>
+  <data name="Ui.Misc2.Slower" xml:space="preserve">
+    <value>ช้ากว่า</value>
+  </data>
+  <data name="Ui.Misc2.Blocked" xml:space="preserve">
+    <value>ถูกบล็อก</value>
+  </data>
+  <data name="Ui.Misc2.BetterBloxDatacenters" xml:space="preserve">
+    <value>ศูนย์ข้อมูล BetterBlox</value>
+  </data>
+  <data name="Ui.Misc2.DisplaysAllActiveRobloxDatacentersFrom" xml:space="preserve">
+    <value>แสดงศูนย์ข้อมูล Roblox ที่ใช้งานอยู่ทั้งหมดจาก API ของ BetterBlox</value>
+  </data>
+  <data name="Ui.Misc2.City" xml:space="preserve">
+    <value>เมือง</value>
+  </data>
+  <data name="Ui.Misc2.Country" xml:space="preserve">
+    <value>ประเทศ</value>
+  </data>
+  <data name="Ui.Misc2.Organization" xml:space="preserve">
+    <value>องค์กร</value>
+  </data>
+  <data name="Ui.Misc2.RobloxNews" xml:space="preserve">
+    <value>ข่าว Roblox</value>
+  </data>
+  <data name="Ui.Misc2.OpenFeed" xml:space="preserve">
+    <value>เปิดฟีด</value>
+  </data>
+  <data name="Ui.Misc2.OpenTheAnnouncementsFeedInYour" xml:space="preserve">
+    <value>เปิดฟีดประกาศในเบราว์เซอร์</value>
+  </data>
+  <data name="Ui.Misc2.LoadingTheLatestRobloxAnnouncements" xml:space="preserve">
+    <value>กำลังโหลดประกาศล่าสุดของ Roblox...</value>
+  </data>
+  <data name="Ui.Misc2.DownloadServer" xml:space="preserve">
+    <value>เซิร์ฟเวอร์ดาวน์โหลด</value>
+  </data>
+  <data name="Ui.Misc2.ChooseTheServerUsedWhenRoblox" xml:space="preserve">
+    <value>เลือกเซิร์ฟเวอร์ที่ใช้เมื่อติดตั้งหรืออัปเดต Roblox</value>
+  </data>
+  <data name="Ui.Misc2.TheDeploymentChannelRobloxIsInstalled" xml:space="preserve">
+    <value>ช่องการปรับใช้ที่ใช้ติดตั้ง Roblox Production เป็นค่าเริ่มต้นและเป็นสิ่งที่เกือบทุกคนต้องการ ช่องอื่นอย่าง LIVE หรือ zlive เป็นบิลด์ทดสอบของ Roblox และอาจใช้ไม่ได้ ซึ่งจะแสดงเป็น 403 หรือ 404 ขณะดาวน์โหลด</value>
+  </data>
+  <data name="Ui.Misc2.PreferredChannel" xml:space="preserve">
+    <value>ช่องที่ต้องการ</value>
+  </data>
+  <data name="Ui.Misc2.LeaveThisAsProductionUnlessYou" xml:space="preserve">
+    <value>ปล่อยเป็น Production เว้นแต่คุณรู้ว่าช่องที่พิมพ์มีอยู่จริง</value>
+  </data>
+  <data name="Ui.Misc2.LoadingReleaseNotes" xml:space="preserve">
+    <value>กำลังโหลดบันทึกประจำรุ่น</value>
+  </data>
+  <data name="Ui.Misc2.ViewOnGitHub" xml:space="preserve">
+    <value>ดูบน GitHub</value>
+  </data>
+  <data name="Ui.Misc2.AvailableChannels" xml:space="preserve">
+    <value>ช่องที่มี</value>
+  </data>
+  <data name="Ui.Misc2.BrowseAndSelectFromAllCurrently" xml:space="preserve">
+    <value>เรียกดูและเลือกจากช่องการปรับใช้ทั้งหมดที่มีอยู่</value>
+  </data>
+  <data name="Ui.Misc2.LoadingChannels" xml:space="preserve">
+    <value>กำลังโหลดช่อง...</value>
+  </data>
+  <data name="Ui.Misc2.ChannelName" xml:space="preserve">
+    <value>ชื่อช่อง</value>
+  </data>
+  <data name="Ui.Misc2.VersionGUID" xml:space="preserve">
+    <value>GUID เวอร์ชัน</value>
+  </data>
+  <data name="Ui.Misc2.Players" xml:space="preserve">
+    <value>ผู้เล่น:</value>
+  </data>
+  <data name="Ui.Misc2.More" xml:space="preserve">
+    <value>เพิ่มเติม</value>
+  </data>
+  <data name="Ui.Misc2.CopyTheInstanceID" xml:space="preserve">
+    <value>คัดลอก ID อินสแตนซ์</value>
+  </data>
+  <data name="Ui.Misc2.CloseThisWindow" xml:space="preserve">
+    <value>ปิดหน้าต่างนี้</value>
+  </data>
+  <data name="Ui.Misc2.PlayerGamepasses" xml:space="preserve">
+    <value>เกมพาสของผู้เล่น</value>
+  </data>
+  <data name="Ui.Misc2.DisplaysAllGamepassesOwnedOrCreated" xml:space="preserve">
+    <value>แสดงเกมพาสทั้งหมดที่ผู้เล่นเป็นเจ้าของหรือสร้าง</value>
+  </data>
+  <data name="Ui.Misc2.PriceR" xml:space="preserve">
+    <value>ราคา (R$)</value>
+  </data>
+  <data name="Ui.Misc2.Releases" xml:space="preserve">
+    <value>รุ่นเผยแพร่</value>
+  </data>
+  <data name="Ui.Misc2.SearchReleases" xml:space="preserve">
+    <value>ค้นหารุ่นเผยแพร่...</value>
+  </data>
+  <data name="Ui.Misc2.PreRelease" xml:space="preserve">
+    <value>ก่อนเผยแพร่</value>
+  </data>
+  <data name="Ui.Misc2.Draft" xml:space="preserve">
+    <value>ฉบับร่าง</value>
+  </data>
+  <data name="Ui.Misc2.ExtraPagesGroupedUnderMoreIn" xml:space="preserve">
+    <value>หน้าพิเศษที่จัดกลุ่มไว้ใต้ เพิ่มเติม ในแถบด้านข้าง</value>
+  </data>
+  <data name="Ui.Misc2.EditRobloxSOwnInGame" xml:space="preserve">
+    <value>แก้ไขการตั้งค่าในเกมของ Roblox เอง</value>
+  </data>
+  <data name="Ui.Misc2.ReadVoidstrapNewsUpdatesAndForum" xml:space="preserve">
+    <value>อ่านข่าว อัปเดต และโพสต์ในฟอรัมของ Voidstrap</value>
+  </data>
+  <data name="Ui.Misc2.ProvidesInfoOnFFlagsFeatures" xml:space="preserve">
+    <value>ข้อมูลเกี่ยวกับ FFlags และฟีเจอร์</value>
+  </data>
+  <data name="Ui.Misc2.CommonFFlagIssues" xml:space="preserve">
+    <value>ปัญหา FFlag ที่พบบ่อย</value>
+  </data>
+  <data name="Ui.Misc2.BootstrapperIssues" xml:space="preserve">
+    <value>ปัญหาของ bootstrapper</value>
+  </data>
+  <data name="Ui.Misc2.Features" xml:space="preserve">
+    <value>ฟีเจอร์</value>
+  </data>
+  <data name="Ui.Misc2.Files" xml:space="preserve">
+    <value>ไฟล์</value>
+  </data>
+  <data name="Ui.Misc2.OnThisPC" xml:space="preserve">
+    <value>บนพีซีนี้</value>
+  </data>
+  <data name="Ui.Misc2.ReleasesSourceAndIssues" xml:space="preserve">
+    <value>รุ่นเผยแพร่ ซอร์สโค้ด และปัญหา</value>
+  </data>
+  <data name="Ui.Misc2.ReportOnBackup" xml:space="preserve">
+    <value>รายงานเมื่อสำรองข้อมูล</value>
+  </data>
+  <data name="Ui.Misc2.ApplyFrom" xml:space="preserve">
+    <value>ใช้จาก</value>
+  </data>
 </root>

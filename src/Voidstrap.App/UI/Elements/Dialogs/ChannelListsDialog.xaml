@@ -1,4 +1,4 @@
-<base:WpfUiWindow x:Class="Voidstrap.UI.Elements.Dialogs.ChannelListsDialog" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Voidstrap.UI.Elements.Dialogs" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" Title="Available Channels" Width="760" Height="560" MinHeight="380" ExtendsContentIntoTitleBar="True" ResizeMode="CanResize" WindowStartupLocation="CenterScreen" Background="{ui:ThemeResource ApplicationBackgroundBrush}">
+<base:WpfUiWindow x:Class="Voidstrap.UI.Elements.Dialogs.ChannelListsDialog" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Voidstrap.UI.Elements.Dialogs" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" Title="{resources:Loc Ui_Misc2_AvailableChannels}" Width="760" Height="560" MinHeight="380" ExtendsContentIntoTitleBar="True" ResizeMode="CanResize" WindowStartupLocation="CenterScreen" Background="{ui:ThemeResource ApplicationBackgroundBrush}">
   <Grid>
     <Panel.Background>
       <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
@@ -14,14 +14,14 @@
       <RowDefinition Height="*" />
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
-    <ui:TitleBar Title="Available Channels" Grid.Row="0" Padding="8,6" Icon="pack://application:,,,/Voidstrap.png" CanMaximize="True" ShowMaximize="True" ShowMinimize="True" />
-    <TextBlock Grid.Row="1" Margin="16,8,16,6" FontSize="13" FontWeight="Medium" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Browse and select from all currently available deployment channels." TextWrapping="Wrap" />
+    <ui:TitleBar Title="{resources:Loc Ui_Misc2_AvailableChannels}" Grid.Row="0" Padding="8,6" Icon="pack://application:,,,/Voidstrap.png" CanMaximize="True" ShowMaximize="True" ShowMinimize="True" />
+    <TextBlock Grid.Row="1" Margin="16,8,16,6" FontSize="13" FontWeight="Medium" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_Misc2_BrowseAndSelectFromAllCurrently}" TextWrapping="Wrap" />
     <Grid Row="2" Margin="16,0,16,8">
       <Grid Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}">
         <Border Background="{DynamicResource ControlFillColorDefaultBrush}" Opacity="0.6" CornerRadius="6" />
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
           <ProgressBar Width="200" Height="10" IsIndeterminate="True" />
-          <TextBlock Text="Loading channels..." FontSize="13" Margin="0,12,0,0" Foreground="{DynamicResource TextFillColorSecondaryBrush}" HorizontalAlignment="Center" />
+          <TextBlock Text="{resources:Loc Ui_Misc2_LoadingChannels}" FontSize="13" Margin="0,12,0,0" Foreground="{DynamicResource TextFillColorSecondaryBrush}" HorizontalAlignment="Center" />
         </StackPanel>
       </Grid>
       <DataGrid AutoGenerateColumns="False" IsReadOnly="True" HeadersVisibility="Column" CanUserResizeRows="False" CanUserResizeColumns="True" SelectionMode="Single" GridLinesVisibility="Horizontal" Margin="0" AlternatingRowBackground="#08000000" BorderThickness="0" Background="#00FFFFFF" HorizontalGridLinesBrush="#19000000" VerticalGridLinesBrush="#00FFFFFF" ItemsSource="{Binding Channels}" Visibility="{Binding IsLoading, Converter={StaticResource InverseBooleanToVisibilityConverter}}" RowBackground="{x:Null}" PreviewKeyDown="ChannelDataGrid_PreviewKeyDown">
@@ -69,9 +69,9 @@
           </Style>
         </DataGrid.CellStyle>
         <DataGrid.Columns>
-          <DataGridTextColumn Header="Channel Name" Width="180" Binding="{Binding ChannelName}" />
+          <DataGridTextColumn Header="{resources:Loc Ui_Misc2_ChannelName}" Width="180" Binding="{Binding ChannelName}" />
           <DataGridTextColumn Header="{resources:Loc Common_Version}" Width="*" Binding="{Binding Version}" />
-          <DataGridTextColumn Header="Version GUID" Width="*" Binding="{Binding VersionGuid}" />
+          <DataGridTextColumn Header="{resources:Loc Ui_Misc2_VersionGUID}" Width="*" Binding="{Binding VersionGuid}" />
         </DataGrid.Columns>
       </DataGrid>
     </Grid>

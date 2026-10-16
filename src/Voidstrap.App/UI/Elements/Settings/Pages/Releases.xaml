@@ -1,4 +1,4 @@
-﻿<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.ReleasesPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:conv="clr-namespace:Voidstrap.UI.Converters" x:Name="ReleasesView" Title="Releases" Scrollable="True" xmlns:pages="clr-namespace:Voidstrap.UI.Elements.Settings.Pages">
+﻿<ui:UiPage xmlns:resources="clr-namespace:Voidstrap.Resources" x:Class="Voidstrap.UI.Elements.Settings.Pages.ReleasesPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:conv="clr-namespace:Voidstrap.UI.Converters" x:Name="ReleasesView" Title="{resources:Loc Ui_Misc2_Releases}" Scrollable="True" xmlns:pages="clr-namespace:Voidstrap.UI.Elements.Settings.Pages">
   <FrameworkElement.Resources>
     <ResourceDictionary>
       <conv:BooleanToVisibilityConverter x:Key="BoolToVis" />
@@ -9,7 +9,7 @@
       <RowDefinition Height="Auto" />
       <RowDefinition Height="*" />
     </Grid.RowDefinitions>
-    <ui:TextBox Name="SearchBox" Height="32" Margin="0,0,0,12" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" BorderThickness="0" FontSize="14" Icon="Search48" PlaceholderText="Search Releases..." FocusVisualStyle="{x:Null}" TextChanged="SearchBox_TextChanged" />
+    <ui:TextBox Name="SearchBox" Height="32" Margin="0,0,0,12" HorizontalContentAlignment="Left" VerticalContentAlignment="Center" BorderThickness="0" FontSize="14" Icon="Search48" PlaceholderText="{resources:Loc Ui_Misc2_SearchReleases}" FocusVisualStyle="{x:Null}" TextChanged="SearchBox_TextChanged" />
     <ui:DynamicScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
       <ItemsControl ItemsSource="{Binding Releases}">
         <ItemsControl.ItemTemplate>
@@ -20,12 +20,12 @@
                 <StackPanel Margin="0,4,0,4" Orientation="Horizontal">
                   <TextBlock Margin="0,0,8,0" FontWeight="SemiBold" Foreground="#FF1E90FF" Text="{Binding TagName}" />
                   <TextBlock Margin="0,0,8,0" Foreground="#FF808080" Text="{Binding PublishedAt, StringFormat=Published: {0:yyyy-MM-dd HH:mm}}" />
-                  <TextBlock Margin="0,0,8,0" Foreground="#FFFF4500" Text="Pre-release" Visibility="{Binding Prerelease, Converter={StaticResource BoolToVis}}" />
-                  <TextBlock Margin="0,0,8,0" Foreground="#FFFF6347" Text="Draft" Visibility="{Binding Draft, Converter={StaticResource BoolToVis}}" />
+                  <TextBlock Margin="0,0,8,0" Foreground="#FFFF4500" Text="{resources:Loc Ui_Misc2_PreRelease}" Visibility="{Binding Prerelease, Converter={StaticResource BoolToVis}}" />
+                  <TextBlock Margin="0,0,8,0" Foreground="#FFFF6347" Text="{resources:Loc Ui_Misc2_Draft}" Visibility="{Binding Draft, Converter={StaticResource BoolToVis}}" />
                 </StackPanel>
                 <TextBlock Margin="0,0,0,4">
                   <Hyperlink NavigateUri="{Binding HtmlUrl}" RequestNavigate="Hyperlink_RequestNavigate">
-                    <Run Text="View on GitHub" />
+                    <Run Text="{resources:Loc Ui_Misc2_ViewOnGitHub}" />
                   </Hyperlink>
                 </TextBlock>
                 <TextBox Margin="0,4,0,4" IsReadOnly="True" TextWrapping="Wrap" AcceptsReturn="True" BorderThickness="0" Background="#00FFFFFF" Foreground="#FFFFFFFF" VerticalScrollBarVisibility="Auto" Height="120" Text="{Binding Body}" />

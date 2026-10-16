@@ -17,7 +17,7 @@
               <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <ui:SymbolIcon Grid.Column="0" Symbol="EyeOff24" FontSize="18" VerticalAlignment="Center" />
-            <TextBlock Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center" FontWeight="SemiBold" Text="Can't See Overlays?" />
+            <TextBlock Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center" FontWeight="SemiBold" Text="{resources:Loc Ui_Misc2_CanTSeeOverlays}" />
           </Grid>
         </HeaderedItemsControl.Header>
       </MenuItem>
@@ -57,18 +57,18 @@
               <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <ui:SymbolIcon Grid.Column="0" Symbol="Info20" FontSize="18" VerticalAlignment="Center" />
-            <TextBlock Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center" Text="Info" />
+            <TextBlock Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center" Text="{resources:Loc Ui_Misc2_Info}" />
           </Grid>
         </HeaderedItemsControl.Header>
         <ItemsControl.Items>
           <StackPanel>
-            <Expander Header="FFlags" IsExpanded="True" Background="#00FFFFFF">
+            <Expander Header="{resources:Loc Ui_Misc2_FFlags}" IsExpanded="True" Background="#00FFFFFF">
               <TextBlock Name="FlagsTextBlock" Margin="4,2,0,2" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Flags: 0" />
             </Expander>
-            <Expander Header="PlayTime" IsExpanded="True" Background="#00FFFFFF">
+            <Expander Header="{resources:Loc Ui_Misc2_PlayTime}" IsExpanded="True" Background="#00FFFFFF">
               <TextBlock Name="PlayTimeTextBlock" Margin="4,2,0,2" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="PlayTime: 00:00:00" />
             </Expander>
-            <Expander Header="Memory Details" IsExpanded="True" Background="#00FFFFFF">
+            <Expander Header="{resources:Loc Ui_Misc2_MemoryDetails}" IsExpanded="True" Background="#00FFFFFF">
               <StackPanel Margin="4,2,0,2">
                 <TextBlock Name="MemoryTextBlock" Foreground="{DynamicResource TextFillColorSecondaryBrush}" FontWeight="SemiBold" Text="Roblox: 0 MB" />
               </StackPanel>
@@ -97,7 +97,7 @@
               <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <ui:SymbolIcon Grid.Column="0" Symbol="Rocket24" FontSize="18" VerticalAlignment="Center" />
-            <TextBlock Name="JoinClosestServerTextBlock" Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center" Text="Join Closest Server" />
+            <TextBlock Name="JoinClosestServerTextBlock" Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center" Text="{resources:Loc Ui_Misc2_JoinClosestServer}" />
           </Grid>
         </HeaderedItemsControl.Header>
       </MenuItem>
@@ -121,7 +121,7 @@
               <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <ui:SymbolIcon Grid.Column="0" Symbol="Money24" FontSize="18" VerticalAlignment="Center" />
-            <TextBlock Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center" Text="GamePass Info" />
+            <TextBlock Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center" Text="{resources:Loc Ui_Misc2_GamePassInfo}" />
           </Grid>
         </HeaderedItemsControl.Header>
       </MenuItem>
@@ -146,7 +146,7 @@
               <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <ui:SymbolIcon Grid.Column="0" Symbol="MusicNote224" FontSize="18" VerticalAlignment="Center" />
-            <TextBlock Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center" Text="Music Player" />
+            <TextBlock Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center" Text="{resources:Loc Ui_Misc2_MusicPlayer}" />
           </Grid>
         </HeaderedItemsControl.Header>
       </MenuItem>
@@ -184,18 +184,18 @@
               <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <ui:SymbolIcon Grid.Column="0" Symbol="TopSpeed24" FontSize="18" VerticalAlignment="Center" />
-            <TextBlock Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center" Text="Frame Gen" />
+            <TextBlock Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center" Text="{resources:Loc Ui_Misc2_FrameGen}" />
           </Grid>
         </HeaderedItemsControl.Header>
-        <MenuItem Name="FrameGenMenuItem" Header="Frame Generation" IsCheckable="True" Click="FrameGenMenuItem_Click" />
-        <MenuItem Name="FrameGenOverlayMenuItem" Header="Generated Frames Overlay" IsCheckable="True" Click="FrameGenOverlayMenuItem_Click" />
-        <MenuItem Name="FrameGenSplitMenuItem" Header="Split Screen Compare" IsCheckable="True" Click="FrameGenSplitMenuItem_Click" />
+        <MenuItem Name="FrameGenMenuItem" Header="{resources:Loc Ui_Misc2_FrameGeneration}" IsCheckable="True" Click="FrameGenMenuItem_Click" />
+        <MenuItem Name="FrameGenOverlayMenuItem" Header="{resources:Loc Ui_Misc2_GeneratedFramesOverlay}" IsCheckable="True" Click="FrameGenOverlayMenuItem_Click" />
+        <MenuItem Name="FrameGenSplitMenuItem" Header="{resources:Loc Ui_Misc2_SplitScreenCompare}" IsCheckable="True" Click="FrameGenSplitMenuItem_Click" />
       </MenuItem>
       <MenuItem Name="ColorsTrackerLog" Visibility="Collapsed">
         <HeaderedItemsControl.Header>
           <StackPanel Margin="0,2">
-            <TextBlock Text="Colors" FontWeight="SemiBold" Margin="0,0,0,6" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-            <TextBlock Text="Saturation" FontSize="11" Margin="0,0,0,2" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+            <TextBlock Text="{resources:Loc Ui_Mods_Colors}" FontWeight="SemiBold" Margin="0,0,0,6" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+            <TextBlock Text="{resources:Loc Ui_Mods_Saturation}" FontSize="11" Margin="0,0,0,2" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
             <Grid Margin="0,0,0,6">
               <Grid.ColumnDefinitions>
                 <ColumnDefinition />
@@ -204,7 +204,7 @@
               <Slider Grid.Column="0" Minimum="0" Maximum="200" TickFrequency="5" IsSnapToTickEnabled="True" VerticalAlignment="Center" Focusable="True" Value="{Binding Saturation, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
               <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding SaturationDisplay}" />
             </Grid>
-            <TextBlock Text="Contrast" FontSize="11" Margin="0,0,0,2" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+            <TextBlock Text="{resources:Loc Ui_Mods_Contrast}" FontSize="11" Margin="0,0,0,2" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
             <Grid Margin="0,0,0,6">
               <Grid.ColumnDefinitions>
                 <ColumnDefinition />
@@ -213,7 +213,7 @@
               <Slider Grid.Column="0" Minimum="0" Maximum="200" TickFrequency="5" IsSnapToTickEnabled="True" VerticalAlignment="Center" Focusable="True" Value="{Binding Contrast, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
               <TextBlock Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Right" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding ContrastDisplay}" />
             </Grid>
-            <TextBlock Text="Color Temperature" FontSize="11" Margin="0,0,0,2" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+            <TextBlock Text="{resources:Loc Ui_Misc2_ColorTemperature}" FontSize="11" Margin="0,0,0,2" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
             <Grid>
               <Grid.ColumnDefinitions>
                 <ColumnDefinition />

@@ -1,4 +1,4 @@
-﻿<base:WpfUiWindow x:Class="Voidstrap.UI.Elements.Dialogs.ModEditorWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:resources="clr-namespace:Voidstrap.Resources" Title="Edit Mod" Width="780" Height="660" MinWidth="600" MinHeight="440" ExtendsContentIntoTitleBar="True" WindowStartupLocation="CenterOwner" Background="{ui:ThemeResource ApplicationBackgroundBrush}">
+﻿<base:WpfUiWindow x:Class="Voidstrap.UI.Elements.Dialogs.ModEditorWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:resources="clr-namespace:Voidstrap.Resources" Title="{resources:Loc Ui_Misc2_EditMod}" Width="780" Height="660" MinWidth="600" MinHeight="440" ExtendsContentIntoTitleBar="True" WindowStartupLocation="CenterOwner" Background="{ui:ThemeResource ApplicationBackgroundBrush}">
   <Grid>
     <Panel.Background>
       <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
@@ -13,13 +13,13 @@
       <RowDefinition Height="*" />
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
-    <ui:TitleBar Icon="pack://application:,,,/Voidstrap.png" Title="Edit Mod" Grid.Row="0" Padding="8" CanMaximize="False" KeyboardNavigation.TabNavigation="None" ShowMaximize="False" ShowMinimize="False" />
+    <ui:TitleBar Icon="pack://application:,,,/Voidstrap.png" Title="{resources:Loc Ui_Misc2_EditMod}" Grid.Row="0" Padding="8" CanMaximize="False" KeyboardNavigation.TabNavigation="None" ShowMaximize="False" ShowMinimize="False" />
 
     <StackPanel Grid.Row="1" Margin="20,4,20,12">
       <TextBlock x:Name="ModTitle" FontSize="20" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
       <TextBlock x:Name="ModHint" Margin="0,4,0,0" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
       <StackPanel Margin="0,10,0,0" Orientation="Horizontal">
-        <ui:Button x:Name="DownloadOptionsButton" Icon="ArrowDownload24" Content="Get every option from GameBanana" Visibility="Collapsed" Click="DownloadOptions_Click" />
+        <ui:Button x:Name="DownloadOptionsButton" Icon="ArrowDownload24" Content="{resources:Loc Ui_Misc2_GetEveryOptionFromGameBanana}" Visibility="Collapsed" Click="DownloadOptions_Click" />
         <ComboBox x:Name="ConfigPicker" MinWidth="320" Visibility="Collapsed" DisplayMemberPath="Label" SelectionChanged="ConfigPicker_SelectionChanged" />
       </StackPanel>
     </StackPanel>
@@ -104,7 +104,7 @@
                       <ColumnDefinition Width="*" />
                       <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <ui:TextBox PlaceholderText="Rule name" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <ui:TextBox PlaceholderText="{resources:Loc Ui_Misc2_RuleName}" Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     <ComboBox Grid.Column="1" Width="130" Margin="8,0,0,0" ItemsSource="{Binding Modes}" SelectedItem="{Binding Mode, Mode=TwoWay}" />
                   </Grid>
                   <Grid Grid.Row="1" Grid.Column="1" Margin="0,8,0,0">
@@ -112,7 +112,7 @@
                       <ColumnDefinition Width="220" />
                       <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <ui:TextBox PlaceholderText="Asset ids to replace" Text="{Binding Ids, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <ui:TextBox PlaceholderText="{resources:Loc Ui_Misc2_AssetIdsToReplace}" Text="{Binding Ids, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                     <ComboBox Grid.Column="1" Margin="8,0,0,0" IsEditable="True" IsEnabled="{Binding TargetEnabled}" ToolTip="{Binding TargetHint}" ItemsSource="{Binding Suggestions}" Text="{Binding Target, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                   </Grid>
                 </Grid>

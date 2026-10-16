@@ -2111,6 +2111,294 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Pages_TurnEverythingOff => ResourceManager.GetString("Ui.Pages.TurnEverythingOff", resourceCulture);
 
+        public static string Ui_Misc2_ASimpleYetAdvancedBloxstrapFork => ResourceManager.GetString("Ui.Misc2.ASimpleYetAdvancedBloxstrapFork", resourceCulture);
+
+        public static string Ui_Misc2_ThankYouErik => ResourceManager.GetString("Ui.Misc2.ThankYouErik", resourceCulture);
+
+        public static string Ui_Misc2_MainContributors => ResourceManager.GetString("Ui.Misc2.MainContributors", resourceCulture);
+
+        public static string Ui_Misc2_ThePeopleWhoMadeVoidstrapPossible => ResourceManager.GetString("Ui.Misc2.ThePeopleWhoMadeVoidstrapPossible", resourceCulture);
+
+        public static string Ui_Misc2_LoveEveryoneWithAPurpose => ResourceManager.GetString("Ui.Misc2.LoveEveryoneWithAPurpose", resourceCulture);
+
+        public static string Ui_Misc2_FroststrapOwner => ResourceManager.GetString("Ui.Misc2.FroststrapOwner", resourceCulture);
+
+        public static string Ui_Misc2_RetiredCoOwnerWasLikeA => ResourceManager.GetString("Ui.Misc2.RetiredCoOwnerWasLikeA", resourceCulture);
+
+        public static string Ui_Misc2_AKindSoulThatHelpedOn => ResourceManager.GetString("Ui.Misc2.AKindSoulThatHelpedOn", resourceCulture);
+
+        public static string Ui_Misc2_BuildInformation => ResourceManager.GetString("Ui.Misc2.BuildInformation", resourceCulture);
+
+        public static string Ui_Misc2_CommitHash => ResourceManager.GetString("Ui.Misc2.CommitHash", resourceCulture);
+
+        public static string Ui_Misc2_ThirdPartyNotices => ResourceManager.GetString("Ui.Misc2.ThirdPartyNotices", resourceCulture);
+
+        public static string Ui_Misc2_ThisSoftwareContainsSourceCodeProvided => ResourceManager.GetString("Ui.Misc2.ThisSoftwareContainsSourceCodeProvided", resourceCulture);
+
+        public static string Ui_Misc2_TheClassicTopbarOptionRebuildsTwo => ResourceManager.GetString("Ui.Misc2.TheClassicTopbarOptionRebuildsTwo", resourceCulture);
+
+        public static string Ui_Misc2_20142015TopbarAndMenuBy => ResourceManager.GetString("Ui.Misc2.20142015TopbarAndMenuBy", resourceCulture);
+
+        public static string Ui_Misc2_CommunityMods => ResourceManager.GetString("Ui.Misc2.CommunityMods", resourceCulture);
+
+        public static string Ui_Misc2_CommunityModsListsRobloxSubmissionsFrom => ResourceManager.GetString("Ui.Misc2.CommunityModsListsRobloxSubmissionsFrom", resourceCulture);
+
+        public static string Ui_Misc2_GithubComKlikosModloaderMarketplace => ResourceManager.GetString("Ui.Misc2.GithubComKlikosModloaderMarketplace", resourceCulture);
+
+        public static string Ui_Misc2_CanTSeeOverlays => ResourceManager.GetString("Ui.Misc2.CanTSeeOverlays", resourceCulture);
+
+        public static string Ui_Misc2_Info => ResourceManager.GetString("Ui.Misc2.Info", resourceCulture);
+
+        public static string Ui_Misc2_FFlags => ResourceManager.GetString("Ui.Misc2.FFlags", resourceCulture);
+
+        public static string Ui_Misc2_PlayTime => ResourceManager.GetString("Ui.Misc2.PlayTime", resourceCulture);
+
+        public static string Ui_Misc2_MemoryDetails => ResourceManager.GetString("Ui.Misc2.MemoryDetails", resourceCulture);
+
+        public static string Ui_Misc2_JoinClosestServer => ResourceManager.GetString("Ui.Misc2.JoinClosestServer", resourceCulture);
+
+        public static string Ui_Misc2_GamePassInfo => ResourceManager.GetString("Ui.Misc2.GamePassInfo", resourceCulture);
+
+        public static string Ui_Misc2_MusicPlayer => ResourceManager.GetString("Ui.Misc2.MusicPlayer", resourceCulture);
+
+        public static string Ui_Misc2_FrameGen => ResourceManager.GetString("Ui.Misc2.FrameGen", resourceCulture);
+
+        public static string Ui_Misc2_FrameGeneration => ResourceManager.GetString("Ui.Misc2.FrameGeneration", resourceCulture);
+
+        public static string Ui_Misc2_GeneratedFramesOverlay => ResourceManager.GetString("Ui.Misc2.GeneratedFramesOverlay", resourceCulture);
+
+        public static string Ui_Misc2_SplitScreenCompare => ResourceManager.GetString("Ui.Misc2.SplitScreenCompare", resourceCulture);
+
+        public static string Ui_Misc2_ColorTemperature => ResourceManager.GetString("Ui.Misc2.ColorTemperature", resourceCulture);
+
+        public static string Ui_Misc2_SearchLibraryByTitleArtistOr => ResourceManager.GetString("Ui.Misc2.SearchLibraryByTitleArtistOr", resourceCulture);
+
+        public static string Ui_Misc2_RemoveTrack => ResourceManager.GetString("Ui.Misc2.RemoveTrack", resourceCulture);
+
+        public static string Ui_Misc2_NoTracksClickImportToAdd => ResourceManager.GetString("Ui.Misc2.NoTracksClickImportToAdd", resourceCulture);
+
+        public static string Ui_Misc2_NoTracksMatchYourSearch => ResourceManager.GetString("Ui.Misc2.NoTracksMatchYourSearch", resourceCulture);
+
+        public static string Ui_Misc2_NowPlaying => ResourceManager.GetString("Ui.Misc2.NowPlaying", resourceCulture);
+
+        public static string Ui_Misc2_Previous => ResourceManager.GetString("Ui.Misc2.Previous", resourceCulture);
+
+        public static string Ui_Misc2_Stop => ResourceManager.GetString("Ui.Misc2.Stop", resourceCulture);
+
+        public static string Ui_Misc2_MuteUnmute => ResourceManager.GetString("Ui.Misc2.MuteUnmute", resourceCulture);
+
+        public static string Ui_Misc2_Equalizer => ResourceManager.GetString("Ui.Misc2.Equalizer", resourceCulture);
+
+        public static string Ui_Misc2_TuneHowYourAudioSoundsPick => ResourceManager.GetString("Ui.Misc2.TuneHowYourAudioSoundsPick", resourceCulture);
+
+        public static string Ui_Misc2_EnableEqualizer => ResourceManager.GetString("Ui.Misc2.EnableEqualizer", resourceCulture);
+
+        public static string Ui_Misc2_BandsAreInHz0DB => ResourceManager.GetString("Ui.Misc2.BandsAreInHz0DB", resourceCulture);
+
+        public static string Ui_Misc2_Preview => ResourceManager.GetString("Ui.Misc2.Preview", resourceCulture);
+
+        public static string Ui_Misc2_SelectAnAssetToPreviewIt => ResourceManager.GetString("Ui.Misc2.SelectAnAssetToPreviewIt", resourceCulture);
+
+        public static string Ui_Misc2_Volume => ResourceManager.GetString("Ui.Misc2.Volume", resourceCulture);
+
+        public static string Ui_Misc2_Loop => ResourceManager.GetString("Ui.Misc2.Loop", resourceCulture);
+
+        public static string Ui_Misc2_OutputFormat => ResourceManager.GetString("Ui.Misc2.OutputFormat", resourceCulture);
+
+        public static string Ui_Misc2_DownloadConvertThisAudio => ResourceManager.GetString("Ui.Misc2.DownloadConvertThisAudio", resourceCulture);
+
+        public static string Ui_Misc2_CameraControls => ResourceManager.GetString("Ui.Misc2.CameraControls", resourceCulture);
+
+        public static string Ui_Misc2_ResetView => ResourceManager.GetString("Ui.Misc2.ResetView", resourceCulture);
+
+        public static string Ui_Misc2_Options => ResourceManager.GetString("Ui.Misc2.Options", resourceCulture);
+
+        public static string Ui_Misc2_Wireframe => ResourceManager.GetString("Ui.Misc2.Wireframe", resourceCulture);
+
+        public static string Ui_Misc2_AutoRotate => ResourceManager.GetString("Ui.Misc2.AutoRotate", resourceCulture);
+
+        public static string Ui_Misc2_ShowGrid => ResourceManager.GetString("Ui.Misc2.ShowGrid", resourceCulture);
+
+        public static string Ui_Misc2_ImageAdjust => ResourceManager.GetString("Ui.Misc2.ImageAdjust", resourceCulture);
+
+        public static string Ui_Misc2_ImageAdjustments => ResourceManager.GetString("Ui.Misc2.ImageAdjustments", resourceCulture);
+
+        public static string Ui_Misc2_Orientation => ResourceManager.GetString("Ui.Misc2.Orientation", resourceCulture);
+
+        public static string Ui_Misc2_Rotate90 => ResourceManager.GetString("Ui.Misc2.Rotate90", resourceCulture);
+
+        public static string Ui_Misc2_FlipH => ResourceManager.GetString("Ui.Misc2.FlipH", resourceCulture);
+
+        public static string Ui_Misc2_FlipV => ResourceManager.GetString("Ui.Misc2.FlipV", resourceCulture);
+
+        public static string Ui_Misc2_ScaleResize => ResourceManager.GetString("Ui.Misc2.ScaleResize", resourceCulture);
+
+        public static string Ui_Misc2_ApplyResize => ResourceManager.GetString("Ui.Misc2.ApplyResize", resourceCulture);
+
+        public static string Ui_Misc2_ResetAdjustments => ResourceManager.GetString("Ui.Misc2.ResetAdjustments", resourceCulture);
+
+        public static string Ui_Misc2_TipUseTheseToFixOrientation => ResourceManager.GetString("Ui.Misc2.TipUseTheseToFixOrientation", resourceCulture);
+
+        public static string Ui_Misc2_SaveAsMod => ResourceManager.GetString("Ui.Misc2.SaveAsMod", resourceCulture);
+
+        public static string Ui_Misc2_ImageRecolor => ResourceManager.GetString("Ui.Misc2.ImageRecolor", resourceCulture);
+
+        public static string Ui_Misc2_RecolorOptions => ResourceManager.GetString("Ui.Misc2.RecolorOptions", resourceCulture);
+
+        public static string Ui_Misc2_TargetColor => ResourceManager.GetString("Ui.Misc2.TargetColor", resourceCulture);
+
+        public static string Ui_Misc2_Intensity => ResourceManager.GetString("Ui.Misc2.Intensity", resourceCulture);
+
+        public static string Ui_Misc2_ResetImage => ResourceManager.GetString("Ui.Misc2.ResetImage", resourceCulture);
+
+        public static string Ui_Misc2_TipThisWillTintTheImage => ResourceManager.GetString("Ui.Misc2.TipThisWillTintTheImage", resourceCulture);
+
+        public static string Ui_Misc2_Loading => ResourceManager.GetString("Ui.Misc2.Loading", resourceCulture);
+
+        public static string Ui_Misc2_Active => ResourceManager.GetString("Ui.Misc2.Active", resourceCulture);
+
+        public static string Ui_Misc2_ServerSize => ResourceManager.GetString("Ui.Misc2.ServerSize", resourceCulture);
+
+        public static string Ui_Misc2_Chat => ResourceManager.GetString("Ui.Misc2.Chat", resourceCulture);
+
+        public static string Ui_Misc2_Chats => ResourceManager.GetString("Ui.Misc2.Chats", resourceCulture);
+
+        public static string Ui_Misc2_LoadingYourChats => ResourceManager.GetString("Ui.Misc2.LoadingYourChats", resourceCulture);
+
+        public static string Ui_Misc2_Send => ResourceManager.GetString("Ui.Misc2.Send", resourceCulture);
+
+        public static string Ui_Misc2_NoNewsYet => ResourceManager.GetString("Ui.Misc2.NoNewsYet", resourceCulture);
+
+        public static string Ui_Misc2_NewVoidstrapUpdatesAndAnnouncementsWill => ResourceManager.GetString("Ui.Misc2.NewVoidstrapUpdatesAndAnnouncementsWill", resourceCulture);
+
+        public static string Ui_Misc2_ReadMore => ResourceManager.GetString("Ui.Misc2.ReadMore", resourceCulture);
+
+        public static string Ui_Misc2_Earlier => ResourceManager.GetString("Ui.Misc2.Earlier", resourceCulture);
+
+        public static string Ui_Misc2_ChooseSidebarIcon => ResourceManager.GetString("Ui.Misc2.ChooseSidebarIcon", resourceCulture);
+
+        public static string Ui_Misc2_SearchAllWPFUIIcons => ResourceManager.GetString("Ui.Misc2.SearchAllWPFUIIcons", resourceCulture);
+
+        public static string Ui_Misc2_CustomImage => ResourceManager.GetString("Ui.Misc2.CustomImage", resourceCulture);
+
+        public static string Ui_Misc2_UseIcon => ResourceManager.GetString("Ui.Misc2.UseIcon", resourceCulture);
+
+        public static string Ui_Misc2_EditMod => ResourceManager.GetString("Ui.Misc2.EditMod", resourceCulture);
+
+        public static string Ui_Misc2_GetEveryOptionFromGameBanana => ResourceManager.GetString("Ui.Misc2.GetEveryOptionFromGameBanana", resourceCulture);
+
+        public static string Ui_Misc2_RuleName => ResourceManager.GetString("Ui.Misc2.RuleName", resourceCulture);
+
+        public static string Ui_Misc2_AssetIdsToReplace => ResourceManager.GetString("Ui.Misc2.AssetIdsToReplace", resourceCulture);
+
+        public static string Ui_Misc2_FlagProfiles => ResourceManager.GetString("Ui.Misc2.FlagProfiles", resourceCulture);
+
+        public static string Ui_Misc2_NoSavedProfiles => ResourceManager.GetString("Ui.Misc2.NoSavedProfiles", resourceCulture);
+
+        public static string Ui_Misc2_ClearExistingFlagsFirst => ResourceManager.GetString("Ui.Misc2.ClearExistingFlagsFirst", resourceCulture);
+
+        public static string Ui_Misc2_FindACityOrCountry => ResourceManager.GetString("Ui.Misc2.FindACityOrCountry", resourceCulture);
+
+        public static string Ui_Misc2_ClickAPinToChooseA => ResourceManager.GetString("Ui.Misc2.ClickAPinToChooseA", resourceCulture);
+
+        public static string Ui_Misc2_CenterOnSelectedDatacenter => ResourceManager.GetString("Ui.Misc2.CenterOnSelectedDatacenter", resourceCulture);
+
+        public static string Ui_Misc2_Under70Ms => ResourceManager.GetString("Ui.Misc2.Under70Ms", resourceCulture);
+
+        public static string Ui_Misc2_Under140Ms => ResourceManager.GetString("Ui.Misc2.Under140Ms", resourceCulture);
+
+        public static string Ui_Misc2_Slower => ResourceManager.GetString("Ui.Misc2.Slower", resourceCulture);
+
+        public static string Ui_Misc2_Blocked => ResourceManager.GetString("Ui.Misc2.Blocked", resourceCulture);
+
+        public static string Ui_Misc2_BetterBloxDatacenters => ResourceManager.GetString("Ui.Misc2.BetterBloxDatacenters", resourceCulture);
+
+        public static string Ui_Misc2_DisplaysAllActiveRobloxDatacentersFrom => ResourceManager.GetString("Ui.Misc2.DisplaysAllActiveRobloxDatacentersFrom", resourceCulture);
+
+        public static string Ui_Misc2_City => ResourceManager.GetString("Ui.Misc2.City", resourceCulture);
+
+        public static string Ui_Misc2_Country => ResourceManager.GetString("Ui.Misc2.Country", resourceCulture);
+
+        public static string Ui_Misc2_Organization => ResourceManager.GetString("Ui.Misc2.Organization", resourceCulture);
+
+        public static string Ui_Misc2_RobloxNews => ResourceManager.GetString("Ui.Misc2.RobloxNews", resourceCulture);
+
+        public static string Ui_Misc2_OpenFeed => ResourceManager.GetString("Ui.Misc2.OpenFeed", resourceCulture);
+
+        public static string Ui_Misc2_OpenTheAnnouncementsFeedInYour => ResourceManager.GetString("Ui.Misc2.OpenTheAnnouncementsFeedInYour", resourceCulture);
+
+        public static string Ui_Misc2_LoadingTheLatestRobloxAnnouncements => ResourceManager.GetString("Ui.Misc2.LoadingTheLatestRobloxAnnouncements", resourceCulture);
+
+        public static string Ui_Misc2_DownloadServer => ResourceManager.GetString("Ui.Misc2.DownloadServer", resourceCulture);
+
+        public static string Ui_Misc2_ChooseTheServerUsedWhenRoblox => ResourceManager.GetString("Ui.Misc2.ChooseTheServerUsedWhenRoblox", resourceCulture);
+
+        public static string Ui_Misc2_TheDeploymentChannelRobloxIsInstalled => ResourceManager.GetString("Ui.Misc2.TheDeploymentChannelRobloxIsInstalled", resourceCulture);
+
+        public static string Ui_Misc2_PreferredChannel => ResourceManager.GetString("Ui.Misc2.PreferredChannel", resourceCulture);
+
+        public static string Ui_Misc2_LeaveThisAsProductionUnlessYou => ResourceManager.GetString("Ui.Misc2.LeaveThisAsProductionUnlessYou", resourceCulture);
+
+        public static string Ui_Misc2_LoadingReleaseNotes => ResourceManager.GetString("Ui.Misc2.LoadingReleaseNotes", resourceCulture);
+
+        public static string Ui_Misc2_ViewOnGitHub => ResourceManager.GetString("Ui.Misc2.ViewOnGitHub", resourceCulture);
+
+        public static string Ui_Misc2_AvailableChannels => ResourceManager.GetString("Ui.Misc2.AvailableChannels", resourceCulture);
+
+        public static string Ui_Misc2_BrowseAndSelectFromAllCurrently => ResourceManager.GetString("Ui.Misc2.BrowseAndSelectFromAllCurrently", resourceCulture);
+
+        public static string Ui_Misc2_LoadingChannels => ResourceManager.GetString("Ui.Misc2.LoadingChannels", resourceCulture);
+
+        public static string Ui_Misc2_ChannelName => ResourceManager.GetString("Ui.Misc2.ChannelName", resourceCulture);
+
+        public static string Ui_Misc2_VersionGUID => ResourceManager.GetString("Ui.Misc2.VersionGUID", resourceCulture);
+
+        public static string Ui_Misc2_Players => ResourceManager.GetString("Ui.Misc2.Players", resourceCulture);
+
+        public static string Ui_Misc2_More => ResourceManager.GetString("Ui.Misc2.More", resourceCulture);
+
+        public static string Ui_Misc2_CopyTheInstanceID => ResourceManager.GetString("Ui.Misc2.CopyTheInstanceID", resourceCulture);
+
+        public static string Ui_Misc2_CloseThisWindow => ResourceManager.GetString("Ui.Misc2.CloseThisWindow", resourceCulture);
+
+        public static string Ui_Misc2_PlayerGamepasses => ResourceManager.GetString("Ui.Misc2.PlayerGamepasses", resourceCulture);
+
+        public static string Ui_Misc2_DisplaysAllGamepassesOwnedOrCreated => ResourceManager.GetString("Ui.Misc2.DisplaysAllGamepassesOwnedOrCreated", resourceCulture);
+
+        public static string Ui_Misc2_PriceR => ResourceManager.GetString("Ui.Misc2.PriceR", resourceCulture);
+
+        public static string Ui_Misc2_Releases => ResourceManager.GetString("Ui.Misc2.Releases", resourceCulture);
+
+        public static string Ui_Misc2_SearchReleases => ResourceManager.GetString("Ui.Misc2.SearchReleases", resourceCulture);
+
+        public static string Ui_Misc2_PreRelease => ResourceManager.GetString("Ui.Misc2.PreRelease", resourceCulture);
+
+        public static string Ui_Misc2_Draft => ResourceManager.GetString("Ui.Misc2.Draft", resourceCulture);
+
+        public static string Ui_Misc2_ExtraPagesGroupedUnderMoreIn => ResourceManager.GetString("Ui.Misc2.ExtraPagesGroupedUnderMoreIn", resourceCulture);
+
+        public static string Ui_Misc2_EditRobloxSOwnInGame => ResourceManager.GetString("Ui.Misc2.EditRobloxSOwnInGame", resourceCulture);
+
+        public static string Ui_Misc2_ReadVoidstrapNewsUpdatesAndForum => ResourceManager.GetString("Ui.Misc2.ReadVoidstrapNewsUpdatesAndForum", resourceCulture);
+
+        public static string Ui_Misc2_ProvidesInfoOnFFlagsFeatures => ResourceManager.GetString("Ui.Misc2.ProvidesInfoOnFFlagsFeatures", resourceCulture);
+
+        public static string Ui_Misc2_CommonFFlagIssues => ResourceManager.GetString("Ui.Misc2.CommonFFlagIssues", resourceCulture);
+
+        public static string Ui_Misc2_BootstrapperIssues => ResourceManager.GetString("Ui.Misc2.BootstrapperIssues", resourceCulture);
+
+        public static string Ui_Misc2_Features => ResourceManager.GetString("Ui.Misc2.Features", resourceCulture);
+
+        public static string Ui_Misc2_Files => ResourceManager.GetString("Ui.Misc2.Files", resourceCulture);
+
+        public static string Ui_Misc2_OnThisPC => ResourceManager.GetString("Ui.Misc2.OnThisPC", resourceCulture);
+
+        public static string Ui_Misc2_ReleasesSourceAndIssues => ResourceManager.GetString("Ui.Misc2.ReleasesSourceAndIssues", resourceCulture);
+
+        public static string Ui_Misc2_ReportOnBackup => ResourceManager.GetString("Ui.Misc2.ReportOnBackup", resourceCulture);
+
+        public static string Ui_Misc2_ApplyFrom => ResourceManager.GetString("Ui.Misc2.ApplyFrom", resourceCulture);
+
         public static string Menu_Appearance_Accent_Title => ResourceManager.GetString("Menu.Appearance.Accent.Title", resourceCulture);
 
         public static string Menu_Appearance_Accent_Description => ResourceManager.GetString("Menu.Appearance.Accent.Description", resourceCulture);

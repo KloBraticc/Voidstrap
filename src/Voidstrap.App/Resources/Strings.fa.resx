@@ -6142,4 +6142,436 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
   <data name="Ui.Pages.TurnEverythingOff" xml:space="preserve">
     <value>خاموش کردن همه</value>
   </data>
+  <data name="Ui.Misc2.ASimpleYetAdvancedBloxstrapFork" xml:space="preserve">
+    <value>یک انشعاب ساده اما پیشرفته از Bloxstrap.</value>
+  </data>
+  <data name="Ui.Misc2.ThankYouErik" xml:space="preserve">
+    <value>ممنون، Erik</value>
+  </data>
+  <data name="Ui.Misc2.MainContributors" xml:space="preserve">
+    <value>مشارکت‌کنندگان اصلی</value>
+  </data>
+  <data name="Ui.Misc2.ThePeopleWhoMadeVoidstrapPossible" xml:space="preserve">
+    <value>کسانی که Voidstrap را ممکن کردند.</value>
+  </data>
+  <data name="Ui.Misc2.LoveEveryoneWithAPurpose" xml:space="preserve">
+    <value>همه را با هدف دوست بدار.</value>
+  </data>
+  <data name="Ui.Misc2.FroststrapOwner" xml:space="preserve">
+    <value>مالک Froststrap</value>
+  </data>
+  <data name="Ui.Misc2.RetiredCoOwnerWasLikeA" xml:space="preserve">
+    <value>هم‌مالک پیشین، مثل یک برادر بود.</value>
+  </data>
+  <data name="Ui.Misc2.AKindSoulThatHelpedOn" xml:space="preserve">
+    <value>روحی مهربان که در مسیر کمک کرد.</value>
+  </data>
+  <data name="Ui.Misc2.BuildInformation" xml:space="preserve">
+    <value>اطلاعات بیلد</value>
+  </data>
+  <data name="Ui.Misc2.CommitHash" xml:space="preserve">
+    <value>هش کامیت</value>
+  </data>
+  <data name="Ui.Misc2.ThirdPartyNotices" xml:space="preserve">
+    <value>اطلاعیه‌های شخص ثالث</value>
+  </data>
+  <data name="Ui.Misc2.ThisSoftwareContainsSourceCodeProvided" xml:space="preserve">
+    <value>این نرم‌افزار شامل کد منبعی است که NVIDIA Corporation ارائه کرده است. تولید فریم در GPUهای NVIDIA پشتیبانی‌شده از کتابخانه FRUC در NVIDIA Optical Flow SDK استفاده می‌کند.</value>
+  </data>
+  <data name="Ui.Misc2.TheClassicTopbarOptionRebuildsTwo" xml:space="preserve">
+    <value>گزینه نوار بالای کلاسیک دو ماد جامعه را بازسازی می‌کند. ظاهر و رفتار نوار بالا و منوی بازی سال‌های 2014 تا 2015 از "2014 2015 Topbar and Menu (Improvised GUI)" ساخته HockuTM گرفته شده است. پنهان کردن نوار بالای مدرن از "NoGuiRBX, Hide TopBar!" ساخته Einshine استفاده می‌کند. هر دو با سپاس طبق شرایط Creative Commons BY NC ND 4.0 استفاده می‌شوند، فایل‌هایشان به جای همراه شدن مستقیم از GameBanana دانلود می‌شوند و هیچ‌کدام از سازندگان با Voidstrap وابستگی ندارند.</value>
+  </data>
+  <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
+    <value>2014 2015 Topbar and Menu by HockuTM</value>
+  </data>
+  <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
+    <value>مادهای جامعه</value>
+  </data>
+  <data name="Ui.Misc2.CommunityModsListsRobloxSubmissionsFrom" xml:space="preserve">
+    <value>مادهای جامعه آثار Roblox را از GameBanana و Kliko's Mods فهرست می‌کند که TheKliko آن را برای ماد لودر Kliko نگهداری می‌کند. Voidstrap با هیچ‌کدام وابستگی ندارد و مورد تأیید آن‌ها نیست. همه مادها، تصاویر و توضیحات متعلق به سازندگانشان است که در هر مورد نام برده شده‌اند. Voidstrap فقط داده‌های عمومی آن‌ها را می‌خواند و هرگز چیزی را از طرف شما بارگذاری نمی‌کند.</value>
+  </data>
+  <data name="Ui.Misc2.GithubComKlikosModloaderMarketplace" xml:space="preserve">
+    <value>github.com/klikos modloader/marketplace</value>
+  </data>
+  <data name="Ui.Misc2.CanTSeeOverlays" xml:space="preserve">
+    <value>روکش‌ها را نمی‌بینید؟</value>
+  </data>
+  <data name="Ui.Misc2.Info" xml:space="preserve">
+    <value>اطلاعات</value>
+  </data>
+  <data name="Ui.Misc2.FFlags" xml:space="preserve">
+    <value>FFlags</value>
+  </data>
+  <data name="Ui.Misc2.PlayTime" xml:space="preserve">
+    <value>زمان بازی</value>
+  </data>
+  <data name="Ui.Misc2.MemoryDetails" xml:space="preserve">
+    <value>جزئیات حافظه</value>
+  </data>
+  <data name="Ui.Misc2.JoinClosestServer" xml:space="preserve">
+    <value>پیوستن به نزدیک‌ترین سرور</value>
+  </data>
+  <data name="Ui.Misc2.GamePassInfo" xml:space="preserve">
+    <value>اطلاعات GamePass</value>
+  </data>
+  <data name="Ui.Misc2.MusicPlayer" xml:space="preserve">
+    <value>پخش‌کننده موسیقی</value>
+  </data>
+  <data name="Ui.Misc2.FrameGen" xml:space="preserve">
+    <value>تولید فریم</value>
+  </data>
+  <data name="Ui.Misc2.FrameGeneration" xml:space="preserve">
+    <value>تولید فریم</value>
+  </data>
+  <data name="Ui.Misc2.GeneratedFramesOverlay" xml:space="preserve">
+    <value>روکش فریم‌های تولیدشده</value>
+  </data>
+  <data name="Ui.Misc2.SplitScreenCompare" xml:space="preserve">
+    <value>مقایسه با صفحه دوتایی</value>
+  </data>
+  <data name="Ui.Misc2.ColorTemperature" xml:space="preserve">
+    <value>دمای رنگ</value>
+  </data>
+  <data name="Ui.Misc2.SearchLibraryByTitleArtistOr" xml:space="preserve">
+    <value>جستجوی کتابخانه با عنوان، هنرمند یا نوع...</value>
+  </data>
+  <data name="Ui.Misc2.RemoveTrack" xml:space="preserve">
+    <value>حذف آهنگ</value>
+  </data>
+  <data name="Ui.Misc2.NoTracksClickImportToAdd" xml:space="preserve">
+    <value>آهنگی نیست. برای افزودن صدا روی وارد کردن کلیک کنید.</value>
+  </data>
+  <data name="Ui.Misc2.NoTracksMatchYourSearch" xml:space="preserve">
+    <value>هیچ آهنگی با جستجوی شما مطابقت ندارد.</value>
+  </data>
+  <data name="Ui.Misc2.NowPlaying" xml:space="preserve">
+    <value>در حال پخش</value>
+  </data>
+  <data name="Ui.Misc2.Previous" xml:space="preserve">
+    <value>قبلی</value>
+  </data>
+  <data name="Ui.Misc2.Stop" xml:space="preserve">
+    <value>توقف</value>
+  </data>
+  <data name="Ui.Misc2.MuteUnmute" xml:space="preserve">
+    <value>بی‌صدا / باصدا</value>
+  </data>
+  <data name="Ui.Misc2.Equalizer" xml:space="preserve">
+    <value>اکولایزر</value>
+  </data>
+  <data name="Ui.Misc2.TuneHowYourAudioSoundsPick" xml:space="preserve">
+    <value>صدای خود را تنظیم کنید. یک پیش‌تنظیم انتخاب کنید یا باندها را بکشید، فوراً اعمال و خودکار ذخیره می‌شود.</value>
+  </data>
+  <data name="Ui.Misc2.EnableEqualizer" xml:space="preserve">
+    <value>فعال کردن اکولایزر</value>
+  </data>
+  <data name="Ui.Misc2.BandsAreInHz0DB" xml:space="preserve">
+    <value>باندها بر حسب Hz هستند. 0 dB خنثی است، تا مثبت یا منفی 12 dB.</value>
+  </data>
+  <data name="Ui.Misc2.Preview" xml:space="preserve">
+    <value>پیش‌نمایش: </value>
+  </data>
+  <data name="Ui.Misc2.SelectAnAssetToPreviewIt" xml:space="preserve">
+    <value>یک منبع را برای پیش‌نمایش در اینجا انتخاب کنید</value>
+  </data>
+  <data name="Ui.Misc2.Volume" xml:space="preserve">
+    <value>بلندی صدا:</value>
+  </data>
+  <data name="Ui.Misc2.Loop" xml:space="preserve">
+    <value>تکرار</value>
+  </data>
+  <data name="Ui.Misc2.OutputFormat" xml:space="preserve">
+    <value>قالب خروجی</value>
+  </data>
+  <data name="Ui.Misc2.DownloadConvertThisAudio" xml:space="preserve">
+    <value>دانلود / تبدیل این صدا</value>
+  </data>
+  <data name="Ui.Misc2.CameraControls" xml:space="preserve">
+    <value>کنترل دوربین</value>
+  </data>
+  <data name="Ui.Misc2.ResetView" xml:space="preserve">
+    <value>بازنشانی نما</value>
+  </data>
+  <data name="Ui.Misc2.Options" xml:space="preserve">
+    <value>گزینه‌ها</value>
+  </data>
+  <data name="Ui.Misc2.Wireframe" xml:space="preserve">
+    <value>قاب سیمی</value>
+  </data>
+  <data name="Ui.Misc2.AutoRotate" xml:space="preserve">
+    <value>چرخش خودکار</value>
+  </data>
+  <data name="Ui.Misc2.ShowGrid" xml:space="preserve">
+    <value>نمایش شبکه</value>
+  </data>
+  <data name="Ui.Misc2.ImageAdjust" xml:space="preserve">
+    <value>تنظیم تصویر</value>
+  </data>
+  <data name="Ui.Misc2.ImageAdjustments" xml:space="preserve">
+    <value>تنظیمات تصویر</value>
+  </data>
+  <data name="Ui.Misc2.Orientation" xml:space="preserve">
+    <value>جهت</value>
+  </data>
+  <data name="Ui.Misc2.Rotate90" xml:space="preserve">
+    <value>چرخش 90</value>
+  </data>
+  <data name="Ui.Misc2.FlipH" xml:space="preserve">
+    <value>برگرداندن افقی</value>
+  </data>
+  <data name="Ui.Misc2.FlipV" xml:space="preserve">
+    <value>برگرداندن عمودی</value>
+  </data>
+  <data name="Ui.Misc2.ScaleResize" xml:space="preserve">
+    <value>مقیاس (تغییر اندازه)</value>
+  </data>
+  <data name="Ui.Misc2.ApplyResize" xml:space="preserve">
+    <value>اعمال اندازه</value>
+  </data>
+  <data name="Ui.Misc2.ResetAdjustments" xml:space="preserve">
+    <value>بازنشانی تنظیمات</value>
+  </data>
+  <data name="Ui.Misc2.TipUseTheseToFixOrientation" xml:space="preserve">
+    <value>نکته: از این‌ها برای اصلاح جهت یا تغییر اندازه دقیق منابع استفاده کنید.</value>
+  </data>
+  <data name="Ui.Misc2.SaveAsMod" xml:space="preserve">
+    <value>ذخیره به‌عنوان ماد</value>
+  </data>
+  <data name="Ui.Misc2.ImageRecolor" xml:space="preserve">
+    <value>رنگ‌آمیزی دوباره تصویر</value>
+  </data>
+  <data name="Ui.Misc2.RecolorOptions" xml:space="preserve">
+    <value>گزینه‌های رنگ‌آمیزی دوباره</value>
+  </data>
+  <data name="Ui.Misc2.TargetColor" xml:space="preserve">
+    <value>رنگ هدف</value>
+  </data>
+  <data name="Ui.Misc2.Intensity" xml:space="preserve">
+    <value>شدت</value>
+  </data>
+  <data name="Ui.Misc2.ResetImage" xml:space="preserve">
+    <value>بازنشانی تصویر</value>
+  </data>
+  <data name="Ui.Misc2.TipThisWillTintTheImage" xml:space="preserve">
+    <value>نکته: تصویر با حفظ شفافیت رنگ می‌گیرد.</value>
+  </data>
+  <data name="Ui.Misc2.Loading" xml:space="preserve">
+    <value>در حال بارگذاری...</value>
+  </data>
+  <data name="Ui.Misc2.Active" xml:space="preserve">
+    <value>فعال</value>
+  </data>
+  <data name="Ui.Misc2.ServerSize" xml:space="preserve">
+    <value>اندازه سرور</value>
+  </data>
+  <data name="Ui.Misc2.Chat" xml:space="preserve">
+    <value>گفتگو</value>
+  </data>
+  <data name="Ui.Misc2.Chats" xml:space="preserve">
+    <value>گفتگوها</value>
+  </data>
+  <data name="Ui.Misc2.LoadingYourChats" xml:space="preserve">
+    <value>در حال بارگذاری گفتگوهای شما</value>
+  </data>
+  <data name="Ui.Misc2.Send" xml:space="preserve">
+    <value>ارسال</value>
+  </data>
+  <data name="Ui.Misc2.NoNewsYet" xml:space="preserve">
+    <value>هنوز خبری نیست</value>
+  </data>
+  <data name="Ui.Misc2.NewVoidstrapUpdatesAndAnnouncementsWill" xml:space="preserve">
+    <value>به‌روزرسانی‌ها و اطلاعیه‌های جدید Voidstrap اینجا نمایش داده می‌شوند</value>
+  </data>
+  <data name="Ui.Misc2.ReadMore" xml:space="preserve">
+    <value>بیشتر بخوانید</value>
+  </data>
+  <data name="Ui.Misc2.Earlier" xml:space="preserve">
+    <value>پیش‌تر</value>
+  </data>
+  <data name="Ui.Misc2.ChooseSidebarIcon" xml:space="preserve">
+    <value>انتخاب نماد نوار کناری</value>
+  </data>
+  <data name="Ui.Misc2.SearchAllWPFUIIcons" xml:space="preserve">
+    <value>جستجو در همه نمادهای WPF UI</value>
+  </data>
+  <data name="Ui.Misc2.CustomImage" xml:space="preserve">
+    <value>تصویر سفارشی</value>
+  </data>
+  <data name="Ui.Misc2.UseIcon" xml:space="preserve">
+    <value>استفاده از نماد</value>
+  </data>
+  <data name="Ui.Misc2.EditMod" xml:space="preserve">
+    <value>ویرایش ماد</value>
+  </data>
+  <data name="Ui.Misc2.GetEveryOptionFromGameBanana" xml:space="preserve">
+    <value>دریافت همه گزینه‌ها از GameBanana</value>
+  </data>
+  <data name="Ui.Misc2.RuleName" xml:space="preserve">
+    <value>نام قانون</value>
+  </data>
+  <data name="Ui.Misc2.AssetIdsToReplace" xml:space="preserve">
+    <value>شناسه منابعی که جایگزین می‌شوند</value>
+  </data>
+  <data name="Ui.Misc2.FlagProfiles" xml:space="preserve">
+    <value>نمایه‌های پرچم</value>
+  </data>
+  <data name="Ui.Misc2.NoSavedProfiles" xml:space="preserve">
+    <value>نمایه ذخیره‌شده‌ای نیست</value>
+  </data>
+  <data name="Ui.Misc2.ClearExistingFlagsFirst" xml:space="preserve">
+    <value>ابتدا پرچم‌های موجود پاک شوند</value>
+  </data>
+  <data name="Ui.Misc2.FindACityOrCountry" xml:space="preserve">
+    <value>یافتن شهر یا کشور</value>
+  </data>
+  <data name="Ui.Misc2.ClickAPinToChooseA" xml:space="preserve">
+    <value>برای انتخاب مرکز داده روی یک سنجاق کلیک کنید</value>
+  </data>
+  <data name="Ui.Misc2.CenterOnSelectedDatacenter" xml:space="preserve">
+    <value>مرکز کردن روی مرکز داده انتخاب‌شده</value>
+  </data>
+  <data name="Ui.Misc2.Under70Ms" xml:space="preserve">
+    <value>کمتر از 70 میلی‌ثانیه</value>
+  </data>
+  <data name="Ui.Misc2.Under140Ms" xml:space="preserve">
+    <value>کمتر از 140 میلی‌ثانیه</value>
+  </data>
+  <data name="Ui.Misc2.Slower" xml:space="preserve">
+    <value>کندتر</value>
+  </data>
+  <data name="Ui.Misc2.Blocked" xml:space="preserve">
+    <value>مسدود</value>
+  </data>
+  <data name="Ui.Misc2.BetterBloxDatacenters" xml:space="preserve">
+    <value>مراکز داده BetterBlox</value>
+  </data>
+  <data name="Ui.Misc2.DisplaysAllActiveRobloxDatacentersFrom" xml:space="preserve">
+    <value>همه مراکز داده فعال Roblox را از API برنامه BetterBlox نشان می‌دهد.</value>
+  </data>
+  <data name="Ui.Misc2.City" xml:space="preserve">
+    <value>شهر</value>
+  </data>
+  <data name="Ui.Misc2.Country" xml:space="preserve">
+    <value>کشور</value>
+  </data>
+  <data name="Ui.Misc2.Organization" xml:space="preserve">
+    <value>سازمان</value>
+  </data>
+  <data name="Ui.Misc2.RobloxNews" xml:space="preserve">
+    <value>اخبار Roblox</value>
+  </data>
+  <data name="Ui.Misc2.OpenFeed" xml:space="preserve">
+    <value>باز کردن فید</value>
+  </data>
+  <data name="Ui.Misc2.OpenTheAnnouncementsFeedInYour" xml:space="preserve">
+    <value>باز کردن فید اطلاعیه‌ها در مرورگر</value>
+  </data>
+  <data name="Ui.Misc2.LoadingTheLatestRobloxAnnouncements" xml:space="preserve">
+    <value>در حال بارگذاری آخرین اطلاعیه‌های Roblox...</value>
+  </data>
+  <data name="Ui.Misc2.DownloadServer" xml:space="preserve">
+    <value>سرور دانلود</value>
+  </data>
+  <data name="Ui.Misc2.ChooseTheServerUsedWhenRoblox" xml:space="preserve">
+    <value>سروری را که هنگام نصب یا به‌روزرسانی Roblox استفاده می‌شود انتخاب کنید.</value>
+  </data>
+  <data name="Ui.Misc2.TheDeploymentChannelRobloxIsInstalled" xml:space="preserve">
+    <value>کانال استقراری که Roblox از آن نصب می‌شود. Production پیش‌فرض است و تقریباً همه همین را می‌خواهند. کانال‌های دیگر مانند LIVE یا zlive نسخه‌های آزمایشی Roblox هستند و ممکن است در دسترس نباشند که هنگام دانلود به صورت 403 یا 404 نمایش داده می‌شود</value>
+  </data>
+  <data name="Ui.Misc2.PreferredChannel" xml:space="preserve">
+    <value>کانال ترجیحی</value>
+  </data>
+  <data name="Ui.Misc2.LeaveThisAsProductionUnlessYou" xml:space="preserve">
+    <value>آن را روی Production بگذارید مگر اینکه مطمئن باشید کانالی که می‌نویسید وجود دارد</value>
+  </data>
+  <data name="Ui.Misc2.LoadingReleaseNotes" xml:space="preserve">
+    <value>در حال بارگذاری یادداشت‌های انتشار</value>
+  </data>
+  <data name="Ui.Misc2.ViewOnGitHub" xml:space="preserve">
+    <value>دیدن در GitHub</value>
+  </data>
+  <data name="Ui.Misc2.AvailableChannels" xml:space="preserve">
+    <value>کانال‌های در دسترس</value>
+  </data>
+  <data name="Ui.Misc2.BrowseAndSelectFromAllCurrently" xml:space="preserve">
+    <value>همه کانال‌های استقرار در دسترس را مرور و انتخاب کنید.</value>
+  </data>
+  <data name="Ui.Misc2.LoadingChannels" xml:space="preserve">
+    <value>در حال بارگذاری کانال‌ها...</value>
+  </data>
+  <data name="Ui.Misc2.ChannelName" xml:space="preserve">
+    <value>نام کانال</value>
+  </data>
+  <data name="Ui.Misc2.VersionGUID" xml:space="preserve">
+    <value>GUID نسخه</value>
+  </data>
+  <data name="Ui.Misc2.Players" xml:space="preserve">
+    <value>بازیکنان:</value>
+  </data>
+  <data name="Ui.Misc2.More" xml:space="preserve">
+    <value>بیشتر</value>
+  </data>
+  <data name="Ui.Misc2.CopyTheInstanceID" xml:space="preserve">
+    <value>کپی شناسه نمونه</value>
+  </data>
+  <data name="Ui.Misc2.CloseThisWindow" xml:space="preserve">
+    <value>بستن این پنجره</value>
+  </data>
+  <data name="Ui.Misc2.PlayerGamepasses" xml:space="preserve">
+    <value>gamepass های بازیکن</value>
+  </data>
+  <data name="Ui.Misc2.DisplaysAllGamepassesOwnedOrCreated" xml:space="preserve">
+    <value>همه gamepass هایی را که بازیکن دارد یا ساخته نشان می‌دهد.</value>
+  </data>
+  <data name="Ui.Misc2.PriceR" xml:space="preserve">
+    <value>قیمت (R$)</value>
+  </data>
+  <data name="Ui.Misc2.Releases" xml:space="preserve">
+    <value>انتشارها</value>
+  </data>
+  <data name="Ui.Misc2.SearchReleases" xml:space="preserve">
+    <value>جستجوی انتشارها...</value>
+  </data>
+  <data name="Ui.Misc2.PreRelease" xml:space="preserve">
+    <value>پیش‌انتشار</value>
+  </data>
+  <data name="Ui.Misc2.Draft" xml:space="preserve">
+    <value>پیش‌نویس</value>
+  </data>
+  <data name="Ui.Misc2.ExtraPagesGroupedUnderMoreIn" xml:space="preserve">
+    <value>صفحات اضافه که زیر بیشتر در نوار کناری گروه‌بندی شده‌اند.</value>
+  </data>
+  <data name="Ui.Misc2.EditRobloxSOwnInGame" xml:space="preserve">
+    <value>ویرایش تنظیمات درون‌بازی خود Roblox.</value>
+  </data>
+  <data name="Ui.Misc2.ReadVoidstrapNewsUpdatesAndForum" xml:space="preserve">
+    <value>اخبار، به‌روزرسانی‌ها و پست‌های انجمن Voidstrap را بخوانید.</value>
+  </data>
+  <data name="Ui.Misc2.ProvidesInfoOnFFlagsFeatures" xml:space="preserve">
+    <value>اطلاعاتی درباره FFlags و قابلیت‌ها.</value>
+  </data>
+  <data name="Ui.Misc2.CommonFFlagIssues" xml:space="preserve">
+    <value>مشکلات رایج FFlag</value>
+  </data>
+  <data name="Ui.Misc2.BootstrapperIssues" xml:space="preserve">
+    <value>مشکلات راه‌انداز</value>
+  </data>
+  <data name="Ui.Misc2.Features" xml:space="preserve">
+    <value>قابلیت‌ها</value>
+  </data>
+  <data name="Ui.Misc2.Files" xml:space="preserve">
+    <value>فایل‌ها</value>
+  </data>
+  <data name="Ui.Misc2.OnThisPC" xml:space="preserve">
+    <value>روی این رایانه</value>
+  </data>
+  <data name="Ui.Misc2.ReleasesSourceAndIssues" xml:space="preserve">
+    <value>انتشارها، کد منبع و مشکلات.</value>
+  </data>
+  <data name="Ui.Misc2.ReportOnBackup" xml:space="preserve">
+    <value>گزارش در پشتیبان</value>
+  </data>
+  <data name="Ui.Misc2.ApplyFrom" xml:space="preserve">
+    <value>اعمال از</value>
+  </data>
 </root>

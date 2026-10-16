@@ -36,7 +36,7 @@
         <Border Margin="0,0,0,0" Padding="14,6" CornerRadius="8" HorizontalAlignment="Center" Background="{DynamicResource ControlFillColorDefaultBrush}" BorderThickness="1" BorderBrush="{DynamicResource ControlElevationBorderBrush}">
           <StackPanel Orientation="Horizontal">
             <ui:SymbolIcon Symbol="People24" FontSize="16" VerticalAlignment="Center" />
-            <TextBlock Text="Players:" VerticalAlignment="Center" Margin="8,0,5,0" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+            <TextBlock Text="{resources:Loc Ui_Misc2_Players}" VerticalAlignment="Center" Margin="8,0,5,0" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
             <TextBlock VerticalAlignment="Center" FontWeight="SemiBold" Text="{Binding PlayerCount, Mode=OneWay}" />
           </StackPanel>
         </Border>
@@ -59,7 +59,7 @@
           <TextBlock Grid.Row="0" Grid.Column="1" Margin="0,0,0,10" HorizontalAlignment="Right" TextAlignment="Right" Text="{Binding ServerType, Mode=OneWay}" />
           <TextBlock Grid.Row="1" Grid.Column="0" Text="{resources:Loc ContextMenu_ServerInformation_Location}" Margin="0,0,16,10" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Visibility="{Binding ServerLocationVisibility}" />
           <TextBlock Grid.Row="1" Grid.Column="1" Margin="0,0,0,10" HorizontalAlignment="Right" TextAlignment="Right" TextTrimming="CharacterEllipsis" Text="{Binding ServerLocation}" Visibility="{Binding ServerLocationVisibility}" />
-          <TextBlock Grid.Row="2" Grid.Column="0" Text="Uptime" Margin="0,0,16,10" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Visibility="{Binding UptimeVisibility, Mode=OneWay}" />
+          <TextBlock Grid.Row="2" Grid.Column="0" Text="{resources:Loc Ui_Session_Uptime}" Margin="0,0,16,10" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Visibility="{Binding UptimeVisibility, Mode=OneWay}" />
           <TextBlock Grid.Row="2" Grid.Column="1" Margin="0,0,0,10" HorizontalAlignment="Right" TextAlignment="Right" TextTrimming="CharacterEllipsis" Typography.NumeralAlignment="Tabular" Text="{Binding Uptime, Mode=OneWay}" Visibility="{Binding UptimeVisibility, Mode=OneWay}" />
           <TextBlock Grid.Row="3" Grid.Column="0" Text="{resources:Loc ContextMenu_ServerInformation_InstanceId}" Margin="0,0,16,0" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
           <TextBlock Grid.Row="3" Grid.Column="1" HorizontalAlignment="Right" TextAlignment="Right" TextTrimming="CharacterEllipsis" Text="{Binding InstanceId, Mode=OneWay}" />
@@ -88,7 +88,7 @@
                 <Border Width="40" Height="40" HorizontalAlignment="Center" CornerRadius="8" Background="{DynamicResource ControlFillColorSecondaryBrush}" BorderThickness="1" BorderBrush="{DynamicResource ControlElevationBorderBrush}">
                   <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="SemiBold" Text="{Binding MoreFriendsText, Mode=OneWay}" />
                 </Border>
-                <TextBlock Margin="0,4,0,0" HorizontalAlignment="Center" FontSize="11" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="more" />
+                <TextBlock Margin="0,4,0,0" HorizontalAlignment="Center" FontSize="11" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_Misc2_More}" />
               </StackPanel>
             </StackPanel>
           </StackPanel>
@@ -97,8 +97,8 @@
     </Grid>
     <Border Grid.Row="2" Padding="15" Background="{DynamicResource PrimaryBackgroundColor}">
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-        <Button MinWidth="100" Width="148" Content="{resources:Loc ContextMenu_ServerInformation_CopyInstanceId}" ToolTip="Copy the Instance ID" AutomationProperties.Name="Copy Instance ID Button" Command="{Binding CopyInstanceIdCommand, Mode=OneTime}" />
-        <Button MinWidth="100" Margin="12,0,0,0" Content="{resources:Loc Common_Close}" IsCancel="True" Click="CloseButton_Click" ToolTip="Close this window" AutomationProperties.Name="Close Button" />
+        <Button MinWidth="100" Width="148" Content="{resources:Loc ContextMenu_ServerInformation_CopyInstanceId}" ToolTip="{resources:Loc Ui_Misc2_CopyTheInstanceID}" AutomationProperties.Name="Copy Instance ID Button" Command="{Binding CopyInstanceIdCommand, Mode=OneTime}" />
+        <Button MinWidth="100" Margin="12,0,0,0" Content="{resources:Loc Common_Close}" IsCancel="True" Click="CloseButton_Click" ToolTip="{resources:Loc Ui_Misc2_CloseThisWindow}" AutomationProperties.Name="Close Button" />
       </StackPanel>
     </Border>
   </Grid>

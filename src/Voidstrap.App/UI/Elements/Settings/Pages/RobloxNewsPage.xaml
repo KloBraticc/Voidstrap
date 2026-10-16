@@ -7,7 +7,7 @@
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     xmlns:util="clr-namespace:Voidstrap.Utility"
     xmlns:conv="clr-namespace:Voidstrap.UI.Converters"
-    Title="Roblox News">
+    Title="{resources:Loc Ui_Misc2_RobloxNews}">
 
     <Page.Resources>
         <conv:InvertBooleanToVisibilityConverter x:Key="InvertBoolToVis" />
@@ -31,7 +31,7 @@
                            ToolTip="{resources:Loc Menu_FastFlagEditor_Warning_Back}"
                            Click="Back_Click"/>
                 <StackPanel>
-                    <TextBlock Text="Latest Roblox News"
+                    <TextBlock Text="{resources:Loc Ui_Home_LatestRobloxNews}"
                                FontSize="24"
                                FontWeight="Bold"
                                Foreground="{DynamicResource TextFillColorPrimaryBrush}"/>
@@ -46,17 +46,17 @@
                            Icon="ArrowSync24"
                            Appearance="Secondary"
                            Command="{Binding RefreshCommand}"/>
-                <ui:Button Content="Open feed"
+                <ui:Button Content="{resources:Loc Ui_Misc2_OpenFeed}"
                            Icon="Open24"
                            Margin="8,0,0,0"
                            Appearance="Transparent"
-                           ToolTip="Open the announcements feed in your browser"
+                           ToolTip="{resources:Loc Ui_Misc2_OpenTheAnnouncementsFeedInYour}"
                            Command="{Binding OpenFeedCommand}"/>
             </StackPanel>
         </Grid>
 
         <TextBlock Grid.Row="1"
-                   Text="Loading the latest Roblox announcements..."
+                   Text="{resources:Loc Ui_Misc2_LoadingTheLatestRobloxAnnouncements}"
                    FontSize="14"
                    Margin="0,26,0,0"
                    HorizontalAlignment="Center"

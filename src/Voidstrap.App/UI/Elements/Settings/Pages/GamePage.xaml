@@ -48,7 +48,7 @@
                                    FontSize="30"
                                    FontWeight="Bold"
                                    TextWrapping="Wrap"
-                                   Text="Loading..." />
+                                   Text="{resources:Loc Ui_Misc2_Loading}" />
 
                         <TextBlock x:Name="CreatorText"
                                    FontSize="14"
@@ -120,7 +120,7 @@
                         </Grid.ColumnDefinitions>
 
                         <StackPanel Grid.Column="0">
-                            <TextBlock Text="Active" FontSize="12" Opacity="0.6" HorizontalAlignment="Center" />
+                            <TextBlock Text="{resources:Loc Ui_Misc2_Active}" FontSize="12" Opacity="0.6" HorizontalAlignment="Center" />
                             <TextBlock x:Name="ActiveText" Text="--" FontSize="14" FontWeight="Medium" Margin="0,4,0,0" HorizontalAlignment="Center" />
                         </StackPanel>
 
@@ -130,27 +130,27 @@
                         </StackPanel>
 
                         <StackPanel Grid.Column="2">
-                            <TextBlock Text="Visits" FontSize="12" Opacity="0.6" HorizontalAlignment="Center" />
+                            <TextBlock Text="{resources:Loc Ui_Pages_Visits}" FontSize="12" Opacity="0.6" HorizontalAlignment="Center" />
                             <TextBlock x:Name="VisitsText" Text="--" FontSize="14" FontWeight="Medium" Margin="0,4,0,0" HorizontalAlignment="Center" />
                         </StackPanel>
 
                         <StackPanel Grid.Column="3">
-                            <TextBlock Text="Created" FontSize="12" Opacity="0.6" HorizontalAlignment="Center" />
+                            <TextBlock Text="{resources:Loc Ui_Pages_Created}" FontSize="12" Opacity="0.6" HorizontalAlignment="Center" />
                             <TextBlock x:Name="CreatedText" Text="--" FontSize="14" FontWeight="Medium" Margin="0,4,0,0" HorizontalAlignment="Center" />
                         </StackPanel>
 
                         <StackPanel Grid.Column="4">
-                            <TextBlock Text="Updated" FontSize="12" Opacity="0.6" HorizontalAlignment="Center" />
+                            <TextBlock Text="{resources:Loc Ui_Pages_Updated}" FontSize="12" Opacity="0.6" HorizontalAlignment="Center" />
                             <TextBlock x:Name="UpdatedText" Text="--" FontSize="14" FontWeight="Medium" Margin="0,4,0,0" HorizontalAlignment="Center" />
                         </StackPanel>
 
                         <StackPanel Grid.Column="5">
-                            <TextBlock Text="Server Size" FontSize="12" Opacity="0.6" HorizontalAlignment="Center" />
+                            <TextBlock Text="{resources:Loc Ui_Misc2_ServerSize}" FontSize="12" Opacity="0.6" HorizontalAlignment="Center" />
                             <TextBlock x:Name="ServerSizeText" Text="--" FontSize="14" FontWeight="Medium" Margin="0,4,0,0" HorizontalAlignment="Center" />
                         </StackPanel>
 
                         <StackPanel Grid.Column="6">
-                            <TextBlock Text="Genre" FontSize="12" Opacity="0.6" HorizontalAlignment="Center" />
+                            <TextBlock Text="{resources:Loc Ui_Pages_Genre}" FontSize="12" Opacity="0.6" HorizontalAlignment="Center" />
                             <TextBlock x:Name="GenreStatText" Text="--" FontSize="14" FontWeight="Medium" Margin="0,4,0,0" HorizontalAlignment="Center" />
                         </StackPanel>
                     </Grid>

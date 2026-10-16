@@ -2,7 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-        Title="Chat" Width="880" Height="620" MinWidth="560" MinHeight="360"
+        Title="{resources:Loc Ui_Misc2_Chat}" Width="880" Height="620" MinWidth="560" MinHeight="360"
         WindowStyle="None" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"
         ResizeMode="NoResize" ShowInTaskbar="False" ShowActivated="False" Topmost="True"
         WindowStartupLocation="Manual" FontFamily="Segoe UI">
@@ -67,8 +67,8 @@
             <ColumnDefinition Width="6" />
             <ColumnDefinition Width="*" />
           </Grid.ColumnDefinitions>
-          <ui:Button x:Name="ChatsTab" Content="Chats" HorizontalAlignment="Stretch" Appearance="Primary" Click="ChatsTab_Click" />
-          <ui:Button x:Name="FriendsTab" Grid.Column="2" Content="Friends" HorizontalAlignment="Stretch" Appearance="Secondary" Click="FriendsTab_Click" />
+          <ui:Button x:Name="ChatsTab" Content="{resources:Loc Ui_Misc2_Chats}" HorizontalAlignment="Stretch" Appearance="Primary" Click="ChatsTab_Click" />
+          <ui:Button x:Name="FriendsTab" Grid.Column="2" Content="{resources:Loc Ui_SessionNotify_Friends}" HorizontalAlignment="Stretch" Appearance="Secondary" Click="FriendsTab_Click" />
         </Grid>
         <ui:TextBox x:Name="FilterBox" Grid.Row="1" Margin="0,0,0,8" ClearButtonEnabled="True"
                     PlaceholderText="{resources:Loc ContextMenu_GameBrowser_Search}" TextChanged="FilterBox_TextChanged" />
@@ -124,7 +124,7 @@
             <Image x:Name="HeaderAvatar" Stretch="UniformToFill" />
           </Border>
           <TextBlock x:Name="HeaderTitle" Grid.Column="1" Margin="10,0,0,0" VerticalAlignment="Center" FontSize="15" FontWeight="SemiBold"
-                     TextTrimming="CharacterEllipsis" Text="Chat" />
+                     TextTrimming="CharacterEllipsis" Text="{resources:Loc Ui_Misc2_Chat}" />
         </Grid>
         <Border Grid.Row="1" Height="1" VerticalAlignment="Top" Background="{DynamicResource CardStrokeColorDefaultBrush}" />
         <ListBox x:Name="MessageList" Grid.Row="1" Margin="10,8,10,4" BorderThickness="0" Background="Transparent"
@@ -156,7 +156,7 @@
         </ListBox>
         <TextBlock x:Name="ChatStatus" Grid.Row="1" Margin="24" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center"
                    IsHitTestVisible="False" Foreground="{DynamicResource TextFillColorSecondaryBrush}"
-                   Text="Loading your chats" />
+                   Text="{resources:Loc Ui_Misc2_LoadingYourChats}" />
         <Grid Grid.Row="2" Margin="10,4,10,10">
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -164,7 +164,7 @@
           </Grid.ColumnDefinitions>
           <ui:TextBox x:Name="InputBox" PlaceholderText="{resources:Loc Common_Message}" MaxLength="500" IsEnabled="False"
                       PreviewKeyDown="InputBox_PreviewKeyDown" TextChanged="InputBox_TextChanged" />
-          <ui:Button x:Name="SendButton" Grid.Column="1" Margin="8,0,0,0" Content="Send" Appearance="Primary"
+          <ui:Button x:Name="SendButton" Grid.Column="1" Margin="8,0,0,0" Content="{resources:Loc Ui_Misc2_Send}" Appearance="Primary"
                      IsEnabled="False" Click="SendButton_Click" />
         </Grid>
       </Grid>

@@ -6127,4 +6127,436 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
   <data name="Ui.Pages.TurnEverythingOff" xml:space="preserve">
     <value>すべてオフにする</value>
   </data>
+  <data name="Ui.Misc2.ASimpleYetAdvancedBloxstrapFork" xml:space="preserve">
+    <value>シンプルながら高機能な Bloxstrap のフォーク。</value>
+  </data>
+  <data name="Ui.Misc2.ThankYouErik" xml:space="preserve">
+    <value>ありがとう、Erik</value>
+  </data>
+  <data name="Ui.Misc2.MainContributors" xml:space="preserve">
+    <value>主な貢献者</value>
+  </data>
+  <data name="Ui.Misc2.ThePeopleWhoMadeVoidstrapPossible" xml:space="preserve">
+    <value>Voidstrap を実現した人たち。</value>
+  </data>
+  <data name="Ui.Misc2.LoveEveryoneWithAPurpose" xml:space="preserve">
+    <value>目的を持ってみんなを愛そう。</value>
+  </data>
+  <data name="Ui.Misc2.FroststrapOwner" xml:space="preserve">
+    <value>Froststrap のオーナー</value>
+  </data>
+  <data name="Ui.Misc2.RetiredCoOwnerWasLikeA" xml:space="preserve">
+    <value>元共同オーナー、兄弟のような存在でした。</value>
+  </data>
+  <data name="Ui.Misc2.AKindSoulThatHelpedOn" xml:space="preserve">
+    <value>道中で助けてくれた優しい人。</value>
+  </data>
+  <data name="Ui.Misc2.BuildInformation" xml:space="preserve">
+    <value>ビルド情報</value>
+  </data>
+  <data name="Ui.Misc2.CommitHash" xml:space="preserve">
+    <value>コミットハッシュ</value>
+  </data>
+  <data name="Ui.Misc2.ThirdPartyNotices" xml:space="preserve">
+    <value>サードパーティーの表記</value>
+  </data>
+  <data name="Ui.Misc2.ThisSoftwareContainsSourceCodeProvided" xml:space="preserve">
+    <value>このソフトウェアには NVIDIA Corporation が提供するソースコードが含まれています。フレーム生成は、対応する NVIDIA GPU 上で NVIDIA Optical Flow SDK の FRUC ライブラリを使用します。</value>
+  </data>
+  <data name="Ui.Misc2.TheClassicTopbarOptionRebuildsTwo" xml:space="preserve">
+    <value>クラシックトップバーのオプションは 2 つのコミュニティ Mod を再構築します。2014 年から 2015 年のトップバーとゲームメニューのデザインと動作は HockuTM による "2014 2015 Topbar and Menu (Improvised GUI)" に基づいています。最新のトップバーの非表示には Einshine による "NoGuiRBX, Hide TopBar!" を使用しています。どちらも Creative Commons BY NC ND 4.0 の条件に従い感謝とともに使用しており、ファイルは同梱せず GameBanana から直接ダウンロードします。どちらの作者も Voidstrap とは無関係です。</value>
+  </data>
+  <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
+    <value>2014 2015 Topbar and Menu by HockuTM</value>
+  </data>
+  <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
+    <value>コミュニティ Mod</value>
+  </data>
+  <data name="Ui.Misc2.CommunityModsListsRobloxSubmissionsFrom" xml:space="preserve">
+    <value>コミュニティ Mod には、TheKliko が Kliko の modloader 向けに管理する Kliko's Mods と GameBanana の Roblox 向け投稿が表示されます。Voidstrap はどちらとも提携しておらず、承認も受けていません。すべての Mod、画像、説明は作者に帰属し、各項目にクレジットが表示されます。Voidstrap は公開データを読み取るだけで、あなたに代わって何かをアップロードすることはありません。</value>
+  </data>
+  <data name="Ui.Misc2.GithubComKlikosModloaderMarketplace" xml:space="preserve">
+    <value>github.com/klikos modloader/marketplace</value>
+  </data>
+  <data name="Ui.Misc2.CanTSeeOverlays" xml:space="preserve">
+    <value>オーバーレイが表示されない場合</value>
+  </data>
+  <data name="Ui.Misc2.Info" xml:space="preserve">
+    <value>情報</value>
+  </data>
+  <data name="Ui.Misc2.FFlags" xml:space="preserve">
+    <value>FFlags</value>
+  </data>
+  <data name="Ui.Misc2.PlayTime" xml:space="preserve">
+    <value>プレイ時間</value>
+  </data>
+  <data name="Ui.Misc2.MemoryDetails" xml:space="preserve">
+    <value>メモリの詳細</value>
+  </data>
+  <data name="Ui.Misc2.JoinClosestServer" xml:space="preserve">
+    <value>最も近いサーバーに参加</value>
+  </data>
+  <data name="Ui.Misc2.GamePassInfo" xml:space="preserve">
+    <value>GamePass の情報</value>
+  </data>
+  <data name="Ui.Misc2.MusicPlayer" xml:space="preserve">
+    <value>ミュージックプレイヤー</value>
+  </data>
+  <data name="Ui.Misc2.FrameGen" xml:space="preserve">
+    <value>フレーム生成</value>
+  </data>
+  <data name="Ui.Misc2.FrameGeneration" xml:space="preserve">
+    <value>フレーム生成</value>
+  </data>
+  <data name="Ui.Misc2.GeneratedFramesOverlay" xml:space="preserve">
+    <value>生成フレームのオーバーレイ</value>
+  </data>
+  <data name="Ui.Misc2.SplitScreenCompare" xml:space="preserve">
+    <value>分割画面で比較</value>
+  </data>
+  <data name="Ui.Misc2.ColorTemperature" xml:space="preserve">
+    <value>色温度</value>
+  </data>
+  <data name="Ui.Misc2.SearchLibraryByTitleArtistOr" xml:space="preserve">
+    <value>タイトル、アーティスト、種類でライブラリを検索...</value>
+  </data>
+  <data name="Ui.Misc2.RemoveTrack" xml:space="preserve">
+    <value>トラックを削除</value>
+  </data>
+  <data name="Ui.Misc2.NoTracksClickImportToAdd" xml:space="preserve">
+    <value>トラックがありません。インポートをクリックしてオーディオを追加してください。</value>
+  </data>
+  <data name="Ui.Misc2.NoTracksMatchYourSearch" xml:space="preserve">
+    <value>検索に一致するトラックはありません。</value>
+  </data>
+  <data name="Ui.Misc2.NowPlaying" xml:space="preserve">
+    <value>再生中</value>
+  </data>
+  <data name="Ui.Misc2.Previous" xml:space="preserve">
+    <value>前へ</value>
+  </data>
+  <data name="Ui.Misc2.Stop" xml:space="preserve">
+    <value>停止</value>
+  </data>
+  <data name="Ui.Misc2.MuteUnmute" xml:space="preserve">
+    <value>ミュート / ミュート解除</value>
+  </data>
+  <data name="Ui.Misc2.Equalizer" xml:space="preserve">
+    <value>イコライザー</value>
+  </data>
+  <data name="Ui.Misc2.TuneHowYourAudioSoundsPick" xml:space="preserve">
+    <value>音の聞こえ方を調整します。プリセットを選ぶかバンドをドラッグすると、すぐに反映され自動で保存されます。</value>
+  </data>
+  <data name="Ui.Misc2.EnableEqualizer" xml:space="preserve">
+    <value>イコライザーを有効化</value>
+  </data>
+  <data name="Ui.Misc2.BandsAreInHz0DB" xml:space="preserve">
+    <value>バンドの単位は Hz です。0 dB が中立で、最大プラスマイナス 12 dB です。</value>
+  </data>
+  <data name="Ui.Misc2.Preview" xml:space="preserve">
+    <value>プレビュー: </value>
+  </data>
+  <data name="Ui.Misc2.SelectAnAssetToPreviewIt" xml:space="preserve">
+    <value>アセットを選ぶとここにプレビューが表示されます</value>
+  </data>
+  <data name="Ui.Misc2.Volume" xml:space="preserve">
+    <value>音量:</value>
+  </data>
+  <data name="Ui.Misc2.Loop" xml:space="preserve">
+    <value>ループ</value>
+  </data>
+  <data name="Ui.Misc2.OutputFormat" xml:space="preserve">
+    <value>出力形式</value>
+  </data>
+  <data name="Ui.Misc2.DownloadConvertThisAudio" xml:space="preserve">
+    <value>このオーディオをダウンロード / 変換</value>
+  </data>
+  <data name="Ui.Misc2.CameraControls" xml:space="preserve">
+    <value>カメラ操作</value>
+  </data>
+  <data name="Ui.Misc2.ResetView" xml:space="preserve">
+    <value>表示をリセット</value>
+  </data>
+  <data name="Ui.Misc2.Options" xml:space="preserve">
+    <value>オプション</value>
+  </data>
+  <data name="Ui.Misc2.Wireframe" xml:space="preserve">
+    <value>ワイヤーフレーム</value>
+  </data>
+  <data name="Ui.Misc2.AutoRotate" xml:space="preserve">
+    <value>自動回転</value>
+  </data>
+  <data name="Ui.Misc2.ShowGrid" xml:space="preserve">
+    <value>グリッドを表示</value>
+  </data>
+  <data name="Ui.Misc2.ImageAdjust" xml:space="preserve">
+    <value>画像の調整</value>
+  </data>
+  <data name="Ui.Misc2.ImageAdjustments" xml:space="preserve">
+    <value>画像の調整</value>
+  </data>
+  <data name="Ui.Misc2.Orientation" xml:space="preserve">
+    <value>向き</value>
+  </data>
+  <data name="Ui.Misc2.Rotate90" xml:space="preserve">
+    <value>90 度回転</value>
+  </data>
+  <data name="Ui.Misc2.FlipH" xml:space="preserve">
+    <value>左右反転</value>
+  </data>
+  <data name="Ui.Misc2.FlipV" xml:space="preserve">
+    <value>上下反転</value>
+  </data>
+  <data name="Ui.Misc2.ScaleResize" xml:space="preserve">
+    <value>拡大縮小 (サイズ変更)</value>
+  </data>
+  <data name="Ui.Misc2.ApplyResize" xml:space="preserve">
+    <value>サイズを適用</value>
+  </data>
+  <data name="Ui.Misc2.ResetAdjustments" xml:space="preserve">
+    <value>調整をリセット</value>
+  </data>
+  <data name="Ui.Misc2.TipUseTheseToFixOrientation" xml:space="preserve">
+    <value>ヒント: 向きを直したり、アセットのサイズをぴったり合わせたりできます。</value>
+  </data>
+  <data name="Ui.Misc2.SaveAsMod" xml:space="preserve">
+    <value>Mod として保存</value>
+  </data>
+  <data name="Ui.Misc2.ImageRecolor" xml:space="preserve">
+    <value>画像の色変更</value>
+  </data>
+  <data name="Ui.Misc2.RecolorOptions" xml:space="preserve">
+    <value>色変更のオプション</value>
+  </data>
+  <data name="Ui.Misc2.TargetColor" xml:space="preserve">
+    <value>変更後の色</value>
+  </data>
+  <data name="Ui.Misc2.Intensity" xml:space="preserve">
+    <value>強さ</value>
+  </data>
+  <data name="Ui.Misc2.ResetImage" xml:space="preserve">
+    <value>画像をリセット</value>
+  </data>
+  <data name="Ui.Misc2.TipThisWillTintTheImage" xml:space="preserve">
+    <value>ヒント: 透明度を保ったまま画像に色を付けます。</value>
+  </data>
+  <data name="Ui.Misc2.Loading" xml:space="preserve">
+    <value>読み込み中...</value>
+  </data>
+  <data name="Ui.Misc2.Active" xml:space="preserve">
+    <value>アクティブ</value>
+  </data>
+  <data name="Ui.Misc2.ServerSize" xml:space="preserve">
+    <value>サーバーの規模</value>
+  </data>
+  <data name="Ui.Misc2.Chat" xml:space="preserve">
+    <value>チャット</value>
+  </data>
+  <data name="Ui.Misc2.Chats" xml:space="preserve">
+    <value>チャット</value>
+  </data>
+  <data name="Ui.Misc2.LoadingYourChats" xml:space="preserve">
+    <value>チャットを読み込み中</value>
+  </data>
+  <data name="Ui.Misc2.Send" xml:space="preserve">
+    <value>送信</value>
+  </data>
+  <data name="Ui.Misc2.NoNewsYet" xml:space="preserve">
+    <value>まだニュースはありません</value>
+  </data>
+  <data name="Ui.Misc2.NewVoidstrapUpdatesAndAnnouncementsWill" xml:space="preserve">
+    <value>Voidstrap の新しいアップデートやお知らせがここに表示されます</value>
+  </data>
+  <data name="Ui.Misc2.ReadMore" xml:space="preserve">
+    <value>続きを読む</value>
+  </data>
+  <data name="Ui.Misc2.Earlier" xml:space="preserve">
+    <value>以前</value>
+  </data>
+  <data name="Ui.Misc2.ChooseSidebarIcon" xml:space="preserve">
+    <value>サイドバーのアイコンを選択</value>
+  </data>
+  <data name="Ui.Misc2.SearchAllWPFUIIcons" xml:space="preserve">
+    <value>すべての WPF UI アイコンを検索</value>
+  </data>
+  <data name="Ui.Misc2.CustomImage" xml:space="preserve">
+    <value>カスタム画像</value>
+  </data>
+  <data name="Ui.Misc2.UseIcon" xml:space="preserve">
+    <value>アイコンを使用</value>
+  </data>
+  <data name="Ui.Misc2.EditMod" xml:space="preserve">
+    <value>Mod を編集</value>
+  </data>
+  <data name="Ui.Misc2.GetEveryOptionFromGameBanana" xml:space="preserve">
+    <value>GameBanana からすべてのオプションを取得</value>
+  </data>
+  <data name="Ui.Misc2.RuleName" xml:space="preserve">
+    <value>ルール名</value>
+  </data>
+  <data name="Ui.Misc2.AssetIdsToReplace" xml:space="preserve">
+    <value>置き換えるアセット ID</value>
+  </data>
+  <data name="Ui.Misc2.FlagProfiles" xml:space="preserve">
+    <value>フラグのプロファイル</value>
+  </data>
+  <data name="Ui.Misc2.NoSavedProfiles" xml:space="preserve">
+    <value>保存されたプロファイルはありません</value>
+  </data>
+  <data name="Ui.Misc2.ClearExistingFlagsFirst" xml:space="preserve">
+    <value>既存のフラグを先に消去</value>
+  </data>
+  <data name="Ui.Misc2.FindACityOrCountry" xml:space="preserve">
+    <value>都市または国を検索</value>
+  </data>
+  <data name="Ui.Misc2.ClickAPinToChooseA" xml:space="preserve">
+    <value>ピンをクリックしてデータセンターを選択</value>
+  </data>
+  <data name="Ui.Misc2.CenterOnSelectedDatacenter" xml:space="preserve">
+    <value>選択したデータセンターを中央に表示</value>
+  </data>
+  <data name="Ui.Misc2.Under70Ms" xml:space="preserve">
+    <value>70 ms 未満</value>
+  </data>
+  <data name="Ui.Misc2.Under140Ms" xml:space="preserve">
+    <value>140 ms 未満</value>
+  </data>
+  <data name="Ui.Misc2.Slower" xml:space="preserve">
+    <value>遅い</value>
+  </data>
+  <data name="Ui.Misc2.Blocked" xml:space="preserve">
+    <value>ブロック中</value>
+  </data>
+  <data name="Ui.Misc2.BetterBloxDatacenters" xml:space="preserve">
+    <value>BetterBlox のデータセンター</value>
+  </data>
+  <data name="Ui.Misc2.DisplaysAllActiveRobloxDatacentersFrom" xml:space="preserve">
+    <value>BetterBlox API から稼働中の Roblox データセンターをすべて表示します。</value>
+  </data>
+  <data name="Ui.Misc2.City" xml:space="preserve">
+    <value>都市</value>
+  </data>
+  <data name="Ui.Misc2.Country" xml:space="preserve">
+    <value>国</value>
+  </data>
+  <data name="Ui.Misc2.Organization" xml:space="preserve">
+    <value>組織</value>
+  </data>
+  <data name="Ui.Misc2.RobloxNews" xml:space="preserve">
+    <value>Roblox ニュース</value>
+  </data>
+  <data name="Ui.Misc2.OpenFeed" xml:space="preserve">
+    <value>フィードを開く</value>
+  </data>
+  <data name="Ui.Misc2.OpenTheAnnouncementsFeedInYour" xml:space="preserve">
+    <value>お知らせのフィードをブラウザーで開く</value>
+  </data>
+  <data name="Ui.Misc2.LoadingTheLatestRobloxAnnouncements" xml:space="preserve">
+    <value>最新の Roblox のお知らせを読み込み中...</value>
+  </data>
+  <data name="Ui.Misc2.DownloadServer" xml:space="preserve">
+    <value>ダウンロードサーバー</value>
+  </data>
+  <data name="Ui.Misc2.ChooseTheServerUsedWhenRoblox" xml:space="preserve">
+    <value>Roblox のインストールや更新に使うサーバーを選択します。</value>
+  </data>
+  <data name="Ui.Misc2.TheDeploymentChannelRobloxIsInstalled" xml:space="preserve">
+    <value>Roblox のインストール元となるデプロイチャンネルです。Production が既定で、ほぼ全員に適しています。LIVE や zlive などの他のチャンネルは Roblox のテストビルドで、利用できない場合はダウンロード中に 403 や 404 として表示されます</value>
+  </data>
+  <data name="Ui.Misc2.PreferredChannel" xml:space="preserve">
+    <value>優先チャンネル</value>
+  </data>
+  <data name="Ui.Misc2.LeaveThisAsProductionUnlessYou" xml:space="preserve">
+    <value>入力するチャンネルが存在すると分かっている場合以外は Production のままにしてください</value>
+  </data>
+  <data name="Ui.Misc2.LoadingReleaseNotes" xml:space="preserve">
+    <value>リリースノートを読み込み中</value>
+  </data>
+  <data name="Ui.Misc2.ViewOnGitHub" xml:space="preserve">
+    <value>GitHub で見る</value>
+  </data>
+  <data name="Ui.Misc2.AvailableChannels" xml:space="preserve">
+    <value>利用可能なチャンネル</value>
+  </data>
+  <data name="Ui.Misc2.BrowseAndSelectFromAllCurrently" xml:space="preserve">
+    <value>現在利用できるすべてのデプロイチャンネルから選択できます。</value>
+  </data>
+  <data name="Ui.Misc2.LoadingChannels" xml:space="preserve">
+    <value>チャンネルを読み込み中...</value>
+  </data>
+  <data name="Ui.Misc2.ChannelName" xml:space="preserve">
+    <value>チャンネル名</value>
+  </data>
+  <data name="Ui.Misc2.VersionGUID" xml:space="preserve">
+    <value>バージョン GUID</value>
+  </data>
+  <data name="Ui.Misc2.Players" xml:space="preserve">
+    <value>プレイヤー:</value>
+  </data>
+  <data name="Ui.Misc2.More" xml:space="preserve">
+    <value>さらに表示</value>
+  </data>
+  <data name="Ui.Misc2.CopyTheInstanceID" xml:space="preserve">
+    <value>インスタンス ID をコピー</value>
+  </data>
+  <data name="Ui.Misc2.CloseThisWindow" xml:space="preserve">
+    <value>このウィンドウを閉じる</value>
+  </data>
+  <data name="Ui.Misc2.PlayerGamepasses" xml:space="preserve">
+    <value>プレイヤーの Gamepass</value>
+  </data>
+  <data name="Ui.Misc2.DisplaysAllGamepassesOwnedOrCreated" xml:space="preserve">
+    <value>プレイヤーが所有または作成したすべての Gamepass を表示します。</value>
+  </data>
+  <data name="Ui.Misc2.PriceR" xml:space="preserve">
+    <value>価格 (R$)</value>
+  </data>
+  <data name="Ui.Misc2.Releases" xml:space="preserve">
+    <value>リリース</value>
+  </data>
+  <data name="Ui.Misc2.SearchReleases" xml:space="preserve">
+    <value>リリースを検索...</value>
+  </data>
+  <data name="Ui.Misc2.PreRelease" xml:space="preserve">
+    <value>プレリリース</value>
+  </data>
+  <data name="Ui.Misc2.Draft" xml:space="preserve">
+    <value>下書き</value>
+  </data>
+  <data name="Ui.Misc2.ExtraPagesGroupedUnderMoreIn" xml:space="preserve">
+    <value>サイドバーの その他 にまとめられた追加ページ。</value>
+  </data>
+  <data name="Ui.Misc2.EditRobloxSOwnInGame" xml:space="preserve">
+    <value>Roblox 自身のゲーム内設定を編集します。</value>
+  </data>
+  <data name="Ui.Misc2.ReadVoidstrapNewsUpdatesAndForum" xml:space="preserve">
+    <value>Voidstrap のニュース、アップデート、フォーラム投稿を読む。</value>
+  </data>
+  <data name="Ui.Misc2.ProvidesInfoOnFFlagsFeatures" xml:space="preserve">
+    <value>FFlags と機能に関する情報。</value>
+  </data>
+  <data name="Ui.Misc2.CommonFFlagIssues" xml:space="preserve">
+    <value>よくある FFlag の問題</value>
+  </data>
+  <data name="Ui.Misc2.BootstrapperIssues" xml:space="preserve">
+    <value>ブートストラッパーの問題</value>
+  </data>
+  <data name="Ui.Misc2.Features" xml:space="preserve">
+    <value>機能</value>
+  </data>
+  <data name="Ui.Misc2.Files" xml:space="preserve">
+    <value>ファイル</value>
+  </data>
+  <data name="Ui.Misc2.OnThisPC" xml:space="preserve">
+    <value>この PC</value>
+  </data>
+  <data name="Ui.Misc2.ReleasesSourceAndIssues" xml:space="preserve">
+    <value>リリース、ソース、Issue。</value>
+  </data>
+  <data name="Ui.Misc2.ReportOnBackup" xml:space="preserve">
+    <value>バックアップで報告</value>
+  </data>
+  <data name="Ui.Misc2.ApplyFrom" xml:space="preserve">
+    <value>適用元</value>
+  </data>
 </root>

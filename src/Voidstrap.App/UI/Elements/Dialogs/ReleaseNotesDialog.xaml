@@ -1,4 +1,4 @@
-<base:WpfUiWindow xmlns:resources="clr-namespace:Voidstrap.Resources" x:Class="Voidstrap.UI.Elements.Dialogs.ReleaseNotesDialog" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base" Title="Release Notes" Width="780" Height="640" MinWidth="520" MinHeight="420" ExtendsContentIntoTitleBar="True" WindowStartupLocation="CenterOwner" mc:Ignorable="d">
+<base:WpfUiWindow xmlns:resources="clr-namespace:Voidstrap.Resources" x:Class="Voidstrap.UI.Elements.Dialogs.ReleaseNotesDialog" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base" Title="{resources:Loc Ui_Main_ReleaseNotes}" Width="780" Height="640" MinWidth="520" MinHeight="420" ExtendsContentIntoTitleBar="True" WindowStartupLocation="CenterOwner" mc:Ignorable="d">
   <Control.Background>
     <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
       <GradientStop Offset="0.0" Color="{DynamicResource WindowBackgroundColorPrimary}" />
@@ -14,9 +14,9 @@
       <RowDefinition Height="*" />
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
-    <ui:TitleBar Icon="pack://application:,,,/Voidstrap.png" Grid.Row="0" Padding="8" ShowMinimize="False" KeyboardNavigation.TabNavigation="None" Title="Release Notes" />
+    <ui:TitleBar Icon="pack://application:,,,/Voidstrap.png" Grid.Row="0" Padding="8" ShowMinimize="False" KeyboardNavigation.TabNavigation="None" Title="{resources:Loc Ui_Main_ReleaseNotes}" />
     <StackPanel Grid.Row="1" Margin="24,4,24,14">
-      <TextBlock x:Name="ReleaseTitleText" Text="Loading release notes" FontSize="24" FontWeight="SemiBold" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+      <TextBlock x:Name="ReleaseTitleText" Text="{resources:Loc Ui_Misc2_LoadingReleaseNotes}" FontSize="24" FontWeight="SemiBold" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
       <TextBlock x:Name="ReleaseDetailsText" Margin="0,6,0,0" FontSize="13" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
       <Border x:Name="FallbackNotice" Margin="0,12,0,0" Padding="12,9" CornerRadius="6" BorderThickness="1" Background="{DynamicResource ControlFillColorSecondaryBrush}" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" Visibility="Collapsed">
         <TextBlock x:Name="FallbackNoticeText" FontSize="13" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
@@ -32,7 +32,7 @@
     </Border>
     <Border Grid.Row="3" Padding="16,12" Background="{DynamicResource PrimaryBackgroundColor}">
       <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-        <Button x:Name="GitHubButton" MinWidth="130" Content="View on GitHub" IsEnabled="False" />
+        <Button x:Name="GitHubButton" MinWidth="130" Content="{resources:Loc Ui_Misc2_ViewOnGitHub}" IsEnabled="False" />
         <Button x:Name="CloseButton" MinWidth="100" Margin="12,0,0,0" Content="{resources:Loc Common_Close}" />
       </StackPanel>
     </Border>

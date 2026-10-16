@@ -68,9 +68,9 @@
               <TextBlock FontSize="12" FontWeight="Medium" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding Version, Mode=OneTime}" />
             </Border>
           </StackPanel>
-          <TextBlock Margin="0,4,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="A simple yet advanced Bloxstrap fork." TextWrapping="Wrap" />
+          <TextBlock Margin="0,4,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Misc2_ASimpleYetAdvancedBloxstrapFork}" TextWrapping="Wrap" />
         </StackPanel>
-        <Button Grid.Column="2" Margin="24,0,6,0" VerticalAlignment="Bottom" Style="{StaticResource ErikButton}" ToolTip="Thank you, Erik" Click="ErikButton_Click">
+        <Button Grid.Column="2" Margin="24,0,6,0" VerticalAlignment="Bottom" Style="{StaticResource ErikButton}" ToolTip="{resources:Loc Ui_Misc2_ThankYouErik}" Click="ErikButton_Click">
           <Image Height="74" Stretch="Uniform" Source="{StaticResource ErikImage}" RenderOptions.BitmapScalingMode="HighQuality" />
         </Button>
       </Grid>
@@ -81,8 +81,8 @@
       <ui:Anchor Margin="4" HorizontalAlignment="Stretch" Content="{resources:Loc Menu_About_ReportIssue}" Icon="BookExclamationMark24" NavigateUri="https://github.com/KloBraticc/Voidstrap/issues" />
       <ui:Anchor Margin="4" HorizontalAlignment="Stretch" Content="{resources:Loc Menu_About_DiscordServer}" Icon="Chat48" NavigateUri="https://discord.gg/X3CRTP66VG" />
     </UniformGrid>
-    <TextBlock Style="{StaticResource AboutSectionTitle}" Text="Main Contributors" />
-    <TextBlock Style="{StaticResource AboutSectionSubtitle}" Text="The people who made Voidstrap possible." />
+    <TextBlock Style="{StaticResource AboutSectionTitle}" Text="{resources:Loc Ui_Misc2_MainContributors}" />
+    <TextBlock Style="{StaticResource AboutSectionSubtitle}" Text="{resources:Loc Ui_Misc2_ThePeopleWhoMadeVoidstrapPossible}" />
     <UniformGrid Margin="-4,6,-4,0" Columns="2">
       <UniformGrid.Resources>
         <Style TargetType="{x:Type ui:Card}" BasedOn="{StaticResource {x:Type ui:Card}}">
@@ -100,7 +100,7 @@
           </Border>
           <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
             <TextBlock FontSize="15" FontWeight="SemiBold" Text="Bratic" />
-            <TextBlock Margin="0,1,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Love Everyone With a Purpose." TextWrapping="Wrap" />
+            <TextBlock Margin="0,1,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Misc2_LoveEveryoneWithAPurpose}" TextWrapping="Wrap" />
           </StackPanel>
         </Grid>
       </ui:Card>
@@ -115,7 +115,7 @@
           </Border>
           <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
             <TextBlock FontSize="15" FontWeight="SemiBold" Text="Meddsam" />
-            <TextBlock Margin="0,1,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Froststrap Owner" TextWrapping="Wrap" />
+            <TextBlock Margin="0,1,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Misc2_FroststrapOwner}" TextWrapping="Wrap" />
           </StackPanel>
         </Grid>
       </ui:Card>
@@ -130,7 +130,7 @@
           </Border>
           <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
             <TextBlock FontSize="15" FontWeight="SemiBold" Text="Midaskira" />
-            <TextBlock Margin="0,1,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="Retired Co Owner, was like a brother." TextWrapping="Wrap" />
+            <TextBlock Margin="0,1,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Misc2_RetiredCoOwnerWasLikeA}" TextWrapping="Wrap" />
           </StackPanel>
         </Grid>
       </ui:Card>
@@ -145,7 +145,7 @@
           </Border>
           <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
             <TextBlock FontSize="15" FontWeight="SemiBold" Text="NoRam" />
-            <TextBlock Margin="0,1,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="A kind soul that helped on the way." TextWrapping="Wrap" />
+            <TextBlock Margin="0,1,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Misc2_AKindSoulThatHelpedOn}" TextWrapping="Wrap" />
           </StackPanel>
         </Grid>
       </ui:Card>
@@ -160,7 +160,7 @@
           </Border>
           <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
             <TextBlock FontSize="15" FontWeight="SemiBold" Text="Levent" />
-            <TextBlock Margin="0,1,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="A kind soul that helped on the way." TextWrapping="Wrap" />
+            <TextBlock Margin="0,1,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Misc2_AKindSoulThatHelpedOn}" TextWrapping="Wrap" />
           </StackPanel>
         </Grid>
       </ui:Card>
@@ -175,7 +175,7 @@
           </Border>
           <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
             <TextBlock FontSize="15" FontWeight="SemiBold" Text="7bt" />
-            <TextBlock Margin="0,1,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="A kind soul that helped on the way." TextWrapping="Wrap" />
+            <TextBlock Margin="0,1,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Misc2_AKindSoulThatHelpedOn}" TextWrapping="Wrap" />
           </StackPanel>
         </Grid>
       </ui:Card>
@@ -265,7 +265,7 @@
       </controls:Expander>
     </Grid>
     <StackPanel Visibility="{Binding BuildInformationVisibility, Mode=OneTime}">
-      <TextBlock Style="{StaticResource AboutSectionTitle}" Text="Build Information" />
+      <TextBlock Style="{StaticResource AboutSectionTitle}" Text="{resources:Loc Ui_Misc2_BuildInformation}" />
       <ui:Card Margin="0,10,0,0" Padding="16,10">
         <Grid>
           <Grid.RowDefinitions>
@@ -277,11 +277,11 @@
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
           </Grid.ColumnDefinitions>
-          <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,4,20,4" FontSize="14" FontWeight="Medium" Text="Updated" />
+          <TextBlock Grid.Row="0" Grid.Column="0" Margin="0,4,20,4" FontSize="14" FontWeight="Medium" Text="{resources:Loc Ui_Pages_Updated}" />
           <TextBlock Grid.Row="0" Grid.Column="1" Margin="0,4,0,4" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding BuildTimestamp, Mode=OneTime}" />
           <TextBlock Grid.Row="1" Grid.Column="0" Margin="0,4,20,4" FontSize="14" FontWeight="Medium" Text="{resources:Loc Common_Version}" />
           <TextBlock Grid.Row="1" Grid.Column="1" Margin="0,4,0,4" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding Version, Mode=OneTime}" />
-          <TextBlock Grid.Row="2" Grid.Column="0" Margin="0,4,20,4" FontSize="14" FontWeight="Medium" Text="Commit Hash" Visibility="{Binding BuildCommitVisibility, Mode=OneTime}" />
+          <TextBlock Grid.Row="2" Grid.Column="0" Margin="0,4,20,4" FontSize="14" FontWeight="Medium" Text="{resources:Loc Ui_Misc2_CommitHash}" Visibility="{Binding BuildCommitVisibility, Mode=OneTime}" />
           <TextBlock Grid.Row="2" Grid.Column="1" Margin="0,4,0,4" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Visibility="{Binding BuildCommitVisibility, Mode=OneTime}">
             <Hyperlink Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="{Binding BuildCommitHashUrl, Mode=OneTime}" Foreground="{DynamicResource TextFillColorTertiaryBrush}">
               <TextBlock Text="{Binding CommitHash, Mode=OneTime}" />
@@ -290,17 +290,17 @@
         </Grid>
       </ui:Card>
     </StackPanel>
-    <TextBlock Style="{StaticResource AboutSectionTitle}" Text="Third Party Notices" />
+    <TextBlock Style="{StaticResource AboutSectionTitle}" Text="{resources:Loc Ui_Misc2_ThirdPartyNotices}" />
     <ui:Card Margin="0,10,0,0" Padding="16,12">
-      <TextBlock Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="This software contains source code provided by NVIDIA Corporation. Frame generation uses the NVIDIA Optical Flow SDK FRUC library on supported NVIDIA GPUs." TextWrapping="Wrap" />
+      <TextBlock Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Misc2_ThisSoftwareContainsSourceCodeProvided}" TextWrapping="Wrap" />
     </ui:Card>
     <ui:Card Margin="0,10,0,0" Padding="16,12">
       <StackPanel>
-        <TextBlock FontSize="14" FontWeight="Medium" Text="Old Roblox TopBar UI" />
-        <TextBlock Margin="0,6,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" Text="The classic topbar option rebuilds two community mods. The 2014 to 2015 topbar and game menu artwork and behaviour come from &quot;2014-2015 Topbar and Menu (Improvised GUI)&quot; by HockuTM. Hiding the modern topbar uses &quot;NoGuiRBX, Hide TopBar!&quot; by Einshine. Both are used with thanks under their Creative Commons BY NC ND 4.0 terms, their files are downloaded straight from GameBanana rather than bundled, and neither author is affiliated with Voidstrap." />
+        <TextBlock FontSize="14" FontWeight="Medium" Text="{resources:Loc Ui_Mods_OldRobloxTopbarUi}" />
+        <TextBlock Margin="0,6,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" Text="{resources:Loc Ui_Misc2_TheClassicTopbarOptionRebuildsTwo}" />
         <TextBlock Margin="0,6,0,0">
           <Hyperlink Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="https://gamebanana.com/mods/711267" Foreground="{DynamicResource TextFillColorTertiaryBrush}">
-            <TextBlock Text="2014-2015 Topbar and Menu by HockuTM" />
+            <TextBlock Text="{resources:Loc Ui_Misc2_20142015TopbarAndMenuBy}" />
           </Hyperlink>
         </TextBlock>
         <TextBlock Margin="0,2,0,0">
@@ -312,8 +312,8 @@
     </ui:Card>
     <ui:Card Margin="0,10,0,0" Padding="16,12">
       <StackPanel>
-        <TextBlock FontSize="14" FontWeight="Medium" Text="Community Mods" />
-        <TextBlock Margin="0,6,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" Text="Community Mods lists Roblox submissions from GameBanana and Kliko's Mods, maintained by TheKliko for Kliko's modloader. Voidstrap is not affiliated with or endorsed by either. All mods, images and descriptions belong to their authors, who are credited on every listing. Voidstrap only reads their public data and never uploads anything on your behalf." />
+        <TextBlock FontSize="14" FontWeight="Medium" Text="{resources:Loc Ui_Misc2_CommunityMods}" />
+        <TextBlock Margin="0,6,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" Text="{resources:Loc Ui_Misc2_CommunityModsListsRobloxSubmissionsFrom}" />
         <TextBlock Margin="0,6,0,0">
           <Hyperlink Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="https://gamebanana.com/games/2879" Foreground="{DynamicResource TextFillColorTertiaryBrush}">
             <TextBlock Text="gamebanana.com/games/2879" />
@@ -321,7 +321,7 @@
         </TextBlock>
         <TextBlock Margin="0,2,0,0">
           <Hyperlink Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="https://github.com/klikos-modloader/marketplace" Foreground="{DynamicResource TextFillColorTertiaryBrush}">
-            <TextBlock Text="github.com/klikos-modloader/marketplace" />
+            <TextBlock Text="{resources:Loc Ui_Misc2_GithubComKlikosModloaderMarketplace}" />
           </Hyperlink>
         </TextBlock>
       </StackPanel>

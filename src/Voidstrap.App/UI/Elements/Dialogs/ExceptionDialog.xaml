@@ -99,7 +99,7 @@
                      Content="{resources:Loc Dialog_Exception_Report}" />
           <ui:Button Name="ReportExceptionBackupButton" Height="30" Margin="0,0,6,0" Padding="4,0"
                      HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
-                     Content="Report on backup" />
+                     Content="{resources:Loc Ui_Misc2_ReportOnBackup}" />
           <ui:Button Name="LocateLogFileButton" Height="30" Padding="4,0"
                      HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
                      Content="{resources:Loc Common_OpenLogFile}" />
@@ -117,7 +117,7 @@
                      Text="{Binding Version, Mode=OneTime}" />
           <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <ui:Button Name="CopyDetailsButton" Height="30" MinWidth="92" Margin="0,0,6,0" Padding="10,0"
-                       HorizontalContentAlignment="Center" Icon="Copy16" Content="Copy" />
+                       HorizontalContentAlignment="Center" Icon="Copy16" Content="{resources:Loc Ui_Misc_Copy}" />
             <ui:Button Name="CloseButton" Height="30" MinWidth="92" Padding="10,0"
                        HorizontalContentAlignment="Center"
                        Appearance="Primary" Content="{resources:Loc Common_Close}" />
