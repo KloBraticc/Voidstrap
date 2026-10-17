@@ -3682,9 +3682,6 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
   <data name="Ui.Mods.EnableOrDisableThisMod" xml:space="preserve">
     <value>この Mod を有効または無効にする</value>
   </data>
-  <data name="Ui.Mods.Id" xml:space="preserve">
-    <value>   ID: </value>
-  </data>
   <data name="Ui.Mods.ViewThisModPack" xml:space="preserve">
     <value>この Mod パックを表示</value>
   </data>
@@ -4012,9 +4009,6 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
   <data name="Ui.FastFlags.HowSolidTheSquaresLook" xml:space="preserve">
     <value>四角形がどれだけ不透明に見えるか</value>
   </data>
-  <data name="Ui.FastFlags.Studs" xml:space="preserve">
-    <value>Studs</value>
-  </data>
   <data name="Ui.FastFlags.TheStudPatternOnParts" xml:space="preserve">
     <value>パーツの studs 模様</value>
   </data>
@@ -4285,9 +4279,6 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
   <data name="Ui.Bootstrapper.ReduceResourcesWhenRobloxIsUnfocused" xml:space="preserve">
     <value>Roblox が非フォーカスのときにリソースを減らす</value>
   </data>
-  <data name="Ui.Bootstrapper.VoidstrapMatchmaker" xml:space="preserve">
-    <value>Voidstrap Matchmaker</value>
-  </data>
   <data name="Ui.Bootstrapper.Enable" xml:space="preserve">
     <value>有効化</value>
   </data>
@@ -4354,9 +4345,6 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
   <data name="Ui.Bootstrapper.NeverLetVoidstrapPickAServer" xml:space="preserve">
     <value>このゲームでは Voidstrap にサーバーを選ばせない</value>
   </data>
-  <data name="Ui.Bootstrapper.PlaceId" xml:space="preserve">
-    <value>Place id</value>
-  </data>
   <data name="Ui.Bootstrapper.LetVoidstrapPickServersForThis" xml:space="preserve">
     <value>このゲームで再び Voidstrap にサーバーを選ばせる</value>
   </data>
@@ -4377,9 +4365,6 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
   </data>
   <data name="Ui.Bootstrapper.VoidstrapStopsTryingAfterThisMany" xml:space="preserve">
     <value>ループしないよう、Voidstrap はこの回数の再接続後に試行を停止します。</value>
-  </data>
-  <data name="Ui.Bootstrapper.JoinAPI" xml:space="preserve">
-    <value>Join API</value>
   </data>
   <data name="Ui.Bootstrapper.WhichRobloxJoinEndpointVoidstrapAsks" xml:space="preserve">
     <value>Voidstrap がサーバーの場所を問い合わせる Roblox の参加エンドポイント。参加できなくなった場合のみ変更してください。</value>
@@ -4600,9 +4585,6 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
   <data name="Ui.Integrations.CloseWhenLeavingThatGame" xml:space="preserve">
     <value>そのゲームを終了したら閉じる</value>
   </data>
-  <data name="Ui.Integrations.PlaceID" xml:space="preserve">
-    <value>Place ID</value>
-  </data>
   <data name="Ui.Channel.InstallLocation" xml:space="preserve">
     <value>インストール先</value>
   </data>
@@ -4662,9 +4644,6 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
   </data>
   <data name="Ui.Channel.DisplaysVoidstrapsDiscordRPC" xml:space="preserve">
     <value>Voidstrap の Discord RPC を表示します。</value>
-  </data>
-  <data name="Ui.Channel.VoidstrapRPC" xml:space="preserve">
-    <value>Voidstrap RPC</value>
   </data>
   <data name="Ui.Channel.FactoryReset" xml:space="preserve">
     <value>初期化</value>
@@ -5170,9 +5149,6 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
   <data name="Ui.Gbs.EnableVignetteForMotionSicknessReduction" xml:space="preserve">
     <value>乗り物酔いを減らすためにビネットを有効にします。</value>
   </data>
-  <data name="Ui.Gbs.MicroProfiler" xml:space="preserve">
-    <value>Micro Profiler</value>
-  </data>
   <data name="Ui.Gbs.EnableRobloxMicroprofilerServer" xml:space="preserve">
     <value>Roblox のマイクロプロファイラーサーバーを有効にします。</value>
   </data>
@@ -5449,9 +5425,6 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
   <data name="Ui.Session.PasteAFullROBLOSECURITYValueOnly" xml:space="preserve">
     <value>.ROBLOSECURITY の値を全体ごと貼り付けてください。自分の Cookie だけを貼り付けてください。</value>
   </data>
-  <data name="Ui.Session.WARNINGDONOTSHARETHIS" xml:space="preserve">
-    <value>_|WARNING: DO NOT SHARE THIS...</value>
-  </data>
   <data name="Ui.Session.CURRENT" xml:space="preserve">
     <value>現在</value>
   </data>
@@ -5640,9 +5613,6 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
   </data>
   <data name="Ui.Misc.TheGraphicsBackendWineUsesFor" xml:space="preserve">
     <value>Wine が Studio に使うグラフィックバックエンド。ほとんどのシステムには DXVK が適しています。</value>
-  </data>
-  <data name="Ui.Misc.FeralGameMode" xml:space="preserve">
-    <value>Feral GameMode</value>
   </data>
   <data name="Ui.Misc.AsksGameModeToTuneTheSystem" xml:space="preserve">
     <value>Studio の実行中に GameMode にシステムの調整を依頼します。</value>
@@ -5914,9 +5884,6 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
   <data name="Ui.Pages.OverridesThatAffectGPUBehaviorAnd" xml:space="preserve">
     <value>GPU の動作とドライバー機能に影響する上書き設定。</value>
   </data>
-  <data name="Ui.Pages.ResizableBAR" xml:space="preserve">
-    <value>Resizable BAR</value>
-  </data>
   <data name="Ui.Pages.AllowsTheCPUToAccessThe" xml:space="preserve">
     <value>対応システムで CPU が GPU メモリ全体にアクセスできるようにします。</value>
   </data>
@@ -6027,9 +5994,6 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
   </data>
   <data name="Ui.Pages.ManageYourFastFlagsACheckmarkIn" xml:space="preserve">
     <value>FastFlags を管理します。Preset のチェックマークはそのフラグが FFlag 設定で使えることを、バツ印は使えないことを示します。</value>
-  </data>
-  <data name="Ui.Pages.Preset" xml:space="preserve">
-    <value>Preset</value>
   </data>
   <data name="Ui.Pages.GoToFFlagSettingsToAdd" xml:space="preserve">
     <value>Preset の FFlags を追加するには FFlag 設定に移動してください。</value>
@@ -6166,17 +6130,11 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
   <data name="Ui.Misc2.TheClassicTopbarOptionRebuildsTwo" xml:space="preserve">
     <value>クラシックトップバーのオプションは 2 つのコミュニティ Mod を再構築します。2014 年から 2015 年のトップバーとゲームメニューのデザインと動作は HockuTM による "2014 2015 Topbar and Menu (Improvised GUI)" に基づいています。最新のトップバーの非表示には Einshine による "NoGuiRBX, Hide TopBar!" を使用しています。どちらも Creative Commons BY NC ND 4.0 の条件に従い感謝とともに使用しており、ファイルは同梱せず GameBanana から直接ダウンロードします。どちらの作者も Voidstrap とは無関係です。</value>
   </data>
-  <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
-  </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>コミュニティ Mod</value>
   </data>
   <data name="Ui.Misc2.CommunityModsListsRobloxSubmissionsFrom" xml:space="preserve">
     <value>コミュニティ Mod には、TheKliko が Kliko の modloader 向けに管理する Kliko's Mods と GameBanana の Roblox 向け投稿が表示されます。Voidstrap はどちらとも提携しておらず、承認も受けていません。すべての Mod、画像、説明は作者に帰属し、各項目にクレジットが表示されます。Voidstrap は公開データを読み取るだけで、あなたに代わって何かをアップロードすることはありません。</value>
-  </data>
-  <data name="Ui.Misc2.GithubComKlikosModloaderMarketplace" xml:space="preserve">
-    <value>github.com/klikos modloader/marketplace</value>
   </data>
   <data name="Ui.Misc2.ModGenerator" xml:space="preserve">
     <value>Mod ジェネレーター</value>
@@ -6189,9 +6147,6 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
   </data>
   <data name="Ui.Misc2.Info" xml:space="preserve">
     <value>情報</value>
-  </data>
-  <data name="Ui.Misc2.FFlags" xml:space="preserve">
-    <value>FFlags</value>
   </data>
   <data name="Ui.Misc2.PlayTime" xml:space="preserve">
     <value>プレイ時間</value>
