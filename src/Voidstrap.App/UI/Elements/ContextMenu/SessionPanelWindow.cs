@@ -189,7 +189,7 @@ public sealed partial class SessionPanelWindow : Window
         "music" => "\uE8D6",
         "notifications" => "\uE713",
         "server" => "\uE946",
-        "reviews" => "\uE735",
+        "reviews" => "\uE734",
         "web" => "\uE774",
         _ => null
     };

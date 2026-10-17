@@ -352,7 +352,7 @@
             <TextBlock Text="&#xE968;" Style="{StaticResource DockGlyph}" />
           </ui:Button>
           <ui:Button ToolTip="{resources:Loc Ui_Session_CommunityRating}" Tag="reviews" Click="OnAction" Style="{StaticResource DockIcon}">
-            <TextBlock Text="&#xE735;" Style="{StaticResource DockGlyph}" />
+            <TextBlock Text="&#xE734;" Style="{StaticResource DockGlyph}" />
           </ui:Button>
           <ui:Button x:Name="WebButton" ToolTip="{resources:Loc Ui_Session_Browser}" Tag="web" Click="OnAction" Style="{StaticResource DockIcon}">
             <TextBlock Text="&#xE774;" Style="{StaticResource DockGlyph}" />
