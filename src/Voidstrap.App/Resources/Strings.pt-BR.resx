@@ -6135,6 +6135,12 @@ O que você gostaria de fazer?</value>
   <data name="Ui.Misc2.GithubComKlikosModloaderMarketplace" xml:space="preserve">
     <value>github.com/klikos modloader/marketplace</value>
   </data>
+  <data name="Ui.Misc2.ModGenerator" xml:space="preserve">
+    <value>Gerador de mods</value>
+  </data>
+  <data name="Ui.Misc2.ModGeneratorDescription" xml:space="preserve">
+    <value>Gerador de mods para Voidstrap, criado por Meddsam e UltimatePlayer97.</value>
+  </data>
   <data name="Ui.Misc2.CanTSeeOverlays" xml:space="preserve">
     <value>Não vê as sobreposições?</value>
   </data>

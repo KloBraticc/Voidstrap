@@ -6109,6 +6109,12 @@ Apa yang ingin Anda lakukan?</value>
   <data name="Ui.Misc2.GithubComKlikosModloaderMarketplace" xml:space="preserve">
     <value>github.com/klikos modloader/marketplace</value>
   </data>
+  <data name="Ui.Misc2.ModGenerator" xml:space="preserve">
+    <value>Generator Mod</value>
+  </data>
+  <data name="Ui.Misc2.ModGeneratorDescription" xml:space="preserve">
+    <value>Generator Mod untuk Voidstrap, dibuat oleh Meddsam dan UltimatePlayer97.</value>
+  </data>
   <data name="Ui.Misc2.CanTSeeOverlays" xml:space="preserve">
     <value>Tidak melihat overlay?</value>
   </data>

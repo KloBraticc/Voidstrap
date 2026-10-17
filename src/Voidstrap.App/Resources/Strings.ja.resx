@@ -6178,6 +6178,12 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
   <data name="Ui.Misc2.GithubComKlikosModloaderMarketplace" xml:space="preserve">
     <value>github.com/klikos modloader/marketplace</value>
   </data>
+  <data name="Ui.Misc2.ModGenerator" xml:space="preserve">
+    <value>Mod ジェネレーター</value>
+  </data>
+  <data name="Ui.Misc2.ModGeneratorDescription" xml:space="preserve">
+    <value>Mod ジェネレーター for Voidstrap、作成者: Meddsam と UltimatePlayer97。</value>
+  </data>
   <data name="Ui.Misc2.CanTSeeOverlays" xml:space="preserve">
     <value>オーバーレイが表示されない場合</value>
   </data>

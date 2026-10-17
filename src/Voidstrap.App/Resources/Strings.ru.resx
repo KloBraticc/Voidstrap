@@ -6157,6 +6157,12 @@ Roblox будет скачан при первом запуске через Voi
   <data name="Ui.Misc2.GithubComKlikosModloaderMarketplace" xml:space="preserve">
     <value>github.com/klikos modloader/marketplace</value>
   </data>
+  <data name="Ui.Misc2.ModGenerator" xml:space="preserve">
+    <value>Генератор модов</value>
+  </data>
+  <data name="Ui.Misc2.ModGeneratorDescription" xml:space="preserve">
+    <value>Генератор модов для Voidstrap, созданный Meddsam и UltimatePlayer97.</value>
+  </data>
   <data name="Ui.Misc2.CanTSeeOverlays" xml:space="preserve">
     <value>Не видите оверлеи?</value>
   </data>

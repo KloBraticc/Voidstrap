@@ -6176,6 +6176,12 @@ Voidstrap 的安装路径是：
   <data name="Ui.Misc2.GithubComKlikosModloaderMarketplace" xml:space="preserve">
     <value>github.com/klikos modloader/marketplace</value>
   </data>
+  <data name="Ui.Misc2.ModGenerator" xml:space="preserve">
+    <value>模组生成器</value>
+  </data>
+  <data name="Ui.Misc2.ModGeneratorDescription" xml:space="preserve">
+    <value>模组生成器 for Voidstrap，由 Meddsam 和 UltimatePlayer97 创建。</value>
+  </data>
   <data name="Ui.Misc2.CanTSeeOverlays" xml:space="preserve">
     <value>看不到叠加层？</value>
   </data>

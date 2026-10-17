@@ -6161,6 +6161,12 @@ Bạn muốn làm gì?</value>
   <data name="Ui.Misc2.GithubComKlikosModloaderMarketplace" xml:space="preserve">
     <value>github.com/klikos modloader/marketplace</value>
   </data>
+  <data name="Ui.Misc2.ModGenerator" xml:space="preserve">
+    <value>Trình tạo mod</value>
+  </data>
+  <data name="Ui.Misc2.ModGeneratorDescription" xml:space="preserve">
+    <value>Trình tạo mod cho Voidstrap, được tạo bởi Meddsam và UltimatePlayer97.</value>
+  </data>
   <data name="Ui.Misc2.CanTSeeOverlays" xml:space="preserve">
     <value>Không thấy lớp phủ?</value>
   </data>

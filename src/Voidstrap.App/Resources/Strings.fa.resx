@@ -6193,6 +6193,12 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
   <data name="Ui.Misc2.GithubComKlikosModloaderMarketplace" xml:space="preserve">
     <value>github.com/klikos modloader/marketplace</value>
   </data>
+  <data name="Ui.Misc2.ModGenerator" xml:space="preserve">
+    <value>تولیدکننده مود</value>
+  </data>
+  <data name="Ui.Misc2.ModGeneratorDescription" xml:space="preserve">
+    <value>تولیدکننده مود برای Voidstrap، ساخته شده توسط Meddsam و UltimatePlayer97.</value>
+  </data>
   <data name="Ui.Misc2.CanTSeeOverlays" xml:space="preserve">
     <value>روکش‌ها را نمی‌بینید؟</value>
   </data>

@@ -6147,6 +6147,12 @@ Ne yapmak istersiniz?</value>
   <data name="Ui.Misc2.GithubComKlikosModloaderMarketplace" xml:space="preserve">
     <value>github.com/klikos modloader/marketplace</value>
   </data>
+  <data name="Ui.Misc2.ModGenerator" xml:space="preserve">
+    <value>Mod Oluşturucu</value>
+  </data>
+  <data name="Ui.Misc2.ModGeneratorDescription" xml:space="preserve">
+    <value>Mod Oluşturucu, Voidstrap için Meddsam ve UltimatePlayer97 tarafından oluşturuldu.</value>
+  </data>
   <data name="Ui.Misc2.CanTSeeOverlays" xml:space="preserve">
     <value>Katmanları göremiyor musunuz?</value>
   </data>

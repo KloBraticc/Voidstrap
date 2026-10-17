@@ -2145,6 +2145,10 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Misc2_GithubComKlikosModloaderMarketplace => ResourceManager.GetString("Ui.Misc2.GithubComKlikosModloaderMarketplace", resourceCulture);
 
+        public static string Ui_Misc2_ModGenerator => ResourceManager.GetString("Ui.Misc2.ModGenerator", resourceCulture);
+
+        public static string Ui_Misc2_ModGeneratorDescription => ResourceManager.GetString("Ui.Misc2.ModGeneratorDescription", resourceCulture);
+
         public static string Ui_Misc2_CanTSeeOverlays => ResourceManager.GetString("Ui.Misc2.CanTSeeOverlays", resourceCulture);
 
         public static string Ui_Misc2_Info => ResourceManager.GetString("Ui.Misc2.Info", resourceCulture);
