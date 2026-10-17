@@ -52,19 +52,34 @@ public static class RoReviewService
         public List<ReviewEntry> Reviews { get; init; } = new();
     }
 
-    public sealed class ReviewEntry
+    public sealed class ReviewEntry : System.ComponentModel.INotifyPropertyChanged
     {
-        public string Id { get; set; } = string.Empty;
-        public long AuthorId { get; set; }
-        public string AuthorName { get; set; } = string.Empty;
-        public string AvatarUrl { get; set; } = string.Empty;
-        public string Content { get; set; } = string.Empty;
-        public string CreatedAt { get; set; } = string.Empty;
-        public int UpCount { get; set; }
-        public int DownCount { get; set; }
-        public string? UserVote { get; set; }
-        public string RatingText { get; set; } = string.Empty;
-        public bool CanDelete { get; set; }
+        public event System.ComponentModel.PropertyChangedEventHandler? PropertyChanged;
+
+        private string _id = string.Empty;
+        private long _authorId;
+        private string _authorName = string.Empty;
+        private string _avatarUrl = string.Empty;
+        private string _content = string.Empty;
+        private string _createdAt = string.Empty;
+        private int _upCount;
+        private int _downCount;
+        private string? _userVote;
+        private string _ratingText = string.Empty;
+        private bool _canDelete;
+
+        public string Id { get => _id; set { _id = value; OnPropertyChanged(nameof(Id)); } }
+        public long AuthorId { get => _authorId; set { _authorId = value; OnPropertyChanged(nameof(AuthorId)); } }
+        public string AuthorName { get => _authorName; set { _authorName = value; OnPropertyChanged(nameof(AuthorName)); } }
+        public string AvatarUrl { get => _avatarUrl; set { _avatarUrl = value; OnPropertyChanged(nameof(AvatarUrl)); } }
+        public string Content { get => _content; set { _content = value; OnPropertyChanged(nameof(Content)); } }
+        public string CreatedAt { get => _createdAt; set { _createdAt = value; OnPropertyChanged(nameof(CreatedAt)); } }
+        public int UpCount { get => _upCount; set { _upCount = value; OnPropertyChanged(nameof(UpCount)); } }
+        public int DownCount { get => _downCount; set { _downCount = value; OnPropertyChanged(nameof(DownCount)); } }
+        public string? UserVote { get => _userVote; set { _userVote = value; OnPropertyChanged(nameof(UserVote)); OnPropertyChanged(nameof(IsUpVoted)); OnPropertyChanged(nameof(IsDownVoted)); OnPropertyChanged(nameof(UpAppearance)); OnPropertyChanged(nameof(DownAppearance)); } }
+        public string RatingText { get => _ratingText; set { _ratingText = value; OnPropertyChanged(nameof(RatingText)); } }
+        public bool CanDelete { get => _canDelete; set { _canDelete = value; OnPropertyChanged(nameof(CanDelete)); } }
+        public long UnixTime { get; set; }
 
         public bool IsUpVoted => string.Equals(UserVote, "up", StringComparison.OrdinalIgnoreCase);
         public bool IsDownVoted => string.Equals(UserVote, "down", StringComparison.OrdinalIgnoreCase);
@@ -87,7 +102,22 @@ public static class RoReviewService
                 int pct = (int)Math.Round((double)UpCount / total * 100);
                 RatingText = pct.ToString(CultureInfo.InvariantCulture) + "% positive (" + total.ToString(CultureInfo.InvariantCulture) + " " + (total == 1 ? "vote" : "votes") + ")";
             }
+            OnPropertyChanged(nameof(RatingText));
+            OnPropertyChanged(nameof(UpCount));
+            OnPropertyChanged(nameof(DownCount));
+            OnPropertyChanged(nameof(IsUpVoted));
+            OnPropertyChanged(nameof(IsDownVoted));
+            OnPropertyChanged(nameof(UpAppearance));
+            OnPropertyChanged(nameof(DownAppearance));
         }
+
+        private void OnPropertyChanged(string prop) =>
+            PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(prop));
+    }
+
+    public static string GetCachedAvatar(long userId)
+    {
+        return _avatarCache.TryGetValue(userId, out string? u) ? u : string.Empty;
     }
 
     private static string FormatTimestamp(long seconds)
@@ -96,13 +126,15 @@ public static class RoReviewService
             return string.Empty;
         try
         {
+            if (seconds > 1_000_000_000_000)
+                seconds /= 1000;
             DateTimeOffset dt = DateTimeOffset.FromUnixTimeSeconds(seconds);
             TimeSpan diff = DateTimeOffset.UtcNow - dt;
-            if (diff.TotalSeconds < 60)
+            if (diff.TotalSeconds < 60 && diff.TotalSeconds >= 0)
                 return "just now";
-            if (diff.TotalMinutes < 60)
+            if (diff.TotalMinutes < 60 && diff.TotalMinutes >= 1)
                 return ((int)diff.TotalMinutes).ToString(CultureInfo.InvariantCulture) + "m ago";
-            if (diff.TotalHours < 24)
+            if (diff.TotalHours < 24 && diff.TotalHours >= 1)
                 return ((int)diff.TotalHours).ToString(CultureInfo.InvariantCulture) + "h ago";
             return dt.ToLocalTime().ToString("M/d/yyyy", CultureInfo.InvariantCulture);
         }
@@ -274,15 +306,21 @@ public static class RoReviewService
                         authorName = authorId.ToString(CultureInfo.InvariantCulture);
 
                     string content = r.TryGetProperty("content", out JsonElement cEl) ? (cEl.GetString() ?? string.Empty) : string.Empty;
+                    if (content.Length > 0)
+                        content = WebUtility.HtmlDecode(content).Trim();
 
-                    string createdAt = string.Empty;
+                    long unixSec = 0;
                     if (r.TryGetProperty("time", out JsonElement timeEl))
                     {
-                        if (timeEl.ValueKind == JsonValueKind.Number && timeEl.TryGetInt64(out long unixSec))
-                            createdAt = FormatTimestamp(unixSec);
-                        else if (timeEl.ValueKind == JsonValueKind.String && long.TryParse(timeEl.GetString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out long parsedSec))
-                            createdAt = FormatTimestamp(parsedSec);
+                        if (timeEl.ValueKind == JsonValueKind.Number && timeEl.TryGetInt64(out long parsedNum))
+                            unixSec = parsedNum;
+                        else if (timeEl.ValueKind == JsonValueKind.String && long.TryParse(timeEl.GetString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out long parsedStr))
+                            unixSec = parsedStr;
                     }
+                    if (unixSec > 1_000_000_000_000)
+                        unixSec /= 1000;
+
+                    string createdAt = FormatTimestamp(unixSec);
                     if (string.IsNullOrEmpty(createdAt) && r.TryGetProperty("created_at", out JsonElement caEl))
                     {
                         createdAt = caEl.GetString() ?? string.Empty;
@@ -337,6 +375,7 @@ public static class RoReviewService
                             AuthorName = authorName,
                             Content = content,
                             CreatedAt = createdAt,
+                            UnixTime = unixSec,
                             UpCount = reviewUp,
                             DownCount = reviewDown,
                             UserVote = reviewUserVote,
@@ -347,6 +386,8 @@ public static class RoReviewService
                     }
                 }
             }
+
+            reviews.Sort((a, b) => b.UnixTime.CompareTo(a.UnixTime));
 
             await PopulateAvatarsAsync(reviews, timeout.Token).ConfigureAwait(false);
 
@@ -586,6 +627,35 @@ public static class RoReviewService
                         _sessionUsername = !string.IsNullOrEmpty(username) ? username : account.Username;
                         App.Logger.WriteLine("RoReviewService", "Authenticated as " + _sessionUsername);
                         AuthenticationChanged?.Invoke();
+
+                        _ = Task.Run(async () =>
+                        {
+                            try
+                            {
+                                string uUrl = "https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=" + _sessionUserId.ToString(CultureInfo.InvariantCulture) + "&size=150x150&format=Png&isCircular=true";
+                                using HttpRequestMessage uReq = new(HttpMethod.Get, uUrl);
+                                uReq.Headers.TryAddWithoutValidation("User-Agent", "Voidstrap/1.0");
+                                using HttpResponseMessage uRes = await RobloxClient.SendAsync(uReq, HttpCompletionOption.ResponseHeadersRead, ct).ConfigureAwait(false);
+                                if (uRes.IsSuccessStatusCode)
+                                {
+                                    string uJson = await Voidstrap.Utility.Http.ReadStringBoundedAsync(uRes.Content, MaxResponseBytes, ct).ConfigureAwait(false);
+                                    using JsonDocument uDoc = JsonDocument.Parse(uJson);
+                                    if (uDoc.RootElement.TryGetProperty("data", out JsonElement dArr) && dArr.ValueKind == JsonValueKind.Array && dArr.GetArrayLength() > 0)
+                                    {
+                                        if (dArr[0].TryGetProperty("imageUrl", out JsonElement img) && img.ValueKind == JsonValueKind.String)
+                                        {
+                                            string u = img.GetString() ?? string.Empty;
+                                            if (u.Length > 0)
+                                                _avatarCache[_sessionUserId] = u;
+                                        }
+                                    }
+                                }
+                            }
+                            catch
+                            {
+                            }
+                        }, ct);
+
                         return true;
                     }
                 }

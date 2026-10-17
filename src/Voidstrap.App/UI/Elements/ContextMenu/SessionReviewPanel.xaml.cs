@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
@@ -16,19 +16,21 @@ public partial class SessionReviewPanel : Window
 {
     private readonly CancellationTokenSource _lifetime = new();
     private readonly CancellationToken _ct;
+    private readonly ObservableCollection<RoReviewService.ReviewEntry> _reviews = new();
     private long _placeId;
     private string? _userVote;
     private int _upCount;
     private int _downCount;
     private int _reviewCount;
-    private List<RoReviewService.ReviewEntry> _reviews = new();
     private bool _loading;
+    private bool _submitting;
     private bool _closed;
 
     public SessionReviewPanel(ActivityWatcher? activity = null)
     {
         _ct = _lifetime.Token;
         InitializeComponent();
+        ReviewList.ItemsSource = _reviews;
         if (activity?.Data is { } data)
         {
             _placeId = data.PlaceId;
@@ -48,6 +50,7 @@ public partial class SessionReviewPanel : Window
         _ct = _lifetime.Token;
         _placeId = placeId;
         InitializeComponent();
+        ReviewList.ItemsSource = _reviews;
         RoReviewService.AuthenticationChanged += OnAuthChanged;
         Loaded += OnPanelLoaded;
         Closed += OnPanelClosed;
@@ -91,20 +94,13 @@ public partial class SessionReviewPanel : Window
             AuthStatus.Text = string.Empty;
             long myId = RoReviewService.SessionUserId;
             string? myName = RoReviewService.SessionUsername;
-            bool changed = false;
             foreach (RoReviewService.ReviewEntry r in _reviews)
             {
                 bool canDel = (myId > 0 && r.AuthorId == myId)
                     || (!string.IsNullOrEmpty(myName) && string.Equals(r.AuthorName, myName, StringComparison.OrdinalIgnoreCase))
                     || r.Id.StartsWith("temp_", StringComparison.Ordinal);
-                if (r.CanDelete != canDel)
-                {
-                    r.CanDelete = canDel;
-                    changed = true;
-                }
+                r.CanDelete = canDel;
             }
-            if (changed)
-                UpdateReviewList();
         });
     }
 
@@ -135,8 +131,12 @@ public partial class SessionReviewPanel : Window
             _reviewCount = result.ReviewCount;
             UpdateRatingDisplay();
 
-            _reviews = result.Reviews.Take(50).ToList();
-            UpdateReviewList();
+            _reviews.Clear();
+            foreach (RoReviewService.ReviewEntry r in result.Reviews.Take(50))
+            {
+                _reviews.Add(r);
+            }
+            EmptyPanel.Visibility = _reviews.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
         }
         catch (OperationCanceledException)
         {
@@ -159,21 +159,6 @@ public partial class SessionReviewPanel : Window
             ? _reviewCount.ToString(Locale.CurrentCulture) + " " + (_reviewCount == 1 ? Strings.Ui_Session_Review : Strings.Ui_Session_Reviews)
             : string.Empty;
         ApplyVoteHighlight();
-    }
-
-    private void UpdateReviewList()
-    {
-        if (_reviews.Count > 0)
-        {
-            ReviewList.ItemsSource = null;
-            ReviewList.ItemsSource = _reviews;
-            EmptyLabel.Visibility = Visibility.Collapsed;
-        }
-        else
-        {
-            ReviewList.ItemsSource = null;
-            EmptyLabel.Visibility = Visibility.Visible;
-        }
     }
 
     private void ApplyVoteHighlight()
@@ -312,7 +297,7 @@ public partial class SessionReviewPanel : Window
         _reviews.RemoveAt(index);
         _reviewCount = Math.Max(0, _reviewCount - 1);
         UpdateRatingDisplay();
-        UpdateReviewList();
+        EmptyPanel.Visibility = _reviews.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
 
         if (entry.Id.StartsWith("temp_", StringComparison.Ordinal))
             return;
@@ -364,7 +349,7 @@ public partial class SessionReviewPanel : Window
             _reviews.Insert(insertAt, entry);
             _reviewCount++;
             UpdateRatingDisplay();
-            UpdateReviewList();
+            EmptyPanel.Visibility = Visibility.Collapsed;
         });
     }
 
@@ -423,7 +408,6 @@ public partial class SessionReviewPanel : Window
         }
 
         entry.RefreshRating();
-        UpdateReviewList();
 
         if (entry.Id.StartsWith("temp_", StringComparison.Ordinal))
             return;
@@ -475,7 +459,6 @@ public partial class SessionReviewPanel : Window
             entry.UpCount = prevUp;
             entry.DownCount = prevDown;
             entry.RefreshRating();
-            UpdateReviewList();
         });
     }
 
@@ -495,23 +478,28 @@ public partial class SessionReviewPanel : Window
 
     private void HandleSubmitOptimistic()
     {
-        if (_closed || _placeId <= 0)
+        if (_submitting || _closed || _placeId <= 0)
             return;
         string content = ReviewInput.Text?.Trim() ?? string.Empty;
         if (content.Length == 0)
             return;
 
+        _submitting = true;
+        SubmitButton.IsEnabled = false;
         ReviewInput.Text = string.Empty;
 
         string author = RoReviewService.SessionUsername ?? string.Empty;
         if (string.IsNullOrEmpty(author))
             author = "You";
+        long myId = RoReviewService.SessionUserId;
+        string avatar = myId > 0 ? RoReviewService.GetCachedAvatar(myId) : string.Empty;
 
         RoReviewService.ReviewEntry entry = new()
         {
             Id = "temp_" + DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString(CultureInfo.InvariantCulture),
-            AuthorId = RoReviewService.SessionUserId,
+            AuthorId = myId,
             AuthorName = author,
+            AvatarUrl = avatar,
             Content = content,
             CreatedAt = "just now",
             CanDelete = true
@@ -521,7 +509,7 @@ public partial class SessionReviewPanel : Window
         _reviews.Insert(0, entry);
         _reviewCount++;
         UpdateRatingDisplay();
-        UpdateReviewList();
+        EmptyPanel.Visibility = Visibility.Collapsed;
 
         _ = Task.Run(async () =>
         {
@@ -550,12 +538,43 @@ public partial class SessionReviewPanel : Window
                 if (!ok)
                 {
                     RollbackSubmit(entry, content);
+                    return;
+                }
+
+                RoReviewService.ReviewData? refreshed = await RoReviewService.FetchReviewsAsync(_placeId, _ct).ConfigureAwait(false);
+                if (refreshed != null)
+                {
+                    _ = Dispatcher.BeginInvoke(() =>
+                    {
+                        if (_closed)
+                            return;
+                        _userVote = refreshed.UserVote;
+                        _upCount = refreshed.UpCount;
+                        _downCount = refreshed.DownCount;
+                        _reviewCount = refreshed.ReviewCount;
+                        UpdateRatingDisplay();
+                        _reviews.Clear();
+                        foreach (RoReviewService.ReviewEntry r in refreshed.Reviews.Take(50))
+                        {
+                            _reviews.Add(r);
+                        }
+                        EmptyPanel.Visibility = _reviews.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+                    });
                 }
             }
             catch (Exception ex)
             {
                 App.Logger.WriteLine("SessionReviewPanel", "Submit background failed: " + ex.Message);
                 RollbackSubmit(entry, content);
+            }
+            finally
+            {
+                _ = Dispatcher.BeginInvoke(() =>
+                {
+                    _submitting = false;
+                    if (!_closed)
+                        SubmitButton.IsEnabled = true;
+                });
             }
         }, _ct);
     }
@@ -569,9 +588,13 @@ public partial class SessionReviewPanel : Window
             _reviews.Remove(entry);
             _reviewCount = Math.Max(0, _reviewCount - 1);
             if (string.IsNullOrEmpty(ReviewInput.Text))
+            {
                 ReviewInput.Text = restoredText;
+                ReviewInput.Focus();
+                ReviewInput.CaretIndex = restoredText.Length;
+            }
             UpdateRatingDisplay();
-            UpdateReviewList();
+            EmptyPanel.Visibility = _reviews.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
         });
     }
 }
