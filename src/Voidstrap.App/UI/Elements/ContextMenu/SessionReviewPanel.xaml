@@ -120,87 +120,23 @@
                              Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
 
                   <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <ui:Button Padding="10,3" Height="28" MinWidth="48"
+                    <ui:Button Appearance="{Binding UpAppearance}" Padding="8,3" Height="28" MinWidth="48"
                                Focusable="False" Tag="{Binding}" Click="OnReviewVoteUp">
-                      <ui:Button.Style>
-                        <Style TargetType="{x:Type ui:Button}">
-                          <Setter Property="Appearance" Value="Secondary" />
-                          <Setter Property="BorderThickness" Value="1" />
-                          <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}" />
-                          <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsUpVoted}" Value="True">
-                              <Setter Property="BorderBrush" Value="{DynamicResource TextFillColorSecondaryBrush}" />
-                            </DataTrigger>
-                          </Style.Triggers>
-                        </Style>
-                      </ui:Button.Style>
                       <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <TextBlock Text="&#xE8E1;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="12" VerticalAlignment="Center">
-                          <TextBlock.Style>
-                            <Style TargetType="{x:Type TextBlock}">
-                              <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
-                              <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsUpVoted}" Value="True">
-                                  <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
-                                </DataTrigger>
-                              </Style.Triggers>
-                            </Style>
-                          </TextBlock.Style>
-                        </TextBlock>
-                        <TextBlock Text="{Binding UpCount}" Margin="6,0,0,0" FontSize="11.5" FontWeight="SemiBold" VerticalAlignment="Center">
-                          <TextBlock.Style>
-                            <Style TargetType="{x:Type TextBlock}">
-                              <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
-                              <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsUpVoted}" Value="True">
-                                  <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
-                                </DataTrigger>
-                              </Style.Triggers>
-                            </Style>
-                          </TextBlock.Style>
-                        </TextBlock>
+                        <TextBlock Text="&#xE8E1;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="12"
+                                   Foreground="{DynamicResource TextFillColorSecondaryBrush}" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding UpCount}" Margin="6,0,0,0" FontSize="11.5" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextFillColorSecondaryBrush}" VerticalAlignment="Center" />
                       </StackPanel>
                     </ui:Button>
 
-                    <ui:Button Padding="10,3" Margin="8,0,0,0" Height="28" MinWidth="48"
+                    <ui:Button Appearance="{Binding DownAppearance}" Padding="8,3" Margin="8,0,0,0" Height="28" MinWidth="48"
                                Focusable="False" Tag="{Binding}" Click="OnReviewVoteDown">
-                      <ui:Button.Style>
-                        <Style TargetType="{x:Type ui:Button}">
-                          <Setter Property="Appearance" Value="Secondary" />
-                          <Setter Property="BorderThickness" Value="1" />
-                          <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}" />
-                          <Style.Triggers>
-                            <DataTrigger Binding="{Binding IsDownVoted}" Value="True">
-                              <Setter Property="BorderBrush" Value="{DynamicResource TextFillColorSecondaryBrush}" />
-                            </DataTrigger>
-                          </Style.Triggers>
-                        </Style>
-                      </ui:Button.Style>
                       <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <TextBlock Text="&#xE8E0;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="12" VerticalAlignment="Center">
-                          <TextBlock.Style>
-                            <Style TargetType="{x:Type TextBlock}">
-                              <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
-                              <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsDownVoted}" Value="True">
-                                  <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
-                                </DataTrigger>
-                              </Style.Triggers>
-                            </Style>
-                          </TextBlock.Style>
-                        </TextBlock>
-                        <TextBlock Text="{Binding DownCount}" Margin="6,0,0,0" FontSize="11.5" FontWeight="SemiBold" VerticalAlignment="Center">
-                          <TextBlock.Style>
-                            <Style TargetType="{x:Type TextBlock}">
-                              <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
-                              <Style.Triggers>
-                                <DataTrigger Binding="{Binding IsDownVoted}" Value="True">
-                                  <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
-                                </DataTrigger>
-                              </Style.Triggers>
-                            </Style>
-                          </TextBlock.Style>
-                        </TextBlock>
+                        <TextBlock Text="&#xE8E0;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="12"
+                                   Foreground="{DynamicResource TextFillColorSecondaryBrush}" VerticalAlignment="Center" />
+                        <TextBlock Text="{Binding DownCount}" Margin="6,0,0,0" FontSize="11.5" FontWeight="SemiBold"
+                                   Foreground="{DynamicResource TextFillColorSecondaryBrush}" VerticalAlignment="Center" />
                       </StackPanel>
                     </ui:Button>
 
