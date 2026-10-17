@@ -1,4 +1,4 @@
-<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.LibraryPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Voidstrap.UI.Elements.Settings.Pages" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:util="clr-namespace:Voidstrap.Utility" xmlns:resources="clr-namespace:Voidstrap.Resources" Title="{resources:Loc Ui_Pages_Library}" Scrollable="False" Loaded="Page_Loaded" Unloaded="Page_Unloaded">
+<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.LibraryPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Voidstrap.UI.Elements.Settings.Pages" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:util="clr-namespace:Voidstrap.Utility" xmlns:resources="clr-namespace:Voidstrap.Resources" Title="{resources:Loc Ui_Pages_Library}" Scrollable="False" Loaded="Page_Loaded" Unloaded="Page_Unloaded">
   <FrameworkElement.Resources>
     <ResourceDictionary>
       <BooleanToVisibilityConverter x:Key="BoolToVis" />
@@ -769,6 +769,17 @@
                   </ItemsControl.ItemTemplate>
                 </ItemsControl>
                 <TextBlock Margin="0,8,0,0" FontSize="12" Text="{resources:Loc Shortcuts_SubplaceAccess}" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+              </StackPanel>
+            </TabItem>
+            <TabItem>
+              <TabItem.Header>
+                <StackPanel Orientation="Horizontal">
+                  <ui:SymbolIcon Symbol="ThumbLike24" Margin="0,0,6,0" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=TabItem}}" />
+                  <TextBlock Text="{resources:Loc Ui_Session_CommunityRating}" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=TabItem}}" />
+                </StackPanel>
+              </TabItem.Header>
+              <StackPanel Margin="16">
+                <controls:RoReviewControl PlaceId="{Binding SelectedGame.PlaceId}" UniverseId="{Binding SelectedGame.UniverseId}" GameName="{Binding SelectedGame.Name}" />
               </StackPanel>
             </TabItem>
           </TabControl>

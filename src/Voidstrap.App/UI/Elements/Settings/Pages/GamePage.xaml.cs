@@ -22,6 +22,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             _universeId = universeId;
 
             InitializeComponent();
+            ReviewControl.SetGame(_universeId, _placeId);
         }
 
         private async void GamePage_Loaded(object sender, RoutedEventArgs e)
@@ -152,6 +153,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
 					if (token.IsCancellationRequested)
 						return;
                     _gameName = name;
+                    ReviewControl.SetGame(_universeId, _placeId, _gameName);
                     Voidstrap.Integrations.VoidstrapPresence.SetGame(nameof(GamePage), string.IsNullOrEmpty(name) ? $"Place {_placeId}" : name, creator, _universeId, _placeId);
                     GameTitleText.Text = string.IsNullOrEmpty(name) ? $"Place {_placeId}" : name;
                     CreatorText.Text = string.IsNullOrEmpty(creator) ? "" : $"By {creator}{(verified ? " ☑️" : "")}";
