@@ -11,11 +11,12 @@
     <BooleanToVisibilityConverter x:Key="BoolToVis" />
   </Window.Resources>
 
-  <Grid Margin="18,14,18,16">
+  <Grid Margin="18,14,18,12">
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
       <RowDefinition Height="Auto" />
       <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
       <RowDefinition Height="Auto" />
     </Grid.RowDefinitions>
 
@@ -166,5 +167,11 @@
                  Padding="16,7" Height="34" Focusable="False" Click="OnSubmitReview"
                  Content="{resources:Loc Ui_Session_SubmitReview}" />
     </Grid>
+
+    <TextBlock Grid.Row="4" Margin="0,8,0,0" HorizontalAlignment="Center"
+               FontSize="11.5" Foreground="{DynamicResource TextFillColorTertiaryBrush}"
+               Background="Transparent" Cursor="Hand" MouseLeftButtonUp="OnRoReviewLinkClicked">
+      <Run Text="Powered by " /><Run Text="RoReview" TextDecorations="Underline" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+    </TextBlock>
   </Grid>
 </Window>

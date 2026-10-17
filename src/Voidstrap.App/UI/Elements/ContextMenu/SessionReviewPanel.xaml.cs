@@ -597,4 +597,9 @@ public partial class SessionReviewPanel : Window
             EmptyPanel.Visibility = _reviews.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
         });
     }
+
+    private void OnRoReviewLinkClicked(object sender, MouseButtonEventArgs e)
+    {
+        Utilities.OpenWebLink("https://github.com/Hermivore8151/RoReview");
+    }
 }
