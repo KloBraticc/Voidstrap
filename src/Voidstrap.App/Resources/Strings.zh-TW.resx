@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -6876,5 +6876,8 @@ Voidstrap 無法寫入桌面資料夾。</value>
   </data>
   <data name="Ui.Session.Reviews" xml:space="preserve">
     <value>評論</value>
+  </data>
+  <data name="Ui.Session.SubmitReview" xml:space="preserve">
+    <value>提交</value>
   </data>
 </root>

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -6878,5 +6878,8 @@ Voidstrap не смог записать в папку рабочего стол
   </data>
   <data name="Ui.Session.Reviews" xml:space="preserve">
     <value>отзывов</value>
+  </data>
+  <data name="Ui.Session.SubmitReview" xml:space="preserve">
+    <value>Отправить</value>
   </data>
 </root>

@@ -5227,6 +5227,9 @@ What would you like to do?</value>
   <data name="Ui.Session.Reviews" xml:space="preserve">
     <value>reviews</value>
   </data>
+  <data name="Ui.Session.SubmitReview" xml:space="preserve">
+    <value>Submit</value>
+  </data>
   <data name="Ui.Misc.ClickToChangeThisColour" xml:space="preserve">
     <value>Click to change this colour</value>
   </data>

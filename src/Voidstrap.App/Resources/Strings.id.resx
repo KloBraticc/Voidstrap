@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -6830,5 +6830,8 @@ Kesalahan: {0}</value>
   </data>
   <data name="Ui.Session.Reviews" xml:space="preserve">
     <value>ulasan</value>
+  </data>
+  <data name="Ui.Session.SubmitReview" xml:space="preserve">
+    <value>Kirim</value>
   </data>
 </root>

@@ -137,6 +137,7 @@ public partial class SessionDock : Window
     private Task? _refreshTask;
     private long _reviewPlaceId;
     private bool _reviewLoading;
+    private string? _reviewUserVote;
 
     public SessionDock(ActivityWatcher activity, Action<string> action)
     {
@@ -1842,41 +1843,48 @@ public partial class SessionDock : Window
         _reviewLoading = true;
         try
         {
-            string url = "https://hermivore.cat/api/roblox/reviews/" + placeId.ToString(CultureInfo.InvariantCulture) + "?game=true";
-            using CancellationTokenSource timeout = CancellationTokenSource.CreateLinkedTokenSource(_lifetimeToken);
-            timeout.CancelAfter(TimeSpan.FromSeconds(6));
-            using System.Net.Http.HttpResponseMessage response = await App.HttpClient.GetAsync(url, timeout.Token);
-            if (!response.IsSuccessStatusCode || _closed || !ReferenceEquals(_data, data))
-                return;
-            using System.Text.Json.JsonDocument document = System.Text.Json.JsonDocument.Parse(
-                await Voidstrap.Utility.Http.ReadStringBoundedAsync(response.Content, 512 * 1024, timeout.Token));
-            int upCount = 0;
-            int downCount = 0;
-            int reviewCount = 0;
-            System.Text.Json.JsonElement root = document.RootElement;
-            if (root.TryGetProperty("profile_rating", out System.Text.Json.JsonElement rating))
-            {
-                if (rating.TryGetProperty("up", out System.Text.Json.JsonElement up) && up.ValueKind == System.Text.Json.JsonValueKind.Array)
-                    upCount = up.GetArrayLength();
-                if (rating.TryGetProperty("down", out System.Text.Json.JsonElement down) && down.ValueKind == System.Text.Json.JsonValueKind.Array)
-                    downCount = down.GetArrayLength();
-            }
-            if (root.TryGetProperty("reviews", out System.Text.Json.JsonElement reviews) && reviews.ValueKind == System.Text.Json.JsonValueKind.Array)
-                reviewCount = reviews.GetArrayLength();
-            if (_closed || !ReferenceEquals(_data, data))
+            _ = Task.Run(() => RoReviewService.AuthenticateAsync(_lifetimeToken), _lifetimeToken);
+            RoReviewService.ReviewData? result = await RoReviewService.FetchReviewsAsync(placeId, _lifetimeToken);
+            if (result == null || _closed || !ReferenceEquals(_data, data))
                 return;
             await Dispatcher.InvokeAsync(() =>
             {
                 if (_closed || !ReferenceEquals(_data, data))
                     return;
                 _reviewPlaceId = placeId;
-                ReviewUpCount.Text = upCount.ToString(Locale.CurrentCulture);
-                ReviewDownCount.Text = downCount.ToString(Locale.CurrentCulture);
-                ReviewCountText.Text = reviewCount > 0
-                    ? reviewCount.ToString(Locale.CurrentCulture) + " " + (reviewCount == 1 ? Strings.Ui_Session_Review : Strings.Ui_Session_Reviews)
+                _reviewUserVote = result.UserVote;
+                ReviewUpCount.Text = result.UpCount.ToString(Locale.CurrentCulture);
+                ReviewDownCount.Text = result.DownCount.ToString(Locale.CurrentCulture);
+                ReviewCountText.Text = result.ReviewCount > 0
+                    ? result.ReviewCount.ToString(Locale.CurrentCulture) + " " + (result.ReviewCount == 1 ? Strings.Ui_Session_Review : Strings.Ui_Session_Reviews)
                     : string.Empty;
+                ApplyVoteHighlight();
+                if (result.Reviews.Count > 0)
+                {
+                    ReviewList.ItemsSource = result.Reviews.Take(20).ToList();
+                    ReviewListScroll.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    ReviewListScroll.Visibility = Visibility.Collapsed;
+                }
+                ReviewInputArea.Visibility = RoReviewService.IsAuthenticated ? Visibility.Visible : Visibility.Collapsed;
+                ReviewAuthStatus.Text = RoReviewService.IsAuthenticated ? string.Empty : "Signing in...";
                 ReviewPanel.Visibility = Visibility.Visible;
             });
+            if (!RoReviewService.IsAuthenticated)
+            {
+                await RoReviewService.AuthenticateAsync(_lifetimeToken);
+                if (_closed || !ReferenceEquals(_data, data))
+                    return;
+                await Dispatcher.InvokeAsync(() =>
+                {
+                    if (_closed || !ReferenceEquals(_data, data))
+                        return;
+                    ReviewInputArea.Visibility = RoReviewService.IsAuthenticated ? Visibility.Visible : Visibility.Collapsed;
+                    ReviewAuthStatus.Text = string.Empty;
+                });
+            }
         }
         catch (OperationCanceledException)
         {
@@ -1889,6 +1897,99 @@ public partial class SessionDock : Window
         {
             _reviewLoading = false;
         }
+    }
+
+    private void ApplyVoteHighlight()
+    {
+        if (string.Equals(_reviewUserVote, "up", StringComparison.OrdinalIgnoreCase))
+        {
+            ReviewUpButton.Appearance = Wpf.Ui.Common.ControlAppearance.Success;
+            ReviewDownButton.Appearance = Wpf.Ui.Common.ControlAppearance.Transparent;
+        }
+        else if (string.Equals(_reviewUserVote, "down", StringComparison.OrdinalIgnoreCase))
+        {
+            ReviewUpButton.Appearance = Wpf.Ui.Common.ControlAppearance.Transparent;
+            ReviewDownButton.Appearance = Wpf.Ui.Common.ControlAppearance.Caution;
+        }
+        else
+        {
+            ReviewUpButton.Appearance = Wpf.Ui.Common.ControlAppearance.Transparent;
+            ReviewDownButton.Appearance = Wpf.Ui.Common.ControlAppearance.Transparent;
+        }
+    }
+
+    private void OnVoteUp(object sender, RoutedEventArgs e)
+    {
+        _ = HandleVoteAsync("up");
+    }
+
+    private void OnVoteDown(object sender, RoutedEventArgs e)
+    {
+        _ = HandleVoteAsync("down");
+    }
+
+    private async Task HandleVoteAsync(string vote)
+    {
+        if (_closed || _reviewPlaceId <= 0)
+            return;
+        if (!RoReviewService.IsAuthenticated)
+        {
+            ReviewAuthStatus.Text = "Signing in...";
+            bool ok = await RoReviewService.AuthenticateAsync(_lifetimeToken);
+            if (_closed)
+                return;
+            ReviewAuthStatus.Text = string.Empty;
+            ReviewInputArea.Visibility = ok ? Visibility.Visible : Visibility.Collapsed;
+            if (!ok)
+                return;
+        }
+        long placeId = _reviewPlaceId;
+        bool success = await RoReviewService.VoteAsync(placeId, vote, _lifetimeToken);
+        if (!success || _closed)
+            return;
+        _reviewPlaceId = 0;
+        _reviewLoading = false;
+        ActivityData? data = _data;
+        if (data != null)
+            _ = PortableOverlay.RunAsync(this, () => LoadRoReviewAsync(data));
+    }
+
+    private void OnSubmitReview(object sender, RoutedEventArgs e)
+    {
+        _ = HandleSubmitReviewAsync();
+    }
+
+    private async Task HandleSubmitReviewAsync()
+    {
+        if (_closed || _reviewPlaceId <= 0)
+            return;
+        string content = ReviewInput.Text?.Trim() ?? string.Empty;
+        if (content.Length == 0)
+            return;
+        if (!RoReviewService.IsAuthenticated)
+        {
+            ReviewAuthStatus.Text = "Signing in...";
+            bool ok = await RoReviewService.AuthenticateAsync(_lifetimeToken);
+            if (_closed)
+                return;
+            ReviewAuthStatus.Text = string.Empty;
+            if (!ok)
+                return;
+        }
+        ReviewSubmitButton.IsEnabled = false;
+        long placeId = _reviewPlaceId;
+        bool success = await RoReviewService.SubmitReviewAsync(placeId, content, _lifetimeToken);
+        if (_closed)
+            return;
+        ReviewSubmitButton.IsEnabled = true;
+        if (!success)
+            return;
+        ReviewInput.Text = string.Empty;
+        _reviewPlaceId = 0;
+        _reviewLoading = false;
+        ActivityData? data = _data;
+        if (data != null)
+            _ = PortableOverlay.RunAsync(this, () => LoadRoReviewAsync(data));
     }
 
     private void OnAction(object sender, RoutedEventArgs e)

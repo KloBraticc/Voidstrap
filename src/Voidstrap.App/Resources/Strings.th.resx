@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -6868,5 +6868,8 @@ Voidstrap เขียนลงในโฟลเดอร์เดสก์ท�
   </data>
   <data name="Ui.Session.Reviews" xml:space="preserve">
     <value>รีวิว</value>
+  </data>
+  <data name="Ui.Session.SubmitReview" xml:space="preserve">
+    <value>ส่ง</value>
   </data>
 </root>

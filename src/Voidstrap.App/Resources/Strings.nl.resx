@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -6832,5 +6832,8 @@ Fout: {0}</value>
   </data>
   <data name="Ui.Session.Reviews" xml:space="preserve">
     <value>beoordelingen</value>
+  </data>
+  <data name="Ui.Session.SubmitReview" xml:space="preserve">
+    <value>Verzenden</value>
   </data>
 </root>
