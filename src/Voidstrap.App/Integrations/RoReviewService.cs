@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -28,6 +29,8 @@ public static class RoReviewService
         handler.AllowAutoRedirect = false;
     });
 
+    private static readonly ConcurrentDictionary<long, string> _avatarCache = new();
+
     private static string? _sessionToken;
     private static long _sessionUserId;
     private static string? _sessionUsername;
@@ -51,11 +54,40 @@ public static class RoReviewService
 
     public sealed class ReviewEntry
     {
-        public string Id { get; init; } = string.Empty;
-        public long AuthorId { get; init; }
-        public string AuthorName { get; init; } = string.Empty;
-        public string Content { get; init; } = string.Empty;
-        public string CreatedAt { get; init; } = string.Empty;
+        public string Id { get; set; } = string.Empty;
+        public long AuthorId { get; set; }
+        public string AuthorName { get; set; } = string.Empty;
+        public string AvatarUrl { get; set; } = string.Empty;
+        public string Content { get; set; } = string.Empty;
+        public string CreatedAt { get; set; } = string.Empty;
+        public int UpCount { get; set; }
+        public int DownCount { get; set; }
+        public string? UserVote { get; set; }
+        public string RatingText { get; set; } = string.Empty;
+        public bool CanDelete { get; set; }
+
+        public bool IsUpVoted => string.Equals(UserVote, "up", StringComparison.OrdinalIgnoreCase);
+        public bool IsDownVoted => string.Equals(UserVote, "down", StringComparison.OrdinalIgnoreCase);
+
+        public Wpf.Ui.Common.ControlAppearance UpAppearance =>
+            IsUpVoted ? Wpf.Ui.Common.ControlAppearance.Secondary : Wpf.Ui.Common.ControlAppearance.Transparent;
+
+        public Wpf.Ui.Common.ControlAppearance DownAppearance =>
+            IsDownVoted ? Wpf.Ui.Common.ControlAppearance.Secondary : Wpf.Ui.Common.ControlAppearance.Transparent;
+
+        public void RefreshRating()
+        {
+            int total = UpCount + DownCount;
+            if (total == 0)
+            {
+                RatingText = "No ratings yet";
+            }
+            else
+            {
+                int pct = (int)Math.Round((double)UpCount / total * 100);
+                RatingText = pct.ToString(CultureInfo.InvariantCulture) + "% positive (" + total.ToString(CultureInfo.InvariantCulture) + " " + (total == 1 ? "vote" : "votes") + ")";
+            }
+        }
     }
 
     private static string FormatTimestamp(long seconds)
@@ -72,13 +104,66 @@ public static class RoReviewService
                 return ((int)diff.TotalMinutes).ToString(CultureInfo.InvariantCulture) + "m ago";
             if (diff.TotalHours < 24)
                 return ((int)diff.TotalHours).ToString(CultureInfo.InvariantCulture) + "h ago";
-            if (diff.TotalDays < 30)
-                return ((int)diff.TotalDays).ToString(CultureInfo.InvariantCulture) + "d ago";
-            return dt.ToLocalTime().ToString("MMM d, yyyy", CultureInfo.InvariantCulture);
+            return dt.ToLocalTime().ToString("M/d/yyyy", CultureInfo.InvariantCulture);
         }
         catch
         {
             return string.Empty;
+        }
+    }
+
+    private static async Task PopulateAvatarsAsync(List<ReviewEntry> reviews, CancellationToken ct)
+    {
+        List<long> missing = new();
+        foreach (ReviewEntry r in reviews)
+        {
+            if (r.AuthorId <= 0)
+                continue;
+            if (_avatarCache.TryGetValue(r.AuthorId, out string? cached) && cached.Length > 0)
+            {
+                r.AvatarUrl = cached;
+            }
+            else
+            {
+                missing.Add(r.AuthorId);
+            }
+        }
+        List<long> idsToFetch = missing.Distinct().Take(100).ToList();
+        if (idsToFetch.Count == 0)
+            return;
+        try
+        {
+            string url = "https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=" + string.Join(",", idsToFetch) + "&size=150x150&format=Png&isCircular=true";
+            using HttpRequestMessage req = new(HttpMethod.Get, url);
+            req.Headers.TryAddWithoutValidation("User-Agent", "Voidstrap/1.0");
+            using HttpResponseMessage res = await RobloxClient.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, ct).ConfigureAwait(false);
+            if (!res.IsSuccessStatusCode)
+                return;
+            string json = await Voidstrap.Utility.Http.ReadStringBoundedAsync(res.Content, MaxResponseBytes, ct).ConfigureAwait(false);
+            using JsonDocument doc = JsonDocument.Parse(json);
+            if (doc.RootElement.TryGetProperty("data", out JsonElement dataArr) && dataArr.ValueKind == JsonValueKind.Array)
+            {
+                foreach (JsonElement item in dataArr.EnumerateArray())
+                {
+                    if (item.TryGetProperty("targetId", out JsonElement tid) && item.TryGetProperty("imageUrl", out JsonElement img))
+                    {
+                        if (tid.TryGetInt64(out long id) && img.ValueKind == JsonValueKind.String)
+                        {
+                            string u = img.GetString() ?? string.Empty;
+                            if (u.Length > 0)
+                                _avatarCache[id] = u;
+                        }
+                    }
+                }
+                foreach (ReviewEntry r in reviews)
+                {
+                    if (string.IsNullOrEmpty(r.AvatarUrl) && _avatarCache.TryGetValue(r.AuthorId, out string? imgUrl))
+                        r.AvatarUrl = imgUrl;
+                }
+            }
+        }
+        catch
+        {
         }
     }
 
@@ -203,10 +288,68 @@ public static class RoReviewService
                         createdAt = caEl.GetString() ?? string.Empty;
                     }
 
+                    int reviewUp = 0;
+                    int reviewDown = 0;
+                    if (r.TryGetProperty("score", out JsonElement scoreObj) && scoreObj.ValueKind == JsonValueKind.Object)
+                    {
+                        if (scoreObj.TryGetProperty("up", out JsonElement uEl) && uEl.TryGetInt32(out int u))
+                            reviewUp = u;
+                        if (scoreObj.TryGetProperty("down", out JsonElement dEl) && dEl.TryGetInt32(out int d))
+                            reviewDown = d;
+                    }
+
+                    string? reviewUserVote = null;
+                    if (_sessionUserId > 0 && r.TryGetProperty("rating", out JsonElement ratingObj) && ratingObj.ValueKind == JsonValueKind.Object)
+                    {
+                        if (ratingObj.TryGetProperty("up", out JsonElement rUp) && rUp.ValueKind == JsonValueKind.Array)
+                        {
+                            foreach (JsonElement v in rUp.EnumerateArray())
+                            {
+                                if (v.TryGetInt64(out long uid) && uid == _sessionUserId)
+                                {
+                                    reviewUserVote = "up";
+                                    break;
+                                }
+                            }
+                        }
+                        if (reviewUserVote == null && ratingObj.TryGetProperty("down", out JsonElement rDown) && rDown.ValueKind == JsonValueKind.Array)
+                        {
+                            foreach (JsonElement v in rDown.EnumerateArray())
+                            {
+                                if (v.TryGetInt64(out long uid) && uid == _sessionUserId)
+                                {
+                                    reviewUserVote = "down";
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    bool canDelete = (_sessionUserId > 0 && authorId == _sessionUserId)
+                        || (!string.IsNullOrEmpty(_sessionUsername) && string.Equals(authorName, _sessionUsername, StringComparison.OrdinalIgnoreCase));
+
                     if (content.Length > 0)
-                        reviews.Add(new ReviewEntry { Id = id, AuthorId = authorId, AuthorName = authorName, Content = content, CreatedAt = createdAt });
+                    {
+                        ReviewEntry entry = new()
+                        {
+                            Id = id,
+                            AuthorId = authorId,
+                            AuthorName = authorName,
+                            Content = content,
+                            CreatedAt = createdAt,
+                            UpCount = reviewUp,
+                            DownCount = reviewDown,
+                            UserVote = reviewUserVote,
+                            CanDelete = canDelete
+                        };
+                        entry.RefreshRating();
+                        reviews.Add(entry);
+                    }
                 }
             }
+
+            await PopulateAvatarsAsync(reviews, timeout.Token).ConfigureAwait(false);
+
             return new ReviewData
             {
                 UpCount = upCount,
@@ -252,6 +395,62 @@ public static class RoReviewService
         catch (Exception ex)
         {
             App.Logger.WriteLine("RoReviewService", "Vote failed: " + ex.Message);
+            return false;
+        }
+    }
+
+    public static async Task<bool> RateReviewAsync(long placeId, string reviewId, string vote, CancellationToken ct)
+    {
+        if (!IsAuthenticated || placeId <= 0 || string.IsNullOrWhiteSpace(reviewId))
+            return false;
+        try
+        {
+            string url = ApiBase + "/api/roblox/reviews/" + placeId.ToString(CultureInfo.InvariantCulture) + "/" + Uri.EscapeDataString(reviewId) + "/rate?game=true";
+            string body = "{\"vote\":\"" + vote + "\"}";
+            using HttpRequestMessage req = new(HttpMethod.Post, url);
+            req.Content = new StringContent(body, Encoding.UTF8, "application/json");
+            req.Headers.TryAddWithoutValidation("Authorization", "Bearer " + _sessionToken);
+            req.Headers.TryAddWithoutValidation("User-Agent", "Voidstrap/1.0");
+            using HttpResponseMessage res = await Client.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, ct).ConfigureAwait(false);
+            if (!res.IsSuccessStatusCode)
+            {
+                App.Logger.WriteLine("RoReviewService", "RateReview returned " + (int)res.StatusCode);
+                if (res.StatusCode == HttpStatusCode.Unauthorized || res.StatusCode == HttpStatusCode.Forbidden)
+                    ClearSession();
+                return false;
+            }
+            return true;
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("RoReviewService", "RateReview failed: " + ex.Message);
+            return false;
+        }
+    }
+
+    public static async Task<bool> DeleteReviewAsync(long placeId, string reviewId, CancellationToken ct)
+    {
+        if (!IsAuthenticated || placeId <= 0 || string.IsNullOrWhiteSpace(reviewId))
+            return false;
+        try
+        {
+            string url = ApiBase + "/api/roblox/reviews/" + placeId.ToString(CultureInfo.InvariantCulture) + "/" + Uri.EscapeDataString(reviewId) + "?game=true";
+            using HttpRequestMessage req = new(HttpMethod.Delete, url);
+            req.Headers.TryAddWithoutValidation("Authorization", "Bearer " + _sessionToken);
+            req.Headers.TryAddWithoutValidation("User-Agent", "Voidstrap/1.0");
+            using HttpResponseMessage res = await Client.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, ct).ConfigureAwait(false);
+            if (!res.IsSuccessStatusCode)
+            {
+                App.Logger.WriteLine("RoReviewService", "DeleteReview returned " + (int)res.StatusCode);
+                if (res.StatusCode == HttpStatusCode.Unauthorized || res.StatusCode == HttpStatusCode.Forbidden)
+                    ClearSession();
+                return false;
+            }
+            return true;
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("RoReviewService", "DeleteReview failed: " + ex.Message);
             return false;
         }
     }

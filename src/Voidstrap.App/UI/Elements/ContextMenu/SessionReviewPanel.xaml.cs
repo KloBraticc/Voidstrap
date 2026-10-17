@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using Voidstrap.Integrations;
 using Voidstrap.Resources;
@@ -83,11 +84,27 @@ public partial class SessionReviewPanel : Window
 
     private void OnAuthChanged()
     {
-        Dispatcher.BeginInvoke(() =>
+        _ = Dispatcher.BeginInvoke(() =>
         {
             if (_closed)
                 return;
             AuthStatus.Text = string.Empty;
+            long myId = RoReviewService.SessionUserId;
+            string? myName = RoReviewService.SessionUsername;
+            bool changed = false;
+            foreach (RoReviewService.ReviewEntry r in _reviews)
+            {
+                bool canDel = (myId > 0 && r.AuthorId == myId)
+                    || (!string.IsNullOrEmpty(myName) && string.Equals(r.AuthorName, myName, StringComparison.OrdinalIgnoreCase))
+                    || r.Id.StartsWith("temp_", StringComparison.Ordinal);
+                if (r.CanDelete != canDel)
+                {
+                    r.CanDelete = canDel;
+                    changed = true;
+                }
+            }
+            if (changed)
+                UpdateReviewList();
         });
     }
 
@@ -161,21 +178,17 @@ public partial class SessionReviewPanel : Window
 
     private void ApplyVoteHighlight()
     {
-        if (string.Equals(_userVote, "up", StringComparison.OrdinalIgnoreCase))
-        {
-            VoteUpButton.Appearance = Wpf.Ui.Common.ControlAppearance.Success;
-            VoteDownButton.Appearance = Wpf.Ui.Common.ControlAppearance.Transparent;
-        }
-        else if (string.Equals(_userVote, "down", StringComparison.OrdinalIgnoreCase))
-        {
-            VoteUpButton.Appearance = Wpf.Ui.Common.ControlAppearance.Transparent;
-            VoteDownButton.Appearance = Wpf.Ui.Common.ControlAppearance.Caution;
-        }
-        else
-        {
-            VoteUpButton.Appearance = Wpf.Ui.Common.ControlAppearance.Transparent;
-            VoteDownButton.Appearance = Wpf.Ui.Common.ControlAppearance.Transparent;
-        }
+        bool isUp = string.Equals(_userVote, "up", StringComparison.OrdinalIgnoreCase);
+        bool isDown = string.Equals(_userVote, "down", StringComparison.OrdinalIgnoreCase);
+
+        VoteUpButton.Appearance = isUp ? Wpf.Ui.Common.ControlAppearance.Secondary : Wpf.Ui.Common.ControlAppearance.Transparent;
+        VoteDownButton.Appearance = isDown ? Wpf.Ui.Common.ControlAppearance.Secondary : Wpf.Ui.Common.ControlAppearance.Transparent;
+
+        VoteUpIcon.SetResourceReference(TextBlock.ForegroundProperty, isUp ? "TextFillColorPrimaryBrush" : "TextFillColorSecondaryBrush");
+        UpCountText.SetResourceReference(TextBlock.ForegroundProperty, isUp ? "TextFillColorPrimaryBrush" : "TextFillColorSecondaryBrush");
+
+        VoteDownIcon.SetResourceReference(TextBlock.ForegroundProperty, isDown ? "TextFillColorPrimaryBrush" : "TextFillColorSecondaryBrush");
+        DownCountText.SetResourceReference(TextBlock.ForegroundProperty, isDown ? "TextFillColorPrimaryBrush" : "TextFillColorSecondaryBrush");
     }
 
     private void OnVoteUp(object sender, RoutedEventArgs e)
@@ -269,7 +282,7 @@ public partial class SessionReviewPanel : Window
 
     private void RollbackVote(string? prevVote, int prevUp, int prevDown)
     {
-        Dispatcher.BeginInvoke(() =>
+        _ = Dispatcher.BeginInvoke(() =>
         {
             if (_closed)
                 return;
@@ -277,6 +290,192 @@ public partial class SessionReviewPanel : Window
             _upCount = prevUp;
             _downCount = prevDown;
             UpdateRatingDisplay();
+        });
+    }
+
+    private void OnDeleteReview(object sender, RoutedEventArgs e)
+    {
+        if (sender is not FrameworkElement el || el.Tag is not RoReviewService.ReviewEntry entry)
+            return;
+        HandleDeleteReviewOptimistic(entry);
+    }
+
+    private void HandleDeleteReviewOptimistic(RoReviewService.ReviewEntry entry)
+    {
+        if (_closed || _placeId <= 0)
+            return;
+
+        int index = _reviews.IndexOf(entry);
+        if (index < 0)
+            return;
+
+        _reviews.RemoveAt(index);
+        _reviewCount = Math.Max(0, _reviewCount - 1);
+        UpdateRatingDisplay();
+        UpdateReviewList();
+
+        if (entry.Id.StartsWith("temp_", StringComparison.Ordinal))
+            return;
+
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                if (!RoReviewService.IsAuthenticated)
+                {
+                    _ = Dispatcher.BeginInvoke(() =>
+                    {
+                        if (!_closed)
+                            AuthStatus.Text = Strings.Ui_Session_SigningIn;
+                    });
+                    bool authed = await RoReviewService.AuthenticateAsync(_ct).ConfigureAwait(false);
+                    _ = Dispatcher.BeginInvoke(() =>
+                    {
+                        if (!_closed)
+                            AuthStatus.Text = string.Empty;
+                    });
+                    if (!authed)
+                    {
+                        RollbackDelete(entry, index);
+                        return;
+                    }
+                }
+                bool ok = await RoReviewService.DeleteReviewAsync(_placeId, entry.Id, _ct).ConfigureAwait(false);
+                if (!ok)
+                {
+                    RollbackDelete(entry, index);
+                }
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine("SessionReviewPanel", "Delete background failed: " + ex.Message);
+                RollbackDelete(entry, index);
+            }
+        }, _ct);
+    }
+
+    private void RollbackDelete(RoReviewService.ReviewEntry entry, int index)
+    {
+        _ = Dispatcher.BeginInvoke(() =>
+        {
+            if (_closed)
+                return;
+            int insertAt = Math.Clamp(index, 0, _reviews.Count);
+            _reviews.Insert(insertAt, entry);
+            _reviewCount++;
+            UpdateRatingDisplay();
+            UpdateReviewList();
+        });
+    }
+
+    private void OnReviewVoteUp(object sender, RoutedEventArgs e)
+    {
+        if (sender is not FrameworkElement el || el.Tag is not RoReviewService.ReviewEntry entry)
+            return;
+        HandleReviewVoteOptimistic(entry, "up");
+    }
+
+    private void OnReviewVoteDown(object sender, RoutedEventArgs e)
+    {
+        if (sender is not FrameworkElement el || el.Tag is not RoReviewService.ReviewEntry entry)
+            return;
+        HandleReviewVoteOptimistic(entry, "down");
+    }
+
+    private void HandleReviewVoteOptimistic(RoReviewService.ReviewEntry entry, string vote)
+    {
+        if (_closed || _placeId <= 0)
+            return;
+
+        string? prevVote = entry.UserVote;
+        int prevUp = entry.UpCount;
+        int prevDown = entry.DownCount;
+
+        if (string.Equals(vote, "up", StringComparison.OrdinalIgnoreCase))
+        {
+            if (string.Equals(entry.UserVote, "up", StringComparison.OrdinalIgnoreCase))
+            {
+                entry.UserVote = null;
+                entry.UpCount = Math.Max(0, entry.UpCount - 1);
+            }
+            else
+            {
+                if (string.Equals(entry.UserVote, "down", StringComparison.OrdinalIgnoreCase))
+                    entry.DownCount = Math.Max(0, entry.DownCount - 1);
+                entry.UserVote = "up";
+                entry.UpCount++;
+            }
+        }
+        else
+        {
+            if (string.Equals(entry.UserVote, "down", StringComparison.OrdinalIgnoreCase))
+            {
+                entry.UserVote = null;
+                entry.DownCount = Math.Max(0, entry.DownCount - 1);
+            }
+            else
+            {
+                if (string.Equals(entry.UserVote, "up", StringComparison.OrdinalIgnoreCase))
+                    entry.UpCount = Math.Max(0, entry.UpCount - 1);
+                entry.UserVote = "down";
+                entry.DownCount++;
+            }
+        }
+
+        entry.RefreshRating();
+        UpdateReviewList();
+
+        if (entry.Id.StartsWith("temp_", StringComparison.Ordinal))
+            return;
+
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                if (!RoReviewService.IsAuthenticated)
+                {
+                    _ = Dispatcher.BeginInvoke(() =>
+                    {
+                        if (!_closed)
+                            AuthStatus.Text = Strings.Ui_Session_SigningIn;
+                    });
+                    bool authed = await RoReviewService.AuthenticateAsync(_ct).ConfigureAwait(false);
+                    _ = Dispatcher.BeginInvoke(() =>
+                    {
+                        if (!_closed)
+                            AuthStatus.Text = string.Empty;
+                    });
+                    if (!authed)
+                    {
+                        RollbackReviewVote(entry, prevVote, prevUp, prevDown);
+                        return;
+                    }
+                }
+                bool ok = await RoReviewService.RateReviewAsync(_placeId, entry.Id, vote, _ct).ConfigureAwait(false);
+                if (!ok)
+                {
+                    RollbackReviewVote(entry, prevVote, prevUp, prevDown);
+                }
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine("SessionReviewPanel", "Rate review background failed: " + ex.Message);
+                RollbackReviewVote(entry, prevVote, prevUp, prevDown);
+            }
+        }, _ct);
+    }
+
+    private void RollbackReviewVote(RoReviewService.ReviewEntry entry, string? prevVote, int prevUp, int prevDown)
+    {
+        _ = Dispatcher.BeginInvoke(() =>
+        {
+            if (_closed)
+                return;
+            entry.UserVote = prevVote;
+            entry.UpCount = prevUp;
+            entry.DownCount = prevDown;
+            entry.RefreshRating();
+            UpdateReviewList();
         });
     }
 
@@ -314,8 +513,10 @@ public partial class SessionReviewPanel : Window
             AuthorId = RoReviewService.SessionUserId,
             AuthorName = author,
             Content = content,
-            CreatedAt = "just now"
+            CreatedAt = "just now",
+            CanDelete = true
         };
+        entry.RefreshRating();
 
         _reviews.Insert(0, entry);
         _reviewCount++;
@@ -361,7 +562,7 @@ public partial class SessionReviewPanel : Window
 
     private void RollbackSubmit(RoReviewService.ReviewEntry entry, string restoredText)
     {
-        Dispatcher.BeginInvoke(() =>
+        _ = Dispatcher.BeginInvoke(() =>
         {
             if (_closed)
                 return;
