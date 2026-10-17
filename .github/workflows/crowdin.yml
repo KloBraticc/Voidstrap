@@ -14,6 +14,14 @@ on:
         description: Upload the translations already in the repository
         type: boolean
         default: false
+      download_translations:
+        description: Download the translations from Crowdin
+        type: boolean
+        default: false
+      create_pull_request:
+        description: Create a pull request for downloaded translations
+        type: boolean
+        default: false
 
 permissions:
   contents: write
@@ -35,10 +43,10 @@ jobs:
           upload_translations: ${{ inputs.upload_translations == true }}
           import_eq_suggestions: false
           auto_approve_imported: true
-          download_translations: ${{ github.event_name != 'push' }}
+          download_translations: ${{ inputs.download_translations == true }}
           skip_untranslated_strings: true
           localization_branch_name: crowdin-translations
-          create_pull_request: true
+          create_pull_request: ${{ inputs.create_pull_request == true }}
           pull_request_title: "chore: update translations from Crowdin"
           pull_request_body: Translations pulled from Crowdin.
           pull_request_base_branch_name: main
