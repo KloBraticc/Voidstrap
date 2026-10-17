@@ -3122,9 +3122,6 @@ Roblox se descargará cuando lo inicies por primera vez a través de Voidstrap. 
   <data name="Ui.Nav.More" xml:space="preserve">
     <value>Más</value>
   </data>
-  <data name="Ui.Nav.Global" xml:space="preserve">
-    <value>Global</value>
-  </data>
   <data name="Ui.Nav.News" xml:space="preserve">
     <value>Noticias</value>
   </data>
@@ -3181,9 +3178,6 @@ Roblox se descargará cuando lo inicies por primera vez a través de Voidstrap. 
   </data>
   <data name="Ui.Appearance.Subtitle" xml:space="preserve">
     <value>Personaliza el fondo, la interfaz y las opciones</value>
-  </data>
-  <data name="Ui.Appearance.Color" xml:space="preserve">
-    <value>Color</value>
   </data>
   <data name="Ui.Appearance.Background" xml:space="preserve">
     <value>Fondo</value>
@@ -3400,9 +3394,6 @@ Roblox se descargará cuando lo inicies por primera vez a través de Voidstrap. 
   </data>
   <data name="Ui.Mods.ApplyModsTo" xml:space="preserve">
     <value>Aplicar mods a</value>
-  </data>
-  <data name="Ui.Mods.Cursor" xml:space="preserve">
-    <value>Cursor</value>
   </data>
   <data name="Ui.Mods.CursorStyle" xml:space="preserve">
     <value>Estilo del cursor</value>
@@ -3649,9 +3640,6 @@ Roblox se descargará cuando lo inicies por primera vez a través de Voidstrap. 
   </data>
   <data name="Ui.Mods.EnableOrDisableThisMod" xml:space="preserve">
     <value>Activar o desactivar este mod</value>
-  </data>
-  <data name="Ui.Mods.Id" xml:space="preserve">
-    <value>   ID: </value>
   </data>
   <data name="Ui.Mods.ViewThisModPack" xml:space="preserve">
     <value>Ver este paquete de mods</value>
@@ -3980,9 +3968,6 @@ Roblox se descargará cuando lo inicies por primera vez a través de Voidstrap. 
   <data name="Ui.FastFlags.HowSolidTheSquaresLook" xml:space="preserve">
     <value>Lo sólidos que se ven los cuadrados</value>
   </data>
-  <data name="Ui.FastFlags.Studs" xml:space="preserve">
-    <value>Studs</value>
-  </data>
   <data name="Ui.FastFlags.TheStudPatternOnParts" xml:space="preserve">
     <value>El patrón de studs en las piezas</value>
   </data>
@@ -4253,9 +4238,6 @@ Roblox se descargará cuando lo inicies por primera vez a través de Voidstrap. 
   <data name="Ui.Bootstrapper.ReduceResourcesWhenRobloxIsUnfocused" xml:space="preserve">
     <value>Reducir recursos cuando Roblox no está en primer plano</value>
   </data>
-  <data name="Ui.Bootstrapper.VoidstrapMatchmaker" xml:space="preserve">
-    <value>Voidstrap Matchmaker</value>
-  </data>
   <data name="Ui.Bootstrapper.Enable" xml:space="preserve">
     <value>Activar</value>
   </data>
@@ -4322,9 +4304,6 @@ Roblox se descargará cuando lo inicies por primera vez a través de Voidstrap. 
   <data name="Ui.Bootstrapper.NeverLetVoidstrapPickAServer" xml:space="preserve">
     <value>No dejar nunca que Voidstrap elija servidor para este juego</value>
   </data>
-  <data name="Ui.Bootstrapper.PlaceId" xml:space="preserve">
-    <value>Place id</value>
-  </data>
   <data name="Ui.Bootstrapper.LetVoidstrapPickServersForThis" xml:space="preserve">
     <value>Dejar que Voidstrap vuelva a elegir servidores para este juego</value>
   </data>
@@ -4337,17 +4316,11 @@ Roblox se descargará cuando lo inicies por primera vez a través de Voidstrap. 
   <data name="Ui.Bootstrapper.HowHardToSearch" xml:space="preserve">
     <value>Intensidad de búsqueda</value>
   </data>
-  <data name="Ui.Bootstrapper.Auto" xml:space="preserve">
-    <value>Auto</value>
-  </data>
   <data name="Ui.Bootstrapper.ReconnectLimit" xml:space="preserve">
     <value>Límite de reconexiones</value>
   </data>
   <data name="Ui.Bootstrapper.VoidstrapStopsTryingAfterThisMany" xml:space="preserve">
     <value>Voidstrap deja de intentarlo tras este número de reconexiones para no entrar nunca en bucle.</value>
-  </data>
-  <data name="Ui.Bootstrapper.JoinAPI" xml:space="preserve">
-    <value>Join API</value>
   </data>
   <data name="Ui.Bootstrapper.WhichRobloxJoinEndpointVoidstrapAsks" xml:space="preserve">
     <value>Qué endpoint de unión de Roblox consulta Voidstrap para conocer la ubicación de los servidores. Cámbialo solo si las uniones dejan de funcionar.</value>
@@ -4568,9 +4541,6 @@ Roblox se descargará cuando lo inicies por primera vez a través de Voidstrap. 
   <data name="Ui.Integrations.CloseWhenLeavingThatGame" xml:space="preserve">
     <value>Cerrar al salir de ese juego</value>
   </data>
-  <data name="Ui.Integrations.PlaceID" xml:space="preserve">
-    <value>Place ID</value>
-  </data>
   <data name="Ui.Channel.InstallLocation" xml:space="preserve">
     <value>Ubicación de instalación</value>
   </data>
@@ -4631,9 +4601,6 @@ Roblox se descargará cuando lo inicies por primera vez a través de Voidstrap. 
   <data name="Ui.Channel.DisplaysVoidstrapsDiscordRPC" xml:space="preserve">
     <value>Muestra la RPC de Discord de Voidstrap.</value>
   </data>
-  <data name="Ui.Channel.VoidstrapRPC" xml:space="preserve">
-    <value>Voidstrap RPC</value>
-  </data>
   <data name="Ui.Channel.FactoryReset" xml:space="preserve">
     <value>Restablecer de fábrica</value>
   </data>
@@ -4690,9 +4657,6 @@ Roblox se descargará cuando lo inicies por primera vez a través de Voidstrap. 
   </data>
   <data name="Ui.Channel.SelectWhenYouDLikeTo" xml:space="preserve">
     <value>Elige cuándo quieres recibir las actualizaciones de Roblox</value>
-  </data>
-  <data name="Ui.Channel.Normal" xml:space="preserve">
-    <value>Normal</value>
   </data>
   <data name="Ui.Channel.YouGetEachRobloxUpdateOn" xml:space="preserve">
     <value>Recibes cada actualización de Roblox en el siguiente inicio tras su publicación</value>
@@ -4805,12 +4769,6 @@ Roblox se descargará cuando lo inicies por primera vez a través de Voidstrap. 
   <data name="Ui.SessionNotify.BottomRight" xml:space="preserve">
     <value>Abajo a la derecha</value>
   </data>
-  <data name="Ui.SessionNotify.Horizontal" xml:space="preserve">
-    <value>Horizontal</value>
-  </data>
-  <data name="Ui.SessionNotify.Vertical" xml:space="preserve">
-    <value>Vertical</value>
-  </data>
   <data name="Ui.SessionNotify.CornerRadius" xml:space="preserve">
     <value>Radio de esquina</value>
   </data>
@@ -4888,9 +4846,6 @@ Roblox se descargará cuando lo inicies por primera vez a través de Voidstrap. 
   </data>
   <data name="Ui.ModGen.RecolourRobloxSMenuAndTop" xml:space="preserve">
     <value>Cambia el color de los iconos del menú y de la barra superior de Roblox y guárdalo como mod.</value>
-  </data>
-  <data name="Ui.ModGen.Original" xml:space="preserve">
-    <value>Original</value>
   </data>
   <data name="Ui.ModGen.YourMod" xml:space="preserve">
     <value>Tu mod</value>
@@ -5060,9 +5015,6 @@ Roblox se descargará cuando lo inicies por primera vez a través de Voidstrap. 
   <data name="Ui.Gbs.ToggleFullscreenMode" xml:space="preserve">
     <value>Activa o desactiva la pantalla completa.</value>
   </data>
-  <data name="Ui.Gbs.Audio" xml:space="preserve">
-    <value>Audio</value>
-  </data>
   <data name="Ui.Gbs.MasterVolume" xml:space="preserve">
     <value>Volumen general</value>
   </data>
@@ -5137,9 +5089,6 @@ Roblox se descargará cuando lo inicies por primera vez a través de Voidstrap. 
   </data>
   <data name="Ui.Gbs.EnableVignetteForMotionSicknessReduction" xml:space="preserve">
     <value>Activa la viñeta para reducir el mareo.</value>
-  </data>
-  <data name="Ui.Gbs.MicroProfiler" xml:space="preserve">
-    <value>Micro Profiler</value>
   </data>
   <data name="Ui.Gbs.EnableRobloxMicroprofilerServer" xml:space="preserve">
     <value>Activa el servidor del microprofiler de Roblox.</value>
@@ -5318,9 +5267,6 @@ Roblox se descargará cuando lo inicies por primera vez a través de Voidstrap. 
   <data name="Ui.Session.Account" xml:space="preserve">
     <value>Cuenta</value>
   </data>
-  <data name="Ui.Session.Social" xml:space="preserve">
-    <value>Social</value>
-  </data>
   <data name="Ui.Session.OpenProfile" xml:space="preserve">
     <value>Abrir perfil</value>
   </data>
@@ -5417,9 +5363,6 @@ Roblox se descargará cuando lo inicies por primera vez a través de Voidstrap. 
   <data name="Ui.Session.PasteAFullROBLOSECURITYValueOnly" xml:space="preserve">
     <value>Pega un valor .ROBLOSECURITY completo. Pega solo cookies que sean tuyas.</value>
   </data>
-  <data name="Ui.Session.WARNINGDONOTSHARETHIS" xml:space="preserve">
-    <value>_|WARNING: DO NOT SHARE THIS...</value>
-  </data>
   <data name="Ui.Session.CURRENT" xml:space="preserve">
     <value>ACTUAL</value>
   </data>
@@ -5434,6 +5377,27 @@ Roblox se descargará cuando lo inicies por primera vez a través de Voidstrap. 
   </data>
   <data name="Ui.Session.RemoveSavedAccount" xml:space="preserve">
     <value>Quitar cuenta guardada</value>
+  </data>
+  <data name="Ui.Session.CommunityRating" xml:space="preserve">
+    <value>Valoración de la comunidad</value>
+  </data>
+  <data name="Ui.Session.Review" xml:space="preserve">
+    <value>reseña</value>
+  </data>
+  <data name="Ui.Session.Reviews" xml:space="preserve">
+    <value>reseñas</value>
+  </data>
+  <data name="Ui.Session.SubmitReview" xml:space="preserve">
+    <value>Enviar</value>
+  </data>
+  <data name="Ui.Session.NoReviews" xml:space="preserve">
+    <value>Aún no hay reseñas</value>
+  </data>
+  <data name="Ui.Session.WriteReview" xml:space="preserve">
+    <value>Escribir una reseña...</value>
+  </data>
+  <data name="Ui.Session.SigningIn" xml:space="preserve">
+    <value>Iniciando sesión...</value>
   </data>
   <data name="Ui.Misc.ClickToChangeThisColour" xml:space="preserve">
     <value>Haz clic para cambiar este color</value>
@@ -5608,9 +5572,6 @@ Roblox se descargará cuando lo inicies por primera vez a través de Voidstrap. 
   </data>
   <data name="Ui.Misc.TheGraphicsBackendWineUsesFor" xml:space="preserve">
     <value>El motor gráfico que usa Wine para Studio. DXVK va bien en la mayoría de sistemas.</value>
-  </data>
-  <data name="Ui.Misc.FeralGameMode" xml:space="preserve">
-    <value>Feral GameMode</value>
   </data>
   <data name="Ui.Misc.AsksGameModeToTuneTheSystem" xml:space="preserve">
     <value>Pide a GameMode que ajuste el sistema mientras Studio está abierto.</value>
@@ -5882,9 +5843,6 @@ Roblox se descargará cuando lo inicies por primera vez a través de Voidstrap. 
   <data name="Ui.Pages.OverridesThatAffectGPUBehaviorAnd" xml:space="preserve">
     <value>Anulaciones que afectan al comportamiento de la GPU y a las funciones del controlador.</value>
   </data>
-  <data name="Ui.Pages.ResizableBAR" xml:space="preserve">
-    <value>Resizable BAR</value>
-  </data>
   <data name="Ui.Pages.AllowsTheCPUToAccessThe" xml:space="preserve">
     <value>Permite a la CPU acceder a toda la memoria de la GPU en sistemas compatibles.</value>
   </data>
@@ -5995,9 +5953,6 @@ Roblox se descargará cuando lo inicies por primera vez a través de Voidstrap. 
   </data>
   <data name="Ui.Pages.ManageYourFastFlagsACheckmarkIn" xml:space="preserve">
     <value>Gestiona tus FastFlags. Una marca en Preset significa que el flag está disponible en los ajustes de FFlags, y una cruz que no.</value>
-  </data>
-  <data name="Ui.Pages.Preset" xml:space="preserve">
-    <value>Preset</value>
   </data>
   <data name="Ui.Pages.GoToFFlagSettingsToAdd" xml:space="preserve">
     <value>Ve a los ajustes de FFlags para añadir FFlags Preset.</value>
@@ -6134,17 +6089,11 @@ Roblox se descargará cuando lo inicies por primera vez a través de Voidstrap. 
   <data name="Ui.Misc2.TheClassicTopbarOptionRebuildsTwo" xml:space="preserve">
     <value>La opción de barra superior clásica recrea dos mods de la comunidad. El diseño y el comportamiento de la barra superior y el menú del juego de 2014 a 2015 provienen de "2014 2015 Topbar and Menu (Improvised GUI)" de HockuTM. Ocultar la barra superior moderna usa "NoGuiRBX, Hide TopBar!" de Einshine. Ambos se usan con agradecimiento bajo sus términos Creative Commons BY NC ND 4.0, sus archivos se descargan directamente de GameBanana en lugar de incluirse, y ningún autor está afiliado a Voidstrap.</value>
   </data>
-  <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
-  </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>Mods de la comunidad</value>
   </data>
   <data name="Ui.Misc2.CommunityModsListsRobloxSubmissionsFrom" xml:space="preserve">
     <value>Mods de la comunidad muestra envíos de Roblox de GameBanana y Kliko's Mods, mantenido por TheKliko para el modloader de Kliko. Voidstrap no está afiliado ni respaldado por ninguno de ellos. Todos los mods, imágenes y descripciones pertenecen a sus autores, que aparecen en cada ficha. Voidstrap solo lee sus datos públicos y nunca sube nada en tu nombre.</value>
-  </data>
-  <data name="Ui.Misc2.GithubComKlikosModloaderMarketplace" xml:space="preserve">
-    <value>github.com/klikos modloader/marketplace</value>
   </data>
   <data name="Ui.Misc2.ModGenerator" xml:space="preserve">
     <value>Generador de mods</value>
@@ -6154,12 +6103,6 @@ Roblox se descargará cuando lo inicies por primera vez a través de Voidstrap. 
   </data>
   <data name="Ui.Misc2.CanTSeeOverlays" xml:space="preserve">
     <value>¿No ves las superposiciones?</value>
-  </data>
-  <data name="Ui.Misc2.Info" xml:space="preserve">
-    <value>Info</value>
-  </data>
-  <data name="Ui.Misc2.FFlags" xml:space="preserve">
-    <value>FFlags</value>
   </data>
   <data name="Ui.Misc2.PlayTime" xml:space="preserve">
     <value>Tiempo de juego</value>
@@ -6322,12 +6265,6 @@ Roblox se descargará cuando lo inicies por primera vez a través de Voidstrap. 
   </data>
   <data name="Ui.Misc2.ServerSize" xml:space="preserve">
     <value>Tamaño del servidor</value>
-  </data>
-  <data name="Ui.Misc2.Chat" xml:space="preserve">
-    <value>Chat</value>
-  </data>
-  <data name="Ui.Misc2.Chats" xml:space="preserve">
-    <value>Chats</value>
   </data>
   <data name="Ui.Misc2.LoadingYourChats" xml:space="preserve">
     <value>Cargando tus chats</value>
@@ -6858,26 +6795,5 @@ Error: {0}</value>
   </data>
   <data name="Ui.Shortcuts.ApplicationsMenu" xml:space="preserve">
     <value>Menú de aplicaciones</value>
-  </data>
-  <data name="Ui.Session.CommunityRating" xml:space="preserve">
-    <value>Valoración de la comunidad</value>
-  </data>
-  <data name="Ui.Session.Review" xml:space="preserve">
-    <value>reseña</value>
-  </data>
-  <data name="Ui.Session.Reviews" xml:space="preserve">
-    <value>reseñas</value>
-  </data>
-  <data name="Ui.Session.SubmitReview" xml:space="preserve">
-    <value>Enviar</value>
-  </data>
-  <data name="Ui.Session.NoReviews" xml:space="preserve">
-    <value>Aún no hay reseñas</value>
-  </data>
-  <data name="Ui.Session.WriteReview" xml:space="preserve">
-    <value>Escribir una reseña...</value>
-  </data>
-  <data name="Ui.Session.SigningIn" xml:space="preserve">
-    <value>Iniciando sesión...</value>
   </data>
 </root>

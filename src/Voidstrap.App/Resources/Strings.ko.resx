@@ -3669,9 +3669,6 @@ Roblox는 Voidstrap으로 처음 실행할 때 다운로드됩니다. 실행하�
   <data name="Ui.Mods.EnableOrDisableThisMod" xml:space="preserve">
     <value>이 모드 사용 또는 사용 안 함</value>
   </data>
-  <data name="Ui.Mods.Id" xml:space="preserve">
-    <value>   ID: </value>
-  </data>
   <data name="Ui.Mods.ViewThisModPack" xml:space="preserve">
     <value>이 모드 팩 보기</value>
   </data>
@@ -3999,9 +3996,6 @@ Roblox는 Voidstrap으로 처음 실행할 때 다운로드됩니다. 실행하�
   <data name="Ui.FastFlags.HowSolidTheSquaresLook" xml:space="preserve">
     <value>사각형이 얼마나 단단해 보이는지</value>
   </data>
-  <data name="Ui.FastFlags.Studs" xml:space="preserve">
-    <value>Studs</value>
-  </data>
   <data name="Ui.FastFlags.TheStudPatternOnParts" xml:space="preserve">
     <value>파트의 studs 무늬</value>
   </data>
@@ -4272,9 +4266,6 @@ Roblox는 Voidstrap으로 처음 실행할 때 다운로드됩니다. 실행하�
   <data name="Ui.Bootstrapper.ReduceResourcesWhenRobloxIsUnfocused" xml:space="preserve">
     <value>Roblox에 포커스가 없을 때 리소스 줄이기</value>
   </data>
-  <data name="Ui.Bootstrapper.VoidstrapMatchmaker" xml:space="preserve">
-    <value>Voidstrap Matchmaker</value>
-  </data>
   <data name="Ui.Bootstrapper.Enable" xml:space="preserve">
     <value>사용</value>
   </data>
@@ -4341,9 +4332,6 @@ Roblox는 Voidstrap으로 처음 실행할 때 다운로드됩니다. 실행하�
   <data name="Ui.Bootstrapper.NeverLetVoidstrapPickAServer" xml:space="preserve">
     <value>이 게임에서는 Voidstrap이 서버를 선택하지 않도록 함</value>
   </data>
-  <data name="Ui.Bootstrapper.PlaceId" xml:space="preserve">
-    <value>Place id</value>
-  </data>
   <data name="Ui.Bootstrapper.LetVoidstrapPickServersForThis" xml:space="preserve">
     <value>이 게임에서 다시 Voidstrap이 서버를 선택하도록 함</value>
   </data>
@@ -4364,9 +4352,6 @@ Roblox는 Voidstrap으로 처음 실행할 때 다운로드됩니다. 실행하�
   </data>
   <data name="Ui.Bootstrapper.VoidstrapStopsTryingAfterThisMany" xml:space="preserve">
     <value>Voidstrap은 루프에 빠지지 않도록 이 횟수만큼 재연결한 후 시도를 멈춥니다.</value>
-  </data>
-  <data name="Ui.Bootstrapper.JoinAPI" xml:space="preserve">
-    <value>Join API</value>
   </data>
   <data name="Ui.Bootstrapper.WhichRobloxJoinEndpointVoidstrapAsks" xml:space="preserve">
     <value>Voidstrap이 서버 위치를 묻는 Roblox 참여 엔드포인트입니다. 참여가 작동하지 않을 때만 변경하십시오.</value>
@@ -4587,9 +4572,6 @@ Roblox는 Voidstrap으로 처음 실행할 때 다운로드됩니다. 실행하�
   <data name="Ui.Integrations.CloseWhenLeavingThatGame" xml:space="preserve">
     <value>해당 게임을 나가면 닫기</value>
   </data>
-  <data name="Ui.Integrations.PlaceID" xml:space="preserve">
-    <value>Place ID</value>
-  </data>
   <data name="Ui.Channel.InstallLocation" xml:space="preserve">
     <value>설치 위치</value>
   </data>
@@ -4649,9 +4631,6 @@ Roblox는 Voidstrap으로 처음 실행할 때 다운로드됩니다. 실행하�
   </data>
   <data name="Ui.Channel.DisplaysVoidstrapsDiscordRPC" xml:space="preserve">
     <value>Voidstrap의 Discord RPC를 표시합니다.</value>
-  </data>
-  <data name="Ui.Channel.VoidstrapRPC" xml:space="preserve">
-    <value>Voidstrap RPC</value>
   </data>
   <data name="Ui.Channel.FactoryReset" xml:space="preserve">
     <value>초기화</value>
@@ -5157,9 +5136,6 @@ Roblox는 Voidstrap으로 처음 실행할 때 다운로드됩니다. 실행하�
   <data name="Ui.Gbs.EnableVignetteForMotionSicknessReduction" xml:space="preserve">
     <value>멀미를 줄이기 위해 비네트를 사용합니다.</value>
   </data>
-  <data name="Ui.Gbs.MicroProfiler" xml:space="preserve">
-    <value>Micro Profiler</value>
-  </data>
   <data name="Ui.Gbs.EnableRobloxMicroprofilerServer" xml:space="preserve">
     <value>Roblox 마이크로프로파일러 서버를 사용합니다.</value>
   </data>
@@ -5436,9 +5412,6 @@ Roblox는 Voidstrap으로 처음 실행할 때 다운로드됩니다. 실행하�
   <data name="Ui.Session.PasteAFullROBLOSECURITYValueOnly" xml:space="preserve">
     <value>전체 .ROBLOSECURITY 값을 붙여 넣으십시오. 본인 소유의 쿠키만 붙여 넣으십시오.</value>
   </data>
-  <data name="Ui.Session.WARNINGDONOTSHARETHIS" xml:space="preserve">
-    <value>_|WARNING: DO NOT SHARE THIS...</value>
-  </data>
   <data name="Ui.Session.CURRENT" xml:space="preserve">
     <value>현재</value>
   </data>
@@ -5453,6 +5426,27 @@ Roblox는 Voidstrap으로 처음 실행할 때 다운로드됩니다. 실행하�
   </data>
   <data name="Ui.Session.RemoveSavedAccount" xml:space="preserve">
     <value>저장된 계정 제거</value>
+  </data>
+  <data name="Ui.Session.CommunityRating" xml:space="preserve">
+    <value>커뮤니티 평가</value>
+  </data>
+  <data name="Ui.Session.Review" xml:space="preserve">
+    <value>리뷰</value>
+  </data>
+  <data name="Ui.Session.Reviews" xml:space="preserve">
+    <value>리뷰</value>
+  </data>
+  <data name="Ui.Session.SubmitReview" xml:space="preserve">
+    <value>제출</value>
+  </data>
+  <data name="Ui.Session.NoReviews" xml:space="preserve">
+    <value>아직 리뷰가 없습니다</value>
+  </data>
+  <data name="Ui.Session.WriteReview" xml:space="preserve">
+    <value>리뷰 작성...</value>
+  </data>
+  <data name="Ui.Session.SigningIn" xml:space="preserve">
+    <value>로그인 중...</value>
   </data>
   <data name="Ui.Misc.ClickToChangeThisColour" xml:space="preserve">
     <value>클릭하여 이 색상 변경</value>
@@ -5627,9 +5621,6 @@ Roblox는 Voidstrap으로 처음 실행할 때 다운로드됩니다. 실행하�
   </data>
   <data name="Ui.Misc.TheGraphicsBackendWineUsesFor" xml:space="preserve">
     <value>Wine이 Studio에 사용하는 그래픽 백엔드입니다. 대부분의 시스템에는 DXVK가 적합합니다.</value>
-  </data>
-  <data name="Ui.Misc.FeralGameMode" xml:space="preserve">
-    <value>Feral GameMode</value>
   </data>
   <data name="Ui.Misc.AsksGameModeToTuneTheSystem" xml:space="preserve">
     <value>Studio가 실행되는 동안 GameMode에 시스템 조정을 요청합니다.</value>
@@ -5901,9 +5892,6 @@ Roblox는 Voidstrap으로 처음 실행할 때 다운로드됩니다. 실행하�
   <data name="Ui.Pages.OverridesThatAffectGPUBehaviorAnd" xml:space="preserve">
     <value>GPU 동작과 드라이버 기능에 영향을 주는 재정의입니다.</value>
   </data>
-  <data name="Ui.Pages.ResizableBAR" xml:space="preserve">
-    <value>Resizable BAR</value>
-  </data>
   <data name="Ui.Pages.AllowsTheCPUToAccessThe" xml:space="preserve">
     <value>지원되는 시스템에서 CPU가 GPU 메모리 전체에 접근할 수 있게 합니다.</value>
   </data>
@@ -6014,9 +6002,6 @@ Roblox는 Voidstrap으로 처음 실행할 때 다운로드됩니다. 실행하�
   </data>
   <data name="Ui.Pages.ManageYourFastFlagsACheckmarkIn" xml:space="preserve">
     <value>FastFlags를 관리합니다. Preset의 체크 표시는 플래그가 FFlag 설정에 있다는 뜻이고, X 표시는 없다는 뜻입니다.</value>
-  </data>
-  <data name="Ui.Pages.Preset" xml:space="preserve">
-    <value>Preset</value>
   </data>
   <data name="Ui.Pages.GoToFFlagSettingsToAdd" xml:space="preserve">
     <value>Preset FFlags를 추가하려면 FFlag 설정으로 이동하십시오.</value>
@@ -6153,17 +6138,11 @@ Roblox는 Voidstrap으로 처음 실행할 때 다운로드됩니다. 실행하�
   <data name="Ui.Misc2.TheClassicTopbarOptionRebuildsTwo" xml:space="preserve">
     <value>클래식 상단 바 옵션은 두 개의 커뮤니티 모드를 재구성합니다. 2014년부터 2015년까지의 상단 바와 게임 메뉴 디자인 및 동작은 HockuTM의 "2014 2015 Topbar and Menu (Improvised GUI)"에서 가져왔습니다. 최신 상단 바 숨기기는 Einshine의 "NoGuiRBX, Hide TopBar!"를 사용합니다. 두 모드 모두 Creative Commons BY NC ND 4.0 조건에 따라 감사의 마음으로 사용하며, 파일은 포함하지 않고 GameBanana에서 직접 다운로드합니다. 두 제작자 모두 Voidstrap과 관련이 없습니다.</value>
   </data>
-  <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
-  </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>커뮤니티 모드</value>
   </data>
   <data name="Ui.Misc2.CommunityModsListsRobloxSubmissionsFrom" xml:space="preserve">
     <value>커뮤니티 모드는 TheKliko가 Kliko의 모드 로더용으로 관리하는 Kliko's Mods와 GameBanana의 Roblox 제출물을 보여 줍니다. Voidstrap은 어느 쪽과도 제휴하거나 보증받지 않았습니다. 모든 모드, 이미지, 설명은 각 항목에 표기된 제작자의 것입니다. Voidstrap은 공개 데이터만 읽으며 사용자를 대신해 아무것도 업로드하지 않습니다.</value>
-  </data>
-  <data name="Ui.Misc2.GithubComKlikosModloaderMarketplace" xml:space="preserve">
-    <value>github.com/klikos modloader/marketplace</value>
   </data>
   <data name="Ui.Misc2.ModGenerator" xml:space="preserve">
     <value>모드 생성기</value>
@@ -6176,9 +6155,6 @@ Roblox는 Voidstrap으로 처음 실행할 때 다운로드됩니다. 실행하�
   </data>
   <data name="Ui.Misc2.Info" xml:space="preserve">
     <value>정보</value>
-  </data>
-  <data name="Ui.Misc2.FFlags" xml:space="preserve">
-    <value>FFlags</value>
   </data>
   <data name="Ui.Misc2.PlayTime" xml:space="preserve">
     <value>플레이 시간</value>
@@ -6877,26 +6853,5 @@ Voidstrap이 바탕 화면 폴더에 쓸 수 없습니다.</value>
   </data>
   <data name="Ui.Shortcuts.ApplicationsMenu" xml:space="preserve">
     <value>응용 프로그램 메뉴</value>
-  </data>
-  <data name="Ui.Session.CommunityRating" xml:space="preserve">
-    <value>커뮤니티 평가</value>
-  </data>
-  <data name="Ui.Session.Review" xml:space="preserve">
-    <value>리뷰</value>
-  </data>
-  <data name="Ui.Session.Reviews" xml:space="preserve">
-    <value>리뷰</value>
-  </data>
-  <data name="Ui.Session.SubmitReview" xml:space="preserve">
-    <value>제출</value>
-  </data>
-  <data name="Ui.Session.NoReviews" xml:space="preserve">
-    <value>아직 리뷰가 없습니다</value>
-  </data>
-  <data name="Ui.Session.WriteReview" xml:space="preserve">
-    <value>리뷰 작성...</value>
-  </data>
-  <data name="Ui.Session.SigningIn" xml:space="preserve">
-    <value>로그인 중...</value>
   </data>
 </root>

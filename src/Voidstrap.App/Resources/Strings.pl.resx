@@ -3440,9 +3440,6 @@ Co chcesz zrobić?</value>
   <data name="Ui.Mods.NoCursorSetsYetPressNew" xml:space="preserve">
     <value>Brak zestawów kursorów. Kliknij Nowy, aby utworzyć zestaw, lub zaimportuj plik zip.</value>
   </data>
-  <data name="Ui.Mods.Folder" xml:space="preserve">
-    <value>Folder</value>
-  </data>
   <data name="Ui.Mods.OpenTheCursorSetsFolder" xml:space="preserve">
     <value>Otwórz folder zestawów kursorów</value>
   </data>
@@ -3652,9 +3649,6 @@ Co chcesz zrobić?</value>
   </data>
   <data name="Ui.Mods.EnableOrDisableThisMod" xml:space="preserve">
     <value>Włącz lub wyłącz tego moda</value>
-  </data>
-  <data name="Ui.Mods.Id" xml:space="preserve">
-    <value>   ID: </value>
   </data>
   <data name="Ui.Mods.ViewThisModPack" xml:space="preserve">
     <value>Zobacz tę paczkę modów</value>
@@ -3946,9 +3940,6 @@ Co chcesz zrobić?</value>
   </data>
   <data name="Ui.FastFlags.GrassDistance" xml:space="preserve">
     <value>Zasięg trawy</value>
-  </data>
-  <data name="Ui.FastFlags.Min" xml:space="preserve">
-    <value>Min</value>
   </data>
   <data name="Ui.FastFlags.Max" xml:space="preserve">
     <value>Maks</value>
@@ -4256,9 +4247,6 @@ Co chcesz zrobić?</value>
   <data name="Ui.Bootstrapper.ReduceResourcesWhenRobloxIsUnfocused" xml:space="preserve">
     <value>Ogranicz zasoby, gdy Roblox jest nieaktywny</value>
   </data>
-  <data name="Ui.Bootstrapper.VoidstrapMatchmaker" xml:space="preserve">
-    <value>Voidstrap Matchmaker</value>
-  </data>
   <data name="Ui.Bootstrapper.Enable" xml:space="preserve">
     <value>Włącz</value>
   </data>
@@ -4325,9 +4313,6 @@ Co chcesz zrobić?</value>
   <data name="Ui.Bootstrapper.NeverLetVoidstrapPickAServer" xml:space="preserve">
     <value>Nigdy nie pozwalaj Voidstrap wybierać serwera dla tej gry</value>
   </data>
-  <data name="Ui.Bootstrapper.PlaceId" xml:space="preserve">
-    <value>Place id</value>
-  </data>
   <data name="Ui.Bootstrapper.LetVoidstrapPickServersForThis" xml:space="preserve">
     <value>Pozwól Voidstrap znów wybierać serwery dla tej gry</value>
   </data>
@@ -4340,17 +4325,11 @@ Co chcesz zrobić?</value>
   <data name="Ui.Bootstrapper.HowHardToSearch" xml:space="preserve">
     <value>Jak dokładnie szukać</value>
   </data>
-  <data name="Ui.Bootstrapper.Auto" xml:space="preserve">
-    <value>Auto</value>
-  </data>
   <data name="Ui.Bootstrapper.ReconnectLimit" xml:space="preserve">
     <value>Limit ponownych połączeń</value>
   </data>
   <data name="Ui.Bootstrapper.VoidstrapStopsTryingAfterThisMany" xml:space="preserve">
     <value>Voidstrap przestaje próbować po tylu ponownych połączeniach, więc nigdy się nie zapętli.</value>
-  </data>
-  <data name="Ui.Bootstrapper.JoinAPI" xml:space="preserve">
-    <value>Join API</value>
   </data>
   <data name="Ui.Bootstrapper.WhichRobloxJoinEndpointVoidstrapAsks" xml:space="preserve">
     <value>Który punkt końcowy dołączania Roblox Voidstrap pyta o lokalizacje serwerów. Zmieniaj tylko, jeśli dołączanie przestanie działać.</value>
@@ -4571,9 +4550,6 @@ Co chcesz zrobić?</value>
   <data name="Ui.Integrations.CloseWhenLeavingThatGame" xml:space="preserve">
     <value>Zamknij po wyjściu z tej gry</value>
   </data>
-  <data name="Ui.Integrations.PlaceID" xml:space="preserve">
-    <value>Place ID</value>
-  </data>
   <data name="Ui.Channel.InstallLocation" xml:space="preserve">
     <value>Lokalizacja instalacji</value>
   </data>
@@ -4633,9 +4609,6 @@ Co chcesz zrobić?</value>
   </data>
   <data name="Ui.Channel.DisplaysVoidstrapsDiscordRPC" xml:space="preserve">
     <value>Wyświetla Discord RPC Voidstrap.</value>
-  </data>
-  <data name="Ui.Channel.VoidstrapRPC" xml:space="preserve">
-    <value>Voidstrap RPC</value>
   </data>
   <data name="Ui.Channel.FactoryReset" xml:space="preserve">
     <value>Przywróć ustawienia fabryczne</value>
@@ -5141,9 +5114,6 @@ Co chcesz zrobić?</value>
   <data name="Ui.Gbs.EnableVignetteForMotionSicknessReduction" xml:space="preserve">
     <value>Włącz winietę, aby ograniczyć chorobę lokomocyjną.</value>
   </data>
-  <data name="Ui.Gbs.MicroProfiler" xml:space="preserve">
-    <value>Micro Profiler</value>
-  </data>
   <data name="Ui.Gbs.EnableRobloxMicroprofilerServer" xml:space="preserve">
     <value>Włącz serwer mikroprofilera Roblox.</value>
   </data>
@@ -5390,9 +5360,6 @@ Co chcesz zrobić?</value>
   <data name="Ui.Session.SortBy" xml:space="preserve">
     <value>Sortuj według</value>
   </data>
-  <data name="Ui.Session.Region" xml:space="preserve">
-    <value>Region</value>
-  </data>
   <data name="Ui.Session.Place" xml:space="preserve">
     <value>Miejsce</value>
   </data>
@@ -5420,9 +5387,6 @@ Co chcesz zrobić?</value>
   <data name="Ui.Session.PasteAFullROBLOSECURITYValueOnly" xml:space="preserve">
     <value>Wklej pełną wartość .ROBLOSECURITY. Wklejaj tylko własne cookie.</value>
   </data>
-  <data name="Ui.Session.WARNINGDONOTSHARETHIS" xml:space="preserve">
-    <value>_|WARNING: DO NOT SHARE THIS...</value>
-  </data>
   <data name="Ui.Session.CURRENT" xml:space="preserve">
     <value>BIEŻĄCE</value>
   </data>
@@ -5437,6 +5401,27 @@ Co chcesz zrobić?</value>
   </data>
   <data name="Ui.Session.RemoveSavedAccount" xml:space="preserve">
     <value>Usuń zapisane konto</value>
+  </data>
+  <data name="Ui.Session.CommunityRating" xml:space="preserve">
+    <value>Ocena społeczności</value>
+  </data>
+  <data name="Ui.Session.Review" xml:space="preserve">
+    <value>recenzja</value>
+  </data>
+  <data name="Ui.Session.Reviews" xml:space="preserve">
+    <value>recenzji</value>
+  </data>
+  <data name="Ui.Session.SubmitReview" xml:space="preserve">
+    <value>Wyślij</value>
+  </data>
+  <data name="Ui.Session.NoReviews" xml:space="preserve">
+    <value>Brak recenzji</value>
+  </data>
+  <data name="Ui.Session.WriteReview" xml:space="preserve">
+    <value>Napisz recenzję...</value>
+  </data>
+  <data name="Ui.Session.SigningIn" xml:space="preserve">
+    <value>Logowanie...</value>
   </data>
   <data name="Ui.Misc.ClickToChangeThisColour" xml:space="preserve">
     <value>Kliknij, aby zmienić ten kolor</value>
@@ -5606,14 +5591,8 @@ Co chcesz zrobić?</value>
   <data name="Ui.Misc.LetsVinegarShowYourStudioSession" xml:space="preserve">
     <value>Pozwala Vinegar pokazywać twoją sesję Studio na Discordzie.</value>
   </data>
-  <data name="Ui.Misc.Renderer" xml:space="preserve">
-    <value>Renderer</value>
-  </data>
   <data name="Ui.Misc.TheGraphicsBackendWineUsesFor" xml:space="preserve">
     <value>Backend graficzny, którego Wine używa dla Studio. DXVK pasuje do większości systemów.</value>
-  </data>
-  <data name="Ui.Misc.FeralGameMode" xml:space="preserve">
-    <value>Feral GameMode</value>
   </data>
   <data name="Ui.Misc.AsksGameModeToTuneTheSystem" xml:space="preserve">
     <value>Prosi GameMode o dostrojenie systemu, gdy działa Studio.</value>
@@ -5885,9 +5864,6 @@ Co chcesz zrobić?</value>
   <data name="Ui.Pages.OverridesThatAffectGPUBehaviorAnd" xml:space="preserve">
     <value>Nadpisania wpływające na działanie GPU i funkcje sterownika.</value>
   </data>
-  <data name="Ui.Pages.ResizableBAR" xml:space="preserve">
-    <value>Resizable BAR</value>
-  </data>
   <data name="Ui.Pages.AllowsTheCPUToAccessThe" xml:space="preserve">
     <value>Pozwala CPU na dostęp do całej pamięci GPU w obsługiwanych systemach.</value>
   </data>
@@ -5998,9 +5974,6 @@ Co chcesz zrobić?</value>
   </data>
   <data name="Ui.Pages.ManageYourFastFlagsACheckmarkIn" xml:space="preserve">
     <value>Zarządzaj swoimi FastFlags. Znacznik przy Preset oznacza, że flaga jest dostępna w ustawieniach FFlag, a krzyżyk, że nie jest.</value>
-  </data>
-  <data name="Ui.Pages.Preset" xml:space="preserve">
-    <value>Preset</value>
   </data>
   <data name="Ui.Pages.GoToFFlagSettingsToAdd" xml:space="preserve">
     <value>Przejdź do ustawień FFlag, aby dodać FFlags Preset.</value>
@@ -6137,17 +6110,11 @@ Co chcesz zrobić?</value>
   <data name="Ui.Misc2.TheClassicTopbarOptionRebuildsTwo" xml:space="preserve">
     <value>Opcja klasycznego paska górnego odtwarza dwa mody społeczności. Grafika i działanie paska górnego oraz menu gry z lat 2014 do 2015 pochodzą z "2014 2015 Topbar and Menu (Improvised GUI)" autorstwa HockuTM. Ukrywanie nowoczesnego paska używa "NoGuiRBX, Hide TopBar!" autorstwa Einshine. Oba są używane z podziękowaniem na warunkach Creative Commons BY NC ND 4.0, ich pliki są pobierane bezpośrednio z GameBanana zamiast dołączania, a żaden z autorów nie jest powiązany z Voidstrap.</value>
   </data>
-  <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
-  </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>Mody społeczności</value>
   </data>
   <data name="Ui.Misc2.CommunityModsListsRobloxSubmissionsFrom" xml:space="preserve">
     <value>Mody społeczności to lista zgłoszeń Roblox z GameBanana i Kliko's Mods, prowadzona przez TheKliko dla modloadera Kliko. Voidstrap nie jest powiązany z żadnym z nich ani przez nie wspierany. Wszystkie mody, obrazy i opisy należą do ich autorów, wymienionych przy każdym wpisie. Voidstrap tylko odczytuje ich publiczne dane i nigdy niczego nie wysyła w twoim imieniu.</value>
-  </data>
-  <data name="Ui.Misc2.GithubComKlikosModloaderMarketplace" xml:space="preserve">
-    <value>github.com/klikos modloader/marketplace</value>
   </data>
   <data name="Ui.Misc2.ModGenerator" xml:space="preserve">
     <value>Generator modów</value>
@@ -6157,12 +6124,6 @@ Co chcesz zrobić?</value>
   </data>
   <data name="Ui.Misc2.CanTSeeOverlays" xml:space="preserve">
     <value>Nie widzisz nakładek?</value>
-  </data>
-  <data name="Ui.Misc2.Info" xml:space="preserve">
-    <value>Info</value>
-  </data>
-  <data name="Ui.Misc2.FFlags" xml:space="preserve">
-    <value>FFlags</value>
   </data>
   <data name="Ui.Misc2.PlayTime" xml:space="preserve">
     <value>Czas gry</value>
@@ -6727,9 +6688,6 @@ Spróbować ponownie usunąć?</value>
   <data name="Ui.ModGen.FillSolid" xml:space="preserve">
     <value>Jednolity kolor</value>
   </data>
-  <data name="Ui.ModGen.FillGradient" xml:space="preserve">
-    <value>Gradient</value>
-  </data>
   <data name="Ui.ModGen.FillImage" xml:space="preserve">
     <value>Obraz</value>
   </data>
@@ -6861,26 +6819,5 @@ Błąd: {0}</value>
   </data>
   <data name="Ui.Shortcuts.ApplicationsMenu" xml:space="preserve">
     <value>Menu aplikacji</value>
-  </data>
-  <data name="Ui.Session.CommunityRating" xml:space="preserve">
-    <value>Ocena społeczności</value>
-  </data>
-  <data name="Ui.Session.Review" xml:space="preserve">
-    <value>recenzja</value>
-  </data>
-  <data name="Ui.Session.Reviews" xml:space="preserve">
-    <value>recenzji</value>
-  </data>
-  <data name="Ui.Session.SubmitReview" xml:space="preserve">
-    <value>Wyślij</value>
-  </data>
-  <data name="Ui.Session.NoReviews" xml:space="preserve">
-    <value>Brak recenzji</value>
-  </data>
-  <data name="Ui.Session.WriteReview" xml:space="preserve">
-    <value>Napisz recenzję...</value>
-  </data>
-  <data name="Ui.Session.SigningIn" xml:space="preserve">
-    <value>Logowanie...</value>
   </data>
 </root>

@@ -3658,9 +3658,6 @@ Roblox će se preuzeti kada ga prvi put pokreneš putem Voidstrapa. Postavke mo�
   <data name="Ui.Mods.EnableOrDisableThisMod" xml:space="preserve">
     <value>Uključi ili isključi ovaj mod</value>
   </data>
-  <data name="Ui.Mods.Id" xml:space="preserve">
-    <value>   ID: </value>
-  </data>
   <data name="Ui.Mods.ViewThisModPack" xml:space="preserve">
     <value>Prikaži ovaj paket modova</value>
   </data>
@@ -3952,9 +3949,6 @@ Roblox će se preuzeti kada ga prvi put pokreneš putem Voidstrapa. Postavke mo�
   <data name="Ui.FastFlags.GrassDistance" xml:space="preserve">
     <value>Udaljenost trave</value>
   </data>
-  <data name="Ui.FastFlags.Min" xml:space="preserve">
-    <value>Min</value>
-  </data>
   <data name="Ui.FastFlags.Max" xml:space="preserve">
     <value>Maks</value>
   </data>
@@ -3987,9 +3981,6 @@ Roblox će se preuzeti kada ga prvi put pokreneš putem Voidstrapa. Postavke mo�
   </data>
   <data name="Ui.FastFlags.HowSolidTheSquaresLook" xml:space="preserve">
     <value>Koliko kvadrati izgledaju čvrsto</value>
-  </data>
-  <data name="Ui.FastFlags.Studs" xml:space="preserve">
-    <value>Studs</value>
   </data>
   <data name="Ui.FastFlags.TheStudPatternOnParts" xml:space="preserve">
     <value>Uzorak studs na dijelovima</value>
@@ -4261,9 +4252,6 @@ Roblox će se preuzeti kada ga prvi put pokreneš putem Voidstrapa. Postavke mo�
   <data name="Ui.Bootstrapper.ReduceResourcesWhenRobloxIsUnfocused" xml:space="preserve">
     <value>Smanji resurse kad Roblox nije u fokusu</value>
   </data>
-  <data name="Ui.Bootstrapper.VoidstrapMatchmaker" xml:space="preserve">
-    <value>Voidstrap Matchmaker</value>
-  </data>
   <data name="Ui.Bootstrapper.Enable" xml:space="preserve">
     <value>Uključi</value>
   </data>
@@ -4330,9 +4318,6 @@ Roblox će se preuzeti kada ga prvi put pokreneš putem Voidstrapa. Postavke mo�
   <data name="Ui.Bootstrapper.NeverLetVoidstrapPickAServer" xml:space="preserve">
     <value>Nikad ne dopusti Voidstrapu da bira poslužitelj za ovu igru</value>
   </data>
-  <data name="Ui.Bootstrapper.PlaceId" xml:space="preserve">
-    <value>Place id</value>
-  </data>
   <data name="Ui.Bootstrapper.LetVoidstrapPickServersForThis" xml:space="preserve">
     <value>Ponovno dopusti Voidstrapu da bira poslužitelje za ovu igru</value>
   </data>
@@ -4345,17 +4330,11 @@ Roblox će se preuzeti kada ga prvi put pokreneš putem Voidstrapa. Postavke mo�
   <data name="Ui.Bootstrapper.HowHardToSearch" xml:space="preserve">
     <value>Koliko temeljito tražiti</value>
   </data>
-  <data name="Ui.Bootstrapper.Auto" xml:space="preserve">
-    <value>Auto</value>
-  </data>
   <data name="Ui.Bootstrapper.ReconnectLimit" xml:space="preserve">
     <value>Ograničenje ponovnih spajanja</value>
   </data>
   <data name="Ui.Bootstrapper.VoidstrapStopsTryingAfterThisMany" xml:space="preserve">
     <value>Voidstrap prestaje pokušavati nakon toliko ponovnih spajanja kako nikad ne bi ušao u petlju.</value>
-  </data>
-  <data name="Ui.Bootstrapper.JoinAPI" xml:space="preserve">
-    <value>Join API</value>
   </data>
   <data name="Ui.Bootstrapper.WhichRobloxJoinEndpointVoidstrapAsks" xml:space="preserve">
     <value>Koju Roblox krajnju točku za pridruživanje Voidstrap pita za lokacije poslužitelja. Mijenjaj samo ako pridruživanje prestane raditi.</value>
@@ -4576,9 +4555,6 @@ Roblox će se preuzeti kada ga prvi put pokreneš putem Voidstrapa. Postavke mo�
   <data name="Ui.Integrations.CloseWhenLeavingThatGame" xml:space="preserve">
     <value>Zatvori pri izlasku iz te igre</value>
   </data>
-  <data name="Ui.Integrations.PlaceID" xml:space="preserve">
-    <value>Place ID</value>
-  </data>
   <data name="Ui.Channel.InstallLocation" xml:space="preserve">
     <value>Lokacija instalacije</value>
   </data>
@@ -4638,9 +4614,6 @@ Roblox će se preuzeti kada ga prvi put pokreneš putem Voidstrapa. Postavke mo�
   </data>
   <data name="Ui.Channel.DisplaysVoidstrapsDiscordRPC" xml:space="preserve">
     <value>Prikazuje Voidstrapov Discord RPC.</value>
-  </data>
-  <data name="Ui.Channel.VoidstrapRPC" xml:space="preserve">
-    <value>Voidstrap RPC</value>
   </data>
   <data name="Ui.Channel.FactoryReset" xml:space="preserve">
     <value>Vraćanje na tvorničke postavke</value>
@@ -5146,9 +5119,6 @@ Roblox će se preuzeti kada ga prvi put pokreneš putem Voidstrapa. Postavke mo�
   <data name="Ui.Gbs.EnableVignetteForMotionSicknessReduction" xml:space="preserve">
     <value>Uključi vinjetu za smanjenje mučnine od kretanja.</value>
   </data>
-  <data name="Ui.Gbs.MicroProfiler" xml:space="preserve">
-    <value>Micro Profiler</value>
-  </data>
   <data name="Ui.Gbs.EnableRobloxMicroprofilerServer" xml:space="preserve">
     <value>Uključi poslužitelj Roblox mikroprofilera.</value>
   </data>
@@ -5425,9 +5395,6 @@ Roblox će se preuzeti kada ga prvi put pokreneš putem Voidstrapa. Postavke mo�
   <data name="Ui.Session.PasteAFullROBLOSECURITYValueOnly" xml:space="preserve">
     <value>Zalijepi cijelu .ROBLOSECURITY vrijednost. Lijepi samo vlastite kolačiće.</value>
   </data>
-  <data name="Ui.Session.WARNINGDONOTSHARETHIS" xml:space="preserve">
-    <value>_|WARNING: DO NOT SHARE THIS...</value>
-  </data>
   <data name="Ui.Session.CURRENT" xml:space="preserve">
     <value>TRENUTNI</value>
   </data>
@@ -5442,6 +5409,27 @@ Roblox će se preuzeti kada ga prvi put pokreneš putem Voidstrapa. Postavke mo�
   </data>
   <data name="Ui.Session.RemoveSavedAccount" xml:space="preserve">
     <value>Ukloni spremljeni račun</value>
+  </data>
+  <data name="Ui.Session.CommunityRating" xml:space="preserve">
+    <value>Ocjena zajednice</value>
+  </data>
+  <data name="Ui.Session.Review" xml:space="preserve">
+    <value>recenzija</value>
+  </data>
+  <data name="Ui.Session.Reviews" xml:space="preserve">
+    <value>recenzija</value>
+  </data>
+  <data name="Ui.Session.SubmitReview" xml:space="preserve">
+    <value>Pošalji</value>
+  </data>
+  <data name="Ui.Session.NoReviews" xml:space="preserve">
+    <value>Još nema recenzija</value>
+  </data>
+  <data name="Ui.Session.WriteReview" xml:space="preserve">
+    <value>Napiši recenziju...</value>
+  </data>
+  <data name="Ui.Session.SigningIn" xml:space="preserve">
+    <value>Prijava...</value>
   </data>
   <data name="Ui.Misc.ClickToChangeThisColour" xml:space="preserve">
     <value>Klikni za promjenu ove boje</value>
@@ -5616,9 +5604,6 @@ Roblox će se preuzeti kada ga prvi put pokreneš putem Voidstrapa. Postavke mo�
   </data>
   <data name="Ui.Misc.TheGraphicsBackendWineUsesFor" xml:space="preserve">
     <value>Grafički sustav koji Wine koristi za Studio. DXVK odgovara većini sustava.</value>
-  </data>
-  <data name="Ui.Misc.FeralGameMode" xml:space="preserve">
-    <value>Feral GameMode</value>
   </data>
   <data name="Ui.Misc.AsksGameModeToTuneTheSystem" xml:space="preserve">
     <value>Traži od GameModea da podesi sustav dok Studio radi.</value>
@@ -5890,9 +5875,6 @@ Roblox će se preuzeti kada ga prvi put pokreneš putem Voidstrapa. Postavke mo�
   <data name="Ui.Pages.OverridesThatAffectGPUBehaviorAnd" xml:space="preserve">
     <value>Nadjačavanja koja utječu na ponašanje GPU a i značajke upravljačkog programa.</value>
   </data>
-  <data name="Ui.Pages.ResizableBAR" xml:space="preserve">
-    <value>Resizable BAR</value>
-  </data>
   <data name="Ui.Pages.AllowsTheCPUToAccessThe" xml:space="preserve">
     <value>Omogućuje CPU u pristup cijeloj memoriji GPU a na podržanim sustavima.</value>
   </data>
@@ -6003,9 +5985,6 @@ Roblox će se preuzeti kada ga prvi put pokreneš putem Voidstrapa. Postavke mo�
   </data>
   <data name="Ui.Pages.ManageYourFastFlagsACheckmarkIn" xml:space="preserve">
     <value>Upravljaj svojim FastFlags. Kvačica u stupcu Preset znači da je zastavica dostupna u FFlag postavkama, a križić da nije.</value>
-  </data>
-  <data name="Ui.Pages.Preset" xml:space="preserve">
-    <value>Preset</value>
   </data>
   <data name="Ui.Pages.GoToFFlagSettingsToAdd" xml:space="preserve">
     <value>Idi u FFlag postavke za dodavanje Preset FFlags.</value>
@@ -6142,17 +6121,11 @@ Roblox će se preuzeti kada ga prvi put pokreneš putem Voidstrapa. Postavke mo�
   <data name="Ui.Misc2.TheClassicTopbarOptionRebuildsTwo" xml:space="preserve">
     <value>Opcija klasične gornje trake ponovno stvara dva moda zajednice. Izgled i ponašanje gornje trake i izbornika igre iz 2014. do 2015. dolaze iz "2014 2015 Topbar and Menu (Improvised GUI)" autora HockuTM. Skrivanje moderne trake koristi "NoGuiRBX, Hide TopBar!" autora Einshine. Oba se koriste uz zahvalu prema njihovim uvjetima Creative Commons BY NC ND 4.0, njihove se datoteke preuzimaju izravno s GameBanane umjesto da se prilažu, a nijedan autor nije povezan s Voidstrapom.</value>
   </data>
-  <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
-  </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>Modovi zajednice</value>
   </data>
   <data name="Ui.Misc2.CommunityModsListsRobloxSubmissionsFrom" xml:space="preserve">
     <value>Modovi zajednice prikazuju Roblox priloge s GameBanane i Kliko's Mods, koje održava TheKliko za Klikov modloader. Voidstrap nije povezan ni s jednim od njih niti ga oni podržavaju. Svi modovi, slike i opisi pripadaju svojim autorima, navedenima uz svaki unos. Voidstrap samo čita njihove javne podatke i nikad ništa ne prenosi u tvoje ime.</value>
-  </data>
-  <data name="Ui.Misc2.GithubComKlikosModloaderMarketplace" xml:space="preserve">
-    <value>github.com/klikos modloader/marketplace</value>
   </data>
   <data name="Ui.Misc2.ModGenerator" xml:space="preserve">
     <value>Generator modova</value>
@@ -6162,12 +6135,6 @@ Roblox će se preuzeti kada ga prvi put pokreneš putem Voidstrapa. Postavke mo�
   </data>
   <data name="Ui.Misc2.CanTSeeOverlays" xml:space="preserve">
     <value>Ne vidiš preklapanja?</value>
-  </data>
-  <data name="Ui.Misc2.Info" xml:space="preserve">
-    <value>Info</value>
-  </data>
-  <data name="Ui.Misc2.FFlags" xml:space="preserve">
-    <value>FFlags</value>
   </data>
   <data name="Ui.Misc2.PlayTime" xml:space="preserve">
     <value>Vrijeme igranja</value>
@@ -6330,9 +6297,6 @@ Roblox će se preuzeti kada ga prvi put pokreneš putem Voidstrapa. Postavke mo�
   </data>
   <data name="Ui.Misc2.ServerSize" xml:space="preserve">
     <value>Veličina poslužitelja</value>
-  </data>
-  <data name="Ui.Misc2.Chat" xml:space="preserve">
-    <value>Chat</value>
   </data>
   <data name="Ui.Misc2.Chats" xml:space="preserve">
     <value>Razgovori</value>
@@ -6866,26 +6830,5 @@ Pogreška: {0}</value>
   </data>
   <data name="Ui.Shortcuts.ApplicationsMenu" xml:space="preserve">
     <value>Izbornik aplikacija</value>
-  </data>
-  <data name="Ui.Session.CommunityRating" xml:space="preserve">
-    <value>Ocjena zajednice</value>
-  </data>
-  <data name="Ui.Session.Review" xml:space="preserve">
-    <value>recenzija</value>
-  </data>
-  <data name="Ui.Session.Reviews" xml:space="preserve">
-    <value>recenzija</value>
-  </data>
-  <data name="Ui.Session.SubmitReview" xml:space="preserve">
-    <value>Pošalji</value>
-  </data>
-  <data name="Ui.Session.NoReviews" xml:space="preserve">
-    <value>Još nema recenzija</value>
-  </data>
-  <data name="Ui.Session.WriteReview" xml:space="preserve">
-    <value>Napiši recenziju...</value>
-  </data>
-  <data name="Ui.Session.SigningIn" xml:space="preserve">
-    <value>Prijava...</value>
   </data>
 </root>

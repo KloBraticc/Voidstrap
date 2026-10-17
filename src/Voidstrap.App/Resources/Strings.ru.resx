@@ -3661,9 +3661,6 @@ Roblox будет скачан при первом запуске через Voi
   <data name="Ui.Mods.EnableOrDisableThisMod" xml:space="preserve">
     <value>Включить или выключить этот мод</value>
   </data>
-  <data name="Ui.Mods.Id" xml:space="preserve">
-    <value>   ID: </value>
-  </data>
   <data name="Ui.Mods.ViewThisModPack" xml:space="preserve">
     <value>Открыть этот набор модов</value>
   </data>
@@ -4264,9 +4261,6 @@ Roblox будет скачан при первом запуске через Voi
   <data name="Ui.Bootstrapper.ReduceResourcesWhenRobloxIsUnfocused" xml:space="preserve">
     <value>Снижать потребление ресурсов, когда Roblox не в фокусе</value>
   </data>
-  <data name="Ui.Bootstrapper.VoidstrapMatchmaker" xml:space="preserve">
-    <value>Voidstrap Matchmaker</value>
-  </data>
   <data name="Ui.Bootstrapper.Enable" xml:space="preserve">
     <value>Включить</value>
   </data>
@@ -4333,9 +4327,6 @@ Roblox будет скачан при первом запуске через Voi
   <data name="Ui.Bootstrapper.NeverLetVoidstrapPickAServer" xml:space="preserve">
     <value>Никогда не позволять Voidstrap выбирать сервер для этой игры</value>
   </data>
-  <data name="Ui.Bootstrapper.PlaceId" xml:space="preserve">
-    <value>Place id</value>
-  </data>
   <data name="Ui.Bootstrapper.LetVoidstrapPickServersForThis" xml:space="preserve">
     <value>Снова разрешить Voidstrap выбирать серверы для этой игры</value>
   </data>
@@ -4356,9 +4347,6 @@ Roblox будет скачан при первом запуске через Voi
   </data>
   <data name="Ui.Bootstrapper.VoidstrapStopsTryingAfterThisMany" xml:space="preserve">
     <value>Voidstrap прекращает попытки после стольких переподключений, чтобы никогда не зациклиться.</value>
-  </data>
-  <data name="Ui.Bootstrapper.JoinAPI" xml:space="preserve">
-    <value>Join API</value>
   </data>
   <data name="Ui.Bootstrapper.WhichRobloxJoinEndpointVoidstrapAsks" xml:space="preserve">
     <value>Какую точку подключения Roblox Voidstrap запрашивает для расположения серверов. Меняйте, только если подключение перестало работать.</value>
@@ -4579,9 +4567,6 @@ Roblox будет скачан при первом запуске через Voi
   <data name="Ui.Integrations.CloseWhenLeavingThatGame" xml:space="preserve">
     <value>Закрывать при выходе из этой игры</value>
   </data>
-  <data name="Ui.Integrations.PlaceID" xml:space="preserve">
-    <value>Place ID</value>
-  </data>
   <data name="Ui.Channel.InstallLocation" xml:space="preserve">
     <value>Место установки</value>
   </data>
@@ -4641,9 +4626,6 @@ Roblox будет скачан при первом запуске через Voi
   </data>
   <data name="Ui.Channel.DisplaysVoidstrapsDiscordRPC" xml:space="preserve">
     <value>Показывает Discord RPC от Voidstrap.</value>
-  </data>
-  <data name="Ui.Channel.VoidstrapRPC" xml:space="preserve">
-    <value>Voidstrap RPC</value>
   </data>
   <data name="Ui.Channel.FactoryReset" xml:space="preserve">
     <value>Сброс до заводских настроек</value>
@@ -5149,9 +5131,6 @@ Roblox будет скачан при первом запуске через Voi
   <data name="Ui.Gbs.EnableVignetteForMotionSicknessReduction" xml:space="preserve">
     <value>Включить виньетку для уменьшения укачивания.</value>
   </data>
-  <data name="Ui.Gbs.MicroProfiler" xml:space="preserve">
-    <value>Micro Profiler</value>
-  </data>
   <data name="Ui.Gbs.EnableRobloxMicroprofilerServer" xml:space="preserve">
     <value>Включить сервер микропрофайлера Roblox.</value>
   </data>
@@ -5428,9 +5407,6 @@ Roblox будет скачан при первом запуске через Voi
   <data name="Ui.Session.PasteAFullROBLOSECURITYValueOnly" xml:space="preserve">
     <value>Вставьте полное значение .ROBLOSECURITY. Вставляйте только свои cookie.</value>
   </data>
-  <data name="Ui.Session.WARNINGDONOTSHARETHIS" xml:space="preserve">
-    <value>_|WARNING: DO NOT SHARE THIS...</value>
-  </data>
   <data name="Ui.Session.CURRENT" xml:space="preserve">
     <value>ТЕКУЩИЙ</value>
   </data>
@@ -5445,6 +5421,27 @@ Roblox будет скачан при первом запуске через Voi
   </data>
   <data name="Ui.Session.RemoveSavedAccount" xml:space="preserve">
     <value>Удалить сохранённый аккаунт</value>
+  </data>
+  <data name="Ui.Session.CommunityRating" xml:space="preserve">
+    <value>Оценка сообщества</value>
+  </data>
+  <data name="Ui.Session.Review" xml:space="preserve">
+    <value>отзыв</value>
+  </data>
+  <data name="Ui.Session.Reviews" xml:space="preserve">
+    <value>отзывов</value>
+  </data>
+  <data name="Ui.Session.SubmitReview" xml:space="preserve">
+    <value>Отправить</value>
+  </data>
+  <data name="Ui.Session.NoReviews" xml:space="preserve">
+    <value>Отзывов пока нет</value>
+  </data>
+  <data name="Ui.Session.WriteReview" xml:space="preserve">
+    <value>Написать отзыв...</value>
+  </data>
+  <data name="Ui.Session.SigningIn" xml:space="preserve">
+    <value>Вход...</value>
   </data>
   <data name="Ui.Misc.ClickToChangeThisColour" xml:space="preserve">
     <value>Нажмите, чтобы изменить этот цвет</value>
@@ -5619,9 +5616,6 @@ Roblox будет скачан при первом запуске через Voi
   </data>
   <data name="Ui.Misc.TheGraphicsBackendWineUsesFor" xml:space="preserve">
     <value>Графический движок, который Wine использует для Studio. DXVK подходит большинству систем.</value>
-  </data>
-  <data name="Ui.Misc.FeralGameMode" xml:space="preserve">
-    <value>Feral GameMode</value>
   </data>
   <data name="Ui.Misc.AsksGameModeToTuneTheSystem" xml:space="preserve">
     <value>Просит GameMode настроить систему, пока работает Studio.</value>
@@ -5893,9 +5887,6 @@ Roblox будет скачан при первом запуске через Voi
   <data name="Ui.Pages.OverridesThatAffectGPUBehaviorAnd" xml:space="preserve">
     <value>Переопределения, влияющие на работу GPU и функции драйвера.</value>
   </data>
-  <data name="Ui.Pages.ResizableBAR" xml:space="preserve">
-    <value>Resizable BAR</value>
-  </data>
   <data name="Ui.Pages.AllowsTheCPUToAccessThe" xml:space="preserve">
     <value>Позволяет CPU обращаться ко всей памяти GPU на поддерживаемых системах.</value>
   </data>
@@ -6006,9 +5997,6 @@ Roblox будет скачан при первом запуске через Voi
   </data>
   <data name="Ui.Pages.ManageYourFastFlagsACheckmarkIn" xml:space="preserve">
     <value>Управляйте своими FastFlags. Галочка в Preset означает, что флаг есть в настройках FFlag, крестик означает, что его нет.</value>
-  </data>
-  <data name="Ui.Pages.Preset" xml:space="preserve">
-    <value>Preset</value>
   </data>
   <data name="Ui.Pages.GoToFFlagSettingsToAdd" xml:space="preserve">
     <value>Перейдите в настройки FFlag, чтобы добавить Preset FFlags.</value>
@@ -6145,17 +6133,11 @@ Roblox будет скачан при первом запуске через Voi
   <data name="Ui.Misc2.TheClassicTopbarOptionRebuildsTwo" xml:space="preserve">
     <value>Классическая верхняя панель воссоздаёт два мода сообщества. Оформление и поведение верхней панели и игрового меню 2014 2015 годов взяты из "2014 2015 Topbar and Menu (Improvised GUI)" от HockuTM. Скрытие современной панели использует "NoGuiRBX, Hide TopBar!" от Einshine. Оба используются с благодарностью на условиях Creative Commons BY NC ND 4.0, их файлы загружаются напрямую с GameBanana, а не поставляются вместе с программой, и ни один автор не связан с Voidstrap.</value>
   </data>
-  <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
-  </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>Моды сообщества</value>
   </data>
   <data name="Ui.Misc2.CommunityModsListsRobloxSubmissionsFrom" xml:space="preserve">
     <value>Моды сообщества показывают работы для Roblox с GameBanana и Kliko's Mods, который ведёт TheKliko для модлоадера Kliko. Voidstrap не связан ни с одним из них и не одобрен ими. Все моды, изображения и описания принадлежат их авторам, которые указаны в каждой записи. Voidstrap только читает их публичные данные и никогда ничего не загружает от Вашего имени.</value>
-  </data>
-  <data name="Ui.Misc2.GithubComKlikosModloaderMarketplace" xml:space="preserve">
-    <value>github.com/klikos modloader/marketplace</value>
   </data>
   <data name="Ui.Misc2.ModGenerator" xml:space="preserve">
     <value>Генератор модов</value>
@@ -6168,9 +6150,6 @@ Roblox будет скачан при первом запуске через Voi
   </data>
   <data name="Ui.Misc2.Info" xml:space="preserve">
     <value>Сведения</value>
-  </data>
-  <data name="Ui.Misc2.FFlags" xml:space="preserve">
-    <value>FFlags</value>
   </data>
   <data name="Ui.Misc2.PlayTime" xml:space="preserve">
     <value>Время в игре</value>
@@ -6869,26 +6848,5 @@ Voidstrap не смог записать в папку рабочего стол
   </data>
   <data name="Ui.Shortcuts.ApplicationsMenu" xml:space="preserve">
     <value>Меню приложений</value>
-  </data>
-  <data name="Ui.Session.CommunityRating" xml:space="preserve">
-    <value>Оценка сообщества</value>
-  </data>
-  <data name="Ui.Session.Review" xml:space="preserve">
-    <value>отзыв</value>
-  </data>
-  <data name="Ui.Session.Reviews" xml:space="preserve">
-    <value>отзывов</value>
-  </data>
-  <data name="Ui.Session.SubmitReview" xml:space="preserve">
-    <value>Отправить</value>
-  </data>
-  <data name="Ui.Session.NoReviews" xml:space="preserve">
-    <value>Отзывов пока нет</value>
-  </data>
-  <data name="Ui.Session.WriteReview" xml:space="preserve">
-    <value>Написать отзыв...</value>
-  </data>
-  <data name="Ui.Session.SigningIn" xml:space="preserve">
-    <value>Вход...</value>
   </data>
 </root>

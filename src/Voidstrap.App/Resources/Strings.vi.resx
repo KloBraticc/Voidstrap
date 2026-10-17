@@ -3665,9 +3665,6 @@ Bạn muốn làm gì?</value>
   <data name="Ui.Mods.EnableOrDisableThisMod" xml:space="preserve">
     <value>Bật hoặc tắt mod này</value>
   </data>
-  <data name="Ui.Mods.Id" xml:space="preserve">
-    <value>   ID: </value>
-  </data>
   <data name="Ui.Mods.ViewThisModPack" xml:space="preserve">
     <value>Xem gói mod này</value>
   </data>
@@ -3995,9 +3992,6 @@ Bạn muốn làm gì?</value>
   <data name="Ui.FastFlags.HowSolidTheSquaresLook" xml:space="preserve">
     <value>Ô vuông trông đặc đến mức nào</value>
   </data>
-  <data name="Ui.FastFlags.Studs" xml:space="preserve">
-    <value>Studs</value>
-  </data>
   <data name="Ui.FastFlags.TheStudPatternOnParts" xml:space="preserve">
     <value>Họa tiết studs trên các khối</value>
   </data>
@@ -4268,9 +4262,6 @@ Bạn muốn làm gì?</value>
   <data name="Ui.Bootstrapper.ReduceResourcesWhenRobloxIsUnfocused" xml:space="preserve">
     <value>Giảm tài nguyên khi Roblox không được chọn</value>
   </data>
-  <data name="Ui.Bootstrapper.VoidstrapMatchmaker" xml:space="preserve">
-    <value>Voidstrap Matchmaker</value>
-  </data>
   <data name="Ui.Bootstrapper.Enable" xml:space="preserve">
     <value>Bật</value>
   </data>
@@ -4337,9 +4328,6 @@ Bạn muốn làm gì?</value>
   <data name="Ui.Bootstrapper.NeverLetVoidstrapPickAServer" xml:space="preserve">
     <value>Không bao giờ để Voidstrap chọn máy chủ cho trò chơi này</value>
   </data>
-  <data name="Ui.Bootstrapper.PlaceId" xml:space="preserve">
-    <value>Place id</value>
-  </data>
   <data name="Ui.Bootstrapper.LetVoidstrapPickServersForThis" xml:space="preserve">
     <value>Để Voidstrap chọn máy chủ cho trò chơi này trở lại</value>
   </data>
@@ -4360,9 +4348,6 @@ Bạn muốn làm gì?</value>
   </data>
   <data name="Ui.Bootstrapper.VoidstrapStopsTryingAfterThisMany" xml:space="preserve">
     <value>Voidstrap ngừng thử sau số lần kết nối lại này để không bao giờ bị lặp.</value>
-  </data>
-  <data name="Ui.Bootstrapper.JoinAPI" xml:space="preserve">
-    <value>Join API</value>
   </data>
   <data name="Ui.Bootstrapper.WhichRobloxJoinEndpointVoidstrapAsks" xml:space="preserve">
     <value>Điểm cuối tham gia Roblox mà Voidstrap hỏi vị trí máy chủ. Chỉ đổi nếu việc tham gia ngừng hoạt động.</value>
@@ -4583,9 +4568,6 @@ Bạn muốn làm gì?</value>
   <data name="Ui.Integrations.CloseWhenLeavingThatGame" xml:space="preserve">
     <value>Đóng khi rời trò chơi đó</value>
   </data>
-  <data name="Ui.Integrations.PlaceID" xml:space="preserve">
-    <value>Place ID</value>
-  </data>
   <data name="Ui.Channel.InstallLocation" xml:space="preserve">
     <value>Vị trí cài đặt</value>
   </data>
@@ -4645,9 +4627,6 @@ Bạn muốn làm gì?</value>
   </data>
   <data name="Ui.Channel.DisplaysVoidstrapsDiscordRPC" xml:space="preserve">
     <value>Hiển thị Discord RPC của Voidstrap.</value>
-  </data>
-  <data name="Ui.Channel.VoidstrapRPC" xml:space="preserve">
-    <value>Voidstrap RPC</value>
   </data>
   <data name="Ui.Channel.FactoryReset" xml:space="preserve">
     <value>Khôi phục cài đặt gốc</value>
@@ -5153,9 +5132,6 @@ Bạn muốn làm gì?</value>
   <data name="Ui.Gbs.EnableVignetteForMotionSicknessReduction" xml:space="preserve">
     <value>Bật viền tối để giảm say chuyển động.</value>
   </data>
-  <data name="Ui.Gbs.MicroProfiler" xml:space="preserve">
-    <value>Micro Profiler</value>
-  </data>
   <data name="Ui.Gbs.EnableRobloxMicroprofilerServer" xml:space="preserve">
     <value>Bật máy chủ microprofiler của Roblox.</value>
   </data>
@@ -5432,9 +5408,6 @@ Bạn muốn làm gì?</value>
   <data name="Ui.Session.PasteAFullROBLOSECURITYValueOnly" xml:space="preserve">
     <value>Dán toàn bộ giá trị .ROBLOSECURITY. Chỉ dán cookie của chính bạn.</value>
   </data>
-  <data name="Ui.Session.WARNINGDONOTSHARETHIS" xml:space="preserve">
-    <value>_|WARNING: DO NOT SHARE THIS...</value>
-  </data>
   <data name="Ui.Session.CURRENT" xml:space="preserve">
     <value>HIỆN TẠI</value>
   </data>
@@ -5449,6 +5422,27 @@ Bạn muốn làm gì?</value>
   </data>
   <data name="Ui.Session.RemoveSavedAccount" xml:space="preserve">
     <value>Xóa tài khoản đã lưu</value>
+  </data>
+  <data name="Ui.Session.CommunityRating" xml:space="preserve">
+    <value>Đánh giá cộng đồng</value>
+  </data>
+  <data name="Ui.Session.Review" xml:space="preserve">
+    <value>đánh giá</value>
+  </data>
+  <data name="Ui.Session.Reviews" xml:space="preserve">
+    <value>đánh giá</value>
+  </data>
+  <data name="Ui.Session.SubmitReview" xml:space="preserve">
+    <value>Gửi</value>
+  </data>
+  <data name="Ui.Session.NoReviews" xml:space="preserve">
+    <value>Chưa có đánh giá nào</value>
+  </data>
+  <data name="Ui.Session.WriteReview" xml:space="preserve">
+    <value>Viết đánh giá...</value>
+  </data>
+  <data name="Ui.Session.SigningIn" xml:space="preserve">
+    <value>Đang đăng nhập...</value>
   </data>
   <data name="Ui.Misc.ClickToChangeThisColour" xml:space="preserve">
     <value>Nhấp để đổi màu này</value>
@@ -5623,9 +5617,6 @@ Bạn muốn làm gì?</value>
   </data>
   <data name="Ui.Misc.TheGraphicsBackendWineUsesFor" xml:space="preserve">
     <value>Nền tảng đồ họa Wine dùng cho Studio. DXVK phù hợp với hầu hết hệ thống.</value>
-  </data>
-  <data name="Ui.Misc.FeralGameMode" xml:space="preserve">
-    <value>Feral GameMode</value>
   </data>
   <data name="Ui.Misc.AsksGameModeToTuneTheSystem" xml:space="preserve">
     <value>Yêu cầu GameMode tinh chỉnh hệ thống khi Studio đang chạy.</value>
@@ -5897,9 +5888,6 @@ Bạn muốn làm gì?</value>
   <data name="Ui.Pages.OverridesThatAffectGPUBehaviorAnd" xml:space="preserve">
     <value>Các ghi đè ảnh hưởng đến hành vi GPU và tính năng trình điều khiển.</value>
   </data>
-  <data name="Ui.Pages.ResizableBAR" xml:space="preserve">
-    <value>Resizable BAR</value>
-  </data>
   <data name="Ui.Pages.AllowsTheCPUToAccessThe" xml:space="preserve">
     <value>Cho phép CPU truy cập toàn bộ bộ nhớ GPU trên hệ thống được hỗ trợ.</value>
   </data>
@@ -6010,9 +5998,6 @@ Bạn muốn làm gì?</value>
   </data>
   <data name="Ui.Pages.ManageYourFastFlagsACheckmarkIn" xml:space="preserve">
     <value>Quản lý FastFlags của bạn. Dấu tích ở Preset nghĩa là flag có trong cài đặt FFlag, dấu chéo nghĩa là không.</value>
-  </data>
-  <data name="Ui.Pages.Preset" xml:space="preserve">
-    <value>Preset</value>
   </data>
   <data name="Ui.Pages.GoToFFlagSettingsToAdd" xml:space="preserve">
     <value>Đi tới cài đặt FFlag để thêm FFlag Preset.</value>
@@ -6149,17 +6134,11 @@ Bạn muốn làm gì?</value>
   <data name="Ui.Misc2.TheClassicTopbarOptionRebuildsTwo" xml:space="preserve">
     <value>Tùy chọn thanh trên cùng cổ điển dựng lại hai mod cộng đồng. Giao diện và hành vi của thanh trên cùng và menu trò chơi giai đoạn 2014 đến 2015 lấy từ "2014 2015 Topbar and Menu (Improvised GUI)" của HockuTM. Ẩn thanh trên cùng hiện đại dùng "NoGuiRBX, Hide TopBar!" của Einshine. Cả hai được dùng với lòng biết ơn theo điều khoản Creative Commons BY NC ND 4.0, tệp được tải thẳng từ GameBanana thay vì đóng gói kèm, và không tác giả nào liên kết với Voidstrap.</value>
   </data>
-  <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
-  </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>Mod cộng đồng</value>
   </data>
   <data name="Ui.Misc2.CommunityModsListsRobloxSubmissionsFrom" xml:space="preserve">
     <value>Mod cộng đồng liệt kê các bài đăng Roblox từ GameBanana và Kliko's Mods, do TheKliko duy trì cho modloader của Kliko. Voidstrap không liên kết hay được bên nào xác nhận. Mọi mod, hình ảnh và mô tả thuộc về tác giả của chúng, được ghi công ở mỗi mục. Voidstrap chỉ đọc dữ liệu công khai và không bao giờ tải lên bất cứ thứ gì thay bạn.</value>
-  </data>
-  <data name="Ui.Misc2.GithubComKlikosModloaderMarketplace" xml:space="preserve">
-    <value>github.com/klikos modloader/marketplace</value>
   </data>
   <data name="Ui.Misc2.ModGenerator" xml:space="preserve">
     <value>Trình tạo mod</value>
@@ -6172,9 +6151,6 @@ Bạn muốn làm gì?</value>
   </data>
   <data name="Ui.Misc2.Info" xml:space="preserve">
     <value>Thông tin</value>
-  </data>
-  <data name="Ui.Misc2.FFlags" xml:space="preserve">
-    <value>FFlags</value>
   </data>
   <data name="Ui.Misc2.PlayTime" xml:space="preserve">
     <value>Thời gian chơi</value>
@@ -6873,26 +6849,5 @@ Lỗi: {0}</value>
   </data>
   <data name="Ui.Shortcuts.ApplicationsMenu" xml:space="preserve">
     <value>Menu ứng dụng</value>
-  </data>
-  <data name="Ui.Session.CommunityRating" xml:space="preserve">
-    <value>Đánh giá cộng đồng</value>
-  </data>
-  <data name="Ui.Session.Review" xml:space="preserve">
-    <value>đánh giá</value>
-  </data>
-  <data name="Ui.Session.Reviews" xml:space="preserve">
-    <value>đánh giá</value>
-  </data>
-  <data name="Ui.Session.SubmitReview" xml:space="preserve">
-    <value>Gửi</value>
-  </data>
-  <data name="Ui.Session.NoReviews" xml:space="preserve">
-    <value>Chưa có đánh giá nào</value>
-  </data>
-  <data name="Ui.Session.WriteReview" xml:space="preserve">
-    <value>Viết đánh giá...</value>
-  </data>
-  <data name="Ui.Session.SigningIn" xml:space="preserve">
-    <value>Đang đăng nhập...</value>
   </data>
 </root>
