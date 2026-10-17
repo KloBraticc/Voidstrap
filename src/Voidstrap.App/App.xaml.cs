@@ -959,7 +959,7 @@ public partial class App : Application
 			TryStartup("Cloud folder handling", PrepareCloudSyncedInstall);
 		}
 		long persistentStateStarted = Stopwatch.GetTimestamp();
-		LoadPersistentState();
+		await LoadPersistentStateAsync();
 		if (cli)
 		{
 			int exitCode = await Cli.RunAsync(args[1..]);
@@ -1381,18 +1381,25 @@ public partial class App : Application
 		Logger.WriteLine("App::OnStartup", "DLL hijack protection pinned " + Voidstrap.Utility.LoaderHardening.PinnedModuleCount + " system modules");
 	}
 
-	private static void LoadPersistentState()
+	private static async Task LoadPersistentStateAsync()
 	{
-		TimedLoad("Download stats", () => DownloadStats.Load());
-		TimedLoad("State", () => State.Load());
-		TimedLoad("Roblox state", () => RobloxState.Load());
-		TimedLoad("Settings", () => Settings.Load());
+		long started = Stopwatch.GetTimestamp();
+
+		await Task.WhenAll(
+			Task.Run(() => TimedLoad("Download stats", () => DownloadStats.Load())),
+			Task.Run(() => TimedLoad("State", () => State.Load())),
+			Task.Run(() => TimedLoad("Roblox state", () => RobloxState.Load())),
+			Task.Run(() => TimedLoad("Settings", () => Settings.Load())),
+			Task.Run(() => TimedLoad("FastFlags", () => FastFlags.Load(alertFailure: false)))
+		);
+
+		App.Logger.WriteLine("App::LoadPersistentState", "Parallel state load completed in " + (int)Stopwatch.GetElapsedTime(started).TotalMilliseconds + " ms");
+
 		ResetHardwareAccelerationOnce();
 		ResetWindowBackdropOnce();
 		ResetServerInfoInTitleOnce();
 		ResetClockOverlayOnce();
 		ResetSpoofSelfGameCreatorOnce();
-		TimedLoad("FastFlags", () => FastFlags.Load(alertFailure: false));
 	}
 
 	private static void TimedLoad(string name, Action load)
