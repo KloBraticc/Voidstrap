@@ -6825,7 +6825,7 @@ Fout: {0}</value>
     <value>Toepassingenmenu</value>
   </data>
   <data name="Ui.Session.CommunityRating" xml:space="preserve">
-    <value>Gemeenschapsbeoordeling</value>
+    <value>RoReview</value>
   </data>
   <data name="Ui.Session.Review" xml:space="preserve">
     <value>beoordeling</value>
@@ -6844,5 +6844,23 @@ Fout: {0}</value>
   </data>
   <data name="Ui.Session.SigningIn" xml:space="preserve">
     <value>Aanmelden...</value>
+  </data>
+  <data name="Ui.Session.You" xml:space="preserve">
+    <value>Jij</value>
+  </data>
+  <data name="Ui.Session.Votes" xml:space="preserve">
+    <value>stemmen</value>
+  </data>
+  <data name="Ui.Session.Vote" xml:space="preserve">
+    <value>stem</value>
+  </data>
+  <data name="Ui.Session.Positive" xml:space="preserve">
+    <value>positief</value>
+  </data>
+  <data name="Ui.Session.JustNow" xml:space="preserve">
+    <value>zojuist</value>
+  </data>
+  <data name="Ui.Session.NoRatings" xml:space="preserve">
+    <value>Nog geen beoordelingen</value>
   </data>
 </root>

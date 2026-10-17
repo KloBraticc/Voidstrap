@@ -6861,7 +6861,7 @@ Voidstrap เขียนลงในโฟลเดอร์เดสก์ท�
     <value>เมนูแอปพลิเคชัน</value>
   </data>
   <data name="Ui.Session.CommunityRating" xml:space="preserve">
-    <value>คะแนนชุมชน</value>
+    <value>RoReview</value>
   </data>
   <data name="Ui.Session.Review" xml:space="preserve">
     <value>รีวิว</value>
@@ -6880,5 +6880,23 @@ Voidstrap เขียนลงในโฟลเดอร์เดสก์ท�
   </data>
   <data name="Ui.Session.SigningIn" xml:space="preserve">
     <value>กำลังลงชื่อเข้าใช้...</value>
+  </data>
+  <data name="Ui.Session.You" xml:space="preserve">
+    <value>คุณ</value>
+  </data>
+  <data name="Ui.Session.Votes" xml:space="preserve">
+    <value>โหวต</value>
+  </data>
+  <data name="Ui.Session.Vote" xml:space="preserve">
+    <value>โหวต</value>
+  </data>
+  <data name="Ui.Session.Positive" xml:space="preserve">
+    <value>เชิงบวก</value>
+  </data>
+  <data name="Ui.Session.JustNow" xml:space="preserve">
+    <value>เมื่อสักครู่</value>
+  </data>
+  <data name="Ui.Session.NoRatings" xml:space="preserve">
+    <value>ยังไม่มีคะแนน</value>
   </data>
 </root>

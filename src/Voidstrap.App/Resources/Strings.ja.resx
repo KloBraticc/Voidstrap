@@ -6892,7 +6892,7 @@ Voidstrap がデスクトップ フォルダーに書き込めませんでした
     <value>アプリケーション メニュー</value>
   </data>
   <data name="Ui.Session.CommunityRating" xml:space="preserve">
-    <value>コミュニティ評価</value>
+    <value>RoReview</value>
   </data>
   <data name="Ui.Session.Review" xml:space="preserve">
     <value>レビュー</value>
@@ -6911,5 +6911,23 @@ Voidstrap がデスクトップ フォルダーに書き込めませんでした
   </data>
   <data name="Ui.Session.SigningIn" xml:space="preserve">
     <value>サインイン中...</value>
+  </data>
+  <data name="Ui.Session.You" xml:space="preserve">
+    <value>あなた</value>
+  </data>
+  <data name="Ui.Session.Votes" xml:space="preserve">
+    <value>票</value>
+  </data>
+  <data name="Ui.Session.Vote" xml:space="preserve">
+    <value>票</value>
+  </data>
+  <data name="Ui.Session.Positive" xml:space="preserve">
+    <value>高評価</value>
+  </data>
+  <data name="Ui.Session.JustNow" xml:space="preserve">
+    <value>たった今</value>
+  </data>
+  <data name="Ui.Session.NoRatings" xml:space="preserve">
+    <value>まだ評価はありません</value>
   </data>
 </root>

@@ -6898,7 +6898,7 @@
     <value>قائمة التطبيقات</value>
   </data>
   <data name="Ui.Session.CommunityRating" xml:space="preserve">
-    <value>تقييم المجتمع</value>
+    <value>RoReview</value>
   </data>
   <data name="Ui.Session.Review" xml:space="preserve">
     <value>مراجعة</value>
@@ -6917,5 +6917,23 @@
   </data>
   <data name="Ui.Session.SigningIn" xml:space="preserve">
     <value>جاري تسجيل الدخول...</value>
+  </data>
+  <data name="Ui.Session.You" xml:space="preserve">
+    <value>أنت</value>
+  </data>
+  <data name="Ui.Session.Votes" xml:space="preserve">
+    <value>أصوات</value>
+  </data>
+  <data name="Ui.Session.Vote" xml:space="preserve">
+    <value>صوت</value>
+  </data>
+  <data name="Ui.Session.Positive" xml:space="preserve">
+    <value>إيجابي</value>
+  </data>
+  <data name="Ui.Session.JustNow" xml:space="preserve">
+    <value>الآن</value>
+  </data>
+  <data name="Ui.Session.NoRatings" xml:space="preserve">
+    <value>لا توجد تقييمات بعد</value>
   </data>
 </root>

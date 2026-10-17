@@ -6869,7 +6869,7 @@ Voidstrap 無法寫入桌面資料夾。</value>
     <value>應用程式選單</value>
   </data>
   <data name="Ui.Session.CommunityRating" xml:space="preserve">
-    <value>社群評價</value>
+    <value>RoReview</value>
   </data>
   <data name="Ui.Session.Review" xml:space="preserve">
     <value>評論</value>
@@ -6888,5 +6888,23 @@ Voidstrap 無法寫入桌面資料夾。</value>
   </data>
   <data name="Ui.Session.SigningIn" xml:space="preserve">
     <value>正在登入...</value>
+  </data>
+  <data name="Ui.Session.You" xml:space="preserve">
+    <value>你</value>
+  </data>
+  <data name="Ui.Session.Votes" xml:space="preserve">
+    <value>票</value>
+  </data>
+  <data name="Ui.Session.Vote" xml:space="preserve">
+    <value>票</value>
+  </data>
+  <data name="Ui.Session.Positive" xml:space="preserve">
+    <value>好評</value>
+  </data>
+  <data name="Ui.Session.JustNow" xml:space="preserve">
+    <value>剛剛</value>
+  </data>
+  <data name="Ui.Session.NoRatings" xml:space="preserve">
+    <value>尚無評分</value>
   </data>
 </root>

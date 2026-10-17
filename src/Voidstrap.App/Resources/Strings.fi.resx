@@ -6861,7 +6861,7 @@ Virhe: {0}</value>
     <value>Sovellusvalikko</value>
   </data>
   <data name="Ui.Session.CommunityRating" xml:space="preserve">
-    <value>Yhteisön arvio</value>
+    <value>RoReview</value>
   </data>
   <data name="Ui.Session.Review" xml:space="preserve">
     <value>arvostelu</value>
@@ -6880,5 +6880,23 @@ Virhe: {0}</value>
   </data>
   <data name="Ui.Session.SigningIn" xml:space="preserve">
     <value>Kirjaudutaan sisään...</value>
+  </data>
+  <data name="Ui.Session.You" xml:space="preserve">
+    <value>Sinä</value>
+  </data>
+  <data name="Ui.Session.Votes" xml:space="preserve">
+    <value>ääntä</value>
+  </data>
+  <data name="Ui.Session.Vote" xml:space="preserve">
+    <value>ääni</value>
+  </data>
+  <data name="Ui.Session.Positive" xml:space="preserve">
+    <value>positiivinen</value>
+  </data>
+  <data name="Ui.Session.JustNow" xml:space="preserve">
+    <value>juuri nyt</value>
+  </data>
+  <data name="Ui.Session.NoRatings" xml:space="preserve">
+    <value>Ei vielä arvioita</value>
   </data>
 </root>

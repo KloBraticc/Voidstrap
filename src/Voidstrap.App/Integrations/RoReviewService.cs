@@ -9,6 +9,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
+using Voidstrap.Resources;
 
 namespace Voidstrap.Integrations;
 
@@ -96,12 +97,13 @@ public static class RoReviewService
             int total = UpCount + DownCount;
             if (total == 0)
             {
-                RatingText = "No ratings yet";
+                RatingText = Strings.Ui_Session_NoRatings;
             }
             else
             {
                 int pct = (int)Math.Round((double)UpCount / total * 100);
-                RatingText = pct.ToString(CultureInfo.InvariantCulture) + "% positive (" + total.ToString(CultureInfo.InvariantCulture) + " " + (total == 1 ? "vote" : "votes") + ")";
+                string voteWord = total == 1 ? Strings.Ui_Session_Vote : Strings.Ui_Session_Votes;
+                RatingText = string.Format(Locale.CurrentCulture, "{0}% {1} ({2} {3})", pct, Strings.Ui_Session_Positive, total, voteWord);
             }
             OnPropertyChanged(nameof(RatingText));
             OnPropertyChanged(nameof(UpCount));
@@ -132,7 +134,7 @@ public static class RoReviewService
             DateTimeOffset dt = DateTimeOffset.FromUnixTimeSeconds(seconds);
             TimeSpan diff = DateTimeOffset.UtcNow - dt;
             if (diff.TotalSeconds < 60 && diff.TotalSeconds >= 0)
-                return "just now";
+                return Strings.Ui_Session_JustNow;
             if (diff.TotalMinutes < 60 && diff.TotalMinutes >= 1)
                 return ((int)diff.TotalMinutes).ToString(CultureInfo.InvariantCulture) + "m ago";
             if (diff.TotalHours < 24 && diff.TotalHours >= 1)

@@ -6849,7 +6849,7 @@ Chyba: {0}</value>
     <value>Nabídka aplikací</value>
   </data>
   <data name="Ui.Session.CommunityRating" xml:space="preserve">
-    <value>Hodnocení komunity</value>
+    <value>RoReview</value>
   </data>
   <data name="Ui.Session.Review" xml:space="preserve">
     <value>recenze</value>
@@ -6868,5 +6868,23 @@ Chyba: {0}</value>
   </data>
   <data name="Ui.Session.SigningIn" xml:space="preserve">
     <value>Přihlašování...</value>
+  </data>
+  <data name="Ui.Session.You" xml:space="preserve">
+    <value>Vy</value>
+  </data>
+  <data name="Ui.Session.Votes" xml:space="preserve">
+    <value>hlasů</value>
+  </data>
+  <data name="Ui.Session.Vote" xml:space="preserve">
+    <value>hlas</value>
+  </data>
+  <data name="Ui.Session.Positive" xml:space="preserve">
+    <value>pozitivní</value>
+  </data>
+  <data name="Ui.Session.JustNow" xml:space="preserve">
+    <value>právě teď</value>
+  </data>
+  <data name="Ui.Session.NoRatings" xml:space="preserve">
+    <value>Zatím žádná hodnocení</value>
   </data>
 </root>

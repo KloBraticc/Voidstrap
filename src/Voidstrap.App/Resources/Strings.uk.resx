@@ -6879,7 +6879,7 @@ Voidstrap не зміг записати до теки робочого стол
     <value>Меню застосунків</value>
   </data>
   <data name="Ui.Session.CommunityRating" xml:space="preserve">
-    <value>Оцінка спільноти</value>
+    <value>RoReview</value>
   </data>
   <data name="Ui.Session.Review" xml:space="preserve">
     <value>відгук</value>
@@ -6898,5 +6898,23 @@ Voidstrap не зміг записати до теки робочого стол
   </data>
   <data name="Ui.Session.SigningIn" xml:space="preserve">
     <value>Вхід...</value>
+  </data>
+  <data name="Ui.Session.You" xml:space="preserve">
+    <value>Ви</value>
+  </data>
+  <data name="Ui.Session.Votes" xml:space="preserve">
+    <value>голосів</value>
+  </data>
+  <data name="Ui.Session.Vote" xml:space="preserve">
+    <value>голос</value>
+  </data>
+  <data name="Ui.Session.Positive" xml:space="preserve">
+    <value>позитивних</value>
+  </data>
+  <data name="Ui.Session.JustNow" xml:space="preserve">
+    <value>щойно</value>
+  </data>
+  <data name="Ui.Session.NoRatings" xml:space="preserve">
+    <value>Оцінок ще немає</value>
   </data>
 </root>

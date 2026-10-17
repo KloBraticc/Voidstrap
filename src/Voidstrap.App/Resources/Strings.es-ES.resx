@@ -6860,7 +6860,7 @@ Error: {0}</value>
     <value>Menú de aplicaciones</value>
   </data>
   <data name="Ui.Session.CommunityRating" xml:space="preserve">
-    <value>Valoración de la comunidad</value>
+    <value>RoReview</value>
   </data>
   <data name="Ui.Session.Review" xml:space="preserve">
     <value>reseña</value>
@@ -6879,5 +6879,23 @@ Error: {0}</value>
   </data>
   <data name="Ui.Session.SigningIn" xml:space="preserve">
     <value>Iniciando sesión...</value>
+  </data>
+  <data name="Ui.Session.You" xml:space="preserve">
+    <value>Tú</value>
+  </data>
+  <data name="Ui.Session.Votes" xml:space="preserve">
+    <value>votos</value>
+  </data>
+  <data name="Ui.Session.Vote" xml:space="preserve">
+    <value>voto</value>
+  </data>
+  <data name="Ui.Session.Positive" xml:space="preserve">
+    <value>positivo</value>
+  </data>
+  <data name="Ui.Session.JustNow" xml:space="preserve">
+    <value>ahora mismo</value>
+  </data>
+  <data name="Ui.Session.NoRatings" xml:space="preserve">
+    <value>Aún no hay valoraciones</value>
   </data>
 </root>

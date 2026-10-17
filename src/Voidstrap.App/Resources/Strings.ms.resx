@@ -6830,7 +6830,7 @@ Ralat: {0}</value>
     <value>Menu aplikasi</value>
   </data>
   <data name="Ui.Session.CommunityRating" xml:space="preserve">
-    <value>Penilaian Komuniti</value>
+    <value>RoReview</value>
   </data>
   <data name="Ui.Session.Review" xml:space="preserve">
     <value>ulasan</value>
@@ -6849,5 +6849,23 @@ Ralat: {0}</value>
   </data>
   <data name="Ui.Session.SigningIn" xml:space="preserve">
     <value>Log masuk...</value>
+  </data>
+  <data name="Ui.Session.You" xml:space="preserve">
+    <value>Anda</value>
+  </data>
+  <data name="Ui.Session.Votes" xml:space="preserve">
+    <value>undian</value>
+  </data>
+  <data name="Ui.Session.Vote" xml:space="preserve">
+    <value>undi</value>
+  </data>
+  <data name="Ui.Session.Positive" xml:space="preserve">
+    <value>positif</value>
+  </data>
+  <data name="Ui.Session.JustNow" xml:space="preserve">
+    <value>sebentar tadi</value>
+  </data>
+  <data name="Ui.Session.NoRatings" xml:space="preserve">
+    <value>Belum ada penilaian</value>
   </data>
 </root>

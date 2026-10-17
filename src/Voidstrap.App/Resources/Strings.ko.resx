@@ -6879,7 +6879,7 @@ Voidstrap이 바탕 화면 폴더에 쓸 수 없습니다.</value>
     <value>응용 프로그램 메뉴</value>
   </data>
   <data name="Ui.Session.CommunityRating" xml:space="preserve">
-    <value>커뮤니티 평가</value>
+    <value>RoReview</value>
   </data>
   <data name="Ui.Session.Review" xml:space="preserve">
     <value>리뷰</value>
@@ -6898,5 +6898,23 @@ Voidstrap이 바탕 화면 폴더에 쓸 수 없습니다.</value>
   </data>
   <data name="Ui.Session.SigningIn" xml:space="preserve">
     <value>로그인 중...</value>
+  </data>
+  <data name="Ui.Session.You" xml:space="preserve">
+    <value>나</value>
+  </data>
+  <data name="Ui.Session.Votes" xml:space="preserve">
+    <value>표</value>
+  </data>
+  <data name="Ui.Session.Vote" xml:space="preserve">
+    <value>표</value>
+  </data>
+  <data name="Ui.Session.Positive" xml:space="preserve">
+    <value>긍정적</value>
+  </data>
+  <data name="Ui.Session.JustNow" xml:space="preserve">
+    <value>방금</value>
+  </data>
+  <data name="Ui.Session.NoRatings" xml:space="preserve">
+    <value>아직 평가가 없습니다</value>
   </data>
 </root>

@@ -6849,7 +6849,7 @@ Eroare: {0}</value>
     <value>Meniul de aplicații</value>
   </data>
   <data name="Ui.Session.CommunityRating" xml:space="preserve">
-    <value>Evaluarea comunității</value>
+    <value>RoReview</value>
   </data>
   <data name="Ui.Session.Review" xml:space="preserve">
     <value>recenzie</value>
@@ -6868,5 +6868,23 @@ Eroare: {0}</value>
   </data>
   <data name="Ui.Session.SigningIn" xml:space="preserve">
     <value>Conectare...</value>
+  </data>
+  <data name="Ui.Session.You" xml:space="preserve">
+    <value>Tu</value>
+  </data>
+  <data name="Ui.Session.Votes" xml:space="preserve">
+    <value>voturi</value>
+  </data>
+  <data name="Ui.Session.Vote" xml:space="preserve">
+    <value>vot</value>
+  </data>
+  <data name="Ui.Session.Positive" xml:space="preserve">
+    <value>pozitiv</value>
+  </data>
+  <data name="Ui.Session.JustNow" xml:space="preserve">
+    <value>chiar acum</value>
+  </data>
+  <data name="Ui.Session.NoRatings" xml:space="preserve">
+    <value>Nicio evaluare încă</value>
   </data>
 </root>

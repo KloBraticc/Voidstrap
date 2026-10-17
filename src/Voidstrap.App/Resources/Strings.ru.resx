@@ -6871,7 +6871,7 @@ Voidstrap не смог записать в папку рабочего стол
     <value>Меню приложений</value>
   </data>
   <data name="Ui.Session.CommunityRating" xml:space="preserve">
-    <value>Оценка сообщества</value>
+    <value>RoReview</value>
   </data>
   <data name="Ui.Session.Review" xml:space="preserve">
     <value>отзыв</value>
@@ -6890,5 +6890,23 @@ Voidstrap не смог записать в папку рабочего стол
   </data>
   <data name="Ui.Session.SigningIn" xml:space="preserve">
     <value>Вход...</value>
+  </data>
+  <data name="Ui.Session.You" xml:space="preserve">
+    <value>Вы</value>
+  </data>
+  <data name="Ui.Session.Votes" xml:space="preserve">
+    <value>голосов</value>
+  </data>
+  <data name="Ui.Session.Vote" xml:space="preserve">
+    <value>голос</value>
+  </data>
+  <data name="Ui.Session.Positive" xml:space="preserve">
+    <value>положительных</value>
+  </data>
+  <data name="Ui.Session.JustNow" xml:space="preserve">
+    <value>только что</value>
+  </data>
+  <data name="Ui.Session.NoRatings" xml:space="preserve">
+    <value>Оценок пока нет</value>
   </data>
 </root>

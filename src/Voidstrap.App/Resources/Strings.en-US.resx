@@ -159,4 +159,43 @@
   <data name="Menu.MacVirtualDisplay.Description" xml:space="preserve">
     <value>Mirrors the main screen while Roblox runs and restores it when Roblox closes. The physical screen keeps its own refresh limit.</value>
   </data>
+  <data name="Ui.Session.CommunityRating" xml:space="preserve">
+    <value>RoReview</value>
+  </data>
+  <data name="Ui.Session.Review" xml:space="preserve">
+    <value>review</value>
+  </data>
+  <data name="Ui.Session.Reviews" xml:space="preserve">
+    <value>reviews</value>
+  </data>
+  <data name="Ui.Session.SubmitReview" xml:space="preserve">
+    <value>Submit</value>
+  </data>
+  <data name="Ui.Session.NoReviews" xml:space="preserve">
+    <value>No reviews yet</value>
+  </data>
+  <data name="Ui.Session.WriteReview" xml:space="preserve">
+    <value>Write a review...</value>
+  </data>
+  <data name="Ui.Session.SigningIn" xml:space="preserve">
+    <value>Signing in...</value>
+  </data>
+  <data name="Ui.Session.NoRatings" xml:space="preserve">
+    <value>No ratings yet</value>
+  </data>
+  <data name="Ui.Session.JustNow" xml:space="preserve">
+    <value>just now</value>
+  </data>
+  <data name="Ui.Session.Positive" xml:space="preserve">
+    <value>positive</value>
+  </data>
+  <data name="Ui.Session.Vote" xml:space="preserve">
+    <value>vote</value>
+  </data>
+  <data name="Ui.Session.Votes" xml:space="preserve">
+    <value>votes</value>
+  </data>
+  <data name="Ui.Session.You" xml:space="preserve">
+    <value>You</value>
+  </data>
 </root>

@@ -6861,7 +6861,7 @@ Hata: {0}</value>
     <value>Uygulamalar menüsü</value>
   </data>
   <data name="Ui.Session.CommunityRating" xml:space="preserve">
-    <value>Topluluk Değerlendirmesi</value>
+    <value>RoReview</value>
   </data>
   <data name="Ui.Session.Review" xml:space="preserve">
     <value>inceleme</value>
@@ -6880,5 +6880,23 @@ Hata: {0}</value>
   </data>
   <data name="Ui.Session.SigningIn" xml:space="preserve">
     <value>Giriş yapılıyor...</value>
+  </data>
+  <data name="Ui.Session.You" xml:space="preserve">
+    <value>Sen</value>
+  </data>
+  <data name="Ui.Session.Votes" xml:space="preserve">
+    <value>oy</value>
+  </data>
+  <data name="Ui.Session.Vote" xml:space="preserve">
+    <value>oy</value>
+  </data>
+  <data name="Ui.Session.Positive" xml:space="preserve">
+    <value>olumlu</value>
+  </data>
+  <data name="Ui.Session.JustNow" xml:space="preserve">
+    <value>az önce</value>
+  </data>
+  <data name="Ui.Session.NoRatings" xml:space="preserve">
+    <value>Henüz değerlendirme yok</value>
   </data>
 </root>

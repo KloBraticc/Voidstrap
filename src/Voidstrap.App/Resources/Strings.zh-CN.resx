@@ -6890,7 +6890,7 @@ Voidstrap 无法写入桌面文件夹。</value>
     <value>应用程序菜单</value>
   </data>
   <data name="Ui.Session.CommunityRating" xml:space="preserve">
-    <value>社区评价</value>
+    <value>RoReview</value>
   </data>
   <data name="Ui.Session.Review" xml:space="preserve">
     <value>评论</value>
@@ -6909,5 +6909,23 @@ Voidstrap 无法写入桌面文件夹。</value>
   </data>
   <data name="Ui.Session.SigningIn" xml:space="preserve">
     <value>正在登录...</value>
+  </data>
+  <data name="Ui.Session.You" xml:space="preserve">
+    <value>你</value>
+  </data>
+  <data name="Ui.Session.Votes" xml:space="preserve">
+    <value>票</value>
+  </data>
+  <data name="Ui.Session.Vote" xml:space="preserve">
+    <value>票</value>
+  </data>
+  <data name="Ui.Session.Positive" xml:space="preserve">
+    <value>好评</value>
+  </data>
+  <data name="Ui.Session.JustNow" xml:space="preserve">
+    <value>刚刚</value>
+  </data>
+  <data name="Ui.Session.NoRatings" xml:space="preserve">
+    <value>暂无评分</value>
   </data>
 </root>

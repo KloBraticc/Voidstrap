@@ -6642,7 +6642,7 @@ Error: {0}</value>
     <value>Menu ng mga application</value>
   </data>
   <data name="Ui.Session.CommunityRating" xml:space="preserve">
-    <value>Rating ng Komunidad</value>
+    <value>RoReview</value>
   </data>
   <data name="Ui.Session.Review" xml:space="preserve">
     <value>review</value>
@@ -6661,5 +6661,23 @@ Error: {0}</value>
   </data>
   <data name="Ui.Session.SigningIn" xml:space="preserve">
     <value>Lumalagda...</value>
+  </data>
+  <data name="Ui.Session.You" xml:space="preserve">
+    <value>Ikaw</value>
+  </data>
+  <data name="Ui.Session.Votes" xml:space="preserve">
+    <value>mga boto</value>
+  </data>
+  <data name="Ui.Session.Vote" xml:space="preserve">
+    <value>boto</value>
+  </data>
+  <data name="Ui.Session.Positive" xml:space="preserve">
+    <value>positibo</value>
+  </data>
+  <data name="Ui.Session.JustNow" xml:space="preserve">
+    <value>ngayon lang</value>
+  </data>
+  <data name="Ui.Session.NoRatings" xml:space="preserve">
+    <value>Wala pang mga rating</value>
   </data>
 </root>

@@ -6903,7 +6903,7 @@ Klaida: {0}</value>
     <value>Programų meniu</value>
   </data>
   <data name="Ui.Session.CommunityRating" xml:space="preserve">
-    <value>Bendruomenės vertinimas</value>
+    <value>RoReview</value>
   </data>
   <data name="Ui.Session.Review" xml:space="preserve">
     <value>atsiliepimas</value>
@@ -6922,5 +6922,23 @@ Klaida: {0}</value>
   </data>
   <data name="Ui.Session.SigningIn" xml:space="preserve">
     <value>Jungiamasi...</value>
+  </data>
+  <data name="Ui.Session.You" xml:space="preserve">
+    <value>Jūs</value>
+  </data>
+  <data name="Ui.Session.Votes" xml:space="preserve">
+    <value>balsai</value>
+  </data>
+  <data name="Ui.Session.Vote" xml:space="preserve">
+    <value>balsas</value>
+  </data>
+  <data name="Ui.Session.Positive" xml:space="preserve">
+    <value>teigiamas</value>
+  </data>
+  <data name="Ui.Session.JustNow" xml:space="preserve">
+    <value>ką tik</value>
+  </data>
+  <data name="Ui.Session.NoRatings" xml:space="preserve">
+    <value>Įvertinimų dar nėra</value>
   </data>
 </root>

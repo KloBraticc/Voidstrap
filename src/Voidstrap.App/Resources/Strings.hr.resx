@@ -6868,7 +6868,7 @@ Pogreška: {0}</value>
     <value>Izbornik aplikacija</value>
   </data>
   <data name="Ui.Session.CommunityRating" xml:space="preserve">
-    <value>Ocjena zajednice</value>
+    <value>RoReview</value>
   </data>
   <data name="Ui.Session.Review" xml:space="preserve">
     <value>recenzija</value>
@@ -6887,5 +6887,23 @@ Pogreška: {0}</value>
   </data>
   <data name="Ui.Session.SigningIn" xml:space="preserve">
     <value>Prijava...</value>
+  </data>
+  <data name="Ui.Session.You" xml:space="preserve">
+    <value>Vi</value>
+  </data>
+  <data name="Ui.Session.Votes" xml:space="preserve">
+    <value>glasova</value>
+  </data>
+  <data name="Ui.Session.Vote" xml:space="preserve">
+    <value>glas</value>
+  </data>
+  <data name="Ui.Session.Positive" xml:space="preserve">
+    <value>pozitivno</value>
+  </data>
+  <data name="Ui.Session.JustNow" xml:space="preserve">
+    <value>upravo sada</value>
+  </data>
+  <data name="Ui.Session.NoRatings" xml:space="preserve">
+    <value>Još nema ocjena</value>
   </data>
 </root>

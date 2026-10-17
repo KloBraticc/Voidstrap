@@ -693,7 +693,7 @@ public partial class RoReviewControl : UserControl
 
         string author = RoReviewService.SessionUsername ?? string.Empty;
         if (string.IsNullOrEmpty(author))
-            author = "You";
+            author = Strings.Ui_Session_You;
         long myId = RoReviewService.SessionUserId;
         string avatar = myId > 0 ? RoReviewService.GetCachedAvatar(myId) : string.Empty;
 
@@ -704,7 +704,7 @@ public partial class RoReviewControl : UserControl
             AuthorName = author,
             AvatarUrl = avatar,
             Content = content,
-            CreatedAt = "just now",
+            CreatedAt = Strings.Ui_Session_JustNow,
             CanDelete = true
         };
         entry.RefreshRating();

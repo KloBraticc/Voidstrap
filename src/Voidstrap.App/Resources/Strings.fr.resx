@@ -6790,7 +6790,7 @@ Erreur : {0}</value>
     <value>Menu des applications</value>
   </data>
   <data name="Ui.Session.CommunityRating" xml:space="preserve">
-    <value>Évaluation communautaire</value>
+    <value>RoReview</value>
   </data>
   <data name="Ui.Session.Review" xml:space="preserve">
     <value>avis</value>
@@ -6809,5 +6809,23 @@ Erreur : {0}</value>
   </data>
   <data name="Ui.Session.SigningIn" xml:space="preserve">
     <value>Connexion en cours...</value>
+  </data>
+  <data name="Ui.Session.You" xml:space="preserve">
+    <value>Vous</value>
+  </data>
+  <data name="Ui.Session.Votes" xml:space="preserve">
+    <value>votes</value>
+  </data>
+  <data name="Ui.Session.Vote" xml:space="preserve">
+    <value>vote</value>
+  </data>
+  <data name="Ui.Session.Positive" xml:space="preserve">
+    <value>positif</value>
+  </data>
+  <data name="Ui.Session.JustNow" xml:space="preserve">
+    <value>à l'instant</value>
+  </data>
+  <data name="Ui.Session.NoRatings" xml:space="preserve">
+    <value>Pas encore d'évaluation</value>
   </data>
 </root>
