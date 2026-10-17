@@ -93,6 +93,7 @@
       </Grid.ColumnDefinitions>
       <ui:TextBox x:Name="ReviewInput" FontSize="13" Padding="10,7" MaxLength="500"
                   ClearButtonEnabled="True" VerticalAlignment="Center"
+                  KeyDown="OnInputKeyDown"
                   PlaceholderText="{resources:Loc Ui_Session_WriteReview}" />
       <ui:Button x:Name="SubmitButton" Grid.Column="1" Margin="8,0,0,0" Appearance="Primary"
                  Padding="14,7" Height="34" Focusable="False" Click="OnSubmitReview"

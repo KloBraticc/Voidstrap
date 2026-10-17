@@ -32,11 +32,13 @@ public static class RoReviewService
     private static long _sessionUserId;
     private static string? _sessionUsername;
     private static string _robloxCsrf = string.Empty;
-    private static readonly SemaphoreSlim _authLock = new(1, 1);
-    private static bool _authInProgress;
+    private static readonly object _authLockObj = new();
+    private static Task<bool>? _currentAuthTask;
 
     public static bool IsAuthenticated => !string.IsNullOrEmpty(_sessionToken);
     public static long SessionUserId => _sessionUserId;
+    public static string? SessionUsername => _sessionUsername;
+    public static event Action? AuthenticationChanged;
 
     public sealed class ReviewData
     {
@@ -54,6 +56,30 @@ public static class RoReviewService
         public string AuthorName { get; init; } = string.Empty;
         public string Content { get; init; } = string.Empty;
         public string CreatedAt { get; init; } = string.Empty;
+    }
+
+    private static string FormatTimestamp(long seconds)
+    {
+        if (seconds <= 0)
+            return string.Empty;
+        try
+        {
+            DateTimeOffset dt = DateTimeOffset.FromUnixTimeSeconds(seconds);
+            TimeSpan diff = DateTimeOffset.UtcNow - dt;
+            if (diff.TotalSeconds < 60)
+                return "just now";
+            if (diff.TotalMinutes < 60)
+                return ((int)diff.TotalMinutes).ToString(CultureInfo.InvariantCulture) + "m ago";
+            if (diff.TotalHours < 24)
+                return ((int)diff.TotalHours).ToString(CultureInfo.InvariantCulture) + "h ago";
+            if (diff.TotalDays < 30)
+                return ((int)diff.TotalDays).ToString(CultureInfo.InvariantCulture) + "d ago";
+            return dt.ToLocalTime().ToString("MMM d, yyyy", CultureInfo.InvariantCulture);
+        }
+        catch
+        {
+            return string.Empty;
+        }
     }
 
     public static async Task<ReviewData?> FetchReviewsAsync(long placeId, CancellationToken ct)
@@ -79,11 +105,19 @@ public static class RoReviewService
             int downCount = 0;
             List<long> upVoters = new();
             List<long> downVoters = new();
+            if (root.TryGetProperty("profile_score", out JsonElement scoreEl) && scoreEl.ValueKind == JsonValueKind.Object)
+            {
+                if (scoreEl.TryGetProperty("up", out JsonElement upNum) && upNum.TryGetInt32(out int u))
+                    upCount = u;
+                if (scoreEl.TryGetProperty("down", out JsonElement downNum) && downNum.TryGetInt32(out int d))
+                    downCount = d;
+            }
             if (root.TryGetProperty("profile_rating", out JsonElement rating))
             {
                 if (rating.TryGetProperty("up", out JsonElement up) && up.ValueKind == JsonValueKind.Array)
                 {
-                    upCount = up.GetArrayLength();
+                    if (upCount == 0)
+                        upCount = up.GetArrayLength();
                     foreach (JsonElement v in up.EnumerateArray())
                     {
                         if (v.TryGetInt64(out long id))
@@ -92,7 +126,8 @@ public static class RoReviewService
                 }
                 if (rating.TryGetProperty("down", out JsonElement down) && down.ValueKind == JsonValueKind.Array)
                 {
-                    downCount = down.GetArrayLength();
+                    if (downCount == 0)
+                        downCount = down.GetArrayLength();
                     foreach (JsonElement v in down.EnumerateArray())
                     {
                         if (v.TryGetInt64(out long id))
@@ -115,26 +150,59 @@ public static class RoReviewService
                 {
                     if (r.ValueKind != JsonValueKind.Object)
                         continue;
-                    string id = r.TryGetProperty("_id", out JsonElement idEl) ? (idEl.GetString() ?? string.Empty) : string.Empty;
+                    string id = string.Empty;
+                    if (r.TryGetProperty("id", out JsonElement idEl) && idEl.ValueKind == JsonValueKind.String)
+                        id = idEl.GetString() ?? string.Empty;
+                    else if (r.TryGetProperty("_id", out JsonElement legacyIdEl) && legacyIdEl.ValueKind == JsonValueKind.String)
+                        id = legacyIdEl.GetString() ?? string.Empty;
+
                     long authorId = 0;
-                    if (r.TryGetProperty("author", out JsonElement author) && author.ValueKind == JsonValueKind.Object)
+                    string authorName = string.Empty;
+
+                    if (r.TryGetProperty("from", out JsonElement fromEl) && fromEl.ValueKind == JsonValueKind.Object)
+                    {
+                        if (fromEl.TryGetProperty("id", out JsonElement fid))
+                        {
+                            if (fid.ValueKind == JsonValueKind.Number)
+                                fid.TryGetInt64(out authorId);
+                            else if (fid.ValueKind == JsonValueKind.String)
+                                long.TryParse(fid.GetString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out authorId);
+                        }
+                        if (fromEl.TryGetProperty("name", out JsonElement fname) && fname.ValueKind == JsonValueKind.String)
+                            authorName = fname.GetString() ?? string.Empty;
+                    }
+
+                    if (authorId == 0 && r.TryGetProperty("author", out JsonElement author) && author.ValueKind == JsonValueKind.Object)
                     {
                         if (author.TryGetProperty("roblox_id", out JsonElement rid))
                         {
                             if (rid.ValueKind == JsonValueKind.Number)
                                 rid.TryGetInt64(out authorId);
-                            else if (rid.ValueKind == JsonValueKind.String && long.TryParse(rid.GetString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out long parsed))
-                                authorId = parsed;
+                            else if (rid.ValueKind == JsonValueKind.String)
+                                long.TryParse(rid.GetString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out authorId);
                         }
-                    }
-                    string authorName = string.Empty;
-                    if (r.TryGetProperty("author", out JsonElement auth2) && auth2.ValueKind == JsonValueKind.Object)
-                    {
-                        if (auth2.TryGetProperty("roblox_username", out JsonElement un))
+                        if (string.IsNullOrEmpty(authorName) && author.TryGetProperty("roblox_username", out JsonElement un))
                             authorName = un.GetString() ?? string.Empty;
                     }
+
+                    if (string.IsNullOrEmpty(authorName) && authorId > 0)
+                        authorName = authorId.ToString(CultureInfo.InvariantCulture);
+
                     string content = r.TryGetProperty("content", out JsonElement cEl) ? (cEl.GetString() ?? string.Empty) : string.Empty;
-                    string createdAt = r.TryGetProperty("created_at", out JsonElement caEl) ? (caEl.GetString() ?? string.Empty) : string.Empty;
+
+                    string createdAt = string.Empty;
+                    if (r.TryGetProperty("time", out JsonElement timeEl))
+                    {
+                        if (timeEl.ValueKind == JsonValueKind.Number && timeEl.TryGetInt64(out long unixSec))
+                            createdAt = FormatTimestamp(unixSec);
+                        else if (timeEl.ValueKind == JsonValueKind.String && long.TryParse(timeEl.GetString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out long parsedSec))
+                            createdAt = FormatTimestamp(parsedSec);
+                    }
+                    if (string.IsNullOrEmpty(createdAt) && r.TryGetProperty("created_at", out JsonElement caEl))
+                    {
+                        createdAt = caEl.GetString() ?? string.Empty;
+                    }
+
                     if (content.Length > 0)
                         reviews.Add(new ReviewEntry { Id = id, AuthorId = authorId, AuthorName = authorName, Content = content, CreatedAt = createdAt });
                 }
@@ -217,19 +285,28 @@ public static class RoReviewService
         }
     }
 
-    public static async Task<bool> AuthenticateAsync(CancellationToken ct)
+    public static Task<bool> AuthenticateAsync(CancellationToken ct = default)
     {
         if (IsAuthenticated)
-            return true;
-        if (!await _authLock.WaitAsync(0, ct).ConfigureAwait(false))
-            return false;
-        try
+            return Task.FromResult(true);
+
+        lock (_authLockObj)
         {
             if (IsAuthenticated)
-                return true;
-            if (_authInProgress)
-                return false;
-            _authInProgress = true;
+                return Task.FromResult(true);
+
+            if (_currentAuthTask != null && !_currentAuthTask.IsCompleted)
+                return _currentAuthTask;
+
+            _currentAuthTask = Task.Run(() => DoAuthenticateAsync(ct), ct);
+            return _currentAuthTask;
+        }
+    }
+
+    private static async Task<bool> DoAuthenticateAsync(CancellationToken ct)
+    {
+        try
+        {
             string? cookie = RobloxCookie.Get();
             if (string.IsNullOrEmpty(cookie))
             {
@@ -270,7 +347,7 @@ public static class RoReviewService
             string sessionId = cRoot.TryGetProperty("session_id", out JsonElement sidEl) ? (sidEl.GetString() ?? string.Empty) : string.Empty;
             if (botId <= 0 || sessionId.Length == 0)
             {
-                App.Logger.WriteLine("RoReviewService", "Challenge did not return bot_id or session_id");
+                App.Logger.WriteLine("RoReviewService", "Challenge did not return bot id or session id");
                 return false;
             }
             bool friended = await SendFriendRequestAsync(botId, cookie, ct).ConfigureAwait(false);
@@ -309,6 +386,7 @@ public static class RoReviewService
                         _sessionUserId = userId > 0 ? userId : account.UserId;
                         _sessionUsername = !string.IsNullOrEmpty(username) ? username : account.Username;
                         App.Logger.WriteLine("RoReviewService", "Authenticated as " + _sessionUsername);
+                        AuthenticationChanged?.Invoke();
                         return true;
                     }
                 }
@@ -329,11 +407,6 @@ public static class RoReviewService
         {
             App.Logger.WriteLine("RoReviewService", "Authentication failed: " + ex.Message);
             return false;
-        }
-        finally
-        {
-            _authInProgress = false;
-            _authLock.Release();
         }
     }
 
@@ -361,6 +434,12 @@ public static class RoReviewService
             }
             if (res.IsSuccessStatusCode)
                 return true;
+            if (res.StatusCode == HttpStatusCode.BadRequest)
+            {
+                string errBody = await res.Content.ReadAsStringAsync(ct).ConfigureAwait(false);
+                if (errBody.Contains("already", StringComparison.OrdinalIgnoreCase))
+                    return true;
+            }
             App.Logger.WriteLine("RoReviewService", "Friend request returned " + (int)res.StatusCode);
             return false;
         }
@@ -372,5 +451,6 @@ public static class RoReviewService
         _sessionToken = null;
         _sessionUserId = 0;
         _sessionUsername = null;
+        AuthenticationChanged?.Invoke();
     }
 }

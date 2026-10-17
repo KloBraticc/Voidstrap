@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using Voidstrap.Integrations;
 using Voidstrap.Resources;
 
@@ -16,6 +17,10 @@ public partial class SessionReviewPanel : Window
     private readonly CancellationToken _ct;
     private long _placeId;
     private string? _userVote;
+    private int _upCount;
+    private int _downCount;
+    private int _reviewCount;
+    private List<RoReviewService.ReviewEntry> _reviews = new();
     private bool _loading;
     private bool _closed;
 
@@ -32,6 +37,7 @@ public partial class SessionReviewPanel : Window
                 HeaderPanel.Visibility = Visibility.Visible;
             }
         }
+        RoReviewService.AuthenticationChanged += OnAuthChanged;
         Loaded += OnPanelLoaded;
         Closed += OnPanelClosed;
     }
@@ -41,6 +47,7 @@ public partial class SessionReviewPanel : Window
         _ct = _lifetime.Token;
         _placeId = placeId;
         InitializeComponent();
+        RoReviewService.AuthenticationChanged += OnAuthChanged;
         Loaded += OnPanelLoaded;
         Closed += OnPanelClosed;
     }
@@ -67,10 +74,21 @@ public partial class SessionReviewPanel : Window
     private void OnPanelClosed(object? sender, EventArgs e)
     {
         _closed = true;
+        RoReviewService.AuthenticationChanged -= OnAuthChanged;
         Loaded -= OnPanelLoaded;
         Closed -= OnPanelClosed;
         _lifetime.Cancel();
         _lifetime.Dispose();
+    }
+
+    private void OnAuthChanged()
+    {
+        Dispatcher.BeginInvoke(() =>
+        {
+            if (_closed)
+                return;
+            AuthStatus.Text = string.Empty;
+        });
     }
 
     private async Task LoadAsync()
@@ -80,41 +98,28 @@ public partial class SessionReviewPanel : Window
         _loading = true;
         try
         {
-            AuthStatus.Text = RoReviewService.IsAuthenticated ? string.Empty : Strings.Ui_Session_SigningIn;
-            _ = Task.Run(() => RoReviewService.AuthenticateAsync(_ct), _ct);
+            if (!RoReviewService.IsAuthenticated)
+            {
+                AuthStatus.Text = Strings.Ui_Session_SigningIn;
+                _ = RoReviewService.AuthenticateAsync(_ct);
+            }
+            else
+            {
+                AuthStatus.Text = string.Empty;
+            }
 
             RoReviewService.ReviewData? result = await RoReviewService.FetchReviewsAsync(_placeId, _ct);
             if (result == null || _closed)
                 return;
 
             _userVote = result.UserVote;
-            UpCountText.Text = result.UpCount.ToString(Locale.CurrentCulture);
-            DownCountText.Text = result.DownCount.ToString(Locale.CurrentCulture);
-            ReviewCountText.Text = result.ReviewCount > 0
-                ? result.ReviewCount.ToString(Locale.CurrentCulture) + " " + (result.ReviewCount == 1 ? Strings.Ui_Session_Review : Strings.Ui_Session_Reviews)
-                : string.Empty;
-            ApplyVoteHighlight();
+            _upCount = result.UpCount;
+            _downCount = result.DownCount;
+            _reviewCount = result.ReviewCount;
+            UpdateRatingDisplay();
 
-            if (result.Reviews.Count > 0)
-            {
-                ReviewList.ItemsSource = result.Reviews.Take(50).ToList();
-                EmptyLabel.Visibility = Visibility.Collapsed;
-            }
-            else
-            {
-                ReviewList.ItemsSource = null;
-                EmptyLabel.Visibility = Visibility.Visible;
-            }
-
-            if (!RoReviewService.IsAuthenticated)
-            {
-                await RoReviewService.AuthenticateAsync(_ct);
-                if (_closed)
-                    return;
-            }
-            AuthStatus.Text = string.Empty;
-            ReviewInput.Visibility = RoReviewService.IsAuthenticated ? Visibility.Visible : Visibility.Collapsed;
-            SubmitButton.Visibility = ReviewInput.Visibility;
+            _reviews = result.Reviews.Take(50).ToList();
+            UpdateReviewList();
         }
         catch (OperationCanceledException)
         {
@@ -126,6 +131,31 @@ public partial class SessionReviewPanel : Window
         finally
         {
             _loading = false;
+        }
+    }
+
+    private void UpdateRatingDisplay()
+    {
+        UpCountText.Text = _upCount.ToString(Locale.CurrentCulture);
+        DownCountText.Text = _downCount.ToString(Locale.CurrentCulture);
+        ReviewCountText.Text = _reviewCount > 0
+            ? _reviewCount.ToString(Locale.CurrentCulture) + " " + (_reviewCount == 1 ? Strings.Ui_Session_Review : Strings.Ui_Session_Reviews)
+            : string.Empty;
+        ApplyVoteHighlight();
+    }
+
+    private void UpdateReviewList()
+    {
+        if (_reviews.Count > 0)
+        {
+            ReviewList.ItemsSource = null;
+            ReviewList.ItemsSource = _reviews;
+            EmptyLabel.Visibility = Visibility.Collapsed;
+        }
+        else
+        {
+            ReviewList.ItemsSource = null;
+            EmptyLabel.Visibility = Visibility.Visible;
         }
     }
 
@@ -150,66 +180,197 @@ public partial class SessionReviewPanel : Window
 
     private void OnVoteUp(object sender, RoutedEventArgs e)
     {
-        _ = HandleVoteAsync("up");
+        HandleVoteOptimistic("up");
     }
 
     private void OnVoteDown(object sender, RoutedEventArgs e)
     {
-        _ = HandleVoteAsync("down");
+        HandleVoteOptimistic("down");
     }
 
-    private async Task HandleVoteAsync(string vote)
+    private void HandleVoteOptimistic(string vote)
     {
         if (_closed || _placeId <= 0)
             return;
-        if (!RoReviewService.IsAuthenticated)
+
+        string? prevVote = _userVote;
+        int prevUp = _upCount;
+        int prevDown = _downCount;
+
+        if (string.Equals(vote, "up", StringComparison.OrdinalIgnoreCase))
         {
-            AuthStatus.Text = Strings.Ui_Session_SigningIn;
-            bool ok = await RoReviewService.AuthenticateAsync(_ct);
+            if (string.Equals(_userVote, "up", StringComparison.OrdinalIgnoreCase))
+            {
+                _userVote = null;
+                _upCount = Math.Max(0, _upCount - 1);
+            }
+            else
+            {
+                if (string.Equals(_userVote, "down", StringComparison.OrdinalIgnoreCase))
+                    _downCount = Math.Max(0, _downCount - 1);
+                _userVote = "up";
+                _upCount++;
+            }
+        }
+        else
+        {
+            if (string.Equals(_userVote, "down", StringComparison.OrdinalIgnoreCase))
+            {
+                _userVote = null;
+                _downCount = Math.Max(0, _downCount - 1);
+            }
+            else
+            {
+                if (string.Equals(_userVote, "up", StringComparison.OrdinalIgnoreCase))
+                    _upCount = Math.Max(0, _upCount - 1);
+                _userVote = "down";
+                _downCount++;
+            }
+        }
+
+        UpdateRatingDisplay();
+
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                if (!RoReviewService.IsAuthenticated)
+                {
+                    _ = Dispatcher.BeginInvoke(() =>
+                    {
+                        if (!_closed)
+                            AuthStatus.Text = Strings.Ui_Session_SigningIn;
+                    });
+                    bool authed = await RoReviewService.AuthenticateAsync(_ct).ConfigureAwait(false);
+                    _ = Dispatcher.BeginInvoke(() =>
+                    {
+                        if (!_closed)
+                            AuthStatus.Text = string.Empty;
+                    });
+                    if (!authed)
+                    {
+                        RollbackVote(prevVote, prevUp, prevDown);
+                        return;
+                    }
+                }
+                bool ok = await RoReviewService.VoteAsync(_placeId, vote, _ct).ConfigureAwait(false);
+                if (!ok)
+                {
+                    RollbackVote(prevVote, prevUp, prevDown);
+                }
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine("SessionReviewPanel", "Vote background failed: " + ex.Message);
+                RollbackVote(prevVote, prevUp, prevDown);
+            }
+        }, _ct);
+    }
+
+    private void RollbackVote(string? prevVote, int prevUp, int prevDown)
+    {
+        Dispatcher.BeginInvoke(() =>
+        {
             if (_closed)
                 return;
-            AuthStatus.Text = string.Empty;
-            if (!ok)
-                return;
-        }
-        bool success = await RoReviewService.VoteAsync(_placeId, vote, _ct);
-        if (!success || _closed)
-            return;
-        _loading = false;
-        await LoadAsync();
+            _userVote = prevVote;
+            _upCount = prevUp;
+            _downCount = prevDown;
+            UpdateRatingDisplay();
+        });
     }
 
     private void OnSubmitReview(object sender, RoutedEventArgs e)
     {
-        _ = HandleSubmitAsync();
+        HandleSubmitOptimistic();
     }
 
-    private async Task HandleSubmitAsync()
+    private void OnInputKeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter && (Keyboard.Modifiers & ModifierKeys.Shift) == 0)
+        {
+            e.Handled = true;
+            HandleSubmitOptimistic();
+        }
+    }
+
+    private void HandleSubmitOptimistic()
     {
         if (_closed || _placeId <= 0)
             return;
         string content = ReviewInput.Text?.Trim() ?? string.Empty;
         if (content.Length == 0)
             return;
-        if (!RoReviewService.IsAuthenticated)
+
+        ReviewInput.Text = string.Empty;
+
+        string author = RoReviewService.SessionUsername ?? string.Empty;
+        if (string.IsNullOrEmpty(author))
+            author = "You";
+
+        RoReviewService.ReviewEntry entry = new()
         {
-            AuthStatus.Text = Strings.Ui_Session_SigningIn;
-            bool ok = await RoReviewService.AuthenticateAsync(_ct);
+            Id = "temp_" + DateTimeOffset.UtcNow.ToUnixTimeMilliseconds().ToString(CultureInfo.InvariantCulture),
+            AuthorId = RoReviewService.SessionUserId,
+            AuthorName = author,
+            Content = content,
+            CreatedAt = "just now"
+        };
+
+        _reviews.Insert(0, entry);
+        _reviewCount++;
+        UpdateRatingDisplay();
+        UpdateReviewList();
+
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                if (!RoReviewService.IsAuthenticated)
+                {
+                    _ = Dispatcher.BeginInvoke(() =>
+                    {
+                        if (!_closed)
+                            AuthStatus.Text = Strings.Ui_Session_SigningIn;
+                    });
+                    bool authed = await RoReviewService.AuthenticateAsync(_ct).ConfigureAwait(false);
+                    _ = Dispatcher.BeginInvoke(() =>
+                    {
+                        if (!_closed)
+                            AuthStatus.Text = string.Empty;
+                    });
+                    if (!authed)
+                    {
+                        RollbackSubmit(entry, content);
+                        return;
+                    }
+                }
+                bool ok = await RoReviewService.SubmitReviewAsync(_placeId, content, _ct).ConfigureAwait(false);
+                if (!ok)
+                {
+                    RollbackSubmit(entry, content);
+                }
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine("SessionReviewPanel", "Submit background failed: " + ex.Message);
+                RollbackSubmit(entry, content);
+            }
+        }, _ct);
+    }
+
+    private void RollbackSubmit(RoReviewService.ReviewEntry entry, string restoredText)
+    {
+        Dispatcher.BeginInvoke(() =>
+        {
             if (_closed)
                 return;
-            AuthStatus.Text = string.Empty;
-            if (!ok)
-                return;
-        }
-        SubmitButton.IsEnabled = false;
-        bool success = await RoReviewService.SubmitReviewAsync(_placeId, content, _ct);
-        if (_closed)
-            return;
-        SubmitButton.IsEnabled = true;
-        if (!success)
-            return;
-        ReviewInput.Text = string.Empty;
-        _loading = false;
-        await LoadAsync();
+            _reviews.Remove(entry);
+            _reviewCount = Math.Max(0, _reviewCount - 1);
+            if (string.IsNullOrEmpty(ReviewInput.Text))
+                ReviewInput.Text = restoredText;
+            UpdateRatingDisplay();
+            UpdateReviewList();
+        });
     }
 }

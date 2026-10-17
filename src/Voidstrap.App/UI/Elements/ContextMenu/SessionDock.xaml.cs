@@ -181,6 +181,7 @@ public partial class SessionDock : Window
         TrailingButtons.SizeChanged += OnPillSizeChanged;
         RobloxWindowTracker.Changed += OnTrackerChanged;
         _trackerLease = RobloxWindowTracker.Acquire();
+        _ = Voidstrap.Integrations.RoReviewService.AuthenticateAsync(_lifetimeToken);
     }
 
     private void OnDockKey(object sender, System.Windows.Input.KeyEventArgs e)
@@ -630,6 +631,7 @@ public partial class SessionDock : Window
     {
         if (_closed)
             return;
+        _ = Voidstrap.Integrations.RoReviewService.AuthenticateAsync(_lifetimeToken);
         if (_prewarmTimer == null)
         {
             _prewarmTimer = new DispatcherTimer(DispatcherPriority.ApplicationIdle) { Interval = TimeSpan.FromMilliseconds(500) };
