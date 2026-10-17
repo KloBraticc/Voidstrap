@@ -41,6 +41,7 @@ public partial class SessionReviewPanel : Window
             }
         }
         RoReviewService.AuthenticationChanged += OnAuthChanged;
+        RoReviewService.ReviewsUpdated += OnReviewsUpdated;
         Loaded += OnPanelLoaded;
         Closed += OnPanelClosed;
     }
@@ -52,6 +53,7 @@ public partial class SessionReviewPanel : Window
         InitializeComponent();
         ReviewList.ItemsSource = _reviews;
         RoReviewService.AuthenticationChanged += OnAuthChanged;
+        RoReviewService.ReviewsUpdated += OnReviewsUpdated;
         Loaded += OnPanelLoaded;
         Closed += OnPanelClosed;
     }
@@ -73,16 +75,110 @@ public partial class SessionReviewPanel : Window
     private void OnPanelLoaded(object sender, RoutedEventArgs e)
     {
         _ = LoadAsync();
+        _ = RunLivePollingLoopAsync();
     }
 
     private void OnPanelClosed(object? sender, EventArgs e)
     {
         _closed = true;
         RoReviewService.AuthenticationChanged -= OnAuthChanged;
+        RoReviewService.ReviewsUpdated -= OnReviewsUpdated;
         Loaded -= OnPanelLoaded;
         Closed -= OnPanelClosed;
         _lifetime.Cancel();
         _lifetime.Dispose();
+    }
+
+    private void OnReviewsUpdated(long placeId, RoReviewService.ReviewData data)
+    {
+        if (_closed || placeId != _placeId)
+            return;
+
+        _ = Dispatcher.BeginInvoke(() =>
+        {
+            if (_closed || placeId != _placeId)
+                return;
+            ApplyReviewData(data);
+        });
+    }
+
+    private void ApplyReviewData(RoReviewService.ReviewData data)
+    {
+        _userVote = data.UserVote;
+        _upCount = data.UpCount;
+        _downCount = data.DownCount;
+        _reviewCount = data.ReviewCount;
+        UpdateRatingDisplay();
+
+        long myId = RoReviewService.SessionUserId;
+        string? myName = RoReviewService.SessionUsername;
+
+        System.Collections.Generic.Dictionary<string, RoReviewService.ReviewEntry> incoming = new(StringComparer.Ordinal);
+        foreach (RoReviewService.ReviewEntry r in data.Reviews)
+        {
+            if (!string.IsNullOrEmpty(r.Id))
+                incoming[r.Id] = r;
+        }
+
+        for (int i = _reviews.Count - 1; i >= 0; i--)
+        {
+            RoReviewService.ReviewEntry existing = _reviews[i];
+            if (existing.Id.StartsWith("temp_", StringComparison.Ordinal))
+                continue;
+
+            if (!incoming.TryGetValue(existing.Id, out RoReviewService.ReviewEntry? updated))
+            {
+                _reviews.RemoveAt(i);
+            }
+            else
+            {
+                existing.UpCount = updated.UpCount;
+                existing.DownCount = updated.DownCount;
+                existing.UserVote = updated.UserVote;
+                existing.Content = updated.Content;
+                existing.AuthorName = updated.AuthorName;
+                if (!string.IsNullOrEmpty(updated.AvatarUrl))
+                    existing.AvatarUrl = updated.AvatarUrl;
+                existing.CanDelete = (myId > 0 && existing.AuthorId == myId)
+                    || (!string.IsNullOrEmpty(myName) && string.Equals(existing.AuthorName, myName, StringComparison.OrdinalIgnoreCase));
+                existing.RefreshRating();
+            }
+        }
+
+        for (int i = 0; i < data.Reviews.Count && i < 50; i++)
+        {
+            RoReviewService.ReviewEntry item = data.Reviews[i];
+            if (_reviews.Any(r => r.Id == item.Id))
+                continue;
+            item.CanDelete = (myId > 0 && item.AuthorId == myId)
+                || (!string.IsNullOrEmpty(myName) && string.Equals(item.AuthorName, myName, StringComparison.OrdinalIgnoreCase));
+            _reviews.Insert(Math.Min(i, _reviews.Count), item);
+        }
+
+        EmptyPanel.Visibility = _reviews.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+    }
+
+    private async Task RunLivePollingLoopAsync()
+    {
+        while (!_closed && !_ct.IsCancellationRequested)
+        {
+            try
+            {
+                await Task.Delay(TimeSpan.FromSeconds(8), _ct).ConfigureAwait(false);
+                if (_closed || _ct.IsCancellationRequested || _placeId <= 0)
+                    break;
+
+                await RoReviewService.FetchReviewsAsync(_placeId, _ct).ConfigureAwait(false);
+            }
+            catch (OperationCanceledException)
+            {
+                break;
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine("SessionReviewPanel", "Live poll error: " + ex.Message);
+            }
+        }
     }
 
     private void OnAuthChanged()
@@ -125,18 +221,7 @@ public partial class SessionReviewPanel : Window
             if (result == null || _closed)
                 return;
 
-            _userVote = result.UserVote;
-            _upCount = result.UpCount;
-            _downCount = result.DownCount;
-            _reviewCount = result.ReviewCount;
-            UpdateRatingDisplay();
-
-            _reviews.Clear();
-            foreach (RoReviewService.ReviewEntry r in result.Reviews.Take(50))
-            {
-                _reviews.Add(r);
-            }
-            EmptyPanel.Visibility = _reviews.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+            ApplyReviewData(result);
         }
         catch (OperationCanceledException)
         {
@@ -255,7 +340,9 @@ public partial class SessionReviewPanel : Window
                 if (!ok)
                 {
                     RollbackVote(prevVote, prevUp, prevDown);
+                    return;
                 }
+                await RoReviewService.FetchReviewsAsync(_placeId, _ct).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -329,7 +416,9 @@ public partial class SessionReviewPanel : Window
                 if (!ok)
                 {
                     RollbackDelete(entry, index);
+                    return;
                 }
+                await RoReviewService.FetchReviewsAsync(_placeId, _ct).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -439,7 +528,9 @@ public partial class SessionReviewPanel : Window
                 if (!ok)
                 {
                     RollbackReviewVote(entry, prevVote, prevUp, prevDown);
+                    return;
                 }
+                await RoReviewService.FetchReviewsAsync(_placeId, _ct).ConfigureAwait(false);
             }
             catch (Exception ex)
             {

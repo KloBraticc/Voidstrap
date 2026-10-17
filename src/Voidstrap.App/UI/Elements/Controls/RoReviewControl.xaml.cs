@@ -115,6 +115,7 @@ public partial class RoReviewControl : UserControl
     {
         _isUnloaded = false;
         RoReviewService.AuthenticationChanged += OnAuthChanged;
+        RoReviewService.ReviewsUpdated += OnReviewsUpdated;
         _ = ReloadAsync();
     }
 
@@ -122,9 +123,79 @@ public partial class RoReviewControl : UserControl
     {
         _isUnloaded = true;
         RoReviewService.AuthenticationChanged -= OnAuthChanged;
+        RoReviewService.ReviewsUpdated -= OnReviewsUpdated;
         _loadCts?.Cancel();
         _loadCts?.Dispose();
         _loadCts = null;
+    }
+
+    private void OnReviewsUpdated(long placeId, RoReviewService.ReviewData data)
+    {
+        if (_isUnloaded || placeId != _activePlaceId)
+            return;
+
+        _ = Dispatcher.BeginInvoke(() =>
+        {
+            if (_isUnloaded || placeId != _activePlaceId)
+                return;
+            ApplyReviewData(data);
+        });
+    }
+
+    private void ApplyReviewData(RoReviewService.ReviewData data)
+    {
+        _userVote = data.UserVote;
+        _upCount = data.UpCount;
+        _downCount = data.DownCount;
+        _reviewCount = data.ReviewCount;
+        UpdateRatingDisplay();
+
+        long myId = RoReviewService.SessionUserId;
+        string? myName = RoReviewService.SessionUsername;
+
+        System.Collections.Generic.Dictionary<string, RoReviewService.ReviewEntry> incoming = new(StringComparer.Ordinal);
+        foreach (RoReviewService.ReviewEntry r in data.Reviews)
+        {
+            if (!string.IsNullOrEmpty(r.Id))
+                incoming[r.Id] = r;
+        }
+
+        for (int i = _reviews.Count - 1; i >= 0; i--)
+        {
+            RoReviewService.ReviewEntry existing = _reviews[i];
+            if (existing.Id.StartsWith("temp_", StringComparison.Ordinal))
+                continue;
+
+            if (!incoming.TryGetValue(existing.Id, out RoReviewService.ReviewEntry? updated))
+            {
+                _reviews.RemoveAt(i);
+            }
+            else
+            {
+                existing.UpCount = updated.UpCount;
+                existing.DownCount = updated.DownCount;
+                existing.UserVote = updated.UserVote;
+                existing.Content = updated.Content;
+                existing.AuthorName = updated.AuthorName;
+                if (!string.IsNullOrEmpty(updated.AvatarUrl))
+                    existing.AvatarUrl = updated.AvatarUrl;
+                existing.CanDelete = (myId > 0 && existing.AuthorId == myId)
+                    || (!string.IsNullOrEmpty(myName) && string.Equals(existing.AuthorName, myName, StringComparison.OrdinalIgnoreCase));
+                existing.RefreshRating();
+            }
+        }
+
+        for (int i = 0; i < data.Reviews.Count && i < 50; i++)
+        {
+            RoReviewService.ReviewEntry item = data.Reviews[i];
+            if (_reviews.Any(r => r.Id == item.Id))
+                continue;
+            item.CanDelete = (myId > 0 && item.AuthorId == myId)
+                || (!string.IsNullOrEmpty(myName) && string.Equals(item.AuthorName, myName, StringComparison.OrdinalIgnoreCase));
+            _reviews.Insert(Math.Min(i, _reviews.Count), item);
+        }
+
+        EmptyPanel.Visibility = _reviews.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
     }
 
     private void OnAuthChanged()
@@ -201,6 +272,30 @@ public partial class RoReviewControl : UserControl
             EmptyPanel.Visibility = Visibility.Collapsed;
         });
         await LoadReviewsAsync(targetPlaceId, ct).ConfigureAwait(false);
+        _ = RunLivePollingLoopAsync(targetPlaceId, ct);
+    }
+
+    private async Task RunLivePollingLoopAsync(long placeId, CancellationToken ct)
+    {
+        while (!ct.IsCancellationRequested && !_isUnloaded)
+        {
+            try
+            {
+                await Task.Delay(TimeSpan.FromSeconds(8), ct).ConfigureAwait(false);
+                if (ct.IsCancellationRequested || _isUnloaded || placeId != _activePlaceId)
+                    break;
+
+                await RoReviewService.FetchReviewsAsync(placeId, ct).ConfigureAwait(false);
+            }
+            catch (OperationCanceledException)
+            {
+                break;
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine("RoReviewControl", "Live poll error: " + ex.Message);
+            }
+        }
     }
 
     private async Task LoadReviewsAsync(long placeId, CancellationToken ct)
@@ -229,18 +324,7 @@ public partial class RoReviewControl : UserControl
             {
                 if (_isUnloaded || ct.IsCancellationRequested)
                     return;
-                _userVote = result.UserVote;
-                _upCount = result.UpCount;
-                _downCount = result.DownCount;
-                _reviewCount = result.ReviewCount;
-                UpdateRatingDisplay();
-
-                _reviews.Clear();
-                foreach (RoReviewService.ReviewEntry r in result.Reviews.Take(50))
-                {
-                    _reviews.Add(r);
-                }
-                EmptyPanel.Visibility = _reviews.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+                ApplyReviewData(result);
             });
         }
         catch (OperationCanceledException)
@@ -362,7 +446,9 @@ public partial class RoReviewControl : UserControl
                 if (!ok)
                 {
                     RollbackVote(prevVote, prevUp, prevDown);
+                    return;
                 }
+                await RoReviewService.FetchReviewsAsync(currentPlaceId, ct).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -439,7 +525,9 @@ public partial class RoReviewControl : UserControl
                 if (!ok)
                 {
                     RollbackDelete(entry, index);
+                    return;
                 }
+                await RoReviewService.FetchReviewsAsync(currentPlaceId, ct).ConfigureAwait(false);
             }
             catch (Exception ex)
             {
@@ -552,7 +640,9 @@ public partial class RoReviewControl : UserControl
                 if (!ok)
                 {
                     RollbackReviewVote(entry, prevVote, prevUp, prevDown);
+                    return;
                 }
+                await RoReviewService.FetchReviewsAsync(currentPlaceId, ct).ConfigureAwait(false);
             }
             catch (Exception ex)
             {

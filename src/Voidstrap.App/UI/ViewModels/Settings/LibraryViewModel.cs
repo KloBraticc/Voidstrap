@@ -363,6 +363,7 @@ public class LibraryViewModel : INotifyPropertyChanged
     private bool _loadingMoreGames;
 
     private CancellationTokenSource? _gamePassLoadCts;
+    private CancellationTokenSource? _selectedGameVotesCts;
 
     private CancellationTokenSource? _loadCts;
 
@@ -412,6 +413,9 @@ public class LibraryViewModel : INotifyPropertyChanged
         previous?.Cancel();
         previous?.Dispose();
         SubplacesLoading = false;
+        _selectedGameVotesCts?.Cancel();
+        _selectedGameVotesCts?.Dispose();
+        _selectedGameVotesCts = null;
     }
 
     public void SetSubplaceViewActive(bool active)
@@ -625,6 +629,9 @@ public class LibraryViewModel : INotifyPropertyChanged
 				GamePasses.Clear();
 				GamePassStatus = "";
 				GamePassesLoading = false;
+				_selectedGameVotesCts?.Cancel();
+				_selectedGameVotesCts?.Dispose();
+				_selectedGameVotesCts = null;
                 if (value == null)
                     Voidstrap.Integrations.VoidstrapPresence.Clear("LibraryPage");
                 else
@@ -636,8 +643,50 @@ public class LibraryViewModel : INotifyPropertyChanged
 					_gamePassLoadCts = current;
 					GamePassesLoading = true;
 					_ = LoadGamePassesAsync(value.UniverseId, version, current);
+					CancellationTokenSource votesCts = new();
+					_selectedGameVotesCts = votesCts;
+					_ = RunSelectedGameLiveVotesLoopAsync(value, votesCts.Token);
                 }
                 StartBadgeLoad(value, refreshAwarded: true);
+            }
+        }
+    }
+
+    private async Task RunSelectedGameLiveVotesLoopAsync(LibraryGameEntry game, CancellationToken token)
+    {
+        while (!token.IsCancellationRequested)
+        {
+            try
+            {
+                await Task.Delay(TimeSpan.FromSeconds(8), token).ConfigureAwait(false);
+                if (token.IsCancellationRequested || game.UniverseId == 0)
+                    break;
+                string url = $"https://games.roblox.com/v1/games/votes?universeIds={game.UniverseId}";
+                using JsonDocument doc = JsonDocument.Parse(await Voidstrap.Utility.Http.GetStringBoundedAsync(_http, url, token: token).ConfigureAwait(false));
+                if (!doc.RootElement.TryGetProperty("data", out JsonElement data) || data.ValueKind != JsonValueKind.Array)
+                    continue;
+                foreach (JsonElement item in data.EnumerateArray())
+                {
+                    long up = item.TryGetProperty("upVotes", out JsonElement upProp) ? upProp.GetInt64() : 0;
+                    long down = item.TryGetProperty("downVotes", out JsonElement downProp) ? downProp.GetInt64() : 0;
+                    if (up + down > 0)
+                    {
+                        string pct = $"{Math.Round(up * 100.0 / (up + down))}%";
+                        await Application.Current.Dispatcher.InvokeAsync(() =>
+                        {
+                            if (!token.IsCancellationRequested && ReferenceEquals(SelectedGame, game))
+                                game.LikePercent = pct;
+                        });
+                    }
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                break;
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine("LibraryViewModel", "Live vote refresh failed: " + ex.Message);
             }
         }
     }

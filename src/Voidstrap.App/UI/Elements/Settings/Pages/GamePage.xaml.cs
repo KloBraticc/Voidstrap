@@ -33,6 +33,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                 _cts?.Dispose();
                 _cts = new CancellationTokenSource();
                 await LoadGameAsync(_cts.Token);
+                _ = RunLiveVotesLoopAsync(_cts.Token);
             }
             catch (OperationCanceledException)
             {
@@ -40,6 +41,28 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             catch (Exception ex)
             {
                 App.Logger.WriteException("GamePage::GamePage_Loaded", ex);
+            }
+        }
+
+        private async Task RunLiveVotesLoopAsync(CancellationToken token)
+        {
+            while (!token.IsCancellationRequested)
+            {
+                try
+                {
+                    await Task.Delay(TimeSpan.FromSeconds(8), token).ConfigureAwait(false);
+                    if (token.IsCancellationRequested || _universeId == 0)
+                        break;
+                    await LoadVotesAsync(token).ConfigureAwait(false);
+                }
+                catch (OperationCanceledException)
+                {
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    App.Logger.WriteLine(LOG_IDENT + "::LiveVotes", ex.Message);
+                }
             }
         }
 

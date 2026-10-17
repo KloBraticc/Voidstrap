@@ -42,6 +42,7 @@ public static class RoReviewService
     public static long SessionUserId => _sessionUserId;
     public static string? SessionUsername => _sessionUsername;
     public static event Action? AuthenticationChanged;
+    public static event Action<long, ReviewData>? ReviewsUpdated;
 
     public sealed class ReviewData
     {
@@ -391,7 +392,7 @@ public static class RoReviewService
 
             await PopulateAvatarsAsync(reviews, timeout.Token).ConfigureAwait(false);
 
-            return new ReviewData
+            ReviewData data = new()
             {
                 UpCount = upCount,
                 DownCount = downCount,
@@ -399,6 +400,8 @@ public static class RoReviewService
                 UserVote = userVote,
                 Reviews = reviews
             };
+            ReviewsUpdated?.Invoke(placeId, data);
+            return data;
         }
         catch (OperationCanceledException)
         {
