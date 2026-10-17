@@ -6909,4 +6909,13 @@
   <data name="Ui.Session.SubmitReview" xml:space="preserve">
     <value>إرسال</value>
   </data>
+  <data name="Ui.Session.NoReviews" xml:space="preserve">
+    <value>لا توجد مراجعات حتى الآن</value>
+  </data>
+  <data name="Ui.Session.WriteReview" xml:space="preserve">
+    <value>كتابة مراجعة...</value>
+  </data>
+  <data name="Ui.Session.SigningIn" xml:space="preserve">
+    <value>جاري تسجيل الدخول...</value>
+  </data>
 </root>

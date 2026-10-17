@@ -6890,4 +6890,13 @@ Voidstrap не зміг записати до теки робочого стол
   <data name="Ui.Session.SubmitReview" xml:space="preserve">
     <value>Надіслати</value>
   </data>
+  <data name="Ui.Session.NoReviews" xml:space="preserve">
+    <value>Відгуків поки немає</value>
+  </data>
+  <data name="Ui.Session.WriteReview" xml:space="preserve">
+    <value>Написати відгук...</value>
+  </data>
+  <data name="Ui.Session.SigningIn" xml:space="preserve">
+    <value>Вхід...</value>
+  </data>
 </root>

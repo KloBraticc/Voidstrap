@@ -6801,4 +6801,13 @@ Erreur : {0}</value>
   <data name="Ui.Session.SubmitReview" xml:space="preserve">
     <value>Envoyer</value>
   </data>
+  <data name="Ui.Session.NoReviews" xml:space="preserve">
+    <value>Aucun avis pour le moment</value>
+  </data>
+  <data name="Ui.Session.WriteReview" xml:space="preserve">
+    <value>Écrire un avis...</value>
+  </data>
+  <data name="Ui.Session.SigningIn" xml:space="preserve">
+    <value>Connexion en cours...</value>
+  </data>
 </root>

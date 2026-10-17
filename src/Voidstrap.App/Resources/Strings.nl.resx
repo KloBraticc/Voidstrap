@@ -6836,4 +6836,13 @@ Fout: {0}</value>
   <data name="Ui.Session.SubmitReview" xml:space="preserve">
     <value>Verzenden</value>
   </data>
+  <data name="Ui.Session.NoReviews" xml:space="preserve">
+    <value>Nog geen beoordelingen</value>
+  </data>
+  <data name="Ui.Session.WriteReview" xml:space="preserve">
+    <value>Schrijf een beoordeling...</value>
+  </data>
+  <data name="Ui.Session.SigningIn" xml:space="preserve">
+    <value>Aanmelden...</value>
+  </data>
 </root>

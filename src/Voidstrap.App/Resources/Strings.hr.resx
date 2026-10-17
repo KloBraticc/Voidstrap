@@ -6879,4 +6879,13 @@ Pogreška: {0}</value>
   <data name="Ui.Session.SubmitReview" xml:space="preserve">
     <value>Pošalji</value>
   </data>
+  <data name="Ui.Session.NoReviews" xml:space="preserve">
+    <value>Još nema recenzija</value>
+  </data>
+  <data name="Ui.Session.WriteReview" xml:space="preserve">
+    <value>Napiši recenziju...</value>
+  </data>
+  <data name="Ui.Session.SigningIn" xml:space="preserve">
+    <value>Prijava...</value>
+  </data>
 </root>

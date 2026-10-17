@@ -6849,4 +6849,13 @@ Errore: {0}</value>
   <data name="Ui.Session.SubmitReview" xml:space="preserve">
     <value>Invia</value>
   </data>
+  <data name="Ui.Session.NoReviews" xml:space="preserve">
+    <value>Nessuna recensione disponibile</value>
+  </data>
+  <data name="Ui.Session.WriteReview" xml:space="preserve">
+    <value>Scrivi una recensione...</value>
+  </data>
+  <data name="Ui.Session.SigningIn" xml:space="preserve">
+    <value>Accesso in corso...</value>
+  </data>
 </root>

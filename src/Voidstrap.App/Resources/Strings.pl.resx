@@ -6874,4 +6874,13 @@ Błąd: {0}</value>
   <data name="Ui.Session.SubmitReview" xml:space="preserve">
     <value>Wyślij</value>
   </data>
+  <data name="Ui.Session.NoReviews" xml:space="preserve">
+    <value>Brak recenzji</value>
+  </data>
+  <data name="Ui.Session.WriteReview" xml:space="preserve">
+    <value>Napisz recenzję...</value>
+  </data>
+  <data name="Ui.Session.SigningIn" xml:space="preserve">
+    <value>Logowanie...</value>
+  </data>
 </root>

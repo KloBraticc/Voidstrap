@@ -6901,4 +6901,13 @@ Voidstrap 无法写入桌面文件夹。</value>
   <data name="Ui.Session.SubmitReview" xml:space="preserve">
     <value>提交</value>
   </data>
+  <data name="Ui.Session.NoReviews" xml:space="preserve">
+    <value>暂无评价</value>
+  </data>
+  <data name="Ui.Session.WriteReview" xml:space="preserve">
+    <value>撰写评价...</value>
+  </data>
+  <data name="Ui.Session.SigningIn" xml:space="preserve">
+    <value>正在登录...</value>
+  </data>
 </root>

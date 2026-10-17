@@ -6872,4 +6872,13 @@ Hata: {0}</value>
   <data name="Ui.Session.SubmitReview" xml:space="preserve">
     <value>Gönder</value>
   </data>
+  <data name="Ui.Session.NoReviews" xml:space="preserve">
+    <value>Henüz inceleme yok</value>
+  </data>
+  <data name="Ui.Session.WriteReview" xml:space="preserve">
+    <value>Bir inceleme yazın...</value>
+  </data>
+  <data name="Ui.Session.SigningIn" xml:space="preserve">
+    <value>Giriş yapılıyor...</value>
+  </data>
 </root>

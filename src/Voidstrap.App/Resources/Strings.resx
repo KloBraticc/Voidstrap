@@ -5230,6 +5230,15 @@ What would you like to do?</value>
   <data name="Ui.Session.SubmitReview" xml:space="preserve">
     <value>Submit</value>
   </data>
+  <data name="Ui.Session.NoReviews" xml:space="preserve">
+    <value>No reviews yet</value>
+  </data>
+  <data name="Ui.Session.WriteReview" xml:space="preserve">
+    <value>Write a review...</value>
+  </data>
+  <data name="Ui.Session.SigningIn" xml:space="preserve">
+    <value>Signing in...</value>
+  </data>
   <data name="Ui.Misc.ClickToChangeThisColour" xml:space="preserve">
     <value>Click to change this colour</value>
   </data>

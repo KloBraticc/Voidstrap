@@ -6903,4 +6903,13 @@ Voidstrap がデスクトップ フォルダーに書き込めませんでした
   <data name="Ui.Session.SubmitReview" xml:space="preserve">
     <value>送信</value>
   </data>
+  <data name="Ui.Session.NoReviews" xml:space="preserve">
+    <value>レビューはまだありません</value>
+  </data>
+  <data name="Ui.Session.WriteReview" xml:space="preserve">
+    <value>レビューを書く...</value>
+  </data>
+  <data name="Ui.Session.SigningIn" xml:space="preserve">
+    <value>サインイン中...</value>
+  </data>
 </root>

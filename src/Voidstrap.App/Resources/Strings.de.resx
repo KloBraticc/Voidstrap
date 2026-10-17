@@ -6808,4 +6808,13 @@ Fehler: {0}</value>
   <data name="Ui.Session.SubmitReview" xml:space="preserve">
     <value>Absenden</value>
   </data>
+  <data name="Ui.Session.NoReviews" xml:space="preserve">
+    <value>Noch keine Bewertungen</value>
+  </data>
+  <data name="Ui.Session.WriteReview" xml:space="preserve">
+    <value>Bewertung schreiben...</value>
+  </data>
+  <data name="Ui.Session.SigningIn" xml:space="preserve">
+    <value>Anmelden...</value>
+  </data>
 </root>

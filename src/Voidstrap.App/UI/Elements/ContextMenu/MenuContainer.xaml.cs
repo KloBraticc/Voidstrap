@@ -481,6 +481,9 @@ public partial class MenuContainer : WpfUiWindow
                 _sessionDock?.ShowTool("notifications", "Settings",
                     () => new SessionNotificationSettings(CurrentGameIcon.Source, _activityWatcher?.Data?.GameName, SendTestNotification));
                 break;
+            case "reviews":
+                _sessionDock?.ShowTool("reviews", Strings.Ui_Session_CommunityRating, () => new SessionReviewPanel(_activityWatcher));
+                break;
             case "web":
 #if !CROSSPLAT
                 _sessionDock?.ShowTool("web", "Browser", () => new SessionWebBrowser());

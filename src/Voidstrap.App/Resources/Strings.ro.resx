@@ -6860,4 +6860,13 @@ Eroare: {0}</value>
   <data name="Ui.Session.SubmitReview" xml:space="preserve">
     <value>Trimite</value>
   </data>
+  <data name="Ui.Session.NoReviews" xml:space="preserve">
+    <value>Nicio recenzie încă</value>
+  </data>
+  <data name="Ui.Session.WriteReview" xml:space="preserve">
+    <value>Scrie o recenzie...</value>
+  </data>
+  <data name="Ui.Session.SigningIn" xml:space="preserve">
+    <value>Conectare...</value>
+  </data>
 </root>

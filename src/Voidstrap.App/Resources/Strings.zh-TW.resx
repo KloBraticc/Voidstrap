@@ -6880,4 +6880,13 @@ Voidstrap 無法寫入桌面資料夾。</value>
   <data name="Ui.Session.SubmitReview" xml:space="preserve">
     <value>提交</value>
   </data>
+  <data name="Ui.Session.NoReviews" xml:space="preserve">
+    <value>尚無評價</value>
+  </data>
+  <data name="Ui.Session.WriteReview" xml:space="preserve">
+    <value>撰寫評價...</value>
+  </data>
+  <data name="Ui.Session.SigningIn" xml:space="preserve">
+    <value>正在登入...</value>
+  </data>
 </root>

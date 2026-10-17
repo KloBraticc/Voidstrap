@@ -6880,4 +6880,13 @@ Voidstrap не можа да запише в папката на работни�
   <data name="Ui.Session.SubmitReview" xml:space="preserve">
     <value>Изпрати</value>
   </data>
+  <data name="Ui.Session.NoReviews" xml:space="preserve">
+    <value>Все още няма отзиви</value>
+  </data>
+  <data name="Ui.Session.WriteReview" xml:space="preserve">
+    <value>Напишете отзив...</value>
+  </data>
+  <data name="Ui.Session.SigningIn" xml:space="preserve">
+    <value>Вписване...</value>
+  </data>
 </root>

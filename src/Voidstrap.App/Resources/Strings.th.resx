@@ -6872,4 +6872,13 @@ Voidstrap เขียนลงในโฟลเดอร์เดสก์ท�
   <data name="Ui.Session.SubmitReview" xml:space="preserve">
     <value>ส่ง</value>
   </data>
+  <data name="Ui.Session.NoReviews" xml:space="preserve">
+    <value>ยังไม่มีรีวิว</value>
+  </data>
+  <data name="Ui.Session.WriteReview" xml:space="preserve">
+    <value>เขียนรีวิว...</value>
+  </data>
+  <data name="Ui.Session.SigningIn" xml:space="preserve">
+    <value>กำลังลงชื่อเข้าใช้...</value>
+  </data>
 </root>

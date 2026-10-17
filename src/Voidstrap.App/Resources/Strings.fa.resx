@@ -6918,4 +6918,13 @@ Voidstrap نتوانست در پوشهٔ دسکتاپ بنویسد.</value>
   <data name="Ui.Session.SubmitReview" xml:space="preserve">
     <value>ارسال</value>
   </data>
+  <data name="Ui.Session.NoReviews" xml:space="preserve">
+    <value>هنوز نظری ثبت نشده است</value>
+  </data>
+  <data name="Ui.Session.WriteReview" xml:space="preserve">
+    <value>نوشتن نظر...</value>
+  </data>
+  <data name="Ui.Session.SigningIn" xml:space="preserve">
+    <value>در حال ورود...</value>
+  </data>
 </root>

@@ -6882,4 +6882,13 @@ Voidstrap не смог записать в папку рабочего стол
   <data name="Ui.Session.SubmitReview" xml:space="preserve">
     <value>Отправить</value>
   </data>
+  <data name="Ui.Session.NoReviews" xml:space="preserve">
+    <value>Отзывов пока нет</value>
+  </data>
+  <data name="Ui.Session.WriteReview" xml:space="preserve">
+    <value>Написать отзыв...</value>
+  </data>
+  <data name="Ui.Session.SigningIn" xml:space="preserve">
+    <value>Вход...</value>
+  </data>
 </root>

@@ -6890,4 +6890,13 @@ Voidstrap이 바탕 화면 폴더에 쓸 수 없습니다.</value>
   <data name="Ui.Session.SubmitReview" xml:space="preserve">
     <value>제출</value>
   </data>
+  <data name="Ui.Session.NoReviews" xml:space="preserve">
+    <value>아직 리뷰가 없습니다</value>
+  </data>
+  <data name="Ui.Session.WriteReview" xml:space="preserve">
+    <value>리뷰 작성...</value>
+  </data>
+  <data name="Ui.Session.SigningIn" xml:space="preserve">
+    <value>로그인 중...</value>
+  </data>
 </root>

@@ -6914,4 +6914,13 @@ Klaida: {0}</value>
   <data name="Ui.Session.SubmitReview" xml:space="preserve">
     <value>Pateikti</value>
   </data>
+  <data name="Ui.Session.NoReviews" xml:space="preserve">
+    <value>Atsiliepimų dar nėra</value>
+  </data>
+  <data name="Ui.Session.WriteReview" xml:space="preserve">
+    <value>Parašyti atsiliepimą...</value>
+  </data>
+  <data name="Ui.Session.SigningIn" xml:space="preserve">
+    <value>Jungiamasi...</value>
+  </data>
 </root>

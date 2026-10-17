@@ -6860,4 +6860,13 @@ Erro: {0}</value>
   <data name="Ui.Session.SubmitReview" xml:space="preserve">
     <value>Enviar</value>
   </data>
+  <data name="Ui.Session.NoReviews" xml:space="preserve">
+    <value>Nenhuma avaliação ainda</value>
+  </data>
+  <data name="Ui.Session.WriteReview" xml:space="preserve">
+    <value>Escrever uma avaliação...</value>
+  </data>
+  <data name="Ui.Session.SigningIn" xml:space="preserve">
+    <value>Entrando...</value>
+  </data>
 </root>

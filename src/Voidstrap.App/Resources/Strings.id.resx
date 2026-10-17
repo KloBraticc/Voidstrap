@@ -6834,4 +6834,13 @@ Kesalahan: {0}</value>
   <data name="Ui.Session.SubmitReview" xml:space="preserve">
     <value>Kirim</value>
   </data>
+  <data name="Ui.Session.NoReviews" xml:space="preserve">
+    <value>Belum ada ulasan</value>
+  </data>
+  <data name="Ui.Session.WriteReview" xml:space="preserve">
+    <value>Tulis ulasan...</value>
+  </data>
+  <data name="Ui.Session.SigningIn" xml:space="preserve">
+    <value>Masuk...</value>
+  </data>
 </root>

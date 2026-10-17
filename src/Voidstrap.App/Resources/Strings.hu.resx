@@ -6876,4 +6876,13 @@ Hiba: {0}</value>
   <data name="Ui.Session.SubmitReview" xml:space="preserve">
     <value>Küldés</value>
   </data>
+  <data name="Ui.Session.NoReviews" xml:space="preserve">
+    <value>Még nincsenek vélemények</value>
+  </data>
+  <data name="Ui.Session.WriteReview" xml:space="preserve">
+    <value>Vélemény írása...</value>
+  </data>
+  <data name="Ui.Session.SigningIn" xml:space="preserve">
+    <value>Bejelentkezés...</value>
+  </data>
 </root>

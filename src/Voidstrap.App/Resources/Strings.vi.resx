@@ -6886,4 +6886,13 @@ Lỗi: {0}</value>
   <data name="Ui.Session.SubmitReview" xml:space="preserve">
     <value>Gửi</value>
   </data>
+  <data name="Ui.Session.NoReviews" xml:space="preserve">
+    <value>Chưa có đánh giá nào</value>
+  </data>
+  <data name="Ui.Session.WriteReview" xml:space="preserve">
+    <value>Viết đánh giá...</value>
+  </data>
+  <data name="Ui.Session.SigningIn" xml:space="preserve">
+    <value>Đang đăng nhập...</value>
+  </data>
 </root>
