@@ -75,78 +75,139 @@
         <ItemsControl x:Name="ReviewList">
           <ItemsControl.ItemTemplate>
             <DataTemplate>
-              <Border Margin="0,0,0,8" Padding="12,10" CornerRadius="8"
+              <Border Margin="0,0,0,10" Padding="14,12" CornerRadius="8"
                       Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
                       BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
-                <Grid>
-                  <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                  </Grid.ColumnDefinitions>
-
-                  <Grid Width="36" Height="36" VerticalAlignment="Top" Margin="0,1,12,0">
-                    <Ellipse Fill="{DynamicResource SubtleFillColorSecondaryBrush}" />
-                    <TextBlock Text="&#xE77B;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="15"
-                               Foreground="{DynamicResource TextFillColorTertiaryBrush}"
-                               HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    <Image Source="{Binding AvatarUrl}"
-                           util:DynamicRenderSystem.LinuxImageSource="{Binding AvatarUrl}"
-                           Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality">
-                      <Image.Clip>
-                        <EllipseGeometry Center="18,18" RadiusX="18" RadiusY="18" />
-                      </Image.Clip>
-                    </Image>
-                  </Grid>
-
-                  <StackPanel Grid.Column="1">
-                    <Grid>
-                      <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="Auto" />
-                      </Grid.ColumnDefinitions>
-                      <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <TextBlock Text="{Binding AuthorName}" FontSize="13" FontWeight="SemiBold"
-                                   Foreground="{DynamicResource TextFillColorPrimaryBrush}" VerticalAlignment="Center" />
-                        <TextBlock Text="{Binding CreatedAt}" FontSize="11.5" Margin="8,0,0,0"
-                                   Foreground="{DynamicResource TextFillColorTertiaryBrush}" VerticalAlignment="Center" />
-                      </StackPanel>
-                      <ui:Button Grid.Column="1" Appearance="Transparent" Padding="4,2" Margin="4,-2,-2,-2"
-                                 Height="24" Width="24" Focusable="False"
-                                 Visibility="{Binding CanDelete, Converter={StaticResource BoolToVis}}"
-                                 Tag="{Binding}" Click="OnDeleteReview">
-                        <TextBlock Text="&#xE74D;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="11.5"
-                                   Foreground="{DynamicResource TextFillColorTertiaryBrush}" VerticalAlignment="Center" HorizontalAlignment="Center" />
-                      </ui:Button>
-                    </Grid>
-
-                    <TextBlock Text="{Binding Content}" FontSize="13" TextWrapping="Wrap" Margin="0,5,0,8"
-                               LineHeight="18"
-                               Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+                <StackPanel>
+                  <Grid>
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
 
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                      <ui:Button Appearance="{Binding UpAppearance}" Padding="8,3" Height="28" MinWidth="48"
-                                 Focusable="False" Tag="{Binding}" Click="OnReviewVoteUp">
-                        <StackPanel Orientation="Horizontal">
-                          <TextBlock Text="&#xE8E1;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="12"
-                                     Foreground="{DynamicResource TextFillColorSecondaryBrush}" VerticalAlignment="Center" />
-                          <TextBlock Text="{Binding UpCount}" Margin="6,0,0,0" FontSize="11.5" FontWeight="SemiBold"
-                                     Foreground="{DynamicResource TextFillColorSecondaryBrush}" VerticalAlignment="Center" />
-                        </StackPanel>
-                      </ui:Button>
-                      <ui:Button Appearance="{Binding DownAppearance}" Padding="8,3" Margin="6,0,0,0" Height="28" MinWidth="48"
-                                 Focusable="False" Tag="{Binding}" Click="OnReviewVoteDown">
-                        <StackPanel Orientation="Horizontal">
-                          <TextBlock Text="&#xE8E0;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="12"
-                                     Foreground="{DynamicResource TextFillColorSecondaryBrush}" VerticalAlignment="Center" />
-                          <TextBlock Text="{Binding DownCount}" Margin="6,0,0,0" FontSize="11.5" FontWeight="SemiBold"
-                                     Foreground="{DynamicResource TextFillColorSecondaryBrush}" VerticalAlignment="Center" />
-                        </StackPanel>
-                      </ui:Button>
-                      <TextBlock Text="{Binding RatingText}" Margin="12,0,0,0" FontSize="11.5" VerticalAlignment="Center"
-                                 Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                      <Grid Width="34" Height="34" VerticalAlignment="Center">
+                        <Ellipse Fill="{DynamicResource SubtleFillColorSecondaryBrush}" />
+                        <TextBlock Text="&#xE77B;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="14"
+                                   Foreground="{DynamicResource TextFillColorTertiaryBrush}"
+                                   HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        <Image Source="{Binding AvatarUrl}"
+                               util:DynamicRenderSystem.LinuxImageSource="{Binding AvatarUrl}"
+                               Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality">
+                          <Image.Clip>
+                            <EllipseGeometry Center="17,17" RadiusX="17" RadiusY="17" />
+                          </Image.Clip>
+                        </Image>
+                      </Grid>
+
+                      <TextBlock Text="{Binding AuthorName}" FontSize="13.5" FontWeight="Bold" Margin="10,0,0,0"
+                                 Foreground="{DynamicResource TextFillColorPrimaryBrush}" VerticalAlignment="Center" />
+                      <TextBlock Text="{Binding CreatedAt}" FontSize="12" Margin="8,0,0,0"
+                                 Foreground="{DynamicResource TextFillColorTertiaryBrush}" VerticalAlignment="Center" />
                     </StackPanel>
+
+                    <ui:Button Grid.Column="1" Appearance="Transparent" Padding="4,2" Margin="0,-2,-2,-2"
+                               Height="24" Width="24" Focusable="False"
+                               Visibility="{Binding CanDelete, Converter={StaticResource BoolToVis}}"
+                               Tag="{Binding}" Click="OnDeleteReview">
+                      <TextBlock Text="&#xE74D;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="12"
+                                 Foreground="{DynamicResource TextFillColorTertiaryBrush}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                    </ui:Button>
+                  </Grid>
+
+                  <TextBlock Text="{Binding Content}" FontSize="13.5" TextWrapping="Wrap" Margin="0,8,0,12"
+                             LineHeight="19"
+                             Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+
+                  <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <ui:Button Padding="10,3" Height="28" MinWidth="48"
+                               Focusable="False" Tag="{Binding}" Click="OnReviewVoteUp">
+                      <ui:Button.Style>
+                        <Style TargetType="{x:Type ui:Button}">
+                          <Setter Property="Appearance" Value="Secondary" />
+                          <Setter Property="BorderThickness" Value="1" />
+                          <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}" />
+                          <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsUpVoted}" Value="True">
+                              <Setter Property="BorderBrush" Value="{DynamicResource TextFillColorSecondaryBrush}" />
+                            </DataTrigger>
+                          </Style.Triggers>
+                        </Style>
+                      </ui:Button.Style>
+                      <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="&#xE8E1;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="12" VerticalAlignment="Center">
+                          <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                              <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
+                              <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsUpVoted}" Value="True">
+                                  <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
+                                </DataTrigger>
+                              </Style.Triggers>
+                            </Style>
+                          </TextBlock.Style>
+                        </TextBlock>
+                        <TextBlock Text="{Binding UpCount}" Margin="6,0,0,0" FontSize="11.5" FontWeight="SemiBold" VerticalAlignment="Center">
+                          <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                              <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
+                              <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsUpVoted}" Value="True">
+                                  <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
+                                </DataTrigger>
+                              </Style.Triggers>
+                            </Style>
+                          </TextBlock.Style>
+                        </TextBlock>
+                      </StackPanel>
+                    </ui:Button>
+
+                    <ui:Button Padding="10,3" Margin="8,0,0,0" Height="28" MinWidth="48"
+                               Focusable="False" Tag="{Binding}" Click="OnReviewVoteDown">
+                      <ui:Button.Style>
+                        <Style TargetType="{x:Type ui:Button}">
+                          <Setter Property="Appearance" Value="Secondary" />
+                          <Setter Property="BorderThickness" Value="1" />
+                          <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}" />
+                          <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsDownVoted}" Value="True">
+                              <Setter Property="BorderBrush" Value="{DynamicResource TextFillColorSecondaryBrush}" />
+                            </DataTrigger>
+                          </Style.Triggers>
+                        </Style>
+                      </ui:Button.Style>
+                      <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                        <TextBlock Text="&#xE8E0;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="12" VerticalAlignment="Center">
+                          <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                              <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
+                              <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsDownVoted}" Value="True">
+                                  <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
+                                </DataTrigger>
+                              </Style.Triggers>
+                            </Style>
+                          </TextBlock.Style>
+                        </TextBlock>
+                        <TextBlock Text="{Binding DownCount}" Margin="6,0,0,0" FontSize="11.5" FontWeight="SemiBold" VerticalAlignment="Center">
+                          <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                              <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
+                              <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsDownVoted}" Value="True">
+                                  <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
+                                </DataTrigger>
+                              </Style.Triggers>
+                            </Style>
+                          </TextBlock.Style>
+                        </TextBlock>
+                      </StackPanel>
+                    </ui:Button>
+
+                    <TextBlock Text="{Binding RatingText}" Margin="12,0,0,0" FontSize="11.5" VerticalAlignment="Center"
+                               Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
                   </StackPanel>
-                </Grid>
+                </StackPanel>
               </Border>
             </DataTemplate>
           </ItemsControl.ItemTemplate>
