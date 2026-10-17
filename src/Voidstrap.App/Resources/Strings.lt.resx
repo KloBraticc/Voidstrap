@@ -3693,9 +3693,6 @@ Ką norėtumėte daryti?</value>
   <data name="Ui.Mods.EnableOrDisableThisMod" xml:space="preserve">
     <value>Įjungti arba išjungti šį modą</value>
   </data>
-  <data name="Ui.Mods.Id" xml:space="preserve">
-    <value>   ID: </value>
-  </data>
   <data name="Ui.Mods.ViewThisModPack" xml:space="preserve">
     <value>Peržiūrėti šį modų paketą</value>
   </data>
@@ -3987,9 +3984,6 @@ Ką norėtumėte daryti?</value>
   <data name="Ui.FastFlags.GrassDistance" xml:space="preserve">
     <value>Žolės atstumas</value>
   </data>
-  <data name="Ui.FastFlags.Min" xml:space="preserve">
-    <value>Min</value>
-  </data>
   <data name="Ui.FastFlags.Max" xml:space="preserve">
     <value>Maks</value>
   </data>
@@ -4022,9 +4016,6 @@ Ką norėtumėte daryti?</value>
   </data>
   <data name="Ui.FastFlags.HowSolidTheSquaresLook" xml:space="preserve">
     <value>Kiek vientisi atrodo kvadratai</value>
-  </data>
-  <data name="Ui.FastFlags.Studs" xml:space="preserve">
-    <value>Studs</value>
   </data>
   <data name="Ui.FastFlags.TheStudPatternOnParts" xml:space="preserve">
     <value>Studs raštas ant dalių</value>
@@ -4296,9 +4287,6 @@ Ką norėtumėte daryti?</value>
   <data name="Ui.Bootstrapper.ReduceResourcesWhenRobloxIsUnfocused" xml:space="preserve">
     <value>Mažinti išteklius, kai Roblox neaktyvus</value>
   </data>
-  <data name="Ui.Bootstrapper.VoidstrapMatchmaker" xml:space="preserve">
-    <value>Voidstrap Matchmaker</value>
-  </data>
   <data name="Ui.Bootstrapper.Enable" xml:space="preserve">
     <value>Įjungti</value>
   </data>
@@ -4365,9 +4353,6 @@ Ką norėtumėte daryti?</value>
   <data name="Ui.Bootstrapper.NeverLetVoidstrapPickAServer" xml:space="preserve">
     <value>Niekada neleisti Voidstrap rinktis serverio šiam žaidimui</value>
   </data>
-  <data name="Ui.Bootstrapper.PlaceId" xml:space="preserve">
-    <value>Place id</value>
-  </data>
   <data name="Ui.Bootstrapper.LetVoidstrapPickServersForThis" xml:space="preserve">
     <value>Vėl leisti Voidstrap rinktis serverius šiam žaidimui</value>
   </data>
@@ -4380,17 +4365,11 @@ Ką norėtumėte daryti?</value>
   <data name="Ui.Bootstrapper.HowHardToSearch" xml:space="preserve">
     <value>Kaip nuodugniai ieškoti</value>
   </data>
-  <data name="Ui.Bootstrapper.Auto" xml:space="preserve">
-    <value>Auto</value>
-  </data>
   <data name="Ui.Bootstrapper.ReconnectLimit" xml:space="preserve">
     <value>Pakartotinių prisijungimų riba</value>
   </data>
   <data name="Ui.Bootstrapper.VoidstrapStopsTryingAfterThisMany" xml:space="preserve">
     <value>Voidstrap nustoja bandyti po tiek pakartotinių prisijungimų, kad niekada neužsiciklintų.</value>
-  </data>
-  <data name="Ui.Bootstrapper.JoinAPI" xml:space="preserve">
-    <value>Join API</value>
   </data>
   <data name="Ui.Bootstrapper.WhichRobloxJoinEndpointVoidstrapAsks" xml:space="preserve">
     <value>Kurio Roblox prisijungimo galinio taško Voidstrap klausia apie serverių vietas. Keiskite tik jei prisijungimai nustoja veikti.</value>
@@ -4611,9 +4590,6 @@ Ką norėtumėte daryti?</value>
   <data name="Ui.Integrations.CloseWhenLeavingThatGame" xml:space="preserve">
     <value>Uždaryti išėjus iš to žaidimo</value>
   </data>
-  <data name="Ui.Integrations.PlaceID" xml:space="preserve">
-    <value>Place ID</value>
-  </data>
   <data name="Ui.Channel.InstallLocation" xml:space="preserve">
     <value>Diegimo vieta</value>
   </data>
@@ -4673,9 +4649,6 @@ Ką norėtumėte daryti?</value>
   </data>
   <data name="Ui.Channel.DisplaysVoidstrapsDiscordRPC" xml:space="preserve">
     <value>Rodo Voidstrap Discord RPC.</value>
-  </data>
-  <data name="Ui.Channel.VoidstrapRPC" xml:space="preserve">
-    <value>Voidstrap RPC</value>
   </data>
   <data name="Ui.Channel.FactoryReset" xml:space="preserve">
     <value>Gamyklinių nustatymų atkūrimas</value>
@@ -5181,9 +5154,6 @@ Ką norėtumėte daryti?</value>
   <data name="Ui.Gbs.EnableVignetteForMotionSicknessReduction" xml:space="preserve">
     <value>Įjungti vinjetę judesio ligai sumažinti.</value>
   </data>
-  <data name="Ui.Gbs.MicroProfiler" xml:space="preserve">
-    <value>Micro Profiler</value>
-  </data>
   <data name="Ui.Gbs.EnableRobloxMicroprofilerServer" xml:space="preserve">
     <value>Įjungti Roblox mikroprofiliuotojo serverį.</value>
   </data>
@@ -5460,9 +5430,6 @@ Ką norėtumėte daryti?</value>
   <data name="Ui.Session.PasteAFullROBLOSECURITYValueOnly" xml:space="preserve">
     <value>Įklijuokite visą .ROBLOSECURITY reikšmę. Įklijuokite tik savo slapukus.</value>
   </data>
-  <data name="Ui.Session.WARNINGDONOTSHARETHIS" xml:space="preserve">
-    <value>_|WARNING: DO NOT SHARE THIS...</value>
-  </data>
   <data name="Ui.Session.CURRENT" xml:space="preserve">
     <value>DABARTINĖ</value>
   </data>
@@ -5651,9 +5618,6 @@ Ką norėtumėte daryti?</value>
   </data>
   <data name="Ui.Misc.TheGraphicsBackendWineUsesFor" xml:space="preserve">
     <value>Grafikos sąsaja, kurią Wine naudoja Studio. DXVK tinka daugumai sistemų.</value>
-  </data>
-  <data name="Ui.Misc.FeralGameMode" xml:space="preserve">
-    <value>Feral GameMode</value>
   </data>
   <data name="Ui.Misc.AsksGameModeToTuneTheSystem" xml:space="preserve">
     <value>Prašo GameMode pritaikyti sistemą, kol veikia Studio.</value>
@@ -5925,9 +5889,6 @@ Ką norėtumėte daryti?</value>
   <data name="Ui.Pages.OverridesThatAffectGPUBehaviorAnd" xml:space="preserve">
     <value>Nepaisymai, kurie veikia GPU elgseną ir tvarkyklės funkcijas.</value>
   </data>
-  <data name="Ui.Pages.ResizableBAR" xml:space="preserve">
-    <value>Resizable BAR</value>
-  </data>
   <data name="Ui.Pages.AllowsTheCPUToAccessThe" xml:space="preserve">
     <value>Leidžia CPU pasiekti visą GPU atmintį palaikomose sistemose.</value>
   </data>
@@ -6038,9 +5999,6 @@ Ką norėtumėte daryti?</value>
   </data>
   <data name="Ui.Pages.ManageYourFastFlagsACheckmarkIn" xml:space="preserve">
     <value>Tvarkykite savo FastFlags. Varnelė stulpelyje Preset reiškia, kad vėliavėlė yra FFlag nustatymuose, o kryžiukas, kad nėra.</value>
-  </data>
-  <data name="Ui.Pages.Preset" xml:space="preserve">
-    <value>Preset</value>
   </data>
   <data name="Ui.Pages.GoToFFlagSettingsToAdd" xml:space="preserve">
     <value>Eikite į FFlag nustatymus, kad pridėtumėte Preset FFlags.</value>
@@ -6177,17 +6135,11 @@ Ką norėtumėte daryti?</value>
   <data name="Ui.Misc2.TheClassicTopbarOptionRebuildsTwo" xml:space="preserve">
     <value>Klasikinės viršutinės juostos parinktis atkuria du bendruomenės modus. 2014 2015 metų viršutinės juostos ir žaidimo meniu išvaizda bei elgsena paimta iš "2014 2015 Topbar and Menu (Improvised GUI)", kurį sukūrė HockuTM. Modernios juostos slėpimui naudojamas "NoGuiRBX, Hide TopBar!", kurį sukūrė Einshine. Abu naudojami su padėka pagal jų Creative Commons BY NC ND 4.0 sąlygas, jų failai atsisiunčiami tiesiai iš GameBanana, o ne pridedami, ir nė vienas autorius nėra susijęs su Voidstrap.</value>
   </data>
-  <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
-  </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>Bendruomenės modai</value>
   </data>
   <data name="Ui.Misc2.CommunityModsListsRobloxSubmissionsFrom" xml:space="preserve">
     <value>Bendruomenės modai rodo Roblox kūrinius iš GameBanana ir Kliko's Mods, kurį prižiūri TheKliko Kliko modų įkėlikliui. Voidstrap nėra susijęs su nė vienu iš jų ir jų nėra remiamas. Visi modai, paveikslėliai ir aprašymai priklauso jų autoriams, nurodytiems prie kiekvieno įrašo. Voidstrap tik skaito jų viešus duomenis ir niekada nieko neįkelia jūsų vardu.</value>
-  </data>
-  <data name="Ui.Misc2.GithubComKlikosModloaderMarketplace" xml:space="preserve">
-    <value>github.com/klikos modloader/marketplace</value>
   </data>
   <data name="Ui.Misc2.ModGenerator" xml:space="preserve">
     <value>Mod generuotojas</value>
@@ -6200,9 +6152,6 @@ Ką norėtumėte daryti?</value>
   </data>
   <data name="Ui.Misc2.Info" xml:space="preserve">
     <value>Informacija</value>
-  </data>
-  <data name="Ui.Misc2.FFlags" xml:space="preserve">
-    <value>FFlags</value>
   </data>
   <data name="Ui.Misc2.PlayTime" xml:space="preserve">
     <value>Žaidimo laikas</value>
