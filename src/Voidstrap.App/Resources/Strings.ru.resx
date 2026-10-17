@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -6869,5 +6869,14 @@ Voidstrap не смог записать в папку рабочего стол
   </data>
   <data name="Ui.Shortcuts.ApplicationsMenu" xml:space="preserve">
     <value>Меню приложений</value>
+  </data>
+  <data name="Ui.Session.CommunityRating" xml:space="preserve">
+    <value>Оценка сообщества</value>
+  </data>
+  <data name="Ui.Session.Review" xml:space="preserve">
+    <value>отзыв</value>
+  </data>
+  <data name="Ui.Session.Reviews" xml:space="preserve">
+    <value>отзывов</value>
   </data>
 </root>

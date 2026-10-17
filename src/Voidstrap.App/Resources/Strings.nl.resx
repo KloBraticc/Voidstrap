@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -6823,5 +6823,14 @@ Fout: {0}</value>
   </data>
   <data name="Ui.Shortcuts.ApplicationsMenu" xml:space="preserve">
     <value>Toepassingenmenu</value>
+  </data>
+  <data name="Ui.Session.CommunityRating" xml:space="preserve">
+    <value>Gemeenschapsbeoordeling</value>
+  </data>
+  <data name="Ui.Session.Review" xml:space="preserve">
+    <value>beoordeling</value>
+  </data>
+  <data name="Ui.Session.Reviews" xml:space="preserve">
+    <value>beoordelingen</value>
   </data>
 </root>

@@ -5218,6 +5218,15 @@ What would you like to do?</value>
   <data name="Ui.Session.RemoveSavedAccount" xml:space="preserve">
     <value>Remove saved account</value>
   </data>
+  <data name="Ui.Session.CommunityRating" xml:space="preserve">
+    <value>Community Rating</value>
+  </data>
+  <data name="Ui.Session.Review" xml:space="preserve">
+    <value>review</value>
+  </data>
+  <data name="Ui.Session.Reviews" xml:space="preserve">
+    <value>reviews</value>
+  </data>
   <data name="Ui.Misc.ClickToChangeThisColour" xml:space="preserve">
     <value>Click to change this colour</value>
   </data>

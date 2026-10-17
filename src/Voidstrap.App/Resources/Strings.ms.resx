@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -6828,5 +6828,14 @@ Ralat: {0}</value>
   </data>
   <data name="Ui.Shortcuts.ApplicationsMenu" xml:space="preserve">
     <value>Menu aplikasi</value>
+  </data>
+  <data name="Ui.Session.CommunityRating" xml:space="preserve">
+    <value>Penilaian Komuniti</value>
+  </data>
+  <data name="Ui.Session.Review" xml:space="preserve">
+    <value>ulasan</value>
+  </data>
+  <data name="Ui.Session.Reviews" xml:space="preserve">
+    <value>ulasan</value>
   </data>
 </root>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -6866,5 +6866,14 @@ Pogreška: {0}</value>
   </data>
   <data name="Ui.Shortcuts.ApplicationsMenu" xml:space="preserve">
     <value>Izbornik aplikacija</value>
+  </data>
+  <data name="Ui.Session.CommunityRating" xml:space="preserve">
+    <value>Ocjena zajednice</value>
+  </data>
+  <data name="Ui.Session.Review" xml:space="preserve">
+    <value>recenzija</value>
+  </data>
+  <data name="Ui.Session.Reviews" xml:space="preserve">
+    <value>recenzija</value>
   </data>
 </root>

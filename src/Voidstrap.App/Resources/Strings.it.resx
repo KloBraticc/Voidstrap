@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -6836,5 +6836,14 @@ Errore: {0}</value>
   </data>
   <data name="Ui.Shortcuts.ApplicationsMenu" xml:space="preserve">
     <value>Menu delle applicazioni</value>
+  </data>
+  <data name="Ui.Session.CommunityRating" xml:space="preserve">
+    <value>Valutazione della comunità</value>
+  </data>
+  <data name="Ui.Session.Review" xml:space="preserve">
+    <value>recensione</value>
+  </data>
+  <data name="Ui.Session.Reviews" xml:space="preserve">
+    <value>recensioni</value>
   </data>
 </root>

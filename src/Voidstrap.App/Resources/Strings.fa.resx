@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -6905,5 +6905,14 @@ Voidstrap نتوانست در پوشهٔ دسکتاپ بنویسد.</value>
   </data>
   <data name="Ui.Shortcuts.ApplicationsMenu" xml:space="preserve">
     <value>منوی برنامه‌ها</value>
+  </data>
+  <data name="Ui.Session.CommunityRating" xml:space="preserve">
+    <value>امتیاز جامعه</value>
+  </data>
+  <data name="Ui.Session.Review" xml:space="preserve">
+    <value>نقد</value>
+  </data>
+  <data name="Ui.Session.Reviews" xml:space="preserve">
+    <value>نقدها</value>
   </data>
 </root>

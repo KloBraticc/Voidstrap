@@ -86,6 +86,7 @@
           <RowDefinition Height="150" />
           <RowDefinition Height="*" />
           <RowDefinition Height="Auto" />
+          <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <!-- The game's main thumbnail as a banner, with a fade so the title stays readable -->
         <Border CornerRadius="11,11,0,0" Background="{DynamicResource SolidBackgroundFillColorSecondaryBrush}" />
@@ -157,7 +158,28 @@
                        Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Session_LookingForFriends}" />
           </Grid>
         </Grid>
-        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="12,8,12,12">
+        <Border x:Name="ReviewPanel" Grid.Row="2" Margin="20,10,20,0" Padding="12,10" CornerRadius="8"
+                Background="{DynamicResource SubtleFillColorSecondaryBrush}" Visibility="Collapsed">
+          <StackPanel Orientation="Horizontal">
+            <TextBlock Text="{resources:Loc Ui_Session_CommunityRating}" FontSize="12" FontWeight="SemiBold"
+                       Foreground="{DynamicResource TextFillColorSecondaryBrush}" VerticalAlignment="Center" />
+            <StackPanel Orientation="Horizontal" Margin="12,0,0,0" VerticalAlignment="Center">
+              <TextBlock Text="&#xE8E1;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="14"
+                         Foreground="{DynamicResource SystemFillColorSuccessBrush}" VerticalAlignment="Center" />
+              <TextBlock x:Name="ReviewUpCount" Text="0" Margin="4,0,0,0" FontSize="13" FontWeight="SemiBold"
+                         Foreground="{DynamicResource SystemFillColorSuccessBrush}" VerticalAlignment="Center" />
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="16,0,0,0" VerticalAlignment="Center">
+              <TextBlock Text="&#xE8E0;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="14"
+                         Foreground="{DynamicResource SystemFillColorCautionBrush}" VerticalAlignment="Center" />
+              <TextBlock x:Name="ReviewDownCount" Text="0" Margin="4,0,0,0" FontSize="13" FontWeight="SemiBold"
+                         Foreground="{DynamicResource SystemFillColorCautionBrush}" VerticalAlignment="Center" />
+            </StackPanel>
+            <TextBlock x:Name="ReviewCountText" Margin="16,0,0,0" FontSize="12" VerticalAlignment="Center"
+                       Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+          </StackPanel>
+        </Border>
+        <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Right" Margin="12,8,12,12">
           <ui:Button Content="{resources:Loc Ui_SessionNotify_ServerDetails}" Tag="details" Click="OnAction" Style="{StaticResource DockAction}" />
           <ui:Button Content="{resources:Loc Ui_Session_CopyInvite}" Tag="invite" Click="OnAction" Style="{StaticResource DockAction}" />
         </StackPanel>

@@ -135,6 +135,8 @@ public partial class SessionDock : Window
     private bool _friendsLoading;
     private CancellationTokenSource? _refreshCts;
     private Task? _refreshTask;
+    private long _reviewPlaceId;
+    private bool _reviewLoading;
 
     public SessionDock(ActivityWatcher activity, Action<string> action)
     {
@@ -226,6 +228,8 @@ public partial class SessionDock : Window
         _players = string.Empty;
         _serverType = data.ServerType.ToConnectedString();
         _lastRefreshUtc = DateTime.MinValue;
+        if (previous == null || previous.PlaceId != data.PlaceId)
+            _reviewPlaceId = 0;
         CancelRefresh();
         if (_opened)
             StartRefresh();
@@ -1711,7 +1715,7 @@ public partial class SessionDock : Window
             return;
         try
         {
-            await Task.WhenAll(LoadBannerAsync(data), LoadFriendsAsync(data));
+            await Task.WhenAll(LoadBannerAsync(data), LoadFriendsAsync(data), LoadRoReviewAsync(data));
         }
         catch (OperationCanceledException) when (_lifetimeToken.IsCancellationRequested)
         {
@@ -1825,6 +1829,65 @@ public partial class SessionDock : Window
         finally
         {
             _friendsLoading = false;
+        }
+    }
+
+    private async Task LoadRoReviewAsync(ActivityData data)
+    {
+        if (_reviewLoading || _closed)
+            return;
+        long placeId = data.PlaceId;
+        if (placeId <= 0 || placeId == _reviewPlaceId)
+            return;
+        _reviewLoading = true;
+        try
+        {
+            string url = "https://hermivore.cat/api/roblox/reviews/" + placeId.ToString(CultureInfo.InvariantCulture) + "?game=true";
+            using CancellationTokenSource timeout = CancellationTokenSource.CreateLinkedTokenSource(_lifetimeToken);
+            timeout.CancelAfter(TimeSpan.FromSeconds(6));
+            using System.Net.Http.HttpResponseMessage response = await App.HttpClient.GetAsync(url, timeout.Token);
+            if (!response.IsSuccessStatusCode || _closed || !ReferenceEquals(_data, data))
+                return;
+            using System.Text.Json.JsonDocument document = System.Text.Json.JsonDocument.Parse(
+                await Voidstrap.Utility.Http.ReadStringBoundedAsync(response.Content, 512 * 1024, timeout.Token));
+            int upCount = 0;
+            int downCount = 0;
+            int reviewCount = 0;
+            System.Text.Json.JsonElement root = document.RootElement;
+            if (root.TryGetProperty("profile_rating", out System.Text.Json.JsonElement rating))
+            {
+                if (rating.TryGetProperty("up", out System.Text.Json.JsonElement up) && up.ValueKind == System.Text.Json.JsonValueKind.Array)
+                    upCount = up.GetArrayLength();
+                if (rating.TryGetProperty("down", out System.Text.Json.JsonElement down) && down.ValueKind == System.Text.Json.JsonValueKind.Array)
+                    downCount = down.GetArrayLength();
+            }
+            if (root.TryGetProperty("reviews", out System.Text.Json.JsonElement reviews) && reviews.ValueKind == System.Text.Json.JsonValueKind.Array)
+                reviewCount = reviews.GetArrayLength();
+            if (_closed || !ReferenceEquals(_data, data))
+                return;
+            await Dispatcher.InvokeAsync(() =>
+            {
+                if (_closed || !ReferenceEquals(_data, data))
+                    return;
+                _reviewPlaceId = placeId;
+                ReviewUpCount.Text = upCount.ToString(Locale.CurrentCulture);
+                ReviewDownCount.Text = downCount.ToString(Locale.CurrentCulture);
+                ReviewCountText.Text = reviewCount > 0
+                    ? reviewCount.ToString(Locale.CurrentCulture) + " " + (reviewCount == 1 ? Strings.Ui_Session_Review : Strings.Ui_Session_Reviews)
+                    : string.Empty;
+                ReviewPanel.Visibility = Visibility.Visible;
+            });
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("SessionDock", "Community rating could not be loaded: " + ex.Message);
+        }
+        finally
+        {
+            _reviewLoading = false;
         }
     }
 

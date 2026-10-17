@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -6890,5 +6890,14 @@ Voidstrap がデスクトップ フォルダーに書き込めませんでした
   </data>
   <data name="Ui.Shortcuts.ApplicationsMenu" xml:space="preserve">
     <value>アプリケーション メニュー</value>
+  </data>
+  <data name="Ui.Session.CommunityRating" xml:space="preserve">
+    <value>コミュニティ評価</value>
+  </data>
+  <data name="Ui.Session.Review" xml:space="preserve">
+    <value>レビュー</value>
+  </data>
+  <data name="Ui.Session.Reviews" xml:space="preserve">
+    <value>レビュー</value>
   </data>
 </root>

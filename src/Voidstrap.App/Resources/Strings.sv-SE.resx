@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -6825,5 +6825,14 @@ Fel: {0}</value>
   </data>
   <data name="Ui.Shortcuts.ApplicationsMenu" xml:space="preserve">
     <value>Programmeny</value>
+  </data>
+  <data name="Ui.Session.CommunityRating" xml:space="preserve">
+    <value>Communitybetyg</value>
+  </data>
+  <data name="Ui.Session.Review" xml:space="preserve">
+    <value>recension</value>
+  </data>
+  <data name="Ui.Session.Reviews" xml:space="preserve">
+    <value>recensioner</value>
   </data>
 </root>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -6847,5 +6847,14 @@ Chyba: {0}</value>
   </data>
   <data name="Ui.Shortcuts.ApplicationsMenu" xml:space="preserve">
     <value>Nabídka aplikací</value>
+  </data>
+  <data name="Ui.Session.CommunityRating" xml:space="preserve">
+    <value>Hodnocení komunity</value>
+  </data>
+  <data name="Ui.Session.Review" xml:space="preserve">
+    <value>recenze</value>
+  </data>
+  <data name="Ui.Session.Reviews" xml:space="preserve">
+    <value>recenzí</value>
   </data>
 </root>

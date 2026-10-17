@@ -1671,6 +1671,12 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Session_RemoveSavedAccount => ResourceManager.GetString("Ui.Session.RemoveSavedAccount", resourceCulture);
 
+        public static string Ui_Session_CommunityRating => ResourceManager.GetString("Ui.Session.CommunityRating", resourceCulture);
+
+        public static string Ui_Session_Review => ResourceManager.GetString("Ui.Session.Review", resourceCulture);
+
+        public static string Ui_Session_Reviews => ResourceManager.GetString("Ui.Session.Reviews", resourceCulture);
+
         public static string Ui_Misc_ClickToChangeThisColour => ResourceManager.GetString("Ui.Misc.ClickToChangeThisColour", resourceCulture);
 
         public static string Ui_Misc_UseTheDefault => ResourceManager.GetString("Ui.Misc.UseTheDefault", resourceCulture);

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -6859,5 +6859,14 @@ Virhe: {0}</value>
   </data>
   <data name="Ui.Shortcuts.ApplicationsMenu" xml:space="preserve">
     <value>Sovellusvalikko</value>
+  </data>
+  <data name="Ui.Session.CommunityRating" xml:space="preserve">
+    <value>Yhteisön arvio</value>
+  </data>
+  <data name="Ui.Session.Review" xml:space="preserve">
+    <value>arvostelu</value>
+  </data>
+  <data name="Ui.Session.Reviews" xml:space="preserve">
+    <value>arvostelua</value>
   </data>
 </root>
