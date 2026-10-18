@@ -251,19 +251,10 @@ public partial class SessionOverlayLayoutEditor : Window
             ReadoutOpacitySlider.Value = Math.Round(layout.SafeReadoutOpacity * 100);
             ReadoutCornerSlider.Value = Math.Round(layout.SafeReadoutCornerRadius);
 
-            NotifCornerMode.IsChecked = notif.Layout == NotificationLayout.Corner;
-            NotifFloatingMode.IsChecked = notif.Layout == NotificationLayout.Floating;
-            NotifHorizontalSlider.Value = Math.Round(notif.SafeHorizontal);
-            NotifVerticalSlider.Value = Math.Round(notif.SafeVertical);
-            double spacingVal = double.IsFinite(notif.EdgeSpacing) && notif.EdgeSpacing > 0
-                ? Math.Clamp(notif.EdgeSpacing, 4, 48)
-                : NotificationAppearance.FloatingGap;
-            NotifSpacingSlider.Value = Math.Round(spacingVal);
-            NotifScaleSlider.Value = Math.Round(notif.SafeScale * 100);
-            NotifTextScaleSlider.Value = Math.Round(notif.SafeTextScale * 100);
-            NotifWidthSlider.Value = Math.Round(notif.SafeCardWidth);
-            NotifOpacitySlider.Value = Math.Round(notif.SafeBackgroundOpacity * 100);
-            NotifCornerSlider.Value = Math.Round(notif.SafeCornerRadius);
+            CrosshairColorHexBox.Text = prop.CrosshairColorHex ?? "#00FF00";
+            CrosshairOutlineColorHexBox.Text = prop.CrosshairOutlineColorHex ?? "#000000";
+            UpdateCrosshairSwatch(CrosshairColorSwatch, prop.CrosshairColorHex ?? "#00FF00");
+            UpdateCrosshairSwatch(CrosshairOutlineSwatch, prop.CrosshairOutlineColorHex ?? "#000000");
 
             DockBottomEdgeRadio.IsChecked = !layout.DockTopEdge;
             DockTopEdgeRadio.IsChecked = layout.DockTopEdge;
@@ -302,15 +293,6 @@ public partial class SessionOverlayLayoutEditor : Window
         ReadoutScaleText.Text = ((int)Math.Round(ReadoutScaleSlider.Value)).ToString(inv) + "%";
         ReadoutOpacityText.Text = ((int)Math.Round(ReadoutOpacitySlider.Value)).ToString(inv) + "%";
         ReadoutCornerText.Text = ((int)Math.Round(ReadoutCornerSlider.Value)).ToString(inv) + " px";
-
-        NotifHorizontalText.Text = ((int)Math.Round(NotifHorizontalSlider.Value)).ToString(inv) + "%";
-        NotifVerticalText.Text = ((int)Math.Round(NotifVerticalSlider.Value)).ToString(inv) + "%";
-        NotifSpacingText.Text = ((int)Math.Round(NotifSpacingSlider.Value)).ToString(inv) + " px";
-        NotifScaleText.Text = ((int)Math.Round(NotifScaleSlider.Value)).ToString(inv) + "%";
-        NotifTextScaleText.Text = ((int)Math.Round(NotifTextScaleSlider.Value)).ToString(inv) + "%";
-        NotifWidthText.Text = ((int)Math.Round(NotifWidthSlider.Value)).ToString(inv) + " px";
-        NotifOpacityText.Text = ((int)Math.Round(NotifOpacitySlider.Value)).ToString(inv) + "%";
-        NotifCornerText.Text = ((int)Math.Round(NotifCornerSlider.Value)).ToString(inv) + " px";
 
         DockHorizontalText.Text = ((int)Math.Round(DockHorizontalSlider.Value)).ToString(inv) + "%";
         DockSpacingText.Text = ((int)Math.Round(DockSpacingSlider.Value)).ToString(inv) + " px";
@@ -692,39 +674,17 @@ public partial class SessionOverlayLayoutEditor : Window
         _screenDragWindow?.RefreshFromEditor(_selectedLayer);
     }
 
-    private void NotifMode_Changed(object sender, RoutedEventArgs e)
+    private void OpenNotificationSettings_Click(object sender, RoutedEventArgs e)
     {
-        if (!_ready || _loading)
-            return;
-        NotificationAppearance notif = NotificationStyle.Current;
-        notif.PositionMigrated = true;
-        notif.Layout = NotifFloatingMode.IsChecked == true ? NotificationLayout.Floating : NotificationLayout.Corner;
-        App.Settings.Prop.NotificationAppearance = notif.Copy();
-        App.Settings.SaveDeferred();
-        LoadAllControls();
-        LayoutStagePreview();
-        _screenDragWindow?.RefreshFromEditor(_selectedLayer);
-    }
-
-    private void NotifSlider_Changed(object sender, RoutedPropertyChangedEventArgs<double> e)
-    {
-        if (!_ready || _loading)
-            return;
-        NotificationAppearance notif = NotificationStyle.Current;
-        notif.PositionMigrated = true;
-        notif.Horizontal = Math.Round(NotifHorizontalSlider.Value);
-        notif.Vertical = Math.Round(NotifVerticalSlider.Value);
-        notif.EdgeSpacing = Math.Round(NotifSpacingSlider.Value);
-        notif.Size = Math.Round(NotifScaleSlider.Value);
-        notif.TextSize = Math.Round(NotifTextScaleSlider.Value);
-        notif.Width = Math.Round(NotifWidthSlider.Value);
-        notif.BackgroundOpacity = Math.Round(NotifOpacitySlider.Value) / 100.0;
-        notif.CornerRadius = Math.Round(NotifCornerSlider.Value);
-        App.Settings.Prop.NotificationAppearance = notif.Copy();
-        UpdateValueLabels();
-        App.Settings.SaveDeferred();
-        LayoutStagePreview();
-        _screenDragWindow?.RefreshFromEditor(_selectedLayer);
+        if (SessionDock.ActiveInstance is SessionDock dock)
+        {
+            dock.ShowTool("notifications", Strings.Ui_Nav_Settings, () => new SessionNotificationSettings(_gameIcon, null, _sendTestNotification));
+        }
+        else
+        {
+            var settingsWin = new SessionNotificationSettings(_gameIcon, null, _sendTestNotification);
+            settingsWin.Show();
+        }
     }
 
     private void SendTestNotification_Click(object sender, RoutedEventArgs e)
@@ -765,6 +725,7 @@ public partial class SessionOverlayLayoutEditor : Window
         if (!_ready || _loading)
             return;
         App.Settings.Prop.Crosshair = CrosshairEnableToggle.IsChecked == true;
+        SyncCrosshairIni();
         Voidstrap.UI.Elements.Crosshair.CrosshairWindow.Reconcile();
         App.Settings.SaveDeferred();
         LayoutStagePreview();
@@ -776,21 +737,157 @@ public partial class SessionOverlayLayoutEditor : Window
         if (!_ready || _loading)
             return;
         App.Settings.Prop.CrosshairShapeIndex = CrosshairShapeDot.IsChecked == true ? 1 : CrosshairShapeCircle.IsChecked == true ? 2 : 0;
+        SyncCrosshairIni();
         Voidstrap.UI.Elements.Crosshair.CrosshairWindow.Reconcile();
         App.Settings.SaveDeferred();
         LayoutStagePreview();
         _screenDragWindow?.RefreshFromEditor(_selectedLayer);
     }
 
-    private void CrosshairColor_Click(object sender, RoutedEventArgs e)
+    private void PickCrosshairFillColor_Click(object sender, RoutedEventArgs e)
     {
-        if (sender is not FrameworkElement { Tag: string hex })
+        Color initial = Colors.Lime;
+        try
+        {
+            initial = (Color)ColorConverter.ConvertFromString(App.Settings.Prop.CrosshairColorHex);
+        }
+        catch
+        {
+        }
+        var dlg = new Voidstrap.UI.Elements.Controls.RinColorPickerDialog(initial, title: Strings.Ui_Mods_Colors) { Owner = this };
+        if (dlg.ShowOwnedDialog() == true)
+        {
+            string hex = $"#{dlg.SelectedColor.R:X2}{dlg.SelectedColor.G:X2}{dlg.SelectedColor.B:X2}";
+            ApplyCrosshairColor(hex, true);
+        }
+    }
+
+    private void PickCrosshairOutlineColor_Click(object sender, RoutedEventArgs e)
+    {
+        Color initial = Colors.Black;
+        try
+        {
+            initial = (Color)ColorConverter.ConvertFromString(App.Settings.Prop.CrosshairOutlineColorHex);
+        }
+        catch
+        {
+        }
+        var dlg = new Voidstrap.UI.Elements.Controls.RinColorPickerDialog(initial, title: Strings.Ui_Mods_Colors) { Owner = this };
+        if (dlg.ShowOwnedDialog() == true)
+        {
+            string hex = $"#{dlg.SelectedColor.R:X2}{dlg.SelectedColor.G:X2}{dlg.SelectedColor.B:X2}";
+            ApplyCrosshairColor(hex, false);
+        }
+    }
+
+    private void CrosshairColorHexBox_LostFocus(object sender, RoutedEventArgs e)
+    {
+        if (_loading)
             return;
-        App.Settings.Prop.CrosshairColorHex = hex;
+        ApplyCrosshairColor(CrosshairColorHexBox.Text, true);
+    }
+
+    private void CrosshairColorHexBox_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter)
+        {
+            ApplyCrosshairColor(CrosshairColorHexBox.Text, true);
+            e.Handled = true;
+        }
+    }
+
+    private void CrosshairOutlineColorHexBox_LostFocus(object sender, RoutedEventArgs e)
+    {
+        if (_loading)
+            return;
+        ApplyCrosshairColor(CrosshairOutlineColorHexBox.Text, false);
+    }
+
+    private void CrosshairOutlineColorHexBox_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Enter)
+        {
+            ApplyCrosshairColor(CrosshairOutlineColorHexBox.Text, false);
+            e.Handled = true;
+        }
+    }
+
+    private void ApplyCrosshairColor(string hex, bool isFill)
+    {
+        string norm = NormalizeHex(hex, isFill ? "#00FF00" : "#000000");
+        if (isFill)
+        {
+            App.Settings.Prop.CrosshairColorHex = norm;
+            CrosshairColorHexBox.Text = norm;
+            UpdateCrosshairSwatch(CrosshairColorSwatch, norm);
+        }
+        else
+        {
+            App.Settings.Prop.CrosshairOutlineColorHex = norm;
+            CrosshairOutlineColorHexBox.Text = norm;
+            UpdateCrosshairSwatch(CrosshairOutlineSwatch, norm);
+        }
+        SyncCrosshairIni();
         Voidstrap.UI.Elements.Crosshair.CrosshairWindow.Reconcile();
+        Voidstrap.Integrations.Overlays.OverlayHub.RefreshCrosshair();
         App.Settings.SaveDeferred();
         LayoutStagePreview();
         _screenDragWindow?.RefreshFromEditor(_selectedLayer);
+    }
+
+    private static string NormalizeHex(string? raw, string fallback)
+    {
+        string text = (raw ?? "").Trim();
+        if (string.IsNullOrEmpty(text))
+            return fallback;
+        if (!text.StartsWith('#'))
+            text = "#" + text;
+        try
+        {
+            Color c = (Color)ColorConverter.ConvertFromString(text);
+            return $"#{c.R:X2}{c.G:X2}{c.B:X2}";
+        }
+        catch
+        {
+            return fallback;
+        }
+    }
+
+    private static void UpdateCrosshairSwatch(Border swatch, string hex)
+    {
+        try
+        {
+            Color c = (Color)ColorConverter.ConvertFromString(hex);
+            swatch.Background = new SolidColorBrush(c);
+        }
+        catch
+        {
+        }
+    }
+
+    private static void SyncCrosshairIni()
+    {
+        try
+        {
+            AppSettings prop = App.Settings.Prop;
+            string dir = Paths.UserData;
+            Paths.TryEnsureDirectory(dir);
+            string file = System.IO.Path.Combine(dir, "crosshair.ini");
+            IniFile.Write(file, new Dictionary<string, string>
+            {
+                ["Shape"] = (Math.Clamp(prop.CrosshairShapeIndex, 0, 3)) switch { 1 => "Dot", 2 => "Circle", 3 => "Image", _ => "Cross" },
+                ["Color"] = prop.CrosshairColorHex ?? "#00FF00",
+                ["Outline"] = prop.CrosshairOutlineColorHex ?? "#000000",
+                ["Size"] = prop.CrosshairSize.ToString(CultureInfo.InvariantCulture),
+                ["Thickness"] = prop.CrosshairLineThickness.ToString(CultureInfo.InvariantCulture),
+                ["Gap"] = prop.CrosshairGap.ToString(CultureInfo.InvariantCulture),
+                ["Opacity"] = prop.CrosshairOpacity.ToString(CultureInfo.InvariantCulture),
+                ["ImageUrl"] = prop.CrosshairImagePath ?? ""
+            });
+        }
+        catch
+        {
+        }
     }
 
     private void CrosshairSlider_Changed(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -806,6 +903,7 @@ public partial class SessionOverlayLayoutEditor : Window
         layout.CrosshairOffsetX = (int)Math.Round(CrosshairOffsetXSlider.Value);
         layout.CrosshairOffsetY = (int)Math.Round(CrosshairOffsetYSlider.Value);
         UpdateValueLabels();
+        SyncCrosshairIni();
         Voidstrap.UI.Elements.Crosshair.CrosshairWindow.Reconcile();
         App.Settings.SaveDeferred();
         LayoutStagePreview();

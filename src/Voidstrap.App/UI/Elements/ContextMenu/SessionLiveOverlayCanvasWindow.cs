@@ -96,6 +96,10 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
     private OverlayStudioLayer? _draggingLayer;
     private Point _dragStartPointer;
     private Point _dragStartElementOrigin;
+    private bool _toolbarDragging;
+    private bool _toolbarUserMoved;
+    private Point _toolbarDragStartPointer;
+    private Point _toolbarDragStartOrigin;
     private bool _magneticSnap = true;
     private bool _closed;
 
@@ -196,10 +200,11 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         _stage.Children.Add(_dockWrapper);
         _stage.Children.Add(_crosshairWrapper);
 
-        root.Children.Add(_stage);
-
         _toolbar = BuildTopToolbar(out _coordBadge, out _snapButton);
-        root.Children.Add(_toolbar);
+        Canvas.SetZIndex(_toolbar, 30);
+        _stage.Children.Add(_toolbar);
+
+        root.Children.Add(_stage);
 
         Content = root;
 
@@ -877,10 +882,8 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
     {
         Border bar = new()
         {
-            HorizontalAlignment = HorizontalAlignment.Center,
-            VerticalAlignment = VerticalAlignment.Top,
-            Margin = new Thickness(0, 20, 0, 0),
-            Padding = new Thickness(14, 9, 14, 9),
+            Cursor = Cursors.SizeAll,
+            Padding = new Thickness(10, 6, 10, 6),
             CornerRadius = new CornerRadius(8),
             Background = new SolidColorBrush(Color.FromArgb(245, 32, 32, 32)),
             BorderBrush = new SolidColorBrush(Color.FromArgb(40, 255, 255, 255)),
@@ -895,40 +898,19 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         {
             Text = "\uE759",
             FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons, Segoe MDL2 Assets"),
-            FontSize = 15,
-            Foreground = new SolidColorBrush(Color.FromRgb(220, 220, 220)),
+            FontSize = 13,
+            Foreground = new SolidColorBrush(Color.FromRgb(200, 200, 200)),
             VerticalAlignment = VerticalAlignment.Center,
-            Margin = new Thickness(0, 0, 10, 0)
+            Margin = new Thickness(2, 0, 8, 0)
         };
-        icon.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
+        icon.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorSecondaryBrush");
         topRow.Children.Add(icon);
-
-        StackPanel titleStack = new() { VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(0, 0, 16, 0) };
-        TextBlock titleText = new()
-        {
-            Text = Strings.Ui_OverlayStudio_LiveScreenDragTitle,
-            FontSize = 13.5,
-            FontWeight = FontWeights.SemiBold,
-            Foreground = Brushes.White
-        };
-        titleText.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
-        titleStack.Children.Add(titleText);
-
-        TextBlock hintText = new()
-        {
-            Text = Strings.Ui_OverlayStudio_LiveScreenDragHint,
-            FontSize = 11,
-            Foreground = new SolidColorBrush(Color.FromRgb(160, 160, 160))
-        };
-        hintText.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorSecondaryBrush");
-        titleStack.Children.Add(hintText);
-        topRow.Children.Add(titleStack);
 
         Border coordPill = new()
         {
             CornerRadius = new CornerRadius(6),
-            Padding = new Thickness(10, 5, 10, 5),
-            Margin = new Thickness(0, 0, 10, 0),
+            Padding = new Thickness(9, 4, 9, 4),
+            Margin = new Thickness(0, 0, 8, 0),
             VerticalAlignment = VerticalAlignment.Center,
             Background = new SolidColorBrush(Color.FromArgb(235, 43, 43, 43)),
             BorderBrush = new SolidColorBrush(Color.FromArgb(36, 255, 255, 255)),
@@ -952,8 +934,10 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         {
             Content = Strings.Ui_OverlayStudio_MagneticSnap + ": ON",
             Appearance = Wpf.Ui.Common.ControlAppearance.Secondary,
-            Margin = new Thickness(0, 0, 8, 0),
-            Padding = new Thickness(11, 6, 11, 6),
+            Margin = new Thickness(0, 0, 6, 0),
+            Padding = new Thickness(10, 4, 10, 4),
+            FontSize = 11.5,
+            Cursor = Cursors.Hand,
             Focusable = false
         };
         snapButton.Click += (_, _) =>
@@ -967,12 +951,15 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         {
             Content = Strings.Ui_OverlayStudio_ResetAll,
             Appearance = Wpf.Ui.Common.ControlAppearance.Secondary,
-            Margin = new Thickness(0, 0, 8, 0),
-            Padding = new Thickness(11, 6, 11, 6),
+            Margin = new Thickness(0, 0, 6, 0),
+            Padding = new Thickness(10, 4, 10, 4),
+            FontSize = 11.5,
+            Cursor = Cursors.Hand,
             Focusable = false
         };
         resetBtn.Click += (_, _) =>
         {
+            _toolbarUserMoved = false;
             _onResetAll();
             LayoutStage();
         };
@@ -982,14 +969,68 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         {
             Content = Strings.Ui_OverlayStudio_Done + " (Esc)",
             Appearance = Wpf.Ui.Common.ControlAppearance.Secondary,
-            Padding = new Thickness(13, 6, 13, 6),
+            Padding = new Thickness(11, 4, 11, 4),
+            FontSize = 11.5,
+            Cursor = Cursors.Hand,
             Focusable = false
         };
         doneBtn.Click += (_, _) => Close();
         topRow.Children.Add(doneBtn);
 
         bar.Child = topRow;
+        bar.MouseLeftButtonDown += OnToolbarMouseDown;
+        bar.MouseMove += OnToolbarMouseMove;
+        bar.MouseLeftButtonUp += OnToolbarMouseUp;
+        bar.LostMouseCapture += (_, _) => _toolbarDragging = false;
         return bar;
+    }
+
+    private void OnToolbarMouseDown(object sender, MouseButtonEventArgs e)
+    {
+        if (e.OriginalSource is DependencyObject source)
+        {
+            DependencyObject? cur = source;
+            while (cur != null && !ReferenceEquals(cur, _toolbar))
+            {
+                if (cur is System.Windows.Controls.Primitives.ButtonBase)
+                    return;
+                cur = VisualTreeHelper.GetParent(cur);
+            }
+        }
+
+        _toolbarDragging = true;
+        _toolbarUserMoved = true;
+        _toolbarDragStartPointer = e.GetPosition(_stage);
+        double left = Canvas.GetLeft(_toolbar);
+        double top = Canvas.GetTop(_toolbar);
+        _toolbarDragStartOrigin = new Point(double.IsNaN(left) ? 0 : left, double.IsNaN(top) ? 0 : top);
+        _toolbar.CaptureMouse();
+        e.Handled = true;
+    }
+
+    private void OnToolbarMouseMove(object sender, MouseEventArgs e)
+    {
+        if (!_toolbarDragging || !_toolbar.IsMouseCaptured)
+            return;
+        double stageW = Math.Max(320, _stage.ActualWidth);
+        double stageH = Math.Max(240, _stage.ActualHeight);
+        MeasureBox(_toolbar);
+        double barW = _toolbar.DesiredSize.Width;
+        double barH = _toolbar.DesiredSize.Height;
+        Point pointer = e.GetPosition(_stage);
+        double nextLeft = Math.Clamp(_toolbarDragStartOrigin.X + (pointer.X - _toolbarDragStartPointer.X), 8, Math.Max(8, stageW - barW - 8));
+        double nextTop = Math.Clamp(_toolbarDragStartOrigin.Y + (pointer.Y - _toolbarDragStartPointer.Y), 8, Math.Max(8, stageH - barH - 8));
+        Canvas.SetLeft(_toolbar, Math.Round(nextLeft));
+        Canvas.SetTop(_toolbar, Math.Round(nextTop));
+        e.Handled = true;
+    }
+
+    private void OnToolbarMouseUp(object sender, MouseButtonEventArgs e)
+    {
+        if (_toolbar.IsMouseCaptured)
+            _toolbar.ReleaseMouseCapture();
+        _toolbarDragging = false;
+        e.Handled = true;
     }
 
     private void OnSourceInitialized(object? sender, EventArgs e)
@@ -1198,6 +1239,118 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         Canvas.SetTop(_crosshairWrapper, Math.Clamp(cTop, 0, Math.Max(0, stageH - _crosshairWrapper.DesiredSize.Height)));
 
         UpdateActiveCoordBanner();
+        PositionToolbarAwayFromOverlays(stageW, stageH);
+    }
+
+    private void PositionToolbarAwayFromOverlays(double stageW, double stageH)
+    {
+        if (_toolbarDragging || _draggingLayer != null)
+            return;
+
+        MeasureBox(_toolbar);
+        double barW = _toolbar.DesiredSize.Width;
+        double barH = _toolbar.DesiredSize.Height;
+
+        ReadOnlySpan<Rect> obstacles =
+        [
+            GetElementBounds(_readoutWrapper, 12),
+            GetElementBounds(_notificationWrapper, 12),
+            GetElementBounds(_dockWrapper, 12),
+            GetElementBounds(_crosshairWrapper, 12)
+        ];
+
+        if (_toolbarUserMoved)
+        {
+            double curX = Canvas.GetLeft(_toolbar);
+            double curY = Canvas.GetTop(_toolbar);
+            if (!double.IsNaN(curX) && !double.IsNaN(curY))
+            {
+                curX = Math.Clamp(curX, 8, Math.Max(8, stageW - barW - 8));
+                curY = Math.Clamp(curY, 8, Math.Max(8, stageH - barH - 8));
+                Rect userRect = new(curX, curY, barW, barH);
+                if (!IntersectsAny(userRect, obstacles))
+                {
+                    Canvas.SetLeft(_toolbar, Math.Round(curX));
+                    Canvas.SetTop(_toolbar, Math.Round(curY));
+                    return;
+                }
+            }
+        }
+
+        double centerX = Math.Max(8, (stageW - barW) * 0.5);
+        double leftX = 20;
+        double rightX = Math.Max(20, stageW - barW - 20);
+
+        ReadOnlySpan<(double X, double Y)> candidates =
+        [
+            (centerX, Math.Max(14, stageH * 0.12)),
+            (centerX, Math.Max(14, stageH - barH - Math.Max(96, stageH * 0.14))),
+            (centerX, 16),
+            (centerX, Math.Max(16, stageH * 0.24)),
+            (centerX, Math.Max(16, stageH * 0.72)),
+            (leftX, Math.Max(16, stageH * 0.12)),
+            (rightX, Math.Max(16, stageH * 0.12)),
+            (leftX, Math.Max(16, stageH * 0.78)),
+            (rightX, Math.Max(16, stageH * 0.78))
+        ];
+
+        (double BestX, double BestY) fallback = candidates[0];
+        double lowestOverlapArea = double.MaxValue;
+
+        foreach ((double cx, double cy) in candidates)
+        {
+            double clampedX = Math.Clamp(cx, 8, Math.Max(8, stageW - barW - 8));
+            double clampedY = Math.Clamp(cy, 8, Math.Max(8, stageH - barH - 8));
+            Rect candidateRect = new(clampedX, clampedY, barW, barH);
+            double overlap = ComputeOverlapArea(candidateRect, obstacles);
+            if (overlap <= 0.01)
+            {
+                Canvas.SetLeft(_toolbar, Math.Round(clampedX));
+                Canvas.SetTop(_toolbar, Math.Round(clampedY));
+                return;
+            }
+            if (overlap < lowestOverlapArea)
+            {
+                lowestOverlapArea = overlap;
+                fallback = (clampedX, clampedY);
+            }
+        }
+
+        Canvas.SetLeft(_toolbar, Math.Round(fallback.BestX));
+        Canvas.SetTop(_toolbar, Math.Round(fallback.BestY));
+    }
+
+    private static Rect GetElementBounds(FrameworkElement element, double inflate)
+    {
+        double left = Canvas.GetLeft(element);
+        double top = Canvas.GetTop(element);
+        if (double.IsNaN(left)) left = 0;
+        if (double.IsNaN(top)) top = 0;
+        double w = element.DesiredSize.Width;
+        double h = element.DesiredSize.Height;
+        return new Rect(left - inflate, top - inflate, Math.Max(0, w + inflate * 2), Math.Max(0, h + inflate * 2));
+    }
+
+    private static bool IntersectsAny(Rect rect, ReadOnlySpan<Rect> obstacles)
+    {
+        foreach (Rect obs in obstacles)
+        {
+            if (rect.IntersectsWith(obs))
+                return true;
+        }
+        return false;
+    }
+
+    private static double ComputeOverlapArea(Rect rect, ReadOnlySpan<Rect> obstacles)
+    {
+        double area = 0;
+        foreach (Rect obs in obstacles)
+        {
+            Rect inter = Rect.Intersect(rect, obs);
+            if (!inter.IsEmpty)
+                area += inter.Width * inter.Height;
+        }
+        return area;
     }
 
     private static void MeasureBox(FrameworkElement box)
@@ -1211,6 +1364,8 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             return;
         _selectedLayer = layer;
         _draggingLayer = layer;
+        _toolbar.Opacity = 0.22;
+        _toolbar.IsHitTestVisible = false;
         _dragStartPointer = e.GetPosition(_stage);
         double left = Canvas.GetLeft(box);
         double top = Canvas.GetTop(box);
@@ -1310,6 +1465,9 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         if (sender is Border box && box.IsMouseCaptured)
             box.ReleaseMouseCapture();
         _draggingLayer = null;
+        _toolbar.Opacity = 1.0;
+        _toolbar.IsHitTestVisible = true;
+        LayoutStage();
         App.Settings.SaveDeferred();
         e.Handled = true;
     }
@@ -1317,6 +1475,9 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
     private void OnHandleLostCapture(object sender, MouseEventArgs e)
     {
         _draggingLayer = null;
+        _toolbar.Opacity = 1.0;
+        _toolbar.IsHitTestVisible = true;
+        LayoutStage();
     }
 
     private static double SnapPercent(double value)

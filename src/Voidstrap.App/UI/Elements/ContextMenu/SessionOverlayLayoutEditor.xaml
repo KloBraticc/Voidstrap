@@ -374,109 +374,16 @@
                   <ColumnDefinition Width="*" />
                   <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{resources:Loc Menu_Appearance_Style_Title}" Style="{StaticResource Label}" />
-                <Border Grid.Column="1" Style="{StaticResource SegmentTray}">
+                <StackPanel VerticalAlignment="Center" Margin="0,0,12,0">
+                  <TextBlock Text="{resources:Loc Notifications_Title}" Style="{StaticResource Label}" />
+                  <TextBlock Text="{resources:Loc Ui_SessionNotify_TheNotificationThatSlidesIn}" Style="{StaticResource Hint}" />
+                </StackPanel>
+                <ui:Button Grid.Column="1" Appearance="Secondary" Padding="14,7" VerticalAlignment="Center" Focusable="False" Click="OpenNotificationSettings_Click">
                   <StackPanel Orientation="Horizontal">
-                    <RadioButton x:Name="NotifCornerMode" Content="{resources:Loc Ui_SessionNotify_Corner}" GroupName="StudioNotifMode" Style="{StaticResource Segment}" Checked="NotifMode_Changed" />
-                    <RadioButton x:Name="NotifFloatingMode" Content="{resources:Loc Ui_SessionNotify_Floating}" GroupName="StudioNotifMode" Style="{StaticResource Segment}" Checked="NotifMode_Changed" />
+                    <TextBlock Text="&#xE713;" Style="{StaticResource Glyph}" Margin="0,0,7,0" />
+                    <TextBlock Text="{resources:Loc Ui_Nav_Settings}" FontSize="13" FontWeight="SemiBold" />
                   </StackPanel>
-                </Border>
-              </Grid>
-            </Border>
-            <Border Style="{StaticResource Row}">
-              <Grid>
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="170" />
-                  <ColumnDefinition Width="*" />
-                  <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="{resources:Loc Ui_SessionNotify_Horizontal}" Style="{StaticResource Label}" />
-                <Slider x:Name="NotifHorizontalSlider" Grid.Column="1" Minimum="0" Maximum="100" TickFrequency="1" Style="{StaticResource RowSlider}" ValueChanged="NotifSlider_Changed" />
-                <TextBlock x:Name="NotifHorizontalText" Grid.Column="2" Style="{StaticResource Value}" />
-              </Grid>
-            </Border>
-            <Border Style="{StaticResource Row}">
-              <Grid>
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="170" />
-                  <ColumnDefinition Width="*" />
-                  <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="{resources:Loc Ui_SessionNotify_Vertical}" Style="{StaticResource Label}" />
-                <Slider x:Name="NotifVerticalSlider" Grid.Column="1" Minimum="0" Maximum="100" TickFrequency="1" Style="{StaticResource RowSlider}" ValueChanged="NotifSlider_Changed" />
-                <TextBlock x:Name="NotifVerticalText" Grid.Column="2" Style="{StaticResource Value}" />
-              </Grid>
-            </Border>
-            <Border Style="{StaticResource Row}">
-              <Grid>
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="170" />
-                  <ColumnDefinition Width="*" />
-                  <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="{resources:Loc Ui_SessionNotify_SpaceFromEdge}" Style="{StaticResource Label}" />
-                <Slider x:Name="NotifSpacingSlider" Grid.Column="1" Minimum="4" Maximum="48" TickFrequency="1" Style="{StaticResource RowSlider}" ValueChanged="NotifSlider_Changed" />
-                <TextBlock x:Name="NotifSpacingText" Grid.Column="2" Style="{StaticResource Value}" />
-              </Grid>
-            </Border>
-            <Border Style="{StaticResource Row}">
-              <Grid>
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="170" />
-                  <ColumnDefinition Width="*" />
-                  <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="{resources:Loc Ui_Mods_Size}" Style="{StaticResource Label}" />
-                <Slider x:Name="NotifScaleSlider" Grid.Column="1" Minimum="75" Maximum="135" TickFrequency="5" Style="{StaticResource RowSlider}" ValueChanged="NotifSlider_Changed" />
-                <TextBlock x:Name="NotifScaleText" Grid.Column="2" Style="{StaticResource Value}" />
-              </Grid>
-            </Border>
-            <Border Style="{StaticResource Row}">
-              <Grid>
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="170" />
-                  <ColumnDefinition Width="*" />
-                  <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="{resources:Loc Ui_SessionNotify_TextSize}" Style="{StaticResource Label}" />
-                <Slider x:Name="NotifTextScaleSlider" Grid.Column="1" Minimum="85" Maximum="130" TickFrequency="5" Style="{StaticResource RowSlider}" ValueChanged="NotifSlider_Changed" />
-                <TextBlock x:Name="NotifTextScaleText" Grid.Column="2" Style="{StaticResource Value}" />
-              </Grid>
-            </Border>
-            <Border Style="{StaticResource Row}">
-              <Grid>
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="170" />
-                  <ColumnDefinition Width="*" />
-                  <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="{resources:Loc Ui_SessionNotify_Width}" Style="{StaticResource Label}" />
-                <Slider x:Name="NotifWidthSlider" Grid.Column="1" Minimum="300" Maximum="520" TickFrequency="10" Style="{StaticResource RowSlider}" ValueChanged="NotifSlider_Changed" />
-                <TextBlock x:Name="NotifWidthText" Grid.Column="2" Style="{StaticResource Value}" />
-              </Grid>
-            </Border>
-            <Border Style="{StaticResource Row}">
-              <Grid>
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="170" />
-                  <ColumnDefinition Width="*" />
-                  <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="{resources:Loc Ui_Appearance_Background}" Style="{StaticResource Label}" />
-                <Slider x:Name="NotifOpacitySlider" Grid.Column="1" Minimum="60" Maximum="100" TickFrequency="5" Style="{StaticResource RowSlider}" ValueChanged="NotifSlider_Changed" />
-                <TextBlock x:Name="NotifOpacityText" Grid.Column="2" Style="{StaticResource Value}" />
-              </Grid>
-            </Border>
-            <Border Style="{StaticResource Row}">
-              <Grid>
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="170" />
-                  <ColumnDefinition Width="*" />
-                  <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="{resources:Loc Ui_SessionNotify_CornerRadius}" Style="{StaticResource Label}" />
-                <Slider x:Name="NotifCornerSlider" Grid.Column="1" Minimum="0" Maximum="20" TickFrequency="1" Style="{StaticResource RowSlider}" ValueChanged="NotifSlider_Changed" />
-                <TextBlock x:Name="NotifCornerText" Grid.Column="2" Style="{StaticResource Value}" />
+                </ui:Button>
               </Grid>
             </Border>
             <Border Style="{StaticResource LastRow}">
@@ -485,8 +392,11 @@
                   <ColumnDefinition Width="*" />
                   <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{resources:Loc Ui_SessionNotify_SendATestNotification}" Style="{StaticResource Label}" />
-                <ui:Button Grid.Column="1" Content="{resources:Loc Ui_SessionNotify_SendATestNotification}" Appearance="Secondary" Padding="14,6" Focusable="False" Click="SendTestNotification_Click" />
+                <StackPanel VerticalAlignment="Center" Margin="0,0,12,0">
+                  <TextBlock Text="{resources:Loc Ui_SessionNotify_SendATestNotification}" Style="{StaticResource Label}" />
+                  <TextBlock Text="{resources:Loc Ui_SessionNotify_ClickToPlayTheAnimation}" Style="{StaticResource Hint}" />
+                </StackPanel>
+                <ui:Button Grid.Column="1" Content="{resources:Loc Ui_SessionNotify_SendATestNotification}" Appearance="Secondary" Padding="14,6" VerticalAlignment="Center" Focusable="False" Click="SendTestNotification_Click" />
               </Grid>
             </Border>
           </StackPanel>
@@ -607,14 +517,17 @@
                   <ColumnDefinition Width="*" />
                   <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{resources:Loc Ui_OverlayStudio_CrosshairColor}" Style="{StaticResource Label}" />
+                <StackPanel VerticalAlignment="Center" Margin="0,0,12,0">
+                  <TextBlock Text="{resources:Loc Ui_Mods_Colors}" Style="{StaticResource Label}" />
+                  <TextBlock Text="{resources:Loc Ui_Mods_FillAndOutline}" Style="{StaticResource Hint}" />
+                </StackPanel>
                 <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                  <Button Tag="#FF00FF00" Width="24" Height="24" Margin="3,0" Background="#FF00FF00" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" BorderThickness="1" Cursor="Hand" Focusable="False" Click="CrosshairColor_Click" />
-                  <Button Tag="#FF00FFFF" Width="24" Height="24" Margin="3,0" Background="#FF00FFFF" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" BorderThickness="1" Cursor="Hand" Focusable="False" Click="CrosshairColor_Click" />
-                  <Button Tag="#FFFFFFFF" Width="24" Height="24" Margin="3,0" Background="#FFFFFFFF" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" BorderThickness="1" Cursor="Hand" Focusable="False" Click="CrosshairColor_Click" />
-                  <Button Tag="#FFFF3B30" Width="24" Height="24" Margin="3,0" Background="#FFFF3B30" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" BorderThickness="1" Cursor="Hand" Focusable="False" Click="CrosshairColor_Click" />
-                  <Button Tag="#FFFFCC00" Width="24" Height="24" Margin="3,0" Background="#FFFFCC00" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" BorderThickness="1" Cursor="Hand" Focusable="False" Click="CrosshairColor_Click" />
-                  <Button Tag="#FFFF2D55" Width="24" Height="24" Margin="3,0" Background="#FFFF2D55" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" BorderThickness="1" Cursor="Hand" Focusable="False" Click="CrosshairColor_Click" />
+                  <Border x:Name="CrosshairColorSwatch" Width="20" Height="20" CornerRadius="4" Margin="0,0,6,0" VerticalAlignment="Center" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" BorderThickness="1" Cursor="Hand" MouseLeftButtonUp="PickCrosshairFillColor_Click" />
+                  <TextBox x:Name="CrosshairColorHexBox" Width="92" VerticalAlignment="Center" LostFocus="CrosshairColorHexBox_LostFocus" KeyDown="CrosshairColorHexBox_KeyDown" />
+                  <ui:Button Content="{resources:Loc Ui_Mods_Pick}" Appearance="Secondary" Margin="4,0,12,0" Padding="10,5" Focusable="False" Click="PickCrosshairFillColor_Click" />
+                  <Border x:Name="CrosshairOutlineSwatch" Width="20" Height="20" CornerRadius="4" Margin="0,0,6,0" VerticalAlignment="Center" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" BorderThickness="1" Cursor="Hand" MouseLeftButtonUp="PickCrosshairOutlineColor_Click" />
+                  <TextBox x:Name="CrosshairOutlineColorHexBox" Width="92" VerticalAlignment="Center" LostFocus="CrosshairOutlineColorHexBox_LostFocus" KeyDown="CrosshairOutlineColorHexBox_KeyDown" />
+                  <ui:Button Content="{resources:Loc Ui_Mods_Pick}" Appearance="Secondary" Margin="4,0,0,0" Padding="10,5" Focusable="False" Click="PickCrosshairOutlineColor_Click" />
                 </StackPanel>
               </Grid>
             </Border>

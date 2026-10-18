@@ -81,7 +81,15 @@ public class RinColorPickerDialog : WpfUiWindow
 	{
 		if (Owner == null)
 			WindowStartupLocation = WindowStartupLocation.CenterScreen;
+		else if (Owner.Topmost)
+			Topmost = true;
 		base.OnSourceInitialized(e);
+		if (Topmost && !Voidstrap.UI.PortableOverlay.Active)
+		{
+			IntPtr hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
+			if (hwnd != IntPtr.Zero)
+				Voidstrap.Integrations.Overlays.OverlayDiagnostics.RegisterOverlayHandle(hwnd);
+		}
 	}
 
 	private void OnOkClick(object sender, RoutedEventArgs e)
@@ -92,6 +100,12 @@ public class RinColorPickerDialog : WpfUiWindow
 
 	protected override void OnClosed(EventArgs e)
 	{
+		if (Topmost && !Voidstrap.UI.PortableOverlay.Active)
+		{
+			IntPtr hwnd = new System.Windows.Interop.WindowInteropHelper(this).Handle;
+			if (hwnd != IntPtr.Zero)
+				Voidstrap.Integrations.Overlays.OverlayDiagnostics.UnregisterOverlayHandle(hwnd);
+		}
 		_ok.Click -= OnOkClick;
 		base.OnClosed(e);
 	}
