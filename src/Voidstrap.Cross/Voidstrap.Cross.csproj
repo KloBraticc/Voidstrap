@@ -231,7 +231,7 @@
 		<PackageReference Include="Markdig" Version="1.4.1" />
 		<PackageReference Include="Microsoft.ICU.ICU4C.Runtime" Version="72.1.0.3" Condition="'$(RuntimeIdentifier)' == 'linux-x64' Or '$(RuntimeIdentifier)' == 'linux-arm64'" />
 		<PackageReference Include="Microsoft.ML.OnnxRuntime.Managed" Version="1.24.4" />
-		<PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.360">
+		<PackageReference Include="Microsoft.Windows.CsWin32" Version="0.3.363">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
