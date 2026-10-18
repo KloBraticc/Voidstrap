@@ -3,15 +3,18 @@ using System.Globalization;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using Voidstrap.Integrations.Overlays;
 using Voidstrap.Models.Persistable;
 using Voidstrap.Resources;
 using Voidstrap.UI;
+using Voidstrap.UI.Elements.ContextMenu;
 
 namespace Voidstrap.UI.Elements.Overlay;
 
@@ -30,6 +33,21 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
     private const nint WsExToolWindow = 0x80;
     private static readonly IntPtr HwndTopmost = new(-1);
 
+    private static readonly string[] DockActionGlyphs =
+    [
+        "\uE8BD",
+        "\uE753",
+        "\uE7FC",
+        "\uE81C",
+        "\uE8D6",
+        "\uE968",
+        "\uE734",
+        "\uE774",
+        "\uE759",
+        "\uE713"
+    ];
+
+    private readonly ImageSource? _gameIcon;
     private readonly Action<OverlayStudioLayer> _onLayerUpdated;
     private readonly Action _onResetAll;
     private readonly IDisposable _trackerLease;
@@ -44,24 +62,35 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
     private readonly TextBlock _coordBadge;
     private readonly Wpf.Ui.Controls.Button _snapButton;
 
-    private readonly Border _readoutBox;
-    private readonly TextBlock _readoutCoordText;
-    private readonly StackPanel _readoutSampleStack;
-    private readonly TextBlock _readoutSampleLocation;
-    private readonly TextBlock _readoutSampleSeparator;
-    private readonly TextBlock _readoutSampleClock;
+    private readonly Border _readoutWrapper;
+    private readonly Border _readoutBorder;
+    private readonly StackPanel _readoutPanel;
+    private readonly TextBlock _readoutLocationText;
+    private readonly TextBlock _readoutSeparatorText;
+    private readonly TextBlock _readoutTimeText;
 
-    private readonly Border _notificationBox;
-    private readonly TextBlock _notificationCoordText;
+    private readonly Border _notificationWrapper;
+    private readonly Border _notificationHost;
+    private readonly Grid _notificationShadow;
+    private readonly Border _notificationCard;
+    private readonly Image _notificationIcon;
+    private readonly StackPanel _notificationHeader;
+    private readonly TextBlock _notificationHeaderText;
+    private readonly TextBlock _notificationTitle;
+    private readonly TextBlock _notificationText;
 
-    private readonly Border _dockBox;
-    private readonly TextBlock _dockCoordText;
+    private readonly Border _dockWrapper;
+    private readonly Grid _dockRoot;
+    private readonly Image _dockProfileImage;
+    private readonly TextBlock _dockProfileName;
+    private readonly TextBlock _dockProfileHandle;
+    private readonly Image _dockGameImage;
+    private readonly TextBlock _dockGameTitle;
+    private readonly Run _dockSessionClockRun;
+    private readonly Run _dockServerClockRun;
 
-    private readonly Border _crosshairBox;
-    private readonly TextBlock _crosshairCoordText;
-    private readonly Line _crosshairHLine;
-    private readonly Line _crosshairVLine;
-    private readonly Ellipse _crosshairRing;
+    private readonly Border _crosshairWrapper;
+    private readonly Image _crosshairImage;
 
     private OverlayStudioLayer _selectedLayer;
     private OverlayStudioLayer? _draggingLayer;
@@ -72,10 +101,12 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
 
     public SessionLiveOverlayCanvasWindow(
         OverlayStudioLayer initialLayer,
+        ImageSource? gameIcon,
         Action<OverlayStudioLayer> onLayerUpdated,
         Action onResetAll)
     {
         _selectedLayer = initialLayer == OverlayStudioLayer.Panels ? OverlayStudioLayer.Readout : initialLayer;
+        _gameIcon = gameIcon;
         _onLayerUpdated = onLayerUpdated;
         _onResetAll = onResetAll;
 
@@ -117,15 +148,53 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         _stage.Children.Add(_guideVerticalCenter);
         _stage.Children.Add(_guideHorizontalCenter);
 
-        _readoutBox = CreateReadoutHandle(out _readoutCoordText, out _readoutSampleStack, out _readoutSampleLocation, out _readoutSampleSeparator, out _readoutSampleClock);
-        _notificationBox = CreateNotificationHandle(out _notificationCoordText);
-        _dockBox = CreateDockHandle(out _dockCoordText);
-        _crosshairBox = CreateCrosshairHandle(out _crosshairCoordText, out _crosshairHLine, out _crosshairVLine, out _crosshairRing);
+        _readoutBorder = BuildExactReadoutElement(
+            out _readoutPanel,
+            out _readoutLocationText,
+            out _readoutSeparatorText,
+            out _readoutTimeText);
+        _readoutWrapper = WrapExactElement(OverlayStudioLayer.Readout, _readoutBorder);
 
-        _stage.Children.Add(_readoutBox);
-        _stage.Children.Add(_notificationBox);
-        _stage.Children.Add(_dockBox);
-        _stage.Children.Add(_crosshairBox);
+        _notificationHost = BuildExactNotificationElement(
+            _gameIcon,
+            out _notificationShadow,
+            out _notificationCard,
+            out _notificationIcon,
+            out _notificationHeader,
+            out _notificationHeaderText,
+            out _notificationTitle,
+            out _notificationText);
+        _notificationWrapper = WrapExactElement(OverlayStudioLayer.Notifications, _notificationHost);
+
+        _dockRoot = BuildExactDockElement(
+            _gameIcon,
+            out _dockProfileImage,
+            out _dockProfileName,
+            out _dockProfileHandle,
+            out _dockGameImage,
+            out _dockGameTitle,
+            out _dockSessionClockRun,
+            out _dockServerClockRun);
+        _dockWrapper = WrapExactElement(OverlayStudioLayer.Dock, _dockRoot);
+
+        _crosshairImage = BuildExactCrosshairElement(128);
+        _crosshairWrapper = WrapExactElement(OverlayStudioLayer.Crosshair, _crosshairImage);
+        _crosshairWrapper.MouseLeftButtonDown += (_, e) =>
+        {
+            if (e.ClickCount == 2)
+            {
+                OverlayLayoutSettings layout = App.Settings.Prop.OverlayLayout ??= new OverlayLayoutSettings();
+                layout.ResetCrosshairOffset();
+                ApplyLayerLive(OverlayStudioLayer.Crosshair);
+                LayoutStage();
+                e.Handled = true;
+            }
+        };
+
+        _stage.Children.Add(_readoutWrapper);
+        _stage.Children.Add(_notificationWrapper);
+        _stage.Children.Add(_dockWrapper);
+        _stage.Children.Add(_crosshairWrapper);
 
         root.Children.Add(_stage);
 
@@ -143,6 +212,652 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
 
         RobloxWindowTracker.Changed += OnTrackerChanged;
         _trackerLease = RobloxWindowTracker.Acquire();
+    }
+
+    internal static Border BuildExactReadoutElement(
+        out StackPanel panel,
+        out TextBlock locationText,
+        out TextBlock separatorText,
+        out TextBlock timeText)
+    {
+        panel = new StackPanel
+        {
+            Orientation = Orientation.Vertical,
+            Margin = new Thickness(0)
+        };
+
+        locationText = CreateExactReadoutTextBlock(new SolidColorBrush(Color.FromRgb(245, 245, 245)));
+        locationText.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
+        locationText.Text = OverlayWindow.CurrentLocationDisplay;
+
+        separatorText = CreateExactReadoutTextBlock(new SolidColorBrush(Color.FromRgb(135, 135, 135)));
+        separatorText.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorTertiaryBrush");
+        separatorText.Text = "  ·  ";
+        separatorText.Visibility = Visibility.Collapsed;
+
+        timeText = CreateExactReadoutTextBlock(new SolidColorBrush(Color.FromRgb(185, 185, 185)));
+        timeText.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorSecondaryBrush");
+        timeText.Text = ClockDisplay.Format(DateTime.UtcNow);
+
+        panel.Children.Add(locationText);
+        panel.Children.Add(separatorText);
+        panel.Children.Add(timeText);
+
+        Border border = new()
+        {
+            HorizontalAlignment = HorizontalAlignment.Left,
+            VerticalAlignment = VerticalAlignment.Top,
+            Margin = new Thickness(0),
+            Padding = new Thickness(12, 8, 12, 8),
+            CornerRadius = new CornerRadius(8),
+            Background = new SolidColorBrush(Color.FromRgb(32, 32, 32)),
+            BorderBrush = new SolidColorBrush(Color.FromRgb(58, 58, 58)),
+            BorderThickness = new Thickness(1),
+            Child = panel
+        };
+        border.SetResourceReference(Border.BackgroundProperty, "SolidBackgroundFillColorBaseBrush");
+        border.SetResourceReference(Border.BorderBrushProperty, "SurfaceStrokeColorDefaultBrush");
+        return border;
+    }
+
+    private static TextBlock CreateExactReadoutTextBlock(Brush fallback) => new()
+    {
+        FontSize = 17,
+        FontWeight = FontWeights.SemiBold,
+        FontFamily = new System.Windows.Media.FontFamily("Segoe UI Variable Text"),
+        Foreground = fallback,
+        TextWrapping = TextWrapping.NoWrap,
+        TextTrimming = TextTrimming.None,
+        LineHeight = 23,
+        Margin = new Thickness(0, 1, 0, 1)
+    };
+
+    internal static void ApplyExactReadoutConfiguration(
+        Border readoutBorder,
+        StackPanel readoutPanel,
+        TextBlock locationText,
+        TextBlock separatorText,
+        TextBlock timeText,
+        double stageScale)
+    {
+        AppSettings settings = App.Settings.Prop;
+        OverlayLayoutSettings layout = settings.OverlayLayout ?? new OverlayLayoutSettings();
+        bool showLocation = settings.ShowServerDetailsUI;
+        bool showTime = settings.CurrentTimeDisplay;
+        if (!showLocation && !showTime)
+        {
+            showLocation = true;
+            showTime = true;
+        }
+
+        bool horizontal = layout.ReadoutHorizontalLayout;
+        readoutPanel.Orientation = horizontal ? Orientation.Horizontal : Orientation.Vertical;
+        locationText.Text = OverlayWindow.CurrentLocationDisplay;
+        locationText.Visibility = showLocation ? Visibility.Visible : Visibility.Collapsed;
+        timeText.Text = ClockDisplay.Format(DateTime.UtcNow);
+        timeText.Visibility = showTime ? Visibility.Visible : Visibility.Collapsed;
+        separatorText.Visibility = horizontal && showLocation && showTime ? Visibility.Visible : Visibility.Collapsed;
+
+        int radius = (int)Math.Round(layout.SafeReadoutCornerRadius);
+        readoutBorder.CornerRadius = new CornerRadius(radius);
+        readoutBorder.Opacity = layout.SafeReadoutOpacity;
+
+        double totalScale = layout.SafeReadoutScale * stageScale;
+        readoutBorder.LayoutTransform = Math.Abs(totalScale - 1.0) > 0.005
+            ? new ScaleTransform(totalScale, totalScale)
+            : Transform.Identity;
+    }
+
+    internal static Border BuildExactNotificationElement(
+        ImageSource? gameIcon,
+        out Grid shadowGrid,
+        out Border card,
+        out Image iconImage,
+        out StackPanel headerPanel,
+        out TextBlock headerText,
+        out TextBlock titleText,
+        out TextBlock bodyText)
+    {
+        shadowGrid = new Grid { IsHitTestVisible = false };
+
+        Grid contentGrid = new();
+        contentGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+        contentGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+
+        ImageSource? fallbackIcon = gameIcon;
+        if (fallbackIcon == null && SessionDock.ActiveInstance != null)
+            fallbackIcon = SessionDock.ActiveInstance.GetLiveSnapshot().GameIcon;
+        if (fallbackIcon == null)
+        {
+            try
+            {
+                fallbackIcon = new BitmapImage(new Uri("pack://application:,,,/Voidstrap.png", UriKind.Absolute));
+            }
+            catch
+            {
+            }
+        }
+
+        iconImage = new Image
+        {
+            Width = 44,
+            Height = 44,
+            Margin = new Thickness(0, 0, 12, 0),
+            VerticalAlignment = VerticalAlignment.Center,
+            Stretch = Stretch.Uniform,
+            Source = fallbackIcon,
+            Visibility = fallbackIcon == null ? Visibility.Collapsed : Visibility.Visible
+        };
+        RenderOptions.SetBitmapScalingMode(iconImage, BitmapScalingMode.HighQuality);
+        contentGrid.Children.Add(iconImage);
+
+        StackPanel textStack = new() { VerticalAlignment = VerticalAlignment.Center };
+        Grid.SetColumn(textStack, 1);
+
+        headerPanel = new StackPanel
+        {
+            Orientation = Orientation.Horizontal,
+            Margin = new Thickness(0, 0, 14, 5),
+            Visibility = Visibility.Collapsed
+        };
+        try
+        {
+            Image brandIcon = new()
+            {
+                Source = new BitmapImage(new Uri("pack://application:,,,/Voidstrap.png", UriKind.Absolute)),
+                Width = 14,
+                Height = 14,
+                Margin = new Thickness(0, 0, 6, 0)
+            };
+            RenderOptions.SetBitmapScalingMode(brandIcon, BitmapScalingMode.HighQuality);
+            headerPanel.Children.Add(brandIcon);
+        }
+        catch
+        {
+        }
+
+        headerText = new TextBlock
+        {
+            Text = Strings.Enums_Theme_Voidstrap,
+            FontSize = 11,
+            FontWeight = FontWeights.SemiBold,
+            VerticalAlignment = VerticalAlignment.Center,
+            Foreground = new SolidColorBrush(Color.FromRgb(170, 170, 170))
+        };
+        headerText.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorSecondaryBrush");
+        headerPanel.Children.Add(headerText);
+        textStack.Children.Add(headerPanel);
+
+        titleText = new TextBlock
+        {
+            Text = Strings.Ui_SessionNotify_TestNotification,
+            FontSize = 14,
+            FontWeight = FontWeights.SemiBold,
+            Margin = new Thickness(0, 0, 14, 0),
+            TextWrapping = TextWrapping.Wrap,
+            Foreground = Brushes.White
+        };
+        titleText.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
+        textStack.Children.Add(titleText);
+
+        bodyText = new TextBlock
+        {
+            Text = Strings.Ui_SessionNotify_ThisIsHowVoidstrapNotificationsLook,
+            FontSize = 12,
+            Margin = new Thickness(0, 2, 0, 0),
+            TextWrapping = TextWrapping.Wrap,
+            TextTrimming = TextTrimming.CharacterEllipsis,
+            MaxHeight = 64,
+            Foreground = new SolidColorBrush(Color.FromRgb(180, 180, 180))
+        };
+        bodyText.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorSecondaryBrush");
+        textStack.Children.Add(bodyText);
+
+        contentGrid.Children.Add(textStack);
+
+        card = new Border
+        {
+            Padding = new Thickness(14, 12, 16, 12),
+            BorderBrush = new SolidColorBrush(Color.FromArgb(40, 255, 255, 255)),
+            Child = contentGrid
+        };
+        card.SetResourceReference(Border.BorderBrushProperty, "CardStrokeColorDefaultBrush");
+
+        Grid layer = new() { RenderTransformOrigin = new Point(0.5, 0.5) };
+        layer.Children.Add(shadowGrid);
+        layer.Children.Add(card);
+
+        return new Border
+        {
+            ClipToBounds = true,
+            Child = layer
+        };
+    }
+
+    internal static void ApplyExactNotificationConfiguration(
+        FrameworkElement resourceContext,
+        Border host,
+        Grid shadow,
+        Border card,
+        StackPanel header,
+        TextBlock headerText,
+        TextBlock titleText,
+        TextBlock bodyText,
+        double stageScale)
+    {
+        NotificationAppearance appearance = NotificationStyle.Current;
+        card.Width = appearance.SafeCardWidth;
+        double scale = appearance.SafeScale;
+        card.LayoutTransform = Math.Abs(scale - 1) < 0.001 ? Transform.Identity : new ScaleTransform(scale, scale);
+        card.CornerRadius = NotificationStyle.Corners(appearance);
+        card.BorderThickness = NotificationStyle.Borders(appearance);
+        card.Background = NotificationStyle.Background(resourceContext, appearance);
+        NotificationStyle.FillShadow(shadow, card.CornerRadius);
+        double textScale = appearance.SafeTextScale;
+        headerText.FontSize = 11 * textScale;
+        titleText.FontSize = 14 * textScale;
+        bodyText.FontSize = 12 * textScale;
+        bodyText.MaxHeight = 64 * textScale;
+        header.Visibility = appearance.ShowsHeader(false) ? Visibility.Visible : Visibility.Collapsed;
+        host.Padding = NotificationStyle.ShadowMargins(appearance);
+        host.LayoutTransform = Math.Abs(stageScale - 1.0) > 0.005
+            ? new ScaleTransform(stageScale, stageScale)
+            : Transform.Identity;
+    }
+
+    internal static Grid BuildExactDockElement(
+        ImageSource? fallbackGameIcon,
+        out Image profileImage,
+        out TextBlock profileName,
+        out TextBlock profileHandle,
+        out Image gameImage,
+        out TextBlock gameTitle,
+        out Run sessionClockRun,
+        out Run serverClockRun)
+    {
+        Grid root = new()
+        {
+            Height = 64,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+
+        root.Children.Add(new Border { Margin = new Thickness(-2, -1, -2, -3), CornerRadius = new CornerRadius(18), Background = new SolidColorBrush(Color.FromArgb(0x12, 0, 0, 0)), IsHitTestVisible = false });
+        root.Children.Add(new Border { Margin = new Thickness(-4, -2, -4, -6), CornerRadius = new CornerRadius(20), Background = new SolidColorBrush(Color.FromArgb(0x0F, 0, 0, 0)), IsHitTestVisible = false });
+        root.Children.Add(new Border { Margin = new Thickness(-6, -3, -6, -8), CornerRadius = new CornerRadius(22), Background = new SolidColorBrush(Color.FromArgb(0x0C, 0, 0, 0)), IsHitTestVisible = false });
+        root.Children.Add(new Border { Margin = new Thickness(-9, -5, -9, -11), CornerRadius = new CornerRadius(25), Background = new SolidColorBrush(Color.FromArgb(0x09, 0, 0, 0)), IsHitTestVisible = false });
+        root.Children.Add(new Border { Margin = new Thickness(-12, -7, -12, -14), CornerRadius = new CornerRadius(28), Background = new SolidColorBrush(Color.FromArgb(0x06, 0, 0, 0)), IsHitTestVisible = false });
+
+        Border pill = new()
+        {
+            Padding = new Thickness(14, 0, 12, 0),
+            CornerRadius = new CornerRadius(16),
+            Background = new SolidColorBrush(Color.FromRgb(32, 32, 32)),
+            BorderBrush = new SolidColorBrush(Color.FromArgb(0x33, 255, 255, 255)),
+            BorderThickness = new Thickness(1),
+            SnapsToDevicePixels = true
+        };
+        pill.SetResourceReference(Border.BackgroundProperty, "SolidBackgroundFillColorBaseBrush");
+
+        StackPanel row = new()
+        {
+            Orientation = Orientation.Horizontal,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+
+        Border profileCard = new()
+        {
+            Padding = new Thickness(8, 6, 8, 6),
+            CornerRadius = new CornerRadius(10),
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        StackPanel profileRow = new() { Orientation = Orientation.Horizontal };
+        Grid avatarGrid = new()
+        {
+            Width = 40,
+            Height = 40,
+            Margin = new Thickness(0, 0, 12, 0),
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        Ellipse avatarBg = new() { Fill = new SolidColorBrush(Color.FromRgb(45, 45, 45)) };
+        avatarBg.SetResourceReference(Shape.FillProperty, "ControlFillColorSecondaryBrush");
+        avatarGrid.Children.Add(avatarBg);
+
+        TextBlock avatarFallback = new()
+        {
+            Text = "\uE77B",
+            FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons, Segoe MDL2 Assets"),
+            FontSize = 16,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center,
+            Foreground = new SolidColorBrush(Color.FromRgb(170, 170, 170))
+        };
+        avatarFallback.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorSecondaryBrush");
+        avatarGrid.Children.Add(avatarFallback);
+
+        profileImage = new Image
+        {
+            Width = 40,
+            Height = 40,
+            Stretch = Stretch.UniformToFill,
+            Clip = new EllipseGeometry(new Point(20, 20), 20, 20)
+        };
+        RenderOptions.SetBitmapScalingMode(profileImage, BitmapScalingMode.HighQuality);
+        avatarGrid.Children.Add(profileImage);
+        profileRow.Children.Add(avatarGrid);
+
+        StackPanel profileTextStack = new()
+        {
+            VerticalAlignment = VerticalAlignment.Center,
+            MaxWidth = 150
+        };
+        profileName = new TextBlock
+        {
+            Text = "Roblox",
+            FontSize = 14,
+            FontWeight = FontWeights.SemiBold,
+            TextTrimming = TextTrimming.CharacterEllipsis,
+            Foreground = Brushes.White
+        };
+        profileName.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
+        profileHandle = new TextBlock
+        {
+            Text = Strings.Ui_Session_SignedOut,
+            Margin = new Thickness(0, 1, 0, 0),
+            FontSize = 12,
+            TextTrimming = TextTrimming.CharacterEllipsis,
+            Foreground = new SolidColorBrush(Color.FromRgb(170, 170, 170))
+        };
+        profileHandle.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorSecondaryBrush");
+        profileTextStack.Children.Add(profileName);
+        profileTextStack.Children.Add(profileHandle);
+        profileRow.Children.Add(profileTextStack);
+        profileRow.Children.Add(CreateDockChevron());
+        profileCard.Child = profileRow;
+        row.Children.Add(profileCard);
+
+        row.Children.Add(CreateDockDivider());
+
+        Border gameCard = new()
+        {
+            Padding = new Thickness(8, 6, 8, 6),
+            CornerRadius = new CornerRadius(10),
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        StackPanel gameRow = new() { Orientation = Orientation.Horizontal };
+        Border gameIconHost = new()
+        {
+            Width = 40,
+            Height = 40,
+            CornerRadius = new CornerRadius(8),
+            Margin = new Thickness(0, 0, 12, 0),
+            VerticalAlignment = VerticalAlignment.Center,
+            Background = new SolidColorBrush(Color.FromRgb(42, 42, 42))
+        };
+        gameIconHost.SetResourceReference(Border.BackgroundProperty, "SolidBackgroundFillColorSecondaryBrush");
+        gameImage = new Image
+        {
+            Width = 40,
+            Height = 40,
+            Stretch = Stretch.UniformToFill,
+            Source = fallbackGameIcon,
+            Clip = new RectangleGeometry(new Rect(0, 0, 40, 40), 8, 8)
+        };
+        RenderOptions.SetBitmapScalingMode(gameImage, BitmapScalingMode.HighQuality);
+        gameIconHost.Child = gameImage;
+        gameRow.Children.Add(gameIconHost);
+
+        StackPanel gameTextStack = new()
+        {
+            VerticalAlignment = VerticalAlignment.Center,
+            MaxWidth = 250
+        };
+        gameTitle = new TextBlock
+        {
+            Text = "Roblox",
+            FontSize = 14,
+            FontWeight = FontWeights.SemiBold,
+            TextTrimming = TextTrimming.CharacterEllipsis,
+            Foreground = Brushes.White
+        };
+        gameTitle.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
+        gameTextStack.Children.Add(gameTitle);
+
+        StackPanel timerRow = new()
+        {
+            Margin = new Thickness(0, 1, 0, 0),
+            Orientation = Orientation.Horizontal
+        };
+        Ellipse pulseDot = new()
+        {
+            Width = 8,
+            Height = 8,
+            Margin = new Thickness(0, 0, 6, 0),
+            VerticalAlignment = VerticalAlignment.Center,
+            Fill = new SolidColorBrush(Color.FromRgb(108, 203, 95))
+        };
+        pulseDot.SetResourceReference(Shape.FillProperty, "SystemFillColorSuccessBrush");
+        timerRow.Children.Add(pulseDot);
+
+        TextBlock sessionTimes = new()
+        {
+            FontSize = 12,
+            VerticalAlignment = VerticalAlignment.Center,
+            Foreground = new SolidColorBrush(Color.FromRgb(170, 170, 170))
+        };
+        sessionTimes.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorSecondaryBrush");
+        sessionTimes.Inlines.Add(new Run(Strings.Ui_Session_Session));
+        sessionClockRun = new Run("0:00")
+        {
+            FontWeight = FontWeights.SemiBold,
+            Foreground = new SolidColorBrush(Color.FromRgb(108, 203, 95))
+        };
+        sessionClockRun.SetResourceReference(TextElement.ForegroundProperty, "SystemFillColorSuccessBrush");
+        sessionTimes.Inlines.Add(sessionClockRun);
+        sessionTimes.Inlines.Add(new Run(Strings.Ui_Session_Server));
+        serverClockRun = new Run("--")
+        {
+            FontWeight = FontWeights.SemiBold,
+            Foreground = new SolidColorBrush(Color.FromRgb(108, 203, 95))
+        };
+        serverClockRun.SetResourceReference(TextElement.ForegroundProperty, "SystemFillColorSuccessBrush");
+        sessionTimes.Inlines.Add(serverClockRun);
+        timerRow.Children.Add(sessionTimes);
+        gameTextStack.Children.Add(timerRow);
+        gameRow.Children.Add(gameTextStack);
+        gameRow.Children.Add(CreateDockChevron());
+        gameCard.Child = gameRow;
+        row.Children.Add(gameCard);
+
+        row.Children.Add(CreateDockDivider());
+
+        StackPanel actionsPanel = new()
+        {
+            Orientation = Orientation.Horizontal,
+            VerticalAlignment = VerticalAlignment.Center,
+            Margin = new Thickness(6, 0, 6, 0)
+        };
+        foreach (string glyph in DockActionGlyphs)
+        {
+            Border iconSlot = new()
+            {
+                Width = 36,
+                Height = 36,
+                Margin = new Thickness(2, 0, 2, 0),
+                CornerRadius = new CornerRadius(18),
+                Background = Brushes.Transparent
+            };
+            TextBlock glyphBlock = new()
+            {
+                Text = glyph,
+                FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons, Segoe MDL2 Assets"),
+                FontSize = 16,
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+                Foreground = Brushes.White
+            };
+            glyphBlock.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
+            iconSlot.Child = glyphBlock;
+            actionsPanel.Children.Add(iconSlot);
+        }
+        row.Children.Add(actionsPanel);
+
+        row.Children.Add(CreateDockDivider());
+
+        StackPanel trailingPanel = new()
+        {
+            Orientation = Orientation.Horizontal,
+            VerticalAlignment = VerticalAlignment.Center
+        };
+        trailingPanel.Children.Add(CreateDockRoundButton("\uE71B", 16, new Thickness(0)));
+        trailingPanel.Children.Add(CreateDockRoundButton("\uE711", 14, new Thickness(8, 0, 0, 0)));
+        row.Children.Add(trailingPanel);
+
+        pill.Child = row;
+        root.Children.Add(pill);
+        return root;
+    }
+
+    private static TextBlock CreateDockChevron()
+    {
+        TextBlock chevron = new()
+        {
+            Text = "\uE70E",
+            FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons, Segoe MDL2 Assets"),
+            FontSize = 9,
+            Margin = new Thickness(12, 0, 2, 0),
+            VerticalAlignment = VerticalAlignment.Center,
+            Foreground = new SolidColorBrush(Color.FromRgb(170, 170, 170))
+        };
+        chevron.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorSecondaryBrush");
+        return chevron;
+    }
+
+    private static Rectangle CreateDockDivider() => new()
+    {
+        Width = 1,
+        Height = 30,
+        Margin = new Thickness(10, 0, 10, 0),
+        VerticalAlignment = VerticalAlignment.Center,
+        Fill = new SolidColorBrush(Color.FromArgb(0x2E, 255, 255, 255))
+    };
+
+    private static Border CreateDockRoundButton(string glyph, double fontSize, Thickness margin)
+    {
+        Border circle = new()
+        {
+            Width = 40,
+            Height = 40,
+            Margin = margin,
+            CornerRadius = new CornerRadius(20),
+            Background = new SolidColorBrush(Color.FromRgb(45, 45, 45)),
+            BorderBrush = new SolidColorBrush(Color.FromArgb(30, 255, 255, 255)),
+            BorderThickness = new Thickness(1)
+        };
+        circle.SetResourceReference(Border.BackgroundProperty, "ControlFillColorDefaultBrush");
+        circle.SetResourceReference(Border.BorderBrushProperty, "ControlStrokeColorDefaultBrush");
+        TextBlock text = new()
+        {
+            Text = glyph,
+            FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons, Segoe MDL2 Assets"),
+            FontSize = fontSize,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center,
+            Foreground = Brushes.White
+        };
+        text.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
+        circle.Child = text;
+        return circle;
+    }
+
+    internal static void ApplyExactDockConfiguration(
+        Grid dockRoot,
+        Image profileImage,
+        TextBlock profileName,
+        TextBlock profileHandle,
+        Image gameImage,
+        TextBlock gameTitle,
+        Run sessionClockRun,
+        Run serverClockRun,
+        ImageSource? fallbackGameIcon,
+        double stageScale)
+    {
+        OverlayLayoutSettings layout = App.Settings.Prop.OverlayLayout ?? new OverlayLayoutSettings();
+        if (SessionDock.ActiveInstance is SessionDock active)
+        {
+            var snap = active.GetLiveSnapshot();
+            profileName.Text = snap.ProfileName;
+            profileHandle.Text = snap.ProfileHandle;
+            profileImage.Source = snap.ProfileAvatar;
+            gameTitle.Text = snap.GameTitle;
+            gameImage.Source = snap.GameIcon ?? fallbackGameIcon;
+            sessionClockRun.Text = snap.SessionTime;
+            serverClockRun.Text = snap.ServerTime;
+        }
+        else if (fallbackGameIcon != null)
+        {
+            gameImage.Source = fallbackGameIcon;
+        }
+
+        double totalScale = layout.SafeDockScale * stageScale;
+        dockRoot.LayoutTransform = Math.Abs(totalScale - 1.0) > 0.005
+            ? new ScaleTransform(totalScale, totalScale)
+            : Transform.Identity;
+    }
+
+    internal static Image BuildExactCrosshairElement(double size)
+    {
+        Image img = new()
+        {
+            Width = size,
+            Height = size,
+            Stretch = Stretch.Fill,
+            UseLayoutRounding = true
+        };
+        RenderOptions.SetBitmapScalingMode(img, BitmapScalingMode.HighQuality);
+        return img;
+    }
+
+    internal static void ApplyExactCrosshairConfiguration(Visual dpiVisual, Image crosshairImage, double dimensionLogical)
+    {
+        AppSettings settings = App.Settings.Prop;
+        int shape = Math.Clamp(settings.CrosshairShapeIndex, 0, 2);
+        double opacity = Math.Clamp(settings.CrosshairOpacity, 0.1, 1.0);
+        double dpi = Math.Max(1.0, VisualTreeHelper.GetDpi(dpiVisual).DpiScaleX);
+        int dimension = Math.Max(32, (int)Math.Round(dimensionLogical * dpi));
+        crosshairImage.Width = dimensionLogical;
+        crosshairImage.Height = dimensionLogical;
+        crosshairImage.Source = CrosshairRenderer.Render(
+            dimension,
+            OverlayCrosshair.RuntimeScale * dpi,
+            shape,
+            settings.CrosshairColorHex,
+            settings.CrosshairOutlineColorHex,
+            settings.CrosshairSize,
+            settings.CrosshairGap,
+            settings.CrosshairLineThickness,
+            opacity);
+    }
+
+    private Border WrapExactElement(OverlayStudioLayer layer, UIElement child)
+    {
+        Border wrapper = new()
+        {
+            Tag = layer,
+            Cursor = Cursors.SizeAll,
+            CornerRadius = new CornerRadius(10),
+            Padding = new Thickness(2),
+            Background = new SolidColorBrush(Color.FromArgb(1, 0, 0, 0)),
+            BorderBrush = Brushes.Transparent,
+            BorderThickness = new Thickness(1.5),
+            Child = child
+        };
+
+        wrapper.MouseLeftButtonDown += OnHandleMouseDown;
+        wrapper.MouseMove += OnHandleMouseMove;
+        wrapper.MouseLeftButtonUp += OnHandleMouseUp;
+        wrapper.LostMouseCapture += OnHandleLostCapture;
+        return wrapper;
     }
 
     private static Line CreateGuideLine(bool center)
@@ -171,7 +886,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             BorderBrush = new SolidColorBrush(Color.FromArgb(40, 255, 255, 255)),
             BorderThickness = new Thickness(1)
         };
-        bar.SetResourceReference(Border.BackgroundProperty, "CardBackgroundFillColorDefaultBrush");
+        bar.SetResourceReference(Border.BackgroundProperty, "SolidBackgroundFillColorBaseBrush");
         bar.SetResourceReference(Border.BorderBrushProperty, "CardStrokeColorDefaultBrush");
 
         StackPanel topRow = new() { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Center };
@@ -277,228 +992,6 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         return bar;
     }
 
-    private Border CreateReadoutHandle(
-        out TextBlock coordText,
-        out StackPanel sampleStack,
-        out TextBlock sampleLoc,
-        out TextBlock sampleSep,
-        out TextBlock sampleClock)
-    {
-        StackPanel body = new() { Orientation = Orientation.Vertical };
-        StackPanel header = CreateHandleBadge("\uE968", Strings.Ui_OverlayStudio_LayerReadout, out coordText);
-        body.Children.Add(header);
-
-        sampleStack = new StackPanel
-        {
-            Orientation = Orientation.Vertical,
-            Margin = new Thickness(0, 5, 0, 0)
-        };
-        sampleLoc = new TextBlock
-        {
-            Text = Strings.Ui_OverlayStudio_ShowServerLocation,
-            FontSize = 12.5,
-            FontWeight = FontWeights.SemiBold,
-            Foreground = Brushes.White
-        };
-        sampleLoc.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
-
-        sampleSep = new TextBlock
-        {
-            Text = "  ·  ",
-            FontSize = 12,
-            Foreground = new SolidColorBrush(Color.FromRgb(150, 150, 150)),
-            Visibility = Visibility.Collapsed
-        };
-        sampleSep.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorSecondaryBrush");
-
-        sampleClock = new TextBlock
-        {
-            Text = ClockDisplay.Format(DateTime.UtcNow),
-            FontSize = 12,
-            Foreground = new SolidColorBrush(Color.FromRgb(180, 180, 180))
-        };
-        sampleClock.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorSecondaryBrush");
-
-        sampleStack.Children.Add(sampleLoc);
-        sampleStack.Children.Add(sampleSep);
-        sampleStack.Children.Add(sampleClock);
-        body.Children.Add(sampleStack);
-
-        return WrapInteractiveHandle(OverlayStudioLayer.Readout, body, new Thickness(14, 10, 14, 10));
-    }
-
-    private Border CreateNotificationHandle(out TextBlock coordText)
-    {
-        StackPanel body = new() { Orientation = Orientation.Vertical, Width = 280 };
-        StackPanel header = CreateHandleBadge("\uEA8F", Strings.Ui_OverlayStudio_LayerNotifications, out coordText);
-        body.Children.Add(header);
-
-        TextBlock title = new()
-        {
-            Text = Strings.Ui_SessionNotify_TestNotification,
-            FontSize = 12.5,
-            FontWeight = FontWeights.SemiBold,
-            Foreground = Brushes.White,
-            Margin = new Thickness(0, 5, 0, 2)
-        };
-        title.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
-        body.Children.Add(title);
-
-        TextBlock subtitle = new()
-        {
-            Text = Strings.Ui_SessionNotify_ThisIsHowVoidstrapNotificationsLook,
-            FontSize = 11.5,
-            Foreground = new SolidColorBrush(Color.FromRgb(165, 165, 165)),
-            TextTrimming = TextTrimming.CharacterEllipsis
-        };
-        subtitle.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorSecondaryBrush");
-        body.Children.Add(subtitle);
-
-        return WrapInteractiveHandle(OverlayStudioLayer.Notifications, body, new Thickness(14, 10, 14, 10));
-    }
-
-    private Border CreateDockHandle(out TextBlock coordText)
-    {
-        StackPanel body = new() { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Center };
-        StackPanel badge = CreateHandleBadge("\uE759", Strings.Ui_OverlayStudio_LayerDock, out coordText);
-        body.Children.Add(badge);
-        return WrapInteractiveHandle(OverlayStudioLayer.Dock, body, new Thickness(20, 11, 20, 11));
-    }
-
-    private Border CreateCrosshairHandle(
-        out TextBlock coordText,
-        out Line hLine,
-        out Line vLine,
-        out Ellipse ring)
-    {
-        Grid grid = new() { Width = 88, Height = 88 };
-        ring = new Ellipse
-        {
-            Width = 30,
-            Height = 30,
-            Stroke = new SolidColorBrush(Color.FromArgb(140, 255, 255, 255)),
-            StrokeThickness = 1.5,
-            HorizontalAlignment = HorizontalAlignment.Center,
-            VerticalAlignment = VerticalAlignment.Center
-        };
-        hLine = new Line
-        {
-            X1 = 26,
-            Y1 = 44,
-            X2 = 62,
-            Y2 = 44,
-            Stroke = Brushes.White,
-            StrokeThickness = 2
-        };
-        vLine = new Line
-        {
-            X1 = 44,
-            Y1 = 26,
-            X2 = 44,
-            Y2 = 62,
-            Stroke = Brushes.White,
-            StrokeThickness = 2
-        };
-        Border labelPill = new()
-        {
-            HorizontalAlignment = HorizontalAlignment.Center,
-            VerticalAlignment = VerticalAlignment.Bottom,
-            CornerRadius = new CornerRadius(5),
-            Padding = new Thickness(6, 2, 6, 2),
-            Background = new SolidColorBrush(Color.FromArgb(230, 32, 32, 32))
-        };
-        labelPill.SetResourceReference(Border.BackgroundProperty, "ControlFillColorSecondaryBrush");
-
-        coordText = new TextBlock
-        {
-            Text = "0, 0 px",
-            FontSize = 10.5,
-            FontWeight = FontWeights.SemiBold,
-            Foreground = new SolidColorBrush(Color.FromRgb(220, 220, 220))
-        };
-        coordText.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
-        labelPill.Child = coordText;
-
-        grid.Children.Add(ring);
-        grid.Children.Add(hLine);
-        grid.Children.Add(vLine);
-        grid.Children.Add(labelPill);
-
-        Border handle = WrapInteractiveHandle(OverlayStudioLayer.Crosshair, grid, new Thickness(4));
-        handle.MouseLeftButtonDown += (_, e) =>
-        {
-            if (e.ClickCount == 2)
-            {
-                OverlayLayoutSettings layout = App.Settings.Prop.OverlayLayout ??= new OverlayLayoutSettings();
-                layout.ResetCrosshairOffset();
-                ApplyLayerLive(OverlayStudioLayer.Crosshair);
-                LayoutStage();
-                e.Handled = true;
-            }
-        };
-        return handle;
-    }
-
-    private static StackPanel CreateHandleBadge(string glyph, string title, out TextBlock coordText)
-    {
-        StackPanel row = new() { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Center };
-        TextBlock glyphBlock = new()
-        {
-            Text = glyph,
-            FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons, Segoe MDL2 Assets"),
-            FontSize = 12.5,
-            Foreground = new SolidColorBrush(Color.FromRgb(220, 220, 220)),
-            VerticalAlignment = VerticalAlignment.Center,
-            Margin = new Thickness(0, 0, 7, 0)
-        };
-        glyphBlock.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorSecondaryBrush");
-        row.Children.Add(glyphBlock);
-
-        TextBlock titleBlock = new()
-        {
-            Text = title,
-            FontSize = 12,
-            FontWeight = FontWeights.SemiBold,
-            Foreground = Brushes.White,
-            VerticalAlignment = VerticalAlignment.Center,
-            Margin = new Thickness(0, 0, 10, 0)
-        };
-        titleBlock.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
-        row.Children.Add(titleBlock);
-
-        coordText = new TextBlock
-        {
-            Text = "",
-            FontSize = 11,
-            Foreground = new SolidColorBrush(Color.FromRgb(160, 160, 160)),
-            VerticalAlignment = VerticalAlignment.Center
-        };
-        coordText.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorSecondaryBrush");
-        row.Children.Add(coordText);
-        return row;
-    }
-
-    private Border WrapInteractiveHandle(OverlayStudioLayer layer, UIElement child, Thickness padding)
-    {
-        Border box = new()
-        {
-            Tag = layer,
-            Cursor = Cursors.SizeAll,
-            CornerRadius = new CornerRadius(8),
-            Padding = padding,
-            Background = new SolidColorBrush(Color.FromArgb(235, 32, 32, 32)),
-            BorderBrush = new SolidColorBrush(Color.FromArgb(48, 255, 255, 255)),
-            BorderThickness = new Thickness(1),
-            Child = child
-        };
-
-        box.MouseLeftButtonDown += OnHandleMouseDown;
-        box.MouseMove += OnHandleMouseMove;
-        box.MouseLeftButtonUp += OnHandleMouseUp;
-        box.LostMouseCapture += OnHandleLostCapture;
-        return box;
-    }
-
     private void OnSourceInitialized(object? sender, EventArgs e)
     {
         if (PortableOverlay.Active)
@@ -525,6 +1018,8 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             return;
         }
         SessionDock.ActiveInstance?.SetScreenDragDimOverride(true);
+        OverlayWindow.SetScreenDragHidden(true);
+        Voidstrap.UI.Elements.Crosshair.CrosshairWindow.SetScreenDragHidden(true);
         PlaceOverGame(current);
         LayoutStage();
         UpdateSelectionBorders();
@@ -640,67 +1135,69 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         OverlayLayoutSettings layout = App.Settings.Prop.OverlayLayout ??= new OverlayLayoutSettings();
         NotificationAppearance notif = NotificationStyle.Current;
 
-        _readoutSampleStack.Orientation = layout.ReadoutHorizontalLayout ? Orientation.Horizontal : Orientation.Vertical;
-        _readoutSampleSeparator.Visibility = layout.ReadoutHorizontalLayout ? Visibility.Visible : Visibility.Collapsed;
-        _readoutSampleClock.Text = ClockDisplay.Format(DateTime.UtcNow);
-        MeasureBox(_readoutBox);
+        ApplyExactReadoutConfiguration(
+            _readoutBorder,
+            _readoutPanel,
+            _readoutLocationText,
+            _readoutSeparatorText,
+            _readoutTimeText,
+            1.0);
+        MeasureBox(_readoutWrapper);
         double rGap = layout.SafeReadoutEdgeSpacing;
         double rMinX = rGap;
-        double rMaxX = Math.Max(rMinX, stageW - _readoutBox.DesiredSize.Width - rGap);
+        double rMaxX = Math.Max(rMinX, stageW - _readoutWrapper.DesiredSize.Width - rGap);
         double rMinY = rGap;
-        double rMaxY = Math.Max(rMinY, stageH - _readoutBox.DesiredSize.Height - rGap);
-        Canvas.SetLeft(_readoutBox, rMinX + (rMaxX - rMinX) * (layout.SafeReadoutHorizontal / 100.0));
-        Canvas.SetTop(_readoutBox, rMinY + (rMaxY - rMinY) * (layout.SafeReadoutVertical / 100.0));
-        _readoutCoordText.Text = $"{Math.Round(layout.SafeReadoutHorizontal)}% · {Math.Round(layout.SafeReadoutVertical)}%";
+        double rMaxY = Math.Max(rMinY, stageH - _readoutWrapper.DesiredSize.Height - rGap);
+        Canvas.SetLeft(_readoutWrapper, rMinX + (rMaxX - rMinX) * (layout.SafeReadoutHorizontal / 100.0));
+        Canvas.SetTop(_readoutWrapper, rMinY + (rMaxY - rMinY) * (layout.SafeReadoutVertical / 100.0));
 
-        MeasureBox(_notificationBox);
-        double nGap = notif.SafeEdgeSpacing;
-        double nMinX = nGap;
-        double nMaxX = Math.Max(nMinX, stageW - _notificationBox.DesiredSize.Width - nGap);
-        double nMinY = nGap;
-        double nMaxY = Math.Max(nMinY, stageH - _notificationBox.DesiredSize.Height - nGap);
-        double nHoriz = notif.SafeHorizontal;
-        double nVert = notif.SafeVertical;
-        Canvas.SetLeft(_notificationBox, nMinX + (nMaxX - nMinX) * (nHoriz / 100.0));
-        Canvas.SetTop(_notificationBox, nMinY + (nMaxY - nMinY) * (nVert / 100.0));
-        _notificationCoordText.Text = $"{Math.Round(nHoriz)}% · {Math.Round(nVert)}%";
+        ApplyExactNotificationConfiguration(
+            this,
+            _notificationHost,
+            _notificationShadow,
+            _notificationCard,
+            _notificationHeader,
+            _notificationHeaderText,
+            _notificationTitle,
+            _notificationText,
+            1.0);
+        _notificationCard.InvalidateMeasure();
+        _notificationHost.InvalidateMeasure();
+        MeasureBox(_notificationWrapper);
+        Thickness notifPad = _notificationHost.Padding;
+        double cardW = _notificationWrapper.DesiredSize.Width - (notifPad.Left + notifPad.Right);
+        double cardH = _notificationWrapper.DesiredSize.Height - (notifPad.Top + notifPad.Bottom);
+        Point notifSpot = NotificationStyle.Place(notif, stageW, stageH, cardW, cardH, notif.SafeEdgeSpacing);
+        Canvas.SetLeft(_notificationWrapper, Math.Round(notifSpot.X - notifPad.Left));
+        Canvas.SetTop(_notificationWrapper, Math.Round(notifSpot.Y - notifPad.Top));
 
-        MeasureBox(_dockBox);
+        ApplyExactDockConfiguration(
+            _dockRoot,
+            _dockProfileImage,
+            _dockProfileName,
+            _dockProfileHandle,
+            _dockGameImage,
+            _dockGameTitle,
+            _dockSessionClockRun,
+            _dockServerClockRun,
+            _gameIcon,
+            1.0);
+        MeasureBox(_dockWrapper);
         double dSide = 12;
         double dEdge = layout.SafeDockEdgeSpacing;
         double dMinX = dSide;
-        double dMaxX = Math.Max(dMinX, stageW - _dockBox.DesiredSize.Width - dSide);
-        Canvas.SetLeft(_dockBox, dMinX + (dMaxX - dMinX) * (layout.SafeDockHorizontal / 100.0));
-        Canvas.SetTop(_dockBox, layout.DockTopEdge ? dEdge : Math.Max(dEdge, stageH - _dockBox.DesiredSize.Height - dEdge));
-        _dockCoordText.Text = (layout.DockTopEdge ? Strings.Ui_OverlayStudio_TopEdge : Strings.Ui_OverlayStudio_BottomEdge)
-            + $" · {Math.Round(layout.SafeDockHorizontal)}%";
+        double dMaxX = Math.Max(dMinX, stageW - _dockWrapper.DesiredSize.Width - dSide);
+        Canvas.SetLeft(_dockWrapper, dMinX + (dMaxX - dMinX) * (layout.SafeDockHorizontal / 100.0));
+        Canvas.SetTop(_dockWrapper, layout.DockTopEdge ? dEdge : Math.Max(dEdge, stageH - _dockWrapper.DesiredSize.Height - dEdge));
 
-        UpdateCrosshairVisual();
-        MeasureBox(_crosshairBox);
-        double cLeft = (stageW - _crosshairBox.DesiredSize.Width) * 0.5 + layout.SafeCrosshairOffsetX;
-        double cTop = (stageH - _crosshairBox.DesiredSize.Height) * 0.5 + layout.SafeCrosshairOffsetY;
-        Canvas.SetLeft(_crosshairBox, Math.Clamp(cLeft, 0, Math.Max(0, stageW - _crosshairBox.DesiredSize.Width)));
-        Canvas.SetTop(_crosshairBox, Math.Clamp(cTop, 0, Math.Max(0, stageH - _crosshairBox.DesiredSize.Height)));
-        _crosshairCoordText.Text = $"{layout.SafeCrosshairOffsetX:+#;-#;0}, {layout.SafeCrosshairOffsetY:+#;-#;0} px";
+        ApplyExactCrosshairConfiguration(this, _crosshairImage, 128);
+        MeasureBox(_crosshairWrapper);
+        double cLeft = (stageW - _crosshairWrapper.DesiredSize.Width) * 0.5 + layout.SafeCrosshairOffsetX;
+        double cTop = (stageH - _crosshairWrapper.DesiredSize.Height) * 0.5 + layout.SafeCrosshairOffsetY;
+        Canvas.SetLeft(_crosshairWrapper, Math.Clamp(cLeft, 0, Math.Max(0, stageW - _crosshairWrapper.DesiredSize.Width)));
+        Canvas.SetTop(_crosshairWrapper, Math.Clamp(cTop, 0, Math.Max(0, stageH - _crosshairWrapper.DesiredSize.Height)));
 
         UpdateActiveCoordBanner();
-    }
-
-    private void UpdateCrosshairVisual()
-    {
-        Brush stroke = Brushes.White;
-        try
-        {
-            string hex = App.Settings.Prop.CrosshairColorHex;
-            if (!string.IsNullOrWhiteSpace(hex) && ColorConverter.ConvertFromString(hex) is Color parsed)
-                stroke = new SolidColorBrush(parsed);
-        }
-        catch
-        {
-        }
-        _crosshairHLine.Stroke = stroke;
-        _crosshairVLine.Stroke = stroke;
-        _crosshairRing.Stroke = stroke;
     }
 
     private static void MeasureBox(FrameworkElement box)
@@ -836,37 +1333,38 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
     private void ApplyLayerLive(OverlayStudioLayer layer)
     {
         if (layer == OverlayStudioLayer.Readout)
+        {
             OverlayWindow.Reconcile();
+            OverlayWindow.SetScreenDragHidden(true);
+        }
         else if (layer == OverlayStudioLayer.Dock)
+        {
             SessionDock.ActiveInstance?.RefreshLayoutLive();
+        }
         else if (layer == OverlayStudioLayer.Crosshair)
+        {
             Voidstrap.UI.Elements.Crosshair.CrosshairWindow.Reconcile();
+            Voidstrap.UI.Elements.Crosshair.CrosshairWindow.SetScreenDragHidden(true);
+        }
         _onLayerUpdated(layer);
     }
 
     private void UpdateSelectionBorders()
     {
-        SetBoxSelected(_readoutBox, _selectedLayer == OverlayStudioLayer.Readout);
-        SetBoxSelected(_notificationBox, _selectedLayer == OverlayStudioLayer.Notifications);
-        SetBoxSelected(_dockBox, _selectedLayer == OverlayStudioLayer.Dock);
-        SetBoxSelected(_crosshairBox, _selectedLayer == OverlayStudioLayer.Crosshair);
+        SetBoxSelected(_readoutWrapper, _selectedLayer == OverlayStudioLayer.Readout);
+        SetBoxSelected(_notificationWrapper, _selectedLayer == OverlayStudioLayer.Notifications);
+        SetBoxSelected(_dockWrapper, _selectedLayer == OverlayStudioLayer.Dock);
+        SetBoxSelected(_crosshairWrapper, _selectedLayer == OverlayStudioLayer.Crosshair);
         UpdateActiveCoordBanner();
     }
 
-    private static void SetBoxSelected(Border box, bool selected)
+    private static void SetBoxSelected(Border wrapper, bool selected)
     {
-        box.BorderThickness = new Thickness(selected ? 2.0 : 1.0);
-        if (selected)
-        {
-            box.SetResourceReference(Border.BackgroundProperty, "ControlFillColorDefaultBrush");
-            box.BorderBrush = new SolidColorBrush(Color.FromArgb(210, 255, 255, 255));
-        }
-        else
-        {
-            box.SetResourceReference(Border.BackgroundProperty, "CardBackgroundFillColorDefaultBrush");
-            box.SetResourceReference(Border.BorderBrushProperty, "CardStrokeColorDefaultBrush");
-        }
-        Canvas.SetZIndex(box, selected ? 20 : 10);
+        wrapper.BorderThickness = new Thickness(1.5);
+        wrapper.BorderBrush = selected
+            ? new SolidColorBrush(Color.FromArgb(150, 255, 255, 255))
+            : Brushes.Transparent;
+        Canvas.SetZIndex(wrapper, selected ? 20 : 10);
     }
 
     private void UpdateActiveCoordBanner()
@@ -910,6 +1408,8 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         {
             PortableOverlay.Release(this);
         }
+        OverlayWindow.SetScreenDragHidden(false);
+        Voidstrap.UI.Elements.Crosshair.CrosshairWindow.SetScreenDragHidden(false);
         SessionDock.ActiveInstance?.SetScreenDragDimOverride(false);
         App.Settings.SaveDeferred();
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using Voidstrap.Models.Persistable;
@@ -13,7 +14,39 @@ namespace Voidstrap.UI.Elements.Overlay;
 
 public partial class SessionOverlayLayoutEditor : Window
 {
+    private readonly ImageSource? _gameIcon;
     private readonly Action? _sendTestNotification;
+
+    private readonly Border _stageReadoutWrapper;
+    private readonly Border _stageReadoutBorder;
+    private readonly StackPanel _stageReadoutPanel;
+    private readonly TextBlock _stageReadoutLocationText;
+    private readonly TextBlock _stageReadoutSeparatorText;
+    private readonly TextBlock _stageReadoutTimeText;
+
+    private readonly Border _stageNotificationWrapper;
+    private readonly Border _stageNotificationHost;
+    private readonly Grid _stageNotificationShadow;
+    private readonly Border _stageNotificationCard;
+    private readonly Image _stageNotificationIcon;
+    private readonly StackPanel _stageNotificationHeader;
+    private readonly TextBlock _stageNotificationHeaderText;
+    private readonly TextBlock _stageNotificationTitle;
+    private readonly TextBlock _stageNotificationText;
+
+    private readonly Border _stageDockWrapper;
+    private readonly Grid _stageDockRoot;
+    private readonly Image _stageDockProfileImage;
+    private readonly TextBlock _stageDockProfileName;
+    private readonly TextBlock _stageDockProfileHandle;
+    private readonly Image _stageDockGameImage;
+    private readonly TextBlock _stageDockGameTitle;
+    private readonly Run _stageDockSessionClockRun;
+    private readonly Run _stageDockServerClockRun;
+
+    private readonly Border _stageCrosshairWrapper;
+    private readonly Image _stageCrosshairImage;
+
     private OverlayStudioLayer _selectedLayer = OverlayStudioLayer.Readout;
     private OverlayStudioLayer? _stageDraggingLayer;
     private Point _stageDragStartPointer;
@@ -40,15 +73,73 @@ public partial class SessionOverlayLayoutEditor : Window
 
     public SessionOverlayLayoutEditor(ImageSource? gameIcon = null, Action? sendTestNotification = null)
     {
+        _gameIcon = gameIcon;
         _sendTestNotification = sendTestNotification;
         InitializeComponent();
         StageBackgroundBrush.ImageSource = gameIcon;
         Voidstrap.Utility.DynamicRenderSystem.SetPortableBrushImage(StageImageHost, gameIcon);
+
+        _stageReadoutBorder = SessionLiveOverlayCanvasWindow.BuildExactReadoutElement(
+            out _stageReadoutPanel,
+            out _stageReadoutLocationText,
+            out _stageReadoutSeparatorText,
+            out _stageReadoutTimeText);
+        _stageReadoutWrapper = WrapStageElement(OverlayStudioLayer.Readout, _stageReadoutBorder);
+
+        _stageNotificationHost = SessionLiveOverlayCanvasWindow.BuildExactNotificationElement(
+            _gameIcon,
+            out _stageNotificationShadow,
+            out _stageNotificationCard,
+            out _stageNotificationIcon,
+            out _stageNotificationHeader,
+            out _stageNotificationHeaderText,
+            out _stageNotificationTitle,
+            out _stageNotificationText);
+        _stageNotificationWrapper = WrapStageElement(OverlayStudioLayer.Notifications, _stageNotificationHost);
+
+        _stageDockRoot = SessionLiveOverlayCanvasWindow.BuildExactDockElement(
+            _gameIcon,
+            out _stageDockProfileImage,
+            out _stageDockProfileName,
+            out _stageDockProfileHandle,
+            out _stageDockGameImage,
+            out _stageDockGameTitle,
+            out _stageDockSessionClockRun,
+            out _stageDockServerClockRun);
+        _stageDockWrapper = WrapStageElement(OverlayStudioLayer.Dock, _stageDockRoot);
+
+        _stageCrosshairImage = SessionLiveOverlayCanvasWindow.BuildExactCrosshairElement(48);
+        _stageCrosshairWrapper = WrapStageElement(OverlayStudioLayer.Crosshair, _stageCrosshairImage);
+
+        StageCanvas.Children.Add(_stageReadoutWrapper);
+        StageCanvas.Children.Add(_stageNotificationWrapper);
+        StageCanvas.Children.Add(_stageDockWrapper);
+        StageCanvas.Children.Add(_stageCrosshairWrapper);
+
         _ready = true;
         LoadAllControls();
         SelectLayer(OverlayStudioLayer.Readout);
         Loaded += OnEditorLoaded;
         Closed += OnEditorClosed;
+    }
+
+    private Border WrapStageElement(OverlayStudioLayer layer, UIElement child)
+    {
+        Border wrapper = new()
+        {
+            Tag = layer,
+            Cursor = Cursors.SizeAll,
+            CornerRadius = new CornerRadius(6),
+            Padding = new Thickness(1),
+            Background = new SolidColorBrush(Color.FromArgb(1, 0, 0, 0)),
+            BorderBrush = Brushes.Transparent,
+            BorderThickness = new Thickness(1.2),
+            Child = child
+        };
+        wrapper.MouseLeftButtonDown += StageItem_MouseDown;
+        wrapper.MouseMove += StageItem_MouseMove;
+        wrapper.MouseLeftButtonUp += StageItem_MouseUp;
+        return wrapper;
     }
 
     internal void SetPanelVisible(bool visible)
@@ -110,6 +201,7 @@ public partial class SessionOverlayLayoutEditor : Window
         CloseScreenDragWindow();
         _screenDragWindow = new SessionLiveOverlayCanvasWindow(
             _selectedLayer,
+            _gameIcon,
             layer =>
             {
                 if (_closed)
@@ -319,53 +411,81 @@ public partial class SessionOverlayLayoutEditor : Window
 
         OverlayLayoutSettings layout = App.Settings.Prop.OverlayLayout ??= new OverlayLayoutSettings();
         NotificationAppearance notif = NotificationStyle.Current;
+        double stageScale = Math.Clamp(stageW / 1600.0, 0.25, 0.42);
 
-        StageReadoutStack.Orientation = layout.ReadoutHorizontalLayout ? Orientation.Horizontal : Orientation.Vertical;
-        StageReadoutSep.Visibility = layout.ReadoutHorizontalLayout ? Visibility.Visible : Visibility.Collapsed;
-        StageReadoutTime.Text = ClockDisplay.Format(DateTime.UtcNow);
-        StageReadoutBox.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-        double rGap = Math.Max(4, layout.SafeReadoutEdgeSpacing * 0.35);
+        SessionLiveOverlayCanvasWindow.ApplyExactReadoutConfiguration(
+            _stageReadoutBorder,
+            _stageReadoutPanel,
+            _stageReadoutLocationText,
+            _stageReadoutSeparatorText,
+            _stageReadoutTimeText,
+            stageScale);
+        _stageReadoutWrapper.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+        double rGap = Math.Max(4, layout.SafeReadoutEdgeSpacing * stageScale);
         double rMinX = rGap;
-        double rMaxX = Math.Max(rMinX, stageW - StageReadoutBox.DesiredSize.Width - rGap);
+        double rMaxX = Math.Max(rMinX, stageW - _stageReadoutWrapper.DesiredSize.Width - rGap);
         double rMinY = rGap;
-        double rMaxY = Math.Max(rMinY, stageH - StageReadoutBox.DesiredSize.Height - rGap);
-        Canvas.SetLeft(StageReadoutBox, rMinX + (rMaxX - rMinX) * (layout.SafeReadoutHorizontal / 100.0));
-        Canvas.SetTop(StageReadoutBox, rMinY + (rMaxY - rMinY) * (layout.SafeReadoutVertical / 100.0));
+        double rMaxY = Math.Max(rMinY, stageH - _stageReadoutWrapper.DesiredSize.Height - rGap);
+        Canvas.SetLeft(_stageReadoutWrapper, rMinX + (rMaxX - rMinX) * (layout.SafeReadoutHorizontal / 100.0));
+        Canvas.SetTop(_stageReadoutWrapper, rMinY + (rMaxY - rMinY) * (layout.SafeReadoutVertical / 100.0));
 
-        StageNotificationBox.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-        double nGap = Math.Max(2, notif.SafeEdgeSpacing * 0.35);
+        SessionLiveOverlayCanvasWindow.ApplyExactNotificationConfiguration(
+            this,
+            _stageNotificationHost,
+            _stageNotificationShadow,
+            _stageNotificationCard,
+            _stageNotificationHeader,
+            _stageNotificationHeaderText,
+            _stageNotificationTitle,
+            _stageNotificationText,
+            stageScale);
+        _stageNotificationWrapper.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+        double nGap = Math.Max(2, notif.SafeEdgeSpacing * stageScale);
         double nMinX = nGap;
-        double nMaxX = Math.Max(nMinX, stageW - StageNotificationBox.DesiredSize.Width - nGap);
+        double nMaxX = Math.Max(nMinX, stageW - _stageNotificationWrapper.DesiredSize.Width - nGap);
         double nMinY = nGap;
-        double nMaxY = Math.Max(nMinY, stageH - StageNotificationBox.DesiredSize.Height - nGap);
-        double nHoriz = notif.SafeHorizontal;
-        double nVert = notif.SafeVertical;
-        Canvas.SetLeft(StageNotificationBox, nMinX + (nMaxX - nMinX) * (nHoriz / 100.0));
-        Canvas.SetTop(StageNotificationBox, nMinY + (nMaxY - nMinY) * (nVert / 100.0));
+        double nMaxY = Math.Max(nMinY, stageH - _stageNotificationWrapper.DesiredSize.Height - nGap);
+        Canvas.SetLeft(_stageNotificationWrapper, nMinX + (nMaxX - nMinX) * (notif.SafeHorizontal / 100.0));
+        Canvas.SetTop(_stageNotificationWrapper, nMinY + (nMaxY - nMinY) * (notif.SafeVertical / 100.0));
 
-        StageDockBox.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-        double dGap = Math.Max(4, layout.SafeDockEdgeSpacing * 0.4);
+        SessionLiveOverlayCanvasWindow.ApplyExactDockConfiguration(
+            _stageDockRoot,
+            _stageDockProfileImage,
+            _stageDockProfileName,
+            _stageDockProfileHandle,
+            _stageDockGameImage,
+            _stageDockGameTitle,
+            _stageDockSessionClockRun,
+            _stageDockServerClockRun,
+            _gameIcon,
+            stageScale);
+        _stageDockWrapper.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+        double dGap = Math.Max(4, layout.SafeDockEdgeSpacing * stageScale);
         double dMinX = 6;
-        double dMaxX = Math.Max(dMinX, stageW - StageDockBox.DesiredSize.Width - 6);
-        Canvas.SetLeft(StageDockBox, dMinX + (dMaxX - dMinX) * (layout.SafeDockHorizontal / 100.0));
-        Canvas.SetTop(StageDockBox, layout.DockTopEdge ? dGap : Math.Max(dGap, stageH - StageDockBox.DesiredSize.Height - dGap));
+        double dMaxX = Math.Max(dMinX, stageW - _stageDockWrapper.DesiredSize.Width - 6);
+        Canvas.SetLeft(_stageDockWrapper, dMinX + (dMaxX - dMinX) * (layout.SafeDockHorizontal / 100.0));
+        Canvas.SetTop(_stageDockWrapper, layout.DockTopEdge ? dGap : Math.Max(dGap, stageH - _stageDockWrapper.DesiredSize.Height - dGap));
 
-        StageCrosshairBox.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+        SessionLiveOverlayCanvasWindow.ApplyExactCrosshairConfiguration(
+            this,
+            _stageCrosshairImage,
+            Math.Max(28, Math.Round(128 * stageScale)));
+        _stageCrosshairWrapper.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
         double cScale = stageW / 1280.0;
-        double cLeft = (stageW - StageCrosshairBox.DesiredSize.Width) * 0.5 + layout.SafeCrosshairOffsetX * cScale;
-        double cTop = (stageH - StageCrosshairBox.DesiredSize.Height) * 0.5 + layout.SafeCrosshairOffsetY * cScale;
-        Canvas.SetLeft(StageCrosshairBox, Math.Clamp(cLeft, 0, Math.Max(0, stageW - StageCrosshairBox.DesiredSize.Width)));
-        Canvas.SetTop(StageCrosshairBox, Math.Clamp(cTop, 0, Math.Max(0, stageH - StageCrosshairBox.DesiredSize.Height)));
+        double cLeft = (stageW - _stageCrosshairWrapper.DesiredSize.Width) * 0.5 + layout.SafeCrosshairOffsetX * cScale;
+        double cTop = (stageH - _stageCrosshairWrapper.DesiredSize.Height) * 0.5 + layout.SafeCrosshairOffsetY * cScale;
+        Canvas.SetLeft(_stageCrosshairWrapper, Math.Clamp(cLeft, 0, Math.Max(0, stageW - _stageCrosshairWrapper.DesiredSize.Width)));
+        Canvas.SetTop(_stageCrosshairWrapper, Math.Clamp(cTop, 0, Math.Max(0, stageH - _stageCrosshairWrapper.DesiredSize.Height)));
 
         UpdateStageSelectionVisuals();
     }
 
     private void UpdateStageSelectionVisuals()
     {
-        HighlightStageBox(StageReadoutBox, _selectedLayer == OverlayStudioLayer.Readout);
-        HighlightStageBox(StageNotificationBox, _selectedLayer == OverlayStudioLayer.Notifications);
-        HighlightStageBox(StageDockBox, _selectedLayer == OverlayStudioLayer.Dock);
-        HighlightStageBox(StageCrosshairBox, _selectedLayer == OverlayStudioLayer.Crosshair);
+        HighlightStageBox(_stageReadoutWrapper, _selectedLayer == OverlayStudioLayer.Readout);
+        HighlightStageBox(_stageNotificationWrapper, _selectedLayer == OverlayStudioLayer.Notifications);
+        HighlightStageBox(_stageDockWrapper, _selectedLayer == OverlayStudioLayer.Dock);
+        HighlightStageBox(_stageCrosshairWrapper, _selectedLayer == OverlayStudioLayer.Crosshair);
 
         OverlayLayoutSettings layout = App.Settings.Prop.OverlayLayout ?? new OverlayLayoutSettings();
         NotificationAppearance notif = NotificationStyle.Current;
@@ -381,19 +501,17 @@ public partial class SessionOverlayLayoutEditor : Window
 
     private static void HighlightStageBox(Border box, bool selected)
     {
-        box.BorderThickness = new Thickness(selected ? 1.8 : 1.0);
-        box.SetResourceReference(
-            Border.BackgroundProperty,
-            selected ? "ControlFillColorDefaultBrush" : "CardBackgroundFillColorDefaultBrush");
-        box.SetResourceReference(
-            Border.BorderBrushProperty,
-            selected ? "TextFillColorSecondaryBrush" : "CardStrokeColorDefaultBrush");
+        box.BorderThickness = new Thickness(selected ? 1.5 : 1.0);
+        if (selected)
+            box.SetResourceReference(Border.BorderBrushProperty, "TextFillColorSecondaryBrush");
+        else
+            box.BorderBrush = Brushes.Transparent;
         Panel.SetZIndex(box, selected ? 20 : 10);
     }
 
     private void StageItem_MouseDown(object sender, MouseButtonEventArgs e)
     {
-        if (sender is not Border { Tag: string tag } box || !Enum.TryParse(tag, out OverlayStudioLayer layer))
+        if (sender is not Border { Tag: OverlayStudioLayer layer } box)
             return;
         SelectLayer(layer);
         _stageDraggingLayer = layer;
@@ -412,6 +530,7 @@ public partial class SessionOverlayLayoutEditor : Window
 
         double stageW = Math.Max(100, StageCanvas.ActualWidth);
         double stageH = Math.Max(80, StageCanvas.ActualHeight);
+        double stageScale = Math.Clamp(stageW / 1600.0, 0.25, 0.42);
         Point pointer = e.GetPosition(StageCanvas);
         double nextLeft = _stageDragStartOrigin.X + (pointer.X - _stageDragStartPointer.X);
         double nextTop = _stageDragStartOrigin.Y + (pointer.Y - _stageDragStartPointer.Y);
@@ -425,7 +544,7 @@ public partial class SessionOverlayLayoutEditor : Window
 
         if (layer == OverlayStudioLayer.Readout)
         {
-            double gap = Math.Max(4, layout.SafeReadoutEdgeSpacing * 0.35);
+            double gap = Math.Max(4, layout.SafeReadoutEdgeSpacing * stageScale);
             double minX = gap;
             double maxX = Math.Max(minX + 1, stageW - elemW - gap);
             double minY = gap;
@@ -436,7 +555,7 @@ public partial class SessionOverlayLayoutEditor : Window
         }
         else if (layer == OverlayStudioLayer.Notifications)
         {
-            double gap = Math.Max(2, notif.SafeEdgeSpacing * 0.35);
+            double gap = Math.Max(2, notif.SafeEdgeSpacing * stageScale);
             double minX = gap;
             double maxX = Math.Max(minX + 1, stageW - elemW - gap);
             double minY = gap;
@@ -659,6 +778,8 @@ public partial class SessionOverlayLayoutEditor : Window
         App.Settings.Prop.CrosshairShapeIndex = CrosshairShapeDot.IsChecked == true ? 1 : CrosshairShapeCircle.IsChecked == true ? 2 : 0;
         Voidstrap.UI.Elements.Crosshair.CrosshairWindow.Reconcile();
         App.Settings.SaveDeferred();
+        LayoutStagePreview();
+        _screenDragWindow?.RefreshFromEditor(_selectedLayer);
     }
 
     private void CrosshairColor_Click(object sender, RoutedEventArgs e)
@@ -668,6 +789,7 @@ public partial class SessionOverlayLayoutEditor : Window
         App.Settings.Prop.CrosshairColorHex = hex;
         Voidstrap.UI.Elements.Crosshair.CrosshairWindow.Reconcile();
         App.Settings.SaveDeferred();
+        LayoutStagePreview();
         _screenDragWindow?.RefreshFromEditor(_selectedLayer);
     }
 

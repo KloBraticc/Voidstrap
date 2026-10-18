@@ -62,6 +62,28 @@ namespace Voidstrap.UI.Elements.Overlay
             }
         }
 
+        internal static string CurrentLocationDisplay
+        {
+            get
+            {
+                if (Application.Current?.Resources["OverlayWindow"] is OverlayWindow existing
+                    && !existing._disposed
+                    && !string.IsNullOrWhiteSpace(existing._serverLocation))
+                {
+                    return existing._serverLocation;
+                }
+                return "Location: unavailable";
+            }
+        }
+
+        internal static void SetScreenDragHidden(bool hidden)
+        {
+            if (Application.Current?.Resources["OverlayWindow"] is OverlayWindow existing && !existing._disposed)
+            {
+                existing._root.Opacity = hidden ? 0 : 1;
+            }
+        }
+
 		public bool MatchesCurrentSettings()
 		{
 			var settings = App.Settings.Prop;

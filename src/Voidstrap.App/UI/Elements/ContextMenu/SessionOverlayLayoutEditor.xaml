@@ -201,54 +201,6 @@
               <Line x:Name="StageGuideHThird2" Stroke="#1CFFFFFF" StrokeThickness="1" StrokeDashArray="3 4" IsHitTestVisible="False" />
               <Line x:Name="StageGuideVCenter" Stroke="#34FFFFFF" StrokeThickness="1" StrokeDashArray="4 3" IsHitTestVisible="False" />
               <Line x:Name="StageGuideHCenter" Stroke="#34FFFFFF" StrokeThickness="1" StrokeDashArray="4 3" IsHitTestVisible="False" />
-
-              <Border x:Name="StageReadoutBox" Tag="Readout" Cursor="SizeAll" CornerRadius="6" Padding="8,5"
-                      Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
-                      BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1"
-                      MouseLeftButtonDown="StageItem_MouseDown" MouseMove="StageItem_MouseMove" MouseLeftButtonUp="StageItem_MouseUp">
-                <StackPanel x:Name="StageReadoutStack" Orientation="Vertical">
-                  <TextBlock Text="{resources:Loc Ui_OverlayStudio_ShowServerLocation}" FontSize="9.5" FontWeight="SemiBold"
-                             Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
-                  <TextBlock x:Name="StageReadoutSep" Text=" · " FontSize="9.5"
-                             Foreground="{DynamicResource TextFillColorSecondaryBrush}" Visibility="Collapsed" />
-                  <TextBlock x:Name="StageReadoutTime" Text="12:00 PM" FontSize="9"
-                             Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-                </StackPanel>
-              </Border>
-
-              <Border x:Name="StageNotificationBox" Tag="Notifications" Cursor="SizeAll" Width="136" CornerRadius="6" Padding="8,5"
-                      Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
-                      BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1"
-                      MouseLeftButtonDown="StageItem_MouseDown" MouseMove="StageItem_MouseMove" MouseLeftButtonUp="StageItem_MouseUp">
-                <StackPanel>
-                  <TextBlock Text="{resources:Loc Ui_OverlayStudio_LayerNotifications}" FontSize="9.5" FontWeight="SemiBold"
-                             Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
-                  <TextBlock Text="{resources:Loc Ui_SessionNotify_TestNotification}" FontSize="8.5"
-                             Foreground="{DynamicResource TextFillColorSecondaryBrush}" TextTrimming="CharacterEllipsis" />
-                </StackPanel>
-              </Border>
-
-              <Border x:Name="StageDockBox" Tag="Dock" Cursor="SizeAll" CornerRadius="8" Padding="14,5"
-                      Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
-                      BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1"
-                      MouseLeftButtonDown="StageItem_MouseDown" MouseMove="StageItem_MouseMove" MouseLeftButtonUp="StageItem_MouseUp">
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                  <TextBlock Text="&#xE759;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="9.5" Margin="0,0,5,0"
-                             VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-                  <TextBlock Text="{resources:Loc Ui_OverlayStudio_LayerDock}" FontSize="9.5" FontWeight="SemiBold"
-                             Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
-                </StackPanel>
-              </Border>
-
-              <Border x:Name="StageCrosshairBox" Tag="Crosshair" Cursor="SizeAll" Width="32" Height="32" CornerRadius="16"
-                      Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
-                      BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1"
-                      MouseLeftButtonDown="StageItem_MouseDown" MouseMove="StageItem_MouseMove" MouseLeftButtonUp="StageItem_MouseUp">
-                <Grid>
-                  <Line x:Name="StageCrosshairH" X1="7" Y1="14.5" X2="22" Y2="14.5" Stroke="{DynamicResource TextFillColorPrimaryBrush}" StrokeThickness="1.5" />
-                  <Line x:Name="StageCrosshairV" X1="14.5" Y1="7" X2="14.5" Y2="22" Stroke="{DynamicResource TextFillColorPrimaryBrush}" StrokeThickness="1.5" />
-                </Grid>
-              </Border>
             </Canvas>
           </Grid>
         </Border>

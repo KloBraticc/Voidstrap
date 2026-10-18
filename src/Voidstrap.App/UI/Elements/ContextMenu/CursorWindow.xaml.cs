@@ -122,6 +122,15 @@ namespace Voidstrap.UI.Elements.Crosshair
 			return GetLiveWindows(application).Count;
 		}
 
+		internal static void SetScreenDragHidden(bool hidden)
+		{
+			Application? application = Application.Current;
+			if (application == null || !application.Dispatcher.CheckAccess())
+				return;
+			foreach (CrosshairWindow window in GetLiveWindows(application))
+				window.CrosshairCanvas.Opacity = hidden ? 0 : 1;
+		}
+
 		private static List<CrosshairWindow> GetLiveWindows(Application application)
 		{
 			List<CrosshairWindow> windows = new();

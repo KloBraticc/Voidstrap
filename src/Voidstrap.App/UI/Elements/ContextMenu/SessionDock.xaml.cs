@@ -558,9 +558,21 @@ public partial class SessionDock : Window
     public void SetScreenDragDimOverride(bool active)
     {
         _screenDragDimOverride = active;
+        DockRoot.Opacity = active ? 0 : 1;
+        DockRoot.IsHitTestVisible = !active;
         if (_opened && _dimmer != null)
             FadeDimmer(active ? Math.Min(0.10, ResolveConfiguredDimmerOpacity()) : ResolveConfiguredDimmerOpacity());
     }
+
+    internal (string ProfileName, string ProfileHandle, ImageSource? ProfileAvatar, string GameTitle, ImageSource? GameIcon, string SessionTime, string ServerTime) GetLiveSnapshot()
+        => (
+            string.IsNullOrWhiteSpace(ProfileName.Text) ? "Roblox" : ProfileName.Text,
+            string.IsNullOrWhiteSpace(ProfileHandle.Text) ? Voidstrap.Resources.Strings.Ui_Session_SignedOut : ProfileHandle.Text,
+            ProfileAvatar.ImageSource,
+            string.IsNullOrWhiteSpace(GameTitle.Text) ? "Roblox" : GameTitle.Text,
+            GamePicture.Source,
+            string.IsNullOrWhiteSpace(SessionClock.Text) ? "0:00" : SessionClock.Text,
+            string.IsNullOrWhiteSpace(ServerClock.Text) ? "--" : ServerClock.Text);
 
     public void RefreshLayoutLive()
     {
