@@ -107,7 +107,7 @@
               <TextBlock Text="{resources:Loc Ui_OverlayStudio_OpenBannerTitle}" Style="{StaticResource Label}" />
               <TextBlock Text="{resources:Loc Ui_OverlayStudio_OpenBannerHint}" Style="{StaticResource Hint}" />
             </StackPanel>
-            <ui:Button Grid.Column="1" Appearance="Primary" Padding="14,7" VerticalAlignment="Center" Focusable="False" Click="OpenOverlayStudio_Click">
+            <ui:Button Grid.Column="1" Appearance="Secondary" Padding="14,7" VerticalAlignment="Center" Focusable="False" Click="OpenOverlayStudio_Click">
               <StackPanel Orientation="Horizontal">
                 <TextBlock Text="&#xE759;" Style="{StaticResource Glyph}" Margin="0,0,7,0" />
                 <TextBlock Text="{resources:Loc Ui_OverlayStudio_OpenStudioButton}" FontSize="13" FontWeight="SemiBold" />

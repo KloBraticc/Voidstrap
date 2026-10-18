@@ -17,10 +17,6 @@ public sealed class OverlayLayoutSettings
     public const double DefaultDockScale = 1.0;
     public const double DefaultDockBackdropOpacity = -1;
 
-    public const double DefaultFrameGenHudHorizontal = 2;
-    public const double DefaultFrameGenHudVertical = 14;
-    public const double DefaultFrameGenHudEdgeSpacing = 18;
-
     public double ReadoutHorizontal { get; set; } = DefaultReadoutHorizontal;
     public double ReadoutVertical { get; set; } = DefaultReadoutVertical;
     public double ReadoutEdgeSpacing { get; set; } = DefaultReadoutEdgeSpacing;
@@ -37,11 +33,6 @@ public sealed class OverlayLayoutSettings
 
     public int CrosshairOffsetX { get; set; }
     public int CrosshairOffsetY { get; set; }
-
-    public bool FrameGenHudCustomPosition { get; set; }
-    public double FrameGenHudHorizontal { get; set; } = DefaultFrameGenHudHorizontal;
-    public double FrameGenHudVertical { get; set; } = DefaultFrameGenHudVertical;
-    public int FrameGenHudEdgeSpacing { get; set; } = (int)DefaultFrameGenHudEdgeSpacing;
 
     [JsonIgnore]
     public double SafeReadoutHorizontal => Clamp(ReadoutHorizontal, 0, 100, DefaultReadoutHorizontal);
@@ -76,15 +67,6 @@ public sealed class OverlayLayoutSettings
     [JsonIgnore]
     public int SafeCrosshairOffsetY => Math.Clamp(CrosshairOffsetY, -200, 200);
 
-    [JsonIgnore]
-    public double SafeFrameGenHudHorizontal => Clamp(FrameGenHudHorizontal, 0, 100, DefaultFrameGenHudHorizontal);
-
-    [JsonIgnore]
-    public double SafeFrameGenHudVertical => Clamp(FrameGenHudVertical, 0, 100, DefaultFrameGenHudVertical);
-
-    [JsonIgnore]
-    public int SafeFrameGenHudEdgeSpacing => Math.Clamp(FrameGenHudEdgeSpacing, 0, 64);
-
     public double ResolveDockBackdropOpacity(double platformDefault)
     {
         if (!double.IsFinite(DockBackdropOpacity) || DockBackdropOpacity < 0)
@@ -107,11 +89,7 @@ public sealed class OverlayLayoutSettings
         DockScale = SafeDockScale,
         DockBackdropOpacity = double.IsFinite(DockBackdropOpacity) ? DockBackdropOpacity : DefaultDockBackdropOpacity,
         CrosshairOffsetX = SafeCrosshairOffsetX,
-        CrosshairOffsetY = SafeCrosshairOffsetY,
-        FrameGenHudCustomPosition = FrameGenHudCustomPosition,
-        FrameGenHudHorizontal = SafeFrameGenHudHorizontal,
-        FrameGenHudVertical = SafeFrameGenHudVertical,
-        FrameGenHudEdgeSpacing = SafeFrameGenHudEdgeSpacing
+        CrosshairOffsetY = SafeCrosshairOffsetY
     };
 
     public void ResetReadout()
@@ -140,20 +118,11 @@ public sealed class OverlayLayoutSettings
         CrosshairOffsetY = 0;
     }
 
-    public void ResetFrameGenHud()
-    {
-        FrameGenHudCustomPosition = false;
-        FrameGenHudHorizontal = DefaultFrameGenHudHorizontal;
-        FrameGenHudVertical = DefaultFrameGenHudVertical;
-        FrameGenHudEdgeSpacing = (int)DefaultFrameGenHudEdgeSpacing;
-    }
-
     public void ResetAll()
     {
         ResetReadout();
         ResetDock();
         ResetCrosshairOffset();
-        ResetFrameGenHud();
     }
 
     private static double Clamp(double value, double min, double max, double fallback)

@@ -51,6 +51,12 @@ public partial class SessionOverlayLayoutEditor : Window
         Closed += OnEditorClosed;
     }
 
+    internal void SetPanelVisible(bool visible)
+    {
+        if (!visible)
+            CloseScreenDragWindow();
+    }
+
     private void OnEditorLoaded(object sender, RoutedEventArgs e)
     {
         if (_closed)
@@ -187,12 +193,6 @@ public partial class SessionOverlayLayoutEditor : Window
             CrosshairOffsetXSlider.Value = layout.SafeCrosshairOffsetX;
             CrosshairOffsetYSlider.Value = layout.SafeCrosshairOffsetY;
 
-            FrameGenShowToggle.IsChecked = prop.FrameGenOverlayShow;
-            FrameGenCustomPosToggle.IsChecked = layout.FrameGenHudCustomPosition;
-            FrameGenHorizontalSlider.Value = Math.Round(layout.SafeFrameGenHudHorizontal);
-            FrameGenVerticalSlider.Value = Math.Round(layout.SafeFrameGenHudVertical);
-            FrameGenSpacingSlider.Value = layout.SafeFrameGenHudEdgeSpacing;
-
             UpdateValueLabels();
         }
         finally
@@ -233,27 +233,32 @@ public partial class SessionOverlayLayoutEditor : Window
         int cy = (int)Math.Round(CrosshairOffsetYSlider.Value);
         CrosshairOffsetXText.Text = cx.ToString("+#;-#;0", inv) + " px";
         CrosshairOffsetYText.Text = cy.ToString("+#;-#;0", inv) + " px";
-
-        FrameGenHorizontalText.Text = ((int)Math.Round(FrameGenHorizontalSlider.Value)).ToString(inv) + "%";
-        FrameGenVerticalText.Text = ((int)Math.Round(FrameGenVerticalSlider.Value)).ToString(inv) + "%";
-        FrameGenSpacingText.Text = ((int)Math.Round(FrameGenSpacingSlider.Value)).ToString(inv) + " px";
     }
 
     private void SelectLayer(OverlayStudioLayer layer)
     {
+        if (!_ready)
+            return;
         _selectedLayer = layer;
-        SetTabButtonState(TabReadout, layer == OverlayStudioLayer.Readout);
-        SetTabButtonState(TabNotifications, layer == OverlayStudioLayer.Notifications);
-        SetTabButtonState(TabDock, layer == OverlayStudioLayer.Dock);
-        SetTabButtonState(TabCrosshair, layer == OverlayStudioLayer.Crosshair);
-        SetTabButtonState(TabFrameGen, layer == OverlayStudioLayer.FrameGen);
-        SetTabButtonState(TabPanels, layer == OverlayStudioLayer.Panels);
+        bool wasLoading = _loading;
+        _loading = true;
+        try
+        {
+            TabReadout.IsChecked = layer == OverlayStudioLayer.Readout;
+            TabNotifications.IsChecked = layer == OverlayStudioLayer.Notifications;
+            TabDock.IsChecked = layer == OverlayStudioLayer.Dock;
+            TabCrosshair.IsChecked = layer == OverlayStudioLayer.Crosshair;
+            TabPanels.IsChecked = layer == OverlayStudioLayer.Panels;
+        }
+        finally
+        {
+            _loading = wasLoading;
+        }
 
         ReadoutInspector.Visibility = layer == OverlayStudioLayer.Readout ? Visibility.Visible : Visibility.Collapsed;
         NotificationsInspector.Visibility = layer == OverlayStudioLayer.Notifications ? Visibility.Visible : Visibility.Collapsed;
         DockInspector.Visibility = layer == OverlayStudioLayer.Dock ? Visibility.Visible : Visibility.Collapsed;
         CrosshairInspector.Visibility = layer == OverlayStudioLayer.Crosshair ? Visibility.Visible : Visibility.Collapsed;
-        FrameGenInspector.Visibility = layer == OverlayStudioLayer.FrameGen ? Visibility.Visible : Visibility.Collapsed;
         PanelsInspector.Visibility = layer == OverlayStudioLayer.Panels ? Visibility.Visible : Visibility.Collapsed;
 
         if (layer == OverlayStudioLayer.Panels)
@@ -263,15 +268,10 @@ public partial class SessionOverlayLayoutEditor : Window
         _screenDragWindow?.RefreshFromEditor(layer);
     }
 
-    private static void SetTabButtonState(Wpf.Ui.Controls.Button button, bool active)
-    {
-        button.Appearance = active
-            ? Wpf.Ui.Common.ControlAppearance.Primary
-            : Wpf.Ui.Common.ControlAppearance.Transparent;
-    }
-
     private void LayerTab_Click(object sender, RoutedEventArgs e)
     {
+        if (!_ready || _loading)
+            return;
         if (sender is not FrameworkElement { Tag: string tag } || !Enum.TryParse(tag, out OverlayStudioLayer layer))
             return;
         SelectLayer(layer);
@@ -285,7 +285,7 @@ public partial class SessionOverlayLayoutEditor : Window
             return;
 
         double stageW = StageCanvas.ActualWidth > 10 ? StageCanvas.ActualWidth : 440;
-        double stageH = StageCanvas.ActualHeight > 10 ? StageCanvas.ActualHeight : 230;
+        double stageH = StageCanvas.ActualHeight > 10 ? StageCanvas.ActualHeight : 220;
 
         StageGuideVThird1.X1 = stageW / 3.0;
         StageGuideVThird1.X2 = stageW / 3.0;
@@ -357,34 +357,15 @@ public partial class SessionOverlayLayoutEditor : Window
         Canvas.SetLeft(StageCrosshairBox, Math.Clamp(cLeft, 0, Math.Max(0, stageW - StageCrosshairBox.DesiredSize.Width)));
         Canvas.SetTop(StageCrosshairBox, Math.Clamp(cTop, 0, Math.Max(0, stageH - StageCrosshairBox.DesiredSize.Height)));
 
-        if (Voidstrap.Utility.Platform.IsWindows)
-        {
-            StageFrameGenBox.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-            double fgGap = Math.Max(4, layout.SafeFrameGenHudEdgeSpacing * 0.35);
-            double fgMinX = fgGap;
-            double fgMaxX = Math.Max(fgMinX, stageW - StageFrameGenBox.DesiredSize.Width - fgGap);
-            double fgMinY = fgGap;
-            double fgMaxY = Math.Max(fgMinY, stageH - StageFrameGenBox.DesiredSize.Height - fgGap);
-            double fgX = layout.FrameGenHudCustomPosition
-                ? fgMinX + (fgMaxX - fgMinX) * (layout.SafeFrameGenHudHorizontal / 100.0)
-                : 8;
-            double fgY = layout.FrameGenHudCustomPosition
-                ? fgMinY + (fgMaxY - fgMinY) * (layout.SafeFrameGenHudVertical / 100.0)
-                : 32;
-            Canvas.SetLeft(StageFrameGenBox, Math.Clamp(fgX, 0, Math.Max(0, stageW - StageFrameGenBox.DesiredSize.Width)));
-            Canvas.SetTop(StageFrameGenBox, Math.Clamp(fgY, 0, Math.Max(0, stageH - StageFrameGenBox.DesiredSize.Height)));
-        }
-
         UpdateStageSelectionVisuals();
     }
 
     private void UpdateStageSelectionVisuals()
     {
-        HighlightStageBox(StageReadoutBox, _selectedLayer == OverlayStudioLayer.Readout, Color.FromRgb(92, 168, 255));
-        HighlightStageBox(StageNotificationBox, _selectedLayer == OverlayStudioLayer.Notifications, Color.FromRgb(168, 122, 255));
-        HighlightStageBox(StageDockBox, _selectedLayer == OverlayStudioLayer.Dock, Color.FromRgb(72, 214, 152));
-        HighlightStageBox(StageCrosshairBox, _selectedLayer == OverlayStudioLayer.Crosshair, Color.FromRgb(255, 200, 88));
-        HighlightStageBox(StageFrameGenBox, _selectedLayer == OverlayStudioLayer.FrameGen, Color.FromRgb(255, 132, 92));
+        HighlightStageBox(StageReadoutBox, _selectedLayer == OverlayStudioLayer.Readout);
+        HighlightStageBox(StageNotificationBox, _selectedLayer == OverlayStudioLayer.Notifications);
+        HighlightStageBox(StageDockBox, _selectedLayer == OverlayStudioLayer.Dock);
+        HighlightStageBox(StageCrosshairBox, _selectedLayer == OverlayStudioLayer.Crosshair);
 
         OverlayLayoutSettings layout = App.Settings.Prop.OverlayLayout ?? new OverlayLayoutSettings();
         NotificationAppearance notif = NotificationStyle.Current;
@@ -394,15 +375,19 @@ public partial class SessionOverlayLayoutEditor : Window
             OverlayStudioLayer.Notifications => string.Create(CultureInfo.InvariantCulture, $"{Strings.Ui_OverlayStudio_LayerNotifications}: X {Math.Round(notif.SafeHorizontal)}% · Y {Math.Round(notif.SafeVertical)}%"),
             OverlayStudioLayer.Dock => string.Create(CultureInfo.InvariantCulture, $"{Strings.Ui_OverlayStudio_LayerDock}: {(layout.DockTopEdge ? Strings.Ui_OverlayStudio_TopEdge : Strings.Ui_OverlayStudio_BottomEdge)} · X {Math.Round(layout.SafeDockHorizontal)}%"),
             OverlayStudioLayer.Crosshair => string.Create(CultureInfo.InvariantCulture, $"{Strings.Ui_OverlayStudio_LayerCrosshair}: {layout.SafeCrosshairOffsetX:+#;-#;0}, {layout.SafeCrosshairOffsetY:+#;-#;0} px"),
-            OverlayStudioLayer.FrameGen => string.Create(CultureInfo.InvariantCulture, $"{Strings.Ui_OverlayStudio_LayerFrameGen}: X {Math.Round(layout.SafeFrameGenHudHorizontal)}% · Y {Math.Round(layout.SafeFrameGenHudVertical)}%"),
             _ => Strings.Ui_OverlayStudio_LayerPanels
         };
     }
 
-    private static void HighlightStageBox(Border box, bool selected, Color accent)
+    private static void HighlightStageBox(Border box, bool selected)
     {
-        box.BorderThickness = new Thickness(selected ? 2.2 : 1.2);
-        box.BorderBrush = new SolidColorBrush(selected ? accent : Color.FromArgb(145, accent.R, accent.G, accent.B));
+        box.BorderThickness = new Thickness(selected ? 1.8 : 1.0);
+        box.SetResourceReference(
+            Border.BackgroundProperty,
+            selected ? "ControlFillColorDefaultBrush" : "CardBackgroundFillColorDefaultBrush");
+        box.SetResourceReference(
+            Border.BorderBrushProperty,
+            selected ? "TextFillColorSecondaryBrush" : "CardStrokeColorDefaultBrush");
         Panel.SetZIndex(box, selected ? 20 : 10);
     }
 
@@ -482,17 +467,6 @@ public partial class SessionOverlayLayoutEditor : Window
             layout.CrosshairOffsetY = Math.Clamp(offsetY, -200, 200);
             Voidstrap.UI.Elements.Crosshair.CrosshairWindow.Reconcile();
         }
-        else if (layer == OverlayStudioLayer.FrameGen)
-        {
-            double gap = Math.Max(4, layout.SafeFrameGenHudEdgeSpacing * 0.35);
-            double minX = gap;
-            double maxX = Math.Max(minX + 1, stageW - elemW - gap);
-            double minY = gap;
-            double maxY = Math.Max(minY + 1, stageH - elemH - gap);
-            layout.FrameGenHudCustomPosition = true;
-            layout.FrameGenHudHorizontal = Math.Round(SnapStagePercent(Math.Clamp((nextLeft - minX) / (maxX - minX) * 100.0, 0, 100)));
-            layout.FrameGenHudVertical = Math.Round(SnapStagePercent(Math.Clamp((nextTop - minY) / (maxY - minY) * 100.0, 0, 100)));
-        }
 
         LoadAllControls();
         LayoutStagePreview();
@@ -557,12 +531,6 @@ public partial class SessionOverlayLayoutEditor : Window
             layout.CrosshairOffsetX = anchorX < 50 ? -60 : anchorX > 50 ? 60 : 0;
             layout.CrosshairOffsetY = anchorY < 50 ? -60 : anchorY > 50 ? 60 : 0;
             Voidstrap.UI.Elements.Crosshair.CrosshairWindow.Reconcile();
-        }
-        else if (_selectedLayer == OverlayStudioLayer.FrameGen)
-        {
-            layout.FrameGenHudCustomPosition = true;
-            layout.FrameGenHudHorizontal = anchorX;
-            layout.FrameGenHudVertical = anchorY;
         }
 
         App.Settings.SaveDeferred();
@@ -700,6 +668,7 @@ public partial class SessionOverlayLayoutEditor : Window
         App.Settings.Prop.CrosshairColorHex = hex;
         Voidstrap.UI.Elements.Crosshair.CrosshairWindow.Reconcile();
         App.Settings.SaveDeferred();
+        _screenDragWindow?.RefreshFromEditor(_selectedLayer);
     }
 
     private void CrosshairSlider_Changed(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -728,40 +697,6 @@ public partial class SessionOverlayLayoutEditor : Window
         Voidstrap.UI.Elements.Crosshair.CrosshairWindow.Reconcile();
         App.Settings.SaveDeferred();
         LoadAllControls();
-        LayoutStagePreview();
-        _screenDragWindow?.RefreshFromEditor(_selectedLayer);
-    }
-
-    private void FrameGenControl_Changed(object sender, RoutedEventArgs e)
-    {
-        if (!_ready || _loading)
-            return;
-        AppSettings prop = App.Settings.Prop;
-        OverlayLayoutSettings layout = prop.OverlayLayout ??= new OverlayLayoutSettings();
-        prop.FrameGenOverlayShow = FrameGenShowToggle.IsChecked == true;
-        layout.FrameGenHudCustomPosition = FrameGenCustomPosToggle.IsChecked == true;
-        App.Settings.SaveDeferred();
-        LayoutStagePreview();
-        _screenDragWindow?.RefreshFromEditor(_selectedLayer);
-    }
-
-    private void FrameGenSlider_Changed(object sender, RoutedPropertyChangedEventArgs<double> e)
-    {
-        if (!_ready || _loading)
-            return;
-        OverlayLayoutSettings layout = App.Settings.Prop.OverlayLayout ??= new OverlayLayoutSettings();
-        layout.FrameGenHudCustomPosition = true;
-        layout.FrameGenHudHorizontal = Math.Round(FrameGenHorizontalSlider.Value);
-        layout.FrameGenHudVertical = Math.Round(FrameGenVerticalSlider.Value);
-        layout.FrameGenHudEdgeSpacing = (int)Math.Round(FrameGenSpacingSlider.Value);
-        UpdateValueLabels();
-        if (! _loading && FrameGenCustomPosToggle.IsChecked != true)
-        {
-            _loading = true;
-            FrameGenCustomPosToggle.IsChecked = true;
-            _loading = false;
-        }
-        App.Settings.SaveDeferred();
         LayoutStagePreview();
         _screenDragWindow?.RefreshFromEditor(_selectedLayer);
     }
@@ -893,10 +828,6 @@ public partial class SessionOverlayLayoutEditor : Window
             layout.ResetCrosshairOffset();
             Voidstrap.UI.Elements.Crosshair.CrosshairWindow.Reconcile();
         }
-        else if (_selectedLayer == OverlayStudioLayer.FrameGen)
-        {
-            layout.ResetFrameGenHud();
-        }
         else if (_selectedLayer == OverlayStudioLayer.Panels)
         {
             SessionDock.ActiveInstance?.ResetAllPanelLayoutsLive();
@@ -990,7 +921,7 @@ public partial class SessionOverlayLayoutEditor : Window
             Wpf.Ui.Controls.Button pinBtn = new()
             {
                 Content = pinned ? Strings.Ui_OverlayStudio_PinPanel : Strings.Ui_OverlayStudio_UnpinnedPanel,
-                Appearance = pinned ? Wpf.Ui.Common.ControlAppearance.Primary : Wpf.Ui.Common.ControlAppearance.Secondary,
+                Appearance = Wpf.Ui.Common.ControlAppearance.Secondary,
                 Padding = new Thickness(10, 5, 10, 5),
                 Margin = new Thickness(0, 0, 6, 0),
                 Focusable = false

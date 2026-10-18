@@ -387,6 +387,8 @@ public sealed partial class SessionPanelWindow : Window
     {
         if (_view is SessionReviewPanel reviewPanel)
             reviewPanel.SetPanelVisible(visible);
+        else if (_view is SessionOverlayLayoutEditor layoutEditor)
+            layoutEditor.SetPanelVisible(visible);
     }
 
     private void SetCloak(bool cloak)

@@ -2788,19 +2788,6 @@ namespace Voidstrap.Integrations.Overlays
         {
             if (!_hudPainted || _hud.Srv == null || _backBufferRtv == null)
                 return;
-            int hudX = HudX;
-            int hudY = HudY;
-            var layout = App.Settings.Prop.OverlayLayout;
-            if (layout is { FrameGenHudCustomPosition: true })
-            {
-                int margin = layout.SafeFrameGenHudEdgeSpacing;
-                int minX = margin;
-                int maxX = Math.Max(minX, _width - OverlayHud.TexWidth - margin);
-                int minY = margin;
-                int maxY = Math.Max(minY, _height - OverlayHud.TexHeight - margin);
-                hudX = minX + (int)Math.Round((maxX - minX) * (layout.SafeFrameGenHudHorizontal / 100.0));
-                hudY = minY + (int)Math.Round((maxY - minY) * (layout.SafeFrameGenHudVertical / 100.0));
-            }
             _context!.OMSetBlendState(_hudBlend);
             _context.OMSetRenderTargets(_backBufferRtv);
             _context.VSSetShader(_vs);
@@ -2808,7 +2795,7 @@ namespace Voidstrap.Integrations.Overlays
             _context.PSSetSampler(0, _sampler);
             _context.IASetInputLayout(null);
             _context.IASetPrimitiveTopology(PrimitiveTopology.TriangleList);
-            _context.RSSetViewport(new Viewport(hudX, hudY, OverlayHud.TexWidth, OverlayHud.TexHeight, 0, 1));
+            _context.RSSetViewport(new Viewport(HudX, HudY, OverlayHud.TexWidth, OverlayHud.TexHeight, 0, 1));
             _context.PSSetShaderResources(0, _nullSrvs);
             _context.PSSetShaderResource(0, _hud.Srv);
             _context.Draw(3, 0);

@@ -277,13 +277,13 @@ namespace Voidstrap.Integrations.Overlays
             if (!Voidstrap.Utility.Platform.IsWindows)
             {
                 Publish();
-				SetDiscoveryInterval(Current.Valid ? 500 : 1000);
+				SetDiscoveryInterval(Current.Valid ? 250 : 1000);
                 return;
             }
 
             if (_hwnd != IntPtr.Zero && IsWindow(_hwnd) && IsWindowVisible(_hwnd))
             {
-                SetDiscoveryInterval(5000);
+                SetDiscoveryInterval(250);
                 Publish();
                 return;
             }
@@ -885,7 +885,7 @@ namespace Voidstrap.Integrations.Overlays
                 {
                     if (dock.IsAnimating)
                         return;
-                    if (rect.Valid)
+                    if (rect.Valid && rect.Foreground)
                     {
                         int dockWidth = Math.Max(1, (int)Math.Ceiling(ResolveLogicalLength(_window.Width, _window.ActualWidth, _window.DesiredSize.Width, _window.MinWidth)));
                         int dockHeight = Math.Max(1, (int)Math.Ceiling(ResolveLogicalLength(_window.Height, _window.ActualHeight, _window.DesiredSize.Height, _window.MinHeight)));
