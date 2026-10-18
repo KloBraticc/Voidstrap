@@ -754,7 +754,23 @@ public partial class SessionOverlayLayoutEditor : Window
         catch
         {
         }
-        var dlg = new Voidstrap.UI.Elements.Controls.RinColorPickerDialog(initial, title: Strings.Ui_Mods_Colors) { Owner = this };
+        var dlg = new Voidstrap.UI.Elements.Controls.RinColorPickerDialog(initial, title: Strings.Ui_Mods_Colors);
+        Window? owner = sender is DependencyObject dep ? Window.GetWindow(dep) : null;
+        if (owner is { IsVisible: true })
+        {
+            try
+            {
+                dlg.Owner = owner;
+            }
+            catch
+            {
+                dlg.Topmost = true;
+            }
+        }
+        else
+        {
+            dlg.Topmost = true;
+        }
         if (dlg.ShowOwnedDialog() == true)
         {
             string hex = $"#{dlg.SelectedColor.R:X2}{dlg.SelectedColor.G:X2}{dlg.SelectedColor.B:X2}";
@@ -772,7 +788,23 @@ public partial class SessionOverlayLayoutEditor : Window
         catch
         {
         }
-        var dlg = new Voidstrap.UI.Elements.Controls.RinColorPickerDialog(initial, title: Strings.Ui_Mods_Colors) { Owner = this };
+        var dlg = new Voidstrap.UI.Elements.Controls.RinColorPickerDialog(initial, title: Strings.Ui_Mods_Colors);
+        Window? owner = sender is DependencyObject dep ? Window.GetWindow(dep) : null;
+        if (owner is { IsVisible: true })
+        {
+            try
+            {
+                dlg.Owner = owner;
+            }
+            catch
+            {
+                dlg.Topmost = true;
+            }
+        }
+        else
+        {
+            dlg.Topmost = true;
+        }
         if (dlg.ShowOwnedDialog() == true)
         {
             string hex = $"#{dlg.SelectedColor.R:X2}{dlg.SelectedColor.G:X2}{dlg.SelectedColor.B:X2}";
