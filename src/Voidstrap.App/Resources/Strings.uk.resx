@@ -6911,6 +6911,15 @@ Voidstrap не зміг записати до теки робочого стол
   <data name="Ui.Session.Positive" xml:space="preserve">
     <value>позитивних</value>
   </data>
+  <data name="Ui.Session.MinutesAgo" xml:space="preserve">
+    <value>{0} хв тому</value>
+  </data>
+  <data name="Ui.Session.HoursAgo" xml:space="preserve">
+    <value>{0} год тому</value>
+  </data>
+  <data name="Ui.Session.PoweredBy" xml:space="preserve">
+    <value>За підтримки </value>
+  </data>
   <data name="Ui.Session.JustNow" xml:space="preserve">
     <value>щойно</value>
   </data>

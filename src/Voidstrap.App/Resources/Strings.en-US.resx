@@ -183,6 +183,15 @@
   <data name="Ui.Session.NoRatings" xml:space="preserve">
     <value>No ratings yet</value>
   </data>
+  <data name="Ui.Session.MinutesAgo" xml:space="preserve">
+    <value>{0} minutes ago</value>
+  </data>
+  <data name="Ui.Session.HoursAgo" xml:space="preserve">
+    <value>{0} hours ago</value>
+  </data>
+  <data name="Ui.Session.PoweredBy" xml:space="preserve">
+    <value>Powered by </value>
+  </data>
   <data name="Ui.Session.JustNow" xml:space="preserve">
     <value>just now</value>
   </data>

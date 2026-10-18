@@ -6859,6 +6859,15 @@ Fel: {0}</value>
   <data name="Ui.Session.Positive" xml:space="preserve">
     <value>positivt</value>
   </data>
+  <data name="Ui.Session.MinutesAgo" xml:space="preserve">
+    <value>för {0} minuter sedan</value>
+  </data>
+  <data name="Ui.Session.HoursAgo" xml:space="preserve">
+    <value>för {0} timmar sedan</value>
+  </data>
+  <data name="Ui.Session.PoweredBy" xml:space="preserve">
+    <value>Drivs av </value>
+  </data>
   <data name="Ui.Session.JustNow" xml:space="preserve">
     <value>alldeles nyss</value>
   </data>

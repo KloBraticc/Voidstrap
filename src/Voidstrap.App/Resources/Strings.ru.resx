@@ -6903,6 +6903,15 @@ Voidstrap не смог записать в папку рабочего стол
   <data name="Ui.Session.Positive" xml:space="preserve">
     <value>положительных</value>
   </data>
+  <data name="Ui.Session.MinutesAgo" xml:space="preserve">
+    <value>{0} мин. назад</value>
+  </data>
+  <data name="Ui.Session.HoursAgo" xml:space="preserve">
+    <value>{0} ч. назад</value>
+  </data>
+  <data name="Ui.Session.PoweredBy" xml:space="preserve">
+    <value>При поддержке </value>
+  </data>
   <data name="Ui.Session.JustNow" xml:space="preserve">
     <value>только что</value>
   </data>

@@ -6901,6 +6901,15 @@ Voidstrap 無法寫入桌面資料夾。</value>
   <data name="Ui.Session.Positive" xml:space="preserve">
     <value>好評</value>
   </data>
+  <data name="Ui.Session.MinutesAgo" xml:space="preserve">
+    <value>{0}分鐘前</value>
+  </data>
+  <data name="Ui.Session.HoursAgo" xml:space="preserve">
+    <value>{0}小時前</value>
+  </data>
+  <data name="Ui.Session.PoweredBy" xml:space="preserve">
+    <value>技術支援來自</value>
+  </data>
   <data name="Ui.Session.JustNow" xml:space="preserve">
     <value>剛剛</value>
   </data>

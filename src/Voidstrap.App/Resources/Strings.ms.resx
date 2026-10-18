@@ -6862,6 +6862,15 @@ Ralat: {0}</value>
   <data name="Ui.Session.Positive" xml:space="preserve">
     <value>positif</value>
   </data>
+  <data name="Ui.Session.MinutesAgo" xml:space="preserve">
+    <value>{0} minit yang lalu</value>
+  </data>
+  <data name="Ui.Session.HoursAgo" xml:space="preserve">
+    <value>{0} jam yang lalu</value>
+  </data>
+  <data name="Ui.Session.PoweredBy" xml:space="preserve">
+    <value>Dikuasakan oleh </value>
+  </data>
   <data name="Ui.Session.JustNow" xml:space="preserve">
     <value>sebentar tadi</value>
   </data>

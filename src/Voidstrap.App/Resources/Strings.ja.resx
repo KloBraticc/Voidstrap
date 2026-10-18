@@ -6924,6 +6924,15 @@ Voidstrap がデスクトップ フォルダーに書き込めませんでした
   <data name="Ui.Session.Positive" xml:space="preserve">
     <value>高評価</value>
   </data>
+  <data name="Ui.Session.MinutesAgo" xml:space="preserve">
+    <value>{0}分前</value>
+  </data>
+  <data name="Ui.Session.HoursAgo" xml:space="preserve">
+    <value>{0}時間前</value>
+  </data>
+  <data name="Ui.Session.PoweredBy" xml:space="preserve">
+    <value>提供元：</value>
+  </data>
   <data name="Ui.Session.JustNow" xml:space="preserve">
     <value>たった今</value>
   </data>

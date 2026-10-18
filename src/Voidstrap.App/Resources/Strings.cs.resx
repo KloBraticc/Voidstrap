@@ -6881,6 +6881,15 @@ Chyba: {0}</value>
   <data name="Ui.Session.Positive" xml:space="preserve">
     <value>pozitivní</value>
   </data>
+  <data name="Ui.Session.MinutesAgo" xml:space="preserve">
+    <value>před {0} min</value>
+  </data>
+  <data name="Ui.Session.HoursAgo" xml:space="preserve">
+    <value>před {0} h</value>
+  </data>
+  <data name="Ui.Session.PoweredBy" xml:space="preserve">
+    <value>Podporuje </value>
+  </data>
   <data name="Ui.Session.JustNow" xml:space="preserve">
     <value>právě teď</value>
   </data>

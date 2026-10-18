@@ -6893,6 +6893,15 @@ Hata: {0}</value>
   <data name="Ui.Session.Positive" xml:space="preserve">
     <value>olumlu</value>
   </data>
+  <data name="Ui.Session.MinutesAgo" xml:space="preserve">
+    <value>{0} dakika önce</value>
+  </data>
+  <data name="Ui.Session.HoursAgo" xml:space="preserve">
+    <value>{0} saat önce</value>
+  </data>
+  <data name="Ui.Session.PoweredBy" xml:space="preserve">
+    <value>Sunan </value>
+  </data>
   <data name="Ui.Session.JustNow" xml:space="preserve">
     <value>az önce</value>
   </data>

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -478,8 +478,10 @@ namespace Voidstrap.UI.ViewModels
                             App.Logger?.WriteLine("AccountSwitcher", "The current Roblox login file is damaged, switching without saving it");
                         }
                     }
+                    RoReviewService.InvalidateSession();
                     await ReplaceLiveCookieAsync(datPath).ConfigureAwait(true);
                     RobloxCookie.InvalidateCache();
+                    RoReviewService.InvalidateSession();
 
                     account.LastUsedUtc = DateTime.UtcNow;
                     SaveMeta();
@@ -501,8 +503,10 @@ namespace Voidstrap.UI.ViewModels
                     {
                         try
                         {
+                            RoReviewService.InvalidateSession();
                             await ReplaceLiveCookieAsync(Path.Combine(_folder, "_previous_session.dat")).ConfigureAwait(true);
                             RobloxCookie.InvalidateCache();
+                            RoReviewService.InvalidateSession();
                         }
                         catch
                         {
@@ -565,8 +569,10 @@ namespace Voidstrap.UI.ViewModels
                 {
                     if (File.Exists(_liveCookiePath))
                     {
+                        RoReviewService.InvalidateSession();
                         File.Delete(_liveCookiePath);
                         RobloxCookie.InvalidateCache();
+                        RoReviewService.InvalidateSession();
                         _currentUserId = 0;
                         _currentInLibrary = false;
                         IsLoggedIn = false;

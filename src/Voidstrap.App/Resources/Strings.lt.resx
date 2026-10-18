@@ -6935,6 +6935,15 @@ Klaida: {0}</value>
   <data name="Ui.Session.Positive" xml:space="preserve">
     <value>teigiamas</value>
   </data>
+  <data name="Ui.Session.MinutesAgo" xml:space="preserve">
+    <value>prieš {0} min.</value>
+  </data>
+  <data name="Ui.Session.HoursAgo" xml:space="preserve">
+    <value>prieš {0} val.</value>
+  </data>
+  <data name="Ui.Session.PoweredBy" xml:space="preserve">
+    <value>Teikia </value>
+  </data>
   <data name="Ui.Session.JustNow" xml:space="preserve">
     <value>ką tik</value>
   </data>

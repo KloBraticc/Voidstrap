@@ -6893,6 +6893,15 @@ Voidstrap เขียนลงในโฟลเดอร์เดสก์ท�
   <data name="Ui.Session.Positive" xml:space="preserve">
     <value>เชิงบวก</value>
   </data>
+  <data name="Ui.Session.MinutesAgo" xml:space="preserve">
+    <value>{0} นาทีที่แล้ว</value>
+  </data>
+  <data name="Ui.Session.HoursAgo" xml:space="preserve">
+    <value>{0} ชั่วโมงที่แล้ว</value>
+  </data>
+  <data name="Ui.Session.PoweredBy" xml:space="preserve">
+    <value>ขับเคลื่อนโดย </value>
+  </data>
   <data name="Ui.Session.JustNow" xml:space="preserve">
     <value>เมื่อสักครู่</value>
   </data>

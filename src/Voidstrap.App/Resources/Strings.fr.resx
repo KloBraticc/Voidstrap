@@ -6822,6 +6822,15 @@ Erreur : {0}</value>
   <data name="Ui.Session.Positive" xml:space="preserve">
     <value>positif</value>
   </data>
+  <data name="Ui.Session.MinutesAgo" xml:space="preserve">
+    <value>il y a {0} minutes</value>
+  </data>
+  <data name="Ui.Session.HoursAgo" xml:space="preserve">
+    <value>il y a {0} heures</value>
+  </data>
+  <data name="Ui.Session.PoweredBy" xml:space="preserve">
+    <value>Propulsé par </value>
+  </data>
   <data name="Ui.Session.JustNow" xml:space="preserve">
     <value>à l'instant</value>
   </data>

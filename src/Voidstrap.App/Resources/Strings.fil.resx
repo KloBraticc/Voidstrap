@@ -6674,6 +6674,15 @@ Error: {0}</value>
   <data name="Ui.Session.Positive" xml:space="preserve">
     <value>positibo</value>
   </data>
+  <data name="Ui.Session.MinutesAgo" xml:space="preserve">
+    <value>{0} minuto ang nakalipas</value>
+  </data>
+  <data name="Ui.Session.HoursAgo" xml:space="preserve">
+    <value>{0} oras ang nakalipas</value>
+  </data>
+  <data name="Ui.Session.PoweredBy" xml:space="preserve">
+    <value>Pinapagana ng </value>
+  </data>
   <data name="Ui.Session.JustNow" xml:space="preserve">
     <value>ngayon lang</value>
   </data>

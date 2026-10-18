@@ -6897,6 +6897,15 @@ Hiba: {0}</value>
   <data name="Ui.Session.Positive" xml:space="preserve">
     <value>pozitív</value>
   </data>
+  <data name="Ui.Session.MinutesAgo" xml:space="preserve">
+    <value>{0} perce</value>
+  </data>
+  <data name="Ui.Session.HoursAgo" xml:space="preserve">
+    <value>{0} órája</value>
+  </data>
+  <data name="Ui.Session.PoweredBy" xml:space="preserve">
+    <value>Működteti </value>
+  </data>
   <data name="Ui.Session.JustNow" xml:space="preserve">
     <value>épp most</value>
   </data>

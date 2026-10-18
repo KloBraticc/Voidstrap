@@ -6893,6 +6893,15 @@ Virhe: {0}</value>
   <data name="Ui.Session.Positive" xml:space="preserve">
     <value>positiivinen</value>
   </data>
+  <data name="Ui.Session.MinutesAgo" xml:space="preserve">
+    <value>{0} minuuttia sitten</value>
+  </data>
+  <data name="Ui.Session.HoursAgo" xml:space="preserve">
+    <value>{0} tuntia sitten</value>
+  </data>
+  <data name="Ui.Session.PoweredBy" xml:space="preserve">
+    <value>Palvelun tarjoaa </value>
+  </data>
   <data name="Ui.Session.JustNow" xml:space="preserve">
     <value>juuri nyt</value>
   </data>

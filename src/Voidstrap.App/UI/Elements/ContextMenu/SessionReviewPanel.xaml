@@ -168,7 +168,7 @@
     <TextBlock Grid.Row="4" Margin="0,8,0,0" HorizontalAlignment="Center"
                FontSize="11.5" Foreground="{DynamicResource TextFillColorTertiaryBrush}"
                Background="Transparent" Cursor="Hand" MouseLeftButtonUp="OnRoReviewLinkClicked">
-      <Run Text="Powered by " /><Run Text="RoReview" TextDecorations="Underline" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+      <Run Text="{resources:Loc Ui_Session_PoweredBy}" /><Run Text="RoReview" TextDecorations="Underline" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
     </TextBlock>
   </Grid>
 </Window>

@@ -6857,6 +6857,15 @@ Fout: {0}</value>
   <data name="Ui.Session.Positive" xml:space="preserve">
     <value>positief</value>
   </data>
+  <data name="Ui.Session.MinutesAgo" xml:space="preserve">
+    <value>{0} minuten geleden</value>
+  </data>
+  <data name="Ui.Session.HoursAgo" xml:space="preserve">
+    <value>{0} uur geleden</value>
+  </data>
+  <data name="Ui.Session.PoweredBy" xml:space="preserve">
+    <value>Aangeboden door </value>
+  </data>
   <data name="Ui.Session.JustNow" xml:space="preserve">
     <value>zojuist</value>
   </data>

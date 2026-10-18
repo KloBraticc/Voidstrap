@@ -5251,6 +5251,15 @@ What would you like to do?</value>
   <data name="Ui.Session.Positive" xml:space="preserve">
     <value>positive</value>
   </data>
+  <data name="Ui.Session.MinutesAgo" xml:space="preserve">
+    <value>{0} minutes ago</value>
+  </data>
+  <data name="Ui.Session.HoursAgo" xml:space="preserve">
+    <value>{0} hours ago</value>
+  </data>
+  <data name="Ui.Session.PoweredBy" xml:space="preserve">
+    <value>Powered by </value>
+  </data>
   <data name="Ui.Session.JustNow" xml:space="preserve">
     <value>just now</value>
   </data>

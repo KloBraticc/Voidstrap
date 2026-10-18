@@ -6900,6 +6900,15 @@ Pogreška: {0}</value>
   <data name="Ui.Session.Positive" xml:space="preserve">
     <value>pozitivno</value>
   </data>
+  <data name="Ui.Session.MinutesAgo" xml:space="preserve">
+    <value>prije {0} min</value>
+  </data>
+  <data name="Ui.Session.HoursAgo" xml:space="preserve">
+    <value>prije {0} h</value>
+  </data>
+  <data name="Ui.Session.PoweredBy" xml:space="preserve">
+    <value>Pokreće </value>
+  </data>
   <data name="Ui.Session.JustNow" xml:space="preserve">
     <value>upravo sada</value>
   </data>

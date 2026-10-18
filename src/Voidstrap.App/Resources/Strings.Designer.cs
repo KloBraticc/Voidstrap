@@ -1689,6 +1689,12 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Session_JustNow => ResourceManager.GetString("Ui.Session.JustNow", resourceCulture);
 
+        public static string Ui_Session_MinutesAgo => ResourceManager.GetString("Ui.Session.MinutesAgo", resourceCulture);
+
+        public static string Ui_Session_HoursAgo => ResourceManager.GetString("Ui.Session.HoursAgo", resourceCulture);
+
+        public static string Ui_Session_PoweredBy => ResourceManager.GetString("Ui.Session.PoweredBy", resourceCulture);
+
         public static string Ui_Session_Positive => ResourceManager.GetString("Ui.Session.Positive", resourceCulture);
 
         public static string Ui_Session_Vote => ResourceManager.GetString("Ui.Session.Vote", resourceCulture);
@@ -8166,6 +8172,7 @@ namespace Voidstrap.Resources {
         public static string Notifications_AppDescription => ResourceManager.GetString("Notifications.AppDescription", resourceCulture);
         public static string Shortcuts_GameTab => ResourceManager.GetString("Shortcuts.GameTab", resourceCulture);
         public static string Library_SubplacesTab => ResourceManager.GetString("Library.SubplacesTab", resourceCulture);
+
         public static string Shortcuts_SubplaceTab => ResourceManager.GetString("Shortcuts.SubplaceTab", resourceCulture);
         public static string Shortcuts_SubplaceDescription => ResourceManager.GetString("Shortcuts.SubplaceDescription", resourceCulture);
         public static string Shortcuts_LoadSubplaces => ResourceManager.GetString("Shortcuts.LoadSubplaces", resourceCulture);

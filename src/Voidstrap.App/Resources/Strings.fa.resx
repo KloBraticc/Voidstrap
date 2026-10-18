@@ -6939,6 +6939,15 @@ Voidstrap نتوانست در پوشهٔ دسکتاپ بنویسد.</value>
   <data name="Ui.Session.Positive" xml:space="preserve">
     <value>مثبت</value>
   </data>
+  <data name="Ui.Session.MinutesAgo" xml:space="preserve">
+    <value>{0} دقیقه پیش</value>
+  </data>
+  <data name="Ui.Session.HoursAgo" xml:space="preserve">
+    <value>{0} ساعت پیش</value>
+  </data>
+  <data name="Ui.Session.PoweredBy" xml:space="preserve">
+    <value>با پشتیبانی </value>
+  </data>
   <data name="Ui.Session.JustNow" xml:space="preserve">
     <value>همین الان</value>
   </data>

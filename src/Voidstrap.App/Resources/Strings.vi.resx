@@ -6907,6 +6907,15 @@ Lỗi: {0}</value>
   <data name="Ui.Session.Positive" xml:space="preserve">
     <value>tích cực</value>
   </data>
+  <data name="Ui.Session.MinutesAgo" xml:space="preserve">
+    <value>{0} phút trước</value>
+  </data>
+  <data name="Ui.Session.HoursAgo" xml:space="preserve">
+    <value>{0} giờ trước</value>
+  </data>
+  <data name="Ui.Session.PoweredBy" xml:space="preserve">
+    <value>Được hỗ trợ bởi </value>
+  </data>
   <data name="Ui.Session.JustNow" xml:space="preserve">
     <value>vừa xong</value>
   </data>

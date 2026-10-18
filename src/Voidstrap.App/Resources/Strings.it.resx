@@ -6870,6 +6870,15 @@ Errore: {0}</value>
   <data name="Ui.Session.Positive" xml:space="preserve">
     <value>positivo</value>
   </data>
+  <data name="Ui.Session.MinutesAgo" xml:space="preserve">
+    <value>{0} minuti fa</value>
+  </data>
+  <data name="Ui.Session.HoursAgo" xml:space="preserve">
+    <value>{0} ore fa</value>
+  </data>
+  <data name="Ui.Session.PoweredBy" xml:space="preserve">
+    <value>Offerto da </value>
+  </data>
   <data name="Ui.Session.JustNow" xml:space="preserve">
     <value>proprio ora</value>
   </data>

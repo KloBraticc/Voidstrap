@@ -357,6 +357,7 @@ public sealed partial class SessionPanelWindow : Window
     private void HidePanel()
     {
         _placed = false;
+        SetHostedViewVisible(false);
         if (_closed)
             return;
         if (_key == "web")
@@ -373,6 +374,12 @@ public sealed partial class SessionPanelWindow : Window
         catch (InvalidOperationException)
         {
         }
+    }
+
+    private void SetHostedViewVisible(bool visible)
+    {
+        if (_view is SessionReviewPanel reviewPanel)
+            reviewPanel.SetPanelVisible(visible);
     }
 
     private void SetCloak(bool cloak)
@@ -477,6 +484,7 @@ public sealed partial class SessionPanelWindow : Window
                     SetCloak(true);
                 Show();
             }
+            SetHostedViewVisible(true);
             ApplyLinuxRoundedCorners();
             _placed = true;
             _lastLeft = left;
@@ -618,6 +626,7 @@ public sealed partial class SessionPanelWindow : Window
     {
         if (_closed)
             return;
+        SetHostedViewVisible(false);
         _closed = true;
         if (_userClosed)
             IsPinned = false;

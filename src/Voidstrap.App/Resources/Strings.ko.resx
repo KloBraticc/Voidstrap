@@ -6911,6 +6911,15 @@ Voidstrap이 바탕 화면 폴더에 쓸 수 없습니다.</value>
   <data name="Ui.Session.Positive" xml:space="preserve">
     <value>긍정적</value>
   </data>
+  <data name="Ui.Session.MinutesAgo" xml:space="preserve">
+    <value>{0}분 전</value>
+  </data>
+  <data name="Ui.Session.HoursAgo" xml:space="preserve">
+    <value>{0}시간 전</value>
+  </data>
+  <data name="Ui.Session.PoweredBy" xml:space="preserve">
+    <value>제공: </value>
+  </data>
   <data name="Ui.Session.JustNow" xml:space="preserve">
     <value>방금</value>
   </data>

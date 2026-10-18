@@ -6881,6 +6881,15 @@ Eroare: {0}</value>
   <data name="Ui.Session.Positive" xml:space="preserve">
     <value>pozitiv</value>
   </data>
+  <data name="Ui.Session.MinutesAgo" xml:space="preserve">
+    <value>acum {0} min</value>
+  </data>
+  <data name="Ui.Session.HoursAgo" xml:space="preserve">
+    <value>acum {0} h</value>
+  </data>
+  <data name="Ui.Session.PoweredBy" xml:space="preserve">
+    <value>Oferit de </value>
+  </data>
   <data name="Ui.Session.JustNow" xml:space="preserve">
     <value>chiar acum</value>
   </data>

@@ -6930,6 +6930,15 @@
   <data name="Ui.Session.Positive" xml:space="preserve">
     <value>إيجابي</value>
   </data>
+  <data name="Ui.Session.MinutesAgo" xml:space="preserve">
+    <value>منذ {0} دقيقة</value>
+  </data>
+  <data name="Ui.Session.HoursAgo" xml:space="preserve">
+    <value>منذ {0} ساعة</value>
+  </data>
+  <data name="Ui.Session.PoweredBy" xml:space="preserve">
+    <value>بدعم من </value>
+  </data>
   <data name="Ui.Session.JustNow" xml:space="preserve">
     <value>الآن</value>
   </data>
