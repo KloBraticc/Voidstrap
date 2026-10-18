@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<DebugType>embedded</DebugType>
@@ -362,6 +362,26 @@
 	<Target Name="IncludeVoidPacer" AfterTargets="BuildVoidPacer" BeforeTargets="AssignTargetPaths" Condition="Exists('$(VoidPacerDll)')">
 		<ItemGroup>
 			<None Include="$(VoidPacerDll)" Link="voidpacer.dll" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+		</ItemGroup>
+	</Target>
+
+	<PropertyGroup>
+		<VoidClipCrate>$(MSBuildThisFileDirectory)../../native/voidclip</VoidClipCrate>
+		<VoidClipTargetDir>$(MSBuildThisFileDirectory)obj/voidclip</VoidClipTargetDir>
+		<VoidClipDll>$(VoidClipTargetDir)/x86_64-pc-windows-msvc/release/voidclip.dll</VoidClipDll>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<VoidClipSources Include="$(MSBuildThisFileDirectory)../../native/voidclip/src/**/*.rs" />
+	</ItemGroup>
+
+	<Target Name="BuildVoidClip" BeforeTargets="AssignTargetPaths" Condition="'$(DesignTimeBuild)' != 'true' And '$(OS)' == 'Windows_NT' And Exists('$(VoidClipCrate)/Cargo.toml')" Inputs="$(VoidClipCrate)/Cargo.toml;$(VoidClipCrate)/Cargo.lock;@(VoidClipSources)" Outputs="$(VoidClipDll)">
+		<Exec Command="&quot;$(VoidImageCargo)&quot; build --release --locked --quiet --target x86_64-pc-windows-msvc --manifest-path &quot;$(VoidClipCrate)/Cargo.toml&quot; --target-dir &quot;$(VoidClipTargetDir)&quot;" IgnoreExitCode="true" IgnoreStandardErrorWarningFormat="true" StandardOutputImportance="low" StandardErrorImportance="low" />
+	</Target>
+
+	<Target Name="IncludeVoidClip" AfterTargets="BuildVoidClip" BeforeTargets="AssignTargetPaths" Condition="Exists('$(VoidClipDll)')">
+		<ItemGroup>
+			<None Include="$(VoidClipDll)" Link="voidclip.dll" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
 		</ItemGroup>
 	</Target>
 

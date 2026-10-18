@@ -1,0 +1,339 @@
+<Window xmlns:resources="clr-namespace:Voidstrap.Resources" x:Class="Voidstrap.UI.Elements.Overlay.SessionClipperPanel"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        Title="Video Clipper" Width="660" Height="640" MinWidth="520" MinHeight="440"
+        WindowStyle="None" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"
+        ResizeMode="NoResize" ShowInTaskbar="False" ShowActivated="False" Topmost="True"
+        WindowStartupLocation="Manual" FontFamily="Segoe UI">
+  <Window.Resources>
+    <Style x:Key="SectionTitle" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="13" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+      <Setter Property="Margin" Value="2,14,0,8" />
+      <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
+    </Style>
+    <Style x:Key="Card" TargetType="Border">
+      <Setter Property="CornerRadius" Value="8" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="Background" Value="{DynamicResource CardBackgroundFillColorDefaultBrush}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}" />
+    </Style>
+    <Style x:Key="Row" TargetType="Border">
+      <Setter Property="MinHeight" Value="44" />
+      <Setter Property="Padding" Value="14,7,14,7" />
+      <Setter Property="BorderThickness" Value="0,0,0,1" />
+      <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}" />
+    </Style>
+    <Style x:Key="LastRow" TargetType="Border" BasedOn="{StaticResource Row}">
+      <Setter Property="BorderThickness" Value="0" />
+    </Style>
+    <Style x:Key="Label" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="13" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
+    </Style>
+    <Style x:Key="Hint" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="11.5" />
+      <Setter Property="Margin" Value="0,2,0,0" />
+      <Setter Property="TextWrapping" Value="Wrap" />
+      <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
+    </Style>
+    <Style x:Key="Glyph" TargetType="TextBlock">
+      <Setter Property="FontFamily" Value="Segoe Fluent Icons, Segoe MDL2 Assets" />
+      <Setter Property="FontSize" Value="13" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+  </Window.Resources>
+
+  <ScrollViewer x:Name="TitleScrollHost" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+    <StackPanel Margin="16,0,16,16">
+
+      <Border Style="{StaticResource Card}" Margin="0,10,0,0" Padding="14,12">
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+              <Ellipse x:Name="StatusDot" Width="9" Height="9" Margin="0,0,9,0" VerticalAlignment="Center" Fill="#8A8A90" />
+              <StackPanel>
+                <TextBlock x:Name="StatusHeadline" Text="Instant Replay Disabled" FontSize="14" FontWeight="SemiBold"
+                           Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+                <TextBlock x:Name="StatusSubline" Text="Turn on Video Clipper to keep a rolling replay buffer in memory."
+                           FontSize="12" Margin="0,2,0,0" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+              </StackPanel>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+              <ui:Button x:Name="SaveNowButton" Appearance="Secondary" Padding="12,6" Margin="0,0,8,0"
+                         Focusable="False" Click="SaveNowButton_Click">
+                <StackPanel Orientation="Horizontal">
+                  <TextBlock Text="&#xE714;" Style="{StaticResource Glyph}" Margin="0,0,7,0" />
+                  <TextBlock x:Name="SaveNowButtonText" Text="Save Clip" FontSize="12.5" FontWeight="SemiBold" />
+                </StackPanel>
+              </ui:Button>
+              <ui:ToggleSwitch x:Name="MasterToggle" VerticalAlignment="Center" Checked="MasterToggle_Changed" Unchecked="MasterToggle_Changed" />
+            </StackPanel>
+          </Grid>
+
+          <Grid Grid.Row="1" Margin="0,12,0,0">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <ProgressBar x:Name="BufferMeter" Height="6" Minimum="0" Maximum="100" Value="0" VerticalAlignment="Center" />
+            <TextBlock x:Name="BufferReadout" Grid.Column="1" Margin="10,0,0,0" FontSize="11.5" VerticalAlignment="Center"
+                       Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="0s / 30s (0.0 MB)" />
+          </Grid>
+
+          <TextBlock x:Name="FeedbackBanner" Grid.Row="2" Margin="0,8,0,0" FontSize="12" Visibility="Collapsed"
+                     Foreground="{DynamicResource TextFillColorSecondaryBrush}" TextWrapping="Wrap" />
+        </Grid>
+      </Border>
+
+      <TextBlock Text="Quality &amp; Capture" Style="{StaticResource SectionTitle}" />
+      <Border Style="{StaticResource Card}">
+        <StackPanel>
+          <Border Style="{StaticResource Row}">
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <StackPanel VerticalAlignment="Center">
+                <TextBlock Text="Replay Buffer &amp; Quality" Style="{StaticResource Label}" />
+                <TextBlock Text="Rolling duration kept in RAM and target encoding bitrate." Style="{StaticResource Hint}" />
+              </StackPanel>
+              <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                <ComboBox x:Name="BufferCombo" Width="110" Padding="8,4" SelectionChanged="QualitySetting_Changed">
+                  <ComboBoxItem Content="15 sec" Tag="15" />
+                  <ComboBoxItem Content="30 sec" Tag="30" />
+                  <ComboBoxItem Content="60 sec" Tag="60" />
+                  <ComboBoxItem Content="120 sec" Tag="120" />
+                </ComboBox>
+                <ComboBox x:Name="QualityCombo" Width="126" Margin="8,0,0,0" Padding="8,4" SelectionChanged="QualitySetting_Changed">
+                  <ComboBoxItem Content="Low (8 Mbps)" Tag="0" />
+                  <ComboBoxItem Content="Medium (14 Mbps)" Tag="1" />
+                  <ComboBoxItem Content="High (22 Mbps)" Tag="2" />
+                  <ComboBoxItem Content="Ultra (40 Mbps)" Tag="3" />
+                </ComboBox>
+              </StackPanel>
+            </Grid>
+          </Border>
+
+          <Border Style="{StaticResource Row}">
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <StackPanel VerticalAlignment="Center">
+                <TextBlock Text="Resolution, Frame Rate &amp; Codec" Style="{StaticResource Label}" />
+                <TextBlock Text="Hardware GPU encoding runs asynchronously with zero game frame impact." Style="{StaticResource Hint}" />
+              </StackPanel>
+              <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                <ComboBox x:Name="ResolutionCombo" Width="96" Padding="8,4" SelectionChanged="QualitySetting_Changed">
+                  <ComboBoxItem Content="Native" Tag="0" />
+                  <ComboBoxItem Content="1440p" Tag="1440" />
+                  <ComboBoxItem Content="1080p" Tag="1080" />
+                  <ComboBoxItem Content="720p" Tag="720" />
+                </ComboBox>
+                <ComboBox x:Name="FpsCombo" Width="88" Margin="6,0,0,0" Padding="8,4" SelectionChanged="QualitySetting_Changed">
+                  <ComboBoxItem Content="30 FPS" Tag="30" />
+                  <ComboBoxItem Content="60 FPS" Tag="60" />
+                  <ComboBoxItem Content="120 FPS" Tag="120" />
+                </ComboBox>
+                <ComboBox x:Name="CodecCombo" Width="86" Margin="6,0,0,0" Padding="8,4" SelectionChanged="QualitySetting_Changed">
+                  <ComboBoxItem Content="H.264" Tag="h264" />
+                  <ComboBoxItem Content="HEVC" Tag="hevc" />
+                </ComboBox>
+              </StackPanel>
+            </Grid>
+          </Border>
+
+          <Border Style="{StaticResource Row}">
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <StackPanel VerticalAlignment="Center">
+                <TextBlock Text="Audio &amp; Overlay Badge" Style="{StaticResource Label}" />
+                <TextBlock Text="Record game audio, microphone input, and show the corner status badge." Style="{StaticResource Hint}" />
+              </StackPanel>
+              <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                <CheckBox x:Name="GameAudioCheck" Content="Game Audio" Margin="0,0,12,0" VerticalAlignment="Center"
+                          Checked="AudioOrBadge_Changed" Unchecked="AudioOrBadge_Changed" />
+                <CheckBox x:Name="MicAudioCheck" Content="Mic" Margin="0,0,12,0" VerticalAlignment="Center"
+                          Checked="AudioOrBadge_Changed" Unchecked="AudioOrBadge_Changed" />
+                <CheckBox x:Name="IndicatorCheck" Content="HUD Badge" VerticalAlignment="Center"
+                          Checked="AudioOrBadge_Changed" Unchecked="AudioOrBadge_Changed" />
+              </StackPanel>
+            </Grid>
+          </Border>
+
+          <Border Style="{StaticResource LastRow}">
+            <Grid>
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <StackPanel VerticalAlignment="Center" Margin="0,0,12,0">
+                <TextBlock Text="Save Clip Shortcut" Style="{StaticResource Label}" />
+                <TextBlock x:Name="ClipShortcutHint" Text="Click the box and press a key combination to save a clip in game." Style="{StaticResource Hint}" />
+              </StackPanel>
+              <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                <Border x:Name="ClipShortcutBox" MinWidth="136" Height="34" CornerRadius="5" Cursor="Hand" Focusable="True"
+                        BorderThickness="1" Padding="12,0"
+                        MouseLeftButtonUp="ClipShortcutBox_Click" PreviewKeyDown="ClipShortcutBox_KeyDown" LostKeyboardFocus="ClipShortcutBox_LostFocus"
+                        Background="{DynamicResource ControlFillColorDefaultBrush}" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}">
+                  <TextBlock x:Name="ClipShortcutText" Text="Alt + F10" FontSize="13.5" HorizontalAlignment="Center" VerticalAlignment="Center"
+                             Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+                </Border>
+                <ui:Button Margin="6,0,0,0" Padding="10,6" Appearance="Secondary" Focusable="False" Click="ResetClipShortcut_Click" ToolTip="Reset to Alt + F10">
+                  <TextBlock Text="Reset" FontSize="12" />
+                </ui:Button>
+              </StackPanel>
+            </Grid>
+          </Border>
+        </StackPanel>
+      </Border>
+
+      <Border x:Name="TrimEditorCard" Style="{StaticResource Card}" Margin="0,14,0,0" Padding="14,12" Visibility="Collapsed">
+        <StackPanel>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel>
+              <TextBlock x:Name="TrimClipTitle" Text="Trim Clip" FontSize="13.5" FontWeight="SemiBold"
+                         Foreground="{DynamicResource TextFillColorPrimaryBrush}" TextTrimming="CharacterEllipsis" />
+              <TextBlock x:Name="TrimRangeLabel" Text="00:00.0 - 00:30.0 (Duration: 30.0s)" FontSize="12" Margin="0,2,0,0"
+                         Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+            </StackPanel>
+            <ui:Button Grid.Column="1" Appearance="Secondary" Padding="8,4" Focusable="False" Click="CloseTrimEditor_Click">
+              <TextBlock Text="Close" FontSize="12" />
+            </ui:Button>
+          </Grid>
+
+          <Grid Margin="0,12,0,0">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="52" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="58" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Start" FontSize="12" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+            <Slider x:Name="TrimStartSlider" Grid.Column="1" Minimum="0" Maximum="30000" Value="0" ValueChanged="TrimSlider_ValueChanged" />
+            <TextBlock x:Name="TrimStartValue" Grid.Column="2" Text="0.0s" FontSize="12" TextAlignment="Right" VerticalAlignment="Center"
+                       Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+          </Grid>
+
+          <Grid Margin="0,8,0,0">
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="52" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="58" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="End" FontSize="12" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+            <Slider x:Name="TrimEndSlider" Grid.Column="1" Minimum="0" Maximum="30000" Value="30000" ValueChanged="TrimSlider_ValueChanged" />
+            <TextBlock x:Name="TrimEndValue" Grid.Column="2" Text="30.0s" FontSize="12" TextAlignment="Right" VerticalAlignment="Center"
+                       Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+          </Grid>
+
+          <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,12,0,0">
+            <ui:Button Content="Save as Copy" Appearance="Secondary" Padding="12,6" Margin="0,0,8,0" Focusable="False" Click="TrimSaveCopy_Click" />
+            <ui:Button Content="Trim Original" Appearance="Secondary" Padding="12,6" Focusable="False" Click="TrimOverwrite_Click" />
+          </StackPanel>
+        </StackPanel>
+      </Border>
+
+      <Grid Margin="2,14,0,8">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <TextBlock Text="Saved Clips" FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center"
+                   Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+        <StackPanel Grid.Column="1" Orientation="Horizontal">
+          <ui:Button Appearance="Secondary" Padding="10,5" Margin="0,0,6,0" Focusable="False" Click="RefreshClips_Click">
+            <StackPanel Orientation="Horizontal">
+              <TextBlock Text="&#xE72C;" Style="{StaticResource Glyph}" Margin="0,0,6,0" />
+              <TextBlock Text="Refresh" FontSize="12" />
+            </StackPanel>
+          </ui:Button>
+          <ui:Button Appearance="Secondary" Padding="10,5" Focusable="False" Click="OpenClipsFolder_Click">
+            <StackPanel Orientation="Horizontal">
+              <TextBlock Text="&#xE8B7;" Style="{StaticResource Glyph}" Margin="0,0,6,0" />
+              <TextBlock Text="Open Folder" FontSize="12" />
+            </StackPanel>
+          </ui:Button>
+        </StackPanel>
+      </Grid>
+
+      <Border Style="{StaticResource Card}" Padding="10">
+        <Grid>
+          <TextBlock x:Name="EmptyClipsText" Text="No clips saved yet. Press Alt + F10 in game or click Save Clip above."
+                     Margin="8,18" FontSize="12.5" HorizontalAlignment="Center"
+                     Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+          <ItemsControl x:Name="ClipsList">
+            <ItemsControl.ItemTemplate>
+              <DataTemplate>
+                <Border Margin="0,0,0,6" Padding="10,8" CornerRadius="6"
+                        Background="{DynamicResource SubtleFillColorSecondaryBrush}"
+                        BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+                  <Grid>
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="104" />
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Border Width="96" Height="54" CornerRadius="5" ClipToBounds="True" HorizontalAlignment="Left"
+                            Background="{DynamicResource SolidBackgroundFillColorSecondaryBrush}">
+                      <Grid>
+                        <TextBlock Text="&#xE714;" Style="{StaticResource Glyph}" FontSize="18" HorizontalAlignment="Center"
+                                   Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                        <Image Source="{Binding Thumbnail}" Stretch="UniformToFill" />
+                        <Border HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="4" Padding="4,1" CornerRadius="3"
+                                Background="#CC18181B">
+                          <TextBlock Text="{Binding DurationText}" FontSize="10" Foreground="#F0F0F2" />
+                        </Border>
+                      </Grid>
+                    </Border>
+                    <StackPanel Grid.Column="1" VerticalAlignment="Center" Margin="6,0,10,0">
+                      <TextBlock Text="{Binding Title}" FontSize="13" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"
+                                 Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+                      <TextBlock Text="{Binding Subtitle}" FontSize="11.5" Margin="0,3,0,0"
+                                 Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                    </StackPanel>
+                    <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
+                      <ui:Button Padding="9,5" Margin="0,0,5,0" Appearance="Secondary" Focusable="False"
+                                 Tag="{Binding FullPath}" Click="PlayClip_Click" ToolTip="Play clip">
+                        <TextBlock Text="Play" FontSize="12" />
+                      </ui:Button>
+                      <ui:Button Padding="9,5" Margin="0,0,5,0" Appearance="Secondary" Focusable="False"
+                                 Tag="{Binding}" Click="OpenTrimClip_Click" ToolTip="Trim clip">
+                        <TextBlock Text="Trim" FontSize="12" />
+                      </ui:Button>
+                      <ui:Button Padding="8,5" Appearance="Secondary" Focusable="False"
+                                 Tag="{Binding FullPath}" Click="DeleteClip_Click" ToolTip="Delete clip">
+                        <TextBlock Text="&#xE74D;" Style="{StaticResource Glyph}" />
+                      </ui:Button>
+                    </StackPanel>
+                  </Grid>
+                </Border>
+              </DataTemplate>
+            </ItemsControl.ItemTemplate>
+          </ItemsControl>
+        </Grid>
+      </Border>
+
+    </StackPanel>
+  </ScrollViewer>
+</Window>

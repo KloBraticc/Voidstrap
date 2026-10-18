@@ -270,6 +270,30 @@ namespace Voidstrap.Models.Persistable
         // Shortcut that opens the session dock, Ctrl+Alt+L by default; a key of 0 means no shortcut
         public OverlayShortcut SessionDockShortcut { get; set; } = new();
 
+        public bool ClipperEnabled { get; set; } = false;
+
+        public OverlayShortcut ClipperShortcut { get; set; } = new() { Modifiers = OverlayShortcut.Alt, Key = 0x79 };
+
+        public int ClipperBufferSeconds { get; set; } = 30;
+
+        public int ClipperResolutionHeight { get; set; } = 1080;
+
+        public int ClipperFps { get; set; } = 60;
+
+        public int ClipperQuality { get; set; } = 2;
+
+        public string ClipperCodec { get; set; } = "h264";
+
+        public bool ClipperGameAudio { get; set; } = true;
+
+        public bool ClipperMicrophone { get; set; } = false;
+
+        public bool ClipperCaptureCursor { get; set; } = false;
+
+        public bool ClipperShowIndicator { get; set; } = true;
+
+        public string ClipperOutputFolder { get; set; } = string.Empty;
+
         // Off shows the server details as a Windows notification instead of the in game one
         public bool ServerDetailsInOverlay { get; set; } = true;
 

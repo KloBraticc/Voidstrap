@@ -16,6 +16,54 @@
         </StackPanel>
       </controls:OptionControl>
 
+      <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
+        <HeaderedContentControl.Header>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel VerticalAlignment="Center">
+              <TextBlock FontSize="14" Text="Video Clipper" />
+              <TextBlock Margin="0,2,0,0" FontSize="12" Text="{Binding ClipperDescription}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" />
+            </StackPanel>
+            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0,8,0">
+              <Button Margin="0,0,12,0" VerticalAlignment="Center" Content="{resources:Loc Ui_Mods_ResetShortcut}" Command="{Binding ResetClipperShortcutCommand}" IsEnabled="{Binding CanResetClipperShortcut}" />
+              <ui:ToggleSwitch VerticalAlignment="Center" IsChecked="{Binding ClipperEnabled, Mode=TwoWay}" />
+            </StackPanel>
+          </Grid>
+        </HeaderedContentControl.Header>
+        <StackPanel>
+          <controls:OptionControl Header="Replay buffer length" Description="How many seconds of gameplay to keep in the instant replay ring buffer.">
+            <ComboBox Width="190" Padding="10,5" ItemsSource="{Binding ClipperBufferOptions}" SelectedItem="{Binding SelectedClipperBuffer, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="Video quality" Description="Bitrate preset used by the hardware GPU encoder.">
+            <ComboBox Width="190" Padding="10,5" ItemsSource="{Binding ClipperQualityOptions}" SelectedItem="{Binding SelectedClipperQuality, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="Resolution" Description="Output resolution of saved clips.">
+            <ComboBox Width="190" Padding="10,5" ItemsSource="{Binding ClipperResolutionOptions}" SelectedItem="{Binding SelectedClipperResolution, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="Frame rate" Description="Target capture frame rate.">
+            <ComboBox Width="190" Padding="10,5" ItemsSource="{Binding ClipperFpsOptions}" SelectedItem="{Binding SelectedClipperFps, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="Encoder codec" Description="Hardware encoder family (NVENC, AMF, QSV, VAAPI, VideoToolbox).">
+            <ComboBox Width="190" Padding="10,5" ItemsSource="{Binding ClipperCodecOptions}" SelectedItem="{Binding SelectedClipperCodec, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="Capture game audio" Description="Record desktop/game audio in saved clips.">
+            <ui:ToggleSwitch IsChecked="{Binding ClipperGameAudio, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="Capture microphone" Description="Mix microphone input into saved clips.">
+            <ui:ToggleSwitch IsChecked="{Binding ClipperMicrophone, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="Status indicator overlay" Description="Show a compact recording and buffer badge on the Roblox window.">
+            <ui:ToggleSwitch IsChecked="{Binding ClipperShowIndicator, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="Saved clips folder" Description="Open the folder where instant replay clips are stored.">
+            <Button Width="140" Content="Open Folder" Command="{Binding OpenClipsFolderCommand}" />
+          </controls:OptionControl>
+        </StackPanel>
+      </ui:CardExpander>
+
       <TextBlock Margin="2,20,0,0" FontSize="16" FontWeight="SemiBold" Text="{resources:Loc Ui_Appearance_Background}" />
                   <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
         <HeaderedContentControl.Header>

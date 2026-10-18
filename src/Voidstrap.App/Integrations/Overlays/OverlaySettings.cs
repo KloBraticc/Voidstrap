@@ -1,4 +1,4 @@
-﻿using Voidstrap.Integrations.AntiAliasing;
+using Voidstrap.Integrations.AntiAliasing;
 using Voidstrap.Integrations.FrameGeneration;
 using Voidstrap.Integrations.MotionBlur;
 using Voidstrap.Integrations.RiShade;
@@ -55,6 +55,7 @@ namespace Voidstrap.Integrations.Overlays
 				|| App.Settings.Prop.SnapTapEnabled
 				|| App.Settings.Prop.DuckRobloxAudioOnUnfocus
 				|| App.Settings.Prop.SessionDockEnabled
+				|| App.Settings.Prop.ClipperEnabled
 				|| (App.Settings.Prop.VoidNotify && App.Settings.Prop.NotificationWindowShow && App.Settings.Prop.NotifyGameJoins)
 				|| HomepageBackgroundEnabled
 				|| App.Settings.Prop.SoberPreferXWayland);

@@ -1189,6 +1189,303 @@ public ICommand PickCursorColorCommand { get; }
 		OnPropertyChanged(nameof(CanResetSessionDockShortcut));
 	}
 
+	private static readonly (int Seconds, string Label)[] ClipperBuffers =
+	[
+		(15, "15 seconds"),
+		(30, "30 seconds"),
+		(45, "45 seconds"),
+		(60, "60 seconds"),
+		(90, "90 seconds"),
+		(120, "2 minutes"),
+		(180, "3 minutes"),
+		(300, "5 minutes")
+	];
+
+	private static readonly (int Key, string Label)[] ClipperQualities =
+	[
+		(0, "Low (8 Mbps)"),
+		(1, "Medium (16 Mbps)"),
+		(2, "High (28 Mbps)"),
+		(3, "Ultra (50 Mbps)")
+	];
+
+	private static readonly (int Height, string Label)[] ClipperResolutions =
+	[
+		(0, "Native"),
+		(720, "720p"),
+		(1080, "1080p"),
+		(1440, "1440p")
+	];
+
+	private static readonly (int Fps, string Label)[] ClipperFpsPresets =
+	[
+		(30, "30 FPS"),
+		(60, "60 FPS"),
+		(120, "120 FPS")
+	];
+
+	private static readonly (string Key, string Label)[] ClipperCodecs =
+	[
+		("h264", "H.264 (Hardware GPU)"),
+		("hevc", "HEVC / H.265 (Hardware GPU)")
+	];
+
+	private static Voidstrap.Models.Persistable.OverlayShortcut DefaultClipperShortcut() =>
+		new() { Modifiers = Voidstrap.Models.Persistable.OverlayShortcut.Alt, Key = 0x79 };
+
+	public bool ClipperEnabled
+	{
+		get => App.Settings.Prop.ClipperEnabled;
+		set
+		{
+			if (App.Settings.Prop.ClipperEnabled == value)
+				return;
+			App.Settings.Prop.ClipperEnabled = value;
+			App.Settings.SaveDeferred();
+			OnPropertyChanged();
+			OnPropertyChanged(nameof(ClipperDescription));
+			MenuContainer.SyncClipperHotkey();
+			Voidstrap.Integrations.Clipper.ClipperService.ReconcileWithSettings();
+		}
+	}
+
+	public string ClipperDescription
+	{
+		get
+		{
+			var shortcut = App.Settings.Prop.ClipperShortcut ?? DefaultClipperShortcut();
+			int secs = Math.Clamp(App.Settings.Prop.ClipperBufferSeconds, 5, 300);
+			return shortcut.IsSet
+				? $"Hardware-accelerated instant replay. Press {shortcut.Describe()} to save the last {secs}s with zero game lag."
+				: "Hardware-accelerated instant replay. Reset or assign a shortcut to save clips in game.";
+		}
+	}
+
+	public bool CanResetClipperShortcut
+	{
+		get
+		{
+			var current = App.Settings.Prop.ClipperShortcut ?? DefaultClipperShortcut();
+			return !current.SameAs(DefaultClipperShortcut());
+		}
+	}
+
+	public ICommand ResetClipperShortcutCommand => new RelayCommand(ResetClipperShortcut);
+
+	private void ResetClipperShortcut()
+	{
+		App.Settings.Prop.ClipperShortcut = DefaultClipperShortcut();
+		App.Settings.SaveDeferred();
+		MenuContainer.SyncClipperHotkey();
+		OnPropertyChanged(nameof(ClipperDescription));
+		OnPropertyChanged(nameof(CanResetClipperShortcut));
+	}
+
+	public IReadOnlyList<string> ClipperBufferOptions { get; } = ClipperBuffers.Select(x => x.Label).ToList();
+
+	public string SelectedClipperBuffer
+	{
+		get
+		{
+			int secs = App.Settings.Prop.ClipperBufferSeconds;
+			foreach (var item in ClipperBuffers)
+			{
+				if (item.Seconds == secs)
+					return item.Label;
+			}
+			return "30 seconds";
+		}
+		set
+		{
+			foreach (var item in ClipperBuffers)
+			{
+				if (item.Label == value)
+				{
+					if (App.Settings.Prop.ClipperBufferSeconds == item.Seconds)
+						return;
+					App.Settings.Prop.ClipperBufferSeconds = item.Seconds;
+					App.Settings.SaveDeferred();
+					OnPropertyChanged();
+					OnPropertyChanged(nameof(ClipperDescription));
+					Voidstrap.Integrations.Clipper.ClipperService.ReconcileWithSettings();
+					return;
+				}
+			}
+		}
+	}
+
+	public IReadOnlyList<string> ClipperQualityOptions { get; } = ClipperQualities.Select(x => x.Label).ToList();
+
+	public string SelectedClipperQuality
+	{
+		get
+		{
+			int q = App.Settings.Prop.ClipperQuality;
+			foreach (var item in ClipperQualities)
+			{
+				if (item.Key == q)
+					return item.Label;
+			}
+			return "High (28 Mbps)";
+		}
+		set
+		{
+			foreach (var item in ClipperQualities)
+			{
+				if (item.Label == value)
+				{
+					if (App.Settings.Prop.ClipperQuality == item.Key)
+						return;
+					App.Settings.Prop.ClipperQuality = item.Key;
+					App.Settings.SaveDeferred();
+					OnPropertyChanged();
+					Voidstrap.Integrations.Clipper.ClipperService.ReconcileWithSettings();
+					return;
+				}
+			}
+		}
+	}
+
+	public IReadOnlyList<string> ClipperResolutionOptions { get; } = ClipperResolutions.Select(x => x.Label).ToList();
+
+	public string SelectedClipperResolution
+	{
+		get
+		{
+			int h = App.Settings.Prop.ClipperResolutionHeight;
+			foreach (var item in ClipperResolutions)
+			{
+				if (item.Height == h)
+					return item.Label;
+			}
+			return "1080p";
+		}
+		set
+		{
+			foreach (var item in ClipperResolutions)
+			{
+				if (item.Label == value)
+				{
+					if (App.Settings.Prop.ClipperResolutionHeight == item.Height)
+						return;
+					App.Settings.Prop.ClipperResolutionHeight = item.Height;
+					App.Settings.SaveDeferred();
+					OnPropertyChanged();
+					Voidstrap.Integrations.Clipper.ClipperService.ReconcileWithSettings();
+					return;
+				}
+			}
+		}
+	}
+
+	public IReadOnlyList<string> ClipperFpsOptions { get; } = ClipperFpsPresets.Select(x => x.Label).ToList();
+
+	public string SelectedClipperFps
+	{
+		get
+		{
+			int fps = App.Settings.Prop.ClipperFps;
+			foreach (var item in ClipperFpsPresets)
+			{
+				if (item.Fps == fps)
+					return item.Label;
+			}
+			return "60 FPS";
+		}
+		set
+		{
+			foreach (var item in ClipperFpsPresets)
+			{
+				if (item.Label == value)
+				{
+					if (App.Settings.Prop.ClipperFps == item.Fps)
+						return;
+					App.Settings.Prop.ClipperFps = item.Fps;
+					App.Settings.SaveDeferred();
+					OnPropertyChanged();
+					Voidstrap.Integrations.Clipper.ClipperService.ReconcileWithSettings();
+					return;
+				}
+			}
+		}
+	}
+
+	public IReadOnlyList<string> ClipperCodecOptions { get; } = ClipperCodecs.Select(x => x.Label).ToList();
+
+	public string SelectedClipperCodec
+	{
+		get
+		{
+			string c = App.Settings.Prop.ClipperCodec ?? "h264";
+			foreach (var item in ClipperCodecs)
+			{
+				if (string.Equals(item.Key, c, StringComparison.OrdinalIgnoreCase))
+					return item.Label;
+			}
+			return "H.264 (Hardware GPU)";
+		}
+		set
+		{
+			foreach (var item in ClipperCodecs)
+			{
+				if (item.Label == value)
+				{
+					if (string.Equals(App.Settings.Prop.ClipperCodec, item.Key, StringComparison.OrdinalIgnoreCase))
+						return;
+					App.Settings.Prop.ClipperCodec = item.Key;
+					App.Settings.SaveDeferred();
+					OnPropertyChanged();
+					Voidstrap.Integrations.Clipper.ClipperService.ReconcileWithSettings();
+					return;
+				}
+			}
+		}
+	}
+
+	public bool ClipperGameAudio
+	{
+		get => App.Settings.Prop.ClipperGameAudio;
+		set
+		{
+			if (App.Settings.Prop.ClipperGameAudio == value)
+				return;
+			App.Settings.Prop.ClipperGameAudio = value;
+			App.Settings.SaveDeferred();
+			OnPropertyChanged();
+			Voidstrap.Integrations.Clipper.ClipperService.ReconcileWithSettings();
+		}
+	}
+
+	public bool ClipperMicrophone
+	{
+		get => App.Settings.Prop.ClipperMicrophone;
+		set
+		{
+			if (App.Settings.Prop.ClipperMicrophone == value)
+				return;
+			App.Settings.Prop.ClipperMicrophone = value;
+			App.Settings.SaveDeferred();
+			OnPropertyChanged();
+			Voidstrap.Integrations.Clipper.ClipperService.ReconcileWithSettings();
+		}
+	}
+
+	public bool ClipperShowIndicator
+	{
+		get => App.Settings.Prop.ClipperShowIndicator;
+		set
+		{
+			if (App.Settings.Prop.ClipperShowIndicator == value)
+				return;
+			App.Settings.Prop.ClipperShowIndicator = value;
+			App.Settings.SaveDeferred();
+			OnPropertyChanged();
+			Voidstrap.Integrations.Clipper.ClipperService.ReconcileWithSettings();
+		}
+	}
+
+	public ICommand OpenClipsFolderCommand => new RelayCommand(() => Utilities.ShellExecute(Voidstrap.Integrations.Clipper.ClipperService.GetClipsDirectory()));
+
 	public string HomepageBackgroundOverlayColor
 	{
 		get => NormalizeHomepageColor(App.Settings.Prop.HomepageBackgroundOverlayColor);

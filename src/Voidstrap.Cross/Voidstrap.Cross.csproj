@@ -102,6 +102,37 @@
 		</ItemGroup>
 	</Target>
 
+	<PropertyGroup Condition="$(RuntimeIdentifier.StartsWith('linux')) Or $(RuntimeIdentifier.StartsWith('osx'))">
+		<VoidClipFileName Condition="$(RuntimeIdentifier.StartsWith('linux'))">libvoidclip.so</VoidClipFileName>
+		<VoidClipFileName Condition="$(RuntimeIdentifier.StartsWith('osx'))">libvoidclip.dylib</VoidClipFileName>
+		<VoidClipLibrary>$(BaseIntermediateOutputPath)voidclip/$(RuntimeIdentifier)/$(VoidClipFileName)</VoidClipLibrary>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<VoidClipSources Include="$(MSBuildProjectDirectory)/../../native/voidclip/src/**/*.rs" />
+	</ItemGroup>
+
+	<Target Name="BuildVoidClip" BeforeTargets="AssignTargetPaths" Condition="'$(VoidClipLibrary)' != '' And '$(DesignTimeBuild)' != 'true' And !$([MSBuild]::IsOSPlatform('Windows'))" Inputs="$(MSBuildProjectDirectory)/../../native/voidclip/Cargo.toml;$(MSBuildProjectDirectory)/../../native/voidclip/Cargo.lock;@(VoidClipSources);$(MSBuildProjectDirectory)/../../build/Packaging/build-voidclip.sh" Outputs="$(VoidClipLibrary)">
+		<Exec Command="bash &quot;$(MSBuildProjectDirectory)/../../build/Packaging/build-voidclip.sh&quot; &quot;$(RuntimeIdentifier)&quot; &quot;$(VoidClipLibrary)&quot; &quot;$(BaseIntermediateOutputPath)voidclip/target&quot;" IgnoreExitCode="true" IgnoreStandardErrorWarningFormat="true" />
+	</Target>
+
+	<PropertyGroup Condition="$(RuntimeIdentifier.StartsWith('linux')) And $([MSBuild]::IsOSPlatform('Windows'))">
+		<_VoidClipLibraryWin>$([System.IO.Path]::GetFullPath($([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', '$(VoidClipLibrary)'))))</_VoidClipLibraryWin>
+		<_VoidClipTargetWin>$([System.IO.Path]::GetFullPath($([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', '$(BaseIntermediateOutputPath)voidclip/target'))))</_VoidClipTargetWin>
+		<_VoidClipLibraryWsl>/mnt/$(_VoidClipLibraryWin.Substring(0, 1).ToLowerInvariant())$(_VoidClipLibraryWin.Substring(2).Replace('%5C', '/'))</_VoidClipLibraryWsl>
+		<_VoidClipTargetWsl>/mnt/$(_VoidClipTargetWin.Substring(0, 1).ToLowerInvariant())$(_VoidClipTargetWin.Substring(2).Replace('%5C', '/'))</_VoidClipTargetWsl>
+	</PropertyGroup>
+
+	<Target Name="BuildVoidClipThroughWsl" BeforeTargets="AssignTargetPaths" Condition="$(RuntimeIdentifier.StartsWith('linux')) And '$(DesignTimeBuild)' != 'true' And $([MSBuild]::IsOSPlatform('Windows'))" Inputs="$(MSBuildProjectDirectory)/../../native/voidclip/Cargo.toml;$(MSBuildProjectDirectory)/../../native/voidclip/Cargo.lock;@(VoidClipSources);$(MSBuildProjectDirectory)/../../build/Packaging/build-voidclip.sh" Outputs="$(VoidClipLibrary)">
+		<Exec Command="wsl.exe -d $(VoidstrapWslDistro) -e bash &quot;$(_VoidImageRootWsl)build/Packaging/build-voidclip.sh&quot; &quot;$(RuntimeIdentifier)&quot; &quot;$(_VoidClipLibraryWsl)&quot; &quot;$(_VoidClipTargetWsl)&quot;" IgnoreExitCode="true" IgnoreStandardErrorWarningFormat="true" />
+	</Target>
+
+	<Target Name="IncludeVoidClip" DependsOnTargets="BuildVoidClip;BuildVoidClipThroughWsl" BeforeTargets="AssignTargetPaths" Condition="'$(VoidClipLibrary)' != ''">
+		<ItemGroup>
+			<None Condition="Exists('$(VoidClipLibrary)')" Include="$(VoidClipLibrary)" Link="$(VoidClipFileName)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+		</ItemGroup>
+	</Target>
+
 	<ItemGroup Condition="$(RuntimeIdentifier.StartsWith('linux'))">
 		<None Include="$(MSBuildProjectDirectory)\..\..\external\LibreWPF\GLFW-LICENSE.txt" Condition="Exists('$(LinuxGlfwLibrary)')">
 			<Link>GLFW-LICENSE.txt</Link>

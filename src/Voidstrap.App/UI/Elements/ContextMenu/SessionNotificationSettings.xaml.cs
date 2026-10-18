@@ -117,6 +117,7 @@ public partial class SessionNotificationSettings : Window
         FriendsToggle.IsChecked = App.Settings.Prop.NotifyFriends;
         BadgesToggle.IsChecked = App.Settings.Prop.NotifyBadges;
         ShortcutToggle.IsChecked = App.Settings.Prop.NotifyShortcutEveryGame;
+        ClipperInlineToggle.IsChecked = App.Settings.Prop.ClipperEnabled;
         UpdateSpots();
         _loading = false;
         UpdateValueTexts();
@@ -259,6 +260,21 @@ public partial class SessionNotificationSettings : Window
     private void OpenOverlayStudio_Click(object sender, RoutedEventArgs e)
     {
         SessionDock.ActiveInstance?.OpenAction("layout");
+    }
+
+    private void OpenVideoClipper_Click(object sender, RoutedEventArgs e)
+    {
+        SessionDock.ActiveInstance?.OpenAction("clips");
+    }
+
+    private void ClipperInlineToggle_Click(object sender, RoutedEventArgs e)
+    {
+        if (!_ready || _loading)
+            return;
+        App.Settings.Prop.ClipperEnabled = ClipperInlineToggle.IsChecked == true;
+        App.Settings.SaveDeferred();
+        MenuContainer.SyncClipperHotkey();
+        Voidstrap.Integrations.Clipper.ClipperService.ReconcileWithSettings();
     }
 
     private void SendTest_Click(object sender, RoutedEventArgs e)
