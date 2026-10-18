@@ -210,7 +210,7 @@
                       MouseLeftButtonDown="StageItem_MouseDown" MouseMove="StageItem_MouseMove" MouseLeftButtonUp="StageItem_MouseUp">
                 <StackPanel>
                   <TextBlock Text="{resources:Loc Ui_OverlayStudio_LayerNotifications}" FontSize="9.5" FontWeight="SemiBold" Foreground="#FFD8C4FF" />
-                  <TextBlock Text="{resources:Loc Ui_SessionNotify_ConnectedToServer}" FontSize="8.5" Foreground="#B8FFFFFF" TextTrimming="CharacterEllipsis" />
+                  <TextBlock Text="{resources:Loc Ui_SessionNotify_TestNotification}" FontSize="8.5" Foreground="#B8FFFFFF" TextTrimming="CharacterEllipsis" />
                 </StackPanel>
               </Border>
 
@@ -389,7 +389,7 @@
                   <ColumnDefinition Width="*" />
                   <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{resources:Loc Ui_SessionNotify_DistanceFromEdge}" Style="{StaticResource Label}" />
+                <TextBlock Text="{resources:Loc Ui_SessionNotify_SpaceFromEdge}" Style="{StaticResource Label}" />
                 <Slider x:Name="ReadoutSpacingSlider" Grid.Column="1" Minimum="0" Maximum="64" TickFrequency="1" Style="{StaticResource RowSlider}" ValueChanged="ReadoutSlider_Changed" />
                 <TextBlock x:Name="ReadoutSpacingText" Grid.Column="2" Style="{StaticResource Value}" />
               </Grid>
@@ -413,7 +413,7 @@
                   <ColumnDefinition Width="*" />
                   <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{resources:Loc Ui_SessionNotify_BackgroundOpacity}" Style="{StaticResource Label}" />
+                <TextBlock Text="{resources:Loc Ui_Appearance_Background}" Style="{StaticResource Label}" />
                 <Slider x:Name="ReadoutOpacitySlider" Grid.Column="1" Minimum="35" Maximum="100" TickFrequency="5" Style="{StaticResource RowSlider}" ValueChanged="ReadoutSlider_Changed" />
                 <TextBlock x:Name="ReadoutOpacityText" Grid.Column="2" Style="{StaticResource Value}" />
               </Grid>
@@ -425,7 +425,7 @@
                   <ColumnDefinition Width="*" />
                   <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{resources:Loc Ui_SessionNotify_CornerRounding}" Style="{StaticResource Label}" />
+                <TextBlock Text="{resources:Loc Ui_SessionNotify_CornerRadius}" Style="{StaticResource Label}" />
                 <Slider x:Name="ReadoutCornerSlider" Grid.Column="1" Minimum="0" Maximum="20" TickFrequency="1" Style="{StaticResource RowSlider}" ValueChanged="ReadoutSlider_Changed" />
                 <TextBlock x:Name="ReadoutCornerText" Grid.Column="2" Style="{StaticResource Value}" />
               </Grid>
@@ -443,7 +443,7 @@
                   <ColumnDefinition Width="*" />
                   <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{resources:Loc Ui_SessionNotify_Placement}" Style="{StaticResource Label}" />
+                <TextBlock Text="{resources:Loc Menu_Appearance_Style_Title}" Style="{StaticResource Label}" />
                 <Border Grid.Column="1" Style="{StaticResource SegmentTray}">
                   <StackPanel Orientation="Horizontal">
                     <RadioButton x:Name="NotifCornerMode" Content="{resources:Loc Ui_SessionNotify_Corner}" GroupName="StudioNotifMode" Style="{StaticResource Segment}" Checked="NotifMode_Changed" />
@@ -483,7 +483,7 @@
                   <ColumnDefinition Width="*" />
                   <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{resources:Loc Ui_SessionNotify_DistanceFromEdge}" Style="{StaticResource Label}" />
+                <TextBlock Text="{resources:Loc Ui_SessionNotify_SpaceFromEdge}" Style="{StaticResource Label}" />
                 <Slider x:Name="NotifSpacingSlider" Grid.Column="1" Minimum="4" Maximum="48" TickFrequency="1" Style="{StaticResource RowSlider}" ValueChanged="NotifSlider_Changed" />
                 <TextBlock x:Name="NotifSpacingText" Grid.Column="2" Style="{StaticResource Value}" />
               </Grid>
@@ -495,7 +495,7 @@
                   <ColumnDefinition Width="*" />
                   <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{resources:Loc Ui_SessionNotify_OverallSize}" Style="{StaticResource Label}" />
+                <TextBlock Text="{resources:Loc Ui_Mods_Size}" Style="{StaticResource Label}" />
                 <Slider x:Name="NotifScaleSlider" Grid.Column="1" Minimum="75" Maximum="135" TickFrequency="5" Style="{StaticResource RowSlider}" ValueChanged="NotifSlider_Changed" />
                 <TextBlock x:Name="NotifScaleText" Grid.Column="2" Style="{StaticResource Value}" />
               </Grid>
@@ -519,7 +519,7 @@
                   <ColumnDefinition Width="*" />
                   <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{resources:Loc Ui_SessionNotify_CardWidth}" Style="{StaticResource Label}" />
+                <TextBlock Text="{resources:Loc Ui_SessionNotify_Width}" Style="{StaticResource Label}" />
                 <Slider x:Name="NotifWidthSlider" Grid.Column="1" Minimum="300" Maximum="520" TickFrequency="10" Style="{StaticResource RowSlider}" ValueChanged="NotifSlider_Changed" />
                 <TextBlock x:Name="NotifWidthText" Grid.Column="2" Style="{StaticResource Value}" />
               </Grid>
@@ -531,7 +531,7 @@
                   <ColumnDefinition Width="*" />
                   <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{resources:Loc Ui_SessionNotify_BackgroundOpacity}" Style="{StaticResource Label}" />
+                <TextBlock Text="{resources:Loc Ui_Appearance_Background}" Style="{StaticResource Label}" />
                 <Slider x:Name="NotifOpacitySlider" Grid.Column="1" Minimum="60" Maximum="100" TickFrequency="5" Style="{StaticResource RowSlider}" ValueChanged="NotifSlider_Changed" />
                 <TextBlock x:Name="NotifOpacityText" Grid.Column="2" Style="{StaticResource Value}" />
               </Grid>
@@ -543,7 +543,7 @@
                   <ColumnDefinition Width="*" />
                   <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{resources:Loc Ui_SessionNotify_CornerRounding}" Style="{StaticResource Label}" />
+                <TextBlock Text="{resources:Loc Ui_SessionNotify_CornerRadius}" Style="{StaticResource Label}" />
                 <Slider x:Name="NotifCornerSlider" Grid.Column="1" Minimum="0" Maximum="20" TickFrequency="1" Style="{StaticResource RowSlider}" ValueChanged="NotifSlider_Changed" />
                 <TextBlock x:Name="NotifCornerText" Grid.Column="2" Style="{StaticResource Value}" />
               </Grid>
@@ -554,8 +554,8 @@
                   <ColumnDefinition Width="*" />
                   <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{resources:Loc Ui_SessionNotify_SendTestNotification}" Style="{StaticResource Label}" />
-                <ui:Button Grid.Column="1" Content="{resources:Loc Ui_SessionNotify_SendTestNotification}" Appearance="Primary" Padding="14,6" Focusable="False" Click="SendTestNotification_Click" />
+                <TextBlock Text="{resources:Loc Ui_SessionNotify_SendATestNotification}" Style="{StaticResource Label}" />
+                <ui:Button Grid.Column="1" Content="{resources:Loc Ui_SessionNotify_SendATestNotification}" Appearance="Primary" Padding="14,6" Focusable="False" Click="SendTestNotification_Click" />
               </Grid>
             </Border>
           </StackPanel>
@@ -602,7 +602,7 @@
                   <ColumnDefinition Width="*" />
                   <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{resources:Loc Ui_SessionNotify_DistanceFromEdge}" Style="{StaticResource Label}" />
+                <TextBlock Text="{resources:Loc Ui_SessionNotify_SpaceFromEdge}" Style="{StaticResource Label}" />
                 <Slider x:Name="DockSpacingSlider" Grid.Column="1" Minimum="4" Maximum="48" TickFrequency="1" Style="{StaticResource RowSlider}" ValueChanged="DockSlider_Changed" />
                 <TextBlock x:Name="DockSpacingText" Grid.Column="2" Style="{StaticResource Value}" />
               </Grid>
@@ -730,7 +730,7 @@
                   <ColumnDefinition Width="*" />
                   <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{resources:Loc Ui_SessionNotify_BackgroundOpacity}" Style="{StaticResource Label}" />
+                <TextBlock Text="{resources:Loc Ui_Appearance_Background}" Style="{StaticResource Label}" />
                 <Slider x:Name="CrosshairOpacitySlider" Grid.Column="1" Minimum="10" Maximum="100" TickFrequency="5" Style="{StaticResource RowSlider}" ValueChanged="CrosshairSlider_Changed" />
                 <TextBlock x:Name="CrosshairOpacityText" Grid.Column="2" Style="{StaticResource Value}" />
               </Grid>
@@ -833,7 +833,7 @@
                   <ColumnDefinition Width="*" />
                   <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Text="{resources:Loc Ui_SessionNotify_DistanceFromEdge}" Style="{StaticResource Label}" />
+                <TextBlock Text="{resources:Loc Ui_SessionNotify_SpaceFromEdge}" Style="{StaticResource Label}" />
                 <Slider x:Name="FrameGenSpacingSlider" Grid.Column="1" Minimum="0" Maximum="64" TickFrequency="1" Style="{StaticResource RowSlider}" ValueChanged="FrameGenSlider_Changed" />
                 <TextBlock x:Name="FrameGenSpacingText" Grid.Column="2" Style="{StaticResource Value}" />
               </Grid>
