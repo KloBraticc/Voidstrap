@@ -6984,4 +6984,202 @@
   <data name="Ui.Session.NoRatings" xml:space="preserve">
     <value>لا توجد تقييمات بعد</value>
   </data>
+  <data name="Ui.Session.OverlayLayout" xml:space="preserve">
+    <value>استوديو الواجهة</value>
+  </data>
+  <data name="Ui.OverlayStudio.Title" xml:space="preserve">
+    <value>استوديو الواجهة</value>
+  </data>
+  <data name="Ui.OverlayStudio.Subtitle" xml:space="preserve">
+    <value>حرك وغير حجم ومظهر كل طبقة داخل اللعبة مع معاينة مباشرة وسحب مباشر على الشاشة.</value>
+  </data>
+  <data name="Ui.OverlayStudio.LiveScreenDrag" xml:space="preserve">
+    <value>سحب مباشر على الشاشة</value>
+  </data>
+  <data name="Ui.OverlayStudio.LiveScreenDragTitle" xml:space="preserve">
+    <value>وضع السحب المباشر على الشاشة</value>
+  </data>
+  <data name="Ui.OverlayStudio.LiveScreenDragHint" xml:space="preserve">
+    <value>اسحب أي بطاقة مباشرة عبر نافذة اللعبة. اضغط Esc أو انقر تم عند الانتهاء.</value>
+  </data>
+  <data name="Ui.OverlayStudio.MagneticSnap" xml:space="preserve">
+    <value>محاذاة مغناطيسية</value>
+  </data>
+  <data name="Ui.OverlayStudio.Done" xml:space="preserve">
+    <value>تم</value>
+  </data>
+  <data name="Ui.OverlayStudio.ResetLayer" xml:space="preserve">
+    <value>إعادة ضبط الطبقة</value>
+  </data>
+  <data name="Ui.OverlayStudio.ResetAll" xml:space="preserve">
+    <value>إعادة ضبط الكل</value>
+  </data>
+  <data name="Ui.OverlayStudio.QuickPresets" xml:space="preserve">
+    <value>قوالب التخطيط</value>
+  </data>
+  <data name="Ui.OverlayStudio.PresetDefault" xml:space="preserve">
+    <value>افتراضي</value>
+  </data>
+  <data name="Ui.OverlayStudio.PresetTopBar" xml:space="preserve">
+    <value>شريط علوي بسيط</value>
+  </data>
+  <data name="Ui.OverlayStudio.PresetCompetitive" xml:space="preserve">
+    <value>واجهة تنافسية</value>
+  </data>
+  <data name="Ui.OverlayStudio.PresetStreamer" xml:space="preserve">
+    <value>واجهة بث نظيفة</value>
+  </data>
+  <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
+    <value>شريط علوي</value>
+  </data>
+  <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
+    <value>منصة شاشة تفاعلية</value>
+  </data>
+  <data name="Ui.OverlayStudio.StageHint" xml:space="preserve">
+    <value>انقر أو اسحب أي عنصر أدناه أو استخدم شبكة النقاط التسع للمحاذاة.</value>
+  </data>
+  <data name="Ui.OverlayStudio.QuickAnchor" xml:space="preserve">
+    <value>محاذاة سريعة من 9 نقاط</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerReadout" xml:space="preserve">
+    <value>الخادم والساعة</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerNotifications" xml:space="preserve">
+    <value>الإشعارات</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
+    <value>شريط الجلسة</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
+    <value>علامة التصويب</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerFrameGen" xml:space="preserve">
+    <value>عداد توليد الإطارات</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerPanels" xml:space="preserve">
+    <value>نوافذ الشريط</value>
+  </data>
+  <data name="Ui.OverlayStudio.ShowServerLocation" xml:space="preserve">
+    <value>إظهار موقع الخادم داخل اللعبة</value>
+  </data>
+  <data name="Ui.OverlayStudio.ShowServerLocationHint" xml:space="preserve">
+    <value>يعرض مدينة ومنطقة الخادم النشط داخل طبقة القراءة.</value>
+  </data>
+  <data name="Ui.OverlayStudio.ShowClock" xml:space="preserve">
+    <value>إظهار الوقت الحالي داخل اللعبة</value>
+  </data>
+  <data name="Ui.OverlayStudio.ShowClockHint" xml:space="preserve">
+    <value>يعرض ساعة حية داخل طبقة القراءة أثناء اللعب.</value>
+  </data>
+  <data name="Ui.OverlayStudio.Clock24Hour" xml:space="preserve">
+    <value>استخدام تنسيق 24 ساعة</value>
+  </data>
+  <data name="Ui.OverlayStudio.Clock24HourHint" xml:space="preserve">
+    <value>يبدل ساعة الواجهة بين نظام 24 ساعة و 12 ساعة.</value>
+  </data>
+  <data name="Ui.OverlayStudio.SingleLinePill" xml:space="preserve">
+    <value>تخطيط كبسولة في سطر واحد</value>
+  </data>
+  <data name="Ui.OverlayStudio.SingleLinePillHint" xml:space="preserve">
+    <value>يضع موقع الخادم والساعة جنبا إلى جنب في سطر مدمج واحد.</value>
+  </data>
+  <data name="Ui.OverlayStudio.ReadoutSize" xml:space="preserve">
+    <value>حجم القراءة</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockEdge" xml:space="preserve">
+    <value>حافة شاشة الشريط</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockEdgeHint" xml:space="preserve">
+    <value>اختر ما إذا كان شريط الجلسة ينزلق من أسفل أو أعلى اللعبة.</value>
+  </data>
+  <data name="Ui.OverlayStudio.BottomEdge" xml:space="preserve">
+    <value>الأسفل</value>
+  </data>
+  <data name="Ui.OverlayStudio.TopEdge" xml:space="preserve">
+    <value>الأعلى</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockScale" xml:space="preserve">
+    <value>حجم الشريط</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockDimmer" xml:space="preserve">
+    <value>قوة تعتيم الخلفية</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockDimmerHint" xml:space="preserve">
+    <value>يتحكم في مقدار تعتيم اللعبة أثناء فتح شريط الجلسة.</value>
+  </data>
+  <data name="Ui.OverlayStudio.EnableCrosshair" xml:space="preserve">
+    <value>إظهار علامة التصويب داخل اللعبة</value>
+  </data>
+  <data name="Ui.OverlayStudio.EnableCrosshairHint" xml:space="preserve">
+    <value>يرسم علامة تصويب مخصصة فوق مركز نافذة اللعبة.</value>
+  </data>
+  <data name="Ui.OverlayStudio.CrosshairShape" xml:space="preserve">
+    <value>شكل العلامة</value>
+  </data>
+  <data name="Ui.OverlayStudio.ShapeCross" xml:space="preserve">
+    <value>زائد</value>
+  </data>
+  <data name="Ui.OverlayStudio.ShapeDot" xml:space="preserve">
+    <value>نقطة</value>
+  </data>
+  <data name="Ui.OverlayStudio.ShapeCircle" xml:space="preserve">
+    <value>دائرة</value>
+  </data>
+  <data name="Ui.OverlayStudio.CrosshairSize" xml:space="preserve">
+    <value>حجم العلامة</value>
+  </data>
+  <data name="Ui.OverlayStudio.CrosshairThickness" xml:space="preserve">
+    <value>سمك الخط</value>
+  </data>
+  <data name="Ui.OverlayStudio.CrosshairGap" xml:space="preserve">
+    <value>فجوة المركز</value>
+  </data>
+  <data name="Ui.OverlayStudio.CrosshairColor" xml:space="preserve">
+    <value>لون العلامة</value>
+  </data>
+  <data name="Ui.OverlayStudio.CrosshairOffsetX" xml:space="preserve">
+    <value>إزاحة المركز أفقيا</value>
+  </data>
+  <data name="Ui.OverlayStudio.CrosshairOffsetY" xml:space="preserve">
+    <value>إزاحة المركز عموديا</value>
+  </data>
+  <data name="Ui.OverlayStudio.CenterCrosshair" xml:space="preserve">
+    <value>إعادة توسيط العلامة</value>
+  </data>
+  <data name="Ui.OverlayStudio.EnableFrameGenHud" xml:space="preserve">
+    <value>إظهار عداد توليد الإطارات</value>
+  </data>
+  <data name="Ui.OverlayStudio.EnableFrameGenHudHint" xml:space="preserve">
+    <value>يعرض معدل الإطارات الفعلي والإطارات المولدة وبيانات المحرك داخل اللعبة.</value>
+  </data>
+  <data name="Ui.OverlayStudio.CustomFrameGenPos" xml:space="preserve">
+    <value>استخدام موضع مخصص للعداد</value>
+  </data>
+  <data name="Ui.OverlayStudio.CustomFrameGenPosHint" xml:space="preserve">
+    <value>يتيح وضع مربع بيانات توليد الإطارات في أي مكان على الشاشة.</value>
+  </data>
+  <data name="Ui.OverlayStudio.PanelsDescription" xml:space="preserve">
+    <value>إدارة المواضع المحفوظة وحالات التثبيت لكل نافذة أداة تفتح من شريط الجلسة.</value>
+  </data>
+  <data name="Ui.OverlayStudio.ResetAllPanels" xml:space="preserve">
+    <value>إعادة ضبط مواضع كل النوافذ</value>
+  </data>
+  <data name="Ui.OverlayStudio.CenterPanel" xml:space="preserve">
+    <value>توسيط</value>
+  </data>
+  <data name="Ui.OverlayStudio.PinPanel" xml:space="preserve">
+    <value>مثبت</value>
+  </data>
+  <data name="Ui.OverlayStudio.UnpinnedPanel" xml:space="preserve">
+    <value>غير مثبت</value>
+  </data>
+  <data name="Ui.OverlayStudio.OpenBannerTitle" xml:space="preserve">
+    <value>استوديو الواجهة داخل اللعبة</value>
+  </data>
+  <data name="Ui.OverlayStudio.OpenBannerHint" xml:space="preserve">
+    <value>اسحب وخصص مواضع الخادم والإشعارات وشريط الجلسة وعلامة التصويب والعداد مباشرة.</value>
+  </data>
+  <data name="Ui.OverlayStudio.OpenStudioButton" xml:space="preserve">
+    <value>فتح استوديو الواجهة</value>
+  </data>
 </root>

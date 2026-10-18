@@ -6935,4 +6935,202 @@ Eroare: {0}</value>
   <data name="Ui.Session.NoRatings" xml:space="preserve">
     <value>Nicio evaluare încă</value>
   </data>
+  <data name="Ui.Session.OverlayLayout" xml:space="preserve">
+    <value>Studioul de suprapunere</value>
+  </data>
+  <data name="Ui.OverlayStudio.Title" xml:space="preserve">
+    <value>Studioul de suprapunere</value>
+  </data>
+  <data name="Ui.OverlayStudio.Subtitle" xml:space="preserve">
+    <value>Mută, scalează și personalizează fiecare suprapunere din joc cu previzualizare live și tragere direct pe ecran.</value>
+  </data>
+  <data name="Ui.OverlayStudio.LiveScreenDrag" xml:space="preserve">
+    <value>Trage direct pe ecran</value>
+  </data>
+  <data name="Ui.OverlayStudio.LiveScreenDragTitle" xml:space="preserve">
+    <value>Mod de tragere live pe ecran</value>
+  </data>
+  <data name="Ui.OverlayStudio.LiveScreenDragHint" xml:space="preserve">
+    <value>Trage orice card direct peste fereastra jocului. Apasă Esc sau Gata când ai terminat.</value>
+  </data>
+  <data name="Ui.OverlayStudio.MagneticSnap" xml:space="preserve">
+    <value>Aliniere magnetică</value>
+  </data>
+  <data name="Ui.OverlayStudio.Done" xml:space="preserve">
+    <value>Gata</value>
+  </data>
+  <data name="Ui.OverlayStudio.ResetLayer" xml:space="preserve">
+    <value>Resetează stratul</value>
+  </data>
+  <data name="Ui.OverlayStudio.ResetAll" xml:space="preserve">
+    <value>Resetează tot</value>
+  </data>
+  <data name="Ui.OverlayStudio.QuickPresets" xml:space="preserve">
+    <value>Presetări de aspect</value>
+  </data>
+  <data name="Ui.OverlayStudio.PresetDefault" xml:space="preserve">
+    <value>Implicit</value>
+  </data>
+  <data name="Ui.OverlayStudio.PresetTopBar" xml:space="preserve">
+    <value>Bară superioară minimală</value>
+  </data>
+  <data name="Ui.OverlayStudio.PresetCompetitive" xml:space="preserve">
+    <value>HUD competitiv</value>
+  </data>
+  <data name="Ui.OverlayStudio.PresetStreamer" xml:space="preserve">
+    <value>Streamer curat</value>
+  </data>
+  <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
+    <value>Dock superior</value>
+  </data>
+  <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
+    <value>Scenă interactivă a ecranului</value>
+  </data>
+  <data name="Ui.OverlayStudio.StageHint" xml:space="preserve">
+    <value>Fă clic sau trage orice element mai jos ori folosește grila în 9 puncte.</value>
+  </data>
+  <data name="Ui.OverlayStudio.QuickAnchor" xml:space="preserve">
+    <value>Ancorare rapidă în 9 puncte</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerReadout" xml:space="preserve">
+    <value>Server și ceas</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerNotifications" xml:space="preserve">
+    <value>Notificări</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
+    <value>Dock de sesiune</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
+    <value>Țintă</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerFrameGen" xml:space="preserve">
+    <value>HUD FrameGen</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerPanels" xml:space="preserve">
+    <value>Panouri dock</value>
+  </data>
+  <data name="Ui.OverlayStudio.ShowServerLocation" xml:space="preserve">
+    <value>Afișează locația serverului în joc</value>
+  </data>
+  <data name="Ui.OverlayStudio.ShowServerLocationHint" xml:space="preserve">
+    <value>Afișează orașul și regiunea serverului activ în panoul informativ.</value>
+  </data>
+  <data name="Ui.OverlayStudio.ShowClock" xml:space="preserve">
+    <value>Afișează ora actuală în joc</value>
+  </data>
+  <data name="Ui.OverlayStudio.ShowClockHint" xml:space="preserve">
+    <value>Afișează un ceas în timp real în panoul informativ în timpul jocului.</value>
+  </data>
+  <data name="Ui.OverlayStudio.Clock24Hour" xml:space="preserve">
+    <value>Folosește formatul de 24 de ore</value>
+  </data>
+  <data name="Ui.OverlayStudio.Clock24HourHint" xml:space="preserve">
+    <value>Comută ceasul între formatul de 24 de ore și cel de 12 ore.</value>
+  </data>
+  <data name="Ui.OverlayStudio.SingleLinePill" xml:space="preserve">
+    <value>Aspect compact pe un singur rând</value>
+  </data>
+  <data name="Ui.OverlayStudio.SingleLinePillHint" xml:space="preserve">
+    <value>Așază locația serverului și ceasul unul lângă altul pe un singur rând.</value>
+  </data>
+  <data name="Ui.OverlayStudio.ReadoutSize" xml:space="preserve">
+    <value>Scară panou</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockEdge" xml:space="preserve">
+    <value>Marginea ecranului pentru dock</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockEdgeHint" xml:space="preserve">
+    <value>Alege dacă dockul de sesiune glisează din partea de jos sau de sus a jocului.</value>
+  </data>
+  <data name="Ui.OverlayStudio.BottomEdge" xml:space="preserve">
+    <value>Jos</value>
+  </data>
+  <data name="Ui.OverlayStudio.TopEdge" xml:space="preserve">
+    <value>Sus</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockScale" xml:space="preserve">
+    <value>Scară dock</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockDimmer" xml:space="preserve">
+    <value>Intensitate întunecare fundal</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockDimmerHint" xml:space="preserve">
+    <value>Controlează cât de mult se întunecă jocul cât timp dockul este deschis.</value>
+  </data>
+  <data name="Ui.OverlayStudio.EnableCrosshair" xml:space="preserve">
+    <value>Afișează ținta în joc</value>
+  </data>
+  <data name="Ui.OverlayStudio.EnableCrosshairHint" xml:space="preserve">
+    <value>Desenează un reticul personalizat în centrul ferestrei jocului.</value>
+  </data>
+  <data name="Ui.OverlayStudio.CrosshairShape" xml:space="preserve">
+    <value>Forma reticulului</value>
+  </data>
+  <data name="Ui.OverlayStudio.ShapeCross" xml:space="preserve">
+    <value>Cruce</value>
+  </data>
+  <data name="Ui.OverlayStudio.ShapeDot" xml:space="preserve">
+    <value>Punct</value>
+  </data>
+  <data name="Ui.OverlayStudio.ShapeCircle" xml:space="preserve">
+    <value>Cerc</value>
+  </data>
+  <data name="Ui.OverlayStudio.CrosshairSize" xml:space="preserve">
+    <value>Mărimea reticulului</value>
+  </data>
+  <data name="Ui.OverlayStudio.CrosshairThickness" xml:space="preserve">
+    <value>Grosimea liniei</value>
+  </data>
+  <data name="Ui.OverlayStudio.CrosshairGap" xml:space="preserve">
+    <value>Spațiu central</value>
+  </data>
+  <data name="Ui.OverlayStudio.CrosshairColor" xml:space="preserve">
+    <value>Culoarea reticulului</value>
+  </data>
+  <data name="Ui.OverlayStudio.CrosshairOffsetX" xml:space="preserve">
+    <value>Decalaj orizontal centru</value>
+  </data>
+  <data name="Ui.OverlayStudio.CrosshairOffsetY" xml:space="preserve">
+    <value>Decalaj vertical centru</value>
+  </data>
+  <data name="Ui.OverlayStudio.CenterCrosshair" xml:space="preserve">
+    <value>Recentrează ținta</value>
+  </data>
+  <data name="Ui.OverlayStudio.EnableFrameGenHud" xml:space="preserve">
+    <value>Afișează HUD generare cadre</value>
+  </data>
+  <data name="Ui.OverlayStudio.EnableFrameGenHudHint" xml:space="preserve">
+    <value>Afișează FPS în timp real, cadre generate și telemetrie în joc.</value>
+  </data>
+  <data name="Ui.OverlayStudio.CustomFrameGenPos" xml:space="preserve">
+    <value>Folosește poziție HUD personalizată</value>
+  </data>
+  <data name="Ui.OverlayStudio.CustomFrameGenPosHint" xml:space="preserve">
+    <value>Permite plasarea casetei de telemetrie oriunde pe ecran.</value>
+  </data>
+  <data name="Ui.OverlayStudio.PanelsDescription" xml:space="preserve">
+    <value>Gestionează pozițiile salvate și fixarea pentru fiecare fereastră deschisă din dock.</value>
+  </data>
+  <data name="Ui.OverlayStudio.ResetAllPanels" xml:space="preserve">
+    <value>Resetează pozițiile tuturor panourilor</value>
+  </data>
+  <data name="Ui.OverlayStudio.CenterPanel" xml:space="preserve">
+    <value>Centrează</value>
+  </data>
+  <data name="Ui.OverlayStudio.PinPanel" xml:space="preserve">
+    <value>Fixat</value>
+  </data>
+  <data name="Ui.OverlayStudio.UnpinnedPanel" xml:space="preserve">
+    <value>Nefixat</value>
+  </data>
+  <data name="Ui.OverlayStudio.OpenBannerTitle" xml:space="preserve">
+    <value>Studioul de suprapunere în joc</value>
+  </data>
+  <data name="Ui.OverlayStudio.OpenBannerHint" xml:space="preserve">
+    <value>Trage și personalizează live serverul, notificările, dockul, ținta și HUDul.</value>
+  </data>
+  <data name="Ui.OverlayStudio.OpenStudioButton" xml:space="preserve">
+    <value>Deschide studioul de suprapunere</value>
+  </data>
 </root>

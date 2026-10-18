@@ -481,6 +481,10 @@ public partial class MenuContainer : WpfUiWindow
                 _sessionDock?.ShowTool("notifications", "Settings",
                     () => new SessionNotificationSettings(CurrentGameIcon.Source, _activityWatcher?.Data?.GameName, SendTestNotification));
                 break;
+            case "layout":
+                _sessionDock?.ShowTool("layout", Strings.Ui_OverlayStudio_Title,
+                    () => new SessionOverlayLayoutEditor(CurrentGameIcon.Source, SendTestNotification));
+                break;
             case "reviews":
                 _sessionDock?.ShowTool("reviews", Strings.Ui_Session_CommunityRating, () => new SessionReviewPanel(_activityWatcher));
                 break;

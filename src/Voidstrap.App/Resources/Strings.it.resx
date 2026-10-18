@@ -6924,4 +6924,202 @@ Errore: {0}</value>
   <data name="Ui.Session.NoRatings" xml:space="preserve">
     <value>Ancora nessuna valutazione</value>
   </data>
+  <data name="Ui.Session.OverlayLayout" xml:space="preserve">
+    <value>Studio sovrapposizioni</value>
+  </data>
+  <data name="Ui.OverlayStudio.Title" xml:space="preserve">
+    <value>Studio sovrapposizioni</value>
+  </data>
+  <data name="Ui.OverlayStudio.Subtitle" xml:space="preserve">
+    <value>Sposta, ridimensiona e personalizza ogni elemento in gioco con anteprima dal vivo e trascinamento diretto sullo schermo.</value>
+  </data>
+  <data name="Ui.OverlayStudio.LiveScreenDrag" xml:space="preserve">
+    <value>Trascina direttamente sullo schermo</value>
+  </data>
+  <data name="Ui.OverlayStudio.LiveScreenDragTitle" xml:space="preserve">
+    <value>Modalità trascinamento dal vivo</value>
+  </data>
+  <data name="Ui.OverlayStudio.LiveScreenDragHint" xml:space="preserve">
+    <value>Trascina qualsiasi scheda direttamente sulla finestra di gioco. Premi Esc o Fine quando hai terminato.</value>
+  </data>
+  <data name="Ui.OverlayStudio.MagneticSnap" xml:space="preserve">
+    <value>Aggancio magnetico</value>
+  </data>
+  <data name="Ui.OverlayStudio.Done" xml:space="preserve">
+    <value>Fine</value>
+  </data>
+  <data name="Ui.OverlayStudio.ResetLayer" xml:space="preserve">
+    <value>Reimposta livello</value>
+  </data>
+  <data name="Ui.OverlayStudio.ResetAll" xml:space="preserve">
+    <value>Reimposta tutto</value>
+  </data>
+  <data name="Ui.OverlayStudio.QuickPresets" xml:space="preserve">
+    <value>Preimpostazioni layout</value>
+  </data>
+  <data name="Ui.OverlayStudio.PresetDefault" xml:space="preserve">
+    <value>Predefinito</value>
+  </data>
+  <data name="Ui.OverlayStudio.PresetTopBar" xml:space="preserve">
+    <value>Barra superiore minimale</value>
+  </data>
+  <data name="Ui.OverlayStudio.PresetCompetitive" xml:space="preserve">
+    <value>HUD competitivo</value>
+  </data>
+  <data name="Ui.OverlayStudio.PresetStreamer" xml:space="preserve">
+    <value>Streamer pulito</value>
+  </data>
+  <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
+    <value>Dock superiore</value>
+  </data>
+  <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
+    <value>Palco schermo interattivo</value>
+  </data>
+  <data name="Ui.OverlayStudio.StageHint" xml:space="preserve">
+    <value>Fai clic o trascina un elemento qui sotto, oppure usa la griglia a 9 punti.</value>
+  </data>
+  <data name="Ui.OverlayStudio.QuickAnchor" xml:space="preserve">
+    <value>Ancoraggio rapido a 9 punti</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerReadout" xml:space="preserve">
+    <value>Server e orologio</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerNotifications" xml:space="preserve">
+    <value>Notifiche</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
+    <value>Dock di sessione</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
+    <value>Mirino</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerFrameGen" xml:space="preserve">
+    <value>HUD FrameGen</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerPanels" xml:space="preserve">
+    <value>Pannelli del dock</value>
+  </data>
+  <data name="Ui.OverlayStudio.ShowServerLocation" xml:space="preserve">
+    <value>Mostra posizione server in gioco</value>
+  </data>
+  <data name="Ui.OverlayStudio.ShowServerLocationHint" xml:space="preserve">
+    <value>Mostra città e regione del server attivo nel riquadro informativo.</value>
+  </data>
+  <data name="Ui.OverlayStudio.ShowClock" xml:space="preserve">
+    <value>Mostra ora attuale in gioco</value>
+  </data>
+  <data name="Ui.OverlayStudio.ShowClockHint" xml:space="preserve">
+    <value>Mostra un orologio in tempo reale nel riquadro informativo durante il gioco.</value>
+  </data>
+  <data name="Ui.OverlayStudio.Clock24Hour" xml:space="preserve">
+    <value>Usa formato 24 ore</value>
+  </data>
+  <data name="Ui.OverlayStudio.Clock24HourHint" xml:space="preserve">
+    <value>Alterna l'orologio tra il formato a 24 ore e quello a 12 ore.</value>
+  </data>
+  <data name="Ui.OverlayStudio.SingleLinePill" xml:space="preserve">
+    <value>Layout compatto su una riga</value>
+  </data>
+  <data name="Ui.OverlayStudio.SingleLinePillHint" xml:space="preserve">
+    <value>Posiziona località del server e orologio affiancati su una singola riga.</value>
+  </data>
+  <data name="Ui.OverlayStudio.ReadoutSize" xml:space="preserve">
+    <value>Scala riquadro</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockEdge" xml:space="preserve">
+    <value>Bordo schermo del dock</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockEdgeHint" xml:space="preserve">
+    <value>Scegli se il dock di sessione scorre dal basso o dall'alto del gioco.</value>
+  </data>
+  <data name="Ui.OverlayStudio.BottomEdge" xml:space="preserve">
+    <value>In basso</value>
+  </data>
+  <data name="Ui.OverlayStudio.TopEdge" xml:space="preserve">
+    <value>In alto</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockScale" xml:space="preserve">
+    <value>Scala del dock</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockDimmer" xml:space="preserve">
+    <value>Intensità oscuramento sfondo</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockDimmerHint" xml:space="preserve">
+    <value>Controlla quanto si oscura il gioco mentre il dock di sessione è aperto.</value>
+  </data>
+  <data name="Ui.OverlayStudio.EnableCrosshair" xml:space="preserve">
+    <value>Mostra mirino in gioco</value>
+  </data>
+  <data name="Ui.OverlayStudio.EnableCrosshairHint" xml:space="preserve">
+    <value>Disegna un reticolo di mira personalizzato al centro della finestra di gioco.</value>
+  </data>
+  <data name="Ui.OverlayStudio.CrosshairShape" xml:space="preserve">
+    <value>Forma reticolo</value>
+  </data>
+  <data name="Ui.OverlayStudio.ShapeCross" xml:space="preserve">
+    <value>Croce</value>
+  </data>
+  <data name="Ui.OverlayStudio.ShapeDot" xml:space="preserve">
+    <value>Punto</value>
+  </data>
+  <data name="Ui.OverlayStudio.ShapeCircle" xml:space="preserve">
+    <value>Cerchio</value>
+  </data>
+  <data name="Ui.OverlayStudio.CrosshairSize" xml:space="preserve">
+    <value>Dimensione reticolo</value>
+  </data>
+  <data name="Ui.OverlayStudio.CrosshairThickness" xml:space="preserve">
+    <value>Spessore linea</value>
+  </data>
+  <data name="Ui.OverlayStudio.CrosshairGap" xml:space="preserve">
+    <value>Spazio centrale</value>
+  </data>
+  <data name="Ui.OverlayStudio.CrosshairColor" xml:space="preserve">
+    <value>Colore reticolo</value>
+  </data>
+  <data name="Ui.OverlayStudio.CrosshairOffsetX" xml:space="preserve">
+    <value>Scostamento orizzontale centro</value>
+  </data>
+  <data name="Ui.OverlayStudio.CrosshairOffsetY" xml:space="preserve">
+    <value>Scostamento verticale centro</value>
+  </data>
+  <data name="Ui.OverlayStudio.CenterCrosshair" xml:space="preserve">
+    <value>Ricentra mirino</value>
+  </data>
+  <data name="Ui.OverlayStudio.EnableFrameGenHud" xml:space="preserve">
+    <value>Mostra HUD generazione fotogrammi</value>
+  </data>
+  <data name="Ui.OverlayStudio.EnableFrameGenHudHint" xml:space="preserve">
+    <value>Mostra FPS in tempo reale, fotogrammi generati e telemetria in gioco.</value>
+  </data>
+  <data name="Ui.OverlayStudio.CustomFrameGenPos" xml:space="preserve">
+    <value>Usa posizione HUD personalizzata</value>
+  </data>
+  <data name="Ui.OverlayStudio.CustomFrameGenPosHint" xml:space="preserve">
+    <value>Permette di posizionare il riquadro telemetria ovunque sullo schermo.</value>
+  </data>
+  <data name="Ui.OverlayStudio.PanelsDescription" xml:space="preserve">
+    <value>Gestisci posizioni salvate e stato di blocco per ogni finestra aperta dal dock di sessione.</value>
+  </data>
+  <data name="Ui.OverlayStudio.ResetAllPanels" xml:space="preserve">
+    <value>Reimposta tutte le posizioni dei pannelli</value>
+  </data>
+  <data name="Ui.OverlayStudio.CenterPanel" xml:space="preserve">
+    <value>Centra</value>
+  </data>
+  <data name="Ui.OverlayStudio.PinPanel" xml:space="preserve">
+    <value>Fissato</value>
+  </data>
+  <data name="Ui.OverlayStudio.UnpinnedPanel" xml:space="preserve">
+    <value>Non fissato</value>
+  </data>
+  <data name="Ui.OverlayStudio.OpenBannerTitle" xml:space="preserve">
+    <value>Studio sovrapposizioni in gioco</value>
+  </data>
+  <data name="Ui.OverlayStudio.OpenBannerHint" xml:space="preserve">
+    <value>Trascina e personalizza dal vivo server, notifiche, dock, mirino e HUD.</value>
+  </data>
+  <data name="Ui.OverlayStudio.OpenStudioButton" xml:space="preserve">
+    <value>Apri studio sovrapposizioni</value>
+  </data>
 </root>

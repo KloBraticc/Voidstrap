@@ -93,10 +93,9 @@ public partial class SessionDock : Window
     private bool _prewarmLogged;
     private int _prewarmIndex;
     private DispatcherTimer? _prewarmTimer;
-    // Built ahead of time while the dock is open so they appear the moment their button is clicked.
-    // Server details, music and game history start loading as soon as they are built (game history asks Roblox
-    // for the server list of every past game, which got rate limited), so those wait for a click.
-    private static readonly string[] PrewarmActions = { "browser", "games", "chat", "adjustments", "details", "history", "music" };
+    public static SessionDock? ActiveInstance { get; private set; }
+    private bool _screenDragDimOverride;
+    private static readonly string[] PrewarmActions = { "browser", "games", "chat", "layout", "adjustments", "details", "history", "music" };
     private bool _profileLoaded;
     private bool _profileLoading;
     private enum PopoutView
@@ -109,11 +108,11 @@ public partial class SessionDock : Window
     private DateTime _profileInfoUtc = DateTime.MinValue;
     private bool _profileInfoLoading;
     private bool _restoringPinned;
-    // Panel keys mapped back to the dock action that opens them
     private static readonly Dictionary<string, string> PanelActions = new(StringComparer.Ordinal)
     {
         ["server"] = "details",
         ["notifications"] = "adjustments",
+        ["layout"] = "layout",
         ["browser"] = "browser",
         ["games"] = "games",
         ["chat"] = "chat",
@@ -124,7 +123,6 @@ public partial class SessionDock : Window
     };
     internal bool IsAnimating => _slide.IsRunning || _linuxMotionActive;
 
-    // Set when the dock was hidden only because the game lost focus, so it comes back with the game
     private bool _resumeOnFocus;
     private bool _resumePopout;
     private bool _resumeQueued;
@@ -139,6 +137,7 @@ public partial class SessionDock : Window
 
     public SessionDock(ActivityWatcher activity, Action<string> action)
     {
+        ActiveInstance = this;
         _lifetimeToken = _lifetime.Token;
         _activity = activity;
         _action = action;
@@ -510,9 +509,7 @@ public partial class SessionDock : Window
         _opened = true;
         UpdateReadout();
         ShowDimmer();
-        // Hiding on focus loss is handled here with a short grace period, the anchor hiding instantly made the dock flicker
-        _anchor ??= new RobloxOverlayAnchor(this, hideWhenUnfocused: false, placement: RobloxOverlayPlacement.BottomCenter);
-        // Reopened while it was still sliding away: it turns around from where it is
+        _anchor ??= new RobloxOverlayAnchor(this, hideWhenUnfocused: false, placement: RobloxOverlayPlacement.BottomCenter, customPosition: ComputeDockPosition);
         Point? resumeFrom = _exiting ? _slide.CurrentPosition() : null;
         CancelEntrance();
         if (resumeFrom == null && !IsVisible && NativeSlide.Supported && RobloxWindowTracker.Current.Valid)
@@ -538,8 +535,118 @@ public partial class SessionDock : Window
         StartEntrance(resumeFrom);
     }
 
-    // Slides the whole window up out of the game's bottom edge. The window is moved by Windows, nothing in it
-    // is redrawn while it moves, which is what made the old animation stutter and slow the game down.
+    internal static (int Left, int Top) ComputeDockPosition(RobloxWindowRect rect, double scaleX, double scaleY, int width, int height)
+    {
+        OverlayLayoutSettings layout = App.Settings.Prop.OverlayLayout ?? new OverlayLayoutSettings();
+        int sideMargin = Math.Max(0, (int)Math.Round(12 * scaleX));
+        int edgeMargin = Math.Max(1, (int)Math.Round(layout.SafeDockEdgeSpacing * scaleY));
+        int minLeft = rect.Left + sideMargin;
+        int maxLeft = Math.Max(minLeft, rect.Left + rect.Width - width - sideMargin);
+        int left = minLeft + (int)Math.Round((maxLeft - minLeft) * (layout.SafeDockHorizontal / 100.0));
+        int top = layout.DockTopEdge
+            ? rect.Top + edgeMargin
+            : rect.Top + Math.Max(0, rect.Height - height - edgeMargin);
+        return (left, top);
+    }
+
+    private static double ResolveConfiguredDimmerOpacity()
+    {
+        OverlayLayoutSettings layout = App.Settings.Prop.OverlayLayout ?? new OverlayLayoutSettings();
+        return layout.ResolveDockBackdropOpacity(DimmerOpacity);
+    }
+
+    public void SetScreenDragDimOverride(bool active)
+    {
+        _screenDragDimOverride = active;
+        if (_opened && _dimmer != null)
+            FadeDimmer(active ? Math.Min(0.10, ResolveConfiguredDimmerOpacity()) : ResolveConfiguredDimmerOpacity());
+    }
+
+    public void RefreshLayoutLive()
+    {
+        if (_closed)
+            return;
+        FitWidth();
+        if (_opened && !_slide.IsRunning && !_linuxMotionActive)
+        {
+            _anchor?.Refresh();
+            ApplyLinuxDockShape();
+            if (PopoutOpen)
+                PlacePopout();
+            if (_dimmer != null)
+            {
+                double target = _screenDragDimOverride
+                    ? Math.Min(0.10, ResolveConfiguredDimmerOpacity())
+                    : ResolveConfiguredDimmerOpacity();
+                SetDimmerAlpha(target);
+            }
+            foreach (SessionPanelWindow panel in _panels.Values.ToArray())
+            {
+                if (!panel.IsClosed)
+                    panel.ReloadLayoutLive();
+            }
+            RaiseAboveDimmer();
+        }
+    }
+
+    public void OpenAction(string action)
+    {
+        if (_closed)
+            return;
+        try
+        {
+            _action(action);
+            _panels.TryGetValue(PanelKeyFor(action), out SessionPanelWindow? active);
+            RaiseAboveDimmer(active);
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("SessionDock::OpenAction", ex);
+        }
+    }
+
+    public void CenterPanelLive(string key)
+    {
+        if (_panels.TryGetValue(key, out SessionPanelWindow? panel) && !panel.IsClosed)
+        {
+            panel.CenterInBoundsLive();
+            return;
+        }
+        App.State.Prop.SessionPanels ??= new();
+        if (!App.State.Prop.SessionPanels.TryGetValue(key, out SessionPanelLayout? saved) || saved == null)
+            saved = new SessionPanelLayout { Width = 540, Height = 460 };
+        saved.X = 0.5;
+        saved.Y = 0.5;
+        App.State.Prop.SessionPanels[key] = saved;
+        App.State.SaveDeferred();
+    }
+
+    public void SetPanelPinnedLive(string key, bool pinned)
+    {
+        if (_panels.TryGetValue(key, out SessionPanelWindow? panel) && !panel.IsClosed)
+        {
+            panel.SetPinStateLive(pinned);
+            return;
+        }
+        App.State.Prop.SessionPanels ??= new();
+        if (!App.State.Prop.SessionPanels.TryGetValue(key, out SessionPanelLayout? saved) || saved == null)
+            saved = new SessionPanelLayout { X = 0.15, Y = 0.12, Width = 540, Height = 460 };
+        saved.Pinned = pinned;
+        App.State.Prop.SessionPanels[key] = saved;
+        App.State.SaveDeferred();
+    }
+
+    public void ResetAllPanelLayoutsLive()
+    {
+        App.State.Prop.SessionPanels?.Clear();
+        App.State.SaveDeferred();
+        foreach (SessionPanelWindow panel in _panels.Values.ToArray())
+        {
+            if (!panel.IsClosed)
+                panel.ReloadLayoutLive();
+        }
+    }
+
     private void StartEntrance(Point? resumeFrom)
     {
         if (Voidstrap.Utility.Platform.IsLinux)
@@ -554,7 +661,8 @@ public partial class SessionDock : Window
             Settle();
             return;
         }
-        Point from = resumeFrom ?? new Point(target.X, game.Top + game.Height);
+        bool topEdge = App.Settings.Prop.OverlayLayout?.DockTopEdge == true;
+        Point from = resumeFrom ?? new Point(target.X, topEdge ? game.Top - Height : game.Top + game.Height);
         Int32Rect clip = new(game.Left, game.Top, game.Width, game.Height);
         if (!_slide.Start(from, target, clip, EntranceLength, true, OnEntranceFinished))
         {
@@ -568,13 +676,11 @@ public partial class SessionDock : Window
         if (_closed || !_opened)
             return;
         _slide.RemoveClip();
-        // Put back exactly where it belongs in case the game moved while it slid
         _anchor?.Refresh();
         Settle();
         QueueFitWidth();
     }
 
-    // Everything that does real work waits until the dock has finished appearing
     private void Settle()
     {
         if (_closed || !_opened)
@@ -588,10 +694,8 @@ public partial class SessionDock : Window
         StartHeartbeat();
         if (_refreshTask is not { IsCompleted: false } && DateTime.UtcNow - _lastRefreshUtc >= RefreshInterval)
             StartRefresh();
-        // Start loading the popout's banner and friends now so they are ready when it is opened
         _ = PortableOverlay.RunAsync(this, LoadPopoutAsync);
         _ = PortableOverlay.RunAsync(this, LoadProfileAsync);
-        // Only panels that were open come back, ones built ahead of time stay hidden until clicked
         foreach (SessionPanelWindow panel in _panels.Values.ToArray())
         {
             if (panel.IsRequested)
@@ -607,7 +711,6 @@ public partial class SessionDock : Window
         RaiseAboveDimmer();
     }
 
-    // One panel per idle moment, so building them never makes the dock or the game hitch
     public void Preload()
     {
         if (_closed)
@@ -678,7 +781,6 @@ public partial class SessionDock : Window
         }
     }
 
-    // The first time the dock is opened in a game, every panel left pinned comes back where it was
     private void RestorePinnedPanels()
     {
         if (_pinnedRestored)
@@ -750,7 +852,10 @@ public partial class SessionDock : Window
         int generation = _linuxMotionGeneration;
         _linuxMotionOrigin = new Point(Left, Top);
         _linuxMotionBounds = bounds;
-        double distance = Math.Max(DockHeight, bounds.Top + bounds.Height - Top);
+        bool topEdge = App.Settings.Prop.OverlayLayout?.DockTopEdge == true;
+        double distance = topEdge
+            ? -Math.Max(DockHeight, Top + Height - bounds.Top)
+            : Math.Max(DockHeight, bounds.Top + bounds.Height - Top);
         double from = entering ? distance : 0;
         double to = entering ? 0 : distance;
         _linuxDockMotion.Y = to;
@@ -839,7 +944,6 @@ public partial class SessionDock : Window
         _linuxDockMotion.Y = 0;
     }
 
-    // Slides back down into the game's bottom edge, then hides
     private bool StartExit()
     {
         if (Voidstrap.Utility.Platform.IsLinux)
@@ -847,8 +951,9 @@ public partial class SessionDock : Window
         RobloxWindowRect game = RobloxWindowTracker.Current;
         if (_slide.CurrentPosition() is not Point from)
             return false;
+        bool topEdge = App.Settings.Prop.OverlayLayout?.DockTopEdge == true;
         Int32Rect clip = new(game.Left, game.Top, game.Width, game.Height);
-        _exiting = _slide.Start(from, new Point(from.X, game.Top + game.Height), clip, ExitLength, false, OnExitFinished);
+        _exiting = _slide.Start(from, new Point(from.X, topEdge ? game.Top - Height : game.Top + game.Height), clip, ExitLength, false, OnExitFinished);
         return _exiting;
     }
 
@@ -863,21 +968,22 @@ public partial class SessionDock : Window
             _slide.RemoveClip();
     }
 
-    // The window is only as wide as the pill and its shadow, a smaller window is cheaper for Windows to draw
     private void FitWidth()
     {
-        if (PortableOverlay.Active)
-            Pill.LayoutTransform = Transform.Identity;
+        double userScale = (App.Settings.Prop.OverlayLayout ?? new OverlayLayoutSettings()).SafeDockScale;
+        Pill.LayoutTransform = Math.Abs(userScale - 1.0) > 0.005 ? new ScaleTransform(userScale, userScale) : Transform.Identity;
         Pill.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
         double shadowRoom = Voidstrap.Utility.Platform.IsLinux ? 0 : ShadowRoomX;
-        double width = Math.Min(MaxDockWidth, Math.Ceiling(Pill.DesiredSize.Width)) + shadowRoom;
+        double width = Math.Min(MaxDockWidth * userScale, Math.Ceiling(Pill.DesiredSize.Width)) + shadowRoom;
         if (PortableOverlay.Active && RobloxWindowTracker.Current is { Valid: true } bounds)
         {
             _availableWidth = bounds.Width;
             double available = Math.Max(1, bounds.Width - shadowRoom);
-            double scale = Math.Min(1, available / Math.Max(1, width - shadowRoom));
-            Pill.LayoutTransform = new ScaleTransform(scale, scale);
-            width = Math.Min(bounds.Width, width);
+            double fitScale = Math.Min(1, available / Math.Max(1, width - shadowRoom));
+            double combinedScale = userScale * fitScale;
+            Pill.LayoutTransform = Math.Abs(combinedScale - 1.0) > 0.005 ? new ScaleTransform(combinedScale, combinedScale) : Transform.Identity;
+            Pill.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+            width = Math.Min(bounds.Width, Math.Ceiling(Pill.DesiredSize.Width) + shadowRoom);
         }
         if (Voidstrap.Utility.Platform.IsLinux)
         {
@@ -915,7 +1021,6 @@ public partial class SessionDock : Window
             FitWidth();
         if (_opened && !bounds.Foreground)
         {
-            // Focus passes through nothing for a moment when it moves between windows, only hide if it stays away
             if (_focusLoss == null)
             {
                 _focusLoss = new DispatcherTimer(DispatcherPriority.Input) { Interval = FocusLossGrace };
@@ -928,7 +1033,6 @@ public partial class SessionDock : Window
         _focusLoss?.Stop();
         if (!_opened && _resumeOnFocus && bounds.Valid && bounds.Foreground && !_resumeQueued)
         {
-            // Not from inside the tracker's own event, opening refreshes the tracker
             _resumeQueued = true;
             Dispatcher.BeginInvoke(DispatcherPriority.Input, new Action(ResumeDock));
         }
@@ -949,7 +1053,8 @@ public partial class SessionDock : Window
         }
         if (!_dimmer.IsVisible)
             _dimmer.Show(RobloxWindowTracker.Current);
-        FadeDimmer(DimmerOpacity);
+        double target = _screenDragDimOverride ? Math.Min(0.10, ResolveConfiguredDimmerOpacity()) : ResolveConfiguredDimmerOpacity();
+        FadeDimmer(target);
     }
 
     private void RaiseAboveDimmer(Window? active = null)
@@ -1669,21 +1774,32 @@ public partial class SessionDock : Window
         OverlayDiagnostics.RegisterOverlayHandle(_popoutHandle);
     }
 
-    // Sits directly above the dock with the same width, following it when the game window moves
     private void PlacePopout()
     {
         if (!PopoutOpen)
             return;
+        bool topEdge = App.Settings.Prop.OverlayLayout?.DockTopEdge == true;
         if (PortableOverlay.Active && _popout != null)
         {
             if (_linuxMotionActive)
                 return;
             Rect position = Pill.TransformToAncestor(this).TransformBounds(new Rect(0, 0, Pill.ActualWidth, Pill.ActualHeight));
             RobloxWindowRect game = RobloxWindowTracker.Current;
-            double portableHeight = Math.Max(1, Math.Min(PopoutHeight, Top + position.Top - PopoutGap - game.Top));
             double portableWidth = Math.Min(position.Width, game.Width);
             double portableLeft = Math.Clamp(Left + position.Left, game.Left, game.Left + Math.Max(0, game.Width - portableWidth));
-            PortableOverlay.Place(_popout, portableLeft, Math.Max(game.Top, Top + position.Top - PopoutGap - portableHeight), portableWidth, portableHeight);
+            double portableHeight;
+            double portableTop;
+            if (topEdge)
+            {
+                portableTop = Top + position.Bottom + PopoutGap;
+                portableHeight = Math.Max(1, Math.Min(PopoutHeight, game.Top + game.Height - portableTop));
+            }
+            else
+            {
+                portableHeight = Math.Max(1, Math.Min(PopoutHeight, Top + position.Top - PopoutGap - game.Top));
+                portableTop = Math.Max(game.Top, Top + position.Top - PopoutGap - portableHeight);
+            }
+            PortableOverlay.Place(_popout, portableLeft, portableTop, portableWidth, portableHeight);
             if (Voidstrap.Utility.Platform.IsLinux)
                 Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetRoundedCorners(PortableOverlay.Handle(_popout), (int)Math.Ceiling(portableWidth), (int)Math.Ceiling(portableHeight), 12);
             return;
@@ -1693,15 +1809,16 @@ public partial class SessionDock : Window
         IntPtr dock = new WindowInteropHelper(this).Handle;
         if (dock == IntPtr.Zero || !GetWindowRect(dock, out NativeRect rect) || Pill.ActualWidth <= 0)
             return;
-        // Lined up with the pill itself, not the larger window around it that holds the shadow
         DpiScale dpi = VisualTreeHelper.GetDpi(this);
         Rect pill = Pill.TransformToAncestor(this).TransformBounds(new Rect(0, 0, Pill.ActualWidth, Pill.ActualHeight));
         int left = rect.Left + (int)Math.Round(pill.Left * dpi.DpiScaleX);
         int top = rect.Top + (int)Math.Round(pill.Top * dpi.DpiScaleY);
+        int bottom = rect.Top + (int)Math.Round(pill.Bottom * dpi.DpiScaleY);
         int width = (int)Math.Ceiling(pill.Width * dpi.DpiScaleX);
         int height = (int)Math.Ceiling(PopoutHeight * dpi.DpiScaleY);
         int gap = (int)Math.Round(PopoutGap * dpi.DpiScaleY);
-        SetWindowPos(_popoutHandle, HwndTopmost, left, top - gap - height, width, height, 0x0010 | 0x0040);
+        int targetY = topEdge ? bottom + gap : top - gap - height;
+        SetWindowPos(_popoutHandle, HwndTopmost, left, targetY, width, height, 0x0010 | 0x0040);
     }
 
     // Fills the popout: the game's main thumbnail as the banner and the friends who are in this server
@@ -1869,6 +1986,8 @@ public partial class SessionDock : Window
         if (_disposed)
             return;
         _disposed = true;
+        if (ReferenceEquals(ActiveInstance, this))
+            ActiveInstance = null;
         _closed = true;
         _opened = false;
         Closing -= OnClosing;

@@ -775,6 +775,7 @@ namespace Voidstrap.Integrations.Overlays
         private readonly bool _hideWhenUnfocused;
 		private readonly bool _keepZOrder;
 		private readonly RobloxOverlayPlacement _placement;
+		private readonly Func<RobloxWindowRect, double, double, int, int, (int Left, int Top)>? _customPosition;
 		private readonly IDisposable _trackerLease;
 		private readonly object _applySync = new object();
         private IntPtr _hwnd;
@@ -783,12 +784,13 @@ namespace Voidstrap.Integrations.Overlays
 		private RobloxWindowRect _pendingRect;
 		private int _applyPending;
 
-        public RobloxOverlayAnchor(Window window, bool hideWhenUnfocused = true, RobloxOverlayPlacement placement = RobloxOverlayPlacement.Fill, bool keepZOrder = false)
+        public RobloxOverlayAnchor(Window window, bool hideWhenUnfocused = true, RobloxOverlayPlacement placement = RobloxOverlayPlacement.Fill, bool keepZOrder = false, Func<RobloxWindowRect, double, double, int, int, (int Left, int Top)>? customPosition = null)
         {
             _window = window;
             _hideWhenUnfocused = hideWhenUnfocused;
 			_keepZOrder = keepZOrder;
 			_placement = placement;
+			_customPosition = customPosition;
 			if (Voidstrap.Utility.Platform.IsMacOS)
 			{
 				_window.WindowStartupLocation = WindowStartupLocation.Manual;
@@ -884,7 +886,14 @@ namespace Voidstrap.Integrations.Overlays
                     if (dock.IsAnimating)
                         return;
                     if (rect.Valid)
-                        Voidstrap.UI.PortableOverlay.Place(_window, rect.Left + Math.Max(0, (rect.Width - _window.Width) / 2), rect.Top + Math.Max(0, rect.Height - _window.Height - 10), _window.Width, _window.Height);
+                    {
+                        int dockWidth = Math.Max(1, (int)Math.Ceiling(ResolveLogicalLength(_window.Width, _window.ActualWidth, _window.DesiredSize.Width, _window.MinWidth)));
+                        int dockHeight = Math.Max(1, (int)Math.Ceiling(ResolveLogicalLength(_window.Height, _window.ActualHeight, _window.DesiredSize.Height, _window.MinHeight)));
+                        (int macLeft, int macTop) = _customPosition != null
+                            ? _customPosition(rect, 1d, 1d, dockWidth, dockHeight)
+                            : (rect.Left + Math.Max(0, (rect.Width - dockWidth) / 2), rect.Top + Math.Max(0, rect.Height - dockHeight - 10));
+                        Voidstrap.UI.PortableOverlay.Place(_window, macLeft, macTop, _window.Width, _window.Height);
+                    }
                     else if (_window.IsVisible)
                         _window.Hide();
                 }
@@ -931,7 +940,11 @@ namespace Voidstrap.Integrations.Overlays
 					height = Math.Max(1, (int)Math.Ceiling(logicalHeight * scaleY));
 					int horizontalMargin = Math.Max(1, (int)Math.Round(12 * scaleX));
 					int verticalMargin = Math.Max(1, (int)Math.Round(10 * scaleY));
-					if (_placement == RobloxOverlayPlacement.Center)
+					if (_customPosition != null)
+					{
+						(left, top) = _customPosition(rect, scaleX, scaleY, width, height);
+					}
+					else if (_placement == RobloxOverlayPlacement.Center)
 					{
 						left = rect.Left + (rect.Width - width) / 2;
 						top = rect.Top + (rect.Height - height) / 2;
@@ -1008,7 +1021,11 @@ namespace Voidstrap.Integrations.Overlays
 			{
 				width = Math.Max(1, (int)Math.Ceiling(ResolveLogicalLength(_window.Width, _window.ActualWidth, _window.DesiredSize.Width, _window.MinWidth)));
 				height = Math.Max(1, (int)Math.Ceiling(ResolveLogicalLength(_window.Height, _window.ActualHeight, _window.DesiredSize.Height, _window.MinHeight)));
-				if (_placement == RobloxOverlayPlacement.Center)
+				if (_customPosition != null)
+				{
+					(left, top) = _customPosition(rect, 1d, 1d, width, height);
+				}
+				else if (_placement == RobloxOverlayPlacement.Center)
 				{
 					left = rect.Left + (rect.Width - width) / 2;
 					top = rect.Top + (rect.Height - height) / 2;
@@ -1128,7 +1145,11 @@ namespace Voidstrap.Integrations.Overlays
 			double logicalHeight = ResolveLogicalLength(_window.Height, _window.ActualHeight, _window.DesiredSize.Height, _window.MinHeight);
 			int width = Math.Max(1, (int)Math.Ceiling(logicalWidth));
 			int height = Math.Max(1, (int)Math.Ceiling(logicalHeight));
-			ApplyLinuxGeometry((screenWidth - width) / 2, (screenHeight - height) / 2, width, height);
+			RobloxWindowRect screenRect = new(0, 0, 0, screenWidth, screenHeight, true, true);
+			(int left, int top) = _customPosition != null
+				? _customPosition(screenRect, 1d, 1d, width, height)
+				: ((screenWidth - width) / 2, (screenHeight - height) / 2);
+			ApplyLinuxGeometry(left, top, width, height);
 			return true;
 		}
 

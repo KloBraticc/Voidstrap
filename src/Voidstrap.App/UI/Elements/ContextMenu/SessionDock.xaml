@@ -357,6 +357,9 @@
           <ui:Button x:Name="WebButton" ToolTip="{resources:Loc Ui_Session_Browser}" Tag="web" Click="OnAction" Style="{StaticResource DockIcon}">
             <TextBlock Text="&#xE774;" Style="{StaticResource DockGlyph}" />
           </ui:Button>
+          <ui:Button ToolTip="{resources:Loc Ui_Session_OverlayLayout}" Tag="layout" Click="OnAction" Style="{StaticResource DockIcon}">
+            <TextBlock Text="&#xE759;" Style="{StaticResource DockGlyph}" />
+          </ui:Button>
           <ui:Button ToolTip="{resources:Loc Ui_Nav_Settings}" Tag="adjustments" Click="OnAction" Style="{StaticResource DockIcon}">
             <TextBlock Text="&#xE713;" Style="{StaticResource DockGlyph}" />
           </ui:Button>

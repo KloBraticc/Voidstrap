@@ -178,7 +178,7 @@ namespace Voidstrap.UI.Elements.Crosshair
             Loaded += OnCrosshairLoaded;
             Closed += OnCrosshairClosed;
 
-            _anchor = new RobloxOverlayAnchor(this, placement: RobloxOverlayPlacement.Center);
+            _anchor = new RobloxOverlayAnchor(this, placement: RobloxOverlayPlacement.Center, customPosition: ComputeCrosshairPosition);
 
             RefreshCrosshair();
             Show();
@@ -192,6 +192,18 @@ namespace Voidstrap.UI.Elements.Crosshair
 				}
 				throw;
 			}
+        }
+
+        private static (int Left, int Top) ComputeCrosshairPosition(RobloxWindowRect rect, double scaleX, double scaleY, int width, int height)
+        {
+            var layout = App.Settings.Prop.OverlayLayout ?? new Voidstrap.Models.Persistable.OverlayLayoutSettings();
+            int offsetX = (int)Math.Round(layout.SafeCrosshairOffsetX * scaleX);
+            int offsetY = (int)Math.Round(layout.SafeCrosshairOffsetY * scaleY);
+            int left = rect.Left + (rect.Width - width) / 2 + offsetX;
+            int top = rect.Top + (rect.Height - height) / 2 + offsetY;
+            left = Math.Clamp(left, rect.Left, Math.Max(rect.Left, rect.Left + rect.Width - width));
+            top = Math.Clamp(top, rect.Top, Math.Max(rect.Top, rect.Top + rect.Height - height));
+            return (left, top);
         }
 
         private void OnCrosshairLoaded(object? sender, RoutedEventArgs e)

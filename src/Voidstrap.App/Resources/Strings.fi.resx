@@ -6947,4 +6947,202 @@ Virhe: {0}</value>
   <data name="Ui.Session.NoRatings" xml:space="preserve">
     <value>Ei vielä arvioita</value>
   </data>
+  <data name="Ui.Session.OverlayLayout" xml:space="preserve">
+    <value>Peittokuvastudio</value>
+  </data>
+  <data name="Ui.OverlayStudio.Title" xml:space="preserve">
+    <value>Peittokuvastudio</value>
+  </data>
+  <data name="Ui.OverlayStudio.Subtitle" xml:space="preserve">
+    <value>Siirrä, skaalaa ja muokkaa jokaista pelin peittokuvaa suoralla esikatselulla ja vetämällä.</value>
+  </data>
+  <data name="Ui.OverlayStudio.LiveScreenDrag" xml:space="preserve">
+    <value>Vedä suoraan näytöllä</value>
+  </data>
+  <data name="Ui.OverlayStudio.LiveScreenDragTitle" xml:space="preserve">
+    <value>Suora näytöllä vetotila</value>
+  </data>
+  <data name="Ui.OverlayStudio.LiveScreenDragHint" xml:space="preserve">
+    <value>Vedä mitä tahansa korttia suoraan peli ikkunan päällä. Paina Esc tai Valmis kun olet valmis.</value>
+  </data>
+  <data name="Ui.OverlayStudio.MagneticSnap" xml:space="preserve">
+    <value>Magneettinen kiinnitys</value>
+  </data>
+  <data name="Ui.OverlayStudio.Done" xml:space="preserve">
+    <value>Valmis</value>
+  </data>
+  <data name="Ui.OverlayStudio.ResetLayer" xml:space="preserve">
+    <value>Palauta taso</value>
+  </data>
+  <data name="Ui.OverlayStudio.ResetAll" xml:space="preserve">
+    <value>Palauta kaikki</value>
+  </data>
+  <data name="Ui.OverlayStudio.QuickPresets" xml:space="preserve">
+    <value>Asettelun esiasetukset</value>
+  </data>
+  <data name="Ui.OverlayStudio.PresetDefault" xml:space="preserve">
+    <value>Oletus</value>
+  </data>
+  <data name="Ui.OverlayStudio.PresetTopBar" xml:space="preserve">
+    <value>Minimaalinen yläpalkki</value>
+  </data>
+  <data name="Ui.OverlayStudio.PresetCompetitive" xml:space="preserve">
+    <value>Kilpapeli HUD</value>
+  </data>
+  <data name="Ui.OverlayStudio.PresetStreamer" xml:space="preserve">
+    <value>Siisti striimaaja</value>
+  </data>
+  <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
+    <value>Ylätelakka</value>
+  </data>
+  <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
+    <value>Vuorovaikutteinen näyttämö</value>
+  </data>
+  <data name="Ui.OverlayStudio.StageHint" xml:space="preserve">
+    <value>Napsauta tai vedä peittokuvaa alla tai käytä 9 pisteen ruudukkoa.</value>
+  </data>
+  <data name="Ui.OverlayStudio.QuickAnchor" xml:space="preserve">
+    <value>Nopea 9 pisteen ankkuri</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerReadout" xml:space="preserve">
+    <value>Palvelin ja kello</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerNotifications" xml:space="preserve">
+    <value>Ilmoitukset</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
+    <value>Istuntotelakka</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
+    <value>Tähtäin</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerFrameGen" xml:space="preserve">
+    <value>FrameGen HUD</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerPanels" xml:space="preserve">
+    <value>Telakan paneelit</value>
+  </data>
+  <data name="Ui.OverlayStudio.ShowServerLocation" xml:space="preserve">
+    <value>Näytä palvelimen sijainti pelissä</value>
+  </data>
+  <data name="Ui.OverlayStudio.ShowServerLocationHint" xml:space="preserve">
+    <value>Näyttää aktiivisen palvelimen kaupungin ja alueen tietopalkissa.</value>
+  </data>
+  <data name="Ui.OverlayStudio.ShowClock" xml:space="preserve">
+    <value>Näytä kellonaika pelissä</value>
+  </data>
+  <data name="Ui.OverlayStudio.ShowClockHint" xml:space="preserve">
+    <value>Näyttää reaaliaikaisen kellon tietopalkissa pelaamisen aikana.</value>
+  </data>
+  <data name="Ui.OverlayStudio.Clock24Hour" xml:space="preserve">
+    <value>Käytä 24 tunnin kelloa</value>
+  </data>
+  <data name="Ui.OverlayStudio.Clock24HourHint" xml:space="preserve">
+    <value>Vaihtaa peittokuvan kellon 24 tunnin ja 12 tunnin muodon välillä.</value>
+  </data>
+  <data name="Ui.OverlayStudio.SingleLinePill" xml:space="preserve">
+    <value>Yksirivinen kapseliasettelu</value>
+  </data>
+  <data name="Ui.OverlayStudio.SingleLinePillHint" xml:space="preserve">
+    <value>Asettaa palvelimen sijainnin ja kellon vierekkäin yhdelle riville.</value>
+  </data>
+  <data name="Ui.OverlayStudio.ReadoutSize" xml:space="preserve">
+    <value>Tietopalkin koko</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockEdge" xml:space="preserve">
+    <value>Telakan näytön reuna</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockEdgeHint" xml:space="preserve">
+    <value>Valitse liukuuko istuntotelakka esiin pelin ala vai yläreunasta.</value>
+  </data>
+  <data name="Ui.OverlayStudio.BottomEdge" xml:space="preserve">
+    <value>Alareuna</value>
+  </data>
+  <data name="Ui.OverlayStudio.TopEdge" xml:space="preserve">
+    <value>Yläreuna</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockScale" xml:space="preserve">
+    <value>Telakan koko</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockDimmer" xml:space="preserve">
+    <value>Taustan tummennus</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockDimmerHint" xml:space="preserve">
+    <value>Säätää kuinka paljon peli tummenee istuntotelakan ollessa auki.</value>
+  </data>
+  <data name="Ui.OverlayStudio.EnableCrosshair" xml:space="preserve">
+    <value>Näytä tähtäin pelissä</value>
+  </data>
+  <data name="Ui.OverlayStudio.EnableCrosshairHint" xml:space="preserve">
+    <value>Piirtää mukautetun tähtäimen peli ikkunan keskelle.</value>
+  </data>
+  <data name="Ui.OverlayStudio.CrosshairShape" xml:space="preserve">
+    <value>Tähtäimen muoto</value>
+  </data>
+  <data name="Ui.OverlayStudio.ShapeCross" xml:space="preserve">
+    <value>Risti</value>
+  </data>
+  <data name="Ui.OverlayStudio.ShapeDot" xml:space="preserve">
+    <value>Piste</value>
+  </data>
+  <data name="Ui.OverlayStudio.ShapeCircle" xml:space="preserve">
+    <value>Ympyrä</value>
+  </data>
+  <data name="Ui.OverlayStudio.CrosshairSize" xml:space="preserve">
+    <value>Tähtäimen koko</value>
+  </data>
+  <data name="Ui.OverlayStudio.CrosshairThickness" xml:space="preserve">
+    <value>Viivan paksuus</value>
+  </data>
+  <data name="Ui.OverlayStudio.CrosshairGap" xml:space="preserve">
+    <value>Keskiväli</value>
+  </data>
+  <data name="Ui.OverlayStudio.CrosshairColor" xml:space="preserve">
+    <value>Tähtäimen väri</value>
+  </data>
+  <data name="Ui.OverlayStudio.CrosshairOffsetX" xml:space="preserve">
+    <value>Vaakapoikkeama keskeltä</value>
+  </data>
+  <data name="Ui.OverlayStudio.CrosshairOffsetY" xml:space="preserve">
+    <value>Pystypoikkeama keskeltä</value>
+  </data>
+  <data name="Ui.OverlayStudio.CenterCrosshair" xml:space="preserve">
+    <value>Keskitä tähtäin</value>
+  </data>
+  <data name="Ui.OverlayStudio.EnableFrameGenHud" xml:space="preserve">
+    <value>Näytä Frame Generation HUD</value>
+  </data>
+  <data name="Ui.OverlayStudio.EnableFrameGenHudHint" xml:space="preserve">
+    <value>Näyttää reaaliaikaisen FPS lukeman, luodut ruudut ja telemetrian pelissä.</value>
+  </data>
+  <data name="Ui.OverlayStudio.CustomFrameGenPos" xml:space="preserve">
+    <value>Käytä mukautettua HUD sijaintia</value>
+  </data>
+  <data name="Ui.OverlayStudio.CustomFrameGenPosHint" xml:space="preserve">
+    <value>Sallii Frame Generation tietolaatikon sijoittamisen minne tahansa näytöllä.</value>
+  </data>
+  <data name="Ui.OverlayStudio.PanelsDescription" xml:space="preserve">
+    <value>Hallitse tallennettuja sijainteja ja kiinnityksiä jokaiselle telakan työkaluikkunalle.</value>
+  </data>
+  <data name="Ui.OverlayStudio.ResetAllPanels" xml:space="preserve">
+    <value>Palauta kaikkien paneelien sijainnit</value>
+  </data>
+  <data name="Ui.OverlayStudio.CenterPanel" xml:space="preserve">
+    <value>Keskitä</value>
+  </data>
+  <data name="Ui.OverlayStudio.PinPanel" xml:space="preserve">
+    <value>Kiinnitetty</value>
+  </data>
+  <data name="Ui.OverlayStudio.UnpinnedPanel" xml:space="preserve">
+    <value>Irrotettu</value>
+  </data>
+  <data name="Ui.OverlayStudio.OpenBannerTitle" xml:space="preserve">
+    <value>Pelinsisäinen peittokuvastudio</value>
+  </data>
+  <data name="Ui.OverlayStudio.OpenBannerHint" xml:space="preserve">
+    <value>Vedä ja mukauta palvelintietoja, ilmoituksia, telakkaa, tähtäintä ja HUDia livenä.</value>
+  </data>
+  <data name="Ui.OverlayStudio.OpenStudioButton" xml:space="preserve">
+    <value>Avaa peittokuvastudio</value>
+  </data>
 </root>

@@ -96,6 +96,25 @@
 
       <TextBlock Text="{resources:Loc Ui_SessionNotify_Overlay}" Style="{StaticResource Section}" Margin="2,10,0,10" />
       <Border Style="{StaticResource Card}">
+        <StackPanel>
+        <Border Style="{StaticResource Row}">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel VerticalAlignment="Center" Margin="0,0,12,0">
+              <TextBlock Text="{resources:Loc Ui_OverlayStudio_OpenBannerTitle}" Style="{StaticResource Label}" />
+              <TextBlock Text="{resources:Loc Ui_OverlayStudio_OpenBannerHint}" Style="{StaticResource Hint}" />
+            </StackPanel>
+            <ui:Button Grid.Column="1" Appearance="Primary" Padding="14,7" VerticalAlignment="Center" Focusable="False" Click="OpenOverlayStudio_Click">
+              <StackPanel Orientation="Horizontal">
+                <TextBlock Text="&#xE759;" Style="{StaticResource Glyph}" Margin="0,0,7,0" />
+                <TextBlock Text="{resources:Loc Ui_OverlayStudio_OpenStudioButton}" FontSize="13" FontWeight="SemiBold" />
+              </StackPanel>
+            </ui:Button>
+          </Grid>
+        </Border>
         <Border Style="{StaticResource LastRow}">
           <Grid>
             <Grid.ColumnDefinitions>
@@ -122,6 +141,7 @@
             </StackPanel>
           </Grid>
         </Border>
+        </StackPanel>
       </Border>
 
       <TextBlock Text="{resources:Loc Notifications_Title}" Style="{StaticResource Section}" />

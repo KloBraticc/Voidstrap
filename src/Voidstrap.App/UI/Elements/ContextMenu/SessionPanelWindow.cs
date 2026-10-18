@@ -177,6 +177,12 @@ public sealed partial class SessionPanelWindow : Window
 
     private static int UsableHeight(RobloxWindowRect bounds, DpiScale dpi)
         => Math.Max(1, bounds.Height - (int)Math.Round(DockReserve * dpi.DpiScaleY));
+
+    private static int UsableTopOffset(RobloxWindowRect bounds, DpiScale dpi)
+        => App.Settings.Prop.OverlayLayout?.DockTopEdge == true
+            ? Math.Min(Math.Max(0, bounds.Height - 1), (int)Math.Round(DockReserve * dpi.DpiScaleY))
+            : 0;
+
     private const double FrostBlur = 18;
     private static readonly System.Windows.Media.FontFamily TitleIconFont = new("Segoe Fluent Icons, Segoe MDL2 Assets");
 
@@ -188,6 +194,7 @@ public sealed partial class SessionPanelWindow : Window
         "history" => "\uE81C",
         "music" => "\uE8D6",
         "notifications" => "\uE713",
+        "layout" => "\uE759",
         "server" => "\uE946",
         "reviews" => "\uE734",
         "web" => "\uE774",
@@ -464,8 +471,9 @@ public sealed partial class SessionPanelWindow : Window
                 Height = height;
             int pixelWidth = (int)Math.Ceiling(width * dpi.DpiScaleX);
             int pixelHeight = (int)Math.Ceiling(height * dpi.DpiScaleY);
+            int topOffset = UsableTopOffset(bounds, dpi);
             int left = bounds.Left + (int)Math.Round(_x * Math.Max(0, bounds.Width - pixelWidth));
-            int top = bounds.Top + (int)Math.Round(_y * Math.Max(0, usableHeight - pixelHeight));
+            int top = bounds.Top + topOffset + (int)Math.Round(_y * Math.Max(0, usableHeight - pixelHeight));
             bool shown = IsVisible;
             if (shown && _placed && left == _lastLeft && top == _lastTop && pixelWidth == _lastWidth && pixelHeight == _lastHeight)
                 return;
@@ -575,6 +583,8 @@ public sealed partial class SessionPanelWindow : Window
     {
         if (_view is SessionNotificationSettings { IsRecordingShortcut: true })
             return;
+        if (_view is SessionOverlayLayoutEditor { IsScreenDragActive: true })
+            return;
         if (e.Key == Key.Escape)
         {
             e.Handled = true;
@@ -596,10 +606,47 @@ public sealed partial class SessionPanelWindow : Window
             PortableOverlay.Focus(this);
     }
 
+    public string PanelKey => _key;
+
+    public void ReloadLayoutLive()
+    {
+        if (_closed)
+            return;
+        RestoreLayout();
+        _placed = false;
+        ApplyBounds(RobloxWindowTracker.Current);
+    }
+
+    public void SetPinStateLive(bool pinned)
+    {
+        if (_closed)
+            return;
+        IsPinned = pinned;
+        UpdatePinVisual();
+        SaveLayout();
+    }
+
+    public void CenterInBoundsLive()
+    {
+        if (_closed)
+            return;
+        _x = 0.5;
+        _y = 0.5;
+        SaveLayout();
+        _placed = false;
+        ApplyBounds(RobloxWindowTracker.Current);
+    }
+
     private void RestoreLayout()
     {
         if (App.State.Prop.SessionPanels?.TryGetValue(_key, out SessionPanelLayout? saved) != true || saved == null)
+        {
+            _x = 0.15;
+            _y = 0.12;
+            IsPinned = false;
+            UpdatePinVisual();
             return;
+        }
         if (double.IsFinite(saved.X)) _x = Math.Clamp(saved.X, 0, 1);
         if (double.IsFinite(saved.Y)) _y = Math.Clamp(saved.Y, 0, 1);
         if (double.IsFinite(saved.Width) && saved.Width >= MinWidth) Width = Math.Min(saved.Width, 1600);

@@ -6911,4 +6911,202 @@ Fout: {0}</value>
   <data name="Ui.Session.NoRatings" xml:space="preserve">
     <value>Nog geen beoordelingen</value>
   </data>
+  <data name="Ui.Session.OverlayLayout" xml:space="preserve">
+    <value>Overlay Studio</value>
+  </data>
+  <data name="Ui.OverlayStudio.Title" xml:space="preserve">
+    <value>Overlay Studio</value>
+  </data>
+  <data name="Ui.OverlayStudio.Subtitle" xml:space="preserve">
+    <value>Verplaats, schaal en stijl elke in game overlay met live voorbeeld en direct slepen op het scherm.</value>
+  </data>
+  <data name="Ui.OverlayStudio.LiveScreenDrag" xml:space="preserve">
+    <value>Direct op scherm slepen</value>
+  </data>
+  <data name="Ui.OverlayStudio.LiveScreenDragTitle" xml:space="preserve">
+    <value>Live schermsleepmodus</value>
+  </data>
+  <data name="Ui.OverlayStudio.LiveScreenDragHint" xml:space="preserve">
+    <value>Sleep elke overlaykaart rechtstreeks over het spelvenster. Druk op Esc of klik op Gereed als je klaar bent.</value>
+  </data>
+  <data name="Ui.OverlayStudio.MagneticSnap" xml:space="preserve">
+    <value>Magnetisch uitlijnen</value>
+  </data>
+  <data name="Ui.OverlayStudio.Done" xml:space="preserve">
+    <value>Gereed</value>
+  </data>
+  <data name="Ui.OverlayStudio.ResetLayer" xml:space="preserve">
+    <value>Laag herstellen</value>
+  </data>
+  <data name="Ui.OverlayStudio.ResetAll" xml:space="preserve">
+    <value>Alles herstellen</value>
+  </data>
+  <data name="Ui.OverlayStudio.QuickPresets" xml:space="preserve">
+    <value>Lay outvoorinstellingen</value>
+  </data>
+  <data name="Ui.OverlayStudio.PresetDefault" xml:space="preserve">
+    <value>Standaard</value>
+  </data>
+  <data name="Ui.OverlayStudio.PresetTopBar" xml:space="preserve">
+    <value>Minimale bovenbalk</value>
+  </data>
+  <data name="Ui.OverlayStudio.PresetCompetitive" xml:space="preserve">
+    <value>Competitieve HUD</value>
+  </data>
+  <data name="Ui.OverlayStudio.PresetStreamer" xml:space="preserve">
+    <value>Streamer schoon</value>
+  </data>
+  <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
+    <value>Bovenste dock</value>
+  </data>
+  <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
+    <value>Interactief schermpodium</value>
+  </data>
+  <data name="Ui.OverlayStudio.StageHint" xml:space="preserve">
+    <value>Klik of sleep een overlay hieronder, of gebruik het 9 punts raster om uit te lijnen.</value>
+  </data>
+  <data name="Ui.OverlayStudio.QuickAnchor" xml:space="preserve">
+    <value>Snelle 9 punts verankering</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerReadout" xml:space="preserve">
+    <value>Server en klok</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerNotifications" xml:space="preserve">
+    <value>Meldingen</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
+    <value>Sessiedock</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
+    <value>Vizier</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerFrameGen" xml:space="preserve">
+    <value>FrameGen HUD</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerPanels" xml:space="preserve">
+    <value>Dockpanelen</value>
+  </data>
+  <data name="Ui.OverlayStudio.ShowServerLocation" xml:space="preserve">
+    <value>Serverlocatie in spel tonen</value>
+  </data>
+  <data name="Ui.OverlayStudio.ShowServerLocationHint" xml:space="preserve">
+    <value>Toont de stad en regio van de actieve server in de informatie overlay.</value>
+  </data>
+  <data name="Ui.OverlayStudio.ShowClock" xml:space="preserve">
+    <value>Huidige tijd in spel tonen</value>
+  </data>
+  <data name="Ui.OverlayStudio.ShowClockHint" xml:space="preserve">
+    <value>Toont een live klok in de informatie overlay tijdens het spelen.</value>
+  </data>
+  <data name="Ui.OverlayStudio.Clock24Hour" xml:space="preserve">
+    <value>24 uursklok gebruiken</value>
+  </data>
+  <data name="Ui.OverlayStudio.Clock24HourHint" xml:space="preserve">
+    <value>Schakelt de overlayklok tussen 24 uurs en 12 uurs weergave.</value>
+  </data>
+  <data name="Ui.OverlayStudio.SingleLinePill" xml:space="preserve">
+    <value>Compacte lay out op één regel</value>
+  </data>
+  <data name="Ui.OverlayStudio.SingleLinePillHint" xml:space="preserve">
+    <value>Plaatst de serverlocatie en klok naast elkaar op één compacte regel.</value>
+  </data>
+  <data name="Ui.OverlayStudio.ReadoutSize" xml:space="preserve">
+    <value>Schaling informatiebalk</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockEdge" xml:space="preserve">
+    <value>Schermrand van dock</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockEdgeHint" xml:space="preserve">
+    <value>Kies of het sessiedock vanaf de onderkant of bovenkant van het spel verschijnt.</value>
+  </data>
+  <data name="Ui.OverlayStudio.BottomEdge" xml:space="preserve">
+    <value>Onderkant</value>
+  </data>
+  <data name="Ui.OverlayStudio.TopEdge" xml:space="preserve">
+    <value>Bovenkant</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockScale" xml:space="preserve">
+    <value>Schaling dock</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockDimmer" xml:space="preserve">
+    <value>Sterkte achtergronddimming</value>
+  </data>
+  <data name="Ui.OverlayStudio.DockDimmerHint" xml:space="preserve">
+    <value>Bepaalt hoe sterk het spel verduistert terwijl het sessiedock geopend is.</value>
+  </data>
+  <data name="Ui.OverlayStudio.EnableCrosshair" xml:space="preserve">
+    <value>Vizier overlay in spel tonen</value>
+  </data>
+  <data name="Ui.OverlayStudio.EnableCrosshairHint" xml:space="preserve">
+    <value>Tekent een aangepast richtkruis in het midden van het spelvenster.</value>
+  </data>
+  <data name="Ui.OverlayStudio.CrosshairShape" xml:space="preserve">
+    <value>Viziervorm</value>
+  </data>
+  <data name="Ui.OverlayStudio.ShapeCross" xml:space="preserve">
+    <value>Kruis</value>
+  </data>
+  <data name="Ui.OverlayStudio.ShapeDot" xml:space="preserve">
+    <value>Punt</value>
+  </data>
+  <data name="Ui.OverlayStudio.ShapeCircle" xml:space="preserve">
+    <value>Cirkel</value>
+  </data>
+  <data name="Ui.OverlayStudio.CrosshairSize" xml:space="preserve">
+    <value>Viziergrootte</value>
+  </data>
+  <data name="Ui.OverlayStudio.CrosshairThickness" xml:space="preserve">
+    <value>Lijndikte</value>
+  </data>
+  <data name="Ui.OverlayStudio.CrosshairGap" xml:space="preserve">
+    <value>Middenopening</value>
+  </data>
+  <data name="Ui.OverlayStudio.CrosshairColor" xml:space="preserve">
+    <value>Vizierkleur</value>
+  </data>
+  <data name="Ui.OverlayStudio.CrosshairOffsetX" xml:space="preserve">
+    <value>Horizontale middenverschuiving</value>
+  </data>
+  <data name="Ui.OverlayStudio.CrosshairOffsetY" xml:space="preserve">
+    <value>Verticale middenverschuiving</value>
+  </data>
+  <data name="Ui.OverlayStudio.CenterCrosshair" xml:space="preserve">
+    <value>Vizier centreren</value>
+  </data>
+  <data name="Ui.OverlayStudio.EnableFrameGenHud" xml:space="preserve">
+    <value>Frame Generation HUD tonen</value>
+  </data>
+  <data name="Ui.OverlayStudio.EnableFrameGenHudHint" xml:space="preserve">
+    <value>Toont realtime FPS, gegenereerde frames en telemetrie in het spel.</value>
+  </data>
+  <data name="Ui.OverlayStudio.CustomFrameGenPos" xml:space="preserve">
+    <value>Aangepaste HUD positie gebruiken</value>
+  </data>
+  <data name="Ui.OverlayStudio.CustomFrameGenPosHint" xml:space="preserve">
+    <value>Maakt het mogelijk het telemetrievak overal op het scherm te plaatsen.</value>
+  </data>
+  <data name="Ui.OverlayStudio.PanelsDescription" xml:space="preserve">
+    <value>Beheer opgeslagen posities en vastzetstatussen voor elk venster uit het sessiedock.</value>
+  </data>
+  <data name="Ui.OverlayStudio.ResetAllPanels" xml:space="preserve">
+    <value>Alle paneelposities herstellen</value>
+  </data>
+  <data name="Ui.OverlayStudio.CenterPanel" xml:space="preserve">
+    <value>Centreren</value>
+  </data>
+  <data name="Ui.OverlayStudio.PinPanel" xml:space="preserve">
+    <value>Vastgezet</value>
+  </data>
+  <data name="Ui.OverlayStudio.UnpinnedPanel" xml:space="preserve">
+    <value>Losgemaakt</value>
+  </data>
+  <data name="Ui.OverlayStudio.OpenBannerTitle" xml:space="preserve">
+    <value>In Game Overlay Studio</value>
+  </data>
+  <data name="Ui.OverlayStudio.OpenBannerHint" xml:space="preserve">
+    <value>Sleep en pas serverinfo, meldingen, sessiedock, vizier en HUD live aan.</value>
+  </data>
+  <data name="Ui.OverlayStudio.OpenStudioButton" xml:space="preserve">
+    <value>Overlay Studio openen</value>
+  </data>
 </root>

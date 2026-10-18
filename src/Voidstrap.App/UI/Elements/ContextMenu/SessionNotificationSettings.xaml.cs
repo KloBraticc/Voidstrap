@@ -256,6 +256,11 @@ public partial class SessionNotificationSettings : Window
         Commit();
     }
 
+    private void OpenOverlayStudio_Click(object sender, RoutedEventArgs e)
+    {
+        SessionDock.ActiveInstance?.OpenAction("layout");
+    }
+
     private void SendTest_Click(object sender, RoutedEventArgs e)
     {
         try

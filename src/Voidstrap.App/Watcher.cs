@@ -595,31 +595,7 @@ public partial class Watcher : IDisposable
 		RunRuntimeAction(CrosshairWindow.Reconcile, "CreateCrosshair");
 		RunRuntimeAction(Voidstrap.UI.Elements.ClassicTopBar.ClassicTopBarOverlay.Reconcile, "CreateClassicTopBar");
 		ScreenColorEffect.ApplyConfigured();
-		if (OverlayWindow.SurfaceRequired)
-		{
-			RunRuntimeAction(delegate
-			{
-				if (Application.Current.Resources["OverlayWindow"] is OverlayWindow existing)
-				{
-					if (existing.IsLoaded)
-						return;
-
-					try
-					{
-						existing.Close();
-					}
-					catch (Exception ex)
-					{
-						App.Logger.WriteLine("Watcher::CreateOverlay", "The previous overlay could not be closed: " + ex.Message);
-					}
-				}
-
-				Application.Current.Resources.Remove("OverlayWindow");
-				OverlayWindow overlay = new OverlayWindow(ActivityWatcher);
-				overlay.Show();
-				Application.Current.Resources["OverlayWindow"] = overlay;
-			}, "CreateOverlay");
-		}
+		RunRuntimeAction(() => OverlayWindow.Reconcile(ActivityWatcher), "CreateOverlay");
 	}
 
 	internal void RefreshOverlayLive()
@@ -644,27 +620,7 @@ public partial class Watcher : IDisposable
 
 		RunRuntimeAction(CrosshairWindow.Reconcile, "RefreshCrosshair");
 		RunRuntimeAction(Voidstrap.UI.Elements.ClassicTopBar.ClassicTopBarOverlay.Reconcile, "RefreshClassicTopBar");
-
-		bool required = OverlayWindow.SurfaceRequired;
-		if (Application.Current.Resources["OverlayWindow"] is OverlayWindow existing)
-		{
-			if (required && existing.IsLoaded && existing.MatchesCurrentSettings())
-			{
-				return;
-			}
-			RunRuntimeAction(existing.Close, "RefreshOverlay");
-			Application.Current.Resources.Remove("OverlayWindow");
-		}
-
-		if (required)
-		{
-			RunRuntimeAction(delegate
-			{
-				OverlayWindow overlay = new OverlayWindow(ActivityWatcher);
-				overlay.Show();
-				Application.Current.Resources["OverlayWindow"] = overlay;
-			}, "RefreshOverlay");
-		}
+		RunRuntimeAction(() => OverlayWindow.Reconcile(ActivityWatcher), "RefreshOverlay");
 	}
 
 	private static void CloseRuntimeSessionWindows()

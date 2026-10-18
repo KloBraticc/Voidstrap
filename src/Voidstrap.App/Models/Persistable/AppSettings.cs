@@ -265,6 +265,8 @@ namespace Voidstrap.Models.Persistable
 
         public NotificationAppearance NotificationAppearance { get; set; } = new();
 
+        public OverlayLayoutSettings OverlayLayout { get; set; } = new();
+
         // Shortcut that opens the session dock, Ctrl+Alt+L by default; a key of 0 means no shortcut
         public OverlayShortcut SessionDockShortcut { get; set; } = new();
 

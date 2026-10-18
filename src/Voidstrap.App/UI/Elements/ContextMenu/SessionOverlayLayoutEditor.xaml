@@ -1,0 +1,863 @@
+<Window xmlns:resources="clr-namespace:Voidstrap.Resources"
+        x:Class="Voidstrap.UI.Elements.Overlay.SessionOverlayLayoutEditor"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        xmlns:platform="clr-namespace:Voidstrap.UI"
+        Title="{resources:Loc Ui_OverlayStudio_Title}" Width="660" Height="740" MinWidth="520" MinHeight="480"
+        WindowStyle="None" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"
+        ResizeMode="NoResize" ShowInTaskbar="False" ShowActivated="False" Topmost="True"
+        WindowStartupLocation="Manual" FontFamily="Segoe UI">
+  <Window.Resources>
+    <Style x:Key="Section" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="14" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+      <Setter Property="Margin" Value="2,16,0,8" />
+      <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
+    </Style>
+    <Style x:Key="Label" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="13.5" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
+    </Style>
+    <Style x:Key="Hint" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="11.5" />
+      <Setter Property="Margin" Value="0,2,0,0" />
+      <Setter Property="TextWrapping" Value="Wrap" />
+      <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
+    </Style>
+    <Style x:Key="Value" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="12.5" />
+      <Setter Property="Width" Value="62" />
+      <Setter Property="TextAlignment" Value="Right" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
+    </Style>
+    <Style x:Key="Card" TargetType="Border">
+      <Setter Property="CornerRadius" Value="8" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="Background" Value="{DynamicResource CardBackgroundFillColorDefaultBrush}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}" />
+    </Style>
+    <Style x:Key="Row" TargetType="Border">
+      <Setter Property="MinHeight" Value="46" />
+      <Setter Property="Padding" Value="14,8,14,8" />
+      <Setter Property="BorderThickness" Value="0,0,0,1" />
+      <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}" />
+    </Style>
+    <Style x:Key="LastRow" TargetType="Border" BasedOn="{StaticResource Row}">
+      <Setter Property="BorderThickness" Value="0" />
+    </Style>
+    <Style x:Key="RowSlider" TargetType="Slider" BasedOn="{StaticResource {x:Type Slider}}">
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="IsSnapToTickEnabled" Value="True" />
+    </Style>
+    <Style x:Key="Glyph" TargetType="TextBlock">
+      <Setter Property="FontFamily" Value="Segoe Fluent Icons, Segoe MDL2 Assets" />
+      <Setter Property="FontSize" Value="13" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
+    <Style x:Key="Segment" TargetType="RadioButton">
+      <Setter Property="Cursor" Value="Hand" />
+      <Setter Property="Focusable" Value="False" />
+      <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="RadioButton">
+            <Border x:Name="Chip" CornerRadius="5" Padding="12,5" Background="Transparent">
+              <TextBlock Text="{TemplateBinding Content}" FontSize="12.5" HorizontalAlignment="Center" Foreground="{TemplateBinding Foreground}" />
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="Chip" Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
+              </Trigger>
+              <Trigger Property="IsChecked" Value="True">
+                <Setter TargetName="Chip" Property="Background" Value="{DynamicResource ControlFillColorDefaultBrush}" />
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+    <Style x:Key="SegmentTray" TargetType="Border">
+      <Setter Property="CornerRadius" Value="7" />
+      <Setter Property="Padding" Value="3" />
+      <Setter Property="HorizontalAlignment" Value="Right" />
+      <Setter Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
+      <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}" />
+      <Setter Property="BorderThickness" Value="1" />
+    </Style>
+    <Style x:Key="AnchorDot" TargetType="Button">
+      <Setter Property="Width" Value="28" />
+      <Setter Property="Height" Value="28" />
+      <Setter Property="Margin" Value="2" />
+      <Setter Property="Cursor" Value="Hand" />
+      <Setter Property="Focusable" Value="False" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="Button">
+            <Border x:Name="DotBorder" CornerRadius="6" BorderThickness="1"
+                    Background="{DynamicResource ControlFillColorSecondaryBrush}"
+                    BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}">
+              <Ellipse x:Name="DotCore" Width="6" Height="6" HorizontalAlignment="Center" VerticalAlignment="Center"
+                       Fill="{DynamicResource TextFillColorSecondaryBrush}" />
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsMouseOver" Value="True">
+                <Setter TargetName="DotBorder" Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
+                <Setter TargetName="DotCore" Property="Fill" Value="{DynamicResource TextFillColorPrimaryBrush}" />
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
+  </Window.Resources>
+
+  <ScrollViewer x:Name="TitleScrollHost" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
+    <StackPanel Margin="16,10,16,18">
+
+      <Border Style="{StaticResource Card}" Padding="16,14">
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <StackPanel VerticalAlignment="Center" Margin="0,0,12,0">
+            <TextBlock Text="{resources:Loc Ui_OverlayStudio_Title}" FontSize="16" FontWeight="SemiBold"
+                       Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+            <TextBlock Text="{resources:Loc Ui_OverlayStudio_Subtitle}" Style="{StaticResource Hint}" />
+          </StackPanel>
+          <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+            <ui:Button x:Name="ScreenDragButton" Appearance="Primary" Padding="12,8" Focusable="False" Click="ScreenDragButton_Click">
+              <StackPanel Orientation="Horizontal">
+                <TextBlock Text="&#xE759;" Style="{StaticResource Glyph}" Margin="0,0,7,0" />
+                <TextBlock Text="{resources:Loc Ui_OverlayStudio_LiveScreenDrag}" FontSize="12.5" FontWeight="SemiBold" />
+              </StackPanel>
+            </ui:Button>
+          </StackPanel>
+        </Grid>
+      </Border>
+
+      <TextBlock Text="{resources:Loc Ui_OverlayStudio_QuickPresets}" Style="{StaticResource Section}" />
+      <Border Style="{StaticResource Card}" Padding="10,8">
+        <WrapPanel Orientation="Horizontal" VerticalAlignment="Center">
+          <ui:Button Content="{resources:Loc Ui_OverlayStudio_PresetDefault}" Tag="default" Margin="0,2,6,2" Padding="10,5" Appearance="Secondary" Focusable="False" Click="Preset_Click" />
+          <ui:Button Content="{resources:Loc Ui_OverlayStudio_PresetTopBar}" Tag="tophud" Margin="0,2,6,2" Padding="10,5" Appearance="Secondary" Focusable="False" Click="Preset_Click" />
+          <ui:Button Content="{resources:Loc Ui_OverlayStudio_PresetCompetitive}" Tag="competitive" Margin="0,2,6,2" Padding="10,5" Appearance="Secondary" Focusable="False" Click="Preset_Click" />
+          <ui:Button Content="{resources:Loc Ui_OverlayStudio_PresetStreamer}" Tag="streamer" Margin="0,2,6,2" Padding="10,5" Appearance="Secondary" Focusable="False" Click="Preset_Click" />
+          <ui:Button Content="{resources:Loc Ui_OverlayStudio_PresetTopDock}" Tag="topdock" Margin="0,2,6,2" Padding="10,5" Appearance="Secondary" Focusable="False" Click="Preset_Click" />
+          <ui:Button Content="{resources:Loc Ui_OverlayStudio_ResetLayer}" Margin="0,2,6,2" Padding="10,5" Appearance="Transparent" Focusable="False" Click="ResetLayer_Click" />
+          <ui:Button Content="{resources:Loc Ui_OverlayStudio_ResetAll}" Margin="0,2,0,2" Padding="10,5" Appearance="Transparent" Focusable="False" Click="ResetAll_Click" />
+        </WrapPanel>
+      </Border>
+
+      <Grid Margin="2,14,2,6">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <StackPanel>
+          <TextBlock Text="{resources:Loc Ui_OverlayStudio_StagePreview}" FontSize="14" FontWeight="SemiBold"
+                     Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+          <TextBlock Text="{resources:Loc Ui_OverlayStudio_StageHint}" Style="{StaticResource Hint}" />
+        </StackPanel>
+        <Border Grid.Column="1" VerticalAlignment="Bottom" CornerRadius="6" Padding="10,4"
+                Background="{DynamicResource ControlFillColorSecondaryBrush}"
+                BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+          <TextBlock x:Name="StageCoordBadge" Text="X: 100%  Y: 0%" FontSize="11.5" FontWeight="SemiBold"
+                     Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+        </Border>
+      </Grid>
+
+      <Grid>
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="12" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <Border Height="232" CornerRadius="10" BorderThickness="1" ClipToBounds="True"
+                Background="{DynamicResource SolidBackgroundFillColorSecondaryBrush}"
+                BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
+          <Grid>
+            <Border x:Name="StageImageHost" CornerRadius="9" Opacity="0.28">
+              <Border.Background>
+                <ImageBrush x:Name="StageBackgroundBrush" Stretch="UniformToFill" />
+              </Border.Background>
+            </Border>
+            <Border CornerRadius="9" Background="#58080A10" />
+            <Canvas x:Name="StageCanvas" ClipToBounds="True" SizeChanged="StageCanvas_SizeChanged">
+              <Line x:Name="StageGuideVThird1" Stroke="#22FFFFFF" StrokeThickness="1" StrokeDashArray="3 4" IsHitTestVisible="False" />
+              <Line x:Name="StageGuideVThird2" Stroke="#22FFFFFF" StrokeThickness="1" StrokeDashArray="3 4" IsHitTestVisible="False" />
+              <Line x:Name="StageGuideHThird1" Stroke="#22FFFFFF" StrokeThickness="1" StrokeDashArray="3 4" IsHitTestVisible="False" />
+              <Line x:Name="StageGuideHThird2" Stroke="#22FFFFFF" StrokeThickness="1" StrokeDashArray="3 4" IsHitTestVisible="False" />
+              <Line x:Name="StageGuideVCenter" Stroke="#4563B3FF" StrokeThickness="1" StrokeDashArray="4 3" IsHitTestVisible="False" />
+              <Line x:Name="StageGuideHCenter" Stroke="#4563B3FF" StrokeThickness="1" StrokeDashArray="4 3" IsHitTestVisible="False" />
+
+              <Border x:Name="StageReadoutBox" Tag="Readout" Cursor="SizeAll" CornerRadius="6" Padding="8,5"
+                      Background="#E6151924" BorderBrush="#FF5CA8FF" BorderThickness="1.5"
+                      MouseLeftButtonDown="StageItem_MouseDown" MouseMove="StageItem_MouseMove" MouseLeftButtonUp="StageItem_MouseUp">
+                <StackPanel x:Name="StageReadoutStack" Orientation="Vertical">
+                  <TextBlock Text="Location: Ashburn" FontSize="9.5" FontWeight="SemiBold" Foreground="White" />
+                  <TextBlock x:Name="StageReadoutSep" Text=" · " FontSize="9.5" Foreground="#99FFFFFF" Visibility="Collapsed" />
+                  <TextBlock x:Name="StageReadoutTime" Text="12:00 PM" FontSize="9" Foreground="#CCCFD8E8" />
+                </StackPanel>
+              </Border>
+
+              <Border x:Name="StageNotificationBox" Tag="Notifications" Cursor="SizeAll" Width="136" CornerRadius="6" Padding="8,5"
+                      Background="#E61A162B" BorderBrush="#FFA87AFF" BorderThickness="1.5"
+                      MouseLeftButtonDown="StageItem_MouseDown" MouseMove="StageItem_MouseMove" MouseLeftButtonUp="StageItem_MouseUp">
+                <StackPanel>
+                  <TextBlock Text="{resources:Loc Ui_OverlayStudio_LayerNotifications}" FontSize="9.5" FontWeight="SemiBold" Foreground="#FFD8C4FF" />
+                  <TextBlock Text="{resources:Loc Ui_SessionNotify_ConnectedToServer}" FontSize="8.5" Foreground="#B8FFFFFF" TextTrimming="CharacterEllipsis" />
+                </StackPanel>
+              </Border>
+
+              <Border x:Name="StageDockBox" Tag="Dock" Cursor="SizeAll" CornerRadius="9" Padding="14,5"
+                      Background="#EB141A22" BorderBrush="#FF48D698" BorderThickness="1.5"
+                      MouseLeftButtonDown="StageItem_MouseDown" MouseMove="StageItem_MouseMove" MouseLeftButtonUp="StageItem_MouseUp">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                  <Ellipse Width="6" Height="6" Fill="#FF48D698" Margin="0,0,6,0" VerticalAlignment="Center" />
+                  <TextBlock Text="{resources:Loc Ui_OverlayStudio_LayerDock}" FontSize="9.5" FontWeight="SemiBold" Foreground="White" />
+                </StackPanel>
+              </Border>
+
+              <Border x:Name="StageFrameGenBox" Tag="FrameGen" Cursor="SizeAll" CornerRadius="5" Padding="7,4"
+                      Background="#E014161D" BorderBrush="#FFFF845C" BorderThickness="1.5"
+                      Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}"
+                      MouseLeftButtonDown="StageItem_MouseDown" MouseMove="StageItem_MouseMove" MouseLeftButtonUp="StageItem_MouseUp">
+                <TextBlock Text="FPS: 240" FontFamily="Consolas" FontSize="9" FontWeight="SemiBold" Foreground="#FF96E296" />
+              </Border>
+
+              <Border x:Name="StageCrosshairBox" Tag="Crosshair" Cursor="SizeAll" Width="32" Height="32" CornerRadius="16"
+                      Background="#55121620" BorderBrush="#FFFFC858" BorderThickness="1.5"
+                      MouseLeftButtonDown="StageItem_MouseDown" MouseMove="StageItem_MouseMove" MouseLeftButtonUp="StageItem_MouseUp">
+                <Grid>
+                  <Line X1="7" Y1="14.5" X2="22" Y2="14.5" Stroke="#FF00FF00" StrokeThickness="1.5" />
+                  <Line X1="14.5" Y1="7" X2="14.5" Y2="22" Stroke="#FF00FF00" StrokeThickness="1.5" />
+                </Grid>
+              </Border>
+            </Canvas>
+          </Grid>
+        </Border>
+
+        <Border Grid.Column="2" Style="{StaticResource Card}" Padding="10,10" VerticalAlignment="Stretch">
+          <StackPanel VerticalAlignment="Center">
+            <TextBlock Text="{resources:Loc Ui_OverlayStudio_QuickAnchor}" FontSize="11.5" FontWeight="SemiBold"
+                       HorizontalAlignment="Center" Margin="0,0,0,8" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+            <UniformGrid Rows="3" Columns="3" HorizontalAlignment="Center">
+              <Button Style="{StaticResource AnchorDot}" Tag="0,0" Click="QuickAnchor_Click" />
+              <Button Style="{StaticResource AnchorDot}" Tag="50,0" Click="QuickAnchor_Click" />
+              <Button Style="{StaticResource AnchorDot}" Tag="100,0" Click="QuickAnchor_Click" />
+              <Button Style="{StaticResource AnchorDot}" Tag="0,50" Click="QuickAnchor_Click" />
+              <Button Style="{StaticResource AnchorDot}" Tag="50,50" Click="QuickAnchor_Click" />
+              <Button Style="{StaticResource AnchorDot}" Tag="100,50" Click="QuickAnchor_Click" />
+              <Button Style="{StaticResource AnchorDot}" Tag="0,100" Click="QuickAnchor_Click" />
+              <Button Style="{StaticResource AnchorDot}" Tag="50,100" Click="QuickAnchor_Click" />
+              <Button Style="{StaticResource AnchorDot}" Tag="100,100" Click="QuickAnchor_Click" />
+            </UniformGrid>
+          </StackPanel>
+        </Border>
+      </Grid>
+
+      <Border Style="{StaticResource Card}" Margin="0,14,0,0" Padding="6">
+        <WrapPanel x:Name="LayerTabBar" Orientation="Horizontal">
+          <ui:Button x:Name="TabReadout" Tag="Readout" Margin="2" Padding="10,6" Appearance="Primary" Focusable="False" Click="LayerTab_Click">
+            <StackPanel Orientation="Horizontal">
+              <TextBlock Text="&#xE968;" Style="{StaticResource Glyph}" Margin="0,0,6,0" />
+              <TextBlock Text="{resources:Loc Ui_OverlayStudio_LayerReadout}" FontSize="12.5" />
+            </StackPanel>
+          </ui:Button>
+          <ui:Button x:Name="TabNotifications" Tag="Notifications" Margin="2" Padding="10,6" Appearance="Transparent" Focusable="False" Click="LayerTab_Click">
+            <StackPanel Orientation="Horizontal">
+              <TextBlock Text="&#xEA8F;" Style="{StaticResource Glyph}" Margin="0,0,6,0" />
+              <TextBlock Text="{resources:Loc Ui_OverlayStudio_LayerNotifications}" FontSize="12.5" />
+            </StackPanel>
+          </ui:Button>
+          <ui:Button x:Name="TabDock" Tag="Dock" Margin="2" Padding="10,6" Appearance="Transparent" Focusable="False" Click="LayerTab_Click">
+            <StackPanel Orientation="Horizontal">
+              <TextBlock Text="&#xE759;" Style="{StaticResource Glyph}" Margin="0,0,6,0" />
+              <TextBlock Text="{resources:Loc Ui_OverlayStudio_LayerDock}" FontSize="12.5" />
+            </StackPanel>
+          </ui:Button>
+          <ui:Button x:Name="TabCrosshair" Tag="Crosshair" Margin="2" Padding="10,6" Appearance="Transparent" Focusable="False" Click="LayerTab_Click">
+            <StackPanel Orientation="Horizontal">
+              <TextBlock Text="&#xE7C8;" Style="{StaticResource Glyph}" Margin="0,0,6,0" />
+              <TextBlock Text="{resources:Loc Ui_OverlayStudio_LayerCrosshair}" FontSize="12.5" />
+            </StackPanel>
+          </ui:Button>
+          <ui:Button x:Name="TabFrameGen" Tag="FrameGen" Margin="2" Padding="10,6" Appearance="Transparent" Focusable="False"
+                     Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}" Click="LayerTab_Click">
+            <StackPanel Orientation="Horizontal">
+              <TextBlock Text="&#xE945;" Style="{StaticResource Glyph}" Margin="0,0,6,0" />
+              <TextBlock Text="{resources:Loc Ui_OverlayStudio_LayerFrameGen}" FontSize="12.5" />
+            </StackPanel>
+          </ui:Button>
+          <ui:Button x:Name="TabPanels" Tag="Panels" Margin="2" Padding="10,6" Appearance="Transparent" Focusable="False" Click="LayerTab_Click">
+            <StackPanel Orientation="Horizontal">
+              <TextBlock Text="&#xE737;" Style="{StaticResource Glyph}" Margin="0,0,6,0" />
+              <TextBlock Text="{resources:Loc Ui_OverlayStudio_LayerPanels}" FontSize="12.5" />
+            </StackPanel>
+          </ui:Button>
+        </WrapPanel>
+      </Border>
+
+      <StackPanel x:Name="ReadoutInspector" Margin="0,12,0,0">
+        <Border Style="{StaticResource Card}">
+          <StackPanel>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel VerticalAlignment="Center" Margin="0,0,12,0">
+                  <TextBlock Text="{resources:Loc Ui_OverlayStudio_ShowServerLocation}" Style="{StaticResource Label}" />
+                  <TextBlock Text="{resources:Loc Ui_OverlayStudio_ShowServerLocationHint}" Style="{StaticResource Hint}" />
+                </StackPanel>
+                <ui:ToggleSwitch x:Name="ReadoutLocationToggle" Grid.Column="1" VerticalAlignment="Center" Checked="ReadoutControl_Changed" Unchecked="ReadoutControl_Changed" />
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel VerticalAlignment="Center" Margin="0,0,12,0">
+                  <TextBlock Text="{resources:Loc Ui_OverlayStudio_ShowClock}" Style="{StaticResource Label}" />
+                  <TextBlock Text="{resources:Loc Ui_OverlayStudio_ShowClockHint}" Style="{StaticResource Hint}" />
+                </StackPanel>
+                <ui:ToggleSwitch x:Name="ReadoutClockToggle" Grid.Column="1" VerticalAlignment="Center" Checked="ReadoutControl_Changed" Unchecked="ReadoutControl_Changed" />
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel VerticalAlignment="Center" Margin="0,0,12,0">
+                  <TextBlock Text="{resources:Loc Ui_OverlayStudio_Clock24Hour}" Style="{StaticResource Label}" />
+                  <TextBlock Text="{resources:Loc Ui_OverlayStudio_Clock24HourHint}" Style="{StaticResource Hint}" />
+                </StackPanel>
+                <ui:ToggleSwitch x:Name="Readout24HourToggle" Grid.Column="1" VerticalAlignment="Center" Checked="ReadoutControl_Changed" Unchecked="ReadoutControl_Changed" />
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel VerticalAlignment="Center" Margin="0,0,12,0">
+                  <TextBlock Text="{resources:Loc Ui_OverlayStudio_SingleLinePill}" Style="{StaticResource Label}" />
+                  <TextBlock Text="{resources:Loc Ui_OverlayStudio_SingleLinePillHint}" Style="{StaticResource Hint}" />
+                </StackPanel>
+                <ui:ToggleSwitch x:Name="ReadoutPillToggle" Grid.Column="1" VerticalAlignment="Center" Checked="ReadoutControl_Changed" Unchecked="ReadoutControl_Changed" />
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="170" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{resources:Loc Ui_SessionNotify_Horizontal}" Style="{StaticResource Label}" />
+                <Slider x:Name="ReadoutHorizontalSlider" Grid.Column="1" Minimum="0" Maximum="100" TickFrequency="1" Style="{StaticResource RowSlider}" ValueChanged="ReadoutSlider_Changed" />
+                <TextBlock x:Name="ReadoutHorizontalText" Grid.Column="2" Style="{StaticResource Value}" />
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="170" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{resources:Loc Ui_SessionNotify_Vertical}" Style="{StaticResource Label}" />
+                <Slider x:Name="ReadoutVerticalSlider" Grid.Column="1" Minimum="0" Maximum="100" TickFrequency="1" Style="{StaticResource RowSlider}" ValueChanged="ReadoutSlider_Changed" />
+                <TextBlock x:Name="ReadoutVerticalText" Grid.Column="2" Style="{StaticResource Value}" />
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="170" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{resources:Loc Ui_SessionNotify_DistanceFromEdge}" Style="{StaticResource Label}" />
+                <Slider x:Name="ReadoutSpacingSlider" Grid.Column="1" Minimum="0" Maximum="64" TickFrequency="1" Style="{StaticResource RowSlider}" ValueChanged="ReadoutSlider_Changed" />
+                <TextBlock x:Name="ReadoutSpacingText" Grid.Column="2" Style="{StaticResource Value}" />
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="170" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{resources:Loc Ui_OverlayStudio_ReadoutSize}" Style="{StaticResource Label}" />
+                <Slider x:Name="ReadoutScaleSlider" Grid.Column="1" Minimum="70" Maximum="150" TickFrequency="5" Style="{StaticResource RowSlider}" ValueChanged="ReadoutSlider_Changed" />
+                <TextBlock x:Name="ReadoutScaleText" Grid.Column="2" Style="{StaticResource Value}" />
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="170" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{resources:Loc Ui_SessionNotify_BackgroundOpacity}" Style="{StaticResource Label}" />
+                <Slider x:Name="ReadoutOpacitySlider" Grid.Column="1" Minimum="35" Maximum="100" TickFrequency="5" Style="{StaticResource RowSlider}" ValueChanged="ReadoutSlider_Changed" />
+                <TextBlock x:Name="ReadoutOpacityText" Grid.Column="2" Style="{StaticResource Value}" />
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource LastRow}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="170" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{resources:Loc Ui_SessionNotify_CornerRounding}" Style="{StaticResource Label}" />
+                <Slider x:Name="ReadoutCornerSlider" Grid.Column="1" Minimum="0" Maximum="20" TickFrequency="1" Style="{StaticResource RowSlider}" ValueChanged="ReadoutSlider_Changed" />
+                <TextBlock x:Name="ReadoutCornerText" Grid.Column="2" Style="{StaticResource Value}" />
+              </Grid>
+            </Border>
+          </StackPanel>
+        </Border>
+      </StackPanel>
+
+      <StackPanel x:Name="NotificationsInspector" Margin="0,12,0,0" Visibility="Collapsed">
+        <Border Style="{StaticResource Card}">
+          <StackPanel>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{resources:Loc Ui_SessionNotify_Placement}" Style="{StaticResource Label}" />
+                <Border Grid.Column="1" Style="{StaticResource SegmentTray}">
+                  <StackPanel Orientation="Horizontal">
+                    <RadioButton x:Name="NotifCornerMode" Content="{resources:Loc Ui_SessionNotify_Corner}" GroupName="StudioNotifMode" Style="{StaticResource Segment}" Checked="NotifMode_Changed" />
+                    <RadioButton x:Name="NotifFloatingMode" Content="{resources:Loc Ui_SessionNotify_Floating}" GroupName="StudioNotifMode" Style="{StaticResource Segment}" Checked="NotifMode_Changed" />
+                  </StackPanel>
+                </Border>
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="170" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{resources:Loc Ui_SessionNotify_Horizontal}" Style="{StaticResource Label}" />
+                <Slider x:Name="NotifHorizontalSlider" Grid.Column="1" Minimum="0" Maximum="100" TickFrequency="1" Style="{StaticResource RowSlider}" ValueChanged="NotifSlider_Changed" />
+                <TextBlock x:Name="NotifHorizontalText" Grid.Column="2" Style="{StaticResource Value}" />
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="170" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{resources:Loc Ui_SessionNotify_Vertical}" Style="{StaticResource Label}" />
+                <Slider x:Name="NotifVerticalSlider" Grid.Column="1" Minimum="0" Maximum="100" TickFrequency="1" Style="{StaticResource RowSlider}" ValueChanged="NotifSlider_Changed" />
+                <TextBlock x:Name="NotifVerticalText" Grid.Column="2" Style="{StaticResource Value}" />
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="170" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{resources:Loc Ui_SessionNotify_DistanceFromEdge}" Style="{StaticResource Label}" />
+                <Slider x:Name="NotifSpacingSlider" Grid.Column="1" Minimum="4" Maximum="48" TickFrequency="1" Style="{StaticResource RowSlider}" ValueChanged="NotifSlider_Changed" />
+                <TextBlock x:Name="NotifSpacingText" Grid.Column="2" Style="{StaticResource Value}" />
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="170" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{resources:Loc Ui_SessionNotify_OverallSize}" Style="{StaticResource Label}" />
+                <Slider x:Name="NotifScaleSlider" Grid.Column="1" Minimum="75" Maximum="135" TickFrequency="5" Style="{StaticResource RowSlider}" ValueChanged="NotifSlider_Changed" />
+                <TextBlock x:Name="NotifScaleText" Grid.Column="2" Style="{StaticResource Value}" />
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="170" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{resources:Loc Ui_SessionNotify_TextSize}" Style="{StaticResource Label}" />
+                <Slider x:Name="NotifTextScaleSlider" Grid.Column="1" Minimum="85" Maximum="130" TickFrequency="5" Style="{StaticResource RowSlider}" ValueChanged="NotifSlider_Changed" />
+                <TextBlock x:Name="NotifTextScaleText" Grid.Column="2" Style="{StaticResource Value}" />
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="170" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{resources:Loc Ui_SessionNotify_CardWidth}" Style="{StaticResource Label}" />
+                <Slider x:Name="NotifWidthSlider" Grid.Column="1" Minimum="300" Maximum="520" TickFrequency="10" Style="{StaticResource RowSlider}" ValueChanged="NotifSlider_Changed" />
+                <TextBlock x:Name="NotifWidthText" Grid.Column="2" Style="{StaticResource Value}" />
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="170" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{resources:Loc Ui_SessionNotify_BackgroundOpacity}" Style="{StaticResource Label}" />
+                <Slider x:Name="NotifOpacitySlider" Grid.Column="1" Minimum="60" Maximum="100" TickFrequency="5" Style="{StaticResource RowSlider}" ValueChanged="NotifSlider_Changed" />
+                <TextBlock x:Name="NotifOpacityText" Grid.Column="2" Style="{StaticResource Value}" />
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="170" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{resources:Loc Ui_SessionNotify_CornerRounding}" Style="{StaticResource Label}" />
+                <Slider x:Name="NotifCornerSlider" Grid.Column="1" Minimum="0" Maximum="20" TickFrequency="1" Style="{StaticResource RowSlider}" ValueChanged="NotifSlider_Changed" />
+                <TextBlock x:Name="NotifCornerText" Grid.Column="2" Style="{StaticResource Value}" />
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource LastRow}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{resources:Loc Ui_SessionNotify_SendTestNotification}" Style="{StaticResource Label}" />
+                <ui:Button Grid.Column="1" Content="{resources:Loc Ui_SessionNotify_SendTestNotification}" Appearance="Primary" Padding="14,6" Focusable="False" Click="SendTestNotification_Click" />
+              </Grid>
+            </Border>
+          </StackPanel>
+        </Border>
+      </StackPanel>
+
+      <StackPanel x:Name="DockInspector" Margin="0,12,0,0" Visibility="Collapsed">
+        <Border Style="{StaticResource Card}">
+          <StackPanel>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel VerticalAlignment="Center" Margin="0,0,12,0">
+                  <TextBlock Text="{resources:Loc Ui_OverlayStudio_DockEdge}" Style="{StaticResource Label}" />
+                  <TextBlock Text="{resources:Loc Ui_OverlayStudio_DockEdgeHint}" Style="{StaticResource Hint}" />
+                </StackPanel>
+                <Border Grid.Column="1" Style="{StaticResource SegmentTray}" VerticalAlignment="Center">
+                  <StackPanel Orientation="Horizontal">
+                    <RadioButton x:Name="DockBottomEdgeRadio" Content="{resources:Loc Ui_OverlayStudio_BottomEdge}" GroupName="StudioDockEdge" Style="{StaticResource Segment}" Checked="DockEdge_Changed" />
+                    <RadioButton x:Name="DockTopEdgeRadio" Content="{resources:Loc Ui_OverlayStudio_TopEdge}" GroupName="StudioDockEdge" Style="{StaticResource Segment}" Checked="DockEdge_Changed" />
+                  </StackPanel>
+                </Border>
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="170" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{resources:Loc Ui_SessionNotify_Horizontal}" Style="{StaticResource Label}" />
+                <Slider x:Name="DockHorizontalSlider" Grid.Column="1" Minimum="0" Maximum="100" TickFrequency="1" Style="{StaticResource RowSlider}" ValueChanged="DockSlider_Changed" />
+                <TextBlock x:Name="DockHorizontalText" Grid.Column="2" Style="{StaticResource Value}" />
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="170" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{resources:Loc Ui_SessionNotify_DistanceFromEdge}" Style="{StaticResource Label}" />
+                <Slider x:Name="DockSpacingSlider" Grid.Column="1" Minimum="4" Maximum="48" TickFrequency="1" Style="{StaticResource RowSlider}" ValueChanged="DockSlider_Changed" />
+                <TextBlock x:Name="DockSpacingText" Grid.Column="2" Style="{StaticResource Value}" />
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="170" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{resources:Loc Ui_OverlayStudio_DockScale}" Style="{StaticResource Label}" />
+                <Slider x:Name="DockScaleSlider" Grid.Column="1" Minimum="80" Maximum="120" TickFrequency="5" Style="{StaticResource RowSlider}" ValueChanged="DockSlider_Changed" />
+                <TextBlock x:Name="DockScaleText" Grid.Column="2" Style="{StaticResource Value}" />
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource LastRow}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="170" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel VerticalAlignment="Center" Margin="0,0,8,0">
+                  <TextBlock Text="{resources:Loc Ui_OverlayStudio_DockDimmer}" Style="{StaticResource Label}" />
+                  <TextBlock Text="{resources:Loc Ui_OverlayStudio_DockDimmerHint}" Style="{StaticResource Hint}" />
+                </StackPanel>
+                <Slider x:Name="DockDimmerSlider" Grid.Column="1" Minimum="0" Maximum="75" TickFrequency="5" Style="{StaticResource RowSlider}" ValueChanged="DockSlider_Changed" />
+                <TextBlock x:Name="DockDimmerText" Grid.Column="2" Style="{StaticResource Value}" />
+              </Grid>
+            </Border>
+          </StackPanel>
+        </Border>
+      </StackPanel>
+
+      <StackPanel x:Name="CrosshairInspector" Margin="0,12,0,0" Visibility="Collapsed">
+        <Border Style="{StaticResource Card}">
+          <StackPanel>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel VerticalAlignment="Center" Margin="0,0,12,0">
+                  <TextBlock Text="{resources:Loc Ui_OverlayStudio_EnableCrosshair}" Style="{StaticResource Label}" />
+                  <TextBlock Text="{resources:Loc Ui_OverlayStudio_EnableCrosshairHint}" Style="{StaticResource Hint}" />
+                </StackPanel>
+                <ui:ToggleSwitch x:Name="CrosshairEnableToggle" Grid.Column="1" VerticalAlignment="Center" Checked="CrosshairControl_Changed" Unchecked="CrosshairControl_Changed" />
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{resources:Loc Ui_OverlayStudio_CrosshairShape}" Style="{StaticResource Label}" />
+                <Border Grid.Column="1" Style="{StaticResource SegmentTray}">
+                  <StackPanel Orientation="Horizontal">
+                    <RadioButton x:Name="CrosshairShapeCross" Content="{resources:Loc Ui_OverlayStudio_ShapeCross}" GroupName="StudioCrosshairShape" Style="{StaticResource Segment}" Checked="CrosshairShape_Changed" />
+                    <RadioButton x:Name="CrosshairShapeDot" Content="{resources:Loc Ui_OverlayStudio_ShapeDot}" GroupName="StudioCrosshairShape" Style="{StaticResource Segment}" Checked="CrosshairShape_Changed" />
+                    <RadioButton x:Name="CrosshairShapeCircle" Content="{resources:Loc Ui_OverlayStudio_ShapeCircle}" GroupName="StudioCrosshairShape" Style="{StaticResource Segment}" Checked="CrosshairShape_Changed" />
+                  </StackPanel>
+                </Border>
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{resources:Loc Ui_OverlayStudio_CrosshairColor}" Style="{StaticResource Label}" />
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                  <Button Tag="#FF00FF00" Width="24" Height="24" Margin="3,0" Background="#FF00FF00" BorderBrush="#66FFFFFF" BorderThickness="1" Cursor="Hand" Focusable="False" Click="CrosshairColor_Click" />
+                  <Button Tag="#FF00FFFF" Width="24" Height="24" Margin="3,0" Background="#FF00FFFF" BorderBrush="#66FFFFFF" BorderThickness="1" Cursor="Hand" Focusable="False" Click="CrosshairColor_Click" />
+                  <Button Tag="#FFFFFFFF" Width="24" Height="24" Margin="3,0" Background="#FFFFFFFF" BorderBrush="#66FFFFFF" BorderThickness="1" Cursor="Hand" Focusable="False" Click="CrosshairColor_Click" />
+                  <Button Tag="#FFFF3B30" Width="24" Height="24" Margin="3,0" Background="#FFFF3B30" BorderBrush="#66FFFFFF" BorderThickness="1" Cursor="Hand" Focusable="False" Click="CrosshairColor_Click" />
+                  <Button Tag="#FFFFCC00" Width="24" Height="24" Margin="3,0" Background="#FFFFCC00" BorderBrush="#66FFFFFF" BorderThickness="1" Cursor="Hand" Focusable="False" Click="CrosshairColor_Click" />
+                  <Button Tag="#FFFF2D55" Width="24" Height="24" Margin="3,0" Background="#FFFF2D55" BorderBrush="#66FFFFFF" BorderThickness="1" Cursor="Hand" Focusable="False" Click="CrosshairColor_Click" />
+                </StackPanel>
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="170" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{resources:Loc Ui_OverlayStudio_CrosshairSize}" Style="{StaticResource Label}" />
+                <Slider x:Name="CrosshairSizeSlider" Grid.Column="1" Minimum="4" Maximum="60" TickFrequency="1" Style="{StaticResource RowSlider}" ValueChanged="CrosshairSlider_Changed" />
+                <TextBlock x:Name="CrosshairSizeText" Grid.Column="2" Style="{StaticResource Value}" />
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="170" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{resources:Loc Ui_OverlayStudio_CrosshairThickness}" Style="{StaticResource Label}" />
+                <Slider x:Name="CrosshairThicknessSlider" Grid.Column="1" Minimum="1" Maximum="12" TickFrequency="1" Style="{StaticResource RowSlider}" ValueChanged="CrosshairSlider_Changed" />
+                <TextBlock x:Name="CrosshairThicknessText" Grid.Column="2" Style="{StaticResource Value}" />
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="170" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{resources:Loc Ui_OverlayStudio_CrosshairGap}" Style="{StaticResource Label}" />
+                <Slider x:Name="CrosshairGapSlider" Grid.Column="1" Minimum="0" Maximum="30" TickFrequency="1" Style="{StaticResource RowSlider}" ValueChanged="CrosshairSlider_Changed" />
+                <TextBlock x:Name="CrosshairGapText" Grid.Column="2" Style="{StaticResource Value}" />
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="170" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{resources:Loc Ui_SessionNotify_BackgroundOpacity}" Style="{StaticResource Label}" />
+                <Slider x:Name="CrosshairOpacitySlider" Grid.Column="1" Minimum="10" Maximum="100" TickFrequency="5" Style="{StaticResource RowSlider}" ValueChanged="CrosshairSlider_Changed" />
+                <TextBlock x:Name="CrosshairOpacityText" Grid.Column="2" Style="{StaticResource Value}" />
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="170" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{resources:Loc Ui_OverlayStudio_CrosshairOffsetX}" Style="{StaticResource Label}" />
+                <Slider x:Name="CrosshairOffsetXSlider" Grid.Column="1" Minimum="-200" Maximum="200" TickFrequency="1" Style="{StaticResource RowSlider}" ValueChanged="CrosshairSlider_Changed" />
+                <TextBlock x:Name="CrosshairOffsetXText" Grid.Column="2" Style="{StaticResource Value}" />
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="170" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{resources:Loc Ui_OverlayStudio_CrosshairOffsetY}" Style="{StaticResource Label}" />
+                <Slider x:Name="CrosshairOffsetYSlider" Grid.Column="1" Minimum="-200" Maximum="200" TickFrequency="1" Style="{StaticResource RowSlider}" ValueChanged="CrosshairSlider_Changed" />
+                <TextBlock x:Name="CrosshairOffsetYText" Grid.Column="2" Style="{StaticResource Value}" />
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource LastRow}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{resources:Loc Ui_OverlayStudio_CenterCrosshair}" Style="{StaticResource Label}" />
+                <ui:Button Grid.Column="1" Content="{resources:Loc Ui_OverlayStudio_CenterCrosshair}" Appearance="Secondary" Padding="14,6" Focusable="False" Click="RecenterCrosshair_Click" />
+              </Grid>
+            </Border>
+          </StackPanel>
+        </Border>
+      </StackPanel>
+
+      <StackPanel x:Name="FrameGenInspector" Margin="0,12,0,0" Visibility="Collapsed">
+        <Border Style="{StaticResource Card}">
+          <StackPanel>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel VerticalAlignment="Center" Margin="0,0,12,0">
+                  <TextBlock Text="{resources:Loc Ui_OverlayStudio_EnableFrameGenHud}" Style="{StaticResource Label}" />
+                  <TextBlock Text="{resources:Loc Ui_OverlayStudio_EnableFrameGenHudHint}" Style="{StaticResource Hint}" />
+                </StackPanel>
+                <ui:ToggleSwitch x:Name="FrameGenShowToggle" Grid.Column="1" VerticalAlignment="Center" Checked="FrameGenControl_Changed" Unchecked="FrameGenControl_Changed" />
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel VerticalAlignment="Center" Margin="0,0,12,0">
+                  <TextBlock Text="{resources:Loc Ui_OverlayStudio_CustomFrameGenPos}" Style="{StaticResource Label}" />
+                  <TextBlock Text="{resources:Loc Ui_OverlayStudio_CustomFrameGenPosHint}" Style="{StaticResource Hint}" />
+                </StackPanel>
+                <ui:ToggleSwitch x:Name="FrameGenCustomPosToggle" Grid.Column="1" VerticalAlignment="Center" Checked="FrameGenControl_Changed" Unchecked="FrameGenControl_Changed" />
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="170" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{resources:Loc Ui_SessionNotify_Horizontal}" Style="{StaticResource Label}" />
+                <Slider x:Name="FrameGenHorizontalSlider" Grid.Column="1" Minimum="0" Maximum="100" TickFrequency="1" Style="{StaticResource RowSlider}" ValueChanged="FrameGenSlider_Changed" />
+                <TextBlock x:Name="FrameGenHorizontalText" Grid.Column="2" Style="{StaticResource Value}" />
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="170" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{resources:Loc Ui_SessionNotify_Vertical}" Style="{StaticResource Label}" />
+                <Slider x:Name="FrameGenVerticalSlider" Grid.Column="1" Minimum="0" Maximum="100" TickFrequency="1" Style="{StaticResource RowSlider}" ValueChanged="FrameGenSlider_Changed" />
+                <TextBlock x:Name="FrameGenVerticalText" Grid.Column="2" Style="{StaticResource Value}" />
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource LastRow}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="170" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{resources:Loc Ui_SessionNotify_DistanceFromEdge}" Style="{StaticResource Label}" />
+                <Slider x:Name="FrameGenSpacingSlider" Grid.Column="1" Minimum="0" Maximum="64" TickFrequency="1" Style="{StaticResource RowSlider}" ValueChanged="FrameGenSlider_Changed" />
+                <TextBlock x:Name="FrameGenSpacingText" Grid.Column="2" Style="{StaticResource Value}" />
+              </Grid>
+            </Border>
+          </StackPanel>
+        </Border>
+      </StackPanel>
+
+      <StackPanel x:Name="PanelsInspector" Margin="0,12,0,0" Visibility="Collapsed">
+        <Border Style="{StaticResource Card}" Padding="14,12" Margin="0,0,0,10">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="{resources:Loc Ui_OverlayStudio_PanelsDescription}" Style="{StaticResource Hint}" VerticalAlignment="Center" Margin="0,0,12,0" />
+            <ui:Button Grid.Column="1" Content="{resources:Loc Ui_OverlayStudio_ResetAllPanels}" Appearance="Secondary" Padding="12,6" Focusable="False" Click="ResetAllPanels_Click" />
+          </Grid>
+        </Border>
+        <Border Style="{StaticResource Card}">
+          <StackPanel x:Name="PanelRowsHost" />
+        </Border>
+      </StackPanel>
+
+    </StackPanel>
+  </ScrollViewer>
+</Window>
