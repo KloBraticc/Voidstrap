@@ -376,7 +376,7 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel VerticalAlignment="Center" Margin="0,0,12,0">
                   <TextBlock Text="{resources:Loc Notifications_Title}" Style="{StaticResource Label}" />
-                  <TextBlock Text="{resources:Loc Ui_SessionNotify_TheNotificationThatSlidesIn}" Style="{StaticResource Hint}" />
+                  <TextBlock Text="{resources:Loc Ui_SessionNotify_ThisIsHowVoidstrapNotificationsLook}" Style="{StaticResource Hint}" />
                 </StackPanel>
                 <ui:Button Grid.Column="1" Appearance="Secondary" Padding="14,7" VerticalAlignment="Center" Focusable="False" Click="OpenNotificationSettings_Click">
                   <StackPanel Orientation="Horizontal">
