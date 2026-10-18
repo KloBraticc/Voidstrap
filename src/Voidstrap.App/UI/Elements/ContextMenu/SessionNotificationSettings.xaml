@@ -122,14 +122,14 @@
               <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <StackPanel VerticalAlignment="Center" Margin="0,0,12,0">
-              <TextBlock Text="Video Clipper" Style="{StaticResource Label}" />
-              <TextBlock Text="Instant replay buffer with hardware GPU encoding, quality switching, and clip trimmer." Style="{StaticResource Hint}" />
+              <TextBlock Text="{resources:Loc Ui_Clipper_Title}" Style="{StaticResource Label}" />
+              <TextBlock Text="{resources:Loc Ui_Clipper_NotifyHint}" Style="{StaticResource Hint}" />
             </StackPanel>
             <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
               <ui:Button Appearance="Secondary" Padding="12,7" Margin="0,0,10,0" VerticalAlignment="Center" Focusable="False" Click="OpenVideoClipper_Click">
                 <StackPanel Orientation="Horizontal">
                   <TextBlock Text="&#xE714;" Style="{StaticResource Glyph}" Margin="0,0,7,0" />
-                  <TextBlock Text="Open Clipper" FontSize="13" FontWeight="SemiBold" />
+                  <TextBlock Text="{resources:Loc Ui_Clipper_OpenClipper}" FontSize="13" FontWeight="SemiBold" />
                 </StackPanel>
               </ui:Button>
               <ui:ToggleSwitch x:Name="ClipperInlineToggle" VerticalAlignment="Center" Click="ClipperInlineToggle_Click" />

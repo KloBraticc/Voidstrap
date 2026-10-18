@@ -14,6 +14,9 @@ use std::time::{Duration, Instant};
 #[serde(rename_all = "camelCase")]
 pub struct Status {
     pub running: bool,
+    pub recording: bool,
+    pub recording_ms: u64,
+    pub recording_bytes: u64,
     pub encoder_id: String,
     pub encoder_label: String,
     pub width: u32,
@@ -48,6 +51,9 @@ impl Session {
 
         let status = Status {
             running: true,
+            recording: false,
+            recording_ms: 0,
+            recording_bytes: 0,
             encoder_id: String::new(),
             encoder_label: "Starting...".into(),
             width: if config.height > 0 { config.height } else { screen.width },
@@ -85,8 +91,14 @@ impl Session {
         if let Some(w) = self.worker.take() {
             let _ = w.join();
         }
+        if let Ok(mut ring) = self.shared.ring.lock() {
+            if let Ok((temp_path, _)) = ring.stop_recording() {
+                let _ = std::fs::remove_file(temp_path);
+            }
+        }
         if let Ok(mut st) = self.shared.status.lock() {
             st.running = false;
+            st.recording = false;
         }
     }
 
@@ -95,12 +107,15 @@ impl Session {
     }
 
     pub fn status(&self) -> Status {
-        let (buffered_ms, buffered_bytes) = self
+        let (buffered_ms, buffered_bytes, rec_on, rec_ms, rec_bytes) = self
             .shared
             .ring
             .lock()
-            .map(|r| (r.buffered().as_millis() as u64, r.bytes() as u64))
-            .unwrap_or((0, 0));
+            .map(|r| {
+                let (ron, rms, rbytes) = r.recording_info();
+                (r.buffered().as_millis() as u64, r.bytes() as u64, ron, rms, rbytes)
+            })
+            .unwrap_or((0, 0, false, 0, 0));
         let mut st = self
             .shared
             .status
@@ -109,6 +124,9 @@ impl Session {
             .unwrap_or_default();
         st.buffered_ms = buffered_ms.min(self.config.buffer_seconds as u64 * 1000);
         st.buffered_bytes = buffered_bytes;
+        st.recording = rec_on;
+        st.recording_ms = rec_ms;
+        st.recording_bytes = rec_bytes;
         st
     }
 
@@ -127,6 +145,64 @@ impl Session {
         };
         mux_mp4(&self.config.ffmpeg, &data, output)
     }
+
+    pub fn start_recording(&self, temp_path: &str) -> Result<(), String> {
+        let mut ring = self
+            .shared
+            .ring
+            .lock()
+            .map_err(|_| "buffer lock poisoned".to_string())?;
+        if ring.is_recording() {
+            return Ok(());
+        }
+        ring.start_recording(temp_path)
+    }
+
+    pub fn stop_recording(&self, output: &str) -> Result<(), String> {
+        let (temp_path, bytes) = {
+            let mut ring = self
+                .shared
+                .ring
+                .lock()
+                .map_err(|_| "buffer lock poisoned".to_string())?;
+            ring.stop_recording()?
+        };
+        if bytes == 0 {
+            let _ = std::fs::remove_file(&temp_path);
+            return Err("No video frames were captured during recording".into());
+        }
+        let res = mux_ts_file(&self.config.ffmpeg, &temp_path, output);
+        let _ = std::fs::remove_file(&temp_path);
+        res
+    }
+}
+
+pub fn mux_ts_file(ffmpeg_bin: &str, input_ts: &str, output: &str) -> Result<(), String> {
+    if let Some(parent) = std::path::Path::new(output).parent() {
+        let _ = std::fs::create_dir_all(parent);
+    }
+    let args = vec![
+        "-hide_banner".into(),
+        "-loglevel".into(),
+        "error".into(),
+        "-y".into(),
+        "-f".into(),
+        "mpegts".into(),
+        "-i".into(),
+        input_ts.into(),
+        "-map".into(),
+        "0:v:0".into(),
+        "-map".into(),
+        "0:a:0?".into(),
+        "-c".into(),
+        "copy".into(),
+        "-bsf:a".into(),
+        "aac_adtstoasc".into(),
+        "-movflags".into(),
+        "+faststart".into(),
+        output.into(),
+    ];
+    ffmpeg::run(ffmpeg_bin, &args, Duration::from_secs(120)).map(|_| ())
 }
 
 pub fn mux_mp4(ffmpeg_bin: &str, data: &[u8], output: &str) -> Result<(), String> {
@@ -490,6 +566,23 @@ mod tests {
         assert!(trimmed_mp4.exists());
         let trim_dur = ffmpeg::duration_ms(&ff, &trimmed_str);
         assert!(trim_dur >= 1000 && trim_dur <= 2200, "unexpected trimmed duration: {trim_dur}");
+
+        let rec_ts = tmp.join("rec.ts");
+        let rec_ts_str = rec_ts.to_string_lossy().into_owned();
+        let rec_mp4 = tmp.join("rec.mp4");
+        let rec_mp4_str = rec_mp4.to_string_lossy().into_owned();
+        let mut rec_ring = Ring::new(Duration::from_secs(30), 64 * 1024 * 1024);
+        rec_ring.start_recording(&rec_ts_str).expect("start_recording");
+        assert!(rec_ring.is_recording());
+        rec_ring.feed(&out.stdout);
+        let (stopped_path, bytes) = rec_ring.stop_recording().expect("stop_recording");
+        assert!(!rec_ring.is_recording());
+        assert_eq!(stopped_path, rec_ts_str);
+        assert!(bytes > 1000);
+        mux_ts_file(&ff, &rec_ts_str, &rec_mp4_str).expect("mux_ts_file");
+        assert!(rec_mp4.exists());
+        let rec_dur = ffmpeg::duration_ms(&ff, &rec_mp4_str);
+        assert!(rec_dur >= 2500 && rec_dur <= 3500, "unexpected rec duration: {rec_dur}");
 
         let _ = std::fs::remove_dir_all(&tmp);
     }

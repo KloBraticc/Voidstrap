@@ -24,7 +24,7 @@
               <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
             <StackPanel VerticalAlignment="Center">
-              <TextBlock FontSize="14" Text="Video Clipper" />
+              <TextBlock FontSize="14" Text="{resources:Loc Ui_Clipper_Title}" />
               <TextBlock Margin="0,2,0,0" FontSize="12" Text="{Binding ClipperDescription}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" />
             </StackPanel>
             <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0,8,0">
@@ -34,32 +34,41 @@
           </Grid>
         </HeaderedContentControl.Header>
         <StackPanel>
-          <controls:OptionControl Header="Replay buffer length" Description="How many seconds of gameplay to keep in the instant replay ring buffer.">
-            <ComboBox Width="190" Padding="10,5" ItemsSource="{Binding ClipperBufferOptions}" SelectedItem="{Binding SelectedClipperBuffer, Mode=TwoWay}" />
+          <controls:OptionControl Header="{resources:Loc Ui_Clipper_RecordingMode}" Description="{resources:Loc Ui_Clipper_RecordingModeHint}">
+            <ComboBox Width="200" Padding="10,5" ItemsSource="{Binding ClipperModeOptions}" SelectedItem="{Binding SelectedClipperMode, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="Video quality" Description="Bitrate preset used by the hardware GPU encoder.">
-            <ComboBox Width="190" Padding="10,5" ItemsSource="{Binding ClipperQualityOptions}" SelectedItem="{Binding SelectedClipperQuality, Mode=TwoWay}" />
+          <controls:OptionControl Header="{resources:Loc Ui_Clipper_BufferLength}" Description="{resources:Loc Ui_Clipper_BufferLengthHint}" Visibility="{Binding ClipperIsClipMode, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <ComboBox Width="200" Padding="10,5" ItemsSource="{Binding ClipperBufferOptions}" SelectedItem="{Binding SelectedClipperBuffer, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="Resolution" Description="Output resolution of saved clips.">
-            <ComboBox Width="190" Padding="10,5" ItemsSource="{Binding ClipperResolutionOptions}" SelectedItem="{Binding SelectedClipperResolution, Mode=TwoWay}" />
+          <controls:OptionControl Header="{resources:Loc Ui_Clipper_RecordOnGameStart}" Description="{resources:Loc Ui_Clipper_RecordOnGameStartHint}">
+            <ui:ToggleSwitch IsChecked="{Binding ClipperRecordOnGameStart, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="Frame rate" Description="Target capture frame rate.">
-            <ComboBox Width="190" Padding="10,5" ItemsSource="{Binding ClipperFpsOptions}" SelectedItem="{Binding SelectedClipperFps, Mode=TwoWay}" />
+          <controls:OptionControl Header="{resources:Loc Ui_Clipper_RedBorder}" Description="{resources:Loc Ui_Clipper_RedBorderHint}">
+            <ui:ToggleSwitch IsChecked="{Binding ClipperRedBorder, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="Encoder codec" Description="Hardware encoder family (NVENC, AMF, QSV, VAAPI, VideoToolbox).">
-            <ComboBox Width="190" Padding="10,5" ItemsSource="{Binding ClipperCodecOptions}" SelectedItem="{Binding SelectedClipperCodec, Mode=TwoWay}" />
+          <controls:OptionControl Header="{resources:Loc Ui_Clipper_VideoQuality}" Description="{resources:Loc Ui_Clipper_VideoQualityHint}">
+            <ComboBox Width="200" Padding="10,5" ItemsSource="{Binding ClipperQualityOptions}" SelectedItem="{Binding SelectedClipperQuality, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="Capture game audio" Description="Record desktop/game audio in saved clips.">
+          <controls:OptionControl Header="{resources:Loc Ui_Clipper_Resolution}" Description="{resources:Loc Ui_Clipper_ResolutionHint}">
+            <ComboBox Width="200" Padding="10,5" ItemsSource="{Binding ClipperResolutionOptions}" SelectedItem="{Binding SelectedClipperResolution, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="{resources:Loc Ui_Clipper_FrameRate}" Description="{resources:Loc Ui_Clipper_FrameRateHint}">
+            <ComboBox Width="200" Padding="10,5" ItemsSource="{Binding ClipperFpsOptions}" SelectedItem="{Binding SelectedClipperFps, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="{resources:Loc Ui_Clipper_Codec}" Description="{resources:Loc Ui_Clipper_CodecHint}">
+            <ComboBox Width="200" Padding="10,5" ItemsSource="{Binding ClipperCodecOptions}" SelectedItem="{Binding SelectedClipperCodec, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="{resources:Loc Ui_Clipper_GameAudio}" Description="{resources:Loc Ui_Clipper_GameAudioHint}">
             <ui:ToggleSwitch IsChecked="{Binding ClipperGameAudio, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="Capture microphone" Description="Mix microphone input into saved clips.">
+          <controls:OptionControl Header="{resources:Loc Ui_Clipper_Microphone}" Description="{resources:Loc Ui_Clipper_MicrophoneHint}">
             <ui:ToggleSwitch IsChecked="{Binding ClipperMicrophone, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="Status indicator overlay" Description="Show a compact recording and buffer badge on the Roblox window.">
+          <controls:OptionControl Header="{resources:Loc Ui_Clipper_StatusIndicator}" Description="{resources:Loc Ui_Clipper_StatusIndicatorHint}">
             <ui:ToggleSwitch IsChecked="{Binding ClipperShowIndicator, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Header="Saved clips folder" Description="Open the folder where instant replay clips are stored.">
-            <Button Width="140" Content="Open Folder" Command="{Binding OpenClipsFolderCommand}" />
+          <controls:OptionControl Header="{resources:Loc Ui_Clipper_ClipsFolder}" Description="{resources:Loc Ui_Clipper_ClipsFolderHint}">
+            <Button Width="140" Content="{resources:Loc Ui_Clipper_OpenFolder}" Command="{Binding OpenClipsFolderCommand}" />
           </controls:OptionControl>
         </StackPanel>
       </ui:CardExpander>

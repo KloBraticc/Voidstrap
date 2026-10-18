@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Threading;
 using System.Windows;
@@ -9,7 +8,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using Voidstrap.Integrations.Overlays;
-using Voidstrap.UI;
+using Voidstrap.Resources;
 
 namespace Voidstrap.Integrations.Clipper;
 
@@ -19,17 +18,19 @@ public sealed partial class ClipperIndicatorOverlayWindow : Window
     private const int WsExTransparent = 0x00000020;
     private const int WsExToolWindow = 0x00000080;
     private const int WsExNoActivate = 0x08000000;
+    private const uint WdaExcludeFromCapture = 0x00000011;
 
     private static readonly object Gate = new();
     private static ClipperIndicatorOverlayWindow? _instance;
     private static int _reconcilePending;
+    private static DateTime _savedPulseUntilUtc = DateTime.MinValue;
 
-    private readonly RobloxOverlayAnchor _anchor;
     private readonly DispatcherTimer _tickTimer;
+    private readonly Border _redFrameBorder;
+    private readonly Border _pillBorder;
     private readonly Ellipse _dot;
     private readonly TextBlock _labelText;
     private readonly TextBlock _subText;
-    private DateTime _savedPulseUntilUtc = DateTime.MinValue;
     private bool _disposed;
 
     [LibraryImport("user32.dll", EntryPoint = "GetWindowLongW")]
@@ -37,6 +38,10 @@ public sealed partial class ClipperIndicatorOverlayWindow : Window
 
     [LibraryImport("user32.dll", EntryPoint = "SetWindowLongW")]
     private static partial int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+
+    [LibraryImport("user32.dll")]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool SetWindowDisplayAffinity(IntPtr hWnd, uint dwAffinity);
 
     internal static void Reconcile()
     {
@@ -62,30 +67,36 @@ public sealed partial class ClipperIndicatorOverlayWindow : Window
 
     public static void PulseSaved()
     {
-        Application? app = Application.Current;
-        if (app == null || app.Dispatcher.HasShutdownStarted)
-            return;
-        app.Dispatcher.BeginInvoke(new Action(() =>
-        {
-            lock (Gate)
-            {
-                if (_instance is { _disposed: false } inst)
-                {
-                    inst._savedPulseUntilUtc = DateTime.UtcNow.AddSeconds(3);
-                    inst.UpdateVisualState();
-                }
-            }
-        }));
+        _savedPulseUntilUtc = DateTime.UtcNow.AddSeconds(3);
+        Reconcile();
+    }
+
+    private static bool ShouldShowOverlay(out NativeClipperStatus status)
+    {
+        status = ClipperService.GetStatus();
+        bool anyVisualEnabled = App.Settings.Prop.ClipperRedBorder || App.Settings.Prop.ClipperShowIndicator;
+        if (!anyVisualEnabled)
+            return false;
+
+        if (DateTime.UtcNow < _savedPulseUntilUtc && App.Settings.Prop.ClipperShowIndicator)
+            return true;
+
+        if (!App.Settings.Prop.ClipperEnabled)
+            return false;
+
+        if (status.Recording)
+            return true;
+
+        if (ClipperService.CurrentMode == ClipperRecordingMode.Clip && status.Running && ClipperService.InGame)
+            return true;
+
+        return false;
     }
 
     private static void ReconcileCore()
     {
         Interlocked.Exchange(ref _reconcilePending, 0);
-        bool wanted = App.Settings.Prop.ClipperEnabled
-            && App.Settings.Prop.ClipperShowIndicator
-            && ClipperService.InGame;
-
-        if (!wanted)
+        if (!ShouldShowOverlay(out NativeClipperStatus status))
         {
             CloseActive();
             return;
@@ -99,7 +110,7 @@ public sealed partial class ClipperIndicatorOverlayWindow : Window
             else
                 inst = new ClipperIndicatorOverlayWindow();
         }
-        inst.UpdateVisualState();
+        inst.UpdateVisualState(status);
     }
 
     internal static void CloseActive()
@@ -148,33 +159,43 @@ public sealed partial class ClipperIndicatorOverlayWindow : Window
         ShowInTaskbar = false;
         ShowActivated = false;
         IsHitTestVisible = false;
-        Width = 148;
-        Height = 32;
+        WindowStartupLocation = WindowStartupLocation.Manual;
+        SyncScreenBounds();
+
+        _redFrameBorder = new Border
+        {
+            BorderThickness = new Thickness(3),
+            BorderBrush = new SolidColorBrush(Color.FromArgb(0xEE, 0xFF, 0x24, 0x24)),
+            Background = Brushes.Transparent,
+            IsHitTestVisible = false,
+            HorizontalAlignment = HorizontalAlignment.Stretch,
+            VerticalAlignment = VerticalAlignment.Stretch
+        };
 
         _dot = new Ellipse
         {
-            Width = 7,
-            Height = 7,
+            Width = 8,
+            Height = 8,
             VerticalAlignment = VerticalAlignment.Center,
             Margin = new Thickness(0, 0, 7, 0),
-            Fill = new SolidColorBrush(Color.FromRgb(0xE0, 0x52, 0x52))
+            Fill = new SolidColorBrush(Color.FromRgb(0xFF, 0x2B, 0x2B))
         };
 
         _labelText = new TextBlock
         {
-            Text = "REPLAY",
-            FontSize = 11,
+            Text = Strings.Ui_Clipper_BadgeRec,
+            FontSize = 11.5,
             FontWeight = FontWeights.SemiBold,
-            Foreground = new SolidColorBrush(Color.FromArgb(0xEC, 0xF0, 0xF0, 0xF2)),
+            Foreground = new SolidColorBrush(Color.FromArgb(0xF2, 0xF4, 0xF4, 0xF6)),
             VerticalAlignment = VerticalAlignment.Center
         };
 
         _subText = new TextBlock
         {
-            Text = "0s",
-            FontSize = 11,
+            Text = "00:00",
+            FontSize = 11.5,
             Margin = new Thickness(6, 0, 0, 0),
-            Foreground = new SolidColorBrush(Color.FromArgb(0xAA, 0xD4, 0xD4, 0xD8)),
+            Foreground = new SolidColorBrush(Color.FromArgb(0xCC, 0xE0, 0xE0, 0xE6)),
             VerticalAlignment = VerticalAlignment.Center
         };
 
@@ -188,43 +209,65 @@ public sealed partial class ClipperIndicatorOverlayWindow : Window
         row.Children.Add(_labelText);
         row.Children.Add(_subText);
 
-        Border pill = new()
+        _pillBorder = new Border
         {
             CornerRadius = new CornerRadius(6),
-            Padding = new Thickness(10, 4, 10, 4),
+            Padding = new Thickness(11, 5, 11, 5),
+            Margin = new Thickness(0, 42, 16, 0),
             HorizontalAlignment = HorizontalAlignment.Right,
-            VerticalAlignment = VerticalAlignment.Center,
-            Background = new SolidColorBrush(Color.FromArgb(0xD8, 0x20, 0x20, 0x23)),
-            BorderBrush = new SolidColorBrush(Color.FromArgb(0x2E, 0xFF, 0xFF, 0xFF)),
+            VerticalAlignment = VerticalAlignment.Top,
+            Background = new SolidColorBrush(Color.FromArgb(0xDC, 0x18, 0x18, 0x1C)),
+            BorderBrush = new SolidColorBrush(Color.FromArgb(0x38, 0xFF, 0xFF, 0xFF)),
             BorderThickness = new Thickness(1),
+            IsHitTestVisible = false,
             Child = row
         };
 
-        Content = pill;
+        Grid root = new()
+        {
+            Background = Brushes.Transparent,
+            IsHitTestVisible = false
+        };
+        root.Children.Add(_redFrameBorder);
+        root.Children.Add(_pillBorder);
+
+        Content = root;
 
         Loaded += OnLoaded;
         Closed += OnClosed;
 
-        _anchor = new RobloxOverlayAnchor(
-            this,
-            hideWhenUnfocused: true,
-            placement: RobloxOverlayPlacement.TopRight,
-            customPosition: ComputePosition);
-
         _tickTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
-        _tickTimer.Tick += (_, _) => UpdateVisualState();
+        _tickTimer.Tick += OnTick;
         _tickTimer.Start();
 
         Show();
     }
 
-    private static (int Left, int Top) ComputePosition(RobloxWindowRect rect, double scaleX, double scaleY, int width, int height)
+    private void SyncScreenBounds()
     {
-        int marginX = (int)Math.Round(14 * scaleX);
-        int marginY = (int)Math.Round(46 * scaleY);
-        int left = Math.Max(rect.Left, rect.Left + rect.Width - width - marginX);
-        int top = Math.Max(rect.Top, rect.Top + marginY);
-        return (left, top);
+        double w = Math.Max(320, SystemParameters.PrimaryScreenWidth);
+        double h = Math.Max(240, SystemParameters.PrimaryScreenHeight);
+        if (Math.Abs(Left) > 0.5)
+            Left = 0;
+        if (Math.Abs(Top) > 0.5)
+            Top = 0;
+        if (Math.Abs(Width - w) > 0.5)
+            Width = w;
+        if (Math.Abs(Height - h) > 0.5)
+            Height = h;
+    }
+
+    private void OnTick(object? sender, EventArgs e)
+    {
+        if (_disposed)
+            return;
+        if (!ShouldShowOverlay(out NativeClipperStatus status))
+        {
+            CloseActive();
+            return;
+        }
+        SyncScreenBounds();
+        UpdateVisualState(status);
     }
 
     private void OnLoaded(object sender, RoutedEventArgs e)
@@ -236,6 +279,13 @@ public sealed partial class ClipperIndicatorOverlayWindow : Window
             {
                 int ex = GetWindowLong(hwnd, GwlExStyle);
                 SetWindowLong(hwnd, GwlExStyle, ex | WsExTransparent | WsExToolWindow | WsExNoActivate);
+                try
+                {
+                    SetWindowDisplayAffinity(hwnd, WdaExcludeFromCapture);
+                }
+                catch
+                {
+                }
             }
         }
         else if (PortableOverlay.Active)
@@ -243,35 +293,51 @@ public sealed partial class ClipperIndicatorOverlayWindow : Window
             PortableOverlay.Prepare(this);
             PortableOverlay.MarkPassive(this);
         }
-        UpdateVisualState();
+        UpdateVisualState(ClipperService.GetStatus());
     }
 
-    private void UpdateVisualState()
+    private void UpdateVisualState(NativeClipperStatus st)
     {
         if (_disposed)
             return;
 
-        if (!string.IsNullOrEmpty(ClipperService.ProvisionStatus))
-        {
-            _dot.Fill = new SolidColorBrush(Color.FromRgb(0xD4, 0xA7, 0x4A));
-            _labelText.Text = "CLIP";
-            _subText.Text = "SETUP";
+        bool activeCapture = st.Recording
+            || (ClipperService.CurrentMode == ClipperRecordingMode.Clip && st.Running && ClipperService.InGame);
+
+        _redFrameBorder.Visibility = App.Settings.Prop.ClipperRedBorder && activeCapture
+            ? Visibility.Visible
+            : Visibility.Collapsed;
+
+        _pillBorder.Visibility = App.Settings.Prop.ClipperShowIndicator
+            ? Visibility.Visible
+            : Visibility.Collapsed;
+
+        if (_pillBorder.Visibility != Visibility.Visible)
             return;
-        }
 
         if (DateTime.UtcNow < _savedPulseUntilUtc)
         {
             _dot.Fill = new SolidColorBrush(Color.FromRgb(0x4C, 0xAF, 0x6A));
-            _labelText.Text = "SAVED";
+            _labelText.Text = Strings.Ui_Clipper_BadgeSaved;
             _subText.Text = "MP4";
             return;
         }
 
-        NativeClipperStatus st = ClipperService.GetStatus();
+        if (st.Recording)
+        {
+            _dot.Fill = new SolidColorBrush(Color.FromRgb(0xFF, 0x2B, 0x2B));
+            _labelText.Text = Strings.Ui_Clipper_BadgeRec;
+            TimeSpan elapsed = TimeSpan.FromMilliseconds(Math.Max(0, st.RecordingMs));
+            _subText.Text = elapsed.TotalHours >= 1
+                ? $"{(int)elapsed.TotalHours}:{elapsed.Minutes:D2}:{elapsed.Seconds:D2}"
+                : $"{elapsed.Minutes:D2}:{elapsed.Seconds:D2}";
+            return;
+        }
+
         if (st.Running)
         {
             _dot.Fill = new SolidColorBrush(Color.FromRgb(0xE0, 0x52, 0x52));
-            _labelText.Text = "REC";
+            _labelText.Text = Strings.Ui_Clipper_BadgeClip;
             int secs = (int)Math.Round(st.BufferedMs / 1000.0);
             int target = Math.Max(secs, st.BufferSeconds > 0 ? st.BufferSeconds : App.Settings.Prop.ClipperBufferSeconds);
             _subText.Text = $"{secs}s/{target}s";
@@ -279,8 +345,8 @@ public sealed partial class ClipperIndicatorOverlayWindow : Window
         else
         {
             _dot.Fill = new SolidColorBrush(Color.FromRgb(0x8A, 0x8A, 0x90));
-            _labelText.Text = "CLIP";
-            _subText.Text = "IDLE";
+            _labelText.Text = Strings.Ui_Clipper_BadgeClip;
+            _subText.Text = Strings.Ui_Clipper_BadgeIdle;
         }
     }
 
@@ -288,7 +354,7 @@ public sealed partial class ClipperIndicatorOverlayWindow : Window
     {
         _disposed = true;
         _tickTimer.Stop();
-        _anchor.Dispose();
+        _tickTimer.Tick -= OnTick;
         lock (Gate)
         {
             if (ReferenceEquals(_instance, this))

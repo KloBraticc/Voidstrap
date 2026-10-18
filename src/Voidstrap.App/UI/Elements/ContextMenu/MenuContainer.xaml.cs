@@ -146,6 +146,7 @@ public partial class MenuContainer : WpfUiWindow
         RefreshRiShadeHotkey();
         RefreshClipperHotkey();
         Voidstrap.Integrations.Clipper.ClipperService.ClipSaved += OnClipSavedByService;
+        Voidstrap.Integrations.Clipper.ClipperService.NotifyClientRunning(true);
         MenuContainerViewModel dataContext = (MenuContainerViewModel)(base.DataContext = new MenuContainerViewModel());
         if (!Voidstrap.Utility.Platform.IsWindows)
         {
@@ -401,7 +402,7 @@ public partial class MenuContainer : WpfUiWindow
         if (_closed)
             return;
         OverlayShortcut shortcut = App.Settings.Prop.ClipperShortcut ??= new OverlayShortcut { Modifiers = OverlayShortcut.Alt, Key = 0x79 };
-        bool enabled = App.Settings.Prop.ClipperEnabled && _activityWatcher != null && shortcut.IsSet && !_clipperHotkeySuspended;
+        bool enabled = (App.Settings.Prop.ClipperEnabled || App.Settings.Prop.ClipperRecordOnGameStart) && shortcut.IsSet && !_clipperHotkeySuspended;
         if (enabled && _clipperHotkeyRegistered && shortcut.SameAs(_registeredClipperShortcut))
             return;
         if (_clipperHotkeyRegistered)
@@ -438,7 +439,7 @@ public partial class MenuContainer : WpfUiWindow
 
     private void TriggerSaveClipFromHotkey()
     {
-        if (_closed || !App.Settings.Prop.ClipperEnabled)
+        if (_closed || (!App.Settings.Prop.ClipperEnabled && !App.Settings.Prop.ClipperRecordOnGameStart))
             return;
         if (Interlocked.Exchange(ref _clipSaveActive, 1) != 0)
             return;
@@ -446,8 +447,7 @@ public partial class MenuContainer : WpfUiWindow
         {
             try
             {
-                await Voidstrap.Integrations.Clipper.ClipperService.SaveClipAsync(
-                    App.Settings.Prop.ClipperBufferSeconds,
+                await Voidstrap.Integrations.Clipper.ClipperService.TriggerShortcutAsync(
                     _activityWatcher?.Data?.GameName);
             }
             catch (Exception ex)
@@ -474,12 +474,12 @@ public partial class MenuContainer : WpfUiWindow
                 try
                 {
                     GetNotificationWindow().ShowNotification(
-                        "Clip saved",
+                        Strings.Ui_Clipper_ClipSaved,
                         $"{clip.FileName}\n{clip.FormattedDuration} • {clip.FormattedSize}",
                         CurrentGameIcon.Source as BitmapSource,
                         4.5,
                         null,
-                        "Video Clipper",
+                        Strings.Ui_Clipper_Title,
                         default,
                         Voidstrap.UI.NotificationKind.Server);
                 }
@@ -613,7 +613,7 @@ public partial class MenuContainer : WpfUiWindow
                     () => new SessionNotificationSettings(CurrentGameIcon.Source, _activityWatcher?.Data?.GameName, SendTestNotification));
                 break;
             case "clips":
-                _sessionDock?.ShowTool("clips", "Video Clipper", () => new SessionClipperPanel());
+                _sessionDock?.ShowTool("clips", Strings.Ui_Clipper_Title, () => new SessionClipperPanel());
                 break;
             case "layout":
                 _sessionDock?.ShowTool("layout", Strings.Ui_OverlayStudio_Title,
@@ -1817,6 +1817,7 @@ public partial class MenuContainer : WpfUiWindow
         StopSessionNotifier();
         Voidstrap.Integrations.Clipper.ClipperService.ClipSaved -= OnClipSavedByService;
         Voidstrap.Integrations.Clipper.ClipperService.NotifyGameSession(false);
+        Voidstrap.Integrations.Clipper.ClipperService.NotifyClientRunning(false);
         if (_sessionDockHotkeyRegistered && Voidstrap.Utility.Platform.IsWindows)
             UnregisterHotKey(_handle, SessionDockHotkeyId);
         if (_clipperHotkeyRegistered && Voidstrap.Utility.Platform.IsWindows)

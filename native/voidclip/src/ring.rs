@@ -1,10 +1,20 @@
 use crate::ts::{self, PACKET};
 use std::collections::VecDeque;
+use std::fs::File;
+use std::io::{BufWriter, Write};
 use std::time::{Duration, Instant};
 
 pub struct Segment {
     pub start: Instant,
     pub data: Vec<u8>,
+}
+
+struct ActiveRecorder {
+    file: BufWriter<File>,
+    path: String,
+    started: Instant,
+    bytes: u64,
+    seeded: bool,
 }
 
 pub struct Ring {
@@ -20,6 +30,7 @@ pub struct Ring {
     first_video: Option<Instant>,
     saw_key: bool,
     last_size: usize,
+    recorder: Option<ActiveRecorder>,
 }
 
 impl Ring {
@@ -37,13 +48,91 @@ impl Ring {
             first_video: None,
             saw_key: false,
             last_size: 256 * 1024,
+            recorder: None,
         }
     }
 
     pub fn clear(&mut self) {
         let keep = self.keep;
         let max = self.max_bytes;
+        let mut rec = self.recorder.take();
+        if let Some(r) = rec.as_mut() {
+            r.seeded = false;
+        }
         *self = Ring::new(keep, max);
+        self.recorder = rec;
+    }
+
+    pub fn start_recording(&mut self, temp_path: &str) -> Result<(), String> {
+        if let Some(parent) = std::path::Path::new(temp_path).parent() {
+            let _ = std::fs::create_dir_all(parent);
+        }
+        let file = File::create(temp_path)
+            .map_err(|e| format!("failed to create recording file: {e}"))?;
+        let mut writer = BufWriter::with_capacity(256 * 1024, file);
+        let mut written = 0u64;
+        let mut seeded = false;
+
+        if let (Some(pat), Some(pmt), Some(seg)) = (
+            self.pat.as_ref(),
+            self.pmt.as_ref(),
+            self.segments.back(),
+        ) {
+            writer
+                .write_all(pat)
+                .and_then(|_| writer.write_all(pmt))
+                .and_then(|_| writer.write_all(&seg.data))
+                .map_err(|e| format!("failed to write recording header: {e}"))?;
+            written = (pat.len() + pmt.len() + seg.data.len()) as u64;
+            seeded = true;
+        }
+
+        self.recorder = Some(ActiveRecorder {
+            file: writer,
+            path: temp_path.to_owned(),
+            started: Instant::now(),
+            bytes: written,
+            seeded,
+        });
+        Ok(())
+    }
+
+    pub fn stop_recording(&mut self) -> Result<(String, u64), String> {
+        let mut rec = self
+            .recorder
+            .take()
+            .ok_or_else(|| "No active recording".to_string())?;
+
+        if !rec.seeded {
+            if let (Some(pat), Some(pmt), Some(seg)) = (
+                self.pat.as_ref(),
+                self.pmt.as_ref(),
+                self.segments.back(),
+            ) {
+                let _ = rec.file.write_all(pat);
+                let _ = rec.file.write_all(pmt);
+                let _ = rec.file.write_all(&seg.data);
+                rec.bytes += (pat.len() + pmt.len() + seg.data.len()) as u64;
+                rec.seeded = true;
+            }
+        }
+
+        rec.file
+            .flush()
+            .map_err(|e| format!("failed to flush recording: {e}"))?;
+        drop(rec.file);
+        Ok((rec.path, rec.bytes))
+    }
+
+    pub fn is_recording(&self) -> bool {
+        self.recorder.is_some()
+    }
+
+    pub fn recording_info(&self) -> (bool, u64, u64) {
+        match self.recorder.as_ref() {
+            Some(r) => (true, r.started.elapsed().as_millis() as u64, r.bytes),
+            None => (false, 0, 0),
+        }
     }
 
     pub fn feed(&mut self, data: &[u8]) {
@@ -105,6 +194,25 @@ impl Ring {
         if let Some(segment) = self.segments.back_mut() {
             segment.data.extend_from_slice(p);
             self.bytes += PACKET;
+        }
+        if let Some(rec) = self.recorder.as_mut() {
+            if !rec.seeded {
+                if let (Some(pat), Some(pmt), Some(seg)) = (
+                    self.pat.as_ref(),
+                    self.pmt.as_ref(),
+                    self.segments.back(),
+                ) {
+                    if rec.file.write_all(pat).is_ok()
+                        && rec.file.write_all(pmt).is_ok()
+                        && rec.file.write_all(&seg.data).is_ok()
+                    {
+                        rec.bytes += (pat.len() + pmt.len() + seg.data.len()) as u64;
+                        rec.seeded = true;
+                    }
+                }
+            } else if !self.segments.is_empty() && rec.file.write_all(p).is_ok() {
+                rec.bytes += PACKET as u64;
+            }
         }
     }
 

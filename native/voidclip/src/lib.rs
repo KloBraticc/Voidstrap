@@ -141,6 +141,64 @@ pub unsafe extern "C" fn vc_save(output_ptr: *const u8, output_len: usize, secon
 }
 
 #[no_mangle]
+pub unsafe extern "C" fn vc_record_start(temp_ptr: *const u8, temp_len: usize) -> i32 {
+    catch_unwind(AssertUnwindSafe(|| {
+        let temp_path = match read_utf8(temp_ptr, temp_len) {
+            Ok(s) => s.to_owned(),
+            Err(e) => return set_error(e),
+        };
+        let mut g = match state().lock() {
+            Ok(g) => g,
+            Err(_) => return 0,
+        };
+        let res = match g.session.as_ref() {
+            Some(s) => s.start_recording(&temp_path),
+            None => Err("Clipper is not running".into()),
+        };
+        match res {
+            Ok(()) => {
+                g.last_error.clear();
+                1
+            }
+            Err(e) => {
+                g.last_error = e;
+                0
+            }
+        }
+    }))
+    .unwrap_or(0)
+}
+
+#[no_mangle]
+pub unsafe extern "C" fn vc_record_stop(output_ptr: *const u8, output_len: usize) -> i32 {
+    catch_unwind(AssertUnwindSafe(|| {
+        let output = match read_utf8(output_ptr, output_len) {
+            Ok(s) => s.to_owned(),
+            Err(e) => return set_error(e),
+        };
+        let mut g = match state().lock() {
+            Ok(g) => g,
+            Err(_) => return 0,
+        };
+        let res = match g.session.as_ref() {
+            Some(s) => s.stop_recording(&output),
+            None => Err("Clipper is not running".into()),
+        };
+        match res {
+            Ok(()) => {
+                g.last_error.clear();
+                1
+            }
+            Err(e) => {
+                g.last_error = e;
+                0
+            }
+        }
+    }))
+    .unwrap_or(0)
+}
+
+#[no_mangle]
 pub unsafe extern "C" fn vc_trim(
     ffmpeg_ptr: *const u8,
     ffmpeg_len: usize,

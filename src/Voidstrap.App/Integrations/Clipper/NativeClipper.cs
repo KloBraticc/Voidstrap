@@ -2,79 +2,9 @@ using System;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading;
 
 namespace Voidstrap.Integrations.Clipper;
-
-public sealed class NativeClipperConfig
-{
-    [JsonPropertyName("ffmpeg")]
-    public string Ffmpeg { get; set; } = "ffmpeg";
-
-    [JsonPropertyName("bufferSeconds")]
-    public int BufferSeconds { get; set; } = 30;
-
-    [JsonPropertyName("fps")]
-    public int Fps { get; set; } = 60;
-
-    [JsonPropertyName("height")]
-    public int Height { get; set; } = 1080;
-
-    [JsonPropertyName("quality")]
-    public int Quality { get; set; } = 2;
-
-    [JsonPropertyName("codec")]
-    public string Codec { get; set; } = "h264";
-
-    [JsonPropertyName("gameAudio")]
-    public bool GameAudio { get; set; } = true;
-
-    [JsonPropertyName("microphone")]
-    public bool Microphone { get; set; } = false;
-
-    [JsonPropertyName("cursor")]
-    public bool Cursor { get; set; } = false;
-
-    [JsonPropertyName("window")]
-    public long Window { get; set; }
-}
-
-public sealed class NativeClipperStatus
-{
-    [JsonPropertyName("running")]
-    public bool Running { get; set; }
-
-    [JsonPropertyName("encoderId")]
-    public string EncoderId { get; set; } = string.Empty;
-
-    [JsonPropertyName("encoderLabel")]
-    public string EncoderLabel { get; set; } = string.Empty;
-
-    [JsonPropertyName("width")]
-    public int Width { get; set; }
-
-    [JsonPropertyName("height")]
-    public int Height { get; set; }
-
-    [JsonPropertyName("fps")]
-    public int Fps { get; set; }
-
-    [JsonPropertyName("bitrateKbps")]
-    public int BitrateKbps { get; set; }
-
-    [JsonPropertyName("bufferedMs")]
-    public long BufferedMs { get; set; }
-
-    [JsonPropertyName("bufferSeconds")]
-    public int BufferSeconds { get; set; }
-
-    [JsonPropertyName("bufferedBytes")]
-    public long BufferedBytes { get; set; }
-
-    [JsonPropertyName("lastError")]
-    public string LastError { get; set; } = string.Empty;
-}
 
 internal static partial class NativeClipper
 {
@@ -100,6 +30,12 @@ internal static partial class NativeClipper
 
     [LibraryImport(Library, EntryPoint = "vc_save")]
     private static unsafe partial int SaveNative(byte* outputPtr, nuint outputLen, uint seconds);
+
+    [LibraryImport(Library, EntryPoint = "vc_record_start")]
+    private static unsafe partial int RecordStartNative(byte* tempPtr, nuint tempLen);
+
+    [LibraryImport(Library, EntryPoint = "vc_record_stop")]
+    private static unsafe partial int RecordStopNative(byte* outputPtr, nuint outputLen);
 
     [LibraryImport(Library, EntryPoint = "vc_trim")]
     private static unsafe partial int TrimNative(
@@ -219,6 +155,42 @@ internal static partial class NativeClipper
         return false;
     }
 
+    public static unsafe bool StartRecording(string tempPath, out string error)
+    {
+        error = string.Empty;
+        if (!IsAvailable)
+        {
+            error = "Native voidclip library is not available";
+            return false;
+        }
+        byte[] utf8 = Encoding.UTF8.GetBytes(tempPath);
+        fixed (byte* ptr = utf8)
+        {
+            if (RecordStartNative(ptr, (nuint)utf8.Length) != 0)
+                return true;
+        }
+        error = GetLastError();
+        return false;
+    }
+
+    public static unsafe bool StopRecording(string outputPath, out string error)
+    {
+        error = string.Empty;
+        if (!IsAvailable)
+        {
+            error = "Native voidclip library is not available";
+            return false;
+        }
+        byte[] utf8 = Encoding.UTF8.GetBytes(outputPath);
+        fixed (byte* ptr = utf8)
+        {
+            if (RecordStopNative(ptr, (nuint)utf8.Length) != 0)
+                return true;
+        }
+        error = GetLastError();
+        return false;
+    }
+
     public static unsafe bool Trim(string ffmpegPath, string inputPath, string outputPath, long startMs, long endMs, out string error)
     {
         error = string.Empty;
@@ -273,23 +245,28 @@ internal static partial class NativeClipper
     {
         if (!IsAvailable)
             return new NativeClipperStatus();
-        if (StatusJsonNative(out IntPtr ptr, out nuint len) == 0 || ptr == IntPtr.Zero)
-            return new NativeClipperStatus();
         try
         {
-            unsafe
+            if (StatusJsonNative(out IntPtr ptr, out nuint len) == 0 || ptr == IntPtr.Zero)
+                return new NativeClipperStatus();
+            try
             {
-                ReadOnlySpan<byte> span = new((void*)ptr, checked((int)len));
-                return JsonSerializer.Deserialize<NativeClipperStatus>(span) ?? new NativeClipperStatus();
+                if (len == 0)
+                    return new NativeClipperStatus();
+                unsafe
+                {
+                    ReadOnlySpan<byte> span = new((void*)ptr, (int)len);
+                    return JsonSerializer.Deserialize<NativeClipperStatus>(span) ?? new NativeClipperStatus();
+                }
+            }
+            finally
+            {
+                FreeNative(ptr, len);
             }
         }
         catch
         {
             return new NativeClipperStatus();
-        }
-        finally
-        {
-            FreeNative(ptr, len);
         }
     }
 
@@ -297,22 +274,24 @@ internal static partial class NativeClipper
     {
         if (!IsAvailable)
             return "Native voidclip library is not available";
-        if (LastErrorNative(out IntPtr ptr, out nuint len) == 0 || ptr == IntPtr.Zero)
-            return string.Empty;
         try
         {
-            unsafe
+            if (LastErrorNative(out IntPtr ptr, out nuint len) == 0 || ptr == IntPtr.Zero)
+                return string.Empty;
+            try
             {
-                return Encoding.UTF8.GetString((byte*)ptr, checked((int)len));
+                if (len == 0)
+                    return string.Empty;
+                return Marshal.PtrToStringUTF8(ptr, (int)len) ?? string.Empty;
+            }
+            finally
+            {
+                FreeNative(ptr, len);
             }
         }
         catch
         {
             return string.Empty;
-        }
-        finally
-        {
-            FreeNative(ptr, len);
         }
     }
 }

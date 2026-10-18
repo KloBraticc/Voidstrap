@@ -1189,29 +1189,31 @@ public ICommand PickCursorColorCommand { get; }
 		OnPropertyChanged(nameof(CanResetSessionDockShortcut));
 	}
 
-	private static readonly (int Seconds, string Label)[] ClipperBuffers =
+	private static (string Key, string Label)[] GetClipperModes() =>
 	[
-		(15, "15 seconds"),
-		(30, "30 seconds"),
-		(45, "45 seconds"),
-		(60, "60 seconds"),
-		(90, "90 seconds"),
-		(120, "2 minutes"),
-		(180, "3 minutes"),
-		(300, "5 minutes")
+		("record", Strings.Ui_Clipper_ModeRecord),
+		("clip", Strings.Ui_Clipper_ModeClip)
 	];
 
-	private static readonly (int Key, string Label)[] ClipperQualities =
+	private static (int Seconds, string Label)[] GetClipperBuffers() =>
 	[
-		(0, "Low (8 Mbps)"),
-		(1, "Medium (16 Mbps)"),
-		(2, "High (28 Mbps)"),
-		(3, "Ultra (50 Mbps)")
+		(15, Strings.Ui_Clipper_Sec15),
+		(30, Strings.Ui_Clipper_Sec30),
+		(60, Strings.Ui_Clipper_Sec60),
+		(120, Strings.Ui_Clipper_Sec120)
 	];
 
-	private static readonly (int Height, string Label)[] ClipperResolutions =
+	private static (int Key, string Label)[] GetClipperQualities() =>
 	[
-		(0, "Native"),
+		(0, Strings.Ui_Clipper_QualityLow),
+		(1, Strings.Ui_Clipper_QualityMedium),
+		(2, Strings.Ui_Clipper_QualityHigh),
+		(3, Strings.Ui_Clipper_QualityUltra)
+	];
+
+	private static (int Height, string Label)[] GetClipperResolutions() =>
+	[
+		(0, Strings.Ui_Clipper_ResNative),
 		(720, "720p"),
 		(1080, "1080p"),
 		(1440, "1440p")
@@ -1226,8 +1228,8 @@ public ICommand PickCursorColorCommand { get; }
 
 	private static readonly (string Key, string Label)[] ClipperCodecs =
 	[
-		("h264", "H.264 (Hardware GPU)"),
-		("hevc", "HEVC / H.265 (Hardware GPU)")
+		("h264", "H.264 (GPU)"),
+		("hevc", "HEVC (GPU)")
 	];
 
 	private static Voidstrap.Models.Persistable.OverlayShortcut DefaultClipperShortcut() =>
@@ -1254,10 +1256,9 @@ public ICommand PickCursorColorCommand { get; }
 		get
 		{
 			var shortcut = App.Settings.Prop.ClipperShortcut ?? DefaultClipperShortcut();
-			int secs = Math.Clamp(App.Settings.Prop.ClipperBufferSeconds, 5, 300);
 			return shortcut.IsSet
-				? $"Hardware-accelerated instant replay. Press {shortcut.Describe()} to save the last {secs}s with zero game lag."
-				: "Hardware-accelerated instant replay. Reset or assign a shortcut to save clips in game.";
+				? string.Format(Strings.Ui_Clipper_ShortcutDescription, shortcut.Describe())
+				: Strings.Ui_Clipper_NoShortcutDescription;
 		}
 	}
 
@@ -1281,23 +1282,87 @@ public ICommand PickCursorColorCommand { get; }
 		OnPropertyChanged(nameof(CanResetClipperShortcut));
 	}
 
-	public IReadOnlyList<string> ClipperBufferOptions { get; } = ClipperBuffers.Select(x => x.Label).ToList();
+	public IReadOnlyList<string> ClipperModeOptions => GetClipperModes().Select(x => x.Label).ToList();
+
+	public bool ClipperIsClipMode =>
+		string.Equals(App.Settings.Prop.ClipperMode, "clip", StringComparison.OrdinalIgnoreCase);
+
+	public string SelectedClipperMode
+	{
+		get
+		{
+			string m = App.Settings.Prop.ClipperMode ?? "record";
+			foreach (var item in GetClipperModes())
+			{
+				if (string.Equals(item.Key, m, StringComparison.OrdinalIgnoreCase))
+					return item.Label;
+			}
+			return Strings.Ui_Clipper_ModeRecord;
+		}
+		set
+		{
+			foreach (var item in GetClipperModes())
+			{
+				if (item.Label == value)
+				{
+					if (string.Equals(App.Settings.Prop.ClipperMode, item.Key, StringComparison.OrdinalIgnoreCase))
+						return;
+					App.Settings.Prop.ClipperMode = item.Key;
+					App.Settings.SaveDeferred();
+					OnPropertyChanged();
+					OnPropertyChanged(nameof(ClipperIsClipMode));
+					Voidstrap.Integrations.Clipper.ClipperService.ReconcileWithSettings();
+					return;
+				}
+			}
+		}
+	}
+
+	public bool ClipperRecordOnGameStart
+	{
+		get => App.Settings.Prop.ClipperRecordOnGameStart;
+		set
+		{
+			if (App.Settings.Prop.ClipperRecordOnGameStart == value)
+				return;
+			App.Settings.Prop.ClipperRecordOnGameStart = value;
+			App.Settings.SaveDeferred();
+			OnPropertyChanged();
+			MenuContainer.SyncClipperHotkey();
+		}
+	}
+
+	public bool ClipperRedBorder
+	{
+		get => App.Settings.Prop.ClipperRedBorder;
+		set
+		{
+			if (App.Settings.Prop.ClipperRedBorder == value)
+				return;
+			App.Settings.Prop.ClipperRedBorder = value;
+			App.Settings.SaveDeferred();
+			OnPropertyChanged();
+			Voidstrap.Integrations.Clipper.ClipperService.ReconcileWithSettings();
+		}
+	}
+
+	public IReadOnlyList<string> ClipperBufferOptions => GetClipperBuffers().Select(x => x.Label).ToList();
 
 	public string SelectedClipperBuffer
 	{
 		get
 		{
 			int secs = App.Settings.Prop.ClipperBufferSeconds;
-			foreach (var item in ClipperBuffers)
+			foreach (var item in GetClipperBuffers())
 			{
 				if (item.Seconds == secs)
 					return item.Label;
 			}
-			return "30 seconds";
+			return Strings.Ui_Clipper_Sec30;
 		}
 		set
 		{
-			foreach (var item in ClipperBuffers)
+			foreach (var item in GetClipperBuffers())
 			{
 				if (item.Label == value)
 				{
@@ -1306,7 +1371,6 @@ public ICommand PickCursorColorCommand { get; }
 					App.Settings.Prop.ClipperBufferSeconds = item.Seconds;
 					App.Settings.SaveDeferred();
 					OnPropertyChanged();
-					OnPropertyChanged(nameof(ClipperDescription));
 					Voidstrap.Integrations.Clipper.ClipperService.ReconcileWithSettings();
 					return;
 				}
@@ -1314,23 +1378,23 @@ public ICommand PickCursorColorCommand { get; }
 		}
 	}
 
-	public IReadOnlyList<string> ClipperQualityOptions { get; } = ClipperQualities.Select(x => x.Label).ToList();
+	public IReadOnlyList<string> ClipperQualityOptions => GetClipperQualities().Select(x => x.Label).ToList();
 
 	public string SelectedClipperQuality
 	{
 		get
 		{
 			int q = App.Settings.Prop.ClipperQuality;
-			foreach (var item in ClipperQualities)
+			foreach (var item in GetClipperQualities())
 			{
 				if (item.Key == q)
 					return item.Label;
 			}
-			return "High (28 Mbps)";
+			return Strings.Ui_Clipper_QualityHigh;
 		}
 		set
 		{
-			foreach (var item in ClipperQualities)
+			foreach (var item in GetClipperQualities())
 			{
 				if (item.Label == value)
 				{
@@ -1346,14 +1410,14 @@ public ICommand PickCursorColorCommand { get; }
 		}
 	}
 
-	public IReadOnlyList<string> ClipperResolutionOptions { get; } = ClipperResolutions.Select(x => x.Label).ToList();
+	public IReadOnlyList<string> ClipperResolutionOptions => GetClipperResolutions().Select(x => x.Label).ToList();
 
 	public string SelectedClipperResolution
 	{
 		get
 		{
 			int h = App.Settings.Prop.ClipperResolutionHeight;
-			foreach (var item in ClipperResolutions)
+			foreach (var item in GetClipperResolutions())
 			{
 				if (item.Height == h)
 					return item.Label;
@@ -1362,7 +1426,7 @@ public ICommand PickCursorColorCommand { get; }
 		}
 		set
 		{
-			foreach (var item in ClipperResolutions)
+			foreach (var item in GetClipperResolutions())
 			{
 				if (item.Label == value)
 				{
@@ -1422,7 +1486,7 @@ public ICommand PickCursorColorCommand { get; }
 				if (string.Equals(item.Key, c, StringComparison.OrdinalIgnoreCase))
 					return item.Label;
 			}
-			return "H.264 (Hardware GPU)";
+			return "H.264 (GPU)";
 		}
 		set
 		{

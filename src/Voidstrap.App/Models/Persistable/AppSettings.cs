@@ -272,6 +272,12 @@ namespace Voidstrap.Models.Persistable
 
         public bool ClipperEnabled { get; set; } = false;
 
+        public string ClipperMode { get; set; } = "record";
+
+        public bool ClipperRecordOnGameStart { get; set; } = false;
+
+        public bool ClipperRedBorder { get; set; } = true;
+
         public OverlayShortcut ClipperShortcut { get; set; } = new() { Modifiers = OverlayShortcut.Alt, Key = 0x79 };
 
         public int ClipperBufferSeconds { get; set; } = 30;
