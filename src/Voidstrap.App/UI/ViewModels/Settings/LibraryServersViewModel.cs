@@ -33,7 +33,7 @@ public class LibraryServersViewModel : NotifyPropertyChangedViewModel
 
     private readonly HashSet<string> _seen = new(StringComparer.OrdinalIgnoreCase);
 
-    private readonly ConcurrentQueue<MatchmakerCandidate> _incoming = new();
+    private readonly ConcurrentQueue<(MatchmakerCandidate Candidate, int Generation)> _incoming = new();
 
     private readonly List<ServerCard> _avatarQueue = new();
 
@@ -42,6 +42,12 @@ public class LibraryServersViewModel : NotifyPropertyChangedViewModel
     private CancellationTokenSource? _publicCts;
 
     private CancellationTokenSource? _privateCts;
+
+    private CancellationTokenSource? _placeCts;
+
+    private CancellationTokenSource? _avatarCts;
+
+    private Task<long>? _placeTask;
 
     private HashSet<string> _blocked = new(StringComparer.OrdinalIgnoreCase);
 
@@ -52,6 +58,8 @@ public class LibraryServersViewModel : NotifyPropertyChangedViewModel
     private int _publicGeneration;
 
     private int _privateGeneration;
+
+    private int _avatarGeneration;
 
     private int _renderPending;
 
@@ -73,6 +81,8 @@ public class LibraryServersViewModel : NotifyPropertyChangedViewModel
 
     private bool _privateLoaded;
 
+    private string _lastCookie = "";
+
     private string _publicStatus = "";
 
     private string _privateStatus = "";
@@ -90,8 +100,8 @@ public class LibraryServersViewModel : NotifyPropertyChangedViewModel
     public LibraryServersViewModel()
     {
         JoinCommand = new AsyncRelayCommand<ServerCard>(JoinAsync);
-        RefreshCommand = new AsyncRelayCommand(LoadPublicAsync);
-        RefreshPrivateCommand = new AsyncRelayCommand(RefreshPrivateAsync);
+        RefreshCommand = new CommunityToolkit.Mvvm.Input.RelayCommand(() => _ = LoadPublicAsync());
+        RefreshPrivateCommand = new CommunityToolkit.Mvvm.Input.RelayCommand(() => _ = LoadPrivateAsync(true));
     }
 
     public ObservableCollection<ServerCard> Servers { get; } = new();
@@ -126,7 +136,7 @@ public class LibraryServersViewModel : NotifyPropertyChangedViewModel
         }
     }
 
-    public Visibility PublicStatusVisibility => string.IsNullOrEmpty(_publicStatus) && !_publicLoading ? Visibility.Collapsed : Visibility.Visible;
+    public Visibility PublicStatusVisibility => string.IsNullOrEmpty(_publicStatus) ? Visibility.Collapsed : Visibility.Visible;
 
     public bool PrivateLoading
     {
@@ -148,7 +158,7 @@ public class LibraryServersViewModel : NotifyPropertyChangedViewModel
         }
     }
 
-    public Visibility PrivateStatusVisibility => string.IsNullOrEmpty(_privateStatus) && !_privateLoading ? Visibility.Collapsed : Visibility.Visible;
+    public Visibility PrivateStatusVisibility => string.IsNullOrEmpty(_privateStatus) ? Visibility.Collapsed : Visibility.Visible;
 
     public string CountText
     {
@@ -194,9 +204,15 @@ public class LibraryServersViewModel : NotifyPropertyChangedViewModel
         get => _isServersTabSelected;
         set
         {
-            if (!SetProperty(ref _isServersTabSelected, value) || !value || _publicLoaded)
+            if (!SetProperty(ref _isServersTabSelected, value) || !value)
                 return;
-            _ = LoadPublicAsync();
+            EnsureAccountFresh();
+            if (!_viewActive || _game == null)
+                return;
+            if (!_publicLoaded && !_publicLoading)
+                _ = LoadPublicAsync();
+            else
+                QueuePendingAvatars();
         }
     }
 
@@ -207,18 +223,38 @@ public class LibraryServersViewModel : NotifyPropertyChangedViewModel
         {
             if (!SetProperty(ref _isPrivateServersTabSelected, value) || !value)
                 return;
-            _ = LoadPrivateAsync(false);
+            EnsureAccountFresh();
+            if (!_viewActive || _game == null)
+                return;
+            if (!_privateLoaded && !_privateLoading)
+                _ = LoadPrivateAsync(false);
+            else
+                QueuePendingAvatars();
         }
     }
 
     public void SetGame(LibraryGameEntry? game)
     {
+        EnsureAccountFresh();
+        if (_game != null && game != null && IsSameGame(_game, game))
+        {
+            _game = game;
+            if (!_viewActive)
+                return;
+            if (_isServersTabSelected && !_publicLoaded && !_publicLoading)
+                _ = LoadPublicAsync();
+            if (_isPrivateServersTabSelected && !_privateLoaded && !_privateLoading)
+                _ = LoadPrivateAsync(false);
+            return;
+        }
+
         _game = game;
         Interlocked.Increment(ref _publicGeneration);
         Interlocked.Increment(ref _privateGeneration);
         Interlocked.Exchange(ref _placeId, 0);
         CancelPublic();
         CancelPrivate();
+        CancelPlaceLookup();
         DropAvatarQueue();
         _publicAll.Clear();
         _seen.Clear();
@@ -246,17 +282,41 @@ public class LibraryServersViewModel : NotifyPropertyChangedViewModel
         _viewActive = active;
         if (active)
         {
-            if (_isServersTabSelected && !_publicLoaded)
+            EnsureAccountFresh();
+            if (_game == null)
+                return;
+            if (_isServersTabSelected && !_publicLoaded && !_publicLoading)
                 _ = LoadPublicAsync();
-            if (_isPrivateServersTabSelected)
+            if (_isPrivateServersTabSelected && !_privateLoaded && !_privateLoading)
                 _ = LoadPrivateAsync(false);
+            QueuePendingAvatars();
             return;
         }
+
+        bool wasPublicLoading = _publicLoading;
+        bool wasPrivateLoading = _privateLoading;
+        int generation = Volatile.Read(ref _publicGeneration);
         Interlocked.Increment(ref _publicGeneration);
         Interlocked.Increment(ref _privateGeneration);
         CancelPublic();
         CancelPrivate();
+        CancelPlaceLookup();
         DropAvatarQueue();
+        if (wasPublicLoading)
+        {
+            _ = DrainIncoming(generation);
+            UpdateRegions(keepSelected: false);
+            Rebuild();
+            _publicLoaded = _publicAll.Count > 0;
+            if (!_joining)
+                PublicStatus = "";
+        }
+        if (wasPrivateLoading)
+        {
+            _privateLoaded = false;
+            if (!_joining)
+                PrivateStatus = "";
+        }
     }
 
     public async Task LoadPublicAsync()
@@ -266,8 +326,10 @@ public class LibraryServersViewModel : NotifyPropertyChangedViewModel
         LibraryGameEntry? game = _game;
         if (game == null)
             return;
+        EnsureAccountFresh();
         CancelPublic();
         int generation = Interlocked.Increment(ref _publicGeneration);
+        _publicLoaded = false;
         _publicAll.Clear();
         _seen.Clear();
         _incoming.Clear();
@@ -281,7 +343,7 @@ public class LibraryServersViewModel : NotifyPropertyChangedViewModel
         _publicCts = request;
         try
         {
-            long placeId = await ResolvePlaceAsync(game);
+            long placeId = await ResolvePlaceAsync(game, request.Token);
             if (generation != Volatile.Read(ref _publicGeneration))
                 return;
             if (placeId <= 0)
@@ -303,28 +365,29 @@ public class LibraryServersViewModel : NotifyPropertyChangedViewModel
                 request.Token);
             if (generation != Volatile.Read(ref _publicGeneration))
                 return;
-            _incoming.Clear();
-            _publicAll.Clear();
-            _seen.Clear();
+            _ = DrainIncoming(generation);
             foreach (MatchmakerCandidate server in scan.Servers)
             {
                 if (_seen.Add(server.JobId))
                     _publicAll.Add(CreateCard(server));
             }
-            UpdateRegions();
+            UpdateRegions(keepSelected: false);
             Rebuild();
-            PublicStatus = DescribeScan(scan);
+            _publicLoaded = _publicAll.Count > 0
+                || scan.Status is MatchmakerScanStatus.Ok or MatchmakerScanStatus.NoServers or MatchmakerScanStatus.AllBlocked or MatchmakerScanStatus.AllFar;
+            if (!_joining)
+                PublicStatus = _publicAll.Count > 0 && scan.Status == MatchmakerScanStatus.Ok ? "" : DescribeScan(scan);
         }
         catch (OperationCanceledException)
         {
             if (generation == Volatile.Read(ref _publicGeneration))
-                FinishPartialScan();
+                FinishPartialScan(generation);
         }
         catch (Exception ex)
         {
             App.Logger.WriteLine(LogIdent, "The public server list could not be loaded: " + ex.Message);
             if (generation == Volatile.Read(ref _publicGeneration))
-                FinishPartialScan();
+                FinishPartialScan(generation);
         }
         finally
         {
@@ -332,12 +395,9 @@ public class LibraryServersViewModel : NotifyPropertyChangedViewModel
             {
                 _publicCts = null;
                 PublicLoading = false;
-                _publicLoaded = true;
             }
         }
     }
-
-    private async Task RefreshPrivateAsync() => await LoadPrivateAsync(true).ConfigureAwait(true);
 
     public async Task LoadPrivateAsync(bool force)
     {
@@ -346,11 +406,12 @@ public class LibraryServersViewModel : NotifyPropertyChangedViewModel
         LibraryGameEntry? game = _game;
         if (game == null)
             return;
+        EnsureAccountFresh();
         if (_privateLoaded && !force)
             return;
         CancelPrivate();
         int generation = Interlocked.Increment(ref _privateGeneration);
-        _privateLoaded = true;
+        _privateLoaded = false;
         PrivateServers.Clear();
         PrivateLoading = true;
         PrivateStatus = Strings.Library_Servers_PrivateLoading;
@@ -358,7 +419,7 @@ public class LibraryServersViewModel : NotifyPropertyChangedViewModel
         _privateCts = request;
         try
         {
-            long placeId = await ResolvePlaceAsync(game);
+            long placeId = await ResolvePlaceAsync(game, request.Token);
             if (generation != Volatile.Read(ref _privateGeneration))
                 return;
             if (placeId <= 0)
@@ -375,22 +436,26 @@ public class LibraryServersViewModel : NotifyPropertyChangedViewModel
                 PrivateServers.Add(card);
                 QueueAvatars(card);
             }
-            PrivateStatus = status switch
+            _privateLoaded = status is PrivateServersStatus.Ready or PrivateServersStatus.NotSignedIn || PrivateServers.Count > 0;
+            if (!_joining)
             {
-                PrivateServersStatus.NotSignedIn => Strings.Library_Servers_PrivateSignedOut,
-                PrivateServersStatus.Unavailable => Strings.Library_Servers_PrivateUnavailable,
-                _ => PrivateServers.Count == 0 ? Strings.Library_Servers_PrivateEmpty : ""
-            };
+                PrivateStatus = status switch
+                {
+                    PrivateServersStatus.NotSignedIn => Strings.Library_Servers_PrivateSignedOut,
+                    PrivateServersStatus.Unavailable => Strings.Library_Servers_PrivateUnavailable,
+                    _ => PrivateServers.Count == 0 ? Strings.Library_Servers_PrivateEmpty : ""
+                };
+            }
         }
         catch (OperationCanceledException)
         {
-            if (generation == Volatile.Read(ref _privateGeneration))
+            if (generation == Volatile.Read(ref _privateGeneration) && !_joining)
                 PrivateStatus = Strings.Library_Servers_PrivateUnavailable;
         }
         catch (Exception ex)
         {
             App.Logger.WriteLine(LogIdent, "Private servers could not be loaded: " + ex.Message);
-            if (generation == Volatile.Read(ref _privateGeneration))
+            if (generation == Volatile.Read(ref _privateGeneration) && !_joining)
                 PrivateStatus = Strings.Library_Servers_PrivateUnavailable;
         }
         finally
@@ -417,8 +482,12 @@ public class LibraryServersViewModel : NotifyPropertyChangedViewModel
         }
         else
         {
+            int generation = Volatile.Read(ref _publicGeneration);
             Interlocked.Increment(ref _publicGeneration);
             CancelPublic();
+            _ = DrainIncoming(generation);
+            if (_publicAll.Count > 0)
+                _publicLoaded = true;
             PublicStatus = joining;
         }
         try
@@ -451,13 +520,49 @@ public class LibraryServersViewModel : NotifyPropertyChangedViewModel
             PublicStatus = Strings.ContextMenu_ServerBrowser_JoinFailed;
     }
 
-    private async Task<long> ResolvePlaceAsync(LibraryGameEntry game)
+    private static bool IsSameGame(LibraryGameEntry first, LibraryGameEntry second)
+    {
+        if (ReferenceEquals(first, second))
+            return true;
+        if (first.UniverseId > 0 && second.UniverseId > 0)
+            return first.UniverseId == second.UniverseId;
+        return first.PlaceId > 0 && first.PlaceId == second.PlaceId;
+    }
+
+    private void EnsureAccountFresh()
+    {
+        string currentCookie = RobloxCookie.Get() ?? "";
+        if (string.Equals(_lastCookie, currentCookie, StringComparison.Ordinal))
+            return;
+        bool hadPrevious = _lastCookie.Length > 0 || _publicLoaded || _privateLoaded;
+        _lastCookie = currentCookie;
+        if (!hadPrevious)
+            return;
+        _publicLoaded = false;
+        _privateLoaded = false;
+    }
+
+    private async Task<long> ResolvePlaceAsync(LibraryGameEntry game, CancellationToken token)
     {
         long known = Volatile.Read(ref _placeId);
         if (known > 0)
             return known;
-        long placeId = await LibraryViewModel.ResolveStartPlaceAsync(game).ConfigureAwait(true);
-        if (placeId > 0)
+        Task<long>? inflight = _placeTask;
+        if (inflight == null || inflight.IsCompleted)
+        {
+            CancelPlaceLookup();
+            CancellationTokenSource cts = new(ScanTimeout);
+            _placeCts = cts;
+            inflight = ResolvePlaceCoreAsync(game, cts.Token);
+            _placeTask = inflight;
+        }
+        return await inflight.WaitAsync(token).ConfigureAwait(true);
+    }
+
+    private async Task<long> ResolvePlaceCoreAsync(LibraryGameEntry game, CancellationToken token)
+    {
+        long placeId = await LibraryViewModel.ResolveStartPlaceAsync(game, token).ConfigureAwait(true);
+        if (placeId > 0 && _game != null && IsSameGame(_game, game))
             Interlocked.CompareExchange(ref _placeId, placeId, 0);
         return placeId;
     }
@@ -484,11 +589,22 @@ public class LibraryServersViewModel : NotifyPropertyChangedViewModel
         previous.Dispose();
     }
 
+    private void CancelPlaceLookup()
+    {
+        _placeTask = null;
+        CancellationTokenSource? previous = _placeCts;
+        _placeCts = null;
+        if (previous == null)
+            return;
+        previous.Cancel();
+        previous.Dispose();
+    }
+
     private void QueueResult(MatchmakerCandidate candidate, int generation)
     {
         if (generation != Volatile.Read(ref _publicGeneration))
             return;
-        _incoming.Enqueue(candidate);
+        _incoming.Enqueue((candidate, generation));
         if (Interlocked.Exchange(ref _renderPending, 1) != 0)
             return;
         Dispatcher? dispatcher = Application.Current?.Dispatcher;
@@ -512,27 +628,24 @@ public class LibraryServersViewModel : NotifyPropertyChangedViewModel
         Interlocked.Exchange(ref _renderPending, 0);
         if (!_publicLoading || _incoming.IsEmpty)
             return;
-        List<ServerCard> added = DrainIncoming();
-        UpdateRegions();
-        foreach (ServerCard card in added)
-        {
-            if (!MatchesFilters(card))
-                continue;
-            Servers.Add(card);
-            QueueAvatars(card);
-        }
-        if (added.Count > 0)
-            CountText = string.Format(Strings.ContextMenu_ServerBrowser_Count, Servers.Count);
+        int generation = Volatile.Read(ref _publicGeneration);
+        List<ServerCard> added = DrainIncoming(generation);
+        if (added.Count == 0)
+            return;
+        UpdateRegions(keepSelected: true);
+        Rebuild();
+        if (_publicAll.Count > 0 && !_joining)
+            PublicStatus = "";
     }
 
-    private List<ServerCard> DrainIncoming()
+    private List<ServerCard> DrainIncoming(int generation)
     {
         List<ServerCard> added = new();
-        while (_incoming.TryDequeue(out MatchmakerCandidate? candidate))
+        while (_incoming.TryDequeue(out (MatchmakerCandidate Candidate, int Generation) item))
         {
-            if (!_seen.Add(candidate.JobId))
+            if (item.Generation != generation || !_seen.Add(item.Candidate.JobId))
                 continue;
-            ServerCard card = CreateCard(candidate);
+            ServerCard card = CreateCard(item.Candidate);
             _publicAll.Add(card);
             added.Add(card);
         }
@@ -542,13 +655,21 @@ public class LibraryServersViewModel : NotifyPropertyChangedViewModel
     private ServerCard CreateCard(MatchmakerCandidate server)
         => ServerCard.ForPublic(server, false, _blocked.Contains(VoidstrapMatchmaker.BlockKey(server.Datacenter)));
 
-    private void FinishPartialScan()
+    private void FinishPartialScan(int generation)
     {
-        _ = DrainIncoming();
-        UpdateRegions();
+        _ = DrainIncoming(generation);
+        UpdateRegions(keepSelected: false);
         Rebuild();
-        if (_publicAll.Count == 0)
+        if (_publicAll.Count > 0)
+        {
+            _publicLoaded = true;
+            if (!_joining)
+                PublicStatus = "";
+        }
+        else if (!_joining)
+        {
             PublicStatus = Strings.ContextMenu_ServerBrowser_Failed;
+        }
     }
 
     private static string DescribeScan(MatchmakerServerScan scan) => scan.Status switch
@@ -583,11 +704,18 @@ public class LibraryServersViewModel : NotifyPropertyChangedViewModel
         OnPropertyChanged(nameof(SelectedRegion));
     }
 
-    private void UpdateRegions()
+    private void UpdateRegions(bool keepSelected)
     {
         string allRegions = Strings.ContextMenu_ServerBrowser_AllRegions;
         List<string> regions = _publicAll.Select(card => card.Region).Where(region => region.Length > 0).Distinct(StringComparer.OrdinalIgnoreCase)
             .OrderBy(region => region, StringComparer.CurrentCultureIgnoreCase).ToList();
+        if (keepSelected && !string.IsNullOrEmpty(_selectedRegion)
+            && !string.Equals(_selectedRegion, allRegions, StringComparison.Ordinal)
+            && !regions.Contains(_selectedRegion, StringComparer.OrdinalIgnoreCase))
+        {
+            regions.Add(_selectedRegion);
+            regions.Sort(StringComparer.CurrentCultureIgnoreCase);
+        }
         if (Regions.Count == regions.Count + 1 && string.Equals(Regions[0], allRegions, StringComparison.Ordinal)
             && regions.Select((region, index) => string.Equals(Regions[index + 1], region, StringComparison.Ordinal)).All(same => same))
             return;
@@ -643,39 +771,84 @@ public class LibraryServersViewModel : NotifyPropertyChangedViewModel
         query = _sortIndex switch
         {
             1 => query.OrderBy(card => card.IsBlocked).ThenBy(card => card.Playing).ThenBy(card => card.Ping),
-            2 => query.OrderBy(card => card.IsBlocked).ThenBy(card => card.Ping),
+            2 => query.OrderBy(card => card.IsBlocked).ThenBy(card => card.Ping).ThenByDescending(card => card.Playing),
             _ => query.OrderBy(card => card.IsBlocked).ThenByDescending(card => card.Playing).ThenBy(card => card.Ping)
         };
         List<ServerCard> cards = query.ToList();
         ReplaceServers(cards);
-        CountText = string.Format(Strings.ContextMenu_ServerBrowser_Count, cards.Count);
+        CountText = _publicAll.Count > 0 ? string.Format(Strings.ContextMenu_ServerBrowser_Count, cards.Count) : "";
         foreach (ServerCard card in cards)
             QueueAvatars(card);
     }
 
     private void ReplaceServers(List<ServerCard> cards)
     {
-        if (Servers.Count == cards.Count)
+        if (cards.Count == 0)
         {
-            bool unchanged = true;
-            for (int index = 0; index < cards.Count; index++)
-            {
-                if (ReferenceEquals(Servers[index], cards[index]))
-                    continue;
-                unchanged = false;
-                break;
-            }
-            if (unchanged)
-                return;
+            if (Servers.Count > 0)
+                Servers.Clear();
+            return;
         }
-        Servers.Clear();
-        foreach (ServerCard card in cards)
-            Servers.Add(card);
+        HashSet<ServerCard> targetSet = new(cards);
+        for (int index = Servers.Count - 1; index >= 0; index--)
+        {
+            if (!targetSet.Contains(Servers[index]))
+                Servers.RemoveAt(index);
+        }
+        for (int index = 0; index < cards.Count; index++)
+        {
+            ServerCard card = cards[index];
+            if (index < Servers.Count)
+            {
+                if (ReferenceEquals(Servers[index], card))
+                    continue;
+                int existingIndex = Servers.IndexOf(card);
+                if (existingIndex > index)
+                    Servers.Move(existingIndex, index);
+                else
+                    Servers.Insert(index, card);
+            }
+            else
+            {
+                Servers.Add(card);
+            }
+        }
+    }
+
+    private static bool HasMissingAvatars(ServerCard card)
+    {
+        int limit = Math.Min(Math.Min(card.Avatars.Count, card.Tokens.Length), MaxAvatarTokens);
+        for (int index = 0; index < limit; index++)
+        {
+            if (!card.Avatars[index].IsMore && string.IsNullOrEmpty(card.Avatars[index].Url))
+                return true;
+        }
+        return false;
+    }
+
+    private void QueuePendingAvatars()
+    {
+        if (!_viewActive)
+            return;
+        if (_isPrivateServersTabSelected)
+        {
+            foreach (ServerCard card in PrivateServers)
+                QueueAvatars(card);
+            foreach (ServerCard card in Servers)
+                QueueAvatars(card);
+        }
+        else
+        {
+            foreach (ServerCard card in Servers)
+                QueueAvatars(card);
+            foreach (ServerCard card in PrivateServers)
+                QueueAvatars(card);
+        }
     }
 
     private void QueueAvatars(ServerCard card)
     {
-        if (card.AvatarsRequested || card.Tokens.Length == 0)
+        if (!_viewActive || card.AvatarsRequested || card.Tokens.Length == 0 || card.AvatarAttempts >= AvatarAttemptLimit || !HasMissingAvatars(card))
             return;
         card.AvatarsRequested = true;
         if (!_avatarQueued.Add(card))
@@ -687,35 +860,113 @@ public class LibraryServersViewModel : NotifyPropertyChangedViewModel
 
     private void DropAvatarQueue()
     {
+        Interlocked.Increment(ref _avatarGeneration);
+        CancellationTokenSource? previous = _avatarCts;
+        _avatarCts = null;
+        if (previous != null)
+        {
+            previous.Cancel();
+            previous.Dispose();
+        }
+        foreach (ServerCard card in _avatarQueue)
+        {
+            if (HasMissingAvatars(card))
+                card.AvatarsRequested = false;
+        }
         _avatarQueue.Clear();
         _avatarQueued.Clear();
     }
 
+    private CancellationToken EnsureAvatarToken()
+    {
+        if (_avatarCts == null || _avatarCts.IsCancellationRequested)
+        {
+            _avatarCts?.Dispose();
+            _avatarCts = new CancellationTokenSource();
+        }
+        return _avatarCts.Token;
+    }
+
     private async Task LoadQueuedAvatarsAsync()
     {
-        if (_avatarsBusy)
+        if (_avatarsBusy || !_viewActive)
             return;
         _avatarsBusy = true;
+        int generation = Volatile.Read(ref _avatarGeneration);
+        CancellationToken token = EnsureAvatarToken();
         try
         {
-            while (_avatarQueue.Count > 0)
+            while (_avatarQueue.Count > 0 && _viewActive && generation == Volatile.Read(ref _avatarGeneration))
             {
-                int count = Math.Min(AvatarCardsPerRound, _avatarQueue.Count);
-                List<ServerCard> batch = _avatarQueue.GetRange(0, count);
-                _avatarQueue.RemoveRange(0, count);
+                HashSet<ServerCard> preferredSet = _isPrivateServersTabSelected
+                    ? new HashSet<ServerCard>(PrivateServers)
+                    : new HashSet<ServerCard>(Servers);
+                List<ServerCard> batch = new(AvatarCardsPerRound);
+                for (int index = 0; index < _avatarQueue.Count && batch.Count < AvatarCardsPerRound; index++)
+                {
+                    if (preferredSet.Contains(_avatarQueue[index]))
+                        batch.Add(_avatarQueue[index]);
+                }
+                for (int index = 0; index < _avatarQueue.Count && batch.Count < AvatarCardsPerRound; index++)
+                {
+                    if (!preferredSet.Contains(_avatarQueue[index]))
+                        batch.Add(_avatarQueue[index]);
+                }
                 foreach (ServerCard card in batch)
+                {
+                    _avatarQueue.Remove(card);
                     _avatarQueued.Remove(card);
-                List<string> tokens = batch.SelectMany(card => card.Tokens.Take(MaxAvatarTokens)).Distinct(StringComparer.Ordinal).ToList();
+                }
+
+                List<string> tokens = new();
+                foreach (ServerCard card in batch)
+                {
+                    int limit = Math.Min(Math.Min(card.Avatars.Count, card.Tokens.Length), MaxAvatarTokens);
+                    for (int index = 0; index < limit; index++)
+                    {
+                        if (!card.Avatars[index].IsMore && string.IsNullOrEmpty(card.Avatars[index].Url) && !string.IsNullOrEmpty(card.Tokens[index]))
+                            tokens.Add(card.Tokens[index]);
+                    }
+                }
+                tokens = tokens.Distinct(StringComparer.Ordinal).ToList();
+                if (tokens.Count == 0)
+                    continue;
+
                 Dictionary<string, string> urls;
                 try
                 {
-                    urls = await RobloxServers.GetHeadshotsAsync(tokens, CancellationToken.None).ConfigureAwait(true);
+                    urls = await RobloxServers.GetHeadshotsAsync(tokens, token).ConfigureAwait(true);
+                }
+                catch (OperationCanceledException)
+                {
+                    foreach (ServerCard card in batch)
+                    {
+                        if (HasMissingAvatars(card))
+                            card.AvatarsRequested = false;
+                    }
+                    break;
                 }
                 catch (Exception ex)
                 {
                     App.Logger.WriteLine(LogIdent, "Player pictures could not be loaded: " + ex.Message);
+                    foreach (ServerCard card in batch)
+                    {
+                        if (HasMissingAvatars(card))
+                            card.AvatarsRequested = false;
+                    }
                     continue;
                 }
+
+                if (generation != Volatile.Read(ref _avatarGeneration))
+                {
+                    foreach (ServerCard card in batch)
+                    {
+                        if (HasMissingAvatars(card))
+                            card.AvatarsRequested = false;
+                    }
+                    break;
+                }
+
                 List<ServerCard> retry = new();
                 foreach (ServerCard card in batch)
                 {
@@ -731,27 +982,36 @@ public class LibraryServersViewModel : NotifyPropertyChangedViewModel
                             missing = true;
                     }
                     if (missing && ++card.AvatarAttempts < AvatarAttemptLimit)
+                    {
+                        card.AvatarsRequested = false;
                         retry.Add(card);
+                    }
                 }
                 if (retry.Count > 0)
-                    _ = RetryAvatarsAsync(retry);
+                    _ = RetryAvatarsAsync(retry, generation, token);
             }
         }
         finally
         {
             _avatarsBusy = false;
+            if (_viewActive && _avatarQueue.Count > 0 && generation == Volatile.Read(ref _avatarGeneration))
+                _ = LoadQueuedAvatarsAsync();
         }
     }
 
-    private async Task RetryAvatarsAsync(List<ServerCard> cards)
+    private async Task RetryAvatarsAsync(List<ServerCard> cards, int generation, CancellationToken token)
     {
-        await Task.Delay(AvatarRetryDelay).ConfigureAwait(true);
-        foreach (ServerCard card in cards)
+        try
         {
-            if (_avatarQueued.Add(card))
-                _avatarQueue.Add(card);
+            await Task.Delay(AvatarRetryDelay, token).ConfigureAwait(true);
         }
-        if (!_avatarsBusy)
-            _ = LoadQueuedAvatarsAsync();
+        catch (OperationCanceledException)
+        {
+            return;
+        }
+        if (!_viewActive || generation != Volatile.Read(ref _avatarGeneration))
+            return;
+        foreach (ServerCard card in cards)
+            QueueAvatars(card);
     }
 }

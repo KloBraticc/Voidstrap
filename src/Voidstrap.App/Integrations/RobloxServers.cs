@@ -67,7 +67,7 @@ public static class RobloxServers
 					requestId = index.ToString(System.Globalization.CultureInfo.InvariantCulture),
 					token = playerToken,
 					type = "AvatarHeadShot",
-					size = "48x48",
+					size = "150x150",
 					format = "png",
 					isCircular = true
 				});

@@ -1464,7 +1464,10 @@ public static class VoidstrapMatchmaker
 				}
 				if (res.StatusCode == HttpStatusCode.TooManyRequests)
 				{
+					LogProbeFailure(res.StatusCode);
 					SetJoinBackoff(res.Headers.RetryAfter?.Delta ?? TimeSpan.FromSeconds(1.5));
+					if (attempt == 0)
+						continue;
 					return new ResolveAttempt("", 0, false, false);
 				}
 				if (!res.IsSuccessStatusCode)
@@ -1479,7 +1482,11 @@ public static class VoidstrapMatchmaker
 				DateTimeOffset? probeDate = res.Headers.Date;
 				using JsonDocument? doc = await ReadJoinResponseAsync(res, timeoutCts.Token).ConfigureAwait(false);
 				if (doc == null || !HasJoinScript(doc.RootElement))
-					return new ResolveAttempt("", 0, false, true);
+				{
+					int? status = doc != null ? TryGetInt(doc.RootElement, "status") : null;
+					bool allowAlternate = status is not (6 or 10 or 12 or 22);
+					return new ResolveAttempt("", 0, false, allowAlternate);
+				}
 				RecordProbeClaimedTime(jobId, doc.RootElement, probeDate);
 				(string ip, int port) = ParseJoinResponse(doc.RootElement);
 				if (string.IsNullOrEmpty(ip) || IsPrivateIp(ip))

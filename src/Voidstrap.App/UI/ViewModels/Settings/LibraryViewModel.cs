@@ -609,6 +609,8 @@ public class LibraryViewModel : INotifyPropertyChanged
         }
     }
 
+    private bool _suppressSelectionReset;
+
     public LibraryServersViewModel Servers { get; } = new();
 
     public LibraryGameEntry? SelectedGame
@@ -616,6 +618,8 @@ public class LibraryViewModel : INotifyPropertyChanged
         get => _selectedGame;
         set
         {
+            if (_suppressSelectionReset && value == null && _selectedGame != null)
+                return;
             if (_selectedGame != value)
             {
                 _selectedGame = value;
@@ -1225,6 +1229,8 @@ public class LibraryViewModel : INotifyPropertyChanged
 
         ReplaceIfChanged(AllGames, _masterGames.Take(Math.Max(GamePageSize, AllGames.Count)));
 
+        LibraryGameEntry? currentSelection = _selectedGame;
+
         RebuildSidebar(false);
 
         OnPropertyChanged(nameof(AllGamesHeader));
@@ -1234,10 +1240,13 @@ public class LibraryViewModel : INotifyPropertyChanged
         OnPropertyChanged(nameof(RecentVisibility));
         OnPropertyChanged(nameof(EmptyLibraryVisibility));
 
-        if (_selectedGame != null)
+        if (currentSelection != null)
         {
-            LibraryGameEntry? match = _masterGames.FirstOrDefault(game => game.UniverseId == _selectedGame.UniverseId);
-            SelectedGame = match;
+            LibraryGameEntry? match = _masterGames.FirstOrDefault(game =>
+                (currentSelection.UniverseId > 0 && game.UniverseId == currentSelection.UniverseId)
+                || (currentSelection.UniverseId <= 0 && currentSelection.PlaceId > 0 && game.PlaceId == currentSelection.PlaceId));
+            if (match != null)
+                SelectedGame = match;
         }
     }
 
@@ -1659,10 +1668,20 @@ public class LibraryViewModel : INotifyPropertyChanged
         if (query.Length > 0)
             filtered = filtered.Where(g => g.Name.Contains(query, StringComparison.OrdinalIgnoreCase));
         IEnumerable<LibraryGameEntry> ordered = filtered.OrderByDescending(static game => game.IsPinned).ThenBy(static game => game.Name, StringComparer.OrdinalIgnoreCase);
-        if (force)
-            ReplaceCollection(SidebarGames, ordered);
-        else
-            ReplaceIfChanged(SidebarGames, ordered);
+        _suppressSelectionReset = true;
+        try
+        {
+            if (force)
+                ReplaceCollection(SidebarGames, ordered);
+            else
+                ReplaceIfChanged(SidebarGames, ordered);
+        }
+        finally
+        {
+            _suppressSelectionReset = false;
+        }
+        if (_selectedGame != null)
+            OnPropertyChanged(nameof(SelectedGame));
     }
 
     private void SelectGame(LibraryGameEntry? game)
@@ -1724,7 +1743,7 @@ public class LibraryViewModel : INotifyPropertyChanged
         }
     }
 
-    internal static async Task<long> ResolveStartPlaceAsync(LibraryGameEntry game)
+    internal static async Task<long> ResolveStartPlaceAsync(LibraryGameEntry game, CancellationToken token = default)
     {
         if (game.UniverseId <= 0)
             return game.PlaceId;
@@ -1733,7 +1752,11 @@ public class LibraryViewModel : INotifyPropertyChanged
         {
             try
             {
-                await UniverseDetails.FetchSingle(game.UniverseId);
+                await UniverseDetails.FetchSingle(game.UniverseId, token);
+            }
+            catch (OperationCanceledException) when (token.IsCancellationRequested)
+            {
+                throw;
             }
             catch (Exception ex)
             {

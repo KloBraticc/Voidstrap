@@ -212,8 +212,15 @@
       </Style>
       <DataTemplate x:Key="ServerCardTemplate">
         <Border Width="310" Margin="0,0,12,12" Padding="12" CornerRadius="8" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
-          <StackPanel>
-            <ItemsControl ItemsSource="{Binding Avatars}" HorizontalAlignment="Center" Focusable="False" Margin="0,2,0,6">
+          <Grid>
+            <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="*" />
+              <RowDefinition Height="Auto" />
+              <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <ItemsControl Grid.Row="0" ItemsSource="{Binding Avatars}" HorizontalAlignment="Center" Focusable="False" Margin="0,2,0,6">
               <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                   <UniformGrid Columns="3" />
@@ -222,17 +229,21 @@
               <ItemsControl.ItemTemplate>
                 <DataTemplate>
                   <Grid Width="50" Height="50" Margin="6,4">
-                    <Border CornerRadius="25" Background="{DynamicResource ControlFillColorSecondaryBrush}" />
+                    <Ellipse Fill="{DynamicResource ControlFillColorSecondaryBrush}" />
                     <Border CornerRadius="25" ClipToBounds="True">
-                      <Image util:DynamicRenderSystem.LazyImageSource="{Binding Url, TargetNullValue={x:Null}, FallbackValue={x:Null}}" Stretch="UniformToFill" />
+                      <Image Width="50" Height="50" util:DynamicRenderSystem.LazyImageSource="{Binding Url, TargetNullValue={x:Null}, FallbackValue={x:Null}}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality">
+                        <Image.Clip>
+                          <EllipseGeometry Center="25,25" RadiusX="25" RadiusY="25" />
+                        </Image.Clip>
+                      </Image>
                     </Border>
                     <TextBlock Text="{Binding Text}" FontSize="16" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
                   </Grid>
                 </DataTemplate>
               </ItemsControl.ItemTemplate>
             </ItemsControl>
-            <TextBlock Text="{Binding Title}" FontSize="14" TextTrimming="CharacterEllipsis" ToolTip="{Binding Title}" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
-            <ItemsControl ItemsSource="{Binding Lines}" Focusable="False" Margin="0,6,0,0">
+            <TextBlock Grid.Row="1" Text="{Binding Title}" FontSize="14" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" ToolTip="{Binding Title}" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+            <ItemsControl Grid.Row="2" ItemsSource="{Binding Lines}" Focusable="False" Margin="0,6,0,0">
               <ItemsControl.ItemTemplate>
                 <DataTemplate>
                   <Grid Margin="0,3,0,0">
@@ -246,9 +257,9 @@
                 </DataTemplate>
               </ItemsControl.ItemTemplate>
             </ItemsControl>
-            <ProgressBar Margin="0,10,0,0" Height="4" Minimum="0" Maximum="1" Value="{Binding Fill, Mode=OneWay}" />
-            <ui:Button Margin="0,10,0,0" HorizontalAlignment="Stretch" Appearance="Secondary" Content="{Binding JoinText}" IsEnabled="{Binding CanJoin}" Command="{Binding DataContext.Servers.JoinCommand, RelativeSource={RelativeSource AncestorType=Page}}" CommandParameter="{Binding}" />
-          </StackPanel>
+            <ProgressBar Grid.Row="3" Margin="0,10,0,0" Height="4" Minimum="0" Maximum="1" Value="{Binding Fill, Mode=OneWay}" />
+            <ui:Button Grid.Row="4" Margin="0,10,0,0" HorizontalAlignment="Stretch" Appearance="Secondary" Content="{Binding JoinText}" IsEnabled="{Binding CanJoin}" Command="{Binding DataContext.Servers.JoinCommand, RelativeSource={RelativeSource AncestorType=Page}}" CommandParameter="{Binding}" />
+          </Grid>
         </Border>
       </DataTemplate>
     </ResourceDictionary>

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -633,6 +633,8 @@ namespace Voidstrap.Utility
                     if (w.Items[i].Img.TryGetTarget(out Image? existing) && ReferenceEquals(existing, img))
                         w.Items.RemoveAt(i);
                 }
+                img.IsVisibleChanged -= OnLazyImageIsVisibleChanged;
+                img.IsVisibleChanged += OnLazyImageIsVisibleChanged;
 				w.Items.Add(new Entry { Img = new WeakReference<Image>(img), Uri = uri, Loaded = false, DecodeWidth = DecodeWidthFor(img) });
                 QueueEval(sv, w);
             }
@@ -640,6 +642,12 @@ namespace Voidstrap.Utility
             {
                 _ = LoadIntoAsync(img, uri);
             }
+        }
+
+        private static void OnLazyImageIsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (sender is Image { IsVisible: true } img && FindScrollViewer(img) is ScrollViewer sv && _watchers.TryGetValue(sv, out Watcher? w))
+                QueueEval(sv, w);
         }
 
         private static void OnScrollChanged(object sender, ScrollChangedEventArgs e)
