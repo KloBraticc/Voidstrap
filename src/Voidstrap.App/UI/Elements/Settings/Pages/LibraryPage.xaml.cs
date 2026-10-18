@@ -48,6 +48,7 @@ public partial class LibraryPage : UiPage{
 		try
 		{
 			_viewModel.SetSubplaceViewActive(true);
+			_viewModel.Servers.SetViewActive(true);
 			if (!_viewModel.HasLoaded)
 				await _viewModel.LoadAsync();
 		}
@@ -63,6 +64,7 @@ public partial class LibraryPage : UiPage{
 	private void Page_Unloaded(object sender, RoutedEventArgs e)
 	{
 		_viewModel.SetSubplaceViewActive(false);
+		_viewModel.Servers.SetViewActive(false);
 	}
 
 	private void ApplySidebarWidth(double width)

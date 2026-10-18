@@ -544,6 +544,27 @@ Klikněte pro více informací</value>
   <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
     <value>Všechny nalezené servery jsou od vás daleko, matchmaker by nechal vybrat Roblox</value>
   </data>
+  <data name="ContextMenu.ServerBrowser.AllRegions" xml:space="preserve">
+    <value>Všechny regiony</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RegionBlocked" xml:space="preserve">
+    <value>Region, který jste zablokovali</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.UnknownLocation" xml:space="preserve">
+    <value>Neznámá lokace</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ServerPerformance" xml:space="preserve">
+    <value>Výkon serveru {0}%</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.OwnedBy" xml:space="preserve">
+    <value>Vlastník: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.PrivateServer" xml:space="preserve">
+    <value>Soukromý server</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.YouAreHere" xml:space="preserve">
+    <value>Jste tady</value>
+  </data>
   <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
     <value>Prohlížeč her</value>
   </data>
@@ -2800,6 +2821,12 @@ Přesně opište frázi zobrazenou níže, abyste tato omezení přijali a pokra
   </data>
   <data name="Library.SubplacesTab" xml:space="preserve">
     <value>Podmísta</value>
+  </data>
+  <data name="Library.ServersTab" xml:space="preserve">
+    <value>Servery</value>
+  </data>
+  <data name="Library.PrivateServersTab" xml:space="preserve">
+    <value>Soukromé servery</value>
   </data>
   <data name="SettingsProfiles.Title" xml:space="preserve">
     <value>Profily nastavení</value>
@@ -6673,6 +6700,18 @@ Zkusit odebrání znovu?</value>
   </data>
   <data name="Library.Badges.Open" xml:space="preserve">
     <value>Otevřít tento odznak na roblox.com</value>
+  </data>
+  <data name="Library.Servers.PrivateLoading" xml:space="preserve">
+    <value>Načítání soukromých serverů</value>
+  </data>
+  <data name="Library.Servers.PrivateSignedOut" xml:space="preserve">
+    <value>Přihlaste se do Robloxu, abyste viděli své soukromé servery.</value>
+  </data>
+  <data name="Library.Servers.PrivateUnavailable" xml:space="preserve">
+    <value>Soukromé servery se nyní nepodařilo načíst.</value>
+  </data>
+  <data name="Library.Servers.PrivateEmpty" xml:space="preserve">
+    <value>Pro tuto hru nemáte žádné soukromé servery.</value>
   </data>
   <data name="Ui.ModGen.LastGenerated" xml:space="preserve">
     <value>Naposledy vytvořeno {0}. Při aktualizaci Roblox se sestaví znovu samo.</value>

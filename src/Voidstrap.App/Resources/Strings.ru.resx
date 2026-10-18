@@ -552,6 +552,27 @@
   <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
     <value>Все найденные серверы далеко от вас, матчмейкер позволил бы Roblox выбрать сервер самому</value>
   </data>
+  <data name="ContextMenu.ServerBrowser.AllRegions" xml:space="preserve">
+    <value>Все регионы</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RegionBlocked" xml:space="preserve">
+    <value>Регион, который вы заблокировали</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.UnknownLocation" xml:space="preserve">
+    <value>Неизвестное местоположение</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ServerPerformance" xml:space="preserve">
+    <value>Производительность сервера {0}%</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.OwnedBy" xml:space="preserve">
+    <value>Владелец: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.PrivateServer" xml:space="preserve">
+    <value>Приватный сервер</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.YouAreHere" xml:space="preserve">
+    <value>Вы здесь</value>
+  </data>
   <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
     <value>Обозреватель игр</value>
   </data>
@@ -2822,6 +2843,12 @@ Voidstrap был установлен по адресу "{1}".</value>
   </data>
   <data name="Library.SubplacesTab" xml:space="preserve">
     <value>Подместа</value>
+  </data>
+  <data name="Library.ServersTab" xml:space="preserve">
+    <value>Серверы</value>
+  </data>
+  <data name="Library.PrivateServersTab" xml:space="preserve">
+    <value>Приватные серверы</value>
   </data>
   <data name="SettingsProfiles.Title" xml:space="preserve">
     <value>Профили настроек</value>
@@ -6695,6 +6722,18 @@ Roblox будет скачан при первом запуске через Voi
   </data>
   <data name="Library.Badges.Open" xml:space="preserve">
     <value>Открыть этот значок на roblox.com</value>
+  </data>
+  <data name="Library.Servers.PrivateLoading" xml:space="preserve">
+    <value>Загрузка приватных серверов</value>
+  </data>
+  <data name="Library.Servers.PrivateSignedOut" xml:space="preserve">
+    <value>Войдите в Roblox, чтобы увидеть свои приватные серверы.</value>
+  </data>
+  <data name="Library.Servers.PrivateUnavailable" xml:space="preserve">
+    <value>Не удалось загрузить приватные серверы сейчас.</value>
+  </data>
+  <data name="Library.Servers.PrivateEmpty" xml:space="preserve">
+    <value>У вас нет приватных серверов для этой игры.</value>
   </data>
   <data name="Ui.ModGen.LastGenerated" xml:space="preserve">
     <value>Последнее создание {0}. Пересоздаётся автоматически при обновлении Roblox.</value>

@@ -543,6 +543,27 @@ Apasă pentru mai multe informații</value>
   <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
     <value>Toate serverele găsite sunt departe de tine, matchmakerul ar lăsa Roblox să aleagă</value>
   </data>
+  <data name="ContextMenu.ServerBrowser.AllRegions" xml:space="preserve">
+    <value>Toate regiunile</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RegionBlocked" xml:space="preserve">
+    <value>Regiunea pe care ai blocat-o</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.UnknownLocation" xml:space="preserve">
+    <value>Locație necunoscută</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ServerPerformance" xml:space="preserve">
+    <value>Performanța serverului {0}%</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.OwnedBy" xml:space="preserve">
+    <value>Proprietar: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.PrivateServer" xml:space="preserve">
+    <value>Server privat</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.YouAreHere" xml:space="preserve">
+    <value>Ești aici</value>
+  </data>
   <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
     <value>Browser de jocuri</value>
   </data>
@@ -2800,6 +2821,12 @@ Scrie exact fraza afișată mai jos pentru a accepta aceste restricții și a co
   </data>
   <data name="Library.SubplacesTab" xml:space="preserve">
     <value>Sublocuri</value>
+  </data>
+  <data name="Library.ServersTab" xml:space="preserve">
+    <value>Servere</value>
+  </data>
+  <data name="Library.PrivateServersTab" xml:space="preserve">
+    <value>Servere private</value>
   </data>
   <data name="SettingsProfiles.Title" xml:space="preserve">
     <value>Profiluri de setări</value>
@@ -6673,6 +6700,18 @@ Ce vrei să faci?</value>
   </data>
   <data name="Library.Badges.Open" xml:space="preserve">
     <value>Deschide această insignă pe roblox.com</value>
+  </data>
+  <data name="Library.Servers.PrivateLoading" xml:space="preserve">
+    <value>Se încarcă serverele private</value>
+  </data>
+  <data name="Library.Servers.PrivateSignedOut" xml:space="preserve">
+    <value>Conectează te la Roblox ca să vezi serverele tale private.</value>
+  </data>
+  <data name="Library.Servers.PrivateUnavailable" xml:space="preserve">
+    <value>Serverele private nu au putut fi încărcate acum.</value>
+  </data>
+  <data name="Library.Servers.PrivateEmpty" xml:space="preserve">
+    <value>Nu ai servere private pentru acest joc.</value>
   </data>
   <data name="Ui.ModGen.LastGenerated" xml:space="preserve">
     <value>Generat ultima dată {0}. Se reconstruiește singur când Roblox se actualizează.</value>

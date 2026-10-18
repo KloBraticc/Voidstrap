@@ -549,6 +549,27 @@
   <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
     <value>เซิร์ฟเวอร์ที่พบทั้งหมดอยู่ไกลจากคุณ matchmaker จึงให้ Roblox เลือกเอง</value>
   </data>
+  <data name="ContextMenu.ServerBrowser.AllRegions" xml:space="preserve">
+    <value>ทุกภูมิภาค</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RegionBlocked" xml:space="preserve">
+    <value>ภูมิภาคที่คุณบล็อก</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.UnknownLocation" xml:space="preserve">
+    <value>ไม่ทราบตำแหน่งที่ตั้ง</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ServerPerformance" xml:space="preserve">
+    <value>ประสิทธิภาพเซิร์ฟเวอร์ {0}%</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.OwnedBy" xml:space="preserve">
+    <value>เจ้าของ: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.PrivateServer" xml:space="preserve">
+    <value>เซิร์ฟเวอร์ส่วนตัว</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.YouAreHere" xml:space="preserve">
+    <value>คุณอยู่ที่นี่</value>
+  </data>
   <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
     <value>เบราว์เซอร์เกม</value>
   </data>
@@ -2812,6 +2833,12 @@ Voidstrap จะติดตั้งไว้ที่ "{1}"</value>
   </data>
   <data name="Library.SubplacesTab" xml:space="preserve">
     <value>เพลสย่อย</value>
+  </data>
+  <data name="Library.ServersTab" xml:space="preserve">
+    <value>เซิร์ฟเวอร์</value>
+  </data>
+  <data name="Library.PrivateServersTab" xml:space="preserve">
+    <value>เซิร์ฟเวอร์ส่วนตัว</value>
   </data>
   <data name="SettingsProfiles.Title" xml:space="preserve">
     <value>โปรไฟล์การตั้งค่า</value>
@@ -6685,6 +6712,18 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
   </data>
   <data name="Library.Badges.Open" xml:space="preserve">
     <value>เปิดตรานี้บน roblox.com</value>
+  </data>
+  <data name="Library.Servers.PrivateLoading" xml:space="preserve">
+    <value>กำลังโหลดเซิร์ฟเวอร์ส่วนตัว</value>
+  </data>
+  <data name="Library.Servers.PrivateSignedOut" xml:space="preserve">
+    <value>ลงชื่อเข้าใช้ Roblox เพื่อดูเซิร์ฟเวอร์ส่วนตัวของคุณ</value>
+  </data>
+  <data name="Library.Servers.PrivateUnavailable" xml:space="preserve">
+    <value>ไม่สามารถโหลดเซิร์ฟเวอร์ส่วนตัวได้ในขณะนี้</value>
+  </data>
+  <data name="Library.Servers.PrivateEmpty" xml:space="preserve">
+    <value>คุณไม่มีเซิร์ฟเวอร์ส่วนตัวสำหรับเกมนี้</value>
   </data>
   <data name="Ui.ModGen.LastGenerated" xml:space="preserve">
     <value>สร้างล่าสุด {0} จะสร้างใหม่เองเมื่อ Roblox อัปเดต</value>

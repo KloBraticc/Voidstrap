@@ -20,6 +20,7 @@ internal static class IconFontLoader
 	{
 		if (Platform.IsWindows)
 		{
+			RegisterFromResources("FluentSystemIcons", "FluentSystemIcons-Regular");
 			return;
 		}
 		string directory;
@@ -57,6 +58,25 @@ internal static class IconFontLoader
 			{
 				App.Logger?.WriteLine("IconFontLoader::Install", "Failed for " + fileName + ": " + ex.Message);
 			}
+		}
+	}
+
+	private static void RegisterFromResources(string resourceKey, string familyName)
+	{
+		try
+		{
+			System.Windows.Media.FontFamily family = new System.Windows.Media.FontFamily(new Uri("pack://application:,,,/Resources/Fonts/SymbolIcons/"), "./#" + familyName);
+			if (!HasGlyphs(family))
+			{
+				App.Logger?.WriteLine("IconFontLoader::Install", familyName + " exposes no glyphs in the application resources");
+				return;
+			}
+			Application.Current.Resources[resourceKey] = family;
+			App.Logger?.WriteLine("IconFontLoader::Install", "Registered " + familyName + " from the application resources");
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine("IconFontLoader::Install", "Failed for " + familyName + ": " + ex.Message);
 		}
 	}
 

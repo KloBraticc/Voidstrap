@@ -540,6 +540,27 @@ Klicke für mehr Informationen</value>
   <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
     <value>Alle gefundenen Server sind weit von dir entfernt, der Matchmaker würde stattdessen Roblox wählen lassen</value>
   </data>
+  <data name="ContextMenu.ServerBrowser.AllRegions" xml:space="preserve">
+    <value>Alle Regionen</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RegionBlocked" xml:space="preserve">
+    <value>Von dir blockierte Region</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.UnknownLocation" xml:space="preserve">
+    <value>Unbekannter Standort</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ServerPerformance" xml:space="preserve">
+    <value>Serverleistung {0}%</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.OwnedBy" xml:space="preserve">
+    <value>Besitzer: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.PrivateServer" xml:space="preserve">
+    <value>Privater Server</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.YouAreHere" xml:space="preserve">
+    <value>Du bist hier</value>
+  </data>
   <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
     <value>Spielebrowser</value>
   </data>
@@ -2757,6 +2778,12 @@ Gib den unten angezeigten Satz genau ein, um diese Einschränkungen zu akzeptier
   </data>
   <data name="Library.SubplacesTab" xml:space="preserve">
     <value>Unterorte</value>
+  </data>
+  <data name="Library.ServersTab" xml:space="preserve">
+    <value>Server</value>
+  </data>
+  <data name="Library.PrivateServersTab" xml:space="preserve">
+    <value>Private Server</value>
   </data>
   <data name="SettingsProfiles.Title" xml:space="preserve">
     <value>Einstellungsprofile</value>
@@ -6621,6 +6648,18 @@ Entfernen erneut versuchen?</value>
   </data>
   <data name="Library.Badges.Open" xml:space="preserve">
     <value>Dieses Abzeichen auf roblox.com öffnen</value>
+  </data>
+  <data name="Library.Servers.PrivateLoading" xml:space="preserve">
+    <value>Private Server werden geladen</value>
+  </data>
+  <data name="Library.Servers.PrivateSignedOut" xml:space="preserve">
+    <value>Melde dich bei Roblox an, um deine privaten Server zu sehen.</value>
+  </data>
+  <data name="Library.Servers.PrivateUnavailable" xml:space="preserve">
+    <value>Private Server konnten gerade nicht geladen werden.</value>
+  </data>
+  <data name="Library.Servers.PrivateEmpty" xml:space="preserve">
+    <value>Du hast keine privaten Server für dieses Spiel.</value>
   </data>
   <data name="Ui.ModGen.LastGenerated" xml:space="preserve">
     <value>Zuletzt erstellt {0}. Wird bei Roblox Updates automatisch neu erstellt.</value>

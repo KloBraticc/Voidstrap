@@ -546,6 +546,27 @@
   <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
     <value>見つかったサーバーはすべて遠いため、Matchmaker は Roblox に選択を任せます</value>
   </data>
+  <data name="ContextMenu.ServerBrowser.AllRegions" xml:space="preserve">
+    <value>すべての地域</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RegionBlocked" xml:space="preserve">
+    <value>ブロックした地域</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.UnknownLocation" xml:space="preserve">
+    <value>不明な場所</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ServerPerformance" xml:space="preserve">
+    <value>サーバーのパフォーマンス {0}%</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.OwnedBy" xml:space="preserve">
+    <value>所有者: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.PrivateServer" xml:space="preserve">
+    <value>プライベートサーバー</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.YouAreHere" xml:space="preserve">
+    <value>ここにいます</value>
+  </data>
   <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
     <value>ゲームブラウザー</value>
   </data>
@@ -2843,6 +2864,12 @@ VNG で使用するすべてのアカウントでグローバル版アプリへ�
   </data>
   <data name="Library.SubplacesTab" xml:space="preserve">
     <value>サブプレイス</value>
+  </data>
+  <data name="Library.ServersTab" xml:space="preserve">
+    <value>サーバー</value>
+  </data>
+  <data name="Library.PrivateServersTab" xml:space="preserve">
+    <value>プライベートサーバー</value>
   </data>
   <data name="SettingsProfiles.Title" xml:space="preserve">
     <value>設定プロファイル</value>
@@ -6716,6 +6743,18 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
   </data>
   <data name="Library.Badges.Open" xml:space="preserve">
     <value>このバッジを roblox.com で開く</value>
+  </data>
+  <data name="Library.Servers.PrivateLoading" xml:space="preserve">
+    <value>プライベートサーバーを読み込んでいます</value>
+  </data>
+  <data name="Library.Servers.PrivateSignedOut" xml:space="preserve">
+    <value>プライベートサーバーを確認するには Roblox にサインインしてください。</value>
+  </data>
+  <data name="Library.Servers.PrivateUnavailable" xml:space="preserve">
+    <value>現在、プライベートサーバーを読み込めませんでした。</value>
+  </data>
+  <data name="Library.Servers.PrivateEmpty" xml:space="preserve">
+    <value>このゲームのプライベートサーバーはありません。</value>
   </data>
   <data name="Ui.ModGen.LastGenerated" xml:space="preserve">
     <value>最終生成 {0}。Roblox の更新時に自動で再生成されます。</value>

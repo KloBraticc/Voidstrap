@@ -540,6 +540,27 @@ Klik untuk maklumat lanjut</value>
   <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
     <value>Semua pelayan yang ditemui jauh dari anda, jadi matchmaker akan membiarkan Roblox memilih</value>
   </data>
+  <data name="ContextMenu.ServerBrowser.AllRegions" xml:space="preserve">
+    <value>Semua wilayah</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RegionBlocked" xml:space="preserve">
+    <value>Wilayah yang anda sekat</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.UnknownLocation" xml:space="preserve">
+    <value>Lokasi tidak diketahui</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ServerPerformance" xml:space="preserve">
+    <value>Prestasi pelayan {0}%</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.OwnedBy" xml:space="preserve">
+    <value>Dimiliki oleh {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.PrivateServer" xml:space="preserve">
+    <value>Pelayan peribadi</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.YouAreHere" xml:space="preserve">
+    <value>Anda di sini</value>
+  </data>
   <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
     <value>Pelayar permainan</value>
   </data>
@@ -2784,6 +2805,12 @@ Taip frasa yang ditunjukkan di bawah dengan tepat untuk menerima sekatan ini dan
   </data>
   <data name="Library.SubplacesTab" xml:space="preserve">
     <value>Subtempat</value>
+  </data>
+  <data name="Library.ServersTab" xml:space="preserve">
+    <value>Pelayan</value>
+  </data>
+  <data name="Library.PrivateServersTab" xml:space="preserve">
+    <value>Pelayan peribadi</value>
   </data>
   <data name="SettingsProfiles.Title" xml:space="preserve">
     <value>Profil tetapan</value>
@@ -6654,6 +6681,18 @@ Cuba buang semula?</value>
   </data>
   <data name="Library.Badges.Open" xml:space="preserve">
     <value>Buka lencana ini di roblox.com</value>
+  </data>
+  <data name="Library.Servers.PrivateLoading" xml:space="preserve">
+    <value>Memuatkan pelayan peribadi</value>
+  </data>
+  <data name="Library.Servers.PrivateSignedOut" xml:space="preserve">
+    <value>Log masuk ke Roblox untuk melihat pelayan peribadi anda.</value>
+  </data>
+  <data name="Library.Servers.PrivateUnavailable" xml:space="preserve">
+    <value>Pelayan peribadi tidak dapat dimuatkan buat masa ini.</value>
+  </data>
+  <data name="Library.Servers.PrivateEmpty" xml:space="preserve">
+    <value>Anda tiada pelayan peribadi untuk permainan ini.</value>
   </data>
   <data name="Ui.ModGen.LastGenerated" xml:space="preserve">
     <value>Kali terakhir dijana {0}. Ia dibina semula sendiri apabila Roblox dikemas kini.</value>

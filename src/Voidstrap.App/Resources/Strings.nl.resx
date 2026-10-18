@@ -537,6 +537,27 @@ Klik voor meer informatie</value>
   <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
     <value>Alle gevonden servers zijn ver van je vandaan, de matchmaker zou Roblox laten kiezen</value>
   </data>
+  <data name="ContextMenu.ServerBrowser.AllRegions" xml:space="preserve">
+    <value>Alle regio's</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RegionBlocked" xml:space="preserve">
+    <value>Regio die je hebt geblokkeerd</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.UnknownLocation" xml:space="preserve">
+    <value>Onbekende locatie</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ServerPerformance" xml:space="preserve">
+    <value>Serverprestaties {0}%</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.OwnedBy" xml:space="preserve">
+    <value>Eigendom van {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.PrivateServer" xml:space="preserve">
+    <value>Privéserver</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.YouAreHere" xml:space="preserve">
+    <value>Je bent hier</value>
+  </data>
   <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
     <value>Gamebrowser</value>
   </data>
@@ -2776,6 +2797,12 @@ Typ de onderstaande zin precies over om deze beperkingen te accepteren en door t
   </data>
   <data name="Library.SubplacesTab" xml:space="preserve">
     <value>Subplaatsen</value>
+  </data>
+  <data name="Library.ServersTab" xml:space="preserve">
+    <value>Servers</value>
+  </data>
+  <data name="Library.PrivateServersTab" xml:space="preserve">
+    <value>Privéservers</value>
   </data>
   <data name="SettingsProfiles.Title" xml:space="preserve">
     <value>Instellingenprofielen</value>
@@ -6649,6 +6676,18 @@ Het verwijderen opnieuw proberen?</value>
   </data>
   <data name="Library.Badges.Open" xml:space="preserve">
     <value>Deze badge openen op roblox.com</value>
+  </data>
+  <data name="Library.Servers.PrivateLoading" xml:space="preserve">
+    <value>Privéservers laden</value>
+  </data>
+  <data name="Library.Servers.PrivateSignedOut" xml:space="preserve">
+    <value>Meld je aan bij Roblox om je privéservers te zien.</value>
+  </data>
+  <data name="Library.Servers.PrivateUnavailable" xml:space="preserve">
+    <value>Privéservers kunnen nu niet worden geladen.</value>
+  </data>
+  <data name="Library.Servers.PrivateEmpty" xml:space="preserve">
+    <value>Je hebt geen privéservers voor dit spel.</value>
   </data>
   <data name="Ui.ModGen.LastGenerated" xml:space="preserve">
     <value>Laatst gegenereerd {0}. Wordt vanzelf opnieuw gemaakt als Roblox updatet.</value>

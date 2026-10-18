@@ -543,6 +543,27 @@ Klikkaa saadaksesi lisätietoja</value>
   <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
     <value>Kaikki löydetyt palvelimet ovat kaukana sinusta, joten matchmaker antaisi Robloxin valita</value>
   </data>
+  <data name="ContextMenu.ServerBrowser.AllRegions" xml:space="preserve">
+    <value>Kaikki alueet</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RegionBlocked" xml:space="preserve">
+    <value>Estämäsi alue</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.UnknownLocation" xml:space="preserve">
+    <value>Tuntematon sijainti</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ServerPerformance" xml:space="preserve">
+    <value>Palvelimen suorituskyky {0}%</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.OwnedBy" xml:space="preserve">
+    <value>Omistaja: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.PrivateServer" xml:space="preserve">
+    <value>Yksityinen palvelin</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.YouAreHere" xml:space="preserve">
+    <value>Olet tässä</value>
+  </data>
   <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
     <value>Peliselain</value>
   </data>
@@ -2812,6 +2833,12 @@ Kirjoita alla näkyvä lause täsmälleen hyväksyäksesi rajoitukset ja jatkaak
   </data>
   <data name="Library.SubplacesTab" xml:space="preserve">
     <value>Alipaikat</value>
+  </data>
+  <data name="Library.ServersTab" xml:space="preserve">
+    <value>Palvelimet</value>
+  </data>
+  <data name="Library.PrivateServersTab" xml:space="preserve">
+    <value>Yksityiset palvelimet</value>
   </data>
   <data name="SettingsProfiles.Title" xml:space="preserve">
     <value>Asetusprofiilit</value>
@@ -6685,6 +6712,18 @@ Yritetäänkö poistoa uudelleen?</value>
   </data>
   <data name="Library.Badges.Open" xml:space="preserve">
     <value>Avaa tämä merkki roblox.comissa</value>
+  </data>
+  <data name="Library.Servers.PrivateLoading" xml:space="preserve">
+    <value>Ladataan yksityisiä palvelimia</value>
+  </data>
+  <data name="Library.Servers.PrivateSignedOut" xml:space="preserve">
+    <value>Kirjaudu Robloxiin nähdäksesi yksityiset palvelimesi.</value>
+  </data>
+  <data name="Library.Servers.PrivateUnavailable" xml:space="preserve">
+    <value>Yksityisiä palvelimia ei voitu ladata juuri nyt.</value>
+  </data>
+  <data name="Library.Servers.PrivateEmpty" xml:space="preserve">
+    <value>Sinulla ei ole yksityisiä palvelimia tähän peliin.</value>
   </data>
   <data name="Ui.ModGen.LastGenerated" xml:space="preserve">
     <value>Luotu viimeksi {0}. Se rakentuu itsestään uudelleen, kun Roblox päivittyy.</value>

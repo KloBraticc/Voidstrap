@@ -552,6 +552,27 @@
   <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
     <value>همهٔ سرورهای پیداشده از شما دور هستند، بنابراین انتخاب به Roblox سپرده می‌شود</value>
   </data>
+  <data name="ContextMenu.ServerBrowser.AllRegions" xml:space="preserve">
+    <value>همه مناطق</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RegionBlocked" xml:space="preserve">
+    <value>منطقه‌ای که مسدود کرده‌اید</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.UnknownLocation" xml:space="preserve">
+    <value>مکان نامشخص</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ServerPerformance" xml:space="preserve">
+    <value>کارایی سرور {0}%</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.OwnedBy" xml:space="preserve">
+    <value>مالک: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.PrivateServer" xml:space="preserve">
+    <value>سرور خصوصی</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.YouAreHere" xml:space="preserve">
+    <value>شما اینجا هستید</value>
+  </data>
   <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
     <value>مرورگر بازی</value>
   </data>
@@ -2858,6 +2879,12 @@
   </data>
   <data name="Library.SubplacesTab" xml:space="preserve">
     <value>زیرمکان</value>
+  </data>
+  <data name="Library.ServersTab" xml:space="preserve">
+    <value>سرورها</value>
+  </data>
+  <data name="Library.PrivateServersTab" xml:space="preserve">
+    <value>سرورهای خصوصی</value>
   </data>
   <data name="SettingsProfiles.Title" xml:space="preserve">
     <value>نمایه‌های تنظیمات</value>
@@ -6731,6 +6758,18 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
   </data>
   <data name="Library.Badges.Open" xml:space="preserve">
     <value>باز کردن این نشان در roblox.com</value>
+  </data>
+  <data name="Library.Servers.PrivateLoading" xml:space="preserve">
+    <value>در حال بارگیری سرورهای خصوصی</value>
+  </data>
+  <data name="Library.Servers.PrivateSignedOut" xml:space="preserve">
+    <value>برای دیدن سرورهای خصوصی خود وارد Roblox شوید.</value>
+  </data>
+  <data name="Library.Servers.PrivateUnavailable" xml:space="preserve">
+    <value>بارگیری سرورهای خصوصی در حال حاضر ممکن نشد.</value>
+  </data>
+  <data name="Library.Servers.PrivateEmpty" xml:space="preserve">
+    <value>شما برای این بازی سرور خصوصی ندارید.</value>
   </data>
   <data name="Ui.ModGen.LastGenerated" xml:space="preserve">
     <value>آخرین ساخت {0}. با به‌روزرسانی Roblox خودکار دوباره ساخته می‌شود.</value>

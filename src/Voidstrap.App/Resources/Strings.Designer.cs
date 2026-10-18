@@ -2535,6 +2535,14 @@ namespace Voidstrap.Resources {
 
         public static string Library_Badges_Open => ResourceManager.GetString("Library.Badges.Open", resourceCulture);
 
+        public static string Library_Servers_PrivateLoading => ResourceManager.GetString("Library.Servers.PrivateLoading", resourceCulture);
+
+        public static string Library_Servers_PrivateSignedOut => ResourceManager.GetString("Library.Servers.PrivateSignedOut", resourceCulture);
+
+        public static string Library_Servers_PrivateUnavailable => ResourceManager.GetString("Library.Servers.PrivateUnavailable", resourceCulture);
+
+        public static string Library_Servers_PrivateEmpty => ResourceManager.GetString("Library.Servers.PrivateEmpty", resourceCulture);
+
         public static string Ui_ModGen_LastGenerated => ResourceManager.GetString("Ui.ModGen.LastGenerated", resourceCulture);
 
         public static string Ui_ModGen_RegenerateMod => ResourceManager.GetString("Ui.ModGen.RegenerateMod", resourceCulture);
@@ -3850,6 +3858,20 @@ namespace Voidstrap.Resources {
                 return ResourceManager.GetString("ContextMenu.ServerBrowser.Current", resourceCulture);
             }
         }
+
+        public static string ContextMenu_ServerBrowser_AllRegions => ResourceManager.GetString("ContextMenu.ServerBrowser.AllRegions", resourceCulture);
+
+        public static string ContextMenu_ServerBrowser_RegionBlocked => ResourceManager.GetString("ContextMenu.ServerBrowser.RegionBlocked", resourceCulture);
+
+        public static string ContextMenu_ServerBrowser_UnknownLocation => ResourceManager.GetString("ContextMenu.ServerBrowser.UnknownLocation", resourceCulture);
+
+        public static string ContextMenu_ServerBrowser_ServerPerformance => ResourceManager.GetString("ContextMenu.ServerBrowser.ServerPerformance", resourceCulture);
+
+        public static string ContextMenu_ServerBrowser_OwnedBy => ResourceManager.GetString("ContextMenu.ServerBrowser.OwnedBy", resourceCulture);
+
+        public static string ContextMenu_ServerBrowser_PrivateServer => ResourceManager.GetString("ContextMenu.ServerBrowser.PrivateServer", resourceCulture);
+
+        public static string ContextMenu_ServerBrowser_YouAreHere => ResourceManager.GetString("ContextMenu.ServerBrowser.YouAreHere", resourceCulture);
 
         public static string ContextMenu_GameBrowser_Title {
             get {
@@ -8173,6 +8195,9 @@ namespace Voidstrap.Resources {
         public static string Shortcuts_GameTab => ResourceManager.GetString("Shortcuts.GameTab", resourceCulture);
         public static string Library_SubplacesTab => ResourceManager.GetString("Library.SubplacesTab", resourceCulture);
 
+        public static string Library_ServersTab => ResourceManager.GetString("Library.ServersTab", resourceCulture);
+
+        public static string Library_PrivateServersTab => ResourceManager.GetString("Library.PrivateServersTab", resourceCulture);
         public static string Shortcuts_SubplaceTab => ResourceManager.GetString("Shortcuts.SubplaceTab", resourceCulture);
         public static string Shortcuts_SubplaceDescription => ResourceManager.GetString("Shortcuts.SubplaceDescription", resourceCulture);
         public static string Shortcuts_LoadSubplaces => ResourceManager.GetString("Shortcuts.LoadSubplaces", resourceCulture);

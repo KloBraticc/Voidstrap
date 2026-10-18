@@ -546,6 +546,27 @@ Kattintson további információért</value>
   <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
     <value>Minden talált szerver messze van tőled, a matchmaker inkább a Robloxra bízná a választást</value>
   </data>
+  <data name="ContextMenu.ServerBrowser.AllRegions" xml:space="preserve">
+    <value>Minden régió</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RegionBlocked" xml:space="preserve">
+    <value>Az általad letiltott régió</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.UnknownLocation" xml:space="preserve">
+    <value>Ismeretlen hely</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ServerPerformance" xml:space="preserve">
+    <value>Szerver teljesítménye {0}%</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.OwnedBy" xml:space="preserve">
+    <value>Tulajdonos: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.PrivateServer" xml:space="preserve">
+    <value>Privát szerver</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.YouAreHere" xml:space="preserve">
+    <value>Itt vagy</value>
+  </data>
   <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
     <value>Játékböngésző</value>
   </data>
@@ -2816,6 +2837,12 @@ Csak akkor folytasd, ha elfogadod, hogy minden VNG-vel használt fiókodnál elv
   </data>
   <data name="Library.SubplacesTab" xml:space="preserve">
     <value>Alhelyek</value>
+  </data>
+  <data name="Library.ServersTab" xml:space="preserve">
+    <value>Szerverek</value>
+  </data>
+  <data name="Library.PrivateServersTab" xml:space="preserve">
+    <value>Privát szerverek</value>
   </data>
   <data name="SettingsProfiles.Title" xml:space="preserve">
     <value>Beállításprofilok</value>
@@ -6689,6 +6716,18 @@ Mit szeretnél tenni?</value>
   </data>
   <data name="Library.Badges.Open" xml:space="preserve">
     <value>A jelvény megnyitása a roblox.com oldalon</value>
+  </data>
+  <data name="Library.Servers.PrivateLoading" xml:space="preserve">
+    <value>Privát szerverek betöltése</value>
+  </data>
+  <data name="Library.Servers.PrivateSignedOut" xml:space="preserve">
+    <value>Jelentkezz be a Robloxba, hogy lásd a privát szervereidet.</value>
+  </data>
+  <data name="Library.Servers.PrivateUnavailable" xml:space="preserve">
+    <value>A privát szervereket most nem sikerült betölteni.</value>
+  </data>
+  <data name="Library.Servers.PrivateEmpty" xml:space="preserve">
+    <value>Nincs privát szervered ehhez a játékhoz.</value>
   </data>
   <data name="Ui.ModGen.LastGenerated" xml:space="preserve">
     <value>Utoljára létrehozva: {0}. A Roblox frissülésekor magától újraépül.</value>

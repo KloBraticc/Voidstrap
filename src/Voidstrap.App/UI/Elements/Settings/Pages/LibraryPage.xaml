@@ -46,7 +46,7 @@
                   <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <Border Grid.Row="0" HorizontalAlignment="Left" Padding="4" CornerRadius="10" Background="{DynamicResource ControlFillColorDefaultBrush}" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" BorderThickness="1">
-                  <StackPanel Orientation="Horizontal" IsItemsHost="True" />
+                  <WrapPanel Orientation="Horizontal" IsItemsHost="True" />
                 </Border>
                 <Border Grid.Row="1" Margin="0,10,0,0" CornerRadius="8" Background="{DynamicResource ControlFillColorDefaultBrush}">
                   <ContentPresenter ContentSource="SelectedContent" />
@@ -210,6 +210,47 @@
           </Setter.Value>
         </Setter>
       </Style>
+      <DataTemplate x:Key="ServerCardTemplate">
+        <Border Width="310" Margin="0,0,12,12" Padding="12" CornerRadius="8" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1">
+          <StackPanel>
+            <ItemsControl ItemsSource="{Binding Avatars}" HorizontalAlignment="Center" Focusable="False" Margin="0,2,0,6">
+              <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                  <UniformGrid Columns="3" />
+                </ItemsPanelTemplate>
+              </ItemsControl.ItemsPanel>
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <Grid Width="50" Height="50" Margin="6,4">
+                    <Border CornerRadius="25" Background="{DynamicResource ControlFillColorSecondaryBrush}" />
+                    <Border CornerRadius="25" ClipToBounds="True">
+                      <Image util:DynamicRenderSystem.LazyImageSource="{Binding Url, TargetNullValue={x:Null}, FallbackValue={x:Null}}" Stretch="UniformToFill" />
+                    </Border>
+                    <TextBlock Text="{Binding Text}" FontSize="16" FontWeight="SemiBold" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+                  </Grid>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <TextBlock Text="{Binding Title}" FontSize="14" TextTrimming="CharacterEllipsis" ToolTip="{Binding Title}" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+            <ItemsControl ItemsSource="{Binding Lines}" Focusable="False" Margin="0,6,0,0">
+              <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                  <Grid Margin="0,3,0,0">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="Auto" />
+                      <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Grid.Column="0" Width="26" Text="{Binding Glyph}" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+                    <TextBlock Grid.Column="1" Text="{Binding Text}" ToolTip="{Binding Text}" FontSize="12.5" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                  </Grid>
+                </DataTemplate>
+              </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <ProgressBar Margin="0,10,0,0" Height="4" Minimum="0" Maximum="1" Value="{Binding Fill, Mode=OneWay}" />
+            <ui:Button Margin="0,10,0,0" HorizontalAlignment="Stretch" Appearance="Secondary" Content="{Binding JoinText}" IsEnabled="{Binding CanJoin}" Command="{Binding DataContext.Servers.JoinCommand, RelativeSource={RelativeSource AncestorType=Page}}" CommandParameter="{Binding}" />
+          </StackPanel>
+        </Border>
+      </DataTemplate>
     </ResourceDictionary>
   </FrameworkElement.Resources>
   <Grid Margin="0,0,14,14">
@@ -769,6 +810,83 @@
                   </ItemsControl.ItemTemplate>
                 </ItemsControl>
                 <TextBlock Margin="0,8,0,0" FontSize="12" Text="{resources:Loc Shortcuts_SubplaceAccess}" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+              </StackPanel>
+            </TabItem>
+            <TabItem IsSelected="{Binding Servers.IsServersTabSelected, Mode=TwoWay}">
+              <TabItem.Header>
+                <StackPanel Orientation="Horizontal">
+                  <ui:SymbolIcon Symbol="Server24" Margin="0,0,6,0" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=TabItem}}" />
+                  <TextBlock Text="{resources:Loc Library_ServersTab}" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=TabItem}}" />
+                </StackPanel>
+              </TabItem.Header>
+              <StackPanel Margin="16">
+                <Grid>
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                  </Grid.ColumnDefinitions>
+                  <WrapPanel Grid.Column="0" VerticalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" Margin="0,2,16,2">
+                      <TextBlock Margin="0,0,8,0" VerticalAlignment="Center" FontSize="12" Text="{resources:Loc Ui_Session_SortBy}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                      <ComboBox Width="150" SelectedIndex="{Binding Servers.SortIndex, Mode=TwoWay}">
+                        <ComboBoxItem Content="{resources:Loc ContextMenu_ServerBrowser_Sort_Population}" />
+                        <ComboBoxItem Content="{resources:Loc ContextMenu_ServerBrowser_Sort_Empty}" />
+                        <ComboBoxItem Content="{resources:Loc ContextMenu_ServerBrowser_Sort_Ping}" />
+                      </ComboBox>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,2,16,2">
+                      <TextBlock Margin="0,0,8,0" VerticalAlignment="Center" FontSize="12" Text="{resources:Loc Ui_Session_Region}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                      <ComboBox Width="170" ItemsSource="{Binding Servers.Regions}" SelectedItem="{Binding Servers.SelectedRegion, Mode=TwoWay}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,2,16,2">
+                      <ui:ToggleSwitch IsChecked="{Binding Servers.HideFull, Mode=TwoWay}" />
+                      <TextBlock Margin="8,0,0,0" VerticalAlignment="Center" FontSize="12" Text="{resources:Loc ContextMenu_ServerBrowser_ExcludeFull}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                    </StackPanel>
+                  </WrapPanel>
+                  <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Margin="0,0,12,0" VerticalAlignment="Center" FontSize="12" Text="{Binding Servers.CountText}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                    <ui:Button Appearance="Secondary" ToolTip="{resources:Loc ContextMenu_ServerBrowser_Refresh}" Command="{Binding Servers.RefreshCommand}">
+                      <StackPanel Orientation="Horizontal">
+                        <ui:SymbolIcon Symbol="ArrowSync24" Margin="0,0,8,0" />
+                        <TextBlock FontSize="12" VerticalAlignment="Center" Text="{resources:Loc ContextMenu_ServerBrowser_Refresh}" />
+                      </StackPanel>
+                    </ui:Button>
+                  </StackPanel>
+                </Grid>
+                <ProgressBar Height="4" Margin="0,12,0,0" IsIndeterminate="True" Visibility="{Binding Servers.PublicLoading, Converter={StaticResource BoolToVis}}" />
+                <TextBlock Margin="0,10,0,0" FontSize="12" TextWrapping="Wrap" Text="{Binding Servers.PublicStatus}" Visibility="{Binding Servers.PublicStatusVisibility}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                <ItemsControl Margin="0,12,0,0" ItemsSource="{Binding Servers.Servers}" ItemTemplate="{StaticResource ServerCardTemplate}">
+                  <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                      <WrapPanel />
+                    </ItemsPanelTemplate>
+                  </ItemsControl.ItemsPanel>
+                </ItemsControl>
+              </StackPanel>
+            </TabItem>
+            <TabItem IsSelected="{Binding Servers.IsPrivateServersTabSelected, Mode=TwoWay}">
+              <TabItem.Header>
+                <StackPanel Orientation="Horizontal">
+                  <ui:SymbolIcon Symbol="LockClosed24" Margin="0,0,6,0" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=TabItem}}" />
+                  <TextBlock Text="{resources:Loc Library_PrivateServersTab}" Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=TabItem}}" />
+                </StackPanel>
+              </TabItem.Header>
+              <StackPanel Margin="16">
+                <ui:Button HorizontalAlignment="Left" Appearance="Secondary" ToolTip="{resources:Loc ContextMenu_ServerBrowser_Refresh}" Command="{Binding Servers.RefreshPrivateCommand}">
+                  <StackPanel Orientation="Horizontal">
+                    <ui:SymbolIcon Symbol="ArrowSync24" Margin="0,0,8,0" />
+                    <TextBlock FontSize="12" VerticalAlignment="Center" Text="{resources:Loc ContextMenu_ServerBrowser_Refresh}" />
+                  </StackPanel>
+                </ui:Button>
+                <ProgressBar Height="4" Margin="0,12,0,0" IsIndeterminate="True" Visibility="{Binding Servers.PrivateLoading, Converter={StaticResource BoolToVis}}" />
+                <TextBlock Margin="0,10,0,0" FontSize="12" TextWrapping="Wrap" Text="{Binding Servers.PrivateStatus}" Visibility="{Binding Servers.PrivateStatusVisibility}" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                <ItemsControl Margin="0,12,0,0" ItemsSource="{Binding Servers.PrivateServers}" ItemTemplate="{StaticResource ServerCardTemplate}">
+                  <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                      <WrapPanel />
+                    </ItemsPanelTemplate>
+                  </ItemsControl.ItemsPanel>
+                </ItemsControl>
               </StackPanel>
             </TabItem>
             <TabItem>

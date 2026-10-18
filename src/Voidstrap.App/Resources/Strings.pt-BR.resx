@@ -546,6 +546,27 @@ Clique para mais informações</value>
   <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
     <value>Todos os servidores encontrados estão longe de você, o matchmaker deixaria o Roblox escolher</value>
   </data>
+  <data name="ContextMenu.ServerBrowser.AllRegions" xml:space="preserve">
+    <value>Todas as regiões</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RegionBlocked" xml:space="preserve">
+    <value>Região que você bloqueou</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.UnknownLocation" xml:space="preserve">
+    <value>Localização desconhecida</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ServerPerformance" xml:space="preserve">
+    <value>Desempenho do servidor {0}%</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.OwnedBy" xml:space="preserve">
+    <value>Propriedade de {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.PrivateServer" xml:space="preserve">
+    <value>Servidor privado</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.YouAreHere" xml:space="preserve">
+    <value>Você está aqui</value>
+  </data>
   <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
     <value>Navegador de jogos</value>
   </data>
@@ -2800,6 +2821,12 @@ Digite exatamente a frase mostrada abaixo para aceitar essas restrições e cont
   </data>
   <data name="Library.SubplacesTab" xml:space="preserve">
     <value>Sublugares</value>
+  </data>
+  <data name="Library.ServersTab" xml:space="preserve">
+    <value>Servidores</value>
+  </data>
+  <data name="Library.PrivateServersTab" xml:space="preserve">
+    <value>Servidores privados</value>
   </data>
   <data name="SettingsProfiles.Title" xml:space="preserve">
     <value>Perfis de configurações</value>
@@ -6673,6 +6700,18 @@ Tentar a remoção de novo?</value>
   </data>
   <data name="Library.Badges.Open" xml:space="preserve">
     <value>Abrir este emblema no roblox.com</value>
+  </data>
+  <data name="Library.Servers.PrivateLoading" xml:space="preserve">
+    <value>Carregando servidores privados</value>
+  </data>
+  <data name="Library.Servers.PrivateSignedOut" xml:space="preserve">
+    <value>Entre no Roblox para ver seus servidores privados.</value>
+  </data>
+  <data name="Library.Servers.PrivateUnavailable" xml:space="preserve">
+    <value>Não foi possível carregar os servidores privados agora.</value>
+  </data>
+  <data name="Library.Servers.PrivateEmpty" xml:space="preserve">
+    <value>Você não tem servidores privados deste jogo.</value>
   </data>
   <data name="Ui.ModGen.LastGenerated" xml:space="preserve">
     <value>Gerado pela última vez {0}. Ele se recria sozinho quando o Roblox atualiza.</value>

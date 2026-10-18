@@ -540,6 +540,27 @@ Tekan untuk informasi lebih lanjut.</value>
   <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
     <value>Semua server yang ditemukan jauh dari Anda, matchmaker akan membiarkan Roblox yang memilih</value>
   </data>
+  <data name="ContextMenu.ServerBrowser.AllRegions" xml:space="preserve">
+    <value>Semua wilayah</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RegionBlocked" xml:space="preserve">
+    <value>Wilayah yang Anda blokir</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.UnknownLocation" xml:space="preserve">
+    <value>Lokasi tidak diketahui</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ServerPerformance" xml:space="preserve">
+    <value>Performa server {0}%</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.OwnedBy" xml:space="preserve">
+    <value>Dimiliki oleh {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.PrivateServer" xml:space="preserve">
+    <value>Server privat</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.YouAreHere" xml:space="preserve">
+    <value>Anda di sini</value>
+  </data>
   <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
     <value>Penjelajah game</value>
   </data>
@@ -2777,6 +2798,12 @@ Ketik persis frasa yang ditampilkan di bawah untuk menerima pembatasan ini dan m
   </data>
   <data name="Library.SubplacesTab" xml:space="preserve">
     <value>Subtempat</value>
+  </data>
+  <data name="Library.ServersTab" xml:space="preserve">
+    <value>Server</value>
+  </data>
+  <data name="Library.PrivateServersTab" xml:space="preserve">
+    <value>Server privat</value>
   </data>
   <data name="SettingsProfiles.Title" xml:space="preserve">
     <value>Profil pengaturan</value>
@@ -6647,6 +6674,18 @@ Coba hapus lagi?</value>
   </data>
   <data name="Library.Badges.Open" xml:space="preserve">
     <value>Buka lencana ini di roblox.com</value>
+  </data>
+  <data name="Library.Servers.PrivateLoading" xml:space="preserve">
+    <value>Memuat server privat</value>
+  </data>
+  <data name="Library.Servers.PrivateSignedOut" xml:space="preserve">
+    <value>Masuk ke Roblox untuk melihat server privat Anda.</value>
+  </data>
+  <data name="Library.Servers.PrivateUnavailable" xml:space="preserve">
+    <value>Server privat tidak dapat dimuat saat ini.</value>
+  </data>
+  <data name="Library.Servers.PrivateEmpty" xml:space="preserve">
+    <value>Anda tidak memiliki server privat untuk game ini.</value>
   </data>
   <data name="Ui.ModGen.LastGenerated" xml:space="preserve">
     <value>Terakhir dibuat {0}. Dibuat ulang otomatis saat Roblox diperbarui.</value>

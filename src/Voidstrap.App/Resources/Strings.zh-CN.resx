@@ -556,6 +556,27 @@
   <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
     <value>找到的所有服务器都离您很远，因此匹配器将由 Roblox 自行选择</value>
   </data>
+  <data name="ContextMenu.ServerBrowser.AllRegions" xml:space="preserve">
+    <value>所有地区</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RegionBlocked" xml:space="preserve">
+    <value>您屏蔽的地区</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.UnknownLocation" xml:space="preserve">
+    <value>未知地点</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ServerPerformance" xml:space="preserve">
+    <value>服务器性能 {0}%</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.OwnedBy" xml:space="preserve">
+    <value>所有者：{0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.PrivateServer" xml:space="preserve">
+    <value>私人服务器</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.YouAreHere" xml:space="preserve">
+    <value>您在这里</value>
+  </data>
   <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
     <value>游戏浏览器</value>
   </data>
@@ -2844,6 +2865,12 @@ Voidstrap 的安装路径是：
   </data>
   <data name="Library.SubplacesTab" xml:space="preserve">
     <value>子地点</value>
+  </data>
+  <data name="Library.ServersTab" xml:space="preserve">
+    <value>服务器</value>
+  </data>
+  <data name="Library.PrivateServersTab" xml:space="preserve">
+    <value>私人服务器</value>
   </data>
   <data name="SettingsProfiles.Title" xml:space="preserve">
     <value>设置配置文件</value>
@@ -6714,6 +6741,18 @@ Voidstrap 的安装路径是：
   </data>
   <data name="Library.Badges.Open" xml:space="preserve">
     <value>在 roblox.com 上打开此徽章</value>
+  </data>
+  <data name="Library.Servers.PrivateLoading" xml:space="preserve">
+    <value>正在加载私人服务器</value>
+  </data>
+  <data name="Library.Servers.PrivateSignedOut" xml:space="preserve">
+    <value>登录 Roblox 即可查看您的私人服务器。</value>
+  </data>
+  <data name="Library.Servers.PrivateUnavailable" xml:space="preserve">
+    <value>目前无法加载私人服务器。</value>
+  </data>
+  <data name="Library.Servers.PrivateEmpty" xml:space="preserve">
+    <value>您没有此游戏的私人服务器。</value>
   </data>
   <data name="Ui.ModGen.LastGenerated" xml:space="preserve">
     <value>上次生成于 {0}。Roblox 更新时会自动重新生成。</value>

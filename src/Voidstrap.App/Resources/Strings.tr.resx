@@ -546,6 +546,27 @@ Daha fazla bilgi için tıklayınız</value>
   <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
     <value>Bulunan tüm sunucular size uzak, eşleştirici seçimi Roblox'a bırakır</value>
   </data>
+  <data name="ContextMenu.ServerBrowser.AllRegions" xml:space="preserve">
+    <value>Tüm bölgeler</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RegionBlocked" xml:space="preserve">
+    <value>Engellediğiniz bölge</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.UnknownLocation" xml:space="preserve">
+    <value>Bilinmeyen konum</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ServerPerformance" xml:space="preserve">
+    <value>Sunucu performansı {0}%</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.OwnedBy" xml:space="preserve">
+    <value>Sahibi: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.PrivateServer" xml:space="preserve">
+    <value>Özel sunucu</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.YouAreHere" xml:space="preserve">
+    <value>Buradasınız</value>
+  </data>
   <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
     <value>Oyun tarayıcısı</value>
   </data>
@@ -2812,6 +2833,12 @@ Bu kısıtlamaları kabul edip devam etmek için aşağıda gösterilen ifadeyi 
   </data>
   <data name="Library.SubplacesTab" xml:space="preserve">
     <value>Alt yerler</value>
+  </data>
+  <data name="Library.ServersTab" xml:space="preserve">
+    <value>Sunucular</value>
+  </data>
+  <data name="Library.PrivateServersTab" xml:space="preserve">
+    <value>Özel sunucular</value>
   </data>
   <data name="SettingsProfiles.Title" xml:space="preserve">
     <value>Ayar profilleri</value>
@@ -6685,6 +6712,18 @@ Kaldırma yeniden denensin mi?</value>
   </data>
   <data name="Library.Badges.Open" xml:space="preserve">
     <value>Bu rozeti roblox.com'da aç</value>
+  </data>
+  <data name="Library.Servers.PrivateLoading" xml:space="preserve">
+    <value>Özel sunucular yükleniyor</value>
+  </data>
+  <data name="Library.Servers.PrivateSignedOut" xml:space="preserve">
+    <value>Özel sunucularınızı görmek için Roblox'ta oturum açın.</value>
+  </data>
+  <data name="Library.Servers.PrivateUnavailable" xml:space="preserve">
+    <value>Özel sunucular şu anda yüklenemedi.</value>
+  </data>
+  <data name="Library.Servers.PrivateEmpty" xml:space="preserve">
+    <value>Bu oyun için özel sunucunuz yok.</value>
   </data>
   <data name="Ui.ModGen.LastGenerated" xml:space="preserve">
     <value>Son oluşturma {0}. Roblox güncellendiğinde kendiliğinden yeniden oluşturulur.</value>

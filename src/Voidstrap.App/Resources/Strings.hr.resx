@@ -546,6 +546,27 @@ Kliknite za više informacija</value>
   <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
     <value>Svi pronađeni poslužitelji daleko su od tebe, pa bi matchmaker prepustio odabir Robloxu</value>
   </data>
+  <data name="ContextMenu.ServerBrowser.AllRegions" xml:space="preserve">
+    <value>Sve regije</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RegionBlocked" xml:space="preserve">
+    <value>Regija koju ste blokirali</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.UnknownLocation" xml:space="preserve">
+    <value>Nepoznata lokacija</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ServerPerformance" xml:space="preserve">
+    <value>Performanse poslužitelja {0}%</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.OwnedBy" xml:space="preserve">
+    <value>Vlasnik: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.PrivateServer" xml:space="preserve">
+    <value>Privatni poslužitelj</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.YouAreHere" xml:space="preserve">
+    <value>Vi ste ovdje</value>
+  </data>
   <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
     <value>Preglednik igara</value>
   </data>
@@ -2819,6 +2840,12 @@ Upiši točno frazu prikazanu ispod kako bi prihvatio ova ograničenja i nastavi
   </data>
   <data name="Library.SubplacesTab" xml:space="preserve">
     <value>Podmjesta</value>
+  </data>
+  <data name="Library.ServersTab" xml:space="preserve">
+    <value>Poslužitelji</value>
+  </data>
+  <data name="Library.PrivateServersTab" xml:space="preserve">
+    <value>Privatni poslužitelji</value>
   </data>
   <data name="SettingsProfiles.Title" xml:space="preserve">
     <value>Profili postavki</value>
@@ -6692,6 +6719,18 @@ Pokušati uklanjanje ponovno?</value>
   </data>
   <data name="Library.Badges.Open" xml:space="preserve">
     <value>Otvori ovu značku na roblox.com</value>
+  </data>
+  <data name="Library.Servers.PrivateLoading" xml:space="preserve">
+    <value>Učitavanje privatnih poslužitelja</value>
+  </data>
+  <data name="Library.Servers.PrivateSignedOut" xml:space="preserve">
+    <value>Prijavi se u Roblox da vidiš svoje privatne poslužitelje.</value>
+  </data>
+  <data name="Library.Servers.PrivateUnavailable" xml:space="preserve">
+    <value>Privatne poslužitelje trenutačno nije moguće učitati.</value>
+  </data>
+  <data name="Library.Servers.PrivateEmpty" xml:space="preserve">
+    <value>Nemate privatnih poslužitelja za ovu igru.</value>
   </data>
   <data name="Ui.ModGen.LastGenerated" xml:space="preserve">
     <value>Zadnje stvoreno {0}. Samo se ponovno izrađuje kad se Roblox ažurira.</value>

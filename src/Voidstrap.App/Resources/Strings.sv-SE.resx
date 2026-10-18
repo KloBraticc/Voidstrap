@@ -543,6 +543,27 @@ Klicka för mer information</value>
   <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
     <value>Alla hittade servrar ligger långt från dig, matchmakern skulle låta Roblox välja i stället</value>
   </data>
+  <data name="ContextMenu.ServerBrowser.AllRegions" xml:space="preserve">
+    <value>Alla regioner</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RegionBlocked" xml:space="preserve">
+    <value>Regionen du blockerade</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.UnknownLocation" xml:space="preserve">
+    <value>Okänd plats</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ServerPerformance" xml:space="preserve">
+    <value>Serverprestanda {0}%</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.OwnedBy" xml:space="preserve">
+    <value>Ägs av {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.PrivateServer" xml:space="preserve">
+    <value>Privat server</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.YouAreHere" xml:space="preserve">
+    <value>Du är här</value>
+  </data>
   <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
     <value>Spelbläddrare</value>
   </data>
@@ -2781,6 +2802,12 @@ Skriv exakt frasen som visas nedan för att godkänna begränsningarna och forts
   </data>
   <data name="Library.SubplacesTab" xml:space="preserve">
     <value>Underplatser</value>
+  </data>
+  <data name="Library.ServersTab" xml:space="preserve">
+    <value>Servrar</value>
+  </data>
+  <data name="Library.PrivateServersTab" xml:space="preserve">
+    <value>Privata servrar</value>
   </data>
   <data name="SettingsProfiles.Title" xml:space="preserve">
     <value>Inställningsprofiler</value>
@@ -6651,6 +6678,18 @@ Försöka ta bort igen?</value>
   </data>
   <data name="Library.Badges.Open" xml:space="preserve">
     <value>Öppna det här märket på roblox.com</value>
+  </data>
+  <data name="Library.Servers.PrivateLoading" xml:space="preserve">
+    <value>Läser in privata servrar</value>
+  </data>
+  <data name="Library.Servers.PrivateSignedOut" xml:space="preserve">
+    <value>Logga in på Roblox för att se dina privata servrar.</value>
+  </data>
+  <data name="Library.Servers.PrivateUnavailable" xml:space="preserve">
+    <value>Kunde inte läsa in privata servrar just nu.</value>
+  </data>
+  <data name="Library.Servers.PrivateEmpty" xml:space="preserve">
+    <value>Du har inga privata servrar för det här spelet.</value>
   </data>
   <data name="Ui.ModGen.LastGenerated" xml:space="preserve">
     <value>Senast genererad {0}. Den byggs om automatiskt när Roblox uppdateras.</value>

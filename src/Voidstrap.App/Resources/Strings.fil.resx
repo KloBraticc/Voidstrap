@@ -519,6 +519,27 @@ Pindutin para sa marami pang impormasyon</value>
   <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
     <value>Malayo sa iyo ang lahat ng nahanap na server, kaya hahayaan ng matchmaker na ang Roblox ang pumili</value>
   </data>
+  <data name="ContextMenu.ServerBrowser.AllRegions" xml:space="preserve">
+    <value>Lahat ng rehiyon</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RegionBlocked" xml:space="preserve">
+    <value>Rehiyong na-block mo</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.UnknownLocation" xml:space="preserve">
+    <value>Hindi alam na lokasyon</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ServerPerformance" xml:space="preserve">
+    <value>Pagganap ng server {0}%</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.OwnedBy" xml:space="preserve">
+    <value>Pagmamay-ari ni {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.PrivateServer" xml:space="preserve">
+    <value>Pribadong server</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.YouAreHere" xml:space="preserve">
+    <value>Nandito ka</value>
+  </data>
   <data name="ContextMenu.GameBrowser.Continue" xml:space="preserve">
     <value>Ipagpatuloy</value>
   </data>
@@ -2608,6 +2629,12 @@ I-type nang eksakto ang pariralang nasa ibaba para tanggapin ang limitasyong ito
   </data>
   <data name="Library.SubplacesTab" xml:space="preserve">
     <value>Subplace</value>
+  </data>
+  <data name="Library.ServersTab" xml:space="preserve">
+    <value>Mga server</value>
+  </data>
+  <data name="Library.PrivateServersTab" xml:space="preserve">
+    <value>Mga pribadong server</value>
   </data>
   <data name="SettingsProfiles.Title" xml:space="preserve">
     <value>Mga profile ng setting</value>
@@ -6466,6 +6493,18 @@ Subukan ulit ang pag alis?</value>
   </data>
   <data name="Library.Badges.Open" xml:space="preserve">
     <value>Buksan ang badge na ito sa roblox.com</value>
+  </data>
+  <data name="Library.Servers.PrivateLoading" xml:space="preserve">
+    <value>Nilo-load ang mga pribadong server</value>
+  </data>
+  <data name="Library.Servers.PrivateSignedOut" xml:space="preserve">
+    <value>Mag sign in sa Roblox para makita ang iyong mga pribadong server.</value>
+  </data>
+  <data name="Library.Servers.PrivateUnavailable" xml:space="preserve">
+    <value>Hindi ma-load ang mga pribadong server sa ngayon.</value>
+  </data>
+  <data name="Library.Servers.PrivateEmpty" xml:space="preserve">
+    <value>Wala kang pribadong server para sa larong ito.</value>
   </data>
   <data name="Ui.ModGen.LastGenerated" xml:space="preserve">
     <value>Huling ginawa {0}. Kusa itong bubuuin muli kapag nag-update ang Roblox.</value>

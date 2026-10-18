@@ -552,6 +552,27 @@
   <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
     <value>جميع الخوادم التي تم العثور عليها بعيدة عنك، لذا سيترك المطابِق الاختيار لـ Roblox</value>
   </data>
+  <data name="ContextMenu.ServerBrowser.AllRegions" xml:space="preserve">
+    <value>كل المناطق</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RegionBlocked" xml:space="preserve">
+    <value>منطقة قمت بحظرها</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.UnknownLocation" xml:space="preserve">
+    <value>موقع غير معروف</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ServerPerformance" xml:space="preserve">
+    <value>أداء الخادم {0}%</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.OwnedBy" xml:space="preserve">
+    <value>المالك: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.PrivateServer" xml:space="preserve">
+    <value>خادم خاص</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.YouAreHere" xml:space="preserve">
+    <value>أنت هنا</value>
+  </data>
   <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
     <value>متصفح الألعاب</value>
   </data>
@@ -2849,6 +2870,12 @@
   </data>
   <data name="Library.SubplacesTab" xml:space="preserve">
     <value>مكان فرعي</value>
+  </data>
+  <data name="Library.ServersTab" xml:space="preserve">
+    <value>الخوادم</value>
+  </data>
+  <data name="Library.PrivateServersTab" xml:space="preserve">
+    <value>الخوادم الخاصة</value>
   </data>
   <data name="SettingsProfiles.Title" xml:space="preserve">
     <value>ملفات تعريف الإعدادات</value>
@@ -6722,6 +6749,18 @@
   </data>
   <data name="Library.Badges.Open" xml:space="preserve">
     <value>فتح هذه الشارة على roblox.com</value>
+  </data>
+  <data name="Library.Servers.PrivateLoading" xml:space="preserve">
+    <value>جارٍ تحميل الخوادم الخاصة</value>
+  </data>
+  <data name="Library.Servers.PrivateSignedOut" xml:space="preserve">
+    <value>سجّل الدخول إلى Roblox لرؤية خوادمك الخاصة.</value>
+  </data>
+  <data name="Library.Servers.PrivateUnavailable" xml:space="preserve">
+    <value>تعذّر تحميل الخوادم الخاصة الآن.</value>
+  </data>
+  <data name="Library.Servers.PrivateEmpty" xml:space="preserve">
+    <value>ليس لديك خوادم خاصة لهذه اللعبة.</value>
   </data>
   <data name="Ui.ModGen.LastGenerated" xml:space="preserve">
     <value>آخر إنشاء {0}. يُعاد بناؤه تلقائيًا عند تحديث Roblox.</value>

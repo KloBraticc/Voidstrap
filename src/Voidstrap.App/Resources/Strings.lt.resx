@@ -549,6 +549,27 @@ Spustelėkite norėdami gauti daugiau informacijos.</value>
   <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
     <value>Visi rasti serveriai yra toli nuo jūsų, todėl matchmaker leistų rinktis Roblox</value>
   </data>
+  <data name="ContextMenu.ServerBrowser.AllRegions" xml:space="preserve">
+    <value>Visi regionai</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RegionBlocked" xml:space="preserve">
+    <value>Jūsų užblokuotas regionas</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.UnknownLocation" xml:space="preserve">
+    <value>Nežinoma vieta</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ServerPerformance" xml:space="preserve">
+    <value>Serverio našumas {0}%</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.OwnedBy" xml:space="preserve">
+    <value>Savininkas: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.PrivateServer" xml:space="preserve">
+    <value>Privatus serveris</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.YouAreHere" xml:space="preserve">
+    <value>Jūs esate čia</value>
+  </data>
   <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
     <value>Žaidimų naršyklė</value>
   </data>
@@ -2854,6 +2875,12 @@ Tiksliai įveskite toliau rodomą frazę, kad sutiktumėte su šiais apribojimai
   </data>
   <data name="Library.SubplacesTab" xml:space="preserve">
     <value>Povietės</value>
+  </data>
+  <data name="Library.ServersTab" xml:space="preserve">
+    <value>Serveriai</value>
+  </data>
+  <data name="Library.PrivateServersTab" xml:space="preserve">
+    <value>Privatūs serveriai</value>
   </data>
   <data name="SettingsProfiles.Title" xml:space="preserve">
     <value>Nustatymų profiliai</value>
@@ -6727,6 +6754,18 @@ Bandyti pašalinti dar kartą?</value>
   </data>
   <data name="Library.Badges.Open" xml:space="preserve">
     <value>Atidaryti šį ženklelį roblox.com</value>
+  </data>
+  <data name="Library.Servers.PrivateLoading" xml:space="preserve">
+    <value>Įkeliami privatūs serveriai</value>
+  </data>
+  <data name="Library.Servers.PrivateSignedOut" xml:space="preserve">
+    <value>Prisijunkite prie Roblox, kad matytumėte savo privačius serverius.</value>
+  </data>
+  <data name="Library.Servers.PrivateUnavailable" xml:space="preserve">
+    <value>Privačių serverių šiuo metu įkelti nepavyko.</value>
+  </data>
+  <data name="Library.Servers.PrivateEmpty" xml:space="preserve">
+    <value>Šiam žaidimui neturite privačių serverių.</value>
   </data>
   <data name="Ui.ModGen.LastGenerated" xml:space="preserve">
     <value>Paskutinį kartą sukurta {0}. Atnaujinus Roblox, sukuriama iš naujo automatiškai.</value>

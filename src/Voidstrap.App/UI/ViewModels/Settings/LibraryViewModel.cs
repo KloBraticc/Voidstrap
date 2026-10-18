@@ -609,6 +609,8 @@ public class LibraryViewModel : INotifyPropertyChanged
         }
     }
 
+    public LibraryServersViewModel Servers { get; } = new();
+
     public LibraryGameEntry? SelectedGame
     {
         get => _selectedGame;
@@ -619,6 +621,7 @@ public class LibraryViewModel : INotifyPropertyChanged
                 _selectedGame = value;
                 CancelSubplaceLoading();
                 _ = LoadSubplacesAsync();
+                Servers.SetGame(value);
                 OnPropertyChanged(nameof(SelectedGame));
                 OnPropertyChanged(nameof(DashboardVisibility));
                 OnPropertyChanged(nameof(DetailVisibility));
@@ -1695,9 +1698,14 @@ public class LibraryViewModel : INotifyPropertyChanged
         long placeId = await ResolveStartPlaceAsync(game);
         if (placeId == 0)
             return;
+        if (TryLaunchPlayer($"roblox://experiences/start?placeId={placeId}"))
+            Application.Current.Shutdown();
+    }
+
+    internal static bool TryLaunchPlayer(string uri)
+    {
         try
         {
-            string uri = $"roblox://experiences/start?placeId={placeId}";
             string voidstrapPath = Paths.LaunchExecutable;
             Process.Start(new ProcessStartInfo
             {
@@ -1707,15 +1715,16 @@ public class LibraryViewModel : INotifyPropertyChanged
                 CreateNoWindow = true,
                 WorkingDirectory = Path.GetDirectoryName(voidstrapPath) ?? ""
             });
-            Application.Current.Shutdown();
+            return true;
         }
         catch (Exception ex)
         {
-            App.Logger.WriteException("LibraryViewModel::LaunchGame", ex);
+            App.Logger.WriteException("LibraryViewModel::LaunchPlayer", ex);
+            return false;
         }
     }
 
-    private static async Task<long> ResolveStartPlaceAsync(LibraryGameEntry game)
+    internal static async Task<long> ResolveStartPlaceAsync(LibraryGameEntry game)
     {
         if (game.UniverseId <= 0)
             return game.PlaceId;

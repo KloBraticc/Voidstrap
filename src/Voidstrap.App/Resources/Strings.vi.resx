@@ -546,6 +546,27 @@ Bấm để biết thêm thông tin</value>
   <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
     <value>Tất cả máy chủ tìm thấy đều ở xa bạn nên matchmaker sẽ để Roblox tự chọn</value>
   </data>
+  <data name="ContextMenu.ServerBrowser.AllRegions" xml:space="preserve">
+    <value>Tất cả khu vực</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RegionBlocked" xml:space="preserve">
+    <value>Khu vực bạn đã chặn</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.UnknownLocation" xml:space="preserve">
+    <value>Không rõ vị trí</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ServerPerformance" xml:space="preserve">
+    <value>Hiệu năng máy chủ {0}%</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.OwnedBy" xml:space="preserve">
+    <value>Chủ sở hữu: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.PrivateServer" xml:space="preserve">
+    <value>Máy chủ riêng tư</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.YouAreHere" xml:space="preserve">
+    <value>Bạn đang ở đây</value>
+  </data>
   <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
     <value>Trình duyệt trò chơi</value>
   </data>
@@ -2826,6 +2847,12 @@ Nhập chính xác cụm từ bên dưới để chấp nhận hạn chế này 
   </data>
   <data name="Library.SubplacesTab" xml:space="preserve">
     <value>Địa điểm con</value>
+  </data>
+  <data name="Library.ServersTab" xml:space="preserve">
+    <value>Máy chủ</value>
+  </data>
+  <data name="Library.PrivateServersTab" xml:space="preserve">
+    <value>Máy chủ riêng tư</value>
   </data>
   <data name="SettingsProfiles.Title" xml:space="preserve">
     <value>Hồ sơ cài đặt</value>
@@ -6699,6 +6726,18 @@ Thử gỡ bỏ lại?</value>
   </data>
   <data name="Library.Badges.Open" xml:space="preserve">
     <value>Mở huy hiệu này trên roblox.com</value>
+  </data>
+  <data name="Library.Servers.PrivateLoading" xml:space="preserve">
+    <value>Đang tải máy chủ riêng tư</value>
+  </data>
+  <data name="Library.Servers.PrivateSignedOut" xml:space="preserve">
+    <value>Đăng nhập Roblox để xem máy chủ riêng tư của bạn.</value>
+  </data>
+  <data name="Library.Servers.PrivateUnavailable" xml:space="preserve">
+    <value>Không thể tải máy chủ riêng tư ngay bây giờ.</value>
+  </data>
+  <data name="Library.Servers.PrivateEmpty" xml:space="preserve">
+    <value>Bạn không có máy chủ riêng tư cho trò chơi này.</value>
   </data>
   <data name="Ui.ModGen.LastGenerated" xml:space="preserve">
     <value>Tạo lần cuối {0}. Tự động tạo lại khi Roblox cập nhật.</value>

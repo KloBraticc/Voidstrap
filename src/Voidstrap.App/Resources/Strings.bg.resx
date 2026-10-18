@@ -549,6 +549,27 @@
   <data name="ContextMenu.ServerBrowser.AllFar" xml:space="preserve">
     <value>Всички намерени сървъри са далеч от Вас, матчмейкърът би оставил Roblox да избере</value>
   </data>
+  <data name="ContextMenu.ServerBrowser.AllRegions" xml:space="preserve">
+    <value>Всички региони</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.RegionBlocked" xml:space="preserve">
+    <value>Регион, който сте блокирали</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.UnknownLocation" xml:space="preserve">
+    <value>Неизвестна локация</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.ServerPerformance" xml:space="preserve">
+    <value>Производителност на сървъра {0}%</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.OwnedBy" xml:space="preserve">
+    <value>Собственик: {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.PrivateServer" xml:space="preserve">
+    <value>Частен сървър</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.YouAreHere" xml:space="preserve">
+    <value>Вие сте тук</value>
+  </data>
   <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
     <value>Браузър за игри</value>
   </data>
@@ -2820,6 +2841,12 @@ Voidstrap е инсталиран на „{1}“.</value>
   </data>
   <data name="Library.SubplacesTab" xml:space="preserve">
     <value>Подместа</value>
+  </data>
+  <data name="Library.ServersTab" xml:space="preserve">
+    <value>Сървъри</value>
+  </data>
+  <data name="Library.PrivateServersTab" xml:space="preserve">
+    <value>Частни сървъри</value>
   </data>
   <data name="SettingsProfiles.Title" xml:space="preserve">
     <value>Профили с настройки</value>
@@ -6693,6 +6720,18 @@ Roblox ще бъде изтеглен, когато го стартирате з
   </data>
   <data name="Library.Badges.Open" xml:space="preserve">
     <value>Отваряне на тази значка в roblox.com</value>
+  </data>
+  <data name="Library.Servers.PrivateLoading" xml:space="preserve">
+    <value>Зареждане на частните сървъри</value>
+  </data>
+  <data name="Library.Servers.PrivateSignedOut" xml:space="preserve">
+    <value>Влезте в Roblox, за да видите частните си сървъри.</value>
+  </data>
+  <data name="Library.Servers.PrivateUnavailable" xml:space="preserve">
+    <value>Частните сървъри не можаха да се заредят в момента.</value>
+  </data>
+  <data name="Library.Servers.PrivateEmpty" xml:space="preserve">
+    <value>Нямате частни сървъри за тази игра.</value>
   </data>
   <data name="Ui.ModGen.LastGenerated" xml:space="preserve">
     <value>Последно създаден {0}. Изгражда се отново сам, когато Roblox се обнови.</value>
