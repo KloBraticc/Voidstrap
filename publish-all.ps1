@@ -715,7 +715,14 @@ function Reset-OutputDirectory {
     param([Parameter(Mandatory)] [string]$Path)
 
     if (Test-Path -LiteralPath $Path) {
-        Remove-BuildDirectory $Path
+        $item = Get-Item -LiteralPath $Path -Force -ErrorAction SilentlyContinue
+        if ($item -and ($item.Attributes -band [System.IO.FileAttributes]::ReparsePoint) -ne 0) {
+            Remove-BuildDirectory $Path
+        } else {
+            Get-ChildItem -LiteralPath $Path -Force -ErrorAction SilentlyContinue | ForEach-Object {
+                Remove-BuildDirectory $_.FullName
+            }
+        }
     }
     New-Item -ItemType Directory -Path $Path -Force | Out-Null
 }
