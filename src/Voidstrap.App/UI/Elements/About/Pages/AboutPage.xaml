@@ -365,7 +365,7 @@
                 <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="https://avatars.githubusercontent.com/u/106647446?v=4" />
               </Border>
               <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
-                <TextBlock FontSize="15" FontWeight="SemiBold" Text="UltimatePlayer97" />
+                <TextBlock FontSize="15" FontWeight="SemiBold" Text="SquireDot" />
                 <TextBlock Margin="0,1,0,0">
                   <Hyperlink Command="models:GlobalViewModel.OpenWebpageCommand" CommandParameter="https://github.com/UltimatePlayer97" Foreground="{DynamicResource TextFillColorTertiaryBrush}">
                     <TextBlock Text="github.com/UltimatePlayer97" />

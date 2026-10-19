@@ -6207,7 +6207,7 @@ Voidstrap 的安装路径是：
     <value>模组生成器</value>
   </data>
   <data name="Ui.Misc2.ModGeneratorDescription" xml:space="preserve">
-    <value>模组生成器 for Voidstrap，由 Meddsam 和 UltimatePlayer97 创建。</value>
+    <value>模组生成器 for Voidstrap，由 Meddsam 和 SquireDot 创建。</value>
   </data>
   <data name="Ui.Misc2.CanTSeeOverlays" xml:space="preserve">
     <value>看不到叠加层？</value>
