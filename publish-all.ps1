@@ -1,6 +1,3 @@
-Warning: truncated output (original token count: 22552)
-Total output lines: 2160
-
 [CmdletBinding()]
 param(
     [string[]]$Only = @('all'),
@@ -976,7 +973,299 @@ function Start-TargetPackaging {
     if ($linuxTarget -and $wantLinuxPackages) {
         New-Item -ItemType Directory -Path $LinuxOut -Force | Out-Null
         $outputPath = Get-RootRelativePath $LinuxOut
-        $executablePath = Get-RootRelati…2552 tokens truncated…l
+        $executablePath = Get-RootRelativePath $Job.Expected
+        $glibc = -not $rid.StartsWith('linux-musl-', [System.StringComparison]::Ordinal)
+        $formats = @('tar')
+        if ($glibc) {
+            $formats += 'deb', 'rpm'
+            if ($appImageTool) { $formats += 'appimage' }
+        }
+        $steps = @($formats | ForEach-Object { [pscustomobject]@{ Label = "$($Job.Target.Name) $_"; Arguments = @($context.LinuxScript, $rid, $version, $_, $outputPath, $executablePath) } })
+        $script:PackagingChains += Start-PackagingChain $shell $Job.Target.Name $steps
+        if ($glibc) {
+            $script:PackagingChains += Start-PackagingChain $shell "$($Job.Target.Name) Flatpak" @([pscustomobject]@{ Label = "$($Job.Target.Name) Flatpak"; Arguments = @($context.FlatpakScript, $rid, $version, $outputPath, $executablePath) })
+        }
+    }
+    elseif ($macTarget) {
+        if (-not $shell) {
+            if (-not $PackageNotes.Contains($context.MacShellNote)) { $PackageNotes.Add($context.MacShellNote) }
+            return
+        }
+        if ($IsWindowsHost -and -not $shell.Wsl -and -not $PackageNotes.Contains($context.MacImageNote)) {
+            $PackageNotes.Add($context.MacImageNote)
+        }
+        New-Item -ItemType Directory -Path $MacOut -Force | Out-Null
+        $script:PackagingChains += Start-PackagingChain $shell $Job.Target.Name @([pscustomobject]@{ Label = "$($Job.Target.Name) app"; Arguments = @($context.MacScript, $rid, $version, (Get-RootRelativePath $MacOut), (Get-RootRelativePath $Job.Expected)) })
+    }
+}
+
+function Test-TransientPublishFailure {
+    param([Parameter(Mandatory)] $Job)
+
+    $text = [string]$Job.CapturedOutput
+    return $text -match '(?i)NU1301|NU1302|timed out|temporar(?:y|ily)|connection (?:reset|closed)|resource (?:busy|unavailable)|text file busy|being used by another process|MSB3021|MSB3026|MSB3027|IOException'
+}
+
+function ConvertTo-CommandLineArgument {
+    param([AllowEmptyString()] [string]$Argument)
+
+    if ($null -eq $Argument -or $Argument.Length -eq 0) {
+        return '""'
+    }
+
+    if ($Argument -notmatch '[\s"]') {
+        return $Argument
+    }
+
+    $builder = New-Object System.Text.StringBuilder
+    [void]$builder.Append('"')
+    $slashes = 0
+
+    foreach ($ch in $Argument.ToCharArray()) {
+        if ($ch -eq '\') {
+            $slashes++
+            continue
+        }
+
+        if ($ch -eq '"') {
+            if ($slashes -gt 0) {
+                [void]$builder.Append(('\' * ($slashes * 2)))
+            }
+            [void]$builder.Append('\"')
+            $slashes = 0
+            continue
+        }
+
+        if ($slashes -gt 0) {
+            [void]$builder.Append(('\' * $slashes))
+            $slashes = 0
+        }
+
+        [void]$builder.Append($ch)
+    }
+
+    if ($slashes -gt 0) {
+        [void]$builder.Append(('\' * ($slashes * 2)))
+    }
+
+    [void]$builder.Append('"')
+    return $builder.ToString()
+}
+
+function Start-DotNetProcess {
+    param(
+        [Parameter(Mandatory)] [string[]]$Arguments,
+        [Parameter(Mandatory)] [string]$WorkingDirectory
+    )
+
+    $psi = New-Object System.Diagnostics.ProcessStartInfo
+    $psi.FileName = $script:DotNetPath
+    $psi.WorkingDirectory = $WorkingDirectory
+    $psi.UseShellExecute = $false
+    $psi.CreateNoWindow = $true
+    $psi.RedirectStandardOutput = $true
+    $psi.RedirectStandardError = $true
+
+    if ($psi.PSObject.Properties.Name -contains 'ArgumentList') {
+        foreach ($arg in $Arguments) {
+            [void]$psi.ArgumentList.Add([string]$arg)
+        }
+    } else {
+        $psi.Arguments = (($Arguments | ForEach-Object {
+            ConvertTo-CommandLineArgument ([string]$_)
+        }) -join ' ')
+    }
+
+    $process = New-Object System.Diagnostics.Process
+    $process.StartInfo = $psi
+
+    if (-not $process.Start()) {
+        $process.Dispose()
+        throw 'Failed to start dotnet.'
+    }
+
+    return [pscustomobject]@{
+        Process    = $process
+        StdOutTask = $process.StandardOutput.ReadToEndAsync()
+        StdErrTask = $process.StandardError.ReadToEndAsync()
+    }
+}
+
+function Finish-PublishJob {
+    param([Parameter(Mandatory)] $Job)
+
+    if ($Job.Status -ne 'Building') {
+        return
+    }
+
+    while (-not $Job.Process.WaitForExit(1000)) {
+        Write-Heartbeat @($Job)
+    }
+    $Job.Process.WaitForExit()
+
+    $Job.StdOut = [string]$Job.StdOutTask.GetAwaiter().GetResult()
+    $Job.StdErr = [string]$Job.StdErrTask.GetAwaiter().GetResult()
+    $Job.CapturedOutput = $Job.StdOut + [Environment]::NewLine + $Job.StdErr
+
+    $Job.EndTime = Get-Date
+    $exitCode = $Job.Process.ExitCode
+
+    if ($exitCode -ne 0) {
+        $Job.Failure = "dotnet publish exited with code $exitCode"
+        $Job.Status = 'Failed'
+    }
+    elseif (-not (Test-Path -LiteralPath $Job.Expected -PathType Leaf)) {
+        $Job.Failure = "Publish completed, but the expected executable was not created: $($Job.Expected)"
+        $Job.Status = 'Failed'
+    }
+    else {
+        $Job.Status = 'Done'
+    }
+
+    $elapsed = [int](New-TimeSpan -Start $Job.StartTime -End $Job.EndTime).TotalSeconds
+    $color = if ($Job.Status -eq 'Done') { 'Green' } else { 'Red' }
+    Write-Host "  $($Job.Target.Name): $($Job.Status) (${elapsed}s)" -ForegroundColor $color
+}
+
+function Restart-PublishJob {
+    param([Parameter(Mandatory)] $Job)
+
+    try { $Job.Process.Dispose() } catch { }
+    Reset-OutputDirectory $Job.Target.OutDir
+    $started = Start-DotNetProcess -Arguments $Job.Arguments -WorkingDirectory $Root
+    $Job.Retried = $true
+    $Job.Process = $started.Process
+    $Job.StdOutTask = $started.StdOutTask
+    $Job.StdErrTask = $started.StdErrTask
+    $Job.StartTime = Get-Date
+    $Job.EndTime = $null
+    $Job.Failure = $null
+    $Job.CapturedOutput = ''
+    $Job.StdOut = ''
+    $Job.StdErr = ''
+    $Job.Status = 'Building'
+}
+
+function Show-PublishFailure {
+    param([Parameter(Mandatory)] $Job)
+
+    Write-Host "$($Job.Target.Name) errors:" -ForegroundColor Red
+
+    if ($Job.Failure) {
+        Write-Host $Job.Failure
+    }
+
+    $errorLines = @()
+
+    if (-not [string]::IsNullOrWhiteSpace($Job.StdErr)) {
+        $errorLines += @(($Job.StdErr -split '\r?\n') | Select-Object -Last 30)
+    }
+
+    if (-not [string]::IsNullOrWhiteSpace($Job.StdOut)) {
+        $errorLines += @(($Job.StdOut -split '\r?\n' | Select-Object -Last 80) |
+            Where-Object { $_ -match '(?i)\berror\b|NETSDK\d+|MSB\d+' })
+    }
+
+    if ($errorLines.Count -gt 0) {
+        $errorLines | Select-Object -Unique | ForEach-Object { Write-Host $_ }
+    } else {
+        Write-Host 'No additional error text was written by dotnet.' -ForegroundColor DarkGray
+    }
+
+    Write-Host ''
+}
+
+function Get-VoidstrapVersion {
+    $props = Join-Path $Root 'Directory.Build.props'
+    if (-not (Test-Path -LiteralPath $props -PathType Leaf)) {
+        throw "Directory.Build.props was not found: $props"
+    }
+    $match = [regex]::Match((Get-Content -Raw -LiteralPath $props), '<VoidstrapVersion>([^<]+)</VoidstrapVersion>')
+    if (-not $match.Success) {
+        throw 'The Voidstrap package version is unavailable.'
+    }
+    return $match.Groups[1].Value
+}
+
+function Resolve-SignPathSource {
+    param(
+        [Parameter(Mandatory)] [string]$Version
+    )
+
+    if ($Version -notmatch '\A\d+\.\d+\.\d+\.\d+\z') {
+        throw 'SignPath requires a four-part release version.'
+    }
+
+    $tag = "v$Version"
+    $origin = (& git -C $Root remote get-url origin 2>$null | Out-String).Trim()
+    if ($LASTEXITCODE -ne 0 -or $origin -notmatch '(?i)github\.com[:/]KloBraticc/Voidstrap(?:\.git)?\z') {
+        throw 'SignPath requires the repository origin to be KloBraticc/Voidstrap on GitHub.'
+    }
+
+    $status = @(& git -C $Root status --porcelain --untracked-files=all)
+    if ($LASTEXITCODE -ne 0) {
+        throw 'Git could not verify the local source state for signing.'
+    }
+    if ($status.Count -gt 0) {
+        throw 'SignPath signing requires a clean working tree so the signed GitHub build matches this local build.'
+    }
+
+    $head = (& git -C $Root rev-parse HEAD 2>$null | Out-String).Trim()
+    if ($LASTEXITCODE -ne 0 -or $head -notmatch '\A[0-9a-f]{40}\z') {
+        throw 'Git could not resolve the current commit for signing.'
+    }
+
+    $tagRef = "refs/tags/$tag"
+    $remoteTagLines = @(& git -C $Root ls-remote --tags origin $tagRef "$tagRef^{}" 2>$null)
+    if ($LASTEXITCODE -ne 0) {
+        throw 'Git could not verify the release tag on origin.'
+    }
+    $remoteTags = @{}
+    foreach ($line in $remoteTagLines) {
+        $parts = ([string]$line) -split '\s+', 2
+        if ($parts.Count -eq 2) { $remoteTags[$parts[1]] = $parts[0] }
+    }
+    $peeledTagRef = "$tagRef^{}"
+    $tagCommit = if ($remoteTags.ContainsKey($peeledTagRef)) {
+        $remoteTags[$peeledTagRef]
+    } elseif ($remoteTags.ContainsKey($tagRef)) {
+        $remoteTags[$tagRef]
+    } else {
+        $null
+    }
+    if (-not $tagCommit) {
+        throw "Release tag $tag is not pushed to origin. Push the tag before requesting a trusted SignPath build."
+    }
+    if ($tagCommit -ne $head) {
+        throw "Release tag $tag does not point to the current commit. The local and GitHub builds would differ."
+    }
+
+    $gh = Get-Command gh -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1
+    if (-not $gh) {
+        throw 'GitHub CLI (gh) is required to request trusted SignPath signing.'
+    }
+    & $gh.Source auth status --hostname github.com 2>&1 | Out-Null
+    if ($LASTEXITCODE -ne 0) {
+        throw 'SignPath signing requires an authenticated GitHub CLI session.'
+    }
+
+    return [pscustomobject]@{ Version = $Version; Tag = $tag; Head = $head; GhPath = $gh.Source }
+}
+
+function Invoke-SignPathWindows {
+    param(
+        [Parameter(Mandatory)] $Context,
+        [Parameter(Mandatory)] [string]$OutputPath
+    )
+
+    $Version = $Context.Version
+    $tag = $Context.Tag
+    $ghPath = $Context.GhPath
+
+    $requestId = [guid]::NewGuid().ToString('N')
+    $runName = "Sign Voidstrap $tag $requestId"
+    Write-Host "  Requesting trusted GitHub signing for $tag..." -ForegroundColor DarkGray
+    & $ghPath workflow run windows-release-signing.yml --repo KloBraticc/Voidstrap --ref main -f "tag=$tag" -f "request-id=$requestId" 2>&1 | Out-Null
     if ($LASTEXITCODE -ne 0) {
         throw 'GitHub Actions could not start the SignPath signing workflow. Check GitHub CLI authentication and workflow availability.'
     }
