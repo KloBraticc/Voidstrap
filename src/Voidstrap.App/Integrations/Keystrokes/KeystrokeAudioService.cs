@@ -59,27 +59,31 @@ public static class KeystrokeAudioService
         }
     }
 
-    public static void PlayKeySound()
+    public static void PlayKeySound() => PlayKeyboardPress(false);
+
+    public static void PlayMouseSound() => PlayMousePress(false);
+
+    public static void PlayKeyboardPress(bool force = false)
     {
         var settings = App.Settings.Prop;
-        if (!settings.KeystrokesKeyboardSound)
+        if (!force && !settings.KeystrokesKeyboardSound)
             return;
 
         string pack = settings.KeystrokesKeyboardSoundPack ?? "Mechanical";
         string customPath = settings.KeystrokesKeyboardCustomWav;
-        double volume = Math.Clamp(settings.KeystrokesKeyboardVolume, 0.0, 1.0);
+        double volume = Math.Clamp(settings.KeystrokesKeyboardVolume, 0.05, 1.0);
         Play(pack, customPath, volume);
     }
 
-    public static void PlayMouseSound()
+    public static void PlayMousePress(bool force = false)
     {
         var settings = App.Settings.Prop;
-        if (!settings.KeystrokesMouseSound)
+        if (!force && !settings.KeystrokesMouseSound)
             return;
 
         string pack = settings.KeystrokesMouseSoundPack ?? "Crisp";
         string customPath = settings.KeystrokesMouseCustomWav;
-        double volume = Math.Clamp(settings.KeystrokesMouseVolume, 0.0, 1.0);
+        double volume = Math.Clamp(settings.KeystrokesMouseVolume, 0.05, 1.0);
         Play(pack, customPath, volume);
     }
 

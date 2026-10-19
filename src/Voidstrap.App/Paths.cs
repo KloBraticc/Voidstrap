@@ -206,6 +206,8 @@ internal static class Paths
 
 	public static string CustomThemes { get; private set; } = "";
 
+	public static string CustomKeystrokeThemes { get; private set; } = "";
+
 	public static string CustomCursors { get; private set; } = "";
 
 	public static string CustomThemeXaml { get; private set; } = "";
@@ -344,6 +346,7 @@ internal static class Paths
 		SavedBackups = Path.Combine(Backups, "FlagProfiles");
 		AccountBackups = Path.Combine(Backups, "Accounts");
 		CustomThemes = Path.Combine(Themes, "Custom");
+		CustomKeystrokeThemes = Path.Combine(Themes, "Keystrokes");
 		CustomCursors = Path.Combine(Themes, "Cursors");
 		CustomThemeXaml = Path.Combine(Themes, "Custom.xaml");
 		EditorTheme = Path.Combine(Themes, "Editor-Theme-Custom.xshd");
@@ -452,6 +455,7 @@ internal static class Paths
 		EnsureDirectoryExists(Mods);
 		EnsureDirectoryExists(SavedBackups);
 		EnsureDirectoryExists(CustomThemes);
+		EnsureDirectoryExists(CustomKeystrokeThemes);
 		EnsureDirectoryExists(RiShade);
 	}
 	private const string DataFormatVersion = "1.1.0.6";

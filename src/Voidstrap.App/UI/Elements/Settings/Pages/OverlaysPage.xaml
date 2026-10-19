@@ -89,6 +89,106 @@
         </HeaderedContentControl.Header>
         <StackPanel>
           <ui:InfoBar Margin="0,0,0,12" Padding="8" Severity="Warning" IsClosable="False" IsOpen="True" Message="{resources:Loc Ui_Keystrokes_LinuxInputNotice}" Visibility="{Binding KeystrokesLinuxInputNoticeVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
+
+          <controls:OptionControl Header="{resources:Loc Ui_Keystrokes_Theme}" Description="{resources:Loc Ui_Keystrokes_ThemeDescription}">
+            <StackPanel Orientation="Horizontal">
+              <ComboBox MinWidth="210" Padding="10,5" ItemsSource="{Binding KeystrokeThemeOptions}" SelectedItem="{Binding SelectedKeystrokeTheme, Mode=TwoWay}" />
+              <ui:Button Margin="8,0,0,0" Icon="Play24" Content="{resources:Loc CustomTheme_Editor_Preview}" VerticalAlignment="Center" Command="{Binding PreviewKeystrokesCommand}" />
+            </StackPanel>
+          </controls:OptionControl>
+
+          <controls:OptionControl Header="{resources:Loc Ui_Keystrokes_Size}" Description="{resources:Loc Ui_Keystrokes_SizeDescription}">
+            <ComboBox MinWidth="150" Padding="10,5" ItemsSource="{Binding KeystrokesScalePresets}" SelectedItem="{Binding SelectedKeystrokesScalePreset, Mode=TwoWay}" />
+          </controls:OptionControl>
+
+          <Grid Margin="0,8,0,12">
+            <ui:CardExpander Style="{StaticResource NoUserExpansionCardExpanderStyle}" IsExpanded="True">
+              <HeaderedContentControl.Header>
+                <StackPanel>
+                  <TextBlock FontSize="14" Text="{resources:Loc Ui_Keystrokes_ThemeCreator}" />
+                  <TextBlock Margin="0,2,0,0" FontSize="12" Text="{resources:Loc Ui_Keystrokes_ThemeCreatorDescription}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                </StackPanel>
+              </HeaderedContentControl.Header>
+              <Grid>
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="*" />
+                  <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="250" />
+                  <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <ListBox Name="CustomKeystrokeThemesListBox" Height="220" Grid.Row="0" Grid.Column="0" Margin="0,0,5,0" ItemsSource="{Binding CustomKeystrokeThemes, Mode=OneWay}" SelectedIndex="{Binding SelectedCustomKeystrokeThemeIndex, Mode=TwoWay}" />
+
+                <Grid Grid.Row="1" Grid.Column="0" Margin="0,8,5,0">
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="*" />
+                  </Grid.ColumnDefinitions>
+                  <ui:Button Grid.Column="0" Margin="0,0,4,0" Icon="Add24" Content="{resources:Loc Ui_Appearance_NewTheme}" Appearance="Primary" HorizontalAlignment="Stretch" Command="{Binding AddCustomKeystrokeThemeCommand, Mode=OneTime}" />
+                  <ui:Button Grid.Column="1" Margin="4,0,0,0" Icon="Delete24" Content="{resources:Loc Common_Delete}" Appearance="Danger" HorizontalAlignment="Stretch" IsEnabled="{Binding IsCustomKeystrokeThemeSelected, Mode=OneWay}" Command="{Binding DeleteCustomKeystrokeThemeCommand, Mode=OneTime}" />
+                </Grid>
+
+                <StackPanel Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Margin="8,0,0,0">
+                  <StackPanel.Style>
+                    <Style TargetType="StackPanel">
+                      <Setter Property="Visibility" Value="Visible" />
+                      <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsCustomKeystrokeThemeSelected}" Value="False">
+                          <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                      </Style.Triggers>
+                    </Style>
+                  </StackPanel.Style>
+
+                  <TextBlock Text="{resources:Loc Ui_Appearance_ThemeName}" FontWeight="SemiBold" />
+                  <Grid Margin="0,5,0,0">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <ui:TextBox Grid.Column="0" Text="{Binding SelectedCustomKeystrokeThemeName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                    <ui:Button Grid.Column="1" Margin="8,0,0,0" Icon="Save24" Content="{resources:Loc Ui_Appearance_SaveName}" Command="{Binding RenameCustomKeystrokeThemeCommand, Mode=OneTime}" />
+                  </Grid>
+
+                  <Grid Margin="0,12,0,0">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <ui:Button Grid.Column="0" Margin="0,0,4,0" Icon="DesktopEdit24" Content="{resources:Loc Ui_Appearance_OpenEditor}" Appearance="Primary" HorizontalAlignment="Stretch" Command="{Binding EditCustomKeystrokeThemeCommand, Mode=OneTime}" />
+                    <ui:Button Grid.Column="1" Margin="4,0,0,0" Icon="Play24" Content="{resources:Loc CustomTheme_Editor_Preview}" HorizontalAlignment="Stretch" Command="{Binding PreviewKeystrokesCommand}" />
+                  </Grid>
+
+                  <Expander Margin="0,10,0,0" Header="{resources:Loc Ui_Appearance_MoreActions}" IsExpanded="False">
+                    <Grid Margin="0,8,0,0">
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                      </Grid.ColumnDefinitions>
+                      <ui:Button Grid.Column="0" Margin="0,0,4,0" Icon="ImageMultiple24" Content="{resources:Loc Ui_Appearance_ViewFiles}" HorizontalAlignment="Stretch" Command="{Binding ViewCustomKeystrokeThemeFilesCommand, Mode=OneTime}" />
+                      <ui:Button Grid.Column="1" Margin="4,0,0,0" Icon="ArrowExportRtl24" Content="{resources:Loc Common_Export}" HorizontalAlignment="Stretch" Command="{Binding ExportCustomKeystrokeThemeCommand, Mode=OneTime}" />
+                    </Grid>
+                  </Expander>
+                </StackPanel>
+
+                <TextBlock Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Margin="8,0,0,0" Text="{resources:Loc Ui_Appearance_SelectThemeHint}" TextWrapping="Wrap" TextAlignment="Center" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}">
+                  <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                      <Setter Property="Visibility" Value="Visible" />
+                      <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsCustomKeystrokeThemeSelected}" Value="True">
+                          <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                      </Style.Triggers>
+                    </Style>
+                  </TextBlock.Style>
+                </TextBlock>
+              </Grid>
+            </ui:CardExpander>
+          </Grid>
+
           <controls:OptionControl Header="{resources:Loc Ui_Keystrokes_ShowKeys}" Description="{resources:Loc Ui_Keystrokes_ShowKeysHint}">
             <ui:ToggleSwitch IsChecked="{Binding KeystrokesShowKeys, Mode=TwoWay}" />
           </controls:OptionControl>

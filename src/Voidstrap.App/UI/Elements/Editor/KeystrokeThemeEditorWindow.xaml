@@ -1,0 +1,354 @@
+<base:WpfUiWindow x:Class="Voidstrap.UI.Elements.Editor.KeystrokeThemeEditorWindow"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base"
+                  xmlns:resources="clr-namespace:Voidstrap.Resources"
+                  xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+                   Title="{resources:Loc Ui_Keystrokes_Editor_Title}" Width="980" Height="680"
+                   MinWidth="840" MinHeight="560" WindowStartupLocation="CenterScreen"
+                   ExtendsContentIntoTitleBar="True"
+                   Background="{ui:ThemeResource ApplicationBackgroundBrush}">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+
+    <ui:TitleBar x:Name="TitleBarControl" Icon="pack://application:,,,/Voidstrap.png"
+                 Title="{resources:Loc Ui_Keystrokes_Editor_Title}" Grid.Row="0" Padding="8" />
+
+    <Grid Grid.Row="1" Margin="16,4,16,8">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition Width="480" />
+        <ColumnDefinition Width="12" />
+        <ColumnDefinition Width="*" />
+      </Grid.ColumnDefinitions>
+
+      <TabControl Grid.Column="0" Margin="0">
+        <TabItem Header="{resources:Loc Ui_Keystrokes_Editor_ThemeControls}">
+          <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="0,8,8,0">
+            <StackPanel Orientation="Vertical">
+              <Border Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                      BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                      BorderThickness="1" CornerRadius="8" Padding="14" Margin="0,0,0,12">
+                <StackPanel>
+                  <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_ColorsAndBrushes}" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,10" />
+
+                  <Grid Margin="0,4">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_KeyBg}" VerticalAlignment="Center" />
+                    <Button x:Name="BtnKeyBg" Grid.Column="1" Width="110" Click="OnPickKeyBgClicked" />
+                  </Grid>
+
+                  <Grid Margin="0,4">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_KeyPressedBg}" VerticalAlignment="Center" />
+                    <Button x:Name="BtnKeyPressedBg" Grid.Column="1" Width="110" Click="OnPickKeyPressedBgClicked" />
+                  </Grid>
+
+                  <Grid Margin="0,4">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_KeyText}" VerticalAlignment="Center" />
+                    <Button x:Name="BtnKeyText" Grid.Column="1" Width="110" Click="OnPickKeyTextClicked" />
+                  </Grid>
+
+                  <Grid Margin="0,4">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_KeyPressedText}" VerticalAlignment="Center" />
+                    <Button x:Name="BtnKeyPressedText" Grid.Column="1" Width="110" Click="OnPickKeyPressedTextClicked" />
+                  </Grid>
+
+                  <Grid Margin="0,4">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_CpsText}" VerticalAlignment="Center" />
+                    <Button x:Name="BtnCpsText" Grid.Column="1" Width="110" Click="OnPickCpsTextClicked" />
+                  </Grid>
+
+                  <Grid Margin="0,4">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_KeyPressedCpsText}" VerticalAlignment="Center" />
+                    <Button x:Name="BtnKeyPressedCpsText" Grid.Column="1" Width="110" Click="OnPickKeyPressedCpsTextClicked" />
+                  </Grid>
+
+                  <Grid Margin="0,4">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_BorderColor}" VerticalAlignment="Center" />
+                    <Button x:Name="BtnBorderColor" Grid.Column="1" Width="110" Click="OnPickBorderColorClicked" />
+                  </Grid>
+
+                  <Grid Margin="0,4">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_GlowColor}" VerticalAlignment="Center" />
+                    <Button x:Name="BtnGlowColor" Grid.Column="1" Width="110" Click="OnPickGlowColorClicked" />
+                  </Grid>
+                </StackPanel>
+              </Border>
+
+              <Border Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                      BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                      BorderThickness="1" CornerRadius="8" Padding="14" Margin="0,0,0,12">
+                <StackPanel>
+                  <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_GeometryAndGlow}" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,10" />
+
+                  <Grid Margin="0,6">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="130" />
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="40" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_BorderThickness}" VerticalAlignment="Center" />
+                    <Slider x:Name="SliderBorderThickness" Grid.Column="1" Minimum="0" Maximum="4" TickFrequency="0.5" IsSnapToTickEnabled="True" VerticalAlignment="Center" ValueChanged="OnGeometryChanged" />
+                    <TextBlock x:Name="TextBorderThicknessVal" Grid.Column="2" TextAlignment="Right" VerticalAlignment="Center" />
+                  </Grid>
+
+                  <Grid Margin="0,6">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="130" />
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="40" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_CornerRadius}" VerticalAlignment="Center" />
+                    <Slider x:Name="SliderCornerRadius" Grid.Column="1" Minimum="0" Maximum="20" TickFrequency="1" IsSnapToTickEnabled="True" VerticalAlignment="Center" ValueChanged="OnGeometryChanged" />
+                    <TextBlock x:Name="TextCornerRadiusVal" Grid.Column="2" TextAlignment="Right" VerticalAlignment="Center" />
+                  </Grid>
+
+                  <Grid Margin="0,6">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="130" />
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="40" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_GlowRadius}" VerticalAlignment="Center" />
+                    <Slider x:Name="SliderGlowRadius" Grid.Column="1" Minimum="0" Maximum="24" TickFrequency="1" IsSnapToTickEnabled="True" VerticalAlignment="Center" ValueChanged="OnGeometryChanged" />
+                    <TextBlock x:Name="TextGlowRadiusVal" Grid.Column="2" TextAlignment="Right" VerticalAlignment="Center" />
+                  </Grid>
+
+                  <Grid Margin="0,6">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="130" />
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="40" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_GlowOpacity}" VerticalAlignment="Center" />
+                    <Slider x:Name="SliderGlowOpacity" Grid.Column="1" Minimum="0" Maximum="100" TickFrequency="5" IsSnapToTickEnabled="True" VerticalAlignment="Center" ValueChanged="OnGeometryChanged" />
+                    <TextBlock x:Name="TextGlowOpacityVal" Grid.Column="2" TextAlignment="Right" VerticalAlignment="Center" />
+                  </Grid>
+                </StackPanel>
+              </Border>
+
+              <Border Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                      BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                      BorderThickness="1" CornerRadius="8" Padding="14" Margin="0,0,0,12">
+                <StackPanel>
+                  <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_EffectsAndTypography}" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,10" />
+
+                  <Grid Margin="0,6">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_BackdropGlass}" VerticalAlignment="Center" />
+                    <ui:ToggleSwitch x:Name="ToggleGlass" Grid.Column="1" Click="OnToggleGlassChanged" />
+                  </Grid>
+
+                  <Grid Margin="0,6">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="130" />
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="40" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_PressSquashScale}" VerticalAlignment="Center" />
+                    <Slider x:Name="SliderPressScale" Grid.Column="1" Minimum="85" Maximum="105" TickFrequency="1" IsSnapToTickEnabled="True" VerticalAlignment="Center" ValueChanged="OnGeometryChanged" />
+                    <TextBlock x:Name="TextPressScaleVal" Grid.Column="2" TextAlignment="Right" VerticalAlignment="Center" />
+                  </Grid>
+
+                  <Grid Margin="0,6">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="130" />
+                      <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_FontFamily}" VerticalAlignment="Center" />
+                    <ComboBox x:Name="ComboFontFamily" Grid.Column="1" SelectionChanged="OnFontSelectionChanged" />
+                  </Grid>
+
+                  <Grid Margin="0,6">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="130" />
+                      <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_FontWeight}" VerticalAlignment="Center" />
+                    <ComboBox x:Name="ComboFontWeight" Grid.Column="1" SelectionChanged="OnFontSelectionChanged" />
+                  </Grid>
+                </StackPanel>
+              </Border>
+            </StackPanel>
+          </ScrollViewer>
+        </TabItem>
+        <TabItem Header="{resources:Loc Ui_Keystrokes_Editor_RawJson}">
+          <Grid Margin="4,8,4,4">
+            <Grid.RowDefinitions>
+              <RowDefinition Height="*" />
+              <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <TextBox x:Name="RawJsonTextBox" FontFamily="Cascadia Mono, Consolas, Courier New"
+                     FontSize="12" AcceptsReturn="True" TextWrapping="NoWrap"
+                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" />
+            <ui:Button Grid.Row="1" Margin="0,8,0,0" Content="{resources:Loc Ui_Keystrokes_Editor_ApplyRawJson}"
+                       Appearance="Primary" HorizontalAlignment="Right" Click="OnApplyJsonClicked" />
+          </Grid>
+        </TabItem>
+      </TabControl>
+
+      <Border Grid.Column="2" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+              BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+              BorderThickness="1" CornerRadius="8" Padding="16">
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+
+          <StackPanel Grid.Row="0" Margin="0,0,0,16">
+            <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_InteractivePreview}" FontSize="16" FontWeight="SemiBold" />
+            <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_PreviewHint}"
+                       FontSize="12" Margin="0,2,0,0"
+                       Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+          </StackPanel>
+
+          <Border Grid.Row="1" Background="#141416" CornerRadius="8"
+                  BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" BorderThickness="1"
+                  Padding="20" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+            <Viewbox MaxWidth="360" MaxHeight="300" HorizontalAlignment="Center" VerticalAlignment="Center">
+              <StackPanel x:Name="PreviewContainer" Orientation="Vertical">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,3">
+                  <Border x:Name="PreviewKeyW" Width="46" Height="46" CornerRadius="8" BorderThickness="1"
+                          Cursor="Hand" MouseDown="OnKeyMouseDown" MouseUp="OnKeyMouseUp" Tag="W">
+                    <Grid>
+                      <Border x:Name="PreviewHighlightW" Opacity="0" />
+                      <TextBlock x:Name="PreviewTextW" Text="W" FontSize="15" FontWeight="SemiBold"
+                                 HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Grid>
+                  </Border>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,3">
+                  <Border x:Name="PreviewKeyA" Width="46" Height="46" CornerRadius="8" BorderThickness="1" Margin="0,0,3,0"
+                          Cursor="Hand" MouseDown="OnKeyMouseDown" MouseUp="OnKeyMouseUp" Tag="A">
+                    <Grid>
+                      <Border x:Name="PreviewHighlightA" Opacity="0" />
+                      <TextBlock x:Name="PreviewTextA" Text="A" FontSize="15" FontWeight="SemiBold"
+                                 HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Grid>
+                  </Border>
+                  <Border x:Name="PreviewKeyS" Width="46" Height="46" CornerRadius="8" BorderThickness="1" Margin="0,0,3,0"
+                          Cursor="Hand" MouseDown="OnKeyMouseDown" MouseUp="OnKeyMouseUp" Tag="S">
+                    <Grid>
+                      <Border x:Name="PreviewHighlightS" Opacity="0" />
+                      <TextBlock x:Name="PreviewTextS" Text="S" FontSize="15" FontWeight="SemiBold"
+                                 HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Grid>
+                  </Border>
+                  <Border x:Name="PreviewKeyD" Width="46" Height="46" CornerRadius="8" BorderThickness="1"
+                          Cursor="Hand" MouseDown="OnKeyMouseDown" MouseUp="OnKeyMouseUp" Tag="D">
+                    <Grid>
+                      <Border x:Name="PreviewHighlightD" Opacity="0" />
+                      <TextBlock x:Name="PreviewTextD" Text="D" FontSize="15" FontWeight="SemiBold"
+                                 HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Grid>
+                  </Border>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,3">
+                  <Border x:Name="PreviewKeyLmb" Width="71" Height="46" CornerRadius="8" BorderThickness="1" Margin="0,0,3,0"
+                          Cursor="Hand" MouseDown="OnKeyMouseDown" MouseUp="OnKeyMouseUp" Tag="LMB">
+                    <Grid>
+                      <Border x:Name="PreviewHighlightLmb" Opacity="0" />
+                      <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock x:Name="PreviewTextLmb" Text="LMB" FontSize="13" FontWeight="SemiBold" HorizontalAlignment="Center" />
+                        <TextBlock x:Name="PreviewCpsLmb" Text="8 CPS" FontSize="10" HorizontalAlignment="Center" Margin="0,1,0,0" />
+                      </StackPanel>
+                    </Grid>
+                  </Border>
+                  <Border x:Name="PreviewKeyRmb" Width="71" Height="46" CornerRadius="8" BorderThickness="1"
+                          Cursor="Hand" MouseDown="OnKeyMouseDown" MouseUp="OnKeyMouseUp" Tag="RMB">
+                    <Grid>
+                      <Border x:Name="PreviewHighlightRmb" Opacity="0" />
+                      <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock x:Name="PreviewTextRmb" Text="RMB" FontSize="13" FontWeight="SemiBold" HorizontalAlignment="Center" />
+                        <TextBlock x:Name="PreviewCpsRmb" Text="6 CPS" FontSize="10" HorizontalAlignment="Center" Margin="0,1,0,0" />
+                      </StackPanel>
+                    </Grid>
+                  </Border>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                  <Border x:Name="PreviewKeyShift" Width="51" Height="34" CornerRadius="8" BorderThickness="1" Margin="0,0,3,0"
+                          Cursor="Hand" MouseDown="OnKeyMouseDown" MouseUp="OnKeyMouseUp" Tag="Shift">
+                    <Grid>
+                      <Border x:Name="PreviewHighlightShift" Opacity="0" />
+                      <TextBlock x:Name="PreviewTextShift" Text="SHIFT" FontSize="11" FontWeight="SemiBold"
+                                 HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Grid>
+                  </Border>
+                  <Border x:Name="PreviewKeySpace" Width="91" Height="34" CornerRadius="8" BorderThickness="1"
+                          Cursor="Hand" MouseDown="OnKeyMouseDown" MouseUp="OnKeyMouseUp" Tag="Space">
+                    <Grid>
+                      <Border x:Name="PreviewHighlightSpace" Opacity="0" />
+                      <TextBlock x:Name="PreviewTextSpace" Text="—" FontSize="14" FontWeight="SemiBold"
+                                 HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Grid>
+                  </Border>
+                </StackPanel>
+              </StackPanel>
+            </Viewbox>
+          </Border>
+
+          <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,14,0,0">
+            <ui:Button Icon="Play24" Content="{resources:Loc Ui_Keystrokes_Editor_TestSequence}" Appearance="Secondary"
+                       Click="OnTestSequenceClicked" Width="140" />
+          </StackPanel>
+        </Grid>
+      </Border>
+    </Grid>
+
+    <Border Grid.Row="2" Padding="16,12" Background="{DynamicResource PrimaryBackgroundColor}">
+      <Grid>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+          <ui:Button Icon="ArrowUndo24" Content="{resources:Loc Ui_Keystrokes_Editor_Revert}" Click="OnRevertClicked" />
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+          <ui:Button Icon="Save24" Content="{resources:Loc Common_Save}" Appearance="Primary"
+                     Click="OnSaveClicked" Width="110" />
+          <Button Content="{resources:Loc Common_Cancel}" Margin="8,0,0,0"
+                  Click="OnCloseClicked" Width="90" />
+        </StackPanel>
+      </Grid>
+    </Border>
+  </Grid>
+</base:WpfUiWindow>

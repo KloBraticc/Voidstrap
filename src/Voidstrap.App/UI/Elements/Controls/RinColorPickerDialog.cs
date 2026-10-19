@@ -16,9 +16,11 @@ public class RinColorPickerDialog : WpfUiWindow
 
 	public Color SelectedColor => _picker.SelectedColor;
 
+	public bool UseAccent { get; private set; }
+
 	internal RinColorPicker Picker => _picker;
 
-	public RinColorPickerDialog(Color? initial = null, bool alphaEnabled = false, string? title = null)
+	public RinColorPickerDialog(Color? initial = null, bool alphaEnabled = false, string? title = null, bool allowAccent = false)
 	{
 		Title = title ?? "Pick a colour";
 		SizeToContent = SizeToContent.WidthAndHeight;
@@ -59,6 +61,23 @@ public class RinColorPickerDialog : WpfUiWindow
 			HorizontalAlignment = HorizontalAlignment.Right,
 			Margin = new Thickness(0, 20, 0, 0)
 		};
+		if (allowAccent)
+		{
+			var accentBtn = new Button
+			{
+				Content = Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_UseAccent,
+				MinWidth = 120,
+				Margin = new Thickness(0, 0, 8, 0)
+			};
+			accentBtn.SetResourceReference(StyleProperty, typeof(Button));
+			accentBtn.Click += (s, e) =>
+			{
+				UseAccent = true;
+				DialogResult = true;
+				Close();
+			};
+			buttons.Children.Add(accentBtn);
+		}
 		buttons.Children.Add(ok);
 		buttons.Children.Add(cancel);
 

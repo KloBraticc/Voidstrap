@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Windows.Threading;
+using Voidstrap.Integrations.Keystrokes;
 using Voidstrap.Integrations.Overlays;
 using Voidstrap.Models.Persistable;
 using Voidstrap.Resources;
@@ -911,26 +912,49 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
 
     private static Border CreateKeyTile(string text, double width, double height)
     {
+        var theme = KeystrokeThemeManager.ActiveTheme;
         Border tile = new()
         {
             Width = width,
             Height = height,
-            CornerRadius = new CornerRadius(8),
-            BorderThickness = new Thickness(1)
+            CornerRadius = new CornerRadius(theme.KeyCornerRadius),
+            BorderThickness = new Thickness(theme.KeyBorderThickness),
+            Background = theme.GetKeyBackgroundBrush(),
+            BorderBrush = theme.GetKeyBorderBrush()
         };
-        tile.SetResourceReference(Border.BackgroundProperty, "CardBackgroundFillColorDefaultBrush");
-        tile.SetResourceReference(Border.BorderBrushProperty, "CardStrokeColorDefaultBrush");
+
+        if (theme.KeyGlowRadius > 0 && theme.KeyGlowOpacity > 0)
+        {
+            tile.Effect = new System.Windows.Media.Effects.DropShadowEffect
+            {
+                Color = theme.GetGlowColor(),
+                BlurRadius = theme.KeyGlowRadius,
+                Opacity = theme.KeyGlowOpacity,
+                ShadowDepth = 0
+            };
+        }
+
+        System.Windows.Media.FontFamily fontFamily = new(theme.FontFamily);
+        FontWeight fontWeight = theme.FontWeight switch
+        {
+            "Normal" => FontWeights.Normal,
+            "Medium" => FontWeights.Medium,
+            "Bold" => FontWeights.Bold,
+            "ExtraBold" => FontWeights.ExtraBold,
+            _ => FontWeights.SemiBold
+        };
 
         TextBlock tb = new()
         {
             Text = text,
             FontSize = text.Length > 2 ? 11.5 : 14,
-            FontWeight = FontWeights.SemiBold,
+            FontWeight = fontWeight,
+            FontFamily = fontFamily,
+            Foreground = theme.GetKeyTextBrush(),
             HorizontalAlignment = HorizontalAlignment.Center,
             VerticalAlignment = VerticalAlignment.Center,
             TextAlignment = TextAlignment.Center
         };
-        tb.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
         tile.Child = tb;
         return tile;
     }
@@ -941,8 +965,21 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         OverlayLayoutSettings layout = settings.OverlayLayout ?? new OverlayLayoutSettings();
 
         host.Opacity = layout.SafeKeystrokesOpacity;
-        double scale = layout.SafeKeystrokesScale * factor;
+        double presetFactor = settings.KeystrokesScalePreset switch
+        {
+            "Compact" => 0.80,
+            "Large" => 1.25,
+            _ => 1.00
+        };
+        double scale = layout.SafeKeystrokesScale * factor * presetFactor;
         host.LayoutTransform = Math.Abs(scale - 1.0) > 0.005 ? new ScaleTransform(scale, scale) : Transform.Identity;
+
+        var theme = KeystrokeThemeManager.ActiveTheme;
+        Brush bgBrush = theme.GetKeyBackgroundBrush();
+        Brush borderBrush = theme.GetKeyBorderBrush();
+        Brush textBrush = theme.GetKeyTextBrush();
+        CornerRadius cornerRadius = new(theme.KeyCornerRadius);
+        Thickness borderThickness = new(theme.KeyBorderThickness);
 
         if (host.Child is StackPanel root)
         {
@@ -956,6 +993,19 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
                         sp.Visibility = settings.KeystrokesShowMouseButtons ? Visibility.Visible : Visibility.Collapsed;
                     else if (tag == "rowBottom")
                         sp.Visibility = settings.KeystrokesShowSpaceAndShift ? Visibility.Visible : Visibility.Collapsed;
+
+                    foreach (UIElement keyChild in sp.Children)
+                    {
+                        if (keyChild is Border b)
+                        {
+                            b.Background = bgBrush;
+                            b.BorderBrush = borderBrush;
+                            b.BorderThickness = borderThickness;
+                            b.CornerRadius = cornerRadius;
+                            if (b.Child is TextBlock tb)
+                                tb.Foreground = textBrush;
+                        }
+                    }
                 }
             }
         }

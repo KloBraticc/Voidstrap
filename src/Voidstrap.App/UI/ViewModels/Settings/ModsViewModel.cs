@@ -33,6 +33,8 @@ using Voidstrap.UI.Elements.ContextMenu;
 using Voidstrap.UI.Elements.Settings.Pages;
 using Voidstrap.Utility;
 using Voidstrap.Integrations.Keystrokes;
+using Voidstrap.UI.Elements.Dialogs;
+using Voidstrap.UI.Elements.Editor;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.Shell;
@@ -1817,6 +1819,235 @@ public ICommand PickCursorColorCommand { get; }
 
 	public bool KeystrokesLinuxInputNoticeVisible =>
 		Voidstrap.Utility.Platform.IsLinux && !KeystrokeInputService.HasInputAccess;
+
+	public ObservableCollection<string> CustomKeystrokeThemes { get; } = new();
+	public ObservableCollection<string> KeystrokeThemeOptions { get; } = new();
+
+	public static readonly string[] KeystrokeScaleOptionList = ["Compact", "Normal", "Large"];
+	public IReadOnlyList<string> KeystrokesScalePresets => KeystrokeScaleOptionList;
+
+	public string SelectedKeystrokesScalePreset
+	{
+		get
+		{
+			string current = App.Settings.Prop.KeystrokesScalePreset ?? "Normal";
+			foreach (var opt in KeystrokeScaleOptionList)
+			{
+				if (string.Equals(opt, current, StringComparison.OrdinalIgnoreCase))
+					return opt;
+			}
+			return "Normal";
+		}
+		set
+		{
+			if (string.Equals(App.Settings.Prop.KeystrokesScalePreset, value, StringComparison.OrdinalIgnoreCase))
+				return;
+			App.Settings.Prop.KeystrokesScalePreset = value;
+			App.Settings.SaveDeferred();
+			OnPropertyChanged();
+			KeystrokeOverlayWindow.ActiveInstance?.RefreshConfiguration();
+		}
+	}
+
+	public string SelectedKeystrokeTheme
+	{
+		get
+		{
+			string t = App.Settings.Prop.KeystrokesThemeName ?? "Voidstrap (Default)";
+			foreach (var opt in KeystrokeThemeOptions)
+			{
+				if (string.Equals(opt, t, StringComparison.OrdinalIgnoreCase))
+					return opt;
+			}
+			return "Voidstrap (Default)";
+		}
+		set
+		{
+			if (string.Equals(App.Settings.Prop.KeystrokesThemeName, value, StringComparison.OrdinalIgnoreCase))
+				return;
+			App.Settings.Prop.KeystrokesThemeName = value;
+			App.Settings.SaveDeferred();
+			OnPropertyChanged();
+			KeystrokeThemeManager.NotifyThemeChanged();
+			KeystrokeOverlayWindow.ActiveInstance?.RefreshConfiguration();
+		}
+	}
+
+	private int _selectedCustomKeystrokeThemeIndex = -1;
+	public int SelectedCustomKeystrokeThemeIndex
+	{
+		get => _selectedCustomKeystrokeThemeIndex;
+		set
+		{
+			if (_selectedCustomKeystrokeThemeIndex == value)
+				return;
+			_selectedCustomKeystrokeThemeIndex = value;
+			OnPropertyChanged();
+			OnPropertyChanged(nameof(SelectedCustomKeystrokeTheme));
+			OnPropertyChanged(nameof(SelectedCustomKeystrokeThemeName));
+			OnPropertyChanged(nameof(IsCustomKeystrokeThemeSelected));
+		}
+	}
+
+	public string? SelectedCustomKeystrokeTheme =>
+		SelectedCustomKeystrokeThemeIndex >= 0 && SelectedCustomKeystrokeThemeIndex < CustomKeystrokeThemes.Count
+			? CustomKeystrokeThemes[SelectedCustomKeystrokeThemeIndex]
+			: null;
+
+	private string _selectedCustomKeystrokeThemeName = string.Empty;
+	public string SelectedCustomKeystrokeThemeName
+	{
+		get => SelectedCustomKeystrokeTheme ?? _selectedCustomKeystrokeThemeName;
+		set
+		{
+			_selectedCustomKeystrokeThemeName = value;
+			OnPropertyChanged();
+		}
+	}
+
+	public bool IsCustomKeystrokeThemeSelected => !string.IsNullOrWhiteSpace(SelectedCustomKeystrokeTheme);
+
+	public void PopulateKeystrokeThemes()
+	{
+		CustomKeystrokeThemes.Clear();
+		foreach (var t in KeystrokeThemeManager.GetCustomThemes())
+		{
+			CustomKeystrokeThemes.Add(t.Name);
+		}
+
+		KeystrokeThemeOptions.Clear();
+		foreach (var name in KeystrokeThemeManager.GetAllThemeNames())
+		{
+			KeystrokeThemeOptions.Add(name);
+		}
+
+		if (CustomKeystrokeThemes.Count > 0 && SelectedCustomKeystrokeThemeIndex < 0)
+			SelectedCustomKeystrokeThemeIndex = 0;
+
+		OnPropertyChanged(nameof(SelectedKeystrokeTheme));
+	}
+
+	public ICommand PreviewKeystrokesCommand => new RelayCommand(PreviewKeystrokes);
+	public ICommand AddCustomKeystrokeThemeCommand => new RelayCommand(AddCustomKeystrokeTheme);
+	public ICommand DeleteCustomKeystrokeThemeCommand => new RelayCommand(DeleteCustomKeystrokeTheme);
+	public ICommand RenameCustomKeystrokeThemeCommand => new RelayCommand(RenameCustomKeystrokeTheme);
+	public ICommand EditCustomKeystrokeThemeCommand => new RelayCommand(EditCustomKeystrokeTheme);
+	public ICommand ViewCustomKeystrokeThemeFilesCommand => new RelayCommand(ViewCustomKeystrokeThemeFiles);
+	public ICommand ExportCustomKeystrokeThemeCommand => new RelayCommand(ExportCustomKeystrokeTheme);
+
+	private void PreviewKeystrokes()
+	{
+		string theme = SelectedCustomKeystrokeTheme ?? SelectedKeystrokeTheme;
+		var window = new KeystrokePreviewWindow(theme);
+		window.ShowOwnedDialog();
+	}
+
+	private void AddCustomKeystrokeTheme()
+	{
+		var dlg = new AddKeystrokeThemeDialog();
+		dlg.ShowOwnedDialog();
+		if (dlg.Created)
+		{
+			PopulateKeystrokeThemes();
+			SelectedKeystrokeTheme = dlg.ThemeName;
+			int idx = CustomKeystrokeThemes.IndexOf(dlg.ThemeName);
+			if (idx >= 0)
+				SelectedCustomKeystrokeThemeIndex = idx;
+
+			if (dlg.OpenEditor)
+			{
+				EditCustomKeystrokeTheme();
+			}
+		}
+	}
+
+	private void DeleteCustomKeystrokeTheme()
+	{
+		string? theme = SelectedCustomKeystrokeTheme;
+		if (string.IsNullOrWhiteSpace(theme))
+			return;
+
+		if (Frontend.ShowMessageBox(string.Format(Voidstrap.Resources.Strings.Ui_Keystrokes_DeleteConfirm, theme), MessageBoxImage.Question, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
+			return;
+
+		KeystrokeThemeManager.DeleteCustomTheme(theme);
+		PopulateKeystrokeThemes();
+	}
+
+	private void RenameCustomKeystrokeTheme()
+	{
+		string? oldName = SelectedCustomKeystrokeTheme;
+		if (string.IsNullOrWhiteSpace(oldName))
+			return;
+
+		string newName = SelectedCustomKeystrokeThemeName.Trim();
+		if (string.IsNullOrWhiteSpace(newName))
+		{
+			Frontend.ShowMessageBox(Voidstrap.Resources.Strings.Ui_Keystrokes_AddTheme_ErrorEmpty, MessageBoxImage.Hand);
+			return;
+		}
+
+		if (string.Equals(oldName, newName, StringComparison.OrdinalIgnoreCase))
+			return;
+
+		if (!KeystrokeThemeManager.RenameCustomTheme(oldName, newName))
+		{
+			Frontend.ShowMessageBox(Voidstrap.Resources.Strings.Ui_Keystrokes_RenameError, MessageBoxImage.Hand);
+			return;
+		}
+
+		PopulateKeystrokeThemes();
+		int idx = CustomKeystrokeThemes.IndexOf(newName);
+		if (idx >= 0)
+			SelectedCustomKeystrokeThemeIndex = idx;
+	}
+
+	private void EditCustomKeystrokeTheme()
+	{
+		string? theme = SelectedCustomKeystrokeTheme ?? SelectedKeystrokeTheme;
+		if (string.IsNullOrWhiteSpace(theme))
+			return;
+
+		var editor = new KeystrokeThemeEditorWindow(theme);
+		editor.ShowOwnedDialog();
+		PopulateKeystrokeThemes();
+		KeystrokeOverlayWindow.ActiveInstance?.RefreshConfiguration();
+	}
+
+	private void ViewCustomKeystrokeThemeFiles()
+	{
+		string? theme = SelectedCustomKeystrokeTheme;
+		if (string.IsNullOrWhiteSpace(theme))
+			return;
+
+		string dir = Path.Combine(Paths.CustomKeystrokeThemes, theme);
+		if (!Directory.Exists(dir))
+			Directory.CreateDirectory(dir);
+
+		Utilities.ShellExecute(dir);
+	}
+
+	private void ExportCustomKeystrokeTheme()
+	{
+		string? theme = SelectedCustomKeystrokeTheme;
+		if (string.IsNullOrWhiteSpace(theme))
+			return;
+
+		var sfd = new Microsoft.Win32.SaveFileDialog
+		{
+			FileName = $"{theme}.zip",
+			Filter = "Zip archive (*.zip)|*.zip|JSON theme (*.json)|*.json"
+		};
+
+		if (sfd.ShowDialog() == true)
+		{
+			KeystrokeThemeManager.ExportCustomTheme(theme, sfd.FileName);
+			if (Voidstrap.Utility.Platform.IsWindows)
+			{
+				Utilities.ShellExecute(Path.GetDirectoryName(sfd.FileName)!);
+			}
+		}
+	}
 
 	public string HomepageBackgroundOverlayColor
 	{
@@ -3648,6 +3879,7 @@ public ICommand PickCursorColorCommand { get; }
 		{
 			App.Logger?.WriteLine("ModsViewModel", "Could not load the crosshair settings: " + ex.Message);
 		}
+		PopulateKeystrokeThemes();
 		PickCursorColorCommand = new RelayCommand(delegate
 		{
 			PickColor(main: true);
