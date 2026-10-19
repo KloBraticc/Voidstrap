@@ -102,8 +102,10 @@ internal static partial class LinuxStartup
 			_backgroundHelper = true;
 			return;
 		}
+		EnsureStoreWrapperEnvironment();
 		if (IsConfiguredForThisProcess())
 		{
+			TextFontInstaller.EnsureRuntimeFallbacks();
 			_activeStage = NormaliseStage(Environment.GetEnvironmentVariable(GpuRetryFlag));
 			ApplyStageLibraries();
 			_supervised = Environment.GetEnvironmentVariable(SupervisedFlag) == "1";
@@ -172,6 +174,40 @@ internal static partial class LinuxStartup
 			}
 		}
 		return false;
+	}
+
+	private static void EnsureStoreWrapperEnvironment()
+	{
+		string? processPath = Environment.ProcessPath;
+		if (string.IsNullOrEmpty(processPath)
+			|| !LinuxAppImageHost.TryGetStorePackageRoot(processPath, out string packageRoot))
+		{
+			return;
+		}
+		string binPrefix = packageRoot + "/bin/";
+		if (processPath.StartsWith(binPrefix, StringComparison.Ordinal))
+		{
+			return;
+		}
+		string storePrefix = packageRoot.StartsWith("/gnu/store/", StringComparison.Ordinal) ? "/gnu/store/" : "/nix/store/";
+		string? libraryPath = Environment.GetEnvironmentVariable("LD_LIBRARY_PATH");
+		if (!string.IsNullOrEmpty(libraryPath) && libraryPath.Contains(storePrefix, StringComparison.Ordinal))
+		{
+			return;
+		}
+		if (!LinuxAppImageHost.TryGetStoreWrapperPath(processPath, out string wrapperPath))
+		{
+			return;
+		}
+		ProcessStartInfo startInfo = new(wrapperPath)
+		{
+			UseShellExecute = false
+		};
+		foreach (string argument in CurrentArguments())
+		{
+			startInfo.ArgumentList.Add(argument);
+		}
+		ReplaceProcess(startInfo);
 	}
 
 	private static bool IsConfiguredForThisProcess()
@@ -754,7 +790,7 @@ internal static partial class LinuxStartup
 
 	private static string? MesaEglVendorFile()
 	{
-		foreach (string directory in new[] { "/usr/share/glvnd/egl_vendor.d", "/etc/glvnd/egl_vendor.d" })
+		foreach (string directory in new[] { "/usr/share/glvnd/egl_vendor.d", "/etc/glvnd/egl_vendor.d", "/run/opengl-driver/share/glvnd/egl_vendor.d" })
 		{
 			try
 			{
@@ -774,7 +810,7 @@ internal static partial class LinuxStartup
 	private static string[] LavapipeDrivers()
 	{
 		List<string> drivers = [];
-		foreach (string directory in new[] { "/usr/share/vulkan/icd.d", "/etc/vulkan/icd.d", "/usr/local/share/vulkan/icd.d" })
+		foreach (string directory in new[] { "/usr/share/vulkan/icd.d", "/etc/vulkan/icd.d", "/usr/local/share/vulkan/icd.d", "/run/opengl-driver/share/vulkan/icd.d", "/run/opengl-driver-32/share/vulkan/icd.d" })
 		{
 			try
 			{

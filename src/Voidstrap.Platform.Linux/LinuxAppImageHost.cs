@@ -11,7 +11,83 @@ public static class LinuxAppImageHost
 
 	public static string ResolveApplicationPath(string fallbackPath)
 	{
-		return TryGetCurrentPath(out string appImagePath) ? appImagePath : fallbackPath;
+		if (TryGetCurrentPath(out string appImagePath))
+		{
+			return appImagePath;
+		}
+		if (TryGetStoreWrapperPath(fallbackPath, out string wrapperPath))
+		{
+			return wrapperPath;
+		}
+		return fallbackPath;
+	}
+
+	public static bool TryGetStoreWrapperPath(string? executablePath, out string wrapperPath)
+	{
+		wrapperPath = string.Empty;
+		if (!OperatingSystem.IsLinux() || string.IsNullOrWhiteSpace(executablePath))
+		{
+			return false;
+		}
+
+		try
+		{
+			string fullPath = Path.GetFullPath(executablePath);
+			if (!TryGetStorePackageRoot(fullPath, out string packageRoot))
+			{
+				return false;
+			}
+
+			string binDirectory = Path.Combine(packageRoot, "bin");
+			if (fullPath.StartsWith(binDirectory + Path.DirectorySeparatorChar, StringComparison.Ordinal) && File.Exists(fullPath))
+			{
+				wrapperPath = fullPath;
+				return true;
+			}
+
+			foreach (string name in new[] { "voidstrap", "Voidstrap", Path.GetFileName(fullPath) })
+			{
+				if (string.IsNullOrWhiteSpace(name))
+				{
+					continue;
+				}
+
+				string candidate = Path.Combine(binDirectory, name);
+				if (File.Exists(candidate))
+				{
+					wrapperPath = candidate;
+					return true;
+				}
+			}
+		}
+		catch
+		{
+		}
+
+		return false;
+	}
+
+	public static bool TryGetStorePackageRoot(string? path, out string packageRoot)
+	{
+		packageRoot = string.Empty;
+		if (string.IsNullOrWhiteSpace(path))
+		{
+			return false;
+		}
+
+		foreach (string prefix in new[] { "/nix/store/", "/gnu/store/" })
+		{
+			if (!path.StartsWith(prefix, StringComparison.Ordinal) || path.Length <= prefix.Length)
+			{
+				continue;
+			}
+
+			int slash = path.IndexOf('/', prefix.Length);
+			packageRoot = slash < 0 ? path : path[..slash];
+			return packageRoot.Length > prefix.Length;
+		}
+
+		return false;
 	}
 
 	public static bool TryGetCurrentPath(out string appImagePath)

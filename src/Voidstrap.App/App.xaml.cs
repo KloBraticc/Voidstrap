@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -789,6 +789,7 @@ public partial class App : Application
 		TryStartup("System clipboard", Voidstrap.UI.LinuxClipboardBridge.Install);
 		TryStartup("Font catalog order", Voidstrap.UI.LinuxFontCatalog.Install);
 		TryStartup("Text fallback", Voidstrap.UI.LinuxTextFallback.Install);
+		TryStartup("Application font", AppFont.Initialize);
 #if CROSSPLAT
 		TryStartup("Sober setup assist", Voidstrap.Integrations.SoberOnboarding.Install);
 #endif

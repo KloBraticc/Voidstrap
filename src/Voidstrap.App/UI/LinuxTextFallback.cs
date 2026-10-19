@@ -22,6 +22,8 @@ internal static class LinuxTextFallback
 
 	private static readonly string[] PreferredFamilies =
 	[
+		"Inter 18pt",
+		"Selawik",
 		"Noto Sans",
 		"DejaVu Sans",
 		"Noto Sans CJK SC",

@@ -503,7 +503,21 @@ internal static class LinuxDesktopEntry
 
 	private static string ResolvePackagedLauncher(string target)
 	{
-		foreach (string candidate in new[] { "/usr/bin/voidstrap", "/usr/local/bin/voidstrap" })
+		string resolvedTarget = target;
+		try
+		{
+			FileInfo targetInfo = new(target);
+			if (targetInfo.Exists)
+				resolvedTarget = Path.GetFullPath(targetInfo.ResolveLinkTarget(true)?.FullName ?? targetInfo.FullName);
+		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+		{
+		}
+
+		bool hasTargetPackage = LinuxAppImageHost.TryGetStorePackageRoot(resolvedTarget, out string targetPackage)
+			|| LinuxAppImageHost.TryGetStorePackageRoot(target, out targetPackage);
+
+		foreach (string candidate in PackagedLauncherCandidates())
 		{
 			try
 			{
@@ -511,8 +525,17 @@ internal static class LinuxDesktopEntry
 				if (!link.Exists)
 					continue;
 				string resolved = Path.GetFullPath(link.ResolveLinkTarget(true)?.FullName ?? link.FullName);
-				if (string.Equals(resolved, target, StringComparison.Ordinal))
+				if (string.Equals(resolved, target, StringComparison.Ordinal)
+					|| string.Equals(resolved, resolvedTarget, StringComparison.Ordinal))
+				{
 					return candidate;
+				}
+				if (hasTargetPackage
+					&& LinuxAppImageHost.TryGetStorePackageRoot(resolved, out string candidatePackage)
+					&& string.Equals(candidatePackage, targetPackage, StringComparison.Ordinal))
+				{
+					return candidate;
+				}
 			}
 			catch (IOException)
 			{
@@ -521,7 +544,37 @@ internal static class LinuxDesktopEntry
 			{
 			}
 		}
+
+		if (LinuxAppImageHost.TryGetStoreWrapperPath(target, out string wrapperPath))
+			return wrapperPath;
+
 		return target;
+	}
+
+	private static IEnumerable<string> PackagedLauncherCandidates()
+	{
+		string home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+		string user = Environment.UserName;
+		yield return "/run/current-system/sw/bin/voidstrap";
+		yield return "/run/current-system/sw/bin/Voidstrap";
+		if (!string.IsNullOrWhiteSpace(user))
+		{
+			yield return Path.Combine("/etc/profiles/per-user", user, "bin", "voidstrap");
+			yield return Path.Combine("/etc/profiles/per-user", user, "bin", "Voidstrap");
+		}
+		if (!string.IsNullOrWhiteSpace(home))
+		{
+			yield return Path.Combine(home, ".nix-profile", "bin", "voidstrap");
+			yield return Path.Combine(home, ".nix-profile", "bin", "Voidstrap");
+			yield return Path.Combine(home, ".local", "state", "nix", "profile", "bin", "voidstrap");
+			yield return Path.Combine(home, ".local", "state", "nix", "profile", "bin", "Voidstrap");
+			yield return Path.Combine(home, ".guix-profile", "bin", "voidstrap");
+			yield return Path.Combine(home, ".guix-profile", "bin", "Voidstrap");
+		}
+		yield return "/run/current-system/profile/bin/voidstrap";
+		yield return "/run/current-system/profile/bin/Voidstrap";
+		yield return "/usr/bin/voidstrap";
+		yield return "/usr/local/bin/voidstrap";
 	}
 
 	private static void RepairManagedShortcuts(string executablePath)
