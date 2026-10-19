@@ -11,6 +11,7 @@ on:
       - reopened
       - ready_for_review
       - closed
+  fork:
   issues:
     types:
       - opened
@@ -34,7 +35,6 @@ jobs:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           EVENT_NAME: ${{ github.event_name }}
           REPOSITORY: ${{ github.repository }}
-          REF_NAME: ${{ github.ref_name }}
           ACTOR: ${{ github.actor }}
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
@@ -78,28 +78,21 @@ jobs:
           link = None
 
           if event_name == "push":
-              ref_name = compact(os.environ["REF_NAME"])
               commits = event.get("commits") or []
               count = len(commits)
-              title = f"[{ref_name}] {count} new commit{'s' if count != 1 else ''}"
+              title = f"{count} new commit{'s' if count != 1 else ''}"
               rows = []
               for commit in commits[-8:]:
-                  sha = compact(commit.get("id", ""))
-                  message = compact(commit.get("message"))
-                  subject = (message.splitlines()[0] if message else "(no message)")[:280]
-                  author_data = commit.get("author") or {}
-                  author = compact(author_data.get("username") or author_data.get("name") or "unknown")[:80]
-                  if re.fullmatch(r"[0-9a-fA-F]{40}", sha):
-                      rows.append(f"[`{sha[:7]}`](https://github.com/{repository}/commit/{sha}) {subject} — {author}")
-                  else:
-                      rows.append(f"{subject} — {author}")
+                  sha = commit.get("id", "")
+                  if isinstance(sha, str) and re.fullmatch(r"[0-9a-fA-F]{40}", sha):
+                      rows.append(f"[`{sha[:7]}`](https://github.com/{repository}/commit/{sha})")
               if len(commits) > 8:
                   rows.append(f"And {len(commits) - 8} more commit(s)")
               if not commits:
-                  rows.append(f"Push to `{ref_name}` by {actor}")
+                  rows.append("Repository updated")
               description = "\n".join(rows)
               if event.get("forced"):
-                  title = f"[{ref_name}] Branch was force-pushed"
+                  title = "Branch force-pushed"
                   color = 0xED4245
                   before = event.get("before", "")
                   after = event.get("after", "")
@@ -107,37 +100,53 @@ jobs:
                       link = f"https://github.com/{repository}/compare/{before}...{after}"
           elif event_name in ("pull_request", "pull_request_target"):
               pull_request = event["pull_request"]
-              action = compact(event.get("action", "updated"))
+              action = event.get("action")
+              if action not in ("opened", "reopened", "ready_for_review", "closed"):
+                  action = "updated"
               if action == "closed" and pull_request.get("merged"):
                   action = "merged"
-              title = compact(pull_request.get("title"))
-              title = f"Pull request {action}: {title}"[:256]
+              title = f"Pull request {action.replace('_', ' ')}"
+              number = pull_request.get("number")
+              description = f"Pull request #{number}" if isinstance(number, int) else "Pull request activity"
               link = pull_request.get("html_url")
-              description = f"by {actor}"
           elif event_name == "issues":
               issue = event["issue"]
-              action = compact(event.get("action", "updated"))
-              title = compact(issue.get("title"))
-              title = f"Issue {action}: {title}"[:256]
+              action = event.get("action")
+              if action not in ("opened", "reopened", "closed"):
+                  action = "updated"
+              title = f"Issue {action}"
+              number = issue.get("number")
+              description = f"Issue #{number}" if isinstance(number, int) else "Issue activity"
               link = issue.get("html_url")
-              description = f"by {actor}"
+          elif event_name == "fork":
+              title = "Repository forked"
+              description = f"Forked by {actor}"
+              link = f"https://github.com/{repository}/network/members"
           elif event_name == "release":
-              release = event["release"]
-              title = compact(release.get("name") or release.get("tag_name"))
-              action = compact(event.get("action", "published"))
-              title = f"Release {action}: {title}"[:256]
-              link = release.get("html_url")
-              description = f"by {actor}"
+              action = event.get("action")
+              if action not in ("published", "prereleased"):
+                  action = "published"
+              title = f"Release {action}"
+              description = "A GitHub release was published."
+              link = f"https://github.com/{repository}/releases"
           elif event_name == "workflow_dispatch":
               title = "Discord webhook check"
               description = f"Requested by {actor}"
               link = os.environ["RUN_URL"]
           else:
-              title = f"{compact(event_name)} event by {actor}"[:256]
+              title = "GitHub repository activity"
               link = os.environ["RUN_URL"]
 
-          if link and not link.startswith(f"https://github.com/{repository}/"):
-              link = None
+          if link:
+              parsed_link = urllib.parse.urlsplit(link)
+              if (
+                  parsed_link.scheme != "https"
+                  or parsed_link.netloc != "github.com"
+                  or parsed_link.query
+                  or parsed_link.fragment
+                  or not parsed_link.path.startswith(f"/{repository}/")
+              ):
+                  link = None
           embed = {
               "author": {"name": actor[:256]},
               "title": title[:256],
@@ -177,11 +186,8 @@ jobs:
                   detail = json.loads(error.read().decode("utf-8"))
               except (UnicodeDecodeError, json.JSONDecodeError):
                   detail = {}
-              message = compact(detail.get("message"))[:120]
               reason = f"Discord webhook returned HTTP {error.code}"
-              if message:
-                  reason += f": {message}"
-              if "code" in detail:
+              if isinstance(detail.get("code"), int):
                   reason += f" (Discord code {detail['code']})"
               raise SystemExit(reason) from None
           except (urllib.error.URLError, TimeoutError):
