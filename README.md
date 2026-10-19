@@ -321,13 +321,13 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\publish-all.ps1 -Only wind
 
 Output: `PublishedBuilds\Windows\Voidstrap.exe`. Requires the [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0).
 
-On Windows, a normal Release publish signs `Voidstrap.exe` through the trusted GitHub Actions build. Add `SIGNPATH_API_TOKEN` as a repository Actions secret and run:
+On Windows, running `publish-all.ps1` with no arguments builds the default targets and signs the Release `Voidstrap.exe` through the trusted GitHub Actions build. Add `SIGNPATH_API_TOKEN` as a repository Actions secret, install and authenticate [GitHub CLI](https://cli.github.com/), and run from a clean checkout of the latest `main` commit:
 
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File .\publish-all.ps1 -Only windows -NoPause
+.\publish-all.ps1
 ```
 
-This requires GitHub CLI authentication and a clean checkout of the latest `main` commit. The script downloads the signed executable into `PublishedBuilds\Windows\Voidstrap.exe`; upload it to the GitHub release manually. SignPath uses its test certificate until the production certificate review is complete.
+The script downloads the signed executable into `PublishedBuilds\Windows\Voidstrap.exe`; upload it to the GitHub release manually. SignPath uses its test certificate until the production certificate review is complete. Each source change must be committed and pushed to `main` before signing so the trusted build matches the local checkout.
 
 </details>
 

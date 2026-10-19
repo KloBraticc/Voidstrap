@@ -1323,8 +1323,13 @@ function Invoke-SignPathWindows {
             throw "Unexpected signed Voidstrap metadata: ProductName='$($info.ProductName)', CompanyName='$($info.CompanyName)', OriginalFilename='$($info.OriginalFilename)', ProductVersion='$($info.ProductVersion)', FileVersion='$($info.FileVersion)'."
         }
         $signature = Get-AuthenticodeSignature -LiteralPath $signedExe
-        if ($null -eq $signature.SignerCertificate -or $signature.Status -notin @('Valid', 'NotTrusted')) {
-            throw 'The signed executable does not have a valid Authenticode signature.'
+        if ($signature.Status -eq 'UnknownError' -and $signature.StatusMessage -like '*root certificate which is not trusted by the trust provider*') {
+            $signer = [System.Security.Cryptography.X509Certificates.X509Certificate2]::new([System.Security.Cryptography.X509Certificates.X509Certificate]::CreateFromSignedFile($signedExe))
+            if ($signer.Thumbprint -ne '84913A32E5DBC03EDC416B4FD3B499DCBD52145E') {
+                throw 'The signed executable does not use the pinned SignPath test certificate.'
+            }
+        } elseif ($signature.Status -ne 'Valid') {
+            throw 'The signed executable does not have a trusted or pinned SignPath Authenticode signature.'
         }
 
         $signedHash = (Get-FileHash -LiteralPath $signedExe -Algorithm SHA256).Hash
