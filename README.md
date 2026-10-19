@@ -29,16 +29,16 @@
 </div>
 
 <h5 align="center">
-  Leave a star if you like the project! ⭐️
+  Leave a star if you like the project! â­ï¸
 </h5>
 
 <p align="center">
   <picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/windows-tile-dark.svg"><img src="assets/readme/windows-tile-light.svg" alt="Windows" width="32" height="32"/></picture>
-    
+  Â Â 
   <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/android/android-original.svg" alt="Android" width="32" height="32"/>
-    
+  Â Â 
   <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linux/linux-original.svg" alt="Linux" width="32" height="32"/>
-    
+  Â Â 
   <picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/macos-dark.svg"><img src="assets/readme/macos-light.svg" alt="macOS" width="32" height="32"/></picture>
 </p>
 
@@ -321,6 +321,14 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\publish-all.ps1 -Only wind
 
 Output: `PublishedBuilds\Windows\Voidstrap.exe`. Requires the [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0).
 
+To sign the Windows executable through the trusted GitHub Actions build, add `SIGNPATH_API_TOKEN` as a repository Actions secret and run:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File .\publish-all.ps1 -Only windows -SignWindowsWithSignPath -NoPause
+```
+
+This requires GitHub CLI authentication, a clean working tree, and a pushed `v<version>` tag pointing to the current commit. The script downloads the signed executable into `PublishedBuilds\Windows\Voidstrap.exe`; upload it to the GitHub release manually. SignPath uses its test certificate until the production certificate review is complete.
+
 </details>
 
 <details>
@@ -509,9 +517,9 @@ Voidstrap's own code is released under the [MIT License](LICENSE.VOIDSTRAP). Thi
 
 | Project | License | Copyright | File |
 | --- | --- | --- | --- |
-| Voidstrap | MIT | © 2026 Bratic | [LICENSE.VOIDSTRAP](LICENSE.VOIDSTRAP) |
-| Bloxstrap | MIT | © 2022 pizzaboxer | [LICENSE.BLOXSTRAP](LICENSE.BLOXSTRAP) |
-| Fishstrap | MIT | © 2025 returnrqt | [LICENSE.FISHSTRAP](LICENSE.FISHSTRAP) |
+| Voidstrap | MIT | Â© 2026 Bratic | [LICENSE.VOIDSTRAP](LICENSE.VOIDSTRAP) |
+| Bloxstrap | MIT | Â© 2022 pizzaboxer | [LICENSE.BLOXSTRAP](LICENSE.BLOXSTRAP) |
+| Fishstrap | MIT | Â© 2025 returnrqt | [LICENSE.FISHSTRAP](LICENSE.FISHSTRAP) |
 
 <details>
   <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/third-party-licenses-dark.svg"><img src="assets/readme/third-party-licenses-light.svg" alt="Third party licenses" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
@@ -689,3 +697,4 @@ The macOS virtual display helper implements the [AppleBlox VirtualDisplay approa
 [link-java]:              https://openjdk.org/
 [link-rust]:              https://www.rust-lang.org/
 [link-android]:           https://developer.android.com/
+
