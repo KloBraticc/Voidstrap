@@ -1,4 +1,4 @@
-﻿<base:WpfUiWindow x:Class="Voidstrap.UI.Elements.Settings.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:dmodels="clr-namespace:Voidstrap.UI.ViewModels.Settings" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:pages="clr-namespace:Voidstrap.UI.Elements.Settings.Pages" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:vscontrols="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:media="clr-namespace:System.Windows.Media.Animation;assembly=PresentationCore" xmlns:appUi="clr-namespace:Voidstrap.UI" xmlns:wpfconv="clr-namespace:Wpf.Ui.Converters;assembly=Wpf.Ui" Closed="WpfUiWindow_Closed" Closing="WpfUiWindow_Closing" Loaded="MainWindow_Loaded" PreviewMouseWheel="OnZoomWheel" Title="{resources:Loc Menu_Title}" Width="1071" Height="690" MinWidth="850" MinHeight="550" AllowsTransparency="False" Background="#00FFFFFF" ExtendsContentIntoTitleBar="True" WindowBackdropType="None" WindowStartupLocation="CenterScreen" UseLayoutRounding="True" SnapsToDevicePixels="True" mc:Ignorable="d" xmlns:settings="clr-namespace:Voidstrap.UI.Elements.Settings">
+<base:WpfUiWindow x:Class="Voidstrap.UI.Elements.Settings.MainWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:dmodels="clr-namespace:Voidstrap.UI.ViewModels.Settings" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:pages="clr-namespace:Voidstrap.UI.Elements.Settings.Pages" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:vscontrols="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:media="clr-namespace:System.Windows.Media.Animation;assembly=PresentationCore" xmlns:appUi="clr-namespace:Voidstrap.UI" xmlns:wpfconv="clr-namespace:Wpf.Ui.Converters;assembly=Wpf.Ui" Closed="WpfUiWindow_Closed" Closing="WpfUiWindow_Closing" Loaded="MainWindow_Loaded" PreviewMouseWheel="OnZoomWheel" Title="{resources:Loc Menu_Title}" Width="1071" Height="690" MinWidth="850" MinHeight="550" AllowsTransparency="False" Background="#00FFFFFF" ExtendsContentIntoTitleBar="True" WindowBackdropType="None" WindowStartupLocation="CenterScreen" UseLayoutRounding="True" SnapsToDevicePixels="True" mc:Ignorable="d" xmlns:settings="clr-namespace:Voidstrap.UI.Elements.Settings">
     
   <FrameworkElement.Resources>
     <ResourceDictionary>
@@ -846,43 +846,101 @@
         <ui:Button Height="30" Margin="10,0,0,0" Padding="12,0" Content="{resources:Loc Common_Reset}" Click="ZoomReset_Click" />
       </StackPanel>
     </Border>
-    <Border x:Name="StatusBarHost" Grid.Row="2" VerticalAlignment="Bottom" MinHeight="52" CornerRadius="0" Padding="16,0" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource ControlElevationBorderBrush}" Background="{ui:ThemeResource ControlFillColorDefaultBrush}">
-      <StatusBar Name="RootStatusBar" Padding="14,10" BorderThickness="0" Background="Transparent">
-        <ItemsControl.ItemsPanel>
-          <ItemsPanelTemplate>
-            <Grid>
-              <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="Auto" />
-              </Grid.ColumnDefinitions>
-            </Grid>
-          </ItemsPanelTemplate>
-        </ItemsControl.ItemsPanel>
-        <StatusBarItem Grid.Column="0" Margin="0,0,4,0">
-          <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-            <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" Foreground="{DynamicResource SystemAccentBrush}" AutomationProperties.Name="{resources:Loc Menu_TestMode}" IsChecked="{Binding TestModeEnabled, Mode=TwoWay}" />
-            <TextBlock Padding="10,0,0,0" VerticalAlignment="Center" FontSize="14" Text="{resources:Loc Menu_TestMode}" />
+    <Border x:Name="StatusBarHost" Grid.Row="2" VerticalAlignment="Bottom" MinHeight="52" CornerRadius="0" Padding="0" BorderThickness="0,1,0,0" BorderBrush="{DynamicResource ControlElevationBorderBrush}" Background="{ui:ThemeResource ControlFillColorDefaultBrush}">
+      <Grid>
+        <StatusBar Name="RootStatusBar" Padding="14,10" BorderThickness="0" Background="Transparent">
+          <ItemsControl.ItemsPanel>
+            <ItemsPanelTemplate>
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+              </Grid>
+            </ItemsPanelTemplate>
+          </ItemsControl.ItemsPanel>
+          <StatusBarItem Grid.Column="0" Margin="0,0,4,0">
+            <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+              <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" Foreground="{DynamicResource SystemAccentBrush}" AutomationProperties.Name="{resources:Loc Menu_TestMode}" IsChecked="{Binding TestModeEnabled, Mode=TwoWay}" />
+              <TextBlock Padding="10,0,0,0" VerticalAlignment="Center" FontSize="14" Text="{resources:Loc Menu_TestMode}" />
+            </StackPanel>
+          </StatusBarItem>
+          <StatusBarItem Grid.Column="2" Padding="0,0,8,0">
+            <ui:SplitButton Name="InstallLaunchButton" Height="{Binding ActualHeight, ElementName=FooterSaveButton}" MinHeight="0" HorizontalAlignment="Center"
+                            Background="{DynamicResource AccentFillColorPrimaryBrush}" Foreground="{DynamicResource TextOnAccentFillColorPrimaryBrush}"
+                            AutomationProperties.Name="{Binding Text, ElementName=LaunchActionText}"
+                            Command="{Binding SaveAndLaunchSettingsCommand, Mode=OneWay}">
+              <TextBlock x:Name="LaunchActionText" Text="{resources:Loc Installer_Install_Title}" />
+            </ui:SplitButton>
+          </StatusBarItem>
+          <StatusBarItem Grid.Column="3" Padding="0,0,8,0">
+            <ui:Button x:Name="FooterSaveButton" MinWidth="56.587" Appearance="Secondary" Content="{resources:Loc Menu_Save}" Command="{Binding SaveSettingsCommand, Mode=OneWay}" Click="Button_Click_1" />
+          </StatusBarItem>
+          <StatusBarItem Grid.Column="4" Padding="0">
+            <ui:Button x:Name="FooterCloseButton" MinWidth="56.587" Height="{Binding ActualHeight, ElementName=FooterSaveButton}" MinHeight="0" HorizontalAlignment="Center" Appearance="Secondary" Content="{resources:Loc Common_Close}" Command="{Binding CloseWindowCommand, Mode=OneTime}" Click="Button_Click_2" />
+          </StatusBarItem>
+        </StatusBar>
+        <Button x:Name="ManageModsButton"
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center"
+                Cursor="Hand"
+                Click="ManageModsButton_Click"
+                AutomationProperties.Name="{resources:Loc Ui_Main_ManageMods}">
+          <Button.Template>
+            <ControlTemplate TargetType="{x:Type Button}">
+              <Border x:Name="RootBorder"
+                      Padding="8,4"
+                      Background="Transparent"
+                      Opacity="0.72"
+                      SnapsToDevicePixels="True">
+                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+              </Border>
+              <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                  <Setter TargetName="RootBorder" Property="Opacity" Value="1" />
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                  <Setter TargetName="RootBorder" Property="Opacity" Value="0.85" />
+                </Trigger>
+              </ControlTemplate.Triggers>
+            </ControlTemplate>
+          </Button.Template>
+          <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+            <Path Width="15"
+                  Height="15"
+                  Margin="0,0,8,0"
+                  VerticalAlignment="Center"
+                  Stretch="Uniform"
+                  Fill="{DynamicResource TextFillColorPrimaryBrush}"
+                  Data="F0 M 2.5,0 L 13.5,0 A 2.5,2.5 0 0 1 16,2.5 L 16,13.5 A 2.5,2.5 0 0 1 13.5,16 L 2.5,16 A 2.5,2.5 0 0 1 0,13.5 L 0,2.5 A 2.5,2.5 0 0 1 2.5,0 Z M 7,2.5 L 7,6.2 L 4.6,6.2 L 8,9.8 L 11.4,6.2 L 9,6.2 L 9,2.5 Z M 3,10.2 L 3,13.5 L 13,13.5 L 13,10.2 L 11.3,10.2 L 11.3,11.9 L 4.7,11.9 L 4.7,10.2 Z" />
+            <TextBlock x:Name="ManageModsLabel"
+                       VerticalAlignment="Center"
+                       FontSize="13"
+                       FontWeight="Medium"
+                       Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                       Text="{resources:Loc Ui_Main_ManageMods}" />
+            <Border x:Name="ManageModsAppliedBadge"
+                    Margin="8,0,0,0"
+                    Padding="6,1"
+                    VerticalAlignment="Center"
+                    CornerRadius="4"
+                    Visibility="Collapsed"
+                    Background="{DynamicResource ControlFillColorSecondaryBrush}"
+                    BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}"
+                    BorderThickness="1">
+              <TextBlock x:Name="ManageModsAppliedText"
+                         VerticalAlignment="Center"
+                         FontSize="11.5"
+                         FontWeight="SemiBold"
+                         Foreground="{DynamicResource SystemAccentBrush}" />
+            </Border>
           </StackPanel>
-        </StatusBarItem>
-        <StatusBarItem Grid.Column="2" Padding="0,0,8,0">
-          <ui:SplitButton Name="InstallLaunchButton" Height="{Binding ActualHeight, ElementName=FooterSaveButton}" MinHeight="0" HorizontalAlignment="Center"
-                          Background="{DynamicResource AccentFillColorPrimaryBrush}" Foreground="{DynamicResource TextOnAccentFillColorPrimaryBrush}"
-                          AutomationProperties.Name="{Binding Text, ElementName=LaunchActionText}"
-                          Command="{Binding SaveAndLaunchSettingsCommand, Mode=OneWay}">
-            <TextBlock x:Name="LaunchActionText" Text="{resources:Loc Installer_Install_Title}" />
-          </ui:SplitButton>
-        </StatusBarItem>
-        <StatusBarItem Grid.Column="3" Padding="0,0,9,0">
-		  <ui:Button x:Name="FooterSaveButton" MinWidth="56.587" Appearance="Secondary" Content="{resources:Loc Menu_Save}" Command="{Binding SaveSettingsCommand, Mode=OneWay}" Click="Button_Click_1" />
-        </StatusBarItem>
-        <StatusBarItem Grid.Column="4" Padding="0,0,8,0">
-		  <ui:Button x:Name="FooterCloseButton" MinWidth="56.587" Height="{Binding ActualHeight, ElementName=FooterSaveButton}" MinHeight="0" HorizontalAlignment="Center" Appearance="Secondary" Content="{resources:Loc Common_Close}" Command="{Binding CloseWindowCommand, Mode=OneTime}" Click="Button_Click_2" />
-        </StatusBarItem>
-      </StatusBar>
+        </Button>
+      </Grid>
     </Border>
     <Grid x:Name="LaunchTargetOverlay" Grid.RowSpan="3" Panel.ZIndex="1100" Visibility="Hidden" Opacity="0" IsHitTestVisible="False">
       <Image x:Name="LaunchTargetBackdrop" Stretch="Fill" IsHitTestVisible="False" SnapsToDevicePixels="False" RenderOptions.BitmapScalingMode="HighQuality" />

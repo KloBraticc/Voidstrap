@@ -7429,4 +7429,13 @@ Voidstrap не можа да запише в папката на работни�
   <data name="Ui.Clipper.BadgeIdle" xml:space="preserve">
     <value>ГОТОВ</value>
   </data>
+  <data name="Ui.Main.ManageMods" xml:space="preserve">
+    <value>Управление на модове</value>
+  </data>
+  <data name="Ui.Main.OneModApplied" xml:space="preserve">
+    <value>1 приложен мод</value>
+  </data>
+  <data name="Ui.Main.ModsApplied" xml:space="preserve">
+    <value>{0} приложени мода</value>
+  </data>
 </root>

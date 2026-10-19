@@ -7439,4 +7439,13 @@ Voidstrap이 바탕 화면 폴더에 쓸 수 없습니다.</value>
   <data name="Ui.Clipper.BadgeIdle" xml:space="preserve">
     <value>대기</value>
   </data>
+  <data name="Ui.Main.ManageMods" xml:space="preserve">
+    <value>모드 관리</value>
+  </data>
+  <data name="Ui.Main.OneModApplied" xml:space="preserve">
+    <value>모드 1개 적용됨</value>
+  </data>
+  <data name="Ui.Main.ModsApplied" xml:space="preserve">
+    <value>모드 {0}개 적용됨</value>
+  </data>
 </root>

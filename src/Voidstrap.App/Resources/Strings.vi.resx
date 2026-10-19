@@ -7435,4 +7435,13 @@ Lỗi: {0}</value>
   <data name="Ui.Clipper.BadgeIdle" xml:space="preserve">
     <value>CHỜ</value>
   </data>
+  <data name="Ui.Main.ManageMods" xml:space="preserve">
+    <value>Quản lý Mod</value>
+  </data>
+  <data name="Ui.Main.OneModApplied" xml:space="preserve">
+    <value>Đã áp dụng 1 Mod</value>
+  </data>
+  <data name="Ui.Main.ModsApplied" xml:space="preserve">
+    <value>Đã áp dụng {0} Mod</value>
+  </data>
 </root>

@@ -7458,4 +7458,13 @@
   <data name="Ui.Clipper.BadgeIdle" xml:space="preserve">
     <value>خامل</value>
   </data>
+  <data name="Ui.Main.ManageMods" xml:space="preserve">
+    <value>إدارة التعديلات</value>
+  </data>
+  <data name="Ui.Main.OneModApplied" xml:space="preserve">
+    <value>تعديل واحد مطبق</value>
+  </data>
+  <data name="Ui.Main.ModsApplied" xml:space="preserve">
+    <value>{0} تعديلات مطبقة</value>
+  </data>
 </root>

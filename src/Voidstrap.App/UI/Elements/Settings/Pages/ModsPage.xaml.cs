@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.CodeDom.Compiler;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -56,10 +56,29 @@ public partial class ModsPage : UiPage{
 		base.Unloaded += ModsPage_Unloaded;
 	}
 
+	internal static bool PendingMyModsTab;
+
+	internal void ShowMyModsTab()
+	{
+		PendingMyModsTab = false;
+		ViewModel.ModExplorerVisible = false;
+		if (MyModsTab.Visibility == Visibility.Visible)
+			ModsTabs.SelectedItem = MyModsTab;
+		UpdateBreadcrumb();
+		PublishPresence();
+	}
+
 	private async void ModsPage_Loaded(object sender, RoutedEventArgs e)
 	{
 		try
 		{
+			if (PendingMyModsTab)
+			{
+				PendingMyModsTab = false;
+				ViewModel.ModExplorerVisible = false;
+				if (MyModsTab.Visibility == Visibility.Visible)
+					ModsTabs.SelectedItem = MyModsTab;
+			}
 			ViewModel.RefreshFrameGenWarning();
 			ViewModel.CommunityMods.ManagedModsChanged -= OnCommunityModInstalled;
 			ViewModel.CommunityMods.ManagedModsChanged += OnCommunityModInstalled;
