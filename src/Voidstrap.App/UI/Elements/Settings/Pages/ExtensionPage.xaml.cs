@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -47,6 +47,7 @@ public partial class ExtensionPage : UiPage
 
 	private void ExtensionPage_Loaded(object sender, RoutedEventArgs e)
 	{
+		UpdateInstallerBackButtonVisibility();
 		_vm.RefreshSwiftTunnel();
 		_vm.PropertyChanged -= Vm_PropertyChanged;
 		_vm.PropertyChanged += Vm_PropertyChanged;
@@ -296,8 +297,16 @@ public partial class ExtensionPage : UiPage
 		DynamicRenderSystem.SetLazyImageSource(image, source);
 	}
 
+	private void UpdateInstallerBackButtonVisibility()
+	{
+		InstallerBackButton.Visibility = Window.GetWindow(this) is Voidstrap.UI.Elements.Installer.MainWindow
+			? Visibility.Visible
+			: Visibility.Collapsed;
+	}
+
 	private void OpenDetail()
 	{
+		UpdateInstallerBackButtonVisibility();
 		BrowseRoot.Visibility = Visibility.Collapsed;
 		DetailRoot.Visibility = Visibility.Visible;
 	}
