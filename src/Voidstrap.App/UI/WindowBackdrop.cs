@@ -218,10 +218,7 @@ public static partial class WindowBackdrop
             }
             appliedKey = handle.ToInt64().ToString() + ":" + requestedBackgroundType + ":" + GetSurfaceOpacity(EffectiveBackdrop(window));
             if (_appliedBackdrops.TryGetValue(window, out string? previousKey) && previousKey == appliedKey)
-            {
-                ApplySurface(window, backgroundType);
                 return;
-            }
             ResetNativeBackdrop(handle);
             SetGlassFrame(window, backgroundType != Wpf.Ui.Appearance.BackgroundType.Aero);
             if (backgroundType == Wpf.Ui.Appearance.BackgroundType.None)
@@ -291,6 +288,7 @@ public static partial class WindowBackdrop
             return;
         }
         window.ContentRendered -= OnWindowContentRendered;
+        _appliedBackdrops.Remove(window);
         ApplyBackdrop(window);
     }
 
