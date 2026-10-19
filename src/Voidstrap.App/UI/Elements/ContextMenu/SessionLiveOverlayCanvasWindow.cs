@@ -923,17 +923,6 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             BorderBrush = theme.GetKeyBorderBrush()
         };
 
-        if (theme.KeyGlowRadius > 0 && theme.KeyGlowOpacity > 0)
-        {
-            tile.Effect = new System.Windows.Media.Effects.DropShadowEffect
-            {
-                Color = theme.GetGlowColor(),
-                BlurRadius = theme.KeyGlowRadius,
-                Opacity = theme.KeyGlowOpacity,
-                ShadowDepth = 0
-            };
-        }
-
         System.Windows.Media.FontFamily fontFamily = new(theme.FontFamily);
         FontWeight fontWeight = theme.FontWeight switch
         {

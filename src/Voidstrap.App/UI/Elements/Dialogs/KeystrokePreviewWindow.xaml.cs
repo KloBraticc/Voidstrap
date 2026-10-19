@@ -64,25 +64,13 @@ public partial class KeystrokePreviewWindow : WpfUiWindow
             _ => FontWeights.SemiBold
         };
 
-        DropShadowEffect? glow = null;
-        if (_theme.KeyGlowRadius > 0 && _theme.KeyGlowOpacity > 0)
-        {
-            glow = new DropShadowEffect
-            {
-                Color = _theme.GetGlowColor(),
-                BlurRadius = _theme.KeyGlowRadius,
-                Opacity = _theme.KeyGlowOpacity,
-                ShadowDepth = 0
-            };
-        }
-
         foreach (var b in borders)
         {
             b.Background = bgBrush;
             b.BorderBrush = borderBrush;
             b.BorderThickness = borderThickness;
             b.CornerRadius = cornerRadius;
-            b.Effect = glow;
+            b.Effect = null;
         }
 
         foreach (var h in highlights)

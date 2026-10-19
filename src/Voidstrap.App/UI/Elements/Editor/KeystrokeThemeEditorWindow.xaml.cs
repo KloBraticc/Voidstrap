@@ -73,19 +73,12 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
         UpdateButtonColor(BtnCpsText, _workingTheme.CpsTextColor);
         UpdateButtonColor(BtnKeyPressedCpsText, _workingTheme.KeyPressedCpsTextColor);
         UpdateButtonColor(BtnBorderColor, _workingTheme.KeyBorderColor);
-        UpdateButtonColor(BtnGlowColor, _workingTheme.KeyGlowColor);
 
         SliderBorderThickness.Value = _workingTheme.KeyBorderThickness;
         TextBorderThicknessVal.Text = $"{_workingTheme.KeyBorderThickness:F1}";
 
         SliderCornerRadius.Value = _workingTheme.KeyCornerRadius;
         TextCornerRadiusVal.Text = $"{_workingTheme.KeyCornerRadius:F0}";
-
-        SliderGlowRadius.Value = _workingTheme.KeyGlowRadius;
-        TextGlowRadiusVal.Text = $"{_workingTheme.KeyGlowRadius:F0}";
-
-        SliderGlowOpacity.Value = Math.Round(_workingTheme.KeyGlowOpacity * 100);
-        TextGlowOpacityVal.Text = $"{SliderGlowOpacity.Value:F0}%";
 
         ToggleGlass.IsChecked = _workingTheme.BackdropBlur;
 
@@ -172,11 +165,6 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
         PickColor(Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_BorderColor, _workingTheme.KeyBorderColor, hex => _workingTheme.KeyBorderColor = hex, BtnBorderColor);
     }
 
-    private void OnPickGlowColorClicked(object sender, RoutedEventArgs e)
-    {
-        PickColor(Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_GlowColor, _workingTheme.KeyGlowColor, hex => _workingTheme.KeyGlowColor = hex, BtnGlowColor, allowAccent: true);
-    }
-
     private void OnGeometryChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
     {
         if (_isInitializing)
@@ -187,12 +175,6 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
 
         _workingTheme.KeyCornerRadius = SliderCornerRadius.Value;
         TextCornerRadiusVal.Text = $"{SliderCornerRadius.Value:F0}";
-
-        _workingTheme.KeyGlowRadius = SliderGlowRadius.Value;
-        TextGlowRadiusVal.Text = $"{SliderGlowRadius.Value:F0}";
-
-        _workingTheme.KeyGlowOpacity = SliderGlowOpacity.Value / 100.0;
-        TextGlowOpacityVal.Text = $"{SliderGlowOpacity.Value:F0}%";
 
         _workingTheme.KeyScaleOnPress = SliderPressScale.Value / 100.0;
         TextPressScaleVal.Text = $"{SliderPressScale.Value:F0}%";
@@ -243,9 +225,6 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
                 _workingTheme.KeyPressedTextColor = parsed.KeyPressedTextColor;
                 _workingTheme.CpsTextColor = parsed.CpsTextColor;
                 _workingTheme.KeyPressedCpsTextColor = parsed.KeyPressedCpsTextColor;
-                _workingTheme.KeyGlowColor = parsed.KeyGlowColor;
-                _workingTheme.KeyGlowRadius = parsed.KeyGlowRadius;
-                _workingTheme.KeyGlowOpacity = parsed.KeyGlowOpacity;
                 _workingTheme.BackdropBlur = parsed.BackdropBlur;
                 _workingTheme.KeyScaleOnPress = parsed.KeyScaleOnPress;
                 _workingTheme.FontFamily = parsed.FontFamily;
@@ -302,25 +281,13 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
             _ => FontWeights.SemiBold
         };
 
-        DropShadowEffect? glow = null;
-        if (_workingTheme.KeyGlowRadius > 0 && _workingTheme.KeyGlowOpacity > 0)
-        {
-            glow = new DropShadowEffect
-            {
-                Color = _workingTheme.GetGlowColor(),
-                BlurRadius = _workingTheme.KeyGlowRadius,
-                Opacity = _workingTheme.KeyGlowOpacity,
-                ShadowDepth = 0
-            };
-        }
-
         foreach (var b in borders)
         {
             b.Background = bgBrush;
             b.BorderBrush = borderBrush;
             b.BorderThickness = borderThickness;
             b.CornerRadius = cornerRadius;
-            b.Effect = glow;
+            b.Effect = null;
         }
 
         foreach (var h in highlights)
@@ -440,9 +407,6 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
         _workingTheme.KeyPressedTextColor = _originalTheme.KeyPressedTextColor;
         _workingTheme.CpsTextColor = _originalTheme.CpsTextColor;
         _workingTheme.KeyPressedCpsTextColor = _originalTheme.KeyPressedCpsTextColor;
-        _workingTheme.KeyGlowColor = _originalTheme.KeyGlowColor;
-        _workingTheme.KeyGlowRadius = _originalTheme.KeyGlowRadius;
-        _workingTheme.KeyGlowOpacity = _originalTheme.KeyGlowOpacity;
         _workingTheme.BackdropBlur = _originalTheme.BackdropBlur;
         _workingTheme.KeyScaleOnPress = _originalTheme.KeyScaleOnPress;
         _workingTheme.FontFamily = _originalTheme.FontFamily;

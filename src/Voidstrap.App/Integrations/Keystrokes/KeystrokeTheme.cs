@@ -30,12 +30,6 @@ public sealed class KeystrokeTheme
 
     public string KeyPressedCpsTextColor { get; set; } = "#FFFFFF";
 
-    public string KeyGlowColor { get; set; } = "Accent";
-
-    public double KeyGlowRadius { get; set; } = 8.0;
-
-    public double KeyGlowOpacity { get; set; } = 0.5;
-
     public bool BackdropBlur { get; set; } = false;
 
     public double KeyScaleOnPress { get; set; } = 0.96;
@@ -109,8 +103,6 @@ public sealed class KeystrokeTheme
 
     public SolidColorBrush GetKeyPressedCpsTextBrush() => CreateBrush(KeyPressedCpsTextColor, Colors.White);
 
-    public Color GetGlowColor() => ParseColor(KeyGlowColor, GetEffectiveAccentColor());
-
     public KeystrokeTheme Clone(string? newName = null) => new()
     {
         Name = newName ?? Name,
@@ -124,9 +116,6 @@ public sealed class KeystrokeTheme
         KeyPressedTextColor = KeyPressedTextColor,
         CpsTextColor = CpsTextColor,
         KeyPressedCpsTextColor = KeyPressedCpsTextColor,
-        KeyGlowColor = KeyGlowColor,
-        KeyGlowRadius = KeyGlowRadius,
-        KeyGlowOpacity = KeyGlowOpacity,
         BackdropBlur = BackdropBlur,
         KeyScaleOnPress = KeyScaleOnPress,
         FontFamily = FontFamily,

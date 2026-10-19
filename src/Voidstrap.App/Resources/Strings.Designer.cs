@@ -3165,6 +3165,7 @@ namespace Voidstrap.Resources {
                 return ResourceManager.GetString("Common.Delete", resourceCulture);
             }
         }
+        public static string Common_Save => ResourceManager.GetString("Common.Save", resourceCulture);
         
         /// <summary>
         ///   Looks up a localized string similar to Deployment.
@@ -8460,6 +8461,7 @@ namespace Voidstrap.Resources {
         public static string Ui_Keystrokes_Editor_BorderColor => ResourceManager.GetString("Ui.Keystrokes.Editor.BorderColor", resourceCulture);
         public static string Ui_Keystrokes_Editor_GlowColor => ResourceManager.GetString("Ui.Keystrokes.Editor.GlowColor", resourceCulture);
         public static string Ui_Keystrokes_Editor_GeometryAndGlow => ResourceManager.GetString("Ui.Keystrokes.Editor.GeometryAndGlow", resourceCulture);
+        public static string Ui_Keystrokes_Editor_Geometry => ResourceManager.GetString("Ui.Keystrokes.Editor.Geometry", resourceCulture);
         public static string Ui_Keystrokes_Editor_BorderThickness => ResourceManager.GetString("Ui.Keystrokes.Editor.BorderThickness", resourceCulture);
         public static string Ui_Keystrokes_Editor_CornerRadius => ResourceManager.GetString("Ui.Keystrokes.Editor.CornerRadius", resourceCulture);
         public static string Ui_Keystrokes_Editor_GlowRadius => ResourceManager.GetString("Ui.Keystrokes.Editor.GlowRadius", resourceCulture);

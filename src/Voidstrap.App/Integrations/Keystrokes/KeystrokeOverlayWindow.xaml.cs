@@ -257,25 +257,13 @@ public partial class KeystrokeOverlayWindow : Window
             _ => FontWeights.SemiBold
         };
 
-        DropShadowEffect? glow = null;
-        if (theme.KeyGlowRadius > 0 && theme.KeyGlowOpacity > 0)
-        {
-            glow = new DropShadowEffect
-            {
-                Color = theme.GetGlowColor(),
-                BlurRadius = theme.KeyGlowRadius,
-                Opacity = theme.KeyGlowOpacity,
-                ShadowDepth = 0
-            };
-        }
-
         foreach (var b in borders)
         {
             b.Background = bgBrush;
             b.BorderBrush = borderBrush;
             b.BorderThickness = borderThickness;
             b.CornerRadius = cornerRadius;
-            b.Effect = glow;
+            b.Effect = null;
         }
 
         foreach (var h in highlights)

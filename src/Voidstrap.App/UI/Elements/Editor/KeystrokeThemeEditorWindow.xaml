@@ -97,15 +97,6 @@
                     <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_BorderColor}" VerticalAlignment="Center" />
                     <Button x:Name="BtnBorderColor" Grid.Column="1" Width="110" Click="OnPickBorderColorClicked" />
                   </Grid>
-
-                  <Grid Margin="0,4">
-                    <Grid.ColumnDefinitions>
-                      <ColumnDefinition Width="*" />
-                      <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_GlowColor}" VerticalAlignment="Center" />
-                    <Button x:Name="BtnGlowColor" Grid.Column="1" Width="110" Click="OnPickGlowColorClicked" />
-                  </Grid>
                 </StackPanel>
               </Border>
 
@@ -113,7 +104,7 @@
                       BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
                       BorderThickness="1" CornerRadius="8" Padding="14" Margin="0,0,0,12">
                 <StackPanel>
-                  <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_GeometryAndGlow}" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,10" />
+                  <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_Geometry}" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,10" />
 
                   <Grid Margin="0,6">
                     <Grid.ColumnDefinitions>
@@ -135,28 +126,6 @@
                     <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_CornerRadius}" VerticalAlignment="Center" />
                     <Slider x:Name="SliderCornerRadius" Grid.Column="1" Minimum="0" Maximum="20" TickFrequency="1" IsSnapToTickEnabled="True" VerticalAlignment="Center" ValueChanged="OnGeometryChanged" />
                     <TextBlock x:Name="TextCornerRadiusVal" Grid.Column="2" TextAlignment="Right" VerticalAlignment="Center" />
-                  </Grid>
-
-                  <Grid Margin="0,6">
-                    <Grid.ColumnDefinitions>
-                      <ColumnDefinition Width="130" />
-                      <ColumnDefinition Width="*" />
-                      <ColumnDefinition Width="40" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_GlowRadius}" VerticalAlignment="Center" />
-                    <Slider x:Name="SliderGlowRadius" Grid.Column="1" Minimum="0" Maximum="24" TickFrequency="1" IsSnapToTickEnabled="True" VerticalAlignment="Center" ValueChanged="OnGeometryChanged" />
-                    <TextBlock x:Name="TextGlowRadiusVal" Grid.Column="2" TextAlignment="Right" VerticalAlignment="Center" />
-                  </Grid>
-
-                  <Grid Margin="0,6">
-                    <Grid.ColumnDefinitions>
-                      <ColumnDefinition Width="130" />
-                      <ColumnDefinition Width="*" />
-                      <ColumnDefinition Width="40" />
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_GlowOpacity}" VerticalAlignment="Center" />
-                    <Slider x:Name="SliderGlowOpacity" Grid.Column="1" Minimum="0" Maximum="100" TickFrequency="5" IsSnapToTickEnabled="True" VerticalAlignment="Center" ValueChanged="OnGeometryChanged" />
-                    <TextBlock x:Name="TextGlowOpacityVal" Grid.Column="2" TextAlignment="Right" VerticalAlignment="Center" />
                   </Grid>
                 </StackPanel>
               </Border>
