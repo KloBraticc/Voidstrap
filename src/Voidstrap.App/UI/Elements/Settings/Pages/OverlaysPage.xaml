@@ -94,6 +94,7 @@
             <StackPanel Orientation="Horizontal">
               <ComboBox MinWidth="210" Padding="10,5" ItemsSource="{Binding KeystrokeThemeOptions}" SelectedItem="{Binding SelectedKeystrokeTheme, Mode=TwoWay}" />
               <ui:Button Margin="8,0,0,0" Icon="Play24" Content="{resources:Loc CustomTheme_Editor_Preview}" VerticalAlignment="Center" Command="{Binding PreviewKeystrokesCommand}" />
+              <ui:Button Margin="8,0,0,0" Icon="DesktopEdit24" Content="{resources:Loc Ui_Appearance_OpenEditor}" VerticalAlignment="Center" Command="{Binding EditKeystrokeThemeCommand}" />
             </StackPanel>
           </controls:OptionControl>
 
@@ -158,7 +159,7 @@
                       <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
                     <ui:Button Grid.Column="0" Margin="0,0,4,0" Icon="DesktopEdit24" Content="{resources:Loc Ui_Appearance_OpenEditor}" Appearance="Primary" HorizontalAlignment="Stretch" Command="{Binding EditCustomKeystrokeThemeCommand, Mode=OneTime}" />
-                    <ui:Button Grid.Column="1" Margin="4,0,0,0" Icon="Play24" Content="{resources:Loc CustomTheme_Editor_Preview}" HorizontalAlignment="Stretch" Command="{Binding PreviewKeystrokesCommand}" />
+                    <ui:Button Grid.Column="1" Margin="4,0,0,0" Icon="Play24" Content="{resources:Loc CustomTheme_Editor_Preview}" HorizontalAlignment="Stretch" Command="{Binding PreviewCustomKeystrokeThemeCommand}" />
                   </Grid>
 
                   <Expander Margin="0,10,0,0" Header="{resources:Loc Ui_Appearance_MoreActions}" IsExpanded="False">

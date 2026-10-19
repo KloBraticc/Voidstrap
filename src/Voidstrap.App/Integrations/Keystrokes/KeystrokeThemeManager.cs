@@ -234,9 +234,6 @@ public static class KeystrokeThemeManager
         {
             if (!string.IsNullOrWhiteSpace(name))
             {
-                if (BuiltIns.TryGetValue(name, out var builtIn))
-                    return builtIn;
-
                 string root = Paths.CustomKeystrokeThemes;
                 if (!string.IsNullOrWhiteSpace(root) && Directory.Exists(root))
                 {
@@ -305,12 +302,15 @@ public static class KeystrokeThemeManager
                         }
                     }
                 }
+
+                if (BuiltIns.TryGetValue(name, out var builtIn))
+                    return builtIn.Clone(builtIn.Name);
             }
 
             if (BuiltIns.TryGetValue("Voidstrap (Default)", out var defaultTheme))
-                return defaultTheme;
+                return defaultTheme.Clone(defaultTheme.Name);
 
-            return BuiltIns.Values.First();
+            return BuiltIns.Values.First().Clone(BuiltIns.Values.First().Name);
         }
     }
 

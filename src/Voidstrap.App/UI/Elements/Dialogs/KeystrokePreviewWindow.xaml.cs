@@ -71,21 +71,43 @@ public partial class KeystrokePreviewWindow : WpfUiWindow
             item.Text.FontFamily = fontFamily;
             item.Text.FontWeight = fontWeight;
 
-            if (_theme.Keycaps.TryGetValue(item.Name, out var cap))
+            var cap = _theme.Keycaps.TryGetValue(item.Name, out var c) ? c : null;
+
+            double defaultWidth = item.Name switch
             {
-                if (cap.Width.HasValue && cap.Width.Value > 0)
-                    item.Key.Width = cap.Width.Value;
-                if (cap.Height.HasValue && cap.Height.Value > 0)
-                    item.Key.Height = cap.Height.Value;
-                if (cap.CornerRadius.HasValue)
-                {
-                    item.Key.CornerRadius = new CornerRadius(cap.CornerRadius.Value);
-                    item.Highlight.CornerRadius = new CornerRadius(Math.Max(0, cap.CornerRadius.Value - 1));
-                }
-                if (!string.IsNullOrEmpty(cap.Text))
-                    item.Text.Text = cap.Text;
-                item.Text.Visibility = cap.HideText ? Visibility.Collapsed : Visibility.Visible;
+                "LMB" or "RMB" => 71,
+                "Shift" => 51,
+                "Space" => 91,
+                _ => 46
+            };
+            double defaultHeight = item.Name switch
+            {
+                "Shift" or "Space" => 34,
+                _ => 46
+            };
+            string defaultText = item.Name switch
+            {
+                "Shift" => "SHIFT",
+                "Space" => "—",
+                _ => item.Name
+            };
+
+            item.Key.Width = (cap?.Width.HasValue == true && cap.Width.Value > 0) ? cap.Width.Value : defaultWidth;
+            item.Key.Height = (cap?.Height.HasValue == true && cap.Height.Value > 0) ? cap.Height.Value : defaultHeight;
+
+            if (cap?.CornerRadius.HasValue == true)
+            {
+                item.Key.CornerRadius = new CornerRadius(cap.CornerRadius.Value);
+                item.Highlight.CornerRadius = new CornerRadius(Math.Max(0, cap.CornerRadius.Value - 1));
             }
+            else
+            {
+                item.Key.CornerRadius = cornerRadius;
+                item.Highlight.CornerRadius = highlightCorner;
+            }
+
+            item.Text.Text = !string.IsNullOrEmpty(cap?.Text) ? cap.Text : defaultText;
+            item.Text.Visibility = (cap?.HideText == true) ? Visibility.Collapsed : Visibility.Visible;
         }
 
         TextCpsLmb.Foreground = cpsBrush;

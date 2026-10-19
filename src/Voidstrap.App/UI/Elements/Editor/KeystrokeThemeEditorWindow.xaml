@@ -400,19 +400,11 @@
               BorderThickness="1" CornerRadius="8" Padding="16">
         <Grid>
           <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
           </Grid.RowDefinitions>
 
-          <StackPanel Grid.Row="0" Margin="0,0,0,16">
-            <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_InteractivePreview}" FontSize="16" FontWeight="SemiBold" />
-            <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_PreviewHint}"
-                       FontSize="12" Margin="0,2,0,0"
-                       Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
-          </StackPanel>
-
-          <Border Grid.Row="1" Background="#141416" CornerRadius="8"
+          <Border Grid.Row="0" Background="#141416" CornerRadius="8"
                   BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" BorderThickness="1"
                   Padding="20" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Viewbox MaxWidth="360" MaxHeight="300" HorizontalAlignment="Center" VerticalAlignment="Center">
@@ -510,7 +502,7 @@
             </Viewbox>
           </Border>
 
-          <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,14,0,0">
+          <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,14,0,0">
             <ui:Button Icon="Play24" Content="{resources:Loc Ui_Keystrokes_Editor_TestSequence}" Appearance="Secondary"
                        Click="OnTestSequenceClicked" Width="140" />
           </StackPanel>

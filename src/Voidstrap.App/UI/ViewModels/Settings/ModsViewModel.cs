@@ -1869,7 +1869,7 @@ public ICommand PickCursorColorCommand { get; }
 			if (string.Equals(App.Settings.Prop.KeystrokesThemeName, value, StringComparison.OrdinalIgnoreCase))
 				return;
 			App.Settings.Prop.KeystrokesThemeName = value;
-			App.Settings.SaveDeferred();
+			App.Settings.Save();
 			OnPropertyChanged();
 			KeystrokeThemeManager.NotifyThemeChanged();
 			KeystrokeOverlayWindow.ActiveInstance?.RefreshConfiguration();
@@ -1946,6 +1946,8 @@ public ICommand PickCursorColorCommand { get; }
 	}
 
 	public ICommand PreviewKeystrokesCommand => new RelayCommand(PreviewKeystrokes);
+	public ICommand PreviewCustomKeystrokeThemeCommand => new RelayCommand(PreviewCustomKeystrokeTheme);
+	public ICommand EditKeystrokeThemeCommand => new RelayCommand(EditKeystrokeTheme);
 	public ICommand AddCustomKeystrokeThemeCommand => new RelayCommand(AddCustomKeystrokeTheme);
 	public ICommand DeleteCustomKeystrokeThemeCommand => new RelayCommand(DeleteCustomKeystrokeTheme);
 	public ICommand RenameCustomKeystrokeThemeCommand => new RelayCommand(RenameCustomKeystrokeTheme);
@@ -1955,9 +1957,27 @@ public ICommand PickCursorColorCommand { get; }
 
 	private void PreviewKeystrokes()
 	{
-		string theme = SelectedCustomKeystrokeTheme ?? SelectedKeystrokeTheme;
+		var window = new KeystrokePreviewWindow(SelectedKeystrokeTheme);
+		window.ShowOwnedDialog();
+	}
+
+	private void PreviewCustomKeystrokeTheme()
+	{
+		string? theme = SelectedCustomKeystrokeTheme ?? SelectedKeystrokeTheme;
 		var window = new KeystrokePreviewWindow(theme);
 		window.ShowOwnedDialog();
+	}
+
+	private void EditKeystrokeTheme()
+	{
+		string? theme = SelectedKeystrokeTheme;
+		if (string.IsNullOrWhiteSpace(theme))
+			return;
+
+		var editor = new KeystrokeThemeEditorWindow(theme);
+		editor.ShowOwnedDialog();
+		PopulateKeystrokeThemes();
+		KeystrokeOverlayWindow.ActiveInstance?.RefreshConfiguration();
 	}
 
 	private void AddCustomKeystrokeTheme()
