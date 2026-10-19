@@ -1052,7 +1052,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         bool hideSearchBox = content != null && (_pagesToHideSearchBox.Contains(content.GetType())
             || content is Voidstrap.UI.Elements.Settings.Pages.FastFlagsPage fastFlagsPage && fastFlagsPage.IsAdvancedTabSelected
             || content is Voidstrap.UI.Elements.Settings.Pages.ModsPage modsPage && modsPage.IsModPackSelected);
-        GlobalSearchBox.Visibility = hideSearchBox ? Visibility.Collapsed : Visibility.Visible;
+        if (BreadcrumbPanel != null)
+        {
+            Grid.SetColumnSpan(BreadcrumbPanel, hideSearchBox ? 2 : 1);
+        }
+        Wpf.Ui.Animations.Transitions.ApplyVisibilityTransition(GlobalSearchBox, !hideSearchBox, 160);
     }
 
     private void UpdateTopNavActive(object? content)
