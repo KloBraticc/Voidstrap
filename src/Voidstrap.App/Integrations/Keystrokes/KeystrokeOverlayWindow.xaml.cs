@@ -7,7 +7,6 @@ using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
-using System.Windows.Media.Effects;
 using System.Windows.Threading;
 using Voidstrap.Integrations.Overlays;
 using Voidstrap.Models.Persistable;
@@ -299,6 +298,7 @@ public partial class KeystrokeOverlayWindow : Window
                         BorderThickness = borderThickness,
                         BorderBrush = borderBrush,
                         Background = theme.GetKeyBrush(keyName, false),
+                        Effect = null,
                         Margin = new Thickness(0, 0, i < visibleKeys.Count - 1 ? 3 : 0, 0)
                     };
 
@@ -557,14 +557,6 @@ public partial class KeystrokeOverlayWindow : Window
                 key.RenderTransformOrigin = new Point(0.5, 0.5);
                 key.RenderTransform = new ScaleTransform(theme.KeyScaleOnPress, theme.KeyScaleOnPress);
             }
-
-            key.Effect = new DropShadowEffect
-            {
-                Color = KeystrokeTheme.ParseColor(theme.KeyPressedBackground, KeystrokeTheme.GetEffectiveAccentColor()),
-                BlurRadius = 14,
-                ShadowDepth = 0,
-                Opacity = 0.85
-            };
         }
         else
         {

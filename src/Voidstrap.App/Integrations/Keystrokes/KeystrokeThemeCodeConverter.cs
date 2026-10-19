@@ -470,7 +470,6 @@ public static class KeystrokeThemeCodeConverter
         sb.AppendLine("      height: calc(var(--mouse-circle-size, 88px) * 0.27);");
         sb.AppendLine("      border-radius: 50%;");
         sb.AppendLine("      background: var(--key-pressed-bg, Accent);");
-        sb.AppendLine("      box-shadow: 0 0 10px var(--key-pressed-bg, Accent);");
         sb.AppendLine("    }");
         sb.AppendLine();
         sb.AppendLine("    .keystrokes-overlay {");
@@ -517,8 +516,7 @@ public static class KeystrokeThemeCodeConverter
         sb.AppendLine("    .keycap.pressed {");
         sb.AppendLine("      background-color: var(--key-pressed-bg);");
         sb.AppendLine("      color: var(--key-pressed-text-color);");
-        sb.AppendLine("      animation: press-pop 220ms cubic-bezier(.2, 1.4, .4, 1) both,");
-        sb.AppendLine("                 active-glow 1.5s ease-in-out 220ms infinite alternate;");
+        sb.AppendLine("      animation: press-pop 220ms cubic-bezier(.2, 1.4, .4, 1) both;");
         sb.AppendLine("    }");
         sb.AppendLine();
         sb.AppendLine("    @keyframes hud-float {");
@@ -549,11 +547,6 @@ public static class KeystrokeThemeCodeConverter
         sb.AppendLine("      45% { transform: scale(.86); filter: brightness(1.25); }");
         sb.AppendLine("      75% { transform: scale(.96); }");
         sb.AppendLine("      100% { transform: scale(var(--key-scale-on-press)); filter: brightness(1); }");
-        sb.AppendLine("    }");
-        sb.AppendLine();
-        sb.AppendLine("    @keyframes active-glow {");
-        sb.AppendLine("      from { box-shadow: 0 0 8px rgba(167, 139, 250, .6), 0 0 20px rgba(139, 92, 246, .35); }");
-        sb.AppendLine("      to { box-shadow: 0 0 14px rgba(167, 139, 250, .95), 0 0 35px rgba(139, 92, 246, .7), 0 0 55px rgba(96, 165, 250, .25); }");
         sb.AppendLine("    }");
         sb.AppendLine();
         sb.AppendLine("    @keyframes border-spin {");

@@ -923,8 +923,7 @@ public static class ThemeDefinition
 }
 
 .keycap.pressed {
-  animation: press-pop 220ms cubic-bezier(.2, 1.4, .4, 1) both,
-             active-glow 1.5s ease-in-out 220ms infinite alternate;
+  animation: press-pop 220ms cubic-bezier(.2, 1.4, .4, 1) both;
 }
 
 .hud::before {
@@ -971,20 +970,6 @@ public static class ThemeDefinition
   45% { transform: scale(.86); filter: brightness(1.25); }
   75% { transform: scale(.96); }
   100% { transform: scale(var(--key-scale-on-press)); filter: brightness(1); }
-}
-
-@keyframes active-glow {
-  from {
-    box-shadow:
-      0 0 8px rgba(167, 139, 250, .6),
-      0 0 20px rgba(139, 92, 246, .35);
-  }
-  to {
-    box-shadow:
-      0 0 14px rgba(167, 139, 250, .95),
-      0 0 35px rgba(139, 92, 246, .7),
-      0 0 55px rgba(96, 165, 250, .25);
-  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1397,18 +1382,6 @@ public static class ThemeDefinition
                 key.RenderTransformOrigin = new Point(0.5, 0.5);
                 key.RenderTransform = new ScaleTransform(_workingTheme.KeyScaleOnPress, _workingTheme.KeyScaleOnPress);
             }
-
-            Color shadowColor = (_workingTheme.GetKeyPressedBackgroundBrush() is SolidColorBrush sb)
-                ? sb.Color
-                : KeystrokeTheme.GetEffectiveAccentColor();
-
-            key.Effect = new System.Windows.Media.Effects.DropShadowEffect
-            {
-                Color = shadowColor,
-                BlurRadius = 14,
-                ShadowDepth = 0,
-                Opacity = 0.85
-            };
         }
         else
         {
