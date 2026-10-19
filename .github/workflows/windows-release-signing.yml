@@ -83,14 +83,14 @@ jobs:
         run: |
           $publishDir = Join-Path $env:RUNNER_TEMP 'voidstrap-publish'
           $artifactDir = Join-Path $env:RUNNER_TEMP 'voidstrap-unsigned'
-          dotnet publish src/Voidstrap.App/Voidstrap.csproj -c Release -r win-x64 --self-contained false "-p:Version=$env:RELEASE_VERSION" -p:PublishProfile=FolderProfile -p:PublishReadyToRun=false -p:IncludeAllContentForSelfExtract=false -p:PublishSingleFile=true -p:UseAppHost=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=none -p:DebugSymbols=false -p:ContinuousIntegrationBuild=true -p:RestoreUseStaticGraphEvaluation=true -p:TreatWarningsAsErrors=true -p:EnableWindowsTargeting=true -o $publishDir
+          dotnet publish src/Voidstrap.App/Voidstrap.csproj -c Release -r win-x64 --self-contained false "-p:Version=$env:RELEASE_VERSION" -p:PublishProfile=FolderProfile -p:PublishReadyToRun=false -p:IncludeAllContentForSelfExtract=false -p:PublishSingleFile=true -p:UseAppHost=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=none -p:DebugSymbols=false -p:ContinuousIntegrationBuild=true -p:IncludeSourceRevisionInInformationalVersion=false -p:RestoreUseStaticGraphEvaluation=true -p:TreatWarningsAsErrors=true -p:EnableWindowsTargeting=true -o $publishDir
           if ($LASTEXITCODE -ne 0) { throw 'Voidstrap publish failed.' }
 
           $exe = Join-Path $publishDir 'Voidstrap.exe'
           if (-not (Test-Path -LiteralPath $exe -PathType Leaf)) { throw 'Voidstrap.exe was not produced.' }
           $info = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($exe)
-          if ($info.ProductName -ne 'Voidstrap' -or $info.CompanyName -ne 'Voidstrap' -or $info.OriginalFilename -ne 'Voidstrap.exe' -or $info.FileVersion -ne $env:RELEASE_VERSION) {
-            throw 'The executable metadata does not match the expected Voidstrap release metadata.'
+          if ($info.ProductName -ne 'Voidstrap' -or $info.CompanyName -ne 'Voidstrap' -or $info.OriginalFilename -ne 'Voidstrap.dll' -or $info.ProductVersion -ne $env:RELEASE_VERSION -or $info.FileVersion -ne $env:RELEASE_VERSION) {
+            throw "Unexpected Voidstrap metadata: ProductName='$($info.ProductName)', CompanyName='$($info.CompanyName)', OriginalFilename='$($info.OriginalFilename)', ProductVersion='$($info.ProductVersion)', FileVersion='$($info.FileVersion)'."
           }
 
           New-Item -ItemType Directory -Path $artifactDir -Force | Out-Null
@@ -137,8 +137,8 @@ jobs:
           if (-not (Test-Path -LiteralPath $exe -PathType Leaf)) { throw 'The signed Voidstrap.exe was not returned.' }
 
           $info = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($exe)
-          if ($info.ProductName -ne 'Voidstrap' -or $info.ProductVersion -ne $env:RELEASE_VERSION -or $info.CompanyName -ne 'Voidstrap' -or $info.OriginalFilename -ne 'Voidstrap.exe' -or $info.FileVersion -ne $env:RELEASE_VERSION) {
-            throw 'The signed executable metadata does not match the expected Voidstrap release metadata.'
+          if ($info.ProductName -ne 'Voidstrap' -or $info.ProductVersion -ne $env:RELEASE_VERSION -or $info.CompanyName -ne 'Voidstrap' -or $info.OriginalFilename -ne 'Voidstrap.dll' -or $info.FileVersion -ne $env:RELEASE_VERSION) {
+            throw "Unexpected signed Voidstrap metadata: ProductName='$($info.ProductName)', CompanyName='$($info.CompanyName)', OriginalFilename='$($info.OriginalFilename)', ProductVersion='$($info.ProductVersion)', FileVersion='$($info.FileVersion)'."
           }
 
           $signature = Get-AuthenticodeSignature -LiteralPath $exe

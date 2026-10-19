@@ -1319,8 +1319,8 @@ function Invoke-SignPathWindows {
 
         $signedExe = $downloadedFiles[0].FullName
         $info = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($signedExe)
-        if ($info.ProductName -ne 'Voidstrap' -or $info.ProductVersion -ne $Version -or $info.CompanyName -ne 'Voidstrap' -or $info.OriginalFilename -ne 'Voidstrap.exe' -or $info.FileVersion -ne $Version) {
-            throw 'The signed executable metadata does not match the configured Voidstrap release metadata.'
+        if ($info.ProductName -ne 'Voidstrap' -or $info.ProductVersion -ne $Version -or $info.CompanyName -ne 'Voidstrap' -or $info.OriginalFilename -ne 'Voidstrap.dll' -or $info.FileVersion -ne $Version) {
+            throw "Unexpected signed Voidstrap metadata: ProductName='$($info.ProductName)', CompanyName='$($info.CompanyName)', OriginalFilename='$($info.OriginalFilename)', ProductVersion='$($info.ProductVersion)', FileVersion='$($info.FileVersion)'."
         }
         $signature = Get-AuthenticodeSignature -LiteralPath $signedExe
         if ($null -eq $signature.SignerCertificate -or $signature.Status -notin @('Valid', 'NotTrusted')) {
@@ -1587,6 +1587,7 @@ $PubOpts = @(
     '-p:DebugSymbols=false',
     '-p:TreatWarningsAsErrors=true',
     '-p:ContinuousIntegrationBuild=true',
+    '-p:IncludeSourceRevisionInInformationalVersion=false',
     '-p:RestoreUseStaticGraphEvaluation=true',
     '-nr:false',
     '-clp:ErrorsOnly'
