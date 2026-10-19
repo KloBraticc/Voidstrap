@@ -109,7 +109,10 @@ jobs:
                   "content": content,
                   "allowed_mentions": {"parse": []},
               }).encode("utf-8"),
-              headers={"Content-Type": "application/json"},
+              headers={
+                  "Content-Type": "application/json",
+                  "User-Agent": "DiscordBot (https://github.com/KloBraticc/Voidstrap, 1.0)",
+              },
               method="POST",
           )
 
@@ -124,7 +127,17 @@ jobs:
                   if response.status < 200 or response.status >= 300:
                       raise SystemExit(f"Discord webhook returned HTTP {response.status}")
           except urllib.error.HTTPError as error:
-              raise SystemExit(f"Discord webhook returned HTTP {error.code}") from None
+              try:
+                  detail = json.loads(error.read().decode("utf-8"))
+              except (UnicodeDecodeError, json.JSONDecodeError):
+                  detail = {}
+              message = compact(detail.get("message"))[:120]
+              reason = f"Discord webhook returned HTTP {error.code}"
+              if message:
+                  reason += f": {message}"
+              if "code" in detail:
+                  reason += f" (Discord code {detail['code']})"
+              raise SystemExit(reason) from None
           except (urllib.error.URLError, TimeoutError):
               raise SystemExit("Discord webhook request failed") from None
           PY
