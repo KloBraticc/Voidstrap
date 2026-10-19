@@ -136,16 +136,28 @@ function Stop-ProcessesUsingPath {
     foreach ($proc in (Get-Process -ErrorAction SilentlyContinue)) {
         $exe = $null
         try { $exe = $proc.Path } catch { $exe = $null }
+        if ([string]::IsNullOrWhiteSpace($exe)) {
+            try { $exe = (Get-CimInstance Win32_Process -Filter "ProcessId = $($proc.Id)" -ErrorAction Stop).ExecutablePath } catch { $exe = $null }
+        }
         if ([string]::IsNullOrWhiteSpace($exe)) { continue }
         $owner = $prefixes | Where-Object { $exe.StartsWith($_, $PathComparison) } | Select-Object -First 1
         if (-not $owner) { continue }
 
         Write-Host "  Stopping $($proc.ProcessName) (pid $($proc.Id)) which is running from $owner" -ForegroundColor DarkYellow
         try {
-            $proc.Kill()
-            $null = $proc.WaitForExit(5000)
+            if ($proc.CloseMainWindow()) {
+                $null = $proc.WaitForExit(5000)
+            }
+            if (-not $proc.HasExited) {
+                $proc.Kill()
+                $null = $proc.WaitForExit(5000)
+            }
+            if (-not $proc.HasExited) {
+                throw 'the process did not exit after the forced close'
+            }
             $stopped++
         } catch {
+            throw "Could not close $($proc.ProcessName) (pid $($proc.Id)) from the publish output folder: $($_.Exception.Message)"
         }
     }
 
