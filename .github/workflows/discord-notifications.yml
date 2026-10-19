@@ -66,6 +66,11 @@ jobs:
 
           def compact(value):
               text = " ".join(str(value or "").split())
+              text = re.sub(r"https?://discord(?:app)?\.com/api/webhooks/\d+/[A-Za-z0-9._-]+", "[webhook redacted]", text, flags=re.IGNORECASE)
+              text = re.sub(r"(?i)\b(password|passwd|pwd|secret|token|api[_-]?key|client[_-]?secret|authorization)\b\s*(?:[:=]|\bis\b)\s*(?:\"[^\"]*\"|'[^']*'|[^\s,;]+)", r"\1=[redacted]", text)
+              text = re.sub(r"\b(?:gh[pousr]_[A-Za-z0-9_]{20,}|github_pat_[A-Za-z0-9_]{20,}|xox[baprs]-[A-Za-z0-9-]{10,}|AKIA[0-9A-Z]{16})\b", "[credential redacted]", text)
+              text = re.sub(r"(?<![A-Za-z0-9])[A-Za-z0-9_+/=-]{32,}(?![A-Za-z0-9])", "[long token redacted]", text)
+              text = re.sub(r"[\w.+-]+@[\w.-]+\.[A-Za-z]{2,}", "[email redacted]", text)
               text = re.sub(r"([\\*_~|>\[\]()!])", r"\\\1", text)
               return text.replace("`", "ˋ").replace("@", "@\u200b")
 
@@ -80,12 +85,17 @@ jobs:
           if event_name == "push":
               commits = event.get("commits") or []
               count = len(commits)
-              title = f"{count} new commit{'s' if count != 1 else ''}"
+              ref_name = compact(os.environ.get("REF_NAME", ""))[:80]
+              title = f"[{ref_name}] {count} new commit{'s' if count != 1 else ''}"
               rows = []
               for commit in commits[-8:]:
                   sha = commit.get("id", "")
                   if isinstance(sha, str) and re.fullmatch(r"[0-9a-fA-F]{40}", sha):
-                      rows.append(f"[`{sha[:7]}`](https://github.com/{repository}/commit/{sha})")
+                      message = commit.get("message")
+                      subject = compact(message.splitlines()[0] if isinstance(message, str) and message else "(no title)")[:200]
+                      author_data = commit.get("author") or {}
+                      author = compact(author_data.get("username") or actor)[:64]
+                      rows.append(f"[`{sha[:7]}`](https://github.com/{repository}/commit/{sha}) {subject} — {author}")
               if len(commits) > 8:
                   rows.append(f"And {len(commits) - 8} more commit(s)")
               if not commits:
@@ -105,7 +115,8 @@ jobs:
                   action = "updated"
               if action == "closed" and pull_request.get("merged"):
                   action = "merged"
-              title = f"Pull request {action.replace('_', ' ')}"
+              summary = compact(pull_request.get("title"))[:180]
+              title = f"Pull request {action.replace('_', ' ')}: {summary or '(no title)'}"
               number = pull_request.get("number")
               description = f"Pull request #{number}" if isinstance(number, int) else "Pull request activity"
               link = pull_request.get("html_url")
@@ -114,7 +125,8 @@ jobs:
               action = event.get("action")
               if action not in ("opened", "reopened", "closed"):
                   action = "updated"
-              title = f"Issue {action}"
+              summary = compact(issue.get("title"))[:180]
+              title = f"Issue {action}: {summary or '(no title)'}"
               number = issue.get("number")
               description = f"Issue #{number}" if isinstance(number, int) else "Issue activity"
               link = issue.get("html_url")
@@ -126,7 +138,9 @@ jobs:
               action = event.get("action")
               if action not in ("published", "prereleased"):
                   action = "published"
-              title = f"Release {action}"
+              release = event.get("release") or {}
+              summary = compact(release.get("name") or release.get("tag_name"))[:180]
+              title = f"Release {action}: {summary or '(untitled)'}"
               description = "A GitHub release was published."
               link = f"https://github.com/{repository}/releases"
           elif event_name == "workflow_dispatch":
