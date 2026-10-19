@@ -1,0 +1,130 @@
+name: Discord notifications
+
+on:
+  push:
+    branches:
+      - '**'
+      - '!output'
+  pull_request_target:
+    types:
+      - opened
+      - reopened
+      - ready_for_review
+      - closed
+  issues:
+    types:
+      - opened
+      - reopened
+      - closed
+  release:
+    types:
+      - published
+      - prereleased
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Send notification to Discord
+        env:
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          EVENT_NAME: ${{ github.event_name }}
+          REPOSITORY: ${{ github.repository }}
+          REF_NAME: ${{ github.ref_name }}
+          ACTOR: ${{ github.actor }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import urllib.error
+          import urllib.request
+
+          webhook_url = os.environ.get("DISCORD_WEBHOOK_URL")
+          if not webhook_url:
+              raise SystemExit("DISCORD_WEBHOOK_URL is not configured")
+
+          with open(os.environ["GITHUB_EVENT_PATH"], encoding="utf-8") as event_file:
+              event = json.load(event_file)
+
+          def compact(value):
+              return " ".join(str(value or "").split()).replace("`", "Ë‹")
+
+          repository = os.environ["REPOSITORY"]
+          actor = compact(os.environ["ACTOR"])
+          event_name = os.environ["EVENT_NAME"]
+          lines = [f"**{repository}**"]
+
+          if event_name == "push":
+              ref_name = compact(os.environ["REF_NAME"])
+              commits = event.get("commits") or []
+              lines.append(f"Pushed {len(commits)} commit(s) to `{ref_name}` by {actor}")
+              for commit in commits[-8:]:
+                  sha = compact(commit.get("id", ""))
+                  message = compact(commit.get("message"))
+                  subject = message.splitlines()[0] if message else "(no message)"
+                  lines.append(f"`{sha[:7]}` {subject}\nhttps://github.com/{repository}/commit/{sha}")
+              if len(commits) > 8:
+                  lines.append(f"And {len(commits) - 8} more commit(s)")
+              if not commits:
+                  lines.append(f"Pushed to `{ref_name}` by {actor}")
+          elif event_name in ("pull_request", "pull_request_target"):
+              pull_request = event["pull_request"]
+              action = compact(event.get("action", "updated"))
+              if action == "closed" and pull_request.get("merged"):
+                  action = "merged"
+              title = compact(pull_request.get("title"))
+              lines.append(f"Pull request {action}: {title} by {actor}")
+              lines.append(pull_request["html_url"])
+          elif event_name == "issues":
+              issue = event["issue"]
+              action = compact(event.get("action", "updated"))
+              title = compact(issue.get("title"))
+              lines.append(f"Issue {action}: {title} by {actor}")
+              lines.append(issue["html_url"])
+          elif event_name == "release":
+              release = event["release"]
+              title = compact(release.get("name") or release.get("tag_name"))
+              action = compact(event.get("action", "published"))
+              lines.append(f"Release {action}: {title} by {actor}")
+              lines.append(release["html_url"])
+          elif event_name == "workflow_dispatch":
+              lines.append(f"Webhook check requested by {actor}")
+              lines.append(os.environ["RUN_URL"])
+          else:
+              lines.append(f"{compact(event_name)} event by {actor}")
+              lines.append(os.environ["RUN_URL"])
+
+          content = "\n".join(lines)
+          if len(content) > 1900:
+              content = content[:1880] + "â€¦"
+
+          request = urllib.request.Request(
+              webhook_url,
+              data=json.dumps({
+                  "content": content,
+                  "allowed_mentions": {"parse": []},
+              }).encode("utf-8"),
+              headers={"Content-Type": "application/json"},
+              method="POST",
+          )
+
+          class NoRedirect(urllib.request.HTTPRedirectHandler):
+              def redirect_request(self, request, file_pointer, code, message, headers, new_url):
+                  return None
+
+          opener = urllib.request.build_opener(NoRedirect)
+
+          try:
+              with opener.open(request, timeout=20) as response:
+                  if response.status < 200 or response.status >= 300:
+                      raise SystemExit(f"Discord webhook returned HTTP {response.status}")
+          except urllib.error.HTTPError as error:
+              raise SystemExit(f"Discord webhook returned HTTP {error.code}") from None
+          except (urllib.error.URLError, TimeoutError):
+              raise SystemExit("Discord webhook request failed") from None
+          PY
