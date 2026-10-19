@@ -517,9 +517,9 @@ Voidstrap's own code is released under the [MIT License](LICENSE.VOIDSTRAP). Thi
 
 | Project | License | Copyright | File |
 | --- | --- | --- | --- |
-| Voidstrap | MIT | Â© 2026 Bratic | [LICENSE.VOIDSTRAP](LICENSE.VOIDSTRAP) |
-| Bloxstrap | MIT | Â© 2022 pizzaboxer | [LICENSE.BLOXSTRAP](LICENSE.BLOXSTRAP) |
-| Fishstrap | MIT | Â© 2025 returnrqt | [LICENSE.FISHSTRAP](LICENSE.FISHSTRAP) |
+| Voidstrap | MIT | © 2026 Bratic | [LICENSE.VOIDSTRAP](LICENSE.VOIDSTRAP) |
+| Bloxstrap | MIT | © 2022 pizzaboxer | [LICENSE.BLOXSTRAP](LICENSE.BLOXSTRAP) |
+| Fishstrap | MIT | © 2025 returnrqt | [LICENSE.FISHSTRAP](LICENSE.FISHSTRAP) |
 
 <details>
   <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/third-party-licenses-dark.svg"><img src="assets/readme/third-party-licenses-light.svg" alt="Third party licenses" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
