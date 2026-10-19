@@ -1,5 +1,5 @@
-Warning: truncated output (original token count: 22421)
-Total output lines: 2143
+Warning: truncated output (original token count: 22552)
+Total output lines: 2160
 
 [CmdletBinding()]
 param(
@@ -976,7 +976,7 @@ function Start-TargetPackaging {
     if ($linuxTarget -and $wantLinuxPackages) {
         New-Item -ItemType Directory -Path $LinuxOut -Force | Out-Null
         $outputPath = Get-RootRelativePath $LinuxOut
-        $executablePath = Get-RootRelati…2421 tokens truncated…ef main -f "tag=$tag" -f "request-id=$requestId" 2>&1 | Out-Null
+        $executablePath = Get-RootRelati…2552 tokens truncated…l
     if ($LASTEXITCODE -ne 0) {
         throw 'GitHub Actions could not start the SignPath signing workflow. Check GitHub CLI authentication and workflow availability.'
     }
@@ -984,7 +984,7 @@ function Start-TargetPackaging {
     $runId = $null
     $findDeadline = [DateTime]::UtcNow.AddMinutes(2)
     while (-not $runId -and [DateTime]::UtcNow -lt $findDeadline) {
-        $runsJson = & $gh.Source run list --repo KloBraticc/Voidstrap --workflow windows-release-signing.yml --event workflow_dispatch --limit 20 --json databaseId,displayTitle 2>&1 | Out-String
+        $runsJson = & $ghPath run list --repo KloBraticc/Voidstrap --workflow windows-release-signing.yml --event workflow_dispatch --limit 20 --json databaseId,displayTitle 2>&1 | Out-String
         if ($LASTEXITCODE -ne 0) {
             throw 'GitHub Actions did not return the signing workflow run.'
         }
@@ -1002,7 +1002,7 @@ function Start-TargetPackaging {
     $lastProgressAt = [DateTime]::UtcNow
     Write-Host '  Waiting for the GitHub build and SignPath signature...' -ForegroundColor DarkGray
     while ([DateTime]::UtcNow -lt $signingDeadline) {
-        $runJson = & $gh.Source run view $runId --repo KloBraticc/Voidstrap --json status,conclusion 2>&1 | Out-String
+        $runJson = & $ghPath run view $runId --repo KloBraticc/Voidstrap --json status,conclusion 2>&1 | Out-String
         if ($LASTEXITCODE -ne 0) {
             throw 'GitHub Actions did not return the status of the signing run.'
         }
@@ -1027,7 +1027,7 @@ function Start-TargetPackaging {
     }
     New-Item -ItemType Directory -Path $downloadDir -Force | Out-Null
     try {
-        & $gh.Source run download $runId --repo KloBraticc/Voidstrap --name "voidstrap-windows-signed-$Version" --dir $downloadDir
+        & $ghPath run download $runId --repo KloBraticc/Voidstrap --name "voidstrap-windows-signed-$Version" --dir $downloadDir
         if ($LASTEXITCODE -ne 0) {
             throw 'GitHub Actions could not download the signed Windows executable.'
         }
@@ -1341,6 +1341,7 @@ if ($SignWindowsWithSignPath) {
     if (@($Targets | Where-Object { $_.Key -eq 'windows' }).Count -eq 0) {
         throw 'SignPath signing requires the Windows target. Include windows or all in -Only.'
     }
+    $SignPathContext = Resolve-SignPathSource -Version (Get-VoidstrapVersion)
 }
 
 $AndroidExplicit = $Only -contains 'android'
@@ -1827,7 +1828,7 @@ if ($packageFailure) {
 }
 
 if ($SignWindowsWithSignPath) {
-    Invoke-SignPathWindows -Version (Get-VoidstrapVersion) -OutputPath (Join-Path $Out 'Windows/Voidstrap.exe')
+    Invoke-SignPathWindows -Context $SignPathContext -OutputPath (Join-Path $Out 'Windows/Voidstrap.exe')
 }
 
 if ($PackageNotes.Count -gt 0) {
