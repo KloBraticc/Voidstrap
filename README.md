@@ -327,8 +327,6 @@ On Windows, running `publish-all.ps1` with no arguments builds the default targe
 .\publish-all.ps1
 ```
 
-The script downloads the signed executable into `PublishedBuilds\Windows\Voidstrap.exe`; upload it to the GitHub release manually. SignPath uses its test certificate until the production certificate review is complete. Each source change must be committed and pushed to `main` before signing so the trusted build matches the local checkout.
-
 </details>
 
 <details>
