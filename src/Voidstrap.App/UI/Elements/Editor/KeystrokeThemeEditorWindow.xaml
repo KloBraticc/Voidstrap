@@ -417,13 +417,14 @@
                   Padding="20" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Viewbox MaxWidth="360" MaxHeight="300" HorizontalAlignment="Center" VerticalAlignment="Center">
               <StackPanel x:Name="PreviewMainLayout" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
-                <Border x:Name="PreviewMouseCircle" Width="96" Height="96" CornerRadius="48" BorderThickness="1"
-                        Margin="0,0,14,0" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center">
-                  <Ellipse x:Name="PreviewMouseDot" Width="14" Height="14" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <Border x:Name="PreviewMouseCircle" Width="88" Height="88" CornerRadius="44" BorderThickness="1.25"
+                        Margin="0,0,14,0" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center"
+                        Cursor="Hand" MouseDown="OnMouseCircleMouseDown" MouseUp="OnMouseCircleMouseUp">
+                  <Ellipse x:Name="PreviewMouseDot" Width="24" Height="24" HorizontalAlignment="Center" VerticalAlignment="Center" />
                 </Border>
                 <StackPanel x:Name="PreviewContainer" Orientation="Vertical">
                   <StackPanel x:Name="PreviewDefaultKeysPanel" Orientation="Vertical">
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,3">
+                    <StackPanel x:Name="PreviewRowW" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,3">
                       <Border x:Name="PreviewKeyW" Width="46" Height="46" CornerRadius="8" BorderThickness="1"
                               Cursor="Hand" MouseDown="OnKeyMouseDown" MouseUp="OnKeyMouseUp" Tag="W">
                         <Grid>
@@ -434,7 +435,7 @@
                       </Border>
                     </StackPanel>
 
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,3">
+                    <StackPanel x:Name="PreviewRowASD" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,3">
                       <Border x:Name="PreviewKeyA" Width="46" Height="46" CornerRadius="8" BorderThickness="1" Margin="0,0,3,0"
                               Cursor="Hand" MouseDown="OnKeyMouseDown" MouseUp="OnKeyMouseUp" Tag="A">
                         <Grid>
@@ -461,7 +462,7 @@
                       </Border>
                     </StackPanel>
 
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,3">
+                    <StackPanel x:Name="PreviewRowMouse" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,3">
                       <Border x:Name="PreviewKeyLmb" Width="71" Height="46" CornerRadius="8" BorderThickness="1" Margin="0,0,3,0"
                               Cursor="Hand" MouseDown="OnKeyMouseDown" MouseUp="OnKeyMouseUp" Tag="LMB">
                         <Grid>
@@ -484,7 +485,7 @@
                       </Border>
                     </StackPanel>
 
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <StackPanel x:Name="PreviewRowBottom" Orientation="Horizontal" HorizontalAlignment="Center">
                       <Border x:Name="PreviewKeyShift" Width="51" Height="34" CornerRadius="8" BorderThickness="1" Margin="0,0,3,0"
                               Cursor="Hand" MouseDown="OnKeyMouseDown" MouseUp="OnKeyMouseUp" Tag="Shift">
                         <Grid>

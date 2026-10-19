@@ -540,4 +540,32 @@ public static class KeystrokeThemeManager
             }
         }
     }
+
+    public static bool IsKeyAllowedBySettings(string keyName, Models.Persistable.AppSettings? settings)
+    {
+        if (settings == null)
+            return true;
+
+        if (string.Equals(keyName, "W", StringComparison.OrdinalIgnoreCase) ||
+            string.Equals(keyName, "A", StringComparison.OrdinalIgnoreCase) ||
+            string.Equals(keyName, "S", StringComparison.OrdinalIgnoreCase) ||
+            string.Equals(keyName, "D", StringComparison.OrdinalIgnoreCase))
+        {
+            return settings.KeystrokesShowKeys;
+        }
+
+        if (string.Equals(keyName, "LMB", StringComparison.OrdinalIgnoreCase) ||
+            string.Equals(keyName, "RMB", StringComparison.OrdinalIgnoreCase))
+        {
+            return settings.KeystrokesShowMouseButtons;
+        }
+
+        if (string.Equals(keyName, "Shift", StringComparison.OrdinalIgnoreCase) ||
+            string.Equals(keyName, "Space", StringComparison.OrdinalIgnoreCase))
+        {
+            return settings.KeystrokesShowSpaceAndShift;
+        }
+
+        return true;
+    }
 }

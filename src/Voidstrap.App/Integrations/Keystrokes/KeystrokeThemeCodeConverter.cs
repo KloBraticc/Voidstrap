@@ -253,10 +253,16 @@ public static class KeystrokeThemeCodeConverter
             target.FontWeight = fontWeight;
 
         string? keyBgImg = MatchStringProperty(code, "KeyBackgroundImage");
-        target.KeyBackgroundImage = keyBgImg;
+        if (keyBgImg != null)
+            target.KeyBackgroundImage = keyBgImg;
+        else if (Regex.IsMatch(code, @"KeyBackgroundImage\s*=\s*null"))
+            target.KeyBackgroundImage = null;
 
         string? keyPressBgImg = MatchStringProperty(code, "KeyPressedBackgroundImage");
-        target.KeyPressedBackgroundImage = keyPressBgImg;
+        if (keyPressBgImg != null)
+            target.KeyPressedBackgroundImage = keyPressBgImg;
+        else if (Regex.IsMatch(code, @"KeyPressedBackgroundImage\s*=\s*null"))
+            target.KeyPressedBackgroundImage = null;
 
         string? stretch = MatchStringProperty(code, "KeyImageStretch");
         if (stretch != null)
@@ -274,7 +280,7 @@ public static class KeystrokeThemeCodeConverter
         if (circleSize.HasValue)
             target.MouseCircleSize = circleSize.Value;
 
-        var layoutMatch = Regex.Match(code, @"theme\.LayoutRows\s*=\s*new\s*(?:List<List<string>>)?\s*\{([^;]+)\};", RegexOptions.Singleline);
+        var layoutMatch = Regex.Match(code, @"(?:theme\.)?LayoutRows\s*=\s*new\s*(?:List<List<string>>)?\s*\{([^;]+)\}", RegexOptions.Singleline);
         if (layoutMatch.Success)
         {
             var rMatches = Regex.Matches(layoutMatch.Groups[1].Value, @"new\s*(?:\(\)|List<string>\(\))\s*\{([^}]+)\}");
@@ -290,6 +296,21 @@ public static class KeystrokeThemeCodeConverter
                     if (row.Count > 0)
                         target.LayoutRows.Add(row);
                 }
+            }
+        }
+
+        var addKeyMatches = Regex.Matches(code, @"(?:AddKey|AddKeycap)\s*\(\s*(?:theme\s*,\s*)?""([^""]+)""\s*,\s*([0-9.]+)\s*,\s*([0-9.]+)\s*,\s*([0-9.]+)");
+        foreach (Match match in addKeyMatches)
+        {
+            string keyName = match.Groups[1].Value;
+            if (double.TryParse(match.Groups[2].Value, NumberStyles.Float, CultureInfo.InvariantCulture, out double w) &&
+                double.TryParse(match.Groups[3].Value, NumberStyles.Float, CultureInfo.InvariantCulture, out double h) &&
+                double.TryParse(match.Groups[4].Value, NumberStyles.Float, CultureInfo.InvariantCulture, out double r))
+            {
+                var cap = target.GetOrCreateKeycap(keyName);
+                cap.Width = w;
+                cap.Height = h;
+                cap.CornerRadius = r;
             }
         }
 
@@ -383,7 +404,7 @@ public static class KeystrokeThemeCodeConverter
         sb.AppendLine("      inset: -1px;");
         sb.AppendLine("      border-radius: inherit;");
         sb.AppendLine("      padding: 1px;");
-        sb.AppendLine("      background: conic-gradient(from var(--border-angle), #a78bfa, #38bdf8, #818cf8, #a78bfa);");
+        sb.AppendLine("      background: conic-gradient(from var(--border-angle), var(--key-pressed-bg, #38bdf8), #38bdf8, var(--key-border-color, #38bdf8), var(--key-pressed-bg, #38bdf8));");
         sb.AppendLine("      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);");
         sb.AppendLine("      -webkit-mask-composite: xor;");
         sb.AppendLine("      mask-composite: exclude;");
@@ -430,8 +451,8 @@ public static class KeystrokeThemeCodeConverter
         sb.AppendLine("    }");
         sb.AppendLine();
         sb.AppendLine("    .mouse-circle {");
-        sb.AppendLine("      width: var(--mouse-circle-size, 96px);");
-        sb.AppendLine("      height: var(--mouse-circle-size, 96px);");
+        sb.AppendLine("      width: var(--mouse-circle-size, 88px);");
+        sb.AppendLine("      height: var(--mouse-circle-size, 88px);");
         sb.AppendLine("      border-radius: 50%;");
         sb.AppendLine("      border: var(--key-border-thickness) solid var(--key-border-color);");
         sb.AppendLine("      background: var(--key-bg);");
@@ -445,11 +466,11 @@ public static class KeystrokeThemeCodeConverter
         sb.AppendLine("    }");
         sb.AppendLine();
         sb.AppendLine("    .mouse-dot {");
-        sb.AppendLine("      width: 14px;");
-        sb.AppendLine("      height: 14px;");
+        sb.AppendLine("      width: calc(var(--mouse-circle-size, 88px) * 0.27);");
+        sb.AppendLine("      height: calc(var(--mouse-circle-size, 88px) * 0.27);");
         sb.AppendLine("      border-radius: 50%;");
-        sb.AppendLine("      background: #a78bfa;");
-        sb.AppendLine("      box-shadow: 0 0 10px rgba(167, 139, 250, 0.85);");
+        sb.AppendLine("      background: var(--key-pressed-bg, Accent);");
+        sb.AppendLine("      box-shadow: 0 0 10px var(--key-pressed-bg, Accent);");
         sb.AppendLine("    }");
         sb.AppendLine();
         sb.AppendLine("    .keystrokes-overlay {");

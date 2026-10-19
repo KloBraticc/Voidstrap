@@ -43,73 +43,22 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
 
         CodeEditor.TextChanged += OnCodeEditorTextChanged;
         CodeEditor.TextArea.Caret.PositionChanged += OnCaretPositionChanged;
+        Activated += (_, _) => RefreshLivePreview();
 
         _isInitializing = false;
         RefreshLivePreview();
     }
 
-    private MessageBoxResult ShowWpfUiMessageBox(string message, string title, MessageBoxButton buttons = MessageBoxButton.OK)
+    private void OnMouseCircleMouseDown(object sender, MouseButtonEventArgs e)
     {
-        var msg = new Wpf.Ui.Controls.MessageBox
-        {
-            Owner = this,
-            Title = title,
-            Content = new TextBlock
-            {
-                Text = message,
-                TextWrapping = TextWrapping.Wrap,
-                Margin = new Thickness(0, 10, 0, 10)
-            },
-            MicaEnabled = true,
-            ShowTitle = true,
-            ShowFooter = true
-        };
+        KeystrokeAudioService.PlayMousePress();
+        PreviewMouseDot.RenderTransformOrigin = new Point(0.5, 0.5);
+        PreviewMouseDot.RenderTransform = new ScaleTransform(1.22, 1.22);
+    }
 
-        MessageBoxResult result = buttons switch
-        {
-            MessageBoxButton.YesNo or MessageBoxButton.YesNoCancel => MessageBoxResult.No,
-            _ => MessageBoxResult.OK
-        };
-
-        if (buttons is MessageBoxButton.YesNo or MessageBoxButton.YesNoCancel)
-        {
-            msg.ButtonLeftName = "Yes";
-            msg.ButtonLeftAppearance = Wpf.Ui.Common.ControlAppearance.Primary;
-            msg.ButtonRightName = "No";
-            msg.ButtonRightAppearance = Wpf.Ui.Common.ControlAppearance.Secondary;
-
-            msg.ButtonLeftClick += (_, _) =>
-            {
-                result = MessageBoxResult.Yes;
-                msg.Close();
-            };
-            msg.ButtonRightClick += (_, _) =>
-            {
-                result = MessageBoxResult.No;
-                msg.Close();
-            };
-        }
-        else
-        {
-            msg.ButtonLeftName = "OK";
-            msg.ButtonLeftAppearance = Wpf.Ui.Common.ControlAppearance.Primary;
-            msg.ButtonRightName = string.Empty;
-            msg.ButtonRightAppearance = Wpf.Ui.Common.ControlAppearance.Transparent;
-
-            msg.ButtonLeftClick += (_, _) =>
-            {
-                result = MessageBoxResult.OK;
-                msg.Close();
-            };
-            msg.ButtonRightClick += (_, _) =>
-            {
-                result = MessageBoxResult.OK;
-                msg.Close();
-            };
-        }
-
-        msg.ShowOwnedDialog();
-        return result;
+    private void OnMouseCircleMouseUp(object sender, MouseButtonEventArgs e)
+    {
+        PreviewMouseDot.RenderTransform = Transform.Identity;
     }
 
     private void RefreshKeycapTargetItems(string? selectKey = null)
@@ -231,7 +180,8 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
                 "Background Images",
                 "Glass & Squash Scale",
                 "Accent Brushes",
-                "Full Gaming Layout & Trackpad"
+                "Full Gaming Layout & Trackpad",
+                "Mouse Movement Theme (Custom 1)"
             },
             ThemeCodeLanguage.HtmlCss => new List<string>
             {
@@ -240,14 +190,16 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
                 "CSS Variables",
                 "Pressed State",
                 "Full Gaming Layout & Trackpad",
-                "Animated HUD & Shine"
+                "Animated HUD & Shine",
+                "Mouse Movement Circle"
             },
             ThemeCodeLanguage.Rust => new List<string>
             {
                 Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_InsertSnippet ?? "Insert Snippet...",
                 "Keycap Match",
                 "Theme Overrides",
-                "Full Gaming Layout & Trackpad"
+                "Full Gaming Layout & Trackpad",
+                "Mouse Movement Theme"
             },
             _ => new List<string>
             {
@@ -257,7 +209,8 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
                 "Per-Key Images",
                 "Glass & Squash Scale",
                 "Accent Palette",
-                "Full Gaming Layout & Trackpad"
+                "Full Gaming Layout & Trackpad",
+                "Mouse Movement Theme"
             }
         };
         ComboSnippets.SelectedIndex = 0;
@@ -811,6 +764,71 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
             ShowMouseCircle = true,
             MouseCircleSize = 130.0,
 """,
+                6 => """
+using Voidstrap.Integrations.Keystrokes;
+
+public static class ThemeDefinition
+{
+    public static KeystrokeTheme CreateTheme()
+    {
+        var theme = new KeystrokeTheme
+        {
+            Name = "Custom Theme 1",
+            KeyBackground = "#171625",
+            KeyPressedBackground = "#8B5CF6",
+            KeyBorderColor = "#393352",
+            KeyBorderThickness = 1.25,
+            KeyCornerRadius = 9.0,
+            KeyTextColor = "#E8E5F5",
+            KeyPressedTextColor = "#FFFFFF",
+            CpsTextColor = "#85819F",
+            KeyPressedCpsTextColor = "#FFFFFF",
+            BackdropBlur = true,
+            KeyScaleOnPress = 0.94,
+            FontFamily = "Cascadia Mono",
+            FontWeight = "Bold",
+            KeyBackgroundImage = null,
+            KeyPressedBackgroundImage = null,
+            KeyImageStretch = "Uniform",
+            KeyImageOpacity = 1.0,
+            ShowMouseCircle = true,
+            MouseCircleSize = 88.0
+        };
+
+        AddKey(theme, "W", 48, 48, 10);
+        AddKey(theme, "A", 48, 48, 10);
+        AddKey(theme, "S", 48, 48, 10);
+        AddKey(theme, "D", 48, 48, 10);
+
+        AddKey(theme, "LMB", 70, 34, 8);
+        AddKey(theme, "RMB", 70, 34, 8);
+
+        AddKey(theme, "Shift", 78, 34, 8);
+        AddKey(theme, "Space", 112, 34, 8);
+
+        return theme;
+    }
+
+    private static void AddKey(
+        KeystrokeTheme theme,
+        string key,
+        double width,
+        double height,
+        double radius)
+    {
+        theme.Keycaps[key] = new KeycapConfig
+        {
+            Image = null,
+            PressedImage = null,
+            Width = width,
+            Height = height,
+            CornerRadius = radius,
+            Text = null,
+            HideText = false
+        };
+    }
+}
+""",
                 _ => string.Empty
             },
             ThemeCodeLanguage.HtmlCss => idx switch
@@ -980,6 +998,10 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
   }
 }
 """,
+                6 => """
+      --show-mouse-circle: true;
+      --mouse-circle-size: 88px;
+""",
                 _ => string.Empty
             },
             ThemeCodeLanguage.Rust => idx switch
@@ -1011,6 +1033,10 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
     ],
     show_mouse_circle: true,
     mouse_circle_size: 130.0,
+""",
+                4 => """
+    show_mouse_circle: true,
+    mouse_circle_size: 88.0,
 """,
                 _ => string.Empty
             },
@@ -1070,6 +1096,10 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
   "ShowMouseCircle": true,
   "MouseCircleSize": 130.0,
 """,
+                7 => """
+  "ShowMouseCircle": true,
+  "MouseCircleSize": 88.0,
+""",
                 _ => string.Empty
             }
         };
@@ -1086,11 +1116,11 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
     {
         if (UpdateFromCurrentCode())
         {
-            ShowWpfUiMessageBox(Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_CodeValid ?? "Theme updated from code.", "Voidstrap");
+            Frontend.ShowMessageBox(Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_CodeValid ?? "Theme updated from code.", MessageBoxImage.Information);
         }
         else
         {
-            ShowWpfUiMessageBox(TextCodeStatus.Text, "Error");
+            Frontend.ShowMessageBox(TextCodeStatus.Text, MessageBoxImage.Error);
         }
     }
 
@@ -1117,13 +1147,17 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
         if (_workingTheme.ShowMouseCircle)
         {
             PreviewMouseCircle.Visibility = Visibility.Visible;
-            double size = Math.Max(40, _workingTheme.MouseCircleSize > 0 ? _workingTheme.MouseCircleSize * 0.7 : 90);
+            double size = _workingTheme.MouseCircleSize > 0 ? _workingTheme.MouseCircleSize : 88.0;
             PreviewMouseCircle.Width = size;
             PreviewMouseCircle.Height = size;
             PreviewMouseCircle.CornerRadius = new CornerRadius(size / 2.0);
             PreviewMouseCircle.BorderBrush = borderBrush;
             PreviewMouseCircle.BorderThickness = borderThickness;
-            PreviewMouseCircle.Background = _workingTheme.GetKeyBrush("MouseCircle", false);
+            PreviewMouseCircle.Background = _workingTheme.GetKeyBackgroundBrush();
+
+            double dotSize = Math.Max(12, Math.Round(size * 0.27));
+            PreviewMouseDot.Width = dotSize;
+            PreviewMouseDot.Height = dotSize;
             PreviewMouseDot.Fill = pressedBgBrush;
         }
         else
@@ -1133,6 +1167,8 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
 
         _previewElements.Clear();
 
+        var settings = App.Settings?.Prop ?? new Voidstrap.Models.Persistable.AppSettings();
+
         if (_workingTheme.LayoutRows != null && _workingTheme.LayoutRows.Count > 0)
         {
             PreviewDefaultKeysPanel.Visibility = Visibility.Collapsed;
@@ -1141,6 +1177,10 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
 
             foreach (var row in _workingTheme.LayoutRows)
             {
+                var visibleKeys = row.Where(k => KeystrokeThemeManager.IsKeyAllowedBySettings(k, settings)).ToList();
+                if (visibleKeys.Count == 0)
+                    continue;
+
                 var rowPanel = new StackPanel
                 {
                     Orientation = Orientation.Horizontal,
@@ -1148,9 +1188,9 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
                     Margin = new Thickness(0, 0, 0, 3)
                 };
 
-                for (int i = 0; i < row.Count; i++)
+                for (int i = 0; i < visibleKeys.Count; i++)
                 {
-                    string keyName = row[i];
+                    string keyName = visibleKeys[i];
                     var cap = _workingTheme.Keycaps.TryGetValue(keyName, out var c) ? c : null;
 
                     double width = cap?.Width ?? 46;
@@ -1165,7 +1205,7 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
                         BorderThickness = borderThickness,
                         BorderBrush = borderBrush,
                         Background = _workingTheme.GetKeyBrush(keyName, false),
-                        Margin = new Thickness(0, 0, i < row.Count - 1 ? 3 : 0, 0),
+                        Margin = new Thickness(0, 0, i < visibleKeys.Count - 1 ? 3 : 0, 0),
                         Cursor = Cursors.Hand,
                         Tag = keyName
                     };
@@ -1207,6 +1247,13 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
         {
             PreviewDefaultKeysPanel.Visibility = Visibility.Visible;
             PreviewDynamicKeysPanel.Visibility = Visibility.Collapsed;
+
+            PreviewRowW.Visibility = settings.KeystrokesShowKeys ? Visibility.Visible : Visibility.Collapsed;
+            PreviewRowASD.Visibility = settings.KeystrokesShowKeys ? Visibility.Visible : Visibility.Collapsed;
+            PreviewRowMouse.Visibility = settings.KeystrokesShowMouseButtons ? Visibility.Visible : Visibility.Collapsed;
+            PreviewRowBottom.Visibility = settings.KeystrokesShowSpaceAndShift ? Visibility.Visible : Visibility.Collapsed;
+            PreviewCpsLmb.Visibility = settings.KeystrokesShowCps ? Visibility.Visible : Visibility.Collapsed;
+            PreviewCpsRmb.Visibility = settings.KeystrokesShowCps ? Visibility.Visible : Visibility.Collapsed;
 
             var keyTuples = new (Border Key, Border Highlight, TextBlock Text, string Name)[]
             {
@@ -1289,6 +1336,19 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
 
     private void SetKeyPressed(string tag, bool isDown)
     {
+        if (_workingTheme.ShowMouseCircle && tag is "LMB" or "RMB")
+        {
+            if (isDown)
+            {
+                PreviewMouseDot.RenderTransformOrigin = new Point(0.5, 0.5);
+                PreviewMouseDot.RenderTransform = new ScaleTransform(1.22, 1.22);
+            }
+            else
+            {
+                PreviewMouseDot.RenderTransform = Transform.Identity;
+            }
+        }
+
         if (!_previewElements.TryGetValue(tag, out var elem))
             return;
 
@@ -1316,9 +1376,9 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
                 key.RenderTransform = new ScaleTransform(_workingTheme.KeyScaleOnPress, _workingTheme.KeyScaleOnPress);
             }
 
-            Color shadowColor = Colors.MediumPurple;
-            if (_workingTheme.GetKeyPressedBackgroundBrush() is SolidColorBrush sb)
-                shadowColor = sb.Color;
+            Color shadowColor = (_workingTheme.GetKeyPressedBackgroundBrush() is SolidColorBrush sb)
+                ? sb.Color
+                : KeystrokeTheme.GetEffectiveAccentColor();
 
             key.Effect = new System.Windows.Media.Effects.DropShadowEffect
             {
@@ -1347,11 +1407,15 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
             return;
 
         _sequenceRunning = true;
+        var settings = App.Settings?.Prop ?? new Voidstrap.Models.Persistable.AppSettings();
         var keys = new List<string>();
         foreach (var row in _workingTheme.GetEffectiveLayoutRows())
         {
             foreach (var k in row)
-                keys.Add(k);
+            {
+                if (KeystrokeThemeManager.IsKeyAllowedBySettings(k, settings))
+                    keys.Add(k);
+            }
         }
 
         foreach (string k in keys)
@@ -1409,7 +1473,7 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
         {
             if (!UpdateFromCurrentCode())
             {
-                var result = ShowWpfUiMessageBox(TextCodeStatus.Text + "\n\nSave anyway?", "Invalid Code", MessageBoxButton.YesNo);
+                var result = Frontend.ShowMessageBox(TextCodeStatus.Text + "\n\nSave anyway?", MessageBoxImage.Warning, MessageBoxButton.YesNo);
                 if (result != MessageBoxResult.Yes)
                     return;
             }

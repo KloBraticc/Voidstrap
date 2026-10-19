@@ -241,12 +241,17 @@ public partial class KeystrokeOverlayWindow : Window
         if (theme.ShowMouseCircle)
         {
             OverlayMouseCircle.Visibility = Visibility.Visible;
-            OverlayMouseCircle.Width = theme.MouseCircleSize;
-            OverlayMouseCircle.Height = theme.MouseCircleSize;
-            OverlayMouseCircle.CornerRadius = new CornerRadius(theme.MouseCircleSize / 2.0);
+            double size = theme.MouseCircleSize > 0 ? theme.MouseCircleSize : 88.0;
+            OverlayMouseCircle.Width = size;
+            OverlayMouseCircle.Height = size;
+            OverlayMouseCircle.CornerRadius = new CornerRadius(size / 2.0);
             OverlayMouseCircle.Background = theme.GetKeyBackgroundBrush();
             OverlayMouseCircle.BorderBrush = borderBrush;
             OverlayMouseCircle.BorderThickness = borderThickness;
+
+            double dotSize = Math.Max(12, Math.Round(size * 0.27));
+            OverlayMouseDot.Width = dotSize;
+            OverlayMouseDot.Height = dotSize;
             OverlayMouseDot.Fill = theme.GetKeyPressedBackgroundBrush();
         }
         else
@@ -262,8 +267,14 @@ public partial class KeystrokeOverlayWindow : Window
             DynamicKeysPanel.Visibility = Visibility.Visible;
             DynamicKeysPanel.Children.Clear();
 
+            var settings = App.Settings.Prop;
+
             foreach (var row in theme.LayoutRows)
             {
+                var visibleKeys = row.Where(k => KeystrokeThemeManager.IsKeyAllowedBySettings(k, settings)).ToList();
+                if (visibleKeys.Count == 0)
+                    continue;
+
                 var rowPanel = new StackPanel
                 {
                     Orientation = Orientation.Horizontal,
@@ -271,9 +282,9 @@ public partial class KeystrokeOverlayWindow : Window
                     Margin = new Thickness(0, 0, 0, 3)
                 };
 
-                for (int i = 0; i < row.Count; i++)
+                for (int i = 0; i < visibleKeys.Count; i++)
                 {
-                    string keyName = row[i];
+                    string keyName = visibleKeys[i];
                     var cap = theme.Keycaps.TryGetValue(keyName, out var c) ? c : null;
 
                     double width = cap?.Width ?? 46;
@@ -288,7 +299,7 @@ public partial class KeystrokeOverlayWindow : Window
                         BorderThickness = borderThickness,
                         BorderBrush = borderBrush,
                         Background = theme.GetKeyBrush(keyName, false),
-                        Margin = new Thickness(0, 0, i < row.Count - 1 ? 3 : 0, 0)
+                        Margin = new Thickness(0, 0, i < visibleKeys.Count - 1 ? 3 : 0, 0)
                     };
 
                     var grid = new Grid();
@@ -388,12 +399,16 @@ public partial class KeystrokeOverlayWindow : Window
 
     public async Task TriggerPreviewSequenceAsync()
     {
+        var settings = App.Settings.Prop;
         var theme = KeystrokeThemeManager.ActiveTheme;
         var rows = theme.GetEffectiveLayoutRows();
         foreach (var r in rows)
         {
             foreach (var k in r)
             {
+                if (!KeystrokeThemeManager.IsKeyAllowedBySettings(k, settings))
+                    continue;
+
                 UpdateVisualNamed(k, true);
                 if (string.Equals(k, "LMB", StringComparison.OrdinalIgnoreCase) || string.Equals(k, "RMB", StringComparison.OrdinalIgnoreCase))
                     KeystrokeAudioService.PlayMousePress();
@@ -523,7 +538,7 @@ public partial class KeystrokeOverlayWindow : Window
 
             key.Effect = new DropShadowEffect
             {
-                Color = KeystrokeTheme.ParseColor(theme.KeyPressedBackground, Colors.MediumPurple),
+                Color = KeystrokeTheme.ParseColor(theme.KeyPressedBackground, KeystrokeTheme.GetEffectiveAccentColor()),
                 BlurRadius = 14,
                 ShadowDepth = 0,
                 Opacity = 0.85
@@ -539,6 +554,12 @@ public partial class KeystrokeOverlayWindow : Window
                 cps.Foreground = theme.GetCpsTextBrush();
             key.RenderTransform = Transform.Identity;
             key.Effect = null;
+        }
+
+        if (theme.ShowMouseCircle && keyName is "LMB" or "RMB")
+        {
+            OverlayMouseDot.RenderTransformOrigin = new Point(0.5, 0.5);
+            OverlayMouseDot.RenderTransform = isDown ? new ScaleTransform(1.2, 1.2) : Transform.Identity;
         }
     }
 
