@@ -70,6 +70,22 @@ public partial class KeystrokePreviewWindow : WpfUiWindow
             item.Text.Foreground = textBrush;
             item.Text.FontFamily = fontFamily;
             item.Text.FontWeight = fontWeight;
+
+            if (_theme.Keycaps.TryGetValue(item.Name, out var cap))
+            {
+                if (cap.Width.HasValue && cap.Width.Value > 0)
+                    item.Key.Width = cap.Width.Value;
+                if (cap.Height.HasValue && cap.Height.Value > 0)
+                    item.Key.Height = cap.Height.Value;
+                if (cap.CornerRadius.HasValue)
+                {
+                    item.Key.CornerRadius = new CornerRadius(cap.CornerRadius.Value);
+                    item.Highlight.CornerRadius = new CornerRadius(Math.Max(0, cap.CornerRadius.Value - 1));
+                }
+                if (!string.IsNullOrEmpty(cap.Text))
+                    item.Text.Text = cap.Text;
+                item.Text.Visibility = cap.HideText ? Visibility.Collapsed : Visibility.Visible;
+            }
         }
 
         TextCpsLmb.Foreground = cpsBrush;
@@ -147,6 +163,13 @@ public partial class KeystrokePreviewWindow : WpfUiWindow
             return;
 
         highlight.BeginAnimation(UIElement.OpacityProperty, null);
+        if (_theme.Keycaps.TryGetValue(tag, out var cap))
+        {
+            if (!string.IsNullOrEmpty(cap.Text))
+                text.Text = cap.Text;
+            text.Visibility = cap.HideText ? Visibility.Collapsed : Visibility.Visible;
+        }
+
         if (isDown)
         {
             highlight.Opacity = 1.0;

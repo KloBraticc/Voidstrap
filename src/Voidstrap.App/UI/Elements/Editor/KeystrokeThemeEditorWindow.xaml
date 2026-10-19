@@ -6,8 +6,8 @@
                   xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
                   xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
                   xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls"
-                   Title="{resources:Loc Ui_Keystrokes_Editor_Title}" Width="980" Height="680"
-                   MinWidth="840" MinHeight="560" WindowStartupLocation="CenterScreen"
+                   Title="{resources:Loc Ui_Keystrokes_Editor_Title}" Width="1080" Height="720"
+                   MinWidth="960" MinHeight="600" WindowStartupLocation="CenterScreen"
                    ExtendsContentIntoTitleBar="True"
                    Background="{ui:ThemeResource ApplicationBackgroundBrush}">
   <Grid>
@@ -22,9 +22,9 @@
 
     <Grid Grid.Row="1" Margin="16,4,16,8">
       <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="480" />
-        <ColumnDefinition Width="12" />
-        <ColumnDefinition Width="*" />
+        <ColumnDefinition Width="*" MinWidth="540" />
+        <ColumnDefinition Width="14" />
+        <ColumnDefinition Width="380" />
       </Grid.ColumnDefinitions>
 
       <TabControl x:Name="EditorTabs" Grid.Column="0" Margin="0" SelectionChanged="OnTabSelectionChanged">
@@ -229,6 +229,98 @@
                   </Grid>
                 </StackPanel>
               </Border>
+
+              <Border Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                      BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                      BorderThickness="1" CornerRadius="8" Padding="14" Margin="0,0,0,12">
+                <StackPanel>
+                  <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_KeycapCustomizer}" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,10" />
+
+                  <Grid Margin="0,4,0,8">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="130" />
+                      <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_SelectKeycap}" VerticalAlignment="Center" />
+                    <ComboBox x:Name="ComboKeycapTarget" Grid.Column="1" SelectionChanged="OnKeycapTargetSelectionChanged" />
+                  </Grid>
+
+                  <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_KeycapImage}" Margin="0,4,0,2" />
+                  <Grid Margin="0,0,0,8">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="TextKeycapImage" IsReadOnly="True" Margin="0,0,6,0" VerticalAlignment="Center" />
+                    <ui:Button Grid.Column="1" Margin="0,0,4,0" Content="{resources:Loc Common_Browse}" Click="OnBrowseKeycapImageClicked" />
+                    <ui:Button Grid.Column="2" Content="{resources:Loc Ui_Keystrokes_Editor_Clear}" Click="OnClearKeycapImageClicked" Appearance="Secondary" />
+                  </Grid>
+
+                  <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_KeycapPressedImage}" Margin="0,4,0,2" />
+                  <Grid Margin="0,0,0,8">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="TextKeycapPressedImage" IsReadOnly="True" Margin="0,0,6,0" VerticalAlignment="Center" />
+                    <ui:Button Grid.Column="1" Margin="0,0,4,0" Content="{resources:Loc Common_Browse}" Click="OnBrowseKeycapPressedImageClicked" />
+                    <ui:Button Grid.Column="2" Content="{resources:Loc Ui_Keystrokes_Editor_Clear}" Click="OnClearKeycapPressedImageClicked" Appearance="Secondary" />
+                  </Grid>
+
+                  <Grid Margin="0,4,0,6">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="130" />
+                      <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_KeycapCustomLabel}" VerticalAlignment="Center" />
+                    <TextBox x:Name="TextKeycapLabel" Grid.Column="1" TextChanged="OnKeycapLabelChanged" />
+                  </Grid>
+
+                  <Grid Margin="0,4,0,6">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_KeycapHideLabel}" VerticalAlignment="Center" />
+                    <ui:ToggleSwitch x:Name="ToggleKeycapHideLabel" Grid.Column="1" Click="OnKeycapHideLabelClicked" />
+                  </Grid>
+
+                  <Grid Margin="0,6">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="130" />
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="40" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_KeycapWidth}" VerticalAlignment="Center" />
+                    <Slider x:Name="SliderKeycapWidth" Grid.Column="1" Minimum="0" Maximum="140" TickFrequency="2" IsSnapToTickEnabled="True" VerticalAlignment="Center" ValueChanged="OnKeycapGeometryChanged" />
+                    <TextBlock x:Name="TextKeycapWidthVal" Grid.Column="2" TextAlignment="Right" VerticalAlignment="Center" />
+                  </Grid>
+
+                  <Grid Margin="0,6">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="130" />
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="40" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_KeycapHeight}" VerticalAlignment="Center" />
+                    <Slider x:Name="SliderKeycapHeight" Grid.Column="1" Minimum="0" Maximum="140" TickFrequency="2" IsSnapToTickEnabled="True" VerticalAlignment="Center" ValueChanged="OnKeycapGeometryChanged" />
+                    <TextBlock x:Name="TextKeycapHeightVal" Grid.Column="2" TextAlignment="Right" VerticalAlignment="Center" />
+                  </Grid>
+
+                  <Grid Margin="0,6">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="130" />
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="40" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_KeycapCornerRadius}" VerticalAlignment="Center" />
+                    <Slider x:Name="SliderKeycapCornerRadius" Grid.Column="1" Minimum="-1" Maximum="24" TickFrequency="1" IsSnapToTickEnabled="True" VerticalAlignment="Center" ValueChanged="OnKeycapGeometryChanged" />
+                    <TextBlock x:Name="TextKeycapCornerRadiusVal" Grid.Column="2" TextAlignment="Right" VerticalAlignment="Center" />
+                  </Grid>
+                </StackPanel>
+              </Border>
             </StackPanel>
           </ScrollViewer>
         </TabItem>
@@ -240,25 +332,30 @@
               <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
-            <Border Grid.Row="0" Margin="0,0,0,8" Padding="6" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+            <Border Grid.Row="0" Margin="0,0,0,8" Padding="8,6" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
                     BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="6">
               <Grid>
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="*" />
-                  <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                  <ui:Button Margin="0,0,6,0" Icon="Code24" Content="{resources:Loc Ui_Keystrokes_Editor_FormatJson}" Click="OnFormatJsonClicked" />
-                  <ui:Button Margin="0,0,6,0" Icon="ImageAdd24" Content="{resources:Loc Ui_Keystrokes_Editor_AddImage}" Click="OnAddImageClicked" />
-                  <ui:Button Margin="0,0,6,0" Icon="FolderOpen24" Content="{resources:Loc Ui_Keystrokes_Editor_OpenFolder}" Click="OnOpenFolderClicked" />
-                  <ComboBox x:Name="ComboSnippets" MinWidth="130" Margin="0,0,6,0" VerticalAlignment="Center"
+                <Grid.RowDefinitions>
+                  <RowDefinition Height="Auto" />
+                  <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+                <WrapPanel Grid.Row="0" Orientation="Horizontal" VerticalAlignment="Center">
+                  <ComboBox x:Name="ComboLanguage" Width="140" Margin="0,0,6,4" VerticalAlignment="Center"
+                            SelectionChanged="OnLanguageSelectionChanged" />
+                  <ui:Button Margin="0,0,6,4" Icon="Code24" Content="{resources:Loc Ui_Keystrokes_Editor_FormatJson}" Click="OnFormatCodeClicked" />
+                  <ui:Button Margin="0,0,6,4" Icon="ImageAdd24" Content="{resources:Loc Ui_Keystrokes_Editor_AddImage}" Click="OnAddImageClicked" />
+                  <ui:Button Margin="0,0,6,4" Icon="FolderOpen24" Content="{resources:Loc Ui_Keystrokes_Editor_OpenFolder}" Click="OnOpenFolderClicked" />
+                  <ComboBox x:Name="ComboSnippets" MinWidth="130" Margin="0,0,6,4" VerticalAlignment="Center"
                             SelectionChanged="OnSnippetSelected" />
-                </StackPanel>
-                <TextBlock x:Name="TextJsonStatus" Grid.Column="1" VerticalAlignment="Center" Margin="8,0,4,0" FontSize="11" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                </WrapPanel>
+                <DockPanel Grid.Row="1" Margin="2,4,2,0" LastChildFill="True">
+                  <TextBlock x:Name="TextCodeStatus" VerticalAlignment="Center" FontSize="11"
+                             Foreground="{DynamicResource TextFillColorSecondaryBrush}" TextWrapping="Wrap" />
+                </DockPanel>
               </Grid>
             </Border>
 
-            <avalonedit:TextEditor x:Name="JsonEditor" Grid.Row="1"
+            <avalonedit:TextEditor x:Name="CodeEditor" Grid.Row="1"
                                    controls:CodeEditorBehavior.Language=".json"
                                    Style="{StaticResource NewTextEditor}"
                                    FontFamily="Cascadia Mono, Consolas"
@@ -269,8 +366,8 @@
 
             <Grid Grid.Row="2" Margin="0,8,0,0">
               <TextBlock x:Name="TextEditorStats" VerticalAlignment="Center" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
-              <ui:Button Content="{resources:Loc Ui_Keystrokes_Editor_ApplyRawJson}"
-                         Appearance="Primary" HorizontalAlignment="Right" Click="OnApplyJsonClicked" />
+              <ui:Button Content="{resources:Loc Ui_Keystrokes_Editor_ApplyCode}"
+                         Appearance="Primary" HorizontalAlignment="Right" Click="OnApplyCodeClicked" />
             </Grid>
           </Grid>
         </TabItem>

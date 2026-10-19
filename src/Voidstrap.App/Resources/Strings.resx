@@ -7499,4 +7499,43 @@ Error: {0}</value>
   <data name="Ui.Keystrokes.Editor.ThemeCode" xml:space="preserve">
     <value>Theme Code</value>
   </data>
+  <data name="Ui.Keystrokes.Editor.KeycapCustomizer" xml:space="preserve">
+    <value>Keycap Customizer</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.SelectKeycap" xml:space="preserve">
+    <value>Keycap</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapImage" xml:space="preserve">
+    <value>Keycap Image</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapPressedImage" xml:space="preserve">
+    <value>Pressed Keycap Image</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapWidth" xml:space="preserve">
+    <value>Width</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapHeight" xml:space="preserve">
+    <value>Height</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapCornerRadius" xml:space="preserve">
+    <value>Corner Radius</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapCustomLabel" xml:space="preserve">
+    <value>Custom Label</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapHideLabel" xml:space="preserve">
+    <value>Hide Label</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Language" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.CodeValid" xml:space="preserve">
+    <value>Code parsed successfully</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.CodeInvalid" xml:space="preserve">
+    <value>Syntax error in code</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ApplyCode" xml:space="preserve">
+    <value>Apply Code</value>
+  </data>
 </root>

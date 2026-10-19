@@ -259,6 +259,51 @@ public static class KeystrokeThemeManager
                         {
                         }
                     }
+
+                    string csFile = Path.Combine(dir, "Theme.cs");
+                    if (File.Exists(csFile))
+                    {
+                        try
+                        {
+                            string code = File.ReadAllText(csFile);
+                            var custom = new KeystrokeTheme { Name = name, IsBuiltIn = false };
+                            if (KeystrokeThemeCodeConverter.TryParseCode(code, ThemeCodeLanguage.CSharp, custom, out _))
+                                return custom;
+                        }
+                        catch
+                        {
+                        }
+                    }
+
+                    string htmlFile = Path.Combine(dir, "theme.html");
+                    if (File.Exists(htmlFile))
+                    {
+                        try
+                        {
+                            string code = File.ReadAllText(htmlFile);
+                            var custom = new KeystrokeTheme { Name = name, IsBuiltIn = false };
+                            if (KeystrokeThemeCodeConverter.TryParseCode(code, ThemeCodeLanguage.HtmlCss, custom, out _))
+                                return custom;
+                        }
+                        catch
+                        {
+                        }
+                    }
+
+                    string rsFile = Path.Combine(dir, "theme.rs");
+                    if (File.Exists(rsFile))
+                    {
+                        try
+                        {
+                            string code = File.ReadAllText(rsFile);
+                            var custom = new KeystrokeTheme { Name = name, IsBuiltIn = false };
+                            if (KeystrokeThemeCodeConverter.TryParseCode(code, ThemeCodeLanguage.Rust, custom, out _))
+                                return custom;
+                        }
+                        catch
+                        {
+                        }
+                    }
                 }
             }
 
@@ -292,6 +337,16 @@ public static class KeystrokeThemeManager
                 string file = Path.Combine(dir, "Theme.json");
                 string json = JsonSerializer.Serialize(theme, JsonOptions);
                 File.WriteAllText(file, json);
+
+                try
+                {
+                    File.WriteAllText(Path.Combine(dir, "Theme.cs"), KeystrokeThemeCodeConverter.GenerateCode(theme, ThemeCodeLanguage.CSharp));
+                    File.WriteAllText(Path.Combine(dir, "theme.html"), KeystrokeThemeCodeConverter.GenerateCode(theme, ThemeCodeLanguage.HtmlCss));
+                    File.WriteAllText(Path.Combine(dir, "theme.rs"), KeystrokeThemeCodeConverter.GenerateCode(theme, ThemeCodeLanguage.Rust));
+                }
+                catch
+                {
+                }
 
                 if (string.Equals(App.Settings.Prop.KeystrokesThemeName, theme.Name, StringComparison.OrdinalIgnoreCase))
                     NotifyThemeChanged();

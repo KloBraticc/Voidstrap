@@ -55,6 +55,18 @@ public sealed class KeystrokeTheme
 
     public double KeyImageOpacity { get; set; } = 1.0;
 
+    public Dictionary<string, KeycapConfig> Keycaps { get; set; } = new(StringComparer.OrdinalIgnoreCase);
+
+    public KeycapConfig GetOrCreateKeycap(string key)
+    {
+        if (!Keycaps.TryGetValue(key, out var cap))
+        {
+            cap = new KeycapConfig();
+            Keycaps[key] = cap;
+        }
+        return cap;
+    }
+
     [JsonIgnore]
     private readonly Dictionary<string, Brush?> _brushCache = new(StringComparer.OrdinalIgnoreCase);
 
@@ -200,6 +212,28 @@ public sealed class KeystrokeTheme
 
     public Brush GetKeyBrush(string key, bool isPressed)
     {
+        if (Keycaps.TryGetValue(key, out var cap))
+        {
+            if (isPressed)
+            {
+                if (!string.IsNullOrWhiteSpace(cap.PressedImage))
+                {
+                    var imgBrush = GetImageBrush(cap.PressedImage);
+                    if (imgBrush != null)
+                        return imgBrush;
+                }
+            }
+            else
+            {
+                if (!string.IsNullOrWhiteSpace(cap.Image))
+                {
+                    var imgBrush = GetImageBrush(cap.Image);
+                    if (imgBrush != null)
+                        return imgBrush;
+                }
+            }
+        }
+
         if (isPressed)
         {
             if (KeyPressedImages.TryGetValue(key, out string? pressedImg) && !string.IsNullOrWhiteSpace(pressedImg))
@@ -238,29 +272,60 @@ public sealed class KeystrokeTheme
         }
     }
 
-    public KeystrokeTheme Clone(string? newName = null) => new()
+    public KeystrokeTheme Clone(string? newName = null)
     {
-        Name = newName ?? Name,
-        IsBuiltIn = false,
-        KeyBackground = KeyBackground,
-        KeyPressedBackground = KeyPressedBackground,
-        KeyBorderColor = KeyBorderColor,
-        KeyBorderThickness = KeyBorderThickness,
-        KeyCornerRadius = KeyCornerRadius,
-        KeyTextColor = KeyTextColor,
-        KeyPressedTextColor = KeyPressedTextColor,
-        CpsTextColor = CpsTextColor,
-        KeyPressedCpsTextColor = KeyPressedCpsTextColor,
-        BackdropBlur = BackdropBlur,
-        KeyScaleOnPress = KeyScaleOnPress,
-        FontFamily = FontFamily,
-        FontWeight = FontWeight,
-        KeyBackgroundImage = KeyBackgroundImage,
-        KeyPressedBackgroundImage = KeyPressedBackgroundImage,
-        OverlayBackgroundImage = OverlayBackgroundImage,
-        KeyImages = new Dictionary<string, string>(KeyImages, StringComparer.OrdinalIgnoreCase),
-        KeyPressedImages = new Dictionary<string, string>(KeyPressedImages, StringComparer.OrdinalIgnoreCase),
-        KeyImageStretch = KeyImageStretch,
-        KeyImageOpacity = KeyImageOpacity
+        var cloned = new KeystrokeTheme
+        {
+            Name = newName ?? Name,
+            IsBuiltIn = false,
+            KeyBackground = KeyBackground,
+            KeyPressedBackground = KeyPressedBackground,
+            KeyBorderColor = KeyBorderColor,
+            KeyBorderThickness = KeyBorderThickness,
+            KeyCornerRadius = KeyCornerRadius,
+            KeyTextColor = KeyTextColor,
+            KeyPressedTextColor = KeyPressedTextColor,
+            CpsTextColor = CpsTextColor,
+            KeyPressedCpsTextColor = KeyPressedCpsTextColor,
+            BackdropBlur = BackdropBlur,
+            KeyScaleOnPress = KeyScaleOnPress,
+            FontFamily = FontFamily,
+            FontWeight = FontWeight,
+            KeyBackgroundImage = KeyBackgroundImage,
+            KeyPressedBackgroundImage = KeyPressedBackgroundImage,
+            OverlayBackgroundImage = OverlayBackgroundImage,
+            KeyImages = new Dictionary<string, string>(KeyImages, StringComparer.OrdinalIgnoreCase),
+            KeyPressedImages = new Dictionary<string, string>(KeyPressedImages, StringComparer.OrdinalIgnoreCase),
+            KeyImageStretch = KeyImageStretch,
+            KeyImageOpacity = KeyImageOpacity,
+            Keycaps = new Dictionary<string, KeycapConfig>(StringComparer.OrdinalIgnoreCase)
+        };
+
+        foreach (var pair in Keycaps)
+            cloned.Keycaps[pair.Key] = pair.Value.Clone();
+
+        return cloned;
+    }
+}
+
+public sealed class KeycapConfig
+{
+    public string? Image { get; set; }
+    public string? PressedImage { get; set; }
+    public double? Width { get; set; }
+    public double? Height { get; set; }
+    public double? CornerRadius { get; set; }
+    public string? Text { get; set; }
+    public bool HideText { get; set; }
+
+    public KeycapConfig Clone() => new()
+    {
+        Image = Image,
+        PressedImage = PressedImage,
+        Width = Width,
+        Height = Height,
+        CornerRadius = CornerRadius,
+        Text = Text,
+        HideText = HideText
     };
 }

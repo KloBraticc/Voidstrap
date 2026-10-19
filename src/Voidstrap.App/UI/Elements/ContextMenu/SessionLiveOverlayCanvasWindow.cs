@@ -913,13 +913,24 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
     private static Border CreateKeyTile(string text, double width, double height)
     {
         var theme = KeystrokeThemeManager.ActiveTheme;
+        string keyTag = text.Split('\n')[0];
+        KeycapConfig? cap = null;
+        if (theme.Keycaps.TryGetValue(keyTag, out var foundCap))
+        {
+            cap = foundCap;
+            if (cap.Width.HasValue && cap.Width.Value > 0)
+                width = cap.Width.Value;
+            if (cap.Height.HasValue && cap.Height.Value > 0)
+                height = cap.Height.Value;
+        }
+
         Border tile = new()
         {
             Width = width,
             Height = height,
-            CornerRadius = new CornerRadius(theme.KeyCornerRadius),
+            CornerRadius = cap?.CornerRadius.HasValue == true ? new CornerRadius(cap.CornerRadius.Value) : new CornerRadius(theme.KeyCornerRadius),
             BorderThickness = new Thickness(theme.KeyBorderThickness),
-            Background = theme.GetKeyBrush(text.Split('\n')[0], false),
+            Background = theme.GetKeyBrush(keyTag, false),
             BorderBrush = theme.GetKeyBorderBrush()
         };
 
@@ -933,16 +944,18 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             _ => FontWeights.SemiBold
         };
 
+        string label = cap != null && !string.IsNullOrEmpty(cap.Text) ? cap.Text : text;
         TextBlock tb = new()
         {
-            Text = text,
-            FontSize = text.Length > 2 ? 11.5 : 14,
+            Text = label,
+            FontSize = label.Length > 2 ? 11.5 : 14,
             FontWeight = fontWeight,
             FontFamily = fontFamily,
             Foreground = theme.GetKeyTextBrush(),
             HorizontalAlignment = HorizontalAlignment.Center,
             VerticalAlignment = VerticalAlignment.Center,
-            TextAlignment = TextAlignment.Center
+            TextAlignment = TextAlignment.Center,
+            Visibility = cap?.HideText == true ? Visibility.Collapsed : Visibility.Visible
         };
         tile.Child = tb;
         return tile;

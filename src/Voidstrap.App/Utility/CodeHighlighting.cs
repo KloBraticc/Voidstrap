@@ -133,6 +133,7 @@ namespace Voidstrap.Utility
             [".json"] = "Json",
             [".jsonc"] = "Json",
             [".cs"] = "C#",
+            [".rs"] = "C#",
             [".cpp"] = "C++",
             [".h"] = "C++",
             [".hpp"] = "C++",

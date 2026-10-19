@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,13 +16,13 @@ namespace Voidstrap.UI.Elements.Editor;
 
 public partial class KeystrokeThemeEditorWindow : WpfUiWindow
 {
-    private static readonly JsonSerializerOptions JsonOptions = new() { WriteIndented = true };
-
     private readonly string _themeName;
     private readonly KeystrokeTheme _originalTheme;
     private readonly KeystrokeTheme _workingTheme;
+    private ThemeCodeLanguage _currentLanguage = ThemeCodeLanguage.CSharp;
+    private string _selectedKeycap = "W";
     private bool _isInitializing = true;
-    private bool _isUpdatingJson;
+    private bool _isUpdatingCode;
     private bool _sequenceRunning;
 
     public KeystrokeThemeEditorWindow(string themeName)
@@ -41,8 +40,8 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
         InitializeSnippets();
         LoadThemeIntoControls();
 
-        JsonEditor.TextChanged += OnJsonEditorTextChanged;
-        JsonEditor.TextArea.Caret.PositionChanged += OnCaretPositionChanged;
+        CodeEditor.TextChanged += OnCodeEditorTextChanged;
+        CodeEditor.TextArea.Caret.PositionChanged += OnCaretPositionChanged;
 
         _isInitializing = false;
         RefreshLivePreview();
@@ -77,18 +76,64 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
             "Fill",
             "None"
         };
+
+        ComboLanguage.ItemsSource = new List<string>
+        {
+            "C# (.cs)",
+            "HTML / CSS (.html)",
+            "Rust (.rs)",
+            "JSON (.json)"
+        };
+        ComboLanguage.SelectedIndex = 0;
+
+        ComboKeycapTarget.ItemsSource = new List<string>
+        {
+            "W",
+            "A",
+            "S",
+            "D",
+            "LMB",
+            "RMB",
+            "Shift",
+            "Space"
+        };
+        ComboKeycapTarget.SelectedIndex = 0;
     }
 
     private void InitializeSnippets()
     {
-        ComboSnippets.ItemsSource = new List<string>
+        ComboSnippets.ItemsSource = _currentLanguage switch
         {
-            Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_InsertSnippet ?? "Insert Snippet...",
-            "Background Images",
-            "Per-Key Images",
-            "Per-Key Pressed Images",
-            "Glass & Squash Scale",
-            "Accent Palette"
+            ThemeCodeLanguage.CSharp => new List<string>
+            {
+                Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_InsertSnippet ?? "Insert Snippet...",
+                "Keycap Customizer",
+                "Background Images",
+                "Glass & Squash Scale",
+                "Accent Brushes"
+            },
+            ThemeCodeLanguage.HtmlCss => new List<string>
+            {
+                Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_InsertSnippet ?? "Insert Snippet...",
+                "Keycap Override",
+                "CSS Variables",
+                "Pressed State"
+            },
+            ThemeCodeLanguage.Rust => new List<string>
+            {
+                Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_InsertSnippet ?? "Insert Snippet...",
+                "Keycap Match",
+                "Theme Overrides"
+            },
+            _ => new List<string>
+            {
+                Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_InsertSnippet ?? "Insert Snippet...",
+                "Keycap Override",
+                "Background Images",
+                "Per-Key Images",
+                "Glass & Squash Scale",
+                "Accent Palette"
+            }
         };
         ComboSnippets.SelectedIndex = 0;
     }
@@ -132,7 +177,26 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
         SliderImageOpacity.Value = Math.Round(_workingTheme.KeyImageOpacity * 100);
         TextImageOpacityVal.Text = $"{SliderImageOpacity.Value:F0}%";
 
-        UpdateJsonView();
+        LoadKeycapControls(_selectedKeycap);
+        UpdateCodeView();
+    }
+
+    private void LoadKeycapControls(string key)
+    {
+        var cap = _workingTheme.GetOrCreateKeycap(key);
+        TextKeycapImage.Text = cap.Image ?? string.Empty;
+        TextKeycapPressedImage.Text = cap.PressedImage ?? string.Empty;
+        TextKeycapLabel.Text = cap.Text ?? string.Empty;
+        ToggleKeycapHideLabel.IsChecked = cap.HideText;
+
+        SliderKeycapWidth.Value = cap.Width ?? 0;
+        TextKeycapWidthVal.Text = SliderKeycapWidth.Value > 0 ? $"{SliderKeycapWidth.Value:F0}px" : "Default";
+
+        SliderKeycapHeight.Value = cap.Height ?? 0;
+        TextKeycapHeightVal.Text = SliderKeycapHeight.Value > 0 ? $"{SliderKeycapHeight.Value:F0}px" : "Default";
+
+        SliderKeycapCornerRadius.Value = cap.CornerRadius ?? -1;
+        TextKeycapCornerRadiusVal.Text = SliderKeycapCornerRadius.Value >= 0 ? $"{SliderKeycapCornerRadius.Value:F0}px" : "Default";
     }
 
     private static void UpdateButtonColor(Button btn, string hex)
@@ -145,46 +209,66 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
         btn.Foreground = luminance > 0.55 ? Brushes.Black : Brushes.White;
     }
 
-    private void UpdateJsonView()
+    private void UpdateCodeView()
     {
-        _isUpdatingJson = true;
+        _isUpdatingCode = true;
         try
         {
-            JsonEditor.Text = JsonSerializer.Serialize(_workingTheme, JsonOptions);
-            TextJsonStatus.Text = Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_JsonValid ?? "Valid JSON code";
-            TextJsonStatus.Foreground = Brushes.LightGreen;
+            CodeEditor.Text = KeystrokeThemeCodeConverter.GenerateCode(_workingTheme, _currentLanguage);
+            TextCodeStatus.Text = Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_CodeValid ?? "Code parsed successfully";
+            TextCodeStatus.Foreground = Brushes.LightGreen;
         }
         finally
         {
-            _isUpdatingJson = false;
+            _isUpdatingCode = false;
         }
     }
 
-    private void OnJsonEditorTextChanged(object? sender, EventArgs e)
+    private void OnCodeEditorTextChanged(object? sender, EventArgs e)
     {
-        if (_isUpdatingJson)
+        if (_isUpdatingCode)
             return;
 
-        try
+        var tempTheme = new KeystrokeTheme();
+        if (KeystrokeThemeCodeConverter.TryParseCode(CodeEditor.Text, _currentLanguage, tempTheme, out string? error))
         {
-            var parsed = JsonSerializer.Deserialize<KeystrokeTheme>(JsonEditor.Text);
-            if (parsed != null)
-            {
-                TextJsonStatus.Text = Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_JsonValid ?? "Valid JSON code";
-                TextJsonStatus.Foreground = Brushes.LightGreen;
-            }
+            TextCodeStatus.Text = Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_CodeValid ?? "Code parsed successfully";
+            TextCodeStatus.Foreground = Brushes.LightGreen;
         }
-        catch (Exception ex)
+        else
         {
-            TextJsonStatus.Text = $"{Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_JsonInvalid ?? "Syntax error"}: {ex.Message}";
-            TextJsonStatus.Foreground = Brushes.IndianRed;
+            TextCodeStatus.Text = $"{Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_CodeInvalid ?? "Syntax error"}: {error}";
+            TextCodeStatus.Foreground = Brushes.IndianRed;
         }
     }
 
     private void OnCaretPositionChanged(object? sender, EventArgs e)
     {
-        var caret = JsonEditor.TextArea.Caret;
+        var caret = CodeEditor.TextArea.Caret;
         TextEditorStats.Text = $"Ln {caret.Line}, Col {caret.Column}";
+    }
+
+    private void OnLanguageSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (_isInitializing || e.Source != ComboLanguage)
+            return;
+
+        if (!_isUpdatingCode && !string.IsNullOrWhiteSpace(CodeEditor.Text))
+        {
+            _ = KeystrokeThemeCodeConverter.TryParseCode(CodeEditor.Text, _currentLanguage, _workingTheme, out _);
+        }
+
+        _currentLanguage = ComboLanguage.SelectedIndex switch
+        {
+            1 => ThemeCodeLanguage.HtmlCss,
+            2 => ThemeCodeLanguage.Rust,
+            3 => ThemeCodeLanguage.Json,
+            _ => ThemeCodeLanguage.CSharp
+        };
+
+        CodeEditorBehavior.SetLanguage(CodeEditor, KeystrokeThemeCodeConverter.GetExtension(_currentLanguage));
+        InitializeSnippets();
+        UpdateCodeView();
     }
 
     private void OnTabSelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -194,59 +278,31 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
 
         if (EditorTabs.SelectedIndex == 1)
         {
-            UpdateJsonView();
+            UpdateCodeView();
         }
         else if (EditorTabs.SelectedIndex == 0)
         {
-            UpdateFromCurrentJson();
+            UpdateFromCurrentCode();
         }
     }
 
-    private bool UpdateFromCurrentJson()
+    private bool UpdateFromCurrentCode()
     {
-        try
+        if (KeystrokeThemeCodeConverter.TryParseCode(CodeEditor.Text, _currentLanguage, _workingTheme, out string? error))
         {
-            var parsed = JsonSerializer.Deserialize<KeystrokeTheme>(JsonEditor.Text);
-            if (parsed != null)
-            {
-                parsed.Name = _themeName;
-                _workingTheme.KeyBackground = parsed.KeyBackground;
-                _workingTheme.KeyPressedBackground = parsed.KeyPressedBackground;
-                _workingTheme.KeyBorderColor = parsed.KeyBorderColor;
-                _workingTheme.KeyBorderThickness = parsed.KeyBorderThickness;
-                _workingTheme.KeyCornerRadius = parsed.KeyCornerRadius;
-                _workingTheme.KeyTextColor = parsed.KeyTextColor;
-                _workingTheme.KeyPressedTextColor = parsed.KeyPressedTextColor;
-                _workingTheme.CpsTextColor = parsed.CpsTextColor;
-                _workingTheme.KeyPressedCpsTextColor = parsed.KeyPressedCpsTextColor;
-                _workingTheme.BackdropBlur = parsed.BackdropBlur;
-                _workingTheme.KeyScaleOnPress = parsed.KeyScaleOnPress;
-                _workingTheme.FontFamily = parsed.FontFamily;
-                _workingTheme.FontWeight = parsed.FontWeight;
-                _workingTheme.KeyBackgroundImage = parsed.KeyBackgroundImage;
-                _workingTheme.KeyPressedBackgroundImage = parsed.KeyPressedBackgroundImage;
-                _workingTheme.OverlayBackgroundImage = parsed.OverlayBackgroundImage;
-                _workingTheme.KeyImages = parsed.KeyImages != null ? new Dictionary<string, string>(parsed.KeyImages, StringComparer.OrdinalIgnoreCase) : new(StringComparer.OrdinalIgnoreCase);
-                _workingTheme.KeyPressedImages = parsed.KeyPressedImages != null ? new Dictionary<string, string>(parsed.KeyPressedImages, StringComparer.OrdinalIgnoreCase) : new(StringComparer.OrdinalIgnoreCase);
-                _workingTheme.KeyImageStretch = parsed.KeyImageStretch;
-                _workingTheme.KeyImageOpacity = parsed.KeyImageOpacity;
+            _workingTheme.Name = _themeName;
+            _isInitializing = true;
+            LoadThemeIntoControls();
+            _isInitializing = false;
+            RefreshLivePreview();
 
-                _isInitializing = true;
-                LoadThemeIntoControls();
-                _isInitializing = false;
-                RefreshLivePreview();
-
-                TextJsonStatus.Text = Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_JsonValid ?? "Valid JSON code";
-                TextJsonStatus.Foreground = Brushes.LightGreen;
-                return true;
-            }
-        }
-        catch (Exception ex)
-        {
-            TextJsonStatus.Text = $"{Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_JsonInvalid ?? "Syntax error"}: {ex.Message}";
-            TextJsonStatus.Foreground = Brushes.IndianRed;
+            TextCodeStatus.Text = Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_CodeValid ?? "Code parsed successfully";
+            TextCodeStatus.Foreground = Brushes.LightGreen;
+            return true;
         }
 
+        TextCodeStatus.Text = $"{Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_CodeInvalid ?? "Syntax error"}: {error}";
+        TextCodeStatus.Foreground = Brushes.IndianRed;
         return false;
     }
 
@@ -264,7 +320,7 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
             string hex = dialog.UseAccent ? "Accent" : $"#{dialog.SelectedColor.A:X2}{dialog.SelectedColor.R:X2}{dialog.SelectedColor.G:X2}{dialog.SelectedColor.B:X2}";
             onColorPicked(hex);
             UpdateButtonColor(triggerBtn, hex);
-            UpdateJsonView();
+            UpdateCodeView();
             RefreshLivePreview();
         }
     }
@@ -318,7 +374,7 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
         _workingTheme.KeyScaleOnPress = SliderPressScale.Value / 100.0;
         TextPressScaleVal.Text = $"{SliderPressScale.Value:F0}%";
 
-        UpdateJsonView();
+        UpdateCodeView();
         RefreshLivePreview();
     }
 
@@ -328,7 +384,7 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
             return;
 
         _workingTheme.BackdropBlur = ToggleGlass.IsChecked == true;
-        UpdateJsonView();
+        UpdateCodeView();
         RefreshLivePreview();
     }
 
@@ -343,7 +399,7 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
         if (ComboFontWeight.SelectedItem is string fw)
             _workingTheme.FontWeight = fw;
 
-        UpdateJsonView();
+        UpdateCodeView();
         RefreshLivePreview();
     }
 
@@ -390,7 +446,7 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
         {
             _workingTheme.KeyBackgroundImage = imported;
             TextKeyBgImage.Text = imported;
-            UpdateJsonView();
+            UpdateCodeView();
             RefreshLivePreview();
         }
     }
@@ -399,7 +455,7 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
     {
         _workingTheme.KeyBackgroundImage = null;
         TextKeyBgImage.Text = string.Empty;
-        UpdateJsonView();
+        UpdateCodeView();
         RefreshLivePreview();
     }
 
@@ -410,7 +466,7 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
         {
             _workingTheme.KeyPressedBackgroundImage = imported;
             TextKeyPressedBgImage.Text = imported;
-            UpdateJsonView();
+            UpdateCodeView();
             RefreshLivePreview();
         }
     }
@@ -419,7 +475,7 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
     {
         _workingTheme.KeyPressedBackgroundImage = null;
         TextKeyPressedBgImage.Text = string.Empty;
-        UpdateJsonView();
+        UpdateCodeView();
         RefreshLivePreview();
     }
 
@@ -431,7 +487,7 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
         if (ComboImageStretch.SelectedItem is string stretch)
         {
             _workingTheme.KeyImageStretch = stretch;
-            UpdateJsonView();
+            UpdateCodeView();
             RefreshLivePreview();
         }
     }
@@ -443,23 +499,110 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
 
         _workingTheme.KeyImageOpacity = SliderImageOpacity.Value / 100.0;
         TextImageOpacityVal.Text = $"{SliderImageOpacity.Value:F0}%";
-        UpdateJsonView();
+        UpdateCodeView();
         RefreshLivePreview();
     }
 
-    private void OnFormatJsonClicked(object sender, RoutedEventArgs e)
+    private void OnKeycapTargetSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        try
+        if (ComboKeycapTarget.SelectedItem is string key)
         {
-            using var doc = JsonDocument.Parse(JsonEditor.Text);
-            JsonEditor.Text = JsonSerializer.Serialize(doc.RootElement, JsonOptions);
-            TextJsonStatus.Text = Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_JsonValid ?? "Valid JSON code";
-            TextJsonStatus.Foreground = Brushes.LightGreen;
+            _selectedKeycap = key;
+            LoadKeycapControls(key);
         }
-        catch (Exception ex)
+    }
+
+    private void OnBrowseKeycapImageClicked(object sender, RoutedEventArgs e)
+    {
+        string? imported = PromptPickImage();
+        if (imported != null)
         {
-            TextJsonStatus.Text = $"{Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_JsonInvalid ?? "Syntax error"}: {ex.Message}";
-            TextJsonStatus.Foreground = Brushes.IndianRed;
+            var cap = _workingTheme.GetOrCreateKeycap(_selectedKeycap);
+            cap.Image = imported;
+            TextKeycapImage.Text = imported;
+            UpdateCodeView();
+            RefreshLivePreview();
+        }
+    }
+
+    private void OnClearKeycapImageClicked(object sender, RoutedEventArgs e)
+    {
+        var cap = _workingTheme.GetOrCreateKeycap(_selectedKeycap);
+        cap.Image = null;
+        TextKeycapImage.Text = string.Empty;
+        UpdateCodeView();
+        RefreshLivePreview();
+    }
+
+    private void OnBrowseKeycapPressedImageClicked(object sender, RoutedEventArgs e)
+    {
+        string? imported = PromptPickImage();
+        if (imported != null)
+        {
+            var cap = _workingTheme.GetOrCreateKeycap(_selectedKeycap);
+            cap.PressedImage = imported;
+            TextKeycapPressedImage.Text = imported;
+            UpdateCodeView();
+            RefreshLivePreview();
+        }
+    }
+
+    private void OnClearKeycapPressedImageClicked(object sender, RoutedEventArgs e)
+    {
+        var cap = _workingTheme.GetOrCreateKeycap(_selectedKeycap);
+        cap.PressedImage = null;
+        TextKeycapPressedImage.Text = string.Empty;
+        UpdateCodeView();
+        RefreshLivePreview();
+    }
+
+    private void OnKeycapLabelChanged(object sender, TextChangedEventArgs e)
+    {
+        if (_isInitializing)
+            return;
+
+        var cap = _workingTheme.GetOrCreateKeycap(_selectedKeycap);
+        cap.Text = string.IsNullOrWhiteSpace(TextKeycapLabel.Text) ? null : TextKeycapLabel.Text;
+        UpdateCodeView();
+        RefreshLivePreview();
+    }
+
+    private void OnKeycapHideLabelClicked(object sender, RoutedEventArgs e)
+    {
+        if (_isInitializing)
+            return;
+
+        var cap = _workingTheme.GetOrCreateKeycap(_selectedKeycap);
+        cap.HideText = ToggleKeycapHideLabel.IsChecked == true;
+        UpdateCodeView();
+        RefreshLivePreview();
+    }
+
+    private void OnKeycapGeometryChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+    {
+        if (_isInitializing)
+            return;
+
+        var cap = _workingTheme.GetOrCreateKeycap(_selectedKeycap);
+
+        cap.Width = SliderKeycapWidth.Value > 0 ? SliderKeycapWidth.Value : null;
+        TextKeycapWidthVal.Text = cap.Width.HasValue ? $"{cap.Width.Value:F0}px" : "Default";
+
+        cap.Height = SliderKeycapHeight.Value > 0 ? SliderKeycapHeight.Value : null;
+        TextKeycapHeightVal.Text = cap.Height.HasValue ? $"{cap.Height.Value:F0}px" : "Default";
+
+        cap.CornerRadius = SliderKeycapCornerRadius.Value >= 0 ? SliderKeycapCornerRadius.Value : null;
+        TextKeycapCornerRadiusVal.Text = cap.CornerRadius.HasValue ? $"{cap.CornerRadius.Value:F0}px" : "Default";
+
+        UpdateCodeView();
+        RefreshLivePreview();
+    }
+
+    private void OnFormatCodeClicked(object sender, RoutedEventArgs e)
+    {
+        if (UpdateFromCurrentCode())
+        {
+            UpdateCodeView();
         }
     }
 
@@ -468,8 +611,14 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
         string? imported = PromptPickImage();
         if (imported != null)
         {
-            JsonEditor.Document.Insert(JsonEditor.CaretOffset, $"\"{imported}\"");
-            UpdateFromCurrentJson();
+            string snippet = _currentLanguage switch
+            {
+                ThemeCodeLanguage.HtmlCss => $"url('{imported}')",
+                ThemeCodeLanguage.Rust => $"Some(\"{imported}\")",
+                _ => $"\"{imported}\""
+            };
+            CodeEditor.Document.Insert(CodeEditor.CaretOffset, snippet);
+            UpdateFromCurrentCode();
         }
     }
 
@@ -486,15 +635,115 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
         if (_isInitializing || ComboSnippets.SelectedIndex <= 0)
             return;
 
-        string snippet = ComboSnippets.SelectedIndex switch
+        int idx = ComboSnippets.SelectedIndex;
+        string snippet = _currentLanguage switch
         {
-            1 => """
+            ThemeCodeLanguage.CSharp => idx switch
+            {
+                1 => """
+        theme.Keycaps["W"] = new KeycapConfig
+        {
+            Image = "w.png",
+            PressedImage = "w_pressed.png",
+            Width = 52.0,
+            Height = 52.0,
+            CornerRadius = 8.0,
+            Text = "W",
+            HideText = false
+        };
+""",
+                2 => """
+            KeyBackgroundImage = "key_bg.png",
+            KeyPressedBackgroundImage = "key_pressed.png",
+            KeyImageStretch = "UniformToFill",
+            KeyImageOpacity = 1.0,
+""",
+                3 => """
+            BackdropBlur = true,
+            KeyScaleOnPress = 0.94,
+            KeyCornerRadius = 10.0,
+            KeyBorderThickness = 1.5,
+""",
+                4 => """
+            KeyBackground = "#28181A1F",
+            KeyPressedBackground = "Accent",
+            KeyTextColor = "#E6FFFFFF",
+            KeyPressedTextColor = "#FFFFFF",
+            KeyBorderColor = "Accent",
+""",
+                _ => string.Empty
+            },
+            ThemeCodeLanguage.HtmlCss => idx switch
+            {
+                1 => """
+    .keycap[data-key="W"] {
+      width: 52px;
+      height: 52px;
+      border-radius: 8px;
+      background-image: url('w.png');
+    }
+    .keycap[data-key="W"].pressed {
+      background-image: url('w_pressed.png');
+    }
+""",
+                2 => """
+      --key-bg: #202020;
+      --key-pressed-bg: Accent;
+      --key-border-color: #363638;
+      --key-corner-radius: 8px;
+""",
+                3 => """
+    .keycap.pressed {
+      background-color: var(--key-pressed-bg);
+      color: var(--key-pressed-text-color);
+      transform: scale(var(--key-scale-on-press));
+    }
+""",
+                _ => string.Empty
+            },
+            ThemeCodeLanguage.Rust => idx switch
+            {
+                1 => """
+        "W" => Some(KeycapConfig {
+            image: Some("w.png"),
+            pressed_image: Some("w_pressed.png"),
+            width: Some(52.0),
+            height: Some(52.0),
+            corner_radius: Some(8.0),
+            text: Some("W"),
+            hide_text: false,
+        }),
+""",
+                2 => """
+    key_background: "#202020",
+    key_pressed_background: "Accent",
+    key_border_color: "#363638",
+    key_corner_radius: 8.0,
+""",
+                _ => string.Empty
+            },
+            _ => idx switch
+            {
+                1 => """
+  "Keycaps": {
+    "W": {
+      "Image": "w.png",
+      "PressedImage": "w_pressed.png",
+      "Width": 52.0,
+      "Height": 52.0,
+      "CornerRadius": 8.0,
+      "Text": "W",
+      "HideText": false
+    }
+  },
+""",
+                2 => """
   "KeyBackgroundImage": "key_bg.png",
   "KeyPressedBackgroundImage": "key_pressed.png",
   "KeyImageStretch": "UniformToFill",
   "KeyImageOpacity": 1.0,
 """,
-            2 => """
+                3 => """
   "KeyImages": {
     "W": "w.png",
     "A": "a.png",
@@ -505,49 +754,40 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
     "Space": "space.png"
   },
 """,
-            3 => """
-  "KeyPressedImages": {
-    "W": "w_pressed.png",
-    "A": "a_pressed.png",
-    "S": "s_pressed.png",
-    "D": "d_pressed.png",
-    "LMB": "mouse_left_pressed.png",
-    "RMB": "mouse_right_pressed.png"
-  },
-""",
-            4 => """
+                4 => """
   "BackdropBlur": true,
   "KeyScaleOnPress": 0.94,
   "KeyCornerRadius": 10.0,
   "KeyBorderThickness": 1.5,
 """,
-            5 => """
+                5 => """
   "KeyBackground": "#28181A1F",
   "KeyPressedBackground": "Accent",
   "KeyTextColor": "#E6FFFFFF",
   "KeyPressedTextColor": "#FFFFFF",
   "KeyBorderColor": "Accent",
 """,
-            _ => string.Empty
+                _ => string.Empty
+            }
         };
 
         if (!string.IsNullOrEmpty(snippet))
         {
-            JsonEditor.Document.Insert(JsonEditor.CaretOffset, snippet);
+            CodeEditor.Document.Insert(CodeEditor.CaretOffset, snippet);
         }
 
         ComboSnippets.SelectedIndex = 0;
     }
 
-    private void OnApplyJsonClicked(object sender, RoutedEventArgs e)
+    private void OnApplyCodeClicked(object sender, RoutedEventArgs e)
     {
-        if (UpdateFromCurrentJson())
+        if (UpdateFromCurrentCode())
         {
-            MessageBox.Show(Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_JsonValid ?? "Theme updated from code.", "Voidstrap", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show(Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_CodeValid ?? "Theme updated from code.", "Voidstrap", MessageBoxButton.OK, MessageBoxImage.Information);
         }
         else
         {
-            MessageBox.Show(TextJsonStatus.Text, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            MessageBox.Show(TextCodeStatus.Text, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
         }
     }
 
@@ -589,27 +829,41 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
             _ => FontWeights.SemiBold
         };
 
-        foreach (var b in borders)
+        for (int i = 0; i < borders.Length; i++)
         {
+            var b = borders[i];
+            var h = highlights[i];
+            var t = texts[i];
             string tag = b.Tag as string ?? string.Empty;
+
             b.Background = _workingTheme.GetKeyBrush(tag, false);
             b.BorderBrush = borderBrush;
             b.BorderThickness = borderThickness;
             b.CornerRadius = cornerRadius;
             b.Effect = null;
-        }
 
-        foreach (var h in highlights)
-        {
             h.Background = pressedBgBrush;
             h.CornerRadius = highlightCorner;
-        }
 
-        foreach (var t in texts)
-        {
             t.Foreground = textBrush;
             t.FontFamily = fontFamily;
             t.FontWeight = fontWeight;
+
+            if (_workingTheme.Keycaps.TryGetValue(tag, out var cap))
+            {
+                if (cap.Width.HasValue && cap.Width.Value > 0)
+                    b.Width = cap.Width.Value;
+                if (cap.Height.HasValue && cap.Height.Value > 0)
+                    b.Height = cap.Height.Value;
+                if (cap.CornerRadius.HasValue)
+                {
+                    b.CornerRadius = new CornerRadius(cap.CornerRadius.Value);
+                    h.CornerRadius = new CornerRadius(Math.Max(0, cap.CornerRadius.Value - 1));
+                }
+                if (!string.IsNullOrEmpty(cap.Text))
+                    t.Text = cap.Text;
+                t.Visibility = cap.HideText ? Visibility.Collapsed : Visibility.Visible;
+            }
         }
 
         PreviewCpsLmb.Foreground = cpsBrush;
@@ -657,6 +911,13 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
             return;
 
         highlight.BeginAnimation(UIElement.OpacityProperty, null);
+        if (_workingTheme.Keycaps.TryGetValue(tag, out var cap))
+        {
+            if (!string.IsNullOrEmpty(cap.Text))
+                text.Text = cap.Text;
+            text.Visibility = cap.HideText ? Visibility.Collapsed : Visibility.Visible;
+        }
+
         if (isDown)
         {
             key.Background = _workingTheme.GetKeyBrush(tag, true);
@@ -730,6 +991,10 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
         _workingTheme.KeyImageStretch = _originalTheme.KeyImageStretch;
         _workingTheme.KeyImageOpacity = _originalTheme.KeyImageOpacity;
 
+        _workingTheme.Keycaps.Clear();
+        foreach (var pair in _originalTheme.Keycaps)
+            _workingTheme.Keycaps[pair.Key] = pair.Value.Clone();
+
         _isInitializing = true;
         LoadThemeIntoControls();
         _isInitializing = false;
@@ -740,9 +1005,9 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
     {
         if (EditorTabs.SelectedIndex == 1)
         {
-            if (!UpdateFromCurrentJson())
+            if (!UpdateFromCurrentCode())
             {
-                var result = MessageBox.Show(TextJsonStatus.Text + "\n\nSave anyway?", "Invalid JSON", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                var result = MessageBox.Show(TextCodeStatus.Text + "\n\nSave anyway?", "Invalid Code", MessageBoxButton.YesNo, MessageBoxImage.Warning);
                 if (result != MessageBoxResult.Yes)
                     return;
             }

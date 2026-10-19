@@ -8501,5 +8501,18 @@ namespace Voidstrap.Resources {
         public static string Ui_Keystrokes_Editor_JsonValid => ResourceManager.GetString("Ui.Keystrokes.Editor.JsonValid", resourceCulture);
         public static string Ui_Keystrokes_Editor_JsonInvalid => ResourceManager.GetString("Ui.Keystrokes.Editor.JsonInvalid", resourceCulture);
         public static string Ui_Keystrokes_Editor_ThemeCode => ResourceManager.GetString("Ui.Keystrokes.Editor.ThemeCode", resourceCulture);
+        public static string Ui_Keystrokes_Editor_KeycapCustomizer => ResourceManager.GetString("Ui.Keystrokes.Editor.KeycapCustomizer", resourceCulture);
+        public static string Ui_Keystrokes_Editor_SelectKeycap => ResourceManager.GetString("Ui.Keystrokes.Editor.SelectKeycap", resourceCulture);
+        public static string Ui_Keystrokes_Editor_KeycapImage => ResourceManager.GetString("Ui.Keystrokes.Editor.KeycapImage", resourceCulture);
+        public static string Ui_Keystrokes_Editor_KeycapPressedImage => ResourceManager.GetString("Ui.Keystrokes.Editor.KeycapPressedImage", resourceCulture);
+        public static string Ui_Keystrokes_Editor_KeycapWidth => ResourceManager.GetString("Ui.Keystrokes.Editor.KeycapWidth", resourceCulture);
+        public static string Ui_Keystrokes_Editor_KeycapHeight => ResourceManager.GetString("Ui.Keystrokes.Editor.KeycapHeight", resourceCulture);
+        public static string Ui_Keystrokes_Editor_KeycapCornerRadius => ResourceManager.GetString("Ui.Keystrokes.Editor.KeycapCornerRadius", resourceCulture);
+        public static string Ui_Keystrokes_Editor_KeycapCustomLabel => ResourceManager.GetString("Ui.Keystrokes.Editor.KeycapCustomLabel", resourceCulture);
+        public static string Ui_Keystrokes_Editor_KeycapHideLabel => ResourceManager.GetString("Ui.Keystrokes.Editor.KeycapHideLabel", resourceCulture);
+        public static string Ui_Keystrokes_Editor_Language => ResourceManager.GetString("Ui.Keystrokes.Editor.Language", resourceCulture);
+        public static string Ui_Keystrokes_Editor_CodeValid => ResourceManager.GetString("Ui.Keystrokes.Editor.CodeValid", resourceCulture);
+        public static string Ui_Keystrokes_Editor_CodeInvalid => ResourceManager.GetString("Ui.Keystrokes.Editor.CodeInvalid", resourceCulture);
+        public static string Ui_Keystrokes_Editor_ApplyCode => ResourceManager.GetString("Ui.Keystrokes.Editor.ApplyCode", resourceCulture);
     }
 }
