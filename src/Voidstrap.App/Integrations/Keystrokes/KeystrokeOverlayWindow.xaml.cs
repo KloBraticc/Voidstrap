@@ -24,6 +24,7 @@ public partial class KeystrokeOverlayWindow : Window
 
     private readonly RobloxOverlayAnchor _anchor;
     private readonly DispatcherTimer _cpsTimer;
+    private readonly Dictionary<string, (Border Key, Border Highlight, TextBlock Text, TextBlock? Cps)> _keyElements = new(StringComparer.OrdinalIgnoreCase);
     private bool _disposed;
 
     public static KeystrokeOverlayWindow? ActiveInstance => _activeInstance;
@@ -220,18 +221,6 @@ public partial class KeystrokeOverlayWindow : Window
 
         var theme = KeystrokeThemeManager.ActiveTheme;
 
-        var keyTuples = new (Border Key, Border Highlight, TextBlock Text, string Name)[]
-        {
-            (KeyW, KeyWHighlight, KeyWText, "W"),
-            (KeyA, KeyAHighlight, KeyAText, "A"),
-            (KeyS, KeySHighlight, KeySText, "S"),
-            (KeyD, KeyDHighlight, KeyDText, "D"),
-            (KeyLmb, KeyLmbHighlight, KeyLmbText, "LMB"),
-            (KeyRmb, KeyRmbHighlight, KeyRmbText, "RMB"),
-            (KeyShift, KeyShiftHighlight, KeyShiftText, "Shift"),
-            (KeySpace, KeySpaceHighlight, KeySpaceText, "Space")
-        };
-
         Brush borderBrush = theme.GetKeyBorderBrush();
         Brush textBrush = theme.GetKeyTextBrush();
         Brush cpsBrush = theme.GetCpsTextBrush();
@@ -249,62 +238,172 @@ public partial class KeystrokeOverlayWindow : Window
             _ => FontWeights.SemiBold
         };
 
-        foreach (var item in keyTuples)
+        if (theme.ShowMouseCircle)
         {
-            item.Key.Background = theme.GetKeyBrush(item.Name, false);
-            item.Key.BorderBrush = borderBrush;
-            item.Key.BorderThickness = borderThickness;
-            item.Key.CornerRadius = cornerRadius;
-            item.Key.Effect = null;
-
-            item.Highlight.Background = theme.GetKeyBrush(item.Name, true);
-            item.Highlight.CornerRadius = highlightCorner;
-
-            item.Text.Foreground = textBrush;
-            item.Text.FontFamily = fontFamily;
-            item.Text.FontWeight = fontWeight;
-
-            if (theme.Keycaps.TryGetValue(item.Name, out var cap))
-            {
-                if (cap.Width.HasValue && cap.Width.Value > 0)
-                    item.Key.Width = cap.Width.Value;
-                if (cap.Height.HasValue && cap.Height.Value > 0)
-                    item.Key.Height = cap.Height.Value;
-                if (cap.CornerRadius.HasValue)
-                {
-                    item.Key.CornerRadius = new CornerRadius(cap.CornerRadius.Value);
-                    item.Highlight.CornerRadius = new CornerRadius(Math.Max(0, cap.CornerRadius.Value - 1));
-                }
-                if (!string.IsNullOrEmpty(cap.Text))
-                    item.Text.Text = cap.Text;
-                item.Text.Visibility = cap.HideText ? Visibility.Collapsed : Visibility.Visible;
-            }
+            OverlayMouseCircle.Visibility = Visibility.Visible;
+            OverlayMouseCircle.Width = theme.MouseCircleSize;
+            OverlayMouseCircle.Height = theme.MouseCircleSize;
+            OverlayMouseCircle.CornerRadius = new CornerRadius(theme.MouseCircleSize / 2.0);
+            OverlayMouseCircle.Background = theme.GetKeyBackgroundBrush();
+            OverlayMouseCircle.BorderBrush = borderBrush;
+            OverlayMouseCircle.BorderThickness = borderThickness;
+            OverlayMouseDot.Fill = theme.GetKeyPressedBackgroundBrush();
+        }
+        else
+        {
+            OverlayMouseCircle.Visibility = Visibility.Collapsed;
         }
 
-        TextLmbCps.Foreground = cpsBrush;
-        TextLmbCps.FontFamily = fontFamily;
-        TextRmbCps.Foreground = cpsBrush;
-        TextRmbCps.FontFamily = fontFamily;
+        _keyElements.Clear();
+
+        if (theme.LayoutRows != null && theme.LayoutRows.Count > 0)
+        {
+            DefaultKeysPanel.Visibility = Visibility.Collapsed;
+            DynamicKeysPanel.Visibility = Visibility.Visible;
+            DynamicKeysPanel.Children.Clear();
+
+            foreach (var row in theme.LayoutRows)
+            {
+                var rowPanel = new StackPanel
+                {
+                    Orientation = Orientation.Horizontal,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    Margin = new Thickness(0, 0, 0, 3)
+                };
+
+                for (int i = 0; i < row.Count; i++)
+                {
+                    string keyName = row[i];
+                    var cap = theme.Keycaps.TryGetValue(keyName, out var c) ? c : null;
+
+                    double width = cap?.Width ?? 46;
+                    double height = cap?.Height ?? 46;
+                    double cr = cap?.CornerRadius ?? theme.KeyCornerRadius;
+
+                    var keyBorder = new Border
+                    {
+                        Width = width,
+                        Height = height,
+                        CornerRadius = new CornerRadius(cr),
+                        BorderThickness = borderThickness,
+                        BorderBrush = borderBrush,
+                        Background = theme.GetKeyBrush(keyName, false),
+                        Margin = new Thickness(0, 0, i < row.Count - 1 ? 3 : 0, 0)
+                    };
+
+                    var grid = new Grid();
+                    var highlight = new Border
+                    {
+                        CornerRadius = new CornerRadius(Math.Max(0, cr - 1)),
+                        Opacity = 0,
+                        Background = theme.GetKeyBrush(keyName, true)
+                    };
+                    grid.Children.Add(highlight);
+
+                    string label = !string.IsNullOrEmpty(cap?.Text) ? cap.Text : keyName;
+                    var textBlock = new TextBlock
+                    {
+                        Text = label,
+                        FontSize = Math.Max(10, Math.Min(15, height * 0.33)),
+                        FontWeight = fontWeight,
+                        FontFamily = fontFamily,
+                        Foreground = textBrush,
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        VerticalAlignment = VerticalAlignment.Center,
+                        Visibility = (cap?.HideText == true) ? Visibility.Collapsed : Visibility.Visible
+                    };
+                    grid.Children.Add(textBlock);
+
+                    keyBorder.Child = grid;
+                    rowPanel.Children.Add(keyBorder);
+                    _keyElements[keyName] = (keyBorder, highlight, textBlock, null);
+                }
+
+                DynamicKeysPanel.Children.Add(rowPanel);
+            }
+        }
+        else
+        {
+            DefaultKeysPanel.Visibility = Visibility.Visible;
+            DynamicKeysPanel.Visibility = Visibility.Collapsed;
+
+            var keyTuples = new (Border Key, Border Highlight, TextBlock Text, string Name)[]
+            {
+                (KeyW, KeyWHighlight, KeyWText, "W"),
+                (KeyA, KeyAHighlight, KeyAText, "A"),
+                (KeyS, KeySHighlight, KeySText, "S"),
+                (KeyD, KeyDHighlight, KeyDText, "D"),
+                (KeyLmb, KeyLmbHighlight, KeyLmbText, "LMB"),
+                (KeyRmb, KeyRmbHighlight, KeyRmbText, "RMB"),
+                (KeyShift, KeyShiftHighlight, KeyShiftText, "Shift"),
+                (KeySpace, KeySpaceHighlight, KeySpaceText, "Space")
+            };
+
+            foreach (var item in keyTuples)
+            {
+                item.Key.Background = theme.GetKeyBrush(item.Name, false);
+                item.Key.BorderBrush = borderBrush;
+                item.Key.BorderThickness = borderThickness;
+                item.Key.CornerRadius = cornerRadius;
+                item.Key.Effect = null;
+
+                item.Highlight.Background = theme.GetKeyBrush(item.Name, true);
+                item.Highlight.CornerRadius = highlightCorner;
+
+                item.Text.Foreground = textBrush;
+                item.Text.FontFamily = fontFamily;
+                item.Text.FontWeight = fontWeight;
+
+                if (theme.Keycaps.TryGetValue(item.Name, out var cap))
+                {
+                    if (cap.Width.HasValue && cap.Width.Value > 0)
+                        item.Key.Width = cap.Width.Value;
+                    if (cap.Height.HasValue && cap.Height.Value > 0)
+                        item.Key.Height = cap.Height.Value;
+                    if (cap.CornerRadius.HasValue)
+                    {
+                        item.Key.CornerRadius = new CornerRadius(cap.CornerRadius.Value);
+                        item.Highlight.CornerRadius = new CornerRadius(Math.Max(0, cap.CornerRadius.Value - 1));
+                    }
+                    if (!string.IsNullOrEmpty(cap.Text))
+                        item.Text.Text = cap.Text;
+                    item.Text.Visibility = cap.HideText ? Visibility.Collapsed : Visibility.Visible;
+                }
+
+                TextBlock? cps = item.Name switch
+                {
+                    "LMB" => TextLmbCps,
+                    "RMB" => TextRmbCps,
+                    _ => null
+                };
+                _keyElements[item.Name] = (item.Key, item.Highlight, item.Text, cps);
+            }
+
+            TextLmbCps.Foreground = cpsBrush;
+            TextLmbCps.FontFamily = fontFamily;
+            TextRmbCps.Foreground = cpsBrush;
+            TextRmbCps.FontFamily = fontFamily;
+        }
     }
 
     public async Task TriggerPreviewSequenceAsync()
     {
-        KeystrokeTarget[] sequence = {
-            KeystrokeTarget.W, KeystrokeTarget.A, KeystrokeTarget.S, KeystrokeTarget.D,
-            KeystrokeTarget.Lmb, KeystrokeTarget.Rmb, KeystrokeTarget.Shift, KeystrokeTarget.Space
-        };
-
-        foreach (var key in sequence)
+        var theme = KeystrokeThemeManager.ActiveTheme;
+        var rows = theme.GetEffectiveLayoutRows();
+        foreach (var r in rows)
         {
-            UpdateVisual(key, true);
-            if (key is KeystrokeTarget.Lmb or KeystrokeTarget.Rmb)
-                KeystrokeAudioService.PlayMousePress();
-            else
-                KeystrokeAudioService.PlayKeyboardPress();
+            foreach (var k in r)
+            {
+                UpdateVisualNamed(k, true);
+                if (string.Equals(k, "LMB", StringComparison.OrdinalIgnoreCase) || string.Equals(k, "RMB", StringComparison.OrdinalIgnoreCase))
+                    KeystrokeAudioService.PlayMousePress();
+                else
+                    KeystrokeAudioService.PlayKeyboardPress();
 
-            await Task.Delay(130);
-            UpdateVisual(key, false);
-            await Task.Delay(70);
+                await Task.Delay(110);
+                UpdateVisualNamed(k, false);
+                await Task.Delay(50);
+            }
         }
     }
 
@@ -312,6 +411,7 @@ public partial class KeystrokeOverlayWindow : Window
     {
         MakeClickThrough();
         KeystrokeInputService.StateChanged += OnKeystrokeStateChanged;
+        KeystrokeInputService.KeyNamedChanged += OnKeyNamedChanged;
         KeystrokeThemeManager.ActiveThemeChanged += OnActiveThemeChanged;
         _cpsTimer.Start();
         RefreshConfiguration();
@@ -326,6 +426,7 @@ public partial class KeystrokeOverlayWindow : Window
     {
         _disposed = true;
         KeystrokeInputService.StateChanged -= OnKeystrokeStateChanged;
+        KeystrokeInputService.KeyNamedChanged -= OnKeyNamedChanged;
         KeystrokeThemeManager.ActiveThemeChanged -= OnActiveThemeChanged;
         _cpsTimer.Stop();
         _anchor.Dispose();
@@ -360,18 +461,7 @@ public partial class KeystrokeOverlayWindow : Window
             return;
         }
 
-        UpdateVisual(state.Target, state.IsDown);
-    }
-
-    private void UpdateVisual(KeystrokeTarget target, bool isDown)
-    {
-        (Border? key, Border? highlight, TextBlock? text, TextBlock? cps) = GetElements(target);
-        if (highlight == null || text == null || key == null)
-            return;
-
-        var theme = KeystrokeThemeManager.ActiveTheme;
-        highlight.BeginAnimation(UIElement.OpacityProperty, null);
-        string keyName = target switch
+        string keyName = state.Target switch
         {
             KeystrokeTarget.W => "W",
             KeystrokeTarget.A => "A",
@@ -383,6 +473,32 @@ public partial class KeystrokeOverlayWindow : Window
             KeystrokeTarget.Rmb => "RMB",
             _ => ""
         };
+
+        UpdateVisualNamed(keyName, state.IsDown);
+    }
+
+    private void OnKeyNamedChanged(string keyName, bool isDown)
+    {
+        if (_disposed || Dispatcher.HasShutdownStarted)
+            return;
+
+        if (!Dispatcher.CheckAccess())
+        {
+            Dispatcher.BeginInvoke(new Action(() => OnKeyNamedChanged(keyName, isDown)));
+            return;
+        }
+
+        UpdateVisualNamed(keyName, isDown);
+    }
+
+    private void UpdateVisualNamed(string keyName, bool isDown)
+    {
+        if (!_keyElements.TryGetValue(keyName, out var item))
+            return;
+
+        var (key, highlight, text, cps) = item;
+        var theme = KeystrokeThemeManager.ActiveTheme;
+        highlight.BeginAnimation(UIElement.OpacityProperty, null);
 
         if (theme.Keycaps.TryGetValue(keyName, out var cap))
         {
@@ -404,6 +520,14 @@ public partial class KeystrokeOverlayWindow : Window
                 key.RenderTransformOrigin = new Point(0.5, 0.5);
                 key.RenderTransform = new ScaleTransform(theme.KeyScaleOnPress, theme.KeyScaleOnPress);
             }
+
+            key.Effect = new DropShadowEffect
+            {
+                Color = KeystrokeTheme.ParseColor(theme.KeyPressedBackground, Colors.MediumPurple),
+                BlurRadius = 14,
+                ShadowDepth = 0,
+                Opacity = 0.85
+            };
         }
         else
         {
@@ -414,23 +538,8 @@ public partial class KeystrokeOverlayWindow : Window
             if (cps != null)
                 cps.Foreground = theme.GetCpsTextBrush();
             key.RenderTransform = Transform.Identity;
+            key.Effect = null;
         }
-    }
-
-    private (Border? Key, Border? Highlight, TextBlock? Text, TextBlock? Cps) GetElements(KeystrokeTarget target)
-    {
-        return target switch
-        {
-            KeystrokeTarget.W => (KeyW, KeyWHighlight, KeyWText, null),
-            KeystrokeTarget.A => (KeyA, KeyAHighlight, KeyAText, null),
-            KeystrokeTarget.S => (KeyS, KeySHighlight, KeySText, null),
-            KeystrokeTarget.D => (KeyD, KeyDHighlight, KeyDText, null),
-            KeystrokeTarget.Space => (KeySpace, KeySpaceHighlight, KeySpaceText, null),
-            KeystrokeTarget.Shift => (KeyShift, KeyShiftHighlight, KeyShiftText, null),
-            KeystrokeTarget.Lmb => (KeyLmb, KeyLmbHighlight, KeyLmbText, TextLmbCps),
-            KeystrokeTarget.Rmb => (KeyRmb, KeyRmbHighlight, KeyRmbText, TextRmbCps),
-            _ => (null, null, null, null)
-        };
     }
 
     private void MakeClickThrough()

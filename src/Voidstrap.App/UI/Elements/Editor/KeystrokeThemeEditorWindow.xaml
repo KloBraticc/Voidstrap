@@ -240,9 +240,31 @@
                     <Grid.ColumnDefinitions>
                       <ColumnDefinition Width="130" />
                       <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_SelectKeycap}" VerticalAlignment="Center" />
-                    <ComboBox x:Name="ComboKeycapTarget" Grid.Column="1" SelectionChanged="OnKeycapTargetSelectionChanged" />
+                    <ComboBox x:Name="ComboKeycapTarget" Grid.Column="1" SelectionChanged="OnKeycapTargetSelectionChanged" Margin="0,0,6,0" />
+                    <ui:Button Grid.Column="2" Content="-" Click="OnRemoveKeycapClicked" Appearance="Secondary" Width="32" />
+                  </Grid>
+
+                  <Grid Margin="0,0,0,8">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="130" />
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="New Keycap" VerticalAlignment="Center" />
+                    <TextBox x:Name="TextAddKeyName" Grid.Column="1" Margin="0,0,6,0" VerticalAlignment="Center" />
+                    <ui:Button Grid.Column="2" Content="+ Add" Click="OnAddKeycapClicked" Width="70" />
+                  </Grid>
+
+                  <Grid Margin="0,4,0,8">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Mouse Track Circle" VerticalAlignment="Center" />
+                    <ui:ToggleSwitch x:Name="ToggleMouseCircle" Grid.Column="1" Click="OnToggleMouseCircleClicked" />
                   </Grid>
 
                   <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_KeycapImage}" Margin="0,4,0,2" />
@@ -394,85 +416,94 @@
                   BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" BorderThickness="1"
                   Padding="20" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
             <Viewbox MaxWidth="360" MaxHeight="300" HorizontalAlignment="Center" VerticalAlignment="Center">
-              <StackPanel x:Name="PreviewContainer" Orientation="Vertical">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,3">
-                  <Border x:Name="PreviewKeyW" Width="46" Height="46" CornerRadius="8" BorderThickness="1"
-                          Cursor="Hand" MouseDown="OnKeyMouseDown" MouseUp="OnKeyMouseUp" Tag="W">
-                    <Grid>
-                      <Border x:Name="PreviewHighlightW" Opacity="0" />
-                      <TextBlock x:Name="PreviewTextW" Text="W" FontSize="15" FontWeight="SemiBold"
-                                 HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    </Grid>
-                  </Border>
-                </StackPanel>
+              <StackPanel x:Name="PreviewMainLayout" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Border x:Name="PreviewMouseCircle" Width="96" Height="96" CornerRadius="48" BorderThickness="1"
+                        Margin="0,0,14,0" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Center">
+                  <Ellipse x:Name="PreviewMouseDot" Width="14" Height="14" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                </Border>
+                <StackPanel x:Name="PreviewContainer" Orientation="Vertical">
+                  <StackPanel x:Name="PreviewDefaultKeysPanel" Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,3">
+                      <Border x:Name="PreviewKeyW" Width="46" Height="46" CornerRadius="8" BorderThickness="1"
+                              Cursor="Hand" MouseDown="OnKeyMouseDown" MouseUp="OnKeyMouseUp" Tag="W">
+                        <Grid>
+                          <Border x:Name="PreviewHighlightW" Opacity="0" />
+                          <TextBlock x:Name="PreviewTextW" Text="W" FontSize="15" FontWeight="SemiBold"
+                                     HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Grid>
+                      </Border>
+                    </StackPanel>
 
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,3">
-                  <Border x:Name="PreviewKeyA" Width="46" Height="46" CornerRadius="8" BorderThickness="1" Margin="0,0,3,0"
-                          Cursor="Hand" MouseDown="OnKeyMouseDown" MouseUp="OnKeyMouseUp" Tag="A">
-                    <Grid>
-                      <Border x:Name="PreviewHighlightA" Opacity="0" />
-                      <TextBlock x:Name="PreviewTextA" Text="A" FontSize="15" FontWeight="SemiBold"
-                                 HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    </Grid>
-                  </Border>
-                  <Border x:Name="PreviewKeyS" Width="46" Height="46" CornerRadius="8" BorderThickness="1" Margin="0,0,3,0"
-                          Cursor="Hand" MouseDown="OnKeyMouseDown" MouseUp="OnKeyMouseUp" Tag="S">
-                    <Grid>
-                      <Border x:Name="PreviewHighlightS" Opacity="0" />
-                      <TextBlock x:Name="PreviewTextS" Text="S" FontSize="15" FontWeight="SemiBold"
-                                 HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    </Grid>
-                  </Border>
-                  <Border x:Name="PreviewKeyD" Width="46" Height="46" CornerRadius="8" BorderThickness="1"
-                          Cursor="Hand" MouseDown="OnKeyMouseDown" MouseUp="OnKeyMouseUp" Tag="D">
-                    <Grid>
-                      <Border x:Name="PreviewHighlightD" Opacity="0" />
-                      <TextBlock x:Name="PreviewTextD" Text="D" FontSize="15" FontWeight="SemiBold"
-                                 HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    </Grid>
-                  </Border>
-                </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,3">
+                      <Border x:Name="PreviewKeyA" Width="46" Height="46" CornerRadius="8" BorderThickness="1" Margin="0,0,3,0"
+                              Cursor="Hand" MouseDown="OnKeyMouseDown" MouseUp="OnKeyMouseUp" Tag="A">
+                        <Grid>
+                          <Border x:Name="PreviewHighlightA" Opacity="0" />
+                          <TextBlock x:Name="PreviewTextA" Text="A" FontSize="15" FontWeight="SemiBold"
+                                     HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Grid>
+                      </Border>
+                      <Border x:Name="PreviewKeyS" Width="46" Height="46" CornerRadius="8" BorderThickness="1" Margin="0,0,3,0"
+                              Cursor="Hand" MouseDown="OnKeyMouseDown" MouseUp="OnKeyMouseUp" Tag="S">
+                        <Grid>
+                          <Border x:Name="PreviewHighlightS" Opacity="0" />
+                          <TextBlock x:Name="PreviewTextS" Text="S" FontSize="15" FontWeight="SemiBold"
+                                     HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Grid>
+                      </Border>
+                      <Border x:Name="PreviewKeyD" Width="46" Height="46" CornerRadius="8" BorderThickness="1"
+                              Cursor="Hand" MouseDown="OnKeyMouseDown" MouseUp="OnKeyMouseUp" Tag="D">
+                        <Grid>
+                          <Border x:Name="PreviewHighlightD" Opacity="0" />
+                          <TextBlock x:Name="PreviewTextD" Text="D" FontSize="15" FontWeight="SemiBold"
+                                     HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Grid>
+                      </Border>
+                    </StackPanel>
 
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,3">
-                  <Border x:Name="PreviewKeyLmb" Width="71" Height="46" CornerRadius="8" BorderThickness="1" Margin="0,0,3,0"
-                          Cursor="Hand" MouseDown="OnKeyMouseDown" MouseUp="OnKeyMouseUp" Tag="LMB">
-                    <Grid>
-                      <Border x:Name="PreviewHighlightLmb" Opacity="0" />
-                      <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock x:Name="PreviewTextLmb" Text="LMB" FontSize="13" FontWeight="SemiBold" HorizontalAlignment="Center" />
-                        <TextBlock x:Name="PreviewCpsLmb" Text="8 CPS" FontSize="10" HorizontalAlignment="Center" Margin="0,1,0,0" />
-                      </StackPanel>
-                    </Grid>
-                  </Border>
-                  <Border x:Name="PreviewKeyRmb" Width="71" Height="46" CornerRadius="8" BorderThickness="1"
-                          Cursor="Hand" MouseDown="OnKeyMouseDown" MouseUp="OnKeyMouseUp" Tag="RMB">
-                    <Grid>
-                      <Border x:Name="PreviewHighlightRmb" Opacity="0" />
-                      <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-                        <TextBlock x:Name="PreviewTextRmb" Text="RMB" FontSize="13" FontWeight="SemiBold" HorizontalAlignment="Center" />
-                        <TextBlock x:Name="PreviewCpsRmb" Text="6 CPS" FontSize="10" HorizontalAlignment="Center" Margin="0,1,0,0" />
-                      </StackPanel>
-                    </Grid>
-                  </Border>
-                </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,3">
+                      <Border x:Name="PreviewKeyLmb" Width="71" Height="46" CornerRadius="8" BorderThickness="1" Margin="0,0,3,0"
+                              Cursor="Hand" MouseDown="OnKeyMouseDown" MouseUp="OnKeyMouseUp" Tag="LMB">
+                        <Grid>
+                          <Border x:Name="PreviewHighlightLmb" Opacity="0" />
+                          <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock x:Name="PreviewTextLmb" Text="LMB" FontSize="13" FontWeight="SemiBold" HorizontalAlignment="Center" />
+                            <TextBlock x:Name="PreviewCpsLmb" Text="8 CPS" FontSize="10" HorizontalAlignment="Center" Margin="0,1,0,0" />
+                          </StackPanel>
+                        </Grid>
+                      </Border>
+                      <Border x:Name="PreviewKeyRmb" Width="71" Height="46" CornerRadius="8" BorderThickness="1"
+                              Cursor="Hand" MouseDown="OnKeyMouseDown" MouseUp="OnKeyMouseUp" Tag="RMB">
+                        <Grid>
+                          <Border x:Name="PreviewHighlightRmb" Opacity="0" />
+                          <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <TextBlock x:Name="PreviewTextRmb" Text="RMB" FontSize="13" FontWeight="SemiBold" HorizontalAlignment="Center" />
+                            <TextBlock x:Name="PreviewCpsRmb" Text="6 CPS" FontSize="10" HorizontalAlignment="Center" Margin="0,1,0,0" />
+                          </StackPanel>
+                        </Grid>
+                      </Border>
+                    </StackPanel>
 
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                  <Border x:Name="PreviewKeyShift" Width="51" Height="34" CornerRadius="8" BorderThickness="1" Margin="0,0,3,0"
-                          Cursor="Hand" MouseDown="OnKeyMouseDown" MouseUp="OnKeyMouseUp" Tag="Shift">
-                    <Grid>
-                      <Border x:Name="PreviewHighlightShift" Opacity="0" />
-                      <TextBlock x:Name="PreviewTextShift" Text="SHIFT" FontSize="11" FontWeight="SemiBold"
-                                 HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    </Grid>
-                  </Border>
-                  <Border x:Name="PreviewKeySpace" Width="91" Height="34" CornerRadius="8" BorderThickness="1"
-                          Cursor="Hand" MouseDown="OnKeyMouseDown" MouseUp="OnKeyMouseUp" Tag="Space">
-                    <Grid>
-                      <Border x:Name="PreviewHighlightSpace" Opacity="0" />
-                      <TextBlock x:Name="PreviewTextSpace" Text="—" FontSize="14" FontWeight="SemiBold"
-                                 HorizontalAlignment="Center" VerticalAlignment="Center" />
-                    </Grid>
-                  </Border>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                      <Border x:Name="PreviewKeyShift" Width="51" Height="34" CornerRadius="8" BorderThickness="1" Margin="0,0,3,0"
+                              Cursor="Hand" MouseDown="OnKeyMouseDown" MouseUp="OnKeyMouseUp" Tag="Shift">
+                        <Grid>
+                          <Border x:Name="PreviewHighlightShift" Opacity="0" />
+                          <TextBlock x:Name="PreviewTextShift" Text="SHIFT" FontSize="11" FontWeight="SemiBold"
+                                     HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Grid>
+                      </Border>
+                      <Border x:Name="PreviewKeySpace" Width="91" Height="34" CornerRadius="8" BorderThickness="1"
+                              Cursor="Hand" MouseDown="OnKeyMouseDown" MouseUp="OnKeyMouseUp" Tag="Space">
+                        <Grid>
+                          <Border x:Name="PreviewHighlightSpace" Opacity="0" />
+                          <TextBlock x:Name="PreviewTextSpace" Text="—" FontSize="14" FontWeight="SemiBold"
+                                     HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Grid>
+                      </Border>
+                    </StackPanel>
+                  </StackPanel>
+                  <StackPanel x:Name="PreviewDynamicKeysPanel" Orientation="Vertical" Visibility="Collapsed" />
                 </StackPanel>
               </StackPanel>
             </Viewbox>

@@ -19,6 +19,7 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
     private readonly string _themeName;
     private readonly KeystrokeTheme _originalTheme;
     private readonly KeystrokeTheme _workingTheme;
+    private readonly Dictionary<string, (Border Key, Border Highlight, TextBlock Text, TextBlock? Cps)> _previewElements = new(StringComparer.OrdinalIgnoreCase);
     private ThemeCodeLanguage _currentLanguage = ThemeCodeLanguage.CSharp;
     private string _selectedKeycap = "W";
     private bool _isInitializing = true;
@@ -44,6 +45,136 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
         CodeEditor.TextArea.Caret.PositionChanged += OnCaretPositionChanged;
 
         _isInitializing = false;
+        RefreshLivePreview();
+    }
+
+    private MessageBoxResult ShowWpfUiMessageBox(string message, string title, MessageBoxButton buttons = MessageBoxButton.OK)
+    {
+        var msg = new Wpf.Ui.Controls.MessageBox
+        {
+            Owner = this,
+            Title = title,
+            Content = new TextBlock
+            {
+                Text = message,
+                TextWrapping = TextWrapping.Wrap,
+                Margin = new Thickness(0, 10, 0, 10)
+            },
+            MicaEnabled = true,
+            ShowTitle = true,
+            ShowFooter = true
+        };
+
+        MessageBoxResult result = buttons switch
+        {
+            MessageBoxButton.YesNo or MessageBoxButton.YesNoCancel => MessageBoxResult.No,
+            _ => MessageBoxResult.OK
+        };
+
+        if (buttons is MessageBoxButton.YesNo or MessageBoxButton.YesNoCancel)
+        {
+            msg.ButtonLeftName = "Yes";
+            msg.ButtonLeftAppearance = Wpf.Ui.Common.ControlAppearance.Primary;
+            msg.ButtonRightName = "No";
+            msg.ButtonRightAppearance = Wpf.Ui.Common.ControlAppearance.Secondary;
+
+            msg.ButtonLeftClick += (_, _) =>
+            {
+                result = MessageBoxResult.Yes;
+                msg.Close();
+            };
+            msg.ButtonRightClick += (_, _) =>
+            {
+                result = MessageBoxResult.No;
+                msg.Close();
+            };
+        }
+        else
+        {
+            msg.ButtonLeftName = "OK";
+            msg.ButtonLeftAppearance = Wpf.Ui.Common.ControlAppearance.Primary;
+            msg.ButtonRightName = string.Empty;
+            msg.ButtonRightAppearance = Wpf.Ui.Common.ControlAppearance.Transparent;
+
+            msg.ButtonLeftClick += (_, _) =>
+            {
+                result = MessageBoxResult.OK;
+                msg.Close();
+            };
+            msg.ButtonRightClick += (_, _) =>
+            {
+                result = MessageBoxResult.OK;
+                msg.Close();
+            };
+        }
+
+        msg.ShowOwnedDialog();
+        return result;
+    }
+
+    private void RefreshKeycapTargetItems(string? selectKey = null)
+    {
+        var set = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+        {
+            "W", "A", "S", "D", "LMB", "RMB", "Shift", "Space"
+        };
+
+        if (_workingTheme.LayoutRows != null)
+        {
+            foreach (var row in _workingTheme.LayoutRows)
+            {
+                foreach (var k in row)
+                    set.Add(k);
+            }
+        }
+
+        foreach (var k in _workingTheme.Keycaps.Keys)
+            set.Add(k);
+
+        var list = new List<string>(set);
+        ComboKeycapTarget.ItemsSource = list;
+
+        if (!string.IsNullOrEmpty(selectKey) && list.Contains(selectKey, StringComparer.OrdinalIgnoreCase))
+        {
+            ComboKeycapTarget.SelectedItem = list.Find(x => string.Equals(x, selectKey, StringComparison.OrdinalIgnoreCase));
+        }
+        else if (list.Count > 0)
+        {
+            ComboKeycapTarget.SelectedIndex = 0;
+        }
+    }
+
+    private void OnAddKeycapClicked(object sender, RoutedEventArgs e)
+    {
+        string newKey = TextAddKeyName.Text?.Trim() ?? string.Empty;
+        if (string.IsNullOrWhiteSpace(newKey))
+            return;
+
+        _workingTheme.GetOrCreateKeycap(newKey);
+        TextAddKeyName.Text = string.Empty;
+        RefreshKeycapTargetItems(newKey);
+        UpdateCodeView();
+        RefreshLivePreview();
+    }
+
+    private void OnRemoveKeycapClicked(object sender, RoutedEventArgs e)
+    {
+        if (ComboKeycapTarget.SelectedItem is string key)
+        {
+            _workingTheme.Keycaps.Remove(key);
+            RefreshKeycapTargetItems();
+            UpdateCodeView();
+            RefreshLivePreview();
+        }
+    }
+
+    private void OnToggleMouseCircleClicked(object sender, RoutedEventArgs e)
+    {
+        if (_isInitializing)
+            return;
+
+        _workingTheme.ShowMouseCircle = ToggleMouseCircle.IsChecked == true;
+        UpdateCodeView();
         RefreshLivePreview();
     }
 
@@ -86,18 +217,7 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
         };
         ComboLanguage.SelectedIndex = 0;
 
-        ComboKeycapTarget.ItemsSource = new List<string>
-        {
-            "W",
-            "A",
-            "S",
-            "D",
-            "LMB",
-            "RMB",
-            "Shift",
-            "Space"
-        };
-        ComboKeycapTarget.SelectedIndex = 0;
+        RefreshKeycapTargetItems();
     }
 
     private void InitializeSnippets()
@@ -110,20 +230,24 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
                 "Keycap Customizer",
                 "Background Images",
                 "Glass & Squash Scale",
-                "Accent Brushes"
+                "Accent Brushes",
+                "Full Gaming Layout & Trackpad"
             },
             ThemeCodeLanguage.HtmlCss => new List<string>
             {
                 Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_InsertSnippet ?? "Insert Snippet...",
                 "Keycap Override",
                 "CSS Variables",
-                "Pressed State"
+                "Pressed State",
+                "Full Gaming Layout & Trackpad",
+                "Animated HUD & Shine"
             },
             ThemeCodeLanguage.Rust => new List<string>
             {
                 Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_InsertSnippet ?? "Insert Snippet...",
                 "Keycap Match",
-                "Theme Overrides"
+                "Theme Overrides",
+                "Full Gaming Layout & Trackpad"
             },
             _ => new List<string>
             {
@@ -132,7 +256,8 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
                 "Background Images",
                 "Per-Key Images",
                 "Glass & Squash Scale",
-                "Accent Palette"
+                "Accent Palette",
+                "Full Gaming Layout & Trackpad"
             }
         };
         ComboSnippets.SelectedIndex = 0;
@@ -176,6 +301,9 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
 
         SliderImageOpacity.Value = Math.Round(_workingTheme.KeyImageOpacity * 100);
         TextImageOpacityVal.Text = $"{SliderImageOpacity.Value:F0}%";
+
+        ToggleMouseCircle.IsChecked = _workingTheme.ShowMouseCircle;
+        RefreshKeycapTargetItems(_selectedKeycap);
 
         LoadKeycapControls(_selectedKeycap);
         UpdateCodeView();
@@ -671,6 +799,18 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
             KeyPressedTextColor = "#FFFFFF",
             KeyBorderColor = "Accent",
 """,
+                5 => """
+            LayoutRows = new List<List<string>>
+            {
+                new() { "1", "2", "3", "4", "5" },
+                new() { "Q", "W", "E", "R", "T" },
+                new() { "A", "S", "D", "F", "G" },
+                new() { "Z", "X", "C", "V", "B" },
+                new() { "0", "1" }
+            },
+            ShowMouseCircle = true,
+            MouseCircleSize = 130.0,
+""",
                 _ => string.Empty
             },
             ThemeCodeLanguage.HtmlCss => idx switch
@@ -699,6 +839,147 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
       transform: scale(var(--key-scale-on-press));
     }
 """,
+                4 => """
+    <div class="hud">
+      <div class="mouse-circle"><div class="mouse-dot"></div></div>
+      <div class="keys-container">
+        <div class="row"><div class="keycap" data-key="1">1</div><div class="keycap" data-key="2">2</div><div class="keycap" data-key="3">3</div><div class="keycap" data-key="4">4</div><div class="keycap" data-key="5">5</div></div>
+        <div class="row"><div class="keycap" data-key="Q">Q</div><div class="keycap" data-key="W">W</div><div class="keycap" data-key="E">E</div><div class="keycap" data-key="R">R</div><div class="keycap" data-key="T">T</div></div>
+        <div class="row"><div class="keycap" data-key="A">A</div><div class="keycap" data-key="S">S</div><div class="keycap" data-key="D">D</div><div class="keycap" data-key="F">F</div><div class="keycap" data-key="G">G</div></div>
+        <div class="row"><div class="keycap" data-key="Z">Z</div><div class="keycap" data-key="X">X</div><div class="keycap" data-key="C">C</div><div class="keycap" data-key="V">V</div><div class="keycap" data-key="B">B</div></div>
+        <div class="row"><div class="keycap" data-key="0">0</div><div class="keycap" data-key="1">1</div></div>
+      </div>
+    </div>
+""",
+                5 => """
+@property --border-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.hud {
+  animation:
+    hud-enter 700ms cubic-bezier(.16, 1, .3, 1) both,
+    hud-float 5s ease-in-out 700ms infinite;
+}
+
+.hud-shine {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 3;
+}
+
+.hud-shine::after {
+  content: "";
+  position: absolute;
+  top: -80%;
+  left: -60%;
+  width: 45%;
+  height: 260%;
+  transform: rotate(25deg);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.07),
+    rgba(167, 139, 250, 0.12),
+    transparent
+  );
+  animation: shine-sweep 6s ease-in-out infinite;
+}
+
+.keycap {
+  animation: key-entrance 600ms cubic-bezier(.16, 1, .3, 1) both;
+}
+
+.row:nth-child(1) .keycap { animation-delay: 100ms; }
+.row:nth-child(2) .keycap { animation-delay: 170ms; }
+.row:nth-child(3) .keycap { animation-delay: 240ms; }
+.row:nth-child(4) .keycap { animation-delay: 310ms; }
+
+.keycap:hover {
+  animation: hover-spring 350ms cubic-bezier(.2, 1.5, .4, 1) both;
+}
+
+.keycap.pressed {
+  animation: press-pop 220ms cubic-bezier(.2, 1.4, .4, 1) both,
+             active-glow 1.5s ease-in-out 220ms infinite alternate;
+}
+
+.hud::before {
+  animation: border-spin 5s linear infinite;
+}
+
+.hud::after {
+  animation: ambient 3.5s ease-in-out infinite alternate;
+}
+
+@keyframes hud-float {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -4px; }
+}
+
+@keyframes shine-sweep {
+  0%, 15% { left: -60%; opacity: 0; }
+  25% { opacity: 1; }
+  55% { left: 130%; opacity: 0; }
+  100% { left: 130%; opacity: 0; }
+}
+
+@keyframes key-entrance {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(.8);
+    filter: blur(5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes hover-spring {
+  0% { transform: translateY(-2px) scale(1.02); }
+  55% { transform: translateY(-5px) scale(1.08); }
+  100% { transform: translateY(-3px) scale(1.04); }
+}
+
+@keyframes press-pop {
+  0% { transform: scale(1); filter: brightness(1.5); }
+  45% { transform: scale(.86); filter: brightness(1.25); }
+  75% { transform: scale(.96); }
+  100% { transform: scale(var(--key-scale-on-press)); filter: brightness(1); }
+}
+
+@keyframes active-glow {
+  from {
+    box-shadow:
+      0 0 8px rgba(167, 139, 250, .6),
+      0 0 20px rgba(139, 92, 246, .35);
+  }
+  to {
+    box-shadow:
+      0 0 14px rgba(167, 139, 250, .95),
+      0 0 35px rgba(139, 92, 246, .7),
+      0 0 55px rgba(96, 165, 250, .25);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hud,
+  .hud::before,
+  .hud::after,
+  .hud-shine::after,
+  .keycap {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+""",
                 _ => string.Empty
             },
             ThemeCodeLanguage.Rust => idx switch
@@ -719,6 +1000,17 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
     key_pressed_background: "Accent",
     key_border_color: "#363638",
     key_corner_radius: 8.0,
+""",
+                3 => """
+    layout_rows: vec![
+        vec!["1", "2", "3", "4", "5"],
+        vec!["Q", "W", "E", "R", "T"],
+        vec!["A", "S", "D", "F", "G"],
+        vec!["Z", "X", "C", "V", "B"],
+        vec!["0", "1"],
+    ],
+    show_mouse_circle: true,
+    mouse_circle_size: 130.0,
 """,
                 _ => string.Empty
             },
@@ -767,6 +1059,17 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
   "KeyPressedTextColor": "#FFFFFF",
   "KeyBorderColor": "Accent",
 """,
+                6 => """
+  "LayoutRows": [
+    [ "1", "2", "3", "4", "5" ],
+    [ "Q", "W", "E", "R", "T" ],
+    [ "A", "S", "D", "F", "G" ],
+    [ "Z", "X", "C", "V", "B" ],
+    [ "0", "1" ]
+  ],
+  "ShowMouseCircle": true,
+  "MouseCircleSize": 130.0,
+""",
                 _ => string.Empty
             }
         };
@@ -783,34 +1086,16 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
     {
         if (UpdateFromCurrentCode())
         {
-            MessageBox.Show(Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_CodeValid ?? "Theme updated from code.", "Voidstrap", MessageBoxButton.OK, MessageBoxImage.Information);
+            ShowWpfUiMessageBox(Voidstrap.Resources.Strings.Ui_Keystrokes_Editor_CodeValid ?? "Theme updated from code.", "Voidstrap");
         }
         else
         {
-            MessageBox.Show(TextCodeStatus.Text, "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            ShowWpfUiMessageBox(TextCodeStatus.Text, "Error");
         }
     }
 
     private void RefreshLivePreview()
     {
-        var borders = new[]
-        {
-            PreviewKeyW, PreviewKeyA, PreviewKeyS, PreviewKeyD,
-            PreviewKeyLmb, PreviewKeyRmb, PreviewKeyShift, PreviewKeySpace
-        };
-
-        var highlights = new[]
-        {
-            PreviewHighlightW, PreviewHighlightA, PreviewHighlightS, PreviewHighlightD,
-            PreviewHighlightLmb, PreviewHighlightRmb, PreviewHighlightShift, PreviewHighlightSpace
-        };
-
-        var texts = new[]
-        {
-            PreviewTextW, PreviewTextA, PreviewTextS, PreviewTextD,
-            PreviewTextLmb, PreviewTextRmb, PreviewTextShift, PreviewTextSpace
-        };
-
         Brush borderBrush = _workingTheme.GetKeyBorderBrush();
         Brush pressedBgBrush = _workingTheme.GetKeyPressedBackgroundBrush();
         Brush textBrush = _workingTheme.GetKeyTextBrush();
@@ -829,47 +1114,157 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
             _ => FontWeights.SemiBold
         };
 
-        for (int i = 0; i < borders.Length; i++)
+        if (_workingTheme.ShowMouseCircle)
         {
-            var b = borders[i];
-            var h = highlights[i];
-            var t = texts[i];
-            string tag = b.Tag as string ?? string.Empty;
-
-            b.Background = _workingTheme.GetKeyBrush(tag, false);
-            b.BorderBrush = borderBrush;
-            b.BorderThickness = borderThickness;
-            b.CornerRadius = cornerRadius;
-            b.Effect = null;
-
-            h.Background = pressedBgBrush;
-            h.CornerRadius = highlightCorner;
-
-            t.Foreground = textBrush;
-            t.FontFamily = fontFamily;
-            t.FontWeight = fontWeight;
-
-            if (_workingTheme.Keycaps.TryGetValue(tag, out var cap))
-            {
-                if (cap.Width.HasValue && cap.Width.Value > 0)
-                    b.Width = cap.Width.Value;
-                if (cap.Height.HasValue && cap.Height.Value > 0)
-                    b.Height = cap.Height.Value;
-                if (cap.CornerRadius.HasValue)
-                {
-                    b.CornerRadius = new CornerRadius(cap.CornerRadius.Value);
-                    h.CornerRadius = new CornerRadius(Math.Max(0, cap.CornerRadius.Value - 1));
-                }
-                if (!string.IsNullOrEmpty(cap.Text))
-                    t.Text = cap.Text;
-                t.Visibility = cap.HideText ? Visibility.Collapsed : Visibility.Visible;
-            }
+            PreviewMouseCircle.Visibility = Visibility.Visible;
+            double size = Math.Max(40, _workingTheme.MouseCircleSize > 0 ? _workingTheme.MouseCircleSize * 0.7 : 90);
+            PreviewMouseCircle.Width = size;
+            PreviewMouseCircle.Height = size;
+            PreviewMouseCircle.CornerRadius = new CornerRadius(size / 2.0);
+            PreviewMouseCircle.BorderBrush = borderBrush;
+            PreviewMouseCircle.BorderThickness = borderThickness;
+            PreviewMouseCircle.Background = _workingTheme.GetKeyBrush("MouseCircle", false);
+            PreviewMouseDot.Fill = pressedBgBrush;
+        }
+        else
+        {
+            PreviewMouseCircle.Visibility = Visibility.Collapsed;
         }
 
-        PreviewCpsLmb.Foreground = cpsBrush;
-        PreviewCpsLmb.FontFamily = fontFamily;
-        PreviewCpsRmb.Foreground = cpsBrush;
-        PreviewCpsRmb.FontFamily = fontFamily;
+        _previewElements.Clear();
+
+        if (_workingTheme.LayoutRows != null && _workingTheme.LayoutRows.Count > 0)
+        {
+            PreviewDefaultKeysPanel.Visibility = Visibility.Collapsed;
+            PreviewDynamicKeysPanel.Visibility = Visibility.Visible;
+            PreviewDynamicKeysPanel.Children.Clear();
+
+            foreach (var row in _workingTheme.LayoutRows)
+            {
+                var rowPanel = new StackPanel
+                {
+                    Orientation = Orientation.Horizontal,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    Margin = new Thickness(0, 0, 0, 3)
+                };
+
+                for (int i = 0; i < row.Count; i++)
+                {
+                    string keyName = row[i];
+                    var cap = _workingTheme.Keycaps.TryGetValue(keyName, out var c) ? c : null;
+
+                    double width = cap?.Width ?? 46;
+                    double height = cap?.Height ?? 46;
+                    double cr = cap?.CornerRadius ?? _workingTheme.KeyCornerRadius;
+
+                    var keyBorder = new Border
+                    {
+                        Width = width,
+                        Height = height,
+                        CornerRadius = new CornerRadius(cr),
+                        BorderThickness = borderThickness,
+                        BorderBrush = borderBrush,
+                        Background = _workingTheme.GetKeyBrush(keyName, false),
+                        Margin = new Thickness(0, 0, i < row.Count - 1 ? 3 : 0, 0),
+                        Cursor = Cursors.Hand,
+                        Tag = keyName
+                    };
+                    keyBorder.MouseDown += OnKeyMouseDown;
+                    keyBorder.MouseUp += OnKeyMouseUp;
+
+                    var grid = new Grid();
+                    var highlight = new Border
+                    {
+                        CornerRadius = new CornerRadius(Math.Max(0, cr - 1)),
+                        Opacity = 0,
+                        Background = _workingTheme.GetKeyBrush(keyName, true)
+                    };
+                    grid.Children.Add(highlight);
+
+                    string label = !string.IsNullOrEmpty(cap?.Text) ? cap.Text : keyName;
+                    var textBlock = new TextBlock
+                    {
+                        Text = label,
+                        FontSize = Math.Max(10, Math.Min(15, height * 0.33)),
+                        FontWeight = fontWeight,
+                        FontFamily = fontFamily,
+                        Foreground = textBrush,
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        VerticalAlignment = VerticalAlignment.Center,
+                        Visibility = (cap?.HideText == true) ? Visibility.Collapsed : Visibility.Visible
+                    };
+                    grid.Children.Add(textBlock);
+
+                    keyBorder.Child = grid;
+                    rowPanel.Children.Add(keyBorder);
+                    _previewElements[keyName] = (keyBorder, highlight, textBlock, null);
+                }
+
+                PreviewDynamicKeysPanel.Children.Add(rowPanel);
+            }
+        }
+        else
+        {
+            PreviewDefaultKeysPanel.Visibility = Visibility.Visible;
+            PreviewDynamicKeysPanel.Visibility = Visibility.Collapsed;
+
+            var keyTuples = new (Border Key, Border Highlight, TextBlock Text, string Name)[]
+            {
+                (PreviewKeyW, PreviewHighlightW, PreviewTextW, "W"),
+                (PreviewKeyA, PreviewHighlightA, PreviewTextA, "A"),
+                (PreviewKeyS, PreviewHighlightS, PreviewTextS, "S"),
+                (PreviewKeyD, PreviewHighlightD, PreviewTextD, "D"),
+                (PreviewKeyLmb, PreviewHighlightLmb, PreviewTextLmb, "LMB"),
+                (PreviewKeyRmb, PreviewHighlightRmb, PreviewTextRmb, "RMB"),
+                (PreviewKeyShift, PreviewHighlightShift, PreviewTextShift, "Shift"),
+                (PreviewKeySpace, PreviewHighlightSpace, PreviewTextSpace, "Space")
+            };
+
+            foreach (var item in keyTuples)
+            {
+                item.Key.Background = _workingTheme.GetKeyBrush(item.Name, false);
+                item.Key.BorderBrush = borderBrush;
+                item.Key.BorderThickness = borderThickness;
+                item.Key.CornerRadius = cornerRadius;
+                item.Key.Effect = null;
+
+                item.Highlight.Background = pressedBgBrush;
+                item.Highlight.CornerRadius = highlightCorner;
+
+                item.Text.Foreground = textBrush;
+                item.Text.FontFamily = fontFamily;
+                item.Text.FontWeight = fontWeight;
+
+                if (_workingTheme.Keycaps.TryGetValue(item.Name, out var cap))
+                {
+                    if (cap.Width.HasValue && cap.Width.Value > 0)
+                        item.Key.Width = cap.Width.Value;
+                    if (cap.Height.HasValue && cap.Height.Value > 0)
+                        item.Key.Height = cap.Height.Value;
+                    if (cap.CornerRadius.HasValue)
+                    {
+                        item.Key.CornerRadius = new CornerRadius(cap.CornerRadius.Value);
+                        item.Highlight.CornerRadius = new CornerRadius(Math.Max(0, cap.CornerRadius.Value - 1));
+                    }
+                    if (!string.IsNullOrEmpty(cap.Text))
+                        item.Text.Text = cap.Text;
+                    item.Text.Visibility = cap.HideText ? Visibility.Collapsed : Visibility.Visible;
+                }
+
+                TextBlock? cps = item.Name switch
+                {
+                    "LMB" => PreviewCpsLmb,
+                    "RMB" => PreviewCpsRmb,
+                    _ => null
+                };
+                _previewElements[item.Name] = (item.Key, item.Highlight, item.Text, cps);
+            }
+
+            PreviewCpsLmb.Foreground = cpsBrush;
+            PreviewCpsLmb.FontFamily = fontFamily;
+            PreviewCpsRmb.Foreground = cpsBrush;
+            PreviewCpsRmb.FontFamily = fontFamily;
+        }
     }
 
     private void OnKeyMouseDown(object sender, MouseButtonEventArgs e)
@@ -894,23 +1289,12 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
 
     private void SetKeyPressed(string tag, bool isDown)
     {
-        (Border? key, Border? highlight, TextBlock? text, TextBlock? cps) = tag switch
-        {
-            "W" => (PreviewKeyW, PreviewHighlightW, PreviewTextW, null),
-            "A" => (PreviewKeyA, PreviewHighlightA, PreviewTextA, null),
-            "S" => (PreviewKeyS, PreviewHighlightS, PreviewTextS, null),
-            "D" => (PreviewKeyD, PreviewHighlightD, PreviewTextD, null),
-            "LMB" => (PreviewKeyLmb, PreviewHighlightLmb, PreviewTextLmb, PreviewCpsLmb),
-            "RMB" => (PreviewKeyRmb, PreviewHighlightRmb, PreviewTextRmb, PreviewCpsRmb),
-            "Shift" => (PreviewKeyShift, PreviewHighlightShift, PreviewTextShift, null),
-            "Space" => (PreviewKeySpace, PreviewHighlightSpace, PreviewTextSpace, null),
-            _ => (null, null, null, null)
-        };
-
-        if (highlight == null || text == null || key == null)
+        if (!_previewElements.TryGetValue(tag, out var elem))
             return;
 
+        var (key, highlight, text, cps) = elem;
         highlight.BeginAnimation(UIElement.OpacityProperty, null);
+
         if (_workingTheme.Keycaps.TryGetValue(tag, out var cap))
         {
             if (!string.IsNullOrEmpty(cap.Text))
@@ -931,6 +1315,18 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
                 key.RenderTransformOrigin = new Point(0.5, 0.5);
                 key.RenderTransform = new ScaleTransform(_workingTheme.KeyScaleOnPress, _workingTheme.KeyScaleOnPress);
             }
+
+            Color shadowColor = Colors.MediumPurple;
+            if (_workingTheme.GetKeyPressedBackgroundBrush() is SolidColorBrush sb)
+                shadowColor = sb.Color;
+
+            key.Effect = new System.Windows.Media.Effects.DropShadowEffect
+            {
+                Color = shadowColor,
+                BlurRadius = 14,
+                ShadowDepth = 0,
+                Opacity = 0.85
+            };
         }
         else
         {
@@ -941,6 +1337,7 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
             if (cps != null)
                 cps.Foreground = _workingTheme.GetCpsTextBrush();
             key.RenderTransform = Transform.Identity;
+            key.Effect = null;
         }
     }
 
@@ -950,7 +1347,12 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
             return;
 
         _sequenceRunning = true;
-        string[] keys = { "W", "A", "S", "D", "LMB", "RMB", "Shift", "Space" };
+        var keys = new List<string>();
+        foreach (var row in _workingTheme.GetEffectiveLayoutRows())
+        {
+            foreach (var k in row)
+                keys.Add(k);
+        }
 
         foreach (string k in keys)
         {
@@ -960,9 +1362,9 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
             else
                 KeystrokeAudioService.PlayKeyboardPress();
 
-            await Task.Delay(140);
+            await Task.Delay(130);
             SetKeyPressed(k, false);
-            await Task.Delay(80);
+            await Task.Delay(70);
         }
 
         _sequenceRunning = false;
@@ -1007,7 +1409,7 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
         {
             if (!UpdateFromCurrentCode())
             {
-                var result = MessageBox.Show(TextCodeStatus.Text + "\n\nSave anyway?", "Invalid Code", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+                var result = ShowWpfUiMessageBox(TextCodeStatus.Text + "\n\nSave anyway?", "Invalid Code", MessageBoxButton.YesNo);
                 if (result != MessageBoxResult.Yes)
                     return;
             }

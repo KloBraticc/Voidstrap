@@ -149,8 +149,25 @@ public static class KeystrokeThemeCodeConverter
         sb.AppendLine($"            KeyBackgroundImage = {FormatCsStringOrNull(theme.KeyBackgroundImage)},");
         sb.AppendLine($"            KeyPressedBackgroundImage = {FormatCsStringOrNull(theme.KeyPressedBackgroundImage)},");
         sb.AppendLine($"            KeyImageStretch = \"{EscapeString(theme.KeyImageStretch)}\",");
-        sb.AppendLine($"            KeyImageOpacity = {theme.KeyImageOpacity.ToString("0.00", CultureInfo.InvariantCulture)}");
+        sb.AppendLine($"            KeyImageOpacity = {theme.KeyImageOpacity.ToString("0.00", CultureInfo.InvariantCulture)},");
+        sb.AppendLine($"            ShowMouseCircle = {theme.ShowMouseCircle.ToString().ToLowerInvariant()},");
+        sb.AppendLine($"            MouseCircleSize = {theme.MouseCircleSize.ToString("0.0", CultureInfo.InvariantCulture)}");
         sb.AppendLine("        };");
+
+        if (theme.LayoutRows != null && theme.LayoutRows.Count > 0)
+        {
+            sb.AppendLine();
+            sb.AppendLine("        theme.LayoutRows = new List<List<string>>");
+            sb.AppendLine("        {");
+            foreach (var r in theme.LayoutRows)
+            {
+                var rowItems = new List<string>();
+                foreach (var k in r)
+                    rowItems.Add($"\"{EscapeString(k)}\"");
+                sb.AppendLine($"            new() {{ {string.Join(", ", rowItems)} }},");
+            }
+            sb.AppendLine("        };");
+        }
 
         foreach (var pair in theme.Keycaps)
         {
@@ -249,6 +266,33 @@ public static class KeystrokeThemeCodeConverter
         if (opacity.HasValue)
             target.KeyImageOpacity = opacity.Value;
 
+        bool? showCircle = MatchBoolProperty(code, "ShowMouseCircle");
+        if (showCircle.HasValue)
+            target.ShowMouseCircle = showCircle.Value;
+
+        double? circleSize = MatchDoubleProperty(code, "MouseCircleSize");
+        if (circleSize.HasValue)
+            target.MouseCircleSize = circleSize.Value;
+
+        var layoutMatch = Regex.Match(code, @"theme\.LayoutRows\s*=\s*new\s*(?:List<List<string>>)?\s*\{([^;]+)\};", RegexOptions.Singleline);
+        if (layoutMatch.Success)
+        {
+            var rMatches = Regex.Matches(layoutMatch.Groups[1].Value, @"new\s*(?:\(\)|List<string>\(\))\s*\{([^}]+)\}");
+            if (rMatches.Count > 0)
+            {
+                target.LayoutRows.Clear();
+                foreach (Match rm in rMatches)
+                {
+                    var keys = Regex.Matches(rm.Groups[1].Value, @"""([^""]+)""");
+                    var row = new List<string>();
+                    foreach (Match km in keys)
+                        row.Add(km.Groups[1].Value);
+                    if (row.Count > 0)
+                        target.LayoutRows.Add(row);
+                }
+            }
+        }
+
         var keycapMatches = Regex.Matches(code, @"theme\.Keycaps\[""([^""]+)""\]\s*=\s*new\s*(?:KeycapConfig)?\s*\{([^}]+)\}", RegexOptions.Singleline);
         foreach (Match match in keycapMatches)
         {
@@ -279,6 +323,12 @@ public static class KeystrokeThemeCodeConverter
         sb.AppendLine("  <meta charset=\"utf-8\" />");
         sb.AppendLine($"  <title>{EscapeHtml(theme.Name)}</title>");
         sb.AppendLine("  <style>");
+        sb.AppendLine("    @property --border-angle {");
+        sb.AppendLine("      syntax: \"<angle>\";");
+        sb.AppendLine("      initial-value: 0deg;");
+        sb.AppendLine("      inherits: false;");
+        sb.AppendLine("    }");
+        sb.AppendLine();
         sb.AppendLine("    :root {");
         sb.AppendLine($"      --key-bg: {theme.KeyBackground};");
         sb.AppendLine($"      --key-pressed-bg: {theme.KeyPressedBackground};");
@@ -295,10 +345,111 @@ public static class KeystrokeThemeCodeConverter
         sb.AppendLine($"      --key-image-stretch: {EscapeString(theme.KeyImageStretch)};");
         sb.AppendLine($"      --key-image-opacity: {theme.KeyImageOpacity.ToString("0.00", CultureInfo.InvariantCulture)};");
         sb.AppendLine($"      --backdrop-blur: {theme.BackdropBlur.ToString().ToLowerInvariant()};");
+        sb.AppendLine($"      --show-mouse-circle: {theme.ShowMouseCircle.ToString().ToLowerInvariant()};");
+        sb.AppendLine($"      --mouse-circle-size: {theme.MouseCircleSize.ToString("0.0", CultureInfo.InvariantCulture)}px;");
         if (!string.IsNullOrWhiteSpace(theme.KeyBackgroundImage))
             sb.AppendLine($"      --key-bg-image: url('{EscapeString(theme.KeyBackgroundImage)}');");
         if (!string.IsNullOrWhiteSpace(theme.KeyPressedBackgroundImage))
             sb.AppendLine($"      --key-pressed-bg-image: url('{EscapeString(theme.KeyPressedBackgroundImage)}');");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    body {");
+        sb.AppendLine("      margin: 0;");
+        sb.AppendLine("      padding: 24px;");
+        sb.AppendLine("      background: #0f0f12;");
+        sb.AppendLine("      display: flex;");
+        sb.AppendLine("      align-items: center;");
+        sb.AppendLine("      justify-content: center;");
+        sb.AppendLine("      min-height: 100vh;");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    .hud {");
+        sb.AppendLine("      position: relative;");
+        sb.AppendLine("      display: inline-flex;");
+        sb.AppendLine("      flex-direction: row;");
+        sb.AppendLine("      align-items: center;");
+        sb.AppendLine("      padding: 16px;");
+        sb.AppendLine("      border-radius: 18px;");
+        sb.AppendLine("      background: rgba(20, 20, 26, 0.72);");
+        sb.AppendLine("      box-shadow: 0 12px 36px rgba(0, 0, 0, 0.5);");
+        sb.AppendLine("      animation:");
+        sb.AppendLine("        hud-enter 700ms cubic-bezier(.16, 1, .3, 1) both,");
+        sb.AppendLine("        hud-float 5s ease-in-out 700ms infinite;");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    .hud::before {");
+        sb.AppendLine("      content: \"\";");
+        sb.AppendLine("      position: absolute;");
+        sb.AppendLine("      inset: -1px;");
+        sb.AppendLine("      border-radius: inherit;");
+        sb.AppendLine("      padding: 1px;");
+        sb.AppendLine("      background: conic-gradient(from var(--border-angle), #a78bfa, #38bdf8, #818cf8, #a78bfa);");
+        sb.AppendLine("      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);");
+        sb.AppendLine("      -webkit-mask-composite: xor;");
+        sb.AppendLine("      mask-composite: exclude;");
+        sb.AppendLine("      pointer-events: none;");
+        sb.AppendLine("      animation: border-spin 5s linear infinite;");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    .hud::after {");
+        sb.AppendLine("      content: \"\";");
+        sb.AppendLine("      position: absolute;");
+        sb.AppendLine("      inset: -6px;");
+        sb.AppendLine("      border-radius: inherit;");
+        sb.AppendLine("      background: radial-gradient(circle, rgba(167, 139, 250, 0.18), transparent 70%);");
+        sb.AppendLine("      z-index: -1;");
+        sb.AppendLine("      pointer-events: none;");
+        sb.AppendLine("      animation: ambient 3.5s ease-in-out infinite alternate;");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    .hud-shine {");
+        sb.AppendLine("      position: absolute;");
+        sb.AppendLine("      inset: 0;");
+        sb.AppendLine("      overflow: hidden;");
+        sb.AppendLine("      border-radius: inherit;");
+        sb.AppendLine("      pointer-events: none;");
+        sb.AppendLine("      z-index: 3;");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    .hud-shine::after {");
+        sb.AppendLine("      content: \"\";");
+        sb.AppendLine("      position: absolute;");
+        sb.AppendLine("      top: -80%;");
+        sb.AppendLine("      left: -60%;");
+        sb.AppendLine("      width: 45%;");
+        sb.AppendLine("      height: 260%;");
+        sb.AppendLine("      transform: rotate(25deg);");
+        sb.AppendLine("      background: linear-gradient(");
+        sb.AppendLine("        90deg,");
+        sb.AppendLine("        transparent,");
+        sb.AppendLine("        rgba(255, 255, 255, 0.07),");
+        sb.AppendLine("        rgba(167, 139, 250, 0.12),");
+        sb.AppendLine("        transparent");
+        sb.AppendLine("      );");
+        sb.AppendLine("      animation: shine-sweep 6s ease-in-out infinite;");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    .mouse-circle {");
+        sb.AppendLine("      width: var(--mouse-circle-size, 96px);");
+        sb.AppendLine("      height: var(--mouse-circle-size, 96px);");
+        sb.AppendLine("      border-radius: 50%;");
+        sb.AppendLine("      border: var(--key-border-thickness) solid var(--key-border-color);");
+        sb.AppendLine("      background: var(--key-bg);");
+        sb.AppendLine("      position: relative;");
+        sb.AppendLine("      display: flex;");
+        sb.AppendLine("      align-items: center;");
+        sb.AppendLine("      justify-content: center;");
+        sb.AppendLine("      margin-right: 14px;");
+        sb.AppendLine("      flex-shrink: 0;");
+        sb.AppendLine("      box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.35);");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    .mouse-dot {");
+        sb.AppendLine("      width: 14px;");
+        sb.AppendLine("      height: 14px;");
+        sb.AppendLine("      border-radius: 50%;");
+        sb.AppendLine("      background: #a78bfa;");
+        sb.AppendLine("      box-shadow: 0 0 10px rgba(167, 139, 250, 0.85);");
         sb.AppendLine("    }");
         sb.AppendLine();
         sb.AppendLine("    .keystrokes-overlay {");
@@ -309,7 +460,15 @@ public static class KeystrokeThemeCodeConverter
         sb.AppendLine("      font-weight: var(--key-font-weight);");
         sb.AppendLine("    }");
         sb.AppendLine();
+        sb.AppendLine("    .row {");
+        sb.AppendLine("      display: flex;");
+        sb.AppendLine("      gap: 4px;");
+        sb.AppendLine("      justify-content: center;");
+        sb.AppendLine("    }");
+        sb.AppendLine();
         sb.AppendLine("    .keycap {");
+        sb.AppendLine("      width: 46px;");
+        sb.AppendLine("      height: 46px;");
         sb.AppendLine("      background-color: var(--key-bg);");
         sb.AppendLine("      border: var(--key-border-thickness) solid var(--key-border-color);");
         sb.AppendLine("      border-radius: var(--key-corner-radius);");
@@ -319,13 +478,82 @@ public static class KeystrokeThemeCodeConverter
         sb.AppendLine("      justify-content: center;");
         sb.AppendLine("      background-size: cover;");
         sb.AppendLine("      background-position: center;");
-        sb.AppendLine("      transition: transform 0.08s ease;");
+        sb.AppendLine("      box-sizing: border-box;");
+        sb.AppendLine("      user-select: none;");
+        sb.AppendLine("      animation: key-entrance 600ms cubic-bezier(.16, 1, .3, 1) both;");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    .row:nth-child(1) .keycap { animation-delay: 100ms; }");
+        sb.AppendLine("    .row:nth-child(2) .keycap { animation-delay: 170ms; }");
+        sb.AppendLine("    .row:nth-child(3) .keycap { animation-delay: 240ms; }");
+        sb.AppendLine("    .row:nth-child(4) .keycap { animation-delay: 310ms; }");
+        sb.AppendLine("    .row:nth-child(5) .keycap { animation-delay: 380ms; }");
+        sb.AppendLine();
+        sb.AppendLine("    .keycap:hover {");
+        sb.AppendLine("      animation: hover-spring 350ms cubic-bezier(.2, 1.5, .4, 1) both;");
         sb.AppendLine("    }");
         sb.AppendLine();
         sb.AppendLine("    .keycap.pressed {");
         sb.AppendLine("      background-color: var(--key-pressed-bg);");
         sb.AppendLine("      color: var(--key-pressed-text-color);");
-        sb.AppendLine("      transform: scale(var(--key-scale-on-press));");
+        sb.AppendLine("      animation: press-pop 220ms cubic-bezier(.2, 1.4, .4, 1) both,");
+        sb.AppendLine("                 active-glow 1.5s ease-in-out 220ms infinite alternate;");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    @keyframes hud-float {");
+        sb.AppendLine("      0%, 100% { translate: 0 0; }");
+        sb.AppendLine("      50% { translate: 0 -4px; }");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    @keyframes shine-sweep {");
+        sb.AppendLine("      0%, 15% { left: -60%; opacity: 0; }");
+        sb.AppendLine("      25% { opacity: 1; }");
+        sb.AppendLine("      55% { left: 130%; opacity: 0; }");
+        sb.AppendLine("      100% { left: 130%; opacity: 0; }");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    @keyframes key-entrance {");
+        sb.AppendLine("      from { opacity: 0; transform: translateY(12px) scale(.8); filter: blur(5px); }");
+        sb.AppendLine("      to { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    @keyframes hover-spring {");
+        sb.AppendLine("      0% { transform: translateY(-2px) scale(1.02); }");
+        sb.AppendLine("      55% { transform: translateY(-5px) scale(1.08); }");
+        sb.AppendLine("      100% { transform: translateY(-3px) scale(1.04); }");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    @keyframes press-pop {");
+        sb.AppendLine("      0% { transform: scale(1); filter: brightness(1.5); }");
+        sb.AppendLine("      45% { transform: scale(.86); filter: brightness(1.25); }");
+        sb.AppendLine("      75% { transform: scale(.96); }");
+        sb.AppendLine("      100% { transform: scale(var(--key-scale-on-press)); filter: brightness(1); }");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    @keyframes active-glow {");
+        sb.AppendLine("      from { box-shadow: 0 0 8px rgba(167, 139, 250, .6), 0 0 20px rgba(139, 92, 246, .35); }");
+        sb.AppendLine("      to { box-shadow: 0 0 14px rgba(167, 139, 250, .95), 0 0 35px rgba(139, 92, 246, .7), 0 0 55px rgba(96, 165, 250, .25); }");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    @keyframes border-spin {");
+        sb.AppendLine("      to { --border-angle: 360deg; }");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    @keyframes ambient {");
+        sb.AppendLine("      0% { opacity: 0.35; transform: scale(0.98); }");
+        sb.AppendLine("      100% { opacity: 0.85; transform: scale(1.02); }");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    @keyframes hud-enter {");
+        sb.AppendLine("      from { opacity: 0; transform: scale(0.92) translateY(10px); }");
+        sb.AppendLine("      to { opacity: 1; transform: scale(1) translateY(0); }");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    @media (prefers-reduced-motion: reduce) {");
+        sb.AppendLine("      .hud, .hud::before, .hud::after, .hud-shine::after, .keycap {");
+        sb.AppendLine("        animation: none !important;");
+        sb.AppendLine("        transition: none !important;");
+        sb.AppendLine("      }");
         sb.AppendLine("    }");
 
         foreach (var pair in theme.Keycaps)
@@ -352,21 +580,29 @@ public static class KeystrokeThemeCodeConverter
             }
         }
 
+        if (!string.IsNullOrWhiteSpace(theme.CustomCss))
+        {
+            sb.AppendLine();
+            sb.AppendLine(theme.CustomCss);
+        }
+
         sb.AppendLine("  </style>");
         sb.AppendLine("</head>");
         sb.AppendLine("<body>");
-        sb.AppendLine("  <div class=\"keystrokes-overlay\">");
-
-        string[][] rows = {
-            new[] { "W" },
-            new[] { "A", "S", "D" },
-            new[] { "LMB", "RMB" },
-            new[] { "Shift", "Space" }
-        };
-
-        foreach (var row in rows)
+        sb.AppendLine("  <div class=\"hud\">");
+        sb.AppendLine("    <div class=\"hud-shine\"></div>");
+        if (theme.ShowMouseCircle)
         {
-            sb.AppendLine("    <div class=\"row\">");
+            sb.AppendLine("    <div class=\"mouse-circle\">");
+            sb.AppendLine("      <div class=\"mouse-dot\"></div>");
+            sb.AppendLine("    </div>");
+        }
+        sb.AppendLine("    <div class=\"keystrokes-overlay\">");
+
+        var effectiveRows = theme.GetEffectiveLayoutRows();
+        foreach (var row in effectiveRows)
+        {
+            sb.AppendLine("      <div class=\"row\">");
             foreach (var key in row)
             {
                 string label = key;
@@ -377,11 +613,12 @@ public static class KeystrokeThemeCodeConverter
                         label = cap.Text;
                     hide = cap.HideText;
                 }
-                sb.AppendLine($"      <div class=\"keycap\" data-key=\"{key}\" data-label=\"{EscapeHtml(label)}\" data-hide-label=\"{hide.ToString().ToLowerInvariant()}\">{EscapeHtml(hide ? string.Empty : label)}</div>");
+                sb.AppendLine($"        <div class=\"keycap\" data-key=\"{key}\" data-label=\"{EscapeHtml(label)}\" data-hide-label=\"{hide.ToString().ToLowerInvariant()}\">{EscapeHtml(hide ? string.Empty : label)}</div>");
             }
-            sb.AppendLine("    </div>");
+            sb.AppendLine("      </div>");
         }
 
+        sb.AppendLine("    </div>");
         sb.AppendLine("  </div>");
         sb.AppendLine("</body>");
         sb.AppendLine("</html>");
@@ -464,7 +701,32 @@ public static class KeystrokeThemeCodeConverter
         if (pressBgImg != null)
             target.KeyPressedBackgroundImage = pressBgImg;
 
-        var keycapBlocks = Regex.Matches(code, @"\.keycap\[data-key=[""']?([a-zA-Z0-9]+)[""']?\]\s*\{([^}]+)\}", RegexOptions.Singleline);
+        if (code.Contains("class=\"mouse-circle\"") || code.Contains("class='mouse-circle'") || string.Equals(MatchCssVariable(code, "--show-mouse-circle")?.Trim(), "true", StringComparison.OrdinalIgnoreCase))
+            target.ShowMouseCircle = true;
+
+        double? mouseSize = MatchCssPixel(code, "--mouse-circle-size");
+        if (mouseSize.HasValue)
+            target.MouseCircleSize = mouseSize.Value;
+
+        var rowMatches = Regex.Matches(code, @"<div class=[""']row[""'][^>]*>(.*?)</div>", RegexOptions.Singleline);
+        if (rowMatches.Count > 0)
+        {
+            var parsedRows = new List<List<string>>();
+            foreach (Match rMatch in rowMatches)
+            {
+                var rowKeys = new List<string>();
+                var keyMatches = Regex.Matches(rMatch.Groups[1].Value, @"data-key=[""']([^""']+)[""']");
+                foreach (Match kMatch in keyMatches)
+                    rowKeys.Add(kMatch.Groups[1].Value);
+
+                if (rowKeys.Count > 0)
+                    parsedRows.Add(rowKeys);
+            }
+            if (parsedRows.Count > 0)
+                target.LayoutRows = parsedRows;
+        }
+
+        var keycapBlocks = Regex.Matches(code, @"\.keycap\[data-key=[""']?([^""'\]]+)[""']?\]\s*\{([^}]+)\}", RegexOptions.Singleline);
         foreach (Match match in keycapBlocks)
         {
             string keyName = match.Groups[1].Value;
@@ -488,7 +750,7 @@ public static class KeystrokeThemeCodeConverter
                 cap.Image = img;
         }
 
-        var pressedBlocks = Regex.Matches(code, @"\.keycap\[data-key=[""']?([a-zA-Z0-9]+)[""']?\]\.pressed\s*\{([^}]+)\}", RegexOptions.Singleline);
+        var pressedBlocks = Regex.Matches(code, @"\.keycap\[data-key=[""']?([^""'\]]+)[""']?\]\.pressed\s*\{([^}]+)\}", RegexOptions.Singleline);
         foreach (Match match in pressedBlocks)
         {
             string keyName = match.Groups[1].Value;
@@ -499,7 +761,7 @@ public static class KeystrokeThemeCodeConverter
                 cap.PressedImage = img;
         }
 
-        var htmlTags = Regex.Matches(code, @"<div[^>]*data-key=[""']?([a-zA-Z0-9]+)[""']?[^>]*>", RegexOptions.Singleline);
+        var htmlTags = Regex.Matches(code, @"<div[^>]*data-key=[""']?([^""'>\s]+)[""']?[^>]*>", RegexOptions.Singleline);
         foreach (Match match in htmlTags)
         {
             string tagText = match.Value;
@@ -550,6 +812,8 @@ public static class KeystrokeThemeCodeConverter
         sb.AppendLine("    pub key_pressed_background_image: Option<&'static str>,");
         sb.AppendLine("    pub key_image_stretch: &'static str,");
         sb.AppendLine("    pub key_image_opacity: f64,");
+        sb.AppendLine("    pub show_mouse_circle: bool,");
+        sb.AppendLine("    pub mouse_circle_size: f64,");
         sb.AppendLine("}");
         sb.AppendLine();
         sb.AppendLine("pub const THEME: KeystrokeTheme = KeystrokeTheme {");
@@ -571,6 +835,8 @@ public static class KeystrokeThemeCodeConverter
         sb.AppendLine($"    key_pressed_background_image: {FormatRustOptionString(theme.KeyPressedBackgroundImage)},");
         sb.AppendLine($"    key_image_stretch: \"{EscapeString(theme.KeyImageStretch)}\",");
         sb.AppendLine($"    key_image_opacity: {theme.KeyImageOpacity.ToString("0.00", CultureInfo.InvariantCulture)},");
+        sb.AppendLine($"    show_mouse_circle: {theme.ShowMouseCircle.ToString().ToLowerInvariant()},");
+        sb.AppendLine($"    mouse_circle_size: {theme.MouseCircleSize.ToString("0.0", CultureInfo.InvariantCulture)},");
         sb.AppendLine("};");
         sb.AppendLine();
         sb.AppendLine("pub fn get_keycap(key: &str) -> Option<KeycapConfig> {");
@@ -670,7 +936,15 @@ public static class KeystrokeThemeCodeConverter
         if (opacity.HasValue)
             target.KeyImageOpacity = opacity.Value;
 
-        var keycapMatches = Regex.Matches(code, @"""([a-zA-Z0-9]+)""\s*=>\s*Some\(KeycapConfig\s*\{([^}]+)\}\)", RegexOptions.Singleline);
+        string? showCircle = MatchGroup(code, @"show_mouse_circle:\s*(true|false)");
+        if (showCircle != null)
+            target.ShowMouseCircle = string.Equals(showCircle, "true", StringComparison.OrdinalIgnoreCase);
+
+        double? circleSize = MatchDouble(MatchGroup(code, @"mouse_circle_size:\s*([0-9.]+)"));
+        if (circleSize.HasValue)
+            target.MouseCircleSize = circleSize.Value;
+
+        var keycapMatches = Regex.Matches(code, @"""([^""]+)""\s*=>\s*Some\(KeycapConfig\s*\{([^}]+)\}\)", RegexOptions.Singleline);
         foreach (Match match in keycapMatches)
         {
             string keyName = match.Groups[1].Value;
@@ -715,6 +989,17 @@ public static class KeystrokeThemeCodeConverter
         target.KeyPressedImages = source.KeyPressedImages != null ? new Dictionary<string, string>(source.KeyPressedImages, StringComparer.OrdinalIgnoreCase) : new(StringComparer.OrdinalIgnoreCase);
         target.KeyImageStretch = source.KeyImageStretch;
         target.KeyImageOpacity = source.KeyImageOpacity;
+        target.ShowMouseCircle = source.ShowMouseCircle;
+        target.MouseCircleSize = source.MouseCircleSize;
+        target.CustomCss = source.CustomCss;
+        target.CustomHtml = source.CustomHtml;
+
+        target.LayoutRows.Clear();
+        if (source.LayoutRows != null)
+        {
+            foreach (var r in source.LayoutRows)
+                target.LayoutRows.Add(new List<string>(r));
+        }
 
         target.Keycaps.Clear();
         if (source.Keycaps != null)

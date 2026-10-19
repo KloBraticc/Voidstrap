@@ -57,6 +57,16 @@ public sealed class KeystrokeTheme
 
     public Dictionary<string, KeycapConfig> Keycaps { get; set; } = new(StringComparer.OrdinalIgnoreCase);
 
+    public List<List<string>> LayoutRows { get; set; } = new();
+
+    public bool ShowMouseCircle { get; set; } = false;
+
+    public double MouseCircleSize { get; set; } = 96.0;
+
+    public string? CustomCss { get; set; }
+
+    public string? CustomHtml { get; set; }
+
     public KeycapConfig GetOrCreateKeycap(string key)
     {
         if (!Keycaps.TryGetValue(key, out var cap))
@@ -65,6 +75,20 @@ public sealed class KeystrokeTheme
             Keycaps[key] = cap;
         }
         return cap;
+    }
+
+    public List<List<string>> GetEffectiveLayoutRows()
+    {
+        if (LayoutRows != null && LayoutRows.Count > 0)
+            return LayoutRows;
+
+        return new List<List<string>>
+        {
+            new() { "W" },
+            new() { "A", "S", "D" },
+            new() { "LMB", "RMB" },
+            new() { "Shift", "Space" }
+        };
     }
 
     [JsonIgnore]
@@ -298,8 +322,19 @@ public sealed class KeystrokeTheme
             KeyPressedImages = new Dictionary<string, string>(KeyPressedImages, StringComparer.OrdinalIgnoreCase),
             KeyImageStretch = KeyImageStretch,
             KeyImageOpacity = KeyImageOpacity,
-            Keycaps = new Dictionary<string, KeycapConfig>(StringComparer.OrdinalIgnoreCase)
+            Keycaps = new Dictionary<string, KeycapConfig>(StringComparer.OrdinalIgnoreCase),
+            ShowMouseCircle = ShowMouseCircle,
+            MouseCircleSize = MouseCircleSize,
+            CustomCss = CustomCss,
+            CustomHtml = CustomHtml,
+            LayoutRows = new List<List<string>>()
         };
+
+        if (LayoutRows != null)
+        {
+            foreach (var r in LayoutRows)
+                cloned.LayoutRows.Add(new List<string>(r));
+        }
 
         foreach (var pair in Keycaps)
             cloned.Keycaps[pair.Key] = pair.Value.Clone();

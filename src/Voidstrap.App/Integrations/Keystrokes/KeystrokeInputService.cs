@@ -30,6 +30,7 @@ public static partial class KeystrokeInputService
     private static readonly List<long> LmbTimestamps = new(64);
     private static readonly List<long> RmbTimestamps = new(64);
     private static readonly bool[] KeyDownStates = new bool[8];
+    private static readonly Dictionary<string, bool> NamedKeyStates = new(StringComparer.OrdinalIgnoreCase);
 
     private static bool _active;
     private static bool _hasInputAccess = true;
@@ -43,8 +44,17 @@ public static partial class KeystrokeInputService
     private static CancellationTokenSource? _linuxCts;
 
     public static event Action<KeystrokeInputState>? StateChanged;
+    public static event Action<string, bool>? KeyNamedChanged;
 
     public static bool HasInputAccess => _hasInputAccess;
+
+    public static bool IsNamedDown(string name)
+    {
+        lock (SyncGate)
+        {
+            return NamedKeyStates.TryGetValue(name, out bool down) && down;
+        }
+    }
 
     public static void Start()
     {
@@ -85,6 +95,7 @@ public static partial class KeystrokeInputService
             }
 
             Array.Clear(KeyDownStates, 0, KeyDownStates.Length);
+            NamedKeyStates.Clear();
             lock (ClickGate)
             {
                 LmbTimestamps.Clear();
@@ -159,6 +170,38 @@ public static partial class KeystrokeInputService
         }
 
         StateChanged?.Invoke(new KeystrokeInputState(target, isDown));
+
+        string targetName = target switch
+        {
+            KeystrokeTarget.W => "W",
+            KeystrokeTarget.A => "A",
+            KeystrokeTarget.S => "S",
+            KeystrokeTarget.D => "D",
+            KeystrokeTarget.Space => "Space",
+            KeystrokeTarget.Shift => "Shift",
+            KeystrokeTarget.Lmb => "LMB",
+            KeystrokeTarget.Rmb => "RMB",
+            _ => ""
+        };
+        if (!string.IsNullOrEmpty(targetName))
+            DispatchNamedKey(targetName, isDown);
+    }
+
+    private static void DispatchNamedKey(string keyName, bool isDown)
+    {
+        if (string.IsNullOrWhiteSpace(keyName))
+            return;
+
+        lock (SyncGate)
+        {
+            NamedKeyStates.TryGetValue(keyName, out bool previous);
+            if (previous == isDown)
+                return;
+
+            NamedKeyStates[keyName] = isDown;
+        }
+
+        KeyNamedChanged?.Invoke(keyName, isDown);
     }
 
     private static bool IsRobloxFocused()
@@ -236,6 +279,10 @@ public static partial class KeystrokeInputService
                 if ((isDown || isUp) && IsRobloxFocused())
                 {
                     int vkCode = Marshal.ReadInt32(lParam);
+                    string? name = MapVirtualKeyToString(vkCode);
+                    if (!string.IsNullOrEmpty(name))
+                        DispatchNamedKey(name, isDown);
+
                     KeystrokeTarget? target = MapVirtualKey(vkCode);
                     if (target.HasValue)
                         DispatchKey(target.Value, isDown);
@@ -267,6 +314,10 @@ public static partial class KeystrokeInputService
                         DispatchKey(KeystrokeTarget.Rmb, true);
                     else if (msg == 0x0205)
                         DispatchKey(KeystrokeTarget.Rmb, false);
+                    else if (msg == 0x0207)
+                        DispatchNamedKey("MMB", true);
+                    else if (msg == 0x0208)
+                        DispatchNamedKey("MMB", false);
                 }
             }
             catch
@@ -274,6 +325,56 @@ public static partial class KeystrokeInputService
             }
         }
         return CallNextHookEx(_mouseHook, nCode, wParam, lParam);
+    }
+
+    public static string? MapVirtualKeyToString(int vk)
+    {
+        if (vk >= 0x41 && vk <= 0x5A)
+            return ((char)vk).ToString();
+
+        if (vk >= 0x30 && vk <= 0x39)
+            return ((char)vk).ToString();
+
+        if (vk >= 0x60 && vk <= 0x69)
+            return "Num" + (vk - 0x60);
+
+        if (vk >= 0x70 && vk <= 0x7B)
+            return "F" + (vk - 0x70 + 1);
+
+        return vk switch
+        {
+            0x20 => "Space",
+            0x10 or 0xA0 or 0xA1 => "Shift",
+            0x11 or 0xA2 or 0xA3 => "Ctrl",
+            0x12 or 0xA4 or 0xA5 => "Alt",
+            0x09 => "Tab",
+            0x14 => "CapsLock",
+            0x1B => "Esc",
+            0x0D => "Enter",
+            0x08 => "Backspace",
+            0x25 => "Left",
+            0x26 => "Up",
+            0x27 => "Right",
+            0x28 => "Down",
+            0x2D => "Insert",
+            0x2E => "Delete",
+            0x24 => "Home",
+            0x23 => "End",
+            0x21 => "PageUp",
+            0x22 => "PageDown",
+            0xBC => ",",
+            0xBE => ".",
+            0xBD => "-",
+            0xBB => "=",
+            0xBA => ";",
+            0xDE => "'",
+            0xBF => "/",
+            0xDB => "[",
+            0xDD => "]",
+            0xDC => "\\",
+            0xC0 => "`",
+            _ => null
+        };
     }
 
     private static KeystrokeTarget? MapVirtualKey(int vk)
@@ -420,6 +521,10 @@ public static partial class KeystrokeInputService
                         if (!down && !up)
                             continue;
 
+                        string? name = MapLinuxCodeToString(code);
+                        if (!string.IsNullOrEmpty(name))
+                            DispatchNamedKey(name, down);
+
                         KeystrokeTarget? target = MapLinuxCode(code);
                         if (target.HasValue)
                             DispatchKey(target.Value, down);
@@ -453,6 +558,89 @@ public static partial class KeystrokeInputService
                 break;
             }
         }
+    }
+
+    public static string? MapLinuxCodeToString(ushort code)
+    {
+        return code switch
+        {
+            1 => "Esc",
+            2 => "1",
+            3 => "2",
+            4 => "3",
+            5 => "4",
+            6 => "5",
+            7 => "6",
+            8 => "7",
+            9 => "8",
+            10 => "9",
+            11 => "0",
+            12 => "-",
+            13 => "=",
+            14 => "Backspace",
+            15 => "Tab",
+            16 => "Q",
+            17 => "W",
+            18 => "E",
+            19 => "R",
+            20 => "T",
+            21 => "Y",
+            22 => "U",
+            23 => "I",
+            24 => "O",
+            25 => "P",
+            26 => "[",
+            27 => "]",
+            28 => "Enter",
+            29 or 97 => "Ctrl",
+            30 => "A",
+            31 => "S",
+            32 => "D",
+            33 => "F",
+            34 => "G",
+            35 => "H",
+            36 => "J",
+            37 => "K",
+            38 => "L",
+            39 => ";",
+            40 => "'",
+            41 => "`",
+            42 or 54 => "Shift",
+            43 => "\\",
+            44 => "Z",
+            45 => "X",
+            46 => "C",
+            47 => "V",
+            48 => "B",
+            49 => "N",
+            50 => "M",
+            51 => ",",
+            52 => ".",
+            53 => "/",
+            56 or 100 => "Alt",
+            57 => "Space",
+            58 => "CapsLock",
+            59 => "F1",
+            60 => "F2",
+            61 => "F3",
+            62 => "F4",
+            63 => "F5",
+            64 => "F6",
+            65 => "F7",
+            66 => "F8",
+            67 => "F9",
+            68 => "F10",
+            87 => "F11",
+            88 => "F12",
+            103 => "Up",
+            105 => "Left",
+            106 => "Right",
+            108 => "Down",
+            272 => "LMB",
+            273 => "RMB",
+            274 => "MMB",
+            _ => null
+        };
     }
 
     private static KeystrokeTarget? MapLinuxCode(ushort code)
