@@ -1378,7 +1378,7 @@ function Update-NixPackage {
         $PackageNotes.Add('Nix package: the latest GitHub release could not be read, the package stays on ' + $current + '.')
         return
     }
-    if ($latest -eq $current) {
+    if ($latest -eq $current -and -not ($Only -contains 'nix')) {
         Write-Host "Nix package: already on the latest release $latest" -ForegroundColor DarkGray
         return
     }
@@ -1402,6 +1402,7 @@ function Update-NixPackage {
         'mkdir -p /work',
         'git -C /src archive HEAD | tar -x -C /work',
         'cd /work',
+        'sed -i "s/version = \"[^\"]*\";/version = \"0\";/" nix/package.nix',
         'git init -q && git add -A && git -c user.name=nix -c user.email=nix@localhost commit -qm work',
         'nix run nixpkgs#nix-update -- --flake voidstrap --version "$1" --subpackage voidimage',
         'nix build .#voidstrap -o /tmp/result',

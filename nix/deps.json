@@ -50,6 +50,11 @@
     "hash": "sha256-vdhDU6P0mfmJ8xEbM6zuvZQ0+KBpyos9oqBl8iMOe68="
   },
   {
+    "pname": "Markdig",
+    "version": "1.4.1",
+    "hash": "sha256-5xcFdO9Wa8Tol7B2lC+LmfJOwU+9gc0wn7XjWcOIR70="
+  },
+  {
     "pname": "Microsoft.DotNet.PlatformAbstractions",
     "version": "3.1.6",
     "hash": "sha256-RfM2qXiqdiamPkXr4IDkNc0IZSF9iTZv4uou/E7zNS0="
@@ -110,6 +115,11 @@
     "hash": "sha256-OJLgLzIOxa4M7dDDh5Bz40kiAqKuA3h9N3jfZZbNBpk="
   },
   {
+    "pname": "Microsoft.Windows.CsWin32",
+    "version": "0.3.363",
+    "hash": "sha256-f6kXfkKfxQx68gCQ1qRtdXL9qJ88s2h7mQ+iGqtcvOY="
+  },
+  {
     "pname": "Microsoft.Windows.SDK.Win32Docs",
     "version": "0.1.42-alpha",
     "hash": "sha256-6DvzmNzrGVfWmNJNqooj+Ya+7bAQlyeg7pmyKaUlIws="
@@ -135,9 +145,19 @@
     "hash": "sha256-lkOSkPP2vZf655bTEvMBcTESTnbTGfjx10uVPITKECU="
   },
   {
+    "pname": "NAudio",
+    "version": "3.2.0",
+    "hash": "sha256-KuustTc8w0bfjdutkcOCfwkrdnnxs/PpTrk20P+M+d8="
+  },
+  {
     "pname": "NAudio.Asio",
     "version": "3.1.0",
     "hash": "sha256-6ZLkJUhPwsbhNoMSUrgMrFEN4nAy4DC3KwR6SjZyCU8="
+  },
+  {
+    "pname": "NAudio.Asio",
+    "version": "3.2.0",
+    "hash": "sha256-3mt0NxlVizp6HewlnwVEuXA3tMJhrgsOcqLKgiQabNg="
   },
   {
     "pname": "NAudio.Core",
@@ -145,9 +165,19 @@
     "hash": "sha256-f6BZV8go5dfAWtFZCFxE4ghwGOnp4HTMDRReC3pTda8="
   },
   {
+    "pname": "NAudio.Core",
+    "version": "3.2.0",
+    "hash": "sha256-ORlEHzg+zPvgYdjqtkDewRHB1jtdlaE3XBB54oHVqPw="
+  },
+  {
     "pname": "NAudio.Dmo",
     "version": "3.1.0",
     "hash": "sha256-gyDwYglECziKo8nRf+jqNjgWtW/86JSuaVQB7gbhhLw="
+  },
+  {
+    "pname": "NAudio.Dmo",
+    "version": "3.2.0",
+    "hash": "sha256-uFM6f29QRShambDUNP/JKAMVGbOsh88Wkv9XEJ/VRTw="
   },
   {
     "pname": "NAudio.Midi",
@@ -155,9 +185,19 @@
     "hash": "sha256-2SeDXIxrA7HhlO6NBPVG9gzoa9oPYV6Zf2WKxVE6REY="
   },
   {
+    "pname": "NAudio.Midi",
+    "version": "3.2.0",
+    "hash": "sha256-XYqMA0y8phySkvsunzmHocyyUmDdURCX0vhr99TAxLo="
+  },
+  {
     "pname": "NAudio.Wasapi",
     "version": "3.1.0",
     "hash": "sha256-QKMiMgQykS8asczCbmj725EMUDNpiSOE/oDzvMqHJGg="
+  },
+  {
+    "pname": "NAudio.Wasapi",
+    "version": "3.2.0",
+    "hash": "sha256-NrGTYErIRBppq/tN4p52z/IbpLckD9HytwMB4EClRs4="
   },
   {
     "pname": "NAudio.WinForms",
@@ -165,9 +205,19 @@
     "hash": "sha256-2p//XxRV0jbf9dOIsylNs+albMYXbJescFU0C481hNU="
   },
   {
+    "pname": "NAudio.WinForms",
+    "version": "3.2.0",
+    "hash": "sha256-IhlVqbGZgC+L3mv4yfIxyauXMlHu3C9CnP9uBaYexBA="
+  },
+  {
     "pname": "NAudio.WinMM",
     "version": "3.1.0",
     "hash": "sha256-UqXNLyKnXmlDdXodUGNSgWzO6PTokFxyu2a6EdQI+BY="
+  },
+  {
+    "pname": "NAudio.WinMM",
+    "version": "3.2.0",
+    "hash": "sha256-Ve77kNCiiSMHCkLJ4vhhfMUXZ5SRR5qs3GnP4j5mZPY="
   },
   {
     "pname": "Nefarius.ViGEm.Client",

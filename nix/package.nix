@@ -75,7 +75,7 @@ buildDotnetModule (finalAttrs: {
     repo = "Voidstrap";
     tag = "v${finalAttrs.version}";
     fetchSubmodules = true;
-    hash = "sha256-JQ1nysuUxCIEOIHplEl+KffUkI04KMXelAEdsrBXKNk=";
+    hash = "sha256-YQvMuL//uUuFKGaOMfuDWNHAfnHx1s0BjgzGfVLweug=";
   };
 
   projectFile = "src/Voidstrap.Cross/Voidstrap.Cross.csproj";
