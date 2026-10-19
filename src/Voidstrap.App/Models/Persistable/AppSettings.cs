@@ -300,6 +300,20 @@ namespace Voidstrap.Models.Persistable
 
         public string ClipperOutputFolder { get; set; } = string.Empty;
 
+        public bool KeystrokesOverlayEnabled { get; set; } = false;
+        public bool KeystrokesShowKeys { get; set; } = true;
+        public bool KeystrokesShowMouseButtons { get; set; } = true;
+        public bool KeystrokesShowSpaceAndShift { get; set; } = true;
+        public bool KeystrokesShowCps { get; set; } = true;
+        public bool KeystrokesKeyboardSound { get; set; } = false;
+        public string KeystrokesKeyboardSoundPack { get; set; } = "Mechanical";
+        public string KeystrokesKeyboardCustomWav { get; set; } = string.Empty;
+        public double KeystrokesKeyboardVolume { get; set; } = 0.5;
+        public bool KeystrokesMouseSound { get; set; } = false;
+        public string KeystrokesMouseSoundPack { get; set; } = "Crisp";
+        public string KeystrokesMouseCustomWav { get; set; } = string.Empty;
+        public double KeystrokesMouseVolume { get; set; } = 0.5;
+
         // Off shows the server details as a Windows notification instead of the in game one
         public bool ServerDetailsInOverlay { get; set; } = true;
 

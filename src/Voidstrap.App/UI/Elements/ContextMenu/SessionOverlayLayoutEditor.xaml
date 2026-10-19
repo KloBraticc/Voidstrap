@@ -225,11 +225,12 @@
       </Grid>
 
       <Border Style="{StaticResource SegmentTray}" HorizontalAlignment="Stretch" Margin="0,14,0,0">
-        <UniformGrid Rows="1" Columns="5">
+        <UniformGrid Rows="1" Columns="6">
           <RadioButton x:Name="TabReadout" Tag="Readout" Content="{resources:Loc Ui_OverlayStudio_LayerReadout}" GroupName="StudioLayerTab" Style="{StaticResource Segment}" IsChecked="True" Checked="LayerTab_Click" />
           <RadioButton x:Name="TabNotifications" Tag="Notifications" Content="{resources:Loc Ui_OverlayStudio_LayerNotifications}" GroupName="StudioLayerTab" Style="{StaticResource Segment}" Checked="LayerTab_Click" />
           <RadioButton x:Name="TabDock" Tag="Dock" Content="{resources:Loc Ui_OverlayStudio_LayerDock}" GroupName="StudioLayerTab" Style="{StaticResource Segment}" Checked="LayerTab_Click" />
           <RadioButton x:Name="TabCrosshair" Tag="Crosshair" Content="{resources:Loc Ui_OverlayStudio_LayerCrosshair}" GroupName="StudioLayerTab" Style="{StaticResource Segment}" Checked="LayerTab_Click" />
+          <RadioButton x:Name="TabKeystrokes" Tag="Keystrokes" Content="{resources:Loc Ui_OverlayStudio_LayerKeystrokes}" GroupName="StudioLayerTab" Style="{StaticResource Segment}" Checked="LayerTab_Click" />
           <RadioButton x:Name="TabPanels" Tag="Panels" Content="{resources:Loc Ui_OverlayStudio_LayerPanels}" GroupName="StudioLayerTab" Style="{StaticResource Segment}" Checked="LayerTab_Click" />
         </UniformGrid>
       </Border>
@@ -611,6 +612,114 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock Text="{resources:Loc Ui_OverlayStudio_CenterCrosshair}" Style="{StaticResource Label}" />
                 <ui:Button Grid.Column="1" Content="{resources:Loc Ui_OverlayStudio_CenterCrosshair}" Appearance="Secondary" Padding="14,6" Focusable="False" Click="RecenterCrosshair_Click" />
+              </Grid>
+            </Border>
+          </StackPanel>
+        </Border>
+      </StackPanel>
+
+      <StackPanel x:Name="KeystrokesInspector" Margin="0,12,0,0" Visibility="Collapsed">
+        <Border Style="{StaticResource Card}">
+          <StackPanel>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel VerticalAlignment="Center" Margin="0,0,12,0">
+                  <TextBlock Text="{resources:Loc Ui_Keystrokes_Title}" Style="{StaticResource Label}" />
+                  <TextBlock Text="{resources:Loc Ui_Keystrokes_Description}" Style="{StaticResource Hint}" />
+                </StackPanel>
+                <ui:ToggleSwitch x:Name="KeystrokesEnableToggle" Grid.Column="1" VerticalAlignment="Center" Checked="KeystrokesControl_Changed" Unchecked="KeystrokesControl_Changed" />
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel VerticalAlignment="Center" Margin="0,0,12,0">
+                  <TextBlock Text="{resources:Loc Ui_Keystrokes_ShowKeys}" Style="{StaticResource Label}" />
+                  <TextBlock Text="{resources:Loc Ui_Keystrokes_ShowKeysHint}" Style="{StaticResource Hint}" />
+                </StackPanel>
+                <ui:ToggleSwitch x:Name="KeystrokesShowKeysToggle" Grid.Column="1" VerticalAlignment="Center" Checked="KeystrokesControl_Changed" Unchecked="KeystrokesControl_Changed" />
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel VerticalAlignment="Center" Margin="0,0,12,0">
+                  <TextBlock Text="{resources:Loc Ui_Keystrokes_ShowMouseButtons}" Style="{StaticResource Label}" />
+                  <TextBlock Text="{resources:Loc Ui_Keystrokes_ShowMouseButtonsHint}" Style="{StaticResource Hint}" />
+                </StackPanel>
+                <ui:ToggleSwitch x:Name="KeystrokesShowMouseToggle" Grid.Column="1" VerticalAlignment="Center" Checked="KeystrokesControl_Changed" Unchecked="KeystrokesControl_Changed" />
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel VerticalAlignment="Center" Margin="0,0,12,0">
+                  <TextBlock Text="{resources:Loc Ui_Keystrokes_ShowSpaceAndShift}" Style="{StaticResource Label}" />
+                  <TextBlock Text="{resources:Loc Ui_Keystrokes_ShowSpaceAndShiftHint}" Style="{StaticResource Hint}" />
+                </StackPanel>
+                <ui:ToggleSwitch x:Name="KeystrokesShowSpaceToggle" Grid.Column="1" VerticalAlignment="Center" Checked="KeystrokesControl_Changed" Unchecked="KeystrokesControl_Changed" />
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel VerticalAlignment="Center" Margin="0,0,12,0">
+                  <TextBlock Text="{resources:Loc Ui_Keystrokes_ShowCps}" Style="{StaticResource Label}" />
+                  <TextBlock Text="{resources:Loc Ui_Keystrokes_ShowCpsHint}" Style="{StaticResource Hint}" />
+                </StackPanel>
+                <ui:ToggleSwitch x:Name="KeystrokesShowCpsToggle" Grid.Column="1" VerticalAlignment="Center" Checked="KeystrokesControl_Changed" Unchecked="KeystrokesControl_Changed" />
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="170" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{resources:Loc Ui_OverlayStudio_KeystrokesScale}" Style="{StaticResource Label}" />
+                <Slider x:Name="KeystrokesScaleSlider" Grid.Column="1" Minimum="70" Maximum="150" TickFrequency="5" Style="{StaticResource RowSlider}" ValueChanged="KeystrokesSlider_Changed" />
+                <TextBlock x:Name="KeystrokesScaleText" Grid.Column="2" Style="{StaticResource Value}" />
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource Row}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="170" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{resources:Loc Ui_OverlayStudio_KeystrokesOpacity}" Style="{StaticResource Label}" />
+                <Slider x:Name="KeystrokesOpacitySlider" Grid.Column="1" Minimum="35" Maximum="100" TickFrequency="5" Style="{StaticResource RowSlider}" ValueChanged="KeystrokesSlider_Changed" />
+                <TextBlock x:Name="KeystrokesOpacityText" Grid.Column="2" Style="{StaticResource Value}" />
+              </Grid>
+            </Border>
+            <Border Style="{StaticResource LastRow}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="170" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{resources:Loc Ui_OverlayStudio_KeystrokesEdgeSpacing}" Style="{StaticResource Label}" />
+                <Slider x:Name="KeystrokesEdgeSlider" Grid.Column="1" Minimum="0" Maximum="64" TickFrequency="2" Style="{StaticResource RowSlider}" ValueChanged="KeystrokesSlider_Changed" />
+                <TextBlock x:Name="KeystrokesEdgeText" Grid.Column="2" Style="{StaticResource Value}" />
               </Grid>
             </Border>
           </StackPanel>

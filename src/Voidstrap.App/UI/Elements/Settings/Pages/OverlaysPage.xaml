@@ -73,6 +73,73 @@
         </StackPanel>
       </ui:CardExpander>
 
+      <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
+        <HeaderedContentControl.Header>
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <StackPanel VerticalAlignment="Center">
+              <TextBlock FontSize="14" Text="{resources:Loc Ui_Keystrokes_Title}" />
+              <TextBlock Margin="0,2,0,0" FontSize="12" Text="{resources:Loc Ui_Keystrokes_Description}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" />
+            </StackPanel>
+            <ui:ToggleSwitch Grid.Column="1" Margin="12,0,8,0" VerticalAlignment="Center" IsChecked="{Binding KeystrokesOverlayEnabled, Mode=TwoWay}" />
+          </Grid>
+        </HeaderedContentControl.Header>
+        <StackPanel>
+          <ui:InfoBar Margin="0,0,0,12" Padding="8" Severity="Warning" IsClosable="False" IsOpen="True" Message="{resources:Loc Ui_Keystrokes_LinuxInputNotice}" Visibility="{Binding KeystrokesLinuxInputNoticeVisible, Converter={StaticResource BooleanToVisibilityConverter}}" />
+          <controls:OptionControl Header="{resources:Loc Ui_Keystrokes_ShowKeys}" Description="{resources:Loc Ui_Keystrokes_ShowKeysHint}">
+            <ui:ToggleSwitch IsChecked="{Binding KeystrokesShowKeys, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="{resources:Loc Ui_Keystrokes_ShowMouseButtons}" Description="{resources:Loc Ui_Keystrokes_ShowMouseButtonsHint}">
+            <ui:ToggleSwitch IsChecked="{Binding KeystrokesShowMouseButtons, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="{resources:Loc Ui_Keystrokes_ShowSpaceAndShift}" Description="{resources:Loc Ui_Keystrokes_ShowSpaceAndShiftHint}">
+            <ui:ToggleSwitch IsChecked="{Binding KeystrokesShowSpaceAndShift, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="{resources:Loc Ui_Keystrokes_ShowCps}" Description="{resources:Loc Ui_Keystrokes_ShowCpsHint}">
+            <ui:ToggleSwitch IsChecked="{Binding KeystrokesShowCps, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="{resources:Loc Ui_Keystrokes_KeyboardSound}" Description="{resources:Loc Ui_Keystrokes_KeyboardSoundHint}">
+            <ui:ToggleSwitch IsChecked="{Binding KeystrokesKeyboardSound, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="{resources:Loc Ui_Keystrokes_KeyboardSoundPack}" Description="{resources:Loc Ui_Keystrokes_KeyboardSoundPackHint}" Visibility="{Binding KeystrokesKeyboardSound, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <ComboBox Width="200" Padding="10,5" ItemsSource="{Binding KeystrokesKeyboardSoundPackOptions}" SelectedItem="{Binding SelectedKeystrokesKeyboardSoundPack, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="{resources:Loc Ui_Keystrokes_KeyboardCustomWav}" Description="{Binding KeystrokesKeyboardCustomWavName}" Visibility="{Binding KeystrokesKeyboardIsCustom, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <StackPanel Orientation="Horizontal">
+              <Button Width="110" Content="{resources:Loc Ui_Keystrokes_ChooseFile}" Command="{Binding BrowseKeyboardCustomWavCommand}" />
+              <Button Width="80" Margin="8,0,0,0" Content="{resources:Loc Ui_Clipper_Reset}" Command="{Binding ClearKeyboardCustomWavCommand}" />
+            </StackPanel>
+          </controls:OptionControl>
+          <controls:OptionControl Header="{resources:Loc Ui_Keystrokes_KeyboardVolume}" Description="{resources:Loc Ui_Keystrokes_KeyboardVolumeHint}" Visibility="{Binding KeystrokesKeyboardSound, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <StackPanel Orientation="Horizontal">
+              <Slider Width="200" Minimum="0" Maximum="100" TickFrequency="5" VerticalAlignment="Center" Value="{Binding KeystrokesKeyboardVolume, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+              <TextBlock Width="44" Margin="8,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Text="{Binding KeystrokesKeyboardVolumeText}" />
+            </StackPanel>
+          </controls:OptionControl>
+          <controls:OptionControl Header="{resources:Loc Ui_Keystrokes_MouseSound}" Description="{resources:Loc Ui_Keystrokes_MouseSoundHint}">
+            <ui:ToggleSwitch IsChecked="{Binding KeystrokesMouseSound, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="{resources:Loc Ui_Keystrokes_MouseSoundPack}" Description="{resources:Loc Ui_Keystrokes_MouseSoundPackHint}" Visibility="{Binding KeystrokesMouseSound, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <ComboBox Width="200" Padding="10,5" ItemsSource="{Binding KeystrokesMouseSoundPackOptions}" SelectedItem="{Binding SelectedKeystrokesMouseSoundPack, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="{resources:Loc Ui_Keystrokes_MouseCustomWav}" Description="{Binding KeystrokesMouseCustomWavName}" Visibility="{Binding KeystrokesMouseIsCustom, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <StackPanel Orientation="Horizontal">
+              <Button Width="110" Content="{resources:Loc Ui_Keystrokes_ChooseFile}" Command="{Binding BrowseMouseCustomWavCommand}" />
+              <Button Width="80" Margin="8,0,0,0" Content="{resources:Loc Ui_Clipper_Reset}" Command="{Binding ClearMouseCustomWavCommand}" />
+            </StackPanel>
+          </controls:OptionControl>
+          <controls:OptionControl Header="{resources:Loc Ui_Keystrokes_MouseVolume}" Description="{resources:Loc Ui_Keystrokes_MouseVolumeHint}" Visibility="{Binding KeystrokesMouseSound, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <StackPanel Orientation="Horizontal">
+              <Slider Width="200" Minimum="0" Maximum="100" TickFrequency="5" VerticalAlignment="Center" Value="{Binding KeystrokesMouseVolume, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+              <TextBlock Width="44" Margin="8,0,0,0" VerticalAlignment="Center" TextAlignment="Right" Text="{Binding KeystrokesMouseVolumeText}" />
+            </StackPanel>
+          </controls:OptionControl>
+        </StackPanel>
+      </ui:CardExpander>
+
       <TextBlock Margin="2,20,0,0" FontSize="16" FontWeight="SemiBold" Text="{resources:Loc Ui_Appearance_Background}" />
                   <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
         <HeaderedContentControl.Header>

@@ -32,6 +32,7 @@ using Voidstrap.Integrations.AssetProxy;
 using Voidstrap.UI.Elements.ContextMenu;
 using Voidstrap.UI.Elements.Settings.Pages;
 using Voidstrap.Utility;
+using Voidstrap.Integrations.Keystrokes;
 using Windows.Win32;
 using Windows.Win32.Foundation;
 using Windows.Win32.UI.Shell;
@@ -1549,6 +1550,273 @@ public ICommand PickCursorColorCommand { get; }
 	}
 
 	public ICommand OpenClipsFolderCommand => new RelayCommand(() => Utilities.ShellExecute(Voidstrap.Integrations.Clipper.ClipperService.GetClipsDirectory()));
+
+	public bool KeystrokesOverlayEnabled
+	{
+		get => App.Settings.Prop.KeystrokesOverlayEnabled;
+		set
+		{
+			if (App.Settings.Prop.KeystrokesOverlayEnabled == value)
+				return;
+			App.Settings.Prop.KeystrokesOverlayEnabled = value;
+			App.Settings.SaveDeferred();
+			OnPropertyChanged();
+			KeystrokeOverlayWindow.Reconcile();
+		}
+	}
+
+	public bool KeystrokesShowKeys
+	{
+		get => App.Settings.Prop.KeystrokesShowKeys;
+		set
+		{
+			if (App.Settings.Prop.KeystrokesShowKeys == value)
+				return;
+			App.Settings.Prop.KeystrokesShowKeys = value;
+			App.Settings.SaveDeferred();
+			OnPropertyChanged();
+			KeystrokeOverlayWindow.Reconcile();
+		}
+	}
+
+	public bool KeystrokesShowMouseButtons
+	{
+		get => App.Settings.Prop.KeystrokesShowMouseButtons;
+		set
+		{
+			if (App.Settings.Prop.KeystrokesShowMouseButtons == value)
+				return;
+			App.Settings.Prop.KeystrokesShowMouseButtons = value;
+			App.Settings.SaveDeferred();
+			OnPropertyChanged();
+			KeystrokeOverlayWindow.Reconcile();
+		}
+	}
+
+	public bool KeystrokesShowSpaceAndShift
+	{
+		get => App.Settings.Prop.KeystrokesShowSpaceAndShift;
+		set
+		{
+			if (App.Settings.Prop.KeystrokesShowSpaceAndShift == value)
+				return;
+			App.Settings.Prop.KeystrokesShowSpaceAndShift = value;
+			App.Settings.SaveDeferred();
+			OnPropertyChanged();
+			KeystrokeOverlayWindow.Reconcile();
+		}
+	}
+
+	public bool KeystrokesShowCps
+	{
+		get => App.Settings.Prop.KeystrokesShowCps;
+		set
+		{
+			if (App.Settings.Prop.KeystrokesShowCps == value)
+				return;
+			App.Settings.Prop.KeystrokesShowCps = value;
+			App.Settings.SaveDeferred();
+			OnPropertyChanged();
+			KeystrokeOverlayWindow.Reconcile();
+		}
+	}
+
+	public static readonly string[] KeystrokesKeyboardPacks = ["Mechanical", "Thock", "Bubble", "Soft", "Custom"];
+	public IReadOnlyList<string> KeystrokesKeyboardSoundPackOptions => KeystrokesKeyboardPacks;
+
+	public string SelectedKeystrokesKeyboardSoundPack
+	{
+		get
+		{
+			string p = App.Settings.Prop.KeystrokesKeyboardSoundPack ?? "Mechanical";
+			foreach (var opt in KeystrokesKeyboardPacks)
+			{
+				if (string.Equals(opt, p, StringComparison.OrdinalIgnoreCase))
+					return opt;
+			}
+			return "Mechanical";
+		}
+		set
+		{
+			if (string.Equals(App.Settings.Prop.KeystrokesKeyboardSoundPack, value, StringComparison.OrdinalIgnoreCase))
+				return;
+			App.Settings.Prop.KeystrokesKeyboardSoundPack = value;
+			App.Settings.SaveDeferred();
+			OnPropertyChanged();
+			OnPropertyChanged(nameof(KeystrokesKeyboardIsCustom));
+		}
+	}
+
+	public bool KeystrokesKeyboardIsCustom =>
+		string.Equals(SelectedKeystrokesKeyboardSoundPack, "Custom", StringComparison.OrdinalIgnoreCase);
+
+	public bool KeystrokesKeyboardSound
+	{
+		get => App.Settings.Prop.KeystrokesKeyboardSound;
+		set
+		{
+			if (App.Settings.Prop.KeystrokesKeyboardSound == value)
+				return;
+			App.Settings.Prop.KeystrokesKeyboardSound = value;
+			App.Settings.SaveDeferred();
+			OnPropertyChanged();
+		}
+	}
+
+	public string KeystrokesKeyboardCustomWav => App.Settings.Prop.KeystrokesKeyboardCustomWav ?? "";
+
+	public string KeystrokesKeyboardCustomWavName
+	{
+		get
+		{
+			string path = KeystrokesKeyboardCustomWav;
+			return string.IsNullOrWhiteSpace(path) ? Strings.Ui_Keystrokes_NoFileSelected : Path.GetFileName(path);
+		}
+	}
+
+	public double KeystrokesKeyboardVolume
+	{
+		get => Math.Round(App.Settings.Prop.KeystrokesKeyboardVolume * 100);
+		set
+		{
+			double clamped = Math.Clamp(Math.Round(value), 0, 100);
+			if (Math.Abs(App.Settings.Prop.KeystrokesKeyboardVolume - (clamped / 100.0)) < 0.005)
+				return;
+			App.Settings.Prop.KeystrokesKeyboardVolume = clamped / 100.0;
+			App.Settings.SaveDeferred();
+			OnPropertyChanged();
+			OnPropertyChanged(nameof(KeystrokesKeyboardVolumeText));
+		}
+	}
+
+	public string KeystrokesKeyboardVolumeText => $"{KeystrokesKeyboardVolume:0}%";
+
+	public ICommand BrowseKeyboardCustomWavCommand => new RelayCommand(BrowseKeyboardCustomWav);
+	public ICommand ClearKeyboardCustomWavCommand => new RelayCommand(ClearKeyboardCustomWav);
+
+	private void BrowseKeyboardCustomWav()
+	{
+		Microsoft.Win32.OpenFileDialog dialog = new()
+		{
+			Title = Strings.Ui_Keystrokes_KeyboardCustomWav,
+			Filter = "Wave audio (*.wav)|*.wav|All files (*.*)|*.*"
+		};
+		if (dialog.ShowDialog() == true && File.Exists(dialog.FileName))
+		{
+			App.Settings.Prop.KeystrokesKeyboardCustomWav = dialog.FileName;
+			App.Settings.SaveDeferred();
+			OnPropertyChanged(nameof(KeystrokesKeyboardCustomWav));
+			OnPropertyChanged(nameof(KeystrokesKeyboardCustomWavName));
+		}
+	}
+
+	private void ClearKeyboardCustomWav()
+	{
+		App.Settings.Prop.KeystrokesKeyboardCustomWav = "";
+		App.Settings.SaveDeferred();
+		OnPropertyChanged(nameof(KeystrokesKeyboardCustomWav));
+		OnPropertyChanged(nameof(KeystrokesKeyboardCustomWavName));
+	}
+
+	public static readonly string[] KeystrokesMousePacks = ["Crisp", "Muted", "Thocky", "Custom"];
+	public IReadOnlyList<string> KeystrokesMouseSoundPackOptions => KeystrokesMousePacks;
+
+	public string SelectedKeystrokesMouseSoundPack
+	{
+		get
+		{
+			string p = App.Settings.Prop.KeystrokesMouseSoundPack ?? "Crisp";
+			foreach (var opt in KeystrokesMousePacks)
+			{
+				if (string.Equals(opt, p, StringComparison.OrdinalIgnoreCase))
+					return opt;
+			}
+			return "Crisp";
+		}
+		set
+		{
+			if (string.Equals(App.Settings.Prop.KeystrokesMouseSoundPack, value, StringComparison.OrdinalIgnoreCase))
+				return;
+			App.Settings.Prop.KeystrokesMouseSoundPack = value;
+			App.Settings.SaveDeferred();
+			OnPropertyChanged();
+			OnPropertyChanged(nameof(KeystrokesMouseIsCustom));
+		}
+	}
+
+	public bool KeystrokesMouseIsCustom =>
+		string.Equals(SelectedKeystrokesMouseSoundPack, "Custom", StringComparison.OrdinalIgnoreCase);
+
+	public bool KeystrokesMouseSound
+	{
+		get => App.Settings.Prop.KeystrokesMouseSound;
+		set
+		{
+			if (App.Settings.Prop.KeystrokesMouseSound == value)
+				return;
+			App.Settings.Prop.KeystrokesMouseSound = value;
+			App.Settings.SaveDeferred();
+			OnPropertyChanged();
+		}
+	}
+
+	public string KeystrokesMouseCustomWav => App.Settings.Prop.KeystrokesMouseCustomWav ?? "";
+
+	public string KeystrokesMouseCustomWavName
+	{
+		get
+		{
+			string path = KeystrokesMouseCustomWav;
+			return string.IsNullOrWhiteSpace(path) ? Strings.Ui_Keystrokes_NoFileSelected : Path.GetFileName(path);
+		}
+	}
+
+	public double KeystrokesMouseVolume
+	{
+		get => Math.Round(App.Settings.Prop.KeystrokesMouseVolume * 100);
+		set
+		{
+			double clamped = Math.Clamp(Math.Round(value), 0, 100);
+			if (Math.Abs(App.Settings.Prop.KeystrokesMouseVolume - (clamped / 100.0)) < 0.005)
+				return;
+			App.Settings.Prop.KeystrokesMouseVolume = clamped / 100.0;
+			App.Settings.SaveDeferred();
+			OnPropertyChanged();
+			OnPropertyChanged(nameof(KeystrokesMouseVolumeText));
+		}
+	}
+
+	public string KeystrokesMouseVolumeText => $"{KeystrokesMouseVolume:0}%";
+
+	public ICommand BrowseMouseCustomWavCommand => new RelayCommand(BrowseMouseCustomWav);
+	public ICommand ClearMouseCustomWavCommand => new RelayCommand(ClearMouseCustomWav);
+
+	private void BrowseMouseCustomWav()
+	{
+		Microsoft.Win32.OpenFileDialog dialog = new()
+		{
+			Title = Strings.Ui_Keystrokes_MouseCustomWav,
+			Filter = "Wave audio (*.wav)|*.wav|All files (*.*)|*.*"
+		};
+		if (dialog.ShowDialog() == true && File.Exists(dialog.FileName))
+		{
+			App.Settings.Prop.KeystrokesMouseCustomWav = dialog.FileName;
+			App.Settings.SaveDeferred();
+			OnPropertyChanged(nameof(KeystrokesMouseCustomWav));
+			OnPropertyChanged(nameof(KeystrokesMouseCustomWavName));
+		}
+	}
+
+	private void ClearMouseCustomWav()
+	{
+		App.Settings.Prop.KeystrokesMouseCustomWav = "";
+		App.Settings.SaveDeferred();
+		OnPropertyChanged(nameof(KeystrokesMouseCustomWav));
+		OnPropertyChanged(nameof(KeystrokesMouseCustomWavName));
+	}
+
+	public bool KeystrokesLinuxInputNoticeVisible =>
+		Voidstrap.Utility.Platform.IsLinux && !KeystrokeInputService.HasInputAccess;
 
 	public string HomepageBackgroundOverlayColor
 	{

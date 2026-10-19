@@ -24,7 +24,8 @@ public enum OverlayStudioLayer
     Notifications = 1,
     Dock = 2,
     Crosshair = 3,
-    Panels = 4
+    Panels = 4,
+    Keystrokes = 5
 }
 
 internal sealed partial class SessionLiveOverlayCanvasWindow : Window
@@ -91,6 +92,9 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
 
     private readonly Border _crosshairWrapper;
     private readonly Image _crosshairImage;
+
+    private readonly Border _keystrokesWrapper;
+    private readonly Border _keystrokesHost;
 
     private OverlayStudioLayer _selectedLayer;
     private OverlayStudioLayer? _draggingLayer;
@@ -199,6 +203,21 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         _stage.Children.Add(_notificationWrapper);
         _stage.Children.Add(_dockWrapper);
         _stage.Children.Add(_crosshairWrapper);
+
+        _keystrokesHost = BuildExactKeystrokesElement();
+        _keystrokesWrapper = WrapExactElement(OverlayStudioLayer.Keystrokes, _keystrokesHost);
+        _keystrokesWrapper.MouseLeftButtonDown += (_, e) =>
+        {
+            if (e.ClickCount == 2)
+            {
+                OverlayLayoutSettings layout = App.Settings.Prop.OverlayLayout ??= new OverlayLayoutSettings();
+                layout.ResetKeystrokes();
+                ApplyLayerLive(OverlayStudioLayer.Keystrokes);
+                LayoutStage();
+                e.Handled = true;
+            }
+        };
+        _stage.Children.Add(_keystrokesWrapper);
 
         _toolbar = BuildTopToolbar(out _coordBadge, out _snapButton);
         Canvas.SetZIndex(_toolbar, 30);
@@ -844,6 +863,104 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             opacity);
     }
 
+    internal static Border BuildExactKeystrokesElement()
+    {
+        StackPanel root = new() { Orientation = Orientation.Vertical, UseLayoutRounding = true };
+
+        StackPanel rowW = new() { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Center, Margin = new Thickness(0, 0, 0, 3), Tag = "rowW" };
+        rowW.Children.Add(CreateKeyTile("W", 46, 46));
+
+        StackPanel rowASD = new() { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Center, Margin = new Thickness(0, 0, 0, 3), Tag = "rowASD" };
+        var aTile = CreateKeyTile("A", 46, 46);
+        aTile.Margin = new Thickness(0, 0, 3, 0);
+        var sTile = CreateKeyTile("S", 46, 46);
+        sTile.Margin = new Thickness(0, 0, 3, 0);
+        var dTile = CreateKeyTile("D", 46, 46);
+        rowASD.Children.Add(aTile);
+        rowASD.Children.Add(sTile);
+        rowASD.Children.Add(dTile);
+
+        StackPanel rowMouse = new() { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Center, Margin = new Thickness(0, 0, 0, 3), Tag = "rowMouse" };
+        var lmbTile = CreateKeyTile("LMB\n0 CPS", 71, 46);
+        lmbTile.Margin = new Thickness(0, 0, 3, 0);
+        var rmbTile = CreateKeyTile("RMB\n0 CPS", 71, 46);
+        rowMouse.Children.Add(lmbTile);
+        rowMouse.Children.Add(rmbTile);
+
+        StackPanel rowBottom = new() { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Center, Tag = "rowBottom" };
+        var shiftTile = CreateKeyTile("SHIFT", 51, 34);
+        shiftTile.Margin = new Thickness(0, 0, 3, 0);
+        var spaceTile = CreateKeyTile("—", 91, 34);
+        rowBottom.Children.Add(shiftTile);
+        rowBottom.Children.Add(spaceTile);
+
+        root.Children.Add(rowW);
+        root.Children.Add(rowASD);
+        root.Children.Add(rowMouse);
+        root.Children.Add(rowBottom);
+
+        Border host = new()
+        {
+            CornerRadius = new CornerRadius(10),
+            Padding = new Thickness(4),
+            Background = Brushes.Transparent,
+            Child = root
+        };
+        return host;
+    }
+
+    private static Border CreateKeyTile(string text, double width, double height)
+    {
+        Border tile = new()
+        {
+            Width = width,
+            Height = height,
+            CornerRadius = new CornerRadius(8),
+            BorderThickness = new Thickness(1)
+        };
+        tile.SetResourceReference(Border.BackgroundProperty, "CardBackgroundFillColorDefaultBrush");
+        tile.SetResourceReference(Border.BorderBrushProperty, "CardStrokeColorDefaultBrush");
+
+        TextBlock tb = new()
+        {
+            Text = text,
+            FontSize = text.Length > 2 ? 11.5 : 14,
+            FontWeight = FontWeights.SemiBold,
+            HorizontalAlignment = HorizontalAlignment.Center,
+            VerticalAlignment = VerticalAlignment.Center,
+            TextAlignment = TextAlignment.Center
+        };
+        tb.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
+        tile.Child = tb;
+        return tile;
+    }
+
+    internal static void ApplyExactKeystrokesConfiguration(Border host, double factor)
+    {
+        AppSettings settings = App.Settings.Prop;
+        OverlayLayoutSettings layout = settings.OverlayLayout ?? new OverlayLayoutSettings();
+
+        host.Opacity = layout.SafeKeystrokesOpacity;
+        double scale = layout.SafeKeystrokesScale * factor;
+        host.LayoutTransform = Math.Abs(scale - 1.0) > 0.005 ? new ScaleTransform(scale, scale) : Transform.Identity;
+
+        if (host.Child is StackPanel root)
+        {
+            foreach (UIElement child in root.Children)
+            {
+                if (child is StackPanel sp && sp.Tag is string tag)
+                {
+                    if (tag == "rowW" || tag == "rowASD")
+                        sp.Visibility = settings.KeystrokesShowKeys ? Visibility.Visible : Visibility.Collapsed;
+                    else if (tag == "rowMouse")
+                        sp.Visibility = settings.KeystrokesShowMouseButtons ? Visibility.Visible : Visibility.Collapsed;
+                    else if (tag == "rowBottom")
+                        sp.Visibility = settings.KeystrokesShowSpaceAndShift ? Visibility.Visible : Visibility.Collapsed;
+                }
+            }
+        }
+    }
+
     private Border WrapExactElement(OverlayStudioLayer layer, UIElement child)
     {
         Border wrapper = new()
@@ -1238,6 +1355,16 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         Canvas.SetLeft(_crosshairWrapper, Math.Clamp(cLeft, 0, Math.Max(0, stageW - _crosshairWrapper.DesiredSize.Width)));
         Canvas.SetTop(_crosshairWrapper, Math.Clamp(cTop, 0, Math.Max(0, stageH - _crosshairWrapper.DesiredSize.Height)));
 
+        ApplyExactKeystrokesConfiguration(_keystrokesHost, 1.0);
+        MeasureBox(_keystrokesWrapper);
+        double kGap = layout.SafeKeystrokesEdgeSpacing;
+        double kMinX = kGap;
+        double kMaxX = Math.Max(kMinX, stageW - _keystrokesWrapper.DesiredSize.Width - kGap);
+        double kMinY = kGap;
+        double kMaxY = Math.Max(kMinY, stageH - _keystrokesWrapper.DesiredSize.Height - kGap);
+        Canvas.SetLeft(_keystrokesWrapper, kMinX + (kMaxX - kMinX) * (layout.SafeKeystrokesHorizontal / 100.0));
+        Canvas.SetTop(_keystrokesWrapper, kMinY + (kMaxY - kMinY) * (layout.SafeKeystrokesVertical / 100.0));
+
         UpdateActiveCoordBanner();
         PositionToolbarAwayFromOverlays(stageW, stageH);
     }
@@ -1454,6 +1581,23 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             layout.CrosshairOffsetX = Math.Clamp(offsetX, -200, 200);
             layout.CrosshairOffsetY = Math.Clamp(offsetY, -200, 200);
         }
+        else if (layer == OverlayStudioLayer.Keystrokes)
+        {
+            double gap = layout.SafeKeystrokesEdgeSpacing;
+            double minX = gap;
+            double maxX = Math.Max(minX + 1, stageW - elemW - gap);
+            double minY = gap;
+            double maxY = Math.Max(minY + 1, stageH - elemH - gap);
+            double pctX = Math.Clamp((nextLeft - minX) / (maxX - minX) * 100.0, 0, 100);
+            double pctY = Math.Clamp((nextTop - minY) / (maxY - minY) * 100.0, 0, 100);
+            if (_magneticSnap)
+            {
+                pctX = SnapPercent(pctX);
+                pctY = SnapPercent(pctY);
+            }
+            layout.KeystrokesHorizontal = Math.Round(pctX);
+            layout.KeystrokesVertical = Math.Round(pctY);
+        }
 
         ApplyLayerLive(layer);
         LayoutStage();
@@ -1507,6 +1651,10 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             Voidstrap.UI.Elements.Crosshair.CrosshairWindow.Reconcile();
             Voidstrap.UI.Elements.Crosshair.CrosshairWindow.SetScreenDragHidden(true);
         }
+        else if (layer == OverlayStudioLayer.Keystrokes)
+        {
+            Voidstrap.Integrations.Keystrokes.KeystrokeOverlayWindow.Reconcile();
+        }
         _onLayerUpdated(layer);
     }
 
@@ -1516,6 +1664,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         SetBoxSelected(_notificationWrapper, _selectedLayer == OverlayStudioLayer.Notifications);
         SetBoxSelected(_dockWrapper, _selectedLayer == OverlayStudioLayer.Dock);
         SetBoxSelected(_crosshairWrapper, _selectedLayer == OverlayStudioLayer.Crosshair);
+        SetBoxSelected(_keystrokesWrapper, _selectedLayer == OverlayStudioLayer.Keystrokes);
         UpdateActiveCoordBanner();
     }
 
@@ -1538,6 +1687,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             OverlayStudioLayer.Notifications => string.Create(CultureInfo.InvariantCulture, $"{Strings.Ui_OverlayStudio_LayerNotifications}: X {Math.Round(notif.SafeHorizontal)}% · Y {Math.Round(notif.SafeVertical)}% · {Math.Round(notif.SafeEdgeSpacing)} px"),
             OverlayStudioLayer.Dock => string.Create(CultureInfo.InvariantCulture, $"{Strings.Ui_OverlayStudio_LayerDock}: {(layout.DockTopEdge ? Strings.Ui_OverlayStudio_TopEdge : Strings.Ui_OverlayStudio_BottomEdge)} · X {Math.Round(layout.SafeDockHorizontal)}%"),
             OverlayStudioLayer.Crosshair => string.Create(CultureInfo.InvariantCulture, $"{Strings.Ui_OverlayStudio_LayerCrosshair}: {layout.SafeCrosshairOffsetX:+#;-#;0}, {layout.SafeCrosshairOffsetY:+#;-#;0} px"),
+            OverlayStudioLayer.Keystrokes => string.Create(CultureInfo.InvariantCulture, $"{Strings.Ui_OverlayStudio_LayerKeystrokes}: X {Math.Round(layout.SafeKeystrokesHorizontal)}% · Y {Math.Round(layout.SafeKeystrokesVertical)}% · {Math.Round(layout.SafeKeystrokesEdgeSpacing)} px"),
             _ => Strings.Ui_OverlayStudio_Title
         };
     }

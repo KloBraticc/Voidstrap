@@ -9,6 +9,7 @@ using System.Windows.Media;
 using Voidstrap.Models.Persistable;
 using Voidstrap.Resources;
 using Voidstrap.UI.Elements.ContextMenu;
+using Voidstrap.Integrations.Keystrokes;
 
 namespace Voidstrap.UI.Elements.Overlay;
 
@@ -46,6 +47,9 @@ public partial class SessionOverlayLayoutEditor : Window
 
     private readonly Border _stageCrosshairWrapper;
     private readonly Image _stageCrosshairImage;
+
+    private readonly Border _stageKeystrokesWrapper;
+    private readonly Border _stageKeystrokesHost;
 
     private OverlayStudioLayer _selectedLayer = OverlayStudioLayer.Readout;
     private OverlayStudioLayer? _stageDraggingLayer;
@@ -111,10 +115,14 @@ public partial class SessionOverlayLayoutEditor : Window
         _stageCrosshairImage = SessionLiveOverlayCanvasWindow.BuildExactCrosshairElement(48);
         _stageCrosshairWrapper = WrapStageElement(OverlayStudioLayer.Crosshair, _stageCrosshairImage);
 
+        _stageKeystrokesHost = SessionLiveOverlayCanvasWindow.BuildExactKeystrokesElement();
+        _stageKeystrokesWrapper = WrapStageElement(OverlayStudioLayer.Keystrokes, _stageKeystrokesHost);
+
         StageCanvas.Children.Add(_stageReadoutWrapper);
         StageCanvas.Children.Add(_stageNotificationWrapper);
         StageCanvas.Children.Add(_stageDockWrapper);
         StageCanvas.Children.Add(_stageCrosshairWrapper);
+        StageCanvas.Children.Add(_stageKeystrokesWrapper);
 
         _ready = true;
         LoadAllControls();
@@ -276,6 +284,15 @@ public partial class SessionOverlayLayoutEditor : Window
             CrosshairOffsetXSlider.Value = layout.SafeCrosshairOffsetX;
             CrosshairOffsetYSlider.Value = layout.SafeCrosshairOffsetY;
 
+            KeystrokesEnableToggle.IsChecked = prop.KeystrokesOverlayEnabled;
+            KeystrokesShowKeysToggle.IsChecked = prop.KeystrokesShowKeys;
+            KeystrokesShowMouseToggle.IsChecked = prop.KeystrokesShowMouseButtons;
+            KeystrokesShowSpaceToggle.IsChecked = prop.KeystrokesShowSpaceAndShift;
+            KeystrokesShowCpsToggle.IsChecked = prop.KeystrokesShowCps;
+            KeystrokesScaleSlider.Value = Math.Round(layout.SafeKeystrokesScale * 100);
+            KeystrokesOpacitySlider.Value = Math.Round(layout.SafeKeystrokesOpacity * 100);
+            KeystrokesEdgeSlider.Value = Math.Round(layout.SafeKeystrokesEdgeSpacing);
+
             UpdateValueLabels();
         }
         finally
@@ -307,6 +324,10 @@ public partial class SessionOverlayLayoutEditor : Window
         int cy = (int)Math.Round(CrosshairOffsetYSlider.Value);
         CrosshairOffsetXText.Text = cx.ToString("+#;-#;0", inv) + " px";
         CrosshairOffsetYText.Text = cy.ToString("+#;-#;0", inv) + " px";
+
+        KeystrokesScaleText.Text = ((int)Math.Round(KeystrokesScaleSlider.Value)).ToString(inv) + "%";
+        KeystrokesOpacityText.Text = ((int)Math.Round(KeystrokesOpacitySlider.Value)).ToString(inv) + "%";
+        KeystrokesEdgeText.Text = ((int)Math.Round(KeystrokesEdgeSlider.Value)).ToString(inv) + " px";
     }
 
     private void SelectLayer(OverlayStudioLayer layer)
@@ -322,6 +343,7 @@ public partial class SessionOverlayLayoutEditor : Window
             TabNotifications.IsChecked = layer == OverlayStudioLayer.Notifications;
             TabDock.IsChecked = layer == OverlayStudioLayer.Dock;
             TabCrosshair.IsChecked = layer == OverlayStudioLayer.Crosshair;
+            TabKeystrokes.IsChecked = layer == OverlayStudioLayer.Keystrokes;
             TabPanels.IsChecked = layer == OverlayStudioLayer.Panels;
         }
         finally
@@ -333,6 +355,7 @@ public partial class SessionOverlayLayoutEditor : Window
         NotificationsInspector.Visibility = layer == OverlayStudioLayer.Notifications ? Visibility.Visible : Visibility.Collapsed;
         DockInspector.Visibility = layer == OverlayStudioLayer.Dock ? Visibility.Visible : Visibility.Collapsed;
         CrosshairInspector.Visibility = layer == OverlayStudioLayer.Crosshair ? Visibility.Visible : Visibility.Collapsed;
+        KeystrokesInspector.Visibility = layer == OverlayStudioLayer.Keystrokes ? Visibility.Visible : Visibility.Collapsed;
         PanelsInspector.Visibility = layer == OverlayStudioLayer.Panels ? Visibility.Visible : Visibility.Collapsed;
 
         if (layer == OverlayStudioLayer.Panels)
@@ -459,6 +482,16 @@ public partial class SessionOverlayLayoutEditor : Window
         Canvas.SetLeft(_stageCrosshairWrapper, Math.Clamp(cLeft, 0, Math.Max(0, stageW - _stageCrosshairWrapper.DesiredSize.Width)));
         Canvas.SetTop(_stageCrosshairWrapper, Math.Clamp(cTop, 0, Math.Max(0, stageH - _stageCrosshairWrapper.DesiredSize.Height)));
 
+        SessionLiveOverlayCanvasWindow.ApplyExactKeystrokesConfiguration(_stageKeystrokesHost, stageScale);
+        _stageKeystrokesWrapper.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+        double kGap = Math.Max(4, layout.SafeKeystrokesEdgeSpacing * stageScale);
+        double kMinX = kGap;
+        double kMaxX = Math.Max(kMinX, stageW - _stageKeystrokesWrapper.DesiredSize.Width - kGap);
+        double kMinY = kGap;
+        double kMaxY = Math.Max(kMinY, stageH - _stageKeystrokesWrapper.DesiredSize.Height - kGap);
+        Canvas.SetLeft(_stageKeystrokesWrapper, kMinX + (kMaxX - kMinX) * (layout.SafeKeystrokesHorizontal / 100.0));
+        Canvas.SetTop(_stageKeystrokesWrapper, kMinY + (kMaxY - kMinY) * (layout.SafeKeystrokesVertical / 100.0));
+
         UpdateStageSelectionVisuals();
     }
 
@@ -468,6 +501,7 @@ public partial class SessionOverlayLayoutEditor : Window
         HighlightStageBox(_stageNotificationWrapper, _selectedLayer == OverlayStudioLayer.Notifications);
         HighlightStageBox(_stageDockWrapper, _selectedLayer == OverlayStudioLayer.Dock);
         HighlightStageBox(_stageCrosshairWrapper, _selectedLayer == OverlayStudioLayer.Crosshair);
+        HighlightStageBox(_stageKeystrokesWrapper, _selectedLayer == OverlayStudioLayer.Keystrokes);
 
         OverlayLayoutSettings layout = App.Settings.Prop.OverlayLayout ?? new OverlayLayoutSettings();
         NotificationAppearance notif = NotificationStyle.Current;
@@ -477,6 +511,7 @@ public partial class SessionOverlayLayoutEditor : Window
             OverlayStudioLayer.Notifications => string.Create(CultureInfo.InvariantCulture, $"{Strings.Ui_OverlayStudio_LayerNotifications}: X {Math.Round(notif.SafeHorizontal)}% · Y {Math.Round(notif.SafeVertical)}%"),
             OverlayStudioLayer.Dock => string.Create(CultureInfo.InvariantCulture, $"{Strings.Ui_OverlayStudio_LayerDock}: {(layout.DockTopEdge ? Strings.Ui_OverlayStudio_TopEdge : Strings.Ui_OverlayStudio_BottomEdge)} · X {Math.Round(layout.SafeDockHorizontal)}%"),
             OverlayStudioLayer.Crosshair => string.Create(CultureInfo.InvariantCulture, $"{Strings.Ui_OverlayStudio_LayerCrosshair}: {layout.SafeCrosshairOffsetX:+#;-#;0}, {layout.SafeCrosshairOffsetY:+#;-#;0} px"),
+            OverlayStudioLayer.Keystrokes => string.Create(CultureInfo.InvariantCulture, $"{Strings.Ui_OverlayStudio_LayerKeystrokes}: X {Math.Round(layout.SafeKeystrokesHorizontal)}% · Y {Math.Round(layout.SafeKeystrokesVertical)}%"),
             _ => Strings.Ui_OverlayStudio_LayerPanels
         };
     }
@@ -568,6 +603,17 @@ public partial class SessionOverlayLayoutEditor : Window
             layout.CrosshairOffsetY = Math.Clamp(offsetY, -200, 200);
             Voidstrap.UI.Elements.Crosshair.CrosshairWindow.Reconcile();
         }
+        else if (layer == OverlayStudioLayer.Keystrokes)
+        {
+            double gap = Math.Max(4, layout.SafeKeystrokesEdgeSpacing * stageScale);
+            double minX = gap;
+            double maxX = Math.Max(minX + 1, stageW - elemW - gap);
+            double minY = gap;
+            double maxY = Math.Max(minY + 1, stageH - elemH - gap);
+            layout.KeystrokesHorizontal = Math.Round(SnapStagePercent(Math.Clamp((nextLeft - minX) / (maxX - minX) * 100.0, 0, 100)));
+            layout.KeystrokesVertical = Math.Round(SnapStagePercent(Math.Clamp((nextTop - minY) / (maxY - minY) * 100.0, 0, 100)));
+            KeystrokeOverlayWindow.Reconcile();
+        }
 
         LoadAllControls();
         LayoutStagePreview();
@@ -632,6 +678,12 @@ public partial class SessionOverlayLayoutEditor : Window
             layout.CrosshairOffsetX = anchorX < 50 ? -60 : anchorX > 50 ? 60 : 0;
             layout.CrosshairOffsetY = anchorY < 50 ? -60 : anchorY > 50 ? 60 : 0;
             Voidstrap.UI.Elements.Crosshair.CrosshairWindow.Reconcile();
+        }
+        else if (_selectedLayer == OverlayStudioLayer.Keystrokes)
+        {
+            layout.KeystrokesHorizontal = anchorX;
+            layout.KeystrokesVertical = anchorY;
+            KeystrokeOverlayWindow.Reconcile();
         }
 
         App.Settings.SaveDeferred();
@@ -953,6 +1005,37 @@ public partial class SessionOverlayLayoutEditor : Window
         _screenDragWindow?.RefreshFromEditor(_selectedLayer);
     }
 
+    private void KeystrokesControl_Changed(object sender, RoutedEventArgs e)
+    {
+        if (!_ready || _loading)
+            return;
+        AppSettings prop = App.Settings.Prop;
+        prop.KeystrokesOverlayEnabled = KeystrokesEnableToggle.IsChecked == true;
+        prop.KeystrokesShowKeys = KeystrokesShowKeysToggle.IsChecked == true;
+        prop.KeystrokesShowMouseButtons = KeystrokesShowMouseToggle.IsChecked == true;
+        prop.KeystrokesShowSpaceAndShift = KeystrokesShowSpaceToggle.IsChecked == true;
+        prop.KeystrokesShowCps = KeystrokesShowCpsToggle.IsChecked == true;
+        KeystrokeOverlayWindow.Reconcile();
+        App.Settings.SaveDeferred();
+        LayoutStagePreview();
+        _screenDragWindow?.RefreshFromEditor(_selectedLayer);
+    }
+
+    private void KeystrokesSlider_Changed(object sender, RoutedPropertyChangedEventArgs<double> e)
+    {
+        if (!_ready || _loading)
+            return;
+        OverlayLayoutSettings layout = App.Settings.Prop.OverlayLayout ??= new OverlayLayoutSettings();
+        layout.KeystrokesScale = Math.Round(KeystrokesScaleSlider.Value) / 100.0;
+        layout.KeystrokesOpacity = Math.Round(KeystrokesOpacitySlider.Value) / 100.0;
+        layout.KeystrokesEdgeSpacing = Math.Round(KeystrokesEdgeSlider.Value);
+        UpdateValueLabels();
+        KeystrokeOverlayWindow.Reconcile();
+        App.Settings.SaveDeferred();
+        LayoutStagePreview();
+        _screenDragWindow?.RefreshFromEditor(_selectedLayer);
+    }
+
     private void Preset_Click(object sender, RoutedEventArgs e)
     {
         if (sender is not FrameworkElement { Tag: string preset })
@@ -1080,6 +1163,11 @@ public partial class SessionOverlayLayoutEditor : Window
             layout.ResetCrosshairOffset();
             Voidstrap.UI.Elements.Crosshair.CrosshairWindow.Reconcile();
         }
+        else if (_selectedLayer == OverlayStudioLayer.Keystrokes)
+        {
+            layout.ResetKeystrokes();
+            KeystrokeOverlayWindow.Reconcile();
+        }
         else if (_selectedLayer == OverlayStudioLayer.Panels)
         {
             SessionDock.ActiveInstance?.ResetAllPanelLayoutsLive();
@@ -1110,6 +1198,7 @@ public partial class SessionOverlayLayoutEditor : Window
     {
         OverlayWindow.Reconcile();
         Voidstrap.UI.Elements.Crosshair.CrosshairWindow.Reconcile();
+        KeystrokeOverlayWindow.Reconcile();
         SessionDock.ActiveInstance?.RefreshLayoutLive();
     }
 

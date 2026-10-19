@@ -596,6 +596,7 @@ public partial class Watcher : IDisposable
 		RunRuntimeAction(Voidstrap.UI.Elements.ClassicTopBar.ClassicTopBarOverlay.Reconcile, "CreateClassicTopBar");
 		ScreenColorEffect.ApplyConfigured();
 		RunRuntimeAction(() => OverlayWindow.Reconcile(ActivityWatcher), "CreateOverlay");
+		RunRuntimeAction(Voidstrap.Integrations.Keystrokes.KeystrokeOverlayWindow.Reconcile, "CreateKeystrokes");
 	}
 
 	internal void RefreshOverlayLive()
@@ -621,6 +622,7 @@ public partial class Watcher : IDisposable
 		RunRuntimeAction(CrosshairWindow.Reconcile, "RefreshCrosshair");
 		RunRuntimeAction(Voidstrap.UI.Elements.ClassicTopBar.ClassicTopBarOverlay.Reconcile, "RefreshClassicTopBar");
 		RunRuntimeAction(() => OverlayWindow.Reconcile(ActivityWatcher), "RefreshOverlay");
+		RunRuntimeAction(Voidstrap.Integrations.Keystrokes.KeystrokeOverlayWindow.Reconcile, "RefreshKeystrokes");
 	}
 
 	private static void CloseRuntimeSessionWindows()
@@ -633,6 +635,7 @@ public partial class Watcher : IDisposable
 
 		RunRuntimeAction(CrosshairWindow.CloseAll, "CloseCrosshair");
 		RunRuntimeAction(Voidstrap.UI.Elements.ClassicTopBar.ClassicTopBarOverlay.CloseAll, "CloseClassicTopBar");
+		RunRuntimeAction(Voidstrap.Integrations.Keystrokes.KeystrokeOverlayWindow.CloseAll, "CloseKeystrokes");
 		if (application.Resources["OverlayWindow"] is OverlayWindow overlay)
 		{
 			RunRuntimeAction(overlay.Close, "CloseOverlay");
