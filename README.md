@@ -29,16 +29,16 @@
 </div>
 
 <h5 align="center">
-  Leave a star if you like the project! â­ï¸
+  Leave a star if you like the project! ⭐️
 </h5>
 
 <p align="center">
   <picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/windows-tile-dark.svg"><img src="assets/readme/windows-tile-light.svg" alt="Windows" width="32" height="32"/></picture>
-  Â Â 
+  &nbsp;&nbsp;
   <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/android/android-original.svg" alt="Android" width="32" height="32"/>
-  Â Â 
+  &nbsp;&nbsp;
   <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/linux/linux-original.svg" alt="Linux" width="32" height="32"/>
-  Â Â 
+  &nbsp;&nbsp;
   <picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/macos-dark.svg"><img src="assets/readme/macos-light.svg" alt="macOS" width="32" height="32"/></picture>
 </p>
 
@@ -321,13 +321,13 @@ powershell -NoProfile -ExecutionPolicy Bypass -File .\publish-all.ps1 -Only wind
 
 Output: `PublishedBuilds\Windows\Voidstrap.exe`. Requires the [.NET 10 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/10.0).
 
-To sign the Windows executable through the trusted GitHub Actions build, add `SIGNPATH_API_TOKEN` as a repository Actions secret and run:
+On Windows, a normal Release publish signs `Voidstrap.exe` through the trusted GitHub Actions build. Add `SIGNPATH_API_TOKEN` as a repository Actions secret and run:
 
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File .\publish-all.ps1 -Only windows -SignWindowsWithSignPath -NoPause
+powershell -NoProfile -ExecutionPolicy Bypass -File .\publish-all.ps1 -Only windows -NoPause
 ```
 
-This requires GitHub CLI authentication, a clean working tree, and a pushed `v<version>` tag pointing to the current commit. The script downloads the signed executable into `PublishedBuilds\Windows\Voidstrap.exe`; upload it to the GitHub release manually. SignPath uses its test certificate until the production certificate review is complete.
+This requires GitHub CLI authentication and a clean checkout of the latest `main` commit. The script downloads the signed executable into `PublishedBuilds\Windows\Voidstrap.exe`; upload it to the GitHub release manually. SignPath uses its test certificate until the production certificate review is complete.
 
 </details>
 

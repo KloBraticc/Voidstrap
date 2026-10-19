@@ -16,7 +16,6 @@ param(
     [switch]$AppImage,
     [switch]$SkipAppImage,
     [switch]$LinuxPackages,
-    [switch]$SignWindowsWithSignPath,
     [switch]$NoPause
 )
 
@@ -1196,7 +1195,6 @@ function Resolve-SignPathSource {
         throw 'SignPath requires a four-part release version.'
     }
 
-    $tag = "v$Version"
     $origin = (& git -C $Root remote get-url origin 2>$null | Out-String).Trim()
     if ($LASTEXITCODE -ne 0 -or $origin -notmatch '(?i)github\.com[:/]KloBraticc/Voidstrap(?:\.git)?\z') {
         throw 'SignPath requires the repository origin to be KloBraticc/Voidstrap on GitHub.'
@@ -1210,34 +1208,26 @@ function Resolve-SignPathSource {
         throw 'SignPath signing requires a clean working tree so the signed GitHub build matches this local build.'
     }
 
+    $branch = (& git -C $Root symbolic-ref --quiet --short HEAD 2>$null | Out-String).Trim()
+    if ($LASTEXITCODE -ne 0 -or $branch -cne 'main') {
+        throw 'SignPath signing requires a checkout of the main branch.'
+    }
+
     $head = (& git -C $Root rev-parse HEAD 2>$null | Out-String).Trim()
     if ($LASTEXITCODE -ne 0 -or $head -notmatch '\A[0-9a-f]{40}\z') {
         throw 'Git could not resolve the current commit for signing.'
     }
 
-    $tagRef = "refs/tags/$tag"
-    $remoteTagLines = @(& git -C $Root ls-remote --tags origin $tagRef "$tagRef^{}" 2>$null)
+    $remoteMainLines = @(& git -C $Root ls-remote origin refs/heads/main 2>$null)
     if ($LASTEXITCODE -ne 0) {
-        throw 'Git could not verify the release tag on origin.'
+        throw 'Git could not verify the main branch on origin.'
     }
-    $remoteTags = @{}
-    foreach ($line in $remoteTagLines) {
-        $parts = ([string]$line) -split '\s+', 2
-        if ($parts.Count -eq 2) { $remoteTags[$parts[1]] = $parts[0] }
+    $remoteMain = if ($remoteMainLines.Count -eq 1) { (([string]$remoteMainLines[0]) -split '\s+', 2)[0] } else { $null }
+    if (-not $remoteMain -or $remoteMain -notmatch '\A[0-9a-f]{40}\z') {
+        throw 'Git could not resolve the main branch commit on origin.'
     }
-    $peeledTagRef = "$tagRef^{}"
-    $tagCommit = if ($remoteTags.ContainsKey($peeledTagRef)) {
-        $remoteTags[$peeledTagRef]
-    } elseif ($remoteTags.ContainsKey($tagRef)) {
-        $remoteTags[$tagRef]
-    } else {
-        $null
-    }
-    if (-not $tagCommit) {
-        throw "Release tag $tag is not pushed to origin. Push the tag before requesting a trusted SignPath build."
-    }
-    if ($tagCommit -ne $head) {
-        throw "Release tag $tag does not point to the current commit. The local and GitHub builds would differ."
+    if ($remoteMain -ne $head) {
+        throw 'SignPath signing requires the current origin/main commit so the trusted build matches this local build.'
     }
 
     $gh = Get-Command gh -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1
@@ -1249,7 +1239,7 @@ function Resolve-SignPathSource {
         throw 'SignPath signing requires an authenticated GitHub CLI session.'
     }
 
-    return [pscustomobject]@{ Version = $Version; Tag = $tag; Head = $head; GhPath = $gh.Source }
+    return [pscustomobject]@{ Version = $Version; Head = $head; GhPath = $gh.Source }
 }
 
 function Invoke-SignPathWindows {
@@ -1259,13 +1249,13 @@ function Invoke-SignPathWindows {
     )
 
     $Version = $Context.Version
-    $tag = $Context.Tag
+    $head = $Context.Head
     $ghPath = $Context.GhPath
 
     $requestId = [guid]::NewGuid().ToString('N')
-    $runName = "Sign Voidstrap $tag $requestId"
-    Write-Host "  Requesting trusted GitHub signing for $tag..." -ForegroundColor DarkGray
-    & $ghPath workflow run windows-release-signing.yml --repo KloBraticc/Voidstrap --ref main -f "tag=$tag" -f "request-id=$requestId" 2>&1 | Out-Null
+    $runName = "Sign Voidstrap $Version $requestId"
+    Write-Host "  Requesting trusted GitHub signing for commit $head..." -ForegroundColor DarkGray
+    & $ghPath workflow run windows-release-signing.yml --repo KloBraticc/Voidstrap --ref main -f "commit=$head" -f "version=$Version" -f "request-id=$requestId" 2>&1 | Out-Null
     if ($LASTEXITCODE -ne 0) {
         throw 'GitHub Actions could not start the SignPath signing workflow. Check GitHub CLI authentication and workflow availability.'
     }
@@ -1620,16 +1610,8 @@ if ($RequestedAll) {
     $Targets = @($AllTargets | Where-Object { $Only -contains $_.Key })
 }
 
-if ($SignWindowsWithSignPath) {
-    if (-not $IsWindowsHost) {
-        throw 'SignPath Windows signing must be requested from a Windows host after the Windows build completes.'
-    }
-    if ($Configuration -ne 'Release') {
-        throw 'SignPath only signs Release builds.'
-    }
-    if (@($Targets | Where-Object { $_.Key -eq 'windows' }).Count -eq 0) {
-        throw 'SignPath signing requires the Windows target. Include windows or all in -Only.'
-    }
+$SignPathContext = $null
+if ($IsWindowsHost -and $Configuration -eq 'Release' -and (@($Targets | Where-Object { $_.Key -eq 'windows' }).Count -gt 0)) {
     $SignPathContext = Resolve-SignPathSource -Version (Get-VoidstrapVersion)
 }
 
@@ -2116,7 +2098,7 @@ if ($packageFailure) {
     Exit-Script 1
 }
 
-if ($SignWindowsWithSignPath) {
+if ($SignPathContext) {
     Invoke-SignPathWindows -Context $SignPathContext -OutputPath (Join-Path $Out 'Windows/Voidstrap.exe')
 }
 
