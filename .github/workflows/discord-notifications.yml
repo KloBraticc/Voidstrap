@@ -41,72 +41,118 @@ jobs:
           python - <<'PY'
           import json
           import os
+          import re
           import urllib.error
+          import urllib.parse
           import urllib.request
 
           webhook_url = os.environ.get("DISCORD_WEBHOOK_URL")
           if not webhook_url:
               raise SystemExit("DISCORD_WEBHOOK_URL is not configured")
 
+          parsed_webhook = urllib.parse.urlsplit(webhook_url)
+          if (
+              parsed_webhook.scheme != "https"
+              or parsed_webhook.hostname != "discord.com"
+              or parsed_webhook.netloc != "discord.com"
+              or parsed_webhook.query
+              or parsed_webhook.fragment
+              or not re.fullmatch(r"/api/webhooks/[0-9]+/[A-Za-z0-9._-]+", parsed_webhook.path)
+          ):
+              raise SystemExit("DISCORD_WEBHOOK_URL must be a Discord HTTPS webhook URL")
+
           with open(os.environ["GITHUB_EVENT_PATH"], encoding="utf-8") as event_file:
               event = json.load(event_file)
 
           def compact(value):
-              return " ".join(str(value or "").split()).replace("`", "Ë‹")
+              text = " ".join(str(value or "").split())
+              text = re.sub(r"([\\*_~|>\[\]()!])", r"\\\1", text)
+              return text.replace("`", "ˋ").replace("@", "@\u200b")
 
           repository = os.environ["REPOSITORY"]
           actor = compact(os.environ["ACTOR"])
           event_name = os.environ["EVENT_NAME"]
-          lines = [f"**{repository}**"]
+          title = ""
+          description = ""
+          color = 0x5865F2
+          link = None
 
           if event_name == "push":
               ref_name = compact(os.environ["REF_NAME"])
               commits = event.get("commits") or []
-              lines.append(f"Pushed {len(commits)} commit(s) to `{ref_name}` by {actor}")
+              count = len(commits)
+              title = f"[{ref_name}] {count} new commit{'s' if count != 1 else ''}"
+              rows = []
               for commit in commits[-8:]:
                   sha = compact(commit.get("id", ""))
                   message = compact(commit.get("message"))
-                  subject = message.splitlines()[0] if message else "(no message)"
-                  lines.append(f"`{sha[:7]}` {subject}\nhttps://github.com/{repository}/commit/{sha}")
+                  subject = (message.splitlines()[0] if message else "(no message)")[:280]
+                  author_data = commit.get("author") or {}
+                  author = compact(author_data.get("username") or author_data.get("name") or "unknown")[:80]
+                  if re.fullmatch(r"[0-9a-fA-F]{40}", sha):
+                      rows.append(f"[`{sha[:7]}`](https://github.com/{repository}/commit/{sha}) {subject} — {author}")
+                  else:
+                      rows.append(f"{subject} — {author}")
               if len(commits) > 8:
-                  lines.append(f"And {len(commits) - 8} more commit(s)")
+                  rows.append(f"And {len(commits) - 8} more commit(s)")
               if not commits:
-                  lines.append(f"Pushed to `{ref_name}` by {actor}")
+                  rows.append(f"Push to `{ref_name}` by {actor}")
+              description = "\n".join(rows)
+              if event.get("forced"):
+                  title = f"[{ref_name}] Branch was force-pushed"
+                  color = 0xED4245
+                  before = event.get("before", "")
+                  after = event.get("after", "")
+                  if re.fullmatch(r"[0-9a-fA-F]{40}", before) and re.fullmatch(r"[0-9a-fA-F]{40}", after):
+                      link = f"https://github.com/{repository}/compare/{before}...{after}"
           elif event_name in ("pull_request", "pull_request_target"):
               pull_request = event["pull_request"]
               action = compact(event.get("action", "updated"))
               if action == "closed" and pull_request.get("merged"):
                   action = "merged"
               title = compact(pull_request.get("title"))
-              lines.append(f"Pull request {action}: {title} by {actor}")
-              lines.append(pull_request["html_url"])
+              title = f"Pull request {action}: {title}"[:256]
+              link = pull_request.get("html_url")
+              description = f"by {actor}"
           elif event_name == "issues":
               issue = event["issue"]
               action = compact(event.get("action", "updated"))
               title = compact(issue.get("title"))
-              lines.append(f"Issue {action}: {title} by {actor}")
-              lines.append(issue["html_url"])
+              title = f"Issue {action}: {title}"[:256]
+              link = issue.get("html_url")
+              description = f"by {actor}"
           elif event_name == "release":
               release = event["release"]
               title = compact(release.get("name") or release.get("tag_name"))
               action = compact(event.get("action", "published"))
-              lines.append(f"Release {action}: {title} by {actor}")
-              lines.append(release["html_url"])
+              title = f"Release {action}: {title}"[:256]
+              link = release.get("html_url")
+              description = f"by {actor}"
           elif event_name == "workflow_dispatch":
-              lines.append(f"Webhook check requested by {actor}")
-              lines.append(os.environ["RUN_URL"])
+              title = "Discord webhook check"
+              description = f"Requested by {actor}"
+              link = os.environ["RUN_URL"]
           else:
-              lines.append(f"{compact(event_name)} event by {actor}")
-              lines.append(os.environ["RUN_URL"])
+              title = f"{compact(event_name)} event by {actor}"[:256]
+              link = os.environ["RUN_URL"]
 
-          content = "\n".join(lines)
-          if len(content) > 1900:
-              content = content[:1880] + "â€¦"
+          if link and not link.startswith(f"https://github.com/{repository}/"):
+              link = None
+          embed = {
+              "author": {"name": actor[:256]},
+              "title": title[:256],
+              "description": description[:4000],
+              "color": color,
+          }
+          if link:
+              embed["url"] = link
 
           request = urllib.request.Request(
               webhook_url,
               data=json.dumps({
-                  "content": content,
+                  "username": "GitHub",
+                  "avatar_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
+                  "embeds": [embed],
                   "allowed_mentions": {"parse": []},
               }).encode("utf-8"),
               headers={
