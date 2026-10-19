@@ -95,7 +95,7 @@ public partial class SessionDock : Window
     private DispatcherTimer? _prewarmTimer;
     public static SessionDock? ActiveInstance { get; private set; }
     private bool _screenDragDimOverride;
-    private static readonly string[] PrewarmActions = { "browser", "games", "chat", "layout", "adjustments", "details", "history", "music", "clipper" };
+    private static readonly string[] PrewarmActions = { "browser", "games", "chat", "layout", "adjustments", "details", "history", "music", "clips" };
     private bool _profileLoaded;
     private bool _profileLoading;
     private enum PopoutView
@@ -120,7 +120,7 @@ public partial class SessionDock : Window
         ["music"] = "music",
         ["reviews"] = "reviews",
         ["web"] = "web",
-        ["clipper"] = "clipper"
+        ["clips"] = "clips"
     };
     internal bool IsAnimating => _slide.IsRunning || _linuxMotionActive;
 
@@ -166,6 +166,8 @@ public partial class SessionDock : Window
         // The browser is built on Edge WebView2, which only exists on Windows
         if (!Voidstrap.Utility.Platform.IsWindows)
             WebButton.Visibility = Visibility.Collapsed;
+        ClipsButton.Visibility = App.Settings.Prop.ClipperEnabled ? Visibility.Visible : Visibility.Collapsed;
+        Voidstrap.Integrations.Clipper.ClipperService.StateChanged += OnClipperStateChanged;
         FitWidth();
         DetachServerPanel();
         _clock = new DispatcherTimer(DispatcherPriority.Background) { Interval = TimeSpan.FromSeconds(1) };
@@ -181,6 +183,30 @@ public partial class SessionDock : Window
         TrailingButtons.SizeChanged += OnPillSizeChanged;
         RobloxWindowTracker.Changed += OnTrackerChanged;
         _trackerLease = RobloxWindowTracker.Acquire();
+    }
+
+    private void OnClipperStateChanged()
+    {
+        if (_closed || Dispatcher.HasShutdownStarted)
+            return;
+        Dispatcher.BeginInvoke(new Action(UpdateClipperVisibility));
+    }
+
+    public void UpdateClipperVisibility()
+    {
+        if (_closed)
+            return;
+        bool enabled = App.Settings.Prop.ClipperEnabled;
+        Visibility target = enabled ? Visibility.Visible : Visibility.Collapsed;
+        if (ClipsButton.Visibility != target)
+        {
+            ClipsButton.Visibility = target;
+            QueueFitWidth();
+        }
+        if (!enabled && _panels.TryGetValue("clips", out SessionPanelWindow? panel) && !panel.IsClosed)
+        {
+            panel.Close();
+        }
     }
 
     private void OnDockKey(object sender, System.Windows.Input.KeyEventArgs e)
@@ -505,9 +531,9 @@ public partial class SessionDock : Window
         _focusLoss?.Stop();
         string shortcut = Voidstrap.UI.Elements.ContextMenu.MenuContainer.ShortcutText;
         CloseButton.ToolTip = shortcut.Length > 0 ? "Close, " + shortcut : "Close";
-        // The caller already checked that Roblox is in front, make sure the cached bounds agree before anchoring
         RobloxWindowTracker.Refresh();
         _opened = true;
+        UpdateClipperVisibility();
         UpdateReadout();
         ShowDimmer();
         _anchor ??= new RobloxOverlayAnchor(this, hideWhenUnfocused: false, placement: RobloxOverlayPlacement.BottomCenter, customPosition: ComputeDockPosition);
@@ -766,6 +792,8 @@ public partial class SessionDock : Window
         while (_prewarmIndex < PrewarmActions.Length)
         {
             string action = PrewarmActions[_prewarmIndex++];
+            if (action == "clips" && !App.Settings.Prop.ClipperEnabled)
+                continue;
             if (_panels.TryGetValue(PanelKeyFor(action), out SessionPanelWindow? existing) && !existing.IsClosed)
                 continue;
             _prewarming = true;
@@ -812,6 +840,8 @@ public partial class SessionDock : Window
             {
                 if (_closed || !_opened)
                     break;
+                if (key == "clips" && !App.Settings.Prop.ClipperEnabled)
+                    continue;
                 if (!PanelActions.TryGetValue(key, out string? action))
                     continue;
                 try
@@ -2003,6 +2033,7 @@ public partial class SessionDock : Window
         _closed = true;
         _opened = false;
         Closing -= OnClosing;
+        Voidstrap.Integrations.Clipper.ClipperService.StateChanged -= OnClipperStateChanged;
         RobloxWindowTracker.Changed -= OnTrackerChanged;
         foreach (SessionPanelWindow panel in _panels.Values.ToArray())
         {

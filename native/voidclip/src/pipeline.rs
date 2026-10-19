@@ -169,11 +169,15 @@ struct Target {
 }
 
 fn target(cfg: &Config, native_w: u32, native_h: u32) -> Target {
-    if cfg.height == 0 || cfg.height >= native_h {
-        return Target { scale: false, width: native_w, height: native_h };
+    let even_w = (native_w & !1).max(2);
+    let even_h = (native_h & !1).max(2);
+    if cfg.height == 0 || cfg.height >= even_h {
+        let odd_native = even_w != native_w || even_h != native_h;
+        return Target { scale: odd_native, width: even_w, height: even_h };
     }
+    let h = (cfg.height & !1).max(2);
     let aspect = native_w as f64 / native_h.max(1) as f64;
-    Target { scale: true, width: even(cfg.height as f64 * aspect), height: cfg.height & !1 }
+    Target { scale: true, width: even(h as f64 * aspect), height: h }
 }
 
 fn encoder_name(family: &str, codec: &str) -> String {
@@ -195,7 +199,7 @@ fn encoder_args(family: &str, encoder: &str, kbps: u32, fps: u32) -> Vec<String>
         "mf" => vec!["-rate_control", "cbr", "-hw_encoding", "1", "-scenario", "display_remoting"],
         "vaapi" => vec!["-rc_mode", "CBR"],
         "videotoolbox" => vec!["-realtime", "1"],
-        _ => vec!["-preset", "ultrafast", "-tune", "zerolatency", "-threads", "2"],
+        _ => vec!["-preset", "ultrafast", "-tune", "zerolatency", "-threads", "4"],
     };
     a.extend(extra.into_iter().map(String::from));
     a.extend(["-b:v".into(), b.clone()]);
@@ -206,7 +210,7 @@ fn encoder_args(family: &str, encoder: &str, kbps: u32, fps: u32) -> Vec<String>
     if family != "mf" {
         a.extend(["-bf".into(), "0".into()]);
     }
-    a.extend(["-fps_mode".into(), "cfr".into(), "-r".into(), g]);
+    a.extend(["-r".into(), g]);
     a
 }
 
@@ -229,8 +233,8 @@ struct Build<'a> {
 }
 
 impl Build<'_> {
-    fn candidate(&self, id: &str, label: &str, family: &str, filters: Vec<String>, t: &Target, scaled: bool) -> Candidate {
-        let encoder = encoder_name(family, &self.cfg.codec);
+    fn candidate_codec(&self, id: &str, label: &str, family: &str, codec: &str, filters: Vec<String>, t: &Target, scaled: bool) -> Candidate {
+        let encoder = encoder_name(family, codec);
         let graph = format!("{}{}[v]", self.video_source, join(&filters));
         let mut args: Vec<String> = vec!["-hide_banner".into(), "-loglevel".into(), "error".into(), "-nostats".into()];
         if !self.audio_pipe {
@@ -368,46 +372,54 @@ fn build_platform(cfg: &Config, caps: &Capabilities, audio_rate: u32) -> Vec<Can
     let dda_ok = caps.filter("ddagrab");
     let vendors: [(&str, &str); 3] = match s.vendor {
         0x1002 | 0x1022 => [("amf", "AMD AMF"), ("nvenc", "NVIDIA NVENC"), ("qsv", "Intel Quick Sync")],
-        0x8086 => [("qsv", "Intel Quick Sync"), ("nvenc", "NVIDIA NVENC"), ("amf", "AMD AMF")],
+        0x8086 => [("nvenc", "NVIDIA NVENC"), ("qsv", "Intel Quick Sync"), ("amf", "AMD AMF")],
         _ => [("nvenc", "NVIDIA NVENC"), ("amf", "AMD AMF"), ("qsv", "Intel Quick Sync")],
     };
-    let native = Target { scale: false, width: s.width, height: s.height };
-    for (family, label) in vendors {
-        if !caps.encoder(&encoder_name(family, &cfg.codec)) {
-            continue;
-        }
-        if dda_ok {
-            if t.scale {
+    let codecs: &[&str] = if cfg.codec == "hevc" { &["hevc", "h264"] } else { &["h264"] };
+    let native = Target { scale: false, width: (s.width & !1).max(2), height: (s.height & !1).max(2) };
+    if dda_ok {
+        for &codec in codecs {
+            let suffix = if codec == cfg.codec { "" } else { "-h264" };
+            for (family, label) in vendors {
+                if !caps.encoder(&encoder_name(family, codec)) {
+                    continue;
+                }
+                if !t.scale {
+                    let f = if family == "qsv" {
+                        vec!["hwmap=derive_device=qsv".into(), "format=qsv".into(), "scale_qsv=format=nv12".into(), reset.clone()]
+                    } else {
+                        vec![reset.clone()]
+                    };
+                    list.push(b_dda.candidate_codec(&format!("{family}-native{suffix}"), label, family, codec, f, &native, false));
+                }
+                let f_dl = [vec!["hwdownload".into(), "format=bgra".into()], scale_cpu(&t), vec!["format=nv12".into(), reset.clone()]].concat();
+                let id = if t.scale { format!("{family}-dda-scaled{suffix}") } else { format!("{family}-dda{suffix}") };
+                list.push(b_dda.candidate_codec(&id, label, family, codec, f_dl, &t, t.scale));
+            }
+            if caps.encoder(&encoder_name("mf", codec)) {
                 let f = [vec!["hwdownload".into(), "format=bgra".into()], scale_cpu(&t), vec!["format=nv12".into(), reset.clone()]].concat();
-                list.push(b_dda.candidate(&format!("{family}-dda-scaled"), label, family, f, &t, true));
-            } else {
-                let f = if family == "qsv" {
-                    vec!["hwmap=derive_device=qsv".into(), "format=qsv".into(), "scale_qsv=format=nv12".into(), reset.clone()]
-                } else {
-                    vec![reset.clone()]
-                };
-                list.push(b_dda.candidate(&format!("{family}-native"), label, family, f, &native, false));
+                list.push(b_dda.candidate_codec(&format!("mf{suffix}"), "Media Foundation", "mf", codec, f, &t, t.scale));
             }
         }
-        if family != "qsv" {
+        let f_x264 = [vec!["hwdownload".into(), "format=bgra".into()], scale_cpu(&t), vec!["format=yuv420p".into(), reset.clone()]].concat();
+        list.push(b_dda.candidate_codec("x264-dda", "Software (x264)", "x264", "h264", f_x264, &t, t.scale));
+    }
+    for &codec in codecs {
+        let suffix = if codec == cfg.codec { "" } else { "-h264" };
+        for (family, label) in vendors {
+            if family == "qsv" || !caps.encoder(&encoder_name(family, codec)) {
+                continue;
+            }
             let f = [scale_cpu(&t), vec!["format=nv12".into(), reset.clone()]].concat();
-            list.push(b_gdi.candidate(&format!("{family}-gdi"), label, family, f, &t, t.scale));
+            list.push(b_gdi.candidate_codec(&format!("{family}-gdi{suffix}"), label, family, codec, f, &t, t.scale));
         }
-    }
-    if caps.encoder(&encoder_name("mf", &cfg.codec)) {
-        if dda_ok {
-            let f = [vec!["hwdownload".into(), "format=bgra".into()], scale_cpu(&t), vec!["format=nv12".into(), reset.clone()]].concat();
-            list.push(b_dda.candidate("mf", "Media Foundation", "mf", f, &t, t.scale));
+        if caps.encoder(&encoder_name("mf", codec)) {
+            let f = [scale_cpu(&t), vec!["format=nv12".into(), reset.clone()]].concat();
+            list.push(b_gdi.candidate_codec(&format!("mf-gdi{suffix}"), "Media Foundation", "mf", codec, f, &t, t.scale));
         }
-        let f = [scale_cpu(&t), vec!["format=nv12".into(), reset.clone()]].concat();
-        list.push(b_gdi.candidate("mf-gdi", "Media Foundation", "mf", f, &t, t.scale));
-    }
-    if dda_ok {
-        let f = [vec!["hwdownload".into(), "format=bgra".into()], scale_cpu(&t), vec!["format=yuv420p".into(), reset.clone()]].concat();
-        list.push(b_dda.candidate("x264-dda", "Software (x264)", "x264", f, &t, t.scale));
     }
     let f = [scale_cpu(&t), vec!["format=yuv420p".into(), reset]].concat();
-    list.push(b_gdi.candidate("x264-gdi", "Software (x264)", "x264", f, &t, t.scale));
+    list.push(b_gdi.candidate_codec("x264-gdi", "Software (x264)", "x264", "h264", f, &t, t.scale));
     list
 }
 
@@ -420,22 +432,23 @@ fn build_platform(cfg: &Config, caps: &Capabilities, _audio_rate: u32) -> Vec<Ca
     };
     let (nw, nh, source) = match cfg.region {
         Some(r) if r.width > 0 && r.height > 0 => {
-            let w = r.width & !1;
-            let h = r.height & !1;
+            let w = (r.width & !1).max(2);
+            let h = (r.height & !1).max(2);
             (w, h, (format!("{w}x{h}"), format!("{display}+{},{}", r.x, r.y)))
         }
         _ => (1920, 1080, (String::new(), display.clone())),
     };
     let t = target(cfg, nw, nh);
     let kbps = cfg.bitrate_kbps(nh);
-    let mut inputs: Vec<String> = vec![
+    let mut video_only_inputs: Vec<String> = vec![
         "-thread_queue_size".into(), "512".into(), "-f".into(), "x11grab".into(), "-framerate".into(), cfg.fps.to_string(),
         "-draw_mouse".into(), if cfg.cursor { "1" } else { "0" }.into(),
     ];
     if !source.0.is_empty() {
-        inputs.extend(["-video_size".into(), source.0.clone()]);
+        video_only_inputs.extend(["-video_size".into(), source.0.clone()]);
     }
-    inputs.extend(["-i".into(), source.1.clone()]);
+    video_only_inputs.extend(["-i".into(), source.1.clone()]);
+    let mut inputs = video_only_inputs.clone();
     let mut audio_inputs = 0;
     if cfg.game_audio {
         inputs.extend(["-thread_queue_size", "1024", "-f", "pulse", "-i", "@DEFAULT_MONITOR@"].into_iter().map(String::from));
@@ -467,33 +480,39 @@ fn build_platform(cfg: &Config, caps: &Capabilities, _audio_rate: u32) -> Vec<Ca
         .collect(),
         _ => Vec::new(),
     };
-    let mut head = Vec::new();
     let render = "/dev/dri/renderD128";
-    let vaapi = std::path::Path::new(render).exists() && caps.encoder(&encoder_name("vaapi", &cfg.codec));
+    let has_render = std::path::Path::new(render).exists();
+    let codecs: &[&str] = if cfg.codec == "hevc" { &["hevc", "h264"] } else { &["h264"] };
     let mut list = Vec::new();
-    let mut b = Build { cfg, kbps, head: head.clone(), inputs, video_source: "[0:v]".into(), audio_args, audio_pipe: false };
-    if vaapi {
-        head.extend(["-vaapi_device".into(), render.into()]);
-        b.head = head;
-        let mut f: Vec<String> = vec!["format=nv12".into(), "hwupload".into()];
-        if t.scale {
-            f.push(format!("scale_vaapi=w={}:h={}", t.width, t.height));
+    let mut b = Build { cfg, kbps, head: Vec::new(), inputs, video_source: "[0:v]".into(), audio_args, audio_pipe: false };
+    for &codec in codecs {
+        let suffix = if codec == cfg.codec { "" } else { "-h264" };
+        if has_render && caps.encoder(&encoder_name("vaapi", codec)) {
+            b.head = vec!["-vaapi_device".into(), render.into()];
+            let mut f: Vec<String> = vec!["format=nv12".into(), "hwupload".into()];
+            if t.scale {
+                f.push(format!("scale_vaapi=w={}:h={}", t.width, t.height));
+            }
+            list.push(b.candidate_codec(&format!("vaapi{suffix}"), "VA-API", "vaapi", codec, f, &t, t.scale));
+            b.head = Vec::new();
         }
-        list.push(b.candidate("vaapi", "VA-API", "vaapi", f, &t, t.scale));
-        b.head = Vec::new();
-    }
-    if caps.encoder(&encoder_name("nvenc", &cfg.codec)) {
-        list.push(b.candidate("nvenc", "NVIDIA NVENC", "nvenc", scale_cpu(&t), &t, t.scale));
+        if caps.encoder(&encoder_name("nvenc", codec)) {
+            list.push(b.candidate_codec(&format!("nvenc{suffix}"), "NVIDIA NVENC", "nvenc", codec, scale_cpu(&t), &t, t.scale));
+        }
     }
     let f = [scale_cpu(&t), vec!["format=yuv420p".into()]].concat();
-    list.push(b.candidate("x264", "Software (x264)", "x264", f, &t, t.scale));
+    list.push(b.candidate_codec("x264", "Software (x264)", "x264", "h264", f.clone(), &t, t.scale));
+    if audio_inputs > 0 {
+        let b_silent = Build { cfg, kbps, head: Vec::new(), inputs: video_only_inputs, video_source: "[0:v]".into(), audio_args: Vec::new(), audio_pipe: false };
+        list.push(b_silent.candidate_codec("x264-silent", "Software (x264)", "x264", "h264", f, &t, t.scale));
+    }
     list
 }
 
 #[cfg(target_os = "macos")]
 fn build_platform(cfg: &Config, caps: &Capabilities, _audio_rate: u32) -> Vec<Candidate> {
     let (nw, nh) = match cfg.region {
-        Some(r) if r.width > 0 && r.height > 0 => (r.width & !1, r.height & !1),
+        Some(r) if r.width > 0 && r.height > 0 => ((r.width & !1).max(2), (r.height & !1).max(2)),
         _ => (1920, 1080),
     };
     let t = target(cfg, nw, nh);
@@ -514,12 +533,16 @@ fn build_platform(cfg: &Config, caps: &Capabilities, _audio_rate: u32) -> Vec<Ca
         Vec::new()
     };
     let b = Build { cfg, kbps, head: Vec::new(), inputs, video_source: "[0:v]".into(), audio_args, audio_pipe: false };
+    let codecs: &[&str] = if cfg.codec == "hevc" { &["hevc", "h264"] } else { &["h264"] };
     let mut list = Vec::new();
-    if caps.encoder(&encoder_name("videotoolbox", &cfg.codec)) {
-        list.push(b.candidate("videotoolbox", "Apple VideoToolbox", "videotoolbox", scale_cpu(&t), &t, t.scale));
+    for &codec in codecs {
+        let suffix = if codec == cfg.codec { "" } else { "-h264" };
+        if caps.encoder(&encoder_name("videotoolbox", codec)) {
+            list.push(b.candidate_codec(&format!("videotoolbox{suffix}"), "Apple VideoToolbox", "videotoolbox", codec, scale_cpu(&t), &t, t.scale));
+        }
     }
     let f = [scale_cpu(&t), vec!["format=yuv420p".into()]].concat();
-    list.push(b.candidate("x264", "Software (x264)", "x264", f, &t, t.scale));
+    list.push(b.candidate_codec("x264", "Software (x264)", "x264", "h264", f, &t, t.scale));
     list
 }
 

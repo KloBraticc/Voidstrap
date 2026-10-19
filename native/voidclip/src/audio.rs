@@ -212,6 +212,21 @@ fn build_input_stream(
                 )
                 .ok()?
         }
+        cpal::SampleFormat::I32 => {
+            let push = push_samples;
+            device
+                .build_input_stream(
+                    &config,
+                    move |data: &[i32], _| {
+                        let converted: Vec<f32> =
+                            data.iter().map(|&x| (x as f64 / 2147483648.0) as f32).collect();
+                        push(&converted);
+                    },
+                    err_fn,
+                    None,
+                )
+                .ok()?
+        }
         _ => return None,
     };
     stream.play().ok()?;

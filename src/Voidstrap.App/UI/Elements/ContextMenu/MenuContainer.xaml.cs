@@ -401,6 +401,7 @@ public partial class MenuContainer : WpfUiWindow
     {
         if (_closed)
             return;
+        _sessionDock?.UpdateClipperVisibility();
         OverlayShortcut shortcut = App.Settings.Prop.ClipperShortcut ??= new OverlayShortcut { Modifiers = OverlayShortcut.Alt, Key = 0x79 };
         bool enabled = (App.Settings.Prop.ClipperEnabled || App.Settings.Prop.ClipperRecordOnGameStart) && shortcut.IsSet && !_clipperHotkeySuspended;
         if (enabled && _clipperHotkeyRegistered && shortcut.SameAs(_registeredClipperShortcut))
@@ -613,7 +614,8 @@ public partial class MenuContainer : WpfUiWindow
                     () => new SessionNotificationSettings(CurrentGameIcon.Source, _activityWatcher?.Data?.GameName, SendTestNotification));
                 break;
             case "clips":
-                _sessionDock?.ShowTool("clips", Strings.Ui_Clipper_Title, () => new SessionClipperPanel());
+                if (App.Settings.Prop.ClipperEnabled)
+                    _sessionDock?.ShowTool("clips", Strings.Ui_Clipper_Title, () => new SessionClipperPanel());
                 break;
             case "layout":
                 _sessionDock?.ShowTool("layout", Strings.Ui_OverlayStudio_Title,
