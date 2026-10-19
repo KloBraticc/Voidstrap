@@ -1,0 +1,145 @@
+name: Windows release signing
+run-name: Sign Voidstrap ${{ inputs.tag }} ${{ inputs.request-id }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Existing Git tag to build and sign
+        required: true
+        type: string
+      request-id:
+        description: Unique request identifier supplied by publish-all.ps1
+        required: true
+        type: string
+
+concurrency:
+  group: windows-release-signing-${{ inputs.tag }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    if: github.repository == 'KloBraticc/Voidstrap' && github.ref == 'refs/heads/main'
+    runs-on: windows-latest
+    permissions:
+      contents: read
+    outputs:
+      artifact-id: ${{ steps.upload.outputs.artifact-id }}
+      version: ${{ steps.validate.outputs.version }}
+    env:
+      RELEASE_TAG: ${{ inputs.tag }}
+      REQUEST_ID: ${{ inputs.request-id }}
+    steps:
+      - name: Validate release tag
+        id: validate
+        shell: pwsh
+        run: |
+          if ($env:RELEASE_TAG -notmatch '\Av?(?<version>\d+\.\d+\.\d+\.\d+)\z') {
+            throw 'The release tag must be a four-part version, optionally prefixed with v.'
+          }
+          $releaseVersion = $Matches.version
+          if ($env:REQUEST_ID -notmatch '\A[0-9a-f]{32}\z') {
+            throw 'The request identifier is invalid.'
+          }
+          "version=$releaseVersion" >> $env:GITHUB_OUTPUT
+
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.event.release.tag_name || inputs.tag }}
+          fetch-depth: 1
+          persist-credentials: false
+          submodules: recursive
+
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
+        with:
+          dotnet-version: 10.0.x
+
+      - name: Validate project version
+        shell: pwsh
+        env:
+          RELEASE_VERSION: ${{ steps.validate.outputs.version }}
+        run: |
+          [xml]$props = Get-Content Directory.Build.props
+          $projectVersion = $props.SelectSingleNode('/Project/PropertyGroup/VoidstrapVersion').InnerText
+          if ($projectVersion -ne $env:RELEASE_VERSION) {
+            throw "Release tag version does not match Directory.Build.props."
+          }
+
+      - name: Build and validate unsigned executable
+        shell: pwsh
+        env:
+          RELEASE_VERSION: ${{ steps.validate.outputs.version }}
+        run: |
+          $publishDir = Join-Path $env:RUNNER_TEMP 'voidstrap-publish'
+          $artifactDir = Join-Path $env:RUNNER_TEMP 'voidstrap-unsigned'
+          dotnet publish src/Voidstrap.App/Voidstrap.csproj -c Release -r win-x64 --self-contained false "-p:Version=$env:RELEASE_VERSION" -p:PublishProfile=FolderProfile -p:PublishReadyToRun=false -p:IncludeAllContentForSelfExtract=false -p:PublishSingleFile=true -p:UseAppHost=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=none -p:DebugSymbols=false -p:ContinuousIntegrationBuild=true -p:RestoreUseStaticGraphEvaluation=true -p:TreatWarningsAsErrors=true -p:EnableWindowsTargeting=true -o $publishDir
+          if ($LASTEXITCODE -ne 0) { throw 'Voidstrap publish failed.' }
+
+          $exe = Join-Path $publishDir 'Voidstrap.exe'
+          if (-not (Test-Path -LiteralPath $exe -PathType Leaf)) { throw 'Voidstrap.exe was not produced.' }
+          $info = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($exe)
+          if ($info.ProductName -ne 'Voidstrap' -or $info.CompanyName -ne 'Voidstrap' -or $info.OriginalFilename -ne 'Voidstrap.exe' -or $info.FileVersion -ne $env:RELEASE_VERSION) {
+            throw 'The executable metadata does not match the expected Voidstrap release metadata.'
+          }
+
+          New-Item -ItemType Directory -Path $artifactDir -Force | Out-Null
+          Copy-Item -LiteralPath $exe -Destination (Join-Path $artifactDir 'Voidstrap.exe')
+
+      - name: Upload unsigned executable
+        id: upload
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: voidstrap-windows-unsigned-${{ steps.validate.outputs.version }}
+          path: ${{ runner.temp }}/voidstrap-unsigned/Voidstrap.exe
+          if-no-files-found: error
+          retention-days: 1
+
+  sign:
+    needs: build
+    if: github.repository == 'KloBraticc/Voidstrap' && github.ref == 'refs/heads/main'
+    runs-on: windows-latest
+    permissions:
+      actions: read
+      contents: none
+    env:
+      RELEASE_VERSION: ${{ needs.build.outputs.version }}
+    steps:
+      - name: Sign executable with SignPath test certificate
+        uses: signpath/github-action-submit-signing-request@f6d04783b4569d051e0c80105fe66e82819d0092
+        with:
+          api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
+          organization-id: ed77d7e3-732a-453f-9ba9-0c25de62f363
+          project-slug: Voidstrap
+          signing-policy-slug: test-signing
+          artifact-configuration-slug: windows-release
+          github-artifact-id: ${{ needs.build.outputs.artifact-id }}
+          parameters: |
+            version: ${{ toJSON(needs.build.outputs.version) }}
+          wait-for-completion: true
+          output-artifact-directory: ${{ runner.temp }}/voidstrap-signed
+
+      - name: Verify signed executable metadata and signature
+        id: verify
+        shell: pwsh
+        run: |
+          $exe = Join-Path $env:RUNNER_TEMP 'voidstrap-signed/Voidstrap.exe'
+          if (-not (Test-Path -LiteralPath $exe -PathType Leaf)) { throw 'The signed Voidstrap.exe was not returned.' }
+
+          $info = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($exe)
+          if ($info.ProductName -ne 'Voidstrap' -or $info.ProductVersion -ne $env:RELEASE_VERSION -or $info.CompanyName -ne 'Voidstrap' -or $info.OriginalFilename -ne 'Voidstrap.exe' -or $info.FileVersion -ne $env:RELEASE_VERSION) {
+            throw 'The signed executable metadata does not match the expected Voidstrap release metadata.'
+          }
+
+          $signature = Get-AuthenticodeSignature -LiteralPath $exe
+          if ($null -eq $signature.SignerCertificate -or $signature.Status -notin @('Valid', 'NotTrusted')) {
+            throw 'The signed executable does not have a valid Authenticode signature.'
+          }
+
+      - name: Upload signed executable for manual publishing
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: voidstrap-windows-signed-${{ env.RELEASE_VERSION }}
+          path: ${{ runner.temp }}/voidstrap-signed/Voidstrap.exe
+          if-no-files-found: error
+          retention-days: 1
+

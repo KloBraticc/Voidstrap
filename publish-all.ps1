@@ -16,6 +16,7 @@ param(
     [switch]$AppImage,
     [switch]$SkipAppImage,
     [switch]$LinuxPackages,
+    [switch]$SignWindowsWithSignPath,
     [switch]$NoPause
 )
 
@@ -1186,6 +1187,168 @@ function Get-VoidstrapVersion {
     return $match.Groups[1].Value
 }
 
+function Resolve-SignPathSource {
+    param(
+        [Parameter(Mandatory)] [string]$Version
+    )
+
+    if ($Version -notmatch '\A\d+\.\d+\.\d+\.\d+\z') {
+        throw 'SignPath requires a four-part release version.'
+    }
+
+    $tag = "v$Version"
+    $origin = (& git -C $Root remote get-url origin 2>$null | Out-String).Trim()
+    if ($LASTEXITCODE -ne 0 -or $origin -notmatch '(?i)github\.com[:/]KloBraticc/Voidstrap(?:\.git)?\z') {
+        throw 'SignPath requires the repository origin to be KloBraticc/Voidstrap on GitHub.'
+    }
+
+    $status = @(& git -C $Root status --porcelain --untracked-files=all)
+    if ($LASTEXITCODE -ne 0) {
+        throw 'Git could not verify the local source state for signing.'
+    }
+    if ($status.Count -gt 0) {
+        throw 'SignPath signing requires a clean working tree so the signed GitHub build matches this local build.'
+    }
+
+    $head = (& git -C $Root rev-parse HEAD 2>$null | Out-String).Trim()
+    if ($LASTEXITCODE -ne 0 -or $head -notmatch '\A[0-9a-f]{40}\z') {
+        throw 'Git could not resolve the current commit for signing.'
+    }
+
+    $tagRef = "refs/tags/$tag"
+    $remoteTagLines = @(& git -C $Root ls-remote --tags origin $tagRef "$tagRef^{}" 2>$null)
+    if ($LASTEXITCODE -ne 0) {
+        throw 'Git could not verify the release tag on origin.'
+    }
+    $remoteTags = @{}
+    foreach ($line in $remoteTagLines) {
+        $parts = ([string]$line) -split '\s+', 2
+        if ($parts.Count -eq 2) { $remoteTags[$parts[1]] = $parts[0] }
+    }
+    $peeledTagRef = "$tagRef^{}"
+    $tagCommit = if ($remoteTags.ContainsKey($peeledTagRef)) {
+        $remoteTags[$peeledTagRef]
+    } elseif ($remoteTags.ContainsKey($tagRef)) {
+        $remoteTags[$tagRef]
+    } else {
+        $null
+    }
+    if (-not $tagCommit) {
+        throw "Release tag $tag is not pushed to origin. Push the tag before requesting a trusted SignPath build."
+    }
+    if ($tagCommit -ne $head) {
+        throw "Release tag $tag does not point to the current commit. The local and GitHub builds would differ."
+    }
+
+    $gh = Get-Command gh -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1
+    if (-not $gh) {
+        throw 'GitHub CLI (gh) is required to request trusted SignPath signing.'
+    }
+    & $gh.Source auth status --hostname github.com 2>&1 | Out-Null
+    if ($LASTEXITCODE -ne 0) {
+        throw 'SignPath signing requires an authenticated GitHub CLI session.'
+    }
+
+    return [pscustomobject]@{ Version = $Version; Tag = $tag; Head = $head; GhPath = $gh.Source }
+}
+
+function Invoke-SignPathWindows {
+    param(
+        [Parameter(Mandatory)] $Context,
+        [Parameter(Mandatory)] [string]$OutputPath
+    )
+
+    $Version = $Context.Version
+    $tag = $Context.Tag
+    $ghPath = $Context.GhPath
+
+    $requestId = [guid]::NewGuid().ToString('N')
+    $runName = "Sign Voidstrap $tag $requestId"
+    Write-Host "  Requesting trusted GitHub signing for $tag..." -ForegroundColor DarkGray
+    & $ghPath workflow run windows-release-signing.yml --repo KloBraticc/Voidstrap --ref main -f "tag=$tag" -f "request-id=$requestId" 2>&1 | Out-Null
+    if ($LASTEXITCODE -ne 0) {
+        throw 'GitHub Actions could not start the SignPath signing workflow. Check GitHub CLI authentication and workflow availability.'
+    }
+
+    $runId = $null
+    $findDeadline = [DateTime]::UtcNow.AddMinutes(2)
+    while (-not $runId -and [DateTime]::UtcNow -lt $findDeadline) {
+        $runsJson = & $ghPath run list --repo KloBraticc/Voidstrap --workflow windows-release-signing.yml --event workflow_dispatch --limit 20 --json databaseId,displayTitle 2>&1 | Out-String
+        if ($LASTEXITCODE -ne 0) {
+            throw 'GitHub Actions did not return the signing workflow run.'
+        }
+        $runs = @(ConvertFrom-Json -InputObject $runsJson)
+        $matchingRun = $runs | Where-Object { $_.displayTitle -ceq $runName } | Select-Object -First 1
+        if ($matchingRun) { $runId = [string]$matchingRun.databaseId }
+        if (-not $runId) { Start-Sleep -Seconds 3 }
+    }
+    if (-not $runId) {
+        throw 'GitHub accepted the signing request, but its unique workflow run could not be found.'
+    }
+
+    $signingRun = $null
+    $signingDeadline = [DateTime]::UtcNow.AddHours(1)
+    $lastProgressAt = [DateTime]::UtcNow
+    Write-Host '  Waiting for the GitHub build and SignPath signature...' -ForegroundColor DarkGray
+    while ([DateTime]::UtcNow -lt $signingDeadline) {
+        $runJson = & $ghPath run view $runId --repo KloBraticc/Voidstrap --json status,conclusion 2>&1 | Out-String
+        if ($LASTEXITCODE -ne 0) {
+            throw 'GitHub Actions did not return the status of the signing run.'
+        }
+        $signingRun = ConvertFrom-Json -InputObject $runJson
+        if ($signingRun.status -eq 'completed') { break }
+        if (([DateTime]::UtcNow - $lastProgressAt).TotalSeconds -ge 60) {
+            Write-Host '  SignPath is still processing the trusted build...' -ForegroundColor DarkGray
+            $lastProgressAt = [DateTime]::UtcNow
+        }
+        Start-Sleep -Seconds 10
+    }
+    if (-not $signingRun -or $signingRun.status -ne 'completed') {
+        throw "SignPath signing run $runId did not finish within one hour."
+    }
+    if ($signingRun.conclusion -ne 'success') {
+        throw "SignPath signing run $runId finished with status '$($signingRun.conclusion)'."
+    }
+
+    $downloadDir = Join-Path $ArtifactDir "signpath-$requestId"
+    if (Test-Path -LiteralPath $downloadDir) {
+        throw 'The private SignPath download directory already exists.'
+    }
+    New-Item -ItemType Directory -Path $downloadDir -Force | Out-Null
+    try {
+        & $ghPath run download $runId --repo KloBraticc/Voidstrap --name "voidstrap-windows-signed-$Version" --dir $downloadDir
+        if ($LASTEXITCODE -ne 0) {
+            throw 'GitHub Actions could not download the signed Windows executable.'
+        }
+
+        $downloadedFiles = @(Get-ChildItem -LiteralPath $downloadDir -File -Force)
+        $downloadedDirectories = @(Get-ChildItem -LiteralPath $downloadDir -Directory -Force)
+        if ($downloadedDirectories.Count -ne 0 -or $downloadedFiles.Count -ne 1 -or $downloadedFiles[0].Name -cne 'Voidstrap.exe') {
+            throw 'The signing run did not return exactly one Voidstrap.exe file.'
+        }
+
+        $signedExe = $downloadedFiles[0].FullName
+        $info = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($signedExe)
+        if ($info.ProductName -ne 'Voidstrap' -or $info.ProductVersion -ne $Version -or $info.CompanyName -ne 'Voidstrap' -or $info.OriginalFilename -ne 'Voidstrap.exe' -or $info.FileVersion -ne $Version) {
+            throw 'The signed executable metadata does not match the configured Voidstrap release metadata.'
+        }
+        $signature = Get-AuthenticodeSignature -LiteralPath $signedExe
+        if ($null -eq $signature.SignerCertificate -or $signature.Status -notin @('Valid', 'NotTrusted')) {
+            throw 'The signed executable does not have a valid Authenticode signature.'
+        }
+
+        $signedHash = (Get-FileHash -LiteralPath $signedExe -Algorithm SHA256).Hash
+        Copy-Item -LiteralPath $signedExe -Destination $OutputPath -Force
+        if ((Get-FileHash -LiteralPath $OutputPath -Algorithm SHA256).Hash -ne $signedHash) {
+            throw 'The signed executable changed while being copied into the publish output.'
+        }
+        Write-Host '  Voidstrap.exe: signed by the trusted GitHub Actions build.' -ForegroundColor Green
+    }
+    finally {
+        Remove-BuildDirectory -Path $downloadDir
+    }
+}
+
 function Get-LatestReleaseVersion {
     try {
         [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
@@ -1455,6 +1618,19 @@ if ($RequestedAll) {
     $Targets = @($AllTargets)
 } else {
     $Targets = @($AllTargets | Where-Object { $Only -contains $_.Key })
+}
+
+if ($SignWindowsWithSignPath) {
+    if (-not $IsWindowsHost) {
+        throw 'SignPath Windows signing must be requested from a Windows host after the Windows build completes.'
+    }
+    if ($Configuration -ne 'Release') {
+        throw 'SignPath only signs Release builds.'
+    }
+    if (@($Targets | Where-Object { $_.Key -eq 'windows' }).Count -eq 0) {
+        throw 'SignPath signing requires the Windows target. Include windows or all in -Only.'
+    }
+    $SignPathContext = Resolve-SignPathSource -Version (Get-VoidstrapVersion)
 }
 
 $AndroidExplicit = $Only -contains 'android'
@@ -1940,6 +2116,10 @@ if ($packageFailure) {
     Exit-Script 1
 }
 
+if ($SignWindowsWithSignPath) {
+    Invoke-SignPathWindows -Context $SignPathContext -OutputPath (Join-Path $Out 'Windows/Voidstrap.exe')
+}
+
 if ($PackageNotes.Count -gt 0) {
     Write-Host 'Published everything this host can build.' -ForegroundColor Green
 } else {
@@ -1977,3 +2157,4 @@ Exit-Script 0
     $env:WSLENV = $originalWslEnv
     $publishLock.Dispose()
 }
+
