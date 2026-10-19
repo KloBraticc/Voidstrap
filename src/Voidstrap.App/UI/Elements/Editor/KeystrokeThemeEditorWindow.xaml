@@ -4,6 +4,8 @@
                   xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base"
                   xmlns:resources="clr-namespace:Voidstrap.Resources"
                   xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+                  xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
+                  xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls"
                    Title="{resources:Loc Ui_Keystrokes_Editor_Title}" Width="980" Height="680"
                    MinWidth="840" MinHeight="560" WindowStartupLocation="CenterScreen"
                    ExtendsContentIntoTitleBar="True"
@@ -25,7 +27,7 @@
         <ColumnDefinition Width="*" />
       </Grid.ColumnDefinitions>
 
-      <TabControl Grid.Column="0" Margin="0">
+      <TabControl x:Name="EditorTabs" Grid.Column="0" Margin="0" SelectionChanged="OnTabSelectionChanged">
         <TabItem Header="{resources:Loc Ui_Keystrokes_Editor_ThemeControls}">
           <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Padding="0,8,8,0">
             <StackPanel Orientation="Vertical">
@@ -175,20 +177,101 @@
                   </Grid>
                 </StackPanel>
               </Border>
+
+              <Border Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                      BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}"
+                      BorderThickness="1" CornerRadius="8" Padding="14" Margin="0,0,0,12">
+                <StackPanel>
+                  <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_CustomImages}" FontSize="14" FontWeight="SemiBold" Margin="0,0,0,10" />
+
+                  <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_KeyBackgroundImage}" Margin="0,4,0,2" />
+                  <Grid Margin="0,0,0,8">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="TextKeyBgImage" IsReadOnly="True" Margin="0,0,6,0" VerticalAlignment="Center" />
+                    <ui:Button Grid.Column="1" Margin="0,0,4,0" Content="{resources:Loc Common_Browse}" Click="OnBrowseKeyBgImageClicked" />
+                    <ui:Button Grid.Column="2" Content="{resources:Loc Ui_Keystrokes_Editor_Clear}" Click="OnClearKeyBgImageClicked" Appearance="Secondary" />
+                  </Grid>
+
+                  <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_KeyPressedBackgroundImage}" Margin="0,4,0,2" />
+                  <Grid Margin="0,0,0,8">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="TextKeyPressedBgImage" IsReadOnly="True" Margin="0,0,6,0" VerticalAlignment="Center" />
+                    <ui:Button Grid.Column="1" Margin="0,0,4,0" Content="{resources:Loc Common_Browse}" Click="OnBrowseKeyPressedBgImageClicked" />
+                    <ui:Button Grid.Column="2" Content="{resources:Loc Ui_Keystrokes_Editor_Clear}" Click="OnClearKeyPressedBgImageClicked" Appearance="Secondary" />
+                  </Grid>
+
+                  <Grid Margin="0,6">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="130" />
+                      <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_ImageStretch}" VerticalAlignment="Center" />
+                    <ComboBox x:Name="ComboImageStretch" Grid.Column="1" SelectionChanged="OnImageStretchChanged" />
+                  </Grid>
+
+                  <Grid Margin="0,6">
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="130" />
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="40" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="{resources:Loc Ui_Keystrokes_Editor_ImageOpacity}" VerticalAlignment="Center" />
+                    <Slider x:Name="SliderImageOpacity" Grid.Column="1" Minimum="0" Maximum="100" TickFrequency="5" IsSnapToTickEnabled="True" VerticalAlignment="Center" ValueChanged="OnImageOpacityChanged" />
+                    <TextBlock x:Name="TextImageOpacityVal" Grid.Column="2" TextAlignment="Right" VerticalAlignment="Center" />
+                  </Grid>
+                </StackPanel>
+              </Border>
             </StackPanel>
           </ScrollViewer>
         </TabItem>
-        <TabItem Header="{resources:Loc Ui_Keystrokes_Editor_RawJson}">
+        <TabItem Header="{resources:Loc Ui_Keystrokes_Editor_ThemeCode}">
           <Grid Margin="4,8,4,4">
             <Grid.RowDefinitions>
+              <RowDefinition Height="Auto" />
               <RowDefinition Height="*" />
               <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
-            <TextBox x:Name="RawJsonTextBox" FontFamily="Cascadia Mono, Consolas, Courier New"
-                     FontSize="12" AcceptsReturn="True" TextWrapping="NoWrap"
-                     VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" />
-            <ui:Button Grid.Row="1" Margin="0,8,0,0" Content="{resources:Loc Ui_Keystrokes_Editor_ApplyRawJson}"
-                       Appearance="Primary" HorizontalAlignment="Right" Click="OnApplyJsonClicked" />
+
+            <Border Grid.Row="0" Margin="0,0,0,8" Padding="6" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
+                    BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="6">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                  <ui:Button Margin="0,0,6,0" Icon="Code24" Content="{resources:Loc Ui_Keystrokes_Editor_FormatJson}" Click="OnFormatJsonClicked" />
+                  <ui:Button Margin="0,0,6,0" Icon="ImageAdd24" Content="{resources:Loc Ui_Keystrokes_Editor_AddImage}" Click="OnAddImageClicked" />
+                  <ui:Button Margin="0,0,6,0" Icon="FolderOpen24" Content="{resources:Loc Ui_Keystrokes_Editor_OpenFolder}" Click="OnOpenFolderClicked" />
+                  <ComboBox x:Name="ComboSnippets" MinWidth="130" Margin="0,0,6,0" VerticalAlignment="Center"
+                            SelectionChanged="OnSnippetSelected" />
+                </StackPanel>
+                <TextBlock x:Name="TextJsonStatus" Grid.Column="1" VerticalAlignment="Center" Margin="8,0,4,0" FontSize="11" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+              </Grid>
+            </Border>
+
+            <avalonedit:TextEditor x:Name="JsonEditor" Grid.Row="1"
+                                   controls:CodeEditorBehavior.Language=".json"
+                                   Style="{StaticResource NewTextEditor}"
+                                   FontFamily="Cascadia Mono, Consolas"
+                                   FontSize="13"
+                                   ShowLineNumbers="True"
+                                   HorizontalScrollBarVisibility="Auto"
+                                   VerticalScrollBarVisibility="Auto" />
+
+            <Grid Grid.Row="2" Margin="0,8,0,0">
+              <TextBlock x:Name="TextEditorStats" VerticalAlignment="Center" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+              <ui:Button Content="{resources:Loc Ui_Keystrokes_Editor_ApplyRawJson}"
+                         Appearance="Primary" HorizontalAlignment="Right" Click="OnApplyJsonClicked" />
+            </Grid>
           </Grid>
         </TabItem>
       </TabControl>

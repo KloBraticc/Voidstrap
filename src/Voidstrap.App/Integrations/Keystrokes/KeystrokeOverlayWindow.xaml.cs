@@ -220,27 +220,19 @@ public partial class KeystrokeOverlayWindow : Window
 
         var theme = KeystrokeThemeManager.ActiveTheme;
 
-        var borders = new[]
+        var keyTuples = new (Border Key, Border Highlight, TextBlock Text, string Name)[]
         {
-            KeyW, KeyA, KeyS, KeyD,
-            KeyLmb, KeyRmb, KeyShift, KeySpace
+            (KeyW, KeyWHighlight, KeyWText, "W"),
+            (KeyA, KeyAHighlight, KeyAText, "A"),
+            (KeyS, KeySHighlight, KeySText, "S"),
+            (KeyD, KeyDHighlight, KeyDText, "D"),
+            (KeyLmb, KeyLmbHighlight, KeyLmbText, "LMB"),
+            (KeyRmb, KeyRmbHighlight, KeyRmbText, "RMB"),
+            (KeyShift, KeyShiftHighlight, KeyShiftText, "Shift"),
+            (KeySpace, KeySpaceHighlight, KeySpaceText, "Space")
         };
 
-        var highlights = new[]
-        {
-            KeyWHighlight, KeyAHighlight, KeySHighlight, KeyDHighlight,
-            KeyLmbHighlight, KeyRmbHighlight, KeyShiftHighlight, KeySpaceHighlight
-        };
-
-        var texts = new[]
-        {
-            KeyWText, KeyAText, KeySText, KeyDText,
-            KeyLmbText, KeyRmbText, KeyShiftText, KeySpaceText
-        };
-
-        Brush bgBrush = theme.GetKeyBackgroundBrush();
         Brush borderBrush = theme.GetKeyBorderBrush();
-        Brush pressedBgBrush = theme.GetKeyPressedBackgroundBrush();
         Brush textBrush = theme.GetKeyTextBrush();
         Brush cpsBrush = theme.GetCpsTextBrush();
         CornerRadius cornerRadius = new(theme.KeyCornerRadius);
@@ -257,26 +249,20 @@ public partial class KeystrokeOverlayWindow : Window
             _ => FontWeights.SemiBold
         };
 
-        foreach (var b in borders)
+        foreach (var item in keyTuples)
         {
-            b.Background = bgBrush;
-            b.BorderBrush = borderBrush;
-            b.BorderThickness = borderThickness;
-            b.CornerRadius = cornerRadius;
-            b.Effect = null;
-        }
+            item.Key.Background = theme.GetKeyBrush(item.Name, false);
+            item.Key.BorderBrush = borderBrush;
+            item.Key.BorderThickness = borderThickness;
+            item.Key.CornerRadius = cornerRadius;
+            item.Key.Effect = null;
 
-        foreach (var h in highlights)
-        {
-            h.Background = pressedBgBrush;
-            h.CornerRadius = highlightCorner;
-        }
+            item.Highlight.Background = theme.GetKeyBrush(item.Name, true);
+            item.Highlight.CornerRadius = highlightCorner;
 
-        foreach (var t in texts)
-        {
-            t.Foreground = textBrush;
-            t.FontFamily = fontFamily;
-            t.FontWeight = fontWeight;
+            item.Text.Foreground = textBrush;
+            item.Text.FontFamily = fontFamily;
+            item.Text.FontWeight = fontWeight;
         }
 
         TextLmbCps.Foreground = cpsBrush;
@@ -369,9 +355,23 @@ public partial class KeystrokeOverlayWindow : Window
 
         var theme = KeystrokeThemeManager.ActiveTheme;
         highlight.BeginAnimation(UIElement.OpacityProperty, null);
+        string keyName = target switch
+        {
+            KeystrokeTarget.W => "W",
+            KeystrokeTarget.A => "A",
+            KeystrokeTarget.S => "S",
+            KeystrokeTarget.D => "D",
+            KeystrokeTarget.Shift => "Shift",
+            KeystrokeTarget.Space => "Space",
+            KeystrokeTarget.Lmb => "LMB",
+            KeystrokeTarget.Rmb => "RMB",
+            _ => ""
+        };
+
         if (isDown)
         {
             highlight.Opacity = 1.0;
+            highlight.Background = theme.GetKeyBrush(keyName, true);
             text.Foreground = theme.GetKeyPressedTextBrush();
             if (cps != null)
                 cps.Foreground = theme.GetKeyPressedCpsTextBrush();
@@ -386,6 +386,7 @@ public partial class KeystrokeOverlayWindow : Window
         {
             var anim = new DoubleAnimation(0.0, TimeSpan.FromMilliseconds(130));
             highlight.BeginAnimation(UIElement.OpacityProperty, anim);
+            key.Background = theme.GetKeyBrush(keyName, false);
             text.Foreground = theme.GetKeyTextBrush();
             if (cps != null)
                 cps.Foreground = theme.GetCpsTextBrush();

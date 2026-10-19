@@ -46,7 +46,7 @@ public static class ThemeFiles
 
     private static readonly string[] AllowedExtensions =
     {
-        ".xml",
+        ".xml", ".json",
         ".png", ".apng", ".jpg", ".jpeg", ".jfif", ".jpe", ".jff",
         ".webp", ".gif", ".bmp", ".dib", ".ico", ".cur", ".avif", ".avifs",
         ".ttf", ".otf", ".ttc",
@@ -55,10 +55,10 @@ public static class ThemeFiles
         ".mp3", ".wav", ".ogg", ".m4a", ".flac"
     };
 
-    public static async Task<List<ThemeFileChange>> LoadAsync(string themeFolderName, CancellationToken token = default)
+    public static async Task<List<ThemeFileChange>> LoadAsync(string themeFolderName, string? customThemesRoot = null, CancellationToken token = default)
     {
         List<ThemeFileChange> result = new List<ThemeFileChange>();
-        string folder = Path.Combine(Paths.CustomThemes, themeFolderName);
+        string folder = Path.Combine(customThemesRoot ?? Paths.CustomThemes, themeFolderName);
 
         if (!Directory.Exists(folder))
             return result;
@@ -95,7 +95,7 @@ public static class ThemeFiles
     {
         string extension = Path.GetExtension(path).ToLowerInvariant();
 
-        if (extension == ".xml")
+        if (extension is ".xml" or ".json")
             return "text";
 
         if (extension is ".png" or ".apng" or ".jpg" or ".jpeg" or ".jfif" or ".jpe" or ".jff"

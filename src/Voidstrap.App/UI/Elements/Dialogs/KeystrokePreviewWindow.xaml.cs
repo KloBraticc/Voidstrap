@@ -27,27 +27,19 @@ public partial class KeystrokePreviewWindow : WpfUiWindow
 
     private void ApplyKeystrokeTheme()
     {
-        var borders = new[]
+        var keyTuples = new (Border Key, Border Highlight, TextBlock Text, string Name)[]
         {
-            KeyW, KeyA, KeyS, KeyD,
-            KeyLmb, KeyRmb, KeyShift, KeySpace
+            (KeyW, HighlightW, TextW, "W"),
+            (KeyA, HighlightA, TextA, "A"),
+            (KeyS, HighlightS, TextS, "S"),
+            (KeyD, HighlightD, TextD, "D"),
+            (KeyLmb, HighlightLmb, TextLmb, "LMB"),
+            (KeyRmb, HighlightRmb, TextRmb, "RMB"),
+            (KeyShift, HighlightShift, TextShift, "Shift"),
+            (KeySpace, HighlightSpace, TextSpace, "Space")
         };
 
-        var highlights = new[]
-        {
-            HighlightW, HighlightA, HighlightS, HighlightD,
-            HighlightLmb, HighlightRmb, HighlightShift, HighlightSpace
-        };
-
-        var texts = new[]
-        {
-            TextW, TextA, TextS, TextD,
-            TextLmb, TextRmb, TextShift, TextSpace
-        };
-
-        Brush bgBrush = _theme.GetKeyBackgroundBrush();
         Brush borderBrush = _theme.GetKeyBorderBrush();
-        Brush pressedBgBrush = _theme.GetKeyPressedBackgroundBrush();
         Brush textBrush = _theme.GetKeyTextBrush();
         Brush cpsBrush = _theme.GetCpsTextBrush();
         CornerRadius cornerRadius = new(_theme.KeyCornerRadius);
@@ -64,26 +56,20 @@ public partial class KeystrokePreviewWindow : WpfUiWindow
             _ => FontWeights.SemiBold
         };
 
-        foreach (var b in borders)
+        foreach (var item in keyTuples)
         {
-            b.Background = bgBrush;
-            b.BorderBrush = borderBrush;
-            b.BorderThickness = borderThickness;
-            b.CornerRadius = cornerRadius;
-            b.Effect = null;
-        }
+            item.Key.Background = _theme.GetKeyBrush(item.Name, false);
+            item.Key.BorderBrush = borderBrush;
+            item.Key.BorderThickness = borderThickness;
+            item.Key.CornerRadius = cornerRadius;
+            item.Key.Effect = null;
 
-        foreach (var h in highlights)
-        {
-            h.Background = pressedBgBrush;
-            h.CornerRadius = highlightCorner;
-        }
+            item.Highlight.Background = _theme.GetKeyBrush(item.Name, true);
+            item.Highlight.CornerRadius = highlightCorner;
 
-        foreach (var t in texts)
-        {
-            t.Foreground = textBrush;
-            t.FontFamily = fontFamily;
-            t.FontWeight = fontWeight;
+            item.Text.Foreground = textBrush;
+            item.Text.FontFamily = fontFamily;
+            item.Text.FontWeight = fontWeight;
         }
 
         TextCpsLmb.Foreground = cpsBrush;
@@ -164,6 +150,7 @@ public partial class KeystrokePreviewWindow : WpfUiWindow
         if (isDown)
         {
             highlight.Opacity = 1.0;
+            highlight.Background = _theme.GetKeyBrush(tag, true);
             text.Foreground = _theme.GetKeyPressedTextBrush();
             if (cps != null)
                 cps.Foreground = _theme.GetKeyPressedCpsTextBrush();
@@ -178,6 +165,7 @@ public partial class KeystrokePreviewWindow : WpfUiWindow
         {
             var anim = new DoubleAnimation(0.0, TimeSpan.FromMilliseconds(120));
             highlight.BeginAnimation(UIElement.OpacityProperty, anim);
+            key.Background = _theme.GetKeyBrush(tag, false);
             text.Foreground = _theme.GetKeyTextBrush();
             if (cps != null)
                 cps.Foreground = _theme.GetCpsTextBrush();

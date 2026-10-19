@@ -397,7 +397,11 @@ public static class KeystrokeThemeManager
                         File.Delete(targetPath);
 
                     using var zip = ZipFile.Open(targetPath, ZipArchiveMode.Create);
-                    zip.CreateEntryFromFile(file, "Theme.json");
+                    foreach (string filePath in Directory.EnumerateFiles(dir, "*.*", SearchOption.AllDirectories))
+                    {
+                        string relative = Path.GetRelativePath(dir, filePath);
+                        zip.CreateEntryFromFile(filePath, relative);
+                    }
                     return true;
                 }
 
@@ -446,7 +450,18 @@ public static class KeystrokeThemeManager
                     if (entry == null)
                         return false;
 
-                    entry.ExtractToFile(targetFile, overwrite: true);
+                    foreach (var zEntry in zip.Entries)
+                    {
+                        if (string.IsNullOrEmpty(zEntry.Name))
+                            continue;
+
+                        string dest = Path.GetFullPath(Path.Combine(targetDir, zEntry.FullName));
+                        if (!dest.StartsWith(targetDir, StringComparison.OrdinalIgnoreCase))
+                            continue;
+
+                        Directory.CreateDirectory(Path.GetDirectoryName(dest)!);
+                        zEntry.ExtractToFile(dest, overwrite: true);
+                    }
                 }
                 else
                 {

@@ -8488,5 +8488,18 @@ namespace Voidstrap.Resources {
         public static string Ui_Keystrokes_AddTheme_ErrorImportFailed => ResourceManager.GetString("Ui.Keystrokes.AddTheme.ErrorImportFailed", resourceCulture);
         public static string Ui_Keystrokes_DeleteConfirm => ResourceManager.GetString("Ui.Keystrokes.DeleteConfirm", resourceCulture);
         public static string Ui_Keystrokes_RenameError => ResourceManager.GetString("Ui.Keystrokes.RenameError", resourceCulture);
+        public static string Ui_Keystrokes_Editor_CustomImages => ResourceManager.GetString("Ui.Keystrokes.Editor.CustomImages", resourceCulture);
+        public static string Ui_Keystrokes_Editor_KeyBackgroundImage => ResourceManager.GetString("Ui.Keystrokes.Editor.KeyBackgroundImage", resourceCulture);
+        public static string Ui_Keystrokes_Editor_KeyPressedBackgroundImage => ResourceManager.GetString("Ui.Keystrokes.Editor.KeyPressedBackgroundImage", resourceCulture);
+        public static string Ui_Keystrokes_Editor_ImageStretch => ResourceManager.GetString("Ui.Keystrokes.Editor.ImageStretch", resourceCulture);
+        public static string Ui_Keystrokes_Editor_ImageOpacity => ResourceManager.GetString("Ui.Keystrokes.Editor.ImageOpacity", resourceCulture);
+        public static string Ui_Keystrokes_Editor_FormatJson => ResourceManager.GetString("Ui.Keystrokes.Editor.FormatJson", resourceCulture);
+        public static string Ui_Keystrokes_Editor_AddImage => ResourceManager.GetString("Ui.Keystrokes.Editor.AddImage", resourceCulture);
+        public static string Ui_Keystrokes_Editor_OpenFolder => ResourceManager.GetString("Ui.Keystrokes.Editor.OpenFolder", resourceCulture);
+        public static string Ui_Keystrokes_Editor_InsertSnippet => ResourceManager.GetString("Ui.Keystrokes.Editor.InsertSnippet", resourceCulture);
+        public static string Ui_Keystrokes_Editor_Clear => ResourceManager.GetString("Ui.Keystrokes.Editor.Clear", resourceCulture);
+        public static string Ui_Keystrokes_Editor_JsonValid => ResourceManager.GetString("Ui.Keystrokes.Editor.JsonValid", resourceCulture);
+        public static string Ui_Keystrokes_Editor_JsonInvalid => ResourceManager.GetString("Ui.Keystrokes.Editor.JsonInvalid", resourceCulture);
+        public static string Ui_Keystrokes_Editor_ThemeCode => ResourceManager.GetString("Ui.Keystrokes.Editor.ThemeCode", resourceCulture);
     }
 }

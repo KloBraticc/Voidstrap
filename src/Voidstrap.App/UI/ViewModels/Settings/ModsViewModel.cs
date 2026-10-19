@@ -1820,6 +1820,7 @@ public ICommand PickCursorColorCommand { get; }
 	public bool KeystrokesLinuxInputNoticeVisible =>
 		Voidstrap.Utility.Platform.IsLinux && !KeystrokeInputService.HasInputAccess;
 
+	private bool _isPopulatingKeystrokeThemes;
 	public ObservableCollection<string> CustomKeystrokeThemes { get; } = new();
 	public ObservableCollection<string> KeystrokeThemeOptions { get; } = new();
 
@@ -1863,6 +1864,8 @@ public ICommand PickCursorColorCommand { get; }
 		}
 		set
 		{
+			if (string.IsNullOrWhiteSpace(value) || _isPopulatingKeystrokeThemes)
+				return;
 			if (string.Equals(App.Settings.Prop.KeystrokesThemeName, value, StringComparison.OrdinalIgnoreCase))
 				return;
 			App.Settings.Prop.KeystrokesThemeName = value;
@@ -1909,20 +1912,35 @@ public ICommand PickCursorColorCommand { get; }
 
 	public void PopulateKeystrokeThemes()
 	{
-		CustomKeystrokeThemes.Clear();
-		foreach (var t in KeystrokeThemeManager.GetCustomThemes())
+		_isPopulatingKeystrokeThemes = true;
+		try
 		{
-			CustomKeystrokeThemes.Add(t.Name);
-		}
+			CustomKeystrokeThemes.Clear();
+			foreach (var t in KeystrokeThemeManager.GetCustomThemes())
+			{
+				CustomKeystrokeThemes.Add(t.Name);
+			}
 
-		KeystrokeThemeOptions.Clear();
-		foreach (var name in KeystrokeThemeManager.GetAllThemeNames())
+			KeystrokeThemeOptions.Clear();
+			foreach (var name in KeystrokeThemeManager.GetAllThemeNames())
+			{
+				KeystrokeThemeOptions.Add(name);
+			}
+
+			if (string.IsNullOrWhiteSpace(App.Settings.Prop.KeystrokesThemeName) ||
+			    !KeystrokeThemeOptions.Contains(App.Settings.Prop.KeystrokesThemeName))
+			{
+				App.Settings.Prop.KeystrokesThemeName = "Voidstrap (Default)";
+				App.Settings.SaveDeferred();
+			}
+
+			if (CustomKeystrokeThemes.Count > 0 && (SelectedCustomKeystrokeThemeIndex < 0 || SelectedCustomKeystrokeThemeIndex >= CustomKeystrokeThemes.Count))
+				SelectedCustomKeystrokeThemeIndex = 0;
+		}
+		finally
 		{
-			KeystrokeThemeOptions.Add(name);
+			_isPopulatingKeystrokeThemes = false;
 		}
-
-		if (CustomKeystrokeThemes.Count > 0 && SelectedCustomKeystrokeThemeIndex < 0)
-			SelectedCustomKeystrokeThemeIndex = 0;
 
 		OnPropertyChanged(nameof(SelectedKeystrokeTheme));
 	}
@@ -2014,7 +2032,7 @@ public ICommand PickCursorColorCommand { get; }
 		KeystrokeOverlayWindow.ActiveInstance?.RefreshConfiguration();
 	}
 
-	private void ViewCustomKeystrokeThemeFiles()
+	private async void ViewCustomKeystrokeThemeFiles()
 	{
 		string? theme = SelectedCustomKeystrokeTheme;
 		if (string.IsNullOrWhiteSpace(theme))
@@ -2024,7 +2042,25 @@ public ICommand PickCursorColorCommand { get; }
 		if (!Directory.Exists(dir))
 			Directory.CreateDirectory(dir);
 
-		Utilities.ShellExecute(dir);
+		try
+		{
+			var files = await ThemeFiles.LoadAsync(theme, Paths.CustomKeystrokeThemes).ConfigureAwait(true);
+			if (files.Count == 0)
+			{
+				Utilities.ShellExecute(dir);
+				return;
+			}
+
+			var dialog = new Voidstrap.UI.Elements.Dialogs.ThemeChangesDialog(theme, files)
+			{
+				Owner = System.Windows.Application.Current.MainWindow
+			};
+			dialog.ShowOwnedDialog();
+		}
+		catch
+		{
+			Utilities.ShellExecute(dir);
+		}
 	}
 
 	private void ExportCustomKeystrokeTheme()

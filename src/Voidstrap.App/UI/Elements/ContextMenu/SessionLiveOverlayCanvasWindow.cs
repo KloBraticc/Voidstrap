@@ -919,7 +919,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
             Height = height,
             CornerRadius = new CornerRadius(theme.KeyCornerRadius),
             BorderThickness = new Thickness(theme.KeyBorderThickness),
-            Background = theme.GetKeyBackgroundBrush(),
+            Background = theme.GetKeyBrush(text.Split('\n')[0], false),
             BorderBrush = theme.GetKeyBorderBrush()
         };
 
