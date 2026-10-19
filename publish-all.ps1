@@ -1267,7 +1267,7 @@ function Invoke-SignPathWindows {
         if ($LASTEXITCODE -ne 0) {
             throw 'GitHub Actions did not return the signing workflow run.'
         }
-        $runs = @(ConvertFrom-Json -InputObject $runsJson)
+        $runs = ConvertFrom-Json -InputObject $runsJson
         $matchingRun = $runs | Where-Object { $_.name -ceq $runName } | Select-Object -First 1
         if ($matchingRun) { $runId = [string]$matchingRun.databaseId }
         if (-not $runId) { Start-Sleep -Seconds 3 }
