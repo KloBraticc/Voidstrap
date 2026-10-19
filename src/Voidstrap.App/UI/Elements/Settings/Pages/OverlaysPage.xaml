@@ -92,7 +92,7 @@
 
           <controls:OptionControl Header="{resources:Loc Ui_Keystrokes_Theme}" Description="{resources:Loc Ui_Keystrokes_ThemeDescription}">
             <StackPanel Orientation="Horizontal">
-              <ComboBox MinWidth="210" Padding="10,5" ItemsSource="{Binding KeystrokeThemeOptions}" SelectedItem="{Binding SelectedKeystrokeTheme, Mode=TwoWay}" />
+              <ComboBox MinWidth="210" Padding="10,5" ItemsSource="{Binding KeystrokeThemeOptions}" SelectedItem="{Binding SelectedKeystrokeTheme, Mode=TwoWay}" SelectedIndex="{Binding SelectedKeystrokeThemeIndex, Mode=TwoWay}" />
               <ui:Button Margin="8,0,0,0" Icon="Play24" Content="{resources:Loc CustomTheme_Editor_Preview}" VerticalAlignment="Center" Command="{Binding PreviewKeystrokesCommand}" />
               <ui:Button Margin="8,0,0,0" Icon="DesktopEdit24" Content="{resources:Loc Ui_Appearance_OpenEditor}" VerticalAlignment="Center" Command="{Binding EditKeystrokeThemeCommand}" />
             </StackPanel>

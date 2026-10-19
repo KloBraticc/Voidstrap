@@ -1850,6 +1850,27 @@ public ICommand PickCursorColorCommand { get; }
 		}
 	}
 
+	public int SelectedKeystrokeThemeIndex
+	{
+		get
+		{
+			string current = App.Settings.Prop.KeystrokesThemeName ?? "Voidstrap (Default)";
+			for (int i = 0; i < KeystrokeThemeOptions.Count; i++)
+			{
+				if (string.Equals(KeystrokeThemeOptions[i], current, StringComparison.OrdinalIgnoreCase))
+					return i;
+			}
+			return KeystrokeThemeOptions.Count > 0 ? 0 : -1;
+		}
+		set
+		{
+			if (value >= 0 && value < KeystrokeThemeOptions.Count)
+			{
+				SelectedKeystrokeTheme = KeystrokeThemeOptions[value];
+			}
+		}
+	}
+
 	public string SelectedKeystrokeTheme
 	{
 		get
@@ -1860,7 +1881,7 @@ public ICommand PickCursorColorCommand { get; }
 				if (string.Equals(opt, t, StringComparison.OrdinalIgnoreCase))
 					return opt;
 			}
-			return "Voidstrap (Default)";
+			return KeystrokeThemeOptions.Count > 0 ? KeystrokeThemeOptions[0] : "Voidstrap (Default)";
 		}
 		set
 		{
@@ -1871,6 +1892,7 @@ public ICommand PickCursorColorCommand { get; }
 			App.Settings.Prop.KeystrokesThemeName = value;
 			App.Settings.Save();
 			OnPropertyChanged();
+			OnPropertyChanged(nameof(SelectedKeystrokeThemeIndex));
 			KeystrokeThemeManager.NotifyThemeChanged();
 			KeystrokeOverlayWindow.ActiveInstance?.RefreshConfiguration();
 		}
@@ -1915,20 +1937,38 @@ public ICommand PickCursorColorCommand { get; }
 		_isPopulatingKeystrokeThemes = true;
 		try
 		{
-			CustomKeystrokeThemes.Clear();
-			foreach (var t in KeystrokeThemeManager.GetCustomThemes())
+			var customList = KeystrokeThemeManager.GetCustomThemes();
+			if (!CustomKeystrokeThemes.SequenceEqual(customList.Select(t => t.Name), StringComparer.OrdinalIgnoreCase))
 			{
-				CustomKeystrokeThemes.Add(t.Name);
+				CustomKeystrokeThemes.Clear();
+				foreach (var t in customList)
+				{
+					CustomKeystrokeThemes.Add(t.Name);
+				}
 			}
 
-			KeystrokeThemeOptions.Clear();
-			foreach (var name in KeystrokeThemeManager.GetAllThemeNames())
+			var allNames = KeystrokeThemeManager.GetAllThemeNames();
+			if (!KeystrokeThemeOptions.SequenceEqual(allNames, StringComparer.OrdinalIgnoreCase))
 			{
-				KeystrokeThemeOptions.Add(name);
+				KeystrokeThemeOptions.Clear();
+				foreach (var name in allNames)
+				{
+					KeystrokeThemeOptions.Add(name);
+				}
 			}
 
-			if (string.IsNullOrWhiteSpace(App.Settings.Prop.KeystrokesThemeName) ||
-			    !KeystrokeThemeOptions.Contains(App.Settings.Prop.KeystrokesThemeName))
+			bool themeFound = false;
+			string currentTheme = App.Settings.Prop.KeystrokesThemeName ?? "";
+			foreach (var opt in KeystrokeThemeOptions)
+			{
+				if (string.Equals(opt, currentTheme, StringComparison.OrdinalIgnoreCase))
+				{
+					themeFound = true;
+					break;
+				}
+			}
+
+			if (!themeFound)
 			{
 				App.Settings.Prop.KeystrokesThemeName = "Voidstrap (Default)";
 				App.Settings.SaveDeferred();
@@ -1943,6 +1983,7 @@ public ICommand PickCursorColorCommand { get; }
 		}
 
 		OnPropertyChanged(nameof(SelectedKeystrokeTheme));
+		OnPropertyChanged(nameof(SelectedKeystrokeThemeIndex));
 	}
 
 	public ICommand PreviewKeystrokesCommand => new RelayCommand(PreviewKeystrokes);

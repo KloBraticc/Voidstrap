@@ -8,6 +8,10 @@ public partial class OverlaysPage : UiPage
 	public OverlaysPage()
 	{
 		InitializeComponent();
-		Loaded += (s, e) => (DataContext as ModsViewModel)?.PopulateKeystrokeThemes();
+		Loaded += (s, e) =>
+		{
+			DataContext ??= new ModsViewModel();
+			(DataContext as ModsViewModel)?.PopulateKeystrokeThemes();
+		};
 	}
 }
