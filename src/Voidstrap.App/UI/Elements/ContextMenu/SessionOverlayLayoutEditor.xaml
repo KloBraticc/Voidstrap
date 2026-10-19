@@ -3,7 +3,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-        Title="{resources:Loc Ui_OverlayStudio_Title}" Width="660" Height="740" MinWidth="520" MinHeight="480"
+        Title="{resources:Loc Ui_OverlayStudio_Title}" Width="680" Height="740" MinWidth="560" MinHeight="480"
         WindowStyle="None" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"
         ResizeMode="NoResize" ShowInTaskbar="False" ShowActivated="False" Topmost="True"
         WindowStartupLocation="Manual" FontFamily="Segoe UI">
@@ -60,12 +60,17 @@
     <Style x:Key="Segment" TargetType="RadioButton">
       <Setter Property="Cursor" Value="Hand" />
       <Setter Property="Focusable" Value="False" />
+      <Setter Property="FontSize" Value="12.5" />
+      <Setter Property="Padding" Value="10,5" />
       <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
       <Setter Property="Template">
         <Setter.Value>
           <ControlTemplate TargetType="RadioButton">
-            <Border x:Name="Chip" CornerRadius="5" Padding="14,5" Background="Transparent">
-              <TextBlock Text="{TemplateBinding Content}" FontSize="13" HorizontalAlignment="Center" Foreground="{TemplateBinding Foreground}" />
+            <Border x:Name="Chip" CornerRadius="5" Padding="{TemplateBinding Padding}" Background="Transparent">
+              <TextBlock Text="{TemplateBinding Content}" FontSize="{TemplateBinding FontSize}"
+                         HorizontalAlignment="Center" VerticalAlignment="Center"
+                         TextTrimming="CharacterEllipsis"
+                         Foreground="{TemplateBinding Foreground}" />
             </Border>
             <ControlTemplate.Triggers>
               <Trigger Property="IsMouseOver" Value="True">
@@ -78,6 +83,10 @@
           </ControlTemplate>
         </Setter.Value>
       </Setter>
+    </Style>
+    <Style x:Key="LayerTabSegment" TargetType="RadioButton" BasedOn="{StaticResource Segment}">
+      <Setter Property="FontSize" Value="12" />
+      <Setter Property="Padding" Value="6,5" />
     </Style>
     <Style x:Key="SegmentTray" TargetType="Border">
       <Setter Property="CornerRadius" Value="7" />
@@ -225,14 +234,22 @@
       </Grid>
 
       <Border Style="{StaticResource SegmentTray}" HorizontalAlignment="Stretch" Margin="0,14,0,0">
-        <UniformGrid Rows="1" Columns="6">
-          <RadioButton x:Name="TabReadout" Tag="Readout" Content="{resources:Loc Ui_OverlayStudio_LayerReadout}" GroupName="StudioLayerTab" Style="{StaticResource Segment}" IsChecked="True" Checked="LayerTab_Click" />
-          <RadioButton x:Name="TabNotifications" Tag="Notifications" Content="{resources:Loc Ui_OverlayStudio_LayerNotifications}" GroupName="StudioLayerTab" Style="{StaticResource Segment}" Checked="LayerTab_Click" />
-          <RadioButton x:Name="TabDock" Tag="Dock" Content="{resources:Loc Ui_OverlayStudio_LayerDock}" GroupName="StudioLayerTab" Style="{StaticResource Segment}" Checked="LayerTab_Click" />
-          <RadioButton x:Name="TabCrosshair" Tag="Crosshair" Content="{resources:Loc Ui_OverlayStudio_LayerCrosshair}" GroupName="StudioLayerTab" Style="{StaticResource Segment}" Checked="LayerTab_Click" />
-          <RadioButton x:Name="TabKeystrokes" Tag="Keystrokes" Content="{resources:Loc Ui_OverlayStudio_LayerKeystrokes}" GroupName="StudioLayerTab" Style="{StaticResource Segment}" Checked="LayerTab_Click" />
-          <RadioButton x:Name="TabPanels" Tag="Panels" Content="{resources:Loc Ui_OverlayStudio_LayerPanels}" GroupName="StudioLayerTab" Style="{StaticResource Segment}" Checked="LayerTab_Click" />
-        </UniformGrid>
+        <Grid>
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1.2*" />
+            <ColumnDefinition Width="1.1*" />
+            <ColumnDefinition Width="1.05*" />
+            <ColumnDefinition Width="0.85*" />
+            <ColumnDefinition Width="0.9*" />
+            <ColumnDefinition Width="1.0*" />
+          </Grid.ColumnDefinitions>
+          <RadioButton x:Name="TabReadout" Grid.Column="0" Tag="Readout" Content="{resources:Loc Ui_OverlayStudio_LayerReadout}" GroupName="StudioLayerTab" Style="{StaticResource LayerTabSegment}" IsChecked="True" Checked="LayerTab_Click" />
+          <RadioButton x:Name="TabNotifications" Grid.Column="1" Tag="Notifications" Content="{resources:Loc Ui_OverlayStudio_LayerNotifications}" GroupName="StudioLayerTab" Style="{StaticResource LayerTabSegment}" Checked="LayerTab_Click" />
+          <RadioButton x:Name="TabDock" Grid.Column="2" Tag="Dock" Content="{resources:Loc Ui_OverlayStudio_LayerDock}" GroupName="StudioLayerTab" Style="{StaticResource LayerTabSegment}" Checked="LayerTab_Click" />
+          <RadioButton x:Name="TabCrosshair" Grid.Column="3" Tag="Crosshair" Content="{resources:Loc Ui_OverlayStudio_LayerCrosshair}" GroupName="StudioLayerTab" Style="{StaticResource LayerTabSegment}" Checked="LayerTab_Click" />
+          <RadioButton x:Name="TabKeystrokes" Grid.Column="4" Tag="Keystrokes" Content="{resources:Loc Ui_OverlayStudio_LayerKeystrokes}" GroupName="StudioLayerTab" Style="{StaticResource LayerTabSegment}" Checked="LayerTab_Click" />
+          <RadioButton x:Name="TabPanels" Grid.Column="5" Tag="Panels" Content="{resources:Loc Ui_OverlayStudio_LayerPanels}" GroupName="StudioLayerTab" Style="{StaticResource LayerTabSegment}" Checked="LayerTab_Click" />
+        </Grid>
       </Border>
 
       <StackPanel x:Name="ReadoutInspector" Margin="0,12,0,0">
