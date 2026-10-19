@@ -484,7 +484,7 @@ public partial class SessionOverlayLayoutEditor : Window
 
         SessionLiveOverlayCanvasWindow.ApplyExactKeystrokesConfiguration(_stageKeystrokesHost, stageScale);
         _stageKeystrokesWrapper.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-        double kGap = Math.Max(4, layout.SafeKeystrokesEdgeSpacing * stageScale);
+        double kGap = layout.SafeKeystrokesEdgeSpacing * stageScale;
         double kMinX = kGap;
         double kMaxX = Math.Max(kMinX, stageW - _stageKeystrokesWrapper.DesiredSize.Width - kGap);
         double kMinY = kGap;
@@ -605,7 +605,7 @@ public partial class SessionOverlayLayoutEditor : Window
         }
         else if (layer == OverlayStudioLayer.Keystrokes)
         {
-            double gap = Math.Max(4, layout.SafeKeystrokesEdgeSpacing * stageScale);
+            double gap = layout.SafeKeystrokesEdgeSpacing * stageScale;
             double minX = gap;
             double maxX = Math.Max(minX + 1, stageW - elemW - gap);
             double minY = gap;

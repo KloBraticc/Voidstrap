@@ -17,9 +17,9 @@ public sealed class OverlayLayoutSettings
     public const double DefaultDockScale = 1.0;
     public const double DefaultDockBackdropOpacity = -1;
 
-    public const double DefaultKeystrokesHorizontal = 12;
-    public const double DefaultKeystrokesVertical = 78;
-    public const double DefaultKeystrokesEdgeSpacing = 16;
+    public const double DefaultKeystrokesHorizontal = 0;
+    public const double DefaultKeystrokesVertical = 100;
+    public const double DefaultKeystrokesEdgeSpacing = 0;
     public const double DefaultKeystrokesScale = 1.0;
     public const double DefaultKeystrokesOpacity = 0.95;
 

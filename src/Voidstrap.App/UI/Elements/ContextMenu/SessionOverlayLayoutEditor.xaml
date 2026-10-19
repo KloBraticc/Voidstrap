@@ -5,7 +5,7 @@
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         Title="{resources:Loc Ui_OverlayStudio_Title}" Width="680" Height="740" MinWidth="560" MinHeight="480"
         WindowStyle="None" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"
-        ResizeMode="NoResize" ShowInTaskbar="False" ShowActivated="False" Topmost="True"
+        ResizeMode="CanResizeWithGrip" ShowInTaskbar="False" ShowActivated="False" Topmost="True"
         WindowStartupLocation="Manual" FontFamily="Segoe UI">
   <Window.Resources>
     <Style x:Key="Section" TargetType="TextBlock">

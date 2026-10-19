@@ -5,7 +5,7 @@
                   xmlns:resources="clr-namespace:Voidstrap.Resources"
                   xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
                   Title="{resources:Loc CustomTheme_Editor_Preview}" Width="460" Height="420"
-                  MinWidth="400" MinHeight="360" ResizeMode="NoResize"
+                  MinWidth="400" MinHeight="360" ResizeMode="CanResize"
                   WindowStartupLocation="CenterScreen" ExtendsContentIntoTitleBar="True"
                   Background="{ui:ThemeResource ApplicationBackgroundBrush}">
   <Grid>
@@ -17,12 +17,12 @@
 
     <ui:TitleBar Icon="pack://application:,,,/Voidstrap.png"
                  Title="{resources:Loc CustomTheme_Editor_Preview}" Grid.Row="0" Padding="8"
-                 CanMaximize="False" ShowMaximize="False" ShowMinimize="False" />
+                 CanMaximize="True" ShowMaximize="True" ShowMinimize="False" />
 
     <Border Grid.Row="1" Margin="16,8,16,8" Background="#141416" CornerRadius="8"
             BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" BorderThickness="1"
             Padding="20" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-      <Viewbox MaxWidth="360" MaxHeight="300" HorizontalAlignment="Center" VerticalAlignment="Center">
+      <Viewbox HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <StackPanel x:Name="KeysContainer" Orientation="Vertical">
           <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,3">
             <Border x:Name="KeyW" Width="46" Height="46" CornerRadius="8" BorderThickness="1"

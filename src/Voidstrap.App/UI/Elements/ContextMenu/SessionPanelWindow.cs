@@ -21,6 +21,10 @@ public sealed partial class SessionPanelWindow : Window
     private readonly IDisposable _tracker;
     private readonly Thumb _drag;
     private readonly Thumb _resize;
+    private readonly Thumb _resizeRight;
+    private readonly Thumb _resizeBottom;
+    private readonly Thumb _resizeLeft;
+    private readonly Thumb _resizeBottomLeft;
     private readonly CaptionButton _pin;
     private readonly CaptionButton _close;
     private const int GwlExStyle = -20;
@@ -81,8 +85,10 @@ public sealed partial class SessionPanelWindow : Window
         WindowStartupLocation = WindowStartupLocation.Manual;
         Width = double.IsFinite(view.Width) ? Math.Clamp(view.Width, 380, 1100) : 540;
         Height = double.IsFinite(view.Height) ? Math.Clamp(view.Height, 240, 760) : 460;
-        MinWidth = 320;
-        MinHeight = 180;
+        MinWidth = double.IsFinite(view.MinWidth) && view.MinWidth > 0 ? Math.Max(320, view.MinWidth) : 320;
+        MinHeight = double.IsFinite(view.MinHeight) && view.MinHeight > 0 ? Math.Max(180, view.MinHeight) : 180;
+        MaxWidth = double.IsFinite(view.MaxWidth) && view.MaxWidth > 0 ? Math.Min(view.MaxWidth, 1920) : 1920;
+        MaxHeight = double.IsFinite(view.MaxHeight) && view.MaxHeight > 0 ? Math.Min(view.MaxHeight, 1440) : 1440;
         DataContext = view.DataContext;
         Resources.MergedDictionaries.Add(view.Resources);
         // The view is never shown, so it must not own or be owned by another window
@@ -142,14 +148,44 @@ public sealed partial class SessionPanelWindow : Window
         root.Children.Add(host);
         // Added after the content so it draws on top of anything scrolled underneath it
         root.Children.Add(header);
-        // An invisible grip in the corner, the default thumb drew a grey square there
-        _resize = new Thumb { Width = 16, Height = 16, HorizontalAlignment = HorizontalAlignment.Right, VerticalAlignment = VerticalAlignment.Bottom, Cursor = Cursors.SizeNWSE };
         FrameworkElementFactory gripVisual = new(typeof(Border));
         gripVisual.SetValue(Border.BackgroundProperty, Brushes.Transparent);
-        _resize.Template = new ControlTemplate(typeof(Thumb)) { VisualTree = gripVisual };
+        ControlTemplate resizeTemplate = new(typeof(Thumb)) { VisualTree = gripVisual };
+
+        _resize = new Thumb { Width = 20, Height = 20, HorizontalAlignment = HorizontalAlignment.Right, VerticalAlignment = VerticalAlignment.Bottom, Cursor = Cursors.SizeNWSE, Template = resizeTemplate };
         _resize.DragDelta += OnResize;
         _resize.DragCompleted += OnGeometryFinished;
         Grid.SetRow(_resize, 1);
+        Panel.SetZIndex(_resize, 101);
+
+        _resizeRight = new Thumb { Width = 8, HorizontalAlignment = HorizontalAlignment.Right, VerticalAlignment = VerticalAlignment.Stretch, Cursor = Cursors.SizeWE, Template = resizeTemplate };
+        _resizeRight.DragDelta += OnResizeRight;
+        _resizeRight.DragCompleted += OnGeometryFinished;
+        Grid.SetRowSpan(_resizeRight, 2);
+        Panel.SetZIndex(_resizeRight, 99);
+
+        _resizeBottom = new Thumb { Height = 8, HorizontalAlignment = HorizontalAlignment.Stretch, VerticalAlignment = VerticalAlignment.Bottom, Cursor = Cursors.SizeNS, Template = resizeTemplate };
+        _resizeBottom.DragDelta += OnResizeBottom;
+        _resizeBottom.DragCompleted += OnGeometryFinished;
+        Grid.SetRow(_resizeBottom, 1);
+        Panel.SetZIndex(_resizeBottom, 99);
+
+        _resizeLeft = new Thumb { Width = 8, HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Stretch, Cursor = Cursors.SizeWE, Template = resizeTemplate };
+        _resizeLeft.DragDelta += OnResizeLeft;
+        _resizeLeft.DragCompleted += OnGeometryFinished;
+        Grid.SetRowSpan(_resizeLeft, 2);
+        Panel.SetZIndex(_resizeLeft, 99);
+
+        _resizeBottomLeft = new Thumb { Width = 20, Height = 20, HorizontalAlignment = HorizontalAlignment.Left, VerticalAlignment = VerticalAlignment.Bottom, Cursor = Cursors.SizeNESW, Template = resizeTemplate };
+        _resizeBottomLeft.DragDelta += OnResizeBottomLeft;
+        _resizeBottomLeft.DragCompleted += OnGeometryFinished;
+        Grid.SetRow(_resizeBottomLeft, 1);
+        Panel.SetZIndex(_resizeBottomLeft, 101);
+
+        root.Children.Add(_resizeRight);
+        root.Children.Add(_resizeBottom);
+        root.Children.Add(_resizeLeft);
+        root.Children.Add(_resizeBottomLeft);
         root.Children.Add(_resize);
         Border frame = new() { CornerRadius = new CornerRadius(AllowsTransparency ? 8 : 0), BorderThickness = new Thickness(1), Child = root };
         frame.SetResourceReference(Border.BackgroundProperty, "SolidBackgroundFillColorBaseBrush");
@@ -534,9 +570,121 @@ public sealed partial class SessionPanelWindow : Window
     {
         if (!double.IsFinite(e.HorizontalChange) || !double.IsFinite(e.VerticalChange))
             return;
-        Width = Math.Max(MinWidth, Width + e.HorizontalChange);
-        Height = Math.Max(MinHeight, Height + e.VerticalChange);
-        ApplyBounds(RobloxWindowTracker.Current);
+        RobloxWindowRect bounds = RobloxWindowTracker.Current;
+        if (!bounds.Valid)
+            return;
+        DpiScale dpi = PortableOverlay.Scale(this);
+        int currentPixelWidth = (int)Math.Ceiling(Width * dpi.DpiScaleX);
+        int currentLeft = bounds.Left + (int)Math.Round(_x * Math.Max(0, bounds.Width - currentPixelWidth));
+        int usableHeight = UsableHeight(bounds, dpi);
+        int currentPixelHeight = (int)Math.Ceiling(Height * dpi.DpiScaleY);
+        int currentTopOffset = (int)Math.Round(_y * Math.Max(0, usableHeight - currentPixelHeight));
+
+        double newWidth = Math.Clamp(Width + e.HorizontalChange, MinWidth, MaxWidth);
+        double newHeight = Math.Clamp(Height + e.VerticalChange, MinHeight, MaxHeight);
+
+        int newPixelWidth = (int)Math.Ceiling(newWidth * dpi.DpiScaleX);
+        int newAvailableWidth = Math.Max(1, bounds.Width - newPixelWidth);
+        _x = Math.Clamp((double)(currentLeft - bounds.Left) / newAvailableWidth, 0, 1);
+
+        int newPixelHeight = (int)Math.Ceiling(newHeight * dpi.DpiScaleY);
+        int newAvailableHeight = Math.Max(1, usableHeight - newPixelHeight);
+        _y = Math.Clamp((double)currentTopOffset / newAvailableHeight, 0, 1);
+
+        Width = newWidth;
+        Height = newHeight;
+        ApplyBounds(bounds);
+    }
+
+    private void OnResizeRight(object sender, DragDeltaEventArgs e)
+    {
+        if (!double.IsFinite(e.HorizontalChange))
+            return;
+        RobloxWindowRect bounds = RobloxWindowTracker.Current;
+        if (!bounds.Valid)
+            return;
+        DpiScale dpi = PortableOverlay.Scale(this);
+        int currentPixelWidth = (int)Math.Ceiling(Width * dpi.DpiScaleX);
+        int currentLeft = bounds.Left + (int)Math.Round(_x * Math.Max(0, bounds.Width - currentPixelWidth));
+        double newWidth = Math.Clamp(Width + e.HorizontalChange, MinWidth, MaxWidth);
+        int newPixelWidth = (int)Math.Ceiling(newWidth * dpi.DpiScaleX);
+        int newAvailable = Math.Max(1, bounds.Width - newPixelWidth);
+        _x = Math.Clamp((double)(currentLeft - bounds.Left) / newAvailable, 0, 1);
+        Width = newWidth;
+        ApplyBounds(bounds);
+    }
+
+    private void OnResizeBottom(object sender, DragDeltaEventArgs e)
+    {
+        if (!double.IsFinite(e.VerticalChange))
+            return;
+        RobloxWindowRect bounds = RobloxWindowTracker.Current;
+        if (!bounds.Valid)
+            return;
+        DpiScale dpi = PortableOverlay.Scale(this);
+        int usableHeight = UsableHeight(bounds, dpi);
+        int currentPixelHeight = (int)Math.Ceiling(Height * dpi.DpiScaleY);
+        int currentTopOffset = (int)Math.Round(_y * Math.Max(0, usableHeight - currentPixelHeight));
+        double newHeight = Math.Clamp(Height + e.VerticalChange, MinHeight, MaxHeight);
+        int newPixelHeight = (int)Math.Ceiling(newHeight * dpi.DpiScaleY);
+        int newAvailableHeight = Math.Max(1, usableHeight - newPixelHeight);
+        _y = Math.Clamp((double)currentTopOffset / newAvailableHeight, 0, 1);
+        Height = newHeight;
+        ApplyBounds(bounds);
+    }
+
+    private void OnResizeLeft(object sender, DragDeltaEventArgs e)
+    {
+        if (!double.IsFinite(e.HorizontalChange))
+            return;
+        RobloxWindowRect bounds = RobloxWindowTracker.Current;
+        if (!bounds.Valid)
+            return;
+        DpiScale dpi = PortableOverlay.Scale(this);
+        int currentPixelWidth = (int)Math.Ceiling(Width * dpi.DpiScaleX);
+        int currentLeft = bounds.Left + (int)Math.Round(_x * Math.Max(0, bounds.Width - currentPixelWidth));
+        int currentRight = currentLeft + currentPixelWidth;
+
+        double newWidth = Math.Clamp(Width - e.HorizontalChange, MinWidth, MaxWidth);
+        int newPixelWidth = (int)Math.Ceiling(newWidth * dpi.DpiScaleX);
+        int newLeft = currentRight - newPixelWidth;
+        int newAvailable = Math.Max(1, bounds.Width - newPixelWidth);
+        _x = Math.Clamp((double)(newLeft - bounds.Left) / newAvailable, 0, 1);
+        Width = newWidth;
+        ApplyBounds(bounds);
+    }
+
+    private void OnResizeBottomLeft(object sender, DragDeltaEventArgs e)
+    {
+        if (!double.IsFinite(e.HorizontalChange) || !double.IsFinite(e.VerticalChange))
+            return;
+        RobloxWindowRect bounds = RobloxWindowTracker.Current;
+        if (!bounds.Valid)
+            return;
+        DpiScale dpi = PortableOverlay.Scale(this);
+        int currentPixelWidth = (int)Math.Ceiling(Width * dpi.DpiScaleX);
+        int currentLeft = bounds.Left + (int)Math.Round(_x * Math.Max(0, bounds.Width - currentPixelWidth));
+        int currentRight = currentLeft + currentPixelWidth;
+
+        int usableHeight = UsableHeight(bounds, dpi);
+        int currentPixelHeight = (int)Math.Ceiling(Height * dpi.DpiScaleY);
+        int currentTopOffset = (int)Math.Round(_y * Math.Max(0, usableHeight - currentPixelHeight));
+
+        double newWidth = Math.Clamp(Width - e.HorizontalChange, MinWidth, MaxWidth);
+        double newHeight = Math.Clamp(Height + e.VerticalChange, MinHeight, MaxHeight);
+
+        int newPixelWidth = (int)Math.Ceiling(newWidth * dpi.DpiScaleX);
+        int newLeft = currentRight - newPixelWidth;
+        int newAvailableWidth = Math.Max(1, bounds.Width - newPixelWidth);
+        _x = Math.Clamp((double)(newLeft - bounds.Left) / newAvailableWidth, 0, 1);
+
+        int newPixelHeight = (int)Math.Ceiling(newHeight * dpi.DpiScaleY);
+        int newAvailableHeight = Math.Max(1, usableHeight - newPixelHeight);
+        _y = Math.Clamp((double)currentTopOffset / newAvailableHeight, 0, 1);
+
+        Width = newWidth;
+        Height = newHeight;
+        ApplyBounds(bounds);
     }
 
     private void OnGeometryFinished(object sender, DragCompletedEventArgs e) => SaveLayout();
@@ -652,8 +800,8 @@ public sealed partial class SessionPanelWindow : Window
         }
         if (double.IsFinite(saved.X)) _x = Math.Clamp(saved.X, 0, 1);
         if (double.IsFinite(saved.Y)) _y = Math.Clamp(saved.Y, 0, 1);
-        if (double.IsFinite(saved.Width) && saved.Width >= MinWidth) Width = Math.Min(saved.Width, 1600);
-        if (double.IsFinite(saved.Height) && saved.Height >= MinHeight) Height = Math.Min(saved.Height, 1200);
+        if (double.IsFinite(saved.Width) && saved.Width >= MinWidth) Width = Math.Min(saved.Width, MaxWidth);
+        if (double.IsFinite(saved.Height) && saved.Height >= MinHeight) Height = Math.Min(saved.Height, MaxHeight);
         IsPinned = saved.Pinned;
         UpdatePinVisual();
     }
@@ -693,6 +841,14 @@ public sealed partial class SessionPanelWindow : Window
         _drag.DragCompleted -= OnGeometryFinished;
         _resize.DragDelta -= OnResize;
         _resize.DragCompleted -= OnGeometryFinished;
+        _resizeRight.DragDelta -= OnResizeRight;
+        _resizeRight.DragCompleted -= OnGeometryFinished;
+        _resizeBottom.DragDelta -= OnResizeBottom;
+        _resizeBottom.DragCompleted -= OnGeometryFinished;
+        _resizeLeft.DragDelta -= OnResizeLeft;
+        _resizeLeft.DragCompleted -= OnGeometryFinished;
+        _resizeBottomLeft.DragDelta -= OnResizeBottomLeft;
+        _resizeBottomLeft.DragCompleted -= OnGeometryFinished;
         _pin.Click -= OnPin;
         _close.Click -= OnClosePanel;
         _view.Closed -= OnViewClosed;
