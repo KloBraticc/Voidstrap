@@ -1618,7 +1618,21 @@ if ($RequestedAll) {
 
 $SignPathContext = $null
 if ($IsWindowsHost -and $Configuration -eq 'Release' -and (@($Targets | Where-Object { $_.Key -eq 'windows' }).Count -gt 0)) {
-    $SignPathContext = Resolve-SignPathSource -Version (Get-VoidstrapVersion)
+    $useSignPath = $true
+    if ($PSBoundParameters.ContainsKey('Only') -and $PSBoundParameters.ContainsKey('NoPause') -and $Only.Count -eq 1 -and $Only[0] -eq 'windows') {
+        while ($true) {
+            $answer = (Read-Host 'Use SignPath code signing? [y/n]').Trim().ToLowerInvariant()
+            if ($answer -in @('y', 'yes')) { break }
+            if ($answer -in @('n', 'no')) {
+                $useSignPath = $false
+                break
+            }
+            Write-Host 'Please answer yes or no.' -ForegroundColor Yellow
+        }
+    }
+    if ($useSignPath) {
+        $SignPathContext = Resolve-SignPathSource -Version (Get-VoidstrapVersion)
+    }
 }
 
 $AndroidExplicit = $Only -contains 'android'
