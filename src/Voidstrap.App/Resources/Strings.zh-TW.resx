@@ -7154,238 +7154,238 @@ Voidstrap 無法寫入桌面資料夾。</value>
     <value>開啟疊加層工坊</value>
   </data>
   <data name="Ui.Clipper.Title" xml:space="preserve">
-    <value>视频剪辑器</value>
+    <value>影片剪輯器</value>
   </data>
   <data name="Ui.Clipper.ShortcutDescription" xml:space="preserve">
-    <value>按下 {0} 时进行硬件加速捕获。</value>
+    <value>按下 {0} 時進行硬體加速錄製。</value>
   </data>
   <data name="Ui.Clipper.NoShortcutDescription" xml:space="preserve">
-    <value>硬件加速捕获。重置快捷键以在游戏中使用。</value>
+    <value>硬體加速錄製。重設快捷鍵以在遊戲中使用。</value>
   </data>
   <data name="Ui.Clipper.NotifyHint" xml:space="preserve">
-    <value>硬件 GPU 视频录制与即时回放剪辑。</value>
+    <value>硬體 GPU 影片錄製器與即時重播剪輯工具。</value>
   </data>
   <data name="Ui.Clipper.OpenClipper" xml:space="preserve">
-    <value>打开剪辑器</value>
+    <value>開啟剪輯器</value>
   </data>
   <data name="Ui.Clipper.ClipSaved" xml:space="preserve">
-    <value>片段已保存</value>
+    <value>片段已儲存</value>
   </data>
   <data name="Ui.Clipper.RecordingMode" xml:space="preserve">
-    <value>录制模式</value>
+    <value>錄製模式</value>
   </data>
   <data name="Ui.Clipper.RecordingModeHint" xml:space="preserve">
-    <value>选择普通开关录制或循环即时回放。</value>
+    <value>選擇一般開關錄製或循環即時重播錄製。</value>
   </data>
   <data name="Ui.Clipper.ModeRecord" xml:space="preserve">
-    <value>普通录制 (开/关)</value>
+    <value>一般錄製 (開/關)</value>
   </data>
   <data name="Ui.Clipper.ModeClip" xml:space="preserve">
-    <value>回放剪辑 (循环缓冲)</value>
+    <value>片段錄製 (重播)</value>
   </data>
   <data name="Ui.Clipper.BufferLength" xml:space="preserve">
-    <value>回放缓冲时长</value>
+    <value>重播片段長度</value>
   </data>
   <data name="Ui.Clipper.BufferLengthHint" xml:space="preserve">
-    <value>即时回放缓冲区保留的游戏秒数。</value>
+    <value>在即時重播緩衝區中保留的遊戲秒數。</value>
   </data>
   <data name="Ui.Clipper.Sec15" xml:space="preserve">
-    <value>15 sec</value>
+    <value>15 秒</value>
   </data>
   <data name="Ui.Clipper.Sec30" xml:space="preserve">
-    <value>30 sec</value>
+    <value>30 秒</value>
   </data>
   <data name="Ui.Clipper.Sec60" xml:space="preserve">
-    <value>60 sec</value>
+    <value>60 秒</value>
   </data>
   <data name="Ui.Clipper.Sec120" xml:space="preserve">
-    <value>120 sec</value>
+    <value>120 秒</value>
   </data>
   <data name="Ui.Clipper.RecordOnGameStart" xml:space="preserve">
-    <value>游戏开始时自动录制</value>
+    <value>遊戲啟動時錄製</value>
   </data>
   <data name="Ui.Clipper.RecordOnGameStartHint" xml:space="preserve">
-    <value>当 Roblox 游戏会话开始时自动启动录制。</value>
+    <value>當 Roblox 遊戲工作階段開始時自動開始錄製。</value>
   </data>
   <data name="Ui.Clipper.RedBorder" xml:space="preserve">
-    <value>屏幕红色边框</value>
+    <value>紅色螢幕邊框</value>
   </data>
   <data name="Ui.Clipper.RedBorderHint" xml:space="preserve">
-    <value>录制时在屏幕四周显示经典红色边框提示。</value>
+    <value>錄製時在螢幕邊緣顯示經典紅色邊框。</value>
   </data>
   <data name="Ui.Clipper.RedBorderShort" xml:space="preserve">
-    <value>红色边框</value>
+    <value>紅色邊框</value>
   </data>
   <data name="Ui.Clipper.VideoQuality" xml:space="preserve">
-    <value>视频质量</value>
+    <value>影片畫質</value>
   </data>
   <data name="Ui.Clipper.VideoQualityHint" xml:space="preserve">
-    <value>Bitrate preset used by the hardware GPU encoder.</value>
+    <value>硬體 GPU 編碼器使用的位元率預設。</value>
   </data>
   <data name="Ui.Clipper.QualityLow" xml:space="preserve">
-    <value>Low (8 Mbps)</value>
+    <value>低 (8 Mbps)</value>
   </data>
   <data name="Ui.Clipper.QualityMedium" xml:space="preserve">
-    <value>Medium (16 Mbps)</value>
+    <value>中 (16 Mbps)</value>
   </data>
   <data name="Ui.Clipper.QualityHigh" xml:space="preserve">
-    <value>High (28 Mbps)</value>
+    <value>高 (28 Mbps)</value>
   </data>
   <data name="Ui.Clipper.QualityUltra" xml:space="preserve">
-    <value>Ultra (50 Mbps)</value>
+    <value>極高 (50 Mbps)</value>
   </data>
   <data name="Ui.Clipper.QualityLowShort" xml:space="preserve">
-    <value>Low</value>
+    <value>低</value>
   </data>
   <data name="Ui.Clipper.QualityMediumShort" xml:space="preserve">
-    <value>Medium</value>
+    <value>中</value>
   </data>
   <data name="Ui.Clipper.QualityHighShort" xml:space="preserve">
-    <value>High</value>
+    <value>高</value>
   </data>
   <data name="Ui.Clipper.QualityUltraShort" xml:space="preserve">
-    <value>Ultra</value>
+    <value>極高</value>
   </data>
   <data name="Ui.Clipper.Resolution" xml:space="preserve">
-    <value>Resolution</value>
+    <value>解析度</value>
   </data>
   <data name="Ui.Clipper.ResolutionHint" xml:space="preserve">
-    <value>Output resolution of saved recordings and clips.</value>
+    <value>已儲存錄影與片段的輸出解析度。</value>
   </data>
   <data name="Ui.Clipper.ResNative" xml:space="preserve">
-    <value>Native</value>
+    <value>原生</value>
   </data>
   <data name="Ui.Clipper.FrameRate" xml:space="preserve">
-    <value>Frame rate</value>
+    <value>影格率</value>
   </data>
   <data name="Ui.Clipper.FrameRateHint" xml:space="preserve">
-    <value>Target capture frame rate.</value>
+    <value>目標擷取影格率。</value>
   </data>
   <data name="Ui.Clipper.Codec" xml:space="preserve">
-    <value>Encoder codec</value>
+    <value>編碼器格式</value>
   </data>
   <data name="Ui.Clipper.CodecHint" xml:space="preserve">
-    <value>Hardware GPU encoder format.</value>
+    <value>硬體 GPU 編碼器格式。</value>
   </data>
   <data name="Ui.Clipper.GameAudio" xml:space="preserve">
-    <value>Capture game audio</value>
+    <value>擷取遊戲音訊</value>
   </data>
   <data name="Ui.Clipper.GameAudioHint" xml:space="preserve">
-    <value>Record desktop and game audio in saved videos.</value>
+    <value>在儲存的影片中錄製桌面與遊戲音訊。</value>
   </data>
   <data name="Ui.Clipper.GameAudioShort" xml:space="preserve">
-    <value>Game Audio</value>
+    <value>遊戲音訊</value>
   </data>
   <data name="Ui.Clipper.Microphone" xml:space="preserve">
-    <value>Capture microphone</value>
+    <value>擷取麥克風</value>
   </data>
   <data name="Ui.Clipper.MicrophoneHint" xml:space="preserve">
-    <value>Mix microphone input into saved videos.</value>
+    <value>將麥克風輸入混音至儲存的影片中。</value>
   </data>
   <data name="Ui.Clipper.MicShort" xml:space="preserve">
-    <value>Mic</value>
+    <value>麥克風</value>
   </data>
   <data name="Ui.Clipper.StatusIndicator" xml:space="preserve">
-    <value>Status indicator badge</value>
+    <value>狀態指示徽章</value>
   </data>
   <data name="Ui.Clipper.StatusIndicatorHint" xml:space="preserve">
-    <value>Show a compact recording badge in the corner of the screen.</value>
+    <value>在螢幕角落顯示精簡的錄製徽章。</value>
   </data>
   <data name="Ui.Clipper.HudBadge" xml:space="preserve">
-    <value>HUD Badge</value>
+    <value>HUD 徽章</value>
   </data>
   <data name="Ui.Clipper.ClipsFolder" xml:space="preserve">
-    <value>Saved clips folder</value>
+    <value>已儲存片段資料夾</value>
   </data>
   <data name="Ui.Clipper.ClipsFolderHint" xml:space="preserve">
-    <value>Open the folder where recordings and clips are stored.</value>
+    <value>開啟儲存錄影與片段的資料夾。</value>
   </data>
   <data name="Ui.Clipper.OpenFolder" xml:space="preserve">
-    <value>Open Folder</value>
+    <value>開啟資料夾</value>
   </data>
   <data name="Ui.Clipper.CaptureSettings" xml:space="preserve">
-    <value>Capture &amp; Quality</value>
+    <value>擷取與畫質</value>
   </data>
   <data name="Ui.Clipper.QualitySection" xml:space="preserve">
-    <value>Quality, Resolution &amp; FPS</value>
+    <value>畫質、解析度與 FPS</value>
   </data>
   <data name="Ui.Clipper.QualitySectionHint" xml:space="preserve">
-    <value>Hardware GPU encoding runs asynchronously with zero game frame impact.</value>
+    <value>硬體 GPU 編碼以非同步方式執行，對遊戲影格率零影響。</value>
   </data>
   <data name="Ui.Clipper.IndicatorsAndAudio" xml:space="preserve">
-    <value>Indicators &amp; Audio</value>
+    <value>指示器與音訊</value>
   </data>
   <data name="Ui.Clipper.IndicatorsAndAudioHint" xml:space="preserve">
-    <value>Toggle the screen red border, corner badge, game audio, and microphone.</value>
+    <value>切換螢幕紅色邊框、角落徽章、遊戲音訊與麥克風。</value>
   </data>
   <data name="Ui.Clipper.ShortcutLabel" xml:space="preserve">
-    <value>Recording Shortcut</value>
+    <value>錄製快捷鍵</value>
   </data>
   <data name="Ui.Clipper.ShortcutHint" xml:space="preserve">
-    <value>Click the box and press a key combination to toggle recording or save a clip.</value>
+    <value>點擊輸入框並按下組合鍵以切換錄製或儲存片段。</value>
   </data>
   <data name="Ui.Clipper.ShortcutModifierHint" xml:space="preserve">
-    <value>Include Ctrl, Alt, Shift, or use a function key F1 to F12.</value>
+    <value>請包含 Ctrl、Alt、Shift，或使用功能鍵 F1 至 F12。</value>
   </data>
   <data name="Ui.Clipper.PressKeys" xml:space="preserve">
-    <value>Press keys...</value>
+    <value>請按鍵...</value>
   </data>
   <data name="Ui.Clipper.Reset" xml:space="preserve">
-    <value>Reset</value>
+    <value>重設</value>
   </data>
   <data name="Ui.Clipper.StartRecording" xml:space="preserve">
-    <value>开始录制</value>
+    <value>開始錄製</value>
   </data>
   <data name="Ui.Clipper.StopRecording" xml:space="preserve">
-    <value>停止录制</value>
+    <value>停止錄製</value>
   </data>
   <data name="Ui.Clipper.SaveClip" xml:space="preserve">
-    <value>保存片段</value>
+    <value>儲存片段</value>
   </data>
   <data name="Ui.Clipper.Saving" xml:space="preserve">
-    <value>保存中...</value>
+    <value>正在儲存...</value>
   </data>
   <data name="Ui.Clipper.SaveFailed" xml:space="preserve">
-    <value>Could not save clip.</value>
+    <value>無法儲存片段。</value>
   </data>
   <data name="Ui.Clipper.DeleteFailed" xml:space="preserve">
-    <value>Could not delete clip</value>
+    <value>無法刪除片段</value>
   </data>
   <data name="Ui.Clipper.StatusDisabled" xml:space="preserve">
-    <value>Recorder Disabled</value>
+    <value>錄製器已停用</value>
   </data>
   <data name="Ui.Clipper.StatusDisabledSub" xml:space="preserve">
-    <value>Turn on the switch or click Start Recording to begin.</value>
+    <value>開啟開關或點擊「開始錄製」以開始。</value>
   </data>
   <data name="Ui.Clipper.StatusPreparingEncoder" xml:space="preserve">
-    <value>Preparing hardware video encoder...</value>
+    <value>正在準備硬體影片編碼器...</value>
   </data>
   <data name="Ui.Clipper.StatusRecording" xml:space="preserve">
-    <value>正在录制</value>
+    <value>正在錄製</value>
   </data>
   <data name="Ui.Clipper.StatusReadyRecord" xml:space="preserve">
-    <value>准备就绪</value>
+    <value>準備錄製</value>
   </data>
   <data name="Ui.Clipper.StatusReadyRecordSub" xml:space="preserve">
-    <value>Click Start Recording or press {0} to record.</value>
+    <value>點擊「開始錄製」或按 {0} 開始錄製。</value>
   </data>
   <data name="Ui.Clipper.StatusClipReady" xml:space="preserve">
-    <value>回放缓冲就绪</value>
+    <value>片段緩衝區已就緒</value>
   </data>
   <data name="Ui.Clipper.StatusStarting" xml:space="preserve">
-    <value>Starting Capture...</value>
+    <value>正在啟動擷取...</value>
   </data>
   <data name="Ui.Clipper.StatusStartingSub" xml:space="preserve">
-    <value>Initializing GPU capture pipeline...</value>
+    <value>正在初始化 GPU 擷取管線...</value>
   </data>
   <data name="Ui.Clipper.SavedClips" xml:space="preserve">
-    <value>已保存片段</value>
+    <value>已儲存的片段</value>
   </data>
   <data name="Ui.Clipper.Refresh" xml:space="preserve">
-    <value>刷新</value>
+    <value>重新整理</value>
   </data>
   <data name="Ui.Clipper.EmptyClips" xml:space="preserve">
-    <value>尚无已保存的录制或片段。</value>
+    <value>尚無已儲存的錄影或片段。</value>
   </data>
   <data name="Ui.Clipper.Play" xml:space="preserve">
     <value>播放</value>
@@ -7394,39 +7394,39 @@ Voidstrap 無法寫入桌面資料夾。</value>
     <value>裁剪</value>
   </data>
   <data name="Ui.Clipper.Delete" xml:space="preserve">
-    <value>删除</value>
+    <value>刪除</value>
   </data>
   <data name="Ui.Clipper.Close" xml:space="preserve">
-    <value>关闭</value>
+    <value>關閉</value>
   </data>
   <data name="Ui.Clipper.Start" xml:space="preserve">
-    <value>Start</value>
+    <value>開始</value>
   </data>
   <data name="Ui.Clipper.End" xml:space="preserve">
-    <value>End</value>
+    <value>結束</value>
   </data>
   <data name="Ui.Clipper.SaveAsCopy" xml:space="preserve">
-    <value>Save as Copy</value>
+    <value>另存為副本</value>
   </data>
   <data name="Ui.Clipper.TrimOriginal" xml:space="preserve">
-    <value>Trim Original</value>
+    <value>裁剪原始檔</value>
   </data>
   <data name="Ui.Clipper.TrimFailed" xml:space="preserve">
-    <value>Trim failed.</value>
+    <value>裁剪失敗。</value>
   </data>
   <data name="Ui.Clipper.TrimSaved" xml:space="preserve">
-    <value>Trimmed clip saved</value>
+    <value>已儲存裁剪後的片段</value>
   </data>
   <data name="Ui.Clipper.BadgeRec" xml:space="preserve">
-    <value>REC</value>
+    <value>錄製</value>
   </data>
   <data name="Ui.Clipper.BadgeClip" xml:space="preserve">
-    <value>CLIP</value>
+    <value>片段</value>
   </data>
   <data name="Ui.Clipper.BadgeSaved" xml:space="preserve">
-    <value>SAVED</value>
+    <value>已儲存</value>
   </data>
   <data name="Ui.Clipper.BadgeIdle" xml:space="preserve">
-    <value>IDLE</value>
+    <value>閒置</value>
   </data>
 </root>

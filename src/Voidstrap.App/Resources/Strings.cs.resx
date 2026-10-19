@@ -7005,7 +7005,7 @@ Chyba: {0}</value>
     <value>Zaměřovač</value>
   </data>
   <data name="Ui.OverlayStudio.LayerFrameGen" xml:space="preserve">
-    <value>FrameGen HUD</value>
+    <value>Panel FrameGen</value>
   </data>
   <data name="Ui.OverlayStudio.LayerPanels" xml:space="preserve">
     <value>Panely doku</value>
@@ -7134,279 +7134,279 @@ Chyba: {0}</value>
     <value>Otevřít studio překrytí</value>
   </data>
   <data name="Ui.Clipper.Title" xml:space="preserve">
-    <value>Video Clipper</value>
+    <value>Záznam klipů</value>
   </data>
   <data name="Ui.Clipper.ShortcutDescription" xml:space="preserve">
-    <value>Hardware accelerated capture when you press {0}.</value>
+    <value>Hardwarově akcelerované nahrávání při stisknutí {0}.</value>
   </data>
   <data name="Ui.Clipper.NoShortcutDescription" xml:space="preserve">
-    <value>Hardware accelerated capture. Reset the shortcut to use it in game.</value>
+    <value>Hardwarově akcelerované nahrávání. Obnovte zkratku pro použití ve hře.</value>
   </data>
   <data name="Ui.Clipper.NotifyHint" xml:space="preserve">
-    <value>Hardware GPU video recorder and instant replay clipper.</value>
+    <value>Hardwarový GPU videorekordér a nástroj pro okamžité klipy.</value>
   </data>
   <data name="Ui.Clipper.OpenClipper" xml:space="preserve">
-    <value>Open Clipper</value>
+    <value>Otevřít záznam klipů</value>
   </data>
   <data name="Ui.Clipper.ClipSaved" xml:space="preserve">
-    <value>Clip saved</value>
+    <value>Klip uložen</value>
   </data>
   <data name="Ui.Clipper.RecordingMode" xml:space="preserve">
-    <value>Recording mode</value>
+    <value>Režim nahrávání</value>
   </data>
   <data name="Ui.Clipper.RecordingModeHint" xml:space="preserve">
-    <value>Choose normal on and off recording or rolling clip replay.</value>
+    <value>Zvolte běžné nahrávání (zap/vyp) nebo průběžný záznam klipů.</value>
   </data>
   <data name="Ui.Clipper.ModeRecord" xml:space="preserve">
-    <value>Normal Record (On/Off)</value>
+    <value>Běžný záznam (Zap/Vyp)</value>
   </data>
   <data name="Ui.Clipper.ModeClip" xml:space="preserve">
-    <value>Clip Record (Replay)</value>
+    <value>Záznam klipu (Záznam zpětně)</value>
   </data>
   <data name="Ui.Clipper.BufferLength" xml:space="preserve">
-    <value>Clip replay length</value>
+    <value>Délka zpětného klipu</value>
   </data>
   <data name="Ui.Clipper.BufferLengthHint" xml:space="preserve">
-    <value>How many seconds of gameplay to keep in the instant replay buffer.</value>
+    <value>Kolik sekund hraní uchovávat ve vyrovnávací paměti okamžitého záznamu.</value>
   </data>
   <data name="Ui.Clipper.Sec15" xml:space="preserve">
-    <value>15 sec</value>
+    <value>15 s</value>
   </data>
   <data name="Ui.Clipper.Sec30" xml:space="preserve">
-    <value>30 sec</value>
+    <value>30 s</value>
   </data>
   <data name="Ui.Clipper.Sec60" xml:space="preserve">
-    <value>60 sec</value>
+    <value>60 s</value>
   </data>
   <data name="Ui.Clipper.Sec120" xml:space="preserve">
-    <value>120 sec</value>
+    <value>120 s</value>
   </data>
   <data name="Ui.Clipper.RecordOnGameStart" xml:space="preserve">
-    <value>Record on game start</value>
+    <value>Nahrávat při spuštění hry</value>
   </data>
   <data name="Ui.Clipper.RecordOnGameStartHint" xml:space="preserve">
-    <value>Automatically start recording when a Roblox game session begins.</value>
+    <value>Automaticky spustit nahrávání při zahájení relace Roblox.</value>
   </data>
   <data name="Ui.Clipper.RedBorder" xml:space="preserve">
-    <value>Red screen border</value>
+    <value>Červený okraj obrazovky</value>
   </data>
   <data name="Ui.Clipper.RedBorderHint" xml:space="preserve">
-    <value>Show classic red bars around the edges of your screen while recording.</value>
+    <value>Zobrazit klasické červené pruhy kolem okrajů obrazovky během nahrávání.</value>
   </data>
   <data name="Ui.Clipper.RedBorderShort" xml:space="preserve">
-    <value>Red Border</value>
+    <value>Červený okraj</value>
   </data>
   <data name="Ui.Clipper.VideoQuality" xml:space="preserve">
-    <value>Video quality</value>
+    <value>Kvalita videa</value>
   </data>
   <data name="Ui.Clipper.VideoQualityHint" xml:space="preserve">
-    <value>Bitrate preset used by the hardware GPU encoder.</value>
+    <value>Předvolba datového toku použitá hardwarovým GPU kodérem.</value>
   </data>
   <data name="Ui.Clipper.QualityLow" xml:space="preserve">
-    <value>Low (8 Mbps)</value>
+    <value>Nízká (8 Mbps)</value>
   </data>
   <data name="Ui.Clipper.QualityMedium" xml:space="preserve">
-    <value>Medium (16 Mbps)</value>
+    <value>Střední (16 Mbps)</value>
   </data>
   <data name="Ui.Clipper.QualityHigh" xml:space="preserve">
-    <value>High (28 Mbps)</value>
+    <value>Vysoká (28 Mbps)</value>
   </data>
   <data name="Ui.Clipper.QualityUltra" xml:space="preserve">
-    <value>Ultra (50 Mbps)</value>
+    <value>Maximální (50 Mbps)</value>
   </data>
   <data name="Ui.Clipper.QualityLowShort" xml:space="preserve">
-    <value>Low</value>
+    <value>Nízká</value>
   </data>
   <data name="Ui.Clipper.QualityMediumShort" xml:space="preserve">
-    <value>Medium</value>
+    <value>Střední</value>
   </data>
   <data name="Ui.Clipper.QualityHighShort" xml:space="preserve">
-    <value>High</value>
+    <value>Vysoká</value>
   </data>
   <data name="Ui.Clipper.QualityUltraShort" xml:space="preserve">
-    <value>Ultra</value>
+    <value>Maximální</value>
   </data>
   <data name="Ui.Clipper.Resolution" xml:space="preserve">
-    <value>Resolution</value>
+    <value>Rozlišení</value>
   </data>
   <data name="Ui.Clipper.ResolutionHint" xml:space="preserve">
-    <value>Output resolution of saved recordings and clips.</value>
+    <value>Výstupní rozlišení uložených záznamů a klipů.</value>
   </data>
   <data name="Ui.Clipper.ResNative" xml:space="preserve">
-    <value>Native</value>
+    <value>Nativní</value>
   </data>
   <data name="Ui.Clipper.FrameRate" xml:space="preserve">
-    <value>Frame rate</value>
+    <value>Snímková frekvence</value>
   </data>
   <data name="Ui.Clipper.FrameRateHint" xml:space="preserve">
-    <value>Target capture frame rate.</value>
+    <value>Cílová snímková frekvence záznamu.</value>
   </data>
   <data name="Ui.Clipper.Codec" xml:space="preserve">
-    <value>Encoder codec</value>
+    <value>Kodek kodéru</value>
   </data>
   <data name="Ui.Clipper.CodecHint" xml:space="preserve">
-    <value>Hardware GPU encoder format.</value>
+    <value>Formát hardwarového GPU kodéru.</value>
   </data>
   <data name="Ui.Clipper.GameAudio" xml:space="preserve">
-    <value>Capture game audio</value>
+    <value>Nahrávat zvuk hry</value>
   </data>
   <data name="Ui.Clipper.GameAudioHint" xml:space="preserve">
-    <value>Record desktop and game audio in saved videos.</value>
+    <value>Nahrávat zvuk plochy a hry do uložených videí.</value>
   </data>
   <data name="Ui.Clipper.GameAudioShort" xml:space="preserve">
-    <value>Game Audio</value>
+    <value>Zvuk hry</value>
   </data>
   <data name="Ui.Clipper.Microphone" xml:space="preserve">
-    <value>Capture microphone</value>
+    <value>Nahrávat mikrofon</value>
   </data>
   <data name="Ui.Clipper.MicrophoneHint" xml:space="preserve">
-    <value>Mix microphone input into saved videos.</value>
+    <value>Přimíchat vstup mikrofonu do uložených videí.</value>
   </data>
   <data name="Ui.Clipper.MicShort" xml:space="preserve">
-    <value>Mic</value>
+    <value>Mikrofon</value>
   </data>
   <data name="Ui.Clipper.StatusIndicator" xml:space="preserve">
-    <value>Status indicator badge</value>
+    <value>Odznak indikátoru stavu</value>
   </data>
   <data name="Ui.Clipper.StatusIndicatorHint" xml:space="preserve">
-    <value>Show a compact recording badge in the corner of the screen.</value>
+    <value>Zobrazit kompaktní odznak nahrávání v rohu obrazovky.</value>
   </data>
   <data name="Ui.Clipper.HudBadge" xml:space="preserve">
-    <value>HUD Badge</value>
+    <value>Odznak HUD</value>
   </data>
   <data name="Ui.Clipper.ClipsFolder" xml:space="preserve">
-    <value>Saved clips folder</value>
+    <value>Složka uložených klipů</value>
   </data>
   <data name="Ui.Clipper.ClipsFolderHint" xml:space="preserve">
-    <value>Open the folder where recordings and clips are stored.</value>
+    <value>Otevřít složku s uloženými záznamy a klipy.</value>
   </data>
   <data name="Ui.Clipper.OpenFolder" xml:space="preserve">
-    <value>Open Folder</value>
+    <value>Otevřít složku</value>
   </data>
   <data name="Ui.Clipper.CaptureSettings" xml:space="preserve">
-    <value>Capture &amp; Quality</value>
+    <value>Záznam a kvalita</value>
   </data>
   <data name="Ui.Clipper.QualitySection" xml:space="preserve">
-    <value>Quality, Resolution &amp; FPS</value>
+    <value>Kvalita, rozlišení a FPS</value>
   </data>
   <data name="Ui.Clipper.QualitySectionHint" xml:space="preserve">
-    <value>Hardware GPU encoding runs asynchronously with zero game frame impact.</value>
+    <value>Hardwarové kódování GPU běží asynchronně bez dopadu na snímky ve hře.</value>
   </data>
   <data name="Ui.Clipper.IndicatorsAndAudio" xml:space="preserve">
-    <value>Indicators &amp; Audio</value>
+    <value>Indikátory a zvuk</value>
   </data>
   <data name="Ui.Clipper.IndicatorsAndAudioHint" xml:space="preserve">
-    <value>Toggle the screen red border, corner badge, game audio, and microphone.</value>
+    <value>Přepnout červený okraj obrazovky, rohový odznak, zvuk hry a mikrofon.</value>
   </data>
   <data name="Ui.Clipper.ShortcutLabel" xml:space="preserve">
-    <value>Recording Shortcut</value>
+    <value>Zkratka nahrávání</value>
   </data>
   <data name="Ui.Clipper.ShortcutHint" xml:space="preserve">
-    <value>Click the box and press a key combination to toggle recording or save a clip.</value>
+    <value>Klikněte do pole a stiskněte kombinaci kláves pro přepnutí záznamu nebo uložení klipu.</value>
   </data>
   <data name="Ui.Clipper.ShortcutModifierHint" xml:space="preserve">
-    <value>Include Ctrl, Alt, Shift, or use a function key F1 to F12.</value>
+    <value>Použijte Ctrl, Alt, Shift nebo funkční klávesu F1 až F12.</value>
   </data>
   <data name="Ui.Clipper.PressKeys" xml:space="preserve">
-    <value>Press keys...</value>
+    <value>Stiskněte klávesy...</value>
   </data>
   <data name="Ui.Clipper.Reset" xml:space="preserve">
-    <value>Reset</value>
+    <value>Obnovit</value>
   </data>
   <data name="Ui.Clipper.StartRecording" xml:space="preserve">
-    <value>Start Recording</value>
+    <value>Spustit nahrávání</value>
   </data>
   <data name="Ui.Clipper.StopRecording" xml:space="preserve">
-    <value>Stop Recording</value>
+    <value>Zastavit nahrávání</value>
   </data>
   <data name="Ui.Clipper.SaveClip" xml:space="preserve">
-    <value>Save Clip</value>
+    <value>Uložit klip</value>
   </data>
   <data name="Ui.Clipper.Saving" xml:space="preserve">
-    <value>Saving...</value>
+    <value>Ukládání...</value>
   </data>
   <data name="Ui.Clipper.SaveFailed" xml:space="preserve">
-    <value>Could not save clip.</value>
+    <value>Klip se nepodařilo uložit.</value>
   </data>
   <data name="Ui.Clipper.DeleteFailed" xml:space="preserve">
-    <value>Could not delete clip</value>
+    <value>Klip se nepodařilo smazat</value>
   </data>
   <data name="Ui.Clipper.StatusDisabled" xml:space="preserve">
-    <value>Recorder Disabled</value>
+    <value>Rekordér vypnut</value>
   </data>
   <data name="Ui.Clipper.StatusDisabledSub" xml:space="preserve">
-    <value>Turn on the switch or click Start Recording to begin.</value>
+    <value>Zapněte přepínač nebo klikněte na Spustit nahrávání.</value>
   </data>
   <data name="Ui.Clipper.StatusPreparingEncoder" xml:space="preserve">
-    <value>Preparing hardware video encoder...</value>
+    <value>Příprava hardwarového kodéru videa...</value>
   </data>
   <data name="Ui.Clipper.StatusRecording" xml:space="preserve">
-    <value>Recording</value>
+    <value>Nahrávání</value>
   </data>
   <data name="Ui.Clipper.StatusReadyRecord" xml:space="preserve">
-    <value>Ready to Record</value>
+    <value>Připraveno k nahrávání</value>
   </data>
   <data name="Ui.Clipper.StatusReadyRecordSub" xml:space="preserve">
-    <value>Click Start Recording or press {0} to record.</value>
+    <value>Klikněte na Spustit nahrávání nebo stiskněte {0}.</value>
   </data>
   <data name="Ui.Clipper.StatusClipReady" xml:space="preserve">
-    <value>Clip Buffer Ready</value>
+    <value>Vyrovnávací paměť připravena</value>
   </data>
   <data name="Ui.Clipper.StatusStarting" xml:space="preserve">
-    <value>Starting Capture...</value>
+    <value>Spouštění záznamu...</value>
   </data>
   <data name="Ui.Clipper.StatusStartingSub" xml:space="preserve">
-    <value>Initializing GPU capture pipeline...</value>
+    <value>Inicializace kanálu GPU záznamu...</value>
   </data>
   <data name="Ui.Clipper.SavedClips" xml:space="preserve">
-    <value>Saved Clips</value>
+    <value>Uložené klipy</value>
   </data>
   <data name="Ui.Clipper.Refresh" xml:space="preserve">
-    <value>Refresh</value>
+    <value>Obnovit</value>
   </data>
   <data name="Ui.Clipper.EmptyClips" xml:space="preserve">
-    <value>No recordings or clips saved yet.</value>
+    <value>Zatím nejsou uloženy žádné záznamy ani klipy.</value>
   </data>
   <data name="Ui.Clipper.Play" xml:space="preserve">
-    <value>Play</value>
+    <value>Přehrát</value>
   </data>
   <data name="Ui.Clipper.Trim" xml:space="preserve">
-    <value>Trim</value>
+    <value>Oříznout</value>
   </data>
   <data name="Ui.Clipper.Delete" xml:space="preserve">
-    <value>Delete</value>
+    <value>Smazat</value>
   </data>
   <data name="Ui.Clipper.Close" xml:space="preserve">
-    <value>Close</value>
+    <value>Zavřít</value>
   </data>
   <data name="Ui.Clipper.Start" xml:space="preserve">
-    <value>Start</value>
+    <value>Začátek</value>
   </data>
   <data name="Ui.Clipper.End" xml:space="preserve">
-    <value>End</value>
+    <value>Konec</value>
   </data>
   <data name="Ui.Clipper.SaveAsCopy" xml:space="preserve">
-    <value>Save as Copy</value>
+    <value>Uložit jako kopii</value>
   </data>
   <data name="Ui.Clipper.TrimOriginal" xml:space="preserve">
-    <value>Trim Original</value>
+    <value>Oříznout originál</value>
   </data>
   <data name="Ui.Clipper.TrimFailed" xml:space="preserve">
-    <value>Trim failed.</value>
+    <value>Oříznutí selhalo.</value>
   </data>
   <data name="Ui.Clipper.TrimSaved" xml:space="preserve">
-    <value>Trimmed clip saved</value>
+    <value>Oříznutý klip uložen</value>
   </data>
   <data name="Ui.Clipper.BadgeRec" xml:space="preserve">
-    <value>REC</value>
+    <value>ZÁZNAM</value>
   </data>
   <data name="Ui.Clipper.BadgeClip" xml:space="preserve">
-    <value>CLIP</value>
+    <value>KLIP</value>
   </data>
   <data name="Ui.Clipper.BadgeSaved" xml:space="preserve">
-    <value>SAVED</value>
+    <value>ULOŽENO</value>
   </data>
   <data name="Ui.Clipper.BadgeIdle" xml:space="preserve">
-    <value>IDLE</value>
+    <value>NEČINNÝ</value>
   </data>
 </root>

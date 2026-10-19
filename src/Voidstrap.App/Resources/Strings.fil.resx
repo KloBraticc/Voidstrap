@@ -6729,10 +6729,10 @@ Error: {0}</value>
     <value>Wala pang mga rating</value>
   </data>
   <data name="Ui.Session.OverlayLayout" xml:space="preserve">
-    <value>Overlay Studio</value>
+    <value>Studio ng Overlay</value>
   </data>
   <data name="Ui.OverlayStudio.Title" xml:space="preserve">
-    <value>Overlay Studio</value>
+    <value>Studio ng Overlay</value>
   </data>
   <data name="Ui.OverlayStudio.Subtitle" xml:space="preserve">
     <value>Ilipat, sukatin, at ayusin ang bawat in game overlay na may live preview at direktang paghila sa screen.</value>
@@ -6747,7 +6747,7 @@ Error: {0}</value>
     <value>Hilain ang anumang overlay card direkta sa bintana ng laro. Pindutin ang Esc o Done kapag tapos na.</value>
   </data>
   <data name="Ui.OverlayStudio.MagneticSnap" xml:space="preserve">
-    <value>Magnetic Snap</value>
+    <value>Magnetikong Snap</value>
   </data>
   <data name="Ui.OverlayStudio.Done" xml:space="preserve">
     <value>Tapos na</value>
@@ -6762,19 +6762,19 @@ Error: {0}</value>
     <value>Mga Preset ng Layout</value>
   </data>
   <data name="Ui.OverlayStudio.PresetDefault" xml:space="preserve">
-    <value>Default</value>
+    <value>Karaniwan</value>
   </data>
   <data name="Ui.OverlayStudio.PresetTopBar" xml:space="preserve">
     <value>Minimal na Top Bar</value>
   </data>
   <data name="Ui.OverlayStudio.PresetCompetitive" xml:space="preserve">
-    <value>Competitive HUD</value>
+    <value>Kompetitibong HUD</value>
   </data>
   <data name="Ui.OverlayStudio.PresetStreamer" xml:space="preserve">
-    <value>Streamer Clean</value>
+    <value>Malinis na Streamer</value>
   </data>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
-    <value>Top Dock</value>
+    <value>Dock sa Itaas</value>
   </data>
   <data name="Ui.OverlayStudio.StagePreview" xml:space="preserve">
     <value>Interactive na Entablado ng Screen</value>
@@ -6792,13 +6792,13 @@ Error: {0}</value>
     <value>Mga Notipikasyon</value>
   </data>
   <data name="Ui.OverlayStudio.LayerDock" xml:space="preserve">
-    <value>Session Dock</value>
+    <value>Dock ng Sesyon</value>
   </data>
   <data name="Ui.OverlayStudio.LayerCrosshair" xml:space="preserve">
-    <value>Crosshair</value>
+    <value>Panudla</value>
   </data>
   <data name="Ui.OverlayStudio.LayerFrameGen" xml:space="preserve">
-    <value>FrameGen HUD</value>
+    <value>HUD ng FrameGen</value>
   </data>
   <data name="Ui.OverlayStudio.LayerPanels" xml:space="preserve">
     <value>Mga Panel ng Dock</value>
@@ -6918,7 +6918,7 @@ Error: {0}</value>
     <value>Hindi nakapin</value>
   </data>
   <data name="Ui.OverlayStudio.OpenBannerTitle" xml:space="preserve">
-    <value>In Game Overlay Studio</value>
+    <value>Studio ng Overlay sa Laro</value>
   </data>
   <data name="Ui.OverlayStudio.OpenBannerHint" xml:space="preserve">
     <value>Hilain at iangkop nang live ang posisyon ng Server Readout, Notifications, Dock, Crosshair, at HUD.</value>
@@ -6927,279 +6927,279 @@ Error: {0}</value>
     <value>Buksan ang Overlay Studio</value>
   </data>
   <data name="Ui.Clipper.Title" xml:space="preserve">
-    <value>Video Clipper</value>
+    <value>Pang-clip ng Video</value>
   </data>
   <data name="Ui.Clipper.ShortcutDescription" xml:space="preserve">
-    <value>Hardware accelerated capture when you press {0}.</value>
+    <value>Hardware accelerated na pag record kapag pinindot mo ang {0}.</value>
   </data>
   <data name="Ui.Clipper.NoShortcutDescription" xml:space="preserve">
-    <value>Hardware accelerated capture. Reset the shortcut to use it in game.</value>
+    <value>Hardware accelerated na pag record. I reset ang shortcut para magamit sa laro.</value>
   </data>
   <data name="Ui.Clipper.NotifyHint" xml:space="preserve">
-    <value>Hardware GPU video recorder and instant replay clipper.</value>
+    <value>Hardware GPU video recorder at instant replay clipper.</value>
   </data>
   <data name="Ui.Clipper.OpenClipper" xml:space="preserve">
-    <value>Open Clipper</value>
+    <value>Buksan ang Clipper</value>
   </data>
   <data name="Ui.Clipper.ClipSaved" xml:space="preserve">
-    <value>Clip saved</value>
+    <value>Na save ang clip</value>
   </data>
   <data name="Ui.Clipper.RecordingMode" xml:space="preserve">
-    <value>Recording mode</value>
+    <value>Mode ng pag record</value>
   </data>
   <data name="Ui.Clipper.RecordingModeHint" xml:space="preserve">
-    <value>Choose normal on and off recording or rolling clip replay.</value>
+    <value>Piliin ang normal na on at off na pag record o tuloy tuloy na clip replay.</value>
   </data>
   <data name="Ui.Clipper.ModeRecord" xml:space="preserve">
-    <value>Normal Record (On/Off)</value>
+    <value>Normal na Record (On/Off)</value>
   </data>
   <data name="Ui.Clipper.ModeClip" xml:space="preserve">
-    <value>Clip Record (Replay)</value>
+    <value>Rekord ng Klip (Replay)</value>
   </data>
   <data name="Ui.Clipper.BufferLength" xml:space="preserve">
-    <value>Clip replay length</value>
+    <value>Haba ng clip replay</value>
   </data>
   <data name="Ui.Clipper.BufferLengthHint" xml:space="preserve">
-    <value>How many seconds of gameplay to keep in the instant replay buffer.</value>
+    <value>Ilang segundo ng gameplay ang pananatilihin sa instant replay buffer.</value>
   </data>
   <data name="Ui.Clipper.Sec15" xml:space="preserve">
-    <value>15 sec</value>
+    <value>15 seg</value>
   </data>
   <data name="Ui.Clipper.Sec30" xml:space="preserve">
-    <value>30 sec</value>
+    <value>30 seg</value>
   </data>
   <data name="Ui.Clipper.Sec60" xml:space="preserve">
-    <value>60 sec</value>
+    <value>60 seg</value>
   </data>
   <data name="Ui.Clipper.Sec120" xml:space="preserve">
-    <value>120 sec</value>
+    <value>120 seg</value>
   </data>
   <data name="Ui.Clipper.RecordOnGameStart" xml:space="preserve">
-    <value>Record on game start</value>
+    <value>Mag record sa simula ng laro</value>
   </data>
   <data name="Ui.Clipper.RecordOnGameStartHint" xml:space="preserve">
-    <value>Automatically start recording when a Roblox game session begins.</value>
+    <value>Awtomatikong simulan ang pag record kapag nagsimula ang laro sa Roblox.</value>
   </data>
   <data name="Ui.Clipper.RedBorder" xml:space="preserve">
-    <value>Red screen border</value>
+    <value>Pulang border sa screen</value>
   </data>
   <data name="Ui.Clipper.RedBorderHint" xml:space="preserve">
-    <value>Show classic red bars around the edges of your screen while recording.</value>
+    <value>Magpakita ng klasikong pulang bar sa paligid ng screen habang nagre record.</value>
   </data>
   <data name="Ui.Clipper.RedBorderShort" xml:space="preserve">
-    <value>Red Border</value>
+    <value>Pulang Border</value>
   </data>
   <data name="Ui.Clipper.VideoQuality" xml:space="preserve">
-    <value>Video quality</value>
+    <value>Kalidad ng video</value>
   </data>
   <data name="Ui.Clipper.VideoQualityHint" xml:space="preserve">
-    <value>Bitrate preset used by the hardware GPU encoder.</value>
+    <value>Preset ng bitrate na ginagamit ng hardware GPU encoder.</value>
   </data>
   <data name="Ui.Clipper.QualityLow" xml:space="preserve">
-    <value>Low (8 Mbps)</value>
+    <value>Mababa (8 Mbps)</value>
   </data>
   <data name="Ui.Clipper.QualityMedium" xml:space="preserve">
-    <value>Medium (16 Mbps)</value>
+    <value>Katamtaman (16 Mbps)</value>
   </data>
   <data name="Ui.Clipper.QualityHigh" xml:space="preserve">
-    <value>High (28 Mbps)</value>
+    <value>Mataas (28 Mbps)</value>
   </data>
   <data name="Ui.Clipper.QualityUltra" xml:space="preserve">
-    <value>Ultra (50 Mbps)</value>
+    <value>Pinakamataas (50 Mbps)</value>
   </data>
   <data name="Ui.Clipper.QualityLowShort" xml:space="preserve">
-    <value>Low</value>
+    <value>Mababa</value>
   </data>
   <data name="Ui.Clipper.QualityMediumShort" xml:space="preserve">
-    <value>Medium</value>
+    <value>Katamtaman</value>
   </data>
   <data name="Ui.Clipper.QualityHighShort" xml:space="preserve">
-    <value>High</value>
+    <value>Mataas</value>
   </data>
   <data name="Ui.Clipper.QualityUltraShort" xml:space="preserve">
-    <value>Ultra</value>
+    <value>Pinakamataas</value>
   </data>
   <data name="Ui.Clipper.Resolution" xml:space="preserve">
-    <value>Resolution</value>
+    <value>Resolusyon</value>
   </data>
   <data name="Ui.Clipper.ResolutionHint" xml:space="preserve">
-    <value>Output resolution of saved recordings and clips.</value>
+    <value>Output na resolusyon ng mga na save na recording at clip.</value>
   </data>
   <data name="Ui.Clipper.ResNative" xml:space="preserve">
-    <value>Native</value>
+    <value>Orihinal</value>
   </data>
   <data name="Ui.Clipper.FrameRate" xml:space="preserve">
-    <value>Frame rate</value>
+    <value>Bilis ng frame</value>
   </data>
   <data name="Ui.Clipper.FrameRateHint" xml:space="preserve">
-    <value>Target capture frame rate.</value>
+    <value>Target na frame rate ng pag capture.</value>
   </data>
   <data name="Ui.Clipper.Codec" xml:space="preserve">
-    <value>Encoder codec</value>
+    <value>Codec ng encoder</value>
   </data>
   <data name="Ui.Clipper.CodecHint" xml:space="preserve">
-    <value>Hardware GPU encoder format.</value>
+    <value>Format ng hardware GPU encoder.</value>
   </data>
   <data name="Ui.Clipper.GameAudio" xml:space="preserve">
-    <value>Capture game audio</value>
+    <value>I capture ang audio ng laro</value>
   </data>
   <data name="Ui.Clipper.GameAudioHint" xml:space="preserve">
-    <value>Record desktop and game audio in saved videos.</value>
+    <value>I record ang audio ng desktop at laro sa mga na save na video.</value>
   </data>
   <data name="Ui.Clipper.GameAudioShort" xml:space="preserve">
-    <value>Game Audio</value>
+    <value>Audio ng Laro</value>
   </data>
   <data name="Ui.Clipper.Microphone" xml:space="preserve">
-    <value>Capture microphone</value>
+    <value>I capture ang mikropono</value>
   </data>
   <data name="Ui.Clipper.MicrophoneHint" xml:space="preserve">
-    <value>Mix microphone input into saved videos.</value>
+    <value>Ihalo ang audio ng mikropono sa mga na save na video.</value>
   </data>
   <data name="Ui.Clipper.MicShort" xml:space="preserve">
-    <value>Mic</value>
+    <value>Mikropono</value>
   </data>
   <data name="Ui.Clipper.StatusIndicator" xml:space="preserve">
-    <value>Status indicator badge</value>
+    <value>Badge ng status indicator</value>
   </data>
   <data name="Ui.Clipper.StatusIndicatorHint" xml:space="preserve">
-    <value>Show a compact recording badge in the corner of the screen.</value>
+    <value>Magpakita ng maliit na badge ng pag record sa sulok ng screen.</value>
   </data>
   <data name="Ui.Clipper.HudBadge" xml:space="preserve">
-    <value>HUD Badge</value>
+    <value>Badge sa HUD</value>
   </data>
   <data name="Ui.Clipper.ClipsFolder" xml:space="preserve">
-    <value>Saved clips folder</value>
+    <value>Folder ng mga na save na clip</value>
   </data>
   <data name="Ui.Clipper.ClipsFolderHint" xml:space="preserve">
-    <value>Open the folder where recordings and clips are stored.</value>
+    <value>Buksan ang folder kung saan nakatago ang mga recording at clip.</value>
   </data>
   <data name="Ui.Clipper.OpenFolder" xml:space="preserve">
-    <value>Open Folder</value>
+    <value>Buksan ang Folder</value>
   </data>
   <data name="Ui.Clipper.CaptureSettings" xml:space="preserve">
-    <value>Capture &amp; Quality</value>
+    <value>Pag capture at Kalidad</value>
   </data>
   <data name="Ui.Clipper.QualitySection" xml:space="preserve">
-    <value>Quality, Resolution &amp; FPS</value>
+    <value>Kalidad, Resolusyon at FPS</value>
   </data>
   <data name="Ui.Clipper.QualitySectionHint" xml:space="preserve">
-    <value>Hardware GPU encoding runs asynchronously with zero game frame impact.</value>
+    <value>Tumatakbo nang asynchronous ang hardware GPU encoding nang walang epekto sa FPS ng laro.</value>
   </data>
   <data name="Ui.Clipper.IndicatorsAndAudio" xml:space="preserve">
-    <value>Indicators &amp; Audio</value>
+    <value>Mga Indicator at Audio</value>
   </data>
   <data name="Ui.Clipper.IndicatorsAndAudioHint" xml:space="preserve">
-    <value>Toggle the screen red border, corner badge, game audio, and microphone.</value>
+    <value>I toggle ang pulang border sa screen, corner badge, audio ng laro, at mikropono.</value>
   </data>
   <data name="Ui.Clipper.ShortcutLabel" xml:space="preserve">
-    <value>Recording Shortcut</value>
+    <value>Shortcut sa Pag record</value>
   </data>
   <data name="Ui.Clipper.ShortcutHint" xml:space="preserve">
-    <value>Click the box and press a key combination to toggle recording or save a clip.</value>
+    <value>I click ang kahon at pindutin ang kombinasyon ng key para mag record o mag save ng clip.</value>
   </data>
   <data name="Ui.Clipper.ShortcutModifierHint" xml:space="preserve">
-    <value>Include Ctrl, Alt, Shift, or use a function key F1 to F12.</value>
+    <value>Isama ang Ctrl, Alt, Shift, o gumamit ng function key mula F1 hanggang F12.</value>
   </data>
   <data name="Ui.Clipper.PressKeys" xml:space="preserve">
-    <value>Press keys...</value>
+    <value>Pindutin ang mga key...</value>
   </data>
   <data name="Ui.Clipper.Reset" xml:space="preserve">
-    <value>Reset</value>
+    <value>I reset</value>
   </data>
   <data name="Ui.Clipper.StartRecording" xml:space="preserve">
-    <value>Start Recording</value>
+    <value>Simulan ang Pag record</value>
   </data>
   <data name="Ui.Clipper.StopRecording" xml:space="preserve">
-    <value>Stop Recording</value>
+    <value>Itigil ang Pag record</value>
   </data>
   <data name="Ui.Clipper.SaveClip" xml:space="preserve">
-    <value>Save Clip</value>
+    <value>I save ang Clip</value>
   </data>
   <data name="Ui.Clipper.Saving" xml:space="preserve">
-    <value>Saving...</value>
+    <value>Sine save...</value>
   </data>
   <data name="Ui.Clipper.SaveFailed" xml:space="preserve">
-    <value>Could not save clip.</value>
+    <value>Hindi ma save ang clip.</value>
   </data>
   <data name="Ui.Clipper.DeleteFailed" xml:space="preserve">
-    <value>Could not delete clip</value>
+    <value>Hindi mabura ang clip</value>
   </data>
   <data name="Ui.Clipper.StatusDisabled" xml:space="preserve">
-    <value>Recorder Disabled</value>
+    <value>Naka disable ang Recorder</value>
   </data>
   <data name="Ui.Clipper.StatusDisabledSub" xml:space="preserve">
-    <value>Turn on the switch or click Start Recording to begin.</value>
+    <value>I on ang switch o i click ang Simulan ang Pag record.</value>
   </data>
   <data name="Ui.Clipper.StatusPreparingEncoder" xml:space="preserve">
-    <value>Preparing hardware video encoder...</value>
+    <value>Inihahanda ang hardware video encoder...</value>
   </data>
   <data name="Ui.Clipper.StatusRecording" xml:space="preserve">
-    <value>Recording</value>
+    <value>Nagre record</value>
   </data>
   <data name="Ui.Clipper.StatusReadyRecord" xml:space="preserve">
-    <value>Ready to Record</value>
+    <value>Handa nang Mag record</value>
   </data>
   <data name="Ui.Clipper.StatusReadyRecordSub" xml:space="preserve">
-    <value>Click Start Recording or press {0} to record.</value>
+    <value>I click ang Simulan ang Pag record o pindutin ang {0} para mag record.</value>
   </data>
   <data name="Ui.Clipper.StatusClipReady" xml:space="preserve">
-    <value>Clip Buffer Ready</value>
+    <value>Handa na ang Clip Buffer</value>
   </data>
   <data name="Ui.Clipper.StatusStarting" xml:space="preserve">
-    <value>Starting Capture...</value>
+    <value>Sinisimulan ang Pag capture...</value>
   </data>
   <data name="Ui.Clipper.StatusStartingSub" xml:space="preserve">
-    <value>Initializing GPU capture pipeline...</value>
+    <value>Sinisimulan ang GPU capture pipeline...</value>
   </data>
   <data name="Ui.Clipper.SavedClips" xml:space="preserve">
-    <value>Saved Clips</value>
+    <value>Mga Na save na Clip</value>
   </data>
   <data name="Ui.Clipper.Refresh" xml:space="preserve">
-    <value>Refresh</value>
+    <value>I refresh</value>
   </data>
   <data name="Ui.Clipper.EmptyClips" xml:space="preserve">
-    <value>No recordings or clips saved yet.</value>
+    <value>Wala pang na save na mga recording o clip.</value>
   </data>
   <data name="Ui.Clipper.Play" xml:space="preserve">
-    <value>Play</value>
+    <value>I play</value>
   </data>
   <data name="Ui.Clipper.Trim" xml:space="preserve">
-    <value>Trim</value>
+    <value>I trim</value>
   </data>
   <data name="Ui.Clipper.Delete" xml:space="preserve">
-    <value>Delete</value>
+    <value>Burahin</value>
   </data>
   <data name="Ui.Clipper.Close" xml:space="preserve">
-    <value>Close</value>
+    <value>Isara</value>
   </data>
   <data name="Ui.Clipper.Start" xml:space="preserve">
-    <value>Start</value>
+    <value>Simula</value>
   </data>
   <data name="Ui.Clipper.End" xml:space="preserve">
-    <value>End</value>
+    <value>Dulo</value>
   </data>
   <data name="Ui.Clipper.SaveAsCopy" xml:space="preserve">
-    <value>Save as Copy</value>
+    <value>I save bilang Kopya</value>
   </data>
   <data name="Ui.Clipper.TrimOriginal" xml:space="preserve">
-    <value>Trim Original</value>
+    <value>I trim ang Orihinal</value>
   </data>
   <data name="Ui.Clipper.TrimFailed" xml:space="preserve">
-    <value>Trim failed.</value>
+    <value>Nabigo ang pag trim.</value>
   </data>
   <data name="Ui.Clipper.TrimSaved" xml:space="preserve">
-    <value>Trimmed clip saved</value>
+    <value>Na save ang na trim na clip</value>
   </data>
   <data name="Ui.Clipper.BadgeRec" xml:space="preserve">
-    <value>REC</value>
+    <value>REK</value>
   </data>
   <data name="Ui.Clipper.BadgeClip" xml:space="preserve">
-    <value>CLIP</value>
+    <value>KLIP</value>
   </data>
   <data name="Ui.Clipper.BadgeSaved" xml:space="preserve">
-    <value>SAVED</value>
+    <value>NA SAVE</value>
   </data>
   <data name="Ui.Clipper.BadgeIdle" xml:space="preserve">
-    <value>IDLE</value>
+    <value>HANDA</value>
   </data>
 </root>

@@ -7183,279 +7183,279 @@
     <value>فتح استوديو الواجهة</value>
   </data>
   <data name="Ui.Clipper.Title" xml:space="preserve">
-    <value>Video Clipper</value>
+    <value>مسجل المقاطع</value>
   </data>
   <data name="Ui.Clipper.ShortcutDescription" xml:space="preserve">
-    <value>Hardware accelerated capture when you press {0}.</value>
+    <value>التقاط مسرع بالعتاد عند الضغط على {0}.</value>
   </data>
   <data name="Ui.Clipper.NoShortcutDescription" xml:space="preserve">
-    <value>Hardware accelerated capture. Reset the shortcut to use it in game.</value>
+    <value>التقاط مسرع بالعتاد. أعد تعيين الاختصار لاستخدامه داخل اللعبة.</value>
   </data>
   <data name="Ui.Clipper.NotifyHint" xml:space="preserve">
-    <value>Hardware GPU video recorder and instant replay clipper.</value>
+    <value>مسجل فيديو بعتاد GPU وأداة إعادة فورية للمقاطع.</value>
   </data>
   <data name="Ui.Clipper.OpenClipper" xml:space="preserve">
-    <value>Open Clipper</value>
+    <value>فتح مسجل المقاطع</value>
   </data>
   <data name="Ui.Clipper.ClipSaved" xml:space="preserve">
-    <value>Clip saved</value>
+    <value>تم حفظ المقطع</value>
   </data>
   <data name="Ui.Clipper.RecordingMode" xml:space="preserve">
-    <value>Recording mode</value>
+    <value>وضع التسجيل</value>
   </data>
   <data name="Ui.Clipper.RecordingModeHint" xml:space="preserve">
-    <value>Choose normal on and off recording or rolling clip replay.</value>
+    <value>اختر التسجيل العادي للتشغيل والإيقاف أو إعادة المقطع المستمرة.</value>
   </data>
   <data name="Ui.Clipper.ModeRecord" xml:space="preserve">
-    <value>Normal Record (On/Off)</value>
+    <value>تسجيل عادي (تشغيل/إيقاف)</value>
   </data>
   <data name="Ui.Clipper.ModeClip" xml:space="preserve">
-    <value>Clip Record (Replay)</value>
+    <value>تسجيل مقطع (إعادة)</value>
   </data>
   <data name="Ui.Clipper.BufferLength" xml:space="preserve">
-    <value>Clip replay length</value>
+    <value>مدة إعادة المقطع</value>
   </data>
   <data name="Ui.Clipper.BufferLengthHint" xml:space="preserve">
-    <value>How many seconds of gameplay to keep in the instant replay buffer.</value>
+    <value>عدد ثواني اللعب المحفوظة في ذاكرة الإعادة الفورية.</value>
   </data>
   <data name="Ui.Clipper.Sec15" xml:space="preserve">
-    <value>15 sec</value>
+    <value>15 ثانية</value>
   </data>
   <data name="Ui.Clipper.Sec30" xml:space="preserve">
-    <value>30 sec</value>
+    <value>30 ثانية</value>
   </data>
   <data name="Ui.Clipper.Sec60" xml:space="preserve">
-    <value>60 sec</value>
+    <value>60 ثانية</value>
   </data>
   <data name="Ui.Clipper.Sec120" xml:space="preserve">
-    <value>120 sec</value>
+    <value>120 ثانية</value>
   </data>
   <data name="Ui.Clipper.RecordOnGameStart" xml:space="preserve">
-    <value>Record on game start</value>
+    <value>التسجيل عند بدء اللعبة</value>
   </data>
   <data name="Ui.Clipper.RecordOnGameStartHint" xml:space="preserve">
-    <value>Automatically start recording when a Roblox game session begins.</value>
+    <value>بدء التسجيل تلقائيا عند بدء جلسة لعبة Roblox.</value>
   </data>
   <data name="Ui.Clipper.RedBorder" xml:space="preserve">
-    <value>Red screen border</value>
+    <value>إطار الشاشة الأحمر</value>
   </data>
   <data name="Ui.Clipper.RedBorderHint" xml:space="preserve">
-    <value>Show classic red bars around the edges of your screen while recording.</value>
+    <value>إظهار أشرطة حمراء كلاسيكية حول حواف الشاشة أثناء التسجيل.</value>
   </data>
   <data name="Ui.Clipper.RedBorderShort" xml:space="preserve">
-    <value>Red Border</value>
+    <value>إطار أحمر</value>
   </data>
   <data name="Ui.Clipper.VideoQuality" xml:space="preserve">
-    <value>Video quality</value>
+    <value>جودة الفيديو</value>
   </data>
   <data name="Ui.Clipper.VideoQualityHint" xml:space="preserve">
-    <value>Bitrate preset used by the hardware GPU encoder.</value>
+    <value>إعداد معدل البت المستخدم بواسطة ترميز GPU.</value>
   </data>
   <data name="Ui.Clipper.QualityLow" xml:space="preserve">
-    <value>Low (8 Mbps)</value>
+    <value>منخفضة (8 Mbps)</value>
   </data>
   <data name="Ui.Clipper.QualityMedium" xml:space="preserve">
-    <value>Medium (16 Mbps)</value>
+    <value>متوسطة (16 Mbps)</value>
   </data>
   <data name="Ui.Clipper.QualityHigh" xml:space="preserve">
-    <value>High (28 Mbps)</value>
+    <value>عالية (28 Mbps)</value>
   </data>
   <data name="Ui.Clipper.QualityUltra" xml:space="preserve">
-    <value>Ultra (50 Mbps)</value>
+    <value>فائقة (50 Mbps)</value>
   </data>
   <data name="Ui.Clipper.QualityLowShort" xml:space="preserve">
-    <value>Low</value>
+    <value>منخفضة</value>
   </data>
   <data name="Ui.Clipper.QualityMediumShort" xml:space="preserve">
-    <value>Medium</value>
+    <value>متوسطة</value>
   </data>
   <data name="Ui.Clipper.QualityHighShort" xml:space="preserve">
-    <value>High</value>
+    <value>عالية</value>
   </data>
   <data name="Ui.Clipper.QualityUltraShort" xml:space="preserve">
-    <value>Ultra</value>
+    <value>فائقة</value>
   </data>
   <data name="Ui.Clipper.Resolution" xml:space="preserve">
-    <value>Resolution</value>
+    <value>الدقة</value>
   </data>
   <data name="Ui.Clipper.ResolutionHint" xml:space="preserve">
-    <value>Output resolution of saved recordings and clips.</value>
+    <value>دقة إخراج التسجيلات والمقاطع المحفوظة.</value>
   </data>
   <data name="Ui.Clipper.ResNative" xml:space="preserve">
-    <value>Native</value>
+    <value>الأصلية</value>
   </data>
   <data name="Ui.Clipper.FrameRate" xml:space="preserve">
-    <value>Frame rate</value>
+    <value>معدل الإطارات</value>
   </data>
   <data name="Ui.Clipper.FrameRateHint" xml:space="preserve">
-    <value>Target capture frame rate.</value>
+    <value>معدل إطارات الالتقاط المستهدف.</value>
   </data>
   <data name="Ui.Clipper.Codec" xml:space="preserve">
-    <value>Encoder codec</value>
+    <value>ترميز الفيديو</value>
   </data>
   <data name="Ui.Clipper.CodecHint" xml:space="preserve">
-    <value>Hardware GPU encoder format.</value>
+    <value>تنسيق مرمز GPU المادي.</value>
   </data>
   <data name="Ui.Clipper.GameAudio" xml:space="preserve">
-    <value>Capture game audio</value>
+    <value>التقاط صوت اللعبة</value>
   </data>
   <data name="Ui.Clipper.GameAudioHint" xml:space="preserve">
-    <value>Record desktop and game audio in saved videos.</value>
+    <value>تسجيل صوت سطح المكتب واللعبة في مقاطع الفيديو المحفوظة.</value>
   </data>
   <data name="Ui.Clipper.GameAudioShort" xml:space="preserve">
-    <value>Game Audio</value>
+    <value>صوت اللعبة</value>
   </data>
   <data name="Ui.Clipper.Microphone" xml:space="preserve">
-    <value>Capture microphone</value>
+    <value>التقاط الميكروفون</value>
   </data>
   <data name="Ui.Clipper.MicrophoneHint" xml:space="preserve">
-    <value>Mix microphone input into saved videos.</value>
+    <value>دمج صوت الميكروفون في مقاطع الفيديو المحفوظة.</value>
   </data>
   <data name="Ui.Clipper.MicShort" xml:space="preserve">
-    <value>Mic</value>
+    <value>الميكروفون</value>
   </data>
   <data name="Ui.Clipper.StatusIndicator" xml:space="preserve">
-    <value>Status indicator badge</value>
+    <value>شارة مؤشر الحالة</value>
   </data>
   <data name="Ui.Clipper.StatusIndicatorHint" xml:space="preserve">
-    <value>Show a compact recording badge in the corner of the screen.</value>
+    <value>إظهار شارة تسجيل صغيرة في زاوية الشاشة.</value>
   </data>
   <data name="Ui.Clipper.HudBadge" xml:space="preserve">
-    <value>HUD Badge</value>
+    <value>شارة HUD</value>
   </data>
   <data name="Ui.Clipper.ClipsFolder" xml:space="preserve">
-    <value>Saved clips folder</value>
+    <value>مجلد المقاطع المحفوظة</value>
   </data>
   <data name="Ui.Clipper.ClipsFolderHint" xml:space="preserve">
-    <value>Open the folder where recordings and clips are stored.</value>
+    <value>فتح المجلد الذي تحفظ فيه التسجيلات والمقاطع.</value>
   </data>
   <data name="Ui.Clipper.OpenFolder" xml:space="preserve">
-    <value>Open Folder</value>
+    <value>فتح المجلد</value>
   </data>
   <data name="Ui.Clipper.CaptureSettings" xml:space="preserve">
-    <value>Capture &amp; Quality</value>
+    <value>الالتقاط والجودة</value>
   </data>
   <data name="Ui.Clipper.QualitySection" xml:space="preserve">
-    <value>Quality, Resolution &amp; FPS</value>
+    <value>الجودة والدقة و FPS</value>
   </data>
   <data name="Ui.Clipper.QualitySectionHint" xml:space="preserve">
-    <value>Hardware GPU encoding runs asynchronously with zero game frame impact.</value>
+    <value>يعمل ترميز GPU بشكل غير متزامن دون أي تأثير على إطارات اللعبة.</value>
   </data>
   <data name="Ui.Clipper.IndicatorsAndAudio" xml:space="preserve">
-    <value>Indicators &amp; Audio</value>
+    <value>المؤشرات والصوت</value>
   </data>
   <data name="Ui.Clipper.IndicatorsAndAudioHint" xml:space="preserve">
-    <value>Toggle the screen red border, corner badge, game audio, and microphone.</value>
+    <value>تبديل الإطار الأحمر للشاشة وشارة الزاوية وصوت اللعبة والميكروفون.</value>
   </data>
   <data name="Ui.Clipper.ShortcutLabel" xml:space="preserve">
-    <value>Recording Shortcut</value>
+    <value>اختصار التسجيل</value>
   </data>
   <data name="Ui.Clipper.ShortcutHint" xml:space="preserve">
-    <value>Click the box and press a key combination to toggle recording or save a clip.</value>
+    <value>انقر على المربع واضغط مجموعة مفاتيح لتبديل التسجيل أو حفظ مقطع.</value>
   </data>
   <data name="Ui.Clipper.ShortcutModifierHint" xml:space="preserve">
-    <value>Include Ctrl, Alt, Shift, or use a function key F1 to F12.</value>
+    <value>استخدم Ctrl أو Alt أو Shift أو مفتاح وظيفي من F1 إلى F12.</value>
   </data>
   <data name="Ui.Clipper.PressKeys" xml:space="preserve">
-    <value>Press keys...</value>
+    <value>اضغط المفاتيح...</value>
   </data>
   <data name="Ui.Clipper.Reset" xml:space="preserve">
-    <value>Reset</value>
+    <value>إعادة تعيين</value>
   </data>
   <data name="Ui.Clipper.StartRecording" xml:space="preserve">
-    <value>Start Recording</value>
+    <value>بدء التسجيل</value>
   </data>
   <data name="Ui.Clipper.StopRecording" xml:space="preserve">
-    <value>Stop Recording</value>
+    <value>إيقاف التسجيل</value>
   </data>
   <data name="Ui.Clipper.SaveClip" xml:space="preserve">
-    <value>Save Clip</value>
+    <value>حفظ المقطع</value>
   </data>
   <data name="Ui.Clipper.Saving" xml:space="preserve">
-    <value>Saving...</value>
+    <value>جار الحفظ...</value>
   </data>
   <data name="Ui.Clipper.SaveFailed" xml:space="preserve">
-    <value>Could not save clip.</value>
+    <value>تعذر حفظ المقطع.</value>
   </data>
   <data name="Ui.Clipper.DeleteFailed" xml:space="preserve">
-    <value>Could not delete clip</value>
+    <value>تعذر حذف المقطع</value>
   </data>
   <data name="Ui.Clipper.StatusDisabled" xml:space="preserve">
-    <value>Recorder Disabled</value>
+    <value>المسجل معطل</value>
   </data>
   <data name="Ui.Clipper.StatusDisabledSub" xml:space="preserve">
-    <value>Turn on the switch or click Start Recording to begin.</value>
+    <value>فعل المفتاح أو انقر بدء التسجيل للبدء.</value>
   </data>
   <data name="Ui.Clipper.StatusPreparingEncoder" xml:space="preserve">
-    <value>Preparing hardware video encoder...</value>
+    <value>جار تجهيز مرمز الفيديو المادي...</value>
   </data>
   <data name="Ui.Clipper.StatusRecording" xml:space="preserve">
-    <value>Recording</value>
+    <value>يسجل الآن</value>
   </data>
   <data name="Ui.Clipper.StatusReadyRecord" xml:space="preserve">
-    <value>Ready to Record</value>
+    <value>جاهز للتسجيل</value>
   </data>
   <data name="Ui.Clipper.StatusReadyRecordSub" xml:space="preserve">
-    <value>Click Start Recording or press {0} to record.</value>
+    <value>انقر بدء التسجيل أو اضغط {0} للتسجيل.</value>
   </data>
   <data name="Ui.Clipper.StatusClipReady" xml:space="preserve">
-    <value>Clip Buffer Ready</value>
+    <value>ذاكرة المقطع جاهزة</value>
   </data>
   <data name="Ui.Clipper.StatusStarting" xml:space="preserve">
-    <value>Starting Capture...</value>
+    <value>جار بدء الالتقاط...</value>
   </data>
   <data name="Ui.Clipper.StatusStartingSub" xml:space="preserve">
-    <value>Initializing GPU capture pipeline...</value>
+    <value>جار تهيئة مسار التقاط GPU...</value>
   </data>
   <data name="Ui.Clipper.SavedClips" xml:space="preserve">
-    <value>Saved Clips</value>
+    <value>المقاطع المحفوظة</value>
   </data>
   <data name="Ui.Clipper.Refresh" xml:space="preserve">
-    <value>Refresh</value>
+    <value>تحديث</value>
   </data>
   <data name="Ui.Clipper.EmptyClips" xml:space="preserve">
-    <value>No recordings or clips saved yet.</value>
+    <value>لا توجد تسجيلات أو مقاطع محفوظة بعد.</value>
   </data>
   <data name="Ui.Clipper.Play" xml:space="preserve">
-    <value>Play</value>
+    <value>تشغيل</value>
   </data>
   <data name="Ui.Clipper.Trim" xml:space="preserve">
-    <value>Trim</value>
+    <value>قص</value>
   </data>
   <data name="Ui.Clipper.Delete" xml:space="preserve">
-    <value>Delete</value>
+    <value>حذف</value>
   </data>
   <data name="Ui.Clipper.Close" xml:space="preserve">
-    <value>Close</value>
+    <value>إغلاق</value>
   </data>
   <data name="Ui.Clipper.Start" xml:space="preserve">
-    <value>Start</value>
+    <value>البداية</value>
   </data>
   <data name="Ui.Clipper.End" xml:space="preserve">
-    <value>End</value>
+    <value>النهاية</value>
   </data>
   <data name="Ui.Clipper.SaveAsCopy" xml:space="preserve">
-    <value>Save as Copy</value>
+    <value>حفظ كنسخة</value>
   </data>
   <data name="Ui.Clipper.TrimOriginal" xml:space="preserve">
-    <value>Trim Original</value>
+    <value>قص الأصلي</value>
   </data>
   <data name="Ui.Clipper.TrimFailed" xml:space="preserve">
-    <value>Trim failed.</value>
+    <value>فشل القص.</value>
   </data>
   <data name="Ui.Clipper.TrimSaved" xml:space="preserve">
-    <value>Trimmed clip saved</value>
+    <value>تم حفظ المقطع المقصوص</value>
   </data>
   <data name="Ui.Clipper.BadgeRec" xml:space="preserve">
-    <value>REC</value>
+    <value>تسجيل</value>
   </data>
   <data name="Ui.Clipper.BadgeClip" xml:space="preserve">
-    <value>CLIP</value>
+    <value>مقطع</value>
   </data>
   <data name="Ui.Clipper.BadgeSaved" xml:space="preserve">
-    <value>SAVED</value>
+    <value>تم الحفظ</value>
   </data>
   <data name="Ui.Clipper.BadgeIdle" xml:space="preserve">
-    <value>IDLE</value>
+    <value>خامل</value>
   </data>
 </root>

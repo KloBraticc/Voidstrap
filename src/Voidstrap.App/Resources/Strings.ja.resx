@@ -7048,7 +7048,7 @@ Voidstrap がデスクトップ フォルダーに書き込めませんでした
     <value>クロスヘア</value>
   </data>
   <data name="Ui.OverlayStudio.LayerFrameGen" xml:space="preserve">
-    <value>FrameGen HUD</value>
+    <value>FrameGen 表示</value>
   </data>
   <data name="Ui.OverlayStudio.LayerPanels" xml:space="preserve">
     <value>ドックパネル</value>
@@ -7180,13 +7180,13 @@ Voidstrap がデスクトップ フォルダーに書き込めませんでした
     <value>ビデオクリッパー</value>
   </data>
   <data name="Ui.Clipper.ShortcutDescription" xml:space="preserve">
-    <value>{0} を押すとハードウェアアクセラレーションによるキャプチャを行います。</value>
+    <value>{0} を押してハードウェアアクセラレーションによる録画を行います。</value>
   </data>
   <data name="Ui.Clipper.NoShortcutDescription" xml:space="preserve">
-    <value>ハードウェアアクセラレーションキャプチャ。ゲーム内で使用するにはショートカットをリセットしてください。</value>
+    <value>ハードウェアアクセラレーションによるキャプチャ。ゲーム内で使用するにはショートカットをリセットしてください。</value>
   </data>
   <data name="Ui.Clipper.NotifyHint" xml:space="preserve">
-    <value>GPUハードウェア録画とインスタントリプレイ。</value>
+    <value>ハードウェア GPU ビデオレコーダーおよびインスタントリプレイクリッパー。</value>
   </data>
   <data name="Ui.Clipper.OpenClipper" xml:space="preserve">
     <value>クリッパーを開く</value>
@@ -7198,7 +7198,7 @@ Voidstrap がデスクトップ フォルダーに書き込めませんでした
     <value>録画モード</value>
   </data>
   <data name="Ui.Clipper.RecordingModeHint" xml:space="preserve">
-    <value>通常のオン・オフ録画か、クリップリプレイを選択します。</value>
+    <value>通常のオン/オフ録画または常時クリップリプレイを選択します。</value>
   </data>
   <data name="Ui.Clipper.ModeRecord" xml:space="preserve">
     <value>通常録画 (オン/オフ)</value>
@@ -7207,28 +7207,28 @@ Voidstrap がデスクトップ フォルダーに書き込めませんでした
     <value>クリップ録画 (リプレイ)</value>
   </data>
   <data name="Ui.Clipper.BufferLength" xml:space="preserve">
-    <value>クリップの長さ</value>
+    <value>クリップのリプレイ時間</value>
   </data>
   <data name="Ui.Clipper.BufferLengthHint" xml:space="preserve">
-    <value>リプレイバッファに保持する秒数。</value>
+    <value>インスタントリプレイバッファに保持するゲームプレイの秒数。</value>
   </data>
   <data name="Ui.Clipper.Sec15" xml:space="preserve">
-    <value>15 sec</value>
+    <value>15 秒</value>
   </data>
   <data name="Ui.Clipper.Sec30" xml:space="preserve">
-    <value>30 sec</value>
+    <value>30 秒</value>
   </data>
   <data name="Ui.Clipper.Sec60" xml:space="preserve">
-    <value>60 sec</value>
+    <value>60 秒</value>
   </data>
   <data name="Ui.Clipper.Sec120" xml:space="preserve">
-    <value>120 sec</value>
+    <value>120 秒</value>
   </data>
   <data name="Ui.Clipper.RecordOnGameStart" xml:space="preserve">
     <value>ゲーム開始時に録画</value>
   </data>
   <data name="Ui.Clipper.RecordOnGameStartHint" xml:space="preserve">
-    <value>Robloxのゲーム開始時に自動で録画を開始します。</value>
+    <value>Roblox のゲームセッション開始時に自動的に録画を開始します。</value>
   </data>
   <data name="Ui.Clipper.RedBorder" xml:space="preserve">
     <value>画面の赤い枠線</value>
@@ -7240,121 +7240,121 @@ Voidstrap がデスクトップ フォルダーに書き込めませんでした
     <value>赤い枠線</value>
   </data>
   <data name="Ui.Clipper.VideoQuality" xml:space="preserve">
-    <value>画質</value>
+    <value>ビデオ画質</value>
   </data>
   <data name="Ui.Clipper.VideoQualityHint" xml:space="preserve">
-    <value>Bitrate preset used by the hardware GPU encoder.</value>
+    <value>ハードウェア GPU エンコーダーが使用するビットレートプリセット。</value>
   </data>
   <data name="Ui.Clipper.QualityLow" xml:space="preserve">
-    <value>Low (8 Mbps)</value>
+    <value>低 (8 Mbps)</value>
   </data>
   <data name="Ui.Clipper.QualityMedium" xml:space="preserve">
-    <value>Medium (16 Mbps)</value>
+    <value>中 (16 Mbps)</value>
   </data>
   <data name="Ui.Clipper.QualityHigh" xml:space="preserve">
-    <value>High (28 Mbps)</value>
+    <value>高 (28 Mbps)</value>
   </data>
   <data name="Ui.Clipper.QualityUltra" xml:space="preserve">
-    <value>Ultra (50 Mbps)</value>
+    <value>最高 (50 Mbps)</value>
   </data>
   <data name="Ui.Clipper.QualityLowShort" xml:space="preserve">
-    <value>Low</value>
+    <value>低</value>
   </data>
   <data name="Ui.Clipper.QualityMediumShort" xml:space="preserve">
-    <value>Medium</value>
+    <value>中</value>
   </data>
   <data name="Ui.Clipper.QualityHighShort" xml:space="preserve">
-    <value>High</value>
+    <value>高</value>
   </data>
   <data name="Ui.Clipper.QualityUltraShort" xml:space="preserve">
-    <value>Ultra</value>
+    <value>最高</value>
   </data>
   <data name="Ui.Clipper.Resolution" xml:space="preserve">
-    <value>Resolution</value>
+    <value>解像度</value>
   </data>
   <data name="Ui.Clipper.ResolutionHint" xml:space="preserve">
-    <value>Output resolution of saved recordings and clips.</value>
+    <value>保存される録画とクリップの出力解像度。</value>
   </data>
   <data name="Ui.Clipper.ResNative" xml:space="preserve">
-    <value>Native</value>
+    <value>ネイティブ</value>
   </data>
   <data name="Ui.Clipper.FrameRate" xml:space="preserve">
-    <value>Frame rate</value>
+    <value>フレームレート</value>
   </data>
   <data name="Ui.Clipper.FrameRateHint" xml:space="preserve">
-    <value>Target capture frame rate.</value>
+    <value>キャプチャの目標フレームレート。</value>
   </data>
   <data name="Ui.Clipper.Codec" xml:space="preserve">
-    <value>Encoder codec</value>
+    <value>エンコーダーコーデック</value>
   </data>
   <data name="Ui.Clipper.CodecHint" xml:space="preserve">
-    <value>Hardware GPU encoder format.</value>
+    <value>ハードウェア GPU エンコーダーの形式。</value>
   </data>
   <data name="Ui.Clipper.GameAudio" xml:space="preserve">
-    <value>Capture game audio</value>
+    <value>ゲーム音声をキャプチャ</value>
   </data>
   <data name="Ui.Clipper.GameAudioHint" xml:space="preserve">
-    <value>Record desktop and game audio in saved videos.</value>
+    <value>デスクトップとゲームの音声を保存動画に録音します。</value>
   </data>
   <data name="Ui.Clipper.GameAudioShort" xml:space="preserve">
-    <value>Game Audio</value>
+    <value>ゲーム音声</value>
   </data>
   <data name="Ui.Clipper.Microphone" xml:space="preserve">
-    <value>Capture microphone</value>
+    <value>マイクをキャプチャ</value>
   </data>
   <data name="Ui.Clipper.MicrophoneHint" xml:space="preserve">
-    <value>Mix microphone input into saved videos.</value>
+    <value>マイク入力を保存動画にミックスします。</value>
   </data>
   <data name="Ui.Clipper.MicShort" xml:space="preserve">
-    <value>Mic</value>
+    <value>マイク</value>
   </data>
   <data name="Ui.Clipper.StatusIndicator" xml:space="preserve">
-    <value>Status indicator badge</value>
+    <value>ステータス表示バッジ</value>
   </data>
   <data name="Ui.Clipper.StatusIndicatorHint" xml:space="preserve">
-    <value>Show a compact recording badge in the corner of the screen.</value>
+    <value>画面の隅にコンパクトな録画バッジを表示します。</value>
   </data>
   <data name="Ui.Clipper.HudBadge" xml:space="preserve">
-    <value>HUD Badge</value>
+    <value>HUD バッジ</value>
   </data>
   <data name="Ui.Clipper.ClipsFolder" xml:space="preserve">
-    <value>Saved clips folder</value>
+    <value>保存済みクリップのフォルダー</value>
   </data>
   <data name="Ui.Clipper.ClipsFolderHint" xml:space="preserve">
-    <value>Open the folder where recordings and clips are stored.</value>
+    <value>録画とクリップが保存されているフォルダーを開きます。</value>
   </data>
   <data name="Ui.Clipper.OpenFolder" xml:space="preserve">
-    <value>Open Folder</value>
+    <value>フォルダーを開く</value>
   </data>
   <data name="Ui.Clipper.CaptureSettings" xml:space="preserve">
-    <value>Capture &amp; Quality</value>
+    <value>キャプチャと画質</value>
   </data>
   <data name="Ui.Clipper.QualitySection" xml:space="preserve">
-    <value>Quality, Resolution &amp; FPS</value>
+    <value>画質、解像度、FPS</value>
   </data>
   <data name="Ui.Clipper.QualitySectionHint" xml:space="preserve">
-    <value>Hardware GPU encoding runs asynchronously with zero game frame impact.</value>
+    <value>ハードウェア GPU エンコードは非同期で実行され、ゲームのフレームレートに影響しません。</value>
   </data>
   <data name="Ui.Clipper.IndicatorsAndAudio" xml:space="preserve">
-    <value>Indicators &amp; Audio</value>
+    <value>インジケーターと音声</value>
   </data>
   <data name="Ui.Clipper.IndicatorsAndAudioHint" xml:space="preserve">
-    <value>Toggle the screen red border, corner badge, game audio, and microphone.</value>
+    <value>画面の赤い枠線、コーナーバッジ、ゲーム音声、マイクを切り替えます。</value>
   </data>
   <data name="Ui.Clipper.ShortcutLabel" xml:space="preserve">
-    <value>Recording Shortcut</value>
+    <value>録画ショートカット</value>
   </data>
   <data name="Ui.Clipper.ShortcutHint" xml:space="preserve">
-    <value>Click the box and press a key combination to toggle recording or save a clip.</value>
+    <value>ボックスをクリックしてキーの組み合わせを押し、録画の切り替えやクリップ保存を行います。</value>
   </data>
   <data name="Ui.Clipper.ShortcutModifierHint" xml:space="preserve">
-    <value>Include Ctrl, Alt, Shift, or use a function key F1 to F12.</value>
+    <value>Ctrl、Alt、Shift を含めるか、ファンクションキー F1 から F12 を使用してください。</value>
   </data>
   <data name="Ui.Clipper.PressKeys" xml:space="preserve">
-    <value>Press keys...</value>
+    <value>キーを押してください...</value>
   </data>
   <data name="Ui.Clipper.Reset" xml:space="preserve">
-    <value>Reset</value>
+    <value>リセット</value>
   </data>
   <data name="Ui.Clipper.StartRecording" xml:space="preserve">
     <value>録画開始</value>
@@ -7369,19 +7369,19 @@ Voidstrap がデスクトップ フォルダーに書き込めませんでした
     <value>保存中...</value>
   </data>
   <data name="Ui.Clipper.SaveFailed" xml:space="preserve">
-    <value>Could not save clip.</value>
+    <value>クリップを保存できませんでした。</value>
   </data>
   <data name="Ui.Clipper.DeleteFailed" xml:space="preserve">
-    <value>Could not delete clip</value>
+    <value>クリップを削除できませんでした</value>
   </data>
   <data name="Ui.Clipper.StatusDisabled" xml:space="preserve">
-    <value>Recorder Disabled</value>
+    <value>レコーダー無効</value>
   </data>
   <data name="Ui.Clipper.StatusDisabledSub" xml:space="preserve">
-    <value>Turn on the switch or click Start Recording to begin.</value>
+    <value>スイッチをオンにするか、録画開始をクリックして開始します。</value>
   </data>
   <data name="Ui.Clipper.StatusPreparingEncoder" xml:space="preserve">
-    <value>Preparing hardware video encoder...</value>
+    <value>ハードウェアビデオエンコーダーを準備中...</value>
   </data>
   <data name="Ui.Clipper.StatusRecording" xml:space="preserve">
     <value>録画中</value>
@@ -7390,16 +7390,16 @@ Voidstrap がデスクトップ フォルダーに書き込めませんでした
     <value>録画準備完了</value>
   </data>
   <data name="Ui.Clipper.StatusReadyRecordSub" xml:space="preserve">
-    <value>Click Start Recording or press {0} to record.</value>
+    <value>録画開始をクリックするか {0} を押して録画します。</value>
   </data>
   <data name="Ui.Clipper.StatusClipReady" xml:space="preserve">
-    <value>クリップ準備完了</value>
+    <value>クリップバッファ準備完了</value>
   </data>
   <data name="Ui.Clipper.StatusStarting" xml:space="preserve">
-    <value>Starting Capture...</value>
+    <value>キャプチャ開始中...</value>
   </data>
   <data name="Ui.Clipper.StatusStartingSub" xml:space="preserve">
-    <value>Initializing GPU capture pipeline...</value>
+    <value>GPU キャプチャパイプラインを初期化中...</value>
   </data>
   <data name="Ui.Clipper.SavedClips" xml:space="preserve">
     <value>保存済みクリップ</value>
@@ -7423,33 +7423,33 @@ Voidstrap がデスクトップ フォルダーに書き込めませんでした
     <value>閉じる</value>
   </data>
   <data name="Ui.Clipper.Start" xml:space="preserve">
-    <value>Start</value>
+    <value>開始</value>
   </data>
   <data name="Ui.Clipper.End" xml:space="preserve">
-    <value>End</value>
+    <value>終了</value>
   </data>
   <data name="Ui.Clipper.SaveAsCopy" xml:space="preserve">
-    <value>Save as Copy</value>
+    <value>コピーとして保存</value>
   </data>
   <data name="Ui.Clipper.TrimOriginal" xml:space="preserve">
-    <value>Trim Original</value>
+    <value>元のファイルをトリム</value>
   </data>
   <data name="Ui.Clipper.TrimFailed" xml:space="preserve">
-    <value>Trim failed.</value>
+    <value>トリムに失敗しました。</value>
   </data>
   <data name="Ui.Clipper.TrimSaved" xml:space="preserve">
-    <value>Trimmed clip saved</value>
+    <value>トリム済みクリップを保存しました</value>
   </data>
   <data name="Ui.Clipper.BadgeRec" xml:space="preserve">
-    <value>REC</value>
+    <value>録画中</value>
   </data>
   <data name="Ui.Clipper.BadgeClip" xml:space="preserve">
-    <value>CLIP</value>
+    <value>クリップ</value>
   </data>
   <data name="Ui.Clipper.BadgeSaved" xml:space="preserve">
-    <value>SAVED</value>
+    <value>保存済</value>
   </data>
   <data name="Ui.Clipper.BadgeIdle" xml:space="preserve">
-    <value>IDLE</value>
+    <value>待機中</value>
   </data>
 </root>

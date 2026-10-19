@@ -7024,7 +7024,7 @@ Pogreška: {0}</value>
     <value>Ciljnik</value>
   </data>
   <data name="Ui.OverlayStudio.LayerFrameGen" xml:space="preserve">
-    <value>FrameGen HUD</value>
+    <value>FrameGen prikaz</value>
   </data>
   <data name="Ui.OverlayStudio.LayerPanels" xml:space="preserve">
     <value>Ploče trake</value>
@@ -7153,279 +7153,279 @@ Pogreška: {0}</value>
     <value>Otvori studio prikaza</value>
   </data>
   <data name="Ui.Clipper.Title" xml:space="preserve">
-    <value>Video Clipper</value>
+    <value>Snimač isječaka</value>
   </data>
   <data name="Ui.Clipper.ShortcutDescription" xml:space="preserve">
-    <value>Hardware accelerated capture when you press {0}.</value>
+    <value>Hardverski ubrzano snimanje pri pritisku na {0}.</value>
   </data>
   <data name="Ui.Clipper.NoShortcutDescription" xml:space="preserve">
-    <value>Hardware accelerated capture. Reset the shortcut to use it in game.</value>
+    <value>Hardverski ubrzano snimanje. Ponovno postavite prečac za korištenje u igri.</value>
   </data>
   <data name="Ui.Clipper.NotifyHint" xml:space="preserve">
-    <value>Hardware GPU video recorder and instant replay clipper.</value>
+    <value>Hardverski GPU snimač videa i alat za trenutne isječke.</value>
   </data>
   <data name="Ui.Clipper.OpenClipper" xml:space="preserve">
-    <value>Open Clipper</value>
+    <value>Otvori snimač</value>
   </data>
   <data name="Ui.Clipper.ClipSaved" xml:space="preserve">
-    <value>Clip saved</value>
+    <value>Isječak spremljen</value>
   </data>
   <data name="Ui.Clipper.RecordingMode" xml:space="preserve">
-    <value>Recording mode</value>
+    <value>Način snimanja</value>
   </data>
   <data name="Ui.Clipper.RecordingModeHint" xml:space="preserve">
-    <value>Choose normal on and off recording or rolling clip replay.</value>
+    <value>Odaberite obično snimanje (uklj./isklj.) ili kontinuirano snimanje isječaka.</value>
   </data>
   <data name="Ui.Clipper.ModeRecord" xml:space="preserve">
-    <value>Normal Record (On/Off)</value>
+    <value>Obično snimanje (Uklj./Isklj.)</value>
   </data>
   <data name="Ui.Clipper.ModeClip" xml:space="preserve">
-    <value>Clip Record (Replay)</value>
+    <value>Snimanje isječka (Snimka unatrag)</value>
   </data>
   <data name="Ui.Clipper.BufferLength" xml:space="preserve">
-    <value>Clip replay length</value>
+    <value>Duljina isječka</value>
   </data>
   <data name="Ui.Clipper.BufferLengthHint" xml:space="preserve">
-    <value>How many seconds of gameplay to keep in the instant replay buffer.</value>
+    <value>Koliko sekundi igranja zadržati u međuspremniku trenutne snimke.</value>
   </data>
   <data name="Ui.Clipper.Sec15" xml:space="preserve">
-    <value>15 sec</value>
+    <value>15 sek</value>
   </data>
   <data name="Ui.Clipper.Sec30" xml:space="preserve">
-    <value>30 sec</value>
+    <value>30 sek</value>
   </data>
   <data name="Ui.Clipper.Sec60" xml:space="preserve">
-    <value>60 sec</value>
+    <value>60 sek</value>
   </data>
   <data name="Ui.Clipper.Sec120" xml:space="preserve">
-    <value>120 sec</value>
+    <value>120 sek</value>
   </data>
   <data name="Ui.Clipper.RecordOnGameStart" xml:space="preserve">
-    <value>Record on game start</value>
+    <value>Snimaj pri pokretanju igre</value>
   </data>
   <data name="Ui.Clipper.RecordOnGameStartHint" xml:space="preserve">
-    <value>Automatically start recording when a Roblox game session begins.</value>
+    <value>Automatski započni snimanje kada započne Roblox sesija.</value>
   </data>
   <data name="Ui.Clipper.RedBorder" xml:space="preserve">
-    <value>Red screen border</value>
+    <value>Crveni obrub zaslona</value>
   </data>
   <data name="Ui.Clipper.RedBorderHint" xml:space="preserve">
-    <value>Show classic red bars around the edges of your screen while recording.</value>
+    <value>Prikaži klasične crvene trake uz rubove zaslona tijekom snimanja.</value>
   </data>
   <data name="Ui.Clipper.RedBorderShort" xml:space="preserve">
-    <value>Red Border</value>
+    <value>Crveni obrub</value>
   </data>
   <data name="Ui.Clipper.VideoQuality" xml:space="preserve">
-    <value>Video quality</value>
+    <value>Kvaliteta videa</value>
   </data>
   <data name="Ui.Clipper.VideoQualityHint" xml:space="preserve">
-    <value>Bitrate preset used by the hardware GPU encoder.</value>
+    <value>Predložak brzine prijenosa koji koristi hardverski GPU koder.</value>
   </data>
   <data name="Ui.Clipper.QualityLow" xml:space="preserve">
-    <value>Low (8 Mbps)</value>
+    <value>Niska (8 Mbps)</value>
   </data>
   <data name="Ui.Clipper.QualityMedium" xml:space="preserve">
-    <value>Medium (16 Mbps)</value>
+    <value>Srednja (16 Mbps)</value>
   </data>
   <data name="Ui.Clipper.QualityHigh" xml:space="preserve">
-    <value>High (28 Mbps)</value>
+    <value>Visoka (28 Mbps)</value>
   </data>
   <data name="Ui.Clipper.QualityUltra" xml:space="preserve">
-    <value>Ultra (50 Mbps)</value>
+    <value>Maksimalna (50 Mbps)</value>
   </data>
   <data name="Ui.Clipper.QualityLowShort" xml:space="preserve">
-    <value>Low</value>
+    <value>Niska</value>
   </data>
   <data name="Ui.Clipper.QualityMediumShort" xml:space="preserve">
-    <value>Medium</value>
+    <value>Srednja</value>
   </data>
   <data name="Ui.Clipper.QualityHighShort" xml:space="preserve">
-    <value>High</value>
+    <value>Visoka</value>
   </data>
   <data name="Ui.Clipper.QualityUltraShort" xml:space="preserve">
-    <value>Ultra</value>
+    <value>Maksimalna</value>
   </data>
   <data name="Ui.Clipper.Resolution" xml:space="preserve">
-    <value>Resolution</value>
+    <value>Razlučivost</value>
   </data>
   <data name="Ui.Clipper.ResolutionHint" xml:space="preserve">
-    <value>Output resolution of saved recordings and clips.</value>
+    <value>Izlazna razlučivost spremljenih snimki i isječaka.</value>
   </data>
   <data name="Ui.Clipper.ResNative" xml:space="preserve">
-    <value>Native</value>
+    <value>Izvorna</value>
   </data>
   <data name="Ui.Clipper.FrameRate" xml:space="preserve">
-    <value>Frame rate</value>
+    <value>Broj sličica u sekundi</value>
   </data>
   <data name="Ui.Clipper.FrameRateHint" xml:space="preserve">
-    <value>Target capture frame rate.</value>
+    <value>Ciljani broj sličica u sekundi za snimanje.</value>
   </data>
   <data name="Ui.Clipper.Codec" xml:space="preserve">
-    <value>Encoder codec</value>
+    <value>Kodek kodera</value>
   </data>
   <data name="Ui.Clipper.CodecHint" xml:space="preserve">
-    <value>Hardware GPU encoder format.</value>
+    <value>Format hardverskog GPU kodera.</value>
   </data>
   <data name="Ui.Clipper.GameAudio" xml:space="preserve">
-    <value>Capture game audio</value>
+    <value>Snimaj zvuk igre</value>
   </data>
   <data name="Ui.Clipper.GameAudioHint" xml:space="preserve">
-    <value>Record desktop and game audio in saved videos.</value>
+    <value>Snimaj zvuk radne površine i igre u spremljenim videozapisima.</value>
   </data>
   <data name="Ui.Clipper.GameAudioShort" xml:space="preserve">
-    <value>Game Audio</value>
+    <value>Zvuk igre</value>
   </data>
   <data name="Ui.Clipper.Microphone" xml:space="preserve">
-    <value>Capture microphone</value>
+    <value>Snimaj mikrofon</value>
   </data>
   <data name="Ui.Clipper.MicrophoneHint" xml:space="preserve">
-    <value>Mix microphone input into saved videos.</value>
+    <value>Uključi zvuk mikrofona u spremljene videozapise.</value>
   </data>
   <data name="Ui.Clipper.MicShort" xml:space="preserve">
-    <value>Mic</value>
+    <value>Mikrofon</value>
   </data>
   <data name="Ui.Clipper.StatusIndicator" xml:space="preserve">
-    <value>Status indicator badge</value>
+    <value>Značka indikatora statusa</value>
   </data>
   <data name="Ui.Clipper.StatusIndicatorHint" xml:space="preserve">
-    <value>Show a compact recording badge in the corner of the screen.</value>
+    <value>Prikaži kompaktnu značku snimanja u kutu zaslona.</value>
   </data>
   <data name="Ui.Clipper.HudBadge" xml:space="preserve">
-    <value>HUD Badge</value>
+    <value>HUD značka</value>
   </data>
   <data name="Ui.Clipper.ClipsFolder" xml:space="preserve">
-    <value>Saved clips folder</value>
+    <value>Mapa spremljenih isječaka</value>
   </data>
   <data name="Ui.Clipper.ClipsFolderHint" xml:space="preserve">
-    <value>Open the folder where recordings and clips are stored.</value>
+    <value>Otvori mapu u kojoj su spremljene snimke i isječci.</value>
   </data>
   <data name="Ui.Clipper.OpenFolder" xml:space="preserve">
-    <value>Open Folder</value>
+    <value>Otvori mapu</value>
   </data>
   <data name="Ui.Clipper.CaptureSettings" xml:space="preserve">
-    <value>Capture &amp; Quality</value>
+    <value>Snimanje i kvaliteta</value>
   </data>
   <data name="Ui.Clipper.QualitySection" xml:space="preserve">
-    <value>Quality, Resolution &amp; FPS</value>
+    <value>Kvaliteta, razlučivost i FPS</value>
   </data>
   <data name="Ui.Clipper.QualitySectionHint" xml:space="preserve">
-    <value>Hardware GPU encoding runs asynchronously with zero game frame impact.</value>
+    <value>Hardversko GPU kodiranje radi asinkrono bez utjecaja na FPS u igri.</value>
   </data>
   <data name="Ui.Clipper.IndicatorsAndAudio" xml:space="preserve">
-    <value>Indicators &amp; Audio</value>
+    <value>Indikatori i zvuk</value>
   </data>
   <data name="Ui.Clipper.IndicatorsAndAudioHint" xml:space="preserve">
-    <value>Toggle the screen red border, corner badge, game audio, and microphone.</value>
+    <value>Uključi ili isključi crveni obrub zaslona, kutnu značku, zvuk igre i mikrofon.</value>
   </data>
   <data name="Ui.Clipper.ShortcutLabel" xml:space="preserve">
-    <value>Recording Shortcut</value>
+    <value>Prečac za snimanje</value>
   </data>
   <data name="Ui.Clipper.ShortcutHint" xml:space="preserve">
-    <value>Click the box and press a key combination to toggle recording or save a clip.</value>
+    <value>Kliknite u polje i pritisnite kombinaciju tipki za snimanje ili spremanje isječka.</value>
   </data>
   <data name="Ui.Clipper.ShortcutModifierHint" xml:space="preserve">
-    <value>Include Ctrl, Alt, Shift, or use a function key F1 to F12.</value>
+    <value>Uključite Ctrl, Alt, Shift ili funkcijsku tipku F1 do F12.</value>
   </data>
   <data name="Ui.Clipper.PressKeys" xml:space="preserve">
-    <value>Press keys...</value>
+    <value>Pritisnite tipke...</value>
   </data>
   <data name="Ui.Clipper.Reset" xml:space="preserve">
-    <value>Reset</value>
+    <value>Poništi</value>
   </data>
   <data name="Ui.Clipper.StartRecording" xml:space="preserve">
-    <value>Start Recording</value>
+    <value>Pokreni snimanje</value>
   </data>
   <data name="Ui.Clipper.StopRecording" xml:space="preserve">
-    <value>Stop Recording</value>
+    <value>Zaustavi snimanje</value>
   </data>
   <data name="Ui.Clipper.SaveClip" xml:space="preserve">
-    <value>Save Clip</value>
+    <value>Spremi isječak</value>
   </data>
   <data name="Ui.Clipper.Saving" xml:space="preserve">
-    <value>Saving...</value>
+    <value>Spremanje...</value>
   </data>
   <data name="Ui.Clipper.SaveFailed" xml:space="preserve">
-    <value>Could not save clip.</value>
+    <value>Spremanje isječka nije uspjelo.</value>
   </data>
   <data name="Ui.Clipper.DeleteFailed" xml:space="preserve">
-    <value>Could not delete clip</value>
+    <value>Brisanje isječka nije uspjelo</value>
   </data>
   <data name="Ui.Clipper.StatusDisabled" xml:space="preserve">
-    <value>Recorder Disabled</value>
+    <value>Snimač onemogućen</value>
   </data>
   <data name="Ui.Clipper.StatusDisabledSub" xml:space="preserve">
-    <value>Turn on the switch or click Start Recording to begin.</value>
+    <value>Uključite prekidač ili kliknite Pokreni snimanje.</value>
   </data>
   <data name="Ui.Clipper.StatusPreparingEncoder" xml:space="preserve">
-    <value>Preparing hardware video encoder...</value>
+    <value>Priprema hardverskog video kodera...</value>
   </data>
   <data name="Ui.Clipper.StatusRecording" xml:space="preserve">
-    <value>Recording</value>
+    <value>Snimanje</value>
   </data>
   <data name="Ui.Clipper.StatusReadyRecord" xml:space="preserve">
-    <value>Ready to Record</value>
+    <value>Spremno za snimanje</value>
   </data>
   <data name="Ui.Clipper.StatusReadyRecordSub" xml:space="preserve">
-    <value>Click Start Recording or press {0} to record.</value>
+    <value>Kliknite Pokreni snimanje ili pritisnite {0} za snimanje.</value>
   </data>
   <data name="Ui.Clipper.StatusClipReady" xml:space="preserve">
-    <value>Clip Buffer Ready</value>
+    <value>Međuspremnik isječaka spreman</value>
   </data>
   <data name="Ui.Clipper.StatusStarting" xml:space="preserve">
-    <value>Starting Capture...</value>
+    <value>Pokretanje snimanja...</value>
   </data>
   <data name="Ui.Clipper.StatusStartingSub" xml:space="preserve">
-    <value>Initializing GPU capture pipeline...</value>
+    <value>Inicijalizacija GPU sustava snimanja...</value>
   </data>
   <data name="Ui.Clipper.SavedClips" xml:space="preserve">
-    <value>Saved Clips</value>
+    <value>Spremljeni isječci</value>
   </data>
   <data name="Ui.Clipper.Refresh" xml:space="preserve">
-    <value>Refresh</value>
+    <value>Osvježi</value>
   </data>
   <data name="Ui.Clipper.EmptyClips" xml:space="preserve">
-    <value>No recordings or clips saved yet.</value>
+    <value>Još nema spremljenih snimki ili isječaka.</value>
   </data>
   <data name="Ui.Clipper.Play" xml:space="preserve">
-    <value>Play</value>
+    <value>Reproduciraj</value>
   </data>
   <data name="Ui.Clipper.Trim" xml:space="preserve">
-    <value>Trim</value>
+    <value>Izreži</value>
   </data>
   <data name="Ui.Clipper.Delete" xml:space="preserve">
-    <value>Delete</value>
+    <value>Izbriši</value>
   </data>
   <data name="Ui.Clipper.Close" xml:space="preserve">
-    <value>Close</value>
+    <value>Zatvori</value>
   </data>
   <data name="Ui.Clipper.Start" xml:space="preserve">
-    <value>Start</value>
+    <value>Početak</value>
   </data>
   <data name="Ui.Clipper.End" xml:space="preserve">
-    <value>End</value>
+    <value>Kraj</value>
   </data>
   <data name="Ui.Clipper.SaveAsCopy" xml:space="preserve">
-    <value>Save as Copy</value>
+    <value>Spremi kao kopiju</value>
   </data>
   <data name="Ui.Clipper.TrimOriginal" xml:space="preserve">
-    <value>Trim Original</value>
+    <value>Izreži izvornik</value>
   </data>
   <data name="Ui.Clipper.TrimFailed" xml:space="preserve">
-    <value>Trim failed.</value>
+    <value>Izrezivanje nije uspjelo.</value>
   </data>
   <data name="Ui.Clipper.TrimSaved" xml:space="preserve">
-    <value>Trimmed clip saved</value>
+    <value>Izrezani isječak spremljen</value>
   </data>
   <data name="Ui.Clipper.BadgeRec" xml:space="preserve">
-    <value>REC</value>
+    <value>SNIM</value>
   </data>
   <data name="Ui.Clipper.BadgeClip" xml:space="preserve">
-    <value>CLIP</value>
+    <value>ISJEČAK</value>
   </data>
   <data name="Ui.Clipper.BadgeSaved" xml:space="preserve">
-    <value>SAVED</value>
+    <value>SPREMLJENO</value>
   </data>
   <data name="Ui.Clipper.BadgeIdle" xml:space="preserve">
-    <value>IDLE</value>
+    <value>MIRUJE</value>
   </data>
 </root>

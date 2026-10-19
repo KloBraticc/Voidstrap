@@ -6884,10 +6884,10 @@ Fehler: {0}</value>
     <value>Noch keine Bewertungen</value>
   </data>
   <data name="Ui.Session.OverlayLayout" xml:space="preserve">
-    <value>Overlay Studio</value>
+    <value>Overlay Editor</value>
   </data>
   <data name="Ui.OverlayStudio.Title" xml:space="preserve">
-    <value>Overlay Studio</value>
+    <value>Overlay Editor</value>
   </data>
   <data name="Ui.OverlayStudio.Subtitle" xml:space="preserve">
     <value>Verschiebe, skaliere und gestalte jedes In Game Overlay mit Live Vorschau und direktem Ziehen auf dem Bildschirm.</value>
@@ -6926,7 +6926,7 @@ Fehler: {0}</value>
     <value>Wettkampf HUD</value>
   </data>
   <data name="Ui.OverlayStudio.PresetStreamer" xml:space="preserve">
-    <value>Streamer Clean</value>
+    <value>Streamer Ansicht</value>
   </data>
   <data name="Ui.OverlayStudio.PresetTopDock" xml:space="preserve">
     <value>Oberes Dock</value>
@@ -6953,7 +6953,7 @@ Fehler: {0}</value>
     <value>Fadenkreuz</value>
   </data>
   <data name="Ui.OverlayStudio.LayerFrameGen" xml:space="preserve">
-    <value>FrameGen HUD</value>
+    <value>FrameGen Anzeige</value>
   </data>
   <data name="Ui.OverlayStudio.LayerPanels" xml:space="preserve">
     <value>Dock Fenster</value>
@@ -7073,7 +7073,7 @@ Fehler: {0}</value>
     <value>Gelöst</value>
   </data>
   <data name="Ui.OverlayStudio.OpenBannerTitle" xml:space="preserve">
-    <value>In Game Overlay Studio</value>
+    <value>Overlay Studio im Spiel</value>
   </data>
   <data name="Ui.OverlayStudio.OpenBannerHint" xml:space="preserve">
     <value>Ziehe und passe Server Info, Benachrichtigungen, Dock, Fadenkreuz und HUD live an.</value>
@@ -7088,10 +7088,10 @@ Fehler: {0}</value>
     <value>Hardwarebeschleunigte Aufnahme beim Drücken von {0}.</value>
   </data>
   <data name="Ui.Clipper.NoShortcutDescription" xml:space="preserve">
-    <value>Hardwarebeschleunigte Aufnahme. Setze die Tastenkombination zurück, um sie im Spiel zu nutzen.</value>
+    <value>Hardwarebeschleunigte Aufnahme. Setze das Tastenkürzel zurück, um es im Spiel zu nutzen.</value>
   </data>
   <data name="Ui.Clipper.NotifyHint" xml:space="preserve">
-    <value>GPU Videorekorder und Sofortwiederholung.</value>
+    <value>Hardware GPU Videorekorder und Sofortwiederholungs Clipper.</value>
   </data>
   <data name="Ui.Clipper.OpenClipper" xml:space="preserve">
     <value>Clipper öffnen</value>
@@ -7103,7 +7103,7 @@ Fehler: {0}</value>
     <value>Aufnahmemodus</value>
   </data>
   <data name="Ui.Clipper.RecordingModeHint" xml:space="preserve">
-    <value>Wähle zwischen normaler Aufnahme oder fortlaufendem Clip Puffer.</value>
+    <value>Wähle zwischen normaler Ein/Aus Aufnahme oder fortlaufender Clip Wiederholung.</value>
   </data>
   <data name="Ui.Clipper.ModeRecord" xml:space="preserve">
     <value>Normale Aufnahme (Ein/Aus)</value>
@@ -7112,34 +7112,34 @@ Fehler: {0}</value>
     <value>Clip Aufnahme (Wiederholung)</value>
   </data>
   <data name="Ui.Clipper.BufferLength" xml:space="preserve">
-    <value>Clip Länge</value>
+    <value>Clip Wiederholungslänge</value>
   </data>
   <data name="Ui.Clipper.BufferLengthHint" xml:space="preserve">
-    <value>Sekunden an Gameplay im Sofortwiederholungspuffer.</value>
+    <value>Wie viele Sekunden Gameplay im Sofortwiederholungs Puffer behalten werden.</value>
   </data>
   <data name="Ui.Clipper.Sec15" xml:space="preserve">
-    <value>15 sec</value>
+    <value>15 Sek.</value>
   </data>
   <data name="Ui.Clipper.Sec30" xml:space="preserve">
-    <value>30 sec</value>
+    <value>30 Sek.</value>
   </data>
   <data name="Ui.Clipper.Sec60" xml:space="preserve">
-    <value>60 sec</value>
+    <value>60 Sek.</value>
   </data>
   <data name="Ui.Clipper.Sec120" xml:space="preserve">
-    <value>120 sec</value>
+    <value>120 Sek.</value>
   </data>
   <data name="Ui.Clipper.RecordOnGameStart" xml:space="preserve">
-    <value>Beim Spielstart aufnehmen</value>
+    <value>Bei Spielstart aufnehmen</value>
   </data>
   <data name="Ui.Clipper.RecordOnGameStartHint" xml:space="preserve">
-    <value>Startet die Aufnahme automatisch, sobald eine Roblox Sitzung beginnt.</value>
+    <value>Aufnahme automatisch starten, wenn eine Roblox Spielsitzung beginnt.</value>
   </data>
   <data name="Ui.Clipper.RedBorder" xml:space="preserve">
     <value>Roter Bildschirmrand</value>
   </data>
   <data name="Ui.Clipper.RedBorderHint" xml:space="preserve">
-    <value>Zeigt während der Aufnahme klassische rote Balken am Bildschirmrand an.</value>
+    <value>Klassische rote Balken am Bildschirmrand während der Aufnahme anzeigen.</value>
   </data>
   <data name="Ui.Clipper.RedBorderShort" xml:space="preserve">
     <value>Roter Rand</value>
@@ -7148,31 +7148,31 @@ Fehler: {0}</value>
     <value>Videoqualität</value>
   </data>
   <data name="Ui.Clipper.VideoQualityHint" xml:space="preserve">
-    <value>Bitrate Voreinstellung für den Hardware GPU Encoder.</value>
+    <value>Vom Hardware GPU Encoder verwendete Bitraten Voreinstellung.</value>
   </data>
   <data name="Ui.Clipper.QualityLow" xml:space="preserve">
-    <value>Low (8 Mbps)</value>
+    <value>Niedrig (8 Mbit/s)</value>
   </data>
   <data name="Ui.Clipper.QualityMedium" xml:space="preserve">
-    <value>Medium (16 Mbps)</value>
+    <value>Mittel (16 Mbit/s)</value>
   </data>
   <data name="Ui.Clipper.QualityHigh" xml:space="preserve">
-    <value>High (28 Mbps)</value>
+    <value>Hoch (28 Mbit/s)</value>
   </data>
   <data name="Ui.Clipper.QualityUltra" xml:space="preserve">
-    <value>Ultra (50 Mbps)</value>
+    <value>Ultra (50 Mbit/s)</value>
   </data>
   <data name="Ui.Clipper.QualityLowShort" xml:space="preserve">
-    <value>Low</value>
+    <value>Niedrig</value>
   </data>
   <data name="Ui.Clipper.QualityMediumShort" xml:space="preserve">
-    <value>Medium</value>
+    <value>Mittel</value>
   </data>
   <data name="Ui.Clipper.QualityHighShort" xml:space="preserve">
-    <value>High</value>
+    <value>Hoch</value>
   </data>
   <data name="Ui.Clipper.QualityUltraShort" xml:space="preserve">
-    <value>Ultra</value>
+    <value>Maximal</value>
   </data>
   <data name="Ui.Clipper.Resolution" xml:space="preserve">
     <value>Auflösung</value>
@@ -7187,46 +7187,46 @@ Fehler: {0}</value>
     <value>Bildrate</value>
   </data>
   <data name="Ui.Clipper.FrameRateHint" xml:space="preserve">
-    <value>Zielbildrate für die Aufnahme.</value>
+    <value>Zielbildrate der Aufnahme.</value>
   </data>
   <data name="Ui.Clipper.Codec" xml:space="preserve">
     <value>Encoder Codec</value>
   </data>
   <data name="Ui.Clipper.CodecHint" xml:space="preserve">
-    <value>Format des Hardware GPU Encoders.</value>
+    <value>Hardware GPU Encoderformat.</value>
   </data>
   <data name="Ui.Clipper.GameAudio" xml:space="preserve">
-    <value>Spielton aufnehmen</value>
+    <value>Spielaudio aufnehmen</value>
   </data>
   <data name="Ui.Clipper.GameAudioHint" xml:space="preserve">
-    <value>Nimmt Desktop und Spielton in gespeicherten Videos auf.</value>
+    <value>Desktop und Spielaudio in gespeicherten Videos aufnehmen.</value>
   </data>
   <data name="Ui.Clipper.GameAudioShort" xml:space="preserve">
-    <value>Spielton</value>
+    <value>Spielaudio</value>
   </data>
   <data name="Ui.Clipper.Microphone" xml:space="preserve">
     <value>Mikrofon aufnehmen</value>
   </data>
   <data name="Ui.Clipper.MicrophoneHint" xml:space="preserve">
-    <value>Mischt das Mikrofon in gespeicherte Videos.</value>
+    <value>Mikrofoneingang in gespeicherte Videos mischen.</value>
   </data>
   <data name="Ui.Clipper.MicShort" xml:space="preserve">
-    <value>Mikrofon</value>
+    <value>Mikro</value>
   </data>
   <data name="Ui.Clipper.StatusIndicator" xml:space="preserve">
-    <value>Statusanzeige</value>
+    <value>Statusanzeige Symbol</value>
   </data>
   <data name="Ui.Clipper.StatusIndicatorHint" xml:space="preserve">
-    <value>Zeigt ein kompaktes Aufnahmesymbol in der Bildschirmecke an.</value>
+    <value>Kompaktes Aufnahmesymbol in der Bildschirmecke anzeigen.</value>
   </data>
   <data name="Ui.Clipper.HudBadge" xml:space="preserve">
-    <value>HUD Anzeige</value>
+    <value>HUD Symbol</value>
   </data>
   <data name="Ui.Clipper.ClipsFolder" xml:space="preserve">
     <value>Ordner für gespeicherte Clips</value>
   </data>
   <data name="Ui.Clipper.ClipsFolderHint" xml:space="preserve">
-    <value>Öffnet den Ordner, in dem Aufnahmen gespeichert werden.</value>
+    <value>Ordner öffnen, in dem Aufnahmen und Clips gespeichert werden.</value>
   </data>
   <data name="Ui.Clipper.OpenFolder" xml:space="preserve">
     <value>Ordner öffnen</value>
@@ -7238,22 +7238,22 @@ Fehler: {0}</value>
     <value>Qualität, Auflösung &amp; FPS</value>
   </data>
   <data name="Ui.Clipper.QualitySectionHint" xml:space="preserve">
-    <value>Die Hardware GPU Kodierung läuft asynchron ohne Einfluss auf die Spiel FPS.</value>
+    <value>Hardware GPU Kodierung läuft asynchron ohne Einfluss auf die Spielbildrate.</value>
   </data>
   <data name="Ui.Clipper.IndicatorsAndAudio" xml:space="preserve">
     <value>Anzeigen &amp; Audio</value>
   </data>
   <data name="Ui.Clipper.IndicatorsAndAudioHint" xml:space="preserve">
-    <value>Roten Bildschirmrand, Eckanzeige, Spielton und Mikrofon umschalten.</value>
+    <value>Roten Bildschirmrand, Ecksymbol, Spielaudio und Mikrofon umschalten.</value>
   </data>
   <data name="Ui.Clipper.ShortcutLabel" xml:space="preserve">
     <value>Aufnahme Tastenkürzel</value>
   </data>
   <data name="Ui.Clipper.ShortcutHint" xml:space="preserve">
-    <value>Klicke in das Feld und drücke eine Tastenkombination.</value>
+    <value>Klicke in das Feld und drücke eine Tastenkombination zum Aufnehmen oder Speichern.</value>
   </data>
   <data name="Ui.Clipper.ShortcutModifierHint" xml:space="preserve">
-    <value>Nutze Strg, Alt, Umschalt oder eine Funktionstaste F1 bis F12.</value>
+    <value>Verwende Strg, Alt, Umschalt oder eine Funktionstaste F1 bis F12.</value>
   </data>
   <data name="Ui.Clipper.PressKeys" xml:space="preserve">
     <value>Tasten drücken...</value>
@@ -7271,7 +7271,7 @@ Fehler: {0}</value>
     <value>Clip speichern</value>
   </data>
   <data name="Ui.Clipper.Saving" xml:space="preserve">
-    <value>Speichert...</value>
+    <value>Wird gespeichert...</value>
   </data>
   <data name="Ui.Clipper.SaveFailed" xml:space="preserve">
     <value>Clip konnte nicht gespeichert werden.</value>
@@ -7283,7 +7283,7 @@ Fehler: {0}</value>
     <value>Rekorder deaktiviert</value>
   </data>
   <data name="Ui.Clipper.StatusDisabledSub" xml:space="preserve">
-    <value>Schalte die Option ein oder klicke auf Aufnahme starten.</value>
+    <value>Schalte den Schalter ein oder klicke auf Aufnahme starten.</value>
   </data>
   <data name="Ui.Clipper.StatusPreparingEncoder" xml:space="preserve">
     <value>Hardware Videoencoder wird vorbereitet...</value>
@@ -7301,7 +7301,7 @@ Fehler: {0}</value>
     <value>Clip Puffer bereit</value>
   </data>
   <data name="Ui.Clipper.StatusStarting" xml:space="preserve">
-    <value>Aufnahme startet...</value>
+    <value>Aufnahme wird gestartet...</value>
   </data>
   <data name="Ui.Clipper.StatusStartingSub" xml:space="preserve">
     <value>GPU Aufnahmepipeline wird initialisiert...</value>
@@ -7328,7 +7328,7 @@ Fehler: {0}</value>
     <value>Schließen</value>
   </data>
   <data name="Ui.Clipper.Start" xml:space="preserve">
-    <value>Start</value>
+    <value>Beginn</value>
   </data>
   <data name="Ui.Clipper.End" xml:space="preserve">
     <value>Ende</value>
@@ -7346,15 +7346,15 @@ Fehler: {0}</value>
     <value>Zugeschnittener Clip gespeichert</value>
   </data>
   <data name="Ui.Clipper.BadgeRec" xml:space="preserve">
-    <value>REC</value>
+    <value>AUFN</value>
   </data>
   <data name="Ui.Clipper.BadgeClip" xml:space="preserve">
-    <value>CLIP</value>
+    <value>KLIPP</value>
   </data>
   <data name="Ui.Clipper.BadgeSaved" xml:space="preserve">
-    <value>SAVED</value>
+    <value>GESPEICHERT</value>
   </data>
   <data name="Ui.Clipper.BadgeIdle" xml:space="preserve">
-    <value>IDLE</value>
+    <value>BEREIT</value>
   </data>
 </root>

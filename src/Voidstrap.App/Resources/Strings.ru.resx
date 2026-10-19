@@ -7027,7 +7027,7 @@ Voidstrap не смог записать в папку рабочего стол
     <value>Прицел</value>
   </data>
   <data name="Ui.OverlayStudio.LayerFrameGen" xml:space="preserve">
-    <value>FrameGen HUD</value>
+    <value>Панель FrameGen</value>
   </data>
   <data name="Ui.OverlayStudio.LayerPanels" xml:space="preserve">
     <value>Панели дока</value>
@@ -7159,13 +7159,13 @@ Voidstrap не смог записать в папку рабочего стол
     <value>Видеоклиппер</value>
   </data>
   <data name="Ui.Clipper.ShortcutDescription" xml:space="preserve">
-    <value>Аппаратный захват видео при нажатии {0}.</value>
+    <value>Захват с аппаратным ускорением при нажатии {0}.</value>
   </data>
   <data name="Ui.Clipper.NoShortcutDescription" xml:space="preserve">
-    <value>Аппаратный захват видео. Сбросьте сочетание клавиш для использования в игре.</value>
+    <value>Захват с аппаратным ускорением. Сбросьте сочетание клавиш для использования в игре.</value>
   </data>
   <data name="Ui.Clipper.NotifyHint" xml:space="preserve">
-    <value>Аппаратная запись видео на GPU и мгновенный повтор.</value>
+    <value>Аппаратный GPU видеорекордер и запись мгновенных повторов.</value>
   </data>
   <data name="Ui.Clipper.OpenClipper" xml:space="preserve">
     <value>Открыть клиппер</value>
@@ -7177,7 +7177,7 @@ Voidstrap не смог записать в папку рабочего стол
     <value>Режим записи</value>
   </data>
   <data name="Ui.Clipper.RecordingModeHint" xml:space="preserve">
-    <value>Выберите обычную запись (вкл/выкл) или буфер мгновенного повтора.</value>
+    <value>Выберите обычную запись (вкл/выкл) или циклическую запись клипов.</value>
   </data>
   <data name="Ui.Clipper.ModeRecord" xml:space="preserve">
     <value>Обычная запись (Вкл/Выкл)</value>
@@ -7186,28 +7186,28 @@ Voidstrap не смог записать в папку рабочего стол
     <value>Запись клипа (Повтор)</value>
   </data>
   <data name="Ui.Clipper.BufferLength" xml:space="preserve">
-    <value>Длительность клипа</value>
+    <value>Длительность повтора клипа</value>
   </data>
   <data name="Ui.Clipper.BufferLengthHint" xml:space="preserve">
-    <value>Сколько секунд игры хранить в буфере повтора.</value>
+    <value>Сколько секунд игрового процесса хранить в буфере мгновенного повтора.</value>
   </data>
   <data name="Ui.Clipper.Sec15" xml:space="preserve">
-    <value>15 sec</value>
+    <value>15 сек</value>
   </data>
   <data name="Ui.Clipper.Sec30" xml:space="preserve">
-    <value>30 sec</value>
+    <value>30 сек</value>
   </data>
   <data name="Ui.Clipper.Sec60" xml:space="preserve">
-    <value>60 sec</value>
+    <value>60 сек</value>
   </data>
   <data name="Ui.Clipper.Sec120" xml:space="preserve">
-    <value>120 sec</value>
+    <value>120 сек</value>
   </data>
   <data name="Ui.Clipper.RecordOnGameStart" xml:space="preserve">
-    <value>Записывать при запуске игры</value>
+    <value>Запись при запуске игры</value>
   </data>
   <data name="Ui.Clipper.RecordOnGameStartHint" xml:space="preserve">
-    <value>Автоматически начинать запись при входе в игру Roblox.</value>
+    <value>Автоматически начинать запись при запуске игровой сессии Roblox.</value>
   </data>
   <data name="Ui.Clipper.RedBorder" xml:space="preserve">
     <value>Красная рамка экрана</value>
@@ -7222,118 +7222,118 @@ Voidstrap не смог записать в папку рабочего стол
     <value>Качество видео</value>
   </data>
   <data name="Ui.Clipper.VideoQualityHint" xml:space="preserve">
-    <value>Пресет битрейта аппаратного кодировщика GPU.</value>
+    <value>Пресет битрейта, используемый аппаратным кодировщиком GPU.</value>
   </data>
   <data name="Ui.Clipper.QualityLow" xml:space="preserve">
-    <value>Low (8 Mbps)</value>
+    <value>Низкое (8 Мбит/с)</value>
   </data>
   <data name="Ui.Clipper.QualityMedium" xml:space="preserve">
-    <value>Medium (16 Mbps)</value>
+    <value>Среднее (16 Мбит/с)</value>
   </data>
   <data name="Ui.Clipper.QualityHigh" xml:space="preserve">
-    <value>High (28 Mbps)</value>
+    <value>Высокое (28 Мбит/с)</value>
   </data>
   <data name="Ui.Clipper.QualityUltra" xml:space="preserve">
-    <value>Ultra (50 Mbps)</value>
+    <value>Ультра (50 Мбит/с)</value>
   </data>
   <data name="Ui.Clipper.QualityLowShort" xml:space="preserve">
-    <value>Low</value>
+    <value>Низкое</value>
   </data>
   <data name="Ui.Clipper.QualityMediumShort" xml:space="preserve">
-    <value>Medium</value>
+    <value>Среднее</value>
   </data>
   <data name="Ui.Clipper.QualityHighShort" xml:space="preserve">
-    <value>High</value>
+    <value>Высокое</value>
   </data>
   <data name="Ui.Clipper.QualityUltraShort" xml:space="preserve">
-    <value>Ultra</value>
+    <value>Ультра</value>
   </data>
   <data name="Ui.Clipper.Resolution" xml:space="preserve">
-    <value>Resolution</value>
+    <value>Разрешение</value>
   </data>
   <data name="Ui.Clipper.ResolutionHint" xml:space="preserve">
-    <value>Output resolution of saved recordings and clips.</value>
+    <value>Выходное разрешение сохраненных записей и клипов.</value>
   </data>
   <data name="Ui.Clipper.ResNative" xml:space="preserve">
-    <value>Native</value>
+    <value>Исходное</value>
   </data>
   <data name="Ui.Clipper.FrameRate" xml:space="preserve">
-    <value>Frame rate</value>
+    <value>Частота кадров</value>
   </data>
   <data name="Ui.Clipper.FrameRateHint" xml:space="preserve">
-    <value>Target capture frame rate.</value>
+    <value>Целевая частота кадров захвата.</value>
   </data>
   <data name="Ui.Clipper.Codec" xml:space="preserve">
-    <value>Encoder codec</value>
+    <value>Кодек кодировщика</value>
   </data>
   <data name="Ui.Clipper.CodecHint" xml:space="preserve">
-    <value>Hardware GPU encoder format.</value>
+    <value>Формат аппаратного кодировщика GPU.</value>
   </data>
   <data name="Ui.Clipper.GameAudio" xml:space="preserve">
-    <value>Capture game audio</value>
+    <value>Захват звука игры</value>
   </data>
   <data name="Ui.Clipper.GameAudioHint" xml:space="preserve">
-    <value>Record desktop and game audio in saved videos.</value>
+    <value>Записывать звук рабочего стола и игры в сохраняемые видео.</value>
   </data>
   <data name="Ui.Clipper.GameAudioShort" xml:space="preserve">
-    <value>Game Audio</value>
+    <value>Звук игры</value>
   </data>
   <data name="Ui.Clipper.Microphone" xml:space="preserve">
-    <value>Capture microphone</value>
+    <value>Захват микрофона</value>
   </data>
   <data name="Ui.Clipper.MicrophoneHint" xml:space="preserve">
-    <value>Mix microphone input into saved videos.</value>
+    <value>Добавлять звук микрофона в сохраняемые видео.</value>
   </data>
   <data name="Ui.Clipper.MicShort" xml:space="preserve">
-    <value>Mic</value>
+    <value>Микрофон</value>
   </data>
   <data name="Ui.Clipper.StatusIndicator" xml:space="preserve">
-    <value>Status indicator badge</value>
+    <value>Значок индикатора состояния</value>
   </data>
   <data name="Ui.Clipper.StatusIndicatorHint" xml:space="preserve">
-    <value>Show a compact recording badge in the corner of the screen.</value>
+    <value>Показывать компактный значок записи в углу экрана.</value>
   </data>
   <data name="Ui.Clipper.HudBadge" xml:space="preserve">
-    <value>HUD Badge</value>
+    <value>Значок HUD</value>
   </data>
   <data name="Ui.Clipper.ClipsFolder" xml:space="preserve">
-    <value>Saved clips folder</value>
+    <value>Папка сохраненных клипов</value>
   </data>
   <data name="Ui.Clipper.ClipsFolderHint" xml:space="preserve">
-    <value>Open the folder where recordings and clips are stored.</value>
+    <value>Открыть папку, в которой хранятся записи и клипы.</value>
   </data>
   <data name="Ui.Clipper.OpenFolder" xml:space="preserve">
-    <value>Open Folder</value>
+    <value>Открыть папку</value>
   </data>
   <data name="Ui.Clipper.CaptureSettings" xml:space="preserve">
-    <value>Capture &amp; Quality</value>
+    <value>Захват и качество</value>
   </data>
   <data name="Ui.Clipper.QualitySection" xml:space="preserve">
-    <value>Quality, Resolution &amp; FPS</value>
+    <value>Качество, разрешение и FPS</value>
   </data>
   <data name="Ui.Clipper.QualitySectionHint" xml:space="preserve">
-    <value>Hardware GPU encoding runs asynchronously with zero game frame impact.</value>
+    <value>Аппаратное кодирование GPU работает асинхронно без влияния на FPS в игре.</value>
   </data>
   <data name="Ui.Clipper.IndicatorsAndAudio" xml:space="preserve">
-    <value>Indicators &amp; Audio</value>
+    <value>Индикаторы и звук</value>
   </data>
   <data name="Ui.Clipper.IndicatorsAndAudioHint" xml:space="preserve">
-    <value>Toggle the screen red border, corner badge, game audio, and microphone.</value>
+    <value>Переключение красной рамки экрана, углового значка, звука игры и микрофона.</value>
   </data>
   <data name="Ui.Clipper.ShortcutLabel" xml:space="preserve">
-    <value>Recording Shortcut</value>
+    <value>Сочетание клавиш записи</value>
   </data>
   <data name="Ui.Clipper.ShortcutHint" xml:space="preserve">
-    <value>Click the box and press a key combination to toggle recording or save a clip.</value>
+    <value>Нажмите на поле и введите комбинацию клавиш для переключения записи или сохранения клипа.</value>
   </data>
   <data name="Ui.Clipper.ShortcutModifierHint" xml:space="preserve">
-    <value>Include Ctrl, Alt, Shift, or use a function key F1 to F12.</value>
+    <value>Используйте Ctrl, Alt, Shift или функциональные клавиши от F1 до F12.</value>
   </data>
   <data name="Ui.Clipper.PressKeys" xml:space="preserve">
-    <value>Press keys...</value>
+    <value>Нажмите клавиши...</value>
   </data>
   <data name="Ui.Clipper.Reset" xml:space="preserve">
-    <value>Reset</value>
+    <value>Сбросить</value>
   </data>
   <data name="Ui.Clipper.StartRecording" xml:space="preserve">
     <value>Начать запись</value>
@@ -7348,19 +7348,19 @@ Voidstrap не смог записать в папку рабочего стол
     <value>Сохранение...</value>
   </data>
   <data name="Ui.Clipper.SaveFailed" xml:space="preserve">
-    <value>Could not save clip.</value>
+    <value>Не удалось сохранить клип.</value>
   </data>
   <data name="Ui.Clipper.DeleteFailed" xml:space="preserve">
-    <value>Could not delete clip</value>
+    <value>Не удалось удалить клип</value>
   </data>
   <data name="Ui.Clipper.StatusDisabled" xml:space="preserve">
-    <value>Recorder Disabled</value>
+    <value>Рекордер отключен</value>
   </data>
   <data name="Ui.Clipper.StatusDisabledSub" xml:space="preserve">
-    <value>Turn on the switch or click Start Recording to begin.</value>
+    <value>Включите переключатель или нажмите Начать запись.</value>
   </data>
   <data name="Ui.Clipper.StatusPreparingEncoder" xml:space="preserve">
-    <value>Preparing hardware video encoder...</value>
+    <value>Подготовка аппаратного видеокодировщика...</value>
   </data>
   <data name="Ui.Clipper.StatusRecording" xml:space="preserve">
     <value>Идет запись</value>
@@ -7369,16 +7369,16 @@ Voidstrap не смог записать в папку рабочего стол
     <value>Готов к записи</value>
   </data>
   <data name="Ui.Clipper.StatusReadyRecordSub" xml:space="preserve">
-    <value>Click Start Recording or press {0} to record.</value>
+    <value>Нажмите Начать запись или клавишу {0} для записи.</value>
   </data>
   <data name="Ui.Clipper.StatusClipReady" xml:space="preserve">
-    <value>Буфер клипа готов</value>
+    <value>Буфер клипов готов</value>
   </data>
   <data name="Ui.Clipper.StatusStarting" xml:space="preserve">
-    <value>Starting Capture...</value>
+    <value>Запуск захвата...</value>
   </data>
   <data name="Ui.Clipper.StatusStartingSub" xml:space="preserve">
-    <value>Initializing GPU capture pipeline...</value>
+    <value>Инициализация конвейера захвата GPU...</value>
   </data>
   <data name="Ui.Clipper.SavedClips" xml:space="preserve">
     <value>Сохраненные клипы</value>
@@ -7387,7 +7387,7 @@ Voidstrap не смог записать в папку рабочего стол
     <value>Обновить</value>
   </data>
   <data name="Ui.Clipper.EmptyClips" xml:space="preserve">
-    <value>Пока нет сохраненных записей или клипов.</value>
+    <value>Сохраненных записей и клипов пока нет.</value>
   </data>
   <data name="Ui.Clipper.Play" xml:space="preserve">
     <value>Воспроизвести</value>
@@ -7402,33 +7402,33 @@ Voidstrap не смог записать в папку рабочего стол
     <value>Закрыть</value>
   </data>
   <data name="Ui.Clipper.Start" xml:space="preserve">
-    <value>Start</value>
+    <value>Начало</value>
   </data>
   <data name="Ui.Clipper.End" xml:space="preserve">
-    <value>End</value>
+    <value>Конец</value>
   </data>
   <data name="Ui.Clipper.SaveAsCopy" xml:space="preserve">
-    <value>Save as Copy</value>
+    <value>Сохранить как копию</value>
   </data>
   <data name="Ui.Clipper.TrimOriginal" xml:space="preserve">
-    <value>Trim Original</value>
+    <value>Обрезать оригинал</value>
   </data>
   <data name="Ui.Clipper.TrimFailed" xml:space="preserve">
-    <value>Trim failed.</value>
+    <value>Не удалось обрезать.</value>
   </data>
   <data name="Ui.Clipper.TrimSaved" xml:space="preserve">
-    <value>Trimmed clip saved</value>
+    <value>Обрезанный клип сохранен</value>
   </data>
   <data name="Ui.Clipper.BadgeRec" xml:space="preserve">
-    <value>REC</value>
+    <value>ЗАП</value>
   </data>
   <data name="Ui.Clipper.BadgeClip" xml:space="preserve">
-    <value>CLIP</value>
+    <value>КЛИП</value>
   </data>
   <data name="Ui.Clipper.BadgeSaved" xml:space="preserve">
-    <value>SAVED</value>
+    <value>СОХРАНЕНО</value>
   </data>
   <data name="Ui.Clipper.BadgeIdle" xml:space="preserve">
-    <value>IDLE</value>
+    <value>ОЖИДАНИЕ</value>
   </data>
 </root>
