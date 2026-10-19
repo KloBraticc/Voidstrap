@@ -142,7 +142,12 @@ jobs:
           }
 
           $signature = Get-AuthenticodeSignature -LiteralPath $exe
-          if ($null -eq $signature.SignerCertificate -or $signature.Status -notin @('Valid', 'NotTrusted')) {
+          if ($signature.Status -eq 'UnknownError' -and $signature.StatusMessage -like '*root certificate which is not trusted by the trust provider*') {
+            $signer = [System.Security.Cryptography.X509Certificates.X509Certificate2]::new([System.Security.Cryptography.X509Certificates.X509Certificate]::CreateFromSignedFile($exe))
+            if ($signer.Thumbprint -ne '84913A32E5DBC03EDC416B4FD3B499DCBD52145E') {
+              throw 'The signed executable does not use the pinned SignPath test certificate.'
+            }
+          } elseif ($signature.Status -ne 'Valid') {
             throw 'The signed executable does not have a valid Authenticode signature.'
           }
 
