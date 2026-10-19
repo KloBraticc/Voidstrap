@@ -1,22 +1,25 @@
 name: Windows release signing
+run-name: Sign Voidstrap ${{ inputs.tag }} ${{ inputs.request-id }}
 
 on:
-  release:
-    types: [published, prereleased]
   workflow_dispatch:
     inputs:
       tag:
-        description: Existing GitHub release tag
+        description: Existing Git tag to build and sign
+        required: true
+        type: string
+      request-id:
+        description: Unique request identifier supplied by publish-all.ps1
         required: true
         type: string
 
 concurrency:
-  group: windows-release-signing-${{ github.event.release.tag_name || inputs.tag }}
+  group: windows-release-signing-${{ inputs.tag }}
   cancel-in-progress: false
 
 jobs:
   build:
-    if: github.repository == 'KloBraticc/Voidstrap' && (github.event_name != 'workflow_dispatch' || github.ref == 'refs/heads/main')
+    if: github.repository == 'KloBraticc/Voidstrap' && github.ref == 'refs/heads/main'
     runs-on: windows-latest
     permissions:
       contents: read
@@ -24,7 +27,8 @@ jobs:
       artifact-id: ${{ steps.upload.outputs.artifact-id }}
       version: ${{ steps.validate.outputs.version }}
     env:
-      RELEASE_TAG: ${{ github.event.release.tag_name || inputs.tag }}
+      RELEASE_TAG: ${{ inputs.tag }}
+      REQUEST_ID: ${{ inputs.request-id }}
     steps:
       - name: Validate release tag
         id: validate
@@ -33,7 +37,11 @@ jobs:
           if ($env:RELEASE_TAG -notmatch '\Av?(?<version>\d+\.\d+\.\d+\.\d+)\z') {
             throw 'The release tag must be a four-part version, optionally prefixed with v.'
           }
-          "version=$($Matches.version)" >> $env:GITHUB_OUTPUT
+          $releaseVersion = $Matches.version
+          if ($env:REQUEST_ID -notmatch '\A[0-9a-f]{32}\z') {
+            throw 'The request identifier is invalid.'
+          }
+          "version=$releaseVersion" >> $env:GITHUB_OUTPUT
 
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -64,7 +72,7 @@ jobs:
         run: |
           $publishDir = Join-Path $env:RUNNER_TEMP 'voidstrap-publish'
           $artifactDir = Join-Path $env:RUNNER_TEMP 'voidstrap-unsigned'
-          dotnet publish src/Voidstrap.App/Voidstrap.csproj -c Release -r win-x64 --self-contained false "-p:Version=$env:RELEASE_VERSION" -o $publishDir
+          dotnet publish src/Voidstrap.App/Voidstrap.csproj -c Release -r win-x64 --self-contained false "-p:Version=$env:RELEASE_VERSION" -p:PublishProfile=FolderProfile -p:PublishReadyToRun=false -p:IncludeAllContentForSelfExtract=false -p:PublishSingleFile=true -p:UseAppHost=true -p:IncludeNativeLibrariesForSelfExtract=true -p:DebugType=none -p:DebugSymbols=false -p:ContinuousIntegrationBuild=true -p:RestoreUseStaticGraphEvaluation=true -p:TreatWarningsAsErrors=true -p:EnableWindowsTargeting=true -o $publishDir
           if ($LASTEXITCODE -ne 0) { throw 'Voidstrap publish failed.' }
 
           $exe = Join-Path $publishDir 'Voidstrap.exe'
@@ -88,13 +96,12 @@ jobs:
 
   sign:
     needs: build
-    if: github.repository == 'KloBraticc/Voidstrap' && (github.event_name != 'workflow_dispatch' || github.ref == 'refs/heads/main')
+    if: github.repository == 'KloBraticc/Voidstrap' && github.ref == 'refs/heads/main'
     runs-on: windows-latest
     permissions:
       actions: read
-      contents: write
+      contents: none
     env:
-      RELEASE_TAG: ${{ github.event.release.tag_name || inputs.tag }}
       RELEASE_VERSION: ${{ needs.build.outputs.version }}
     steps:
       - name: Sign executable with SignPath test certificate
@@ -128,20 +135,11 @@ jobs:
             throw 'The signed executable does not have a valid Authenticode signature.'
           }
 
-      - name: Confirm target release exists
-        shell: pwsh
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          $releaseTag = gh release view $env:RELEASE_TAG --repo $env:GITHUB_REPOSITORY --json tagName --jq .tagName
-          if ($LASTEXITCODE -ne 0 -or $releaseTag -ne $env:RELEASE_TAG) { throw 'The target GitHub release was not found.' }
-
-      - name: Upload signed executable to GitHub release
-        shell: pwsh
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          $exe = Join-Path $env:RUNNER_TEMP 'voidstrap-signed/Voidstrap.exe'
-          gh release upload $env:RELEASE_TAG $exe --repo $env:GITHUB_REPOSITORY --clobber
-          if ($LASTEXITCODE -ne 0) { throw 'Uploading the signed executable failed.' }
+      - name: Upload signed executable for manual publishing
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: voidstrap-windows-signed-${{ env.RELEASE_VERSION }}
+          path: ${{ runner.temp }}/voidstrap-signed/Voidstrap.exe
+          if-no-files-found: error
+          retention-days: 1
 
