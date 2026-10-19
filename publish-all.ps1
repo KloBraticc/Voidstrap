@@ -1,3 +1,6 @@
+Warning: truncated output (original token count: 22421)
+Total output lines: 2143
+
 [CmdletBinding()]
 param(
     [string[]]$Only = @('all'),
@@ -16,6 +19,7 @@ param(
     [switch]$AppImage,
     [switch]$SkipAppImage,
     [switch]$LinuxPackages,
+    [switch]$SignWindowsWithSignPath,
     [switch]$NoPause
 )
 
@@ -972,218 +976,88 @@ function Start-TargetPackaging {
     if ($linuxTarget -and $wantLinuxPackages) {
         New-Item -ItemType Directory -Path $LinuxOut -Force | Out-Null
         $outputPath = Get-RootRelativePath $LinuxOut
-        $executablePath = Get-RootRelativePath $Job.Expected
-        $glibc = -not $rid.StartsWith('linux-musl-', [System.StringComparison]::Ordinal)
-        $formats = @('tar')
-        if ($glibc) {
-            $formats += 'deb', 'rpm'
-            if ($appImageTool) { $formats += 'appimage' }
-        }
-        $steps = @($formats | ForEach-Object { [pscustomobject]@{ Label = "$($Job.Target.Name) $_"; Arguments = @($context.LinuxScript, $rid, $version, $_, $outputPath, $executablePath) } })
-        $script:PackagingChains += Start-PackagingChain $shell $Job.Target.Name $steps
-        if ($glibc) {
-            $script:PackagingChains += Start-PackagingChain $shell "$($Job.Target.Name) Flatpak" @([pscustomobject]@{ Label = "$($Job.Target.Name) Flatpak"; Arguments = @($context.FlatpakScript, $rid, $version, $outputPath, $executablePath) })
-        }
-    }
-    elseif ($macTarget) {
-        if (-not $shell) {
-            if (-not $PackageNotes.Contains($context.MacShellNote)) { $PackageNotes.Add($context.MacShellNote) }
-            return
-        }
-        if ($IsWindowsHost -and -not $shell.Wsl -and -not $PackageNotes.Contains($context.MacImageNote)) {
-            $PackageNotes.Add($context.MacImageNote)
-        }
-        New-Item -ItemType Directory -Path $MacOut -Force | Out-Null
-        $script:PackagingChains += Start-PackagingChain $shell $Job.Target.Name @([pscustomobject]@{ Label = "$($Job.Target.Name) app"; Arguments = @($context.MacScript, $rid, $version, (Get-RootRelativePath $MacOut), (Get-RootRelativePath $Job.Expected)) })
-    }
-}
-
-function Test-TransientPublishFailure {
-    param([Parameter(Mandatory)] $Job)
-
-    $text = [string]$Job.CapturedOutput
-    return $text -match '(?i)NU1301|NU1302|timed out|temporar(?:y|ily)|connection (?:reset|closed)|resource (?:busy|unavailable)|text file busy|being used by another process|MSB3021|MSB3026|MSB3027|IOException'
-}
-
-function ConvertTo-CommandLineArgument {
-    param([AllowEmptyString()] [string]$Argument)
-
-    if ($null -eq $Argument -or $Argument.Length -eq 0) {
-        return '""'
+        $executablePath = Get-RootRelati…2421 tokens truncated…ef main -f "tag=$tag" -f "request-id=$requestId" 2>&1 | Out-Null
+    if ($LASTEXITCODE -ne 0) {
+        throw 'GitHub Actions could not start the SignPath signing workflow. Check GitHub CLI authentication and workflow availability.'
     }
 
-    if ($Argument -notmatch '[\s"]') {
-        return $Argument
+    $runId = $null
+    $findDeadline = [DateTime]::UtcNow.AddMinutes(2)
+    while (-not $runId -and [DateTime]::UtcNow -lt $findDeadline) {
+        $runsJson = & $gh.Source run list --repo KloBraticc/Voidstrap --workflow windows-release-signing.yml --event workflow_dispatch --limit 20 --json databaseId,displayTitle 2>&1 | Out-String
+        if ($LASTEXITCODE -ne 0) {
+            throw 'GitHub Actions did not return the signing workflow run.'
+        }
+        $runs = @(ConvertFrom-Json -InputObject $runsJson)
+        $matchingRun = $runs | Where-Object { $_.displayTitle -ceq $runName } | Select-Object -First 1
+        if ($matchingRun) { $runId = [string]$matchingRun.databaseId }
+        if (-not $runId) { Start-Sleep -Seconds 3 }
+    }
+    if (-not $runId) {
+        throw 'GitHub accepted the signing request, but its unique workflow run could not be found.'
     }
 
-    $builder = New-Object System.Text.StringBuilder
-    [void]$builder.Append('"')
-    $slashes = 0
-
-    foreach ($ch in $Argument.ToCharArray()) {
-        if ($ch -eq '\') {
-            $slashes++
-            continue
+    $signingRun = $null
+    $signingDeadline = [DateTime]::UtcNow.AddHours(1)
+    $lastProgressAt = [DateTime]::UtcNow
+    Write-Host '  Waiting for the GitHub build and SignPath signature...' -ForegroundColor DarkGray
+    while ([DateTime]::UtcNow -lt $signingDeadline) {
+        $runJson = & $gh.Source run view $runId --repo KloBraticc/Voidstrap --json status,conclusion 2>&1 | Out-String
+        if ($LASTEXITCODE -ne 0) {
+            throw 'GitHub Actions did not return the status of the signing run.'
         }
+        $signingRun = ConvertFrom-Json -InputObject $runJson
+        if ($signingRun.status -eq 'completed') { break }
+        if (([DateTime]::UtcNow - $lastProgressAt).TotalSeconds -ge 60) {
+            Write-Host '  SignPath is still processing the trusted build...' -ForegroundColor DarkGray
+            $lastProgressAt = [DateTime]::UtcNow
+        }
+        Start-Sleep -Seconds 10
+    }
+    if (-not $signingRun -or $signingRun.status -ne 'completed') {
+        throw "SignPath signing run $runId did not finish within one hour."
+    }
+    if ($signingRun.conclusion -ne 'success') {
+        throw "SignPath signing run $runId finished with status '$($signingRun.conclusion)'."
+    }
 
-        if ($ch -eq '"') {
-            if ($slashes -gt 0) {
-                [void]$builder.Append(('\' * ($slashes * 2)))
-            }
-            [void]$builder.Append('\"')
-            $slashes = 0
-            continue
+    $downloadDir = Join-Path $ArtifactDir "signpath-$requestId"
+    if (Test-Path -LiteralPath $downloadDir) {
+        throw 'The private SignPath download directory already exists.'
+    }
+    New-Item -ItemType Directory -Path $downloadDir -Force | Out-Null
+    try {
+        & $gh.Source run download $runId --repo KloBraticc/Voidstrap --name "voidstrap-windows-signed-$Version" --dir $downloadDir
+        if ($LASTEXITCODE -ne 0) {
+            throw 'GitHub Actions could not download the signed Windows executable.'
         }
 
-        if ($slashes -gt 0) {
-            [void]$builder.Append(('\' * $slashes))
-            $slashes = 0
+        $downloadedFiles = @(Get-ChildItem -LiteralPath $downloadDir -File -Force)
+        $downloadedDirectories = @(Get-ChildItem -LiteralPath $downloadDir -Directory -Force)
+        if ($downloadedDirectories.Count -ne 0 -or $downloadedFiles.Count -ne 1 -or $downloadedFiles[0].Name -cne 'Voidstrap.exe') {
+            throw 'The signing run did not return exactly one Voidstrap.exe file.'
         }
 
-        [void]$builder.Append($ch)
-    }
-
-    if ($slashes -gt 0) {
-        [void]$builder.Append(('\' * ($slashes * 2)))
-    }
-
-    [void]$builder.Append('"')
-    return $builder.ToString()
-}
-
-function Start-DotNetProcess {
-    param(
-        [Parameter(Mandatory)] [string[]]$Arguments,
-        [Parameter(Mandatory)] [string]$WorkingDirectory
-    )
-
-    $psi = New-Object System.Diagnostics.ProcessStartInfo
-    $psi.FileName = $script:DotNetPath
-    $psi.WorkingDirectory = $WorkingDirectory
-    $psi.UseShellExecute = $false
-    $psi.CreateNoWindow = $true
-    $psi.RedirectStandardOutput = $true
-    $psi.RedirectStandardError = $true
-
-    if ($psi.PSObject.Properties.Name -contains 'ArgumentList') {
-        foreach ($arg in $Arguments) {
-            [void]$psi.ArgumentList.Add([string]$arg)
+        $signedExe = $downloadedFiles[0].FullName
+        $info = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($signedExe)
+        if ($info.ProductName -ne 'Voidstrap' -or $info.ProductVersion -ne $Version -or $info.CompanyName -ne 'Voidstrap' -or $info.OriginalFilename -ne 'Voidstrap.exe' -or $info.FileVersion -ne $Version) {
+            throw 'The signed executable metadata does not match the configured Voidstrap release metadata.'
         }
-    } else {
-        $psi.Arguments = (($Arguments | ForEach-Object {
-            ConvertTo-CommandLineArgument ([string]$_)
-        }) -join ' ')
+        $signature = Get-AuthenticodeSignature -LiteralPath $signedExe
+        if ($null -eq $signature.SignerCertificate -or $signature.Status -notin @('Valid', 'NotTrusted')) {
+            throw 'The signed executable does not have a valid Authenticode signature.'
+        }
+
+        $signedHash = (Get-FileHash -LiteralPath $signedExe -Algorithm SHA256).Hash
+        Copy-Item -LiteralPath $signedExe -Destination $OutputPath -Force
+        if ((Get-FileHash -LiteralPath $OutputPath -Algorithm SHA256).Hash -ne $signedHash) {
+            throw 'The signed executable changed while being copied into the publish output.'
+        }
+        Write-Host '  Voidstrap.exe: signed by the trusted GitHub Actions build.' -ForegroundColor Green
     }
-
-    $process = New-Object System.Diagnostics.Process
-    $process.StartInfo = $psi
-
-    if (-not $process.Start()) {
-        $process.Dispose()
-        throw 'Failed to start dotnet.'
+    finally {
+        Remove-BuildDirectory -Path $downloadDir
     }
-
-    return [pscustomobject]@{
-        Process    = $process
-        StdOutTask = $process.StandardOutput.ReadToEndAsync()
-        StdErrTask = $process.StandardError.ReadToEndAsync()
-    }
-}
-
-function Finish-PublishJob {
-    param([Parameter(Mandatory)] $Job)
-
-    if ($Job.Status -ne 'Building') {
-        return
-    }
-
-    while (-not $Job.Process.WaitForExit(1000)) {
-        Write-Heartbeat @($Job)
-    }
-    $Job.Process.WaitForExit()
-
-    $Job.StdOut = [string]$Job.StdOutTask.GetAwaiter().GetResult()
-    $Job.StdErr = [string]$Job.StdErrTask.GetAwaiter().GetResult()
-    $Job.CapturedOutput = $Job.StdOut + [Environment]::NewLine + $Job.StdErr
-
-    $Job.EndTime = Get-Date
-    $exitCode = $Job.Process.ExitCode
-
-    if ($exitCode -ne 0) {
-        $Job.Failure = "dotnet publish exited with code $exitCode"
-        $Job.Status = 'Failed'
-    }
-    elseif (-not (Test-Path -LiteralPath $Job.Expected -PathType Leaf)) {
-        $Job.Failure = "Publish completed, but the expected executable was not created: $($Job.Expected)"
-        $Job.Status = 'Failed'
-    }
-    else {
-        $Job.Status = 'Done'
-    }
-
-    $elapsed = [int](New-TimeSpan -Start $Job.StartTime -End $Job.EndTime).TotalSeconds
-    $color = if ($Job.Status -eq 'Done') { 'Green' } else { 'Red' }
-    Write-Host "  $($Job.Target.Name): $($Job.Status) (${elapsed}s)" -ForegroundColor $color
-}
-
-function Restart-PublishJob {
-    param([Parameter(Mandatory)] $Job)
-
-    try { $Job.Process.Dispose() } catch { }
-    Reset-OutputDirectory $Job.Target.OutDir
-    $started = Start-DotNetProcess -Arguments $Job.Arguments -WorkingDirectory $Root
-    $Job.Retried = $true
-    $Job.Process = $started.Process
-    $Job.StdOutTask = $started.StdOutTask
-    $Job.StdErrTask = $started.StdErrTask
-    $Job.StartTime = Get-Date
-    $Job.EndTime = $null
-    $Job.Failure = $null
-    $Job.CapturedOutput = ''
-    $Job.StdOut = ''
-    $Job.StdErr = ''
-    $Job.Status = 'Building'
-}
-
-function Show-PublishFailure {
-    param([Parameter(Mandatory)] $Job)
-
-    Write-Host "$($Job.Target.Name) errors:" -ForegroundColor Red
-
-    if ($Job.Failure) {
-        Write-Host $Job.Failure
-    }
-
-    $errorLines = @()
-
-    if (-not [string]::IsNullOrWhiteSpace($Job.StdErr)) {
-        $errorLines += @(($Job.StdErr -split '\r?\n') | Select-Object -Last 30)
-    }
-
-    if (-not [string]::IsNullOrWhiteSpace($Job.StdOut)) {
-        $errorLines += @(($Job.StdOut -split '\r?\n' | Select-Object -Last 80) |
-            Where-Object { $_ -match '(?i)\berror\b|NETSDK\d+|MSB\d+' })
-    }
-
-    if ($errorLines.Count -gt 0) {
-        $errorLines | Select-Object -Unique | ForEach-Object { Write-Host $_ }
-    } else {
-        Write-Host 'No additional error text was written by dotnet.' -ForegroundColor DarkGray
-    }
-
-    Write-Host ''
-}
-
-function Get-VoidstrapVersion {
-    $props = Join-Path $Root 'Directory.Build.props'
-    if (-not (Test-Path -LiteralPath $props -PathType Leaf)) {
-        throw "Directory.Build.props was not found: $props"
-    }
-    $match = [regex]::Match((Get-Content -Raw -LiteralPath $props), '<VoidstrapVersion>([^<]+)</VoidstrapVersion>')
-    if (-not $match.Success) {
-        throw 'The Voidstrap package version is unavailable.'
-    }
-    return $match.Groups[1].Value
 }
 
 function Get-LatestReleaseVersion {
@@ -1455,6 +1329,18 @@ if ($RequestedAll) {
     $Targets = @($AllTargets)
 } else {
     $Targets = @($AllTargets | Where-Object { $Only -contains $_.Key })
+}
+
+if ($SignWindowsWithSignPath) {
+    if (-not $IsWindowsHost) {
+        throw 'SignPath Windows signing must be requested from a Windows host after the Windows build completes.'
+    }
+    if ($Configuration -ne 'Release') {
+        throw 'SignPath only signs Release builds.'
+    }
+    if (@($Targets | Where-Object { $_.Key -eq 'windows' }).Count -eq 0) {
+        throw 'SignPath signing requires the Windows target. Include windows or all in -Only.'
+    }
 }
 
 $AndroidExplicit = $Only -contains 'android'
@@ -1940,6 +1826,10 @@ if ($packageFailure) {
     Exit-Script 1
 }
 
+if ($SignWindowsWithSignPath) {
+    Invoke-SignPathWindows -Version (Get-VoidstrapVersion) -OutputPath (Join-Path $Out 'Windows/Voidstrap.exe')
+}
+
 if ($PackageNotes.Count -gt 0) {
     Write-Host 'Published everything this host can build.' -ForegroundColor Green
 } else {
@@ -1977,3 +1867,4 @@ Exit-Script 0
     $env:WSLENV = $originalWslEnv
     $publishLock.Dispose()
 }
+
