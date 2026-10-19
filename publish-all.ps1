@@ -1263,7 +1263,7 @@ function Invoke-SignPathWindows {
     $runId = $null
     $findDeadline = [DateTime]::UtcNow.AddMinutes(2)
     while (-not $runId -and [DateTime]::UtcNow -lt $findDeadline) {
-        $runsJson = & $ghPath run list --repo KloBraticc/Voidstrap --workflow windows-release-signing.yml --event workflow_dispatch --limit 20 --json databaseId,displayTitle 2>&1 | Out-String
+        $runsJson = & $ghPath run list --repo KloBraticc/Voidstrap --workflow windows-release-signing.yml --event workflow_dispatch --limit 20 --json databaseId,name 2>&1 | Out-String
         if ($LASTEXITCODE -ne 0) {
             throw 'GitHub Actions did not return the signing workflow run.'
         }
