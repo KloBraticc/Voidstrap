@@ -1049,7 +1049,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     internal void RefreshGlobalSearchBoxVisibility()
     {
         object? content = RootFrame.Content;
-        bool hideSearchBox = content != null && (_pagesToHideSearchBox.Contains(content.GetType()) || content is Voidstrap.UI.Elements.Settings.Pages.FastFlagsPage fastFlagsPage && fastFlagsPage.IsAdvancedTabSelected);
+        bool hideSearchBox = content != null && (_pagesToHideSearchBox.Contains(content.GetType())
+            || content is Voidstrap.UI.Elements.Settings.Pages.FastFlagsPage fastFlagsPage && fastFlagsPage.IsAdvancedTabSelected
+            || content is Voidstrap.UI.Elements.Settings.Pages.ModsPage modsPage && modsPage.IsModPackSelected);
         GlobalSearchBox.Visibility = hideSearchBox ? Visibility.Collapsed : Visibility.Visible;
     }
 

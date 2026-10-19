@@ -163,6 +163,8 @@ public partial class ModsPage : UiPage{
 			UpdateBreadcrumb();
 	}
 
+	internal bool IsModPackSelected => !ViewModel.ModExplorerVisible && ReferenceEquals(ModsTabs.SelectedItem, ModPacksTab) && ViewModel.CommunityMods.SelectedMod != null;
+
 	private void UpdateBreadcrumb()
 	{
 		if (ViewModel.ModExplorerVisible)
@@ -171,6 +173,8 @@ public partial class ModsPage : UiPage{
 			Voidstrap.UI.BreadcrumbHeader.Set(this, mod.Name);
 		else
 			Voidstrap.UI.BreadcrumbHeader.Clear(this);
+		if (Window.GetWindow(this) is Voidstrap.UI.Elements.Settings.MainWindow mainWindow)
+			mainWindow.RefreshGlobalSearchBoxVisibility();
 	}
 
 	private void OnBreadcrumbBack(object sender, RoutedEventArgs e)
