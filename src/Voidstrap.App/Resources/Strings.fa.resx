@@ -4054,9 +4054,6 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
   <data name="Ui.FastFlags.HowSolidTheSquaresLook" xml:space="preserve">
     <value>مربع‌ها چقدر توپر به نظر می‌رسند</value>
   </data>
-  <data name="Ui.FastFlags.Studs" xml:space="preserve">
-    <value>Studs</value>
-  </data>
   <data name="Ui.FastFlags.TheStudPatternOnParts" xml:space="preserve">
     <value>الگوی studs روی قطعات</value>
   </data>
@@ -4327,9 +4324,6 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
   <data name="Ui.Bootstrapper.ReduceResourcesWhenRobloxIsUnfocused" xml:space="preserve">
     <value>کاهش منابع وقتی Roblox در فوکوس نیست</value>
   </data>
-  <data name="Ui.Bootstrapper.VoidstrapMatchmaker" xml:space="preserve">
-    <value>Voidstrap Matchmaker</value>
-  </data>
   <data name="Ui.Bootstrapper.Enable" xml:space="preserve">
     <value>فعال کردن</value>
   </data>
@@ -4396,9 +4390,6 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
   <data name="Ui.Bootstrapper.NeverLetVoidstrapPickAServer" xml:space="preserve">
     <value>هرگز اجازه نده Voidstrap برای این بازی سرور انتخاب کند</value>
   </data>
-  <data name="Ui.Bootstrapper.PlaceId" xml:space="preserve">
-    <value>Place id</value>
-  </data>
   <data name="Ui.Bootstrapper.LetVoidstrapPickServersForThis" xml:space="preserve">
     <value>دوباره اجازه بده Voidstrap برای این بازی سرور انتخاب کند</value>
   </data>
@@ -4419,9 +4410,6 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
   </data>
   <data name="Ui.Bootstrapper.VoidstrapStopsTryingAfterThisMany" xml:space="preserve">
     <value>Voidstrap پس از این تعداد اتصال مجدد دست از تلاش برمی‌دارد تا هرگز در حلقه نیفتد.</value>
-  </data>
-  <data name="Ui.Bootstrapper.JoinAPI" xml:space="preserve">
-    <value>Join API</value>
   </data>
   <data name="Ui.Bootstrapper.WhichRobloxJoinEndpointVoidstrapAsks" xml:space="preserve">
     <value>نقطه پایانی پیوستن Roblox که Voidstrap مکان سرورها را از آن می‌پرسد. فقط اگر پیوستن کار نکرد تغییر دهید.</value>
@@ -4642,9 +4630,6 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
   <data name="Ui.Integrations.CloseWhenLeavingThatGame" xml:space="preserve">
     <value>بستن هنگام ترک آن بازی</value>
   </data>
-  <data name="Ui.Integrations.PlaceID" xml:space="preserve">
-    <value>Place ID</value>
-  </data>
   <data name="Ui.Channel.InstallLocation" xml:space="preserve">
     <value>محل نصب</value>
   </data>
@@ -4704,9 +4689,6 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
   </data>
   <data name="Ui.Channel.DisplaysVoidstrapsDiscordRPC" xml:space="preserve">
     <value>Discord RPC مربوط به Voidstrap را نمایش می‌دهد.</value>
-  </data>
-  <data name="Ui.Channel.VoidstrapRPC" xml:space="preserve">
-    <value>Voidstrap RPC</value>
   </data>
   <data name="Ui.Channel.FactoryReset" xml:space="preserve">
     <value>بازنشانی کارخانه</value>
@@ -5212,9 +5194,6 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
   <data name="Ui.Gbs.EnableVignetteForMotionSicknessReduction" xml:space="preserve">
     <value>فعال کردن وینیت برای کاهش حالت تهوع حرکتی.</value>
   </data>
-  <data name="Ui.Gbs.MicroProfiler" xml:space="preserve">
-    <value>Micro Profiler</value>
-  </data>
   <data name="Ui.Gbs.EnableRobloxMicroprofilerServer" xml:space="preserve">
     <value>فعال کردن سرور میکروپروفایلر Roblox.</value>
   </data>
@@ -5491,9 +5470,6 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
   <data name="Ui.Session.PasteAFullROBLOSECURITYValueOnly" xml:space="preserve">
     <value>یک مقدار کامل .ROBLOSECURITY بچسبانید. فقط کوکی‌های متعلق به خودتان را بچسبانید.</value>
   </data>
-  <data name="Ui.Session.WARNINGDONOTSHARETHIS" xml:space="preserve">
-    <value>_|WARNING: DO NOT SHARE THIS...</value>
-  </data>
   <data name="Ui.Session.CURRENT" xml:space="preserve">
     <value>فعلی</value>
   </data>
@@ -5508,6 +5484,51 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
   </data>
   <data name="Ui.Session.RemoveSavedAccount" xml:space="preserve">
     <value>حذف حساب ذخیره‌شده</value>
+  </data>
+  <data name="Ui.Session.Review" xml:space="preserve">
+    <value>نقد</value>
+  </data>
+  <data name="Ui.Session.Reviews" xml:space="preserve">
+    <value>نقدها</value>
+  </data>
+  <data name="Ui.Session.SubmitReview" xml:space="preserve">
+    <value>ارسال</value>
+  </data>
+  <data name="Ui.Session.NoReviews" xml:space="preserve">
+    <value>هنوز نظری ثبت نشده است</value>
+  </data>
+  <data name="Ui.Session.WriteReview" xml:space="preserve">
+    <value>نوشتن نظر...</value>
+  </data>
+  <data name="Ui.Session.SigningIn" xml:space="preserve">
+    <value>در حال ورود...</value>
+  </data>
+  <data name="Ui.Session.You" xml:space="preserve">
+    <value>شما</value>
+  </data>
+  <data name="Ui.Session.Votes" xml:space="preserve">
+    <value>رای</value>
+  </data>
+  <data name="Ui.Session.Vote" xml:space="preserve">
+    <value>رای</value>
+  </data>
+  <data name="Ui.Session.Positive" xml:space="preserve">
+    <value>مثبت</value>
+  </data>
+  <data name="Ui.Session.MinutesAgo" xml:space="preserve">
+    <value>{0} دقیقه پیش</value>
+  </data>
+  <data name="Ui.Session.HoursAgo" xml:space="preserve">
+    <value>{0} ساعت پیش</value>
+  </data>
+  <data name="Ui.Session.PoweredBy" xml:space="preserve">
+    <value>با پشتیبانی </value>
+  </data>
+  <data name="Ui.Session.JustNow" xml:space="preserve">
+    <value>همین الان</value>
+  </data>
+  <data name="Ui.Session.NoRatings" xml:space="preserve">
+    <value>هنوز امتیازی ثبت نشده</value>
   </data>
   <data name="Ui.Misc.ClickToChangeThisColour" xml:space="preserve">
     <value>برای تغییر این رنگ کلیک کنید</value>
@@ -5682,9 +5703,6 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
   </data>
   <data name="Ui.Misc.TheGraphicsBackendWineUsesFor" xml:space="preserve">
     <value>پشتیبان گرافیکی که Wine برای Studio استفاده می‌کند. DXVK برای بیشتر سیستم‌ها مناسب است.</value>
-  </data>
-  <data name="Ui.Misc.FeralGameMode" xml:space="preserve">
-    <value>Feral GameMode</value>
   </data>
   <data name="Ui.Misc.AsksGameModeToTuneTheSystem" xml:space="preserve">
     <value>از GameMode می‌خواهد تا هنگام اجرای Studio سیستم را تنظیم کند.</value>
@@ -5956,9 +5974,6 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
   <data name="Ui.Pages.OverridesThatAffectGPUBehaviorAnd" xml:space="preserve">
     <value>بازنویسی‌هایی که بر رفتار GPU و قابلیت‌های درایور اثر می‌گذارند.</value>
   </data>
-  <data name="Ui.Pages.ResizableBAR" xml:space="preserve">
-    <value>Resizable BAR</value>
-  </data>
   <data name="Ui.Pages.AllowsTheCPUToAccessThe" xml:space="preserve">
     <value>در سیستم‌های پشتیبانی‌شده به CPU اجازه دسترسی به کل حافظه GPU را می‌دهد.</value>
   </data>
@@ -6069,9 +6084,6 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
   </data>
   <data name="Ui.Pages.ManageYourFastFlagsACheckmarkIn" xml:space="preserve">
     <value>FastFlags خود را مدیریت کنید. تیک در Preset یعنی پرچم در تنظیمات FFlag موجود است و ضربدر یعنی موجود نیست.</value>
-  </data>
-  <data name="Ui.Pages.Preset" xml:space="preserve">
-    <value>Preset</value>
   </data>
   <data name="Ui.Pages.GoToFFlagSettingsToAdd" xml:space="preserve">
     <value>برای افزودن FFlags از Preset به تنظیمات FFlag بروید.</value>
@@ -6208,17 +6220,11 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
   <data name="Ui.Misc2.TheClassicTopbarOptionRebuildsTwo" xml:space="preserve">
     <value>گزینه نوار بالای کلاسیک دو ماد جامعه را بازسازی می‌کند. ظاهر و رفتار نوار بالا و منوی بازی سال‌های 2014 تا 2015 از "2014 2015 Topbar and Menu (Improvised GUI)" ساخته HockuTM گرفته شده است. پنهان کردن نوار بالای مدرن از "NoGuiRBX, Hide TopBar!" ساخته Einshine استفاده می‌کند. هر دو با سپاس طبق شرایط Creative Commons BY NC ND 4.0 استفاده می‌شوند، فایل‌هایشان به جای همراه شدن مستقیم از GameBanana دانلود می‌شوند و هیچ‌کدام از سازندگان با Voidstrap وابستگی ندارند.</value>
   </data>
-  <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
-  </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>مادهای جامعه</value>
   </data>
   <data name="Ui.Misc2.CommunityModsListsRobloxSubmissionsFrom" xml:space="preserve">
     <value>مادهای جامعه آثار Roblox را از GameBanana و Kliko's Mods فهرست می‌کند که TheKliko آن را برای ماد لودر Kliko نگهداری می‌کند. Voidstrap با هیچ‌کدام وابستگی ندارد و مورد تأیید آن‌ها نیست. همه مادها، تصاویر و توضیحات متعلق به سازندگانشان است که در هر مورد نام برده شده‌اند. Voidstrap فقط داده‌های عمومی آن‌ها را می‌خواند و هرگز چیزی را از طرف شما بارگذاری نمی‌کند.</value>
-  </data>
-  <data name="Ui.Misc2.GithubComKlikosModloaderMarketplace" xml:space="preserve">
-    <value>github.com/klikos modloader/marketplace</value>
   </data>
   <data name="Ui.Misc2.ModGenerator" xml:space="preserve">
     <value>تولیدکننده مود</value>
@@ -6231,9 +6237,6 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
   </data>
   <data name="Ui.Misc2.Info" xml:space="preserve">
     <value>اطلاعات</value>
-  </data>
-  <data name="Ui.Misc2.FFlags" xml:space="preserve">
-    <value>FFlags</value>
   </data>
   <data name="Ui.Misc2.PlayTime" xml:space="preserve">
     <value>زمان بازی</value>
@@ -6944,54 +6947,6 @@ Voidstrap نتوانست در پوشهٔ دسکتاپ بنویسد.</value>
   </data>
   <data name="Ui.Shortcuts.ApplicationsMenu" xml:space="preserve">
     <value>منوی برنامه‌ها</value>
-  </data>
-  <data name="Ui.Session.CommunityRating" xml:space="preserve">
-    <value>RoReview</value>
-  </data>
-  <data name="Ui.Session.Review" xml:space="preserve">
-    <value>نقد</value>
-  </data>
-  <data name="Ui.Session.Reviews" xml:space="preserve">
-    <value>نقدها</value>
-  </data>
-  <data name="Ui.Session.SubmitReview" xml:space="preserve">
-    <value>ارسال</value>
-  </data>
-  <data name="Ui.Session.NoReviews" xml:space="preserve">
-    <value>هنوز نظری ثبت نشده است</value>
-  </data>
-  <data name="Ui.Session.WriteReview" xml:space="preserve">
-    <value>نوشتن نظر...</value>
-  </data>
-  <data name="Ui.Session.SigningIn" xml:space="preserve">
-    <value>در حال ورود...</value>
-  </data>
-  <data name="Ui.Session.You" xml:space="preserve">
-    <value>شما</value>
-  </data>
-  <data name="Ui.Session.Votes" xml:space="preserve">
-    <value>رای</value>
-  </data>
-  <data name="Ui.Session.Vote" xml:space="preserve">
-    <value>رای</value>
-  </data>
-  <data name="Ui.Session.Positive" xml:space="preserve">
-    <value>مثبت</value>
-  </data>
-  <data name="Ui.Session.MinutesAgo" xml:space="preserve">
-    <value>{0} دقیقه پیش</value>
-  </data>
-  <data name="Ui.Session.HoursAgo" xml:space="preserve">
-    <value>{0} ساعت پیش</value>
-  </data>
-  <data name="Ui.Session.PoweredBy" xml:space="preserve">
-    <value>با پشتیبانی </value>
-  </data>
-  <data name="Ui.Session.JustNow" xml:space="preserve">
-    <value>همین الان</value>
-  </data>
-  <data name="Ui.Session.NoRatings" xml:space="preserve">
-    <value>هنوز امتیازی ثبت نشده</value>
   </data>
   <data name="Ui.Session.OverlayLayout" xml:space="preserve">
     <value>استودیوی پوشش تصویر</value>

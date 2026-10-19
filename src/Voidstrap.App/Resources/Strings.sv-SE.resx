@@ -3086,9 +3086,6 @@ Vad vill du göra?</value>
   <data name="Ui.Main.OpenAppFolder" xml:space="preserve">
     <value>Öppna programmappen</value>
   </data>
-  <data name="Ui.Main.Support" xml:space="preserve">
-    <value>Support</value>
-  </data>
   <data name="Ui.Main.SupportVoidstrap" xml:space="preserve">
     <value>Stöd Voidstrap</value>
   </data>
@@ -3644,9 +3641,6 @@ Vad vill du göra?</value>
   <data name="Ui.Mods.EnableOrDisableThisMod" xml:space="preserve">
     <value>Aktivera eller inaktivera den här modden</value>
   </data>
-  <data name="Ui.Mods.Id" xml:space="preserve">
-    <value>   ID: </value>
-  </data>
   <data name="Ui.Mods.ViewThisModPack" xml:space="preserve">
     <value>Visa det här moddpaketet</value>
   </data>
@@ -3938,12 +3932,6 @@ Vad vill du göra?</value>
   <data name="Ui.FastFlags.GrassDistance" xml:space="preserve">
     <value>Gräsavstånd</value>
   </data>
-  <data name="Ui.FastFlags.Min" xml:space="preserve">
-    <value>Min</value>
-  </data>
-  <data name="Ui.FastFlags.Max" xml:space="preserve">
-    <value>Max</value>
-  </data>
   <data name="Ui.FastFlags.ConfigureTheRenderingApiForRoblox" xml:space="preserve">
     <value>Ställ in renderings-API för Roblox. Tryck Alt Enter vid helskärm om du använder Direct3D. Vulkan kan orsaka vissa buggar!.</value>
   </data>
@@ -3973,9 +3961,6 @@ Vad vill du göra?</value>
   </data>
   <data name="Ui.FastFlags.HowSolidTheSquaresLook" xml:space="preserve">
     <value>Hur täta kvadraterna ser ut</value>
-  </data>
-  <data name="Ui.FastFlags.Studs" xml:space="preserve">
-    <value>Studs</value>
   </data>
   <data name="Ui.FastFlags.TheStudPatternOnParts" xml:space="preserve">
     <value>Studmönstret på delar</value>
@@ -4193,9 +4178,6 @@ Vad vill du göra?</value>
   <data name="Ui.Bootstrapper.FilesOlderThanTheSetAmount" xml:space="preserve">
     <value>Filer äldre än den angivna tiden tas bort.</value>
   </data>
-  <data name="Ui.Bootstrapper.Cache" xml:space="preserve">
-    <value>Cache</value>
-  </data>
   <data name="Ui.Bootstrapper.WhenShouldTheSetAmountBe" xml:space="preserve">
     <value>När den angivna mängden ska tas bort.</value>
   </data>
@@ -4247,9 +4229,6 @@ Vad vill du göra?</value>
   <data name="Ui.Bootstrapper.ReduceResourcesWhenRobloxIsUnfocused" xml:space="preserve">
     <value>Minska resurser när Roblox saknar fokus</value>
   </data>
-  <data name="Ui.Bootstrapper.VoidstrapMatchmaker" xml:space="preserve">
-    <value>Voidstrap Matchmaker</value>
-  </data>
   <data name="Ui.Bootstrapper.Enable" xml:space="preserve">
     <value>Aktivera</value>
   </data>
@@ -4295,9 +4274,6 @@ Vad vill du göra?</value>
   <data name="Ui.Bootstrapper.Allow" xml:space="preserve">
     <value>Tillåt</value>
   </data>
-  <data name="Ui.Bootstrapper.Datacenter" xml:space="preserve">
-    <value>Datacenter</value>
-  </data>
   <data name="Ui.Bootstrapper.Latency" xml:space="preserve">
     <value>Latens</value>
   </data>
@@ -4316,9 +4292,6 @@ Vad vill du göra?</value>
   <data name="Ui.Bootstrapper.NeverLetVoidstrapPickAServer" xml:space="preserve">
     <value>Låt aldrig Voidstrap välja server för det här spelet</value>
   </data>
-  <data name="Ui.Bootstrapper.PlaceId" xml:space="preserve">
-    <value>Place id</value>
-  </data>
   <data name="Ui.Bootstrapper.LetVoidstrapPickServersForThis" xml:space="preserve">
     <value>Låt Voidstrap välja servrar för det här spelet igen</value>
   </data>
@@ -4331,17 +4304,11 @@ Vad vill du göra?</value>
   <data name="Ui.Bootstrapper.HowHardToSearch" xml:space="preserve">
     <value>Hur noggrant det ska sökas</value>
   </data>
-  <data name="Ui.Bootstrapper.Auto" xml:space="preserve">
-    <value>Auto</value>
-  </data>
   <data name="Ui.Bootstrapper.ReconnectLimit" xml:space="preserve">
     <value>Gräns för återanslutningar</value>
   </data>
   <data name="Ui.Bootstrapper.VoidstrapStopsTryingAfterThisMany" xml:space="preserve">
     <value>Voidstrap slutar försöka efter så här många återanslutningar så att det aldrig fastnar i en loop.</value>
-  </data>
-  <data name="Ui.Bootstrapper.JoinAPI" xml:space="preserve">
-    <value>Join API</value>
   </data>
   <data name="Ui.Bootstrapper.WhichRobloxJoinEndpointVoidstrapAsks" xml:space="preserve">
     <value>Vilken Roblox anslutningsslutpunkt Voidstrap frågar om serverplatser. Ändra bara om anslutningar slutar fungera.</value>
@@ -4562,9 +4529,6 @@ Vad vill du göra?</value>
   <data name="Ui.Integrations.CloseWhenLeavingThatGame" xml:space="preserve">
     <value>Stäng när du lämnar det spelet</value>
   </data>
-  <data name="Ui.Integrations.PlaceID" xml:space="preserve">
-    <value>Place ID</value>
-  </data>
   <data name="Ui.Channel.InstallLocation" xml:space="preserve">
     <value>Installationsplats</value>
   </data>
@@ -4625,9 +4589,6 @@ Vad vill du göra?</value>
   <data name="Ui.Channel.DisplaysVoidstrapsDiscordRPC" xml:space="preserve">
     <value>Visar Voidstraps Discord RPC.</value>
   </data>
-  <data name="Ui.Channel.VoidstrapRPC" xml:space="preserve">
-    <value>Voidstrap RPC</value>
-  </data>
   <data name="Ui.Channel.FactoryReset" xml:space="preserve">
     <value>Fabriksåterställning</value>
   </data>
@@ -4684,9 +4645,6 @@ Vad vill du göra?</value>
   </data>
   <data name="Ui.Channel.SelectWhenYouDLikeTo" xml:space="preserve">
     <value>Välj när du vill få Roblox uppdateringar</value>
-  </data>
-  <data name="Ui.Channel.Normal" xml:space="preserve">
-    <value>Normal</value>
   </data>
   <data name="Ui.Channel.YouGetEachRobloxUpdateOn" xml:space="preserve">
     <value>Du får varje Roblox uppdatering vid nästa start efter att den släppts</value>
@@ -4778,9 +4736,6 @@ Vad vill du göra?</value>
   <data name="Ui.SessionNotify.SpaceFromEdge" xml:space="preserve">
     <value>Avstånd från kanten</value>
   </data>
-  <data name="Ui.SessionNotify.Position" xml:space="preserve">
-    <value>Position</value>
-  </data>
   <data name="Ui.SessionNotify.TopLeft" xml:space="preserve">
     <value>Uppe till vänster</value>
   </data>
@@ -4817,9 +4772,6 @@ Vad vill du göra?</value>
   <data name="Ui.SessionNotify.ShowFor" xml:space="preserve">
     <value>Visa i</value>
   </data>
-  <data name="Ui.SessionNotify.Animation" xml:space="preserve">
-    <value>Animation</value>
-  </data>
   <data name="Ui.SessionNotify.Entrance" xml:space="preserve">
     <value>Inträde</value>
   </data>
@@ -4837,9 +4789,6 @@ Vad vill du göra?</value>
   </data>
   <data name="Ui.SessionNotify.BadgesAndTheShortcutReminderFollow" xml:space="preserve">
     <value>Märken och påminnelsen om kortkommandot följer Server</value>
-  </data>
-  <data name="Ui.SessionNotify.Server" xml:space="preserve">
-    <value>Server</value>
   </data>
   <data name="Ui.SessionNotify.Friends" xml:space="preserve">
     <value>Vänner</value>
@@ -4883,9 +4832,6 @@ Vad vill du göra?</value>
   <data name="Ui.ModGen.RecolourRobloxSMenuAndTop" xml:space="preserve">
     <value>Färga om ikonerna i Roblox meny och översta fält och spara resultatet som en mod.</value>
   </data>
-  <data name="Ui.ModGen.Original" xml:space="preserve">
-    <value>Original</value>
-  </data>
   <data name="Ui.ModGen.YourMod" xml:space="preserve">
     <value>Din mod</value>
   </data>
@@ -4897,9 +4843,6 @@ Vad vill du göra?</value>
   </data>
   <data name="Ui.ModGen.Colour" xml:space="preserve">
     <value>Färg</value>
-  </data>
-  <data name="Ui.ModGen.Start" xml:space="preserve">
-    <value>Start</value>
   </data>
   <data name="Ui.ModGen.MiddleOptional" xml:space="preserve">
     <value>Mitten (valfritt)</value>
@@ -5132,9 +5075,6 @@ Vad vill du göra?</value>
   <data name="Ui.Gbs.EnableVignetteForMotionSicknessReduction" xml:space="preserve">
     <value>Aktivera vinjett för att minska åksjuka.</value>
   </data>
-  <data name="Ui.Gbs.MicroProfiler" xml:space="preserve">
-    <value>Micro Profiler</value>
-  </data>
   <data name="Ui.Gbs.EnableRobloxMicroprofilerServer" xml:space="preserve">
     <value>Aktivera Roblox mikroprofilerarserver.</value>
   </data>
@@ -5330,12 +5270,6 @@ Vad vill du göra?</value>
   <data name="Ui.Session.GameAndServer" xml:space="preserve">
     <value>Spel och server</value>
   </data>
-  <data name="Ui.Session.Session" xml:space="preserve">
-    <value>Session </value>
-  </data>
-  <data name="Ui.Session.Server" xml:space="preserve">
-    <value>  ·  Server </value>
-  </data>
   <data name="Ui.Session.ChatWithFriends" xml:space="preserve">
     <value>Chatta med vänner</value>
   </data>
@@ -5381,9 +5315,6 @@ Vad vill du göra?</value>
   <data name="Ui.Session.SortBy" xml:space="preserve">
     <value>Sortera efter</value>
   </data>
-  <data name="Ui.Session.Region" xml:space="preserve">
-    <value>Region</value>
-  </data>
   <data name="Ui.Session.Place" xml:space="preserve">
     <value>Plats</value>
   </data>
@@ -5411,9 +5342,6 @@ Vad vill du göra?</value>
   <data name="Ui.Session.PasteAFullROBLOSECURITYValueOnly" xml:space="preserve">
     <value>Klistra in ett fullständigt .ROBLOSECURITY värde. Klistra bara in dina egna cookies.</value>
   </data>
-  <data name="Ui.Session.WARNINGDONOTSHARETHIS" xml:space="preserve">
-    <value>_|WARNING: DO NOT SHARE THIS...</value>
-  </data>
   <data name="Ui.Session.CURRENT" xml:space="preserve">
     <value>AKTUELL</value>
   </data>
@@ -5428,6 +5356,51 @@ Vad vill du göra?</value>
   </data>
   <data name="Ui.Session.RemoveSavedAccount" xml:space="preserve">
     <value>Ta bort sparat konto</value>
+  </data>
+  <data name="Ui.Session.Review" xml:space="preserve">
+    <value>recension</value>
+  </data>
+  <data name="Ui.Session.Reviews" xml:space="preserve">
+    <value>recensioner</value>
+  </data>
+  <data name="Ui.Session.SubmitReview" xml:space="preserve">
+    <value>Skicka</value>
+  </data>
+  <data name="Ui.Session.NoReviews" xml:space="preserve">
+    <value>Inga recensioner än</value>
+  </data>
+  <data name="Ui.Session.WriteReview" xml:space="preserve">
+    <value>Skriv en recension...</value>
+  </data>
+  <data name="Ui.Session.SigningIn" xml:space="preserve">
+    <value>Loggar in...</value>
+  </data>
+  <data name="Ui.Session.You" xml:space="preserve">
+    <value>Du</value>
+  </data>
+  <data name="Ui.Session.Votes" xml:space="preserve">
+    <value>röster</value>
+  </data>
+  <data name="Ui.Session.Vote" xml:space="preserve">
+    <value>röst</value>
+  </data>
+  <data name="Ui.Session.Positive" xml:space="preserve">
+    <value>positivt</value>
+  </data>
+  <data name="Ui.Session.MinutesAgo" xml:space="preserve">
+    <value>för {0} minuter sedan</value>
+  </data>
+  <data name="Ui.Session.HoursAgo" xml:space="preserve">
+    <value>för {0} timmar sedan</value>
+  </data>
+  <data name="Ui.Session.PoweredBy" xml:space="preserve">
+    <value>Drivs av </value>
+  </data>
+  <data name="Ui.Session.JustNow" xml:space="preserve">
+    <value>alldeles nyss</value>
+  </data>
+  <data name="Ui.Session.NoRatings" xml:space="preserve">
+    <value>Inga betyg ännu</value>
   </data>
   <data name="Ui.Misc.ClickToChangeThisColour" xml:space="preserve">
     <value>Klicka för att ändra den här färgen</value>
@@ -5534,9 +5507,6 @@ Vad vill du göra?</value>
   <data name="Ui.Misc.FindInFile" xml:space="preserve">
     <value>Sök i filen</value>
   </data>
-  <data name="Ui.Misc.Live" xml:space="preserve">
-    <value>Live</value>
-  </data>
   <data name="Ui.Misc.RebuildWhileYouType" xml:space="preserve">
     <value>Bygg om medan du skriver</value>
   </data>
@@ -5602,9 +5572,6 @@ Vad vill du göra?</value>
   </data>
   <data name="Ui.Misc.TheGraphicsBackendWineUsesFor" xml:space="preserve">
     <value>Grafikbackend som Wine använder för Studio. DXVK passar de flesta system.</value>
-  </data>
-  <data name="Ui.Misc.FeralGameMode" xml:space="preserve">
-    <value>Feral GameMode</value>
   </data>
   <data name="Ui.Misc.AsksGameModeToTuneTheSystem" xml:space="preserve">
     <value>Ber GameMode att justera systemet medan Studio körs.</value>
@@ -5698,9 +5665,6 @@ Vad vill du göra?</value>
   </data>
   <data name="Ui.Pages.RATING" xml:space="preserve">
     <value>BETYG</value>
-  </data>
-  <data name="Ui.Pages.Genre" xml:space="preserve">
-    <value>Genre</value>
   </data>
   <data name="Ui.Pages.MaxPlayers" xml:space="preserve">
     <value>Max spelare</value>
@@ -5876,9 +5840,6 @@ Vad vill du göra?</value>
   <data name="Ui.Pages.OverridesThatAffectGPUBehaviorAnd" xml:space="preserve">
     <value>Åsidosättningar som påverkar GPU-beteende och drivrutinsfunktioner.</value>
   </data>
-  <data name="Ui.Pages.ResizableBAR" xml:space="preserve">
-    <value>Resizable BAR</value>
-  </data>
   <data name="Ui.Pages.AllowsTheCPUToAccessThe" xml:space="preserve">
     <value>Låter CPU:n komma åt hela GPU-minnet på system som stöds.</value>
   </data>
@@ -5989,9 +5950,6 @@ Vad vill du göra?</value>
   </data>
   <data name="Ui.Pages.ManageYourFastFlagsACheckmarkIn" xml:space="preserve">
     <value>Hantera dina FastFlags. En bock i Preset betyder att flaggan finns i FFlag-inställningarna, ett kryss betyder att den inte gör det.</value>
-  </data>
-  <data name="Ui.Pages.Preset" xml:space="preserve">
-    <value>Preset</value>
   </data>
   <data name="Ui.Pages.GoToFFlagSettingsToAdd" xml:space="preserve">
     <value>Gå till FFlag-inställningarna för att lägga till Preset-FFlags.</value>
@@ -6128,17 +6086,11 @@ Vad vill du göra?</value>
   <data name="Ui.Misc2.TheClassicTopbarOptionRebuildsTwo" xml:space="preserve">
     <value>Alternativet för klassiskt toppfält återskapar två communitymoddar. Grafiken och beteendet för toppfältet och spelmenyn från 2014 till 2015 kommer från "2014 2015 Topbar and Menu (Improvised GUI)" av HockuTM. Att dölja det moderna toppfältet använder "NoGuiRBX, Hide TopBar!" av Einshine. Båda används med tack enligt sina Creative Commons BY NC ND 4.0-villkor, filerna laddas ned direkt från GameBanana i stället för att följa med, och ingen av upphovspersonerna är knuten till Voidstrap.</value>
   </data>
-  <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
-  </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>Communitymoddar</value>
   </data>
   <data name="Ui.Misc2.CommunityModsListsRobloxSubmissionsFrom" xml:space="preserve">
     <value>Communitymoddar listar Roblox-bidrag från GameBanana och Kliko's Mods, som underhålls av TheKliko för Klikos modloader. Voidstrap är inte knutet till eller godkänt av någon av dem. Alla moddar, bilder och beskrivningar tillhör sina upphovspersoner, som anges vid varje post. Voidstrap läser bara deras offentliga data och laddar aldrig upp något åt dig.</value>
-  </data>
-  <data name="Ui.Misc2.GithubComKlikosModloaderMarketplace" xml:space="preserve">
-    <value>github.com/klikos modloader/marketplace</value>
   </data>
   <data name="Ui.Misc2.ModGenerator" xml:space="preserve">
     <value>Modgenerator</value>
@@ -6148,12 +6100,6 @@ Vad vill du göra?</value>
   </data>
   <data name="Ui.Misc2.CanTSeeOverlays" xml:space="preserve">
     <value>Ser du inga överlägg?</value>
-  </data>
-  <data name="Ui.Misc2.Info" xml:space="preserve">
-    <value>Info</value>
-  </data>
-  <data name="Ui.Misc2.FFlags" xml:space="preserve">
-    <value>FFlags</value>
   </data>
   <data name="Ui.Misc2.PlayTime" xml:space="preserve">
     <value>Speltid</value>
@@ -6208,9 +6154,6 @@ Vad vill du göra?</value>
   </data>
   <data name="Ui.Misc2.MuteUnmute" xml:space="preserve">
     <value>Stäng av / slå på ljud</value>
-  </data>
-  <data name="Ui.Misc2.Equalizer" xml:space="preserve">
-    <value>Equalizer</value>
   </data>
   <data name="Ui.Misc2.TuneHowYourAudioSoundsPick" xml:space="preserve">
     <value>Justera hur ditt ljud låter. Välj en förinställning eller dra i banden, det gäller direkt och sparas automatiskt.</value>
@@ -6382,12 +6325,6 @@ Vad vill du göra?</value>
   </data>
   <data name="Ui.Misc2.CenterOnSelectedDatacenter" xml:space="preserve">
     <value>Centrera på valt datacenter</value>
-  </data>
-  <data name="Ui.Misc2.Under70Ms" xml:space="preserve">
-    <value>under 70 ms</value>
-  </data>
-  <data name="Ui.Misc2.Under140Ms" xml:space="preserve">
-    <value>under 140 ms</value>
   </data>
   <data name="Ui.Misc2.Slower" xml:space="preserve">
     <value>långsammare</value>
@@ -6562,9 +6499,6 @@ Vad vill du göra?</value>
   </data>
   <data name="Ui.Misc3.Sort" xml:space="preserve">
     <value>Sortera:</value>
-  </data>
-  <data name="Ui.Misc3.Filter" xml:space="preserve">
-    <value>Filter:</value>
   </data>
   <data name="Ui.Misc3.Left" xml:space="preserve">
     <value>Lämnade: </value>
@@ -6864,54 +6798,6 @@ Fel: {0}</value>
   </data>
   <data name="Ui.Shortcuts.ApplicationsMenu" xml:space="preserve">
     <value>Programmeny</value>
-  </data>
-  <data name="Ui.Session.CommunityRating" xml:space="preserve">
-    <value>RoReview</value>
-  </data>
-  <data name="Ui.Session.Review" xml:space="preserve">
-    <value>recension</value>
-  </data>
-  <data name="Ui.Session.Reviews" xml:space="preserve">
-    <value>recensioner</value>
-  </data>
-  <data name="Ui.Session.SubmitReview" xml:space="preserve">
-    <value>Skicka</value>
-  </data>
-  <data name="Ui.Session.NoReviews" xml:space="preserve">
-    <value>Inga recensioner än</value>
-  </data>
-  <data name="Ui.Session.WriteReview" xml:space="preserve">
-    <value>Skriv en recension...</value>
-  </data>
-  <data name="Ui.Session.SigningIn" xml:space="preserve">
-    <value>Loggar in...</value>
-  </data>
-  <data name="Ui.Session.You" xml:space="preserve">
-    <value>Du</value>
-  </data>
-  <data name="Ui.Session.Votes" xml:space="preserve">
-    <value>röster</value>
-  </data>
-  <data name="Ui.Session.Vote" xml:space="preserve">
-    <value>röst</value>
-  </data>
-  <data name="Ui.Session.Positive" xml:space="preserve">
-    <value>positivt</value>
-  </data>
-  <data name="Ui.Session.MinutesAgo" xml:space="preserve">
-    <value>för {0} minuter sedan</value>
-  </data>
-  <data name="Ui.Session.HoursAgo" xml:space="preserve">
-    <value>för {0} timmar sedan</value>
-  </data>
-  <data name="Ui.Session.PoweredBy" xml:space="preserve">
-    <value>Drivs av </value>
-  </data>
-  <data name="Ui.Session.JustNow" xml:space="preserve">
-    <value>alldeles nyss</value>
-  </data>
-  <data name="Ui.Session.NoRatings" xml:space="preserve">
-    <value>Inga betyg ännu</value>
   </data>
   <data name="Ui.Session.OverlayLayout" xml:space="preserve">
     <value>Överläggsstudio</value>

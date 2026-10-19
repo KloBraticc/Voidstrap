@@ -2874,12 +2874,6 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Main.Forward" xml:space="preserve">
     <value>Pasulong</value>
   </data>
-  <data name="Ui.Main.TabHome" xml:space="preserve">
-    <value>HOME</value>
-  </data>
-  <data name="Ui.Main.TabLibrary" xml:space="preserve">
-    <value>LIBRARY</value>
-  </data>
   <data name="Ui.Main.TabNews" xml:space="preserve">
     <value>BALITA</value>
   </data>
@@ -2916,12 +2910,6 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Nav.Core" xml:space="preserve">
     <value>Pangunahin</value>
   </data>
-  <data name="Ui.Nav.Home" xml:space="preserve">
-    <value>Home</value>
-  </data>
-  <data name="Ui.Nav.Configuration" xml:space="preserve">
-    <value>Configuration</value>
-  </data>
   <data name="Ui.Nav.FastFlagSettings" xml:space="preserve">
     <value>Mga setting ng FastFlag</value>
   </data>
@@ -2931,17 +2919,11 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Nav.More" xml:space="preserve">
     <value>Iba pa</value>
   </data>
-  <data name="Ui.Nav.Global" xml:space="preserve">
-    <value>Global</value>
-  </data>
   <data name="Ui.Nav.News" xml:space="preserve">
     <value>Balita</value>
   </data>
   <data name="Ui.Nav.Extensions" xml:space="preserve">
     <value>Mga extension</value>
-  </data>
-  <data name="Ui.Nav.Manager" xml:space="preserve">
-    <value>Manager</value>
   </data>
   <data name="Ui.Nav.Settings" xml:space="preserve">
     <value>Mga setting</value>
@@ -2985,17 +2967,11 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Main.ToClose" xml:space="preserve">
     <value>para isara</value>
   </data>
-  <data name="Ui.Appearance.TabApplication" xml:space="preserve">
-    <value>Application</value>
-  </data>
   <data name="Ui.Appearance.Subtitle" xml:space="preserve">
     <value>I-customize ang background, UI at mga opsyon</value>
   </data>
   <data name="Ui.Appearance.Color" xml:space="preserve">
     <value>Kulay</value>
-  </data>
-  <data name="Ui.Appearance.Background" xml:space="preserve">
-    <value>Background</value>
   </data>
   <data name="Ui.Appearance.BackgroundImage" xml:space="preserve">
     <value>Larawan sa background</value>
@@ -3210,9 +3186,6 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Mods.ApplyModsTo" xml:space="preserve">
     <value>Ilapat ang mga mod sa</value>
   </data>
-  <data name="Ui.Mods.Cursor" xml:space="preserve">
-    <value>Cursor</value>
-  </data>
   <data name="Ui.Mods.CursorStyle" xml:space="preserve">
     <value>Istilo ng cursor</value>
   </data>
@@ -3246,9 +3219,6 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Mods.NoCursorSetsYetPressNew" xml:space="preserve">
     <value>Wala pang set ng cursor. Pindutin ang Bago para gumawa, o mag-import ng zip.</value>
   </data>
-  <data name="Ui.Mods.Folder" xml:space="preserve">
-    <value>Folder</value>
-  </data>
   <data name="Ui.Mods.OpenTheCursorSetsFolder" xml:space="preserve">
     <value>Buksan ang folder ng mga set ng cursor</value>
   </data>
@@ -3260,9 +3230,6 @@ Ano ang gusto mong gawin?</value>
   </data>
   <data name="Ui.Mods.ReplaceThisSetWithYourCurrent" xml:space="preserve">
     <value>Palitan ang set na ito ng iyong kasalukuyang custom na cursor at icon ng shift lock</value>
-  </data>
-  <data name="Ui.Mods.Interface" xml:space="preserve">
-    <value>Interface</value>
   </data>
   <data name="Ui.Mods.OldRobloxTopbarUi" xml:space="preserve">
     <value>Lumang Roblox topbar</value>
@@ -3384,9 +3351,6 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Mods.Page" xml:space="preserve">
     <value>Pahina</value>
   </data>
-  <data name="Ui.Mods.View" xml:space="preserve">
-    <value>View</value>
-  </data>
   <data name="Ui.Mods.LoadMore" xml:space="preserve">
     <value>Mag-load pa</value>
   </data>
@@ -3413,9 +3377,6 @@ Ano ang gusto mong gawin?</value>
   </data>
   <data name="Ui.Mods.License" xml:space="preserve">
     <value>Lisensya</value>
-  </data>
-  <data name="Ui.Mods.Gallery" xml:space="preserve">
-    <value>Gallery</value>
   </data>
   <data name="Ui.Mods.NoCommentsHaveBeenPostedYet" xml:space="preserve">
     <value>Wala pang nakapost na komento.</value>
@@ -3459,9 +3420,6 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Mods.EnableOrDisableThisMod" xml:space="preserve">
     <value>I-enable o i-disable ang mod na ito</value>
   </data>
-  <data name="Ui.Mods.Id" xml:space="preserve">
-    <value>   ID: </value>
-  </data>
   <data name="Ui.Mods.ViewThisModPack" xml:space="preserve">
     <value>Tingnan ang mod pack na ito</value>
   </data>
@@ -3486,9 +3444,6 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Mods.Overlays" xml:space="preserve">
     <value>Mga overlay</value>
   </data>
-  <data name="Ui.Mods.SessionDock" xml:space="preserve">
-    <value>Session dock</value>
-  </data>
   <data name="Ui.Mods.ResetShortcut" xml:space="preserve">
     <value>I-reset ang shortcut</value>
   </data>
@@ -3510,23 +3465,11 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Mods.Direction" xml:space="preserve">
     <value>Direksyon</value>
   </data>
-  <data name="Ui.Mods.File" xml:space="preserve">
-    <value>File</value>
-  </data>
-  <data name="Ui.Mods.Display" xml:space="preserve">
-    <value>Display</value>
-  </data>
   <data name="Ui.Mods.ScreenColor" xml:space="preserve">
     <value>Kulay ng screen</value>
   </data>
-  <data name="Ui.Mods.Saturation" xml:space="preserve">
-    <value>Saturation</value>
-  </data>
   <data name="Ui.Mods.100IsNormal" xml:space="preserve">
     <value>Normal ang 100.</value>
-  </data>
-  <data name="Ui.Mods.Contrast" xml:space="preserve">
-    <value>Contrast</value>
   </data>
   <data name="Ui.Mods.Warmth" xml:space="preserve">
     <value>Init</value>
@@ -3537,14 +3480,8 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Mods.SmoothingAndFrames" xml:space="preserve">
     <value>Pagpapakinis at mga frame</value>
   </data>
-  <data name="Ui.Mods.AntiAliasing" xml:space="preserve">
-    <value>Anti aliasing</value>
-  </data>
   <data name="Ui.Mods.SmoothsJaggedEdgesUsingYourGpu" xml:space="preserve">
     <value>Pinapakinis ang magagaspang na gilid gamit ang iyong GPU.</value>
-  </data>
-  <data name="Ui.Mods.MotionBlur" xml:space="preserve">
-    <value>Motion blur</value>
   </data>
   <data name="Ui.Mods.AddsAMotionTrailToMovement" xml:space="preserve">
     <value>Nagdaragdag ng bakas sa paggalaw, sa mga gumagalaw na bahagi lang para manatiling malinaw ang interface.</value>
@@ -3554,9 +3491,6 @@ Ano ang gusto mong gawin?</value>
   </data>
   <data name="Ui.Mods.100IsNormal200IsExtreme" xml:space="preserve">
     <value>Normal ang 100, Extreme ang 200, at hanggang 500 ito.</value>
-  </data>
-  <data name="Ui.Mods.FrameGenerationV100" xml:space="preserve">
-    <value>Frame generation V1.0.0</value>
   </data>
   <data name="Ui.Mods.AddsGeneratedFramesBetweenRealOnes" xml:space="preserve">
     <value>Nagdaragdag ng mga ginawang frame sa pagitan ng mga totoo. Nagdaragdag ng kaunting input delay.</value>
@@ -3569,9 +3503,6 @@ Ano ang gusto mong gawin?</value>
   </data>
   <data name="Ui.Mods.FixFrameCap" xml:space="preserve">
     <value>Ayusin ang frame cap</value>
-  </data>
-  <data name="Ui.Mods.ColorBlindness" xml:space="preserve">
-    <value>Color blindness</value>
   </data>
   <data name="Ui.Mods.RecolorsTheScreenSoColorsAre" xml:space="preserve">
     <value>Binabago ang kulay ng screen para mas madaling makilala ang mga kulay</value>
@@ -3603,9 +3534,6 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Mods.ShowsTheTimeInTheCorner" xml:space="preserve">
     <value>Ipinapakita ang oras sa sulok habang naglalaro ka.</value>
   </data>
-  <data name="Ui.Mods.TimeZone" xml:space="preserve">
-    <value>Time zone</value>
-  </data>
   <data name="Ui.Mods.SystemFollowsThisComputer" xml:space="preserve">
     <value>Sinusundan ng System ang computer na ito.</value>
   </data>
@@ -3614,9 +3542,6 @@ Ano ang gusto mong gawin?</value>
   </data>
   <data name="Ui.Mods.1430InsteadOf230" xml:space="preserve">
     <value>14:30 sa halip na 2:30 PM.</value>
-  </data>
-  <data name="Ui.Mods.Crosshair" xml:space="preserve">
-    <value>Crosshair</value>
   </data>
   <data name="Ui.Mods.DrawYourOwnCrosshairOverThe" xml:space="preserve">
     <value>Gumuhit ng sarili mong crosshair sa ibabaw ng laro</value>
@@ -3638,9 +3563,6 @@ Ano ang gusto mong gawin?</value>
   </data>
   <data name="Ui.Mods.CenterGap" xml:space="preserve">
     <value>Puwang sa gitna</value>
-  </data>
-  <data name="Ui.Mods.Opacity" xml:space="preserve">
-    <value>Opacity</value>
   </data>
   <data name="Ui.Mods.ShareOrPasteACrosshairCode" xml:space="preserve">
     <value>Ibahagi o i-paste ang code ng crosshair.</value>
@@ -3753,20 +3675,11 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.FastFlags.GrassDistance" xml:space="preserve">
     <value>Layo ng damo</value>
   </data>
-  <data name="Ui.FastFlags.Min" xml:space="preserve">
-    <value>Min</value>
-  </data>
-  <data name="Ui.FastFlags.Max" xml:space="preserve">
-    <value>Max</value>
-  </data>
   <data name="Ui.FastFlags.ConfigureTheRenderingApiForRoblox" xml:space="preserve">
     <value>I set up ang rendering API ng Roblox. Pindutin ang Alt Enter kapag lumilipat sa full screen kung Direct3D ang gamit mo. Maaaring magdulot ng error ang Vulkan!.</value>
   </data>
   <data name="Ui.FastFlags.RenderingMode" xml:space="preserve">
     <value>Rendering mode</value>
-  </data>
-  <data name="Ui.FastFlags.AdvancedFFlags" xml:space="preserve">
-    <value>Advanced FFlags</value>
   </data>
   <data name="Ui.FastFlags.SwapRobloxTexturesForParticlesStuds" xml:space="preserve">
     <value>Pinapalitan ang mga texture ng Roblox para sa particles, studs, terrain, at tubig.</value>
@@ -3777,9 +3690,6 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.FastFlags.TheseOptionsOnlySwapSomeOf" xml:space="preserve">
     <value>Pinapalitan lang ng mga opsyong ito ang ilang built in na texture file ng Roblox, gaya ng particles, studs, terrain, at tubig. Karamihan sa mga laro ay may sariling texture at effect, kaya baka hindi mo gaanong mapansin ang pagkakaiba.</value>
   </data>
-  <data name="Ui.FastFlags.Particles" xml:space="preserve">
-    <value>Particles</value>
-  </data>
   <data name="Ui.FastFlags.FireSmokeExplosionsSparklesAndForce" xml:space="preserve">
     <value>Apoy, usok, pagsabog, kislap, at force field</value>
   </data>
@@ -3788,9 +3698,6 @@ Ano ang gusto mong gawin?</value>
   </data>
   <data name="Ui.FastFlags.HowSolidTheSquaresLook" xml:space="preserve">
     <value>Gaano kasolido ang hitsura ng mga parisukat</value>
-  </data>
-  <data name="Ui.FastFlags.Studs" xml:space="preserve">
-    <value>Studs</value>
   </data>
   <data name="Ui.FastFlags.TheStudPatternOnParts" xml:space="preserve">
     <value>Ang pattern ng studs sa mga part</value>
@@ -3839,9 +3746,6 @@ Ano ang gusto mong gawin?</value>
   </data>
   <data name="Ui.FastFlags.HowBrokenTheWaterLooks" xml:space="preserve">
     <value>Gaano kasira ang hitsura ng tubig</value>
-  </data>
-  <data name="Ui.FastFlags.Terrain" xml:space="preserve">
-    <value>Terrain</value>
   </data>
   <data name="Ui.FastFlags.StretchTheGroundTexturesAndChange" xml:space="preserve">
     <value>Binabanat ang mga texture ng lupa at binabago kung gaano kadalas umuulit ang mga ito</value>
@@ -3957,9 +3861,6 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.FastFlags.AppliesYourSpoofedUsernameInsideRoblox" xml:space="preserve">
     <value>Inilalapat ang na spoof mong username sa Roblox</value>
   </data>
-  <data name="Ui.FastFlags.RobuxAdjuster" xml:space="preserve">
-    <value>Robux adjuster</value>
-  </data>
   <data name="Ui.FastFlags.VerifyYourAccount" xml:space="preserve">
     <value>I verify ang account mo</value>
   </data>
@@ -3987,9 +3888,6 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Bootstrapper.ClosesRobloxCrashHandlerAfterRobloxHasSafely" xml:space="preserve">
     <value>Isinasara ang RobloxCrashHandler kapag ligtas nang nakapagsimula ang Roblox</value>
   </data>
-  <data name="Ui.Bootstrapper.TASXOptimization" xml:space="preserve">
-    <value>TASX optimization</value>
-  </data>
   <data name="Ui.Bootstrapper.FullSpeedWhileRobloxIsFocused" xml:space="preserve">
     <value>Buong bilis habang naka focus ang Roblox, nililimitahan kapag lumipat ka sa ibang window.</value>
   </data>
@@ -4007,9 +3905,6 @@ Ano ang gusto mong gawin?</value>
   </data>
   <data name="Ui.Bootstrapper.FilesOlderThanTheSetAmount" xml:space="preserve">
     <value>Buburahin ang mga file na mas luma sa itinakdang tagal.</value>
-  </data>
-  <data name="Ui.Bootstrapper.Cache" xml:space="preserve">
-    <value>Cache</value>
   </data>
   <data name="Ui.Bootstrapper.WhenShouldTheSetAmountBe" xml:space="preserve">
     <value>Kailan buburahin ang itinakdang dami.</value>
@@ -4062,9 +3957,6 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Bootstrapper.ReduceResourcesWhenRobloxIsUnfocused" xml:space="preserve">
     <value>Bawasan ang resources kapag hindi naka focus ang Roblox</value>
   </data>
-  <data name="Ui.Bootstrapper.VoidstrapMatchmaker" xml:space="preserve">
-    <value>Voidstrap Matchmaker</value>
-  </data>
   <data name="Ui.Bootstrapper.Enable" xml:space="preserve">
     <value>I enable</value>
   </data>
@@ -4110,12 +4002,6 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Bootstrapper.Allow" xml:space="preserve">
     <value>Payagan</value>
   </data>
-  <data name="Ui.Bootstrapper.Datacenter" xml:space="preserve">
-    <value>Datacenter</value>
-  </data>
-  <data name="Ui.Bootstrapper.Latency" xml:space="preserve">
-    <value>Latency</value>
-  </data>
   <data name="Ui.Bootstrapper.SkippedGames" xml:space="preserve">
     <value>Mga nilaktawang laro</value>
   </data>
@@ -4131,14 +4017,8 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Bootstrapper.NeverLetVoidstrapPickAServer" xml:space="preserve">
     <value>Huwag kailanman hayaan ang Voidstrap na pumili ng server para sa larong ito</value>
   </data>
-  <data name="Ui.Bootstrapper.PlaceId" xml:space="preserve">
-    <value>Place id</value>
-  </data>
   <data name="Ui.Bootstrapper.LetVoidstrapPickServersForThis" xml:space="preserve">
     <value>Hayaan muli ang Voidstrap na pumili ng server para sa larong ito</value>
-  </data>
-  <data name="Ui.Bootstrapper.Advanced" xml:space="preserve">
-    <value>Advanced</value>
   </data>
   <data name="Ui.Bootstrapper.TheDefaultsAreRightForAlmost" xml:space="preserve">
     <value>Tama ang mga default para sa halos lahat</value>
@@ -4146,23 +4026,14 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Bootstrapper.HowHardToSearch" xml:space="preserve">
     <value>Gaano kalalim maghanap</value>
   </data>
-  <data name="Ui.Bootstrapper.Auto" xml:space="preserve">
-    <value>Auto</value>
-  </data>
   <data name="Ui.Bootstrapper.ReconnectLimit" xml:space="preserve">
     <value>Limitasyon sa muling pagkonekta</value>
   </data>
   <data name="Ui.Bootstrapper.VoidstrapStopsTryingAfterThisMany" xml:space="preserve">
     <value>Titigil ang Voidstrap pagkatapos ng ganitong dami ng muling pagkonekta para hindi ito umikot nang walang hanggan.</value>
   </data>
-  <data name="Ui.Bootstrapper.JoinAPI" xml:space="preserve">
-    <value>Join API</value>
-  </data>
   <data name="Ui.Bootstrapper.WhichRobloxJoinEndpointVoidstrapAsks" xml:space="preserve">
     <value>Aling Roblox join endpoint ang tinatanong ng Voidstrap para sa lokasyon ng server. Palitan lang kung hindi na gumagana ang pagsali.</value>
-  </data>
-  <data name="Ui.Bootstrapper.FullscreenMode" xml:space="preserve">
-    <value>Fullscreen mode</value>
   </data>
   <data name="Ui.Bootstrapper.HowTheRobloxGameWindowFills" xml:space="preserve">
     <value>Paano pinupuno ng window ng laro ng Roblox ang screen mo</value>
@@ -4242,9 +4113,6 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Integrations.PublicPrivateOrReserved" xml:space="preserve">
     <value>Pampubliko, pribado, o naka reserve</value>
   </data>
-  <data name="Ui.Integrations.BetaTag" xml:space="preserve">
-    <value>Beta tag</value>
-  </data>
   <data name="Ui.Integrations.TurnsMarkersLikeBETAOrWIP" xml:space="preserve">
     <value>Ginagawang malinis na tag ang mga marker gaya ng [BETA] o WIP sa pangalan ng laro</value>
   </data>
@@ -4278,14 +4146,8 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Integrations.BalanceLoudAndQuietRobloxAudio" xml:space="preserve">
     <value>Binabalanse ang malakas at mahinang tunog ng Roblox.</value>
   </data>
-  <data name="Ui.Integrations.TelemetryBlocker" xml:space="preserve">
-    <value>Telemetry blocker</value>
-  </data>
   <data name="Ui.Integrations.BlockRobloxTelemetryAdministratorAccessIs" xml:space="preserve">
     <value>Bina block ang telemetry ng Roblox. Kailangan ng administrator access nang isang beses.</value>
-  </data>
-  <data name="Ui.Integrations.FPSUnlocker" xml:space="preserve">
-    <value>FPS unlocker</value>
   </data>
   <data name="Ui.Integrations.WhenTwoOppositeKeysAreHeld" xml:space="preserve">
     <value>Kapag hawak ang dalawang magkasalungat na key, agad mananalo ang huling pinindot.</value>
@@ -4326,9 +4188,6 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Integrations.ChooseHowRobloxStartsAndStays" xml:space="preserve">
     <value>Piliin kung paano magsisimula at mananatiling available ang Roblox.</value>
   </data>
-  <data name="Ui.Integrations.SystemTray" xml:space="preserve">
-    <value>System tray</value>
-  </data>
   <data name="Ui.Integrations.MinimizeRobloxToTheSystemTray" xml:space="preserve">
     <value>I minimize ang Roblox sa system tray.</value>
   </data>
@@ -4338,14 +4197,8 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Integrations.LaunchRobloxWhenYouSignIn" xml:space="preserve">
     <value>Ilunsad ang Roblox kapag nag sign in ka sa Windows.</value>
   </data>
-  <data name="Ui.Integrations.SteamLibrary" xml:space="preserve">
-    <value>Steam library</value>
-  </data>
   <data name="Ui.Integrations.AddToSteam" xml:space="preserve">
     <value>Idagdag sa Steam</value>
-  </data>
-  <data name="Ui.Integrations.AccountSwitcher" xml:space="preserve">
-    <value>Account switcher</value>
   </data>
   <data name="Ui.Integrations.CreateBackUpAndSwitchRoblox" xml:space="preserve">
     <value>Gumawa, mag back up, at magpalit ng mga Roblox account.</value>
@@ -4376,9 +4229,6 @@ Ano ang gusto mong gawin?</value>
   </data>
   <data name="Ui.Integrations.CloseWhenLeavingThatGame" xml:space="preserve">
     <value>Isara kapag umalis sa larong iyon</value>
-  </data>
-  <data name="Ui.Integrations.PlaceID" xml:space="preserve">
-    <value>Place ID</value>
   </data>
   <data name="Ui.Channel.InstallLocation" xml:space="preserve">
     <value>Lokasyon ng install</value>
@@ -4431,29 +4281,14 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Channel.AppSettings" xml:space="preserve">
     <value>Mga setting ng app</value>
   </data>
-  <data name="Ui.Channel.HardwareAcceleration" xml:space="preserve">
-    <value>Hardware acceleration</value>
-  </data>
   <data name="Ui.Channel.UsesTheGPUToRenderVoidstrap" xml:space="preserve">
     <value>Ginagamit ang GPU para i render ang Voidstrap. Patayin para sa compatibility o mas mababang paggamit ng video memory.</value>
   </data>
   <data name="Ui.Channel.DisplaysVoidstrapsDiscordRPC" xml:space="preserve">
     <value>Ipinapakita ang Discord RPC ng Voidstrap.</value>
   </data>
-  <data name="Ui.Channel.VoidstrapRPC" xml:space="preserve">
-    <value>Voidstrap RPC</value>
-  </data>
-  <data name="Ui.Channel.FactoryReset" xml:space="preserve">
-    <value>Factory reset</value>
-  </data>
   <data name="Ui.Channel.Donate" xml:space="preserve">
     <value>Mag donate</value>
-  </data>
-  <data name="Ui.Channel.Installer" xml:space="preserve">
-    <value>Installer</value>
-  </data>
-  <data name="Ui.Channel.DownloadServer" xml:space="preserve">
-    <value>Download server</value>
   </data>
   <data name="Ui.Channel.UsedWhenRobloxIsInstalledOr" xml:space="preserve">
     <value>Ginagamit kapag ini install o ina update ang Roblox</value>
@@ -4500,9 +4335,6 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Channel.SelectWhenYouDLikeTo" xml:space="preserve">
     <value>Piliin kung kailan mo gustong matanggap ang mga update ng Roblox</value>
   </data>
-  <data name="Ui.Channel.Normal" xml:space="preserve">
-    <value>Normal</value>
-  </data>
   <data name="Ui.Channel.YouGetEachRobloxUpdateOn" xml:space="preserve">
     <value>Matatanggap mo ang bawat update ng Roblox sa susunod mong paglunsad pagkalabas nito</value>
   </data>
@@ -4517,9 +4349,6 @@ Ano ang gusto mong gawin?</value>
   </data>
   <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
     <value>Pinapanatili ang bersyon mo nang 3 araw pagkatapos ng bawat update ng Roblox para maayos muna ang mga maagang bug, saka kusang nag a update. Ang nawawala o sirang install ay laging agad na ina update</value>
-  </data>
-  <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
-    <value>Efficiency mode</value>
   </data>
   <data name="Ui.Channel.RobloxPriority" xml:space="preserve">
     <value>Priyoridad ng Roblox</value>
@@ -4539,9 +4368,6 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Channel.EnterDeploymentChannelEGProduction" xml:space="preserve">
     <value>Ilagay ang deployment channel (hal. production, zlive, live)</value>
   </data>
-  <data name="Ui.Channel.DeploymentChannel" xml:space="preserve">
-    <value>Deployment channel</value>
-  </data>
   <data name="Ui.Channel.ApplyChannel" xml:space="preserve">
     <value>Ilapat ang channel</value>
   </data>
@@ -4551,14 +4377,8 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Channel.ApplyingADifferentChannelClearsThe" xml:space="preserve">
     <value>Ang paglapat ng ibang channel ay nagbubura sa na download na bersyon ng Roblox para makapag install ang bagong channel</value>
   </data>
-  <data name="Ui.Channel.RendererBackend" xml:space="preserve">
-    <value>Renderer backend</value>
-  </data>
   <data name="Ui.Channel.ChoosesTheGraphicsBackendVoidstrapDraws" xml:space="preserve">
     <value>Pinipili ang graphics backend na ginagamit ng Voidstrap para iguhit ang sarili nito. Pinipili ng Awtomatiko ang pinakamabilis na sinusuportahan ng system mo. Magkakabisa ang pagbabago sa susunod na pagbukas ng Voidstrap.</value>
-  </data>
-  <data name="Ui.SessionNotify.Overlay" xml:space="preserve">
-    <value>Overlay</value>
   </data>
   <data name="Ui.SessionNotify.OverlayShortcut" xml:space="preserve">
     <value>Shortcut ng overlay</value>
@@ -4632,9 +4452,6 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.SessionNotify.ShowFor" xml:space="preserve">
     <value>Ipakita nang</value>
   </data>
-  <data name="Ui.SessionNotify.Animation" xml:space="preserve">
-    <value>Animation</value>
-  </data>
   <data name="Ui.SessionNotify.Entrance" xml:space="preserve">
     <value>Pagpasok</value>
   </data>
@@ -4652,9 +4469,6 @@ Ano ang gusto mong gawin?</value>
   </data>
   <data name="Ui.SessionNotify.BadgesAndTheShortcutReminderFollow" xml:space="preserve">
     <value>Sumusunod sa Server ang mga badge at paalala ng shortcut</value>
-  </data>
-  <data name="Ui.SessionNotify.Server" xml:space="preserve">
-    <value>Server</value>
   </data>
   <data name="Ui.SessionNotify.Friends" xml:space="preserve">
     <value>Mga kaibigan</value>
@@ -4691,9 +4505,6 @@ Ano ang gusto mong gawin?</value>
   </data>
   <data name="Ui.SessionNotify.ResetToDefaults" xml:space="preserve">
     <value>I reset sa default</value>
-  </data>
-  <data name="Ui.ModGen.ModGenerator" xml:space="preserve">
-    <value>Mod Generator</value>
   </data>
   <data name="Ui.ModGen.RecolourRobloxSMenuAndTop" xml:space="preserve">
     <value>Kulayan muli ang mga icon ng menu at top bar ng Roblox, saka i save bilang mod.</value>
@@ -4848,9 +4659,6 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Gbs.ShowBadgeNotificationsWhilePlaying" xml:space="preserve">
     <value>Ipakita ang mga badge notification habang naglalaro.</value>
   </data>
-  <data name="Ui.Gbs.Graphics" xml:space="preserve">
-    <value>Graphics</value>
-  </data>
   <data name="Ui.Gbs.FramerateCap" xml:space="preserve">
     <value>FPS cap</value>
   </data>
@@ -4863,14 +4671,8 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Gbs.ChooseAutomaticOrSetAFixed" xml:space="preserve">
     <value>Piliin ang Awtomatiko, o magtakda ng nakapirming level. Mas maganda ang mas mataas na level pero mas mabagal.</value>
   </data>
-  <data name="Ui.Gbs.Fullscreen" xml:space="preserve">
-    <value>Fullscreen</value>
-  </data>
   <data name="Ui.Gbs.ToggleFullscreenMode" xml:space="preserve">
     <value>I toggle ang fullscreen mode.</value>
-  </data>
-  <data name="Ui.Gbs.Audio" xml:space="preserve">
-    <value>Audio</value>
   </data>
   <data name="Ui.Gbs.MasterVolume" xml:space="preserve">
     <value>Master volume</value>
@@ -4911,9 +4713,6 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Gbs.ToggleHapticFeedbackOnControllers" xml:space="preserve">
     <value>I toggle ang haptic feedback ng mga controller.</value>
   </data>
-  <data name="Ui.Gbs.Network" xml:space="preserve">
-    <value>Network</value>
-  </data>
   <data name="Ui.Gbs.NetworkDebugStats" xml:space="preserve">
     <value>Network debug stats</value>
   </data>
@@ -4946,9 +4745,6 @@ Ano ang gusto mong gawin?</value>
   </data>
   <data name="Ui.Gbs.EnableVignetteForMotionSicknessReduction" xml:space="preserve">
     <value>I enable ang vignette para mabawasan ang motion sickness.</value>
-  </data>
-  <data name="Ui.Gbs.MicroProfiler" xml:space="preserve">
-    <value>Micro Profiler</value>
   </data>
   <data name="Ui.Gbs.EnableRobloxMicroprofilerServer" xml:space="preserve">
     <value>I enable ang microprofiler server ng Roblox.</value>
@@ -4985,9 +4781,6 @@ Ano ang gusto mong gawin?</value>
   </data>
   <data name="Ui.Home.NoNewCatalogItemsRightNow" xml:space="preserve">
     <value>Walang bagong item sa catalog ngayon.</value>
-  </data>
-  <data name="Ui.Home.Limited" xml:space="preserve">
-    <value>Limited</value>
   </data>
   <data name="Ui.Home.ContinuePlaying" xml:space="preserve">
     <value>Ituloy ang paglalaro</value>
@@ -5043,9 +4836,6 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Home.SeeWhatSPossibleOnRoblox" xml:space="preserve">
     <value>Tingnan kung ano ang posible sa Roblox sa mga sikat na genre gamit ang mga handang experience, o magsimula mula sa wala.</value>
   </data>
-  <data name="Ui.Session.Browser" xml:space="preserve">
-    <value>Browser</value>
-  </data>
   <data name="Ui.Session.MuteOrUnmuteThisTab" xml:space="preserve">
     <value>I mute o i unmute ang tab na ito</value>
   </data>
@@ -5079,9 +4869,6 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Session.SearchTabsCtrlShiftA" xml:space="preserve">
     <value>Maghanap ng tab (Ctrl+Shift+A)</value>
   </data>
-  <data name="Ui.Session.SplitViewCtrlShiftS" xml:space="preserve">
-    <value>Split view (Ctrl+Shift+S)</value>
-  </data>
   <data name="Ui.Session.BrowserMenu" xml:space="preserve">
     <value>Menu ng browser</value>
   </data>
@@ -5109,9 +4896,6 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Session.SearchTabs" xml:space="preserve">
     <value>Maghanap ng tab</value>
   </data>
-  <data name="Ui.Session.VoidstrapSession" xml:space="preserve">
-    <value>Voidstrap Session</value>
-  </data>
   <data name="Ui.Session.FriendsInThisServer" xml:space="preserve">
     <value>Mga kaibigan sa server na ito</value>
   </data>
@@ -5120,15 +4904,6 @@ Ano ang gusto mong gawin?</value>
   </data>
   <data name="Ui.Session.CopyInvite" xml:space="preserve">
     <value>Kopyahin ang imbitasyon</value>
-  </data>
-  <data name="Ui.Session.Verified" xml:space="preserve">
-    <value>Verified</value>
-  </data>
-  <data name="Ui.Session.Account" xml:space="preserve">
-    <value>Account</value>
-  </data>
-  <data name="Ui.Session.Social" xml:space="preserve">
-    <value>Social</value>
   </data>
   <data name="Ui.Session.OpenProfile" xml:space="preserve">
     <value>Buksan ang profile</value>
@@ -5144,12 +4919,6 @@ Ano ang gusto mong gawin?</value>
   </data>
   <data name="Ui.Session.GameAndServer" xml:space="preserve">
     <value>Laro at server</value>
-  </data>
-  <data name="Ui.Session.Session" xml:space="preserve">
-    <value>Session </value>
-  </data>
-  <data name="Ui.Session.Server" xml:space="preserve">
-    <value>  ·  Server </value>
   </data>
   <data name="Ui.Session.ChatWithFriends" xml:space="preserve">
     <value>Makipag chat sa mga kaibigan</value>
@@ -5178,9 +4947,6 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Session.CopyTheInstanceID" xml:space="preserve">
     <value>Kopyahin ang instance ID</value>
   </data>
-  <data name="Ui.Session.Uptime" xml:space="preserve">
-    <value>Uptime</value>
-  </data>
   <data name="Ui.Session.JoinTheServerWithTheLowest" xml:space="preserve">
     <value>Sumali sa server na may pinakamababang ping</value>
   </data>
@@ -5201,9 +4967,6 @@ Ano ang gusto mong gawin?</value>
   </data>
   <data name="Ui.Session.Place" xml:space="preserve">
     <value>Lugar</value>
-  </data>
-  <data name="Ui.Session.RobloxAccountSwitcher" xml:space="preserve">
-    <value>Roblox Account Switcher</value>
   </data>
   <data name="Ui.Session.SignedInAs" xml:space="preserve">
     <value>Naka sign in bilang</value>
@@ -5226,9 +4989,6 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Session.PasteAFullROBLOSECURITYValueOnly" xml:space="preserve">
     <value>Mag paste ng buong .ROBLOSECURITY value. I paste lang ang cookie na sa iyo.</value>
   </data>
-  <data name="Ui.Session.WARNINGDONOTSHARETHIS" xml:space="preserve">
-    <value>_|WARNING: DO NOT SHARE THIS...</value>
-  </data>
   <data name="Ui.Session.CURRENT" xml:space="preserve">
     <value>KASALUKUYAN</value>
   </data>
@@ -5244,6 +5004,48 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Session.RemoveSavedAccount" xml:space="preserve">
     <value>Alisin ang naka save na account</value>
   </data>
+  <data name="Ui.Session.Reviews" xml:space="preserve">
+    <value>mga review</value>
+  </data>
+  <data name="Ui.Session.SubmitReview" xml:space="preserve">
+    <value>Isumite</value>
+  </data>
+  <data name="Ui.Session.NoReviews" xml:space="preserve">
+    <value>Wala pang mga review</value>
+  </data>
+  <data name="Ui.Session.WriteReview" xml:space="preserve">
+    <value>Sumulat ng review...</value>
+  </data>
+  <data name="Ui.Session.SigningIn" xml:space="preserve">
+    <value>Lumalagda...</value>
+  </data>
+  <data name="Ui.Session.You" xml:space="preserve">
+    <value>Ikaw</value>
+  </data>
+  <data name="Ui.Session.Votes" xml:space="preserve">
+    <value>mga boto</value>
+  </data>
+  <data name="Ui.Session.Vote" xml:space="preserve">
+    <value>boto</value>
+  </data>
+  <data name="Ui.Session.Positive" xml:space="preserve">
+    <value>positibo</value>
+  </data>
+  <data name="Ui.Session.MinutesAgo" xml:space="preserve">
+    <value>{0} minuto ang nakalipas</value>
+  </data>
+  <data name="Ui.Session.HoursAgo" xml:space="preserve">
+    <value>{0} oras ang nakalipas</value>
+  </data>
+  <data name="Ui.Session.PoweredBy" xml:space="preserve">
+    <value>Pinapagana ng </value>
+  </data>
+  <data name="Ui.Session.JustNow" xml:space="preserve">
+    <value>ngayon lang</value>
+  </data>
+  <data name="Ui.Session.NoRatings" xml:space="preserve">
+    <value>Wala pang mga rating</value>
+  </data>
   <data name="Ui.Misc.ClickToChangeThisColour" xml:space="preserve">
     <value>I click para palitan ang kulay na ito</value>
   </data>
@@ -5258,9 +5060,6 @@ Ano ang gusto mong gawin?</value>
   </data>
   <data name="Ui.Misc.MoreProfileOptions" xml:space="preserve">
     <value>Higit pang opsyon ng profile</value>
-  </data>
-  <data name="Ui.Misc.BackgroundGradient" xml:space="preserve">
-    <value>Background gradient</value>
   </data>
   <data name="Ui.Misc.BlendUpTo8ColoursBehind" xml:space="preserve">
     <value>Paghaluin ang hanggang 8 kulay sa likod ng buong app.</value>
@@ -5294,9 +5093,6 @@ Ano ang gusto mong gawin?</value>
   </data>
   <data name="Ui.Misc.TextControlsCardsAndBordersFaded" xml:space="preserve">
     <value>Text, kontrol, card, at border. Ang mga kupas ay gumagamit ng normal na hitsura.</value>
-  </data>
-  <data name="Ui.Misc.ThemeCode" xml:space="preserve">
-    <value>Theme code</value>
   </data>
   <data name="Ui.Misc.ForExpertsValidChangesApplyRight" xml:space="preserve">
     <value>Para sa mga eksperto. Agad na ilalapat ang mga tamang pagbabago.</value>
@@ -5349,9 +5145,6 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Misc.FindInFile" xml:space="preserve">
     <value>Hanapin sa file</value>
   </data>
-  <data name="Ui.Misc.Live" xml:space="preserve">
-    <value>Live</value>
-  </data>
   <data name="Ui.Misc.RebuildWhileYouType" xml:space="preserve">
     <value>Mag rebuild habang nagta type</value>
   </data>
@@ -5369,9 +5162,6 @@ Ano ang gusto mong gawin?</value>
   </data>
   <data name="Ui.Misc.EditInAnotherProgramSavingThere" xml:space="preserve">
     <value>I edit sa ibang program. Ina update ang window na ito kapag nag save doon.</value>
-  </data>
-  <data name="Ui.Misc.Launcher" xml:space="preserve">
-    <value>Launcher</value>
   </data>
   <data name="Ui.Misc.CommandPlacedInFrontOfSober" xml:space="preserve">
     <value>Command na inilalagay sa unahan ng Sober, halimbawa prime run sa mga laptop na may dalawang graphics card, gamemoderun o mangohud.</value>
@@ -5391,14 +5181,8 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Misc.PutsRobloxIntoFullscreenWhenIt" xml:space="preserve">
     <value>Ginagawang fullscreen ang Roblox kapag bumukas.</value>
   </data>
-  <data name="Ui.Misc.Sharpness" xml:space="preserve">
-    <value>Sharpness</value>
-  </data>
   <data name="Ui.Misc.SharpensTheGameToCounterThe" xml:space="preserve">
     <value>Pinapatalas ang laro laban sa malabong hitsura.</value>
-  </data>
-  <data name="Ui.Misc.StudioSession" xml:space="preserve">
-    <value>Studio session</value>
   </data>
   <data name="Ui.Misc.ApplyVoidstrapFastFlags" xml:space="preserve">
     <value>Ilapat ang Voidstrap FastFlags</value>
@@ -5412,26 +5196,14 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Misc.LetsVinegarShowYourStudioSession" xml:space="preserve">
     <value>Hinahayaan ang Vinegar na ipakita ang Studio session mo sa Discord.</value>
   </data>
-  <data name="Ui.Misc.Renderer" xml:space="preserve">
-    <value>Renderer</value>
-  </data>
   <data name="Ui.Misc.TheGraphicsBackendWineUsesFor" xml:space="preserve">
     <value>Ang graphics backend na ginagamit ng Wine para sa Studio. Bagay ang DXVK sa karamihan ng system.</value>
-  </data>
-  <data name="Ui.Misc.FeralGameMode" xml:space="preserve">
-    <value>Feral GameMode</value>
   </data>
   <data name="Ui.Misc.AsksGameModeToTuneTheSystem" xml:space="preserve">
     <value>Hinihiling sa GameMode na i tune ang system habang tumatakbo ang Studio.</value>
   </data>
-  <data name="Ui.Misc.GraphicsCard" xml:space="preserve">
-    <value>Graphics card</value>
-  </data>
   <data name="Ui.Misc.WhichGraphicsCardStudioRendersOn" xml:space="preserve">
     <value>Aling graphics card ang ginagamit ng Studio sa pag render.</value>
-  </data>
-  <data name="Ui.Misc.VirtualDesktop" xml:space="preserve">
-    <value>Virtual desktop</value>
   </data>
   <data name="Ui.Misc.RunsStudioInsideAWineVirtual" xml:space="preserve">
     <value>Pinapatakbo ang Studio sa loob ng Wine virtual desktop na ganitong laki, halimbawa 1920x1080.</value>
@@ -5451,17 +5223,11 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Misc.Newest" xml:space="preserve">
     <value>Pinakabago</value>
   </data>
-  <data name="Ui.Misc.WineRoot" xml:space="preserve">
-    <value>Wine root</value>
-  </data>
   <data name="Ui.Misc.PathToTheWineBuildVinegar" xml:space="preserve">
     <value>Path papunta sa Wine build na dapat gamitin ng Vinegar. Iwanang blangko para sa kasama.</value>
   </data>
   <data name="Ui.Misc.Bundled" xml:space="preserve">
     <value>Kasama</value>
-  </data>
-  <data name="Ui.Pages.Library" xml:space="preserve">
-    <value>Library</value>
   </data>
   <data name="Ui.Pages.Play" xml:space="preserve">
     <value>Maglaro</value>
@@ -5511,12 +5277,6 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Pages.PLAYINGNOW" xml:space="preserve">
     <value>NAGLALARO NGAYON</value>
   </data>
-  <data name="Ui.Pages.RATING" xml:space="preserve">
-    <value>RATING</value>
-  </data>
-  <data name="Ui.Pages.Genre" xml:space="preserve">
-    <value>Genre</value>
-  </data>
   <data name="Ui.Pages.MaxPlayers" xml:space="preserve">
     <value>Max na player</value>
   </data>
@@ -5528,9 +5288,6 @@ Ano ang gusto mong gawin?</value>
   </data>
   <data name="Ui.Pages.Updated" xml:space="preserve">
     <value>Na update</value>
-  </data>
-  <data name="Ui.Pages.Store" xml:space="preserve">
-    <value>Store</value>
   </data>
   <data name="Ui.Pages.OpenThisGamepassOnRobloxCom" xml:space="preserve">
     <value>Buksan ang gamepass na ito sa roblox.com</value>
@@ -5616,9 +5373,6 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Pages.PasteTheCompletePrivateServerLink" xml:space="preserve">
     <value>I paste ang kumpletong link ng private server</value>
   </data>
-  <data name="Ui.Pages.ServerInstanceID" xml:space="preserve">
-    <value>Server instance ID</value>
-  </data>
   <data name="Ui.Pages.OptionalPublicServerInstance" xml:space="preserve">
     <value>Opsyonal na public server instance</value>
   </data>
@@ -5691,9 +5445,6 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Pages.OverridesThatAffectGPUBehaviorAnd" xml:space="preserve">
     <value>Mga override na nakakaapekto sa kilos ng GPU at mga feature ng driver.</value>
   </data>
-  <data name="Ui.Pages.ResizableBAR" xml:space="preserve">
-    <value>Resizable BAR</value>
-  </data>
   <data name="Ui.Pages.AllowsTheCPUToAccessThe" xml:space="preserve">
     <value>Pinapayagan ang CPU na ma access ang buong memory ng GPU sa mga suportadong system.</value>
   </data>
@@ -5708,9 +5459,6 @@ Ano ang gusto mong gawin?</value>
   </data>
   <data name="Ui.Pages.SearchExtensions" xml:space="preserve">
     <value>Maghanap ng extension</value>
-  </data>
-  <data name="Ui.Pages.VoidstrapAssets" xml:space="preserve">
-    <value>Voidstrap Assets</value>
   </data>
   <data name="Ui.Pages.BackToExtensions" xml:space="preserve">
     <value>Bumalik sa mga extension</value>
@@ -5750,9 +5498,6 @@ Ano ang gusto mong gawin?</value>
   </data>
   <data name="Ui.Pages.Creators" xml:space="preserve">
     <value>Mga gumawa</value>
-  </data>
-  <data name="Ui.Pages.NVIDIAFFlagEditor" xml:space="preserve">
-    <value>NVIDIA FFlag Editor</value>
   </data>
   <data name="Ui.Pages.ManageNVIDIASettingsSavedInYour" xml:space="preserve">
     <value>Pamahalaan ang mga NVIDIA setting na naka save sa NIP profile mo.</value>
@@ -5805,9 +5550,6 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Pages.ManageYourFastFlagsACheckmarkIn" xml:space="preserve">
     <value>Pamahalaan ang FastFlags mo. Ang check sa Preset ay nangangahulugang available ang flag sa FFlag Settings, at ang ekis ay hindi.</value>
   </data>
-  <data name="Ui.Pages.Preset" xml:space="preserve">
-    <value>Preset</value>
-  </data>
   <data name="Ui.Pages.GoToFFlagSettingsToAdd" xml:space="preserve">
     <value>Pumunta sa FFlag Settings para magdagdag ng Preset FFlags.</value>
   </data>
@@ -5819,9 +5561,6 @@ Ano ang gusto mong gawin?</value>
   </data>
   <data name="Ui.Pages.TracksEveryChangeYouMakeTo" xml:space="preserve">
     <value>Sinusubaybayan ang bawat pagbabago sa mga flag mo ngayong session. Pumili ng entry at pindutin ang I undo ang napili, o i double click ito, para ibalik ang pagbabago.</value>
-  </data>
-  <data name="Ui.Pages.History" xml:space="preserve">
-    <value>History</value>
   </data>
   <data name="Ui.Pages.ContinueWhereYouLeftOff" xml:space="preserve">
     <value>Ituloy kung saan ka huminto</value>
@@ -5843,9 +5582,6 @@ Ano ang gusto mong gawin?</value>
   </data>
   <data name="Ui.Pages.SearchYourInstalls" xml:space="preserve">
     <value>Hanapin sa mga install mo</value>
-  </data>
-  <data name="Ui.Pages.InstallFolder" xml:space="preserve">
-    <value>Install folder</value>
   </data>
   <data name="Ui.Pages.ClassicClients" xml:space="preserve">
     <value>Mga classic client</value>
@@ -5943,32 +5679,17 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Misc2.TheClassicTopbarOptionRebuildsTwo" xml:space="preserve">
     <value>Binubuo muli ng classic topbar option ang dalawang community mod. Ang itsura at kilos ng topbar at game menu mula 2014 hanggang 2015 ay galing sa "2014 2015 Topbar and Menu (Improvised GUI)" ni HockuTM. Ang pagtatago ng modernong topbar ay gumagamit ng "NoGuiRBX, Hide TopBar!" ni Einshine. Parehong ginagamit nang may pasasalamat sa ilalim ng kanilang Creative Commons BY NC ND 4.0 na tuntunin, direktang dina download ang mga file mula sa GameBanana sa halip na isama, at walang kaugnayan sa Voidstrap ang alinmang may akda.</value>
   </data>
-  <data name="Ui.Misc2.20142015TopbarAndMenuBy" xml:space="preserve">
-    <value>2014 2015 Topbar and Menu by HockuTM</value>
-  </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
     <value>Mga community mod</value>
   </data>
   <data name="Ui.Misc2.CommunityModsListsRobloxSubmissionsFrom" xml:space="preserve">
     <value>Inililista ng Community Mods ang mga Roblox submission mula sa GameBanana at Kliko's Mods, na pinapanatili ni TheKliko para sa modloader ni Kliko. Hindi kaugnay o ini endorse ng alinman sa kanila ang Voidstrap. Pag aari ng mga may akda ang lahat ng mod, larawan, at paglalarawan, na binabanggit sa bawat listing. Binabasa lang ng Voidstrap ang kanilang pampublikong data at hindi kailanman nag a upload ng kahit ano para sa iyo.</value>
   </data>
-  <data name="Ui.Misc2.GithubComKlikosModloaderMarketplace" xml:space="preserve">
-    <value>github.com/klikos modloader/marketplace</value>
-  </data>
-  <data name="Ui.Misc2.ModGenerator" xml:space="preserve">
-    <value>Mod Generator</value>
-  </data>
   <data name="Ui.Misc2.ModGeneratorDescription" xml:space="preserve">
     <value>Mod Generator para sa Voidstrap, nilikha ni Meddsam at UltimatePlayer97.</value>
   </data>
   <data name="Ui.Misc2.CanTSeeOverlays" xml:space="preserve">
     <value>Hindi makita ang mga overlay?</value>
-  </data>
-  <data name="Ui.Misc2.Info" xml:space="preserve">
-    <value>Info</value>
-  </data>
-  <data name="Ui.Misc2.FFlags" xml:space="preserve">
-    <value>FFlags</value>
   </data>
   <data name="Ui.Misc2.PlayTime" xml:space="preserve">
     <value>Oras ng paglalaro</value>
@@ -6024,9 +5745,6 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Misc2.MuteUnmute" xml:space="preserve">
     <value>I mute / i unmute</value>
   </data>
-  <data name="Ui.Misc2.Equalizer" xml:space="preserve">
-    <value>Equalizer</value>
-  </data>
   <data name="Ui.Misc2.TuneHowYourAudioSoundsPick" xml:space="preserve">
     <value>Ayusin kung paano tumutunog ang audio mo. Pumili ng preset o i drag ang mga band, agad itong ilalapat at awtomatikong ise save.</value>
   </data>
@@ -6036,20 +5754,11 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Misc2.BandsAreInHz0DB" xml:space="preserve">
     <value>Nasa Hz ang mga band. Neutral ang 0 dB, hanggang plus o minus 12 dB.</value>
   </data>
-  <data name="Ui.Misc2.Preview" xml:space="preserve">
-    <value>Preview: </value>
-  </data>
   <data name="Ui.Misc2.SelectAnAssetToPreviewIt" xml:space="preserve">
     <value>Pumili ng asset para i preview dito</value>
   </data>
-  <data name="Ui.Misc2.Volume" xml:space="preserve">
-    <value>Volume:</value>
-  </data>
   <data name="Ui.Misc2.Loop" xml:space="preserve">
     <value>Ulitin</value>
-  </data>
-  <data name="Ui.Misc2.OutputFormat" xml:space="preserve">
-    <value>Output format</value>
   </data>
   <data name="Ui.Misc2.DownloadConvertThisAudio" xml:space="preserve">
     <value>I download / i convert ang audio na ito</value>
@@ -6062,9 +5771,6 @@ Ano ang gusto mong gawin?</value>
   </data>
   <data name="Ui.Misc2.Options" xml:space="preserve">
     <value>Mga opsyon</value>
-  </data>
-  <data name="Ui.Misc2.Wireframe" xml:space="preserve">
-    <value>Wireframe</value>
   </data>
   <data name="Ui.Misc2.AutoRotate" xml:space="preserve">
     <value>Awtomatikong pag ikot</value>
@@ -6131,9 +5837,6 @@ Ano ang gusto mong gawin?</value>
   </data>
   <data name="Ui.Misc2.ServerSize" xml:space="preserve">
     <value>Laki ng server</value>
-  </data>
-  <data name="Ui.Misc2.Chat" xml:space="preserve">
-    <value>Chat</value>
   </data>
   <data name="Ui.Misc2.Chats" xml:space="preserve">
     <value>Mga chat</value>
@@ -6270,9 +5973,6 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Misc2.ChannelName" xml:space="preserve">
     <value>Pangalan ng channel</value>
   </data>
-  <data name="Ui.Misc2.VersionGUID" xml:space="preserve">
-    <value>Version GUID</value>
-  </data>
   <data name="Ui.Misc2.Players" xml:space="preserve">
     <value>Mga player:</value>
   </data>
@@ -6299,12 +5999,6 @@ Ano ang gusto mong gawin?</value>
   </data>
   <data name="Ui.Misc2.SearchReleases" xml:space="preserve">
     <value>Maghanap ng release...</value>
-  </data>
-  <data name="Ui.Misc2.PreRelease" xml:space="preserve">
-    <value>Pre release</value>
-  </data>
-  <data name="Ui.Misc2.Draft" xml:space="preserve">
-    <value>Draft</value>
   </data>
   <data name="Ui.Misc2.ExtraPagesGroupedUnderMoreIn" xml:space="preserve">
     <value>Mga dagdag na page na nakagrupo sa Higit pa sa sidebar.</value>
@@ -6377,9 +6071,6 @@ Ano ang gusto mong gawin?</value>
   </data>
   <data name="Ui.Misc3.Sort" xml:space="preserve">
     <value>Ayusin:</value>
-  </data>
-  <data name="Ui.Misc3.Filter" xml:space="preserve">
-    <value>Filter:</value>
   </data>
   <data name="Ui.Misc3.Left" xml:space="preserve">
     <value>Umalis: </value>
@@ -6545,9 +6236,6 @@ Subukan ulit ang pag alis?</value>
   <data name="Ui.ModGen.FillSolid" xml:space="preserve">
     <value>Solidong kulay</value>
   </data>
-  <data name="Ui.ModGen.FillGradient" xml:space="preserve">
-    <value>Gradient</value>
-  </data>
   <data name="Ui.ModGen.FillImage" xml:space="preserve">
     <value>Larawan</value>
   </data>
@@ -6679,54 +6367,6 @@ Error: {0}</value>
   </data>
   <data name="Ui.Shortcuts.ApplicationsMenu" xml:space="preserve">
     <value>Menu ng mga application</value>
-  </data>
-  <data name="Ui.Session.CommunityRating" xml:space="preserve">
-    <value>RoReview</value>
-  </data>
-  <data name="Ui.Session.Review" xml:space="preserve">
-    <value>review</value>
-  </data>
-  <data name="Ui.Session.Reviews" xml:space="preserve">
-    <value>mga review</value>
-  </data>
-  <data name="Ui.Session.SubmitReview" xml:space="preserve">
-    <value>Isumite</value>
-  </data>
-  <data name="Ui.Session.NoReviews" xml:space="preserve">
-    <value>Wala pang mga review</value>
-  </data>
-  <data name="Ui.Session.WriteReview" xml:space="preserve">
-    <value>Sumulat ng review...</value>
-  </data>
-  <data name="Ui.Session.SigningIn" xml:space="preserve">
-    <value>Lumalagda...</value>
-  </data>
-  <data name="Ui.Session.You" xml:space="preserve">
-    <value>Ikaw</value>
-  </data>
-  <data name="Ui.Session.Votes" xml:space="preserve">
-    <value>mga boto</value>
-  </data>
-  <data name="Ui.Session.Vote" xml:space="preserve">
-    <value>boto</value>
-  </data>
-  <data name="Ui.Session.Positive" xml:space="preserve">
-    <value>positibo</value>
-  </data>
-  <data name="Ui.Session.MinutesAgo" xml:space="preserve">
-    <value>{0} minuto ang nakalipas</value>
-  </data>
-  <data name="Ui.Session.HoursAgo" xml:space="preserve">
-    <value>{0} oras ang nakalipas</value>
-  </data>
-  <data name="Ui.Session.PoweredBy" xml:space="preserve">
-    <value>Pinapagana ng </value>
-  </data>
-  <data name="Ui.Session.JustNow" xml:space="preserve">
-    <value>ngayon lang</value>
-  </data>
-  <data name="Ui.Session.NoRatings" xml:space="preserve">
-    <value>Wala pang mga rating</value>
   </data>
   <data name="Ui.Session.OverlayLayout" xml:space="preserve">
     <value>Studio ng Overlay</value>
