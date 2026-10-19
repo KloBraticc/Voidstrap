@@ -7450,4 +7450,13 @@ Voidstrap 无法写入桌面文件夹。</value>
   <data name="Ui.Clipper.BadgeIdle" xml:space="preserve">
     <value>空闲</value>
   </data>
+  <data name="Ui.Main.ManageMods" xml:space="preserve">
+    <value>管理模组</value>
+  </data>
+  <data name="Ui.Main.OneModApplied" xml:space="preserve">
+    <value>已应用 1 个模组</value>
+  </data>
+  <data name="Ui.Main.ModsApplied" xml:space="preserve">
+    <value>已应用 {0} 个模组</value>
+  </data>
 </root>

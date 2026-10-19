@@ -7350,4 +7350,13 @@ Erreur : {0}</value>
   <data name="Ui.Clipper.BadgeIdle" xml:space="preserve">
     <value>INACTIF</value>
   </data>
+  <data name="Ui.Main.ManageMods" xml:space="preserve">
+    <value>Gérer les mods</value>
+  </data>
+  <data name="Ui.Main.OneModApplied" xml:space="preserve">
+    <value>1 mod appliqué</value>
+  </data>
+  <data name="Ui.Main.ModsApplied" xml:space="preserve">
+    <value>{0} mods appliqués</value>
+  </data>
 </root>

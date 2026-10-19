@@ -240,8 +240,82 @@ internal static partial class LinuxStartup
 			WriteProbeFallbackNote();
 			stage = HardwareGlStage;
 		}
+		if (stage == HardwareGlStage && HasOpenGlBackend() && !GlSupportsVertexStorage() && SoftwareRendererAvailable())
+		{
+			WriteError("OpenGL on your graphics card cannot run the Voidstrap renderer because its driver has no vertex storage buffer support, so Voidstrap uses software rendering instead.");
+			stage = SoftwareStage;
+		}
 		confirmed = markerConfirmed && recorded == stage;
 		return stage;
+	}
+
+	private const int GlMaxVertexShaderStorageBlocks = 0x90D6;
+
+	private static bool? _glVertexStorage;
+
+	private static bool GlSupportsVertexStorage()
+	{
+		_glVertexStorage ??= ProbeGlVertexStorage();
+		return _glVertexStorage.Value;
+	}
+
+	private static unsafe bool ProbeGlVertexStorage()
+	{
+		nint display = 0;
+		nint context = 0;
+		nint surface = 0;
+		try
+		{
+			display = EglGetDisplay(0);
+			int major = 0;
+			int minor = 0;
+			if (display == 0 || EglInitialize(display, &major, &minor) == 0)
+			{
+				display = 0;
+				return true;
+			}
+			if (EglBindApi(0x30A0) == 0)
+				return true;
+			int* configAttributes = stackalloc int[] { 0x3033, 0x1, 0x3040, 0x40, 0x3038 };
+			nint config = 0;
+			int found = 0;
+			if (EglChooseConfig(display, configAttributes, &config, 1, &found) == 0 || found == 0)
+				return true;
+			int* contextAttributes = stackalloc int[] { 0x3098, 3, 0x30FB, 1, 0x3038 };
+			context = EglCreateContext(display, config, 0, contextAttributes);
+			if (context == 0)
+				return false;
+			int* surfaceAttributes = stackalloc int[] { 0x3057, 1, 0x3056, 1, 0x3038 };
+			surface = EglCreatePbufferSurface(display, config, surfaceAttributes);
+			if (surface == 0 || EglMakeCurrent(display, surface, surface, context) == 0)
+				return true;
+			delegate* unmanaged<int, int*, void> getIntegerv = (delegate* unmanaged<int, int*, void>)EglGetProcAddress("glGetIntegerv");
+			delegate* unmanaged<int> getError = (delegate* unmanaged<int>)EglGetProcAddress("glGetError");
+			if (getIntegerv == null || getError == null)
+				return true;
+			while (getError() != 0)
+			{
+			}
+			int blocks = 0;
+			getIntegerv(GlMaxVertexShaderStorageBlocks, &blocks);
+			return getError() == 0 && blocks > 0;
+		}
+		catch (Exception ex) when (ex is DllNotFoundException or EntryPointNotFoundException)
+		{
+			return true;
+		}
+		finally
+		{
+			if (display != 0)
+			{
+				EglMakeCurrent(display, 0, 0, 0);
+				if (surface != 0)
+					EglDestroySurface(display, surface);
+				if (context != 0)
+					EglDestroyContext(display, context);
+				EglTerminate(display);
+			}
+		}
 	}
 
 	private const uint MesaVendorId = 0x10005;
@@ -786,8 +860,41 @@ internal static partial class LinuxStartup
 
 	private static bool CanUseHardwareGl()
 	{
-		return HasOpenGlBackend() && !File.Exists(NvidiaDriverVersionPath);
+		return HasOpenGlBackend() && !File.Exists(NvidiaDriverVersionPath) && GlSupportsVertexStorage();
 	}
+
+	[LibraryImport("libEGL.so.1", EntryPoint = "eglGetDisplay")]
+	private static partial nint EglGetDisplay(nint nativeDisplay);
+
+	[LibraryImport("libEGL.so.1", EntryPoint = "eglInitialize")]
+	private static unsafe partial int EglInitialize(nint display, int* major, int* minor);
+
+	[LibraryImport("libEGL.so.1", EntryPoint = "eglBindAPI")]
+	private static partial int EglBindApi(int api);
+
+	[LibraryImport("libEGL.so.1", EntryPoint = "eglChooseConfig")]
+	private static unsafe partial int EglChooseConfig(nint display, int* attributes, nint* configs, int size, int* count);
+
+	[LibraryImport("libEGL.so.1", EntryPoint = "eglCreateContext")]
+	private static unsafe partial nint EglCreateContext(nint display, nint config, nint share, int* attributes);
+
+	[LibraryImport("libEGL.so.1", EntryPoint = "eglCreatePbufferSurface")]
+	private static unsafe partial nint EglCreatePbufferSurface(nint display, nint config, int* attributes);
+
+	[LibraryImport("libEGL.so.1", EntryPoint = "eglMakeCurrent")]
+	private static partial int EglMakeCurrent(nint display, nint draw, nint read, nint context);
+
+	[LibraryImport("libEGL.so.1", EntryPoint = "eglGetProcAddress", StringMarshalling = StringMarshalling.Utf8)]
+	private static partial nint EglGetProcAddress(string name);
+
+	[LibraryImport("libEGL.so.1", EntryPoint = "eglDestroySurface")]
+	private static partial int EglDestroySurface(nint display, nint surface);
+
+	[LibraryImport("libEGL.so.1", EntryPoint = "eglDestroyContext")]
+	private static partial int EglDestroyContext(nint display, nint context);
+
+	[LibraryImport("libEGL.so.1", EntryPoint = "eglTerminate")]
+	private static partial int EglTerminate(nint display);
 
 	private const string OpenGlWgpuLibraryName = "libwgpu_native_gl.so";
 

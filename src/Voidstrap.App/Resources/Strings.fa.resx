@@ -7467,4 +7467,13 @@ Voidstrap نتوانست در پوشهٔ دسکتاپ بنویسد.</value>
   <data name="Ui.Clipper.BadgeIdle" xml:space="preserve">
     <value>آماده</value>
   </data>
+  <data name="Ui.Main.ManageMods" xml:space="preserve">
+    <value>مدیریت مادها</value>
+  </data>
+  <data name="Ui.Main.OneModApplied" xml:space="preserve">
+    <value>۱ ماد اعمال شده</value>
+  </data>
+  <data name="Ui.Main.ModsApplied" xml:space="preserve">
+    <value>{0} ماد اعمال شده</value>
+  </data>
 </root>

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Voidstrap.Utility;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
@@ -696,6 +696,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         ApplySidebarCustomization();
         SettingChangeNotifier.Failed += OnSettingChangeFailed;
         RestartNotificationService.Changed += OnRestartRequirementsChanged;
+        ManagedModStore.Changed += OnManagedModsChanged;
         if (Voidstrap.Utility.Platform.IsLinux)
             CreateBackgroundMedia();
         AllowsTransparency = false;
@@ -703,6 +704,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         InitializeViewModel();
         InitializeWindowState();
         UpdateButtonContent();
+        RefreshManageModsStatus();
         InitializeDiscordRPC();
         RegisterHoverIcons();
         _backgroundSettings = AppearanceViewModel.LoadSettings();
@@ -5341,6 +5343,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         base.OnActivated(e);
         UpdateButtonContent();
+        RefreshManageModsStatus();
         if (App.Settings.Prop.SnowWOWSOCOOLWpfSnowbtw && !Voidstrap.UI.LinuxUiPerformance.ReducedMotion)
         {
             SnowCanvas?.SetActive(true);
@@ -5923,6 +5926,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         PreviewMouseMove -= OnLinuxGradientMouseMove;
         MouseLeave -= RootGrid_MouseLeave;
         RestartNotificationService.Changed -= OnRestartRequirementsChanged;
+        ManagedModStore.Changed -= OnManagedModsChanged;
         try
         {
             _visibilityTimer.Stop();
@@ -6224,6 +6228,96 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void Button_Click_2(object sender, RoutedEventArgs e)
     {
+    }
+
+    private int _manageModsStatusVersion;
+
+    private void OnManagedModsChanged()
+    {
+        if (_isClosed)
+            return;
+        RefreshManageModsStatus();
+    }
+
+    private void RefreshManageModsStatus()
+    {
+        if (_isClosed)
+            return;
+        int version = Interlocked.Increment(ref _manageModsStatusVersion);
+        _ = Task.Run(() =>
+        {
+            int enabledCount;
+            try
+            {
+                enabledCount = ManagedModStore.GetEnabledModCount();
+            }
+            catch
+            {
+                enabledCount = 0;
+            }
+            if (_isClosed || version != Volatile.Read(ref _manageModsStatusVersion))
+                return;
+            try
+            {
+                Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => ApplyManageModsStatus(enabledCount, version)));
+            }
+            catch
+            {
+            }
+        });
+    }
+
+    private void ApplyManageModsStatus(int enabledCount, int version)
+    {
+        if (_isClosed || version != Volatile.Read(ref _manageModsStatusVersion) || ManageModsButton == null)
+            return;
+        if (enabledCount > 0)
+        {
+            string status = enabledCount == 1
+                ? Strings.Ui_Main_OneModApplied
+                : string.Format(System.Globalization.CultureInfo.CurrentCulture, Strings.Ui_Main_ModsApplied, enabledCount);
+            ManageModsAppliedText.Text = status;
+            ManageModsAppliedBadge.Visibility = Visibility.Visible;
+        }
+        else
+        {
+            ManageModsAppliedText.Text = string.Empty;
+            ManageModsAppliedBadge.Visibility = Visibility.Collapsed;
+        }
+    }
+
+    private void ManageModsButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (_isClosed)
+            return;
+        CloseOverlayPopups();
+        if (RootFrame.Content is ModsPage currentModsPage && currentModsPage.IsLoaded)
+        {
+            currentModsPage.ShowMyModsTab();
+            return;
+        }
+        ModsPage.PendingMyModsTab = true;
+        if (RootFrame.Content is OverlaysPage or ModGeneratorPage && RootFrame.CanGoBack)
+        {
+            RootFrame.GoBack();
+            return;
+        }
+        if (!RootNavigation.Navigate(typeof(ModsPage)))
+        {
+            if (RootFrame.Content is ModsPage existing)
+            {
+                existing.ShowMyModsTab();
+            }
+            else
+            {
+                RootFrame.Navigate(new ModsPage());
+            }
+            return;
+        }
+        if (RootFrame.Content is ModsPage navigatedModsPage && navigatedModsPage.IsLoaded)
+        {
+            navigatedModsPage.ShowMyModsTab();
+        }
     }
 
     private void LaunchTargetButton_Click(object sender, RoutedEventArgs e)

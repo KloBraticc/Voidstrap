@@ -1,11 +1,15 @@
 name: Windows release signing
-run-name: Sign Voidstrap ${{ inputs.tag }} ${{ inputs.request-id }}
+run-name: Sign Voidstrap ${{ inputs.version }} ${{ inputs.request-id }}
 
 on:
   workflow_dispatch:
     inputs:
-      tag:
-        description: Existing Git tag to build and sign
+      commit:
+        description: Exact origin/main commit to build and sign
+        required: true
+        type: string
+      version:
+        description: Four-part Voidstrap version
         required: true
         type: string
       request-id:
@@ -14,7 +18,7 @@ on:
         type: string
 
 concurrency:
-  group: windows-release-signing-${{ inputs.tag }}
+  group: windows-release-signing-${{ inputs.version }}
   cancel-in-progress: false
 
 jobs:
@@ -27,25 +31,32 @@ jobs:
       artifact-id: ${{ steps.upload.outputs.artifact-id }}
       version: ${{ steps.validate.outputs.version }}
     env:
-      RELEASE_TAG: ${{ inputs.tag }}
+      RELEASE_COMMIT: ${{ inputs.commit }}
+      RELEASE_VERSION: ${{ inputs.version }}
       REQUEST_ID: ${{ inputs.request-id }}
     steps:
-      - name: Validate release tag
+      - name: Validate requested source and version
         id: validate
         shell: pwsh
         run: |
-          if ($env:RELEASE_TAG -notmatch '\Av?(?<version>\d+\.\d+\.\d+\.\d+)\z') {
-            throw 'The release tag must be a four-part version, optionally prefixed with v.'
+          if ($env:RELEASE_COMMIT -notmatch '\A[0-9a-f]{40}\z') {
+            throw 'The requested source commit is invalid.'
           }
-          $releaseVersion = $Matches.version
+          if ($env:RELEASE_VERSION -notmatch '\A\d+\.\d+\.\d+\.\d+\z') {
+            throw 'The release version must have four numeric components.'
+          }
           if ($env:REQUEST_ID -notmatch '\A[0-9a-f]{32}\z') {
             throw 'The request identifier is invalid.'
           }
-          "version=$releaseVersion" >> $env:GITHUB_OUTPUT
+          $remoteMain = (git ls-remote https://github.com/KloBraticc/Voidstrap.git refs/heads/main).Split("`t")[0]
+          if ($LASTEXITCODE -ne 0 -or $remoteMain -cne $env:RELEASE_COMMIT) {
+            throw 'The requested source is not the current main branch commit.'
+          }
+          "version=$env:RELEASE_VERSION" >> $env:GITHUB_OUTPUT
 
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
-          ref: ${{ github.event.release.tag_name || inputs.tag }}
+          ref: ${{ inputs.commit }}
           fetch-depth: 1
           persist-credentials: false
           submodules: recursive

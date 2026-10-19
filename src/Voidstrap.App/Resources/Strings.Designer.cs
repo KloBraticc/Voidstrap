@@ -8401,5 +8401,8 @@ namespace Voidstrap.Resources {
         public static string Ui_Clipper_BadgeClip => ResourceManager.GetString("Ui.Clipper.BadgeClip", resourceCulture);
         public static string Ui_Clipper_BadgeSaved => ResourceManager.GetString("Ui.Clipper.BadgeSaved", resourceCulture);
         public static string Ui_Clipper_BadgeIdle => ResourceManager.GetString("Ui.Clipper.BadgeIdle", resourceCulture);
+        public static string Ui_Main_ManageMods => ResourceManager.GetString("Ui.Main.ManageMods", resourceCulture);
+        public static string Ui_Main_OneModApplied => ResourceManager.GetString("Ui.Main.OneModApplied", resourceCulture);
+        public static string Ui_Main_ModsApplied => ResourceManager.GetString("Ui.Main.ModsApplied", resourceCulture);
     }
 }

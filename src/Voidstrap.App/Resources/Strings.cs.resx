@@ -7409,4 +7409,13 @@ Chyba: {0}</value>
   <data name="Ui.Clipper.BadgeIdle" xml:space="preserve">
     <value>NEČINNÝ</value>
   </data>
+  <data name="Ui.Main.ManageMods" xml:space="preserve">
+    <value>Spravovat mody</value>
+  </data>
+  <data name="Ui.Main.OneModApplied" xml:space="preserve">
+    <value>1 aktivní mod</value>
+  </data>
+  <data name="Ui.Main.ModsApplied" xml:space="preserve">
+    <value>{0} aktivních modů</value>
+  </data>
 </root>

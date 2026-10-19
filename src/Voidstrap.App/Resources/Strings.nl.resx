@@ -7385,4 +7385,13 @@ Fout: {0}</value>
   <data name="Ui.Clipper.BadgeIdle" xml:space="preserve">
     <value>INACTIEF</value>
   </data>
+  <data name="Ui.Main.ManageMods" xml:space="preserve">
+    <value>Mods beheren</value>
+  </data>
+  <data name="Ui.Main.OneModApplied" xml:space="preserve">
+    <value>1 mod toegepast</value>
+  </data>
+  <data name="Ui.Main.ModsApplied" xml:space="preserve">
+    <value>{0} mods toegepast</value>
+  </data>
 </root>

@@ -667,7 +667,7 @@
             </Grid>
           </Grid>
         </TabItem>
-        <TabItem FontWeight="Medium">
+        <TabItem x:Name="MyModsTab" FontWeight="Medium">
           <TabItem.Header>
             <StackPanel Orientation="Horizontal">
               <ui:SymbolIcon Symbol="Folder24" Margin="0,0,6,0" />

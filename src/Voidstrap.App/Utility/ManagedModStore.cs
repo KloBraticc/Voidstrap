@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -70,6 +70,16 @@ internal static class ManagedModStore
 		WriteIndented = true,
 		PropertyNameCaseInsensitive = true
 	};
+
+	public static event Action? Changed;
+
+	public static int GetEnabledModCount()
+	{
+		lock (Sync)
+		{
+			return LoadCore().Count(record => record.Enabled);
+		}
+	}
 
 	public static IReadOnlyList<ManagedModRecord> Load()
 	{
@@ -395,7 +405,7 @@ internal static class ManagedModStore
 		int removed = records.RemoveAll(record => !Directory.Exists(GetFolderCore(record.Id)));
 		changed |= removed > 0;
 		if (changed || !File.Exists(Paths.ManagedModIndex))
-			SaveCore(records);
+			SaveCore(records, changed);
 		return records;
 	}
 
@@ -431,7 +441,7 @@ internal static class ManagedModStore
 		}
 	}
 
-	private static void SaveCore(List<ManagedModRecord> records)
+	private static void SaveCore(List<ManagedModRecord> records, bool notify = true)
 	{
 		Directory.CreateDirectory(Paths.ManagedMods);
 		string temporary = Paths.ManagedModIndex + "." + Guid.NewGuid().ToString("N") + ".tmp";
@@ -445,6 +455,19 @@ internal static class ManagedModStore
 		{
 			if (File.Exists(temporary))
 				File.Delete(temporary);
+		}
+		if (notify && Changed is { } handler)
+		{
+			_ = Task.Run(() =>
+			{
+				try
+				{
+					handler();
+				}
+				catch
+				{
+				}
+			});
 		}
 	}
 

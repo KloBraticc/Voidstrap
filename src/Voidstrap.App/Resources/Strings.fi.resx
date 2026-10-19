@@ -7421,4 +7421,13 @@ Virhe: {0}</value>
   <data name="Ui.Clipper.BadgeIdle" xml:space="preserve">
     <value>VALMIS</value>
   </data>
+  <data name="Ui.Main.ManageMods" xml:space="preserve">
+    <value>Hallitse modeja</value>
+  </data>
+  <data name="Ui.Main.OneModApplied" xml:space="preserve">
+    <value>1 modi käytössä</value>
+  </data>
+  <data name="Ui.Main.ModsApplied" xml:space="preserve">
+    <value>{0} modia käytössä</value>
+  </data>
 </root>
