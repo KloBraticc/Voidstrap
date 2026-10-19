@@ -12,6 +12,9 @@ on:
       - ready_for_review
       - closed
   fork:
+  repository_dispatch:
+    types:
+      - crowdin-translations-updated
   issues:
     types:
       - opened
@@ -135,6 +138,10 @@ jobs:
               title = "Repository forked"
               description = f"Forked by {actor}"
               link = f"https://github.com/{repository}/network/members"
+          elif event_name == "repository_dispatch" and event.get("action") == "crowdin-translations-updated":
+              title = "[crowdin-translations] Crowdin translations updated"
+              description = "A translation download completed."
+              link = f"https://github.com/{repository}/tree/crowdin-translations"
           elif event_name == "release":
               action = event.get("action")
               if action not in ("published", "prereleased"):

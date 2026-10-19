@@ -57,3 +57,50 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           CROWDIN_PROJECT_ID: ${{ secrets.CROWDIN_PROJECT_ID }}
           CROWDIN_PERSONAL_TOKEN: ${{ secrets.CROWDIN_PERSONAL_TOKEN }}
+
+      - name: Notify Discord workflow about translation download
+        if: inputs.download_translations == true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import re
+          import urllib.error
+          import urllib.request
+
+          repository = os.environ["REPOSITORY"]
+          token = os.environ.get("GH_TOKEN")
+          if not re.fullmatch(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+", repository):
+              raise SystemExit("Invalid repository name")
+          if not token:
+              raise SystemExit("GITHUB_TOKEN is not configured")
+
+          request = urllib.request.Request(
+              f"https://api.github.com/repos/{repository}/dispatches",
+              data=json.dumps({"event_type": "crowdin-translations-updated"}).encode("utf-8"),
+              headers={
+                  "Accept": "application/vnd.github+json",
+                  "Authorization": f"Bearer {token}",
+                  "Content-Type": "application/json",
+                  "User-Agent": "Voidstrap-Crowdin-Notification",
+                  "X-GitHub-Api-Version": "2022-11-28",
+              },
+              method="POST",
+          )
+
+          class NoRedirect(urllib.request.HTTPRedirectHandler):
+              def redirect_request(self, request, file_pointer, code, message, headers, new_url):
+                  return None
+
+          try:
+              with urllib.request.build_opener(NoRedirect).open(request, timeout=20) as response:
+                  if response.status != 204:
+                      raise SystemExit(f"GitHub dispatch returned HTTP {response.status}")
+          except urllib.error.HTTPError as error:
+              raise SystemExit(f"GitHub dispatch returned HTTP {error.code}") from None
+          except (urllib.error.URLError, TimeoutError):
+              raise SystemExit("GitHub dispatch request failed") from None
+          PY
