@@ -263,7 +263,14 @@ public static class ClipperService
 
             bool ok = await Task.Run(() => NativeClipper.Start(cfg, out _)).ConfigureAwait(false);
             if (ok)
+            {
                 _appliedConfig = cfg;
+                App.Logger.WriteLine("ClipperService", $"Capture session started at {cfg.Fps} FPS ({cfg.Codec}, buffer {cfg.BufferSeconds}s)");
+            }
+            else
+            {
+                App.Logger.WriteLine("ClipperService", "Capture session failed to start: " + NativeClipper.GetLastError());
+            }
             ClipperIndicatorOverlayWindow.Reconcile();
             RaiseStateChanged();
             return ok;
@@ -277,6 +284,7 @@ public static class ClipperService
 
     public static void Stop()
     {
+        bool wasRunning = _appliedConfig != null;
         try
         {
             NativeClipper.Stop();
@@ -285,6 +293,8 @@ public static class ClipperService
         {
         }
         _appliedConfig = null;
+        if (wasRunning)
+            App.Logger.WriteLine("ClipperService", "Capture session stopped");
         ClipperIndicatorOverlayWindow.Reconcile();
         RaiseStateChanged();
     }
@@ -335,6 +345,10 @@ public static class ClipperService
 
             string err = string.Empty;
             bool ok = await Task.Run(() => NativeClipper.StartRecording(tempTs, out err)).ConfigureAwait(false);
+            if (ok)
+                App.Logger.WriteLine("ClipperService", "Continuous recording started");
+            else
+                App.Logger.WriteLine("ClipperService", "Continuous recording failed to start: " + err);
             ClipperIndicatorOverlayWindow.Reconcile();
             RaiseStateChanged();
             return (ok, err);
@@ -375,12 +389,14 @@ public static class ClipperService
             bool ok = await Task.Run(() => NativeClipper.StopRecording(fullPath, out stopErr)).ConfigureAwait(false);
             if (!ok || !File.Exists(fullPath))
             {
+                App.Logger.WriteLine("ClipperService", "Continuous recording failed to finalize: " + stopErr);
                 ClipperIndicatorOverlayWindow.Reconcile();
                 RaiseStateChanged();
                 return (false, null, string.IsNullOrWhiteSpace(stopErr) ? "Could not finalize recording" : stopErr);
             }
 
             SavedClipInfo info = await Task.Run(() => BuildClipInfo(fullPath, ensureMetadata: true)).ConfigureAwait(false);
+            App.Logger.WriteLine("ClipperService", $"Saved recording {info.FileName} ({info.FormattedDuration}, {info.FormattedSize})");
             ClipperIndicatorOverlayWindow.PulseSaved();
             ClipperIndicatorOverlayWindow.Reconcile();
             ClipSaved?.Invoke(info);
@@ -450,10 +466,12 @@ public static class ClipperService
             bool ok = await Task.Run(() => NativeClipper.Save(fullPath, seconds, out saveError)).ConfigureAwait(false);
             if (!ok || !File.Exists(fullPath))
             {
+                App.Logger.WriteLine("ClipperService", "Replay clip save failed: " + saveError);
                 return (false, null, string.IsNullOrWhiteSpace(saveError) ? "Could not save replay clip" : saveError);
             }
 
             SavedClipInfo info = await Task.Run(() => BuildClipInfo(fullPath, ensureMetadata: true)).ConfigureAwait(false);
+            App.Logger.WriteLine("ClipperService", $"Saved replay clip {info.FileName} ({info.FormattedDuration}, {info.FormattedSize})");
             ClipperIndicatorOverlayWindow.PulseSaved();
             ClipSaved?.Invoke(info);
             RaiseStateChanged();

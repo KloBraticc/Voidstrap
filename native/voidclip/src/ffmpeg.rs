@@ -9,22 +9,12 @@ pub fn command(ffmpeg: &str) -> Command {
     {
         use std::os::windows::process::CommandExt;
         let mut command = Command::new(ffmpeg);
-        command.creation_flags(0x0800_0000 | 0x0000_4000);
+        command.creation_flags(0x0800_0000 | 0x0000_8000);
         command
     }
     #[cfg(not(windows))]
     {
-        let nice = ["/usr/bin/nice", "/bin/nice"]
-            .into_iter()
-            .find(|p| std::path::Path::new(p).exists());
-        match nice {
-            Some(nice) => {
-                let mut command = Command::new(nice);
-                command.arg("-n").arg("10").arg(ffmpeg);
-                command
-            }
-            None => Command::new(ffmpeg),
-        }
+        Command::new(ffmpeg)
     }
 }
 

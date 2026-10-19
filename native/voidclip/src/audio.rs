@@ -7,10 +7,10 @@ use std::time::{Duration, Instant};
 
 pub const SAMPLE_RATE: u32 = 48_000;
 const CHANNELS: usize = 2;
-const TICK_MS: u64 = 20;
+const TICK_MS: u64 = 10;
 const TICK_FRAMES: usize = (SAMPLE_RATE as usize * TICK_MS as usize) / 1000;
 const TICK_SAMPLES: usize = TICK_FRAMES * CHANNELS;
-const MAX_QUEUE_SAMPLES: usize = SAMPLE_RATE as usize * CHANNELS * 2;
+const MAX_QUEUE_SAMPLES: usize = (SAMPLE_RATE as usize * CHANNELS) / 10;
 
 pub struct AudioPump {
     stop: Arc<AtomicBool>,
@@ -47,9 +47,9 @@ fn run_pump(mut stdin: ChildStdin, game_audio: bool, microphone: bool, stop: Arc
     use cpal::traits::HostTrait;
 
     let host = cpal::default_host();
-    let game_buf: Arc<Mutex< std::collections::VecDeque<f32> >> =
+    let game_buf: Arc<Mutex<std::collections::VecDeque<f32>>> =
         Arc::new(Mutex::new(std::collections::VecDeque::with_capacity(MAX_QUEUE_SAMPLES)));
-    let mic_buf: Arc<Mutex< std::collections::VecDeque<f32> >> =
+    let mic_buf: Arc<Mutex<std::collections::VecDeque<f32>>> =
         Arc::new(Mutex::new(std::collections::VecDeque::with_capacity(MAX_QUEUE_SAMPLES)));
 
     let _game_stream = if game_audio {
@@ -68,48 +68,54 @@ fn run_pump(mut stdin: ChildStdin, game_audio: bool, microphone: bool, stop: Arc
 
     let mut mix = vec![0.0f32; TICK_SAMPLES];
     let mut bytes = vec![0u8; TICK_SAMPLES * 4];
-    let tick = Duration::from_millis(TICK_MS);
-    let mut next = Instant::now() + tick;
+    let start = Instant::now();
+    let mut frames_written: u64 = 0;
 
     while !stop.load(Ordering::Relaxed) {
-        mix.fill(0.0);
-        if game_audio {
-            if let Ok(mut q) = game_buf.lock() {
-                for s in mix.iter_mut() {
-                    if let Some(v) = q.pop_front() {
-                        *s += v;
-                    } else {
-                        break;
+        let elapsed_ns = start.elapsed().as_nanos();
+        let target_frames = ((elapsed_ns * SAMPLE_RATE as u128) / 1_000_000_000) as u64;
+        if frames_written + TICK_FRAMES as u64 > target_frames {
+            let next_ns = ((frames_written + TICK_FRAMES as u64) as u128 * 1_000_000_000) / SAMPLE_RATE as u128;
+            let wait_ns = next_ns.saturating_sub(elapsed_ns) as u64;
+            thread::sleep(Duration::from_nanos(wait_ns).min(Duration::from_millis(4)));
+            continue;
+        }
+
+        while frames_written + TICK_FRAMES as u64 <= target_frames && !stop.load(Ordering::Relaxed) {
+            mix.fill(0.0);
+            if game_audio {
+                if let Ok(mut q) = game_buf.lock() {
+                    for s in mix.iter_mut() {
+                        if let Some(v) = q.pop_front() {
+                            *s += v;
+                        } else {
+                            break;
+                        }
                     }
                 }
             }
-        }
-        if microphone {
-            if let Ok(mut q) = mic_buf.lock() {
-                for s in mix.iter_mut() {
-                    if let Some(v) = q.pop_front() {
-                        *s = (*s + v * 0.9).clamp(-1.0, 1.0);
-                    } else {
-                        break;
+            if microphone {
+                if let Ok(mut q) = mic_buf.lock() {
+                    for s in mix.iter_mut() {
+                        if let Some(v) = q.pop_front() {
+                            *s = (*s + v * 0.9).clamp(-1.0, 1.0);
+                        } else {
+                            break;
+                        }
                     }
                 }
             }
+            for (i, sample) in mix.iter().enumerate() {
+                let b = sample.clamp(-1.0, 1.0).to_le_bytes();
+                let base = i * 4;
+                bytes[base..base + 4].copy_from_slice(&b);
+            }
+            if stdin.write_all(&bytes).is_err() {
+                return;
+            }
+            frames_written += TICK_FRAMES as u64;
         }
-        for (i, sample) in mix.iter().enumerate() {
-            let b = sample.clamp(-1.0, 1.0).to_le_bytes();
-            let base = i * 4;
-            bytes[base..base + 4].copy_from_slice(&b);
-        }
-        if stdin.write_all(&bytes).is_err() {
-            break;
-        }
-        let now = Instant::now();
-        if next > now {
-            thread::sleep(next - now);
-            next += tick;
-        } else {
-            next = now + tick;
-        }
+        let _ = stdin.flush();
     }
 }
 
@@ -142,7 +148,7 @@ fn build_input_stream(
                     let base = f * in_channels;
                     let l = data[base];
                     let r = if in_channels > 1 { data[base + 1] } else { l };
-                    if q.len() + 2 > MAX_QUEUE_SAMPLES {
+                    while q.len() + 2 > MAX_QUEUE_SAMPLES {
                         q.pop_front();
                         q.pop_front();
                     }
@@ -156,7 +162,7 @@ fn build_input_stream(
                     let base = src.min(frames - 1) * in_channels;
                     let l = data[base];
                     let r = if in_channels > 1 { data[base + 1] } else { l };
-                    if q.len() + 2 > MAX_QUEUE_SAMPLES {
+                    while q.len() + 2 > MAX_QUEUE_SAMPLES {
                         q.pop_front();
                         q.pop_front();
                     }
@@ -215,11 +221,21 @@ fn build_input_stream(
 #[cfg(not(windows))]
 fn run_pump(mut stdin: ChildStdin, _game_audio: bool, _microphone: bool, stop: Arc<AtomicBool>) {
     let bytes = vec![0u8; TICK_SAMPLES * 4];
-    let tick = Duration::from_millis(TICK_MS);
+    let start = Instant::now();
+    let mut frames_written: u64 = 0;
     while !stop.load(Ordering::Relaxed) {
-        if stdin.write_all(&bytes).is_err() {
-            break;
+        let elapsed_ns = start.elapsed().as_nanos();
+        let target_frames = ((elapsed_ns * SAMPLE_RATE as u128) / 1_000_000_000) as u64;
+        if frames_written + TICK_FRAMES as u64 > target_frames {
+            thread::sleep(Duration::from_millis(4));
+            continue;
         }
-        thread::sleep(tick);
+        while frames_written + TICK_FRAMES as u64 <= target_frames && !stop.load(Ordering::Relaxed) {
+            if stdin.write_all(&bytes).is_err() {
+                return;
+            }
+            frames_written += TICK_FRAMES as u64;
+        }
+        let _ = stdin.flush();
     }
 }

@@ -202,10 +202,11 @@ fn encoder_args(family: &str, encoder: &str, kbps: u32, fps: u32) -> Vec<String>
     if family != "mf" && family != "videotoolbox" {
         a.extend(["-maxrate".into(), b, "-bufsize".into(), buf]);
     }
-    a.extend(["-g".into(), g]);
+    a.extend(["-g".into(), g.clone()]);
     if family != "mf" {
         a.extend(["-bf".into(), "0".into()]);
     }
+    a.extend(["-fps_mode".into(), "cfr".into(), "-r".into(), g]);
     a
 }
 
@@ -223,18 +224,14 @@ struct Build<'a> {
     head: Vec<String>,
     inputs: Vec<String>,
     video_source: String,
-    audio_graph: Option<String>,
+    audio_args: Vec<String>,
     audio_pipe: bool,
 }
 
 impl Build<'_> {
     fn candidate(&self, id: &str, label: &str, family: &str, filters: Vec<String>, t: &Target, scaled: bool) -> Candidate {
         let encoder = encoder_name(family, &self.cfg.codec);
-        let mut graph = format!("{}{}[v]", self.video_source, join(&filters));
-        if let Some(audio) = &self.audio_graph {
-            graph.push(';');
-            graph.push_str(audio);
-        }
+        let graph = format!("{}{}[v]", self.video_source, join(&filters));
         let mut args: Vec<String> = vec!["-hide_banner".into(), "-loglevel".into(), "error".into(), "-nostats".into()];
         if !self.audio_pipe {
             args.push("-nostdin".into());
@@ -243,9 +240,7 @@ impl Build<'_> {
         args.extend(self.inputs.iter().cloned());
         args.extend(["-filter_complex".into(), graph, "-map".into(), "[v]".into()]);
         args.extend(encoder_args(family, &encoder, self.kbps, self.cfg.fps));
-        if self.audio_graph.is_some() {
-            args.extend(["-map".into(), "[a]".into(), "-c:a".into(), "aac".into(), "-b:a".into(), "160k".into(), "-ar".into(), "48000".into()]);
-        }
+        args.extend(self.audio_args.iter().cloned());
         args.extend([
             "-f".into(), "mpegts".into(), "-muxdelay".into(), "0".into(), "-muxpreload".into(), "0".into(), "pipe:1".into(),
         ]);
@@ -286,14 +281,31 @@ fn build_platform(cfg: &Config, caps: &Capabilities, audio_rate: u32) -> Vec<Can
     let t = target(cfg, s.width, s.height);
     let kbps = cfg.bitrate_kbps(s.height);
     let audio_pipe = cfg.game_audio || cfg.microphone;
-    let mut dda_head = Vec::new();
-    if s.adapter != 0 {
-        dda_head.extend(["-init_hw_device".into(), format!("d3d11va=vcd:{}", s.adapter), "-filter_hw_device".into(), "vcd".into()]);
-    }
+    let dda_head: Vec<String> = vec![
+        "-init_hw_device".into(),
+        format!("d3d11va=vcd:{}", s.adapter),
+        "-filter_hw_device".into(),
+        "vcd".into(),
+    ];
     let mut dda_inputs = Vec::new();
     if audio_pipe {
         dda_inputs.extend(
-            ["-thread_queue_size", "1024", "-f", "f32le", "-ar"].into_iter().map(String::from).chain([
+            [
+                "-fflags",
+                "+nobuffer",
+                "-probesize",
+                "32",
+                "-analyzeduration",
+                "0",
+                "-thread_queue_size",
+                "4096",
+                "-f",
+                "f32le",
+                "-ar",
+            ]
+            .into_iter()
+            .map(String::from)
+            .chain([
                 audio_rate.to_string(),
                 "-ac".into(),
                 "2".into(),
@@ -303,8 +315,29 @@ fn build_platform(cfg: &Config, caps: &Capabilities, audio_rate: u32) -> Vec<Can
         );
     }
     let mouse = if cfg.cursor { 1 } else { 0 };
-    let dda_source = format!("ddagrab=output_idx={}:framerate={}:draw_mouse={},", s.output, cfg.fps, mouse);
-    let audio_graph = audio_pipe.then(|| "[0:a]asetpts=N/SR/TB[a]".to_string());
+    let dda_source = format!(
+        "ddagrab=output_idx={}:framerate={}:draw_mouse={}:dup_frames=1:output_fmt=bgra:allow_fallback=1,",
+        s.output, cfg.fps, mouse
+    );
+    let audio_args: Vec<String> = if audio_pipe {
+        [
+            "-map",
+            "0:a",
+            "-af",
+            "aresample=async=1:first_pts=0",
+            "-c:a",
+            "aac",
+            "-b:a",
+            "160k",
+            "-ar",
+            "48000",
+        ]
+        .into_iter()
+        .map(String::from)
+        .collect()
+    } else {
+        Vec::new()
+    };
     let gdi_index = if audio_pipe { 1 } else { 0 };
     let mut gdi_inputs = dda_inputs.clone();
     gdi_inputs.extend([
@@ -318,7 +351,7 @@ fn build_platform(cfg: &Config, caps: &Capabilities, audio_rate: u32) -> Vec<Can
         head: dda_head,
         inputs: dda_inputs,
         video_source: dda_source,
-        audio_graph: audio_graph.clone(),
+        audio_args: audio_args.clone(),
         audio_pipe,
     };
     let b_gdi = Build {
@@ -327,7 +360,7 @@ fn build_platform(cfg: &Config, caps: &Capabilities, audio_rate: u32) -> Vec<Can
         head: Vec::new(),
         inputs: gdi_inputs,
         video_source: format!("[{gdi_index}:v]"),
-        audio_graph,
+        audio_args,
         audio_pipe,
     };
     let reset = "setpts=PTS-STARTPTS".to_string();
@@ -412,16 +445,33 @@ fn build_platform(cfg: &Config, caps: &Capabilities, _audio_rate: u32) -> Vec<Ca
         inputs.extend(["-thread_queue_size", "1024", "-f", "pulse", "-i", "default"].into_iter().map(String::from));
         audio_inputs += 1;
     }
-    let audio_graph = match audio_inputs {
-        1 => Some("[1:a]aresample=async=1000[a]".to_string()),
-        2 => Some("[1:a][2:a]amix=inputs=2:duration=longest:normalize=0,aresample=async=1000[a]".to_string()),
-        _ => None,
+    let audio_args: Vec<String> = match audio_inputs {
+        1 => ["-map", "1:a", "-af", "aresample=async=1000:first_pts=0", "-c:a", "aac", "-b:a", "160k", "-ar", "48000"]
+            .into_iter()
+            .map(String::from)
+            .collect(),
+        2 => [
+            "-filter_complex",
+            "[1:a][2:a]amix=inputs=2:duration=longest:normalize=0,aresample=async=1000:first_pts=0[a]",
+            "-map",
+            "[a]",
+            "-c:a",
+            "aac",
+            "-b:a",
+            "160k",
+            "-ar",
+            "48000",
+        ]
+        .into_iter()
+        .map(String::from)
+        .collect(),
+        _ => Vec::new(),
     };
     let mut head = Vec::new();
     let render = "/dev/dri/renderD128";
     let vaapi = std::path::Path::new(render).exists() && caps.encoder(&encoder_name("vaapi", &cfg.codec));
     let mut list = Vec::new();
-    let mut b = Build { cfg, kbps, head: head.clone(), inputs, video_source: "[0:v]".into(), audio_graph, audio_pipe: false };
+    let mut b = Build { cfg, kbps, head: head.clone(), inputs, video_source: "[0:v]".into(), audio_args, audio_pipe: false };
     if vaapi {
         head.extend(["-vaapi_device".into(), render.into()]);
         b.head = head;
@@ -455,8 +505,15 @@ fn build_platform(cfg: &Config, caps: &Capabilities, _audio_rate: u32) -> Vec<Ca
         "-pixel_format".into(), "nv12".into(), "-framerate".into(), cfg.fps.to_string(),
         "-i".into(), format!("Capture screen {}:{}", cfg.screen, audio),
     ];
-    let audio_graph = cfg.microphone.then(|| "[0:a]aresample=async=1000[a]".to_string());
-    let b = Build { cfg, kbps, head: Vec::new(), inputs, video_source: "[0:v]".into(), audio_graph, audio_pipe: false };
+    let audio_args: Vec<String> = if cfg.microphone {
+        ["-map", "0:a", "-af", "aresample=async=1000:first_pts=0", "-c:a", "aac", "-b:a", "160k", "-ar", "48000"]
+            .into_iter()
+            .map(String::from)
+            .collect()
+    } else {
+        Vec::new()
+    };
+    let b = Build { cfg, kbps, head: Vec::new(), inputs, video_source: "[0:v]".into(), audio_args, audio_pipe: false };
     let mut list = Vec::new();
     if caps.encoder(&encoder_name("videotoolbox", &cfg.codec)) {
         list.push(b.candidate("videotoolbox", "Apple VideoToolbox", "videotoolbox", scale_cpu(&t), &t, t.scale));

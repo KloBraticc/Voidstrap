@@ -95,7 +95,7 @@ public partial class SessionDock : Window
     private DispatcherTimer? _prewarmTimer;
     public static SessionDock? ActiveInstance { get; private set; }
     private bool _screenDragDimOverride;
-    private static readonly string[] PrewarmActions = { "browser", "games", "chat", "layout", "adjustments", "details", "history", "music" };
+    private static readonly string[] PrewarmActions = { "browser", "games", "chat", "layout", "adjustments", "details", "history", "music", "clipper" };
     private bool _profileLoaded;
     private bool _profileLoading;
     private enum PopoutView
@@ -119,7 +119,8 @@ public partial class SessionDock : Window
         ["history"] = "history",
         ["music"] = "music",
         ["reviews"] = "reviews",
-        ["web"] = "web"
+        ["web"] = "web",
+        ["clipper"] = "clipper"
     };
     internal bool IsAnimating => _slide.IsRunning || _linuxMotionActive;
 
@@ -743,14 +744,13 @@ public partial class SessionDock : Window
 
     private void StartPrewarm()
     {
-        if (_closed)
+        if (_closed || _prewarmIndex >= PrewarmActions.Length)
             return;
         if (_prewarmTimer == null)
         {
             _prewarmTimer = new DispatcherTimer(DispatcherPriority.ApplicationIdle) { Interval = TimeSpan.FromMilliseconds(500) };
             _prewarmTimer.Tick += OnPrewarmTick;
         }
-        _prewarmIndex = 0;
         _prewarmTimer.Start();
     }
 

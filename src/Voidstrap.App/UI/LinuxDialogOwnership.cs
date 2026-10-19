@@ -85,10 +85,11 @@ internal static class LinuxDialogOwnership
 	private static bool CanOwn(Window window) =>
 		window.IsVisible
 		&& window.WindowState != System.Windows.WindowState.Minimized
+		&& new System.Windows.Interop.WindowInteropHelper(window).Handle != IntPtr.Zero
 		&& (window.ShowInTaskbar || window.Owner is not null)
 		&& !IsStandalone(window)
 		&& !RoundedWindowChrome.IsOverlaySurface(window);
 
 	private static bool IsStandalone(Window window) =>
-		window is OverlayWindow or CrosshairWindow or LinuxHomepageOverlayWindow or NotificationWindow or Voidstrap.UI.Elements.ContextMenu.MenuContainer;
+		window is OverlayWindow or CrosshairWindow or LinuxHomepageOverlayWindow or NotificationWindow or SessionDock or Voidstrap.UI.Elements.ContextMenu.MenuContainer or Voidstrap.Integrations.Clipper.ClipperIndicatorOverlayWindow;
 }

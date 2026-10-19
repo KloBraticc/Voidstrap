@@ -1210,7 +1210,7 @@ public static class VoidstrapMatchmaker
 		}
 	}
 
-	private static bool _uptimeV2Missing;
+	private static bool _uptimeV2Missing = true;
 
 	private static async Task<ServerStartLookup> AttemptServerStartAsync(bool useV2, long placeId, string jobId, string cookie, CancellationToken token)
 	{
@@ -1258,8 +1258,10 @@ public static class VoidstrapMatchmaker
 				DateTimeOffset? started = ParseServerClaimedTime(joinScript.Value, serverDate);
 				if (!started.HasValue)
 				{
+					if (IsEmptyClaimedTime(joinScript.Value))
+						return new ServerStartLookup(ServerStartStatus.NotShared, default);
 					App.Logger.WriteLine(LOG_IDENT, $"Server uptime lookup through gamejoin {api} could not read ServerClaimedTime, value was {DescribeServerClaimedTime(joinScript.Value)}");
-					return new ServerStartLookup(IsEmptyClaimedTime(joinScript.Value) ? ServerStartStatus.NotShared : ServerStartStatus.Unavailable, default);
+					return new ServerStartLookup(ServerStartStatus.Unavailable, default);
 				}
 				RememberServerStart(jobId, started.Value);
 				App.Logger.WriteLine(LOG_IDENT, $"Server {jobId} has been up since {started.Value.UtcDateTime:yyyy'/'MM'/'dd HH:mm:ss} UTC, from gamejoin {api} ServerClaimedTime");

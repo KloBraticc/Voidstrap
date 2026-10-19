@@ -756,7 +756,7 @@ public partial class SessionOverlayLayoutEditor : Window
         }
         var dlg = new Voidstrap.UI.Elements.Controls.RinColorPickerDialog(initial, title: Strings.Ui_Mods_Colors);
         Window? owner = sender is DependencyObject dep ? Window.GetWindow(dep) : null;
-        if (owner is { IsVisible: true })
+        if (owner is { IsVisible: true } && new System.Windows.Interop.WindowInteropHelper(owner).Handle != IntPtr.Zero)
         {
             try
             {
@@ -790,7 +790,7 @@ public partial class SessionOverlayLayoutEditor : Window
         }
         var dlg = new Voidstrap.UI.Elements.Controls.RinColorPickerDialog(initial, title: Strings.Ui_Mods_Colors);
         Window? owner = sender is DependencyObject dep ? Window.GetWindow(dep) : null;
-        if (owner is { IsVisible: true })
+        if (owner is { IsVisible: true } && new System.Windows.Interop.WindowInteropHelper(owner).Handle != IntPtr.Zero)
         {
             try
             {

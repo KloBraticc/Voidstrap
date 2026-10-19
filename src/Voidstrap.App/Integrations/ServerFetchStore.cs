@@ -51,6 +51,7 @@ public static class ServerFetchStore
 		{
 			if (!_loaded)
 			{
+				_loaded = true;
 				Load();
 				PrunePrivateCidrs();
 				PruneStalePreSeeded();
@@ -64,7 +65,6 @@ public static class ServerFetchStore
 					Lat = item.Value.Lat,
 					Lon = item.Value.Lon
 				}));
-				_loaded = true;
 			}
 		}
 	}
@@ -158,7 +158,7 @@ public static class ServerFetchStore
 			_data = NormalizeData(serverFetchData);
 			if (recovered)
 				App.Logger.WriteLine("ServerFetchStore", "Recovered the last valid server fetch store backup");
-			App.Logger.WriteLine("ServerFetchStore", $"Loaded {_data.Servers.Count} learned datacenter");
+			App.Logger.WriteLine("ServerFetchStore", $"Loaded {_data.Servers.Count} learned datacenters");
 		}
 		catch (Exception ex)
 		{
