@@ -7448,4 +7448,415 @@ Voidstrap не зміг записати до теки робочого стол
   <data name="Ui.Main.ModsApplied" xml:space="preserve">
     <value>Застосовано модів: {0}</value>
   </data>
+  <data name="Menu.About.Licenses.Apache" xml:space="preserve">
+    <value>Ліцензія Apache 2.0</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Studio" xml:space="preserve">
+    <value>Студія</value>
+  </data>
+  <data name="Enums.CustomThemeTemplate.Html" xml:space="preserve">
+    <value>HTML</value>
+  </data>
+  <data name="Common.Save" xml:space="preserve">
+    <value>зберегти</value>
+  </data>
+  <data name="Enums.BootstrapperStyle.ProgressDialog" xml:space="preserve">
+    <value>Roblox (~2014)</value>
+  </data>
+  <data name="Enums.BootstrapperStyle.VistaDialog" xml:space="preserve">
+    <value>Vista (2008 - 2011)</value>
+  </data>
+  <data name="Enums.CursorType.FPSCursor" xml:space="preserve">
+    <value>FPSCursor</value>
+  </data>
+  <data name="Enums.CursorType.StoofsCursor" xml:space="preserve">
+    <value>StoofsCursor</value>
+  </data>
+  <data name="Enums.CursorType.CleanCursor" xml:space="preserve">
+    <value>CleanCursor</value>
+  </data>
+  <data name="Enums.EmojiType.Catmoji" xml:space="preserve">
+    <value>Catmoji</value>
+  </data>
+  <data name="Enums.EmojiType.Windows10" xml:space="preserve">
+    <value>Windows 10</value>
+  </data>
+  <data name="Enums.EmojiType.Windows11" xml:space="preserve">
+    <value>Windows 11</value>
+  </data>
+  <data name="Enums.EmojiType.Windows8" xml:space="preserve">
+    <value>Windows 8</value>
+  </data>
+  <data name="Enums.FlagPresets.RenderingMode.D3D10" xml:space="preserve">
+    <value>Direct3D 10</value>
+  </data>
+  <data name="Enums.FlagPresets.RenderingMode.D3D11" xml:space="preserve">
+    <value>Direct3D 11</value>
+  </data>
+  <data name="Enums.Theme.UltraGray" xml:space="preserve">
+    <value>UltraGray</value>
+  </data>
+  <data name="Enums.Theme.Voidstrap" xml:space="preserve">
+    <value>Voidstrap</value>
+  </data>
+  <data name="Enums.FlagPresets.RenderingMode.OpenGL" xml:space="preserve">
+    <value>OpenGL</value>
+  </data>
+  <data name="Enums.FlagPresets.RenderingMode.Vulkan" xml:space="preserve">
+    <value>Вулкан</value>
+  </data>
+  <data name="Common.VersionGuid" xml:space="preserve">
+    <value>VersionGuid</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Chromeui.Title" xml:space="preserve">
+    <value>Інтерфейс Chrome</value>
+  </data>
+  <data name="Common.RobloxStudio" xml:space="preserve">
+    <value>Студія Roblox</value>
+  </data>
+  <data name="Menu.Sober.Title" xml:space="preserve">
+    <value>Тверезий</value>
+  </data>
+  <data name="Menu.Sober.DiscordRpc.Title" xml:space="preserve">
+    <value>Discord Rich Presence</value>
+  </data>
+  <data name="Vng.Title" xml:space="preserve">
+    <value>Roblox VNG</value>
+  </data>
+  <data name="Mtu.Title" xml:space="preserve">
+    <value>MTU</value>
+  </data>
+  <data name="FlagSearch.Label27" xml:space="preserve">
+    <value>Ctrl+V</value>
+  </data>
+  <data name="FlagSearch.Label29" xml:space="preserve">
+    <value>Ctrl+A</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerKeystrokes" xml:space="preserve">
+    <value>натискання клавіш</value>
+  </data>
+  <data name="Ui.OverlayStudio.KeystrokesScale" xml:space="preserve">
+    <value>Шкала натискань клавіш</value>
+  </data>
+  <data name="Ui.OverlayStudio.KeystrokesOpacity" xml:space="preserve">
+    <value>Непрозорість натискань клавіш</value>
+  </data>
+  <data name="Ui.OverlayStudio.KeystrokesEdgeSpacing" xml:space="preserve">
+    <value>Відстань від краю</value>
+  </data>
+  <data name="Ui.Keystrokes.Title" xml:space="preserve">
+    <value>Накладення клавіш</value>
+  </data>
+  <data name="Ui.Keystrokes.Description" xml:space="preserve">
+    <value>Показуйте на екрані введення з клавіатури та миші в реальному часі з настроюваними звуковими ефектами</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowKeys" xml:space="preserve">
+    <value>Показати клавіші руху</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowKeysHint" xml:space="preserve">
+    <value>Відображення клавіш W, A, S і D на накладці</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowMouseButtons" xml:space="preserve">
+    <value>Показати кнопки миші</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowMouseButtonsHint" xml:space="preserve">
+    <value>Відображення лівої та правої кнопок миші</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowSpaceAndShift" xml:space="preserve">
+    <value>Показати пробіл і Shift</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowSpaceAndShiftHint" xml:space="preserve">
+    <value>Відображення клавіш стрибка (пробіл) і спринту/присідання (Shift).</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowCps" xml:space="preserve">
+    <value>Показати кліки за секунду (CPS)</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowCpsHint" xml:space="preserve">
+    <value>Відстежуйте та відображайте CPS у реальному часі за допомогою кнопок миші</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardSound" xml:space="preserve">
+    <value>Звук клавіатури</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardSoundHint" xml:space="preserve">
+    <value>Відтворення звуку клацання під час натискання клавіш</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardSoundPack" xml:space="preserve">
+    <value>Звуковий пакет клавіатури</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardSoundPackHint" xml:space="preserve">
+    <value>Виберіть звуковий профіль для натискань клавіш клавіатури</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardCustomWav" xml:space="preserve">
+    <value>Спеціальна клавіатура WAV</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardCustomWavHint" xml:space="preserve">
+    <value>Виберіть спеціальний аудіофайл .wav для натискання клавіш</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardVolume" xml:space="preserve">
+    <value>Гучність звуку клавіатури</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardVolumeHint" xml:space="preserve">
+    <value>Налаштуйте рівень гучності натискань клавіатури</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseSound" xml:space="preserve">
+    <value>Звук клацання миші</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseSoundHint" xml:space="preserve">
+    <value>Відтворення звуку клацання під час натискання кнопок миші</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseSoundPack" xml:space="preserve">
+    <value>Звуковий пакет миші</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseSoundPackHint" xml:space="preserve">
+    <value>Виберіть профіль аудіо для клацань миші</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseCustomWav" xml:space="preserve">
+    <value>Спеціальна миша WAV</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseCustomWavHint" xml:space="preserve">
+    <value>Виберіть спеціальний аудіофайл .wav для клацання мишею</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseVolume" xml:space="preserve">
+    <value>Гучність звуку миші</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseVolumeHint" xml:space="preserve">
+    <value>Налаштуйте рівень гучності клацань миші</value>
+  </data>
+  <data name="Ui.Keystrokes.NoFileSelected" xml:space="preserve">
+    <value>Файл не вибрано</value>
+  </data>
+  <data name="Ui.Keystrokes.ChooseFile" xml:space="preserve">
+    <value>Виберіть файл</value>
+  </data>
+  <data name="Ui.Keystrokes.LinuxInputNotice" xml:space="preserve">
+    <value>Глобальне захоплення введення в Linux вимагає доступу для читання до /dev/input/event*. Якщо клавіші не реєструються, додайте свого користувача до групи 'input': sudo usermod -aG input $USER</value>
+  </data>
+  <data name="Ui.Keystrokes.Theme" xml:space="preserve">
+    <value>Стиль накладання</value>
+  </data>
+  <data name="Ui.Keystrokes.ThemeDescription" xml:space="preserve">
+    <value>Виберіть вбудований візуальний стиль або спеціальну тему для накладення клавіш.</value>
+  </data>
+  <data name="Ui.Keystrokes.Size" xml:space="preserve">
+    <value>Розмір накладки</value>
+  </data>
+  <data name="Ui.Keystrokes.SizeDescription" xml:space="preserve">
+    <value>Виберіть загальний масштаб відображення для накладення клавіш.</value>
+  </data>
+  <data name="Ui.Keystrokes.ThemeCreator" xml:space="preserve">
+    <value>Творець теми</value>
+  </data>
+  <data name="Ui.Keystrokes.ThemeCreatorDescription" xml:space="preserve">
+    <value>Створюйте, налаштовуйте та редагуйте власні теми для накладення клавіш.</value>
+  </data>
+  <data name="Ui.Keystrokes.ThemeAndAppearance" xml:space="preserve">
+    <value>Тема та зовнішній вигляд</value>
+  </data>
+  <data name="Ui.Keystrokes.DisplayAndSound" xml:space="preserve">
+    <value>Параметри дисплея та звуку</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.Title" xml:space="preserve">
+    <value>Нова тема натискання клавіш</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Title" xml:space="preserve">
+    <value>Редактор тем натискань клавіш</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ThemeControls" xml:space="preserve">
+    <value>Елементи керування темою</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.RawJson" xml:space="preserve">
+    <value>Необроблений JSON</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ApplyRawJson" xml:space="preserve">
+    <value>Застосувати Raw JSON</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ColorsAndBrushes" xml:space="preserve">
+    <value>Кольори та пензлі</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeyBg" xml:space="preserve">
+    <value>Фон клавіш (за замовчуванням)</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeyPressedBg" xml:space="preserve">
+    <value>Фон клавіш (натиснута)</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeyText" xml:space="preserve">
+    <value>Ключовий колір тексту (за замовчуванням)</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeyPressedText" xml:space="preserve">
+    <value>Колір тексту клавіш (натиснута)</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.CpsText" xml:space="preserve">
+    <value>Колір лічильника CPS (за замовчуванням)</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeyPressedCpsText" xml:space="preserve">
+    <value>Колір лічильника CPS (натиснуто)</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.BorderColor" xml:space="preserve">
+    <value>Колір межі клавіш</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.GlowColor" xml:space="preserve">
+    <value>Колір сяйва / акценту</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.GeometryAndGlow" xml:space="preserve">
+    <value>Геометрія та світіння</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Geometry" xml:space="preserve">
+    <value>Геометрія</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.BorderThickness" xml:space="preserve">
+    <value>Товщина кордону</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.CornerRadius" xml:space="preserve">
+    <value>Радіус кута</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.GlowRadius" xml:space="preserve">
+    <value>Радіус світіння</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.GlowOpacity" xml:space="preserve">
+    <value>Непрозорість світіння</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.EffectsAndTypography" xml:space="preserve">
+    <value>Ефекти та типографіка</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.BackdropGlass" xml:space="preserve">
+    <value>Задник скло / акрил</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.PressSquashScale" xml:space="preserve">
+    <value>Натисніть Сквош Scale</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.FontFamily" xml:space="preserve">
+    <value>Сімейство шрифтів</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.FontWeight" xml:space="preserve">
+    <value>Товщина шрифту</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.InteractivePreview" xml:space="preserve">
+    <value>Інтерактивний попередній перегляд</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.PreviewHint" xml:space="preserve">
+    <value>Натисніть будь-яку клавішу або скористайтеся тестовою послідовністю, щоб переглянути анімацію та звук</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.TestSequence" xml:space="preserve">
+    <value>Послідовність випробувань</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Revert" xml:space="preserve">
+    <value>Повернути</value>
+  </data>
+  <data name="Ui.Keystrokes.Preview.Loop" xml:space="preserve">
+    <value>Петля</value>
+  </data>
+  <data name="Ui.Keystrokes.Preview.Sound" xml:space="preserve">
+    <value>Звук</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.UseAccent" xml:space="preserve">
+    <value>Використовуйте системний акцент</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.AccentLabel" xml:space="preserve">
+    <value>АКЦЕНТ</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.ErrorEmpty" xml:space="preserve">
+    <value>Назва теми не може бути пустою.</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.ErrorInvalid" xml:space="preserve">
+    <value>Назва теми містить неприпустимі символи.</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.ErrorWindowsReserved" xml:space="preserve">
+    <value>Windows не дозволяє використовувати імена, які закінчуються пробілом або крапкою.</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.ErrorExists" xml:space="preserve">
+    <value>Тема з такою назвою вже існує.</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.ErrorSaveFailed" xml:space="preserve">
+    <value>Не вдалося зберегти нову тему.</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.ErrorSelectFile" xml:space="preserve">
+    <value>Виберіть дійсний файл теми для імпорту.</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.ErrorImportFailed" xml:space="preserve">
+    <value>Не вдалося проаналізувати або імпортувати файл теми.</value>
+  </data>
+  <data name="Ui.Keystrokes.DeleteConfirm" xml:space="preserve">
+    <value>Ви впевнені, що хочете видалити тему натискань клавіш «{0}»?</value>
+  </data>
+  <data name="Ui.Keystrokes.RenameError" xml:space="preserve">
+    <value>Тема з такою назвою вже існує або назва недійсна.</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.CustomImages" xml:space="preserve">
+    <value>Користувацькі зображення</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeyBackgroundImage" xml:space="preserve">
+    <value>Ключове фонове зображення</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeyPressedBackgroundImage" xml:space="preserve">
+    <value>Зображення натиснутої клавіші</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ImageStretch" xml:space="preserve">
+    <value>Розтягування зображення</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ImageOpacity" xml:space="preserve">
+    <value>Непрозорість зображення</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.FormatJson" xml:space="preserve">
+    <value>Код формату</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.AddImage" xml:space="preserve">
+    <value>Додати файл зображення</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.OpenFolder" xml:space="preserve">
+    <value>Відкрити папку</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.InsertSnippet" xml:space="preserve">
+    <value>Вставити фрагмент</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Clear" xml:space="preserve">
+    <value>ясно</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.JsonValid" xml:space="preserve">
+    <value>Дійсний код JSON</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.JsonInvalid" xml:space="preserve">
+    <value>Синтаксична помилка</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ThemeCode" xml:space="preserve">
+    <value>Код теми</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapCustomizer" xml:space="preserve">
+    <value>Keycap Customizer</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.SelectKeycap" xml:space="preserve">
+    <value>Клавіатура</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapImage" xml:space="preserve">
+    <value>Зображення клавіші</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapPressedImage" xml:space="preserve">
+    <value>Зображення натиснутої клавіші</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapWidth" xml:space="preserve">
+    <value>Ширина</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapHeight" xml:space="preserve">
+    <value>Висота</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapCornerRadius" xml:space="preserve">
+    <value>Радіус кута</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapCustomLabel" xml:space="preserve">
+    <value>Спеціальна мітка</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapHideLabel" xml:space="preserve">
+    <value>Приховати мітку</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Language" xml:space="preserve">
+    <value>Мова</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.CodeValid" xml:space="preserve">
+    <value>Код успішно проаналізовано</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.CodeInvalid" xml:space="preserve">
+    <value>Синтаксична помилка в коді</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ApplyCode" xml:space="preserve">
+    <value>Застосувати код</value>
+  </data>
 </root>

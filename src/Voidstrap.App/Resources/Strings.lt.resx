@@ -7472,4 +7472,394 @@ Klaida: {0}</value>
   <data name="Ui.Main.ModsApplied" xml:space="preserve">
     <value>Pritaikyta modifikacijų: {0}</value>
   </data>
+  <data name="Menu.About.Licenses.Apache" xml:space="preserve">
+    <value>Apache licencija 2.0</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Studio" xml:space="preserve">
+    <value>Studija</value>
+  </data>
+  <data name="Enums.CustomThemeTemplate.Html" xml:space="preserve">
+    <value>HTML</value>
+  </data>
+  <data name="Common.Save" xml:space="preserve">
+    <value>Išsaugoti</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Metrics" xml:space="preserve">
+    <value>Ping {0} ms, FPS {1}</value>
+  </data>
+  <data name="Enums.CursorType.FPSCursor" xml:space="preserve">
+    <value>FPSCursor</value>
+  </data>
+  <data name="Enums.CursorType.StoofsCursor" xml:space="preserve">
+    <value>StoofsCursor</value>
+  </data>
+  <data name="Enums.CursorType.CleanCursor" xml:space="preserve">
+    <value>CleanCursor</value>
+  </data>
+  <data name="Enums.Theme.UltraGray" xml:space="preserve">
+    <value>UltraGray</value>
+  </data>
+  <data name="Enums.Theme.Voidstrap" xml:space="preserve">
+    <value>Tuščia juosta</value>
+  </data>
+  <data name="Enums.FlagPresets.RenderingMode.OpenGL" xml:space="preserve">
+    <value>OpenGL</value>
+  </data>
+  <data name="Enums.FlagPresets.RenderingMode.Vulkan" xml:space="preserve">
+    <value>Vulkanas</value>
+  </data>
+  <data name="Common.VersionGuid" xml:space="preserve">
+    <value>VersionGuid</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Chromeui.Title" xml:space="preserve">
+    <value>„Chrome“ vartotojo sąsaja</value>
+  </data>
+  <data name="Common.RobloxStudio" xml:space="preserve">
+    <value>Roblox studija</value>
+  </data>
+  <data name="Menu.Sober.Title" xml:space="preserve">
+    <value>Blaivus</value>
+  </data>
+  <data name="Menu.Sober.DiscordRpc.Title" xml:space="preserve">
+    <value>Nesantaika turtingas buvimas</value>
+  </data>
+  <data name="Vng.Title" xml:space="preserve">
+    <value>Roblox VNG</value>
+  </data>
+  <data name="Mtu.Title" xml:space="preserve">
+    <value>MTU</value>
+  </data>
+  <data name="FlagSearch.Label27" xml:space="preserve">
+    <value>Ctrl + V</value>
+  </data>
+  <data name="FlagSearch.Label29" xml:space="preserve">
+    <value>Ctrl + A</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerKeystrokes" xml:space="preserve">
+    <value>Klavišų paspaudimai</value>
+  </data>
+  <data name="Ui.OverlayStudio.KeystrokesScale" xml:space="preserve">
+    <value>Klavišų paspaudimų skalė</value>
+  </data>
+  <data name="Ui.OverlayStudio.KeystrokesOpacity" xml:space="preserve">
+    <value>Klavišų paspaudimų neskaidrumas</value>
+  </data>
+  <data name="Ui.OverlayStudio.KeystrokesEdgeSpacing" xml:space="preserve">
+    <value>Erdvė nuo krašto</value>
+  </data>
+  <data name="Ui.Keystrokes.Title" xml:space="preserve">
+    <value>Klavišų paspaudimo perdanga</value>
+  </data>
+  <data name="Ui.Keystrokes.Description" xml:space="preserve">
+    <value>Ekrane rodykite klaviatūros ir pelės įvestis realiuoju laiku naudodami tinkinamus garso efektus</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowKeys" xml:space="preserve">
+    <value>Rodyti judėjimo klavišus</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowKeysHint" xml:space="preserve">
+    <value>Rodyti W, A, S ir D klavišus ant perdangos</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowMouseButtons" xml:space="preserve">
+    <value>Rodyti pelės mygtukus</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowMouseButtonsHint" xml:space="preserve">
+    <value>Rodyti kairįjį ir dešinįjį pelės mygtukus</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowSpaceAndShift" xml:space="preserve">
+    <value>Rodyti tarpą ir Shift</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowSpaceAndShiftHint" xml:space="preserve">
+    <value>Rodyti Jump (tarpo) ir Sprint / Crouch (Shift) klavišus</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowCps" xml:space="preserve">
+    <value>Rodyti paspaudimus per sekundę (MUT)</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowCpsHint" xml:space="preserve">
+    <value>Stebėkite ir rodykite CPS realiuoju laiku pelės mygtukais</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardSound" xml:space="preserve">
+    <value>Klaviatūros paspaudimo garsas</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardSoundHint" xml:space="preserve">
+    <value>Paleiskite garsinį spragtelėjimą paspaudę klavišus</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardSoundPack" xml:space="preserve">
+    <value>Klaviatūros garso paketas</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardSoundPackHint" xml:space="preserve">
+    <value>Pasirinkite garso profilį klaviatūros klavišų paspaudimams</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardCustomWav" xml:space="preserve">
+    <value>Pasirinktinė WAV klaviatūra</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardCustomWavHint" xml:space="preserve">
+    <value>Pasirinkite pasirinktinį .wav garso failą klavišų paspaudimams</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardVolume" xml:space="preserve">
+    <value>Klaviatūros garso garsumas</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardVolumeHint" xml:space="preserve">
+    <value>Sureguliuokite klaviatūros paspaudimų garsumo lygį</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseSound" xml:space="preserve">
+    <value>Pelės paspaudimo garsas</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseSoundHint" xml:space="preserve">
+    <value>Spustelėjus pelės mygtukus, paleidžiamas garsinis spragtelėjimas</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseSoundPack" xml:space="preserve">
+    <value>Pelės garso paketas</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseSoundPackHint" xml:space="preserve">
+    <value>Pasirinkite garso profilį pelės paspaudimams</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseCustomWav" xml:space="preserve">
+    <value>Pasirinktinė pelė WAV</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseCustomWavHint" xml:space="preserve">
+    <value>Pasirinkite pasirinktinį .wav garso failą, skirtą pelės paspaudimams</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseVolume" xml:space="preserve">
+    <value>Pelės garso garsumas</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseVolumeHint" xml:space="preserve">
+    <value>Sureguliuokite pelės paspaudimų garsumo lygį</value>
+  </data>
+  <data name="Ui.Keystrokes.NoFileSelected" xml:space="preserve">
+    <value>Nepasirinktas joks failas</value>
+  </data>
+  <data name="Ui.Keystrokes.ChooseFile" xml:space="preserve">
+    <value>Pasirinkite failą</value>
+  </data>
+  <data name="Ui.Keystrokes.LinuxInputNotice" xml:space="preserve">
+    <value>Visuotiniam įvesties fiksavimui sistemoje Linux reikalinga skaitymo prieiga prie /dev/input/event*. Jei klavišai neužregistruojami, pridėkite savo vartotoją prie 'input' grupės: sudo usermod -aG input $USER</value>
+  </data>
+  <data name="Ui.Keystrokes.Theme" xml:space="preserve">
+    <value>Perdangos stilius</value>
+  </data>
+  <data name="Ui.Keystrokes.ThemeDescription" xml:space="preserve">
+    <value>Pasirinkite integruotą vaizdinį stilių arba pasirinktinę klavišų paspaudimų perdangos temą.</value>
+  </data>
+  <data name="Ui.Keystrokes.Size" xml:space="preserve">
+    <value>Perdangos dydis</value>
+  </data>
+  <data name="Ui.Keystrokes.SizeDescription" xml:space="preserve">
+    <value>Pasirinkite bendrą klavišų paspaudimų perdangos rodymo skalę.</value>
+  </data>
+  <data name="Ui.Keystrokes.ThemeCreator" xml:space="preserve">
+    <value>Temos kūrėjas</value>
+  </data>
+  <data name="Ui.Keystrokes.ThemeCreatorDescription" xml:space="preserve">
+    <value>Kurkite, tinkinkite ir redaguokite pasirinktines klavišų paspaudimų perdangos temas.</value>
+  </data>
+  <data name="Ui.Keystrokes.ThemeAndAppearance" xml:space="preserve">
+    <value>Tema ir išvaizda</value>
+  </data>
+  <data name="Ui.Keystrokes.DisplayAndSound" xml:space="preserve">
+    <value>Ekrano ir garso parinktys</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.Title" xml:space="preserve">
+    <value>Nauja klavišų paspaudimų tema</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Title" xml:space="preserve">
+    <value>Klavišų temų redaktorius</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ThemeControls" xml:space="preserve">
+    <value>Temos valdikliai</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.RawJson" xml:space="preserve">
+    <value>Neapdorotas JSON</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ApplyRawJson" xml:space="preserve">
+    <value>Taikyti neapdorotą JSON</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ColorsAndBrushes" xml:space="preserve">
+    <value>Spalvos ir teptukai</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeyBg" xml:space="preserve">
+    <value>Rakto fonas (numatytasis)</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeyPressedBg" xml:space="preserve">
+    <value>Klavišų fonas (paspaustas)</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeyText" xml:space="preserve">
+    <value>Rakto teksto spalva (numatytoji)</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeyPressedText" xml:space="preserve">
+    <value>Rakto teksto spalva (paspausta)</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.CpsText" xml:space="preserve">
+    <value>CPS skaitiklio spalva (numatytoji)</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeyPressedCpsText" xml:space="preserve">
+    <value>CPS skaitiklio spalva (paspausta)</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.BorderColor" xml:space="preserve">
+    <value>Rakto kraštinės spalva</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.GlowColor" xml:space="preserve">
+    <value>Švytėjimo / akcento spalva</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.GeometryAndGlow" xml:space="preserve">
+    <value>Geometrija ir švytėjimas</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Geometry" xml:space="preserve">
+    <value>Geometrija</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.BorderThickness" xml:space="preserve">
+    <value>Krašto storis</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.CornerRadius" xml:space="preserve">
+    <value>Kampinis spindulys</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.GlowRadius" xml:space="preserve">
+    <value>Švytėjimo spindulys</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.GlowOpacity" xml:space="preserve">
+    <value>Švytėjimo neskaidrumas</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.EffectsAndTypography" xml:space="preserve">
+    <value>Efektai ir tipografija</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.BackdropGlass" xml:space="preserve">
+    <value>Fonas Stiklas / Akrilas</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.PressSquashScale" xml:space="preserve">
+    <value>Paspauskite Skvošo skalę</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.FontFamily" xml:space="preserve">
+    <value>Šriftų šeima</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.FontWeight" xml:space="preserve">
+    <value>Šrifto svoris</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.InteractivePreview" xml:space="preserve">
+    <value>Interaktyvi tiesioginė peržiūra</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.PreviewHint" xml:space="preserve">
+    <value>Spustelėkite bet kurį klavišą arba naudokite Test Sequence, kad peržiūrėtumėte animaciją ir garsą</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.TestSequence" xml:space="preserve">
+    <value>Bandymo seka</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Revert" xml:space="preserve">
+    <value>Grįžti</value>
+  </data>
+  <data name="Ui.Keystrokes.Preview.Loop" xml:space="preserve">
+    <value>Kilpa</value>
+  </data>
+  <data name="Ui.Keystrokes.Preview.Sound" xml:space="preserve">
+    <value>Garsas</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.UseAccent" xml:space="preserve">
+    <value>Naudokite sistemos akcentą</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.AccentLabel" xml:space="preserve">
+    <value>AKCENTAS</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.ErrorEmpty" xml:space="preserve">
+    <value>Temos pavadinimo laukas negali būti tuščias.</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.ErrorInvalid" xml:space="preserve">
+    <value>Temos pavadinime yra neteisingų simbolių.</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.ErrorWindowsReserved" xml:space="preserve">
+    <value>„Windows“ neleidžia pavadinimų, kurie baigiasi tarpu arba tašku.</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.ErrorExists" xml:space="preserve">
+    <value>Tema tokiu pavadinimu jau yra.</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.ErrorSaveFailed" xml:space="preserve">
+    <value>Nepavyko išsaugoti naujos temos.</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.ErrorSelectFile" xml:space="preserve">
+    <value>Pasirinkite tinkamą temos failą, kurį norite importuoti.</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.ErrorImportFailed" xml:space="preserve">
+    <value>Nepavyko išanalizuoti arba importuoti temos failo.</value>
+  </data>
+  <data name="Ui.Keystrokes.DeleteConfirm" xml:space="preserve">
+    <value>Ar tikrai norite ištrinti klavišų paspaudimų temą „{0}“?</value>
+  </data>
+  <data name="Ui.Keystrokes.RenameError" xml:space="preserve">
+    <value>Tema tokiu pavadinimu jau yra arba pavadinimas netinkamas.</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.CustomImages" xml:space="preserve">
+    <value>Individualūs vaizdai</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeyBackgroundImage" xml:space="preserve">
+    <value>Pagrindinio fono vaizdas</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeyPressedBackgroundImage" xml:space="preserve">
+    <value>Paspausto klavišo vaizdas</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ImageStretch" xml:space="preserve">
+    <value>Vaizdo tempimas</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ImageOpacity" xml:space="preserve">
+    <value>Vaizdo neskaidrumas</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.FormatJson" xml:space="preserve">
+    <value>Formato kodas</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.AddImage" xml:space="preserve">
+    <value>Pridėti vaizdo failą</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.OpenFolder" xml:space="preserve">
+    <value>Atidaryti aplanką</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.InsertSnippet" xml:space="preserve">
+    <value>Įterpti fragmentą</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Clear" xml:space="preserve">
+    <value>Aišku</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.JsonValid" xml:space="preserve">
+    <value>Galiojantis JSON kodas</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.JsonInvalid" xml:space="preserve">
+    <value>Sintaksės klaida</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ThemeCode" xml:space="preserve">
+    <value>Temos kodas</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapCustomizer" xml:space="preserve">
+    <value>Klaviatūros tinkinimo priemonė</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.SelectKeycap" xml:space="preserve">
+    <value>Klaviatūros dangtelis</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapImage" xml:space="preserve">
+    <value>Klaviatūros dangtelio vaizdas</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapPressedImage" xml:space="preserve">
+    <value>Paspausto klavišo vaizdas</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapWidth" xml:space="preserve">
+    <value>Plotis</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapHeight" xml:space="preserve">
+    <value>Aukštis</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapCornerRadius" xml:space="preserve">
+    <value>Kampinis spindulys</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapCustomLabel" xml:space="preserve">
+    <value>Pasirinktinė etiketė</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapHideLabel" xml:space="preserve">
+    <value>Slėpti etiketę</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Language" xml:space="preserve">
+    <value>Kalba</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.CodeValid" xml:space="preserve">
+    <value>Kodas sėkmingai išanalizuotas</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.CodeInvalid" xml:space="preserve">
+    <value>Sintaksės klaida kode</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ApplyCode" xml:space="preserve">
+    <value>Taikyti kodą</value>
+  </data>
 </root>

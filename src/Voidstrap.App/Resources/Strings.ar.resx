@@ -7467,4 +7467,397 @@
   <data name="Ui.Main.ModsApplied" xml:space="preserve">
     <value>{0} تعديلات مطبقة</value>
   </data>
+  <data name="Menu.About.Licenses.Apache" xml:space="preserve">
+    <value>ترخيص أباتشي 2.0</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Studio" xml:space="preserve">
+    <value>استوديو</value>
+  </data>
+  <data name="Enums.CustomThemeTemplate.Html" xml:space="preserve">
+    <value>HTML</value>
+  </data>
+  <data name="Common.Save" xml:space="preserve">
+    <value>حفظ</value>
+  </data>
+  <data name="Enums.CursorType.FPSCursor" xml:space="preserve">
+    <value>مؤشر FPS</value>
+  </data>
+  <data name="Enums.CursorType.StoofsCursor" xml:space="preserve">
+    <value>StoofsCursor</value>
+  </data>
+  <data name="Enums.CursorType.CleanCursor" xml:space="preserve">
+    <value>المؤشر النظيف</value>
+  </data>
+  <data name="Enums.FlagPresets.RenderingMode.D3D10" xml:space="preserve">
+    <value>دايركت 3 دي 10</value>
+  </data>
+  <data name="Enums.FlagPresets.RenderingMode.D3D11" xml:space="preserve">
+    <value>دايركت 3 دي 11</value>
+  </data>
+  <data name="Enums.Theme.UltraGray" xml:space="preserve">
+    <value>الترا جراي</value>
+  </data>
+  <data name="Enums.Theme.Voidstrap" xml:space="preserve">
+    <value>حزام الفراغ</value>
+  </data>
+  <data name="Enums.FlagPresets.RenderingMode.OpenGL" xml:space="preserve">
+    <value>برنامج OpenGL</value>
+  </data>
+  <data name="Enums.FlagPresets.RenderingMode.Vulkan" xml:space="preserve">
+    <value>فولكان</value>
+  </data>
+  <data name="Common.VersionGuid" xml:space="preserve">
+    <value>دليل الإصدار</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Chromeui.Title" xml:space="preserve">
+    <value>واجهة مستخدم كروم</value>
+  </data>
+  <data name="Common.RobloxStudio" xml:space="preserve">
+    <value>استوديو روبلوكس</value>
+  </data>
+  <data name="Menu.Sober.Title" xml:space="preserve">
+    <value>رصين</value>
+  </data>
+  <data name="Menu.Sober.DiscordRpc.Title" xml:space="preserve">
+    <value>وجود الخلاف الغني</value>
+  </data>
+  <data name="Vng.Title" xml:space="preserve">
+    <value>روبلوكس في إن جي</value>
+  </data>
+  <data name="Mtu.Title" xml:space="preserve">
+    <value>MTU</value>
+  </data>
+  <data name="FlagSearch.Label27" xml:space="preserve">
+    <value>السيطرة+V</value>
+  </data>
+  <data name="FlagSearch.Label29" xml:space="preserve">
+    <value>السيطرة + أ</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerKeystrokes" xml:space="preserve">
+    <value>ضربات المفاتيح</value>
+  </data>
+  <data name="Ui.OverlayStudio.KeystrokesScale" xml:space="preserve">
+    <value>مقياس ضربات المفاتيح</value>
+  </data>
+  <data name="Ui.OverlayStudio.KeystrokesOpacity" xml:space="preserve">
+    <value>عتامة ضربات المفاتيح</value>
+  </data>
+  <data name="Ui.OverlayStudio.KeystrokesEdgeSpacing" xml:space="preserve">
+    <value>الفضاء من الحافة</value>
+  </data>
+  <data name="Ui.Keystrokes.Title" xml:space="preserve">
+    <value>تراكب ضغطة المفاتيح</value>
+  </data>
+  <data name="Ui.Keystrokes.Description" xml:space="preserve">
+    <value>قم بعرض مدخلات لوحة المفاتيح والماوس في الوقت الفعلي على الشاشة مع تأثيرات صوتية قابلة للتخصيص</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowKeys" xml:space="preserve">
+    <value>إظهار مفاتيح الحركة</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowKeysHint" xml:space="preserve">
+    <value>عرض مفاتيح W وA وS وD على التراكب</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowMouseButtons" xml:space="preserve">
+    <value>إظهار أزرار الماوس</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowMouseButtonsHint" xml:space="preserve">
+    <value>عرض أزرار النقر بالماوس الأيسر والأيمن</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowSpaceAndShift" xml:space="preserve">
+    <value>عرض الفضاء والتحول</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowSpaceAndShiftHint" xml:space="preserve">
+    <value>عرض مفاتيح القفز (المسافة) والركض/الانحناء (التحول).</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowCps" xml:space="preserve">
+    <value>عرض النقرات في الثانية (CPS)</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowCpsHint" xml:space="preserve">
+    <value>تتبع وعرض CPS في الوقت الحقيقي على أزرار الماوس</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardSound" xml:space="preserve">
+    <value>صوت النقر على لوحة المفاتيح</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardSoundHint" xml:space="preserve">
+    <value>قم بتشغيل صوت نقرة مسموع عند الضغط على المفاتيح</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardSoundPack" xml:space="preserve">
+    <value>حزمة صوت لوحة المفاتيح</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardSoundPackHint" xml:space="preserve">
+    <value>اختر ملف تعريف الصوت للضغط على مفاتيح لوحة المفاتيح</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardCustomWav" xml:space="preserve">
+    <value>لوحة مفاتيح مخصصة WAV</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardCustomWavHint" xml:space="preserve">
+    <value>حدد ملف صوتي ‎.wav مخصصًا للنقرات الرئيسية</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardVolume" xml:space="preserve">
+    <value>مستوى صوت لوحة المفاتيح</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardVolumeHint" xml:space="preserve">
+    <value>ضبط مستوى الصوت لنقرات لوحة المفاتيح</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseSound" xml:space="preserve">
+    <value>صوت النقر بالماوس</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseSoundHint" xml:space="preserve">
+    <value>قم بتشغيل صوت نقر مسموع عند النقر فوق أزرار الماوس</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseSoundPack" xml:space="preserve">
+    <value>حزمة صوت الفأرة</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseSoundPackHint" xml:space="preserve">
+    <value>اختر ملف تعريف الصوت لنقرات الماوس</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseCustomWav" xml:space="preserve">
+    <value>ماوس مخصص WAV</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseCustomWavHint" xml:space="preserve">
+    <value>حدد ملف صوتي ‎.wav مخصصًا لنقرات الماوس</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseVolume" xml:space="preserve">
+    <value>حجم صوت الماوس</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseVolumeHint" xml:space="preserve">
+    <value>ضبط مستوى الصوت لنقرات الماوس</value>
+  </data>
+  <data name="Ui.Keystrokes.NoFileSelected" xml:space="preserve">
+    <value>لم يتم تحديد أي ملف</value>
+  </data>
+  <data name="Ui.Keystrokes.ChooseFile" xml:space="preserve">
+    <value>اختر الملف</value>
+  </data>
+  <data name="Ui.Keystrokes.LinuxInputNotice" xml:space="preserve">
+    <value>يتطلب التقاط الإدخال العام على Linux حق الوصول للقراءة إلى /dev/input/event*. إذا لم يتم تسجيل المفاتيح، فأضف المستخدم الخاص بك إلى مجموعة 'input': sudo usermod -aG input $USER</value>
+  </data>
+  <data name="Ui.Keystrokes.Theme" xml:space="preserve">
+    <value>نمط التراكب</value>
+  </data>
+  <data name="Ui.Keystrokes.ThemeDescription" xml:space="preserve">
+    <value>اختر نمطًا مرئيًا مدمجًا أو سمة مخصصة لتراكب ضغطات المفاتيح.</value>
+  </data>
+  <data name="Ui.Keystrokes.Size" xml:space="preserve">
+    <value>حجم التراكب</value>
+  </data>
+  <data name="Ui.Keystrokes.SizeDescription" xml:space="preserve">
+    <value>اختر مقياس العرض الإجمالي لتراكب ضغطات المفاتيح.</value>
+  </data>
+  <data name="Ui.Keystrokes.ThemeCreator" xml:space="preserve">
+    <value>منشئ الموضوع</value>
+  </data>
+  <data name="Ui.Keystrokes.ThemeCreatorDescription" xml:space="preserve">
+    <value>قم بإنشاء وتخصيص وتحرير السمات المخصصة لتراكب ضغطات المفاتيح.</value>
+  </data>
+  <data name="Ui.Keystrokes.ThemeAndAppearance" xml:space="preserve">
+    <value>الموضوع والمظهر</value>
+  </data>
+  <data name="Ui.Keystrokes.DisplayAndSound" xml:space="preserve">
+    <value>خيارات العرض والصوت</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.Title" xml:space="preserve">
+    <value>موضوع جديد لضربات المفاتيح</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Title" xml:space="preserve">
+    <value>محرر موضوع ضربات المفاتيح</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ThemeControls" xml:space="preserve">
+    <value>ضوابط الموضوع</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.RawJson" xml:space="preserve">
+    <value>JSON الخام</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ApplyRawJson" xml:space="preserve">
+    <value>تطبيق الخام JSON</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ColorsAndBrushes" xml:space="preserve">
+    <value>الألوان والفرش</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeyBg" xml:space="preserve">
+    <value>الخلفية الرئيسية (الافتراضية)</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeyPressedBg" xml:space="preserve">
+    <value>الخلفية الرئيسية (مضغوطة)</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeyText" xml:space="preserve">
+    <value>لون النص الرئيسي (افتراضي)</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeyPressedText" xml:space="preserve">
+    <value>لون النص الرئيسي (مضغوط)</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.CpsText" xml:space="preserve">
+    <value>لون عداد CPS (افتراضي)</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeyPressedCpsText" xml:space="preserve">
+    <value>لون عداد CPS (مضغوط)</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.BorderColor" xml:space="preserve">
+    <value>لون الحدود الرئيسية</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.GlowColor" xml:space="preserve">
+    <value>توهج / لون مميز</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.GeometryAndGlow" xml:space="preserve">
+    <value>الهندسة والتوهج</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Geometry" xml:space="preserve">
+    <value>الهندسة</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.BorderThickness" xml:space="preserve">
+    <value>سمك الحدود</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.CornerRadius" xml:space="preserve">
+    <value>شعاع الزاوية</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.GlowRadius" xml:space="preserve">
+    <value>توهج الشعاع</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.GlowOpacity" xml:space="preserve">
+    <value>توهج التعتيم</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.EffectsAndTypography" xml:space="preserve">
+    <value>التأثيرات والطباعة</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.BackdropGlass" xml:space="preserve">
+    <value>الخلفية زجاج / أكريليك</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.PressSquashScale" xml:space="preserve">
+    <value>اضغط على مقياس الاسكواش</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.FontFamily" xml:space="preserve">
+    <value>عائلة الخطوط</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.FontWeight" xml:space="preserve">
+    <value>وزن الخط</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.InteractivePreview" xml:space="preserve">
+    <value>المعاينة المباشرة التفاعلية</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.PreviewHint" xml:space="preserve">
+    <value>انقر فوق أي مفتاح أو استخدم تسلسل الاختبار لمعاينة الرسوم المتحركة والصوت</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.TestSequence" xml:space="preserve">
+    <value>تسلسل الاختبار</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Revert" xml:space="preserve">
+    <value>العودة</value>
+  </data>
+  <data name="Ui.Keystrokes.Preview.Loop" xml:space="preserve">
+    <value>حلقة</value>
+  </data>
+  <data name="Ui.Keystrokes.Preview.Sound" xml:space="preserve">
+    <value>الصوت</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.UseAccent" xml:space="preserve">
+    <value>استخدم لهجة النظام</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.AccentLabel" xml:space="preserve">
+    <value>لهجة</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.ErrorEmpty" xml:space="preserve">
+    <value>لا يمكن أن يكون اسم المظهر فارغًا.</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.ErrorInvalid" xml:space="preserve">
+    <value>يحتوي اسم الموضوع على أحرف غير صالحة.</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.ErrorWindowsReserved" xml:space="preserve">
+    <value>لا يسمح Windows بالأسماء التي تنتهي بمسافة أو نقطة.</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.ErrorExists" xml:space="preserve">
+    <value>هناك موضوع بهذا الاسم موجود بالفعل.</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.ErrorSaveFailed" xml:space="preserve">
+    <value>فشل في حفظ الموضوع الجديد.</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.ErrorSelectFile" xml:space="preserve">
+    <value>الرجاء تحديد ملف سمة صالح لاستيراده.</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.ErrorImportFailed" xml:space="preserve">
+    <value>فشل تحليل ملف السمة أو استيراده.</value>
+  </data>
+  <data name="Ui.Keystrokes.DeleteConfirm" xml:space="preserve">
+    <value>هل أنت متأكد من رغبتك في حذف سمة ضغطات المفاتيح '{0}'؟</value>
+  </data>
+  <data name="Ui.Keystrokes.RenameError" xml:space="preserve">
+    <value>هناك سمة بهذا الاسم موجودة بالفعل أو أن الاسم غير صالح.</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.CustomImages" xml:space="preserve">
+    <value>صور مخصصة</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeyBackgroundImage" xml:space="preserve">
+    <value>صورة الخلفية الرئيسية</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeyPressedBackgroundImage" xml:space="preserve">
+    <value>الضغط على الصورة الرئيسية</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ImageStretch" xml:space="preserve">
+    <value>امتداد الصورة</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ImageOpacity" xml:space="preserve">
+    <value>عتامة الصورة</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.FormatJson" xml:space="preserve">
+    <value>رمز التنسيق</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.AddImage" xml:space="preserve">
+    <value>إضافة ملف الصورة</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.OpenFolder" xml:space="preserve">
+    <value>افتح المجلد</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.InsertSnippet" xml:space="preserve">
+    <value>إدراج مقتطف</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Clear" xml:space="preserve">
+    <value>واضح</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.JsonValid" xml:space="preserve">
+    <value>رمز JSON صالح</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.JsonInvalid" xml:space="preserve">
+    <value>خطأ في بناء الجملة</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ThemeCode" xml:space="preserve">
+    <value>كود الموضوع</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapCustomizer" xml:space="preserve">
+    <value>أداة تخصيص غطاء المفاتيح</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.SelectKeycap" xml:space="preserve">
+    <value>غطاء المفتاح</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapImage" xml:space="preserve">
+    <value>صورة غطاء المفتاح</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapPressedImage" xml:space="preserve">
+    <value>صورة Keycap المضغوطة</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapWidth" xml:space="preserve">
+    <value>العرض</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapHeight" xml:space="preserve">
+    <value>الارتفاع</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapCornerRadius" xml:space="preserve">
+    <value>شعاع الزاوية</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapCustomLabel" xml:space="preserve">
+    <value>تسمية مخصصة</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapHideLabel" xml:space="preserve">
+    <value>إخفاء التسمية</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Language" xml:space="preserve">
+    <value>اللغة</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.CodeValid" xml:space="preserve">
+    <value>تم تحليل الكود بنجاح</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.CodeInvalid" xml:space="preserve">
+    <value>خطأ في بناء الجملة في التعليمات البرمجية</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ApplyCode" xml:space="preserve">
+    <value>تطبيق الكود</value>
+  </data>
 </root>

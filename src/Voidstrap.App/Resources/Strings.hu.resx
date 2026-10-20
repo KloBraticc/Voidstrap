@@ -7434,4 +7434,430 @@ Hiba: {0}</value>
   <data name="Ui.Main.ModsApplied" xml:space="preserve">
     <value>{0} mod alkalmazva</value>
   </data>
+  <data name="Menu.About.Licenses.Apache" xml:space="preserve">
+    <value>Apache licenc 2.0</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Studio" xml:space="preserve">
+    <value>Stúdió</value>
+  </data>
+  <data name="Enums.CustomThemeTemplate.Html" xml:space="preserve">
+    <value>HTML</value>
+  </data>
+  <data name="Common.Save" xml:space="preserve">
+    <value>Mentés</value>
+  </data>
+  <data name="Common.DiscordRichPresence" xml:space="preserve">
+    <value>Discord gazdag jelenlét</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Metrics" xml:space="preserve">
+    <value>Ping {0} ms, FPS {1}</value>
+  </data>
+  <data name="Enums.BootstrapperStyle.ProgressDialog" xml:space="preserve">
+    <value>Roblox (~2014)</value>
+  </data>
+  <data name="Enums.BootstrapperStyle.VistaDialog" xml:space="preserve">
+    <value>Vista (2008-2011)</value>
+  </data>
+  <data name="Enums.CursorType.FPSCursor" xml:space="preserve">
+    <value>FPSCursor</value>
+  </data>
+  <data name="Enums.CursorType.StoofsCursor" xml:space="preserve">
+    <value>StoofsCursor</value>
+  </data>
+  <data name="Enums.CursorType.CleanCursor" xml:space="preserve">
+    <value>CleanCursor</value>
+  </data>
+  <data name="Enums.EmojiType.Catmoji" xml:space="preserve">
+    <value>Catmoji</value>
+  </data>
+  <data name="Enums.EmojiType.Windows10" xml:space="preserve">
+    <value>Windows 10</value>
+  </data>
+  <data name="Enums.EmojiType.Windows11" xml:space="preserve">
+    <value>Windows 11</value>
+  </data>
+  <data name="Enums.EmojiType.Windows8" xml:space="preserve">
+    <value>Windows 8</value>
+  </data>
+  <data name="Enums.FlagPresets.RenderingMode.D3D10" xml:space="preserve">
+    <value>Direct3D 10</value>
+  </data>
+  <data name="Enums.FlagPresets.RenderingMode.D3D11" xml:space="preserve">
+    <value>Direct3D 11</value>
+  </data>
+  <data name="Enums.Theme.UltraGray" xml:space="preserve">
+    <value>UltraGray</value>
+  </data>
+  <data name="Enums.Theme.Voidstrap" xml:space="preserve">
+    <value>Voidstrap</value>
+  </data>
+  <data name="Enums.FlagPresets.RenderingMode.OpenGL" xml:space="preserve">
+    <value>OpenGL</value>
+  </data>
+  <data name="Enums.FlagPresets.RenderingMode.Vulkan" xml:space="preserve">
+    <value>Vulkan</value>
+  </data>
+  <data name="Common.VersionGuid" xml:space="preserve">
+    <value>VersionGuid</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Chromeui.Title" xml:space="preserve">
+    <value>Chrome UI</value>
+  </data>
+  <data name="Common.Studio" xml:space="preserve">
+    <value>Stúdió</value>
+  </data>
+  <data name="Common.RobloxStudio" xml:space="preserve">
+    <value>Roblox Stúdió</value>
+  </data>
+  <data name="Menu.Sober.Title" xml:space="preserve">
+    <value>Józan</value>
+  </data>
+  <data name="Menu.Sober.DiscordRpc.Title" xml:space="preserve">
+    <value>Discord gazdag jelenlét</value>
+  </data>
+  <data name="Vng.Title" xml:space="preserve">
+    <value>Roblox VNG</value>
+  </data>
+  <data name="Mtu.Title" xml:space="preserve">
+    <value>MTU</value>
+  </data>
+  <data name="FlagSearch.Label27" xml:space="preserve">
+    <value>Ctrl+V</value>
+  </data>
+  <data name="FlagSearch.Label29" xml:space="preserve">
+    <value>Ctrl+A</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Online" xml:space="preserve">
+    <value>Online</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Offline" xml:space="preserve">
+    <value>Offline</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerKeystrokes" xml:space="preserve">
+    <value>Billentyűütések</value>
+  </data>
+  <data name="Ui.OverlayStudio.KeystrokesScale" xml:space="preserve">
+    <value>Billentyűk skála</value>
+  </data>
+  <data name="Ui.OverlayStudio.KeystrokesOpacity" xml:space="preserve">
+    <value>A billentyűleütések átlátszatlansága</value>
+  </data>
+  <data name="Ui.OverlayStudio.KeystrokesEdgeSpacing" xml:space="preserve">
+    <value>Tér a széltől</value>
+  </data>
+  <data name="Ui.Keystrokes.Title" xml:space="preserve">
+    <value>Billentyűleütési fedvény</value>
+  </data>
+  <data name="Ui.Keystrokes.Description" xml:space="preserve">
+    <value>Jelenítse meg a valós idejű billentyűzet- és egérbemeneteket a képernyőn testreszabható hangeffektusokkal</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowKeys" xml:space="preserve">
+    <value>Mozgásbillentyűk megjelenítése</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowKeysHint" xml:space="preserve">
+    <value>Jelenítse meg a W, A, S és D gombokat a fedvényen</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowMouseButtons" xml:space="preserve">
+    <value>Egérgombok megjelenítése</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowMouseButtonsHint" xml:space="preserve">
+    <value>A bal és jobb egérgombok megjelenítése</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowSpaceAndShift" xml:space="preserve">
+    <value>Szóköz és Shift megjelenítése</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowSpaceAndShiftHint" xml:space="preserve">
+    <value>Az ugrás (szóköz) és a Sprint/Crouch (Shift) billentyűk megjelenítése</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowCps" xml:space="preserve">
+    <value>Kattintások megjelenítése másodpercenként (CPS)</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowCpsHint" xml:space="preserve">
+    <value>Kövesse nyomon és jelenítse meg a valós idejű CPS-t az egérgombokon</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardSound" xml:space="preserve">
+    <value>Billentyűzet kattintási hangja</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardSoundHint" xml:space="preserve">
+    <value>A billentyűk lenyomásakor hallható kattanó hangot ad le</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardSoundPack" xml:space="preserve">
+    <value>Billentyűzet hangcsomag</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardSoundPackHint" xml:space="preserve">
+    <value>Válassza ki a billentyűzet billentyűlenyomásainak hangprofilját</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardCustomWav" xml:space="preserve">
+    <value>Egyedi WAV billentyűzet</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardCustomWavHint" xml:space="preserve">
+    <value>Válasszon ki egy egyéni .wav hangfájlt a billentyűkattintásokhoz</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardVolume" xml:space="preserve">
+    <value>Billentyűzet hangereje</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardVolumeHint" xml:space="preserve">
+    <value>Állítsa be a billentyűzet kattintásainak hangerejét</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseSound" xml:space="preserve">
+    <value>Egérkattintás hangja</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseSoundHint" xml:space="preserve">
+    <value>Hallható kattanó hangot ad le, amikor egérgombbal kattint</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseSoundPack" xml:space="preserve">
+    <value>Egér hangcsomag</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseSoundPackHint" xml:space="preserve">
+    <value>Válassza ki a hangprofilt az egérkattintáshoz</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseCustomWav" xml:space="preserve">
+    <value>Egyedi egér WAV</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseCustomWavHint" xml:space="preserve">
+    <value>Válasszon ki egy egyéni .wav hangfájlt az egérkattintáshoz</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseVolume" xml:space="preserve">
+    <value>Az egér hangereje</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseVolumeHint" xml:space="preserve">
+    <value>Állítsa be az egérkattintások hangerejét</value>
+  </data>
+  <data name="Ui.Keystrokes.NoFileSelected" xml:space="preserve">
+    <value>Nincs kiválasztva fájl</value>
+  </data>
+  <data name="Ui.Keystrokes.ChooseFile" xml:space="preserve">
+    <value>Válasszon fájlt</value>
+  </data>
+  <data name="Ui.Keystrokes.LinuxInputNotice" xml:space="preserve">
+    <value>A globális beviteli rögzítés Linuxon olvasási hozzáférést igényel a /dev/input/event* fájlhoz. Ha a billentyűk nem működnek, add hozzá a felhasználódat az 'input' csoporthoz: sudo usermod -aG input $USER</value>
+  </data>
+  <data name="Ui.Keystrokes.Theme" xml:space="preserve">
+    <value>Overlay stílus</value>
+  </data>
+  <data name="Ui.Keystrokes.ThemeDescription" xml:space="preserve">
+    <value>Válasszon beépített vizuális stílust vagy egyéni témát a billentyűleütések fedvényéhez.</value>
+  </data>
+  <data name="Ui.Keystrokes.Size" xml:space="preserve">
+    <value>Fedvény mérete</value>
+  </data>
+  <data name="Ui.Keystrokes.SizeDescription" xml:space="preserve">
+    <value>Válassza ki a billentyűleütési fedvény teljes megjelenítési skáláját.</value>
+  </data>
+  <data name="Ui.Keystrokes.ThemeCreator" xml:space="preserve">
+    <value>Téma készítője</value>
+  </data>
+  <data name="Ui.Keystrokes.ThemeCreatorDescription" xml:space="preserve">
+    <value>Egyéni témák létrehozása, testreszabása és szerkesztése a billentyűleütési fedvényekhez.</value>
+  </data>
+  <data name="Ui.Keystrokes.ThemeAndAppearance" xml:space="preserve">
+    <value>Téma és megjelenés</value>
+  </data>
+  <data name="Ui.Keystrokes.DisplayAndSound" xml:space="preserve">
+    <value>Kijelző és hangbeállítások</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.Title" xml:space="preserve">
+    <value>Új billentyűleütések téma</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Title" xml:space="preserve">
+    <value>Billentyűleütések témaszerkesztő</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ThemeControls" xml:space="preserve">
+    <value>Témavezérlők</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.RawJson" xml:space="preserve">
+    <value>Nyers JSON</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ApplyRawJson" xml:space="preserve">
+    <value>Raw JSON alkalmazása</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ColorsAndBrushes" xml:space="preserve">
+    <value>Színek és ecsetek</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeyBg" xml:space="preserve">
+    <value>Kulcs háttér (alapértelmezett)</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeyPressedBg" xml:space="preserve">
+    <value>Billentyű háttér (lenyomva)</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeyText" xml:space="preserve">
+    <value>Kulcsszöveg színe (alapértelmezett)</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeyPressedText" xml:space="preserve">
+    <value>Kulcsszöveg színe (lenyomva)</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.CpsText" xml:space="preserve">
+    <value>CPS-számláló színe (alapértelmezett)</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeyPressedCpsText" xml:space="preserve">
+    <value>CPS-számláló színe (nyomott)</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.BorderColor" xml:space="preserve">
+    <value>Kulcsszegély színe</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.GlowColor" xml:space="preserve">
+    <value>Ragyogás / kiemelő szín</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.GeometryAndGlow" xml:space="preserve">
+    <value>Geometria és ragyogás</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Geometry" xml:space="preserve">
+    <value>Geometria</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.BorderThickness" xml:space="preserve">
+    <value>Határ vastagsága</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.CornerRadius" xml:space="preserve">
+    <value>Saroksugár</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.GlowRadius" xml:space="preserve">
+    <value>Izzási sugár</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.GlowOpacity" xml:space="preserve">
+    <value>Glow Opacity</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.EffectsAndTypography" xml:space="preserve">
+    <value>Hatások és tipográfia</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.BackdropGlass" xml:space="preserve">
+    <value>Háttér Üveg / Akril</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.PressSquashScale" xml:space="preserve">
+    <value>Nyomja meg a Squash Scale gombot</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.FontFamily" xml:space="preserve">
+    <value>Betűcsalád</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.FontWeight" xml:space="preserve">
+    <value>Betűsúly</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.InteractivePreview" xml:space="preserve">
+    <value>Interaktív élő előnézet</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.PreviewHint" xml:space="preserve">
+    <value>Kattintson bármelyik billentyűre, vagy használja a Tesztsorozatot az animációk és a hang előnézetének megtekintéséhez</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.TestSequence" xml:space="preserve">
+    <value>Tesztsorozat</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Revert" xml:space="preserve">
+    <value>Vissza</value>
+  </data>
+  <data name="Ui.Keystrokes.Preview.Loop" xml:space="preserve">
+    <value>Hurok</value>
+  </data>
+  <data name="Ui.Keystrokes.Preview.Sound" xml:space="preserve">
+    <value>Hang</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.UseAccent" xml:space="preserve">
+    <value>A System Accent használata</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.AccentLabel" xml:space="preserve">
+    <value>AKCENT</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.ErrorEmpty" xml:space="preserve">
+    <value>A téma neve nem lehet üres.</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.ErrorInvalid" xml:space="preserve">
+    <value>A téma neve érvénytelen karaktereket tartalmaz.</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.ErrorWindowsReserved" xml:space="preserve">
+    <value>A Windows nem engedélyezi a szóközzel vagy ponttal végződő neveket.</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.ErrorExists" xml:space="preserve">
+    <value>Már létezik ilyen nevű téma.</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.ErrorSaveFailed" xml:space="preserve">
+    <value>Nem sikerült menteni az új témát.</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.ErrorSelectFile" xml:space="preserve">
+    <value>Kérjük, válasszon érvényes témafájlt az importáláshoz.</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.ErrorImportFailed" xml:space="preserve">
+    <value>Nem sikerült elemezni vagy importálni a témafájlt.</value>
+  </data>
+  <data name="Ui.Keystrokes.DeleteConfirm" xml:space="preserve">
+    <value>Biztosan törölni szeretnéd a(z) '{0}' billentyűleütési témát?</value>
+  </data>
+  <data name="Ui.Keystrokes.RenameError" xml:space="preserve">
+    <value>Már létezik ilyen nevű téma, vagy a név érvénytelen.</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.CustomImages" xml:space="preserve">
+    <value>Egyedi képek</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeyBackgroundImage" xml:space="preserve">
+    <value>Kulcs háttérkép</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeyPressedBackgroundImage" xml:space="preserve">
+    <value>Megnyomott billentyű kép</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ImageStretch" xml:space="preserve">
+    <value>Képnyújtás</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ImageOpacity" xml:space="preserve">
+    <value>Kép átlátszatlansága</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.FormatJson" xml:space="preserve">
+    <value>Kód formátuma</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.AddImage" xml:space="preserve">
+    <value>Képfájl hozzáadása</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.OpenFolder" xml:space="preserve">
+    <value>Nyissa meg a mappát</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.InsertSnippet" xml:space="preserve">
+    <value>Snippet beszúrása</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Clear" xml:space="preserve">
+    <value>Világos</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.JsonValid" xml:space="preserve">
+    <value>Érvényes JSON kód</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.JsonInvalid" xml:space="preserve">
+    <value>Szintaktikai hiba</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ThemeCode" xml:space="preserve">
+    <value>Témakód</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapCustomizer" xml:space="preserve">
+    <value>Billentyűsapka testreszabó</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.SelectKeycap" xml:space="preserve">
+    <value>Kulcssapka</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapImage" xml:space="preserve">
+    <value>Billentyűsapka kép</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapPressedImage" xml:space="preserve">
+    <value>Megnyomott billentyűsapka kép</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapWidth" xml:space="preserve">
+    <value>Szélesség</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapHeight" xml:space="preserve">
+    <value>Magasság</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapCornerRadius" xml:space="preserve">
+    <value>Saroksugár</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapCustomLabel" xml:space="preserve">
+    <value>Egyéni címke</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapHideLabel" xml:space="preserve">
+    <value>Címke elrejtése</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Language" xml:space="preserve">
+    <value>Nyelv</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.CodeValid" xml:space="preserve">
+    <value>A kód elemzése sikeres volt</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.CodeInvalid" xml:space="preserve">
+    <value>Szintaktikai hiba a kódban</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ApplyCode" xml:space="preserve">
+    <value>Alkalmazza a kódot</value>
+  </data>
 </root>

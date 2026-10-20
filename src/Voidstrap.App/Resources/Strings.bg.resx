@@ -7438,4 +7438,427 @@ Voidstrap не можа да запише в папката на работни�
   <data name="Ui.Main.ModsApplied" xml:space="preserve">
     <value>{0} приложени мода</value>
   </data>
+  <data name="Menu.About.Licenses.Apache" xml:space="preserve">
+    <value>Лиценз на Apache 2.0</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Studio" xml:space="preserve">
+    <value>Студио</value>
+  </data>
+  <data name="Enums.CustomThemeTemplate.Html" xml:space="preserve">
+    <value>HTML</value>
+  </data>
+  <data name="Common.Save" xml:space="preserve">
+    <value>Запазване</value>
+  </data>
+  <data name="Common.DiscordRichPresence" xml:space="preserve">
+    <value>Богато присъствие на Discord</value>
+  </data>
+  <data name="Enums.BootstrapperStyle.ProgressDialog" xml:space="preserve">
+    <value>Roblox (~2014)</value>
+  </data>
+  <data name="Enums.BootstrapperStyle.VistaDialog" xml:space="preserve">
+    <value>Vista (2008 - 2011)</value>
+  </data>
+  <data name="Enums.CursorType.FPSCursor" xml:space="preserve">
+    <value>FPSCursor</value>
+  </data>
+  <data name="Enums.CursorType.StoofsCursor" xml:space="preserve">
+    <value>StoofsCursor</value>
+  </data>
+  <data name="Enums.CursorType.CleanCursor" xml:space="preserve">
+    <value>CleanCursor</value>
+  </data>
+  <data name="Enums.EmojiType.Catmoji" xml:space="preserve">
+    <value>Catmoji</value>
+  </data>
+  <data name="Enums.EmojiType.Windows10" xml:space="preserve">
+    <value>Windows 10</value>
+  </data>
+  <data name="Enums.EmojiType.Windows11" xml:space="preserve">
+    <value>Windows 11</value>
+  </data>
+  <data name="Enums.EmojiType.Windows8" xml:space="preserve">
+    <value>Windows 8</value>
+  </data>
+  <data name="Enums.FlagPresets.InGameMenuVersion.V1" xml:space="preserve">
+    <value>2015 (V1)</value>
+  </data>
+  <data name="Enums.FlagPresets.InGameMenuVersion.V2" xml:space="preserve">
+    <value>2020 (V2)</value>
+  </data>
+  <data name="Enums.FlagPresets.InGameMenuVersion.V4" xml:space="preserve">
+    <value>2023 (V4)</value>
+  </data>
+  <data name="Enums.FlagPresets.RenderingMode.D3D10" xml:space="preserve">
+    <value>Direct3D 10</value>
+  </data>
+  <data name="Enums.FlagPresets.RenderingMode.D3D11" xml:space="preserve">
+    <value>Direct3D 11</value>
+  </data>
+  <data name="Enums.Theme.UltraGray" xml:space="preserve">
+    <value>UltraGray</value>
+  </data>
+  <data name="Enums.Theme.Voidstrap" xml:space="preserve">
+    <value>Voidstrap</value>
+  </data>
+  <data name="Enums.FlagPresets.RenderingMode.OpenGL" xml:space="preserve">
+    <value>OpenGL</value>
+  </data>
+  <data name="Enums.FlagPresets.RenderingMode.Vulkan" xml:space="preserve">
+    <value>Вулкан</value>
+  </data>
+  <data name="Common.VersionGuid" xml:space="preserve">
+    <value>VersionGuid</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Chromeui.Title" xml:space="preserve">
+    <value>Потребителски интерфейс на Chrome</value>
+  </data>
+  <data name="Common.RobloxStudio" xml:space="preserve">
+    <value>Roblox Studio</value>
+  </data>
+  <data name="Menu.Sober.Title" xml:space="preserve">
+    <value>Трезвен</value>
+  </data>
+  <data name="Menu.Sober.DiscordRpc.Title" xml:space="preserve">
+    <value>Богато присъствие на Discord</value>
+  </data>
+  <data name="Vng.Title" xml:space="preserve">
+    <value>Roblox VNG</value>
+  </data>
+  <data name="Mtu.Title" xml:space="preserve">
+    <value>MTU</value>
+  </data>
+  <data name="FlagSearch.Label27" xml:space="preserve">
+    <value>Ctrl+V</value>
+  </data>
+  <data name="FlagSearch.Label29" xml:space="preserve">
+    <value>Ctrl+A</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerKeystrokes" xml:space="preserve">
+    <value>Натискания на клавиши</value>
+  </data>
+  <data name="Ui.OverlayStudio.KeystrokesScale" xml:space="preserve">
+    <value>Скала на натискане на клавиши</value>
+  </data>
+  <data name="Ui.OverlayStudio.KeystrokesOpacity" xml:space="preserve">
+    <value>Непрозрачност на натисканията на клавиши</value>
+  </data>
+  <data name="Ui.OverlayStudio.KeystrokesEdgeSpacing" xml:space="preserve">
+    <value>Разстояние от ръба</value>
+  </data>
+  <data name="Ui.Keystrokes.Title" xml:space="preserve">
+    <value>Наслагване на натискане на клавиш</value>
+  </data>
+  <data name="Ui.Keystrokes.Description" xml:space="preserve">
+    <value>Показвайте въвеждане на клавиатурата и мишката в реално време на екрана с персонализирани звукови ефекти</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowKeys" xml:space="preserve">
+    <value>Показване на клавишите за движение</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowKeysHint" xml:space="preserve">
+    <value>Показване на клавишите W, A, S и D върху наслагването</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowMouseButtons" xml:space="preserve">
+    <value>Показване на бутоните на мишката</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowMouseButtonsHint" xml:space="preserve">
+    <value>Показване на левия и десния бутон на мишката</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowSpaceAndShift" xml:space="preserve">
+    <value>Показване на интервал и Shift</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowSpaceAndShiftHint" xml:space="preserve">
+    <value>Показване на клавишите за скок (Интервал) и Спринт/Клек (Shift).</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowCps" xml:space="preserve">
+    <value>Показване на кликвания в секунда (CPS)</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowCpsHint" xml:space="preserve">
+    <value>Проследявайте и показвайте CPS в реално време върху бутоните на мишката</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardSound" xml:space="preserve">
+    <value>Звук при щракане на клавиатурата</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardSoundHint" xml:space="preserve">
+    <value>Възпроизвеждане на звуков звук при щракване при натискане на клавиши</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardSoundPack" xml:space="preserve">
+    <value>Звуков пакет за клавиатура</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardSoundPackHint" xml:space="preserve">
+    <value>Изберете аудио профила за натискане на клавиши на клавиатурата</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardCustomWav" xml:space="preserve">
+    <value>Персонализирана WAV клавиатура</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardCustomWavHint" xml:space="preserve">
+    <value>Изберете персонализиран .wav аудио файл за натискане на клавиши</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardVolume" xml:space="preserve">
+    <value>Сила на звука на клавиатурата</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardVolumeHint" xml:space="preserve">
+    <value>Регулирайте силата на звука на щракванията на клавиатурата</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseSound" xml:space="preserve">
+    <value>Звук при щракване на мишката</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseSoundHint" xml:space="preserve">
+    <value>Възпроизвеждане на звуков звук при щракване при щракване върху бутоните на мишката</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseSoundPack" xml:space="preserve">
+    <value>Звуков пакет за мишката</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseSoundPackHint" xml:space="preserve">
+    <value>Изберете аудио профила за щраквания с мишката</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseCustomWav" xml:space="preserve">
+    <value>Персонализирана мишка WAV</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseCustomWavHint" xml:space="preserve">
+    <value>Изберете персонализиран .wav аудио файл за щраквания с мишката</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseVolume" xml:space="preserve">
+    <value>Сила на звука на мишката</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseVolumeHint" xml:space="preserve">
+    <value>Регулирайте силата на звука на щракванията на мишката</value>
+  </data>
+  <data name="Ui.Keystrokes.NoFileSelected" xml:space="preserve">
+    <value>Няма избран файл</value>
+  </data>
+  <data name="Ui.Keystrokes.ChooseFile" xml:space="preserve">
+    <value>Изберете файл</value>
+  </data>
+  <data name="Ui.Keystrokes.LinuxInputNotice" xml:space="preserve">
+    <value>Глобалното прихващане на вход в Linux изисква достъп за четене до /dev/input/event*. Ако клавишите не се регистрират, добавете вашия потребител към групата 'input': sudo usermod -aG input $USER</value>
+  </data>
+  <data name="Ui.Keystrokes.Theme" xml:space="preserve">
+    <value>Стил на наслагване</value>
+  </data>
+  <data name="Ui.Keystrokes.ThemeDescription" xml:space="preserve">
+    <value>Изберете вграден визуален стил или персонализирана тема за наслагването на клавишите.</value>
+  </data>
+  <data name="Ui.Keystrokes.Size" xml:space="preserve">
+    <value>Размер на наслагването</value>
+  </data>
+  <data name="Ui.Keystrokes.SizeDescription" xml:space="preserve">
+    <value>Изберете цялостния мащаб на дисплея за наслагването на натискания на клавиши.</value>
+  </data>
+  <data name="Ui.Keystrokes.ThemeCreator" xml:space="preserve">
+    <value>Създател на тема</value>
+  </data>
+  <data name="Ui.Keystrokes.ThemeCreatorDescription" xml:space="preserve">
+    <value>Създавайте, персонализирайте и редактирайте персонализирани теми за наслагването на клавишите.</value>
+  </data>
+  <data name="Ui.Keystrokes.ThemeAndAppearance" xml:space="preserve">
+    <value>Тема и външен вид</value>
+  </data>
+  <data name="Ui.Keystrokes.DisplayAndSound" xml:space="preserve">
+    <value>Опции за дисплей и звук</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.Title" xml:space="preserve">
+    <value>Нова тема за натискане на клавиши</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Title" xml:space="preserve">
+    <value>Редактор на теми за натискане на клавиши</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ThemeControls" xml:space="preserve">
+    <value>Контроли на темата</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.RawJson" xml:space="preserve">
+    <value>Суров JSON</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ApplyRawJson" xml:space="preserve">
+    <value>Приложете необработен JSON</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ColorsAndBrushes" xml:space="preserve">
+    <value>Цветове и четки</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeyBg" xml:space="preserve">
+    <value>Ключов фон (по подразбиране)</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeyPressedBg" xml:space="preserve">
+    <value>Фон на клавиша (натиснат)</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeyText" xml:space="preserve">
+    <value>Цвят на ключовия текст (по подразбиране)</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeyPressedText" xml:space="preserve">
+    <value>Цвят на текста на клавиша (натиснат)</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.CpsText" xml:space="preserve">
+    <value>Цвят на брояча на CPS (по подразбиране)</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeyPressedCpsText" xml:space="preserve">
+    <value>Цвят на брояча на CPS (натиснат)</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.BorderColor" xml:space="preserve">
+    <value>Цвят на рамката на клавиша</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.GlowColor" xml:space="preserve">
+    <value>Цвят на блясък / акцент</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.GeometryAndGlow" xml:space="preserve">
+    <value>Геометрия и блясък</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Geometry" xml:space="preserve">
+    <value>Геометрия</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.BorderThickness" xml:space="preserve">
+    <value>Дебелина на границата</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.CornerRadius" xml:space="preserve">
+    <value>Радиус на ъгъла</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.GlowRadius" xml:space="preserve">
+    <value>Радиус на светене</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.GlowOpacity" xml:space="preserve">
+    <value>Glow Opacity</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.EffectsAndTypography" xml:space="preserve">
+    <value>Ефекти и типография</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.BackdropGlass" xml:space="preserve">
+    <value>Стъклен фон / акрил</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.PressSquashScale" xml:space="preserve">
+    <value>Натиснете Squash Scale</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.FontFamily" xml:space="preserve">
+    <value>Семейство шрифтове</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.FontWeight" xml:space="preserve">
+    <value>Тегло на шрифта</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.InteractivePreview" xml:space="preserve">
+    <value>Интерактивен преглед на живо</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.PreviewHint" xml:space="preserve">
+    <value>Щракнете върху произволен клавиш или използвайте Тестова последователност, за да визуализирате анимации и звук</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.TestSequence" xml:space="preserve">
+    <value>Тестова последователност</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Revert" xml:space="preserve">
+    <value>Връщане</value>
+  </data>
+  <data name="Ui.Keystrokes.Preview.Loop" xml:space="preserve">
+    <value>Цикъл</value>
+  </data>
+  <data name="Ui.Keystrokes.Preview.Sound" xml:space="preserve">
+    <value>Звук</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.UseAccent" xml:space="preserve">
+    <value>Използвайте системен акцент</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.AccentLabel" xml:space="preserve">
+    <value>АКЦЕНТ</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.ErrorEmpty" xml:space="preserve">
+    <value>Името на темата не може да бъде празно.</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.ErrorInvalid" xml:space="preserve">
+    <value>Името на темата съдържа невалидни знаци.</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.ErrorWindowsReserved" xml:space="preserve">
+    <value>Windows не позволява имена, които завършват с интервал или точка.</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.ErrorExists" xml:space="preserve">
+    <value>Вече съществува тема с това име.</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.ErrorSaveFailed" xml:space="preserve">
+    <value>Неуспешно запазване на новата тема.</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.ErrorSelectFile" xml:space="preserve">
+    <value>Моля, изберете валиден файл с тема за импортиране.</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.ErrorImportFailed" xml:space="preserve">
+    <value>Неуспешно анализиране или импортиране на файл с тема.</value>
+  </data>
+  <data name="Ui.Keystrokes.DeleteConfirm" xml:space="preserve">
+    <value>Сигурни ли сте, че искате да изтриете темата за клавиши „{0}“?</value>
+  </data>
+  <data name="Ui.Keystrokes.RenameError" xml:space="preserve">
+    <value>Вече съществува тема с това име или името е невалидно.</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.CustomImages" xml:space="preserve">
+    <value>Персонализирани изображения</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeyBackgroundImage" xml:space="preserve">
+    <value>Ключово фоново изображение</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeyPressedBackgroundImage" xml:space="preserve">
+    <value>Изображение на натиснат клавиш</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ImageStretch" xml:space="preserve">
+    <value>Разтягане на изображението</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ImageOpacity" xml:space="preserve">
+    <value>Непрозрачност на изображението</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.FormatJson" xml:space="preserve">
+    <value>Код за форматиране</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.AddImage" xml:space="preserve">
+    <value>Добавете файл с изображение</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.OpenFolder" xml:space="preserve">
+    <value>Отворете папката</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.InsertSnippet" xml:space="preserve">
+    <value>Вмъкване на фрагмент</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Clear" xml:space="preserve">
+    <value>ясно</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.JsonValid" xml:space="preserve">
+    <value>Валиден JSON код</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.JsonInvalid" xml:space="preserve">
+    <value>Синтактична грешка</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ThemeCode" xml:space="preserve">
+    <value>Код на темата</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapCustomizer" xml:space="preserve">
+    <value>Keycap Customizer</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.SelectKeycap" xml:space="preserve">
+    <value>Ключалка</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapImage" xml:space="preserve">
+    <value>Изображение на капачката на клавиша</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapPressedImage" xml:space="preserve">
+    <value>Изображение на натиснат клавиш</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapWidth" xml:space="preserve">
+    <value>ширина</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapHeight" xml:space="preserve">
+    <value>Височина</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapCornerRadius" xml:space="preserve">
+    <value>Радиус на ъгъла</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapCustomLabel" xml:space="preserve">
+    <value>Персонализиран етикет</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapHideLabel" xml:space="preserve">
+    <value>Скриване на етикета</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Language" xml:space="preserve">
+    <value>език</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.CodeValid" xml:space="preserve">
+    <value>Кодът е анализиран успешно</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.CodeInvalid" xml:space="preserve">
+    <value>Синтактична грешка в кода</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ApplyCode" xml:space="preserve">
+    <value>Прилагане на кода</value>
+  </data>
 </root>

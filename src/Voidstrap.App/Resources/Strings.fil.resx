@@ -7211,4 +7211,652 @@ Error: {0}</value>
   <data name="Ui.Main.ModsApplied" xml:space="preserve">
     <value>{0} na Mod ang Nakalapat</value>
   </data>
+  <data name="Menu.About.Licenses.Apache" xml:space="preserve">
+    <value>Lisensya ng Apache 2.0</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Player" xml:space="preserve">
+    <value>Manlalaro</value>
+  </data>
+  <data name="Enums.ModApplyTarget.Studio" xml:space="preserve">
+    <value>Studio</value>
+  </data>
+  <data name="Menu.Integrations.Custom.GameID" xml:space="preserve">
+    <value>Game ID</value>
+  </data>
+  <data name="Enums.CustomThemeTemplate.Simple" xml:space="preserve">
+    <value>Simple</value>
+  </data>
+  <data name="Enums.CustomThemeTemplate.Html" xml:space="preserve">
+    <value>HTML</value>
+  </data>
+  <data name="CustomTheme.Editor.Preview" xml:space="preserve">
+    <value>Silipin</value>
+  </data>
+  <data name="Common.Template" xml:space="preserve">
+    <value>Template</value>
+  </data>
+  <data name="Common.Save" xml:space="preserve">
+    <value>I-save</value>
+  </data>
+  <data name="Common.DiscordRichPresence" xml:space="preserve">
+    <value>Discord Rich Presence</value>
+  </data>
+  <data name="ContextMenu.ServerInformation.InstanceId" xml:space="preserve">
+    <value>Instance ID</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Title" xml:space="preserve">
+    <value>Server browser</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Place" xml:space="preserve">
+    <value>Lugar {0}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.GameDetails" xml:space="preserve">
+    <value>{0} • Lugar {1}</value>
+  </data>
+  <data name="ContextMenu.ServerBrowser.Metrics" xml:space="preserve">
+    <value>Ping {0} ms, FPS {1}</value>
+  </data>
+  <data name="ContextMenu.GameBrowser.Title" xml:space="preserve">
+    <value>Browser ng laro</value>
+  </data>
+  <data name="Common.Custom" xml:space="preserve">
+    <value>Custom</value>
+  </data>
+  <data name="Enums.BootstrapperStyle.ProgressDialog" xml:space="preserve">
+    <value>Roblox (~2014)</value>
+  </data>
+  <data name="Enums.BootstrapperStyle.VistaDialog" xml:space="preserve">
+    <value>Vista (2008 - 2011)</value>
+  </data>
+  <data name="Enums.CursorType.From2006" xml:space="preserve">
+    <value>2006 (Cartoony)</value>
+  </data>
+  <data name="Enums.CursorType.From2013" xml:space="preserve">
+    <value>2013 (Angular)</value>
+  </data>
+  <data name="Enums.CursorType.FPSCursor" xml:space="preserve">
+    <value>FPSCursor</value>
+  </data>
+  <data name="Enums.CursorType.StoofsCursor" xml:space="preserve">
+    <value>StoofsCursor</value>
+  </data>
+  <data name="Enums.CursorType.CleanCursor" xml:space="preserve">
+    <value>CleanCursor</value>
+  </data>
+  <data name="Enums.EmojiType.Catmoji" xml:space="preserve">
+    <value>Catmoji</value>
+  </data>
+  <data name="Enums.EmojiType.Default" xml:space="preserve">
+    <value>Default (Twemoji)</value>
+  </data>
+  <data name="Enums.EmojiType.Windows10" xml:space="preserve">
+    <value>Windows 10</value>
+  </data>
+  <data name="Enums.EmojiType.Windows11" xml:space="preserve">
+    <value>Windows 11</value>
+  </data>
+  <data name="Enums.EmojiType.Windows8" xml:space="preserve">
+    <value>Windows 8</value>
+  </data>
+  <data name="Enums.FlagPresets.InGameMenuVersion.V1" xml:space="preserve">
+    <value>2015 (V1)</value>
+  </data>
+  <data name="Enums.FlagPresets.InGameMenuVersion.V2" xml:space="preserve">
+    <value>2020 (V2)</value>
+  </data>
+  <data name="Enums.FlagPresets.InGameMenuVersion.V4" xml:space="preserve">
+    <value>2023 (V4)</value>
+  </data>
+  <data name="Enums.FlagPresets.LightingMode.Future" xml:space="preserve">
+    <value>Hinaharap (Phase 3)</value>
+  </data>
+  <data name="Enums.FlagPresets.LightingMode.ShadowMap" xml:space="preserve">
+    <value>Shadow Map (Phase 2)</value>
+  </data>
+  <data name="Enums.FlagPresets.LightingMode.Voxel" xml:space="preserve">
+    <value>Voxel (Phase 1)</value>
+  </data>
+  <data name="Enums.FlagPresets.RenderingMode.D3D10" xml:space="preserve">
+    <value>Direct3D 10</value>
+  </data>
+  <data name="Enums.FlagPresets.RenderingMode.D3D11" xml:space="preserve">
+    <value>Direct3D 11</value>
+  </data>
+  <data name="Enums.Theme.Cyan" xml:space="preserve">
+    <value>Cyan</value>
+  </data>
+  <data name="Enums.Theme.Pink" xml:space="preserve">
+    <value>Rosas</value>
+  </data>
+  <data name="Enums.Theme.Custom" xml:space="preserve">
+    <value>Custom</value>
+  </data>
+  <data name="Enums.Theme.UltraGray" xml:space="preserve">
+    <value>UltraGray</value>
+  </data>
+  <data name="Enums.Theme.Berry" xml:space="preserve">
+    <value>Berry</value>
+  </data>
+  <data name="Enums.Theme.Voidstrap" xml:space="preserve">
+    <value>Voidstrap</value>
+  </data>
+  <data name="Menu.About.Contributors.Code" xml:space="preserve">
+    <value>Code</value>
+  </data>
+  <data name="Menu.About.DiscordServer" xml:space="preserve">
+    <value>Discord server</value>
+  </data>
+  <data name="Menu.About.Licenses.BSD2" xml:space="preserve">
+    <value>BSD 2-Clause License</value>
+  </data>
+  <data name="Menu.About.Licenses.MIT" xml:space="preserve">
+    <value>Lisensya ng MIT</value>
+  </data>
+  <data name="Menu.Appearance.Bootstrapper.Title" xml:space="preserve">
+    <value>Bootstrapper</value>
+  </data>
+  <data name="Menu.Appearance.Icon.Title" xml:space="preserve">
+    <value>Icon</value>
+  </data>
+  <data name="Menu.Appearance.Preview" xml:space="preserve">
+    <value>Silipin</value>
+  </data>
+  <data name="Menu.Behaviour.Title" xml:space="preserve">
+    <value>Bootstrapper</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.RenderingMode.Title" xml:space="preserve">
+    <value>Rendering mode</value>
+  </data>
+  <data name="Enums.FlagPresets.TextureQuality.Level1" xml:space="preserve">
+    <value>Antas 1</value>
+  </data>
+  <data name="Enums.FlagPresets.TextureQuality.Level2" xml:space="preserve">
+    <value>Antas 2</value>
+  </data>
+  <data name="Common.Default" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="Enums.FlagPresets.RenderingMode.OpenGL" xml:space="preserve">
+    <value>OpenGL</value>
+  </data>
+  <data name="Enums.FlagPresets.RenderingMode.Vulkan" xml:space="preserve">
+    <value>Vulkan</value>
+  </data>
+  <data name="Menu.Behaviour.Channel.Title" xml:space="preserve">
+    <value>Channel</value>
+  </data>
+  <data name="Enums.BootstrapperStyle.CustomDialog" xml:space="preserve">
+    <value>Custom</value>
+  </data>
+  <data name="FileTypes.ZipArchive" xml:space="preserve">
+    <value>Zip archive</value>
+  </data>
+  <data name="Common.Channel" xml:space="preserve">
+    <value>Channel</value>
+  </data>
+  <data name="Common.VersionGuid" xml:space="preserve">
+    <value>VersionGuid</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Preload.Title" xml:space="preserve">
+    <value>Preload</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Layered.Title" xml:space="preserve">
+    <value>Layered na damit</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Telemetry" xml:space="preserve">
+    <value>Telemetry</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Preload" xml:space="preserve">
+    <value>Preload</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Layered" xml:space="preserve">
+    <value>Layered</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.Chromeui.Title" xml:space="preserve">
+    <value>Chrome UI</value>
+  </data>
+  <data name="Common.Debug" xml:space="preserve">
+    <value>I-debug</value>
+  </data>
+  <data name="Common.Deployment" xml:space="preserve">
+    <value>Deployment</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.VRToggle.Title" xml:space="preserve">
+    <value>VR toggle</value>
+  </data>
+  <data name="Menu.FastFlags.Presets.IngameMenu.SoothsayerCheck.Title" xml:space="preserve">
+    <value>Pindutan ng feedback</value>
+  </data>
+  <data name="Common.Studio" xml:space="preserve">
+    <value>Studio</value>
+  </data>
+  <data name="Common.RobloxStudio" xml:space="preserve">
+    <value>Roblox Studio</value>
+  </data>
+  <data name="Common.Username" xml:space="preserve">
+    <value>Username</value>
+  </data>
+  <data name="Menu.Channel.VersionHash.Title" xml:space="preserve">
+    <value>bersyon hash</value>
+  </data>
+  <data name="Menu.Sober.Title" xml:space="preserve">
+    <value>Matino</value>
+  </data>
+  <data name="Menu.Sober.DiscordRpc.Title" xml:space="preserve">
+    <value>Discord Rich Presence</value>
+  </data>
+  <data name="Menu.Sober.HiDpi.Title" xml:space="preserve">
+    <value>Mataas na DPI scaling</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Title" xml:space="preserve">
+    <value>Mode ng pag-optimize ng graphics</value>
+  </data>
+  <data name="Menu.Sober.GraphicsMode.Performance" xml:space="preserve">
+    <value>Pagganap</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Title" xml:space="preserve">
+    <value>Touch mode</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.Off" xml:space="preserve">
+    <value>Naka-off</value>
+  </data>
+  <data name="Menu.Sober.TouchMode.On" xml:space="preserve">
+    <value>Naka-on</value>
+  </data>
+  <data name="Menu.Sober.Libsecret.Title" xml:space="preserve">
+    <value>Imbakan ng Lihim na Serbisyo</value>
+  </data>
+  <data name="Menu.Sober.OpenGl.Title" xml:space="preserve">
+    <value>OpenGL renderer</value>
+  </data>
+  <data name="Vng.Title" xml:space="preserve">
+    <value>Roblox VNG</value>
+  </data>
+  <data name="Mtu.Title" xml:space="preserve">
+    <value>MTU</value>
+  </data>
+  <data name="Menu.Appearance.Accent.Title" xml:space="preserve">
+    <value>Kulay ng accent</value>
+  </data>
+  <data name="OverlayDiagnostics.Crosshair" xml:space="preserve">
+    <value>Crosshair</value>
+  </data>
+  <data name="OverlayDiagnostics.Stats" xml:space="preserve">
+    <value>Overlay ng istatistika</value>
+  </data>
+  <data name="OverlayDiagnostics.Title" xml:space="preserve">
+    <value>Mga diagnostic ng overlay</value>
+  </data>
+  <data name="FlagSearch.Label17" xml:space="preserve">
+    <value>Pinagmulan</value>
+  </data>
+  <data name="FlagSearch.Label27" xml:space="preserve">
+    <value>Ctrl+V</value>
+  </data>
+  <data name="FlagSearch.Label29" xml:space="preserve">
+    <value>Ctrl+A</value>
+  </data>
+  <data name="FlagSearch.Label34" xml:space="preserve">
+    <value>Katayuan</value>
+  </data>
+  <data name="FlagSearch.Label41" xml:space="preserve">
+    <value>Pinagmulan</value>
+  </data>
+  <data name="FlagSearch.Label42" xml:space="preserve">
+    <value>Katayuan</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Online" xml:space="preserve">
+    <value>Online</value>
+  </data>
+  <data name="ContextMenu.GameHistory.Offline" xml:space="preserve">
+    <value>Offline</value>
+  </data>
+  <data name="ServerInfo.PlayerCount.MaxOnly" xml:space="preserve">
+    <value>Max {0}</value>
+  </data>
+  <data name="Shortcuts.SubplaceTab" xml:space="preserve">
+    <value>Subplace</value>
+  </data>
+  <data name="SwiftTunnel.Network" xml:space="preserve">
+    <value>Network</value>
+  </data>
+  <data name="SwiftTunnel.Routing" xml:space="preserve">
+    <value>Pagruruta</value>
+  </data>
+  <data name="Appearance.Backdrop.Sidebar" xml:space="preserve">
+    <value>Sidebar</value>
+  </data>
+  <data name="Appearance.Backdrop.Popover" xml:space="preserve">
+    <value>Popover</value>
+  </data>
+  <data name="Appearance.Backdrop.Hud" xml:space="preserve">
+    <value>Heads up display</value>
+  </data>
+  <data name="Ui.OverlayStudio.LayerKeystrokes" xml:space="preserve">
+    <value>Mga keystroke</value>
+  </data>
+  <data name="Ui.OverlayStudio.KeystrokesScale" xml:space="preserve">
+    <value>Mga keystroke scale</value>
+  </data>
+  <data name="Ui.OverlayStudio.KeystrokesOpacity" xml:space="preserve">
+    <value>Opacity ng mga keystroke</value>
+  </data>
+  <data name="Ui.OverlayStudio.KeystrokesEdgeSpacing" xml:space="preserve">
+    <value>Space mula sa gilid</value>
+  </data>
+  <data name="Ui.Keystrokes.Title" xml:space="preserve">
+    <value>Overlay ng keystroke</value>
+  </data>
+  <data name="Ui.Keystrokes.Description" xml:space="preserve">
+    <value>Ipakita ang real-time na mga input ng keyboard at mouse sa screen na may mga nako-customize na sound effect</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowKeys" xml:space="preserve">
+    <value>Ipakita ang mga key ng paggalaw</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowKeysHint" xml:space="preserve">
+    <value>Ipakita ang W, A, S, at D key sa overlay</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowMouseButtons" xml:space="preserve">
+    <value>Ipakita ang mga pindutan ng mouse</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowMouseButtonsHint" xml:space="preserve">
+    <value>Ipakita ang kaliwa at kanang pindutan ng pag-click ng mouse</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowSpaceAndShift" xml:space="preserve">
+    <value>Ipakita ang Space at Shift</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowSpaceAndShiftHint" xml:space="preserve">
+    <value>Display Jump (Space) at Sprint/Crouch (Shift) key</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowCps" xml:space="preserve">
+    <value>Ipakita ang mga pag-click sa bawat segundo (CPS)</value>
+  </data>
+  <data name="Ui.Keystrokes.ShowCpsHint" xml:space="preserve">
+    <value>Subaybayan at ipakita ang real-time na CPS sa mga pindutan ng mouse</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardSound" xml:space="preserve">
+    <value>Tunog ng pag-click sa keyboard</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardSoundHint" xml:space="preserve">
+    <value>Magpatugtog ng isang maririnig na tunog ng pag-click kapag pinindot ang mga key</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardSoundPack" xml:space="preserve">
+    <value>Sound pack ng keyboard</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardSoundPackHint" xml:space="preserve">
+    <value>Piliin ang audio profile para sa mga pagpindot sa key ng keyboard</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardCustomWav" xml:space="preserve">
+    <value>Custom na keyboard WAV</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardCustomWavHint" xml:space="preserve">
+    <value>Pumili ng custom na .wav audio file para sa mga pangunahing pag-click</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardVolume" xml:space="preserve">
+    <value>Dami ng tunog ng keyboard</value>
+  </data>
+  <data name="Ui.Keystrokes.KeyboardVolumeHint" xml:space="preserve">
+    <value>Ayusin ang antas ng volume ng mga pag-click sa keyboard</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseSound" xml:space="preserve">
+    <value>Tunog ng pag-click ng mouse</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseSoundHint" xml:space="preserve">
+    <value>Magpatugtog ng naririnig na tunog ng pag-click kapag nag-click sa mga pindutan ng mouse</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseSoundPack" xml:space="preserve">
+    <value>Mouse sound pack</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseSoundPackHint" xml:space="preserve">
+    <value>Piliin ang audio profile para sa mga pag-click ng mouse</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseCustomWav" xml:space="preserve">
+    <value>Custom na mouse WAV</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseCustomWavHint" xml:space="preserve">
+    <value>Pumili ng custom na .wav audio file para sa mga pag-click ng mouse</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseVolume" xml:space="preserve">
+    <value>Dami ng tunog ng mouse</value>
+  </data>
+  <data name="Ui.Keystrokes.MouseVolumeHint" xml:space="preserve">
+    <value>Ayusin ang antas ng lakas ng tunog ng mga pag-click ng mouse</value>
+  </data>
+  <data name="Ui.Keystrokes.NoFileSelected" xml:space="preserve">
+    <value>Walang napiling file</value>
+  </data>
+  <data name="Ui.Keystrokes.ChooseFile" xml:space="preserve">
+    <value>Pumili ng file</value>
+  </data>
+  <data name="Ui.Keystrokes.LinuxInputNotice" xml:space="preserve">
+    <value>Ang global na pagkuha ng input sa Linux ay nangangailangan ng access sa pagbasa sa /dev/input/event*. Kung hindi magrehistro ang mga key, idagdag ang iyong user sa grupong 'input': sudo usermod -aG input $USER</value>
+  </data>
+  <data name="Ui.Keystrokes.Theme" xml:space="preserve">
+    <value>Estilo ng overlay</value>
+  </data>
+  <data name="Ui.Keystrokes.ThemeDescription" xml:space="preserve">
+    <value>Pumili ng built-in na visual na istilo o custom na tema para sa overlay ng mga keystroke.</value>
+  </data>
+  <data name="Ui.Keystrokes.Size" xml:space="preserve">
+    <value>Laki ng overlay</value>
+  </data>
+  <data name="Ui.Keystrokes.SizeDescription" xml:space="preserve">
+    <value>Piliin ang pangkalahatang sukat ng display para sa overlay ng mga keystroke.</value>
+  </data>
+  <data name="Ui.Keystrokes.ThemeCreator" xml:space="preserve">
+    <value>Tagalikha ng tema</value>
+  </data>
+  <data name="Ui.Keystrokes.ThemeCreatorDescription" xml:space="preserve">
+    <value>Gumawa, mag-customize, at mag-edit ng mga custom na tema para sa overlay ng mga keystroke.</value>
+  </data>
+  <data name="Ui.Keystrokes.ThemeAndAppearance" xml:space="preserve">
+    <value>Tema at Hitsura</value>
+  </data>
+  <data name="Ui.Keystrokes.DisplayAndSound" xml:space="preserve">
+    <value>Mga Opsyon sa Display at Tunog</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.Title" xml:space="preserve">
+    <value>Bagong Keystrokes na Tema</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Title" xml:space="preserve">
+    <value>Editor ng Tema ng Keystrokes</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ThemeControls" xml:space="preserve">
+    <value>Mga Kontrol sa Tema</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.RawJson" xml:space="preserve">
+    <value>Raw JSON</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ApplyRawJson" xml:space="preserve">
+    <value>Ilapat ang Raw JSON</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ColorsAndBrushes" xml:space="preserve">
+    <value>Mga Kulay at Brushes</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeyBg" xml:space="preserve">
+    <value>Key Background (Default)</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeyPressedBg" xml:space="preserve">
+    <value>Key Background (Pinindot)</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeyText" xml:space="preserve">
+    <value>Kulay ng Key Text (Default)</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeyPressedText" xml:space="preserve">
+    <value>Kulay ng Key Text (Pinindot)</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.CpsText" xml:space="preserve">
+    <value>CPS Counter Color (Default)</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeyPressedCpsText" xml:space="preserve">
+    <value>Kulay ng CPS Counter (Pinindot)</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.BorderColor" xml:space="preserve">
+    <value>Kulay ng Key Border</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.GlowColor" xml:space="preserve">
+    <value>Kulay ng Glow / Accent</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.GeometryAndGlow" xml:space="preserve">
+    <value>Geometry at Glow</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Geometry" xml:space="preserve">
+    <value>Geometry</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.BorderThickness" xml:space="preserve">
+    <value>Kapal ng Border</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.CornerRadius" xml:space="preserve">
+    <value>Corner Radius</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.GlowRadius" xml:space="preserve">
+    <value>Radius ng Glow</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.GlowOpacity" xml:space="preserve">
+    <value>Glow Opacity</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.EffectsAndTypography" xml:space="preserve">
+    <value>Mga Epekto at Typography</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.BackdropGlass" xml:space="preserve">
+    <value>Backdrop Glass / Acrylic</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.PressSquashScale" xml:space="preserve">
+    <value>Pindutin ang Squash Scale</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.FontFamily" xml:space="preserve">
+    <value>Pamilya ng Font</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.FontWeight" xml:space="preserve">
+    <value>Timbang ng Font</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.InteractivePreview" xml:space="preserve">
+    <value>Interactive na Live Preview</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.PreviewHint" xml:space="preserve">
+    <value>I-click ang anumang key o gamitin ang Test Sequence para i-preview ang mga animation at tunog</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.TestSequence" xml:space="preserve">
+    <value>Pagkakasunod-sunod ng Pagsubok</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Revert" xml:space="preserve">
+    <value>Ibalik</value>
+  </data>
+  <data name="Ui.Keystrokes.Preview.Loop" xml:space="preserve">
+    <value>Loop</value>
+  </data>
+  <data name="Ui.Keystrokes.Preview.Sound" xml:space="preserve">
+    <value>Tunog</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.UseAccent" xml:space="preserve">
+    <value>Gamitin ang System Accent</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.AccentLabel" xml:space="preserve">
+    <value>ACCENT</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.ErrorEmpty" xml:space="preserve">
+    <value>Hindi maaaring walang laman ang pangalan ng tema.</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.ErrorInvalid" xml:space="preserve">
+    <value>Ang pangalan ng tema ay naglalaman ng mga di-wastong character.</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.ErrorWindowsReserved" xml:space="preserve">
+    <value>Hindi pinapayagan ng Windows ang mga pangalan na nagtatapos sa isang espasyo o tuldok.</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.ErrorExists" xml:space="preserve">
+    <value>Umiiral na ang isang tema na may ganitong pangalan.</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.ErrorSaveFailed" xml:space="preserve">
+    <value>Nabigong i-save ang bagong tema.</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.ErrorSelectFile" xml:space="preserve">
+    <value>Mangyaring pumili ng wastong file ng tema na ii-import.</value>
+  </data>
+  <data name="Ui.Keystrokes.AddTheme.ErrorImportFailed" xml:space="preserve">
+    <value>Nabigong i-parse o i-import ang theme file.</value>
+  </data>
+  <data name="Ui.Keystrokes.DeleteConfirm" xml:space="preserve">
+    <value>Sigurado ka bang gusto mong tanggalin ang keystroke theme na '{0}'?</value>
+  </data>
+  <data name="Ui.Keystrokes.RenameError" xml:space="preserve">
+    <value>Umiiral na ang isang tema na may ganoong pangalan o hindi wasto ang pangalan.</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.CustomImages" xml:space="preserve">
+    <value>Mga Custom na Larawan</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeyBackgroundImage" xml:space="preserve">
+    <value>Pangunahing Larawan sa Background</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeyPressedBackgroundImage" xml:space="preserve">
+    <value>Pindutin ang Key Image</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ImageStretch" xml:space="preserve">
+    <value>I-stretch ng Larawan</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ImageOpacity" xml:space="preserve">
+    <value>Opacity ng Larawan</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.FormatJson" xml:space="preserve">
+    <value>Format Code</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.AddImage" xml:space="preserve">
+    <value>Magdagdag ng File ng Larawan</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.OpenFolder" xml:space="preserve">
+    <value>Buksan ang Folder</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.InsertSnippet" xml:space="preserve">
+    <value>Ipasok ang Snippet</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Clear" xml:space="preserve">
+    <value>Maaliwalas</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.JsonValid" xml:space="preserve">
+    <value>Wastong JSON code</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.JsonInvalid" xml:space="preserve">
+    <value>Syntax error</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ThemeCode" xml:space="preserve">
+    <value>Code ng Tema</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapCustomizer" xml:space="preserve">
+    <value>Keycap Customizer</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.SelectKeycap" xml:space="preserve">
+    <value>Keycap</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapImage" xml:space="preserve">
+    <value>Larawan ng Keycap</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapPressedImage" xml:space="preserve">
+    <value>Pindutin ang Keycap na Larawan</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapWidth" xml:space="preserve">
+    <value>Lapad</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapHeight" xml:space="preserve">
+    <value>taas</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapCornerRadius" xml:space="preserve">
+    <value>Corner Radius</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapCustomLabel" xml:space="preserve">
+    <value>Custom na Label</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.KeycapHideLabel" xml:space="preserve">
+    <value>Itago ang Label</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.Language" xml:space="preserve">
+    <value>Wika</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.CodeValid" xml:space="preserve">
+    <value>Matagumpay na na-parse ang code</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.CodeInvalid" xml:space="preserve">
+    <value>Syntax error sa code</value>
+  </data>
+  <data name="Ui.Keystrokes.Editor.ApplyCode" xml:space="preserve">
+    <value>Ilapat ang Code</value>
+  </data>
 </root>
