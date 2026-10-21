@@ -804,7 +804,7 @@ public class Bootstrapper
             InstallationSucceeded = !_cancelTokenSource.IsCancellationRequested && !_noConnection && !MustUpgrade && AppData.State.VersionGuid == _latestVersionGuid;
             return;
         }
-        if (_launchMode != LaunchMode.Player || !AssetProxyServer.IsRequired)
+        if (_launchMode != LaunchMode.Player || !(AssetProxyServer.IsRequired || AssetCacheStripper.BlocksDownloads))
         {
             return;
         }
@@ -815,6 +815,7 @@ public class Bootstrapper
         catch
         {
         }
+        AssetCacheStripper.UnblockDownloads();
         if (App.Settings.Prop.AssetWarpPreloadEnabled && App.Settings.Prop.AssetWarpPreloadCrossGame)
         {
             using CancellationTokenSource crossGameDeadline = CancellationTokenSource.CreateLinkedTokenSource(_cancelTokenSource.Token);

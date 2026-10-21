@@ -56,7 +56,13 @@ internal static class AssetCacheStripper
 		"c4.rbxcdn.com", "c5.rbxcdn.com", "c6.rbxcdn.com", "c7.rbxcdn.com"
 	];
 
-	private static bool _blocking;
+	private const string FirewallRuleName = "Voidstrap AssetWarp offline cache";
+
+	private static readonly object BlockGate = new();
+
+	private static readonly HashSet<string> BlockedAddresses = new(StringComparer.OrdinalIgnoreCase);
+
+	private static CancellationTokenSource? _blockRefresh;
 
 	public static bool BlocksDownloads => Voidstrap.Utility.Platform.IsWindows && App.Settings.Prop.AssetWarpOfflineCache && HasRemovals && !AssetProxyServer.IsRequired;
 
@@ -69,24 +75,125 @@ internal static class AssetCacheStripper
 			App.Logger?.WriteLine(LogIdent, "Offline cache mode needs administrator access, Roblox can still download removed assets this session");
 			return;
 		}
-		try
+		string program = Path.Combine(new Voidstrap.AppData.RobloxPlayerData().Directory, "RobloxPlayerBeta.exe");
+		lock (BlockGate)
 		{
-			AssetProxyRouting.InstallEntries(DownloadHosts, includeIpv6: true);
-			_blocking = true;
-			App.Logger?.WriteLine(LogIdent, "Offline cache mode is on, Roblox asset downloads are blocked for this session");
+			BlockedAddresses.Clear();
+			if (!RefreshBlock(program))
+				return;
+			CancellationTokenSource refresh = new();
+			_blockRefresh = refresh;
+			_ = RefreshLoopAsync(program, refresh.Token);
 		}
-		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-		{
-			App.Logger?.WriteLine(LogIdent, "Offline cache mode could not block asset downloads: " + ex.Message);
-		}
+		App.Logger?.WriteLine(LogIdent, "Offline cache mode is on, Roblox asset downloads are blocked for this session");
 	}
 
 	public static void UnblockDownloads()
 	{
-		if (!_blocking)
+		CancellationTokenSource? refresh;
+		lock (BlockGate)
+		{
+			refresh = _blockRefresh;
+			_blockRefresh = null;
+			BlockedAddresses.Clear();
+		}
+		if (refresh == null)
 			return;
-		_blocking = false;
-		AssetProxyRouting.Cleanup();
+		refresh.Cancel();
+		refresh.Dispose();
+		RemoveFirewallRule();
+		App.Logger?.WriteLine(LogIdent, "Offline cache mode ended, Roblox asset downloads are allowed again");
+	}
+
+	public static void RemoveStaleFirewallRule()
+	{
+		if (!Voidstrap.Utility.Platform.IsWindows || _blockRefresh != null || !ProcessElevation.IsAdministrator())
+			return;
+		System.Diagnostics.Process[] running = System.Diagnostics.Process.GetProcessesByName("RobloxPlayerBeta");
+		bool robloxRunning = running.Length > 0;
+		foreach (System.Diagnostics.Process process in running)
+			process.Dispose();
+		if (!robloxRunning)
+			RemoveFirewallRule();
+	}
+
+	private static async Task RefreshLoopAsync(string program, CancellationToken token)
+	{
+		try
+		{
+			while (!token.IsCancellationRequested)
+			{
+				await Task.Delay(TimeSpan.FromSeconds(30), token).ConfigureAwait(false);
+				lock (BlockGate)
+				{
+					if (!token.IsCancellationRequested)
+						RefreshBlock(program);
+				}
+			}
+		}
+		catch (OperationCanceledException)
+		{
+		}
+	}
+
+	private static bool RefreshBlock(string program)
+	{
+		int before = BlockedAddresses.Count;
+		foreach (string host in DownloadHosts)
+		{
+			try
+			{
+				foreach (System.Net.IPAddress address in System.Net.Dns.GetHostAddresses(host))
+					BlockedAddresses.Add(address.ToString());
+			}
+			catch (System.Net.Sockets.SocketException)
+			{
+			}
+		}
+		if (BlockedAddresses.Count == 0)
+		{
+			App.Logger?.WriteLine(LogIdent, "Offline cache mode could not resolve the Roblox asset servers");
+			return false;
+		}
+		if (BlockedAddresses.Count == before && before > 0)
+			return true;
+		RemoveFirewallRule();
+		return RunNetsh(["advfirewall", "firewall", "add", "rule", "name=" + FirewallRuleName, "dir=out", "action=block", "enable=yes", "profile=any", "program=" + program, "remoteip=" + string.Join(",", BlockedAddresses)]);
+	}
+
+	private static void RemoveFirewallRule()
+	{
+		RunNetsh(["advfirewall", "firewall", "delete", "rule", "name=" + FirewallRuleName], logFailure: false);
+	}
+
+	private static bool RunNetsh(IEnumerable<string> arguments, bool logFailure = true)
+	{
+		try
+		{
+			System.Diagnostics.ProcessStartInfo startInfo = new("netsh")
+			{
+				UseShellExecute = false,
+				CreateNoWindow = true,
+				RedirectStandardOutput = true,
+				RedirectStandardError = true
+			};
+			foreach (string argument in arguments)
+				startInfo.ArgumentList.Add(argument);
+			using System.Diagnostics.Process? process = System.Diagnostics.Process.Start(startInfo);
+			if (process == null)
+				return false;
+			string output = process.StandardOutput.ReadToEnd();
+			process.WaitForExit(10000);
+			if (process.ExitCode != 0 && logFailure)
+				App.Logger?.WriteLine(LogIdent, "The firewall rule could not be updated: " + output.Trim());
+			return process.ExitCode == 0;
+		}
+		catch (Exception ex) when (ex is System.ComponentModel.Win32Exception or InvalidOperationException)
+		{
+			if (logFailure)
+				App.Logger?.WriteLine(LogIdent, "The firewall rule could not be updated: " + ex.Message);
+			return false;
+		}
 	}
 
 	public static void QueueApply()

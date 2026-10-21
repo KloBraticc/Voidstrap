@@ -986,6 +986,7 @@ public partial class App : Application
 			TryStartup("AssetWarp route cleanup", () =>
 			{
 				Voidstrap.Integrations.AssetProxy.AssetProxyServer.CleanupStaleState();
+				Voidstrap.Integrations.AssetProxy.AssetCacheStripper.RemoveStaleFirewallRule();
 			});
 		}
 		if (TryAutoElevateForFrameGen())
