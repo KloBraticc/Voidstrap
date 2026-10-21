@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 using System.Threading;
+using System.Windows.Threading;
 using Voidstrap.Integrations.Overlays;
 using Voidstrap.Utility;
 
@@ -31,9 +32,13 @@ public static partial class KeystrokeInputService
     private static readonly List<long> RmbTimestamps = new(64);
     private static readonly bool[] KeyDownStates = new bool[8];
     private static readonly Dictionary<string, bool> NamedKeyStates = new(StringComparer.OrdinalIgnoreCase);
+    private static readonly Dictionary<string, HashSet<int>> HeldCodes = new(StringComparer.OrdinalIgnoreCase);
+    private static readonly HashSet<int> HeldUnnamedCodes = new();
 
     private static bool _active;
     private static bool _hasInputAccess = true;
+    private static int _generation;
+    private static Dispatcher? _dispatcher;
 
     private static nint _keyboardHook;
     private static nint _mouseHook;
@@ -64,6 +69,8 @@ public static partial class KeystrokeInputService
                 return;
 
             _active = true;
+            _generation++;
+            _dispatcher = System.Windows.Application.Current?.Dispatcher ?? Dispatcher.CurrentDispatcher;
 
             if (Voidstrap.Utility.Platform.IsWindows)
             {
@@ -84,6 +91,7 @@ public static partial class KeystrokeInputService
                 return;
 
             _active = false;
+            _generation++;
 
             if (Voidstrap.Utility.Platform.IsWindows)
             {
@@ -96,6 +104,8 @@ public static partial class KeystrokeInputService
 
             Array.Clear(KeyDownStates, 0, KeyDownStates.Length);
             NamedKeyStates.Clear();
+            HeldCodes.Clear();
+            HeldUnnamedCodes.Clear();
             lock (ClickGate)
             {
                 LmbTimestamps.Clear();
@@ -144,64 +154,73 @@ public static partial class KeystrokeInputService
         }
     }
 
-    private static void DispatchKey(KeystrokeTarget target, bool isDown)
+    private static void QueueInput(int code, string? name, KeystrokeTarget? target, bool isDown)
     {
-        int idx = (int)target;
-        if (idx < 0 || idx >= KeyDownStates.Length)
+        if (isDown && !IsRobloxFocused())
             return;
 
-        bool previous = KeyDownStates[idx];
-        if (previous == isDown)
+        Dispatcher? dispatcher = _dispatcher;
+        if (dispatcher == null || dispatcher.HasShutdownStarted)
             return;
 
-        KeyDownStates[idx] = isDown;
+        int generation = _generation;
+        dispatcher.BeginInvoke(DispatcherPriority.Input, new Action(() => ProcessInput(generation, code, name, target, isDown)));
+    }
 
-        if (isDown)
+    private static void ProcessInput(int generation, int code, string? name, KeystrokeTarget? target, bool isDown)
+    {
+        lock (SyncGate)
         {
-            if (target is KeystrokeTarget.Lmb or KeystrokeTarget.Rmb)
+            if (!_active || generation != _generation)
+                return;
+
+            if (string.IsNullOrEmpty(name))
             {
-                RecordClick(target == KeystrokeTarget.Lmb);
-                KeystrokeAudioService.PlayMouseSound();
+                bool added = isDown ? HeldUnnamedCodes.Add(code) : HeldUnnamedCodes.Remove(code);
+                if (!added || !isDown)
+                    return;
             }
             else
             {
-                KeystrokeAudioService.PlayKeySound();
+                if (!HeldCodes.TryGetValue(name, out HashSet<int>? codes))
+                    HeldCodes[name] = codes = new HashSet<int>();
+                if (isDown)
+                    codes.Add(code);
+                else
+                    codes.Remove(code);
+
+                bool nowDown = codes.Count > 0;
+                NamedKeyStates.TryGetValue(name, out bool previous);
+                if (previous == nowDown)
+                    return;
+                NamedKeyStates[name] = nowDown;
+                isDown = nowDown;
             }
         }
 
-        StateChanged?.Invoke(new KeystrokeInputState(target, isDown));
-
-        string targetName = target switch
+        if (string.IsNullOrEmpty(name))
         {
-            KeystrokeTarget.W => "W",
-            KeystrokeTarget.A => "A",
-            KeystrokeTarget.S => "S",
-            KeystrokeTarget.D => "D",
-            KeystrokeTarget.Space => "Space",
-            KeystrokeTarget.Shift => "Shift",
-            KeystrokeTarget.Lmb => "LMB",
-            KeystrokeTarget.Rmb => "RMB",
-            _ => ""
-        };
-        if (!string.IsNullOrEmpty(targetName))
-            DispatchNamedKey(targetName, isDown);
-    }
-
-    private static void DispatchNamedKey(string keyName, bool isDown)
-    {
-        if (string.IsNullOrWhiteSpace(keyName))
+            KeystrokeAudioService.PlayKeySound();
             return;
-
-        lock (SyncGate)
-        {
-            NamedKeyStates.TryGetValue(keyName, out bool previous);
-            if (previous == isDown)
-                return;
-
-            NamedKeyStates[keyName] = isDown;
         }
 
-        KeyNamedChanged?.Invoke(keyName, isDown);
+        if (isDown)
+        {
+            if (name is "LMB" or "RMB")
+                RecordClick(name == "LMB");
+            if (name is "LMB" or "RMB" or "MMB")
+                KeystrokeAudioService.PlayMouseSound();
+            else
+                KeystrokeAudioService.PlayKeySound();
+        }
+
+        if (target.HasValue)
+        {
+            KeyDownStates[(int)target.Value] = isDown;
+            StateChanged?.Invoke(new KeystrokeInputState(target.Value, isDown));
+        }
+
+        KeyNamedChanged?.Invoke(name, isDown);
     }
 
     private static bool IsRobloxFocused()
@@ -276,18 +295,10 @@ public static partial class KeystrokeInputService
                 bool isDown = msg is 0x0100 or 0x0104;
                 bool isUp = msg is 0x0101 or 0x0105;
 
-                if ((isDown || isUp) && IsRobloxFocused())
+                if (isDown || isUp)
                 {
                     int vkCode = Marshal.ReadInt32(lParam);
-                    string? name = MapVirtualKeyToString(vkCode);
-                    if (!string.IsNullOrEmpty(name))
-                        DispatchNamedKey(name, isDown);
-
-                    KeystrokeTarget? target = MapVirtualKey(vkCode);
-                    if (target.HasValue)
-                        DispatchKey(target.Value, isDown);
-                    else if (isDown)
-                        KeystrokeAudioService.PlayKeySound();
+                    QueueInput(vkCode, MapVirtualKeyToString(vkCode), MapVirtualKey(vkCode), isDown);
                 }
             }
             catch
@@ -303,21 +314,26 @@ public static partial class KeystrokeInputService
         {
             try
             {
-                uint msg = (uint)wParam;
-                if (IsRobloxFocused())
+                switch ((uint)wParam)
                 {
-                    if (msg == 0x0201)
-                        DispatchKey(KeystrokeTarget.Lmb, true);
-                    else if (msg == 0x0202)
-                        DispatchKey(KeystrokeTarget.Lmb, false);
-                    else if (msg == 0x0204)
-                        DispatchKey(KeystrokeTarget.Rmb, true);
-                    else if (msg == 0x0205)
-                        DispatchKey(KeystrokeTarget.Rmb, false);
-                    else if (msg == 0x0207)
-                        DispatchNamedKey("MMB", true);
-                    else if (msg == 0x0208)
-                        DispatchNamedKey("MMB", false);
+                    case 0x0201:
+                        QueueInput(0x01, "LMB", KeystrokeTarget.Lmb, true);
+                        break;
+                    case 0x0202:
+                        QueueInput(0x01, "LMB", KeystrokeTarget.Lmb, false);
+                        break;
+                    case 0x0204:
+                        QueueInput(0x02, "RMB", KeystrokeTarget.Rmb, true);
+                        break;
+                    case 0x0205:
+                        QueueInput(0x02, "RMB", KeystrokeTarget.Rmb, false);
+                        break;
+                    case 0x0207:
+                        QueueInput(0x04, "MMB", null, true);
+                        break;
+                    case 0x0208:
+                        QueueInput(0x04, "MMB", null, false);
+                        break;
                 }
             }
             catch
@@ -493,8 +509,15 @@ public static partial class KeystrokeInputService
                 if (ret <= 0)
                     continue;
 
+                bool lostDevice = false;
                 for (int i = 0; i < pollFds.Length; i++)
                 {
+                    if ((pollFds[i].Revents & 0x38) != 0)
+                    {
+                        lostDevice = true;
+                        continue;
+                    }
+
                     if ((pollFds[i].Revents & 1) == 0)
                         continue;
 
@@ -510,27 +533,31 @@ public static partial class KeystrokeInputService
                         ushort code = BitConverter.ToUInt16(eventBuffer, offset + 18);
                         int value = BitConverter.ToInt32(eventBuffer, offset + 20);
 
-                        if (type != 1)
+                        if (type != 1 || value is not (0 or 1))
                             continue;
 
-                        if (!IsRobloxFocused())
-                            continue;
-
-                        bool down = value == 1;
-                        bool up = value == 0;
-                        if (!down && !up)
-                            continue;
-
-                        string? name = MapLinuxCodeToString(code);
-                        if (!string.IsNullOrEmpty(name))
-                            DispatchNamedKey(name, down);
-
-                        KeystrokeTarget? target = MapLinuxCode(code);
-                        if (target.HasValue)
-                            DispatchKey(target.Value, down);
-                        else if (down)
-                            KeystrokeAudioService.PlayKeySound();
+                        QueueInput(code, MapLinuxCodeToString(code), MapLinuxCode(code), value == 1);
                     }
+                }
+
+                if (lostDevice)
+                {
+                    List<PollFd> alive = new(pollFds.Length);
+                    foreach (PollFd pollFd in pollFds)
+                    {
+                        if ((pollFd.Revents & 0x38) != 0)
+                        {
+                            CloseLinux(pollFd.Fd);
+                            openedFds.Remove(pollFd.Fd);
+                        }
+                        else
+                        {
+                            alive.Add(pollFd with { Revents = 0 });
+                        }
+                    }
+                    pollFds = alive.ToArray();
+                    if (pollFds.Length == 0)
+                        return;
                 }
             }
         }

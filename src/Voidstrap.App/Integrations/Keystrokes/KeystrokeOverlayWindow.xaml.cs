@@ -155,7 +155,7 @@ public partial class KeystrokeOverlayWindow : Window
 
         _cpsTimer = new DispatcherTimer(DispatcherPriority.Normal)
         {
-            Interval = TimeSpan.FromMilliseconds(50)
+            Interval = TimeSpan.FromMilliseconds(500)
         };
         _cpsTimer.Tick += OnCpsTimerTick;
 
@@ -417,6 +417,12 @@ public partial class KeystrokeOverlayWindow : Window
             TextRmbCps.Foreground = cpsBrush;
             TextRmbCps.FontFamily = fontFamily;
         }
+
+        foreach (string keyName in _keyElements.Keys.ToList())
+        {
+            if (KeystrokeInputService.IsNamedDown(keyName))
+                UpdateVisualNamed(keyName, true);
+        }
     }
 
     public async Task TriggerPreviewSequenceAsync()
@@ -447,7 +453,6 @@ public partial class KeystrokeOverlayWindow : Window
     private void OnOverlayLoaded(object? sender, RoutedEventArgs e)
     {
         MakeClickThrough();
-        KeystrokeInputService.StateChanged += OnKeystrokeStateChanged;
         KeystrokeInputService.KeyNamedChanged += OnKeyNamedChanged;
         KeystrokeThemeManager.ActiveThemeChanged += OnActiveThemeChanged;
         _cpsTimer.Start();
@@ -462,10 +467,10 @@ public partial class KeystrokeOverlayWindow : Window
     private void OnOverlayClosed(object? sender, EventArgs e)
     {
         _disposed = true;
-        KeystrokeInputService.StateChanged -= OnKeystrokeStateChanged;
         KeystrokeInputService.KeyNamedChanged -= OnKeyNamedChanged;
         KeystrokeThemeManager.ActiveThemeChanged -= OnActiveThemeChanged;
         _cpsTimer.Stop();
+        _cpsTimer.Tick -= OnCpsTimerTick;
         _anchor.Dispose();
 
         lock (InstanceGate)
@@ -481,37 +486,17 @@ public partial class KeystrokeOverlayWindow : Window
             return;
 
         if (App.Settings.Prop.KeystrokesShowCps)
-        {
-            TextLmbCps.Text = KeystrokeInputService.GetLmbCps() + " CPS";
-            TextRmbCps.Text = KeystrokeInputService.GetRmbCps() + " CPS";
-        }
+            UpdateCpsText();
     }
 
-    private void OnKeystrokeStateChanged(KeystrokeInputState state)
+    private void UpdateCpsText()
     {
-        if (_disposed || Dispatcher.HasShutdownStarted)
-            return;
-
-        if (!Dispatcher.CheckAccess())
-        {
-            Dispatcher.BeginInvoke(new Action(() => OnKeystrokeStateChanged(state)));
-            return;
-        }
-
-        string keyName = state.Target switch
-        {
-            KeystrokeTarget.W => "W",
-            KeystrokeTarget.A => "A",
-            KeystrokeTarget.S => "S",
-            KeystrokeTarget.D => "D",
-            KeystrokeTarget.Shift => "Shift",
-            KeystrokeTarget.Space => "Space",
-            KeystrokeTarget.Lmb => "LMB",
-            KeystrokeTarget.Rmb => "RMB",
-            _ => ""
-        };
-
-        UpdateVisualNamed(keyName, state.IsDown);
+        string lmb = KeystrokeInputService.GetLmbCps() + " CPS";
+        string rmb = KeystrokeInputService.GetRmbCps() + " CPS";
+        if (TextLmbCps.Text != lmb)
+            TextLmbCps.Text = lmb;
+        if (TextRmbCps.Text != rmb)
+            TextRmbCps.Text = rmb;
     }
 
     private void OnKeyNamedChanged(string keyName, bool isDown)
@@ -526,6 +511,8 @@ public partial class KeystrokeOverlayWindow : Window
         }
 
         UpdateVisualNamed(keyName, isDown);
+        if (isDown && keyName is "LMB" or "RMB" && App.Settings.Prop.KeystrokesShowCps)
+            UpdateCpsText();
     }
 
     private void UpdateVisualNamed(string keyName, bool isDown)
