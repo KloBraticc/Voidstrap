@@ -240,7 +240,7 @@ pub fn prepare_reshade_config(directory: &Path) -> io::Result<()> {
         let _ = ini.set("INPUT", "InputProcessing", "2");
     }
 
-    let _ = ini.set("GENERAL", "SkipLoadingDisabledEffects", "1");
+    let _ = ini.set("GENERAL", "SkipLoadingDisabledEffects", "0");
     let _ = ini.set("GENERAL", "NoEffectCache", "0");
     let _ = ini.set("GENERAL", "NoReloadOnInit", "0");
     let _ = ini.set("GENERAL", "NoDebugInfo", "1");
@@ -311,7 +311,7 @@ mod tests {
         );
         assert_eq!(
             parsed.get("GENERAL", "SkipLoadingDisabledEffects"),
-            Some("1")
+            Some("0")
         );
         assert_eq!(parsed.get("GENERAL", "NoEffectCache"), Some("0"));
         assert_eq!(parsed.get("GENERAL", "NoReloadOnInit"), Some("0"));

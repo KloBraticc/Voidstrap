@@ -135,7 +135,6 @@ namespace Voidstrap.Integrations.Overlays
         private ID3D11Texture2D? _rawTex;
         private ID3D11ShaderResourceView? _rawSrv;
         private ID3D11RenderTargetView? _rawRtv;
-        private const double RiShadeDepthIntervalMs = 1000.0 / 60.0;
         private IntPtr _riRuntime;
         private bool _riDepthBridge;
         private bool _riDepthBridgeInitialized;
@@ -144,7 +143,6 @@ namespace Voidstrap.Integrations.Overlays
         private bool _riShadeInteractive;
         private bool _riMissingRuntimeLogged;
         private long _riDepthStamp;
-        private double _riDepthStampMs;
         private readonly ID3D11Texture2D?[] _stageTex = new ID3D11Texture2D?[2];
         private readonly ID3D11ShaderResourceView?[] _stageSrv = new ID3D11ShaderResourceView?[2];
         private readonly ID3D11RenderTargetView?[] _stageRtv = new ID3D11RenderTargetView?[2];
@@ -2134,12 +2132,7 @@ namespace Voidstrap.Integrations.Overlays
             {
                 try
                 {
-                    if (_freshCaptureMs - _riDepthStampMs >= RiShadeDepthIntervalMs)
-                    {
-                        _riDepthStampMs = _freshCaptureMs;
-                        _riDepthStamp++;
-                    }
-                    _ = RiShadeInterop.DepthBridgeUpdate(_rawSrv.NativePointer, _riDepthStamp);
+                    _ = RiShadeInterop.DepthBridgeUpdate(_rawSrv.NativePointer, ++_riDepthStamp);
                 }
                 catch (Exception ex)
                 {
