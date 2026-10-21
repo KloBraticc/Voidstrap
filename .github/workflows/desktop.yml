@@ -47,6 +47,17 @@ jobs:
             ~/.cache/voidstrap/rcodesign
           key: deps-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('**/*.csproj', '**/Directory.Build.*', 'native/**/Cargo.lock', 'build/Packaging/MacOS/package.sh') }}
           restore-keys: deps-${{ runner.os }}-${{ runner.arch }}-
+      - name: Cache compiled native libraries
+        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
+        with:
+          path: |
+            src/Voidstrap.App/obj/voidimage/x86_64-pc-windows-msvc/release
+            src/Voidstrap.App/obj/framepacer/x86_64-pc-windows-msvc/release
+            src/Voidstrap.App/obj/voidclip/x86_64-pc-windows-msvc/release
+            src/Voidstrap.App/obj/rishade/x86_64-pc-windows-msvc/release
+            src/Voidstrap.App/obj/rishade/depth
+          key: native-${{ runner.os }}-${{ hashFiles('native/**/Cargo.lock', 'native/**/Cargo.toml', 'native/rishade-depth/CMakeLists.txt') }}-${{ hashFiles('native/**/*.rs', 'native/**/*.cpp', 'native/**/*.h') }}
+          restore-keys: native-${{ runner.os }}-${{ hashFiles('native/**/Cargo.lock', 'native/**/Cargo.toml', 'native/rishade-depth/CMakeLists.txt') }}-
       - run: dotnet build Voidstrap.sln -c Debug -warnaserror
       - run: dotnet publish src/Voidstrap.App/Voidstrap.csproj -c Release -r win-x64 --self-contained false -o artifacts/windows
       - run: dotnet publish src/Voidstrap.Desktop.Windows/Voidstrap.Desktop.Windows.csproj -c Release -r win-x64 --self-contained true -o artifacts/windows-desktop
