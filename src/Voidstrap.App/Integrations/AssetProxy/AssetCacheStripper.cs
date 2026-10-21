@@ -1,4 +1,5 @@
 using System;
+using System.Buffers.Binary;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
@@ -27,6 +28,8 @@ internal static class AssetCacheStripper
 	private static readonly byte[] BlankAnimation = Encoding.ASCII.GetBytes("<roblox version=\"4\"><Item class=\"KeyframeSequence\" referent=\"RBX0\"><Properties><bool name=\"Loop\">false</bool><string name=\"Name\">KeyframeSequence</string></Properties></Item></roblox>");
 
 	private static readonly byte[] KtxMagic = [0xAB, (byte)'K', (byte)'T', (byte)'X'];
+
+	private static readonly byte[] Ktx2Identifier = [0xAB, 0x4B, 0x54, 0x58, 0x20, 0x32, 0x30, 0xBB, 0x0D, 0x0A, 0x1A, 0x0A];
 
 	private static readonly byte[] PngMagic = [0x89, (byte)'P', (byte)'N', (byte)'G'];
 
@@ -170,23 +173,25 @@ internal static class AssetCacheStripper
 
 	private static bool Strip(string file, string hash, Kind kind)
 	{
-		byte[] blank = kind switch
-		{
-			Kind.Meshes => BlankMesh,
-			Kind.Animations => BlankAnimation,
-			_ => BlankImage
-		};
-		FileInfo info = new(file);
-		if (info.Length == RobloxAssetCache.HeaderBytes + blank.Length)
-			return false;
-
 		string backupDirectory = Path.Combine(BackupRoot, kind.ToString());
 		Directory.CreateDirectory(backupDirectory);
 		string backup = Path.Combine(backupDirectory, hash);
-		byte[] original = File.ReadAllBytes(file);
+		bool backedUp = File.Exists(backup);
+		byte[] original = File.ReadAllBytes(backedUp ? backup : file);
 		if (!RobloxAssetCache.IsCacheEntry(original, original.Length))
 			return false;
-		File.WriteAllBytes(backup, original);
+
+		byte[]? blank = kind switch
+		{
+			Kind.Meshes => BlankMesh,
+			Kind.Animations => BlankAnimation,
+			Kind.Textures => BuildBlankKtx(original.AsSpan(RobloxAssetCache.HeaderBytes)),
+			_ => BlankImage
+		};
+		if (blank == null || new FileInfo(file).Length == RobloxAssetCache.HeaderBytes + blank.Length)
+			return false;
+		if (!backedUp)
+			File.WriteAllBytes(backup, original);
 
 		byte[] replacement = new byte[RobloxAssetCache.HeaderBytes + blank.Length];
 		Array.Copy(original, replacement, RobloxAssetCache.HeaderBytes);
@@ -196,6 +201,36 @@ internal static class AssetCacheStripper
 		File.WriteAllBytes(file, replacement);
 		SetReadOnly(file, true);
 		return true;
+	}
+
+	private static byte[]? BuildBlankKtx(ReadOnlySpan<byte> body)
+	{
+		if (body.Length < 80 || !body.StartsWith(Ktx2Identifier))
+			return null;
+		uint format = BinaryPrimitives.ReadUInt32LittleEndian(body[12..]);
+		uint dfdOffset = BinaryPrimitives.ReadUInt32LittleEndian(body[48..]);
+		uint dfdLength = BinaryPrimitives.ReadUInt32LittleEndian(body[52..]);
+		if (dfdLength == 0 || dfdOffset + (ulong)dfdLength > (ulong)body.Length)
+			return null;
+		int block = format is >= 135 and <= 146 ? 16 : 8;
+		const int dfdStart = 80 + 24;
+		int dataStart = (dfdStart + (int)dfdLength + 15) / 16 * 16;
+		byte[] output = new byte[dataStart + block];
+		Ktx2Identifier.CopyTo(output, 0);
+		Span<byte> span = output;
+		BinaryPrimitives.WriteUInt32LittleEndian(span[12..], format);
+		BinaryPrimitives.WriteUInt32LittleEndian(span[16..], 1);
+		BinaryPrimitives.WriteUInt32LittleEndian(span[20..], 4);
+		BinaryPrimitives.WriteUInt32LittleEndian(span[24..], 4);
+		BinaryPrimitives.WriteUInt32LittleEndian(span[36..], 1);
+		BinaryPrimitives.WriteUInt32LittleEndian(span[40..], 1);
+		BinaryPrimitives.WriteUInt32LittleEndian(span[48..], dfdStart);
+		BinaryPrimitives.WriteUInt32LittleEndian(span[52..], dfdLength);
+		BinaryPrimitives.WriteUInt64LittleEndian(span[80..], (ulong)dataStart);
+		BinaryPrimitives.WriteUInt64LittleEndian(span[88..], (ulong)block);
+		BinaryPrimitives.WriteUInt64LittleEndian(span[96..], (ulong)block);
+		body.Slice((int)dfdOffset, (int)dfdLength).CopyTo(span[dfdStart..]);
+		return output;
 	}
 
 	private static void RestoreKind(Kind kind, List<(string Hash, long Size)> sizes)
