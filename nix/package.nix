@@ -119,8 +119,7 @@ buildDotnetModule (finalAttrs: {
     install -Dm644 build/Packaging/Linux/voidstrap.desktop \
       $out/share/applications/io.github.KloBraticc.Voidstrap.desktop
     substituteInPlace $out/share/applications/io.github.KloBraticc.Voidstrap.desktop \
-      --replace-fail "Exec=voidstrap" "Exec=$out/bin/voidstrap" \
-      --replace-fail "TryExec=voidstrap" "TryExec=$out/bin/voidstrap"
+      --replace-fail "Exec=voidstrap" "Exec=$out/bin/voidstrap"
     install -Dm644 src/Voidstrap.App/Voidstrap.png \
       $out/share/icons/hicolor/256x256/apps/io.github.KloBraticc.Voidstrap.png
     install -Dm644 build/Packaging/Linux/io.github.KloBraticc.Voidstrap.metainfo.xml \
