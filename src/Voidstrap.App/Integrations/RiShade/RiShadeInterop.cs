@@ -25,11 +25,7 @@ namespace Voidstrap.Integrations.RiShade
 
         [LibraryImport("rishade_reshade_addon", EntryPoint = "RiShadeRenderEffects")]
         [return: MarshalAs(UnmanagedType.I1)]
-        public static partial bool RenderEffects(IntPtr runtime, IntPtr inputSrv, IntPtr inputSrvSrgb, IntPtr targetRtv, IntPtr targetRtvSrgb);
-
-        [LibraryImport("rishade_reshade_addon", EntryPoint = "RiShadeRuntimeBindDepthTexture")]
-        [return: MarshalAs(UnmanagedType.I1)]
-        public static partial bool RuntimeBindDepthTexture(IntPtr runtime, IntPtr depthSrv);
+        public static partial bool RenderEffects(IntPtr runtime, IntPtr targetRtv, IntPtr targetRtvSrgb);
 
         [LibraryImport("rishade_depth_bridge", EntryPoint = "RiShadeDepthBridgeInitialize", StringMarshalling = StringMarshalling.Utf16)]
         [return: MarshalAs(UnmanagedType.I1)]
@@ -48,14 +44,6 @@ namespace Voidstrap.Integrations.RiShade
 
         [LibraryImport("rishade_depth_bridge", EntryPoint = "RiShadeDepthBridgeShutdown")]
         public static partial void DepthBridgeShutdown();
-
-        [LibraryImport("rishade_reshade_addon", EntryPoint = "RiShadeAddonIsCompilingEffects")]
-        [return: MarshalAs(UnmanagedType.I1)]
-        public static partial bool IsCompilingEffects();
-
-        [LibraryImport("rishade_reshade_addon", EntryPoint = "RiShadeAddonIsLoadingEffects")]
-        [return: MarshalAs(UnmanagedType.I1)]
-        public static partial bool IsLoadingEffects();
 
         [LibraryImport("rishade_reshade_addon", EntryPoint = "RiShadeAddonIsOverlayOpen")]
         [return: MarshalAs(UnmanagedType.I1)]
@@ -83,12 +71,5 @@ namespace Voidstrap.Integrations.RiShade
         [LibraryImport("rishade_core", EntryPoint = "RiShadePresetFileIsLoadable", StringMarshalling = StringMarshalling.Utf8)]
         [return: MarshalAs(UnmanagedType.I1)]
         public static partial bool PresetFileIsLoadable(string presetPath);
-
-        [LibraryImport("user32.dll", StringMarshalling = StringMarshalling.Utf16)]
-        public static partial IntPtr FindWindowW(string? lpClassName, string? lpWindowName);
-
-        [LibraryImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static partial bool PostMessageW(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
     }
 }

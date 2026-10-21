@@ -135,12 +135,16 @@ namespace Voidstrap.Integrations.Overlays
         private ID3D11Texture2D? _rawTex;
         private ID3D11ShaderResourceView? _rawSrv;
         private ID3D11RenderTargetView? _rawRtv;
+        private const double RiShadeDepthIntervalMs = 1000.0 / 60.0;
         private IntPtr _riRuntime;
         private bool _riDepthBridge;
         private bool _riDepthBridgeInitialized;
         private bool _riPresentFailureLogged;
         private long _riRuntimeRetryAt;
         private bool _riShadeInteractive;
+        private bool _riMissingRuntimeLogged;
+        private long _riDepthStamp;
+        private double _riDepthStampMs;
         private readonly ID3D11Texture2D?[] _stageTex = new ID3D11Texture2D?[2];
         private readonly ID3D11ShaderResourceView?[] _stageSrv = new ID3D11ShaderResourceView?[2];
         private readonly ID3D11RenderTargetView?[] _stageRtv = new ID3D11RenderTargetView?[2];
@@ -758,19 +762,35 @@ namespace Voidstrap.Integrations.Overlays
             _riRuntimeRetryAt = Environment.TickCount64 + 5000;
             try
             {
-                RiShadeManager.CleanLog();
-                Environment.SetEnvironmentVariable("RESHADE_DISABLE_LOGGING", "1");
-                if (!RiShadeInterop.PrepareConfig(RiShadeManager.RiShadeDir))
+                if (!File.Exists(RiShadeManager.DxgiDllPath))
                 {
-                    App.Logger.WriteLine(LOG_IDENT, "RiShade could not prepare ReShade configuration; frames remain unmodified");
+                    if (!_riMissingRuntimeLogged)
+                    {
+                        _riMissingRuntimeLogged = true;
+                        App.Logger.WriteLine(LOG_IDENT, "RiShade is waiting for the ReShade runtime to finish installing, frames remain unmodified");
+                    }
                     return;
                 }
 
-                if (!File.Exists(RiShadeManager.DxgiDllPath) || !RiShadeInterop.RuntimeLoad(RiShadeManager.DxgiDllPath))
+                Environment.SetEnvironmentVariable("RESHADE_DISABLE_LOGGING", "1");
+                if (!RiShadeInterop.PrepareConfig(RiShadeManager.RiShadeDir))
+                {
+                    App.Logger.WriteLine(LOG_IDENT, "RiShade could not prepare ReShade configuration, frames remain unmodified");
                     return;
+                }
 
-                string depthModel = Path.Combine(RiShadeManager.RiShadeDir, "depth-anything-v2-small.onnx");
-                if (File.Exists(depthModel))
+                if (!RiShadeInterop.RuntimeLoad(RiShadeManager.DxgiDllPath))
+                {
+                    if (!_riMissingRuntimeLogged)
+                    {
+                        _riMissingRuntimeLogged = true;
+                        App.Logger.WriteLine(LOG_IDENT, "The ReShade runtime in the RiShade folder could not be loaded, frames remain unmodified");
+                    }
+                    return;
+                }
+                _riMissingRuntimeLogged = false;
+
+                if (RiShadeManager.DepthBridgeAvailable && File.Exists(RiShadeManager.DepthModelPath))
                 {
                     try
                     {
@@ -782,7 +802,7 @@ namespace Voidstrap.Integrations.Overlays
                                 _context!.NativePointer,
                                 RiShadeManager.RiShadeDir);
                         if (!_riDepthBridge)
-                            App.Logger.WriteLine(LOG_IDENT, "RiShade native depth initialization failed; color effects remain available");
+                            App.Logger.WriteLine(LOG_IDENT, "RiShade depth estimation could not start, color effects remain available");
                     }
                     catch (Exception ex)
                     {
@@ -801,11 +821,9 @@ namespace Voidstrap.Integrations.Overlays
                 RiShadeManager.SetRuntime(_riRuntime);
                 if (_riRuntime != IntPtr.Zero)
                     _riRuntimeRetryAt = 0;
-                if (_riRuntime != IntPtr.Zero && !RiShadeManager.HasLoadablePreset)
-                    App.Logger.WriteLine(LOG_IDENT, "No valid RiShade preset is selected; bypassing effects to preserve the captured game image");
                 App.Logger.WriteLine(LOG_IDENT, _riRuntime != IntPtr.Zero
                     ? "ReShade runtime created for the in-process compositor swapchain"
-                    : "ReShade could not create a runtime for the compositor swapchain; frames remain unmodified");
+                    : "ReShade could not create a runtime for the compositor swapchain, frames remain unmodified");
             }
             catch (Exception ex)
             {
@@ -818,16 +836,24 @@ namespace Voidstrap.Integrations.Overlays
             if (App.Settings.Prop.RiShadeEnabled)
             {
                 TryCreateRiShadeRuntime();
+                if (_riRuntime != IntPtr.Zero)
+                {
+                    RiShadeManager.ApplyPendingOverlay();
+                    RiShadeManager.RefreshPresetState();
+                }
                 bool overlayOpen = _riRuntime != IntPtr.Zero && RiShadeManager.IsOverlayOpen;
                 if (overlayOpen != _riShadeInteractive && _hwnd != IntPtr.Zero)
                 {
                     _riShadeInteractive = overlayOpen;
+                    RiShadePanel.NotifyOpenChanged(overlayOpen);
                     nint exStyle = Interop.GetWindowLongPtrW(_hwnd, Interop.GWL_EXSTYLE);
                     if (overlayOpen)
                     {
                         exStyle &= ~(Interop.WS_EX_TRANSPARENT | Interop.WS_EX_NOACTIVATE);
                         Interop.SetWindowLongPtrW(_hwnd, Interop.GWL_EXSTYLE, exStyle);
                         Interop.SetWindowPos(_hwnd, IntPtr.Zero, 0, 0, 0, 0, Interop.SWP_NOMOVE | Interop.SWP_NOSIZE | Interop.SWP_NOZORDER | Interop.SWP_FRAMECHANGED);
+                        if (_hiddenByFocus)
+                            Interop.ShowWindow(_hwnd, Interop.SW_SHOWNOACTIVATE);
                         Interop.SetForegroundWindow(_hwnd);
                         Interop.SetCursor(Interop.LoadCursorW(IntPtr.Zero, (IntPtr)32512));
                     }
@@ -874,7 +900,6 @@ namespace Voidstrap.Integrations.Overlays
                 App.Logger.WriteException("OverlayCompositor::DestroyRiShadeRuntime", ex);
             }
             _riRuntime = IntPtr.Zero;
-            RiShadeManager.CleanLog();
         }
 
         private void RaiseFrameLatencyLimit(int frames)
@@ -2104,11 +2129,16 @@ namespace Voidstrap.Integrations.Overlays
                 App.Logger.WriteLine(LOG_IDENT, $"First frame captured at {_width}x{_height} via {(_wgc != null ? "window capture" : "desktop duplication")}, compositor is live");
             }
 
-            if (App.Settings.Prop.RiShadeEnabled && _riRuntime != IntPtr.Zero && _riDepthBridge && _rawSrv != null)
+            if (App.Settings.Prop.RiShadeEnabled && _riRuntime != IntPtr.Zero && _riDepthBridge && _rawSrv != null && RiShadeManager.PresetNeedsDepth)
             {
                 try
                 {
-                    _ = RiShadeInterop.DepthBridgeUpdate(_rawSrv.NativePointer, (long)(_freshCaptureMs * 1000.0));
+                    if (_freshCaptureMs - _riDepthStampMs >= RiShadeDepthIntervalMs)
+                    {
+                        _riDepthStampMs = _freshCaptureMs;
+                        _riDepthStamp++;
+                    }
+                    _ = RiShadeInterop.DepthBridgeUpdate(_rawSrv.NativePointer, _riDepthStamp);
                 }
                 catch (Exception ex)
                 {
@@ -2126,12 +2156,7 @@ namespace Voidstrap.Integrations.Overlays
                     if (_rawTex != null && _stageTex[0] != null)
                         _context!.CopyResource(_stageTex[0]!, _rawTex!);
 
-                    riRendered = RiShadeInterop.RenderEffects(
-                        _riRuntime,
-                        _rawSrv!.NativePointer,
-                        IntPtr.Zero,
-                        _stageRtv[0]!.NativePointer,
-                        IntPtr.Zero);
+                    riRendered = RiShadeInterop.RenderEffects(_riRuntime, _stageRtv[0]!.NativePointer, IntPtr.Zero);
                     if (riRendered)
                         composited = _stageSrv[0]!;
                 }
@@ -2139,6 +2164,7 @@ namespace Voidstrap.Integrations.Overlays
                 {
                     App.Logger.WriteException("OverlayCompositor::RiShadeStage", ex);
                     DestroyRiShadeRuntime();
+                    _riRuntimeRetryAt = Environment.TickCount64 + 5000;
                 }
             }
             if (aaOn && _aaAttached)

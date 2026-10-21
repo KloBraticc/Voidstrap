@@ -45,21 +45,18 @@ namespace Voidstrap.Integrations.RiShade
         {
             if (!OperatingSystem.IsWindowsVersionAtLeast(10, 0, 19041))
                 return null;
+            var wgc = new RiShadeWgc();
             try
             {
-                var wgc = new RiShadeWgc();
-                if (!wgc.Initialize(device, targetHwnd, targetFps))
-                {
-                    wgc.Dispose();
-                    return null;
-                }
-                return wgc;
+                if (wgc.Initialize(device, targetHwnd, targetFps))
+                    return wgc;
             }
             catch (Exception ex)
             {
                 App.Logger.WriteLine(LOG_IDENT, "Window capture unavailable, falling back to monitor capture: " + ex.Message);
-                return null;
             }
+            wgc.Dispose();
+            return null;
         }
 
         [SupportedOSPlatform("windows10.0.19041.0")]

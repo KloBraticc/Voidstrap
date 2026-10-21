@@ -99,6 +99,7 @@ fn get_pictures_dir() -> PathBuf {
 }
 
 pub fn prepare_reshade_config(directory: &Path) -> io::Result<()> {
+    crate::effect_setup::remove_retired_assets(directory);
     let path = directory.join("ReShade.ini");
     let original_text = if path.is_file() {
         fs::read_to_string(&path)?
@@ -179,7 +180,10 @@ pub fn prepare_reshade_config(directory: &Path) -> io::Result<()> {
             kept.push(item);
         }
     }
-    if !kept.iter().any(|&item| item.eq_ignore_ascii_case("Generic Depth")) {
+    if !kept
+        .iter()
+        .any(|&item| item.eq_ignore_ascii_case("Generic Depth"))
+    {
         kept.push("Generic Depth");
     }
     let kept_str = kept.join(",");
@@ -210,14 +214,6 @@ pub fn prepare_reshade_config(directory: &Path) -> io::Result<()> {
         let _ = ini.set("SCREENSHOT", "SavePath", &path_str);
     }
 
-    if directory.join("renodx-dlss.addon64").exists()
-        && ini
-            .get("RENODX-DLSS", "DirectNeuralRenderingRequireDlss")
-            .is_none()
-    {
-        let _ = ini.set("RENODX-DLSS", "DirectNeuralRenderingRequireDlss", "0");
-    }
-
     let key_overlay_empty = ini.get("INPUT", "KeyOverlay").map_or(true, |v| {
         let trimmed = v.trim();
         trimmed.is_empty()
@@ -244,13 +240,19 @@ pub fn prepare_reshade_config(directory: &Path) -> io::Result<()> {
         let _ = ini.set("INPUT", "InputProcessing", "2");
     }
 
-    let _ = ini.set("GENERAL", "SkipLoadingDisabledEffects", "0");
+    let _ = ini.set("GENERAL", "SkipLoadingDisabledEffects", "1");
     let _ = ini.set("GENERAL", "NoEffectCache", "0");
     let _ = ini.set("GENERAL", "NoReloadOnInit", "0");
     let _ = ini.set("GENERAL", "NoDebugInfo", "1");
     let preprocessor_defs = "RESHADE_DEPTH_LINEARIZATION_FAR_PLANE=1000.0,RESHADE_DEPTH_INPUT_IS_UPSIDE_DOWN=0,RESHADE_DEPTH_INPUT_IS_REVERSED=0,RESHADE_DEPTH_INPUT_IS_LOGARITHMIC=0,RESHADE_DEPTH_INPUT_X_SCALE=1.0,RESHADE_DEPTH_INPUT_Y_SCALE=1.0,BABA_USE_LEGACY_PIPELINE=1";
-    let cur_defs = ini.get("GENERAL", "PreprocessorDefinitions").unwrap_or_default();
-    if cur_defs.trim().is_empty() || !cur_defs.contains("RESHADE_DEPTH_INPUT_IS_REVERSED") || !cur_defs.contains("BABA_USE_LEGACY_PIPELINE") || !cur_defs.contains("RESHADE_DEPTH_INPUT_X_SCALE") {
+    let cur_defs = ini
+        .get("GENERAL", "PreprocessorDefinitions")
+        .unwrap_or_default();
+    if cur_defs.trim().is_empty()
+        || !cur_defs.contains("RESHADE_DEPTH_INPUT_IS_REVERSED")
+        || !cur_defs.contains("BABA_USE_LEGACY_PIPELINE")
+        || !cur_defs.contains("RESHADE_DEPTH_INPUT_X_SCALE")
+    {
         let _ = ini.set("GENERAL", "PreprocessorDefinitions", preprocessor_defs);
     }
     let cache_dir = directory.join("Cache");
@@ -309,7 +311,7 @@ mod tests {
         );
         assert_eq!(
             parsed.get("GENERAL", "SkipLoadingDisabledEffects"),
-            Some("0")
+            Some("1")
         );
         assert_eq!(parsed.get("GENERAL", "NoEffectCache"), Some("0"));
         assert_eq!(parsed.get("GENERAL", "NoReloadOnInit"), Some("0"));

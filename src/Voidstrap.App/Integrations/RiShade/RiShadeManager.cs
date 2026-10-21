@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Runtime.InteropServices;
 using System.Security.Cryptography;
@@ -18,78 +19,46 @@ namespace Voidstrap.Integrations.RiShade
         private const string ReShadeSetupUrl = "https://reshade.me/downloads/ReShade_Setup_6.8.0_Addon.exe";
         private const string ReShadeSetupSha256 = "AFE4C8F13048306307983B8B3D41D5BF00A86820440B0E57DEA10950E1176445";
         private const long MaxSetupBytes = 512L * 1024 * 1024;
+        private const int SetupTimeoutMs = 120_000;
+        private const int PresetStateIntervalMs = 1000;
+        private const int OverlayRequestLifetimeMs = 15_000;
+        private const int NoOverlayRequest = -1;
         private static readonly SemaphoreSlim SetupGate = new(1, 1);
-        private static bool _installed;
         private static readonly object RuntimeLock = new();
+        private static readonly Lazy<bool> DepthBridgeLibraryPresent = new(() =>
+            File.Exists(Path.Combine(AppContext.BaseDirectory, "rishade_depth_bridge.dll")));
+        private static bool _installed;
         private static IntPtr _runtime;
         private static volatile bool _hasLoadablePreset;
-
-        public static bool HasLoadablePreset
-        {
-            get
-            {
-                if (_hasLoadablePreset)
-                    return true;
-                string? presetPath = CurrentPresetPath;
-                if (!string.IsNullOrWhiteSpace(presetPath))
-                {
-                    string checkPath = Path.IsPathRooted(presetPath)
-                        ? presetPath
-                        : Path.Combine(RiShadeDir, presetPath);
-                    _hasLoadablePreset = RiShadeInterop.PresetFileIsLoadable(checkPath);
-                    if (_hasLoadablePreset)
-                        return true;
-                }
-                string iniPath = Path.Combine(RiShadeDir, "ReShade.ini");
-                if (File.Exists(iniPath))
-                {
-                    try
-                    {
-                        foreach (string line in File.ReadLines(iniPath))
-                        {
-                            if (line.StartsWith("PresetPath=", StringComparison.OrdinalIgnoreCase))
-                            {
-                                string val = line["PresetPath=".Length..].Trim();
-                                if (!string.IsNullOrEmpty(val))
-                                {
-                                    string checkPath = Path.IsPathRooted(val) ? val : Path.Combine(RiShadeDir, val);
-                                    _hasLoadablePreset = RiShadeInterop.PresetFileIsLoadable(checkPath);
-                                    return _hasLoadablePreset;
-                                }
-                            }
-                        }
-                    }
-                    catch
-                    {
-                    }
-                }
-                return false;
-            }
-        }
+        private static volatile bool _presetNeedsDepth;
+        private static string? _presetStatePath;
+        private static DateTime _presetStateWriteTime;
+        private static long _nextPresetStateCheck;
+        private static int _presetStateRefreshing;
+        private static int _pendingOverlay = NoOverlayRequest;
+        private static long _pendingOverlayExpiry;
 
         public static string RiShadeDir => Paths.RiShade;
         public static string DxgiDllPath => Path.Combine(Paths.RiShade, "dxgi.dll");
         public static string ShadersDirPath => Path.Combine(Paths.RiShade, "reshade-shaders");
+        public static string DepthModelPath => Path.Combine(Paths.RiShade, "depth-anything-v2-small.onnx");
 
         public static bool IsRuntimePopulated =>
             File.Exists(DxgiDllPath) &&
             File.Exists(Path.Combine(RiShadeDir, "ReShade.ini"));
 
-        public static bool IsCompilingEffects
-        {
-            get
-            {
-                lock (RuntimeLock)
-                    return _runtime != IntPtr.Zero && RiShadeInterop.IsCompilingEffects();
-            }
-        }
+        public static bool HasLoadablePreset => _hasLoadablePreset;
 
-        public static bool IsLoadingEffects
+        public static bool PresetNeedsDepth => _presetNeedsDepth;
+
+        public static bool DepthBridgeAvailable => DepthBridgeLibraryPresent.Value;
+
+        public static bool HasRuntime
         {
             get
             {
                 lock (RuntimeLock)
-                    return _runtime != IntPtr.Zero && RiShadeInterop.IsLoadingEffects();
+                    return _runtime != IntPtr.Zero;
             }
         }
 
@@ -110,15 +79,17 @@ namespace Voidstrap.Integrations.RiShade
                 {
                     if (_runtime == IntPtr.Zero)
                         return null;
-                    IntPtr buffer = Marshal.AllocHGlobal(32768);
-                    try
+                    nuint length = RiShadeInterop.CopyCurrentPresetPath(IntPtr.Zero, 0);
+                    if (length is 0 or > 32767)
+                        return null;
+                    byte[] buffer = new byte[(int)length + 1];
+                    unsafe
                     {
-                        nuint length = RiShadeInterop.CopyCurrentPresetPath(buffer, 32768);
-                        return length is 0 or >= 32768 ? null : Marshal.PtrToStringUTF8(buffer);
-                    }
-                    finally
-                    {
-                        Marshal.FreeHGlobal(buffer);
+                        fixed (byte* pointer = buffer)
+                        {
+                            nuint copied = RiShadeInterop.CopyCurrentPresetPath((IntPtr)pointer, (nuint)buffer.Length);
+                            return copied != length ? null : System.Text.Encoding.UTF8.GetString(buffer, 0, (int)length);
+                        }
                     }
                 }
             }
@@ -172,7 +143,7 @@ namespace Voidstrap.Integrations.RiShade
             {
                 bool selected = _runtime != IntPtr.Zero && RiShadeInterop.RuntimeSelectPreset(_runtime, fullPath);
                 if (selected)
-                    _hasLoadablePreset = true;
+                    Volatile.Write(ref _nextPresetStateCheck, 0);
                 return selected;
             }
         }
@@ -185,6 +156,147 @@ namespace Voidstrap.Integrations.RiShade
                     RiShadeInterop.PresetFileIsLoadable(path))
                     presets.Add(Path.GetFullPath(path));
             }
+        }
+
+        public static void RefreshPresetState()
+        {
+            long now = Environment.TickCount64;
+            if (now < Volatile.Read(ref _nextPresetStateCheck))
+                return;
+            Volatile.Write(ref _nextPresetStateCheck, now + PresetStateIntervalMs);
+
+            string? path = ResolvePresetPath(CurrentPresetPath);
+            DateTime writeTime = DateTime.MinValue;
+            if (path != null)
+            {
+                try
+                {
+                    writeTime = File.GetLastWriteTimeUtc(path);
+                }
+                catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+                {
+                }
+            }
+            if (string.Equals(path, _presetStatePath, StringComparison.OrdinalIgnoreCase) && writeTime == _presetStateWriteTime)
+                return;
+            if (Interlocked.Exchange(ref _presetStateRefreshing, 1) != 0)
+                return;
+
+            _presetStatePath = path;
+            _presetStateWriteTime = writeTime;
+            _ = Task.Run(() =>
+            {
+                try
+                {
+                    EvaluatePreset(path);
+                }
+                catch (Exception ex)
+                {
+                    App.Logger.WriteException("RiShadeManager::EvaluatePreset", ex);
+                }
+                finally
+                {
+                    Volatile.Write(ref _presetStateRefreshing, 0);
+                }
+            });
+        }
+
+        private static string? ResolvePresetPath(string? presetPath)
+        {
+            if (string.IsNullOrWhiteSpace(presetPath))
+                return null;
+            try
+            {
+                return Path.GetFullPath(Path.IsPathRooted(presetPath) ? presetPath : Path.Combine(RiShadeDir, presetPath));
+            }
+            catch (Exception ex) when (ex is ArgumentException or NotSupportedException or PathTooLongException)
+            {
+                return null;
+            }
+        }
+
+        private static void EvaluatePreset(string? path)
+        {
+            bool loadable = path != null && RiShadeInterop.PresetFileIsLoadable(path);
+            bool needsDepth = loadable && PresetUsesDepth(path!);
+            if (loadable != _hasLoadablePreset || needsDepth != _presetNeedsDepth)
+            {
+                App.Logger.WriteLine(LogIdent, loadable
+                    ? $"Active preset {Path.GetFileName(path)} is loaded, depth estimation {(needsDepth ? "on" : "off")}"
+                    : "No loadable preset is active, the captured game image is shown unmodified");
+            }
+            _hasLoadablePreset = loadable;
+            _presetNeedsDepth = needsDepth;
+        }
+
+        private static bool PresetUsesDepth(string presetPath)
+        {
+            string? techniques = File.ReadLines(presetPath)
+                .TakeWhile(line => !line.TrimStart().StartsWith('['))
+                .Select(line => line.Trim())
+                .FirstOrDefault(line => line.StartsWith("Techniques=", StringComparison.OrdinalIgnoreCase));
+            if (string.IsNullOrWhiteSpace(techniques))
+                return false;
+
+            var effectFiles = techniques["Techniques=".Length..]
+                .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
+                .Select(entry => entry.IndexOf('@') is int at && at >= 0 ? entry[(at + 1)..] : "")
+                .Where(file => file.Length > 0)
+                .ToHashSet(StringComparer.OrdinalIgnoreCase);
+            if (effectFiles.Count == 0)
+                return false;
+
+            var located = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            if (Directory.Exists(ShadersDirPath))
+            {
+                foreach (string file in Directory.EnumerateFiles(ShadersDirPath, "*.fx", SearchOption.AllDirectories))
+                    located.TryAdd(Path.GetFileName(file), file);
+            }
+
+            foreach (string effectFile in effectFiles)
+            {
+                if (!located.TryGetValue(effectFile, out string? source))
+                    return true;
+                if (File.ReadAllText(source).Contains("depth", StringComparison.OrdinalIgnoreCase))
+                    return true;
+            }
+            return false;
+        }
+
+        public static bool RequestOverlayToggle()
+        {
+            int pending = Volatile.Read(ref _pendingOverlay);
+            bool open = pending == NoOverlayRequest ? !IsOverlayOpen : pending == 0;
+            Volatile.Write(ref _pendingOverlayExpiry, Environment.TickCount64 + OverlayRequestLifetimeMs);
+            Volatile.Write(ref _pendingOverlay, open ? 1 : 0);
+            return open;
+        }
+
+        public static void RequestOverlayClose()
+        {
+            Volatile.Write(ref _pendingOverlayExpiry, Environment.TickCount64 + OverlayRequestLifetimeMs);
+            Volatile.Write(ref _pendingOverlay, 0);
+        }
+
+        public static void ApplyPendingOverlay()
+        {
+            int request = Interlocked.Exchange(ref _pendingOverlay, NoOverlayRequest);
+            if (request == NoOverlayRequest)
+                return;
+            if (Environment.TickCount64 > Volatile.Read(ref _pendingOverlayExpiry))
+            {
+                App.Logger.WriteLine(LogIdent, "An overlay request expired before the ReShade runtime was ready");
+                return;
+            }
+
+            bool open = request == 1;
+            bool applied;
+            lock (RuntimeLock)
+                applied = _runtime != IntPtr.Zero && RiShadeInterop.RuntimeOpenOverlay(_runtime, open);
+            App.Logger.WriteLine(LogIdent, applied
+                ? (open ? "ReShade overlay opened" : "ReShade overlay closed")
+                : "ReShade did not accept the overlay request");
+            RiShadePanel.NotifyOpenChanged(IsOverlayOpen);
         }
 
         public static void Install()
@@ -233,7 +345,6 @@ namespace Voidstrap.Integrations.RiShade
             await SetupGate.WaitAsync();
             try
             {
-                CleanLog();
                 Directory.CreateDirectory(RiShadeDir);
                 if (!IsRuntimePopulated)
                     await ProvisionRuntimeAsync();
@@ -241,21 +352,20 @@ namespace Voidstrap.Integrations.RiShade
                 if (!RiShadeInterop.PrepareConfig(RiShadeDir))
                     throw new InvalidOperationException("The Rust RiShade library could not prepare ReShade configuration");
 
-                _ = Task.Run(async () =>
+                if (DepthBridgeAvailable)
                 {
-                    try
+                    _ = Task.Run(async () =>
                     {
-                        await InstallDepthAssetsAsync();
-                    }
-                    catch (Exception ex)
-                    {
-                        App.Logger.WriteException("RiShadeManager::BackgroundDepthSetup", ex);
-                    }
-                });
-
-                string defaultPreset = Path.Combine(RiShadeDir, "presets", "GenericPreset1.ini");
-                if (!_hasLoadablePreset && File.Exists(defaultPreset) && SelectPreset(defaultPreset))
-                    App.Logger.WriteLine(LogIdent, "Loaded the bundled GenericPreset1 preset into the active ReShade runtime");
+                        try
+                        {
+                            await InstallDepthAssetsAsync();
+                        }
+                        catch (Exception ex)
+                        {
+                            App.Logger.WriteException("RiShadeManager::BackgroundDepthSetup", ex);
+                        }
+                    });
+                }
             }
             catch (Exception ex)
             {
@@ -275,28 +385,34 @@ namespace Voidstrap.Integrations.RiShade
             await SetupGate.WaitAsync();
             try
             {
-                CleanLog();
                 Directory.CreateDirectory(RiShadeDir);
                 await Task.Run(() =>
                 {
-                    IntPtr statusBuffer = Marshal.AllocHGlobal(2048);
-                    try
-                    {
-                        bool installed = RiShadeInterop.InstallDepthAssets(RiShadeDir, statusBuffer, 2048);
-                        string status = Marshal.PtrToStringUTF8(statusBuffer) ?? "RiShade depth asset setup did not return a status";
-                        App.Logger.WriteLine(LogIdent, status);
-                        if (!installed)
-                            throw new InvalidOperationException(status);
-                    }
-                    finally
-                    {
-                        Marshal.FreeHGlobal(statusBuffer);
-                    }
+                    string status = CallWithStatus(RiShadeInterop.InstallDepthAssets, "RiShade depth asset setup did not return a status", out bool installed);
+                    App.Logger.WriteLine(LogIdent, status);
+                    if (!installed)
+                        throw new InvalidOperationException(status);
                 });
             }
             finally
             {
                 SetupGate.Release();
+            }
+        }
+
+        private static string CallWithStatus(Func<string, IntPtr, nuint, bool> call, string fallback, out bool success)
+        {
+            IntPtr statusBuffer = Marshal.AllocHGlobal(2048);
+            try
+            {
+                Marshal.WriteByte(statusBuffer, 0);
+                success = call(RiShadeDir, statusBuffer, 2048);
+                string? status = Marshal.PtrToStringUTF8(statusBuffer);
+                return string.IsNullOrWhiteSpace(status) ? fallback : status;
+            }
+            finally
+            {
+                Marshal.FreeHGlobal(statusBuffer);
             }
         }
 
@@ -332,10 +448,12 @@ namespace Voidstrap.Integrations.RiShade
                     }
                 }
 
-                await using var setupFile = new FileStream(setupExe, FileMode.Open, FileAccess.Read, FileShare.Read);
-                byte[] setupHash = await SHA256.HashDataAsync(setupFile);
-                if (!Convert.ToHexString(setupHash).Equals(ReShadeSetupSha256, StringComparison.OrdinalIgnoreCase))
-                    throw new InvalidDataException("The ReShade setup download failed its pinned SHA-256 check");
+                await using (var setupFile = new FileStream(setupExe, FileMode.Open, FileAccess.Read, FileShare.Read))
+                {
+                    byte[] setupHash = await SHA256.HashDataAsync(setupFile);
+                    if (!Convert.ToHexString(setupHash).Equals(ReShadeSetupSha256, StringComparison.OrdinalIgnoreCase))
+                        throw new InvalidDataException("The ReShade setup download failed its pinned SHA 256 check");
+                }
 
                 string appExe = Environment.ProcessPath ?? throw new InvalidOperationException("Voidstrap's executable path is unavailable");
                 string targetExe = Path.Combine(stagingDir, "RiShadeSetupTarget.exe");
@@ -354,10 +472,27 @@ namespace Voidstrap.Integrations.RiShade
                 psi.ArgumentList.Add(targetExe);
 
                 App.Logger.WriteLine(LogIdent, "Installing ReShade into a temporary staging directory");
-                using Process proc = Process.Start(psi) ?? throw new InvalidOperationException("ReShade setup could not be started");
-                await proc.WaitForExitAsync();
-                if (proc.ExitCode != 0)
-                    throw new InvalidOperationException($"ReShade setup failed with code {proc.ExitCode}");
+                using (Process proc = Process.Start(psi) ?? throw new InvalidOperationException("ReShade setup could not be started"))
+                {
+                    using var timeout = new CancellationTokenSource(SetupTimeoutMs);
+                    try
+                    {
+                        await proc.WaitForExitAsync(timeout.Token);
+                    }
+                    catch (OperationCanceledException)
+                    {
+                        try
+                        {
+                            proc.Kill(true);
+                        }
+                        catch (Exception ex) when (ex is InvalidOperationException or System.ComponentModel.Win32Exception)
+                        {
+                        }
+                        throw new TimeoutException("ReShade setup did not finish in time");
+                    }
+                    if (proc.ExitCode != 0)
+                        throw new InvalidOperationException($"ReShade setup failed with code {proc.ExitCode}");
+                }
 
                 string stagedRuntime = Path.Combine(stagingDir, "dxgi.dll");
                 string stagedConfig = Path.Combine(stagingDir, "ReShade.ini");
@@ -396,19 +531,10 @@ namespace Voidstrap.Integrations.RiShade
         {
             await Task.Run(() =>
             {
-                IntPtr statusBuffer = Marshal.AllocHGlobal(2048);
-                try
-                {
-                    bool complete = RiShadeInterop.InstallEffectsAndPresets(RiShadeDir, statusBuffer, 2048);
-                    string status = Marshal.PtrToStringUTF8(statusBuffer) ?? "RiShade asset setup did not return a status";
-                    App.Logger.WriteLine(LogIdent, status);
-                    if (!complete)
-                        throw new InvalidOperationException(status);
-                }
-                finally
-                {
-                    Marshal.FreeHGlobal(statusBuffer);
-                }
+                string status = CallWithStatus(RiShadeInterop.InstallEffectsAndPresets, "RiShade asset setup did not return a status", out bool complete);
+                App.Logger.WriteLine(LogIdent, status);
+                if (!complete)
+                    throw new InvalidOperationException(status);
             });
         }
 
@@ -435,7 +561,6 @@ namespace Voidstrap.Integrations.RiShade
         {
             if (!Voidstrap.Utility.Platform.IsWindows)
                 return;
-            CleanLog();
             Voidstrap.Integrations.Overlays.OverlayHub.SetRobloxProcessRunning(true);
             if (App.Settings.Prop.RiShadeEnabled)
                 _ = EnsureSetupAsync();
@@ -443,100 +568,59 @@ namespace Voidstrap.Integrations.RiShade
 
         public static void OnRobloxProcessStopped()
         {
-            CleanLog();
             Voidstrap.Integrations.Overlays.OverlayHub.SetRobloxProcessRunning(false);
         }
 
         public static void SetRuntime(IntPtr runtime)
         {
             lock (RuntimeLock)
-            {
                 _runtime = runtime;
-                _hasLoadablePreset = false;
-            }
 
-            if (runtime != IntPtr.Zero)
-            {
-                try
-                {
-                    string? presetPath = CurrentPresetPath;
-                    if (!string.IsNullOrWhiteSpace(presetPath))
-                    {
-                        string checkPath = Path.IsPathRooted(presetPath)
-                            ? presetPath
-                            : Path.Combine(RiShadeDir, presetPath);
-                        _hasLoadablePreset = RiShadeInterop.PresetFileIsLoadable(checkPath);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    App.Logger.WriteException("RiShadeManager::CheckCurrentPreset", ex);
-                }
-            }
+            _presetStatePath = null;
+            _presetStateWriteTime = DateTime.MinValue;
+            _hasLoadablePreset = false;
+            _presetNeedsDepth = false;
+            Volatile.Write(ref _nextPresetStateCheck, 0);
             if (runtime == IntPtr.Zero)
-                RiShadePanel.RuntimeUnavailable();
+                RiShadePanel.NotifyOpenChanged(false);
         }
 
-        public static bool ToggleOverlayMenu(bool open)
+        private static void CleanLog()
         {
-            lock (RuntimeLock)
+            string[] targets =
             {
-                if (_runtime == IntPtr.Zero)
-                    return false;
-                return RiShadeInterop.RuntimeOpenOverlay(_runtime, open);
-            }
-        }
+                "ReShade.log",
+                "ReShade.previous.log",
+                "RiShade.log",
+                "RiShade.old.log",
+                "RiShade.previous.log"
+            };
 
-        public static void CleanLog()
-        {
-            try
+            foreach (string folder in new[] { RiShadeDir, Paths.Base })
             {
-                string[] targets =
-                {
-                    "ReShade.log",
-                    "ReShade.previous.log",
-                    "RiShade.log",
-                    "RiShade.old.log",
-                    "RiShade.previous.log"
-                };
+                if (string.IsNullOrWhiteSpace(folder) || !Directory.Exists(folder))
+                    continue;
 
-                string[] folders =
+                foreach (string target in targets)
                 {
-                    RiShadeDir,
-                    Paths.Base,
-                    Directory.GetCurrentDirectory(),
-                    AppContext.BaseDirectory
-                };
-
-                foreach (string folder in folders)
-                {
-                    if (string.IsNullOrWhiteSpace(folder) || !Directory.Exists(folder))
-                        continue;
-
-                    foreach (string target in targets)
+                    try
                     {
-                        try
-                        {
-                            string path = Path.Combine(folder, target);
-                            if (File.Exists(path))
-                                File.Delete(path);
-                        }
-                        catch
-                        {
-                        }
+                        string path = Path.Combine(folder, target);
+                        if (File.Exists(path))
+                            File.Delete(path);
+                    }
+                    catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+                    {
                     }
                 }
-            }
-            catch
-            {
             }
         }
 
         public static void Shutdown()
         {
             _installed = false;
+            Interlocked.Exchange(ref _pendingOverlay, NoOverlayRequest);
             SetRuntime(IntPtr.Zero);
-            CleanLog();
         }
     }
 }

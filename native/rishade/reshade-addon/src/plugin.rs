@@ -2,7 +2,7 @@ use std::ffi::{CStr, CString, c_char, c_void};
 use std::os::windows::ffi::OsStringExt;
 use std::path::{Path, PathBuf};
 use std::sync::Mutex;
-use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
+use std::sync::atomic::{AtomicUsize, Ordering};
 
 const RESHADE_API_VERSION: u32 = 20;
 const RESHADE_D3D11_API: u32 = 0xB000;
@@ -11,19 +11,20 @@ const DESTROY_EFFECT_RUNTIME: u32 = 10;
 const RESHADE_RELOADED_EFFECTS: u32 = 78;
 const RESHADE_SET_CURRENT_PRESET_PATH: u32 = 84;
 const RESHADE_OPEN_OVERLAY: u32 = 86;
+const INPUT_SOURCE_KEYBOARD: u32 = 2;
 
-#[allow(dead_code)]
-const EFFECT_RUNTIME_GET_HWND_VTABLE_INDEX: usize = 4;
 const EFFECT_RUNTIME_GET_COMMAND_QUEUE_VTABLE_INDEX: usize = 8;
 const EFFECT_RUNTIME_RENDER_EFFECTS_VTABLE_INDEX: usize = 9;
 const COMMAND_QUEUE_GET_IMMEDIATE_COMMAND_LIST_VTABLE_INDEX: usize = 7;
 const EFFECT_RUNTIME_UPDATE_TEXTURE_BINDINGS_VTABLE_INDEX: usize = 46;
-const EFFECT_RUNTIME_ENUMERATE_TECHNIQUES_VTABLE_INDEX: usize = 47;
 const EFFECT_RUNTIME_GET_EFFECTS_STATE_VTABLE_INDEX: usize = 60;
 const EFFECT_RUNTIME_SET_EFFECTS_STATE_VTABLE_INDEX: usize = 61;
 const EFFECT_RUNTIME_GET_CURRENT_PRESET_PATH_VTABLE_INDEX: usize = 62;
 const EFFECT_RUNTIME_SET_CURRENT_PRESET_PATH_VTABLE_INDEX: usize = 63;
 const EFFECT_RUNTIME_OPEN_OVERLAY_VTABLE_INDEX: usize = 74;
+const SWAPCHAIN_GET_DESC_VTABLE_INDEX: usize = 12;
+const SWAPCHAIN_GET_HWND_VTABLE_INDEX: usize = 20;
+const SWAPCHAIN4_VTABLE_LEN: usize = 41;
 const GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS: u32 = 0x00000004;
 const GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT: u32 = 0x00000002;
 
@@ -32,12 +33,6 @@ type RegisterAddon = unsafe extern "C" fn(Module, u32) -> bool;
 type UnregisterAddon = unsafe extern "C" fn(Module);
 type RegisterEvent = unsafe extern "C" fn(Module, u32, *mut c_void);
 type UnregisterEvent = unsafe extern "C" fn(Module, u32, *mut c_void);
-type EnumerateTechniques = unsafe extern "system" fn(
-    *mut c_void,
-    *const c_char,
-    Option<unsafe extern "system" fn(*mut c_void, u64, *mut c_void)>,
-    *mut c_void,
-);
 
 #[link(name = "kernel32")]
 unsafe extern "system" {
@@ -91,36 +86,13 @@ static ACTIVE_RUNTIME: AtomicUsize = AtomicUsize::new(0);
 static DEPTH_SRV: AtomicUsize = AtomicUsize::new(0);
 static LOADED_RESHADE_MODULE: AtomicUsize = AtomicUsize::new(0);
 static UPDATE_AND_PRESENT: AtomicUsize = AtomicUsize::new(0);
-static ON_PRESENT: AtomicUsize = AtomicUsize::new(0);
 static LOADING_STARTED: AtomicUsize = AtomicUsize::new(0);
 static COMPILING_EFFECTS: AtomicUsize = AtomicUsize::new(0);
 static OVERLAY_OPEN: AtomicUsize = AtomicUsize::new(0);
-static ALLOW_OVERLAY: AtomicBool = AtomicBool::new(false);
 static CURRENT_PRESET_PATH: Mutex<Option<CString>> = Mutex::new(None);
 static PENDING_PRESET_PATH: Mutex<Option<CString>> = Mutex::new(None);
 const EFFECT_LOADING_TIMEOUT_MS: u64 = 3_000;
 const LOAD_WITH_ALTERED_SEARCH_PATH: u32 = 0x00000008;
-
-type OnPresentFn = unsafe extern "system" fn(*mut c_void);
-
-unsafe fn resolve_on_present(update_and_present_fn: UpdateAndPresentEffectRuntime) -> usize {
-    let fn_ptr = update_and_present_fn as *const u8;
-    if fn_ptr.is_null() {
-        return 0;
-    }
-    let slice = unsafe { std::slice::from_raw_parts(fn_ptr, 32) };
-    for i in 0..27 {
-        if slice[i] == 0xe8 {
-            let disp = i32::from_le_bytes([slice[i + 1], slice[i + 2], slice[i + 3], slice[i + 4]]);
-            let next_ip = (fn_ptr as usize) + i + 5;
-            let target = (next_ip as isize).wrapping_add(disp as isize) as usize;
-            if target != 0 {
-                return target;
-            }
-        }
-    }
-    0
-}
 
 unsafe fn symbol<T: Copy>(module: Module, name: &'static [u8]) -> Option<T> {
     let address = unsafe { GetProcAddress(module, name.as_ptr().cast()) };
@@ -268,8 +240,6 @@ pub unsafe extern "system" fn RiShadeRuntimeLoad(dxgi_path: *const u16) -> bool 
         return false;
     };
 
-    let resolved_on_present = unsafe { resolve_on_present(update_and_present) };
-
     match LOADED_RESHADE_MODULE.compare_exchange(
         0,
         module as usize,
@@ -277,9 +247,7 @@ pub unsafe extern "system" fn RiShadeRuntimeLoad(dxgi_path: *const u16) -> bool 
         Ordering::Acquire,
     ) {
         Ok(_) => {
-            unsafe { std::env::set_var("RESHADE_DISABLE_LOGGING", "1") };
             UPDATE_AND_PRESENT.store(update_and_present as usize, Ordering::Release);
-            ON_PRESENT.store(resolved_on_present, Ordering::Release);
             unsafe { initialize_addon() }
         }
         Err(_) => {
@@ -396,17 +364,27 @@ pub unsafe extern "system" fn RiShadeRuntimeCreate(
     let created = if !window.is_null() {
         let vtable_ptr = swapchain.cast::<*const *const c_void>();
         let original_vtable = unsafe { *vtable_ptr };
-        let mut shadow_vtable = [std::ptr::null::<c_void>(); 64];
+        let mut shadow_vtable = [std::ptr::null::<c_void>(); SWAPCHAIN4_VTABLE_LEN];
         unsafe {
-            std::ptr::copy_nonoverlapping(original_vtable, shadow_vtable.as_mut_ptr(), 64);
+            std::ptr::copy_nonoverlapping(
+                original_vtable,
+                shadow_vtable.as_mut_ptr(),
+                SWAPCHAIN4_VTABLE_LEN,
+            );
         }
 
-        ORIGINAL_GET_DESC.store(shadow_vtable[12] as usize, Ordering::Relaxed);
-        ORIGINAL_GET_HWND.store(shadow_vtable[20] as usize, Ordering::Relaxed);
+        ORIGINAL_GET_DESC.store(
+            shadow_vtable[SWAPCHAIN_GET_DESC_VTABLE_INDEX] as usize,
+            Ordering::Relaxed,
+        );
+        ORIGINAL_GET_HWND.store(
+            shadow_vtable[SWAPCHAIN_GET_HWND_VTABLE_INDEX] as usize,
+            Ordering::Relaxed,
+        );
         SWAPCHAIN_TARGET_WINDOW.store(window as usize, Ordering::Relaxed);
 
-        shadow_vtable[12] = swapchain_hook_get_desc as *const c_void;
-        shadow_vtable[20] = swapchain_hook_get_hwnd as *const c_void;
+        shadow_vtable[SWAPCHAIN_GET_DESC_VTABLE_INDEX] = swapchain_hook_get_desc as *const c_void;
+        shadow_vtable[SWAPCHAIN_GET_HWND_VTABLE_INDEX] = swapchain_hook_get_hwnd as *const c_void;
 
         unsafe {
             *(swapchain.cast::<*const *const c_void>()) = shadow_vtable.as_ptr();
@@ -480,19 +458,11 @@ pub unsafe extern "system" fn RiShadeRuntimeOpenOverlay(runtime: *mut c_void, op
     }
     let open_overlay: unsafe extern "system" fn(*mut c_void, bool, u32) -> bool =
         unsafe { std::mem::transmute(open_overlay) };
-    if open {
-        ALLOW_OVERLAY.store(true, Ordering::Release);
+    let success = unsafe { open_overlay(runtime, open, INPUT_SOURCE_KEYBOARD) };
+    if success {
+        OVERLAY_OPEN.store(usize::from(open), Ordering::Release);
     }
-    let success = unsafe { open_overlay(runtime, open, 2) };
-    ALLOW_OVERLAY.store(false, Ordering::Release);
-    if !success && open {
-        ALLOW_OVERLAY.store(true, Ordering::Release);
-        let _ = unsafe { open_overlay(runtime, false, 2) };
-        let _ = unsafe { open_overlay(runtime, true, 2) };
-        ALLOW_OVERLAY.store(false, Ordering::Release);
-    }
-    OVERLAY_OPEN.store(usize::from(open), Ordering::Release);
-    true
+    success
 }
 
 #[unsafe(no_mangle)]
@@ -522,32 +492,23 @@ pub unsafe extern "system" fn RiShadeRuntimePresent(runtime: *mut c_void) -> boo
         unsafe { set_path(runtime, preset.as_ptr()) };
     }
 
-    let on_present_addr = ON_PRESENT.load(Ordering::Acquire);
-    if on_present_addr != 0 {
-        let get_effects_state = unsafe { *vtable.add(EFFECT_RUNTIME_GET_EFFECTS_STATE_VTABLE_INDEX) };
-        let set_effects_state = unsafe { *vtable.add(EFFECT_RUNTIME_SET_EFFECTS_STATE_VTABLE_INDEX) };
-        if !get_effects_state.is_null() && !set_effects_state.is_null() {
-            let get_fn: unsafe extern "system" fn(*mut c_void) -> bool =
-                unsafe { std::mem::transmute(get_effects_state) };
-            let set_fn: unsafe extern "system" fn(*mut c_void, bool) =
-                unsafe { std::mem::transmute(set_effects_state) };
-            let orig = unsafe { get_fn(runtime) };
-            unsafe {
-                set_fn(runtime, false);
-                let on_present: OnPresentFn = std::mem::transmute(on_present_addr);
-                on_present(runtime);
-                set_fn(runtime, orig);
-            }
-        } else {
-            let effects_flag_ptr = unsafe { (runtime as *mut u8).add(0x90) };
-            let orig_effects_flag = unsafe { *effects_flag_ptr };
-            unsafe {
-                *effects_flag_ptr = 0;
-                let on_present: OnPresentFn = std::mem::transmute(on_present_addr);
-                on_present(runtime);
-                *effects_flag_ptr = orig_effects_flag;
-            }
-        }
+    let update_and_present = UPDATE_AND_PRESENT.load(Ordering::Acquire);
+    let get_effects_state = unsafe { *vtable.add(EFFECT_RUNTIME_GET_EFFECTS_STATE_VTABLE_INDEX) };
+    let set_effects_state = unsafe { *vtable.add(EFFECT_RUNTIME_SET_EFFECTS_STATE_VTABLE_INDEX) };
+    if update_and_present == 0 || get_effects_state.is_null() || set_effects_state.is_null() {
+        return false;
+    }
+    let update_and_present: UpdateAndPresentEffectRuntime =
+        unsafe { std::mem::transmute(update_and_present) };
+    let get_effects_state: unsafe extern "system" fn(*mut c_void) -> bool =
+        unsafe { std::mem::transmute(get_effects_state) };
+    let set_effects_state: unsafe extern "system" fn(*mut c_void, bool) =
+        unsafe { std::mem::transmute(set_effects_state) };
+    let effects_enabled = unsafe { get_effects_state(runtime) };
+    unsafe {
+        set_effects_state(runtime, false);
+        update_and_present(runtime);
+        set_effects_state(runtime, effects_enabled);
     }
     true
 }
@@ -616,16 +577,6 @@ fn cache_preset_path(path: CString) {
     }
 }
 
-unsafe extern "system" fn count_technique(
-    _runtime: *mut c_void,
-    _technique: u64,
-    user_data: *mut c_void,
-) {
-    if !user_data.is_null() {
-        unsafe { *user_data.cast::<usize>() += 1 };
-    }
-}
-
 unsafe extern "system" fn on_effects_reloaded(runtime: *mut c_void) {
     if runtime as usize != ACTIVE_RUNTIME.load(Ordering::Acquire) {
         return;
@@ -636,24 +587,6 @@ unsafe extern "system" fn on_effects_reloaded(runtime: *mut c_void) {
     if !depth_srv.is_null() {
         unsafe { RiShadeRuntimeBindDepthTexture(runtime, depth_srv) };
     }
-    let vtable = unsafe { *(runtime.cast::<*const *const c_void>()) };
-    if vtable.is_null() {
-        return;
-    }
-    let enumerate = unsafe { *vtable.add(EFFECT_RUNTIME_ENUMERATE_TECHNIQUES_VTABLE_INDEX) };
-    if enumerate.is_null() {
-        return;
-    }
-    let enumerate: EnumerateTechniques = unsafe { std::mem::transmute(enumerate) };
-    let mut count = 0usize;
-    unsafe {
-        enumerate(
-            runtime,
-            std::ptr::null(),
-            Some(count_technique),
-            (&mut count as *mut usize).cast(),
-        )
-    };
 }
 
 unsafe extern "system" fn on_preset_path_changed(runtime: *mut c_void, path: *const c_char) {
@@ -686,23 +619,7 @@ unsafe extern "system" fn on_overlay_state_changed(
     false
 }
 
-#[allow(dead_code)]
-unsafe fn runtime_window(runtime: *mut c_void) -> *mut c_void {
-    if runtime.is_null() {
-        return std::ptr::null_mut();
-    }
-    let vtable = unsafe { *(runtime.cast::<*const *const c_void>()) };
-    if vtable.is_null() {
-        return std::ptr::null_mut();
-    }
-    let get_hwnd = unsafe { *vtable.add(EFFECT_RUNTIME_GET_HWND_VTABLE_INDEX) };
-    let get_hwnd: unsafe extern "system" fn(*mut c_void) -> *mut c_void =
-        unsafe { std::mem::transmute(get_hwnd) };
-    unsafe { get_hwnd(runtime) }
-}
-
 #[unsafe(no_mangle)]
-
 pub unsafe extern "system" fn RiShadeRuntimeBindDepthTexture(
     runtime: *mut c_void,
     depth_srv: *mut c_void,
@@ -727,36 +644,18 @@ pub unsafe extern "system" fn RiShadeRuntimeBindDepthTexture(
 }
 
 #[unsafe(no_mangle)]
-
 pub unsafe extern "system" fn RiShadeRenderEffects(
     runtime: *mut c_void,
-    input_srv: *mut c_void,
-    input_srv_srgb: *mut c_void,
     render_target: *mut c_void,
     render_target_srgb: *mut c_void,
 ) -> bool {
-    if runtime.is_null() || input_srv.is_null() || render_target.is_null() {
+    if runtime.is_null() || render_target.is_null() {
         return false;
     }
     let runtime_vtable = unsafe { *(runtime.cast::<*const *const c_void>()) };
     if runtime_vtable.is_null() {
         return false;
     }
-    let update_bindings =
-        unsafe { *runtime_vtable.add(EFFECT_RUNTIME_UPDATE_TEXTURE_BINDINGS_VTABLE_INDEX) };
-    if update_bindings.is_null() {
-        return false;
-    }
-    let update_bindings: unsafe extern "system" fn(*mut c_void, *const c_char, u64, u64) =
-        unsafe { std::mem::transmute(update_bindings) };
-    unsafe {
-        update_bindings(
-            runtime,
-            c"COLOR".as_ptr(),
-            input_srv as usize as u64,
-            input_srv_srgb as usize as u64,
-        )
-    };
     let get_queue = unsafe { *runtime_vtable.add(EFFECT_RUNTIME_GET_COMMAND_QUEUE_VTABLE_INDEX) };
     if get_queue.is_null() {
         return false;
@@ -885,7 +784,9 @@ pub extern "system" fn RiShadeAddonRuntimeIsActive() -> bool {
 #[unsafe(no_mangle)]
 pub extern "system" fn RiShadeAddonIsCompilingEffects() -> bool {
     let started = LOADING_STARTED.load(Ordering::Acquire) as u64;
-    if started != 0 && unsafe { GetTickCount64() }.saturating_sub(started) >= EFFECT_LOADING_TIMEOUT_MS {
+    if started != 0
+        && unsafe { GetTickCount64() }.saturating_sub(started) >= EFFECT_LOADING_TIMEOUT_MS
+    {
         COMPILING_EFFECTS.store(0, Ordering::Release);
         LOADING_STARTED.store(0, Ordering::Release);
         return false;
@@ -896,7 +797,9 @@ pub extern "system" fn RiShadeAddonIsCompilingEffects() -> bool {
 #[unsafe(no_mangle)]
 pub extern "system" fn RiShadeAddonIsLoadingEffects() -> bool {
     let started = LOADING_STARTED.load(Ordering::Acquire) as u64;
-    if started != 0 && unsafe { GetTickCount64() }.saturating_sub(started) >= EFFECT_LOADING_TIMEOUT_MS {
+    if started != 0
+        && unsafe { GetTickCount64() }.saturating_sub(started) >= EFFECT_LOADING_TIMEOUT_MS
+    {
         LOADING_STARTED.store(0, Ordering::Release);
         return false;
     }
@@ -1020,12 +923,13 @@ mod tests {
         assert_eq!(RESHADE_D3D11_API, 0xB000);
         assert_eq!(INIT_EFFECT_RUNTIME, 9);
         assert_eq!(DESTROY_EFFECT_RUNTIME, 10);
-        assert_eq!(EFFECT_RUNTIME_GET_HWND_VTABLE_INDEX, 4);
         assert_eq!(EFFECT_RUNTIME_GET_COMMAND_QUEUE_VTABLE_INDEX, 8);
         assert_eq!(EFFECT_RUNTIME_RENDER_EFFECTS_VTABLE_INDEX, 9);
         assert_eq!(COMMAND_QUEUE_GET_IMMEDIATE_COMMAND_LIST_VTABLE_INDEX, 7);
         assert_eq!(EFFECT_RUNTIME_UPDATE_TEXTURE_BINDINGS_VTABLE_INDEX, 46);
-        assert_eq!(EFFECT_RUNTIME_ENUMERATE_TECHNIQUES_VTABLE_INDEX, 47);
+        assert_eq!(SWAPCHAIN_GET_DESC_VTABLE_INDEX, 12);
+        assert_eq!(SWAPCHAIN_GET_HWND_VTABLE_INDEX, 20);
+        assert_eq!(SWAPCHAIN4_VTABLE_LEN, 41);
         assert_eq!(EFFECT_RUNTIME_GET_EFFECTS_STATE_VTABLE_INDEX, 60);
         assert_eq!(EFFECT_RUNTIME_SET_EFFECTS_STATE_VTABLE_INDEX, 61);
         assert_eq!(EFFECT_RUNTIME_GET_CURRENT_PRESET_PATH_VTABLE_INDEX, 62);
@@ -1143,11 +1047,8 @@ mod tests {
 
     #[test]
     fn render_effects_rejects_null_target_or_missing_runtime() {
-        ACTIVE_RUNTIME.store(0, Ordering::Release);
         assert!(!unsafe {
             RiShadeRenderEffects(
-                std::ptr::null_mut(),
-                std::ptr::dangling_mut(),
                 std::ptr::null_mut(),
                 std::ptr::dangling_mut(),
                 std::ptr::null_mut(),
@@ -1157,35 +1058,24 @@ mod tests {
             RiShadeRenderEffects(
                 std::ptr::dangling_mut(),
                 std::ptr::null_mut(),
-                std::ptr::null_mut(),
-                std::ptr::dangling_mut(),
                 std::ptr::null_mut(),
             )
         });
     }
 
     #[test]
-    fn render_effects_invokes_vtable_methods_in_sequence() {
-        use std::sync::atomic::AtomicBool;
-
-        static GET_QUEUE_CALLED: AtomicBool = AtomicBool::new(false);
-        static GET_CMD_LIST_CALLED: AtomicBool = AtomicBool::new(false);
-        static RENDER_EFFECTS_CALLED: AtomicBool = AtomicBool::new(false);
-        static UPDATE_AND_PRESENT_CALLED: AtomicBool = AtomicBool::new(false);
+    fn render_then_present_draws_effects_once_and_overlay_without_effects() {
         static CALL_SEQUENCE: Mutex<Vec<&'static str>> = Mutex::new(Vec::new());
 
         unsafe extern "system" fn fake_update_and_present(_runtime: *mut c_void) {
-            CALL_SEQUENCE.lock().unwrap().push("update");
-            UPDATE_AND_PRESENT_CALLED.store(true, Ordering::Release);
+            CALL_SEQUENCE.lock().unwrap().push("present");
         }
 
         unsafe extern "system" fn fake_get_queue(runtime: *mut c_void) -> *mut c_void {
-            GET_QUEUE_CALLED.store(true, Ordering::Release);
             unsafe { (*runtime.cast::<FakeRuntime>()).queue }
         }
 
         unsafe extern "system" fn fake_get_command_list(_queue: *mut c_void) -> *mut c_void {
-            GET_CMD_LIST_CALLED.store(true, Ordering::Release);
             0x3000usize as *mut c_void
         }
 
@@ -1196,28 +1086,29 @@ mod tests {
             rtv_srgb: u64,
         ) {
             assert_eq!(cmd_list as usize, 0x3000);
-            if rtv == 0 && rtv_srgb == 0 {
-                CALL_SEQUENCE.lock().unwrap().push("suppress");
-            } else {
-                assert_eq!(rtv, 0x4000);
-                assert_eq!(rtv_srgb, 0x5000);
-                CALL_SEQUENCE.lock().unwrap().push("render");
-            }
-            RENDER_EFFECTS_CALLED.store(true, Ordering::Release);
+            assert_eq!(rtv, 0x4000);
+            assert_eq!(rtv_srgb, 0x5000);
+            CALL_SEQUENCE.lock().unwrap().push("render");
         }
 
         unsafe extern "system" fn fake_update_texture_bindings(
             _runtime: *mut c_void,
-            semantic: *const c_char,
-            srv: u64,
-            srv_srgb: u64,
+            _semantic: *const c_char,
+            _srv: u64,
+            _srv_srgb: u64,
         ) {
-            assert_eq!(
-                unsafe { std::ffi::CStr::from_ptr(semantic) }.to_bytes(),
-                b"COLOR"
-            );
-            assert_eq!(srv, 0x6000);
-            assert_eq!(srv_srgb, 0x7000);
+            CALL_SEQUENCE.lock().unwrap().push("bind");
+        }
+
+        unsafe extern "system" fn fake_get_effects_state(_runtime: *mut c_void) -> bool {
+            true
+        }
+
+        unsafe extern "system" fn fake_set_effects_state(_runtime: *mut c_void, enabled: bool) {
+            CALL_SEQUENCE
+                .lock()
+                .unwrap()
+                .push(if enabled { "effects on" } else { "effects off" });
         }
 
         #[repr(C)]
@@ -1234,70 +1125,62 @@ mod tests {
         let mut queue_vtable = [std::ptr::null(); 8];
         queue_vtable[COMMAND_QUEUE_GET_IMMEDIATE_COMMAND_LIST_VTABLE_INDEX] =
             fake_get_command_list as *const c_void;
-
         let fake_queue = FakeQueue {
             vtable: queue_vtable.as_ptr(),
         };
 
-        let mut runtime_vtable =
-            [std::ptr::null(); EFFECT_RUNTIME_UPDATE_TEXTURE_BINDINGS_VTABLE_INDEX + 1];
+        let mut runtime_vtable = [std::ptr::null(); EFFECT_RUNTIME_OPEN_OVERLAY_VTABLE_INDEX + 1];
         runtime_vtable[EFFECT_RUNTIME_GET_COMMAND_QUEUE_VTABLE_INDEX] =
             fake_get_queue as *const c_void;
         runtime_vtable[EFFECT_RUNTIME_RENDER_EFFECTS_VTABLE_INDEX] =
             fake_render_effects as *const c_void;
         runtime_vtable[EFFECT_RUNTIME_UPDATE_TEXTURE_BINDINGS_VTABLE_INDEX] =
             fake_update_texture_bindings as *const c_void;
+        runtime_vtable[EFFECT_RUNTIME_GET_EFFECTS_STATE_VTABLE_INDEX] =
+            fake_get_effects_state as *const c_void;
+        runtime_vtable[EFFECT_RUNTIME_SET_EFFECTS_STATE_VTABLE_INDEX] =
+            fake_set_effects_state as *const c_void;
 
         let fake_runtime = FakeRuntime {
             vtable: runtime_vtable.as_ptr(),
             queue: (&fake_queue as *const FakeQueue).cast_mut().cast(),
         };
+        let runtime = (&fake_runtime as *const FakeRuntime).cast_mut().cast();
 
         UPDATE_AND_PRESENT.store(
             fake_update_and_present as *const () as usize,
             Ordering::Release,
         );
-        ACTIVE_RUNTIME.store(
-            (&fake_runtime as *const FakeRuntime) as usize,
-            Ordering::Release,
-        );
 
-        let success = unsafe {
+        assert!(unsafe {
             RiShadeRenderEffects(
-                (&fake_runtime as *const FakeRuntime).cast_mut().cast(),
-                0x6000usize as *mut c_void,
-                0x7000usize as *mut c_void,
+                runtime,
                 0x4000usize as *mut c_void,
                 0x5000usize as *mut c_void,
             )
-        };
-
-        assert!(success);
-        assert_eq!(*CALL_SEQUENCE.lock().unwrap(), ["render"]);
-
-        assert!(unsafe {
-            RiShadeRuntimePresent((&fake_runtime as *const FakeRuntime).cast_mut().cast())
         });
-        assert_eq!(*CALL_SEQUENCE.lock().unwrap(), ["render"]);
-        assert!(GET_QUEUE_CALLED.load(Ordering::Acquire));
-        assert!(GET_CMD_LIST_CALLED.load(Ordering::Acquire));
-        assert!(RENDER_EFFECTS_CALLED.load(Ordering::Acquire));
-
-        ACTIVE_RUNTIME.store(0, Ordering::Release);
+        assert!(unsafe { RiShadeRuntimePresent(runtime) });
+        assert_eq!(
+            *CALL_SEQUENCE.lock().unwrap(),
+            ["render", "effects off", "present", "effects on"]
+        );
+        UPDATE_AND_PRESENT.store(0, Ordering::Release);
     }
 
     #[test]
     fn runtime_create_rejects_null_arguments() {
-        assert!(unsafe {
-            RiShadeRuntimeCreate(
-                std::ptr::null_mut(),
-                std::ptr::null_mut(),
-                std::ptr::null_mut(),
-                std::ptr::null_mut(),
-                std::ptr::null(),
-            )
-        }
-        .is_null());
+        assert!(
+            unsafe {
+                RiShadeRuntimeCreate(
+                    std::ptr::null_mut(),
+                    std::ptr::null_mut(),
+                    std::ptr::null_mut(),
+                    std::ptr::null_mut(),
+                    std::ptr::null(),
+                )
+            }
+            .is_null()
+        );
     }
 
     #[test]

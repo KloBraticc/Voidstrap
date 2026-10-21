@@ -27,32 +27,30 @@ namespace Voidstrap.Integrations.RiShade
                 return;
             _lastToggleTick = now;
 
-            bool open = !IsOpen;
-            if (!RiShadeManager.ToggleOverlayMenu(open))
+            if (!App.Settings.Prop.RiShadeEnabled)
             {
-                App.Logger.WriteLine("RiShadePanel", "Overlay toggle was requested, but no active ReShade runtime accepted it");
+                App.Logger.WriteLine("RiShadePanel", "Overlay toggle ignored because RiShade is turned off");
                 return;
             }
 
-            _isOpen = RiShadeManager.IsOverlayOpen;
-            App.Logger.WriteLine("RiShadePanel", _isOpen ? "ReShade overlay opened" : "ReShade overlay closed");
-            OpenChanged?.Invoke(_isOpen);
+            bool open = RiShadeManager.RequestOverlayToggle();
+            App.Logger.WriteLine("RiShadePanel", RiShadeManager.HasRuntime
+                ? (open ? "ReShade overlay open requested" : "ReShade overlay close requested")
+                : "ReShade overlay requested, it opens as soon as Roblox is in the foreground and the ReShade runtime is ready");
         }
 
         internal static void Close()
         {
-            if (!IsOpen && !_isOpen)
-                return;
-            RiShadeManager.ToggleOverlayMenu(false);
-            RuntimeUnavailable();
+            RiShadeManager.RequestOverlayClose();
+            NotifyOpenChanged(false);
         }
 
-        internal static void RuntimeUnavailable()
+        internal static void NotifyOpenChanged(bool open)
         {
-            if (!_isOpen)
+            if (_isOpen == open)
                 return;
-            _isOpen = false;
-            OpenChanged?.Invoke(false);
+            _isOpen = open;
+            OpenChanged?.Invoke(open);
         }
     }
 }

@@ -33,18 +33,7 @@ const DEPTH_ASSETS: [(&str, &str, &str); 3] = [
         "2df6223f206b5164e21f664ace61dabeb9bb6a49b8b5a3e00510b4807d0f5b04",
     ),
 ];
-const DLSS_ASSETS: [(&str, &str, &str); 2] = [
-    (
-        "nvngx_dlssnr.dll",
-        "https://github.com/OMouta/Unishade/releases/download/dlss5-assets/nvngx_dlssnr.dll",
-        "e67dee209320cdafe0e93e45675d7aa34323a53acc57a72b2e40a181581c989a",
-    ),
-    (
-        "renodx-dlss.addon64",
-        "https://github.com/OMouta/Unishade/releases/download/dlss5-assets/renodx-dlss.addon64",
-        "1d855cf226857dce890cffbf7206ba9b6497ce1d471b217c1c8b44b6cd5d27e9",
-    ),
-];
+const RETIRED_ASSETS: [&str; 2] = ["renodx-dlss.addon64", "nvngx_dlssnr.dll"];
 const DEPTH_ASSET_LIMIT: usize = 512 << 20;
 
 const PRESET_CATALOG: &str = include_str!("../presets/downloads.ini");
@@ -151,11 +140,11 @@ pub fn install_effects_and_presets(root: &Path) -> io::Result<InstallSummary> {
             let _ = fs::create_dir_all(parent);
         }
         let blank_png: &[u8] = &[
-            137, 80, 78, 71, 13, 10, 26, 10, 0, 0, 0, 13, 73, 72, 68, 82, 0, 0, 0, 16, 0, 0, 0,
-            16, 8, 6, 0, 0, 0, 31, 243, 255, 97, 0, 0, 0, 38, 73, 68, 65, 84, 120, 156, 99, 252,
-            255, 255, 255, 127, 6, 10, 0, 19, 37, 154, 71, 13, 128, 0, 38, 6, 10, 1, 211, 168, 1,
-            12, 163, 97, 192, 64, 121, 24, 0, 0, 107, 202, 4, 28, 186, 185, 31, 90, 0, 0, 0, 0,
-            73, 69, 78, 68, 174, 66, 96, 130,
+            137, 80, 78, 71, 13, 10, 26, 10, 0, 0, 0, 13, 73, 72, 68, 82, 0, 0, 0, 16, 0, 0, 0, 16,
+            8, 6, 0, 0, 0, 31, 243, 255, 97, 0, 0, 0, 38, 73, 68, 65, 84, 120, 156, 99, 252, 255,
+            255, 255, 127, 6, 10, 0, 19, 37, 154, 71, 13, 128, 0, 38, 6, 10, 1, 211, 168, 1, 12,
+            163, 97, 192, 64, 121, 24, 0, 0, 107, 202, 4, 28, 186, 185, 31, 90, 0, 0, 0, 0, 73, 69,
+            78, 68, 174, 66, 96, 130,
         ];
         let _ = fs::write(&mask_path, &blank_png);
     }
@@ -189,7 +178,7 @@ pub fn install_depth_assets(root: &Path) -> io::Result<()> {
             .build(),
     );
 
-    for (name, url, expected_hash) in DEPTH_ASSETS.iter().chain(DLSS_ASSETS.iter()).copied() {
+    for (name, url, expected_hash) in DEPTH_ASSETS.iter().copied() {
         let destination = root.join(name);
         match fs::symlink_metadata(&destination) {
             Ok(_) => {
@@ -215,12 +204,25 @@ fn verify_depth_asset(path: &Path, expected_hash: &str) -> io::Result<()> {
     if metadata.file_type().is_symlink() || !metadata.is_file() {
         return Err(invalid_data("depth asset path is not a regular file"));
     }
-    let bytes = fs::read(path)?;
-    verify_hash(&bytes, expected_hash)
+    let mut hasher = Sha256::new();
+    io::copy(&mut File::open(path)?, &mut hasher)?;
+    verify_digest(&format!("{:x}", hasher.finalize()), expected_hash)
+}
+
+pub fn remove_retired_assets(root: &Path) {
+    for name in RETIRED_ASSETS {
+        let path = root.join(name);
+        if fs::symlink_metadata(&path).is_ok_and(|metadata| metadata.is_file()) {
+            let _ = fs::remove_file(path);
+        }
+    }
 }
 
 fn verify_hash(bytes: &[u8], expected_hash: &str) -> io::Result<()> {
-    let actual = format!("{:x}", Sha256::digest(bytes));
+    verify_digest(&format!("{:x}", Sha256::digest(bytes)), expected_hash)
+}
+
+fn verify_digest(actual: &str, expected_hash: &str) -> io::Result<()> {
     if actual.eq_ignore_ascii_case(expected_hash) {
         Ok(())
     } else {
