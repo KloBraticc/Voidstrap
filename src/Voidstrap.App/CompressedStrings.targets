@@ -1,0 +1,50 @@
+<Project>
+	<UsingTask TaskName="CompressFiles" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)\Microsoft.Build.Tasks.Core.dll">
+		<ParameterGroup>
+			<Sources ParameterType="Microsoft.Build.Framework.ITaskItem[]" Required="true" />
+			<Destinations ParameterType="Microsoft.Build.Framework.ITaskItem[]" Required="true" />
+		</ParameterGroup>
+		<Task>
+			<Using Namespace="System.IO" />
+			<Using Namespace="System.IO.Compression" />
+			<Code Type="Fragment" Language="cs">
+<![CDATA[
+for (int i = 0; i < Sources.Length; i++)
+{
+	string destination = Destinations[i].ItemSpec;
+	Directory.CreateDirectory(Path.GetDirectoryName(destination));
+	using (FileStream input = File.OpenRead(Sources[i].ItemSpec))
+	using (FileStream output = File.Create(destination))
+	using (DeflateStream deflate = new DeflateStream(output, CompressionLevel.Optimal))
+		input.CopyTo(deflate);
+}
+]]>
+			</Code>
+		</Task>
+	</UsingTask>
+
+	<ItemGroup>
+		<TranslatedStrings Include="$(MSBuildThisFileDirectory)Resources\Strings.*.resx" />
+	</ItemGroup>
+
+	<Target Name="ExcludeTranslatedStringsFromSatellites" BeforeTargets="PrepareResourceNames;AssignTargetPaths">
+		<PropertyGroup>
+			<TranslatedStringsDir>$([System.IO.Path]::Combine($(ProjectDir), $(IntermediateOutputPath), 'strings'))\</TranslatedStringsDir>
+		</PropertyGroup>
+		<ItemGroup>
+			<EmbeddedResource Remove="@(EmbeddedResource)" Condition="$([System.Text.RegularExpressions.Regex]::IsMatch('%(Filename)%(Extension)', '^Strings\.[A-Za-z]+(-[A-Za-z]+)?\.resx$'))" />
+		</ItemGroup>
+	</Target>
+
+	<Target Name="CompressTranslatedStrings" BeforeTargets="PrepareResourceNames" DependsOnTargets="ExcludeTranslatedStringsFromSatellites" Inputs="@(TranslatedStrings)" Outputs="@(TranslatedStrings->'$(TranslatedStringsDir)%(Filename).resources.z')">
+		<MakeDir Directories="$(TranslatedStringsDir)" />
+		<GenerateResource Sources="@(TranslatedStrings)" OutputResources="@(TranslatedStrings->'$(TranslatedStringsDir)%(Filename).resources')" ExecuteAsTool="false" />
+		<CompressFiles Sources="@(TranslatedStrings->'$(TranslatedStringsDir)%(Filename).resources')" Destinations="@(TranslatedStrings->'$(TranslatedStringsDir)%(Filename).resources.z')" />
+	</Target>
+
+	<Target Name="EmbedTranslatedStrings" BeforeTargets="PrepareResourceNames" DependsOnTargets="CompressTranslatedStrings">
+		<ItemGroup>
+			<EmbeddedResource Include="@(TranslatedStrings->'$(TranslatedStringsDir)%(Filename).resources.z')" LogicalName="Voidstrap.Resources.%(Filename).resources.z" WithCulture="false" Type="Non-Resx" />
+		</ItemGroup>
+	</Target>
+</Project>

@@ -13,7 +13,7 @@ internal static class LanguageMetadata
 
 	private const string FlagUriFormat = "pack://application:,,,/Resources/Flags/{0}.png";
 
-	private static readonly ResourceManager _resources = new ResourceManager("Voidstrap.Resources.Strings", typeof(Strings).Assembly);
+	private static readonly ResourceManager _resources = new Voidstrap.Utility.CompressedResourceManager("Voidstrap.Resources.Strings", typeof(Strings).Assembly);
 
 	private static readonly object _gate = new object();
 

@@ -427,4 +427,6 @@
 		</ItemGroup>
 	</Target>
 
+	<Import Project="CompressedStrings.targets" />
+
 </Project>

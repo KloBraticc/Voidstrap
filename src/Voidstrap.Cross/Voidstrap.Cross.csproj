@@ -413,4 +413,6 @@
 		</ItemGroup>
 	</Target>
 
+	<Import Project="..\Voidstrap.App\CompressedStrings.targets" />
+
 </Project>
