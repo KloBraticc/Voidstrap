@@ -47,6 +47,10 @@ const BUNDLED_PRESETS: &[(&str, &[u8])] = &[
         "GenericPreset2.ini",
         include_bytes!("../presets/GenericPreset2.ini"),
     ),
+    (
+        "RiShadeReflections.ini",
+        include_bytes!("../presets/RiShadeReflections.ini"),
+    ),
 ];
 
 #[derive(Default)]
@@ -84,10 +88,19 @@ pub fn install_effects_and_presets(root: &Path) -> io::Result<InstallSummary> {
     let root = prepare_root(root)?;
     let marker = root.join(ASSET_MARKER);
     if marker.is_file() && root.join("reshade-shaders/Shaders/ReShade.fxh").is_file() {
-        return Ok(InstallSummary {
+        let mut summary = InstallSummary {
             assets_already_provisioned: true,
             ..InstallSummary::default()
-        });
+        };
+        let missing_bundled = BUNDLED_PRESETS
+            .iter()
+            .any(|(name, _)| !root.join("presets").join(name).exists());
+        if missing_bundled {
+            let effects = collect_effect_names(&root, &root)?;
+            install_bundled_presets(&root, &root, &effects, &mut summary)?;
+            summary.assets_already_provisioned = summary.installed_presets == 0;
+        }
+        return Ok(summary);
     }
 
     let work = tempfile::Builder::new()
@@ -960,6 +973,32 @@ mod tests {
         assert_eq!(
             fs::read(shader_dir.join("user.fx")).unwrap(),
             b"user shader"
+        );
+        fs::remove_dir_all(root).unwrap();
+    }
+
+    #[test]
+    fn provisioned_install_adds_new_bundled_presets_without_touching_existing_ones() {
+        let root = temp_path("effect-new-presets");
+        let _ = fs::remove_dir_all(&root);
+        let shader_dir = root.join("reshade-shaders/Shaders");
+        fs::create_dir_all(&shader_dir).unwrap();
+        fs::write(shader_dir.join("ReShade.fxh"), b"fxh").unwrap();
+        for effect in ["qUINT_ssr.fx", "AdaptiveTonemapper.fx"] {
+            fs::write(shader_dir.join(effect), b"effect").unwrap();
+        }
+        fs::write(root.join(ASSET_MARKER), b"already done").unwrap();
+        let presets = root.join("presets");
+        fs::create_dir_all(&presets).unwrap();
+        fs::write(presets.join("GenericPreset2.ini"), b"user edited").unwrap();
+
+        let result = install_effects_and_presets(&root).unwrap();
+
+        assert!(!result.assets_already_provisioned);
+        assert!(presets.join("RiShadeReflections.ini").is_file());
+        assert_eq!(
+            fs::read(presets.join("GenericPreset2.ini")).unwrap(),
+            b"user edited"
         );
         fs::remove_dir_all(root).unwrap();
     }
