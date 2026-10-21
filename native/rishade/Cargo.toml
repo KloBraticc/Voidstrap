@@ -12,7 +12,7 @@ crate-type = ["cdylib", "rlib"]
 [dependencies]
 sha2 = "0.10.9"
 tempfile = "3"
-ureq = { version = "3.4.2", default-features = false, features = ["rustls"] }
+ureq = { version = "3.4.2", default-features = false, features = ["native-tls"] }
 zip = { version = "2.4.2", default-features = false, features = ["deflate"] }
 
 [target.'cfg(windows)'.dependencies]
@@ -44,6 +44,7 @@ windows = { version = "0.58", features = [
 ] }
 
 [profile.release]
+opt-level = "s"
 lto = "fat"
 codegen-units = 1
 strip = true

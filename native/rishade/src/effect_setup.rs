@@ -153,6 +153,11 @@ pub fn install_effects_and_presets(root: &Path) -> io::Result<InstallSummary> {
     let agent = ureq::Agent::new_with_config(
         ureq::Agent::config_builder()
             .https_only(true)
+            .tls_config(
+                ureq::tls::TlsConfig::builder()
+                    .provider(ureq::tls::TlsProvider::NativeTls)
+                    .build(),
+            )
             .timeout_global(Some(Duration::from_secs(300)))
             .build(),
     );
@@ -257,6 +262,11 @@ pub fn install_depth_assets(root: &Path) -> io::Result<()> {
             ureq::Agent::new_with_config(
                 ureq::Agent::config_builder()
                     .https_only(true)
+                    .tls_config(
+                        ureq::tls::TlsConfig::builder()
+                            .provider(ureq::tls::TlsProvider::NativeTls)
+                            .build(),
+                    )
                     .timeout_global(Some(Duration::from_secs(300)))
                     .build(),
             )
