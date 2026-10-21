@@ -146,6 +146,7 @@ namespace Voidstrap.Integrations.Overlays
         private readonly ID3D11Texture2D?[] _stageTex = new ID3D11Texture2D?[2];
         private readonly ID3D11ShaderResourceView?[] _stageSrv = new ID3D11ShaderResourceView?[2];
         private readonly ID3D11RenderTargetView?[] _stageRtv = new ID3D11RenderTargetView?[2];
+        private ID3D11RenderTargetView? _stageRtvSrgb;
         private readonly ID3D11Texture2D?[] _compTex = new ID3D11Texture2D?[2];
         private readonly ID3D11ShaderResourceView?[] _compSrv = new ID3D11ShaderResourceView?[2];
         private readonly ID3D11RenderTargetView?[] _compRtv = new ID3D11RenderTargetView?[2];
@@ -1025,13 +1026,27 @@ namespace Voidstrap.Integrations.Overlays
             }
             for (int i = 0; i < 2; i++)
             {
-                _stageTex[i] = CreateTex();
-                _stageSrv[i] = _device!.CreateShaderResourceView(_stageTex[i]);
-                _stageRtv[i] = _device!.CreateRenderTargetView(_stageTex[i]);
+                _stageTex[i] = CreateTex(Format.B8G8R8A8_Typeless);
+                _stageSrv[i] = _device!.CreateShaderResourceView(_stageTex[i], new ShaderResourceViewDescription
+                {
+                    Format = Format.B8G8R8A8_UNorm,
+                    ViewDimension = ShaderResourceViewDimension.Texture2D,
+                    Texture2D = new Texture2DShaderResourceView { MostDetailedMip = 0, MipLevels = 1 },
+                });
+                _stageRtv[i] = _device!.CreateRenderTargetView(_stageTex[i], new RenderTargetViewDescription
+                {
+                    Format = Format.B8G8R8A8_UNorm,
+                    ViewDimension = RenderTargetViewDimension.Texture2D,
+                });
                 _compTex[i] = CreateTex();
                 _compSrv[i] = _device!.CreateShaderResourceView(_compTex[i]);
                 _compRtv[i] = _device!.CreateRenderTargetView(_compTex[i]);
             }
+            _stageRtvSrgb = _device!.CreateRenderTargetView(_stageTex[0], new RenderTargetViewDescription
+            {
+                Format = Format.B8G8R8A8_UNorm_SRgb,
+                ViewDimension = RenderTargetViewDimension.Texture2D,
+            });
             _dims = new Vector4(_width, _height, 1f / Math.Max(_width, 1), 1f / Math.Max(_height, 1));
             _cur = 0;
             _hasPrev = false;
@@ -1051,7 +1066,7 @@ namespace Voidstrap.Integrations.Overlays
 			ResetHudTelemetry();
         }
 
-        private ID3D11Texture2D CreateTex()
+        private ID3D11Texture2D CreateTex(Format format = Format.B8G8R8A8_UNorm)
         {
             return _device!.CreateTexture2D(new Texture2DDescription
             {
@@ -1059,7 +1074,7 @@ namespace Voidstrap.Integrations.Overlays
                 Height = (uint)_height,
                 MipLevels = 1,
                 ArraySize = 1,
-                Format = Format.B8G8R8A8_UNorm,
+                Format = format,
                 SampleDescription = new SampleDescription(1, 0),
                 Usage = ResourceUsage.Default,
                 BindFlags = BindFlags.ShaderResource | BindFlags.RenderTarget,
@@ -1075,6 +1090,8 @@ namespace Voidstrap.Integrations.Overlays
             _rawRtv = null;
             _rawSrv = null;
             _rawTex = null;
+            _stageRtvSrgb?.Dispose();
+            _stageRtvSrgb = null;
             for (int i = 0; i < 2; i++)
             {
                 _stageRtv[i]?.Dispose();
@@ -2150,7 +2167,7 @@ namespace Voidstrap.Integrations.Overlays
                     if (_rawTex != null && _stageTex[0] != null)
                         _context!.CopyResource(_stageTex[0]!, _rawTex!);
 
-                    riRendered = RiShadeInterop.RenderEffects(_riRuntime, _stageRtv[0]!.NativePointer, IntPtr.Zero);
+                    riRendered = RiShadeInterop.RenderEffects(_riRuntime, _stageRtv[0]!.NativePointer, _stageRtvSrgb?.NativePointer ?? IntPtr.Zero);
                     if (riRendered)
                         composited = _stageSrv[0]!;
                 }
