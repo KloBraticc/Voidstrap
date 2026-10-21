@@ -602,8 +602,8 @@ unsafe extern "system" fn on_overlay_state_changed(
     open: bool,
     _source: u32,
 ) -> bool {
-    if runtime as usize == ACTIVE_RUNTIME.load(Ordering::Acquire) {
-        OVERLAY_OPEN.store(usize::from(open), Ordering::Release);
+    if !open && runtime as usize == ACTIVE_RUNTIME.load(Ordering::Acquire) {
+        OVERLAY_OPEN.store(0, Ordering::Release);
     }
     false
 }
@@ -1160,8 +1160,9 @@ mod tests {
         OVERLAY_OPEN.store(0, Ordering::Release);
 
         assert!(!unsafe { on_overlay_state_changed(fake_runtime, true, 0) });
-        assert_eq!(OVERLAY_OPEN.load(Ordering::Acquire), 1);
+        assert_eq!(OVERLAY_OPEN.load(Ordering::Acquire), 0);
 
+        OVERLAY_OPEN.store(1, Ordering::Release);
         assert!(!unsafe { on_overlay_state_changed(fake_runtime, false, 0) });
         assert_eq!(OVERLAY_OPEN.load(Ordering::Acquire), 0);
 
