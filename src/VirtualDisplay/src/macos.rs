@@ -71,12 +71,24 @@ unsafe extern "C" {
     -> i32;
     fn CGCompleteDisplayConfiguration(config: Ref, option: u32) -> i32;
     fn CGCancelDisplayConfiguration(config: Ref) -> i32;
+    static kCGDisplayShowDuplicateLowResolutionModes: Ref;
 }
 
 #[link(name = "CoreFoundation", kind = "framework")]
 unsafe extern "C" {
     static kCFRunLoopDefaultMode: Ref;
+    static kCFBooleanTrue: Ref;
+    static kCFTypeDictionaryKeyCallBacks: c_void;
+    static kCFTypeDictionaryValueCallBacks: c_void;
     fn CFRelease(value: Ref);
+    fn CFDictionaryCreate(
+        allocator: Ref,
+        keys: *const Ref,
+        values: *const Ref,
+        count: isize,
+        key_callbacks: *const c_void,
+        value_callbacks: *const c_void,
+    ) -> Ref;
     fn CFArrayGetCount(array: Ref) -> isize;
     fn CFArrayGetValueAtIndex(array: Ref, index: isize) -> Ref;
     fn CFRunLoopGetCurrent() -> Ref;
@@ -186,9 +198,9 @@ fn refresh_rate(display: u32) -> f64 {
 }
 
 fn refresh_rates(target: u32) -> Vec<f64> {
-    let mut rates = vec![60.0, 120.0, target as f64];
-    rates.sort_by(f64::total_cmp);
-    rates.dedup();
+    let target = target as f64;
+    let mut rates = vec![target];
+    rates.extend([60.0, 120.0].into_iter().filter(|rate| *rate != target));
     rates
 }
 
@@ -426,16 +438,59 @@ impl Session {
     }
 
     fn select_requested_mode(&self, display: u32) -> Result<(), String> {
-        let modes = unsafe { CGDisplayCopyAllDisplayModes(display, ptr::null_mut()) };
+        let options = unsafe {
+            let keys = [kCGDisplayShowDuplicateLowResolutionModes];
+            let values = [kCFBooleanTrue];
+            CFDictionaryCreate(
+                ptr::null_mut(),
+                keys.as_ptr(),
+                values.as_ptr(),
+                1,
+                ptr::addr_of!(kCFTypeDictionaryKeyCallBacks),
+                ptr::addr_of!(kCFTypeDictionaryValueCallBacks),
+            )
+        };
+        let options = OwnedRef::checked(options, "Display mode options are unavailable")?;
+        let modes = unsafe { CGDisplayCopyAllDisplayModes(display, options.0) };
         if modes.is_null() {
             return Ok(());
         }
         let modes = OwnedRef(modes);
+        let (width, height, pixel_width) = {
+            let current = unsafe { CGDisplayCopyDisplayMode(display) };
+            if current.is_null() {
+                (0, 0, 0)
+            } else {
+                let current = OwnedRef(current);
+                unsafe {
+                    (
+                        CGDisplayModeGetWidth(current.0),
+                        CGDisplayModeGetHeight(current.0),
+                        CGDisplayModeGetPixelWidth(current.0),
+                    )
+                }
+            }
+        };
+        let mut best: Option<(Ref, u8)> = None;
         for index in 0..unsafe { CFArrayGetCount(modes.0) } {
             let mode = unsafe { CFArrayGetValueAtIndex(modes.0, index) };
             if (unsafe { CGDisplayModeGetRefreshRate(mode) } - self.refresh).abs() >= 0.5 {
                 continue;
             }
+            let same_size = unsafe {
+                CGDisplayModeGetWidth(mode) == width && CGDisplayModeGetHeight(mode) == height
+            };
+            let same_pixels = unsafe { CGDisplayModeGetPixelWidth(mode) } == pixel_width;
+            let score = u8::from(same_size) * 2 + u8::from(same_pixels);
+            if best.is_none_or(|(_, best_score)| score > best_score) {
+                best = Some((mode, score));
+            }
+        }
+        if let Some((mode, _)) = best {
+            eprintln!(
+                "[virtualdisplay] switching virtual display {display} to {} Hz",
+                self.refresh
+            );
             let transaction = Transaction::begin()?;
             check(
                 unsafe {
