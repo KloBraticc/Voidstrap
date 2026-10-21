@@ -1059,7 +1059,7 @@ public static class AssetProxyServer
 						outboundBody = TextureStripper.PrepareBatchRequest(decodedRequest, AssetPreloadCache.ActivePlaceId, out batchContext);
 						if (batchContext is { RequestIds.Count: 0 })
 						{
-							await WriteLocalJsonResponseAsync(localTls, "[]"u8.ToArray(), ct).ConfigureAwait(false);
+							await WriteLocalJsonResponseAsync(localTls, TextureStripper.BuildRemovedBatchResponse(batchContext), ct).ConfigureAwait(false);
 							if (ShouldClose(request))
 							{
 								break;

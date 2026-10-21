@@ -27,6 +27,10 @@ internal sealed class AssetBatchContext
 	public Dictionary<string, string> AssetIds { get; } = new(StringComparer.Ordinal);
 
 	public Dictionary<string, AssetWarpRoute> Routes { get; } = new(StringComparer.Ordinal);
+
+	public List<(string RequestId, bool Removed)> Order { get; } = [];
+
+	public int RemovedCount { get; set; }
 }
 
 public static class TextureStripper
@@ -163,6 +167,8 @@ public static class TextureStripper
 
 			if (matchedKey == null && ShouldRemove(keys, typeId, typeName, rules))
 			{
+				batch.Order.Add((requestId, true));
+				batch.RemovedCount++;
 				modified = true;
 				continue;
 			}
@@ -190,6 +196,7 @@ public static class TextureStripper
 			}
 
 			batch.RequestIds.Add(requestId);
+			batch.Order.Add((requestId, false));
 			if (requestId.Length > 0 && assetId.Length > 0)
 			{
 				batch.AssetIds[requestId] = assetId;
@@ -218,7 +225,7 @@ public static class TextureStripper
 
 	internal static byte[]? RewriteBatchResponse(AssetBatchContext? context, byte[] body)
 	{
-		if (context == null || context.Routes.Count == 0 || body.Length == 0)
+		if (context == null || (context.Routes.Count == 0 && context.RemovedCount == 0) || body.Length == 0)
 		{
 			return null;
 		}
@@ -263,7 +270,75 @@ public static class TextureStripper
 			item.Remove("errors");
 			changed = true;
 		}
+		if (context.RemovedCount > 0)
+		{
+			items = RestoreRemovedEntries(context, items, orderedResponse);
+			changed = true;
+		}
 		return changed ? JsonSerializer.SerializeToUtf8Bytes(items) : null;
+	}
+
+	internal static byte[] BuildRemovedBatchResponse(AssetBatchContext context)
+	{
+		return JsonSerializer.SerializeToUtf8Bytes(RestoreRemovedEntries(context, [], false));
+	}
+
+	private static JsonArray RestoreRemovedEntries(AssetBatchContext context, JsonArray items, bool orderedResponse)
+	{
+		Dictionary<string, JsonNode> byRequestId = new(StringComparer.Ordinal);
+		Queue<JsonNode> positional = new();
+		for (int index = 0; index < items.Count; index++)
+		{
+			JsonNode? item = items[index];
+			if (item == null)
+			{
+				continue;
+			}
+			string requestId = item is JsonObject entry ? ReadString(entry["requestId"]) : "";
+			if (requestId.Length == 0 && orderedResponse && index < context.RequestIds.Count)
+			{
+				requestId = context.RequestIds[index];
+			}
+			if (requestId.Length > 0 && !byRequestId.ContainsKey(requestId))
+			{
+				byRequestId[requestId] = item;
+			}
+			else
+			{
+				positional.Enqueue(item);
+			}
+		}
+		items.Clear();
+		JsonArray output = [];
+		foreach ((string requestId, bool removed) in context.Order)
+		{
+			if (removed)
+			{
+				JsonObject missing = new()
+				{
+					["errors"] = new JsonArray(new JsonObject { ["code"] = 404, ["message"] = "Request asset was not found" })
+				};
+				if (requestId.Length > 0)
+				{
+					missing["requestId"] = requestId;
+				}
+				output.Add(missing);
+				continue;
+			}
+			if (requestId.Length > 0 && byRequestId.Remove(requestId, out JsonNode? match))
+			{
+				output.Add(match);
+			}
+			else if (positional.TryDequeue(out JsonNode? next))
+			{
+				output.Add(next);
+			}
+		}
+		foreach (JsonNode leftover in byRequestId.Values.Concat(positional))
+		{
+			output.Add(leftover);
+		}
+		return output;
 	}
 
 	internal static bool TryGetLocalAsset(string host, string path, out AssetWarpRoute? route)
