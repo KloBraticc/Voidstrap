@@ -33,6 +33,8 @@ namespace Voidstrap.Utility
         private static readonly SemaphoreSlim _net = new SemaphoreSlim(6, 6);
 
         private static bool _initialized;
+        private static readonly object CacheGate = new();
+        private static volatile bool _cacheLoaded;
         private static int _processing;
         private static DispatcherTimer? _saveTimer;
 
@@ -41,7 +43,7 @@ namespace Voidstrap.Utility
             if (_initialized) return;
             _initialized = true;
 
-            LoadCache();
+            _ = Task.Run(EnsureCacheLoaded);
 
             try
             {
@@ -86,6 +88,7 @@ namespace Voidstrap.Utility
             if (LooksLikeUrl(text) || !ContainsTranslatableText(text)) return text;
 
             if (!_initialized) Initialize();
+            EnsureCacheLoaded();
 
             var bucket = _cache.GetOrAdd(targetLanguage, _ => new ConcurrentDictionary<string, string>());
             if (bucket.TryGetValue(text, out string? cached))
@@ -111,6 +114,7 @@ namespace Voidstrap.Utility
             if (LooksLikeUrl(text) || !ContainsTranslatableText(text)) return text;
 
             if (!_initialized) Initialize();
+            EnsureCacheLoaded();
 
             var bucket = _cache.GetOrAdd(targetLanguage, _ => new ConcurrentDictionary<string, string>());
             if (bucket.TryGetValue(text, out string? cached))
@@ -152,6 +156,7 @@ namespace Voidstrap.Utility
             {
                 return false;
             }
+            EnsureCacheLoaded();
             return _outputs.ContainsKey(Key(NormalizeLang(targetLanguage), text));
         }
 
@@ -162,6 +167,7 @@ namespace Voidstrap.Utility
             {
                 return false;
             }
+            EnsureCacheLoaded();
             return _sources.TryGetValue(Key(NormalizeLang(targetLanguage), text), out original!);
         }
 
@@ -464,6 +470,17 @@ namespace Voidstrap.Utility
             }
         }
 
+        private static void EnsureCacheLoaded()
+        {
+            if (_cacheLoaded) return;
+            lock (CacheGate)
+            {
+                if (_cacheLoaded) return;
+                LoadCache();
+                _cacheLoaded = true;
+            }
+        }
+
         private static void LoadCache()
         {
             string cachePath = CachePath;
@@ -499,7 +516,7 @@ namespace Voidstrap.Utility
 
         private static void SaveCache()
         {
-            if (Interlocked.CompareExchange(ref _saving, 1, 0) != 0)
+            if (!_cacheLoaded || Interlocked.CompareExchange(ref _saving, 1, 0) != 0)
                 return;
 
             var snapshot = _cache.ToDictionary(k => k.Key, v => v.Value.ToDictionary(ik => ik.Key, iv => iv.Value));
@@ -527,6 +544,7 @@ namespace Voidstrap.Utility
 
         private static void SaveCacheBlocking()
         {
+            if (!_cacheLoaded) return;
             try
             {
                 string cachePath = CachePath;
@@ -564,6 +582,7 @@ namespace Voidstrap.Utility
             {
                 string path = RemoteData.TranslationsPath;
                 if (!Paths.Initialized || !File.Exists(path)) return;
+                EnsureCacheLoaded();
 
                 using FileStream stream = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read);
                 using JsonDocument document = JsonDocument.Parse(stream);
