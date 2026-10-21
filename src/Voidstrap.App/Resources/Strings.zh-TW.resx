@@ -2938,6 +2938,12 @@ Voidstrap 安裝在 "{1}"。</value>
   <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
     <value>封鎖下載網格和 MeshPart 資源。網格幾何將變得不可見</value>
   </data>
+  <data name="Ui.FastFlags.OfflineCacheMode" xml:space="preserve">
+    <value>離線快取模式</value>
+  </data>
+  <data name="AssetWarp.OfflineCacheDescription" xml:space="preserve">
+    <value>在你遊玩時封鎖 Roblox 資源下載，讓已移除的資源維持移除狀態。尚未快取的資源（例如新遊戲或已更新的模型）也不會載入。需要系統管理員權限</value>
+  </data>
   <data name="SwiftTunnel.Summary" xml:space="preserve">
     <value>讓 Roblox 流量透過 SwiftTunnel 路由，其他應用程式仍使用你的一般連線</value>
   </data>

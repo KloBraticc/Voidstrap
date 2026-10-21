@@ -65,6 +65,7 @@ namespace Voidstrap.Models.Persistable
         public bool AssetWarpDisableAllImages { get; set; } = false;
         public bool AssetWarpDisableAllAnimations { get; set; } = false;
         public bool AssetWarpDisableAllMeshes { get; set; } = false;
+        public bool AssetWarpOfflineCache { get; set; } = false;
         public bool AssetWarpPreloadEnabled { get; set; } = false;
         public int AssetWarpPreloadCacheMb { get; set; } = 2048;
         public bool AssetWarpPreloadAvatar { get; set; } = true;

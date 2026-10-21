@@ -2927,6 +2927,12 @@ Bu kısıtlamaları kabul edip devam etmek için aşağıda gösterilen ifadeyi 
   <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
     <value>Mesh ve MeshPart varlıklarının indirilmesini engeller. Mesh geometrisi görünmez olur</value>
   </data>
+  <data name="Ui.FastFlags.OfflineCacheMode" xml:space="preserve">
+    <value>Çevrimdışı önbellek modu</value>
+  </data>
+  <data name="AssetWarp.OfflineCacheDescription" xml:space="preserve">
+    <value>Kaldırılan varlıkların kaldırılmış kalması için oynarken Roblox varlık indirmelerini engeller. Yeni oyunlar veya güncellenmiş modeller gibi henüz önbellekte olmayan varlıklar da yüklenmez. Yönetici erişimi gerektirir</value>
+  </data>
   <data name="SwiftTunnel.Summary" xml:space="preserve">
     <value>Diğer uygulamalar normal bağlantınızı kullanırken Roblox trafiğini SwiftTunnel üzerinden yönlendirin</value>
   </data>

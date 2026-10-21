@@ -8242,6 +8242,8 @@ namespace Voidstrap.Resources {
         public static string AssetWarp_RemoveImagesDescription => ResourceManager.GetString("AssetWarp.RemoveImagesDescription", resourceCulture);
         public static string AssetWarp_RemoveAnimationsDescription => ResourceManager.GetString("AssetWarp.RemoveAnimationsDescription", resourceCulture);
         public static string AssetWarp_RemoveMeshesDescription => ResourceManager.GetString("AssetWarp.RemoveMeshesDescription", resourceCulture);
+        public static string Ui_FastFlags_OfflineCacheMode => ResourceManager.GetString("Ui.FastFlags.OfflineCacheMode", resourceCulture);
+        public static string AssetWarp_OfflineCacheDescription => ResourceManager.GetString("AssetWarp.OfflineCacheDescription", resourceCulture);
         public static string Menu_MacVirtualDisplay_Title => ResourceManager.GetString("Menu.MacVirtualDisplay.Title", resourceCulture);
         public static string Menu_MacVirtualDisplay_Description => ResourceManager.GetString("Menu.MacVirtualDisplay.Description", resourceCulture);
         public static string Ui_Session_OverlayLayout => ResourceManager.GetString("Ui.Session.OverlayLayout", resourceCulture);

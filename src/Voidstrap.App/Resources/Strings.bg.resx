@@ -2935,6 +2935,12 @@ Voidstrap е инсталиран на „{1}“.</value>
   <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
     <value>Блокира изтеглянето на ресурси за мешове и MeshPart. Геометрията на мешовете ще стане невидима</value>
   </data>
+  <data name="Ui.FastFlags.OfflineCacheMode" xml:space="preserve">
+    <value>Офлайн режим на кеша</value>
+  </data>
+  <data name="AssetWarp.OfflineCacheDescription" xml:space="preserve">
+    <value>Блокира изтеглянето на ресурси на Roblox, докато играете, за да останат премахнатите ресурси премахнати. Ресурсите, които още не са кеширани, като нови игри или обновени модели, също няма да се заредят. Изисква администраторски права</value>
+  </data>
   <data name="SwiftTunnel.Summary" xml:space="preserve">
     <value>Пренасочвайте трафика на Roblox през SwiftTunnel, докато другите приложения използват обичайната Ви връзка</value>
   </data>

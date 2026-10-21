@@ -2891,6 +2891,12 @@ Typ de onderstaande zin precies over om deze beperkingen te accepteren en door t
   <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
     <value>Blokkeert downloads van mesh- en MeshPart-assets. Mesh-geometrie wordt onzichtbaar</value>
   </data>
+  <data name="Ui.FastFlags.OfflineCacheMode" xml:space="preserve">
+    <value>Offline cachemodus</value>
+  </data>
+  <data name="AssetWarp.OfflineCacheDescription" xml:space="preserve">
+    <value>Blokkeert downloads van Roblox-assets terwijl je speelt, zodat verwijderde assets verwijderd blijven. Assets die nog niet in de cache staan, zoals nieuwe games of bijgewerkte modellen, laden ook niet. Vereist beheerdersrechten</value>
+  </data>
   <data name="SwiftTunnel.Summary" xml:space="preserve">
     <value>Stuur Roblox-verkeer via SwiftTunnel terwijl andere apps je normale verbinding gebruiken</value>
   </data>

@@ -2915,6 +2915,12 @@ Scrie exact fraza afișată mai jos pentru a accepta aceste restricții și a co
   <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
     <value>Blochează descărcarea resurselor mesh și MeshPart. Geometria mesh va fi invizibilă</value>
   </data>
+  <data name="Ui.FastFlags.OfflineCacheMode" xml:space="preserve">
+    <value>Mod cache offline</value>
+  </data>
+  <data name="AssetWarp.OfflineCacheDescription" xml:space="preserve">
+    <value>Blochează descărcările de resurse Roblox cât timp joci, astfel încât resursele eliminate să rămână eliminate. Resursele care nu sunt încă în cache, cum ar fi jocurile noi sau modelele actualizate, nu se vor încărca nici ele. Necesită drepturi de administrator</value>
+  </data>
   <data name="SwiftTunnel.Summary" xml:space="preserve">
     <value>Direcționează traficul Roblox prin SwiftTunnel în timp ce celelalte aplicații folosesc conexiunea ta obișnuită</value>
   </data>

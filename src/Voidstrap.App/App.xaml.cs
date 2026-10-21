@@ -2090,6 +2090,7 @@ public partial class App : Application
 		TryShutdown(Voidstrap.Integrations.Rojo.RojoManager.Shutdown);
 		TryShutdown(Voidstrap.Integrations.Studio.StudioIntegration.Shutdown);
 		TryShutdown(AssetProxyServer.Stop);
+		TryShutdown(Voidstrap.Integrations.AssetProxy.AssetCacheStripper.UnblockDownloads);
 		TryShutdown(AssetPreloadCache.Shutdown);
 		TryShutdown(() => AssetCaptureStore.Shutdown());
 		TryShutdown(Voidstrap.Integrations.Fullscreen.FakeExclusiveFullscreen.Shutdown);

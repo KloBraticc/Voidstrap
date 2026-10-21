@@ -48,6 +48,47 @@ internal static class AssetCacheStripper
 		}
 	}
 
+	private static readonly string[] DownloadHosts =
+	[
+		"sc0.rbxcdn.com", "sc1.rbxcdn.com", "sc2.rbxcdn.com", "sc3.rbxcdn.com",
+		"sc4.rbxcdn.com", "sc5.rbxcdn.com", "sc6.rbxcdn.com", "sc7.rbxcdn.com",
+		"c0.rbxcdn.com", "c1.rbxcdn.com", "c2.rbxcdn.com", "c3.rbxcdn.com",
+		"c4.rbxcdn.com", "c5.rbxcdn.com", "c6.rbxcdn.com", "c7.rbxcdn.com"
+	];
+
+	private static bool _blocking;
+
+	public static bool BlocksDownloads => Voidstrap.Utility.Platform.IsWindows && App.Settings.Prop.AssetWarpOfflineCache && HasRemovals && !AssetProxyServer.IsRequired;
+
+	public static void BlockDownloads()
+	{
+		if (!BlocksDownloads)
+			return;
+		if (!ProcessElevation.IsAdministrator())
+		{
+			App.Logger?.WriteLine(LogIdent, "Offline cache mode needs administrator access, Roblox can still download removed assets this session");
+			return;
+		}
+		try
+		{
+			AssetProxyRouting.InstallEntries(DownloadHosts, includeIpv6: true);
+			_blocking = true;
+			App.Logger?.WriteLine(LogIdent, "Offline cache mode is on, Roblox asset downloads are blocked for this session");
+		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+		{
+			App.Logger?.WriteLine(LogIdent, "Offline cache mode could not block asset downloads: " + ex.Message);
+		}
+	}
+
+	public static void UnblockDownloads()
+	{
+		if (!_blocking)
+			return;
+		_blocking = false;
+		AssetProxyRouting.Cleanup();
+	}
+
 	public static void QueueApply()
 	{
 		_ = Task.Run(() => ApplyAsync(CancellationToken.None));

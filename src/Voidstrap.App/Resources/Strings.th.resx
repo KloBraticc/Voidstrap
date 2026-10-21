@@ -2927,6 +2927,12 @@ Voidstrap จะติดตั้งไว้ที่ "{1}"</value>
   <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
     <value>บล็อกการดาวน์โหลดแอสเซ็ต mesh และ MeshPart รูปทรง mesh จะมองไม่เห็น</value>
   </data>
+  <data name="Ui.FastFlags.OfflineCacheMode" xml:space="preserve">
+    <value>โหมดแคชออฟไลน์</value>
+  </data>
+  <data name="AssetWarp.OfflineCacheDescription" xml:space="preserve">
+    <value>บล็อกการดาวน์โหลดแอสเซ็ตของ Roblox ขณะที่คุณเล่น เพื่อให้แอสเซ็ตที่ลบออกยังคงถูกลบอยู่ แอสเซ็ตที่ยังไม่อยู่ในแคช เช่น เกมใหม่หรือโมเดลที่อัปเดต จะไม่โหลดเช่นกัน ต้องใช้สิทธิ์ผู้ดูแลระบบ</value>
+  </data>
   <data name="SwiftTunnel.Summary" xml:space="preserve">
     <value>ส่งทราฟฟิกของ Roblox ผ่าน SwiftTunnel ขณะที่แอปอื่นใช้การเชื่อมต่อปกติของคุณ</value>
   </data>

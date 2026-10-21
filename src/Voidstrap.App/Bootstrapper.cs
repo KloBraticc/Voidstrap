@@ -1566,6 +1566,7 @@ public class Bootstrapper
             {
                 await AssetCacheStripper.ApplyAsync(ct);
                 await StartAssetProxyIfEnabled(ct);
+                AssetCacheStripper.BlockDownloads();
             }
             if (!_safeMode && AssetProxyRouting.ConsumeCacheCleared())
                 await RestoreStoragePatchesAsync(ct);
@@ -2540,7 +2541,8 @@ public class Bootstrapper
 		bool shouldKeepSnapTap = _launchMode == LaunchMode.Player && Voidstrap.Utility.Platform.SupportsInputHooks && (App.Settings?.Prop.SnapTapEnabled ?? false);
 		bool shouldCompressAfterExit = RobloxInstallCompression.Supported && (App.Settings?.Prop.CompressRobloxInstalls ?? false);
 		bool shouldManageFullscreen = _launchMode == LaunchMode.Player && Watcher.FullscreenModeActive;
-		if (!((App.Settings?.Prop.EnableActivityTracking ?? false) || flag || shouldOptimize || shouldTrackOverlays || shouldKeepSnapTap || shouldCompressAfterExit || shouldManageFullscreen) && !(App.LaunchSettings.TestModeFlag?.Active ?? false))
+		bool shouldBlockDownloads = _launchMode == LaunchMode.Player && AssetCacheStripper.BlocksDownloads;
+		if (!((App.Settings?.Prop.EnableActivityTracking ?? false) || flag || shouldOptimize || shouldTrackOverlays || shouldKeepSnapTap || shouldCompressAfterExit || shouldManageFullscreen || shouldBlockDownloads) && !(App.LaunchSettings.TestModeFlag?.Active ?? false))
         {
             return Task.CompletedTask;
         }
@@ -2550,7 +2552,7 @@ public class Bootstrapper
             LogFile = logFileName,
             AutoclosePids = [.. _integrationAutoclosePids]
         };
-        if (AssetProxyServer.IsRequired && _launchMode == LaunchMode.Player)
+        if ((AssetProxyServer.IsRequired || AssetCacheStripper.BlocksDownloads) && _launchMode == LaunchMode.Player)
         {
             try
             {

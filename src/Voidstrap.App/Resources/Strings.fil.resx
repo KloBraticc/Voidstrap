@@ -2723,6 +2723,12 @@ I-type nang eksakto ang pariralang nasa ibaba para tanggapin ang limitasyong ito
   <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
     <value>Bina-block ang pag-download ng mga mesh at MeshPart asset. Magiging hindi nakikita ang mesh geometry</value>
   </data>
+  <data name="Ui.FastFlags.OfflineCacheMode" xml:space="preserve">
+    <value>Offline cache mode</value>
+  </data>
+  <data name="AssetWarp.OfflineCacheDescription" xml:space="preserve">
+    <value>Hinaharangan ang pag-download ng mga asset ng Roblox habang naglalaro ka para manatiling tanggal ang mga tinanggal na asset. Hindi rin maglo-load ang mga asset na wala pa sa cache, gaya ng mga bagong laro o na-update na model. Kailangan ng administrator access</value>
+  </data>
   <data name="SwiftTunnel.Summary" xml:space="preserve">
     <value>Idaan ang trapiko ng Roblox sa SwiftTunnel habang ginagamit ng ibang app ang karaniwang koneksyon mo</value>
   </data>

@@ -2937,6 +2937,12 @@ Voidstrap был установлен по адресу "{1}".</value>
   <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
     <value>Блокирует загрузку ресурсов мешей и MeshPart. Геометрия мешей станет невидимой</value>
   </data>
+  <data name="Ui.FastFlags.OfflineCacheMode" xml:space="preserve">
+    <value>Режим автономного кэша</value>
+  </data>
+  <data name="AssetWarp.OfflineCacheDescription" xml:space="preserve">
+    <value>Блокирует загрузку ресурсов Roblox во время игры, чтобы удалённые ресурсы оставались удалёнными. Ресурсы, которых ещё нет в кэше, например новые игры или обновлённые модели, тоже не загрузятся. Требуются права администратора</value>
+  </data>
   <data name="SwiftTunnel.Summary" xml:space="preserve">
     <value>Направляйте трафик Roblox через SwiftTunnel, пока другие приложения используют обычное подключение</value>
   </data>

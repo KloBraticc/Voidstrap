@@ -2934,6 +2934,12 @@ Upiši točno frazu prikazanu ispod kako bi prihvatio ova ograničenja i nastavi
   <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
     <value>Blokira preuzimanje mesh i MeshPart resursa. Mesh geometrija bit će nevidljiva</value>
   </data>
+  <data name="Ui.FastFlags.OfflineCacheMode" xml:space="preserve">
+    <value>Izvanmrežni način predmemorije</value>
+  </data>
+  <data name="AssetWarp.OfflineCacheDescription" xml:space="preserve">
+    <value>Blokira preuzimanja Roblox resursa dok igraš kako bi uklonjeni resursi ostali uklonjeni. Resursi koji još nisu u predmemoriji, poput novih igara ili ažuriranih modela, također se neće učitati. Zahtijeva administratorska prava</value>
+  </data>
   <data name="SwiftTunnel.Summary" xml:space="preserve">
     <value>Usmjeri Roblox promet kroz SwiftTunnel dok druge aplikacije koriste tvoju uobičajenu vezu</value>
   </data>

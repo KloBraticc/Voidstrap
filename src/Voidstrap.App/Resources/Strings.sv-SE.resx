@@ -2896,6 +2896,12 @@ Skriv exakt frasen som visas nedan för att godkänna begränsningarna och forts
   <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
     <value>Blockerar nedladdning av mesh- och MeshPart-resurser. Meshgeometri blir osynlig</value>
   </data>
+  <data name="Ui.FastFlags.OfflineCacheMode" xml:space="preserve">
+    <value>Offlinecacheläge</value>
+  </data>
+  <data name="AssetWarp.OfflineCacheDescription" xml:space="preserve">
+    <value>Blockerar nedladdningar av Roblox-resurser medan du spelar så att borttagna resurser förblir borttagna. Resurser som inte finns i cachen än, till exempel nya spel eller uppdaterade modeller, laddas inte heller. Kräver administratörsbehörighet</value>
+  </data>
   <data name="SwiftTunnel.Summary" xml:space="preserve">
     <value>Skicka Roblox-trafik via SwiftTunnel medan andra appar använder din vanliga anslutning</value>
   </data>

@@ -2926,6 +2926,12 @@ Escribe exactamente la frase que se muestra abajo para aceptar estas restriccion
   <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
     <value>Bloquea la descarga de recursos de mallas y MeshParts. La geometría de las mallas será invisible</value>
   </data>
+  <data name="Ui.FastFlags.OfflineCacheMode" xml:space="preserve">
+    <value>Modo de caché sin conexión</value>
+  </data>
+  <data name="AssetWarp.OfflineCacheDescription" xml:space="preserve">
+    <value>Bloquea las descargas de recursos de Roblox mientras juegas para que los recursos eliminados sigan eliminados. Los recursos que aún no están en caché, como juegos nuevos o modelos actualizados, tampoco se cargarán. Requiere permisos de administrador</value>
+  </data>
   <data name="SwiftTunnel.Summary" xml:space="preserve">
     <value>Envía el tráfico de Roblox a través de SwiftTunnel mientras las demás aplicaciones usan tu conexión normal</value>
   </data>

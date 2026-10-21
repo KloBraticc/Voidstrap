@@ -2907,6 +2907,12 @@ Digita esattamente la frase mostrata qui sotto per accettare queste restrizioni 
   <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
     <value>Blocca il download delle risorse mesh e MeshPart. La geometria delle mesh sarà invisibile</value>
   </data>
+  <data name="Ui.FastFlags.OfflineCacheMode" xml:space="preserve">
+    <value>Modalità cache offline</value>
+  </data>
+  <data name="AssetWarp.OfflineCacheDescription" xml:space="preserve">
+    <value>Blocca i download delle risorse di Roblox mentre giochi, così le risorse rimosse restano rimosse. Anche le risorse non ancora in cache, come giochi nuovi o modelli aggiornati, non verranno caricate. Richiede i permessi di amministratore</value>
+  </data>
   <data name="SwiftTunnel.Summary" xml:space="preserve">
     <value>Instrada il traffico di Roblox tramite SwiftTunnel mentre le altre app usano la tua connessione normale</value>
   </data>

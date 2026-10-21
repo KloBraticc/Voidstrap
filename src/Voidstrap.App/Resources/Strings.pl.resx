@@ -2932,6 +2932,12 @@ Wpisz dokładnie frazę pokazaną poniżej, aby zaakceptować te ograniczenia i 
   <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
     <value>Blokuje pobieranie zasobów siatek i MeshPart. Geometria siatek będzie niewidoczna</value>
   </data>
+  <data name="Ui.FastFlags.OfflineCacheMode" xml:space="preserve">
+    <value>Tryb pamięci podręcznej offline</value>
+  </data>
+  <data name="AssetWarp.OfflineCacheDescription" xml:space="preserve">
+    <value>Blokuje pobieranie zasobów Roblox podczas gry, aby usunięte zasoby pozostały usunięte. Zasoby, których nie ma jeszcze w pamięci podręcznej, takie jak nowe gry lub zaktualizowane modele, również się nie wczytają. Wymaga uprawnień administratora</value>
+  </data>
   <data name="SwiftTunnel.Summary" xml:space="preserve">
     <value>Kieruj ruch Roblox przez SwiftTunnel, podczas gdy inne aplikacje korzystają ze zwykłego połączenia</value>
   </data>
