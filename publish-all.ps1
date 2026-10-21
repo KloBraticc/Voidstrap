@@ -1298,7 +1298,7 @@ function Invoke-SignPathWindows {
     $signingRun = $null
     $signingDeadline = [DateTime]::UtcNow.AddHours(1)
     $lastProgressAt = [DateTime]::UtcNow
-    Write-Host '  Waiting for the GitHub build and SignPath signature...' -ForegroundColor DarkGray
+    Write-Host "  Waiting for the GitHub build and SignPath signature: https://github.com/KloBraticc/Voidstrap/actions/runs/$runId" -ForegroundColor DarkGray
     while ([DateTime]::UtcNow -lt $signingDeadline) {
         $runJson = & $ghPath run view $runId --repo KloBraticc/Voidstrap --json status,conclusion 2>&1 | Out-String
         if ($LASTEXITCODE -ne 0) {
@@ -1312,11 +1312,12 @@ function Invoke-SignPathWindows {
         }
         Start-Sleep -Seconds 10
     }
+    $runUrl = "https://github.com/KloBraticc/Voidstrap/actions/runs/$runId"
     if (-not $signingRun -or $signingRun.status -ne 'completed') {
-        throw "SignPath signing run $runId did not finish within one hour."
+        throw "SignPath signing run did not finish within one hour: $runUrl"
     }
     if ($signingRun.conclusion -ne 'success') {
-        throw "SignPath signing run $runId finished with status '$($signingRun.conclusion)'."
+        throw "SignPath signing run finished with status '$($signingRun.conclusion)': $runUrl"
     }
 
     $downloadDir = Join-Path $ArtifactDir "signpath-$requestId"
@@ -1342,13 +1343,12 @@ function Invoke-SignPathWindows {
             throw "Unexpected signed Voidstrap metadata: ProductName='$($info.ProductName)', CompanyName='$($info.CompanyName)', OriginalFilename='$($info.OriginalFilename)', ProductVersion='$($info.ProductVersion)', FileVersion='$($info.FileVersion)'."
         }
         $signature = Get-AuthenticodeSignature -LiteralPath $signedExe
-        if ($signature.Status -eq 'UnknownError' -and $signature.StatusMessage -like '*root certificate which is not trusted by the trust provider*') {
-            $signer = [System.Security.Cryptography.X509Certificates.X509Certificate2]::new([System.Security.Cryptography.X509Certificates.X509Certificate]::CreateFromSignedFile($signedExe))
-            if ($signer.Thumbprint -ne '84913A32E5DBC03EDC416B4FD3B499DCBD52145E') {
-                throw 'The signed executable does not use the pinned SignPath test certificate.'
-            }
-        } elseif ($signature.Status -ne 'Valid') {
-            throw 'The signed executable does not have a trusted or pinned SignPath Authenticode signature.'
+        if ($null -eq $signature.SignerCertificate) {
+            throw "The signed executable has no Authenticode signature: $($signature.Status) $($signature.StatusMessage)"
+        }
+        $pinnedTestCertificate = $signature.SignerCertificate.Thumbprint -eq '84913A32E5DBC03EDC416B4FD3B499DCBD52145E'
+        if ($signature.Status -ne 'Valid' -and -not ($pinnedTestCertificate -and $signature.Status -in @('UnknownError', 'NotTrusted'))) {
+            throw "The signed executable signature is not accepted: $($signature.Status) $($signature.StatusMessage) signer $($signature.SignerCertificate.Thumbprint)"
         }
 
         $signedHash = (Get-FileHash -LiteralPath $signedExe -Algorithm SHA256).Hash
