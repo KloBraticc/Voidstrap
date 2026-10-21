@@ -4,6 +4,7 @@ ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 RID="${1:?A runtime identifier is required}"
 OUTPUT="${2:?An output library is required}"
 TARGET_DIR="${3:-$ROOT/native/voidimage/target}"
+[ -n "${VOIDSTRAP_NATIVE_TARGET_ROOT:-}" ] && TARGET_DIR="$VOIDSTRAP_NATIVE_TARGET_ROOT/voidimage"
 GLIBC_FLOOR="${VOIDSTRAP_VOIDIMAGE_GLIBC:-2.17}"
 
 case "$RID" in
