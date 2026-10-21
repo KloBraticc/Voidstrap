@@ -177,6 +177,18 @@
                   </DataTemplate>
                 </ItemsControl.ItemTemplate>
               </ItemsControl>
+              <StackPanel x:Name="RiShadeTools" Visibility="Collapsed" Margin="0,0,0,10">
+                <TextBlock Style="{StaticResource DetailLabel}" Text="RiShade preset" />
+                <Grid>
+                  <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                  </Grid.ColumnDefinitions>
+                  <ComboBox x:Name="RiShadePresetPicker" Grid.Column="0" Height="34" VerticalContentAlignment="Center" DisplayMemberPath="Name" SelectionChanged="RiShadePreset_SelectionChanged" />
+                  <ui:Button Grid.Column="1" Height="34" Margin="8,0,0,0" Content="Refresh" Click="RiShadePreset_Refresh_Click" />
+                </Grid>
+                <TextBlock x:Name="RiShadePresetStatus" Margin="0,6,0,0" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+              </StackPanel>
               <StackPanel x:Name="RojoTools" Visibility="Collapsed">
                 <TextBlock Style="{StaticResource DetailLabel}" Text="{resources:Loc Ui_Pages_ProjectTools}" />
                 <Grid>

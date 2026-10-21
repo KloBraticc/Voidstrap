@@ -5,126 +5,90 @@ namespace Voidstrap.Integrations.RiShade
 {
     internal static partial class RiShadeInterop
     {
-        public const int GWL_EXSTYLE = -20;
-        public const uint WS_POPUP = 0x80000000;
-        public const uint WS_VISIBLE = 0x10000000;
-        public const int WS_EX_NOACTIVATE = 0x08000000;
-        public const int WS_EX_TOOLWINDOW = 0x00000080;
-        public const int WS_EX_TRANSPARENT = 0x00000020;
-        public const int WS_EX_TOPMOST = 0x00000008;
-        public const int WS_EX_LAYERED = 0x00080000;
-        public const int WS_EX_NOREDIRECTIONBITMAP = 0x00200000;
-        public const uint LWA_ALPHA = 0x00000002;
-        public const int SW_SHOWNOACTIVATE = 4;
-        public const int SW_HIDE = 0;
-        public const uint SWP_NOACTIVATE = 0x0010;
-        public const uint SWP_NOSIZE = 0x0001;
-        public const uint SWP_SHOWWINDOW = 0x0040;
-        public const uint WDA_EXCLUDEFROMCAPTURE = 0x11;
-        public static readonly IntPtr HWND_TOPMOST = new(-1);
-        public const uint PM_REMOVE = 0x0001;
+        [LibraryImport("rishade_reshade_addon", EntryPoint = "RiShadeRuntimeLoad", StringMarshalling = StringMarshalling.Utf16)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public static partial bool RuntimeLoad(string dxgiPath);
 
-        [StructLayout(LayoutKind.Sequential)]
-        public struct WNDCLASSEXW
-        {
-            public uint cbSize;
-            public uint style;
-            public IntPtr lpfnWndProc;
-            public int cbClsExtra;
-            public int cbWndExtra;
-            public IntPtr hInstance;
-            public IntPtr hIcon;
-            public IntPtr hCursor;
-            public IntPtr hbrBackground;
-            public IntPtr lpszMenuName;
-            public IntPtr lpszClassName;
-            public IntPtr hIconSm;
-        }
+        [LibraryImport("rishade_reshade_addon", EntryPoint = "RiShadeRuntimeCreate", StringMarshalling = StringMarshalling.Utf8)]
+        public static partial IntPtr RuntimeCreate(IntPtr device, IntPtr immediateContext, IntPtr swapchain, IntPtr window, string configPath);
 
-        [StructLayout(LayoutKind.Sequential)]
-        public struct MSG
-        {
-            public IntPtr hwnd;
-            public uint message;
-            public IntPtr wParam;
-            public IntPtr lParam;
-            public uint time;
-            public int ptX;
-            public int ptY;
-        }
+        [LibraryImport("rishade_reshade_addon", EntryPoint = "RiShadeRuntimeDestroy")]
+        public static partial void RuntimeDestroy(IntPtr runtime);
 
-        public delegate IntPtr WndProcDelegate(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
+        [LibraryImport("rishade_reshade_addon", EntryPoint = "RiShadeRuntimeOpenOverlay")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public static partial bool RuntimeOpenOverlay(IntPtr runtime, [MarshalAs(UnmanagedType.I1)] bool open);
 
-        [LibraryImport("user32.dll", SetLastError = true)]
-        public static partial ushort RegisterClassExW(ref WNDCLASSEXW lpwcx);
+        [LibraryImport("rishade_reshade_addon", EntryPoint = "RiShadeRuntimePresent")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public static partial bool RuntimePresent(IntPtr runtime);
 
-        [LibraryImport("user32.dll", SetLastError = true)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static partial bool UnregisterClassW(IntPtr lpClassName, IntPtr hInstance);
+        [LibraryImport("rishade_reshade_addon", EntryPoint = "RiShadeRenderEffects")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public static partial bool RenderEffects(IntPtr runtime, IntPtr inputSrv, IntPtr inputSrvSrgb, IntPtr targetRtv, IntPtr targetRtvSrgb);
 
-        [LibraryImport("user32.dll", SetLastError = true, StringMarshalling = StringMarshalling.Utf16)]
-        public static partial IntPtr CreateWindowExW(int dwExStyle, IntPtr lpClassName, string lpWindowName, uint dwStyle, int x, int y, int nWidth, int nHeight, IntPtr hWndParent, IntPtr hMenu, IntPtr hInstance, IntPtr lpParam);
+        [LibraryImport("rishade_reshade_addon", EntryPoint = "RiShadeRuntimeBindDepthTexture")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public static partial bool RuntimeBindDepthTexture(IntPtr runtime, IntPtr depthSrv);
 
-        [LibraryImport("user32.dll")]
-        public static partial IntPtr DefWindowProcW(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
+        [LibraryImport("rishade_depth_bridge", EntryPoint = "RiShadeDepthBridgeInitialize", StringMarshalling = StringMarshalling.Utf16)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public static partial bool DepthBridgeInitialize(IntPtr device, IntPtr immediateContext, string modelDirectory);
 
-        [LibraryImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static partial bool DestroyWindow(IntPtr hWnd);
+        [LibraryImport("rishade_depth_bridge", EntryPoint = "RiShadeDepthBridgeUpdate")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public static partial bool DepthBridgeUpdate(IntPtr sourceSrv, long timestamp);
 
-        [LibraryImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static partial bool ShowWindow(IntPtr hWnd, int nCmdShow);
+        [LibraryImport("rishade_depth_bridge", EntryPoint = "RiShadeDepthBridgeSetDevice")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public static partial bool DepthBridgeSetDevice(IntPtr device, IntPtr immediateContext);
 
-        [LibraryImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static partial bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
+        [LibraryImport("rishade_depth_bridge", EntryPoint = "RiShadeDepthBridgeReleaseDevice")]
+        public static partial void DepthBridgeReleaseDevice();
 
-        [LibraryImport("user32.dll", SetLastError = true)]
-        public static partial int GetWindowLongW(IntPtr hWnd, int nIndex);
+        [LibraryImport("rishade_depth_bridge", EntryPoint = "RiShadeDepthBridgeShutdown")]
+        public static partial void DepthBridgeShutdown();
 
-        [LibraryImport("user32.dll", SetLastError = true)]
-        public static partial int SetWindowLongW(IntPtr hWnd, int nIndex, int dwNewLong);
+        [LibraryImport("rishade_reshade_addon", EntryPoint = "RiShadeAddonIsCompilingEffects")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public static partial bool IsCompilingEffects();
 
-        [LibraryImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static partial bool SetWindowDisplayAffinity(IntPtr hWnd, uint dwAffinity);
+        [LibraryImport("rishade_reshade_addon", EntryPoint = "RiShadeAddonIsLoadingEffects")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public static partial bool IsLoadingEffects();
 
-        [LibraryImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static partial bool PeekMessageW(out MSG lpMsg, IntPtr hWnd, uint wMsgFilterMin, uint wMsgFilterMax, uint wRemoveMsg);
+        [LibraryImport("rishade_reshade_addon", EntryPoint = "RiShadeAddonIsOverlayOpen")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public static partial bool IsOverlayOpen();
 
-        [LibraryImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static partial bool TranslateMessage(ref MSG lpMsg);
+        [LibraryImport("rishade_reshade_addon", EntryPoint = "RiShadeRuntimeSelectPreset", StringMarshalling = StringMarshalling.Utf8)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public static partial bool RuntimeSelectPreset(IntPtr runtime, string presetPath);
 
-        [LibraryImport("user32.dll")]
-        public static partial IntPtr DispatchMessageW(ref MSG lpMsg);
+        [LibraryImport("rishade_reshade_addon", EntryPoint = "RiShadeAddonCopyCurrentPresetPath")]
+        public static partial nuint CopyCurrentPresetPath(IntPtr buffer, nuint capacity);
 
-        [LibraryImport("kernel32.dll", StringMarshalling = StringMarshalling.Utf16)]
-        public static partial IntPtr GetModuleHandleW(string? lpModuleName);
+        [LibraryImport("rishade_core", EntryPoint = "RiShadePrepareConfig", StringMarshalling = StringMarshalling.Utf8)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public static partial bool PrepareConfig(string baseDirectory);
 
-        [LibraryImport("user32.dll")]
-        public static partial IntPtr GetForegroundWindow();
+        [LibraryImport("rishade_core", EntryPoint = "RiShadeInstallEffectsAndPresets", StringMarshalling = StringMarshalling.Utf8)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public static partial bool InstallEffectsAndPresets(string baseDirectory, IntPtr statusBuffer, nuint bufferLength);
+
+        [LibraryImport("rishade_core", EntryPoint = "RiShadeInstallDepthAssets", StringMarshalling = StringMarshalling.Utf8)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public static partial bool InstallDepthAssets(string baseDirectory, IntPtr statusBuffer, nuint bufferLength);
+
+        [LibraryImport("rishade_core", EntryPoint = "RiShadePresetFileIsLoadable", StringMarshalling = StringMarshalling.Utf8)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public static partial bool PresetFileIsLoadable(string presetPath);
 
         [LibraryImport("user32.dll", StringMarshalling = StringMarshalling.Utf16)]
         public static partial IntPtr FindWindowW(string? lpClassName, string? lpWindowName);
 
         [LibraryImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static partial bool SetLayeredWindowAttributes(IntPtr hwnd, uint crKey, byte bAlpha, uint dwFlags);
-
-        [LibraryImport("kernel32.dll")]
-        public static partial uint WaitForSingleObject(IntPtr hHandle, uint dwMilliseconds);
-
-        [LibraryImport("kernel32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        public static partial bool CloseHandle(IntPtr hObject);
-
-        [LibraryImport("winmm.dll")]
-        public static partial uint timeBeginPeriod(uint uPeriod);
-
-        [LibraryImport("winmm.dll")]
-        public static partial uint timeEndPeriod(uint uPeriod);
+        public static partial bool PostMessageW(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
     }
 }

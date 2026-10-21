@@ -38,7 +38,9 @@ public partial class MenuContainer : WpfUiWindow
 {
     private const int SessionDockHotkeyId = 0x564C;
     private const int RiShadeHotkeyId = 0x564E;
+    private const int RiShadeAltHotkeyId = 0x5650;
     private const int ClipperHotkeyId = 0x564F;
+    private const uint VirtualKeyHome = 0x24;
     private const uint VirtualKeyF8 = 0x77;
     private static MenuContainer? _currentInstance;
     private readonly Watcher _watcher;
@@ -238,13 +240,15 @@ public partial class MenuContainer : WpfUiWindow
         if (!enabled)
         {
             UnregisterHotKey(_handle, RiShadeHotkeyId);
+            UnregisterHotKey(_handle, RiShadeAltHotkeyId);
             _riShadeHotkeyRegistered = false;
             return;
         }
-        _riShadeHotkeyRegistered = RegisterHotKey(_handle, RiShadeHotkeyId, 0x4000, VirtualKeyF8);
+        _riShadeHotkeyRegistered = RegisterHotKey(_handle, RiShadeHotkeyId, 0x4000, VirtualKeyHome);
+        RegisterHotKey(_handle, RiShadeAltHotkeyId, 0x4000, VirtualKeyF8);
         App.Logger.WriteLine("MenuContainer", _riShadeHotkeyRegistered
-            ? "RiShade panel hotkey F8 is registered"
-            : "F8 could not be registered because another program already owns it, open the RiShade panel from Voidstrap settings instead");
+            ? "RiShade overlay hotkey Home is registered"
+            : "Home could not be registered because another program already owns it, open the RiShade panel from Voidstrap settings instead");
     }
 
     // Lets the settings record a new shortcut without the current one firing while it is pressed
@@ -497,7 +501,7 @@ public partial class MenuContainer : WpfUiWindow
 
     private IntPtr WindowMessage(IntPtr hwnd, int message, IntPtr wParam, IntPtr lParam, ref bool handled)
     {
-        if (message == 0x0312 && wParam.ToInt32() == RiShadeHotkeyId)
+        if (message == 0x0312 && (wParam.ToInt32() == RiShadeHotkeyId || wParam.ToInt32() == RiShadeAltHotkeyId))
         {
             handled = true;
             try
@@ -1825,7 +1829,10 @@ public partial class MenuContainer : WpfUiWindow
         if (_clipperHotkeyRegistered && Voidstrap.Utility.Platform.IsWindows)
             UnregisterHotKey(_handle, ClipperHotkeyId);
         if (_riShadeHotkeyRegistered)
+        {
             UnregisterHotKey(_handle, RiShadeHotkeyId);
+            UnregisterHotKey(_handle, RiShadeAltHotkeyId);
+        }
         _riShadeHotkeyRegistered = false;
         _clipperHotkeyRegistered = false;
         _portableHotkey?.Dispose();

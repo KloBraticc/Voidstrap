@@ -1516,6 +1516,7 @@ try {
 }
 $originalDotnetRoot = $env:DOTNET_ROOT
 $originalPath = $env:PATH
+$originalRiShadeCMake = $env:RI_SHADE_CMAKE
 $originalAppImageTool = $env:APPIMAGETOOL
 $originalWslEnv = $env:WSLENV
 try {
@@ -1592,6 +1593,35 @@ $pathSeparator = [System.IO.Path]::PathSeparator
 if (($env:PATH -split [regex]::Escape($pathSeparator)) -notcontains $dotnetDirectory) {
     $env:PATH = $dotnetDirectory + $pathSeparator + $env:PATH
 }
+
+if ($IsWindowsHost) {
+    $cmakePath = $env:RI_SHADE_CMAKE
+    if (-not [string]::IsNullOrWhiteSpace($cmakePath)) {
+        if (-not (Test-Path -LiteralPath $cmakePath -PathType Leaf)) {
+            throw "RI_SHADE_CMAKE points to a missing file: $cmakePath"
+        }
+    } else {
+        $cmakeCommand = Get-Command cmake -CommandType Application -ErrorAction SilentlyContinue | Select-Object -First 1
+        $cmakePath = if ($cmakeCommand) { $cmakeCommand.Source } else { $null }
+        if ([string]::IsNullOrWhiteSpace($cmakePath)) {
+            $vswhere = Join-Path ${env:ProgramFiles(x86)} 'Microsoft Visual Studio\Installer\vswhere.exe'
+            if (Test-Path -LiteralPath $vswhere -PathType Leaf) {
+                $cmakePath = & $vswhere -latest -prerelease -products '*' -find 'Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe' 2>$null |
+                    Where-Object { Test-Path -LiteralPath $_ -PathType Leaf } | Select-Object -First 1
+            }
+        }
+        if ([string]::IsNullOrWhiteSpace($cmakePath)) {
+            throw 'CMake was not found on PATH or in the latest Visual Studio installation. Install CMake or the Visual C++ CMake tools.'
+        }
+    }
+
+    $cmakePath = [System.IO.Path]::GetFullPath($cmakePath)
+    $cmakeDirectory = Split-Path -Parent $cmakePath
+    $env:PATH = $cmakeDirectory + $pathSeparator + $env:PATH
+    $env:RI_SHADE_CMAKE = $cmakePath
+    Write-Host "Using CMake: $cmakePath"
+}
+
 $script:DotNetPath = $dotnetPath
 
 Write-Host 'Voidstrap Build' -ForegroundColor Cyan
@@ -2175,6 +2205,7 @@ Exit-Script 0
     Remove-PublishManifests
     $env:DOTNET_ROOT = $originalDotnetRoot
     $env:PATH = $originalPath
+    $env:RI_SHADE_CMAKE = $originalRiShadeCMake
     $env:APPIMAGETOOL = $originalAppImageTool
     $env:WSLENV = $originalWslEnv
     $publishLock.Dispose()

@@ -168,7 +168,6 @@ namespace Voidstrap.Utility
 
             try { Voidstrap.Integrations.Fullscreen.FakeExclusiveFullscreen.OnGameJoin(); } catch { }
             try { AntiAliasingManager.OnGameJoin(); } catch { }
-            try { RiShadeManager.OnGameJoin(); } catch { }
         }
 
         private static void CloseOverlays()
@@ -191,7 +190,6 @@ namespace Voidstrap.Utility
 
             try { ScreenColorEffect.Reset(); } catch { }
 
-            try { RiShadeManager.OnGameLeave(); } catch { }
             try { AntiAliasingManager.OnGameLeave(); } catch { }
             try { Voidstrap.Integrations.FrameGeneration.FrameGenManager.OnGameLeave(); } catch { }
             try { Voidstrap.Integrations.Fullscreen.FakeExclusiveFullscreen.OnGameLeave(); } catch { }

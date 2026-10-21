@@ -24,6 +24,7 @@ public partial class Watcher : IDisposable
 	private readonly InterProcessLock _lock = new InterProcessLock("Watcher", App.LaunchSettings.MatchmakerRejoinFlag.Active ? TimeSpan.FromSeconds(15) : TimeSpan.FromSeconds(5));
 
 	private readonly WatcherData? _watcherData;
+	private Process? _robloxClientProcess;
 
 	private readonly CancellationTokenSource _lifetimeCancellation = new CancellationTokenSource();
 
@@ -116,6 +117,8 @@ public partial class Watcher : IDisposable
 			return;
 		}
 		Current = this;
+		if (Voidstrap.Utility.Platform.IsWindows)
+			MonitorRobloxClientProcess();
 		MemoryManager.SetGameplayActive(true);
 		StartSettingsWatcher();
 		UpdateVirtualDisplay();
@@ -169,6 +172,31 @@ public partial class Watcher : IDisposable
 		{
 			App.Logger.WriteLine("Watcher", "Settings watcher failed: " + ex.Message);
 		}
+	}
+
+	private void MonitorRobloxClientProcess()
+	{
+		if (_watcherData == null)
+			return;
+
+		try
+		{
+			_robloxClientProcess = Process.GetProcessById(_watcherData.ProcessId);
+			_robloxClientProcess.EnableRaisingEvents = true;
+			_robloxClientProcess.Exited += OnRobloxClientExited;
+			Voidstrap.Integrations.RiShade.RiShadeManager.OnRobloxProcessStarted();
+			if (_robloxClientProcess.HasExited)
+				Voidstrap.Integrations.RiShade.RiShadeManager.OnRobloxProcessStopped();
+		}
+		catch (Exception ex) when (ex is ArgumentException or InvalidOperationException or System.ComponentModel.Win32Exception)
+		{
+			App.Logger.WriteLine("Watcher", "Could not monitor Roblox process lifetime for RiShade: " + ex.Message);
+		}
+	}
+
+	private void OnRobloxClientExited(object? sender, EventArgs e)
+	{
+		Voidstrap.Integrations.RiShade.RiShadeManager.OnRobloxProcessStopped();
 	}
 
 	private void SettingsFileChanged(object sender, FileSystemEventArgs e)
@@ -505,7 +533,6 @@ public partial class Watcher : IDisposable
 		if (Voidstrap.Utility.Platform.IsLinux)
 			RunRuntimeAction(() => Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(true), "SyncGameJoin");
 		RunRuntimeAction(Voidstrap.Integrations.Fullscreen.FakeExclusiveFullscreen.OnGameJoin, "FullscreenJoin");
-		RunRuntimeAction(Voidstrap.Integrations.RiShade.RiShadeManager.OnGameJoin, "RiShadeJoin");
 		RunRuntimeAction(Voidstrap.Integrations.AntiAliasing.AntiAliasingManager.OnGameJoin, "AntiAliasingJoin");
 		RunOnApplicationDispatcher(EnsureRuntimeSessionWindows);
 	}
@@ -556,7 +583,6 @@ public partial class Watcher : IDisposable
 		RunRuntimeAction(Voidstrap.Integrations.Fullscreen.FakeExclusiveFullscreen.OnGameLeave, "FullscreenLeave");
 		if (!teleporting)
 		{
-			RunRuntimeAction(Voidstrap.Integrations.RiShade.RiShadeManager.OnGameLeave, "RiShadeLeave");
 			RunRuntimeAction(Voidstrap.Integrations.AntiAliasing.AntiAliasingManager.OnGameLeave, "AntiAliasingLeave");
 			RunRuntimeAction(Voidstrap.Integrations.FrameGeneration.FrameGenManager.OnGameLeave, "FrameGenerationLeave");
 			RunOnApplicationDispatcher(CloseRuntimeSessionWindows);
@@ -1207,6 +1233,14 @@ public partial class Watcher : IDisposable
 			return;
 		}
 		_disposed = true;
+		if (Voidstrap.Utility.Platform.IsWindows)
+			Voidstrap.Integrations.RiShade.RiShadeManager.OnRobloxProcessStopped();
+		if (_robloxClientProcess != null)
+		{
+			_robloxClientProcess.Exited -= OnRobloxClientExited;
+			_robloxClientProcess.Dispose();
+			_robloxClientProcess = null;
+		}
 		_virtualDisplay?.Dispose();
 		_virtualDisplay = null;
 		Voidstrap.Integrations.Overlays.OverlayHub.ReleaseLinuxGameplayLease();

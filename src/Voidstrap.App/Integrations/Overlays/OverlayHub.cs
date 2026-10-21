@@ -11,6 +11,7 @@ namespace Voidstrap.Integrations.Overlays
 		private static volatile bool _shutdown;
 		private static volatile bool _gameTransition;
 		private static volatile bool _inGame;
+		private static volatile bool _robloxProcessRunning;
 		private static volatile bool _hostProcess;
 
 		private static volatile bool _compositorLive;
@@ -18,6 +19,8 @@ namespace Voidstrap.Integrations.Overlays
 		private static int _crosshairRefreshPending;
 
 		public static bool InGame => _inGame;
+
+		internal static bool RobloxProcessRunning => _robloxProcessRunning;
 
 		internal static bool GameTransition => _gameTransition;
 		internal static bool CompositorLive => _compositorLive;
@@ -128,11 +131,27 @@ namespace Voidstrap.Integrations.Overlays
         public static bool Refresh()
         {
 			RefreshCrosshair();
-            if (OverlaySettings.AnyEnabled && !_gameTransition)
+            if (OverlaySettings.AnyEnabled && (!_gameTransition || OverlaySettings.RiShadeClientActive))
 				return Start();
             Stop();
 			return true;
         }
+
+		internal static void SetRobloxProcessRunning(bool running)
+		{
+			if (!Voidstrap.Utility.Platform.IsWindows || _robloxProcessRunning == running)
+				return;
+			_robloxProcessRunning = running;
+			if (!running)
+			{
+				_inGame = false;
+				_gameTransition = false;
+			}
+			App.Logger.WriteLine("Overlays", running
+				? "Roblox client process started, enabling the process-scoped RiShade compositor"
+				: "Roblox client process exited, stopping the process-scoped RiShade compositor");
+			Refresh();
+		}
 
         public static void Restart()
         {
@@ -184,7 +203,10 @@ namespace Voidstrap.Integrations.Overlays
 			_gameTransition = true;
 			if (Voidstrap.Utility.Platform.IsLinux)
 				SetLinuxGameplayLease(true);
-			Stop();
+			if (OverlaySettings.RiShadeClientActive)
+				Refresh();
+			else
+				Stop();
 		}
 
 		public static void OnGameTransitionCompleted()

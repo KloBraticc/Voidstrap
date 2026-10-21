@@ -8,10 +8,14 @@ namespace Voidstrap.Integrations.Overlays
     public static class OverlaySettings
     {
         public static bool GameEffectsEnabled =>
-            (App.Settings.Prop.RiShadeEnabled && RiShadeSettings.Current.HasVisibleEffects)
-            || AntiAliasingSettings.MethodIndex > 0
+            AntiAliasingSettings.MethodIndex > 0
             || MotionBlurSettings.StrengthIndex > 0
-            || FrameGenSettings.ModeIndex > 0;
+            || FrameGenSettings.ModeIndex > 0
+            || (Voidstrap.Utility.Platform.IsWindows && App.Settings.Prop.RiShadeEnabled);
+
+        public static bool RiShadeClientActive => Voidstrap.Utility.Platform.IsWindows
+			&& OverlayHub.RobloxProcessRunning
+			&& App.Settings.Prop.RiShadeEnabled;
 
         public static bool HomepageBackgroundEnabled
 		{
@@ -46,7 +50,8 @@ namespace Voidstrap.Integrations.Overlays
 			}
 		}
 
-        public static bool AnyEnabled => OverlayHub.InGame ? GameEffectsEnabled : HomepageBackgroundEnabled;
+        public static bool AnyEnabled => RiShadeClientActive
+			|| (OverlayHub.InGame ? GameEffectsEnabled : HomepageBackgroundEnabled);
 
 		public static bool RequiresLinuxX11Session => Voidstrap.Utility.Platform.IsLinux
 			&& (App.Settings.Prop.FakeExclusiveFullscreen
@@ -84,3 +89,4 @@ namespace Voidstrap.Integrations.Overlays
 			&& App.Settings.Prop.ModApplyTarget is Voidstrap.Enums.ModApplyTarget.Both or Voidstrap.Enums.ModApplyTarget.Player;
     }
 }
+

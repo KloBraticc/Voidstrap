@@ -27,6 +27,7 @@ public partial class ExtensionPage : UiPage
 	private object? _detailItem;
 
 	private bool _compactDetail;
+	private bool _refreshingRiShadePresets;
 
 	public ExtensionPage()
 	{
@@ -157,6 +158,9 @@ public partial class ExtensionPage : UiPage
 		DetailSourceButton.Visibility = asset.HasSource ? Visibility.Visible : Visibility.Collapsed;
 		DetailParagraphs.ItemsSource = asset.Description;
 		RojoTools.Visibility = asset.HasTools ? Visibility.Visible : Visibility.Collapsed;
+		RiShadeTools.Visibility = asset.Id == "rishade" ? Visibility.Visible : Visibility.Collapsed;
+		if (asset.Id == "rishade")
+			RefreshRiShadePresets();
 		_ = LoadReleasesAsync(asset);
 		DetailVersion.Text = asset.Version;
 		asset.PropertyChanged -= Asset_PropertyChanged;
@@ -359,6 +363,45 @@ public partial class ExtensionPage : UiPage
 	{
 		if (_detailItem is ExtensionEntry { HasSource: true } asset)
 			Utilities.OpenWebLink(asset.Source);
+	}
+
+	private void RefreshRiShadePresets()
+	{
+		string? selectedPath = Voidstrap.Integrations.RiShade.RiShadePanel.CurrentPresetPath;
+		var presets = Voidstrap.Integrations.RiShade.RiShadePanel.AvailablePresets
+			.Select(path => new RiShadePresetEntry(path))
+			.ToList();
+		_refreshingRiShadePresets = true;
+		try
+		{
+			RiShadePresetPicker.ItemsSource = presets;
+			RiShadePresetPicker.SelectedItem = presets.FirstOrDefault(preset =>
+				string.Equals(preset.Path, selectedPath, StringComparison.OrdinalIgnoreCase));
+		}
+		finally
+		{
+			_refreshingRiShadePresets = false;
+		}
+		RiShadePresetStatus.Text = presets.Count == 0
+			? "No loadable presets found in RiShade\\presets."
+			: selectedPath is null ? "Presets are available once RiShade is active." : "Select a preset to apply it.";
+	}
+
+	private void RiShadePreset_Refresh_Click(object sender, RoutedEventArgs e) => RefreshRiShadePresets();
+
+	private void RiShadePreset_SelectionChanged(object sender, SelectionChangedEventArgs e)
+	{
+		if (!IsLoaded || _refreshingRiShadePresets || RiShadePresetPicker.SelectedItem is not RiShadePresetEntry preset)
+			return;
+		if (Voidstrap.Integrations.RiShade.RiShadePanel.SelectPreset(preset.Path))
+			RiShadePresetStatus.Text = "Preset queued for the next rendered frame.";
+		else
+			RiShadePresetStatus.Text = "Preset could not be selected. Check that RiShade is active and the file is valid.";
+	}
+
+	private sealed record RiShadePresetEntry(string Path)
+	{
+		public string Name => System.IO.Path.GetFileNameWithoutExtension(Path);
 	}
 
 	private void ShowExtension(string id)

@@ -4,7 +4,7 @@
   "supportedPlatforms": ["Windows"],
   "requiredFeatures": ["Overlay", "ExtensionNativeAssets"],
   "nativeAssets": {
-    "Windows": ["RiShade/RiShade.exe"]
+    "Windows": ["RiShade/dxgi.dll"]
   },
   "externalRequirements": []
 }

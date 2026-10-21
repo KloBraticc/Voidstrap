@@ -15,6 +15,10 @@ namespace Voidstrap.Integrations.AntiAliasing
         public const uint LWA_ALPHA = 0x00000002;
         public const int SW_SHOWNOACTIVATE = 4;
         public const int SW_HIDE = 0;
+        public const int GWL_EXSTYLE = -20;
+        public const uint SWP_NOSIZE = 0x0001;
+        public const uint SWP_NOMOVE = 0x0002;
+        public const uint SWP_FRAMECHANGED = 0x0020;
         public const uint SWP_NOACTIVATE = 0x0010;
         public const uint SWP_NOZORDER = 0x0004;
         public const uint SWP_SHOWWINDOW = 0x0040;
@@ -86,6 +90,12 @@ namespace Voidstrap.Integrations.AntiAliasing
         [LibraryImport("user32.dll")]
         public static partial IntPtr DefWindowProcW(IntPtr hWnd, uint msg, IntPtr wParam, IntPtr lParam);
 
+        [LibraryImport("user32.dll", EntryPoint = "LoadCursorW")]
+        public static partial IntPtr LoadCursorW(IntPtr hInstance, IntPtr lpCursorName);
+
+        [LibraryImport("user32.dll")]
+        public static partial IntPtr SetCursor(IntPtr hCursor);
+
         [LibraryImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static partial bool DestroyWindow(IntPtr hWnd);
@@ -118,6 +128,16 @@ namespace Voidstrap.Integrations.AntiAliasing
 
         [LibraryImport("user32.dll")]
         public static partial IntPtr GetForegroundWindow();
+
+        [LibraryImport("user32.dll", EntryPoint = "GetWindowLongPtrW")]
+        public static partial nint GetWindowLongPtrW(IntPtr hWnd, int nIndex);
+
+        [LibraryImport("user32.dll", EntryPoint = "SetWindowLongPtrW")]
+        public static partial nint SetWindowLongPtrW(IntPtr hWnd, int nIndex, nint dwNewLong);
+
+        [LibraryImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static partial bool SetForegroundWindow(IntPtr hWnd);
 
         [LibraryImport("user32.dll")]
         [return: MarshalAs(UnmanagedType.Bool)]
