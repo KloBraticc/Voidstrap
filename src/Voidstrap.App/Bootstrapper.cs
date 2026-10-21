@@ -804,7 +804,7 @@ public class Bootstrapper
             InstallationSucceeded = !_cancelTokenSource.IsCancellationRequested && !_noConnection && !MustUpgrade && AppData.State.VersionGuid == _latestVersionGuid;
             return;
         }
-        if (_launchMode != LaunchMode.Player || !(AssetProxyServer.IsRequired || AssetCacheStripper.BlocksDownloads))
+        if (_launchMode != LaunchMode.Player || !AssetProxyServer.IsRequired)
         {
             return;
         }
@@ -815,7 +815,6 @@ public class Bootstrapper
         catch
         {
         }
-        AssetCacheStripper.UnblockDownloads();
         if (App.Settings.Prop.AssetWarpPreloadEnabled && App.Settings.Prop.AssetWarpPreloadCrossGame)
         {
             using CancellationTokenSource crossGameDeadline = CancellationTokenSource.CreateLinkedTokenSource(_cancelTokenSource.Token);
@@ -1630,8 +1629,6 @@ public class Bootstrapper
                 return;
             }
             App.Logger.WriteLine("Bootstrapper::StartRoblox", "Log file: " + logFileName);
-            if (_launchMode == LaunchMode.Player && !_safeMode && AssetCacheStripper.BlocksDownloads)
-                _ = AssetCacheStripper.BlockDownloadsAfterSettingsAsync(logFileName, CancellationToken.None);
             if (AssetProxyServer.IsRunning && assetPreloadPlaceId > 0)
             {
                 AssetPreloadCache.StartBackgroundWarm(assetPreloadPlaceId, ct);
@@ -2543,8 +2540,7 @@ public class Bootstrapper
 		bool shouldKeepSnapTap = _launchMode == LaunchMode.Player && Voidstrap.Utility.Platform.SupportsInputHooks && (App.Settings?.Prop.SnapTapEnabled ?? false);
 		bool shouldCompressAfterExit = RobloxInstallCompression.Supported && (App.Settings?.Prop.CompressRobloxInstalls ?? false);
 		bool shouldManageFullscreen = _launchMode == LaunchMode.Player && Watcher.FullscreenModeActive;
-		bool shouldBlockDownloads = _launchMode == LaunchMode.Player && AssetCacheStripper.BlocksDownloads;
-		if (!((App.Settings?.Prop.EnableActivityTracking ?? false) || flag || shouldOptimize || shouldTrackOverlays || shouldKeepSnapTap || shouldCompressAfterExit || shouldManageFullscreen || shouldBlockDownloads) && !(App.LaunchSettings.TestModeFlag?.Active ?? false))
+		if (!((App.Settings?.Prop.EnableActivityTracking ?? false) || flag || shouldOptimize || shouldTrackOverlays || shouldKeepSnapTap || shouldCompressAfterExit || shouldManageFullscreen) && !(App.LaunchSettings.TestModeFlag?.Active ?? false))
         {
             return Task.CompletedTask;
         }
@@ -2554,7 +2550,7 @@ public class Bootstrapper
             LogFile = logFileName,
             AutoclosePids = [.. _integrationAutoclosePids]
         };
-        if ((AssetProxyServer.IsRequired || AssetCacheStripper.BlocksDownloads) && _launchMode == LaunchMode.Player)
+        if (AssetProxyServer.IsRequired && _launchMode == LaunchMode.Player)
         {
             try
             {

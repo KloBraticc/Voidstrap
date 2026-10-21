@@ -2872,12 +2872,6 @@ Gib den unten angezeigten Satz genau ein, um diese Einschränkungen zu akzeptier
   <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
     <value>Blockiert Downloads von Mesh- und MeshPart-Assets. Mesh-Geometrie wird unsichtbar</value>
   </data>
-  <data name="Ui.FastFlags.OfflineCacheMode" xml:space="preserve">
-    <value>Offline-Cache-Modus</value>
-  </data>
-  <data name="AssetWarp.OfflineCacheDescription" xml:space="preserve">
-    <value>Blockiert Roblox-Asset-Downloads, während du spielst, damit entfernte Assets entfernt bleiben. Assets, die noch nicht im Cache sind, etwa neue Spiele oder aktualisierte Modelle, laden ebenfalls nicht. Benötigt Administratorrechte</value>
-  </data>
   <data name="SwiftTunnel.Summary" xml:space="preserve">
     <value>Leite den Roblox-Datenverkehr über SwiftTunnel, während andere Apps deine normale Verbindung nutzen</value>
   </data>

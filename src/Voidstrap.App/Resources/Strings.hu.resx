@@ -2931,12 +2931,6 @@ Csak akkor folytasd, ha elfogadod, hogy minden VNG-vel használt fiókodnál elv
   <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
     <value>Letiltja a mesh- és MeshPart-elemek letöltését. A mesh-geometria láthatatlanná válik</value>
   </data>
-  <data name="Ui.FastFlags.OfflineCacheMode" xml:space="preserve">
-    <value>Offline gyorsítótár mód</value>
-  </data>
-  <data name="AssetWarp.OfflineCacheDescription" xml:space="preserve">
-    <value>Játék közben letiltja a Roblox elemek letöltését, így az eltávolított elemek eltávolítva maradnak. A még nem gyorsítótárazott elemek, például az új játékok vagy frissített modellek sem töltődnek be. Rendszergazdai jogosultság szükséges</value>
-  </data>
   <data name="SwiftTunnel.Summary" xml:space="preserve">
     <value>Irányítsd a Roblox forgalmát a SwiftTunnelen keresztül, miközben a többi alkalmazás a szokásos kapcsolatot használja</value>
   </data>

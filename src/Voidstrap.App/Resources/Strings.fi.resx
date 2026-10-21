@@ -2927,12 +2927,6 @@ Kirjoita alla näkyvä lause täsmälleen hyväksyäksesi rajoitukset ja jatkaak
   <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
     <value>Estää mesh- ja MeshPart-resurssien lataukset. Mesh-geometria muuttuu näkymättömäksi</value>
   </data>
-  <data name="Ui.FastFlags.OfflineCacheMode" xml:space="preserve">
-    <value>Offline-välimuistitila</value>
-  </data>
-  <data name="AssetWarp.OfflineCacheDescription" xml:space="preserve">
-    <value>Estää Roblox-resurssien lataukset pelatessasi, jotta poistetut resurssit pysyvät poistettuina. Resurssit, jotka eivät vielä ole välimuistissa, kuten uudet pelit tai päivitetyt mallit, eivät myöskään lataudu. Vaatii järjestelmänvalvojan oikeudet</value>
-  </data>
   <data name="SwiftTunnel.Summary" xml:space="preserve">
     <value>Ohjaa Robloxin liikenne SwiftTunnelin kautta, kun muut sovellukset käyttävät tavallista yhteyttäsi</value>
   </data>

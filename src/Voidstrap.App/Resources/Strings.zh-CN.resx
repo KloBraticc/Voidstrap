@@ -2959,12 +2959,6 @@ Voidstrap 的安装路径是：
   <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
     <value>阻止下载网格和 MeshPart 资源。网格几何体将变为不可见</value>
   </data>
-  <data name="Ui.FastFlags.OfflineCacheMode" xml:space="preserve">
-    <value>离线缓存模式</value>
-  </data>
-  <data name="AssetWarp.OfflineCacheDescription" xml:space="preserve">
-    <value>在您游戏时阻止下载 Roblox 资源，使已移除的资源保持移除状态。尚未缓存的资源（例如新游戏或已更新的模型）也不会加载。需要管理员权限</value>
-  </data>
   <data name="SwiftTunnel.Summary" xml:space="preserve">
     <value>将 Roblox 流量通过 SwiftTunnel 路由，其他应用仍使用您的常规连接</value>
   </data>

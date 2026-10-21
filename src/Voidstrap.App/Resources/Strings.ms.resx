@@ -2899,12 +2899,6 @@ Taip frasa yang ditunjukkan di bawah dengan tepat untuk menerima sekatan ini dan
   <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
     <value>Menyekat muat turun aset mesh dan MeshPart. Geometri mesh akan menjadi tidak kelihatan</value>
   </data>
-  <data name="Ui.FastFlags.OfflineCacheMode" xml:space="preserve">
-    <value>Mod cache luar talian</value>
-  </data>
-  <data name="AssetWarp.OfflineCacheDescription" xml:space="preserve">
-    <value>Menyekat muat turun aset Roblox semasa anda bermain supaya aset yang dibuang kekal dibuang. Aset yang belum disimpan dalam cache, seperti permainan baharu atau model yang dikemas kini, juga tidak akan dimuatkan. Memerlukan akses pentadbir</value>
-  </data>
   <data name="SwiftTunnel.Summary" xml:space="preserve">
     <value>Halakan trafik Roblox melalui SwiftTunnel sementara aplikasi lain menggunakan sambungan biasa anda</value>
   </data>

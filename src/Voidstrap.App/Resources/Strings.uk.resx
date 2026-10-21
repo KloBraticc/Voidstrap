@@ -2945,12 +2945,6 @@ Voidstrap встановлено на "{1}".</value>
   <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
     <value>Блокує завантаження ресурсів мешів і MeshPart. Геометрія мешів стане невидимою</value>
   </data>
-  <data name="Ui.FastFlags.OfflineCacheMode" xml:space="preserve">
-    <value>Режим автономного кешу</value>
-  </data>
-  <data name="AssetWarp.OfflineCacheDescription" xml:space="preserve">
-    <value>Блокує завантаження ресурсів Roblox під час гри, щоб видалені ресурси залишалися видаленими. Ресурси, яких ще немає в кеші, наприклад нові ігри чи оновлені моделі, також не завантажаться. Потрібні права адміністратора</value>
-  </data>
   <data name="SwiftTunnel.Summary" xml:space="preserve">
     <value>Спрямовуйте трафік Roblox через SwiftTunnel, поки інші застосунки використовують звичайне з'єднання</value>
   </data>

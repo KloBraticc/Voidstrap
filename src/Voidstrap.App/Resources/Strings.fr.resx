@@ -2859,12 +2859,6 @@ Saisissez exactement la phrase affichée ci-dessous pour accepter ces restrictio
   <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
     <value>Bloque le téléchargement des ressources de maillages et de MeshParts. La géométrie des maillages sera invisible</value>
   </data>
-  <data name="Ui.FastFlags.OfflineCacheMode" xml:space="preserve">
-    <value>Mode cache hors ligne</value>
-  </data>
-  <data name="AssetWarp.OfflineCacheDescription" xml:space="preserve">
-    <value>Bloque les téléchargements de ressources Roblox pendant que vous jouez afin que les ressources supprimées le restent. Les ressources qui ne sont pas encore en cache, comme les nouveaux jeux ou les modèles mis à jour, ne se chargeront pas non plus. Nécessite les droits administrateur</value>
-  </data>
   <data name="SwiftTunnel.Summary" xml:space="preserve">
     <value>Faites passer le trafic de Roblox par SwiftTunnel pendant que les autres applications utilisent votre connexion normale</value>
   </data>

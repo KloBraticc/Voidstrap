@@ -2892,12 +2892,6 @@ Ketik persis frasa yang ditampilkan di bawah untuk menerima pembatasan ini dan m
   <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
     <value>Memblokir unduhan aset mesh dan MeshPart. Geometri mesh akan menjadi tidak terlihat</value>
   </data>
-  <data name="Ui.FastFlags.OfflineCacheMode" xml:space="preserve">
-    <value>Mode cache offline</value>
-  </data>
-  <data name="AssetWarp.OfflineCacheDescription" xml:space="preserve">
-    <value>Memblokir unduhan aset Roblox saat Anda bermain agar aset yang dihapus tetap terhapus. Aset yang belum ada di cache, seperti game baru atau model yang diperbarui, juga tidak akan dimuat. Memerlukan akses administrator</value>
-  </data>
   <data name="SwiftTunnel.Summary" xml:space="preserve">
     <value>Arahkan lalu lintas Roblox melalui SwiftTunnel sementara aplikasi lain menggunakan koneksi normal Anda</value>
   </data>

@@ -483,7 +483,7 @@ public static class LaunchHandler
 		{
 			AssetWarpAutoEnable.EnsureEnabled(allowPrompt: !App.LaunchSettings.QuietFlag.Active, userAction: false);
 		}
-		bool useAssetWarp = launchMode == LaunchMode.Player && (AssetProxyServer.IsRequired || AssetWarpAutoEnable.IsActiveForMods() || AssetCacheStripper.BlocksDownloads);
+		bool useAssetWarp = launchMode == LaunchMode.Player && (AssetProxyServer.IsRequired || AssetWarpAutoEnable.IsActiveForMods());
 		bool needsAssetWarpCleanup = !useAssetWarp && AssetProxyRouting.HasInstalledEntries();
 		if (needsAssetWarpCleanup)
 		{

@@ -2958,12 +2958,6 @@ VNG で使用するすべてのアカウントでグローバル版アプリへ�
   <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
     <value>メッシュと MeshPart アセットのダウンロードをブロックします。メッシュのジオメトリが見えなくなります</value>
   </data>
-  <data name="Ui.FastFlags.OfflineCacheMode" xml:space="preserve">
-    <value>オフラインキャッシュモード</value>
-  </data>
-  <data name="AssetWarp.OfflineCacheDescription" xml:space="preserve">
-    <value>プレイ中は Roblox アセットのダウンロードをブロックし、削除したアセットが削除されたままになるようにします。新しいゲームや更新されたモデルなど、まだキャッシュされていないアセットも読み込まれません。管理者権限が必要です</value>
-  </data>
   <data name="SwiftTunnel.Summary" xml:space="preserve">
     <value>他のアプリは通常の接続を使いつつ、Roblox の通信を SwiftTunnel 経由にします</value>
   </data>

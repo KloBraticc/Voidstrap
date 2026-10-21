@@ -2969,12 +2969,6 @@ Tiksliai įveskite toliau rodomą frazę, kad sutiktumėte su šiais apribojimai
   <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
     <value>Blokuoja tinklelių ir MeshPart išteklių atsisiuntimą. Tinklelių geometrija taps nematoma</value>
   </data>
-  <data name="Ui.FastFlags.OfflineCacheMode" xml:space="preserve">
-    <value>Neprisijungusios talpyklos režimas</value>
-  </data>
-  <data name="AssetWarp.OfflineCacheDescription" xml:space="preserve">
-    <value>Žaidžiant blokuoja Roblox išteklių atsisiuntimus, kad pašalinti ištekliai liktų pašalinti. Ištekliai, kurių dar nėra talpykloje, pvz., naujos žaidimai ar atnaujinti modeliai, taip pat nebus įkelti. Reikia administratoriaus teisių</value>
-  </data>
   <data name="SwiftTunnel.Summary" xml:space="preserve">
     <value>Nukreipkite Roblox srautą per SwiftTunnel, kol kitos programos naudoja įprastą ryšį</value>
   </data>

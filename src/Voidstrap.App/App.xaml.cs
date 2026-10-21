@@ -986,7 +986,6 @@ public partial class App : Application
 			TryStartup("AssetWarp route cleanup", () =>
 			{
 				Voidstrap.Integrations.AssetProxy.AssetProxyServer.CleanupStaleState();
-				Voidstrap.Integrations.AssetProxy.AssetCacheStripper.RemoveStaleFirewallRule();
 			});
 		}
 		if (TryAutoElevateForFrameGen())
@@ -2091,7 +2090,6 @@ public partial class App : Application
 		TryShutdown(Voidstrap.Integrations.Rojo.RojoManager.Shutdown);
 		TryShutdown(Voidstrap.Integrations.Studio.StudioIntegration.Shutdown);
 		TryShutdown(AssetProxyServer.Stop);
-		TryShutdown(Voidstrap.Integrations.AssetProxy.AssetCacheStripper.UnblockDownloads);
 		TryShutdown(AssetPreloadCache.Shutdown);
 		TryShutdown(() => AssetCaptureStore.Shutdown());
 		TryShutdown(Voidstrap.Integrations.Fullscreen.FakeExclusiveFullscreen.Shutdown);

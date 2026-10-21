@@ -385,9 +385,6 @@
 		  <controls:OptionControl Header="{resources:Loc Ui_FastFlags_RemoveAllMeshes}" Description="{resources:Loc AssetWarp_RemoveMeshesDescription}">
 			<ui:ToggleSwitch IsChecked="{Binding DisableAllMeshes, Mode=TwoWay}" />
 		  </controls:OptionControl>
-		  <controls:OptionControl Header="{resources:Loc Ui_FastFlags_OfflineCacheMode}" Description="{resources:Loc AssetWarp_OfflineCacheDescription}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
-			<ui:ToggleSwitch IsChecked="{Binding AssetWarpOfflineCache, Mode=TwoWay}" />
-		  </controls:OptionControl>
 		  <controls:OptionControl Header="{resources:Loc Ui_FastFlags_PresenceSpoofer}" Description="{resources:Loc Ui_FastFlags_ChangesWhatOthersSeeOnlineIn}">
 			<ComboBox Width="200" Padding="10,5,10,5" SelectedIndex="{Binding PresenceSpoofMode, Mode=TwoWay}">
 			  <ComboBoxItem Content="Off" />

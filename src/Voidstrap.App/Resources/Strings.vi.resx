@@ -2941,12 +2941,6 @@ Nhập chính xác cụm từ bên dưới để chấp nhận hạn chế này 
   <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
     <value>Chặn tải xuống tài nguyên mesh và MeshPart. Hình khối mesh sẽ trở nên vô hình</value>
   </data>
-  <data name="Ui.FastFlags.OfflineCacheMode" xml:space="preserve">
-    <value>Chế độ bộ nhớ đệm ngoại tuyến</value>
-  </data>
-  <data name="AssetWarp.OfflineCacheDescription" xml:space="preserve">
-    <value>Chặn tải xuống tài nguyên Roblox khi bạn chơi để tài nguyên đã xóa vẫn bị xóa. Các tài nguyên chưa có trong bộ nhớ đệm, như trò chơi mới hoặc mô hình đã cập nhật, cũng sẽ không tải. Cần quyền quản trị viên</value>
-  </data>
   <data name="SwiftTunnel.Summary" xml:space="preserve">
     <value>Định tuyến lưu lượng Roblox qua SwiftTunnel trong khi các ứng dụng khác dùng kết nối thông thường</value>
   </data>

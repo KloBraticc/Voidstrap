@@ -2082,19 +2082,6 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 		}
 	}
 
-	public bool AssetWarpOfflineCache
-	{
-		get => App.Settings.Prop.AssetWarpOfflineCache;
-		set
-		{
-			if (App.Settings.Prop.AssetWarpOfflineCache == value)
-				return;
-			App.Settings.Prop.AssetWarpOfflineCache = value;
-			App.Settings.SaveDeferred();
-			OnPropertyChanged(nameof(AssetWarpOfflineCache));
-		}
-	}
-
 	public bool AssetWarpPreloadEnabled
 	{
 		get => App.Settings.Prop.AssetWarpPreloadEnabled;

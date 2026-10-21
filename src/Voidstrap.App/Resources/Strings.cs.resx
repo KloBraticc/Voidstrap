@@ -2915,12 +2915,6 @@ Přesně opište frázi zobrazenou níže, abyste tato omezení přijali a pokra
   <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
     <value>Blokuje stahování prostředků sítí a MeshPart. Geometrie sítí bude neviditelná</value>
   </data>
-  <data name="Ui.FastFlags.OfflineCacheMode" xml:space="preserve">
-    <value>Režim offline mezipaměti</value>
-  </data>
-  <data name="AssetWarp.OfflineCacheDescription" xml:space="preserve">
-    <value>Během hraní blokuje stahování assetů Roblox, aby odstraněné assety zůstaly odstraněné. Assety, které ještě nejsou v mezipaměti, například nové hry nebo aktualizované modely, se také nenačtou. Vyžaduje oprávnění správce</value>
-  </data>
   <data name="SwiftTunnel.Summary" xml:space="preserve">
     <value>Směrujte provoz Robloxu přes SwiftTunnel, zatímco ostatní aplikace používají běžné připojení</value>
   </data>

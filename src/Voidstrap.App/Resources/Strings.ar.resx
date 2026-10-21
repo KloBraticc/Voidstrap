@@ -2964,12 +2964,6 @@
   <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
     <value>يحظر تنزيل أصول الشبكات و MeshPart. ستصبح هندسة الشبكات غير مرئية</value>
   </data>
-  <data name="Ui.FastFlags.OfflineCacheMode" xml:space="preserve">
-    <value>وضع ذاكرة التخزين المؤقت دون اتصال</value>
-  </data>
-  <data name="AssetWarp.OfflineCacheDescription" xml:space="preserve">
-    <value>يحظر تنزيل أصول Roblox أثناء اللعب حتى تبقى الأصول المحذوفة محذوفة. الأصول غير المخزنة مؤقتًا بعد، مثل الألعاب الجديدة أو النماذج المحدثة، لن يتم تحميلها أيضًا. يتطلب صلاحيات المسؤول</value>
-  </data>
   <data name="SwiftTunnel.Summary" xml:space="preserve">
     <value>وجّه حركة مرور Roblox عبر SwiftTunnel بينما تستخدم التطبيقات الأخرى اتصالك المعتاد</value>
   </data>

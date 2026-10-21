@@ -2752,8 +2752,6 @@ Type the exact phrase shown below to accept these restrictions and continue.</va
   <data name="AssetWarp.RemoveImagesDescription" xml:space="preserve"><value>Blocks image asset downloads. Roblox also uses images for textures and decals</value></data>
   <data name="AssetWarp.RemoveAnimationsDescription" xml:space="preserve"><value>Blocks animation asset downloads. Games without an animation fallback may stop working correctly</value></data>
   <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve"><value>Blocks mesh and meshpart asset downloads. Mesh geometry will be invisible</value></data>
-  <data name="Ui.FastFlags.OfflineCacheMode" xml:space="preserve"><value>Offline cache mode</value></data>
-  <data name="AssetWarp.OfflineCacheDescription" xml:space="preserve"><value>Blocks Roblox asset downloads while you play so removed assets stay removed. Assets that are not cached yet, like new games or updated models, will not load either. Needs administrator access</value></data>
   <data name="SwiftTunnel.Summary" xml:space="preserve"><value>Route Roblox traffic through SwiftTunnel while other apps use your normal connection</value></data>
   <data name="SwiftTunnel.Description" xml:space="preserve"><value>SwiftTunnel is a Windows game connection optimizer with split tunneling and regional relay selection</value></data>
   <data name="SwiftTunnel.Setup" xml:space="preserve"><value>Install downloads the latest official SwiftTunnel release and opens the desktop app after setup. Sign in and choose your connection there. Network optimization may require administrator access</value></data>

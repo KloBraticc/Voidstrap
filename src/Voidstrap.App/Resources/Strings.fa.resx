@@ -2973,12 +2973,6 @@
   <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
     <value>بارگیری دارایی‌های مش و MeshPart را مسدود می‌کند. هندسهٔ مش نامرئی می‌شود</value>
   </data>
-  <data name="Ui.FastFlags.OfflineCacheMode" xml:space="preserve">
-    <value>حالت حافظه پنهان آفلاین</value>
-  </data>
-  <data name="AssetWarp.OfflineCacheDescription" xml:space="preserve">
-    <value>دانلود دارایی‌های Roblox را هنگام بازی مسدود می‌کند تا دارایی‌های حذف‌شده حذف بمانند. دارایی‌هایی که هنوز در حافظه پنهان نیستند، مانند بازی‌های جدید یا مدل‌های به‌روزشده، نیز بارگیری نمی‌شوند. به دسترسی مدیر نیاز دارد</value>
-  </data>
   <data name="SwiftTunnel.Summary" xml:space="preserve">
     <value>ترافیک Roblox را از طریق SwiftTunnel هدایت کنید، در حالی که برنامه‌های دیگر از اتصال معمول شما استفاده می‌کنند</value>
   </data>

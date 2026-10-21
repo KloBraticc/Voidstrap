@@ -2945,12 +2945,6 @@ VNG에 사용하는 모든 계정의 글로벌 앱 접근을 잃는 것에 동�
   <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
     <value>메시 및 MeshPart 에셋 다운로드를 차단합니다. 메시 형상이 보이지 않게 됩니다</value>
   </data>
-  <data name="Ui.FastFlags.OfflineCacheMode" xml:space="preserve">
-    <value>오프라인 캐시 모드</value>
-  </data>
-  <data name="AssetWarp.OfflineCacheDescription" xml:space="preserve">
-    <value>플레이하는 동안 Roblox 에셋 다운로드를 차단하여 제거된 에셋이 계속 제거된 상태로 유지됩니다. 새 게임이나 업데이트된 모델처럼 아직 캐시되지 않은 에셋도 불러오지 않습니다. 관리자 권한이 필요합니다</value>
-  </data>
   <data name="SwiftTunnel.Summary" xml:space="preserve">
     <value>다른 앱은 평소 연결을 사용하고 Roblox 트래픽만 SwiftTunnel을 통해 라우팅합니다</value>
   </data>
