@@ -6,6 +6,8 @@ public static class ExtensionCatalog
 {
 	public const string FleasionIcon = "https://avatars.githubusercontent.com/u/186699266";
 
+	public const string ReShadeIcon = "https://raw.githubusercontent.com/crosire/reshade/main/res/main_icon.ico";
+
 	public const string RiShadeIcon = "https://raw.githubusercontent.com/KloBraticc/RiShade/main/Images/RiShde.png";
 
 	public const string ApiDumpIcon = "https://raw.githubusercontent.com/MaximumADHD/Roblox-API-Dump-Tool/master/Resources/AppLogo.png";
@@ -14,7 +16,9 @@ public static class ExtensionCatalog
 
 	public const string VoidstrapIcon = "pack://application:,,,/Voidstrap.png";
 
-	public static readonly string[] Categories = { ExtensionViewModel.TypeExtensions, ExtensionViewModel.TypeClassic, ExtensionViewModel.TypeStudio };
+	public static readonly string[] Categories = { ExtensionViewModel.TypeExtensions, ExtensionViewModel.TypeStudio, ExtensionViewModel.TypeClassic };
+
+	private static readonly string[] DisplayOrder = { "rishade", "swifttunnel", "fleasion", "studioreshade", "rojo", "studioplugin", "apidump", "community" };
 
 	public static readonly string[] Targets = { "Roblox Player", "Roblox Studio", "Classic clients" };
 
@@ -64,7 +68,7 @@ public static class ExtensionCatalog
 				Name = "Roblox API Dump Tool",
 				Author = "MaximumADHD",
 				AuthorIcon = ApiDumpIcon,
-				Type = ExtensionViewModel.TypeExtensions,
+				Type = ExtensionViewModel.TypeStudio,
 				WorksWith = ["Roblox Player", "Roblox Studio"],
 				Tags = ["API", "Developer", "Diff"],
 				Summary = "Browse Roblox API classes and enums, and see what changed between Roblox versions.",
@@ -136,8 +140,8 @@ public static class ExtensionCatalog
 			entries.Add(new ExtensionEntry("studioreshade", () => vm.studioreshadeenabler, value => vm.studioreshadeenabler = value)
 			{
 				Name = "ReShade for Roblox Studio",
-				Author = "Voidstrap",
-				AuthorIcon = RiShadeIcon,
+				Author = "crosire",
+				AuthorIcon = ReShadeIcon,
 				Type = ExtensionViewModel.TypeStudio,
 				WorksWith = ["Roblox Studio"],
 				Tags = ["Shaders", "Visuals", "Studio"],
@@ -147,7 +151,7 @@ public static class ExtensionCatalog
 					"Studio gives ReShade its real depth buffer, so depth effects like reflections and ambient occlusion are sharper than in the player.",
 					"Your shaders and presets are shared with RiShade. If Studio already has its own ReShade, Voidstrap leaves it alone, and turning this off removes only the copy Voidstrap added."
 				],
-				Icon = RiShadeIcon,
+				Icon = ReShadeIcon,
 				CanOpen = false,
 				SearchText = "ReShade Roblox Studio shaders Bloxshade visuals effects presets depth"
 			});
@@ -167,6 +171,6 @@ public static class ExtensionCatalog
 				CanOpen = true,
 				SearchText = "SwiftTunnel Swift Tunnel game network latency routing split tunneling Windows"
 			});
-		return entries;
+		return entries.OrderBy(entry => Array.IndexOf(DisplayOrder, entry.Id) is int index && index >= 0 ? index : int.MaxValue).ToList();
 	}
 }
