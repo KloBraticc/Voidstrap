@@ -27,7 +27,7 @@ internal static class SafeImaging
 		{
 			return null;
 		}
-		if (!Platform.IsWindows && TryDecodePortableIcon(bytes, decodeWidth, out BitmapSource? icon))
+		if (TryDecodePortableIcon(bytes, decodeWidth, out BitmapSource? icon))
 			return icon;
 		if (!HasSafeDimensions(bytes, decodeWidth))
 			return DecodeMacOS(bytes, decodeWidth);
