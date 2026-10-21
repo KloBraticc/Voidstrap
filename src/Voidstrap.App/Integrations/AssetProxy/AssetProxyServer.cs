@@ -24,7 +24,7 @@ public static class AssetProxyServer
     private static readonly System.Buffers.SearchValues<char> s_myChars = System.Buffers.SearchValues.Create(" ()<>@,;:\\\"/[]?={}\t");
 
     public static bool IsRequired =>
-		(Voidstrap.Utility.Platform.IsWindows || Voidstrap.Utility.Platform.IsLinux || Voidstrap.Utility.Platform.IsMacOS) &&
+		Voidstrap.Utility.Platform.IsLinux &&
 		!App.Settings.Prop.LaunchWithoutVoidstrap &&
 		App.Settings.Prop.AssetWarpEnabled &&
 		App.Settings.Prop.AssetWarpCertificateApproved &&

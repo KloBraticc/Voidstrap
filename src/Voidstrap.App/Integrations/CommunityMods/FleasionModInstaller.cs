@@ -27,9 +27,9 @@ internal static class FleasionModInstaller
 
 	public static bool IsInstalled => FleasionBridge.ResolveExecutable() != null;
 
-	private static string PackageLabel => Voidstrap.Utility.Platform.IsLinux ? "replacement" : "Fleasion";
+	private static string PackageLabel => "Fleasion";
 
-	private static string ReplacementLabel => Voidstrap.Utility.Platform.IsLinux ? "replacement" : "Fleasion replacement";
+	private static string ReplacementLabel => "Fleasion replacement";
 
 	private static readonly string[] ReplacementHints = { "fleasion", "assetwarp", "asset warp" };
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -365,18 +365,12 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
 		? Visibility.Visible
 		: Visibility.Collapsed;
 
-	public Visibility FleasionInstallVisibility => !Voidstrap.Utility.Platform.IsWindows
-		? Visibility.Collapsed
-		: ReplacementInstallVisibility;
+	public Visibility FleasionInstallVisibility => ReplacementInstallVisibility;
 
 	public string InstallTargetHint => IsReplacementPackage(SelectedMod, SelectedFile)
-		? Voidstrap.Utility.Platform.IsLinux
-			? "Replacement config for Voidstrap AssetWarp"
-			: "Replacement config for Voidstrap AssetWarp and Fleasion"
+		? "Replacement config for Fleasion"
 		: InstallButtonsFor(SelectedMod, SelectedFile) is (false, true)
-			? Voidstrap.Utility.Platform.IsLinux
-				? "This file is a replacement config, it applies through Voidstrap AssetWarp"
-				: "This file is for replacement configs, pick Voidstrap or Fleasion"
+			? "This file is a replacement config, it applies through Fleasion"
 			: "Verified before install, the target is detected from the package";
 
 	public async Task InitializeAsync()
@@ -704,14 +698,12 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
 
 	private Task InstallAssetWarpAsync()
 	{
-		return InstallAsync(CommunityModInstallTarget.AssetWarp);
+		return Task.CompletedTask;
 	}
 
 	private Task InstallFleasionAsync()
 	{
-		return InstallAsync(Voidstrap.Utility.Platform.IsLinux
-			? CommunityModInstallTarget.AssetWarp
-			: CommunityModInstallTarget.Fleasion);
+		return InstallAsync(CommunityModInstallTarget.Fleasion);
 	}
 
 	private Task InstallAsync(CommunityModInstallTarget target)
@@ -750,13 +742,7 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
 				? MarketplaceCatalog.InstallAsync(entry, file, progress, token)
 				: GameBananaCatalog.InstallAsync(entry, file, progress, token, target), token).ConfigureAwait(true);
 			string message;
-			if (result.StartsWith(FleasionModInstaller.AssetWarpResultPrefix, StringComparison.Ordinal))
-			{
-				message = FastFlagsViewModel.TryEnableAssetWarp()
-					? entry.Name + " was installed for Voidstrap AssetWarp and is ready for the next Roblox launch."
-					: entry.Name + " was installed for Voidstrap AssetWarp. Turn on AssetWarp before launching Roblox.";
-			}
-			else if (result.StartsWith(FleasionModInstaller.ResultPrefix, StringComparison.Ordinal))
+			if (result.StartsWith(FleasionModInstaller.ResultPrefix, StringComparison.Ordinal))
 			{
 				message = FleasionModInstaller.IsInstalled
 					? entry.Name + " was installed and enabled in Fleasion. Restart Fleasion if it is already open."
@@ -765,10 +751,6 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
 			else
 			{
 				message = entry.Name + " was verified, placed into the Roblox layout and enabled in My Mods. Relaunch Roblox to see it.";
-				if (Voidstrap.Integrations.AssetProxy.AssetWarpAutoEnable.ModsNeedAssetWarp() && !Voidstrap.Integrations.AssetProxy.AssetWarpAutoEnable.EnsureEnabled(allowPrompt: true, userAction: true))
-				{
-					message = entry.Name + " was installed, but part of it only works through AssetWarp. Turn on AssetWarp before launching Roblox.";
-				}
 			}
 			Report(message, 1.0, HoldMilliseconds);
 			InstallCompleted?.Invoke(null, EventArgs.Empty);

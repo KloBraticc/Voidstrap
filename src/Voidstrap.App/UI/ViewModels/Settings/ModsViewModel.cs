@@ -4423,7 +4423,7 @@ public ICommand PickCursorColorCommand { get; }
 		{
 			_managedModsMutationGate.Release();
 		}
-		if (saved && enable)
+		if (saved && enable && Voidstrap.Utility.Platform.IsLinux)
 		{
 			Voidstrap.Integrations.AssetProxy.AssetWarpAutoEnable.EnsureEnabled(allowPrompt: true, userAction: true);
 		}

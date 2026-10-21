@@ -13,7 +13,7 @@ internal static class AssetWarpAutoEnable
 
 	public static bool ModsNeedAssetWarp()
 	{
-		if ((!Voidstrap.Utility.Platform.IsWindows && !Voidstrap.Utility.Platform.IsLinux)
+		if (!Voidstrap.Utility.Platform.IsLinux
 			|| App.Settings.Prop.ModApplyTarget == Voidstrap.Enums.ModApplyTarget.Studio)
 		{
 			return false;
@@ -64,6 +64,10 @@ internal static class AssetWarpAutoEnable
 
 	public static bool EnsureEnabled(bool allowPrompt, bool userAction)
 	{
+		if (!Voidstrap.Utility.Platform.IsLinux)
+		{
+			return false;
+		}
 		if (App.Settings.Prop.AssetWarpEnabled)
 		{
 			return true;

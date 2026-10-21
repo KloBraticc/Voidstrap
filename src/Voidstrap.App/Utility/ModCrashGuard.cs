@@ -245,7 +245,7 @@ internal static class ExternalModConfigs
 
 	public static bool HasActiveAssetWarpConfig(string recordId)
 	{
-		return GetConfigFiles(recordId).Any(file => !file.Fleasion && !file.Parked && Voidstrap.Integrations.AssetProxy.TextureStripper.HasVerifiedReplacement(file.Path));
+		return Voidstrap.Utility.Platform.IsLinux && GetConfigFiles(recordId).Any(file => !file.Fleasion && !file.Parked && Voidstrap.Integrations.AssetProxy.TextureStripper.HasVerifiedReplacement(file.Path));
 	}
 
 	public static void RemoveConfigs(string recordId)

@@ -1878,6 +1878,10 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 
 	public static bool TryEnableAssetWarp(string? reason = null)
 	{
+		if (!Voidstrap.Utility.Platform.IsLinux)
+		{
+			return false;
+		}
 		if (App.Settings.Prop.AssetWarpEnabled)
 		{
 			return true;

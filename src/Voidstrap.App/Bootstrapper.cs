@@ -1617,7 +1617,9 @@ public class Bootstrapper
                 App.State.Prop.SafeLaunchPending = false;
                 App.State.Prop.LastSafeLaunchResult = SafeLaunchWorked;
                 App.State.Save();
-                const string safeWorked = "Roblox started once Voidstrap launched it without your mods, FastFlags, AssetWarp, matchmaker and launch integrations, so one of those made Roblox crash while starting. They are all back on for your next launch. If Roblox crashes again, turn your mods off in My Mods first, then reset your FastFlags, then turn off AssetWarp, until it starts.";
+                string safeWorked = Voidstrap.Utility.Platform.IsLinux
+                    ? "Roblox started once Voidstrap launched it without your mods, FastFlags, AssetWarp, matchmaker and launch integrations, so one of those made Roblox crash while starting. They are all back on for your next launch. If Roblox crashes again, turn your mods off in My Mods first, then reset your FastFlags, then turn off AssetWarp, until it starts."
+                    : "Roblox started once Voidstrap launched it without your mods, FastFlags, matchmaker and launch integrations, so one of those made Roblox crash while starting. They are all back on for your next launch. If Roblox crashes again, turn your mods off in My Mods first, then reset your FastFlags, until it starts.";
                 App.Logger.WriteLine("Bootstrapper::StartRoblox", "Safe launch reached the Roblox renderer, the crash comes from something Voidstrap adds");
                 Voidstrap.Utility.AppNotifications.RecordInfo("roblox:safelaunchworked", "Roblox started in a safe launch", safeWorked);
                 Frontend.ShowMessageBox(safeWorked, MessageBoxImage.Information);
@@ -2057,7 +2059,9 @@ public class Bootstrapper
 			App.State.Prop.SafeLaunchPending = false;
 			App.State.Prop.LastSafeLaunchResult = SafeLaunchCrashed;
 			App.State.Save();
-			const string outside = "Roblox still crashes while starting with a fresh install, a reset Roblox cache and everything Voidstrap adds turned off: no mods, no FastFlags, no AssetWarp, no matchmaker and no launch integrations. The crash is inside the Roblox client or this PC, not in your Voidstrap setup. Update your graphics driver, close overlays and antivirus tools that inject into games, and try launching Roblox without Voidstrap to confirm.";
+			string outside = Voidstrap.Utility.Platform.IsLinux
+				? "Roblox still crashes while starting with a fresh install, a reset Roblox cache and everything Voidstrap adds turned off: no mods, no FastFlags, no AssetWarp, no matchmaker and no launch integrations. The crash is inside the Roblox client or this PC, not in your Voidstrap setup. Update your graphics driver, close overlays and antivirus tools that inject into games, and try launching Roblox without Voidstrap to confirm."
+				: "Roblox still crashes while starting with a fresh install, a reset Roblox cache and everything Voidstrap adds turned off: no mods, no FastFlags, no matchmaker and no launch integrations. The crash is inside the Roblox client or this PC, not in your Voidstrap setup. Update your graphics driver, close overlays and antivirus tools that inject into games, and try launching Roblox without Voidstrap to confirm.";
 			App.Logger.WriteLine("Bootstrapper::WaitForLogFile", "Safe launch also crashed, the crash is outside anything Voidstrap adds");
 			Voidstrap.Utility.AppNotifications.RecordInfo("roblox:safelaunchcrashed", "Roblox crashes even in a safe launch", outside);
 			Frontend.ShowMessageBox(outside, MessageBoxImage.Warning);
@@ -2090,7 +2094,9 @@ public class Bootstrapper
 		}
 		if (App.State.Prop.LastSafeLaunchResult == SafeLaunchWorked)
 		{
-			const string modsCause = "Roblox crashed while starting again. A safe launch in the last few hours worked once your mods, FastFlags, AssetWarp and launch integrations were turned off, so one of those makes Roblox crash. Turn your mods off in My Mods first, then reset your FastFlags, then turn off AssetWarp, until Roblox starts.";
+			string modsCause = Voidstrap.Utility.Platform.IsLinux
+				? "Roblox crashed while starting again. A safe launch in the last few hours worked once your mods, FastFlags, AssetWarp and launch integrations were turned off, so one of those makes Roblox crash. Turn your mods off in My Mods first, then reset your FastFlags, then turn off AssetWarp, until Roblox starts."
+				: "Roblox crashed while starting again. A safe launch in the last few hours worked once your mods, FastFlags and launch integrations were turned off, so one of those makes Roblox crash. Turn your mods off in My Mods first, then reset your FastFlags, until Roblox starts.";
 			App.Logger.WriteLine("Bootstrapper::WaitForLogFile", "Skipping another reinstall, the last safe launch worked so the cause is a Voidstrap addition");
 			Voidstrap.Utility.AppNotifications.RecordInfo("roblox:safelaunchworked", "Roblox started in a safe launch", modsCause);
 			Frontend.ShowMessageBox(modsCause, MessageBoxImage.Warning);

@@ -526,8 +526,7 @@
                     </TextBlock>
                     <WrapPanel Margin="0,10,0,0">
                       <ui:Button Height="36" Margin="0,0,8,0" Padding="16,0" Appearance="Primary" Icon="ArrowDownload24" Content="{resources:Loc Ui_Mods_ApplyToMyMods}" IsEnabled="{Binding CanInstall}" Command="{Binding InstallCommand}" Visibility="{Binding ManagedInstallVisibility}" />
-                      <ui:Button Height="36" Margin="0,0,8,0" Padding="16,0" Appearance="Primary" Icon="ArrowDownload24" Content="{resources:Loc Ui_Mods_ApplyForVoidstrap}" IsEnabled="{Binding CanInstall}" Command="{Binding InstallAssetWarpCommand}" Visibility="{Binding ReplacementInstallVisibility}" />
-                      <ui:Button Height="36" Padding="16,0" Icon="ArrowDownload24" Content="{resources:Loc Ui_Mods_ApplyForFleasion}" IsEnabled="{Binding CanInstall}" Command="{Binding InstallFleasionCommand}" Visibility="{Binding FleasionInstallVisibility}" />
+                      <ui:Button Height="36" Padding="16,0" Appearance="Primary" Icon="ArrowDownload24" Content="{resources:Loc Ui_Mods_ApplyForFleasion}" IsEnabled="{Binding CanInstall}" Command="{Binding InstallFleasionCommand}" Visibility="{Binding FleasionInstallVisibility}" />
                     </WrapPanel>
                   </StackPanel>
                 </Border>

@@ -729,7 +729,6 @@ public partial class ChannelViewModel : INotifyPropertyChanged, IDisposable
 		"•  RiShade shaders, anti aliasing, frame generation and fake fullscreen\n" +
 		"•  Discord Rich Presence\n" +
 		"•  Game history, server location and Smart Join\n" +
-		"•  AssetWarp texture and asset mods\n" +
 		"•  Custom window title, game icon and borderless window\n" +
 		"•  Process priority and the other performance boosts\n" +
 		"•  Double movement, and Snap Tap while Voidstrap is closed\n" +

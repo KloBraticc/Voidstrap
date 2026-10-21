@@ -542,7 +542,7 @@ public static partial class GameBananaCatalog
 				archivePath = await ConvertToZipAsync(archivePath, extension, staging, token).ConfigureAwait(false);
 				extension = ".zip";
 			}
-			if (target is CommunityModInstallTarget.AssetWarp or CommunityModInstallTarget.Fleasion)
+			if (target == CommunityModInstallTarget.Fleasion)
 			{
 				string? paired = await PairTwinsAsync(entry, file, archivePath, extension, staging, progress, token).ConfigureAwait(false);
 				if (paired != null)
@@ -573,15 +573,7 @@ public static partial class GameBananaCatalog
 
 			if (target == CommunityModInstallTarget.AssetWarp)
 			{
-				string? assetWarpResult = await FleasionModInstaller.TryInstallAssetWarpAsync(entry, file, archivePath, token, extension).ConfigureAwait(false);
-				if (assetWarpResult == null)
-				{
-					throw new InvalidDataException("This package does not contain an AssetWarp compatible replacement config.");
-				}
-				token.ThrowIfCancellationRequested();
-				RegisterExternalMod(entry, "AssetWarp", assetWarpResult);
-				App.Logger?.WriteLine(LogIdent, "Installed " + entry.Name + " for AssetWarp");
-				return assetWarpResult;
+				throw new InvalidOperationException("AssetWarp is not supported for mod packs.");
 			}
 			if (target == CommunityModInstallTarget.Fleasion)
 			{
@@ -1139,8 +1131,8 @@ public static partial class GameBananaCatalog
 			}
 			if (hasConfig)
 			{
-				App.Logger?.WriteLine(LogIdent, "Mod " + entry.Id + " holds a replacement config, installing it for AssetWarp instead of My Mods");
-				return CommunityModInstallTarget.AssetWarp;
+				App.Logger?.WriteLine(LogIdent, "Mod " + entry.Id + " holds a replacement config, installing it for Fleasion instead of My Mods");
+				return CommunityModInstallTarget.Fleasion;
 			}
 			if (hasCacheEntries)
 			{
