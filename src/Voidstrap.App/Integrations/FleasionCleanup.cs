@@ -11,7 +11,7 @@ namespace Voidstrap.Integrations;
 internal static partial class FleasionCleanup
 {
 	private const string LogIdent = "FleasionCleanup";
-	private static readonly Version LastAffectedVersion = new(2, 4, 0);
+	private static readonly Version LastAffectedVersion = new(2, 4, 1);
 	private const string CertificateName = "CN=Fleasion Proxy CA";
 	private const string HostsMarker = "# Fleasion proxy entry";
 	private static readonly string[] TaskNames = ["Fleasion_Autostart", "Fleasion-HostsWatchdog"];
@@ -41,7 +41,7 @@ internal static partial class FleasionCleanup
 
 	internal static void WarnAtStartup()
 	{
-		if (!Voidstrap.Utility.Platform.IsWindows || App.State.Prop.FleasionWarningDismissed || Interlocked.Exchange(ref _warned, 1) != 0)
+		if (!Voidstrap.Utility.Platform.IsWindows || App.State.Prop.FleasionWarningDismissedFor == LastAffectedVersion.ToString(3) || Interlocked.Exchange(ref _warned, 1) != 0)
 			return;
 		_ = Task.Run(WarnIfAffected);
 	}
@@ -54,9 +54,9 @@ internal static partial class FleasionCleanup
 			if (installation is null || (installation.Version is not null && installation.Version > LastAffectedVersion))
 				return;
 			string version = installation.Version is null ? "an older version of Fleasion" : "Fleasion " + installation.Version.ToString(3);
-			App.Logger.WriteLine(LogIdent, "Found " + version + ", which breaks Roblox game joins on Windows");
-			string message = "You have " + version + " installed. Fleasion 2.4.0 and older break Roblox game joins on Windows with error 529, because Roblox changed how game joins work.\n\n"
-				+ "Uninstall Fleasion completely and reset its cache, then wait for a fixed Fleasion release before installing it again.\n\n"
+			App.Logger.WriteLine(LogIdent, "Found " + version + ", which no longer works with Roblox");
+			string message = "You have " + version + " installed. Fleasion is currently down, and version " + LastAffectedVersion.ToString(3) + " and older will break Roblox.\n\n"
+				+ "Please uninstall Fleasion completely, then wait for an official fixed release before installing it again.\n\n"
 				+ "Uninstall closes Fleasion and Roblox, then removes Fleasion, its settings and cache, its certificate, hosts file entries, firewall rules and startup tasks, and clears the Roblox asset cache it changed. Windows asks for administrator permission.";
 			MessageBoxResult result = Frontend.ShowMessageBox(message, MessageBoxImage.Warning, "Uninstall Fleasion", "Don't remind me", "Not now");
 			if (result == MessageBoxResult.Yes)
@@ -65,7 +65,7 @@ internal static partial class FleasionCleanup
 			}
 			else if (result == MessageBoxResult.No)
 			{
-				App.State.Prop.FleasionWarningDismissed = true;
+				App.State.Prop.FleasionWarningDismissedFor = LastAffectedVersion.ToString(3);
 				App.State.Save();
 			}
 		}

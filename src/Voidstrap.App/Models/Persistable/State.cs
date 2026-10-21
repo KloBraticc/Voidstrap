@@ -9,7 +9,7 @@ public class State
 
 	public bool TestModeWarningShown { get; set; }
 
-	public bool FleasionWarningDismissed { get; set; }
+	public string FleasionWarningDismissedFor { get; set; } = "";
 
 	public bool ShowBloxshadeWarning { get; set; }
 
