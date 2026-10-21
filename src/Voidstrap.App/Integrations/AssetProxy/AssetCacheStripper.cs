@@ -74,13 +74,41 @@ internal static class AssetCacheStripper
 	private static void Apply(CancellationToken token)
 	{
 		Dictionary<Kind, bool> wanted = WantedKinds();
+		List<(string Hash, long Size)> sizes = [];
 		foreach (KeyValuePair<Kind, bool> pair in wanted)
 		{
 			if (!pair.Value)
-				RestoreKind(pair.Key);
+				RestoreKind(pair.Key, sizes);
 		}
-		if (!wanted.ContainsValue(true) || !Directory.Exists(RobloxAssetCache.Root))
+		if (wanted.ContainsValue(true) && Directory.Exists(RobloxAssetCache.Root))
+			StripCache(wanted, token);
+		foreach (KeyValuePair<Kind, bool> pair in wanted)
+		{
+			if (pair.Value)
+				CollectStrippedSizes(pair.Key, sizes);
+		}
+		if (sizes.Count > 0 && RobloxCacheIndex.UpdateSizes(sizes))
+			App.Logger?.WriteLine(LogIdent, "Updated " + sizes.Count + " entries in the Roblox cache index");
+	}
+
+	private static void CollectStrippedSizes(Kind kind, List<(string Hash, long Size)> sizes)
+	{
+		string backupDirectory = Path.Combine(BackupRoot, kind.ToString());
+		if (!Directory.Exists(backupDirectory))
 			return;
+		foreach (string backup in Directory.EnumerateFiles(backupDirectory))
+		{
+			string hash = Path.GetFileName(backup);
+			if (!RobloxAssetCache.IsValidHash(hash))
+				continue;
+			FileInfo entry = new(RobloxAssetCache.GetEntryPath(hash));
+			if (entry.Exists)
+				sizes.Add((hash, entry.Length));
+		}
+	}
+
+	private static void StripCache(Dictionary<Kind, bool> wanted, CancellationToken token)
+	{
 
 		int stripped = 0;
 		byte[] header = new byte[RobloxAssetCache.HeaderBytes + 512];
@@ -170,7 +198,7 @@ internal static class AssetCacheStripper
 		return true;
 	}
 
-	private static void RestoreKind(Kind kind)
+	private static void RestoreKind(Kind kind, List<(string Hash, long Size)> sizes)
 	{
 		string backupDirectory = Path.Combine(BackupRoot, kind.ToString());
 		if (!Directory.Exists(backupDirectory))
@@ -187,6 +215,7 @@ internal static class AssetCacheStripper
 				Directory.CreateDirectory(Path.GetDirectoryName(target)!);
 				SetReadOnly(target, false);
 				File.Copy(backup, target, overwrite: true);
+				sizes.Add((hash, new FileInfo(target).Length));
 				File.Delete(backup);
 				restored++;
 			}
