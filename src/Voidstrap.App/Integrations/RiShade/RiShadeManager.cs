@@ -26,7 +26,7 @@ namespace Voidstrap.Integrations.RiShade
         private static readonly SemaphoreSlim SetupGate = new(1, 1);
         private static readonly object RuntimeLock = new();
         private static readonly Lazy<bool> DepthBridgeLibraryPresent = new(() =>
-            File.Exists(Path.Combine(AppContext.BaseDirectory, "rishade_depth_bridge.dll")));
+            NativeLibrary.TryLoad("rishade_depth_bridge", typeof(RiShadeManager).Assembly, null, out _));
         private static bool _installed;
         private static IntPtr _runtime;
         private static volatile bool _hasLoadablePreset;

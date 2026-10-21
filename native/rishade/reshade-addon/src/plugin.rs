@@ -2,7 +2,7 @@ use std::ffi::{CStr, CString, c_char, c_void};
 use std::os::windows::ffi::OsStringExt;
 use std::path::{Path, PathBuf};
 use std::sync::Mutex;
-use std::sync::atomic::{AtomicUsize, Ordering};
+use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
 
 const RESHADE_API_VERSION: u32 = 20;
 const RESHADE_D3D11_API: u32 = 0xB000;
@@ -17,8 +17,6 @@ const EFFECT_RUNTIME_GET_COMMAND_QUEUE_VTABLE_INDEX: usize = 8;
 const EFFECT_RUNTIME_RENDER_EFFECTS_VTABLE_INDEX: usize = 9;
 const COMMAND_QUEUE_GET_IMMEDIATE_COMMAND_LIST_VTABLE_INDEX: usize = 7;
 const EFFECT_RUNTIME_UPDATE_TEXTURE_BINDINGS_VTABLE_INDEX: usize = 46;
-const EFFECT_RUNTIME_GET_EFFECTS_STATE_VTABLE_INDEX: usize = 60;
-const EFFECT_RUNTIME_SET_EFFECTS_STATE_VTABLE_INDEX: usize = 61;
 const EFFECT_RUNTIME_GET_CURRENT_PRESET_PATH_VTABLE_INDEX: usize = 62;
 const EFFECT_RUNTIME_SET_CURRENT_PRESET_PATH_VTABLE_INDEX: usize = 63;
 const EFFECT_RUNTIME_OPEN_OVERLAY_VTABLE_INDEX: usize = 74;
@@ -91,6 +89,7 @@ static COMPILING_EFFECTS: AtomicUsize = AtomicUsize::new(0);
 static OVERLAY_OPEN: AtomicUsize = AtomicUsize::new(0);
 static CURRENT_PRESET_PATH: Mutex<Option<CString>> = Mutex::new(None);
 static PENDING_PRESET_PATH: Mutex<Option<CString>> = Mutex::new(None);
+static PRESET_PENDING: AtomicBool = AtomicBool::new(false);
 const EFFECT_LOADING_TIMEOUT_MS: u64 = 3_000;
 const LOAD_WITH_ALTERED_SEARCH_PATH: u32 = 0x00000008;
 
@@ -475,41 +474,30 @@ pub unsafe extern "system" fn RiShadeRuntimePresent(runtime: *mut c_void) -> boo
         return false;
     }
 
-    let pending_preset = PENDING_PRESET_PATH
-        .lock()
-        .ok()
-        .and_then(|mut pending| pending.take());
-    if let Some(preset) = pending_preset {
-        let set_path = unsafe { *vtable.add(EFFECT_RUNTIME_SET_CURRENT_PRESET_PATH_VTABLE_INDEX) };
-        if set_path.is_null() {
-            return false;
+    if PRESET_PENDING.swap(false, Ordering::AcqRel) {
+        let pending_preset = PENDING_PRESET_PATH
+            .lock()
+            .ok()
+            .and_then(|mut pending| pending.take());
+        if let Some(preset) = pending_preset {
+            let set_path =
+                unsafe { *vtable.add(EFFECT_RUNTIME_SET_CURRENT_PRESET_PATH_VTABLE_INDEX) };
+            if !set_path.is_null() {
+                let set_path: unsafe extern "system" fn(*mut c_void, *const c_char) =
+                    unsafe { std::mem::transmute(set_path) };
+                unsafe { set_path(runtime, preset.as_ptr()) };
+                cache_preset_path(preset);
+            }
         }
-        let set_path: unsafe extern "system" fn(*mut c_void, *const c_char) =
-            unsafe { std::mem::transmute(set_path) };
-        if let Ok(cached_path) = CString::new(preset.as_bytes()) {
-            cache_preset_path(cached_path);
-        }
-        unsafe { set_path(runtime, preset.as_ptr()) };
     }
 
     let update_and_present = UPDATE_AND_PRESENT.load(Ordering::Acquire);
-    let get_effects_state = unsafe { *vtable.add(EFFECT_RUNTIME_GET_EFFECTS_STATE_VTABLE_INDEX) };
-    let set_effects_state = unsafe { *vtable.add(EFFECT_RUNTIME_SET_EFFECTS_STATE_VTABLE_INDEX) };
-    if update_and_present == 0 || get_effects_state.is_null() || set_effects_state.is_null() {
+    if update_and_present == 0 {
         return false;
     }
     let update_and_present: UpdateAndPresentEffectRuntime =
         unsafe { std::mem::transmute(update_and_present) };
-    let get_effects_state: unsafe extern "system" fn(*mut c_void) -> bool =
-        unsafe { std::mem::transmute(get_effects_state) };
-    let set_effects_state: unsafe extern "system" fn(*mut c_void, bool) =
-        unsafe { std::mem::transmute(set_effects_state) };
-    let effects_enabled = unsafe { get_effects_state(runtime) };
-    unsafe {
-        set_effects_state(runtime, false);
-        update_and_present(runtime);
-        set_effects_state(runtime, effects_enabled);
-    }
+    unsafe { update_and_present(runtime) };
     true
 }
 
@@ -537,6 +525,7 @@ unsafe extern "system" fn on_runtime_destroyed(runtime: *mut c_void) {
         if let Ok(mut path) = PENDING_PRESET_PATH.lock() {
             *path = None;
         }
+        PRESET_PENDING.store(false, Ordering::Release);
     }
 }
 
@@ -843,6 +832,7 @@ pub unsafe extern "system" fn RiShadeRuntimeSelectPreset(
         return false;
     };
     *pending = Some(path);
+    PRESET_PENDING.store(true, Ordering::Release);
     true
 }
 
@@ -930,8 +920,6 @@ mod tests {
         assert_eq!(SWAPCHAIN_GET_DESC_VTABLE_INDEX, 12);
         assert_eq!(SWAPCHAIN_GET_HWND_VTABLE_INDEX, 20);
         assert_eq!(SWAPCHAIN4_VTABLE_LEN, 41);
-        assert_eq!(EFFECT_RUNTIME_GET_EFFECTS_STATE_VTABLE_INDEX, 60);
-        assert_eq!(EFFECT_RUNTIME_SET_EFFECTS_STATE_VTABLE_INDEX, 61);
         assert_eq!(EFFECT_RUNTIME_GET_CURRENT_PRESET_PATH_VTABLE_INDEX, 62);
         assert_eq!(EFFECT_RUNTIME_SET_CURRENT_PRESET_PATH_VTABLE_INDEX, 63);
         assert_eq!(EFFECT_RUNTIME_OPEN_OVERLAY_VTABLE_INDEX, 74);
@@ -1064,7 +1052,7 @@ mod tests {
     }
 
     #[test]
-    fn render_then_present_draws_effects_once_and_overlay_without_effects() {
+    fn render_then_present_keeps_effect_state_untouched() {
         static CALL_SEQUENCE: Mutex<Vec<&'static str>> = Mutex::new(Vec::new());
 
         unsafe extern "system" fn fake_update_and_present(_runtime: *mut c_void) {
@@ -1100,17 +1088,6 @@ mod tests {
             CALL_SEQUENCE.lock().unwrap().push("bind");
         }
 
-        unsafe extern "system" fn fake_get_effects_state(_runtime: *mut c_void) -> bool {
-            true
-        }
-
-        unsafe extern "system" fn fake_set_effects_state(_runtime: *mut c_void, enabled: bool) {
-            CALL_SEQUENCE
-                .lock()
-                .unwrap()
-                .push(if enabled { "effects on" } else { "effects off" });
-        }
-
         #[repr(C)]
         struct FakeQueue {
             vtable: *const *const c_void,
@@ -1136,10 +1113,6 @@ mod tests {
             fake_render_effects as *const c_void;
         runtime_vtable[EFFECT_RUNTIME_UPDATE_TEXTURE_BINDINGS_VTABLE_INDEX] =
             fake_update_texture_bindings as *const c_void;
-        runtime_vtable[EFFECT_RUNTIME_GET_EFFECTS_STATE_VTABLE_INDEX] =
-            fake_get_effects_state as *const c_void;
-        runtime_vtable[EFFECT_RUNTIME_SET_EFFECTS_STATE_VTABLE_INDEX] =
-            fake_set_effects_state as *const c_void;
 
         let fake_runtime = FakeRuntime {
             vtable: runtime_vtable.as_ptr(),
@@ -1160,10 +1133,7 @@ mod tests {
             )
         });
         assert!(unsafe { RiShadeRuntimePresent(runtime) });
-        assert_eq!(
-            *CALL_SEQUENCE.lock().unwrap(),
-            ["render", "effects off", "present", "effects on"]
-        );
+        assert_eq!(*CALL_SEQUENCE.lock().unwrap(), ["render", "present"]);
         UPDATE_AND_PRESENT.store(0, Ordering::Release);
     }
 

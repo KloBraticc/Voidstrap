@@ -44,7 +44,7 @@ windows = { version = "0.58", features = [
 ] }
 
 [profile.release]
-lto = "thin"
+lto = "fat"
 codegen-units = 1
 strip = true
 

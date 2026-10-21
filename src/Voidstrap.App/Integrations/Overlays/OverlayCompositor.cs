@@ -773,6 +773,7 @@ namespace Voidstrap.Integrations.Overlays
                 }
 
                 Environment.SetEnvironmentVariable("RESHADE_DISABLE_LOGGING", "1");
+                Environment.SetEnvironmentVariable("RESHADE_DISABLE_GRAPHICS_HOOK", "1");
                 if (!RiShadeInterop.PrepareConfig(RiShadeManager.RiShadeDir))
                 {
                     App.Logger.WriteLine(LOG_IDENT, "RiShade could not prepare ReShade configuration, frames remain unmodified");

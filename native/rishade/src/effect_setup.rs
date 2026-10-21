@@ -34,6 +34,7 @@ const DEPTH_ASSETS: [(&str, &str, &str); 3] = [
     ),
 ];
 const RETIRED_ASSETS: [&str; 2] = ["renodx-dlss.addon64", "nvngx_dlssnr.dll"];
+const DEPTH_VERIFIED_MARKER: &str = ".rishade-depth-verified";
 const DEPTH_ASSET_LIMIT: usize = 512 << 20;
 
 const PRESET_CATALOG: &str = include_str!("../presets/downloads.ini");
@@ -168,35 +169,71 @@ pub fn install_effects_and_presets(root: &Path) -> io::Result<InstallSummary> {
 
 pub fn install_depth_assets(root: &Path) -> io::Result<()> {
     let root = prepare_root(root)?;
-    let work = tempfile::Builder::new()
-        .prefix("rishade-depth-setup-")
-        .tempdir()?;
-    let agent = ureq::Agent::new_with_config(
-        ureq::Agent::config_builder()
-            .https_only(true)
-            .timeout_global(Some(Duration::from_secs(300)))
-            .build(),
-    );
+    let cache_path = root.join(DEPTH_VERIFIED_MARKER);
+    let previous_cache = fs::read_to_string(&cache_path).unwrap_or_default();
+    let mut cache = String::new();
+    let mut work = None;
+    let mut agent = None;
 
     for (name, url, expected_hash) in DEPTH_ASSETS.iter().copied() {
         let destination = root.join(name);
         match fs::symlink_metadata(&destination) {
-            Ok(_) => {
-                verify_depth_asset(&destination, expected_hash)?;
+            Ok(metadata) => {
+                let stamp = depth_asset_stamp(name, &metadata, expected_hash);
+                if !metadata.is_file() || !previous_cache.lines().any(|line| line == stamp) {
+                    verify_depth_asset(&destination, expected_hash)?;
+                }
+                cache.push_str(&stamp);
+                cache.push('\n');
                 continue;
             }
             Err(error) if error.kind() == io::ErrorKind::NotFound => {}
             Err(error) => return Err(error),
         }
 
-        let bytes = download(&agent, url, DEPTH_ASSET_LIMIT, is_depth_asset_host)?;
+        if work.is_none() {
+            work = Some(
+                tempfile::Builder::new()
+                    .prefix("rishade-depth-setup-")
+                    .tempdir()?,
+            );
+        }
+        let agent = agent.get_or_insert_with(|| {
+            ureq::Agent::new_with_config(
+                ureq::Agent::config_builder()
+                    .https_only(true)
+                    .timeout_global(Some(Duration::from_secs(300)))
+                    .build(),
+            )
+        });
+        let bytes = download(agent, url, DEPTH_ASSET_LIMIT, is_depth_asset_host)?;
         verify_hash(&bytes, expected_hash)?;
-        let staged = work.path().join(name);
+        let staged = work
+            .as_ref()
+            .map_or_else(|| root.join(name), |dir| dir.path().join(name));
         fs::write(&staged, &bytes)?;
         copy_file_if_missing(&staged, &destination)?;
         verify_depth_asset(&destination, expected_hash)?;
+        cache.push_str(&depth_asset_stamp(
+            name,
+            &fs::symlink_metadata(&destination)?,
+            expected_hash,
+        ));
+        cache.push('\n');
+    }
+    if cache != previous_cache {
+        let _ = fs::write(&cache_path, cache);
     }
     Ok(())
+}
+
+fn depth_asset_stamp(name: &str, metadata: &fs::Metadata, expected_hash: &str) -> String {
+    let modified = metadata
+        .modified()
+        .ok()
+        .and_then(|time| time.duration_since(std::time::UNIX_EPOCH).ok())
+        .map_or(0, |duration| duration.as_nanos());
+    format!("{name}\t{}\t{modified}\t{expected_hash}", metadata.len())
 }
 
 fn verify_depth_asset(path: &Path, expected_hash: &str) -> io::Result<()> {
