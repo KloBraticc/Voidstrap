@@ -48,21 +48,23 @@ internal static class AssetCacheStripper
 		}
 	}
 
-	private static readonly string[] DownloadHosts =
-	[
-		"sc0.rbxcdn.com", "sc1.rbxcdn.com", "sc2.rbxcdn.com", "sc3.rbxcdn.com",
-		"sc4.rbxcdn.com", "sc5.rbxcdn.com", "sc6.rbxcdn.com", "sc7.rbxcdn.com",
-		"c0.rbxcdn.com", "c1.rbxcdn.com", "c2.rbxcdn.com", "c3.rbxcdn.com",
-		"c4.rbxcdn.com", "c5.rbxcdn.com", "c6.rbxcdn.com", "c7.rbxcdn.com"
-	];
-
 	private const string FirewallRuleName = "Voidstrap AssetWarp offline cache";
+
+	private static readonly (string Start, string End)[] AllowedIpv4 =
+	[
+		("10.0.0.0", "10.255.255.255"),
+		("104.16.0.0", "104.23.255.255"),
+		("127.0.0.0", "127.255.255.255"),
+		("128.116.0.0", "128.116.255.255"),
+		("169.254.0.0", "169.254.255.255"),
+		("172.16.0.0", "172.31.255.255"),
+		("192.168.0.0", "192.168.255.255"),
+		("224.0.0.0", "255.255.255.255")
+	];
 
 	private static readonly object BlockGate = new();
 
-	private static readonly HashSet<string> BlockedAddresses = new(StringComparer.OrdinalIgnoreCase);
-
-	private static CancellationTokenSource? _blockRefresh;
+	private static bool _blocking;
 
 	public static bool BlocksDownloads => Voidstrap.Utility.Platform.IsWindows && App.Settings.Prop.AssetWarpOfflineCache && HasRemovals && !AssetProxyServer.IsRequired;
 
@@ -78,36 +80,29 @@ internal static class AssetCacheStripper
 		string program = Path.Combine(new Voidstrap.AppData.RobloxPlayerData().Directory, "RobloxPlayerBeta.exe");
 		lock (BlockGate)
 		{
-			BlockedAddresses.Clear();
-			if (!RefreshBlock(program))
-				return;
-			CancellationTokenSource refresh = new();
-			_blockRefresh = refresh;
-			_ = RefreshLoopAsync(program, refresh.Token);
+			RemoveFirewallRule();
+			string blocked = string.Join(",", BlockedIpv4Ranges()) + ",::2-fe7f:ffff:ffff:ffff:ffff:ffff:ffff:ffff,fec0::-ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff";
+			_blocking = RunNetsh(["advfirewall", "firewall", "add", "rule", "name=" + FirewallRuleName, "dir=out", "action=block", "enable=yes", "profile=any", "program=" + program, "remoteip=" + blocked]);
 		}
-		App.Logger?.WriteLine(LogIdent, "Offline cache mode is on, Roblox asset downloads are blocked for this session");
+		if (_blocking)
+			App.Logger?.WriteLine(LogIdent, "Offline cache mode is on, Roblox can only reach Roblox servers for this session");
 	}
 
 	public static void UnblockDownloads()
 	{
-		CancellationTokenSource? refresh;
 		lock (BlockGate)
 		{
-			refresh = _blockRefresh;
-			_blockRefresh = null;
-			BlockedAddresses.Clear();
+			if (!_blocking)
+				return;
+			_blocking = false;
+			RemoveFirewallRule();
 		}
-		if (refresh == null)
-			return;
-		refresh.Cancel();
-		refresh.Dispose();
-		RemoveFirewallRule();
 		App.Logger?.WriteLine(LogIdent, "Offline cache mode ended, Roblox asset downloads are allowed again");
 	}
 
 	public static void RemoveStaleFirewallRule()
 	{
-		if (!Voidstrap.Utility.Platform.IsWindows || _blockRefresh != null || !ProcessElevation.IsAdministrator())
+		if (!Voidstrap.Utility.Platform.IsWindows || _blocking || !ProcessElevation.IsAdministrator())
 			return;
 		System.Diagnostics.Process[] running = System.Diagnostics.Process.GetProcessesByName("RobloxPlayerBeta");
 		bool robloxRunning = running.Length > 0;
@@ -117,48 +112,32 @@ internal static class AssetCacheStripper
 			RemoveFirewallRule();
 	}
 
-	private static async Task RefreshLoopAsync(string program, CancellationToken token)
+	private static IEnumerable<string> BlockedIpv4Ranges()
 	{
-		try
+		uint next = 1;
+		foreach ((string start, string end) in AllowedIpv4)
 		{
-			while (!token.IsCancellationRequested)
-			{
-				await Task.Delay(TimeSpan.FromSeconds(30), token).ConfigureAwait(false);
-				lock (BlockGate)
-				{
-					if (!token.IsCancellationRequested)
-						RefreshBlock(program);
-				}
-			}
-		}
-		catch (OperationCanceledException)
-		{
+			uint first = ToUInt(start);
+			if (first > next)
+				yield return FromUInt(next) + "-" + FromUInt(first - 1);
+			uint last = ToUInt(end);
+			if (last == uint.MaxValue)
+				yield break;
+			next = Math.Max(next, last + 1);
 		}
 	}
 
-	private static bool RefreshBlock(string program)
+	private static uint ToUInt(string address)
 	{
-		int before = BlockedAddresses.Count;
-		foreach (string host in DownloadHosts)
-		{
-			try
-			{
-				foreach (System.Net.IPAddress address in System.Net.Dns.GetHostAddresses(host))
-					BlockedAddresses.Add(address.ToString());
-			}
-			catch (System.Net.Sockets.SocketException)
-			{
-			}
-		}
-		if (BlockedAddresses.Count == 0)
-		{
-			App.Logger?.WriteLine(LogIdent, "Offline cache mode could not resolve the Roblox asset servers");
-			return false;
-		}
-		if (BlockedAddresses.Count == before && before > 0)
-			return true;
-		RemoveFirewallRule();
-		return RunNetsh(["advfirewall", "firewall", "add", "rule", "name=" + FirewallRuleName, "dir=out", "action=block", "enable=yes", "profile=any", "program=" + program, "remoteip=" + string.Join(",", BlockedAddresses)]);
+		byte[] bytes = System.Net.IPAddress.Parse(address).GetAddressBytes();
+		return BinaryPrimitives.ReadUInt32BigEndian(bytes);
+	}
+
+	private static string FromUInt(uint value)
+	{
+		byte[] bytes = new byte[4];
+		BinaryPrimitives.WriteUInt32BigEndian(bytes, value);
+		return new System.Net.IPAddress(bytes).ToString();
 	}
 
 	private static void RemoveFirewallRule()
