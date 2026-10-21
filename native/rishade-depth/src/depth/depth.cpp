@@ -50,10 +50,10 @@ RWTexture2D<float4> GuideTarget : register(u4);
 
 static const float3 Mean = float3(0.485, 0.456, 0.406);
 static const float3 Std = float3(0.229, 0.224, 0.225);
-static const float PeakSmoothing = 0.2;
+static const float PeakSmoothing = 0.5;
 static const float FarPlane = 1000.0;
 static const float Nearest = 0.01;
-static const float SpatialSigma = 1.0;
+static const float SpatialSigma = 1.4;
 static const float ColorSigma = 0.25;
 
 void Store(uint index, float value)
@@ -135,11 +135,11 @@ void Upsample(uint3 id : SV_DispatchThreadID)
         return;
     float3 color = Source.Load(int3(id.xy, 0)).rgb;
     float2 position = (id.xy + 0.5) * ModelSize / SourceSize - 0.5;
-    int2 corner = int2(floor(position)) - 1;
+    int2 corner = int2(floor(position)) - 2;
     float sum = 0;
     float weights = 0;
-    for (int y = 0; y < 4; ++y)
-        for (int x = 0; x < 4; ++x)
+    for (int y = 0; y < 6; ++y)
+        for (int x = 0; x < 6; ++x)
         {
             int2 texel = corner + int2(x, y);
             float2 offset = texel - position;
