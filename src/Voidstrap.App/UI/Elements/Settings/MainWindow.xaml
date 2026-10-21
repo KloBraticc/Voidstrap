@@ -258,7 +258,7 @@
       </Border>
     </Grid>
     <settings:SmoothSnowLayer x:Name="SnowCanvas" Grid.RowSpan="3" IsHitTestVisible="False" Panel.ZIndex="0" Visibility="Collapsed" />
-    <Grid Name="IntroOverlay" RowSpan="3" ZIndex="999" Opacity="1" Background="#FF0C0C0C" d:Visibility="Collapsed">
+    <Grid Name="IntroOverlay" RowSpan="3" ZIndex="999" Opacity="1" Background="#FF0C0C0C" Visibility="Collapsed">
       <Border>
         <Border.Background>
           <SolidColorBrush Color="{DynamicResource WindowBackgroundColorPrimary}" />

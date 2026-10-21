@@ -481,7 +481,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private Storyboard? _introWatchdogStoryboard;
 
-    private static readonly TimeSpan IntroDuration = TimeSpan.FromMilliseconds(750.0);
 
     private static Voidstrap.Models.Persistable.WindowState _state => App.State.Prop.SettingsWindow;
 
@@ -673,7 +672,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         InstallLaunchButton.DropDownClick += LaunchTargetButton_Click;
         if (Voidstrap.Utility.Platform.IsLinux)
         {
-            IntroOverlay.Visibility = Visibility.Collapsed;
             MatchLaunchButtonToFooter();
             Voidstrap.UI.LinuxUiPerformance.ReducedMotionChanged += OnLinuxReducedMotionChanged;
             PreviewMouseMove += OnLinuxGradientMouseMove;
@@ -5017,62 +5015,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             return;
         }
         _introPlayed = true;
-        if (Voidstrap.Utility.Platform.IsLinux || _startupView != null)
-        {
-            FinishIntro(null);
-            return;
-        }
-        Storyboard? storyboard = TryFindResource("IntroStoryboard") as Storyboard;
-        if (storyboard == null)
-        {
-            if (IntroOverlay != null)
-            {
-                IntroOverlay.Visibility = Visibility.Collapsed;
-            }
-            LiftTopNav();
-            return;
-        }
-        EventHandler? onCompleted = null;
-        onCompleted = delegate
-        {
-            storyboard.Completed -= onCompleted;
-            FinishIntro(storyboard);
-        };
-        storyboard.Completed += onCompleted;
-        IntroOverlay.Visibility = Visibility.Visible;
-        Wpf.Ui.Animations.RenderReady.Run(this, delegate
-        {
-            if (_isClosed || _introFinished)
-            {
-                return;
-            }
-            if (IntroContent != null && Voidstrap.Utility.Platform.IsWindows)
-            {
-                IntroContent.CacheMode = new System.Windows.Media.BitmapCache();
-                _introCacheTimer = new DispatcherTimer
-                {
-                    Interval = TimeSpan.FromSeconds(1.0)
-                };
-                _introCacheTimer.Tick += IntroCacheTimer_Tick;
-                _introCacheTimer.Start();
-            }
-            StartIntroWatchdog(storyboard);
-            Wpf.Ui.Animations.RenderReady.Hold(this, IntroDuration);
-            storyboard.Begin(IntroOverlay, isControllable: true);
-            App.Logger?.WriteLine("MainWindow::PlayIntro", "Intro storyboard started");
-        });
-    }
-
-    private void StartIntroWatchdog(Storyboard storyboard)
-    {
-        StopIntroWatchdog();
-        _introWatchdogStoryboard = storyboard;
-        _introWatchdog = new DispatcherTimer
-        {
-            Interval = IntroDuration + TimeSpan.FromSeconds(1.5)
-        };
-        _introWatchdog.Tick += IntroWatchdog_Tick;
-        _introWatchdog.Start();
+        FinishIntro(null);
     }
 
     private void StopIntroWatchdog()
