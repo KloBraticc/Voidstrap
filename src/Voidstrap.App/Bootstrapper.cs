@@ -1563,7 +1563,10 @@ public class Bootstrapper
             if (_safeMode)
                 AssetProxyServer.Stop();
             else if (_launchMode == LaunchMode.Player)
+            {
+                await AssetCacheStripper.ApplyAsync(ct);
                 await StartAssetProxyIfEnabled(ct);
+            }
             if (!_safeMode && AssetProxyRouting.ConsumeCacheCleared())
                 await RestoreStoragePatchesAsync(ct);
             if (_launchMode == LaunchMode.Player && (!App.Settings.Prop.AssetWarpEnabled || !App.Settings.Prop.AssetWarpPreloadEnabled))

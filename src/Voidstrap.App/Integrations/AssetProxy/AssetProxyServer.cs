@@ -28,12 +28,7 @@ public static class AssetProxyServer
 		!App.Settings.Prop.LaunchWithoutVoidstrap &&
 		App.Settings.Prop.AssetWarpEnabled &&
 		App.Settings.Prop.AssetWarpCertificateApproved &&
-		(App.Settings.Prop.AssetWarpDisableAllTextures ||
-		App.Settings.Prop.AssetWarpDisableAllDecals ||
-		App.Settings.Prop.AssetWarpDisableAllImages ||
-		App.Settings.Prop.AssetWarpDisableAllAnimations ||
-		App.Settings.Prop.AssetWarpDisableAllMeshes ||
-		TextureStripper.HasConfiguredRules ||
+		(TextureStripper.HasConfiguredRules ||
 		App.Settings.Prop.AssetWarpPreloadEnabled ||
 		PresenceSpoofer.IsEnabled() ||
 		UsernameSpoofer.IsEnabled() ||
@@ -693,6 +688,7 @@ public static class AssetProxyServer
 	public static void ReconcileRuntimeState()
 	{
 		TextureStripper.InvalidateRuntimeState();
+		AssetCacheStripper.QueueApply();
 		if (!App.Settings.Prop.AssetWarpEnabled)
 		{
 			App.FastFlags.ApplyPreloadFlags();
