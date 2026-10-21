@@ -88,6 +88,35 @@ internal static class AssetCacheStripper
 			App.Logger?.WriteLine(LogIdent, "Offline cache mode is on, Roblox can only reach Roblox servers for this session");
 	}
 
+	public static async Task BlockDownloadsAfterSettingsAsync(string? robloxLog, CancellationToken token)
+	{
+		try
+		{
+			DateTime deadline = DateTime.UtcNow.AddSeconds(20);
+			while (!string.IsNullOrEmpty(robloxLog) && DateTime.UtcNow < deadline && !SettingsDownloaded(robloxLog))
+				await Task.Delay(500, token).ConfigureAwait(false);
+			BlockDownloads();
+		}
+		catch (OperationCanceledException)
+		{
+		}
+	}
+
+	private static bool SettingsDownloaded(string robloxLog)
+	{
+		try
+		{
+			using FileStream stream = new(robloxLog, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
+			using StreamReader reader = new(stream);
+			string text = reader.ReadToEnd();
+			return text.Contains("Writing pending flag cache", StringComparison.Ordinal) || text.Contains("writeFlagCache", StringComparison.Ordinal);
+		}
+		catch (IOException)
+		{
+			return false;
+		}
+	}
+
 	public static void UnblockDownloads()
 	{
 		lock (BlockGate)

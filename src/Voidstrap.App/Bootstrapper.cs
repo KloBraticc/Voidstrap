@@ -1567,7 +1567,6 @@ public class Bootstrapper
             {
                 await AssetCacheStripper.ApplyAsync(ct);
                 await StartAssetProxyIfEnabled(ct);
-                AssetCacheStripper.BlockDownloads();
             }
             if (!_safeMode && AssetProxyRouting.ConsumeCacheCleared())
                 await RestoreStoragePatchesAsync(ct);
@@ -1631,6 +1630,8 @@ public class Bootstrapper
                 return;
             }
             App.Logger.WriteLine("Bootstrapper::StartRoblox", "Log file: " + logFileName);
+            if (_launchMode == LaunchMode.Player && !_safeMode && AssetCacheStripper.BlocksDownloads)
+                _ = AssetCacheStripper.BlockDownloadsAfterSettingsAsync(logFileName, CancellationToken.None);
             if (AssetProxyServer.IsRunning && assetPreloadPlaceId > 0)
             {
                 AssetPreloadCache.StartBackgroundWarm(assetPreloadPlaceId, ct);
