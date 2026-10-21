@@ -98,8 +98,26 @@ fn get_pictures_dir() -> PathBuf {
     }
 }
 
+fn renamed_preset_path(directory: &Path, preset_path: &str) -> Option<String> {
+    let split = preset_path.rfind(['\\', '/']).map_or(0, |index| index + 1);
+    let (folder, name) = preset_path.split_at(split);
+    let (_, new, _) = crate::effect_setup::RENAMED_PRESETS
+        .iter()
+        .find(|(old, _, _)| old.eq_ignore_ascii_case(name))?;
+    let resolve = |file: &str| {
+        let path = Path::new(folder).join(file);
+        if path.is_absolute() {
+            path
+        } else {
+            directory.join(folder.replace('\\', "/")).join(file)
+        }
+    };
+    (!resolve(name).exists() && resolve(new).exists()).then(|| format!("{folder}{new}"))
+}
+
 pub fn prepare_reshade_config(directory: &Path) -> io::Result<()> {
     crate::effect_setup::remove_retired_assets(directory);
+    crate::effect_setup::migrate_renamed_presets(directory);
     let path = directory.join("ReShade.ini");
     let original_text = if path.is_file() {
         fs::read_to_string(&path)?
@@ -158,7 +176,10 @@ pub fn prepare_reshade_config(directory: &Path) -> io::Result<()> {
                         .is_none_or(str::is_empty)
                 });
     if preset_is_uninitialized {
-        let _ = ini.set("GENERAL", "PresetPath", r".\presets\GenericPreset1.ini");
+        let default_preset = format!(r".\presets\{}", crate::effect_setup::DEFAULT_PRESET);
+        let _ = ini.set("GENERAL", "PresetPath", &default_preset);
+    } else if let Some(renamed) = renamed_preset_path(directory, preset_path) {
+        let _ = ini.set("GENERAL", "PresetPath", &renamed);
     }
 
     let disabled = ini.get("ADDON", "DisabledAddons").unwrap_or_default();
@@ -307,7 +328,7 @@ mod tests {
         );
         assert_eq!(
             parsed.get("GENERAL", "PresetPath"),
-            Some(r".\presets\GenericPreset1.ini")
+            Some(r".\presets\RiShade Natural.ini")
         );
         assert_eq!(
             parsed.get("GENERAL", "SkipLoadingDisabledEffects"),
@@ -334,6 +355,35 @@ mod tests {
         assert_eq!(parsed.get("INSTALL", "Logging"), Some("0"));
         assert_eq!(parsed.get("INSTALL", "EnableLogging"), Some("0"));
 
+        let _ = fs::remove_dir_all(&temp_dir);
+    }
+
+    #[test]
+    fn prepare_reshade_config_follows_a_renamed_bundled_preset() {
+        let temp_dir =
+            std::env::temp_dir().join(format!("rishade_cfg_rename_{}", std::process::id()));
+        let _ = fs::remove_dir_all(&temp_dir);
+        fs::create_dir_all(temp_dir.join("presets")).unwrap();
+        fs::write(
+            temp_dir.join("presets").join("GenericPreset2.ini"),
+            include_bytes!("../presets/RiShade Glow.ini"),
+        )
+        .unwrap();
+        fs::write(
+            temp_dir.join("ReShade.ini"),
+            "[GENERAL]\nPresetPath=.\\presets\\GenericPreset2.ini\n",
+        )
+        .unwrap();
+
+        prepare_reshade_config(&temp_dir).unwrap();
+
+        let parsed = PresetIni::parse(&fs::read_to_string(temp_dir.join("ReShade.ini")).unwrap());
+        assert_eq!(
+            parsed.get("GENERAL", "PresetPath"),
+            Some(r".\presets\RiShade Glow.ini")
+        );
+        assert!(temp_dir.join("presets").join("RiShade Glow.ini").is_file());
+        assert!(!temp_dir.join("presets").join("GenericPreset2.ini").exists());
         let _ = fs::remove_dir_all(&temp_dir);
     }
 

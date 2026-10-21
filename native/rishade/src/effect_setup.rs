@@ -34,22 +34,64 @@ const DEPTH_ASSETS: [(&str, &str, &str); 3] = [
     ),
 ];
 const RETIRED_ASSETS: [&str; 2] = ["renodx-dlss.addon64", "nvngx_dlssnr.dll"];
+pub const DEFAULT_PRESET: &str = "RiShade Natural.ini";
+pub const RENAMED_PRESETS: [(&str, &str, &str); 3] = [
+    (
+        "GenericPreset1.ini",
+        "RiShade Enhanced.ini",
+        "cc8899f300270e391adc6106c06673d0e2012cb78f8baadf42e45fb62b2a6b56",
+    ),
+    (
+        "GenericPreset2.ini",
+        "RiShade Glow.ini",
+        "608218ab87a2ca5643caabd45c538310be0a5205ec052d37c88cbeb4acecbf6a",
+    ),
+    (
+        "RiShadeReflections.ini",
+        "RiShade Reflections.ini",
+        "afdcf21fa758ef1a229d9a350738b5f7a76b8f90044fa2fafb3d8df67ad4c68a",
+    ),
+];
 const DEPTH_VERIFIED_MARKER: &str = ".rishade-depth-verified";
 const DEPTH_ASSET_LIMIT: usize = 512 << 20;
 
 const PRESET_CATALOG: &str = include_str!("../presets/downloads.ini");
 const BUNDLED_PRESETS: &[(&str, &[u8])] = &[
     (
-        "GenericPreset1.ini",
-        include_bytes!("../presets/GenericPreset1.ini"),
+        "RiShade Natural.ini",
+        include_bytes!("../presets/RiShade Natural.ini"),
     ),
     (
-        "GenericPreset2.ini",
-        include_bytes!("../presets/GenericPreset2.ini"),
+        "RiShade Vivid.ini",
+        include_bytes!("../presets/RiShade Vivid.ini"),
     ),
     (
-        "RiShadeReflections.ini",
-        include_bytes!("../presets/RiShadeReflections.ini"),
+        "RiShade Cinematic.ini",
+        include_bytes!("../presets/RiShade Cinematic.ini"),
+    ),
+    (
+        "RiShade Competitive.ini",
+        include_bytes!("../presets/RiShade Competitive.ini"),
+    ),
+    (
+        "RiShade Performance.ini",
+        include_bytes!("../presets/RiShade Performance.ini"),
+    ),
+    (
+        "RiShade Enhanced.ini",
+        include_bytes!("../presets/RiShade Enhanced.ini"),
+    ),
+    (
+        "RiShade Glow.ini",
+        include_bytes!("../presets/RiShade Glow.ini"),
+    ),
+    (
+        "RiShade Reflections.ini",
+        include_bytes!("../presets/RiShade Reflections.ini"),
+    ),
+    (
+        "RiShade Ambient Occlusion.ini",
+        include_bytes!("../presets/RiShade Ambient Occlusion.ini"),
     ),
 ];
 
@@ -257,6 +299,24 @@ fn verify_depth_asset(path: &Path, expected_hash: &str) -> io::Result<()> {
     let mut hasher = Sha256::new();
     io::copy(&mut File::open(path)?, &mut hasher)?;
     verify_digest(&format!("{:x}", hasher.finalize()), expected_hash)
+}
+
+pub fn migrate_renamed_presets(root: &Path) {
+    let directory = root.join("presets");
+    for (old, new, original_hash) in RENAMED_PRESETS {
+        let old_path = directory.join(old);
+        let new_path = directory.join(new);
+        if new_path.exists()
+            || !fs::symlink_metadata(&old_path).is_ok_and(|metadata| metadata.is_file())
+        {
+            continue;
+        }
+        let unmodified = fs::read(&old_path)
+            .is_ok_and(|bytes| format!("{:x}", Sha256::digest(bytes)) == original_hash);
+        if unmodified {
+            let _ = fs::rename(&old_path, &new_path);
+        }
+    }
 }
 
 pub fn remove_retired_assets(root: &Path) {
@@ -647,7 +707,6 @@ fn install_bundled_presets(
             continue;
         }
         if root.join("presets").join(name).exists() {
-            summary.skipped_presets.push(name.to_owned());
             continue;
         }
         let text = match std::str::from_utf8(data) {
@@ -995,11 +1054,40 @@ mod tests {
         let result = install_effects_and_presets(&root).unwrap();
 
         assert!(!result.assets_already_provisioned);
-        assert!(presets.join("RiShadeReflections.ini").is_file());
+        assert!(presets.join("RiShade Reflections.ini").is_file());
         assert_eq!(
             fs::read(presets.join("GenericPreset2.ini")).unwrap(),
             b"user edited"
         );
+        fs::remove_dir_all(root).unwrap();
+    }
+
+    #[test]
+    fn renamed_presets_move_only_when_unmodified() {
+        let root = temp_path("preset-renames");
+        let _ = fs::remove_dir_all(&root);
+        let presets = root.join("presets");
+        fs::create_dir_all(&presets).unwrap();
+        let original = BUNDLED_PRESETS
+            .iter()
+            .find(|(name, _)| *name == "RiShade Enhanced.ini")
+            .unwrap()
+            .1;
+        fs::write(presets.join("GenericPreset1.ini"), original).unwrap();
+        fs::write(presets.join("GenericPreset2.ini"), b"user edited").unwrap();
+
+        migrate_renamed_presets(&root);
+
+        assert!(!presets.join("GenericPreset1.ini").exists());
+        assert_eq!(
+            fs::read(presets.join("RiShade Enhanced.ini")).unwrap(),
+            original
+        );
+        assert_eq!(
+            fs::read(presets.join("GenericPreset2.ini")).unwrap(),
+            b"user edited"
+        );
+        assert!(!presets.join("RiShade Glow.ini").exists());
         fs::remove_dir_all(root).unwrap();
     }
 
