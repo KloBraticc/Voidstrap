@@ -4711,7 +4711,7 @@ Wat wil je doen?</value>
     <value>Als dit uit staat, werkt Roblox niet bij naar nieuwere versies.</value>
   </data>
   <data name="Ui.Channel.RobloxUpdates" xml:space="preserve">
-    <value>Roblox updates</value>
+    <value>Roblox-updates</value>
   </data>
   <data name="Ui.Channel.ChannelsRobloxBuild" xml:space="preserve">
     <value>Kanalen   [Roblox Build]</value>
@@ -4735,7 +4735,7 @@ Wat wil je doen?</value>
     <value>Een ander kanaal toepassen wist de gedownloade Roblox versie zodat het nieuwe kanaal kan installeren</value>
   </data>
   <data name="Ui.Channel.RendererBackend" xml:space="preserve">
-    <value>Renderer backend</value>
+    <value>Renderer-backend</value>
   </data>
   <data name="Ui.Channel.ChoosesTheGraphicsBackendVoidstrapDraws" xml:space="preserve">
     <value>Kiest de grafische backend waarmee Voidstrap zichzelf tekent. Automatisch kiest de snelste die je systeem ondersteunt. De wijziging werkt bij de volgende start van Voidstrap.</value>
@@ -5356,7 +5356,7 @@ Wat wil je doen?</value>
     <value>Privé</value>
   </data>
   <data name="Ui.Session.Recent" xml:space="preserve">
-    <value>Recent</value>
+    <value>Recent gespeeld</value>
   </data>
   <data name="Ui.Session.CopyTheInstanceID" xml:space="preserve">
     <value>Instantie ID kopiëren</value>
@@ -6139,7 +6139,7 @@ Wat wil je doen?</value>
     <value>github.com/klikos modloader/marketplace</value>
   </data>
   <data name="Ui.Misc2.ModGenerator" xml:space="preserve">
-    <value>Mod Generator</value>
+    <value>Modgenerator</value>
   </data>
   <data name="Ui.Misc2.ModGeneratorDescription" xml:space="preserve">
     <value>Mod Generator voor Voidstrap, gemaakt door Meddsam en SquireDot.</value>
@@ -6478,7 +6478,7 @@ Wat wil je doen?</value>
     <value>Prijs (R$)</value>
   </data>
   <data name="Ui.Misc2.Releases" xml:space="preserve">
-    <value>Releases</value>
+    <value>Uitgaven</value>
   </data>
   <data name="Ui.Misc2.SearchReleases" xml:space="preserve">
     <value>Releases zoeken...</value>

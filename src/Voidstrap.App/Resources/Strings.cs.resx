@@ -5404,7 +5404,7 @@ Co chcete udělat?</value>
     <value>Řadit podle</value>
   </data>
   <data name="Ui.Session.Region" xml:space="preserve">
-    <value>Region</value>
+    <value>Oblast</value>
   </data>
   <data name="Ui.Session.Place" xml:space="preserve">
     <value>Místo</value>
@@ -7755,7 +7755,7 @@ Chyba: {0}</value>
     <value>Použijte System Accent</value>
   </data>
   <data name="Ui.Keystrokes.Editor.AccentLabel" xml:space="preserve">
-    <value>ACCENT</value>
+    <value>AKCENT</value>
   </data>
   <data name="Ui.Keystrokes.AddTheme.ErrorEmpty" xml:space="preserve">
     <value>Název motivu nemůže být prázdný.</value>
@@ -7824,7 +7824,7 @@ Chyba: {0}</value>
     <value>Tématický kód</value>
   </data>
   <data name="Ui.Keystrokes.Editor.KeycapCustomizer" xml:space="preserve">
-    <value>Keycap Customizer</value>
+    <value>Úprava kláves</value>
   </data>
   <data name="Ui.Keystrokes.Editor.SelectKeycap" xml:space="preserve">
     <value>Klíčenka</value>

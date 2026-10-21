@@ -7714,7 +7714,7 @@ Hiba: {0}</value>
     <value>Izzási sugár</value>
   </data>
   <data name="Ui.Keystrokes.Editor.GlowOpacity" xml:space="preserve">
-    <value>Glow Opacity</value>
+    <value>Ragyogás átlátszatlansága</value>
   </data>
   <data name="Ui.Keystrokes.Editor.EffectsAndTypography" xml:space="preserve">
     <value>Hatások és tipográfia</value>

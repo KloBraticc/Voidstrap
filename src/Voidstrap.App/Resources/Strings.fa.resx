@@ -7825,7 +7825,7 @@ Voidstrap نتوانست در پوشهٔ دسکتاپ بنویسد.</value>
     <value>کد تم</value>
   </data>
   <data name="Ui.Keystrokes.Editor.KeycapCustomizer" xml:space="preserve">
-    <value>Keycap Customizer</value>
+    <value>سفارشی‌سازی کلیدها</value>
   </data>
   <data name="Ui.Keystrokes.Editor.SelectKeycap" xml:space="preserve">
     <value>درپوش کلید</value>

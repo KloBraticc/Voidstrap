@@ -3087,7 +3087,7 @@ Vad vill du göra?</value>
     <value>Öppna programmappen</value>
   </data>
   <data name="Ui.Main.Support" xml:space="preserve">
-    <value>Support</value>
+    <value>Hjälp</value>
   </data>
   <data name="Ui.Main.SupportVoidstrap" xml:space="preserve">
     <value>Stöd Voidstrap</value>
@@ -7823,10 +7823,10 @@ Fel: {0}</value>
     <value>Temakod</value>
   </data>
   <data name="Ui.Keystrokes.Editor.KeycapCustomizer" xml:space="preserve">
-    <value>Keycap Customizer</value>
+    <value>Anpassning av tangenter</value>
   </data>
   <data name="Ui.Keystrokes.Editor.SelectKeycap" xml:space="preserve">
-    <value>Keycap</value>
+    <value>Tangent</value>
   </data>
   <data name="Ui.Keystrokes.Editor.KeycapImage" xml:space="preserve">
     <value>Keycap bild</value>

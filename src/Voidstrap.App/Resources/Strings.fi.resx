@@ -7794,7 +7794,7 @@ Virhe: {0}</value>
     <value>Painettu näppäinkuva</value>
   </data>
   <data name="Ui.Keystrokes.Editor.ImageStretch" xml:space="preserve">
-    <value>Image Stretch</value>
+    <value>Kuvan venytys</value>
   </data>
   <data name="Ui.Keystrokes.Editor.ImageOpacity" xml:space="preserve">
     <value>Kuvan peittävyys</value>

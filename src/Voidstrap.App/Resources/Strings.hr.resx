@@ -7822,7 +7822,7 @@ Pogreška: {0}</value>
     <value>Kod teme</value>
   </data>
   <data name="Ui.Keystrokes.Editor.KeycapCustomizer" xml:space="preserve">
-    <value>Keycap Customizer</value>
+    <value>Prilagodba tipki</value>
   </data>
   <data name="Ui.Keystrokes.Editor.SelectKeycap" xml:space="preserve">
     <value>Poklopac tipke</value>

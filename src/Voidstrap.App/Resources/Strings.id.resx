@@ -3692,7 +3692,7 @@ Apa yang ingin Anda lakukan?</value>
     <value>Arah</value>
   </data>
   <data name="Ui.Mods.File" xml:space="preserve">
-    <value>File</value>
+    <value>Berkas</value>
   </data>
   <data name="Ui.Mods.Display" xml:space="preserve">
     <value>Tampilan</value>
@@ -3725,7 +3725,7 @@ Apa yang ingin Anda lakukan?</value>
     <value>Menghaluskan tepi bergerigi menggunakan GPU Anda.</value>
   </data>
   <data name="Ui.Mods.MotionBlur" xml:space="preserve">
-    <value>Motion blur</value>
+    <value>Keburaman gerak</value>
   </data>
   <data name="Ui.Mods.AddsAMotionTrailToMovement" xml:space="preserve">
     <value>Menambahkan jejak gerakan, hanya di area yang bergerak agar antarmuka tetap tajam.</value>
@@ -3797,7 +3797,7 @@ Apa yang ingin Anda lakukan?</value>
     <value>14:30 bukan 2:30 PM.</value>
   </data>
   <data name="Ui.Mods.Crosshair" xml:space="preserve">
-    <value>Crosshair</value>
+    <value>Bidik silang</value>
   </data>
   <data name="Ui.Mods.DrawYourOwnCrosshairOverThe" xml:space="preserve">
     <value>Gambar crosshair Anda sendiri di atas game</value>
@@ -6245,7 +6245,7 @@ Apa yang ingin Anda lakukan?</value>
     <value>Opsi</value>
   </data>
   <data name="Ui.Misc2.Wireframe" xml:space="preserve">
-    <value>Wireframe</value>
+    <value>Rangka kawat</value>
   </data>
   <data name="Ui.Misc2.AutoRotate" xml:space="preserve">
     <value>Putar otomatis</value>

@@ -3148,7 +3148,7 @@ Ce vrei să faci?</value>
     <value>Extensii</value>
   </data>
   <data name="Ui.Nav.Manager" xml:space="preserve">
-    <value>Manager</value>
+    <value>Administrator</value>
   </data>
   <data name="Ui.Nav.Settings" xml:space="preserve">
     <value>Setări</value>

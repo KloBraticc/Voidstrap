@@ -6212,7 +6212,7 @@
     <value>github.com/klikos modloader/marketplace</value>
   </data>
   <data name="Ui.Misc2.ModGenerator" xml:space="preserve">
-    <value>Mod Generator</value>
+    <value>مولّد التعديلات</value>
   </data>
   <data name="Ui.Misc2.ModGeneratorDescription" xml:space="preserve">
     <value>Mod Generator لـ Voidstrap، بواسطة Meddsam و SquireDot.</value>

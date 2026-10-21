@@ -7821,7 +7821,7 @@ Voidstrap не зміг записати до теки робочого стол
     <value>Код теми</value>
   </data>
   <data name="Ui.Keystrokes.Editor.KeycapCustomizer" xml:space="preserve">
-    <value>Keycap Customizer</value>
+    <value>Налаштування клавіш</value>
   </data>
   <data name="Ui.Keystrokes.Editor.SelectKeycap" xml:space="preserve">
     <value>Клавіатура</value>

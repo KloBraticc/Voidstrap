@@ -7508,7 +7508,7 @@ Ralat: {0}</value>
     <value>MTU</value>
   </data>
   <data name="OverlayDiagnostics.Crosshair" xml:space="preserve">
-    <value>Crosshair</value>
+    <value>Silang sasaran</value>
   </data>
   <data name="FlagSearch.Label27" xml:space="preserve">
     <value>Ctrl+V</value>

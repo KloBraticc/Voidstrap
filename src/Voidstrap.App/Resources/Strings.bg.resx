@@ -7715,7 +7715,7 @@ Voidstrap не можа да запише в папката на работни�
     <value>Радиус на светене</value>
   </data>
   <data name="Ui.Keystrokes.Editor.GlowOpacity" xml:space="preserve">
-    <value>Glow Opacity</value>
+    <value>Непрозрачност на сиянието</value>
   </data>
   <data name="Ui.Keystrokes.Editor.EffectsAndTypography" xml:space="preserve">
     <value>Ефекти и типография</value>
@@ -7823,7 +7823,7 @@ Voidstrap не можа да запише в папката на работни�
     <value>Код на темата</value>
   </data>
   <data name="Ui.Keystrokes.Editor.KeycapCustomizer" xml:space="preserve">
-    <value>Keycap Customizer</value>
+    <value>Персонализиране на клавишите</value>
   </data>
   <data name="Ui.Keystrokes.Editor.SelectKeycap" xml:space="preserve">
     <value>Ключалка</value>

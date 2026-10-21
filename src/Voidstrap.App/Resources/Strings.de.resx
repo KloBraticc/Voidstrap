@@ -3057,7 +3057,7 @@ Was möchtest du tun?</value>
     <value>Anwendungsordner öffnen</value>
   </data>
   <data name="Ui.Main.Support" xml:space="preserve">
-    <value>Support</value>
+    <value>Hilfe</value>
   </data>
   <data name="Ui.Main.SupportVoidstrap" xml:space="preserve">
     <value>Voidstrap unterstützen</value>
@@ -3438,7 +3438,7 @@ Was möchtest du tun?</value>
     <value>Blendet die restliche Roblox-Oberflächengrafik aus. Bleibt aktiv, solange die alte Topbar an ist.</value>
   </data>
   <data name="Ui.Mods.Sounds" xml:space="preserve">
-    <value>Sounds</value>
+    <value>Klänge</value>
   </data>
   <data name="Ui.Mods.CustomDeathSound" xml:space="preserve">
     <value>Eigener Todessound</value>
@@ -3822,7 +3822,7 @@ Was möchtest du tun?</value>
     <value>Dateivorgänge</value>
   </data>
   <data name="Ui.Mods.Details" xml:space="preserve">
-    <value>Details</value>
+    <value>Einzelheiten</value>
   </data>
   <data name="Ui.Mods.Replace" xml:space="preserve">
     <value>Ersetzen</value>
@@ -4848,7 +4848,7 @@ Was möchtest du tun?</value>
     <value>Auf Standard zurücksetzen</value>
   </data>
   <data name="Ui.ModGen.ModGenerator" xml:space="preserve">
-    <value>Mod Generator</value>
+    <value>Mod-Generator</value>
   </data>
   <data name="Ui.ModGen.RecolourRobloxSMenuAndTop" xml:space="preserve">
     <value>Färbe die Menü- und Leistensymbole von Roblox um und speichere das Ergebnis als Mod.</value>
@@ -5643,7 +5643,7 @@ Was möchtest du tun?</value>
     <value>Deine Bibliothek ist leer. Spiele ein Spiel über Voidstrap oder füge eines per PlaceId in der Seitenleiste hinzu.</value>
   </data>
   <data name="Ui.Pages.Events" xml:space="preserve">
-    <value>Events</value>
+    <value>Veranstaltungen</value>
   </data>
   <data name="Ui.Pages.ViewEvent" xml:space="preserve">
     <value>Event ansehen</value>
@@ -5865,7 +5865,7 @@ Was möchtest du tun?</value>
     <value>Erweiterungen suchen</value>
   </data>
   <data name="Ui.Pages.VoidstrapAssets" xml:space="preserve">
-    <value>Voidstrap Assets</value>
+    <value>Voidstrap-Ressourcen</value>
   </data>
   <data name="Ui.Pages.BackToExtensions" xml:space="preserve">
     <value>Zurück zu den Erweiterungen</value>
@@ -5901,13 +5901,13 @@ Was möchtest du tun?</value>
     <value>Funktioniert mit</value>
   </data>
   <data name="Ui.Pages.Tags" xml:space="preserve">
-    <value>Tags</value>
+    <value>Schlagwörter</value>
   </data>
   <data name="Ui.Pages.Creators" xml:space="preserve">
     <value>Ersteller</value>
   </data>
   <data name="Ui.Pages.NVIDIAFFlagEditor" xml:space="preserve">
-    <value>NVIDIA FFlag Editor</value>
+    <value>NVIDIA FFlag-Editor</value>
   </data>
   <data name="Ui.Pages.ManageNVIDIASettingsSavedInYour" xml:space="preserve">
     <value>Verwalte die NVIDIA-Einstellungen in deinem NIP-Profil.</value>
@@ -6102,7 +6102,7 @@ Was möchtest du tun?</value>
     <value>2014 2015 Topbar and Menu by HockuTM</value>
   </data>
   <data name="Ui.Misc2.CommunityMods" xml:space="preserve">
-    <value>Community Mods</value>
+    <value>Community-Mods</value>
   </data>
   <data name="Ui.Misc2.CommunityModsListsRobloxSubmissionsFrom" xml:space="preserve">
     <value>Community Mods listet Roblox-Einreichungen von GameBanana und Kliko's Mods, gepflegt von TheKliko für Kliko's Modloader. Voidstrap ist mit keinem von beiden verbunden oder von ihnen unterstützt. Alle Mods, Bilder und Beschreibungen gehören ihren Autoren, die bei jedem Eintrag genannt werden. Voidstrap liest nur deren öffentliche Daten und lädt nie etwas in deinem Namen hoch.</value>
@@ -6111,7 +6111,7 @@ Was möchtest du tun?</value>
     <value>github.com/klikos modloader/marketplace</value>
   </data>
   <data name="Ui.Misc2.ModGenerator" xml:space="preserve">
-    <value>Mod Generator</value>
+    <value>Mod-Generator</value>
   </data>
   <data name="Ui.Misc2.ModGeneratorDescription" xml:space="preserve">
     <value>Mod Generator für Voidstrap, erstellt von Meddsam und SquireDot.</value>
@@ -6381,7 +6381,7 @@ Was möchtest du tun?</value>
     <value>Organisation</value>
   </data>
   <data name="Ui.Misc2.RobloxNews" xml:space="preserve">
-    <value>Roblox News</value>
+    <value>Roblox-Neuigkeiten</value>
   </data>
   <data name="Ui.Misc2.OpenFeed" xml:space="preserve">
     <value>Feed öffnen</value>
@@ -6450,7 +6450,7 @@ Was möchtest du tun?</value>
     <value>Preis (R$)</value>
   </data>
   <data name="Ui.Misc2.Releases" xml:space="preserve">
-    <value>Releases</value>
+    <value>Veröffentlichungen</value>
   </data>
   <data name="Ui.Misc2.SearchReleases" xml:space="preserve">
     <value>Releases durchsuchen...</value>
