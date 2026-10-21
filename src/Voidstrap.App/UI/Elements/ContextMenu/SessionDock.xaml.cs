@@ -280,6 +280,12 @@ public partial class SessionDock : Window
         UpdateActiveButtons();
     }
 
+    public void CloseTool(string key)
+    {
+        if (_panels.TryGetValue(key, out SessionPanelWindow? panel) && !panel.IsClosed)
+            panel.Close();
+    }
+
     private void CloseServerPanels()
     {
         // These panels describe one specific server, so they are stale after a teleport

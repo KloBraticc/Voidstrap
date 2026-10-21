@@ -93,7 +93,7 @@
     </Grid>
 
     <!-- The server you are in -->
-    <Border Grid.Row="1" Style="{StaticResource Card}" Margin="0,12,0,0" Padding="14,10">
+    <Border x:Name="CurrentServerCard" Grid.Row="1" Style="{StaticResource Card}" Margin="0,12,0,0" Padding="14,10">
       <Grid>
         <Grid.ColumnDefinitions>
           <ColumnDefinition Width="Auto" />

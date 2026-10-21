@@ -65,13 +65,20 @@ public partial class SessionServerBrowser : Window
     private bool _avatarsLoading;
 
     public SessionServerBrowser(ActivityWatcher activity, ServerMatchmaker? matchmaker = null)
+        : this(activity, matchmaker, activity.Data.PlaceId, activity.Data.GameName)
+    {
+    }
+
+    public SessionServerBrowser(ActivityWatcher activity, ServerMatchmaker? matchmaker, long placeId, string? gameName = null)
     {
         _lifetimeToken = _lifetime.Token;
         _activity = activity;
         _matchmaker = matchmaker;
-        _gameData = activity.Data;
-        _placeId = _gameData.PlaceId;
+        _placeId = placeId > 0 ? placeId : activity.Data.PlaceId;
+        _gameData = _placeId == activity.Data.PlaceId ? activity.Data : new ActivityData { PlaceId = _placeId, UniverseDetails = new UniverseDetails { Data = new GameDetailResponse { Name = gameName ?? string.Empty } } };
         InitializeComponent();
+        if (_placeId != activity.Data.PlaceId && !string.IsNullOrEmpty(gameName))
+            Title = $"{gameName} - {Strings.Ui_Session_Servers}";
         _avatarTimer = new DispatcherTimer(DispatcherPriority.Background) { Interval = TimeSpan.FromMilliseconds(120) };
         _avatarTimer.Tick += OnAvatarTimerTick;
         RegionBox.Items.Add(AllRegions);
@@ -91,7 +98,10 @@ public partial class SessionServerBrowser : Window
         if (_started)
             return;
         _started = true;
-        _ = PortableOverlay.RunAsync(this, LoadCurrentServerAsync);
+        if (_placeId != _activity.Data.PlaceId)
+            CurrentServerCard.Visibility = Visibility.Collapsed;
+        else
+            _ = PortableOverlay.RunAsync(this, LoadCurrentServerAsync);
         _ = PortableOverlay.RunAsync(this, () => LoadPlacesAsync(_gameData));
         _ = PortableOverlay.RunAsync(this, ScanServersAsync);
     }

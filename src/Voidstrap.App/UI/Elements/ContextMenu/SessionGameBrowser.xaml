@@ -109,7 +109,7 @@
           </ItemsControl.ItemsPanel>
           <ItemsControl.ItemTemplate>
             <DataTemplate>
-              <Button Style="{StaticResource Tile}" Click="GameTile_Click" Tag="{Binding}" ToolTip="{Binding Name}">
+              <Button Style="{StaticResource Tile}" Click="GameTile_Click" MouseRightButtonUp="GameTile_MouseRightButtonUp" Tag="{Binding}" ToolTip="{Binding Name}">
                 <StackPanel>
                   <!-- Square art: as tall as it is wide, rounded by the border itself -->
                   <Grid Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}">
@@ -138,6 +138,36 @@
                                    Foreground="{Binding Background, RelativeSource={RelativeSource AncestorType=Border}, Converter={StaticResource ContrastForeground}}" />
                       </Border>
                     </Border>
+                    <Button Width="32" Height="32" Margin="6,6,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Cursor="Hand"
+                            Focusable="False" Click="ServerOptions_Click" Tag="{Binding}" ToolTip="{resources:Loc Ui_Session_Servers}">
+                      <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                          <Border x:Name="Chip" CornerRadius="16" Background="#99000000">
+                            <TextBlock Text="&#xE700;" FontFamily="Segoe Fluent Icons, Segoe MDL2 Assets" FontSize="13"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{TemplateBinding Foreground}" />
+                          </Border>
+                          <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                              <Setter TargetName="Chip" Property="Background" Value="#CC000000" />
+                            </Trigger>
+                          </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                      </Button.Template>
+                      <Button.Style>
+                        <Style TargetType="Button">
+                          <Setter Property="Opacity" Value="0" />
+                          <Setter Property="Foreground" Value="White" />
+                          <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=Button, AncestorLevel=1}}" Value="True">
+                              <Setter Property="Opacity" Value="1" />
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding IsMouseOver, RelativeSource={RelativeSource AncestorType=Grid}}" Value="True">
+                              <Setter Property="Opacity" Value="1" />
+                            </DataTrigger>
+                          </Style.Triggers>
+                        </Style>
+                      </Button.Style>
+                    </Button>
                     <!-- Favourite star: shows on hover, stays lit once the game is a favourite -->
                     <Button Width="32" Height="32" Margin="0,6,6,0" HorizontalAlignment="Right" VerticalAlignment="Top" Cursor="Hand"
                             Focusable="False" Click="Favorite_Click" Tag="{Binding}" ToolTip="{Binding FavoriteTip}">

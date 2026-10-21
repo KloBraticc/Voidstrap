@@ -120,7 +120,7 @@ public static class RobloxServers
 			string? cursor = null;
 			for (int page = 0; page < 4; page++)
 			{
-				string url = $"https://games.roblox.com/v1/games/{placeId}/private-servers?limit=25&sortOrder=Desc";
+				string url = $"https://games.roblox.com/v1/games/{placeId}/private-servers?limit=25&sortOrder=Desc&excludeFriendServers=false";
 				if (!string.IsNullOrEmpty(cursor))
 					url += "&cursor=" + Uri.EscapeDataString(cursor);
 				using HttpRequestMessage request = new(HttpMethod.Get, url);

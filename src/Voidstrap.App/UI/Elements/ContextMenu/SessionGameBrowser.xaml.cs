@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
@@ -387,6 +388,160 @@ public partial class SessionGameBrowser : Window, System.ComponentModel.INotifyP
         }
     }
 
+    private void ServerOptions_Click(object sender, RoutedEventArgs e)
+    {
+        e.Handled = true;
+        if (_closed || sender is not FrameworkElement { Tag: GameBrowserTile tile } element || tile.PlaceId <= 0)
+            return;
+        ShowServerMenu(element, tile, PlacementMode.Bottom);
+    }
+
+    private void GameTile_MouseRightButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        e.Handled = true;
+        if (_closed || sender is not FrameworkElement { Tag: GameBrowserTile tile } element || tile.PlaceId <= 0)
+            return;
+        ShowServerMenu(element, tile, PlacementMode.MousePoint);
+    }
+
+    private void ShowServerMenu(FrameworkElement target, GameBrowserTile tile, PlacementMode placement)
+    {
+        System.Windows.Controls.ContextMenu menu = new()
+        {
+            PlacementTarget = target,
+            Placement = placement,
+            MinWidth = 240
+        };
+
+        MenuItem playItem = new()
+        {
+            Header = Strings.Ui_Pages_Play,
+            Icon = new TextBlock
+            {
+                Text = "\uE768",
+                FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons, Segoe MDL2 Assets"),
+                FontSize = 14
+            }
+        };
+        playItem.Click += (_, _) => _ = LaunchGameAsync(tile, null);
+        menu.Items.Add(playItem);
+
+        menu.Items.Add(new Separator());
+
+        MenuItem privateServersItem = new()
+        {
+            Header = Strings.ContextMenu_ServerBrowser_PrivateServer,
+            Icon = new TextBlock
+            {
+                Text = "\uE716",
+                FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons, Segoe MDL2 Assets"),
+                FontSize = 14
+            }
+        };
+
+        MenuItem loadingItem = new()
+        {
+            Header = Strings.Library_Servers_PrivateLoading,
+            IsEnabled = false
+        };
+        privateServersItem.Items.Add(loadingItem);
+        menu.Items.Add(privateServersItem);
+
+        menu.Items.Add(new Separator());
+
+        MenuItem browseItem = new()
+        {
+            Header = Strings.Ui_Session_Servers,
+            Icon = new TextBlock
+            {
+                Text = "\uE753",
+                FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons, Segoe MDL2 Assets"),
+                FontSize = 14
+            }
+        };
+        browseItem.Click += (_, _) =>
+        {
+            if (SessionDock.ActiveInstance is { } dock)
+            {
+                dock.CloseTool("browser");
+                dock.ShowTool("browser", "Servers", () => new SessionServerBrowser(_activity, _matchmaker, tile.PlaceId, tile.Name));
+            }
+            else
+            {
+                new SessionServerBrowser(_activity, _matchmaker, tile.PlaceId, tile.Name).Show();
+            }
+        };
+        menu.Items.Add(browseItem);
+
+        _ = PopulatePrivateServersAsync(privateServersItem, tile);
+
+        menu.IsOpen = true;
+    }
+
+    private async Task PopulatePrivateServersAsync(MenuItem parent, GameBrowserTile tile)
+    {
+        try
+        {
+            (PrivateServersStatus status, List<RobloxPrivateServer> servers) = await RobloxServers.GetPrivateServersAsync(tile.PlaceId, _lifetimeToken);
+            if (_closed)
+                return;
+            await Dispatcher.InvokeAsync(() =>
+            {
+                parent.Items.Clear();
+                if (status == PrivateServersStatus.NotSignedIn)
+                {
+                    parent.Items.Add(new MenuItem { Header = Strings.Library_Servers_PrivateSignedOut, IsEnabled = false });
+                    return;
+                }
+                if (status == PrivateServersStatus.Unavailable)
+                {
+                    parent.Items.Add(new MenuItem { Header = Strings.Library_Servers_PrivateUnavailable, IsEnabled = false });
+                    return;
+                }
+                List<RobloxPrivateServer> valid = servers.Where(s => !string.IsNullOrEmpty(s.AccessCode)).ToList();
+                if (valid.Count == 0)
+                {
+                    parent.Items.Add(new MenuItem { Header = Strings.Library_Servers_PrivateEmpty, IsEnabled = false });
+                    return;
+                }
+                parent.Header = $"{Strings.ContextMenu_ServerBrowser_PrivateServer} ({valid.Count})";
+                foreach (RobloxPrivateServer server in valid)
+                {
+                    string label = string.IsNullOrEmpty(server.Name) ? Strings.ContextMenu_ServerBrowser_PrivateServer : server.Name;
+                    if (!string.IsNullOrEmpty(server.OwnerName))
+                        label += $" ({server.OwnerName})";
+                    if (server.MaxPlayers > 0)
+                        label += $" - {server.Playing}/{server.MaxPlayers}";
+                    MenuItem serverItem = new()
+                    {
+                        Header = label,
+                        Icon = new TextBlock
+                        {
+                            Text = "\uE77B",
+                            FontFamily = new System.Windows.Media.FontFamily("Segoe Fluent Icons, Segoe MDL2 Assets"),
+                            FontSize = 14
+                        }
+                    };
+                    string code = server.AccessCode;
+                    serverItem.Click += (_, _) => _ = LaunchGameAsync(tile, code);
+                    parent.Items.Add(serverItem);
+                }
+            });
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("SessionGameBrowser", "Private servers could not be loaded: " + ex.Message);
+            if (!_closed)
+            {
+                await Dispatcher.InvokeAsync(() =>
+                {
+                    parent.Items.Clear();
+                    parent.Items.Add(new MenuItem { Header = Strings.Library_Servers_PrivateUnavailable, IsEnabled = false });
+                });
+            }
+        }
+    }
+
     private void GameTile_Click(object sender, RoutedEventArgs e)
         => _ = PortableOverlay.RunAsync(this, () => GameTile_ClickAsync(sender, e));
 
@@ -397,6 +552,13 @@ public partial class SessionGameBrowser : Window, System.ComponentModel.INotifyP
             return;
         if (_launching || _closed || sender is not Button { Tag: GameBrowserTile tile } || tile.PlaceId <= 0)
             return;
+        await LaunchGameAsync(tile, null);
+    }
+
+    private async Task LaunchGameAsync(GameBrowserTile tile, string? accessCode)
+    {
+        if (_launching || _closed || tile.PlaceId <= 0)
+            return;
         if (_matchmaker != null && _activity.InGame)
         {
             // Roblox is already running, so switch through the matchmaker handoff instead of starting a second client
@@ -404,7 +566,7 @@ public partial class SessionGameBrowser : Window, System.ComponentModel.INotifyP
             SetBusy(true, Strings.ContextMenu_GameBrowser_Loading);
             try
             {
-                if (await Task.Run(() => _matchmaker.LaunchPlaceAsync(tile.PlaceId, null, CancellationToken.None)))
+                if (await Task.Run(() => _matchmaker.LaunchPlaceAsync(tile.PlaceId, null, CancellationToken.None, accessCode)))
                     return;
             }
             catch (Exception ex)
@@ -432,7 +594,7 @@ public partial class SessionGameBrowser : Window, System.ComponentModel.INotifyP
                 WorkingDirectory = Path.GetDirectoryName(executable) ?? string.Empty
             };
             startInfo.ArgumentList.Add("-player");
-            startInfo.ArgumentList.Add(LaunchInterceptor.BuildExperienceUri(tile.PlaceId));
+            startInfo.ArgumentList.Add(LaunchInterceptor.BuildExperienceUri(tile.PlaceId, accessCode: accessCode));
             Process.Start(startInfo)?.Dispose();
         }
         catch (Exception ex)
