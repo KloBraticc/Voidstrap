@@ -43,9 +43,27 @@ namespace Voidstrap.Integrations.RiShade
         public static string ShadersDirPath => Path.Combine(Paths.RiShade, "reshade-shaders");
         public static string DepthModelPath => Path.Combine(Paths.RiShade, "depth-anything-v2-small.onnx");
 
+        private static string RuntimeMarkerPath => Path.Combine(Paths.RiShade, ".rishade-runtime");
+
         public static bool IsRuntimePopulated =>
             File.Exists(DxgiDllPath) &&
             File.Exists(Path.Combine(RiShadeDir, "ReShade.ini"));
+
+        private static bool IsRuntimeCurrent
+        {
+            get
+            {
+                try
+                {
+                    return IsRuntimePopulated && File.Exists(RuntimeMarkerPath) &&
+                        File.ReadAllText(RuntimeMarkerPath).Trim().Equals(ReShadeSetupSha256, StringComparison.OrdinalIgnoreCase);
+                }
+                catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+                {
+                    return false;
+                }
+            }
+        }
 
         public static bool HasLoadablePreset => _hasLoadablePreset;
 
@@ -346,8 +364,17 @@ namespace Voidstrap.Integrations.RiShade
             try
             {
                 Directory.CreateDirectory(RiShadeDir);
-                if (!IsRuntimePopulated)
-                    await ProvisionRuntimeAsync();
+                if (!IsRuntimeCurrent)
+                {
+                    try
+                    {
+                        await ProvisionRuntimeAsync();
+                    }
+                    catch (Exception) when (IsRuntimePopulated)
+                    {
+                        App.Logger.WriteLine(LogIdent, "The ReShade runtime update could not be applied yet, the installed runtime stays in use until the next launch");
+                    }
+                }
                 await InstallEffectAssetsAsync();
                 if (!RiShadeInterop.PrepareConfig(RiShadeDir))
                     throw new InvalidOperationException("The Rust RiShade library could not prepare ReShade configuration");
@@ -507,6 +534,7 @@ namespace Voidstrap.Integrations.RiShade
                 CopyIfMissing(Path.Combine(stagingDir, "ReShadePreset.ini"), Path.Combine(RiShadeDir, "ReShadePreset.ini"));
                 if (Directory.Exists(stagedShaders))
                     CopyMissingFiles(stagedShaders, ShadersDirPath);
+                File.WriteAllText(RuntimeMarkerPath, ReShadeSetupSha256);
                 App.Logger.WriteLine(LogIdent, "ReShade runtime installed in the RiShade extension directory");
             }
             catch (Exception ex)
