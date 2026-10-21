@@ -133,6 +133,25 @@ public static class ExtensionCatalog
 			}
 		};
 		if (Voidstrap.Utility.Platform.IsWindows)
+			entries.Add(new ExtensionEntry("studioreshade", () => vm.studioreshadeenabler, value => vm.studioreshadeenabler = value)
+			{
+				Name = "ReShade for Roblox Studio",
+				Author = "Voidstrap",
+				AuthorIcon = RiShadeIcon,
+				Type = ExtensionViewModel.TypeStudio,
+				WorksWith = ["Roblox Studio"],
+				Tags = ["Shaders", "Visuals", "Studio"],
+				Summary = "Runs ReShade inside Roblox Studio with the same shaders and presets as RiShade. Press Home in Studio to open it.",
+				Description = [
+					"Voidstrap places the official ReShade runtime next to Roblox Studio every time you open Studio through Voidstrap, so shaders keep working after Studio updates.",
+					"Studio gives ReShade its real depth buffer, so depth effects like reflections and ambient occlusion are sharper than in the player.",
+					"Your shaders and presets are shared with RiShade. If Studio already has its own ReShade, Voidstrap leaves it alone, and turning this off removes only the copy Voidstrap added."
+				],
+				Icon = RiShadeIcon,
+				CanOpen = false,
+				SearchText = "ReShade Roblox Studio shaders Bloxshade visuals effects presets depth"
+			});
+		if (Voidstrap.Utility.Platform.IsWindows)
 			entries.Insert(1, new ExtensionEntry("swifttunnel", () => vm.SwiftTunnelInstalled, value => vm.SwiftTunnelInstalled = value, () => vm.SwiftTunnelBusy)
 			{
 				Name = "SwiftTunnel",

@@ -354,6 +354,18 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             }
         }
 
+        public bool studioreshadeenabler
+        {
+            get => App.Settings.Prop.StudioReShadeEnabled;
+            set
+            {
+                if (App.Settings.Prop.StudioReShadeEnabled == value)
+                    return;
+                Voidstrap.Integrations.RiShade.StudioReShade.SetEnabled(value);
+                OnPropertyChanged();
+            }
+        }
+
         public Visibility CommunityContentVisibility => CommunityVisible ? Visibility.Visible : Visibility.Collapsed;
 
         public Visibility ApiDumpVisibility => ApiDumpVisible ? Visibility.Visible : Visibility.Collapsed;

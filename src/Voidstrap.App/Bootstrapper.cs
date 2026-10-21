@@ -1587,6 +1587,8 @@ public class Bootstrapper
                 await WarmRobloxSettingsDnsAsync(ct);
 			App.Logger.WriteLine("Bootstrapper::StartRoblox", "Process preparation completed in " + startTimer.ElapsedMilliseconds + " ms");
             ProcessStartInfo startInfo = BuildStartInfo();
+            if (_launchMode == LaunchMode.Studio)
+                await Voidstrap.Integrations.RiShade.StudioReShade.PrepareLaunchAsync(AppData.Directory, startInfo, App.Settings.Prop.StudioReShadeEnabled && !_safeMode);
             if (_launchMode == LaunchMode.StudioAuth)
             {
                 using Process? studioAuthProcess = Process.Start(startInfo);
