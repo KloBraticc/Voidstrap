@@ -12,6 +12,8 @@ internal static class RemoteData
 {
 	public const string BaseUrl = "https://raw.githubusercontent.com/KloBraticc/Voidstrap-Resources/main";
 
+	private const string ServerLocationsUrl = "https://raw.githubusercontent.com/KloBraticc/Voidstrap/main/assets/Datacenters/ServerFetch.json";
+
 	private const string LOG_IDENT = "RemoteData";
 
 	private const long MaxFileBytes = 67108864;
@@ -39,7 +41,7 @@ internal static class RemoteData
 	public static async Task RefreshAsync(CancellationToken token)
 	{
 		await RefreshTranslationsAsync(false, token).ConfigureAwait(false);
-		await RefreshServerLocationsAsync(false, token).ConfigureAwait(false);
+		await RefreshServerLocationsAsync(true, token).ConfigureAwait(false);
 	}
 
 	public static async Task RefreshTranslationsAsync(bool force, CancellationToken token)
@@ -50,7 +52,7 @@ internal static class RemoteData
 
 	public static async Task<int> RefreshServerLocationsAsync(bool force, CancellationToken token)
 	{
-		bool downloaded = await DownloadAsync(FileUrl("ServerLocations.json"), ServerLocationsPath, force, token).ConfigureAwait(false);
+		bool downloaded = await DownloadAsync(ServerLocationsUrl, ServerLocationsPath, force, token).ConfigureAwait(false);
 		bool firstImport = Interlocked.Exchange(ref _serverLocationsImported, 1) == 0;
 		if (!downloaded && !firstImport)
 			return 0;

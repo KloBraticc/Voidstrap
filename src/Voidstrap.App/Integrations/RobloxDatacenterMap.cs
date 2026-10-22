@@ -25,8 +25,6 @@ public static class RobloxDatacenterMap
 
 	private static readonly List<SeedCidrEntry> _seedEntries = BuildSeedEntries();
 
-	private static readonly HashSet<string> _builtInCidrs = new HashSet<string>(_seedEntries.Select(seed => seed.Cidr), StringComparer.OrdinalIgnoreCase);
-
 	private static readonly Dictionary<string, string> _builtInCityCountry = BuildCityCountryIndex();
 
 	private static readonly List<CidrEntry> _entries = BuildCidrEntries();
@@ -66,7 +64,7 @@ public static class RobloxDatacenterMap
 			Dictionary<string, CidrEntry> byCidr = _entries.ToDictionary(e => e.Cidr, StringComparer.OrdinalIgnoreCase);
 			foreach (SeedCidrEntry entry in entries)
 			{
-				if (string.IsNullOrWhiteSpace(entry.Cidr) || _builtInCidrs.Contains(entry.Cidr.Trim()))
+				if (string.IsNullOrWhiteSpace(entry.Cidr))
 					continue;
 				try
 				{
