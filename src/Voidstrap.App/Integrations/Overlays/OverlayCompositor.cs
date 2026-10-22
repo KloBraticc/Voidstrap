@@ -517,6 +517,11 @@ namespace Voidstrap.Integrations.Overlays
                 return true;
             if (!App.Settings.Prop.RiShadeEnabled || !RiShadeManager.DlssInstalled || !File.Exists(RiShadeManager.DxgiDllPath))
                 return false;
+            if (!Voidstrap.Utility.RenderAcceleration.DlssWrapsGraphics)
+            {
+                App.Logger.WriteLine(LOG_IDENT, "DLSS was turned on after Voidstrap started, restart Voidstrap for DLSS");
+                return false;
+            }
             try
             {
                 if (s_reshadeLoadedUnwrapped)
@@ -526,6 +531,7 @@ namespace Voidstrap.Integrations.Overlays
                 }
                 Environment.SetEnvironmentVariable("RESHADE_DISABLE_GRAPHICS_HOOK", null);
                 Environment.SetEnvironmentVariable("RESHADE_DISABLE_LOGGING", null);
+                Environment.SetEnvironmentVariable("RESHADE_BASE_PATH_OVERRIDE", RiShadeManager.RiShadeDir);
                 if (!RiShadeInterop.PrepareConfig(RiShadeManager.RiShadeDir))
                     return false;
                 NativeLibrary.Load(Path.Combine(Environment.SystemDirectory, "d3d11.dll"));

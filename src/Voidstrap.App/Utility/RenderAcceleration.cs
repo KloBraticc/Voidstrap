@@ -44,6 +44,30 @@ namespace Voidstrap.Utility
             }
         }
 
+        private static bool? _dlssWrapsGraphics;
+
+        public static bool DlssWrapsGraphics
+        {
+            get
+            {
+                if (_dlssWrapsGraphics is bool known)
+                    return known;
+                bool wraps = false;
+                try
+                {
+                    wraps = Platform.IsWindows && App.Settings?.Prop?.RiShadeEnabled == true && Voidstrap.Integrations.RiShade.RiShadeManager.DlssInstalled;
+                }
+                catch (Exception ex)
+                {
+                    App.Logger?.WriteException("RenderAcceleration::DlssWrapsGraphics", ex);
+                }
+                _dlssWrapsGraphics = wraps;
+                return wraps;
+            }
+        }
+
+        private static bool WindowsSoftwareOnly => SoftwareOnly || DlssWrapsGraphics;
+
         public static void ApplyProcess()
         {
             if (!Platform.IsWindows)
@@ -51,7 +75,9 @@ namespace Voidstrap.Utility
 
             TripSentinel();
             InstallWindowHandler();
-            RenderMode mode = SoftwareOnly ? RenderMode.SoftwareOnly : RenderMode.Default;
+            RenderMode mode = WindowsSoftwareOnly ? RenderMode.SoftwareOnly : RenderMode.Default;
+            if (DlssWrapsGraphics && !SoftwareOnly)
+                App.Logger?.WriteLine("RenderAcceleration::ApplyProcess", "RiShade DLSS is on, Voidstrap windows render in software so ReShade only wraps the game compositor");
             lock (Sync)
             {
                 if (_appliedProcessMode == mode)
@@ -180,7 +206,7 @@ namespace Voidstrap.Utility
 
         private static void ArmSentinel()
         {
-            if (SoftwareOnly || Interlocked.Exchange(ref _sentinelArmed, 1) != 0)
+            if (WindowsSoftwareOnly || Interlocked.Exchange(ref _sentinelArmed, 1) != 0)
                 return;
 
             try
@@ -247,7 +273,7 @@ namespace Voidstrap.Utility
                 if (PresentationSource.FromVisual(window) is not HwndSource source || source.CompositionTarget == null)
                     return;
 
-                RenderMode mode = SoftwareOnly ? RenderMode.SoftwareOnly : RenderMode.Default;
+                RenderMode mode = WindowsSoftwareOnly ? RenderMode.SoftwareOnly : RenderMode.Default;
                 if (source.CompositionTarget.RenderMode != mode)
                     source.CompositionTarget.RenderMode = mode;
             }
