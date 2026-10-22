@@ -162,14 +162,7 @@ public static class StudioProjects
 
 	private static IEnumerable<string> VinegarPrefixes()
 	{
-		string home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
-		string? dataHome = Environment.GetEnvironmentVariable("XDG_DATA_HOME");
-		string[] roots =
-		[
-			Path.Combine(home, ".var", "app", "org.vinegarhq.Vinegar", "data", "vinegar", "prefixes"),
-			Path.Combine(string.IsNullOrWhiteSpace(dataHome) ? Path.Combine(home, ".local", "share") : dataHome, "vinegar", "prefixes")
-		];
-		foreach (string root in roots.Distinct(StringComparer.Ordinal))
+		foreach (string root in Voidstrap.Platform.Linux.LinuxVinegarStudioRuntimeProvider.PrefixRoots())
 		{
 			if (!Directory.Exists(root))
 				continue;

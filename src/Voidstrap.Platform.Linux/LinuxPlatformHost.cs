@@ -2208,6 +2208,13 @@ public sealed partial class LinuxVinegarStudioRuntimeProvider : IRobloxRuntimePr
 	{
 		return Path.Combine(LinuxPaths.GetHomeDirectory(), ".var", "app", VinegarApplicationId, "data", "vinegar");
 	}
+
+	public static IReadOnlyList<string> PrefixRoots()
+	{
+		string flatpak = Path.Combine(GetFlatpakDataDirectory(), "prefixes");
+		string native = Path.Combine(GetNativeDataDirectory(), "prefixes");
+		return string.Equals(flatpak, native, StringComparison.Ordinal) ? [flatpak] : [flatpak, native];
+	}
 }
 
 public sealed partial class LinuxStudioRuntimeProvider : IRobloxRuntimeProvider
