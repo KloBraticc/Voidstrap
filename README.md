@@ -515,6 +515,7 @@ To create your own copy of Voidstrap:
 
 - Voidstrap is built on [Bloxstrap](https://github.com/bloxstraplabs/bloxstrap) by pizzaboxer.
 - RiShade's in-process ReShade architecture is based on [Unishade](https://github.com/OMouta/Unishade) by OMouta (huge credit to him for his work in C++).
+- Credit to [Froststrap](https://github.com/Froststrap).
 
 ## License
 
