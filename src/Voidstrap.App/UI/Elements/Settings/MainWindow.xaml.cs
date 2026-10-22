@@ -6402,6 +6402,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             panel.CacheMode = new BitmapCache { SnapsToDevicePixels = true };
         LaunchTargetOverlay.Visibility = Visibility.Visible;
         LaunchTargetOverlay.IsHitTestVisible = true;
+        if (fresh)
+            ShowModalSnapshot(panel, scale);
         AnimateLaunchTargetOverlay(1.0, 1.0, ModalOpenFadeDuration, generation, false);
     }
 
@@ -6413,6 +6415,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         LaunchTargetOverlay.IsHitTestVisible = false;
         if (Voidstrap.Utility.Platform.IsWindows)
             _modalPanel.CacheMode = new BitmapCache { SnapsToDevicePixels = true };
+        if (_modalSnapshotPanel == null && _modalScale != null)
+            ShowModalSnapshot(_modalPanel, _modalScale);
         AnimateLaunchTargetOverlay(0.0, ModalScaleOffset, ModalCloseFadeDuration, generation, true);
     }
 
@@ -6534,6 +6538,95 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         target.BeginAnimation(ScaleTransform.ScaleYProperty, scale, HandoffBehavior.SnapshotAndReplace);
     }
 
+    private Image? _modalSnapshot;
+
+    private Border? _modalSnapshotPanel;
+
+    private const double ModalSnapshotPadding = 48;
+
+    private void ShowModalSnapshot(Border panel, ScaleTransform scale)
+    {
+        HideModalSnapshot();
+        if (!Voidstrap.Utility.RenderAcceleration.RendersInSoftware)
+            return;
+        try
+        {
+            double startScale = scale.ScaleX;
+            SetModalScale(scale, 1.0);
+            LaunchTargetOverlay.UpdateLayout();
+            double width = panel.ActualWidth;
+            double height = panel.ActualHeight;
+            if (width <= 0 || height <= 0)
+            {
+                SetModalScale(scale, startScale);
+                return;
+            }
+            double pad = ModalSnapshotPadding;
+            Rect bounds = new Rect(-pad, -pad, width + pad * 2, height + pad * 2);
+            DpiScale dpi = VisualTreeHelper.GetDpi(panel);
+            DrawingVisual drawing = new DrawingVisual();
+            using (DrawingContext context = drawing.RenderOpen())
+            {
+                VisualBrush brush = new VisualBrush(panel)
+                {
+                    Viewbox = bounds,
+                    ViewboxUnits = BrushMappingMode.Absolute,
+                    Stretch = Stretch.Fill
+                };
+                context.DrawRectangle(brush, null, new Rect(0, 0, bounds.Width, bounds.Height));
+            }
+            RenderTargetBitmap bitmap = new RenderTargetBitmap(
+                (int)Math.Ceiling(bounds.Width * dpi.DpiScaleX),
+                (int)Math.Ceiling(bounds.Height * dpi.DpiScaleY),
+                96 * dpi.DpiScaleX,
+                96 * dpi.DpiScaleY,
+                PixelFormats.Pbgra32);
+            bitmap.Render(drawing);
+            bitmap.Freeze();
+            SetModalScale(scale, startScale);
+            if (_modalSnapshot == null)
+            {
+                _modalSnapshot = new Image
+                {
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    RenderTransformOrigin = new Point(0.5, 0.5),
+                    IsHitTestVisible = false,
+                    Stretch = Stretch.Fill
+                };
+                RenderOptions.SetBitmapScalingMode(_modalSnapshot, BitmapScalingMode.Linear);
+                LaunchTargetOverlay.Children.Add(_modalSnapshot);
+            }
+            _modalSnapshot.Source = bitmap;
+            _modalSnapshot.Width = bounds.Width;
+            _modalSnapshot.Height = bounds.Height;
+            _modalSnapshot.RenderTransform = scale;
+            _modalSnapshot.Visibility = Visibility.Visible;
+            panel.Opacity = 0;
+            _modalSnapshotPanel = panel;
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteLine("MainWindow::ShowModalSnapshot", "The dialog snapshot could not be prepared: " + ex.Message);
+            HideModalSnapshot();
+        }
+    }
+
+    private void HideModalSnapshot()
+    {
+        if (_modalSnapshotPanel != null)
+        {
+            _modalSnapshotPanel.Opacity = 1;
+            _modalSnapshotPanel = null;
+        }
+        if (_modalSnapshot != null)
+        {
+            _modalSnapshot.Visibility = Visibility.Collapsed;
+            _modalSnapshot.Source = null;
+            _modalSnapshot.RenderTransform = Transform.Identity;
+        }
+    }
+
     private static void SetModalScale(ScaleTransform scale, double value)
     {
         scale.BeginAnimation(ScaleTransform.ScaleXProperty, null);
@@ -6553,6 +6646,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         if (generation != _launchTargetOverlayGeneration || !ModalOpen)
             return;
+        HideModalSnapshot();
         if (_modalPanel != null)
             _modalPanel.CacheMode = null;
         if (_launchTargetOverlayOpen)
@@ -6563,6 +6657,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         if (generation != _launchTargetOverlayGeneration || ModalOpen)
             return;
+        HideModalSnapshot();
         if (_modalPanel != null)
             _modalPanel.CacheMode = null;
         if (ReferenceEquals(_modalPanel, CommandPalettePanel))
