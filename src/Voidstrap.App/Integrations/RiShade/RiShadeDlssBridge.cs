@@ -15,13 +15,14 @@ namespace Voidstrap.Integrations.RiShade
         private static partial bool CloseHandle(IntPtr handle);
 
         private const string LOG_IDENT = "RiShadeDlss";
-        private const int HeaderSize = 24;
+        private const int HeaderSize = 28;
         private const int GenerationOffset = 0;
         private const int WidthOffset = 4;
         private const int HeightOffset = 8;
         private const int LuidLowOffset = 12;
         private const int LuidHighOffset = 16;
         private const int StateOffset = 20;
+        private const int ShowSettingsOffset = 24;
         private const int StateFailed = 2;
         private const uint ResultWaitMs = 12;
         private const Vortice.DXGI.SharedResourceFlags SharedAccess = Vortice.DXGI.SharedResourceFlags.Read | Vortice.DXGI.SharedResourceFlags.Write;
@@ -130,6 +131,12 @@ namespace Voidstrap.Integrations.RiShade
         }
 
         public bool Failed => _failed;
+
+        public void ShowSettings()
+        {
+            if (!_disposed && !_failed)
+                _header.Write(ShowSettingsOffset, 1u);
+        }
 
         public void Apply(ID3D11DeviceContext context, ID3D11Texture2D frame)
         {

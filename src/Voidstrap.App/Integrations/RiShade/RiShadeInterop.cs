@@ -60,6 +60,10 @@ namespace Voidstrap.Integrations.RiShade
         [return: MarshalAs(UnmanagedType.I1)]
         public static partial bool TakeDlssRestart();
 
+        [LibraryImport("rishade_reshade_addon", EntryPoint = "RiShadeAddonTakeDlssSettingsRequest")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public static partial bool TakeDlssSettingsRequest();
+
         [LibraryImport("rishade_reshade_addon", EntryPoint = "RiShadeAddonCopyCurrentPresetPath")]
         public static partial nuint CopyCurrentPresetPath(IntPtr buffer, nuint capacity);
 

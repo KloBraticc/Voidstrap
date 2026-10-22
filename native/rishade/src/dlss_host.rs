@@ -45,14 +45,20 @@ mod host {
         OpenProcess, PROCESS_SYNCHRONIZE, WaitForSingleObject,
     };
     use windows::Win32::UI::WindowsAndMessaging::{
-        CreateWindowExW, DestroyWindow, DispatchMessageW, MSG, PM_REMOVE, PeekMessageW,
-        TranslateMessage, WINDOW_EX_STYLE, WS_POPUP,
+        AdjustWindowRectEx, CreateWindowExW, DefWindowProcW, DestroyWindow, DispatchMessageW,
+        HWND_TOPMOST, MSG, PM_REMOVE, PeekMessageW, RegisterClassW, SW_HIDE, SW_SHOW,
+        SWP_NOMOVE, SWP_SHOWWINDOW, SetForegroundWindow, SetWindowPos, ShowWindow,
+        TranslateMessage, WM_CLOSE, WNDCLASSW, WS_EX_TOPMOST, WS_OVERLAPPEDWINDOW,
     };
-    use windows::Win32::Foundation::{BOOL, HINSTANCE};
+    use windows::Win32::Foundation::{BOOL, HINSTANCE, LPARAM, LRESULT, RECT, WPARAM};
     use windows::core::{HSTRING, Interface, PCWSTR, s, w};
 
     const RESHADE_API_VERSION: u32 = 20;
     const PRESENT_EVENT: u32 = 74;
+    const INIT_EFFECT_RUNTIME_EVENT: u32 = 9;
+    const DESTROY_EFFECT_RUNTIME_EVENT: u32 = 10;
+    const OPEN_OVERLAY_VTABLE_INDEX: usize = 74;
+    const INPUT_SOURCE_KEYBOARD: u32 = 2;
     const LOCK_TIMEOUT_MS: u32 = 250;
     const STATE_RUNNING: u32 = 1;
     const STATE_FAILED: u32 = 2;
@@ -65,6 +71,7 @@ mod host {
         luid_low: u32,
         luid_high: i32,
         state: u32,
+        show_settings: u32,
     }
 
     type CreateFactory = unsafe extern "system" fn(*const windows::core::GUID, *mut *mut c_void) -> windows::core::HRESULT;
@@ -90,6 +97,69 @@ mod host {
     static COPY_SOURCE: AtomicUsize = AtomicUsize::new(0);
     static COPY_TARGET: AtomicUsize = AtomicUsize::new(0);
     static COPIED: AtomicBool = AtomicBool::new(false);
+    static RUNTIME: AtomicUsize = AtomicUsize::new(0);
+    static SETTINGS_CLOSED: AtomicBool = AtomicBool::new(false);
+
+    unsafe extern "C" fn on_runtime_created(runtime: *mut c_void) {
+        RUNTIME.store(runtime as usize, Ordering::Release);
+    }
+
+    unsafe extern "C" fn on_runtime_destroyed(runtime: *mut c_void) {
+        let _ = RUNTIME.compare_exchange(runtime as usize, 0, Ordering::AcqRel, Ordering::Acquire);
+    }
+
+    fn open_overlay(open: bool) {
+        let runtime = RUNTIME.load(Ordering::Acquire) as *mut c_void;
+        if runtime.is_null() {
+            return;
+        }
+        let vtable = unsafe { *(runtime.cast::<*const *const c_void>()) };
+        if vtable.is_null() {
+            return;
+        }
+        let function = unsafe { *vtable.add(OPEN_OVERLAY_VTABLE_INDEX) };
+        if function.is_null() {
+            return;
+        }
+        let function: unsafe extern "system" fn(*mut c_void, bool, u32) -> bool =
+            unsafe { std::mem::transmute(function) };
+        unsafe { function(runtime, open, INPUT_SOURCE_KEYBOARD) };
+    }
+
+    unsafe extern "system" fn window_proc(window: HWND, message: u32, wparam: WPARAM, lparam: LPARAM) -> LRESULT {
+        if message == WM_CLOSE {
+            unsafe {
+                let _ = ShowWindow(window, SW_HIDE);
+            }
+            SETTINGS_CLOSED.store(true, Ordering::Release);
+            return LRESULT(0);
+        }
+        unsafe { DefWindowProcW(window, message, wparam, lparam) }
+    }
+
+    fn show_settings_window(window: HWND, width: u32, height: u32) {
+        let mut rect = RECT {
+            left: 0,
+            top: 0,
+            right: width as i32,
+            bottom: height as i32,
+        };
+        unsafe {
+            let _ = AdjustWindowRectEx(&mut rect, WS_OVERLAPPEDWINDOW, false, WS_EX_TOPMOST);
+            let _ = SetWindowPos(
+                window,
+                HWND_TOPMOST,
+                0,
+                0,
+                rect.right - rect.left,
+                rect.bottom - rect.top,
+                SWP_NOMOVE | SWP_SHOWWINDOW,
+            );
+            let _ = ShowWindow(window, SW_SHOW);
+            let _ = SetForegroundWindow(window);
+        }
+        open_overlay(true);
+    }
 
     unsafe extern "C" fn on_present(
         _queue: *mut c_void,
@@ -206,7 +276,7 @@ mod host {
         let base = rishade_core::reshade_config::prepare_dlss_config(&options.root).map_err(|_| ())?;
         unsafe {
             std::env::set_var("RESHADE_BASE_PATH_OVERRIDE", &base);
-            std::env::set_var("RESHADE_DISABLE_INPUT_HOOK", "1");
+            std::env::remove_var("RESHADE_DISABLE_INPUT_HOOK");
             std::env::remove_var("RESHADE_DISABLE_GRAPHICS_HOOK");
             std::env::remove_var("RESHADE_DISABLE_LOGGING");
         }
@@ -255,19 +325,29 @@ mod host {
         }
         let adapter = adapter.ok_or(())?;
 
+        let instance = unsafe { GetModuleHandleW(PCWSTR::null()) }
+            .map(|module| HINSTANCE(module.0))
+            .unwrap_or_default();
+        let class = WNDCLASSW {
+            lpfnWndProc: Some(window_proc),
+            hInstance: instance,
+            lpszClassName: w!("RiShadeDlssSettings"),
+            ..Default::default()
+        };
+        unsafe { RegisterClassW(&class) };
         let window = unsafe {
             CreateWindowExW(
-                WINDOW_EX_STYLE::default(),
-                w!("STATIC"),
-                w!("RiShade DLSS"),
-                WS_POPUP,
-                0,
-                0,
-                1,
-                1,
+                WS_EX_TOPMOST,
+                w!("RiShadeDlssSettings"),
+                w!("RiShade DLSS settings"),
+                WS_OVERLAPPEDWINDOW,
+                40,
+                40,
+                640,
+                360,
                 None,
                 None,
-                GetModuleHandleW(PCWSTR::null()).map(|module| HINSTANCE(module.0)).unwrap_or_default(),
+                instance,
                 None,
             )
         }
@@ -325,17 +405,38 @@ mod host {
         let module = unsafe { GetModuleHandleW(PCWSTR::null()) }.map_err(|_| ())?;
         let registered = unsafe { register_addon(module, RESHADE_API_VERSION) };
         if registered {
-            unsafe { register_event(module, PRESENT_EVENT, on_present as *mut c_void) };
+            unsafe {
+                register_event(module, PRESENT_EVENT, on_present as *mut c_void);
+                register_event(module, INIT_EFFECT_RUNTIME_EVENT, on_runtime_created as *mut c_void);
+                register_event(module, DESTROY_EFFECT_RUNTIME_EVENT, on_runtime_destroyed as *mut c_void);
+            }
         }
         COPY_CONTEXT.store(context.as_raw() as usize, Ordering::Release);
         unsafe { std::ptr::write_volatile(&raw mut (*header).state, STATE_RUNNING) };
 
         let mut backbuffer: Option<ID3D11Texture2D> = unsafe { swapchain.GetBuffer(0) }.ok();
         let mut shared = open_shared(&device1, &options.map, generation).ok();
+        let mut settings_visible = false;
         let outcome = loop {
             pump_messages();
             if unsafe { WaitForSingleObject(parent, 0) } == WAIT_OBJECT_0 {
                 break Ok(());
+            }
+            if SETTINGS_CLOSED.swap(false, Ordering::AcqRel) {
+                settings_visible = false;
+                open_overlay(false);
+                unsafe { std::ptr::write_volatile(&raw mut (*header).show_settings, 0) };
+            }
+            let wants_settings = unsafe { std::ptr::read_volatile(&raw const (*header).show_settings) } != 0;
+            if wants_settings && !settings_visible {
+                settings_visible = true;
+                show_settings_window(window, width, height);
+            } else if !wants_settings && settings_visible {
+                settings_visible = false;
+                open_overlay(false);
+                unsafe {
+                    let _ = ShowWindow(window, SW_HIDE);
+                }
             }
             let current = read(|h| unsafe { &raw mut (*h).generation });
             if current != generation || shared.is_none() {

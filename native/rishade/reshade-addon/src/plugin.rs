@@ -772,6 +772,11 @@ pub extern "system" fn RiShadeAddonTakeDlssRestart() -> bool {
 }
 
 #[unsafe(no_mangle)]
+pub extern "system" fn RiShadeAddonTakeDlssSettingsRequest() -> bool {
+    crate::dlss_tab::take_settings_request()
+}
+
+#[unsafe(no_mangle)]
 pub extern "system" fn RiShadeAddonIsInitialized() -> bool {
     API.lock().is_ok_and(|api| api.is_some())
 }

@@ -9,7 +9,7 @@ mod plugin;
 pub use plugin::{
     RiShadeAddonCopyCurrentPresetPath, RiShadeAddonIsCompilingEffects, RiShadeAddonIsInitialized,
     RiShadeAddonIsLoadingEffects, RiShadeAddonIsOverlayOpen, RiShadeAddonRuntimeIsActive,
-    RiShadeAddonSetDlssState, RiShadeAddonTakeDlssRestart,
+    RiShadeAddonSetDlssState, RiShadeAddonTakeDlssRestart, RiShadeAddonTakeDlssSettingsRequest,
     RiShadeRenderEffects, RiShadeRuntimeBindDepthTexture, RiShadeRuntimeCreate,
     RiShadeRuntimeDestroy, RiShadeRuntimeLoad, RiShadeRuntimeOpenOverlay, RiShadeRuntimePresent,
     RiShadeRuntimeSelectPreset,

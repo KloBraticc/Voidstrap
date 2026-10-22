@@ -887,6 +887,11 @@ namespace Voidstrap.Integrations.Overlays
                 _riDlss?.Dispose();
                 _riDlss = RiShadeDlssBridge.TryStart(_device!);
             }
+            if (RiShadeInterop.TakeDlssSettingsRequest())
+            {
+                App.Logger.WriteLine(LOG_IDENT, "Opening the DLSS settings window from the RiShade overlay");
+                _riDlss?.ShowSettings();
+            }
             RiShadeInterop.SetDlssState(_riDlss == null ? 0u : _riDlss.Failed ? 2u : 1u);
         }
 

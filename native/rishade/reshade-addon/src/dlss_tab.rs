@@ -8,16 +8,13 @@ const IMGUI_VERSION: u32 = 19250;
 const IMGUI_TEXT_UNFORMATTED: usize = 103;
 const IMGUI_SEPARATOR_TEXT: usize = 110;
 const IMGUI_BUTTON: usize = 111;
+const IMGUI_SAME_LINE: usize = 81;
 const IMGUI_SPACING: usize = 83;
 const IMGUI_PUSH_TEXT_WRAP_POS: usize = 63;
 const IMGUI_POP_TEXT_WRAP_POS: usize = 64;
-const IMGUI_SLIDER_FLOAT: usize = 144;
 const IMGUI_BEGIN_DISABLED: usize = 279;
 const IMGUI_END_DISABLED: usize = 280;
-const IMGUI_IS_ITEM_DEACTIVATED_AFTER_EDIT: usize = 295;
 
-const SECTION: &str = "RENODX-DLSS";
-const INTENSITY_KEY: &str = "DirectNeuralRenderingIntensity";
 const ADDON_FILE: &str = "renodx-dlss.addon64";
 const STATUS_REFRESH_MS: u64 = 1_000;
 
@@ -39,13 +36,12 @@ static TABLE: AtomicUsize = AtomicUsize::new(0);
 static ROOT: Mutex<Option<PathBuf>> = Mutex::new(None);
 static HOST_STATE: AtomicU32 = AtomicU32::new(STATE_OFF);
 static RESTART_REQUESTED: AtomicBool = AtomicBool::new(false);
+static SETTINGS_REQUESTED: AtomicBool = AtomicBool::new(false);
 static VIEW: Mutex<View> = Mutex::new(View {
     refreshed_at: 0,
     installed: false,
     presenting: false,
     adapter: String::new(),
-    intensity: 1.0,
-    loaded: false,
 });
 
 struct View {
@@ -53,8 +49,6 @@ struct View {
     installed: bool,
     presenting: bool,
     adapter: String,
-    intensity: f32,
-    loaded: bool,
 }
 
 pub unsafe fn register(module: Module, reshade_module: Module) {
@@ -96,6 +90,10 @@ pub fn set_host_state(state: u32) {
 
 pub fn take_restart_request() -> bool {
     RESTART_REQUESTED.swap(false, Ordering::AcqRel)
+}
+
+pub fn take_settings_request() -> bool {
+    SETTINGS_REQUESTED.swap(false, Ordering::AcqRel)
 }
 
 unsafe fn function<T: Copy>(index: usize) -> Option<T> {
@@ -148,15 +146,10 @@ fn button(label: &std::ffi::CStr) -> bool {
         .is_some_and(|call| unsafe { call(label.as_ptr(), &size) })
 }
 
-fn slider(label: &std::ffi::CStr, value: &mut f32) -> bool {
-    let Some(call) = (unsafe {
-        function::<unsafe extern "C" fn(*const c_char, *mut f32, f32, f32, *const c_char, i32) -> bool>(IMGUI_SLIDER_FLOAT)
-    }) else {
-        return false;
-    };
-    unsafe { call(label.as_ptr(), value, 0.0, 1.0, c"%.2f".as_ptr(), 0) };
-    unsafe { function::<unsafe extern "C" fn() -> bool>(IMGUI_IS_ITEM_DEACTIVATED_AFTER_EDIT) }
-        .is_some_and(|edited| unsafe { edited() })
+fn same_line() {
+    if let Some(call) = unsafe { function::<unsafe extern "C" fn(f32, f32)>(IMGUI_SAME_LINE) } {
+        unsafe { call(0.0, -1.0) };
+    }
 }
 
 fn set_disabled(disabled: bool) {
@@ -177,7 +170,7 @@ fn root() -> Option<PathBuf> {
 
 fn refresh(view: &mut View, root: &Path) {
     let now = unsafe { GetTickCount64() };
-    if view.loaded && now.saturating_sub(view.refreshed_at) < STATUS_REFRESH_MS {
+    if view.refreshed_at != 0 && now.saturating_sub(view.refreshed_at) < STATUS_REFRESH_MS {
         return;
     }
     view.refreshed_at = now;
@@ -188,13 +181,6 @@ fn refresh(view: &mut View, root: &Path) {
         .lines()
         .find_map(|line| line.split_once("| Running on ").map(|(_, rest)| rest.trim().trim_end_matches('.').to_owned()))
         .unwrap_or_default();
-    if !view.loaded {
-        let ini = std::fs::read_to_string(root.join("dlss").join("ReShade.ini")).unwrap_or_default();
-        if let Some(value) = ini_value(&ini, SECTION, INTENSITY_KEY).and_then(|value| value.parse::<f32>().ok()) {
-            view.intensity = value.clamp(0.0, 1.0);
-        }
-        view.loaded = true;
-    }
 }
 
 unsafe extern "C" fn draw(_runtime: *mut c_void) {
@@ -224,98 +210,19 @@ unsafe extern "C" fn draw(_runtime: *mut c_void) {
     text("Status:");
     wrapped(&status);
     spacing();
-    wrapped("DLSS runs in its own helper with RenoDX, so it does not appear in the Add-ons list.");
+    wrapped("DLSS runs in its own helper with RenoDX. Open DLSS settings shows the helper window with the full RenoDX settings in its ReShade menu, changes there apply right away.");
     spacing();
-
-    set_disabled(!view.installed);
-    let mut intensity = view.intensity;
-    if slider(c"Intensity", &mut intensity) {
-        view.intensity = intensity;
-        if write_ini_value(&root.join("dlss").join("ReShade.ini"), SECTION, INTENSITY_KEY, &format!("{intensity:.2}")).is_ok() {
-            RESTART_REQUESTED.store(true, Ordering::Release);
-        }
-    } else {
-        view.intensity = intensity;
+    set_disabled(!view.installed || state != STATE_ALIVE);
+    if button(c"Open DLSS settings") {
+        SETTINGS_REQUESTED.store(true, Ordering::Release);
     }
+    end_disabled();
+    same_line();
+    set_disabled(!view.installed);
     if button(c"Restart DLSS") {
         RESTART_REQUESTED.store(true, Ordering::Release);
     }
     end_disabled();
-    spacing();
-    wrapped("Changing a setting restarts the DLSS helper, the picture may pause for a moment.");
-}
-
-fn ini_value<'a>(text: &'a str, section: &str, key: &str) -> Option<&'a str> {
-    let mut in_section = false;
-    for line in text.lines() {
-        let line = line.trim();
-        if let Some(name) = line.strip_prefix('[').and_then(|rest| rest.strip_suffix(']')) {
-            in_section = name.eq_ignore_ascii_case(section);
-        } else if in_section
-            && let Some((name, value)) = line.split_once('=')
-            && name.trim().eq_ignore_ascii_case(key)
-        {
-            return Some(value.trim());
-        }
-    }
-    None
-}
-
-fn set_ini_value(text: &str, section: &str, key: &str, value: &str) -> String {
-    let newline = if text.contains("\r\n") { "\r\n" } else { "\n" };
-    let mut lines: Vec<String> = text.lines().map(str::to_owned).collect();
-    let mut section_start = None;
-    let mut section_end = lines.len();
-    for (index, line) in lines.iter().enumerate() {
-        let trimmed = line.trim();
-        if let Some(name) = trimmed.strip_prefix('[').and_then(|rest| rest.strip_suffix(']')) {
-            if section_start.is_some() {
-                section_end = index;
-                break;
-            }
-            if name.eq_ignore_ascii_case(section) {
-                section_start = Some(index);
-            }
-        }
-    }
-    let entry = format!("{key}={value}");
-    match section_start {
-        Some(start) => {
-            let existing = (start + 1..section_end).find(|&index| {
-                lines[index]
-                    .split_once('=')
-                    .is_some_and(|(name, _)| name.trim().eq_ignore_ascii_case(key))
-            });
-            match existing {
-                Some(index) => lines[index] = entry,
-                None => {
-                    let mut insert_at = section_end;
-                    while insert_at > start + 1 && lines[insert_at - 1].trim().is_empty() {
-                        insert_at -= 1;
-                    }
-                    lines.insert(insert_at, entry);
-                }
-            }
-        }
-        None => {
-            if lines.last().is_some_and(|line| !line.trim().is_empty()) {
-                lines.push(String::new());
-            }
-            lines.push(format!("[{section}]"));
-            lines.push(entry);
-        }
-    }
-    let mut output = lines.join(newline);
-    output.push_str(newline);
-    output
-}
-
-fn write_ini_value(path: &Path, section: &str, key: &str, value: &str) -> std::io::Result<()> {
-    let text = std::fs::read_to_string(path).unwrap_or_default();
-    let updated = set_ini_value(&text, section, key, value);
-    let staged = path.with_extension("ini.tmp");
-    std::fs::write(&staged, updated)?;
-    std::fs::rename(&staged, path)
 }
 
 #[cfg(test)]
@@ -323,27 +230,10 @@ mod tests {
     use super::*;
 
     #[test]
-    fn sets_a_key_inside_an_existing_section() {
-        let text = "[GENERAL]\r\nA=1\r\n\r\n[RENODX-DLSS]\r\nDLSSQualityMode=0\r\n\r\n[OVERLAY]\r\nB=2\r\n";
-        let updated = set_ini_value(text, SECTION, INTENSITY_KEY, "0.50");
-        assert_eq!(ini_value(&updated, SECTION, INTENSITY_KEY), Some("0.50"));
-        assert_eq!(ini_value(&updated, "OVERLAY", "B"), Some("2"));
-        assert!(updated.contains("DLSSQualityMode=0\r\nDirectNeuralRenderingIntensity=0.50\r\n\r\n[OVERLAY]"));
-    }
-
-    #[test]
-    fn replaces_an_existing_key_and_adds_a_missing_section() {
-        let replaced = set_ini_value("[RENODX-DLSS]\nDirectNeuralRenderingIntensity=1\n", SECTION, INTENSITY_KEY, "0.25");
-        assert_eq!(replaced, "[RENODX-DLSS]\nDirectNeuralRenderingIntensity=0.25\n");
-        let added = set_ini_value("[GENERAL]\nA=1\n", SECTION, INTENSITY_KEY, "0.75");
-        assert_eq!(ini_value(&added, SECTION, INTENSITY_KEY), Some("0.75"));
-    }
-
-    #[test]
     fn imgui_indices_match_reshade_6_8() {
         assert_eq!(IMGUI_VERSION, 19250);
         assert_eq!(IMGUI_TEXT_UNFORMATTED, 103);
-        assert_eq!(IMGUI_SLIDER_FLOAT, 144);
-        assert_eq!(IMGUI_IS_ITEM_DEACTIVATED_AFTER_EDIT, 295);
+        assert_eq!(IMGUI_BUTTON, 111);
+        assert_eq!(IMGUI_SAME_LINE, 81);
     }
 }
