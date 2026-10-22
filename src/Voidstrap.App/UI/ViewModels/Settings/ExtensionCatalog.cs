@@ -4,8 +4,6 @@ namespace Voidstrap.UI.Elements.Settings.Pages;
 
 public static class ExtensionCatalog
 {
-	public const string FleasionIcon = "https://avatars.githubusercontent.com/u/186699266";
-
 	public const string ReShadeIcon = "pack://application:,,,/Resources/ReShadeIcon.png";
 
 	public const string RiShadeIcon = "https://raw.githubusercontent.com/KloBraticc/RiShade/main/Images/RiShde.png";
@@ -18,7 +16,7 @@ public static class ExtensionCatalog
 
 	public static readonly string[] Categories = { ExtensionViewModel.TypeExtensions, ExtensionViewModel.TypeStudio, ExtensionViewModel.TypeClassic };
 
-	private static readonly string[] DisplayOrder = { "rishade", "swifttunnel", "fleasion", "studioreshade", "rojo", "studioplugin", "apidump", "community" };
+	private static readonly string[] DisplayOrder = { "rishade", "swifttunnel", "studioreshade", "rojo", "studioplugin", "apidump", "community" };
 
 	public static readonly string[] Targets = { "Roblox Player", "Roblox Studio", "Classic clients" };
 
@@ -26,25 +24,6 @@ public static class ExtensionCatalog
 	{
 		var entries = new List<ExtensionEntry>
 		{
-			new ExtensionEntry("fleasion", () => vm.fleasionenabler, value => vm.fleasionenabler = value)
-			{
-				Name = "Fleasion",
-				Author = "Fleasion",
-				AuthorIcon = FleasionIcon,
-				Type = ExtensionViewModel.TypeExtensions,
-				WorksWith = ["Roblox Player"],
-				Tags = ["Textures", "Audio", "Meshes", "Asset dumping"],
-				Summary = "Swap game textures, sounds, meshes and more in real time. Can also dump game assets.",
-				Description = [
-					"Fleasion hooks into the assets Roblox loads and lets you replace them while a game is running. Point it at a texture, a sound or a mesh and the game picks up your version without a restart.",
-					"It can also save the assets a game uses to disk so you can look at them, edit them and load them back in.",
-					"Turn it on here and Voidstrap downloads the latest release for you. Use Open to launch it whenever Roblox is running."
-				],
-				Icon = FleasionIcon,
-				Source = "https://github.com/fleasion/Fleasion",
-				CanOpen = true,
-				SearchText = "Fleasion replace Roblox game assets textures audio meshes animations dump"
-			},
 			new ExtensionEntry("rishade", () => vm.rishadeenabler, value => vm.rishadeenabler = value)
 			{
 				Name = "RiShade",

@@ -99,7 +99,7 @@ public partial class ExtensionPage : UiPage
 			ApplyAssetFilter();
 			return;
 		}
-		if (e.PropertyName is "fleasionenabler" or "rishadeenabler" or "apidumpenabler" or "communitycontentenabler" or "rojoenabler" or "studiopluginenabler" or nameof(ExtensionViewModel.SwiftTunnelInstalled) or nameof(ExtensionViewModel.SwiftTunnelBusy))
+		if (e.PropertyName is "rishadeenabler" or "apidumpenabler" or "communitycontentenabler" or "rojoenabler" or "studiopluginenabler" or nameof(ExtensionViewModel.SwiftTunnelInstalled) or nameof(ExtensionViewModel.SwiftTunnelBusy))
 		{
 			foreach (ExtensionEntry asset in _assets)
 				asset.RefreshEnabled();
@@ -347,9 +347,6 @@ public partial class ExtensionPage : UiPage
 			case "swifttunnel":
 				SwiftTunnel.Open();
 				break;
-			case "fleasion":
-				OpenFleasion();
-				break;
 			case "rishade":
 				OpenRiShade();
 				break;
@@ -447,27 +444,6 @@ public partial class ExtensionPage : UiPage
 		ExtensionEntry? asset = _assets.Find(entry => entry.Id == id);
 		if (asset != null)
 			ShowAssetDetail(asset);
-	}
-
-	private static void OpenFleasion()
-	{
-		string directory = Paths.Fleasion;
-		string exe = Path.Combine(directory, "Fleasion.exe");
-		if (Directory.Exists(directory) && File.Exists(exe))
-		{
-			try
-			{
-				if (Process.GetProcessesByName("Fleasion").Length == 0)
-					Process.Start(exe);
-				return;
-			}
-			catch (Exception ex)
-			{
-				Frontend.ShowMessageBox("Failed to open Fleasion: " + ex.Message);
-				return;
-			}
-		}
-		Frontend.ShowMessageBox("Fleasion is not enabled or installed yet, turn its toggle on first.");
 	}
 
 	private static void OpenApiDumpTool()
