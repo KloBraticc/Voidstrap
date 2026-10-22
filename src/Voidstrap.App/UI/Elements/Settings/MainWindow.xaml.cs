@@ -6370,6 +6370,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private const int LaunchTargetFrameRate = 240;
 
+    private const int LaunchTargetSoftwareFrameRate = 60;
+
+    private static readonly TimeSpan ModalSoftwareFadeDuration = TimeSpan.FromMilliseconds(140);
+
     private void OpenLaunchTargetOverlay()
     {
         CloseTopBarMenus();
@@ -6388,15 +6392,18 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         bool fresh = LaunchTargetOverlay.Visibility != Visibility.Visible || !LaunchTargetOverlay.IsHitTestVisible || !ReferenceEquals(_modalPanel, panel);
         _modalPanel = panel;
         _modalScale = scale;
+        bool software = Voidstrap.Utility.RenderAcceleration.RendersInSoftware;
         foreach (Border candidate in ModalPanels)
             candidate.Visibility = ReferenceEquals(panel, candidate) ? Visibility.Visible : Visibility.Collapsed;
-        if (Voidstrap.Utility.Platform.IsWindows && panel.Effect == null)
+        if (software)
+            panel.Effect = null;
+        else if (Voidstrap.Utility.Platform.IsWindows && panel.Effect == null)
             panel.Effect = new System.Windows.Media.Effects.DropShadowEffect { BlurRadius = 32, ShadowDepth = 8, Direction = 270, Opacity = 0.37, Color = Colors.Black };
         if (fresh)
         {
             LaunchTargetOverlay.BeginAnimation(OpacityProperty, null);
             LaunchTargetOverlay.Opacity = 0;
-            SetModalScale(scale, ModalScaleOffset);
+            SetModalScale(scale, software ? 1.0 : ModalScaleOffset);
         }
         if (!Voidstrap.Utility.Platform.UsesPortableUi)
             panel.CacheMode = new BitmapCache { SnapsToDevicePixels = true };
@@ -6516,9 +6523,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void AnimateLaunchTargetOverlay(double opacity, double scaleTo, TimeSpan fadeDuration, int generation, bool finishClose)
     {
-        DoubleAnimation fade = CreateLaunchTargetAnimation(opacity, fadeDuration, ModalFadeEase);
+        bool software = Voidstrap.Utility.RenderAcceleration.RendersInSoftware;
+        DoubleAnimation fade = CreateLaunchTargetAnimation(opacity, software ? ModalSoftwareFadeDuration : fadeDuration, ModalFadeEase);
         DoubleAnimation scale = CreateLaunchTargetAnimation(scaleTo, ModalScaleDuration, ModalScaleEase);
-        DoubleAnimation done = finishClose ? fade : scale;
+        DoubleAnimation done = finishClose || software ? fade : scale;
         void Completed(object? sender, EventArgs e)
         {
             done.Completed -= Completed;
@@ -6530,6 +6538,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         done.Completed += Completed;
         LaunchTargetOverlay.BeginAnimation(OpacityProperty, fade, HandoffBehavior.SnapshotAndReplace);
         ScaleTransform target = _modalScale ?? LaunchTargetPanelScale;
+        if (software)
+        {
+            SetModalScale(target, 1.0);
+            return;
+        }
         target.BeginAnimation(ScaleTransform.ScaleXProperty, scale, HandoffBehavior.SnapshotAndReplace);
         target.BeginAnimation(ScaleTransform.ScaleYProperty, scale, HandoffBehavior.SnapshotAndReplace);
     }
@@ -6545,7 +6558,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private static DoubleAnimation CreateLaunchTargetAnimation(double to, TimeSpan duration, IEasingFunction ease)
     {
         DoubleAnimation animation = new DoubleAnimation(to, duration) { EasingFunction = ease };
-        Timeline.SetDesiredFrameRate(animation, LaunchTargetFrameRate);
+        Timeline.SetDesiredFrameRate(animation, Voidstrap.Utility.RenderAcceleration.RendersInSoftware ? LaunchTargetSoftwareFrameRate : LaunchTargetFrameRate);
         return animation;
     }
 
