@@ -18,3 +18,5 @@ cargo build --release --manifest-path native/rishade/Cargo.toml
 
 - [Unishade](https://github.com/OMouta/Unishade) by OMouta
 - [ReShade](https://reshade.me) by crosire
+- [RenoDX](https://github.com/clshortfuse/renodx) by clshortfuse, for the optional DLSS add-on
+- NVIDIA DLSS, downloaded only when DLSS is turned on and not covered by this project's license

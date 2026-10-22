@@ -7884,4 +7884,25 @@ Voidstrap نتوانست در پوشهٔ دسکتاپ بنویسد.</value>
   <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
     <value>باز کردن در افزونه‌ها</value>
   </data>
+  <data name="Ui.RiShade.Dlss.Title" xml:space="preserve">
+    <value>NVIDIA DLSS</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Description" xml:space="preserve">
+    <value>NVIDIA DLSS را از طریق افزونهٔ RenoDX روی کارت‌های گرافیک RTX اجرا می‌کند. اولین دانلود حدود ۱۷۰ مگابایت است.</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Downloading" xml:space="preserve">
+    <value>در حال دانلود فایل‌های DLSS، ممکن است یک دقیقه طول بکشد...</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Ready" xml:space="preserve">
+    <value>DLSS نصب شد. دفعهٔ بعد که RiShade شروع شود بارگذاری می‌شود.</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Removed" xml:space="preserve">
+    <value>DLSS حذف شد.</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Failed" xml:space="preserve">
+    <value>DLSS قابل تغییر نبود: {0}</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.NeedsRtx" xml:space="preserve">
+    <value>DLSS به کارت گرافیک NVIDIA RTX نیاز دارد.</value>
+  </data>
 </root>

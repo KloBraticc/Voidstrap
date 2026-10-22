@@ -7885,4 +7885,25 @@ Lỗi: {0}</value>
   <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
     <value>Mở trong Tiện ích mở rộng</value>
   </data>
+  <data name="Ui.RiShade.Dlss.Title" xml:space="preserve">
+    <value>NVIDIA DLSS</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Description" xml:space="preserve">
+    <value>Chạy NVIDIA DLSS thông qua tiện ích bổ sung của RenoDX trên card đồ họa RTX. Lần tải đầu tiên khoảng 170 MB.</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Downloading" xml:space="preserve">
+    <value>Đang tải các tệp DLSS, việc này có thể mất một phút...</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Ready" xml:space="preserve">
+    <value>Đã cài đặt DLSS. DLSS sẽ được tải vào lần tới RiShade khởi động.</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Removed" xml:space="preserve">
+    <value>Đã gỡ DLSS.</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Failed" xml:space="preserve">
+    <value>Không thể thay đổi DLSS: {0}</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.NeedsRtx" xml:space="preserve">
+    <value>DLSS cần card đồ họa NVIDIA RTX.</value>
+  </data>
 </root>

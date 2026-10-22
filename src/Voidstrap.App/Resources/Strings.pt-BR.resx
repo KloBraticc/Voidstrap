@@ -7883,4 +7883,25 @@ Erro: {0}</value>
   <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
     <value>Abrir em Extensões</value>
   </data>
+  <data name="Ui.RiShade.Dlss.Title" xml:space="preserve">
+    <value>NVIDIA DLSS</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Description" xml:space="preserve">
+    <value>Executa o NVIDIA DLSS pelo complemento do RenoDX em placas de vídeo RTX. O primeiro download tem cerca de 170 MB.</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Downloading" xml:space="preserve">
+    <value>Baixando os arquivos do DLSS, isso pode levar um minuto...</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Ready" xml:space="preserve">
+    <value>O DLSS foi instalado. Ele será carregado na próxima vez que o RiShade iniciar.</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Removed" xml:space="preserve">
+    <value>O DLSS foi removido.</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Failed" xml:space="preserve">
+    <value>Não foi possível alterar o DLSS: {0}</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.NeedsRtx" xml:space="preserve">
+    <value>O DLSS precisa de uma placa de vídeo NVIDIA RTX.</value>
+  </data>
 </root>

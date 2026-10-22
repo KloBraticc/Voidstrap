@@ -7883,4 +7883,25 @@ Eroare: {0}</value>
   <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
     <value>Deschide în Extensii</value>
   </data>
+  <data name="Ui.RiShade.Dlss.Title" xml:space="preserve">
+    <value>NVIDIA DLSS</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Description" xml:space="preserve">
+    <value>Rulează NVIDIA DLSS prin suplimentul RenoDX pe plăcile video RTX. Prima descărcare are aproximativ 170 MB.</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Downloading" xml:space="preserve">
+    <value>Se descarcă fișierele DLSS, poate dura un minut...</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Ready" xml:space="preserve">
+    <value>DLSS este instalat. Se va încărca la următoarea pornire a RiShade.</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Removed" xml:space="preserve">
+    <value>DLSS a fost eliminat.</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Failed" xml:space="preserve">
+    <value>DLSS nu a putut fi modificat: {0}</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.NeedsRtx" xml:space="preserve">
+    <value>DLSS necesită o placă video NVIDIA RTX.</value>
+  </data>
 </root>

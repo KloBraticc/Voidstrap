@@ -388,6 +388,39 @@ namespace Voidstrap.Integrations.RiShade
             }
         }
 
+        public static bool DlssInstalled => Voidstrap.Utility.Platform.IsWindows && RiShadeInterop.DlssInstalled(RiShadeDir);
+
+        public static bool HasRtxGpu => Voidstrap.Utility.Platform.IsWindows && RiShadeInterop.HasRtxGpu();
+
+        public static async Task<(bool Success, string Message)> SetDlssAsync(bool enabled)
+        {
+            if (!Voidstrap.Utility.Platform.IsWindows)
+                return (false, "DLSS is only available on Windows");
+
+            await SetupGate.WaitAsync();
+            try
+            {
+                Directory.CreateDirectory(RiShadeDir);
+                return await Task.Run(() =>
+                {
+                    string status = CallWithStatus(enabled ? RiShadeInterop.InstallDlss : RiShadeInterop.RemoveDlss, "RiShade did not return a DLSS status", out bool success);
+                    App.Logger.WriteLine(LogIdent, status);
+                    if (success)
+                        RiShadeInterop.PrepareConfig(RiShadeDir);
+                    return (success, status);
+                });
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteException("RiShadeManager::SetDlssAsync", ex);
+                return (false, ex.Message);
+            }
+            finally
+            {
+                SetupGate.Release();
+            }
+        }
+
         private static string CallWithStatus(Func<string, IntPtr, nuint, bool> call, string fallback, out bool success)
         {
             IntPtr statusBuffer = Marshal.AllocHGlobal(2048);

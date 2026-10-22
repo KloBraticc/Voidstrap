@@ -7880,4 +7880,25 @@ Voidstrap이 바탕 화면 폴더에 쓸 수 없습니다.</value>
   <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
     <value>확장 기능에서 열기</value>
   </data>
+  <data name="Ui.RiShade.Dlss.Title" xml:space="preserve">
+    <value>NVIDIA DLSS</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Description" xml:space="preserve">
+    <value>RTX 그래픽 카드에서 RenoDX 애드온을 통해 NVIDIA DLSS를 실행합니다. 첫 다운로드는 약 170MB입니다.</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Downloading" xml:space="preserve">
+    <value>DLSS 파일을 다운로드하는 중입니다. 1분 정도 걸릴 수 있습니다...</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Ready" xml:space="preserve">
+    <value>DLSS가 설치되었습니다. 다음에 RiShade를 시작할 때 로드됩니다.</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Removed" xml:space="preserve">
+    <value>DLSS가 제거되었습니다.</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Failed" xml:space="preserve">
+    <value>DLSS를 변경할 수 없습니다: {0}</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.NeedsRtx" xml:space="preserve">
+    <value>DLSS에는 NVIDIA RTX 그래픽 카드가 필요합니다.</value>
+  </data>
 </root>

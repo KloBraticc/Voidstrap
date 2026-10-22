@@ -56,6 +56,22 @@ namespace Voidstrap.Integrations.RiShade
         [LibraryImport("rishade_reshade_addon", EntryPoint = "RiShadeAddonCopyCurrentPresetPath")]
         public static partial nuint CopyCurrentPresetPath(IntPtr buffer, nuint capacity);
 
+        [LibraryImport("rishade_core", EntryPoint = "RiShadeInstallDlss", StringMarshalling = StringMarshalling.Utf8)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public static partial bool InstallDlss(string baseDirectory, IntPtr statusBuffer, nuint bufferLength);
+
+        [LibraryImport("rishade_core", EntryPoint = "RiShadeRemoveDlss", StringMarshalling = StringMarshalling.Utf8)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public static partial bool RemoveDlss(string baseDirectory, IntPtr statusBuffer, nuint bufferLength);
+
+        [LibraryImport("rishade_core", EntryPoint = "RiShadeDlssInstalled", StringMarshalling = StringMarshalling.Utf8)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public static partial bool DlssInstalled(string baseDirectory);
+
+        [LibraryImport("rishade_core", EntryPoint = "RiShadeHasRtxGpu")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public static partial bool HasRtxGpu();
+
         [LibraryImport("rishade_core", EntryPoint = "RiShadePrepareConfig", StringMarshalling = StringMarshalling.Utf8)]
         [return: MarshalAs(UnmanagedType.I1)]
         public static partial bool PrepareConfig(string baseDirectory);

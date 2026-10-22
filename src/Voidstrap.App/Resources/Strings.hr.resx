@@ -7881,4 +7881,25 @@ Pogreška: {0}</value>
   <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
     <value>Otvori u Proširenjima</value>
   </data>
+  <data name="Ui.RiShade.Dlss.Title" xml:space="preserve">
+    <value>NVIDIA DLSS</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Description" xml:space="preserve">
+    <value>Pokreće NVIDIA DLSS putem RenoDX dodatka na RTX grafičkim karticama. Prvo preuzimanje ima oko 170 MB.</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Downloading" xml:space="preserve">
+    <value>Preuzimanje DLSS datoteka, to može potrajati minutu...</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Ready" xml:space="preserve">
+    <value>DLSS je instaliran. Učitat će se pri sljedećem pokretanju RiShadea.</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Removed" xml:space="preserve">
+    <value>DLSS je uklonjen.</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Failed" xml:space="preserve">
+    <value>DLSS nije moguće promijeniti: {0}</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.NeedsRtx" xml:space="preserve">
+    <value>DLSS zahtijeva NVIDIA RTX grafičku karticu.</value>
+  </data>
 </root>

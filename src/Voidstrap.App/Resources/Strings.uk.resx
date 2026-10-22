@@ -7880,4 +7880,25 @@ Voidstrap не зміг записати до теки робочого стол
   <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
     <value>Відкрити в Розширеннях</value>
   </data>
+  <data name="Ui.RiShade.Dlss.Title" xml:space="preserve">
+    <value>NVIDIA DLSS</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Description" xml:space="preserve">
+    <value>Запускає NVIDIA DLSS через доповнення RenoDX на відеокартах RTX. Перше завантаження займає близько 170 МБ.</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Downloading" xml:space="preserve">
+    <value>Завантаження файлів DLSS, це може тривати хвилину...</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Ready" xml:space="preserve">
+    <value>DLSS встановлено. Він завантажиться під час наступного запуску RiShade.</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Removed" xml:space="preserve">
+    <value>DLSS видалено.</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Failed" xml:space="preserve">
+    <value>Не вдалося змінити DLSS: {0}</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.NeedsRtx" xml:space="preserve">
+    <value>Для DLSS потрібна відеокарта NVIDIA RTX.</value>
+  </data>
 </root>

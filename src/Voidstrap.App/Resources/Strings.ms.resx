@@ -7873,4 +7873,25 @@ Ralat: {0}</value>
   <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
     <value>Buka dalam Sambungan</value>
   </data>
+  <data name="Ui.RiShade.Dlss.Title" xml:space="preserve">
+    <value>NVIDIA DLSS</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Description" xml:space="preserve">
+    <value>Menjalankan NVIDIA DLSS melalui alat tambah RenoDX pada kad grafik RTX. Muat turun pertama kira-kira 170 MB.</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Downloading" xml:space="preserve">
+    <value>Memuat turun fail DLSS, ini mungkin mengambil masa seminit...</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Ready" xml:space="preserve">
+    <value>DLSS telah dipasang. Ia akan dimuatkan apabila RiShade dimulakan seterusnya.</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Removed" xml:space="preserve">
+    <value>DLSS telah dibuang.</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Failed" xml:space="preserve">
+    <value>DLSS tidak dapat ditukar: {0}</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.NeedsRtx" xml:space="preserve">
+    <value>DLSS memerlukan kad grafik NVIDIA RTX.</value>
+  </data>
 </root>

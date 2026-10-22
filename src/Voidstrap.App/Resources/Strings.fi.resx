@@ -7883,4 +7883,25 @@ Virhe: {0}</value>
   <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
     <value>Avaa Laajennuksissa</value>
   </data>
+  <data name="Ui.RiShade.Dlss.Title" xml:space="preserve">
+    <value>NVIDIA DLSS</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Description" xml:space="preserve">
+    <value>Käyttää NVIDIA DLSS:ää RenoDX:n lisäosan kautta RTX näytönohjaimilla. Ensimmäinen lataus on noin 170 Mt.</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Downloading" xml:space="preserve">
+    <value>Ladataan DLSS tiedostoja, tämä voi kestää minuutin...</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Ready" xml:space="preserve">
+    <value>DLSS on asennettu. Se ladataan, kun RiShade käynnistyy seuraavan kerran.</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Removed" xml:space="preserve">
+    <value>DLSS poistettiin.</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Failed" xml:space="preserve">
+    <value>DLSS:ää ei voitu muuttaa: {0}</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.NeedsRtx" xml:space="preserve">
+    <value>DLSS vaatii NVIDIA RTX näytönohjaimen.</value>
+  </data>
 </root>

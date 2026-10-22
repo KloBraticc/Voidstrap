@@ -160,7 +160,10 @@ public partial class ExtensionPage : UiPage
 		RojoTools.Visibility = asset.HasTools ? Visibility.Visible : Visibility.Collapsed;
 		RiShadeTools.Visibility = asset.Id == "rishade" ? Visibility.Visible : Visibility.Collapsed;
 		if (asset.Id == "rishade")
+		{
 			RefreshRiShadePresets();
+			RefreshRiShadeDlss();
+		}
 		_ = LoadReleasesAsync(asset);
 		DetailVersion.Text = asset.Version;
 		asset.PropertyChanged -= Asset_PropertyChanged;
@@ -388,6 +391,41 @@ public partial class ExtensionPage : UiPage
 	}
 
 	private void RiShadePreset_Refresh_Click(object sender, RoutedEventArgs e) => RefreshRiShadePresets();
+
+	private void RefreshRiShadeDlss()
+	{
+		if (!Voidstrap.Utility.Platform.IsWindows)
+		{
+			RiShadeDlss.Visibility = Visibility.Collapsed;
+			RiShadeDlssStatus.Visibility = Visibility.Collapsed;
+			return;
+		}
+		bool installed = Voidstrap.Integrations.RiShade.RiShadeManager.DlssInstalled;
+		bool rtx = Voidstrap.Integrations.RiShade.RiShadeManager.HasRtxGpu;
+		RiShadeDlss.Visibility = Visibility.Visible;
+		RiShadeDlssToggle.IsChecked = installed;
+		RiShadeDlssToggle.IsEnabled = rtx || installed;
+		ShowRiShadeDlssStatus(rtx ? null : Voidstrap.Resources.Strings.Ui_RiShade_Dlss_NeedsRtx);
+	}
+
+	private void ShowRiShadeDlssStatus(string? text)
+	{
+		RiShadeDlssStatus.Text = text ?? "";
+		RiShadeDlssStatus.Visibility = string.IsNullOrEmpty(text) ? Visibility.Collapsed : Visibility.Visible;
+	}
+
+	private async void RiShadeDlss_Click(object sender, RoutedEventArgs e)
+	{
+		bool enable = RiShadeDlssToggle.IsChecked == true;
+		RiShadeDlssToggle.IsEnabled = false;
+		ShowRiShadeDlssStatus(enable ? Voidstrap.Resources.Strings.Ui_RiShade_Dlss_Downloading : null);
+		(bool success, string message) = await Voidstrap.Integrations.RiShade.RiShadeManager.SetDlssAsync(enable);
+		RefreshRiShadeDlss();
+		if (!success)
+			ShowRiShadeDlssStatus(string.Format(Voidstrap.Resources.Strings.Ui_RiShade_Dlss_Failed, message));
+		else
+			ShowRiShadeDlssStatus(enable ? Voidstrap.Resources.Strings.Ui_RiShade_Dlss_Ready : Voidstrap.Resources.Strings.Ui_RiShade_Dlss_Removed);
+	}
 
 	private void RiShadePreset_SelectionChanged(object sender, SelectionChangedEventArgs e)
 	{

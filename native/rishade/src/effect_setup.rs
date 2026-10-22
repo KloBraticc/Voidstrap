@@ -16,9 +16,7 @@ const ZIP_ENTRY_LIMIT: usize = 20_000;
 const ZIP_ENTRY_SIZE_LIMIT: u64 = 128 << 20;
 const ZIP_TOTAL_SIZE_LIMIT: u64 = 1 << 30;
 const ASSET_MARKER: &str = ".rishade-effect-packages-v1";
-const RETIRED_ASSETS: [&str; 6] = [
-    "renodx-dlss.addon64",
-    "nvngx_dlssnr.dll",
+const RETIRED_ASSETS: [&str; 4] = [
     "depth-anything-v2-small.onnx",
     "onnxruntime.dll",
     "DirectML.dll",
@@ -271,7 +269,7 @@ pub fn remove_retired_assets(root: &Path) {
     }
 }
 
-fn prepare_root(root: &Path) -> io::Result<PathBuf> {
+pub(crate) fn prepare_root(root: &Path) -> io::Result<PathBuf> {
     if !root.is_absolute() {
         return Err(invalid_input(
             "RiShade's extension directory must be absolute",
@@ -759,7 +757,7 @@ fn copy_file_if_missing(source: &Path, target: &Path) -> io::Result<()> {
     Ok(())
 }
 
-fn download<F>(agent: &ureq::Agent, url: &str, limit: usize, allowed_host: F) -> io::Result<Vec<u8>>
+pub(crate) fn download<F>(agent: &ureq::Agent, url: &str, limit: usize, allowed_host: F) -> io::Result<Vec<u8>>
 where
     F: Fn(&str) -> bool,
 {
@@ -810,7 +808,7 @@ fn https_host(url: &str) -> Option<&str> {
     (!host.is_empty()).then_some(host)
 }
 
-fn is_github_host(host: &str) -> bool {
+pub(crate) fn is_github_host(host: &str) -> bool {
     host.eq_ignore_ascii_case("github.com")
         || host.eq_ignore_ascii_case("raw.githubusercontent.com")
         || host.eq_ignore_ascii_case("codeload.github.com")
@@ -844,7 +842,7 @@ fn safe_component(value: &str) -> io::Result<String> {
     Ok(name)
 }
 
-fn invalid_data(message: impl Into<String>) -> io::Error {
+pub(crate) fn invalid_data(message: impl Into<String>) -> io::Error {
     io::Error::new(io::ErrorKind::InvalidData, message.into())
 }
 

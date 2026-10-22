@@ -128,6 +128,14 @@ pub fn prepare_reshade_config(directory: &Path) -> io::Result<()> {
 
     let mut ini = PresetIni::parse(&original_text);
 
+    if directory.join(crate::dlss::ADDON_FILE).exists()
+        && ini
+            .get("RENODX-DLSS", "DirectNeuralRenderingRequireDlss")
+            .is_none()
+    {
+        let _ = ini.set("RENODX-DLSS", "DirectNeuralRenderingRequireDlss", "0");
+    }
+
     for key in ["EffectSearchPaths", "TextureSearchPaths"] {
         let default_val = if key == "EffectSearchPaths" {
             r".\reshade-shaders\Shaders\**"

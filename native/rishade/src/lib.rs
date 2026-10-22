@@ -1,6 +1,7 @@
 #[cfg(windows)]
 mod capture;
 mod depth_config;
+pub mod dlss;
 mod effect_catalog;
 mod effect_setup;
 pub mod ffi;

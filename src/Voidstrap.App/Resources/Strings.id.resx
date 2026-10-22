@@ -7884,4 +7884,25 @@ Kesalahan: {0}</value>
   <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
     <value>Buka di Ekstensi</value>
   </data>
+  <data name="Ui.RiShade.Dlss.Title" xml:space="preserve">
+    <value>NVIDIA DLSS</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Description" xml:space="preserve">
+    <value>Menjalankan NVIDIA DLSS melalui add-on RenoDX pada kartu grafis RTX. Unduhan pertama sekitar 170 MB.</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Downloading" xml:space="preserve">
+    <value>Mengunduh file DLSS, ini bisa memakan waktu satu menit...</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Ready" xml:space="preserve">
+    <value>DLSS telah terpasang. DLSS akan dimuat saat RiShade dimulai berikutnya.</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Removed" xml:space="preserve">
+    <value>DLSS telah dihapus.</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Failed" xml:space="preserve">
+    <value>DLSS tidak dapat diubah: {0}</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.NeedsRtx" xml:space="preserve">
+    <value>DLSS memerlukan kartu grafis NVIDIA RTX.</value>
+  </data>
 </root>

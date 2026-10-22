@@ -13,6 +13,59 @@ unsafe fn copy_str_to_buffer(src: &str, out_buffer: *mut u8, buffer_len: usize) 
     bytes.len()
 }
 
+unsafe fn base_directory<'a>(base_dir: *const c_char) -> Option<&'a Path> {
+    if base_dir.is_null() {
+        return None;
+    }
+    unsafe { CStr::from_ptr(base_dir) }.to_str().ok().map(Path::new)
+}
+
+#[unsafe(no_mangle)]
+pub unsafe extern "system" fn RiShadeInstallDlss(
+    base_dir: *const c_char,
+    out_buffer: *mut u8,
+    buffer_len: usize,
+) -> bool {
+    let Some(base_dir) = (unsafe { base_directory(base_dir) }) else {
+        return false;
+    };
+    let (success, message) = match std::panic::catch_unwind(|| crate::dlss::install(base_dir)) {
+        Ok(Ok(())) => (true, "DLSS files are installed and match their pinned checksums".to_owned()),
+        Ok(Err(error)) => (false, error.to_string()),
+        Err(_) => (false, "DLSS setup failed unexpectedly".to_owned()),
+    };
+    unsafe { copy_str_to_buffer(&message, out_buffer, buffer_len) };
+    success
+}
+
+#[unsafe(no_mangle)]
+pub unsafe extern "system" fn RiShadeRemoveDlss(
+    base_dir: *const c_char,
+    out_buffer: *mut u8,
+    buffer_len: usize,
+) -> bool {
+    let Some(base_dir) = (unsafe { base_directory(base_dir) }) else {
+        return false;
+    };
+    let (success, message) = match std::panic::catch_unwind(|| crate::dlss::remove(base_dir)) {
+        Ok(Ok(())) => (true, "DLSS files were removed".to_owned()),
+        Ok(Err(error)) => (false, error.to_string()),
+        Err(_) => (false, "DLSS removal failed unexpectedly".to_owned()),
+    };
+    unsafe { copy_str_to_buffer(&message, out_buffer, buffer_len) };
+    success
+}
+
+#[unsafe(no_mangle)]
+pub unsafe extern "system" fn RiShadeDlssInstalled(base_dir: *const c_char) -> bool {
+    unsafe { base_directory(base_dir) }.is_some_and(crate::dlss::installed)
+}
+
+#[unsafe(no_mangle)]
+pub extern "system" fn RiShadeHasRtxGpu() -> bool {
+    std::panic::catch_unwind(crate::dlss::has_rtx_gpu).unwrap_or(false)
+}
+
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn RiShadeHdrWhiteLevel(hwnd: isize) -> f32 {
     #[cfg(windows)]

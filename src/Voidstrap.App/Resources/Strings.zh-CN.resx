@@ -7906,4 +7906,25 @@ Voidstrap 无法写入桌面文件夹。</value>
   <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
     <value>在扩展中打开</value>
   </data>
+  <data name="Ui.RiShade.Dlss.Title" xml:space="preserve">
+    <value>NVIDIA DLSS</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Description" xml:space="preserve">
+    <value>在 RTX 显卡上通过 RenoDX 的附加组件运行 NVIDIA DLSS。首次下载约 170 MB。</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Downloading" xml:space="preserve">
+    <value>正在下载 DLSS 文件，可能需要一分钟...</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Ready" xml:space="preserve">
+    <value>DLSS 已安装，将在 RiShade 下次启动时加载。</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Removed" xml:space="preserve">
+    <value>已移除 DLSS。</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.Failed" xml:space="preserve">
+    <value>无法更改 DLSS：{0}</value>
+  </data>
+  <data name="Ui.RiShade.Dlss.NeedsRtx" xml:space="preserve">
+    <value>DLSS 需要 NVIDIA RTX 显卡。</value>
+  </data>
 </root>

@@ -1484,6 +1484,13 @@ namespace Voidstrap.Resources {
         public static string Ui_Home_OpenStudio => ResourceManager.GetString("Ui.Home.OpenStudio", resourceCulture);
 
         public static string Ui_Home_LatestRobloxNews => ResourceManager.GetString("Ui.Home.LatestRobloxNews", resourceCulture);
+        public static string Ui_RiShade_Dlss_Title => ResourceManager.GetString("Ui.RiShade.Dlss.Title", resourceCulture);
+        public static string Ui_RiShade_Dlss_Description => ResourceManager.GetString("Ui.RiShade.Dlss.Description", resourceCulture);
+        public static string Ui_RiShade_Dlss_Downloading => ResourceManager.GetString("Ui.RiShade.Dlss.Downloading", resourceCulture);
+        public static string Ui_RiShade_Dlss_Ready => ResourceManager.GetString("Ui.RiShade.Dlss.Ready", resourceCulture);
+        public static string Ui_RiShade_Dlss_Removed => ResourceManager.GetString("Ui.RiShade.Dlss.Removed", resourceCulture);
+        public static string Ui_RiShade_Dlss_Failed => ResourceManager.GetString("Ui.RiShade.Dlss.Failed", resourceCulture);
+        public static string Ui_RiShade_Dlss_NeedsRtx => ResourceManager.GetString("Ui.RiShade.Dlss.NeedsRtx", resourceCulture);
         public static string Ui_Home_RiShadeRelease_Title => ResourceManager.GetString("Ui.Home.RiShadeRelease.Title", resourceCulture);
         public static string Ui_Home_RiShadeRelease_Blurb => ResourceManager.GetString("Ui.Home.RiShadeRelease.Blurb", resourceCulture);
         public static string Ui_Home_RiShadeRelease_Tag => ResourceManager.GetString("Ui.Home.RiShadeRelease.Tag", resourceCulture);
