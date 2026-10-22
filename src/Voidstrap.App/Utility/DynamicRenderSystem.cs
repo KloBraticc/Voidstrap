@@ -668,7 +668,26 @@ namespace Voidstrap.Utility
                 return;
             sv.ScrollChanged -= OnScrollChanged;
             sv.Unloaded -= OnScrollViewerUnloaded;
-            _watchers.Remove(sv);
+            sv.SizeChanged -= OnScrollViewerSizeChanged;
+            if (_watchers.Remove(sv, out Watcher? w))
+            {
+                foreach (Entry entry in w.Items)
+                {
+                    if (!entry.Img.TryGetTarget(out Image? img))
+                        continue;
+                    img.Loaded -= OnLazyImageLoaded;
+                    img.Loaded += OnLazyImageLoaded;
+                }
+            }
+        }
+
+        private static void OnScrollViewerSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (sender is not ScrollViewer sv)
+                return;
+            sv.SizeChanged -= OnScrollViewerSizeChanged;
+            if (_watchers.TryGetValue(sv, out Watcher? w))
+                QueueEval(sv, w);
         }
 
         private static void QueueEval(ScrollViewer sv, Watcher w)
@@ -692,7 +711,11 @@ namespace Voidstrap.Utility
                 double vpW = sv.ActualWidth;
                 double vpH = sv.ActualHeight;
                 if (vpW <= 0.0 && vpH <= 0.0)
+                {
+                    sv.SizeChanged -= OnScrollViewerSizeChanged;
+                    sv.SizeChanged += OnScrollViewerSizeChanged;
                     return;
+                }
                 Rect near = new Rect(0, 0, vpW, vpH);
                 near.Inflate(PreloadMarginPx, PreloadMarginPx);
                 Rect far = new Rect(0, 0, vpW, vpH);
