@@ -790,7 +790,7 @@ namespace Voidstrap.Integrations.Overlays
                 }
                 _riMissingRuntimeLogged = false;
 
-                if (RiShadeManager.DepthBridgeAvailable && File.Exists(RiShadeManager.DepthModelPath))
+                if (RiShadeManager.DepthBridgeAvailable)
                 {
                     try
                     {

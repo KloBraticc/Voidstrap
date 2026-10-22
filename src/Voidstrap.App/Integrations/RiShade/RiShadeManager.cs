@@ -41,7 +41,6 @@ namespace Voidstrap.Integrations.RiShade
         public static string RiShadeDir => Paths.RiShade;
         public static string DxgiDllPath => Path.Combine(Paths.RiShade, "dxgi.dll");
         public static string ShadersDirPath => Path.Combine(Paths.RiShade, "reshade-shaders");
-        public static string DepthModelPath => Path.Combine(Paths.RiShade, "depth-anything-v2-small.onnx");
 
         private static string RuntimeMarkerPath => Path.Combine(Paths.RiShade, ".rishade-runtime");
 
@@ -378,48 +377,10 @@ namespace Voidstrap.Integrations.RiShade
                 await InstallEffectAssetsAsync();
                 if (!RiShadeInterop.PrepareConfig(RiShadeDir))
                     throw new InvalidOperationException("The Rust RiShade library could not prepare ReShade configuration");
-
-                if (DepthBridgeAvailable)
-                {
-                    _ = Task.Run(async () =>
-                    {
-                        try
-                        {
-                            await InstallDepthAssetsAsync();
-                        }
-                        catch (Exception ex)
-                        {
-                            App.Logger.WriteException("RiShadeManager::BackgroundDepthSetup", ex);
-                        }
-                    });
-                }
             }
             catch (Exception ex)
             {
                 App.Logger.WriteException("RiShadeManager::EnsureSetupAsync", ex);
-            }
-            finally
-            {
-                SetupGate.Release();
-            }
-        }
-
-        public static async Task InstallDepthAssetsAsync()
-        {
-            if (!Voidstrap.Utility.Platform.IsWindows)
-                throw new PlatformNotSupportedException("RiShade depth assets are only available on Windows.");
-
-            await SetupGate.WaitAsync();
-            try
-            {
-                Directory.CreateDirectory(RiShadeDir);
-                await Task.Run(() =>
-                {
-                    string status = CallWithStatus(RiShadeInterop.InstallDepthAssets, "RiShade depth asset setup did not return a status", out bool installed);
-                    App.Logger.WriteLine(LogIdent, status);
-                    if (!installed)
-                        throw new InvalidOperationException(status);
-                });
             }
             finally
             {

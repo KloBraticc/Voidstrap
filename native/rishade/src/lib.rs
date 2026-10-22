@@ -1,8 +1,6 @@
 #[cfg(windows)]
 mod capture;
 mod depth_config;
-#[cfg(windows)]
-mod depth_model;
 mod effect_catalog;
 mod effect_setup;
 pub mod ffi;
@@ -16,8 +14,6 @@ mod overlay_window;
 mod preset_ini;
 pub mod reshade_config;
 #[cfg(windows)]
-mod shared_gpu;
-#[cfg(windows)]
 mod windows_host;
 
 #[cfg(windows)]
@@ -28,13 +24,11 @@ pub use capture::{
 pub use depth_config::{
     DEFAULT_DEPTH_SIZE, DEPTH_SIZES, depth_model_dimensions, normalize_depth_size,
 };
-#[cfg(windows)]
-pub use depth_model::DepthModel;
 pub use effect_catalog::{EffectFile, scan_effects};
 pub use effect_setup::{InstallSummary, install_effects_and_presets};
 pub use ffi::{
     RiShadeFormatHotkey, RiShadeGameListGetEntry, RiShadeGameListParseCount, RiShadeHdrWhiteLevel,
-    RiShadeInstallDepthAssets, RiShadeInstallEffectsAndPresets, RiShadeParseHotkey,
+    RiShadeInstallEffectsAndPresets, RiShadeParseHotkey,
     RiShadePrepareConfig, RiShadePresetFileIsLoadable, RiShadePresetGetEffectFiles,
     RiShadePresetGetTechniques, RiShadePresetGetValue, RiShadePresetSectionNames,
     RiShadePresetSetValue, RiShadeScanEffectsCount, RiShadeScanEffectsList,
@@ -50,8 +44,6 @@ pub use hotkey::{Hotkey, NAMED_KEYS, format_hotkey, parse_hotkey};
 pub use overlay_window::{RiShadeOverlayRenderer, RiShadeOverlayWindow};
 pub use preset_ini::{PresetIni, PresetIniError, preset_effect_files};
 pub use reshade_config::prepare_reshade_config;
-#[cfg(windows)]
-pub use shared_gpu::{D3D12TensorCopy, FenceValues, SharedDepthFence, SharedTensorTexture};
 #[cfg(windows)]
 pub use windows_host::{
     AutoGame, GameWindow, find_game_target, list_game_windows, match_game_window,

@@ -16,24 +16,14 @@ const ZIP_ENTRY_LIMIT: usize = 20_000;
 const ZIP_ENTRY_SIZE_LIMIT: u64 = 128 << 20;
 const ZIP_TOTAL_SIZE_LIMIT: u64 = 1 << 30;
 const ASSET_MARKER: &str = ".rishade-effect-packages-v1";
-const DEPTH_ASSETS: [(&str, &str, &str); 3] = [
-    (
-        "onnxruntime.dll",
-        "https://github.com/OMouta/Unishade/releases/download/depth-assets/onnxruntime.dll",
-        "e7eedec6a6f26dc39dc948276a75ef6d2bee3fff944d874ceed0bbd3b97bff40",
-    ),
-    (
-        "DirectML.dll",
-        "https://github.com/OMouta/Unishade/releases/download/depth-assets/DirectML.dll",
-        "9c9e6d822561c6c41b90e6994b3e8857cf1d66dbfb1e0c4c799c7c89b4e92da1",
-    ),
-    (
-        "depth-anything-v2-small.onnx",
-        "https://huggingface.co/onnx-community/depth-anything-v2-small/resolve/4472b7362082ad9968fee890ca0f1e5aca36b93d/onnx/model_fp16.onnx",
-        "2df6223f206b5164e21f664ace61dabeb9bb6a49b8b5a3e00510b4807d0f5b04",
-    ),
+const RETIRED_ASSETS: [&str; 6] = [
+    "renodx-dlss.addon64",
+    "nvngx_dlssnr.dll",
+    "depth-anything-v2-small.onnx",
+    "onnxruntime.dll",
+    "DirectML.dll",
+    ".rishade-depth-verified",
 ];
-const RETIRED_ASSETS: [&str; 2] = ["renodx-dlss.addon64", "nvngx_dlssnr.dll"];
 pub const DEFAULT_PRESET: &str = "RiShade Natural.ini";
 pub const RENAMED_PRESETS: [(&str, &str, &str); 3] = [
     (
@@ -52,8 +42,6 @@ pub const RENAMED_PRESETS: [(&str, &str, &str); 3] = [
         "afdcf21fa758ef1a229d9a350738b5f7a76b8f90044fa2fafb3d8df67ad4c68a",
     ),
 ];
-const DEPTH_VERIFIED_MARKER: &str = ".rishade-depth-verified";
-const DEPTH_ASSET_LIMIT: usize = 512 << 20;
 
 const PRESET_CATALOG: &str = include_str!("../presets/downloads.ini");
 const BUNDLED_PRESETS: &[(&str, &[u8])] = &[
@@ -227,90 +215,6 @@ pub fn install_effects_and_presets(root: &Path) -> io::Result<InstallSummary> {
     Ok(summary)
 }
 
-pub fn install_depth_assets(root: &Path) -> io::Result<()> {
-    let root = prepare_root(root)?;
-    let cache_path = root.join(DEPTH_VERIFIED_MARKER);
-    let previous_cache = fs::read_to_string(&cache_path).unwrap_or_default();
-    let mut cache = String::new();
-    let mut work = None;
-    let mut agent = None;
-
-    for (name, url, expected_hash) in DEPTH_ASSETS.iter().copied() {
-        let destination = root.join(name);
-        match fs::symlink_metadata(&destination) {
-            Ok(metadata) => {
-                let stamp = depth_asset_stamp(name, &metadata, expected_hash);
-                if !metadata.is_file() || !previous_cache.lines().any(|line| line == stamp) {
-                    verify_depth_asset(&destination, expected_hash)?;
-                }
-                cache.push_str(&stamp);
-                cache.push('\n');
-                continue;
-            }
-            Err(error) if error.kind() == io::ErrorKind::NotFound => {}
-            Err(error) => return Err(error),
-        }
-
-        if work.is_none() {
-            work = Some(
-                tempfile::Builder::new()
-                    .prefix("rishade-depth-setup-")
-                    .tempdir()?,
-            );
-        }
-        let agent = agent.get_or_insert_with(|| {
-            ureq::Agent::new_with_config(
-                ureq::Agent::config_builder()
-                    .https_only(true)
-                    .tls_config(
-                        ureq::tls::TlsConfig::builder()
-                            .provider(ureq::tls::TlsProvider::NativeTls)
-                            .build(),
-                    )
-                    .timeout_global(Some(Duration::from_secs(300)))
-                    .build(),
-            )
-        });
-        let bytes = download(agent, url, DEPTH_ASSET_LIMIT, is_depth_asset_host)?;
-        verify_hash(&bytes, expected_hash)?;
-        let staged = work
-            .as_ref()
-            .map_or_else(|| root.join(name), |dir| dir.path().join(name));
-        fs::write(&staged, &bytes)?;
-        copy_file_if_missing(&staged, &destination)?;
-        verify_depth_asset(&destination, expected_hash)?;
-        cache.push_str(&depth_asset_stamp(
-            name,
-            &fs::symlink_metadata(&destination)?,
-            expected_hash,
-        ));
-        cache.push('\n');
-    }
-    if cache != previous_cache {
-        let _ = fs::write(&cache_path, cache);
-    }
-    Ok(())
-}
-
-fn depth_asset_stamp(name: &str, metadata: &fs::Metadata, expected_hash: &str) -> String {
-    let modified = metadata
-        .modified()
-        .ok()
-        .and_then(|time| time.duration_since(std::time::UNIX_EPOCH).ok())
-        .map_or(0, |duration| duration.as_nanos());
-    format!("{name}\t{}\t{modified}\t{expected_hash}", metadata.len())
-}
-
-fn verify_depth_asset(path: &Path, expected_hash: &str) -> io::Result<()> {
-    let metadata = fs::symlink_metadata(path)?;
-    if metadata.file_type().is_symlink() || !metadata.is_file() {
-        return Err(invalid_data("depth asset path is not a regular file"));
-    }
-    let mut hasher = Sha256::new();
-    io::copy(&mut File::open(path)?, &mut hasher)?;
-    verify_digest(&format!("{:x}", hasher.finalize()), expected_hash)
-}
-
 pub fn migrate_renamed_presets(root: &Path) {
     let directory = root.join("presets");
     for (old, new, original_hash) in RENAMED_PRESETS {
@@ -336,30 +240,6 @@ pub fn remove_retired_assets(root: &Path) {
             let _ = fs::remove_file(path);
         }
     }
-}
-
-fn verify_hash(bytes: &[u8], expected_hash: &str) -> io::Result<()> {
-    verify_digest(&format!("{:x}", Sha256::digest(bytes)), expected_hash)
-}
-
-fn verify_digest(actual: &str, expected_hash: &str) -> io::Result<()> {
-    if actual.eq_ignore_ascii_case(expected_hash) {
-        Ok(())
-    } else {
-        Err(invalid_data("depth asset failed its pinned SHA-256 check"))
-    }
-}
-
-fn is_depth_asset_host(host: &str) -> bool {
-    is_github_host(host)
-        || host.eq_ignore_ascii_case("huggingface.co")
-        || host.to_ascii_lowercase().ends_with(".huggingface.co")
-        || host.eq_ignore_ascii_case("xethub.hf.co")
-        || host.to_ascii_lowercase().ends_with(".xethub.hf.co")
-        || host.eq_ignore_ascii_case("hf.co")
-        || host.to_ascii_lowercase().ends_with(".hf.co")
-        || host.eq_ignore_ascii_case("cloudfront.net")
-        || host.to_ascii_lowercase().ends_with(".cloudfront.net")
 }
 
 fn prepare_root(root: &Path) -> io::Result<PathBuf> {
@@ -1109,42 +989,5 @@ mod tests {
             !https_host("https://github.com.evil.test/archive.zip").is_some_and(is_github_host)
         );
         assert!(!https_host("https://user@github.com/archive.zip").is_some_and(is_github_host));
-    }
-
-    #[test]
-    fn depth_download_hosts_and_hashes_are_pinned() {
-        assert!(is_depth_asset_host("github.com"));
-        assert!(is_depth_asset_host("cdn-lfs.huggingface.co"));
-        assert!(is_depth_asset_host("cas-bridge.xethub.hf.co"));
-        assert!(!is_depth_asset_host("huggingface.co.attacker.test"));
-        assert!(!is_depth_asset_host("attacker.test"));
-        verify_hash(
-            b"abc",
-            "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad",
-        )
-        .unwrap();
-        assert!(
-            verify_hash(
-                b"abc",
-                "0000000000000000000000000000000000000000000000000000000000000000"
-            )
-            .is_err()
-        );
-    }
-
-    #[test]
-    fn depth_asset_verification_rejects_conflicts_without_replacing_them() {
-        let directory = tempfile::tempdir().unwrap();
-        let asset = directory.path().join("onnxruntime.dll");
-        fs::write(&asset, b"user-installed file").unwrap();
-
-        assert!(
-            verify_depth_asset(
-                &asset,
-                "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad"
-            )
-            .is_err()
-        );
-        assert_eq!(fs::read(asset).unwrap(), b"user-installed file");
     }
 }

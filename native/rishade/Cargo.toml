@@ -16,8 +16,6 @@ ureq = { version = "3.4.2", default-features = false, features = ["native-tls"] 
 zip = { version = "2.4.2", default-features = false, features = ["deflate"] }
 
 [target.'cfg(windows)'.dependencies]
-libloading = "0.8"
-ort-sys = { version = "=2.0.0-rc.10", default-features = false, features = ["std", "disable-linking"] }
 windows = { version = "0.58", features = [
     "Foundation",
     "Graphics_Capture",
@@ -26,7 +24,6 @@ windows = { version = "0.58", features = [
     "Win32_Foundation",
     "Win32_Graphics_Direct3D",
     "Win32_Graphics_Direct3D11",
-    "Win32_Graphics_Direct3D12",
     "Win32_Graphics_DirectComposition",
     "Win32_Graphics_Dxgi",
     "Win32_Graphics_Dxgi_Common",

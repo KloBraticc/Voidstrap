@@ -126,35 +126,6 @@ pub unsafe extern "system" fn RiShadeInstallEffectsAndPresets(
 }
 
 #[unsafe(no_mangle)]
-pub unsafe extern "system" fn RiShadeInstallDepthAssets(
-    base_dir: *const c_char,
-    out_buffer: *mut u8,
-    buffer_len: usize,
-) -> bool {
-    if base_dir.is_null() {
-        return false;
-    }
-    let Ok(base_dir) = (unsafe { CStr::from_ptr(base_dir) }).to_str() else {
-        return false;
-    };
-    let result =
-        std::panic::catch_unwind(|| crate::effect_setup::install_depth_assets(Path::new(base_dir)));
-    let (success, message) = match result {
-        Ok(Ok(())) => (
-            true,
-            "Depth assets are installed and match their pinned checksums".to_owned(),
-        ),
-        Ok(Err(error)) => (false, error.to_string()),
-        Err(_) => (
-            false,
-            "RiShade depth asset setup failed unexpectedly".to_owned(),
-        ),
-    };
-    unsafe { copy_str_to_buffer(&message, out_buffer, buffer_len) };
-    success
-}
-
-#[unsafe(no_mangle)]
 pub unsafe extern "system" fn RiShadeScanEffectsCount(effects_dir: *const c_char) -> usize {
     if effects_dir.is_null() {
         return 0;

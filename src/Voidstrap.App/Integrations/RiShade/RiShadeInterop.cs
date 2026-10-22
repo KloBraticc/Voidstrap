@@ -64,10 +64,6 @@ namespace Voidstrap.Integrations.RiShade
         [return: MarshalAs(UnmanagedType.I1)]
         public static partial bool InstallEffectsAndPresets(string baseDirectory, IntPtr statusBuffer, nuint bufferLength);
 
-        [LibraryImport("rishade_core", EntryPoint = "RiShadeInstallDepthAssets", StringMarshalling = StringMarshalling.Utf8)]
-        [return: MarshalAs(UnmanagedType.I1)]
-        public static partial bool InstallDepthAssets(string baseDirectory, IntPtr statusBuffer, nuint bufferLength);
-
         [LibraryImport("rishade_core", EntryPoint = "RiShadePresetFileIsLoadable", StringMarshalling = StringMarshalling.Utf8)]
         [return: MarshalAs(UnmanagedType.I1)]
         public static partial bool PresetFileIsLoadable(string presetPath);
