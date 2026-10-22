@@ -6562,7 +6562,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 return;
             }
             double pad = ModalSnapshotPadding;
-            Rect bounds = new Rect(-pad, -pad, width + pad * 2, height + pad * 2);
+            Vector offset = VisualTreeHelper.GetOffset(panel);
+            Rect bounds = new Rect(offset.X - pad, offset.Y - pad, width + pad * 2, height + pad * 2);
             DpiScale dpi = VisualTreeHelper.GetDpi(panel);
             DrawingVisual drawing = new DrawingVisual();
             using (DrawingContext context = drawing.RenderOpen())
@@ -6600,6 +6601,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             _modalSnapshot.Source = bitmap;
             _modalSnapshot.Width = bounds.Width;
             _modalSnapshot.Height = bounds.Height;
+            _modalSnapshot.Margin = new Thickness(panel.Margin.Left - pad, panel.Margin.Top - pad, panel.Margin.Right - pad, panel.Margin.Bottom - pad);
+            _modalSnapshot.HorizontalAlignment = panel.HorizontalAlignment;
+            _modalSnapshot.VerticalAlignment = panel.VerticalAlignment;
             _modalSnapshot.RenderTransform = scale;
             _modalSnapshot.Visibility = Visibility.Visible;
             panel.Opacity = 0;
