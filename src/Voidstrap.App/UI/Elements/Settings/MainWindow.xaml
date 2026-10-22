@@ -230,6 +230,33 @@
         <media:DoubleAnimation Storyboard.TargetName="IntroOverlay" Storyboard.TargetProperty="Opacity" From="1.0" To="0.0" BeginTime="0:0:0.45" Duration="0:0:0.3" EasingFunction="{StaticResource SmoothEaseOut}" />
       </Storyboard>
     </ResourceDictionary>
+    <Style x:Key="RinDialogPanelStyle" TargetType="{x:Type Border}">
+      <Setter Property="Background" Value="#FF2C2C2C" />
+      <Setter Property="BorderBrush" Value="#12757575" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="7" />
+      <Setter Property="Margin" Value="8" />
+      <Setter Property="HorizontalAlignment" Value="Center" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+      <Setter Property="SnapsToDevicePixels" Value="True" />
+      <Setter Property="Visibility" Value="Collapsed" />
+      <Setter Property="TextElement.Foreground" Value="White" />
+    </Style>
+    <Style x:Key="RinDialogFooterStyle" TargetType="{x:Type Border}">
+      <Setter Property="Background" Value="#FF202020" />
+      <Setter Property="BorderBrush" Value="#12757575" />
+      <Setter Property="BorderThickness" Value="0,1,0,0" />
+      <Setter Property="CornerRadius" Value="0,0,7,7" />
+      <Setter Property="Padding" Value="24" />
+    </Style>
+    <Style x:Key="RinDialogTitleStyle" TargetType="{x:Type TextBlock}">
+      <Setter Property="FontSize" Value="20" />
+      <Setter Property="FontWeight" Value="SemiBold" />
+      <Setter Property="Foreground" Value="White" />
+      <Setter Property="TextWrapping" Value="Wrap" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+    </Style>
   </FrameworkElement.Resources>
   <Grid>
     <Grid.RowDefinitions>
@@ -352,60 +379,6 @@
                 </Border>
               </Grid>
             </Button>
-            <vscontrols:AnimatedPopup x:Name="NotificationPopup" PlacementTarget="{Binding ElementName=NotificationsButton}" Placement="Bottom" HorizontalOffset="-364" VerticalOffset="-4" LightDismiss="True" AllowsTransparency="True" Closed="NotificationPopup_Closed">
-              <Border Margin="14" Width="380" Background="{DynamicResource LauncherMenuBrush}" BorderBrush="{StaticResource LauncherMenuBorderBrush}" BorderThickness="1" CornerRadius="12" TextElement.Foreground="{StaticResource LauncherTextPrimaryBrush}">
-                <Grid>
-                  <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
-                  </Grid.RowDefinitions>
-                  <Grid Margin="18,14,14,10">
-                    <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
-                    <TextBlock Text="{resources:Loc Notifications_Title}" FontSize="18" FontWeight="Bold" VerticalAlignment="Center" />
-                    <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="12,0,0,0">
-                      <Button x:Name="NotificationMarkAllButton" Style="{StaticResource TopBarIconButtonStyle}" Width="32" Height="32" Focusable="True" ToolTip="{resources:Loc Ui_Main_MarkAllRead}" AutomationProperties.Name="{resources:Loc Ui_Main_MarkAllRead}" Click="NotificationMarkAll_Click">
-                        <ui:SymbolIcon Symbol="Checkmark24" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                      </Button>
-                      <Button x:Name="NotificationClearButton" Style="{StaticResource TopBarIconButtonStyle}" Width="32" Height="32" Margin="4,0,0,0" Focusable="True" ToolTip="{resources:Loc Ui_Main_ClearAll}" AutomationProperties.Name="{resources:Loc Ui_Main_ClearAllNotifications}" Click="NotificationClear_Click">
-                        <ui:SymbolIcon Symbol="Delete24" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                      </Button>
-                    </StackPanel>
-                  </Grid>
-                  <Grid Grid.Row="1">
-                    <StackPanel x:Name="NotificationEmpty" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="24,30,24,36">
-                      <ui:SymbolIcon Symbol="Alert24" FontSize="28" Foreground="{StaticResource LauncherTextTertiaryBrush}" HorizontalAlignment="Center" />
-                      <TextBlock x:Name="NotificationEmptyTitle" Text="{resources:Loc Ui_Main_AllCaughtUp}" FontSize="14" FontWeight="SemiBold" Margin="0,10,0,0" HorizontalAlignment="Center" />
-                      <TextBlock x:Name="NotificationEmptySubtitle" Text="{resources:Loc Ui_Main_NotificationsEmpty}" FontSize="12" Foreground="{StaticResource LauncherTextTertiaryBrush}" Margin="0,3,0,0" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" />
-                    </StackPanel>
-                    <ScrollViewer x:Name="NotificationScroll" MaxHeight="430" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Visibility="Collapsed">
-                      <ItemsControl x:Name="NotificationList" Margin="6,0,6,10">
-                        <ItemsControl.ItemTemplate>
-                          <DataTemplate>
-                            <Border x:Name="NotificationRow" Background="Transparent" CornerRadius="8" Padding="12,12" Margin="0,2,0,0" Cursor="Hand" MouseLeftButtonUp="NotificationItem_MouseLeftButtonUp">
-                              <Grid>
-                                <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
-                                <Border Width="40" Height="40" VerticalAlignment="Top" CornerRadius="8" Background="#14FFFFFF">
-                                  <ui:SymbolIcon Symbol="{Binding Icon}" FontSize="20" Foreground="{Binding IconBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                </Border>
-                                <StackPanel Grid.Column="1" Margin="12,0,8,0" VerticalAlignment="Top">
-                                  <TextBlock Text="{Binding Title}" FontSize="13" FontWeight="SemiBold" TextWrapping="Wrap" />
-                                  <TextBlock Text="{Binding Text}" FontSize="12" LineHeight="18" Margin="0,4,0,0" MaxHeight="54" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" ToolTip="{Binding Text}" Foreground="{StaticResource LauncherTextSecondaryBrush}" />
-                                  <TextBlock Text="{Binding TimeAgo}" FontSize="11" Margin="0,6,0,0" Foreground="{StaticResource LauncherTextTertiaryBrush}" />
-                                </StackPanel>
-                                <Ellipse Grid.Column="2" Width="6" Height="6" Fill="{DynamicResource SystemAccentBrush}" VerticalAlignment="Top" Margin="0,6,2,0" Visibility="{Binding UnreadVisibility}" />
-                              </Grid>
-                            </Border>
-                            <DataTemplate.Triggers>
-                              <Trigger SourceName="NotificationRow" Property="IsMouseOver" Value="True"><Setter TargetName="NotificationRow" Property="Background" Value="{StaticResource LauncherMenuHoverBrush}" /></Trigger>
-                            </DataTemplate.Triggers>
-                          </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                      </ItemsControl>
-                    </ScrollViewer>
-                  </Grid>
-                </Grid>
-              </Border>
-            </vscontrols:AnimatedPopup>
           </Grid>
         </StackPanel>
       </ui:TitleBar.Header>
@@ -942,40 +915,12 @@
         </Button>
       </Grid>
     </Border>
-    <Grid x:Name="RinDialogOverlay" Grid.RowSpan="3" Panel.ZIndex="1150" Visibility="Collapsed" Opacity="0">
-      <Border Background="#4D000000" />
-      <Border x:Name="RinDialogPanel" Width="440" Margin="8" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Background="#FF2C2C2C" BorderBrush="#12757575" BorderThickness="1" CornerRadius="7" SnapsToDevicePixels="True">
-        <Border.RenderTransform>
-          <ScaleTransform x:Name="RinDialogScale" ScaleX="1" ScaleY="1" />
-        </Border.RenderTransform>
-        <Border.Effect>
-          <DropShadowEffect BlurRadius="32" ShadowDepth="8" Direction="270" Opacity="0.37" Color="Black" />
-        </Border.Effect>
-        <Grid>
-          <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-          </Grid.RowDefinitions>
-          <StackPanel Margin="24">
-            <TextBlock Text="{resources:Loc Ui_Home_RiShadeRelease_DialogTitle}" FontSize="20" FontWeight="SemiBold" Foreground="White" TextWrapping="Wrap" />
-            <TextBlock Text="{resources:Loc Ui_Home_RiShadeRelease_DialogIntro}" Margin="0,12,0,0" FontSize="14" LineHeight="20" Foreground="White" TextWrapping="Wrap" />
-            <TextBlock Text="{resources:Loc Ui_Home_RiShadeRelease_DialogDetails}" Margin="0,12,0,0" FontSize="14" LineHeight="20" Foreground="#C5FFFFFF" TextWrapping="Wrap" />
-          </StackPanel>
-          <Border Grid.Row="1" Background="#FF202020" BorderBrush="#12757575" BorderThickness="0,1,0,0" CornerRadius="0,0,7,7" Padding="24">
-            <UniformGrid Columns="2">
-              <ui:Button Margin="0,0,4,0" Height="32" HorizontalAlignment="Stretch" Appearance="Primary" Content="{resources:Loc Ui_Home_RiShadeRelease_OpenExtension}" Click="RinDialogOpenRiShade_Click" />
-              <ui:Button Margin="4,0,0,0" Height="32" HorizontalAlignment="Stretch" Content="{resources:Loc Common_Close}" Click="RinDialogClose_Click" />
-            </UniformGrid>
-          </Border>
-        </Grid>
-      </Border>
-    </Grid>
     <Grid x:Name="LaunchTargetOverlay" Grid.RowSpan="3" Panel.ZIndex="1100" Visibility="Hidden" Opacity="0" IsHitTestVisible="False">
       <Image x:Name="LaunchTargetBackdrop" Stretch="Fill" IsHitTestVisible="False" SnapsToDevicePixels="False" RenderOptions.BitmapScalingMode="HighQuality" />
-      <Border Background="#99000000" MouseLeftButtonDown="LaunchTargetScrim_MouseLeftButtonDown" />
-      <Border x:Name="LaunchTargetPanel" RenderTransformOrigin="0.5,0.5" Width="600" Margin="32" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="20,18,20,14" Background="{DynamicResource LauncherMenuBrush}" BorderBrush="{StaticResource LauncherMenuBorderBrush}" BorderThickness="1" CornerRadius="10" SnapsToDevicePixels="True">
+      <Border Background="#4D000000" MouseLeftButtonDown="LaunchTargetScrim_MouseLeftButtonDown" />
+      <Border x:Name="LaunchTargetPanel" Style="{StaticResource RinDialogPanelStyle}" Width="600" Padding="24" Visibility="Visible">
         <Border.RenderTransform>
-          <TranslateTransform x:Name="LaunchTargetPanelTranslate" Y="16" />
+          <ScaleTransform x:Name="LaunchTargetPanelScale" ScaleX="1" ScaleY="1" />
         </Border.RenderTransform>
         <Grid>
           <Grid.RowDefinitions>
@@ -989,7 +934,7 @@
               <ColumnDefinition Width="*" />
               <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
-            <TextBlock VerticalAlignment="Center" FontSize="24" FontWeight="Bold" Foreground="{StaticResource LauncherTextPrimaryBrush}" Text="{resources:Loc Ui_Main_ChooseRobloxVersion}" />
+            <TextBlock Style="{StaticResource RinDialogTitleStyle}" Text="{resources:Loc Ui_Main_ChooseRobloxVersion}" />
             <ui:Button Grid.Column="1" Width="34" Height="34" Padding="0" Appearance="Transparent" Icon="Dismiss24" ToolTip="{resources:Loc Common_Close}" Click="LaunchTargetClose_Click" />
           </Grid>
           <TextBlock Grid.Row="1" Margin="0,6,0,16" FontSize="13" Foreground="{StaticResource LauncherTextSecondaryBrush}" Text="{resources:Loc Ui_Main_ChooseRobloxVersionHint}" TextWrapping="Wrap" />
@@ -998,14 +943,14 @@
                            IsChecked="{Binding LaunchDropdownOnRight, Mode=TwoWay}" />
         </Grid>
       </Border>
-      <Border x:Name="CommandPalettePanel" RenderTransformOrigin="0.5,0.5" Width="600" Margin="32" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="20,18,20,14" Visibility="Collapsed" Background="{DynamicResource LauncherMenuBrush}" BorderBrush="{StaticResource LauncherMenuBorderBrush}" BorderThickness="1" CornerRadius="10" SnapsToDevicePixels="True" TextElement.Foreground="{StaticResource LauncherTextPrimaryBrush}">
+      <Border x:Name="CommandPalettePanel" Style="{StaticResource RinDialogPanelStyle}" Width="600" Padding="24">
         <Border.RenderTransform>
-          <TranslateTransform x:Name="CommandPalettePanelTranslate" Y="16" />
+          <ScaleTransform x:Name="CommandPalettePanelScale" ScaleX="1" ScaleY="1" />
         </Border.RenderTransform>
         <StackPanel>
           <Grid>
             <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
-            <TextBlock VerticalAlignment="Center" FontSize="24" FontWeight="Bold" Foreground="{StaticResource LauncherTextPrimaryBrush}" Text="{resources:Loc ContextMenu_GameBrowser_Search}" />
+            <TextBlock Style="{StaticResource RinDialogTitleStyle}" Text="{resources:Loc ContextMenu_GameBrowser_Search}" />
             <ui:Button Grid.Column="1" Width="34" Height="34" Padding="0" Appearance="Transparent" Icon="Dismiss24" ToolTip="{resources:Loc Common_Close}" Click="CommandPaletteClose_Click" />
           </Grid>
           <TextBlock Margin="0,6,0,16" FontSize="13" Foreground="{StaticResource LauncherTextSecondaryBrush}" Text="{resources:Loc Ui_Main_SearchHint}" TextWrapping="Wrap" />
@@ -1069,6 +1014,89 @@
             <TextBlock x:Name="CommandPaletteCount" HorizontalAlignment="Right" VerticalAlignment="Center" />
           </Grid>
         </StackPanel>
+      </Border>
+      <Border x:Name="NotificationsPanel" Style="{StaticResource RinDialogPanelStyle}" Width="440">
+        <Border.RenderTransform>
+          <ScaleTransform x:Name="NotificationsPanelScale" ScaleX="1" ScaleY="1" />
+        </Border.RenderTransform>
+        <Grid>
+                  <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                  </Grid.RowDefinitions>
+                  <Grid Margin="24,24,18,12">
+                    <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                    <TextBlock Text="{resources:Loc Notifications_Title}" Style="{StaticResource RinDialogTitleStyle}" />
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="12,0,0,0">
+                      <Button x:Name="NotificationMarkAllButton" Style="{StaticResource TopBarIconButtonStyle}" Width="32" Height="32" Focusable="True" ToolTip="{resources:Loc Ui_Main_MarkAllRead}" AutomationProperties.Name="{resources:Loc Ui_Main_MarkAllRead}" Click="NotificationMarkAll_Click">
+                        <ui:SymbolIcon Symbol="Checkmark24" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                      </Button>
+                      <Button x:Name="NotificationClearButton" Style="{StaticResource TopBarIconButtonStyle}" Width="32" Height="32" Margin="4,0,0,0" Focusable="True" ToolTip="{resources:Loc Ui_Main_ClearAll}" AutomationProperties.Name="{resources:Loc Ui_Main_ClearAllNotifications}" Click="NotificationClear_Click">
+                        <ui:SymbolIcon Symbol="Delete24" FontSize="18" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                      </Button>
+                    </StackPanel>
+                  </Grid>
+                  <Grid Grid.Row="1">
+                    <StackPanel x:Name="NotificationEmpty" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="24,30,24,36">
+                      <ui:SymbolIcon Symbol="Alert24" FontSize="28" Foreground="{StaticResource LauncherTextTertiaryBrush}" HorizontalAlignment="Center" />
+                      <TextBlock x:Name="NotificationEmptyTitle" Text="{resources:Loc Ui_Main_AllCaughtUp}" FontSize="14" FontWeight="SemiBold" Margin="0,10,0,0" HorizontalAlignment="Center" />
+                      <TextBlock x:Name="NotificationEmptySubtitle" Text="{resources:Loc Ui_Main_NotificationsEmpty}" FontSize="12" Foreground="{StaticResource LauncherTextTertiaryBrush}" Margin="0,3,0,0" HorizontalAlignment="Center" TextAlignment="Center" TextWrapping="Wrap" />
+                    </StackPanel>
+                    <ScrollViewer x:Name="NotificationScroll" MaxHeight="460" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Visibility="Collapsed">
+                      <ItemsControl x:Name="NotificationList" Margin="12,0,12,16">
+                        <ItemsControl.ItemTemplate>
+                          <DataTemplate>
+                            <Border x:Name="NotificationRow" Background="Transparent" CornerRadius="8" Padding="12,12" Margin="0,2,0,0" Cursor="Hand" MouseLeftButtonUp="NotificationItem_MouseLeftButtonUp">
+                              <Grid>
+                                <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                                <Border Width="40" Height="40" VerticalAlignment="Top" CornerRadius="8" Background="#14FFFFFF">
+                                  <ui:SymbolIcon Symbol="{Binding Icon}" FontSize="20" Foreground="{Binding IconBrush}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                </Border>
+                                <StackPanel Grid.Column="1" Margin="12,0,8,0" VerticalAlignment="Top">
+                                  <TextBlock Text="{Binding Title}" FontSize="13" FontWeight="SemiBold" TextWrapping="Wrap" />
+                                  <TextBlock Text="{Binding Text}" FontSize="12" LineHeight="18" Margin="0,4,0,0" MaxHeight="54" TextWrapping="Wrap" TextTrimming="CharacterEllipsis" ToolTip="{Binding Text}" Foreground="{StaticResource LauncherTextSecondaryBrush}" />
+                                  <TextBlock Text="{Binding TimeAgo}" FontSize="11" Margin="0,6,0,0" Foreground="{StaticResource LauncherTextTertiaryBrush}" />
+                                </StackPanel>
+                                <Ellipse Grid.Column="2" Width="6" Height="6" Fill="{DynamicResource SystemAccentBrush}" VerticalAlignment="Top" Margin="0,6,2,0" Visibility="{Binding UnreadVisibility}" />
+                              </Grid>
+                            </Border>
+                            <DataTemplate.Triggers>
+                              <Trigger SourceName="NotificationRow" Property="IsMouseOver" Value="True"><Setter TargetName="NotificationRow" Property="Background" Value="{StaticResource LauncherMenuHoverBrush}" /></Trigger>
+                            </DataTemplate.Triggers>
+                          </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                      </ItemsControl>
+                    </ScrollViewer>
+                  </Grid>
+                </Grid>
+      </Border>
+      <Border x:Name="ReleaseNotesPanel" Style="{StaticResource RinDialogPanelStyle}" Width="760" Height="600">
+        <Border.RenderTransform>
+          <ScaleTransform x:Name="ReleaseNotesPanelScale" ScaleX="1" ScaleY="1" />
+        </Border.RenderTransform>
+        <ContentControl x:Name="ReleaseNotesHost" Focusable="False" />
+      </Border>
+      <Border x:Name="RiShadeReleasePanel" Style="{StaticResource RinDialogPanelStyle}" Width="440">
+        <Border.RenderTransform>
+          <ScaleTransform x:Name="RiShadeReleasePanelScale" ScaleX="1" ScaleY="1" />
+        </Border.RenderTransform>
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <StackPanel Margin="24">
+            <TextBlock Text="{resources:Loc Ui_Home_RiShadeRelease_DialogTitle}" FontSize="20" FontWeight="SemiBold" Foreground="White" TextWrapping="Wrap" />
+            <TextBlock Text="{resources:Loc Ui_Home_RiShadeRelease_DialogIntro}" Margin="0,12,0,0" FontSize="14" LineHeight="20" Foreground="White" TextWrapping="Wrap" />
+            <TextBlock Text="{resources:Loc Ui_Home_RiShadeRelease_DialogDetails}" Margin="0,12,0,0" FontSize="14" LineHeight="20" Foreground="#C5FFFFFF" TextWrapping="Wrap" />
+          </StackPanel>
+          <Border Grid.Row="1" Background="#FF202020" BorderBrush="#12757575" BorderThickness="0,1,0,0" CornerRadius="0,0,7,7" Padding="24">
+            <UniformGrid Columns="2">
+              <ui:Button Margin="0,0,4,0" Height="32" HorizontalAlignment="Stretch" Appearance="Primary" Content="{resources:Loc Ui_Home_RiShadeRelease_OpenExtension}" Click="RiShadeReleaseOpen_Click" />
+              <ui:Button Margin="4,0,0,0" Height="32" HorizontalAlignment="Stretch" Content="{resources:Loc Common_Close}" Click="ModalClose_Click" />
+            </UniformGrid>
+          </Border>
+        </Grid>
       </Border>
     </Grid>
   </Grid>

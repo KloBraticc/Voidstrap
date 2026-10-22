@@ -1960,7 +1960,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         CommandPaletteSearchBox.Text = "";
         _commandPaletteOpen = true;
         RefreshCommandPaletteResults();
-        OpenModalOverlay(CommandPalettePanel, CommandPalettePanelTranslate);
+        OpenModalOverlay(CommandPalettePanel, CommandPalettePanelScale);
         Dispatcher.BeginInvoke(new Action(FocusCommandPalette), DispatcherPriority.Input);
     }
 
@@ -2541,7 +2541,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             if (!await CloseAppMenuBeforeDialogAsync())
                 return;
-            new Voidstrap.UI.Elements.Dialogs.ReleaseNotesDialog { Owner = this }.ShowOwnedDialog();
+            ShowReleaseNotes();
         }
         catch (OperationCanceledException)
         {
@@ -4478,21 +4478,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void MainWindow_PreviewKeyDown(object sender, KeyEventArgs e)
     {
-        if (e.Key == Key.Escape && _rinDialogOpen)
+        if (e.Key == Key.Escape && ModalOpen)
         {
-            CloseRinDialog();
-            e.Handled = true;
-            return;
-        }
-        if (e.Key == Key.Escape && _launchTargetOverlayOpen)
-        {
-            CloseLaunchTargetOverlay();
-            e.Handled = true;
-            return;
-        }
-        if (e.Key == Key.Escape && _commandPaletteOpen)
-        {
-            CloseCommandPalette();
+            CloseActiveModal();
             e.Handled = true;
             return;
         }
@@ -5147,9 +5135,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             AppMenuPopup.IsOpen = false;
         }
-        if (NotificationPopup != null)
+        if (NotificationsOpen)
         {
-            NotificationPopup.IsOpen = false;
+            CloseSimpleModal();
         }
     }
 
@@ -5160,7 +5148,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             return;
         }
-        if (_launchTargetOverlayOpen || _commandPaletteOpen || AppMenuPopup?.IsOpen == true || NotificationPopup?.IsOpen == true)
+        if (ModalOpen || AppMenuPopup?.IsOpen == true)
         {
             return;
         }
@@ -5173,20 +5161,17 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void NotificationsButton_Click(object sender, RoutedEventArgs e)
     {
-        bool wasOpen = NotificationPopup.IsOpen && !NotificationPopup.IsClosing;
+        bool wasOpen = NotificationsOpen;
         CloseTopBarMenus();
         if (wasOpen)
         {
             return;
         }
-        NotificationPopup.IsOpen = true;
         LoadTopBarNotifications();
+        OpenSimpleModal(NotificationsPanel, NotificationsPanelScale);
     }
 
-    private void NotificationPopup_Closed(object? sender, EventArgs e)
-    {
-        ReleaseOrphanedCapture();
-    }
+    private bool NotificationsOpen => _simpleModalOpen && ReferenceEquals(_modalPanel, NotificationsPanel);
 
     private void LoadTopBarNotifications()
     {
@@ -5225,7 +5210,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
         if (!string.IsNullOrEmpty(item.LogPath) && File.Exists(item.LogPath))
         {
-            NotificationPopup.IsOpen = false;
+            CloseSimpleModal();
             Utilities.ShellExecute(item.LogPath);
             return;
         }
@@ -5249,7 +5234,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         if (_isClosed)
             return;
-        if (NotificationPopup.IsOpen)
+        if (NotificationsOpen)
         {
             LoadTopBarNotifications();
             return;
@@ -6357,15 +6342,19 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private Border? _modalPanel;
 
-    private TranslateTransform? _modalTranslate;
+    private ScaleTransform? _modalScale;
+
+    private bool _simpleModalOpen;
+
+    private bool ModalOpen => _launchTargetOverlayOpen || _commandPaletteOpen || _simpleModalOpen;
 
     private int _launchTargetOverlayGeneration;
 
-    private static readonly IEasingFunction LaunchTargetEaseOut = CreateLaunchTargetEase(new ExponentialEase { Exponent = 5, EasingMode = EasingMode.EaseOut });
+    private static readonly IEasingFunction ModalScaleEase = CreateLaunchTargetEase(new QuinticEase { EasingMode = EasingMode.EaseOut });
 
-    private static readonly IEasingFunction LaunchTargetFadeOut = CreateLaunchTargetEase(new QuadraticEase { EasingMode = EasingMode.EaseOut });
+    private static readonly IEasingFunction ModalFadeEase = CreateLaunchTargetEase(new QuarticEase { EasingMode = EasingMode.EaseInOut });
 
-    private static readonly IEasingFunction LaunchTargetEaseIn = CreateLaunchTargetEase(new CubicEase { EasingMode = EasingMode.EaseIn });
+    private const double ModalScaleOffset = 1.1;
 
     private static IEasingFunction CreateLaunchTargetEase(EasingFunctionBase ease)
     {
@@ -6373,21 +6362,21 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         return ease;
     }
 
-    private static readonly TimeSpan LaunchTargetOpenDuration = TimeSpan.FromMilliseconds(220);
+    private static readonly TimeSpan ModalScaleDuration = TimeSpan.FromMilliseconds(667);
 
-    private static readonly TimeSpan LaunchTargetOpenFadeDuration = TimeSpan.FromMilliseconds(170);
+    private static readonly TimeSpan ModalOpenFadeDuration = TimeSpan.FromMilliseconds(187);
 
-    private static readonly TimeSpan LaunchTargetCloseDuration = TimeSpan.FromMilliseconds(150);
+    private static readonly TimeSpan ModalCloseFadeDuration = TimeSpan.FromMilliseconds(100);
 
     private const int LaunchTargetFrameRate = 240;
 
     private const double LaunchTargetBackdropScale = 0.25;
 
-    private const double LaunchTargetSnapshotBlurRadius = 9.0;
+    private const double LaunchTargetSnapshotBlurRadius = 0.0;
 
     private const int LaunchTargetSnapshotPadding = 18;
 
-    private const double LaunchTargetBlurRadius = 8.0;
+    private const double LaunchTargetBlurRadius = 0.0;
 
     private System.Windows.Media.Effects.BlurEffect? _launchTargetBlur;
 
@@ -6399,24 +6388,27 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         PopulateLaunchTargets();
         _launchTargetOverlayOpen = true;
         InstallLaunchButton.IsDropDownOpen = true;
-        OpenModalOverlay(LaunchTargetPanel, LaunchTargetPanelTranslate);
+        OpenModalOverlay(LaunchTargetPanel, LaunchTargetPanelScale);
         LaunchTargetList.FocusList();
     }
 
-    private void OpenModalOverlay(Border panel, TranslateTransform translate)
+    private Border[] ModalPanels => [LaunchTargetPanel, CommandPalettePanel, NotificationsPanel, ReleaseNotesPanel, RiShadeReleasePanel];
+
+    private void OpenModalOverlay(Border panel, ScaleTransform scale)
     {
         int generation = ++_launchTargetOverlayGeneration;
         bool fresh = LaunchTargetOverlay.Visibility != Visibility.Visible || !LaunchTargetOverlay.IsHitTestVisible || !ReferenceEquals(_modalPanel, panel);
         _modalPanel = panel;
-        _modalTranslate = translate;
-        LaunchTargetPanel.Visibility = ReferenceEquals(panel, LaunchTargetPanel) ? Visibility.Visible : Visibility.Collapsed;
-        CommandPalettePanel.Visibility = ReferenceEquals(panel, CommandPalettePanel) ? Visibility.Visible : Visibility.Collapsed;
+        _modalScale = scale;
+        foreach (Border candidate in ModalPanels)
+            candidate.Visibility = ReferenceEquals(panel, candidate) ? Visibility.Visible : Visibility.Collapsed;
+        if (Voidstrap.Utility.Platform.IsWindows && panel.Effect == null)
+            panel.Effect = new System.Windows.Media.Effects.DropShadowEffect { BlurRadius = 32, ShadowDepth = 8, Direction = 270, Opacity = 0.37, Color = Colors.Black };
         if (fresh)
         {
             LaunchTargetOverlay.BeginAnimation(OpacityProperty, null);
             LaunchTargetOverlay.Opacity = 0;
-            translate.BeginAnimation(TranslateTransform.YProperty, null);
-            translate.Y = 16;
+            SetModalScale(scale, ModalScaleOffset);
             if (Voidstrap.Utility.Platform.UsesPortableUi)
                 ApplyLinuxLaunchTargetBlur();
             else
@@ -6426,19 +6418,19 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             panel.CacheMode = new BitmapCache { SnapsToDevicePixels = true };
         LaunchTargetOverlay.Visibility = Visibility.Visible;
         LaunchTargetOverlay.IsHitTestVisible = true;
-        AnimateLaunchTargetOverlay(1.0, 0.0, LaunchTargetOpenFadeDuration, LaunchTargetOpenDuration, LaunchTargetFadeOut, LaunchTargetEaseOut, generation, false);
+        AnimateLaunchTargetOverlay(1.0, 1.0, ModalOpenFadeDuration, generation, false);
     }
 
     private void CloseModalOverlay()
     {
-        if (_launchTargetOverlayOpen || _commandPaletteOpen || _modalPanel == null)
+        if (ModalOpen || _modalPanel == null)
             return;
         int generation = ++_launchTargetOverlayGeneration;
         LaunchTargetOverlay.IsHitTestVisible = false;
         SetModalUnderlayHidden(false);
         if (Voidstrap.Utility.Platform.IsWindows)
             _modalPanel.CacheMode = new BitmapCache { SnapsToDevicePixels = true };
-        AnimateLaunchTargetOverlay(0.0, 10.0, LaunchTargetCloseDuration, LaunchTargetCloseDuration, LaunchTargetEaseIn, LaunchTargetEaseIn, generation, true);
+        AnimateLaunchTargetOverlay(0.0, ModalScaleOffset, ModalCloseFadeDuration, generation, true);
     }
 
     private void CaptureLaunchTargetBackdrop()
@@ -6593,7 +6585,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void WarmLaunchTargets()
     {
-        if (_launchTargetsWarmed || _launchTargetOverlayOpen || _commandPaletteOpen || _isClosed || LaunchTargetOverlay == null)
+        if (_launchTargetsWarmed || ModalOpen || _isClosed || LaunchTargetOverlay == null)
             return;
         _launchTargetsWarmed = true;
         try
@@ -6624,7 +6616,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void FinishLaunchTargetWarmup()
     {
-        if (_launchTargetOverlayOpen || _commandPaletteOpen || LaunchTargetOverlay == null)
+        if (ModalOpen || LaunchTargetOverlay == null)
             return;
         LaunchTargetOverlay.Visibility = Visibility.Hidden;
         LaunchTargetOverlay.Opacity = 0;
@@ -6639,21 +6631,32 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         CloseModalOverlay();
     }
 
-    private void AnimateLaunchTargetOverlay(double opacity, double offsetY, TimeSpan fadeDuration, TimeSpan moveDuration, IEasingFunction fadeEase, IEasingFunction moveEase, int generation, bool finishClose)
+    private void AnimateLaunchTargetOverlay(double opacity, double scaleTo, TimeSpan fadeDuration, int generation, bool finishClose)
     {
-        DoubleAnimation fade = CreateLaunchTargetAnimation(opacity, fadeDuration, fadeEase);
-        DoubleAnimation move = CreateLaunchTargetAnimation(offsetY, moveDuration, moveEase);
+        DoubleAnimation fade = CreateLaunchTargetAnimation(opacity, fadeDuration, ModalFadeEase);
+        DoubleAnimation scale = CreateLaunchTargetAnimation(scaleTo, ModalScaleDuration, ModalScaleEase);
+        DoubleAnimation done = finishClose ? fade : scale;
         void Completed(object? sender, EventArgs e)
         {
-            move.Completed -= Completed;
+            done.Completed -= Completed;
             if (finishClose)
                 FinishLaunchTargetClose(generation);
             else
                 FinishLaunchTargetOpen(generation);
         }
-        move.Completed += Completed;
+        done.Completed += Completed;
         LaunchTargetOverlay.BeginAnimation(OpacityProperty, fade, HandoffBehavior.SnapshotAndReplace);
-        (_modalTranslate ?? LaunchTargetPanelTranslate).BeginAnimation(TranslateTransform.YProperty, move, HandoffBehavior.SnapshotAndReplace);
+        ScaleTransform target = _modalScale ?? LaunchTargetPanelScale;
+        target.BeginAnimation(ScaleTransform.ScaleXProperty, scale, HandoffBehavior.SnapshotAndReplace);
+        target.BeginAnimation(ScaleTransform.ScaleYProperty, scale, HandoffBehavior.SnapshotAndReplace);
+    }
+
+    private static void SetModalScale(ScaleTransform scale, double value)
+    {
+        scale.BeginAnimation(ScaleTransform.ScaleXProperty, null);
+        scale.BeginAnimation(ScaleTransform.ScaleYProperty, null);
+        scale.ScaleX = value;
+        scale.ScaleY = value;
     }
 
     private static DoubleAnimation CreateLaunchTargetAnimation(double to, TimeSpan duration, IEasingFunction ease)
@@ -6665,7 +6668,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void FinishLaunchTargetOpen(int generation)
     {
-        if (generation != _launchTargetOverlayGeneration || !(_launchTargetOverlayOpen || _commandPaletteOpen))
+        if (generation != _launchTargetOverlayGeneration || !ModalOpen)
             return;
         if (_modalPanel != null)
             _modalPanel.CacheMode = null;
@@ -6686,14 +6689,18 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void FinishLaunchTargetClose(int generation)
     {
-        if (generation != _launchTargetOverlayGeneration || _launchTargetOverlayOpen || _commandPaletteOpen)
+        if (generation != _launchTargetOverlayGeneration || ModalOpen)
             return;
         if (_modalPanel != null)
             _modalPanel.CacheMode = null;
         if (ReferenceEquals(_modalPanel, CommandPalettePanel))
             ResetCommandPalette();
+        if (ReferenceEquals(_modalPanel, ReleaseNotesPanel))
+            ReleaseReleaseNotes();
+        if (_modalScale != null)
+            SetModalScale(_modalScale, 1.0);
         _modalPanel = null;
-        _modalTranslate = null;
+        _modalScale = null;
         LaunchTargetOverlay.Visibility = Visibility.Hidden;
         LaunchTargetBackdrop.Source = null;
         SetModalUnderlayHidden(false);
@@ -6701,61 +6708,81 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         ReleaseOrphanedCapture();
     }
 
-    private bool _rinDialogOpen;
+    private void OpenSimpleModal(Border panel, ScaleTransform scale)
+    {
+        if (_launchTargetOverlayOpen)
+        {
+            _launchTargetOverlayOpen = false;
+            InstallLaunchButton.IsDropDownOpen = false;
+        }
+        if (_commandPaletteOpen)
+        {
+            CancelCommandPaletteSearch();
+            _commandPaletteOpen = false;
+        }
+        CloseTopBarMenus();
+        _simpleModalOpen = true;
+        OpenModalOverlay(panel, scale);
+    }
+
+    private void CloseSimpleModal()
+    {
+        if (!_simpleModalOpen)
+            return;
+        _simpleModalOpen = false;
+        CloseModalOverlay();
+    }
+
+    private void CloseActiveModal()
+    {
+        CloseLaunchTargetOverlay();
+        CloseCommandPalette();
+        CloseSimpleModal();
+    }
+
+    private void ModalClose_Click(object sender, RoutedEventArgs e)
+    {
+        CloseSimpleModal();
+    }
 
     public void ShowRiShadeRelease()
     {
-        if (_rinDialogOpen)
-            return;
-        _rinDialogOpen = true;
-        RinDialogOverlay.IsHitTestVisible = true;
-        RinDialogOverlay.Visibility = Visibility.Visible;
-        AnimateRinDialog(1.0, 187, new QuarticEase { EasingMode = EasingMode.EaseInOut }, 1.1, 1.0);
+        OpenSimpleModal(RiShadeReleasePanel, RiShadeReleasePanelScale);
     }
 
-    private void CloseRinDialog()
+    private void RiShadeReleaseOpen_Click(object sender, RoutedEventArgs e)
     {
-        if (!_rinDialogOpen)
-            return;
-        _rinDialogOpen = false;
-        RinDialogOverlay.IsHitTestVisible = false;
-        AnimateRinDialog(0.0, 100, new QuarticEase { EasingMode = EasingMode.EaseInOut }, 1.0, 1.1);
-    }
-
-    private void AnimateRinDialog(double opacity, int fadeMs, IEasingFunction fadeEase, double scaleFrom, double scaleTo)
-    {
-        DoubleAnimation fade = new(opacity, TimeSpan.FromMilliseconds(fadeMs)) { EasingFunction = fadeEase };
-        if (opacity == 0.0)
-            fade.Completed += RinDialogFade_Completed;
-        RinDialogOverlay.BeginAnimation(OpacityProperty, fade);
-        QuinticEase scaleEase = new() { EasingMode = EasingMode.EaseOut };
-        DoubleAnimation scale = new(scaleFrom, scaleTo, TimeSpan.FromMilliseconds(667)) { EasingFunction = scaleEase };
-        RinDialogScale.BeginAnimation(ScaleTransform.ScaleXProperty, scale);
-        RinDialogScale.BeginAnimation(ScaleTransform.ScaleYProperty, scale);
-    }
-
-    private void RinDialogFade_Completed(object? sender, EventArgs e)
-    {
-        if (!_rinDialogOpen)
-            RinDialogOverlay.Visibility = Visibility.Collapsed;
-    }
-
-    private void RinDialogClose_Click(object sender, RoutedEventArgs e)
-    {
-        CloseRinDialog();
-    }
-
-    private void RinDialogOpenRiShade_Click(object sender, RoutedEventArgs e)
-    {
-        CloseRinDialog();
+        CloseSimpleModal();
         ExtensionPage.RequestedExtension = "rishade";
         RootNavigation.Navigate(typeof(ExtensionPage));
     }
 
+    private void ShowReleaseNotes()
+    {
+        ReleaseReleaseNotes();
+        Voidstrap.UI.Elements.Dialogs.ReleaseNotesDialog view = new();
+        view.CloseRequested += ReleaseNotes_CloseRequested;
+        ReleaseNotesHost.Content = view;
+        OpenSimpleModal(ReleaseNotesPanel, ReleaseNotesPanelScale);
+    }
+
+    private void ReleaseNotes_CloseRequested(object? sender, EventArgs e)
+    {
+        CloseSimpleModal();
+    }
+
+    private void ReleaseReleaseNotes()
+    {
+        if (ReleaseNotesHost.Content is not Voidstrap.UI.Elements.Dialogs.ReleaseNotesDialog view)
+            return;
+        view.CloseRequested -= ReleaseNotes_CloseRequested;
+        view.Release();
+        ReleaseNotesHost.Content = null;
+    }
+
     private void LaunchTargetScrim_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
-        CloseLaunchTargetOverlay();
-        CloseCommandPalette();
+        CloseActiveModal();
         e.Handled = true;
     }
 

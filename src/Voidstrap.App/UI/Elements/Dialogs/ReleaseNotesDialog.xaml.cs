@@ -15,7 +15,6 @@ using Markdig.Extensions.EmphasisExtras;
 using Markdig.Syntax;
 using Markdig.Syntax.Inlines;
 using Voidstrap.Models.APIs.GitHub;
-using Voidstrap.UI.Elements.Base;
 using Voidstrap.UI.ViewModels;
 using DocumentInline = System.Windows.Documents.Inline;
 using DocumentList = System.Windows.Documents.List;
@@ -26,8 +25,10 @@ using Voidstrap.Extensions;
 
 namespace Voidstrap.UI.Elements.Dialogs;
 
-public partial class ReleaseNotesDialog : WpfUiWindow
+public partial class ReleaseNotesDialog : WpfControls.UserControl
 {
+	public event EventHandler? CloseRequested;
+
 	private static readonly MarkdownPipeline Pipeline = new MarkdownPipelineBuilder()
 		.UseEmphasisExtras(EmphasisExtraOptions.Strikethrough)
 		.UseAutoLinks()
@@ -55,7 +56,6 @@ public partial class ReleaseNotesDialog : WpfUiWindow
 		GitHubButton.Click += OnGitHubButtonClick;
 		CloseButton.Click += OnCloseButtonClick;
 		Loaded += OnLoaded;
-		Closed += OnClosed;
 	}
 
 	private async void OnLoaded(object sender, RoutedEventArgs e)
@@ -448,7 +448,8 @@ public partial class ReleaseNotesDialog : WpfUiWindow
 		{
 			return;
 		}
-		Voidstrap.UI.LinuxTextGuard.CorrectOwner(NotesPanel, this);
+		if (Window.GetWindow(this) is Window owner)
+			Voidstrap.UI.LinuxTextGuard.CorrectOwner(NotesPanel, owner);
 		foreach (Voidstrap.UI.Elements.Controls.MarkdownTextBlock rich in _richBlocks)
 		{
 			double width = System.Windows.Controls.Primitives.LayoutInformation.GetLayoutSlot(rich).Width - rich.Margin.Left - rich.Margin.Right;
@@ -761,12 +762,13 @@ public partial class ReleaseNotesDialog : WpfUiWindow
 
 	private void OnCloseButtonClick(object sender, RoutedEventArgs e)
 	{
-		Close();
+		CloseRequested?.Invoke(this, EventArgs.Empty);
 	}
 
-	private void OnClosed(object? sender, EventArgs e)
+	public void Release()
 	{
-		Closed -= OnClosed;
+		if (_lifetime.IsCancellationRequested)
+			return;
 		Loaded -= OnLoaded;
 		GitHubButton.Click -= OnGitHubButtonClick;
 		CloseButton.Click -= OnCloseButtonClick;
