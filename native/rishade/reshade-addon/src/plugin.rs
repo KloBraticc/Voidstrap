@@ -93,7 +93,7 @@ static PRESET_PENDING: AtomicBool = AtomicBool::new(false);
 const EFFECT_LOADING_TIMEOUT_MS: u64 = 3_000;
 const LOAD_WITH_ALTERED_SEARCH_PATH: u32 = 0x00000008;
 
-unsafe fn symbol<T: Copy>(module: Module, name: &'static [u8]) -> Option<T> {
+pub(crate) unsafe fn symbol<T: Copy>(module: Module, name: &'static [u8]) -> Option<T> {
     let address = unsafe { GetProcAddress(module, name.as_ptr().cast()) };
     if address.is_null() {
         return None;
@@ -751,6 +751,7 @@ pub unsafe extern "system" fn AddonInit(module: Module, reshade_module: Module) 
             RESHADE_OPEN_OVERLAY,
             on_overlay_state_changed as *mut c_void,
         );
+        crate::dlss_tab::register(module, reshade_module);
     }
     *api_slot = Some(ReShadeApi {
         module: module as usize,
@@ -758,6 +759,16 @@ pub unsafe extern "system" fn AddonInit(module: Module, reshade_module: Module) 
         unregister_addon,
     });
     true
+}
+
+#[unsafe(no_mangle)]
+pub extern "system" fn RiShadeAddonSetDlssState(state: u32) {
+    crate::dlss_tab::set_host_state(state);
+}
+
+#[unsafe(no_mangle)]
+pub extern "system" fn RiShadeAddonTakeDlssRestart() -> bool {
+    crate::dlss_tab::take_restart_request()
 }
 
 #[unsafe(no_mangle)]

@@ -843,6 +843,7 @@ namespace Voidstrap.Integrations.Overlays
                 TryCreateRiShadeRuntime();
                 if (_riRuntime != IntPtr.Zero)
                 {
+                    SyncRiShadeDlss();
                     RiShadeManager.ApplyPendingOverlay();
                     RiShadeManager.RefreshPresetState();
                 }
@@ -876,6 +877,17 @@ namespace Voidstrap.Integrations.Overlays
             {
                 DestroyRiShadeRuntime();
             }
+        }
+
+        private void SyncRiShadeDlss()
+        {
+            if (RiShadeInterop.TakeDlssRestart() && RiShadeManager.DlssInstalled)
+            {
+                App.Logger.WriteLine(LOG_IDENT, "Restarting the DLSS helper from the RiShade overlay");
+                _riDlss?.Dispose();
+                _riDlss = RiShadeDlssBridge.TryStart(_device!);
+            }
+            RiShadeInterop.SetDlssState(_riDlss == null ? 0u : _riDlss.Failed ? 2u : 1u);
         }
 
         private void DestroyRiShadeRuntime()
