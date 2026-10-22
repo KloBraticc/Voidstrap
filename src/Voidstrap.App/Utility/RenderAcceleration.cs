@@ -68,8 +68,6 @@ namespace Voidstrap.Utility
 
         private static bool WindowsSoftwareOnly => SoftwareOnly || DlssWrapsGraphics;
 
-        public static bool RendersInSoftware => Platform.IsWindows && WindowsSoftwareOnly;
-
         public static void ApplyProcess()
         {
             if (!Platform.IsWindows)
