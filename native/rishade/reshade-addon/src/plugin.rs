@@ -335,6 +335,83 @@ unsafe extern "system" fn swapchain_hook_get_hwnd(
     }
 }
 
+struct AttachedSwapchain {
+    swapchain: usize,
+    original_vtable: usize,
+    shadow_vtable: Box<[*const c_void; SWAPCHAIN4_VTABLE_LEN]>,
+}
+
+unsafe impl Send for AttachedSwapchain {}
+
+static ATTACHED_SWAPCHAIN: Mutex<Option<AttachedSwapchain>> = Mutex::new(None);
+
+#[unsafe(no_mangle)]
+pub unsafe extern "system" fn RiShadeRuntimeAttachWindow(runtime: *mut c_void, window: *mut c_void) -> bool {
+    if runtime.is_null() || window.is_null() {
+        return false;
+    }
+    let vtable = unsafe { *(runtime.cast::<*const *const c_void>()) };
+    if vtable.is_null() {
+        return false;
+    }
+    let get_native = unsafe { *vtable };
+    if get_native.is_null() {
+        return false;
+    }
+    let get_native: unsafe extern "system" fn(*mut c_void) -> u64 = unsafe { std::mem::transmute(get_native) };
+    let swapchain = unsafe { get_native(runtime) } as usize as *mut c_void;
+    if swapchain.is_null() {
+        return false;
+    }
+    let Ok(mut attached) = ATTACHED_SWAPCHAIN.lock() else {
+        return false;
+    };
+    if attached.as_ref().is_some_and(|current| current.swapchain == swapchain as usize) {
+        SWAPCHAIN_TARGET_WINDOW.store(window as usize, Ordering::Relaxed);
+        return true;
+    }
+    unsafe { restore_attached(&mut attached) };
+
+    let original_vtable = unsafe { *(swapchain.cast::<*const *const c_void>()) };
+    let mut shadow_vtable = Box::new([std::ptr::null::<c_void>(); SWAPCHAIN4_VTABLE_LEN]);
+    unsafe {
+        std::ptr::copy_nonoverlapping(original_vtable, shadow_vtable.as_mut_ptr(), SWAPCHAIN4_VTABLE_LEN);
+    }
+    ORIGINAL_GET_DESC.store(shadow_vtable[SWAPCHAIN_GET_DESC_VTABLE_INDEX] as usize, Ordering::Relaxed);
+    ORIGINAL_GET_HWND.store(shadow_vtable[SWAPCHAIN_GET_HWND_VTABLE_INDEX] as usize, Ordering::Relaxed);
+    SWAPCHAIN_TARGET_WINDOW.store(window as usize, Ordering::Relaxed);
+    shadow_vtable[SWAPCHAIN_GET_DESC_VTABLE_INDEX] = swapchain_hook_get_desc as *const c_void;
+    shadow_vtable[SWAPCHAIN_GET_HWND_VTABLE_INDEX] = swapchain_hook_get_hwnd as *const c_void;
+    unsafe {
+        *(swapchain.cast::<*const *const c_void>()) = shadow_vtable.as_ptr();
+    }
+    *attached = Some(AttachedSwapchain {
+        swapchain: swapchain as usize,
+        original_vtable: original_vtable as usize,
+        shadow_vtable,
+    });
+    true
+}
+
+unsafe fn restore_attached(attached: &mut Option<AttachedSwapchain>) {
+    if let Some(current) = attached.take() {
+        unsafe {
+            *(current.swapchain as *mut *const *const c_void) = current.original_vtable as *const *const c_void;
+        }
+        drop(current.shadow_vtable);
+        SWAPCHAIN_TARGET_WINDOW.store(0, Ordering::Relaxed);
+        ORIGINAL_GET_DESC.store(0, Ordering::Relaxed);
+        ORIGINAL_GET_HWND.store(0, Ordering::Relaxed);
+    }
+}
+
+#[unsafe(no_mangle)]
+pub unsafe extern "system" fn RiShadeRuntimeDetachWindow() {
+    if let Ok(mut attached) = ATTACHED_SWAPCHAIN.lock() {
+        unsafe { restore_attached(&mut attached) };
+    }
+}
+
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn RiShadeRuntimeCreate(
     device: *mut c_void,

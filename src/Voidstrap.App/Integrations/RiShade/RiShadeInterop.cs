@@ -12,6 +12,13 @@ namespace Voidstrap.Integrations.RiShade
         [LibraryImport("rishade_reshade_addon", EntryPoint = "RiShadeRuntimeCreate", StringMarshalling = StringMarshalling.Utf8)]
         public static partial IntPtr RuntimeCreate(IntPtr device, IntPtr immediateContext, IntPtr swapchain, IntPtr window, string configPath);
 
+        [LibraryImport("rishade_reshade_addon", EntryPoint = "RiShadeRuntimeAttachWindow")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public static partial bool RuntimeAttachWindow(IntPtr runtime, IntPtr window);
+
+        [LibraryImport("rishade_reshade_addon", EntryPoint = "RiShadeRuntimeDetachWindow")]
+        public static partial void RuntimeDetachWindow();
+
         [LibraryImport("rishade_reshade_addon", EntryPoint = "RiShadeRuntimeDestroy")]
         public static partial void RuntimeDestroy(IntPtr runtime);
 

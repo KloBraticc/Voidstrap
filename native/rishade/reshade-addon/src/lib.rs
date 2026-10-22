@@ -7,7 +7,8 @@ mod plugin;
 pub use plugin::{
     RiShadeAddonActiveRuntime, RiShadeAddonCopyCurrentPresetPath, RiShadeAddonIsCompilingEffects, RiShadeAddonIsInitialized,
     RiShadeAddonIsLoadingEffects, RiShadeAddonIsOverlayOpen, RiShadeAddonRuntimeIsActive,
-    RiShadeRenderEffects, RiShadeRuntimeBindDepthTexture, RiShadeRuntimeCreate,
+    RiShadeRenderEffects, RiShadeRuntimeAttachWindow, RiShadeRuntimeBindDepthTexture, RiShadeRuntimeCreate,
+    RiShadeRuntimeDetachWindow,
     RiShadeRuntimeDestroy, RiShadeRuntimeLoad, RiShadeRuntimeOpenOverlay, RiShadeRuntimePresent,
     RiShadeRuntimeSelectPreset,
 };

@@ -506,6 +506,7 @@ namespace Voidstrap.Integrations.Overlays
         private static readonly FeatureLevel[] _featureLevels = new[] { FeatureLevel.Level_11_1, FeatureLevel.Level_11_0 };
 
         private bool _riWrapped;
+        private IntPtr _riAttachedHwnd;
         private static bool s_reshadeLoadedUnwrapped;
         private static IntPtr _reshadeCreateFactory;
         private static IntPtr _reshadeCreateDevice;
@@ -869,6 +870,7 @@ namespace Voidstrap.Integrations.Overlays
                         return;
                     }
                     _riWaitingLogged = false;
+                    AttachWrappedRuntimeWindow();
                     RiShadeManager.SetRuntime(_riRuntime);
                     _riRuntimeRetryAt = 0;
                     App.Logger.WriteLine(LOG_IDENT, "Using ReShade's own runtime on the wrapped compositor swapchain");
@@ -934,6 +936,31 @@ namespace Voidstrap.Integrations.Overlays
             {
                 App.Logger.WriteException("OverlayCompositor::CreateRiShadeRuntime", ex);
             }
+        }
+
+        private void AttachWrappedRuntimeWindow()
+        {
+            IntPtr targetHwnd = _hwnd != IntPtr.Zero ? _hwnd : _robloxHwnd;
+            if (targetHwnd == IntPtr.Zero || targetHwnd == _riAttachedHwnd)
+                return;
+
+            if (!RiShadeInterop.RuntimeAttachWindow(_riRuntime, targetHwnd))
+            {
+                App.Logger.WriteLine(LOG_IDENT, "ReShade input could not be attached to the compositor window, the overlay will not take clicks");
+                return;
+            }
+
+            _riAttachedHwnd = targetHwnd;
+            _backBufferRtv?.Dispose();
+            _backBufferRtv = null;
+            _backBufferTex?.Dispose();
+            _backBufferTex = null;
+            _swapChain!.ResizeBuffers(4, (uint)_width, (uint)_height, Format.B8G8R8A8_UNorm, _swapChainFlags);
+            CreateBackBufferRtv();
+            IntPtr runtime = RiShadeInterop.ActiveRuntime();
+            if (runtime != IntPtr.Zero)
+                _riRuntime = runtime;
+            App.Logger.WriteLine(LOG_IDENT, "ReShade input attached to the compositor window");
         }
 
         private void SyncRiShadeRuntime()
@@ -3701,6 +3728,11 @@ namespace Voidstrap.Integrations.Overlays
                     _paceTimer = IntPtr.Zero;
                 }
                 _swapChain2?.Dispose();
+                if (_riAttachedHwnd != IntPtr.Zero)
+                {
+                    RiShadeInterop.RuntimeDetachWindow();
+                    _riAttachedHwnd = IntPtr.Zero;
+                }
                 _swapChain?.Dispose();
                 _factory?.Dispose();
                 _context?.Dispose();
