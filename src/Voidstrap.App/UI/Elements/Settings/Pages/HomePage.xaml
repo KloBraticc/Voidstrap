@@ -211,6 +211,7 @@
                                                    IsHitTestVisible="False"/>
                                     </StackPanel>
                                     <TextBlock Text="{Binding DateLabel}"
+                                               Visibility="{Binding DateVisibility}"
                                                FontSize="11.5"
                                                FontWeight="SemiBold"
                                                Margin="16,0,0,14"

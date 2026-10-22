@@ -207,6 +207,8 @@ namespace Voidstrap.UI.ViewModels.Pages
         public string Blurb { get; init; } = string.Empty;
         public bool IsRiShadeRelease { get; init; }
 
+        public Visibility DateVisibility => IsRiShadeRelease ? Visibility.Collapsed : Visibility.Visible;
+
         public Visibility BlurbVisibility => string.IsNullOrEmpty(Blurb) ? Visibility.Collapsed : Visibility.Visible;
 
         public bool HasImage => !string.IsNullOrEmpty(ImageUrl);
