@@ -144,7 +144,6 @@ namespace Voidstrap.Integrations.Overlays
         private bool _riMissingRuntimeLogged;
         private long _riDepthStamp;
         private readonly ID3D11Texture2D?[] _stageTex = new ID3D11Texture2D?[2];
-        private RiShadeDlssBridge? _riDlss;
         private readonly ID3D11ShaderResourceView?[] _stageSrv = new ID3D11ShaderResourceView?[2];
         private readonly ID3D11RenderTargetView?[] _stageRtv = new ID3D11RenderTargetView?[2];
         private ID3D11RenderTargetView? _stageRtvSrgb;
@@ -780,6 +779,8 @@ namespace Voidstrap.Integrations.Overlays
                     return;
                 }
 
+                if (File.Exists(Path.Combine(RiShadeManager.RiShadeDir, ".rishade-addon-guard")))
+                    App.Logger.WriteLine(LOG_IDENT, "ReShade add-ons in the RiShade folder are skipped because the last session stopped while loading them, turn DLSS off and on again to retry");
                 if (!RiShadeInterop.RuntimeLoad(RiShadeManager.DxgiDllPath))
                 {
                     if (!_riMissingRuntimeLogged)
@@ -821,11 +822,7 @@ namespace Voidstrap.Integrations.Overlays
                     configPath);
                 RiShadeManager.SetRuntime(_riRuntime);
                 if (_riRuntime != IntPtr.Zero)
-                {
                     _riRuntimeRetryAt = 0;
-                    if (RiShadeManager.DlssInstalled)
-                        _riDlss ??= RiShadeDlssBridge.TryStart(_device!);
-                }
                 App.Logger.WriteLine(LOG_IDENT, _riRuntime != IntPtr.Zero
                     ? "ReShade runtime created for the in-process compositor swapchain"
                     : "ReShade could not create a runtime for the compositor swapchain, frames remain unmodified");
@@ -843,7 +840,6 @@ namespace Voidstrap.Integrations.Overlays
                 TryCreateRiShadeRuntime();
                 if (_riRuntime != IntPtr.Zero)
                 {
-                    SyncRiShadeDlss();
                     RiShadeManager.ApplyPendingOverlay();
                     RiShadeManager.RefreshPresetState();
                 }
@@ -879,26 +875,8 @@ namespace Voidstrap.Integrations.Overlays
             }
         }
 
-        private void SyncRiShadeDlss()
-        {
-            if (RiShadeInterop.TakeDlssRestart() && RiShadeManager.DlssInstalled)
-            {
-                App.Logger.WriteLine(LOG_IDENT, "Restarting the DLSS helper from the RiShade overlay");
-                _riDlss?.Dispose();
-                _riDlss = RiShadeDlssBridge.TryStart(_device!);
-            }
-            if (RiShadeInterop.TakeDlssSettingsRequest())
-            {
-                App.Logger.WriteLine(LOG_IDENT, "Opening the DLSS settings window from the RiShade overlay");
-                _riDlss?.ShowSettings();
-            }
-            RiShadeInterop.SetDlssState(_riDlss == null ? 0u : _riDlss.Failed ? 2u : 1u);
-        }
-
         private void DestroyRiShadeRuntime()
         {
-            _riDlss?.Dispose();
-            _riDlss = null;
             if (_riDepthBridge)
                 RiShadeInterop.DepthBridgeReleaseDevice();
             if (_riShadeInteractive && _hwnd != IntPtr.Zero)
@@ -2190,8 +2168,6 @@ namespace Voidstrap.Integrations.Overlays
                 {
                     if (_rawTex != null && _stageTex[0] != null)
                         _context!.CopyResource(_stageTex[0]!, _rawTex!);
-                    if (_riDlss != null && _stageTex[0] != null)
-                        _riDlss.Apply(_context!, _stageTex[0]!);
 
                     riRendered = RiShadeInterop.RenderEffects(_riRuntime, _stageRtv[0]!.NativePointer, _stageRtvSrgb?.NativePointer ?? IntPtr.Zero);
                     if (riRendered)

@@ -303,55 +303,6 @@ pub fn prepare_reshade_config(directory: &Path) -> io::Result<()> {
     Ok(())
 }
 
-pub fn prepare_dlss_config(directory: &Path) -> io::Result<PathBuf> {
-    let base = directory.join("dlss");
-    fs::create_dir_all(&base)?;
-    let path = base.join("ReShade.ini");
-    let original_text = if path.is_file() {
-        fs::read_to_string(&path)?
-    } else {
-        String::new()
-    };
-    let mut ini = PresetIni::parse(&original_text);
-    let preset = base.join("DlssPreset.ini");
-    if !preset.is_file() {
-        fs::write(&preset, "Techniques=\r\nTechniqueSorting=\r\n")?;
-    }
-    let addon_path = directory.to_string_lossy();
-    let preset_path = preset.to_string_lossy();
-    let settings: [(&str, &str, &str); 13] = [
-        ("ADDON", "AddonPath", &addon_path),
-        ("ADDON", "DisabledAddons", "Generic Depth"),
-        ("GENERAL", "EffectSearchPaths", ""),
-        ("GENERAL", "TextureSearchPaths", ""),
-        ("GENERAL", "PresetPath", &preset_path),
-        ("GENERAL", "NoReloadOnInit", "1"),
-        ("GENERAL", "SkipLoadingDisabledEffects", "1"),
-        ("OVERLAY", "TutorialProgress", "4"),
-        ("OVERLAY", "ShowClock", "0"),
-        ("OVERLAY", "ShowFPS", "0"),
-        ("OVERLAY", "ShowFrameTime", "0"),
-        ("OVERLAY", "ShowPresetTransitionMessage", "0"),
-        ("INPUT", "KeyOverlay", "0,0,0,0"),
-    ];
-    for (section, key, value) in settings {
-        let _ = ini.set(section, key, value);
-    }
-    if ini
-        .get("RENODX-DLSS", "DirectNeuralRenderingRequireDlss")
-        .is_none()
-    {
-        let _ = ini.set("RENODX-DLSS", "DirectNeuralRenderingRequireDlss", "0");
-    }
-    let updated_text = ini.text();
-    if updated_text != original_text {
-        let temp_path = base.join("ReShade.ini.tmp");
-        fs::write(&temp_path, updated_text.as_bytes())?;
-        fs::rename(&temp_path, &path)?;
-    }
-    Ok(base)
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;

@@ -1,5 +1,5 @@
 use std::ffi::{CStr, CString, c_char, c_void};
-use std::os::windows::ffi::OsStringExt;
+use std::os::windows::ffi::{OsStrExt, OsStringExt};
 use std::path::{Path, PathBuf};
 use std::sync::Mutex;
 use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
@@ -71,6 +71,67 @@ type CreateEffectRuntime = unsafe extern "system" fn(
     *mut *mut c_void,
 ) -> bool;
 type DestroyEffectRuntime = unsafe extern "system" fn(*mut c_void);
+static FOLDER_ADDONS_LOADED: AtomicUsize = AtomicUsize::new(0);
+static ADDON_GUARD_PATH: Mutex<Option<PathBuf>> = Mutex::new(None);
+static HEALTHY_PRESENTS: AtomicUsize = AtomicUsize::new(0);
+
+pub const ADDON_GUARD_FILE: &str = ".rishade-addon-guard";
+const HEALTHY_PRESENT_COUNT: usize = 300;
+
+fn clear_addon_guard() {
+    if let Ok(mut guard) = ADDON_GUARD_PATH.lock()
+        && let Some(path) = guard.take()
+    {
+        let _ = std::fs::remove_file(path);
+    }
+}
+
+const LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR: u32 = 0x00000100;
+const LOAD_LIBRARY_SEARCH_DEFAULT_DIRS: u32 = 0x00001000;
+
+unsafe fn load_folder_addons(runtime_path: &std::path::Path) {
+    if FOLDER_ADDONS_LOADED.swap(1, Ordering::AcqRel) != 0 {
+        return;
+    }
+    let Some(directory) = runtime_path.parent() else {
+        return;
+    };
+    let guard = directory.join(ADDON_GUARD_FILE);
+    if guard.exists() {
+        return;
+    }
+    let Ok(entries) = std::fs::read_dir(directory) else {
+        return;
+    };
+    let mut armed = false;
+    for entry in entries.flatten() {
+        let path = entry.path();
+        let is_addon = path
+            .extension()
+            .and_then(std::ffi::OsStr::to_str)
+            .is_some_and(|extension| extension.eq_ignore_ascii_case("addon64"));
+        if !is_addon || !entry.file_type().is_ok_and(|kind| kind.is_file()) {
+            continue;
+        }
+        if !armed {
+            if std::fs::write(&guard, b"loading").is_err() {
+                return;
+            }
+            if let Ok(mut slot) = ADDON_GUARD_PATH.lock() {
+                *slot = Some(guard.clone());
+            }
+            armed = true;
+        }
+        let wide: Vec<u16> = path.as_os_str().encode_wide().chain(std::iter::once(0)).collect();
+        unsafe {
+            LoadLibraryExW(
+                wide.as_ptr(),
+                std::ptr::null_mut(),
+                LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR | LOAD_LIBRARY_SEARCH_DEFAULT_DIRS,
+            )
+        };
+    }
+}
 type UpdateAndPresentEffectRuntime = unsafe extern "system" fn(*mut c_void);
 
 struct ReShadeApi {
@@ -93,7 +154,7 @@ static PRESET_PENDING: AtomicBool = AtomicBool::new(false);
 const EFFECT_LOADING_TIMEOUT_MS: u64 = 3_000;
 const LOAD_WITH_ALTERED_SEARCH_PATH: u32 = 0x00000008;
 
-pub(crate) unsafe fn symbol<T: Copy>(module: Module, name: &'static [u8]) -> Option<T> {
+unsafe fn symbol<T: Copy>(module: Module, name: &'static [u8]) -> Option<T> {
     let address = unsafe { GetProcAddress(module, name.as_ptr().cast()) };
     if address.is_null() {
         return None;
@@ -247,7 +308,11 @@ pub unsafe extern "system" fn RiShadeRuntimeLoad(dxgi_path: *const u16) -> bool 
     ) {
         Ok(_) => {
             UPDATE_AND_PRESENT.store(update_and_present as usize, Ordering::Release);
-            unsafe { initialize_addon() }
+            let ready = unsafe { initialize_addon() };
+            if ready {
+                unsafe { load_folder_addons(&path) };
+            }
+            ready
         }
         Err(_) => {
             unsafe { FreeLibrary(module) };
@@ -472,6 +537,12 @@ pub unsafe extern "system" fn RiShadeRuntimePresent(runtime: *mut c_void) -> boo
     let vtable = unsafe { *(runtime.cast::<*const *const c_void>()) };
     if vtable.is_null() {
         return false;
+    }
+
+    if HEALTHY_PRESENTS.load(Ordering::Relaxed) < HEALTHY_PRESENT_COUNT
+        && HEALTHY_PRESENTS.fetch_add(1, Ordering::Relaxed) + 1 == HEALTHY_PRESENT_COUNT
+    {
+        clear_addon_guard();
     }
 
     if PRESET_PENDING.swap(false, Ordering::AcqRel) {
@@ -751,7 +822,6 @@ pub unsafe extern "system" fn AddonInit(module: Module, reshade_module: Module) 
             RESHADE_OPEN_OVERLAY,
             on_overlay_state_changed as *mut c_void,
         );
-        crate::dlss_tab::register(module, reshade_module);
     }
     *api_slot = Some(ReShadeApi {
         module: module as usize,
@@ -759,21 +829,6 @@ pub unsafe extern "system" fn AddonInit(module: Module, reshade_module: Module) 
         unregister_addon,
     });
     true
-}
-
-#[unsafe(no_mangle)]
-pub extern "system" fn RiShadeAddonSetDlssState(state: u32) {
-    crate::dlss_tab::set_host_state(state);
-}
-
-#[unsafe(no_mangle)]
-pub extern "system" fn RiShadeAddonTakeDlssRestart() -> bool {
-    crate::dlss_tab::take_restart_request()
-}
-
-#[unsafe(no_mangle)]
-pub extern "system" fn RiShadeAddonTakeDlssSettingsRequest() -> bool {
-    crate::dlss_tab::take_settings_request()
 }
 
 #[unsafe(no_mangle)]

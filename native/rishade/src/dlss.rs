@@ -5,6 +5,7 @@ use std::path::Path;
 use std::time::Duration;
 
 pub const ADDON_FILE: &str = "renodx-dlss.addon64";
+const ADDON_GUARD_FILE: &str = ".rishade-addon-guard";
 
 const DLSS_FILES: [(&str, &str, &str); 2] = [
     (
@@ -27,8 +28,13 @@ pub fn installed(root: &Path) -> bool {
         .all(|(name, _, _)| fs::symlink_metadata(root.join(name)).is_ok_and(|metadata| metadata.is_file()))
 }
 
+pub fn addons_blocked(root: &Path) -> bool {
+    root.join(ADDON_GUARD_FILE).exists()
+}
+
 pub fn install(root: &Path) -> io::Result<()> {
     let root = crate::effect_setup::prepare_root(root)?;
+    let _ = fs::remove_file(root.join(ADDON_GUARD_FILE));
     let agent = ureq::Agent::new_with_config(
         ureq::Agent::config_builder()
             .https_only(true)
@@ -62,6 +68,7 @@ pub fn install(root: &Path) -> io::Result<()> {
 }
 
 pub fn remove(root: &Path) -> io::Result<()> {
+    let _ = fs::remove_file(root.join(ADDON_GUARD_FILE));
     for (name, _, expected) in DLSS_FILES {
         let path = root.join(name);
         if matches_hash(&path, expected)? {
