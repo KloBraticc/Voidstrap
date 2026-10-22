@@ -2,14 +2,15 @@
 using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
-using Voidstrap.UI.Elements.Base;
 using Voidstrap.UI.ViewModels.Settings;
 
 namespace Voidstrap.UI.Elements.Dialogs
 {
-    public partial class NewsItemDialog : WpfUiWindow
+    public partial class NewsItemDialog : UserControl
     {
         private readonly NewsItem _item;
+
+        public event EventHandler? CloseRequested;
 
         public NewsItemDialog(NewsItem item)
         {
@@ -31,23 +32,15 @@ namespace Voidstrap.UI.Elements.Dialogs
             }
         }
 
+        private void Close_Click(object sender, RoutedEventArgs e)
+        {
+            CloseRequested?.Invoke(this, EventArgs.Empty);
+        }
+
         private void TagButton_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button { Content: string url } && Utilities.IsWebLink(url))
-            {
-                try
-                {
-                    Process.Start(new ProcessStartInfo
-                    {
-                        FileName = url,
-                        UseShellExecute = true
-                    });
-                }
-                catch (Exception ex)
-                {
-                    Debug.WriteLine($"[NewsItemDialog::OpenTag] {ex.Message}");
-                }
-            }
+                Utilities.OpenWebLink(url);
         }
     }
 }

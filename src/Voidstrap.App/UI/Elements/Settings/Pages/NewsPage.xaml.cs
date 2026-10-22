@@ -62,9 +62,8 @@ public partial class NewsPage : UiPage{
 		{
 			if (sender is FrameworkElement { DataContext: NewsItem dataContext })
 			{
-				NewsItemDialog newsItemDialog = new NewsItemDialog(dataContext);
-				newsItemDialog.Owner = Window.GetWindow((DependencyObject)(object)this);
-				newsItemDialog.ShowOwnedDialog();
+				if (Window.GetWindow(this) is MainWindow window)
+					window.ShowNewsItem(dataContext);
 			}
 		}
 		catch (Exception ex)

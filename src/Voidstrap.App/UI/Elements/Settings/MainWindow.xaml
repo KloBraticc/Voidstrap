@@ -1075,6 +1075,12 @@
         </Border.RenderTransform>
         <ContentControl x:Name="ReleaseNotesHost" Focusable="False" />
       </Border>
+      <Border x:Name="NewsItemPanel" Style="{StaticResource RinDialogPanelStyle}" Width="620" MaxHeight="640">
+        <Border.RenderTransform>
+          <ScaleTransform x:Name="NewsItemPanelScale" ScaleX="1" ScaleY="1" />
+        </Border.RenderTransform>
+        <ContentControl x:Name="NewsItemHost" Focusable="False" />
+      </Border>
       <Border x:Name="RiShadeReleasePanel" Style="{StaticResource RinDialogPanelStyle}" Width="440">
         <Border.RenderTransform>
           <ScaleTransform x:Name="RiShadeReleasePanelScale" ScaleX="1" ScaleY="1" />

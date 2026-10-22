@@ -6380,7 +6380,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         LaunchTargetList.FocusList();
     }
 
-    private Border[] ModalPanels => [LaunchTargetPanel, CommandPalettePanel, NotificationsPanel, ReleaseNotesPanel, RiShadeReleasePanel];
+    private Border[] ModalPanels => [LaunchTargetPanel, CommandPalettePanel, NotificationsPanel, ReleaseNotesPanel, RiShadeReleasePanel, NewsItemPanel];
 
     private void OpenModalOverlay(Border panel, ScaleTransform scale)
     {
@@ -6569,6 +6569,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             ResetCommandPalette();
         if (ReferenceEquals(_modalPanel, ReleaseNotesPanel))
             ReleaseReleaseNotes();
+        if (ReferenceEquals(_modalPanel, NewsItemPanel))
+            ReleaseNewsItem();
         if (_modalScale != null)
             SetModalScale(_modalScale, 1.0);
         _modalPanel = null;
@@ -6635,6 +6637,28 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         view.CloseRequested += ReleaseNotes_CloseRequested;
         ReleaseNotesHost.Content = view;
         OpenSimpleModal(ReleaseNotesPanel, ReleaseNotesPanelScale);
+    }
+
+    public void ShowNewsItem(Voidstrap.UI.ViewModels.Settings.NewsItem item)
+    {
+        ReleaseNewsItem();
+        Voidstrap.UI.Elements.Dialogs.NewsItemDialog view = new(item);
+        view.CloseRequested += NewsItem_CloseRequested;
+        NewsItemHost.Content = view;
+        OpenSimpleModal(NewsItemPanel, NewsItemPanelScale);
+    }
+
+    private void NewsItem_CloseRequested(object? sender, EventArgs e)
+    {
+        CloseSimpleModal();
+    }
+
+    private void ReleaseNewsItem()
+    {
+        if (NewsItemHost.Content is not Voidstrap.UI.Elements.Dialogs.NewsItemDialog view)
+            return;
+        view.CloseRequested -= NewsItem_CloseRequested;
+        NewsItemHost.Content = null;
     }
 
     private void ReleaseNotes_CloseRequested(object? sender, EventArgs e)
