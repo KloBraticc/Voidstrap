@@ -7873,4 +7873,16 @@ Lỗi: {0}</value>
   <data name="Ui.Home.RiShadeRelease.Tag" xml:space="preserve">
     <value>Phát hành</value>
   </data>
+  <data name="Ui.Home.RiShadeRelease.DialogTitle" xml:space="preserve">
+    <value>RiShade V2 đã có mặt</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.DialogIntro" xml:space="preserve">
+    <value>RiShade giờ chạy ReShade chính thức như một lớp phủ trên Roblox. Shader và preset của bạn áp dụng cho mọi khung hình, và không có gì được chèn vào ứng dụng Roblox.</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.DialogDetails" xml:space="preserve">
+    <value>Bật nó trong Tiện ích mở rộng, rồi nhấn Home hoặc F8 trong trò chơi để mở menu ReShade. Các preset cần độ sâu sẽ nhận độ sâu ước tính trên máy của bạn, và ảnh chụp màn hình trông đẹp hơn bao giờ hết.</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
+    <value>Mở trong Tiện ích mở rộng</value>
+  </data>
 </root>

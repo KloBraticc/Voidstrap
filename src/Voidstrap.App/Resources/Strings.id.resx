@@ -7872,4 +7872,16 @@ Kesalahan: {0}</value>
   <data name="Ui.Home.RiShadeRelease.Tag" xml:space="preserve">
     <value>Rilis</value>
   </data>
+  <data name="Ui.Home.RiShadeRelease.DialogTitle" xml:space="preserve">
+    <value>RiShade V2 Telah Hadir</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.DialogIntro" xml:space="preserve">
+    <value>RiShade kini menjalankan ReShade resmi sebagai overlay di atas Roblox. Shader dan preset Anda diterapkan ke setiap frame, dan tidak ada apa pun yang disuntikkan ke klien Roblox.</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.DialogDetails" xml:space="preserve">
+    <value>Aktifkan di Ekstensi, lalu tekan Home atau F8 di dalam game untuk membuka menu ReShade. Preset yang membutuhkan kedalaman mendapatkan perkiraan kedalaman di PC Anda, dan tangkapan layar terlihat lebih bagus dari sebelumnya.</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
+    <value>Buka di Ekstensi</value>
+  </data>
 </root>

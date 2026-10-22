@@ -7869,4 +7869,16 @@
   <data name="Ui.Home.RiShadeRelease.Tag" xml:space="preserve">
     <value>إصدار</value>
   </data>
+  <data name="Ui.Home.RiShadeRelease.DialogTitle" xml:space="preserve">
+    <value>وصل RiShade V2</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.DialogIntro" xml:space="preserve">
+    <value>يشغّل RiShade الآن ReShade الرسمي كطبقة فوق Roblox. تُطبَّق مؤثراتك وإعداداتك على كل إطار، ولا يُحقن أي شيء في عميل Roblox أبدًا.</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.DialogDetails" xml:space="preserve">
+    <value>فعّله من الإضافات، ثم اضغط Home أو F8 داخل اللعبة لفتح قائمة ReShade. الإعدادات التي تحتاج إلى العمق تحصل على عمق مُقدَّر على جهازك، وتبدو لقطات الشاشة أفضل من أي وقت مضى.</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
+    <value>فتح في الإضافات</value>
+  </data>
 </root>

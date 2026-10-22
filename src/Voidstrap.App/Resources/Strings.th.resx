@@ -7865,4 +7865,16 @@ Voidstrap เขียนลงในโฟลเดอร์เดสก์ท�
   <data name="Ui.Home.RiShadeRelease.Tag" xml:space="preserve">
     <value>เปิดตัว</value>
   </data>
+  <data name="Ui.Home.RiShadeRelease.DialogTitle" xml:space="preserve">
+    <value>RiShade V2 มาแล้ว</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.DialogIntro" xml:space="preserve">
+    <value>ตอนนี้ RiShade เรียกใช้ ReShade อย่างเป็นทางการเป็นโอเวอร์เลย์ซ้อนบน Roblox เชดเดอร์และพรีเซ็ตของคุณจะใช้กับทุกเฟรม และไม่มีการฉีดสิ่งใดเข้าไปในไคลเอนต์ Roblox เลย</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.DialogDetails" xml:space="preserve">
+    <value>เปิดใช้งานในส่วนส่วนขยาย แล้วกด Home หรือ F8 ในเกมเพื่อเปิดเมนู ReShade พรีเซ็ตที่ต้องใช้ความลึกจะได้ค่าความลึกที่ประมาณบนพีซีของคุณ และภาพหน้าจอจะดูดีกว่าที่เคย</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
+    <value>เปิดในส่วนขยาย</value>
+  </data>
 </root>

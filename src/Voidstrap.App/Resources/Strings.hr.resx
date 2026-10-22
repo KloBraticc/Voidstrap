@@ -7869,4 +7869,16 @@ Pogreška: {0}</value>
   <data name="Ui.Home.RiShadeRelease.Tag" xml:space="preserve">
     <value>Izdanje</value>
   </data>
+  <data name="Ui.Home.RiShadeRelease.DialogTitle" xml:space="preserve">
+    <value>RiShade V2 je stigao</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.DialogIntro" xml:space="preserve">
+    <value>RiShade sada pokreće službeni ReShade kao sloj iznad Roblox. Tvoji shaderi i postavke primjenjuju se na svaki kadar, a u Roblox klijent se nikad ništa ne ubacuje.</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.DialogDetails" xml:space="preserve">
+    <value>Uključi ga u Proširenjima, zatim u igri pritisni Home ili F8 za otvaranje ReShade izbornika. Postavke kojima treba dubina dobivaju je procijenjenu na tvom računalu, a snimke zaslona izgledaju bolje nego ikad.</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
+    <value>Otvori u Proširenjima</value>
+  </data>
 </root>

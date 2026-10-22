@@ -7870,4 +7870,16 @@ Fel: {0}</value>
   <data name="Ui.Home.RiShadeRelease.Tag" xml:space="preserve">
     <value>Release</value>
   </data>
+  <data name="Ui.Home.RiShadeRelease.DialogTitle" xml:space="preserve">
+    <value>RiShade V2 är här</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.DialogIntro" xml:space="preserve">
+    <value>RiShade kör nu den officiella ReShade som ett överlägg ovanpå Roblox. Dina shaders och förinställningar gäller varje bildruta, och ingenting injiceras någonsin i Roblox-klienten.</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.DialogDetails" xml:space="preserve">
+    <value>Slå på det under Tillägg och tryck sedan på Home eller F8 i spelet för att öppna ReShade-menyn. Förinställningar som behöver djup får det uppskattat på din dator, och skärmbilder ser bättre ut än någonsin.</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
+    <value>Öppna i Tillägg</value>
+  </data>
 </root>

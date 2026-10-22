@@ -205,6 +205,7 @@ namespace Voidstrap.UI.ViewModels.Pages
         public string? ImageUrl { get; init; }
         public DateTime Created { get; init; }
         public string Blurb { get; init; } = string.Empty;
+        public bool IsRiShadeRelease { get; init; }
 
         public Visibility BlurbVisibility => string.IsNullOrEmpty(Blurb) ? Visibility.Collapsed : Visibility.Visible;
 
@@ -409,7 +410,7 @@ namespace Voidstrap.UI.ViewModels.Pages
             Title = Voidstrap.Resources.Strings.Ui_Home_RiShadeRelease_Title,
             Blurb = Voidstrap.Resources.Strings.Ui_Home_RiShadeRelease_Blurb,
             Tag = Voidstrap.Resources.Strings.Ui_Home_RiShadeRelease_Tag,
-            Url = "https://github.com/KloBraticc/RiShade",
+            IsRiShadeRelease = true,
             ImageUrl = "pack://application:,,,/Resources/RiShadeV2Banner.jpg",
             Created = new DateTime(2026, 10, 21, 12, 0, 0, DateTimeKind.Utc)
         };
@@ -1017,8 +1018,15 @@ namespace Voidstrap.UI.ViewModels.Pages
             OnPropertyChanged(nameof(NewsHeaderCount));
         }
 
-        private static void OpenNewsCard(NewsCardEntry? entry)
+        public event EventHandler? RiShadeReleaseRequested;
+
+        private void OpenNewsCard(NewsCardEntry? entry)
         {
+            if (entry?.IsRiShadeRelease == true)
+            {
+                RiShadeReleaseRequested?.Invoke(this, EventArgs.Empty);
+                return;
+            }
             if (entry == null || string.IsNullOrWhiteSpace(entry.Url))
                 return;
             try

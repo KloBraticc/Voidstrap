@@ -7869,4 +7869,16 @@ Voidstrap не смог записать в папку рабочего стол
   <data name="Ui.Home.RiShadeRelease.Tag" xml:space="preserve">
     <value>Релиз</value>
   </data>
+  <data name="Ui.Home.RiShadeRelease.DialogTitle" xml:space="preserve">
+    <value>RiShade V2 уже здесь</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.DialogIntro" xml:space="preserve">
+    <value>RiShade теперь запускает официальный ReShade как оверлей поверх Roblox. Ваши шейдеры и пресеты применяются к каждому кадру, и в клиент Roblox ничего не внедряется.</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.DialogDetails" xml:space="preserve">
+    <value>Включите его в разделе Расширения, затем нажмите Home или F8 в игре, чтобы открыть меню ReShade. Пресеты, которым нужна глубина, получают её оценку на Вашем ПК, а скриншоты выглядят лучше, чем когда-либо.</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
+    <value>Открыть в Расширениях</value>
+  </data>
 </root>

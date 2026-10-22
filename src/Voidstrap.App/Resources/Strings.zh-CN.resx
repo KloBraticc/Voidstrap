@@ -7894,4 +7894,16 @@ Voidstrap 无法写入桌面文件夹。</value>
   <data name="Ui.Home.RiShadeRelease.Tag" xml:space="preserve">
     <value>发布</value>
   </data>
+  <data name="Ui.Home.RiShadeRelease.DialogTitle" xml:space="preserve">
+    <value>RiShade V2 来了</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.DialogIntro" xml:space="preserve">
+    <value>RiShade 现在以叠加层的方式在 Roblox 上方运行官方 ReShade。您的着色器和预设会应用到每一帧，并且永远不会向 Roblox 客户端注入任何内容。</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.DialogDetails" xml:space="preserve">
+    <value>请在扩展中启用它，然后在游戏中按 Home 或 F8 打开 ReShade 菜单。需要深度的预设会使用在您电脑上估算的深度，截图效果前所未有地出色。</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
+    <value>在扩展中打开</value>
+  </data>
 </root>

@@ -942,6 +942,34 @@
         </Button>
       </Grid>
     </Border>
+    <Grid x:Name="RinDialogOverlay" Grid.RowSpan="3" Panel.ZIndex="1150" Visibility="Collapsed" Opacity="0">
+      <Border Background="#4D000000" />
+      <Border x:Name="RinDialogPanel" Width="440" Margin="8" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5" Background="#FF2C2C2C" BorderBrush="#12757575" BorderThickness="1" CornerRadius="7" SnapsToDevicePixels="True">
+        <Border.RenderTransform>
+          <ScaleTransform x:Name="RinDialogScale" ScaleX="1" ScaleY="1" />
+        </Border.RenderTransform>
+        <Border.Effect>
+          <DropShadowEffect BlurRadius="32" ShadowDepth="8" Direction="270" Opacity="0.37" Color="Black" />
+        </Border.Effect>
+        <Grid>
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <StackPanel Margin="24">
+            <TextBlock Text="{resources:Loc Ui_Home_RiShadeRelease_DialogTitle}" FontSize="20" FontWeight="SemiBold" Foreground="White" TextWrapping="Wrap" />
+            <TextBlock Text="{resources:Loc Ui_Home_RiShadeRelease_DialogIntro}" Margin="0,12,0,0" FontSize="14" LineHeight="20" Foreground="White" TextWrapping="Wrap" />
+            <TextBlock Text="{resources:Loc Ui_Home_RiShadeRelease_DialogDetails}" Margin="0,12,0,0" FontSize="14" LineHeight="20" Foreground="#C5FFFFFF" TextWrapping="Wrap" />
+          </StackPanel>
+          <Border Grid.Row="1" Background="#FF202020" BorderBrush="#12757575" BorderThickness="0,1,0,0" CornerRadius="0,0,7,7" Padding="24">
+            <UniformGrid Columns="2">
+              <ui:Button Margin="0,0,4,0" Height="32" HorizontalAlignment="Stretch" Appearance="Primary" Content="{resources:Loc Ui_Home_RiShadeRelease_OpenExtension}" Click="RinDialogOpenRiShade_Click" />
+              <ui:Button Margin="4,0,0,0" Height="32" HorizontalAlignment="Stretch" Content="{resources:Loc Common_Close}" Click="RinDialogClose_Click" />
+            </UniformGrid>
+          </Border>
+        </Grid>
+      </Border>
+    </Grid>
     <Grid x:Name="LaunchTargetOverlay" Grid.RowSpan="3" Panel.ZIndex="1100" Visibility="Hidden" Opacity="0" IsHitTestVisible="False">
       <Image x:Name="LaunchTargetBackdrop" Stretch="Fill" IsHitTestVisible="False" SnapsToDevicePixels="False" RenderOptions.BitmapScalingMode="HighQuality" />
       <Border Background="#99000000" MouseLeftButtonDown="LaunchTargetScrim_MouseLeftButtonDown" />

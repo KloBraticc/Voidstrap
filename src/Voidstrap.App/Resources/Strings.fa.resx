@@ -7872,4 +7872,16 @@ Voidstrap نتوانست در پوشهٔ دسکتاپ بنویسد.</value>
   <data name="Ui.Home.RiShadeRelease.Tag" xml:space="preserve">
     <value>انتشار</value>
   </data>
+  <data name="Ui.Home.RiShadeRelease.DialogTitle" xml:space="preserve">
+    <value>RiShade V2 از راه رسید</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.DialogIntro" xml:space="preserve">
+    <value>RiShade اکنون ReShade رسمی را به‌صورت لایه‌ای روی Roblox اجرا می‌کند. شیدرها و پیش‌تنظیم‌های شما روی همهٔ فریم‌ها اعمال می‌شوند و هیچ چیزی به کلاینت Roblox تزریق نمی‌شود.</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.DialogDetails" xml:space="preserve">
+    <value>آن را در افزونه‌ها روشن کنید، سپس در بازی Home یا F8 را بزنید تا منوی ReShade باز شود. پیش‌تنظیم‌هایی که به عمق نیاز دارند، عمق تخمینی را روی رایانهٔ شما می‌گیرند و اسکرین‌شات‌ها بهتر از همیشه به نظر می‌رسند.</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
+    <value>باز کردن در افزونه‌ها</value>
+  </data>
 </root>

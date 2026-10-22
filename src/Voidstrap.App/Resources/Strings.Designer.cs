@@ -1487,6 +1487,10 @@ namespace Voidstrap.Resources {
         public static string Ui_Home_RiShadeRelease_Title => ResourceManager.GetString("Ui.Home.RiShadeRelease.Title", resourceCulture);
         public static string Ui_Home_RiShadeRelease_Blurb => ResourceManager.GetString("Ui.Home.RiShadeRelease.Blurb", resourceCulture);
         public static string Ui_Home_RiShadeRelease_Tag => ResourceManager.GetString("Ui.Home.RiShadeRelease.Tag", resourceCulture);
+        public static string Ui_Home_RiShadeRelease_DialogTitle => ResourceManager.GetString("Ui.Home.RiShadeRelease.DialogTitle", resourceCulture);
+        public static string Ui_Home_RiShadeRelease_DialogIntro => ResourceManager.GetString("Ui.Home.RiShadeRelease.DialogIntro", resourceCulture);
+        public static string Ui_Home_RiShadeRelease_DialogDetails => ResourceManager.GetString("Ui.Home.RiShadeRelease.DialogDetails", resourceCulture);
+        public static string Ui_Home_RiShadeRelease_OpenExtension => ResourceManager.GetString("Ui.Home.RiShadeRelease.OpenExtension", resourceCulture);
 
         public static string Ui_Home_SeeEveryRobloxAnnouncement => ResourceManager.GetString("Ui.Home.SeeEveryRobloxAnnouncement", resourceCulture);
 

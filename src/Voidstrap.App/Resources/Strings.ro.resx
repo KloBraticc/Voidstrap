@@ -7871,4 +7871,16 @@ Eroare: {0}</value>
   <data name="Ui.Home.RiShadeRelease.Tag" xml:space="preserve">
     <value>Lansare</value>
   </data>
+  <data name="Ui.Home.RiShadeRelease.DialogTitle" xml:space="preserve">
+    <value>RiShade V2 a sosit</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.DialogIntro" xml:space="preserve">
+    <value>RiShade rulează acum ReShade oficial ca suprapunere peste Roblox. Shaderele și presetările tale se aplică fiecărui cadru și nimic nu este injectat vreodată în clientul Roblox.</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.DialogDetails" xml:space="preserve">
+    <value>Activează-l în Extensii, apoi apasă Home sau F8 în joc pentru a deschide meniul ReShade. Presetările care au nevoie de adâncime o primesc estimată pe PC-ul tău, iar capturile de ecran arată mai bine ca niciodată.</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
+    <value>Deschide în Extensii</value>
+  </data>
 </root>

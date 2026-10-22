@@ -7872,4 +7872,16 @@ Errore: {0}</value>
   <data name="Ui.Home.RiShadeRelease.Tag" xml:space="preserve">
     <value>Uscita</value>
   </data>
+  <data name="Ui.Home.RiShadeRelease.DialogTitle" xml:space="preserve">
+    <value>RiShade V2 è arrivato</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.DialogIntro" xml:space="preserve">
+    <value>RiShade ora esegue il ReShade ufficiale come overlay sopra Roblox. I tuoi shader e preset si applicano a ogni fotogramma e nel client Roblox non viene mai iniettato nulla.</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.DialogDetails" xml:space="preserve">
+    <value>Attivalo in Estensioni, poi premi Home o F8 in gioco per aprire il menu di ReShade. I preset che richiedono la profondità la ricevono stimata sul tuo PC, e gli screenshot non sono mai stati così belli.</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
+    <value>Apri in Estensioni</value>
+  </data>
 </root>

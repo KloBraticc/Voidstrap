@@ -7869,4 +7869,16 @@ Hiba: {0}</value>
   <data name="Ui.Home.RiShadeRelease.Tag" xml:space="preserve">
     <value>Kiadás</value>
   </data>
+  <data name="Ui.Home.RiShadeRelease.DialogTitle" xml:space="preserve">
+    <value>Itt a RiShade V2</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.DialogIntro" xml:space="preserve">
+    <value>A RiShade mostantól a hivatalos ReShadet futtatja átfedésként a Roblox fölött. A shadereid és preseteid minden képkockára érvényesek, és semmi sem kerül be a Roblox kliensbe.</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.DialogDetails" xml:space="preserve">
+    <value>Kapcsold be a Bővítményekben, majd játék közben nyomd meg a Home vagy F8 billentyűt a ReShade menü megnyitásához. A mélységet igénylő presetek a gépeden becsült mélységet kapnak, a képernyőképek pedig jobban néznek ki, mint valaha.</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
+    <value>Megnyitás a Bővítményekben</value>
+  </data>
 </root>

@@ -16,10 +16,24 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             DataContext = _viewModel;
             InitializeComponent();
             Loaded += OnHomePageLoaded;
+            Unloaded += OnHomePageUnloaded;
+        }
+
+        private void OnHomePageUnloaded(object sender, RoutedEventArgs e)
+        {
+            _viewModel.RiShadeReleaseRequested -= OnRiShadeReleaseRequested;
+        }
+
+        private void OnRiShadeReleaseRequested(object? sender, EventArgs e)
+        {
+            if (Window.GetWindow(this) is MainWindow window)
+                window.ShowRiShadeRelease();
         }
 
         private void OnHomePageLoaded(object sender, RoutedEventArgs e)
         {
+            _viewModel.RiShadeReleaseRequested -= OnRiShadeReleaseRequested;
+            _viewModel.RiShadeReleaseRequested += OnRiShadeReleaseRequested;
             _viewModel.RefreshMatchmakerState();
             _ = _viewModel.LoadAsync();
         }

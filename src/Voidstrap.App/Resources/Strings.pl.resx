@@ -7870,4 +7870,16 @@ Błąd: {0}</value>
   <data name="Ui.Home.RiShadeRelease.Tag" xml:space="preserve">
     <value>Premiera</value>
   </data>
+  <data name="Ui.Home.RiShadeRelease.DialogTitle" xml:space="preserve">
+    <value>RiShade V2 już jest</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.DialogIntro" xml:space="preserve">
+    <value>RiShade uruchamia teraz oficjalny ReShade jako nakładkę nad Roblox. Twoje shadery i presety działają na każdej klatce, a do klienta Roblox nigdy nic nie jest wstrzykiwane.</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.DialogDetails" xml:space="preserve">
+    <value>Włącz go w Rozszerzeniach, a potem w grze naciśnij Home lub F8, aby otworzyć menu ReShade. Presety wymagające głębi dostają ją oszacowaną na Twoim komputerze, a zrzuty ekranu wyglądają lepiej niż kiedykolwiek.</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
+    <value>Otwórz w Rozszerzeniach</value>
+  </data>
 </root>

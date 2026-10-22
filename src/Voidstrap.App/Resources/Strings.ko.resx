@@ -7868,4 +7868,16 @@ Voidstrap이 바탕 화면 폴더에 쓸 수 없습니다.</value>
   <data name="Ui.Home.RiShadeRelease.Tag" xml:space="preserve">
     <value>출시</value>
   </data>
+  <data name="Ui.Home.RiShadeRelease.DialogTitle" xml:space="preserve">
+    <value>RiShade V2가 나왔습니다</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.DialogIntro" xml:space="preserve">
+    <value>이제 RiShade는 공식 ReShade를 Roblox 위의 오버레이로 실행합니다. 셰이더와 프리셋이 모든 프레임에 적용되며, Roblox 클라이언트에는 아무것도 주입되지 않습니다.</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.DialogDetails" xml:space="preserve">
+    <value>확장 기능에서 켠 다음 게임에서 Home 또는 F8을 눌러 ReShade 메뉴를 여십시오. 깊이가 필요한 프리셋은 PC에서 추정한 깊이를 사용하며, 스크린샷이 그 어느 때보다 멋지게 보입니다.</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
+    <value>확장 기능에서 열기</value>
+  </data>
 </root>

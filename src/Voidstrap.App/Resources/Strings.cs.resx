@@ -7871,4 +7871,16 @@ Chyba: {0}</value>
   <data name="Ui.Home.RiShadeRelease.Tag" xml:space="preserve">
     <value>Vydání</value>
   </data>
+  <data name="Ui.Home.RiShadeRelease.DialogTitle" xml:space="preserve">
+    <value>RiShade V2 je tady</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.DialogIntro" xml:space="preserve">
+    <value>RiShade nyní spouští oficiální ReShade jako překryvnou vrstvu nad Roblox. Vaše shadery a předvolby se použijí na každý snímek a do klienta Roblox se nikdy nic nevkládá.</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.DialogDetails" xml:space="preserve">
+    <value>Zapněte jej v Rozšířeních a ve hře stiskněte Home nebo F8 pro otevření nabídky ReShade. Předvolby, které potřebují hloubku, ji dostanou odhadnutou ve Vašem počítači, a snímky obrazovky vypadají lépe než kdy dřív.</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
+    <value>Otevřít v Rozšířeních</value>
+  </data>
 </root>

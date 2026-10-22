@@ -7868,4 +7868,16 @@ Hata: {0}</value>
   <data name="Ui.Home.RiShadeRelease.Tag" xml:space="preserve">
     <value>Sürüm</value>
   </data>
+  <data name="Ui.Home.RiShadeRelease.DialogTitle" xml:space="preserve">
+    <value>RiShade V2 Geldi</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.DialogIntro" xml:space="preserve">
+    <value>RiShade artık resmi ReShade uygulamasını Roblox üzerinde bir katman olarak çalıştırıyor. Gölgelendiricileriniz ve ön ayarlarınız her kareye uygulanır ve Roblox istemcisine asla hiçbir şey enjekte edilmez.</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.DialogDetails" xml:space="preserve">
+    <value>Uzantılar bölümünden açın, ardından ReShade menüsünü açmak için oyunda Home veya F8 tuşuna basın. Derinlik gerektiren ön ayarlar bilgisayarınızda tahmin edilen derinliği alır ve ekran görüntüleri hiç olmadığı kadar iyi görünür.</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
+    <value>Uzantılarda aç</value>
+  </data>
 </root>

@@ -7861,4 +7861,16 @@ Ralat: {0}</value>
   <data name="Ui.Home.RiShadeRelease.Tag" xml:space="preserve">
     <value>Keluaran</value>
   </data>
+  <data name="Ui.Home.RiShadeRelease.DialogTitle" xml:space="preserve">
+    <value>RiShade V2 Sudah Tiba</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.DialogIntro" xml:space="preserve">
+    <value>RiShade kini menjalankan ReShade rasmi sebagai lapisan di atas Roblox. Shader dan pratetap anda digunakan pada setiap bingkai, dan tiada apa pun disuntik ke dalam klien Roblox.</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.DialogDetails" xml:space="preserve">
+    <value>Hidupkannya dalam Sambungan, kemudian tekan Home atau F8 dalam permainan untuk membuka menu ReShade. Pratetap yang memerlukan kedalaman mendapat kedalaman anggaran pada komputer anda, dan tangkapan skrin kelihatan lebih cantik berbanding sebelum ini.</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
+    <value>Buka dalam Sambungan</value>
+  </data>
 </root>

@@ -7871,4 +7871,16 @@ Klaida: {0}</value>
   <data name="Ui.Home.RiShadeRelease.Tag" xml:space="preserve">
     <value>Leidimas</value>
   </data>
+  <data name="Ui.Home.RiShadeRelease.DialogTitle" xml:space="preserve">
+    <value>RiShade V2 jau čia</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.DialogIntro" xml:space="preserve">
+    <value>RiShade dabar paleidžia oficialų ReShade kaip sluoksnį virš Roblox. Jūsų šešėliavimo efektai ir nustatymai taikomi kiekvienam kadrui, o į Roblox klientą niekada nieko neįterpiama.</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.DialogDetails" xml:space="preserve">
+    <value>Įjunkite jį skiltyje Plėtiniai, tada žaidime paspauskite Home arba F8, kad atidarytumėte ReShade meniu. Nustatymai, kuriems reikia gylio, gauna jūsų kompiuteryje įvertintą gylį, o ekrano nuotraukos atrodo geriau nei bet kada.</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
+    <value>Atidaryti Plėtiniuose</value>
+  </data>
 </root>

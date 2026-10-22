@@ -7871,4 +7871,16 @@ Virhe: {0}</value>
   <data name="Ui.Home.RiShadeRelease.Tag" xml:space="preserve">
     <value>Julkaisu</value>
   </data>
+  <data name="Ui.Home.RiShadeRelease.DialogTitle" xml:space="preserve">
+    <value>RiShade V2 on täällä</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.DialogIntro" xml:space="preserve">
+    <value>RiShade ajaa nyt virallista ReShadea peittokuvana Roblox:n päällä. Varjostimesi ja esiasetuksesi koskevat jokaista ruutua, eikä Roblox asiakasohjelmaan syötetä koskaan mitään.</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.DialogDetails" xml:space="preserve">
+    <value>Ota se käyttöön Laajennuksissa ja paina pelissä Home tai F8 avataksesi ReShade valikon. Syvyyttä tarvitsevat esiasetukset saavat arvioidun syvyyden tietokoneellasi, ja kuvakaappaukset näyttävät paremmilta kuin koskaan.</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
+    <value>Avaa Laajennuksissa</value>
+  </data>
 </root>

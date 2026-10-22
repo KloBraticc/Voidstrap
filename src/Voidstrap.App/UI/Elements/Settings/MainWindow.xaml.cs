@@ -4478,6 +4478,12 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void MainWindow_PreviewKeyDown(object sender, KeyEventArgs e)
     {
+        if (e.Key == Key.Escape && _rinDialogOpen)
+        {
+            CloseRinDialog();
+            e.Handled = true;
+            return;
+        }
         if (e.Key == Key.Escape && _launchTargetOverlayOpen)
         {
             CloseLaunchTargetOverlay();
@@ -6693,6 +6699,57 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         SetModalUnderlayHidden(false);
         RemoveLinuxLaunchTargetBlur();
         ReleaseOrphanedCapture();
+    }
+
+    private bool _rinDialogOpen;
+
+    public void ShowRiShadeRelease()
+    {
+        if (_rinDialogOpen)
+            return;
+        _rinDialogOpen = true;
+        RinDialogOverlay.IsHitTestVisible = true;
+        RinDialogOverlay.Visibility = Visibility.Visible;
+        AnimateRinDialog(1.0, 187, new QuarticEase { EasingMode = EasingMode.EaseInOut }, 1.1, 1.0);
+    }
+
+    private void CloseRinDialog()
+    {
+        if (!_rinDialogOpen)
+            return;
+        _rinDialogOpen = false;
+        RinDialogOverlay.IsHitTestVisible = false;
+        AnimateRinDialog(0.0, 100, new QuarticEase { EasingMode = EasingMode.EaseInOut }, 1.0, 1.1);
+    }
+
+    private void AnimateRinDialog(double opacity, int fadeMs, IEasingFunction fadeEase, double scaleFrom, double scaleTo)
+    {
+        DoubleAnimation fade = new(opacity, TimeSpan.FromMilliseconds(fadeMs)) { EasingFunction = fadeEase };
+        if (opacity == 0.0)
+            fade.Completed += RinDialogFade_Completed;
+        RinDialogOverlay.BeginAnimation(OpacityProperty, fade);
+        QuinticEase scaleEase = new() { EasingMode = EasingMode.EaseOut };
+        DoubleAnimation scale = new(scaleFrom, scaleTo, TimeSpan.FromMilliseconds(667)) { EasingFunction = scaleEase };
+        RinDialogScale.BeginAnimation(ScaleTransform.ScaleXProperty, scale);
+        RinDialogScale.BeginAnimation(ScaleTransform.ScaleYProperty, scale);
+    }
+
+    private void RinDialogFade_Completed(object? sender, EventArgs e)
+    {
+        if (!_rinDialogOpen)
+            RinDialogOverlay.Visibility = Visibility.Collapsed;
+    }
+
+    private void RinDialogClose_Click(object sender, RoutedEventArgs e)
+    {
+        CloseRinDialog();
+    }
+
+    private void RinDialogOpenRiShade_Click(object sender, RoutedEventArgs e)
+    {
+        CloseRinDialog();
+        ExtensionPage.RequestedExtension = "rishade";
+        RootNavigation.Navigate(typeof(ExtensionPage));
     }
 
     private void LaunchTargetScrim_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
