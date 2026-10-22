@@ -1640,7 +1640,7 @@ if ($RequestedAll) {
 $SignPathContext = $null
 if ($IsWindowsHost -and $Configuration -eq 'Release' -and (@($Targets | Where-Object { $_.Key -eq 'windows' }).Count -gt 0)) {
     $useSignPath = $true
-    if ($PSBoundParameters.ContainsKey('Only') -and $PSBoundParameters.ContainsKey('NoPause') -and $Only.Count -eq 1 -and $Only[0] -eq 'windows') {
+    if (-not $env:CI -and -not [Console]::IsInputRedirected) {
         while ($true) {
             $answer = (Read-Host 'Use SignPath code signing? [y/n]').Trim().ToLowerInvariant()
             if ($answer -in @('y', 'yes')) { break }
