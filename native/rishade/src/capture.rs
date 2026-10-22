@@ -12,7 +12,7 @@ use windows::Graphics::DirectX::Direct3D11::IDirect3DDevice;
 use windows::Graphics::DirectX::DirectXPixelFormat;
 use windows::Graphics::SizeInt32;
 use windows::Win32::Foundation::{HMODULE, HWND, RECT};
-use windows::Win32::Graphics::Direct3D::{D3D_DRIVER_TYPE_HARDWARE, D3D_FEATURE_LEVEL_11_0};
+use windows::Win32::Graphics::Direct3D::{D3D_DRIVER_TYPE, D3D_DRIVER_TYPE_HARDWARE, D3D_DRIVER_TYPE_WARP, D3D_FEATURE_LEVEL_11_0};
 use windows::Win32::Graphics::Direct3D11::{
     D3D11_CREATE_DEVICE_BGRA_SUPPORT, D3D11_SDK_VERSION, D3D11CreateDevice, ID3D11Device,
     ID3D11Texture2D,
@@ -409,6 +409,24 @@ fn capture_window(
     Ok(())
 }
 
+fn create_capture_device(driver_type: D3D_DRIVER_TYPE) -> windows::core::Result<ID3D11Device> {
+    let mut device = None;
+    unsafe {
+        D3D11CreateDevice(
+            None,
+            driver_type,
+            HMODULE::default(),
+            D3D11_CREATE_DEVICE_BGRA_SUPPORT,
+            Some(&[D3D_FEATURE_LEVEL_11_0]),
+            D3D11_SDK_VERSION,
+            Some(&mut device),
+            None,
+            None,
+        )?;
+    }
+    device.ok_or_else(|| windows::core::Error::from(windows::Win32::Foundation::E_FAIL))
+}
+
 fn setup_capture(
     hwnd: isize,
     target_fps: u32,
@@ -426,21 +444,8 @@ fn setup_capture(
     let device: ID3D11Device = if let Some(device) = device {
         device.0
     } else {
-        let mut device = None;
-        unsafe {
-            D3D11CreateDevice(
-                None,
-                D3D_DRIVER_TYPE_HARDWARE,
-                HMODULE::default(),
-                D3D11_CREATE_DEVICE_BGRA_SUPPORT,
-                Some(&[D3D_FEATURE_LEVEL_11_0]),
-                D3D11_SDK_VERSION,
-                Some(&mut device),
-                None,
-                None,
-            )?;
-        }
-        device.expect("D3D11 device creation returned no device")
+        create_capture_device(D3D_DRIVER_TYPE_HARDWARE)
+            .or_else(|_| create_capture_device(D3D_DRIVER_TYPE_WARP))?
     };
     let dxgi_device: IDXGIDevice = device.cast()?;
     let winrt_device: IDirect3DDevice =

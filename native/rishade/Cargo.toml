@@ -44,10 +44,14 @@ windows = { version = "0.58", features = [
 ] }
 
 [profile.release]
-opt-level = "s"
-lto = "fat"
-codegen-units = 1
+opt-level = 3
+lto = "thin"
+codegen-units = 16
 strip = true
+
+[profile.release.build-override]
+opt-level = 0
+codegen-units = 256
 
 [workspace]
 members = ["reshade-addon"]
