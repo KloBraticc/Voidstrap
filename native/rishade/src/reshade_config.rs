@@ -223,7 +223,7 @@ pub fn prepare_reshade_config(directory: &Path) -> io::Result<()> {
     let _ = ini.set("GENERAL", "NoLogging", if wrapped { "0" } else { "1" });
     let _ = ini.set("OVERLAY", "TutorialProgress", "4");
     let _ = ini.set("OVERLAY", "ShowPresetTransitionMessage", "0");
-    let _ = ini.set("INSTALL", "Logging", "0");
+    let _ = ini.set("INSTALL", "Logging", if wrapped { "1" } else { "0" });
     let _ = ini.set("INSTALL", "EnableLogging", "0");
 
     if ini.get("STYLE", "StyleIndex").is_none() {
