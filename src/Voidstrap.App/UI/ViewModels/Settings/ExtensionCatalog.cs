@@ -53,15 +53,16 @@ public static class ExtensionCatalog
 				Type = ExtensionViewModel.TypeExtensions,
 				WorksWith = ["Roblox Player"],
 				Tags = ["Shaders", "Visuals", "Screenshots"],
-				Summary = "Brings shaders back to Roblox for better visuals. Press F8 in game to open its window. Best used for screenshots rather than everyday play.",
+				Summary = "Runs ReShade shaders and presets on Roblox without touching the game. Press Home or F8 in game to open the ReShade menu.",
 				Description = [
-					"RiShade adds a post processing layer on top of Roblox with bloom, tone mapping, color grading and sharpening that Roblox itself no longer offers.",
-					"Everything is adjusted from its own window. Open it with F8 or from this page, tweak the sliders and see the result live.",
+					"RiShade runs the official ReShade runtime inside Voidstrap instead of inside Roblox. It captures the Roblox window, applies your ReShade effects to each frame and draws the result in an overlay on top of the game, so nothing is injected into the Roblox client.",
+					"Use any ReShade preset and shader pack. Press Home or F8 in game to open the ReShade menu, or pick a preset from this page.",
+					"Roblox does not share its depth buffer, so presets that need depth get one estimated from the image by a small local model.",
 					"Shaders cost frames, so it is best used for screenshots and videos rather than competitive play."
 				],
 				Icon = RiShadeIcon,
 				CanOpen = true,
-				SearchText = "RiShade shaders visuals effects bloom tonemap panel F8"
+				SearchText = "RiShade ReShade shaders presets visuals effects depth overlay Home F8"
 			},
 			new ExtensionEntry("apidump", () => vm.apidumpenabler, value => vm.apidumpenabler = value)
 			{
