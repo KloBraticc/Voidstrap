@@ -486,11 +486,11 @@ public static class RobloxDatacenterMap
 			new SeedCidrEntry
 			{
 				Cidr = "128.116.30.0/24",
-				City = "Hong Kong",
-				Region = "Hong Kong",
-				Country = "China",
-				Lat = 22.3193,
-				Lon = 114.1694
+				City = "New York",
+				Region = "New York",
+				Country = "USA",
+				Lat = 40.7128,
+				Lon = -74.006
 			},
 			new SeedCidrEntry
 			{
