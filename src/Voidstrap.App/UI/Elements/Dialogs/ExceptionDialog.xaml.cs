@@ -25,8 +25,6 @@ public partial class ExceptionDialog : WpfUiWindow{
 
 	private static readonly int MaxDetailsLength = 2000;
 	private readonly string _issueUrl;
-	private readonly string _backupIssueUrl;
-
 	public ExceptionDialog(Exception exception)
 	{
 		InitializeComponent();
@@ -71,8 +69,6 @@ public partial class ExceptionDialog : WpfUiWindow{
 		HelpMessageMDTextBlock.MarkdownText = GetHelpMessage(wikiUrl, _issueUrl);
 		VersionText.Text = string.Format(Strings.Dialog_Exception_Version, App.Version);
 		ReportExceptionButton.Click += OnReportExceptionClick;
-		_backupIssueUrl = _issueUrl.Replace(text, App.ProjectFallbackRepository);
-		ReportExceptionBackupButton.Click += OnReportExceptionBackupClick;
 		LocateLogFileButton.Click += OnLocateLogFileClick;
 		CopyDetailsButton.Click += OnCopyDetailsClick;
 		CloseButton.Click += OnCloseClick;
@@ -152,7 +148,6 @@ public partial class ExceptionDialog : WpfUiWindow{
 		base.Closed -= OnDialogClosed;
 		base.Loaded -= OnLoaded;
 		ReportExceptionButton.Click -= OnReportExceptionClick;
-		ReportExceptionBackupButton.Click -= OnReportExceptionBackupClick;
 		CloseButton.Click -= OnCloseClick;
 		CopyDetailsButton.Click -= OnCopyDetailsClick;
 		LocateLogFileButton.Click -= OnLocateLogFileClick;
@@ -167,11 +162,6 @@ public partial class ExceptionDialog : WpfUiWindow{
 	private void OnReportExceptionClick(object sender, RoutedEventArgs e)
 	{
 		Utilities.ShellExecute(_issueUrl);
-	}
-
-	private void OnReportExceptionBackupClick(object sender, RoutedEventArgs e)
-	{
-		Utilities.ShellExecute(_backupIssueUrl);
 	}
 
 	private void OnCloseClick(object sender, RoutedEventArgs e)

@@ -93,13 +93,10 @@
           <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
-        <UniformGrid Grid.Row="0" Rows="1" Columns="3" Margin="0,0,0,8">
+        <UniformGrid Grid.Row="0" Rows="1" Columns="2" Margin="0,0,0,8">
           <ui:Button Name="ReportExceptionButton" Height="30" Margin="0,0,6,0" Padding="4,0"
                      HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
                      Content="{resources:Loc Dialog_Exception_Report}" />
-          <ui:Button Name="ReportExceptionBackupButton" Height="30" Margin="0,0,6,0" Padding="4,0"
-                     HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
-                     Content="{resources:Loc Ui_Misc2_ReportOnBackup}" />
           <ui:Button Name="LocateLogFileButton" Height="30" Padding="4,0"
                      HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"
                      Content="{resources:Loc Common_OpenLogFile}" />
