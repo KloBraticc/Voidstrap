@@ -53,12 +53,9 @@ namespace Voidstrap.Integrations.RiShade
 
         public static RiShadeDlssBridge? TryStart(ID3D11Device device)
         {
-            string hostPath = Path.Combine(AppContext.BaseDirectory, "rishade_dlss.exe");
-            if (!File.Exists(hostPath))
-            {
-                App.Logger.WriteLine(LOG_IDENT, "The DLSS host is missing from the Voidstrap folder, DLSS stays off");
+            string? hostPath = ExtractHost();
+            if (hostPath == null)
                 return null;
-            }
 
             string mapName = $"Local\\RiShadeDlss_{Environment.ProcessId}_{Environment.TickCount64}";
             RiShadeDlssBridge? bridge = null;
@@ -101,6 +98,34 @@ namespace Voidstrap.Integrations.RiShade
                 App.Logger.WriteException("RiShadeDlssBridge::TryStart", ex);
                 bridge?.Dispose();
                 return null;
+            }
+        }
+
+        private static string? ExtractHost()
+        {
+            string hostPath = Path.Combine(RiShadeManager.RiShadeDir, "rishade_dlss.exe");
+            try
+            {
+                using Stream? embedded = typeof(RiShadeDlssBridge).Assembly.GetManifestResourceStream("RiShade.rishade_dlss.exe");
+                if (embedded == null)
+                {
+                    App.Logger.WriteLine(LOG_IDENT, "This build does not include the DLSS host, DLSS stays off");
+                    return null;
+                }
+                byte[] bytes = new byte[embedded.Length];
+                embedded.ReadExactly(bytes);
+                if (!File.Exists(hostPath) || !File.ReadAllBytes(hostPath).AsSpan().SequenceEqual(bytes))
+                {
+                    string staged = hostPath + ".tmp";
+                    File.WriteAllBytes(staged, bytes);
+                    File.Move(staged, hostPath, true);
+                }
+                return hostPath;
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine(LOG_IDENT, "The DLSS host could not be written to the RiShade folder: " + ex.Message);
+                return File.Exists(hostPath) ? hostPath : null;
             }
         }
 

@@ -419,7 +419,7 @@
 		<ItemGroup>
 			<None Include="$(RiShadeCoreDll)" Link="rishade_core.dll" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
 			<None Include="$(RiShadeAddonDll)" Link="rishade_reshade_addon.dll" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
-			<None Include="$(RiShadeDlssExe)" Link="rishade_dlss.exe" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+			<EmbeddedResource Include="$(RiShadeDlssExe)" LogicalName="RiShade.rishade_dlss.exe" />
 			<None Include="$(RiShadeDepthBridgeDll)" Link="rishade_depth_bridge.dll" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
 		</ItemGroup>
 	</Target>
