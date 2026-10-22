@@ -71,6 +71,55 @@ type CreateEffectRuntime = unsafe extern "system" fn(
     *mut *mut c_void,
 ) -> bool;
 type DestroyEffectRuntime = unsafe extern "system" fn(*mut c_void);
+type CreateDevice = unsafe extern "system" fn(
+    *mut c_void,
+    u32,
+    *mut c_void,
+    u32,
+    *const u32,
+    u32,
+    u32,
+    *mut *mut c_void,
+    *mut u32,
+    *mut *mut c_void,
+) -> i32;
+
+const D3D_DRIVER_TYPE_HARDWARE: u32 = 1;
+const D3D11_SDK_VERSION: u32 = 7;
+const D3D_FEATURE_LEVEL_11_0: u32 = 0xB000;
+
+static ADDON_HOST_DEVICE: AtomicUsize = AtomicUsize::new(0);
+static ADDON_HOST_CONTEXT: AtomicUsize = AtomicUsize::new(0);
+
+unsafe fn load_folder_addons(module: Module) {
+    if ADDON_HOST_DEVICE.load(Ordering::Acquire) != 0 {
+        return;
+    }
+    let Some(create) = (unsafe { symbol::<CreateDevice>(module, b"D3D11CreateDevice\0") }) else {
+        return;
+    };
+    let levels = [D3D_FEATURE_LEVEL_11_0];
+    let mut device = std::ptr::null_mut();
+    let mut context = std::ptr::null_mut();
+    let result = unsafe {
+        create(
+            std::ptr::null_mut(),
+            D3D_DRIVER_TYPE_HARDWARE,
+            std::ptr::null_mut(),
+            0,
+            levels.as_ptr(),
+            1,
+            D3D11_SDK_VERSION,
+            &mut device,
+            std::ptr::null_mut(),
+            &mut context,
+        )
+    };
+    if result >= 0 && !device.is_null() {
+        ADDON_HOST_DEVICE.store(device as usize, Ordering::Release);
+        ADDON_HOST_CONTEXT.store(context as usize, Ordering::Release);
+    }
+}
 type UpdateAndPresentEffectRuntime = unsafe extern "system" fn(*mut c_void);
 
 struct ReShadeApi {
@@ -92,6 +141,7 @@ static PENDING_PRESET_PATH: Mutex<Option<CString>> = Mutex::new(None);
 static PRESET_PENDING: AtomicBool = AtomicBool::new(false);
 const EFFECT_LOADING_TIMEOUT_MS: u64 = 3_000;
 const LOAD_WITH_ALTERED_SEARCH_PATH: u32 = 0x00000008;
+const LOAD_LIBRARY_SEARCH_SYSTEM32: u32 = 0x00000800;
 
 unsafe fn symbol<T: Copy>(module: Module, name: &'static [u8]) -> Option<T> {
     let address = unsafe { GetProcAddress(module, name.as_ptr().cast()) };
@@ -213,6 +263,9 @@ pub unsafe extern "system" fn RiShadeRuntimeLoad(dxgi_path: *const u16) -> bool 
         return false;
     }
 
+    let system_d3d11: Vec<u16> = "d3d11.dll\0".encode_utf16().collect();
+    let system_d3d11 = unsafe { LoadLibraryExW(system_d3d11.as_ptr(), std::ptr::null_mut(), LOAD_LIBRARY_SEARCH_SYSTEM32) };
+
     let module = unsafe {
         LoadLibraryExW(
             dxgi_path,
@@ -247,6 +300,9 @@ pub unsafe extern "system" fn RiShadeRuntimeLoad(dxgi_path: *const u16) -> bool 
     ) {
         Ok(_) => {
             UPDATE_AND_PRESENT.store(update_and_present as usize, Ordering::Release);
+            if !system_d3d11.is_null() {
+                unsafe { load_folder_addons(module) };
+            }
             unsafe { initialize_addon() }
         }
         Err(_) => {
