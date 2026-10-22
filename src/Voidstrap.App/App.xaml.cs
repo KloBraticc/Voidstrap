@@ -833,15 +833,9 @@ public partial class App : Application
 			Terminate();
 			return;
 		}
-		if (LaunchSettings.AssetWarpGuardFlag.Active)
+		if (LaunchSettings.AssetWarpGuardFlag.Active || LaunchSettings.AssetWarpCleanupFlag.Active)
 		{
-			await Voidstrap.Integrations.AssetProxy.AssetProxyRouting.RunCleanupGuardAsync(LaunchSettings.AssetWarpGuardFlag.Data);
-			Terminate();
-			return;
-		}
-		if (LaunchSettings.AssetWarpCleanupFlag.Active)
-		{
-			Voidstrap.Integrations.AssetProxy.AssetProxyRouting.RunScheduledCleanup();
+			AssetWarpLegacyCleanup.RemoveHostsEntries();
 			Terminate();
 			return;
 		}
@@ -983,10 +977,7 @@ public partial class App : Application
 		TryStartup("Roblox global settings repair", () => GlobalSettings.RepairFile());
 		if (!LaunchSettings.WatcherFlag.Active)
 		{
-			TryStartup("AssetWarp route cleanup", () =>
-			{
-				Voidstrap.Integrations.AssetProxy.AssetProxyServer.CleanupStaleState();
-			});
+			TryStartup("AssetWarp leftover cleanup", AssetWarpLegacyCleanup.Run);
 		}
 		if (TryAutoElevateForFrameGen())
 		{
@@ -1271,8 +1262,7 @@ public partial class App : Application
 				Paths.Initialize(installLocation);
 			}
 
-			Voidstrap.Integrations.AssetProxy.AssetProxyServer.CleanupStaleState();
-			Voidstrap.Integrations.AssetProxy.AssetProxyServer.RemoveCertificates();
+			AssetWarpLegacyCleanup.Run();
 			if (Voidstrap.Integrations.TelemetryBlocker.IsApplied() && !Voidstrap.Integrations.TelemetryBlocker.Set(false))
 			{
 				throw new InvalidOperationException("The telemetry block could not be removed");
@@ -1400,7 +1390,6 @@ public partial class App : Application
 		ResetWindowBackdropOnce();
 		ResetServerInfoInTitleOnce();
 		ResetClockOverlayOnce();
-		ResetSpoofSelfGameCreatorOnce();
 	}
 
 	private static void TimedLoad(string name, Action load)
@@ -1465,18 +1454,6 @@ public partial class App : Application
 		Settings.Prop.ClockOverlayResetVersion = ClockOverlayResetVersion;
 		Settings.Save();
 		Logger.WriteLine("App::ResetClockOverlayOnce", "Clock overlay reset to off");
-	}
-
-	private const int SpoofSelfGameCreatorResetVersion = 1;
-
-	private static void ResetSpoofSelfGameCreatorOnce()
-	{
-		if (Settings.Prop.SpoofSelfGameCreatorResetVersion >= SpoofSelfGameCreatorResetVersion)
-			return;
-		Settings.Prop.SpoofSelfGameCreator = false;
-		Settings.Prop.SpoofSelfGameCreatorResetVersion = SpoofSelfGameCreatorResetVersion;
-		Settings.Save();
-		Logger.WriteLine("App::ResetSpoofSelfGameCreatorOnce", "Make Yourself Game Creator reset to off");
 	}
 
 	private void InitializeServices()
@@ -2089,9 +2066,7 @@ public partial class App : Application
 		TryShutdown(Voidstrap.KeyRouting.SnapTapHook.Shutdown);
 		TryShutdown(Voidstrap.Integrations.Rojo.RojoManager.Shutdown);
 		TryShutdown(Voidstrap.Integrations.Studio.StudioIntegration.Shutdown);
-		TryShutdown(AssetProxyServer.Stop);
-		TryShutdown(AssetPreloadCache.Shutdown);
-		TryShutdown(() => AssetCaptureStore.Shutdown());
+		TryShutdown(AssetCaptureStore.Shutdown);
 		TryShutdown(Voidstrap.Integrations.Fullscreen.FakeExclusiveFullscreen.Shutdown);
 		if (Voidstrap.Utility.Platform.IsLinux)
 			TryShutdown(Voidstrap.Integrations.Overlays.OverlayHub.Shutdown);

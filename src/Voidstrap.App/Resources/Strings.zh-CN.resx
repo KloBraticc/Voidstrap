@@ -2944,21 +2944,6 @@ Voidstrap 的安装路径是：
   <data name="GlobalProfiles.SaveFailed" xml:space="preserve">
     <value>无法写入 Roblox 设置文件。请关闭 Roblox 后重试。</value>
   </data>
-  <data name="AssetWarp.RemoveTexturesDescription" xml:space="preserve">
-    <value>阻止下载纹理资源和纹理包</value>
-  </data>
-  <data name="AssetWarp.RemoveDecalsDescription" xml:space="preserve">
-    <value>阻止下载贴花资源</value>
-  </data>
-  <data name="AssetWarp.RemoveImagesDescription" xml:space="preserve">
-    <value>阻止下载图片资源。Roblox 也使用图片作为纹理和贴花</value>
-  </data>
-  <data name="AssetWarp.RemoveAnimationsDescription" xml:space="preserve">
-    <value>阻止下载动画资源。没有后备动画的游戏可能无法正常运行</value>
-  </data>
-  <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
-    <value>阻止下载网格和 MeshPart 资源。网格几何体将变为不可见</value>
-  </data>
   <data name="SwiftTunnel.Summary" xml:space="preserve">
     <value>将 Roblox 流量通过 SwiftTunnel 路由，其他应用仍使用您的常规连接</value>
   </data>
@@ -4117,111 +4102,6 @@ Voidstrap 的安装路径是：
   </data>
   <data name="Ui.FastFlags.OnlyChangeWhatYouUnderstandAnd" xml:space="preserve">
     <value>只更改您了解的内容，并且一次只改一项设置。</value>
-  </data>
-  <data name="Ui.FastFlags.EnablesTheAssetWarpProxyAndAll" xml:space="preserve">
-    <value>开启 AssetWarp 代理及所有相关功能</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllTextures" xml:space="preserve">
-    <value>移除所有纹理</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllDecals" xml:space="preserve">
-    <value>移除所有贴花</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllImages" xml:space="preserve">
-    <value>移除所有图像</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllAnimations" xml:space="preserve">
-    <value>移除所有动画</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllMeshes" xml:space="preserve">
-    <value>移除所有网格</value>
-  </data>
-  <data name="Ui.FastFlags.PresenceSpoofer" xml:space="preserve">
-    <value>状态伪装</value>
-  </data>
-  <data name="Ui.FastFlags.ChangesWhatOthersSeeOnlineIn" xml:space="preserve">
-    <value>更改其他人看到的状态：在线、在 Studio 中或离线</value>
-  </data>
-  <data name="Ui.FastFlags.Preloading" xml:space="preserve">
-    <value>预加载</value>
-  </data>
-  <data name="Ui.FastFlags.AssetPreloading" xml:space="preserve">
-    <value>预加载资源</value>
-  </data>
-  <data name="Ui.FastFlags.LearnsEachGameAndServesPreviously" xml:space="preserve">
-    <value>学习每个游戏并提供之前下载过的资源</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadCacheLimit" xml:space="preserve">
-    <value>预加载缓存上限</value>
-  </data>
-  <data name="Ui.FastFlags.LimitsHowMuchDiskSpaceThe" xml:space="preserve">
-    <value>限制已学习资源缓存可使用的磁盘空间</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadAvatar" xml:space="preserve">
-    <value>预加载头像</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadsYourAvatarAndEquippedAccessories" xml:space="preserve">
-    <value>每次启动游戏前预加载您的头像和已装备的配饰</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadRecentGames" xml:space="preserve">
-    <value>预加载最近的游戏</value>
-  </data>
-  <data name="Ui.FastFlags.WarmsCacheFromYourRecentlyPlayed" xml:space="preserve">
-    <value>每次启动前用您最近玩过的游戏预热缓存</value>
-  </data>
-  <data name="Ui.FastFlags.ClientSpoofer" xml:space="preserve">
-    <value>客户端伪装</value>
-  </data>
-  <data name="Ui.FastFlags.ClientSidedOnlyYouSeeThese" xml:space="preserve">
-    <value>仅限客户端，这些更改只有您能看到。</value>
-  </data>
-  <data name="Ui.FastFlags.EveryoneElseUsername" xml:space="preserve">
-    <value>其他所有人的用户名</value>
-  </data>
-  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown" xml:space="preserve">
-    <value>设置您的客户端为其他所有玩家显示的用户名</value>
-  </data>
-  <data name="Ui.FastFlags.ApplyEveryoneElseIngame" xml:space="preserve">
-    <value>在游戏中应用于其他所有人</value>
-  </data>
-  <data name="Ui.FastFlags.AppliesTheEveryoneElseUsernameInside" xml:space="preserve">
-    <value>在 Roblox 中应用其他所有人的用户名</value>
-  </data>
-  <data name="Ui.FastFlags.VerifyEveryoneElse" xml:space="preserve">
-    <value>验证其他所有人</value>
-  </data>
-  <data name="Ui.FastFlags.ShowsEveryOtherPlayerAsVerified" xml:space="preserve">
-    <value>在此客户端中将其他所有玩家显示为已验证</value>
-  </data>
-  <data name="Ui.FastFlags.YourUsername" xml:space="preserve">
-    <value>您的用户名</value>
-  </data>
-  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown2" xml:space="preserve">
-    <value>设置您的客户端为您的账户显示的用户名</value>
-  </data>
-  <data name="Ui.FastFlags.ApplyYourUsernameIngame" xml:space="preserve">
-    <value>在游戏中应用您的用户名</value>
-  </data>
-  <data name="Ui.FastFlags.AppliesYourSpoofedUsernameInsideRoblox" xml:space="preserve">
-    <value>在 Roblox 中应用您伪装的用户名</value>
-  </data>
-  <data name="Ui.FastFlags.RobuxAdjuster" xml:space="preserve">
-    <value>Robux 调整器</value>
-  </data>
-  <data name="Ui.FastFlags.VerifyYourAccount" xml:space="preserve">
-    <value>验证您的账户</value>
-  </data>
-  <data name="Ui.FastFlags.ShowsYourAccountAsVerifiedOn" xml:space="preserve">
-    <value>在此客户端中将您的账户显示为已验证</value>
-  </data>
-  <data name="Ui.FastFlags.MakeYourselfGameCreator" xml:space="preserve">
-    <value>让自己成为游戏创作者</value>
-  </data>
-  <data name="Ui.FastFlags.UsesYourCurrentRobloxUserID" xml:space="preserve">
-    <value>将您当前的 Roblox 用户 ID 用于拦截到的游戏创作者数据</value>
-  </data>
-  <data name="Ui.FastFlags.MakeYourselfGameCreatorDoesNot" xml:space="preserve">
-    <value>让自己成为游戏创作者在 Windows 上无法使用。Roblox 现在会在 Windows 上保护游戏加入流程，修改它会导致加入失败并出现错误 529，因此 Voidstrap 不会修改它。它在 Linux 和 macOS 上仍然有效，您的其他选项不受影响。</value>
   </data>
   <data name="Ui.Bootstrapper.DisablesBackgroundWindowWhenLaunchingRoblox" xml:space="preserve">
     <value>启动 Roblox 时禁用后台窗口</value>

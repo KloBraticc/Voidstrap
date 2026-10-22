@@ -2922,21 +2922,6 @@ Voidstrap был установлен по адресу "{1}".</value>
   <data name="GlobalProfiles.SaveFailed" xml:space="preserve">
     <value>Не удалось записать файл настроек Roblox. Закройте Roblox и попробуйте снова.</value>
   </data>
-  <data name="AssetWarp.RemoveTexturesDescription" xml:space="preserve">
-    <value>Блокирует загрузку ресурсов текстур и наборов текстур</value>
-  </data>
-  <data name="AssetWarp.RemoveDecalsDescription" xml:space="preserve">
-    <value>Блокирует загрузку ресурсов декалей</value>
-  </data>
-  <data name="AssetWarp.RemoveImagesDescription" xml:space="preserve">
-    <value>Блокирует загрузку ресурсов изображений. Roblox также использует изображения для текстур и декалей</value>
-  </data>
-  <data name="AssetWarp.RemoveAnimationsDescription" xml:space="preserve">
-    <value>Блокирует загрузку ресурсов анимаций. Игры без запасной анимации могут перестать работать правильно</value>
-  </data>
-  <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
-    <value>Блокирует загрузку ресурсов мешей и MeshPart. Геометрия мешей станет невидимой</value>
-  </data>
   <data name="SwiftTunnel.Summary" xml:space="preserve">
     <value>Направляйте трафик Roblox через SwiftTunnel, пока другие приложения используют обычное подключение</value>
   </data>
@@ -4098,111 +4083,6 @@ Roblox будет скачан при первом запуске через Voi
   </data>
   <data name="Ui.FastFlags.OnlyChangeWhatYouUnderstandAnd" xml:space="preserve">
     <value>Меняйте только то, что понимаете, и по одной настройке за раз.</value>
-  </data>
-  <data name="Ui.FastFlags.EnablesTheAssetWarpProxyAndAll" xml:space="preserve">
-    <value>Включает прокси AssetWarp и все связанные функции</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllTextures" xml:space="preserve">
-    <value>Удалить все текстуры</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllDecals" xml:space="preserve">
-    <value>Удалить все декали</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllImages" xml:space="preserve">
-    <value>Удалить все изображения</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllAnimations" xml:space="preserve">
-    <value>Удалить все анимации</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllMeshes" xml:space="preserve">
-    <value>Удалить все сетки</value>
-  </data>
-  <data name="Ui.FastFlags.PresenceSpoofer" xml:space="preserve">
-    <value>Подмена статуса</value>
-  </data>
-  <data name="Ui.FastFlags.ChangesWhatOthersSeeOnlineIn" xml:space="preserve">
-    <value>Меняет то, что видят другие: в сети, в Studio или не в сети</value>
-  </data>
-  <data name="Ui.FastFlags.Preloading" xml:space="preserve">
-    <value>Предзагрузка</value>
-  </data>
-  <data name="Ui.FastFlags.AssetPreloading" xml:space="preserve">
-    <value>Предзагрузка ресурсов</value>
-  </data>
-  <data name="Ui.FastFlags.LearnsEachGameAndServesPreviously" xml:space="preserve">
-    <value>Запоминает каждую игру и выдаёт ранее скачанные ресурсы</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadCacheLimit" xml:space="preserve">
-    <value>Лимит кэша предзагрузки</value>
-  </data>
-  <data name="Ui.FastFlags.LimitsHowMuchDiskSpaceThe" xml:space="preserve">
-    <value>Ограничивает место на диске для кэша запомненных ресурсов</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadAvatar" xml:space="preserve">
-    <value>Предзагрузка аватара</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadsYourAvatarAndEquippedAccessories" xml:space="preserve">
-    <value>Предзагружает аватар и надетые аксессуары перед каждым запуском игры</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadRecentGames" xml:space="preserve">
-    <value>Предзагрузка недавних игр</value>
-  </data>
-  <data name="Ui.FastFlags.WarmsCacheFromYourRecentlyPlayed" xml:space="preserve">
-    <value>Прогревает кэш недавними играми перед каждым запуском</value>
-  </data>
-  <data name="Ui.FastFlags.ClientSpoofer" xml:space="preserve">
-    <value>Подмена на стороне клиента</value>
-  </data>
-  <data name="Ui.FastFlags.ClientSidedOnlyYouSeeThese" xml:space="preserve">
-    <value>Только на стороне клиента, эти изменения видите только вы.</value>
-  </data>
-  <data name="Ui.FastFlags.EveryoneElseUsername" xml:space="preserve">
-    <value>Имя пользователя всех остальных</value>
-  </data>
-  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown" xml:space="preserve">
-    <value>Задаёт имя, которое ваш клиент показывает для всех остальных игроков</value>
-  </data>
-  <data name="Ui.FastFlags.ApplyEveryoneElseIngame" xml:space="preserve">
-    <value>Применить ко всем остальным в игре</value>
-  </data>
-  <data name="Ui.FastFlags.AppliesTheEveryoneElseUsernameInside" xml:space="preserve">
-    <value>Применяет имя всех остальных внутри Roblox</value>
-  </data>
-  <data name="Ui.FastFlags.VerifyEveryoneElse" xml:space="preserve">
-    <value>Верифицировать всех остальных</value>
-  </data>
-  <data name="Ui.FastFlags.ShowsEveryOtherPlayerAsVerified" xml:space="preserve">
-    <value>Показывает всех остальных игроков верифицированными в этом клиенте</value>
-  </data>
-  <data name="Ui.FastFlags.YourUsername" xml:space="preserve">
-    <value>Ваше имя пользователя</value>
-  </data>
-  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown2" xml:space="preserve">
-    <value>Задаёт имя, которое ваш клиент показывает для вашего аккаунта</value>
-  </data>
-  <data name="Ui.FastFlags.ApplyYourUsernameIngame" xml:space="preserve">
-    <value>Применить своё имя в игре</value>
-  </data>
-  <data name="Ui.FastFlags.AppliesYourSpoofedUsernameInsideRoblox" xml:space="preserve">
-    <value>Применяет поддельное имя внутри Roblox</value>
-  </data>
-  <data name="Ui.FastFlags.RobuxAdjuster" xml:space="preserve">
-    <value>Настройка Robux</value>
-  </data>
-  <data name="Ui.FastFlags.VerifyYourAccount" xml:space="preserve">
-    <value>Верифицировать свой аккаунт</value>
-  </data>
-  <data name="Ui.FastFlags.ShowsYourAccountAsVerifiedOn" xml:space="preserve">
-    <value>Показывает ваш аккаунт верифицированным в этом клиенте</value>
-  </data>
-  <data name="Ui.FastFlags.MakeYourselfGameCreator" xml:space="preserve">
-    <value>Сделать себя создателем игры</value>
-  </data>
-  <data name="Ui.FastFlags.UsesYourCurrentRobloxUserID" xml:space="preserve">
-    <value>Использует ваш текущий ID пользователя Roblox в перехваченных данных о создателе игры</value>
-  </data>
-  <data name="Ui.FastFlags.MakeYourselfGameCreatorDoesNot" xml:space="preserve">
-    <value>Сделать себя создателем игры не работает в Windows. Roblox теперь защищает вход в игры в Windows, и его изменение приводит к ошибке 529, поэтому Voidstrap его не трогает. В Linux и macOS функция по-прежнему работает, а другие параметры не затронуты.</value>
   </data>
   <data name="Ui.Bootstrapper.DisablesBackgroundWindowWhenLaunchingRoblox" xml:space="preserve">
     <value>Отключает фоновое окно при запуске Roblox</value>

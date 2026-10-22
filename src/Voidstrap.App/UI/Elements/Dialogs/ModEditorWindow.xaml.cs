@@ -239,7 +239,6 @@ public partial class ModEditorWindow : WpfUiWindow
 						await File.WriteAllTextAsync(temporary, config.Root.ToJsonString(WriteOptions), new UTF8Encoding(false), _lifetime.SafeToken());
 						File.Move(temporary, config.File.Path, overwrite: true);
 					}
-					Voidstrap.Integrations.AssetProxy.TextureStripper.InvalidateRuntimeState();
 				}, _lifetime.SafeToken());
 			}
 			else
@@ -309,14 +308,14 @@ public partial class ModEditorWindow : WpfUiWindow
 		try
 		{
 			string root = file.ConfigsFolder;
-			string assetFolder = Path.Combine(root, file.Fleasion ? "Voidstrap Mods" : "Assets");
+			string assetFolder = Path.Combine(root, "Voidstrap Mods");
 			if (!Directory.Exists(assetFolder))
 			{
 				return [];
 			}
 			return [.. Directory.EnumerateFiles(assetFolder, "*", SearchOption.AllDirectories)
 				.Take(2000)
-				.Select(path => (file.Fleasion ? "/" : "") + Path.GetRelativePath(root, path).Replace('\\', '/'))
+				.Select(path => "/" + Path.GetRelativePath(root, path).Replace('\\', '/'))
 				.OrderBy(path => path, StringComparer.OrdinalIgnoreCase)];
 		}
 		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)

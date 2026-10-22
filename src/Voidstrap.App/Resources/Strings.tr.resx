@@ -2912,21 +2912,6 @@ Bu kısıtlamaları kabul edip devam etmek için aşağıda gösterilen ifadeyi 
   <data name="GlobalProfiles.SaveFailed" xml:space="preserve">
     <value>Roblox ayar dosyası yazılamadı. Roblox'u kapatıp tekrar deneyin.</value>
   </data>
-  <data name="AssetWarp.RemoveTexturesDescription" xml:space="preserve">
-    <value>Doku ve doku paketi varlıklarının indirilmesini engeller</value>
-  </data>
-  <data name="AssetWarp.RemoveDecalsDescription" xml:space="preserve">
-    <value>Çıkartma varlıklarının indirilmesini engeller</value>
-  </data>
-  <data name="AssetWarp.RemoveImagesDescription" xml:space="preserve">
-    <value>Resim varlıklarının indirilmesini engeller. Roblox dokular ve çıkartmalar için de resim kullanır</value>
-  </data>
-  <data name="AssetWarp.RemoveAnimationsDescription" xml:space="preserve">
-    <value>Animasyon varlıklarının indirilmesini engeller. Yedek animasyonu olmayan oyunlar düzgün çalışmayabilir</value>
-  </data>
-  <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
-    <value>Mesh ve MeshPart varlıklarının indirilmesini engeller. Mesh geometrisi görünmez olur</value>
-  </data>
   <data name="SwiftTunnel.Summary" xml:space="preserve">
     <value>Diğer uygulamalar normal bağlantınızı kullanırken Roblox trafiğini SwiftTunnel üzerinden yönlendirin</value>
   </data>
@@ -4088,111 +4073,6 @@ Ne yapmak istersiniz?</value>
   </data>
   <data name="Ui.FastFlags.OnlyChangeWhatYouUnderstandAnd" xml:space="preserve">
     <value>Yalnızca anladığınız şeyleri ve her seferinde tek bir ayarı değiştirin.</value>
-  </data>
-  <data name="Ui.FastFlags.EnablesTheAssetWarpProxyAndAll" xml:space="preserve">
-    <value>AssetWarp proxy'sini ve ilgili tüm özellikleri açar</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllTextures" xml:space="preserve">
-    <value>Tüm dokuları kaldır</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllDecals" xml:space="preserve">
-    <value>Tüm çıkartmaları kaldır</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllImages" xml:space="preserve">
-    <value>Tüm görselleri kaldır</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllAnimations" xml:space="preserve">
-    <value>Tüm animasyonları kaldır</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllMeshes" xml:space="preserve">
-    <value>Tüm modelleri kaldır</value>
-  </data>
-  <data name="Ui.FastFlags.PresenceSpoofer" xml:space="preserve">
-    <value>Durum taklitçisi</value>
-  </data>
-  <data name="Ui.FastFlags.ChangesWhatOthersSeeOnlineIn" xml:space="preserve">
-    <value>Başkalarının ne gördüğünü değiştirir: çevrimiçi, Studio'da veya çevrimdışı</value>
-  </data>
-  <data name="Ui.FastFlags.Preloading" xml:space="preserve">
-    <value>Ön yükleme</value>
-  </data>
-  <data name="Ui.FastFlags.AssetPreloading" xml:space="preserve">
-    <value>Kaynakları önceden yükle</value>
-  </data>
-  <data name="Ui.FastFlags.LearnsEachGameAndServesPreviously" xml:space="preserve">
-    <value>Her oyunu öğrenir ve önceden indirilmiş kaynakları sunar</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadCacheLimit" xml:space="preserve">
-    <value>Ön yükleme önbelleği sınırı</value>
-  </data>
-  <data name="Ui.FastFlags.LimitsHowMuchDiskSpaceThe" xml:space="preserve">
-    <value>Öğrenilen kaynak önbelleğinin kullanabileceği disk alanını sınırlar</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadAvatar" xml:space="preserve">
-    <value>Avatarı önceden yükle</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadsYourAvatarAndEquippedAccessories" xml:space="preserve">
-    <value>Her oyun açılışından önce avatarınızı ve takılı aksesuarlarınızı önceden yükler</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadRecentGames" xml:space="preserve">
-    <value>Son oyunları önceden yükle</value>
-  </data>
-  <data name="Ui.FastFlags.WarmsCacheFromYourRecentlyPlayed" xml:space="preserve">
-    <value>Her açılıştan önce önbelleği son oynadığınız oyunlarla hazırlar</value>
-  </data>
-  <data name="Ui.FastFlags.ClientSpoofer" xml:space="preserve">
-    <value>İstemci taraflı taklitçi</value>
-  </data>
-  <data name="Ui.FastFlags.ClientSidedOnlyYouSeeThese" xml:space="preserve">
-    <value>Yalnızca istemci tarafında, bu değişiklikleri yalnızca siz görürsünüz.</value>
-  </data>
-  <data name="Ui.FastFlags.EveryoneElseUsername" xml:space="preserve">
-    <value>Diğer herkesin kullanıcı adı</value>
-  </data>
-  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown" xml:space="preserve">
-    <value>İstemcinizin diğer tüm oyuncular için gösterdiği kullanıcı adını belirler</value>
-  </data>
-  <data name="Ui.FastFlags.ApplyEveryoneElseIngame" xml:space="preserve">
-    <value>Oyunda diğer herkese uygula</value>
-  </data>
-  <data name="Ui.FastFlags.AppliesTheEveryoneElseUsernameInside" xml:space="preserve">
-    <value>Diğer herkesin kullanıcı adını Roblox'ta uygular</value>
-  </data>
-  <data name="Ui.FastFlags.VerifyEveryoneElse" xml:space="preserve">
-    <value>Diğer herkesi doğrulanmış göster</value>
-  </data>
-  <data name="Ui.FastFlags.ShowsEveryOtherPlayerAsVerified" xml:space="preserve">
-    <value>Bu istemcide diğer tüm oyuncuları doğrulanmış olarak gösterir</value>
-  </data>
-  <data name="Ui.FastFlags.YourUsername" xml:space="preserve">
-    <value>Kullanıcı adınız</value>
-  </data>
-  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown2" xml:space="preserve">
-    <value>İstemcinizin hesabınız için gösterdiği kullanıcı adını belirler</value>
-  </data>
-  <data name="Ui.FastFlags.ApplyYourUsernameIngame" xml:space="preserve">
-    <value>Kendi kullanıcı adınızı oyunda uygula</value>
-  </data>
-  <data name="Ui.FastFlags.AppliesYourSpoofedUsernameInsideRoblox" xml:space="preserve">
-    <value>Taklit edilmiş kullanıcı adınızı Roblox'ta uygular</value>
-  </data>
-  <data name="Ui.FastFlags.RobuxAdjuster" xml:space="preserve">
-    <value>Robux ayarlayıcı</value>
-  </data>
-  <data name="Ui.FastFlags.VerifyYourAccount" xml:space="preserve">
-    <value>Hesabınızı doğrulanmış göster</value>
-  </data>
-  <data name="Ui.FastFlags.ShowsYourAccountAsVerifiedOn" xml:space="preserve">
-    <value>Bu istemcide hesabınızı doğrulanmış olarak gösterir</value>
-  </data>
-  <data name="Ui.FastFlags.MakeYourselfGameCreator" xml:space="preserve">
-    <value>Kendinizi oyunun yapımcısı yapın</value>
-  </data>
-  <data name="Ui.FastFlags.UsesYourCurrentRobloxUserID" xml:space="preserve">
-    <value>Yakalanan oyun yapımcısı verileri için mevcut Roblox kullanıcı kimliğinizi kullanır</value>
-  </data>
-  <data name="Ui.FastFlags.MakeYourselfGameCreatorDoesNot" xml:space="preserve">
-    <value>Kendinizi oyunun yapımcısı yapın özelliği Windows'ta çalışmaz. Roblox artık Windows'ta oyunlara katılımı koruyor ve bunu değiştirmek katılımın 529 hatasıyla başarısız olmasına neden oluyor, bu yüzden Voidstrap buna dokunmaz. Linux ve macOS'ta hâlâ çalışır, diğer seçenekleriniz etkilenmez.</value>
   </data>
   <data name="Ui.Bootstrapper.DisablesBackgroundWindowWhenLaunchingRoblox" xml:space="preserve">
     <value>Roblox başlatılırken arka plan penceresini devre dışı bırakır</value>

@@ -7,7 +7,6 @@ namespace Voidstrap.Integrations.CommunityMods;
 public enum CommunityModInstallTarget
 {
 	ManagedMods,
-	AssetWarp,
 	Fleasion,
 	AssetCache
 }

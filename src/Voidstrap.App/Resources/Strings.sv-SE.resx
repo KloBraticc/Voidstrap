@@ -2881,21 +2881,6 @@ Skriv exakt frasen som visas nedan för att godkänna begränsningarna och forts
   <data name="GlobalProfiles.SaveFailed" xml:space="preserve">
     <value>Roblox-inställningsfilen kunde inte skrivas. Stäng Roblox och försök igen.</value>
   </data>
-  <data name="AssetWarp.RemoveTexturesDescription" xml:space="preserve">
-    <value>Blockerar nedladdning av textur- och texturpaketresurser</value>
-  </data>
-  <data name="AssetWarp.RemoveDecalsDescription" xml:space="preserve">
-    <value>Blockerar nedladdning av dekalresurser</value>
-  </data>
-  <data name="AssetWarp.RemoveImagesDescription" xml:space="preserve">
-    <value>Blockerar nedladdning av bildresurser. Roblox använder även bilder för texturer och dekaler</value>
-  </data>
-  <data name="AssetWarp.RemoveAnimationsDescription" xml:space="preserve">
-    <value>Blockerar nedladdning av animationsresurser. Spel utan reservanimation kan sluta fungera korrekt</value>
-  </data>
-  <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
-    <value>Blockerar nedladdning av mesh- och MeshPart-resurser. Meshgeometri blir osynlig</value>
-  </data>
   <data name="SwiftTunnel.Summary" xml:space="preserve">
     <value>Skicka Roblox-trafik via SwiftTunnel medan andra appar använder din vanliga anslutning</value>
   </data>
@@ -4054,111 +4039,6 @@ Vad vill du göra?</value>
   </data>
   <data name="Ui.FastFlags.OnlyChangeWhatYouUnderstandAnd" xml:space="preserve">
     <value>Ändra bara det du förstår, och en inställning i taget.</value>
-  </data>
-  <data name="Ui.FastFlags.EnablesTheAssetWarpProxyAndAll" xml:space="preserve">
-    <value>Aktiverar AssetWarp-proxyn och alla relaterade funktioner</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllTextures" xml:space="preserve">
-    <value>Ta bort alla texturer</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllDecals" xml:space="preserve">
-    <value>Ta bort alla dekaler</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllImages" xml:space="preserve">
-    <value>Ta bort alla bilder</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllAnimations" xml:space="preserve">
-    <value>Ta bort alla animationer</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllMeshes" xml:space="preserve">
-    <value>Ta bort alla meshar</value>
-  </data>
-  <data name="Ui.FastFlags.PresenceSpoofer" xml:space="preserve">
-    <value>Statusförfalskare</value>
-  </data>
-  <data name="Ui.FastFlags.ChangesWhatOthersSeeOnlineIn" xml:space="preserve">
-    <value>Ändrar vad andra ser: online, i Studio eller offline</value>
-  </data>
-  <data name="Ui.FastFlags.Preloading" xml:space="preserve">
-    <value>Förinläsning</value>
-  </data>
-  <data name="Ui.FastFlags.AssetPreloading" xml:space="preserve">
-    <value>Förinläsning av resurser</value>
-  </data>
-  <data name="Ui.FastFlags.LearnsEachGameAndServesPreviously" xml:space="preserve">
-    <value>Lär sig varje spel och levererar tidigare nedladdade resurser</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadCacheLimit" xml:space="preserve">
-    <value>Gräns för förinläsningscache</value>
-  </data>
-  <data name="Ui.FastFlags.LimitsHowMuchDiskSpaceThe" xml:space="preserve">
-    <value>Begränsar hur mycket diskutrymme den inlärda resurscachen får använda</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadAvatar" xml:space="preserve">
-    <value>Förinläs avatar</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadsYourAvatarAndEquippedAccessories" xml:space="preserve">
-    <value>Förinläser din avatar och dina accessoarer före varje spelstart</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadRecentGames" xml:space="preserve">
-    <value>Förinläs senaste spel</value>
-  </data>
-  <data name="Ui.FastFlags.WarmsCacheFromYourRecentlyPlayed" xml:space="preserve">
-    <value>Värmer upp cachen med dina senast spelade spel före varje start</value>
-  </data>
-  <data name="Ui.FastFlags.ClientSpoofer" xml:space="preserve">
-    <value>Klientförfalskare</value>
-  </data>
-  <data name="Ui.FastFlags.ClientSidedOnlyYouSeeThese" xml:space="preserve">
-    <value>Endast på klientsidan, bara du ser ändringarna.</value>
-  </data>
-  <data name="Ui.FastFlags.EveryoneElseUsername" xml:space="preserve">
-    <value>Användarnamn för alla andra</value>
-  </data>
-  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown" xml:space="preserve">
-    <value>Anger användarnamnet som din klient visar för alla andra spelare</value>
-  </data>
-  <data name="Ui.FastFlags.ApplyEveryoneElseIngame" xml:space="preserve">
-    <value>Tillämpa för alla andra i spelet</value>
-  </data>
-  <data name="Ui.FastFlags.AppliesTheEveryoneElseUsernameInside" xml:space="preserve">
-    <value>Tillämpar användarnamnet för alla andra i Roblox</value>
-  </data>
-  <data name="Ui.FastFlags.VerifyEveryoneElse" xml:space="preserve">
-    <value>Verifiera alla andra</value>
-  </data>
-  <data name="Ui.FastFlags.ShowsEveryOtherPlayerAsVerified" xml:space="preserve">
-    <value>Visar alla andra spelare som verifierade i den här klienten</value>
-  </data>
-  <data name="Ui.FastFlags.YourUsername" xml:space="preserve">
-    <value>Ditt användarnamn</value>
-  </data>
-  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown2" xml:space="preserve">
-    <value>Anger användarnamnet som din klient visar för ditt konto</value>
-  </data>
-  <data name="Ui.FastFlags.ApplyYourUsernameIngame" xml:space="preserve">
-    <value>Tillämpa ditt användarnamn i spelet</value>
-  </data>
-  <data name="Ui.FastFlags.AppliesYourSpoofedUsernameInsideRoblox" xml:space="preserve">
-    <value>Tillämpar ditt förfalskade användarnamn i Roblox</value>
-  </data>
-  <data name="Ui.FastFlags.RobuxAdjuster" xml:space="preserve">
-    <value>Robux-justering</value>
-  </data>
-  <data name="Ui.FastFlags.VerifyYourAccount" xml:space="preserve">
-    <value>Verifiera ditt konto</value>
-  </data>
-  <data name="Ui.FastFlags.ShowsYourAccountAsVerifiedOn" xml:space="preserve">
-    <value>Visar ditt konto som verifierat i den här klienten</value>
-  </data>
-  <data name="Ui.FastFlags.MakeYourselfGameCreator" xml:space="preserve">
-    <value>Gör dig själv till spelets skapare</value>
-  </data>
-  <data name="Ui.FastFlags.UsesYourCurrentRobloxUserID" xml:space="preserve">
-    <value>Använder ditt nuvarande Roblox-användar-ID för uppfångad skaparinformation</value>
-  </data>
-  <data name="Ui.FastFlags.MakeYourselfGameCreatorDoesNot" xml:space="preserve">
-    <value>Gör dig själv till spelets skapare fungerar inte på Windows. Roblox skyddar numera spelanslutningar på Windows, och ändringar gör att anslutningen misslyckas med fel 529, så Voidstrap rör dem inte. Det fungerar fortfarande på Linux och macOS, och dina andra alternativ påverkas inte.</value>
   </data>
   <data name="Ui.Bootstrapper.DisablesBackgroundWindowWhenLaunchingRoblox" xml:space="preserve">
     <value>Inaktiverar bakgrundsfönstret när Roblox startas</value>

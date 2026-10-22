@@ -1469,7 +1469,6 @@ namespace Voidstrap.Utility
 
             ValidateLaunchFiles(client, config, launchType);
 
-            Voidstrap.Integrations.AssetProxy.AssetProxyServer.DisableForUnsupportedClient();
             Voidstrap.Integrations.Studio.StudioPluginInstaller.StashForClassicClient();
 
             string? redirectFailure = Voidstrap.Integrations.ClassicHostRedirect.Set(enable: true);
@@ -2217,8 +2216,6 @@ namespace Voidstrap.Utility
 
         public static async Task<Process?> PlaySoloAsync(string client, string map, Action<string>? status, CancellationToken ct = default)
         {
-            Voidstrap.Integrations.AssetProxy.AssetProxyServer.DisableForUnsupportedClient();
-
             NormalizeClientHelpers(Path.Combine(ClientsDir, client));
             try
             {

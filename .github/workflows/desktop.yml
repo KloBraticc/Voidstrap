@@ -1166,7 +1166,7 @@ jobs:
       - name: Install Voidstrap and Roblox
         run: |
           mkdir -p "$VS/Config"
-          printf '{"CheckForUpdates":false,"AssetWarpAutoEnableDeclined":true}' > "$VS/Config/AppSettings.json"
+          printf '{"CheckForUpdates":false}' > "$VS/Config/AppSettings.json"
           "$APP/Contents/MacOS/Voidstrap" -player -quiet > "$RUNNER_TEMP/overlay-logs/install-roblox.txt" 2>&1 &
           for i in $(seq 1 300); do [ -d /Applications/Roblox.app ] && pgrep -x RobloxPlayer > /dev/null && break; sleep 1; done
           screencapture -x "$OUT/shots/00-runtime-installation.png"

@@ -2916,21 +2916,6 @@ Csak akkor folytasd, ha elfogadod, hogy minden VNG-vel használt fiókodnál elv
   <data name="GlobalProfiles.SaveFailed" xml:space="preserve">
     <value>A Roblox beállításfájlja nem írható. Zárd be a Robloxot, és próbáld újra.</value>
   </data>
-  <data name="AssetWarp.RemoveTexturesDescription" xml:space="preserve">
-    <value>Letiltja a textúra- és textúracsomag-elemek letöltését</value>
-  </data>
-  <data name="AssetWarp.RemoveDecalsDescription" xml:space="preserve">
-    <value>Letiltja a matrica-elemek letöltését</value>
-  </data>
-  <data name="AssetWarp.RemoveImagesDescription" xml:space="preserve">
-    <value>Letiltja a képelemek letöltését. A Roblox képeket a textúrákhoz és matricákhoz is használ</value>
-  </data>
-  <data name="AssetWarp.RemoveAnimationsDescription" xml:space="preserve">
-    <value>Letiltja az animációs elemek letöltését. A tartalék animáció nélküli játékok hibásan működhetnek</value>
-  </data>
-  <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
-    <value>Letiltja a mesh- és MeshPart-elemek letöltését. A mesh-geometria láthatatlanná válik</value>
-  </data>
   <data name="SwiftTunnel.Summary" xml:space="preserve">
     <value>Irányítsd a Roblox forgalmát a SwiftTunnelen keresztül, miközben a többi alkalmazás a szokásos kapcsolatot használja</value>
   </data>
@@ -4092,111 +4077,6 @@ Mit szeretnél tenni?</value>
   </data>
   <data name="Ui.FastFlags.OnlyChangeWhatYouUnderstandAnd" xml:space="preserve">
     <value>Csak azt módosítsd, amit értesz, és egyszerre csak egy beállítást.</value>
-  </data>
-  <data name="Ui.FastFlags.EnablesTheAssetWarpProxyAndAll" xml:space="preserve">
-    <value>Bekapcsolja az AssetWarp proxyt és minden kapcsolódó funkciót</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllTextures" xml:space="preserve">
-    <value>Összes textúra eltávolítása</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllDecals" xml:space="preserve">
-    <value>Összes matrica eltávolítása</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllImages" xml:space="preserve">
-    <value>Összes kép eltávolítása</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllAnimations" xml:space="preserve">
-    <value>Összes animáció eltávolítása</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllMeshes" xml:space="preserve">
-    <value>Összes háló eltávolítása</value>
-  </data>
-  <data name="Ui.FastFlags.PresenceSpoofer" xml:space="preserve">
-    <value>Állapothamisító</value>
-  </data>
-  <data name="Ui.FastFlags.ChangesWhatOthersSeeOnlineIn" xml:space="preserve">
-    <value>Megváltoztatja, mit látnak mások: online, Studióban vagy offline</value>
-  </data>
-  <data name="Ui.FastFlags.Preloading" xml:space="preserve">
-    <value>Előtöltés</value>
-  </data>
-  <data name="Ui.FastFlags.AssetPreloading" xml:space="preserve">
-    <value>Erőforrások előtöltése</value>
-  </data>
-  <data name="Ui.FastFlags.LearnsEachGameAndServesPreviously" xml:space="preserve">
-    <value>Megtanulja az egyes játékokat, és a korábban letöltött erőforrásokat adja</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadCacheLimit" xml:space="preserve">
-    <value>Előtöltési gyorsítótár korlátja</value>
-  </data>
-  <data name="Ui.FastFlags.LimitsHowMuchDiskSpaceThe" xml:space="preserve">
-    <value>Korlátozza, mennyi lemezterületet használhat a tanult erőforrás-gyorsítótár</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadAvatar" xml:space="preserve">
-    <value>Avatar előtöltése</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadsYourAvatarAndEquippedAccessories" xml:space="preserve">
-    <value>Minden játékindítás előtt előtölti az avatarodat és a felszerelt kiegészítőket</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadRecentGames" xml:space="preserve">
-    <value>Legutóbbi játékok előtöltése</value>
-  </data>
-  <data name="Ui.FastFlags.WarmsCacheFromYourRecentlyPlayed" xml:space="preserve">
-    <value>Minden indítás előtt feltölti a gyorsítótárat a legutóbb játszott játékaiddal</value>
-  </data>
-  <data name="Ui.FastFlags.ClientSpoofer" xml:space="preserve">
-    <value>Kliensoldali hamisító</value>
-  </data>
-  <data name="Ui.FastFlags.ClientSidedOnlyYouSeeThese" xml:space="preserve">
-    <value>Csak kliensoldali, ezeket a változásokat csak te látod.</value>
-  </data>
-  <data name="Ui.FastFlags.EveryoneElseUsername" xml:space="preserve">
-    <value>Mindenki más felhasználóneve</value>
-  </data>
-  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown" xml:space="preserve">
-    <value>Beállítja a kliensed által minden más játékosnak mutatott felhasználónevet</value>
-  </data>
-  <data name="Ui.FastFlags.ApplyEveryoneElseIngame" xml:space="preserve">
-    <value>Alkalmazás mindenki másra a játékban</value>
-  </data>
-  <data name="Ui.FastFlags.AppliesTheEveryoneElseUsernameInside" xml:space="preserve">
-    <value>Alkalmazza mindenki más felhasználónevét a Robloxban</value>
-  </data>
-  <data name="Ui.FastFlags.VerifyEveryoneElse" xml:space="preserve">
-    <value>Mindenki más hitelesítése</value>
-  </data>
-  <data name="Ui.FastFlags.ShowsEveryOtherPlayerAsVerified" xml:space="preserve">
-    <value>Ebben a kliensben minden más játékost hitelesítettként mutat</value>
-  </data>
-  <data name="Ui.FastFlags.YourUsername" xml:space="preserve">
-    <value>Saját felhasználóneved</value>
-  </data>
-  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown2" xml:space="preserve">
-    <value>Beállítja a kliensed által a fiókodhoz mutatott felhasználónevet</value>
-  </data>
-  <data name="Ui.FastFlags.ApplyYourUsernameIngame" xml:space="preserve">
-    <value>Saját felhasználónév alkalmazása a játékban</value>
-  </data>
-  <data name="Ui.FastFlags.AppliesYourSpoofedUsernameInsideRoblox" xml:space="preserve">
-    <value>Alkalmazza a hamisított felhasználóneved a Robloxban</value>
-  </data>
-  <data name="Ui.FastFlags.RobuxAdjuster" xml:space="preserve">
-    <value>Robux beállító</value>
-  </data>
-  <data name="Ui.FastFlags.VerifyYourAccount" xml:space="preserve">
-    <value>Saját fiók hitelesítése</value>
-  </data>
-  <data name="Ui.FastFlags.ShowsYourAccountAsVerifiedOn" xml:space="preserve">
-    <value>Ebben a kliensben a fiókodat hitelesítettként mutatja</value>
-  </data>
-  <data name="Ui.FastFlags.MakeYourselfGameCreator" xml:space="preserve">
-    <value>Legyél te a játék készítője</value>
-  </data>
-  <data name="Ui.FastFlags.UsesYourCurrentRobloxUserID" xml:space="preserve">
-    <value>A jelenlegi Roblox felhasználói azonosítódat használja az elfogott játékkészítő adatokhoz</value>
-  </data>
-  <data name="Ui.FastFlags.MakeYourselfGameCreatorDoesNot" xml:space="preserve">
-    <value>A Legyél te a játék készítője Windowson nem működik. A Roblox mostantól védi a játékokhoz való csatlakozást Windowson, és a módosítás 529-es hibát okoz, ezért a Voidstrap nem nyúl hozzá. Linuxon és macOS-en továbbra is működik, a többi beállításodat pedig nem érinti.</value>
   </data>
   <data name="Ui.Bootstrapper.DisablesBackgroundWindowWhenLaunchingRoblox" xml:space="preserve">
     <value>Kikapcsolja a háttérablakot a Roblox indításakor</value>

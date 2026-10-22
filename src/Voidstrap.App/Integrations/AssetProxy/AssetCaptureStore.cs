@@ -9,7 +9,6 @@ using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Channels;
 using System.Threading.Tasks;
 
 namespace Voidstrap.Integrations.AssetProxy;
@@ -17,8 +16,6 @@ namespace Voidstrap.Integrations.AssetProxy;
 public static partial class AssetCaptureStore
 {
 	private sealed record IndexRecord(string Id, string Name, string Type);
-
-	private sealed record PendingCapture(string AssetId, string Hash, byte[] Content, string Url);
 
 	private const string LOG_IDENT = "AssetCaptureStore";
 
@@ -33,10 +30,6 @@ public static partial class AssetCaptureStore
 	private const int MaxIndexBytes = 4194304;
 
 	private const int MaxJsonBytes = 4194304;
-
-	private const long MaxQueuedCaptureBytes = 50331648;
-
-	private const int CaptureQueueCapacity = 256;
 
 	private static readonly ConcurrentDictionary<string, CapturedAsset> _items = new();
 
@@ -55,18 +48,6 @@ public static partial class AssetCaptureStore
 	private static readonly ConcurrentDictionary<string, string> _cacheFiles = new(StringComparer.OrdinalIgnoreCase);
 
 	private static readonly System.Threading.Lock _diskLoadGate = new();
-
-	private static readonly System.Threading.Lock _captureWriterGate = new();
-
-	private static Channel<PendingCapture>? _captureQueue;
-
-	private static CancellationTokenSource? _captureWriterCts;
-
-	private static Task? _captureWriterTask;
-
-	private static int _captureQueueDrops;
-
-	private static long _queuedCaptureBytes;
 
 	private static readonly ConcurrentDictionary<string, byte> _prefetchAttempted = new();
 
@@ -284,120 +265,10 @@ public static partial class AssetCaptureStore
 		}
 	}
 
-	public static void QueueAdd(string? assetId, string? hash, byte[]? content, string url)
-	{
-		if (_suppressScan || !App.Settings.Prop.AssetWarpEnabled || !App.Settings.Prop.AssetWarpPreloadEnabled || content == null || content.Length == 0 || content.Length > MaxAssetBytes)
-		{
-			return;
-		}
-		Channel<PendingCapture> queue = EnsureCaptureWriter();
-		PendingCapture pending = new(assetId?.Trim() ?? "", hash?.Trim() ?? "", content, url ?? "");
-		long queuedBytes = Interlocked.Add(ref _queuedCaptureBytes, content.Length);
-		if (queuedBytes > MaxQueuedCaptureBytes || !queue.Writer.TryWrite(pending))
-		{
-			Interlocked.Add(ref _queuedCaptureBytes, -content.Length);
-			int dropped = Interlocked.Increment(ref _captureQueueDrops);
-			if (dropped == 1 || dropped % 100 == 0)
-			{
-				App.Logger?.WriteLine(LOG_IDENT, "Capture writer saturated, skipped " + dropped + " cache entries");
-			}
-		}
-	}
 
-	private static Channel<PendingCapture> EnsureCaptureWriter()
+	public static void Shutdown()
 	{
-		lock (_captureWriterGate)
-		{
-			if (_captureQueue != null)
-			{
-				return _captureQueue;
-			}
-			Channel<PendingCapture> queue = Channel.CreateBounded<PendingCapture>(new BoundedChannelOptions(CaptureQueueCapacity)
-			{
-				SingleReader = true,
-				SingleWriter = false,
-				FullMode = BoundedChannelFullMode.Wait
-			});
-			CancellationTokenSource cancellation = new();
-			_captureQueue = queue;
-			_captureWriterCts = cancellation;
-			_captureWriterTask = Task.Run(() => ProcessCaptureQueueAsync(queue.Reader, cancellation.Token));
-			return queue;
-		}
-	}
-
-	private static async Task ProcessCaptureQueueAsync(ChannelReader<PendingCapture> reader, CancellationToken token)
-	{
-		try
-		{
-			await foreach (PendingCapture pending in reader.ReadAllAsync(token).ConfigureAwait(false))
-			{
-				try
-				{
-					byte[] content = MaybeGunzip(pending.Content);
-					Add(pending.AssetId, pending.Hash, content, pending.Url);
-				}
-				catch (Exception ex)
-				{
-					App.Logger?.WriteLine(LOG_IDENT, "Capture write failed: " + ex.Message);
-				}
-				finally
-				{
-					Interlocked.Add(ref _queuedCaptureBytes, -pending.Content.Length);
-				}
-			}
-		}
-		catch (OperationCanceledException) when (token.IsCancellationRequested)
-		{
-		}
-		catch (Exception ex)
-		{
-			App.Logger?.WriteLine(LOG_IDENT, "Capture writer stopped: " + ex.Message);
-		}
-	}
-
-	public static void Shutdown(TimeSpan? budget = null)
-	{
-		Channel<PendingCapture>? queue;
-		CancellationTokenSource? cancellation;
-		Task? worker;
-		lock (_captureWriterGate)
-		{
-			queue = _captureQueue;
-			cancellation = _captureWriterCts;
-			worker = _captureWriterTask;
-			_captureQueue = null;
-			_captureWriterCts = null;
-			_captureWriterTask = null;
-		}
-		queue?.Writer.TryComplete();
-		TimeSpan limit = budget ?? TimeSpan.FromSeconds(1);
-		long deadline = Environment.TickCount64 + (long)limit.TotalMilliseconds;
-		try
-		{
-			if (worker != null && limit > TimeSpan.Zero && !worker.Wait(limit))
-			{
-				cancellation?.Cancel();
-				long remaining = deadline - Environment.TickCount64;
-				if (remaining > 0)
-				{
-					worker.Wait(TimeSpan.FromMilliseconds(remaining));
-				}
-			}
-		}
-		catch
-		{
-		}
-		cancellation?.Cancel();
-		cancellation?.Dispose();
-		Interlocked.Exchange(ref _queuedCaptureBytes, 0);
-		if (queue != null || worker != null)
-		{
-			long maximumBytes = Math.Clamp(App.Settings.Prop.AssetWarpPreloadCacheMb, 256, 8192) * 1024L * 1024L;
-			EnforceDiskLimit(maximumBytes);
-			FlushIndex(force: true);
-		}
-		else if (!_index.IsEmpty)
+		if (!_index.IsEmpty)
 		{
 			FlushIndex(force: true);
 		}
@@ -1382,7 +1253,6 @@ public static partial class AssetCaptureStore
 							string text2 = match.Groups[1].Value.ToLowerInvariant();
 							_idToHash[text] = text2;
 							_hashToId[text2] = text;
-							AssetPreloadCache.ObserveBatchAsset(text, text2, input);
 							TrimDictionary(_idToHash, MaxItems * 2);
 							TrimDictionary(_hashToId, MaxItems * 2);
 						}
@@ -1676,10 +1546,6 @@ public static partial class AssetCaptureStore
 			RbxmModelParser.ExtractAssetIds(data, AssetIdPattern(), id =>
 			{
 				AddById(id);
-				if (_idToHash.TryGetValue(id, out string? hash))
-				{
-					AssetPreloadCache.ObserveBatchAsset(id, hash, "");
-				}
 			});
 		}
 		catch

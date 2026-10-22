@@ -1223,7 +1223,6 @@ public partial class ActivityWatcher : IDisposable
 			{
 				InGame = false;
 				Data.PlaceId = placeId;
-				AssetProxy.AssetPreloadCache.SwitchSession(Data.PlaceId);
 				Data.JobId = match.Groups[1].Value;
 				string joinAddress = match.Groups[3].Value;
 				Data.MachineAddress = VoidstrapMatchmaker.IsPrivateIp(joinAddress) ? string.Empty : joinAddress;

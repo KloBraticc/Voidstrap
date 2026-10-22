@@ -526,13 +526,13 @@ pub fn inspect_file(f: &ModFile) -> Option<String> {
 
 pub fn android_block(f: &ModFile) -> Option<String> {
     if paths::extension(&f.name) == "json" {
-        return Some("This is a Fleasion or AssetWarp replacement config. Those replace online Roblox assets through a desktop proxy, which Android cannot run.".into());
+        return Some("This is a Fleasion replacement config. It replaces online Roblox assets through a desktop proxy, which Android cannot run.".into());
     }
     if f.listing_known && !f.listing_roblox && !f.listing_cache && f.listing_config {
-        return Some("This pack only has a Fleasion or AssetWarp replacement config, which needs the desktop app.".into());
+        return Some("This pack only has a Fleasion replacement config, which needs the desktop app.".into());
     }
     if f.listing_known && !f.listing_roblox && !f.listing_cache {
-        return Some("This pack replaces online Roblox assets by ID through Fleasion or AssetWarp, which only run on desktop.".into());
+        return Some("This pack replaces online Roblox assets by ID through Fleasion, which only runs on desktop.".into());
     }
     None
 }

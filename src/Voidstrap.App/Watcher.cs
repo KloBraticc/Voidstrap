@@ -725,14 +725,6 @@ public partial class Watcher : IDisposable
 			App.Terminate();
 			return;
 		}
-		try
-		{
-			Voidstrap.Integrations.AssetProxy.AssetProxyServer.Stop();
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine(logIdent, "AssetWarp shutdown failed: " + ex.Message);
-		}
 		App.Terminate();
 	}
 
@@ -888,7 +880,7 @@ public partial class Watcher : IDisposable
 	{
 		if (disabled.Count == 0)
 		{
-			Frontend.ShowMessageBox(Voidstrap.Utility.Platform.IsLinux ? "Roblox crashed while starting. None of your recently added mods look responsible, so nothing was turned off. If it keeps happening, try turning off AssetWarp or recent mods in My Mods." : "Roblox crashed while starting. None of your recently added mods look responsible, so nothing was turned off. If it keeps happening, try turning off recent mods in My Mods.", MessageBoxImage.Warning);
+			Frontend.ShowMessageBox("Roblox crashed while starting. None of your recently added mods look responsible, so nothing was turned off. If it keeps happening, try turning off recent mods in My Mods.", MessageBoxImage.Warning);
 			return;
 		}
 		if (_watcherData != null)

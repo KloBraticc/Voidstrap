@@ -2900,21 +2900,6 @@ Digite exatamente a frase mostrada abaixo para aceitar essas restrições e cont
   <data name="GlobalProfiles.SaveFailed" xml:space="preserve">
     <value>Não foi possível gravar o arquivo de configurações do Roblox. Feche o Roblox e tente novamente.</value>
   </data>
-  <data name="AssetWarp.RemoveTexturesDescription" xml:space="preserve">
-    <value>Bloqueia o download de recursos de texturas e pacotes de texturas</value>
-  </data>
-  <data name="AssetWarp.RemoveDecalsDescription" xml:space="preserve">
-    <value>Bloqueia o download de recursos de decalques</value>
-  </data>
-  <data name="AssetWarp.RemoveImagesDescription" xml:space="preserve">
-    <value>Bloqueia o download de recursos de imagens. O Roblox também usa imagens para texturas e decalques</value>
-  </data>
-  <data name="AssetWarp.RemoveAnimationsDescription" xml:space="preserve">
-    <value>Bloqueia o download de recursos de animações. Jogos sem uma animação alternativa podem parar de funcionar corretamente</value>
-  </data>
-  <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
-    <value>Bloqueia o download de recursos de malhas e MeshParts. A geometria das malhas ficará invisível</value>
-  </data>
   <data name="SwiftTunnel.Summary" xml:space="preserve">
     <value>Direcione o tráfego do Roblox pelo SwiftTunnel enquanto os outros aplicativos usam sua conexão normal</value>
   </data>
@@ -4076,111 +4061,6 @@ O que você gostaria de fazer?</value>
   </data>
   <data name="Ui.FastFlags.OnlyChangeWhatYouUnderstandAnd" xml:space="preserve">
     <value>Mude apenas o que você entende, e uma opção por vez.</value>
-  </data>
-  <data name="Ui.FastFlags.EnablesTheAssetWarpProxyAndAll" xml:space="preserve">
-    <value>Ativa o proxy AssetWarp e todos os recursos relacionados</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllTextures" xml:space="preserve">
-    <value>Remover todas as texturas</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllDecals" xml:space="preserve">
-    <value>Remover todos os decals</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllImages" xml:space="preserve">
-    <value>Remover todas as imagens</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllAnimations" xml:space="preserve">
-    <value>Remover todas as animações</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllMeshes" xml:space="preserve">
-    <value>Remover todas as malhas</value>
-  </data>
-  <data name="Ui.FastFlags.PresenceSpoofer" xml:space="preserve">
-    <value>Falsificador de status</value>
-  </data>
-  <data name="Ui.FastFlags.ChangesWhatOthersSeeOnlineIn" xml:space="preserve">
-    <value>Muda o que os outros veem: online, no Studio ou offline</value>
-  </data>
-  <data name="Ui.FastFlags.Preloading" xml:space="preserve">
-    <value>Pré-carregamento</value>
-  </data>
-  <data name="Ui.FastFlags.AssetPreloading" xml:space="preserve">
-    <value>Pré-carregamento de recursos</value>
-  </data>
-  <data name="Ui.FastFlags.LearnsEachGameAndServesPreviously" xml:space="preserve">
-    <value>Aprende cada jogo e entrega recursos já baixados</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadCacheLimit" xml:space="preserve">
-    <value>Limite do cache de pré-carregamento</value>
-  </data>
-  <data name="Ui.FastFlags.LimitsHowMuchDiskSpaceThe" xml:space="preserve">
-    <value>Limita quanto espaço em disco o cache de recursos aprendidos pode usar</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadAvatar" xml:space="preserve">
-    <value>Pré-carregar avatar</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadsYourAvatarAndEquippedAccessories" xml:space="preserve">
-    <value>Pré-carrega seu avatar e acessórios equipados antes de cada jogo</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadRecentGames" xml:space="preserve">
-    <value>Pré-carregar jogos recentes</value>
-  </data>
-  <data name="Ui.FastFlags.WarmsCacheFromYourRecentlyPlayed" xml:space="preserve">
-    <value>Aquece o cache com seus jogos recentes antes de cada abertura</value>
-  </data>
-  <data name="Ui.FastFlags.ClientSpoofer" xml:space="preserve">
-    <value>Falsificador do cliente</value>
-  </data>
-  <data name="Ui.FastFlags.ClientSidedOnlyYouSeeThese" xml:space="preserve">
-    <value>Só no cliente, apenas você vê essas mudanças.</value>
-  </data>
-  <data name="Ui.FastFlags.EveryoneElseUsername" xml:space="preserve">
-    <value>Nome de usuário dos outros</value>
-  </data>
-  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown" xml:space="preserve">
-    <value>Define o nome de usuário exibido no seu cliente para todos os outros jogadores</value>
-  </data>
-  <data name="Ui.FastFlags.ApplyEveryoneElseIngame" xml:space="preserve">
-    <value>Aplicar aos outros no jogo</value>
-  </data>
-  <data name="Ui.FastFlags.AppliesTheEveryoneElseUsernameInside" xml:space="preserve">
-    <value>Aplica o nome de usuário dos outros dentro do Roblox</value>
-  </data>
-  <data name="Ui.FastFlags.VerifyEveryoneElse" xml:space="preserve">
-    <value>Verificar os outros</value>
-  </data>
-  <data name="Ui.FastFlags.ShowsEveryOtherPlayerAsVerified" xml:space="preserve">
-    <value>Mostra todos os outros jogadores como verificados neste cliente</value>
-  </data>
-  <data name="Ui.FastFlags.YourUsername" xml:space="preserve">
-    <value>Seu nome de usuário</value>
-  </data>
-  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown2" xml:space="preserve">
-    <value>Define o nome de usuário exibido no seu cliente para sua conta</value>
-  </data>
-  <data name="Ui.FastFlags.ApplyYourUsernameIngame" xml:space="preserve">
-    <value>Aplicar seu nome de usuário no jogo</value>
-  </data>
-  <data name="Ui.FastFlags.AppliesYourSpoofedUsernameInsideRoblox" xml:space="preserve">
-    <value>Aplica seu nome de usuário falso dentro do Roblox</value>
-  </data>
-  <data name="Ui.FastFlags.RobuxAdjuster" xml:space="preserve">
-    <value>Ajuste de Robux</value>
-  </data>
-  <data name="Ui.FastFlags.VerifyYourAccount" xml:space="preserve">
-    <value>Verificar sua conta</value>
-  </data>
-  <data name="Ui.FastFlags.ShowsYourAccountAsVerifiedOn" xml:space="preserve">
-    <value>Mostra sua conta como verificada neste cliente</value>
-  </data>
-  <data name="Ui.FastFlags.MakeYourselfGameCreator" xml:space="preserve">
-    <value>Tornar você o criador do jogo</value>
-  </data>
-  <data name="Ui.FastFlags.UsesYourCurrentRobloxUserID" xml:space="preserve">
-    <value>Usa seu ID de usuário atual do Roblox nos metadados interceptados do criador do jogo</value>
-  </data>
-  <data name="Ui.FastFlags.MakeYourselfGameCreatorDoesNot" xml:space="preserve">
-    <value>Tornar você o criador do jogo não funciona no Windows. O Roblox agora protege a entrada nos jogos no Windows, e alterá-la faz a entrada falhar com o erro 529, então o Voidstrap não mexe nela. Continua funcionando no Linux e no macOS, e suas outras opções não são afetadas.</value>
   </data>
   <data name="Ui.Bootstrapper.DisablesBackgroundWindowWhenLaunchingRoblox" xml:space="preserve">
     <value>Desativa a janela de fundo ao iniciar o Roblox</value>

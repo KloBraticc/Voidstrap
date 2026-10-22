@@ -300,4 +300,138 @@ internal static class RobloxAssetCache
 			App.Logger?.WriteLine(LogIdent, "Could not unlock " + Path.GetFileName(path) + ": " + ex.Message);
 		}
 	}
+
+	private const string CacheTrashPrefix = "rbx-storage.voidstrap-trash-";
+
+	private static int _storageCleared;
+
+	public static bool ConsumeStorageCleared()
+	{
+		return Interlocked.Exchange(ref _storageCleared, 0) == 1;
+	}
+
+	public static bool ClearStorage()
+	{
+		string roblox;
+		string[] files;
+		if (Voidstrap.Utility.Platform.IsLinux)
+		{
+			string home = Environment.GetEnvironmentVariable("HOME") ?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+			string sober = Path.GetFullPath(Path.Combine(home, ".var", "app", "org.vinegarhq.Sober"));
+			string appData = Path.Combine(sober, "data", "sober", "appData");
+			roblox = Path.Combine(sober, "cache", "sober");
+			files =
+			[
+				Path.Combine(appData, "rbx-storage.db"),
+				Path.Combine(appData, "rbx-storage.db-wal"),
+				Path.Combine(appData, "rbx-storage.db-shm")
+			];
+		}
+		else if (Voidstrap.Utility.Platform.IsWindows)
+		{
+			string local = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
+			roblox = Path.GetFullPath(Path.Combine(local, "Roblox"));
+			string gdk = Path.GetFullPath(Path.Combine(local, "RobloxPCGDK"));
+			files =
+			[
+				Path.Combine(roblox, "rbx-storage.db"),
+				Path.Combine(gdk, "rbx-storage.db")
+			];
+		}
+		else if (OperatingSystem.IsMacOS())
+		{
+			roblox = Path.GetFullPath(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), "Library", "Roblox"));
+			files =
+			[
+				Path.Combine(roblox, "rbx-storage.db"),
+				Path.Combine(roblox, "rbx-storage.db-wal"),
+				Path.Combine(roblox, "rbx-storage.db-shm")
+			];
+		}
+		else
+		{
+			return true;
+		}
+		bool cleared = true;
+		foreach (string file in files)
+		{
+			try
+			{
+				if (File.Exists(file))
+				{
+					File.SetAttributes(file, FileAttributes.Normal);
+					File.Delete(file);
+				}
+			}
+			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+			{
+				cleared = false;
+				App.Logger?.WriteLine(LogIdent, "Roblox cache file is locked: " + Path.GetFileName(file));
+			}
+		}
+
+		List<string> trash = [];
+		try
+		{
+			if (Directory.Exists(roblox))
+			{
+				trash.AddRange(Directory.EnumerateDirectories(roblox, CacheTrashPrefix + "*", SearchOption.TopDirectoryOnly));
+			}
+		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+		{
+		}
+
+		string storage = Path.GetFullPath(Path.Combine(roblox, "rbx-storage"));
+		if (Directory.Exists(storage))
+		{
+			string moved = Path.Combine(roblox, CacheTrashPrefix + Guid.NewGuid().ToString("N"));
+			try
+			{
+				Directory.Move(storage, moved);
+				trash.Add(moved);
+			}
+			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+			{
+				DeleteTree(storage);
+			}
+		}
+
+		cleared &= !Directory.Exists(storage);
+		if (trash.Count > 0)
+		{
+			string[] pending = [.. trash];
+			_ = System.Threading.Tasks.Task.Run(() =>
+			{
+				foreach (string folder in pending)
+				{
+					DeleteTree(folder);
+				}
+			});
+		}
+		Interlocked.Exchange(ref _storageCleared, 1);
+		App.Logger?.WriteLine(LogIdent, "Roblox asset cache cleared");
+		return cleared;
+	}
+
+	private static void DeleteTree(string folder)
+	{
+		try
+		{
+			foreach (string file in Directory.EnumerateFiles(folder, "*", SearchOption.AllDirectories))
+			{
+				try
+				{
+					File.SetAttributes(file, FileAttributes.Normal);
+				}
+				catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+				{
+				}
+			}
+			Directory.Delete(folder, true);
+		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+		{
+		}
+	}
 }

@@ -571,10 +571,6 @@ public static partial class GameBananaCatalog
 				return InstallAssetCache(entry, archivePath, staging, progress, token);
 			}
 
-			if (target == CommunityModInstallTarget.AssetWarp)
-			{
-				throw new InvalidOperationException("AssetWarp is not supported for mod packs.");
-			}
 			if (target == CommunityModInstallTarget.Fleasion)
 			{
 				string? fleasionResult = await FleasionModInstaller.TryInstallAsync(entry, file, archivePath, token, extension).ConfigureAwait(false);

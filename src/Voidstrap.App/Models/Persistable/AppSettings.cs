@@ -57,25 +57,12 @@ namespace Voidstrap.Models.Persistable
         public static BackdropType DefaultWindowBackdrop => OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22000) ? BackdropType.Aero : BackdropType.None;
         public string? SelectedCustomTheme { get; set; } = null;
         public bool CheckForUpdates { get; set; } = true;
-        public bool AssetWarpEnabled { get; set; } = false;
-        public bool AssetWarpCertificateApproved { get; set; }
-        public bool AssetWarpAutoEnableDeclined { get; set; }
-        public bool AssetWarpDisableAllTextures { get; set; } = false;
-        public bool AssetWarpDisableAllDecals { get; set; } = false;
-        public bool AssetWarpDisableAllImages { get; set; } = false;
-        public bool AssetWarpDisableAllAnimations { get; set; } = false;
-        public bool AssetWarpDisableAllMeshes { get; set; } = false;
-        public bool AssetWarpPreloadEnabled { get; set; } = false;
-        public int AssetWarpPreloadCacheMb { get; set; } = 2048;
-        public bool AssetWarpPreloadAvatar { get; set; } = true;
-        public bool AssetWarpPreloadCrossGame { get; set; } = true;
         public bool AssetWarpPreloadFlagsOwned { get; set; }
         public Dictionary<string, string?> AssetWarpPreloadFlagBackup { get; set; } = [];
         public bool BlockRobloxTelemetry { get; set; }
         public bool RobloxMinimizeToTray { get; set; }
         public bool RobloxLaunchAtStartup { get; set; }
         public bool StudioPluginEnabled { get; set; }
-        public int PresenceSpoofMode { get; set; }
         public bool DuckRobloxAudioOnUnfocus { get; set; }
         public bool EnableHeadsetLoudness { get; set; }
         public bool SnapTapEnabled { get; set; }
@@ -408,11 +395,6 @@ namespace Voidstrap.Models.Persistable
         public List<long> FavoriteStudioUniverseIds { get; set; } = [];
         public bool MatchmakerAskBeforeMoving { get; set; } = true;
         public List<long> MatchmakerExcludedPlaceIds { get; set; } = [];
-        public int ProxyConnectorType { get; set; } = 0;
-        public string? ProxyHttpConnectHost { get; set; } = null;
-        public int ProxyHttpConnectPort { get; set; } = 0;
-        public string? ProxySocks5Host { get; set; } = null;
-        public int ProxySocks5Port { get; set; } = 0;
         public BootstrapperIcon RobloxIcon { get; set; } = BootstrapperIcon.IconVoidstrap;
         public string RobloxIconCustomLocation { get; set; } = "";
         public string RobloxTitle { get; set; } = "Voidstrap";
@@ -422,15 +404,6 @@ namespace Voidstrap.Models.Persistable
         public int ServerMatchmakerMaxRetries { get; set; } = 3;
         public bool ShowServerInfoInTitle { get; set; } = false;
         public int ServerInfoInTitleResetVersion { get; set; }
-        public bool SpoofOthersApplyIngame { get; set; } = false;
-        public string SpoofOthersName { get; set; } = "";
-        public bool SpoofOthersVerified { get; set; } = false;
-        public bool SpoofSelfApplyIngame { get; set; } = false;
-        public bool SpoofSelfGameCreator { get; set; } = false;
-        public int SpoofSelfGameCreatorResetVersion { get; set; }
-        public string SpoofSelfName { get; set; } = "";
-        public bool SpoofSelfVerified { get; set; } = false;
-        public string RobuxSpoofAmount { get; set; } = "";
         public string StudioRpcClientId { get; set; } = "";
         public bool StudioRpcShowPlace { get; set; } = true;
         public bool StudioRpcShowScript { get; set; } = true;

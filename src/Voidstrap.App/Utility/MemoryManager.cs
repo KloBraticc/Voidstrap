@@ -162,24 +162,8 @@ namespace Voidstrap.Utility
             }
         }
 
-        private static bool ServesLiveTraffic => Voidstrap.Integrations.AssetProxy.AssetProxyServer.IsRunning;
-
-        public static void LeaveQuietModeForLiveTraffic()
-        {
-            CancelEscalation();
-            SetEfficiencyMode(false);
-            SetLowMemoryPriority(false);
-            EndBackgroundMode();
-            SetIdlePriority(false);
-        }
-
         private static void EnterQuietMode()
         {
-            if (ServesLiveTraffic)
-            {
-                LeaveQuietModeForLiveTraffic();
-                return;
-            }
             CancelEscalation();
             EndBackgroundMode();
             SetIdlePriority(true);
@@ -287,7 +271,7 @@ namespace Voidstrap.Utility
 
         private static void BeginBackgroundMode()
         {
-            if (_bgModeSet || !Platform.IsWindows || Volatile.Read(ref _gameplayActive) != 0 || ServesLiveTraffic)
+            if (_bgModeSet || !Platform.IsWindows || Volatile.Read(ref _gameplayActive) != 0)
                 return;
             try
             {
@@ -301,7 +285,7 @@ namespace Voidstrap.Utility
 
         private static void SetIdlePriority(bool enabled)
         {
-            if (_idlePrioritySet == enabled || !Platform.IsWindows || _bgModeSet || enabled && ServesLiveTraffic)
+            if (_idlePrioritySet == enabled || !Platform.IsWindows || _bgModeSet)
                 return;
             try
             {
@@ -318,7 +302,7 @@ namespace Voidstrap.Utility
 
         private static void SetLowMemoryPriority(bool enabled)
         {
-            if (_lowMemoryPrioritySet == enabled || !Platform.IsWindows || enabled && ServesLiveTraffic)
+            if (_lowMemoryPrioritySet == enabled || !Platform.IsWindows)
                 return;
             MemoryPriorityInformation information = new MemoryPriorityInformation
             {
@@ -339,7 +323,7 @@ namespace Voidstrap.Utility
 
         private static void SetEfficiencyMode(bool enabled)
         {
-            if (_efficiencyModeSet == enabled || !Platform.IsWindows || enabled && ServesLiveTraffic)
+            if (_efficiencyModeSet == enabled || !Platform.IsWindows)
                 return;
             PowerThrottlingState state = new PowerThrottlingState
             {

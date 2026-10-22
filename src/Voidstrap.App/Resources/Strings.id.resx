@@ -2877,21 +2877,6 @@ Ketik persis frasa yang ditampilkan di bawah untuk menerima pembatasan ini dan m
   <data name="GlobalProfiles.SaveFailed" xml:space="preserve">
     <value>File pengaturan Roblox tidak dapat ditulis. Tutup Roblox dan coba lagi.</value>
   </data>
-  <data name="AssetWarp.RemoveTexturesDescription" xml:space="preserve">
-    <value>Memblokir unduhan aset tekstur dan paket tekstur</value>
-  </data>
-  <data name="AssetWarp.RemoveDecalsDescription" xml:space="preserve">
-    <value>Memblokir unduhan aset decal</value>
-  </data>
-  <data name="AssetWarp.RemoveImagesDescription" xml:space="preserve">
-    <value>Memblokir unduhan aset gambar. Roblox juga menggunakan gambar untuk tekstur dan decal</value>
-  </data>
-  <data name="AssetWarp.RemoveAnimationsDescription" xml:space="preserve">
-    <value>Memblokir unduhan aset animasi. Game tanpa animasi cadangan mungkin berhenti berfungsi dengan benar</value>
-  </data>
-  <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
-    <value>Memblokir unduhan aset mesh dan MeshPart. Geometri mesh akan menjadi tidak terlihat</value>
-  </data>
   <data name="SwiftTunnel.Summary" xml:space="preserve">
     <value>Arahkan lalu lintas Roblox melalui SwiftTunnel sementara aplikasi lain menggunakan koneksi normal Anda</value>
   </data>
@@ -4050,111 +4035,6 @@ Apa yang ingin Anda lakukan?</value>
   </data>
   <data name="Ui.FastFlags.OnlyChangeWhatYouUnderstandAnd" xml:space="preserve">
     <value>Ubah hanya yang Anda pahami, dan satu pengaturan pada satu waktu.</value>
-  </data>
-  <data name="Ui.FastFlags.EnablesTheAssetWarpProxyAndAll" xml:space="preserve">
-    <value>Mengaktifkan proxy AssetWarp dan semua fitur terkait</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllTextures" xml:space="preserve">
-    <value>Hapus semua tekstur</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllDecals" xml:space="preserve">
-    <value>Hapus semua decal</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllImages" xml:space="preserve">
-    <value>Hapus semua gambar</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllAnimations" xml:space="preserve">
-    <value>Hapus semua animasi</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllMeshes" xml:space="preserve">
-    <value>Hapus semua mesh</value>
-  </data>
-  <data name="Ui.FastFlags.PresenceSpoofer" xml:space="preserve">
-    <value>Pemalsu status</value>
-  </data>
-  <data name="Ui.FastFlags.ChangesWhatOthersSeeOnlineIn" xml:space="preserve">
-    <value>Mengubah apa yang dilihat orang lain: online, di Studio, atau offline</value>
-  </data>
-  <data name="Ui.FastFlags.Preloading" xml:space="preserve">
-    <value>Pramuat</value>
-  </data>
-  <data name="Ui.FastFlags.AssetPreloading" xml:space="preserve">
-    <value>Pramuat aset</value>
-  </data>
-  <data name="Ui.FastFlags.LearnsEachGameAndServesPreviously" xml:space="preserve">
-    <value>Mempelajari setiap game dan menyajikan aset yang sudah diunduh</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadCacheLimit" xml:space="preserve">
-    <value>Batas cache pramuat</value>
-  </data>
-  <data name="Ui.FastFlags.LimitsHowMuchDiskSpaceThe" xml:space="preserve">
-    <value>Membatasi ruang disk yang boleh dipakai cache aset yang dipelajari</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadAvatar" xml:space="preserve">
-    <value>Pramuat avatar</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadsYourAvatarAndEquippedAccessories" xml:space="preserve">
-    <value>Memuat avatar dan aksesori yang dipakai sebelum setiap peluncuran game</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadRecentGames" xml:space="preserve">
-    <value>Pramuat game terbaru</value>
-  </data>
-  <data name="Ui.FastFlags.WarmsCacheFromYourRecentlyPlayed" xml:space="preserve">
-    <value>Menyiapkan cache dengan game yang baru Anda mainkan sebelum setiap peluncuran</value>
-  </data>
-  <data name="Ui.FastFlags.ClientSpoofer" xml:space="preserve">
-    <value>Pemalsu sisi klien</value>
-  </data>
-  <data name="Ui.FastFlags.ClientSidedOnlyYouSeeThese" xml:space="preserve">
-    <value>Hanya di sisi klien, hanya Anda yang melihat perubahan ini.</value>
-  </data>
-  <data name="Ui.FastFlags.EveryoneElseUsername" xml:space="preserve">
-    <value>Nama pengguna semua orang lain</value>
-  </data>
-  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown" xml:space="preserve">
-    <value>Mengatur nama yang ditampilkan klien Anda untuk semua pemain lain</value>
-  </data>
-  <data name="Ui.FastFlags.ApplyEveryoneElseIngame" xml:space="preserve">
-    <value>Terapkan ke semua orang lain di game</value>
-  </data>
-  <data name="Ui.FastFlags.AppliesTheEveryoneElseUsernameInside" xml:space="preserve">
-    <value>Menerapkan nama pengguna semua orang lain di Roblox</value>
-  </data>
-  <data name="Ui.FastFlags.VerifyEveryoneElse" xml:space="preserve">
-    <value>Verifikasi semua orang lain</value>
-  </data>
-  <data name="Ui.FastFlags.ShowsEveryOtherPlayerAsVerified" xml:space="preserve">
-    <value>Menampilkan semua pemain lain sebagai terverifikasi di klien ini</value>
-  </data>
-  <data name="Ui.FastFlags.YourUsername" xml:space="preserve">
-    <value>Nama pengguna Anda</value>
-  </data>
-  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown2" xml:space="preserve">
-    <value>Mengatur nama yang ditampilkan klien Anda untuk akun Anda</value>
-  </data>
-  <data name="Ui.FastFlags.ApplyYourUsernameIngame" xml:space="preserve">
-    <value>Terapkan nama Anda di game</value>
-  </data>
-  <data name="Ui.FastFlags.AppliesYourSpoofedUsernameInsideRoblox" xml:space="preserve">
-    <value>Menerapkan nama pengguna palsu Anda di Roblox</value>
-  </data>
-  <data name="Ui.FastFlags.RobuxAdjuster" xml:space="preserve">
-    <value>Pengatur Robux</value>
-  </data>
-  <data name="Ui.FastFlags.VerifyYourAccount" xml:space="preserve">
-    <value>Verifikasi akun Anda</value>
-  </data>
-  <data name="Ui.FastFlags.ShowsYourAccountAsVerifiedOn" xml:space="preserve">
-    <value>Menampilkan akun Anda sebagai terverifikasi di klien ini</value>
-  </data>
-  <data name="Ui.FastFlags.MakeYourselfGameCreator" xml:space="preserve">
-    <value>Jadikan diri Anda pembuat game</value>
-  </data>
-  <data name="Ui.FastFlags.UsesYourCurrentRobloxUserID" xml:space="preserve">
-    <value>Memakai ID pengguna Roblox Anda saat ini untuk data pembuat game yang dicegat</value>
-  </data>
-  <data name="Ui.FastFlags.MakeYourselfGameCreatorDoesNot" xml:space="preserve">
-    <value>Jadikan diri Anda pembuat game tidak berfungsi di Windows. Roblox kini melindungi proses bergabung ke game di Windows, dan mengubahnya membuat bergabung gagal dengan galat 529, jadi Voidstrap tidak menyentuhnya. Fitur ini tetap berfungsi di Linux dan macOS, dan opsi Anda yang lain tidak terpengaruh.</value>
   </data>
   <data name="Ui.Bootstrapper.DisablesBackgroundWindowWhenLaunchingRoblox" xml:space="preserve">
     <value>Menonaktifkan jendela latar saat meluncurkan Roblox</value>

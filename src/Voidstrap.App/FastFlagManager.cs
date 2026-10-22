@@ -980,128 +980,16 @@ public class FastFlagManager : JsonManager<Dictionary<string, object>>
 		}
 	}
 
-	private static readonly string[] AssetWarpPreloadPresets =
-	[
-			"Cache.Increase1", "Cache.Increase2", "Cache.Increase3", "Cache.Increase4", "Cache.Increase5",
-			"Cache.Increase6", "Cache.Increase7", "Cache.Increase8", "Cache.Increase9", "Cache.Increase10",
-			"Cache.Increase11", "Cache.Increase12", "Cache.Increase13", "Cache.Increase14", "Cache.Increase15",
-			"Cache.Increase16", "Cache.Increase17", "Cache.Increase18", "Cache.Increase19", "Preload.Preload2",
-			"Preload.SoundPreload", "Preload.Texture", "Preload.TeleportPreload", "Preload.FontsPreload",
-			"Preload.ItemPreload", "Preload.Teleport2"
-	];
-
-	private static IEnumerable<KeyValuePair<string, string>> AssetWarpPreloadFlags => AssetWarpPreloadPresets
-		.Where(PresetFlags.ContainsKey)
-		.Select(preset => new KeyValuePair<string, string>(preset, PresetFlags[preset]))
-		.DistinctBy(pair => pair.Value);
-
-	public void ApplyPreloadFlags()
+	public void RestoreAssetWarpPreloadFlags()
 	{
-		if (!App.Settings.Prop.AssetWarpEnabled || !App.Settings.Prop.AssetWarpPreloadEnabled)
-		{
-			if (!App.Settings.Prop.AssetWarpPreloadFlagsOwned)
-				return;
-			foreach (KeyValuePair<string, string?> backup in App.Settings.Prop.AssetWarpPreloadFlagBackup)
-			{
-				SetValue(backup.Key, backup.Value);
-			}
-			App.Settings.Prop.AssetWarpPreloadFlagsOwned = false;
-			App.Settings.SaveDeferred();
-			return;
-		}
 		if (!App.Settings.Prop.AssetWarpPreloadFlagsOwned)
-		{
-			App.Settings.Prop.AssetWarpPreloadFlagBackup = AssetWarpPreloadFlags
-				.ToDictionary(pair => pair.Value, pair => GetValue(pair.Value));
-			App.Settings.Prop.AssetWarpPreloadFlagsOwned = true;
-			App.Settings.Save();
-		}
-		foreach (string preset in AssetWarpPreloadPresets.Where(preset => preset.StartsWith("Cache.Increase", StringComparison.Ordinal)))
-		{
-			SetPreset(preset, null);
-		}
-		SetPreset("Preload.Preload2", "True");
-		SetPreset("Preload.SoundPreload", "True");
-		SetPreset("Preload.Texture", "True");
-		SetPreset("Preload.TeleportPreload", "True");
-		SetPreset("Preload.FontsPreload", "True");
-		SetPreset("Preload.ItemPreload", "True");
-		SetPreset("Preload.Teleport2", "True");
-	}
-
-	public void RemoveInstalledPreloadFlags(string path)
-	{
-		if (!File.Exists(path))
-		{
 			return;
-		}
-		string? temporary = null;
-		try
+		foreach (KeyValuePair<string, string?> backup in App.Settings.Prop.AssetWarpPreloadFlagBackup)
 		{
-			Dictionary<string, System.Text.Json.JsonElement>? flags = JsonFile.Deserialize<Dictionary<string, System.Text.Json.JsonElement>>(path, JsonOptions.Tolerant, 16777216);
-			if (flags == null)
-			{
-				return;
-			}
-			bool changed = false;
-			foreach (KeyValuePair<string, string> owned in AssetWarpPreloadFlags)
-			{
-				bool cacheFlag = owned.Key.StartsWith("Cache.Increase", StringComparison.Ordinal);
-				bool hasCurrent = flags.TryGetValue(owned.Value, out System.Text.Json.JsonElement current);
-				bool stillOwned = cacheFlag ? !hasCurrent : hasCurrent && string.Equals(current.ToString(), "True", StringComparison.OrdinalIgnoreCase);
-				if (!stillOwned)
-					continue;
-				if (App.Settings.Prop.AssetWarpPreloadFlagBackup.TryGetValue(owned.Value, out string? previous) && previous != null)
-				{
-					flags[owned.Value] = System.Text.Json.JsonSerializer.SerializeToElement(previous);
-					changed = true;
-				}
-				else
-					changed |= flags.Remove(owned.Value);
-			}
-			if (!changed)
-			{
-				return;
-			}
-			FileAttributes attributes = File.GetAttributes(path);
-			bool readOnly = attributes.HasFlag(FileAttributes.ReadOnly);
-			if (readOnly)
-			{
-				File.SetAttributes(path, attributes & ~FileAttributes.ReadOnly);
-			}
-			try
-			{
-				temporary = path + "." + Guid.NewGuid().ToString("N") + ".tmp";
-				File.WriteAllText(temporary, System.Text.Json.JsonSerializer.Serialize(flags, JsonOptions.Indented));
-				File.Move(temporary, path, true);
-				temporary = null;
-				App.Settings.Prop.AssetWarpPreloadFlagBackup.Clear();
-				App.Settings.SaveDeferred();
-			}
-			finally
-			{
-				if (readOnly && File.Exists(path))
-				{
-					File.SetAttributes(path, File.GetAttributes(path) | FileAttributes.ReadOnly);
-				}
-			}
+			SetValue(backup.Key, backup.Value);
 		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine("FastFlagManager::RemoveInstalledPreloadFlags", "Could not remove AssetWarp preload flags: " + ex.Message);
-		}
-		finally
-		{
-			if (!string.IsNullOrEmpty(temporary))
-			{
-				try
-				{
-					File.Delete(temporary);
-				}
-				catch
-				{
-				}
-			}
-		}
+		App.Settings.Prop.AssetWarpPreloadFlagsOwned = false;
+		App.Settings.Prop.AssetWarpPreloadFlagBackup.Clear();
+		App.Settings.SaveDeferred();
 	}
 }

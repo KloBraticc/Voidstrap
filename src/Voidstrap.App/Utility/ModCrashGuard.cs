@@ -208,27 +208,24 @@ internal static class ModCrashGuard
 	}
 }
 
-internal sealed record ReplacementConfigFile(string Label, string Path, string ConfigsFolder, bool Fleasion, bool Parked);
+internal sealed record ReplacementConfigFile(string Label, string Path, string ConfigsFolder, bool Parked);
 
 internal static class ExternalModConfigs
 {
 	public static List<ReplacementConfigFile> GetConfigFiles(string recordId)
 	{
 		List<ReplacementConfigFile> files = [];
-		string fleasionFolder = FleasionModInstaller.ConfigsFolderFor(fleasion: true);
 		foreach ((string configsFolder, string configName) in ReadLocks(recordId))
 		{
-			bool fleasion = string.Equals(configsFolder, fleasionFolder, StringComparison.OrdinalIgnoreCase);
-			string owner = fleasion ? "Fleasion" : "AssetWarp";
 			string active = Path.Combine(configsFolder, configName + ".json");
 			string parked = Path.Combine(configsFolder, DisabledFolderName, configName + ".json");
 			if (File.Exists(active))
 			{
-				files.Add(new ReplacementConfigFile(configName + " (" + owner + ")", active, configsFolder, fleasion, false));
+				files.Add(new ReplacementConfigFile(configName + " (Fleasion)", active, configsFolder, false));
 			}
 			else if (File.Exists(parked))
 			{
-				files.Add(new ReplacementConfigFile(configName + " (" + owner + ", off)", parked, configsFolder, fleasion, true));
+				files.Add(new ReplacementConfigFile(configName + " (Fleasion, off)", parked, configsFolder, true));
 			}
 		}
 		return files;
@@ -243,11 +240,6 @@ internal static class ExternalModConfigs
 		return ReadLocks(recordId).Count > 0;
 	}
 
-	public static bool HasActiveAssetWarpConfig(string recordId)
-	{
-		return Voidstrap.Utility.Platform.IsLinux && GetConfigFiles(recordId).Any(file => !file.Fleasion && !file.Parked && Voidstrap.Integrations.AssetProxy.TextureStripper.HasVerifiedReplacement(file.Path));
-	}
-
 	public static void RemoveConfigs(string recordId)
 	{
 		List<ReplacementConfigFile> files = GetConfigFiles(recordId);
@@ -255,41 +247,14 @@ internal static class ExternalModConfigs
 		{
 			try
 			{
-				HashSet<string> assetFolders = file.Fleasion ? [] : ReadAssetFolders(file.Path);
 				File.Delete(file.Path);
-				string assetsRoot = Path.GetFullPath(Path.Combine(file.ConfigsFolder, "Assets")) + Path.DirectorySeparatorChar;
-				foreach (string folder in assetFolders)
-				{
-					string target = Path.GetFullPath(Path.Combine(file.ConfigsFolder, "Assets", folder));
-					if (target.StartsWith(assetsRoot, StringComparison.OrdinalIgnoreCase) && Directory.Exists(target))
-					{
-						Directory.Delete(target, recursive: true);
-					}
-				}
 				App.Logger?.WriteLine(LogIdent, "Removed the replacement config " + file.Label + " with its mod");
 			}
-			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or JsonException)
+			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
 			{
 				App.Logger?.WriteLine(LogIdent, "The config " + file.Label + " could not be removed: " + ex.Message);
 			}
 		}
-		if (files.Count > 0)
-		{
-			Voidstrap.Integrations.AssetProxy.TextureStripper.InvalidateRuntimeState();
-		}
-	}
-
-	private static HashSet<string> ReadAssetFolders(string configPath)
-	{
-		HashSet<string> folders = new(StringComparer.OrdinalIgnoreCase);
-		using JsonDocument document = JsonDocument.Parse(File.ReadAllBytes(configPath));
-		JsonElement root = document.RootElement;
-		if (root.ValueKind == JsonValueKind.Object && root.TryGetProperty("replacement_rules", out JsonElement nested))
-		{
-			root = nested;
-		}
-		CollectAssetFolders(root, folders);
-		return folders;
 	}
 
 	private static void CollectAssetFolders(JsonElement rules, HashSet<string> folders)
@@ -341,7 +306,6 @@ internal static class ExternalModConfigs
 				App.Logger?.WriteLine(LogIdent, "The config " + configName + " could not be moved: " + ex.Message);
 			}
 		}
-		Voidstrap.Integrations.AssetProxy.TextureStripper.InvalidateRuntimeState();
 	}
 
 	private static List<(string ConfigsFolder, string ConfigName)> ReadLocks(string recordId)
@@ -350,8 +314,7 @@ internal static class ExternalModConfigs
 		try
 		{
 			string folder = ManagedModStore.GetFolder(recordId);
-			AddLock(result, Path.Combine(folder, "AssetWarp.lock"), FleasionModInstaller.AssetWarpResultPrefix, FleasionModInstaller.ConfigsFolderFor(fleasion: false));
-			AddLock(result, Path.Combine(folder, "Fleasion.lock"), FleasionModInstaller.ResultPrefix, FleasionModInstaller.ConfigsFolderFor(fleasion: true));
+			AddLock(result, Path.Combine(folder, "Fleasion.lock"), FleasionModInstaller.ResultPrefix, FleasionModInstaller.ConfigsFolder);
 		}
 		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidDataException)
 		{

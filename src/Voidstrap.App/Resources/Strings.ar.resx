@@ -2949,21 +2949,6 @@
   <data name="GlobalProfiles.SaveFailed" xml:space="preserve">
     <value>تعذّرت الكتابة في ملف إعدادات Roblox. أغلق Roblox وحاول مرة أخرى.</value>
   </data>
-  <data name="AssetWarp.RemoveTexturesDescription" xml:space="preserve">
-    <value>يحظر تنزيل أصول الخامات وحزم الخامات</value>
-  </data>
-  <data name="AssetWarp.RemoveDecalsDescription" xml:space="preserve">
-    <value>يحظر تنزيل أصول الملصقات</value>
-  </data>
-  <data name="AssetWarp.RemoveImagesDescription" xml:space="preserve">
-    <value>يحظر تنزيل أصول الصور. يستخدم Roblox الصور أيضًا للخامات والملصقات</value>
-  </data>
-  <data name="AssetWarp.RemoveAnimationsDescription" xml:space="preserve">
-    <value>يحظر تنزيل أصول الرسوم المتحركة. قد تتوقف الألعاب التي لا تحتوي على رسوم متحركة بديلة عن العمل بشكل صحيح</value>
-  </data>
-  <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
-    <value>يحظر تنزيل أصول الشبكات و MeshPart. ستصبح هندسة الشبكات غير مرئية</value>
-  </data>
   <data name="SwiftTunnel.Summary" xml:space="preserve">
     <value>وجّه حركة مرور Roblox عبر SwiftTunnel بينما تستخدم التطبيقات الأخرى اتصالك المعتاد</value>
   </data>
@@ -4125,111 +4110,6 @@
   </data>
   <data name="Ui.FastFlags.OnlyChangeWhatYouUnderstandAnd" xml:space="preserve">
     <value>غيّر فقط ما تفهمه، وإعدادًا واحدًا في كل مرة.</value>
-  </data>
-  <data name="Ui.FastFlags.EnablesTheAssetWarpProxyAndAll" xml:space="preserve">
-    <value>يشغّل وكيل AssetWarp وجميع الميزات المرتبطة به</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllTextures" xml:space="preserve">
-    <value>إزالة كل الخامات</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllDecals" xml:space="preserve">
-    <value>إزالة كل الملصقات</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllImages" xml:space="preserve">
-    <value>إزالة كل الصور</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllAnimations" xml:space="preserve">
-    <value>إزالة كل الرسوم المتحركة</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllMeshes" xml:space="preserve">
-    <value>إزالة كل الشبكات</value>
-  </data>
-  <data name="Ui.FastFlags.PresenceSpoofer" xml:space="preserve">
-    <value>تزييف الحالة</value>
-  </data>
-  <data name="Ui.FastFlags.ChangesWhatOthersSeeOnlineIn" xml:space="preserve">
-    <value>يغيّر ما يراه الآخرون: متصل أو في Studio أو غير متصل</value>
-  </data>
-  <data name="Ui.FastFlags.Preloading" xml:space="preserve">
-    <value>التحميل المسبق</value>
-  </data>
-  <data name="Ui.FastFlags.AssetPreloading" xml:space="preserve">
-    <value>التحميل المسبق للموارد</value>
-  </data>
-  <data name="Ui.FastFlags.LearnsEachGameAndServesPreviously" xml:space="preserve">
-    <value>يتعلم كل لعبة ويقدّم الموارد التي نُزّلت سابقًا</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadCacheLimit" xml:space="preserve">
-    <value>حد ذاكرة التحميل المسبق</value>
-  </data>
-  <data name="Ui.FastFlags.LimitsHowMuchDiskSpaceThe" xml:space="preserve">
-    <value>يحدد مساحة القرص التي يمكن أن تستخدمها ذاكرة الموارد المتعلَّمة</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadAvatar" xml:space="preserve">
-    <value>التحميل المسبق للأفاتار</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadsYourAvatarAndEquippedAccessories" xml:space="preserve">
-    <value>يحمّل الأفاتار والإكسسوارات المرتداة مسبقًا قبل كل تشغيل للعبة</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadRecentGames" xml:space="preserve">
-    <value>التحميل المسبق للألعاب الأخيرة</value>
-  </data>
-  <data name="Ui.FastFlags.WarmsCacheFromYourRecentlyPlayed" xml:space="preserve">
-    <value>يجهّز الذاكرة المؤقتة بالألعاب التي لعبتها مؤخرًا قبل كل تشغيل</value>
-  </data>
-  <data name="Ui.FastFlags.ClientSpoofer" xml:space="preserve">
-    <value>تزييف من جهة العميل</value>
-  </data>
-  <data name="Ui.FastFlags.ClientSidedOnlyYouSeeThese" xml:space="preserve">
-    <value>من جهة العميل فقط، أنت وحدك ترى هذه التغييرات.</value>
-  </data>
-  <data name="Ui.FastFlags.EveryoneElseUsername" xml:space="preserve">
-    <value>اسم المستخدم لجميع الآخرين</value>
-  </data>
-  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown" xml:space="preserve">
-    <value>يحدد اسم المستخدم الذي يعرضه عميلك لجميع اللاعبين الآخرين</value>
-  </data>
-  <data name="Ui.FastFlags.ApplyEveryoneElseIngame" xml:space="preserve">
-    <value>تطبيق على جميع الآخرين في اللعبة</value>
-  </data>
-  <data name="Ui.FastFlags.AppliesTheEveryoneElseUsernameInside" xml:space="preserve">
-    <value>يطبّق اسم المستخدم لجميع الآخرين في Roblox</value>
-  </data>
-  <data name="Ui.FastFlags.VerifyEveryoneElse" xml:space="preserve">
-    <value>توثيق جميع الآخرين</value>
-  </data>
-  <data name="Ui.FastFlags.ShowsEveryOtherPlayerAsVerified" xml:space="preserve">
-    <value>يعرض جميع اللاعبين الآخرين كموثقين في هذا العميل</value>
-  </data>
-  <data name="Ui.FastFlags.YourUsername" xml:space="preserve">
-    <value>اسم المستخدم الخاص بك</value>
-  </data>
-  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown2" xml:space="preserve">
-    <value>يحدد اسم المستخدم الذي يعرضه عميلك لحسابك</value>
-  </data>
-  <data name="Ui.FastFlags.ApplyYourUsernameIngame" xml:space="preserve">
-    <value>تطبيق اسمك في اللعبة</value>
-  </data>
-  <data name="Ui.FastFlags.AppliesYourSpoofedUsernameInsideRoblox" xml:space="preserve">
-    <value>يطبّق اسم المستخدم المزيف الخاص بك في Roblox</value>
-  </data>
-  <data name="Ui.FastFlags.RobuxAdjuster" xml:space="preserve">
-    <value>ضبط Robux</value>
-  </data>
-  <data name="Ui.FastFlags.VerifyYourAccount" xml:space="preserve">
-    <value>توثيق حسابك</value>
-  </data>
-  <data name="Ui.FastFlags.ShowsYourAccountAsVerifiedOn" xml:space="preserve">
-    <value>يعرض حسابك كموثق في هذا العميل</value>
-  </data>
-  <data name="Ui.FastFlags.MakeYourselfGameCreator" xml:space="preserve">
-    <value>اجعل نفسك منشئ اللعبة</value>
-  </data>
-  <data name="Ui.FastFlags.UsesYourCurrentRobloxUserID" xml:space="preserve">
-    <value>يستخدم معرّف مستخدم Roblox الحالي الخاص بك لبيانات منشئ اللعبة المعترَضة</value>
-  </data>
-  <data name="Ui.FastFlags.MakeYourselfGameCreatorDoesNot" xml:space="preserve">
-    <value>ميزة اجعل نفسك منشئ اللعبة لا تعمل على Windows. يحمي Roblox الآن الانضمام إلى الألعاب على Windows، وتعديله يجعل الانضمام يفشل بالخطأ 529، لذلك لا يلمسه Voidstrap. لا تزال تعمل على Linux وmacOS، ولا تتأثر خياراتك الأخرى.</value>
   </data>
   <data name="Ui.Bootstrapper.DisablesBackgroundWindowWhenLaunchingRoblox" xml:space="preserve">
     <value>يعطّل نافذة الخلفية عند تشغيل Roblox</value>

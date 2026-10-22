@@ -21,6 +21,8 @@ internal static class ModAutoFixer
 
 	private static readonly string[] ContentRoots = { "content", "ExtraContent", "PlatformContent" };
 
+	private static readonly HashSet<string> NonMaterialFolders = new(StringComparer.OrdinalIgnoreCase) { "plastic", "sky", "ui", "water" };
+
 	private static readonly Dictionary<uint, string> ConvertibleFormats = new()
 	{
 		[70] = "DXT1",
@@ -68,7 +70,24 @@ internal static class ModAutoFixer
 
 	public static bool IsIgnoredModFile(string relative)
 	{
-		return IsVersionLocked(relative) || IsDuplicateCopy(relative) || LegacyMaterialTextures.IsRedirectedSource(relative);
+		return IsVersionLocked(relative) || IsDuplicateCopy(relative) || IsDownloadedMaterialTexture(relative);
+	}
+
+	private static bool IsDownloadedMaterialTexture(string relative)
+	{
+		string normalized = relative.Replace('\\', '/');
+		if (normalized.StartsWith("PlatformContent/pc/terrain/", StringComparison.OrdinalIgnoreCase))
+		{
+			return normalized.EndsWith(".dds", StringComparison.OrdinalIgnoreCase);
+		}
+		const string prefix = "PlatformContent/pc/textures/";
+		if (!normalized.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+		{
+			return false;
+		}
+		string rest = normalized[prefix.Length..];
+		int slash = rest.IndexOf('/');
+		return slash > 0 && !NonMaterialFolders.Contains(rest[..slash]);
 	}
 
 	private static bool IsDuplicateCopy(string relative)

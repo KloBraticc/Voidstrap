@@ -290,7 +290,6 @@ public class Bootstrapper
 
     private static readonly string? _launchStatusFile = Environment.GetEnvironmentVariable("VOIDSTRAP_STATUS_FILE");
 
-    private Watcher? _inProcessWatcher;
 
     private readonly List<int> _integrationAutoclosePids = [];
 
@@ -648,7 +647,7 @@ public class Bootstrapper
         _safeMode = _launchMode == LaunchMode.Player && App.State.Prop.SafeLaunchPending;
         if (_safeMode)
         {
-            App.Logger.WriteLine("Bootstrapper::Run", "Safe launch: this launch skips mods, FastFlags, AssetWarp, the matchmaker, launch integrations and process changes to test whether one of them makes Roblox crash");
+            App.Logger.WriteLine("Bootstrapper::Run", "Safe launch: this launch skips mods, FastFlags, the matchmaker, launch integrations and process changes to test whether one of them makes Roblox crash");
         }
         Dialog?.CancelEnabled = true;
         SetStatus(Strings.Bootstrapper_Status_Connecting);
@@ -768,7 +767,7 @@ public class Bootstrapper
 			if (_launchMode == LaunchMode.Player)
 			{
 				App.FastFlags.MigratePlayerLoggingPreset();
-				App.FastFlags.ApplyPreloadFlags();
+				App.FastFlags.RestoreAssetWarpPreloadFlags();
 				App.FastFlags.SaveDeferred();
 			}
 			if (_safeMode)
@@ -802,53 +801,6 @@ public class Bootstrapper
         if (InstallOnly)
         {
             InstallationSucceeded = !_cancelTokenSource.IsCancellationRequested && !_noConnection && !MustUpgrade && AppData.State.VersionGuid == _latestVersionGuid;
-            return;
-        }
-        if (_launchMode != LaunchMode.Player || !AssetProxyServer.IsRequired)
-        {
-            return;
-        }
-        try
-        {
-            await WaitForRobloxExitAsync(_cancelTokenSource.Token);
-        }
-        catch
-        {
-        }
-        if (App.Settings.Prop.AssetWarpPreloadEnabled && App.Settings.Prop.AssetWarpPreloadCrossGame)
-        {
-            using CancellationTokenSource crossGameDeadline = CancellationTokenSource.CreateLinkedTokenSource(_cancelTokenSource.Token);
-            crossGameDeadline.CancelAfter(TimeSpan.FromSeconds(30));
-            try
-            {
-                await AssetPreloadProactive.DiscoverCrossGameAsync(crossGameDeadline.Token);
-            }
-            catch (OperationCanceledException)
-            {
-            }
-        }
-        AssetProxyServer.Stop();
-        try
-        {
-            System.Windows.Application current = System.Windows.Application.Current;
-            if (current == null)
-            {
-                return;
-            }
-            ((DispatcherObject)current).Dispatcher.Invoke((Action)delegate
-            {
-                try
-                {
-                    _inProcessWatcher?.Dispose();
-                }
-                catch
-                {
-                }
-                _inProcessWatcher = null;
-            });
-        }
-        catch
-        {
         }
     }
 
@@ -1474,12 +1426,6 @@ public class Bootstrapper
                 }
             }
 
-            if (Voidstrap.Utility.Platform.IsLinux && runtimeKind == RuntimeKind.Player)
-            {
-                cancellationToken.ThrowIfCancellationRequested();
-                SoberBuiltinContent.PrepareLaunchCache();
-            }
-
             SettingsDocument? settings = null;
             OperationResult<SettingsLoadResult> settingsResult = await new PortableSettingsStore(host.Paths).LoadAsync(cancellationToken);
             if (settingsResult.Succeeded)
@@ -1547,32 +1493,8 @@ public class Bootstrapper
         }
         try
         {
-            long assetPreloadPlaceId = LaunchInterceptor.ExtractPlaceId(_launchCommandLine);
-            if (_launchMode != LaunchMode.Player)
-            {
-				AssetProxyServer.Stop();
-            }
-            else if (!App.Settings.Prop.AssetWarpEnabled)
-            {
-				AssetProxyServer.Stop();
-            }
-            else if (App.Settings.Prop.AssetWarpPreloadEnabled && assetPreloadPlaceId > 0)
-            {
-				AssetPreloadCache.SwitchSession(assetPreloadPlaceId);
-            }
-            if (_safeMode)
-                AssetProxyServer.Stop();
-            else if (_launchMode == LaunchMode.Player)
-            {
-                await AssetCacheStripper.ApplyAsync(ct);
-                await StartAssetProxyIfEnabled(ct);
-            }
-            if (!_safeMode && AssetProxyRouting.ConsumeCacheCleared())
+            if (!_safeMode && RobloxAssetCache.ConsumeStorageCleared())
                 await RestoreStoragePatchesAsync(ct);
-            if (_launchMode == LaunchMode.Player && (!App.Settings.Prop.AssetWarpEnabled || !App.Settings.Prop.AssetWarpPreloadEnabled))
-            {
-				App.FastFlags.RemoveInstalledPreloadFlags(Path.Combine(AppData.Directory, "ClientSettings", "ClientAppSettings.json"));
-            }
             if (App.Settings.Prop.BlockRobloxTelemetry && !TelemetryBlocker.IsApplied())
             {
                 if (ProcessElevation.IsAdministrator())
@@ -1618,7 +1540,7 @@ public class Bootstrapper
                 App.State.Prop.LastSafeLaunchResult = SafeLaunchWorked;
                 App.State.Save();
                 string safeWorked = Voidstrap.Utility.Platform.IsLinux
-                    ? "Roblox started once Voidstrap launched it without your mods, FastFlags, AssetWarp, matchmaker and launch integrations, so one of those made Roblox crash while starting. They are all back on for your next launch. If Roblox crashes again, turn your mods off in My Mods first, then reset your FastFlags, then turn off AssetWarp, until it starts."
+                    ? "Roblox started once Voidstrap launched it without your mods, FastFlags, matchmaker and launch integrations, so one of those made Roblox crash while starting. They are all back on for your next launch. If Roblox crashes again, turn your mods off in My Mods first, then reset your FastFlags, then turn off AssetWarp, until it starts."
                     : "Roblox started once Voidstrap launched it without your mods, FastFlags, matchmaker and launch integrations, so one of those made Roblox crash while starting. They are all back on for your next launch. If Roblox crashes again, turn your mods off in My Mods first, then reset your FastFlags, until it starts.";
                 App.Logger.WriteLine("Bootstrapper::StartRoblox", "Safe launch reached the Roblox renderer, the crash comes from something Voidstrap adds");
                 Voidstrap.Utility.AppNotifications.RecordInfo("roblox:safelaunchworked", "Roblox started in a safe launch", safeWorked);
@@ -1631,10 +1553,6 @@ public class Bootstrapper
                 return;
             }
             App.Logger.WriteLine("Bootstrapper::StartRoblox", "Log file: " + logFileName);
-            if (AssetProxyServer.IsRunning && assetPreloadPlaceId > 0)
-            {
-                AssetPreloadCache.StartBackgroundWarm(assetPreloadPlaceId, ct);
-            }
             if (IsStudioLaunch)
             {
                 await RunStudioSessionAsync(_cancelTokenSource.Token);
@@ -2060,7 +1978,7 @@ public class Bootstrapper
 			App.State.Prop.LastSafeLaunchResult = SafeLaunchCrashed;
 			App.State.Save();
 			string outside = Voidstrap.Utility.Platform.IsLinux
-				? "Roblox still crashes while starting with a fresh install, a reset Roblox cache and everything Voidstrap adds turned off: no mods, no FastFlags, no AssetWarp, no matchmaker and no launch integrations. The crash is inside the Roblox client or this PC, not in your Voidstrap setup. Update your graphics driver, close overlays and antivirus tools that inject into games, and try launching Roblox without Voidstrap to confirm."
+				? "Roblox still crashes while starting with a fresh install, a reset Roblox cache and everything Voidstrap adds turned off: no mods, no FastFlags, no matchmaker and no launch integrations. The crash is inside the Roblox client or this PC, not in your Voidstrap setup. Update your graphics driver, close overlays and antivirus tools that inject into games, and try launching Roblox without Voidstrap to confirm."
 				: "Roblox still crashes while starting with a fresh install, a reset Roblox cache and everything Voidstrap adds turned off: no mods, no FastFlags, no matchmaker and no launch integrations. The crash is inside the Roblox client or this PC, not in your Voidstrap setup. Update your graphics driver, close overlays and antivirus tools that inject into games, and try launching Roblox without Voidstrap to confirm.";
 			App.Logger.WriteLine("Bootstrapper::WaitForLogFile", "Safe launch also crashed, the crash is outside anything Voidstrap adds");
 			Voidstrap.Utility.AppNotifications.RecordInfo("roblox:safelaunchcrashed", "Roblox crashes even in a safe launch", outside);
@@ -2095,7 +2013,7 @@ public class Bootstrapper
 		if (App.State.Prop.LastSafeLaunchResult == SafeLaunchWorked)
 		{
 			string modsCause = Voidstrap.Utility.Platform.IsLinux
-				? "Roblox crashed while starting again. A safe launch in the last few hours worked once your mods, FastFlags, AssetWarp and launch integrations were turned off, so one of those makes Roblox crash. Turn your mods off in My Mods first, then reset your FastFlags, then turn off AssetWarp, until Roblox starts."
+				? "Roblox crashed while starting again. A safe launch in the last few hours worked once your mods, FastFlags and launch integrations were turned off, so one of those makes Roblox crash. Turn your mods off in My Mods first, then reset your FastFlags, then turn off AssetWarp, until Roblox starts."
 				: "Roblox crashed while starting again. A safe launch in the last few hours worked once your mods, FastFlags and launch integrations were turned off, so one of those makes Roblox crash. Turn your mods off in My Mods first, then reset your FastFlags, until Roblox starts.";
 			App.Logger.WriteLine("Bootstrapper::WaitForLogFile", "Skipping another reinstall, the last safe launch worked so the cause is a Voidstrap addition");
 			Voidstrap.Utility.AppNotifications.RecordInfo("roblox:safelaunchworked", "Roblox started in a safe launch", modsCause);
@@ -2310,7 +2228,7 @@ public class Bootstrapper
 
     private static void LaunchFleasion(string logIdent)
     {
-        if (App.Settings.Prop?.Fleasion != true || FleasionBridge.IsActive || !Voidstrap.Utility.Platform.IsWindows)
+        if (App.Settings.Prop?.Fleasion != true || !Voidstrap.Utility.Platform.IsWindows)
         {
             return;
         }
@@ -2556,42 +2474,6 @@ public class Bootstrapper
             LogFile = logFileName,
             AutoclosePids = [.. _integrationAutoclosePids]
         };
-        if (AssetProxyServer.IsRequired && _launchMode == LaunchMode.Player)
-        {
-            try
-            {
-                System.Windows.Application current = System.Windows.Application.Current;
-                if (current != null)
-                {
-                    ((DispatcherObject)current).Dispatcher.Invoke((Action)delegate
-                    {
-                        _inProcessWatcher = new Watcher(watcherData);
-                    });
-                }
-                Watcher? watcher = _inProcessWatcher;
-                if (watcher != null)
-                {
-                    Task.Run(() => watcher.Run(), ct).ContinueWith(delegate
-                    {
-                        try
-                        {
-                            watcher.Dispose();
-                        }
-                        catch
-                        {
-                        }
-                        Watcher.ForceShutdownAfterRobloxExit("Bootstrapper::LaunchWatcherIfNeeded");
-                    }, CancellationToken.None, TaskContinuationOptions.None, TaskScheduler.Default);
-                }
-                App.Logger.WriteLine("Bootstrapper::LaunchWatcherIfNeeded", "Running the watcher in-process for AssetWarp so no second Voidstrap process is needed.");
-                return Task.CompletedTask;
-            }
-            catch (Exception ex)
-            {
-                App.Logger.WriteLine("Bootstrapper::LaunchWatcherIfNeeded", "In-process watcher failed: " + ex.Message);
-                return Task.CompletedTask;
-            }
-        }
         string text = Convert.ToBase64String(Encoding.UTF8.GetBytes(JsonSerializer.Serialize(watcherData)));
         try
         {
@@ -2619,57 +2501,6 @@ public class Bootstrapper
             App.Logger.WriteLine("Bootstrapper::LaunchWatcherIfNeeded", "Watcher process start failed: " + ex.Message);
         }
         return Task.CompletedTask;
-    }
-
-    internal static async Task StartAssetProxyIfEnabled(CancellationToken ct)
-    {
-        if (Voidstrap.Utility.Platform.IsLinux)
-        {
-            ct.ThrowIfCancellationRequested();
-            SoberBuiltinContent.PrepareLaunchCache();
-        }
-        if (!AssetProxyServer.IsRequired)
-        {
-            AssetProxyRouting.InvalidateCache();
-            AssetProxyServer.ReconcileRuntimeState();
-            return;
-        }
-        if (Voidstrap.Utility.Platform.IsWindows && !AssetProxyServer.UsesExplicitProxy && !ProcessElevation.IsAdministrator())
-        {
-            AssetProxyRouting.InvalidateCache();
-            App.Logger.WriteLine("Bootstrapper::StartAssetProxyIfEnabled", "AssetWarp requires administrator access, continuing without AssetWarp");
-            return;
-        }
-
-        Exception? finalFailure = null;
-        for (int attempt = 1; attempt <= 3; attempt++)
-        {
-            try
-            {
-                await AssetProxyServer.StartAsync(ct).ConfigureAwait(false);
-                return;
-            }
-            catch (OperationCanceledException) when (ct.IsCancellationRequested)
-            {
-                throw;
-            }
-            catch (Exception ex)
-            {
-                finalFailure = ex;
-                AssetProxyServer.Stop();
-                if (attempt < 3)
-                {
-                    App.Logger.WriteLine("Bootstrapper::StartAssetProxyIfEnabled", "AssetWarp startup attempt " + attempt + " failed, retrying");
-                    await Task.Delay(500, ct).ConfigureAwait(false);
-                }
-            }
-        }
-
-        if (finalFailure != null)
-        {
-            AssetProxyRouting.InvalidateCache();
-            App.Logger.WriteLine("Bootstrapper::StartAssetProxyIfEnabled", "AssetWarp could not start after three attempts, continuing without AssetWarp: " + finalFailure);
-        }
     }
 
     private bool ShouldRunAsAdmin()
@@ -4266,7 +4097,6 @@ public class Bootstrapper
 
         if (!ModsAllowedForThisLaunch())
         {
-            SoberBuiltinContent.RemoveGenerated();
             App.Logger.WriteLine(logIdent, $"Mods are set to {App.Settings.Prop.ModApplyTarget}, so this Sober launch runs unmodded. Mod files are kept on disk.");
             return;
         }
@@ -4299,7 +4129,6 @@ public class Bootstrapper
         FileModManager.ApplyFromSettings(client?.ClientDirectory, client?.VersionGuid);
         if (client is not { } tree)
         {
-            SoberBuiltinContent.ApplyFromSettings();
             return;
         }
 
@@ -4319,21 +4148,6 @@ public class Bootstrapper
 
         try
         {
-            using CancellationTokenSource materialDeadline = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-            materialDeadline.CancelAfter(TimeSpan.FromSeconds(45));
-            await LegacyMaterialTextures.ApplyAsync([.. ManagedModStore.EnabledFoldersByPriority(), Paths.Mods], tree.ClientDirectory, materialDeadline.Token);
-        }
-        catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
-        {
-            throw;
-        }
-        catch (Exception ex)
-        {
-            App.Logger.WriteLine(logIdent, "Classic terrain and material textures could not be prepared: " + ex.Message);
-        }
-
-        try
-        {
             await ModGenerator.RefreshOutdatedAsync(tree.ClientDirectory, tree.VersionGuid, cancellationToken);
         }
         catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
@@ -4343,15 +4157,6 @@ public class Bootstrapper
         catch (Exception ex)
         {
             App.Logger.WriteLine(logIdent, "The generated UI mod could not be refreshed: " + ex.Message);
-        }
-
-        try
-        {
-            SoberBuiltinContent.ApplyFromSettings();
-        }
-        catch (Exception ex)
-        {
-            App.Logger.WriteLine(logIdent, "Mods for content Sober downloads could not be prepared: " + ex.Message);
         }
 
     }
@@ -4396,7 +4201,6 @@ public class Bootstrapper
         if (!ModsAllowedForThisLaunch())
         {
             MacModSync.Apply(resources, new Dictionary<string, string>());
-            LegacyMaterialTextures.RemoveGenerated();
             App.Logger.WriteLine(logIdent, $"Mods are set to {App.Settings.Prop.ModApplyTarget}, so this launch runs unmodded. Mod files are kept on disk.");
             return;
         }
@@ -4420,24 +4224,6 @@ public class Bootstrapper
         catch (Exception ex)
         {
             App.Logger.WriteLine(logIdent, "Mod folders could not be checked: " + ex.Message);
-        }
-
-        if (!IsStudioLaunch)
-        {
-            try
-            {
-                using CancellationTokenSource materialDeadline = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-                materialDeadline.CancelAfter(TimeSpan.FromSeconds(45));
-                await LegacyMaterialTextures.ApplyAsync([.. ManagedModStore.EnabledFoldersByPriority(), Paths.Mods], resources, materialDeadline.Token);
-            }
-            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
-            {
-                throw;
-            }
-            catch (Exception ex)
-            {
-                App.Logger.WriteLine(logIdent, "Classic terrain and material textures could not be prepared: " + ex.Message);
-            }
         }
 
         if (!IsStudioLaunch && robloxVersion.Length > 0)
@@ -4756,30 +4542,6 @@ public class Bootstrapper
         {
             ModAutoFixer.PrepareModSources(_latestVersionDirectory);
         }
-        if (!IsStudioLaunch)
-        {
-            try
-            {
-                if (modsAllowed)
-                {
-                    using CancellationTokenSource materialDeadline = CancellationTokenSource.CreateLinkedTokenSource(_cancelTokenSource.Token);
-                    materialDeadline.CancelAfter(TimeSpan.FromSeconds(45));
-                    await LegacyMaterialTextures.ApplyAsync([.. ManagedModStore.EnabledFoldersByPriority(), Paths.Mods], _latestVersionDirectory, materialDeadline.Token);
-                }
-                else
-                {
-                    LegacyMaterialTextures.RemoveGenerated();
-                }
-            }
-            catch (OperationCanceledException) when (_cancelTokenSource.IsCancellationRequested)
-            {
-                throw;
-            }
-            catch (Exception materialException)
-            {
-                App.Logger.WriteLine("Bootstrapper::ApplyModifications", "Classic terrain and material textures could not be prepared: " + materialException.Message);
-            }
-        }
         HashSet<string> modFolderFiles = new(StringComparer.OrdinalIgnoreCase);
         int ignoredModFiles = 0;
         int appliedModCount = 0;
@@ -4883,7 +4645,7 @@ public class Bootstrapper
         }
         if (ignoredModFiles > 0)
         {
-            App.Logger.WriteLine("Bootstrapper::ApplyModifications", "Skipped " + ignoredModFiles + " mod files that Roblox cannot load from the client folder: app scripts, configs and translations tied to another Roblox version, duplicate copies, and classic terrain and material textures, which are served through AssetWarp instead.");
+            App.Logger.WriteLine("Bootstrapper::ApplyModifications", "Skipped " + ignoredModFiles + " mod files that Roblox cannot load from the client folder: app scripts, configs and translations tied to another Roblox version, duplicate copies, and classic terrain and material textures, which Roblox now downloads instead.");
         }
         if (!IsStudioLaunch && !App.Settings.Prop.SkyBoxDataSending && selectedMods.Keys.Any(relative => relative.StartsWith(ModAutoFixer.SkyFolder + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase)))
         {
@@ -5633,7 +5395,7 @@ public class Bootstrapper
             try
             {
                 await ApplySkyboxPatchToRobloxStorageAsync(ct);
-                App.Logger.WriteLine("Bootstrapper::RestoreStoragePatches", "Reapplied the skybox storage patch after AssetWarp reset the Roblox asset cache.");
+                App.Logger.WriteLine("Bootstrapper::RestoreStoragePatches", "Reapplied the skybox storage patch after the Roblox asset cache was reset.");
             }
             catch (OperationCanceledException) when (ct.IsCancellationRequested)
             {

@@ -755,75 +755,40 @@ namespace Voidstrap.Resources {
 
         public static string Ui_FastFlags_OnlyChangeWhatYouUnderstandAnd => ResourceManager.GetString("Ui.FastFlags.OnlyChangeWhatYouUnderstandAnd", resourceCulture);
 
-        public static string Ui_FastFlags_EnablesTheAssetWarpProxyAndAll => ResourceManager.GetString("Ui.FastFlags.EnablesTheAssetWarpProxyAndAll", resourceCulture);
 
-        public static string Ui_FastFlags_RemoveAllTextures => ResourceManager.GetString("Ui.FastFlags.RemoveAllTextures", resourceCulture);
 
-        public static string Ui_FastFlags_RemoveAllDecals => ResourceManager.GetString("Ui.FastFlags.RemoveAllDecals", resourceCulture);
 
-        public static string Ui_FastFlags_RemoveAllImages => ResourceManager.GetString("Ui.FastFlags.RemoveAllImages", resourceCulture);
 
-        public static string Ui_FastFlags_RemoveAllAnimations => ResourceManager.GetString("Ui.FastFlags.RemoveAllAnimations", resourceCulture);
 
-        public static string Ui_FastFlags_RemoveAllMeshes => ResourceManager.GetString("Ui.FastFlags.RemoveAllMeshes", resourceCulture);
 
-        public static string Ui_FastFlags_PresenceSpoofer => ResourceManager.GetString("Ui.FastFlags.PresenceSpoofer", resourceCulture);
 
-        public static string Ui_FastFlags_ChangesWhatOthersSeeOnlineIn => ResourceManager.GetString("Ui.FastFlags.ChangesWhatOthersSeeOnlineIn", resourceCulture);
 
-        public static string Ui_FastFlags_Preloading => ResourceManager.GetString("Ui.FastFlags.Preloading", resourceCulture);
 
-        public static string Ui_FastFlags_AssetPreloading => ResourceManager.GetString("Ui.FastFlags.AssetPreloading", resourceCulture);
 
-        public static string Ui_FastFlags_LearnsEachGameAndServesPreviously => ResourceManager.GetString("Ui.FastFlags.LearnsEachGameAndServesPreviously", resourceCulture);
 
-        public static string Ui_FastFlags_PreloadCacheLimit => ResourceManager.GetString("Ui.FastFlags.PreloadCacheLimit", resourceCulture);
 
-        public static string Ui_FastFlags_LimitsHowMuchDiskSpaceThe => ResourceManager.GetString("Ui.FastFlags.LimitsHowMuchDiskSpaceThe", resourceCulture);
 
-        public static string Ui_FastFlags_PreloadAvatar => ResourceManager.GetString("Ui.FastFlags.PreloadAvatar", resourceCulture);
 
-        public static string Ui_FastFlags_PreloadsYourAvatarAndEquippedAccessories => ResourceManager.GetString("Ui.FastFlags.PreloadsYourAvatarAndEquippedAccessories", resourceCulture);
 
-        public static string Ui_FastFlags_PreloadRecentGames => ResourceManager.GetString("Ui.FastFlags.PreloadRecentGames", resourceCulture);
 
-        public static string Ui_FastFlags_WarmsCacheFromYourRecentlyPlayed => ResourceManager.GetString("Ui.FastFlags.WarmsCacheFromYourRecentlyPlayed", resourceCulture);
 
-        public static string Ui_FastFlags_ClientSpoofer => ResourceManager.GetString("Ui.FastFlags.ClientSpoofer", resourceCulture);
 
-        public static string Ui_FastFlags_ClientSidedOnlyYouSeeThese => ResourceManager.GetString("Ui.FastFlags.ClientSidedOnlyYouSeeThese", resourceCulture);
 
-        public static string Ui_FastFlags_EveryoneElseUsername => ResourceManager.GetString("Ui.FastFlags.EveryoneElseUsername", resourceCulture);
 
-        public static string Ui_FastFlags_SetsTheClientSidedUsernameShown => ResourceManager.GetString("Ui.FastFlags.SetsTheClientSidedUsernameShown", resourceCulture);
 
-        public static string Ui_FastFlags_ApplyEveryoneElseIngame => ResourceManager.GetString("Ui.FastFlags.ApplyEveryoneElseIngame", resourceCulture);
 
-        public static string Ui_FastFlags_AppliesTheEveryoneElseUsernameInside => ResourceManager.GetString("Ui.FastFlags.AppliesTheEveryoneElseUsernameInside", resourceCulture);
 
-        public static string Ui_FastFlags_VerifyEveryoneElse => ResourceManager.GetString("Ui.FastFlags.VerifyEveryoneElse", resourceCulture);
 
-        public static string Ui_FastFlags_ShowsEveryOtherPlayerAsVerified => ResourceManager.GetString("Ui.FastFlags.ShowsEveryOtherPlayerAsVerified", resourceCulture);
 
-        public static string Ui_FastFlags_YourUsername => ResourceManager.GetString("Ui.FastFlags.YourUsername", resourceCulture);
 
-        public static string Ui_FastFlags_SetsTheClientSidedUsernameShown2 => ResourceManager.GetString("Ui.FastFlags.SetsTheClientSidedUsernameShown2", resourceCulture);
 
-        public static string Ui_FastFlags_ApplyYourUsernameIngame => ResourceManager.GetString("Ui.FastFlags.ApplyYourUsernameIngame", resourceCulture);
 
-        public static string Ui_FastFlags_AppliesYourSpoofedUsernameInsideRoblox => ResourceManager.GetString("Ui.FastFlags.AppliesYourSpoofedUsernameInsideRoblox", resourceCulture);
 
-        public static string Ui_FastFlags_RobuxAdjuster => ResourceManager.GetString("Ui.FastFlags.RobuxAdjuster", resourceCulture);
 
-        public static string Ui_FastFlags_VerifyYourAccount => ResourceManager.GetString("Ui.FastFlags.VerifyYourAccount", resourceCulture);
 
-        public static string Ui_FastFlags_ShowsYourAccountAsVerifiedOn => ResourceManager.GetString("Ui.FastFlags.ShowsYourAccountAsVerifiedOn", resourceCulture);
 
-        public static string Ui_FastFlags_MakeYourselfGameCreator => ResourceManager.GetString("Ui.FastFlags.MakeYourselfGameCreator", resourceCulture);
 
-        public static string Ui_FastFlags_UsesYourCurrentRobloxUserID => ResourceManager.GetString("Ui.FastFlags.UsesYourCurrentRobloxUserID", resourceCulture);
 
-        public static string Ui_FastFlags_MakeYourselfGameCreatorDoesNot => ResourceManager.GetString("Ui.FastFlags.MakeYourselfGameCreatorDoesNot", resourceCulture);
 
         public static string Ui_Bootstrapper_DisablesBackgroundWindowWhenLaunchingRoblox => ResourceManager.GetString("Ui.Bootstrapper.DisablesBackgroundWindowWhenLaunchingRoblox", resourceCulture);
 
@@ -8251,11 +8216,6 @@ namespace Voidstrap.Resources {
         public static string GlobalProfiles_ApplyConfirm => ResourceManager.GetString("GlobalProfiles.ApplyConfirm", resourceCulture);
         public static string GlobalProfiles_Applied => ResourceManager.GetString("GlobalProfiles.Applied", resourceCulture);
         public static string GlobalProfiles_SaveFailed => ResourceManager.GetString("GlobalProfiles.SaveFailed", resourceCulture);
-        public static string AssetWarp_RemoveTexturesDescription => ResourceManager.GetString("AssetWarp.RemoveTexturesDescription", resourceCulture);
-        public static string AssetWarp_RemoveDecalsDescription => ResourceManager.GetString("AssetWarp.RemoveDecalsDescription", resourceCulture);
-        public static string AssetWarp_RemoveImagesDescription => ResourceManager.GetString("AssetWarp.RemoveImagesDescription", resourceCulture);
-        public static string AssetWarp_RemoveAnimationsDescription => ResourceManager.GetString("AssetWarp.RemoveAnimationsDescription", resourceCulture);
-        public static string AssetWarp_RemoveMeshesDescription => ResourceManager.GetString("AssetWarp.RemoveMeshesDescription", resourceCulture);
         public static string Menu_MacVirtualDisplay_Title => ResourceManager.GetString("Menu.MacVirtualDisplay.Title", resourceCulture);
         public static string Menu_MacVirtualDisplay_Description => ResourceManager.GetString("Menu.MacVirtualDisplay.Description", resourceCulture);
         public static string Ui_Session_OverlayLayout => ResourceManager.GetString("Ui.Session.OverlayLayout", resourceCulture);

@@ -2876,21 +2876,6 @@ Typ de onderstaande zin precies over om deze beperkingen te accepteren en door t
   <data name="GlobalProfiles.SaveFailed" xml:space="preserve">
     <value>Het Roblox-instellingenbestand kon niet worden geschreven. Sluit Roblox en probeer het opnieuw.</value>
   </data>
-  <data name="AssetWarp.RemoveTexturesDescription" xml:space="preserve">
-    <value>Blokkeert downloads van textuur- en textuurpakket-assets</value>
-  </data>
-  <data name="AssetWarp.RemoveDecalsDescription" xml:space="preserve">
-    <value>Blokkeert downloads van decal-assets</value>
-  </data>
-  <data name="AssetWarp.RemoveImagesDescription" xml:space="preserve">
-    <value>Blokkeert downloads van afbeeldingsassets. Roblox gebruikt afbeeldingen ook voor texturen en decals</value>
-  </data>
-  <data name="AssetWarp.RemoveAnimationsDescription" xml:space="preserve">
-    <value>Blokkeert downloads van animatie-assets. Games zonder reserve-animatie werken mogelijk niet meer goed</value>
-  </data>
-  <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
-    <value>Blokkeert downloads van mesh- en MeshPart-assets. Mesh-geometrie wordt onzichtbaar</value>
-  </data>
   <data name="SwiftTunnel.Summary" xml:space="preserve">
     <value>Stuur Roblox-verkeer via SwiftTunnel terwijl andere apps je normale verbinding gebruiken</value>
   </data>
@@ -4052,111 +4037,6 @@ Wat wil je doen?</value>
   </data>
   <data name="Ui.FastFlags.OnlyChangeWhatYouUnderstandAnd" xml:space="preserve">
     <value>Wijzig alleen wat je begrijpt, en één instelling tegelijk.</value>
-  </data>
-  <data name="Ui.FastFlags.EnablesTheAssetWarpProxyAndAll" xml:space="preserve">
-    <value>Schakelt de AssetWarp-proxy en alle bijbehorende functies in</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllTextures" xml:space="preserve">
-    <value>Alle textures verwijderen</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllDecals" xml:space="preserve">
-    <value>Alle decals verwijderen</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllImages" xml:space="preserve">
-    <value>Alle afbeeldingen verwijderen</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllAnimations" xml:space="preserve">
-    <value>Alle animaties verwijderen</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllMeshes" xml:space="preserve">
-    <value>Alle meshes verwijderen</value>
-  </data>
-  <data name="Ui.FastFlags.PresenceSpoofer" xml:space="preserve">
-    <value>Statusvervalser</value>
-  </data>
-  <data name="Ui.FastFlags.ChangesWhatOthersSeeOnlineIn" xml:space="preserve">
-    <value>Verandert wat anderen zien: online, in Studio of offline</value>
-  </data>
-  <data name="Ui.FastFlags.Preloading" xml:space="preserve">
-    <value>Vooraf laden</value>
-  </data>
-  <data name="Ui.FastFlags.AssetPreloading" xml:space="preserve">
-    <value>Assets vooraf laden</value>
-  </data>
-  <data name="Ui.FastFlags.LearnsEachGameAndServesPreviously" xml:space="preserve">
-    <value>Leert elk spel en levert eerder gedownloade assets</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadCacheLimit" xml:space="preserve">
-    <value>Limiet van de voorlaadcache</value>
-  </data>
-  <data name="Ui.FastFlags.LimitsHowMuchDiskSpaceThe" xml:space="preserve">
-    <value>Beperkt hoeveel schijfruimte de geleerde assetcache mag gebruiken</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadAvatar" xml:space="preserve">
-    <value>Avatar vooraf laden</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadsYourAvatarAndEquippedAccessories" xml:space="preserve">
-    <value>Laadt je avatar en gedragen accessoires vooraf voor elke start</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadRecentGames" xml:space="preserve">
-    <value>Recente games vooraf laden</value>
-  </data>
-  <data name="Ui.FastFlags.WarmsCacheFromYourRecentlyPlayed" xml:space="preserve">
-    <value>Warmt de cache op met je recent gespeelde games voor elke start</value>
-  </data>
-  <data name="Ui.FastFlags.ClientSpoofer" xml:space="preserve">
-    <value>Clientvervalser</value>
-  </data>
-  <data name="Ui.FastFlags.ClientSidedOnlyYouSeeThese" xml:space="preserve">
-    <value>Alleen aan de clientkant, alleen jij ziet deze wijzigingen.</value>
-  </data>
-  <data name="Ui.FastFlags.EveryoneElseUsername" xml:space="preserve">
-    <value>Gebruikersnaam van alle anderen</value>
-  </data>
-  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown" xml:space="preserve">
-    <value>Stelt de gebruikersnaam in die je client voor alle andere spelers toont</value>
-  </data>
-  <data name="Ui.FastFlags.ApplyEveryoneElseIngame" xml:space="preserve">
-    <value>Toepassen op alle anderen in het spel</value>
-  </data>
-  <data name="Ui.FastFlags.AppliesTheEveryoneElseUsernameInside" xml:space="preserve">
-    <value>Past de gebruikersnaam van alle anderen toe in Roblox</value>
-  </data>
-  <data name="Ui.FastFlags.VerifyEveryoneElse" xml:space="preserve">
-    <value>Alle anderen verifiëren</value>
-  </data>
-  <data name="Ui.FastFlags.ShowsEveryOtherPlayerAsVerified" xml:space="preserve">
-    <value>Toont alle andere spelers als geverifieerd op deze client</value>
-  </data>
-  <data name="Ui.FastFlags.YourUsername" xml:space="preserve">
-    <value>Je gebruikersnaam</value>
-  </data>
-  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown2" xml:space="preserve">
-    <value>Stelt de gebruikersnaam in die je client voor je account toont</value>
-  </data>
-  <data name="Ui.FastFlags.ApplyYourUsernameIngame" xml:space="preserve">
-    <value>Je gebruikersnaam in het spel toepassen</value>
-  </data>
-  <data name="Ui.FastFlags.AppliesYourSpoofedUsernameInsideRoblox" xml:space="preserve">
-    <value>Past je vervalste gebruikersnaam toe in Roblox</value>
-  </data>
-  <data name="Ui.FastFlags.RobuxAdjuster" xml:space="preserve">
-    <value>Robux-aanpassing</value>
-  </data>
-  <data name="Ui.FastFlags.VerifyYourAccount" xml:space="preserve">
-    <value>Je account verifiëren</value>
-  </data>
-  <data name="Ui.FastFlags.ShowsYourAccountAsVerifiedOn" xml:space="preserve">
-    <value>Toont je account als geverifieerd op deze client</value>
-  </data>
-  <data name="Ui.FastFlags.MakeYourselfGameCreator" xml:space="preserve">
-    <value>Maak jezelf de maker van het spel</value>
-  </data>
-  <data name="Ui.FastFlags.UsesYourCurrentRobloxUserID" xml:space="preserve">
-    <value>Gebruikt je huidige Roblox-gebruikers-ID voor onderschepte gegevens over de maker van het spel</value>
-  </data>
-  <data name="Ui.FastFlags.MakeYourselfGameCreatorDoesNot" xml:space="preserve">
-    <value>Maak jezelf de maker van het spel werkt niet op Windows. Roblox beschermt het deelnemen aan games op Windows nu, en wijzigingen laten het deelnemen mislukken met fout 529, dus Voidstrap blijft eraf. Het werkt nog wel op Linux en macOS, en je andere opties worden niet beïnvloed.</value>
   </data>
   <data name="Ui.Bootstrapper.DisablesBackgroundWindowWhenLaunchingRoblox" xml:space="preserve">
     <value>Schakelt het achtergrondvenster uit bij het starten van Roblox</value>

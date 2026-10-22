@@ -81,7 +81,6 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
 		OpenModPageCommand = new RelayCommand(OpenModPage);
 		BackCommand = new RelayCommand(CloseDetail);
 		InstallCommand = new AsyncRelayCommand(InstallManagedAsync);
-		InstallAssetWarpCommand = new AsyncRelayCommand(InstallAssetWarpAsync);
 		InstallFleasionCommand = new AsyncRelayCommand(InstallFleasionAsync);
 	}
 
@@ -147,8 +146,6 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
 	public ICommand BackCommand { get; }
 
 	public ICommand InstallCommand { get; }
-
-	public ICommand InstallAssetWarpCommand { get; }
 
 	public ICommand InstallFleasionCommand { get; }
 
@@ -694,11 +691,6 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
 	private Task InstallManagedAsync()
 	{
 		return InstallAsync(CommunityModInstallTarget.ManagedMods);
-	}
-
-	private Task InstallAssetWarpAsync()
-	{
-		return Task.CompletedTask;
 	}
 
 	private Task InstallFleasionAsync()

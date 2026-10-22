@@ -173,7 +173,6 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
 
 	private string _captureStatsText = "";
 
-	private string _assetWarpStatus = "";
 
 	private DispatcherTimer? _captureTimer;
 
@@ -3102,30 +3101,6 @@ public ICommand PickCursorColorCommand { get; }
 		}
 	}
 
-	public bool DisableAllTextures
-	{
-		get
-		{
-			return App.Settings.Prop.AssetWarpDisableAllTextures;
-		}
-		set
-		{
-			if (App.Settings.Prop.AssetWarpDisableAllTextures != value)
-			{
-				App.Settings.Prop.AssetWarpDisableAllTextures = value;
-				AssetProxyServer.ReconcileRuntimeState();
-				try
-				{
-					App.Settings.SaveDeferred();
-				}
-				catch
-				{
-				}
-				OnPropertyChanged(nameof(DisableAllTextures));
-			}
-		}
-	}
-
 	public ObservableCollection<CapturedAsset> CapturedAssets { get; } = new ObservableCollection<CapturedAsset>();
 
 	public string[] CacheFilters { get; } = new string[8] { "All", "Image", "Audio", "Texture", "Mesh", "Model", "Data", "Other" };
@@ -3192,19 +3167,6 @@ public ICommand PickCursorColorCommand { get; }
 			OnPropertyChanged(nameof(CaptureStatsText));
 		}
 	}
-
-	public string AssetWarpStatus
-{
-	get
-	{
-		return _assetWarpStatus;
-	}
-	set
-	{
-		_assetWarpStatus = value;
-		OnPropertyChanged(nameof(AssetWarpStatus));
-	}
-}
 
 	public ICommand RefreshCapturesCommand => new RelayCommand(delegate
 	{
@@ -4402,7 +4364,6 @@ public ICommand PickCursorColorCommand { get; }
 		if (item is null)
 			return;
 		bool enable = !item.Enabled;
-		bool saved = false;
 		await _managedModsMutationGate.WaitAsync();
 		try
 		{
@@ -4412,7 +4373,6 @@ public ICommand PickCursorColorCommand { get; }
 				ExternalModConfigs.SetEnabled(item.Id, enable);
 				ManagedModStore.SetEnabled(item.Id, enable);
 			});
-			saved = true;
 			await LoadManagedModsAsync();
 		}
 		catch (Exception ex)
@@ -4422,10 +4382,6 @@ public ICommand PickCursorColorCommand { get; }
 		finally
 		{
 			_managedModsMutationGate.Release();
-		}
-		if (saved && enable && Voidstrap.Utility.Platform.IsLinux)
-		{
-			Voidstrap.Integrations.AssetProxy.AssetWarpAutoEnable.EnsureEnabled(allowPrompt: true, userAction: true);
 		}
 	}
 
@@ -5625,7 +5581,6 @@ public ICommand PickCursorColorCommand { get; }
 					{
 						pngBitmapEncoder.Save(stream);
 					}
-					AssetWarpStatus = "Exported " + text + ".png";
 					return;
 				}
 			}

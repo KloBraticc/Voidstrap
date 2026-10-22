@@ -1625,8 +1625,6 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 
 	public static IReadOnlyList<string> NvidiaArguments { get; set; } = [];
 
-	public static IReadOnlyList<string> ProxyArguments { get; set; } = [];
-
 
 
 	public static bool IsInstalled()
@@ -1810,9 +1808,6 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 		foreach (string argument in NvidiaArguments)
 			arguments.Add(argument);
 
-		foreach (string argument in ProxyArguments)
-			arguments.Add(argument);
-
 		LinuxSoberLauncher launcher = LauncherCommand;
 		Uri soberLink = SoberLaunchLink.Normalize(deeplink);
 		launcher.AppendRunArguments(arguments, selection.Reference, soberLink);
@@ -1858,7 +1853,6 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 			retryArguments.AddRange(LinuxFlatpakHost.GetLaunchEnvironmentArguments());
 			if (ForceX11Session)
 				retryArguments.AddRange(["--nosocket=wayland", "--socket=x11", "--env=SDL_VIDEODRIVER=x11"]);
-			retryArguments.AddRange(ProxyArguments);
 			launcher.AppendRunArguments(retryArguments, selection.Reference, soberLink, true);
 			List<string> retryWrapped = [flatpak, .. retryArguments];
 			if (LinuxSoberResources.TryGetLaunchCpuList(out string retryCpuList))

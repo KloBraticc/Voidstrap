@@ -251,7 +251,7 @@ internal static partial class FleasionCleanup
 			if (IsFleasionExecutable(executable) && !TryDelete(executable))
 				problems.Add(executable);
 		}
-		if (!Voidstrap.Integrations.AssetProxy.AssetProxyRouting.ClearRobloxCache())
+		if (!Voidstrap.Utility.RobloxAssetCache.ClearStorage())
 			problems.Add("part of the Roblox asset cache (close Roblox and try again)");
 
 		App.Logger.WriteLine(LogIdent, problems.Count == 0 ? "Fleasion was removed completely" : "Fleasion was removed except: " + string.Join("; ", problems));

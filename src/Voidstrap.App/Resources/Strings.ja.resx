@@ -2943,21 +2943,6 @@ VNG で使用するすべてのアカウントでグローバル版アプリへ�
   <data name="GlobalProfiles.SaveFailed" xml:space="preserve">
     <value>Roblox の設定ファイルに書き込めませんでした。Roblox を閉じてもう一度お試しください。</value>
   </data>
-  <data name="AssetWarp.RemoveTexturesDescription" xml:space="preserve">
-    <value>テクスチャアセットとテクスチャパックのダウンロードをブロックします</value>
-  </data>
-  <data name="AssetWarp.RemoveDecalsDescription" xml:space="preserve">
-    <value>デカールアセットのダウンロードをブロックします</value>
-  </data>
-  <data name="AssetWarp.RemoveImagesDescription" xml:space="preserve">
-    <value>画像アセットのダウンロードをブロックします。Roblox はテクスチャやデカールにも画像を使用します</value>
-  </data>
-  <data name="AssetWarp.RemoveAnimationsDescription" xml:space="preserve">
-    <value>アニメーションアセットのダウンロードをブロックします。代替アニメーションのないゲームは正常に動作しなくなる場合があります</value>
-  </data>
-  <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
-    <value>メッシュと MeshPart アセットのダウンロードをブロックします。メッシュのジオメトリが見えなくなります</value>
-  </data>
   <data name="SwiftTunnel.Summary" xml:space="preserve">
     <value>他のアプリは通常の接続を使いつつ、Roblox の通信を SwiftTunnel 経由にします</value>
   </data>
@@ -4119,111 +4104,6 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
   </data>
   <data name="Ui.FastFlags.OnlyChangeWhatYouUnderstandAnd" xml:space="preserve">
     <value>理解している項目だけを、一度に 1 つずつ変更してください。</value>
-  </data>
-  <data name="Ui.FastFlags.EnablesTheAssetWarpProxyAndAll" xml:space="preserve">
-    <value>AssetWarp プロキシと関連するすべての機能を有効にします</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllTextures" xml:space="preserve">
-    <value>すべてのテクスチャを削除</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllDecals" xml:space="preserve">
-    <value>すべてのデカールを削除</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllImages" xml:space="preserve">
-    <value>すべての画像を削除</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllAnimations" xml:space="preserve">
-    <value>すべてのアニメーションを削除</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllMeshes" xml:space="preserve">
-    <value>すべてのメッシュを削除</value>
-  </data>
-  <data name="Ui.FastFlags.PresenceSpoofer" xml:space="preserve">
-    <value>ステータス偽装</value>
-  </data>
-  <data name="Ui.FastFlags.ChangesWhatOthersSeeOnlineIn" xml:space="preserve">
-    <value>他の人に表示される状態を変更します: オンライン、Studio 内、またはオフライン</value>
-  </data>
-  <data name="Ui.FastFlags.Preloading" xml:space="preserve">
-    <value>プリロード</value>
-  </data>
-  <data name="Ui.FastFlags.AssetPreloading" xml:space="preserve">
-    <value>アセットをプリロード</value>
-  </data>
-  <data name="Ui.FastFlags.LearnsEachGameAndServesPreviously" xml:space="preserve">
-    <value>各ゲームを学習し、以前にダウンロードしたアセットを提供します</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadCacheLimit" xml:space="preserve">
-    <value>プリロードキャッシュの上限</value>
-  </data>
-  <data name="Ui.FastFlags.LimitsHowMuchDiskSpaceThe" xml:space="preserve">
-    <value>学習したアセットキャッシュが使用できるディスク容量を制限します</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadAvatar" xml:space="preserve">
-    <value>アバターをプリロード</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadsYourAvatarAndEquippedAccessories" xml:space="preserve">
-    <value>ゲームを起動するたびに、アバターと装着中のアクセサリーを事前に読み込みます</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadRecentGames" xml:space="preserve">
-    <value>最近のゲームをプリロード</value>
-  </data>
-  <data name="Ui.FastFlags.WarmsCacheFromYourRecentlyPlayed" xml:space="preserve">
-    <value>起動のたびに、最近プレイしたゲームでキャッシュを準備します</value>
-  </data>
-  <data name="Ui.FastFlags.ClientSpoofer" xml:space="preserve">
-    <value>クライアント側の偽装</value>
-  </data>
-  <data name="Ui.FastFlags.ClientSidedOnlyYouSeeThese" xml:space="preserve">
-    <value>クライアント側のみで、これらの変更はあなたにしか表示されません。</value>
-  </data>
-  <data name="Ui.FastFlags.EveryoneElseUsername" xml:space="preserve">
-    <value>他の全員のユーザー名</value>
-  </data>
-  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown" xml:space="preserve">
-    <value>クライアントが他のすべてのプレイヤーに表示するユーザー名を設定します</value>
-  </data>
-  <data name="Ui.FastFlags.ApplyEveryoneElseIngame" xml:space="preserve">
-    <value>ゲーム内の他の全員に適用</value>
-  </data>
-  <data name="Ui.FastFlags.AppliesTheEveryoneElseUsernameInside" xml:space="preserve">
-    <value>Roblox で他の全員のユーザー名を適用します</value>
-  </data>
-  <data name="Ui.FastFlags.VerifyEveryoneElse" xml:space="preserve">
-    <value>他の全員を認証済みにする</value>
-  </data>
-  <data name="Ui.FastFlags.ShowsEveryOtherPlayerAsVerified" xml:space="preserve">
-    <value>このクライアントで他のすべてのプレイヤーを認証済みとして表示します</value>
-  </data>
-  <data name="Ui.FastFlags.YourUsername" xml:space="preserve">
-    <value>あなたのユーザー名</value>
-  </data>
-  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown2" xml:space="preserve">
-    <value>クライアントがあなたのアカウントに表示するユーザー名を設定します</value>
-  </data>
-  <data name="Ui.FastFlags.ApplyYourUsernameIngame" xml:space="preserve">
-    <value>ゲーム内であなたのユーザー名を適用</value>
-  </data>
-  <data name="Ui.FastFlags.AppliesYourSpoofedUsernameInsideRoblox" xml:space="preserve">
-    <value>Roblox で偽装したユーザー名を適用します</value>
-  </data>
-  <data name="Ui.FastFlags.RobuxAdjuster" xml:space="preserve">
-    <value>Robux 調整</value>
-  </data>
-  <data name="Ui.FastFlags.VerifyYourAccount" xml:space="preserve">
-    <value>あなたのアカウントを認証済みにする</value>
-  </data>
-  <data name="Ui.FastFlags.ShowsYourAccountAsVerifiedOn" xml:space="preserve">
-    <value>このクライアントであなたのアカウントを認証済みとして表示します</value>
-  </data>
-  <data name="Ui.FastFlags.MakeYourselfGameCreator" xml:space="preserve">
-    <value>自分をゲームの作成者にする</value>
-  </data>
-  <data name="Ui.FastFlags.UsesYourCurrentRobloxUserID" xml:space="preserve">
-    <value>傍受したゲーム作成者データに現在の Roblox ユーザー ID を使用します</value>
-  </data>
-  <data name="Ui.FastFlags.MakeYourselfGameCreatorDoesNot" xml:space="preserve">
-    <value>自分をゲームの作成者にする機能は Windows では動作しません。Roblox は現在 Windows でのゲーム参加を保護しており、これを変更すると参加がエラー 529 で失敗するため、Voidstrap は変更しません。Linux と macOS では引き続き動作し、他のオプションには影響しません。</value>
   </data>
   <data name="Ui.Bootstrapper.DisablesBackgroundWindowWhenLaunchingRoblox" xml:space="preserve">
     <value>Roblox の起動時に背景ウィンドウを無効にします</value>

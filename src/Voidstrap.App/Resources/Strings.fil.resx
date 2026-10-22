@@ -2708,21 +2708,6 @@ I-type nang eksakto ang pariralang nasa ibaba para tanggapin ang limitasyong ito
   <data name="GlobalProfiles.SaveFailed" xml:space="preserve">
     <value>Hindi masulatan ang file ng mga setting ng Roblox. Isara ang Roblox at subukan ulit.</value>
   </data>
-  <data name="AssetWarp.RemoveTexturesDescription" xml:space="preserve">
-    <value>Bina-block ang pag-download ng mga texture asset at texture pack</value>
-  </data>
-  <data name="AssetWarp.RemoveDecalsDescription" xml:space="preserve">
-    <value>Bina-block ang pag-download ng mga decal asset</value>
-  </data>
-  <data name="AssetWarp.RemoveImagesDescription" xml:space="preserve">
-    <value>Bina-block ang pag-download ng mga image asset. Gumagamit din ang Roblox ng mga larawan para sa mga texture at decal</value>
-  </data>
-  <data name="AssetWarp.RemoveAnimationsDescription" xml:space="preserve">
-    <value>Bina-block ang pag-download ng mga animation asset. Maaaring tumigil sa maayos na paggana ang mga larong walang fallback na animation</value>
-  </data>
-  <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
-    <value>Bina-block ang pag-download ng mga mesh at MeshPart asset. Magiging hindi nakikita ang mesh geometry</value>
-  </data>
   <data name="SwiftTunnel.Summary" xml:space="preserve">
     <value>Idaan ang trapiko ng Roblox sa SwiftTunnel habang ginagamit ng ibang app ang karaniwang koneksyon mo</value>
   </data>
@@ -3869,111 +3854,6 @@ Ano ang gusto mong gawin?</value>
   </data>
   <data name="Ui.FastFlags.OnlyChangeWhatYouUnderstandAnd" xml:space="preserve">
     <value>Baguhin lang ang naiintindihan mo, at isang setting lang bawat beses.</value>
-  </data>
-  <data name="Ui.FastFlags.EnablesTheAssetWarpProxyAndAll" xml:space="preserve">
-    <value>Binubuksan ang AssetWarp proxy at lahat ng kaugnay na feature</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllTextures" xml:space="preserve">
-    <value>Alisin ang lahat ng texture</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllDecals" xml:space="preserve">
-    <value>Alisin ang lahat ng decal</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllImages" xml:space="preserve">
-    <value>Alisin ang lahat ng larawan</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllAnimations" xml:space="preserve">
-    <value>Alisin ang lahat ng animation</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllMeshes" xml:space="preserve">
-    <value>Alisin ang lahat ng mesh</value>
-  </data>
-  <data name="Ui.FastFlags.PresenceSpoofer" xml:space="preserve">
-    <value>Status spoofer</value>
-  </data>
-  <data name="Ui.FastFlags.ChangesWhatOthersSeeOnlineIn" xml:space="preserve">
-    <value>Binabago ang nakikita ng iba: online, nasa Studio, o offline</value>
-  </data>
-  <data name="Ui.FastFlags.Preloading" xml:space="preserve">
-    <value>Preload</value>
-  </data>
-  <data name="Ui.FastFlags.AssetPreloading" xml:space="preserve">
-    <value>I preload ang mga asset</value>
-  </data>
-  <data name="Ui.FastFlags.LearnsEachGameAndServesPreviously" xml:space="preserve">
-    <value>Natututunan ang bawat laro at ibinibigay ang mga asset na na download na dati</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadCacheLimit" xml:space="preserve">
-    <value>Limitasyon ng preload cache</value>
-  </data>
-  <data name="Ui.FastFlags.LimitsHowMuchDiskSpaceThe" xml:space="preserve">
-    <value>Nililimitahan kung gaano kalaking disk space ang magagamit ng natutunang asset cache</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadAvatar" xml:space="preserve">
-    <value>I preload ang avatar</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadsYourAvatarAndEquippedAccessories" xml:space="preserve">
-    <value>Ipe preload ang avatar mo at ang mga suot na accessory bago ang bawat paglunsad ng laro</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadRecentGames" xml:space="preserve">
-    <value>I preload ang mga kamakailang laro</value>
-  </data>
-  <data name="Ui.FastFlags.WarmsCacheFromYourRecentlyPlayed" xml:space="preserve">
-    <value>Inihahanda ang cache gamit ang mga kamakailang nilaro mo bago ang bawat paglunsad</value>
-  </data>
-  <data name="Ui.FastFlags.ClientSpoofer" xml:space="preserve">
-    <value>Client side spoofer</value>
-  </data>
-  <data name="Ui.FastFlags.ClientSidedOnlyYouSeeThese" xml:space="preserve">
-    <value>Sa client side lang, ikaw lang ang makakakita ng mga pagbabagong ito.</value>
-  </data>
-  <data name="Ui.FastFlags.EveryoneElseUsername" xml:space="preserve">
-    <value>Username ng lahat ng iba</value>
-  </data>
-  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown" xml:space="preserve">
-    <value>Itinatakda ang username na ipinapakita ng client mo para sa lahat ng ibang player</value>
-  </data>
-  <data name="Ui.FastFlags.ApplyEveryoneElseIngame" xml:space="preserve">
-    <value>Ilapat sa lahat ng iba sa laro</value>
-  </data>
-  <data name="Ui.FastFlags.AppliesTheEveryoneElseUsernameInside" xml:space="preserve">
-    <value>Inilalapat ang username ng lahat ng iba sa Roblox</value>
-  </data>
-  <data name="Ui.FastFlags.VerifyEveryoneElse" xml:space="preserve">
-    <value>I verify ang lahat ng iba</value>
-  </data>
-  <data name="Ui.FastFlags.ShowsEveryOtherPlayerAsVerified" xml:space="preserve">
-    <value>Ipinapakitang verified ang lahat ng ibang player sa client na ito</value>
-  </data>
-  <data name="Ui.FastFlags.YourUsername" xml:space="preserve">
-    <value>Ang username mo</value>
-  </data>
-  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown2" xml:space="preserve">
-    <value>Itinatakda ang username na ipinapakita ng client mo para sa account mo</value>
-  </data>
-  <data name="Ui.FastFlags.ApplyYourUsernameIngame" xml:space="preserve">
-    <value>Ilapat ang username mo sa laro</value>
-  </data>
-  <data name="Ui.FastFlags.AppliesYourSpoofedUsernameInsideRoblox" xml:space="preserve">
-    <value>Inilalapat ang na spoof mong username sa Roblox</value>
-  </data>
-  <data name="Ui.FastFlags.RobuxAdjuster" xml:space="preserve">
-    <value>Pang-ayos ng Robux</value>
-  </data>
-  <data name="Ui.FastFlags.VerifyYourAccount" xml:space="preserve">
-    <value>I verify ang account mo</value>
-  </data>
-  <data name="Ui.FastFlags.ShowsYourAccountAsVerifiedOn" xml:space="preserve">
-    <value>Ipinapakitang verified ang account mo sa client na ito</value>
-  </data>
-  <data name="Ui.FastFlags.MakeYourselfGameCreator" xml:space="preserve">
-    <value>Gawing creator ng laro ang sarili mo</value>
-  </data>
-  <data name="Ui.FastFlags.UsesYourCurrentRobloxUserID" xml:space="preserve">
-    <value>Ginagamit ang kasalukuyang Roblox user ID mo para sa na intercept na data ng creator ng laro</value>
-  </data>
-  <data name="Ui.FastFlags.MakeYourselfGameCreatorDoesNot" xml:space="preserve">
-    <value>Hindi gumagana sa Windows ang Gawing creator ng laro ang sarili mo. Pinoprotektahan na ngayon ng Roblox ang pagsali sa laro sa Windows, at ang pagbabago rito ay nagdudulot ng error 529, kaya hindi ito ginagalaw ng Voidstrap. Gumagana pa rin ito sa Linux at macOS, at hindi apektado ang iba mong opsyon.</value>
   </data>
   <data name="Ui.Bootstrapper.DisablesBackgroundWindowWhenLaunchingRoblox" xml:space="preserve">
     <value>Dini disable ang background window kapag nilulunsad ang Roblox</value>

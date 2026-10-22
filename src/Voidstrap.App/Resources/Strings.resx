@@ -2747,11 +2747,6 @@ Type the exact phrase shown below to accept these restrictions and continue.</va
   <data name="GlobalProfiles.ApplyConfirm" xml:space="preserve"><value>Apply "{0}"? This replaces your current Roblox global settings. Rejoin Roblox to see every change.</value></data>
   <data name="GlobalProfiles.Applied" xml:space="preserve"><value>Applied "{0}"</value></data>
   <data name="GlobalProfiles.SaveFailed" xml:space="preserve"><value>The Roblox settings file could not be written. Close Roblox and try again.</value></data>
-  <data name="AssetWarp.RemoveTexturesDescription" xml:space="preserve"><value>Blocks texture and texture pack asset downloads</value></data>
-  <data name="AssetWarp.RemoveDecalsDescription" xml:space="preserve"><value>Blocks decal asset downloads</value></data>
-  <data name="AssetWarp.RemoveImagesDescription" xml:space="preserve"><value>Blocks image asset downloads. Roblox also uses images for textures and decals</value></data>
-  <data name="AssetWarp.RemoveAnimationsDescription" xml:space="preserve"><value>Blocks animation asset downloads. Games without an animation fallback may stop working correctly</value></data>
-  <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve"><value>Blocks mesh and meshpart asset downloads. Mesh geometry will be invisible</value></data>
   <data name="SwiftTunnel.Summary" xml:space="preserve"><value>Route Roblox traffic through SwiftTunnel while other apps use your normal connection</value></data>
   <data name="SwiftTunnel.Description" xml:space="preserve"><value>SwiftTunnel is a Windows game connection optimizer with split tunneling and regional relay selection</value></data>
   <data name="SwiftTunnel.Setup" xml:space="preserve"><value>Install downloads the latest official SwiftTunnel release and opens the desktop app after setup. Sign in and choose your connection there. Network optimization may require administrator access</value></data>
@@ -3869,111 +3864,6 @@ What would you like to do?</value>
   </data>
   <data name="Ui.FastFlags.OnlyChangeWhatYouUnderstandAnd" xml:space="preserve">
     <value>Only change what you understand, and change one setting at a time.</value>
-  </data>
-  <data name="Ui.FastFlags.EnablesTheAssetWarpProxyAndAll" xml:space="preserve">
-    <value>Enables the AssetWarp proxy and all related features</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllTextures" xml:space="preserve">
-    <value>Remove All Textures</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllDecals" xml:space="preserve">
-    <value>Remove All Decals</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllImages" xml:space="preserve">
-    <value>Remove All Images</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllAnimations" xml:space="preserve">
-    <value>Remove All Animations</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllMeshes" xml:space="preserve">
-    <value>Remove All Meshes</value>
-  </data>
-  <data name="Ui.FastFlags.PresenceSpoofer" xml:space="preserve">
-    <value>Presence Spoofer</value>
-  </data>
-  <data name="Ui.FastFlags.ChangesWhatOthersSeeOnlineIn" xml:space="preserve">
-    <value>Changes what others see online, in studio, or offline</value>
-  </data>
-  <data name="Ui.FastFlags.Preloading" xml:space="preserve">
-    <value>Preloading</value>
-  </data>
-  <data name="Ui.FastFlags.AssetPreloading" xml:space="preserve">
-    <value>Asset Preloading</value>
-  </data>
-  <data name="Ui.FastFlags.LearnsEachGameAndServesPreviously" xml:space="preserve">
-    <value>Learns each game and serves previously downloaded assets</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadCacheLimit" xml:space="preserve">
-    <value>Preload Cache Limit</value>
-  </data>
-  <data name="Ui.FastFlags.LimitsHowMuchDiskSpaceThe" xml:space="preserve">
-    <value>Limits how much disk space the learned asset cache can use</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadAvatar" xml:space="preserve">
-    <value>Preload Avatar</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadsYourAvatarAndEquippedAccessories" xml:space="preserve">
-    <value>Preloads your avatar and equipped accessories before each game launch</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadRecentGames" xml:space="preserve">
-    <value>Preload Recent Games</value>
-  </data>
-  <data name="Ui.FastFlags.WarmsCacheFromYourRecentlyPlayed" xml:space="preserve">
-    <value>Warms cache from your recently played games before each launch</value>
-  </data>
-  <data name="Ui.FastFlags.ClientSpoofer" xml:space="preserve">
-    <value>Client Spoofer</value>
-  </data>
-  <data name="Ui.FastFlags.ClientSidedOnlyYouSeeThese" xml:space="preserve">
-    <value>Client sided, only you see these changes.</value>
-  </data>
-  <data name="Ui.FastFlags.EveryoneElseUsername" xml:space="preserve">
-    <value>Everyone Else Username</value>
-  </data>
-  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown" xml:space="preserve">
-    <value>Sets the client sided username shown for every other player</value>
-  </data>
-  <data name="Ui.FastFlags.ApplyEveryoneElseIngame" xml:space="preserve">
-    <value>Apply Everyone Else Ingame</value>
-  </data>
-  <data name="Ui.FastFlags.AppliesTheEveryoneElseUsernameInside" xml:space="preserve">
-    <value>Applies the everyone else username inside Roblox</value>
-  </data>
-  <data name="Ui.FastFlags.VerifyEveryoneElse" xml:space="preserve">
-    <value>Verify Everyone Else</value>
-  </data>
-  <data name="Ui.FastFlags.ShowsEveryOtherPlayerAsVerified" xml:space="preserve">
-    <value>Shows every other player as verified on this client</value>
-  </data>
-  <data name="Ui.FastFlags.YourUsername" xml:space="preserve">
-    <value>Your Username</value>
-  </data>
-  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown2" xml:space="preserve">
-    <value>Sets the client sided username shown for your account</value>
-  </data>
-  <data name="Ui.FastFlags.ApplyYourUsernameIngame" xml:space="preserve">
-    <value>Apply Your Username Ingame</value>
-  </data>
-  <data name="Ui.FastFlags.AppliesYourSpoofedUsernameInsideRoblox" xml:space="preserve">
-    <value>Applies your spoofed username inside Roblox</value>
-  </data>
-  <data name="Ui.FastFlags.RobuxAdjuster" xml:space="preserve">
-    <value>Robux adjuster</value>
-  </data>
-  <data name="Ui.FastFlags.VerifyYourAccount" xml:space="preserve">
-    <value>Verify Your Account</value>
-  </data>
-  <data name="Ui.FastFlags.ShowsYourAccountAsVerifiedOn" xml:space="preserve">
-    <value>Shows your account as verified on this client</value>
-  </data>
-  <data name="Ui.FastFlags.MakeYourselfGameCreator" xml:space="preserve">
-    <value>Make Yourself Game Creator</value>
-  </data>
-  <data name="Ui.FastFlags.UsesYourCurrentRobloxUserID" xml:space="preserve">
-    <value>Uses your current Roblox user ID for intercepted game creator metadata</value>
-  </data>
-  <data name="Ui.FastFlags.MakeYourselfGameCreatorDoesNot" xml:space="preserve">
-    <value>Make Yourself Game Creator does not work on Windows. Roblox now protects game joins on Windows, and changing them makes joins fail with error 529, so Voidstrap leaves them alone. It still works on Linux and macOS, and your other options are not affected.</value>
   </data>
   <data name="Ui.Bootstrapper.DisablesBackgroundWindowWhenLaunchingRoblox" xml:space="preserve">
     <value>Disables Background Window when Launching Roblox</value>

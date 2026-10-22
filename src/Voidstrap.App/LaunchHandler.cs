@@ -479,35 +479,8 @@ public static class LaunchHandler
 			RunPortableLaunch(launchMode);
 			return;
 		}
-		if (launchMode == LaunchMode.Player)
-		{
-			AssetWarpAutoEnable.EnsureEnabled(allowPrompt: !App.LaunchSettings.QuietFlag.Active, userAction: false);
-		}
-		bool useAssetWarp = launchMode == LaunchMode.Player && (AssetProxyServer.IsRequired || AssetWarpAutoEnable.IsActiveForMods());
-		bool needsAssetWarpCleanup = !useAssetWarp && AssetProxyRouting.HasInstalledEntries();
-		if (needsAssetWarpCleanup)
-		{
-			if (ProcessElevation.IsAdministrator())
-			{
-				AssetProxyRouting.Cleanup();
-			}
-			needsAssetWarpCleanup = AssetProxyRouting.HasInstalledEntries();
-			if (!needsAssetWarpCleanup)
-			{
-				App.Logger.WriteLine("LaunchHandler::LaunchRoblox", "Leftover AssetWarp routing was cleared");
-			}
-		}
-		string? elevationReason = null;
-		if (useAssetWarp)
-		{
-			elevationReason = "AssetWarp needs administrator access to start";
-		}
-		else if (needsAssetWarpCleanup)
-		{
-			elevationReason = "Leftover AssetWarp routing could not be cleared automatically and needs administrator access to remove";
-		}
-
-		if (elevationReason != null && !ProcessElevation.IsAdministrator())
+		bool needsAssetWarpCleanup = AssetWarpLegacyCleanup.HasHostsEntries();
+		if (needsAssetWarpCleanup && !ProcessElevation.IsAdministrator())
 		{
 			if (App.LaunchSettings.AdminRetriedFlag.Active)
 			{
@@ -523,7 +496,7 @@ public static class LaunchHandler
 					elevateArgs.Add(launchMode == LaunchMode.Player ? "-player" : "-studio");
 					elevateArgs.Add(App.LaunchSettings.RobloxLaunchArgs);
 				}
-				App.Logger.WriteLine("LaunchHandler::LaunchRoblox", elevationReason + ". Requesting elevation to resume launch.");
+				App.Logger.WriteLine("LaunchHandler::LaunchRoblox", "Leftover AssetWarp routing needs administrator access to remove. Requesting elevation to resume launch.");
 				bool elevated = ProcessElevation.TryRestartElevated(elevateArgs);
 				if (elevated)
 				{
@@ -539,9 +512,9 @@ public static class LaunchHandler
 		{
 			if (ProcessElevation.IsAdministrator())
 			{
-				AssetProxyRouting.Cleanup();
+				AssetWarpLegacyCleanup.RemoveHostsEntries();
 			}
-			if (AssetProxyRouting.HasInstalledEntries())
+			if (AssetWarpLegacyCleanup.HasHostsEntries())
 			{
 				App.Logger.WriteLine("LaunchHandler::LaunchRoblox", "Leftover AssetWarp routing is still in the hosts file, Roblox assets will fail to load until it is removed");
 				if (!App.LaunchSettings.QuietFlag.Active)
@@ -549,10 +522,6 @@ public static class LaunchHandler
 					Frontend.ShowMessageBox(Strings.Bootstrapper_AssetWarpRoutingLeftover, MessageBoxImage.Exclamation);
 				}
 			}
-		}
-		if (launchMode != LaunchMode.Player)
-		{
-			AssetProxyServer.DisableForUnsupportedClient();
 		}
 		App.LaunchSettings.RobloxLaunchMode = launchMode;
 		if (!App.LaunchSettings.MatchmakerRejoinFlag.Active)
@@ -1137,7 +1106,6 @@ public static class LaunchHandler
 		IDisposable? soberLaunchLease = null;
 		bool restarting = false;
 		bool stayResident = false;
-		long assetPreloadPlaceId = 0;
 		CancellationToken cancellation = CancellationToken.None;
 		CancellationTokenRegistration cancelRequested = default;
 
@@ -1188,7 +1156,6 @@ public static class LaunchHandler
 				launchTarget = rewrittenTarget;
 				App.LaunchSettings.RobloxLaunchArgs = rewrittenTarget;
 			}
-			assetPreloadPlaceId = LaunchInterceptor.ExtractPlaceId(launchTarget);
 			if (OperatingSystem.IsLinux() && runtimeKind == Voidstrap.Platform.RuntimeKind.Player)
 				App.Logger.WriteLine("LaunchHandler::LaunchPortableRuntime", Voidstrap.Platform.Linux.SoberLaunchLink.Describe(App.LaunchSettings.RobloxLaunchArgs.Length > 0 ? launchTarget : null));
 
@@ -1360,29 +1327,6 @@ public static class LaunchHandler
 						configuration.ConflictingAssets.Count + " mod files were skipped because an overlay path already exists: "
 							+ string.Join(", ", configuration.ConflictingAssets.Take(20)));
 				}
-
-				if (runtimeKind == Voidstrap.Platform.RuntimeKind.Player)
-				{
-					AssetWarpAutoEnable.EnsureEnabled(allowPrompt: !App.LaunchSettings.QuietFlag.Active, userAction: false);
-					if (!App.Settings.Prop.AssetWarpEnabled)
-					{
-						AssetProxyServer.Stop();
-					}
-					else if (App.Settings.Prop.AssetWarpPreloadEnabled && assetPreloadPlaceId > 0)
-					{
-						AssetPreloadCache.SwitchSession(assetPreloadPlaceId);
-					}
-					SetPortableLaunchStatus("Starting AssetWarp");
-					await Bootstrapper.StartAssetProxyIfEnabled(cancellation);
-					if (AssetProxyServer.IsRequired && !AssetProxyServer.IsRunning)
-					{
-						throw new InvalidOperationException("AssetWarp could not start its Linux proxy. Check the Voidstrap log for the exact failure.");
-					}
-					if (AssetProxyRouting.ConsumeCacheCleared())
-					{
-						Bootstrapper.ReapplyAssetCacheMods();
-					}
-				}
 			}
 
 			if (OperatingSystem.IsMacOS() && linuxBootstrapper is not null && await linuxBootstrapper.TryUpdateLauncherAsync())
@@ -1424,7 +1368,7 @@ public static class LaunchHandler
 					if (runtimeKind == Voidstrap.Platform.RuntimeKind.Player)
 					{
 						App.FastFlags.MigratePlayerLoggingPreset();
-						App.FastFlags.ApplyPreloadFlags();
+						App.FastFlags.RestoreAssetWarpPreloadFlags();
 						if (!File.Exists(App.GlobalSettings.FileLocation))
 						{
 							App.GlobalSettings.Load();
@@ -1466,29 +1410,12 @@ public static class LaunchHandler
 					App.Logger.WriteLine("LaunchHandler::SoberStartup", message);
 					SetPortableLaunchStatus(message);
 				};
-			DateTime? macDirectStartUtc = null;
 			if (OperatingSystem.IsMacOS() && runtimeKind == Voidstrap.Platform.RuntimeKind.Player)
 			{
 				Voidstrap.Utility.MacRobloxProcesses.CloseIdleMenuBarHelpers();
 				await PrestartMacVirtualDisplayAsync(cancellation);
-				AssetWarpAutoEnable.EnsureEnabled(allowPrompt: !App.LaunchSettings.QuietFlag.Active, userAction: false);
-				if (!App.Settings.Prop.AssetWarpEnabled)
-					AssetProxyServer.Stop();
-				else if (App.Settings.Prop.AssetWarpPreloadEnabled && assetPreloadPlaceId > 0)
-					AssetPreloadCache.SwitchSession(assetPreloadPlaceId);
-				SetPortableLaunchStatus("Starting AssetWarp");
-				await Bootstrapper.StartAssetProxyIfEnabled(cancellation);
-				if (AssetProxyServer.IsRunning)
-				{
-					DateTime started = DateTime.UtcNow;
-					if (Voidstrap.Integrations.AssetProxy.MacAssetWarpBridge.StartRoblox())
-					{
-						macDirectStartUtc = started;
-						await Task.Delay(4000, cancellation);
-					}
-				}
 			}
-			DateTime launchRequestedUtc = macDirectStartUtc ?? DateTime.UtcNow;
+			DateTime launchRequestedUtc = DateTime.UtcNow;
 			Voidstrap.Core.RuntimeLaunchCoordinator coordinator = new(host.PlayerRuntime, host.StudioRuntime);
 			Voidstrap.Platform.OperationResult<Voidstrap.Platform.LaunchSession> result = await coordinator.LaunchAsync(runtimeKind, launchTarget, cancellation);
 			if (!result.Succeeded || result.Value == null)
@@ -1498,11 +1425,6 @@ public static class LaunchHandler
 			}
 
 			App.Logger.WriteLine("LaunchHandler::LaunchPortableRuntime", result.Value.Provider + " accepted the Roblox launch request");
-			if (AssetProxyServer.IsRunning && assetPreloadPlaceId > 0)
-			{
-				AssetPreloadCache.StartBackgroundWarm(assetPreloadPlaceId, CancellationToken.None);
-			}
-
 			ClosePortableLaunchDialog();
 			if (OperatingSystem.IsLinux() && StartResidentWatcher(result.Value.ProcessId, runtimeKind == Voidstrap.Platform.RuntimeKind.Player))
 			{
@@ -1536,7 +1458,6 @@ public static class LaunchHandler
 			Interlocked.Exchange(ref _portableLaunchActive, 0);
 			if (!stayResident && !restarting)
 			{
-				AssetProxyServer.Stop();
 				PortableSessionEnded.TrySetResult(true);
 				App.SoftTerminate();
 			}

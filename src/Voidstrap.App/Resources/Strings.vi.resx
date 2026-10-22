@@ -2926,21 +2926,6 @@ Nhập chính xác cụm từ bên dưới để chấp nhận hạn chế này 
   <data name="GlobalProfiles.SaveFailed" xml:space="preserve">
     <value>Không thể ghi tệp cài đặt Roblox. Hãy đóng Roblox và thử lại.</value>
   </data>
-  <data name="AssetWarp.RemoveTexturesDescription" xml:space="preserve">
-    <value>Chặn tải xuống tài nguyên texture và gói texture</value>
-  </data>
-  <data name="AssetWarp.RemoveDecalsDescription" xml:space="preserve">
-    <value>Chặn tải xuống tài nguyên decal</value>
-  </data>
-  <data name="AssetWarp.RemoveImagesDescription" xml:space="preserve">
-    <value>Chặn tải xuống tài nguyên hình ảnh. Roblox cũng dùng hình ảnh cho texture và decal</value>
-  </data>
-  <data name="AssetWarp.RemoveAnimationsDescription" xml:space="preserve">
-    <value>Chặn tải xuống tài nguyên hoạt ảnh. Trò chơi không có hoạt ảnh dự phòng có thể không hoạt động đúng</value>
-  </data>
-  <data name="AssetWarp.RemoveMeshesDescription" xml:space="preserve">
-    <value>Chặn tải xuống tài nguyên mesh và MeshPart. Hình khối mesh sẽ trở nên vô hình</value>
-  </data>
   <data name="SwiftTunnel.Summary" xml:space="preserve">
     <value>Định tuyến lưu lượng Roblox qua SwiftTunnel trong khi các ứng dụng khác dùng kết nối thông thường</value>
   </data>
@@ -4102,111 +4087,6 @@ Bạn muốn làm gì?</value>
   </data>
   <data name="Ui.FastFlags.OnlyChangeWhatYouUnderstandAnd" xml:space="preserve">
     <value>Chỉ thay đổi những gì bạn hiểu, và mỗi lần một cài đặt.</value>
-  </data>
-  <data name="Ui.FastFlags.EnablesTheAssetWarpProxyAndAll" xml:space="preserve">
-    <value>Bật proxy AssetWarp và mọi tính năng liên quan</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllTextures" xml:space="preserve">
-    <value>Xóa mọi kết cấu</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllDecals" xml:space="preserve">
-    <value>Xóa mọi decal</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllImages" xml:space="preserve">
-    <value>Xóa mọi hình ảnh</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllAnimations" xml:space="preserve">
-    <value>Xóa mọi hoạt ảnh</value>
-  </data>
-  <data name="Ui.FastFlags.RemoveAllMeshes" xml:space="preserve">
-    <value>Xóa mọi lưới</value>
-  </data>
-  <data name="Ui.FastFlags.PresenceSpoofer" xml:space="preserve">
-    <value>Giả mạo trạng thái</value>
-  </data>
-  <data name="Ui.FastFlags.ChangesWhatOthersSeeOnlineIn" xml:space="preserve">
-    <value>Thay đổi những gì người khác thấy: trực tuyến, trong Studio hoặc ngoại tuyến</value>
-  </data>
-  <data name="Ui.FastFlags.Preloading" xml:space="preserve">
-    <value>Tải trước</value>
-  </data>
-  <data name="Ui.FastFlags.AssetPreloading" xml:space="preserve">
-    <value>Tải trước tài nguyên</value>
-  </data>
-  <data name="Ui.FastFlags.LearnsEachGameAndServesPreviously" xml:space="preserve">
-    <value>Học từng trò chơi và cung cấp các tài nguyên đã tải trước đó</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadCacheLimit" xml:space="preserve">
-    <value>Giới hạn bộ nhớ đệm tải trước</value>
-  </data>
-  <data name="Ui.FastFlags.LimitsHowMuchDiskSpaceThe" xml:space="preserve">
-    <value>Giới hạn dung lượng ổ đĩa mà bộ nhớ đệm tài nguyên đã học được dùng</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadAvatar" xml:space="preserve">
-    <value>Tải trước avatar</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadsYourAvatarAndEquippedAccessories" xml:space="preserve">
-    <value>Tải trước avatar và phụ kiện đang đeo trước mỗi lần khởi chạy trò chơi</value>
-  </data>
-  <data name="Ui.FastFlags.PreloadRecentGames" xml:space="preserve">
-    <value>Tải trước trò chơi gần đây</value>
-  </data>
-  <data name="Ui.FastFlags.WarmsCacheFromYourRecentlyPlayed" xml:space="preserve">
-    <value>Làm nóng bộ nhớ đệm bằng các trò chơi bạn chơi gần đây trước mỗi lần khởi chạy</value>
-  </data>
-  <data name="Ui.FastFlags.ClientSpoofer" xml:space="preserve">
-    <value>Giả mạo phía máy khách</value>
-  </data>
-  <data name="Ui.FastFlags.ClientSidedOnlyYouSeeThese" xml:space="preserve">
-    <value>Chỉ ở phía máy khách, chỉ bạn thấy những thay đổi này.</value>
-  </data>
-  <data name="Ui.FastFlags.EveryoneElseUsername" xml:space="preserve">
-    <value>Tên người dùng của mọi người khác</value>
-  </data>
-  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown" xml:space="preserve">
-    <value>Đặt tên người dùng mà máy khách của bạn hiển thị cho mọi người chơi khác</value>
-  </data>
-  <data name="Ui.FastFlags.ApplyEveryoneElseIngame" xml:space="preserve">
-    <value>Áp dụng cho mọi người khác trong trò chơi</value>
-  </data>
-  <data name="Ui.FastFlags.AppliesTheEveryoneElseUsernameInside" xml:space="preserve">
-    <value>Áp dụng tên người dùng của mọi người khác trong Roblox</value>
-  </data>
-  <data name="Ui.FastFlags.VerifyEveryoneElse" xml:space="preserve">
-    <value>Xác minh mọi người khác</value>
-  </data>
-  <data name="Ui.FastFlags.ShowsEveryOtherPlayerAsVerified" xml:space="preserve">
-    <value>Hiển thị mọi người chơi khác là đã xác minh trên máy khách này</value>
-  </data>
-  <data name="Ui.FastFlags.YourUsername" xml:space="preserve">
-    <value>Tên người dùng của bạn</value>
-  </data>
-  <data name="Ui.FastFlags.SetsTheClientSidedUsernameShown2" xml:space="preserve">
-    <value>Đặt tên người dùng mà máy khách của bạn hiển thị cho tài khoản của bạn</value>
-  </data>
-  <data name="Ui.FastFlags.ApplyYourUsernameIngame" xml:space="preserve">
-    <value>Áp dụng tên của bạn trong trò chơi</value>
-  </data>
-  <data name="Ui.FastFlags.AppliesYourSpoofedUsernameInsideRoblox" xml:space="preserve">
-    <value>Áp dụng tên người dùng giả mạo của bạn trong Roblox</value>
-  </data>
-  <data name="Ui.FastFlags.RobuxAdjuster" xml:space="preserve">
-    <value>Điều chỉnh Robux</value>
-  </data>
-  <data name="Ui.FastFlags.VerifyYourAccount" xml:space="preserve">
-    <value>Xác minh tài khoản của bạn</value>
-  </data>
-  <data name="Ui.FastFlags.ShowsYourAccountAsVerifiedOn" xml:space="preserve">
-    <value>Hiển thị tài khoản của bạn là đã xác minh trên máy khách này</value>
-  </data>
-  <data name="Ui.FastFlags.MakeYourselfGameCreator" xml:space="preserve">
-    <value>Biến bạn thành người tạo trò chơi</value>
-  </data>
-  <data name="Ui.FastFlags.UsesYourCurrentRobloxUserID" xml:space="preserve">
-    <value>Dùng ID người dùng Roblox hiện tại của bạn cho dữ liệu người tạo trò chơi bị chặn</value>
-  </data>
-  <data name="Ui.FastFlags.MakeYourselfGameCreatorDoesNot" xml:space="preserve">
-    <value>Biến bạn thành người tạo trò chơi không hoạt động trên Windows. Roblox hiện bảo vệ việc tham gia trò chơi trên Windows và việc thay đổi nó khiến tham gia thất bại với lỗi 529, nên Voidstrap không đụng tới. Tính năng vẫn hoạt động trên Linux và macOS, và các tùy chọn khác của bạn không bị ảnh hưởng.</value>
   </data>
   <data name="Ui.Bootstrapper.DisablesBackgroundWindowWhenLaunchingRoblox" xml:space="preserve">
     <value>Tắt cửa sổ nền khi khởi chạy Roblox</value>

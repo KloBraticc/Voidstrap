@@ -564,9 +564,7 @@ internal sealed partial class Installer
 				return false;
 			App.Logger.WriteLine("Installer::DoUninstall", "Continuing uninstall without NVIDIA cleanup");
 		}
-		Voidstrap.Integrations.AssetProxy.AssetProxyServer.Stop();
-		Voidstrap.Integrations.AssetProxy.AssetProxyServer.CleanupStaleState();
-		Voidstrap.Integrations.AssetProxy.AssetProxyServer.RemoveCertificates();
+		Voidstrap.Integrations.AssetProxy.AssetWarpLegacyCleanup.Run();
 		Voidstrap.Utility.LinuxDesktopEntry.Remove();
 		Voidstrap.Utility.InstallRecord.Delete();
 		if (Voidstrap.Utility.Platform.IsLinux)
