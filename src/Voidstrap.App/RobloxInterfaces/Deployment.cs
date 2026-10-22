@@ -31,7 +31,7 @@ public static class Deployment
 
 	private const int MaxVersionResponseBytes = 1048576;
 
-	private static readonly TimeSpan HostTimeout = TimeSpan.FromSeconds(12);
+	private static readonly TimeSpan HostTimeout = TimeSpan.FromSeconds(8);
 
 	private static readonly Dictionary<string, int> BaseUrls;
 
@@ -87,39 +87,46 @@ public static class Deployment
 		ValidateBinaryType(binaryType);
 		Exception? lastError = null;
 		IEnumerable<string> hosts = string.Equals(App.Settings.Prop.RobloxUpdateDelivery, "Early", StringComparison.OrdinalIgnoreCase) ? Enumerable.Reverse(ClientSettingsHosts) : ClientSettingsHosts;
-		foreach (string host in hosts)
+		foreach (HttpClient http in new[] { SharedHttp, Voidstrap.Utility.FilteredNetworkHttp.Client })
 		{
-			string path = string.Equals(channel, "production", StringComparison.OrdinalIgnoreCase)
-				? "/v2/client-version/" + binaryType
-				: "/v2/client-version/" + binaryType + "/channel/" + Uri.EscapeDataString(channel);
-			string url = host + path;
-			try
+			if (lastError != null && !IsUnreachableError(lastError, cancellationToken))
+				break;
+			if (lastError != null)
+				App.Logger.WriteLine("Deployment::GetInfo", "Roblox deployment services were not reachable, retrying through encrypted DNS and a split TLS handshake");
+			foreach (string host in hosts)
 			{
-				using CancellationTokenSource hostTimeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-				hostTimeout.CancelAfter(HostTimeout);
-				using HttpResponseMessage response = await SharedHttp.GetAsync(url, hostTimeout.Token).ConfigureAwait(false);
-				if (!response.IsSuccessStatusCode)
+				string path = string.Equals(channel, "production", StringComparison.OrdinalIgnoreCase)
+					? "/v2/client-version/" + binaryType
+					: "/v2/client-version/" + binaryType + "/channel/" + Uri.EscapeDataString(channel);
+				string url = host + path;
+				try
 				{
-					lastError = new HttpRequestException($"Request failed: {(int)response.StatusCode}", null, response.StatusCode);
-					continue;
+					using CancellationTokenSource hostTimeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+					hostTimeout.CancelAfter(HostTimeout);
+					using HttpResponseMessage response = await http.GetAsync(url, hostTimeout.Token).ConfigureAwait(false);
+					if (!response.IsSuccessStatusCode)
+					{
+						lastError = new HttpRequestException($"Request failed: {(int)response.StatusCode}", null, response.StatusCode);
+						continue;
+					}
+					string text = await Voidstrap.Utility.Http.ReadStringBoundedAsync(response.Content, MaxVersionResponseBytes, hostTimeout.Token).ConfigureAwait(false);
+					if (string.IsNullOrWhiteSpace(text) || text.TrimStart().StartsWith('<'))
+					{
+						lastError = new InvalidHTTPResponseException("Invalid JSON response from " + url);
+						continue;
+					}
+					T value = JsonSerializer.Deserialize<T>(text, CaseInsensitiveJson) ?? throw new InvalidHTTPResponseException("Failed to deserialize JSON from " + url);
+					return value;
 				}
-				string text = await Voidstrap.Utility.Http.ReadStringBoundedAsync(response.Content, MaxVersionResponseBytes, hostTimeout.Token).ConfigureAwait(false);
-				if (string.IsNullOrWhiteSpace(text) || text.TrimStart().StartsWith('<'))
+				catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
 				{
-					lastError = new InvalidHTTPResponseException("Invalid JSON response from " + url);
-					continue;
+					throw;
 				}
-				T value = JsonSerializer.Deserialize<T>(text, CaseInsensitiveJson) ?? throw new InvalidHTTPResponseException("Failed to deserialize JSON from " + url);
-				return value;
-			}
-			catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
-			{
-				throw;
-			}
-			catch (Exception ex) when (ex is HttpRequestException or InvalidHTTPResponseException or JsonException or TaskCanceledException)
-			{
-				lastError = ex;
-				App.Logger.WriteLine("Deployment::GetInfo", "Deployment source failed: " + host + ", " + ex.Message);
+				catch (Exception ex) when (ex is HttpRequestException or InvalidHTTPResponseException or JsonException or TaskCanceledException)
+				{
+					lastError = ex;
+					App.Logger.WriteLine("Deployment::GetInfo", "Deployment source failed: " + host + ", " + ex.Message);
+				}
 			}
 		}
 		throw lastError ?? new HttpRequestException("Roblox deployment services are unavailable");
