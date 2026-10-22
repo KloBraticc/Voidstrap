@@ -120,6 +120,11 @@
   <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
     <value>Voidstrap nepavyko pašalinti likusio AssetWarp nukreipimo iš Windows hosts failo. Roblox negalės įkelti tekstūrų ir kitų išteklių, kol jis nebus pašalintas. Paleiskite Voidstrap kaip administratorius, kad jį išvalytumėte.</value>
   </data>
+  <data name="Bootstrapper.AssetWarpCertificateRemoval" xml:space="preserve">
+    <value>Roblox ištaisė Fleasion ir AssetWarp, todėl jie nebeveikia. Voidstrap dabar šalina viską, ką AssetWarp paliko jūsų sistemoje, įskaitant jo konfigūracijas, talpyklą ir saugos sertifikatą.
+
+Toliau Windows paprašys jūsų patvirtinti sertifikato ištrynimą. Spustelėkite Yes, kad užbaigtumėte valymą ir Roblox toliau veiktų įprastai.</value>
+  </data>
   <data name="Bootstrapper.AutoUpdateFailed" xml:space="preserve">
     <value>„Voidstrap“ nepavyko automatiškai atnaujinti į {0} versiją. Atnaujinkite ją rankiniu būdu atsisiųsdami ir paleisdami iš svetainės.</value>
   </data>

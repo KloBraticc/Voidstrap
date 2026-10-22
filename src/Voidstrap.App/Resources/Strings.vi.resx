@@ -120,6 +120,11 @@
   <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
     <value>Voidstrap không thể xóa tuyến AssetWarp còn sót lại khỏi tệp hosts của Windows. Roblox sẽ không thể tải texture hoặc các tài nguyên khác cho đến khi tuyến này được xóa. Hãy chạy Voidstrap với quyền quản trị viên để dọn dẹp.</value>
   </data>
+  <data name="Bootstrapper.AssetWarpCertificateRemoval" xml:space="preserve">
+    <value>Roblox đã vá Fleasion và AssetWarp nên chúng không còn hoạt động nữa. Voidstrap hiện đang xóa mọi thứ AssetWarp để lại trên hệ thống của bạn, bao gồm cấu hình, bộ nhớ đệm và chứng chỉ bảo mật của nó.
+
+Tiếp theo, Windows sẽ yêu cầu bạn xác nhận việc xóa chứng chỉ. Hãy nhấn Yes để hoàn tất việc dọn dẹp để Roblox tiếp tục chạy bình thường.</value>
+  </data>
   <data name="Bootstrapper.AutoUpdateFailed" xml:space="preserve">
     <value>Voidstrap không thể tự động cập nhật lên phiên bản {0}. Xin hãy tải về chương trình cài đặt và cập nhật thủ công.</value>
   </data>

@@ -120,6 +120,11 @@
   <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
     <value>Voidstrap ei voinut poistaa jäljelle jäänyttä AssetWarp-reititystä Windowsin hosts-tiedostosta. Roblox ei voi ladata tekstuureja tai muita resursseja ennen kuin se poistetaan. Suorita Voidstrap järjestelmänvalvojana poistaaksesi sen.</value>
   </data>
+  <data name="Bootstrapper.AssetWarpCertificateRemoval" xml:space="preserve">
+    <value>Roblox on korjannut Fleasionin ja AssetWarpin, joten ne eivät enää toimi. Voidstrap poistaa nyt kaiken, mitä AssetWarp jätti järjestelmääsi, mukaan lukien sen asetukset, välimuistin ja suojausvarmenteen.
+
+Seuraavaksi Windows pyytää sinua vahvistamaan varmenteen poistamisen. Valitse Yes, jotta siivous valmistuu ja Roblox toimii edelleen normaalisti.</value>
+  </data>
   <data name="Bootstrapper.AutoUpdateFailed" xml:space="preserve">
     <value>Voidstrap ei pystynyt automaattisesti päivittämään versioon {0}. Ole hyvä ja päivitä se manuaalisesti lataamalla ja suorittamalla sen verkkosivulta.</value>
   </data>

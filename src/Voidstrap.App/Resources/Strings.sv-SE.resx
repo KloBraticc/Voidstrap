@@ -120,6 +120,11 @@
   <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
     <value>Voidstrap kunde inte ta bort kvarvarande AssetWarp-routning från Windows hosts-fil. Roblox kan inte läsa in texturer eller andra resurser förrän den har tagits bort. Kör Voidstrap som administratör för att rensa den.</value>
   </data>
+  <data name="Bootstrapper.AssetWarpCertificateRemoval" xml:space="preserve">
+    <value>Roblox har patchat Fleasion och AssetWarp, så de fungerar inte längre. Voidstrap tar nu bort allt som AssetWarp lämnade kvar på ditt system, inklusive dess konfigurationer, cache och säkerhetscertifikat.
+
+Sedan ber Windows dig bekräfta att certifikatet ska tas bort. Klicka på Yes för att slutföra rensningen så att Roblox fortsätter att fungera som vanligt.</value>
+  </data>
   <data name="Bootstrapper.AutoUpdateFailed" xml:space="preserve">
     <value>Voidstrap kunde inte automatiskt uppdatera till version {0}. Uppdatera Roblox manuellt genom att ladda ner och köra Roblox från webbsidan.</value>
   </data>

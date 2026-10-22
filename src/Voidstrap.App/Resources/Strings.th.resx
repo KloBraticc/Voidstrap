@@ -120,6 +120,11 @@
   <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
     <value>Voidstrap ไม่สามารถลบเส้นทาง AssetWarp ที่ค้างอยู่ออกจากไฟล์ hosts ของ Windows ได้ Roblox จะโหลดเท็กซ์เจอร์หรือแอสเซ็ตอื่นไม่ได้จนกว่าจะลบออก เรียกใช้ Voidstrap ในฐานะผู้ดูแลระบบเพื่อล้างข้อมูลนี้</value>
   </data>
+  <data name="Bootstrapper.AssetWarpCertificateRemoval" xml:space="preserve">
+    <value>Roblox ได้แพตช์ Fleasion และ AssetWarp แล้ว จึงไม่สามารถใช้งานได้อีกต่อไป ขณะนี้ Voidstrap กำลังลบทุกอย่างที่ AssetWarp ทิ้งไว้ในระบบของคุณ รวมถึงการกำหนดค่า แคช และใบรับรองความปลอดภัย
+
+ถัดไป Windows จะขอให้คุณยืนยันการลบใบรับรอง คลิก Yes เพื่อล้างข้อมูลให้เสร็จสิ้น เพื่อให้ Roblox ทำงานได้ตามปกติต่อไป</value>
+  </data>
   <data name="Bootstrapper.AutoUpdateFailed" xml:space="preserve">
     <value>Voidstrap ไม่สามารถอัปเดตเป็นเวอร์ชั่น {0} โดยอัตโนมัติได้. โปรดอัพเดทด้วยตัวเองเเละใช้งานจากเว็ปไซต์</value>
   </data>

@@ -2788,6 +2788,8 @@ namespace Voidstrap.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Voidstrap was unable to automatically update to version {0}. Please update it manually by downloading and running it from the website..
         /// </summary>
+        public static string Bootstrapper_AssetWarpCertificateRemoval => ResourceManager.GetString("Bootstrapper.AssetWarpCertificateRemoval", resourceCulture);
+
         public static string Bootstrapper_AssetWarpRoutingLeftover {
             get {
                 return ResourceManager.GetString("Bootstrapper.AssetWarpRoutingLeftover", resourceCulture);

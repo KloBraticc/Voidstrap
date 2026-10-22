@@ -120,6 +120,11 @@
   <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
     <value>A Voidstrap nem tudta eltávolítani a megmaradt AssetWarp-átirányítást a Windows hosts fájljából. A Roblox nem tud textúrákat és más elemeket betölteni, amíg ez el nem tűnik. Futtasd a Voidstrapot rendszergazdaként a törléséhez.</value>
   </data>
+  <data name="Bootstrapper.AssetWarpCertificateRemoval" xml:space="preserve">
+    <value>A Roblox javította a Fleasiont és az AssetWarpot, ezért ezek már nem működnek. A Voidstrap most eltávolít mindent, amit az AssetWarp a rendszereden hagyott, beleértve a beállításait, a gyorsítótárát és a biztonsági tanúsítványát.
+
+Ezután a Windows megkér, hogy erősítsd meg a tanúsítvány törlését. Kattints a Yes gombra a tisztítás befejezéséhez, hogy a Roblox továbbra is normálisan működjön.</value>
+  </data>
   <data name="Bootstrapper.AutoUpdateFailed" xml:space="preserve">
     <value>A Voidstrap nem tudott automatikusan frissülni a {0} verzióra. Kérjük frissítse manuálisan úgy, hogy letölti és futtatja a webhelyről.</value>
   </data>

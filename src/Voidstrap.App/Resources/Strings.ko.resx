@@ -120,6 +120,11 @@
   <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
     <value>Voidstrap이 Windows hosts 파일에 남아 있는 AssetWarp 라우팅을 제거하지 못했습니다. 이 항목이 제거될 때까지 Roblox가 텍스처 및 기타 에셋을 불러올 수 없습니다. 제거하려면 Voidstrap을 관리자 권한으로 실행하세요.</value>
   </data>
+  <data name="Bootstrapper.AssetWarpCertificateRemoval" xml:space="preserve">
+    <value>Roblox가 Fleasion과 AssetWarp를 패치하여 더 이상 작동하지 않습니다. Voidstrap이 지금 AssetWarp가 시스템에 남긴 구성, 캐시, 보안 인증서를 포함한 모든 항목을 제거하고 있습니다.
+
+다음으로 Windows에서 인증서 삭제를 확인하라는 메시지가 표시됩니다. Yes를 클릭하여 정리를 완료하시면 Roblox가 계속 정상적으로 작동합니다.</value>
+  </data>
   <data name="Bootstrapper.AutoUpdateFailed" xml:space="preserve">
     <value>Voidstrap을 버전 {0}으로 자동 업데이트하지 못했습니다. 웹사이트에서 다운로드하고 실행하여 수동으로 업데이트하세요.</value>
   </data>

@@ -120,6 +120,11 @@
   <data name="Bootstrapper.AssetWarpRoutingLeftover" xml:space="preserve">
     <value>Voidstrap は Windows の hosts ファイルに残った AssetWarp のルートを削除できませんでした。削除されるまで Roblox はテクスチャなどのアセットを読み込めません。Voidstrap を管理者として実行してクリーンアップしてください。</value>
   </data>
+  <data name="Bootstrapper.AssetWarpCertificateRemoval" xml:space="preserve">
+    <value>Roblox が Fleasion と AssetWarp を修正したため、これらは動作しなくなりました。Voidstrap は現在、AssetWarp がシステムに残した設定、キャッシュ、セキュリティ証明書などをすべて削除しています。
+
+次に Windows から証明書の削除を確認するよう求められます。Yes をクリックしてクリーンアップを完了すると、Roblox は引き続き正常に動作します。</value>
+  </data>
   <data name="Bootstrapper.AutoUpdateFailed" xml:space="preserve">
     <value>Voidstrap {0}への自動更新に失敗しました。Webサイトから手動でインストールしてください。</value>
   </data>

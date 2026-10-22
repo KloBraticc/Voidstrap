@@ -289,11 +289,11 @@ internal static partial class AssetWarpLegacyCleanup
 			X509Certificate2Collection present = store.Certificates;
 			try
 			{
-				foreach (X509Certificate2 existing in present)
-				{
-					if (string.Equals(existing.Subject, CaSubject, StringComparison.OrdinalIgnoreCase))
-						store.Remove(existing);
-				}
+				X509Certificate2[] owned = [.. present.Where(existing => string.Equals(existing.Subject, CaSubject, StringComparison.OrdinalIgnoreCase))];
+				if (owned.Length > 0)
+					Frontend.ShowMessageBox(Voidstrap.Resources.Strings.Bootstrapper_AssetWarpCertificateRemoval, System.Windows.MessageBoxImage.Information);
+				foreach (X509Certificate2 existing in owned)
+					store.Remove(existing);
 			}
 			finally
 			{
