@@ -6,7 +6,7 @@ public static class ExtensionCatalog
 {
 	public const string FleasionIcon = "https://avatars.githubusercontent.com/u/186699266";
 
-	public const string ReShadeIcon = "https://raw.githubusercontent.com/crosire/reshade/main/res/main_icon.ico";
+	public const string ReShadeIcon = "pack://application:,,,/Resources/ReShadeIcon.png";
 
 	public const string RiShadeIcon = "https://raw.githubusercontent.com/KloBraticc/RiShade/main/Images/RiShde.png";
 
