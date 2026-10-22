@@ -916,7 +916,6 @@
       </Grid>
     </Border>
     <Grid x:Name="LaunchTargetOverlay" Grid.RowSpan="3" Panel.ZIndex="1100" Visibility="Hidden" Opacity="0" IsHitTestVisible="False">
-      <Image x:Name="LaunchTargetBackdrop" Stretch="Fill" IsHitTestVisible="False" SnapsToDevicePixels="False" RenderOptions.BitmapScalingMode="HighQuality" />
       <Border Background="#4D000000" MouseLeftButtonDown="LaunchTargetScrim_MouseLeftButtonDown" />
       <Border x:Name="LaunchTargetPanel" Style="{StaticResource RinDialogPanelStyle}" Width="600" Padding="24" Visibility="Visible">
         <Border.RenderTransform>

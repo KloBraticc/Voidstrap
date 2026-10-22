@@ -6370,18 +6370,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private const int LaunchTargetFrameRate = 240;
 
-    private const double LaunchTargetBackdropScale = 0.25;
-
-    private const double LaunchTargetSnapshotBlurRadius = 0.0;
-
-    private const int LaunchTargetSnapshotPadding = 18;
-
-    private const double LaunchTargetBlurRadius = 0.0;
-
-    private System.Windows.Media.Effects.BlurEffect? _launchTargetBlur;
-
-    private UIElement[] LaunchTargetBlurTargets => [BackgroundLayer, RootGrid, StatusBarHost, TopNavPanel, RootTitleBar];
-
     private void OpenLaunchTargetOverlay()
     {
         CloseTopBarMenus();
@@ -6409,10 +6397,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             LaunchTargetOverlay.BeginAnimation(OpacityProperty, null);
             LaunchTargetOverlay.Opacity = 0;
             SetModalScale(scale, ModalScaleOffset);
-            if (Voidstrap.Utility.Platform.UsesPortableUi)
-                ApplyLinuxLaunchTargetBlur();
-            else
-                CaptureLaunchTargetBackdrop();
         }
         if (!Voidstrap.Utility.Platform.UsesPortableUi)
             panel.CacheMode = new BitmapCache { SnapsToDevicePixels = true };
@@ -6427,110 +6411,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             return;
         int generation = ++_launchTargetOverlayGeneration;
         LaunchTargetOverlay.IsHitTestVisible = false;
-        SetModalUnderlayHidden(false);
         if (Voidstrap.Utility.Platform.IsWindows)
             _modalPanel.CacheMode = new BitmapCache { SnapsToDevicePixels = true };
         AnimateLaunchTargetOverlay(0.0, ModalScaleOffset, ModalCloseFadeDuration, generation, true);
-    }
-
-    private void CaptureLaunchTargetBackdrop()
-    {
-        LaunchTargetBackdrop.Source = null;
-        if (Content is not FrameworkElement root || root.ActualWidth < 2 || root.ActualHeight < 2)
-            return;
-        try
-        {
-            double width = root.ActualWidth;
-            double height = root.ActualHeight;
-            int pixelWidth = Math.Max(2, (int)Math.Ceiling(width * LaunchTargetBackdropScale));
-            int pixelHeight = Math.Max(2, (int)Math.Ceiling(height * LaunchTargetBackdropScale));
-            DrawingVisual frame = new DrawingVisual();
-            using (DrawingContext context = frame.RenderOpen())
-            {
-                VisualBrush brush = new VisualBrush(root)
-                {
-                    Stretch = Stretch.Fill,
-                    ViewboxUnits = BrushMappingMode.Absolute,
-                    Viewbox = new Rect(0, 0, width, height)
-                };
-                Color baseColor = TryFindResource("WindowBackgroundColorPrimary") is Color theme
-                    ? Color.FromRgb(theme.R, theme.G, theme.B)
-                    : Color.FromRgb(0x1C, 0x1C, 0x1E);
-                context.DrawRectangle(new SolidColorBrush(baseColor), null, new Rect(0, 0, pixelWidth, pixelHeight));
-                context.DrawRectangle(brush, null, new Rect(0, 0, pixelWidth, pixelHeight));
-            }
-            RenderTargetBitmap small = new RenderTargetBitmap(pixelWidth, pixelHeight, 96, 96, PixelFormats.Pbgra32);
-            small.Render(frame);
-            small.Freeze();
-
-            int pad = LaunchTargetSnapshotPadding;
-            DrawingGroup padded = new DrawingGroup();
-            using (DrawingContext context = padded.Open())
-            {
-                context.DrawImage(small, new Rect(0, 0, pixelWidth, pixelHeight));
-                context.DrawImage(new CroppedBitmap(small, new Int32Rect(0, 0, 1, pixelHeight)), new Rect(-pad, 0, pad, pixelHeight));
-                context.DrawImage(new CroppedBitmap(small, new Int32Rect(pixelWidth - 1, 0, 1, pixelHeight)), new Rect(pixelWidth, 0, pad, pixelHeight));
-                context.DrawImage(new CroppedBitmap(small, new Int32Rect(0, 0, pixelWidth, 1)), new Rect(0, -pad, pixelWidth, pad));
-                context.DrawImage(new CroppedBitmap(small, new Int32Rect(0, pixelHeight - 1, pixelWidth, 1)), new Rect(0, pixelHeight, pixelWidth, pad));
-                context.DrawImage(new CroppedBitmap(small, new Int32Rect(0, 0, 1, 1)), new Rect(-pad, -pad, pad, pad));
-                context.DrawImage(new CroppedBitmap(small, new Int32Rect(pixelWidth - 1, 0, 1, 1)), new Rect(pixelWidth, -pad, pad, pad));
-                context.DrawImage(new CroppedBitmap(small, new Int32Rect(0, pixelHeight - 1, 1, 1)), new Rect(-pad, pixelHeight, pad, pad));
-                context.DrawImage(new CroppedBitmap(small, new Int32Rect(pixelWidth - 1, pixelHeight - 1, 1, 1)), new Rect(pixelWidth, pixelHeight, pad, pad));
-            }
-            padded.Freeze();
-
-            Image blurred = new Image
-            {
-                Source = new DrawingImage(padded),
-                Width = pixelWidth + pad * 2,
-                Height = pixelHeight + pad * 2,
-                Stretch = Stretch.None,
-                Effect = new System.Windows.Media.Effects.BlurEffect
-                {
-                    Radius = LaunchTargetSnapshotBlurRadius,
-                    KernelType = System.Windows.Media.Effects.KernelType.Gaussian,
-                    RenderingBias = System.Windows.Media.Effects.RenderingBias.Quality
-                }
-            };
-            blurred.Measure(new Size(blurred.Width, blurred.Height));
-            blurred.Arrange(new Rect(0, 0, blurred.Width, blurred.Height));
-            RenderTargetBitmap rendered = new RenderTargetBitmap(pixelWidth + pad * 2, pixelHeight + pad * 2, 96, 96, PixelFormats.Pbgra32);
-            rendered.Render(blurred);
-            CroppedBitmap result = new CroppedBitmap(rendered, new Int32Rect(pad, pad, pixelWidth, pixelHeight));
-            result.Freeze();
-            LaunchTargetBackdrop.Source = result;
-        }
-        catch (Exception ex)
-        {
-            App.Logger.WriteLine("MainWindow::CaptureLaunchTargetBackdrop", "The version picker backdrop could not be blurred: " + ex.Message);
-            LaunchTargetBackdrop.Source = null;
-        }
-    }
-
-    private void ApplyLinuxLaunchTargetBlur()
-    {
-        _launchTargetBlur ??= new System.Windows.Media.Effects.BlurEffect
-        {
-            Radius = LaunchTargetBlurRadius,
-            KernelType = System.Windows.Media.Effects.KernelType.Gaussian,
-            RenderingBias = System.Windows.Media.Effects.RenderingBias.Performance
-        };
-        foreach (UIElement target in LaunchTargetBlurTargets)
-        {
-            if (target.Effect == null)
-                target.Effect = _launchTargetBlur;
-        }
-    }
-
-    private void RemoveLinuxLaunchTargetBlur()
-    {
-        if (_launchTargetBlur == null)
-            return;
-        foreach (UIElement target in LaunchTargetBlurTargets)
-        {
-            if (ReferenceEquals(target.Effect, _launchTargetBlur))
-                target.Effect = null;
-        }
     }
 
     private bool _launchTargetsWarmed;
@@ -6674,17 +6557,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             _modalPanel.CacheMode = null;
         if (_launchTargetOverlayOpen)
             Dispatcher.BeginInvoke(DispatcherPriority.Background, RefreshLaunchTargetStates);
-        SetModalUnderlayHidden(Voidstrap.Utility.Platform.IsWindows && LaunchTargetBackdrop.Source != null);
-    }
-
-    private void SetModalUnderlayHidden(bool hidden)
-    {
-        Visibility visibility = hidden ? Visibility.Hidden : Visibility.Visible;
-        foreach (UIElement target in new UIElement[] { BackgroundLayer, RootGrid, StatusBarHost, TopNavPanel })
-        {
-            if (target.Visibility != Visibility.Collapsed)
-                target.Visibility = visibility;
-        }
     }
 
     private void FinishLaunchTargetClose(int generation)
@@ -6702,9 +6574,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         _modalPanel = null;
         _modalScale = null;
         LaunchTargetOverlay.Visibility = Visibility.Hidden;
-        LaunchTargetBackdrop.Source = null;
-        SetModalUnderlayHidden(false);
-        RemoveLinuxLaunchTargetBlur();
         ReleaseOrphanedCapture();
     }
 
@@ -6747,6 +6616,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     public void ShowRiShadeRelease()
     {
+        if (!Voidstrap.Utility.Platform.IsWindows)
+            return;
         OpenSimpleModal(RiShadeReleasePanel, RiShadeReleasePanelScale);
     }
 
