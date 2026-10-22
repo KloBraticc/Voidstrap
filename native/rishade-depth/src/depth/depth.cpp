@@ -250,12 +250,14 @@ Texture2D<float2> FlowCoarse : register(t4);
 Texture2D<float4> Flow : register(t5);
 Texture2D<float> Prior : register(t6);
 StructuredBuffer<float4> Motion : register(t7);
-Texture2D<float> FusedPrev : register(t8);
+Texture2D<float2> FusedPrev : register(t8);
+Texture2D<float2> RawFused : register(t9);
 RWTexture2D<float> LumaQTarget : register(u0);
 RWTexture2D<float2> FlowCoarseTarget : register(u1);
 RWTexture2D<float4> FlowTarget : register(u2);
 RWStructuredBuffer<float4> MotionTarget : register(u3);
-RWTexture2D<float> FusedTarget : register(u4);
+RWTexture2D<float2> FusedTarget : register(u4);
+RWTexture2D<float2> RawTarget : register(u5);
 
 static const float HalfFieldOfView = 0.6108652;
 static const float FarPlane = 1000.0;
@@ -263,17 +265,28 @@ static const float SkyDistance = 900.0;
 static const float NearestStuds = 2.0;
 static const int CoarseSearch = 6;
 static const int Patch = 2;
-static const float MinParallax = 0.2;
-static const float MeasureRate = 0.5;
-static const float PriorPull = 0.005;
-static const float IdlePull = 0.02;
 static const float LostMatch = 0.12;
 static const float MinTravel = 0.02;
+static const float PriorUncertainty = 0.35;
+static const float PriorFloor = 0.03;
+static const float PriorPersistence = 40.0;
+static const float Drift = 0.01;
+static const float FlowNoise = 0.15;
 static const float CornerScale = 400.0;
+static const float FitConfidence = 0.2;
+static const float TiltDamping = 1.0;
+static const int SettleRadius = 5;
+static const float SettleDepthSigma = 0.6;
+static const float SettleColorSigma = 0.1;
 
 uint2 QuarterSize()
 {
     return (WorkSize + 3) / 4;
+}
+
+float Square(float value)
+{
+    return value * value;
 }
 
 float Focal()
@@ -441,9 +454,9 @@ void Fit(uint3 id : SV_DispatchThreadID, uint thread : SV_GroupIndex)
     {
         uint2 p = uint2(n % columns, n / columns) * 2;
         float4 flow = Flow.Load(int3(p, 0));
-        float known = FusedPrev.Load(int3(p, 0));
+        float known = FusedPrev.Load(int3(p, 0)).x;
         float z = max((known > 0 ? known : Prior.Load(int3(p, 0))) * FarPlane, NearestStuds);
-        float weight = flow.z * (p.y > WorkSize.y * 0.65 ? 1.0 : 0.15);
+        float weight = Prior.Load(int3(p, 0)) * FarPlane > SkyDistance || flow.z < FitConfidence ? 0 : flow.z * (p.y > WorkSize.y * 0.65 ? 1.0 : 0.15);
         if (weight <= 0.01)
             continue;
         float rowX[Unknowns];
@@ -486,6 +499,8 @@ void Fit(uint3 id : SV_DispatchThreadID, uint thread : SV_GroupIndex)
     }
     for (int r2 = 0; r2 < Unknowns; ++r2)
         m[r2][r2] += trace * 1e-5 + 1e-6;
+    m[0][0] *= 1 + TiltDamping;
+    m[4][4] *= 1 + TiltDamping;
     for (int c = 0; c < Unknowns; ++c)
     {
         float pivot = m[c][c];
@@ -508,7 +523,7 @@ void Fit(uint3 id : SV_DispatchThreadID, uint thread : SV_GroupIndex)
     MotionTarget[1] = float4(second, valid ? 1 : 0, travel);
 }
 
-float LoadPrevious(float2 position)
+float2 LoadPrevious(float2 position)
 {
     float2 texel = position - 0.5;
     if (any(texel < -0.5) || any(texel > float2(WorkSize) - 0.5))
@@ -516,12 +531,14 @@ float LoadPrevious(float2 position)
     int2 base = int2(floor(texel));
     float2 t = texel - base;
     int2 high = int2(WorkSize) - 1;
-    float a = FusedPrev.Load(int3(clamp(base, 0, high), 0));
-    float b = FusedPrev.Load(int3(clamp(base + int2(1, 0), 0, high), 0));
-    float c = FusedPrev.Load(int3(clamp(base + int2(0, 1), 0, high), 0));
-    float e = FusedPrev.Load(int3(clamp(base + int2(1, 1), 0, high), 0));
-    float value = lerp(lerp(a, b, t.x), lerp(c, e, t.x), t.y);
-    return min(min(a, b), min(c, e)) > 0 ? value : -1;
+    float2 a = FusedPrev.Load(int3(clamp(base, 0, high), 0));
+    float2 b = FusedPrev.Load(int3(clamp(base + int2(1, 0), 0, high), 0));
+    float2 c = FusedPrev.Load(int3(clamp(base + int2(0, 1), 0, high), 0));
+    float2 e = FusedPrev.Load(int3(clamp(base + int2(1, 1), 0, high), 0));
+    if (min(min(a.x, b.x), min(c.x, e.x)) <= 0)
+        return -1;
+    float2 inverse = lerp(lerp(float2(1 / a.x, a.y), float2(1 / b.x, b.y), t.x), lerp(float2(1 / c.x, c.y), float2(1 / e.x, e.y), t.x), t.y);
+    return float2(1 / inverse.x, inverse.y);
 }
 
 [numthreads(16, 16, 1)]
@@ -530,13 +547,23 @@ void Fuse(uint3 id : SV_DispatchThreadID)
     if (any(id.xy >= WorkSize))
         return;
     float prior = max(Prior.Load(int3(id.xy, 0)) * FarPlane, NearestStuds);
+    float priorInverse = 1 / prior;
+    float priorVariance = Square(PriorUncertainty * priorInverse) + (prior > SkyDistance ? Square(PriorFloor) : 0);
     float4 flow = Flow.Load(int3(id.xy, 0));
-    float previous = LoadPrevious(id.xy + 0.5 - flow.xy);
-    float logDepth = previous > 0 ? log(previous * FarPlane) : log(prior);
+    float2 previous = LoadPrevious(id.xy + 0.5 - flow.xy);
+    float inverse = priorInverse;
+    float variance = priorVariance;
+    if (previous.x > 0 && flow.w <= LostMatch)
+    {
+        inverse = 1 / (previous.x * FarPlane);
+        variance = previous.y + Square(Drift * inverse);
+    }
+    float settleVariance = priorVariance * PriorPersistence;
+    inverse = (inverse * settleVariance + priorInverse * variance) / (variance + settleVariance);
+    variance = variance * settleVariance / (variance + settleVariance);
     float4 first = Motion[0];
     float4 second = Motion[1];
-    float weight = 0;
-    if (second.z > 0)
+    if (second.z > 0 && flow.z > 0.01)
     {
         float focal = Focal();
         float2 centre = WorkSize * 0.5;
@@ -544,22 +571,47 @@ void Fuse(uint3 id : SV_DispatchThreadID)
         float y = id.y + 0.5 - centre.y;
         float2 direction = float2(x * second.y - focal * first.w, y * second.y - focal * second.x);
         float2 residual = flow.xy - RotationFlow(x, y, focal, first.xyz);
-        float along = dot(direction, residual);
         float strength = dot(direction, direction);
-        float parallax = length(residual);
-        if (along > 0 && strength > 1e-8 && parallax > MinParallax)
+        if (strength > 1e-8)
         {
-            float measured = clamp(strength / along, NearestStuds, FarPlane);
-            float across = abs(direction.x * residual.y - direction.y * residual.x) / sqrt(strength);
-            float agreement = saturate(1 - across / (0.3 + 0.25 * parallax));
-            weight = flow.z * agreement * saturate((parallax - MinParallax) * 2);
-            logDepth = lerp(logDepth, log(measured), MeasureRate * weight);
+            float length = sqrt(strength);
+            float measured = max(dot(direction, residual) / strength, 1 / FarPlane);
+            float across = abs(direction.x * residual.y - direction.y * residual.x) / length;
+            float spread = FlowNoise + across;
+            float measuredVariance = Square(spread / length) / max(flow.z, 0.05);
+            inverse = (inverse * measuredVariance + measured * variance) / (variance + measuredVariance);
+            variance = variance * measuredVariance / (variance + measuredVariance);
         }
     }
-    logDepth = lerp(logDepth, log(prior), weight > 0 ? PriorPull : IdlePull);
-    if (previous <= 0 || flow.w > LostMatch)
-        logDepth = lerp(logDepth, log(prior), 0.5);
-    FusedTarget[id.xy] = clamp(exp(logDepth), NearestStuds, FarPlane) / FarPlane;
+    float distance = clamp(1 / max(inverse, 1 / FarPlane), NearestStuds, FarPlane);
+    RawTarget[id.xy] = float2(distance / FarPlane, variance);
+}
+
+[numthreads(16, 16, 1)]
+void Settle(uint3 id : SV_DispatchThreadID)
+{
+    if (any(id.xy >= WorkSize))
+        return;
+    int2 high = int2(WorkSize) - 1;
+    float3 color = Guide.Load(int3(id.xy, 0)).rgb;
+    float2 raw = RawFused.Load(int3(id.xy, 0));
+    float centre = log(max(raw.x * FarPlane, NearestStuds));
+    float sum = 0;
+    float weights = 0;
+    for (int y = -SettleRadius; y <= SettleRadius; ++y)
+        for (int x = -SettleRadius; x <= SettleRadius; ++x)
+        {
+            int2 texel = clamp(int2(id.xy) + int2(x, y), 0, high);
+            float value = log(max(RawFused.Load(int3(texel, 0)).x * FarPlane, NearestStuds));
+            float3 difference = Guide.Load(int3(texel, 0)).rgb - color;
+            float gap = (value - centre) / SettleDepthSigma;
+            float weight = exp(-(x * x + y * y) / (2 * SettleRadius * SettleRadius)) *
+                           exp(-dot(difference, difference) / (2 * SettleColorSigma * SettleColorSigma)) *
+                           saturate(1 - gap * gap);
+            sum += weight * value;
+            weights += weight;
+        }
+    FusedTarget[id.xy] = float2(clamp(exp(sum / max(weights, 1e-6)), NearestStuds, FarPlane) / FarPlane, raw.y);
 }
 )";
 
@@ -582,6 +634,7 @@ constexpr ShaderEntry kEntryPoints[] = {
     { kMotionShaders, sizeof(kMotionShaders) - 1, "MatchFine" },
     { kMotionShaders, sizeof(kMotionShaders) - 1, "Fit" },
     { kMotionShaders, sizeof(kMotionShaders) - 1, "Fuse" },
+    { kMotionShaders, sizeof(kMotionShaders) - 1, "Settle" },
 };
 
 enum Shader : size_t
@@ -597,6 +650,7 @@ enum Shader : size_t
     MatchFineShader,
     FitShader,
     FuseShader,
+    SettleShader,
 };
 
 constexpr float kTemporal = 0.55f;
@@ -652,6 +706,9 @@ struct Depth
     std::array<winrt::com_ptr<ID3D11Texture2D>, 2> fused;
     std::array<winrt::com_ptr<ID3D11UnorderedAccessView>, 2> fusedTarget;
     std::array<winrt::com_ptr<ID3D11ShaderResourceView>, 2> fusedView;
+    winrt::com_ptr<ID3D11Texture2D> rawFused;
+    winrt::com_ptr<ID3D11UnorderedAccessView> rawFusedTarget;
+    winrt::com_ptr<ID3D11ShaderResourceView> rawFusedView;
     size_t fusedIndex = 0;
     bool hasPrevious = false;
     std::vector<reshade::api::effect_runtime*> runtimes;
@@ -712,7 +769,7 @@ void CompileShaders()
     CreateShaders();
 }
 
-void Dispatch(Shader shader, std::array<ID3D11ShaderResourceView*, 9> views, std::array<ID3D11UnorderedAccessView*, 6> targets, UINT x, UINT y)
+void Dispatch(Shader shader, std::array<ID3D11ShaderResourceView*, 10> views, std::array<ID3D11UnorderedAccessView*, 6> targets, UINT x, UINT y)
 {
     ID3D11Buffer* constants[] = { d.sizes.get() };
     g.context->CSSetShader(d.shaders[shader].get(), nullptr, 0);
@@ -736,6 +793,9 @@ void ReleaseTargets()
         d.fusedTarget[i] = nullptr;
         d.fused[i] = nullptr;
     }
+    d.rawFusedView = nullptr;
+    d.rawFusedTarget = nullptr;
+    d.rawFused = nullptr;
     d.motionView = nullptr;
     d.motionTarget = nullptr;
     d.motion = nullptr;
@@ -880,7 +940,8 @@ void Resize(const D3D11_TEXTURE2D_DESC& frame)
     CreateTexture(d.workWidth, d.workHeight, DXGI_FORMAT_R32G32B32A32_FLOAT, d.flow, d.flowTarget, d.flowView);
     CreateBuffer(2, 4 * sizeof(float), d.motion, d.motionTarget, d.motionView);
     for (size_t i = 0; i < 2; ++i)
-        CreateTexture(d.workWidth, d.workHeight, DXGI_FORMAT_R32_FLOAT, d.fused[i], d.fusedTarget[i], d.fusedView[i]);
+        CreateTexture(d.workWidth, d.workHeight, DXGI_FORMAT_R32G32_FLOAT, d.fused[i], d.fusedTarget[i], d.fusedView[i]);
+    CreateTexture(d.workWidth, d.workHeight, DXGI_FORMAT_R32G32_FLOAT, d.rawFused, d.rawFusedTarget, d.rawFusedView);
 
     const float zero[4] = {};
     const UINT zeroUint[4] = {};
@@ -929,6 +990,8 @@ void Estimate()
     Dispatch(FitShader, { nullptr, nullptr, nullptr, nullptr, nullptr, d.flowView.get(), d.workDepthView.get(), nullptr, d.fusedView[previous].get() },
              { nullptr, nullptr, nullptr, d.motionTarget.get() }, 1, 1);
     Dispatch(FuseShader, { nullptr, nullptr, nullptr, nullptr, nullptr, d.flowView.get(), d.workDepthView.get(), d.motionView.get(), d.fusedView[previous].get() },
+             { nullptr, nullptr, nullptr, nullptr, nullptr, d.rawFusedTarget.get() }, workX, workY);
+    Dispatch(SettleShader, { guide, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.rawFusedView.get() },
              { nullptr, nullptr, nullptr, nullptr, d.fusedTarget[current].get() }, workX, workY);
     Dispatch(UpsampleShader, { d.frameView.get(), guide, nullptr, nullptr, d.fusedView[current].get() }, { nullptr, nullptr, nullptr, nullptr, d.textureTarget.get() },
              (d.sourceWidth + 15) / 16, (d.sourceHeight + 15) / 16);
