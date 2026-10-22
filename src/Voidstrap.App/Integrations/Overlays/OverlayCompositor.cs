@@ -505,9 +505,82 @@ namespace Voidstrap.Integrations.Overlays
 
         private static readonly FeatureLevel[] _featureLevels = new[] { FeatureLevel.Level_11_1, FeatureLevel.Level_11_0 };
 
+        private bool _riWrapped;
+        private static bool s_reshadeLoadedUnwrapped;
+        private static IntPtr _reshadeCreateFactory;
+        private static IntPtr _reshadeCreateDevice;
+        private bool _riWaitingLogged;
+
+        private bool LoadReShadeForWrapping()
+        {
+            if (_reshadeCreateDevice != IntPtr.Zero)
+                return true;
+            if (!App.Settings.Prop.RiShadeEnabled || !RiShadeManager.DlssInstalled || !File.Exists(RiShadeManager.DxgiDllPath))
+                return false;
+            try
+            {
+                if (s_reshadeLoadedUnwrapped)
+                {
+                    App.Logger.WriteLine(LOG_IDENT, "ReShade was already loaded without its graphics wrapper in this Voidstrap session, restart Voidstrap for DLSS");
+                    return false;
+                }
+                Environment.SetEnvironmentVariable("RESHADE_DISABLE_GRAPHICS_HOOK", null);
+                Environment.SetEnvironmentVariable("RESHADE_DISABLE_LOGGING", null);
+                if (!RiShadeInterop.PrepareConfig(RiShadeManager.RiShadeDir))
+                    return false;
+                NativeLibrary.Load(Path.Combine(Environment.SystemDirectory, "d3d11.dll"));
+                if (!RiShadeInterop.RuntimeLoad(RiShadeManager.DxgiDllPath))
+                    return false;
+                IntPtr module = NativeLibrary.Load(RiShadeManager.DxgiDllPath);
+                if (!NativeLibrary.TryGetExport(module, "CreateDXGIFactory2", out _reshadeCreateFactory)
+                    || !NativeLibrary.TryGetExport(module, "D3D11CreateDevice", out _reshadeCreateDevice))
+                {
+                    _reshadeCreateFactory = IntPtr.Zero;
+                    _reshadeCreateDevice = IntPtr.Zero;
+                    return false;
+                }
+                App.Logger.WriteLine(LOG_IDENT, "DLSS is on, the compositor device and swapchain go through ReShade, its log is ReShade.log in the RiShade folder");
+                return true;
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteException("OverlayCompositor::LoadReShadeForWrapping", ex);
+                return false;
+            }
+        }
+
+        private unsafe IDXGIFactory2 CreateWrappedFactory()
+        {
+            Guid iid = typeof(IDXGIFactory2).GUID;
+            IntPtr factory = IntPtr.Zero;
+            int hr = ((delegate* unmanaged[Stdcall]<uint, Guid*, IntPtr*, int>)_reshadeCreateFactory)(0, &iid, &factory);
+            Marshal.ThrowExceptionForHR(hr);
+            return new IDXGIFactory2(factory);
+        }
+
+        private unsafe SharpGen.Runtime.Result CreateWrappedDevice(IDXGIAdapter? adapter, DriverType driverType, DeviceCreationFlags flags)
+        {
+            IntPtr device = IntPtr.Zero;
+            IntPtr context = IntPtr.Zero;
+            FeatureLevel level;
+            int hr;
+            fixed (FeatureLevel* levels = _featureLevels)
+            {
+                hr = ((delegate* unmanaged[Stdcall]<IntPtr, int, IntPtr, uint, FeatureLevel*, uint, uint, IntPtr*, FeatureLevel*, IntPtr*, int>)_reshadeCreateDevice)(
+                    adapter?.NativePointer ?? IntPtr.Zero, (int)driverType, IntPtr.Zero, (uint)flags, levels, (uint)_featureLevels.Length, 7, &device, &level, &context);
+            }
+            if (hr >= 0)
+            {
+                _device = new ID3D11Device(device);
+                _context = new ID3D11DeviceContext(context);
+            }
+            return new SharpGen.Runtime.Result(hr);
+        }
+
         private void CreateDevice()
         {
-            _factory = DXGI.CreateDXGIFactory2<IDXGIFactory2>(false);
+            _riWrapped = LoadReShadeForWrapping();
+            _factory = _riWrapped ? CreateWrappedFactory() : DXGI.CreateDXGIFactory2<IDXGIFactory2>(false);
 
             IDXGIAdapter1? chosen = FindRobloxRenderAdapter();
             try
@@ -644,6 +717,11 @@ namespace Voidstrap.Integrations.Overlays
 
         private SharpGen.Runtime.Result CreateD3DDevice(IDXGIAdapter? adapter, DriverType driverType)
         {
+            if (_riWrapped)
+            {
+                SharpGen.Runtime.Result wrapped = CreateWrappedDevice(adapter, driverType, DeviceCreationFlags.BgraSupport | DeviceCreationFlags.VideoSupport);
+                return wrapped.Success ? wrapped : CreateWrappedDevice(adapter, driverType, DeviceCreationFlags.BgraSupport);
+            }
             SharpGen.Runtime.Result result = D3D11.D3D11CreateDevice(adapter, driverType, DeviceCreationFlags.BgraSupport | DeviceCreationFlags.VideoSupport, _featureLevels, out _device, out _context);
             if (result.Success)
                 return result;
@@ -771,6 +849,26 @@ namespace Voidstrap.Integrations.Overlays
                     return;
                 }
 
+                if (_riWrapped)
+                {
+                    _riRuntime = RiShadeInterop.ActiveRuntime();
+                    if (_riRuntime == IntPtr.Zero)
+                    {
+                        _riRuntimeRetryAt = Environment.TickCount64 + 500;
+                        if (!_riWaitingLogged)
+                        {
+                            _riWaitingLogged = true;
+                            App.Logger.WriteLine(LOG_IDENT, "Waiting for ReShade to create its runtime on the wrapped compositor swapchain");
+                        }
+                        return;
+                    }
+                    _riWaitingLogged = false;
+                    RiShadeManager.SetRuntime(_riRuntime);
+                    _riRuntimeRetryAt = 0;
+                    App.Logger.WriteLine(LOG_IDENT, "Using ReShade's own runtime on the wrapped compositor swapchain");
+                    return;
+                }
+
                 Environment.SetEnvironmentVariable("RESHADE_DISABLE_LOGGING", "1");
                 Environment.SetEnvironmentVariable("RESHADE_DISABLE_GRAPHICS_HOOK", "1");
                 if (!RiShadeInterop.PrepareConfig(RiShadeManager.RiShadeDir))
@@ -779,8 +877,6 @@ namespace Voidstrap.Integrations.Overlays
                     return;
                 }
 
-                if (File.Exists(Path.Combine(RiShadeManager.RiShadeDir, ".rishade-addon-guard")))
-                    App.Logger.WriteLine(LOG_IDENT, "ReShade add-ons in the RiShade folder are skipped because the last session stopped while loading them, turn DLSS off and on again to retry");
                 if (!RiShadeInterop.RuntimeLoad(RiShadeManager.DxgiDllPath))
                 {
                     if (!_riMissingRuntimeLogged)
@@ -790,6 +886,7 @@ namespace Voidstrap.Integrations.Overlays
                     }
                     return;
                 }
+                s_reshadeLoadedUnwrapped = true;
                 _riMissingRuntimeLogged = false;
 
                 if (RiShadeManager.DepthBridgeAvailable)
@@ -893,6 +990,11 @@ namespace Voidstrap.Integrations.Overlays
 
             RiShadeManager.SetRuntime(IntPtr.Zero);
             _riPresentFailureLogged = false;
+            if (_riWrapped)
+            {
+                _riRuntime = IntPtr.Zero;
+                return;
+            }
             try
             {
                 RiShadeInterop.RuntimeDestroy(_riRuntime);
@@ -2162,7 +2264,7 @@ namespace Voidstrap.Integrations.Overlays
 
             bool riRendered = false;
             ID3D11ShaderResourceView composited = _rawSrv!;
-            if (App.Settings.Prop.RiShadeEnabled && _riRuntime != IntPtr.Zero && RiShadeManager.HasLoadablePreset && _stageRtv[0] != null && _stageSrv[0] != null)
+            if (!_riWrapped && App.Settings.Prop.RiShadeEnabled && _riRuntime != IntPtr.Zero && RiShadeManager.HasLoadablePreset && _stageRtv[0] != null && _stageSrv[0] != null)
             {
                 try
                 {
@@ -3250,7 +3352,7 @@ namespace Voidstrap.Integrations.Overlays
             if (FrameGenSettings.ModeIndex > 0)
                 DrawFrameGenStatus();
             DrawCrosshair();
-            if (App.Settings.Prop.RiShadeEnabled && _riRuntime != IntPtr.Zero)
+            if (!_riWrapped && App.Settings.Prop.RiShadeEnabled && _riRuntime != IntPtr.Zero)
             {
                 try
                 {

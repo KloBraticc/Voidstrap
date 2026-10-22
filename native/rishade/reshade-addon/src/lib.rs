@@ -5,7 +5,7 @@ mod plugin;
 
 #[cfg(windows)]
 pub use plugin::{
-    RiShadeAddonCopyCurrentPresetPath, RiShadeAddonIsCompilingEffects, RiShadeAddonIsInitialized,
+    RiShadeAddonActiveRuntime, RiShadeAddonCopyCurrentPresetPath, RiShadeAddonIsCompilingEffects, RiShadeAddonIsInitialized,
     RiShadeAddonIsLoadingEffects, RiShadeAddonIsOverlayOpen, RiShadeAddonRuntimeIsActive,
     RiShadeRenderEffects, RiShadeRuntimeBindDepthTexture, RiShadeRuntimeCreate,
     RiShadeRuntimeDestroy, RiShadeRuntimeLoad, RiShadeRuntimeOpenOverlay, RiShadeRuntimePresent,

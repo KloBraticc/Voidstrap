@@ -219,7 +219,8 @@ pub fn prepare_reshade_config(directory: &Path) -> io::Result<()> {
     let kept_str = kept.join(",");
     let _ = ini.set("ADDON", "DisabledAddons", &kept_str);
 
-    let _ = ini.set("GENERAL", "NoLogging", "1");
+    let wrapped = directory.join(crate::dlss::ADDON_FILE).exists();
+    let _ = ini.set("GENERAL", "NoLogging", if wrapped { "0" } else { "1" });
     let _ = ini.set("OVERLAY", "TutorialProgress", "4");
     let _ = ini.set("OVERLAY", "ShowPresetTransitionMessage", "0");
     let _ = ini.set("INSTALL", "Logging", "0");

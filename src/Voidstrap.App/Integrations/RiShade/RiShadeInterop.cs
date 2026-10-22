@@ -53,6 +53,9 @@ namespace Voidstrap.Integrations.RiShade
         [return: MarshalAs(UnmanagedType.I1)]
         public static partial bool RuntimeSelectPreset(IntPtr runtime, string presetPath);
 
+        [LibraryImport("rishade_reshade_addon", EntryPoint = "RiShadeAddonActiveRuntime")]
+        public static partial IntPtr ActiveRuntime();
+
         [LibraryImport("rishade_reshade_addon", EntryPoint = "RiShadeAddonCopyCurrentPresetPath")]
         public static partial nuint CopyCurrentPresetPath(IntPtr buffer, nuint capacity);
 
