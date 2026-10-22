@@ -40,16 +40,21 @@ RWTexture2D<float> Depth : register(u4);
 RWTexture2D<float4> BlurredTarget : register(u5);
 
 static const float FarPlane = 1000.0;
-static const float Nearest = 0.01;
-static const float NearGround = 0.035;
+static const float Nearest = 0.002;
+static const float HalfFieldOfView = 0.6108652;
+static const float FocusHeight = 4.5;
+static const float CameraZoom = 12.5;
+static const float DefaultPitch = 0.35;
+static const float HorizonPercentile = 0.8;
 static const float InterfaceBand = 0.07;
 static const float SkyEdge = 0.035;
 static const float SkyDrift = 0.35;
 static const float ObjectEdge = 0.06;
-static const float Relax = 0.12;
+static const float Relax = 0.03;
 static const float HazeReach = 0.5;
 static const float HazeWeight = 0.7;
 static const float HazeLimit = 3.0;
+static const float HazeStart = 0.1;
 static const int BlurRadius = 3;
 static const float SpatialSigma = 1.4;
 static const float ColorSigma = 0.18;
@@ -135,13 +140,13 @@ void Horizon(uint3 id : SV_DispatchThreadID, uint thread : SV_GroupIndex)
     float3 skyColor;
     if (skyColumns >= WorkSize.x * 0.15)
     {
-        uint half = uint(skyColumns) / 2;
+        uint wanted = uint(skyColumns * HorizonPercentile);
         uint seen = 0;
         uint bin = 0;
         for (; bin < 255; ++bin)
         {
             seen += Histogram[bin];
-            if (seen > half)
+            if (seen > wanted)
                 break;
         }
         horizon = (bin + 0.5) * WorkSize.y / 256;
@@ -149,7 +154,8 @@ void Horizon(uint3 id : SV_DispatchThreadID, uint thread : SV_GroupIndex)
     }
     else
     {
-        horizon = -0.6 * WorkSize.y;
+        float focal = WorkSize.y * 0.5 / tan(HalfFieldOfView);
+        horizon = previous.w > 0 ? previous.x : WorkSize.y * 0.5 - focal * tan(DefaultPitch);
         skyColor = previousSky.w > 0 ? previousSky.rgb : float3(0.62, 0.72, 0.85);
     }
     if (previous.w > 0)
@@ -168,8 +174,10 @@ void Columns(uint3 id : SV_DispatchThreadID)
         return;
     float horizon = Scene[0].x;
     float3 skyColor = Scene[1].rgb;
-    float bottom = max((WorkSize.y - horizon) / WorkSize.y, 0.05);
-    float scale = NearGround * bottom;
+    float center = WorkSize.y * 0.5;
+    float focal = center / tan(HalfFieldOfView);
+    float pitch = clamp(atan((center - horizon) / focal), -0.2, 1.4);
+    float cameraHeight = FocusHeight + CameraZoom * sin(max(pitch, 0));
     uint skyEnd = SkyEnd[id.x];
     float carried = 1;
     float3 below = 0;
@@ -183,10 +191,11 @@ void Columns(uint3 id : SV_DispatchThreadID)
         }
         else
         {
-            float height = (y + 0.5 - horizon) / WorkSize.y;
-            float ground = height > 0.002 ? clamp(scale / height, Nearest, 1) : 1;
+            float offAxis = atan((y + 0.5 - center) / focal);
+            float descent = pitch + offAxis;
+            float ground = descent > 0.002 ? clamp(cameraHeight / sin(descent) * cos(offAxis) / FarPlane, Nearest, 1) : 1;
             float haze = saturate(1 - length(color - skyColor) / HazeReach);
-            float estimate = max(ground, min(haze * haze * HazeWeight, ground * HazeLimit));
+            float estimate = max(ground, min(haze * haze * HazeWeight, ground * HazeLimit) * smoothstep(HazeStart * 0.5, HazeStart, ground));
             bool joined = y < int(WorkSize.y) - 1 && length(color - below) < ObjectEdge;
             distance = joined ? min(estimate, lerp(carried, estimate, Relax)) : estimate;
         }
