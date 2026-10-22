@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -29,6 +30,8 @@ public static class Deployment
 	private const int MaxCachedVersions = 16;
 
 	private const int MaxVersionResponseBytes = 1048576;
+
+	private static readonly TimeSpan HostTimeout = TimeSpan.FromSeconds(12);
 
 	private static readonly Dictionary<string, int> BaseUrls;
 
@@ -92,13 +95,15 @@ public static class Deployment
 			string url = host + path;
 			try
 			{
-				using HttpResponseMessage response = await SharedHttp.GetAsync(url, cancellationToken).ConfigureAwait(false);
+				using CancellationTokenSource hostTimeout = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
+				hostTimeout.CancelAfter(HostTimeout);
+				using HttpResponseMessage response = await SharedHttp.GetAsync(url, hostTimeout.Token).ConfigureAwait(false);
 				if (!response.IsSuccessStatusCode)
 				{
 					lastError = new HttpRequestException($"Request failed: {(int)response.StatusCode}", null, response.StatusCode);
 					continue;
 				}
-				string text = await Voidstrap.Utility.Http.ReadStringBoundedAsync(response.Content, MaxVersionResponseBytes, cancellationToken).ConfigureAwait(false);
+				string text = await Voidstrap.Utility.Http.ReadStringBoundedAsync(response.Content, MaxVersionResponseBytes, hostTimeout.Token).ConfigureAwait(false);
 				if (string.IsNullOrWhiteSpace(text) || text.TrimStart().StartsWith('<'))
 				{
 					lastError = new InvalidHTTPResponseException("Invalid JSON response from " + url);
@@ -139,6 +144,13 @@ public static class Deployment
 			CacheVersion(cacheKey, clientVersion);
 			resolvedChannel?.Invoke(channel);
 			return clientVersion;
+		}
+		catch (Exception ex) when (IsUnreachableError(ex, cancellationToken) && TryLoadKnownVersion(cacheKey, out ClientVersion? known))
+		{
+			App.Logger.WriteLine("Deployment::GetInfo", "Roblox deployment services could not be reached (" + ex.Message + "), using the last known version " + known.VersionGuid);
+			ClientVersionCache[cacheKey] = known;
+			resolvedChannel?.Invoke(channel);
+			return known;
 		}
 		catch (HttpRequestException ex) when (!isDefault && fallbackToProduction && BadChannelCodes.Contains(ex.StatusCode))
 		{
@@ -181,8 +193,71 @@ public static class Deployment
 			throw new ArgumentException("The Roblox deployment binary type is invalid", nameof(binaryType));
 	}
 
+	private static readonly object KnownVersionsLock = new();
+
+	private static string KnownVersionsPath => Path.Combine(Paths.Cache, "DeployInfo.json");
+
+	private static bool IsUnreachableError(Exception ex, CancellationToken cancellationToken)
+	{
+		if (cancellationToken.IsCancellationRequested)
+			return false;
+		if (ex is HttpRequestException { StatusCode: { } status })
+			return (int)status >= 500;
+		return ex is HttpRequestException or TaskCanceledException or InvalidHTTPResponseException or JsonException or IOException;
+	}
+
+	private static Dictionary<string, ClientVersion> ReadKnownVersions()
+	{
+		try
+		{
+			if (!string.IsNullOrEmpty(Paths.Cache) && File.Exists(KnownVersionsPath))
+				return JsonSerializer.Deserialize<Dictionary<string, ClientVersion>>(File.ReadAllText(KnownVersionsPath), CaseInsensitiveJson) ?? new();
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("Deployment::ReadKnownVersions", "The saved deploy info could not be read: " + ex.Message);
+		}
+		return new();
+	}
+
+	private static bool TryLoadKnownVersion(string key, [System.Diagnostics.CodeAnalysis.NotNullWhen(true)] out ClientVersion? version)
+	{
+		lock (KnownVersionsLock)
+		{
+			if (ReadKnownVersions().TryGetValue(key, out version) && AppData.CommonAppData.IsVersionGuidValid(version.VersionGuid))
+				return true;
+		}
+		version = null;
+		return false;
+	}
+
+	private static void SaveKnownVersion(string key, ClientVersion version)
+	{
+		if (string.IsNullOrEmpty(Paths.Cache) || !AppData.CommonAppData.IsVersionGuidValid(version.VersionGuid))
+			return;
+		lock (KnownVersionsLock)
+		{
+			try
+			{
+				Dictionary<string, ClientVersion> known = ReadKnownVersions();
+				if (known.TryGetValue(key, out ClientVersion? existing) && existing.VersionGuid == version.VersionGuid)
+					return;
+				known[key] = version;
+				Directory.CreateDirectory(Paths.Cache);
+				string temp = KnownVersionsPath + ".tmp";
+				File.WriteAllText(temp, JsonSerializer.Serialize(known));
+				File.Move(temp, KnownVersionsPath, true);
+			}
+			catch (Exception ex)
+			{
+				App.Logger.WriteLine("Deployment::SaveKnownVersion", "The deploy info could not be saved: " + ex.Message);
+			}
+		}
+	}
+
 	private static void CacheVersion(string key, ClientVersion version)
 	{
+		SaveKnownVersion(key, version);
 		if (ClientVersionCache.TryAdd(key, version))
 		{
 			ClientVersionCacheOrder.Enqueue(key);
