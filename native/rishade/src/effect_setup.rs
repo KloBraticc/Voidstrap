@@ -215,6 +215,35 @@ pub fn install_effects_and_presets(root: &Path) -> io::Result<InstallSummary> {
     Ok(summary)
 }
 
+const UPGRADED_PRESETS: [(&str, &str); 1] = [(
+    "RiShade Reflections.ini",
+    "afdcf21fa758ef1a229d9a350738b5f7a76b8f90044fa2fafb3d8df67ad4c68a",
+)];
+
+pub fn upgrade_unmodified_presets(root: &Path) {
+    let directory = root.join("presets");
+    for (name, previous_hash) in UPGRADED_PRESETS {
+        let path = directory.join(name);
+        if !fs::symlink_metadata(&path).is_ok_and(|metadata| metadata.is_file()) {
+            continue;
+        }
+        let unmodified = fs::read(&path)
+            .is_ok_and(|bytes| format!("{:x}", Sha256::digest(bytes)) == previous_hash);
+        let Some((_, data)) = BUNDLED_PRESETS
+            .iter()
+            .find(|(bundled, _)| bundled.eq_ignore_ascii_case(name))
+        else {
+            continue;
+        };
+        if unmodified {
+            let staged = directory.join(format!("{name}.upgrade"));
+            if fs::write(&staged, data).is_ok() && fs::rename(&staged, &path).is_err() {
+                let _ = fs::remove_file(&staged);
+            }
+        }
+    }
+}
+
 pub fn migrate_renamed_presets(root: &Path) {
     let directory = root.join("presets");
     for (old, new, original_hash) in RENAMED_PRESETS {
@@ -979,6 +1008,30 @@ mod tests {
         );
         assert!(!presets.join("RiShade Glow.ini").exists());
         fs::remove_dir_all(root).unwrap();
+    }
+
+    #[test]
+    fn upgrades_only_unmodified_presets() {
+        let root = tempfile::tempdir().unwrap();
+        let presets = root.path().join("presets");
+        fs::create_dir_all(&presets).unwrap();
+        let (_, current) = BUNDLED_PRESETS
+            .iter()
+            .find(|(name, _)| *name == "RiShade Reflections.ini")
+            .unwrap();
+        let mut previous = String::from_utf8(current.to_vec()).unwrap();
+        previous = previous
+            .replace("SSR_FIELD_OF_VIEW=70.000000", "SSR_FIELD_OF_VIEW=50.000000")
+            .replace("SSR_JITTER_AMOUNT=0.350000", "SSR_JITTER_AMOUNT=0.800000")
+            .replace("SSR_ACCEPT_RANGE=0.200000", "SSR_ACCEPT_RANGE=0.350000");
+        assert_eq!(format!("{:x}", Sha256::digest(previous.as_bytes())), UPGRADED_PRESETS[0].1);
+        fs::write(presets.join("RiShade Reflections.ini"), &previous).unwrap();
+        upgrade_unmodified_presets(root.path());
+        assert_eq!(fs::read(presets.join("RiShade Reflections.ini")).unwrap(), *current);
+
+        fs::write(presets.join("RiShade Reflections.ini"), b"user edited").unwrap();
+        upgrade_unmodified_presets(root.path());
+        assert_eq!(fs::read(presets.join("RiShade Reflections.ini")).unwrap(), b"user edited");
     }
 
     #[test]
