@@ -1,5 +1,5 @@
 use std::ffi::{CStr, CString, c_char, c_void};
-use std::os::windows::ffi::OsStringExt;
+use std::os::windows::ffi::{OsStrExt, OsStringExt};
 use std::path::{Path, PathBuf};
 use std::sync::Mutex;
 use std::sync::atomic::{AtomicBool, AtomicUsize, Ordering};
@@ -71,53 +71,65 @@ type CreateEffectRuntime = unsafe extern "system" fn(
     *mut *mut c_void,
 ) -> bool;
 type DestroyEffectRuntime = unsafe extern "system" fn(*mut c_void);
-type CreateDevice = unsafe extern "system" fn(
-    *mut c_void,
-    u32,
-    *mut c_void,
-    u32,
-    *const u32,
-    u32,
-    u32,
-    *mut *mut c_void,
-    *mut u32,
-    *mut *mut c_void,
-) -> i32;
+static FOLDER_ADDONS_LOADED: AtomicUsize = AtomicUsize::new(0);
+static ADDON_GUARD_PATH: Mutex<Option<PathBuf>> = Mutex::new(None);
+static HEALTHY_PRESENTS: AtomicUsize = AtomicUsize::new(0);
 
-const D3D_DRIVER_TYPE_HARDWARE: u32 = 1;
-const D3D11_SDK_VERSION: u32 = 7;
-const D3D_FEATURE_LEVEL_11_0: u32 = 0xB000;
+pub const ADDON_GUARD_FILE: &str = ".rishade-addon-guard";
+const HEALTHY_PRESENT_COUNT: usize = 300;
 
-static ADDON_HOST_DEVICE: AtomicUsize = AtomicUsize::new(0);
-static ADDON_HOST_CONTEXT: AtomicUsize = AtomicUsize::new(0);
+fn clear_addon_guard() {
+    if let Ok(mut guard) = ADDON_GUARD_PATH.lock()
+        && let Some(path) = guard.take()
+    {
+        let _ = std::fs::remove_file(path);
+    }
+}
 
-unsafe fn load_folder_addons(module: Module) {
-    if ADDON_HOST_DEVICE.load(Ordering::Acquire) != 0 {
+const LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR: u32 = 0x00000100;
+const LOAD_LIBRARY_SEARCH_DEFAULT_DIRS: u32 = 0x00001000;
+
+unsafe fn load_folder_addons(runtime_path: &std::path::Path) {
+    if FOLDER_ADDONS_LOADED.swap(1, Ordering::AcqRel) != 0 {
         return;
     }
-    let Some(create) = (unsafe { symbol::<CreateDevice>(module, b"D3D11CreateDevice\0") }) else {
+    let Some(directory) = runtime_path.parent() else {
         return;
     };
-    let levels = [D3D_FEATURE_LEVEL_11_0];
-    let mut device = std::ptr::null_mut();
-    let mut context = std::ptr::null_mut();
-    let result = unsafe {
-        create(
-            std::ptr::null_mut(),
-            D3D_DRIVER_TYPE_HARDWARE,
-            std::ptr::null_mut(),
-            0,
-            levels.as_ptr(),
-            1,
-            D3D11_SDK_VERSION,
-            &mut device,
-            std::ptr::null_mut(),
-            &mut context,
-        )
+    let guard = directory.join(ADDON_GUARD_FILE);
+    if guard.exists() {
+        return;
+    }
+    let Ok(entries) = std::fs::read_dir(directory) else {
+        return;
     };
-    if result >= 0 && !device.is_null() {
-        ADDON_HOST_DEVICE.store(device as usize, Ordering::Release);
-        ADDON_HOST_CONTEXT.store(context as usize, Ordering::Release);
+    let mut armed = false;
+    for entry in entries.flatten() {
+        let path = entry.path();
+        let is_addon = path
+            .extension()
+            .and_then(std::ffi::OsStr::to_str)
+            .is_some_and(|extension| extension.eq_ignore_ascii_case("addon64"));
+        if !is_addon || !entry.file_type().is_ok_and(|kind| kind.is_file()) {
+            continue;
+        }
+        if !armed {
+            if std::fs::write(&guard, b"loading").is_err() {
+                return;
+            }
+            if let Ok(mut slot) = ADDON_GUARD_PATH.lock() {
+                *slot = Some(guard.clone());
+            }
+            armed = true;
+        }
+        let wide: Vec<u16> = path.as_os_str().encode_wide().chain(std::iter::once(0)).collect();
+        unsafe {
+            LoadLibraryExW(
+                wide.as_ptr(),
+                std::ptr::null_mut(),
+                LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR | LOAD_LIBRARY_SEARCH_DEFAULT_DIRS,
+            )
+        };
     }
 }
 type UpdateAndPresentEffectRuntime = unsafe extern "system" fn(*mut c_void);
@@ -141,7 +153,6 @@ static PENDING_PRESET_PATH: Mutex<Option<CString>> = Mutex::new(None);
 static PRESET_PENDING: AtomicBool = AtomicBool::new(false);
 const EFFECT_LOADING_TIMEOUT_MS: u64 = 3_000;
 const LOAD_WITH_ALTERED_SEARCH_PATH: u32 = 0x00000008;
-const LOAD_LIBRARY_SEARCH_SYSTEM32: u32 = 0x00000800;
 
 unsafe fn symbol<T: Copy>(module: Module, name: &'static [u8]) -> Option<T> {
     let address = unsafe { GetProcAddress(module, name.as_ptr().cast()) };
@@ -263,9 +274,6 @@ pub unsafe extern "system" fn RiShadeRuntimeLoad(dxgi_path: *const u16) -> bool 
         return false;
     }
 
-    let system_d3d11: Vec<u16> = "d3d11.dll\0".encode_utf16().collect();
-    let system_d3d11 = unsafe { LoadLibraryExW(system_d3d11.as_ptr(), std::ptr::null_mut(), LOAD_LIBRARY_SEARCH_SYSTEM32) };
-
     let module = unsafe {
         LoadLibraryExW(
             dxgi_path,
@@ -300,10 +308,11 @@ pub unsafe extern "system" fn RiShadeRuntimeLoad(dxgi_path: *const u16) -> bool 
     ) {
         Ok(_) => {
             UPDATE_AND_PRESENT.store(update_and_present as usize, Ordering::Release);
-            if !system_d3d11.is_null() {
-                unsafe { load_folder_addons(module) };
+            let ready = unsafe { initialize_addon() };
+            if ready {
+                unsafe { load_folder_addons(&path) };
             }
-            unsafe { initialize_addon() }
+            ready
         }
         Err(_) => {
             unsafe { FreeLibrary(module) };
@@ -528,6 +537,12 @@ pub unsafe extern "system" fn RiShadeRuntimePresent(runtime: *mut c_void) -> boo
     let vtable = unsafe { *(runtime.cast::<*const *const c_void>()) };
     if vtable.is_null() {
         return false;
+    }
+
+    if HEALTHY_PRESENTS.load(Ordering::Relaxed) < HEALTHY_PRESENT_COUNT
+        && HEALTHY_PRESENTS.fetch_add(1, Ordering::Relaxed) + 1 == HEALTHY_PRESENT_COUNT
+    {
+        clear_addon_guard();
     }
 
     if PRESET_PENDING.swap(false, Ordering::AcqRel) {

@@ -779,6 +779,8 @@ namespace Voidstrap.Integrations.Overlays
                     return;
                 }
 
+                if (File.Exists(Path.Combine(RiShadeManager.RiShadeDir, ".rishade-addon-guard")))
+                    App.Logger.WriteLine(LOG_IDENT, "ReShade add-ons in the RiShade folder are skipped because the last session stopped while loading them, turn DLSS off and on again to retry");
                 if (!RiShadeInterop.RuntimeLoad(RiShadeManager.DxgiDllPath))
                 {
                     if (!_riMissingRuntimeLogged)
