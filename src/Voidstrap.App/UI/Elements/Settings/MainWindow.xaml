@@ -229,34 +229,34 @@
         <media:DoubleAnimation Storyboard.TargetName="IntroContent" Storyboard.TargetProperty="Opacity" From="0.0" To="1.0" Duration="0:0:0.25" EasingFunction="{StaticResource SmoothEaseOut}" />
         <media:DoubleAnimation Storyboard.TargetName="IntroOverlay" Storyboard.TargetProperty="Opacity" From="1.0" To="0.0" BeginTime="0:0:0.45" Duration="0:0:0.3" EasingFunction="{StaticResource SmoothEaseOut}" />
       </Storyboard>
+      <Style x:Key="RinDialogPanelStyle" TargetType="{x:Type Border}">
+        <Setter Property="Background" Value="#FF2C2C2C" />
+        <Setter Property="BorderBrush" Value="#12757575" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CornerRadius" Value="7" />
+        <Setter Property="Margin" Value="8" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Visibility" Value="Collapsed" />
+        <Setter Property="TextElement.Foreground" Value="White" />
+      </Style>
+      <Style x:Key="RinDialogFooterStyle" TargetType="{x:Type Border}">
+        <Setter Property="Background" Value="#FF202020" />
+        <Setter Property="BorderBrush" Value="#12757575" />
+        <Setter Property="BorderThickness" Value="0,1,0,0" />
+        <Setter Property="CornerRadius" Value="0,0,7,7" />
+        <Setter Property="Padding" Value="24" />
+      </Style>
+      <Style x:Key="RinDialogTitleStyle" TargetType="{x:Type TextBlock}">
+        <Setter Property="FontSize" Value="20" />
+        <Setter Property="FontWeight" Value="SemiBold" />
+        <Setter Property="Foreground" Value="White" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+      </Style>
     </ResourceDictionary>
-    <Style x:Key="RinDialogPanelStyle" TargetType="{x:Type Border}">
-      <Setter Property="Background" Value="#FF2C2C2C" />
-      <Setter Property="BorderBrush" Value="#12757575" />
-      <Setter Property="BorderThickness" Value="1" />
-      <Setter Property="CornerRadius" Value="7" />
-      <Setter Property="Margin" Value="8" />
-      <Setter Property="HorizontalAlignment" Value="Center" />
-      <Setter Property="VerticalAlignment" Value="Center" />
-      <Setter Property="RenderTransformOrigin" Value="0.5,0.5" />
-      <Setter Property="SnapsToDevicePixels" Value="True" />
-      <Setter Property="Visibility" Value="Collapsed" />
-      <Setter Property="TextElement.Foreground" Value="White" />
-    </Style>
-    <Style x:Key="RinDialogFooterStyle" TargetType="{x:Type Border}">
-      <Setter Property="Background" Value="#FF202020" />
-      <Setter Property="BorderBrush" Value="#12757575" />
-      <Setter Property="BorderThickness" Value="0,1,0,0" />
-      <Setter Property="CornerRadius" Value="0,0,7,7" />
-      <Setter Property="Padding" Value="24" />
-    </Style>
-    <Style x:Key="RinDialogTitleStyle" TargetType="{x:Type TextBlock}">
-      <Setter Property="FontSize" Value="20" />
-      <Setter Property="FontWeight" Value="SemiBold" />
-      <Setter Property="Foreground" Value="White" />
-      <Setter Property="TextWrapping" Value="Wrap" />
-      <Setter Property="VerticalAlignment" Value="Center" />
-    </Style>
   </FrameworkElement.Resources>
   <Grid>
     <Grid.RowDefinitions>
