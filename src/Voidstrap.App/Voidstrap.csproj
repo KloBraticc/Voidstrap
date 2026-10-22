@@ -392,6 +392,7 @@
 		<RiShadeTargetDir>$(MSBuildThisFileDirectory)obj/rishade</RiShadeTargetDir>
 		<RiShadeCoreDll>$(RiShadeTargetDir)/x86_64-pc-windows-msvc/release/rishade_core.dll</RiShadeCoreDll>
 		<RiShadeAddonDll>$(RiShadeTargetDir)/x86_64-pc-windows-msvc/release/rishade_reshade_addon.dll</RiShadeAddonDll>
+		<RiShadeDlssExe>$(RiShadeTargetDir)/x86_64-pc-windows-msvc/release/rishade_dlss.exe</RiShadeDlssExe>
 		<RiShadeDepthRoot>$(MSBuildThisFileDirectory)../../native/rishade-depth</RiShadeDepthRoot>
 		<RiShadeDepthBuild>$(RiShadeTargetDir)/depth</RiShadeDepthBuild>
 		<RiShadeDepthBridgeDll>$(RiShadeDepthBuild)/Release/rishade_depth_bridge.dll</RiShadeDepthBridgeDll>
@@ -404,20 +405,21 @@
 		<RiShadeDepthSources Include="$(RiShadeDepthRoot)/CMakeLists.txt;$(RiShadeDepthRoot)/src/**/*.cpp;$(RiShadeDepthRoot)/src/**/*.h" />
 	</ItemGroup>
 
-	<Target Name="BuildRiShade" BeforeTargets="AssignTargetPaths" Condition="'$(DesignTimeBuild)' != 'true' And '$(OS)' == 'Windows_NT' And Exists('$(RiShadeCrate)/Cargo.toml')" Inputs="$(RiShadeCrate)/Cargo.toml;$(RiShadeCrate)/Cargo.lock;$(RiShadeCrate)/reshade-addon/Cargo.toml;@(RiShadeSources);@(RiShadeDepthSources)" Outputs="$(RiShadeCoreDll);$(RiShadeAddonDll);$(RiShadeDepthBridgeDll)">
+	<Target Name="BuildRiShade" BeforeTargets="AssignTargetPaths" Condition="'$(DesignTimeBuild)' != 'true' And '$(OS)' == 'Windows_NT' And Exists('$(RiShadeCrate)/Cargo.toml')" Inputs="$(RiShadeCrate)/Cargo.toml;$(RiShadeCrate)/Cargo.lock;$(RiShadeCrate)/reshade-addon/Cargo.toml;@(RiShadeSources);@(RiShadeDepthSources)" Outputs="$(RiShadeCoreDll);$(RiShadeAddonDll);$(RiShadeDlssExe);$(RiShadeDepthBridgeDll)">
 		<Exec Command="&quot;$(RiShadeCMake)&quot; -S &quot;$(RiShadeDepthRoot)&quot; -B &quot;$(RiShadeDepthBuild)&quot; -A x64" StandardOutputImportance="low" />
 		<Exec Command="&quot;$(RiShadeCMake)&quot; --build &quot;$(RiShadeDepthBuild)&quot; --config Release" StandardOutputImportance="low" />
-		<Exec Command="&quot;$(VoidImageCargo)&quot; build --workspace --locked --quiet --release --lib --target x86_64-pc-windows-msvc --manifest-path &quot;$(RiShadeCrate)/Cargo.toml&quot; --target-dir &quot;$(RiShadeTargetDir)&quot;" />
+		<Exec Command="&quot;$(VoidImageCargo)&quot; build --workspace --locked --quiet --release --lib --bins --target x86_64-pc-windows-msvc --manifest-path &quot;$(RiShadeCrate)/Cargo.toml&quot; --target-dir &quot;$(RiShadeTargetDir)&quot;" />
 	</Target>
 
 	<Target Name="RequireRiShadeLibraries" AfterTargets="BuildRiShade" BeforeTargets="AssignTargetPaths" Condition="'$(DesignTimeBuild)' != 'true' And '$(OS)' == 'Windows_NT'">
-		<Error Condition="!Exists('$(RiShadeCoreDll)') Or !Exists('$(RiShadeAddonDll)') Or !Exists('$(RiShadeDepthBridgeDll)')" Text="RiShade's native libraries could not be built. Install Rust with the x86_64-pc-windows-msvc target and the Visual C++ build tools with CMake." />
+		<Error Condition="!Exists('$(RiShadeCoreDll)') Or !Exists('$(RiShadeAddonDll)') Or !Exists('$(RiShadeDlssExe)') Or !Exists('$(RiShadeDepthBridgeDll)')" Text="RiShade's native libraries could not be built. Install Rust with the x86_64-pc-windows-msvc target and the Visual C++ build tools with CMake." />
 	</Target>
 
-	<Target Name="IncludeRiShadeLibraries" AfterTargets="BuildRiShade" BeforeTargets="AssignTargetPaths" Condition="Exists('$(RiShadeCoreDll)') And Exists('$(RiShadeAddonDll)') And Exists('$(RiShadeDepthBridgeDll)')">
+	<Target Name="IncludeRiShadeLibraries" AfterTargets="BuildRiShade" BeforeTargets="AssignTargetPaths" Condition="Exists('$(RiShadeCoreDll)') And Exists('$(RiShadeAddonDll)') And Exists('$(RiShadeDlssExe)') And Exists('$(RiShadeDepthBridgeDll)')">
 		<ItemGroup>
 			<None Include="$(RiShadeCoreDll)" Link="rishade_core.dll" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
 			<None Include="$(RiShadeAddonDll)" Link="rishade_reshade_addon.dll" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+			<None Include="$(RiShadeDlssExe)" Link="rishade_dlss.exe" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
 			<None Include="$(RiShadeDepthBridgeDll)" Link="rishade_depth_bridge.dll" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
 		</ItemGroup>
 	</Target>
