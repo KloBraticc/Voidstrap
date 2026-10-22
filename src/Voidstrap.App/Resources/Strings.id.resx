@@ -7863,4 +7863,13 @@ Kesalahan: {0}</value>
   <data name="Ui.Keystrokes.Editor.ApplyCode" xml:space="preserve">
     <value>Terapkan Kode</value>
   </data>
+  <data name="Ui.Home.RiShadeRelease.Title" xml:space="preserve">
+    <value>RiShade V2 Telah Rilis!</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.Blurb" xml:space="preserve">
+    <value>ReShade kini berjalan sebagai overlay di atas Roblox. Shader asli, preset asli, dan tidak ada satu byte pun yang disuntikkan ke dalam game.</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.Tag" xml:space="preserve">
+    <value>Rilis</value>
+  </data>
 </root>

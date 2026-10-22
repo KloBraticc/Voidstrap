@@ -7885,4 +7885,13 @@ Voidstrap 无法写入桌面文件夹。</value>
   <data name="Ui.Keystrokes.Editor.ApplyCode" xml:space="preserve">
     <value>申请代码</value>
   </data>
+  <data name="Ui.Home.RiShadeRelease.Title" xml:space="preserve">
+    <value>RiShade V2 正式发布！</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.Blurb" xml:space="preserve">
+    <value>ReShade 现在以叠加层的形式运行在 Roblox 之上。真正的着色器、真正的预设，并且不向游戏注入任何一个字节。</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.Tag" xml:space="preserve">
+    <value>发布</value>
+  </data>
 </root>

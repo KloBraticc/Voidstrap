@@ -7856,4 +7856,13 @@ Voidstrap เขียนลงในโฟลเดอร์เดสก์ท�
   <data name="Ui.Keystrokes.Editor.ApplyCode" xml:space="preserve">
     <value>ใช้รหัส</value>
   </data>
+  <data name="Ui.Home.RiShadeRelease.Title" xml:space="preserve">
+    <value>RiShade V2 เปิดตัวแล้ว!</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.Blurb" xml:space="preserve">
+    <value>ตอนนี้ ReShade ทำงานเป็นโอเวอร์เลย์ซ้อนบน Roblox เชดเดอร์จริง พรีเซ็ตจริง และไม่มีการฉีดข้อมูลเข้าเกมแม้แต่ไบต์เดียว</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.Tag" xml:space="preserve">
+    <value>เปิดตัว</value>
+  </data>
 </root>

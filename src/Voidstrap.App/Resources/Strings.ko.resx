@@ -7859,4 +7859,13 @@ Voidstrap이 바탕 화면 폴더에 쓸 수 없습니다.</value>
   <data name="Ui.Keystrokes.Editor.ApplyCode" xml:space="preserve">
     <value>코드 적용</value>
   </data>
+  <data name="Ui.Home.RiShadeRelease.Title" xml:space="preserve">
+    <value>RiShade V2 출시!</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.Blurb" xml:space="preserve">
+    <value>이제 ReShade가 Roblox 위에서 오버레이로 실행됩니다. 진짜 셰이더, 진짜 프리셋, 그리고 게임에는 단 1바이트도 주입하지 않습니다.</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.Tag" xml:space="preserve">
+    <value>출시</value>
+  </data>
 </root>

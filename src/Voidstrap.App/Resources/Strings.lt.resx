@@ -7862,4 +7862,13 @@ Klaida: {0}</value>
   <data name="Ui.Keystrokes.Editor.ApplyCode" xml:space="preserve">
     <value>Taikyti kodą</value>
   </data>
+  <data name="Ui.Home.RiShadeRelease.Title" xml:space="preserve">
+    <value>Išleistas RiShade V2!</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.Blurb" xml:space="preserve">
+    <value>ReShade dabar veikia kaip sluoksnis virš Roblox. Tikri šešėliavimo efektai, tikri nustatymai ir į žaidimą neįterpiamas nė vienas baitas.</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.Tag" xml:space="preserve">
+    <value>Leidimas</value>
+  </data>
 </root>

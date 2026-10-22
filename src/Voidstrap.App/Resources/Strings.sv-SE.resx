@@ -7861,4 +7861,13 @@ Fel: {0}</value>
   <data name="Ui.Keystrokes.Editor.ApplyCode" xml:space="preserve">
     <value>Använd kod</value>
   </data>
+  <data name="Ui.Home.RiShadeRelease.Title" xml:space="preserve">
+    <value>RiShade V2 är här!</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.Blurb" xml:space="preserve">
+    <value>ReShade körs nu som ett överlägg ovanpå Roblox. Riktiga shaders, riktiga förinställningar och inte en enda byte injiceras i spelet.</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.Tag" xml:space="preserve">
+    <value>Release</value>
+  </data>
 </root>

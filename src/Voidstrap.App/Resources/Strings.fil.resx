@@ -7859,4 +7859,13 @@ Error: {0}</value>
   <data name="Ui.Keystrokes.Editor.ApplyCode" xml:space="preserve">
     <value>Ilapat ang Code</value>
   </data>
+  <data name="Ui.Home.RiShadeRelease.Title" xml:space="preserve">
+    <value>Inilabas na ang RiShade V2!</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.Blurb" xml:space="preserve">
+    <value>Tumatakbo na ang ReShade bilang overlay sa ibabaw ng Roblox. Totoong shaders, totoong presets, at walang kahit isang byte na ini-inject sa laro.</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.Tag" xml:space="preserve">
+    <value>Release</value>
+  </data>
 </root>

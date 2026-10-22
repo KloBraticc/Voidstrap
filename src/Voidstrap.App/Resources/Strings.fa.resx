@@ -7863,4 +7863,13 @@ Voidstrap نتوانست در پوشهٔ دسکتاپ بنویسد.</value>
   <data name="Ui.Keystrokes.Editor.ApplyCode" xml:space="preserve">
     <value>کد را اعمال کنید</value>
   </data>
+  <data name="Ui.Home.RiShadeRelease.Title" xml:space="preserve">
+    <value>انتشار RiShade V2!</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.Blurb" xml:space="preserve">
+    <value>ReShade اکنون به‌صورت یک لایه روی Roblox اجرا می‌شود. شیدرهای واقعی، پیش‌تنظیم‌های واقعی و حتی یک بایت هم به بازی تزریق نمی‌شود.</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.Tag" xml:space="preserve">
+    <value>انتشار</value>
+  </data>
 </root>

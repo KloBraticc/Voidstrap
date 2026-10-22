@@ -7860,4 +7860,13 @@
   <data name="Ui.Keystrokes.Editor.ApplyCode" xml:space="preserve">
     <value>تطبيق الكود</value>
   </data>
+  <data name="Ui.Home.RiShadeRelease.Title" xml:space="preserve">
+    <value>إطلاق RiShade V2!</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.Blurb" xml:space="preserve">
+    <value>يعمل ReShade الآن كطبقة فوق Roblox. مؤثرات حقيقية وإعدادات حقيقية، دون حقن بايت واحد في اللعبة.</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.Tag" xml:space="preserve">
+    <value>إصدار</value>
+  </data>
 </root>

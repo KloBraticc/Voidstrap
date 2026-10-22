@@ -7863,4 +7863,13 @@ Errore: {0}</value>
   <data name="Ui.Keystrokes.Editor.ApplyCode" xml:space="preserve">
     <value>Applica il codice</value>
   </data>
+  <data name="Ui.Home.RiShadeRelease.Title" xml:space="preserve">
+    <value>È uscito RiShade V2!</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.Blurb" xml:space="preserve">
+    <value>ReShade ora funziona come overlay sopra Roblox. Shader veri, preset veri e nemmeno un byte iniettato nel gioco.</value>
+  </data>
+  <data name="Ui.Home.RiShadeRelease.Tag" xml:space="preserve">
+    <value>Uscita</value>
+  </data>
 </root>

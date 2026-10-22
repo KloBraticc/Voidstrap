@@ -1484,6 +1484,9 @@ namespace Voidstrap.Resources {
         public static string Ui_Home_OpenStudio => ResourceManager.GetString("Ui.Home.OpenStudio", resourceCulture);
 
         public static string Ui_Home_LatestRobloxNews => ResourceManager.GetString("Ui.Home.LatestRobloxNews", resourceCulture);
+        public static string Ui_Home_RiShadeRelease_Title => ResourceManager.GetString("Ui.Home.RiShadeRelease.Title", resourceCulture);
+        public static string Ui_Home_RiShadeRelease_Blurb => ResourceManager.GetString("Ui.Home.RiShadeRelease.Blurb", resourceCulture);
+        public static string Ui_Home_RiShadeRelease_Tag => ResourceManager.GetString("Ui.Home.RiShadeRelease.Tag", resourceCulture);
 
         public static string Ui_Home_SeeEveryRobloxAnnouncement => ResourceManager.GetString("Ui.Home.SeeEveryRobloxAnnouncement", resourceCulture);
 

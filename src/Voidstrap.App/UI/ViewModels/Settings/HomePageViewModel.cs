@@ -204,6 +204,9 @@ namespace Voidstrap.UI.ViewModels.Pages
         public string Tag { get; init; } = string.Empty;
         public string? ImageUrl { get; init; }
         public DateTime Created { get; init; }
+        public string Blurb { get; init; } = string.Empty;
+
+        public Visibility BlurbVisibility => string.IsNullOrEmpty(Blurb) ? Visibility.Collapsed : Visibility.Visible;
 
         public bool HasImage => !string.IsNullOrEmpty(ImageUrl);
 
@@ -400,6 +403,16 @@ namespace Voidstrap.UI.ViewModels.Pages
         public ObservableCollection<NewsCardEntry> LatestNews => _latestNews;
 
         public bool HasLatestNews => _latestNews.Count > 0;
+
+        public NewsCardEntry RiShadeRelease => new()
+        {
+            Title = Voidstrap.Resources.Strings.Ui_Home_RiShadeRelease_Title,
+            Blurb = Voidstrap.Resources.Strings.Ui_Home_RiShadeRelease_Blurb,
+            Tag = Voidstrap.Resources.Strings.Ui_Home_RiShadeRelease_Tag,
+            Url = "https://github.com/KloBraticc/RiShade",
+            ImageUrl = "pack://application:,,,/Resources/RiShadeV2Banner.jpg",
+            Created = new DateTime(2026, 10, 21, 12, 0, 0, DateTimeKind.Utc)
+        };
 
         public string NewsHeaderCount
         {
