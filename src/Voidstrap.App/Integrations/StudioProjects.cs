@@ -16,6 +16,8 @@ public sealed class StudioProject : INotifyPropertyChanged
 {
 	private bool _isFavorite;
 
+	private string? _iconUrl;
+
 	public event PropertyChangedEventHandler? PropertyChanged;
 
 	public bool IsFavorite
@@ -45,7 +47,17 @@ public sealed class StudioProject : INotifyPropertyChanged
 
 	public bool IsPublic { get; init; }
 
-	public string? IconUrl { get; set; }
+	public string? IconUrl
+	{
+		get => _iconUrl;
+		set
+		{
+			if (_iconUrl == value)
+				return;
+			_iconUrl = value;
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IconUrl)));
+		}
+	}
 
 	public string? FilePath { get; init; }
 
@@ -317,9 +329,36 @@ public static class StudioProjects
 		return list;
 	}
 
+	private const int PendingIconRetries = 4;
+
+	private static readonly TimeSpan PendingIconDelay = TimeSpan.FromSeconds(3);
+
 	private static async Task AttachIconsAsync(List<StudioProject> projects, CancellationToken ct)
 	{
 		await AttachModifiedAsync(projects, ct).ConfigureAwait(false);
+		List<StudioProject> pending = await FetchIconsAsync(projects, ct).ConfigureAwait(false);
+		if (pending.Count > 0)
+			_ = RetryPendingIconsAsync(pending, ct);
+	}
+
+	private static async Task RetryPendingIconsAsync(List<StudioProject> pending, CancellationToken ct)
+	{
+		try
+		{
+			for (int attempt = 0; attempt < PendingIconRetries && pending.Count > 0; attempt++)
+			{
+				await Task.Delay(PendingIconDelay, ct).ConfigureAwait(false);
+				pending = await FetchIconsAsync(pending, ct).ConfigureAwait(false);
+			}
+		}
+		catch (OperationCanceledException)
+		{
+		}
+	}
+
+	private static async Task<List<StudioProject>> FetchIconsAsync(List<StudioProject> projects, CancellationToken ct)
+	{
+		List<StudioProject> pending = [];
 		foreach (StudioProject[] chunk in projects.Chunk(50))
 		{
 			string url = "https://thumbnails.roblox.com/v1/games/icons?size=256x256&format=Png&isCircular=false&returnPolicy=PlaceHolder&universeIds=" + string.Join(",", chunk.Select(p => p.UniverseId));
@@ -332,15 +371,23 @@ public static class StudioProjects
 				{
 					long target = t.TryGetProperty("targetId", out JsonElement id) ? id.GetInt64() : 0;
 					string? image = t.TryGetProperty("imageUrl", out JsonElement img) ? img.GetString() : null;
+					bool stillGenerating = t.TryGetProperty("state", out JsonElement state) && string.Equals(state.GetString(), "Pending", StringComparison.OrdinalIgnoreCase);
 					foreach (StudioProject p in chunk.Where(p => p.UniverseId == target))
-						p.IconUrl = image;
+					{
+						if (!string.IsNullOrEmpty(image))
+							p.IconUrl = image;
+						if (stillGenerating)
+							pending.Add(p);
+					}
 				}
 			}
 			catch (Exception ex) when (ex is not OperationCanceledException)
 			{
 				App.Logger.WriteLine(LOG_IDENT, "Icon fetch failed: " + ex.Message);
+				pending.AddRange(chunk.Where(p => string.IsNullOrEmpty(p.IconUrl)));
 			}
 		}
+		return pending;
 	}
 
 	private static async Task AttachModifiedAsync(List<StudioProject> projects, CancellationToken ct)
