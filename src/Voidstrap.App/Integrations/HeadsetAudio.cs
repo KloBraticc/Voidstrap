@@ -24,10 +24,13 @@ public static partial class HeadsetAudio
 	private const int IdlePollMs = 1000;
 	private const int FailurePollMs = 30000;
 	private const int FailuresBeforeBackoff = 5;
+	private const int DuckSettleMs = 3000;
+	private const int SessionCheckMs = 2000;
 
 	private static readonly object _gate = new object();
 	private static CancellationTokenSource? _cts;
 	private static Thread? _thread;
+	private static Thread? _previousThread;
 	private static float? _baseVolume;
 	private static int _consecutiveFailures;
 	private static string? _lastFailureReason;
@@ -45,7 +48,7 @@ public static partial class HeadsetAudio
 
 	public static void ApplyFromSettings()
 	{
-		if (Voidstrap.Utility.Platform.IsLinux)
+		if (!Voidstrap.Utility.Platform.IsWindows)
 			return;
 		if (App.Settings.Prop.EnableHeadsetLoudness)
 			Start();
@@ -55,12 +58,21 @@ public static partial class HeadsetAudio
 
 	public static bool Start()
 	{
-		if (Voidstrap.Utility.Platform.IsLinux)
+		if (!Voidstrap.Utility.Platform.IsWindows)
 			return false;
+		Thread? previous;
+		lock (_gate)
+			previous = _previousThread;
+		if (previous is { IsAlive: true } && !previous.Join(5000))
+		{
+			App.Logger?.WriteLine(LOG_IDENT, "The previous headset audio thread is still stopping, try again in a moment");
+			return false;
+		}
 		lock (_gate)
 		{
 			if (IsRunning)
 				return true;
+			_previousThread = null;
 			_consecutiveFailures = 0;
 			_lastFailureReason = null;
 			var cts = new CancellationTokenSource();
@@ -101,6 +113,7 @@ public static partial class HeadsetAudio
 			thread = _thread;
 			_cts = null;
 			_thread = null;
+			_previousThread = thread;
 			IsRunning = false;
 		}
 		if (cts == null && thread == null)
@@ -191,6 +204,7 @@ public static partial class HeadsetAudio
 		{
 			enumerator = new MMDeviceEnumerator();
 			device = enumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
+			string deviceId = device.ID;
 			session = FindSession(device, pid);
 			if (session == null)
 			{
@@ -198,7 +212,7 @@ public static partial class HeadsetAudio
 				return;
 			}
 
-			client = Native.ActivateProcessLoopback(pid, out int activateHr);
+			client = Native.ActivateProcessLoopback(pid, token, out int activateHr);
 			if (client == null)
 			{
 				WaitAfterFailure($"Process loopback unavailable, code 0x{activateHr:X8}", token);
@@ -240,42 +254,48 @@ public static partial class HeadsetAudio
 
 			var history = new float[8];
 			for (int i = 0; i < history.Length; i++)
-				history[i] = 1f;
+				history[i] = baseVolume;
 			int historyIndex = 0;
 			float gain = 1f;
 			float appliedGain = 1f;
 			byte[] buffer = new byte[65536];
-			long nextPidCheck = Environment.TickCount64 + 2000;
+			long nextSessionCheck = Environment.TickCount64 + SessionCheckMs;
+			long duckSettledAt = 0;
 
 			while (!token.IsCancellationRequested)
 			{
 				pump.WaitOne(100);
 
 				long now = Environment.TickCount64;
-				if (now >= nextPidCheck)
+				bool ducking = IsDuckingUnfocused(pid);
+				if (ducking)
+					duckSettledAt = now + DuckSettleMs;
+
+				if (now >= nextSessionCheck)
 				{
-					nextPidCheck = now + 2000;
-					if (FindRobloxPid() != pid)
+					nextSessionCheck = now + SessionCheckMs;
+					if (!IsProcessAlive(pid) || !IsDefaultDevice(enumerator, deviceId))
 						break;
-					float live = session.SimpleAudioVolume.Volume;
-					if (Math.Abs(live - baseVolume * appliedGain) > 0.02f)
+					if (now >= duckSettledAt)
 					{
-						baseVolume = live / Math.Max(appliedGain, MinGain);
-						baseVolume = Math.Clamp(baseVolume, 0.02f, 1f);
-						restoreVolume = baseVolume;
-						lock (_gate)
-							_baseVolume = baseVolume;
+						float live = session.SimpleAudioVolume.Volume;
+						if (Math.Abs(live - baseVolume * appliedGain) > 0.02f)
+						{
+							baseVolume = Math.Clamp(live / Math.Max(appliedGain, MinGain), 0.02f, 1f);
+							restoreVolume = baseVolume;
+							lock (_gate)
+								_baseVolume = baseVolume;
+						}
 					}
 				}
 
-				if (IsDuckingUnfocused(pid))
+				if (ducking || now < duckSettledAt)
 				{
-					if (Math.Abs(appliedGain - 1f) > WriteEpsilon)
-					{
-						appliedGain = 1f;
-						gain = 1f;
-						TrySetVolume(session, baseVolume);
-					}
+					appliedGain = 1f;
+					gain = 1f;
+					for (int i = 0; i < history.Length; i++)
+						history[i] = baseVolume;
+					DrainCapture(capture);
 					continue;
 				}
 
@@ -299,8 +319,8 @@ public static partial class HeadsetAudio
 				if (sampleCount == 0)
 					continue;
 
-				float capturedGain = history[(historyIndex - GainDelayPackets + history.Length) % history.Length];
-				double rms = Math.Sqrt(sumSquares / sampleCount) / Math.Max(capturedGain, MinGain);
+				float capturedVolume = history[(historyIndex - GainDelayPackets + history.Length) % history.Length];
+				double rms = Math.Sqrt(sumSquares / sampleCount) / Math.Max(capturedVolume, 0.01f);
 				float levelDb = rms > 1e-7 ? (float)(20.0 * Math.Log10(rms)) : -140f;
 
 				float targetGainDb = levelDb > ThresholdDb ? -(levelDb - ThresholdDb) * (1f - 1f / Ratio) : 0f;
@@ -312,14 +332,14 @@ public static partial class HeadsetAudio
 				gain += (targetGain - gain) * alpha;
 				gain = Math.Clamp(gain, MinGain, 1f);
 
-				historyIndex = (historyIndex + 1) % history.Length;
-				history[historyIndex] = gain;
-
 				if (Math.Abs(gain - appliedGain) > WriteEpsilon)
 				{
 					appliedGain = gain;
 					TrySetVolume(session, Math.Clamp(baseVolume * gain, 0f, 1f));
 				}
+
+				historyIndex = (historyIndex + 1) % history.Length;
+				history[historyIndex] = Math.Clamp(baseVolume * appliedGain, 0.01f, 1f);
 			}
 
 		}
@@ -346,6 +366,38 @@ public static partial class HeadsetAudio
 			device?.Dispose();
 			enumerator?.Dispose();
 			ClearBaseVolume();
+		}
+	}
+
+	private static void DrainCapture(Native.IAudioCaptureClient capture)
+	{
+		while (capture.GetBuffer(out _, out uint frames, out _, out _, out _) == 0 && frames != 0)
+			capture.ReleaseBuffer(frames);
+	}
+
+	private static bool IsProcessAlive(uint pid)
+	{
+		try
+		{
+			using Process process = Process.GetProcessById((int)pid);
+			return !process.HasExited;
+		}
+		catch
+		{
+			return false;
+		}
+	}
+
+	private static bool IsDefaultDevice(MMDeviceEnumerator enumerator, string deviceId)
+	{
+		try
+		{
+			using MMDevice current = enumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
+			return string.Equals(current.ID, deviceId, StringComparison.OrdinalIgnoreCase);
+		}
+		catch
+		{
+			return true;
 		}
 	}
 
@@ -658,7 +710,19 @@ public static partial class HeadsetAudio
 		[LibraryImport("Mmdevapi.dll", StringMarshalling = StringMarshalling.Utf16)]
 		private static partial int ActivateAudioInterfaceAsync(string devicePath, in Guid riid, IntPtr activationParams, IActivateAudioInterfaceCompletionHandler handler, out IActivateAudioInterfaceAsyncOperation operation);
 
-		public static IAudioClient? ActivateProcessLoopback(uint processId, out int hr)
+		private static bool WaitForActivation(CompletionHandler handler, CancellationToken token)
+		{
+			try
+			{
+				return handler.Completed.Wait(5000, token);
+			}
+			catch (OperationCanceledException)
+			{
+				return false;
+			}
+		}
+
+		public static IAudioClient? ActivateProcessLoopback(uint processId, CancellationToken token, out int hr)
 		{
 			hr = 0;
 			IntPtr paramsPtr = IntPtr.Zero;
@@ -682,7 +746,7 @@ public static partial class HeadsetAudio
 
 				var handler = new CompletionHandler();
 				Marshal.ThrowExceptionForHR(ActivateAudioInterfaceAsync(VirtualLoopbackDevice, in IID_AudioClient, variantPtr, handler, out _));
-				if (!handler.Completed.Wait(5000))
+				if (!WaitForActivation(handler, token))
 				{
 					handler.Abandon();
 					hr = -1;
@@ -766,7 +830,13 @@ public static partial class HeadsetAudio
 			IntPtr formatPtr = Marshal.AllocHGlobal(128);
 			try
 			{
-				Marshal.StructureToPtr(format, formatPtr, false);
+				Marshal.WriteInt16(formatPtr, 0, (short)format.Encoding);
+				Marshal.WriteInt16(formatPtr, 2, (short)format.Channels);
+				Marshal.WriteInt32(formatPtr, 4, format.SampleRate);
+				Marshal.WriteInt32(formatPtr, 8, format.AverageBytesPerSecond);
+				Marshal.WriteInt16(formatPtr, 12, (short)format.BlockAlign);
+				Marshal.WriteInt16(formatPtr, 14, (short)format.BitsPerSample);
+				Marshal.WriteInt16(formatPtr, 16, 0);
 				return client.Initialize(0, StreamFlagsLoopback | StreamFlagsEventCallback, 2_000_000, 0, formatPtr, IntPtr.Zero);
 			}
 			catch
