@@ -332,7 +332,7 @@ namespace Voidstrap.Integrations.RiShade
             if (enabled && !App.Settings.Prop.RiShadeEnabled)
             {
                 MessageBoxResult result = Frontend.ShowMessageBox(
-                    "RiShade runs official ReShade with add-on shaders and presets for Roblox.\n\nEnable RiShade?",
+                    "RiShade runs official ReShade as an overlay on top of Roblox. It never injects anything into the Roblox client.\n\nEnable RiShade?",
                     MessageBoxImage.Information,
                     MessageBoxButton.YesNo,
                     MessageBoxResult.Yes);
