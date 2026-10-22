@@ -34,7 +34,9 @@ mod host {
         DXGI_SWAP_CHAIN_FLAG, DXGI_SWAP_EFFECT_SEQUENTIAL, DXGI_USAGE_RENDER_TARGET_OUTPUT,
         IDXGIAdapter1, IDXGIFactory1, IDXGIKeyedMutex, IDXGISwapChain, DXGI_PRESENT,
     };
-    use windows::Win32::System::LibraryLoader::{GetModuleHandleW, GetProcAddress, LoadLibraryW};
+    use windows::Win32::System::LibraryLoader::{
+        GetModuleHandleW, GetProcAddress, LOAD_LIBRARY_SEARCH_SYSTEM32, LoadLibraryExW, LoadLibraryW,
+    };
     use windows::Win32::System::Memory::{
         FILE_MAP_ALL_ACCESS, MEMORY_MAPPED_VIEW_ADDRESS, MapViewOfFile, OpenFileMappingW,
         UnmapViewOfFile,
@@ -208,10 +210,12 @@ mod host {
             std::env::remove_var("RESHADE_DISABLE_GRAPHICS_HOOK");
             std::env::remove_var("RESHADE_DISABLE_LOGGING");
         }
+        let system_d3d11 = unsafe { LoadLibraryExW(w!("d3d11.dll"), HANDLE::default(), LOAD_LIBRARY_SEARCH_SYSTEM32) }.map_err(|_| ())?;
         let reshade = unsafe { LoadLibraryW(&HSTRING::from(options.root.join("dxgi.dll").as_os_str())) }.map_err(|_| ())?;
         let outcome = unsafe { serve_with(options, parent, header, reshade) };
         unsafe {
             let _ = FreeLibrary(reshade);
+            let _ = FreeLibrary(system_d3d11);
         }
         outcome
     }
