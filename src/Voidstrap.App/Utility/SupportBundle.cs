@@ -310,8 +310,13 @@ internal static class SupportBundle
 		text.AppendLine("WHAT WENT WRONG RECENTLY");
 		List<string> findings = new();
 		string all = string.Join("\n", logTexts);
-		foreach (Match match in Regex.Matches(all, @"The previous session \(process \d+, started ([^,]+), log ([^)]+)\) ended without shutting down cleanly"))
-			findings.Add("A Voidstrap session that started " + match.Groups[1].Value + " closed unexpectedly (it most likely crashed). Look at " + match.Groups[2].Value + ".");
+		foreach (Match match in Regex.Matches(all, @"The previous session \(process (\d+), started ([^,]+), log ([^)]+)\) ended without shutting down cleanly"))
+		{
+			bool crashRecorded = CrashMentionsProcess(crashes.Text, match.Groups[1].Value);
+			findings.Add("A Voidstrap session that started " + match.Groups[2].Value + (crashRecorded
+				? " crashed, and the system recorded the crash. Look at " + match.Groups[3].Value + " and " + CrashFileName + "."
+				: " ended suddenly without a crash report, so it was most likely closed by force, for example with End task. Look at " + match.Groups[3].Value + "."));
+		}
 		int freezes = Regex.Matches(all, @"\[UiFreeze\] The window was frozen for").Count;
 		int stuck = Regex.Matches(all, @"\[UiFreeze\] The window has not responded").Count;
 		if (freezes + stuck > 0)
@@ -339,6 +344,15 @@ internal static class SupportBundle
 		text.AppendLine("* UiFreeze: times the window stopped responding");
 		text.AppendLine("* App::Diagnostics: system details and sessions that ended uncleanly");
 		return text.ToString();
+	}
+
+	private static bool CrashMentionsProcess(string crashText, string pid)
+	{
+		if (!int.TryParse(pid, NumberStyles.None, CultureInfo.InvariantCulture, out int id))
+			return false;
+		string hex = "0x" + id.ToString("x", CultureInfo.InvariantCulture);
+		return crashText.Contains(hex, StringComparison.OrdinalIgnoreCase)
+			|| Regex.IsMatch(crashText, @"(?<!\d)" + id.ToString(CultureInfo.InvariantCulture) + @"(?!\d)");
 	}
 
 	private sealed class Redactor
