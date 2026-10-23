@@ -13,13 +13,16 @@ public sealed partial class LinuxGlobalHotkey : IDisposable
     private readonly nint _root;
     private readonly int _key;
     private readonly uint[] _masks;
+    private readonly uint _modifiers;
     private Task? _pump;
+    private Task? _evdev;
     private bool _disposed;
     private bool _failed;
 
     private LinuxGlobalHotkey(uint modifiers, uint key, Action pressed)
     {
         _pressed = pressed;
+        _modifiers = modifiers;
         _masks = [];
         if (!OperatingSystem.IsLinux() || !LinuxWindowInterop.IsAvailable)
             return;
@@ -59,6 +62,8 @@ public sealed partial class LinuxGlobalHotkey : IDisposable
         {
             XkbSetDetectableAutoRepeat(_display, true, out _);
             _pump = Task.Factory.StartNew(Pump, CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Default);
+            if (!string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WAYLAND_DISPLAY")) && _key > 8)
+                _evdev = Task.Factory.StartNew(EvdevPump, CancellationToken.None, TaskCreationOptions.LongRunning, TaskScheduler.Default);
         }
     }
 
@@ -122,6 +127,99 @@ public sealed partial class LinuxGlobalHotkey : IDisposable
         }
     }
 
+    private void EvdevPump()
+    {
+        int target = _key - 8;
+        Dictionary<string, int> devices = new(StringComparer.Ordinal);
+        HashSet<int> held = [];
+        byte[] buffer = new byte[24 * 64];
+        long nextScan = 0;
+        try
+        {
+            while (!_lifetime.IsCancellationRequested)
+            {
+                if (Environment.TickCount64 >= nextScan)
+                {
+                    nextScan = Environment.TickCount64 + 5000;
+                    try
+                    {
+                        foreach (string node in Directory.GetFiles("/dev/input", "event*"))
+                        {
+                            if (devices.ContainsKey(node))
+                                continue;
+                            int opened = Open(node, 0x800, 0);
+                            if (opened >= 0)
+                                devices[node] = opened;
+                        }
+                    }
+                    catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+                    {
+                    }
+                }
+                if (devices.Count == 0)
+                {
+                    _lifetime.Token.WaitHandle.WaitOne(2000);
+                    continue;
+                }
+                PollDescriptor[] descriptors = devices.Values.Select(file => new PollDescriptor { File = file, Events = 1 }).ToArray();
+                if (PollMany(descriptors, (nuint)descriptors.Length, 500) <= 0)
+                    continue;
+                foreach (PollDescriptor descriptor in descriptors)
+                {
+                    if ((descriptor.Returned & 1) == 0)
+                    {
+                        if ((descriptor.Returned & 0x18) != 0)
+                        {
+                            string node = devices.First(pair => pair.Value == descriptor.File).Key;
+                            Close(descriptor.File);
+                            devices.Remove(node);
+                        }
+                        continue;
+                    }
+                    long count = Read(descriptor.File, buffer, (nuint)buffer.Length);
+                    for (int offset = 0; offset + 24 <= count; offset += 24)
+                    {
+                        if (BitConverter.ToUInt16(buffer, offset + 16) != 1)
+                            continue;
+                        int code = BitConverter.ToUInt16(buffer, offset + 18);
+                        int value = BitConverter.ToInt32(buffer, offset + 20);
+                        if (value == 0)
+                        {
+                            held.Remove(code);
+                            continue;
+                        }
+                        if (value != 1 || !held.Add(code) || code != target || !ModifiersHeld(held))
+                            continue;
+                        if (!LinuxWindowInterop.IsNativeWindowActive())
+                            continue;
+                        try
+                        {
+                            _pressed();
+                        }
+                        catch (Exception)
+                        {
+                        }
+                    }
+                }
+            }
+        }
+        finally
+        {
+            foreach (int file in devices.Values)
+                Close(file);
+        }
+    }
+
+    private bool ModifiersHeld(HashSet<int> held)
+    {
+        bool alt = held.Contains(56) || held.Contains(100);
+        bool control = held.Contains(29) || held.Contains(97);
+        bool shift = held.Contains(42) || held.Contains(54);
+        bool super = held.Contains(125) || held.Contains(126);
+        return alt == ((_modifiers & 1) != 0) && control == ((_modifiers & 2) != 0)
+            && shift == ((_modifiers & 4) != 0) && super == ((_modifiers & 8) != 0);
+    }
+
     public void Dispose()
     {
         if (_disposed)
@@ -129,6 +227,7 @@ public sealed partial class LinuxGlobalHotkey : IDisposable
         _disposed = true;
         _lifetime.Cancel();
         _pump?.GetAwaiter().GetResult();
+        _evdev?.GetAwaiter().GetResult();
         if (_display != 0)
         {
             foreach (uint mask in _masks)
@@ -195,5 +294,9 @@ public sealed partial class LinuxGlobalHotkey : IDisposable
     [LibraryImport(X11)] private static partial int XNextEvent(nint display, out KeyEvent item);
     [LibraryImport(X11)] private static partial int XConnectionNumber(nint display);
     [LibraryImport(X11)] private static partial int XkbSetDetectableAutoRepeat(nint display, [MarshalAs(UnmanagedType.Bool)] bool enabled, out int supported);
+    [LibraryImport("libc", EntryPoint = "poll")] private static partial int PollMany([In, Out] PollDescriptor[] descriptors, nuint count, int timeout);
+    [LibraryImport("libc", EntryPoint = "open", StringMarshalling = StringMarshalling.Utf8)] private static partial int Open(string path, int flags, int mode);
+    [LibraryImport("libc", EntryPoint = "read")] private static partial long Read(int file, [Out] byte[] buffer, nuint count);
+    [LibraryImport("libc", EntryPoint = "close")] private static partial int Close(int file);
     [LibraryImport("libc", EntryPoint = "poll")] private static partial int Poll(ref PollDescriptor descriptor, nuint count, int timeout);
 }
