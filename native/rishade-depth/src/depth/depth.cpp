@@ -54,6 +54,10 @@ static const float FarPlane = 1000.0;
 static const float Nearest = 0.01;
 static const float SpatialSigma = 1.0;
 static const float ColorSigma = 0.1;
+static const uint Bins = 256;
+static const float ReferenceShare = 0.02;
+static const float TemporalBase = 0.35;
+static const float TemporalResponse = 6.0;
 
 void Store(uint index, float value)
 {
@@ -117,10 +121,39 @@ void Peak(uint3 id : SV_DispatchThreadID, uint thread : SV_GroupIndex)
     }
 }
 
+[numthreads(256, 1, 1)]
+void Histogram(uint3 id : SV_DispatchThreadID)
+{
+    uint pixels = ModelSize.x * ModelSize.y;
+    if (id.x >= pixels)
+        return;
+    float peak = Unordered(Keys.Load(0));
+    if (!(peak > 0))
+        return;
+    uint bin = min(uint(saturate(Load(id.x) / peak) * Bins), Bins - 1);
+    uint previous;
+    Keys.InterlockedAdd(4 + bin * 4, 1, previous);
+}
+
 [numthreads(1, 1, 1)]
 void Smooth()
 {
-    float peak = Unordered(Keys.Load(0));
+    float maximum = Unordered(Keys.Load(0));
+    float peak = maximum;
+    if (maximum > 0)
+    {
+        uint wanted = max(1u, uint(ModelSize.x * ModelSize.y * ReferenceShare));
+        uint seen = 0;
+        for (int bin = int(Bins) - 1; bin >= 0; --bin)
+        {
+            seen += Keys.Load(4 + uint(bin) * 4);
+            if (seen >= wanted)
+            {
+                peak = max((bin + 1.0) / Bins * maximum, maximum * 0.05);
+                break;
+            }
+        }
+    }
     float4 state = State[0];
     if (state.z == 0)
         state.x = peak;
@@ -152,11 +185,14 @@ void Upsample(uint3 id : SV_DispatchThreadID)
 
     float closeness = sum / weights / max(Smoothed[0].x, 1e-6);
     float distance01 = Nearest / max(closeness, Nearest);
-    Depth[id.xy] = distance01 * FarPlane / (1 + distance01 * (FarPlane - 1));
+    float current = distance01 * FarPlane / (1 + distance01 * (FarPlane - 1));
+    float previous = Depth[id.xy];
+    float change = abs(current - previous) / max(max(current, previous), 1e-4);
+    Depth[id.xy] = lerp(previous, current, saturate(TemporalBase + change * TemporalResponse));
 }
 )";
 
-constexpr const char* kEntryPoints[] = { "Preprocess", "Peak", "Smooth", "Upsample" };
+constexpr const char* kEntryPoints[] = { "Preprocess", "Peak", "Histogram", "Smooth", "Upsample" };
 
 struct Depth
 {
@@ -606,7 +642,7 @@ void CreateShared()
         winrt::check_hresult(g.device.as<ID3D11Device5>()->OpenSharedFence(d.fenceHandle, IID_PPV_ARGS(d.fence.put())));
 
     D3D11_BUFFER_DESC buffer{};
-    buffer.ByteWidth = 16;
+    buffer.ByteWidth = 4 * 260;
     buffer.Usage = D3D11_USAGE_DEFAULT;
     buffer.BindFlags = D3D11_BIND_UNORDERED_ACCESS;
     buffer.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_ALLOW_RAW_VIEWS;
@@ -614,10 +650,11 @@ void CreateShared()
     D3D11_UNORDERED_ACCESS_VIEW_DESC raw{};
     raw.Format = DXGI_FORMAT_R32_TYPELESS;
     raw.ViewDimension = D3D11_UAV_DIMENSION_BUFFER;
-    raw.Buffer.NumElements = 4;
+    raw.Buffer.NumElements = 260;
     raw.Buffer.Flags = D3D11_BUFFER_UAV_FLAG_RAW;
     winrt::check_hresult(g.device->CreateUnorderedAccessView(d.keys.get(), &raw, d.keysTarget.put()));
 
+    buffer.ByteWidth = 16;
     buffer.BindFlags = D3D11_BIND_UNORDERED_ACCESS | D3D11_BIND_SHADER_RESOURCE;
     buffer.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
     buffer.StructureByteStride = 16;
@@ -663,8 +700,9 @@ void Publish()
     g.context->ClearUnorderedAccessViewUint(d.keysTarget.get(), zero);
     const UINT pixels = static_cast<UINT>(d.width * d.height);
     Dispatch(1, { nullptr, d.outputView.get() }, { nullptr, d.keysTarget.get() }, (pixels + 255) / 256, 1);
-    Dispatch(2, {}, { nullptr, d.keysTarget.get(), d.stateTarget.get() }, 1, 1);
-    Dispatch(3, { d.frameView.get(), d.outputView.get(), d.stateView.get(), d.guideView.get() }, { nullptr, nullptr, nullptr, d.textureTarget.get() },
+    Dispatch(2, { nullptr, d.outputView.get() }, { nullptr, d.keysTarget.get() }, (pixels + 255) / 256, 1);
+    Dispatch(3, {}, { nullptr, d.keysTarget.get(), d.stateTarget.get() }, 1, 1);
+    Dispatch(4, { d.frameView.get(), d.outputView.get(), d.stateView.get(), d.guideView.get() }, { nullptr, nullptr, nullptr, d.textureTarget.get() },
              (d.sourceWidth + 15) / 16, (d.sourceHeight + 15) / 16);
 }
 }
