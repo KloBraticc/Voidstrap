@@ -91,15 +91,14 @@ namespace Voidstrap.UI.ViewModels.Settings
 
         public List<PrivateServerRow> Servers { get; init; } = [];
 
-        public bool HasMine => Servers.Any(row => row.Server.IsMine);
-
-        public string SidebarGroup => HasMine ? Strings.PrivateServers_Yours : Strings.PrivateServers_Shared;
     }
 
     internal sealed class PrivateServersViewModel : NotifyPropertyChangedViewModel
     {
         private readonly SemaphoreSlim _loadGate = new(1, 1);
-        private List<PrivateServerGame> _allGames = [];
+        private List<PrivateServerGame> _mineGames = [];
+        private List<PrivateServerGame> _friendGames = [];
+        private bool _showFriends;
         private string _searchText = string.Empty;
         private PrivateServerGame? _selectedGame;
         private bool _isLoading;
@@ -111,6 +110,8 @@ namespace Voidstrap.UI.ViewModels.Settings
             RefreshCommand = new AsyncRelayCommand(() => LoadAsync(true));
             JoinCommand = new AsyncRelayCommand<PrivateServerRow>(JoinAsync);
             ToggleCommand = new AsyncRelayCommand<PrivateServerRow>(ToggleAsync);
+            ShowMineCommand = new RelayCommand(() => SetShowFriends(false));
+            ShowFriendsCommand = new RelayCommand(() => SetShowFriends(true));
         }
 
         public ObservableCollection<PrivateServerGame> Games { get; } = new();
@@ -120,6 +121,25 @@ namespace Voidstrap.UI.ViewModels.Settings
         public ICommand JoinCommand { get; }
 
         public ICommand ToggleCommand { get; }
+
+        public ICommand ShowMineCommand { get; }
+
+        public ICommand ShowFriendsCommand { get; }
+
+        public Wpf.Ui.Common.ControlAppearance MineAppearance => _showFriends ? Wpf.Ui.Common.ControlAppearance.Secondary : Wpf.Ui.Common.ControlAppearance.Primary;
+
+        public Wpf.Ui.Common.ControlAppearance FriendsAppearance => _showFriends ? Wpf.Ui.Common.ControlAppearance.Primary : Wpf.Ui.Common.ControlAppearance.Secondary;
+
+        private void SetShowFriends(bool friends)
+        {
+            if (_showFriends == friends)
+                return;
+            _showFriends = friends;
+            OnPropertyChanged(nameof(MineAppearance));
+            OnPropertyChanged(nameof(FriendsAppearance));
+            SelectedGame = null;
+            ApplyFilter();
+        }
 
         public PrivateServerGame? SelectedGame
         {
@@ -197,31 +217,8 @@ namespace Voidstrap.UI.ViewModels.Settings
                         App.Logger.WriteLine("PrivateServersViewModel::Load", "Game names and icons could not be loaded: " + ex.Message);
                     }
                 }
-                List<PrivateServerGame> games = new();
-                foreach (IGrouping<long, AccountPrivateServer> group in servers.GroupBy(server => server.UniverseId))
-                {
-                    UniverseDetails? details = group.Key > 0 ? UniverseDetails.LoadFromCache(group.Key) : null;
-                    string name = details?.Data?.Name is { Length: > 0 } known ? known : group.Select(server => server.GameName).FirstOrDefault(value => value.Length > 0) ?? "";
-                    List<PrivateServerRow> rows = group
-                        .OrderByDescending(server => server.IsMine)
-                        .ThenByDescending(server => server.Active)
-                        .ThenBy(server => server.Name, StringComparer.CurrentCultureIgnoreCase)
-                        .Select(server => new PrivateServerRow(server))
-                        .ToList();
-                    games.Add(new PrivateServerGame
-                    {
-                        Name = name,
-                        IconUrl = details?.Thumbnail?.ImageUrl,
-                        CountText = string.Format(Strings.PrivateServers_Count, rows.Count),
-                        Servers = rows
-                    });
-                }
-                _allGames = games
-                    .OrderByDescending(game => game.HasMine)
-                    .ThenBy(game => game.Name.Contains("Content Deleted", StringComparison.OrdinalIgnoreCase))
-                    .ThenByDescending(game => game.Servers.Any(row => row.Server.Active))
-                    .ThenBy(game => game.Name.TrimStart('[', ' ', '(', '{'), StringComparer.CurrentCultureIgnoreCase)
-                    .ToList();
+                _mineGames = BuildGames(servers.Where(server => server.IsMine));
+                _friendGames = BuildGames(servers.Where(server => !server.IsMine));
                 ApplyFilter();
                 Status = result switch
                 {
@@ -230,7 +227,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                     _ => servers.Count == 0 ? Strings.PrivateServers_Empty : string.Empty
                 };
                 _loaded = result == PrivateServersStatus.Ready;
-                App.Logger.WriteLine("PrivateServersViewModel::Load", $"Showing {servers.Count} private servers in {_allGames.Count} games");
+                App.Logger.WriteLine("PrivateServersViewModel::Load", $"Showing {servers.Count} private servers, {_mineGames.Count} games of your own and {_friendGames.Count} shared with you");
             }
             catch (Exception ex)
             {
@@ -244,12 +241,39 @@ namespace Voidstrap.UI.ViewModels.Settings
             }
         }
 
+        private static List<PrivateServerGame> BuildGames(IEnumerable<AccountPrivateServer> servers)
+        {
+            List<PrivateServerGame> games = new();
+            foreach (IGrouping<long, AccountPrivateServer> group in servers.GroupBy(server => server.UniverseId))
+            {
+                UniverseDetails? details = group.Key > 0 ? UniverseDetails.LoadFromCache(group.Key) : null;
+                string name = details?.Data?.Name is { Length: > 0 } known ? known : group.Select(server => server.GameName).FirstOrDefault(value => value.Length > 0) ?? "";
+                List<PrivateServerRow> rows = group
+                    .OrderByDescending(server => server.Active)
+                    .ThenBy(server => server.Name, StringComparer.CurrentCultureIgnoreCase)
+                    .Select(server => new PrivateServerRow(server))
+                    .ToList();
+                games.Add(new PrivateServerGame
+                {
+                    Name = name,
+                    IconUrl = details?.Thumbnail?.ImageUrl,
+                    CountText = string.Format(Strings.PrivateServers_Count, rows.Count),
+                    Servers = rows
+                });
+            }
+            return games
+                .OrderBy(game => game.Name.Contains("Content Deleted", StringComparison.OrdinalIgnoreCase))
+                .ThenByDescending(game => game.Servers.Any(row => row.Server.Active))
+                .ThenBy(game => game.Name.TrimStart('[', ' ', '(', '{'), StringComparer.CurrentCultureIgnoreCase)
+                .ToList();
+        }
+
         private void ApplyFilter()
         {
             string query = _searchText.Trim();
             PrivateServerGame? previous = _selectedGame;
             Games.Clear();
-            foreach (PrivateServerGame game in _allGames)
+            foreach (PrivateServerGame game in _showFriends ? _friendGames : _mineGames)
             {
                 if (query.Length == 0
                     || game.Name.Contains(query, StringComparison.CurrentCultureIgnoreCase)

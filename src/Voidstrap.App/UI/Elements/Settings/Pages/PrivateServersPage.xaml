@@ -5,15 +5,11 @@
     xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
     xmlns:resources="clr-namespace:Voidstrap.Resources"
     xmlns:util="clr-namespace:Voidstrap.Utility"
+    xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls"
     Title="{resources:Loc PrivateServers_Title}"
     Scrollable="False">
   <FrameworkElement.Resources>
     <ResourceDictionary>
-      <CollectionViewSource x:Key="SidebarGamesView" Source="{Binding Games}">
-        <CollectionViewSource.GroupDescriptions>
-          <PropertyGroupDescription PropertyName="SidebarGroup" />
-        </CollectionViewSource.GroupDescriptions>
-      </CollectionViewSource>
       <Style x:Key="NavSideItem" TargetType="{x:Type ListBoxItem}">
         <Setter Property="ui:RinControlMotion.Enabled" Value="True" />
         <Setter Property="Margin" Value="0,0,0,4" />
@@ -87,132 +83,22 @@
       <Grid.RowDefinitions>
         <RowDefinition Height="Auto" />
         <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
         <RowDefinition Height="*" />
       </Grid.RowDefinitions>
-      <ui:TextBox Grid.Row="0" Margin="0,2,0,0" PlaceholderText="{resources:Loc Ui_Pages_SearchGames}" Icon="Search24" ClearButtonEnabled="True" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=200}" />
-      <Grid Grid.Row="1" Margin="16,6,0,0">
+      <UniformGrid Grid.Row="0" Rows="1" Margin="0,2,0,8">
+        <ui:Button Margin="0,0,3,0" HorizontalAlignment="Stretch" Appearance="{Binding MineAppearance}" Content="{resources:Loc PrivateServers_Yours}" Command="{Binding ShowMineCommand}" />
+        <ui:Button Margin="3,0,0,0" HorizontalAlignment="Stretch" Appearance="{Binding FriendsAppearance}" Content="{resources:Loc Ui_SessionNotify_Friends}" Command="{Binding ShowFriendsCommand}" />
+      </UniformGrid>
+      <ui:TextBox Grid.Row="1" Margin="0,2,0,0" PlaceholderText="{resources:Loc Ui_Pages_SearchGames}" Icon="Search24" ClearButtonEnabled="True" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=200}" />
+      <Grid Grid.Row="2" Margin="16,6,0,0">
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding StatusVisibility}" Margin="0,0,34,0">
           <ui:ProgressRing Width="14" Height="14" Margin="0,0,8,0" IsIndeterminate="True" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}" />
           <TextBlock Text="{Binding Status}" FontSize="12" TextWrapping="Wrap" MaxWidth="170" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
         </StackPanel>
         <ui:Button HorizontalAlignment="Right" VerticalAlignment="Top" Padding="4,0" Appearance="Transparent" Icon="ArrowSync24" ToolTip="{resources:Loc ContextMenu_ServerBrowser_Refresh}" Command="{Binding RefreshCommand}" />
       </Grid>
-      <ListBox Grid.Row="2" Background="#00FFFFFF" BorderThickness="0" Padding="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" VirtualizingPanel.IsVirtualizingWhenGrouping="True" VirtualizingPanel.ScrollUnit="Pixel" ItemContainerStyle="{StaticResource NavSideItem}" ItemsSource="{Binding Source={StaticResource SidebarGamesView}}" SelectedItem="{Binding SelectedGame, Mode=TwoWay}">
-        <ListBox.GroupStyle>
-          <GroupStyle>
-            <GroupStyle.ContainerStyle>
-              <Style TargetType="{x:Type GroupItem}">
-                <Setter Property="Template">
-                  <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type GroupItem}">
-                      <StackPanel x:Name="GroupRoot" Margin="0,0,14,0">
-                        <ToggleButton x:Name="GroupToggle" IsChecked="True" Focusable="False" Cursor="Hand">
-                          <ToggleButton.Template>
-                            <ControlTemplate TargetType="{x:Type ToggleButton}">
-                              <Border Background="Transparent" Padding="10,12,10,0">
-                                <StackPanel>
-                                  <StackPanel Orientation="Horizontal">
-                                    <ui:SymbolIcon x:Name="Chevron" Symbol="ChevronDown12" FontSize="13" Foreground="#7AFFFFFF" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
-                                      <UIElement.RenderTransform>
-                                        <RotateTransform Angle="0" />
-                                      </UIElement.RenderTransform>
-                                    </ui:SymbolIcon>
-                                    <TextBlock x:Name="GroupName" Margin="9,0,0,0" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" Foreground="#7AFFFFFF" Text="{Binding Name}" />
-                                    <TextBlock x:Name="GroupCount" Margin="7,0,0,0" FontSize="14" VerticalAlignment="Center" Foreground="#4FFFFFFF" Text="{Binding ItemCount, StringFormat=({0})}" />
-                                  </StackPanel>
-                                  <Rectangle Height="1" Margin="0,7,0,0" Fill="#1FFFFFFF" />
-                                </StackPanel>
-                              </Border>
-                              <ControlTemplate.Triggers>
-                                <Trigger Property="IsChecked" Value="False">
-                                  <Trigger.EnterActions>
-                                    <BeginStoryboard>
-                                      <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="Chevron" Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)" To="-90" Duration="0:0:0.2">
-                                          <DoubleAnimation.EasingFunction>
-                                            <CubicEase EasingMode="EaseOut" />
-                                          </DoubleAnimation.EasingFunction>
-                                        </DoubleAnimation>
-                                      </Storyboard>
-                                    </BeginStoryboard>
-                                  </Trigger.EnterActions>
-                                  <Trigger.ExitActions>
-                                    <BeginStoryboard>
-                                      <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="Chevron" Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)" To="0" Duration="0:0:0.2">
-                                          <DoubleAnimation.EasingFunction>
-                                            <CubicEase EasingMode="EaseOut" />
-                                          </DoubleAnimation.EasingFunction>
-                                        </DoubleAnimation>
-                                      </Storyboard>
-                                    </BeginStoryboard>
-                                  </Trigger.ExitActions>
-                                </Trigger>
-                                <Trigger Property="IsMouseOver" Value="True">
-                                  <Setter TargetName="GroupName" Property="Foreground" Value="#FFFFFFFF" />
-                                  <Setter TargetName="Chevron" Property="Foreground" Value="#FFFFFFFF" />
-                                </Trigger>
-                                <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}" Value="icons">
-                                  <Setter TargetName="GroupName" Property="Visibility" Value="Collapsed" />
-                                  <Setter TargetName="GroupCount" Property="Visibility" Value="Collapsed" />
-                                </DataTrigger>
-                              </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                          </ToggleButton.Template>
-                        </ToggleButton>
-                        <Border x:Name="GroupItemsHost" Opacity="1">
-                          <Border.LayoutTransform>
-                            <ScaleTransform ScaleY="1" />
-                          </Border.LayoutTransform>
-                          <ItemsPresenter Margin="0,4,0,4" />
-                        </Border>
-                      </StackPanel>
-                      <ControlTemplate.Triggers>
-                        <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}" Value="icons">
-                          <Setter TargetName="GroupRoot" Property="Margin" Value="0" />
-                        </DataTrigger>
-                        <Trigger SourceName="GroupToggle" Property="IsChecked" Value="False">
-                          <Trigger.EnterActions>
-                            <BeginStoryboard>
-                              <Storyboard>
-                                <DoubleAnimation Storyboard.TargetName="GroupItemsHost" Storyboard.TargetProperty="(UIElement.Opacity)" To="0" Duration="0:0:0.14">
-                                  <DoubleAnimation.EasingFunction>
-                                    <CubicEase EasingMode="EaseOut" />
-                                  </DoubleAnimation.EasingFunction>
-                                </DoubleAnimation>
-                                <DoubleAnimation Storyboard.TargetName="GroupItemsHost" Storyboard.TargetProperty="(FrameworkElement.LayoutTransform).(ScaleTransform.ScaleY)" To="0" Duration="0:0:0.22">
-                                  <DoubleAnimation.EasingFunction>
-                                    <CubicEase EasingMode="EaseInOut" />
-                                  </DoubleAnimation.EasingFunction>
-                                </DoubleAnimation>
-                              </Storyboard>
-                            </BeginStoryboard>
-                          </Trigger.EnterActions>
-                          <Trigger.ExitActions>
-                            <BeginStoryboard>
-                              <Storyboard>
-                                <DoubleAnimation Storyboard.TargetName="GroupItemsHost" Storyboard.TargetProperty="(FrameworkElement.LayoutTransform).(ScaleTransform.ScaleY)" To="1" Duration="0:0:0.22">
-                                  <DoubleAnimation.EasingFunction>
-                                    <CubicEase EasingMode="EaseInOut" />
-                                  </DoubleAnimation.EasingFunction>
-                                </DoubleAnimation>
-                                <DoubleAnimation Storyboard.TargetName="GroupItemsHost" Storyboard.TargetProperty="(UIElement.Opacity)" To="1" BeginTime="0:0:0.08" Duration="0:0:0.16">
-                                  <DoubleAnimation.EasingFunction>
-                                    <CubicEase EasingMode="EaseOut" />
-                                  </DoubleAnimation.EasingFunction>
-                                </DoubleAnimation>
-                              </Storyboard>
-                            </BeginStoryboard>
-                          </Trigger.ExitActions>
-                        </Trigger>
-                      </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                  </Setter.Value>
-                </Setter>
-              </Style>
-            </GroupStyle.ContainerStyle>
-          </GroupStyle>
-        </ListBox.GroupStyle>
+      <ListBox Grid.Row="3" Background="#00FFFFFF" BorderThickness="0" Padding="0,0,14,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" VirtualizingPanel.IsVirtualizingWhenGrouping="True" VirtualizingPanel.ScrollUnit="Pixel" ItemContainerStyle="{StaticResource NavSideItem}" ItemsSource="{Binding Games}" SelectedItem="{Binding SelectedGame, Mode=TwoWay}">
         <ItemsControl.ItemTemplate>
           <DataTemplate>
             <Grid Background="#00FFFFFF">
@@ -263,22 +149,12 @@
         </ListBox.ItemContainerStyle>
         <ListBox.ItemTemplate>
           <DataTemplate>
-            <Border Margin="0,0,0,6" Padding="14,10" CornerRadius="8" Background="#0FFFFFFF" BorderThickness="1" BorderBrush="#1AFFFFFF" Opacity="{Binding RowOpacity}">
-              <Grid>
-                <Grid.ColumnDefinitions>
-                  <ColumnDefinition Width="*" />
-                  <ColumnDefinition Width="Auto" />
-                </Grid.ColumnDefinitions>
-                <StackPanel VerticalAlignment="Center">
-                  <TextBlock Text="{Binding Title}" FontSize="14" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
-                  <TextBlock Text="{Binding Detail}" FontSize="12" Margin="0,2,0,0" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
-                </StackPanel>
-                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0,0,0">
-                  <ui:Button Content="{Binding ToggleText}" Appearance="Secondary" Margin="0,0,8,0" IsEnabled="{Binding CanAct}" Visibility="{Binding ToggleVisibility}" Command="{Binding DataContext.ToggleCommand, RelativeSource={RelativeSource AncestorType=ui:UiPage}}" CommandParameter="{Binding}" />
-                  <ui:Button Content="{resources:Loc PrivateServers_Join}" Icon="Play24" Appearance="Primary" IsEnabled="{Binding CanJoin}" Command="{Binding DataContext.JoinCommand, RelativeSource={RelativeSource AncestorType=ui:UiPage}}" CommandParameter="{Binding}" />
-                </StackPanel>
-              </Grid>
-            </Border>
+            <controls:OptionControl Margin="0,0,16,0" Opacity="{Binding RowOpacity}" Header="{Binding Title}" Description="{Binding Detail}">
+              <StackPanel Orientation="Horizontal">
+                <ui:Button Content="{Binding ToggleText}" Appearance="Secondary" Margin="0,0,8,0" IsEnabled="{Binding CanAct}" Visibility="{Binding ToggleVisibility}" Command="{Binding DataContext.ToggleCommand, RelativeSource={RelativeSource AncestorType=ui:UiPage}}" CommandParameter="{Binding}" />
+                <ui:Button Content="{resources:Loc PrivateServers_Join}" Icon="Play24" Appearance="Primary" IsEnabled="{Binding CanJoin}" Command="{Binding DataContext.JoinCommand, RelativeSource={RelativeSource AncestorType=ui:UiPage}}" CommandParameter="{Binding}" />
+              </StackPanel>
+            </controls:OptionControl>
           </DataTemplate>
         </ListBox.ItemTemplate>
       </ListBox>
