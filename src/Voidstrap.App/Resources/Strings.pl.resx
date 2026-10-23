@@ -7914,4 +7914,28 @@ Błąd: {0}</value>
   <data name="Menu.Rosemary.Notice" xml:space="preserve">
     <value>Rosemary jest nowy i wciąż eksperymentalny.</value>
   </data>
+  <data name="Ui.Integrations.LibraryFavorites.Title" xml:space="preserve">
+    <value>Pokazuj ulubione z Roblox w bibliotece</value>
+  </data>
+  <data name="Ui.Integrations.LibraryFavorites.Description" xml:space="preserve">
+    <value>Dodaje gry, które oznaczyłeś jako ulubione w Roblox, do Twojej biblioteki Voidstrap.</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Title" xml:space="preserve">
+    <value>Powiadomienia o aktualizacjach ulubionych gier</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Description" xml:space="preserve">
+    <value>Wysyła powiadomienie, gdy gra oznaczona przez Ciebie jako ulubiona w Roblox otrzyma aktualizację.</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Title" xml:space="preserve">
+    <value>Gra {0} została zaktualizowana</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Text" xml:space="preserve">
+    <value>Gra, którą oznaczyłeś jako ulubioną w Roblox, ma nową aktualizację.</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Title" xml:space="preserve">
+    <value>Znajomi i ulubione</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
+    <value>Powiadomienia o znajomych, Twoje ulubione z Roblox w bibliotece i powiadomienia o aktualizacjach ulubionych gier.</value>
+  </data>
 </root>

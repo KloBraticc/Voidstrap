@@ -7913,4 +7913,28 @@
   <data name="Menu.Rosemary.Notice" xml:space="preserve">
     <value>Rosemary جديد ولا يزال تجريبيًا.</value>
   </data>
+  <data name="Ui.Integrations.LibraryFavorites.Title" xml:space="preserve">
+    <value>عرض مفضلات Roblox في المكتبة</value>
+  </data>
+  <data name="Ui.Integrations.LibraryFavorites.Description" xml:space="preserve">
+    <value>يضيف الألعاب التي أضفتها إلى المفضلة على Roblox إلى مكتبة Voidstrap.</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Title" xml:space="preserve">
+    <value>تنبيهات تحديث الألعاب المفضلة</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Description" xml:space="preserve">
+    <value>يرسل إشعارًا عند تحديث لعبة أضفتها إلى المفضلة على Roblox.</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Title" xml:space="preserve">
+    <value>تم تحديث {0}</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Text" xml:space="preserve">
+    <value>تلقت لعبة أضفتها إلى المفضلة على Roblox تحديثًا جديدًا.</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Title" xml:space="preserve">
+    <value>الأصدقاء والمفضلة</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
+    <value>إشعارات الأصدقاء، ومفضلات Roblox في المكتبة، وتنبيهات تحديث الألعاب المفضلة.</value>
+  </data>
 </root>

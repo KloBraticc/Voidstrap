@@ -7913,4 +7913,28 @@ Hiba: {0}</value>
   <data name="Menu.Rosemary.Notice" xml:space="preserve">
     <value>A Rosemary új, és még kísérleti.</value>
   </data>
+  <data name="Ui.Integrations.LibraryFavorites.Title" xml:space="preserve">
+    <value>Roblox kedvencek megjelenítése a könyvtárban</value>
+  </data>
+  <data name="Ui.Integrations.LibraryFavorites.Description" xml:space="preserve">
+    <value>Hozzáadja a Voidstrap könyvtáradhoz azokat a játékokat, amelyeket a Robloxon kedvencnek jelöltél.</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Title" xml:space="preserve">
+    <value>Értesítések kedvenc játékok frissítéseiről</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Description" xml:space="preserve">
+    <value>Értesítést küld, ha egy játék, amelyet a Robloxon kedvencnek jelöltél, frissítést kap.</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Title" xml:space="preserve">
+    <value>{0} frissült</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Text" xml:space="preserve">
+    <value>Egy játék, amelyet a Robloxon kedvencnek jelöltél, új frissítést kapott.</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Title" xml:space="preserve">
+    <value>Barátok és kedvencek</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
+    <value>Baráti értesítések, a Roblox kedvenceid a könyvtárban és értesítések a kedvenc játékok frissítéseiről.</value>
+  </data>
 </root>

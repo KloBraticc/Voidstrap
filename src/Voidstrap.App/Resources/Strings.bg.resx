@@ -7914,4 +7914,28 @@ Voidstrap не можа да запише в папката на работни�
   <data name="Menu.Rosemary.Notice" xml:space="preserve">
     <value>Rosemary е нов и все още експериментален.</value>
   </data>
+  <data name="Ui.Integrations.LibraryFavorites.Title" xml:space="preserve">
+    <value>Показване на любимите от Roblox в библиотеката</value>
+  </data>
+  <data name="Ui.Integrations.LibraryFavorites.Description" xml:space="preserve">
+    <value>Добавя игрите, които сте отбелязали като любими в Roblox, към Вашата библиотека във Voidstrap.</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Title" xml:space="preserve">
+    <value>Известия за обновления на любими игри</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Description" xml:space="preserve">
+    <value>Изпраща известие, когато игра, която сте отбелязали като любима в Roblox, получи обновление.</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Title" xml:space="preserve">
+    <value>{0} беше обновена</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Text" xml:space="preserve">
+    <value>Игра, която сте отбелязали като любима в Roblox, има ново обновление.</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Title" xml:space="preserve">
+    <value>Приятели и любими</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
+    <value>Известия за приятели, любимите Ви от Roblox в библиотеката и известия за обновления на любими игри.</value>
+  </data>
 </root>

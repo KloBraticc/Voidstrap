@@ -7938,4 +7938,28 @@ Voidstrap 无法写入桌面文件夹。</value>
   <data name="Menu.Rosemary.Notice" xml:space="preserve">
     <value>Rosemary 是新项目，仍处于实验阶段。</value>
   </data>
+  <data name="Ui.Integrations.LibraryFavorites.Title" xml:space="preserve">
+    <value>在库中显示 Roblox 收藏</value>
+  </data>
+  <data name="Ui.Integrations.LibraryFavorites.Description" xml:space="preserve">
+    <value>将您在 Roblox 上收藏的游戏添加到您的 Voidstrap 库中。</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Title" xml:space="preserve">
+    <value>收藏游戏更新提醒</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Description" xml:space="preserve">
+    <value>当您在 Roblox 上收藏的游戏有更新时发送通知。</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Title" xml:space="preserve">
+    <value>{0} 已更新</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Text" xml:space="preserve">
+    <value>您在 Roblox 上收藏的一款游戏有新的更新。</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Title" xml:space="preserve">
+    <value>好友与收藏</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
+    <value>好友通知、库中的 Roblox 收藏以及收藏游戏更新提醒。</value>
+  </data>
 </root>

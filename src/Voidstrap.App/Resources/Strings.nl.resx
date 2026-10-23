@@ -7915,4 +7915,28 @@ Fout: {0}</value>
   <data name="Menu.Rosemary.Notice" xml:space="preserve">
     <value>Rosemary is nieuw en nog experimenteel.</value>
   </data>
+  <data name="Ui.Integrations.LibraryFavorites.Title" xml:space="preserve">
+    <value>Roblox favorieten in de bibliotheek tonen</value>
+  </data>
+  <data name="Ui.Integrations.LibraryFavorites.Description" xml:space="preserve">
+    <value>Voegt de games die je op Roblox als favoriet hebt gemarkeerd toe aan je Voidstrap bibliotheek.</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Title" xml:space="preserve">
+    <value>Meldingen voor updates van favoriete games</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Description" xml:space="preserve">
+    <value>Stuurt een melding wanneer een game die je op Roblox als favoriet hebt gemarkeerd een update krijgt.</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Title" xml:space="preserve">
+    <value>{0} is bijgewerkt</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Text" xml:space="preserve">
+    <value>Een game die je op Roblox als favoriet hebt gemarkeerd heeft een nieuwe update.</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Title" xml:space="preserve">
+    <value>Vrienden en favorieten</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
+    <value>Vriendmeldingen, je Roblox favorieten in de bibliotheek en meldingen voor updates van favoriete games.</value>
+  </data>
 </root>

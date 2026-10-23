@@ -7917,4 +7917,28 @@ Voidstrap 無法寫入桌面資料夾。</value>
   <data name="Menu.Rosemary.Notice" xml:space="preserve">
     <value>Rosemary 是新專案，目前仍在實驗階段。</value>
   </data>
+  <data name="Ui.Integrations.LibraryFavorites.Title" xml:space="preserve">
+    <value>在收藏庫中顯示 Roblox 我的最愛</value>
+  </data>
+  <data name="Ui.Integrations.LibraryFavorites.Description" xml:space="preserve">
+    <value>將你在 Roblox 加入我的最愛的遊戲新增到你的 Voidstrap 收藏庫。</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Title" xml:space="preserve">
+    <value>最愛遊戲更新提醒</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Description" xml:space="preserve">
+    <value>當你在 Roblox 加入我的最愛的遊戲有更新時傳送通知。</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Title" xml:space="preserve">
+    <value>{0} 已更新</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Text" xml:space="preserve">
+    <value>你在 Roblox 加入我的最愛的一款遊戲有新的更新。</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Title" xml:space="preserve">
+    <value>好友與我的最愛</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
+    <value>好友通知、收藏庫中的 Roblox 我的最愛，以及最愛遊戲更新提醒。</value>
+  </data>
 </root>

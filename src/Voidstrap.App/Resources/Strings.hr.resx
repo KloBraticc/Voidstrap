@@ -7913,4 +7913,28 @@ Pogreška: {0}</value>
   <data name="Menu.Rosemary.Notice" xml:space="preserve">
     <value>Rosemary je nov i još eksperimentalan.</value>
   </data>
+  <data name="Ui.Integrations.LibraryFavorites.Title" xml:space="preserve">
+    <value>Prikaži Roblox favorite u biblioteci</value>
+  </data>
+  <data name="Ui.Integrations.LibraryFavorites.Description" xml:space="preserve">
+    <value>Dodaje igre koje si označio kao favorite na Robloxu u svoju Voidstrap biblioteku.</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Title" xml:space="preserve">
+    <value>Obavijesti o ažuriranjima omiljenih igara</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Description" xml:space="preserve">
+    <value>Šalje obavijest kada igra koju si označio kao favorit na Robloxu dobije ažuriranje.</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Title" xml:space="preserve">
+    <value>{0} je ažurirana</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Text" xml:space="preserve">
+    <value>Igra koju si označio kao favorit na Robloxu ima novo ažuriranje.</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Title" xml:space="preserve">
+    <value>Prijatelji i favoriti</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
+    <value>Obavijesti o prijateljima, tvoji Roblox favoriti u biblioteci i obavijesti o ažuriranjima omiljenih igara.</value>
+  </data>
 </root>

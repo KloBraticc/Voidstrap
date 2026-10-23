@@ -436,6 +436,18 @@
                   </Style>
                 </FrameworkElement.Style>
               </ui:SymbolIcon>
+              <ui:SymbolIcon Grid.Column="2" Margin="8,0,0,0" Symbol="Heart16" FontSize="12" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}">
+                <FrameworkElement.Style>
+                  <Style TargetType="{x:Type ui:SymbolIcon}">
+                    <Setter Property="Visibility" Value="{Binding FavoriteIconVisibility}" />
+                    <Style.Triggers>
+                      <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}" Value="icons">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                      </DataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </FrameworkElement.Style>
+              </ui:SymbolIcon>
             </Grid>
           </DataTemplate>
         </ItemsControl.ItemTemplate>
@@ -583,6 +595,7 @@
                       <Grid Margin="8,6,8,8">
                         <TextBlock FontSize="12" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorPrimaryBrush}" TextTrimming="CharacterEllipsis" Text="{Binding Name}" ToolTip="{Binding Name}" />
                         <ui:SymbolIcon HorizontalAlignment="Right" Symbol="Pin16" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Visibility="{Binding PinIconVisibility}" />
+                        <ui:SymbolIcon HorizontalAlignment="Right" Symbol="Heart16" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Visibility="{Binding FavoriteIconVisibility}" />
                       </Grid>
                       <Grid Margin="8,0,8,8" Visibility="{Binding BadgeProgressVisibility}" ToolTip="{Binding BadgeTooltip}">
                         <Grid.ColumnDefinitions>

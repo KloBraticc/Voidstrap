@@ -7916,4 +7916,28 @@ Kesalahan: {0}</value>
   <data name="Menu.Rosemary.Notice" xml:space="preserve">
     <value>Rosemary masih baru dan masih eksperimental.</value>
   </data>
+  <data name="Ui.Integrations.LibraryFavorites.Title" xml:space="preserve">
+    <value>Tampilkan favorit Roblox di Pustaka</value>
+  </data>
+  <data name="Ui.Integrations.LibraryFavorites.Description" xml:space="preserve">
+    <value>Menambahkan game yang Anda favoritkan di Roblox ke Pustaka Voidstrap Anda.</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Title" xml:space="preserve">
+    <value>Peringatan pembaruan game favorit</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Description" xml:space="preserve">
+    <value>Mengirim notifikasi saat game yang Anda favoritkan di Roblox mendapat pembaruan.</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Title" xml:space="preserve">
+    <value>{0} telah diperbarui</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Text" xml:space="preserve">
+    <value>Game yang Anda favoritkan di Roblox mendapat pembaruan baru.</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Title" xml:space="preserve">
+    <value>Teman dan favorit</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
+    <value>Notifikasi teman, favorit Roblox Anda di Pustaka, dan peringatan pembaruan game favorit.</value>
+  </data>
 </root>

@@ -7912,4 +7912,28 @@ Hata: {0}</value>
   <data name="Menu.Rosemary.Notice" xml:space="preserve">
     <value>Rosemary yenidir ve hâlâ deneyseldir.</value>
   </data>
+  <data name="Ui.Integrations.LibraryFavorites.Title" xml:space="preserve">
+    <value>Roblox favorilerini Kitaplıkta göster</value>
+  </data>
+  <data name="Ui.Integrations.LibraryFavorites.Description" xml:space="preserve">
+    <value>Roblox'ta favorilere eklediğiniz oyunları Voidstrap Kitaplığınıza ekler.</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Title" xml:space="preserve">
+    <value>Favori oyun güncelleme uyarıları</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Description" xml:space="preserve">
+    <value>Roblox'ta favorilere eklediğiniz bir oyun güncellendiğinde size bildirim gönderir.</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Title" xml:space="preserve">
+    <value>{0} güncellendi</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Text" xml:space="preserve">
+    <value>Roblox'ta favorilere eklediğiniz bir oyunun yeni bir güncellemesi var.</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Title" xml:space="preserve">
+    <value>Arkadaşlar ve favoriler</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
+    <value>Arkadaş bildirimleri, Kitaplıktaki Roblox favorileriniz ve favori oyun güncelleme uyarıları.</value>
+  </data>
 </root>

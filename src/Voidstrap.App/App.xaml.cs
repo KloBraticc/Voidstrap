@@ -1053,6 +1053,8 @@ public partial class App : Application
 		TryStartup("Theme protocol cleanup", () => WindowsRegistry.Unregister("voidstrap"));
 		_macOSStartupReady.TrySetResult(true);
 		LinuxUiPerformance.Mark("Launch dispatch");
+		if (!LaunchSettings.UninstallFlag.Active)
+			Voidstrap.Integrations.RobloxFavorites.StartBackgroundCheck(_lifetimeCancellation.SafeToken());
 		LaunchHandler.ProcessLaunchArgs();
 	}
 

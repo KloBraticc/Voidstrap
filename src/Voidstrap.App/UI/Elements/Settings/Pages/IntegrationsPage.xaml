@@ -22,9 +22,25 @@
           <controls:OptionControl Description="{resources:Loc Ui_Integrations_DisplaysTheGameYouHaveJoined}" Header="{resources:Loc Ui_Integrations_JoinGameNotification}" IsEnabled="{Binding ActivityTrackingEnabled, Mode=OneWay}">
             <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding joinGameNotify, Mode=TwoWay}" />
           </controls:OptionControl>
-          <controls:OptionControl Description="{resources:Loc Ui_Integrations_NotifiesYouInGameWhenA}" Header="{resources:Loc Ui_Integrations_FriendNotifications}" IsEnabled="{Binding ActivityTrackingEnabled, Mode=OneWay}">
-            <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding FriendNotifications, Mode=TwoWay}" />
-          </controls:OptionControl>
+          <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
+            <HeaderedContentControl.Header>
+              <StackPanel>
+                <TextBlock FontSize="14" Text="{resources:Loc Ui_Integrations_FriendsAndFavorites_Title}" />
+                <TextBlock Margin="0,2,0,0" FontSize="12" Text="{resources:Loc Ui_Integrations_FriendsAndFavorites_Description}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" />
+              </StackPanel>
+            </HeaderedContentControl.Header>
+            <StackPanel>
+              <controls:OptionControl Description="{resources:Loc Ui_Integrations_NotifiesYouInGameWhenA}" Header="{resources:Loc Ui_Integrations_FriendNotifications}" IsEnabled="{Binding ActivityTrackingEnabled, Mode=OneWay}">
+                <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding FriendNotifications, Mode=TwoWay}" />
+              </controls:OptionControl>
+              <controls:OptionControl Description="{resources:Loc Ui_Integrations_LibraryFavorites_Description}" Header="{resources:Loc Ui_Integrations_LibraryFavorites_Title}">
+                <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding LibraryShowRobloxFavorites, Mode=TwoWay}" />
+              </controls:OptionControl>
+              <controls:OptionControl Description="{resources:Loc Ui_Integrations_FavoriteUpdateAlerts_Description}" Header="{resources:Loc Ui_Integrations_FavoriteUpdateAlerts_Title}">
+                <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding FavoriteUpdateAlerts, Mode=TwoWay}" />
+              </controls:OptionControl>
+            </StackPanel>
+          </ui:CardExpander>
           <controls:OptionControl Header="{resources:Loc Menu_Integrations_DesktopApp_Title}" HelpLink="https://github.com/BloxstrapLabs/Bloxstrap/wiki/What-is-activity-tracking%3F#dont-exit-to-desktop-app" Description="{Binding Source={resources:Loc Menu_Integrations_DesktopApp_Description}, Converter={StaticResource StringFormatConverter}, ConverterParameter=https://github.com/BloxstrapLabs/Bloxstrap/wiki/What-is-activity-tracking%3F#dont-exit-to-desktop-app}" IsEnabled="{Binding ActivityTrackingEnabled, Mode=OneWay}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
             <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding DisableAppPatchEnabled, Mode=TwoWay}" />
           </controls:OptionControl>

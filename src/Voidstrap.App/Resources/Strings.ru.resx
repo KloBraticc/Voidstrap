@@ -7913,4 +7913,28 @@ Voidstrap не смог записать в папку рабочего стол
   <data name="Menu.Rosemary.Notice" xml:space="preserve">
     <value>Rosemary новый и пока экспериментальный.</value>
   </data>
+  <data name="Ui.Integrations.LibraryFavorites.Title" xml:space="preserve">
+    <value>Показывать избранное Roblox в библиотеке</value>
+  </data>
+  <data name="Ui.Integrations.LibraryFavorites.Description" xml:space="preserve">
+    <value>Добавляет игры, которые Вы добавили в избранное в Roblox, в Вашу библиотеку Voidstrap.</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Title" xml:space="preserve">
+    <value>Уведомления об обновлениях избранных игр</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Description" xml:space="preserve">
+    <value>Отправляет уведомление, когда игра из Вашего избранного в Roblox получает обновление.</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Title" xml:space="preserve">
+    <value>{0}: вышло обновление</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Text" xml:space="preserve">
+    <value>Игра из Вашего избранного в Roblox получила новое обновление.</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Title" xml:space="preserve">
+    <value>Друзья и избранное</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
+    <value>Уведомления о друзьях, Ваше избранное Roblox в библиотеке и уведомления об обновлениях избранных игр.</value>
+  </data>
 </root>

@@ -7928,4 +7928,28 @@ Voidstrap がデスクトップ フォルダーに書き込めませんでした
   <data name="Menu.Rosemary.Notice" xml:space="preserve">
     <value>Rosemary は新しく、まだ試験的です。</value>
   </data>
+  <data name="Ui.Integrations.LibraryFavorites.Title" xml:space="preserve">
+    <value>Roblox のお気に入りをライブラリに表示</value>
+  </data>
+  <data name="Ui.Integrations.LibraryFavorites.Description" xml:space="preserve">
+    <value>Roblox でお気に入りに登録したゲームを Voidstrap のライブラリに追加します。</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Title" xml:space="preserve">
+    <value>お気に入りゲームの更新通知</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Description" xml:space="preserve">
+    <value>Roblox でお気に入りに登録したゲームが更新されたときに通知を送信します。</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Title" xml:space="preserve">
+    <value>{0} が更新されました</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Text" xml:space="preserve">
+    <value>Roblox でお気に入りに登録したゲームに新しい更新があります。</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Title" xml:space="preserve">
+    <value>フレンドとお気に入り</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
+    <value>フレンドの通知、ライブラリ内の Roblox のお気に入り、お気に入りゲームの更新通知。</value>
+  </data>
 </root>

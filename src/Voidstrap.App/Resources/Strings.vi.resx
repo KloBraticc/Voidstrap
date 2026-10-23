@@ -7917,4 +7917,28 @@ Lỗi: {0}</value>
   <data name="Menu.Rosemary.Notice" xml:space="preserve">
     <value>Rosemary còn mới và vẫn đang thử nghiệm.</value>
   </data>
+  <data name="Ui.Integrations.LibraryFavorites.Title" xml:space="preserve">
+    <value>Hiển thị mục yêu thích Roblox trong Thư viện</value>
+  </data>
+  <data name="Ui.Integrations.LibraryFavorites.Description" xml:space="preserve">
+    <value>Thêm các trò chơi bạn đã yêu thích trên Roblox vào Thư viện Voidstrap của bạn.</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Title" xml:space="preserve">
+    <value>Cảnh báo cập nhật trò chơi yêu thích</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Description" xml:space="preserve">
+    <value>Gửi thông báo khi một trò chơi bạn đã yêu thích trên Roblox được cập nhật.</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Title" xml:space="preserve">
+    <value>{0} đã được cập nhật</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Text" xml:space="preserve">
+    <value>Một trò chơi bạn đã yêu thích trên Roblox có bản cập nhật mới.</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Title" xml:space="preserve">
+    <value>Bạn bè và mục yêu thích</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
+    <value>Thông báo về bạn bè, mục yêu thích Roblox trong Thư viện và cảnh báo cập nhật trò chơi yêu thích.</value>
+  </data>
 </root>

@@ -7914,4 +7914,28 @@ Fel: {0}</value>
   <data name="Menu.Rosemary.Notice" xml:space="preserve">
     <value>Rosemary är nytt och fortfarande experimentellt.</value>
   </data>
+  <data name="Ui.Integrations.LibraryFavorites.Title" xml:space="preserve">
+    <value>Visa Roblox favoriter i biblioteket</value>
+  </data>
+  <data name="Ui.Integrations.LibraryFavorites.Description" xml:space="preserve">
+    <value>Lägger till spelen du har favoritmarkerat på Roblox i ditt Voidstrap bibliotek.</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Title" xml:space="preserve">
+    <value>Aviseringar om uppdateringar av favoritspel</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Description" xml:space="preserve">
+    <value>Skickar en avisering när ett spel du har favoritmarkerat på Roblox får en uppdatering.</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Title" xml:space="preserve">
+    <value>{0} har uppdaterats</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Text" xml:space="preserve">
+    <value>Ett spel du har favoritmarkerat på Roblox har fått en ny uppdatering.</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Title" xml:space="preserve">
+    <value>Vänner och favoriter</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
+    <value>Vänaviseringar, dina Roblox favoriter i biblioteket och aviseringar om uppdateringar av favoritspel.</value>
+  </data>
 </root>

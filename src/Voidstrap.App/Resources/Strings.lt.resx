@@ -7915,4 +7915,28 @@ Klaida: {0}</value>
   <data name="Menu.Rosemary.Notice" xml:space="preserve">
     <value>Rosemary yra naujas ir vis dar eksperimentinis.</value>
   </data>
+  <data name="Ui.Integrations.LibraryFavorites.Title" xml:space="preserve">
+    <value>Rodyti Roblox mėgstamiausius bibliotekoje</value>
+  </data>
+  <data name="Ui.Integrations.LibraryFavorites.Description" xml:space="preserve">
+    <value>Prideda žaidimus, kuriuos pažymėjote kaip mėgstamiausius Roblox, į jūsų Voidstrap biblioteką.</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Title" xml:space="preserve">
+    <value>Mėgstamiausių žaidimų atnaujinimų pranešimai</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Description" xml:space="preserve">
+    <value>Siunčia pranešimą, kai žaidimas, kurį pažymėjote kaip mėgstamiausią Roblox, gauna atnaujinimą.</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Title" xml:space="preserve">
+    <value>{0} buvo atnaujintas</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Text" xml:space="preserve">
+    <value>Žaidimas, kurį pažymėjote kaip mėgstamiausią Roblox, turi naują atnaujinimą.</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Title" xml:space="preserve">
+    <value>Draugai ir mėgstamiausi</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
+    <value>Pranešimai apie draugus, jūsų Roblox mėgstamiausi bibliotekoje ir mėgstamiausių žaidimų atnaujinimų pranešimai.</value>
+  </data>
 </root>

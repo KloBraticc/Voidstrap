@@ -7915,4 +7915,28 @@ Eroare: {0}</value>
   <data name="Menu.Rosemary.Notice" xml:space="preserve">
     <value>Rosemary este nou și încă experimental.</value>
   </data>
+  <data name="Ui.Integrations.LibraryFavorites.Title" xml:space="preserve">
+    <value>Afișează favoritele Roblox în bibliotecă</value>
+  </data>
+  <data name="Ui.Integrations.LibraryFavorites.Description" xml:space="preserve">
+    <value>Adaugă în biblioteca ta Voidstrap jocurile pe care le-ai marcat ca favorite pe Roblox.</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Title" xml:space="preserve">
+    <value>Alerte pentru actualizările jocurilor favorite</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Description" xml:space="preserve">
+    <value>Îți trimite o notificare când un joc pe care l-ai marcat ca favorit pe Roblox primește o actualizare.</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Title" xml:space="preserve">
+    <value>{0} a fost actualizat</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Text" xml:space="preserve">
+    <value>Un joc pe care l-ai marcat ca favorit pe Roblox are o actualizare nouă.</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Title" xml:space="preserve">
+    <value>Prieteni și favorite</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
+    <value>Notificări despre prieteni, favoritele tale Roblox în bibliotecă și alerte pentru actualizările jocurilor favorite.</value>
+  </data>
 </root>

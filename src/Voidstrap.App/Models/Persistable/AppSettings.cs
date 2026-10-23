@@ -513,6 +513,10 @@ namespace Voidstrap.Models.Persistable
 
         public List<LibraryPin> LibraryPins { get; set; } = [];
 
+        public bool LibraryShowRobloxFavorites { get; set; } = true;
+
+        public bool FavoriteUpdateAlerts { get; set; } = true;
+
         public class LibraryPin
         {
             public long PlaceId { get; set; }

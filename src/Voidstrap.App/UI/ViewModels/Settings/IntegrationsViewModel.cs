@@ -397,6 +397,40 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 		}
 	}
 
+	public bool LibraryShowRobloxFavorites
+	{
+		get
+		{
+			return App.Settings.Prop.LibraryShowRobloxFavorites;
+		}
+		set
+		{
+			if (App.Settings.Prop.LibraryShowRobloxFavorites == value)
+			{
+				return;
+			}
+			App.Settings.Prop.LibraryShowRobloxFavorites = value;
+			SaveAppSetting(nameof(LibraryShowRobloxFavorites));
+		}
+	}
+
+	public bool FavoriteUpdateAlerts
+	{
+		get
+		{
+			return App.Settings.Prop.FavoriteUpdateAlerts;
+		}
+		set
+		{
+			if (App.Settings.Prop.FavoriteUpdateAlerts == value)
+			{
+				return;
+			}
+			App.Settings.Prop.FavoriteUpdateAlerts = value;
+			SaveAppSetting(nameof(FavoriteUpdateAlerts));
+		}
+	}
+
 	public bool joinGameNotify
 	{
 		get

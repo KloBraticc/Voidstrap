@@ -7912,4 +7912,28 @@ Voidstrap이 바탕 화면 폴더에 쓸 수 없습니다.</value>
   <data name="Menu.Rosemary.Notice" xml:space="preserve">
     <value>Rosemary는 새로 나온 도구이며 아직 실험 단계입니다.</value>
   </data>
+  <data name="Ui.Integrations.LibraryFavorites.Title" xml:space="preserve">
+    <value>라이브러리에 Roblox 즐겨찾기 표시</value>
+  </data>
+  <data name="Ui.Integrations.LibraryFavorites.Description" xml:space="preserve">
+    <value>Roblox에서 즐겨찾기한 게임을 Voidstrap 라이브러리에 추가합니다.</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Title" xml:space="preserve">
+    <value>즐겨찾기 게임 업데이트 알림</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Description" xml:space="preserve">
+    <value>Roblox에서 즐겨찾기한 게임이 업데이트되면 알림을 보냅니다.</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Title" xml:space="preserve">
+    <value>{0}이(가) 업데이트되었습니다</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Text" xml:space="preserve">
+    <value>Roblox에서 즐겨찾기한 게임에 새 업데이트가 있습니다.</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Title" xml:space="preserve">
+    <value>친구 및 즐겨찾기</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
+    <value>친구 알림, 라이브러리의 Roblox 즐겨찾기 및 즐겨찾기 게임 업데이트 알림입니다.</value>
+  </data>
 </root>

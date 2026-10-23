@@ -951,6 +951,14 @@ namespace Voidstrap.Resources {
         public static string Ui_Integrations_NotifiesYouInGameWhenA => ResourceManager.GetString("Ui.Integrations.NotifiesYouInGameWhenA", resourceCulture);
 
         public static string Ui_Integrations_FriendNotifications => ResourceManager.GetString("Ui.Integrations.FriendNotifications", resourceCulture);
+        public static string Ui_Integrations_FriendsAndFavorites_Title => ResourceManager.GetString("Ui.Integrations.FriendsAndFavorites.Title", resourceCulture);
+        public static string Ui_Integrations_FriendsAndFavorites_Description => ResourceManager.GetString("Ui.Integrations.FriendsAndFavorites.Description", resourceCulture);
+        public static string Ui_Integrations_LibraryFavorites_Title => ResourceManager.GetString("Ui.Integrations.LibraryFavorites.Title", resourceCulture);
+        public static string Ui_Integrations_LibraryFavorites_Description => ResourceManager.GetString("Ui.Integrations.LibraryFavorites.Description", resourceCulture);
+        public static string Ui_Integrations_FavoriteUpdateAlerts_Title => ResourceManager.GetString("Ui.Integrations.FavoriteUpdateAlerts.Title", resourceCulture);
+        public static string Ui_Integrations_FavoriteUpdateAlerts_Description => ResourceManager.GetString("Ui.Integrations.FavoriteUpdateAlerts.Description", resourceCulture);
+        public static string Ui_Notifications_FavoriteUpdated_Title => ResourceManager.GetString("Ui.Notifications.FavoriteUpdated.Title", resourceCulture);
+        public static string Ui_Notifications_FavoriteUpdated_Text => ResourceManager.GetString("Ui.Notifications.FavoriteUpdated.Text", resourceCulture);
 
         public static string Ui_Integrations_PlayingRoblox => ResourceManager.GetString("Ui.Integrations.PlayingRoblox", resourceCulture);
 

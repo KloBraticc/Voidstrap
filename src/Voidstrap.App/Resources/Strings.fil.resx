@@ -7912,4 +7912,28 @@ Error: {0}</value>
   <data name="Menu.Rosemary.Notice" xml:space="preserve">
     <value>Bago pa at eksperimental pa ang Rosemary.</value>
   </data>
+  <data name="Ui.Integrations.LibraryFavorites.Title" xml:space="preserve">
+    <value>Ipakita ang mga paborito sa Roblox sa Library</value>
+  </data>
+  <data name="Ui.Integrations.LibraryFavorites.Description" xml:space="preserve">
+    <value>Idinadagdag sa iyong Voidstrap Library ang mga larong ginawa mong paborito sa Roblox.</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Title" xml:space="preserve">
+    <value>Mga alerto sa update ng paboritong laro</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Description" xml:space="preserve">
+    <value>Nagpapadala ng notification kapag may update ang isang larong ginawa mong paborito sa Roblox.</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Title" xml:space="preserve">
+    <value>Na-update ang {0}</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Text" xml:space="preserve">
+    <value>May bagong update ang isang larong ginawa mong paborito sa Roblox.</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Title" xml:space="preserve">
+    <value>Mga kaibigan at paborito</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
+    <value>Mga notification tungkol sa kaibigan, ang iyong mga paborito sa Roblox sa Library at mga alerto sa update ng paboritong laro.</value>
+  </data>
 </root>

@@ -7915,4 +7915,28 @@ Erro: {0}</value>
   <data name="Menu.Rosemary.Notice" xml:space="preserve">
     <value>O Rosemary é novo e ainda experimental.</value>
   </data>
+  <data name="Ui.Integrations.LibraryFavorites.Title" xml:space="preserve">
+    <value>Mostrar os favoritos do Roblox na biblioteca</value>
+  </data>
+  <data name="Ui.Integrations.LibraryFavorites.Description" xml:space="preserve">
+    <value>Adiciona à sua biblioteca do Voidstrap os jogos que você favoritou no Roblox.</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Title" xml:space="preserve">
+    <value>Alertas de atualização de jogos favoritos</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Description" xml:space="preserve">
+    <value>Envia uma notificação quando um jogo que você favoritou no Roblox recebe uma atualização.</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Title" xml:space="preserve">
+    <value>{0} foi atualizado</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Text" xml:space="preserve">
+    <value>Um jogo que você favoritou no Roblox tem uma nova atualização.</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Title" xml:space="preserve">
+    <value>Amigos e favoritos</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
+    <value>Notificações de amigos, seus favoritos do Roblox na biblioteca e alertas de atualização de jogos favoritos.</value>
+  </data>
 </root>

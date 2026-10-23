@@ -44,6 +44,7 @@ public class LibraryEventEntry
 public class LibraryGameEntry : INotifyPropertyChanged
 {
     private bool _isPinned;
+    private bool _isFavorite;
     private string _likePercent = "";
     private long _playing;
 
@@ -92,9 +93,26 @@ public class LibraryGameEntry : INotifyPropertyChanged
                 OnPropertyChanged(nameof(IsPinned));
                 OnPropertyChanged(nameof(PinButtonText));
                 OnPropertyChanged(nameof(PinIconVisibility));
+                OnPropertyChanged(nameof(FavoriteIconVisibility));
             }
         }
     }
+
+    public bool IsFavorite
+    {
+        get => _isFavorite;
+        set
+        {
+            if (_isFavorite != value)
+            {
+                _isFavorite = value;
+                OnPropertyChanged(nameof(IsFavorite));
+                OnPropertyChanged(nameof(FavoriteIconVisibility));
+            }
+        }
+    }
+
+    public Visibility FavoriteIconVisibility => IsFavorite && !IsPinned ? Visibility.Visible : Visibility.Collapsed;
 
     public string PinButtonText => IsPinned ? "Unpin" : "Pin";
 
@@ -921,7 +939,8 @@ public class LibraryViewModel : INotifyPropertyChanged
 
     private (List<LibraryGameEntry> Games, bool Fresh) BuildLocalGames(List<AppSettings.LibraryPin> pins)
     {
-        List<LibraryGameEntry> games = BuildEntries(ReadHistoryFile(), pins, Integrations.PlayTimeStore.Read());
+        List<Integrations.RobloxFavorites.Favorite> favorites = App.Settings.Prop.LibraryShowRobloxFavorites ? Integrations.RobloxFavorites.ReadCached() : [];
+        List<LibraryGameEntry> games = BuildEntries(ReadHistoryFile(), pins, Integrations.PlayTimeStore.Read(), favorites);
         bool fresh = false;
         try
         {
@@ -965,7 +984,10 @@ public class LibraryViewModel : INotifyPropertyChanged
             }
         }
         Integrations.PlayTimeStore.StoreData playStore = await Task.Run(Integrations.PlayTimeStore.Read, token).ConfigureAwait(false);
-        List<LibraryGameEntry> games = BuildEntries(history, pins, playStore);
+        List<Integrations.RobloxFavorites.Favorite> favorites = [];
+        if (App.Settings.Prop.LibraryShowRobloxFavorites)
+            favorites = await Integrations.RobloxFavorites.RefreshAsync(token).ConfigureAwait(false) ?? Integrations.RobloxFavorites.ReadCached();
+        List<LibraryGameEntry> games = BuildEntries(history, pins, playStore, favorites);
         ApplyCachedDetails(games);
         return games;
     }
@@ -1000,6 +1022,7 @@ public class LibraryViewModel : INotifyPropertyChanged
             existing.LastPlayed = game.LastPlayed;
             existing.PlayTimeMinutes = game.PlayTimeMinutes;
             existing.IsPinned = game.IsPinned;
+            existing.IsFavorite = game.IsFavorite;
             existing.RefreshAll();
             merged.Add(existing);
         }
@@ -1137,7 +1160,8 @@ public class LibraryViewModel : INotifyPropertyChanged
     private static List<LibraryGameEntry> BuildEntries(
         List<Models.Entities.ActivityData> rawHistory,
         List<AppSettings.LibraryPin> pins,
-        Integrations.PlayTimeStore.StoreData playStore)
+        Integrations.PlayTimeStore.StoreData playStore,
+        List<Integrations.RobloxFavorites.Favorite> favorites)
     {
 
         Dictionary<long, LibraryGameEntry> byUniverse = new();
@@ -1183,6 +1207,31 @@ public class LibraryViewModel : INotifyPropertyChanged
                 entry.PlaceId = pin.PlaceId;
             if (string.IsNullOrEmpty(entry.Name) && !string.IsNullOrEmpty(pin.Name))
                 entry.Name = pin.Name;
+        }
+
+        foreach (Integrations.RobloxFavorites.Favorite favorite in favorites)
+        {
+            if (favorite.UniverseId == 0)
+                continue;
+            if (!byUniverse.TryGetValue(favorite.UniverseId, out LibraryGameEntry? entry))
+            {
+                entry = new LibraryGameEntry
+                {
+                    UniverseId = favorite.UniverseId,
+                    PlaceId = favorite.PlaceId
+                };
+                byUniverse[favorite.UniverseId] = entry;
+            }
+            entry.IsFavorite = true;
+            if (entry.PlaceId == 0)
+                entry.PlaceId = favorite.PlaceId;
+            if (string.IsNullOrWhiteSpace(entry.Name) && !string.IsNullOrWhiteSpace(favorite.Name))
+                entry.Name = favorite.Name;
+            if (string.IsNullOrWhiteSpace(entry.CreatorName) && !string.IsNullOrWhiteSpace(favorite.CreatorName))
+                entry.CreatorName = favorite.CreatorName;
+            if (entry.Visits <= 0 && favorite.Visits > 0)
+                entry.Visits = favorite.Visits;
+            entry.Updated ??= favorite.Updated;
         }
 
         foreach (KeyValuePair<long, Integrations.PlayTimeStore.UniverseTime> stored in playStore.Universes)

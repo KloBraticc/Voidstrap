@@ -7915,4 +7915,28 @@ Chyba: {0}</value>
   <data name="Menu.Rosemary.Notice" xml:space="preserve">
     <value>Rosemary je nový a stále experimentální.</value>
   </data>
+  <data name="Ui.Integrations.LibraryFavorites.Title" xml:space="preserve">
+    <value>Zobrazit oblíbené z Roblox v knihovně</value>
+  </data>
+  <data name="Ui.Integrations.LibraryFavorites.Description" xml:space="preserve">
+    <value>Přidá hry, které máte v Roblox označené jako oblíbené, do vaší knihovny Voidstrap.</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Title" xml:space="preserve">
+    <value>Upozornění na aktualizace oblíbených her</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Description" xml:space="preserve">
+    <value>Odešle oznámení, když hra, kterou máte v Roblox mezi oblíbenými, dostane aktualizaci.</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Title" xml:space="preserve">
+    <value>Hra {0} byla aktualizována</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Text" xml:space="preserve">
+    <value>Hra, kterou máte v Roblox mezi oblíbenými, má novou aktualizaci.</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Title" xml:space="preserve">
+    <value>Přátelé a oblíbené</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
+    <value>Oznámení o přátelích, vaše oblíbené z Roblox v knihovně a upozornění na aktualizace oblíbených her.</value>
+  </data>
 </root>

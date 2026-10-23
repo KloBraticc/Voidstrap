@@ -7912,4 +7912,28 @@ Voidstrap не зміг записати до теки робочого стол
   <data name="Menu.Rosemary.Notice" xml:space="preserve">
     <value>Rosemary новий і поки експериментальний.</value>
   </data>
+  <data name="Ui.Integrations.LibraryFavorites.Title" xml:space="preserve">
+    <value>Показувати обране Roblox у бібліотеці</value>
+  </data>
+  <data name="Ui.Integrations.LibraryFavorites.Description" xml:space="preserve">
+    <value>Додає ігри, які Ви додали до обраного в Roblox, до Вашої бібліотеки Voidstrap.</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Title" xml:space="preserve">
+    <value>Сповіщення про оновлення обраних ігор</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Description" xml:space="preserve">
+    <value>Надсилає сповіщення, коли гра з Вашого обраного в Roblox отримує оновлення.</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Title" xml:space="preserve">
+    <value>{0}: вийшло оновлення</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Text" xml:space="preserve">
+    <value>Гра з Вашого обраного в Roblox отримала нове оновлення.</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Title" xml:space="preserve">
+    <value>Друзі та обране</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
+    <value>Сповіщення про друзів, Ваше обране Roblox у бібліотеці та сповіщення про оновлення обраних ігор.</value>
+  </data>
 </root>

@@ -7916,4 +7916,28 @@ Errore: {0}</value>
   <data name="Menu.Rosemary.Notice" xml:space="preserve">
     <value>Rosemary è nuovo e ancora sperimentale.</value>
   </data>
+  <data name="Ui.Integrations.LibraryFavorites.Title" xml:space="preserve">
+    <value>Mostra i preferiti di Roblox nella libreria</value>
+  </data>
+  <data name="Ui.Integrations.LibraryFavorites.Description" xml:space="preserve">
+    <value>Aggiunge alla tua libreria di Voidstrap i giochi che hai messo tra i preferiti su Roblox.</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Title" xml:space="preserve">
+    <value>Avvisi di aggiornamento dei giochi preferiti</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Description" xml:space="preserve">
+    <value>Ti invia una notifica quando un gioco che hai messo tra i preferiti su Roblox riceve un aggiornamento.</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Title" xml:space="preserve">
+    <value>{0} è stato aggiornato</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Text" xml:space="preserve">
+    <value>Un gioco che hai messo tra i preferiti su Roblox ha un nuovo aggiornamento.</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Title" xml:space="preserve">
+    <value>Amici e preferiti</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
+    <value>Notifiche degli amici, i tuoi preferiti di Roblox nella libreria e avvisi di aggiornamento dei giochi preferiti.</value>
+  </data>
 </root>

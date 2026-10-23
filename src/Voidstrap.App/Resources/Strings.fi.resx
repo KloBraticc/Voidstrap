@@ -7915,4 +7915,28 @@ Virhe: {0}</value>
   <data name="Menu.Rosemary.Notice" xml:space="preserve">
     <value>Rosemary on uusi ja yhä kokeellinen.</value>
   </data>
+  <data name="Ui.Integrations.LibraryFavorites.Title" xml:space="preserve">
+    <value>Näytä Roblox suosikit kirjastossa</value>
+  </data>
+  <data name="Ui.Integrations.LibraryFavorites.Description" xml:space="preserve">
+    <value>Lisää Robloxissa suosikiksi merkitsemäsi pelit Voidstrap kirjastoosi.</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Title" xml:space="preserve">
+    <value>Suosikkipelien päivitysilmoitukset</value>
+  </data>
+  <data name="Ui.Integrations.FavoriteUpdateAlerts.Description" xml:space="preserve">
+    <value>Lähettää ilmoituksen, kun Robloxissa suosikiksi merkitsemäsi peli saa päivityksen.</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Title" xml:space="preserve">
+    <value>{0} päivitettiin</value>
+  </data>
+  <data name="Ui.Notifications.FavoriteUpdated.Text" xml:space="preserve">
+    <value>Robloxissa suosikiksi merkitsemäsi peli on saanut uuden päivityksen.</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Title" xml:space="preserve">
+    <value>Kaverit ja suosikit</value>
+  </data>
+  <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
+    <value>Kaveri-ilmoitukset, Roblox suosikkisi kirjastossa ja suosikkipelien päivitysilmoitukset.</value>
+  </data>
 </root>
