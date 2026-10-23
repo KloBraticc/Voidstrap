@@ -9,6 +9,8 @@ public class InterProcessLock : IDisposable
 
 	public bool IsAcquired { get; private set; }
 
+	private readonly int _ownerThreadId = Environment.CurrentManagedThreadId;
+
 	public InterProcessLock(string name)
 		: this(name, TimeSpan.Zero)
 	{
@@ -31,12 +33,15 @@ public class InterProcessLock : IDisposable
 	{
 		if (IsAcquired)
 		{
-			try
+			if (Environment.CurrentManagedThreadId == _ownerThreadId)
 			{
-				Mutex.ReleaseMutex();
-			}
-			catch
-			{
+				try
+				{
+					Mutex.ReleaseMutex();
+				}
+				catch (ApplicationException)
+				{
+				}
 			}
 			IsAcquired = false;
 		}
