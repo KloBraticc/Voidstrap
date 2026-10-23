@@ -37,14 +37,14 @@ internal static class LinuxAudioDucker
 				return true;
 			if (!LinuxAudioSessions.IsAvailable)
 			{
-				App.Logger?.WriteLine(LOG_IDENT, "PipeWire tools were not found, so Sober audio cannot be lowered while it is unfocused");
+				App.Logger?.WriteLine(LOG_IDENT, "PipeWire tools were not found, so Roblox audio cannot be lowered while it is unfocused");
 				return false;
 			}
 			CancellationTokenSource source = new();
 			_cts = source;
 			_loop = Task.Run(() => LoopAsync(source.Token));
 		}
-		App.Logger?.WriteLine(LOG_IDENT, "Audio ducking started for Sober");
+		App.Logger?.WriteLine(LOG_IDENT, "Audio ducking started for Roblox");
 		return true;
 	}
 
@@ -100,7 +100,7 @@ internal static class LinuxAudioDucker
 						if (!ownershipReported)
 						{
 							ownershipReported = true;
-							App.Logger?.WriteLine(LOG_IDENT, "Another Voidstrap process is handling Sober audio, taking over when it exits");
+							App.Logger?.WriteLine(LOG_IDENT, "Another Voidstrap process is handling Roblox audio, taking over when it exits");
 						}
 						await Task.Delay(OwnershipRetryMs, token).ConfigureAwait(false);
 						continue;
@@ -111,9 +111,9 @@ internal static class LinuxAudioDucker
 				long now = Environment.TickCount64;
 				if (now >= nextRefresh || focused != lastFocused)
 				{
-					streams = await LinuxAudioSessions.FindSoberStreamsAsync(token).ConfigureAwait(false) ?? streams;
+					streams = await LinuxAudioSessions.FindRobloxStreamsAsync(token).ConfigureAwait(false) ?? streams;
 					nextRefresh = now + StreamRefreshIntervalMs;
-					soberWindowSeen = focused || (streams.Count > 0 && LinuxWindowInterop.FindSoberWindows().Count > 0);
+					soberWindowSeen = focused || (streams.Count > 0 && (LinuxWindowInterop.FindSoberWindows().Count > 0 || LinuxWindowInterop.FindProcessWindows(LinuxAudioSessions.RosemaryPlayerProcessIds()).Count > 0));
 					ForgetMissing(streams);
 				}
 				lastFocused = focused;
@@ -123,7 +123,7 @@ internal static class LinuxAudioDucker
 					if (!waylandReported)
 					{
 						waylandReported = true;
-						App.Logger?.WriteLine(LOG_IDENT, "Sober is playing audio but its window is not on X11, so Voidstrap cannot tell when it loses focus");
+						App.Logger?.WriteLine(LOG_IDENT, "Roblox is playing audio but its window is not on X11, so Voidstrap cannot tell when it loses focus");
 					}
 				}
 				else if (streams.Count > 0)
@@ -172,7 +172,7 @@ internal static class LinuxAudioDucker
 			reported = original;
 		}
 		if (lowered)
-			App.Logger?.WriteLine(LOG_IDENT, $"Sober lost focus, its audio is lowered from {Percent(reported)} to {Percent(reported * DuckLevel)} percent");
+			App.Logger?.WriteLine(LOG_IDENT, $"Roblox lost focus, its audio is lowered from {Percent(reported)} to {Percent(reported * DuckLevel)} percent");
 	}
 
 	private static async Task RestoreAsync(IReadOnlyList<LinuxAudioStream> streams, CancellationToken token)
@@ -194,7 +194,7 @@ internal static class LinuxAudioDucker
 				if (Math.Abs(stream.Volume - saved * DuckLevel) > RestoreTolerance)
 					continue;
 				target = saved;
-				App.Logger?.WriteLine(LOG_IDENT, "Sober started with the lowered volume from last time, putting it back to " + Percent(saved) + " percent");
+				App.Logger?.WriteLine(LOG_IDENT, "Roblox started with the lowered volume from last time, putting it back to " + Percent(saved) + " percent");
 			}
 
 			await FadeAsync(stream.NodeId, stream.Volume, target, token).ConfigureAwait(false);
@@ -208,7 +208,7 @@ internal static class LinuxAudioDucker
 		if (empty && pending is not null)
 			DeleteRestoreFile();
 		if (restored)
-			App.Logger?.WriteLine(LOG_IDENT, $"Sober is focused again, its audio is back to {Percent(reported)} percent");
+			App.Logger?.WriteLine(LOG_IDENT, $"Roblox is focused again, its audio is back to {Percent(reported)} percent");
 	}
 
 	private static async Task FadeAsync(int nodeId, float from, float to, CancellationToken token)

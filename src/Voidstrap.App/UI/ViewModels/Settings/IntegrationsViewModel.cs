@@ -164,6 +164,100 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 		}
 	}
 
+	public ObservableCollection<RobloxAudioOutput> AudioOutputs { get; } = new();
+
+	public IAsyncRelayCommand RefreshAudioOutputsCommand { get; }
+
+	public Visibility AudioOutputVisibility => RobloxAudioRouting.SupportsOutputDevice ? Visibility.Visible : Visibility.Collapsed;
+
+	public Visibility EqualizerVisibility => RobloxAudioRouting.SupportsEqualizer ? Visibility.Visible : Visibility.Collapsed;
+
+	public RobloxAudioOutput? SelectedAudioOutput
+	{
+		get
+		{
+			string selected = App.Settings.Prop.RobloxAudioOutputDevice ?? "";
+			return AudioOutputs.FirstOrDefault(output => output.Id == selected);
+		}
+		set
+		{
+			if (value == null || value.Id == (App.Settings.Prop.RobloxAudioOutputDevice ?? ""))
+			{
+				return;
+			}
+			App.Settings.Prop.RobloxAudioOutputDevice = value.Id;
+			App.Settings.SaveDeferred();
+			SettingChangeNotifier.Try(
+				"IntegrationsViewModel::SelectedAudioOutput",
+				"The Roblox output device could not be changed.",
+				RobloxAudioRouting.ApplyFromSettings);
+			OnPropertyChanged(nameof(SelectedAudioOutput));
+		}
+	}
+
+	public IReadOnlyList<string> EqualizerPresets => new[]
+	{
+		Strings.Ui_Sound_Equalizer_Off,
+		Strings.Ui_Sound_Equalizer_BassBoost,
+		Strings.Ui_Sound_Equalizer_Footsteps,
+		Strings.Ui_Sound_Equalizer_Voice,
+		Strings.Ui_Sound_Equalizer_Treble
+	};
+
+	public int EqualizerPreset
+	{
+		get
+		{
+			return Math.Clamp(App.Settings.Prop.RobloxAudioEqualizer, 0, RobloxAudioRouting.EqualizerPresetCount - 1);
+		}
+		set
+		{
+			value = Math.Clamp(value, 0, RobloxAudioRouting.EqualizerPresetCount - 1);
+			if (App.Settings.Prop.RobloxAudioEqualizer == value)
+			{
+				return;
+			}
+			App.Settings.Prop.RobloxAudioEqualizer = value;
+			App.Settings.SaveDeferred();
+			SettingChangeNotifier.Try(
+				"IntegrationsViewModel::EqualizerPreset",
+				"The Roblox equalizer could not be changed.",
+				RobloxAudioRouting.ApplyFromSettings);
+			OnPropertyChanged(nameof(EqualizerPreset));
+		}
+	}
+
+	private async Task RefreshAudioOutputsAsync()
+	{
+		try
+		{
+			IReadOnlyList<RobloxAudioOutput> outputs = await RobloxAudioRouting.GetOutputsAsync(_lifetimeCts.SafeToken());
+			if (!_disposed)
+			{
+				ResetAudioOutputs(outputs);
+			}
+		}
+		catch (OperationCanceledException)
+		{
+		}
+	}
+
+	private void ResetAudioOutputs(IReadOnlyList<RobloxAudioOutput> outputs)
+	{
+		string selected = App.Settings.Prop.RobloxAudioOutputDevice ?? "";
+		AudioOutputs.Clear();
+		AudioOutputs.Add(new RobloxAudioOutput("", Strings.Ui_Sound_SystemDefault));
+		foreach (RobloxAudioOutput output in outputs)
+		{
+			AudioOutputs.Add(output);
+		}
+		if (selected.Length > 0 && outputs.All(output => output.Id != selected))
+		{
+			AudioOutputs.Add(new RobloxAudioOutput(selected, Strings.Ui_Sound_DeviceUnavailable));
+		}
+		OnPropertyChanged(nameof(SelectedAudioOutput));
+	}
+
 	public bool SnapTapEnabled
 	{
 		get
@@ -826,6 +920,12 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 		AccountWindowCommand = new RelayCommand(AccountWindow);
 		GrantSnapTapAccessCommand = new AsyncRelayCommand(GrantSnapTapAccessAsync);
 		AddToSteamCommand = new AsyncRelayCommand(AddToSteamAsync);
+		RefreshAudioOutputsCommand = new AsyncRelayCommand(RefreshAudioOutputsAsync);
+		ResetAudioOutputs([]);
+		if (RobloxAudioRouting.SupportsOutputDevice)
+		{
+			_ = RefreshAudioOutputsAsync();
+		}
 		if (Voidstrap.Utility.Platform.IsLinux)
 		{
 			_snapTapAccess = Voidstrap.KeyRouting.LinuxSnapTap.Access;

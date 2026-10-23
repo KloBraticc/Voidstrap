@@ -203,7 +203,7 @@ public static partial class HeadsetAudio
 		try
 		{
 			enumerator = new MMDeviceEnumerator();
-			device = enumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
+			device = RobloxAudioRouting.ResolveWindowsDevice(enumerator);
 			string deviceId = device.ID;
 			session = FindSession(device, pid);
 			if (session == null)
@@ -392,7 +392,7 @@ public static partial class HeadsetAudio
 	{
 		try
 		{
-			using MMDevice current = enumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
+			using MMDevice current = RobloxAudioRouting.ResolveWindowsDevice(enumerator);
 			return string.Equals(current.ID, deviceId, StringComparison.OrdinalIgnoreCase);
 		}
 		catch
@@ -491,7 +491,7 @@ public static partial class HeadsetAudio
 		try
 		{
 			using var enumerator = new MMDeviceEnumerator();
-			using MMDevice device = enumerator.GetDefaultAudioEndpoint(DataFlow.Render, Role.Multimedia);
+			using MMDevice device = RobloxAudioRouting.ResolveWindowsDevice(enumerator);
 			AudioSessionControl? session = FindSession(device, pid);
 			if (session != null)
 				TrySetVolume(session, target.Value);

@@ -8055,4 +8055,43 @@ Sulje tämä ikkuna, jos haluat pitää sisäänrakennetun arvion ilman latausta
   <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
     <value>Suuri V3 ({0} Mt, uusin, erittäin raskas)</value>
   </data>
+  <data name="Ui.Sound.Tab" xml:space="preserve">
+    <value>Ääni</value>
+  </data>
+  <data name="Ui.Sound.OutputDevice.Title" xml:space="preserve">
+    <value>Toistolaite</value>
+  </data>
+  <data name="Ui.Sound.OutputDevice.Description" xml:space="preserve">
+    <value>Lähetä Robloxin ääni eri kaiuttimiin tai kuulokkeisiin kuin muun tietokoneen ääni. Käynnistä Roblox uudelleen, jos se käyttää yhä vanhaa laitetta.</value>
+  </data>
+  <data name="Ui.Sound.SystemDefault" xml:space="preserve">
+    <value>Järjestelmän oletus</value>
+  </data>
+  <data name="Ui.Sound.DeviceUnavailable" xml:space="preserve">
+    <value>Tallennettu laite, ei yhdistetty</value>
+  </data>
+  <data name="Ui.Sound.RefreshDevices" xml:space="preserve">
+    <value>Päivitä laitteet</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Title" xml:space="preserve">
+    <value>Taajuuskorjain</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Description" xml:space="preserve">
+    <value>Muokkaa Robloxin ääntä PipeWire-suodattimella. Vain Roblox muuttuu.</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Off" xml:space="preserve">
+    <value>Pois</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.BassBoost" xml:space="preserve">
+    <value>Bassokorostus</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Footsteps" xml:space="preserve">
+    <value>Askeleet</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Voice" xml:space="preserve">
+    <value>Puheen selkeys</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Treble" xml:space="preserve">
+    <value>Diskanttikorostus</value>
+  </data>
 </root>

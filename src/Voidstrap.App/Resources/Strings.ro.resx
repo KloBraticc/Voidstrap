@@ -8055,4 +8055,43 @@ Mare: {2} MB, cel mai clar, dar solicită mult GPU-ul.
   <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
     <value>Mare V3 ({0} MB, cel mai nou, foarte solicitant)</value>
   </data>
+  <data name="Ui.Sound.Tab" xml:space="preserve">
+    <value>Sunet</value>
+  </data>
+  <data name="Ui.Sound.OutputDevice.Title" xml:space="preserve">
+    <value>Dispozitiv de ieșire</value>
+  </data>
+  <data name="Ui.Sound.OutputDevice.Description" xml:space="preserve">
+    <value>Trimite sunetul Roblox către alte boxe sau căști decât restul PC-ului. Repornește Roblox dacă folosește în continuare dispozitivul vechi.</value>
+  </data>
+  <data name="Ui.Sound.SystemDefault" xml:space="preserve">
+    <value>Implicit sistem</value>
+  </data>
+  <data name="Ui.Sound.DeviceUnavailable" xml:space="preserve">
+    <value>Dispozitiv salvat, neconectat</value>
+  </data>
+  <data name="Ui.Sound.RefreshDevices" xml:space="preserve">
+    <value>Reîmprospătează dispozitivele</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Title" xml:space="preserve">
+    <value>Egalizator</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Description" xml:space="preserve">
+    <value>Modifică sunetul Roblox printr-un filtru PipeWire. Este afectat doar Roblox.</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Off" xml:space="preserve">
+    <value>Dezactivat</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.BassBoost" xml:space="preserve">
+    <value>Amplificare bas</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Footsteps" xml:space="preserve">
+    <value>Pași</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Voice" xml:space="preserve">
+    <value>Claritatea vocii</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Treble" xml:space="preserve">
+    <value>Amplificare înalte</value>
+  </data>
 </root>

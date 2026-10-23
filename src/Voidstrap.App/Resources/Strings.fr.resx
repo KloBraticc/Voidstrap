@@ -8053,4 +8053,43 @@ Fermez cette fenêtre pour garder l'estimation intégrée sans téléchargement.
   <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
     <value>Grand V3 ({0} Mo, le plus récent, très exigeant)</value>
   </data>
+  <data name="Ui.Sound.Tab" xml:space="preserve">
+    <value>Son</value>
+  </data>
+  <data name="Ui.Sound.OutputDevice.Title" xml:space="preserve">
+    <value>Périphérique de sortie</value>
+  </data>
+  <data name="Ui.Sound.OutputDevice.Description" xml:space="preserve">
+    <value>Envoyez le son de Roblox vers des haut-parleurs ou un casque différents du reste de votre PC. Redémarrez Roblox s'il utilise encore l'ancien périphérique.</value>
+  </data>
+  <data name="Ui.Sound.SystemDefault" xml:space="preserve">
+    <value>Par défaut du système</value>
+  </data>
+  <data name="Ui.Sound.DeviceUnavailable" xml:space="preserve">
+    <value>Périphérique enregistré, non connecté</value>
+  </data>
+  <data name="Ui.Sound.RefreshDevices" xml:space="preserve">
+    <value>Actualiser les périphériques</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Title" xml:space="preserve">
+    <value>Égaliseur</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Description" xml:space="preserve">
+    <value>Modifiez le son de Roblox avec un filtre PipeWire. Seul Roblox est concerné.</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Off" xml:space="preserve">
+    <value>Désactivé</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.BassBoost" xml:space="preserve">
+    <value>Renforcement des basses</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Footsteps" xml:space="preserve">
+    <value>Bruits de pas</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Voice" xml:space="preserve">
+    <value>Clarté des voix</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Treble" xml:space="preserve">
+    <value>Renforcement des aigus</value>
+  </data>
 </root>

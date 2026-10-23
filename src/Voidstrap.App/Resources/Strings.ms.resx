@@ -8045,4 +8045,43 @@ Tutup tetingkap ini untuk kekal dengan anggaran terbina dalam tanpa muat turun. 
   <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
     <value>Besar V3 ({0} MB, terbaharu, sangat berat)</value>
   </data>
+  <data name="Ui.Sound.Tab" xml:space="preserve">
+    <value>Bunyi</value>
+  </data>
+  <data name="Ui.Sound.OutputDevice.Title" xml:space="preserve">
+    <value>Peranti output</value>
+  </data>
+  <data name="Ui.Sound.OutputDevice.Description" xml:space="preserve">
+    <value>Hantar audio Roblox ke pembesar suara atau set kepala yang berbeza daripada bahagian lain PC anda. Mulakan semula Roblox jika ia masih menggunakan peranti lama.</value>
+  </data>
+  <data name="Ui.Sound.SystemDefault" xml:space="preserve">
+    <value>Lalai sistem</value>
+  </data>
+  <data name="Ui.Sound.DeviceUnavailable" xml:space="preserve">
+    <value>Peranti disimpan, tidak bersambung</value>
+  </data>
+  <data name="Ui.Sound.RefreshDevices" xml:space="preserve">
+    <value>Muat semula peranti</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Title" xml:space="preserve">
+    <value>Penyama</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Description" xml:space="preserve">
+    <value>Laraskan bunyi Roblox melalui penapis PipeWire. Hanya Roblox yang terjejas.</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Off" xml:space="preserve">
+    <value>Mati</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.BassBoost" xml:space="preserve">
+    <value>Penguat bes</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Footsteps" xml:space="preserve">
+    <value>Bunyi tapak kaki</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Voice" xml:space="preserve">
+    <value>Kejelasan suara</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Treble" xml:space="preserve">
+    <value>Penguat trebel</value>
+  </data>
 </root>

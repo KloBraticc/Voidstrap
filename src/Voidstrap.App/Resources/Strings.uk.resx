@@ -8052,4 +8052,43 @@ Voidstrap не зміг записати до теки робочого стол
   <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
     <value>Велика V3 ({0} МБ, найновіша, дуже важка)</value>
   </data>
+  <data name="Ui.Sound.Tab" xml:space="preserve">
+    <value>Звук</value>
+  </data>
+  <data name="Ui.Sound.OutputDevice.Title" xml:space="preserve">
+    <value>Пристрій виведення</value>
+  </data>
+  <data name="Ui.Sound.OutputDevice.Description" xml:space="preserve">
+    <value>Виводьте звук Roblox на інші динаміки чи гарнітуру, ніж решту звуку комп'ютера. Перезапустіть Roblox, якщо він і далі використовує старий пристрій.</value>
+  </data>
+  <data name="Ui.Sound.SystemDefault" xml:space="preserve">
+    <value>Системний за замовчуванням</value>
+  </data>
+  <data name="Ui.Sound.DeviceUnavailable" xml:space="preserve">
+    <value>Збережений пристрій, не під'єднано</value>
+  </data>
+  <data name="Ui.Sound.RefreshDevices" xml:space="preserve">
+    <value>Оновити пристрої</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Title" xml:space="preserve">
+    <value>Еквалайзер</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Description" xml:space="preserve">
+    <value>Налаштуйте звучання Roblox за допомогою фільтра PipeWire. Змінюється лише Roblox.</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Off" xml:space="preserve">
+    <value>Вимк.</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.BassBoost" xml:space="preserve">
+    <value>Посилення басів</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Footsteps" xml:space="preserve">
+    <value>Кроки</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Voice" xml:space="preserve">
+    <value>Чіткість голосу</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Treble" xml:space="preserve">
+    <value>Посилення високих</value>
+  </data>
 </root>

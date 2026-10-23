@@ -8052,4 +8052,43 @@ Voidstrap이 바탕 화면 폴더에 쓸 수 없습니다.</value>
   <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
     <value>큼 V3 ({0} MB, 최신, 매우 무거움)</value>
   </data>
+  <data name="Ui.Sound.Tab" xml:space="preserve">
+    <value>사운드</value>
+  </data>
+  <data name="Ui.Sound.OutputDevice.Title" xml:space="preserve">
+    <value>출력 장치</value>
+  </data>
+  <data name="Ui.Sound.OutputDevice.Description" xml:space="preserve">
+    <value>Roblox 오디오를 PC의 다른 소리와 다른 스피커나 헤드셋으로 보냅니다. 이전 장치를 계속 사용하면 Roblox를 다시 시작하십시오.</value>
+  </data>
+  <data name="Ui.Sound.SystemDefault" xml:space="preserve">
+    <value>시스템 기본값</value>
+  </data>
+  <data name="Ui.Sound.DeviceUnavailable" xml:space="preserve">
+    <value>저장된 장치, 연결되지 않음</value>
+  </data>
+  <data name="Ui.Sound.RefreshDevices" xml:space="preserve">
+    <value>장치 새로 고침</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Title" xml:space="preserve">
+    <value>이퀄라이저</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Description" xml:space="preserve">
+    <value>PipeWire 필터로 Roblox 소리를 조정합니다. Roblox에만 적용됩니다.</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Off" xml:space="preserve">
+    <value>끄기</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.BassBoost" xml:space="preserve">
+    <value>저음 강화</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Footsteps" xml:space="preserve">
+    <value>발소리</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Voice" xml:space="preserve">
+    <value>음성 선명도</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Treble" xml:space="preserve">
+    <value>고음 강화</value>
+  </data>
 </root>

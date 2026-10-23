@@ -8056,4 +8056,43 @@ Chiudi questa finestra per tenere la stima integrata senza download. Puoi cambia
   <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
     <value>Grande V3 ({0} MB, il più recente, molto pesante)</value>
   </data>
+  <data name="Ui.Sound.Tab" xml:space="preserve">
+    <value>Audio</value>
+  </data>
+  <data name="Ui.Sound.OutputDevice.Title" xml:space="preserve">
+    <value>Dispositivo di uscita</value>
+  </data>
+  <data name="Ui.Sound.OutputDevice.Description" xml:space="preserve">
+    <value>Invia l'audio di Roblox ad altoparlanti o cuffie diversi dal resto del PC. Riavvia Roblox se continua a usare il dispositivo precedente.</value>
+  </data>
+  <data name="Ui.Sound.SystemDefault" xml:space="preserve">
+    <value>Predefinito di sistema</value>
+  </data>
+  <data name="Ui.Sound.DeviceUnavailable" xml:space="preserve">
+    <value>Dispositivo salvato, non collegato</value>
+  </data>
+  <data name="Ui.Sound.RefreshDevices" xml:space="preserve">
+    <value>Aggiorna dispositivi</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Title" xml:space="preserve">
+    <value>Equalizzatore</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Description" xml:space="preserve">
+    <value>Modifica il suono di Roblox con un filtro PipeWire. Riguarda solo Roblox.</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Off" xml:space="preserve">
+    <value>Disattivato</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.BassBoost" xml:space="preserve">
+    <value>Potenziamento bassi</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Footsteps" xml:space="preserve">
+    <value>Passi</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Voice" xml:space="preserve">
+    <value>Chiarezza della voce</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Treble" xml:space="preserve">
+    <value>Potenziamento alti</value>
+  </data>
 </root>

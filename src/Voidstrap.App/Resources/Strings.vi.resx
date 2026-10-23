@@ -8057,4 +8057,43 @@ Lớn: {2} MB, sắc nét nhất nhưng nặng cho GPU.
   <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
     <value>Lớn V3 ({0} MB, mới nhất, rất nặng)</value>
   </data>
+  <data name="Ui.Sound.Tab" xml:space="preserve">
+    <value>Âm thanh</value>
+  </data>
+  <data name="Ui.Sound.OutputDevice.Title" xml:space="preserve">
+    <value>Thiết bị đầu ra</value>
+  </data>
+  <data name="Ui.Sound.OutputDevice.Description" xml:space="preserve">
+    <value>Gửi âm thanh Roblox tới loa hoặc tai nghe khác với phần còn lại của PC bạn. Khởi động lại Roblox nếu nó vẫn dùng thiết bị cũ.</value>
+  </data>
+  <data name="Ui.Sound.SystemDefault" xml:space="preserve">
+    <value>Mặc định hệ thống</value>
+  </data>
+  <data name="Ui.Sound.DeviceUnavailable" xml:space="preserve">
+    <value>Thiết bị đã lưu, chưa kết nối</value>
+  </data>
+  <data name="Ui.Sound.RefreshDevices" xml:space="preserve">
+    <value>Làm mới thiết bị</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Title" xml:space="preserve">
+    <value>Bộ cân bằng</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Description" xml:space="preserve">
+    <value>Điều chỉnh âm thanh Roblox qua bộ lọc PipeWire. Chỉ Roblox bị ảnh hưởng.</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Off" xml:space="preserve">
+    <value>Tắt</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.BassBoost" xml:space="preserve">
+    <value>Tăng âm trầm</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Footsteps" xml:space="preserve">
+    <value>Tiếng bước chân</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Voice" xml:space="preserve">
+    <value>Giọng nói rõ</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Treble" xml:space="preserve">
+    <value>Tăng âm cao</value>
+  </data>
 </root>

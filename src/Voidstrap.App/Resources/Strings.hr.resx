@@ -8053,4 +8053,43 @@ Zatvori ovaj prozor da zadržiš ugrađenu procjenu bez preuzimanja. Ovo možeš
   <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
     <value>Veliki V3 ({0} MB, najnoviji, vrlo zahtjevan)</value>
   </data>
+  <data name="Ui.Sound.Tab" xml:space="preserve">
+    <value>Zvuk</value>
+  </data>
+  <data name="Ui.Sound.OutputDevice.Title" xml:space="preserve">
+    <value>Izlazni uređaj</value>
+  </data>
+  <data name="Ui.Sound.OutputDevice.Description" xml:space="preserve">
+    <value>Pošalji zvuk Robloxa na druge zvučnike ili slušalice od ostatka računala. Ponovno pokreni Roblox ako i dalje koristi stari uređaj.</value>
+  </data>
+  <data name="Ui.Sound.SystemDefault" xml:space="preserve">
+    <value>Zadano sustava</value>
+  </data>
+  <data name="Ui.Sound.DeviceUnavailable" xml:space="preserve">
+    <value>Spremljeni uređaj, nije povezan</value>
+  </data>
+  <data name="Ui.Sound.RefreshDevices" xml:space="preserve">
+    <value>Osvježi uređaje</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Title" xml:space="preserve">
+    <value>Ekvilizator</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Description" xml:space="preserve">
+    <value>Prilagodi zvuk Robloxa pomoću PipeWire filtra. Utječe samo na Roblox.</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Off" xml:space="preserve">
+    <value>Isključeno</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.BassBoost" xml:space="preserve">
+    <value>Pojačanje basa</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Footsteps" xml:space="preserve">
+    <value>Koraci</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Voice" xml:space="preserve">
+    <value>Jasnoća glasa</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Treble" xml:space="preserve">
+    <value>Pojačanje visokih tonova</value>
+  </data>
 </root>

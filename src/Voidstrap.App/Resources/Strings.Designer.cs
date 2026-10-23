@@ -1037,6 +1037,19 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Integrations_LowerRobloxVolumeWhileItsWindow => ResourceManager.GetString("Ui.Integrations.LowerRobloxVolumeWhileItsWindow", resourceCulture);
 
+        public static string Ui_Sound_Tab => ResourceManager.GetString("Ui.Sound.Tab", resourceCulture);
+        public static string Ui_Sound_OutputDevice_Title => ResourceManager.GetString("Ui.Sound.OutputDevice.Title", resourceCulture);
+        public static string Ui_Sound_OutputDevice_Description => ResourceManager.GetString("Ui.Sound.OutputDevice.Description", resourceCulture);
+        public static string Ui_Sound_SystemDefault => ResourceManager.GetString("Ui.Sound.SystemDefault", resourceCulture);
+        public static string Ui_Sound_DeviceUnavailable => ResourceManager.GetString("Ui.Sound.DeviceUnavailable", resourceCulture);
+        public static string Ui_Sound_RefreshDevices => ResourceManager.GetString("Ui.Sound.RefreshDevices", resourceCulture);
+        public static string Ui_Sound_Equalizer_Title => ResourceManager.GetString("Ui.Sound.Equalizer.Title", resourceCulture);
+        public static string Ui_Sound_Equalizer_Description => ResourceManager.GetString("Ui.Sound.Equalizer.Description", resourceCulture);
+        public static string Ui_Sound_Equalizer_Off => ResourceManager.GetString("Ui.Sound.Equalizer.Off", resourceCulture);
+        public static string Ui_Sound_Equalizer_BassBoost => ResourceManager.GetString("Ui.Sound.Equalizer.BassBoost", resourceCulture);
+        public static string Ui_Sound_Equalizer_Footsteps => ResourceManager.GetString("Ui.Sound.Equalizer.Footsteps", resourceCulture);
+        public static string Ui_Sound_Equalizer_Voice => ResourceManager.GetString("Ui.Sound.Equalizer.Voice", resourceCulture);
+        public static string Ui_Sound_Equalizer_Treble => ResourceManager.GetString("Ui.Sound.Equalizer.Treble", resourceCulture);
         public static string Ui_Integrations_HeadsetLoudness => ResourceManager.GetString("Ui.Integrations.HeadsetLoudness", resourceCulture);
 
         public static string Ui_Integrations_BalanceLoudAndQuietRobloxAudio => ResourceManager.GetString("Ui.Integrations.BalanceLoudAndQuietRobloxAudio", resourceCulture);

@@ -8054,4 +8054,43 @@ Stäng det här fönstret för att behålla den inbyggda uppskattningen utan ned
   <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
     <value>Stor V3 ({0} MB, nyast, mycket krävande)</value>
   </data>
+  <data name="Ui.Sound.Tab" xml:space="preserve">
+    <value>Ljud</value>
+  </data>
+  <data name="Ui.Sound.OutputDevice.Title" xml:space="preserve">
+    <value>Utdataenhet</value>
+  </data>
+  <data name="Ui.Sound.OutputDevice.Description" xml:space="preserve">
+    <value>Skicka ljudet från Roblox till andra högtalare eller ett annat headset än resten av datorn. Starta om Roblox om det fortsätter använda den gamla enheten.</value>
+  </data>
+  <data name="Ui.Sound.SystemDefault" xml:space="preserve">
+    <value>Systemstandard</value>
+  </data>
+  <data name="Ui.Sound.DeviceUnavailable" xml:space="preserve">
+    <value>Sparad enhet, inte ansluten</value>
+  </data>
+  <data name="Ui.Sound.RefreshDevices" xml:space="preserve">
+    <value>Uppdatera enheter</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Title" xml:space="preserve">
+    <value>Equalizer</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Description" xml:space="preserve">
+    <value>Forma hur Roblox låter med ett PipeWire-filter. Bara Roblox påverkas.</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Off" xml:space="preserve">
+    <value>Av</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.BassBoost" xml:space="preserve">
+    <value>Basförstärkning</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Footsteps" xml:space="preserve">
+    <value>Fotsteg</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Voice" xml:space="preserve">
+    <value>Tydliga röster</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Treble" xml:space="preserve">
+    <value>Diskantförstärkning</value>
+  </data>
 </root>

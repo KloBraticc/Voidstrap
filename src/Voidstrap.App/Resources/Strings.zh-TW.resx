@@ -8057,4 +8057,43 @@ Voidstrap 無法寫入桌面資料夾。</value>
   <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
     <value>大 V3 ({0} MB，最新，負擔極重)</value>
   </data>
+  <data name="Ui.Sound.Tab" xml:space="preserve">
+    <value>聲音</value>
+  </data>
+  <data name="Ui.Sound.OutputDevice.Title" xml:space="preserve">
+    <value>輸出裝置</value>
+  </data>
+  <data name="Ui.Sound.OutputDevice.Description" xml:space="preserve">
+    <value>將 Roblox 音訊傳送到與電腦其他聲音不同的喇叭或耳機。如果 Roblox 仍使用舊裝置，請重新啟動它。</value>
+  </data>
+  <data name="Ui.Sound.SystemDefault" xml:space="preserve">
+    <value>系統預設</value>
+  </data>
+  <data name="Ui.Sound.DeviceUnavailable" xml:space="preserve">
+    <value>已儲存的裝置，未連線</value>
+  </data>
+  <data name="Ui.Sound.RefreshDevices" xml:space="preserve">
+    <value>重新整理裝置</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Title" xml:space="preserve">
+    <value>等化器</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Description" xml:space="preserve">
+    <value>透過 PipeWire 濾鏡調整 Roblox 的聲音。只會影響 Roblox。</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Off" xml:space="preserve">
+    <value>關閉</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.BassBoost" xml:space="preserve">
+    <value>低音增強</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Footsteps" xml:space="preserve">
+    <value>腳步聲</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Voice" xml:space="preserve">
+    <value>人聲清晰</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Treble" xml:space="preserve">
+    <value>高音增強</value>
+  </data>
 </root>

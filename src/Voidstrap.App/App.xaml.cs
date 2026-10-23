@@ -1518,6 +1518,7 @@ public partial class App : Application
 		{
 			TryStartup("Audio ducking", Voidstrap.Integrations.AudioDucker.ApplyFromSettings);
 			TryStartup("Headset audio", Voidstrap.Integrations.HeadsetAudio.ApplyFromSettings);
+			TryStartup("Audio routing", Voidstrap.Integrations.RobloxAudioRouting.ApplyFromSettings);
 		}
 		if (!LaunchSettings.IsHelperInvocation)
 			TryStartup("Snap Tap", ApplySnapTapFromSettings);
@@ -1651,6 +1652,7 @@ public partial class App : Application
 		{
 			TryStartup("Audio ducking", Voidstrap.Integrations.AudioDucker.ApplyFromSettings);
 			TryStartup("Headset audio", Voidstrap.Integrations.HeadsetAudio.ApplyFromSettings);
+			TryStartup("Audio routing", Voidstrap.Integrations.RobloxAudioRouting.ApplyFromSettings);
 		}
 		TryStartup("Snap Tap", ApplySnapTapFromSettings);
 	}
@@ -2118,6 +2120,7 @@ public partial class App : Application
 		TryShutdown(Voidstrap.Integrations.RiShade.RiShadeManager.Shutdown);
 		TryShutdown(Voidstrap.Integrations.AntiAliasing.AntiAliasingManager.Shutdown);
 		TryShutdown(Voidstrap.Integrations.FrameGeneration.FrameGenManager.Shutdown);
+		TryShutdown(Voidstrap.Integrations.RobloxAudioRouting.Shutdown);
 		TryShutdown(Voidstrap.Integrations.HeadsetAudio.Shutdown);
 		TryShutdown(Voidstrap.Integrations.AudioDucker.Shutdown);
 		TryShutdown(Voidstrap.KeyRouting.SnapTapHook.Shutdown);

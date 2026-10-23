@@ -8053,4 +8053,43 @@ Zárd be ezt az ablakot, ha letöltés nélkül a beépített becslésnél marad
   <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
     <value>Nagy V3 ({0} MB, legújabb, nagyon megterhelő)</value>
   </data>
+  <data name="Ui.Sound.Tab" xml:space="preserve">
+    <value>Hang</value>
+  </data>
+  <data name="Ui.Sound.OutputDevice.Title" xml:space="preserve">
+    <value>Kimeneti eszköz</value>
+  </data>
+  <data name="Ui.Sound.OutputDevice.Description" xml:space="preserve">
+    <value>Küldd a Roblox hangját más hangszóróra vagy fejhallgatóra, mint a gép többi hangját. Indítsd újra a Robloxot, ha továbbra is a régi eszközt használja.</value>
+  </data>
+  <data name="Ui.Sound.SystemDefault" xml:space="preserve">
+    <value>Rendszer alapértelmezett</value>
+  </data>
+  <data name="Ui.Sound.DeviceUnavailable" xml:space="preserve">
+    <value>Mentett eszköz, nincs csatlakoztatva</value>
+  </data>
+  <data name="Ui.Sound.RefreshDevices" xml:space="preserve">
+    <value>Eszközök frissítése</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Title" xml:space="preserve">
+    <value>Hangszínszabályzó</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Description" xml:space="preserve">
+    <value>Alakítsd a Roblox hangzását egy PipeWire szűrővel. Csak a Roblox változik.</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Off" xml:space="preserve">
+    <value>Ki</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.BassBoost" xml:space="preserve">
+    <value>Basszuskiemelés</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Footsteps" xml:space="preserve">
+    <value>Léptek</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Voice" xml:space="preserve">
+    <value>Tiszta beszéd</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Treble" xml:space="preserve">
+    <value>Magaskiemelés</value>
+  </data>
 </root>

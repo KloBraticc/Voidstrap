@@ -8052,4 +8052,43 @@ Isara ang window na ito para manatili sa built in na tantiya nang walang downloa
   <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
     <value>Malaki V3 ({0} MB, pinakabago, napakabigat)</value>
   </data>
+  <data name="Ui.Sound.Tab" xml:space="preserve">
+    <value>Tunog</value>
+  </data>
+  <data name="Ui.Sound.OutputDevice.Title" xml:space="preserve">
+    <value>Output device</value>
+  </data>
+  <data name="Ui.Sound.OutputDevice.Description" xml:space="preserve">
+    <value>Ipadala ang audio ng Roblox sa ibang speaker o headset kaysa sa ibang bahagi ng PC mo. I-restart ang Roblox kung patuloy nitong ginagamit ang lumang device.</value>
+  </data>
+  <data name="Ui.Sound.SystemDefault" xml:space="preserve">
+    <value>Default ng system</value>
+  </data>
+  <data name="Ui.Sound.DeviceUnavailable" xml:space="preserve">
+    <value>Naka-save na device, hindi nakakonekta</value>
+  </data>
+  <data name="Ui.Sound.RefreshDevices" xml:space="preserve">
+    <value>I-refresh ang mga device</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Title" xml:space="preserve">
+    <value>Equalizer</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Description" xml:space="preserve">
+    <value>Baguhin ang tunog ng Roblox gamit ang isang PipeWire filter. Roblox lang ang maaapektuhan.</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Off" xml:space="preserve">
+    <value>Naka-off</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.BassBoost" xml:space="preserve">
+    <value>Lakas ng bass</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Footsteps" xml:space="preserve">
+    <value>Mga yabag</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Voice" xml:space="preserve">
+    <value>Linaw ng boses</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Treble" xml:space="preserve">
+    <value>Lakas ng treble</value>
+  </data>
 </root>

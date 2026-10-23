@@ -6,6 +6,8 @@ namespace Voidstrap.Platform.Linux;
 
 public sealed record LinuxAudioStream(int NodeId, float Volume);
 
+public sealed record LinuxAudioSink(string Name, string Description);
+
 public static class LinuxAudioSessions
 {
 	private const string SoberApplicationId = "org.vinegarhq.Sober";
@@ -25,12 +27,32 @@ public static class LinuxAudioSessions
 		}
 	}
 
-	public static FileStream? TryAcquireOwnership()
+	public static bool CanRoute
+	{
+		get
+		{
+			if (LinuxFlatpakHost.IsSandboxed)
+				return IsAvailable;
+			return IsAvailable && !string.IsNullOrWhiteSpace(Processes.FindExecutable("pw-metadata"));
+		}
+	}
+
+	public static bool CanFilter
+	{
+		get
+		{
+			if (LinuxFlatpakHost.IsSandboxed)
+				return IsAvailable;
+			return CanRoute && !string.IsNullOrWhiteSpace(Processes.FindExecutable("pipewire"));
+		}
+	}
+
+	public static FileStream? TryAcquireOwnership(string name = "voidstrap-audio")
 	{
 		string directory = Environment.GetEnvironmentVariable("XDG_RUNTIME_DIR") is { Length: > 0 } runtime ? runtime : Path.GetTempPath();
 		try
 		{
-			return new FileStream(Path.Combine(directory, "voidstrap-audio.lock"), FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
+			return new FileStream(Path.Combine(directory, name + ".lock"), FileMode.OpenOrCreate, FileAccess.ReadWrite, FileShare.None);
 		}
 		catch (IOException)
 		{
@@ -42,22 +64,79 @@ public static class LinuxAudioSessions
 		}
 	}
 
-	public static async Task<IReadOnlyList<LinuxAudioStream>?> FindSoberStreamsAsync(CancellationToken cancellationToken = default)
+	public static async Task<IReadOnlyList<LinuxAudioStream>?> FindRobloxStreamsAsync(CancellationToken cancellationToken = default)
 	{
 		IReadOnlyList<int> soberProcessIds = LinuxSoberProcessProbe.GetSandboxProcessIds();
-		if (soberProcessIds.Count == 0 && !LinuxFlatpakHost.IsSandboxed)
+		IReadOnlyList<int> rosemaryProcessIds = LinuxRosemary.IsSupportedHost ? LinuxRosemary.RunningProcessIds(RosemaryApplication.Player) : [];
+		if (soberProcessIds.Count == 0 && rosemaryProcessIds.Count == 0 && !LinuxFlatpakHost.IsSandboxed)
 			return [];
 		OperationResult<ProcessExecution> result = await RunAsync("pw-dump", [], cancellationToken).ConfigureAwait(false);
 		if (!result.Succeeded || result.Value is null || result.Value.ExitCode != 0)
 			return null;
 		try
 		{
-			return ParseSoberStreams(result.Value.StandardOutput, soberProcessIds);
+			return ParseRobloxStreams(result.Value.StandardOutput, soberProcessIds, rosemaryProcessIds);
 		}
 		catch (JsonException)
 		{
 			return null;
 		}
+	}
+
+	public static IReadOnlyList<int> RosemaryPlayerProcessIds()
+	{
+		return LinuxRosemary.IsSupportedHost ? LinuxRosemary.RunningProcessIds(RosemaryApplication.Player) : [];
+	}
+
+	public static async Task<IReadOnlyList<LinuxAudioSink>?> FindSinksAsync(CancellationToken cancellationToken = default)
+	{
+		OperationResult<ProcessExecution> result = await RunAsync("pw-dump", [], cancellationToken).ConfigureAwait(false);
+		if (!result.Succeeded || result.Value is null || result.Value.ExitCode != 0)
+			return null;
+		try
+		{
+			return ParseSinks(result.Value.StandardOutput);
+		}
+		catch (JsonException)
+		{
+			return null;
+		}
+	}
+
+	public static IReadOnlyList<LinuxAudioSink> ParseSinks(string dump)
+	{
+		List<LinuxAudioSink> sinks = [];
+		if (string.IsNullOrWhiteSpace(dump))
+			return sinks;
+
+		using JsonDocument document = JsonDocument.Parse(dump);
+		if (document.RootElement.ValueKind != JsonValueKind.Array)
+			return sinks;
+
+		foreach (JsonElement item in document.RootElement.EnumerateArray())
+		{
+			if (TryGetString(item, "type") != "PipeWire:Interface:Node"
+				|| !TryGetProps(item, out JsonElement props)
+				|| TryGetString(props, "media.class") != "Audio/Sink"
+				|| TryGetString(props, "node.name") is not { Length: > 0 } name
+				|| name.StartsWith("voidstrap_", StringComparison.Ordinal))
+				continue;
+
+			string description = TryGetString(props, "node.description") ?? TryGetString(props, "node.nick") ?? name;
+			sinks.Add(new LinuxAudioSink(name, description));
+		}
+
+		return sinks;
+	}
+
+	public static async Task<bool> SetStreamTargetAsync(int nodeId, string? target, CancellationToken cancellationToken = default)
+	{
+		string id = nodeId.ToString(CultureInfo.InvariantCulture);
+		IReadOnlyList<string> arguments = string.IsNullOrEmpty(target)
+			? ["-d", id, "target.object"]
+			: [id, "target.object", target];
+		OperationResult<ProcessExecution> result = await RunAsync("pw-metadata", arguments, cancellationToken).ConfigureAwait(false);
+		return result.Succeeded && result.Value is not null && result.Value.ExitCode == 0;
 	}
 
 	public static async Task<bool> SetVolumeAsync(int nodeId, float linearVolume, CancellationToken cancellationToken = default)
@@ -70,7 +149,7 @@ public static class LinuxAudioSessions
 		return result.Succeeded && result.Value is not null && result.Value.ExitCode == 0;
 	}
 
-	public static IReadOnlyList<LinuxAudioStream> ParseSoberStreams(string dump, IReadOnlyCollection<int> soberProcessIds)
+	public static IReadOnlyList<LinuxAudioStream> ParseRobloxStreams(string dump, IReadOnlyCollection<int> soberProcessIds, IReadOnlyCollection<int> rosemaryProcessIds)
 	{
 		List<LinuxAudioStream> streams = [];
 		if (string.IsNullOrWhiteSpace(dump))
@@ -103,13 +182,22 @@ public static class LinuxAudioSessions
 			if (TryGetInt(props, "client.id") is int clientId && clients.TryGetValue(clientId, out JsonElement clientProps))
 				client = clientProps;
 
-			if (!IsSober(props, soberProcessIds) && (client is not JsonElement found || !IsSober(found, soberProcessIds)))
+			if (!IsRoblox(props, soberProcessIds, rosemaryProcessIds) && (client is not JsonElement found || !IsRoblox(found, soberProcessIds, rosemaryProcessIds)))
 				continue;
 
 			streams.Add(new LinuxAudioStream(nodeId, ReadLinearVolume(item)));
 		}
 
 		return streams;
+	}
+
+	private static bool IsRoblox(JsonElement props, IReadOnlyCollection<int> soberProcessIds, IReadOnlyCollection<int> rosemaryProcessIds)
+	{
+		if (rosemaryProcessIds.Count > 0
+			&& ((TryGetInt(props, "pipewire.sec.pid") is int securePid && rosemaryProcessIds.Contains(securePid))
+				|| (TryGetInt(props, "application.process.id") is int processId && rosemaryProcessIds.Contains(processId))))
+			return true;
+		return IsSober(props, soberProcessIds);
 	}
 
 	private static bool IsSober(JsonElement props, IReadOnlyCollection<int> soberProcessIds)

@@ -8055,4 +8055,43 @@ Užverkite šį langą, jei norite palikti įtaisytą įvertį be atsisiuntimo. 
   <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
     <value>Didelis V3 ({0} MB, naujausias, labai sunkus)</value>
   </data>
+  <data name="Ui.Sound.Tab" xml:space="preserve">
+    <value>Garsas</value>
+  </data>
+  <data name="Ui.Sound.OutputDevice.Title" xml:space="preserve">
+    <value>Išvesties įrenginys</value>
+  </data>
+  <data name="Ui.Sound.OutputDevice.Description" xml:space="preserve">
+    <value>Siųskite Roblox garsą į kitus garsiakalbius ar ausines nei likusio kompiuterio garsą. Jei Roblox vis dar naudoja seną įrenginį, paleiskite jį iš naujo.</value>
+  </data>
+  <data name="Ui.Sound.SystemDefault" xml:space="preserve">
+    <value>Sistemos numatytasis</value>
+  </data>
+  <data name="Ui.Sound.DeviceUnavailable" xml:space="preserve">
+    <value>Išsaugotas įrenginys, neprijungtas</value>
+  </data>
+  <data name="Ui.Sound.RefreshDevices" xml:space="preserve">
+    <value>Atnaujinti įrenginius</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Title" xml:space="preserve">
+    <value>Ekvalaizeris</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Description" xml:space="preserve">
+    <value>Keiskite Roblox skambesį per PipeWire filtrą. Paveikiamas tik Roblox.</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Off" xml:space="preserve">
+    <value>Išjungta</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.BassBoost" xml:space="preserve">
+    <value>Bosų stiprinimas</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Footsteps" xml:space="preserve">
+    <value>Žingsniai</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Voice" xml:space="preserve">
+    <value>Balso aiškumas</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Treble" xml:space="preserve">
+    <value>Aukštų dažnių stiprinimas</value>
+  </data>
 </root>

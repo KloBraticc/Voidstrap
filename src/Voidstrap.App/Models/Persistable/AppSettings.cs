@@ -66,6 +66,8 @@ namespace Voidstrap.Models.Persistable
         public bool StudioPluginEnabled { get; set; }
         public bool DuckRobloxAudioOnUnfocus { get; set; }
         public bool EnableHeadsetLoudness { get; set; }
+        public string RobloxAudioOutputDevice { get; set; } = "";
+        public int RobloxAudioEqualizer { get; set; }
         public bool SnapTapEnabled { get; set; }
         public int SnapTapMode { get; set; }
         public string SnapTapKeys { get; set; } = Voidstrap.KeyRouting.OpposingKeyResolver.DefaultKeys;

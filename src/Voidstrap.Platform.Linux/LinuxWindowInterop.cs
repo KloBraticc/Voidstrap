@@ -939,6 +939,28 @@ public static partial class LinuxWindowInterop
 		return found;
 	}
 
+	public static IReadOnlyList<nint> FindProcessWindows(IReadOnlyCollection<int> processIds)
+	{
+		nint display = Display;
+		if (display == 0 || processIds.Count == 0)
+			return Array.Empty<nint>();
+
+		List<nint> found = new();
+		try
+		{
+			foreach (nint window in EnumerateClientWindows(display))
+			{
+				if (processIds.Contains(GetWindowProcessId(display, window)))
+					found.Add(window);
+			}
+		}
+		catch (Exception)
+		{
+		}
+
+		return found;
+	}
+
 	private const int MaxWindowTreeDepth = 6;
 
 	private static nint FindOwnWindowInTree(nint display, nint parent, string title, int processId, int depth)

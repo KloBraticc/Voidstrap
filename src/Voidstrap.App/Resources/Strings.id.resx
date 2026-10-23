@@ -8056,4 +8056,43 @@ Tutup jendela ini untuk tetap memakai perkiraan bawaan tanpa unduhan. Anda dapat
   <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
     <value>Besar V3 ({0} MB, terbaru, sangat berat)</value>
   </data>
+  <data name="Ui.Sound.Tab" xml:space="preserve">
+    <value>Suara</value>
+  </data>
+  <data name="Ui.Sound.OutputDevice.Title" xml:space="preserve">
+    <value>Perangkat output</value>
+  </data>
+  <data name="Ui.Sound.OutputDevice.Description" xml:space="preserve">
+    <value>Kirim audio Roblox ke speaker atau headset yang berbeda dari bagian PC Anda yang lain. Mulai ulang Roblox jika masih memakai perangkat lama.</value>
+  </data>
+  <data name="Ui.Sound.SystemDefault" xml:space="preserve">
+    <value>Bawaan sistem</value>
+  </data>
+  <data name="Ui.Sound.DeviceUnavailable" xml:space="preserve">
+    <value>Perangkat tersimpan, tidak terhubung</value>
+  </data>
+  <data name="Ui.Sound.RefreshDevices" xml:space="preserve">
+    <value>Segarkan perangkat</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Title" xml:space="preserve">
+    <value>Equalizer</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Description" xml:space="preserve">
+    <value>Atur suara Roblox melalui filter PipeWire. Hanya Roblox yang terpengaruh.</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Off" xml:space="preserve">
+    <value>Mati</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.BassBoost" xml:space="preserve">
+    <value>Penguat bass</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Footsteps" xml:space="preserve">
+    <value>Langkah kaki</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Voice" xml:space="preserve">
+    <value>Kejernihan suara</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Treble" xml:space="preserve">
+    <value>Penguat treble</value>
+  </data>
 </root>

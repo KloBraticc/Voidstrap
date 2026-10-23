@@ -8052,4 +8052,43 @@ Büyük: {2} MB, en keskin ama GPU için ağır.
   <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
     <value>Büyük V3 ({0} MB, en yeni, çok ağır)</value>
   </data>
+  <data name="Ui.Sound.Tab" xml:space="preserve">
+    <value>Ses</value>
+  </data>
+  <data name="Ui.Sound.OutputDevice.Title" xml:space="preserve">
+    <value>Çıkış cihazı</value>
+  </data>
+  <data name="Ui.Sound.OutputDevice.Description" xml:space="preserve">
+    <value>Roblox sesini bilgisayarınızın geri kalanından farklı bir hoparlöre veya kulaklığa gönderin. Roblox eski cihazı kullanmaya devam ederse yeniden başlatın.</value>
+  </data>
+  <data name="Ui.Sound.SystemDefault" xml:space="preserve">
+    <value>Sistem varsayılanı</value>
+  </data>
+  <data name="Ui.Sound.DeviceUnavailable" xml:space="preserve">
+    <value>Kayıtlı cihaz, bağlı değil</value>
+  </data>
+  <data name="Ui.Sound.RefreshDevices" xml:space="preserve">
+    <value>Cihazları yenile</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Title" xml:space="preserve">
+    <value>Ekolayzer</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Description" xml:space="preserve">
+    <value>Roblox sesini bir PipeWire filtresiyle şekillendirin. Yalnızca Roblox etkilenir.</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Off" xml:space="preserve">
+    <value>Kapalı</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.BassBoost" xml:space="preserve">
+    <value>Bas güçlendirme</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Footsteps" xml:space="preserve">
+    <value>Ayak sesleri</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Voice" xml:space="preserve">
+    <value>Ses netliği</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Treble" xml:space="preserve">
+    <value>Tiz güçlendirme</value>
+  </data>
 </root>

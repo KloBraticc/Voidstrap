@@ -214,8 +214,8 @@ public sealed partial class LinuxPlatformHost : IPlatformHost
 	private static CapabilityDescriptor CreateAudioSessionCapability()
 	{
 		return LinuxAudioSessions.IsAvailable
-			? new CapabilityDescriptor(FeatureId.AudioSession, CapabilityState.Experimental, "Sober audio is lowered through PipeWire while Sober is not focused", null, true)
-			: new CapabilityDescriptor(FeatureId.AudioSession, CapabilityState.Unavailable, "Lowering Sober audio needs the PipeWire pw-dump and wpctl tools");
+			? new CapabilityDescriptor(FeatureId.AudioSession, CapabilityState.Experimental, "Roblox audio in Sober or Rosemary is lowered through PipeWire while its window is not focused", null, true)
+			: new CapabilityDescriptor(FeatureId.AudioSession, CapabilityState.Unavailable, "Lowering Roblox audio needs the PipeWire pw-dump and wpctl tools");
 	}
 }
 

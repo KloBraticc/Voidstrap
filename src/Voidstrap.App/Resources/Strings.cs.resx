@@ -8055,4 +8055,43 @@ Zavřete toto okno, chcete-li ponechat vestavěný odhad bez stahování. Pozdě
   <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
     <value>Velký V3 ({0} MB, nejnovější, velmi náročný)</value>
   </data>
+  <data name="Ui.Sound.Tab" xml:space="preserve">
+    <value>Zvuk</value>
+  </data>
+  <data name="Ui.Sound.OutputDevice.Title" xml:space="preserve">
+    <value>Výstupní zařízení</value>
+  </data>
+  <data name="Ui.Sound.OutputDevice.Description" xml:space="preserve">
+    <value>Posílejte zvuk Roblox do jiných reproduktorů nebo sluchátek než zbytek počítače. Pokud Roblox stále používá staré zařízení, restartujte jej.</value>
+  </data>
+  <data name="Ui.Sound.SystemDefault" xml:space="preserve">
+    <value>Výchozí systémové</value>
+  </data>
+  <data name="Ui.Sound.DeviceUnavailable" xml:space="preserve">
+    <value>Uložené zařízení, nepřipojeno</value>
+  </data>
+  <data name="Ui.Sound.RefreshDevices" xml:space="preserve">
+    <value>Obnovit zařízení</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Title" xml:space="preserve">
+    <value>Ekvalizér</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Description" xml:space="preserve">
+    <value>Upravte zvuk Roblox pomocí filtru PipeWire. Týká se pouze Roblox.</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Off" xml:space="preserve">
+    <value>Vypnuto</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.BassBoost" xml:space="preserve">
+    <value>Zesílení basů</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Footsteps" xml:space="preserve">
+    <value>Kroky</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Voice" xml:space="preserve">
+    <value>Čistota hlasu</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Treble" xml:space="preserve">
+    <value>Zesílení výšek</value>
+  </data>
 </root>

@@ -8055,4 +8055,43 @@ Sluit dit venster om de ingebouwde schatting zonder download te houden. Je kunt 
   <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
     <value>Groot V3 ({0} MB, nieuwst, zeer zwaar)</value>
   </data>
+  <data name="Ui.Sound.Tab" xml:space="preserve">
+    <value>Geluid</value>
+  </data>
+  <data name="Ui.Sound.OutputDevice.Title" xml:space="preserve">
+    <value>Uitvoerapparaat</value>
+  </data>
+  <data name="Ui.Sound.OutputDevice.Description" xml:space="preserve">
+    <value>Stuur het geluid van Roblox naar andere speakers of een andere headset dan de rest van je pc. Start Roblox opnieuw als het het oude apparaat blijft gebruiken.</value>
+  </data>
+  <data name="Ui.Sound.SystemDefault" xml:space="preserve">
+    <value>Systeemstandaard</value>
+  </data>
+  <data name="Ui.Sound.DeviceUnavailable" xml:space="preserve">
+    <value>Opgeslagen apparaat, niet verbonden</value>
+  </data>
+  <data name="Ui.Sound.RefreshDevices" xml:space="preserve">
+    <value>Apparaten vernieuwen</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Title" xml:space="preserve">
+    <value>Equalizer</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Description" xml:space="preserve">
+    <value>Pas het geluid van Roblox aan met een PipeWire-filter. Alleen Roblox wordt beïnvloed.</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Off" xml:space="preserve">
+    <value>Uit</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.BassBoost" xml:space="preserve">
+    <value>Basversterking</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Footsteps" xml:space="preserve">
+    <value>Voetstappen</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Voice" xml:space="preserve">
+    <value>Heldere stemmen</value>
+  </data>
+  <data name="Ui.Sound.Equalizer.Treble" xml:space="preserve">
+    <value>Hogetonenversterking</value>
+  </data>
 </root>

@@ -140,12 +140,6 @@
           </StackPanel>
         </TabItem.Header>
         <StackPanel Margin="10">
-          <controls:OptionControl Header="{resources:Loc Ui_Integrations_QuietWhenUnfocused}" Description="{resources:Loc Ui_Integrations_LowerRobloxVolumeWhileItsWindow}" Visibility="{x:Static platform:PlatformFeatureVisibility.AudioSession}">
-            <ui:ToggleSwitch IsChecked="{Binding DuckRobloxAudio, Mode=TwoWay}" />
-          </controls:OptionControl>
-          <controls:OptionControl Header="{resources:Loc Ui_Integrations_HeadsetLoudness}" Description="{resources:Loc Ui_Integrations_BalanceLoudAndQuietRobloxAudio}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
-            <ui:ToggleSwitch IsChecked="{Binding HeadsetLoudness, Mode=TwoWay}" />
-          </controls:OptionControl>
           <controls:OptionControl Header="{resources:Loc Ui_Integrations_TelemetryBlocker}" Description="{resources:Loc Ui_Integrations_BlockRobloxTelemetryAdministratorAccessIs}">
             <ui:ToggleSwitch IsChecked="{Binding BlockTelemetry, Mode=TwoWay}" />
           </controls:OptionControl>
@@ -201,9 +195,6 @@
                     <controls:OptionControl Header="{resources:Loc ContextMenu_GameHistory_Title}" Description="{resources:Loc Ui_Integrations_ViewGamesYouRecentlyPlayed}">
                         <Button Content="{resources:Loc Common_Open}" HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding OpenHistoryWindowCommand}" />
                     </controls:OptionControl>
-                    <controls:OptionControl Header="{resources:Loc Ui_Integrations_ViewMusicPlayer}" Description="{resources:Loc Ui_Integrations_ViewAndListenToYourMusic}">
-            <Button Content="{resources:Loc Ui_Mods_View}" HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding MusicWindowCommand}" />
-          </controls:OptionControl>
           <TextBlock Margin="0,16,0,0" Text="{resources:Loc Menu_Integrations_Custom_Title}" FontSize="20" FontWeight="Medium" />
           <TextBlock Text="{resources:Loc Menu_Integrations_Custom_Description}" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
           <Grid Margin="0,8,0,0">
@@ -291,6 +282,35 @@
             </TextBlock>
           </Grid>
                 </StackPanel>
+      </TabItem>
+
+      <TabItem>
+        <TabItem.Header>
+          <StackPanel Orientation="Horizontal">
+            <ui:SymbolIcon Symbol="Speaker224" Margin="0,0,6,0" />
+            <TextBlock Text="{resources:Loc Ui_Sound_Tab}" />
+          </StackPanel>
+        </TabItem.Header>
+        <StackPanel Margin="10">
+          <controls:OptionControl Header="{resources:Loc Ui_Sound_OutputDevice_Title}" Description="{resources:Loc Ui_Sound_OutputDevice_Description}" Visibility="{Binding AudioOutputVisibility, Mode=OneTime}">
+            <StackPanel Orientation="Horizontal">
+              <ComboBox MinWidth="240" MaxWidth="320" ItemsSource="{Binding AudioOutputs}" DisplayMemberPath="Name" SelectedItem="{Binding SelectedAudioOutput, Mode=TwoWay}" />
+              <ui:Button Margin="8,0,0,0" Icon="ArrowClockwise24" ToolTip="{resources:Loc Ui_Sound_RefreshDevices}" Command="{Binding RefreshAudioOutputsCommand}" />
+            </StackPanel>
+          </controls:OptionControl>
+          <controls:OptionControl Header="{resources:Loc Ui_Sound_Equalizer_Title}" Description="{resources:Loc Ui_Sound_Equalizer_Description}" Visibility="{Binding EqualizerVisibility, Mode=OneTime}">
+            <ComboBox MinWidth="240" ItemsSource="{Binding EqualizerPresets}" SelectedIndex="{Binding EqualizerPreset, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="{resources:Loc Ui_Integrations_QuietWhenUnfocused}" Description="{resources:Loc Ui_Integrations_LowerRobloxVolumeWhileItsWindow}" Visibility="{x:Static platform:PlatformFeatureVisibility.AudioSession}">
+            <ui:ToggleSwitch IsChecked="{Binding DuckRobloxAudio, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="{resources:Loc Ui_Integrations_HeadsetLoudness}" Description="{resources:Loc Ui_Integrations_BalanceLoudAndQuietRobloxAudio}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+            <ui:ToggleSwitch IsChecked="{Binding HeadsetLoudness, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="{resources:Loc Ui_Integrations_ViewMusicPlayer}" Description="{resources:Loc Ui_Integrations_ViewAndListenToYourMusic}">
+            <Button Content="{resources:Loc Ui_Mods_View}" HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding MusicWindowCommand}" />
+          </controls:OptionControl>
+        </StackPanel>
       </TabItem>
 
       <TabItem x:Name="MatchmakerTab" DataContext="{x:Null}">

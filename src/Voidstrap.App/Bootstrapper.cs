@@ -1837,6 +1837,7 @@ public class Bootstrapper
             if (_launchMode == LaunchMode.Player)
             {
                 AudioDucker.NotifyRobloxLaunched(_appPid);
+                RobloxAudioRouting.NotifyRobloxLaunched(_appPid);
             }
             if (!_safeLaunch)
                 RobloxProcessOptimizer.ApplyLaunchProfile(_robloxProcess);
