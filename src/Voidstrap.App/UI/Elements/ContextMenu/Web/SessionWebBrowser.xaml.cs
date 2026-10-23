@@ -50,7 +50,11 @@ public partial class SessionWebBrowser : Window
     private static Task<CoreWebView2Environment>? _sharedEnvironment;
 
     public static readonly DependencyProperty TabWidthProperty =
-        DependencyProperty.Register(nameof(TabWidth), typeof(double), typeof(SessionWebBrowser), new PropertyMetadata(200.0));
+        DependencyProperty.RegisterAttached(nameof(TabWidth), typeof(double), typeof(SessionWebBrowser), new FrameworkPropertyMetadata(200.0, FrameworkPropertyMetadataOptions.Inherits));
+
+    public static double GetTabWidth(DependencyObject element) => (double)element.GetValue(TabWidthProperty);
+
+    public static void SetTabWidth(DependencyObject element, double value) => element.SetValue(TabWidthProperty, value);
 
     private readonly ObservableCollection<BrowserTab> _tabs = new();
     private readonly Queue<DateTime> _rebuilds = new();
@@ -85,7 +89,12 @@ public partial class SessionWebBrowser : Window
     public double TabWidth
     {
         get => (double)GetValue(TabWidthProperty);
-        set => SetValue(TabWidthProperty, value);
+        set
+        {
+            SetValue(TabWidthProperty, value);
+            if (Content is DependencyObject content)
+                content.SetValue(TabWidthProperty, value);
+        }
     }
 
     private BrowserSettings Settings => _state.Settings;

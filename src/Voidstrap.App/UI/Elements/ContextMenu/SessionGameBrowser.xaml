@@ -10,6 +10,7 @@
         WindowStartupLocation="Manual" FontFamily="Segoe UI">
   <Window.Resources>
     <converters:ContrastForegroundConverter x:Key="ContrastForeground" />
+    <converters:ImageBrushConverter x:Key="ImageBrush" />
     <Style x:Key="Glyph" TargetType="TextBlock">
       <Setter Property="FontFamily" Value="Segoe Fluent Icons, Segoe MDL2 Assets" />
       <Setter Property="FontSize" Value="13" />
@@ -114,11 +115,7 @@
                   <!-- Square art: as tall as it is wide, rounded by the border itself -->
                   <Grid Height="{Binding ActualWidth, RelativeSource={RelativeSource Self}}">
                     <Border CornerRadius="8" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" />
-                    <Border CornerRadius="8" utility:DynamicRenderSystem.PortableBrushImage="{Binding Thumbnail}">
-                      <Border.Background>
-                        <ImageBrush ImageSource="{Binding Thumbnail}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" />
-                      </Border.Background>
-                    </Border>
+                    <Border CornerRadius="8" Background="{Binding Thumbnail, Converter={StaticResource ImageBrush}}" utility:DynamicRenderSystem.PortableBrushImage="{Binding Thumbnail}" />
                     <!-- On hover: the art dims a little and a play button appears in the accent colour -->
                     <Border CornerRadius="8" Background="#33000000" IsHitTestVisible="False">
                       <Border.Style>

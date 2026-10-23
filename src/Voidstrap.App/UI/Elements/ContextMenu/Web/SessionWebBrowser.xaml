@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         xmlns:converters="clr-namespace:Voidstrap.UI.Converters"
+        xmlns:overlay="clr-namespace:Voidstrap.UI.Elements.Overlay"
         x:Name="BrowserWindow"
         Title="{resources:Loc Ui_Session_Browser}" Width="960" Height="640" MinWidth="520" MinHeight="360"
         WindowStyle="None" AllowsTransparency="False" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"
@@ -108,7 +109,7 @@
               PreviewMouseDown="Tab_MouseDown" PreviewMouseMove="Tab_MouseMove" PreviewMouseUp="Tab_MouseUp" MouseRightButtonUp="Tab_RightClick">
         <Border.Style>
           <Style TargetType="Border">
-            <Setter Property="Width" Value="{Binding TabWidth, RelativeSource={RelativeSource AncestorType=Window}}" />
+            <Setter Property="Width" Value="{Binding (overlay:SessionWebBrowser.TabWidth), RelativeSource={RelativeSource Self}}" />
             <Style.Triggers>
               <DataTrigger Binding="{Binding IsPinned}" Value="True">
                 <Setter Property="Width" Value="40" />

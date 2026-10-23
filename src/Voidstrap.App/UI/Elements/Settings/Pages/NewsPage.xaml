@@ -2,6 +2,7 @@
   <FrameworkElement.Resources>
     <ResourceDictionary>
       <conv:NullToVisibilityConverter x:Key="NullToVisibilityConverter" />
+      <conv:ImageBrushConverter x:Key="ImageBrush" />
       <BooleanToVisibilityConverter x:Key="BoolToVis" />
       <DataTemplate x:Key="NewBadge">
         <Border Margin="8,0,0,0" Padding="6,1" VerticalAlignment="Center" CornerRadius="4" Background="{DynamicResource AccentFillColorPrimaryBrush}" Visibility="{Binding IsNew, Converter={StaticResource BoolToVis}}" appUi:LinuxTextGuard.PreserveCompactLayout="True">
@@ -41,11 +42,7 @@
 
     <ui:CardAction Padding="0" IsChevronVisible="False" HorizontalContentAlignment="Stretch" DataContext="{Binding FeaturedItem}" Visibility="{Binding Converter={StaticResource NullToVisibilityConverter}, FallbackValue=Collapsed, TargetNullValue=Collapsed}" Click="OpenItem_Click">
       <StackPanel>
-        <Border Height="240" CornerRadius="8,8,0,0" Visibility="{Binding Image, Converter={StaticResource NullToVisibilityConverter}}">
-          <Border.Background>
-            <ImageBrush ImageSource="{Binding Image}" Stretch="UniformToFill" />
-          </Border.Background>
-        </Border>
+        <Border Height="240" CornerRadius="8,8,0,0" Visibility="{Binding Image, Converter={StaticResource NullToVisibilityConverter}}" Background="{Binding Image, Converter={StaticResource ImageBrush}}" />
         <StackPanel Margin="18,16,18,18">
           <StackPanel Orientation="Horizontal">
             <TextBlock FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding DateText}" />
