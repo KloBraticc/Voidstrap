@@ -277,6 +277,9 @@ namespace Voidstrap.UI.ViewModels.Pages
     {
         private readonly string _historyFilePath = Paths.ServerHistory;
         private const int MaxHistoryEntries = 50;
+        private const int FirstPaintHistoryCards = 9;
+        private const int HistoryCardBatch = 9;
+        private int _historyGeneration;
 
         private readonly ObservableCollection<HistoryGameEntry> _gameHistory = new();
         private GenericTriState _loadState = GenericTriState.Unknown;
@@ -787,14 +790,43 @@ namespace Voidstrap.UI.ViewModels.Pages
                 return _renderedHistory.ToList();
             var entries = await Task.Run(() => ReadFromFile());
 
-            await Application.Current.Dispatcher.InvokeAsync(() =>
+            System.Windows.Threading.Dispatcher dispatcher = Application.Current.Dispatcher;
+            int generation = await dispatcher.InvokeAsync(() =>
             {
+                int current = ++_historyGeneration;
                 _gameHistory.Clear();
-                foreach (var entry in entries)
+                foreach (var entry in entries.Take(FirstPaintHistoryCards))
                     _gameHistory.Add(new HistoryGameEntry(entry, DatacenterOptions, OnFavoriteChanged));
 
                 NotifyCollectionsChanged();
+                return current;
             });
+            for (int start = FirstPaintHistoryCards; start < entries.Count; start += HistoryCardBatch)
+            {
+                int batchStart = start;
+                bool current = await dispatcher.InvokeAsync(() =>
+                {
+                    if (generation != _historyGeneration)
+                        return false;
+                    foreach (var entry in entries.Skip(batchStart).Take(HistoryCardBatch))
+                        _gameHistory.Add(new HistoryGameEntry(entry, DatacenterOptions, OnFavoriteChanged));
+                    return true;
+                }, System.Windows.Threading.DispatcherPriority.Background);
+                if (!current)
+                    return entries.ToList();
+            }
+            if (entries.Count > FirstPaintHistoryCards)
+            {
+                bool current = await dispatcher.InvokeAsync(() =>
+                {
+                    if (generation != _historyGeneration)
+                        return false;
+                    NotifyCollectionsChanged();
+                    return true;
+                }, System.Windows.Threading.DispatcherPriority.Background);
+                if (!current)
+                    return entries.ToList();
+            }
             _renderedHistoryStamp = stamp;
             _renderedHistory = entries;
 
@@ -1118,6 +1150,7 @@ namespace Voidstrap.UI.ViewModels.Pages
                 if (File.Exists(_historyFilePath))
                     File.Delete(_historyFilePath);
 
+                _historyGeneration++;
                 _gameHistory.Clear();
                 NotifyCollectionsChanged();
             }
