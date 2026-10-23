@@ -7933,4 +7933,15 @@ Voidstrap เขียนลงในโฟลเดอร์เดสก์ท�
   <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
     <value>การแจ้งเตือนเกี่ยวกับเพื่อน รายการโปรดจาก Roblox ในคลัง และการแจ้งเตือนการอัปเดตเกมโปรด</value>
   </data>
+  <data name="Ui.Main.CreateSupportFile" xml:space="preserve">
+    <value>สร้างไฟล์สำหรับขอความช่วยเหลือ</value>
+  </data>
+  <data name="Ui.Main.SupportFileCreated" xml:space="preserve">
+    <value>บันทึกไฟล์สำหรับขอความช่วยเหลือของคุณไว้บนเดสก์ท็อปในชื่อ {0} แล้ว
+
+ส่งไฟล์นี้ให้กับผู้ที่ช่วยเหลือคุณ ข้อมูลส่วนตัว เช่น ชื่อผู้ใช้คอมพิวเตอร์และชื่อบัญชี Roblox ของคุณ ถูกนำออกจากไฟล์แล้ว</value>
+  </data>
+  <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
+    <value>ไม่สามารถสร้างไฟล์สำหรับขอความช่วยเหลือได้: {0}</value>
+  </data>
 </root>

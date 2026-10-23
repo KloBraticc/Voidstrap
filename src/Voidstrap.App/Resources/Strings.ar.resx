@@ -7937,4 +7937,15 @@
   <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
     <value>إشعارات الأصدقاء، ومفضلات Roblox في المكتبة، وتنبيهات تحديث الألعاب المفضلة.</value>
   </data>
+  <data name="Ui.Main.CreateSupportFile" xml:space="preserve">
+    <value>إنشاء ملف دعم</value>
+  </data>
+  <data name="Ui.Main.SupportFileCreated" xml:space="preserve">
+    <value>تم حفظ ملف الدعم على سطح المكتب باسم {0}.
+
+أرسل هذا الملف إلى من يساعدك. تمت إزالة البيانات الشخصية مثل اسم المستخدم على جهازك وأسماء حسابات Roblox منه.</value>
+  </data>
+  <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
+    <value>تعذر إنشاء ملف الدعم: {0}</value>
+  </data>
 </root>

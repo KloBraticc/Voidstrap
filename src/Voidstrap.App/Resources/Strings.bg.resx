@@ -7938,4 +7938,15 @@ Voidstrap не можа да запише в папката на работни�
   <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
     <value>Известия за приятели, любимите Ви от Roblox в библиотеката и известия за обновления на любими игри.</value>
   </data>
+  <data name="Ui.Main.CreateSupportFile" xml:space="preserve">
+    <value>Създаване на файл за поддръжка</value>
+  </data>
+  <data name="Ui.Main.SupportFileCreated" xml:space="preserve">
+    <value>Файлът за поддръжка беше запазен на работния плот като {0}.
+
+Изпратете този файл на човека, който Ви помага. Личните данни като потребителското име на компютъра и имената на акаунтите в Roblox бяха премахнати от него.</value>
+  </data>
+  <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
+    <value>Файлът за поддръжка не можа да бъде създаден: {0}</value>
+  </data>
 </root>

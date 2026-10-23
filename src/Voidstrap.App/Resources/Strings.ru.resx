@@ -7937,4 +7937,15 @@ Voidstrap не смог записать в папку рабочего стол
   <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
     <value>Уведомления о друзьях, Ваше избранное Roblox в библиотеке и уведомления об обновлениях избранных игр.</value>
   </data>
+  <data name="Ui.Main.CreateSupportFile" xml:space="preserve">
+    <value>Создать файл для поддержки</value>
+  </data>
+  <data name="Ui.Main.SupportFileCreated" xml:space="preserve">
+    <value>Файл для поддержки сохранён на рабочем столе под именем {0}.
+
+Отправьте этот файл тому, кто Вам помогает. Личные данные, такие как имя пользователя компьютера и названия аккаунтов Roblox, из него удалены.</value>
+  </data>
+  <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
+    <value>Не удалось создать файл для поддержки: {0}</value>
+  </data>
 </root>

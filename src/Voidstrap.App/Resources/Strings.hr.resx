@@ -7937,4 +7937,15 @@ Pogreška: {0}</value>
   <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
     <value>Obavijesti o prijateljima, tvoji Roblox favoriti u biblioteci i obavijesti o ažuriranjima omiljenih igara.</value>
   </data>
+  <data name="Ui.Main.CreateSupportFile" xml:space="preserve">
+    <value>Izradi datoteku za podršku</value>
+  </data>
+  <data name="Ui.Main.SupportFileCreated" xml:space="preserve">
+    <value>Tvoja datoteka za podršku spremljena je na radnu površinu kao {0}.
+
+Pošalji tu datoteku osobi koja ti pomaže. Osobni podaci poput korisničkog imena računala i imena tvojih Roblox računa uklonjeni su iz nje.</value>
+  </data>
+  <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
+    <value>Datoteku za podršku nije bilo moguće izraditi: {0}</value>
+  </data>
 </root>

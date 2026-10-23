@@ -7939,4 +7939,15 @@ Eroare: {0}</value>
   <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
     <value>Notificări despre prieteni, favoritele tale Roblox în bibliotecă și alerte pentru actualizările jocurilor favorite.</value>
   </data>
+  <data name="Ui.Main.CreateSupportFile" xml:space="preserve">
+    <value>Creează un fișier de asistență</value>
+  </data>
+  <data name="Ui.Main.SupportFileCreated" xml:space="preserve">
+    <value>Fișierul tău de asistență a fost salvat pe desktop ca {0}.
+
+Trimite acest fișier persoanei care te ajută. Datele personale, cum ar fi numele de utilizator al computerului și numele conturilor Roblox, au fost eliminate din el.</value>
+  </data>
+  <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
+    <value>Fișierul de asistență nu a putut fi creat: {0}</value>
+  </data>
 </root>

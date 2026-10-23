@@ -2644,6 +2644,34 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         OpenTopBarFolder(Paths.Base);
     }
 
+    private bool _creatingSupportFile;
+
+    private async void AppMenuSupportFile_Click(object sender, RoutedEventArgs e)
+    {
+        AppMenuPopup.IsOpen = false;
+        if (_creatingSupportFile)
+            return;
+        _creatingSupportFile = true;
+        try
+        {
+            string file = await Voidstrap.Utility.SupportBundle.CreateAsync(_lifetimeCts.SafeToken());
+            Voidstrap.Utility.PlatformShell.TryOpenFolder(System.IO.Path.GetDirectoryName(file) ?? Paths.Desktop);
+            Frontend.ShowMessageBox(string.Format(Strings.Ui_Main_SupportFileCreated, System.IO.Path.GetFileName(file)), MessageBoxImage.Information);
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("MainWindow::CreateSupportFile", ex);
+            Frontend.ShowMessageBox(string.Format(Strings.Ui_Main_SupportFileFailed, ex.Message), MessageBoxImage.Error);
+        }
+        finally
+        {
+            _creatingSupportFile = false;
+        }
+    }
+
     private static void OpenTopBarFolder(string path)
     {
         if (!Voidstrap.Utility.PlatformShell.TryOpenFolder(path))

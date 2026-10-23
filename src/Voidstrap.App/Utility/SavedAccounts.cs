@@ -136,6 +136,18 @@ public static class SavedAccounts
 		}
 	}
 
+	internal static (IReadOnlyList<string> Names, IReadOnlyList<long> UserIds) KnownIdentities()
+	{
+		List<StoredAccount> stored = ReadStoredAccounts();
+		List<string> names = stored
+			.SelectMany(static account => new[] { account.Username, account.DisplayName })
+			.Where(static name => !string.IsNullOrWhiteSpace(name) && name.Length >= 3)
+			.Distinct(StringComparer.OrdinalIgnoreCase)
+			.ToList();
+		List<long> ids = stored.Select(static account => account.UserId).Where(static id => id > 0).Distinct().ToList();
+		return (names, ids);
+	}
+
 	private static List<StoredAccount> ReadStoredAccounts()
 	{
 		if (!File.Exists(AccountMetaPath))

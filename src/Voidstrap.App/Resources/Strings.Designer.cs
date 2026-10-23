@@ -951,6 +951,9 @@ namespace Voidstrap.Resources {
         public static string Ui_Integrations_NotifiesYouInGameWhenA => ResourceManager.GetString("Ui.Integrations.NotifiesYouInGameWhenA", resourceCulture);
 
         public static string Ui_Integrations_FriendNotifications => ResourceManager.GetString("Ui.Integrations.FriendNotifications", resourceCulture);
+        public static string Ui_Main_CreateSupportFile => ResourceManager.GetString("Ui.Main.CreateSupportFile", resourceCulture);
+        public static string Ui_Main_SupportFileCreated => ResourceManager.GetString("Ui.Main.SupportFileCreated", resourceCulture);
+        public static string Ui_Main_SupportFileFailed => ResourceManager.GetString("Ui.Main.SupportFileFailed", resourceCulture);
         public static string Ui_Integrations_FriendsAndFavorites_Title => ResourceManager.GetString("Ui.Integrations.FriendsAndFavorites.Title", resourceCulture);
         public static string Ui_Integrations_FriendsAndFavorites_Description => ResourceManager.GetString("Ui.Integrations.FriendsAndFavorites.Description", resourceCulture);
         public static string Ui_Integrations_LibraryFavorites_Title => ResourceManager.GetString("Ui.Integrations.LibraryFavorites.Title", resourceCulture);

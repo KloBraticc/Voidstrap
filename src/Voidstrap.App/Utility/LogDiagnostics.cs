@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
@@ -17,13 +18,23 @@ internal static class LogDiagnostics
 
 	public static void WriteEnvironment()
 	{
-		Write("System: " + RuntimeInformation.OSDescription.Trim() + WindowsBuild() + ", " + RuntimeInformation.OSArchitecture + " OS, " + RuntimeInformation.ProcessArchitecture + " process");
-		Write(".NET " + Environment.Version + ", " + Environment.ProcessorCount + " logical cores, " + TotalMemory());
-		Write("Interface language " + CultureInfo.CurrentUICulture.Name);
-		Write("Started " + (Paths.StartedByLauncher ? "through the launcher" : "directly") + ", " + (IsElevated() ? "elevated" : "not elevated"));
+		foreach (string line in EnvironmentLines())
+			Write(line);
+	}
+
+	public static List<string> EnvironmentLines()
+	{
+		List<string> lines =
+		[
+			"System: " + RuntimeInformation.OSDescription.Trim() + WindowsBuild() + ", " + RuntimeInformation.OSArchitecture + " OS, " + RuntimeInformation.ProcessArchitecture + " process",
+			".NET " + Environment.Version + ", " + Environment.ProcessorCount + " logical cores, " + TotalMemory(),
+			"Interface language " + CultureInfo.CurrentUICulture.Name,
+			"Started " + (Paths.StartedByLauncher ? "through the launcher" : "directly") + ", " + (IsElevated() ? "elevated" : "not elevated")
+		];
 		string platform = PlatformDetails();
 		if (platform.Length > 0)
-			Write(platform);
+			lines.Add(platform);
+		return lines;
 	}
 
 	private static string PlatformDetails()

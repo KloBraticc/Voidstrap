@@ -7941,4 +7941,15 @@ Voidstrap 無法寫入桌面資料夾。</value>
   <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
     <value>好友通知、收藏庫中的 Roblox 我的最愛，以及最愛遊戲更新提醒。</value>
   </data>
+  <data name="Ui.Main.CreateSupportFile" xml:space="preserve">
+    <value>建立支援檔案</value>
+  </data>
+  <data name="Ui.Main.SupportFileCreated" xml:space="preserve">
+    <value>你的支援檔案已儲存到桌面，名稱為 {0}。
+
+請將這個檔案傳送給正在協助你的人。電腦使用者名稱和 Roblox 帳號名稱等個人資料已從中移除。</value>
+  </data>
+  <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
+    <value>無法建立支援檔案：{0}</value>
+  </data>
 </root>

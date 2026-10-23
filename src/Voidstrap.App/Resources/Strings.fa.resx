@@ -7940,4 +7940,15 @@ Voidstrap نتوانست در پوشهٔ دسکتاپ بنویسد.</value>
   <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
     <value>اعلان‌های دوستان، علاقه‌مندی‌های Roblox شما در کتابخانه و هشدارهای به‌روزرسانی بازی‌های مورد علاقه.</value>
   </data>
+  <data name="Ui.Main.CreateSupportFile" xml:space="preserve">
+    <value>ایجاد فایل پشتیبانی</value>
+  </data>
+  <data name="Ui.Main.SupportFileCreated" xml:space="preserve">
+    <value>فایل پشتیبانی شما با نام {0} روی دسکتاپ ذخیره شد.
+
+این فایل را برای کسی که به شما کمک می‌کند بفرستید. اطلاعات شخصی مانند نام کاربری رایانه و نام حساب‌های Roblox از آن حذف شده است.</value>
+  </data>
+  <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
+    <value>فایل پشتیبانی ایجاد نشد: {0}</value>
+  </data>
 </root>

@@ -7936,4 +7936,15 @@ Voidstrap이 바탕 화면 폴더에 쓸 수 없습니다.</value>
   <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
     <value>친구 알림, 라이브러리의 Roblox 즐겨찾기 및 즐겨찾기 게임 업데이트 알림입니다.</value>
   </data>
+  <data name="Ui.Main.CreateSupportFile" xml:space="preserve">
+    <value>지원 파일 만들기</value>
+  </data>
+  <data name="Ui.Main.SupportFileCreated" xml:space="preserve">
+    <value>지원 파일이 바탕 화면에 {0}(으)로 저장되었습니다.
+
+도와주는 분에게 이 파일을 보내십시오. 컴퓨터 사용자 이름과 Roblox 계정 이름 같은 개인 정보는 파일에서 제거되었습니다.</value>
+  </data>
+  <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
+    <value>지원 파일을 만들 수 없습니다: {0}</value>
+  </data>
 </root>

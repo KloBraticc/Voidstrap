@@ -7939,4 +7939,15 @@ Chyba: {0}</value>
   <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
     <value>Oznámení o přátelích, vaše oblíbené z Roblox v knihovně a upozornění na aktualizace oblíbených her.</value>
   </data>
+  <data name="Ui.Main.CreateSupportFile" xml:space="preserve">
+    <value>Vytvořit soubor pro podporu</value>
+  </data>
+  <data name="Ui.Main.SupportFileCreated" xml:space="preserve">
+    <value>Soubor pro podporu byl uložen na plochu jako {0}.
+
+Pošlete tento soubor tomu, kdo vám pomáhá. Osobní údaje, jako je uživatelské jméno počítače a názvy účtů Roblox, z něj byly odstraněny.</value>
+  </data>
+  <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
+    <value>Soubor pro podporu se nepodařilo vytvořit: {0}</value>
+  </data>
 </root>

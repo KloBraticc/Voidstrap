@@ -7936,4 +7936,15 @@ Hata: {0}</value>
   <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
     <value>Arkadaş bildirimleri, Kitaplıktaki Roblox favorileriniz ve favori oyun güncelleme uyarıları.</value>
   </data>
+  <data name="Ui.Main.CreateSupportFile" xml:space="preserve">
+    <value>Destek dosyası oluştur</value>
+  </data>
+  <data name="Ui.Main.SupportFileCreated" xml:space="preserve">
+    <value>Destek dosyanız masaüstüne {0} adıyla kaydedildi.
+
+Bu dosyayı size yardım eden kişiye gönderin. Bilgisayar kullanıcı adınız ve Roblox hesap adlarınız gibi kişisel bilgiler dosyadan kaldırıldı.</value>
+  </data>
+  <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
+    <value>Destek dosyası oluşturulamadı: {0}</value>
+  </data>
 </root>

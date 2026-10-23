@@ -7939,4 +7939,15 @@ Virhe: {0}</value>
   <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
     <value>Kaveri-ilmoitukset, Roblox suosikkisi kirjastossa ja suosikkipelien päivitysilmoitukset.</value>
   </data>
+  <data name="Ui.Main.CreateSupportFile" xml:space="preserve">
+    <value>Luo tukitiedosto</value>
+  </data>
+  <data name="Ui.Main.SupportFileCreated" xml:space="preserve">
+    <value>Tukitiedostosi tallennettiin työpöydälle nimellä {0}.
+
+Lähetä tiedosto sille, joka auttaa sinua. Henkilötiedot, kuten tietokoneesi käyttäjänimi ja Roblox tiliesi nimet, on poistettu siitä.</value>
+  </data>
+  <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
+    <value>Tukitiedostoa ei voitu luoda: {0}</value>
+  </data>
 </root>

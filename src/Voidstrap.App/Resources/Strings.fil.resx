@@ -7936,4 +7936,15 @@ Error: {0}</value>
   <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
     <value>Mga notification tungkol sa kaibigan, ang iyong mga paborito sa Roblox sa Library at mga alerto sa update ng paboritong laro.</value>
   </data>
+  <data name="Ui.Main.CreateSupportFile" xml:space="preserve">
+    <value>Gumawa ng support file</value>
+  </data>
+  <data name="Ui.Main.SupportFileCreated" xml:space="preserve">
+    <value>Na-save ang iyong support file sa desktop bilang {0}.
+
+Ipadala mo ang file na iyon sa tumutulong sa iyo. Inalis dito ang mga personal na detalye gaya ng username ng iyong computer at mga pangalan ng iyong Roblox account.</value>
+  </data>
+  <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
+    <value>Hindi magawa ang support file: {0}</value>
+  </data>
 </root>

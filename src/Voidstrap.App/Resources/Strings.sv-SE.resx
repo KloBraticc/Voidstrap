@@ -7938,4 +7938,15 @@ Fel: {0}</value>
   <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
     <value>Vänaviseringar, dina Roblox favoriter i biblioteket och aviseringar om uppdateringar av favoritspel.</value>
   </data>
+  <data name="Ui.Main.CreateSupportFile" xml:space="preserve">
+    <value>Skapa en supportfil</value>
+  </data>
+  <data name="Ui.Main.SupportFileCreated" xml:space="preserve">
+    <value>Din supportfil sparades på skrivbordet som {0}.
+
+Skicka filen till den som hjälper dig. Personliga uppgifter som datorns användarnamn och namnen på dina Roblox konton har tagits bort från den.</value>
+  </data>
+  <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
+    <value>Supportfilen kunde inte skapas: {0}</value>
+  </data>
 </root>

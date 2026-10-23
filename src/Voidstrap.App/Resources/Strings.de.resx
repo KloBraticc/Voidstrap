@@ -7938,4 +7938,15 @@ Fehler: {0}</value>
   <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
     <value>Freundesbenachrichtigungen, deine Roblox Favoriten in der Bibliothek und Benachrichtigungen bei Updates von Lieblingsspielen.</value>
   </data>
+  <data name="Ui.Main.CreateSupportFile" xml:space="preserve">
+    <value>Supportdatei erstellen</value>
+  </data>
+  <data name="Ui.Main.SupportFileCreated" xml:space="preserve">
+    <value>Deine Supportdatei wurde als {0} auf dem Desktop gespeichert.
+
+Sende diese Datei an die Person, die dir hilft. Persönliche Daten wie dein Computer Benutzername und deine Roblox Kontonamen wurden daraus entfernt.</value>
+  </data>
+  <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
+    <value>Die Supportdatei konnte nicht erstellt werden: {0}</value>
+  </data>
 </root>

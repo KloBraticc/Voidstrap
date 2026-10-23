@@ -7938,4 +7938,15 @@ Error: {0}</value>
   <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
     <value>Notificaciones de amigos, tus favoritos de Roblox en la biblioteca y avisos de actualización de juegos favoritos.</value>
   </data>
+  <data name="Ui.Main.CreateSupportFile" xml:space="preserve">
+    <value>Crear un archivo de soporte</value>
+  </data>
+  <data name="Ui.Main.SupportFileCreated" xml:space="preserve">
+    <value>Tu archivo de soporte se guardó en el escritorio como {0}.
+
+Envía ese archivo a quien te esté ayudando. Se eliminaron de él los datos personales, como el nombre de usuario de tu equipo y los nombres de tus cuentas de Roblox.</value>
+  </data>
+  <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
+    <value>No se pudo crear el archivo de soporte: {0}</value>
+  </data>
 </root>

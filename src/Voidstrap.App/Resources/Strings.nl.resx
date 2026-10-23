@@ -7939,4 +7939,15 @@ Fout: {0}</value>
   <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
     <value>Vriendmeldingen, je Roblox favorieten in de bibliotheek en meldingen voor updates van favoriete games.</value>
   </data>
+  <data name="Ui.Main.CreateSupportFile" xml:space="preserve">
+    <value>Ondersteuningsbestand maken</value>
+  </data>
+  <data name="Ui.Main.SupportFileCreated" xml:space="preserve">
+    <value>Je ondersteuningsbestand is op het bureaublad opgeslagen als {0}.
+
+Stuur dat bestand naar degene die je helpt. Persoonlijke gegevens zoals de gebruikersnaam van je computer en de namen van je Roblox accounts zijn eruit verwijderd.</value>
+  </data>
+  <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
+    <value>Het ondersteuningsbestand kon niet worden gemaakt: {0}</value>
+  </data>
 </root>

@@ -7936,4 +7936,15 @@ Voidstrap не зміг записати до теки робочого стол
   <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
     <value>Сповіщення про друзів, Ваше обране Roblox у бібліотеці та сповіщення про оновлення обраних ігор.</value>
   </data>
+  <data name="Ui.Main.CreateSupportFile" xml:space="preserve">
+    <value>Створити файл для підтримки</value>
+  </data>
+  <data name="Ui.Main.SupportFileCreated" xml:space="preserve">
+    <value>Файл для підтримки збережено на робочому столі під назвою {0}.
+
+Надішліть цей файл тому, хто Вам допомагає. Особисті дані, як-от ім'я користувача комп'ютера та назви акаунтів Roblox, з нього вилучено.</value>
+  </data>
+  <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
+    <value>Не вдалося створити файл для підтримки: {0}</value>
+  </data>
 </root>

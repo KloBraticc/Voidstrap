@@ -7937,4 +7937,15 @@ Hiba: {0}</value>
   <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
     <value>Baráti értesítések, a Roblox kedvenceid a könyvtárban és értesítések a kedvenc játékok frissítéseiről.</value>
   </data>
+  <data name="Ui.Main.CreateSupportFile" xml:space="preserve">
+    <value>Támogatási fájl létrehozása</value>
+  </data>
+  <data name="Ui.Main.SupportFileCreated" xml:space="preserve">
+    <value>A támogatási fájlod {0} néven mentve lett az asztalra.
+
+Küldd el ezt a fájlt annak, aki segít neked. A személyes adatokat, például a számítógéped felhasználónevét és a Roblox fiókjaid nevét, eltávolítottuk belőle.</value>
+  </data>
+  <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
+    <value>A támogatási fájlt nem sikerült létrehozni: {0}</value>
+  </data>
 </root>

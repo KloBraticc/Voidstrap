@@ -7941,4 +7941,15 @@ Lỗi: {0}</value>
   <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
     <value>Thông báo về bạn bè, mục yêu thích Roblox trong Thư viện và cảnh báo cập nhật trò chơi yêu thích.</value>
   </data>
+  <data name="Ui.Main.CreateSupportFile" xml:space="preserve">
+    <value>Tạo tệp hỗ trợ</value>
+  </data>
+  <data name="Ui.Main.SupportFileCreated" xml:space="preserve">
+    <value>Tệp hỗ trợ của bạn đã được lưu trên màn hình nền với tên {0}.
+
+Hãy gửi tệp đó cho người đang giúp bạn. Các thông tin cá nhân như tên người dùng máy tính và tên tài khoản Roblox của bạn đã được xóa khỏi tệp.</value>
+  </data>
+  <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
+    <value>Không thể tạo tệp hỗ trợ: {0}</value>
+  </data>
 </root>

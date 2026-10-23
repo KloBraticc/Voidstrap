@@ -7937,4 +7937,15 @@ Erreur : {0}</value>
   <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
     <value>Notifications d'amis, vos favoris Roblox dans la bibliothèque et alertes de mise à jour des jeux favoris.</value>
   </data>
+  <data name="Ui.Main.CreateSupportFile" xml:space="preserve">
+    <value>Créer un fichier d'assistance</value>
+  </data>
+  <data name="Ui.Main.SupportFileCreated" xml:space="preserve">
+    <value>Votre fichier d'assistance a été enregistré sur le bureau sous le nom {0}.
+
+Envoyez ce fichier à la personne qui vous aide. Les informations personnelles, comme le nom d'utilisateur de votre ordinateur et les noms de vos comptes Roblox, en ont été retirées.</value>
+  </data>
+  <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
+    <value>Impossible de créer le fichier d'assistance : {0}</value>
+  </data>
 </root>

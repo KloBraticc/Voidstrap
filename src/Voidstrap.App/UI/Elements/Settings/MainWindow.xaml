@@ -448,6 +448,9 @@
             <MenuItem Header="{resources:Loc Ui_Main_VoidstrapLogs}" Style="{StaticResource TopBarMenuItemStyle}" Click="AppMenuVoidstrapLogs_Click" />
             <MenuItem Header="{resources:Loc Ui_Main_RobloxLogs}" Style="{StaticResource TopBarMenuItemStyle}" Click="AppMenuRobloxLogs_Click" />
           </MenuItem>
+          <MenuItem Header="{resources:Loc Ui_Main_CreateSupportFile}" Style="{StaticResource TopBarMenuItemStyle}" Click="AppMenuSupportFile_Click">
+            <MenuItem.Icon><ui:SymbolIcon Symbol="Archive24" FontSize="16" /></MenuItem.Icon>
+          </MenuItem>
           <MenuItem Header="{resources:Loc Ui_Main_OpenAppFolder}" Style="{StaticResource TopBarMenuItemStyle}" Click="AppMenuApplicationFolder_Click">
             <MenuItem.Icon><ui:SymbolIcon Symbol="FolderOpen24" FontSize="16" /></MenuItem.Icon>
           </MenuItem>

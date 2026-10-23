@@ -7929,4 +7929,15 @@ Ralat: {0}</value>
   <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
     <value>Pemberitahuan rakan, kegemaran Roblox anda dalam Pustaka dan makluman kemas kini permainan kegemaran.</value>
   </data>
+  <data name="Ui.Main.CreateSupportFile" xml:space="preserve">
+    <value>Cipta fail sokongan</value>
+  </data>
+  <data name="Ui.Main.SupportFileCreated" xml:space="preserve">
+    <value>Fail sokongan anda telah disimpan pada desktop sebagai {0}.
+
+Hantar fail itu kepada orang yang membantu anda. Butiran peribadi seperti nama pengguna komputer anda dan nama akaun Roblox telah dibuang daripadanya.</value>
+  </data>
+  <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
+    <value>Fail sokongan tidak dapat dicipta: {0}</value>
+  </data>
 </root>

@@ -7939,4 +7939,15 @@ Klaida: {0}</value>
   <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
     <value>Pranešimai apie draugus, jūsų Roblox mėgstamiausi bibliotekoje ir mėgstamiausių žaidimų atnaujinimų pranešimai.</value>
   </data>
+  <data name="Ui.Main.CreateSupportFile" xml:space="preserve">
+    <value>Sukurti pagalbos failą</value>
+  </data>
+  <data name="Ui.Main.SupportFileCreated" xml:space="preserve">
+    <value>Jūsų pagalbos failas išsaugotas darbalaukyje pavadinimu {0}.
+
+Nusiųskite šį failą tam, kas jums padeda. Asmeniniai duomenys, pavyzdžiui, kompiuterio naudotojo vardas ir Roblox paskyrų vardai, iš jo pašalinti.</value>
+  </data>
+  <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
+    <value>Nepavyko sukurti pagalbos failo: {0}</value>
+  </data>
 </root>

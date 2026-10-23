@@ -840,4 +840,15 @@
   <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
     <value>Friend notifications, your Roblox favorites in the Library and favorite game update alerts.</value>
   </data>
+  <data name="Ui.Main.CreateSupportFile" xml:space="preserve">
+    <value>Create a support file</value>
+  </data>
+  <data name="Ui.Main.SupportFileCreated" xml:space="preserve">
+    <value>Your support file was saved to the desktop as {0}.
+
+Send that file to whoever is helping you. Personal details like your computer username and Roblox account names were removed from it.</value>
+  </data>
+  <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
+    <value>The support file could not be created: {0}</value>
+  </data>
 </root>

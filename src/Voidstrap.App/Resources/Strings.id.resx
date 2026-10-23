@@ -7940,4 +7940,15 @@ Kesalahan: {0}</value>
   <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
     <value>Notifikasi teman, favorit Roblox Anda di Pustaka, dan peringatan pembaruan game favorit.</value>
   </data>
+  <data name="Ui.Main.CreateSupportFile" xml:space="preserve">
+    <value>Buat file dukungan</value>
+  </data>
+  <data name="Ui.Main.SupportFileCreated" xml:space="preserve">
+    <value>File dukungan Anda disimpan di desktop dengan nama {0}.
+
+Kirim file tersebut kepada orang yang membantu Anda. Data pribadi seperti nama pengguna komputer Anda dan nama akun Roblox telah dihapus darinya.</value>
+  </data>
+  <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
+    <value>File dukungan tidak dapat dibuat: {0}</value>
+  </data>
 </root>

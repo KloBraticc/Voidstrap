@@ -7938,4 +7938,15 @@ Błąd: {0}</value>
   <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
     <value>Powiadomienia o znajomych, Twoje ulubione z Roblox w bibliotece i powiadomienia o aktualizacjach ulubionych gier.</value>
   </data>
+  <data name="Ui.Main.CreateSupportFile" xml:space="preserve">
+    <value>Utwórz plik pomocy</value>
+  </data>
+  <data name="Ui.Main.SupportFileCreated" xml:space="preserve">
+    <value>Twój plik pomocy został zapisany na pulpicie jako {0}.
+
+Wyślij ten plik osobie, która Ci pomaga. Dane osobowe, takie jak nazwa użytkownika komputera i nazwy kont Roblox, zostały z niego usunięte.</value>
+  </data>
+  <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
+    <value>Nie udało się utworzyć pliku pomocy: {0}</value>
+  </data>
 </root>

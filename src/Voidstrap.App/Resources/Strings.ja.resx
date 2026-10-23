@@ -7952,4 +7952,15 @@ Voidstrap がデスクトップ フォルダーに書き込めませんでした
   <data name="Ui.Integrations.FriendsAndFavorites.Description" xml:space="preserve">
     <value>フレンドの通知、ライブラリ内の Roblox のお気に入り、お気に入りゲームの更新通知。</value>
   </data>
+  <data name="Ui.Main.CreateSupportFile" xml:space="preserve">
+    <value>サポート用ファイルを作成</value>
+  </data>
+  <data name="Ui.Main.SupportFileCreated" xml:space="preserve">
+    <value>サポート用ファイルを {0} としてデスクトップに保存しました。
+
+このファイルをサポートしてくれる人に送ってください。コンピューターのユーザー名や Roblox アカウント名などの個人情報は削除されています。</value>
+  </data>
+  <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
+    <value>サポート用ファイルを作成できませんでした: {0}</value>
+  </data>
 </root>
