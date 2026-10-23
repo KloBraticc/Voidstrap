@@ -4,7 +4,7 @@ use crate::pipeline::{self, Candidate, Config};
 use crate::ring::Ring;
 use serde::Serialize;
 use std::io::{Read, Write};
-use std::process::Stdio;
+use std::process::{Command, Stdio};
 use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Mutex};
 use std::thread::{self, JoinHandle};
@@ -319,7 +319,34 @@ fn run_candidate(cfg: &Config, candidate: &Candidate, shared: &Arc<Shared>) -> b
     cmd.args(&candidate.args)
         .stdout(Stdio::piped())
         .stderr(Stdio::piped());
-    if candidate.audio_pipe {
+    let mut source = None;
+    if let Some(gst) = &candidate.video_pipe {
+        let spawned = Command::new(&cfg.gst_launch)
+            .args(gst)
+            .stdin(Stdio::null())
+            .stdout(Stdio::piped())
+            .stderr(Stdio::piped())
+            .spawn();
+        let mut feeder = match spawned {
+            Ok(c) => c,
+            Err(e) => {
+                if let Ok(mut st) = shared.status.lock() {
+                    st.last_error = format!("screen capture launch error: {e}");
+                }
+                return false;
+            }
+        };
+        match feeder.stdout.take() {
+            Some(out) => {
+                cmd.stdin(Stdio::from(out));
+            }
+            None => {
+                ffmpeg::kill(&mut feeder);
+                return false;
+            }
+        }
+        source = Some(feeder);
+    } else if candidate.audio_pipe {
         cmd.stdin(Stdio::piped());
     } else {
         cmd.stdin(Stdio::null());
@@ -328,12 +355,22 @@ fn run_candidate(cfg: &Config, candidate: &Candidate, shared: &Arc<Shared>) -> b
     let mut child = match cmd.spawn() {
         Ok(c) => c,
         Err(e) => {
+            if let Some(mut feeder) = source.take() {
+                ffmpeg::kill(&mut feeder);
+            }
             if let Ok(mut st) = shared.status.lock() {
                 st.last_error = format!("ffmpeg launch error: {e}");
             }
             return false;
         }
     };
+    let source_errors = source.as_mut().and_then(|feeder| feeder.stderr.take()).map(|mut err| {
+        thread::spawn(move || {
+            let mut buf = Vec::new();
+            let _ = err.read_to_end(&mut buf);
+            String::from_utf8_lossy(&buf).into_owned()
+        })
+    });
 
     let mut pump = if candidate.audio_pipe {
         child
@@ -380,6 +417,11 @@ fn run_candidate(cfg: &Config, candidate: &Candidate, shared: &Arc<Shared>) -> b
                 break;
             }
         }
+        if let Some(feeder) = source.as_mut() {
+            if !matches!(feeder.try_wait(), Ok(None)) {
+                break;
+            }
+        }
         match child.try_wait() {
             Ok(Some(_)) => break,
             Ok(None) => thread::sleep(Duration::from_millis(40)),
@@ -391,13 +433,17 @@ fn run_candidate(cfg: &Config, candidate: &Candidate, shared: &Arc<Shared>) -> b
         p.stop();
     }
     ffmpeg::kill(&mut child);
+    if let Some(mut feeder) = source.take() {
+        ffmpeg::kill(&mut feeder);
+    }
+    let source_error = source_errors.and_then(|h| h.join().ok()).and_then(|text| ffmpeg::last_line(&text));
     if let Some(r) = reader {
         let _ = r.join();
     }
     if let Some(eh) = stderr_handle {
         if let Ok(err_text) = eh.join() {
             if !produced_video {
-                if let Some(line) = ffmpeg::last_line(&err_text) {
+                if let Some(line) = source_error.or_else(|| ffmpeg::last_line(&err_text)) {
                     if let Ok(mut st) = shared.status.lock() {
                         st.last_error = line;
                     }

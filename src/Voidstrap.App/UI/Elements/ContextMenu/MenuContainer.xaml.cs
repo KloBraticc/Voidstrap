@@ -407,7 +407,7 @@ public partial class MenuContainer : WpfUiWindow
             return;
         _sessionDock?.UpdateClipperVisibility();
         OverlayShortcut shortcut = App.Settings.Prop.ClipperShortcut ??= new OverlayShortcut { Modifiers = OverlayShortcut.Alt, Key = 0x79 };
-        bool enabled = (App.Settings.Prop.ClipperEnabled || App.Settings.Prop.ClipperRecordOnGameStart) && shortcut.IsSet && !_clipperHotkeySuspended;
+        bool enabled = Voidstrap.Integrations.Clipper.ClipperService.Supported && (App.Settings.Prop.ClipperEnabled || App.Settings.Prop.ClipperRecordOnGameStart) && shortcut.IsSet && !_clipperHotkeySuspended;
         if (enabled && _clipperHotkeyRegistered && shortcut.SameAs(_registeredClipperShortcut))
             return;
         if (_clipperHotkeyRegistered)

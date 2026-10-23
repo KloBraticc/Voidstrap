@@ -75,6 +75,34 @@ public sealed class NativeClipperConfig
 
     [JsonPropertyName("window")]
     public long Window { get; set; }
+
+    [JsonPropertyName("region")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public NativeClipperRegion? Region { get; set; }
+
+    [JsonPropertyName("pipewireFd")]
+    public int PipewireFd { get; set; } = -1;
+
+    [JsonPropertyName("pipewireNode")]
+    public uint PipewireNode { get; set; }
+
+    [JsonPropertyName("gstLaunch")]
+    public string GstLaunch { get; set; } = "gst-launch-1.0";
+}
+
+public sealed class NativeClipperRegion
+{
+    [JsonPropertyName("x")]
+    public int X { get; set; }
+
+    [JsonPropertyName("y")]
+    public int Y { get; set; }
+
+    [JsonPropertyName("width")]
+    public uint Width { get; set; }
+
+    [JsonPropertyName("height")]
+    public uint Height { get; set; }
 }
 
 public sealed class NativeClipperStatus

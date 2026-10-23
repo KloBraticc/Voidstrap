@@ -34,12 +34,19 @@ public static class ClipperService
 
     public static bool IsRecording => NativeClipper.GetStatus().Recording;
 
+    public static bool Supported => !Voidstrap.Utility.Platform.IsMacOS;
+
     private static bool IsRobloxProcessAlive()
     {
         DateTime now = DateTime.UtcNow;
         if ((now - _lastProcessCheckUtc).TotalMilliseconds < 1500)
             return _lastProcessAlive;
         _lastProcessCheckUtc = now;
+        if (Voidstrap.Utility.Platform.IsLinux)
+        {
+            _lastProcessAlive = Voidstrap.Platform.Linux.LinuxSoberProcessProbe.IsRunningNow();
+            return _lastProcessAlive;
+        }
         try
         {
             Process[] procs = Process.GetProcessesByName(Voidstrap.Utility.Platform.RobloxPlayerProcessName);
@@ -87,6 +94,8 @@ public static class ClipperService
 
     public static void NotifyClientRunning(bool running)
     {
+        if (!Supported)
+            return;
         _clientRunning = running;
         if (running)
         {
@@ -107,6 +116,8 @@ public static class ClipperService
 
     public static void NotifyGameSession(bool inGame, string? gameName = null, long windowHandle = 0)
     {
+        if (!Supported)
+            return;
         _inGame = inGame;
         if (!string.IsNullOrWhiteSpace(gameName))
             _activeGameName = gameName;
@@ -149,7 +160,7 @@ public static class ClipperService
 
     public static void ReconcileWithSettings()
     {
-        if (!App.Settings.Prop.ClipperEnabled)
+        if (!Supported || !App.Settings.Prop.ClipperEnabled)
         {
             if (GetStatus().Recording)
             {
@@ -212,7 +223,7 @@ public static class ClipperService
         if (windowHandle != 0)
             _activeWindowHandle = windowHandle;
 
-        if (!App.Settings.Prop.ClipperEnabled && !forceRun)
+        if (!Supported || !App.Settings.Prop.ClipperEnabled && !forceRun)
         {
             Stop();
             return false;
@@ -261,6 +272,12 @@ public static class ClipperService
                 Window = _activeWindowHandle
             };
 
+            if (LinuxScreenCast.Required && !await AttachLinuxScreenCastAsync(cfg).ConfigureAwait(false))
+            {
+                RaiseStateChanged();
+                return false;
+            }
+
             bool ok = await Task.Run(() => NativeClipper.Start(cfg, out _)).ConfigureAwait(false);
             if (ok)
             {
@@ -282,6 +299,41 @@ public static class ClipperService
         }
     }
 
+    private static async Task<bool> AttachLinuxScreenCastAsync(NativeClipperConfig cfg)
+    {
+        string? gst = FindExecutable("gst-launch-1.0");
+        if (gst == null)
+        {
+            App.Logger.WriteLine("ClipperService", "GStreamer is not installed, the Wayland screen capture needs gst-launch-1.0 and the PipeWire plugin");
+            return false;
+        }
+
+        LinuxScreenCastStream? stream = await LinuxScreenCast.AcquireAsync(cfg.Cursor).ConfigureAwait(false);
+        if (stream == null)
+            return false;
+
+        cfg.GstLaunch = gst;
+        cfg.PipewireFd = stream.Fd;
+        cfg.PipewireNode = stream.Node;
+        if (stream.Width > 0 && stream.Height > 0)
+            cfg.Region = new NativeClipperRegion { Width = stream.Width, Height = stream.Height };
+        return true;
+    }
+
+    private static string? FindExecutable(string name)
+    {
+        string? path = Environment.GetEnvironmentVariable("PATH");
+        if (string.IsNullOrEmpty(path))
+            path = "/usr/local/bin:/usr/bin:/bin";
+        foreach (string directory in path.Split(':', StringSplitOptions.RemoveEmptyEntries))
+        {
+            string candidate = Path.Combine(directory, name);
+            if (File.Exists(candidate))
+                return candidate;
+        }
+        return null;
+    }
+
     public static void Stop()
     {
         bool wasRunning = _appliedConfig != null;
@@ -292,6 +344,8 @@ public static class ClipperService
         catch
         {
         }
+        if (LinuxScreenCast.Required)
+            LinuxScreenCast.Release();
         _appliedConfig = null;
         if (wasRunning)
             App.Logger.WriteLine("ClipperService", "Capture session stopped");

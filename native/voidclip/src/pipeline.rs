@@ -28,6 +28,9 @@ pub struct Config {
     pub screen: u32,
     pub preferred: String,
     pub max_memory_mb: u32,
+    pub pipewire_fd: i32,
+    pub pipewire_node: u32,
+    pub gst_launch: String,
 }
 
 impl Default for Config {
@@ -48,6 +51,9 @@ impl Default for Config {
             screen: 0,
             preferred: String::new(),
             max_memory_mb: 0,
+            pipewire_fd: -1,
+            pipewire_node: 0,
+            gst_launch: "gst-launch-1.0".into(),
         }
     }
 }
@@ -86,6 +92,7 @@ pub struct Candidate {
     pub label: String,
     pub args: Vec<String>,
     pub audio_pipe: bool,
+    pub video_pipe: Option<Vec<String>>,
     pub scaled: bool,
     pub width: u32,
     pub height: u32,
@@ -230,6 +237,7 @@ struct Build<'a> {
     video_source: String,
     audio_args: Vec<String>,
     audio_pipe: bool,
+    video_pipe: Option<Vec<String>>,
 }
 
 impl Build<'_> {
@@ -237,7 +245,7 @@ impl Build<'_> {
         let encoder = encoder_name(family, codec);
         let graph = format!("{}{}[v]", self.video_source, join(&filters));
         let mut args: Vec<String> = vec!["-hide_banner".into(), "-loglevel".into(), "error".into(), "-nostats".into()];
-        if !self.audio_pipe {
+        if !self.audio_pipe && self.video_pipe.is_none() {
             args.push("-nostdin".into());
         }
         args.extend(self.head.iter().cloned());
@@ -253,6 +261,7 @@ impl Build<'_> {
             label: label.into(),
             args,
             audio_pipe: self.audio_pipe,
+            video_pipe: self.video_pipe.clone(),
             scaled,
             width: t.width,
             height: t.height,
@@ -357,6 +366,7 @@ fn build_platform(cfg: &Config, caps: &Capabilities, audio_rate: u32) -> Vec<Can
         video_source: dda_source,
         audio_args: audio_args.clone(),
         audio_pipe,
+        video_pipe: None,
     };
     let b_gdi = Build {
         cfg,
@@ -366,6 +376,7 @@ fn build_platform(cfg: &Config, caps: &Capabilities, audio_rate: u32) -> Vec<Can
         video_source: format!("[{gdi_index}:v]"),
         audio_args,
         audio_pipe,
+        video_pipe: None,
     };
     let reset = "setpts=PTS-STARTPTS".to_string();
     let mut list = Vec::new();
@@ -438,16 +449,27 @@ fn build_platform(cfg: &Config, caps: &Capabilities, _audio_rate: u32) -> Vec<Ca
         }
         _ => (1920, 1080, (String::new(), display.clone())),
     };
-    let t = target(cfg, nw, nh);
-    let kbps = cfg.bitrate_kbps(nh);
-    let mut video_only_inputs: Vec<String> = vec![
-        "-thread_queue_size".into(), "512".into(), "-f".into(), "x11grab".into(), "-framerate".into(), cfg.fps.to_string(),
-        "-draw_mouse".into(), if cfg.cursor { "1" } else { "0" }.into(),
-    ];
-    if !source.0.is_empty() {
-        video_only_inputs.extend(["-video_size".into(), source.0.clone()]);
+    let pipewire = cfg.pipewire_fd >= 0 && cfg.pipewire_node > 0;
+    let mut t = target(cfg, nw, nh);
+    if pipewire {
+        t.scale = true;
     }
-    video_only_inputs.extend(["-i".into(), source.1.clone()]);
+    let kbps = cfg.bitrate_kbps(nh);
+    let video_pipe = if pipewire { Some(pipewire_source(cfg)) } else { None };
+    let mut video_only_inputs: Vec<String> = if pipewire {
+        vec!["-thread_queue_size".into(), "512".into(), "-f".into(), "yuv4mpegpipe".into(), "-i".into(), "pipe:0".into()]
+    } else {
+        vec![
+            "-thread_queue_size".into(), "512".into(), "-f".into(), "x11grab".into(), "-framerate".into(), cfg.fps.to_string(),
+            "-draw_mouse".into(), if cfg.cursor { "1" } else { "0" }.into(),
+        ]
+    };
+    if !pipewire {
+        if !source.0.is_empty() {
+            video_only_inputs.extend(["-video_size".into(), source.0.clone()]);
+        }
+        video_only_inputs.extend(["-i".into(), source.1.clone()]);
+    }
     let mut inputs = video_only_inputs.clone();
     let mut audio_inputs = 0;
     if cfg.game_audio {
@@ -484,7 +506,7 @@ fn build_platform(cfg: &Config, caps: &Capabilities, _audio_rate: u32) -> Vec<Ca
     let has_render = std::path::Path::new(render).exists();
     let codecs: &[&str] = if cfg.codec == "hevc" { &["hevc", "h264"] } else { &["h264"] };
     let mut list = Vec::new();
-    let mut b = Build { cfg, kbps, head: Vec::new(), inputs, video_source: "[0:v]".into(), audio_args, audio_pipe: false };
+    let mut b = Build { cfg, kbps, head: Vec::new(), inputs, video_source: "[0:v]".into(), audio_args, audio_pipe: false, video_pipe: video_pipe.clone() };
     for &codec in codecs {
         let suffix = if codec == cfg.codec { "" } else { "-h264" };
         if has_render && caps.encoder(&encoder_name("vaapi", codec)) {
@@ -503,10 +525,35 @@ fn build_platform(cfg: &Config, caps: &Capabilities, _audio_rate: u32) -> Vec<Ca
     let f = [scale_cpu(&t), vec!["format=yuv420p".into()]].concat();
     list.push(b.candidate_codec("x264", "Software (x264)", "x264", "h264", f.clone(), &t, t.scale));
     if audio_inputs > 0 {
-        let b_silent = Build { cfg, kbps, head: Vec::new(), inputs: video_only_inputs, video_source: "[0:v]".into(), audio_args: Vec::new(), audio_pipe: false };
+        let b_silent = Build { cfg, kbps, head: Vec::new(), inputs: video_only_inputs, video_source: "[0:v]".into(), audio_args: Vec::new(), audio_pipe: false, video_pipe };
         list.push(b_silent.candidate_codec("x264-silent", "Software (x264)", "x264", "h264", f, &t, t.scale));
     }
     list
+}
+
+#[cfg(target_os = "linux")]
+fn pipewire_source(cfg: &Config) -> Vec<String> {
+    [
+        "-q".to_string(),
+        "pipewiresrc".into(),
+        format!("fd={}", cfg.pipewire_fd),
+        format!("path={}", cfg.pipewire_node),
+        "do-timestamp=true".into(),
+        "keepalive-time=500".into(),
+        "!".into(),
+        "videoconvert".into(),
+        "!".into(),
+        "videorate".into(),
+        "!".into(),
+        format!("video/x-raw,format=I420,framerate={}/1", cfg.fps),
+        "!".into(),
+        "y4menc".into(),
+        "!".into(),
+        "fdsink".into(),
+        "fd=1".into(),
+        "sync=false".into(),
+    ]
+    .into()
 }
 
 #[cfg(target_os = "macos")]
@@ -532,7 +579,7 @@ fn build_platform(cfg: &Config, caps: &Capabilities, _audio_rate: u32) -> Vec<Ca
     } else {
         Vec::new()
     };
-    let b = Build { cfg, kbps, head: Vec::new(), inputs, video_source: "[0:v]".into(), audio_args, audio_pipe: false };
+    let b = Build { cfg, kbps, head: Vec::new(), inputs, video_source: "[0:v]".into(), audio_args, audio_pipe: false, video_pipe: None };
     let codecs: &[&str] = if cfg.codec == "hevc" { &["hevc", "h264"] } else { &["h264"] };
     let mut list = Vec::new();
     for &codec in codecs {
