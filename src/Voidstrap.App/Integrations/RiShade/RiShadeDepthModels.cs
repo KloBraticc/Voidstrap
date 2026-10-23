@@ -3,13 +3,14 @@ using System.Buffers.Binary;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Voidstrap.Utility;
+using Microsoft.Win32.SafeHandles;
 
 namespace Voidstrap.Integrations.RiShade
 {
@@ -74,20 +75,35 @@ namespace Voidstrap.Integrations.RiShade
                 668656405)
         };
 
+        private const int MaxSegments = 8;
+        private const long SegmentFloor = 4L * 1024 * 1024;
+        private const int Attempts = 4;
+
         private static readonly HttpClient Client = CreateClient();
         private static readonly SemaphoreSlim Gate = new(1, 1);
+        private static readonly Dictionary<string, bool> VerifiedFiles = new(StringComparer.OrdinalIgnoreCase);
+        private static CancellationTokenSource? _current;
+        private static int _version;
 
         private static HttpClient CreateClient()
         {
-            HttpClient client = new() { Timeout = Timeout.InfiniteTimeSpan };
+            HttpClient client = new(new SocketsHttpHandler
+            {
+                MaxConnectionsPerServer = MaxSegments * 3,
+                PooledConnectionLifetime = TimeSpan.FromMinutes(5),
+                AutomaticDecompression = System.Net.DecompressionMethods.None
+            })
+            {
+                Timeout = Timeout.InfiniteTimeSpan
+            };
             client.DefaultRequestHeaders.UserAgent.ParseAdd("Voidstrap");
             return client;
         }
 
-        public static RiShadeDepthModel Selected
-        {
-            get => Enum.TryParse(App.Settings.Prop.RiShadeDepthModel, true, out RiShadeDepthModel model) ? model : RiShadeDepthModel.Off;
-        }
+        public static int Version => Volatile.Read(ref _version);
+
+        public static RiShadeDepthModel Selected =>
+            Enum.TryParse(App.Settings.Prop.RiShadeDepthModel, true, out RiShadeDepthModel model) ? model : RiShadeDepthModel.Off;
 
         public static int SizeMegabytes(RiShadeDepthModel model) =>
             Models.TryGetValue(model, out Asset? asset) ? (int)Math.Round(asset.Size / 1048576.0) : 0;
@@ -101,7 +117,8 @@ namespace Voidstrap.Integrations.RiShade
                 string directory = RiShadeManager.RiShadeDir;
                 foreach (Asset asset in new[] { OnnxRuntime, DirectMl, model })
                 {
-                    if (!File.Exists(Path.Combine(directory, asset.FileName)))
+                    FileInfo file = new(Path.Combine(directory, asset.FileName));
+                    if (!file.Exists || file.Length != asset.Size)
                         return null;
                 }
                 return model.FileName;
@@ -113,12 +130,25 @@ namespace Voidstrap.Integrations.RiShade
             if (!Voidstrap.Utility.Platform.IsWindows)
                 return (false, "AI depth is only available on Windows");
 
-            await Gate.WaitAsync(token);
+            CancellationTokenSource source = CancellationTokenSource.CreateLinkedTokenSource(token);
+            Interlocked.Exchange(ref _current, source)?.Cancel();
+            App.Settings.Prop.RiShadeDepthModel = model.ToString();
+            App.Settings.SaveDeferred();
+            Publish(new RiShadeDepthModelState(model, model != RiShadeDepthModel.Off, 0, null));
+
             try
             {
-                App.Settings.Prop.RiShadeDepthModel = model.ToString();
-                App.Settings.SaveDeferred();
-                Publish(new RiShadeDepthModelState(model, model != RiShadeDepthModel.Off, 0, null));
+                await Gate.WaitAsync(source.Token);
+            }
+            catch (OperationCanceledException)
+            {
+                Interlocked.CompareExchange(ref _current, null, source);
+                source.Dispose();
+                return (false, string.Empty);
+            }
+
+            try
+            {
                 string directory = RiShadeManager.RiShadeDir;
                 Directory.CreateDirectory(directory);
 
@@ -126,47 +156,42 @@ namespace Voidstrap.Integrations.RiShade
                 {
                     RemoveUnused(directory, null);
                     App.Logger.WriteLine(LogIdent, "AI depth turned off, scene depth estimation is used");
+                    Interlocked.Increment(ref _version);
                     Publish(new RiShadeDepthModelState(model, false, 0, null));
                     return (true, string.Empty);
                 }
 
                 Asset chosen = Models[model];
-                Asset[] needed = { OnnxRuntime, DirectMl, chosen };
-                long total = 0;
-                foreach (Asset asset in needed)
+                List<Asset> missing = new[] { OnnxRuntime, DirectMl, chosen }.Where(asset => !IsInstalled(directory, asset)).ToList();
+                long total = missing.Sum(asset => asset.Size);
+                long received = 0;
+                int lastPercent = -1;
+                void Advance(long bytes)
                 {
-                    if (!IsInstalled(directory, asset))
-                        total += asset.Size;
-                }
-                long done = 0;
-                int lastPercent = 0;
-                void Report(double value)
-                {
-                    int percent = (int)(value * 100);
-                    progress?.Report(value);
-                    if (percent == lastPercent)
+                    long now = Interlocked.Add(ref received, bytes);
+                    int percent = total > 0 ? (int)Math.Min(99, now * 100 / total) : 99;
+                    if (Interlocked.Exchange(ref lastPercent, percent) == percent)
                         return;
-                    lastPercent = percent;
+                    progress?.Report(percent / 100.0);
                     Publish(new RiShadeDepthModelState(model, true, percent, null));
                 }
-                foreach (Asset asset in needed)
-                {
-                    if (IsInstalled(directory, asset))
-                        continue;
-                    long before = done;
-                    Progress<long> bytes = new(count => Report(total > 0 ? Math.Min(1.0, (before + count) / (double)total) : 1.0));
-                    await DownloadAsync(directory, asset, bytes, token);
-                    done += asset.Size;
-                }
+
+                System.Diagnostics.Stopwatch watch = System.Diagnostics.Stopwatch.StartNew();
+                await Task.WhenAll(missing.Select(asset => DownloadAsync(directory, asset, Advance, source.Token)));
+                if (missing.Count > 0)
+                    App.Logger.WriteLine(LogIdent, $"Downloaded {total / 1048576.0:F0} MB of depth files in {watch.Elapsed.TotalSeconds:F1}s");
+
                 RemoveUnused(directory, chosen);
                 progress?.Report(1.0);
                 App.Logger.WriteLine(LogIdent, $"AI depth model {model} is installed");
+                Interlocked.Increment(ref _version);
                 Publish(new RiShadeDepthModelState(model, false, 100, null));
                 return (true, string.Empty);
             }
-            catch (OperationCanceledException)
+            catch (OperationCanceledException) when (source.IsCancellationRequested && !token.IsCancellationRequested)
             {
-                throw;
+                App.Logger.WriteLine(LogIdent, $"The {model} download was replaced by a newer choice");
+                return (false, string.Empty);
             }
             catch (Exception ex)
             {
@@ -176,11 +201,11 @@ namespace Voidstrap.Integrations.RiShade
             }
             finally
             {
+                Interlocked.CompareExchange(ref _current, null, source);
+                source.Dispose();
                 Gate.Release();
             }
         }
-
-        private static readonly Dictionary<string, bool> VerifiedFiles = new(StringComparer.OrdinalIgnoreCase);
 
         private static bool IsInstalled(string directory, Asset asset)
         {
@@ -195,7 +220,7 @@ namespace Voidstrap.Integrations.RiShade
                     return known;
             }
             bool valid;
-            using (FileStream stream = File.OpenRead(path))
+            using (FileStream stream = new(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete))
                 valid = Convert.ToHexString(SHA256.HashData(stream)).Equals(asset.Sha256, StringComparison.OrdinalIgnoreCase);
             lock (VerifiedFiles)
                 VerifiedFiles[key] = valid;
@@ -206,9 +231,8 @@ namespace Voidstrap.Integrations.RiShade
         {
             foreach (Asset model in Models.Values)
             {
-                if (ReferenceEquals(model, keep))
-                    continue;
-                TryDelete(Path.Combine(directory, model.FileName));
+                if (!ReferenceEquals(model, keep))
+                    TryDelete(Path.Combine(directory, model.FileName));
             }
         }
 
@@ -221,23 +245,43 @@ namespace Voidstrap.Integrations.RiShade
             }
             catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
             {
-                App.Logger.WriteLine(LogIdent, "Could not remove " + Path.GetFileName(path) + ": " + ex.Message);
+                App.Logger.WriteLine(LogIdent, "Could not remove " + Path.GetFileName(path) + " yet, it is in use: " + ex.Message);
             }
         }
 
-        private static async Task DownloadAsync(string directory, Asset asset, IProgress<long> progress, CancellationToken token)
+        private static async Task DownloadAsync(string directory, Asset asset, Action<long> advance, CancellationToken token)
         {
             string target = Path.Combine(directory, asset.FileName);
+            string raw = target + ".download";
             string partial = target + ".part";
             App.Logger.WriteLine(LogIdent, "Downloading " + asset.FileName);
             try
             {
-                await using (FileStream output = new(partial, FileMode.Create, FileAccess.Write, FileShare.None, 1 << 16, true))
+                long start = 0;
+                long length = asset.Size;
+                bool deflated = false;
+                if (asset.ZipEntry != null)
+                    (start, length, deflated) = await LocateEntryAsync(asset, token);
+
+                await DownloadRangeAsync(asset.Url, start, length, raw, advance, token);
+
+                if (asset.ZipEntry != null)
                 {
-                    if (asset.ZipEntry == null)
-                        await CopyAsync(await OpenAsync(asset.Url, null, token), output, progress, token);
+                    await using FileStream compressed = new(raw, FileMode.Open, FileAccess.Read, FileShare.None, 1 << 16, true);
+                    await using FileStream output = new(partial, FileMode.Create, FileAccess.Write, FileShare.None, 1 << 16, true);
+                    if (deflated)
+                    {
+                        await using DeflateStream inflate = new(compressed, CompressionMode.Decompress);
+                        await inflate.CopyToAsync(output, 1 << 16, token);
+                    }
                     else
-                        await ExtractEntryAsync(asset, output, progress, token);
+                    {
+                        await compressed.CopyToAsync(output, 1 << 16, token);
+                    }
+                }
+                else
+                {
+                    File.Move(raw, partial, true);
                 }
 
                 string hash;
@@ -250,62 +294,90 @@ namespace Voidstrap.Integrations.RiShade
             }
             finally
             {
+                TryDelete(raw);
                 TryDelete(partial);
             }
         }
 
-        private static async Task<Stream> OpenAsync(string url, RangeHeaderValue? range, CancellationToken token)
+        private static async Task DownloadRangeAsync(string url, long start, long length, string path, Action<long> advance, CancellationToken token)
         {
-            HttpRequestMessage request = new(HttpMethod.Get, url);
-            if (range != null)
-                request.Headers.Range = range;
+            using SafeFileHandle handle = File.OpenHandle(path, FileMode.Create, FileAccess.ReadWrite, FileShare.None, FileOptions.Asynchronous, length);
+            int segments = (int)Math.Clamp(length / SegmentFloor, 1, MaxSegments);
+            long size = (length + segments - 1) / segments;
+            List<Task> parts = new();
+            for (int index = 0; index < segments; index++)
+            {
+                long offset = index * size;
+                long count = Math.Min(size, length - offset);
+                if (count > 0)
+                    parts.Add(DownloadSegmentAsync(url, start, offset, count, handle, advance, token));
+            }
+            await Task.WhenAll(parts);
+        }
+
+        private static async Task DownloadSegmentAsync(string url, long origin, long offset, long count, SafeFileHandle handle, Action<long> advance, CancellationToken token)
+        {
+            long written = 0;
+            byte[] buffer = new byte[1 << 17];
+            for (int attempt = 1; ; attempt++)
+            {
+                try
+                {
+                    await using Stream stream = await OpenAsync(url, new RangeHeaderValue(origin + offset + written, origin + offset + count - 1), token);
+                    while (written < count)
+                    {
+                        int read = await stream.ReadAsync(buffer.AsMemory(0, (int)Math.Min(buffer.Length, count - written)), token);
+                        if (read == 0)
+                            throw new IOException("The connection closed early");
+                        await RandomAccess.WriteAsync(handle, buffer.AsMemory(0, read), offset + written, token);
+                        written += read;
+                        advance(read);
+                    }
+                    return;
+                }
+                catch (Exception ex) when (attempt < Attempts && !token.IsCancellationRequested && ex is IOException or HttpRequestException)
+                {
+                    App.Logger.WriteLine(LogIdent, $"A download part failed, resuming it (attempt {attempt + 1} of {Attempts}): {ex.Message}");
+                    await Task.Delay(TimeSpan.FromSeconds(attempt), token);
+                }
+            }
+        }
+
+        private static async Task<Stream> OpenAsync(string url, RangeHeaderValue range, CancellationToken token)
+        {
+            using HttpRequestMessage request = new(HttpMethod.Get, url);
+            request.Headers.Range = range;
             HttpResponseMessage response = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token);
-            if (!response.IsSuccessStatusCode)
+            if (response.StatusCode != System.Net.HttpStatusCode.PartialContent)
             {
+                string reason = response.IsSuccessStatusCode
+                    ? new Uri(url).Host + " does not support partial downloads"
+                    : $"{new Uri(url).Host} answered {(int)response.StatusCode}";
                 response.Dispose();
-                request.Dispose();
-                throw new HttpRequestException($"{new Uri(url).Host} answered {(int)response.StatusCode}");
+                throw new HttpRequestException(reason);
             }
-            if (range != null && response.StatusCode != System.Net.HttpStatusCode.PartialContent)
-            {
-                response.Dispose();
-                request.Dispose();
-                throw new HttpRequestException(new Uri(url).Host + " does not support partial downloads");
-            }
-            return await response.Content.ReadAsStreamAsync(token);
+            return new ResponseStream(response, await response.Content.ReadAsStreamAsync(token));
         }
 
         private static async Task<byte[]> ReadRangeAsync(string url, long from, long length, CancellationToken token)
         {
-            await using Stream stream = await OpenAsync(url, new RangeHeaderValue(from, from + length - 1), token);
-            byte[] buffer = new byte[length];
-            await stream.ReadExactlyAsync(buffer, token);
-            return buffer;
-        }
-
-        private static async Task CopyAsync(Stream source, Stream destination, IProgress<long> progress, CancellationToken token)
-        {
-            await using (source)
+            for (int attempt = 1; ; attempt++)
             {
-                byte[] buffer = new byte[1 << 16];
-                long copied = 0;
-                long nextReport = 0;
-                int read;
-                while ((read = await source.ReadAsync(buffer, token)) > 0)
+                try
                 {
-                    await destination.WriteAsync(buffer.AsMemory(0, read), token);
-                    copied += read;
-                    if (copied >= nextReport)
-                    {
-                        progress.Report(copied);
-                        nextReport = copied + (1 << 20);
-                    }
+                    await using Stream stream = await OpenAsync(url, new RangeHeaderValue(from, from + length - 1), token);
+                    byte[] buffer = new byte[length];
+                    await stream.ReadExactlyAsync(buffer, token);
+                    return buffer;
                 }
-                progress.Report(copied);
+                catch (Exception ex) when (attempt < Attempts && !token.IsCancellationRequested && ex is IOException or HttpRequestException)
+                {
+                    await Task.Delay(TimeSpan.FromSeconds(attempt), token);
+                }
             }
         }
 
-        private static async Task ExtractEntryAsync(Asset asset, Stream output, IProgress<long> progress, CancellationToken token)
+        private static async Task<(long Start, long Length, bool Deflated)> LocateEntryAsync(Asset asset, CancellationToken token)
         {
             long length;
             using (HttpRequestMessage head = new(HttpMethod.Head, asset.Url))
@@ -351,14 +423,45 @@ namespace Voidstrap.Integrations.RiShade
                         throw new InvalidDataException("The package entry uses an unsupported compression");
                     byte[] local = await ReadRangeAsync(asset.Url, localOffset, 30, token);
                     long dataStart = localOffset + 30 + BinaryPrimitives.ReadUInt16LittleEndian(local.AsSpan(26)) + BinaryPrimitives.ReadUInt16LittleEndian(local.AsSpan(28));
-                    Stream data = await OpenAsync(asset.Url, new RangeHeaderValue(dataStart, dataStart + compressed - 1), token);
-                    Stream body = method == 8 ? new DeflateStream(data, CompressionMode.Decompress) : data;
-                    await CopyAsync(body, output, progress, token);
-                    return;
+                    return (dataStart, compressed, method == 8);
                 }
                 position += 46 + nameLength + extraLength + commentLength;
             }
             throw new InvalidDataException(asset.ZipEntry + " was not found in the package");
+        }
+
+        private sealed class ResponseStream : Stream
+        {
+            private readonly HttpResponseMessage _response;
+            private readonly Stream _inner;
+
+            public ResponseStream(HttpResponseMessage response, Stream inner)
+            {
+                _response = response;
+                _inner = inner;
+            }
+
+            public override bool CanRead => true;
+            public override bool CanSeek => false;
+            public override bool CanWrite => false;
+            public override long Length => throw new NotSupportedException();
+            public override long Position { get => throw new NotSupportedException(); set => throw new NotSupportedException(); }
+            public override void Flush() { }
+            public override int Read(byte[] buffer, int offset, int count) => _inner.Read(buffer, offset, count);
+            public override ValueTask<int> ReadAsync(Memory<byte> buffer, CancellationToken cancellationToken = default) => _inner.ReadAsync(buffer, cancellationToken);
+            public override long Seek(long offset, SeekOrigin origin) => throw new NotSupportedException();
+            public override void SetLength(long value) => throw new NotSupportedException();
+            public override void Write(byte[] buffer, int offset, int count) => throw new NotSupportedException();
+
+            protected override void Dispose(bool disposing)
+            {
+                if (disposing)
+                {
+                    _inner.Dispose();
+                    _response.Dispose();
+                }
+                base.Dispose(disposing);
+            }
         }
     }
 }

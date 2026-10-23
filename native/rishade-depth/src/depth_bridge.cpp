@@ -11,6 +11,7 @@
 #include <cstdint>
 #include <cwchar>
 #include <string>
+#include <vector>
 
 State g;
 
@@ -25,6 +26,17 @@ std::wstring modelFile;
 bool usingModel = false;
 int depthSize = kDefaultDepthSize;
 bool registered = false;
+std::vector<reshade::api::effect_runtime*> liveRuntimes;
+
+void OnBridgeInitRuntime(reshade::api::effect_runtime* runtime)
+{
+    liveRuntimes.push_back(runtime);
+}
+
+void OnBridgeDestroyRuntime(reshade::api::effect_runtime* runtime)
+{
+    std::erase(liveRuntimes, runtime);
+}
 bool attempted = false;
 bool initialized = false;
 
@@ -87,7 +99,21 @@ namespace
 bool StartScene()
 {
     usingModel = false;
-    return SceneInitDepth();
+    if (!SceneInitDepth())
+        return false;
+    for (auto* runtime : liveRuntimes)
+        SceneAdoptDepthRuntime(runtime);
+    return true;
+}
+
+bool StartModel()
+{
+    if (modelFile.empty() || !InitDepth())
+        return false;
+    usingModel = true;
+    for (auto* runtime : liveRuntimes)
+        AdoptDepthRuntime(runtime);
+    return true;
 }
 
 bool ActiveEnabled()
@@ -115,6 +141,26 @@ void ActiveShutdown()
 extern "C" __declspec(dllexport) void RiShadeDepthBridgeSetModel(const wchar_t* file)
 {
     modelFile = file ? file : L"";
+}
+
+extern "C" __declspec(dllexport) bool RiShadeDepthBridgeReload(const wchar_t* file)
+{
+    modelFile = file ? file : L"";
+    if (!initialized)
+        return false;
+    try
+    {
+        ActiveRelease();
+        ActiveShutdown();
+        initialized = StartModel() || StartScene();
+    }
+    catch (...)
+    {
+        initialized = false;
+        usingModel = false;
+    }
+    Log(LogLevel::Info, usingModel ? L"Depth switched to the AI model %ls" : L"Depth switched to scene estimation", modelFile.c_str());
+    return initialized;
 }
 
 extern "C" __declspec(dllexport) bool RiShadeDepthBridgeUsingModel()
@@ -167,8 +213,9 @@ extern "C" __declspec(dllexport) bool RiShadeDepthBridgeInitialize(ID3D11Device*
         registered = reshade::register_addon(module);
         if (registered)
         {
-            usingModel = !modelFile.empty() && InitDepth();
-            initialized = usingModel || StartScene();
+            reshade::register_event<reshade::addon_event::init_effect_runtime>(OnBridgeInitRuntime);
+            reshade::register_event<reshade::addon_event::destroy_effect_runtime>(OnBridgeDestroyRuntime);
+            initialized = StartModel() || StartScene();
         }
     }
     catch (...)
@@ -239,7 +286,11 @@ extern "C" __declspec(dllexport) void RiShadeDepthBridgeShutdown()
     g.device = nullptr;
     if (registered)
     {
+        reshade::unregister_event<reshade::addon_event::init_effect_runtime>(OnBridgeInitRuntime);
+        reshade::unregister_event<reshade::addon_event::destroy_effect_runtime>(OnBridgeDestroyRuntime);
+        liveRuntimes.clear();
         reshade::unregister_addon(module);
         registered = false;
     }
+    attempted = false;
 }

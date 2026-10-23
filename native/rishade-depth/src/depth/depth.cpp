@@ -682,11 +682,16 @@ bool InitDepth()
         Log(LogLevel::Warning, L"Depth estimation is off because ReShade did not load the Unishade add-on.");
         return false;
     }
+    static bool deviceEvents = false;
+    if (!deviceEvents)
+    {
+        deviceEvents = true;
+        reshade::register_event<reshade::addon_event::init_device>(OnInitDevice);
+        reshade::register_event<reshade::addon_event::destroy_device>(OnDestroyDevice);
+    }
     reshade::register_event<reshade::addon_event::init_effect_runtime>(OnInitRuntime);
     reshade::register_event<reshade::addon_event::destroy_effect_runtime>(OnDestroyRuntime);
     reshade::register_event<reshade::addon_event::reshade_reloaded_effects>(OnReloadedEffects);
-    reshade::register_event<reshade::addon_event::init_device>(OnInitDevice);
-    reshade::register_event<reshade::addon_event::destroy_device>(OnDestroyDevice);
 
     try
     {
@@ -817,4 +822,28 @@ void ShutdownDepth()
     for (HANDLE handle : { d.inputHandle, d.outputHandle, d.request })
         if (handle)
             CloseHandle(handle);
+    d.inputHandle = d.outputHandle = d.request = nullptr;
+    reshade::unregister_event<reshade::addon_event::init_effect_runtime>(OnInitRuntime);
+    reshade::unregister_event<reshade::addon_event::destroy_effect_runtime>(OnDestroyRuntime);
+    reshade::unregister_event<reshade::addon_event::reshade_reloaded_effects>(OnReloadedEffects);
+    for (auto* runtime : d.runtimes)
+        Bind(runtime, nullptr);
+    d.runtimes.clear();
+    d.enabled = false;
+    d.stopping = false;
+    d.busy = false;
+    d.done = false;
+    d.failed = false;
+    d.lastInput.reset();
+    d.inputValue = 0;
+    d.version = 0;
+    d.slowRequestLogged = false;
+    d.width = d.height = d.size = 0;
+    d.modelWidth = d.modelHeight = 0;
+}
+
+void AdoptDepthRuntime(reshade::api::effect_runtime* runtime)
+{
+    if (d.enabled && std::find(d.runtimes.begin(), d.runtimes.end(), runtime) == d.runtimes.end())
+        OnInitRuntime(runtime);
 }

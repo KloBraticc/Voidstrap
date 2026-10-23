@@ -429,13 +429,10 @@ public partial class ExtensionPage : UiPage
 		_depthModelUpdating = true;
 		RiShadeDepthModelPicker.SelectedItem = options.FirstOrDefault(option => option.Model == state.Model) ?? options[0];
 		_depthModelUpdating = false;
-		RiShadeDepthModelPicker.IsEnabled = !state.Busy;
 		if (state.Error != null)
 			ShowRiShadeDepthModelStatus(string.Format(Voidstrap.Resources.Strings.Ui_RiShade_DepthModel_Failed, state.Error));
 		else if (state.Busy)
 			ShowRiShadeDepthModelStatus(string.Format(Voidstrap.Resources.Strings.Ui_RiShade_DepthModel_Downloading, state.Percent));
-		else if (state.Model != Voidstrap.Integrations.RiShade.RiShadeDepthModel.Off && state.Percent == 100)
-			ShowRiShadeDepthModelStatus(Voidstrap.Resources.Strings.Ui_RiShade_DepthModel_Ready);
 		else
 			ShowRiShadeDepthModelStatus(null);
 	}

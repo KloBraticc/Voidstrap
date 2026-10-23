@@ -2,6 +2,7 @@
 
 #include <d3d11.h>
 #include <cstdint>
+#include <reshade.hpp>
 
 bool InitDepth();
 
@@ -15,3 +16,5 @@ bool DepthEnabled();
 void ReleaseDepthDevice();
 
 void ShutdownDepth();
+
+void AdoptDepthRuntime(reshade::api::effect_runtime* runtime);

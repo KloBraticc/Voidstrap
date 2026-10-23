@@ -16,12 +16,7 @@ const ZIP_ENTRY_LIMIT: usize = 20_000;
 const ZIP_ENTRY_SIZE_LIMIT: u64 = 128 << 20;
 const ZIP_TOTAL_SIZE_LIMIT: u64 = 1 << 30;
 const ASSET_MARKER: &str = ".rishade-effect-packages-v1";
-const RETIRED_ASSETS: [&str; 4] = [
-    "depth-anything-v2-small.onnx",
-    "onnxruntime.dll",
-    "DirectML.dll",
-    ".rishade-depth-verified",
-];
+const RETIRED_ASSETS: [&str; 1] = [".rishade-depth-verified"];
 pub const DEFAULT_PRESET: &str = "RiShade Natural.ini";
 pub const RENAMED_PRESETS: [(&str, &str, &str); 3] = [
     (

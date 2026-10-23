@@ -1090,5 +1090,17 @@ void SceneReleaseDepthDevice()
 void SceneShutdownDepth()
 {
     ReleaseResources();
+    reshade::unregister_event<reshade::addon_event::init_effect_runtime>(OnInitRuntime);
+    reshade::unregister_event<reshade::addon_event::destroy_effect_runtime>(OnDestroyRuntime);
+    reshade::unregister_event<reshade::addon_event::reshade_reloaded_effects>(OnReloadedEffects);
+    for (auto* runtime : d.runtimes)
+        Bind(runtime, nullptr);
+    d.runtimes.clear();
     d.enabled = false;
+}
+
+void SceneAdoptDepthRuntime(reshade::api::effect_runtime* runtime)
+{
+    if (d.enabled && std::find(d.runtimes.begin(), d.runtimes.end(), runtime) == d.runtimes.end())
+        OnInitRuntime(runtime);
 }

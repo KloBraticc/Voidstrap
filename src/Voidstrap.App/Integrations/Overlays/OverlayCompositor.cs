@@ -143,6 +143,7 @@ namespace Voidstrap.Integrations.Overlays
         private bool _riShadeInteractive;
         private bool _riMissingRuntimeLogged;
         private long _riDepthStamp;
+        private int _riDepthModelVersion;
         private readonly ID3D11Texture2D?[] _stageTex = new ID3D11Texture2D?[2];
         private readonly ID3D11ShaderResourceView?[] _stageSrv = new ID3D11ShaderResourceView?[2];
         private readonly ID3D11RenderTargetView?[] _stageRtv = new ID3D11RenderTargetView?[2];
@@ -905,6 +906,7 @@ namespace Voidstrap.Integrations.Overlays
                             _riDepthBridge = RiShadeInterop.DepthBridgeSetDevice(_device!.NativePointer, _context!.NativePointer);
                         else
                         {
+                            _riDepthModelVersion = RiShadeDepthModels.Version;
                             string? modelFile = RiShadeDepthModels.ActiveModelFile;
                             RiShadeInterop.DepthBridgeSetModel(modelFile ?? string.Empty);
                             _riDepthBridgeInitialized = _riDepthBridge = RiShadeInterop.DepthBridgeInitialize(
@@ -2294,7 +2296,18 @@ namespace Voidstrap.Integrations.Overlays
             {
                 try
                 {
-                    _ = RiShadeInterop.DepthBridgeUpdate(_rawSrv.NativePointer, ++_riDepthStamp);
+                    int modelVersion = RiShadeDepthModels.Version;
+                    if (modelVersion != _riDepthModelVersion)
+                    {
+                        _riDepthModelVersion = modelVersion;
+                        string? modelFile = RiShadeDepthModels.ActiveModelFile;
+                        _riDepthBridge = RiShadeInterop.DepthBridgeReload(modelFile ?? string.Empty);
+                        App.Logger.WriteLine(LOG_IDENT, _riDepthBridge && RiShadeInterop.DepthBridgeUsingModel()
+                            ? "RiShade depth switched live to the AI model " + modelFile
+                            : "RiShade depth switched live to scene estimation");
+                    }
+                    if (_riDepthBridge)
+                        _ = RiShadeInterop.DepthBridgeUpdate(_rawSrv.NativePointer, ++_riDepthStamp);
                 }
                 catch (Exception ex)
                 {
