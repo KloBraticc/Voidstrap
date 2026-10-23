@@ -629,11 +629,57 @@ internal static class LinuxDesktopEntry
 			"");
 	}
 
+	private static string LocateScriptPath => LauncherPath + "-launch";
+
+	private const string LocateScript = """
+		#!/bin/sh
+		launcher="$HOME/.local/bin/io.github.KloBraticc.Voidstrap"
+		if [ -x "$launcher" ]; then
+			exec "$launcher" "$@"
+		fi
+		found=
+		for dir in "$HOME/Applications" "$(xdg-user-dir DESKTOP 2>/dev/null)" "$HOME/Desktop" "$(xdg-user-dir DOWNLOAD 2>/dev/null)" "$HOME/Downloads" "$HOME"; do
+			[ -n "$dir" ] && [ -d "$dir" ] || continue
+			for file in "$dir"/Voidstrap*.AppImage "$dir"/voidstrap*.AppImage; do
+				[ -f "$file" ] || continue
+				if [ -z "$found" ] || [ "$file" -nt "$found" ]; then
+					found=$file
+				fi
+			done
+		done
+		if [ -n "$found" ]; then
+			chmod +x "$found" 2>/dev/null
+			ln -sf "$found" "$launcher"
+			exec "$found" "$@"
+		fi
+		exec xdg-open "https://github.com/KloBraticc/Voidstrap/releases/latest"
+
+		""";
+
+	private static string ResolveEntryCommand(string executablePath)
+	{
+		if (LinuxFlatpakHost.IsSandboxed || !string.Equals(executablePath, LauncherPath, StringComparison.Ordinal))
+			return executablePath;
+		try
+		{
+			string contents = LocateScript.Replace("\r\n", "\n", StringComparison.Ordinal);
+			if (!File.Exists(LocateScriptPath) || !string.Equals(File.ReadAllText(LocateScriptPath), contents, StringComparison.Ordinal))
+				WriteAtomic(LocateScriptPath, contents);
+			File.SetUnixFileMode(LocateScriptPath, UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute | UnixFileMode.GroupRead | UnixFileMode.GroupExecute | UnixFileMode.OtherRead | UnixFileMode.OtherExecute);
+			return LocateScriptPath;
+		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+		{
+			App.Logger?.WriteLine("LinuxDesktopEntry::ResolveEntryCommand", "The launcher fallback could not be written: " + ex.Message);
+			return executablePath;
+		}
+	}
+
 	private static string BuildExecValue(string executablePath, string arguments)
 	{
 		System.Text.StringBuilder builder = new(LinuxFlatpakHost.IsSandboxed
 			? "/usr/bin/flatpak run --command=voidstrap " + EscapeExecArgument(LinuxFlatpakHost.CurrentApplicationId)
-			: EscapeExecArgument(executablePath));
+			: EscapeExecArgument(ResolveEntryCommand(executablePath)));
 		foreach (string token in SplitArguments(arguments))
 			builder.Append(' ').Append(EscapeExecArgument(token));
 		return builder.ToString();
@@ -715,6 +761,8 @@ internal static class LinuxDesktopEntry
 			FileInfo launcher = new(LauncherPath);
 			if (launcher.Exists && launcher.LinkTarget != null)
 				File.Delete(LauncherPath);
+			if (File.Exists(LocateScriptPath))
+				File.Delete(LocateScriptPath);
 			RunQuiet("update-desktop-database", HostVisiblePath(ApplicationsDirectory));
 			RunQuiet("gtk-update-icon-cache", "-f", "-t", IconRootDirectory);
 		}
