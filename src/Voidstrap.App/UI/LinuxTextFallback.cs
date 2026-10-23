@@ -390,36 +390,163 @@ internal static class LinuxTextFallback
 
 	private static TextRun RightToLeft(string text, TextRunProperties properties, Typeface primary, IDictionary<int, ushort> primaryMap)
 	{
-		Typeface? face = primaryMap.ContainsKey(text[0]) ? primary : Resolve(primary, text[0]);
-		if (face == null || !face.TryGetGlyphTypeface(out GlyphTypeface glyphs))
-			return new TextHidden(1);
-
-		IDictionary<int, ushort> map = glyphs.CharacterToGlyphMap;
-		int length = 1;
-		int end = 1;
-		while (length < text.Length)
+		int extent = 1;
+		int last = 1;
+		while (extent < text.Length)
 		{
-			char next = text[length];
+			char next = text[extent];
 			bool joins = next == ' ' || CharUnicodeInfo.GetUnicodeCategory(next) == UnicodeCategory.NonSpacingMark;
-			if (!(IsRightToLeft(next) || joins) || !map.ContainsKey(next))
+			if (!(IsRightToLeft(next) || joins))
 				break;
-			length++;
+			extent++;
 			if (next != ' ')
-				end = length;
+				last = extent;
 		}
 
-		string segment = text.Substring(0, end);
+		string logical = text.Substring(0, last);
+		string shaped = ShapeArabic(logical, out bool[] ligatureStarts);
+		Typeface? face = primaryMap.ContainsKey(shaped[0]) ? primary : Resolve(primary, shaped[0]);
+		if (face == null || !face.TryGetGlyphTypeface(out GlyphTypeface glyphs))
+		{
+			shaped = logical;
+			ligatureStarts = new bool[logical.Length];
+			face = primaryMap.ContainsKey(text[0]) ? primary : Resolve(primary, text[0]);
+			if (face == null || !face.TryGetGlyphTypeface(out glyphs))
+				return new TextHidden(1);
+		}
+
+		IDictionary<int, ushort> map = glyphs.CharacterToGlyphMap;
+		char pad = map.ContainsKey('\u200B') ? '\u200B' : map.ContainsKey('\uFEFF') ? '\uFEFF' : '\0';
+		StringBuilder visual = new(logical.Length);
+		int end = 0;
+		int index = 0;
+		while (index < logical.Length)
+		{
+			if (ligatureStarts[index])
+			{
+				if (pad == '\0' || !map.ContainsKey(shaped[index]))
+					break;
+				visual.Append(shaped[index]);
+				visual.Append(pad);
+				index += 2;
+				end = index;
+				continue;
+			}
+
+			char value = shaped[index];
+			if (!map.ContainsKey(value))
+				break;
+			visual.Append(value);
+			index++;
+			if (logical[index - 1] != ' ')
+				end = index;
+		}
+
+		if (end == 0)
+			return new TextHidden(1);
+
+		string segment = visual.ToString(0, end);
 		StringBuilder reversed = new(end);
 		int[] starts = StringInfo.ParseCombiningCharacters(segment);
-		for (int index = starts.Length - 1; index >= 0; index--)
+		for (int position = starts.Length - 1; position >= 0; position--)
 		{
-			int start = starts[index];
-			int stop = index + 1 < starts.Length ? starts[index + 1] : segment.Length;
+			int start = starts[position];
+			int stop = position + 1 < starts.Length ? starts[position + 1] : segment.Length;
 			reversed.Append(segment, start, stop - start);
 		}
 
 		TextRunProperties runProperties = ReferenceEquals(face, primary) ? properties : new FallbackProperties(properties, face);
 		return new TextCharacters(reversed.ToString(), 0, end, runProperties);
+	}
+
+	private static readonly Dictionary<char, (char Isolated, bool Dual)> ArabicForms = BuildArabicForms();
+
+	private static Dictionary<char, (char Isolated, bool Dual)> BuildArabicForms()
+	{
+		(int Letter, int Isolated, bool Dual)[] table =
+		[
+			(0x0622, 0xFE81, false), (0x0623, 0xFE83, false), (0x0624, 0xFE85, false), (0x0625, 0xFE87, false),
+			(0x0626, 0xFE89, true), (0x0627, 0xFE8D, false), (0x0628, 0xFE8F, true), (0x0629, 0xFE93, false),
+			(0x062A, 0xFE95, true), (0x062B, 0xFE99, true), (0x062C, 0xFE9D, true), (0x062D, 0xFEA1, true),
+			(0x062E, 0xFEA5, true), (0x062F, 0xFEA9, false), (0x0630, 0xFEAB, false), (0x0631, 0xFEAD, false),
+			(0x0632, 0xFEAF, false), (0x0633, 0xFEB1, true), (0x0634, 0xFEB5, true), (0x0635, 0xFEB9, true),
+			(0x0636, 0xFEBD, true), (0x0637, 0xFEC1, true), (0x0638, 0xFEC5, true), (0x0639, 0xFEC9, true),
+			(0x063A, 0xFECD, true), (0x0641, 0xFED1, true), (0x0642, 0xFED5, true), (0x0643, 0xFED9, true),
+			(0x0644, 0xFEDD, true), (0x0645, 0xFEE1, true), (0x0646, 0xFEE5, true), (0x0647, 0xFEE9, true),
+			(0x0648, 0xFEED, false), (0x0649, 0xFEEF, false), (0x064A, 0xFEF1, true),
+			(0x067E, 0xFB56, true), (0x0686, 0xFB7A, true), (0x0698, 0xFB8A, false), (0x06A9, 0xFB8E, true),
+			(0x06AF, 0xFB92, true), (0x06CC, 0xFBFC, true)
+		];
+		Dictionary<char, (char, bool)> forms = new(table.Length);
+		foreach ((int letter, int isolated, bool dual) in table)
+			forms[(char)letter] = ((char)isolated, dual);
+		return forms;
+	}
+
+	private static bool IsArabicTransparent(char value)
+	{
+		return value is >= '\u064B' and <= '\u065F' or '\u0670';
+	}
+
+	private static bool JoinsForward(char value)
+	{
+		return value == '\u0640' || ArabicForms.TryGetValue(value, out (char Isolated, bool Dual) form) && form.Dual;
+	}
+
+	private static bool JoinsBackward(char value)
+	{
+		return value == '\u0640' || ArabicForms.ContainsKey(value);
+	}
+
+	private static int NeighborIndex(string text, int index, int step)
+	{
+		for (int position = index + step; position >= 0 && position < text.Length; position += step)
+		{
+			if (!IsArabicTransparent(text[position]))
+				return position;
+		}
+		return -1;
+	}
+
+	private static char LamAlef(char alef)
+	{
+		return alef switch
+		{
+			'\u0622' => '\uFEF5',
+			'\u0623' => '\uFEF7',
+			'\u0625' => '\uFEF9',
+			'\u0627' => '\uFEFB',
+			_ => '\0'
+		};
+	}
+
+	private static string ShapeArabic(string text, out bool[] ligatureStarts)
+	{
+		ligatureStarts = new bool[text.Length];
+		char[] shaped = text.ToCharArray();
+		for (int index = 0; index < text.Length; index++)
+		{
+			char value = text[index];
+			if (!ArabicForms.TryGetValue(value, out (char Isolated, bool Dual) form))
+				continue;
+
+			int previous = NeighborIndex(text, index, -1);
+			bool joinedBefore = previous >= 0 && JoinsForward(text[previous]);
+			if (value == '\u0644' && index + 1 < text.Length && LamAlef(text[index + 1]) is var ligature and not '\0')
+			{
+				shaped[index] = (char)(ligature + (joinedBefore ? 1 : 0));
+				shaped[index + 1] = '\u200B';
+				ligatureStarts[index] = true;
+				index++;
+				continue;
+			}
+
+			int following = NeighborIndex(text, index, 1);
+			bool joinedAfter = form.Dual && following >= 0 && JoinsBackward(text[following]);
+			int offset = joinedBefore && joinedAfter ? 3 : joinedBefore ? 1 : joinedAfter ? 2 : 0;
+			shaped[index] = (char)(form.Isolated + offset);
+		}
+		return new string(shaped);
 	}
 
 	private static bool IsRightToLeft(char value)
