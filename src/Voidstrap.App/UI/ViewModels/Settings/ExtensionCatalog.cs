@@ -36,7 +36,7 @@ public static class ExtensionCatalog
 				Description = [
 					"RiShade runs the official ReShade runtime inside Voidstrap instead of inside Roblox. It captures the Roblox window, applies your ReShade effects to each frame and draws the result in an overlay on top of the game, so nothing is injected into the Roblox client.",
 					"Use any ReShade preset and shader pack. Press Home or F8 in game to open the ReShade menu, or pick a preset from this page.",
-					"Roblox does not share its depth buffer, so RiShade works out depth on your GPU from the scene itself: the sky, the horizon, haze and where objects stand. No AI model is downloaded or used.",
+					"Roblox does not share its depth buffer, so RiShade works out depth on your GPU. Pick an AI depth model (Depth Anything V2) for the sharpest depth, or keep the built in estimate, which needs no download.",
 					"Shaders cost frames, so it is best used for screenshots and videos rather than competitive play."
 				],
 				Icon = RiShadeIcon,

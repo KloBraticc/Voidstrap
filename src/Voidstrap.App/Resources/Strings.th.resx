@@ -8001,4 +8001,49 @@ Voidstrap เขียนลงในโฟลเดอร์เดสก์ท�
   <data name="PrivateServers.Count" xml:space="preserve">
     <value>เซิร์ฟเวอร์: {0}</value>
   </data>
+  <data name="Ui.RiShade.DepthModel.Title" xml:space="preserve">
+    <value>โมเดลความลึก AI</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Description" xml:space="preserve">
+    <value>ทำให้เอฟเฟกต์ความลึก เช่น ambient occlusion ระยะชัดลึก และเงาสะท้อน รับรู้ระยะทางได้จริง โมเดลที่ใหญ่กว่าคมชัดกว่าแต่ใช้เวลา GPU มากกว่า การเปลี่ยนแปลงจะมีผลเมื่อเปิด Roblox ครั้งถัดไป</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Off" xml:space="preserve">
+    <value>ปิด ใช้การประมาณในตัว</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Small" xml:space="preserve">
+    <value>เล็ก ({0} MB เร็วที่สุด)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Base" xml:space="preserve">
+    <value>กลาง ({0} MB คมชัดขึ้น)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Large" xml:space="preserve">
+    <value>ใหญ่ ({0} MB คมชัดที่สุด หนัก)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.SmallShort" xml:space="preserve">
+    <value>เล็ก</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.BaseShort" xml:space="preserve">
+    <value>กลาง</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.LargeShort" xml:space="preserve">
+    <value>ใหญ่</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Downloading" xml:space="preserve">
+    <value>กำลังดาวน์โหลดโมเดลความลึก: {0}%</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Ready" xml:space="preserve">
+    <value>โมเดลความลึกพร้อมแล้ว จะใช้เมื่อเปิด Roblox ครั้งถัดไป</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Failed" xml:space="preserve">
+    <value>ไม่สามารถดาวน์โหลดโมเดลความลึกได้: {0}</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Prompt" xml:space="preserve">
+    <value>เลือกโมเดลความลึก AI สำหรับ RiShade เอฟเฟกต์ที่ต้องใช้ความลึก เช่น ambient occlusion และระยะชัดลึก จะดูดีขึ้นมากเมื่อมีโมเดล
+
+เล็ก: {0} MB เร็วที่สุด
+กลาง: {1} MB คมชัดขึ้น
+ใหญ่: {2} MB คมชัดที่สุดแต่หนักสำหรับ GPU
+
+ปิดหน้าต่างนี้เพื่อใช้การประมาณในตัวต่อโดยไม่ต้องดาวน์โหลด คุณเปลี่ยนได้ภายหลังในหน้า RiShade</value>
+  </data>
 </root>

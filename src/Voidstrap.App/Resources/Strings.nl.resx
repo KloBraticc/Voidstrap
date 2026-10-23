@@ -8007,4 +8007,49 @@ Stuur dat bestand naar degene die je helpt. Persoonlijke gegevens zoals de gebru
   <data name="PrivateServers.Count" xml:space="preserve">
     <value>Servers: {0}</value>
   </data>
+  <data name="Ui.RiShade.DepthModel.Title" xml:space="preserve">
+    <value>AI-dieptemodel</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Description" xml:space="preserve">
+    <value>Geeft diepte-effecten zoals ambient occlusion, scherptediepte en reflecties een echt gevoel van afstand. Grotere modellen zijn scherper maar gebruiken meer GPU-tijd. Wijzigingen gelden de volgende keer dat Roblox start.</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Off" xml:space="preserve">
+    <value>Uit, ingebouwde schatting</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Small" xml:space="preserve">
+    <value>Klein ({0} MB, snelst)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Base" xml:space="preserve">
+    <value>Middel ({0} MB, scherper)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Large" xml:space="preserve">
+    <value>Groot ({0} MB, scherpst, zwaar)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.SmallShort" xml:space="preserve">
+    <value>Klein</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.BaseShort" xml:space="preserve">
+    <value>Middel</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.LargeShort" xml:space="preserve">
+    <value>Groot</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Downloading" xml:space="preserve">
+    <value>Dieptemodel downloaden: {0}%</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Ready" xml:space="preserve">
+    <value>Het dieptemodel is klaar. Het wordt gebruikt de volgende keer dat Roblox start.</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Failed" xml:space="preserve">
+    <value>Het dieptemodel kon niet worden gedownload: {0}</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Prompt" xml:space="preserve">
+    <value>Kies een AI-dieptemodel voor RiShade. Effecten die diepte nodig hebben, zoals ambient occlusion en scherptediepte, zien er daarmee veel beter uit.
+
+Klein: {0} MB, snelst.
+Middel: {1} MB, scherper.
+Groot: {2} MB, scherpst maar zwaar voor de GPU.
+
+Sluit dit venster om de ingebouwde schatting zonder download te houden. Je kunt dit later wijzigen op de RiShade-pagina.</value>
+  </data>
 </root>

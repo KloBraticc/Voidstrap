@@ -8,3 +8,4 @@ constexpr int kDefaultDepthSize = 518;
 int DepthSize();
 void SetDepthSize(int size);
 std::wstring ExeDirectory();
+std::wstring ModelFile();

@@ -8005,4 +8005,49 @@ Küldd el ezt a fájlt annak, aki segít neked. A személyes adatokat, például
   <data name="PrivateServers.Count" xml:space="preserve">
     <value>Szerverek: {0}</value>
   </data>
+  <data name="Ui.RiShade.DepthModel.Title" xml:space="preserve">
+    <value>MI mélységmodell</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Description" xml:space="preserve">
+    <value>Valódi távolságérzetet ad a mélységet használó effekteknek, például a környezeti takarásnak, a mélységélességnek és a tükröződéseknek. A nagyobb modellek élesebbek, de több GPU-időt használnak. A módosítások a Roblox következő indításakor lépnek életbe.</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Off" xml:space="preserve">
+    <value>Ki, beépített becslés</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Small" xml:space="preserve">
+    <value>Kicsi ({0} MB, leggyorsabb)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Base" xml:space="preserve">
+    <value>Közepes ({0} MB, élesebb)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Large" xml:space="preserve">
+    <value>Nagy ({0} MB, legélesebb, megterhelő)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.SmallShort" xml:space="preserve">
+    <value>Kicsi</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.BaseShort" xml:space="preserve">
+    <value>Közepes</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.LargeShort" xml:space="preserve">
+    <value>Nagy</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Downloading" xml:space="preserve">
+    <value>A mélységmodell letöltése: {0}%</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Ready" xml:space="preserve">
+    <value>A mélységmodell kész. A Roblox következő indításakor lesz használva.</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Failed" xml:space="preserve">
+    <value>A mélységmodellt nem sikerült letölteni: {0}</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Prompt" xml:space="preserve">
+    <value>Válassz MI mélységmodellt a RiShade-hez. A mélységet igénylő effektek, például a környezeti takarás és a mélységélesség, sokkal jobban néznek ki vele.
+
+Kicsi: {0} MB, leggyorsabb.
+Közepes: {1} MB, élesebb.
+Nagy: {2} MB, legélesebb, de erősen terheli a GPU-t.
+
+Zárd be ezt az ablakot, ha letöltés nélkül a beépített becslésnél maradnál. Ezt később a RiShade oldalon módosíthatod.</value>
+  </data>
 </root>

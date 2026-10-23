@@ -8007,4 +8007,49 @@ Trimite acest fișier persoanei care te ajută. Datele personale, cum ar fi nume
   <data name="PrivateServers.Count" xml:space="preserve">
     <value>Servere: {0}</value>
   </data>
+  <data name="Ui.RiShade.DepthModel.Title" xml:space="preserve">
+    <value>Model de adâncime AI</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Description" xml:space="preserve">
+    <value>Oferă efectelor de adâncime, precum ocluzia ambientală, adâncimea câmpului și reflexiile, o senzație reală de distanță. Modelele mai mari sunt mai clare, dar folosesc mai mult timp GPU. Modificările se aplică la următoarea pornire Roblox.</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Off" xml:space="preserve">
+    <value>Dezactivat, estimare integrată</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Small" xml:space="preserve">
+    <value>Mic ({0} MB, cel mai rapid)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Base" xml:space="preserve">
+    <value>Mediu ({0} MB, mai clar)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Large" xml:space="preserve">
+    <value>Mare ({0} MB, cel mai clar, solicitant)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.SmallShort" xml:space="preserve">
+    <value>Mic</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.BaseShort" xml:space="preserve">
+    <value>Mediu</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.LargeShort" xml:space="preserve">
+    <value>Mare</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Downloading" xml:space="preserve">
+    <value>Se descarcă modelul de adâncime: {0}%</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Ready" xml:space="preserve">
+    <value>Modelul de adâncime este gata. Va fi folosit la următoarea pornire Roblox.</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Failed" xml:space="preserve">
+    <value>Modelul de adâncime nu a putut fi descărcat: {0}</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Prompt" xml:space="preserve">
+    <value>Alege un model de adâncime AI pentru RiShade. Efectele care au nevoie de adâncime, precum ocluzia ambientală și adâncimea câmpului, arată mult mai bine cu unul.
+
+Mic: {0} MB, cel mai rapid.
+Mediu: {1} MB, mai clar.
+Mare: {2} MB, cel mai clar, dar solicită mult GPU-ul.
+
+Închide această fereastră ca să păstrezi estimarea integrată fără descărcare. Poți schimba asta mai târziu pe pagina RiShade.</value>
+  </data>
 </root>

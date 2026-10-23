@@ -904,10 +904,18 @@ namespace Voidstrap.Integrations.Overlays
                         if (_riDepthBridgeInitialized)
                             _riDepthBridge = RiShadeInterop.DepthBridgeSetDevice(_device!.NativePointer, _context!.NativePointer);
                         else
+                        {
+                            string? modelFile = RiShadeDepthModels.ActiveModelFile;
+                            RiShadeInterop.DepthBridgeSetModel(modelFile ?? string.Empty);
                             _riDepthBridgeInitialized = _riDepthBridge = RiShadeInterop.DepthBridgeInitialize(
                                 _device!.NativePointer,
                                 _context!.NativePointer,
                                 RiShadeManager.RiShadeDir);
+                            if (_riDepthBridge)
+                                App.Logger.WriteLine(LOG_IDENT, RiShadeInterop.DepthBridgeUsingModel()
+                                    ? "RiShade depth uses the AI model " + modelFile
+                                    : "RiShade depth uses scene estimation");
+                        }
                         if (!_riDepthBridge)
                             App.Logger.WriteLine(LOG_IDENT, "RiShade depth estimation could not start, color effects remain available");
                     }

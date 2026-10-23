@@ -188,6 +188,12 @@
                   <ui:Button Grid.Column="1" Height="34" Margin="8,0,0,0" Content="Refresh" Click="RiShadePreset_Refresh_Click" />
                 </Grid>
                 <TextBlock x:Name="RiShadePresetStatus" Margin="0,6,0,0" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                <StackPanel x:Name="RiShadeDepthModel" Margin="0,14,0,0">
+                  <TextBlock Style="{StaticResource DetailLabel}" Text="{resources:Loc Ui_RiShade_DepthModel_Title}" />
+                  <TextBlock FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_RiShade_DepthModel_Description}" />
+                  <ComboBox x:Name="RiShadeDepthModelPicker" Margin="0,8,0,0" Height="34" VerticalContentAlignment="Center" DisplayMemberPath="Label" SelectionChanged="RiShadeDepthModel_SelectionChanged" />
+                  <TextBlock x:Name="RiShadeDepthModelStatus" Margin="0,6,0,0" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Visibility="Collapsed" />
+                </StackPanel>
                 <Grid x:Name="RiShadeDlss" Margin="0,14,0,0">
                   <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />

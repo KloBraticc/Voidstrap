@@ -7693,4 +7693,49 @@ Send that file to whoever is helping you. Personal details like your computer us
   <data name="PrivateServers.Count" xml:space="preserve">
     <value>Servers: {0}</value>
   </data>
+  <data name="Ui.RiShade.DepthModel.Title" xml:space="preserve">
+    <value>AI depth model</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Description" xml:space="preserve">
+    <value>Gives depth effects like ambient occlusion, depth of field and reflections a real sense of distance. Bigger models are sharper but use more GPU time. Changes apply the next time Roblox starts.</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Off" xml:space="preserve">
+    <value>Off, built in estimate</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Small" xml:space="preserve">
+    <value>Small ({0} MB, fastest)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Base" xml:space="preserve">
+    <value>Base ({0} MB, sharper)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Large" xml:space="preserve">
+    <value>Large ({0} MB, sharpest, heavy)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.SmallShort" xml:space="preserve">
+    <value>Small</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.BaseShort" xml:space="preserve">
+    <value>Base</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.LargeShort" xml:space="preserve">
+    <value>Large</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Downloading" xml:space="preserve">
+    <value>Downloading the depth model: {0}%</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Ready" xml:space="preserve">
+    <value>The depth model is ready. It is used the next time Roblox starts.</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Failed" xml:space="preserve">
+    <value>The depth model could not be downloaded: {0}</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Prompt" xml:space="preserve">
+    <value>Pick an AI depth model for RiShade. Effects that need depth, like ambient occlusion and depth of field, look far better with one.
+
+Small: {0} MB, fastest.
+Base: {1} MB, sharper.
+Large: {2} MB, sharpest but heavy on the GPU.
+
+Close this window to keep the built in estimate with no download. You can change this later on the RiShade page.</value>
+  </data>
 </root>

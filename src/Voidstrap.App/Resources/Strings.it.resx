@@ -8008,4 +8008,49 @@ Invia questo file a chi ti sta aiutando. I dati personali, come il nome utente d
   <data name="PrivateServers.Count" xml:space="preserve">
     <value>Server: {0}</value>
   </data>
+  <data name="Ui.RiShade.DepthModel.Title" xml:space="preserve">
+    <value>Modello di profondità IA</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Description" xml:space="preserve">
+    <value>Dà agli effetti di profondità, come occlusione ambientale, profondità di campo e riflessi, un vero senso della distanza. I modelli più grandi sono più nitidi ma usano più tempo della GPU. Le modifiche si applicano al prossimo avvio di Roblox.</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Off" xml:space="preserve">
+    <value>Disattivato, stima integrata</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Small" xml:space="preserve">
+    <value>Piccolo ({0} MB, il più veloce)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Base" xml:space="preserve">
+    <value>Medio ({0} MB, più nitido)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Large" xml:space="preserve">
+    <value>Grande ({0} MB, il più nitido, pesante)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.SmallShort" xml:space="preserve">
+    <value>Piccolo</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.BaseShort" xml:space="preserve">
+    <value>Medio</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.LargeShort" xml:space="preserve">
+    <value>Grande</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Downloading" xml:space="preserve">
+    <value>Download del modello di profondità: {0}%</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Ready" xml:space="preserve">
+    <value>Il modello di profondità è pronto. Verrà usato al prossimo avvio di Roblox.</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Failed" xml:space="preserve">
+    <value>Impossibile scaricare il modello di profondità: {0}</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Prompt" xml:space="preserve">
+    <value>Scegli un modello di profondità IA per RiShade. Gli effetti che hanno bisogno della profondità, come occlusione ambientale e profondità di campo, sono molto migliori con un modello.
+
+Piccolo: {0} MB, il più veloce.
+Medio: {1} MB, più nitido.
+Grande: {2} MB, il più nitido ma pesante per la GPU.
+
+Chiudi questa finestra per tenere la stima integrata senza download. Puoi cambiarlo più tardi nella pagina di RiShade.</value>
+  </data>
 </root>

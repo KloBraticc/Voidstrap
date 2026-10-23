@@ -162,6 +162,7 @@ public partial class ExtensionPage : UiPage
 		if (asset.Id == "rishade")
 		{
 			RefreshRiShadePresets();
+			RefreshRiShadeDepthModel();
 			RefreshRiShadeDlss();
 		}
 		_ = LoadReleasesAsync(asset);
@@ -388,6 +389,52 @@ public partial class ExtensionPage : UiPage
 	}
 
 	private void RiShadePreset_Refresh_Click(object sender, RoutedEventArgs e) => RefreshRiShadePresets();
+
+	private sealed record DepthModelOption(Voidstrap.Integrations.RiShade.RiShadeDepthModel Model, string Label);
+
+	private bool _depthModelUpdating;
+
+	private void RefreshRiShadeDepthModel()
+	{
+		bool available = Voidstrap.Utility.Platform.IsWindows && Voidstrap.Integrations.RiShade.RiShadeManager.DepthBridgeAvailable;
+		RiShadeDepthModel.Visibility = available ? Visibility.Visible : Visibility.Collapsed;
+		if (!available)
+			return;
+		var models = Voidstrap.Integrations.RiShade.RiShadeDepthModels.SizeMegabytes;
+		DepthModelOption[] options =
+		[
+			new(Voidstrap.Integrations.RiShade.RiShadeDepthModel.Off, Voidstrap.Resources.Strings.Ui_RiShade_DepthModel_Off),
+			new(Voidstrap.Integrations.RiShade.RiShadeDepthModel.Small, string.Format(Voidstrap.Resources.Strings.Ui_RiShade_DepthModel_Small, models(Voidstrap.Integrations.RiShade.RiShadeDepthModel.Small))),
+			new(Voidstrap.Integrations.RiShade.RiShadeDepthModel.Base, string.Format(Voidstrap.Resources.Strings.Ui_RiShade_DepthModel_Base, models(Voidstrap.Integrations.RiShade.RiShadeDepthModel.Base))),
+			new(Voidstrap.Integrations.RiShade.RiShadeDepthModel.Large, string.Format(Voidstrap.Resources.Strings.Ui_RiShade_DepthModel_Large, models(Voidstrap.Integrations.RiShade.RiShadeDepthModel.Large)))
+		];
+		_depthModelUpdating = true;
+		RiShadeDepthModelPicker.ItemsSource = options;
+		RiShadeDepthModelPicker.SelectedItem = options.First(option => option.Model == Voidstrap.Integrations.RiShade.RiShadeDepthModels.Selected);
+		_depthModelUpdating = false;
+	}
+
+	private void ShowRiShadeDepthModelStatus(string? text)
+	{
+		RiShadeDepthModelStatus.Text = text ?? "";
+		RiShadeDepthModelStatus.Visibility = string.IsNullOrEmpty(text) ? Visibility.Collapsed : Visibility.Visible;
+	}
+
+	private async void RiShadeDepthModel_SelectionChanged(object sender, SelectionChangedEventArgs e)
+	{
+		if (_depthModelUpdating || RiShadeDepthModelPicker.SelectedItem is not DepthModelOption option || option.Model == Voidstrap.Integrations.RiShade.RiShadeDepthModels.Selected)
+			return;
+		RiShadeDepthModelPicker.IsEnabled = false;
+		bool download = option.Model != Voidstrap.Integrations.RiShade.RiShadeDepthModel.Off;
+		ShowRiShadeDepthModelStatus(download ? string.Format(Voidstrap.Resources.Strings.Ui_RiShade_DepthModel_Downloading, 0) : null);
+		Progress<double> progress = new(value => ShowRiShadeDepthModelStatus(string.Format(Voidstrap.Resources.Strings.Ui_RiShade_DepthModel_Downloading, (int)(value * 100))));
+		(bool success, string message) = await Voidstrap.Integrations.RiShade.RiShadeDepthModels.SelectAsync(option.Model, download ? progress : null);
+		RiShadeDepthModelPicker.IsEnabled = true;
+		if (!success)
+			ShowRiShadeDepthModelStatus(string.Format(Voidstrap.Resources.Strings.Ui_RiShade_DepthModel_Failed, message));
+		else
+			ShowRiShadeDepthModelStatus(download ? Voidstrap.Resources.Strings.Ui_RiShade_DepthModel_Ready : null);
+	}
 
 	private void RefreshRiShadeDlss()
 	{

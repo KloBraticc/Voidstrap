@@ -20,9 +20,17 @@ Google Play libraries keep their publisher terms. They are not licensed under Vo
   Terms: MIT
   Source: https://github.com/FrosSky/Chevstrap
 
+- Depth Anything V2 Small, Base and Large downloaded on demand (model)
+  Terms: Small: Apache-2.0. Base and Large: CC-BY-NC-4.0
+  Source: https://github.com/DepthAnything/Depth-Anything-V2 and https://huggingface.co/onnx-community
+
 - Devicon bundled (asset)
   Terms: MIT
   Source: https://github.com/devicons/devicon
+
+- DirectML 1.15.4 downloaded on demand (dll)
+  Terms: Microsoft Software License Terms
+  Source: https://www.nuget.org/packages/Microsoft.AI.DirectML/1.15.4
 
 - Fishstrap bundled (asset)
   Terms: MIT
@@ -60,6 +68,10 @@ Google Play libraries keep their publisher terms. They are not licensed under Vo
   Terms: MIT
   Source: https://raw.githubusercontent.com/Orbmu2k/nvidiaProfileInspector/master/LICENSE.txt
 
+- ONNX Runtime DirectML 1.24.4 downloaded on demand (dll)
+  Terms: MIT
+  Source: https://www.nuget.org/packages/Microsoft.ML.OnnxRuntime.DirectML/1.24.4
+
 - Roblox Studio Mod Manager attributed code (asset)
   Terms: MIT
   Source: https://raw.githubusercontent.com/MaximumADHD/Roblox-Studio-Mod-Manager/main/LICENSE
@@ -79,6 +91,10 @@ Google Play libraries keep their publisher terms. They are not licensed under Vo
 - Unicode emoji data 14.0 (asset)
   Terms: Unicode data license
   Source: https://raw.githubusercontent.com/unicode-org/unicodetools/main/LICENSE
+
+- Unishade depth estimation bundled (source)
+  Terms: MIT
+  Source: https://github.com/OMouta/Unishade
 
 - Voidstrap bundled (asset)
   Terms: MIT

@@ -8005,4 +8005,49 @@
   <data name="PrivateServers.Count" xml:space="preserve">
     <value>الخوادم: {0}</value>
   </data>
+  <data name="Ui.RiShade.DepthModel.Title" xml:space="preserve">
+    <value>نموذج العمق بالذكاء الاصطناعي</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Description" xml:space="preserve">
+    <value>يمنح تأثيرات العمق مثل الإظلام المحيطي وعمق الميدان والانعكاسات إحساسًا حقيقيًا بالمسافة. النماذج الأكبر أوضح لكنها تستهلك وقتًا أطول من GPU. تُطبَّق التغييرات عند تشغيل Roblox في المرة القادمة.</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Off" xml:space="preserve">
+    <value>إيقاف، تقدير مدمج</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Small" xml:space="preserve">
+    <value>صغير ({0} ميغابايت، الأسرع)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Base" xml:space="preserve">
+    <value>متوسط ({0} ميغابايت، أوضح)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Large" xml:space="preserve">
+    <value>كبير ({0} ميغابايت، الأوضح، ثقيل)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.SmallShort" xml:space="preserve">
+    <value>صغير</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.BaseShort" xml:space="preserve">
+    <value>متوسط</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.LargeShort" xml:space="preserve">
+    <value>كبير</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Downloading" xml:space="preserve">
+    <value>جارٍ تنزيل نموذج العمق: {0}%</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Ready" xml:space="preserve">
+    <value>نموذج العمق جاهز. سيُستخدم عند تشغيل Roblox في المرة القادمة.</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Failed" xml:space="preserve">
+    <value>تعذّر تنزيل نموذج العمق: {0}</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Prompt" xml:space="preserve">
+    <value>اختر نموذج عمق بالذكاء الاصطناعي لـ RiShade. تبدو التأثيرات التي تحتاج إلى العمق، مثل الإظلام المحيطي وعمق الميدان، أفضل بكثير معه.
+
+صغير: {0} ميغابايت، الأسرع.
+متوسط: {1} ميغابايت، أوضح.
+كبير: {2} ميغابايت، الأوضح لكنه ثقيل على GPU.
+
+أغلق هذه النافذة للاحتفاظ بالتقدير المدمج دون تنزيل. يمكنك تغيير ذلك لاحقًا من صفحة RiShade.</value>
+  </data>
 </root>

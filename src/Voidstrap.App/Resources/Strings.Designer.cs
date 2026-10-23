@@ -1499,6 +1499,19 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Home_LatestRobloxNews => ResourceManager.GetString("Ui.Home.LatestRobloxNews", resourceCulture);
         public static string Ui_RiShade_Dlss_Title => ResourceManager.GetString("Ui.RiShade.Dlss.Title", resourceCulture);
+        public static string Ui_RiShade_DepthModel_Title => ResourceManager.GetString("Ui.RiShade.DepthModel.Title", resourceCulture);
+        public static string Ui_RiShade_DepthModel_Description => ResourceManager.GetString("Ui.RiShade.DepthModel.Description", resourceCulture);
+        public static string Ui_RiShade_DepthModel_Off => ResourceManager.GetString("Ui.RiShade.DepthModel.Off", resourceCulture);
+        public static string Ui_RiShade_DepthModel_Small => ResourceManager.GetString("Ui.RiShade.DepthModel.Small", resourceCulture);
+        public static string Ui_RiShade_DepthModel_Base => ResourceManager.GetString("Ui.RiShade.DepthModel.Base", resourceCulture);
+        public static string Ui_RiShade_DepthModel_Large => ResourceManager.GetString("Ui.RiShade.DepthModel.Large", resourceCulture);
+        public static string Ui_RiShade_DepthModel_SmallShort => ResourceManager.GetString("Ui.RiShade.DepthModel.SmallShort", resourceCulture);
+        public static string Ui_RiShade_DepthModel_BaseShort => ResourceManager.GetString("Ui.RiShade.DepthModel.BaseShort", resourceCulture);
+        public static string Ui_RiShade_DepthModel_LargeShort => ResourceManager.GetString("Ui.RiShade.DepthModel.LargeShort", resourceCulture);
+        public static string Ui_RiShade_DepthModel_Downloading => ResourceManager.GetString("Ui.RiShade.DepthModel.Downloading", resourceCulture);
+        public static string Ui_RiShade_DepthModel_Ready => ResourceManager.GetString("Ui.RiShade.DepthModel.Ready", resourceCulture);
+        public static string Ui_RiShade_DepthModel_Failed => ResourceManager.GetString("Ui.RiShade.DepthModel.Failed", resourceCulture);
+        public static string Ui_RiShade_DepthModel_Prompt => ResourceManager.GetString("Ui.RiShade.DepthModel.Prompt", resourceCulture);
         public static string Ui_RiShade_Dlss_Description => ResourceManager.GetString("Ui.RiShade.Dlss.Description", resourceCulture);
         public static string Ui_RiShade_Dlss_Downloading => ResourceManager.GetString("Ui.RiShade.Dlss.Downloading", resourceCulture);
         public static string Ui_RiShade_Dlss_Ready => ResourceManager.GetString("Ui.RiShade.Dlss.Ready", resourceCulture);

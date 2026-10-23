@@ -8006,4 +8006,49 @@ Wyślij ten plik osobie, która Ci pomaga. Dane osobowe, takie jak nazwa użytko
   <data name="PrivateServers.Count" xml:space="preserve">
     <value>Serwery: {0}</value>
   </data>
+  <data name="Ui.RiShade.DepthModel.Title" xml:space="preserve">
+    <value>Model głębi AI</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Description" xml:space="preserve">
+    <value>Nadaje efektom głębi, takim jak okluzja otoczenia, głębia ostrości i odbicia, prawdziwe poczucie odległości. Większe modele są ostrzejsze, ale zużywają więcej czasu GPU. Zmiany zaczną działać przy następnym uruchomieniu Roblox.</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Off" xml:space="preserve">
+    <value>Wyłączony, wbudowane oszacowanie</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Small" xml:space="preserve">
+    <value>Mały ({0} MB, najszybszy)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Base" xml:space="preserve">
+    <value>Średni ({0} MB, ostrzejszy)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Large" xml:space="preserve">
+    <value>Duży ({0} MB, najostrzejszy, wymagający)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.SmallShort" xml:space="preserve">
+    <value>Mały</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.BaseShort" xml:space="preserve">
+    <value>Średni</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.LargeShort" xml:space="preserve">
+    <value>Duży</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Downloading" xml:space="preserve">
+    <value>Pobieranie modelu głębi: {0}%</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Ready" xml:space="preserve">
+    <value>Model głębi jest gotowy. Zostanie użyty przy następnym uruchomieniu Roblox.</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Failed" xml:space="preserve">
+    <value>Nie udało się pobrać modelu głębi: {0}</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Prompt" xml:space="preserve">
+    <value>Wybierz model głębi AI dla RiShade. Efekty, które potrzebują głębi, takie jak okluzja otoczenia i głębia ostrości, wyglądają z nim znacznie lepiej.
+
+Mały: {0} MB, najszybszy.
+Średni: {1} MB, ostrzejszy.
+Duży: {2} MB, najostrzejszy, ale mocno obciąża GPU.
+
+Zamknij to okno, aby zostać przy wbudowanym oszacowaniu bez pobierania. Możesz to zmienić później na stronie RiShade.</value>
+  </data>
 </root>

@@ -8007,4 +8007,49 @@ Pošlete tento soubor tomu, kdo vám pomáhá. Osobní údaje, jako je uživatel
   <data name="PrivateServers.Count" xml:space="preserve">
     <value>Servery: {0}</value>
   </data>
+  <data name="Ui.RiShade.DepthModel.Title" xml:space="preserve">
+    <value>Model hloubky s AI</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Description" xml:space="preserve">
+    <value>Dává efektům hloubky, jako je okolní zastínění, hloubka ostrosti a odrazy, skutečný pocit vzdálenosti. Větší modely jsou ostřejší, ale spotřebují více času GPU. Změny se projeví při příštím spuštění Roblox.</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Off" xml:space="preserve">
+    <value>Vypnuto, vestavěný odhad</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Small" xml:space="preserve">
+    <value>Malý ({0} MB, nejrychlejší)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Base" xml:space="preserve">
+    <value>Střední ({0} MB, ostřejší)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Large" xml:space="preserve">
+    <value>Velký ({0} MB, nejostřejší, náročný)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.SmallShort" xml:space="preserve">
+    <value>Malý</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.BaseShort" xml:space="preserve">
+    <value>Střední</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.LargeShort" xml:space="preserve">
+    <value>Velký</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Downloading" xml:space="preserve">
+    <value>Stahování modelu hloubky: {0} %</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Ready" xml:space="preserve">
+    <value>Model hloubky je připraven. Použije se při příštím spuštění Roblox.</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Failed" xml:space="preserve">
+    <value>Model hloubky se nepodařilo stáhnout: {0}</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Prompt" xml:space="preserve">
+    <value>Vyberte model hloubky s AI pro RiShade. Efekty, které potřebují hloubku, jako okolní zastínění a hloubka ostrosti, s ním vypadají mnohem lépe.
+
+Malý: {0} MB, nejrychlejší.
+Střední: {1} MB, ostřejší.
+Velký: {2} MB, nejostřejší, ale náročný na GPU.
+
+Zavřete toto okno, chcete-li ponechat vestavěný odhad bez stahování. Později to můžete změnit na stránce RiShade.</value>
+  </data>
 </root>

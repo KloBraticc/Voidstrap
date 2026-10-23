@@ -1,4 +1,5 @@
 #include "depth.h"
+#include "depth_model.h"
 #include "../addon.h"
 #include "../capture.h"
 #include "../config.h"
@@ -6,205 +7,124 @@
 #include "../reshade_imgui.h"
 #include "../state.h"
 
+#include <d3d12.h>
 #include <d3dcompiler.h>
 
 #include <algorithm>
 #include <array>
+#include <atomic>
+#include <chrono>
 #include <cmath>
 #include <cstring>
+#include <initializer_list>
+#include <memory>
+#include <mutex>
 #include <optional>
 #include <stdexcept>
+#include <thread>
+#include <utility>
 #include <vector>
 
 namespace
 {
+constexpr UINT kRowBytes = 16 * D3D12_TEXTURE_DATA_PITCH_ALIGNMENT;
+
 constexpr char kShaders[] = R"(
 cbuffer Sizes : register(b0)
 {
     uint2 SourceSize;
-    uint2 WorkSize;
-    float Temporal;
-    float3 Padding;
+    uint2 ModelSize;
+    uint InputWidth;
+    uint OutputWidth;
 };
 Texture2D<float4> Source : register(t0);
-Texture2D<float4> Guide : register(t1);
-StructuredBuffer<uint> SkyEnd : register(t2);
-StructuredBuffer<float4> Scene : register(t3);
-Texture2D<float> WorkDepthView : register(t4);
-Texture2D<float4> Blurred : register(t5);
-RWTexture2D<float4> GuideTarget : register(u0);
-RWStructuredBuffer<uint> SkyEndTarget : register(u1);
-RWStructuredBuffer<float4> SceneTarget : register(u2);
-RWTexture2D<float> WorkDepth : register(u3);
-RWTexture2D<float> Depth : register(u4);
-RWTexture2D<float4> BlurredTarget : register(u5);
+Texture2D<float> Result : register(t1);
+StructuredBuffer<float4> Smoothed : register(t2);
+Texture2D<float4> Guide : register(t3);
+RWTexture2D<float> Input : register(u0);
+RWByteAddressBuffer Keys : register(u1);
+RWStructuredBuffer<float4> State : register(u2);
+RWTexture2D<float> Depth : register(u3);
+RWTexture2D<float4> GuideTarget : register(u4);
 
+static const float3 Mean = float3(0.485, 0.456, 0.406);
+static const float3 Std = float3(0.229, 0.224, 0.225);
+static const float PeakSmoothing = 0.2;
 static const float FarPlane = 1000.0;
-static const float Nearest = 0.002;
-static const float HalfFieldOfView = 0.6108652;
-static const float FocusHeight = 4.5;
-static const float CameraZoom = 12.5;
-static const float DefaultPitch = 0.35;
-static const float HorizonPercentile = 0.8;
-static const float InterfaceBand = 0.07;
-static const float SkyEdge = 0.035;
-static const float SkyDrift = 0.35;
-static const float ObjectEdge = 0.06;
-static const float Relax = 0.03;
-static const float HazeReach = 0.5;
-static const float HazeWeight = 0.7;
-static const float HazeLimit = 3.0;
-static const float HazeStart = 0.1;
-static const int BlurRadius = 3;
-static const float SpatialSigma = 1.4;
-static const float ColorSigma = 0.18;
+static const float Nearest = 0.01;
+static const float SpatialSigma = 1.0;
+static const float ColorSigma = 0.1;
+
+void Store(uint index, float value)
+{
+    Input[uint2(index % InputWidth, index / InputWidth)] = value;
+}
+
+float Load(uint index)
+{
+    return Result.Load(int3(index % OutputWidth, index / OutputWidth, 0));
+}
 
 [numthreads(16, 16, 1)]
-void Reduce(uint3 id : SV_DispatchThreadID)
+void Preprocess(uint3 id : SV_DispatchThreadID)
 {
-    if (any(id.xy >= WorkSize))
+    if (any(id.xy >= ModelSize))
         return;
-    uint2 begin = id.xy * SourceSize / WorkSize;
-    uint2 end = max((id.xy + 1) * SourceSize / WorkSize, begin + 1);
+    uint2 begin = id.xy * SourceSize / ModelSize;
+    uint2 end = max((id.xy + 1) * SourceSize / ModelSize, begin + 1);
     float3 sum = 0;
     for (uint y = begin.y; y < end.y; ++y)
         for (uint x = begin.x; x < end.x; ++x)
-            sum += saturate(Source.Load(int3(x, y, 0)).rgb);
+            sum += Source.Load(int3(x, y, 0)).rgb;
     float3 average = sum / ((end.x - begin.x) * (end.y - begin.y));
-    GuideTarget[id.xy] = float4(average, dot(average, float3(0.2126, 0.7152, 0.0722)));
+    GuideTarget[id.xy] = float4(average, 1);
+    float3 color = (average - Mean) / Std;
+    uint plane = ModelSize.x * ModelSize.y;
+    uint index = id.y * ModelSize.x + id.x;
+    Store(index, color.r);
+    Store(index + plane, color.g);
+    Store(index + 2 * plane, color.b);
 }
 
-[numthreads(16, 16, 1)]
-void Blur(uint3 id : SV_DispatchThreadID)
+uint Ordered(float value)
 {
-    if (any(id.xy >= WorkSize))
-        return;
-    float3 sum = 0;
-    for (int y = -BlurRadius; y <= BlurRadius; ++y)
-        for (int x = -BlurRadius; x <= BlurRadius; ++x)
-            sum += Guide.Load(int3(clamp(int2(id.xy) + int2(x, y), 0, int2(WorkSize) - 1), 0)).rgb;
-    BlurredTarget[id.xy] = float4(sum / ((2 * BlurRadius + 1) * (2 * BlurRadius + 1)), 1);
+    uint bits = asuint(value);
+    return bits & 0x80000000 ? ~bits : bits | 0x80000000;
 }
 
-[numthreads(64, 1, 1)]
-void Sky(uint3 id : SV_DispatchThreadID)
+float Unordered(uint key)
 {
-    if (id.x >= WorkSize.x)
-        return;
-    uint start = uint(WorkSize.y * InterfaceBand);
-    float3 mean = Blurred.Load(int3(id.x, start, 0)).rgb;
-    float3 previous = mean;
-    uint y = start + 1;
-    for (; y < WorkSize.y; ++y)
-    {
-        float3 color = Blurred.Load(int3(id.x, y, 0)).rgb;
-        if (length(color - previous) > SkyEdge || length(color - mean) > SkyDrift)
-            break;
-        mean += (color - mean) / (y - start + 1);
-        previous = color;
-    }
-    SkyEndTarget[id.x] = y >= start + 3 ? y : 0;
+    return asfloat(key & 0x80000000 ? key & 0x7FFFFFFF : ~key);
 }
 
-groupshared uint Histogram[256];
-groupshared float4 Totals[256];
+groupshared float Peaks[256];
 
 [numthreads(256, 1, 1)]
-void Horizon(uint3 id : SV_DispatchThreadID, uint thread : SV_GroupIndex)
+void Peak(uint3 id : SV_DispatchThreadID, uint thread : SV_GroupIndex)
 {
-    Histogram[thread] = 0;
-    GroupMemoryBarrierWithGroupSync();
-    float4 total = 0;
-    for (uint x = thread; x < WorkSize.x; x += 256)
-    {
-        uint end = SkyEnd[x];
-        if (end == 0)
-            continue;
-        uint bin = min(end * 256 / WorkSize.y, 255);
-        InterlockedAdd(Histogram[bin], 1);
-        total += float4(1, Blurred.Load(int3(x, end / 2, 0)).rgb);
-    }
-    Totals[thread] = total;
+    Peaks[thread] = Load(min(id.x, ModelSize.x * ModelSize.y - 1));
     GroupMemoryBarrierWithGroupSync();
     for (uint step = 128; step > 0; step >>= 1)
     {
         if (thread < step)
-            Totals[thread] += Totals[thread + step];
+            Peaks[thread] = max(Peaks[thread], Peaks[thread + step]);
         GroupMemoryBarrierWithGroupSync();
     }
-    if (thread != 0)
-        return;
-    float skyColumns = Totals[0].x;
-    float4 previous = Scene[0];
-    float4 previousSky = Scene[1];
-    float horizon;
-    float3 skyColor;
-    if (skyColumns >= WorkSize.x * 0.15)
+    if (thread == 0)
     {
-        uint wanted = uint(skyColumns * HorizonPercentile);
-        uint seen = 0;
-        uint bin = 0;
-        for (; bin < 255; ++bin)
-        {
-            seen += Histogram[bin];
-            if (seen > wanted)
-                break;
-        }
-        horizon = (bin + 0.5) * WorkSize.y / 256;
-        skyColor = Totals[0].yzw / skyColumns;
+        uint previous;
+        Keys.InterlockedMax(0, Ordered(Peaks[0]), previous);
     }
-    else
-    {
-        float focal = WorkSize.y * 0.5 / tan(HalfFieldOfView);
-        horizon = previous.w > 0 ? previous.x : WorkSize.y * 0.5 - focal * tan(DefaultPitch);
-        skyColor = previousSky.w > 0 ? previousSky.rgb : float3(0.62, 0.72, 0.85);
-    }
-    if (previous.w > 0)
-    {
-        horizon = lerp(previous.x, horizon, 0.15);
-        skyColor = lerp(previousSky.rgb, skyColor, 0.15);
-    }
-    SceneTarget[0] = float4(horizon, 0, 0, 1);
-    SceneTarget[1] = float4(skyColor, 1);
 }
 
-[numthreads(64, 1, 1)]
-void Columns(uint3 id : SV_DispatchThreadID)
+[numthreads(1, 1, 1)]
+void Smooth()
 {
-    if (id.x >= WorkSize.x)
-        return;
-    float horizon = Scene[0].x;
-    float3 skyColor = Scene[1].rgb;
-    float center = WorkSize.y * 0.5;
-    float focal = center / tan(HalfFieldOfView);
-    float pitch = clamp(atan((center - horizon) / focal), -0.2, 1.4);
-    float cameraHeight = FocusHeight + CameraZoom * sin(max(pitch, 0));
-    uint skyEnd = SkyEnd[id.x];
-    float carried = 1;
-    float3 below = 0;
-    for (int y = int(WorkSize.y) - 1; y >= 0; --y)
-    {
-        float3 color = Blurred.Load(int3(id.x, y, 0)).rgb;
-        float distance;
-        if (uint(y) < skyEnd)
-        {
-            distance = 1;
-        }
-        else
-        {
-            float offAxis = atan((y + 0.5 - center) / focal);
-            float descent = pitch + offAxis;
-            float ground = descent > 0.002 ? clamp(cameraHeight / sin(descent) * cos(offAxis) / FarPlane, Nearest, 1) : 1;
-            float haze = saturate(1 - length(color - skyColor) / HazeReach);
-            float estimate = max(ground, min(haze * haze * HazeWeight, ground * HazeLimit) * smoothstep(HazeStart * 0.5, HazeStart, ground));
-            bool joined = y < int(WorkSize.y) - 1 && length(color - below) < ObjectEdge;
-            distance = joined ? min(estimate, lerp(carried, estimate, Relax)) : estimate;
-        }
-        carried = distance;
-        below = color;
-        float previous = WorkDepth[uint2(id.x, y)];
-        WorkDepth[uint2(id.x, y)] = previous > 0 ? lerp(previous, distance, Temporal) : distance;
-    }
+    float peak = Unordered(Keys.Load(0));
+    float4 state = State[0];
+    if (state.z == 0)
+        state.x = peak;
+    State[0] = float4(state.x + (peak - state.x) * PeakSmoothing, 0, 1, 0);
 }
 
 [numthreads(16, 16, 1)]
@@ -212,8 +132,8 @@ void Upsample(uint3 id : SV_DispatchThreadID)
 {
     if (any(id.xy >= SourceSize))
         return;
-    float3 color = saturate(Source.Load(int3(id.xy, 0)).rgb);
-    float2 position = (id.xy + 0.5) * WorkSize / SourceSize - 0.5;
+    float3 color = Source.Load(int3(id.xy, 0)).rgb;
+    float2 position = (id.xy + 0.5) * ModelSize / SourceSize - 0.5;
     int2 corner = int2(floor(position)) - 1;
     float sum = 0;
     float weights = 0;
@@ -222,498 +142,87 @@ void Upsample(uint3 id : SV_DispatchThreadID)
         {
             int2 texel = corner + int2(x, y);
             float2 offset = texel - position;
-            texel = clamp(texel, 0, int2(WorkSize) - 1);
+            texel = clamp(texel, 0, int2(ModelSize) - 1);
             float3 difference = Guide.Load(int3(texel, 0)).rgb - color;
             float weight = exp(-dot(offset, offset) / (2 * SpatialSigma * SpatialSigma)) *
                            (exp(-dot(difference, difference) / (2 * ColorSigma * ColorSigma)) + 1e-3);
-            sum += weight * WorkDepthView.Load(int3(texel, 0));
+            sum += weight * Load(texel.y * ModelSize.x + texel.x);
             weights += weight;
         }
-    float distance01 = clamp(sum / weights, Nearest, 1);
+
+    float closeness = sum / weights / max(Smoothed[0].x, 1e-6);
+    float distance01 = Nearest / max(closeness, Nearest);
     Depth[id.xy] = distance01 * FarPlane / (1 + distance01 * (FarPlane - 1));
 }
 )";
 
-constexpr char kMotionShaders[] = R"(
-cbuffer Sizes : register(b0)
-{
-    uint2 SourceSize;
-    uint2 WorkSize;
-    float Temporal;
-    float3 Padding;
-};
-Texture2D<float4> Guide : register(t0);
-Texture2D<float4> PrevGuide : register(t1);
-Texture2D<float> LumaQ : register(t2);
-Texture2D<float> PrevLumaQ : register(t3);
-Texture2D<float2> FlowCoarse : register(t4);
-Texture2D<float4> Flow : register(t5);
-Texture2D<float> Prior : register(t6);
-StructuredBuffer<float4> Motion : register(t7);
-Texture2D<float2> FusedPrev : register(t8);
-Texture2D<float2> RawFused : register(t9);
-RWTexture2D<float> LumaQTarget : register(u0);
-RWTexture2D<float2> FlowCoarseTarget : register(u1);
-RWTexture2D<float4> FlowTarget : register(u2);
-RWStructuredBuffer<float4> MotionTarget : register(u3);
-RWTexture2D<float2> FusedTarget : register(u4);
-RWTexture2D<float2> RawTarget : register(u5);
-
-static const float HalfFieldOfView = 0.6108652;
-static const float FarPlane = 1000.0;
-static const float SkyDistance = 900.0;
-static const float NearestStuds = 2.0;
-static const int CoarseSearch = 6;
-static const int Patch = 2;
-static const float LostMatch = 0.12;
-static const float MinTravel = 0.02;
-static const float PriorUncertainty = 0.35;
-static const float PriorFloor = 0.03;
-static const float PriorPersistence = 40.0;
-static const float Drift = 0.01;
-static const float FlowNoise = 0.15;
-static const float CornerScale = 400.0;
-static const float FitConfidence = 0.2;
-static const float TiltDamping = 1.0;
-static const int SettleRadius = 5;
-static const float SettleDepthSigma = 0.6;
-static const float SettleColorSigma = 0.1;
-
-uint2 QuarterSize()
-{
-    return (WorkSize + 3) / 4;
-}
-
-float Square(float value)
-{
-    return value * value;
-}
-
-float Focal()
-{
-    return WorkSize.y * 0.5 / tan(HalfFieldOfView);
-}
-
-[numthreads(16, 16, 1)]
-void Quarter(uint3 id : SV_DispatchThreadID)
-{
-    uint2 size = QuarterSize();
-    if (any(id.xy >= size))
-        return;
-    float sum = 0;
-    float count = 0;
-    for (uint y = 0; y < 4; ++y)
-        for (uint x = 0; x < 4; ++x)
-        {
-            uint2 p = id.xy * 4 + uint2(x, y);
-            if (all(p < WorkSize))
-            {
-                sum += Guide.Load(int3(p, 0)).a;
-                count += 1;
-            }
-        }
-    LumaQTarget[id.xy] = sum / max(count, 1);
-}
-
-[numthreads(16, 16, 1)]
-void MatchCoarse(uint3 id : SV_DispatchThreadID)
-{
-    int2 size = int2(QuarterSize());
-    int2 p = int2(id.xy);
-    if (any(p >= size))
-        return;
-    float centre[25];
-    for (int k = 0; k < 25; ++k)
-        centre[k] = LumaQ.Load(int3(clamp(p + int2(k % 5 - Patch, k / 5 - Patch), 0, size - 1), 0));
-    float best = 1e9;
-    int2 bestOffset = 0;
-    for (int dy = -CoarseSearch; dy <= CoarseSearch; ++dy)
-        for (int dx = -CoarseSearch; dx <= CoarseSearch; ++dx)
-        {
-            float cost = 0.002 * (abs(dx) + abs(dy));
-            for (int k = 0; k < 25; ++k)
-                cost += abs(centre[k] - PrevLumaQ.Load(int3(clamp(p - int2(dx, dy) + int2(k % 5 - Patch, k / 5 - Patch), 0, size - 1), 0)));
-            if (cost < best)
-            {
-                best = cost;
-                bestOffset = int2(dx, dy);
-            }
-        }
-    FlowCoarseTarget[id.xy] = float2(bestOffset);
-}
-
-float FineCost(int2 p, int2 offset, float centre[25])
-{
-    int2 size = int2(WorkSize);
-    float cost = 0;
-    for (int k = 0; k < 25; ++k)
-        cost += abs(centre[k] - PrevGuide.Load(int3(clamp(p - offset + int2(k % 5 - Patch, k / 5 - Patch), 0, size - 1), 0)).a);
-    return cost / 25;
-}
-
-[numthreads(16, 16, 1)]
-void MatchFine(uint3 id : SV_DispatchThreadID)
-{
-    if (any(id.xy >= WorkSize))
-        return;
-    int2 p = int2(id.xy);
-    int2 size = int2(WorkSize);
-    float centre[25];
-    for (int k = 0; k < 25; ++k)
-        centre[k] = Guide.Load(int3(clamp(p + int2(k % 5 - Patch, k / 5 - Patch), 0, size - 1), 0)).a;
-    float xx = 0;
-    float yy = 0;
-    float xy = 0;
-    for (int g = 0; g < 9; ++g)
-    {
-        int gx = g % 3 + 1;
-        int gy = g / 3 + 1;
-        float dx = centre[gy * 5 + gx + 1] - centre[gy * 5 + gx - 1];
-        float dy = centre[(gy + 1) * 5 + gx] - centre[(gy - 1) * 5 + gx];
-        xx += dx * dx;
-        yy += dy * dy;
-        xy += dx * dy;
-    }
-    float corner = (xx + yy) * 0.5 - sqrt((xx - yy) * (xx - yy) * 0.25 + xy * xy);
-    int2 start = int2(round(FlowCoarse.Load(int3(min(id.xy / 4, QuarterSize() - 1), 0)) * 4));
-    float costs[25];
-    float best = 1e9;
-    int bestIndex = 12;
-    for (int j = 0; j < 25; ++j)
-    {
-        float cost = FineCost(p, start + int2(j % 5 - 2, j / 5 - 2), centre);
-        costs[j] = cost;
-        if (cost < best)
-        {
-            best = cost;
-            bestIndex = j;
-        }
-    }
-    int bx = bestIndex % 5;
-    int by = bestIndex / 5;
-    float2 sub = 0;
-    if (bx > 0 && bx < 4)
-    {
-        float left = costs[bestIndex - 1];
-        float right = costs[bestIndex + 1];
-        float curve = left - 2 * best + right;
-        if (curve > 1e-5)
-            sub.x = clamp(0.5 * (left - right) / curve, -0.5, 0.5);
-    }
-    if (by > 0 && by < 4)
-    {
-        float up = costs[bestIndex - 5];
-        float down = costs[bestIndex + 5];
-        float curve = up - 2 * best + down;
-        if (curve > 1e-5)
-            sub.y = clamp(0.5 * (up - down) / curve, -0.5, 0.5);
-    }
-    bool edge = bx == 0 || bx == 4 || by == 0 || by == 4;
-    float confidence = saturate(corner * CornerScale) * saturate(1 - best * 12) * (edge ? 0.3 : 1);
-    FlowTarget[id.xy] = float4(float2(start + int2(bx - 2, by - 2)) + sub, confidence, best);
-}
-
-static const int Unknowns = 6;
-static const int SumCount = 27;
-
-groupshared float Sums[256][SumCount];
-
-void MotionRows(float x, float y, float z, float focal, out float rowX[Unknowns], out float rowY[Unknowns])
-{
-    rowX[0] = x * y / focal;
-    rowX[1] = -(focal + x * x / focal);
-    rowX[2] = 0;
-    rowX[3] = -focal / z;
-    rowX[4] = 0;
-    rowX[5] = x / z;
-    rowY[0] = focal + y * y / focal;
-    rowY[1] = -x * y / focal;
-    rowY[2] = 0;
-    rowY[3] = 0;
-    rowY[4] = -focal / z;
-    rowY[5] = y / z;
-}
-
-float2 RotationFlow(float x, float y, float focal, float3 rotation)
-{
-    return float2(x * y / focal * rotation.x - (focal + x * x / focal) * rotation.y + y * rotation.z,
-                  (focal + y * y / focal) * rotation.x - x * y / focal * rotation.y - x * rotation.z);
-}
-
-[numthreads(256, 1, 1)]
-void Fit(uint3 id : SV_DispatchThreadID, uint thread : SV_GroupIndex)
-{
-    float sums[SumCount];
-    for (int i = 0; i < SumCount; ++i)
-        sums[i] = 0;
-    float focal = Focal();
-    float2 centre = WorkSize * 0.5;
-    uint columns = WorkSize.x / 2;
-    uint count = columns * (WorkSize.y / 2);
-    for (uint n = thread; n < count; n += 256)
-    {
-        uint2 p = uint2(n % columns, n / columns) * 2;
-        float4 flow = Flow.Load(int3(p, 0));
-        float known = FusedPrev.Load(int3(p, 0)).x;
-        float z = max((known > 0 ? known : Prior.Load(int3(p, 0))) * FarPlane, NearestStuds);
-        float weight = Prior.Load(int3(p, 0)) * FarPlane > SkyDistance || flow.z < FitConfidence ? 0 : flow.z * (p.y > WorkSize.y * 0.65 ? 1.0 : 0.15);
-        if (weight <= 0.01)
-            continue;
-        float rowX[Unknowns];
-        float rowY[Unknowns];
-        MotionRows(p.x + 0.5 - centre.x, p.y + 0.5 - centre.y, z, focal, rowX, rowY);
-        int k = 0;
-        for (int a = 0; a < Unknowns; ++a)
-        {
-            for (int b = a; b < Unknowns; ++b)
-                sums[k++] += weight * (rowX[a] * rowX[b] + rowY[a] * rowY[b]);
-            sums[21 + a] += weight * (rowX[a] * flow.x + rowY[a] * flow.y);
-        }
-    }
-    for (int s = 0; s < SumCount; ++s)
-        Sums[thread][s] = sums[s];
-    GroupMemoryBarrierWithGroupSync();
-    for (uint step = 128; step > 0; step >>= 1)
-    {
-        if (thread < step)
-            for (int s2 = 0; s2 < SumCount; ++s2)
-                Sums[thread][s2] += Sums[thread + step][s2];
-        GroupMemoryBarrierWithGroupSync();
-    }
-    if (thread != 0)
-        return;
-    float m[Unknowns][Unknowns + 1];
-    int k2 = 0;
-    for (int a2 = 0; a2 < Unknowns; ++a2)
-        for (int b2 = a2; b2 < Unknowns; ++b2)
-        {
-            m[a2][b2] = Sums[0][k2];
-            m[b2][a2] = Sums[0][k2];
-            ++k2;
-        }
-    float trace = 0;
-    for (int r = 0; r < Unknowns; ++r)
-    {
-        m[r][Unknowns] = Sums[0][21 + r];
-        trace += m[r][r];
-    }
-    for (int r2 = 0; r2 < Unknowns; ++r2)
-        m[r2][r2] += trace * 1e-5 + 1e-6;
-    m[0][0] *= 1 + TiltDamping;
-    m[4][4] *= 1 + TiltDamping;
-    for (int c = 0; c < Unknowns; ++c)
-    {
-        float pivot = m[c][c];
-        for (int j2 = c; j2 <= Unknowns; ++j2)
-            m[c][j2] /= pivot;
-        for (int r3 = 0; r3 < Unknowns; ++r3)
-        {
-            if (r3 == c)
-                continue;
-            float factor = m[r3][c];
-            for (int j3 = c; j3 <= Unknowns; ++j3)
-                m[r3][j3] -= factor * m[c][j3];
-        }
-    }
-    float4 first = float4(m[0][Unknowns], m[1][Unknowns], m[2][Unknowns], m[3][Unknowns]);
-    float2 second = float2(m[4][Unknowns], m[5][Unknowns]);
-    float travel = length(float3(first.w, second));
-    bool valid = Sums[0][0] > 1e-3 && travel > MinTravel && all(isfinite(first)) && all(isfinite(second));
-    MotionTarget[0] = first;
-    MotionTarget[1] = float4(second, valid ? 1 : 0, travel);
-}
-
-float2 LoadPrevious(float2 position)
-{
-    float2 texel = position - 0.5;
-    if (any(texel < -0.5) || any(texel > float2(WorkSize) - 0.5))
-        return -1;
-    int2 base = int2(floor(texel));
-    float2 t = texel - base;
-    int2 high = int2(WorkSize) - 1;
-    float2 a = FusedPrev.Load(int3(clamp(base, 0, high), 0));
-    float2 b = FusedPrev.Load(int3(clamp(base + int2(1, 0), 0, high), 0));
-    float2 c = FusedPrev.Load(int3(clamp(base + int2(0, 1), 0, high), 0));
-    float2 e = FusedPrev.Load(int3(clamp(base + int2(1, 1), 0, high), 0));
-    if (min(min(a.x, b.x), min(c.x, e.x)) <= 0)
-        return -1;
-    float2 inverse = lerp(lerp(float2(1 / a.x, a.y), float2(1 / b.x, b.y), t.x), lerp(float2(1 / c.x, c.y), float2(1 / e.x, e.y), t.x), t.y);
-    return float2(1 / inverse.x, inverse.y);
-}
-
-[numthreads(16, 16, 1)]
-void Fuse(uint3 id : SV_DispatchThreadID)
-{
-    if (any(id.xy >= WorkSize))
-        return;
-    float prior = max(Prior.Load(int3(id.xy, 0)) * FarPlane, NearestStuds);
-    float priorInverse = 1 / prior;
-    float priorVariance = Square(PriorUncertainty * priorInverse) + (prior > SkyDistance ? Square(PriorFloor) : 0);
-    float4 flow = Flow.Load(int3(id.xy, 0));
-    float2 previous = LoadPrevious(id.xy + 0.5 - flow.xy);
-    float inverse = priorInverse;
-    float variance = priorVariance;
-    if (previous.x > 0 && flow.w <= LostMatch)
-    {
-        inverse = 1 / (previous.x * FarPlane);
-        variance = previous.y + Square(Drift * inverse);
-    }
-    float settleVariance = priorVariance * PriorPersistence;
-    inverse = (inverse * settleVariance + priorInverse * variance) / (variance + settleVariance);
-    variance = variance * settleVariance / (variance + settleVariance);
-    float4 first = Motion[0];
-    float4 second = Motion[1];
-    if (second.z > 0 && flow.z > 0.01)
-    {
-        float focal = Focal();
-        float2 centre = WorkSize * 0.5;
-        float x = id.x + 0.5 - centre.x;
-        float y = id.y + 0.5 - centre.y;
-        float2 direction = float2(x * second.y - focal * first.w, y * second.y - focal * second.x);
-        float2 residual = flow.xy - RotationFlow(x, y, focal, first.xyz);
-        float strength = dot(direction, direction);
-        if (strength > 1e-8)
-        {
-            float length = sqrt(strength);
-            float measured = max(dot(direction, residual) / strength, 1 / FarPlane);
-            float across = abs(direction.x * residual.y - direction.y * residual.x) / length;
-            float spread = FlowNoise + across;
-            float measuredVariance = Square(spread / length) / max(flow.z, 0.05);
-            inverse = (inverse * measuredVariance + measured * variance) / (variance + measuredVariance);
-            variance = variance * measuredVariance / (variance + measuredVariance);
-        }
-    }
-    float distance = clamp(1 / max(inverse, 1 / FarPlane), NearestStuds, FarPlane);
-    RawTarget[id.xy] = float2(distance / FarPlane, variance);
-}
-
-[numthreads(16, 16, 1)]
-void Settle(uint3 id : SV_DispatchThreadID)
-{
-    if (any(id.xy >= WorkSize))
-        return;
-    int2 high = int2(WorkSize) - 1;
-    float3 color = Guide.Load(int3(id.xy, 0)).rgb;
-    float2 raw = RawFused.Load(int3(id.xy, 0));
-    float centre = log(max(raw.x * FarPlane, NearestStuds));
-    float sum = 0;
-    float weights = 0;
-    for (int y = -SettleRadius; y <= SettleRadius; ++y)
-        for (int x = -SettleRadius; x <= SettleRadius; ++x)
-        {
-            int2 texel = clamp(int2(id.xy) + int2(x, y), 0, high);
-            float value = log(max(RawFused.Load(int3(texel, 0)).x * FarPlane, NearestStuds));
-            float3 difference = Guide.Load(int3(texel, 0)).rgb - color;
-            float gap = (value - centre) / SettleDepthSigma;
-            float weight = exp(-(x * x + y * y) / (2 * SettleRadius * SettleRadius)) *
-                           exp(-dot(difference, difference) / (2 * SettleColorSigma * SettleColorSigma)) *
-                           saturate(1 - gap * gap);
-            sum += weight * value;
-            weights += weight;
-        }
-    FusedTarget[id.xy] = float2(clamp(exp(sum / max(weights, 1e-6)), NearestStuds, FarPlane) / FarPlane, raw.y);
-}
-)";
-
-struct ShaderEntry
-{
-    const char* source;
-    size_t length;
-    const char* entry;
-};
-
-constexpr ShaderEntry kEntryPoints[] = {
-    { kShaders, sizeof(kShaders) - 1, "Reduce" },
-    { kShaders, sizeof(kShaders) - 1, "Blur" },
-    { kShaders, sizeof(kShaders) - 1, "Sky" },
-    { kShaders, sizeof(kShaders) - 1, "Horizon" },
-    { kShaders, sizeof(kShaders) - 1, "Columns" },
-    { kShaders, sizeof(kShaders) - 1, "Upsample" },
-    { kMotionShaders, sizeof(kMotionShaders) - 1, "Quarter" },
-    { kMotionShaders, sizeof(kMotionShaders) - 1, "MatchCoarse" },
-    { kMotionShaders, sizeof(kMotionShaders) - 1, "MatchFine" },
-    { kMotionShaders, sizeof(kMotionShaders) - 1, "Fit" },
-    { kMotionShaders, sizeof(kMotionShaders) - 1, "Fuse" },
-    { kMotionShaders, sizeof(kMotionShaders) - 1, "Settle" },
-};
-
-enum Shader : size_t
-{
-    ReduceShader,
-    BlurShader,
-    SkyShader,
-    HorizonShader,
-    ColumnsShader,
-    UpsampleShader,
-    QuarterShader,
-    MatchCoarseShader,
-    MatchFineShader,
-    FitShader,
-    FuseShader,
-    SettleShader,
-};
-
-constexpr float kTemporal = 0.55f;
+constexpr const char* kEntryPoints[] = { "Preprocess", "Peak", "Smooth", "Upsample" };
 
 struct Depth
 {
     bool enabled = false;
+    std::wstring directory;
+
+    int width = 0;
+    int height = 0;
     int size = 0;
-    UINT workWidth = 0;
-    UINT workHeight = 0;
     UINT sourceWidth = 0;
     UINT sourceHeight = 0;
     std::optional<int64_t> lastInput;
+    FrameStatistics::Clock::time_point requestedAt{};
+    std::atomic<double> workerMs = 0;
+    bool slowRequestLogged = false;
     std::array<winrt::com_ptr<ID3DBlob>, std::size(kEntryPoints)> code;
     std::array<winrt::com_ptr<ID3D11ComputeShader>, std::size(kEntryPoints)> shaders;
     winrt::com_ptr<ID3D11Buffer> sizes;
     winrt::com_ptr<ID3D11Texture2D> frameCopy;
     winrt::com_ptr<ID3D11ShaderResourceView> frameView;
+
+    winrt::com_ptr<ID3D11Texture2D> input;
+    winrt::com_ptr<ID3D11UnorderedAccessView> inputTarget;
     winrt::com_ptr<ID3D11Texture2D> guide;
     winrt::com_ptr<ID3D11UnorderedAccessView> guideTarget;
     winrt::com_ptr<ID3D11ShaderResourceView> guideView;
-    winrt::com_ptr<ID3D11Texture2D> blurred;
-    winrt::com_ptr<ID3D11UnorderedAccessView> blurredTarget;
-    winrt::com_ptr<ID3D11ShaderResourceView> blurredView;
-    winrt::com_ptr<ID3D11Buffer> skyEnd;
-    winrt::com_ptr<ID3D11UnorderedAccessView> skyEndTarget;
-    winrt::com_ptr<ID3D11ShaderResourceView> skyEndView;
-    winrt::com_ptr<ID3D11Buffer> scene;
-    winrt::com_ptr<ID3D11UnorderedAccessView> sceneTarget;
-    winrt::com_ptr<ID3D11ShaderResourceView> sceneView;
-    winrt::com_ptr<ID3D11Texture2D> workDepth;
-    winrt::com_ptr<ID3D11UnorderedAccessView> workDepthTarget;
-    winrt::com_ptr<ID3D11ShaderResourceView> workDepthView;
+    winrt::com_ptr<ID3D11Texture2D> output;
+    winrt::com_ptr<ID3D11ShaderResourceView> outputView;
+    winrt::com_ptr<ID3D11Buffer> keys;
+    winrt::com_ptr<ID3D11UnorderedAccessView> keysTarget;
+    winrt::com_ptr<ID3D11Buffer> state;
+    winrt::com_ptr<ID3D11UnorderedAccessView> stateTarget;
+    winrt::com_ptr<ID3D11ShaderResourceView> stateView;
     winrt::com_ptr<ID3D11Texture2D> texture;
     winrt::com_ptr<ID3D11UnorderedAccessView> textureTarget;
     winrt::com_ptr<ID3D11ShaderResourceView> view;
-    winrt::com_ptr<ID3D11Texture2D> previousGuide;
-    winrt::com_ptr<ID3D11ShaderResourceView> previousGuideView;
-    winrt::com_ptr<ID3D11Texture2D> lumaQuarter;
-    winrt::com_ptr<ID3D11UnorderedAccessView> lumaQuarterTarget;
-    winrt::com_ptr<ID3D11ShaderResourceView> lumaQuarterView;
-    winrt::com_ptr<ID3D11Texture2D> previousLumaQuarter;
-    winrt::com_ptr<ID3D11ShaderResourceView> previousLumaQuarterView;
-    winrt::com_ptr<ID3D11Texture2D> flowCoarse;
-    winrt::com_ptr<ID3D11UnorderedAccessView> flowCoarseTarget;
-    winrt::com_ptr<ID3D11ShaderResourceView> flowCoarseView;
-    winrt::com_ptr<ID3D11Texture2D> flow;
-    winrt::com_ptr<ID3D11UnorderedAccessView> flowTarget;
-    winrt::com_ptr<ID3D11ShaderResourceView> flowView;
-    winrt::com_ptr<ID3D11Buffer> motion;
-    winrt::com_ptr<ID3D11UnorderedAccessView> motionTarget;
-    winrt::com_ptr<ID3D11ShaderResourceView> motionView;
-    std::array<winrt::com_ptr<ID3D11Texture2D>, 2> fused;
-    std::array<winrt::com_ptr<ID3D11UnorderedAccessView>, 2> fusedTarget;
-    std::array<winrt::com_ptr<ID3D11ShaderResourceView>, 2> fusedView;
-    winrt::com_ptr<ID3D11Texture2D> rawFused;
-    winrt::com_ptr<ID3D11UnorderedAccessView> rawFusedTarget;
-    winrt::com_ptr<ID3D11ShaderResourceView> rawFusedView;
-    size_t fusedIndex = 0;
-    bool hasPrevious = false;
+    winrt::com_ptr<ID3D11Fence> fence;
+    uint64_t fenceValue = 0;
     std::vector<reshade::api::effect_runtime*> runtimes;
+
+    winrt::com_ptr<ID3D12Device> d3d12Proxy;
+    winrt::com_ptr<ID3D12Device> d3d12;
+    winrt::com_ptr<ID3D12Fence> d3d12Fence;
+    HANDLE fenceHandle = nullptr;
+    winrt::com_ptr<ID3D12CommandAllocator> allocator;
+    winrt::com_ptr<ID3D12GraphicsCommandList> list;
+
+    std::thread worker;
+    HANDLE request = nullptr;
+    std::atomic<bool> stopping = false;
+    std::atomic<bool> busy = false;
+    std::atomic<bool> done = false;
+    std::atomic<bool> failed = false;
+    uint64_t inputValue = 0;
+    unsigned version = 0;
+    HANDLE inputHandle = nullptr;
+    HANDLE outputHandle = nullptr;
+    int modelWidth = 0;
+    int modelHeight = 0;
+    bool halfInput = false;
+    bool halfOutput = false;
 };
 Depth d;
+
+std::mutex nativeMutex;
+std::vector<ID3D12Device*> nativeDevices;
 
 void Bind(reshade::api::effect_runtime* runtime, ID3D11ShaderResourceView* view)
 {
@@ -726,36 +235,227 @@ void Bind(reshade::api::effect_runtime* runtime, ID3D11ShaderResourceView* view)
     });
 }
 
-void OnInitRuntime(reshade::api::effect_runtime* runtime) noexcept
+void OnInitRuntime(reshade::api::effect_runtime* runtime)
 {
-    try
-    {
-        d.runtimes.push_back(runtime);
-        if (d.view)
-            Bind(runtime, d.view.get());
-    }
-    catch (...)
-    {
-        Log(LogLevel::Error, L"The depth add-on could not attach to a ReShade runtime.");
-    }
+    d.runtimes.push_back(runtime);
+    if (d.view)
+        Bind(runtime, d.view.get());
 }
 
-void OnDestroyRuntime(reshade::api::effect_runtime* runtime) noexcept
+void OnDestroyRuntime(reshade::api::effect_runtime* runtime)
 {
     d.runtimes.erase(std::remove(d.runtimes.begin(), d.runtimes.end(), runtime), d.runtimes.end());
 }
 
-void OnReloadedEffects(reshade::api::effect_runtime* runtime) noexcept
+void OnReloadedEffects(reshade::api::effect_runtime* runtime)
 {
-    try
+    if (d.view)
+        Bind(runtime, d.view.get());
+}
+
+void OnInitDevice(reshade::api::device* device)
+{
+    if (device->get_api() != reshade::api::device_api::d3d12)
+        return;
+    const std::lock_guard lock(nativeMutex);
+    nativeDevices.push_back(reinterpret_cast<ID3D12Device*>(device->get_native()));}
+
+void OnDestroyDevice(reshade::api::device* device)
+{
+    if (device->get_api() != reshade::api::device_api::d3d12)
+        return;
+    const std::lock_guard lock(nativeMutex);
+    std::erase(nativeDevices, reinterpret_cast<ID3D12Device*>(device->get_native()));
+}
+
+void CreateD3D12()
+{
+    if (FAILED(D3D12CreateDevice(nullptr, D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(d.d3d12Proxy.put()))))
+        throw std::runtime_error("DirectX 12 is unavailable on this GPU.");
+    const LUID adapter = d.d3d12Proxy->GetAdapterLuid();
     {
-        if (d.view)
-            Bind(runtime, d.view.get());
+        const std::lock_guard lock(nativeMutex);
+        for (ID3D12Device* native : nativeDevices)
+            if (const LUID luid = native->GetAdapterLuid(); luid.LowPart == adapter.LowPart && luid.HighPart == adapter.HighPart)
+                d.d3d12.copy_from(native);
     }
-    catch (...)
+    if (!d.d3d12)
+        d.d3d12 = d.d3d12Proxy;
+
+    winrt::check_hresult(d.d3d12->CreateFence(0, D3D12_FENCE_FLAG_SHARED, IID_PPV_ARGS(d.d3d12Fence.put())));
+    winrt::check_hresult(d.d3d12->CreateSharedHandle(d.d3d12Fence.get(), nullptr, GENERIC_ALL, nullptr, &d.fenceHandle));
+    winrt::check_hresult(d.d3d12->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(d.allocator.put())));
+    winrt::check_hresult(d.d3d12->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, d.allocator.get(), nullptr, IID_PPV_ARGS(d.list.put())));
+    winrt::check_hresult(d.list->Close());
+}
+
+void ReleaseD3D12()
+{
+    d.list = nullptr;
+    d.allocator = nullptr;
+    d.d3d12Fence = nullptr;
+    if (d.fenceHandle)
+        CloseHandle(std::exchange(d.fenceHandle, nullptr));
+    d.d3d12 = nullptr;
+    d.d3d12Proxy = nullptr;
+}
+
+bool D3D12Removed()
+{
+    return d.d3d12 && FAILED(d.d3d12->GetDeviceRemovedReason());
+}
+
+winrt::com_ptr<ID3D12Resource> CreateD3D12Buffer(UINT64 size)
+{
+    const D3D12_HEAP_PROPERTIES heap{ D3D12_HEAP_TYPE_DEFAULT };
+    D3D12_RESOURCE_DESC desc{};
+    desc.Dimension = D3D12_RESOURCE_DIMENSION_BUFFER;
+    desc.Width = size;
+    desc.Height = 1;
+    desc.DepthOrArraySize = 1;
+    desc.MipLevels = 1;
+    desc.SampleDesc = { 1, 0 };
+    desc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
+    desc.Flags = D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS;
+    winrt::com_ptr<ID3D12Resource> buffer;
+    winrt::check_hresult(d.d3d12->CreateCommittedResource(&heap, D3D12_HEAP_FLAG_NONE, &desc, D3D12_RESOURCE_STATE_COMMON, nullptr, IID_PPV_ARGS(buffer.put())));
+    return buffer;
+}
+
+void Copy(ID3D12CommandQueue* queue, ID3D12Resource* texture, ID3D12Resource* buffer, bool toBuffer)
+{
+    const D3D12_RESOURCE_DESC desc = texture->GetDesc();
+    D3D12_TEXTURE_COPY_LOCATION textureLocation{ texture, D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX };
+    textureLocation.SubresourceIndex = 0;
+    D3D12_TEXTURE_COPY_LOCATION bufferLocation{ buffer, D3D12_TEXTURE_COPY_TYPE_PLACED_FOOTPRINT };
+    bufferLocation.PlacedFootprint = { 0, { desc.Format, static_cast<UINT>(desc.Width), desc.Height, 1, kRowBytes } };
+    winrt::check_hresult(d.list->Reset(d.allocator.get(), nullptr));
+    if (toBuffer)
+        d.list->CopyTextureRegion(&bufferLocation, 0, 0, 0, &textureLocation, nullptr);
+    else
     {
-        Log(LogLevel::Error, L"The depth add-on could not rebind depth after ReShade reloaded effects.");
+        d.list->CopyTextureRegion(&textureLocation, 0, 0, 0, &bufferLocation, nullptr);
+        D3D12_RESOURCE_BARRIER barrier{ D3D12_RESOURCE_BARRIER_TYPE_TRANSITION };
+        barrier.Transition = { texture, D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES, D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_COMMON };
+        d.list->ResourceBarrier(1, &barrier);
     }
+    winrt::check_hresult(d.list->Close());
+    ID3D12CommandList* lists[] = { d.list.get() };
+    queue->ExecuteCommandLists(1, lists);
+}
+
+void Worker()
+{
+    InitThreadLog();
+    Log(LogLevel::Info, L"Depth worker started.");
+    winrt::com_ptr<ID3D12Resource> input, output, inputBuffer, outputBuffer;
+    std::unique_ptr<DepthModel> model;
+    int loadedWidth = 0, loadedHeight = 0;
+    unsigned boundVersion = 0;
+    for (;;)
+    {
+        WaitForSingleObject(d.request, INFINITE);
+        if (d.stopping)
+        {
+            if (d.inputValue && d.d3d12Fence && d.d3d12Fence->GetCompletedValue() < d.inputValue + 1)
+                if (const HANDLE finished = CreateEventW(nullptr, FALSE, FALSE, nullptr))
+                {
+                    if (SUCCEEDED(d.d3d12Fence->SetEventOnCompletion(d.inputValue + 1, finished)))
+                        WaitForSingleObject(finished, 1000);
+                    CloseHandle(finished);
+                }
+            return;
+        }
+        try
+        {
+            const auto started = FrameStatistics::Clock::now();
+            if (!d.inputValue && d.d3d12 && (!d.enabled || !d.list || D3D12Removed()))
+            {
+                Log(LogLevel::Info, L"Releasing the depth D3D12 device: removed_reason=0x%08X, depth_enabled=%d.",
+                    static_cast<unsigned>(d.d3d12->GetDeviceRemovedReason()), d.enabled);
+                model.reset();
+                input = output = inputBuffer = outputBuffer = nullptr;
+                loadedWidth = loadedHeight = 0;
+                ReleaseD3D12();
+            }
+            if (!d.enabled)
+            {
+                d.done = true;
+                continue;
+            }
+            if (!d.d3d12)
+                CreateD3D12();
+            if (d.width != loadedWidth || d.height != loadedHeight)
+            {
+                model.reset();
+                boundVersion = 0;
+                model = std::make_unique<DepthModel>();
+                model->Load(d.directory, ModelFile(), d.width, d.height, d.d3d12.get());
+                loadedWidth = d.modelWidth = d.width;
+                loadedHeight = d.modelHeight = d.height;
+                Log(LogLevel::Info, L"Depth model loaded: %ls%ls, input=%dx%d, half_input=%d, half_output=%d.", d.directory.c_str(),
+                    ModelFile().c_str(), d.width, d.height, model->HalfInput(), model->HalfOutput());
+                d.halfInput = model->HalfInput();
+                d.halfOutput = model->HalfOutput();
+                Report(LogLevel::Ok, L"Depth estimation ready (%dx%d)", d.width, d.height);
+            }
+            if (d.inputValue)
+            {
+                if (boundVersion != d.version)
+                {
+                    winrt::check_hresult(d.d3d12->OpenSharedHandle(d.inputHandle, IID_PPV_ARGS(input.put())));
+                    winrt::check_hresult(d.d3d12->OpenSharedHandle(d.outputHandle, IID_PPV_ARGS(output.put())));
+                    inputBuffer = CreateD3D12Buffer(input->GetDesc().Height * kRowBytes);
+                    outputBuffer = CreateD3D12Buffer(output->GetDesc().Height * kRowBytes);
+                    model->Bind(inputBuffer.get(), outputBuffer.get());
+                    boundVersion = d.version;
+                }
+                ID3D12CommandQueue* queue = model->Queue();
+                winrt::check_hresult(queue->Wait(d.d3d12Fence.get(), d.inputValue));
+                winrt::check_hresult(d.allocator->Reset());
+                Copy(queue, input.get(), inputBuffer.get(), true);
+                model->Run();
+                Copy(queue, output.get(), outputBuffer.get(), false);
+                winrt::check_hresult(queue->Signal(d.d3d12Fence.get(), d.inputValue + 1));
+            }
+            d.workerMs = std::chrono::duration<double, std::milli>(FrameStatistics::Clock::now() - started).count();
+        }
+        catch (const std::exception& e)
+        {
+            if (D3D12Removed())
+                Log(LogLevel::Info, L"Depth run failed on a removed D3D12 device: %hs", e.what());
+            else
+            {
+                Log(LogLevel::Error, L"Depth estimation stopped: %hs", e.what());
+                LogStackTrace();
+                d.failed = true;
+            }
+        }
+        catch (const winrt::hresult_error& e)
+        {
+            if (D3D12Removed())
+                Log(LogLevel::Info, L"Depth run failed on a removed D3D12 device: %ls (0x%08X)", e.message().c_str(),
+                    static_cast<unsigned>(e.code()));
+            else
+            {
+                Log(LogLevel::Error, L"Depth estimation stopped: %ls (0x%08X)", e.message().c_str(), static_cast<unsigned>(e.code()));
+                Log(LogLevel::Info, L"Depth worker state: model=%dx%d, requested=%dx%d, input_fence=%llu, resource_version=%u.",
+                    loadedWidth, loadedHeight, d.width, d.height, d.inputValue, d.version);
+                LogStackTrace();
+                d.failed = true;
+            }
+        }
+        d.done = true;
+    }
+}
+
+void Request(uint64_t value)
+{
+    d.inputValue = value;
+    d.requestedAt = FrameStatistics::Clock::now();
+    d.slowRequestLogged = false;
+    d.busy = true;
+    SetEvent(d.request);
 }
 
 void CreateShaders()
@@ -775,15 +475,14 @@ void CompileShaders()
     for (size_t i = 0; i < std::size(kEntryPoints); ++i)
     {
         winrt::com_ptr<ID3DBlob> errors;
-        const HRESULT hr = D3DCompile(kEntryPoints[i].source, kEntryPoints[i].length, "depth", nullptr, nullptr, kEntryPoints[i].entry, "cs_5_0",
-                                      D3DCOMPILE_OPTIMIZATION_LEVEL3, 0, d.code[i].put(), errors.put());
+        const HRESULT hr = D3DCompile(kShaders, sizeof(kShaders) - 1, "depth", nullptr, nullptr, kEntryPoints[i], "cs_5_0", 0, 0, d.code[i].put(), errors.put());
         if (FAILED(hr))
             throw std::runtime_error(errors ? static_cast<const char*>(errors->GetBufferPointer()) : "compute shaders are unavailable on this GPU");
     }
     CreateShaders();
 }
 
-void Dispatch(Shader shader, std::array<ID3D11ShaderResourceView*, 10> views, std::array<ID3D11UnorderedAccessView*, 6> targets, UINT x, UINT y)
+void Dispatch(size_t shader, std::array<ID3D11ShaderResourceView*, 4> views, std::array<ID3D11UnorderedAccessView*, 5> targets, UINT x, UINT y)
 {
     ID3D11Buffer* constants[] = { d.sizes.get() };
     g.context->CSSetShader(d.shaders[shader].get(), nullptr, 0);
@@ -797,59 +496,36 @@ void Dispatch(Shader shader, std::array<ID3D11ShaderResourceView*, 10> views, st
     g.context->CSSetUnorderedAccessViews(0, static_cast<UINT>(targets.size()), targets.data(), nullptr);
 }
 
-void ReleaseTargets()
+void ReleaseShared()
 {
     for (auto* runtime : d.runtimes)
         Bind(runtime, nullptr);
-    for (size_t i = 0; i < 2; ++i)
-    {
-        d.fusedView[i] = nullptr;
-        d.fusedTarget[i] = nullptr;
-        d.fused[i] = nullptr;
-    }
-    d.rawFusedView = nullptr;
-    d.rawFusedTarget = nullptr;
-    d.rawFused = nullptr;
-    d.motionView = nullptr;
-    d.motionTarget = nullptr;
-    d.motion = nullptr;
-    d.flowView = nullptr;
-    d.flowTarget = nullptr;
-    d.flow = nullptr;
-    d.flowCoarseView = nullptr;
-    d.flowCoarseTarget = nullptr;
-    d.flowCoarse = nullptr;
-    d.previousLumaQuarterView = nullptr;
-    d.previousLumaQuarter = nullptr;
-    d.lumaQuarterView = nullptr;
-    d.lumaQuarterTarget = nullptr;
-    d.lumaQuarter = nullptr;
-    d.previousGuideView = nullptr;
-    d.previousGuide = nullptr;
-    d.hasPrevious = false;
     d.view = nullptr;
     d.textureTarget = nullptr;
     d.texture = nullptr;
-    d.workDepthView = nullptr;
-    d.workDepthTarget = nullptr;
-    d.workDepth = nullptr;
-    d.sceneView = nullptr;
-    d.sceneTarget = nullptr;
-    d.scene = nullptr;
-    d.skyEndView = nullptr;
-    d.skyEndTarget = nullptr;
-    d.skyEnd = nullptr;
-    d.blurredView = nullptr;
-    d.blurredTarget = nullptr;
-    d.blurred = nullptr;
+    d.stateView = nullptr;
+    d.stateTarget = nullptr;
+    d.state = nullptr;
+    d.keysTarget = nullptr;
+    d.keys = nullptr;
+    d.outputView = nullptr;
+    d.output = nullptr;
     d.guideView = nullptr;
     d.guideTarget = nullptr;
     d.guide = nullptr;
+    d.inputTarget = nullptr;
+    d.input = nullptr;
+    for (HANDLE* handle : { &d.inputHandle, &d.outputHandle })
+        if (*handle)
+            CloseHandle(std::exchange(*handle, nullptr));
 }
 
 void ReleaseResources()
 {
-    ReleaseTargets();
+    if (d.busy && d.inputValue && d.d3d12Fence->GetCompletedValue() < d.inputValue)
+        d.d3d12Fence->Signal(d.inputValue);
+    ReleaseShared();
+    d.fence = nullptr;
     d.frameView = nullptr;
     d.frameCopy = nullptr;
     d.sizes = nullptr;
@@ -863,68 +539,29 @@ void ReleaseResources()
 void Stop()
 {
     ReleaseResources();
-    d.enabled = false;
-    Report(LogLevel::Warning, L"Depth estimation stopped, color effects keep working.");
-}
-
-void CreateBuffer(UINT elements, UINT stride, winrt::com_ptr<ID3D11Buffer>& buffer, winrt::com_ptr<ID3D11UnorderedAccessView>& target, winrt::com_ptr<ID3D11ShaderResourceView>& view)
-{
-    D3D11_BUFFER_DESC desc{};
-    desc.ByteWidth = elements * stride;
-    desc.Usage = D3D11_USAGE_DEFAULT;
-    desc.BindFlags = D3D11_BIND_UNORDERED_ACCESS | D3D11_BIND_SHADER_RESOURCE;
-    desc.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
-    desc.StructureByteStride = stride;
-    winrt::check_hresult(g.device->CreateBuffer(&desc, nullptr, buffer.put()));
-    winrt::check_hresult(g.device->CreateUnorderedAccessView(buffer.get(), nullptr, target.put()));
-    winrt::check_hresult(g.device->CreateShaderResourceView(buffer.get(), nullptr, view.put()));
-}
-
-void CreateTexture(UINT width, UINT height, DXGI_FORMAT format, winrt::com_ptr<ID3D11Texture2D>& texture, winrt::com_ptr<ID3D11UnorderedAccessView>& target, winrt::com_ptr<ID3D11ShaderResourceView>& view)
-{
-    D3D11_TEXTURE2D_DESC desc{};
-    desc.Width = width;
-    desc.Height = height;
-    desc.MipLevels = 1;
-    desc.ArraySize = 1;
-    desc.Format = format;
-    desc.SampleDesc = { 1, 0 };
-    desc.Usage = D3D11_USAGE_DEFAULT;
-    desc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS;
-    winrt::check_hresult(g.device->CreateTexture2D(&desc, nullptr, texture.put()));
-    winrt::check_hresult(g.device->CreateUnorderedAccessView(texture.get(), nullptr, target.put()));
-    winrt::check_hresult(g.device->CreateShaderResourceView(texture.get(), nullptr, view.put()));
-}
-
-void CreateReadable(UINT width, UINT height, DXGI_FORMAT format, winrt::com_ptr<ID3D11Texture2D>& texture, winrt::com_ptr<ID3D11ShaderResourceView>& view)
-{
-    D3D11_TEXTURE2D_DESC desc{};
-    desc.Width = width;
-    desc.Height = height;
-    desc.MipLevels = 1;
-    desc.ArraySize = 1;
-    desc.Format = format;
-    desc.SampleDesc = { 1, 0 };
-    desc.Usage = D3D11_USAGE_DEFAULT;
-    desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
-    winrt::check_hresult(g.device->CreateTexture2D(&desc, nullptr, texture.put()));
-    winrt::check_hresult(g.device->CreateShaderResourceView(texture.get(), nullptr, view.put()));
+    if (DepthSize() == kDefaultDepthSize)
+    {
+        d.enabled = false;
+        Request(0);
+        return;
+    }
+    SetDepthSize(kDefaultDepthSize);
+    Report(LogLevel::Warning, L"Depth estimation failed, so Depth detail went back to High.");
 }
 
 void Resize(const D3D11_TEXTURE2D_DESC& frame)
 {
-    ReleaseTargets();
-    d.size = DepthSize();
     const bool landscape = frame.Width >= frame.Height;
     const float ratio = landscape ? static_cast<float>(frame.Height) / frame.Width : static_cast<float>(frame.Width) / frame.Height;
-    const UINT longSide = static_cast<UINT>(std::clamp(d.size, 64, 1024));
-    const UINT shortSide = std::max(16u, static_cast<UINT>(std::lround(longSide * ratio)));
-    d.workWidth = std::min(landscape ? longSide : shortSide, frame.Width);
-    d.workHeight = std::min(landscape ? shortSide : longSide, frame.Height);
+    d.size = DepthSize();
+    const int shortSide = std::max(14, static_cast<int>(std::lround(d.size * ratio / 14)) * 14);
+    d.width = landscape ? d.size : shortSide;
+    d.height = landscape ? shortSide : d.size;
     d.sourceWidth = frame.Width;
     d.sourceHeight = frame.Height;
     d.lastInput.reset();
-    Log(LogLevel::Info, L"Depth resize: source=%ux%u, work=%ux%u, detail=%d.", frame.Width, frame.Height, d.workWidth, d.workHeight, d.size);
+    Log(LogLevel::Info, L"Depth resize: source=%ux%u, model=%dx%d, detail=%d.", frame.Width, frame.Height, d.width, d.height, d.size);
+    ReleaseShared();
 
     D3D11_TEXTURE2D_DESC copy = frame;
     copy.MipLevels = 1;
@@ -938,93 +575,118 @@ void Resize(const D3D11_TEXTURE2D_DESC& frame)
     d.frameView = nullptr;
     winrt::check_hresult(g.device->CreateTexture2D(&copy, nullptr, d.frameCopy.put()));
     winrt::check_hresult(g.device->CreateShaderResourceView(d.frameCopy.get(), nullptr, d.frameView.put()));
+}
 
-    CreateTexture(d.workWidth, d.workHeight, DXGI_FORMAT_R16G16B16A16_FLOAT, d.guide, d.guideTarget, d.guideView);
-    CreateTexture(d.workWidth, d.workHeight, DXGI_FORMAT_R16G16B16A16_FLOAT, d.blurred, d.blurredTarget, d.blurredView);
-    CreateTexture(d.workWidth, d.workHeight, DXGI_FORMAT_R32_FLOAT, d.workDepth, d.workDepthTarget, d.workDepthView);
-    CreateTexture(d.sourceWidth, d.sourceHeight, DXGI_FORMAT_R32_FLOAT, d.texture, d.textureTarget, d.view);
-    CreateBuffer(d.workWidth, sizeof(UINT), d.skyEnd, d.skyEndTarget, d.skyEndView);
-    CreateBuffer(2, 4 * sizeof(float), d.scene, d.sceneTarget, d.sceneView);
-    const UINT quarterWidth = (d.workWidth + 3) / 4;
-    const UINT quarterHeight = (d.workHeight + 3) / 4;
-    CreateReadable(d.workWidth, d.workHeight, DXGI_FORMAT_R16G16B16A16_FLOAT, d.previousGuide, d.previousGuideView);
-    CreateTexture(quarterWidth, quarterHeight, DXGI_FORMAT_R16_FLOAT, d.lumaQuarter, d.lumaQuarterTarget, d.lumaQuarterView);
-    CreateReadable(quarterWidth, quarterHeight, DXGI_FORMAT_R16_FLOAT, d.previousLumaQuarter, d.previousLumaQuarterView);
-    CreateTexture(quarterWidth, quarterHeight, DXGI_FORMAT_R32G32_FLOAT, d.flowCoarse, d.flowCoarseTarget, d.flowCoarseView);
-    CreateTexture(d.workWidth, d.workHeight, DXGI_FORMAT_R32G32B32A32_FLOAT, d.flow, d.flowTarget, d.flowView);
-    CreateBuffer(2, 4 * sizeof(float), d.motion, d.motionTarget, d.motionView);
-    for (size_t i = 0; i < 2; ++i)
-        CreateTexture(d.workWidth, d.workHeight, DXGI_FORMAT_R32G32_FLOAT, d.fused[i], d.fusedTarget[i], d.fusedView[i]);
-    CreateTexture(d.workWidth, d.workHeight, DXGI_FORMAT_R32G32_FLOAT, d.rawFused, d.rawFusedTarget, d.rawFusedView);
+void CreateSharedTexture(size_t count, bool half, UINT bind, winrt::com_ptr<ID3D11Texture2D>& texture, HANDLE& handle)
+{
+    const UINT width = kRowBytes / (half ? 2 : 4);
+    D3D11_TEXTURE2D_DESC desc{};
+    desc.Width = width;
+    desc.Height = static_cast<UINT>((count + width - 1) / width);
+    desc.MipLevels = 1;
+    desc.ArraySize = 1;
+    desc.Format = half ? DXGI_FORMAT_R16_FLOAT : DXGI_FORMAT_R32_FLOAT;
+    desc.SampleDesc = { 1, 0 };
+    desc.Usage = D3D11_USAGE_DEFAULT;
+    desc.BindFlags = bind;
+    desc.MiscFlags = D3D11_RESOURCE_MISC_SHARED | D3D11_RESOURCE_MISC_SHARED_NTHANDLE;
+    winrt::check_hresult(g.device->CreateTexture2D(&desc, nullptr, texture.put()));
+    winrt::check_hresult(texture.as<IDXGIResource1>()->CreateSharedHandle(nullptr, DXGI_SHARED_RESOURCE_READ | DXGI_SHARED_RESOURCE_WRITE, nullptr, &handle));
+}
 
-    const float zero[4] = {};
-    const UINT zeroUint[4] = {};
-    g.context->ClearUnorderedAccessViewFloat(d.workDepthTarget.get(), zero);
-    for (const auto& target : d.fusedTarget)
-        g.context->ClearUnorderedAccessViewFloat(target.get(), zero);
-    g.context->ClearUnorderedAccessViewUint(d.sceneTarget.get(), zeroUint);
+void CreateShared()
+{
+    const size_t pixels = static_cast<size_t>(d.width) * d.height;
+    CreateSharedTexture(3 * pixels, d.halfInput, D3D11_BIND_UNORDERED_ACCESS, d.input, d.inputHandle);
+    CreateSharedTexture(pixels, d.halfOutput, D3D11_BIND_SHADER_RESOURCE, d.output, d.outputHandle);
+    ++d.version;
+    winrt::check_hresult(g.device->CreateUnorderedAccessView(d.input.get(), nullptr, d.inputTarget.put()));
+    winrt::check_hresult(g.device->CreateShaderResourceView(d.output.get(), nullptr, d.outputView.put()));
+    if (!d.fence)
+        winrt::check_hresult(g.device.as<ID3D11Device5>()->OpenSharedFence(d.fenceHandle, IID_PPV_ARGS(d.fence.put())));
+
+    D3D11_BUFFER_DESC buffer{};
+    buffer.ByteWidth = 16;
+    buffer.Usage = D3D11_USAGE_DEFAULT;
+    buffer.BindFlags = D3D11_BIND_UNORDERED_ACCESS;
+    buffer.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_ALLOW_RAW_VIEWS;
+    winrt::check_hresult(g.device->CreateBuffer(&buffer, nullptr, d.keys.put()));
+    D3D11_UNORDERED_ACCESS_VIEW_DESC raw{};
+    raw.Format = DXGI_FORMAT_R32_TYPELESS;
+    raw.ViewDimension = D3D11_UAV_DIMENSION_BUFFER;
+    raw.Buffer.NumElements = 4;
+    raw.Buffer.Flags = D3D11_BUFFER_UAV_FLAG_RAW;
+    winrt::check_hresult(g.device->CreateUnorderedAccessView(d.keys.get(), &raw, d.keysTarget.put()));
+
+    buffer.BindFlags = D3D11_BIND_UNORDERED_ACCESS | D3D11_BIND_SHADER_RESOURCE;
+    buffer.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
+    buffer.StructureByteStride = 16;
+    winrt::check_hresult(g.device->CreateBuffer(&buffer, nullptr, d.state.put()));
+    winrt::check_hresult(g.device->CreateUnorderedAccessView(d.state.get(), nullptr, d.stateTarget.put()));
+    winrt::check_hresult(g.device->CreateShaderResourceView(d.state.get(), nullptr, d.stateView.put()));
+    const UINT zero[4] = {};
+    g.context->ClearUnorderedAccessViewUint(d.stateTarget.get(), zero);
+
+    D3D11_TEXTURE2D_DESC desc{};
+    desc.Width = d.width;
+    desc.Height = d.height;
+    desc.MipLevels = 1;
+    desc.ArraySize = 1;
+    desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+    desc.SampleDesc = { 1, 0 };
+    desc.Usage = D3D11_USAGE_DEFAULT;
+    desc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS;
+    winrt::check_hresult(g.device->CreateTexture2D(&desc, nullptr, d.guide.put()));
+    winrt::check_hresult(g.device->CreateUnorderedAccessView(d.guide.get(), nullptr, d.guideTarget.put()));
+    winrt::check_hresult(g.device->CreateShaderResourceView(d.guide.get(), nullptr, d.guideView.put()));
+
+    desc.Width = d.sourceWidth;
+    desc.Height = d.sourceHeight;
+    desc.Format = DXGI_FORMAT_R32_FLOAT;
+    winrt::check_hresult(g.device->CreateTexture2D(&desc, nullptr, d.texture.put()));
+    winrt::check_hresult(g.device->CreateUnorderedAccessView(d.texture.get(), nullptr, d.textureTarget.put()));
+    winrt::check_hresult(g.device->CreateShaderResourceView(d.texture.get(), nullptr, d.view.put()));
     const float farPlane[4] = { 1, 1, 1, 1 };
     g.context->ClearUnorderedAccessViewFloat(d.textureTarget.get(), farPlane);
 
-    struct
-    {
-        UINT sourceWidth, sourceHeight, workWidth, workHeight;
-        float temporal, padding[3];
-    } sizes{ d.sourceWidth, d.sourceHeight, d.workWidth, d.workHeight, kTemporal, {} };
-    g.context->UpdateSubresource(d.sizes.get(), 0, nullptr, &sizes, 0, 0);
+    const UINT sizes[8] = { d.sourceWidth, d.sourceHeight, static_cast<UINT>(d.width), static_cast<UINT>(d.height),
+                            kRowBytes / (d.halfInput ? 2 : 4), kRowBytes / (d.halfOutput ? 2 : 4) };
+    g.context->UpdateSubresource(d.sizes.get(), 0, nullptr, sizes, 0, 0);
     for (auto* runtime : d.runtimes)
         Bind(runtime, d.view.get());
 }
 
-void Estimate()
+void Publish()
 {
-    const UINT workX = (d.workWidth + 15) / 16;
-    const UINT workY = (d.workHeight + 15) / 16;
-    const UINT columns = (d.workWidth + 63) / 64;
-    const UINT quarterX = ((d.workWidth + 3) / 4 + 15) / 16;
-    const UINT quarterY = ((d.workHeight + 3) / 4 + 15) / 16;
-    ID3D11ShaderResourceView* guide = d.guideView.get();
-    ID3D11ShaderResourceView* blurred = d.blurredView.get();
-    Dispatch(ReduceShader, { d.frameView.get() }, { d.guideTarget.get() }, workX, workY);
-    Dispatch(BlurShader, { nullptr, guide }, { nullptr, nullptr, nullptr, nullptr, nullptr, d.blurredTarget.get() }, workX, workY);
-    Dispatch(SkyShader, { nullptr, nullptr, nullptr, nullptr, nullptr, blurred }, { nullptr, d.skyEndTarget.get() }, columns, 1);
-    Dispatch(HorizonShader, { nullptr, nullptr, d.skyEndView.get(), nullptr, nullptr, blurred }, { nullptr, nullptr, d.sceneTarget.get() }, 1, 1);
-    Dispatch(ColumnsShader, { nullptr, nullptr, d.skyEndView.get(), d.sceneView.get(), nullptr, blurred }, { nullptr, nullptr, nullptr, d.workDepthTarget.get() }, columns, 1);
-    Dispatch(QuarterShader, { guide }, { d.lumaQuarterTarget.get() }, quarterX, quarterY);
-    if (!d.hasPrevious)
-    {
-        g.context->CopyResource(d.previousGuide.get(), d.guide.get());
-        g.context->CopyResource(d.previousLumaQuarter.get(), d.lumaQuarter.get());
-        d.hasPrevious = true;
-    }
-    const size_t current = d.fusedIndex;
-    const size_t previous = current ^ 1;
-    Dispatch(MatchCoarseShader, { nullptr, nullptr, d.lumaQuarterView.get(), d.previousLumaQuarterView.get() }, { nullptr, d.flowCoarseTarget.get() }, quarterX, quarterY);
-    Dispatch(MatchFineShader, { guide, d.previousGuideView.get(), nullptr, nullptr, d.flowCoarseView.get() }, { nullptr, nullptr, d.flowTarget.get() }, workX, workY);
-    Dispatch(FitShader, { nullptr, nullptr, nullptr, nullptr, nullptr, d.flowView.get(), d.workDepthView.get(), nullptr, d.fusedView[previous].get() },
-             { nullptr, nullptr, nullptr, d.motionTarget.get() }, 1, 1);
-    Dispatch(FuseShader, { nullptr, nullptr, nullptr, nullptr, nullptr, d.flowView.get(), d.workDepthView.get(), d.motionView.get(), d.fusedView[previous].get() },
-             { nullptr, nullptr, nullptr, nullptr, nullptr, d.rawFusedTarget.get() }, workX, workY);
-    Dispatch(SettleShader, { guide, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.rawFusedView.get() },
-             { nullptr, nullptr, nullptr, nullptr, d.fusedTarget[current].get() }, workX, workY);
-    Dispatch(UpsampleShader, { d.frameView.get(), guide, nullptr, nullptr, d.fusedView[current].get() }, { nullptr, nullptr, nullptr, nullptr, d.textureTarget.get() },
+    winrt::check_hresult(g.context.as<ID3D11DeviceContext4>()->Wait(d.fence.get(), d.inputValue + 1));
+    const UINT zero[4] = {};
+    g.context->ClearUnorderedAccessViewUint(d.keysTarget.get(), zero);
+    const UINT pixels = static_cast<UINT>(d.width * d.height);
+    Dispatch(1, { nullptr, d.outputView.get() }, { nullptr, d.keysTarget.get() }, (pixels + 255) / 256, 1);
+    Dispatch(2, {}, { nullptr, d.keysTarget.get(), d.stateTarget.get() }, 1, 1);
+    Dispatch(3, { d.frameView.get(), d.outputView.get(), d.stateView.get(), d.guideView.get() }, { nullptr, nullptr, nullptr, d.textureTarget.get() },
              (d.sourceWidth + 15) / 16, (d.sourceHeight + 15) / 16);
-    g.context->CopyResource(d.previousGuide.get(), d.guide.get());
-    g.context->CopyResource(d.previousLumaQuarter.get(), d.lumaQuarter.get());
-    d.fusedIndex = previous;
 }
 }
 
 bool InitDepth()
 {
+    d.directory = ExeDirectory();
+    if (GetFileAttributesW((d.directory + ModelFile()).c_str()) == INVALID_FILE_ATTRIBUTES)
+    {
+        Log(LogLevel::Info, L"Depth model not found: %ls%ls.", d.directory.c_str(), ModelFile().c_str());
+        return false;
+    }
     if (!AddonRegistered())
     {
-        Log(LogLevel::Warning, L"Depth estimation is off because ReShade did not load the depth add-on.");
+        Log(LogLevel::Warning, L"Depth estimation is off because ReShade did not load the Unishade add-on.");
         return false;
     }
     reshade::register_event<reshade::addon_event::init_effect_runtime>(OnInitRuntime);
     reshade::register_event<reshade::addon_event::destroy_effect_runtime>(OnDestroyRuntime);
     reshade::register_event<reshade::addon_event::reshade_reloaded_effects>(OnReloadedEffects);
+    reshade::register_event<reshade::addon_event::init_device>(OnInitDevice);
+    reshade::register_event<reshade::addon_event::destroy_device>(OnDestroyDevice);
 
     try
     {
@@ -1033,10 +695,13 @@ bool InitDepth()
     catch (const std::exception& e)
     {
         Log(LogLevel::Error, L"Depth estimation is off: %hs", e.what());
+        LogStackTrace();
         return false;
     }
+    d.request = CreateEventW(nullptr, FALSE, FALSE, nullptr);
+    d.worker = std::thread(Worker);
     d.enabled = true;
-    Log(LogLevel::Info, L"Scene depth estimation initialized, depth_size=%d.", DepthSize());
+    Log(LogLevel::Info, L"Depth estimation initialized: model=%ls%ls, depth_size=%d.", d.directory.c_str(), ModelFile().c_str(), DepthSize());
     return true;
 }
 
@@ -1044,18 +709,66 @@ void UpdateDepth(ID3D11Texture2D* frame, int64_t frameTimestamp)
 {
     if (!d.enabled)
         return;
+
     try
     {
+        if (d.busy)
+        {
+            if (!d.slowRequestLogged && FrameStatistics::Clock::now() - d.requestedAt >= std::chrono::seconds(2))
+            {
+                d.slowRequestLogged = true;
+                LogDepthDiagnostics();
+            }
+            if (!d.done)
+                return;
+            if (d.failed)
+            {
+                d.done = false;
+                d.busy = false;
+                d.failed = false;
+                Stop();
+                return;
+            }
+            if (d.inputValue && d.d3d12Fence->GetCompletedValue() < d.inputValue + 1)
+                return;
+            d.done = false;
+            d.busy = false;
+            if (d.inputValue && d.texture && !D3D12Removed())
+            {
+                Publish();
+                g.frameStatistics.RecordDepth(std::chrono::duration<double, std::milli>(FrameStatistics::Clock::now() - d.requestedAt).count(),
+                                              d.workerMs.load());
+            }
+        }
+
+        if (D3D12Removed())
+        {
+            ReleaseShared();
+            d.fence = nullptr;
+            d.modelWidth = d.modelHeight = 0;
+        }
+
         if (!d.shaders[0])
             CreateShaders();
         D3D11_TEXTURE2D_DESC desc{};
         frame->GetDesc(&desc);
-        if (desc.Width != d.sourceWidth || desc.Height != d.sourceHeight || d.size != DepthSize() || !d.texture)
+        if (desc.Width != d.sourceWidth || desc.Height != d.sourceHeight || d.size != DepthSize())
             Resize(desc);
         if (d.lastInput && *d.lastInput == frameTimestamp)
             return;
+        if (d.modelWidth != d.width || d.modelHeight != d.height)
+        {
+            Request(0);
+            return;
+        }
+        if (!d.texture)
+            CreateShared();
+
         g.context->CopyResource(d.frameCopy.get(), frame);
-        Estimate();
+        Dispatch(0, { d.frameView.get() }, { d.inputTarget.get(), nullptr, nullptr, nullptr, d.guideTarget.get() }, (d.width + 15) / 16, (d.height + 15) / 16);
+        d.fenceValue += 2;
+        winrt::check_hresult(g.context.as<ID3D11DeviceContext4>()->Signal(d.fence.get(), d.fenceValue - 1));
+        Request(d.fenceValue - 1);
         d.lastInput = frameTimestamp;
     }
     catch (const winrt::hresult_error& e)
@@ -1079,7 +792,12 @@ void ResetDepthInput()
 
 void LogDepthDiagnostics()
 {
-    Log(LogLevel::Info, L"Depth state: enabled=%d, source=%ux%u, work=%ux%u.", d.enabled, d.sourceWidth, d.sourceHeight, d.workWidth, d.workHeight);
+    const double pendingMs = d.busy ? std::chrono::duration<double, std::milli>(FrameStatistics::Clock::now() - d.requestedAt).count() : 0;
+    const bool fenceReady = !d.busy || d.done || d.inputValue;
+    Log(LogLevel::Info, L"Depth state: enabled=%d, busy=%d, worker_done=%d, pending_ms=%.2f, worker_submit_ms=%.2f, "
+                       L"input_fence=%llu, completed_fence=%llu, source=%ux%u, requested_model=%dx%d, resource_version=%u.",
+        d.enabled, d.busy.load(), d.done.load(), pendingMs, d.workerMs.load(), d.inputValue,
+        fenceReady && d.d3d12Fence ? d.d3d12Fence->GetCompletedValue() : 0, d.sourceWidth, d.sourceHeight, d.width, d.height, d.version);
 }
 
 void ReleaseDepthDevice()
@@ -1089,6 +807,14 @@ void ReleaseDepthDevice()
 
 void ShutdownDepth()
 {
-    ReleaseResources();
-    d.enabled = false;
+    if (d.worker.joinable())
+    {
+        d.stopping = true;
+        SetEvent(d.request);
+        d.worker.join();
+    }
+    ReleaseD3D12();
+    for (HANDLE handle : { d.inputHandle, d.outputHandle, d.request })
+        if (handle)
+            CloseHandle(handle);
 }

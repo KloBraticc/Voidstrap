@@ -351,7 +351,44 @@ namespace Voidstrap.Integrations.RiShade
             {
                 _ = EnsureSetupAsync();
             }
+
+            if (enabled)
+                AskForDepthModel();
             Voidstrap.UI.Elements.ContextMenu.MenuContainer.SyncRiShadeHotkey();
+        }
+
+        private static void AskForDepthModel()
+        {
+            if (!Voidstrap.Utility.Platform.IsWindows || !DepthBridgeAvailable || RiShadeDepthModels.Selected != RiShadeDepthModel.Off)
+                return;
+
+            string message = string.Format(
+                Voidstrap.Resources.Strings.Ui_RiShade_DepthModel_Prompt,
+                RiShadeDepthModels.SizeMegabytes(RiShadeDepthModel.Small),
+                RiShadeDepthModels.SizeMegabytes(RiShadeDepthModel.Base),
+                RiShadeDepthModels.SizeMegabytes(RiShadeDepthModel.Large));
+            MessageBoxResult result = Frontend.ShowMessageBox(
+                message,
+                MessageBoxImage.Question,
+                Voidstrap.Resources.Strings.Ui_RiShade_DepthModel_SmallShort,
+                Voidstrap.Resources.Strings.Ui_RiShade_DepthModel_BaseShort,
+                Voidstrap.Resources.Strings.Ui_RiShade_DepthModel_LargeShort);
+            RiShadeDepthModel model = result switch
+            {
+                MessageBoxResult.Yes => RiShadeDepthModel.Small,
+                MessageBoxResult.No => RiShadeDepthModel.Base,
+                MessageBoxResult.Cancel => RiShadeDepthModel.Large,
+                _ => RiShadeDepthModel.Off
+            };
+            if (model == RiShadeDepthModel.Off)
+                return;
+
+            _ = Task.Run(async () =>
+            {
+                (bool success, string status) = await RiShadeDepthModels.SelectAsync(model);
+                if (!success)
+                    Frontend.ShowMessageBox(string.Format(Voidstrap.Resources.Strings.Ui_RiShade_DepthModel_Failed, status), MessageBoxImage.Warning);
+            });
         }
 
         public static async Task EnsureSetupAsync()

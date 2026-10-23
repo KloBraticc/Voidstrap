@@ -8009,4 +8009,49 @@ Voidstrap 無法寫入桌面資料夾。</value>
   <data name="PrivateServers.Count" xml:space="preserve">
     <value>伺服器：{0}</value>
   </data>
+  <data name="Ui.RiShade.DepthModel.Title" xml:space="preserve">
+    <value>AI 深度模型</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Description" xml:space="preserve">
+    <value>讓環境光遮蔽、景深和反射等深度效果有真實的距離感。模型越大越清晰，但會使用更多 GPU 時間。變更會在下次啟動 Roblox 時生效。</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Off" xml:space="preserve">
+    <value>關閉，使用內建估算</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Small" xml:space="preserve">
+    <value>小 ({0} MB，最快)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Base" xml:space="preserve">
+    <value>中 ({0} MB，更清晰)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Large" xml:space="preserve">
+    <value>大 ({0} MB，最清晰，負擔高)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.SmallShort" xml:space="preserve">
+    <value>小</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.BaseShort" xml:space="preserve">
+    <value>中</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.LargeShort" xml:space="preserve">
+    <value>大</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Downloading" xml:space="preserve">
+    <value>正在下載深度模型：{0}%</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Ready" xml:space="preserve">
+    <value>深度模型已準備好，會在下次啟動 Roblox 時使用。</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Failed" xml:space="preserve">
+    <value>無法下載深度模型：{0}</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Prompt" xml:space="preserve">
+    <value>請為 RiShade 選擇 AI 深度模型。環境光遮蔽和景深等需要深度的效果，有了模型會好看很多。
+
+小：{0} MB，最快。
+中：{1} MB，更清晰。
+大：{2} MB，最清晰，但對 GPU 負擔很重。
+
+關閉這個視窗即可繼續使用內建估算，不必下載。你之後可以在 RiShade 頁面更改。</value>
+  </data>
 </root>

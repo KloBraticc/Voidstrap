@@ -8004,4 +8004,49 @@ Voidstrap이 바탕 화면 폴더에 쓸 수 없습니다.</value>
   <data name="PrivateServers.Count" xml:space="preserve">
     <value>서버: {0}</value>
   </data>
+  <data name="Ui.RiShade.DepthModel.Title" xml:space="preserve">
+    <value>AI 깊이 모델</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Description" xml:space="preserve">
+    <value>앰비언트 오클루전, 피사계 심도, 반사 같은 깊이 효과에 실제 거리감을 줍니다. 큰 모델일수록 선명하지만 GPU 시간을 더 사용합니다. 변경 사항은 다음에 Roblox를 시작할 때 적용됩니다.</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Off" xml:space="preserve">
+    <value>끄기, 내장 추정</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Small" xml:space="preserve">
+    <value>작음 ({0} MB, 가장 빠름)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Base" xml:space="preserve">
+    <value>보통 ({0} MB, 더 선명함)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Large" xml:space="preserve">
+    <value>큼 ({0} MB, 가장 선명함, 무거움)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.SmallShort" xml:space="preserve">
+    <value>작음</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.BaseShort" xml:space="preserve">
+    <value>보통</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.LargeShort" xml:space="preserve">
+    <value>큼</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Downloading" xml:space="preserve">
+    <value>깊이 모델을 다운로드하는 중: {0}%</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Ready" xml:space="preserve">
+    <value>깊이 모델이 준비되었습니다. 다음에 Roblox를 시작할 때 사용됩니다.</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Failed" xml:space="preserve">
+    <value>깊이 모델을 다운로드할 수 없습니다: {0}</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Prompt" xml:space="preserve">
+    <value>RiShade에서 사용할 AI 깊이 모델을 선택하십시오. 앰비언트 오클루전과 피사계 심도처럼 깊이가 필요한 효과는 모델이 있으면 훨씬 좋아 보입니다.
+
+작음: {0} MB, 가장 빠름.
+보통: {1} MB, 더 선명함.
+큼: {2} MB, 가장 선명하지만 GPU 부담이 큽니다.
+
+다운로드 없이 내장 추정을 계속 사용하려면 이 창을 닫으십시오. 나중에 RiShade 페이지에서 변경할 수 있습니다.</value>
+  </data>
 </root>

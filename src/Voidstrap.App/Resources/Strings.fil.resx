@@ -8004,4 +8004,49 @@ Ipadala mo ang file na iyon sa tumutulong sa iyo. Inalis dito ang mga personal n
   <data name="PrivateServers.Count" xml:space="preserve">
     <value>Mga server: {0}</value>
   </data>
+  <data name="Ui.RiShade.DepthModel.Title" xml:space="preserve">
+    <value>AI depth model</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Description" xml:space="preserve">
+    <value>Binibigyan ang mga depth effect gaya ng ambient occlusion, depth of field at reflection ng tunay na pakiramdam ng layo. Mas malinaw ang mas malalaking model pero mas maraming oras ng GPU ang ginagamit. Magkakabisa ang mga pagbabago sa susunod na pagbukas ng Roblox.</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Off" xml:space="preserve">
+    <value>Naka-off, built in na tantiya</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Small" xml:space="preserve">
+    <value>Maliit ({0} MB, pinakamabilis)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Base" xml:space="preserve">
+    <value>Katamtaman ({0} MB, mas malinaw)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Large" xml:space="preserve">
+    <value>Malaki ({0} MB, pinakamalinaw, mabigat)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.SmallShort" xml:space="preserve">
+    <value>Maliit</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.BaseShort" xml:space="preserve">
+    <value>Katamtaman</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.LargeShort" xml:space="preserve">
+    <value>Malaki</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Downloading" xml:space="preserve">
+    <value>Dina-download ang depth model: {0}%</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Ready" xml:space="preserve">
+    <value>Handa na ang depth model. Gagamitin ito sa susunod na pagbukas ng Roblox.</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Failed" xml:space="preserve">
+    <value>Hindi ma-download ang depth model: {0}</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Prompt" xml:space="preserve">
+    <value>Pumili ng AI depth model para sa RiShade. Mas maganda ang mga effect na kailangan ng depth, gaya ng ambient occlusion at depth of field, kapag may model.
+
+Maliit: {0} MB, pinakamabilis.
+Katamtaman: {1} MB, mas malinaw.
+Malaki: {2} MB, pinakamalinaw pero mabigat sa GPU.
+
+Isara ang window na ito para manatili sa built in na tantiya nang walang download. Mapapalitan mo ito mamaya sa RiShade page.</value>
+  </data>
 </root>

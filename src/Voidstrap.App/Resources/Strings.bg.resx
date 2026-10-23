@@ -8006,4 +8006,49 @@ Voidstrap не можа да запише в папката на работни�
   <data name="PrivateServers.Count" xml:space="preserve">
     <value>Сървъри: {0}</value>
   </data>
+  <data name="Ui.RiShade.DepthModel.Title" xml:space="preserve">
+    <value>ИИ модел за дълбочина</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Description" xml:space="preserve">
+    <value>Дава на ефектите за дълбочина, като засенчване на околната среда, дълбочина на рязкост и отражения, истинско усещане за разстояние. По-големите модели са по-ясни, но използват повече време на GPU. Промените се прилагат при следващото стартиране на Roblox.</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Off" xml:space="preserve">
+    <value>Изключен, вградена оценка</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Small" xml:space="preserve">
+    <value>Малък ({0} MB, най-бърз)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Base" xml:space="preserve">
+    <value>Среден ({0} MB, по-ясен)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Large" xml:space="preserve">
+    <value>Голям ({0} MB, най-ясен, тежък)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.SmallShort" xml:space="preserve">
+    <value>Малък</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.BaseShort" xml:space="preserve">
+    <value>Среден</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.LargeShort" xml:space="preserve">
+    <value>Голям</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Downloading" xml:space="preserve">
+    <value>Изтегляне на модела за дълбочина: {0}%</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Ready" xml:space="preserve">
+    <value>Моделът за дълбочина е готов. Ще се използва при следващото стартиране на Roblox.</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Failed" xml:space="preserve">
+    <value>Моделът за дълбочина не можа да бъде изтеглен: {0}</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Prompt" xml:space="preserve">
+    <value>Изберете ИИ модел за дълбочина за RiShade. Ефектите, които се нуждаят от дълбочина, като засенчване на околната среда и дълбочина на рязкост, изглеждат много по-добре с него.
+
+Малък: {0} MB, най-бърз.
+Среден: {1} MB, по-ясен.
+Голям: {2} MB, най-ясен, но натоварва силно GPU.
+
+Затворете този прозорец, за да запазите вградената оценка без изтегляне. Можете да промените това по-късно на страницата на RiShade.</value>
+  </data>
 </root>

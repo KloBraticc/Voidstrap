@@ -8007,4 +8007,49 @@ Envie esse arquivo para quem está te ajudando. Dados pessoais, como o nome de u
   <data name="PrivateServers.Count" xml:space="preserve">
     <value>Servidores: {0}</value>
   </data>
+  <data name="Ui.RiShade.DepthModel.Title" xml:space="preserve">
+    <value>Modelo de profundidade com IA</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Description" xml:space="preserve">
+    <value>Dá aos efeitos de profundidade, como oclusão ambiente, profundidade de campo e reflexos, uma noção real de distância. Modelos maiores são mais nítidos, mas usam mais tempo de GPU. As mudanças valem na próxima vez que o Roblox iniciar.</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Off" xml:space="preserve">
+    <value>Desativado, estimativa integrada</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Small" xml:space="preserve">
+    <value>Pequeno ({0} MB, mais rápido)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Base" xml:space="preserve">
+    <value>Médio ({0} MB, mais nítido)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Large" xml:space="preserve">
+    <value>Grande ({0} MB, o mais nítido, pesado)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.SmallShort" xml:space="preserve">
+    <value>Pequeno</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.BaseShort" xml:space="preserve">
+    <value>Médio</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.LargeShort" xml:space="preserve">
+    <value>Grande</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Downloading" xml:space="preserve">
+    <value>Baixando o modelo de profundidade: {0}%</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Ready" xml:space="preserve">
+    <value>O modelo de profundidade está pronto. Ele será usado na próxima vez que o Roblox iniciar.</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Failed" xml:space="preserve">
+    <value>Não foi possível baixar o modelo de profundidade: {0}</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Prompt" xml:space="preserve">
+    <value>Escolha um modelo de profundidade com IA para o RiShade. Efeitos que precisam de profundidade, como oclusão ambiente e profundidade de campo, ficam muito melhores com um.
+
+Pequeno: {0} MB, mais rápido.
+Médio: {1} MB, mais nítido.
+Grande: {2} MB, o mais nítido, mas pesado para a GPU.
+
+Feche esta janela para manter a estimativa integrada sem baixar nada. Você pode mudar isso depois na página do RiShade.</value>
+  </data>
 </root>

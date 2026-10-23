@@ -5,6 +5,7 @@
 #include "reshade_imgui.h"
 #include "state.h"
 #include "depth/depth.h"
+#include "depth/scene_depth.h"
 
 #include <cstdarg>
 #include <cstdint>
@@ -20,6 +21,8 @@ namespace
 {
 HMODULE module = nullptr;
 std::wstring directory;
+std::wstring modelFile;
+bool usingModel = false;
 int depthSize = kDefaultDepthSize;
 bool registered = false;
 bool attempted = false;
@@ -74,6 +77,51 @@ std::wstring ExeDirectory()
     return directory;
 }
 
+std::wstring ModelFile()
+{
+    return modelFile;
+}
+
+namespace
+{
+bool StartScene()
+{
+    usingModel = false;
+    return SceneInitDepth();
+}
+
+bool ActiveEnabled()
+{
+    return usingModel ? DepthEnabled() : SceneDepthEnabled();
+}
+
+void ActiveRelease()
+{
+    if (usingModel)
+        ReleaseDepthDevice();
+    else
+        SceneReleaseDepthDevice();
+}
+
+void ActiveShutdown()
+{
+    if (usingModel)
+        ShutdownDepth();
+    else
+        SceneShutdownDepth();
+}
+}
+
+extern "C" __declspec(dllexport) void RiShadeDepthBridgeSetModel(const wchar_t* file)
+{
+    modelFile = file ? file : L"";
+}
+
+extern "C" __declspec(dllexport) bool RiShadeDepthBridgeUsingModel()
+{
+    return initialized && usingModel;
+}
+
 void Log(LogLevel, const wchar_t* format, ...)
 {
     va_list args;
@@ -117,7 +165,11 @@ extern "C" __declspec(dllexport) bool RiShadeDepthBridgeInitialize(ID3D11Device*
         if (!directory.empty() && directory.back() != L'\\' && directory.back() != L'/')
             directory += L'\\';
         registered = reshade::register_addon(module);
-        initialized = registered && InitDepth();
+        if (registered)
+        {
+            usingModel = !modelFile.empty() && InitDepth();
+            initialized = usingModel || StartScene();
+        }
     }
     catch (...)
     {
@@ -137,12 +189,26 @@ extern "C" __declspec(dllexport) bool RiShadeDepthBridgeUpdate(ID3D11ShaderResou
         const auto texture = resource.try_as<ID3D11Texture2D>();
         if (!texture)
             return false;
-        UpdateDepth(texture.get(), timestamp);
-        return DepthEnabled();
+        if (usingModel)
+        {
+            UpdateDepth(texture.get(), timestamp);
+            if (DepthEnabled())
+                return true;
+            Log(LogLevel::Warning, L"The depth model stopped, switching to scene depth estimation");
+            ReleaseDepthDevice();
+            ShutdownDepth();
+            if (!StartScene())
+            {
+                initialized = false;
+                return false;
+            }
+        }
+        SceneUpdateDepth(texture.get(), timestamp);
+        return SceneDepthEnabled();
     }
     catch (...)
     {
-        ReleaseDepthDevice();
+        ActiveRelease();
         return false;
     }
 }
@@ -155,7 +221,7 @@ extern "C" __declspec(dllexport) bool RiShadeDepthBridgeSetDevice(ID3D11Device* 
 extern "C" __declspec(dllexport) void RiShadeDepthBridgeReleaseDevice()
 {
     if (initialized)
-        ReleaseDepthDevice();
+        ActiveRelease();
     g.context = nullptr;
     g.device = nullptr;
 }
@@ -164,9 +230,10 @@ extern "C" __declspec(dllexport) void RiShadeDepthBridgeShutdown()
 {
     if (initialized)
     {
-        ReleaseDepthDevice();
-        ShutdownDepth();
+        ActiveRelease();
+        ActiveShutdown();
         initialized = false;
+        usingModel = false;
     }
     g.context = nullptr;
     g.device = nullptr;

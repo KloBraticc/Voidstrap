@@ -8007,4 +8007,49 @@ Lähetä tiedosto sille, joka auttaa sinua. Henkilötiedot, kuten tietokoneesi k
   <data name="PrivateServers.Count" xml:space="preserve">
     <value>Palvelimet: {0}</value>
   </data>
+  <data name="Ui.RiShade.DepthModel.Title" xml:space="preserve">
+    <value>Tekoälyn syvyysmalli</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Description" xml:space="preserve">
+    <value>Antaa syvyystehosteille, kuten ympäristön varjostukselle, syväterävyydelle ja heijastuksille, todellisen etäisyyden tunnun. Suuremmat mallit ovat terävämpiä mutta käyttävät enemmän GPU-aikaa. Muutokset tulevat voimaan, kun Roblox käynnistyy seuraavan kerran.</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Off" xml:space="preserve">
+    <value>Pois, sisäänrakennettu arvio</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Small" xml:space="preserve">
+    <value>Pieni ({0} Mt, nopein)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Base" xml:space="preserve">
+    <value>Keskikokoinen ({0} Mt, terävämpi)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Large" xml:space="preserve">
+    <value>Suuri ({0} Mt, terävin, raskas)</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.SmallShort" xml:space="preserve">
+    <value>Pieni</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.BaseShort" xml:space="preserve">
+    <value>Keskikokoinen</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.LargeShort" xml:space="preserve">
+    <value>Suuri</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Downloading" xml:space="preserve">
+    <value>Ladataan syvyysmallia: {0} %</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Ready" xml:space="preserve">
+    <value>Syvyysmalli on valmis. Sitä käytetään, kun Roblox käynnistyy seuraavan kerran.</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Failed" xml:space="preserve">
+    <value>Syvyysmallia ei voitu ladata: {0}</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.Prompt" xml:space="preserve">
+    <value>Valitse RiShadelle tekoälyn syvyysmalli. Syvyyttä tarvitsevat tehosteet, kuten ympäristön varjostus ja syväterävyys, näyttävät sen kanssa paljon paremmilta.
+
+Pieni: {0} Mt, nopein.
+Keskikokoinen: {1} Mt, terävämpi.
+Suuri: {2} Mt, terävin mutta raskas GPU:lle.
+
+Sulje tämä ikkuna, jos haluat pitää sisäänrakennetun arvion ilman latausta. Voit muuttaa tätä myöhemmin RiShade-sivulla.</value>
+  </data>
 </root>

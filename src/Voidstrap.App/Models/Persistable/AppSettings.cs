@@ -17,6 +17,7 @@ namespace Voidstrap.Models.Persistable
         public BootstrapperIcon BootstrapperIcon { get; set; } = BootstrapperIcon.IconVoidstrap;
         public BootstrapperIcon StudioBootstrapperIcon { get; set; }
         public bool RiShadeEnabled { get; set; } = false;
+        public string RiShadeDepthModel { get; set; } = "Off";
         public bool StudioReShadeEnabled { get; set; } = false;
         public int AntiAliasingMethodIndex { get; set; } = 0;
         public int MotionBlurStrengthIndex { get; set; } = 0;
