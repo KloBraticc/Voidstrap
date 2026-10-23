@@ -1034,7 +1034,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             BreadcrumbPanel.Visibility = content is LibraryPage or PrivateServersPage ? Visibility.Collapsed : Visibility.Visible;
         }
         bool hasOwnSidebar = content is LibraryPage or PrivateServersPage;
-        RootNavigation.Visibility = hasOwnSidebar ? Visibility.Collapsed : Visibility.Visible;
+        SetRootNavigationShown(!hasOwnSidebar);
         SynchronizeSidebarSelection(content);
         SidebarGroup.RefreshActiveChild(MoreNavItem);
         Dispatcher.BeginInvoke(new Action(SynchronizeCurrentSidebarSelection), DispatcherPriority.Loaded);
@@ -4943,6 +4943,50 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 item.FontSize = font;
             }
         }
+    }
+
+    private bool? _rootNavigationShown;
+
+    private void SetRootNavigationShown(bool shown)
+    {
+        if (_rootNavigationShown == shown)
+            return;
+        bool firstApply = _rootNavigationShown == null;
+        _rootNavigationShown = shown;
+        SidebarHost.BeginAnimation(WidthProperty, null);
+        RootNavigation.BeginAnimation(OpacityProperty, null);
+        if (firstApply || !IsLoaded)
+        {
+            RootNavigation.Visibility = shown ? Visibility.Visible : Visibility.Collapsed;
+            return;
+        }
+        double from = SidebarHost.ActualWidth;
+        if (shown)
+            RootNavigation.Visibility = Visibility.Visible;
+        double navigationWidth = double.IsNaN(RootNavigation.Width) ? SidebarDefaultWidth : RootNavigation.Width;
+        double to = shown ? Math.Max(navigationWidth, SidebarResizer.Width) : SidebarResizer.Width;
+        SidebarHost.ClipToBounds = true;
+        CubicEase ease = new CubicEase { EasingMode = EasingMode.EaseInOut };
+        DoubleAnimation slide = new DoubleAnimation(from, to, TimeSpan.FromMilliseconds(220))
+        {
+            EasingFunction = ease,
+            FillBehavior = FillBehavior.HoldEnd
+        };
+        slide.Completed += RootNavigationSlide_Completed;
+        RootNavigation.BeginAnimation(OpacityProperty, new DoubleAnimation(shown ? 0.0 : 1.0, shown ? 1.0 : 0.0, TimeSpan.FromMilliseconds(220))
+        {
+            EasingFunction = ease,
+            FillBehavior = FillBehavior.Stop
+        });
+        SidebarHost.BeginAnimation(WidthProperty, slide);
+    }
+
+    private void RootNavigationSlide_Completed(object? sender, EventArgs e)
+    {
+        if (_rootNavigationShown == false)
+            RootNavigation.Visibility = Visibility.Collapsed;
+        SidebarHost.BeginAnimation(WidthProperty, null);
+        SidebarHost.ClipToBounds = false;
     }
 
     private void SaveSidebarWidth()
