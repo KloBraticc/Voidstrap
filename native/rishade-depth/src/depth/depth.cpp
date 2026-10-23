@@ -57,6 +57,11 @@ static const float SpatialSigma = 1.0;
 static const float ColorSigma = 0.1;
 static const uint Bins = 256;
 static const float ReferenceShare = 0.02;
+static const float SkyStart = 0.03;
+static const float SkyRange = 0.05;
+static const float EdgeStart = 0.08;
+static const float EdgeRange = 0.15;
+static const float SurfaceSigma = 0.05;
 
 void Store(uint index, float value)
 {
@@ -168,23 +173,47 @@ void Upsample(uint3 id : SV_DispatchThreadID)
     float3 color = Source.Load(int3(id.xy, 0)).rgb;
     float2 position = (id.xy + 0.5) * ModelSize / SourceSize - 0.5;
     int2 corner = int2(floor(position)) - 1;
-    float sum = 0;
-    float weights = 0;
-    for (int y = 0; y < 4; ++y)
-        for (int x = 0; x < 4; ++x)
-        {
-            int2 texel = corner + int2(x, y);
-            float2 offset = texel - position;
-            texel = clamp(texel, 0, int2(ModelSize) - 1);
-            float3 difference = Guide.Load(int3(texel, 0)).rgb - color;
-            float weight = exp(-dot(offset, offset) / (2 * SpatialSigma * SpatialSigma)) *
-                           (exp(-dot(difference, difference) / (2 * ColorSigma * ColorSigma)) + 1e-3);
-            sum += weight * Load(texel.y * ModelSize.x + texel.x);
-            weights += weight;
-        }
+    float values[16];
+    float spatial[16];
+    float tones[16];
+    float mean = 0;
+    float total = 0;
+    float lowest = 1e9;
+    float highest = -1e9;
+    for (uint k = 0; k < 16; ++k)
+    {
+        int2 texel = corner + int2(k % 4, k / 4);
+        float2 offset = texel - position;
+        texel = clamp(texel, 0, int2(ModelSize) - 1);
+        float3 difference = Guide.Load(int3(texel, 0)).rgb - color;
+        values[k] = Load(texel.y * ModelSize.x + texel.x);
+        spatial[k] = exp(-dot(offset, offset) / (2 * SpatialSigma * SpatialSigma));
+        tones[k] = exp(-dot(difference, difference) / (2 * ColorSigma * ColorSigma)) + 1e-3;
+        mean += spatial[k] * values[k];
+        total += spatial[k];
+        lowest = min(lowest, values[k]);
+        highest = max(highest, values[k]);
+    }
+    mean /= total;
+    float edge = saturate(((highest - lowest) / max(abs(mean), 1e-6) - EdgeStart) / EdgeRange);
+    float surface = 0;
+    float surfaceWeights = 0;
+    float snapped = 0;
+    float snappedWeights = 0;
+    for (uint j = 0; j < 16; ++j)
+    {
+        float relative = (values[j] - mean) / max(abs(mean) * SurfaceSigma, 1e-6);
+        float weight = spatial[j] * exp(-0.5 * relative * relative);
+        surface += weight * values[j];
+        surfaceWeights += weight;
+        snapped += spatial[j] * tones[j] * values[j];
+        snappedWeights += spatial[j] * tones[j];
+    }
+    float value = lerp(surface / max(surfaceWeights, 1e-6), snapped / snappedWeights, edge);
 
-    float closeness = sum / weights / max(Smoothed[0].x, 1e-6);
+    float closeness = value / max(Smoothed[0].x, 1e-6);
     float distance01 = Nearest / max(closeness, Nearest);
+    distance01 = lerp(distance01, 1, 1 - saturate((closeness - SkyStart) / SkyRange));
     Depth[id.xy] = distance01 * FarPlane / (1 + distance01 * (FarPlane - 1));
 }
 )";
@@ -233,6 +262,10 @@ static const float TemporalResponse = 6.0;
 static const int RefineRadius = 2;
 static const int RefineStride = 2;
 static const float RefineColor = 0.08;
+static const float RefineEdgeStart = 0.08;
+static const float RefineEdgeRange = 0.15;
+static const float RefineSurfaceSigma = 0.05;
+static const float LinearFar = 1000.0;
 static const float StaleStart = 0.04;
 static const float StaleRange = 0.06;
 static const int ErodeRadius = 1;
@@ -679,6 +712,16 @@ void Spread(uint3 id : SV_DispatchThreadID)
     MaskTarget[id.xy] = sum / count;
 }
 
+float Linear(float depth)
+{
+    return depth / max(LinearFar - depth * (LinearFar - 1), 1e-6);
+}
+
+float Encoded(float distance01)
+{
+    return distance01 * LinearFar / (1 + distance01 * (LinearFar - 1));
+}
+
 [numthreads(16, 16, 1)]
 void Refine(uint3 id : SV_DispatchThreadID)
 {
@@ -687,18 +730,42 @@ void Refine(uint3 id : SV_DispatchThreadID)
     int2 p = int2(id.xy);
     int2 size = int2(SourceSize);
     float3 centre = Color.Load(int3(p, 0)).rgb;
-    float sum = 0;
-    float weights = 0;
-    for (int dy = -RefineRadius; dy <= RefineRadius; ++dy)
-        for (int dx = -RefineRadius; dx <= RefineRadius; ++dx)
-        {
-            int2 q = clamp(p + int2(dx, dy) * RefineStride, 0, size - 1);
-            float3 difference = Color.Load(int3(q, 0)).rgb - centre;
-            float weight = exp(-dot(difference, difference) / (2 * RefineColor * RefineColor)) * exp(-(dx * dx + dy * dy) / 4.0);
-            sum += weight * Warped.Load(int3(q, 0)).x;
-            weights += weight;
-        }
-    float current = sum / weights;
+    float values[25];
+    float spatial[25];
+    float tones[25];
+    float mean = 0;
+    float total = 0;
+    float lowest = 1e9;
+    float highest = -1e9;
+    for (uint k = 0; k < 25; ++k)
+    {
+        int2 offset = int2(k % 5, k / 5) - RefineRadius;
+        int2 q = clamp(p + offset * RefineStride, 0, size - 1);
+        float3 difference = Color.Load(int3(q, 0)).rgb - centre;
+        values[k] = Linear(Warped.Load(int3(q, 0)).x);
+        spatial[k] = exp(-dot(float2(offset), float2(offset)) / 4.0);
+        tones[k] = exp(-dot(difference, difference) / (2 * RefineColor * RefineColor));
+        mean += spatial[k] * values[k];
+        total += spatial[k];
+        lowest = min(lowest, values[k]);
+        highest = max(highest, values[k]);
+    }
+    mean /= total;
+    float edge = saturate(((highest - lowest) / max(highest, 1e-6) - RefineEdgeStart) / RefineEdgeRange);
+    float surface = 0;
+    float surfaceWeights = 0;
+    float snapped = 0;
+    float snappedWeights = 0;
+    for (uint j = 0; j < 25; ++j)
+    {
+        float relative = (values[j] - mean) / max(mean * RefineSurfaceSigma, 1e-6);
+        float weight = spatial[j] * exp(-0.5 * relative * relative);
+        surface += weight * values[j];
+        surfaceWeights += weight;
+        snapped += spatial[j] * tones[j] * values[j];
+        snappedWeights += spatial[j] * tones[j];
+    }
+    float current = Encoded(lerp(surface / max(surfaceWeights, 1e-6), snapped / max(snappedWeights, 1e-6), edge));
     float previous = Depth[id.xy];
     float change = abs(current - previous) / max(max(current, previous), 1e-4);
     Depth[id.xy] = Flags & Exact ? current : lerp(previous, current, saturate(TemporalBase + change * TemporalResponse));
