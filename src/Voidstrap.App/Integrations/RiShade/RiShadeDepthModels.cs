@@ -127,6 +127,8 @@ namespace Voidstrap.Integrations.RiShade
         public static string? ActiveFastModelFile =>
             Selected is RiShadeDepthModel.Off or FastModel ? null : InstalledModelFile(FastModel);
 
+        public static bool ExactDepth => Selected == FastModel;
+
         private const RiShadeDepthModel FastModel = RiShadeDepthModel.Small;
 
         private static string? InstalledModelFile(RiShadeDepthModel model)

@@ -240,6 +240,7 @@ static const int DilateRadius = 2;
 static const uint Composed = 1;
 static const uint Advance = 2;
 static const uint Fused = 4;
+static const uint Exact = 128;
 static const uint Reset = 8;
 static const uint Published = 16;
 static const uint DetailRows = 2;
@@ -646,7 +647,7 @@ void Warp(uint3 id : SV_DispatchThreadID)
         WarpedTarget[id.xy] = float4(saturate(fast * ratio), 0, 0, 0);
     }
     else
-        WarpedTarget[id.xy] = float4(SampleDepth(Anchor, OriginOf(work, DetailRows)), 0, 0, 0);
+        WarpedTarget[id.xy] = float4(SampleDepth(Anchor, Flags & Exact ? work : OriginOf(work, DetailRows)), 0, 0, 0);
 }
 
 [numthreads(16, 16, 1)]
@@ -700,7 +701,7 @@ void Refine(uint3 id : SV_DispatchThreadID)
     float current = sum / weights;
     float previous = Depth[id.xy];
     float change = abs(current - previous) / max(max(current, previous), 1e-4);
-    Depth[id.xy] = lerp(previous, current, saturate(TemporalBase + change * TemporalResponse));
+    Depth[id.xy] = Flags & Exact ? current : lerp(previous, current, saturate(TemporalBase + change * TemporalResponse));
 }
 )";
 
@@ -726,6 +727,8 @@ constexpr UINT kAdvance = 2;
 constexpr UINT kFused = 4;
 constexpr UINT kReset = 8;
 constexpr UINT kPublished = 16;
+constexpr UINT kExact = 128;
+constexpr DWORD kExactTimeoutMs = 100;
 constexpr UINT kLaneShift = 2;
 constexpr UINT kAffineRows = 18;
 constexpr size_t kDetail = 0;
@@ -787,6 +790,7 @@ struct Lane
 
     std::thread worker;
     HANDLE request = nullptr;
+    HANDLE finished = nullptr;
     std::atomic<bool> stopping = false;
     std::atomic<bool> busy = false;
     std::atomic<bool> done = false;
@@ -1021,6 +1025,7 @@ void Worker(Lane& l)
             if (!l.enabled)
             {
                 l.done = true;
+                SetEvent(l.finished);
                 continue;
             }
             if (!l.d3d12)
@@ -1088,6 +1093,7 @@ void Worker(Lane& l)
             }
         }
         l.done = true;
+        SetEvent(l.finished);
     }
 }
 
@@ -1476,11 +1482,40 @@ void Publish(Lane& l)
     l.published = true;
 }
 
+bool ExactActive()
+{
+    return ExactDepth() && !Fast().enabled;
+}
+
+void TrackExact()
+{
+    Lane& detail = Detail();
+    detail.resetPending = false;
+    detail.published = false;
+    if (!detail.anchored)
+        return;
+    const UINT constants[8] = { d.sourceWidth, d.sourceHeight, d.workWidth, d.workHeight, kExact };
+    g.context->UpdateSubresource(d.trackSizes.get(), 0, nullptr, constants, 0, 0);
+    const UINT sourceGroupsX = (d.sourceWidth + 15) / 16;
+    const UINT sourceGroupsY = (d.sourceHeight + 15) / 16;
+    Dispatch(kWarp, { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, detail.anchor.view.get() },
+             { nullptr, nullptr, nullptr, nullptr, nullptr, d.warped.target.get() }, sourceGroupsX, sourceGroupsY);
+    Dispatch(kRefine, { d.liveView.get(), nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.warped.view.get() },
+             { nullptr, nullptr, nullptr, nullptr, d.textureTarget.get() }, sourceGroupsX, sourceGroupsY);
+}
+
 void Track(ID3D11Texture2D* frame, int64_t frameTimestamp)
 {
     if (!d.texture || !d.liveCopy || (d.lastTracked && *d.lastTracked == frameTimestamp))
         return;
     d.lastTracked = frameTimestamp;
+    if (ExactActive())
+    {
+        g.context->CopyResource(d.liveCopy.get(), frame);
+        d.tracking = false;
+        TrackExact();
+        return;
+    }
     g.context->CopyResource(d.liveCopy.get(), frame);
     const UINT workGroupsX = (d.workWidth + 15) / 16;
     const UINT workGroupsY = (d.workHeight + 15) / 16;
@@ -1596,6 +1631,7 @@ bool InitDepth()
         if (!l.enabled)
             continue;
         l.request = CreateEventW(nullptr, FALSE, FALSE, nullptr);
+        l.finished = CreateEventW(nullptr, FALSE, FALSE, nullptr);
         l.worker = std::thread(Worker, std::ref(l));
     }
     d.enabled = true;
@@ -1685,6 +1721,74 @@ bool Schedule(Lane& l, ID3D11Texture2D* frame, int64_t frameTimestamp)
     return true;
 }
 
+bool WaitLane(Lane& l)
+{
+    return l.done || WaitForSingleObject(l.finished, kExactTimeoutMs) == WAIT_OBJECT_0 || l.done;
+}
+
+bool ScheduleExact(Lane& l, ID3D11Texture2D* frame, int64_t frameTimestamp)
+{
+    if (l.busy)
+    {
+        if (l.inputValue ? !WaitLane(l) : !l.done)
+            return true;
+        if (l.failed)
+        {
+            l.done = false;
+            l.busy = false;
+            l.failed = false;
+            return false;
+        }
+        l.done = false;
+        l.busy = false;
+    }
+    if (D3D12Removed(l))
+    {
+        ReleaseLaneShared(l);
+        l.fence = nullptr;
+        l.modelWidth = l.modelHeight = 0;
+    }
+    if (l.lastInput && *l.lastInput == frameTimestamp)
+        return true;
+    if (l.modelWidth != l.width || l.modelHeight != l.height)
+    {
+        ResetEvent(l.finished);
+        Request(l, 0);
+        return true;
+    }
+    if (!d.texture)
+        CreateCommon();
+    if (!l.input)
+        CreateLaneShared(l);
+
+    g.context->CopyResource(l.frameCopy.get(), frame);
+    l.paired = false;
+    Dispatch(0, { l.frameView.get() }, { l.inputTarget.get(), nullptr, nullptr, nullptr, l.guideTarget.get() }, (l.width + 15) / 16, (l.height + 15) / 16,
+             l.sizes.get());
+    l.fenceValue += 2;
+    winrt::check_hresult(g.context.as<ID3D11DeviceContext4>()->Signal(l.fence.get(), l.fenceValue - 1));
+    g.context->Flush();
+    ResetEvent(l.finished);
+    Request(l, l.fenceValue - 1);
+    l.lastInput = frameTimestamp;
+    if (!WaitLane(l))
+        return true;
+    if (l.failed)
+    {
+        l.done = false;
+        l.busy = false;
+        l.failed = false;
+        return false;
+    }
+    l.done = false;
+    l.busy = false;
+    if (D3D12Removed(l))
+        return true;
+    Publish(l);
+    g.frameStatistics.RecordDepth(std::chrono::duration<double, std::milli>(FrameStatistics::Clock::now() - l.requestedAt).count(), l.workerMs.load());
+    return true;
+}
+
 void ScheduleAll(ID3D11Texture2D* frame, int64_t frameTimestamp)
 {
     if (!d.shaders[0])
@@ -1693,7 +1797,7 @@ void ScheduleAll(ID3D11Texture2D* frame, int64_t frameTimestamp)
     frame->GetDesc(&desc);
     if (desc.Width != d.sourceWidth || desc.Height != d.sourceHeight || Detail().size != DepthSize())
         Resize(desc);
-    if (!Schedule(Detail(), frame, frameTimestamp))
+    if (!(ExactActive() ? ScheduleExact(Detail(), frame, frameTimestamp) : Schedule(Detail(), frame, frameTimestamp)))
     {
         Stop();
         return;
@@ -1765,10 +1869,10 @@ void ShutdownDepth()
             l.worker.join();
         }
         ReleaseD3D12(l);
-        for (HANDLE handle : { l.inputHandle, l.outputHandle, l.request })
+        for (HANDLE handle : { l.inputHandle, l.outputHandle, l.request, l.finished })
             if (handle)
                 CloseHandle(handle);
-        l.inputHandle = l.outputHandle = l.request = nullptr;
+        l.inputHandle = l.outputHandle = l.request = l.finished = nullptr;
         l.enabled = false;
         l.stopping = false;
         l.busy = false;

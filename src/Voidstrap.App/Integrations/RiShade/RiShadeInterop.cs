@@ -40,6 +40,9 @@ namespace Voidstrap.Integrations.RiShade
         [LibraryImport("rishade_depth_bridge", EntryPoint = "RiShadeDepthBridgeSetFastModel", StringMarshalling = StringMarshalling.Utf16)]
         public static partial void DepthBridgeSetFastModel(string modelFile);
 
+        [LibraryImport("rishade_depth_bridge", EntryPoint = "RiShadeDepthBridgeSetExact")]
+        public static partial void DepthBridgeSetExact([MarshalAs(UnmanagedType.I1)] bool exact);
+
         [LibraryImport("rishade_depth_bridge", EntryPoint = "RiShadeDepthBridgeReload", StringMarshalling = StringMarshalling.Utf16)]
         [return: MarshalAs(UnmanagedType.I1)]
         public static partial bool DepthBridgeReload(string modelFile);

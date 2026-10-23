@@ -25,6 +25,7 @@ HMODULE module = nullptr;
 std::wstring directory;
 std::wstring modelFile;
 std::wstring fastModelFile;
+bool exactDepth = false;
 bool usingModel = false;
 int depthSize = kDefaultDepthSize;
 bool registered = false;
@@ -101,6 +102,11 @@ std::wstring FastModelFile()
     return fastModelFile;
 }
 
+bool ExactDepth()
+{
+    return exactDepth;
+}
+
 namespace
 {
 bool StartScene()
@@ -153,6 +159,11 @@ extern "C" __declspec(dllexport) void RiShadeDepthBridgeSetModel(const wchar_t* 
 extern "C" __declspec(dllexport) void RiShadeDepthBridgeSetFastModel(const wchar_t* file)
 {
     fastModelFile = file ? file : L"";
+}
+
+extern "C" __declspec(dllexport) void RiShadeDepthBridgeSetExact(bool exact)
+{
+    exactDepth = exact;
 }
 
 extern "C" __declspec(dllexport) bool RiShadeDepthBridgeReload(const wchar_t* file)

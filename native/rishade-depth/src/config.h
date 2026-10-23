@@ -10,3 +10,4 @@ void SetDepthSize(int size);
 std::wstring ExeDirectory();
 std::wstring ModelFile();
 std::wstring FastModelFile();
+bool ExactDepth();
