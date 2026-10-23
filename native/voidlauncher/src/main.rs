@@ -189,21 +189,26 @@ fn unpack() -> Option<PathBuf> {
     let base = Path::new(&env::var_os("LOCALAPPDATA")?).join("Voidstrap").join("Bin");
     let directory = base.join(PAYLOAD_DIR);
     let app = directory.join("Voidstrap.exe");
-    if fs::metadata(&app).map(|meta| meta.len() == bytes.len() as u64).unwrap_or(false) {
-        return Some(app);
+    if !fs::metadata(&app).map(|meta| meta.len() == bytes.len() as u64).unwrap_or(false) {
+        fs::create_dir_all(&directory).ok()?;
+        let temporary = directory.join(format!("Voidstrap.{}.tmp", std::process::id()));
+        if fs::write(&temporary, bytes).is_err() || fs::rename(&temporary, &app).is_err() {
+            let _ = fs::remove_file(&temporary);
+            if !fs::metadata(&app).map(|meta| meta.len() == bytes.len() as u64).unwrap_or(false) {
+                return None;
+            }
+        }
     }
-    fs::create_dir_all(&directory).ok()?;
-    let temporary = directory.join(format!("Voidstrap.{}.tmp", std::process::id()));
-    if fs::write(&temporary, bytes).is_err() || fs::rename(&temporary, &app).is_err() {
-        let _ = fs::remove_file(&temporary);
-        return fs::metadata(&app).map(|meta| meta.len() == bytes.len() as u64).unwrap_or(false).then_some(app);
-    }
-    if let Ok(entries) = fs::read_dir(&base) {
+    remove_old_versions(&base);
+    Some(app)
+}
+
+fn remove_old_versions(base: &Path) {
+    if let Ok(entries) = fs::read_dir(base) {
         for entry in entries.filter_map(Result::ok) {
             if entry.file_name() != OsStr::new(PAYLOAD_DIR) && entry.path().is_dir() {
                 let _ = fs::remove_dir_all(entry.path());
             }
         }
     }
-    Some(app)
 }
