@@ -429,6 +429,7 @@
       <Button x:Name="TopNavHome" Content="{resources:Loc Ui_Main_TabHome}" Style="{StaticResource TopNavButtonStyle}" Click="TopNavHome_Click" />
       <Button x:Name="TopNavLibrary" Content="{resources:Loc Ui_Main_TabLibrary}" Style="{StaticResource TopNavButtonStyle}" Click="TopNavLibrary_Click" />
       <Button x:Name="TopNavServers" Content="{resources:Loc Ui_Main_TabServers}" Style="{StaticResource TopNavButtonStyle}" Click="TopNavServers_Click" />
+      <Button x:Name="TopNavNews" Content="{resources:Loc Ui_Main_TabNews}" Style="{StaticResource TopNavButtonStyle}" Click="TopNavNews_Click" />
     </StackPanel>
     <vscontrols:AnimatedPopup x:Name="AppMenuPopup" PlacementTarget="{Binding ElementName=AppMenuButton}" Placement="Bottom" LightDismiss="True" AllowsTransparency="True" HorizontalOffset="-8" VerticalOffset="-4">
       <Border Margin="12" MinWidth="220" Background="{DynamicResource LauncherMenuBrush}" BorderBrush="{StaticResource LauncherMenuBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="6" TextElement.FontSize="13.5" TextElement.Foreground="{StaticResource LauncherTextPrimaryBrush}">
