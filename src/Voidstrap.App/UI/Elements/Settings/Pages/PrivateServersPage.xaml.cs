@@ -35,6 +35,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
         {
             Visibility labels = iconsOnly ? Visibility.Collapsed : Visibility.Visible;
             SidebarTabsRow.Visibility = labels;
+            SidebarTabsIcons.Visibility = iconsOnly ? Visibility.Visible : Visibility.Collapsed;
             SidebarSearchBox.Visibility = labels;
             SidebarRefreshRow.Visibility = labels;
             SidebarList.Tag = iconsOnly ? "icons" : "full";

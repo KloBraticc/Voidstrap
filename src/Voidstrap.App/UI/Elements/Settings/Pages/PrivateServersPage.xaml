@@ -95,6 +95,10 @@
         <ui:Button Margin="0,0,3,0" HorizontalAlignment="Stretch" Appearance="{Binding MineAppearance}" Content="{resources:Loc PrivateServers_Yours}" Command="{Binding ShowMineCommand}" />
         <ui:Button Margin="3,0,0,0" HorizontalAlignment="Stretch" Appearance="{Binding FriendsAppearance}" Content="{resources:Loc Ui_SessionNotify_Friends}" Command="{Binding ShowFriendsCommand}" />
       </UniformGrid>
+      <StackPanel x:Name="SidebarTabsIcons" Grid.Row="0" Margin="0,2,0,8" Visibility="Collapsed">
+        <ui:Button Margin="0,0,0,4" HorizontalAlignment="Stretch" Icon="Person24" Appearance="{Binding MineAppearance}" ToolTip="{resources:Loc PrivateServers_Yours}" Command="{Binding ShowMineCommand}" />
+        <ui:Button HorizontalAlignment="Stretch" Icon="People24" Appearance="{Binding FriendsAppearance}" ToolTip="{resources:Loc Ui_SessionNotify_Friends}" Command="{Binding ShowFriendsCommand}" />
+      </StackPanel>
       <ui:TextBox x:Name="SidebarSearchBox" Grid.Row="1" Margin="0,2,0,0" PlaceholderText="{resources:Loc Ui_Pages_SearchGames}" Icon="Search24" ClearButtonEnabled="True" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=200}" />
       <Grid x:Name="SidebarRefreshRow" Grid.Row="2" Margin="16,6,0,0">
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding StatusVisibility}" Margin="0,0,34,0">
