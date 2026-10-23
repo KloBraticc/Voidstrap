@@ -209,7 +209,8 @@ Texture2D<float4> Warped : register(t8);
 StructuredBuffer<float4> Motion : register(t9);
 Texture2D<float> Mask : register(t10);
 Texture2D<float> FastAnchor : register(t11);
-Texture2D<float> Gain : register(t12);
+Texture2D<float> Ratio : register(t12);
+Texture2D<float> RatioBlur : register(t13);
 RWTexture2D<float> LumaTarget : register(u0);
 RWTexture2D<float> QuarterTarget : register(u1);
 RWTexture2D<float2> CoarseTarget : register(u2);
@@ -243,9 +244,11 @@ static const uint Reset = 8;
 static const uint Published = 16;
 static const uint DetailRows = 2;
 static const uint FastRows = 10;
-static const int GainRadius = 4;
-static const int GainStride = 2;
-static const float GainFloor = 1e-3;
+static const int BlurRadius = 4;
+static const int BlurStride = 2;
+static const float RatioFloor = 1e-3;
+static const float RatioMin = 0.25;
+static const float RatioMax = 4.0;
 
 uint2 QuarterSize()
 {
@@ -617,59 +620,62 @@ float SampleDepth(Texture2D<float> source, float2 work)
     return lerp(lerp(a, b, t.x), lerp(c, d, t.x), t.y);
 }
 
+float RatioBlurAt(float2 position)
+{
+    int2 size = int2(WorkSize);
+    int2 base = int2(floor(position));
+    float2 t = position - base;
+    float a = RatioBlur.Load(int3(clamp(base, 0, size - 1), 0));
+    float b = RatioBlur.Load(int3(clamp(base + int2(1, 0), 0, size - 1), 0));
+    float c = RatioBlur.Load(int3(clamp(base + int2(0, 1), 0, size - 1), 0));
+    float d = RatioBlur.Load(int3(clamp(base + int2(1, 1), 0, size - 1), 0));
+    return lerp(lerp(a, b, t.x), lerp(c, d, t.x), t.y);
+}
+
 [numthreads(16, 16, 1)]
 void Warp(uint3 id : SV_DispatchThreadID)
 {
     if (any(id.xy >= SourceSize))
         return;
     float2 work = (id.xy + 0.5) * float2(WorkSize) / float2(SourceSize) - 0.5;
-    float detail = SampleDepth(Anchor, OriginOf(work, DetailRows));
     if (Flags & Fused)
-        WarpedTarget[id.xy] = float4(detail, SampleDepth(FastAnchor, OriginOf(work, FastRows)), MaskAt(work), 0);
+    {
+        float fast = SampleDepth(FastAnchor, OriginOf(work, FastRows));
+        float2 origin = OriginOf(work, DetailRows);
+        float ratio = lerp(SampleDepth(Ratio, origin), RatioBlurAt(origin), MaskAt(work));
+        WarpedTarget[id.xy] = float4(saturate(fast * ratio), 0, 0, 0);
+    }
     else
-        WarpedTarget[id.xy] = float4(detail, detail, 0, 0);
+        WarpedTarget[id.xy] = float4(SampleDepth(Anchor, OriginOf(work, DetailRows)), 0, 0, 0);
 }
 
 [numthreads(16, 16, 1)]
-void Align(uint3 id : SV_DispatchThreadID)
+void Pair(uint3 id : SV_DispatchThreadID)
+{
+    if (any(id.xy >= SourceSize))
+        return;
+    float detail = Anchor.Load(int3(id.xy, 0));
+    float fast = FastAnchor.Load(int3(id.xy, 0));
+    MaskTarget[id.xy] = clamp(detail / max(fast, RatioFloor), RatioMin, RatioMax);
+}
+
+[numthreads(16, 16, 1)]
+void Spread(uint3 id : SV_DispatchThreadID)
 {
     if (any(id.xy >= WorkSize))
         return;
     int2 size = int2(WorkSize);
-    float detail = 0;
-    float fast = 0;
-    for (int dy = -GainRadius; dy <= GainRadius; ++dy)
-        for (int dx = -GainRadius; dx <= GainRadius; ++dx)
+    float sum = 0;
+    float count = 0;
+    for (int dy = -BlurRadius; dy <= BlurRadius; ++dy)
+        for (int dx = -BlurRadius; dx <= BlurRadius; ++dx)
         {
-            int2 w = clamp(int2(id.xy) + int2(dx, dy) * GainStride, 0, size - 1);
+            int2 w = clamp(int2(id.xy) + int2(dx, dy) * BlurStride, 0, size - 1);
             int2 q = min(int2((float2(w) + 0.5) * float2(SourceSize) / float2(WorkSize)), int2(SourceSize) - 1);
-            float4 sample = Warped.Load(int3(q, 0));
-            float weight = 1 - sample.z;
-            detail += weight * sample.x;
-            fast += weight * sample.y;
+            sum += Ratio.Load(int3(q, 0));
+            count += 1;
         }
-    MaskTarget[id.xy] = fast > GainFloor ? detail / fast : 1;
-}
-
-float GainAt(float2 position)
-{
-    int2 size = int2(WorkSize);
-    int2 base = int2(floor(position));
-    float2 t = position - base;
-    float a = Gain.Load(int3(clamp(base, 0, size - 1), 0));
-    float b = Gain.Load(int3(clamp(base + int2(1, 0), 0, size - 1), 0));
-    float c = Gain.Load(int3(clamp(base + int2(0, 1), 0, size - 1), 0));
-    float d = Gain.Load(int3(clamp(base + int2(1, 1), 0, size - 1), 0));
-    return lerp(lerp(a, b, t.x), lerp(c, d, t.x), t.y);
-}
-
-float FusedAt(int2 q)
-{
-    float4 sample = Warped.Load(int3(q, 0));
-    if (!(Flags & Fused) || sample.z <= 0)
-        return sample.x;
-    float2 work = (q + 0.5) * float2(WorkSize) / float2(SourceSize) - 0.5;
-    return lerp(sample.x, saturate(sample.y * GainAt(work)), sample.z);
+    MaskTarget[id.xy] = sum / count;
 }
 
 [numthreads(16, 16, 1)]
@@ -688,7 +694,7 @@ void Refine(uint3 id : SV_DispatchThreadID)
             int2 q = clamp(p + int2(dx, dy) * RefineStride, 0, size - 1);
             float3 difference = Color.Load(int3(q, 0)).rgb - centre;
             float weight = exp(-dot(difference, difference) / (2 * RefineColor * RefineColor)) * exp(-(dx * dx + dy * dy) / 4.0);
-            sum += weight * FusedAt(q);
+            sum += weight * Warped.Load(int3(q, 0)).x;
             weights += weight;
         }
     float current = sum / weights;
@@ -699,7 +705,7 @@ void Refine(uint3 id : SV_DispatchThreadID)
 )";
 
 constexpr const char* kEntryPoints[] = { "Preprocess", "Peak", "Histogram", "Smooth", "Upsample" };
-constexpr const char* kTrackEntryPoints[] = { "Shrink", "Reduce", "MatchCoarse", "MatchFine", "Fit", "FitRefine", "Step", "Warp", "Refine", "Stale", "Erode", "Dilate", "Align" };
+constexpr const char* kTrackEntryPoints[] = { "Shrink", "Reduce", "MatchCoarse", "MatchFine", "Fit", "FitRefine", "Step", "Warp", "Refine", "Stale", "Erode", "Dilate", "Pair", "Spread" };
 constexpr size_t kShaderCount = std::size(kEntryPoints) + std::size(kTrackEntryPoints);
 constexpr size_t kShrink = std::size(kEntryPoints);
 constexpr size_t kReduce = kShrink + 1;
@@ -713,7 +719,8 @@ constexpr size_t kRefine = kShrink + 8;
 constexpr size_t kStale = kShrink + 9;
 constexpr size_t kErode = kShrink + 10;
 constexpr size_t kDilate = kShrink + 11;
-constexpr size_t kAlign = kShrink + 12;
+constexpr size_t kPair = kShrink + 12;
+constexpr size_t kSpread = kShrink + 13;
 constexpr UINT kComposed = 1;
 constexpr UINT kAdvance = 2;
 constexpr UINT kFused = 4;
@@ -793,6 +800,7 @@ struct Lane
     bool halfInput = false;
     bool halfOutput = false;
     bool distanceOutput = false;
+    bool paired = false;
 };
 
 struct Depth
@@ -823,7 +831,13 @@ struct Depth
     Surface warped;
     Surface staleRaw;
     Surface staleOpen;
-    Surface gain;
+    Surface paired;
+    Surface ratio;
+    Surface ratioBlur;
+    winrt::com_ptr<ID3D11Texture2D> pairCopy;
+    bool pairPending = false;
+    bool pairReady = false;
+    bool ratioReady = false;
     std::optional<int64_t> lastTracked;
     winrt::com_ptr<ID3D11Texture2D> texture;
     winrt::com_ptr<ID3D11UnorderedAccessView> textureTarget;
@@ -1119,7 +1133,7 @@ void CompileShaders()
     CreateShaders();
 }
 
-void Dispatch(size_t shader, std::array<ID3D11ShaderResourceView*, 13> views, std::array<ID3D11UnorderedAccessView*, 8> targets, UINT x, UINT y,
+void Dispatch(size_t shader, std::array<ID3D11ShaderResourceView*, 14> views, std::array<ID3D11UnorderedAccessView*, 8> targets, UINT x, UINT y,
               ID3D11Buffer* constants = nullptr)
 {
     ID3D11Buffer* buffers[] = { constants ? constants : d.trackSizes.get() };
@@ -1165,12 +1179,16 @@ void ReleaseShared()
     d.view = nullptr;
     d.textureTarget = nullptr;
     d.texture = nullptr;
-    for (Surface* surface : { &d.luma[0], &d.luma[1], &d.quarter[0], &d.quarter[1], &d.coarse, &d.flow, &d.warped, &d.staleRaw, &d.staleOpen, &d.gain })
+    for (Surface* surface : { &d.luma[0], &d.luma[1], &d.quarter[0], &d.quarter[1], &d.coarse, &d.flow, &d.warped, &d.staleRaw, &d.staleOpen, &d.paired, &d.ratio,
+                              &d.ratioBlur })
         *surface = {};
     d.affineView = nullptr;
     d.affineTarget = nullptr;
     d.affine = nullptr;
     d.tracking = false;
+    d.pairPending = false;
+    d.pairReady = false;
+    d.ratioReady = false;
     for (Lane& l : d.lanes)
         ReleaseLaneShared(l);
 }
@@ -1193,6 +1211,7 @@ void ReleaseResources()
         ReleaseLaneResources(l);
     d.liveView = nullptr;
     d.liveCopy = nullptr;
+    d.pairCopy = nullptr;
     d.trackSizes = nullptr;
     d.lastTracked.reset();
     for (auto& shader : d.shaders)
@@ -1274,6 +1293,8 @@ void Resize(const D3D11_TEXTURE2D_DESC& frame)
     d.liveView = nullptr;
     winrt::check_hresult(g.device->CreateTexture2D(&copy, nullptr, d.liveCopy.put()));
     winrt::check_hresult(g.device->CreateShaderResourceView(d.liveCopy.get(), nullptr, d.liveView.put()));
+    d.pairCopy = nullptr;
+    winrt::check_hresult(g.device->CreateTexture2D(&copy, nullptr, d.pairCopy.put()));
 }
 
 void CreateSurface(UINT width, UINT height, DXGI_FORMAT format, Surface& surface)
@@ -1338,7 +1359,9 @@ void CreateCommon()
     CreateSurface(d.sourceWidth, d.sourceHeight, DXGI_FORMAT_R32G32B32A32_FLOAT, d.warped);
     CreateSurface(d.workWidth, d.workHeight, DXGI_FORMAT_R32_FLOAT, d.staleRaw);
     CreateSurface(d.workWidth, d.workHeight, DXGI_FORMAT_R32_FLOAT, d.staleOpen);
-    CreateSurface(d.workWidth, d.workHeight, DXGI_FORMAT_R32_FLOAT, d.gain);
+    CreateSurface(d.sourceWidth, d.sourceHeight, DXGI_FORMAT_R32_FLOAT, d.paired);
+    CreateSurface(d.sourceWidth, d.sourceHeight, DXGI_FORMAT_R32_FLOAT, d.ratio);
+    CreateSurface(d.workWidth, d.workHeight, DXGI_FORMAT_R32_FLOAT, d.ratioBlur);
     std::array<float, 4 * kAffineRows> identity{};
     for (UINT row = 0; row < kAffineRows; ++row)
         identity[row * 4 + row % 2] = 1;
@@ -1425,10 +1448,30 @@ void Publish(Lane& l)
     Dispatch(1, { nullptr, l.outputView.get() }, { nullptr, l.keysTarget.get() }, (pixels + 255) / 256, 1, sizes);
     Dispatch(2, { nullptr, l.outputView.get() }, { nullptr, l.keysTarget.get() }, (pixels + 255) / 256, 1, sizes);
     Dispatch(3, {}, { nullptr, l.keysTarget.get(), l.stateTarget.get() }, 1, 1, sizes);
-    Dispatch(4, { l.frameView.get(), l.outputView.get(), l.stateView.get(), l.guideView.get() }, { nullptr, nullptr, nullptr, l.anchor.target.get() },
-             (d.sourceWidth + 15) / 16, (d.sourceHeight + 15) / 16, sizes);
+    const bool paired = l.paired;
+    Dispatch(4, { l.frameView.get(), l.outputView.get(), l.stateView.get(), l.guideView.get() },
+             { nullptr, nullptr, nullptr, paired ? d.paired.target.get() : l.anchor.target.get() }, (d.sourceWidth + 15) / 16, (d.sourceHeight + 15) / 16,
+             sizes);
+    if (paired)
+    {
+        d.pairReady = true;
+        return;
+    }
     if (l.index == kDetail)
+    {
         Dispatch(kShrink, { l.frameView.get() }, { l.anchorLuma.target.get() }, (d.workWidth + 15) / 16, (d.workHeight + 15) / 16);
+        if (d.pairReady)
+        {
+            Dispatch(kPair, { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, l.anchor.view.get(), nullptr, nullptr, nullptr, d.paired.view.get() },
+                     { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.ratio.target.get() }, (d.sourceWidth + 15) / 16,
+                     (d.sourceHeight + 15) / 16);
+            Dispatch(kSpread, { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.ratio.view.get() },
+                     { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.ratioBlur.target.get() }, (d.workWidth + 15) / 16,
+                     (d.workHeight + 15) / 16);
+            d.pairReady = false;
+            d.ratioReady = true;
+        }
+    }
     l.anchored = true;
     l.published = true;
 }
@@ -1463,7 +1506,7 @@ void Track(ID3D11Texture2D* frame, int64_t frameTimestamp)
     }
     Lane& detail = Detail();
     Lane& fast = Fast();
-    const bool fused = detail.anchored && fast.enabled && fast.anchored;
+    const bool fused = detail.anchored && fast.enabled && fast.anchored && d.ratioReady;
     const auto now = FrameStatistics::Clock::now();
     const bool advance = !d.tracking || now - d.keyAt >= kKeyframeInterval;
     UINT flags = (composed ? kComposed : 0) | (advance ? kAdvance : 0) | (fused ? kFused : 0);
@@ -1497,13 +1540,9 @@ void Track(ID3D11Texture2D* frame, int64_t frameTimestamp)
     const UINT sourceGroupsX = (d.sourceWidth + 15) / 16;
     const UINT sourceGroupsY = (d.sourceHeight + 15) / 16;
     Dispatch(kWarp, { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, detail.anchor.view.get(), nullptr, d.affineView.get(),
-                      d.staleRaw.view.get(), fused ? fast.anchor.view.get() : nullptr },
+                      d.staleRaw.view.get(), fused ? fast.anchor.view.get() : nullptr, d.ratio.view.get(), d.ratioBlur.view.get() },
              { nullptr, nullptr, nullptr, nullptr, nullptr, d.warped.target.get() }, sourceGroupsX, sourceGroupsY);
-    if (fused)
-        Dispatch(kAlign, { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.warped.view.get() },
-                 { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.gain.target.get() }, workGroupsX, workGroupsY);
-    Dispatch(kRefine, { d.liveView.get(), nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.warped.view.get(), nullptr, nullptr, nullptr,
-                        d.gain.view.get() },
+    Dispatch(kRefine, { d.liveView.get(), nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.warped.view.get() },
              { nullptr, nullptr, nullptr, nullptr, d.textureTarget.get() }, sourceGroupsX, sourceGroupsY);
 }
 
@@ -1587,6 +1626,8 @@ bool Schedule(Lane& l, ID3D11Texture2D* frame, int64_t frameTimestamp)
         }
         if (l.inputValue && l.d3d12Fence->GetCompletedValue() < l.inputValue + 1)
             return true;
+        if (l.index == kDetail && l.inputValue && Fast().enabled && (d.pairPending || (Fast().paired && Fast().busy)))
+            return true;
         l.done = false;
         l.busy = false;
         const auto completedAt = FrameStatistics::Clock::now();
@@ -1606,28 +1647,41 @@ bool Schedule(Lane& l, ID3D11Texture2D* frame, int64_t frameTimestamp)
         l.fence = nullptr;
         l.modelWidth = l.modelHeight = 0;
     }
-    if (l.lastInput && *l.lastInput == frameTimestamp)
+    const bool pairing = l.index == kFast && d.pairPending;
+    if (!pairing && l.lastInput && *l.lastInput == frameTimestamp)
         return true;
     if (l.modelWidth != l.width || l.modelHeight != l.height)
     {
         Request(l, 0);
         return true;
     }
-    if (FrameStatistics::Clock::now() < l.nextRequestAt)
+    if (!pairing && FrameStatistics::Clock::now() < l.nextRequestAt)
         return true;
     if (!d.texture)
         CreateCommon();
     if (!l.input)
         CreateLaneShared(l);
 
-    g.context->CopyResource(l.frameCopy.get(), frame);
+    g.context->CopyResource(l.frameCopy.get(), pairing ? d.pairCopy.get() : frame);
+    l.paired = pairing;
+    if (pairing)
+        d.pairPending = false;
+    if (l.index == kDetail && Fast().enabled)
+    {
+        g.context->CopyResource(d.pairCopy.get(), frame);
+        d.pairPending = true;
+        d.pairReady = false;
+    }
     Dispatch(0, { l.frameView.get() }, { l.inputTarget.get(), nullptr, nullptr, nullptr, l.guideTarget.get() }, (l.width + 15) / 16, (l.height + 15) / 16,
              l.sizes.get());
     l.fenceValue += 2;
     winrt::check_hresult(g.context.as<ID3D11DeviceContext4>()->Signal(l.fence.get(), l.fenceValue - 1));
     Request(l, l.fenceValue - 1);
-    l.resetPending = true;
-    l.lastInput = frameTimestamp;
+    if (!pairing)
+    {
+        l.resetPending = true;
+        l.lastInput = frameTimestamp;
+    }
     return true;
 }
 
