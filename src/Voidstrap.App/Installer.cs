@@ -885,8 +885,12 @@ internal sealed partial class Installer
 				break;
 			}
 		}
+		if (Voidstrap.Utility.Platform.IsWindows)
+			ForceDeleteDirectory(LauncherBinDirectory);
 		TryRemoveCleanupHelper();
 	}
+
+	private static string LauncherBinDirectory => Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Voidstrap", "Bin");
 
 	private static bool IsOwnedInstallRoot(string root)
 	{
