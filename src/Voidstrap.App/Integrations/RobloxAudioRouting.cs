@@ -30,9 +30,14 @@ public static partial class RobloxAudioRouting
 		new(0f, 0f, 5f)
 	];
 
+	private const int NoAudioSession = unchecked((int)0x80070057);
+	private const int WindowsRetryMs = 1000;
+	private const int WindowsRetryLimit = 90;
+
 	private static readonly object Gate = new();
 	private static CancellationTokenSource? _cts;
 	private static Task? _loop;
+	private static CancellationTokenSource? _windowsCts;
 
 	public static int EqualizerPresetCount => EqualizerBands.Length;
 
@@ -94,6 +99,7 @@ public static partial class RobloxAudioRouting
 	{
 		if (Utility.Platform.IsLinux)
 			StopLinux();
+		CancelWindows();
 	}
 
 	public static MMDevice ResolveWindowsDevice(MMDeviceEnumerator enumerator)
@@ -136,12 +142,77 @@ public static partial class RobloxAudioRouting
 
 	private static void ApplyWindows(uint processId)
 	{
-		string selected = SelectedOutput;
-		int hr = Native.SetPersistedDefaultEndpoint(processId, selected.Length > 0 ? Native.ToPolicyDeviceId(selected) : null);
-		if (hr < 0)
-			App.Logger?.WriteLine(LOG_IDENT, $"Roblox output device could not be set, code 0x{hr:X8}");
-		else
-			App.Logger?.WriteLine(LOG_IDENT, selected.Length > 0 ? "Roblox audio sent to the chosen output device" : "Roblox audio follows the system default device");
+		if (SelectedOutput.Length == 0 && !App.Settings.Prop.RobloxAudioOutputPersisted)
+			return;
+		CancellationTokenSource source = new();
+		CancellationTokenSource? previous;
+		lock (Gate)
+		{
+			previous = _windowsCts;
+			_windowsCts = source;
+		}
+		previous?.Cancel();
+		previous?.Dispose();
+		_ = Task.Run(() => ApplyWindowsAsync(processId, source.Token));
+	}
+
+	private static void CancelWindows()
+	{
+		CancellationTokenSource? source;
+		lock (Gate)
+		{
+			source = _windowsCts;
+			_windowsCts = null;
+		}
+		source?.Cancel();
+		source?.Dispose();
+	}
+
+	private static async Task ApplyWindowsAsync(uint processId, CancellationToken token)
+	{
+		try
+		{
+			for (int attempt = 0; attempt < WindowsRetryLimit && !token.IsCancellationRequested; attempt++)
+			{
+				string selected = SelectedOutput;
+				int hr = Native.SetPersistedDefaultEndpoint(processId, selected.Length > 0 ? Native.ToPolicyDeviceId(selected) : null);
+				if (hr >= 0)
+				{
+					App.Settings.Prop.RobloxAudioOutputPersisted = selected.Length > 0;
+					App.Settings.SaveDeferred();
+					App.Logger?.WriteLine(LOG_IDENT, selected.Length > 0 ? "Roblox audio sent to the chosen output device" : "Roblox audio follows the system default device again");
+					return;
+				}
+				if (hr != NoAudioSession || !IsRunning(processId))
+				{
+					App.Logger?.WriteLine(LOG_IDENT, $"Roblox output device could not be set, code 0x{hr:X8}");
+					return;
+				}
+				await Task.Delay(WindowsRetryMs, token).ConfigureAwait(false);
+			}
+			if (!token.IsCancellationRequested)
+				App.Logger?.WriteLine(LOG_IDENT, "Roblox never opened its audio, so its output device was left unchanged");
+		}
+		catch (OperationCanceledException)
+		{
+		}
+	}
+
+	private static bool IsRunning(uint processId)
+	{
+		try
+		{
+			using Process process = Process.GetProcessById((int)processId);
+			return !process.HasExited;
+		}
+		catch (ArgumentException)
+		{
+			return false;
+		}
+		catch (InvalidOperationException)
+		{
+			return false;
+		}
 	}
 
 	private static void StartLinux()
