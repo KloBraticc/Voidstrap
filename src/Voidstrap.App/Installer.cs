@@ -770,7 +770,7 @@ internal sealed partial class Installer
 			string helperDirectory = Path.Combine(CleanupHelperRoot, Guid.NewGuid().ToString("N"));
 			Directory.CreateDirectory(helperDirectory);
 			string helperPath = Path.Combine(helperDirectory, Path.GetFileName(Paths.Application));
-			File.Copy(Paths.Process, helperPath, false);
+			File.Copy(Environment.ProcessPath ?? Paths.Process, helperPath, false);
 			InstallRecord.MakeExecutable(helperPath);
 			var start = new ProcessStartInfo
 			{
