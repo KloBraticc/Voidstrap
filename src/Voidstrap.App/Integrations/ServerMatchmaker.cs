@@ -116,7 +116,7 @@ public sealed class ServerMatchmaker : IDisposable
 		App.Logger.WriteLine(LOG_IDENT, $"Joining place {data.PlaceId}, searching for a better server while Roblox loads");
 	}
 
-	private static async Task<MatchmakerCandidate?> PrefetchAsync(long placeId, HashSet<string> tried, string preferredKey, CancellationTokenSource cts)
+	private async Task<MatchmakerCandidate?> PrefetchAsync(long placeId, HashSet<string> tried, string preferredKey, CancellationTokenSource cts)
 	{
 		try
 		{
@@ -130,7 +130,8 @@ public sealed class ServerMatchmaker : IDisposable
 		}
 		finally
 		{
-			cts.Dispose();
+			if (Interlocked.CompareExchange(ref _prefetchCts, null, cts) == cts)
+				cts.Dispose();
 		}
 	}
 
@@ -145,13 +146,10 @@ public sealed class ServerMatchmaker : IDisposable
 		CancellationTokenSource? cts = Interlocked.Exchange(ref _prefetchCts, null);
 		_prefetch = null;
 		_prefetchJobId = null;
-		try
-		{
-			cts?.Cancel();
-		}
-		catch (ObjectDisposedException)
-		{
-		}
+		if (cts == null)
+			return;
+		cts.Cancel();
+		cts.Dispose();
 	}
 
 	private void OnGameJoin(object? sender, EventArgs e)
