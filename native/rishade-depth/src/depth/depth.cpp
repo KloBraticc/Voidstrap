@@ -726,22 +726,36 @@ void Bind(reshade::api::effect_runtime* runtime, ID3D11ShaderResourceView* view)
     });
 }
 
-void OnInitRuntime(reshade::api::effect_runtime* runtime)
+void OnInitRuntime(reshade::api::effect_runtime* runtime) noexcept
 {
-    d.runtimes.push_back(runtime);
-    if (d.view)
-        Bind(runtime, d.view.get());
+    try
+    {
+        d.runtimes.push_back(runtime);
+        if (d.view)
+            Bind(runtime, d.view.get());
+    }
+    catch (...)
+    {
+        Log(LogLevel::Error, L"The depth add-on could not attach to a ReShade runtime.");
+    }
 }
 
-void OnDestroyRuntime(reshade::api::effect_runtime* runtime)
+void OnDestroyRuntime(reshade::api::effect_runtime* runtime) noexcept
 {
     d.runtimes.erase(std::remove(d.runtimes.begin(), d.runtimes.end(), runtime), d.runtimes.end());
 }
 
-void OnReloadedEffects(reshade::api::effect_runtime* runtime)
+void OnReloadedEffects(reshade::api::effect_runtime* runtime) noexcept
 {
-    if (d.view)
-        Bind(runtime, d.view.get());
+    try
+    {
+        if (d.view)
+            Bind(runtime, d.view.get());
+    }
+    catch (...)
+    {
+        Log(LogLevel::Error, L"The depth add-on could not rebind depth after ReShade reloaded effects.");
+    }
 }
 
 void CreateShaders()
