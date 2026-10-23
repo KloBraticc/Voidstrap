@@ -203,11 +203,14 @@ Texture2D<float> PrevQuarter : register(t4);
 Texture2D<float2> Coarse : register(t5);
 Texture2D<float4> Flow : register(t6);
 Texture2D<float> Anchor : register(t7);
+Texture2D<float> Warped : register(t8);
 RWTexture2D<float> LumaTarget : register(u0);
 RWTexture2D<float> QuarterTarget : register(u1);
 RWTexture2D<float2> CoarseTarget : register(u2);
 RWTexture2D<float4> FlowTarget : register(u3);
 RWTexture2D<float> Depth : register(u4);
+RWTexture2D<float> WarpedTarget : register(u5);
+RWTexture2D<float4> SettledTarget : register(u6);
 
 static const int CoarseSearch = 8;
 static const int Patch = 2;
@@ -217,6 +220,12 @@ static const int FillDirections = 8;
 static const int FillSteps = 4;
 static const float TemporalBase = 0.5;
 static const float TemporalResponse = 6.0;
+static const int SettleRadius = 2;
+static const float SettleLuma = 0.05;
+static const float SettleCost = 0.03;
+static const int RefineRadius = 2;
+static const int RefineStride = 2;
+static const float RefineColor = 0.08;
 
 uint2 QuarterSize()
 {
@@ -314,11 +323,52 @@ void MatchFine(uint3 id : SV_DispatchThreadID)
     FlowTarget[id.xy] = float4(float2(bestOffset), best, 0);
 }
 
+[numthreads(16, 16, 1)]
+void Settle(uint3 id : SV_DispatchThreadID)
+{
+    if (any(id.xy >= WorkSize))
+        return;
+    int2 p = int2(id.xy);
+    int2 size = int2(WorkSize);
+    float centre = Luma.Load(int3(p, 0));
+    float2 sum = 0;
+    float weights = 0;
+    for (int dy = -SettleRadius; dy <= SettleRadius; ++dy)
+        for (int dx = -SettleRadius; dx <= SettleRadius; ++dx)
+        {
+            int2 q = clamp(p + int2(dx, dy), 0, size - 1);
+            float4 flow = Flow.Load(int3(q, 0));
+            float difference = Luma.Load(int3(q, 0)) - centre;
+            float weight = exp(-difference * difference / (2 * SettleLuma * SettleLuma)) * exp(-flow.z / SettleCost) + 1e-6;
+            sum += weight * flow.xy;
+            weights += weight;
+        }
+    SettledTarget[id.xy] = float4(sum / weights, Flow.Load(int3(p, 0)).z, 0);
+}
+
+float4 FlowAt(float2 position)
+{
+    int2 size = int2(WorkSize);
+    int2 base = int2(floor(position));
+    float2 t = position - base;
+    float4 a = Flow.Load(int3(clamp(base, 0, size - 1), 0));
+    float4 b = Flow.Load(int3(clamp(base + int2(1, 0), 0, size - 1), 0));
+    float4 c = Flow.Load(int3(clamp(base + int2(0, 1), 0, size - 1), 0));
+    float4 d = Flow.Load(int3(clamp(base + int2(1, 1), 0, size - 1), 0));
+    return lerp(lerp(a, b, t.x), lerp(c, d, t.x), t.y);
+}
+
 float Fetch(int2 p, float2 flow)
 {
-    float2 scale = float2(SourceSize) / float2(WorkSize);
-    int2 q = clamp(int2(round(p - flow * scale)), 0, int2(SourceSize) - 1);
-    return Anchor.Load(int3(q, 0));
+    int2 size = int2(SourceSize);
+    float2 position = p - flow * (float2(SourceSize) / float2(WorkSize));
+    int2 base = int2(floor(position));
+    float2 t = position - base;
+    float a = Anchor.Load(int3(clamp(base, 0, size - 1), 0));
+    float b = Anchor.Load(int3(clamp(base + int2(1, 0), 0, size - 1), 0));
+    float c = Anchor.Load(int3(clamp(base + int2(0, 1), 0, size - 1), 0));
+    float d = Anchor.Load(int3(clamp(base + int2(1, 1), 0, size - 1), 0));
+    return lerp(lerp(a, b, t.x), lerp(c, d, t.x), t.y);
 }
 
 [numthreads(16, 16, 1)]
@@ -327,8 +377,9 @@ void Warp(uint3 id : SV_DispatchThreadID)
     if (any(id.xy >= SourceSize))
         return;
     int2 p = int2(id.xy);
-    int2 w = min(int2(id.xy * WorkSize / SourceSize), int2(WorkSize) - 1);
-    float4 flow = Flow.Load(int3(w, 0));
+    float2 position = (id.xy + 0.5) * float2(WorkSize) / float2(SourceSize) - 0.5;
+    int2 w = clamp(int2(round(position)), 0, int2(WorkSize) - 1);
+    float4 flow = FlowAt(position);
     float current = -1;
     if (flow.z <= LostMatch)
         current = Fetch(p, flow.xy);
@@ -346,6 +397,29 @@ void Warp(uint3 id : SV_DispatchThreadID)
         if (current < 0)
             current = Fetch(p, flow.xy);
     }
+    WarpedTarget[id.xy] = current;
+}
+
+[numthreads(16, 16, 1)]
+void Refine(uint3 id : SV_DispatchThreadID)
+{
+    if (any(id.xy >= SourceSize))
+        return;
+    int2 p = int2(id.xy);
+    int2 size = int2(SourceSize);
+    float3 centre = Color.Load(int3(p, 0)).rgb;
+    float sum = 0;
+    float weights = 0;
+    for (int dy = -RefineRadius; dy <= RefineRadius; ++dy)
+        for (int dx = -RefineRadius; dx <= RefineRadius; ++dx)
+        {
+            int2 q = clamp(p + int2(dx, dy) * RefineStride, 0, size - 1);
+            float3 difference = Color.Load(int3(q, 0)).rgb - centre;
+            float weight = exp(-dot(difference, difference) / (2 * RefineColor * RefineColor)) * exp(-(dx * dx + dy * dy) / 4.0);
+            sum += weight * Warped.Load(int3(q, 0));
+            weights += weight;
+        }
+    float current = sum / weights;
     float previous = Depth[id.xy];
     float change = abs(current - previous) / max(max(current, previous), 1e-4);
     Depth[id.xy] = lerp(previous, current, saturate(TemporalBase + change * TemporalResponse));
@@ -353,13 +427,15 @@ void Warp(uint3 id : SV_DispatchThreadID)
 )";
 
 constexpr const char* kEntryPoints[] = { "Preprocess", "Peak", "Histogram", "Smooth", "Upsample" };
-constexpr const char* kTrackEntryPoints[] = { "Shrink", "Reduce", "MatchCoarse", "MatchFine", "Warp" };
+constexpr const char* kTrackEntryPoints[] = { "Shrink", "Reduce", "MatchCoarse", "MatchFine", "Warp", "Settle", "Refine" };
 constexpr size_t kShaderCount = std::size(kEntryPoints) + std::size(kTrackEntryPoints);
 constexpr size_t kShrink = std::size(kEntryPoints);
 constexpr size_t kReduce = kShrink + 1;
 constexpr size_t kMatchCoarse = kShrink + 2;
 constexpr size_t kMatchFine = kShrink + 3;
 constexpr size_t kWarp = kShrink + 4;
+constexpr size_t kSettle = kShrink + 5;
+constexpr size_t kRefine = kShrink + 6;
 
 struct Surface
 {
@@ -398,6 +474,8 @@ struct Depth
     Surface coarse;
     Surface flow;
     Surface anchor;
+    Surface settled;
+    Surface warped;
     UINT workWidth = 0;
     UINT workHeight = 0;
     bool anchored = false;
@@ -717,7 +795,7 @@ void CompileShaders()
     CreateShaders();
 }
 
-void Dispatch(size_t shader, std::array<ID3D11ShaderResourceView*, 8> views, std::array<ID3D11UnorderedAccessView*, 5> targets, UINT x, UINT y)
+void Dispatch(size_t shader, std::array<ID3D11ShaderResourceView*, 9> views, std::array<ID3D11UnorderedAccessView*, 7> targets, UINT x, UINT y)
 {
     ID3D11Buffer* constants[] = { shader >= kShrink ? d.trackSizes.get() : d.sizes.get() };
     g.context->CSSetShader(d.shaders[shader].get(), nullptr, 0);
@@ -738,7 +816,7 @@ void ReleaseShared()
     d.view = nullptr;
     d.textureTarget = nullptr;
     d.texture = nullptr;
-    for (Surface* surface : { &d.liveLuma, &d.anchorLuma, &d.liveQuarter, &d.anchorQuarter, &d.coarse, &d.flow, &d.anchor })
+    for (Surface* surface : { &d.liveLuma, &d.anchorLuma, &d.liveQuarter, &d.anchorQuarter, &d.coarse, &d.flow, &d.anchor, &d.settled, &d.warped })
         *surface = {};
     d.anchored = false;
     d.stateView = nullptr;
@@ -924,6 +1002,8 @@ void CreateShared()
     CreateSurface(quarterWidth, quarterHeight, DXGI_FORMAT_R32_FLOAT, d.anchorQuarter);
     CreateSurface(quarterWidth, quarterHeight, DXGI_FORMAT_R32G32_FLOAT, d.coarse);
     CreateSurface(d.workWidth, d.workHeight, DXGI_FORMAT_R32G32B32A32_FLOAT, d.flow);
+    CreateSurface(d.workWidth, d.workHeight, DXGI_FORMAT_R32G32B32A32_FLOAT, d.settled);
+    CreateSurface(d.sourceWidth, d.sourceHeight, DXGI_FORMAT_R32_FLOAT, d.warped);
     g.context->ClearUnorderedAccessViewFloat(d.anchor.target.get(), farPlane);
     const UINT trackSizes[4] = { d.sourceWidth, d.sourceHeight, d.workWidth, d.workHeight };
     g.context->UpdateSubresource(d.trackSizes.get(), 0, nullptr, trackSizes, 0, 0);
@@ -970,8 +1050,14 @@ void Track(ID3D11Texture2D* frame, int64_t frameTimestamp)
              quarterGroupsX, quarterGroupsY);
     Dispatch(kMatchFine, { nullptr, d.liveLuma.view.get(), d.anchorLuma.view.get(), nullptr, nullptr, d.coarse.view.get() },
              { nullptr, nullptr, nullptr, d.flow.target.get() }, workGroupsX, workGroupsY);
-    Dispatch(kWarp, { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.flow.view.get(), d.anchor.view.get() },
-             { nullptr, nullptr, nullptr, nullptr, d.textureTarget.get() }, (d.sourceWidth + 15) / 16, (d.sourceHeight + 15) / 16);
+    Dispatch(kSettle, { nullptr, d.liveLuma.view.get(), nullptr, nullptr, nullptr, nullptr, d.flow.view.get() },
+             { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.settled.target.get() }, workGroupsX, workGroupsY);
+    const UINT sourceGroupsX = (d.sourceWidth + 15) / 16;
+    const UINT sourceGroupsY = (d.sourceHeight + 15) / 16;
+    Dispatch(kWarp, { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.settled.view.get(), d.anchor.view.get() },
+             { nullptr, nullptr, nullptr, nullptr, nullptr, d.warped.target.get() }, sourceGroupsX, sourceGroupsY);
+    Dispatch(kRefine, { d.liveView.get(), nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.warped.view.get() },
+             { nullptr, nullptr, nullptr, nullptr, d.textureTarget.get() }, sourceGroupsX, sourceGroupsY);
 }
 }
 
