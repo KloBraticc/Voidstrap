@@ -22,17 +22,63 @@ internal static class SupportBundle
 
 	private static readonly TimeSpan CrashLookback = TimeSpan.FromDays(14);
 
+	private const string CrashFileName = "Crash records.txt";
+
+	private static readonly string[] CrashKeywords = ["Voidstrap", "Roblox", "rishade", "sober"];
+
+	private sealed record CrashRecords(string Text, int Count);
+
 	public static async Task<string> CreateAsync(CancellationToken token = default)
 	{
 		App.Logger.WriteLine(LOG_IDENT, "Creating a support file");
 		App.Logger.Flush();
 		Redactor redactor = Redactor.Create();
 		List<FileInfo> logs = await Task.Run(CollectLogs, token).ConfigureAwait(false);
-		string crashes = await Task.Run(ReadCrashRecords, token).ConfigureAwait(false);
+		CrashRecords crashes = await Task.Run(ReadCrashRecords, token).ConfigureAwait(false);
 
-		Directory.CreateDirectory(Paths.Desktop);
 		string fileName = "Voidstrap support " + DateTime.Now.ToString("yyyyMMdd HHmm", CultureInfo.InvariantCulture) + ".zip";
-		string target = Path.Combine(Paths.Desktop, fileName);
+		Exception? lastError = null;
+		foreach (string folder in OutputFolders())
+		{
+			try
+			{
+				string target = Path.Combine(folder, fileName);
+				await WriteZipAsync(target, logs, crashes, redactor, token).ConfigureAwait(false);
+				App.Logger.WriteLine(LOG_IDENT, "Support file created with " + logs.Count + " log(s)");
+				return target;
+			}
+			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+			{
+				lastError = ex;
+				App.Logger.WriteLine(LOG_IDENT, "The support file could not be saved in one location, trying the next: " + ex.Message);
+			}
+		}
+		throw lastError ?? new IOException("No folder was available for the support file.");
+	}
+
+	private static IEnumerable<string> OutputFolders()
+	{
+		foreach (string folder in new[] { Paths.Desktop, Paths.Logs, Paths.TempLogs })
+		{
+			if (string.IsNullOrWhiteSpace(folder))
+				continue;
+			bool usable;
+			try
+			{
+				Directory.CreateDirectory(folder);
+				usable = true;
+			}
+			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or ArgumentException)
+			{
+				usable = false;
+			}
+			if (usable)
+				yield return folder;
+		}
+	}
+
+	private static async Task WriteZipAsync(string target, List<FileInfo> logs, CrashRecords crashes, Redactor redactor, CancellationToken token)
+	{
 		string temporary = target + "." + Guid.NewGuid().ToString("N") + ".tmp";
 		try
 		{
@@ -48,7 +94,7 @@ internal static class SupportBundle
 					logTexts.Add(text);
 					Add(zip, "logs/" + log.Name, text);
 				}
-				Add(zip, "Windows crash records.txt", redactor.Apply(crashes));
+				Add(zip, CrashFileName, redactor.Apply(crashes.Text));
 				Add(zip, "README.txt", redactor.Apply(BuildSummary(logs, logTexts, crashes)));
 			}, token).ConfigureAwait(false);
 			File.Move(temporary, target, true);
@@ -58,8 +104,6 @@ internal static class SupportBundle
 			if (File.Exists(temporary))
 				File.Delete(temporary);
 		}
-		App.Logger.WriteLine(LOG_IDENT, "Support file created with " + logs.Count + " log(s)");
-		return target;
 	}
 
 	private static List<FileInfo> CollectLogs()
@@ -93,7 +137,7 @@ internal static class SupportBundle
 		}
 		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
 		{
-			return "This log could not be read: " + ex.Message;
+			return "This file could not be read: " + ex.Message;
 		}
 	}
 
@@ -104,48 +148,154 @@ internal static class SupportBundle
 		writer.Write(content);
 	}
 
-	private static string ReadCrashRecords()
+	private static bool MentionsVoidstrap(string text)
 	{
-		if (!OperatingSystem.IsWindows())
-			return "Crash records are only collected on Windows.";
+		return CrashKeywords.Any(keyword => text.Contains(keyword, StringComparison.OrdinalIgnoreCase));
+	}
+
+	private static CrashRecords ReadCrashRecords()
+	{
 		try
 		{
-			long window = (long)CrashLookback.TotalMilliseconds;
-			ProcessStartInfo start = new("wevtutil.exe")
-			{
-				UseShellExecute = false,
-				RedirectStandardOutput = true,
-				RedirectStandardError = true,
-				CreateNoWindow = true
-			};
-			foreach (string argument in new[] { "qe", "Application", "/rd:true", "/c:400", "/f:text", "/q:*[System[(Level=1 or Level=2) and TimeCreated[timediff(@SystemTime) <= " + window.ToString(CultureInfo.InvariantCulture) + "]]]" })
-				start.ArgumentList.Add(argument);
-			using Process? process = Process.Start(start);
-			if (process == null)
-				return "Windows crash records could not be read.";
-			Task<string> output = process.StandardOutput.ReadToEndAsync();
-			if (!process.WaitForExit(15000))
-			{
-				try { process.Kill(); } catch (InvalidOperationException) { }
-				return "Reading Windows crash records timed out.";
-			}
-			List<string> relevant = output.Result
-				.Split("Event[", StringSplitOptions.RemoveEmptyEntries)
-				.Where(static record => record.Contains("Voidstrap", StringComparison.OrdinalIgnoreCase) || record.Contains("Roblox", StringComparison.OrdinalIgnoreCase) || record.Contains("rishade", StringComparison.OrdinalIgnoreCase))
-				.Take(40)
-				.Select(static record => "Event[" + record.TrimEnd())
-				.ToList();
-			return relevant.Count == 0
-				? "Windows recorded no Voidstrap or Roblox errors in the last " + CrashLookback.Days + " days."
-				: relevant.Count + " error record(s) from the last " + CrashLookback.Days + " days:" + Environment.NewLine + Environment.NewLine + string.Join(Environment.NewLine + Environment.NewLine, relevant);
+			if (OperatingSystem.IsWindows())
+				return ReadWindowsCrashRecords();
+			if (OperatingSystem.IsMacOS())
+				return ReadMacCrashReports();
+			if (OperatingSystem.IsLinux())
+				return ReadLinuxCoreDumps();
+			return new CrashRecords("Crash records are not collected on this system.", 0);
 		}
 		catch (Exception ex)
 		{
-			return "Windows crash records could not be read: " + ex.Message;
+			return new CrashRecords("Crash records could not be read: " + ex.Message, 0);
 		}
 	}
 
-	private static string BuildSummary(List<FileInfo> logs, List<string> logTexts, string crashes)
+	private static string? RunTool(string fileName, IEnumerable<string> arguments)
+	{
+		ProcessStartInfo start = new(fileName)
+		{
+			UseShellExecute = false,
+			RedirectStandardOutput = true,
+			RedirectStandardError = true,
+			CreateNoWindow = true
+		};
+		foreach (string argument in arguments)
+			start.ArgumentList.Add(argument);
+		using Process? process = Process.Start(start);
+		if (process == null)
+			return null;
+		Task<string> output = process.StandardOutput.ReadToEndAsync();
+		_ = process.StandardError.ReadToEndAsync();
+		if (!process.WaitForExit(15000))
+		{
+			try
+			{
+				process.Kill();
+			}
+			catch (InvalidOperationException)
+			{
+			}
+			return null;
+		}
+		return output.Result;
+	}
+
+	private static CrashRecords ReadWindowsCrashRecords()
+	{
+		long window = (long)CrashLookback.TotalMilliseconds;
+		string? output = RunTool("wevtutil.exe", ["qe", "Application", "/rd:true", "/c:400", "/f:text", "/q:*[System[(Level=1 or Level=2) and TimeCreated[timediff(@SystemTime) <= " + window.ToString(CultureInfo.InvariantCulture) + "]]]"]);
+		if (output == null)
+			return new CrashRecords("Windows crash records could not be read.", 0);
+		List<string> relevant = output
+			.Split("Event[", StringSplitOptions.RemoveEmptyEntries)
+			.Where(MentionsVoidstrap)
+			.Take(40)
+			.Select(static record => "Event[" + record.TrimEnd())
+			.ToList();
+		return Describe(relevant, "error record(s) Windows recorded");
+	}
+
+	private static CrashRecords ReadMacCrashReports()
+	{
+		string home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
+		DateTime since = DateTime.UtcNow - CrashLookback;
+		List<string> relevant = new();
+		foreach (string folder in new[] { Path.Combine(home, "Library", "Logs", "DiagnosticReports"), "/Library/Logs/DiagnosticReports" })
+		{
+			if (!Directory.Exists(folder))
+				continue;
+			IEnumerable<FileInfo> reports;
+			try
+			{
+				reports = new DirectoryInfo(folder).EnumerateFiles()
+					.Where(static file => file.Extension is ".ips" or ".crash" or ".hang" or ".diag" or ".spin")
+					.Where(file => file.LastWriteTimeUtc >= since && MentionsVoidstrap(file.Name))
+					.OrderByDescending(static file => file.LastWriteTimeUtc)
+					.Take(10)
+					.ToList();
+			}
+			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+			{
+				continue;
+			}
+			foreach (FileInfo report in reports)
+			{
+				string content = ReadShared(report.FullName);
+				string[] lines = content.Split('\n');
+				relevant.Add("Report " + report.Name + "\n" + string.Join("\n", lines.Take(250)));
+			}
+		}
+		return Describe(relevant, "crash report(s) macOS recorded");
+	}
+
+	private static CrashRecords ReadLinuxCoreDumps()
+	{
+		string? output = null;
+		try
+		{
+			output = RunTool("coredumpctl", ["list", "--no-pager", "--no-legend"]);
+		}
+		catch (System.ComponentModel.Win32Exception)
+		{
+		}
+		if (output == null && Voidstrap.Platform.Linux.LinuxFlatpakHost.IsSandboxed)
+		{
+			try
+			{
+				output = RunTool("flatpak-spawn", ["--host", "coredumpctl", "list", "--no-pager", "--no-legend"]);
+			}
+			catch (System.ComponentModel.Win32Exception)
+			{
+			}
+		}
+		if (output == null)
+			return new CrashRecords("Crash records are not available here, coredumpctl could not be run.", 0);
+		DateTime since = DateTime.Now - CrashLookback;
+		List<string> relevant = output
+			.Split('\n', StringSplitOptions.RemoveEmptyEntries)
+			.Where(MentionsVoidstrap)
+			.Where(line => !TryReadCoreDumpTime(line, out DateTime when) || when >= since)
+			.Take(40)
+			.ToList();
+		return Describe(relevant, "core dump(s) the system recorded");
+	}
+
+	private static bool TryReadCoreDumpTime(string line, out DateTime when)
+	{
+		string[] parts = line.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+		when = default;
+		return parts.Length >= 3 && DateTime.TryParse(parts[1] + " " + parts[2], CultureInfo.InvariantCulture, DateTimeStyles.AssumeLocal, out when);
+	}
+
+	private static CrashRecords Describe(List<string> relevant, string label)
+	{
+		if (relevant.Count == 0)
+			return new CrashRecords("No Voidstrap or Roblox " + label.Replace("(s)", "s") + " in the last " + CrashLookback.Days + " days.", 0);
+		return new CrashRecords(relevant.Count + " " + label + " in the last " + CrashLookback.Days + " days:" + Environment.NewLine + Environment.NewLine + string.Join(Environment.NewLine + Environment.NewLine, relevant), relevant.Count);
+	}
+
+	private static string BuildSummary(List<FileInfo> logs, List<string> logTexts, CrashRecords crashes)
 	{
 		StringBuilder text = new();
 		text.AppendLine("VOIDSTRAP SUPPORT FILE");
@@ -166,9 +316,8 @@ internal static class SupportBundle
 		int stuck = Regex.Matches(all, @"\[UiFreeze\] The window has not responded").Count;
 		if (freezes + stuck > 0)
 			findings.Add("The Voidstrap window froze " + (freezes + stuck) + " time(s)" + (stuck > 0 ? ", and " + stuck + " of those lasted over 5 seconds" : "") + ". Search the logs for UiFreeze.");
-		int windowsCrashes = Regex.Matches(crashes, @"^Event\[", RegexOptions.Multiline).Count;
-		if (windowsCrashes > 0)
-			findings.Add("Windows recorded " + windowsCrashes + " error record(s) mentioning Voidstrap or Roblox in the last " + CrashLookback.Days + " days. See Windows crash records.txt.");
+		if (crashes.Count > 0)
+			findings.Add("The system recorded " + crashes.Count + " crash or error record(s) mentioning Voidstrap or Roblox in the last " + CrashLookback.Days + " days. See " + CrashFileName + ".");
 		int crashLines = Regex.Matches(all, @"\[App::(DomainUnhandledException|GlobalExceptionHandler|UnobservedTaskException)\]").Count;
 		if (crashLines > 0)
 			findings.Add("Voidstrap logged " + crashLines + " unexpected error(s) it could not recover from cleanly. Search the logs for UnhandledException.");
@@ -183,7 +332,7 @@ internal static class SupportBundle
 		text.AppendLine();
 		text.AppendLine("FILES IN THIS ZIP");
 		text.AppendLine("* logs: the " + logs.Count + " most recent Voidstrap logs, newest first: " + string.Join(", ", logs.Select(static log => log.Name)));
-		text.AppendLine("* Windows crash records.txt: crashes and errors Windows recorded for Voidstrap and Roblox");
+		text.AppendLine("* " + CrashFileName + ": crashes and errors the system recorded for Voidstrap and Roblox");
 		text.AppendLine();
 		text.AppendLine("FOR DEVELOPERS");
 		text.AppendLine("* HiddenErrors: errors Voidstrap caught and handled, with the code that caused them");
@@ -217,6 +366,8 @@ internal static class SupportBundle
 				App.Logger.WriteLine(LOG_IDENT, "Saved account names could not be read for redaction: " + ex.Message);
 			}
 			redactor._rules.Add((new Regex(@"\.ROBLOSECURITY[^\s;""']*", RegexOptions.IgnoreCase), "[removed cookie]"));
+			redactor._rules.Add((new Regex(@"(""(?:crashReporterKey|sleepWakeUUID|bootSessionUUID|deviceIdentifierForVendor|incident|incident_id|machineID)""\s*:\s*"")[^""]*", RegexOptions.IgnoreCase), "$1[removed]"));
+			redactor._rules.Add((new Regex(@"^((?:Anonymous UUID|Sleep/Wake UUID|Incident Identifier|CrashReporter Key|Hardware UUID):\s*).+$", RegexOptions.IgnoreCase | RegexOptions.Multiline), "$1[removed]"));
 			redactor._rules.Add((new Regex(@"(gameinfo|launchtime|browsertrackerid|authticket|ticket)[:=][^\s+&""']+", RegexOptions.IgnoreCase), "$1:[removed]"));
 			return redactor;
 		}
