@@ -185,7 +185,7 @@ public class Logger : IDisposable
 
 	private void WriteEntry(string category, string body)
 	{
-		string text = DateTime.UtcNow.ToString("s") + "Z";
+		string text = DateTime.UtcNow.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'", System.Globalization.CultureInfo.InvariantCulture);
 		string boundedBody = body.Length > MaxEntryCharacters ? body.Substring(0, MaxEntryCharacters) : body;
 		string text2 = string.IsNullOrEmpty(Paths.UserProfile) ? boundedBody : OperatingSystem.IsWindows() ? boundedBody.Replace(Paths.UserProfile, "%UserProfile%", StringComparison.InvariantCultureIgnoreCase) : boundedBody.Replace(Paths.UserProfile, "~", StringComparison.Ordinal);
 		string text3 = text + " " + text2;

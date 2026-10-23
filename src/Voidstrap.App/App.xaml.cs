@@ -332,6 +332,7 @@ public partial class App : Application
 	private static void ShutdownApplication(int exitCodeNum)
 	{
 		Application? application = Current;
+		Voidstrap.Utility.LogDiagnostics.MarkSessionEnded();
 		if (application == null)
 		{
 			Logger.Flush();
@@ -1388,6 +1389,9 @@ public partial class App : Application
 	{
 		Logger.WriteLine("App::OnStartup", "Loaded from " + Paths.Process);
 		Logger.WriteLine("App::OnStartup", "Temp path is " + Paths.Temp);
+		Voidstrap.Utility.LogDiagnostics.WriteEnvironment();
+		if (Logger.Initialized && !Logger.NoWriteMode)
+			Voidstrap.Utility.LogDiagnostics.MarkSessionStarted(Logger.FileLocation);
 
 		if (!Voidstrap.Utility.Platform.IsWindows)
 			return;
@@ -2069,6 +2073,7 @@ public partial class App : Application
 
 	protected override void OnExit(ExitEventArgs e)
 	{
+		Voidstrap.Utility.LogDiagnostics.MarkSessionEnded();
 		LinuxUiPerformance.Shutdown();
 		UnregisterExceptionHandlers();
 		TryShutdown(Voidstrap.Platform.MacOS.MacOSUrlEvents.Shutdown);
