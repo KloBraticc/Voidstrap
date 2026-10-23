@@ -43,7 +43,7 @@
 		<InvariantGlobalization>false</InvariantGlobalization>
 
 		<PublishTrimmed>false</PublishTrimmed>
-		<PublishReadyToRun>false</PublishReadyToRun>
+		<PublishReadyToRun>true</PublishReadyToRun>
 		<TieredCompilation>true</TieredCompilation>
 		<TieredCompilationQuickJit>true</TieredCompilationQuickJit>
 		<TieredCompilationQuickJitForLoops>true</TieredCompilationQuickJitForLoops>
