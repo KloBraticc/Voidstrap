@@ -102,7 +102,7 @@ public static class SavedAccounts
 				existing.Username = account.Username;
 				existing.DisplayName = account.DisplayName;
 				existing.DatFile = datName;
-				App.Logger?.WriteLine(LogIdent, "Refreshed the saved login for " + account.Username);
+				App.Logger?.WriteLine(LogIdent, "Refreshed the saved login for the signed in account");
 			}
 			else
 			{
@@ -116,7 +116,7 @@ public static class SavedAccounts
 					AddedUtc = now,
 					LastUsedUtc = now
 				});
-				App.Logger?.WriteLine(LogIdent, "Added the signed in account " + account.Username + " to the saved accounts");
+				App.Logger?.WriteLine(LogIdent, "Added the signed in account to the saved accounts");
 			}
 			JsonFile.SerializeAtomic(AccountMetaPath, stored, JsonOptions.Indented);
 			return existing == null;

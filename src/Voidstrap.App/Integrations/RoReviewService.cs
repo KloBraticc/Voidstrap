@@ -1038,7 +1038,7 @@ public static class RoReviewService
                         _sessionGeneration++;
                     }
 
-                    App.Logger.WriteLine("RoReviewService", "Authenticated as " + authenticatedUsername);
+                    App.Logger.WriteLine("RoReviewService", "Authenticated with the signed in account");
                     AuthenticationChanged?.Invoke();
                     _ = Task.Run(async () =>
                     {

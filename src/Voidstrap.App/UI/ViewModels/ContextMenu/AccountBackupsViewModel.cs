@@ -470,7 +470,7 @@ namespace Voidstrap.UI.ViewModels
                             if (outgoing != null && !string.IsNullOrWhiteSpace(outgoing.DatFile))
                             {
                                 await CopyWithRetryAsync(_liveCookiePath, Path.Combine(_folder, outgoing.DatFile), overwrite: true).ConfigureAwait(true);
-                                App.Logger?.WriteLine("AccountSwitcher", "Saved the latest login for " + outgoing.Username + " before switching");
+                                App.Logger?.WriteLine("AccountSwitcher", "Saved the latest login for the outgoing account before switching");
                             }
                         }
                         catch (InvalidDataException)
