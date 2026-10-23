@@ -1109,6 +1109,33 @@ function Start-DotNetProcess {
     }
 }
 
+function Invoke-WindowsLauncherBuild {
+    param([Parameter(Mandatory)] $Job)
+
+    $cargo = Join-Path $env:USERPROFILE '.cargo/bin/cargo.exe'
+    if (-not (Test-Path -LiteralPath $cargo -PathType Leaf)) { $cargo = 'cargo' }
+    $launcherRoot = Join-Path $ArtifactDir 'voidlauncher'
+    $payloadDir = Join-Path $launcherRoot 'payload'
+    $targetDir = Join-Path $launcherRoot 'target'
+    [System.IO.Directory]::CreateDirectory($payloadDir) | Out-Null
+    $payload = Join-Path $payloadDir 'Voidstrap.exe'
+    Move-Item -LiteralPath $Job.Expected -Destination $payload -Force
+
+    $env:VOIDSTRAP_LAUNCHER_PAYLOAD = $payload
+    $env:VOIDSTRAP_VERSION = Get-VoidstrapVersion
+    try {
+        & $cargo build --release --locked --quiet --target x86_64-pc-windows-msvc --manifest-path (Join-Path $Root 'native/voidlauncher/Cargo.toml') --target-dir $targetDir
+        if ($LASTEXITCODE -ne 0) { throw "cargo exited with code $LASTEXITCODE" }
+    } finally {
+        Remove-Item Env:VOIDSTRAP_LAUNCHER_PAYLOAD -ErrorAction SilentlyContinue
+        Remove-Item Env:VOIDSTRAP_VERSION -ErrorAction SilentlyContinue
+    }
+
+    $built = Join-Path $targetDir 'x86_64-pc-windows-msvc/release/Voidstrap.exe'
+    if (-not (Test-Path -LiteralPath $built -PathType Leaf)) { throw 'cargo did not produce the launcher' }
+    Copy-Item -LiteralPath $built -Destination $Job.Expected -Force
+}
+
 function Finish-PublishJob {
     param([Parameter(Mandatory)] $Job)
 
@@ -1138,6 +1165,14 @@ function Finish-PublishJob {
     }
     else {
         $Job.Status = 'Done'
+        if ($Job.Target.Kind -eq 'windows') {
+            try {
+                Invoke-WindowsLauncherBuild $Job
+            } catch {
+                $Job.Failure = "The Windows launcher could not be built: $($_.Exception.Message)"
+                $Job.Status = 'Failed'
+            }
+        }
     }
 
     $elapsed = [int](New-TimeSpan -Start $Job.StartTime -End $Job.EndTime).TotalSeconds
