@@ -238,6 +238,8 @@ To try it without installing:
 nix run "git+https://github.com/KloBraticc/Voidstrap?submodules=1"
 ```
 
+This only runs it once. It does not add the `voidstrap` command or an app launcher entry, so follow the steps below to keep it installed.
+
 To install it on NixOS, add the flake to your system flake:
 
 ```nix
@@ -262,7 +264,7 @@ To install it on NixOS, add the flake to your system flake:
 
 Use the `git+https` URL with `?submodules=1` rather than `github:KloBraticc/Voidstrap`. The build needs the bundled WPF UI submodule, and the `github:` scheme cannot fetch submodules, so `nix flake update` fails with `input attribute 'submodules' not supported by scheme 'github'`.
 
-The flake installs the latest release. To update, run `nix flake update voidstrap` in your configuration and rebuild.
+Adding the flake as an input is not enough on its own: the package must be in `environment.systemPackages` (or `home.packages` with Home Manager) before `voidstrap` works in a terminal or the app launcher. The flake installs the latest release. To update, run `nix flake update voidstrap` in your configuration and rebuild.
 
 </details>
 
