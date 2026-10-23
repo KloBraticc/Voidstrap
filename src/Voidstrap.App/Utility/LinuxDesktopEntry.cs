@@ -75,6 +75,8 @@ internal static class LinuxDesktopEntry
 		try
 		{
 			string launchPath = EnsureLauncher(executablePath);
+			if (RemoveIfStorePath(launchPath))
+				return;
 			string entryPath = Path.Combine(ApplicationsDirectory, EntryFileName);
 			string iconPath = Path.Combine(IconDirectory, IconName + ".png");
 			if (File.Exists(entryPath) && File.Exists(iconPath)
@@ -108,6 +110,8 @@ internal static class LinuxDesktopEntry
 		try
 		{
 			string launchPath = EnsureLauncher(executablePath, replaceInstalledLauncher);
+			if (RemoveIfStorePath(launchPath))
+				return;
 			Directory.CreateDirectory(ApplicationsDirectory);
 			Directory.CreateDirectory(IconDirectory);
 
@@ -437,6 +441,32 @@ internal static class LinuxDesktopEntry
 			App.Logger?.WriteLine("LinuxDesktopEntry::CreateShortcut", "Could not write " + filePath + ": " + ex.Message);
 			return false;
 		}
+	}
+
+	private static bool RemoveIfStorePath(string launchPath)
+	{
+		if (!LinuxAppImageHost.TryGetStorePackageRoot(Path.GetFullPath(launchPath), out _))
+			return false;
+		App.Logger?.WriteLine("LinuxDesktopEntry::RemoveIfStorePath", "Running from a store path that is not installed in a profile, the package desktop entry is used instead");
+		string entryPath = Path.Combine(ApplicationsDirectory, EntryFileName);
+		try
+		{
+			if (File.Exists(entryPath))
+			{
+				string contents = File.ReadAllText(entryPath);
+				if (contents.Contains("/nix/store/", StringComparison.Ordinal) || contents.Contains("/gnu/store/", StringComparison.Ordinal))
+				{
+					File.Delete(entryPath);
+					Refresh();
+					App.Logger?.WriteLine("LinuxDesktopEntry::RemoveIfStorePath", "Removed the user desktop entry that pointed into the store");
+				}
+			}
+		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+		{
+			App.Logger?.WriteLine("LinuxDesktopEntry::RemoveIfStorePath", "The stale desktop entry could not be removed: " + ex.Message);
+		}
+		return true;
 	}
 
 	private static string EnsureLauncher(string executablePath, bool replaceInstalled = false)
