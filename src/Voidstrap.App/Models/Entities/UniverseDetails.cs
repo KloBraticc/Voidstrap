@@ -133,6 +133,15 @@ public class UniverseDetails
 		}
 	}
 
+	private static bool IsStillGenerating(ThumbnailResponse thumbnail)
+	{
+		if (HasImage(thumbnail))
+			return false;
+		return string.Equals(thumbnail.State, "Pending", StringComparison.OrdinalIgnoreCase)
+			|| string.Equals(thumbnail.State, "TemporarilyUnavailable", StringComparison.OrdinalIgnoreCase)
+			|| string.Equals(thumbnail.State, "Error", StringComparison.OrdinalIgnoreCase);
+	}
+
 	private static bool HasImage(ThumbnailResponse? thumbnail)
 	{
 		return !string.IsNullOrEmpty(thumbnail?.ImageUrl) && string.Equals(thumbnail.State, "Completed", StringComparison.OrdinalIgnoreCase);
@@ -167,7 +176,7 @@ public class UniverseDetails
 			{
 				App.Logger.WriteLine("UniverseDetails::FetchThumbnails", "Attempt " + attempt + " failed: " + ex.Message);
 			}
-			pending = pending.Where(id => !result.TryGetValue(id, out ThumbnailResponse? thumbnail) || !HasImage(thumbnail)).ToList();
+			pending = pending.Where(id => !result.TryGetValue(id, out ThumbnailResponse? thumbnail) || IsStillGenerating(thumbnail)).ToList();
 		}
 		return result;
 	}
