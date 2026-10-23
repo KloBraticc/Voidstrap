@@ -515,7 +515,7 @@ namespace Voidstrap.Models.Persistable
 
         public bool LibraryShowRobloxFavorites { get; set; } = true;
 
-        public bool FavoriteUpdateAlerts { get; set; } = true;
+        public bool FavoriteUpdateAlerts { get; set; }
 
         public class LibraryPin
         {
