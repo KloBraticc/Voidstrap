@@ -154,7 +154,7 @@ internal static class Locale
 		return IsRightToLeft(language);
 	}
 
-	private static bool MirrorsLayout => !Voidstrap.Utility.Platform.IsMacOS;
+	private static bool MirrorsLayout => Voidstrap.Utility.Platform.IsWindows;
 
 	private static bool IsRightToLeft(string cultureName)
 	{
