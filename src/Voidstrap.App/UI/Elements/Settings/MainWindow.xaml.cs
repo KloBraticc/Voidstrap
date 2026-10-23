@@ -348,6 +348,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         ["AppearancePage"] = ("Appearance", "Customizing themes and backgrounds"),
         ["BootstrapperPage"] = ("Bootstrapper", "Customizing the launch window"),
         ["LibraryPage"] = ("Library", "Browsing the game library"),
+        ["PrivateServersPage"] = ("Private Servers", "Managing private servers"),
+        ["PrivateServersPage"] = ("Private Servers", "Managing private servers"),
         ["SoberPage"] = ("Sober", "Setting up Roblox on Linux"),
         ["RosemaryPage"] = ("Rosemary", "Setting up Roblox on Linux"),
         ["Releases"] = ("Releases", "Reading the release history"),
