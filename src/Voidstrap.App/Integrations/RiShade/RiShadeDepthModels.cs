@@ -21,8 +21,22 @@ namespace Voidstrap.Integrations.RiShade
         Large
     }
 
+    public sealed record RiShadeDepthModelState(RiShadeDepthModel Model, bool Busy, int Percent, string? Error);
+
     public static class RiShadeDepthModels
     {
+        public static event EventHandler<RiShadeDepthModelState>? StateChanged;
+
+        private static RiShadeDepthModelState? _state;
+
+        public static RiShadeDepthModelState State => _state ?? new RiShadeDepthModelState(Selected, false, 0, null);
+
+        private static void Publish(RiShadeDepthModelState state)
+        {
+            _state = state;
+            StateChanged?.Invoke(null, state);
+        }
+
         private const string LogIdent = "RiShadeDepthModels";
 
         private sealed record Asset(string FileName, string Url, string Sha256, long Size, string? ZipEntry = null);
@@ -104,6 +118,7 @@ namespace Voidstrap.Integrations.RiShade
             {
                 App.Settings.Prop.RiShadeDepthModel = model.ToString();
                 App.Settings.SaveDeferred();
+                Publish(new RiShadeDepthModelState(model, model != RiShadeDepthModel.Off, 0, null));
                 string directory = RiShadeManager.RiShadeDir;
                 Directory.CreateDirectory(directory);
 
@@ -111,6 +126,7 @@ namespace Voidstrap.Integrations.RiShade
                 {
                     RemoveUnused(directory, null);
                     App.Logger.WriteLine(LogIdent, "AI depth turned off, scene depth estimation is used");
+                    Publish(new RiShadeDepthModelState(model, false, 0, null));
                     return (true, string.Empty);
                 }
 
@@ -123,18 +139,29 @@ namespace Voidstrap.Integrations.RiShade
                         total += asset.Size;
                 }
                 long done = 0;
+                int lastPercent = 0;
+                void Report(double value)
+                {
+                    int percent = (int)(value * 100);
+                    progress?.Report(value);
+                    if (percent == lastPercent)
+                        return;
+                    lastPercent = percent;
+                    Publish(new RiShadeDepthModelState(model, true, percent, null));
+                }
                 foreach (Asset asset in needed)
                 {
                     if (IsInstalled(directory, asset))
                         continue;
                     long before = done;
-                    Progress<long> bytes = new(count => progress?.Report(total > 0 ? Math.Min(1.0, (before + count) / (double)total) : 1.0));
+                    Progress<long> bytes = new(count => Report(total > 0 ? Math.Min(1.0, (before + count) / (double)total) : 1.0));
                     await DownloadAsync(directory, asset, bytes, token);
                     done += asset.Size;
                 }
                 RemoveUnused(directory, chosen);
                 progress?.Report(1.0);
                 App.Logger.WriteLine(LogIdent, $"AI depth model {model} is installed");
+                Publish(new RiShadeDepthModelState(model, false, 100, null));
                 return (true, string.Empty);
             }
             catch (OperationCanceledException)
@@ -144,6 +171,7 @@ namespace Voidstrap.Integrations.RiShade
             catch (Exception ex)
             {
                 App.Logger.WriteException(LogIdent + "::SelectAsync", ex);
+                Publish(new RiShadeDepthModelState(model, false, 0, ex.Message));
                 return (false, ex.Message);
             }
             finally
