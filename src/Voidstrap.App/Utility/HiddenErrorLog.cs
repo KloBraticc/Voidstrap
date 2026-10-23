@@ -52,6 +52,12 @@ internal static class HiddenErrorLog
 
 	private static long _longestFreezeTicks;
 
+	private static DispatcherOperation? _currentOperation;
+
+	private static long _operationStartedTicks;
+
+	private static string _lastSlowWork = "";
+
 	[ThreadStatic]
 	private static bool _inside;
 
@@ -82,7 +88,13 @@ internal static class HiddenErrorLog
 		AppDomain.CurrentDomain.FirstChanceException -= OnFirstChanceException;
 		Timer? watchdog = Interlocked.Exchange(ref _watchdog, null);
 		watchdog?.Dispose();
-		_dispatcher = null;
+		Dispatcher? dispatcher = Interlocked.Exchange(ref _dispatcher, null);
+		if (dispatcher != null)
+		{
+			dispatcher.Hooks.OperationStarted -= OnOperationStarted;
+			dispatcher.Hooks.OperationCompleted -= OnOperationFinished;
+			dispatcher.Hooks.OperationAborted -= OnOperationFinished;
+		}
 		WriteSummary();
 	}
 
@@ -97,11 +109,50 @@ internal static class HiddenErrorLog
 		try
 		{
 			_dispatcher = Dispatcher.CurrentDispatcher;
+			_dispatcher.Hooks.OperationStarted += OnOperationStarted;
+			_dispatcher.Hooks.OperationCompleted += OnOperationFinished;
+			_dispatcher.Hooks.OperationAborted += OnOperationFinished;
 			_watchdog = new Timer(OnWatchdogTick, null, WatchdogInterval, WatchdogInterval);
 		}
 		catch (Exception ex)
 		{
 			App.Logger.WriteLine(LOG_IDENT, "The freeze watchdog could not start: " + ex.Message);
+		}
+	}
+
+	private static void OnOperationStarted(object? sender, DispatcherHookEventArgs e)
+	{
+		Interlocked.Exchange(ref _operationStartedTicks, DateTime.UtcNow.Ticks);
+		Volatile.Write(ref _currentOperation, e.Operation);
+	}
+
+	private static void OnOperationFinished(object? sender, DispatcherHookEventArgs e)
+	{
+		if (Interlocked.CompareExchange(ref _currentOperation, null, e.Operation) != e.Operation)
+			return;
+		if (DateTime.UtcNow.Ticks - Interlocked.Read(ref _operationStartedTicks) >= FreezeThreshold)
+			_lastSlowWork = Describe(e.Operation);
+	}
+
+	private static string DescribeCurrentWork()
+	{
+		return Describe(Volatile.Read(ref _currentOperation));
+	}
+
+	private static string Describe(DispatcherOperation? operation)
+	{
+		try
+		{
+			if (operation == null)
+				return "";
+			System.Reflection.MethodInfo? method = (operation.GetType().GetField("_method", System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)?.GetValue(operation) as Delegate)?.Method;
+			if (method == null)
+				return " while running " + operation.Priority + " work";
+			return " while running " + (method.DeclaringType?.FullName ?? "?") + "." + method.Name;
+		}
+		catch
+		{
+			return "";
 		}
 	}
 
@@ -118,7 +169,7 @@ internal static class HiddenErrorLog
 				long waited = now - Interlocked.Read(ref _probeSentTicks);
 				if (waited >= StuckThreshold && Volatile.Read(ref _freezeReports) < MaxFreezeReports && Interlocked.Exchange(ref _stuckReported, 1) == 0)
 				{
-					App.Logger.WriteLine("UiFreeze", "The window has not responded for " + (waited / TimeSpan.TicksPerMillisecond) + " ms and is still frozen");
+					App.Logger.WriteLine("UiFreeze", "The window has not responded for " + (waited / TimeSpan.TicksPerMillisecond) + " ms and is still frozen" + DescribeCurrentWork());
 					App.Logger.Flush();
 				}
 				return;
@@ -135,6 +186,8 @@ internal static class HiddenErrorLog
 	private static void OnProbeAnswered()
 	{
 		long waited = DateTime.UtcNow.Ticks - Interlocked.Read(ref _probeSentTicks);
+		string work = _lastSlowWork;
+		_lastSlowWork = "";
 		Volatile.Write(ref _probePending, 0);
 		bool wasStuck = Interlocked.Exchange(ref _stuckReported, 0) == 1;
 		if (waited < FreezeThreshold)
@@ -143,7 +196,7 @@ internal static class HiddenErrorLog
 			Interlocked.Exchange(ref _longestFreezeTicks, waited);
 		if (Interlocked.Increment(ref _freezeReports) > MaxFreezeReports)
 			return;
-		App.Logger.WriteLine("UiFreeze", "The window was frozen for " + (waited / TimeSpan.TicksPerMillisecond) + " ms" + (wasStuck ? " and has now recovered" : ""));
+		App.Logger.WriteLine("UiFreeze", "The window was frozen for " + (waited / TimeSpan.TicksPerMillisecond) + " ms" + work + (wasStuck ? " and has now recovered" : ""));
 	}
 
 	private static void OnFirstChanceException(object? sender, FirstChanceExceptionEventArgs e)
