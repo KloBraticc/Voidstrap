@@ -194,6 +194,8 @@ cbuffer Track : register(b0)
 {
     uint2 SourceSize;
     uint2 WorkSize;
+    uint Flags;
+    uint3 Padding;
 };
 Texture2D<float4> Color : register(t0);
 Texture2D<float> Luma : register(t1);
@@ -204,37 +206,41 @@ Texture2D<float2> Coarse : register(t5);
 Texture2D<float4> Flow : register(t6);
 Texture2D<float> Anchor : register(t7);
 Texture2D<float> Warped : register(t8);
-Texture2D<float4> Map : register(t9);
+StructuredBuffer<float4> Motion : register(t9);
 RWTexture2D<float> LumaTarget : register(u0);
 RWTexture2D<float> QuarterTarget : register(u1);
 RWTexture2D<float2> CoarseTarget : register(u2);
 RWTexture2D<float4> FlowTarget : register(u3);
 RWTexture2D<float> Depth : register(u4);
 RWTexture2D<float> WarpedTarget : register(u5);
-RWTexture2D<float4> SettledTarget : register(u6);
-RWTexture2D<float4> MapTarget : register(u7);
+RWStructuredBuffer<float4> Affine : register(u6);
 
 static const int CoarseSearch = 8;
 static const int Patch = 2;
 static const float MotionCost = 0.002;
 static const float LostMatch = 0.06;
-static const int FillDirections = 8;
-static const int FillSteps = 4;
+static const float CornerScale = 400.0;
+static const float OutlierDistance = 1.5;
+static const float MinimumWeight = 4.0;
+static const float Regularization = 1e-3;
 static const float TemporalBase = 0.5;
 static const float TemporalResponse = 6.0;
-static const int SettleRadius = 2;
-static const float EdgeSpread = 2.0;
-static const float CornerScale = 400.0;
-static const float ConfidenceFloor = 0.02;
-static const float SettleLuma = 0.05;
-static const float SettleCost = 0.03;
 static const int RefineRadius = 2;
 static const int RefineStride = 2;
 static const float RefineColor = 0.08;
+static const uint Composed = 1;
+static const uint Advance = 2;
+static const uint Reset = 4;
+static const uint Published = 8;
 
 uint2 QuarterSize()
 {
     return (WorkSize + 3) / 4;
+}
+
+float2 Centre()
+{
+    return (float2(WorkSize) - 1) * 0.5;
 }
 
 [numthreads(16, 16, 1)]
@@ -357,59 +363,147 @@ void MatchFine(uint3 id : SV_DispatchThreadID)
             sub.y = clamp(0.5 * (costs[bestIndex - 5] - costs[bestIndex + 5]) / curve, -0.5, 0.5);
     }
     float2 offset = float2(start + (int2(bx, by) - 2)) + sub;
-    FlowTarget[id.xy] = float4(offset, best, saturate(corner * CornerScale) * saturate(1 - best * 12));
+    bool edge = bx == 0 || bx == 4 || by == 0 || by == 4;
+    float confidence = saturate(corner * CornerScale) * saturate(1 - best * 12) * (edge || best > LostMatch ? 0 : 1);
+    FlowTarget[id.xy] = float4(offset, best, confidence);
 }
 
-float4 SettleAt(int2 p, int stride)
+groupshared float Sums[256][13];
+
+void FitMotion(uint thread, bool refine)
 {
-    int2 size = int2(WorkSize);
-    float centre = Luma.Load(int3(p, 0));
-    float2 sum = 0;
-    float confidence = 0;
-    float weights = 0;
-    for (int dy = -SettleRadius; dy <= SettleRadius; ++dy)
-        for (int dx = -SettleRadius; dx <= SettleRadius; ++dx)
+    float sums[13];
+    for (int i = 0; i < 13; ++i)
+        sums[i] = 0;
+    float2 centre = Centre();
+    float scale = max(WorkSize.x, WorkSize.y) * 0.5;
+    float4 row0 = Affine[0];
+    float4 row1 = Affine[1];
+    uint columns = (WorkSize.x + 1) / 2;
+    uint count = columns * ((WorkSize.y + 1) / 2);
+    for (uint n = thread; n < count; n += 256)
+    {
+        uint2 p = uint2(n % columns, n / columns) * 2;
+        float4 flow = Flow.Load(int3(p, 0));
+        float weight = flow.w;
+        float2 x = float2(p) - centre;
+        float2 q = x - flow.xy;
+        if (refine)
         {
-            int2 q = clamp(p + int2(dx, dy) * stride, 0, size - 1);
-            float4 flow = Flow.Load(int3(q, 0));
-            float difference = Luma.Load(int3(q, 0)) - centre;
-            float weight = exp(-difference * difference / (2 * SettleLuma * SettleLuma)) * exp(-flow.z / SettleCost) * (flow.w + ConfidenceFloor) + 1e-6;
-            sum += weight * flow.xy;
-            confidence += weight * flow.w;
-            weights += weight;
+            float2 predicted = float2(dot(row0.xyz, float3(x, 1)), dot(row1.xyz, float3(x, 1)));
+            weight *= saturate(1 - distance(predicted, q) / OutlierDistance);
         }
-    return float4(sum / weights, Flow.Load(int3(p, 0)).z, confidence / weights);
-}
-
-[numthreads(16, 16, 1)]
-void Settle(uint3 id : SV_DispatchThreadID)
-{
-    if (any(id.xy >= WorkSize))
+        if (weight <= 0)
+            continue;
+        float3 v = float3(x / scale, 1);
+        sums[0] += weight * v.x * v.x;
+        sums[1] += weight * v.x * v.y;
+        sums[2] += weight * v.x;
+        sums[3] += weight * v.y * v.y;
+        sums[4] += weight * v.y;
+        sums[5] += weight;
+        sums[6] += weight * v.x * q.x;
+        sums[7] += weight * v.y * q.x;
+        sums[8] += weight * q.x;
+        sums[9] += weight * v.x * q.y;
+        sums[10] += weight * v.y * q.y;
+        sums[11] += weight * q.y;
+        sums[12] += weight;
+    }
+    for (int s = 0; s < 13; ++s)
+        Sums[thread][s] = sums[s];
+    GroupMemoryBarrierWithGroupSync();
+    for (uint step = 128; step > 0; step >>= 1)
+    {
+        if (thread < step)
+            for (int s2 = 0; s2 < 13; ++s2)
+                Sums[thread][s2] += Sums[thread + step][s2];
+        GroupMemoryBarrierWithGroupSync();
+    }
+    if (thread != 0)
         return;
-    SettledTarget[id.xy] = SettleAt(int2(id.xy), 1);
-}
-
-[numthreads(16, 16, 1)]
-void SettleWide(uint3 id : SV_DispatchThreadID)
-{
-    if (any(id.xy >= WorkSize))
+    if (Sums[0][12] < MinimumWeight)
+    {
+        Affine[0] = float4(1, 0, 0, 0);
+        Affine[1] = float4(0, 1, 0, 0);
         return;
-    FlowTarget[id.xy] = SettleAt(int2(id.xy), 4);
+    }
+    float lambda = Regularization * Sums[0][5];
+    float3x3 m = float3x3(Sums[0][0] + lambda, Sums[0][1], Sums[0][2],
+                          Sums[0][1], Sums[0][3] + lambda, Sums[0][4],
+                          Sums[0][2], Sums[0][4], Sums[0][5] + lambda);
+    float3 bx = float3(Sums[0][6] + lambda * scale, Sums[0][7], Sums[0][8]);
+    float3 by = float3(Sums[0][9], Sums[0][10] + lambda * scale, Sums[0][11]);
+    float det = determinant(m);
+    float3x3 inverse = float3x3(cross(m[1], m[2]), cross(m[2], m[0]), cross(m[0], m[1])) / det;
+    float3 ax = mul(transpose(inverse), bx);
+    float3 ay = mul(transpose(inverse), by);
+    Affine[0] = float4(ax.x / scale, ax.y / scale, ax.z, 0);
+    Affine[1] = float4(ay.x / scale, ay.y / scale, ay.z, 0);
 }
 
-float4 MapAt(float2 position)
+[numthreads(256, 1, 1)]
+void Fit(uint3 id : SV_DispatchThreadID, uint thread : SV_GroupIndex)
 {
-    int2 size = int2(WorkSize);
-    int2 base = int2(floor(position));
-    float2 t = position - base;
-    float4 a = Map.Load(int3(clamp(base, 0, size - 1), 0));
-    float4 b = Map.Load(int3(clamp(base + int2(1, 0), 0, size - 1), 0));
-    float4 c = Map.Load(int3(clamp(base + int2(0, 1), 0, size - 1), 0));
-    float4 d = Map.Load(int3(clamp(base + int2(1, 1), 0, size - 1), 0));
-    float spread = max(max(distance(a.xy, b.xy), distance(a.xy, c.xy)), distance(a.xy, d.xy));
-    bool smooth = spread <= EdgeSpread && min(min(a.z, b.z), min(c.z, d.z)) >= 0.5;
-    float4 nearest = Map.Load(int3(clamp(int2(round(position)), 0, size - 1), 0));
-    return smooth ? lerp(lerp(a, b, t.x), lerp(c, d, t.x), t.y) : nearest;
+    FitMotion(thread, false);
+}
+
+[numthreads(256, 1, 1)]
+void FitRefine(uint3 id : SV_DispatchThreadID, uint thread : SV_GroupIndex)
+{
+    FitMotion(thread, true);
+}
+
+void Combine(float4 k0, float4 k1, float4 l0, float4 l1, out float4 r0, out float4 r1)
+{
+    r0 = float4(k0.x * l0.x + k0.y * l1.x, k0.x * l0.y + k0.y * l1.y, k0.x * l0.z + k0.y * l1.z + k0.z, 0);
+    r1 = float4(k1.x * l0.x + k1.y * l1.x, k1.x * l0.y + k1.y * l1.y, k1.x * l0.z + k1.y * l1.z + k1.z, 0);
+}
+
+[numthreads(1, 1, 1)]
+void Step(uint3 id : SV_DispatchThreadID)
+{
+    float4 identity0 = float4(1, 0, 0, 0);
+    float4 identity1 = float4(0, 1, 0, 0);
+    float4 motion0 = Flags & Composed ? Affine[0] : identity0;
+    float4 motion1 = Flags & Composed ? Affine[1] : identity1;
+    float4 anchor0 = Affine[2];
+    float4 anchor1 = Affine[3];
+    float4 pending0 = Affine[6];
+    float4 pending1 = Affine[7];
+    if (Flags & Published)
+    {
+        anchor0 = pending0;
+        anchor1 = pending1;
+    }
+    float4 anchorLive0;
+    float4 anchorLive1;
+    float4 pendingLive0;
+    float4 pendingLive1;
+    Combine(anchor0, anchor1, motion0, motion1, anchorLive0, anchorLive1);
+    Combine(pending0, pending1, motion0, motion1, pendingLive0, pendingLive1);
+    if (Flags & Advance)
+    {
+        anchor0 = anchorLive0;
+        anchor1 = anchorLive1;
+        pending0 = pendingLive0;
+        pending1 = pendingLive1;
+    }
+    if (Flags & Reset)
+    {
+        pending0 = identity0;
+        pending1 = identity1;
+        pendingLive0 = identity0;
+        pendingLive1 = identity1;
+    }
+    Affine[2] = anchor0;
+    Affine[3] = anchor1;
+    Affine[4] = anchorLive0;
+    Affine[5] = anchorLive1;
+    Affine[6] = pending0;
+    Affine[7] = pending1;
+    Affine[8] = pendingLive0;
+    Affine[9] = pendingLive1;
 }
 
 float AnchorAt(float2 work)
@@ -426,51 +520,14 @@ float AnchorAt(float2 work)
 }
 
 [numthreads(16, 16, 1)]
-void Compose(uint3 id : SV_DispatchThreadID)
-{
-    if (any(id.xy >= WorkSize))
-        return;
-    float4 flow = Flow.Load(int3(id.xy, 0));
-    float2 from = float2(id.xy) - flow.xy;
-    float4 origin = MapAt(from);
-    bool outside = any(from < -0.5) || any(from > float2(WorkSize) - 0.5);
-    MapTarget[id.xy] = float4(origin.xy, flow.z > LostMatch || outside ? 0 : origin.z, 0);
-}
-
-[numthreads(16, 16, 1)]
-void Identity(uint3 id : SV_DispatchThreadID)
-{
-    if (any(id.xy >= WorkSize))
-        return;
-    MapTarget[id.xy] = float4(float2(id.xy), 1, 0);
-}
-
-[numthreads(16, 16, 1)]
 void Warp(uint3 id : SV_DispatchThreadID)
 {
     if (any(id.xy >= SourceSize))
         return;
-    float2 position = (id.xy + 0.5) * float2(WorkSize) / float2(SourceSize) - 0.5;
-    int2 w = clamp(int2(round(position)), 0, int2(WorkSize) - 1);
-    float4 origin = MapAt(position);
-    float current = -1;
-    if (origin.z >= 0.5)
-        current = AnchorAt(origin.xy);
-    else
-    {
-        for (int step = 1; step <= FillSteps; ++step)
-            for (int direction = 0; direction < FillDirections; ++direction)
-            {
-                float angle = direction * 6.2831853 / FillDirections;
-                int2 n = clamp(w + int2(round(float2(cos(angle), sin(angle)) * (2 << step))), 0, int2(WorkSize) - 1);
-                float4 neighbour = Map.Load(int3(n, 0));
-                if (neighbour.z >= 0.5)
-                    current = max(current, AnchorAt(neighbour.xy + position - n));
-            }
-        if (current < 0)
-            current = AnchorAt(position);
-    }
-    WarpedTarget[id.xy] = current;
+    float2 centre = Centre();
+    float3 x = float3((id.xy + 0.5) * float2(WorkSize) / float2(SourceSize) - 0.5 - centre, 1);
+    float2 origin = float2(dot(Motion[4].xyz, x), dot(Motion[5].xyz, x)) + centre;
+    WarpedTarget[id.xy] = AnchorAt(origin);
 }
 
 [numthreads(16, 16, 1)]
@@ -500,18 +557,22 @@ void Refine(uint3 id : SV_DispatchThreadID)
 )";
 
 constexpr const char* kEntryPoints[] = { "Preprocess", "Peak", "Histogram", "Smooth", "Upsample" };
-constexpr const char* kTrackEntryPoints[] = { "Shrink", "Reduce", "MatchCoarse", "MatchFine", "Warp", "Settle", "Refine", "SettleWide", "Compose", "Identity" };
+constexpr const char* kTrackEntryPoints[] = { "Shrink", "Reduce", "MatchCoarse", "MatchFine", "Fit", "FitRefine", "Step", "Warp", "Refine" };
 constexpr size_t kShaderCount = std::size(kEntryPoints) + std::size(kTrackEntryPoints);
 constexpr size_t kShrink = std::size(kEntryPoints);
 constexpr size_t kReduce = kShrink + 1;
 constexpr size_t kMatchCoarse = kShrink + 2;
 constexpr size_t kMatchFine = kShrink + 3;
-constexpr size_t kWarp = kShrink + 4;
-constexpr size_t kSettle = kShrink + 5;
-constexpr size_t kRefine = kShrink + 6;
-constexpr size_t kSettleWide = kShrink + 7;
-constexpr size_t kCompose = kShrink + 8;
-constexpr size_t kIdentity = kShrink + 9;
+constexpr size_t kFit = kShrink + 4;
+constexpr size_t kFitRefine = kShrink + 5;
+constexpr size_t kStep = kShrink + 6;
+constexpr size_t kWarp = kShrink + 7;
+constexpr size_t kRefine = kShrink + 8;
+constexpr UINT kComposed = 1;
+constexpr UINT kAdvance = 2;
+constexpr UINT kReset = 4;
+constexpr UINT kPublished = 8;
+constexpr UINT kAffineRows = 10;
 
 struct Surface
 {
@@ -546,17 +607,17 @@ struct Depth
     winrt::com_ptr<ID3D11ShaderResourceView> liveView;
     std::array<Surface, 2> luma;
     std::array<Surface, 2> quarter;
-    std::array<Surface, 2> anchorMaps;
-    std::array<Surface, 2> pendingMaps;
+    winrt::com_ptr<ID3D11Buffer> affine;
+    winrt::com_ptr<ID3D11UnorderedAccessView> affineTarget;
+    winrt::com_ptr<ID3D11ShaderResourceView> affineView;
     size_t key = 0;
     bool tracking = false;
     FrameStatistics::Clock::time_point keyAt{};
-    bool pending = false;
     bool resetPending = false;
+    bool published = false;
     Surface coarse;
     Surface flow;
     Surface anchor;
-    Surface settled;
     Surface warped;
     UINT workWidth = 0;
     UINT workHeight = 0;
@@ -857,7 +918,7 @@ void CreateShaders()
     desc.Usage = D3D11_USAGE_DEFAULT;
     desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
     winrt::check_hresult(g.device->CreateBuffer(&desc, nullptr, d.sizes.put()));
-    desc.ByteWidth = 16;
+    desc.ByteWidth = 32;
     winrt::check_hresult(g.device->CreateBuffer(&desc, nullptr, d.trackSizes.put()));
 }
 
@@ -898,13 +959,15 @@ void ReleaseShared()
     d.view = nullptr;
     d.textureTarget = nullptr;
     d.texture = nullptr;
-    for (Surface* surface : { &d.luma[0], &d.luma[1], &d.quarter[0], &d.quarter[1], &d.anchorMaps[0], &d.anchorMaps[1], &d.pendingMaps[0],
-                              &d.pendingMaps[1], &d.coarse, &d.flow, &d.anchor, &d.settled, &d.warped })
+    for (Surface* surface : { &d.luma[0], &d.luma[1], &d.quarter[0], &d.quarter[1], &d.coarse, &d.flow, &d.anchor, &d.warped })
         *surface = {};
+    d.affineView = nullptr;
+    d.affineTarget = nullptr;
+    d.affine = nullptr;
     d.anchored = false;
     d.tracking = false;
-    d.pending = false;
     d.resetPending = false;
+    d.published = false;
     d.stateView = nullptr;
     d.stateTarget = nullptr;
     d.state = nullptr;
@@ -1086,16 +1149,24 @@ void CreateShared()
     {
         CreateSurface(d.workWidth, d.workHeight, DXGI_FORMAT_R32_FLOAT, d.luma[i]);
         CreateSurface(quarterWidth, quarterHeight, DXGI_FORMAT_R32_FLOAT, d.quarter[i]);
-        CreateSurface(d.workWidth, d.workHeight, DXGI_FORMAT_R32G32B32A32_FLOAT, d.anchorMaps[i]);
-        CreateSurface(d.workWidth, d.workHeight, DXGI_FORMAT_R32G32B32A32_FLOAT, d.pendingMaps[i]);
     }
     CreateSurface(quarterWidth, quarterHeight, DXGI_FORMAT_R32G32_FLOAT, d.coarse);
     CreateSurface(d.workWidth, d.workHeight, DXGI_FORMAT_R32G32B32A32_FLOAT, d.flow);
-    CreateSurface(d.workWidth, d.workHeight, DXGI_FORMAT_R32G32B32A32_FLOAT, d.settled);
     CreateSurface(d.sourceWidth, d.sourceHeight, DXGI_FORMAT_R32_FLOAT, d.warped);
     g.context->ClearUnorderedAccessViewFloat(d.anchor.target.get(), farPlane);
-    const UINT trackSizes[4] = { d.sourceWidth, d.sourceHeight, d.workWidth, d.workHeight };
-    g.context->UpdateSubresource(d.trackSizes.get(), 0, nullptr, trackSizes, 0, 0);
+    std::array<float, 4 * kAffineRows> identity{};
+    for (UINT row = 0; row < kAffineRows; ++row)
+        identity[row * 4 + row % 2] = 1;
+    D3D11_BUFFER_DESC affine{};
+    affine.ByteWidth = sizeof(identity);
+    affine.Usage = D3D11_USAGE_DEFAULT;
+    affine.BindFlags = D3D11_BIND_UNORDERED_ACCESS | D3D11_BIND_SHADER_RESOURCE;
+    affine.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
+    affine.StructureByteStride = 16;
+    const D3D11_SUBRESOURCE_DATA initial{ identity.data() };
+    winrt::check_hresult(g.device->CreateBuffer(&affine, &initial, d.affine.put()));
+    winrt::check_hresult(g.device->CreateUnorderedAccessView(d.affine.get(), nullptr, d.affineTarget.put()));
+    winrt::check_hresult(g.device->CreateShaderResourceView(d.affine.get(), nullptr, d.affineView.put()));
 
     const UINT sizes[8] = { d.sourceWidth, d.sourceHeight, static_cast<UINT>(d.width), static_cast<UINT>(d.height),
                             kRowBytes / (d.halfInput ? 2 : 4), kRowBytes / (d.halfOutput ? 2 : 4), d.distanceOutput ? 1u : 0u };
@@ -1115,15 +1186,8 @@ void Publish()
     Dispatch(3, {}, { nullptr, d.keysTarget.get(), d.stateTarget.get() }, 1, 1);
     Dispatch(4, { d.frameView.get(), d.outputView.get(), d.stateView.get(), d.guideView.get() }, { nullptr, nullptr, nullptr, d.anchor.target.get() },
              (d.sourceWidth + 15) / 16, (d.sourceHeight + 15) / 16);
-    std::swap(d.anchorMaps, d.pendingMaps);
-    d.anchored = d.pending;
-    d.pending = false;
-}
-
-void ComposeMap(const std::array<Surface, 2>& maps, UINT groupsX, UINT groupsY)
-{
-    Dispatch(kCompose, { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.flow.view.get(), nullptr, nullptr, maps[0].view.get() },
-             { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, maps[1].target.get() }, groupsX, groupsY);
+    d.anchored = true;
+    d.published = true;
 }
 
 void Track(ID3D11Texture2D* frame, int64_t frameTimestamp)
@@ -1149,40 +1213,30 @@ void Track(ID3D11Texture2D* frame, int64_t frameTimestamp)
                  quarterGroupsX, quarterGroupsY);
         Dispatch(kMatchFine, { nullptr, luma.view.get(), keyLuma.view.get(), nullptr, nullptr, d.coarse.view.get() },
                  { nullptr, nullptr, nullptr, d.flow.target.get() }, workGroupsX, workGroupsY);
-        Dispatch(kSettle, { nullptr, luma.view.get(), nullptr, nullptr, nullptr, nullptr, d.flow.view.get() },
-                 { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.settled.target.get() }, workGroupsX, workGroupsY);
-        Dispatch(kSettleWide, { nullptr, luma.view.get(), nullptr, nullptr, nullptr, nullptr, d.settled.view.get() },
-                 { nullptr, nullptr, nullptr, d.flow.target.get() }, workGroupsX, workGroupsY);
-        if (d.anchored)
-            ComposeMap(d.anchorMaps, workGroupsX, workGroupsY);
-        if (d.pending)
-            ComposeMap(d.pendingMaps, workGroupsX, workGroupsY);
+        Dispatch(kFit, { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.flow.view.get() },
+                 { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.affineTarget.get() }, 1, 1);
+        Dispatch(kFitRefine, { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.flow.view.get() },
+                 { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.affineTarget.get() }, 1, 1);
     }
     const auto now = FrameStatistics::Clock::now();
     const bool advance = !d.tracking || d.resetPending || now - d.keyAt >= kKeyframeInterval;
+    const UINT flags = (composed ? kComposed : 0) | (advance ? kAdvance : 0) | (d.resetPending ? kReset : 0) | (d.published ? kPublished : 0);
+    const UINT constants[8] = { d.sourceWidth, d.sourceHeight, d.workWidth, d.workHeight, flags };
+    g.context->UpdateSubresource(d.trackSizes.get(), 0, nullptr, constants, 0, 0);
+    Dispatch(kStep, {}, { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.affineTarget.get() }, 1, 1);
+    d.published = false;
+    d.resetPending = false;
     if (advance)
     {
         d.key ^= 1;
         d.keyAt = now;
         d.tracking = true;
-        if (composed)
-        {
-            std::swap(d.anchorMaps[0], d.anchorMaps[1]);
-            std::swap(d.pendingMaps[0], d.pendingMaps[1]);
-        }
     }
-    if (d.resetPending)
-    {
-        Dispatch(kIdentity, {}, { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.pendingMaps[0].target.get() }, workGroupsX, workGroupsY);
-        d.resetPending = false;
-        d.pending = true;
-    }
-    if (!d.anchored || !composed)
+    if (!d.anchored)
         return;
-    const Surface& map = d.anchorMaps[advance ? 0 : 1];
     const UINT sourceGroupsX = (d.sourceWidth + 15) / 16;
     const UINT sourceGroupsY = (d.sourceHeight + 15) / 16;
-    Dispatch(kWarp, { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.anchor.view.get(), nullptr, map.view.get() },
+    Dispatch(kWarp, { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.anchor.view.get(), nullptr, d.affineView.get() },
              { nullptr, nullptr, nullptr, nullptr, nullptr, d.warped.target.get() }, sourceGroupsX, sourceGroupsY);
     Dispatch(kRefine, { d.liveView.get(), nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.warped.view.get() },
              { nullptr, nullptr, nullptr, nullptr, d.textureTarget.get() }, sourceGroupsX, sourceGroupsY);
@@ -1373,8 +1427,8 @@ void ShutdownDepth()
     d.lastTracked.reset();
     d.anchored = false;
     d.tracking = false;
-    d.pending = false;
     d.resetPending = false;
+    d.published = false;
     d.inputValue = 0;
     d.version = 0;
     d.slowRequestLogged = false;
