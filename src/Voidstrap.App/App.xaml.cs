@@ -157,8 +157,29 @@ public partial class App : Application
 		return sHA.ComputeHash(stream);
 	}
 
+	private static int _waitingForDepthDownload;
+
+	private static async Task FinishDepthDownloadThenTerminateAsync(ErrorCode exitCode)
+	{
+		System.Diagnostics.Stopwatch waited = System.Diagnostics.Stopwatch.StartNew();
+		while (Voidstrap.Integrations.RiShade.RiShadeDepthModels.State.Busy && waited.Elapsed < TimeSpan.FromMinutes(30))
+			await Task.Delay(500);
+		Logger.WriteLine("App::Terminate", "The RiShade depth download is done, closing now");
+		Application? application = Current;
+		if (application != null && !application.Dispatcher.HasShutdownStarted)
+			application.Dispatcher.Invoke(() => Terminate(exitCode));
+		else
+			Terminate(exitCode);
+	}
+
 	public static void Terminate(ErrorCode exitCode = ErrorCode.ERROR_SUCCESS)
 	{
+		if (Voidstrap.Integrations.RiShade.RiShadeDepthModels.State.Busy && Interlocked.Exchange(ref _waitingForDepthDownload, 1) == 0)
+		{
+			Logger.WriteLine("App::Terminate", "A RiShade depth download is still running, Voidstrap stays open in the background until it finishes");
+			_ = FinishDepthDownloadThenTerminateAsync(exitCode);
+			return;
+		}
 		Logger.WriteLine("App::Terminate", $"Terminating with exit code {(int)exitCode} ({exitCode})");
 		ShutdownApplication((int)exitCode);
 	}

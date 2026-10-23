@@ -56,6 +56,7 @@ public partial class ExtensionPage : UiPage
 		Voidstrap.Integrations.RiShade.RiShadePanel.OpenChanged += RiShadePanel_OpenChanged;
 		Voidstrap.Integrations.RiShade.RiShadeDepthModels.StateChanged -= RiShadeDepthModels_StateChanged;
 		Voidstrap.Integrations.RiShade.RiShadeDepthModels.StateChanged += RiShadeDepthModels_StateChanged;
+		ApplyRiShadeDepthModelState(Voidstrap.Integrations.RiShade.RiShadeDepthModels.State);
 		_vm.RiShadeOpenLabel = Voidstrap.Integrations.RiShade.RiShadePanel.IsOpen ? "Close" : "Open";
 		DynamicRenderSystem.Prefetch(_assets.Select(a => a.Icon).Where(i => i.Length > 0), 128);
 		foreach (ExtensionEntry asset in _assets)
