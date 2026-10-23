@@ -328,7 +328,8 @@ public static class RobloxServers
 				}
 				if (!response.IsSuccessStatusCode)
 				{
-					App.Logger.WriteLine(LOG_IDENT, $"Turning a private server {(active ? "on" : "off")} answered {(int)response.StatusCode} {response.StatusCode}");
+					string body = await Utility.Http.ReadStringBoundedAsync(response.Content, 4096, token).ConfigureAwait(false);
+					App.Logger.WriteLine(LOG_IDENT, $"Turning a private server {(active ? "on" : "off")} answered {(int)response.StatusCode} {response.StatusCode}: {body}");
 					return false;
 				}
 				return true;

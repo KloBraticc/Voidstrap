@@ -50,7 +50,7 @@ namespace Voidstrap.UI.ViewModels.Settings
 
         public double RowOpacity => Server.Active ? 1.0 : 0.6;
 
-        public Visibility ToggleVisibility => Server.IsMine ? Visibility.Visible : Visibility.Collapsed;
+        public Visibility ToggleVisibility => Server.IsMine && (Server.Active || Server.Expires is not DateTime expires || expires > DateTime.UtcNow) ? Visibility.Visible : Visibility.Collapsed;
 
         public string ToggleText => Server.Active ? Strings.PrivateServers_TurnOff : Strings.PrivateServers_TurnOn;
 
@@ -272,6 +272,8 @@ namespace Voidstrap.UI.ViewModels.Settings
             List<PrivateServerGame> games = new();
             foreach (IGrouping<long, AccountPrivateServer> group in servers.GroupBy(server => server.UniverseId))
             {
+                if (group.Any(server => IsDeleted(server.GameName)))
+                    continue;
                 UniverseDetails? details = group.Key > 0 ? UniverseDetails.LoadFromCache(group.Key) : null;
                 string name = details?.Data?.Name is { Length: > 0 } known ? known : group.Select(server => server.GameName).FirstOrDefault(value => value.Length > 0) ?? "";
                 List<PrivateServerRow> rows = group
@@ -279,6 +281,8 @@ namespace Voidstrap.UI.ViewModels.Settings
                     .ThenBy(server => server.Name, StringComparer.CurrentCultureIgnoreCase)
                     .Select(server => new PrivateServerRow(server))
                     .ToList();
+                if (IsDeleted(name))
+                    continue;
                 games.Add(new PrivateServerGame
                 {
                     UniverseId = group.Key,
@@ -289,11 +293,12 @@ namespace Voidstrap.UI.ViewModels.Settings
                 });
             }
             return games
-                .OrderBy(game => game.Name.Contains("Content Deleted", StringComparison.OrdinalIgnoreCase))
-                .ThenByDescending(game => game.Servers.Any(row => row.Server.Active))
+                .OrderByDescending(game => game.Servers.Any(row => row.Server.Active))
                 .ThenBy(game => game.Name.TrimStart('[', ' ', '(', '{'), StringComparer.CurrentCultureIgnoreCase)
                 .ToList();
         }
+
+        private static bool IsDeleted(string name) => name.Contains("Content Deleted", StringComparison.OrdinalIgnoreCase);
 
         private void ApplyFilter()
         {

@@ -12,7 +12,7 @@
     <ResourceDictionary>
       <Style x:Key="NavSideItem" TargetType="{x:Type ListBoxItem}">
         <Setter Property="ui:RinControlMotion.Enabled" Value="True" />
-        <Setter Property="Margin" Value="0,0,0,4" />
+        <Setter Property="Margin" Value="0,0,14,4" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="FontSize" Value="14" />
         <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
@@ -98,7 +98,7 @@
         </StackPanel>
         <ui:Button HorizontalAlignment="Right" VerticalAlignment="Top" Padding="4,0" Appearance="Transparent" Icon="ArrowSync24" ToolTip="{resources:Loc ContextMenu_ServerBrowser_Refresh}" Command="{Binding RefreshCommand}" />
       </Grid>
-      <ListBox Grid.Row="3" Background="#00FFFFFF" BorderThickness="0" Padding="0,0,14,0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" VirtualizingPanel.IsVirtualizingWhenGrouping="True" VirtualizingPanel.ScrollUnit="Pixel" ItemContainerStyle="{StaticResource NavSideItem}" ItemsSource="{Binding Games}" SelectedItem="{Binding SelectedGame, Mode=TwoWay}">
+      <ListBox Grid.Row="3" Background="#00FFFFFF" BorderThickness="0" Padding="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" VirtualizingPanel.IsVirtualizingWhenGrouping="True" VirtualizingPanel.ScrollUnit="Pixel" ItemContainerStyle="{StaticResource NavSideItem}" ItemsSource="{Binding Games}" SelectedItem="{Binding SelectedGame, Mode=TwoWay}">
         <ItemsControl.ItemTemplate>
           <DataTemplate>
             <Grid Background="#00FFFFFF">
