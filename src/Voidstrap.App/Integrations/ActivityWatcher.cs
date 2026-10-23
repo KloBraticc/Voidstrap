@@ -64,6 +64,31 @@ public partial class ActivityWatcher : IDisposable
 	private const string GamePlayerJoinLeavePattern = "(added|removed): (.*) ([0-9]+)\\s*$";
 
 	private const string GameMessageLogPattern = "Success Text: (.*)";
+
+	private const string GameJoinSnapshotEntry = "[FLog::Network] Join snapshot timer:";
+
+	private const string GameServerPrefixEntry = "[FLog::Output] Server Prefix: ";
+
+	private const string GameLoadedEntry = "\"type\":\"game_loaded\"";
+
+	internal static readonly string[] LogMarkers =
+	[
+		GameLeavingEntry,
+		GameDisconnectedEntry,
+		GameJoiningEntry,
+		GameJoinSnapshotEntry,
+		GameServerPrefixEntry,
+		GameJoiningUniverseEntry,
+		GameJoiningUDMUXEntry,
+		GameJoinedEntry,
+		GameLoadedEntry,
+		GameTeleportEntry,
+		SdkGameMessageEntry,
+		GameMessageEntry,
+		GamePlayerDiscoveryEntry,
+		GamePlayerJoinLeaveEntry,
+		GameMessageLogEntry
+	];
 	[GeneratedRegex(GameJoiningEntryPattern, RegexOptions.CultureInvariant)]
 	private static partial Regex LogPattern1 { get; }
 	[GeneratedRegex("referral_page:([^,]+)", RegexOptions.CultureInvariant)]
@@ -852,6 +877,11 @@ public partial class ActivityWatcher : IDisposable
 		{
 			logFileInfo = new FileInfo(LogLocation);
 		}
+		if (NativeLogTail.Open(logFileInfo.FullName, LogMarkers) is NativeLogTail nativeTail)
+		{
+			await RunNativeAsync(nativeTail, logFileInfo, token);
+			return;
+		}
 		FileStream fileStream;
 		try
 		{
@@ -893,7 +923,7 @@ public partial class ActivityWatcher : IDisposable
 						App.Logger.WriteLine("ActivityWatcher::Start", "The Roblox log started over, reading it again from the top");
 						continue;
 					}
-					if (NewerLinuxLog(fileStream) is FileInfo replacement)
+					if (NewerLinuxLog(File.GetLastWriteTimeUtc(fileStream.SafeFileHandle)) is FileInfo replacement)
 					{
 						try
 						{
@@ -938,6 +968,65 @@ public partial class ActivityWatcher : IDisposable
 		finally
 		{
 			streamReader.Dispose();
+		}
+	}
+
+	private async Task RunNativeAsync(NativeLogTail tail, FileInfo logFileInfo, CancellationToken token)
+	{
+		App.Logger.WriteLine("ActivityWatcher::Start", "Opened " + LogLocation + " with the native reader");
+		StartLogWatcher(logFileInfo);
+		RaiseEvent(OnLogOpen, "OnLogOpen");
+		try
+		{
+			while (!IsDisposed && !token.IsCancellationRequested)
+			{
+				NativeLogTail.Result result = tail.Next(out string? text);
+				if (result == NativeLogTail.Result.Line && text != null)
+				{
+					try
+					{
+						ReadLogEntry(text);
+					}
+					catch (Exception ex)
+					{
+						App.Logger.WriteException("ActivityWatcher::ReadLogEntry", ex);
+					}
+					continue;
+				}
+				if (result == NativeLogTail.Result.Failed)
+				{
+					App.Logger.WriteLine("ActivityWatcher::Start", "Read failed in the native reader");
+					return;
+				}
+				if (result == NativeLogTail.Result.Restarted)
+				{
+					App.Logger.WriteLine("ActivityWatcher::Start", "The Roblox log started over, reading it again from the top");
+					continue;
+				}
+				if (OperatingSystem.IsLinux() && NewerLinuxLog(File.GetLastWriteTimeUtc(LogLocation)) is FileInfo replacement && NativeLogTail.Open(replacement.FullName, LogMarkers) is NativeLogTail reopened)
+				{
+					tail.Dispose();
+					tail = reopened;
+					LogLocation = replacement.FullName;
+					StopLogWatcher();
+					StartLogWatcher(replacement);
+					App.Logger.WriteLine("ActivityWatcher::Start", "Sober started a new log, now reading " + LogLocation);
+					CloseSessionForNewLinuxLog();
+					continue;
+				}
+				try
+				{
+					await _logSignal.WaitAsync(TimeSpan.FromSeconds(1), token);
+				}
+				catch (OperationCanceledException) when (token.IsCancellationRequested)
+				{
+					return;
+				}
+			}
+		}
+		finally
+		{
+			tail.Dispose();
 		}
 	}
 
@@ -1017,7 +1106,7 @@ public partial class ActivityWatcher : IDisposable
 		return string.Equals(Path.GetFileName(directory), "sober_logs", StringComparison.Ordinal);
 	}
 
-	private FileInfo? NewerLinuxLog(FileStream stream)
+	private FileInfo? NewerLinuxLog(DateTime currentWriteUtc)
 	{
 		if (!OperatingSystem.IsLinux() || Environment.TickCount64 < _nextLogScan)
 		{
@@ -1036,7 +1125,7 @@ public partial class ActivityWatcher : IDisposable
 			{
 				return best;
 			}
-			return best.LastWriteTimeUtc - File.GetLastWriteTimeUtc(stream.SafeFileHandle) > TimeSpan.FromSeconds(2) ? best : null;
+			return best.LastWriteTimeUtc - currentWriteUtc > TimeSpan.FromSeconds(2) ? best : null;
 		}
 		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
 		{
@@ -1172,7 +1261,7 @@ public partial class ActivityWatcher : IDisposable
 
 	private void ReadLogEntry(string entry)
 	{
-		if (entry.Contains("[FLog::SingleSurfaceApp] leaveUGCGameInternal"))
+		if (entry.Contains(GameLeavingEntry))
 		{
 			App.Logger.WriteLine("ActivityWatcher::ReadLogEntry", "User is back into the desktop app");
 			_teleportMarker = false;
@@ -1209,16 +1298,16 @@ public partial class ActivityWatcher : IDisposable
 			else if (Data.PlaceId > 0)
 				ResetData();
 		}
-		if (entry.Contains("[FLog::Network] Join snapshot timer:", StringComparison.Ordinal))
+		if (entry.Contains(GameJoinSnapshotEntry, StringComparison.Ordinal))
 			_teleportDisconnectPending = false;
-		if (Data.PlaceId != 0L && entry.Contains("[FLog::Output] Server Prefix: "))
+		if (Data.PlaceId != 0L && entry.Contains(GameServerPrefixEntry))
 		{
 			RecordServerPrefix(entry);
 			return;
 		}
 		if (!InGame && Data.PlaceId == 0L)
 		{
-			if (!entry.Contains("[FLog::Output] ! Joining game"))
+			if (!entry.Contains(GameJoiningEntry))
 			{
 				return;
 			}
@@ -1249,7 +1338,7 @@ public partial class ActivityWatcher : IDisposable
 		}
 		else if (!InGame && Data.PlaceId != 0L)
 		{
-			if (entry.Contains("[FLog::GameJoinLoadTime] Report game_join_loadtime:"))
+			if (entry.Contains(GameJoiningUniverseEntry))
 			{
 				Match match2 = LogPattern2.Match(entry);
 				if (match2.Groups.Count == 2)
@@ -1281,7 +1370,7 @@ public partial class ActivityWatcher : IDisposable
 					}
 				}
 			}
-			else if (entry.Contains("[FLog::Network] UDMUX Address = "))
+			else if (entry.Contains(GameJoiningUDMUXEntry))
 			{
 				Match match4 = LogPattern4.Match(entry);
 				if (match4.Success)
@@ -1299,7 +1388,7 @@ public partial class ActivityWatcher : IDisposable
 					PublishLaunchStatus("Joining Server (" + (Data.MachineAddressValid ? Data.MachineAddress : udmuxAddress) + ")");
 				}
 			}
-			else if (entry.Contains("[FLog::Network] serverId:") || entry.Contains("[FLog::Network] Join snapshot timer:") || (entry.Contains("\"type\":\"game_loaded\"") && !entry.Contains("\"place_id\":\"0\"")))
+			else if (entry.Contains(GameJoinedEntry) || entry.Contains(GameJoinSnapshotEntry) || (entry.Contains(GameLoadedEntry) && !entry.Contains("\"place_id\":\"0\"")))
 			{
 				string message2 = "Confirmed game join (JobId = " + Data.JobId + ")";
 				App.Logger.WriteLine("ActivityWatcher::ReadLogEntry", message2);
@@ -1318,7 +1407,7 @@ public partial class ActivityWatcher : IDisposable
 			{
 				return;
 			}
-			if (entry.Contains("[FLog::UgcExperienceController] UgcExperienceController: doTeleport: joinScriptUrl"))
+			if (entry.Contains(GameTeleportEntry))
 			{
 				_teleportMarker = true;
 				App.Logger.WriteLine("ActivityWatcher::ReadLogEntry", "Initiating teleport (" + Data.JobId + ")");
@@ -1396,7 +1485,7 @@ public partial class ActivityWatcher : IDisposable
 				if (removed.Success && long.TryParse(removed.Groups["id"].Value, out long removedId))
 					RecordPlayerEvent("removed", removedId, null);
 			}
-			else if (entry.Contains("[ExpChat/mountClientApp (Trace)] - Player "))
+			else if (entry.Contains(GamePlayerJoinLeaveEntry))
 			{
 				Match match7 = LogPattern7.Match(entry);
 				if (match7.Groups.Count == 4)
@@ -1405,7 +1494,7 @@ public partial class ActivityWatcher : IDisposable
 						RecordPlayerEvent(match7.Groups[1].Value, userId, match7.Groups[2].Value);
 				}
 			}
-			else if (entry.Contains("[ExpChat/mountClientApp (Debug)] - Incoming MessageReceived Status: "))
+			else if (entry.Contains(GameMessageLogEntry))
 			{
 				Match match8 = LogPattern8.Match(entry);
 				if (match8.Groups.Count == 2)

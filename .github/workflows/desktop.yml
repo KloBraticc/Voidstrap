@@ -86,6 +86,7 @@ jobs:
             src/Voidstrap.App/obj/framepacer/x86_64-pc-windows-msvc/release
             src/Voidstrap.App/obj/voidclip/x86_64-pc-windows-msvc/release
             src/Voidstrap.App/obj/voidrpc/x86_64-pc-windows-msvc/release
+            src/Voidstrap.App/obj/voidlog/x86_64-pc-windows-msvc/release
             src/Voidstrap.App/obj/rishade/x86_64-pc-windows-msvc/release
             src/Voidstrap.App/obj/rishade/depth
           key: native-${{ runner.os }}-${{ hashFiles('native/**/Cargo.lock', 'native/**/Cargo.toml', 'native/rishade-depth/CMakeLists.txt') }}-${{ hashFiles('native/**/*.rs', 'native/**/*.cpp', 'native/**/*.h') }}
@@ -131,8 +132,8 @@ jobs:
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
           path: ${{ runner.temp }}/voidstrap-native-target
-          key: native-${{ matrix.rid }}-${{ hashFiles('native/voidimage/Cargo.lock', 'native/voidclip/Cargo.lock', 'native/voidrpc/Cargo.lock') }}-${{ hashFiles('native/voidimage/**/*.rs', 'native/voidclip/**/*.rs', 'native/voidrpc/**/*.rs') }}
-          restore-keys: native-${{ matrix.rid }}-${{ hashFiles('native/voidimage/Cargo.lock', 'native/voidclip/Cargo.lock', 'native/voidrpc/Cargo.lock') }}-
+          key: native-${{ matrix.rid }}-${{ hashFiles('native/voidimage/Cargo.lock', 'native/voidclip/Cargo.lock', 'native/voidrpc/Cargo.lock', 'native/voidlog/Cargo.lock') }}-${{ hashFiles('native/voidimage/**/*.rs', 'native/voidclip/**/*.rs', 'native/voidrpc/**/*.rs', 'native/voidlog/**/*.rs') }}
+          restore-keys: native-${{ matrix.rid }}-${{ hashFiles('native/voidimage/Cargo.lock', 'native/voidclip/Cargo.lock', 'native/voidrpc/Cargo.lock', 'native/voidlog/Cargo.lock') }}-
       - run: dotnet build src/Voidstrap.Desktop.MacOS/Voidstrap.Desktop.MacOS.csproj -c Debug -warnaserror
       - &image-check-harness
         name: Write the image check harness

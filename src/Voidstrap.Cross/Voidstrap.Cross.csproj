@@ -178,6 +178,37 @@
 		</ItemGroup>
 	</Target>
 
+	<PropertyGroup Condition="$(RuntimeIdentifier.StartsWith('linux')) Or $(RuntimeIdentifier.StartsWith('osx'))">
+		<VoidLogFileName Condition="$(RuntimeIdentifier.StartsWith('linux'))">libvoidlog.so</VoidLogFileName>
+		<VoidLogFileName Condition="$(RuntimeIdentifier.StartsWith('osx'))">libvoidlog.dylib</VoidLogFileName>
+		<VoidLogLibrary>$(BaseIntermediateOutputPath)voidlog/$(RuntimeIdentifier)/$(VoidLogFileName)</VoidLogLibrary>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<VoidLogSources Include="$(MSBuildProjectDirectory)/../../native/voidlog/src/**/*.rs" />
+	</ItemGroup>
+
+	<Target Name="BuildVoidLog" BeforeTargets="AssignTargetPaths" Condition="'$(VoidLogLibrary)' != '' And '$(DesignTimeBuild)' != 'true' And !$([MSBuild]::IsOSPlatform('Windows'))" Inputs="$(MSBuildProjectDirectory)/../../native/voidlog/Cargo.toml;$(MSBuildProjectDirectory)/../../native/voidlog/Cargo.lock;@(VoidLogSources);$(MSBuildProjectDirectory)/../../build/Packaging/build-voidlog.sh" Outputs="$(VoidLogLibrary)">
+		<Exec Command="bash &quot;$(MSBuildProjectDirectory)/../../build/Packaging/build-voidlog.sh&quot; &quot;$(RuntimeIdentifier)&quot; &quot;$(VoidLogLibrary)&quot; &quot;$(BaseIntermediateOutputPath)voidlog/target&quot;" IgnoreExitCode="true" IgnoreStandardErrorWarningFormat="true" />
+	</Target>
+
+	<PropertyGroup Condition="$(RuntimeIdentifier.StartsWith('linux')) And $([MSBuild]::IsOSPlatform('Windows'))">
+		<_VoidLogLibraryWin>$([System.IO.Path]::GetFullPath($([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', '$(VoidLogLibrary)'))))</_VoidLogLibraryWin>
+		<_VoidLogTargetWin>$([System.IO.Path]::GetFullPath($([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', '$(BaseIntermediateOutputPath)voidlog/target'))))</_VoidLogTargetWin>
+		<_VoidLogLibraryWsl>/mnt/$(_VoidLogLibraryWin.Substring(0, 1).ToLowerInvariant())$(_VoidLogLibraryWin.Substring(2).Replace('%5C', '/'))</_VoidLogLibraryWsl>
+		<_VoidLogTargetWsl>/mnt/$(_VoidLogTargetWin.Substring(0, 1).ToLowerInvariant())$(_VoidLogTargetWin.Substring(2).Replace('%5C', '/'))</_VoidLogTargetWsl>
+	</PropertyGroup>
+
+	<Target Name="BuildVoidLogThroughWsl" BeforeTargets="AssignTargetPaths" Condition="$(RuntimeIdentifier.StartsWith('linux')) And '$(DesignTimeBuild)' != 'true' And $([MSBuild]::IsOSPlatform('Windows'))" Inputs="$(MSBuildProjectDirectory)/../../native/voidlog/Cargo.toml;$(MSBuildProjectDirectory)/../../native/voidlog/Cargo.lock;@(VoidLogSources);$(MSBuildProjectDirectory)/../../build/Packaging/build-voidlog.sh" Outputs="$(VoidLogLibrary)">
+		<Exec Command="wsl.exe -d $(VoidstrapWslDistro) -e bash &quot;$(_VoidImageRootWsl)build/Packaging/build-voidlog.sh&quot; &quot;$(RuntimeIdentifier)&quot; &quot;$(_VoidLogLibraryWsl)&quot; &quot;$(_VoidLogTargetWsl)&quot;" IgnoreExitCode="true" IgnoreStandardErrorWarningFormat="true" />
+	</Target>
+
+	<Target Name="IncludeVoidLog" DependsOnTargets="BuildVoidLog;BuildVoidLogThroughWsl" BeforeTargets="AssignTargetPaths" Condition="'$(VoidLogLibrary)' != ''">
+		<ItemGroup>
+			<None Condition="Exists('$(VoidLogLibrary)')" Include="$(VoidLogLibrary)" Link="$(VoidLogFileName)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+		</ItemGroup>
+	</Target>
+
 	<ItemGroup Condition="$(RuntimeIdentifier.StartsWith('linux'))">
 		<None Include="$(MSBuildProjectDirectory)\..\..\external\LibreWPF\GLFW-LICENSE.txt" Condition="Exists('$(LinuxGlfwLibrary)')">
 			<Link>GLFW-LICENSE.txt</Link>
