@@ -780,7 +780,7 @@
         </ui:NavigationFluent>
         <Border Name="SidebarResizer" Width="8" HorizontalAlignment="Right" Background="Transparent" Cursor="SizeWE" ToolTip="{resources:Loc Ui_Main_ResizeSidebar}" MouseLeftButtonDown="SidebarResizer_MouseLeftButtonDown" MouseMove="SidebarResizer_MouseMove" MouseLeftButtonUp="SidebarResizer_MouseLeftButtonUp" />
       </Grid>
-      <Grid Row="0" RowSpan="3" Column="1">
+      <Grid Name="ContentColumn" Row="0" RowSpan="3" Column="1">
         <Grid.RowDefinitions>
           <RowDefinition Height="Auto" />
           <RowDefinition Height="*" />

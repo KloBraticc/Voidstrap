@@ -4947,46 +4947,39 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private bool? _rootNavigationShown;
 
+    private readonly TranslateTransform _contentSlide = new TranslateTransform();
+
     private void SetRootNavigationShown(bool shown)
     {
         if (_rootNavigationShown == shown)
             return;
         bool firstApply = _rootNavigationShown == null;
         _rootNavigationShown = shown;
-        SidebarHost.BeginAnimation(WidthProperty, null);
-        RootNavigation.BeginAnimation(OpacityProperty, null);
+        double navigationWidth = RootNavigation.ActualWidth > 0 ? RootNavigation.ActualWidth : (double.IsNaN(RootNavigation.Width) ? SidebarDefaultWidth : RootNavigation.Width);
+        RootNavigation.Visibility = shown ? Visibility.Visible : Visibility.Collapsed;
         if (firstApply || !IsLoaded)
-        {
-            RootNavigation.Visibility = shown ? Visibility.Visible : Visibility.Collapsed;
             return;
-        }
-        double from = SidebarHost.ActualWidth;
-        if (shown)
-            RootNavigation.Visibility = Visibility.Visible;
-        double navigationWidth = double.IsNaN(RootNavigation.Width) ? SidebarDefaultWidth : RootNavigation.Width;
-        double to = shown ? Math.Max(navigationWidth, SidebarResizer.Width) : SidebarResizer.Width;
-        SidebarHost.ClipToBounds = true;
-        CubicEase ease = new CubicEase { EasingMode = EasingMode.EaseInOut };
-        DoubleAnimation slide = new DoubleAnimation(from, to, TimeSpan.FromMilliseconds(220))
+        double offset = Math.Max(0.0, navigationWidth - SidebarResizer.Width);
+        if (offset < 1.0)
+            return;
+        if (!ReferenceEquals(ContentColumn.RenderTransform, _contentSlide))
+            ContentColumn.RenderTransform = _contentSlide;
+        DoubleAnimation slide = new DoubleAnimation(shown ? -offset : offset, 0.0, TimeSpan.FromMilliseconds(200))
         {
-            EasingFunction = ease,
-            FillBehavior = FillBehavior.HoldEnd
-        };
-        slide.Completed += RootNavigationSlide_Completed;
-        RootNavigation.BeginAnimation(OpacityProperty, new DoubleAnimation(shown ? 0.0 : 1.0, shown ? 1.0 : 0.0, TimeSpan.FromMilliseconds(220))
-        {
-            EasingFunction = ease,
+            EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut },
             FillBehavior = FillBehavior.Stop
-        });
-        SidebarHost.BeginAnimation(WidthProperty, slide);
-    }
-
-    private void RootNavigationSlide_Completed(object? sender, EventArgs e)
-    {
-        if (_rootNavigationShown == false)
-            RootNavigation.Visibility = Visibility.Collapsed;
-        SidebarHost.BeginAnimation(WidthProperty, null);
-        SidebarHost.ClipToBounds = false;
+        };
+        slide.Freeze();
+        _contentSlide.BeginAnimation(TranslateTransform.XProperty, slide);
+        if (shown)
+        {
+            DoubleAnimation fade = new DoubleAnimation(0.0, 1.0, TimeSpan.FromMilliseconds(200))
+            {
+                FillBehavior = FillBehavior.Stop
+            };
+            fade.Freeze();
+            RootNavigation.BeginAnimation(OpacityProperty, fade);
+        }
     }
 
     private void SaveSidebarWidth()
