@@ -861,6 +861,7 @@ namespace Voidstrap.UI.ViewModels.Settings
         public class ClientItem : NotifyPropertyChangedViewModel
         {
             public bool IsVng => false;
+            public bool CanChangeLocation => !Voidstrap.Utility.Platform.IsLinux;
 
             private readonly DownloadsViewModel _parent;
             private CancellationTokenSource? _cts = null!;
