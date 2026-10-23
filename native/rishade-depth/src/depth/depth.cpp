@@ -221,6 +221,8 @@ static const int FillSteps = 4;
 static const float TemporalBase = 0.5;
 static const float TemporalResponse = 6.0;
 static const int SettleRadius = 2;
+static const float CornerScale = 400.0;
+static const float ConfidenceFloor = 0.02;
 static const float SettleLuma = 0.05;
 static const float SettleCost = 0.03;
 static const int RefineRadius = 2;
@@ -304,6 +306,20 @@ void MatchFine(uint3 id : SV_DispatchThreadID)
     float centre[25];
     for (uint k = 0; k < 25; ++k)
         centre[k] = Luma.Load(int3(clamp(p + (int2(k % 5, k / 5) - Patch), 0, size - 1), 0));
+    float xx = 0;
+    float yy = 0;
+    float xy = 0;
+    for (uint g = 0; g < 9; ++g)
+    {
+        uint gx = g % 3 + 1;
+        uint gy = g / 3 + 1;
+        float dx = centre[gy * 5 + gx + 1] - centre[gy * 5 + gx - 1];
+        float dy = centre[(gy + 1) * 5 + gx] - centre[(gy - 1) * 5 + gx];
+        xx += dx * dx;
+        yy += dy * dy;
+        xy += dx * dy;
+    }
+    float corner = (xx + yy) * 0.5 - sqrt((xx - yy) * (xx - yy) * 0.25 + xy * xy);
     int2 start = int2(round(Coarse.Load(int3(min(id.xy / 4, QuarterSize() - 1), 0)) * 4));
     float best = 1e9;
     int2 bestOffset = start;
@@ -320,7 +336,28 @@ void MatchFine(uint3 id : SV_DispatchThreadID)
             bestOffset = offset;
         }
     }
-    FlowTarget[id.xy] = float4(float2(bestOffset), best, 0);
+    FlowTarget[id.xy] = float4(float2(bestOffset), best, saturate(corner * CornerScale) * saturate(1 - best * 12));
+}
+
+float4 SettleAt(int2 p, int stride)
+{
+    int2 size = int2(WorkSize);
+    float centre = Luma.Load(int3(p, 0));
+    float2 sum = 0;
+    float confidence = 0;
+    float weights = 0;
+    for (int dy = -SettleRadius; dy <= SettleRadius; ++dy)
+        for (int dx = -SettleRadius; dx <= SettleRadius; ++dx)
+        {
+            int2 q = clamp(p + int2(dx, dy) * stride, 0, size - 1);
+            float4 flow = Flow.Load(int3(q, 0));
+            float difference = Luma.Load(int3(q, 0)) - centre;
+            float weight = exp(-difference * difference / (2 * SettleLuma * SettleLuma)) * exp(-flow.z / SettleCost) * (flow.w + ConfidenceFloor) + 1e-6;
+            sum += weight * flow.xy;
+            confidence += weight * flow.w;
+            weights += weight;
+        }
+    return float4(sum / weights, Flow.Load(int3(p, 0)).z, confidence / weights);
 }
 
 [numthreads(16, 16, 1)]
@@ -328,22 +365,15 @@ void Settle(uint3 id : SV_DispatchThreadID)
 {
     if (any(id.xy >= WorkSize))
         return;
-    int2 p = int2(id.xy);
-    int2 size = int2(WorkSize);
-    float centre = Luma.Load(int3(p, 0));
-    float2 sum = 0;
-    float weights = 0;
-    for (int dy = -SettleRadius; dy <= SettleRadius; ++dy)
-        for (int dx = -SettleRadius; dx <= SettleRadius; ++dx)
-        {
-            int2 q = clamp(p + int2(dx, dy), 0, size - 1);
-            float4 flow = Flow.Load(int3(q, 0));
-            float difference = Luma.Load(int3(q, 0)) - centre;
-            float weight = exp(-difference * difference / (2 * SettleLuma * SettleLuma)) * exp(-flow.z / SettleCost) + 1e-6;
-            sum += weight * flow.xy;
-            weights += weight;
-        }
-    SettledTarget[id.xy] = float4(sum / weights, Flow.Load(int3(p, 0)).z, 0);
+    SettledTarget[id.xy] = SettleAt(int2(id.xy), 1);
+}
+
+[numthreads(16, 16, 1)]
+void SettleWide(uint3 id : SV_DispatchThreadID)
+{
+    if (any(id.xy >= WorkSize))
+        return;
+    FlowTarget[id.xy] = SettleAt(int2(id.xy), 4);
 }
 
 float4 FlowAt(float2 position)
@@ -427,7 +457,7 @@ void Refine(uint3 id : SV_DispatchThreadID)
 )";
 
 constexpr const char* kEntryPoints[] = { "Preprocess", "Peak", "Histogram", "Smooth", "Upsample" };
-constexpr const char* kTrackEntryPoints[] = { "Shrink", "Reduce", "MatchCoarse", "MatchFine", "Warp", "Settle", "Refine" };
+constexpr const char* kTrackEntryPoints[] = { "Shrink", "Reduce", "MatchCoarse", "MatchFine", "Warp", "Settle", "Refine", "SettleWide" };
 constexpr size_t kShaderCount = std::size(kEntryPoints) + std::size(kTrackEntryPoints);
 constexpr size_t kShrink = std::size(kEntryPoints);
 constexpr size_t kReduce = kShrink + 1;
@@ -436,6 +466,7 @@ constexpr size_t kMatchFine = kShrink + 3;
 constexpr size_t kWarp = kShrink + 4;
 constexpr size_t kSettle = kShrink + 5;
 constexpr size_t kRefine = kShrink + 6;
+constexpr size_t kSettleWide = kShrink + 7;
 
 struct Surface
 {
@@ -1052,9 +1083,11 @@ void Track(ID3D11Texture2D* frame, int64_t frameTimestamp)
              { nullptr, nullptr, nullptr, d.flow.target.get() }, workGroupsX, workGroupsY);
     Dispatch(kSettle, { nullptr, d.liveLuma.view.get(), nullptr, nullptr, nullptr, nullptr, d.flow.view.get() },
              { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.settled.target.get() }, workGroupsX, workGroupsY);
+    Dispatch(kSettleWide, { nullptr, d.liveLuma.view.get(), nullptr, nullptr, nullptr, nullptr, d.settled.view.get() },
+             { nullptr, nullptr, nullptr, d.flow.target.get() }, workGroupsX, workGroupsY);
     const UINT sourceGroupsX = (d.sourceWidth + 15) / 16;
     const UINT sourceGroupsY = (d.sourceHeight + 15) / 16;
-    Dispatch(kWarp, { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.settled.view.get(), d.anchor.view.get() },
+    Dispatch(kWarp, { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.flow.view.get(), d.anchor.view.get() },
              { nullptr, nullptr, nullptr, nullptr, nullptr, d.warped.target.get() }, sourceGroupsX, sourceGroupsY);
     Dispatch(kRefine, { d.liveView.get(), nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.warped.view.get() },
              { nullptr, nullptr, nullptr, nullptr, d.textureTarget.get() }, sourceGroupsX, sourceGroupsY);
