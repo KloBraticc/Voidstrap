@@ -196,7 +196,7 @@ public partial class SessionDock : Window
     {
         if (_closed)
             return;
-        bool enabled = App.Settings.Prop.ClipperEnabled;
+        bool enabled = App.Settings.Prop.ClipperEnabled && Voidstrap.Integrations.Clipper.ClipperService.Supported;
         Visibility target = enabled ? Visibility.Visible : Visibility.Collapsed;
         if (ClipsButton.Visibility != target)
         {
@@ -439,6 +439,15 @@ public partial class SessionDock : Window
         _resumePopout = false;
         if (_closed || !_opened)
             return;
+        if (Voidstrap.Utility.Platform.IsLinux && RobloxWindowTracker.Current.Hwnd == IntPtr.Zero)
+        {
+            System.Diagnostics.StackTrace trace = new(1, false);
+            List<string> callers = new();
+            for (int index = 0; index < Math.Min(4, trace.FrameCount); index++)
+                if (trace.GetFrame(index)?.GetMethod() is { } method)
+                    callers.Add(method.DeclaringType?.Name + "." + method.Name);
+            App.Logger.WriteLine("SessionDock", "Hiding the dock, called from " + string.Join(" < ", callers));
+        }
         _opened = false;
         bool returnFocus = RobloxWindowTracker.IsRobloxForeground();
         _focusLoss?.Stop();
@@ -468,6 +477,8 @@ public partial class SessionDock : Window
         }
         _prewarmTimer?.Stop();
         FadeDimmer(0);
+        if (Voidstrap.Utility.Platform.IsLinux && !linuxSlide)
+            Voidstrap.Platform.Linux.LinuxWindowInterop.ReleaseFocusAnchor();
         IntPtr game = RobloxWindowTracker.Current.Hwnd;
         if (returnFocus && PortableOverlay.Active)
             PortableOverlay.ReturnFocus();
@@ -482,12 +493,24 @@ public partial class SessionDock : Window
             return;
         if (RobloxWindowTracker.Current.Valid && RobloxWindowTracker.IsRobloxForeground())
             return;
+        if (Voidstrap.Utility.Platform.IsLinux && RobloxWindowTracker.Current.Hwnd == IntPtr.Zero)
+            App.Logger.WriteLine("SessionDock", string.Format(
+                "Closing because the game lost focus, active window 0x{0:x}, keyboard window 0x{1:x}, focus window 0x{2:x}, tracker valid {3}",
+                (long)Voidstrap.Platform.Linux.LinuxWindowInterop.GetActiveTopLevelWindow(),
+                (long)Voidstrap.Platform.Linux.LinuxWindowInterop.GetFocusedTopLevelWindow(),
+                (long)Voidstrap.Platform.Linux.LinuxWindowInterop.FocusAnchor,
+                RobloxWindowTracker.Current.Valid));
         SuspendDock();
     }
 
     // Hidden because the game lost focus, it comes back on its own when the game is focused again
     private void SuspendDock()
     {
+        if (Voidstrap.Utility.Platform.IsLinux && RobloxWindowTracker.Current.Hwnd == IntPtr.Zero)
+        {
+            HideDock(true);
+            return;
+        }
         bool popout = PopoutOpen;
         HideDock(false, true);
         _resumeOnFocus = true;
@@ -561,6 +584,13 @@ public partial class SessionDock : Window
         }
         FitWidth();
         _anchor.Refresh();
+        if (activatePanels && Voidstrap.Utility.Platform.IsLinux && RobloxWindowTracker.Current is { Valid: true, Hwnd: var game } && game == IntPtr.Zero)
+        {
+            bool taken = Voidstrap.Platform.Linux.LinuxWindowInterop.TryTakeFocusFromNativeWindow((int)Math.Round(Left + Width / 2), (int)Math.Round(Top + Height / 2));
+            App.Logger.WriteLine("SessionDock", taken
+                ? "Asked the desktop to focus the dock over the game, focus window 0x" + ((long)Voidstrap.Platform.Linux.LinuxWindowInterop.FocusAnchor).ToString("x")
+                : "The dock could not take focus from the game");
+        }
         ApplyLinuxDockShape();
         RaiseAboveDimmer();
         _clock.Start();
@@ -1008,6 +1038,8 @@ public partial class SessionDock : Window
     private void OnExitFinished()
     {
         _exiting = false;
+        if (Voidstrap.Utility.Platform.IsLinux && !_opened)
+            Voidstrap.Platform.Linux.LinuxWindowInterop.ReleaseFocusAnchor();
         if (_closed || _opened)
             return;
         if (IsVisible)
@@ -2034,6 +2066,8 @@ public partial class SessionDock : Window
         if (_disposed)
             return;
         _disposed = true;
+        if (Voidstrap.Utility.Platform.IsLinux)
+            Voidstrap.Platform.Linux.LinuxWindowInterop.ReleaseFocusAnchor();
         if (ReferenceEquals(ActiveInstance, this))
             ActiveInstance = null;
         _closed = true;

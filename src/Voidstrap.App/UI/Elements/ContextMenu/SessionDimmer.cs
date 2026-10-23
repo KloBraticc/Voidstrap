@@ -135,7 +135,7 @@ internal sealed partial class SessionDimmer : IDisposable
             if (handle == 0)
                 return;
             if (Voidstrap.Utility.Platform.IsLinux)
-                _portableOpacityApplied = Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetWindowOpacity(handle, alpha / 255d);
+                _portableOpacityApplied = Voidstrap.Integrations.Overlays.LinuxGameOverlay.SetWindowOpacity(handle, alpha / 255d);
             else
             {
                 Voidstrap.Platform.MacOS.MacOSOverlayWindow.SetOpacity(handle, alpha / 255d);

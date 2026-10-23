@@ -13,6 +13,15 @@ namespace Voidstrap.UI
 
 		public static BitmapSource Render(int dimension, double scale, int shape, string? fillHex, string? outlineHex, int crosshairSize, int crosshairGap, int crosshairThickness, double crosshairOpacity)
 		{
+			int width = Math.Max(1, dimension);
+			byte[] pixels = RenderPixels(width, scale, shape, fillHex, outlineHex, crosshairSize, crosshairGap, crosshairThickness, crosshairOpacity);
+			BitmapSource bitmap = BitmapSource.Create(width, width, 96.0, 96.0, PixelFormats.Pbgra32, null, pixels, width * 4);
+			bitmap.Freeze();
+			return bitmap;
+		}
+
+		public static byte[] RenderPixels(int dimension, double scale, int shape, string? fillHex, string? outlineHex, int crosshairSize, int crosshairGap, int crosshairThickness, double crosshairOpacity)
+		{
 			const int samples = 4;
 			const int sampleCount = samples * samples;
 			int width = Math.Max(1, dimension);
@@ -70,9 +79,7 @@ namespace Voidstrap.UI
 				}
 			}
 
-			BitmapSource bitmap = BitmapSource.Create(width, height, 96.0, 96.0, PixelFormats.Pbgra32, null, pixels, width * 4);
-			bitmap.Freeze();
-			return bitmap;
+			return pixels;
 		}
 
 		private static bool Hit(int shape, double x, double y, double size, double gap, double thickness, bool outline)

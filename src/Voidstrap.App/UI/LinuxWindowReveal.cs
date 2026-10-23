@@ -209,7 +209,7 @@ internal static class LinuxWindowReveal
 			{
 				App.Logger.WriteLine("LinuxWindowReveal", "Could not stop watching the window: " + ex.Message);
 			}
-			if (!Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetWindowOpacity(_handle, 1.0))
+			if (!Voidstrap.Integrations.Overlays.LinuxGameOverlay.SetWindowOpacity(_handle, 1.0))
 			{
 				DisableForSession("the window could not be made visible");
 				return;

@@ -472,12 +472,19 @@ namespace Voidstrap.Integrations.Overlays
             {
                 _hwnd = IntPtr.Zero;
                 _pid = 0;
-                if (OverlayHub.InGame
+                if ((OverlayHub.InGame || LinuxGameOverlay.Active)
                     && !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WAYLAND_DISPLAY"))
                     && !string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DISPLAY"))
                     && Voidstrap.Platform.Linux.LinuxWindowInterop.TryGetPrimaryMonitorBounds(out int monitorLeft, out int monitorTop, out int monitorWidth, out int monitorHeight))
                 {
-                    bool nativeWindowActive = Voidstrap.Platform.Linux.LinuxWindowInterop.GetActiveTopLevelWindow() == 0;
+                    nint activeWindow = Voidstrap.Platform.Linux.LinuxWindowInterop.GetActiveTopLevelWindow();
+                    nint inputWindow = Voidstrap.Platform.Linux.LinuxWindowInterop.GetFocusedTopLevelWindow();
+                    nint anchor = Voidstrap.Platform.Linux.LinuxWindowInterop.FocusAnchor;
+                    bool nativeWindowActive = OverlayDiagnostics.IsOverlayHandle(activeWindow)
+                        || (anchor != 0 && (OverlayDiagnostics.IsOverlayHandle(inputWindow) || inputWindow == anchor))
+                        || (Voidstrap.Platform.Linux.LinuxWindowInterop.HasFocusAnchor
+                            ? Voidstrap.Platform.Linux.LinuxWindowInterop.IsFocusAnchorHolding()
+                            : Voidstrap.Platform.Linux.LinuxWindowInterop.IsNativeWindowActive());
                     return new RobloxWindowRect(IntPtr.Zero, monitorLeft, monitorTop, monitorWidth, monitorHeight, true, nativeWindowActive);
                 }
                 return new RobloxWindowRect(IntPtr.Zero, 0, 0, 0, 0, false, false);

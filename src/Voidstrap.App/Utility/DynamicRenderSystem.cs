@@ -211,6 +211,8 @@ namespace Voidstrap.Utility
             }
             view.Stretch = brush.Stretch;
             view.RenderTransform = brush.RelativeTransform;
+            view.HorizontalAlignment = brush.AlignmentX switch { AlignmentX.Left => HorizontalAlignment.Left, AlignmentX.Right => HorizontalAlignment.Right, _ => HorizontalAlignment.Center };
+            view.VerticalAlignment = brush.AlignmentY switch { AlignmentY.Top => VerticalAlignment.Top, AlignmentY.Bottom => VerticalAlignment.Bottom, _ => VerticalAlignment.Center };
             view.Opacity = brush.Opacity;
             view.Source = image;
         }

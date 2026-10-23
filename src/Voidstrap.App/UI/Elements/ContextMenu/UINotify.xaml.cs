@@ -677,7 +677,7 @@ namespace Voidstrap.UI.Elements.Overlay
 			int step = (int)Math.Round(Math.Clamp((double)GetValue(LinuxFadeProperty), 0, 1) * 100);
 			if (force || step != _linuxOpacityStep)
 			{
-				Voidstrap.Platform.Linux.LinuxWindowInterop.TrySetWindowOpacity(handle, step / 100.0);
+				Voidstrap.Integrations.Overlays.LinuxGameOverlay.SetWindowOpacity(handle, step / 100.0);
 				_linuxOpacityStep = step;
 			}
 		}

@@ -1315,6 +1315,9 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 		nint windowDamage = 0;
 		int damageEventType = 0;
 		bool compositorAvailable = false;
+		bool layerFramesRequested = false;
+		uint layerSequence = 0;
+		byte[] layerPixels = [];
 
 		try
 		{
@@ -1390,6 +1393,14 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 
 				if (!OverlayHub.HomepageBackgroundActive)
 					surfaceActive = false;
+				bool layerSource = surfaceActive && sourceWindow.Hwnd == 0 && LinuxGameOverlay.FramesAvailable;
+				if (layerSource != layerFramesRequested)
+				{
+					LinuxGameOverlay.RequestFrames(layerSource);
+					layerFramesRequested = layerSource;
+					if (layerSource)
+						App.Logger.WriteLine("LinuxHomepageBackground", "Reading the game frames from the in game layer");
+				}
 				if (surfaceActive && !performanceActive)
 				{
 					reportedPresents = Volatile.Read(ref _presentedFrameCount);
@@ -1513,15 +1524,17 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 					&& LinuxWindowInterop.TryConsumeWindowDamage(windowDamage, damageEventType);
 				if (damageReported)
 					LinuxWindowInterop.RefreshWindowCapturePixmap(sourceWindow.Hwnd);
-				bool captureRequired = !hasCapturedSource
-					|| buffersChanged
-					|| windowDamage == 0
-					|| damageReported;
+				bool layerFrame = sourceWindow.Hwnd == 0 && LinuxGameOverlay.FramesAvailable;
+				bool captureRequired = layerFrame
+					? !hasCapturedSource || buffersChanged || LinuxGameOverlay.FrameSequence != layerSequence
+					: !hasCapturedSource || buffersChanged || windowDamage == 0 || damageReported;
 				if (!captureRequired)
 				{
 					Interlocked.Exchange(ref _captureFailureLogged, 0);
 				}
-				else if (TryCaptureFrame(sourceWindow.Hwnd, pendingCapture, ref captureTicks, out int capturedWidth, out int capturedHeight)
+				else if ((layerFrame
+						? TryReadLayerFrame(ref layerPixels, ref layerSequence, pendingCapture, bufferWidth, bufferHeight, ref captureTicks, out int capturedWidth, out int capturedHeight)
+						: TryCaptureFrame(sourceWindow.Hwnd, pendingCapture, ref captureTicks, out capturedWidth, out capturedHeight))
 					&& capturedWidth == bufferWidth
 					&& capturedHeight == bufferHeight)
 				{
@@ -1739,6 +1752,8 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 		}
 		finally
 		{
+			if (layerFramesRequested)
+				LinuxGameOverlay.RequestFrames(false);
 			LinuxWindowInterop.ReleaseWindowCapture(damageWindow);
 			LinuxWindowInterop.DestroyWindowDamage(windowDamage, damageEventType);
 			ParkOverlay();
@@ -1758,6 +1773,51 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 		}
 		await Task.Yield();
 		token.ThrowIfCancellationRequested();
+	}
+
+	private static bool TryReadLayerFrame(
+		ref byte[] frame,
+		ref uint sequence,
+		byte[] destination,
+		int width,
+		int height,
+		ref long elapsedTicks,
+		out int capturedWidth,
+		out int capturedHeight)
+	{
+		capturedWidth = 0;
+		capturedHeight = 0;
+		long started = Stopwatch.GetTimestamp();
+		try
+		{
+			if (!LinuxGameOverlay.TryReadFrame(ref frame, ref sequence, out int frameWidth, out int frameHeight, out bool rgba))
+				return false;
+			if (width <= 0 || height <= 0 || destination.Length < width * height * 4)
+				return false;
+			int red = rgba ? 0 : 2;
+			int blue = rgba ? 2 : 0;
+			for (int y = 0; y < height; y++)
+			{
+				int sourceRow = (int)((long)y * frameHeight / height) * frameWidth;
+				int targetRow = y * width;
+				for (int x = 0; x < width; x++)
+				{
+					int source = (sourceRow + (int)((long)x * frameWidth / width)) * 4;
+					int target = (targetRow + x) * 4;
+					destination[target] = frame[source + blue];
+					destination[target + 1] = frame[source + 1];
+					destination[target + 2] = frame[source + red];
+					destination[target + 3] = 255;
+				}
+			}
+			capturedWidth = width;
+			capturedHeight = height;
+			return true;
+		}
+		finally
+		{
+			elapsedTicks += Stopwatch.GetTimestamp() - started;
+		}
 	}
 
 	private static bool TryCaptureFrame(
@@ -1857,6 +1917,14 @@ internal sealed class LinuxHomepageBackgroundOverlayRenderer : IDisposable
 		top = 0;
 		width = 0;
 		height = 0;
+		if (current.Valid && current.Hwnd == 0 && current.Foreground && LinuxGameOverlay.FramesAvailable)
+		{
+			left = current.Left;
+			top = current.Top;
+			width = current.Width;
+			height = current.Height;
+			return width > 0 && height > 0;
+		}
 		if (!current.Valid || current.Hwnd == 0)
 			return false;
 

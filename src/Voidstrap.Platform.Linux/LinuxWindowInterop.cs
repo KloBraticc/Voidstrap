@@ -525,6 +525,25 @@ public static partial class LinuxWindowInterop
 		return IsSoberWindowProcess(display, window);
 	}
 
+	public static nint GetFocusedTopLevelWindow()
+	{
+		nint display = Display;
+		if (display == 0)
+			return 0;
+		try
+		{
+			lock (Sync)
+			{
+				XGetInputFocus(display, out nint focused, out _);
+				return focused > 1 ? ResolveFrameWindow(display, focused) : 0;
+			}
+		}
+		catch (Exception)
+		{
+			return 0;
+		}
+	}
+
 	public static nint GetFocusedWindow()
 	{
 		nint display = Display;
@@ -554,6 +573,153 @@ public static partial class LinuxWindowInterop
 		catch (Exception)
 		{
 			return 0;
+		}
+	}
+
+	public static bool IsNativeWindowActive()
+	{
+		nint display = Display;
+		if (display == 0)
+			return false;
+		try
+		{
+			lock (Sync)
+			{
+				nint active = GetActiveWindow(display);
+				if (active == 0)
+					return true;
+				return XGetWindowAttributes(display, active, out XWindowAttributes attributes) != 0
+					&& attributes.OverrideRedirect != 0
+					&& attributes.Width <= 1
+					&& attributes.Height <= 1;
+			}
+		}
+		catch (Exception)
+		{
+			return false;
+		}
+	}
+
+	private static nint _focusAnchor;
+
+	public static bool HasFocusAnchor => _focusAnchor != 0;
+
+	public static nint FocusAnchor => _focusAnchor;
+
+	private static long _focusAnchorRequested;
+	private static bool _focusAnchorSeen;
+
+	public static bool IsFocusAnchorHolding()
+	{
+		nint anchor = _focusAnchor;
+		if (anchor == 0)
+			return false;
+		nint active = GetActiveTopLevelWindow();
+		if (active == anchor)
+		{
+			_focusAnchorSeen = true;
+			return true;
+		}
+		return !_focusAnchorSeen && Environment.TickCount64 - _focusAnchorRequested < 3500;
+	}
+
+	public static bool TryTakeFocusFromNativeWindow(int left, int top)
+	{
+		nint display = Display;
+		if (display == 0 || !IsNativeWindowActive())
+			return false;
+		try
+		{
+			lock (Sync)
+			{
+				nint root = XDefaultRootWindow(display);
+				if (_focusAnchor == 0)
+				{
+					_focusAnchor = XCreateSimpleWindow(display, root, left, top, 1, 1, 0, 0, 0);
+					if (_focusAnchor == 0)
+						return false;
+					XStoreName(display, _focusAnchor, "Voidstrap");
+					nint type = XInternAtom(display, "_NET_WM_WINDOW_TYPE", false);
+					nint utility = XInternAtom(display, "_NET_WM_WINDOW_TYPE_UTILITY", false);
+					if (type != 0 && utility != 0)
+						XChangeProperty(display, _focusAnchor, type, 4, 32, 0, [utility], 1);
+					nint state = XInternAtom(display, "_NET_WM_STATE", false);
+					nint skipTaskbar = XInternAtom(display, "_NET_WM_STATE_SKIP_TASKBAR", false);
+					nint skipPager = XInternAtom(display, "_NET_WM_STATE_SKIP_PAGER", false);
+					if (state != 0 && skipTaskbar != 0 && skipPager != 0)
+						XChangeProperty(display, _focusAnchor, state, 4, 32, 0, [skipTaskbar, skipPager], 2);
+					_ = XMapWindow(display, _focusAnchor);
+					_ = XSync(display, 0);
+				}
+				_focusAnchorRequested = Environment.TickCount64;
+				_focusAnchorSeen = false;
+				nint requested = _focusAnchor;
+				_ = Task.Run(async () =>
+				{
+					for (int attempt = 0; attempt < 20; attempt++)
+					{
+						if (_focusAnchor != requested || GetActiveTopLevelWindow() == requested)
+							return;
+						RequestActivation(requested);
+						await Task.Delay(150).ConfigureAwait(false);
+					}
+				});
+				return true;
+			}
+		}
+		catch (Exception)
+		{
+			return false;
+		}
+	}
+
+	private static void RequestActivation(nint window)
+	{
+		nint display = Display;
+		if (display == 0)
+			return;
+		try
+		{
+			lock (Sync)
+			{
+				nint root = XDefaultRootWindow(display);
+				nint active = XInternAtom(display, "_NET_ACTIVE_WINDOW", false);
+				XClientMessage message = new()
+				{
+					type = ClientMessage,
+					send_event = 1,
+					display = display,
+					window = window,
+					message_type = active,
+					format = 32,
+					data0 = 2
+				};
+				XSendEvent(display, root, false, SubstructureRedirectMask | SubstructureNotifyMask, ref message);
+				_ = XFlush(display);
+			}
+		}
+		catch (Exception)
+		{
+		}
+	}
+
+	public static void ReleaseFocusAnchor()
+	{
+		nint display = Display;
+		if (display == 0 || _focusAnchor == 0)
+			return;
+		try
+		{
+			lock (Sync)
+			{
+				_ = XDestroyWindow(display, _focusAnchor);
+				_focusAnchor = 0;
+				_ = XFlush(display);
+			}
+		}
+		catch (Exception)
+		{
+			_focusAnchor = 0;
 		}
 	}
 
@@ -865,6 +1031,77 @@ public static partial class LinuxWindowInterop
 			return false;
 		lock (Sync)
 			return TryWindowTreeHasColorVariation(display, window, width, height, 0);
+	}
+
+	public static bool TryCaptureOverlayPremultiplied(nint window, ref byte[] buffer, out int left, out int top, out int width, out int height)
+	{
+		left = 0;
+		top = 0;
+		width = 0;
+		height = 0;
+		if (window == 0)
+			return false;
+		lock (Sync)
+		{
+			nint display = Display;
+			if (display == 0)
+				return false;
+			nint pixmap = 0;
+			nint image = 0;
+			try
+			{
+				if (XGetWindowAttributes(display, window, out XWindowAttributes attributes) == 0
+					|| attributes.MapState != IsViewable
+					|| attributes.Width <= 0
+					|| attributes.Height <= 0)
+					return false;
+				if (_compositeState == 0)
+					_compositeState = XCompositeQueryExtension(display, out _, out _) != 0 ? 1 : -1;
+				if (_compositeState < 0)
+					return false;
+				if (XTranslateCoordinates(display, window, attributes.Root, 0, 0, out left, out top, out _) == 0)
+					return false;
+				width = attributes.Width;
+				height = attributes.Height;
+				pixmap = XCompositeNameWindowPixmap(display, window);
+				if (pixmap == 0)
+					return false;
+				image = XGetImage(display, pixmap, 0, 0, (uint)width, (uint)height, nuint.MaxValue, ZPixmap);
+				if (image == 0)
+					return false;
+				XImageInfo info = Marshal.PtrToStructure<XImageInfo>(image);
+				if (info.BitsPerPixel != 32 || info.Data == 0)
+					return false;
+				int rowBytes = width * 4;
+				if (buffer.Length < rowBytes * height)
+					buffer = new byte[rowBytes * height];
+				for (int y = 0; y < height; y++)
+					Marshal.Copy(info.Data + y * info.BytesPerLine, buffer, y * rowBytes, rowBytes);
+				if (attributes.Depth != 32)
+				{
+					for (int index = 3; index < rowBytes * height; index += 4)
+						buffer[index] = 255;
+				}
+				return true;
+			}
+			catch (DllNotFoundException)
+			{
+				_compositeState = -1;
+				return false;
+			}
+			catch (EntryPointNotFoundException)
+			{
+				_compositeState = -1;
+				return false;
+			}
+			finally
+			{
+				if (image != 0)
+					_ = XDestroyImage(image);
+				if (pixmap != 0)
+					_ = XFreePixmap(display, pixmap);
+			}
+		}
 	}
 
 	public static bool TryCaptureWindowBgra32(nint window, byte[] destination, out int width, out int height)
@@ -3643,6 +3880,8 @@ public static partial class LinuxWindowInterop
 			string executable = separator >= 0 ? commandLine[..separator] : commandLine;
 			if (IsSoberExecutableName(Path.GetFileName(executable)))
 				return true;
+			if (commandLine.Contains(LinuxRosemary.ApplicationPath(RosemaryApplication.Player), StringComparison.Ordinal))
+				return true;
 		}
 		catch (Exception)
 		{
@@ -3953,6 +4192,15 @@ public static partial class LinuxWindowInterop
 
 	[LibraryImport("libX11.so.6")]
 	private static partial int XMapWindow(nint display, nint window);
+
+	[LibraryImport("libX11.so.6")]
+	private static partial nint XCreateSimpleWindow(nint display, nint parent, int x, int y, uint width, uint height, uint borderWidth, nuint border, nuint background);
+
+	[LibraryImport("libX11.so.6")]
+	private static partial int XDestroyWindow(nint display, nint window);
+
+	[LibraryImport("libX11.so.6", StringMarshalling = StringMarshalling.Utf8)]
+	private static partial int XStoreName(nint display, nint window, string name);
 
 	[LibraryImport("libX11.so.6")]
 	private static partial int XReparentWindow(nint display, nint window, nint parent, int x, int y);

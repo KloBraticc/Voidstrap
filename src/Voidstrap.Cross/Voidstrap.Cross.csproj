@@ -102,6 +102,20 @@
 		</ItemGroup>
 	</Target>
 
+	<PropertyGroup Condition="'$(RuntimeIdentifier)' == 'linux-x64' Or '$(RuntimeIdentifier)' == 'linux-arm64'">
+		<VoidLayerLibrary>$(BaseIntermediateOutputPath)voidlayer/$(RuntimeIdentifier)/libvoidstrap_overlay.so</VoidLayerLibrary>
+	</PropertyGroup>
+
+	<Target Name="BuildVoidLayer" BeforeTargets="AssignTargetPaths;PrepareResources" Condition="'$(VoidLayerLibrary)' != '' And '$(DesignTimeBuild)' != 'true' And !$([MSBuild]::IsOSPlatform('Windows'))" Inputs="$(MSBuildProjectDirectory)/../../native/voidlayer/voidstrap_overlay.c;$(MSBuildProjectDirectory)/../../native/voidlayer/shaders.h;$(MSBuildProjectDirectory)/../../build/Packaging/build-voidlayer.sh" Outputs="$(VoidLayerLibrary)">
+		<Exec Command="bash &quot;$(MSBuildProjectDirectory)/../../build/Packaging/build-voidlayer.sh&quot; &quot;$(RuntimeIdentifier)&quot; &quot;$(VoidLayerLibrary)&quot;" IgnoreExitCode="true" IgnoreStandardErrorWarningFormat="true" />
+	</Target>
+
+	<Target Name="IncludeVoidLayer" DependsOnTargets="BuildVoidLayer" BeforeTargets="AssignTargetPaths;PrepareResources" Condition="'$(VoidLayerLibrary)' != ''">
+		<ItemGroup>
+			<EmbeddedResource Condition="Exists('$(VoidLayerLibrary)')" Include="$(VoidLayerLibrary)" LogicalName="Voidstrap.Resources.Linux.libvoidstrap_overlay.so" />
+		</ItemGroup>
+	</Target>
+
 	<PropertyGroup Condition="$(RuntimeIdentifier.StartsWith('linux')) Or $(RuntimeIdentifier.StartsWith('osx'))">
 		<VoidClipFileName Condition="$(RuntimeIdentifier.StartsWith('linux'))">libvoidclip.so</VoidClipFileName>
 		<VoidClipFileName Condition="$(RuntimeIdentifier.StartsWith('osx'))">libvoidclip.dylib</VoidClipFileName>
@@ -218,7 +232,7 @@
 		<Resource Visible="false" Include="..\Voidstrap.App\Resources\RobloxVngIcon.png">
 			<Link>Resources\RobloxVngIcon.png</Link>
 		</Resource>
-		<Resource Visible="false" Include="..\Voidstrap.App\Resources\Checkmark.ico;..\Voidstrap.App\Resources\CrossMark.ico;..\Voidstrap.App\Resources\Icon2008.ico;..\Voidstrap.App\Resources\Icon2011.ico;..\Voidstrap.App\Resources\Icon2017.ico;..\Voidstrap.App\Resources\Icon2019.ico;..\Voidstrap.App\Resources\Icon2022.ico;..\Voidstrap.App\Resources\IconEarly2015.ico;..\Voidstrap.App\Resources\IconLate2015.ico;..\Voidstrap.App\Resources\IconVoidstrap.ico;..\Voidstrap.App\Resources\Erik.png;..\Voidstrap.App\Resources\RobloxFace.png;..\Voidstrap.App\Resources\RobloxPlayerIcon.png;..\Voidstrap.App\Resources\RobloxStudioIcon.png;..\Voidstrap.App\Resources\SoberIcon.png;..\Voidstrap.App\Resources\VinegarIcon.png">
+		<Resource Visible="false" Include="..\Voidstrap.App\Resources\Checkmark.ico;..\Voidstrap.App\Resources\CrossMark.ico;..\Voidstrap.App\Resources\Icon2008.ico;..\Voidstrap.App\Resources\Icon2011.ico;..\Voidstrap.App\Resources\Icon2017.ico;..\Voidstrap.App\Resources\Icon2019.ico;..\Voidstrap.App\Resources\Icon2022.ico;..\Voidstrap.App\Resources\IconEarly2015.ico;..\Voidstrap.App\Resources\IconLate2015.ico;..\Voidstrap.App\Resources\IconVoidstrap.ico;..\Voidstrap.App\Resources\Erik.png;..\Voidstrap.App\Resources\RobloxFace.png;..\Voidstrap.App\Resources\RobloxPlayerIcon.png;..\Voidstrap.App\Resources\RobloxStudioIcon.png;..\Voidstrap.App\Resources\SoberIcon.png;..\Voidstrap.App\Resources\RosemaryIcon.png;..\Voidstrap.App\Resources\VinegarIcon.png">
 			<Link>Resources\%(Filename)%(Extension)</Link>
 		</Resource>
 		<Resource Visible="false" Include="..\Voidstrap.App\Resources\BootstrapperStyles\ByfronDialog\ByfronLogoDark.jpg;..\Voidstrap.App\Resources\BootstrapperStyles\ByfronDialog\ByfronLogoLight.jpg;..\Voidstrap.App\Resources\BootstrapperStyles\ByfronDialog\Matt.png">
