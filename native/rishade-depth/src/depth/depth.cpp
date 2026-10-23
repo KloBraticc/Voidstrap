@@ -205,14 +205,15 @@ Texture2D<float> PrevQuarter : register(t4);
 Texture2D<float2> Coarse : register(t5);
 Texture2D<float4> Flow : register(t6);
 Texture2D<float> Anchor : register(t7);
-Texture2D<float> Warped : register(t8);
+Texture2D<float2> Warped : register(t8);
 StructuredBuffer<float4> Motion : register(t9);
+Texture2D<float4> AnchorColor : register(t10);
 RWTexture2D<float> LumaTarget : register(u0);
 RWTexture2D<float> QuarterTarget : register(u1);
 RWTexture2D<float2> CoarseTarget : register(u2);
 RWTexture2D<float4> FlowTarget : register(u3);
 RWTexture2D<float> Depth : register(u4);
-RWTexture2D<float> WarpedTarget : register(u5);
+RWTexture2D<float2> WarpedTarget : register(u5);
 RWStructuredBuffer<float4> Affine : register(u6);
 
 static const int CoarseSearch = 8;
@@ -226,8 +227,10 @@ static const float Regularization = 1e-3;
 static const float TemporalBase = 0.5;
 static const float TemporalResponse = 6.0;
 static const int RefineRadius = 2;
-static const int RefineStride = 2;
 static const float RefineColor = 0.08;
+static const float StaleStart = 0.08;
+static const float StaleRange = 0.1;
+static const float ValidFloor = 0.02;
 static const uint Composed = 1;
 static const uint Advance = 2;
 static const uint Reset = 4;
@@ -527,7 +530,10 @@ void Warp(uint3 id : SV_DispatchThreadID)
     float2 centre = Centre();
     float3 x = float3((id.xy + 0.5) * float2(WorkSize) / float2(SourceSize) - 0.5 - centre, 1);
     float2 origin = float2(dot(Motion[4].xyz, x), dot(Motion[5].xyz, x)) + centre;
-    WarpedTarget[id.xy] = AnchorAt(origin);
+    float2 source = (origin + 0.5) * float2(SourceSize) / float2(WorkSize) - 0.5;
+    int2 before = clamp(int2(round(source)), 0, int2(SourceSize) - 1);
+    float difference = length(Color.Load(int3(id.xy, 0)).rgb - AnchorColor.Load(int3(before, 0)).rgb);
+    WarpedTarget[id.xy] = float2(AnchorAt(origin), saturate(1 - (difference - StaleStart) / StaleRange));
 }
 
 [numthreads(16, 16, 1)]
@@ -538,18 +544,28 @@ void Refine(uint3 id : SV_DispatchThreadID)
     int2 p = int2(id.xy);
     int2 size = int2(SourceSize);
     float3 centre = Color.Load(int3(p, 0)).rgb;
+    float2 own = Warped.Load(int3(p, 0));
     float sum = 0;
     float weights = 0;
-    for (int dy = -RefineRadius; dy <= RefineRadius; ++dy)
-        for (int dx = -RefineRadius; dx <= RefineRadius; ++dx)
-        {
-            int2 q = clamp(p + int2(dx, dy) * RefineStride, 0, size - 1);
-            float3 difference = Color.Load(int3(q, 0)).rgb - centre;
-            float weight = exp(-dot(difference, difference) / (2 * RefineColor * RefineColor)) * exp(-(dx * dx + dy * dy) / 4.0);
-            sum += weight * Warped.Load(int3(q, 0));
-            weights += weight;
-        }
-    float current = sum / weights;
+    const int strides[3] = { 2, 8, 24 };
+    for (int ring = 0; ring < 3; ++ring)
+    {
+        float reach = ring == 0 ? 1 : (ring == 1 ? 0.3 : 0.1);
+        for (int dy = -RefineRadius; dy <= RefineRadius; ++dy)
+            for (int dx = -RefineRadius; dx <= RefineRadius; ++dx)
+            {
+                if (ring > 0 && own.y >= 0.99)
+                    continue;
+                int2 q = clamp(p + int2(dx, dy) * strides[ring], 0, size - 1);
+                float3 difference = Color.Load(int3(q, 0)).rgb - centre;
+                float2 sample = Warped.Load(int3(q, 0));
+                float weight = exp(-dot(difference, difference) / (2 * RefineColor * RefineColor)) * exp(-(dx * dx + dy * dy) / 4.0) * reach *
+                               (sample.y + ValidFloor);
+                sum += weight * sample.x;
+                weights += weight;
+            }
+    }
+    float current = weights > 1e-6 ? sum / weights : own.x;
     float previous = Depth[id.xy];
     float change = abs(current - previous) / max(max(current, previous), 1e-4);
     Depth[id.xy] = lerp(previous, current, saturate(TemporalBase + change * TemporalResponse));
@@ -619,6 +635,8 @@ struct Depth
     Surface flow;
     Surface anchor;
     Surface warped;
+    winrt::com_ptr<ID3D11Texture2D> anchorCopy;
+    winrt::com_ptr<ID3D11ShaderResourceView> anchorColorView;
     UINT workWidth = 0;
     UINT workHeight = 0;
     bool anchored = false;
@@ -938,7 +956,7 @@ void CompileShaders()
     CreateShaders();
 }
 
-void Dispatch(size_t shader, std::array<ID3D11ShaderResourceView*, 10> views, std::array<ID3D11UnorderedAccessView*, 8> targets, UINT x, UINT y)
+void Dispatch(size_t shader, std::array<ID3D11ShaderResourceView*, 11> views, std::array<ID3D11UnorderedAccessView*, 8> targets, UINT x, UINT y)
 {
     ID3D11Buffer* constants[] = { shader >= kShrink ? d.trackSizes.get() : d.sizes.get() };
     g.context->CSSetShader(d.shaders[shader].get(), nullptr, 0);
@@ -995,6 +1013,8 @@ void ReleaseResources()
     d.frameCopy = nullptr;
     d.liveView = nullptr;
     d.liveCopy = nullptr;
+    d.anchorColorView = nullptr;
+    d.anchorCopy = nullptr;
     d.sizes = nullptr;
     d.trackSizes = nullptr;
     d.lastTracked.reset();
@@ -1051,6 +1071,10 @@ void Resize(const D3D11_TEXTURE2D_DESC& frame)
     d.liveView = nullptr;
     winrt::check_hresult(g.device->CreateTexture2D(&copy, nullptr, d.liveCopy.put()));
     winrt::check_hresult(g.device->CreateShaderResourceView(d.liveCopy.get(), nullptr, d.liveView.put()));
+    d.anchorCopy = nullptr;
+    d.anchorColorView = nullptr;
+    winrt::check_hresult(g.device->CreateTexture2D(&copy, nullptr, d.anchorCopy.put()));
+    winrt::check_hresult(g.device->CreateShaderResourceView(d.anchorCopy.get(), nullptr, d.anchorColorView.put()));
 }
 
 void CreateSurface(UINT width, UINT height, DXGI_FORMAT format, Surface& surface)
@@ -1152,7 +1176,7 @@ void CreateShared()
     }
     CreateSurface(quarterWidth, quarterHeight, DXGI_FORMAT_R32G32_FLOAT, d.coarse);
     CreateSurface(d.workWidth, d.workHeight, DXGI_FORMAT_R32G32B32A32_FLOAT, d.flow);
-    CreateSurface(d.sourceWidth, d.sourceHeight, DXGI_FORMAT_R32_FLOAT, d.warped);
+    CreateSurface(d.sourceWidth, d.sourceHeight, DXGI_FORMAT_R32G32_FLOAT, d.warped);
     g.context->ClearUnorderedAccessViewFloat(d.anchor.target.get(), farPlane);
     std::array<float, 4 * kAffineRows> identity{};
     for (UINT row = 0; row < kAffineRows; ++row)
@@ -1186,6 +1210,7 @@ void Publish()
     Dispatch(3, {}, { nullptr, d.keysTarget.get(), d.stateTarget.get() }, 1, 1);
     Dispatch(4, { d.frameView.get(), d.outputView.get(), d.stateView.get(), d.guideView.get() }, { nullptr, nullptr, nullptr, d.anchor.target.get() },
              (d.sourceWidth + 15) / 16, (d.sourceHeight + 15) / 16);
+    g.context->CopyResource(d.anchorCopy.get(), d.frameCopy.get());
     d.anchored = true;
     d.published = true;
 }
@@ -1236,7 +1261,8 @@ void Track(ID3D11Texture2D* frame, int64_t frameTimestamp)
         return;
     const UINT sourceGroupsX = (d.sourceWidth + 15) / 16;
     const UINT sourceGroupsY = (d.sourceHeight + 15) / 16;
-    Dispatch(kWarp, { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.anchor.view.get(), nullptr, d.affineView.get() },
+    Dispatch(kWarp, { d.liveView.get(), nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.anchor.view.get(), nullptr, d.affineView.get(),
+                      d.anchorColorView.get() },
              { nullptr, nullptr, nullptr, nullptr, nullptr, d.warped.target.get() }, sourceGroupsX, sourceGroupsY);
     Dispatch(kRefine, { d.liveView.get(), nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.warped.view.get() },
              { nullptr, nullptr, nullptr, nullptr, d.textureTarget.get() }, sourceGroupsX, sourceGroupsY);
