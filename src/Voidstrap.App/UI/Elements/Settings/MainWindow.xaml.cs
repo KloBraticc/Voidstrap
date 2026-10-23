@@ -4947,6 +4947,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private bool? _rootNavigationShown;
 
+    private readonly TranslateTransform _pageHold = new TranslateTransform();
+
     private void SetRootNavigationShown(bool shown)
     {
         if (_rootNavigationShown == shown)
@@ -4966,16 +4968,27 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         double to = shown ? Math.Max(navigationWidth, SidebarResizer.Width) : SidebarResizer.Width;
         if (shown)
             RootNavigation.Visibility = Visibility.Visible;
-        double pageWidth = RootFrame.ActualWidth;
-        if (pageWidth > 0)
-        {
-            RootFrame.Width = Math.Max(pageWidth, pageWidth + from - to);
-            RootFrame.HorizontalAlignment = HorizontalAlignment.Left;
-            PageSurface.ClipToBounds = true;
-        }
-        SidebarHost.ClipToBounds = true;
         CubicEase ease = new CubicEase { EasingMode = EasingMode.EaseInOut };
         ease.Freeze();
+        double pageScale = RootFrame.LayoutTransform is ScaleTransform zoom && zoom.ScaleX > 0 ? zoom.ScaleX : 1.0;
+        double pageShift = (to - from) / pageScale;
+        double pageWidth = RootFrame.ActualWidth;
+        if (pageWidth > 0 && pageWidth - pageShift > 0)
+        {
+            RootFrame.Width = pageWidth - pageShift;
+            RootFrame.HorizontalAlignment = HorizontalAlignment.Left;
+            if (!ReferenceEquals(RootFrame.RenderTransform, _pageHold))
+                RootFrame.RenderTransform = _pageHold;
+            PageSurface.ClipToBounds = true;
+            DoubleAnimation hold = new DoubleAnimation(pageShift, 0.0, TimeSpan.FromMilliseconds(220))
+            {
+                EasingFunction = ease,
+                FillBehavior = FillBehavior.Stop
+            };
+            hold.Freeze();
+            _pageHold.BeginAnimation(TranslateTransform.XProperty, hold);
+        }
+        SidebarHost.ClipToBounds = true;
         DoubleAnimation slide = new DoubleAnimation(from, to, TimeSpan.FromMilliseconds(220))
         {
             EasingFunction = ease,
@@ -5003,6 +5016,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void ReleasePinnedPage()
     {
+        _pageHold.BeginAnimation(TranslateTransform.XProperty, null);
         if (double.IsNaN(RootFrame.Width))
             return;
         RootFrame.Width = double.NaN;
