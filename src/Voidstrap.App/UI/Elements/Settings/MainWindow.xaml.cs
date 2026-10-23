@@ -4947,7 +4947,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private bool? _rootNavigationShown;
 
-    private readonly TranslateTransform _pageHold = new TranslateTransform();
+    private readonly TranslateTransform _navigationSlide = new TranslateTransform();
 
     private void SetRootNavigationShown(bool shown)
     {
@@ -4957,6 +4957,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         _rootNavigationShown = shown;
         SidebarHost.BeginAnimation(WidthProperty, null);
         RootNavigation.BeginAnimation(OpacityProperty, null);
+        _navigationSlide.BeginAnimation(TranslateTransform.XProperty, null);
         ReleasePinnedPage();
         if (firstApply || !IsLoaded)
         {
@@ -4971,22 +4972,20 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         CubicEase ease = new CubicEase { EasingMode = EasingMode.EaseInOut };
         ease.Freeze();
         double pageScale = RootFrame.LayoutTransform is ScaleTransform zoom && zoom.ScaleX > 0 ? zoom.ScaleX : 1.0;
-        double pageShift = (to - from) / pageScale;
-        double pageWidth = RootFrame.ActualWidth;
-        if (pageWidth > 0 && pageWidth - pageShift > 0)
+        double shift = to - from;
+        double pageWidth = RootFrame.ActualWidth * pageScale;
+        if (pageWidth > 0 && pageWidth - shift > 0)
         {
-            RootFrame.Width = pageWidth - pageShift;
+            RootFrame.Width = (pageWidth - shift) / pageScale;
             RootFrame.HorizontalAlignment = HorizontalAlignment.Left;
-            if (!ReferenceEquals(RootFrame.RenderTransform, _pageHold))
-                RootFrame.RenderTransform = _pageHold;
             PageSurface.ClipToBounds = true;
-            DoubleAnimation hold = new DoubleAnimation(pageShift, 0.0, TimeSpan.FromMilliseconds(220))
+            ThicknessAnimation hold = new ThicknessAnimation(new Thickness(shift, 0, 0, 0), new Thickness(0), TimeSpan.FromMilliseconds(220))
             {
                 EasingFunction = ease,
                 FillBehavior = FillBehavior.Stop
             };
             hold.Freeze();
-            _pageHold.BeginAnimation(TranslateTransform.XProperty, hold);
+            RootFrame.BeginAnimation(MarginProperty, hold);
         }
         SidebarHost.ClipToBounds = true;
         DoubleAnimation slide = new DoubleAnimation(from, to, TimeSpan.FromMilliseconds(220))
@@ -5001,6 +5000,15 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             FillBehavior = FillBehavior.Stop
         };
         fade.Freeze();
+        if (!ReferenceEquals(RootNavigation.RenderTransform, _navigationSlide))
+            RootNavigation.RenderTransform = _navigationSlide;
+        DoubleAnimation move = new DoubleAnimation(Math.Min(0.0, from - navigationWidth), Math.Min(0.0, to - navigationWidth), TimeSpan.FromMilliseconds(220))
+        {
+            EasingFunction = ease,
+            FillBehavior = FillBehavior.HoldEnd
+        };
+        move.Freeze();
+        _navigationSlide.BeginAnimation(TranslateTransform.XProperty, move);
         RootNavigation.BeginAnimation(OpacityProperty, fade);
         SidebarHost.BeginAnimation(WidthProperty, slide);
     }
@@ -5009,6 +5017,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         if (_rootNavigationShown == false)
             RootNavigation.Visibility = Visibility.Collapsed;
+        _navigationSlide.BeginAnimation(TranslateTransform.XProperty, null);
         SidebarHost.BeginAnimation(WidthProperty, null);
         SidebarHost.ClipToBounds = false;
         ReleasePinnedPage();
@@ -5016,7 +5025,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void ReleasePinnedPage()
     {
-        _pageHold.BeginAnimation(TranslateTransform.XProperty, null);
+        RootFrame.BeginAnimation(MarginProperty, null);
         if (double.IsNaN(RootFrame.Width))
             return;
         RootFrame.Width = double.NaN;
