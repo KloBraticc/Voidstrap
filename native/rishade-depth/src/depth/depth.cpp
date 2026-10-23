@@ -681,7 +681,7 @@ struct Surface
     winrt::com_ptr<ID3D11ShaderResourceView> view;
 };
 
-constexpr std::chrono::milliseconds kMinDepthInterval{ 50 };
+constexpr std::chrono::milliseconds kMinDepthInterval{ 8 };
 constexpr std::chrono::milliseconds kKeyframeInterval{ 33 };
 
 struct Depth
