@@ -66,6 +66,7 @@ public partial class App : Application
 	public const string ProjectLogoUrl = "https://raw.githubusercontent.com/KloBraticc/Voidstrap/main/src/Voidstrap.App/Voidstrap.png";
 
 	public const string RpcLoadingImageUrl = "https://raw.githubusercontent.com/KloBraticc/Voidstrap/main/assets/Images/rpc-loading.gif";
+	public const string RpcVoidstrapImageUrl = "https://raw.githubusercontent.com/KloBraticc/Voidstrap/main/src/Voidstrap.App/Voidstrap.png";
 
 	public const string ProjectSupportLink = "https://github.com/KloBraticc/Voidstrap/issues/new";
 	public const string ProjectFallbackSupportLink = ProjectFallbackRepository + "/issues/new";

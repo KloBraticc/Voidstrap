@@ -884,7 +884,7 @@ public partial class DiscordRichPresence : IDisposable
 				: knownLargeImage;
 		string largeText = BuildServerText(activity.ServerType, reservedName, knownLocation);
 		bool showAccount = App.Settings.Prop.ShowAccountOnRichPresence && activity.UserId > 0;
-		string smallImage = "voidstrap";
+		string smallImage = App.RpcVoidstrapImageUrl;
 		string smallText = "Voidstrap";
 		if (showAccount && smallImageTask.IsCompletedSuccessfully)
 			(smallImage, smallText) = smallImageTask.Result;
@@ -1014,7 +1014,7 @@ public partial class DiscordRichPresence : IDisposable
 				_enrichedLocation = locationTask.Result;
 			if (iconTask.IsCompletedSuccessfully && !string.IsNullOrWhiteSpace(iconTask.Result))
 				_enrichedLargeImage = Voidstrap.Utility.DiscordPresenceGuard.Key(iconTask.Result);
-			if (smallImageTask.IsCompletedSuccessfully && smallImageTask.Result.key != "voidstrap")
+			if (smallImageTask.IsCompletedSuccessfully && smallImageTask.Result.key != App.RpcVoidstrapImageUrl)
 			{
 				_enrichedSmallKey = smallImageTask.Result.key;
 				_enrichedSmallText = smallImageTask.Result.text;
@@ -1181,7 +1181,7 @@ public partial class DiscordRichPresence : IDisposable
 			lock (_activityGate)
 				idleToken = _gameCancellation?.Token ?? _lifetimeToken;
 			ClearGameMessages();
-			string smallImage = "voidstrap";
+			string smallImage = App.RpcVoidstrapImageUrl;
 			string smallText = "Voidstrap";
 			try
 			{
@@ -1342,7 +1342,7 @@ public partial class DiscordRichPresence : IDisposable
 		largeImage = Voidstrap.Utility.DiscordPresenceGuard.Key(largeImage);
 		if (string.IsNullOrWhiteSpace(largeImage))
 		{
-			largeImage = "voidstrap";
+			largeImage = App.RpcVoidstrapImageUrl;
 		}
 
 		(string smallImage, string smallText) = await smallImageTask.ConfigureAwait(continueOnCapturedContext: false);
@@ -1458,7 +1458,7 @@ public partial class DiscordRichPresence : IDisposable
 	{
 		if (!App.Settings.Prop.ShowAccountOnRichPresence || activity.UserId <= 0 || token.IsCancellationRequested)
 		{
-			return (key: "voidstrap", text: "Voidstrap");
+			return (key: App.RpcVoidstrapImageUrl, text: "Voidstrap");
 		}
 		try
 		{
@@ -1467,14 +1467,14 @@ public partial class DiscordRichPresence : IDisposable
 			UserDetails userDetails = await UserDetails.Fetch(activity.UserId, timeout.Token).ConfigureAwait(continueOnCapturedContext: false);
 			if (userDetails?.Data == null)
 			{
-				return (key: "voidstrap", text: "Voidstrap");
+				return (key: App.RpcVoidstrapImageUrl, text: "Voidstrap");
 			}
 			string avatar = Voidstrap.Utility.DiscordPresenceGuard.Key(userDetails.Thumbnail?.ImageUrl);
-			return (key: avatar.Length > 0 ? avatar : "voidstrap", text: Voidstrap.Utility.DiscordPresenceGuard.Text(userDetails.Data.DisplayName + " (@" + userDetails.Data.Name + ")"));
+			return (key: avatar.Length > 0 ? avatar : App.RpcVoidstrapImageUrl, text: Voidstrap.Utility.DiscordPresenceGuard.Text(userDetails.Data.DisplayName + " (@" + userDetails.Data.Name + ")"));
 		}
 		catch
 		{
-			return (key: "voidstrap", text: "Voidstrap");
+			return (key: App.RpcVoidstrapImageUrl, text: "Voidstrap");
 		}
 	}
 
