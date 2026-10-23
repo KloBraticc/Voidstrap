@@ -25,7 +25,7 @@ public static class ProcessElevation
 
 	public static bool TryRestartElevated(string arguments = "")
 	{
-		string? processPath = InstallLocationResolver.ResolveExecutable() ?? Environment.ProcessPath;
+		string? processPath = InstallLocationResolver.ResolveExecutable() ?? Paths.Process;
 		if (string.IsNullOrEmpty(processPath))
 		{
 			return false;
@@ -54,7 +54,7 @@ public static class ProcessElevation
 
 	public static bool TryRestartElevated(IEnumerable<string> arguments)
 	{
-		string? processPath = InstallLocationResolver.ResolveExecutable() ?? Environment.ProcessPath;
+		string? processPath = InstallLocationResolver.ResolveExecutable() ?? Paths.Process;
 		if (string.IsNullOrEmpty(processPath))
 			return false;
 		ProcessStartInfo startInfo = new ProcessStartInfo

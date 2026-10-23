@@ -24,7 +24,30 @@ internal static class Paths
 
 	public static string System => Environment.GetFolderPath(Environment.SpecialFolder.System);
 
-	public static string Process => Environment.ProcessPath!;
+	private static readonly string? Launcher = ResolveLauncher();
+
+	public static string Process => Launcher ?? Environment.ProcessPath!;
+
+	public static bool StartedByLauncher => Launcher != null;
+
+	private static string? ResolveLauncher()
+	{
+		if (!OperatingSystem.IsWindows())
+			return null;
+		string? launcher = Environment.GetEnvironmentVariable("VOIDSTRAP_LAUNCHER");
+		Environment.SetEnvironmentVariable("VOIDSTRAP_LAUNCHER", null);
+		if (string.IsNullOrWhiteSpace(launcher))
+			return null;
+		try
+		{
+			string full = Path.GetFullPath(launcher);
+			return File.Exists(full) ? full : null;
+		}
+		catch (Exception ex) when (ex is ArgumentException or IOException or NotSupportedException or UnauthorizedAccessException)
+		{
+			return null;
+		}
+	}
 
 	public static string LaunchExecutable => Voidstrap.Utility.Platform.IsLinux ? LinuxAppImageHost.ResolveApplicationPath(Process) : Process;
 

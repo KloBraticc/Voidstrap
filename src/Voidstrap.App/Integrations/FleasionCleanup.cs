@@ -262,7 +262,7 @@ internal static partial class FleasionCleanup
 
 	private static bool RunElevatedHelper(string localAppData)
 	{
-		string? processPath = Environment.ProcessPath;
+		string? processPath = Paths.Process;
 		if (string.IsNullOrEmpty(processPath))
 			return false;
 		try

@@ -70,7 +70,7 @@ internal sealed partial class Installer
 		if (!Voidstrap.Utility.Platform.IsWindows)
 		{
 			Voidstrap.Platform.IPlatformHost? host = Voidstrap.Utility.Platform.RuntimeHost;
-			string? applicationPath = Environment.ProcessPath;
+			string? applicationPath = Paths.Process;
 			if (host == null || string.IsNullOrWhiteSpace(applicationPath))
 			{
 				throw new InvalidOperationException("Platform storage is unavailable");
@@ -950,7 +950,7 @@ internal sealed partial class Installer
 
 	internal static void CleanupUpdateBackups()
 	{
-		string? exe = Environment.ProcessPath;
+		string? exe = Paths.Process;
 		string? folder = Path.GetDirectoryName(exe);
 		if (string.IsNullOrEmpty(exe) || string.IsNullOrEmpty(folder))
 			return;

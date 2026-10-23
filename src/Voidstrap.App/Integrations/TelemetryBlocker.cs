@@ -286,7 +286,7 @@ public static class TelemetryBlocker
 
 	private static async Task<bool> RunElevatedAsync(bool enable, CancellationToken cancellationToken)
 	{
-		string? processPath = Environment.ProcessPath;
+		string? processPath = Paths.Process;
 		if (string.IsNullOrEmpty(processPath))
 		{
 			return false;

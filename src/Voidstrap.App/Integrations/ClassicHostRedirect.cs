@@ -355,7 +355,7 @@ public static class ClassicHostRedirect
 
 	private static async Task<string?> RunElevatedAsync(bool enable, CancellationToken cancellationToken)
 	{
-		string? processPath = Environment.ProcessPath;
+		string? processPath = Paths.Process;
 		if (string.IsNullOrEmpty(processPath))
 		{
 			return "Voidstrap could not locate its own executable to request elevation.";

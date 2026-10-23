@@ -219,7 +219,7 @@ public partial class App : Application
 
 			string? executable = Voidstrap.Utility.Platform.IsLinux
 				? Voidstrap.Platform.Linux.LinuxAppImageHost.ResolveApplicationPath(Environment.ProcessPath ?? string.Empty)
-				: Environment.ProcessPath;
+				: Paths.Process;
 			if (string.IsNullOrWhiteSpace(executable))
 			{
 				return false;
@@ -881,7 +881,7 @@ public partial class App : Application
 				return;
 			}
 
-			string? applicationPath = Environment.ProcessPath;
+			string? applicationPath = Paths.Process;
 			if (string.IsNullOrWhiteSpace(applicationPath))
 			{
 				Frontend.ShowMessageBox("Voidstrap could not determine its application path.", MessageBoxImage.Hand);
@@ -1187,7 +1187,7 @@ public partial class App : Application
 		}
 		try
 		{
-			string? executable = Environment.ProcessPath;
+			string? executable = Paths.Process;
 			if (!string.IsNullOrEmpty(executable) && File.Exists(executable))
 			{
 				metadata.Timestamp = File.GetLastWriteTime(executable);
@@ -1259,7 +1259,7 @@ public partial class App : Application
 			if (!Voidstrap.Utility.Platform.IsWindows)
 			{
 				Voidstrap.Platform.IPlatformHost? host = Voidstrap.Utility.Platform.RuntimeHost;
-				string? applicationPath = Environment.ProcessPath;
+				string? applicationPath = Paths.Process;
 				if (host == null || string.IsNullOrWhiteSpace(applicationPath))
 				{
 					throw new InvalidOperationException("Platform storage is unavailable");

@@ -296,7 +296,7 @@ namespace Voidstrap.Integrations
             {
                 ProcessStartInfo start = new ProcessStartInfo
                 {
-                    FileName = Environment.ProcessPath ?? Paths.Application,
+                    FileName = Paths.Process ?? Paths.Application,
                     UseShellExecute = true,
                     Verb = "runas",
                 };

@@ -614,7 +614,7 @@ public static class GithubUpdater
         await DownloadToFileAsync(url, exePath, digest, cancellationToken);
         cancellationToken.ThrowIfCancellationRequested();
 
-        string currentExe = Environment.ProcessPath!;
+        string currentExe = Paths.Process!;
         string backupExe = currentExe + ".old";
         string replacementExe = currentExe + ".update";
         if (File.Exists(backupExe))
