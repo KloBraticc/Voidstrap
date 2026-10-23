@@ -1,9 +1,12 @@
 using System;
 using System.Collections.Concurrent;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Runtime.ExceptionServices;
+using System.Text.RegularExpressions;
 using System.Threading;
+using System.Windows.Threading;
 
 namespace Voidstrap.Utility;
 
@@ -15,6 +18,18 @@ internal static class HiddenErrorLog
 
 	private const int MaxMessageLength = 300;
 
+	private const int MaxFreezeReports = 50;
+
+	private static readonly TimeSpan WatchdogInterval = TimeSpan.FromMilliseconds(500);
+
+	private static readonly long FreezeThreshold = TimeSpan.FromSeconds(2).Ticks;
+
+	private static readonly long StuckThreshold = TimeSpan.FromSeconds(5).Ticks;
+
+	private static readonly DateTime SessionStarted = DateTime.UtcNow;
+
+	private static readonly Regex HashCodePattern = new(@"\s*\(HashCode=\d+\)", RegexOptions.Compiled);
+
 	private static readonly ConcurrentDictionary<string, int> Sites = new(StringComparer.Ordinal);
 
 	private static int _installed;
@@ -22,6 +37,20 @@ internal static class HiddenErrorLog
 	private static int _overflowReported;
 
 	private static long _total;
+
+	private static Dispatcher? _dispatcher;
+
+	private static Timer? _watchdog;
+
+	private static long _probeSentTicks;
+
+	private static int _probePending;
+
+	private static int _stuckReported;
+
+	private static int _freezeReports;
+
+	private static long _longestFreezeTicks;
 
 	[ThreadStatic]
 	private static bool _inside;
@@ -34,13 +63,16 @@ internal static class HiddenErrorLog
 		try
 		{
 			PresentationTraceSources.Refresh();
-			PresentationTraceSources.DataBindingSource.Switch.Level = SourceLevels.Error;
-			PresentationTraceSources.DataBindingSource.Listeners.Add(new BindingErrorListener());
+			Listen(PresentationTraceSources.DataBindingSource, "BindingErrors");
+			Listen(PresentationTraceSources.ResourceDictionarySource, "ResourceErrors");
+			Listen(PresentationTraceSources.AnimationSource, "AnimationErrors");
+			Trace.Listeners.Add(new DiagnosticListener("TraceErrors", true));
 		}
 		catch (Exception ex)
 		{
-			App.Logger.WriteLine(LOG_IDENT, "Binding error reporting could not start: " + ex.Message);
+			App.Logger.WriteLine(LOG_IDENT, "WPF error reporting could not start: " + ex.Message);
 		}
+		StartWatchdog();
 	}
 
 	public static void Uninstall()
@@ -48,7 +80,70 @@ internal static class HiddenErrorLog
 		if (Interlocked.Exchange(ref _installed, 0) == 0)
 			return;
 		AppDomain.CurrentDomain.FirstChanceException -= OnFirstChanceException;
+		Timer? watchdog = Interlocked.Exchange(ref _watchdog, null);
+		watchdog?.Dispose();
+		_dispatcher = null;
 		WriteSummary();
+	}
+
+	private static void Listen(TraceSource source, string category)
+	{
+		source.Switch.Level = SourceLevels.Error;
+		source.Listeners.Add(new DiagnosticListener(category, false));
+	}
+
+	private static void StartWatchdog()
+	{
+		try
+		{
+			_dispatcher = Dispatcher.CurrentDispatcher;
+			_watchdog = new Timer(OnWatchdogTick, null, WatchdogInterval, WatchdogInterval);
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine(LOG_IDENT, "The freeze watchdog could not start: " + ex.Message);
+		}
+	}
+
+	private static void OnWatchdogTick(object? state)
+	{
+		try
+		{
+			Dispatcher? dispatcher = _dispatcher;
+			if (dispatcher == null || dispatcher.HasShutdownStarted)
+				return;
+			long now = DateTime.UtcNow.Ticks;
+			if (Volatile.Read(ref _probePending) == 1)
+			{
+				long waited = now - Interlocked.Read(ref _probeSentTicks);
+				if (waited >= StuckThreshold && Volatile.Read(ref _freezeReports) < MaxFreezeReports && Interlocked.Exchange(ref _stuckReported, 1) == 0)
+				{
+					App.Logger.WriteLine("UiFreeze", "The window has not responded for " + (waited / TimeSpan.TicksPerMillisecond) + " ms and is still frozen");
+					App.Logger.Flush();
+				}
+				return;
+			}
+			Interlocked.Exchange(ref _probeSentTicks, now);
+			Volatile.Write(ref _probePending, 1);
+			dispatcher.BeginInvoke(DispatcherPriority.Input, new Action(OnProbeAnswered));
+		}
+		catch
+		{
+		}
+	}
+
+	private static void OnProbeAnswered()
+	{
+		long waited = DateTime.UtcNow.Ticks - Interlocked.Read(ref _probeSentTicks);
+		Volatile.Write(ref _probePending, 0);
+		bool wasStuck = Interlocked.Exchange(ref _stuckReported, 0) == 1;
+		if (waited < FreezeThreshold)
+			return;
+		if (waited > Interlocked.Read(ref _longestFreezeTicks))
+			Interlocked.Exchange(ref _longestFreezeTicks, waited);
+		if (Interlocked.Increment(ref _freezeReports) > MaxFreezeReports)
+			return;
+		App.Logger.WriteLine("UiFreeze", "The window was frozen for " + (waited / TimeSpan.TicksPerMillisecond) + " ms" + (wasStuck ? " and has now recovered" : ""));
 	}
 
 	private static void OnFirstChanceException(object? sender, FirstChanceExceptionEventArgs e)
@@ -56,7 +151,7 @@ internal static class HiddenErrorLog
 		if (_inside)
 			return;
 		Exception ex = e.Exception;
-		if (ex is OperationCanceledException)
+		if (ex is OperationCanceledException || IsKnownInternalProbe(ex))
 			return;
 		_inside = true;
 		try
@@ -81,6 +176,12 @@ internal static class HiddenErrorLog
 		{
 			_inside = false;
 		}
+	}
+
+	private static bool IsKnownInternalProbe(Exception ex)
+	{
+		return ex.GetType().Name == "TypeNameParserException"
+			&& ex.TargetSite?.DeclaringType?.Namespace == "MS.Internal.Xaml.Parser";
 	}
 
 	private static string DescribeSite(Exception ex)
@@ -128,6 +229,11 @@ internal static class HiddenErrorLog
 	{
 		try
 		{
+			int freezes = Math.Min(Volatile.Read(ref _freezeReports), MaxFreezeReports);
+			using (Process process = Process.GetCurrentProcess())
+			{
+				App.Logger.WriteLine(LOG_IDENT, "Session lasted " + (int)(DateTime.UtcNow - SessionStarted).TotalMinutes + " minute(s), peak memory " + (process.PeakWorkingSet64 / (1024 * 1024)) + " MB, garbage collections " + GC.CollectionCount(0) + "/" + GC.CollectionCount(1) + "/" + GC.CollectionCount(2) + ", window freezes over 2 s: " + freezes + (freezes > 0 ? ", longest " + (Interlocked.Read(ref _longestFreezeTicks) / TimeSpan.TicksPerMillisecond) + " ms" : ""));
+			}
 			long total = Interlocked.Read(ref _total);
 			if (total == 0)
 				return;
@@ -139,7 +245,7 @@ internal static class HiddenErrorLog
 		}
 	}
 
-	private sealed class BindingErrorListener : TraceListener
+	private sealed class DiagnosticListener(string category, bool onlyEvents) : TraceListener
 	{
 		private static readonly ConcurrentDictionary<string, byte> Seen = new(StringComparer.Ordinal);
 
@@ -149,14 +255,42 @@ internal static class HiddenErrorLog
 
 		public override void WriteLine(string? message)
 		{
+			if (!onlyEvents)
+				Record(message);
+		}
+
+		public override void TraceEvent(TraceEventCache? eventCache, string source, TraceEventType eventType, int id, string? message)
+		{
+			if (eventType is TraceEventType.Critical or TraceEventType.Error or TraceEventType.Warning)
+				Record(message);
+		}
+
+		public override void TraceEvent(TraceEventCache? eventCache, string source, TraceEventType eventType, int id, string? format, params object?[]? args)
+		{
+			if (eventType is not (TraceEventType.Critical or TraceEventType.Error or TraceEventType.Warning) || format == null)
+				return;
+			string text;
+			try
+			{
+				text = args == null || args.Length == 0 ? format : string.Format(CultureInfo.InvariantCulture, format, args);
+			}
+			catch (FormatException)
+			{
+				text = format;
+			}
+			Record(text);
+		}
+
+		private void Record(string? message)
+		{
 			if (string.IsNullOrEmpty(message) || _inside)
 				return;
 			_inside = true;
 			try
 			{
-				string text = Trim(System.Text.RegularExpressions.Regex.Replace(message, @"\s*\(HashCode=\d+\)", ""));
-				if (Seen.Count < MaxDistinctSites && Seen.TryAdd(text, 0))
-					App.Logger.WriteLine("BindingErrors", text);
+				string text = Trim(HashCodePattern.Replace(message, ""));
+				if (Seen.Count < MaxDistinctSites && Seen.TryAdd(category + text, 0))
+					App.Logger.WriteLine(category, text);
 			}
 			catch
 			{
