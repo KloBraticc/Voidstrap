@@ -7786,4 +7786,130 @@ Hata: {0}</value>
   <data name="Ui.RiShade.Dlss.NeedsRtx" xml:space="preserve">
     <value>DLSS için NVIDIA RTX ekran kartı gerekir.</value>
   </data>
+  <data name="Installer.Linux.Runtime.Title" xml:space="preserve">
+    <value>Roblox çalışma ortamı</value>
+  </data>
+  <data name="Installer.Linux.Runtime.Description" xml:space="preserve">
+    <value>Voidstrap'in Roblox'u Linux'ta nasıl çalıştıracağını seçin. İstediğiniz zaman Roblox sürüm menüsünden değiştirebilirsiniz.</value>
+  </data>
+  <data name="Installer.Linux.Runtime.Sober" xml:space="preserve">
+    <value>Sober ve Vinegar (önerilen)</value>
+  </data>
+  <data name="Installer.Linux.Runtime.SoberHint" xml:space="preserve">
+    <value>Sober, Roblox'un Android sürümünü, Vinegar ise Roblox Studio'yu çalıştırır.</value>
+  </data>
+  <data name="Installer.Linux.Runtime.Rosemary" xml:space="preserve">
+    <value>Rosemary</value>
+  </data>
+  <data name="Installer.Linux.Runtime.RosemaryHint" xml:space="preserve">
+    <value>Rosemary, Roblox ve Roblox Studio'nun macOS sürümlerini çalıştırır. Yenidir ve hâlâ deneyseldir.</value>
+  </data>
+  <data name="Ui.Downloads.Rosemary.PlayerTitle" xml:space="preserve">
+    <value>Roblox için Rosemary</value>
+  </data>
+  <data name="Ui.Downloads.Rosemary.PlayerSubtitle" xml:space="preserve">
+    <value>Roblox'un macOS sürümünü Linux'ta oynatır</value>
+  </data>
+  <data name="Ui.Downloads.Rosemary.StudioTitle" xml:space="preserve">
+    <value>Roblox Studio için Rosemary</value>
+  </data>
+  <data name="Ui.Downloads.Rosemary.StudioSubtitle" xml:space="preserve">
+    <value>Roblox Studio'nun macOS sürümünü Linux'ta çalıştırır</value>
+  </data>
+  <data name="Menu.Rosemary.Title" xml:space="preserve">
+    <value>Rosemary</value>
+  </data>
+  <data name="Menu.Rosemary.Description" xml:space="preserve">
+    <value>Rosemary'nin Roblox ve Roblox Studio'nun macOS sürümlerini Linux'ta nasıl çalıştıracağını ayarlayın.</value>
+  </data>
+  <data name="Menu.Rosemary.Installed" xml:space="preserve">
+    <value>Rosemary {0} yüklü</value>
+  </data>
+  <data name="Menu.Rosemary.NotInstalled" xml:space="preserve">
+    <value>Henüz yüklü değil, Voidstrap başlatırken Rosemary'yi yükler</value>
+  </data>
+  <data name="Menu.Rosemary.RobloxInstalled" xml:space="preserve">
+    <value>macOS için Roblox {0} hazır</value>
+  </data>
+  <data name="Menu.Rosemary.RobloxNotInstalled" xml:space="preserve">
+    <value>macOS için Roblox ilk başlatmada indirilir</value>
+  </data>
+  <data name="Menu.Rosemary.StudioInstalled" xml:space="preserve">
+    <value>macOS için Roblox Studio {0} hazır</value>
+  </data>
+  <data name="Menu.Rosemary.StudioNotInstalled" xml:space="preserve">
+    <value>macOS için Roblox Studio, Studio'yu ilk açtığınızda indirilir</value>
+  </data>
+  <data name="Menu.Rosemary.Update" xml:space="preserve">
+    <value>Şimdi güncelle</value>
+  </data>
+  <data name="Menu.Rosemary.OpenFolder" xml:space="preserve">
+    <value>Klasörü aç</value>
+  </data>
+  <data name="Menu.Rosemary.Updating" xml:space="preserve">
+    <value>Güncelleniyor</value>
+  </data>
+  <data name="Menu.Rosemary.Group.Display" xml:space="preserve">
+    <value>Ekran</value>
+  </data>
+  <data name="Menu.Rosemary.Group.Input" xml:space="preserve">
+    <value>Giriş</value>
+  </data>
+  <data name="Menu.Rosemary.VSync.Title" xml:space="preserve">
+    <value>Dikey eşitleme</value>
+  </data>
+  <data name="Menu.Rosemary.VSync.Description" xml:space="preserve">
+    <value>Oyunun karelerini zamanlama biçimini geçersiz kılar. Kapalı sınırsız kare hızına izin verir.</value>
+  </data>
+  <data name="Menu.Rosemary.VSync.Default" xml:space="preserve">
+    <value>Oyun varsayılanı</value>
+  </data>
+  <data name="Menu.Rosemary.VSync.Off" xml:space="preserve">
+    <value>Kapalı</value>
+  </data>
+  <data name="Menu.Rosemary.VSync.On" xml:space="preserve">
+    <value>Açık</value>
+  </data>
+  <data name="Menu.Rosemary.VSync.Adaptive" xml:space="preserve">
+    <value>Uyarlanabilir</value>
+  </data>
+  <data name="Menu.Rosemary.TitleBar.Title" xml:space="preserve">
+    <value>Pencere başlık çubuğu</value>
+  </data>
+  <data name="Menu.Rosemary.TitleBar.Description" xml:space="preserve">
+    <value>Rosemary'nin Mac tarzı bir başlık çubuğu çizmesini mi yoksa bunu masaüstünüze bırakmasını mı istediğinizi seçin.</value>
+  </data>
+  <data name="Menu.Rosemary.TitleBar.Mac" xml:space="preserve">
+    <value>Mac tarzı</value>
+  </data>
+  <data name="Menu.Rosemary.TitleBar.Desktop" xml:space="preserve">
+    <value>Masaüstü</value>
+  </data>
+  <data name="Menu.Rosemary.CommandKey.Title" xml:space="preserve">
+    <value>Command tuşu</value>
+  </data>
+  <data name="Menu.Rosemary.CommandKey.Description" xml:space="preserve">
+    <value>Roblox'un Mac Command tuşu olarak hangi tuşu kullanacağını seçin.</value>
+  </data>
+  <data name="Menu.Rosemary.ConfinePointer.Title" xml:space="preserve">
+    <value>İmleci pencerede tut</value>
+  </data>
+  <data name="Menu.Rosemary.ConfinePointer.Description" xml:space="preserve">
+    <value>Oynarken imlecin oyun penceresinden çıkmasını engeller.</value>
+  </data>
+  <data name="Menu.Rosemary.PlainCtrlClick.Title" xml:space="preserve">
+    <value>Ctrl ile tıklama sol tıklama olarak kalır</value>
+  </data>
+  <data name="Menu.Rosemary.PlainCtrlClick.Description" xml:space="preserve">
+    <value>Ctrl basılıyken yapılan sol tıklamaları sağ tıklama yerine sol tıklama olarak tutar; bu, Ctrl ile eğilinen oyunlarda yardımcı olur.</value>
+  </data>
+  <data name="Menu.Rosemary.OpenGl.Title" xml:space="preserve">
+    <value>OpenGL kullan</value>
+  </data>
+  <data name="Menu.Rosemary.OpenGl.Description" xml:space="preserve">
+    <value>Roblox'un OpenGL oluşturucusunu kullanması için Vulkan'ı Rosemary'den gizler. Oyun hiçbir şey göstermiyorsa bunu deneyin.</value>
+  </data>
+  <data name="Menu.Rosemary.Notice" xml:space="preserve">
+    <value>Rosemary yenidir ve hâlâ deneyseldir.</value>
+  </data>
 </root>

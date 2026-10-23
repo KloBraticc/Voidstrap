@@ -7783,4 +7783,130 @@ Voidstrap เขียนลงในโฟลเดอร์เดสก์ท�
   <data name="Ui.RiShade.Dlss.NeedsRtx" xml:space="preserve">
     <value>DLSS ต้องใช้การ์ดจอ NVIDIA RTX</value>
   </data>
+  <data name="Installer.Linux.Runtime.Title" xml:space="preserve">
+    <value>สภาพแวดล้อมการทำงานของ Roblox</value>
+  </data>
+  <data name="Installer.Linux.Runtime.Description" xml:space="preserve">
+    <value>เลือกวิธีที่ Voidstrap ใช้เรียกใช้ Roblox บน Linux คุณสามารถเปลี่ยนได้ทุกเมื่อจากเมนูเวอร์ชัน Roblox</value>
+  </data>
+  <data name="Installer.Linux.Runtime.Sober" xml:space="preserve">
+    <value>Sober และ Vinegar (แนะนำ)</value>
+  </data>
+  <data name="Installer.Linux.Runtime.SoberHint" xml:space="preserve">
+    <value>Sober เรียกใช้ Roblox เวอร์ชัน Android และ Vinegar เรียกใช้ Roblox Studio</value>
+  </data>
+  <data name="Installer.Linux.Runtime.Rosemary" xml:space="preserve">
+    <value>Rosemary</value>
+  </data>
+  <data name="Installer.Linux.Runtime.RosemaryHint" xml:space="preserve">
+    <value>Rosemary เรียกใช้ Roblox และ Roblox Studio เวอร์ชัน macOS ซึ่งยังใหม่และยังอยู่ในขั้นทดลอง</value>
+  </data>
+  <data name="Ui.Downloads.Rosemary.PlayerTitle" xml:space="preserve">
+    <value>Rosemary สำหรับ Roblox</value>
+  </data>
+  <data name="Ui.Downloads.Rosemary.PlayerSubtitle" xml:space="preserve">
+    <value>เล่น Roblox เวอร์ชัน macOS บน Linux</value>
+  </data>
+  <data name="Ui.Downloads.Rosemary.StudioTitle" xml:space="preserve">
+    <value>Rosemary สำหรับ Roblox Studio</value>
+  </data>
+  <data name="Ui.Downloads.Rosemary.StudioSubtitle" xml:space="preserve">
+    <value>เรียกใช้ Roblox Studio เวอร์ชัน macOS บน Linux</value>
+  </data>
+  <data name="Menu.Rosemary.Title" xml:space="preserve">
+    <value>Rosemary</value>
+  </data>
+  <data name="Menu.Rosemary.Description" xml:space="preserve">
+    <value>ตั้งค่าวิธีที่ Rosemary เรียกใช้ Roblox และ Roblox Studio เวอร์ชัน macOS บน Linux</value>
+  </data>
+  <data name="Menu.Rosemary.Installed" xml:space="preserve">
+    <value>ติดตั้ง Rosemary {0} แล้ว</value>
+  </data>
+  <data name="Menu.Rosemary.NotInstalled" xml:space="preserve">
+    <value>ยังไม่ได้ติดตั้ง Voidstrap จะติดตั้ง Rosemary เมื่อคุณเปิดใช้งาน</value>
+  </data>
+  <data name="Menu.Rosemary.RobloxInstalled" xml:space="preserve">
+    <value>Roblox สำหรับ macOS {0} พร้อมแล้ว</value>
+  </data>
+  <data name="Menu.Rosemary.RobloxNotInstalled" xml:space="preserve">
+    <value>Roblox สำหรับ macOS จะดาวน์โหลดเมื่อเปิดใช้งานครั้งแรก</value>
+  </data>
+  <data name="Menu.Rosemary.StudioInstalled" xml:space="preserve">
+    <value>Roblox Studio สำหรับ macOS {0} พร้อมแล้ว</value>
+  </data>
+  <data name="Menu.Rosemary.StudioNotInstalled" xml:space="preserve">
+    <value>Roblox Studio สำหรับ macOS จะดาวน์โหลดเมื่อคุณเปิด Studio ครั้งแรก</value>
+  </data>
+  <data name="Menu.Rosemary.Update" xml:space="preserve">
+    <value>อัปเดตตอนนี้</value>
+  </data>
+  <data name="Menu.Rosemary.OpenFolder" xml:space="preserve">
+    <value>เปิดโฟลเดอร์</value>
+  </data>
+  <data name="Menu.Rosemary.Updating" xml:space="preserve">
+    <value>กำลังอัปเดต</value>
+  </data>
+  <data name="Menu.Rosemary.Group.Display" xml:space="preserve">
+    <value>การแสดงผล</value>
+  </data>
+  <data name="Menu.Rosemary.Group.Input" xml:space="preserve">
+    <value>การป้อนข้อมูล</value>
+  </data>
+  <data name="Menu.Rosemary.VSync.Title" xml:space="preserve">
+    <value>ซิงค์แนวตั้ง</value>
+  </data>
+  <data name="Menu.Rosemary.VSync.Description" xml:space="preserve">
+    <value>แทนที่วิธีที่เกมกำหนดจังหวะเฟรม การปิดจะทำให้อัตราเฟรมไม่จำกัด</value>
+  </data>
+  <data name="Menu.Rosemary.VSync.Default" xml:space="preserve">
+    <value>ค่าเริ่มต้นของเกม</value>
+  </data>
+  <data name="Menu.Rosemary.VSync.Off" xml:space="preserve">
+    <value>ปิด</value>
+  </data>
+  <data name="Menu.Rosemary.VSync.On" xml:space="preserve">
+    <value>เปิด</value>
+  </data>
+  <data name="Menu.Rosemary.VSync.Adaptive" xml:space="preserve">
+    <value>ปรับอัตโนมัติ</value>
+  </data>
+  <data name="Menu.Rosemary.TitleBar.Title" xml:space="preserve">
+    <value>แถบชื่อหน้าต่าง</value>
+  </data>
+  <data name="Menu.Rosemary.TitleBar.Description" xml:space="preserve">
+    <value>เลือกว่าจะให้ Rosemary วาดแถบชื่อแบบ Mac หรือปล่อยให้เดสก์ท็อปของคุณจัดการ</value>
+  </data>
+  <data name="Menu.Rosemary.TitleBar.Mac" xml:space="preserve">
+    <value>แบบ Mac</value>
+  </data>
+  <data name="Menu.Rosemary.TitleBar.Desktop" xml:space="preserve">
+    <value>เดสก์ท็อป</value>
+  </data>
+  <data name="Menu.Rosemary.CommandKey.Title" xml:space="preserve">
+    <value>ปุ่ม Command</value>
+  </data>
+  <data name="Menu.Rosemary.CommandKey.Description" xml:space="preserve">
+    <value>เลือกปุ่มที่ Roblox จะถือว่าเป็นปุ่ม Command ของ Mac</value>
+  </data>
+  <data name="Menu.Rosemary.ConfinePointer.Title" xml:space="preserve">
+    <value>ให้ตัวชี้อยู่ในหน้าต่าง</value>
+  </data>
+  <data name="Menu.Rosemary.ConfinePointer.Description" xml:space="preserve">
+    <value>ป้องกันไม่ให้ตัวชี้ออกนอกหน้าต่างเกมขณะที่คุณเล่น</value>
+  </data>
+  <data name="Menu.Rosemary.PlainCtrlClick.Title" xml:space="preserve">
+    <value>คลิกพร้อม Ctrl ยังคงเป็นคลิกซ้าย</value>
+  </data>
+  <data name="Menu.Rosemary.PlainCtrlClick.Description" xml:space="preserve">
+    <value>ให้การคลิกซ้ายขณะกด Ctrl ยังเป็นคลิกซ้ายแทนที่จะกลายเป็นคลิกขวา ซึ่งช่วยในเกมที่ใช้ Ctrl เพื่อหมอบ</value>
+  </data>
+  <data name="Menu.Rosemary.OpenGl.Title" xml:space="preserve">
+    <value>ใช้ OpenGL</value>
+  </data>
+  <data name="Menu.Rosemary.OpenGl.Description" xml:space="preserve">
+    <value>ซ่อน Vulkan จาก Rosemary เพื่อให้ Roblox ใช้ตัวเรนเดอร์ OpenGL ลองใช้หากเกมไม่แสดงอะไรเลย</value>
+  </data>
+  <data name="Menu.Rosemary.Notice" xml:space="preserve">
+    <value>Rosemary ยังใหม่และยังอยู่ในขั้นทดลอง</value>
+  </data>
 </root>

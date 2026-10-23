@@ -7787,4 +7787,130 @@ Pogreška: {0}</value>
   <data name="Ui.RiShade.Dlss.NeedsRtx" xml:space="preserve">
     <value>DLSS zahtijeva NVIDIA RTX grafičku karticu.</value>
   </data>
+  <data name="Installer.Linux.Runtime.Title" xml:space="preserve">
+    <value>Okruženje za pokretanje Robloxa</value>
+  </data>
+  <data name="Installer.Linux.Runtime.Description" xml:space="preserve">
+    <value>Odaberi kako Voidstrap pokreće Roblox na Linuxu. Možeš promijeniti u bilo kojem trenutku u izborniku verzije Robloxa.</value>
+  </data>
+  <data name="Installer.Linux.Runtime.Sober" xml:space="preserve">
+    <value>Sober i Vinegar (preporučeno)</value>
+  </data>
+  <data name="Installer.Linux.Runtime.SoberHint" xml:space="preserve">
+    <value>Sober pokreće Android verziju Robloxa, a Vinegar pokreće Roblox Studio.</value>
+  </data>
+  <data name="Installer.Linux.Runtime.Rosemary" xml:space="preserve">
+    <value>Rosemary</value>
+  </data>
+  <data name="Installer.Linux.Runtime.RosemaryHint" xml:space="preserve">
+    <value>Rosemary pokreće macOS verzije Robloxa i Roblox Studija. Nov je i još uvijek eksperimentalan.</value>
+  </data>
+  <data name="Ui.Downloads.Rosemary.PlayerTitle" xml:space="preserve">
+    <value>Rosemary za Roblox</value>
+  </data>
+  <data name="Ui.Downloads.Rosemary.PlayerSubtitle" xml:space="preserve">
+    <value>Pokreće macOS verziju Robloxa na Linuxu</value>
+  </data>
+  <data name="Ui.Downloads.Rosemary.StudioTitle" xml:space="preserve">
+    <value>Rosemary za Roblox Studio</value>
+  </data>
+  <data name="Ui.Downloads.Rosemary.StudioSubtitle" xml:space="preserve">
+    <value>Pokreće macOS verziju Roblox Studija na Linuxu</value>
+  </data>
+  <data name="Menu.Rosemary.Title" xml:space="preserve">
+    <value>Rosemary</value>
+  </data>
+  <data name="Menu.Rosemary.Description" xml:space="preserve">
+    <value>Postavi kako Rosemary pokreće macOS verzije Robloxa i Roblox Studija na Linuxu.</value>
+  </data>
+  <data name="Menu.Rosemary.Installed" xml:space="preserve">
+    <value>Rosemary {0} je instaliran</value>
+  </data>
+  <data name="Menu.Rosemary.NotInstalled" xml:space="preserve">
+    <value>Još nije instaliran, Voidstrap instalira Rosemary pri pokretanju</value>
+  </data>
+  <data name="Menu.Rosemary.RobloxInstalled" xml:space="preserve">
+    <value>Roblox za macOS {0} je spreman</value>
+  </data>
+  <data name="Menu.Rosemary.RobloxNotInstalled" xml:space="preserve">
+    <value>Roblox za macOS preuzima se pri prvom pokretanju</value>
+  </data>
+  <data name="Menu.Rosemary.StudioInstalled" xml:space="preserve">
+    <value>Roblox Studio za macOS {0} je spreman</value>
+  </data>
+  <data name="Menu.Rosemary.StudioNotInstalled" xml:space="preserve">
+    <value>Roblox Studio za macOS preuzima se kad prvi put pokreneš Studio</value>
+  </data>
+  <data name="Menu.Rosemary.Update" xml:space="preserve">
+    <value>Ažuriraj sada</value>
+  </data>
+  <data name="Menu.Rosemary.OpenFolder" xml:space="preserve">
+    <value>Otvori mapu</value>
+  </data>
+  <data name="Menu.Rosemary.Updating" xml:space="preserve">
+    <value>Ažuriranje</value>
+  </data>
+  <data name="Menu.Rosemary.Group.Display" xml:space="preserve">
+    <value>Prikaz</value>
+  </data>
+  <data name="Menu.Rosemary.Group.Input" xml:space="preserve">
+    <value>Unos</value>
+  </data>
+  <data name="Menu.Rosemary.VSync.Title" xml:space="preserve">
+    <value>Vertikalna sinkronizacija</value>
+  </data>
+  <data name="Menu.Rosemary.VSync.Description" xml:space="preserve">
+    <value>Zamjenjuje način na koji igra usklađuje sličice. Isključeno omogućuje neograničen broj sličica.</value>
+  </data>
+  <data name="Menu.Rosemary.VSync.Default" xml:space="preserve">
+    <value>Zadano u igri</value>
+  </data>
+  <data name="Menu.Rosemary.VSync.Off" xml:space="preserve">
+    <value>Isključeno</value>
+  </data>
+  <data name="Menu.Rosemary.VSync.On" xml:space="preserve">
+    <value>Uključeno</value>
+  </data>
+  <data name="Menu.Rosemary.VSync.Adaptive" xml:space="preserve">
+    <value>Prilagodljivo</value>
+  </data>
+  <data name="Menu.Rosemary.TitleBar.Title" xml:space="preserve">
+    <value>Naslovna traka prozora</value>
+  </data>
+  <data name="Menu.Rosemary.TitleBar.Description" xml:space="preserve">
+    <value>Odaberi hoće li Rosemary crtati naslovnu traku u stilu Maca ili je prepustiti tvojoj radnoj površini.</value>
+  </data>
+  <data name="Menu.Rosemary.TitleBar.Mac" xml:space="preserve">
+    <value>Stil Maca</value>
+  </data>
+  <data name="Menu.Rosemary.TitleBar.Desktop" xml:space="preserve">
+    <value>Radna površina</value>
+  </data>
+  <data name="Menu.Rosemary.CommandKey.Title" xml:space="preserve">
+    <value>Tipka Command</value>
+  </data>
+  <data name="Menu.Rosemary.CommandKey.Description" xml:space="preserve">
+    <value>Odaberi koju tipku Roblox smatra tipkom Command na Macu.</value>
+  </data>
+  <data name="Menu.Rosemary.ConfinePointer.Title" xml:space="preserve">
+    <value>Zadrži pokazivač u prozoru</value>
+  </data>
+  <data name="Menu.Rosemary.ConfinePointer.Description" xml:space="preserve">
+    <value>Sprječava da pokazivač napusti prozor igre dok igraš.</value>
+  </data>
+  <data name="Menu.Rosemary.PlainCtrlClick.Title" xml:space="preserve">
+    <value>Klik s Ctrl ostaje lijevi klik</value>
+  </data>
+  <data name="Menu.Rosemary.PlainCtrlClick.Description" xml:space="preserve">
+    <value>Lijeve klikove dok držiš Ctrl zadržava kao lijeve umjesto desnih, što pomaže u igrama gdje Ctrl služi za čučanj.</value>
+  </data>
+  <data name="Menu.Rosemary.OpenGl.Title" xml:space="preserve">
+    <value>Koristi OpenGL</value>
+  </data>
+  <data name="Menu.Rosemary.OpenGl.Description" xml:space="preserve">
+    <value>Skriva Vulkan od Rosemaryja kako bi Roblox koristio svoj OpenGL renderer. Pokušaj ovo ako igra ništa ne prikazuje.</value>
+  </data>
+  <data name="Menu.Rosemary.Notice" xml:space="preserve">
+    <value>Rosemary je nov i još eksperimentalan.</value>
+  </data>
 </root>

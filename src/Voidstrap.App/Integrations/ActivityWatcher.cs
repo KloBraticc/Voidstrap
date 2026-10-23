@@ -767,7 +767,11 @@ public partial class ActivityWatcher : IDisposable
 	private static string[] GetClientLogDirectories()
 	{
 		List<string> candidates = [];
-		if (OperatingSystem.IsLinux())
+		if (OperatingSystem.IsLinux() && Voidstrap.Utility.LinuxRuntimeChoice.PlayerUsesRosemary)
+		{
+			candidates.AddRange(Voidstrap.Platform.Linux.LinuxRosemary.LogDirectories());
+		}
+		else if (OperatingSystem.IsLinux())
 		{
 			string home = Environment.GetEnvironmentVariable("HOME") ?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 			string soberData = Path.Combine(home, ".var", "app", "org.vinegarhq.Sober", "data", "sober");
@@ -788,7 +792,7 @@ public partial class ActivityWatcher : IDisposable
 
 	private static bool IsClientLogFile(FileInfo file)
 	{
-		return OperatingSystem.IsLinux()
+		return OperatingSystem.IsLinux() && !Voidstrap.Utility.LinuxRuntimeChoice.PlayerUsesRosemary
 			? file.Extension.Equals(".log", StringComparison.OrdinalIgnoreCase) || file.Name.Contains("Player", StringComparison.OrdinalIgnoreCase)
 			: file.Name.Contains("Player", StringComparison.OrdinalIgnoreCase) && !file.Name.Contains("CrashHandler", StringComparison.OrdinalIgnoreCase);
 	}
@@ -952,7 +956,7 @@ public partial class ActivityWatcher : IDisposable
 			if (!reported)
 			{
 				reported = true;
-				App.Logger.WriteLine("ActivityWatcher::Start", "Waiting for Sober to write its log");
+				App.Logger.WriteLine("ActivityWatcher::Start", Voidstrap.Utility.LinuxRuntimeChoice.PlayerUsesRosemary ? "Waiting for Roblox to write its log in the Rosemary prefix" : "Waiting for Sober to write its log");
 			}
 			if (!await WaitAsync(1500, token))
 			{

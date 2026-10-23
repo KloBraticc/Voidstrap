@@ -7789,4 +7789,130 @@ Fout: {0}</value>
   <data name="Ui.RiShade.Dlss.NeedsRtx" xml:space="preserve">
     <value>DLSS vereist een NVIDIA RTX videokaart.</value>
   </data>
+  <data name="Installer.Linux.Runtime.Title" xml:space="preserve">
+    <value>Runtime voor Roblox</value>
+  </data>
+  <data name="Installer.Linux.Runtime.Description" xml:space="preserve">
+    <value>Kies hoe Voidstrap Roblox op Linux uitvoert. Je kunt op elk moment wisselen via het menu Roblox-versie.</value>
+  </data>
+  <data name="Installer.Linux.Runtime.Sober" xml:space="preserve">
+    <value>Sober en Vinegar (aanbevolen)</value>
+  </data>
+  <data name="Installer.Linux.Runtime.SoberHint" xml:space="preserve">
+    <value>Sober voert de Android-versie van Roblox uit en Vinegar voert Roblox Studio uit.</value>
+  </data>
+  <data name="Installer.Linux.Runtime.Rosemary" xml:space="preserve">
+    <value>Rosemary</value>
+  </data>
+  <data name="Installer.Linux.Runtime.RosemaryHint" xml:space="preserve">
+    <value>Rosemary voert de macOS-versies van Roblox en Roblox Studio uit. Het is nieuw en nog experimenteel.</value>
+  </data>
+  <data name="Ui.Downloads.Rosemary.PlayerTitle" xml:space="preserve">
+    <value>Rosemary voor Roblox</value>
+  </data>
+  <data name="Ui.Downloads.Rosemary.PlayerSubtitle" xml:space="preserve">
+    <value>Speelt de macOS-versie van Roblox op Linux</value>
+  </data>
+  <data name="Ui.Downloads.Rosemary.StudioTitle" xml:space="preserve">
+    <value>Rosemary voor Roblox Studio</value>
+  </data>
+  <data name="Ui.Downloads.Rosemary.StudioSubtitle" xml:space="preserve">
+    <value>Voert de macOS-versie van Roblox Studio uit op Linux</value>
+  </data>
+  <data name="Menu.Rosemary.Title" xml:space="preserve">
+    <value>Rosemary</value>
+  </data>
+  <data name="Menu.Rosemary.Description" xml:space="preserve">
+    <value>Stel in hoe Rosemary de macOS-versies van Roblox en Roblox Studio op Linux uitvoert.</value>
+  </data>
+  <data name="Menu.Rosemary.Installed" xml:space="preserve">
+    <value>Rosemary {0} is geïnstalleerd</value>
+  </data>
+  <data name="Menu.Rosemary.NotInstalled" xml:space="preserve">
+    <value>Nog niet geïnstalleerd, Voidstrap installeert Rosemary bij het starten</value>
+  </data>
+  <data name="Menu.Rosemary.RobloxInstalled" xml:space="preserve">
+    <value>Roblox voor macOS {0} is klaar</value>
+  </data>
+  <data name="Menu.Rosemary.RobloxNotInstalled" xml:space="preserve">
+    <value>Roblox voor macOS wordt bij de eerste start gedownload</value>
+  </data>
+  <data name="Menu.Rosemary.StudioInstalled" xml:space="preserve">
+    <value>Roblox Studio voor macOS {0} is klaar</value>
+  </data>
+  <data name="Menu.Rosemary.StudioNotInstalled" xml:space="preserve">
+    <value>Roblox Studio voor macOS wordt gedownload wanneer je Studio voor het eerst start</value>
+  </data>
+  <data name="Menu.Rosemary.Update" xml:space="preserve">
+    <value>Nu bijwerken</value>
+  </data>
+  <data name="Menu.Rosemary.OpenFolder" xml:space="preserve">
+    <value>Map openen</value>
+  </data>
+  <data name="Menu.Rosemary.Updating" xml:space="preserve">
+    <value>Bijwerken</value>
+  </data>
+  <data name="Menu.Rosemary.Group.Display" xml:space="preserve">
+    <value>Weergave</value>
+  </data>
+  <data name="Menu.Rosemary.Group.Input" xml:space="preserve">
+    <value>Invoer</value>
+  </data>
+  <data name="Menu.Rosemary.VSync.Title" xml:space="preserve">
+    <value>Verticale synchronisatie</value>
+  </data>
+  <data name="Menu.Rosemary.VSync.Description" xml:space="preserve">
+    <value>Overschrijft hoe het spel zijn beelden timet. Uit staat een onbeperkte framerate toe.</value>
+  </data>
+  <data name="Menu.Rosemary.VSync.Default" xml:space="preserve">
+    <value>Spelstandaard</value>
+  </data>
+  <data name="Menu.Rosemary.VSync.Off" xml:space="preserve">
+    <value>Uit</value>
+  </data>
+  <data name="Menu.Rosemary.VSync.On" xml:space="preserve">
+    <value>Aan</value>
+  </data>
+  <data name="Menu.Rosemary.VSync.Adaptive" xml:space="preserve">
+    <value>Adaptief</value>
+  </data>
+  <data name="Menu.Rosemary.TitleBar.Title" xml:space="preserve">
+    <value>Titelbalk van het venster</value>
+  </data>
+  <data name="Menu.Rosemary.TitleBar.Description" xml:space="preserve">
+    <value>Kies of Rosemary een titelbalk in Mac-stijl tekent of die aan je bureaublad overlaat.</value>
+  </data>
+  <data name="Menu.Rosemary.TitleBar.Mac" xml:space="preserve">
+    <value>Mac-stijl</value>
+  </data>
+  <data name="Menu.Rosemary.TitleBar.Desktop" xml:space="preserve">
+    <value>Bureaublad</value>
+  </data>
+  <data name="Menu.Rosemary.CommandKey.Title" xml:space="preserve">
+    <value>Command-toets</value>
+  </data>
+  <data name="Menu.Rosemary.CommandKey.Description" xml:space="preserve">
+    <value>Kies welke toets Roblox als de Command-toets van de Mac behandelt.</value>
+  </data>
+  <data name="Menu.Rosemary.ConfinePointer.Title" xml:space="preserve">
+    <value>Aanwijzer in het venster houden</value>
+  </data>
+  <data name="Menu.Rosemary.ConfinePointer.Description" xml:space="preserve">
+    <value>Voorkomt dat de aanwijzer het spelvenster verlaat terwijl je speelt.</value>
+  </data>
+  <data name="Menu.Rosemary.PlainCtrlClick.Title" xml:space="preserve">
+    <value>Klik met Ctrl blijft een linkerklik</value>
+  </data>
+  <data name="Menu.Rosemary.PlainCtrlClick.Description" xml:space="preserve">
+    <value>Houdt linkerklikken met ingedrukte Ctrl als linkerklik in plaats van rechterklik, wat helpt in spellen waar Ctrl hurken is.</value>
+  </data>
+  <data name="Menu.Rosemary.OpenGl.Title" xml:space="preserve">
+    <value>OpenGL gebruiken</value>
+  </data>
+  <data name="Menu.Rosemary.OpenGl.Description" xml:space="preserve">
+    <value>Verbergt Vulkan voor Rosemary zodat Roblox zijn OpenGL-renderer gebruikt. Probeer dit als het spel niets toont.</value>
+  </data>
+  <data name="Menu.Rosemary.Notice" xml:space="preserve">
+    <value>Rosemary is nieuw en nog experimenteel.</value>
+  </data>
 </root>

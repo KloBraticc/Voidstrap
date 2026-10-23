@@ -70,6 +70,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         new("ExtensionsNavItem", "Extensions", "Footer", SymbolRegular.CubeAdd20, NameKey: "Ui_Nav_Extensions"),
         new("ManagerNavItem", "Manager", "Footer", SymbolRegular.ArrowDownload24, NameKey: "Ui_Nav_Manager"),
         new("SoberNavItem", "Sober", "Footer", SymbolRegular.Empty, NameKey: "Menu_Sober_Title"),
+        new("RosemaryNavItem", "Rosemary", "Footer", SymbolRegular.Empty, NameKey: "Menu_Rosemary_Title"),
         new("SettingsNavItem", "Settings", "Footer", SymbolRegular.Settings28, NameKey: "Ui_Nav_Settings"),
         new("AboutNavItem", "About", "Footer", SymbolRegular.QuestionCircle32, NameKey: "Menu_About_Title")
     };
@@ -78,7 +79,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         return key switch
         {
-            "SoberNavItem" => Voidstrap.Utility.Platform.IsLinux,
+            "SoberNavItem" => Voidstrap.Utility.Platform.IsLinux && !Voidstrap.Utility.LinuxRuntimeChoice.PageUsesRosemary,
+            "RosemaryNavItem" => Voidstrap.Utility.Platform.IsLinux && Voidstrap.Utility.LinuxRuntimeChoice.PageUsesRosemary,
             "ExtensionsNavItem" or "ManagerNavItem" => Voidstrap.Utility.Platform.IsWindows,
             _ => true
         };
@@ -347,6 +349,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         ["BootstrapperPage"] = ("Bootstrapper", "Customizing the launch window"),
         ["LibraryPage"] = ("Library", "Browsing the game library"),
         ["SoberPage"] = ("Sober", "Setting up Roblox on Linux"),
+        ["RosemaryPage"] = ("Rosemary", "Setting up Roblox on Linux"),
         ["Releases"] = ("Releases", "Reading the release history"),
         ["ServerBrowserPage"] = ("Server Browser", "Searching for a server"),
         ["NvidiaFastFlagsPage"] = ("NVIDIA FastFlags", "Tweaking NVIDIA GPU settings"),
@@ -686,7 +689,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
         CommandPaletteResultsList.ItemsSource = _commandPaletteRows;
         PrepareLinuxRestartNotificationInput();
-        SoberNavItem.Visibility = Voidstrap.Utility.Platform.IsLinux ? Visibility.Visible : Visibility.Collapsed;
+        SoberNavItem.Visibility = IsSidebarItemAvailable("SoberNavItem") ? Visibility.Visible : Visibility.Collapsed;
+        RosemaryNavItem.Visibility = IsSidebarItemAvailable("RosemaryNavItem") ? Visibility.Visible : Visibility.Collapsed;
+        Voidstrap.Utility.LinuxRuntimeChoice.Changed += OnLinuxRuntimeChanged;
         ExtensionsNavItem.Visibility = Voidstrap.Utility.Platform.IsWindows ? Visibility.Visible : Visibility.Collapsed;
         ShortcutsNavItem.Visibility = Visibility.Visible;
         ManagerNavItem.Visibility = Voidstrap.Utility.Platform.IsWindows ? Visibility.Visible : Visibility.Collapsed;
@@ -1042,6 +1047,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             PageBreadcrumb.Icon = value;
         }
+        else if (navigationItem != null)
+        {
+            PageBreadcrumb.Icon = navigationItem.Icon;
+        }
     }
 
     internal void RefreshGlobalSearchBoxVisibility()
@@ -1069,6 +1078,23 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         return RootNavigation.Items.OfType<NavigationItem>()
             .Concat(RootNavigation.Footer.OfType<NavigationItem>())
             .ToArray();
+    }
+
+    private void OnLinuxRuntimeChanged(object? sender, EventArgs e)
+    {
+        if (!Dispatcher.CheckAccess())
+        {
+            Dispatcher.BeginInvoke(new Action(() => OnLinuxRuntimeChanged(sender, e)));
+            return;
+        }
+        if (_isClosed)
+            return;
+        ApplySidebarCustomization();
+        UpdateButtonContent();
+        if (RootFrame.Content is SoberPage && !IsSidebarItemAvailable("SoberNavItem"))
+            RootNavigation.Navigate(typeof(RosemaryPage));
+        else if (RootFrame.Content is RosemaryPage && !IsSidebarItemAvailable("RosemaryNavItem"))
+            RootNavigation.Navigate(typeof(SoberPage));
     }
 
     public void ApplySidebarCustomization()
@@ -5389,7 +5415,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             bool installed = IsLaunchTargetInstalled(studio);
             if (Voidstrap.Utility.Platform.IsLinux)
             {
-                string runtime = studio ? "Vinegar" : "Sober";
+                string runtime = Voidstrap.Utility.LinuxRuntimeChoice.UsesRosemary(studio ? Voidstrap.Enums.LaunchMode.Studio : Voidstrap.Enums.LaunchMode.Player)
+                    ? "Rosemary"
+                    : studio ? "Vinegar" : "Sober";
                 content = installed ? "Save and Launch " + runtime : "Install " + runtime;
             }
             else
@@ -5409,6 +5437,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             if (Voidstrap.Utility.Platform.IsLinux)
             {
+                if (Voidstrap.Utility.LinuxRuntimeChoice.UsesRosemary(studio ? Voidstrap.Enums.LaunchMode.Studio : Voidstrap.Enums.LaunchMode.Player))
+                    return Voidstrap.Platform.Linux.LinuxRosemary.IsRuntimeInstalled
+                        && Voidstrap.Platform.Linux.LinuxRosemary.IsApplicationInstalled(studio ? Voidstrap.Platform.Linux.RosemaryApplication.Studio : Voidstrap.Platform.Linux.RosemaryApplication.Player);
                 return studio
                     ? Voidstrap.Platform.Linux.LinuxVinegarStudioRuntimeProvider.IsInstalled()
                     : Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.IsInstalled();
@@ -6008,6 +6039,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private void ClearRetainedUiState()
     {
         SettingChangeNotifier.Failed -= OnSettingChangeFailed;
+        Voidstrap.Utility.LinuxRuntimeChoice.Changed -= OnLinuxRuntimeChanged;
         foreach (NavigationItem item in _defaultIcons.Keys.ToArray())
         {
             item.MouseEnter -= NavigationItem_MouseEnter;
@@ -6289,6 +6321,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             if (!string.IsNullOrEmpty(code))
                 current = downloads.ClientItems.FirstOrDefault(client => string.Equals(client.Code, code, StringComparison.OrdinalIgnoreCase));
             Voidstrap.Enums.LaunchMode mode = vm.SelectedLaunchModeIndex == 1 ? Voidstrap.Enums.LaunchMode.Studio : Voidstrap.Enums.LaunchMode.Player;
+            if (Voidstrap.Utility.Platform.IsLinux)
+            {
+                bool rosemary = Voidstrap.Utility.LinuxRuntimeChoice.UsesRosemary(mode);
+                current ??= downloads.Items.FirstOrDefault(download => download.LaunchMode == mode && download.IsRosemary == rosemary);
+            }
             current ??= downloads.Items.FirstOrDefault(download => download.LaunchMode == mode);
         }
         if (!ReferenceEquals(LaunchTargetList.SelectedItem, current))
@@ -6321,6 +6358,15 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                     break;
                 case DownloadsViewModel.DownloadItem download:
                     mainWindowViewModel.SelectedLaunchClient = "";
+                    if (Voidstrap.Utility.Platform.IsLinux)
+                    {
+                        Voidstrap.Utility.LinuxRuntimeChoice.Select(download.LaunchMode, download.RuntimeKey);
+                        bool rosemary = Voidstrap.Utility.LinuxRuntimeChoice.UsesRosemary(download.LaunchMode);
+                        if (rosemary && RootFrame.Content is SoberPage)
+                            RootNavigation.Navigate(typeof(RosemaryPage));
+                        else if (!rosemary && RootFrame.Content is RosemaryPage)
+                            RootNavigation.Navigate(typeof(SoberPage));
+                    }
                     mainWindowViewModel.SelectedLaunchModeIndex = download.LaunchMode == Voidstrap.Enums.LaunchMode.Studio ? 1 : 0;
                     break;
                 default:

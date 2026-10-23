@@ -7787,4 +7787,130 @@
   <data name="Ui.RiShade.Dlss.NeedsRtx" xml:space="preserve">
     <value>يتطلب DLSS بطاقة رسومات NVIDIA RTX.</value>
   </data>
+  <data name="Installer.Linux.Runtime.Title" xml:space="preserve">
+    <value>بيئة تشغيل Roblox</value>
+  </data>
+  <data name="Installer.Linux.Runtime.Description" xml:space="preserve">
+    <value>اختر كيف يشغّل Voidstrap لعبة Roblox على Linux. يمكنك التبديل في أي وقت من قائمة إصدار Roblox.</value>
+  </data>
+  <data name="Installer.Linux.Runtime.Sober" xml:space="preserve">
+    <value>Sober و Vinegar (موصى به)</value>
+  </data>
+  <data name="Installer.Linux.Runtime.SoberHint" xml:space="preserve">
+    <value>يشغّل Sober إصدار Android من Roblox، ويشغّل Vinegar برنامج Roblox Studio.</value>
+  </data>
+  <data name="Installer.Linux.Runtime.Rosemary" xml:space="preserve">
+    <value>Rosemary</value>
+  </data>
+  <data name="Installer.Linux.Runtime.RosemaryHint" xml:space="preserve">
+    <value>يشغّل Rosemary إصدارات macOS من Roblox و Roblox Studio. إنه جديد ولا يزال تجريبيًا.</value>
+  </data>
+  <data name="Ui.Downloads.Rosemary.PlayerTitle" xml:space="preserve">
+    <value>Rosemary لـ Roblox</value>
+  </data>
+  <data name="Ui.Downloads.Rosemary.PlayerSubtitle" xml:space="preserve">
+    <value>يشغّل إصدار macOS من Roblox على Linux</value>
+  </data>
+  <data name="Ui.Downloads.Rosemary.StudioTitle" xml:space="preserve">
+    <value>Rosemary لـ Roblox Studio</value>
+  </data>
+  <data name="Ui.Downloads.Rosemary.StudioSubtitle" xml:space="preserve">
+    <value>يشغّل إصدار macOS من Roblox Studio على Linux</value>
+  </data>
+  <data name="Menu.Rosemary.Title" xml:space="preserve">
+    <value>Rosemary</value>
+  </data>
+  <data name="Menu.Rosemary.Description" xml:space="preserve">
+    <value>اضبط كيف يشغّل Rosemary إصدارات macOS من Roblox و Roblox Studio على Linux.</value>
+  </data>
+  <data name="Menu.Rosemary.Installed" xml:space="preserve">
+    <value>Rosemary {0} مثبّت</value>
+  </data>
+  <data name="Menu.Rosemary.NotInstalled" xml:space="preserve">
+    <value>غير مثبّت بعد، سيثبّت Voidstrap برنامج Rosemary عند التشغيل</value>
+  </data>
+  <data name="Menu.Rosemary.RobloxInstalled" xml:space="preserve">
+    <value>Roblox لنظام macOS {0} جاهز</value>
+  </data>
+  <data name="Menu.Rosemary.RobloxNotInstalled" xml:space="preserve">
+    <value>يُنزَّل Roblox لنظام macOS عند أول تشغيل</value>
+  </data>
+  <data name="Menu.Rosemary.StudioInstalled" xml:space="preserve">
+    <value>Roblox Studio لنظام macOS {0} جاهز</value>
+  </data>
+  <data name="Menu.Rosemary.StudioNotInstalled" xml:space="preserve">
+    <value>يُنزَّل Roblox Studio لنظام macOS عند أول تشغيل لـ Studio</value>
+  </data>
+  <data name="Menu.Rosemary.Update" xml:space="preserve">
+    <value>حدّث الآن</value>
+  </data>
+  <data name="Menu.Rosemary.OpenFolder" xml:space="preserve">
+    <value>افتح المجلد</value>
+  </data>
+  <data name="Menu.Rosemary.Updating" xml:space="preserve">
+    <value>جارٍ التحديث</value>
+  </data>
+  <data name="Menu.Rosemary.Group.Display" xml:space="preserve">
+    <value>العرض</value>
+  </data>
+  <data name="Menu.Rosemary.Group.Input" xml:space="preserve">
+    <value>الإدخال</value>
+  </data>
+  <data name="Menu.Rosemary.VSync.Title" xml:space="preserve">
+    <value>المزامنة العمودية</value>
+  </data>
+  <data name="Menu.Rosemary.VSync.Description" xml:space="preserve">
+    <value>يتجاوز طريقة توقيت إطارات اللعبة. الإيقاف يسمح بمعدل إطارات غير محدود.</value>
+  </data>
+  <data name="Menu.Rosemary.VSync.Default" xml:space="preserve">
+    <value>الافتراضي في اللعبة</value>
+  </data>
+  <data name="Menu.Rosemary.VSync.Off" xml:space="preserve">
+    <value>إيقاف</value>
+  </data>
+  <data name="Menu.Rosemary.VSync.On" xml:space="preserve">
+    <value>تشغيل</value>
+  </data>
+  <data name="Menu.Rosemary.VSync.Adaptive" xml:space="preserve">
+    <value>تكيّفي</value>
+  </data>
+  <data name="Menu.Rosemary.TitleBar.Title" xml:space="preserve">
+    <value>شريط عنوان النافذة</value>
+  </data>
+  <data name="Menu.Rosemary.TitleBar.Description" xml:space="preserve">
+    <value>اختر ما إذا كان Rosemary يرسم شريط عنوان بنمط Mac أو يتركه لسطح المكتب.</value>
+  </data>
+  <data name="Menu.Rosemary.TitleBar.Mac" xml:space="preserve">
+    <value>نمط Mac</value>
+  </data>
+  <data name="Menu.Rosemary.TitleBar.Desktop" xml:space="preserve">
+    <value>سطح المكتب</value>
+  </data>
+  <data name="Menu.Rosemary.CommandKey.Title" xml:space="preserve">
+    <value>مفتاح Command</value>
+  </data>
+  <data name="Menu.Rosemary.CommandKey.Description" xml:space="preserve">
+    <value>اختر المفتاح الذي يعامله Roblox كمفتاح Command في Mac.</value>
+  </data>
+  <data name="Menu.Rosemary.ConfinePointer.Title" xml:space="preserve">
+    <value>أبقِ المؤشر داخل النافذة</value>
+  </data>
+  <data name="Menu.Rosemary.ConfinePointer.Description" xml:space="preserve">
+    <value>يمنع المؤشر من مغادرة نافذة اللعبة أثناء اللعب.</value>
+  </data>
+  <data name="Menu.Rosemary.PlainCtrlClick.Title" xml:space="preserve">
+    <value>يبقى النقر مع Ctrl نقرًا أيسر</value>
+  </data>
+  <data name="Menu.Rosemary.PlainCtrlClick.Description" xml:space="preserve">
+    <value>يبقي النقرات اليسرى أثناء الضغط على Ctrl نقرات يسرى بدلًا من نقرات يمنى، وهذا يساعد في الألعاب التي يُستخدم فيها Ctrl للانحناء.</value>
+  </data>
+  <data name="Menu.Rosemary.OpenGl.Title" xml:space="preserve">
+    <value>استخدم OpenGL</value>
+  </data>
+  <data name="Menu.Rosemary.OpenGl.Description" xml:space="preserve">
+    <value>يخفي Vulkan عن Rosemary حتى يستخدم Roblox عارض OpenGL. جرّب هذا إذا لم تظهر اللعبة أي شيء.</value>
+  </data>
+  <data name="Menu.Rosemary.Notice" xml:space="preserve">
+    <value>Rosemary جديد ولا يزال تجريبيًا.</value>
+  </data>
 </root>

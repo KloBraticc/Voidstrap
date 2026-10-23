@@ -153,6 +153,22 @@ namespace Voidstrap.Models.Persistable
         public bool SoberPreferXWayland { get; set; } = false;
 
         public string SoberLauncher { get; set; } = "";
+
+        public string LinuxPlayerRuntime { get; set; } = "sober";
+
+        public string LinuxStudioRuntime { get; set; } = "vinegar";
+
+        public string RosemarySwapInterval { get; set; } = "";
+
+        public string RosemaryDecorations { get; set; } = "client";
+
+        public string RosemaryCommandKey { get; set; } = "super";
+
+        public bool RosemaryConfinePointer { get; set; } = false;
+
+        public bool RosemaryPlainControlClick { get; set; } = true;
+
+        public bool RosemaryForceOpenGl { get; set; } = false;
         public bool SmooothBARRyesirikikthxlucipook { get; set; } = false; // wanna keep this on false so people may not be annoyed by it being on
         public bool HasLaunchedGame { get; set; } = false;
         public bool NotificationWindowShow { get; set; } = true;

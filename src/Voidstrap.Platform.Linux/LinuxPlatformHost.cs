@@ -1577,6 +1577,8 @@ public sealed partial class LinuxSoberRuntimeProvider : IRobloxRuntimeProvider
 
 	public static async Task<bool> TryCloseSoberAsync(CancellationToken cancellationToken)
 	{
+		if (LinuxRosemary.IsPlayerRunning)
+			return await LinuxRosemary.CloseAsync(RosemaryApplication.Player, cancellationToken).ConfigureAwait(false);
 		if (!await IsSoberRunningAsync(cancellationToken).ConfigureAwait(false))
 			return !IsSoberInstanceLocked() || await WaitForSoberStoppedAsync(cancellationToken).ConfigureAwait(false) || !IsSoberInstanceLocked();
 

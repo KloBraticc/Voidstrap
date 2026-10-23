@@ -125,6 +125,8 @@ public static partial class RobloxCookie
 	{
 		if (!Voidstrap.Utility.Platform.IsWindows)
 		{
+			if (Voidstrap.Utility.Platform.IsLinux && Voidstrap.Utility.LinuxRuntimeChoice.PlayerUsesRosemary)
+				return Voidstrap.Platform.Linux.LinuxRosemary.ReadCookie(SecurityCookieName, "roblox.com");
 			return Voidstrap.Utility.Platform.IsLinux ? ReadFromSober() : ReadFromMac();
 		}
 		string? text = ReadFromDat();

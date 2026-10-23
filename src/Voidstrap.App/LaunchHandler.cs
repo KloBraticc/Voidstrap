@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -1011,7 +1012,7 @@ public static class LaunchHandler
 			Watcher resident = new(watcherData);
 			Voidstrap.Integrations.LinuxAutoFullscreen? autoFullscreen = null;
 
-			if (Voidstrap.Utility.Platform.IsLinux && isSoberPlayer)
+			if (Voidstrap.Utility.Platform.IsLinux && isSoberPlayer && !_rosemarySession)
 			{
 				System.Windows.Application? application = System.Windows.Application.Current;
 
@@ -1027,7 +1028,7 @@ public static class LaunchHandler
 				try
 				{
 					Task residentTask = resident.Run();
-					bool soberExitObserved = Voidstrap.Utility.Platform.IsLinux && await WaitForSoberExitAsync(_residentCancellation.Token);
+					bool soberExitObserved = Voidstrap.Utility.Platform.IsLinux && !_rosemarySession && await WaitForSoberExitAsync(_residentCancellation.Token);
 					if (!soberExitObserved)
 						await residentTask;
 					if (Voidstrap.Utility.Platform.IsMacOS)
@@ -1042,6 +1043,7 @@ public static class LaunchHandler
 				}
 
 				App.Logger.WriteLine("LaunchHandler::StartResidentWatcher", "Roblox has exited, shutting down");
+				Voidstrap.Integrations.Overlays.LinuxGameOverlay.Stop();
 				if (Voidstrap.Utility.Platform.IsMacOS && !Voidstrap.Integrations.ServerMatchmaker.MacHandoffStarted)
 					Voidstrap.Utility.MacRobloxIcon.Restore();
 				try
@@ -1095,6 +1097,153 @@ public static class LaunchHandler
 		}
 	}
 
+	private static bool _rosemarySession;
+
+	private static async Task<bool> LaunchRosemaryAsync(Bootstrapper bootstrapper, Voidstrap.Platform.RuntimeKind runtimeKind, string launchTarget, CancellationToken cancellation)
+	{
+		bool player = runtimeKind == Voidstrap.Platform.RuntimeKind.Player;
+		Voidstrap.Platform.Linux.RosemaryApplication application = player
+			? Voidstrap.Platform.Linux.RosemaryApplication.Player
+			: Voidstrap.Platform.Linux.RosemaryApplication.Studio;
+
+		SetPortableLaunchStatus("Checking for Rosemary updates");
+		Voidstrap.Platform.Linux.LinuxRosemary.DownloadSegments = DownloadConfiguration.NormalizeSegments(App.Settings.Prop.MaxDownloadSegments);
+		Voidstrap.Platform.Linux.RosemaryRobloxOptions options = new(
+			App.Settings.Prop.IsChannelEnabled ? App.Settings.Prop.Channel : null,
+			App.Settings.Prop.UpdateRoblox,
+			App.Settings.Prop.ForceRobloxReinstall);
+		System.Diagnostics.Stopwatch prepareClock = System.Diagnostics.Stopwatch.StartNew();
+		Task<Voidstrap.Platform.OperationResult<string>> runtimeTask = Voidstrap.Platform.Linux.LinuxRosemary.EnsureRuntimeAsync(SetPortableLaunchStatus, cancellation);
+		Task<Voidstrap.Platform.OperationResult<string>> robloxTask = Voidstrap.Platform.Linux.LinuxRosemary.EnsureRobloxAsync(application, options, SetPortableLaunchStatus, cancellation);
+		await Task.WhenAll(runtimeTask, robloxTask);
+		cancellation.ThrowIfCancellationRequested();
+		Voidstrap.Platform.OperationResult<string> runtime = runtimeTask.Result;
+		Voidstrap.Platform.OperationResult<string> roblox = robloxTask.Result;
+		if (!runtime.Succeeded || runtime.Value is null)
+		{
+			ShowPortableLaunchFailure(runtime.Failure?.Message ?? "Rosemary could not be installed.");
+			return false;
+		}
+		App.Logger.WriteLine("LaunchHandler::LaunchRosemary", "Using Rosemary " + Voidstrap.Platform.Linux.LinuxRosemary.InstalledRuntimeVersion + " from " + runtime.Value);
+		if (!roblox.Succeeded || roblox.Value is null)
+		{
+			ShowPortableLaunchFailure(roblox.Failure?.Message ?? "Roblox could not be installed.");
+			return false;
+		}
+		App.Logger.WriteLine("LaunchHandler::LaunchRosemary", "Rosemary and Roblox were ready in " + prepareClock.ElapsedMilliseconds + " ms");
+		if (App.Settings.Prop.ForceRobloxReinstall)
+		{
+			App.Settings.Prop.ForceRobloxReinstall = false;
+			App.Settings.Save();
+		}
+		string robloxVersion = Voidstrap.Platform.Linux.LinuxRosemary.InstalledRobloxVersion(application) ?? "";
+		App.Logger.WriteLine("LaunchHandler::LaunchRosemary", "Using macOS " + (player ? "Roblox " : "Roblox Studio ") + robloxVersion + " from " + roblox.Value);
+
+		SetPortableLaunchStatus(Strings.Bootstrapper_Status_Configuring);
+		try
+		{
+			if (player)
+			{
+				App.FastFlags.MigratePlayerLoggingPreset();
+				App.FastFlags.RestoreAssetWarpPreloadFlags();
+				try
+				{
+					Directory.CreateDirectory(Voidstrap.Platform.Linux.LinuxRosemary.GuestRobloxRoot);
+					App.GlobalSettings.Load();
+					if (!File.Exists(App.GlobalSettings.FileLocation) && !App.GlobalSettings.Save())
+						App.Logger.WriteLine("LaunchHandler::LaunchRosemary", "Roblox's global settings file could not be created");
+				}
+				catch (Exception ex)
+				{
+					App.Logger.WriteLine("LaunchHandler::LaunchRosemary", "Roblox's global settings could not be prepared: " + ex.Message);
+				}
+			}
+			App.FastFlags.Save();
+			Voidstrap.Platform.MacOS.MacOSRobloxInstaller.WriteClientSettings(
+				roblox.Value,
+				bootstrapper.FastFlagsAllowedForThisLaunch() ? App.FastFlags.FileLocation : null);
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("LaunchHandler::LaunchRosemary", "FastFlags could not be applied: " + ex.Message);
+		}
+		try
+		{
+			await bootstrapper.PrepareMacLaunchAsync(roblox.Value, robloxVersion, cancellation);
+		}
+		catch (OperationCanceledException) when (cancellation.IsCancellationRequested)
+		{
+			throw;
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("LaunchHandler::LaunchRosemary", "Mods could not be applied: " + ex.Message);
+		}
+
+		if (player)
+		{
+			SetPortableLaunchStatus("Closing the current Roblox session");
+			foreach (int existing in Voidstrap.Platform.Linux.LinuxRosemary.RunningProcessIds(application))
+			{
+				try
+				{
+					using Process running = Process.GetProcessById(existing);
+					running.Kill(true);
+					await running.WaitForExitAsync(cancellation).WaitAsync(TimeSpan.FromSeconds(10), cancellation);
+				}
+				catch (OperationCanceledException) when (cancellation.IsCancellationRequested)
+				{
+					throw;
+				}
+				catch (Exception ex)
+				{
+					App.Logger.WriteLine("LaunchHandler::LaunchRosemary", "The previous Roblox session could not be closed: " + ex.Message);
+				}
+			}
+		}
+
+		cancellation.ThrowIfCancellationRequested();
+		SetPortableLaunchStatus(Strings.Bootstrapper_Status_Starting);
+		Dictionary<string, string> environment = new(Voidstrap.Utility.LinuxRuntimeChoice.RosemaryEnvironment(), StringComparer.Ordinal);
+		IReadOnlyDictionary<string, string>? overlay = player ? Voidstrap.Integrations.Overlays.LinuxGameOverlay.PrepareLaunch() : null;
+		if (overlay != null)
+		{
+			foreach ((string name, string value) in overlay)
+				environment[name] = value;
+		}
+		ProcessStartInfo startInfo = Voidstrap.Platform.Linux.LinuxRosemary.CreateLaunch(runtime.Value, application, launchTarget, environment);
+		Process? process;
+		try
+		{
+			process = Process.Start(startInfo);
+		}
+		catch (Exception ex)
+		{
+			ShowPortableLaunchFailure("Rosemary could not start: " + ex.Message);
+			return false;
+		}
+		if (process is null)
+		{
+			ShowPortableLaunchFailure("Rosemary could not start.");
+			return false;
+		}
+
+		int processId = process.Id;
+		process.Dispose();
+		App.Logger.WriteLine("LaunchHandler::LaunchRosemary", "Rosemary accepted the Roblox launch request as process " + processId);
+		ClosePortableLaunchDialog();
+		_rosemarySession = true;
+		if (overlay != null)
+			Voidstrap.Integrations.Overlays.LinuxGameOverlay.Start();
+		if (!StartResidentWatcher(processId, player))
+		{
+			Voidstrap.Integrations.Overlays.LinuxGameOverlay.Stop();
+			return false;
+		}
+		Voidstrap.UI.LinuxTaskbarPresence.HideWhileSessionRuns();
+		return true;
+	}
+
 	private static async Task LaunchPortableRuntimeAsync(LaunchMode launchMode)
 	{
 		if (Interlocked.CompareExchange(ref _portableLaunchActive, 1, 0) != 0)
@@ -1121,7 +1270,8 @@ public static class LaunchHandler
 			Voidstrap.Platform.RuntimeKind runtimeKind = launchMode == LaunchMode.Player
 				? Voidstrap.Platform.RuntimeKind.Player
 				: Voidstrap.Platform.RuntimeKind.Studio;
-			if (OperatingSystem.IsLinux() && runtimeKind == Voidstrap.Platform.RuntimeKind.Player)
+			bool rosemary = OperatingSystem.IsLinux() && Voidstrap.Utility.LinuxRuntimeChoice.UsesRosemary(launchMode);
+			if (OperatingSystem.IsLinux() && runtimeKind == Voidstrap.Platform.RuntimeKind.Player && !rosemary)
 			{
 				soberLaunchLease = Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.TryAcquireLaunchLease();
 				if (soberLaunchLease is null)
@@ -1156,8 +1306,17 @@ public static class LaunchHandler
 				launchTarget = rewrittenTarget;
 				App.LaunchSettings.RobloxLaunchArgs = rewrittenTarget;
 			}
-			if (OperatingSystem.IsLinux() && runtimeKind == Voidstrap.Platform.RuntimeKind.Player)
+			if (OperatingSystem.IsLinux() && runtimeKind == Voidstrap.Platform.RuntimeKind.Player && !rosemary)
 				App.Logger.WriteLine("LaunchHandler::LaunchPortableRuntime", Voidstrap.Platform.Linux.SoberLaunchLink.Describe(App.LaunchSettings.RobloxLaunchArgs.Length > 0 ? launchTarget : null));
+
+			if (rosemary && linuxBootstrapper is not null)
+			{
+				if (await linuxBootstrapper.TryUpdateLauncherAsync())
+					return;
+				cancellation.ThrowIfCancellationRequested();
+				stayResident = await LaunchRosemaryAsync(linuxBootstrapper, runtimeKind, launchTarget, cancellation);
+				return;
+			}
 
 			if (OperatingSystem.IsLinux() && linuxBootstrapper is not null)
 			{

@@ -22,7 +22,9 @@ internal static class RobloxAssetCache
 
 	public const string ManifestName = "AssetCache.lock";
 
-	public static string Root => Voidstrap.Utility.Platform.IsLinux
+	public static string Root => Voidstrap.Utility.Platform.IsLinux && LinuxRuntimeChoice.PlayerUsesRosemary
+		? Path.Combine(Voidstrap.Platform.Linux.LinuxRosemary.GuestRobloxRoot, "rbx-storage")
+		: Voidstrap.Utility.Platform.IsLinux
 		? Path.Combine(
 			Environment.GetEnvironmentVariable("HOME") ?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),
 			".var", "app", "org.vinegarhq.Sober", "cache", "sober", "rbx-storage")
@@ -314,7 +316,17 @@ internal static class RobloxAssetCache
 	{
 		string roblox;
 		string[] files;
-		if (Voidstrap.Utility.Platform.IsLinux)
+		if (Voidstrap.Utility.Platform.IsLinux && LinuxRuntimeChoice.PlayerUsesRosemary)
+		{
+			roblox = Voidstrap.Platform.Linux.LinuxRosemary.GuestRobloxRoot;
+			files =
+			[
+				Path.Combine(roblox, "rbx-storage.db"),
+				Path.Combine(roblox, "rbx-storage.db-wal"),
+				Path.Combine(roblox, "rbx-storage.db-shm")
+			];
+		}
+		else if (Voidstrap.Utility.Platform.IsLinux)
 		{
 			string home = Environment.GetEnvironmentVariable("HOME") ?? Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);
 			string sober = Path.GetFullPath(Path.Combine(home, ".var", "app", "org.vinegarhq.Sober"));

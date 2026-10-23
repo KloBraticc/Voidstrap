@@ -47,6 +47,8 @@ public static class LinuxSoberMemory
     {
         ArgumentNullException.ThrowIfNull(processes);
         cancellationToken.ThrowIfCancellationRequested();
+        if (LinuxRosemary.IsPlayerRunning)
+            return await Task.Run(() => LinuxRosemary.ReadMemory(RosemaryApplication.Player), cancellationToken).ConfigureAwait(false);
         if (!LinuxFlatpakHost.IsSandboxed)
             return await Task.Run(() => ReadLocalMemory(cancellationToken), cancellationToken).ConfigureAwait(false);
         if (!LinuxFlatpakHost.TryCreateHostCommand(processes, "sh", ["-c", MemoryCommand], out ProcessCommand command))

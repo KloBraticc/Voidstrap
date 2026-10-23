@@ -1,0 +1,42 @@
+<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.RosemaryPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" Title="{resources:Loc Menu_Rosemary_Title}" Scrollable="True">
+  <StackPanel Margin="0,0,14,14">
+    <TextBlock Margin="0,0,0,8" FontSize="14" TextWrapping="Wrap" Text="{resources:Loc Menu_Rosemary_Description}" />
+    <ui:InfoBar Margin="0" Padding="8" Severity="Informational" IsClosable="False" IsOpen="True" Message="{resources:Loc Menu_Rosemary_Notice}" />
+    <controls:OptionControl Header="{resources:Loc Menu_Rosemary_Title}" Description="{Binding RuntimeStatus, Mode=OneWay}">
+      <StackPanel Orientation="Horizontal">
+        <ui:Button Margin="0,0,8,0" Content="{resources:Loc Menu_Rosemary_OpenFolder}" Command="{Binding OpenFolderCommand}" />
+        <ui:Button Appearance="Primary" Content="{Binding UpdateLabel, Mode=OneWay}" IsEnabled="{Binding CanUpdate, Mode=OneWay}" Command="{Binding UpdateCommand}" />
+      </StackPanel>
+    </controls:OptionControl>
+    <controls:OptionControl Header="Roblox" Description="{Binding PlayerStatus, Mode=OneWay}" />
+    <controls:OptionControl Margin="0,0,0,8" Header="Roblox Studio" Description="{Binding StudioStatus, Mode=OneWay}" />
+
+    <Expander Header="{resources:Loc Menu_Rosemary_Group_Display}" IsExpanded="True">
+      <StackPanel Margin="0,6,0,8">
+        <controls:OptionControl Header="{resources:Loc Menu_Rosemary_VSync_Title}" Description="{resources:Loc Menu_Rosemary_VSync_Description}">
+          <ComboBox Width="230" ItemsSource="{Binding SwapIntervalChoices, Mode=OneWay}" DisplayMemberPath="Display" SelectedItem="{Binding SwapIntervalChoice, Mode=TwoWay}" />
+        </controls:OptionControl>
+        <controls:OptionControl Header="{resources:Loc Menu_Rosemary_TitleBar_Title}" Description="{resources:Loc Menu_Rosemary_TitleBar_Description}">
+          <ComboBox Width="230" ItemsSource="{Binding DecorationChoices, Mode=OneWay}" DisplayMemberPath="Display" SelectedItem="{Binding DecorationChoice, Mode=TwoWay}" />
+        </controls:OptionControl>
+        <controls:OptionControl Header="{resources:Loc Menu_Rosemary_OpenGl_Title}" Description="{resources:Loc Menu_Rosemary_OpenGl_Description}">
+          <ui:ToggleSwitch IsChecked="{Binding ForceOpenGl, Mode=TwoWay}" />
+        </controls:OptionControl>
+      </StackPanel>
+    </Expander>
+
+    <Expander Margin="0,6,0,0" Header="{resources:Loc Menu_Rosemary_Group_Input}" IsExpanded="True">
+      <StackPanel Margin="0,6,0,8">
+        <controls:OptionControl Header="{resources:Loc Menu_Rosemary_CommandKey_Title}" Description="{resources:Loc Menu_Rosemary_CommandKey_Description}">
+          <ComboBox Width="230" ItemsSource="{Binding CommandKeyChoices, Mode=OneWay}" DisplayMemberPath="Display" SelectedItem="{Binding CommandKeyChoice, Mode=TwoWay}" />
+        </controls:OptionControl>
+        <controls:OptionControl Header="{resources:Loc Menu_Rosemary_ConfinePointer_Title}" Description="{resources:Loc Menu_Rosemary_ConfinePointer_Description}">
+          <ui:ToggleSwitch IsChecked="{Binding ConfinePointer, Mode=TwoWay}" />
+        </controls:OptionControl>
+        <controls:OptionControl Header="{resources:Loc Menu_Rosemary_PlainCtrlClick_Title}" Description="{resources:Loc Menu_Rosemary_PlainCtrlClick_Description}">
+          <ui:ToggleSwitch IsChecked="{Binding PlainControlClick, Mode=TwoWay}" />
+        </controls:OptionControl>
+      </StackPanel>
+    </Expander>
+  </StackPanel>
+</ui:UiPage>

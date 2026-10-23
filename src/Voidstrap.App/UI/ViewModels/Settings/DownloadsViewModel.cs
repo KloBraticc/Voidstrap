@@ -44,6 +44,11 @@ namespace Voidstrap.UI.ViewModels.Settings
             public bool CanChangeLocation => !Voidstrap.Utility.Platform.IsLinux;
             public ImageSource? IconImage { get; }
             public LaunchMode LaunchMode => _launchMode;
+            public string RuntimeKey => _processName;
+            public bool IsRosemary => string.Equals(_processName, Voidstrap.Utility.LinuxRuntimeChoice.Rosemary, StringComparison.Ordinal);
+            private Voidstrap.Platform.Linux.RosemaryApplication RosemaryApplication => _launchMode == LaunchMode.Studio
+                ? Voidstrap.Platform.Linux.RosemaryApplication.Studio
+                : Voidstrap.Platform.Linux.RosemaryApplication.Player;
             public bool ShowFleasionAddon { get; }
             public bool ShowStudioAddons => _launchMode == LaunchMode.Studio;
             public bool HasAddons => ShowFleasionAddon || ShowStudioAddons;
@@ -326,8 +331,35 @@ namespace Voidstrap.UI.ViewModels.Settings
                 RaiseAll();
             }
 
+            private void RefreshRosemaryRuntime()
+            {
+                bool runtime = Voidstrap.Platform.Linux.LinuxRosemary.IsRuntimeInstalled;
+                bool app = Voidstrap.Platform.Linux.LinuxRosemary.IsApplicationInstalled(RosemaryApplication);
+                string? robloxVersion = app ? Voidstrap.Platform.Linux.LinuxRosemary.InstalledRobloxVersion(RosemaryApplication) : null;
+                IsInstalled = runtime && app;
+                LocationText = Voidstrap.Platform.Linux.LinuxRosemary.Root;
+                bool player = _launchMode == LaunchMode.Player;
+                if (!Voidstrap.Platform.Linux.LinuxRosemary.IsSupportedHost)
+                    Subtitle = "Rosemary only runs on x86_64 Linux";
+                else if (!IsInstalled)
+                    Subtitle = player ? "Not installed yet, Voidstrap installs Rosemary and macOS Roblox when you launch" : "Not installed yet, Voidstrap installs Rosemary and macOS Roblox Studio when you launch Studio";
+                else
+                    Subtitle = (player ? "macOS Roblox " : "macOS Roblox Studio ") + (robloxVersion ?? "") + " through Rosemary " + Voidstrap.Platform.Linux.LinuxRosemary.InstalledRuntimeVersion;
+                VersionText = robloxVersion ?? (IsInstalled ? "Installed" : "Not installed yet");
+                StatusText = IsInstalled ? "Installed" : "Not installed";
+                PrimaryButtonText = IsInstalled ? "Update" : "Install";
+                SizeText = "";
+                OnPropertyChanged(nameof(Subtitle));
+                RaiseAll();
+            }
+
             private void RefreshLinuxRuntime()
             {
+                if (IsRosemary)
+                {
+                    RefreshRosemaryRuntime();
+                    return;
+                }
                 bool player = _launchMode == LaunchMode.Player;
                 IsInstalled = player
                     ? Voidstrap.Platform.Linux.LinuxSoberRuntimeProvider.IsInstalled()
@@ -391,6 +423,8 @@ namespace Voidstrap.UI.ViewModels.Settings
             {
                 if (IsBusy)
                     return false;
+                if (IsRosemary)
+                    return await InstallRosemaryAsync();
                 if (IsProcessRunning(_processName))
                 {
                     Frontend.ShowMessageBox($"Close {Title} before installing or updating it.", MessageBoxImage.Warning);
@@ -476,10 +510,97 @@ namespace Voidstrap.UI.ViewModels.Settings
                 }
             }
 
+            private async Task<bool> InstallRosemaryAsync()
+            {
+                if (Voidstrap.Platform.Linux.LinuxRosemary.RunningProcessIds(RosemaryApplication).Count > 0)
+                {
+                    Frontend.ShowMessageBox($"Close {Title} before installing or updating it.", MessageBoxImage.Warning);
+                    return false;
+                }
+                if (!_parent.TryBeginOperation())
+                {
+                    Frontend.ShowMessageBox("Wait for the current operation to finish.", MessageBoxImage.Warning);
+                    return false;
+                }
+
+                _parent.SelectedItem = this;
+                IsBusy = true;
+                Progress = 0;
+                StatusText = "Preparing...";
+                ProgressDetail = StatusText;
+                RaiseAll();
+                bool ok = false;
+                try
+                {
+                    Action<string> status = message => Application.Current?.Dispatcher.BeginInvoke((Action)delegate
+                    {
+                        StatusText = message;
+                        ProgressDetail = message;
+                        OnPropertyChanged(nameof(StatusText));
+                        OnPropertyChanged(nameof(ProgressDetail));
+                    });
+                    Voidstrap.Platform.Linux.LinuxRosemary.DownloadSegments = Voidstrap.Utility.DownloadConfiguration.NormalizeSegments(App.Settings.Prop.MaxDownloadSegments);
+                    Voidstrap.Platform.OperationResult<string> runtime = await Voidstrap.Platform.Linux.LinuxRosemary.EnsureRuntimeAsync(status);
+                    if (!runtime.Succeeded)
+                    {
+                        Frontend.ShowMessageBox(runtime.Failure?.Message ?? "Rosemary could not be installed.", MessageBoxImage.Error);
+                        return false;
+                    }
+                    Voidstrap.Platform.Linux.RosemaryRobloxOptions options = new(
+                        App.Settings.Prop.IsChannelEnabled ? App.Settings.Prop.Channel : null,
+                        true,
+                        IsInstalled);
+                    Voidstrap.Platform.OperationResult<string> roblox = await Voidstrap.Platform.Linux.LinuxRosemary.EnsureRobloxAsync(RosemaryApplication, options, status);
+                    if (!roblox.Succeeded)
+                    {
+                        Frontend.ShowMessageBox(roblox.Failure?.Message ?? "Roblox could not be installed.", MessageBoxImage.Error);
+                        return false;
+                    }
+                    ok = true;
+                    return true;
+                }
+                catch (Exception ex)
+                {
+                    App.Logger.WriteException("DownloadsViewModel::InstallRosemary", ex);
+                    Frontend.ShowMessageBox(ex.Message, MessageBoxImage.Error);
+                    return false;
+                }
+                finally
+                {
+                    IsBusy = false;
+                    _parent.EndOperation();
+                    Refresh();
+                    if (ok)
+                        App.Logger.WriteLine("DownloadsViewModel::InstallRosemary", Title + " is installed");
+                }
+            }
+
             private async Task UninstallAsync()
             {
                 if (!IsInstalled || IsBusy)
                     return;
+                if (IsRosemary)
+                {
+                    if (Frontend.ShowMessageBox($"Remove {Title}? You can reinstall it any time.", MessageBoxImage.Question, MessageBoxButton.YesNo, MessageBoxResult.No) != MessageBoxResult.Yes)
+                        return;
+                    string bundle = Voidstrap.Platform.Linux.LinuxRosemary.ApplicationPath(RosemaryApplication);
+                    await Task.Run(delegate
+                    {
+                        try
+                        {
+                            if (Directory.Exists(bundle))
+                                Directory.Delete(bundle, true);
+                            if (File.Exists(bundle + ".version"))
+                                File.Delete(bundle + ".version");
+                        }
+                        catch (Exception ex)
+                        {
+                            App.Logger.WriteLine("DownloadsViewModel::UninstallRosemary", "Could not remove " + bundle + ": " + ex.Message);
+                        }
+                    });
+                    Refresh();
+                    return;
+                }
                 if (IsProcessRunning(_processName))
                 {
                     Frontend.ShowMessageBox($"Close {Title} before removing it.", MessageBoxImage.Warning);
@@ -1255,6 +1376,11 @@ namespace Voidstrap.UI.ViewModels.Settings
             {
                 Items.Add(new DownloadItem(this, new RobloxPlayerData(), "Sober", "Plays Roblox on Linux", "pack://application:,,,/Resources/SoberIcon.png", "WindowsPlayer", LaunchMode.Player, "sober", false));
                 Items.Add(new DownloadItem(this, new RobloxStudioData(), "Vinegar", "Runs Roblox Studio on Linux", "pack://application:,,,/Resources/VinegarIcon.png", "WindowsStudio64", LaunchMode.Studio, "vinegar", false));
+                if (Voidstrap.Platform.Linux.LinuxRosemary.IsSupportedHost)
+                {
+                    Items.Add(new DownloadItem(this, new RobloxPlayerData(), Strings.Ui_Downloads_Rosemary_PlayerTitle, Strings.Ui_Downloads_Rosemary_PlayerSubtitle, "pack://application:,,,/Resources/RobloxPlayerIcon.png", "MacPlayer", LaunchMode.Player, Voidstrap.Utility.LinuxRuntimeChoice.Rosemary, false));
+                    Items.Add(new DownloadItem(this, new RobloxStudioData(), Strings.Ui_Downloads_Rosemary_StudioTitle, Strings.Ui_Downloads_Rosemary_StudioSubtitle, "pack://application:,,,/Resources/RobloxStudioIcon.png", "MacStudio", LaunchMode.Studio, Voidstrap.Utility.LinuxRuntimeChoice.Rosemary, false));
+                }
             }
             else
             {

@@ -89,6 +89,16 @@
     </StackPanel>
     <controls:BootstrapperImportControl x:Name="ImportControl" Margin="0,12,0,0" StageOnly="True" />
     <StackPanel Visibility="{x:Static platform:PlatformFeatureVisibility.LinuxIntegration}">
+      <StackPanel Visibility="{Binding RosemaryVisibility, Mode=OneTime}">
+        <TextBlock Margin="0,28,0,0" FontSize="20" FontWeight="SemiBold" Text="{resources:Loc Installer_Linux_Runtime_Title}" TextWrapping="Wrap" />
+        <TextBlock Margin="0,4,0,0" FontSize="14" LineHeight="20" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Installer_Linux_Runtime_Description}" TextWrapping="Wrap" />
+        <controls:OptionControl Margin="0,8,0,4" Header="{resources:Loc Installer_Linux_Runtime_Sober}" Description="{resources:Loc Installer_Linux_Runtime_SoberHint}">
+          <RadioButton GroupName="LinuxRuntime" IsChecked="{Binding UseSober, Mode=TwoWay}" />
+        </controls:OptionControl>
+        <controls:OptionControl Margin="0,0,0,4" Header="{resources:Loc Installer_Linux_Runtime_Rosemary}" Description="{resources:Loc Installer_Linux_Runtime_RosemaryHint}">
+          <RadioButton GroupName="LinuxRuntime" IsChecked="{Binding UseRosemary, Mode=TwoWay}" />
+        </controls:OptionControl>
+      </StackPanel>
       <TextBlock Margin="0,28,0,0" FontSize="20" FontWeight="SemiBold" Text="{resources:Loc Ui_Misc3_LinuxDesktopIntegration}" TextWrapping="Wrap" />
       <TextBlock Margin="0,4,0,0" FontSize="14" LineHeight="20" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_Misc3_VoidstrapWillBeAddedToThe}" TextWrapping="Wrap" />
       <controls:OptionControl Margin="0,4,0,4" Header="{resources:Loc Ui_Misc3_CreateADesktopLauncher}">

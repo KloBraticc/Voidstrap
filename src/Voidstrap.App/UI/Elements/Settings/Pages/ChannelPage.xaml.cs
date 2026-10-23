@@ -296,7 +296,7 @@ public partial class ChannelPage : UiPage{
 			App.PendingSettingTasks.Clear();
 			ProcessStartInfo startInfo = new()
 			{
-				FileName = Paths.Application,
+				FileName = Voidstrap.Utility.Platform.IsLinux ? Paths.LaunchExecutable : Paths.Application,
 				UseShellExecute = !Voidstrap.Utility.Platform.IsLinux
 			};
 			if (Voidstrap.Utility.Platform.IsLinux)

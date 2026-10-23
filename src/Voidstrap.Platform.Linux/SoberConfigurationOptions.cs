@@ -102,6 +102,8 @@ public sealed class LinuxSoberProcessProbe : ISoberProcessProbe
 
 	public static bool IsRunningNow()
 	{
+		if (LinuxRosemary.IsPlayerRunning)
+			return true;
 		if (HasLiveSoberProcess())
 			return true;
 		return LinuxFlatpakHost.IsSandboxed && IsRunningOnHost();
@@ -235,7 +237,7 @@ public sealed class LinuxSoberProcessProbe : ISoberProcessProbe
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 
-		if (HasLiveSoberProcess())
+		if (LinuxRosemary.IsPlayerRunning || HasLiveSoberProcess())
 			return true;
 
 		if (!LinuxFlatpakHost.TryCreateHostCommand(_processes, "sh", ["-c", LiveSoberProbe], out ProcessCommand command))

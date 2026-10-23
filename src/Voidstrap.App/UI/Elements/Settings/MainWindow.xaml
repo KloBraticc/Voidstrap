@@ -769,6 +769,7 @@
             <ui:NavigationItem Cache="True" Name="ExtensionsNavItem" Content="{resources:Loc Ui_Nav_Extensions}" Icon="CubeAdd20" Tag="CubeLink20" Visibility="{x:Static appUi:PlatformFeatureVisibility.WindowsIntegration}" PageType="{x:Type pages:ExtensionPage}" />
             <ui:NavigationItem Cache="True" Name="ManagerNavItem" Content="{resources:Loc Ui_Nav_Manager}" Icon="ArrowDownload24" Tag="ArrowDownload20" Visibility="{x:Static appUi:PlatformFeatureVisibility.WindowsIntegration}" PageType="{x:Type pages:DownloadsPage}" />
             <ui:NavigationItem Cache="True" Name="SoberNavItem" Content="{resources:Loc Menu_Sober_Title}" Icon="Empty" Image="pack://application:,,,/Resources/SoberIcon.png" Tag="Settings20" PageType="{x:Type pages:SoberPage}" />
+            <ui:NavigationItem Cache="True" Name="RosemaryNavItem" Content="{resources:Loc Menu_Rosemary_Title}" Icon="Empty" Image="pack://application:,,,/Resources/RosemaryIcon.png" Tag="Settings20" PageType="{x:Type pages:RosemaryPage}" />
             <ui:NavigationItem Cache="True" Name="SettingsNavItem" Content="{resources:Loc Ui_Nav_Settings}" Icon="Settings28" Tag="Settings20" PageType="{x:Type pages:ChannelPage}" />
             <ui:NavigationItem Name="AboutNavItem" Content="{resources:Loc Menu_About_Title}" Icon="QuestionCircle32" Tag="QuestionCircle48" Command="{Binding OpenAboutCommand, Mode=OneTime}" />
           </ui:NavigationBase.Footer>

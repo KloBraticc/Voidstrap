@@ -196,9 +196,21 @@ internal static class Paths
 
 	public static string WebViewData { get; private set; } = "";
 
-	public static string RobloxLogs { get; private set; } = "";
+	private static string _robloxLogs = "";
 
-	public static string RobloxCache { get; private set; } = "";
+	public static string RobloxLogs
+	{
+		get => Voidstrap.Utility.Platform.IsLinux && Voidstrap.Utility.LinuxRuntimeChoice.PlayerUsesRosemary ? LinuxRosemary.GuestLogs : _robloxLogs;
+		private set => _robloxLogs = value;
+	}
+
+	private static string _robloxCache = "";
+
+	public static string RobloxCache
+	{
+		get => Voidstrap.Utility.Platform.IsLinux && Voidstrap.Utility.LinuxRuntimeChoice.PlayerUsesRosemary ? Path.Combine(LinuxRosemary.GuestHome, "Library", "Caches") : _robloxCache;
+		private set => _robloxCache = value;
+	}
 
 	public static string SavedBackups { get; private set; } = "";
 
@@ -848,8 +860,7 @@ internal static class Paths
 			storage.Data,
 			storage.Cache,
 			logsRoot,
-			UserData,
-			Temp
+			UserData
 		];
 		if (string.Equals(Path.GetFileName(Path.TrimEndingDirectorySeparator(DocumentsData)), "voidstrap", StringComparison.OrdinalIgnoreCase))
 		{
@@ -859,6 +870,44 @@ internal static class Paths
 		foreach (string directory in directories.Distinct(PathComparison == StringComparison.OrdinalIgnoreCase ? StringComparer.OrdinalIgnoreCase : StringComparer.Ordinal).OrderByDescending(path => path.Length))
 		{
 			DeleteLinuxOwnedDirectory(directory);
+		}
+
+		ResetLinuxTemp();
+	}
+
+	private static void ResetLinuxTemp()
+	{
+		if (string.IsNullOrWhiteSpace(Temp) || !Directory.Exists(Temp))
+			return;
+
+		string fonts = Path.Combine(Path.GetFullPath(Temp), "Fonts");
+		foreach (string entry in Directory.EnumerateFileSystemEntries(Temp))
+		{
+			if (string.Equals(Path.GetFullPath(entry), fonts, PathComparison))
+				continue;
+			try
+			{
+				if (Directory.Exists(entry))
+				{
+					DirectoryInfo info = new(entry);
+					if (info.LinkTarget != null)
+					{
+						info.Delete();
+						continue;
+					}
+					ClearReadOnly(entry);
+					Directory.Delete(entry, recursive: true);
+				}
+				else
+				{
+					File.SetAttributes(entry, FileAttributes.Normal);
+					File.Delete(entry);
+				}
+			}
+			catch (Exception ex)
+			{
+				App.Logger?.WriteLine("Paths::ResetLinuxUserData", "Could not remove " + entry + ": " + ex.Message);
+			}
 		}
 	}
 

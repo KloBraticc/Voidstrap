@@ -83,6 +83,36 @@ public class InstallViewModel : NotifyPropertyChangedViewModel
 		SoberInstallStatus = message;
 	}
 
+	public bool RosemaryAvailable => Voidstrap.Utility.Platform.IsLinux && Voidstrap.Platform.Linux.LinuxRosemary.IsSupportedHost;
+
+	public Visibility RosemaryVisibility => RosemaryAvailable ? Visibility.Visible : Visibility.Collapsed;
+
+	private bool _useRosemary;
+
+	public bool UseSober
+	{
+		get => !_useRosemary;
+		set
+		{
+			if (value)
+				UseRosemary = false;
+		}
+	}
+
+	public bool UseRosemary
+	{
+		get => _useRosemary;
+		set
+		{
+			bool chosen = value && RosemaryAvailable;
+			if (_useRosemary == chosen)
+				return;
+			_useRosemary = chosen;
+			OnPropertyChanged(nameof(UseRosemary));
+			OnPropertyChanged(nameof(UseSober));
+		}
+	}
+
 	public bool CreateDesktopShortcuts
 	{
 		get
@@ -194,6 +224,48 @@ public class InstallViewModel : NotifyPropertyChangedViewModel
 			return false;
 		}
 		if (Voidstrap.Utility.Platform.IsLinux)
+		{
+			Voidstrap.Utility.LinuxRuntimeChoice.SelectDefaults(UseRosemary);
+			App.Logger.WriteLine("InstallViewModel::DoInstall", UseRosemary ? "Roblox runs through Rosemary" : "Roblox runs through Sober and Vinegar");
+		}
+		if (Voidstrap.Utility.Platform.IsLinux && UseRosemary)
+		{
+			using System.Threading.CancellationTokenSource cancellation = new();
+			_soberCancellation = cancellation;
+			Action<string> status = message =>
+			{
+				System.Windows.Application.Current?.Dispatcher.BeginInvoke(new Action(() => SoberInstallStatus = message));
+				report?.Invoke(message);
+			};
+			try
+			{
+				Voidstrap.Platform.Linux.LinuxRosemary.DownloadSegments = Voidstrap.Utility.DownloadConfiguration.NormalizeSegments(App.Settings.Prop.MaxDownloadSegments);
+				System.Threading.Tasks.Task<Voidstrap.Platform.OperationResult<string>> runtimeTask = Voidstrap.Platform.Linux.LinuxRosemary.EnsureRuntimeAsync(status, cancellation.Token);
+				System.Threading.Tasks.Task<Voidstrap.Platform.OperationResult<string>> robloxTask = Voidstrap.Platform.Linux.LinuxRosemary.EnsureRobloxAsync(Voidstrap.Platform.Linux.RosemaryApplication.Player, new Voidstrap.Platform.Linux.RosemaryRobloxOptions(), status, cancellation.Token);
+				await System.Threading.Tasks.Task.WhenAll(runtimeTask, robloxTask);
+				Voidstrap.Platform.OperationResult<string> runtime = runtimeTask.Result;
+				if (!robloxTask.Result.Succeeded)
+					App.Logger.WriteLine("InstallViewModel::DoInstall", robloxTask.Result.Failure?.Message ?? "macOS Roblox could not be downloaded yet, it downloads on the first launch");
+				App.Logger.WriteLine("InstallViewModel::DoInstall", runtime.Succeeded ? "Rosemary installed" : (runtime.Failure?.Message ?? "Rosemary could not be installed"));
+				if (!runtime.Succeeded)
+					Frontend.ShowMessageBox(runtime.Failure?.Message ?? "Rosemary could not be installed", MessageBoxImage.Error, MessageBoxButton.OK);
+			}
+			catch (OperationCanceledException) when (cancellation.IsCancellationRequested)
+			{
+				App.Logger.WriteLine("InstallViewModel::DoInstall", "The Rosemary install was cancelled");
+				return false;
+			}
+			catch (Exception ex)
+			{
+				App.Logger.WriteException("InstallViewModel::DoInstall", ex);
+				Frontend.ShowMessageBox("Rosemary could not be installed: " + ex.Message, MessageBoxImage.Error, MessageBoxButton.OK);
+			}
+			finally
+			{
+				_soberCancellation = null;
+			}
+		}
+		else if (Voidstrap.Utility.Platform.IsLinux)
 		{
 			SoberInstallStatus = "Installing Sober";
 			using System.Threading.CancellationTokenSource cancellation = new();

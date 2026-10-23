@@ -8,10 +8,13 @@ namespace Voidstrap.Integrations.Overlays
 {
     public static partial class RobloxFpsCap
     {
-        private static readonly string FilePath = ResolveFilePath();
+        private static string FilePath => ResolveFilePath();
 
         private static string ResolveFilePath()
         {
+            if (OperatingSystem.IsLinux() && Voidstrap.Utility.LinuxRuntimeChoice.PlayerUsesRosemary)
+                return Path.Combine(Voidstrap.Platform.Linux.LinuxRosemary.GuestRobloxRoot, "GlobalBasicSettings_13.xml");
+
             if (OperatingSystem.IsLinux())
             {
                 string home = Environment.GetEnvironmentVariable("HOME")

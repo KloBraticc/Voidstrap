@@ -954,7 +954,7 @@ public partial class App : Application
 			TryStartup("Cloud folder handling", PrepareCloudSyncedInstall);
 		}
 		long persistentStateStarted = Stopwatch.GetTimestamp();
-		await LoadPersistentStateAsync();
+		LoadPersistentState();
 		if (cli)
 		{
 			int exitCode = await Cli.RunAsync(args[1..]);
@@ -1372,11 +1372,11 @@ public partial class App : Application
 		Logger.WriteLine("App::OnStartup", "DLL hijack protection pinned " + Voidstrap.Utility.LoaderHardening.PinnedModuleCount + " system modules");
 	}
 
-	private static async Task LoadPersistentStateAsync()
+	private static void LoadPersistentState()
 	{
 		long started = Stopwatch.GetTimestamp();
 
-		await Task.WhenAll(
+		Task.WaitAll(
 			Task.Run(() => TimedLoad("Download stats", () => DownloadStats.Load())),
 			Task.Run(() => TimedLoad("State", () => State.Load())),
 			Task.Run(() => TimedLoad("Roblox state", () => RobloxState.Load())),
@@ -1545,6 +1545,7 @@ public partial class App : Application
 			_ = CleanupTempAsync(token);
 			_ = Task.Run(() => _ = Voidstrap.Utility.GpuInventory.HasNvidia, token);
 			_ = RunLinuxOrcUpdaterAsync(token);
+			Voidstrap.Utility.LinuxRuntimeChoice.PrefetchRosemary();
 		}
 		catch (OperationCanceledException) when (token.IsCancellationRequested)
 		{
