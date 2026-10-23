@@ -20,6 +20,10 @@ Google Play libraries keep their publisher terms. They are not licensed under Vo
   Terms: MIT
   Source: https://github.com/FrosSky/Chevstrap
 
+- Depth Anything 3 Large downloaded on demand (model)
+  Terms: Apache-2.0
+  Source: https://github.com/ByteDance-Seed/Depth-Anything-3 and https://huggingface.co/onnx-community/depth-anything-v3-large
+
 - Depth Anything V2 Small, Base and Large downloaded on demand (model)
   Terms: Small: Apache-2.0. Base and Large: CC-BY-NC-4.0
   Source: https://github.com/DepthAnything/Depth-Anything-V2 and https://huggingface.co/onnx-community
