@@ -1873,16 +1873,19 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 			{
 				elements.Add(element);
 			}
-			try
+			if (current is Visual or System.Windows.Media.Media3D.Visual3D)
 			{
-				int visualChildren = VisualTreeHelper.GetChildrenCount(current);
-				for (int index = 0; index < visualChildren; index++)
+				try
 				{
-					pending.Enqueue(VisualTreeHelper.GetChild(current, index));
+					int visualChildren = VisualTreeHelper.GetChildrenCount(current);
+					for (int index = 0; index < visualChildren; index++)
+					{
+						pending.Enqueue(VisualTreeHelper.GetChild(current, index));
+					}
 				}
-			}
-			catch (Exception ex) when (ex is InvalidOperationException or ArgumentException)
-			{
+				catch (Exception ex) when (ex is InvalidOperationException or ArgumentException)
+				{
+				}
 			}
 			object[] logicalChildren;
 			try
