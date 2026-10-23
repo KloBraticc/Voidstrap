@@ -204,6 +204,7 @@ Texture2D<float2> Coarse : register(t5);
 Texture2D<float4> Flow : register(t6);
 Texture2D<float> Anchor : register(t7);
 Texture2D<float> Warped : register(t8);
+Texture2D<float4> Map : register(t9);
 RWTexture2D<float> LumaTarget : register(u0);
 RWTexture2D<float> QuarterTarget : register(u1);
 RWTexture2D<float2> CoarseTarget : register(u2);
@@ -211,6 +212,7 @@ RWTexture2D<float4> FlowTarget : register(u3);
 RWTexture2D<float> Depth : register(u4);
 RWTexture2D<float> WarpedTarget : register(u5);
 RWTexture2D<float4> SettledTarget : register(u6);
+RWTexture2D<float4> MapTarget : register(u7);
 
 static const int CoarseSearch = 8;
 static const int Patch = 2;
@@ -221,6 +223,7 @@ static const int FillSteps = 4;
 static const float TemporalBase = 0.5;
 static const float TemporalResponse = 6.0;
 static const int SettleRadius = 2;
+static const float EdgeSpread = 2.0;
 static const float CornerScale = 400.0;
 static const float ConfidenceFloor = 0.02;
 static const float SettleLuma = 0.05;
@@ -376,22 +379,25 @@ void SettleWide(uint3 id : SV_DispatchThreadID)
     FlowTarget[id.xy] = SettleAt(int2(id.xy), 4);
 }
 
-float4 FlowAt(float2 position)
+float4 MapAt(float2 position)
 {
     int2 size = int2(WorkSize);
     int2 base = int2(floor(position));
     float2 t = position - base;
-    float4 a = Flow.Load(int3(clamp(base, 0, size - 1), 0));
-    float4 b = Flow.Load(int3(clamp(base + int2(1, 0), 0, size - 1), 0));
-    float4 c = Flow.Load(int3(clamp(base + int2(0, 1), 0, size - 1), 0));
-    float4 d = Flow.Load(int3(clamp(base + int2(1, 1), 0, size - 1), 0));
-    return lerp(lerp(a, b, t.x), lerp(c, d, t.x), t.y);
+    float4 a = Map.Load(int3(clamp(base, 0, size - 1), 0));
+    float4 b = Map.Load(int3(clamp(base + int2(1, 0), 0, size - 1), 0));
+    float4 c = Map.Load(int3(clamp(base + int2(0, 1), 0, size - 1), 0));
+    float4 d = Map.Load(int3(clamp(base + int2(1, 1), 0, size - 1), 0));
+    float spread = max(max(distance(a.xy, b.xy), distance(a.xy, c.xy)), distance(a.xy, d.xy));
+    bool smooth = spread <= EdgeSpread && min(min(a.z, b.z), min(c.z, d.z)) >= 0.5;
+    float4 nearest = Map.Load(int3(clamp(int2(round(position)), 0, size - 1), 0));
+    return smooth ? lerp(lerp(a, b, t.x), lerp(c, d, t.x), t.y) : nearest;
 }
 
-float Fetch(int2 p, float2 flow)
+float AnchorAt(float2 work)
 {
     int2 size = int2(SourceSize);
-    float2 position = p - flow * (float2(SourceSize) / float2(WorkSize));
+    float2 position = (work + 0.5) * float2(SourceSize) / float2(WorkSize) - 0.5;
     int2 base = int2(floor(position));
     float2 t = position - base;
     float a = Anchor.Load(int3(clamp(base, 0, size - 1), 0));
@@ -402,17 +408,36 @@ float Fetch(int2 p, float2 flow)
 }
 
 [numthreads(16, 16, 1)]
+void Compose(uint3 id : SV_DispatchThreadID)
+{
+    if (any(id.xy >= WorkSize))
+        return;
+    float4 flow = Flow.Load(int3(id.xy, 0));
+    float2 from = float2(id.xy) - flow.xy;
+    float4 origin = MapAt(from);
+    bool outside = any(from < -0.5) || any(from > float2(WorkSize) - 0.5);
+    MapTarget[id.xy] = float4(origin.xy, flow.z > LostMatch || outside ? 0 : origin.z, 0);
+}
+
+[numthreads(16, 16, 1)]
+void Identity(uint3 id : SV_DispatchThreadID)
+{
+    if (any(id.xy >= WorkSize))
+        return;
+    MapTarget[id.xy] = float4(float2(id.xy), 1, 0);
+}
+
+[numthreads(16, 16, 1)]
 void Warp(uint3 id : SV_DispatchThreadID)
 {
     if (any(id.xy >= SourceSize))
         return;
-    int2 p = int2(id.xy);
     float2 position = (id.xy + 0.5) * float2(WorkSize) / float2(SourceSize) - 0.5;
     int2 w = clamp(int2(round(position)), 0, int2(WorkSize) - 1);
-    float4 flow = FlowAt(position);
+    float4 origin = MapAt(position);
     float current = -1;
-    if (flow.z <= LostMatch)
-        current = Fetch(p, flow.xy);
+    if (origin.z >= 0.5)
+        current = AnchorAt(origin.xy);
     else
     {
         for (int step = 1; step <= FillSteps; ++step)
@@ -420,12 +445,12 @@ void Warp(uint3 id : SV_DispatchThreadID)
             {
                 float angle = direction * 6.2831853 / FillDirections;
                 int2 n = clamp(w + int2(round(float2(cos(angle), sin(angle)) * (2 << step))), 0, int2(WorkSize) - 1);
-                float4 neighbour = Flow.Load(int3(n, 0));
-                if (neighbour.z <= LostMatch)
-                    current = max(current, Fetch(p, neighbour.xy));
+                float4 neighbour = Map.Load(int3(n, 0));
+                if (neighbour.z >= 0.5)
+                    current = max(current, AnchorAt(neighbour.xy + position - n));
             }
         if (current < 0)
-            current = Fetch(p, flow.xy);
+            current = AnchorAt(position);
     }
     WarpedTarget[id.xy] = current;
 }
@@ -457,7 +482,7 @@ void Refine(uint3 id : SV_DispatchThreadID)
 )";
 
 constexpr const char* kEntryPoints[] = { "Preprocess", "Peak", "Histogram", "Smooth", "Upsample" };
-constexpr const char* kTrackEntryPoints[] = { "Shrink", "Reduce", "MatchCoarse", "MatchFine", "Warp", "Settle", "Refine", "SettleWide" };
+constexpr const char* kTrackEntryPoints[] = { "Shrink", "Reduce", "MatchCoarse", "MatchFine", "Warp", "Settle", "Refine", "SettleWide", "Compose", "Identity" };
 constexpr size_t kShaderCount = std::size(kEntryPoints) + std::size(kTrackEntryPoints);
 constexpr size_t kShrink = std::size(kEntryPoints);
 constexpr size_t kReduce = kShrink + 1;
@@ -467,6 +492,8 @@ constexpr size_t kWarp = kShrink + 4;
 constexpr size_t kSettle = kShrink + 5;
 constexpr size_t kRefine = kShrink + 6;
 constexpr size_t kSettleWide = kShrink + 7;
+constexpr size_t kCompose = kShrink + 8;
+constexpr size_t kIdentity = kShrink + 9;
 
 struct Surface
 {
@@ -498,10 +525,14 @@ struct Depth
     winrt::com_ptr<ID3D11Buffer> trackSizes;
     winrt::com_ptr<ID3D11Texture2D> liveCopy;
     winrt::com_ptr<ID3D11ShaderResourceView> liveView;
-    Surface liveLuma;
-    Surface anchorLuma;
-    Surface liveQuarter;
-    Surface anchorQuarter;
+    std::array<Surface, 2> luma;
+    std::array<Surface, 2> quarter;
+    std::array<Surface, 2> anchorMaps;
+    std::array<Surface, 2> pendingMaps;
+    size_t current = 0;
+    bool tracking = false;
+    bool pending = false;
+    bool resetPending = false;
     Surface coarse;
     Surface flow;
     Surface anchor;
@@ -826,7 +857,7 @@ void CompileShaders()
     CreateShaders();
 }
 
-void Dispatch(size_t shader, std::array<ID3D11ShaderResourceView*, 9> views, std::array<ID3D11UnorderedAccessView*, 7> targets, UINT x, UINT y)
+void Dispatch(size_t shader, std::array<ID3D11ShaderResourceView*, 10> views, std::array<ID3D11UnorderedAccessView*, 8> targets, UINT x, UINT y)
 {
     ID3D11Buffer* constants[] = { shader >= kShrink ? d.trackSizes.get() : d.sizes.get() };
     g.context->CSSetShader(d.shaders[shader].get(), nullptr, 0);
@@ -847,9 +878,13 @@ void ReleaseShared()
     d.view = nullptr;
     d.textureTarget = nullptr;
     d.texture = nullptr;
-    for (Surface* surface : { &d.liveLuma, &d.anchorLuma, &d.liveQuarter, &d.anchorQuarter, &d.coarse, &d.flow, &d.anchor, &d.settled, &d.warped })
+    for (Surface* surface : { &d.luma[0], &d.luma[1], &d.quarter[0], &d.quarter[1], &d.anchorMaps[0], &d.anchorMaps[1], &d.pendingMaps[0],
+                              &d.pendingMaps[1], &d.coarse, &d.flow, &d.anchor, &d.settled, &d.warped })
         *surface = {};
     d.anchored = false;
+    d.tracking = false;
+    d.pending = false;
+    d.resetPending = false;
     d.stateView = nullptr;
     d.stateTarget = nullptr;
     d.state = nullptr;
@@ -1027,10 +1062,13 @@ void CreateShared()
     const UINT quarterWidth = (d.workWidth + 3) / 4;
     const UINT quarterHeight = (d.workHeight + 3) / 4;
     CreateSurface(d.sourceWidth, d.sourceHeight, DXGI_FORMAT_R32_FLOAT, d.anchor);
-    CreateSurface(d.workWidth, d.workHeight, DXGI_FORMAT_R32_FLOAT, d.liveLuma);
-    CreateSurface(d.workWidth, d.workHeight, DXGI_FORMAT_R32_FLOAT, d.anchorLuma);
-    CreateSurface(quarterWidth, quarterHeight, DXGI_FORMAT_R32_FLOAT, d.liveQuarter);
-    CreateSurface(quarterWidth, quarterHeight, DXGI_FORMAT_R32_FLOAT, d.anchorQuarter);
+    for (size_t i = 0; i < 2; ++i)
+    {
+        CreateSurface(d.workWidth, d.workHeight, DXGI_FORMAT_R32_FLOAT, d.luma[i]);
+        CreateSurface(quarterWidth, quarterHeight, DXGI_FORMAT_R32_FLOAT, d.quarter[i]);
+        CreateSurface(d.workWidth, d.workHeight, DXGI_FORMAT_R32G32B32A32_FLOAT, d.anchorMaps[i]);
+        CreateSurface(d.workWidth, d.workHeight, DXGI_FORMAT_R32G32B32A32_FLOAT, d.pendingMaps[i]);
+    }
     CreateSurface(quarterWidth, quarterHeight, DXGI_FORMAT_R32G32_FLOAT, d.coarse);
     CreateSurface(d.workWidth, d.workHeight, DXGI_FORMAT_R32G32B32A32_FLOAT, d.flow);
     CreateSurface(d.workWidth, d.workHeight, DXGI_FORMAT_R32G32B32A32_FLOAT, d.settled);
@@ -1057,17 +1095,21 @@ void Publish()
     Dispatch(3, {}, { nullptr, d.keysTarget.get(), d.stateTarget.get() }, 1, 1);
     Dispatch(4, { d.frameView.get(), d.outputView.get(), d.stateView.get(), d.guideView.get() }, { nullptr, nullptr, nullptr, d.anchor.target.get() },
              (d.sourceWidth + 15) / 16, (d.sourceHeight + 15) / 16);
-    Dispatch(kShrink, { d.frameView.get() }, { d.anchorLuma.target.get() }, (d.workWidth + 15) / 16, (d.workHeight + 15) / 16);
-    const UINT quarterGroupsX = ((d.workWidth + 3) / 4 + 15) / 16;
-    const UINT quarterGroupsY = ((d.workHeight + 3) / 4 + 15) / 16;
-    Dispatch(kReduce, { nullptr, d.anchorLuma.view.get() }, { nullptr, d.anchorQuarter.target.get() }, quarterGroupsX, quarterGroupsY);
-    d.anchored = true;
-    d.lastTracked.reset();
+    std::swap(d.anchorMaps, d.pendingMaps);
+    d.anchored = d.pending;
+    d.pending = false;
+}
+
+void ComposeMap(std::array<Surface, 2>& maps, UINT groupsX, UINT groupsY)
+{
+    Dispatch(kCompose, { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.flow.view.get(), nullptr, nullptr, maps[0].view.get() },
+             { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, maps[1].target.get() }, groupsX, groupsY);
+    std::swap(maps[0], maps[1]);
 }
 
 void Track(ID3D11Texture2D* frame, int64_t frameTimestamp)
 {
-    if (!d.anchored || !d.texture || !d.liveCopy || (d.lastTracked && *d.lastTracked == frameTimestamp))
+    if (!d.texture || !d.liveCopy || (d.lastTracked && *d.lastTracked == frameTimestamp))
         return;
     d.lastTracked = frameTimestamp;
     g.context->CopyResource(d.liveCopy.get(), frame);
@@ -1075,19 +1117,40 @@ void Track(ID3D11Texture2D* frame, int64_t frameTimestamp)
     const UINT workGroupsY = (d.workHeight + 15) / 16;
     const UINT quarterGroupsX = ((d.workWidth + 3) / 4 + 15) / 16;
     const UINT quarterGroupsY = ((d.workHeight + 3) / 4 + 15) / 16;
-    Dispatch(kShrink, { d.liveView.get() }, { d.liveLuma.target.get() }, workGroupsX, workGroupsY);
-    Dispatch(kReduce, { nullptr, d.liveLuma.view.get() }, { nullptr, d.liveQuarter.target.get() }, quarterGroupsX, quarterGroupsY);
-    Dispatch(kMatchCoarse, { nullptr, nullptr, nullptr, d.liveQuarter.view.get(), d.anchorQuarter.view.get() }, { nullptr, nullptr, d.coarse.target.get() },
-             quarterGroupsX, quarterGroupsY);
-    Dispatch(kMatchFine, { nullptr, d.liveLuma.view.get(), d.anchorLuma.view.get(), nullptr, nullptr, d.coarse.view.get() },
-             { nullptr, nullptr, nullptr, d.flow.target.get() }, workGroupsX, workGroupsY);
-    Dispatch(kSettle, { nullptr, d.liveLuma.view.get(), nullptr, nullptr, nullptr, nullptr, d.flow.view.get() },
-             { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.settled.target.get() }, workGroupsX, workGroupsY);
-    Dispatch(kSettleWide, { nullptr, d.liveLuma.view.get(), nullptr, nullptr, nullptr, nullptr, d.settled.view.get() },
-             { nullptr, nullptr, nullptr, d.flow.target.get() }, workGroupsX, workGroupsY);
+    const Surface& luma = d.luma[d.current];
+    const Surface& previousLuma = d.luma[d.current ^ 1];
+    const Surface& quarter = d.quarter[d.current];
+    const Surface& previousQuarter = d.quarter[d.current ^ 1];
+    Dispatch(kShrink, { d.liveView.get() }, { luma.target.get() }, workGroupsX, workGroupsY);
+    Dispatch(kReduce, { nullptr, luma.view.get() }, { nullptr, quarter.target.get() }, quarterGroupsX, quarterGroupsY);
+    if (d.tracking)
+    {
+        Dispatch(kMatchCoarse, { nullptr, nullptr, nullptr, quarter.view.get(), previousQuarter.view.get() }, { nullptr, nullptr, d.coarse.target.get() },
+                 quarterGroupsX, quarterGroupsY);
+        Dispatch(kMatchFine, { nullptr, luma.view.get(), previousLuma.view.get(), nullptr, nullptr, d.coarse.view.get() },
+                 { nullptr, nullptr, nullptr, d.flow.target.get() }, workGroupsX, workGroupsY);
+        Dispatch(kSettle, { nullptr, luma.view.get(), nullptr, nullptr, nullptr, nullptr, d.flow.view.get() },
+                 { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.settled.target.get() }, workGroupsX, workGroupsY);
+        Dispatch(kSettleWide, { nullptr, luma.view.get(), nullptr, nullptr, nullptr, nullptr, d.settled.view.get() },
+                 { nullptr, nullptr, nullptr, d.flow.target.get() }, workGroupsX, workGroupsY);
+        if (d.anchored)
+            ComposeMap(d.anchorMaps, workGroupsX, workGroupsY);
+        if (d.pending)
+            ComposeMap(d.pendingMaps, workGroupsX, workGroupsY);
+    }
+    if (d.resetPending)
+    {
+        Dispatch(kIdentity, {}, { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.pendingMaps[0].target.get() }, workGroupsX, workGroupsY);
+        d.resetPending = false;
+        d.pending = true;
+    }
+    d.tracking = true;
+    d.current ^= 1;
+    if (!d.anchored)
+        return;
     const UINT sourceGroupsX = (d.sourceWidth + 15) / 16;
     const UINT sourceGroupsY = (d.sourceHeight + 15) / 16;
-    Dispatch(kWarp, { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.flow.view.get(), d.anchor.view.get() },
+    Dispatch(kWarp, { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.anchor.view.get(), nullptr, d.anchorMaps[0].view.get() },
              { nullptr, nullptr, nullptr, nullptr, nullptr, d.warped.target.get() }, sourceGroupsX, sourceGroupsY);
     Dispatch(kRefine, { d.liveView.get(), nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.warped.view.get() },
              { nullptr, nullptr, nullptr, nullptr, d.textureTarget.get() }, sourceGroupsX, sourceGroupsY);
@@ -1200,6 +1263,7 @@ void Schedule(ID3D11Texture2D* frame, int64_t frameTimestamp)
     d.fenceValue += 2;
     winrt::check_hresult(g.context.as<ID3D11DeviceContext4>()->Signal(d.fence.get(), d.fenceValue - 1));
     Request(d.fenceValue - 1);
+    d.resetPending = true;
     d.lastInput = frameTimestamp;
 }
 }
@@ -1276,6 +1340,9 @@ void ShutdownDepth()
     d.lastInput.reset();
     d.lastTracked.reset();
     d.anchored = false;
+    d.tracking = false;
+    d.pending = false;
+    d.resetPending = false;
     d.inputValue = 0;
     d.version = 0;
     d.slowRequestLogged = false;
