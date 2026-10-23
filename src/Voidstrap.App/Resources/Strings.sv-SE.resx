@@ -7949,4 +7949,61 @@ Skicka filen till den som hjälper dig. Personliga uppgifter som datorns använd
   <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
     <value>Supportfilen kunde inte skapas: {0}</value>
   </data>
+  <data name="Ui.Main.TabServers" xml:space="preserve">
+    <value>PRIVATA SERVRAR</value>
+  </data>
+  <data name="PrivateServers.Title" xml:space="preserve">
+    <value>Privata servrar</value>
+  </data>
+  <data name="PrivateServers.Hint" xml:space="preserve">
+    <value>Alla privata servrar som du äger eller har bjudits in till, sorterade efter spel.</value>
+  </data>
+  <data name="PrivateServers.Loading" xml:space="preserve">
+    <value>Läser in dina privata servrar</value>
+  </data>
+  <data name="PrivateServers.SignIn" xml:space="preserve">
+    <value>Logga in på Roblox i Voidstrap för att se dina privata servrar.</value>
+  </data>
+  <data name="PrivateServers.Failed" xml:space="preserve">
+    <value>Roblox skickade inte dina privata servrar. Försök igen om en stund.</value>
+  </data>
+  <data name="PrivateServers.Empty" xml:space="preserve">
+    <value>Du har inga privata servrar än.</value>
+  </data>
+  <data name="PrivateServers.Yours" xml:space="preserve">
+    <value>Din</value>
+  </data>
+  <data name="PrivateServers.Shared" xml:space="preserve">
+    <value>Delad med dig</value>
+  </data>
+  <data name="PrivateServers.OwnedBy" xml:space="preserve">
+    <value>Ägs av {0}</value>
+  </data>
+  <data name="PrivateServers.Off" xml:space="preserve">
+    <value>Av</value>
+  </data>
+  <data name="PrivateServers.Renews" xml:space="preserve">
+    <value>Förnyas {0}</value>
+  </data>
+  <data name="PrivateServers.Ends" xml:space="preserve">
+    <value>Slutar {0}</value>
+  </data>
+  <data name="PrivateServers.Join" xml:space="preserve">
+    <value>Gå med</value>
+  </data>
+  <data name="PrivateServers.TurnOn" xml:space="preserve">
+    <value>Slå på</value>
+  </data>
+  <data name="PrivateServers.TurnOff" xml:space="preserve">
+    <value>Stäng av</value>
+  </data>
+  <data name="PrivateServers.ChangeFailed" xml:space="preserve">
+    <value>Roblox godkände inte ändringen. Försök igen om en stund.</value>
+  </data>
+  <data name="PrivateServers.CannotJoin" xml:space="preserve">
+    <value>Det går inte att gå med i den här servern just nu. Den kan vara avstängd, eller så har du inte längre åtkomst.</value>
+  </data>
+  <data name="PrivateServers.Count" xml:space="preserve">
+    <value>Servrar: {0}</value>
+  </data>
 </root>

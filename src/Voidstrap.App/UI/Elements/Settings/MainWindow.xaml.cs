@@ -445,6 +445,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private LibraryPage? _libraryPage;
 
+    private PrivateServersPage? _privateServersPage;
+
     private Pages.RobloxNewsPage? _robloxNewsPage;
 
     private static readonly int ProcessorCount = Environment.ProcessorCount;
@@ -915,7 +917,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private bool IsCachedPage(FrameworkElement page)
     {
-        if (ReferenceEquals(page, _libraryPage) || ReferenceEquals(page, _robloxNewsPage))
+        if (ReferenceEquals(page, _libraryPage) || ReferenceEquals(page, _privateServersPage) || ReferenceEquals(page, _robloxNewsPage))
         {
             return true;
         }
@@ -1026,7 +1028,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         RefreshGlobalSearchBoxVisibility();
         if (BreadcrumbPanel != null)
         {
-            BreadcrumbPanel.Visibility = content is LibraryPage ? Visibility.Collapsed : Visibility.Visible;
+            BreadcrumbPanel.Visibility = content is LibraryPage or PrivateServersPage ? Visibility.Collapsed : Visibility.Visible;
         }
         bool isLibrary = content is LibraryPage;
         RootNavigation.Visibility = (isLibrary ? Visibility.Collapsed : Visibility.Visible);
@@ -1071,6 +1073,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         TopNavHome.Tag = content is HomePage ? "Active" : null;
         TopNavLibrary.Tag = content is LibraryPage ? "Active" : null;
         TopNavNews.Tag = content is NewsPage ? "Active" : null;
+        TopNavServers.Tag = content is PrivateServersPage ? "Active" : null;
     }
 
     private NavigationItem[] GetNavigationItemsInServiceOrder()
@@ -1971,6 +1974,15 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private void TopNavNews_Click(object sender, RoutedEventArgs e)
     {
         NavigateTopNav(typeof(NewsPage));
+    }
+
+    private void TopNavServers_Click(object sender, RoutedEventArgs e)
+    {
+        _privateServersPage ??= new PrivateServersPage();
+        if (!ReferenceEquals(RootFrame.Content, _privateServersPage))
+        {
+            RootNavigation.NavigateExternal(_privateServersPage);
+        }
     }
 
     private void TopSearchButton_Click(object sender, RoutedEventArgs e)
@@ -6087,6 +6099,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         if (LaunchTargetList is not null)
             LaunchTargetList.ItemsSource = null;
         _libraryPage = null;
+        _privateServersPage = null;
         _robloxNewsPage = null;
         _lastPage = null;
         try

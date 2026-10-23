@@ -7948,4 +7948,61 @@
   <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
     <value>تعذر إنشاء ملف الدعم: {0}</value>
   </data>
+  <data name="Ui.Main.TabServers" xml:space="preserve">
+    <value>الخوادم الخاصة</value>
+  </data>
+  <data name="PrivateServers.Title" xml:space="preserve">
+    <value>الخوادم الخاصة</value>
+  </data>
+  <data name="PrivateServers.Hint" xml:space="preserve">
+    <value>كل خادم خاص تملكه أو دُعيت إليه، مرتبة حسب اللعبة.</value>
+  </data>
+  <data name="PrivateServers.Loading" xml:space="preserve">
+    <value>جارٍ تحميل خوادمك الخاصة</value>
+  </data>
+  <data name="PrivateServers.SignIn" xml:space="preserve">
+    <value>سجّل الدخول إلى Roblox في Voidstrap لرؤية خوادمك الخاصة.</value>
+  </data>
+  <data name="PrivateServers.Failed" xml:space="preserve">
+    <value>لم يرسل Roblox خوادمك الخاصة. حاول مرة أخرى بعد قليل.</value>
+  </data>
+  <data name="PrivateServers.Empty" xml:space="preserve">
+    <value>ليس لديك أي خوادم خاصة بعد.</value>
+  </data>
+  <data name="PrivateServers.Yours" xml:space="preserve">
+    <value>خاصتك</value>
+  </data>
+  <data name="PrivateServers.Shared" xml:space="preserve">
+    <value>تمت مشاركته معك</value>
+  </data>
+  <data name="PrivateServers.OwnedBy" xml:space="preserve">
+    <value>يملكه {0}</value>
+  </data>
+  <data name="PrivateServers.Off" xml:space="preserve">
+    <value>متوقف</value>
+  </data>
+  <data name="PrivateServers.Renews" xml:space="preserve">
+    <value>يتجدد في {0}</value>
+  </data>
+  <data name="PrivateServers.Ends" xml:space="preserve">
+    <value>ينتهي في {0}</value>
+  </data>
+  <data name="PrivateServers.Join" xml:space="preserve">
+    <value>انضمام</value>
+  </data>
+  <data name="PrivateServers.TurnOn" xml:space="preserve">
+    <value>تشغيل</value>
+  </data>
+  <data name="PrivateServers.TurnOff" xml:space="preserve">
+    <value>إيقاف</value>
+  </data>
+  <data name="PrivateServers.ChangeFailed" xml:space="preserve">
+    <value>لم يقبل Roblox التغيير. حاول مرة أخرى بعد قليل.</value>
+  </data>
+  <data name="PrivateServers.CannotJoin" xml:space="preserve">
+    <value>لا يمكن الانضمام إلى هذا الخادم الآن. قد يكون متوقفًا، أو ربما لم تعد لديك صلاحية الوصول.</value>
+  </data>
+  <data name="PrivateServers.Count" xml:space="preserve">
+    <value>الخوادم: {0}</value>
+  </data>
 </root>

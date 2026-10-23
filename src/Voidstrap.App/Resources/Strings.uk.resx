@@ -7947,4 +7947,61 @@ Voidstrap не зміг записати до теки робочого стол
   <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
     <value>Не вдалося створити файл для підтримки: {0}</value>
   </data>
+  <data name="Ui.Main.TabServers" xml:space="preserve">
+    <value>ПРИВАТНІ СЕРВЕРИ</value>
+  </data>
+  <data name="PrivateServers.Title" xml:space="preserve">
+    <value>Приватні сервери</value>
+  </data>
+  <data name="PrivateServers.Hint" xml:space="preserve">
+    <value>Усі приватні сервери, якими Ви володієте або куди Вас запросили, за іграми.</value>
+  </data>
+  <data name="PrivateServers.Loading" xml:space="preserve">
+    <value>Завантаження Ваших приватних серверів</value>
+  </data>
+  <data name="PrivateServers.SignIn" xml:space="preserve">
+    <value>Увійдіть у Roblox у Voidstrap, щоб побачити свої приватні сервери.</value>
+  </data>
+  <data name="PrivateServers.Failed" xml:space="preserve">
+    <value>Roblox не надіслав Ваші приватні сервери. Спробуйте ще раз трохи згодом.</value>
+  </data>
+  <data name="PrivateServers.Empty" xml:space="preserve">
+    <value>У Вас поки немає приватних серверів.</value>
+  </data>
+  <data name="PrivateServers.Yours" xml:space="preserve">
+    <value>Ваш</value>
+  </data>
+  <data name="PrivateServers.Shared" xml:space="preserve">
+    <value>Доступний Вам</value>
+  </data>
+  <data name="PrivateServers.OwnedBy" xml:space="preserve">
+    <value>Власник: {0}</value>
+  </data>
+  <data name="PrivateServers.Off" xml:space="preserve">
+    <value>Вимкнено</value>
+  </data>
+  <data name="PrivateServers.Renews" xml:space="preserve">
+    <value>Подовжиться {0}</value>
+  </data>
+  <data name="PrivateServers.Ends" xml:space="preserve">
+    <value>Завершиться {0}</value>
+  </data>
+  <data name="PrivateServers.Join" xml:space="preserve">
+    <value>Увійти</value>
+  </data>
+  <data name="PrivateServers.TurnOn" xml:space="preserve">
+    <value>Увімкнути</value>
+  </data>
+  <data name="PrivateServers.TurnOff" xml:space="preserve">
+    <value>Вимкнути</value>
+  </data>
+  <data name="PrivateServers.ChangeFailed" xml:space="preserve">
+    <value>Roblox не прийняв зміну. Спробуйте ще раз трохи згодом.</value>
+  </data>
+  <data name="PrivateServers.CannotJoin" xml:space="preserve">
+    <value>Зараз не можна увійти на цей сервер. Можливо, він вимкнений або у Вас більше немає доступу.</value>
+  </data>
+  <data name="PrivateServers.Count" xml:space="preserve">
+    <value>Сервери: {0}</value>
+  </data>
 </root>

@@ -97,6 +97,44 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Main_TabNews => ResourceManager.GetString("Ui.Main.TabNews", resourceCulture);
 
+        public static string Ui_Main_TabServers => ResourceManager.GetString("Ui.Main.TabServers", resourceCulture);
+
+        public static string PrivateServers_Title => ResourceManager.GetString("PrivateServers.Title", resourceCulture);
+
+        public static string PrivateServers_Hint => ResourceManager.GetString("PrivateServers.Hint", resourceCulture);
+
+        public static string PrivateServers_Loading => ResourceManager.GetString("PrivateServers.Loading", resourceCulture);
+
+        public static string PrivateServers_SignIn => ResourceManager.GetString("PrivateServers.SignIn", resourceCulture);
+
+        public static string PrivateServers_Failed => ResourceManager.GetString("PrivateServers.Failed", resourceCulture);
+
+        public static string PrivateServers_Empty => ResourceManager.GetString("PrivateServers.Empty", resourceCulture);
+
+        public static string PrivateServers_Yours => ResourceManager.GetString("PrivateServers.Yours", resourceCulture);
+
+        public static string PrivateServers_Shared => ResourceManager.GetString("PrivateServers.Shared", resourceCulture);
+
+        public static string PrivateServers_OwnedBy => ResourceManager.GetString("PrivateServers.OwnedBy", resourceCulture);
+
+        public static string PrivateServers_Off => ResourceManager.GetString("PrivateServers.Off", resourceCulture);
+
+        public static string PrivateServers_Renews => ResourceManager.GetString("PrivateServers.Renews", resourceCulture);
+
+        public static string PrivateServers_Ends => ResourceManager.GetString("PrivateServers.Ends", resourceCulture);
+
+        public static string PrivateServers_Join => ResourceManager.GetString("PrivateServers.Join", resourceCulture);
+
+        public static string PrivateServers_TurnOn => ResourceManager.GetString("PrivateServers.TurnOn", resourceCulture);
+
+        public static string PrivateServers_TurnOff => ResourceManager.GetString("PrivateServers.TurnOff", resourceCulture);
+
+        public static string PrivateServers_ChangeFailed => ResourceManager.GetString("PrivateServers.ChangeFailed", resourceCulture);
+
+        public static string PrivateServers_CannotJoin => ResourceManager.GetString("PrivateServers.CannotJoin", resourceCulture);
+
+        public static string PrivateServers_Count => ResourceManager.GetString("PrivateServers.Count", resourceCulture);
+
         public static string Ui_Main_CheckForUpdates => ResourceManager.GetString("Ui.Main.CheckForUpdates", resourceCulture);
 
         public static string Ui_Main_ReleaseNotes => ResourceManager.GetString("Ui.Main.ReleaseNotes", resourceCulture);

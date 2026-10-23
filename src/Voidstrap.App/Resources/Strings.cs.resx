@@ -7950,4 +7950,61 @@ Pošlete tento soubor tomu, kdo vám pomáhá. Osobní údaje, jako je uživatel
   <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
     <value>Soubor pro podporu se nepodařilo vytvořit: {0}</value>
   </data>
+  <data name="Ui.Main.TabServers" xml:space="preserve">
+    <value>SOUKROMÉ SERVERY</value>
+  </data>
+  <data name="PrivateServers.Title" xml:space="preserve">
+    <value>Soukromé servery</value>
+  </data>
+  <data name="PrivateServers.Hint" xml:space="preserve">
+    <value>Všechny soukromé servery, které vlastníte nebo do kterých jste byli pozváni, seřazené podle hry.</value>
+  </data>
+  <data name="PrivateServers.Loading" xml:space="preserve">
+    <value>Načítání vašich soukromých serverů</value>
+  </data>
+  <data name="PrivateServers.SignIn" xml:space="preserve">
+    <value>Přihlaste se do Roblox ve Voidstrap, abyste viděli své soukromé servery.</value>
+  </data>
+  <data name="PrivateServers.Failed" xml:space="preserve">
+    <value>Roblox neposlal vaše soukromé servery. Zkuste to znovu za chvíli.</value>
+  </data>
+  <data name="PrivateServers.Empty" xml:space="preserve">
+    <value>Zatím nemáte žádné soukromé servery.</value>
+  </data>
+  <data name="PrivateServers.Yours" xml:space="preserve">
+    <value>Váš</value>
+  </data>
+  <data name="PrivateServers.Shared" xml:space="preserve">
+    <value>Sdíleno s vámi</value>
+  </data>
+  <data name="PrivateServers.OwnedBy" xml:space="preserve">
+    <value>Vlastník: {0}</value>
+  </data>
+  <data name="PrivateServers.Off" xml:space="preserve">
+    <value>Vypnuto</value>
+  </data>
+  <data name="PrivateServers.Renews" xml:space="preserve">
+    <value>Obnoví se {0}</value>
+  </data>
+  <data name="PrivateServers.Ends" xml:space="preserve">
+    <value>Končí {0}</value>
+  </data>
+  <data name="PrivateServers.Join" xml:space="preserve">
+    <value>Připojit se</value>
+  </data>
+  <data name="PrivateServers.TurnOn" xml:space="preserve">
+    <value>Zapnout</value>
+  </data>
+  <data name="PrivateServers.TurnOff" xml:space="preserve">
+    <value>Vypnout</value>
+  </data>
+  <data name="PrivateServers.ChangeFailed" xml:space="preserve">
+    <value>Roblox změnu nepřijal. Zkuste to znovu za chvíli.</value>
+  </data>
+  <data name="PrivateServers.CannotJoin" xml:space="preserve">
+    <value>K tomuto serveru se teď nelze připojit. Může být vypnutý, nebo k němu už nemáte přístup.</value>
+  </data>
+  <data name="PrivateServers.Count" xml:space="preserve">
+    <value>Servery: {0}</value>
+  </data>
 </root>

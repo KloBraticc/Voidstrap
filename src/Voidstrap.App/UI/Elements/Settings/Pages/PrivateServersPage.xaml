@@ -1,0 +1,287 @@
+<ui:UiPage
+    x:Class="Voidstrap.UI.Elements.Settings.Pages.PrivateServersPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+    xmlns:resources="clr-namespace:Voidstrap.Resources"
+    xmlns:util="clr-namespace:Voidstrap.Utility"
+    Title="{resources:Loc PrivateServers_Title}"
+    Scrollable="False">
+  <FrameworkElement.Resources>
+    <ResourceDictionary>
+      <CollectionViewSource x:Key="SidebarGamesView" Source="{Binding Games}">
+        <CollectionViewSource.GroupDescriptions>
+          <PropertyGroupDescription PropertyName="SidebarGroup" />
+        </CollectionViewSource.GroupDescriptions>
+      </CollectionViewSource>
+      <Style x:Key="NavSideItem" TargetType="{x:Type ListBoxItem}">
+        <Setter Property="ui:RinControlMotion.Enabled" Value="True" />
+        <Setter Property="Margin" Value="0,0,0,4" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Foreground" Value="{DynamicResource TextFillColorPrimaryBrush}" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="Template">
+          <Setter.Value>
+            <ControlTemplate TargetType="{x:Type ListBoxItem}">
+              <Border x:Name="MainBorder" Background="Transparent" BorderThickness="1" CornerRadius="4">
+                <Grid>
+                  <Rectangle x:Name="ActiveRectangle" Width="0" Height="18" HorizontalAlignment="Left" VerticalAlignment="Center" Opacity="0.0" RadiusX="2" RadiusY="2">
+                    <Rectangle.Fill>
+                      <SolidColorBrush Color="{DynamicResource SystemAccentColorSecondary}" />
+                    </Rectangle.Fill>
+                  </Rectangle>
+                  <ContentPresenter Margin="16,8" HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+                </Grid>
+              </Border>
+              <ControlTemplate.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                  <Setter TargetName="MainBorder" Property="Background">
+                    <Setter.Value>
+                      <SolidColorBrush Color="{DynamicResource ControlFillColorDefault}" />
+                    </Setter.Value>
+                  </Setter>
+                  <Trigger.EnterActions>
+                    <BeginStoryboard>
+                      <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="ActiveRectangle" Storyboard.TargetProperty="(Rectangle.Width)" From="0" To="4" Duration="00:00:00.167" />
+                        <DoubleAnimation Storyboard.TargetName="ActiveRectangle" Storyboard.TargetProperty="(Rectangle.Opacity)" From="0.0" To="1.0" Duration="00:00:00.167" />
+                      </Storyboard>
+                    </BeginStoryboard>
+                  </Trigger.EnterActions>
+                  <Trigger.ExitActions>
+                    <BeginStoryboard>
+                      <Storyboard>
+                        <DoubleAnimation Storyboard.TargetName="ActiveRectangle" Storyboard.TargetProperty="(Rectangle.Width)" From="4" To="0" Duration="00:00:00.167" />
+                        <DoubleAnimation Storyboard.TargetName="ActiveRectangle" Storyboard.TargetProperty="(Rectangle.Opacity)" From="1.0" To="0.0" Duration="00:00:00.167" />
+                      </Storyboard>
+                    </BeginStoryboard>
+                  </Trigger.ExitActions>
+                </Trigger>
+                <MultiTrigger>
+                  <MultiTrigger.Conditions>
+                    <Condition Property="IsMouseOver" Value="True" />
+                  </MultiTrigger.Conditions>
+                  <Setter TargetName="MainBorder" Property="Background">
+                    <Setter.Value>
+                      <SolidColorBrush Opacity="0.5" Color="{DynamicResource ControlFillColorDefault}" />
+                    </Setter.Value>
+                  </Setter>
+                </MultiTrigger>
+              </ControlTemplate.Triggers>
+            </ControlTemplate>
+          </Setter.Value>
+        </Setter>
+      </Style>
+    </ResourceDictionary>
+  </FrameworkElement.Resources>
+  <Grid Margin="0,0,14,14">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="*" />
+    </Grid.ColumnDefinitions>
+
+    <Grid Grid.Column="0" Width="225" Margin="0,0,10,0" HorizontalAlignment="Left" ClipToBounds="True">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+      <ui:TextBox Grid.Row="0" Margin="0,2,0,0" PlaceholderText="{resources:Loc Ui_Pages_SearchGames}" Icon="Search24" ClearButtonEnabled="True" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=200}" />
+      <Grid Grid.Row="1" Margin="16,6,0,0">
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding StatusVisibility}" Margin="0,0,34,0">
+          <ui:ProgressRing Width="14" Height="14" Margin="0,0,8,0" IsIndeterminate="True" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}" />
+          <TextBlock Text="{Binding Status}" FontSize="12" TextWrapping="Wrap" MaxWidth="170" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+        </StackPanel>
+        <ui:Button HorizontalAlignment="Right" VerticalAlignment="Top" Padding="4,0" Appearance="Transparent" Icon="ArrowSync24" ToolTip="{resources:Loc ContextMenu_ServerBrowser_Refresh}" Command="{Binding RefreshCommand}" />
+      </Grid>
+      <ListBox Grid.Row="2" Background="#00FFFFFF" BorderThickness="0" Padding="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" VirtualizingPanel.IsVirtualizingWhenGrouping="True" VirtualizingPanel.ScrollUnit="Pixel" ItemContainerStyle="{StaticResource NavSideItem}" ItemsSource="{Binding Source={StaticResource SidebarGamesView}}" SelectedItem="{Binding SelectedGame, Mode=TwoWay}">
+        <ListBox.GroupStyle>
+          <GroupStyle>
+            <GroupStyle.ContainerStyle>
+              <Style TargetType="{x:Type GroupItem}">
+                <Setter Property="Template">
+                  <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                      <StackPanel x:Name="GroupRoot" Margin="0,0,14,0">
+                        <ToggleButton x:Name="GroupToggle" IsChecked="True" Focusable="False" Cursor="Hand">
+                          <ToggleButton.Template>
+                            <ControlTemplate TargetType="{x:Type ToggleButton}">
+                              <Border Background="Transparent" Padding="10,12,10,0">
+                                <StackPanel>
+                                  <StackPanel Orientation="Horizontal">
+                                    <ui:SymbolIcon x:Name="Chevron" Symbol="ChevronDown12" FontSize="13" Foreground="#7AFFFFFF" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
+                                      <UIElement.RenderTransform>
+                                        <RotateTransform Angle="0" />
+                                      </UIElement.RenderTransform>
+                                    </ui:SymbolIcon>
+                                    <TextBlock x:Name="GroupName" Margin="9,0,0,0" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" Foreground="#7AFFFFFF" Text="{Binding Name}" />
+                                    <TextBlock x:Name="GroupCount" Margin="7,0,0,0" FontSize="14" VerticalAlignment="Center" Foreground="#4FFFFFFF" Text="{Binding ItemCount, StringFormat=({0})}" />
+                                  </StackPanel>
+                                  <Rectangle Height="1" Margin="0,7,0,0" Fill="#1FFFFFFF" />
+                                </StackPanel>
+                              </Border>
+                              <ControlTemplate.Triggers>
+                                <Trigger Property="IsChecked" Value="False">
+                                  <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                      <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Chevron" Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)" To="-90" Duration="0:0:0.2">
+                                          <DoubleAnimation.EasingFunction>
+                                            <CubicEase EasingMode="EaseOut" />
+                                          </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                      </Storyboard>
+                                    </BeginStoryboard>
+                                  </Trigger.EnterActions>
+                                  <Trigger.ExitActions>
+                                    <BeginStoryboard>
+                                      <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetName="Chevron" Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)" To="0" Duration="0:0:0.2">
+                                          <DoubleAnimation.EasingFunction>
+                                            <CubicEase EasingMode="EaseOut" />
+                                          </DoubleAnimation.EasingFunction>
+                                        </DoubleAnimation>
+                                      </Storyboard>
+                                    </BeginStoryboard>
+                                  </Trigger.ExitActions>
+                                </Trigger>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                  <Setter TargetName="GroupName" Property="Foreground" Value="#FFFFFFFF" />
+                                  <Setter TargetName="Chevron" Property="Foreground" Value="#FFFFFFFF" />
+                                </Trigger>
+                                <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}" Value="icons">
+                                  <Setter TargetName="GroupName" Property="Visibility" Value="Collapsed" />
+                                  <Setter TargetName="GroupCount" Property="Visibility" Value="Collapsed" />
+                                </DataTrigger>
+                              </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                          </ToggleButton.Template>
+                        </ToggleButton>
+                        <Border x:Name="GroupItemsHost" Opacity="1">
+                          <Border.LayoutTransform>
+                            <ScaleTransform ScaleY="1" />
+                          </Border.LayoutTransform>
+                          <ItemsPresenter Margin="0,4,0,4" />
+                        </Border>
+                      </StackPanel>
+                      <ControlTemplate.Triggers>
+                        <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}" Value="icons">
+                          <Setter TargetName="GroupRoot" Property="Margin" Value="0" />
+                        </DataTrigger>
+                        <Trigger SourceName="GroupToggle" Property="IsChecked" Value="False">
+                          <Trigger.EnterActions>
+                            <BeginStoryboard>
+                              <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="GroupItemsHost" Storyboard.TargetProperty="(UIElement.Opacity)" To="0" Duration="0:0:0.14">
+                                  <DoubleAnimation.EasingFunction>
+                                    <CubicEase EasingMode="EaseOut" />
+                                  </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                                <DoubleAnimation Storyboard.TargetName="GroupItemsHost" Storyboard.TargetProperty="(FrameworkElement.LayoutTransform).(ScaleTransform.ScaleY)" To="0" Duration="0:0:0.22">
+                                  <DoubleAnimation.EasingFunction>
+                                    <CubicEase EasingMode="EaseInOut" />
+                                  </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                              </Storyboard>
+                            </BeginStoryboard>
+                          </Trigger.EnterActions>
+                          <Trigger.ExitActions>
+                            <BeginStoryboard>
+                              <Storyboard>
+                                <DoubleAnimation Storyboard.TargetName="GroupItemsHost" Storyboard.TargetProperty="(FrameworkElement.LayoutTransform).(ScaleTransform.ScaleY)" To="1" Duration="0:0:0.22">
+                                  <DoubleAnimation.EasingFunction>
+                                    <CubicEase EasingMode="EaseInOut" />
+                                  </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                                <DoubleAnimation Storyboard.TargetName="GroupItemsHost" Storyboard.TargetProperty="(UIElement.Opacity)" To="1" BeginTime="0:0:0.08" Duration="0:0:0.16">
+                                  <DoubleAnimation.EasingFunction>
+                                    <CubicEase EasingMode="EaseOut" />
+                                  </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                              </Storyboard>
+                            </BeginStoryboard>
+                          </Trigger.ExitActions>
+                        </Trigger>
+                      </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                  </Setter.Value>
+                </Setter>
+              </Style>
+            </GroupStyle.ContainerStyle>
+          </GroupStyle>
+        </ListBox.GroupStyle>
+        <ItemsControl.ItemTemplate>
+          <DataTemplate>
+            <Grid Background="#00FFFFFF">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+              </Grid.ColumnDefinitions>
+              <Image Grid.Column="0" Width="18" Height="18" Margin="0,0,14,0" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding IconUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}" Stretch="UniformToFill" />
+              <TextBlock Grid.Column="1" VerticalAlignment="Center" FontSize="14" Foreground="{DynamicResource TextFillColorPrimaryBrush}" TextTrimming="CharacterEllipsis" Text="{Binding Name}" ToolTip="{Binding Name}" />
+              <TextBlock Grid.Column="2" Margin="8,0,0,0" VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding Servers.Count}" />
+            </Grid>
+          </DataTemplate>
+        </ItemsControl.ItemTemplate>
+      </ListBox>
+    </Grid>
+
+    <Grid Grid.Column="1" Margin="10,0,0,0" Visibility="{Binding DetailVisibility}">
+      <Grid.RowDefinitions>
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
+      </Grid.RowDefinitions>
+      <Grid Margin="0,2,0,14">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="Auto" />
+          <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Border Width="64" Height="64" CornerRadius="10" ClipToBounds="True" Background="#14FFFFFF">
+          <Image Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding SelectedGame.IconUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}" />
+        </Border>
+        <StackPanel Grid.Column="1" Margin="14,0,0,0" VerticalAlignment="Center">
+          <TextBlock Text="{Binding SelectedGame.Name}" FontSize="20" FontWeight="Bold" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+          <TextBlock Text="{Binding SelectedGame.CountText}" FontSize="12.5" Margin="0,3,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+        </StackPanel>
+      </Grid>
+      <ListBox Grid.Row="1" Background="Transparent" BorderThickness="0" Focusable="False" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VirtualizingPanel.ScrollUnit="Pixel" ItemsSource="{Binding SelectedGame.Servers}">
+        <ListBox.ItemContainerStyle>
+          <Style TargetType="ListBoxItem">
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="Template">
+              <Setter.Value>
+                <ControlTemplate TargetType="ListBoxItem">
+                  <ContentPresenter />
+                </ControlTemplate>
+              </Setter.Value>
+            </Setter>
+          </Style>
+        </ListBox.ItemContainerStyle>
+        <ListBox.ItemTemplate>
+          <DataTemplate>
+            <Border Margin="0,0,0,6" Padding="14,10" CornerRadius="8" Background="#0FFFFFFF" BorderThickness="1" BorderBrush="#1AFFFFFF" Opacity="{Binding RowOpacity}">
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel VerticalAlignment="Center">
+                  <TextBlock Text="{Binding Title}" FontSize="14" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+                  <TextBlock Text="{Binding Detail}" FontSize="12" Margin="0,2,0,0" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0,0,0">
+                  <ui:Button Content="{Binding ToggleText}" Appearance="Secondary" Margin="0,0,8,0" IsEnabled="{Binding CanAct}" Visibility="{Binding ToggleVisibility}" Command="{Binding DataContext.ToggleCommand, RelativeSource={RelativeSource AncestorType=ui:UiPage}}" CommandParameter="{Binding}" />
+                  <ui:Button Content="{resources:Loc PrivateServers_Join}" Icon="Play24" Appearance="Primary" IsEnabled="{Binding CanJoin}" Command="{Binding DataContext.JoinCommand, RelativeSource={RelativeSource AncestorType=ui:UiPage}}" CommandParameter="{Binding}" />
+                </StackPanel>
+              </Grid>
+            </Border>
+          </DataTemplate>
+        </ListBox.ItemTemplate>
+      </ListBox>
+    </Grid>
+  </Grid>
+</ui:UiPage>

@@ -7951,4 +7951,61 @@ Kirim file tersebut kepada orang yang membantu Anda. Data pribadi seperti nama p
   <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
     <value>File dukungan tidak dapat dibuat: {0}</value>
   </data>
+  <data name="Ui.Main.TabServers" xml:space="preserve">
+    <value>SERVER PRIBADI</value>
+  </data>
+  <data name="PrivateServers.Title" xml:space="preserve">
+    <value>Server pribadi</value>
+  </data>
+  <data name="PrivateServers.Hint" xml:space="preserve">
+    <value>Setiap server pribadi yang Anda miliki atau tempat Anda diundang, diurutkan menurut game.</value>
+  </data>
+  <data name="PrivateServers.Loading" xml:space="preserve">
+    <value>Memuat server pribadi Anda</value>
+  </data>
+  <data name="PrivateServers.SignIn" xml:space="preserve">
+    <value>Masuk ke Roblox di Voidstrap untuk melihat server pribadi Anda.</value>
+  </data>
+  <data name="PrivateServers.Failed" xml:space="preserve">
+    <value>Roblox tidak mengirim server pribadi Anda. Coba lagi sebentar lagi.</value>
+  </data>
+  <data name="PrivateServers.Empty" xml:space="preserve">
+    <value>Anda belum memiliki server pribadi.</value>
+  </data>
+  <data name="PrivateServers.Yours" xml:space="preserve">
+    <value>Milik Anda</value>
+  </data>
+  <data name="PrivateServers.Shared" xml:space="preserve">
+    <value>Dibagikan dengan Anda</value>
+  </data>
+  <data name="PrivateServers.OwnedBy" xml:space="preserve">
+    <value>Dimiliki oleh {0}</value>
+  </data>
+  <data name="PrivateServers.Off" xml:space="preserve">
+    <value>Mati</value>
+  </data>
+  <data name="PrivateServers.Renews" xml:space="preserve">
+    <value>Diperpanjang {0}</value>
+  </data>
+  <data name="PrivateServers.Ends" xml:space="preserve">
+    <value>Berakhir {0}</value>
+  </data>
+  <data name="PrivateServers.Join" xml:space="preserve">
+    <value>Gabung</value>
+  </data>
+  <data name="PrivateServers.TurnOn" xml:space="preserve">
+    <value>Nyalakan</value>
+  </data>
+  <data name="PrivateServers.TurnOff" xml:space="preserve">
+    <value>Matikan</value>
+  </data>
+  <data name="PrivateServers.ChangeFailed" xml:space="preserve">
+    <value>Roblox tidak menerima perubahan. Coba lagi sebentar lagi.</value>
+  </data>
+  <data name="PrivateServers.CannotJoin" xml:space="preserve">
+    <value>Server ini tidak dapat diikuti sekarang. Mungkin server mati, atau Anda tidak lagi memiliki akses.</value>
+  </data>
+  <data name="PrivateServers.Count" xml:space="preserve">
+    <value>Server: {0}</value>
+  </data>
 </root>

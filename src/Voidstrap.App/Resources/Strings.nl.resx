@@ -7950,4 +7950,61 @@ Stuur dat bestand naar degene die je helpt. Persoonlijke gegevens zoals de gebru
   <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
     <value>Het ondersteuningsbestand kon niet worden gemaakt: {0}</value>
   </data>
+  <data name="Ui.Main.TabServers" xml:space="preserve">
+    <value>PRIVÉSERVERS</value>
+  </data>
+  <data name="PrivateServers.Title" xml:space="preserve">
+    <value>Privéservers</value>
+  </data>
+  <data name="PrivateServers.Hint" xml:space="preserve">
+    <value>Elke privéserver die je bezit of waarvoor je bent uitgenodigd, gesorteerd op game.</value>
+  </data>
+  <data name="PrivateServers.Loading" xml:space="preserve">
+    <value>Je privéservers worden geladen</value>
+  </data>
+  <data name="PrivateServers.SignIn" xml:space="preserve">
+    <value>Meld je in Voidstrap aan bij Roblox om je privéservers te zien.</value>
+  </data>
+  <data name="PrivateServers.Failed" xml:space="preserve">
+    <value>Roblox heeft je privéservers niet verstuurd. Probeer het zo opnieuw.</value>
+  </data>
+  <data name="PrivateServers.Empty" xml:space="preserve">
+    <value>Je hebt nog geen privéservers.</value>
+  </data>
+  <data name="PrivateServers.Yours" xml:space="preserve">
+    <value>Van jou</value>
+  </data>
+  <data name="PrivateServers.Shared" xml:space="preserve">
+    <value>Met je gedeeld</value>
+  </data>
+  <data name="PrivateServers.OwnedBy" xml:space="preserve">
+    <value>Eigendom van {0}</value>
+  </data>
+  <data name="PrivateServers.Off" xml:space="preserve">
+    <value>Uit</value>
+  </data>
+  <data name="PrivateServers.Renews" xml:space="preserve">
+    <value>Wordt verlengd op {0}</value>
+  </data>
+  <data name="PrivateServers.Ends" xml:space="preserve">
+    <value>Eindigt op {0}</value>
+  </data>
+  <data name="PrivateServers.Join" xml:space="preserve">
+    <value>Deelnemen</value>
+  </data>
+  <data name="PrivateServers.TurnOn" xml:space="preserve">
+    <value>Aanzetten</value>
+  </data>
+  <data name="PrivateServers.TurnOff" xml:space="preserve">
+    <value>Uitzetten</value>
+  </data>
+  <data name="PrivateServers.ChangeFailed" xml:space="preserve">
+    <value>Roblox heeft de wijziging niet geaccepteerd. Probeer het zo opnieuw.</value>
+  </data>
+  <data name="PrivateServers.CannotJoin" xml:space="preserve">
+    <value>Je kunt nu niet deelnemen aan deze server. Hij staat misschien uit, of je hebt geen toegang meer.</value>
+  </data>
+  <data name="PrivateServers.Count" xml:space="preserve">
+    <value>Servers: {0}</value>
+  </data>
 </root>

@@ -7947,4 +7947,61 @@ Voidstrap이 바탕 화면 폴더에 쓸 수 없습니다.</value>
   <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
     <value>지원 파일을 만들 수 없습니다: {0}</value>
   </data>
+  <data name="Ui.Main.TabServers" xml:space="preserve">
+    <value>비공개 서버</value>
+  </data>
+  <data name="PrivateServers.Title" xml:space="preserve">
+    <value>비공개 서버</value>
+  </data>
+  <data name="PrivateServers.Hint" xml:space="preserve">
+    <value>소유하고 있거나 초대받은 모든 비공개 서버를 게임별로 정렬했습니다.</value>
+  </data>
+  <data name="PrivateServers.Loading" xml:space="preserve">
+    <value>비공개 서버를 불러오는 중입니다</value>
+  </data>
+  <data name="PrivateServers.SignIn" xml:space="preserve">
+    <value>비공개 서버를 보려면 Voidstrap에서 Roblox에 로그인하십시오.</value>
+  </data>
+  <data name="PrivateServers.Failed" xml:space="preserve">
+    <value>Roblox가 비공개 서버를 보내지 않았습니다. 잠시 후 다시 시도하십시오.</value>
+  </data>
+  <data name="PrivateServers.Empty" xml:space="preserve">
+    <value>아직 비공개 서버가 없습니다.</value>
+  </data>
+  <data name="PrivateServers.Yours" xml:space="preserve">
+    <value>내 서버</value>
+  </data>
+  <data name="PrivateServers.Shared" xml:space="preserve">
+    <value>공유받음</value>
+  </data>
+  <data name="PrivateServers.OwnedBy" xml:space="preserve">
+    <value>소유자: {0}</value>
+  </data>
+  <data name="PrivateServers.Off" xml:space="preserve">
+    <value>꺼짐</value>
+  </data>
+  <data name="PrivateServers.Renews" xml:space="preserve">
+    <value>{0}에 갱신</value>
+  </data>
+  <data name="PrivateServers.Ends" xml:space="preserve">
+    <value>{0}에 종료</value>
+  </data>
+  <data name="PrivateServers.Join" xml:space="preserve">
+    <value>참가</value>
+  </data>
+  <data name="PrivateServers.TurnOn" xml:space="preserve">
+    <value>켜기</value>
+  </data>
+  <data name="PrivateServers.TurnOff" xml:space="preserve">
+    <value>끄기</value>
+  </data>
+  <data name="PrivateServers.ChangeFailed" xml:space="preserve">
+    <value>Roblox가 변경을 수락하지 않았습니다. 잠시 후 다시 시도하십시오.</value>
+  </data>
+  <data name="PrivateServers.CannotJoin" xml:space="preserve">
+    <value>지금은 이 서버에 참가할 수 없습니다. 서버가 꺼져 있거나 더 이상 접근 권한이 없을 수 있습니다.</value>
+  </data>
+  <data name="PrivateServers.Count" xml:space="preserve">
+    <value>서버: {0}</value>
+  </data>
 </root>

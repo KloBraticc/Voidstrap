@@ -7948,4 +7948,61 @@ Pošalji tu datoteku osobi koja ti pomaže. Osobni podaci poput korisničkog ime
   <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
     <value>Datoteku za podršku nije bilo moguće izraditi: {0}</value>
   </data>
+  <data name="Ui.Main.TabServers" xml:space="preserve">
+    <value>PRIVATNI POSLUŽITELJI</value>
+  </data>
+  <data name="PrivateServers.Title" xml:space="preserve">
+    <value>Privatni poslužitelji</value>
+  </data>
+  <data name="PrivateServers.Hint" xml:space="preserve">
+    <value>Svaki privatni poslužitelj koji posjeduješ ili na koji si pozvan, poredan po igri.</value>
+  </data>
+  <data name="PrivateServers.Loading" xml:space="preserve">
+    <value>Učitavanje tvojih privatnih poslužitelja</value>
+  </data>
+  <data name="PrivateServers.SignIn" xml:space="preserve">
+    <value>Prijavi se u Roblox u Voidstrapu da vidiš svoje privatne poslužitelje.</value>
+  </data>
+  <data name="PrivateServers.Failed" xml:space="preserve">
+    <value>Roblox nije poslao tvoje privatne poslužitelje. Pokušaj ponovno za trenutak.</value>
+  </data>
+  <data name="PrivateServers.Empty" xml:space="preserve">
+    <value>Još nemaš nijedan privatni poslužitelj.</value>
+  </data>
+  <data name="PrivateServers.Yours" xml:space="preserve">
+    <value>Tvoj</value>
+  </data>
+  <data name="PrivateServers.Shared" xml:space="preserve">
+    <value>Podijeljeno s tobom</value>
+  </data>
+  <data name="PrivateServers.OwnedBy" xml:space="preserve">
+    <value>Vlasnik: {0}</value>
+  </data>
+  <data name="PrivateServers.Off" xml:space="preserve">
+    <value>Isključen</value>
+  </data>
+  <data name="PrivateServers.Renews" xml:space="preserve">
+    <value>Obnavlja se {0}</value>
+  </data>
+  <data name="PrivateServers.Ends" xml:space="preserve">
+    <value>Završava {0}</value>
+  </data>
+  <data name="PrivateServers.Join" xml:space="preserve">
+    <value>Pridruži se</value>
+  </data>
+  <data name="PrivateServers.TurnOn" xml:space="preserve">
+    <value>Uključi</value>
+  </data>
+  <data name="PrivateServers.TurnOff" xml:space="preserve">
+    <value>Isključi</value>
+  </data>
+  <data name="PrivateServers.ChangeFailed" xml:space="preserve">
+    <value>Roblox nije prihvatio promjenu. Pokušaj ponovno za trenutak.</value>
+  </data>
+  <data name="PrivateServers.CannotJoin" xml:space="preserve">
+    <value>Ovom se poslužitelju trenutačno ne možeš pridružiti. Možda je isključen ili više nemaš pristup.</value>
+  </data>
+  <data name="PrivateServers.Count" xml:space="preserve">
+    <value>Poslužitelji: {0}</value>
+  </data>
 </root>

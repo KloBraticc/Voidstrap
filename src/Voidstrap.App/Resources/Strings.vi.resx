@@ -7952,4 +7952,61 @@ Hãy gửi tệp đó cho người đang giúp bạn. Các thông tin cá nhân 
   <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
     <value>Không thể tạo tệp hỗ trợ: {0}</value>
   </data>
+  <data name="Ui.Main.TabServers" xml:space="preserve">
+    <value>MÁY CHỦ RIÊNG</value>
+  </data>
+  <data name="PrivateServers.Title" xml:space="preserve">
+    <value>Máy chủ riêng</value>
+  </data>
+  <data name="PrivateServers.Hint" xml:space="preserve">
+    <value>Mọi máy chủ riêng mà bạn sở hữu hoặc được mời vào, sắp xếp theo trò chơi.</value>
+  </data>
+  <data name="PrivateServers.Loading" xml:space="preserve">
+    <value>Đang tải máy chủ riêng của bạn</value>
+  </data>
+  <data name="PrivateServers.SignIn" xml:space="preserve">
+    <value>Đăng nhập Roblox trong Voidstrap để xem máy chủ riêng của bạn.</value>
+  </data>
+  <data name="PrivateServers.Failed" xml:space="preserve">
+    <value>Roblox không gửi máy chủ riêng của bạn. Hãy thử lại sau giây lát.</value>
+  </data>
+  <data name="PrivateServers.Empty" xml:space="preserve">
+    <value>Bạn chưa có máy chủ riêng nào.</value>
+  </data>
+  <data name="PrivateServers.Yours" xml:space="preserve">
+    <value>Của bạn</value>
+  </data>
+  <data name="PrivateServers.Shared" xml:space="preserve">
+    <value>Được chia sẻ với bạn</value>
+  </data>
+  <data name="PrivateServers.OwnedBy" xml:space="preserve">
+    <value>Chủ sở hữu: {0}</value>
+  </data>
+  <data name="PrivateServers.Off" xml:space="preserve">
+    <value>Đang tắt</value>
+  </data>
+  <data name="PrivateServers.Renews" xml:space="preserve">
+    <value>Gia hạn vào {0}</value>
+  </data>
+  <data name="PrivateServers.Ends" xml:space="preserve">
+    <value>Kết thúc vào {0}</value>
+  </data>
+  <data name="PrivateServers.Join" xml:space="preserve">
+    <value>Tham gia</value>
+  </data>
+  <data name="PrivateServers.TurnOn" xml:space="preserve">
+    <value>Bật</value>
+  </data>
+  <data name="PrivateServers.TurnOff" xml:space="preserve">
+    <value>Tắt</value>
+  </data>
+  <data name="PrivateServers.ChangeFailed" xml:space="preserve">
+    <value>Roblox không chấp nhận thay đổi. Hãy thử lại sau giây lát.</value>
+  </data>
+  <data name="PrivateServers.CannotJoin" xml:space="preserve">
+    <value>Hiện không thể tham gia máy chủ này. Máy chủ có thể đang tắt, hoặc bạn không còn quyền truy cập.</value>
+  </data>
+  <data name="PrivateServers.Count" xml:space="preserve">
+    <value>Máy chủ: {0}</value>
+  </data>
 </root>

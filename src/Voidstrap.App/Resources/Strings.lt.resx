@@ -7950,4 +7950,61 @@ Nusiųskite šį failą tam, kas jums padeda. Asmeniniai duomenys, pavyzdžiui, 
   <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
     <value>Nepavyko sukurti pagalbos failo: {0}</value>
   </data>
+  <data name="Ui.Main.TabServers" xml:space="preserve">
+    <value>PRIVATŪS SERVERIAI</value>
+  </data>
+  <data name="PrivateServers.Title" xml:space="preserve">
+    <value>Privatūs serveriai</value>
+  </data>
+  <data name="PrivateServers.Hint" xml:space="preserve">
+    <value>Visi privatūs serveriai, kuriuos turite arba į kuriuos esate pakviesti, surūšiuoti pagal žaidimą.</value>
+  </data>
+  <data name="PrivateServers.Loading" xml:space="preserve">
+    <value>Įkeliami jūsų privatūs serveriai</value>
+  </data>
+  <data name="PrivateServers.SignIn" xml:space="preserve">
+    <value>Prisijunkite prie Roblox per Voidstrap, kad matytumėte savo privačius serverius.</value>
+  </data>
+  <data name="PrivateServers.Failed" xml:space="preserve">
+    <value>Roblox neatsiuntė jūsų privačių serverių. Pabandykite dar kartą po akimirkos.</value>
+  </data>
+  <data name="PrivateServers.Empty" xml:space="preserve">
+    <value>Kol kas neturite privačių serverių.</value>
+  </data>
+  <data name="PrivateServers.Yours" xml:space="preserve">
+    <value>Jūsų</value>
+  </data>
+  <data name="PrivateServers.Shared" xml:space="preserve">
+    <value>Bendrinama su jumis</value>
+  </data>
+  <data name="PrivateServers.OwnedBy" xml:space="preserve">
+    <value>Savininkas: {0}</value>
+  </data>
+  <data name="PrivateServers.Off" xml:space="preserve">
+    <value>Išjungtas</value>
+  </data>
+  <data name="PrivateServers.Renews" xml:space="preserve">
+    <value>Atnaujinamas {0}</value>
+  </data>
+  <data name="PrivateServers.Ends" xml:space="preserve">
+    <value>Baigiasi {0}</value>
+  </data>
+  <data name="PrivateServers.Join" xml:space="preserve">
+    <value>Prisijungti</value>
+  </data>
+  <data name="PrivateServers.TurnOn" xml:space="preserve">
+    <value>Įjungti</value>
+  </data>
+  <data name="PrivateServers.TurnOff" xml:space="preserve">
+    <value>Išjungti</value>
+  </data>
+  <data name="PrivateServers.ChangeFailed" xml:space="preserve">
+    <value>Roblox nepriėmė pakeitimo. Pabandykite dar kartą po akimirkos.</value>
+  </data>
+  <data name="PrivateServers.CannotJoin" xml:space="preserve">
+    <value>Prie šio serverio dabar prisijungti negalima. Jis gali būti išjungtas arba nebeturite prieigos.</value>
+  </data>
+  <data name="PrivateServers.Count" xml:space="preserve">
+    <value>Serveriai: {0}</value>
+  </data>
 </root>

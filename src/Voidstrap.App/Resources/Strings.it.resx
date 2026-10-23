@@ -7951,4 +7951,61 @@ Invia questo file a chi ti sta aiutando. I dati personali, come il nome utente d
   <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
     <value>Impossibile creare il file di supporto: {0}</value>
   </data>
+  <data name="Ui.Main.TabServers" xml:space="preserve">
+    <value>SERVER PRIVATI</value>
+  </data>
+  <data name="PrivateServers.Title" xml:space="preserve">
+    <value>Server privati</value>
+  </data>
+  <data name="PrivateServers.Hint" xml:space="preserve">
+    <value>Ogni server privato che possiedi o a cui sei stato invitato, ordinato per gioco.</value>
+  </data>
+  <data name="PrivateServers.Loading" xml:space="preserve">
+    <value>Caricamento dei tuoi server privati</value>
+  </data>
+  <data name="PrivateServers.SignIn" xml:space="preserve">
+    <value>Accedi a Roblox in Voidstrap per vedere i tuoi server privati.</value>
+  </data>
+  <data name="PrivateServers.Failed" xml:space="preserve">
+    <value>Roblox non ha inviato i tuoi server privati. Riprova tra un momento.</value>
+  </data>
+  <data name="PrivateServers.Empty" xml:space="preserve">
+    <value>Non hai ancora nessun server privato.</value>
+  </data>
+  <data name="PrivateServers.Yours" xml:space="preserve">
+    <value>Tuo</value>
+  </data>
+  <data name="PrivateServers.Shared" xml:space="preserve">
+    <value>Condiviso con te</value>
+  </data>
+  <data name="PrivateServers.OwnedBy" xml:space="preserve">
+    <value>Di proprietà di {0}</value>
+  </data>
+  <data name="PrivateServers.Off" xml:space="preserve">
+    <value>Spento</value>
+  </data>
+  <data name="PrivateServers.Renews" xml:space="preserve">
+    <value>Si rinnova il {0}</value>
+  </data>
+  <data name="PrivateServers.Ends" xml:space="preserve">
+    <value>Termina il {0}</value>
+  </data>
+  <data name="PrivateServers.Join" xml:space="preserve">
+    <value>Unisciti</value>
+  </data>
+  <data name="PrivateServers.TurnOn" xml:space="preserve">
+    <value>Accendi</value>
+  </data>
+  <data name="PrivateServers.TurnOff" xml:space="preserve">
+    <value>Spegni</value>
+  </data>
+  <data name="PrivateServers.ChangeFailed" xml:space="preserve">
+    <value>Roblox non ha accettato la modifica. Riprova tra un momento.</value>
+  </data>
+  <data name="PrivateServers.CannotJoin" xml:space="preserve">
+    <value>Non puoi unirti a questo server ora. Potrebbe essere spento o potresti non avere più accesso.</value>
+  </data>
+  <data name="PrivateServers.Count" xml:space="preserve">
+    <value>Server: {0}</value>
+  </data>
 </root>

@@ -7973,4 +7973,61 @@ Voidstrap 无法写入桌面文件夹。</value>
   <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
     <value>无法创建支持文件：{0}</value>
   </data>
+  <data name="Ui.Main.TabServers" xml:space="preserve">
+    <value>私人服务器</value>
+  </data>
+  <data name="PrivateServers.Title" xml:space="preserve">
+    <value>私人服务器</value>
+  </data>
+  <data name="PrivateServers.Hint" xml:space="preserve">
+    <value>您拥有或受邀加入的所有私人服务器，按游戏排列。</value>
+  </data>
+  <data name="PrivateServers.Loading" xml:space="preserve">
+    <value>正在加载您的私人服务器</value>
+  </data>
+  <data name="PrivateServers.SignIn" xml:space="preserve">
+    <value>请在 Voidstrap 中登录 Roblox 以查看您的私人服务器。</value>
+  </data>
+  <data name="PrivateServers.Failed" xml:space="preserve">
+    <value>Roblox 未返回您的私人服务器。请稍后再试。</value>
+  </data>
+  <data name="PrivateServers.Empty" xml:space="preserve">
+    <value>您还没有任何私人服务器。</value>
+  </data>
+  <data name="PrivateServers.Yours" xml:space="preserve">
+    <value>您的</value>
+  </data>
+  <data name="PrivateServers.Shared" xml:space="preserve">
+    <value>与您共享</value>
+  </data>
+  <data name="PrivateServers.OwnedBy" xml:space="preserve">
+    <value>所有者：{0}</value>
+  </data>
+  <data name="PrivateServers.Off" xml:space="preserve">
+    <value>已关闭</value>
+  </data>
+  <data name="PrivateServers.Renews" xml:space="preserve">
+    <value>{0} 续订</value>
+  </data>
+  <data name="PrivateServers.Ends" xml:space="preserve">
+    <value>{0} 到期</value>
+  </data>
+  <data name="PrivateServers.Join" xml:space="preserve">
+    <value>加入</value>
+  </data>
+  <data name="PrivateServers.TurnOn" xml:space="preserve">
+    <value>开启</value>
+  </data>
+  <data name="PrivateServers.TurnOff" xml:space="preserve">
+    <value>关闭</value>
+  </data>
+  <data name="PrivateServers.ChangeFailed" xml:space="preserve">
+    <value>Roblox 未接受此更改。请稍后再试。</value>
+  </data>
+  <data name="PrivateServers.CannotJoin" xml:space="preserve">
+    <value>目前无法加入此服务器。它可能已关闭，或者您已不再拥有访问权限。</value>
+  </data>
+  <data name="PrivateServers.Count" xml:space="preserve">
+    <value>服务器：{0}</value>
+  </data>
 </root>

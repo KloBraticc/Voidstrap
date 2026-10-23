@@ -7963,4 +7963,61 @@ Voidstrap がデスクトップ フォルダーに書き込めませんでした
   <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
     <value>サポート用ファイルを作成できませんでした: {0}</value>
   </data>
+  <data name="Ui.Main.TabServers" xml:space="preserve">
+    <value>プライベートサーバー</value>
+  </data>
+  <data name="PrivateServers.Title" xml:space="preserve">
+    <value>プライベートサーバー</value>
+  </data>
+  <data name="PrivateServers.Hint" xml:space="preserve">
+    <value>あなたが所有している、または招待されたすべてのプライベートサーバーをゲームごとに表示します。</value>
+  </data>
+  <data name="PrivateServers.Loading" xml:space="preserve">
+    <value>プライベートサーバーを読み込んでいます</value>
+  </data>
+  <data name="PrivateServers.SignIn" xml:space="preserve">
+    <value>プライベートサーバーを表示するには、Voidstrap で Roblox にサインインしてください。</value>
+  </data>
+  <data name="PrivateServers.Failed" xml:space="preserve">
+    <value>Roblox からプライベートサーバーが届きませんでした。しばらくしてからもう一度お試しください。</value>
+  </data>
+  <data name="PrivateServers.Empty" xml:space="preserve">
+    <value>まだプライベートサーバーがありません。</value>
+  </data>
+  <data name="PrivateServers.Yours" xml:space="preserve">
+    <value>あなたのサーバー</value>
+  </data>
+  <data name="PrivateServers.Shared" xml:space="preserve">
+    <value>あなたと共有中</value>
+  </data>
+  <data name="PrivateServers.OwnedBy" xml:space="preserve">
+    <value>所有者: {0}</value>
+  </data>
+  <data name="PrivateServers.Off" xml:space="preserve">
+    <value>オフ</value>
+  </data>
+  <data name="PrivateServers.Renews" xml:space="preserve">
+    <value>{0} に更新</value>
+  </data>
+  <data name="PrivateServers.Ends" xml:space="preserve">
+    <value>{0} に終了</value>
+  </data>
+  <data name="PrivateServers.Join" xml:space="preserve">
+    <value>参加</value>
+  </data>
+  <data name="PrivateServers.TurnOn" xml:space="preserve">
+    <value>オンにする</value>
+  </data>
+  <data name="PrivateServers.TurnOff" xml:space="preserve">
+    <value>オフにする</value>
+  </data>
+  <data name="PrivateServers.ChangeFailed" xml:space="preserve">
+    <value>Roblox が変更を受け付けませんでした。しばらくしてからもう一度お試しください。</value>
+  </data>
+  <data name="PrivateServers.CannotJoin" xml:space="preserve">
+    <value>現在このサーバーには参加できません。オフになっているか、アクセス権がなくなった可能性があります。</value>
+  </data>
+  <data name="PrivateServers.Count" xml:space="preserve">
+    <value>サーバー: {0}</value>
+  </data>
 </root>

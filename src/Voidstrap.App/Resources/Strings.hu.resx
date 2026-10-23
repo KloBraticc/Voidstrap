@@ -7948,4 +7948,61 @@ Küldd el ezt a fájlt annak, aki segít neked. A személyes adatokat, például
   <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
     <value>A támogatási fájlt nem sikerült létrehozni: {0}</value>
   </data>
+  <data name="Ui.Main.TabServers" xml:space="preserve">
+    <value>PRIVÁT SZERVEREK</value>
+  </data>
+  <data name="PrivateServers.Title" xml:space="preserve">
+    <value>Privát szerverek</value>
+  </data>
+  <data name="PrivateServers.Hint" xml:space="preserve">
+    <value>Minden privát szerver, amely a tiéd, vagy amelyre meghívtak, játék szerint rendezve.</value>
+  </data>
+  <data name="PrivateServers.Loading" xml:space="preserve">
+    <value>A privát szervereid betöltése</value>
+  </data>
+  <data name="PrivateServers.SignIn" xml:space="preserve">
+    <value>Jelentkezz be a Robloxba a Voidstrapben a privát szervereid megtekintéséhez.</value>
+  </data>
+  <data name="PrivateServers.Failed" xml:space="preserve">
+    <value>A Roblox nem küldte el a privát szervereidet. Próbáld újra egy pillanat múlva.</value>
+  </data>
+  <data name="PrivateServers.Empty" xml:space="preserve">
+    <value>Még nincs privát szervered.</value>
+  </data>
+  <data name="PrivateServers.Yours" xml:space="preserve">
+    <value>Tiéd</value>
+  </data>
+  <data name="PrivateServers.Shared" xml:space="preserve">
+    <value>Megosztva veled</value>
+  </data>
+  <data name="PrivateServers.OwnedBy" xml:space="preserve">
+    <value>Tulajdonos: {0}</value>
+  </data>
+  <data name="PrivateServers.Off" xml:space="preserve">
+    <value>Kikapcsolva</value>
+  </data>
+  <data name="PrivateServers.Renews" xml:space="preserve">
+    <value>Megújul: {0}</value>
+  </data>
+  <data name="PrivateServers.Ends" xml:space="preserve">
+    <value>Lejár: {0}</value>
+  </data>
+  <data name="PrivateServers.Join" xml:space="preserve">
+    <value>Csatlakozás</value>
+  </data>
+  <data name="PrivateServers.TurnOn" xml:space="preserve">
+    <value>Bekapcsolás</value>
+  </data>
+  <data name="PrivateServers.TurnOff" xml:space="preserve">
+    <value>Kikapcsolás</value>
+  </data>
+  <data name="PrivateServers.ChangeFailed" xml:space="preserve">
+    <value>A Roblox nem fogadta el a módosítást. Próbáld újra egy pillanat múlva.</value>
+  </data>
+  <data name="PrivateServers.CannotJoin" xml:space="preserve">
+    <value>Ehhez a szerverhez most nem lehet csatlakozni. Lehet, hogy ki van kapcsolva, vagy már nincs hozzáférésed.</value>
+  </data>
+  <data name="PrivateServers.Count" xml:space="preserve">
+    <value>Szerverek: {0}</value>
+  </data>
 </root>

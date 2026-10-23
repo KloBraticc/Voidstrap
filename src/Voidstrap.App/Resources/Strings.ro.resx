@@ -7950,4 +7950,61 @@ Trimite acest fișier persoanei care te ajută. Datele personale, cum ar fi nume
   <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
     <value>Fișierul de asistență nu a putut fi creat: {0}</value>
   </data>
+  <data name="Ui.Main.TabServers" xml:space="preserve">
+    <value>SERVERE PRIVATE</value>
+  </data>
+  <data name="PrivateServers.Title" xml:space="preserve">
+    <value>Servere private</value>
+  </data>
+  <data name="PrivateServers.Hint" xml:space="preserve">
+    <value>Fiecare server privat pe care îl deții sau la care ai fost invitat, sortat după joc.</value>
+  </data>
+  <data name="PrivateServers.Loading" xml:space="preserve">
+    <value>Se încarcă serverele tale private</value>
+  </data>
+  <data name="PrivateServers.SignIn" xml:space="preserve">
+    <value>Conectează-te la Roblox în Voidstrap ca să vezi serverele tale private.</value>
+  </data>
+  <data name="PrivateServers.Failed" xml:space="preserve">
+    <value>Roblox nu a trimis serverele tale private. Încearcă din nou peste câteva momente.</value>
+  </data>
+  <data name="PrivateServers.Empty" xml:space="preserve">
+    <value>Nu ai încă niciun server privat.</value>
+  </data>
+  <data name="PrivateServers.Yours" xml:space="preserve">
+    <value>Al tău</value>
+  </data>
+  <data name="PrivateServers.Shared" xml:space="preserve">
+    <value>Partajat cu tine</value>
+  </data>
+  <data name="PrivateServers.OwnedBy" xml:space="preserve">
+    <value>Deținut de {0}</value>
+  </data>
+  <data name="PrivateServers.Off" xml:space="preserve">
+    <value>Oprit</value>
+  </data>
+  <data name="PrivateServers.Renews" xml:space="preserve">
+    <value>Se reînnoiește pe {0}</value>
+  </data>
+  <data name="PrivateServers.Ends" xml:space="preserve">
+    <value>Se termină pe {0}</value>
+  </data>
+  <data name="PrivateServers.Join" xml:space="preserve">
+    <value>Alătură-te</value>
+  </data>
+  <data name="PrivateServers.TurnOn" xml:space="preserve">
+    <value>Pornește</value>
+  </data>
+  <data name="PrivateServers.TurnOff" xml:space="preserve">
+    <value>Oprește</value>
+  </data>
+  <data name="PrivateServers.ChangeFailed" xml:space="preserve">
+    <value>Roblox nu a acceptat modificarea. Încearcă din nou peste câteva momente.</value>
+  </data>
+  <data name="PrivateServers.CannotJoin" xml:space="preserve">
+    <value>Nu te poți alătura acestui server acum. Poate fi oprit sau poate nu mai ai acces.</value>
+  </data>
+  <data name="PrivateServers.Count" xml:space="preserve">
+    <value>Servere: {0}</value>
+  </data>
 </root>

@@ -7947,4 +7947,61 @@ Bu dosyayı size yardım eden kişiye gönderin. Bilgisayar kullanıcı adınız
   <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
     <value>Destek dosyası oluşturulamadı: {0}</value>
   </data>
+  <data name="Ui.Main.TabServers" xml:space="preserve">
+    <value>ÖZEL SUNUCULAR</value>
+  </data>
+  <data name="PrivateServers.Title" xml:space="preserve">
+    <value>Özel sunucular</value>
+  </data>
+  <data name="PrivateServers.Hint" xml:space="preserve">
+    <value>Sahip olduğunuz veya davet edildiğiniz tüm özel sunucular, oyuna göre sıralı.</value>
+  </data>
+  <data name="PrivateServers.Loading" xml:space="preserve">
+    <value>Özel sunucularınız yükleniyor</value>
+  </data>
+  <data name="PrivateServers.SignIn" xml:space="preserve">
+    <value>Özel sunucularınızı görmek için Voidstrap'te Roblox'a giriş yapın.</value>
+  </data>
+  <data name="PrivateServers.Failed" xml:space="preserve">
+    <value>Roblox özel sunucularınızı göndermedi. Biraz sonra tekrar deneyin.</value>
+  </data>
+  <data name="PrivateServers.Empty" xml:space="preserve">
+    <value>Henüz özel sunucunuz yok.</value>
+  </data>
+  <data name="PrivateServers.Yours" xml:space="preserve">
+    <value>Sizin</value>
+  </data>
+  <data name="PrivateServers.Shared" xml:space="preserve">
+    <value>Sizinle paylaşıldı</value>
+  </data>
+  <data name="PrivateServers.OwnedBy" xml:space="preserve">
+    <value>Sahibi: {0}</value>
+  </data>
+  <data name="PrivateServers.Off" xml:space="preserve">
+    <value>Kapalı</value>
+  </data>
+  <data name="PrivateServers.Renews" xml:space="preserve">
+    <value>{0} tarihinde yenilenir</value>
+  </data>
+  <data name="PrivateServers.Ends" xml:space="preserve">
+    <value>{0} tarihinde sona erer</value>
+  </data>
+  <data name="PrivateServers.Join" xml:space="preserve">
+    <value>Katıl</value>
+  </data>
+  <data name="PrivateServers.TurnOn" xml:space="preserve">
+    <value>Aç</value>
+  </data>
+  <data name="PrivateServers.TurnOff" xml:space="preserve">
+    <value>Kapat</value>
+  </data>
+  <data name="PrivateServers.ChangeFailed" xml:space="preserve">
+    <value>Roblox değişikliği kabul etmedi. Biraz sonra tekrar deneyin.</value>
+  </data>
+  <data name="PrivateServers.CannotJoin" xml:space="preserve">
+    <value>Bu sunucuya şu anda katılamazsınız. Kapalı olabilir veya artık erişiminiz olmayabilir.</value>
+  </data>
+  <data name="PrivateServers.Count" xml:space="preserve">
+    <value>Sunucular: {0}</value>
+  </data>
 </root>

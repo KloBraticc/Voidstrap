@@ -26,6 +26,31 @@ public sealed class RobloxPrivateServer
 	public int MaxPlayers { get; init; }
 
 	public string[] PlayerTokens { get; init; } = [];
+
+	public long VipServerId { get; init; }
+}
+
+public sealed class AccountPrivateServer
+{
+	public long Id { get; init; }
+
+	public string Name { get; init; } = string.Empty;
+
+	public long UniverseId { get; init; }
+
+	public long PlaceId { get; init; }
+
+	public string GameName { get; init; } = string.Empty;
+
+	public string OwnerName { get; init; } = string.Empty;
+
+	public bool IsMine { get; init; }
+
+	public bool Active { get; set; }
+
+	public DateTime? Expires { get; init; }
+
+	public bool WillRenew { get; init; }
 }
 
 public enum PrivateServersStatus
@@ -44,6 +69,8 @@ public static class RobloxServers
 	private const int MaxCachedHeadshots = 4000;
 	private static readonly HttpClient Client = CreateClient();
 	private static readonly ConcurrentDictionary<string, string> Headshots = new(StringComparer.Ordinal);
+	private static string _csrf = string.Empty;
+	private static int _accountFieldsLogged;
 
 	// Headshot picture addresses for server list player tokens, cached because the same players show up again
 	public static async Task<Dictionary<string, string>> GetHeadshotsAsync(IEnumerable<string> tokens, CancellationToken token)
@@ -156,7 +183,8 @@ public static class RobloxServers
 							OwnerName = owner,
 							Playing = item.TryGetProperty("playing", out JsonElement playing) && playing.ValueKind == JsonValueKind.Number && playing.TryGetInt32(out int count) ? count : tokens.Length,
 							MaxPlayers = item.TryGetProperty("maxPlayers", out JsonElement max) && max.ValueKind == JsonValueKind.Number && max.TryGetInt32(out int maximum) ? maximum : 0,
-							PlayerTokens = tokens
+							PlayerTokens = tokens,
+							VipServerId = ReadLong(item, "vipServerId")
 						});
 					}
 				}
@@ -176,6 +204,139 @@ public static class RobloxServers
 			return (servers.Count > 0 ? PrivateServersStatus.Ready : PrivateServersStatus.Unavailable, servers);
 		}
 	}
+
+	public static async Task<(PrivateServersStatus Status, List<AccountPrivateServer> Servers)> GetAccountPrivateServersAsync(CancellationToken token)
+	{
+		List<AccountPrivateServer> servers = new();
+		string? cookie = RobloxCookie.Get();
+		if (string.IsNullOrEmpty(cookie))
+			return (PrivateServersStatus.NotSignedIn, servers);
+		HashSet<long> seen = new();
+		try
+		{
+			foreach ((string tab, bool mine) in new[] { ("MyPrivateServers", true), ("OtherPrivateServers", false) })
+			{
+				string? cursor = null;
+				for (int page = 0; page < 10; page++)
+				{
+					string url = "https://games.roblox.com/v1/private-servers/my-private-servers?privateServersTab=" + tab + "&itemsPerPage=100";
+					if (!string.IsNullOrEmpty(cursor))
+						url += "&cursor=" + Uri.EscapeDataString(cursor);
+					using HttpRequestMessage request = new(HttpMethod.Get, url);
+					request.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
+					using HttpResponseMessage response = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
+					if (response.StatusCode == HttpStatusCode.Unauthorized)
+						return (PrivateServersStatus.NotSignedIn, servers);
+					if (!response.IsSuccessStatusCode)
+					{
+						App.Logger.WriteLine(LOG_IDENT, $"Account private servers answered {(int)response.StatusCode} {response.StatusCode}");
+						return (servers.Count > 0 ? PrivateServersStatus.Ready : PrivateServersStatus.Unavailable, servers);
+					}
+					using JsonDocument document = JsonDocument.Parse(await Utility.Http.ReadStringBoundedAsync(response.Content, MaxApiResponseBytes, token).ConfigureAwait(false));
+					JsonElement root = document.RootElement;
+					if (root.TryGetProperty("data", out JsonElement data) && data.ValueKind == JsonValueKind.Array)
+					{
+						foreach (JsonElement item in data.EnumerateArray())
+						{
+							if (Interlocked.Exchange(ref _accountFieldsLogged, 1) == 0 && item.ValueKind == JsonValueKind.Object)
+								App.Logger.WriteLine(LOG_IDENT, "Account private server fields: " + string.Join(", ", item.EnumerateObject().Select(property => property.Name)));
+							long id = ReadLong(item, "privateServerId");
+							if (id <= 0)
+								id = ReadLong(item, "vipServerId");
+							if (id <= 0)
+								id = ReadLong(item, "id");
+							if (id <= 0 || !seen.Add(id))
+								continue;
+							DateTime? expires = item.TryGetProperty("expirationDate", out JsonElement expiration) && expiration.ValueKind == JsonValueKind.String && expiration.TryGetDateTime(out DateTime parsed) ? parsed.ToUniversalTime() : null;
+							servers.Add(new AccountPrivateServer
+							{
+								Id = id,
+								Name = ReadString(item, "name"),
+								UniverseId = ReadLong(item, "universeId"),
+								PlaceId = ReadLong(item, "placeId"),
+								GameName = ReadString(item, "universeName"),
+								OwnerName = ReadString(item, "ownerName"),
+								IsMine = mine,
+								Active = !item.TryGetProperty("active", out JsonElement active) || active.ValueKind != JsonValueKind.False,
+								Expires = expires,
+								WillRenew = item.TryGetProperty("willRenew", out JsonElement renew) && renew.ValueKind == JsonValueKind.True
+							});
+						}
+					}
+					cursor = ReadString(root, "nextPageCursor");
+					if (cursor.Length == 0)
+						break;
+				}
+			}
+			return (PrivateServersStatus.Ready, servers);
+		}
+		catch (OperationCanceledException)
+		{
+			throw;
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine(LOG_IDENT, "Account private servers could not be loaded: " + ex.Message);
+			return (servers.Count > 0 ? PrivateServersStatus.Ready : PrivateServersStatus.Unavailable, servers);
+		}
+	}
+
+	public static async Task<string?> GetAccessCodeAsync(long placeId, long serverId, CancellationToken token)
+	{
+		(PrivateServersStatus status, List<RobloxPrivateServer> servers) = await GetPrivateServersAsync(placeId, token).ConfigureAwait(false);
+		if (status != PrivateServersStatus.Ready)
+			return null;
+		return servers.FirstOrDefault(server => server.VipServerId == serverId)?.AccessCode;
+	}
+
+	public static async Task<bool> SetPrivateServerActiveAsync(long serverId, bool active, CancellationToken token)
+	{
+		string? cookie = RobloxCookie.Get();
+		if (string.IsNullOrEmpty(cookie))
+			return false;
+		string payload = JsonSerializer.Serialize(new { active });
+		try
+		{
+			for (int attempt = 0; attempt < 2; attempt++)
+			{
+				using HttpRequestMessage request = new(HttpMethod.Patch, "https://games.roblox.com/v1/vip-servers/" + serverId)
+				{
+					Content = new StringContent(payload, Encoding.UTF8, "application/json")
+				};
+				request.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
+				string csrf = _csrf;
+				if (csrf.Length > 0)
+					request.Headers.TryAddWithoutValidation("X-CSRF-TOKEN", csrf);
+				using HttpResponseMessage response = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
+				if (response.StatusCode == HttpStatusCode.Forbidden
+					&& response.Headers.TryGetValues("x-csrf-token", out IEnumerable<string>? values)
+					&& values.FirstOrDefault() is { Length: > 0 } fresh
+					&& !string.Equals(fresh, csrf, StringComparison.Ordinal))
+				{
+					_csrf = fresh;
+					continue;
+				}
+				if (!response.IsSuccessStatusCode)
+				{
+					App.Logger.WriteLine(LOG_IDENT, $"Turning a private server {(active ? "on" : "off")} answered {(int)response.StatusCode} {response.StatusCode}");
+					return false;
+				}
+				return true;
+			}
+		}
+		catch (OperationCanceledException)
+		{
+			throw;
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine(LOG_IDENT, "A private server could not be changed: " + ex.Message);
+		}
+		return false;
+	}
+
+	private static long ReadLong(JsonElement element, string name)
+		=> element.TryGetProperty(name, out JsonElement value) && value.ValueKind == JsonValueKind.Number && value.TryGetInt64(out long number) ? number : 0;
 
 	private static string ReadString(JsonElement element, string name)
 		=> element.TryGetProperty(name, out JsonElement value) && value.ValueKind == JsonValueKind.String ? value.GetString() ?? string.Empty : string.Empty;

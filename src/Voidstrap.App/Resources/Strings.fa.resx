@@ -7951,4 +7951,61 @@ Voidstrap نتوانست در پوشهٔ دسکتاپ بنویسد.</value>
   <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
     <value>فایل پشتیبانی ایجاد نشد: {0}</value>
   </data>
+  <data name="Ui.Main.TabServers" xml:space="preserve">
+    <value>سرورهای خصوصی</value>
+  </data>
+  <data name="PrivateServers.Title" xml:space="preserve">
+    <value>سرورهای خصوصی</value>
+  </data>
+  <data name="PrivateServers.Hint" xml:space="preserve">
+    <value>همه سرورهای خصوصی که مالک آن‌ها هستید یا به آن‌ها دعوت شده‌اید، مرتب‌شده بر اساس بازی.</value>
+  </data>
+  <data name="PrivateServers.Loading" xml:space="preserve">
+    <value>در حال بارگیری سرورهای خصوصی شما</value>
+  </data>
+  <data name="PrivateServers.SignIn" xml:space="preserve">
+    <value>برای دیدن سرورهای خصوصی خود، در Voidstrap وارد Roblox شوید.</value>
+  </data>
+  <data name="PrivateServers.Failed" xml:space="preserve">
+    <value>Roblox سرورهای خصوصی شما را ارسال نکرد. کمی بعد دوباره امتحان کنید.</value>
+  </data>
+  <data name="PrivateServers.Empty" xml:space="preserve">
+    <value>هنوز هیچ سرور خصوصی ندارید.</value>
+  </data>
+  <data name="PrivateServers.Yours" xml:space="preserve">
+    <value>مال شما</value>
+  </data>
+  <data name="PrivateServers.Shared" xml:space="preserve">
+    <value>با شما به اشتراک گذاشته شده</value>
+  </data>
+  <data name="PrivateServers.OwnedBy" xml:space="preserve">
+    <value>مالک: {0}</value>
+  </data>
+  <data name="PrivateServers.Off" xml:space="preserve">
+    <value>خاموش</value>
+  </data>
+  <data name="PrivateServers.Renews" xml:space="preserve">
+    <value>تمدید در {0}</value>
+  </data>
+  <data name="PrivateServers.Ends" xml:space="preserve">
+    <value>پایان در {0}</value>
+  </data>
+  <data name="PrivateServers.Join" xml:space="preserve">
+    <value>پیوستن</value>
+  </data>
+  <data name="PrivateServers.TurnOn" xml:space="preserve">
+    <value>روشن کردن</value>
+  </data>
+  <data name="PrivateServers.TurnOff" xml:space="preserve">
+    <value>خاموش کردن</value>
+  </data>
+  <data name="PrivateServers.ChangeFailed" xml:space="preserve">
+    <value>Roblox این تغییر را نپذیرفت. کمی بعد دوباره امتحان کنید.</value>
+  </data>
+  <data name="PrivateServers.CannotJoin" xml:space="preserve">
+    <value>اکنون نمی‌توانید به این سرور بپیوندید. ممکن است خاموش باشد یا دیگر دسترسی نداشته باشید.</value>
+  </data>
+  <data name="PrivateServers.Count" xml:space="preserve">
+    <value>سرورها: {0}</value>
+  </data>
 </root>

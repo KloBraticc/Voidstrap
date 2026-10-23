@@ -7944,4 +7944,61 @@ Voidstrap เขียนลงในโฟลเดอร์เดสก์ท�
   <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
     <value>ไม่สามารถสร้างไฟล์สำหรับขอความช่วยเหลือได้: {0}</value>
   </data>
+  <data name="Ui.Main.TabServers" xml:space="preserve">
+    <value>เซิร์ฟเวอร์ส่วนตัว</value>
+  </data>
+  <data name="PrivateServers.Title" xml:space="preserve">
+    <value>เซิร์ฟเวอร์ส่วนตัว</value>
+  </data>
+  <data name="PrivateServers.Hint" xml:space="preserve">
+    <value>เซิร์ฟเวอร์ส่วนตัวทั้งหมดที่คุณเป็นเจ้าของหรือได้รับเชิญ เรียงตามเกม</value>
+  </data>
+  <data name="PrivateServers.Loading" xml:space="preserve">
+    <value>กำลังโหลดเซิร์ฟเวอร์ส่วนตัวของคุณ</value>
+  </data>
+  <data name="PrivateServers.SignIn" xml:space="preserve">
+    <value>ลงชื่อเข้าใช้ Roblox ใน Voidstrap เพื่อดูเซิร์ฟเวอร์ส่วนตัวของคุณ</value>
+  </data>
+  <data name="PrivateServers.Failed" xml:space="preserve">
+    <value>Roblox ไม่ได้ส่งเซิร์ฟเวอร์ส่วนตัวของคุณมา โปรดลองอีกครั้งในอีกสักครู่</value>
+  </data>
+  <data name="PrivateServers.Empty" xml:space="preserve">
+    <value>คุณยังไม่มีเซิร์ฟเวอร์ส่วนตัว</value>
+  </data>
+  <data name="PrivateServers.Yours" xml:space="preserve">
+    <value>ของคุณ</value>
+  </data>
+  <data name="PrivateServers.Shared" xml:space="preserve">
+    <value>แชร์กับคุณ</value>
+  </data>
+  <data name="PrivateServers.OwnedBy" xml:space="preserve">
+    <value>เจ้าของ: {0}</value>
+  </data>
+  <data name="PrivateServers.Off" xml:space="preserve">
+    <value>ปิดอยู่</value>
+  </data>
+  <data name="PrivateServers.Renews" xml:space="preserve">
+    <value>ต่ออายุวันที่ {0}</value>
+  </data>
+  <data name="PrivateServers.Ends" xml:space="preserve">
+    <value>สิ้นสุดวันที่ {0}</value>
+  </data>
+  <data name="PrivateServers.Join" xml:space="preserve">
+    <value>เข้าร่วม</value>
+  </data>
+  <data name="PrivateServers.TurnOn" xml:space="preserve">
+    <value>เปิด</value>
+  </data>
+  <data name="PrivateServers.TurnOff" xml:space="preserve">
+    <value>ปิด</value>
+  </data>
+  <data name="PrivateServers.ChangeFailed" xml:space="preserve">
+    <value>Roblox ไม่ยอมรับการเปลี่ยนแปลง โปรดลองอีกครั้งในอีกสักครู่</value>
+  </data>
+  <data name="PrivateServers.CannotJoin" xml:space="preserve">
+    <value>ไม่สามารถเข้าร่วมเซิร์ฟเวอร์นี้ได้ในขณะนี้ อาจปิดอยู่ หรือคุณอาจไม่มีสิทธิ์เข้าถึงแล้ว</value>
+  </data>
+  <data name="PrivateServers.Count" xml:space="preserve">
+    <value>เซิร์ฟเวอร์: {0}</value>
+  </data>
 </root>

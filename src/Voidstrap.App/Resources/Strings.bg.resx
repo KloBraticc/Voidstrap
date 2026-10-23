@@ -7949,4 +7949,61 @@ Voidstrap не можа да запише в папката на работни�
   <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
     <value>Файлът за поддръжка не можа да бъде създаден: {0}</value>
   </data>
+  <data name="Ui.Main.TabServers" xml:space="preserve">
+    <value>ЧАСТНИ СЪРВЪРИ</value>
+  </data>
+  <data name="PrivateServers.Title" xml:space="preserve">
+    <value>Частни сървъри</value>
+  </data>
+  <data name="PrivateServers.Hint" xml:space="preserve">
+    <value>Всеки частен сървър, който притежавате или в който сте поканени, подреден по игра.</value>
+  </data>
+  <data name="PrivateServers.Loading" xml:space="preserve">
+    <value>Зареждане на частните Ви сървъри</value>
+  </data>
+  <data name="PrivateServers.SignIn" xml:space="preserve">
+    <value>Влезте в Roblox във Voidstrap, за да видите частните си сървъри.</value>
+  </data>
+  <data name="PrivateServers.Failed" xml:space="preserve">
+    <value>Roblox не изпрати частните Ви сървъри. Опитайте отново след малко.</value>
+  </data>
+  <data name="PrivateServers.Empty" xml:space="preserve">
+    <value>Все още нямате частни сървъри.</value>
+  </data>
+  <data name="PrivateServers.Yours" xml:space="preserve">
+    <value>Ваш</value>
+  </data>
+  <data name="PrivateServers.Shared" xml:space="preserve">
+    <value>Споделен с Вас</value>
+  </data>
+  <data name="PrivateServers.OwnedBy" xml:space="preserve">
+    <value>Собственик: {0}</value>
+  </data>
+  <data name="PrivateServers.Off" xml:space="preserve">
+    <value>Изключен</value>
+  </data>
+  <data name="PrivateServers.Renews" xml:space="preserve">
+    <value>Подновява се на {0}</value>
+  </data>
+  <data name="PrivateServers.Ends" xml:space="preserve">
+    <value>Изтича на {0}</value>
+  </data>
+  <data name="PrivateServers.Join" xml:space="preserve">
+    <value>Влизане</value>
+  </data>
+  <data name="PrivateServers.TurnOn" xml:space="preserve">
+    <value>Включване</value>
+  </data>
+  <data name="PrivateServers.TurnOff" xml:space="preserve">
+    <value>Изключване</value>
+  </data>
+  <data name="PrivateServers.ChangeFailed" xml:space="preserve">
+    <value>Roblox не прие промяната. Опитайте отново след малко.</value>
+  </data>
+  <data name="PrivateServers.CannotJoin" xml:space="preserve">
+    <value>В този сървър не може да се влезе в момента. Може да е изключен или вече да нямате достъп.</value>
+  </data>
+  <data name="PrivateServers.Count" xml:space="preserve">
+    <value>Сървъри: {0}</value>
+  </data>
 </root>

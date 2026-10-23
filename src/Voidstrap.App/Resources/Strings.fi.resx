@@ -7950,4 +7950,61 @@ Lähetä tiedosto sille, joka auttaa sinua. Henkilötiedot, kuten tietokoneesi k
   <data name="Ui.Main.SupportFileFailed" xml:space="preserve">
     <value>Tukitiedostoa ei voitu luoda: {0}</value>
   </data>
+  <data name="Ui.Main.TabServers" xml:space="preserve">
+    <value>YKSITYISET PALVELIMET</value>
+  </data>
+  <data name="PrivateServers.Title" xml:space="preserve">
+    <value>Yksityiset palvelimet</value>
+  </data>
+  <data name="PrivateServers.Hint" xml:space="preserve">
+    <value>Kaikki yksityiset palvelimet, jotka omistat tai joihin sinut on kutsuttu, pelin mukaan järjestettynä.</value>
+  </data>
+  <data name="PrivateServers.Loading" xml:space="preserve">
+    <value>Ladataan yksityisiä palvelimiasi</value>
+  </data>
+  <data name="PrivateServers.SignIn" xml:space="preserve">
+    <value>Kirjaudu Robloxiin Voidstrapissa nähdäksesi yksityiset palvelimesi.</value>
+  </data>
+  <data name="PrivateServers.Failed" xml:space="preserve">
+    <value>Roblox ei lähettänyt yksityisiä palvelimiasi. Yritä hetken päästä uudelleen.</value>
+  </data>
+  <data name="PrivateServers.Empty" xml:space="preserve">
+    <value>Sinulla ei ole vielä yksityisiä palvelimia.</value>
+  </data>
+  <data name="PrivateServers.Yours" xml:space="preserve">
+    <value>Sinun</value>
+  </data>
+  <data name="PrivateServers.Shared" xml:space="preserve">
+    <value>Jaettu kanssasi</value>
+  </data>
+  <data name="PrivateServers.OwnedBy" xml:space="preserve">
+    <value>Omistaja: {0}</value>
+  </data>
+  <data name="PrivateServers.Off" xml:space="preserve">
+    <value>Pois päältä</value>
+  </data>
+  <data name="PrivateServers.Renews" xml:space="preserve">
+    <value>Uusiutuu {0}</value>
+  </data>
+  <data name="PrivateServers.Ends" xml:space="preserve">
+    <value>Päättyy {0}</value>
+  </data>
+  <data name="PrivateServers.Join" xml:space="preserve">
+    <value>Liity</value>
+  </data>
+  <data name="PrivateServers.TurnOn" xml:space="preserve">
+    <value>Kytke päälle</value>
+  </data>
+  <data name="PrivateServers.TurnOff" xml:space="preserve">
+    <value>Kytke pois</value>
+  </data>
+  <data name="PrivateServers.ChangeFailed" xml:space="preserve">
+    <value>Roblox ei hyväksynyt muutosta. Yritä hetken päästä uudelleen.</value>
+  </data>
+  <data name="PrivateServers.CannotJoin" xml:space="preserve">
+    <value>Tähän palvelimeen ei voi liittyä juuri nyt. Se voi olla pois päältä, tai sinulla ei ehkä ole enää pääsyä.</value>
+  </data>
+  <data name="PrivateServers.Count" xml:space="preserve">
+    <value>Palvelimet: {0}</value>
+  </data>
 </root>
