@@ -147,6 +147,37 @@
 		</ItemGroup>
 	</Target>
 
+	<PropertyGroup Condition="$(RuntimeIdentifier.StartsWith('linux')) Or $(RuntimeIdentifier.StartsWith('osx'))">
+		<VoidRpcFileName Condition="$(RuntimeIdentifier.StartsWith('linux'))">libvoidrpc.so</VoidRpcFileName>
+		<VoidRpcFileName Condition="$(RuntimeIdentifier.StartsWith('osx'))">libvoidrpc.dylib</VoidRpcFileName>
+		<VoidRpcLibrary>$(BaseIntermediateOutputPath)voidrpc/$(RuntimeIdentifier)/$(VoidRpcFileName)</VoidRpcLibrary>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<VoidRpcSources Include="$(MSBuildProjectDirectory)/../../native/voidrpc/src/**/*.rs" />
+	</ItemGroup>
+
+	<Target Name="BuildVoidRpc" BeforeTargets="AssignTargetPaths" Condition="'$(VoidRpcLibrary)' != '' And '$(DesignTimeBuild)' != 'true' And !$([MSBuild]::IsOSPlatform('Windows'))" Inputs="$(MSBuildProjectDirectory)/../../native/voidrpc/Cargo.toml;$(MSBuildProjectDirectory)/../../native/voidrpc/Cargo.lock;@(VoidRpcSources);$(MSBuildProjectDirectory)/../../build/Packaging/build-voidrpc.sh" Outputs="$(VoidRpcLibrary)">
+		<Exec Command="bash &quot;$(MSBuildProjectDirectory)/../../build/Packaging/build-voidrpc.sh&quot; &quot;$(RuntimeIdentifier)&quot; &quot;$(VoidRpcLibrary)&quot; &quot;$(BaseIntermediateOutputPath)voidrpc/target&quot;" IgnoreExitCode="true" IgnoreStandardErrorWarningFormat="true" />
+	</Target>
+
+	<PropertyGroup Condition="$(RuntimeIdentifier.StartsWith('linux')) And $([MSBuild]::IsOSPlatform('Windows'))">
+		<_VoidRpcLibraryWin>$([System.IO.Path]::GetFullPath($([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', '$(VoidRpcLibrary)'))))</_VoidRpcLibraryWin>
+		<_VoidRpcTargetWin>$([System.IO.Path]::GetFullPath($([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', '$(BaseIntermediateOutputPath)voidrpc/target'))))</_VoidRpcTargetWin>
+		<_VoidRpcLibraryWsl>/mnt/$(_VoidRpcLibraryWin.Substring(0, 1).ToLowerInvariant())$(_VoidRpcLibraryWin.Substring(2).Replace('%5C', '/'))</_VoidRpcLibraryWsl>
+		<_VoidRpcTargetWsl>/mnt/$(_VoidRpcTargetWin.Substring(0, 1).ToLowerInvariant())$(_VoidRpcTargetWin.Substring(2).Replace('%5C', '/'))</_VoidRpcTargetWsl>
+	</PropertyGroup>
+
+	<Target Name="BuildVoidRpcThroughWsl" BeforeTargets="AssignTargetPaths" Condition="$(RuntimeIdentifier.StartsWith('linux')) And '$(DesignTimeBuild)' != 'true' And $([MSBuild]::IsOSPlatform('Windows'))" Inputs="$(MSBuildProjectDirectory)/../../native/voidrpc/Cargo.toml;$(MSBuildProjectDirectory)/../../native/voidrpc/Cargo.lock;@(VoidRpcSources);$(MSBuildProjectDirectory)/../../build/Packaging/build-voidrpc.sh" Outputs="$(VoidRpcLibrary)">
+		<Exec Command="wsl.exe -d $(VoidstrapWslDistro) -e bash &quot;$(_VoidImageRootWsl)build/Packaging/build-voidrpc.sh&quot; &quot;$(RuntimeIdentifier)&quot; &quot;$(_VoidRpcLibraryWsl)&quot; &quot;$(_VoidRpcTargetWsl)&quot;" IgnoreExitCode="true" IgnoreStandardErrorWarningFormat="true" />
+	</Target>
+
+	<Target Name="IncludeVoidRpc" DependsOnTargets="BuildVoidRpc;BuildVoidRpcThroughWsl" BeforeTargets="AssignTargetPaths" Condition="'$(VoidRpcLibrary)' != ''">
+		<ItemGroup>
+			<None Condition="Exists('$(VoidRpcLibrary)')" Include="$(VoidRpcLibrary)" Link="$(VoidRpcFileName)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+		</ItemGroup>
+	</Target>
+
 	<ItemGroup Condition="$(RuntimeIdentifier.StartsWith('linux'))">
 		<None Include="$(MSBuildProjectDirectory)\..\..\external\LibreWPF\GLFW-LICENSE.txt" Condition="Exists('$(LinuxGlfwLibrary)')">
 			<Link>GLFW-LICENSE.txt</Link>

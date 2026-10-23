@@ -135,6 +135,8 @@ internal static class DiscordIpc
 
 	internal static bool TryFindPipe(out int pipe)
 	{
+		if (NativeDiscordPipe.TryFindPipe(out pipe))
+			return true;
 		if (Voidstrap.Utility.Platform.IsWindows)
 			return TryFindPipeIn(@"\\.\pipe\", out pipe);
 

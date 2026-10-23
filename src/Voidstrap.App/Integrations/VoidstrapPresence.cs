@@ -228,7 +228,7 @@ internal static class VoidstrapPresence
 
 internal sealed class DiscordActivityPipe : INamedPipeClient
 {
-	private readonly INamedPipeClient _inner = OperatingSystem.IsMacOS() ? new MacDiscordPipe() : new ManagedNamedPipeClient();
+	private readonly INamedPipeClient _inner = NativeDiscordPipe.IsAvailable ? new NativeDiscordPipe() : OperatingSystem.IsMacOS() ? new MacDiscordPipe() : new ManagedNamedPipeClient();
 
 	private readonly object _gate = new();
 

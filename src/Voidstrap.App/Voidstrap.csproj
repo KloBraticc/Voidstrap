@@ -389,6 +389,26 @@
 	</Target>
 
 	<PropertyGroup>
+		<VoidRpcCrate>$(MSBuildThisFileDirectory)../../native/voidrpc</VoidRpcCrate>
+		<VoidRpcTargetDir>$(MSBuildThisFileDirectory)obj/voidrpc</VoidRpcTargetDir>
+		<VoidRpcDll>$(VoidRpcTargetDir)/x86_64-pc-windows-msvc/release/voidrpc.dll</VoidRpcDll>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<VoidRpcSources Include="$(MSBuildThisFileDirectory)../../native/voidrpc/src/**/*.rs" />
+	</ItemGroup>
+
+	<Target Name="BuildVoidRpc" BeforeTargets="AssignTargetPaths" Condition="'$(DesignTimeBuild)' != 'true' And '$(OS)' == 'Windows_NT' And Exists('$(VoidRpcCrate)/Cargo.toml')" Inputs="$(VoidRpcCrate)/Cargo.toml;$(VoidRpcCrate)/Cargo.lock;@(VoidRpcSources)" Outputs="$(VoidRpcDll)">
+		<Exec Command="&quot;$(VoidImageCargo)&quot; build --release --locked --quiet --target x86_64-pc-windows-msvc --manifest-path &quot;$(VoidRpcCrate)/Cargo.toml&quot; --target-dir &quot;$(VoidRpcTargetDir)&quot;" IgnoreExitCode="true" IgnoreStandardErrorWarningFormat="true" StandardOutputImportance="low" StandardErrorImportance="low" />
+	</Target>
+
+	<Target Name="IncludeVoidRpc" AfterTargets="BuildVoidRpc" BeforeTargets="AssignTargetPaths" Condition="Exists('$(VoidRpcDll)')">
+		<ItemGroup>
+			<None Include="$(VoidRpcDll)" Link="voidrpc.dll" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+		</ItemGroup>
+	</Target>
+
+	<PropertyGroup>
 		<RiShadeCrate>$(MSBuildThisFileDirectory)../../native/rishade</RiShadeCrate>
 		<RiShadeTargetDir>$(MSBuildThisFileDirectory)obj/rishade</RiShadeTargetDir>
 		<RiShadeCoreDll>$(RiShadeTargetDir)/x86_64-pc-windows-msvc/release/rishade_core.dll</RiShadeCoreDll>
