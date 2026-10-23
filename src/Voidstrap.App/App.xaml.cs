@@ -754,9 +754,24 @@ public partial class App : Application
 
 	private const int NativeRuntimeMissingExitCode = 78;
 
+	private static void StartJitProfile()
+	{
+		try
+		{
+			string root = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Voidstrap", "JitProfile");
+			System.IO.Directory.CreateDirectory(root);
+			System.Runtime.ProfileOptimization.SetProfileRoot(root);
+			System.Runtime.ProfileOptimization.StartProfile("Startup.jitprofile");
+		}
+		catch (Exception ex) when (ex is System.IO.IOException or UnauthorizedAccessException)
+		{
+		}
+	}
+
 	protected override async void OnStartup(StartupEventArgs e)
 	{
 		LinuxUiPerformance.Mark("Startup entered");
+		StartJitProfile();
 		RegisterExceptionHandlers();
 		if (!Voidstrap.Utility.LinuxRuntimePreflight.Verify())
 		{
