@@ -324,8 +324,9 @@ void MatchFine(uint3 id : SV_DispatchThreadID)
     }
     float corner = (xx + yy) * 0.5 - sqrt((xx - yy) * (xx - yy) * 0.25 + xy * xy);
     int2 start = int2(round(Coarse.Load(int3(min(id.xy / 4, QuarterSize() - 1), 0)) * 4));
+    float costs[25];
     float best = 1e9;
-    int2 bestOffset = start;
+    uint bestIndex = 12;
     for (uint j = 0; j < 25; ++j)
     {
         int2 offset = start + (int2(j % 5, j / 5) - 2);
@@ -333,13 +334,30 @@ void MatchFine(uint3 id : SV_DispatchThreadID)
         for (uint k2 = 0; k2 < 25; ++k2)
             cost += abs(centre[k2] - PrevLuma.Load(int3(clamp(p - offset + (int2(k2 % 5, k2 / 5) - Patch), 0, size - 1), 0)));
         cost /= 25;
+        costs[j] = cost;
         if (cost < best)
         {
             best = cost;
-            bestOffset = offset;
+            bestIndex = j;
         }
     }
-    FlowTarget[id.xy] = float4(float2(bestOffset), best, saturate(corner * CornerScale) * saturate(1 - best * 12));
+    uint bx = bestIndex % 5;
+    uint by = bestIndex / 5;
+    float2 sub = 0;
+    if (bx > 0 && bx < 4)
+    {
+        float curve = costs[bestIndex - 1] - 2 * best + costs[bestIndex + 1];
+        if (curve > 1e-5)
+            sub.x = clamp(0.5 * (costs[bestIndex - 1] - costs[bestIndex + 1]) / curve, -0.5, 0.5);
+    }
+    if (by > 0 && by < 4)
+    {
+        float curve = costs[bestIndex - 5] - 2 * best + costs[bestIndex + 5];
+        if (curve > 1e-5)
+            sub.y = clamp(0.5 * (costs[bestIndex - 5] - costs[bestIndex + 5]) / curve, -0.5, 0.5);
+    }
+    float2 offset = float2(start + (int2(bx, by) - 2)) + sub;
+    FlowTarget[id.xy] = float4(offset, best, saturate(corner * CornerScale) * saturate(1 - best * 12));
 }
 
 float4 SettleAt(int2 p, int stride)
@@ -503,6 +521,7 @@ struct Surface
 };
 
 constexpr std::chrono::milliseconds kMinDepthInterval{ 50 };
+constexpr std::chrono::milliseconds kKeyframeInterval{ 33 };
 
 struct Depth
 {
@@ -529,8 +548,9 @@ struct Depth
     std::array<Surface, 2> quarter;
     std::array<Surface, 2> anchorMaps;
     std::array<Surface, 2> pendingMaps;
-    size_t current = 0;
+    size_t key = 0;
     bool tracking = false;
+    FrameStatistics::Clock::time_point keyAt{};
     bool pending = false;
     bool resetPending = false;
     Surface coarse;
@@ -1100,11 +1120,10 @@ void Publish()
     d.pending = false;
 }
 
-void ComposeMap(std::array<Surface, 2>& maps, UINT groupsX, UINT groupsY)
+void ComposeMap(const std::array<Surface, 2>& maps, UINT groupsX, UINT groupsY)
 {
     Dispatch(kCompose, { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.flow.view.get(), nullptr, nullptr, maps[0].view.get() },
              { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, maps[1].target.get() }, groupsX, groupsY);
-    std::swap(maps[0], maps[1]);
 }
 
 void Track(ID3D11Texture2D* frame, int64_t frameTimestamp)
@@ -1117,17 +1136,18 @@ void Track(ID3D11Texture2D* frame, int64_t frameTimestamp)
     const UINT workGroupsY = (d.workHeight + 15) / 16;
     const UINT quarterGroupsX = ((d.workWidth + 3) / 4 + 15) / 16;
     const UINT quarterGroupsY = ((d.workHeight + 3) / 4 + 15) / 16;
-    const Surface& luma = d.luma[d.current];
-    const Surface& previousLuma = d.luma[d.current ^ 1];
-    const Surface& quarter = d.quarter[d.current];
-    const Surface& previousQuarter = d.quarter[d.current ^ 1];
+    const Surface& luma = d.luma[d.key ^ 1];
+    const Surface& keyLuma = d.luma[d.key];
+    const Surface& quarter = d.quarter[d.key ^ 1];
+    const Surface& keyQuarter = d.quarter[d.key];
     Dispatch(kShrink, { d.liveView.get() }, { luma.target.get() }, workGroupsX, workGroupsY);
     Dispatch(kReduce, { nullptr, luma.view.get() }, { nullptr, quarter.target.get() }, quarterGroupsX, quarterGroupsY);
-    if (d.tracking)
+    const bool composed = d.tracking;
+    if (composed)
     {
-        Dispatch(kMatchCoarse, { nullptr, nullptr, nullptr, quarter.view.get(), previousQuarter.view.get() }, { nullptr, nullptr, d.coarse.target.get() },
+        Dispatch(kMatchCoarse, { nullptr, nullptr, nullptr, quarter.view.get(), keyQuarter.view.get() }, { nullptr, nullptr, d.coarse.target.get() },
                  quarterGroupsX, quarterGroupsY);
-        Dispatch(kMatchFine, { nullptr, luma.view.get(), previousLuma.view.get(), nullptr, nullptr, d.coarse.view.get() },
+        Dispatch(kMatchFine, { nullptr, luma.view.get(), keyLuma.view.get(), nullptr, nullptr, d.coarse.view.get() },
                  { nullptr, nullptr, nullptr, d.flow.target.get() }, workGroupsX, workGroupsY);
         Dispatch(kSettle, { nullptr, luma.view.get(), nullptr, nullptr, nullptr, nullptr, d.flow.view.get() },
                  { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.settled.target.get() }, workGroupsX, workGroupsY);
@@ -1138,19 +1158,31 @@ void Track(ID3D11Texture2D* frame, int64_t frameTimestamp)
         if (d.pending)
             ComposeMap(d.pendingMaps, workGroupsX, workGroupsY);
     }
+    const auto now = FrameStatistics::Clock::now();
+    const bool advance = !d.tracking || d.resetPending || now - d.keyAt >= kKeyframeInterval;
+    if (advance)
+    {
+        d.key ^= 1;
+        d.keyAt = now;
+        d.tracking = true;
+        if (composed)
+        {
+            std::swap(d.anchorMaps[0], d.anchorMaps[1]);
+            std::swap(d.pendingMaps[0], d.pendingMaps[1]);
+        }
+    }
     if (d.resetPending)
     {
         Dispatch(kIdentity, {}, { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.pendingMaps[0].target.get() }, workGroupsX, workGroupsY);
         d.resetPending = false;
         d.pending = true;
     }
-    d.tracking = true;
-    d.current ^= 1;
-    if (!d.anchored)
+    if (!d.anchored || !composed)
         return;
+    const Surface& map = d.anchorMaps[advance ? 0 : 1];
     const UINT sourceGroupsX = (d.sourceWidth + 15) / 16;
     const UINT sourceGroupsY = (d.sourceHeight + 15) / 16;
-    Dispatch(kWarp, { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.anchor.view.get(), nullptr, d.anchorMaps[0].view.get() },
+    Dispatch(kWarp, { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.anchor.view.get(), nullptr, map.view.get() },
              { nullptr, nullptr, nullptr, nullptr, nullptr, d.warped.target.get() }, sourceGroupsX, sourceGroupsY);
     Dispatch(kRefine, { d.liveView.get(), nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.warped.view.get() },
              { nullptr, nullptr, nullptr, nullptr, d.textureTarget.get() }, sourceGroupsX, sourceGroupsY);
