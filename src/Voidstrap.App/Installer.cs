@@ -1368,7 +1368,7 @@ internal sealed partial class Installer
 		{
 			if (File.Exists(StartMenuShortcut))
 			{
-				Voidstrap.Utility.Shortcut.Create(Paths.Application, "", StartMenuShortcut);
+				Voidstrap.Utility.Shortcut.Create(Paths.Application, "", StartMenuShortcut, Paths.Application, overwrite: true);
 			}
 		}
 		catch

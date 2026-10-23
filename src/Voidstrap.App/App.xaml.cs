@@ -754,6 +754,9 @@ public partial class App : Application
 
 	private const int NativeRuntimeMissingExitCode = 78;
 
+	[System.Runtime.InteropServices.LibraryImport("shell32.dll", StringMarshalling = System.Runtime.InteropServices.StringMarshalling.Utf16)]
+	private static partial int SetCurrentProcessExplicitAppUserModelID(string appId);
+
 	private static void StartJitProfile()
 	{
 		try
@@ -772,6 +775,8 @@ public partial class App : Application
 	{
 		LinuxUiPerformance.Mark("Startup entered");
 		StartJitProfile();
+		if (Paths.StartedByLauncher)
+			SetCurrentProcessExplicitAppUserModelID(Voidstrap.Utility.Shortcut.AppUserModelId);
 		RegisterExceptionHandlers();
 		if (!Voidstrap.Utility.LinuxRuntimePreflight.Verify())
 		{

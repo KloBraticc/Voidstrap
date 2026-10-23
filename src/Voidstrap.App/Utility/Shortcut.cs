@@ -1,6 +1,11 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
+using System.Text;
 using System.Windows;
+using PropertyStore.Flags;
+using PropertyStore.Structures;
 using ShellLink;
+using ShellLink.Structures;
 using Voidstrap.Enums;
 using Voidstrap.Resources;
 using Voidstrap.UI;
@@ -10,6 +15,10 @@ namespace Voidstrap.Utility;
 internal static class Shortcut
 {
 	private static GenericTriState _loadStatus = GenericTriState.Unknown;
+
+	public const string AppUserModelId = "KloBraticc.Voidstrap";
+
+	private static readonly Guid AppUserModelFormat = new("9F4C2855-9F79-4B39-A8D0-E1D42DE1D5F3");
 
 	public static void Create(string exePath, string exeArgs, string lnkPath)
 	{
@@ -51,7 +60,10 @@ internal static class Shortcut
 				string temporary = lnkPath + "." + Guid.NewGuid().ToString("N") + ".tmp";
 				try
 				{
-					ShellLink.Shortcut.CreateShortcut(exePath, exeArgs, iconPath, 0).WriteToFile(temporary);
+					ShellLink.Shortcut link = ShellLink.Shortcut.CreateShortcut(exePath, exeArgs, iconPath, 0);
+					if (string.IsNullOrEmpty(exeArgs))
+						link.ExtraData.PropertyStoreDataBlock = AppUserModelBlock();
+					link.WriteToFile(temporary);
 					File.Move(temporary, lnkPath, overwrite);
 				}
 				finally
@@ -77,5 +89,18 @@ internal static class Shortcut
 			}
 			return false;
 		}
+	}
+
+	private static PropertyStoreDataBlock AppUserModelBlock()
+	{
+		byte[] characters = Encoding.Unicode.GetBytes(AppUserModelId + "\0");
+		byte[] value = new byte[4 + ((characters.Length + 3) & ~3)];
+		BitConverter.GetBytes((uint)(AppUserModelId.Length + 1)).CopyTo(value, 0);
+		characters.CopyTo(value, 4);
+		SerializedPropertyStorage storage = new(new List<SerializedPropertyValue> { new IntegerName(5, new TypedPropertyValue(PropertyType.VT_LPWSTR, value)) })
+		{
+			FormatID = AppUserModelFormat
+		};
+		return new PropertyStoreDataBlock(new List<SerializedPropertyStorage> { storage });
 	}
 }
