@@ -152,6 +152,110 @@ jobs:
             throw "The signed executable signature is not accepted: $($signature.Status) $($signature.StatusMessage) signer $($signature.SignerCertificate.Thumbprint)"
           }
 
+      - name: Upload signed application
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: voidstrap-windows-app-signed-${{ env.RELEASE_VERSION }}
+          path: ${{ runner.temp }}/voidstrap-signed/Voidstrap.exe
+          if-no-files-found: error
+          retention-days: 1
+
+  launcher:
+    needs: [build, sign]
+    if: github.repository == 'KloBraticc/Voidstrap' && github.ref == 'refs/heads/main'
+    runs-on: windows-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    outputs:
+      artifact-id: ${{ steps.upload.outputs.artifact-id }}
+    env:
+      RELEASE_VERSION: ${{ needs.build.outputs.version }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ inputs.commit }}
+          fetch-depth: 1
+          persist-credentials: false
+
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333
+        with:
+          name: voidstrap-windows-app-signed-${{ env.RELEASE_VERSION }}
+          path: ${{ runner.temp }}/voidstrap-app
+
+      - name: Build launcher around the signed application
+        shell: pwsh
+        run: |
+          $payload = Join-Path $env:RUNNER_TEMP 'voidstrap-app/Voidstrap.exe'
+          if (-not (Test-Path -LiteralPath $payload -PathType Leaf)) { throw 'The signed application was not downloaded.' }
+          rustup target add x86_64-pc-windows-msvc
+          $env:VOIDSTRAP_LAUNCHER_PAYLOAD = $payload
+          $env:VOIDSTRAP_VERSION = $env:RELEASE_VERSION
+          $targetDir = Join-Path $env:RUNNER_TEMP 'voidlauncher-target'
+          cargo build --release --locked --target x86_64-pc-windows-msvc --manifest-path native/voidlauncher/Cargo.toml --target-dir $targetDir
+          if ($LASTEXITCODE -ne 0) { throw 'The launcher build failed.' }
+
+          $exe = Join-Path $targetDir 'x86_64-pc-windows-msvc/release/Voidstrap.exe'
+          $info = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($exe)
+          if ($info.ProductName -ne 'Voidstrap' -or $info.CompanyName -ne 'Voidstrap' -or $info.OriginalFilename -ne 'Voidstrap.exe' -or $info.ProductVersion -ne $env:RELEASE_VERSION) {
+            throw "Unexpected launcher metadata: ProductName='$($info.ProductName)', CompanyName='$($info.CompanyName)', OriginalFilename='$($info.OriginalFilename)', ProductVersion='$($info.ProductVersion)'"
+          }
+          $outputDir = Join-Path $env:RUNNER_TEMP 'voidstrap-launcher-unsigned'
+          New-Item -ItemType Directory -Path $outputDir -Force | Out-Null
+          Copy-Item -LiteralPath $exe -Destination (Join-Path $outputDir 'Voidstrap.exe')
+
+      - name: Upload unsigned launcher
+        id: upload
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: voidstrap-windows-launcher-unsigned-${{ env.RELEASE_VERSION }}
+          path: ${{ runner.temp }}/voidstrap-launcher-unsigned/Voidstrap.exe
+          if-no-files-found: error
+          retention-days: 1
+
+  sign-launcher:
+    needs: [build, launcher]
+    if: github.repository == 'KloBraticc/Voidstrap' && github.ref == 'refs/heads/main'
+    runs-on: windows-latest
+    timeout-minutes: 60
+    permissions:
+      actions: read
+      contents: none
+    env:
+      RELEASE_VERSION: ${{ needs.build.outputs.version }}
+    steps:
+      - name: Sign launcher with SignPath test certificate
+        uses: signpath/github-action-submit-signing-request@f6d04783b4569d051e0c80105fe66e82819d0092
+        with:
+          api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
+          organization-id: ed77d7e3-732a-453f-9ba9-0c25de62f363
+          project-slug: Voidstrap
+          signing-policy-slug: test-signing
+          artifact-configuration-slug: windows-release
+          github-artifact-id: ${{ needs.launcher.outputs.artifact-id }}
+          parameters: |
+            version: ${{ toJSON(needs.build.outputs.version) }}
+          wait-for-completion: true
+          output-artifact-directory: ${{ runner.temp }}/voidstrap-signed
+
+      - name: Verify signed launcher metadata and signature
+        shell: pwsh
+        run: |
+          $exe = Join-Path $env:RUNNER_TEMP 'voidstrap-signed/Voidstrap.exe'
+          if (-not (Test-Path -LiteralPath $exe -PathType Leaf)) { throw 'The signed launcher was not returned.' }
+          $info = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($exe)
+          if ($info.ProductName -ne 'Voidstrap' -or $info.CompanyName -ne 'Voidstrap' -or $info.OriginalFilename -ne 'Voidstrap.exe' -or $info.ProductVersion -ne $env:RELEASE_VERSION) {
+            throw "Unexpected signed launcher metadata: ProductName='$($info.ProductName)', CompanyName='$($info.CompanyName)', OriginalFilename='$($info.OriginalFilename)', ProductVersion='$($info.ProductVersion)'"
+          }
+          $signature = Get-AuthenticodeSignature -LiteralPath $exe
+          if ($null -eq $signature.SignerCertificate) {
+            throw "The signed launcher has no Authenticode signature: $($signature.Status) $($signature.StatusMessage)"
+          }
+          $pinnedTestCertificate = $signature.SignerCertificate.Thumbprint -eq '84913A32E5DBC03EDC416B4FD3B499DCBD52145E'
+          if ($signature.Status -ne 'Valid' -and -not ($pinnedTestCertificate -and $signature.Status -in @('UnknownError', 'NotTrusted'))) {
+            throw "The signed launcher signature is not accepted: $($signature.Status) $($signature.StatusMessage) signer $($signature.SignerCertificate.Thumbprint)"
+          }
+
       - name: Upload signed executable for manual publishing
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
