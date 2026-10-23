@@ -70,6 +70,11 @@
             </ControlTemplate>
           </Setter.Value>
         </Setter>
+        <Style.Triggers>
+          <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}" Value="icons">
+            <Setter Property="Margin" Value="0,0,0,4" />
+          </DataTrigger>
+        </Style.Triggers>
       </Style>
     </ResourceDictionary>
   </FrameworkElement.Resources>
@@ -79,26 +84,26 @@
       <ColumnDefinition Width="*" />
     </Grid.ColumnDefinitions>
 
-    <Grid Grid.Column="0" Width="225" Margin="0,0,10,0" HorizontalAlignment="Left" ClipToBounds="True">
+    <Grid x:Name="ServersSidebar" Grid.Column="0" Width="225" Margin="0,0,10,0" HorizontalAlignment="Left" ClipToBounds="True">
       <Grid.RowDefinitions>
         <RowDefinition Height="Auto" />
         <RowDefinition Height="Auto" />
         <RowDefinition Height="Auto" />
         <RowDefinition Height="*" />
       </Grid.RowDefinitions>
-      <UniformGrid Grid.Row="0" Rows="1" Margin="0,2,0,8">
+      <UniformGrid x:Name="SidebarTabsRow" Grid.Row="0" Rows="1" Margin="0,2,0,8">
         <ui:Button Margin="0,0,3,0" HorizontalAlignment="Stretch" Appearance="{Binding MineAppearance}" Content="{resources:Loc PrivateServers_Yours}" Command="{Binding ShowMineCommand}" />
         <ui:Button Margin="3,0,0,0" HorizontalAlignment="Stretch" Appearance="{Binding FriendsAppearance}" Content="{resources:Loc Ui_SessionNotify_Friends}" Command="{Binding ShowFriendsCommand}" />
       </UniformGrid>
-      <ui:TextBox Grid.Row="1" Margin="0,2,0,0" PlaceholderText="{resources:Loc Ui_Pages_SearchGames}" Icon="Search24" ClearButtonEnabled="True" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=200}" />
-      <Grid Grid.Row="2" Margin="16,6,0,0">
+      <ui:TextBox x:Name="SidebarSearchBox" Grid.Row="1" Margin="0,2,0,0" PlaceholderText="{resources:Loc Ui_Pages_SearchGames}" Icon="Search24" ClearButtonEnabled="True" Text="{Binding SearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Delay=200}" />
+      <Grid x:Name="SidebarRefreshRow" Grid.Row="2" Margin="16,6,0,0">
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Visibility="{Binding StatusVisibility}" Margin="0,0,34,0">
           <ui:ProgressRing Width="14" Height="14" Margin="0,0,8,0" IsIndeterminate="True" Visibility="{Binding IsLoading, Converter={StaticResource BooleanToVisibilityConverter}}" />
           <TextBlock Text="{Binding Status}" FontSize="12" TextWrapping="Wrap" MaxWidth="170" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
         </StackPanel>
         <ui:Button HorizontalAlignment="Right" VerticalAlignment="Top" Padding="4,0" Appearance="Transparent" Icon="ArrowSync24" ToolTip="{resources:Loc ContextMenu_ServerBrowser_Refresh}" Command="{Binding RefreshCommand}" />
       </Grid>
-      <ListBox Grid.Row="3" Background="#00FFFFFF" BorderThickness="0" Padding="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" VirtualizingPanel.IsVirtualizingWhenGrouping="True" VirtualizingPanel.ScrollUnit="Pixel" ItemContainerStyle="{StaticResource NavSideItem}" ItemsSource="{Binding Games}" SelectedItem="{Binding SelectedGame, Mode=TwoWay}">
+      <ListBox x:Name="SidebarList" Grid.Row="3" Tag="full" Background="#00FFFFFF" BorderThickness="0" Padding="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" VirtualizingPanel.IsVirtualizingWhenGrouping="True" VirtualizingPanel.ScrollUnit="Pixel" ItemContainerStyle="{StaticResource NavSideItem}" ItemsSource="{Binding Games}" SelectedItem="{Binding SelectedGame, Mode=TwoWay}">
         <ItemsControl.ItemTemplate>
           <DataTemplate>
             <Grid Background="#00FFFFFF">
@@ -108,12 +113,33 @@
                 <ColumnDefinition Width="Auto" />
               </Grid.ColumnDefinitions>
               <Image Grid.Column="0" Width="18" Height="18" Margin="0,0,14,0" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding IconUrl, TargetNullValue={x:Null}, FallbackValue={x:Null}}" Stretch="UniformToFill" />
-              <TextBlock Grid.Column="1" VerticalAlignment="Center" FontSize="14" Foreground="{DynamicResource TextFillColorPrimaryBrush}" TextTrimming="CharacterEllipsis" Text="{Binding Name}" ToolTip="{Binding Name}" />
-              <TextBlock Grid.Column="2" Margin="8,0,0,0" VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding Servers.Count}" />
+              <TextBlock Grid.Column="1" VerticalAlignment="Center" FontSize="14" Foreground="{DynamicResource TextFillColorPrimaryBrush}" TextTrimming="CharacterEllipsis" Text="{Binding Name}" ToolTip="{Binding Name}">
+                <FrameworkElement.Style>
+                  <Style TargetType="{x:Type TextBlock}">
+                    <Style.Triggers>
+                      <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}" Value="icons">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                      </DataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </FrameworkElement.Style>
+              </TextBlock>
+              <TextBlock Grid.Column="2" Margin="8,0,0,0" VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding Servers.Count}">
+                <FrameworkElement.Style>
+                  <Style TargetType="{x:Type TextBlock}">
+                    <Style.Triggers>
+                      <DataTrigger Binding="{Binding Tag, RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}" Value="icons">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                      </DataTrigger>
+                    </Style.Triggers>
+                  </Style>
+                </FrameworkElement.Style>
+              </TextBlock>
             </Grid>
           </DataTemplate>
         </ItemsControl.ItemTemplate>
       </ListBox>
+      <Border x:Name="SidebarResizer" Grid.Row="0" Grid.RowSpan="4" Width="8" Margin="0,0,-4,0" HorizontalAlignment="Right" Background="Transparent" Cursor="SizeWE" Panel.ZIndex="50" ToolTip="{resources:Loc Ui_Main_ResizeSidebar}" MouseLeftButtonDown="SidebarResizer_MouseLeftButtonDown" MouseMove="SidebarResizer_MouseMove" MouseLeftButtonUp="SidebarResizer_MouseLeftButtonUp" />
     </Grid>
 
     <Grid Grid.Column="1" Margin="10,0,0,0" Visibility="{Binding DetailVisibility}">

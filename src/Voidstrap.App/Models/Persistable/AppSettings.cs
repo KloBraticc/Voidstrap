@@ -435,6 +435,7 @@ namespace Voidstrap.Models.Persistable
         public List<string> SidebarHiddenItems { get; set; } = [];
 
         public double LibrarySidebarWidth { get; set; } = 225;
+        public double PrivateServersSidebarWidth { get; set; } = 225;
         public int UiZoomPercent { get; set; } = 100;
         public bool VoidstrapMatchmakerAutoCandidates { get; set; } = true;
         public List<string> VoidstrapMatchmakerDisabledDatacenters { get; set; } = [];

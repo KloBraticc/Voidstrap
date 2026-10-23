@@ -442,7 +442,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         typeof(NvidiaFFlagEditorPage),
         typeof(ReleasesPage),
         typeof(DonoPage),
-        typeof(LibraryPage)
+        typeof(LibraryPage),
+        typeof(PrivateServersPage)
     };
 
     private LibraryPage? _libraryPage;
@@ -1032,8 +1033,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             BreadcrumbPanel.Visibility = content is LibraryPage or PrivateServersPage ? Visibility.Collapsed : Visibility.Visible;
         }
-        bool isLibrary = content is LibraryPage;
-        RootNavigation.Visibility = (isLibrary ? Visibility.Collapsed : Visibility.Visible);
+        bool hasOwnSidebar = content is LibraryPage or PrivateServersPage;
+        RootNavigation.Visibility = hasOwnSidebar ? Visibility.Collapsed : Visibility.Visible;
         SynchronizeSidebarSelection(content);
         SidebarGroup.RefreshActiveChild(MoreNavItem);
         Dispatcher.BeginInvoke(new Action(SynchronizeCurrentSidebarSelection), DispatcherPriority.Loaded);
@@ -4955,6 +4956,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         if (RootFrame.Content is LibraryPage libraryPage)
         {
             libraryPage.ToggleSidebar();
+            return;
+        }
+        if (RootFrame.Content is PrivateServersPage privateServersPage)
+        {
+            privateServersPage.ToggleSidebar();
             return;
         }
         if (RootNavigation == null)
