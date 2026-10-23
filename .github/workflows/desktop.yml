@@ -26,6 +26,37 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  scope:
+    name: Choose validation scope
+    runs-on: ubuntu-latest
+    outputs:
+      full: ${{ steps.pick.outputs.full }}
+      macos: ${{ steps.pick.outputs.macos }}
+      packages: ${{ steps.pick.outputs.packages }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+      - id: pick
+        env:
+          BEFORE: ${{ github.event.before }}
+        run: |
+          full=true
+          if [ "${{ github.event_name }}" = push ] && [ -n "$BEFORE" ] && ! echo "$BEFORE" | grep -qE '^0+$' && git cat-file -e "$BEFORE^{commit}" 2>/dev/null; then
+            if ! git diff --name-only "$BEFORE" "$GITHUB_SHA" | grep -qE '^(build/Packaging/|native/|\.github/workflows/desktop\.yml$)'; then
+              full=false
+            fi
+          fi
+          if [ "$full" = true ]; then
+            echo 'macos=[{"rid":"osx-x64","runner":"macos-15-intel"},{"rid":"osx-arm64","runner":"macos-15"}]' >> "$GITHUB_OUTPUT"
+            echo 'packages=[{"rid":"linux-x64","format":"deb"},{"rid":"linux-arm64","format":"deb"},{"rid":"linux-x64","format":"tar"},{"rid":"linux-arm64","format":"tar"},{"rid":"linux-musl-x64","format":"tar"},{"rid":"linux-musl-arm64","format":"tar"}]' >> "$GITHUB_OUTPUT"
+          else
+            echo 'macos=[{"rid":"osx-arm64","runner":"macos-15"}]' >> "$GITHUB_OUTPUT"
+            echo 'packages=[{"rid":"linux-x64","format":"deb"}]' >> "$GITHUB_OUTPUT"
+          fi
+          echo "full=$full" >> "$GITHUB_OUTPUT"
+          echo "Full packaging matrix: $full"
+
   windows:
     if: github.event_name != 'workflow_dispatch' || !inputs.macos_overlay_only
     runs-on: windows-latest
@@ -78,15 +109,12 @@ jobs:
       - run: dotnet build src/ClientServer/ClientServer.slnx -c Debug -warnaserror
 
   macos:
+    needs: scope
     runs-on: ${{ matrix.runner }}
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - rid: osx-x64
-            runner: macos-15-intel
-          - rid: osx-arm64
-            runner: macos-15
+        include: ${{ fromJSON(needs.scope.outputs.macos) }}
     steps:
       - name: Share one native build folder across steps
         shell: bash
@@ -781,7 +809,8 @@ jobs:
           path: artifacts
 
   macos_cross_dmgs:
-    if: github.event_name != 'workflow_dispatch' || !inputs.macos_overlay_only
+    if: (github.event_name != 'workflow_dispatch' || !inputs.macos_overlay_only) && needs.scope.outputs.full == 'true'
+    needs: scope
     name: Build macOS disk images on Linux
     runs-on: ubuntu-latest
     steps:
@@ -934,7 +963,8 @@ jobs:
       - run: dotnet build src/Voidstrap.Desktop.Linux/Voidstrap.Desktop.Linux.csproj -c Debug -warnaserror -p:BaseIntermediateOutputPath=obj-linux-ci-experimental/
 
   linux_aur:
-    if: github.event_name != 'workflow_dispatch' || !inputs.macos_overlay_only
+    if: (github.event_name != 'workflow_dispatch' || !inputs.macos_overlay_only) && needs.scope.outputs.full == 'true'
+    needs: scope
     name: Arch AUR recipe generation
     runs-on: ubuntu-latest
     steps:
@@ -950,23 +980,12 @@ jobs:
   linux_packages:
     if: github.event_name != 'workflow_dispatch' || !inputs.macos_overlay_only
     name: Linux ${{ matrix.rid }} ${{ matrix.format }} package validation
+    needs: scope
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - rid: linux-x64
-            format: deb
-          - rid: linux-arm64
-            format: deb
-          - rid: linux-x64
-            format: tar
-          - rid: linux-arm64
-            format: tar
-          - rid: linux-musl-x64
-            format: tar
-          - rid: linux-musl-arm64
-            format: tar
+        include: ${{ fromJSON(needs.scope.outputs.packages) }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
@@ -983,7 +1002,8 @@ jobs:
           path: artifacts/packages
 
   linux_rpm_packages:
-    if: github.event_name != 'workflow_dispatch' || !inputs.macos_overlay_only
+    if: (github.event_name != 'workflow_dispatch' || !inputs.macos_overlay_only) && needs.scope.outputs.full == 'true'
+    needs: scope
     name: Linux ${{ matrix.rid }} RPM artifact validation
     runs-on: ubuntu-latest
     strategy:
@@ -1032,7 +1052,8 @@ jobs:
           path: artifacts/packages
 
   linux_appimage_availability:
-    if: github.event_name != 'workflow_dispatch' || !inputs.macos_overlay_only
+    if: (github.event_name != 'workflow_dispatch' || !inputs.macos_overlay_only) && needs.scope.outputs.full == 'true'
+    needs: scope
     name: Linux AppImage tool availability
     runs-on: ubuntu-latest
     steps:
