@@ -166,7 +166,7 @@ namespace Voidstrap.Utility
                 App.Logger?.WriteLine("ClassicIntegrations", "Overlay failed: " + ex.Message);
             }
 
-            try { Voidstrap.Integrations.Fullscreen.FakeExclusiveFullscreen.OnGameJoin(); } catch { }
+            try { Voidstrap.Integrations.Fullscreen.RobloxFullscreen.OnGameJoin(); } catch { }
             try { AntiAliasingManager.OnGameJoin(); } catch { }
         }
 
@@ -192,7 +192,6 @@ namespace Voidstrap.Utility
 
             try { AntiAliasingManager.OnGameLeave(); } catch { }
             try { Voidstrap.Integrations.FrameGeneration.FrameGenManager.OnGameLeave(); } catch { }
-            try { Voidstrap.Integrations.Fullscreen.FakeExclusiveFullscreen.OnGameLeave(); } catch { }
         }
 
         private static void ManageStudioHost(Process studio, CancellationToken token)

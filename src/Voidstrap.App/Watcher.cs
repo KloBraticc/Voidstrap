@@ -532,7 +532,7 @@ public partial class Watcher : IDisposable
 		}
 		if (Voidstrap.Utility.Platform.IsLinux)
 			RunRuntimeAction(() => Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(true), "SyncGameJoin");
-		RunRuntimeAction(Voidstrap.Integrations.Fullscreen.FakeExclusiveFullscreen.OnGameJoin, "FullscreenJoin");
+		RunRuntimeAction(Voidstrap.Integrations.Fullscreen.RobloxFullscreen.OnGameJoin, "FullscreenJoin");
 		RunRuntimeAction(Voidstrap.Integrations.AntiAliasing.AntiAliasingManager.OnGameJoin, "AntiAliasingJoin");
 		RunOnApplicationDispatcher(EnsureRuntimeSessionWindows);
 	}
@@ -580,7 +580,6 @@ public partial class Watcher : IDisposable
 		}
 		if (Voidstrap.Utility.Platform.IsLinux && !teleporting)
 			RunRuntimeAction(() => Voidstrap.Integrations.Overlays.OverlayHub.SynchronizeLinuxGameState(false), "SyncGameLeave");
-		RunRuntimeAction(Voidstrap.Integrations.Fullscreen.FakeExclusiveFullscreen.OnGameLeave, "FullscreenLeave");
 		if (!teleporting)
 		{
 			RunRuntimeAction(Voidstrap.Integrations.AntiAliasing.AntiAliasingManager.OnGameLeave, "AntiAliasingLeave");
@@ -932,6 +931,8 @@ public partial class Watcher : IDisposable
 		ActivityWatcher?.Start();
 		Voidstrap.Integrations.Overlays.OverlayHub.Refresh();
 		StartWindowManipulation();
+		if (FullscreenModeActive)
+			RunOnApplicationDispatcher(Voidstrap.Integrations.Fullscreen.RobloxFullscreen.Start);
 		StartRuntimeOptimizer();
 		DateTime sessionStartedUtc = ModCrashGuard.BeginSession();
 		Task crashMonitor = MonitorModCrashAsync(sessionStartedUtc, _lifetimeCancellation.SafeToken());
@@ -1060,7 +1061,7 @@ public partial class Watcher : IDisposable
 		}
 
 		var prop = App.Settings.Prop;
-		if (prop.FakeBorderlessFullscreen || prop.CycleTitleWithGameName || prop.UseGameIconForRobloxWindow)
+		if (prop.CycleTitleWithGameName || prop.UseGameIconForRobloxWindow)
 		{
 			return true;
 		}

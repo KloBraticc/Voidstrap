@@ -67,9 +67,6 @@ namespace Voidstrap.Integrations
 
         public void Start()
         {
-            if (App.Settings.Prop.FakeBorderlessFullscreen)
-                FakeBorderless();
-
             ApplyWindowModifications();
             ApplyWindowBackdrop();
 
@@ -78,7 +75,7 @@ namespace Voidstrap.Integrations
             if (_activityWatcher != null && RobloxWindowTitle.WantsUpdates)
                 _titleUpdater = new RobloxWindowTitle(_activityWatcher, ApplyTitle);
 
-            if (_activityWatcher != null && (_titleUpdater != null || useGameIcon || App.Settings.Prop.FakeBorderlessFullscreen))
+            if (_activityWatcher != null && (_titleUpdater != null || useGameIcon))
             {
                 _activityWatcher.OnGameJoin += OnGameJoin;
                 _activityWatcher.OnGameLeave += OnGameLeave;
@@ -89,42 +86,6 @@ namespace Voidstrap.Integrations
                     _ = Task.Run(() => ApplyGameIconAsync(universeId));
                 }
             }
-        }
-
-        private void FakeBorderless()
-        {
-            const string LOG_IDENT = "WindowManipulation::BorderlessFullscreen";
-            App.Logger.WriteLine(LOG_IDENT, "Setting Roblox to borderless fullscreen");
-
-            const int GWLSTYLE = -16;
-
-            int style = PInvoke.GetWindowLong(_hWnd, (WINDOW_LONG_PTR_INDEX)GWLSTYLE);
-
-            const int WS_CAPTION = 0x00C00000;
-            const int WS_THICKFRAME = 0x00040000;
-            const int WS_MINIMIZEBOX = 0x00020000;
-            const int WS_MAXIMIZEBOX = 0x00010000;
-            const int WS_SYSMENU = 0x00080000;
-
-            style &= ~WS_CAPTION;
-            style &= ~WS_THICKFRAME;
-            style &= ~WS_MINIMIZEBOX;
-            style &= ~WS_MAXIMIZEBOX;
-            style &= ~WS_SYSMENU;
-
-            Rectangle resolution;
-            try
-            {
-                resolution = Screen.FromHandle((IntPtr)_hWnd).Bounds;
-            }
-            catch
-            {
-                resolution = Screen.PrimaryScreen!.Bounds;
-            }
-
-            _ = PInvoke.SetWindowLong(_hWnd, (WINDOW_LONG_PTR_INDEX)GWLSTYLE, style);
-
-            PInvoke.SetWindowPos(_hWnd, (HWND)IntPtr.Zero, resolution.X, resolution.Y, resolution.Width, resolution.Height + 1, SET_WINDOW_POS_FLAGS.SWP_FRAMECHANGED | SET_WINDOW_POS_FLAGS.SWP_SHOWWINDOW);
         }
 
         private void ApplyWindowModifications()
@@ -191,9 +152,6 @@ namespace Voidstrap.Integrations
             {
                 if (_disposed || _activityWatcher == null)
                     return;
-
-                if (App.Settings.Prop.FakeBorderlessFullscreen)
-                    FakeBorderless();
 
                 long universeId = _activityWatcher.Data?.UniverseId ?? 0;
                 if (universeId <= 0)

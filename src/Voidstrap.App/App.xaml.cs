@@ -2103,7 +2103,7 @@ public partial class App : Application
 		TryShutdown(Voidstrap.Integrations.Rojo.RojoManager.Shutdown);
 		TryShutdown(Voidstrap.Integrations.Studio.StudioIntegration.Shutdown);
 		TryShutdown(AssetCaptureStore.Shutdown);
-		TryShutdown(Voidstrap.Integrations.Fullscreen.FakeExclusiveFullscreen.Shutdown);
+		TryShutdown(Voidstrap.Integrations.Fullscreen.RobloxFullscreen.Shutdown);
 		if (Voidstrap.Utility.Platform.IsLinux)
 			TryShutdown(Voidstrap.Integrations.Overlays.OverlayHub.Shutdown);
 		TryShutdown(Voidstrap.Integrations.Overlays.RobloxWindowTracker.Shutdown);

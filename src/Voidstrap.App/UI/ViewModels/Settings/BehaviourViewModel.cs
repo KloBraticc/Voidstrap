@@ -2266,12 +2266,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			if (value == 2)
 			{
 				FakeExclusiveFullscreen = true;
-				if (!App.Settings.Prop.FakeExclusiveFullscreen)
-				{
-					OnPropertyChanged(nameof(RobloxFullscreenMode));
-					OnPropertyChanged(nameof(ShowExclusiveFullscreenWarning));
-					return;
-				}
 				FakeBorderlessFullscreen = false;
 			}
 			else
@@ -2280,11 +2274,8 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 				FakeBorderlessFullscreen = value == 1;
 			}
 			OnPropertyChanged(nameof(RobloxFullscreenMode));
-			OnPropertyChanged(nameof(ShowExclusiveFullscreenWarning));
 		}
 	}
-
-	public bool ShowExclusiveFullscreenWarning => RobloxFullscreenMode == 2 && !Voidstrap.Utility.Platform.IsLinux;
 
 	public bool FakeBorderlessFullscreen
 	{
@@ -2312,14 +2303,6 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		{
 			if (App.Settings.Prop.FakeExclusiveFullscreen == value)
 			{
-				return;
-			}
-			if (value && Frontend.ShowMessageBox(
-				"Fake Exclusive Fullscreen presents Roblox through a fullscreen layer.\n\nWhile it is on:\n\nYour Windows mouse cursor is hidden.\nEvery overlay is hidden, including the crosshair, the FPS and ping counters, RiShade and Anti Aliasing.\n\nTurn it off if you need any of those. Enable it anyway?",
-				MessageBoxImage.Warning,
-				MessageBoxButton.YesNo) != MessageBoxResult.Yes)
-			{
-				OnPropertyChanged(nameof(FakeExclusiveFullscreen));
 				return;
 			}
 			App.Settings.Prop.FakeExclusiveFullscreen = value;
