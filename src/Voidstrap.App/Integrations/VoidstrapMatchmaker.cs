@@ -103,6 +103,7 @@ public static class VoidstrapMatchmaker
 	private static readonly SemaphoreSlim _ipLookupLock = new SemaphoreSlim(6, 6);
 
 	private static long _joinBackoffUntilTicks;
+	private static int _joinRateLimitStreak;
 
 	private static string? _csrfToken;
 
@@ -1065,6 +1066,18 @@ public static class VoidstrapMatchmaker
 			await Task.Delay(TimeSpan.FromTicks(until - now) + TimeSpan.FromMilliseconds(Random.Shared.Next(25, 201)), token).ConfigureAwait(false);
 	}
 
+	private static void NoteJoinRateLimited(TimeSpan? retryAfter)
+	{
+		int streak = Math.Min(Interlocked.Increment(ref _joinRateLimitStreak), 4);
+		SetJoinBackoff(retryAfter ?? TimeSpan.FromSeconds(1.5 * (1 << (streak - 1))));
+	}
+
+	private static void NoteJoinAccepted()
+	{
+		if (Volatile.Read(ref _joinRateLimitStreak) != 0)
+			Interlocked.Exchange(ref _joinRateLimitStreak, 0);
+	}
+
 	private static void SetJoinBackoff(TimeSpan duration)
 	{
 		if (duration > TimeSpan.FromSeconds(8.0))
@@ -1231,7 +1244,7 @@ public static class VoidstrapMatchmaker
 				}
 				if (res.StatusCode == HttpStatusCode.TooManyRequests)
 				{
-					SetJoinBackoff(res.Headers.RetryAfter?.Delta ?? TimeSpan.FromSeconds(1.5));
+					NoteJoinRateLimited(res.Headers.RetryAfter?.Delta);
 					return new ServerStartLookup(ServerStartStatus.Unavailable, default);
 				}
 				if (res.StatusCode == HttpStatusCode.Unauthorized)
@@ -1243,6 +1256,7 @@ public static class VoidstrapMatchmaker
 					App.Logger.WriteLine(LOG_IDENT, $"Server uptime lookup through gamejoin {api} answered {(int)res.StatusCode}");
 					return new ServerStartLookup(ServerStartStatus.Unavailable, default);
 				}
+				NoteJoinAccepted();
 				DateTimeOffset? serverDate = res.Headers.Date;
 				using JsonDocument? doc = await ReadJoinResponseAsync(res, timeoutCts.Token).ConfigureAwait(false);
 				if (doc == null)
@@ -1467,7 +1481,7 @@ public static class VoidstrapMatchmaker
 				if (res.StatusCode == HttpStatusCode.TooManyRequests)
 				{
 					LogProbeFailure(res.StatusCode);
-					SetJoinBackoff(res.Headers.RetryAfter?.Delta ?? TimeSpan.FromSeconds(1.5));
+					NoteJoinRateLimited(res.Headers.RetryAfter?.Delta);
 					if (attempt == 0)
 						continue;
 					return new ResolveAttempt("", 0, false, false);
@@ -1481,6 +1495,7 @@ public static class VoidstrapMatchmaker
 					return new ResolveAttempt("", 0, false, alternate);
 				}
 
+				NoteJoinAccepted();
 				DateTimeOffset? probeDate = res.Headers.Date;
 				using JsonDocument? doc = await ReadJoinResponseAsync(res, timeoutCts.Token).ConfigureAwait(false);
 				if (doc == null || !HasJoinScript(doc.RootElement))
