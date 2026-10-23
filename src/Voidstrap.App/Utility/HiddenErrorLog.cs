@@ -151,7 +151,7 @@ internal static class HiddenErrorLog
 		if (_inside)
 			return;
 		Exception ex = e.Exception;
-		if (ex is OperationCanceledException || IsKnownInternalProbe(ex))
+		if (ex is OperationCanceledException || IsKnownInternalProbe(ex) || IsAbortedTransfer(ex))
 			return;
 		_inside = true;
 		try
@@ -176,6 +176,16 @@ internal static class HiddenErrorLog
 		{
 			_inside = false;
 		}
+	}
+
+	private static bool IsAbortedTransfer(Exception ex)
+	{
+		for (Exception? current = ex; current != null; current = current.InnerException)
+		{
+			if (current is System.Net.Sockets.SocketException { SocketErrorCode: System.Net.Sockets.SocketError.OperationAborted })
+				return true;
+		}
+		return ex is System.IO.IOException && ex.Message.Contains("aborted because of either a thread exit or an application request", StringComparison.Ordinal);
 	}
 
 	private static bool IsKnownInternalProbe(Exception ex)
