@@ -80,6 +80,10 @@ public static partial class KeystrokeInputService
             {
                 StartLinuxMonitoring();
             }
+            else if (Voidstrap.Utility.Platform.IsMacOS)
+            {
+                StartMacMonitoring();
+            }
         }
     }
 
@@ -100,6 +104,10 @@ public static partial class KeystrokeInputService
             else if (Voidstrap.Utility.Platform.IsLinux)
             {
                 StopLinuxMonitoring();
+            }
+            else if (Voidstrap.Utility.Platform.IsMacOS)
+            {
+                StopMacMonitoring();
             }
 
             Array.Clear(KeyDownStates, 0, KeyDownStates.Length);
@@ -156,7 +164,7 @@ public static partial class KeystrokeInputService
 
     private static void QueueInput(int code, string? name, KeystrokeTarget? target, bool isDown)
     {
-        if (isDown && !IsRobloxFocused())
+        if (isDown && !IsRobloxFocused() && !Voidstrap.Integrations.Overlays.LinuxGameOverlay.Active)
             return;
 
         Dispatcher? dispatcher = _dispatcher;
@@ -464,47 +472,49 @@ public static partial class KeystrokeInputService
     [LibraryImport("libc", EntryPoint = "poll", SetLastError = true)]
     private static partial int PollLinux([In, Out] PollFd[] fds, uint nfds, int timeout);
 
+    private const int LinuxRescanTicks = 40;
+
     private static void LinuxInputLoop(CancellationToken token)
     {
-        List<int> openedFds = [];
+        Dictionary<string, int> opened = new(StringComparer.Ordinal);
         try
         {
-            string[] eventNodes = Directory.Exists("/dev/input")
-                ? Directory.GetFiles("/dev/input", "event*")
-                : [];
-
-            foreach (string node in eventNodes)
-            {
-                byte[] pathBytes = System.Text.Encoding.UTF8.GetBytes(node + "\0");
-                int fd = OpenLinux(pathBytes, 0x800, 0);
-                if (fd >= 0)
-                    openedFds.Add(fd);
-            }
-
-            if (openedFds.Count == 0)
+            OpenLinuxDevices(opened);
+            if (opened.Count == 0)
             {
                 _hasInputAccess = false;
-                LinuxX11FallbackLoop(token);
-                return;
+                if (LinuxX11RawLoop(token))
+                    return;
+                while (!token.IsCancellationRequested && opened.Count == 0)
+                {
+                    token.WaitHandle.WaitOne(2000);
+                    OpenLinuxDevices(opened);
+                }
+                if (opened.Count == 0)
+                    return;
             }
 
             _hasInputAccess = true;
-            byte[] eventBuffer = new byte[Marshal.SizeOf<LinuxInputEvent>() * 16];
             int structSize = Marshal.SizeOf<LinuxInputEvent>();
-
-            PollFd[] pollFds = new PollFd[openedFds.Count];
-            for (int i = 0; i < openedFds.Count; i++)
-            {
-                pollFds[i] = new PollFd
-                {
-                    Fd = openedFds[i],
-                    Events = 1,
-                    Revents = 0
-                };
-            }
+            byte[] eventBuffer = new byte[structSize * 16];
+            PollFd[] pollFds = BuildPollSet(opened);
+            int ticks = 0;
 
             while (!token.IsCancellationRequested)
             {
+                if (++ticks >= LinuxRescanTicks)
+                {
+                    ticks = 0;
+                    if (OpenLinuxDevices(opened))
+                        pollFds = BuildPollSet(opened);
+                }
+
+                if (pollFds.Length == 0)
+                {
+                    token.WaitHandle.WaitOne(50);
+                    continue;
+                }
+
                 int ret = PollLinux(pollFds, (uint)pollFds.Length, 50);
                 if (ret <= 0)
                     continue;
@@ -542,22 +552,21 @@ public static partial class KeystrokeInputService
 
                 if (lostDevice)
                 {
-                    List<PollFd> alive = new(pollFds.Length);
                     foreach (PollFd pollFd in pollFds)
                     {
-                        if ((pollFd.Revents & 0x38) != 0)
+                        if ((pollFd.Revents & 0x38) == 0)
+                            continue;
+                        CloseLinux(pollFd.Fd);
+                        foreach (KeyValuePair<string, int> entry in opened)
                         {
-                            CloseLinux(pollFd.Fd);
-                            openedFds.Remove(pollFd.Fd);
-                        }
-                        else
-                        {
-                            alive.Add(pollFd with { Revents = 0 });
+                            if (entry.Value == pollFd.Fd)
+                            {
+                                opened.Remove(entry.Key);
+                                break;
+                            }
                         }
                     }
-                    pollFds = alive.ToArray();
-                    if (pollFds.Length == 0)
-                        return;
+                    pollFds = BuildPollSet(opened);
                 }
             }
         }
@@ -567,23 +576,189 @@ public static partial class KeystrokeInputService
         }
         finally
         {
-            foreach (int fd in openedFds)
+            foreach (int fd in opened.Values)
                 CloseLinux(fd);
         }
     }
 
-    private static void LinuxX11FallbackLoop(CancellationToken token)
+    private static bool OpenLinuxDevices(Dictionary<string, int> opened)
     {
-        while (!token.IsCancellationRequested)
+        bool changed = false;
+        string[] eventNodes;
+        try
         {
-            try
+            eventNodes = Directory.Exists("/dev/input") ? Directory.GetFiles("/dev/input", "event*") : [];
+        }
+        catch
+        {
+            return false;
+        }
+
+        foreach (string node in eventNodes)
+        {
+            if (opened.ContainsKey(node))
+                continue;
+            byte[] pathBytes = System.Text.Encoding.UTF8.GetBytes(node + "\0");
+            int fd = OpenLinux(pathBytes, 0x800 | 0x80000, 0);
+            if (fd < 0)
+                continue;
+            opened[node] = fd;
+            changed = true;
+        }
+        return changed;
+    }
+
+    private static PollFd[] BuildPollSet(Dictionary<string, int> opened)
+    {
+        PollFd[] set = new PollFd[opened.Count];
+        int index = 0;
+        foreach (int fd in opened.Values)
+            set[index++] = new PollFd { Fd = fd, Events = 1, Revents = 0 };
+        return set;
+    }
+
+    private const string LibX11 = "libX11.so.6";
+    private const string LibXi = "libXi.so.6";
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct XIEventMask
+    {
+        public int DeviceId;
+        public int MaskLen;
+        public nint Mask;
+    }
+
+    [LibraryImport(LibX11, EntryPoint = "XOpenDisplay")]
+    private static partial nint XOpenDisplay(nint name);
+
+    [LibraryImport(LibX11, EntryPoint = "XCloseDisplay")]
+    private static partial int XCloseDisplay(nint display);
+
+    [LibraryImport(LibX11, EntryPoint = "XDefaultRootWindow")]
+    private static partial nuint XDefaultRootWindow(nint display);
+
+    [LibraryImport(LibX11, EntryPoint = "XQueryExtension", StringMarshalling = StringMarshalling.Utf8)]
+    private static partial int XQueryExtension(nint display, string name, out int opcode, out int firstEvent, out int firstError);
+
+    [LibraryImport(LibX11, EntryPoint = "XConnectionNumber")]
+    private static partial int XConnectionNumber(nint display);
+
+    [LibraryImport(LibX11, EntryPoint = "XPending")]
+    private static partial int XPending(nint display);
+
+    [LibraryImport(LibX11, EntryPoint = "XNextEvent")]
+    private static partial int XNextEvent(nint display, byte[] ev);
+
+    [LibraryImport(LibX11, EntryPoint = "XGetEventData")]
+    private static partial int XGetEventData(nint display, nint cookie);
+
+    [LibraryImport(LibX11, EntryPoint = "XFreeEventData")]
+    private static partial void XFreeEventData(nint display, nint cookie);
+
+    [LibraryImport(LibX11, EntryPoint = "XFlush")]
+    private static partial int XFlush(nint display);
+
+    [LibraryImport(LibXi, EntryPoint = "XIQueryVersion")]
+    private static partial int XIQueryVersion(nint display, ref int major, ref int minor);
+
+    [LibraryImport(LibXi, EntryPoint = "XISelectEvents")]
+    private static partial int XISelectEvents(nint display, nuint window, ref XIEventMask masks, int count);
+
+    private static unsafe bool LinuxX11RawLoop(CancellationToken token)
+    {
+        if (string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DISPLAY")))
+            return false;
+
+        nint display;
+        try
+        {
+            display = XOpenDisplay(IntPtr.Zero);
+        }
+        catch (Exception ex) when (ex is DllNotFoundException or EntryPointNotFoundException)
+        {
+            return false;
+        }
+        if (display == IntPtr.Zero)
+            return false;
+
+        try
+        {
+            int major = 2;
+            int minor = 0;
+            if (XQueryExtension(display, "XInputExtension", out int opcode, out _, out _) == 0 || XIQueryVersion(display, ref major, ref minor) != 0)
+                return false;
+
+            byte* bits = stackalloc byte[3];
+            bits[0] = 0;
+            bits[1] = 0;
+            bits[2] = 0;
+            foreach (int raw in new[] { 13, 14, 15, 16 })
+                bits[raw >> 3] |= (byte)(1 << (raw & 7));
+            XIEventMask mask = new() { DeviceId = 1, MaskLen = 3, Mask = (nint)bits };
+            if (XISelectEvents(display, XDefaultRootWindow(display), ref mask, 1) != 0)
+                return false;
+            XFlush(display);
+
+            _hasInputAccess = true;
+            App.Logger?.WriteLine("KeystrokeInputService", "Reading keys through X11 raw input because the input devices cannot be opened");
+            byte[] ev = new byte[192];
+            PollFd[] connection = [new PollFd { Fd = XConnectionNumber(display), Events = 1 }];
+            fixed (byte* cookie = ev)
             {
-                Thread.Sleep(25);
+                while (!token.IsCancellationRequested)
+                {
+                    if (XPending(display) == 0)
+                    {
+                        connection[0].Revents = 0;
+                        PollLinux(connection, 1, 50);
+                        continue;
+                    }
+
+                    XNextEvent(display, ev);
+                    if (BitConverter.ToInt32(ev, 0) != 35 || BitConverter.ToInt32(ev, 32) != opcode)
+                        continue;
+                    if (XGetEventData(display, (nint)cookie) == 0)
+                        continue;
+                    try
+                    {
+                        int evtype = BitConverter.ToInt32(ev, 36);
+                        nint data = (nint)BitConverter.ToInt64(ev, 48);
+                        if (data == IntPtr.Zero)
+                            continue;
+                        int detail = Marshal.ReadInt32(data, 56);
+                        switch (evtype)
+                        {
+                            case 13:
+                            case 14:
+                                if (detail >= 8)
+                                {
+                                    ushort code = (ushort)(detail - 8);
+                                    QueueInput(code, MapLinuxCodeToString(code), MapLinuxCode(code), evtype == 13);
+                                }
+                                break;
+                            case 15:
+                            case 16:
+                                ushort button = detail switch { 1 => 272, 2 => 274, 3 => 273, _ => (ushort)0 };
+                                if (button != 0)
+                                    QueueInput(button, MapLinuxCodeToString(button), MapLinuxCode(button), evtype == 15);
+                                break;
+                        }
+                    }
+                    finally
+                    {
+                        XFreeEventData(display, (nint)cookie);
+                    }
+                }
             }
-            catch
-            {
-                break;
-            }
+            return true;
+        }
+        catch (Exception ex) when (ex is DllNotFoundException or EntryPointNotFoundException)
+        {
+            return false;
+        }
+        finally
+        {
+            XCloseDisplay(display);
         }
     }
 
