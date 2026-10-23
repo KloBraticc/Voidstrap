@@ -8023,29 +8023,8 @@ Voidstrap がデスクトップ フォルダーに書き込めませんでした
   <data name="Ui.RiShade.DepthModel.Title" xml:space="preserve">
     <value>AI 深度モデル</value>
   </data>
-  <data name="Ui.RiShade.DepthModel.Description" xml:space="preserve">
-    <value>アンビエントオクルージョン、被写界深度、反射などの深度エフェクトに本物の距離感を与えます。大きいモデルほど鮮明ですが、GPU 時間を多く使います。変更は次に Roblox を起動したときに適用されます。</value>
-  </data>
   <data name="Ui.RiShade.DepthModel.Off" xml:space="preserve">
     <value>オフ、内蔵の推定</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.Small" xml:space="preserve">
-    <value>小 ({0} MB、最速)</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.Base" xml:space="preserve">
-    <value>中 ({0} MB、より鮮明)</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.Large" xml:space="preserve">
-    <value>大 ({0} MB、最も鮮明、高負荷)</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.SmallShort" xml:space="preserve">
-    <value>小</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.BaseShort" xml:space="preserve">
-    <value>中</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.LargeShort" xml:space="preserve">
-    <value>大</value>
   </data>
   <data name="Ui.RiShade.DepthModel.Downloading" xml:space="preserve">
     <value>深度モデルをダウンロードしています: {0}%</value>
@@ -8056,17 +8035,16 @@ Voidstrap がデスクトップ フォルダーに書き込めませんでした
   <data name="Ui.RiShade.DepthModel.Failed" xml:space="preserve">
     <value>深度モデルをダウンロードできませんでした: {0}</value>
   </data>
-  <data name="Ui.RiShade.DepthModel.Prompt" xml:space="preserve">
-    <value>RiShade の AI 深度モデルを選んでください。アンビエントオクルージョンや被写界深度など、深度が必要なエフェクトはモデルがあると格段に良く見えます。
-
-小: {0} MB、最速。
-中: {1} MB、より鮮明。
-大: {2} MB、最も鮮明ですが GPU への負荷が高いです。
-
-ダウンロードせずに内蔵の推定を使い続けるには、このウィンドウを閉じてください。後で RiShade のページから変更できます。</value>
+  <data name="Ui.RiShade.DepthModel.RiDepthTiny" xml:space="preserve">
+    <value>RiDepth Tiny ({0} MB、Roblox 専用、即時)</value>
   </data>
-  <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
-    <value>大 V3 ({0} MB、最新、非常に高負荷)</value>
+  <data name="Ui.RiShade.DepthModel.RiDepthPrompt" xml:space="preserve">
+    <value>RiShade で RiDepth を有効にしますか？Roblox 専用に作られた AI 深度モデルで、アンビエントオクルージョン、被写界深度、反射など深度を必要とするエフェクトがずっときれいに見えます。
+
+ダウンロードサイズは {0} MB です。断った場合は内蔵の推定が使われます。この設定は後で RiShade ページから変更できます。</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.RiDepthDescription" xml:space="preserve">
+    <value>アンビエントオクルージョン、被写界深度、反射などの深度エフェクトに本物の距離感を与えます。RiDepth は Roblox 専用に作られ、毎フレーム更新されます。変更は次回 Roblox を起動したときに適用されます。</value>
   </data>
   <data name="Ui.Sound.Tab" xml:space="preserve">
     <value>サウンド</value>

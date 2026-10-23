@@ -17,10 +17,7 @@ namespace Voidstrap.Integrations.RiShade
     public enum RiShadeDepthModel
     {
         Off,
-        Small,
-        Base,
-        Large,
-        LargeV3
+        RiDepthTiny
     }
 
     public sealed record RiShadeDepthModelState(RiShadeDepthModel Model, bool Busy, int Percent, string? Error);
@@ -59,34 +56,11 @@ namespace Voidstrap.Integrations.RiShade
 
         private static readonly Dictionary<RiShadeDepthModel, Asset[]> Models = new()
         {
-            [RiShadeDepthModel.Small] = [new(
-                "depth-anything-v2-small.onnx",
-                "https://huggingface.co/onnx-community/depth-anything-v2-small/resolve/4472b7362082ad9968fee890ca0f1e5aca36b93d/onnx/model_fp16.onnx",
-                "2df6223f206b5164e21f664ace61dabeb9bb6a49b8b5a3e00510b4807d0f5b04",
-                49642442)],
-            [RiShadeDepthModel.Base] = [new(
-                "depth-anything-v2-base.onnx",
-                "https://huggingface.co/onnx-community/depth-anything-v2-base/resolve/dd4557d492cd7b563738ac8d9ccff9094620983c/onnx/model_fp16.onnx",
-                "822e6c12f36cd46753dcf229ce87199310533de2d533a527756b8ef30a76d158",
-                194570657)],
-            [RiShadeDepthModel.Large] = [new(
-                "depth-anything-v2-large.onnx",
-                "https://huggingface.co/onnx-community/depth-anything-v2-large/resolve/1fa1591c7b080e98da9655827c3a33a3972a4a83/onnx/model_fp16.onnx",
-                "8eefc7afb877b10d413c8e1024b012073c6e4f62735d39555b1083fee3aabf0a",
-                668656405)],
-            [RiShadeDepthModel.LargeV3] =
-            [
-                new(
-                    "depth-anything-v3-large\\model.onnx",
-                    "https://huggingface.co/onnx-community/depth-anything-v3-large/resolve/d72462fef85c16988145b33cb5f9a3488ce93a58/onnx/model.onnx",
-                    "2c02d70b301b4b51c357e7f04c371e27b5d4a5520a0ef11b8c657627e86b4a7e",
-                    1093118),
-                new(
-                    "depth-anything-v3-large\\model.onnx_data",
-                    "https://huggingface.co/onnx-community/depth-anything-v3-large/resolve/d72462fef85c16988145b33cb5f9a3488ce93a58/onnx/model.onnx_data",
-                    "3aee647d45b208cbff14f4a738737a4bd9f9e5fbce2c48e7a6db311ea807060c",
-                    1381741568)
-            ]
+            [RiShadeDepthModel.RiDepthTiny] = [new(
+                "ridepth-tiny.onnx",
+                "https://github.com/KloBraticc/RiDepth/releases/download/tiny-1/ridepth-tiny.onnx",
+                "8668fb3aef1e1a907cfaeaee5b95c310f16245b98b92992497a13d796dca4abd",
+                1996913)]
         };
 
         private const int MaxSegments = 8;
@@ -116,20 +90,30 @@ namespace Voidstrap.Integrations.RiShade
 
         public static int Version => Volatile.Read(ref _version);
 
+        private static readonly string[] LegacyModels = ["Small", "Base", "Large", "LargeV3"];
+
+        private static readonly string[] LegacyFiles =
+        [
+            "depth-anything-v2-small.onnx",
+            "depth-anything-v2-base.onnx",
+            "depth-anything-v2-large.onnx",
+            "depth-anything-v3-large\\model.onnx",
+            "depth-anything-v3-large\\model.onnx_data"
+        ];
+
         public static RiShadeDepthModel Selected =>
-            Enum.TryParse(App.Settings.Prop.RiShadeDepthModel, true, out RiShadeDepthModel model) ? model : RiShadeDepthModel.Off;
+            LegacyModels.Contains(App.Settings.Prop.RiShadeDepthModel, StringComparer.OrdinalIgnoreCase)
+                ? RiShadeDepthModel.RiDepthTiny
+                : Enum.TryParse(App.Settings.Prop.RiShadeDepthModel, true, out RiShadeDepthModel model) && Enum.IsDefined(model) ? model : RiShadeDepthModel.Off;
+
+        public static bool NeedsMigration => LegacyModels.Contains(App.Settings.Prop.RiShadeDepthModel, StringComparer.OrdinalIgnoreCase);
 
         public static int SizeMegabytes(RiShadeDepthModel model) =>
-            Models.ContainsKey(model) ? (int)Math.Round(RequiredAssets(model).Sum(file => file.Size) / 1048576.0) : 0;
+            Models.TryGetValue(model, out Asset[]? files) ? (int)Math.Round(files.Sum(file => file.Size) / 1048576.0) : 0;
 
         public static string? ActiveModelFile => InstalledModelFile(Selected);
 
-        public static string? ActiveFastModelFile =>
-            Selected is RiShadeDepthModel.Off or FastModel ? null : InstalledModelFile(FastModel);
-
-        public static bool ExactDepth => Selected == FastModel;
-
-        private const RiShadeDepthModel FastModel = RiShadeDepthModel.Small;
+        public static bool ExactDepth => Selected == RiShadeDepthModel.RiDepthTiny;
 
         private static string? InstalledModelFile(RiShadeDepthModel model)
         {
@@ -144,9 +128,6 @@ namespace Voidstrap.Integrations.RiShade
             }
             return files[0].FileName;
         }
-
-        private static Asset[] RequiredAssets(RiShadeDepthModel model) =>
-            model == FastModel ? Models[model] : [.. Models[model], .. Models[FastModel]];
 
         public static async Task<(bool Success, string Message)> SelectAsync(RiShadeDepthModel model, IProgress<double>? progress = null, CancellationToken token = default)
         {
@@ -184,7 +165,7 @@ namespace Voidstrap.Integrations.RiShade
                     return (true, string.Empty);
                 }
 
-                Asset[] chosen = RequiredAssets(model);
+                Asset[] chosen = Models[model];
                 List<Asset> missing = chosen.Prepend(DirectMl).Prepend(OnnxRuntime).Where(asset => !IsInstalled(directory, asset)).ToList();
                 long total = missing.Sum(asset => asset.Size);
                 long received = 0;
@@ -252,25 +233,21 @@ namespace Voidstrap.Integrations.RiShade
 
         private static void RemoveUnused(string directory, Asset[] keep)
         {
-            foreach (Asset[] files in Models.Values)
+            IEnumerable<string> unused = Models.Values.SelectMany(files => files).Where(file => !keep.Contains(file)).Select(file => file.FileName).Concat(LegacyFiles);
+            foreach (string name in unused)
             {
-                foreach (Asset file in files)
+                string path = Path.Combine(directory, name);
+                TryDelete(path);
+                string? folder = Path.GetDirectoryName(path);
+                if (folder != null && !string.Equals(Path.GetFullPath(folder).TrimEnd('\\'), Path.GetFullPath(directory).TrimEnd('\\'), StringComparison.OrdinalIgnoreCase))
                 {
-                    if (keep.Contains(file))
-                        continue;
-                    string path = Path.Combine(directory, file.FileName);
-                    TryDelete(path);
-                    string? folder = Path.GetDirectoryName(path);
-                    if (folder != null && !string.Equals(Path.GetFullPath(folder).TrimEnd('\\'), Path.GetFullPath(directory).TrimEnd('\\'), StringComparison.OrdinalIgnoreCase))
+                    try
                     {
-                        try
-                        {
-                            if (Directory.Exists(folder) && !Directory.EnumerateFileSystemEntries(folder).Any())
-                                Directory.Delete(folder);
-                        }
-                        catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-                        {
-                        }
+                        if (Directory.Exists(folder) && !Directory.EnumerateFileSystemEntries(folder).Any())
+                            Directory.Delete(folder);
+                    }
+                    catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+                    {
                     }
                 }
             }

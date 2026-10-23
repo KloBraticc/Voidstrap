@@ -362,26 +362,10 @@ namespace Voidstrap.Integrations.RiShade
             if (!Voidstrap.Utility.Platform.IsWindows || !DepthBridgeAvailable || RiShadeDepthModels.Selected != RiShadeDepthModel.Off)
                 return;
 
-            string message = string.Format(
-                Voidstrap.Resources.Strings.Ui_RiShade_DepthModel_Prompt,
-                RiShadeDepthModels.SizeMegabytes(RiShadeDepthModel.Small),
-                RiShadeDepthModels.SizeMegabytes(RiShadeDepthModel.Base),
-                RiShadeDepthModels.SizeMegabytes(RiShadeDepthModel.Large));
-            MessageBoxResult result = Frontend.ShowMessageBox(
-                message,
-                MessageBoxImage.Question,
-                Voidstrap.Resources.Strings.Ui_RiShade_DepthModel_SmallShort,
-                Voidstrap.Resources.Strings.Ui_RiShade_DepthModel_BaseShort,
-                Voidstrap.Resources.Strings.Ui_RiShade_DepthModel_LargeShort);
-            RiShadeDepthModel model = result switch
-            {
-                MessageBoxResult.Yes => RiShadeDepthModel.Small,
-                MessageBoxResult.No => RiShadeDepthModel.Base,
-                MessageBoxResult.Cancel => RiShadeDepthModel.Large,
-                _ => RiShadeDepthModel.Off
-            };
-            if (model == RiShadeDepthModel.Off)
+            string message = string.Format(Voidstrap.Resources.Strings.Ui_RiShade_DepthModel_RiDepthPrompt, RiShadeDepthModels.SizeMegabytes(RiShadeDepthModel.RiDepthTiny));
+            if (Frontend.ShowMessageBox(message, MessageBoxImage.Question, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
                 return;
+            RiShadeDepthModel model = RiShadeDepthModel.RiDepthTiny;
 
             _ = Task.Run(async () =>
             {
@@ -414,6 +398,11 @@ namespace Voidstrap.Integrations.RiShade
                 await InstallEffectAssetsAsync();
                 if (!RiShadeInterop.PrepareConfig(RiShadeDir))
                     throw new InvalidOperationException("The Rust RiShade library could not prepare ReShade configuration");
+                if (RiShadeDepthModels.NeedsMigration)
+                {
+                    App.Logger.WriteLine(LogIdent, "Moving the retired depth model setting to RiDepth Tiny");
+                    _ = RiShadeDepthModels.SelectAsync(RiShadeDepthModel.RiDepthTiny);
+                }
             }
             catch (Exception ex)
             {

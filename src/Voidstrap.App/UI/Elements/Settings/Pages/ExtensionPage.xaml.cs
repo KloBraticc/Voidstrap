@@ -408,10 +408,7 @@ public partial class ExtensionPage : UiPage
 		DepthModelOption[] options =
 		[
 			new(Voidstrap.Integrations.RiShade.RiShadeDepthModel.Off, Voidstrap.Resources.Strings.Ui_RiShade_DepthModel_Off),
-			new(Voidstrap.Integrations.RiShade.RiShadeDepthModel.Small, string.Format(Voidstrap.Resources.Strings.Ui_RiShade_DepthModel_Small, models(Voidstrap.Integrations.RiShade.RiShadeDepthModel.Small))),
-			new(Voidstrap.Integrations.RiShade.RiShadeDepthModel.Base, string.Format(Voidstrap.Resources.Strings.Ui_RiShade_DepthModel_Base, models(Voidstrap.Integrations.RiShade.RiShadeDepthModel.Base))),
-			new(Voidstrap.Integrations.RiShade.RiShadeDepthModel.Large, string.Format(Voidstrap.Resources.Strings.Ui_RiShade_DepthModel_Large, models(Voidstrap.Integrations.RiShade.RiShadeDepthModel.Large))),
-			new(Voidstrap.Integrations.RiShade.RiShadeDepthModel.LargeV3, string.Format(Voidstrap.Resources.Strings.Ui_RiShade_DepthModel_LargeV3, models(Voidstrap.Integrations.RiShade.RiShadeDepthModel.LargeV3)))
+			new(Voidstrap.Integrations.RiShade.RiShadeDepthModel.RiDepthTiny, string.Format(Voidstrap.Resources.Strings.Ui_RiShade_DepthModel_RiDepthTiny, models(Voidstrap.Integrations.RiShade.RiShadeDepthModel.RiDepthTiny)))
 		];
 		_depthModelUpdating = true;
 		RiShadeDepthModelPicker.ItemsSource = options;

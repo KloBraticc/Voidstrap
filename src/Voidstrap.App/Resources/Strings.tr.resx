@@ -8007,29 +8007,8 @@ Bu dosyayı size yardım eden kişiye gönderin. Bilgisayar kullanıcı adınız
   <data name="Ui.RiShade.DepthModel.Title" xml:space="preserve">
     <value>Yapay zekâ derinlik modeli</value>
   </data>
-  <data name="Ui.RiShade.DepthModel.Description" xml:space="preserve">
-    <value>Ortam perdelemesi, alan derinliği ve yansımalar gibi derinlik efektlerine gerçek bir mesafe hissi verir. Daha büyük modeller daha keskindir ama daha fazla GPU süresi kullanır. Değişiklikler Roblox bir sonraki açılışında uygulanır.</value>
-  </data>
   <data name="Ui.RiShade.DepthModel.Off" xml:space="preserve">
     <value>Kapalı, yerleşik tahmin</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.Small" xml:space="preserve">
-    <value>Küçük ({0} MB, en hızlı)</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.Base" xml:space="preserve">
-    <value>Orta ({0} MB, daha keskin)</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.Large" xml:space="preserve">
-    <value>Büyük ({0} MB, en keskin, ağır)</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.SmallShort" xml:space="preserve">
-    <value>Küçük</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.BaseShort" xml:space="preserve">
-    <value>Orta</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.LargeShort" xml:space="preserve">
-    <value>Büyük</value>
   </data>
   <data name="Ui.RiShade.DepthModel.Downloading" xml:space="preserve">
     <value>Derinlik modeli indiriliyor: %{0}</value>
@@ -8040,17 +8019,16 @@ Bu dosyayı size yardım eden kişiye gönderin. Bilgisayar kullanıcı adınız
   <data name="Ui.RiShade.DepthModel.Failed" xml:space="preserve">
     <value>Derinlik modeli indirilemedi: {0}</value>
   </data>
-  <data name="Ui.RiShade.DepthModel.Prompt" xml:space="preserve">
-    <value>RiShade için bir yapay zekâ derinlik modeli seçin. Ortam perdelemesi ve alan derinliği gibi derinlik gerektiren efektler bir modelle çok daha iyi görünür.
-
-Küçük: {0} MB, en hızlı.
-Orta: {1} MB, daha keskin.
-Büyük: {2} MB, en keskin ama GPU için ağır.
-
-İndirme yapmadan yerleşik tahmini kullanmaya devam etmek için bu pencereyi kapatın. Bunu daha sonra RiShade sayfasından değiştirebilirsiniz.</value>
+  <data name="Ui.RiShade.DepthModel.RiDepthTiny" xml:space="preserve">
+    <value>RiDepth Tiny ({0} MB, Roblox için yapıldı, anında)</value>
   </data>
-  <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
-    <value>Büyük V3 ({0} MB, en yeni, çok ağır)</value>
+  <data name="Ui.RiShade.DepthModel.RiDepthPrompt" xml:space="preserve">
+    <value>RiShade için RiDepth açılsın mı? Roblox için yapılmış bir yapay zeka derinlik modelidir ve ortam gölgelemesi, alan derinliği ve yansımalar gibi derinlik gerektiren efektler onunla çok daha iyi görünür.
+
+İndirme boyutu {0} MB. Reddederseniz yerleşik tahmin kullanılır. Bunu daha sonra RiShade sayfasından değiştirebilirsiniz.</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.RiDepthDescription" xml:space="preserve">
+    <value>Ortam gölgelemesi, alan derinliği ve yansımalar gibi derinlik efektlerine gerçek bir mesafe hissi verir. RiDepth Roblox için yapılmıştır ve her karede güncellenir. Değişiklikler Roblox bir sonraki başlatıldığında uygulanır.</value>
   </data>
   <data name="Ui.Sound.Tab" xml:space="preserve">
     <value>Ses</value>

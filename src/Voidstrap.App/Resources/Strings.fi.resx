@@ -8010,29 +8010,8 @@ Lähetä tiedosto sille, joka auttaa sinua. Henkilötiedot, kuten tietokoneesi k
   <data name="Ui.RiShade.DepthModel.Title" xml:space="preserve">
     <value>Tekoälyn syvyysmalli</value>
   </data>
-  <data name="Ui.RiShade.DepthModel.Description" xml:space="preserve">
-    <value>Antaa syvyystehosteille, kuten ympäristön varjostukselle, syväterävyydelle ja heijastuksille, todellisen etäisyyden tunnun. Suuremmat mallit ovat terävämpiä mutta käyttävät enemmän GPU-aikaa. Muutokset tulevat voimaan, kun Roblox käynnistyy seuraavan kerran.</value>
-  </data>
   <data name="Ui.RiShade.DepthModel.Off" xml:space="preserve">
     <value>Pois, sisäänrakennettu arvio</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.Small" xml:space="preserve">
-    <value>Pieni ({0} Mt, nopein)</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.Base" xml:space="preserve">
-    <value>Keskikokoinen ({0} Mt, terävämpi)</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.Large" xml:space="preserve">
-    <value>Suuri ({0} Mt, terävin, raskas)</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.SmallShort" xml:space="preserve">
-    <value>Pieni</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.BaseShort" xml:space="preserve">
-    <value>Keskikokoinen</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.LargeShort" xml:space="preserve">
-    <value>Suuri</value>
   </data>
   <data name="Ui.RiShade.DepthModel.Downloading" xml:space="preserve">
     <value>Ladataan syvyysmallia: {0} %</value>
@@ -8043,17 +8022,16 @@ Lähetä tiedosto sille, joka auttaa sinua. Henkilötiedot, kuten tietokoneesi k
   <data name="Ui.RiShade.DepthModel.Failed" xml:space="preserve">
     <value>Syvyysmallia ei voitu ladata: {0}</value>
   </data>
-  <data name="Ui.RiShade.DepthModel.Prompt" xml:space="preserve">
-    <value>Valitse RiShadelle tekoälyn syvyysmalli. Syvyyttä tarvitsevat tehosteet, kuten ympäristön varjostus ja syväterävyys, näyttävät sen kanssa paljon paremmilta.
-
-Pieni: {0} Mt, nopein.
-Keskikokoinen: {1} Mt, terävämpi.
-Suuri: {2} Mt, terävin mutta raskas GPU:lle.
-
-Sulje tämä ikkuna, jos haluat pitää sisäänrakennetun arvion ilman latausta. Voit muuttaa tätä myöhemmin RiShade-sivulla.</value>
+  <data name="Ui.RiShade.DepthModel.RiDepthTiny" xml:space="preserve">
+    <value>RiDepth Tiny ({0} Mt, tehty Roblox-pelejä varten, välitön)</value>
   </data>
-  <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
-    <value>Suuri V3 ({0} Mt, uusin, erittäin raskas)</value>
+  <data name="Ui.RiShade.DepthModel.RiDepthPrompt" xml:space="preserve">
+    <value>Otetaanko RiDepth käyttöön RiShadessa? Se on Roblox-peleille tehty tekoälyn syvyysmalli, ja syvyyttä tarvitsevat tehosteet, kuten ympäristön varjostus, syväterävyys ja heijastukset, näyttävät sen kanssa paljon paremmilta.
+
+Ladattava koko on {0} Mt. Jos kieltäydyt, käytetään sisäänrakennettua arviota. Voit muuttaa tätä myöhemmin RiShade-sivulla.</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.RiDepthDescription" xml:space="preserve">
+    <value>Antaa syvyystehosteille, kuten ympäristön varjostukselle, syväterävyydelle ja heijastuksille, todellisen etäisyyden tunnun. RiDepth on tehty Roblox-peleille ja päivittyy joka ruudulla. Muutokset tulevat voimaan, kun Roblox käynnistetään seuraavan kerran.</value>
   </data>
   <data name="Ui.Sound.Tab" xml:space="preserve">
     <value>Ääni</value>

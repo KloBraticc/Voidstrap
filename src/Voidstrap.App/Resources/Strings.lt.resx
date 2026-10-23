@@ -8010,29 +8010,8 @@ Nusiųskite šį failą tam, kas jums padeda. Asmeniniai duomenys, pavyzdžiui, 
   <data name="Ui.RiShade.DepthModel.Title" xml:space="preserve">
     <value>DI gylio modelis</value>
   </data>
-  <data name="Ui.RiShade.DepthModel.Description" xml:space="preserve">
-    <value>Suteikia gylio efektams, tokiems kaip aplinkos užtemdymas, lauko gylis ir atspindžiai, tikrą atstumo pojūtį. Didesni modeliai ryškesni, bet naudoja daugiau GPU laiko. Pakeitimai įsigalios kitą kartą paleidus Roblox.</value>
-  </data>
   <data name="Ui.RiShade.DepthModel.Off" xml:space="preserve">
     <value>Išjungta, įtaisytas įvertis</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.Small" xml:space="preserve">
-    <value>Mažas ({0} MB, greičiausias)</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.Base" xml:space="preserve">
-    <value>Vidutinis ({0} MB, ryškesnis)</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.Large" xml:space="preserve">
-    <value>Didelis ({0} MB, ryškiausias, sunkus)</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.SmallShort" xml:space="preserve">
-    <value>Mažas</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.BaseShort" xml:space="preserve">
-    <value>Vidutinis</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.LargeShort" xml:space="preserve">
-    <value>Didelis</value>
   </data>
   <data name="Ui.RiShade.DepthModel.Downloading" xml:space="preserve">
     <value>Atsisiunčiamas gylio modelis: {0} %</value>
@@ -8043,17 +8022,16 @@ Nusiųskite šį failą tam, kas jums padeda. Asmeniniai duomenys, pavyzdžiui, 
   <data name="Ui.RiShade.DepthModel.Failed" xml:space="preserve">
     <value>Nepavyko atsisiųsti gylio modelio: {0}</value>
   </data>
-  <data name="Ui.RiShade.DepthModel.Prompt" xml:space="preserve">
-    <value>Pasirinkite DI gylio modelį RiShade. Efektai, kuriems reikia gylio, pavyzdžiui, aplinkos užtemdymas ir lauko gylis, su juo atrodo daug geriau.
-
-Mažas: {0} MB, greičiausias.
-Vidutinis: {1} MB, ryškesnis.
-Didelis: {2} MB, ryškiausias, bet labai apkrauna GPU.
-
-Užverkite šį langą, jei norite palikti įtaisytą įvertį be atsisiuntimo. Tai galite pakeisti vėliau RiShade puslapyje.</value>
+  <data name="Ui.RiShade.DepthModel.RiDepthTiny" xml:space="preserve">
+    <value>RiDepth Tiny ({0} MB, sukurtas Roblox, akimirksniu)</value>
   </data>
-  <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
-    <value>Didelis V3 ({0} MB, naujausias, labai sunkus)</value>
+  <data name="Ui.RiShade.DepthModel.RiDepthPrompt" xml:space="preserve">
+    <value>Įjungti RiDepth RiShade? Tai Roblox sukurtas DI gylio modelis, o efektai, kuriems reikia gylio, pavyzdžiui, aplinkos užstojimas, lauko gylis ir atspindžiai, su juo atrodo daug geriau.
+
+Atsisiunčiama {0} MB. Jei atsisakysite, bus naudojamas įtaisytasis įvertinimas. Tai galėsite pakeisti vėliau RiShade puslapyje.</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.RiDepthDescription" xml:space="preserve">
+    <value>Suteikia gylio efektams, tokiems kaip aplinkos užstojimas, lauko gylis ir atspindžiai, tikrą atstumo pojūtį. RiDepth sukurtas Roblox ir atnaujinamas kiekviename kadre. Pakeitimai pritaikomi kitą kartą paleidus Roblox.</value>
   </data>
   <data name="Ui.Sound.Tab" xml:space="preserve">
     <value>Garsas</value>

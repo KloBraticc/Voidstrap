@@ -8012,29 +8012,8 @@ Voidstrap 無法寫入桌面資料夾。</value>
   <data name="Ui.RiShade.DepthModel.Title" xml:space="preserve">
     <value>AI 深度模型</value>
   </data>
-  <data name="Ui.RiShade.DepthModel.Description" xml:space="preserve">
-    <value>讓環境光遮蔽、景深和反射等深度效果有真實的距離感。模型越大越清晰，但會使用更多 GPU 時間。變更會在下次啟動 Roblox 時生效。</value>
-  </data>
   <data name="Ui.RiShade.DepthModel.Off" xml:space="preserve">
     <value>關閉，使用內建估算</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.Small" xml:space="preserve">
-    <value>小 ({0} MB，最快)</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.Base" xml:space="preserve">
-    <value>中 ({0} MB，更清晰)</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.Large" xml:space="preserve">
-    <value>大 ({0} MB，最清晰，負擔高)</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.SmallShort" xml:space="preserve">
-    <value>小</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.BaseShort" xml:space="preserve">
-    <value>中</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.LargeShort" xml:space="preserve">
-    <value>大</value>
   </data>
   <data name="Ui.RiShade.DepthModel.Downloading" xml:space="preserve">
     <value>正在下載深度模型：{0}%</value>
@@ -8045,17 +8024,16 @@ Voidstrap 無法寫入桌面資料夾。</value>
   <data name="Ui.RiShade.DepthModel.Failed" xml:space="preserve">
     <value>無法下載深度模型：{0}</value>
   </data>
-  <data name="Ui.RiShade.DepthModel.Prompt" xml:space="preserve">
-    <value>請為 RiShade 選擇 AI 深度模型。環境光遮蔽和景深等需要深度的效果，有了模型會好看很多。
-
-小：{0} MB，最快。
-中：{1} MB，更清晰。
-大：{2} MB，最清晰，但對 GPU 負擔很重。
-
-關閉這個視窗即可繼續使用內建估算，不必下載。你之後可以在 RiShade 頁面更改。</value>
+  <data name="Ui.RiShade.DepthModel.RiDepthTiny" xml:space="preserve">
+    <value>RiDepth Tiny ({0} MB，專為 Roblox 打造，即時)</value>
   </data>
-  <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
-    <value>大 V3 ({0} MB，最新，負擔極重)</value>
+  <data name="Ui.RiShade.DepthModel.RiDepthPrompt" xml:space="preserve">
+    <value>要為 RiShade 啟用 RiDepth 嗎？這是專為 Roblox 打造的 AI 深度模型，環境光遮蔽、景深和反射等需要深度的效果使用它後會好看得多。
+
+需要下載 {0} MB。如果你拒絕，將使用內建估算。你可以稍後在 RiShade 頁面變更此設定。</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.RiDepthDescription" xml:space="preserve">
+    <value>為環境光遮蔽、景深和反射等深度效果帶來真實的距離感。RiDepth 專為 Roblox 打造，每一幀都會更新。變更會在下次啟動 Roblox 時生效。</value>
   </data>
   <data name="Ui.Sound.Tab" xml:space="preserve">
     <value>聲音</value>

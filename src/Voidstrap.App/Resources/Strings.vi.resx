@@ -8012,29 +8012,8 @@ Hãy gửi tệp đó cho người đang giúp bạn. Các thông tin cá nhân 
   <data name="Ui.RiShade.DepthModel.Title" xml:space="preserve">
     <value>Mô hình độ sâu AI</value>
   </data>
-  <data name="Ui.RiShade.DepthModel.Description" xml:space="preserve">
-    <value>Mang lại cảm giác khoảng cách thật cho các hiệu ứng độ sâu như che khuất môi trường, độ sâu trường ảnh và phản chiếu. Mô hình lớn hơn sắc nét hơn nhưng dùng nhiều thời gian GPU hơn. Thay đổi có hiệu lực ở lần khởi động Roblox tiếp theo.</value>
-  </data>
   <data name="Ui.RiShade.DepthModel.Off" xml:space="preserve">
     <value>Tắt, ước tính tích hợp</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.Small" xml:space="preserve">
-    <value>Nhỏ ({0} MB, nhanh nhất)</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.Base" xml:space="preserve">
-    <value>Vừa ({0} MB, sắc nét hơn)</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.Large" xml:space="preserve">
-    <value>Lớn ({0} MB, sắc nét nhất, nặng)</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.SmallShort" xml:space="preserve">
-    <value>Nhỏ</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.BaseShort" xml:space="preserve">
-    <value>Vừa</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.LargeShort" xml:space="preserve">
-    <value>Lớn</value>
   </data>
   <data name="Ui.RiShade.DepthModel.Downloading" xml:space="preserve">
     <value>Đang tải mô hình độ sâu: {0}%</value>
@@ -8045,17 +8024,16 @@ Hãy gửi tệp đó cho người đang giúp bạn. Các thông tin cá nhân 
   <data name="Ui.RiShade.DepthModel.Failed" xml:space="preserve">
     <value>Không thể tải mô hình độ sâu: {0}</value>
   </data>
-  <data name="Ui.RiShade.DepthModel.Prompt" xml:space="preserve">
-    <value>Hãy chọn một mô hình độ sâu AI cho RiShade. Các hiệu ứng cần độ sâu, như che khuất môi trường và độ sâu trường ảnh, trông đẹp hơn nhiều khi có mô hình.
-
-Nhỏ: {0} MB, nhanh nhất.
-Vừa: {1} MB, sắc nét hơn.
-Lớn: {2} MB, sắc nét nhất nhưng nặng cho GPU.
-
-Đóng cửa sổ này để giữ ước tính tích hợp mà không cần tải xuống. Bạn có thể thay đổi sau trên trang RiShade.</value>
+  <data name="Ui.RiShade.DepthModel.RiDepthTiny" xml:space="preserve">
+    <value>RiDepth Tiny ({0} MB, dành riêng cho Roblox, tức thì)</value>
   </data>
-  <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
-    <value>Lớn V3 ({0} MB, mới nhất, rất nặng)</value>
+  <data name="Ui.RiShade.DepthModel.RiDepthPrompt" xml:space="preserve">
+    <value>Bật RiDepth cho RiShade? Đây là mô hình độ sâu AI dành riêng cho Roblox, và các hiệu ứng cần độ sâu như che khuất môi trường, độ sâu trường ảnh và phản chiếu sẽ đẹp hơn nhiều.
+
+Dung lượng tải xuống là {0} MB. Nếu bạn từ chối, ước tính tích hợp sẽ được dùng. Bạn có thể thay đổi điều này sau trong trang RiShade.</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.RiDepthDescription" xml:space="preserve">
+    <value>Mang lại cảm giác khoảng cách thật cho các hiệu ứng độ sâu như che khuất môi trường, độ sâu trường ảnh và phản chiếu. RiDepth dành riêng cho Roblox và cập nhật mỗi khung hình. Thay đổi sẽ áp dụng vào lần tới bạn khởi động Roblox.</value>
   </data>
   <data name="Ui.Sound.Tab" xml:space="preserve">
     <value>Âm thanh</value>

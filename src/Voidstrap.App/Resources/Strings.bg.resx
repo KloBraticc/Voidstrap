@@ -8009,29 +8009,8 @@ Voidstrap не можа да запише в папката на работни�
   <data name="Ui.RiShade.DepthModel.Title" xml:space="preserve">
     <value>ИИ модел за дълбочина</value>
   </data>
-  <data name="Ui.RiShade.DepthModel.Description" xml:space="preserve">
-    <value>Дава на ефектите за дълбочина, като засенчване на околната среда, дълбочина на рязкост и отражения, истинско усещане за разстояние. По-големите модели са по-ясни, но използват повече време на GPU. Промените се прилагат при следващото стартиране на Roblox.</value>
-  </data>
   <data name="Ui.RiShade.DepthModel.Off" xml:space="preserve">
     <value>Изключен, вградена оценка</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.Small" xml:space="preserve">
-    <value>Малък ({0} MB, най-бърз)</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.Base" xml:space="preserve">
-    <value>Среден ({0} MB, по-ясен)</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.Large" xml:space="preserve">
-    <value>Голям ({0} MB, най-ясен, тежък)</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.SmallShort" xml:space="preserve">
-    <value>Малък</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.BaseShort" xml:space="preserve">
-    <value>Среден</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.LargeShort" xml:space="preserve">
-    <value>Голям</value>
   </data>
   <data name="Ui.RiShade.DepthModel.Downloading" xml:space="preserve">
     <value>Изтегляне на модела за дълбочина: {0}%</value>
@@ -8042,17 +8021,16 @@ Voidstrap не можа да запише в папката на работни�
   <data name="Ui.RiShade.DepthModel.Failed" xml:space="preserve">
     <value>Моделът за дълбочина не можа да бъде изтеглен: {0}</value>
   </data>
-  <data name="Ui.RiShade.DepthModel.Prompt" xml:space="preserve">
-    <value>Изберете ИИ модел за дълбочина за RiShade. Ефектите, които се нуждаят от дълбочина, като засенчване на околната среда и дълбочина на рязкост, изглеждат много по-добре с него.
-
-Малък: {0} MB, най-бърз.
-Среден: {1} MB, по-ясен.
-Голям: {2} MB, най-ясен, но натоварва силно GPU.
-
-Затворете този прозорец, за да запазите вградената оценка без изтегляне. Можете да промените това по-късно на страницата на RiShade.</value>
+  <data name="Ui.RiShade.DepthModel.RiDepthTiny" xml:space="preserve">
+    <value>RiDepth Tiny ({0} MB, създаден за Roblox, мигновен)</value>
   </data>
-  <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
-    <value>Голям V3 ({0} MB, най-нов, много тежък)</value>
+  <data name="Ui.RiShade.DepthModel.RiDepthPrompt" xml:space="preserve">
+    <value>Да се включи ли RiDepth за RiShade? Това е AI модел за дълбочина, създаден за Roblox, и ефектите, които се нуждаят от дълбочина, като ambient occlusion, дълбочина на рязкост и отражения, изглеждат много по-добре с него.
+
+Изтеглят се {0} MB. Ако откажете, се използва вградената оценка. Можете да промените това по-късно на страницата RiShade.</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.RiDepthDescription" xml:space="preserve">
+    <value>Дава на ефектите за дълбочина като ambient occlusion, дълбочина на рязкост и отражения истинско усещане за разстояние. RiDepth е създаден за Roblox и се обновява на всеки кадър. Промените се прилагат при следващото стартиране на Roblox.</value>
   </data>
   <data name="Ui.Sound.Tab" xml:space="preserve">
     <value>Звук</value>

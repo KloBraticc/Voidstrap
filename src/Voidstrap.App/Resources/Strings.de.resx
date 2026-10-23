@@ -8009,29 +8009,8 @@ Sende diese Datei an die Person, die dir hilft. Persönliche Daten wie dein Comp
   <data name="Ui.RiShade.DepthModel.Title" xml:space="preserve">
     <value>KI-Tiefenmodell</value>
   </data>
-  <data name="Ui.RiShade.DepthModel.Description" xml:space="preserve">
-    <value>Gibt Tiefeneffekten wie Umgebungsverdeckung, Tiefenschärfe und Spiegelungen ein echtes Gefühl für Entfernung. Größere Modelle sind schärfer, brauchen aber mehr GPU-Zeit. Änderungen gelten beim nächsten Start von Roblox.</value>
-  </data>
   <data name="Ui.RiShade.DepthModel.Off" xml:space="preserve">
     <value>Aus, eingebaute Schätzung</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.Small" xml:space="preserve">
-    <value>Klein ({0} MB, am schnellsten)</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.Base" xml:space="preserve">
-    <value>Mittel ({0} MB, schärfer)</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.Large" xml:space="preserve">
-    <value>Groß ({0} MB, am schärfsten, aufwendig)</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.SmallShort" xml:space="preserve">
-    <value>Klein</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.BaseShort" xml:space="preserve">
-    <value>Mittel</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.LargeShort" xml:space="preserve">
-    <value>Groß</value>
   </data>
   <data name="Ui.RiShade.DepthModel.Downloading" xml:space="preserve">
     <value>Tiefenmodell wird heruntergeladen: {0} %</value>
@@ -8042,17 +8021,16 @@ Sende diese Datei an die Person, die dir hilft. Persönliche Daten wie dein Comp
   <data name="Ui.RiShade.DepthModel.Failed" xml:space="preserve">
     <value>Das Tiefenmodell konnte nicht heruntergeladen werden: {0}</value>
   </data>
-  <data name="Ui.RiShade.DepthModel.Prompt" xml:space="preserve">
-    <value>Wähle ein KI-Tiefenmodell für RiShade. Effekte, die Tiefe brauchen, wie Umgebungsverdeckung und Tiefenschärfe, sehen damit viel besser aus.
-
-Klein: {0} MB, am schnellsten.
-Mittel: {1} MB, schärfer.
-Groß: {2} MB, am schärfsten, belastet die GPU aber stark.
-
-Schließe dieses Fenster, um ohne Download bei der eingebauten Schätzung zu bleiben. Du kannst das später auf der RiShade-Seite ändern.</value>
+  <data name="Ui.RiShade.DepthModel.RiDepthTiny" xml:space="preserve">
+    <value>RiDepth Tiny ({0} MB, für Roblox gemacht, sofort)</value>
   </data>
-  <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
-    <value>Groß V3 ({0} MB, am neuesten, sehr aufwendig)</value>
+  <data name="Ui.RiShade.DepthModel.RiDepthPrompt" xml:space="preserve">
+    <value>RiDepth für RiShade einschalten? Es ist ein KI-Tiefenmodell, das für Roblox gemacht ist, und Effekte, die Tiefe brauchen, wie Umgebungsverdeckung, Tiefenschärfe und Reflexionen, sehen damit viel besser aus.
+
+Es werden {0} MB heruntergeladen. Wenn du ablehnst, wird die eingebaute Schätzung verwendet. Du kannst das später auf der RiShade-Seite ändern.</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.RiDepthDescription" xml:space="preserve">
+    <value>Gibt Tiefeneffekten wie Umgebungsverdeckung, Tiefenschärfe und Reflexionen ein echtes Gefühl für Entfernung. RiDepth ist für Roblox gemacht und aktualisiert sich in jedem Frame. Änderungen gelten beim nächsten Start von Roblox.</value>
   </data>
   <data name="Ui.Sound.Tab" xml:space="preserve">
     <value>Sound</value>

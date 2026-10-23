@@ -8008,29 +8008,8 @@ Voidstrap не смог записать в папку рабочего стол
   <data name="Ui.RiShade.DepthModel.Title" xml:space="preserve">
     <value>Модель глубины ИИ</value>
   </data>
-  <data name="Ui.RiShade.DepthModel.Description" xml:space="preserve">
-    <value>Даёт эффектам глубины, таким как затенение окружения, глубина резкости и отражения, настоящее ощущение расстояния. Большие модели точнее, но тратят больше времени GPU. Изменения применятся при следующем запуске Roblox.</value>
-  </data>
   <data name="Ui.RiShade.DepthModel.Off" xml:space="preserve">
     <value>Выкл., встроенная оценка</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.Small" xml:space="preserve">
-    <value>Малая ({0} МБ, самая быстрая)</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.Base" xml:space="preserve">
-    <value>Средняя ({0} МБ, чётче)</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.Large" xml:space="preserve">
-    <value>Большая ({0} МБ, самая чёткая, тяжёлая)</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.SmallShort" xml:space="preserve">
-    <value>Малая</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.BaseShort" xml:space="preserve">
-    <value>Средняя</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.LargeShort" xml:space="preserve">
-    <value>Большая</value>
   </data>
   <data name="Ui.RiShade.DepthModel.Downloading" xml:space="preserve">
     <value>Загрузка модели глубины: {0}%</value>
@@ -8041,17 +8020,16 @@ Voidstrap не смог записать в папку рабочего стол
   <data name="Ui.RiShade.DepthModel.Failed" xml:space="preserve">
     <value>Не удалось загрузить модель глубины: {0}</value>
   </data>
-  <data name="Ui.RiShade.DepthModel.Prompt" xml:space="preserve">
-    <value>Выберите модель глубины ИИ для RiShade. Эффекты, которым нужна глубина, например затенение окружения и глубина резкости, выглядят с ней намного лучше.
-
-Малая: {0} МБ, самая быстрая.
-Средняя: {1} МБ, чётче.
-Большая: {2} МБ, самая чёткая, но сильно нагружает GPU.
-
-Закройте это окно, чтобы оставить встроенную оценку без загрузки. Вы сможете изменить это позже на странице RiShade.</value>
+  <data name="Ui.RiShade.DepthModel.RiDepthTiny" xml:space="preserve">
+    <value>RiDepth Tiny ({0} МБ, создана для Roblox, мгновенная)</value>
   </data>
-  <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
-    <value>Большая V3 ({0} МБ, новейшая, очень тяжёлая)</value>
+  <data name="Ui.RiShade.DepthModel.RiDepthPrompt" xml:space="preserve">
+    <value>Включить RiDepth для RiShade? Это модель глубины на основе ИИ, созданная для Roblox, и эффекты, которым нужна глубина, такие как ambient occlusion, глубина резкости и отражения, выглядят с ней намного лучше.
+
+Размер загрузки {0} МБ. Если Вы откажетесь, будет использоваться встроенная оценка. Вы можете изменить это позже на странице RiShade.</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.RiDepthDescription" xml:space="preserve">
+    <value>Придаёт эффектам глубины, таким как ambient occlusion, глубина резкости и отражения, настоящее ощущение расстояния. RiDepth создана для Roblox и обновляется в каждом кадре. Изменения применятся при следующем запуске Roblox.</value>
   </data>
   <data name="Ui.Sound.Tab" xml:space="preserve">
     <value>Звук</value>

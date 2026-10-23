@@ -8011,29 +8011,8 @@ Kirim file tersebut kepada orang yang membantu Anda. Data pribadi seperti nama p
   <data name="Ui.RiShade.DepthModel.Title" xml:space="preserve">
     <value>Model kedalaman AI</value>
   </data>
-  <data name="Ui.RiShade.DepthModel.Description" xml:space="preserve">
-    <value>Memberi efek kedalaman seperti ambient occlusion, depth of field, dan pantulan rasa jarak yang nyata. Model yang lebih besar lebih tajam tetapi memakai lebih banyak waktu GPU. Perubahan berlaku saat Roblox dijalankan berikutnya.</value>
-  </data>
   <data name="Ui.RiShade.DepthModel.Off" xml:space="preserve">
     <value>Mati, perkiraan bawaan</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.Small" xml:space="preserve">
-    <value>Kecil ({0} MB, tercepat)</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.Base" xml:space="preserve">
-    <value>Sedang ({0} MB, lebih tajam)</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.Large" xml:space="preserve">
-    <value>Besar ({0} MB, paling tajam, berat)</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.SmallShort" xml:space="preserve">
-    <value>Kecil</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.BaseShort" xml:space="preserve">
-    <value>Sedang</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.LargeShort" xml:space="preserve">
-    <value>Besar</value>
   </data>
   <data name="Ui.RiShade.DepthModel.Downloading" xml:space="preserve">
     <value>Mengunduh model kedalaman: {0}%</value>
@@ -8044,17 +8023,16 @@ Kirim file tersebut kepada orang yang membantu Anda. Data pribadi seperti nama p
   <data name="Ui.RiShade.DepthModel.Failed" xml:space="preserve">
     <value>Model kedalaman tidak dapat diunduh: {0}</value>
   </data>
-  <data name="Ui.RiShade.DepthModel.Prompt" xml:space="preserve">
-    <value>Pilih model kedalaman AI untuk RiShade. Efek yang membutuhkan kedalaman, seperti ambient occlusion dan depth of field, terlihat jauh lebih baik dengan model.
-
-Kecil: {0} MB, tercepat.
-Sedang: {1} MB, lebih tajam.
-Besar: {2} MB, paling tajam tetapi berat bagi GPU.
-
-Tutup jendela ini untuk tetap memakai perkiraan bawaan tanpa unduhan. Anda dapat mengubahnya nanti di halaman RiShade.</value>
+  <data name="Ui.RiShade.DepthModel.RiDepthTiny" xml:space="preserve">
+    <value>RiDepth Tiny ({0} MB, dibuat untuk Roblox, instan)</value>
   </data>
-  <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
-    <value>Besar V3 ({0} MB, terbaru, sangat berat)</value>
+  <data name="Ui.RiShade.DepthModel.RiDepthPrompt" xml:space="preserve">
+    <value>Aktifkan RiDepth untuk RiShade? Ini adalah model kedalaman AI yang dibuat untuk Roblox, dan efek yang memerlukan kedalaman, seperti ambient occlusion, depth of field, dan pantulan, terlihat jauh lebih baik dengannya.
+
+Unduhannya {0} MB. Jika Anda menolak, perkiraan bawaan akan digunakan. Anda dapat mengubahnya nanti di halaman RiShade.</value>
+  </data>
+  <data name="Ui.RiShade.DepthModel.RiDepthDescription" xml:space="preserve">
+    <value>Memberi efek kedalaman seperti ambient occlusion, depth of field, dan pantulan kesan jarak yang nyata. RiDepth dibuat untuk Roblox dan diperbarui setiap frame. Perubahan berlaku saat Roblox dijalankan berikutnya.</value>
   </data>
   <data name="Ui.Sound.Tab" xml:space="preserve">
     <value>Suara</value>
