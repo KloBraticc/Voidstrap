@@ -3,6 +3,12 @@
     <TextBlock FontSize="14" Margin="0,0,0,12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Menu_Integrations_Description}" />
 
     <TabControl Margin="0,12,0,0">
+      <TabControl.Resources>
+        <Style TargetType="{x:Type TabItem}" BasedOn="{StaticResource {x:Type TabItem}}">
+          <Setter Property="MinWidth" Value="0" />
+          <Setter Property="Padding" Value="24,6" />
+        </Style>
+      </TabControl.Resources>
 
       <TabItem>
         <TabItem.Header>
