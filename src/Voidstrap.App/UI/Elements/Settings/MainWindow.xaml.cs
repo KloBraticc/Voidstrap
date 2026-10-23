@@ -1074,7 +1074,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         TopNavHome.Tag = content is HomePage ? "Active" : null;
         TopNavLibrary.Tag = content is LibraryPage ? "Active" : null;
-        TopNavNews.Tag = content is NewsPage ? "Active" : null;
         TopNavServers.Tag = content is PrivateServersPage ? "Active" : null;
     }
 
@@ -1971,11 +1970,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             RootNavigation.NavigateExternal(_robloxNewsPage);
         }
-    }
-
-    private void TopNavNews_Click(object sender, RoutedEventArgs e)
-    {
-        NavigateTopNav(typeof(NewsPage));
     }
 
     private void TopNavServers_Click(object sender, RoutedEventArgs e)
