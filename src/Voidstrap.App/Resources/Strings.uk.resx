@@ -8049,4 +8049,7 @@ Voidstrap не зміг записати до теки робочого стол
 
 Закрийте це вікно, щоб залишити вбудовану оцінку без завантаження. Ви зможете змінити це пізніше на сторінці RiShade.</value>
   </data>
+  <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
+    <value>Велика V3 ({0} МБ, найновіша, дуже важка)</value>
+  </data>
 </root>

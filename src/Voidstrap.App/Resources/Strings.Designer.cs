@@ -1505,6 +1505,7 @@ namespace Voidstrap.Resources {
         public static string Ui_RiShade_DepthModel_Small => ResourceManager.GetString("Ui.RiShade.DepthModel.Small", resourceCulture);
         public static string Ui_RiShade_DepthModel_Base => ResourceManager.GetString("Ui.RiShade.DepthModel.Base", resourceCulture);
         public static string Ui_RiShade_DepthModel_Large => ResourceManager.GetString("Ui.RiShade.DepthModel.Large", resourceCulture);
+        public static string Ui_RiShade_DepthModel_LargeV3 => ResourceManager.GetString("Ui.RiShade.DepthModel.LargeV3", resourceCulture);
         public static string Ui_RiShade_DepthModel_SmallShort => ResourceManager.GetString("Ui.RiShade.DepthModel.SmallShort", resourceCulture);
         public static string Ui_RiShade_DepthModel_BaseShort => ResourceManager.GetString("Ui.RiShade.DepthModel.BaseShort", resourceCulture);
         public static string Ui_RiShade_DepthModel_LargeShort => ResourceManager.GetString("Ui.RiShade.DepthModel.LargeShort", resourceCulture);

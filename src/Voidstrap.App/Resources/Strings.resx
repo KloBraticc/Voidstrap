@@ -7738,4 +7738,7 @@ Large: {2} MB, sharpest but heavy on the GPU.
 
 Close this window to keep the built in estimate with no download. You can change this later on the RiShade page.</value>
   </data>
+  <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
+    <value>Large V3 ({0} MB, newest, very heavy)</value>
+  </data>
 </root>

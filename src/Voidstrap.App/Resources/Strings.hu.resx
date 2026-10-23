@@ -8050,4 +8050,7 @@ Nagy: {2} MB, legélesebb, de erősen terheli a GPU-t.
 
 Zárd be ezt az ablakot, ha letöltés nélkül a beépített becslésnél maradnál. Ezt később a RiShade oldalon módosíthatod.</value>
   </data>
+  <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
+    <value>Nagy V3 ({0} MB, legújabb, nagyon megterhelő)</value>
+  </data>
 </root>

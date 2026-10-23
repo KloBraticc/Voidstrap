@@ -8053,4 +8053,7 @@ Grande: {2} MB, il più nitido ma pesante per la GPU.
 
 Chiudi questa finestra per tenere la stima integrata senza download. Puoi cambiarlo più tardi nella pagina di RiShade.</value>
   </data>
+  <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
+    <value>Grande V3 ({0} MB, il più recente, molto pesante)</value>
+  </data>
 </root>

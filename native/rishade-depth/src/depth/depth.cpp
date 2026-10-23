@@ -36,6 +36,7 @@ cbuffer Sizes : register(b0)
     uint2 ModelSize;
     uint InputWidth;
     uint OutputWidth;
+    uint Distance;
 };
 Texture2D<float4> Source : register(t0);
 Texture2D<float> Result : register(t1);
@@ -66,7 +67,8 @@ void Store(uint index, float value)
 
 float Load(uint index)
 {
-    return Result.Load(int3(index % OutputWidth, index / OutputWidth, 0));
+    float value = Result.Load(int3(index % OutputWidth, index / OutputWidth, 0));
+    return Distance ? 1.0 / max(value, 1e-4) : value;
 }
 
 [numthreads(16, 16, 1)]
@@ -254,6 +256,7 @@ struct Depth
     int modelHeight = 0;
     bool halfInput = false;
     bool halfOutput = false;
+    bool distanceOutput = false;
 };
 Depth d;
 
@@ -433,6 +436,7 @@ void Worker()
                     ModelFile().c_str(), d.width, d.height, model->HalfInput(), model->HalfOutput());
                 d.halfInput = model->HalfInput();
                 d.halfOutput = model->HalfOutput();
+                d.distanceOutput = model->DistanceOutput();
                 Report(LogLevel::Ok, L"Depth estimation ready (%dx%d)", d.width, d.height);
             }
             if (d.inputValue)
@@ -687,7 +691,7 @@ void CreateShared()
     g.context->ClearUnorderedAccessViewFloat(d.textureTarget.get(), farPlane);
 
     const UINT sizes[8] = { d.sourceWidth, d.sourceHeight, static_cast<UINT>(d.width), static_cast<UINT>(d.height),
-                            kRowBytes / (d.halfInput ? 2 : 4), kRowBytes / (d.halfOutput ? 2 : 4) };
+                            kRowBytes / (d.halfInput ? 2 : 4), kRowBytes / (d.halfOutput ? 2 : 4), d.distanceOutput ? 1u : 0u };
     g.context->UpdateSubresource(d.sizes.get(), 0, nullptr, sizes, 0, 0);
     for (auto* runtime : d.runtimes)
         Bind(runtime, d.view.get());
@@ -878,6 +882,7 @@ void ShutdownDepth()
     d.slowRequestLogged = false;
     d.width = d.height = d.size = 0;
     d.modelWidth = d.modelHeight = 0;
+    d.distanceOutput = false;
 }
 
 void AdoptDepthRuntime(reshade::api::effect_runtime* runtime)

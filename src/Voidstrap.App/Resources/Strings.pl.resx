@@ -8051,4 +8051,7 @@ Duży: {2} MB, najostrzejszy, ale mocno obciąża GPU.
 
 Zamknij to okno, aby zostać przy wbudowanym oszacowaniu bez pobierania. Możesz to zmienić później na stronie RiShade.</value>
   </data>
+  <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
+    <value>Duży V3 ({0} MB, najnowszy, bardzo wymagający)</value>
+  </data>
 </root>

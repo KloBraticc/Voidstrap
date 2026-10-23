@@ -8052,4 +8052,7 @@ Velký: {2} MB, nejostřejší, ale náročný na GPU.
 
 Zavřete toto okno, chcete-li ponechat vestavěný odhad bez stahování. Později to můžete změnit na stránce RiShade.</value>
   </data>
+  <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
+    <value>Velký V3 ({0} MB, nejnovější, velmi náročný)</value>
+  </data>
 </root>

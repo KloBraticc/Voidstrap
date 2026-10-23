@@ -8051,4 +8051,7 @@ Stor: {2} MB, skarpast men tung för GPU:n.
 
 Stäng det här fönstret för att behålla den inbyggda uppskattningen utan nedladdning. Du kan ändra det senare på RiShade-sidan.</value>
   </data>
+  <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
+    <value>Stor V3 ({0} MB, nyast, mycket krävande)</value>
+  </data>
 </root>

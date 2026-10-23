@@ -8051,4 +8051,7 @@ Voidstrap не можа да запише в папката на работни�
 
 Затворете този прозорец, за да запазите вградената оценка без изтегляне. Можете да промените това по-късно на страницата на RiShade.</value>
   </data>
+  <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
+    <value>Голям V3 ({0} MB, най-нов, много тежък)</value>
+  </data>
 </root>

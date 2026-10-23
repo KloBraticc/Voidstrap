@@ -8065,4 +8065,7 @@ Voidstrap がデスクトップ フォルダーに書き込めませんでした
 
 ダウンロードせずに内蔵の推定を使い続けるには、このウィンドウを閉じてください。後で RiShade のページから変更できます。</value>
   </data>
+  <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
+    <value>大 V3 ({0} MB、最新、非常に高負荷)</value>
+  </data>
 </root>

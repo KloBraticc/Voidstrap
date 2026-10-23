@@ -25,6 +25,7 @@ public:
 
     bool HalfInput() const { return halfInput; }
     bool HalfOutput() const { return halfOutput; }
+    bool DistanceOutput() const { return distanceOutput; }
     ID3D12CommandQueue* Queue() const { return queue; }
 
     void Bind(ID3D12Resource* input, ID3D12Resource* output);
@@ -50,6 +51,7 @@ private:
     bool halfOutput = false;
     std::vector<int64_t> inputShape;
     std::vector<int64_t> outputShape;
+    bool distanceOutput = false;
     ID3D12Resource* inputBuffer = nullptr;
     ID3D12Resource* outputBuffer = nullptr;
     void* inputAllocation = nullptr;

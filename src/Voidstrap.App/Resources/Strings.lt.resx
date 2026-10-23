@@ -8052,4 +8052,7 @@ Didelis: {2} MB, ryškiausias, bet labai apkrauna GPU.
 
 Užverkite šį langą, jei norite palikti įtaisytą įvertį be atsisiuntimo. Tai galite pakeisti vėliau RiShade puslapyje.</value>
   </data>
+  <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
+    <value>Didelis V3 ({0} MB, naujausias, labai sunkus)</value>
+  </data>
 </root>

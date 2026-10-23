@@ -8046,4 +8046,7 @@ Voidstrap เขียนลงในโฟลเดอร์เดสก์ท�
 
 ปิดหน้าต่างนี้เพื่อใช้การประมาณในตัวต่อโดยไม่ต้องดาวน์โหลด คุณเปลี่ยนได้ภายหลังในหน้า RiShade</value>
   </data>
+  <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
+    <value>ใหญ่ V3 ({0} MB ใหม่ที่สุด หนักมาก)</value>
+  </data>
 </root>

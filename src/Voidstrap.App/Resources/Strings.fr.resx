@@ -8050,4 +8050,7 @@ Grand : {2} Mo, le plus net mais lourd pour le GPU.
 
 Fermez cette fenêtre pour garder l'estimation intégrée sans téléchargement. Vous pourrez changer cela plus tard sur la page RiShade.</value>
   </data>
+  <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
+    <value>Grand V3 ({0} Mo, le plus récent, très exigeant)</value>
+  </data>
 </root>

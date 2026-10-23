@@ -8049,4 +8049,7 @@ Büyük: {2} MB, en keskin ama GPU için ağır.
 
 İndirme yapmadan yerleşik tahmini kullanmaya devam etmek için bu pencereyi kapatın. Bunu daha sonra RiShade sayfasından değiştirebilirsiniz.</value>
   </data>
+  <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
+    <value>Büyük V3 ({0} MB, en yeni, çok ağır)</value>
+  </data>
 </root>

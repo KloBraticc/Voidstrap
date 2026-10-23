@@ -8050,4 +8050,7 @@ Veliki: {2} MB, najoštriji, ali jako opterećuje GPU.
 
 Zatvori ovaj prozor da zadržiš ugrađenu procjenu bez preuzimanja. Ovo možeš kasnije promijeniti na stranici RiShade.</value>
   </data>
+  <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
+    <value>Veliki V3 ({0} MB, najnoviji, vrlo zahtjevan)</value>
+  </data>
 </root>

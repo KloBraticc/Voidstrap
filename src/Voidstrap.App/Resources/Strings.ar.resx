@@ -8050,4 +8050,7 @@
 
 أغلق هذه النافذة للاحتفاظ بالتقدير المدمج دون تنزيل. يمكنك تغيير ذلك لاحقًا من صفحة RiShade.</value>
   </data>
+  <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
+    <value>كبير V3 ({0} ميغابايت، الأحدث، ثقيل جدًا)</value>
+  </data>
 </root>

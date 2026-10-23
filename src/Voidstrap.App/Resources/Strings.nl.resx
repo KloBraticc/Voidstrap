@@ -8052,4 +8052,7 @@ Groot: {2} MB, scherpst maar zwaar voor de GPU.
 
 Sluit dit venster om de ingebouwde schatting zonder download te houden. Je kunt dit later wijzigen op de RiShade-pagina.</value>
   </data>
+  <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
+    <value>Groot V3 ({0} MB, nieuwst, zeer zwaar)</value>
+  </data>
 </root>

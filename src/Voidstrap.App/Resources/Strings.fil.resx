@@ -8049,4 +8049,7 @@ Malaki: {2} MB, pinakamalinaw pero mabigat sa GPU.
 
 Isara ang window na ito para manatili sa built in na tantiya nang walang download. Mapapalitan mo ito mamaya sa RiShade page.</value>
   </data>
+  <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
+    <value>Malaki V3 ({0} MB, pinakabago, napakabigat)</value>
+  </data>
 </root>

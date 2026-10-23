@@ -8053,4 +8053,7 @@ Voidstrap نتوانست در پوشهٔ دسکتاپ بنویسد.</value>
 
 برای ماندن با تخمین داخلی بدون دانلود، این پنجره را ببندید. بعداً می‌توانید این را در صفحه RiShade تغییر دهید.</value>
   </data>
+  <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
+    <value>بزرگ V3 ({0} مگابایت، جدیدترین، بسیار سنگین)</value>
+  </data>
 </root>

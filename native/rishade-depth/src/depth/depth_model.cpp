@@ -110,6 +110,7 @@ void DepthModel::Load(const std::wstring& directory, const std::wstring& modelFi
     check(api->SetSessionGraphOptimizationLevel(options, ORT_ENABLE_ALL));
     check(api->AddSessionConfigEntry(options, "session.intra_op.allow_spinning", "0"));
     check(api->AddFreeDimensionOverrideByName(options, "batch_size", 1));
+    check(api->AddFreeDimensionOverrideByName(options, "num_images", 1));
     check(api->AddFreeDimensionOverrideByName(options, "height", height));
     check(api->AddFreeDimensionOverrideByName(options, "width", width));
     check(dmlApi->SessionOptionsAppendExecutionProvider_DML1(options, dml, queue));
@@ -121,23 +122,40 @@ void DepthModel::Load(const std::wstring& directory, const std::wstring& modelFi
     size_t inputs = 0, outputs = 0;
     check(api->SessionGetInputCount(session, &inputs));
     check(api->SessionGetOutputCount(session, &outputs));
-    if (inputs != 1 || outputs != 1)
-        throw std::runtime_error("The model does not take one image and return one depth map.");
+    if (inputs != 1 || outputs < 1)
+        throw std::runtime_error("The model does not take one image and return a depth map.");
     char* name = nullptr;
     check(api->SessionGetInputName(session, 0, allocator, &name));
     inputName = name;
     check(api->AllocatorFree(allocator, name));
-    check(api->SessionGetOutputName(session, 0, allocator, &name));
-    outputName = name;
-    check(api->AllocatorFree(allocator, name));
+    size_t depthOutput = 0;
+    for (size_t index = 0; index < outputs; ++index)
+    {
+        check(api->SessionGetOutputName(session, index, allocator, &name));
+        const std::string candidate = name;
+        check(api->AllocatorFree(allocator, name));
+        if (index == 0 || candidate == "predicted_depth")
+        {
+            depthOutput = index;
+            outputName = candidate;
+        }
+        if (candidate == "confidence")
+            distanceOutput = true;
+    }
 
     OrtTypeInfo* info = nullptr;
     check(api->SessionGetInputTypeInfo(session, 0, &info));
-    halfInput = IsHalf(ReadTensorInfo(api, info).type, "input");
-    check(api->SessionGetOutputTypeInfo(session, 0, &info));
+    const TensorInfo input = ReadTensorInfo(api, info);
+    halfInput = IsHalf(input.type, "input");
+    check(api->SessionGetOutputTypeInfo(session, depthOutput, &info));
     const TensorInfo output = ReadTensorInfo(api, info);
     halfOutput = IsHalf(output.type, "output");
-    inputShape = { 1, 3, height, width };
+    if (input.rank == 5)
+        inputShape = { 1, 1, 3, height, width };
+    else if (input.rank == 4)
+        inputShape = { 1, 3, height, width };
+    else
+        throw std::runtime_error("The model takes an image of an unexpected shape.");
     if (output.rank == 3)
         outputShape = { 1, height, width };
     else if (output.rank == 4)

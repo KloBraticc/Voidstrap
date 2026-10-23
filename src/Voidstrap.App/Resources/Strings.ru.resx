@@ -8050,4 +8050,7 @@ Voidstrap не смог записать в папку рабочего стол
 
 Закройте это окно, чтобы оставить встроенную оценку без загрузки. Вы сможете изменить это позже на странице RiShade.</value>
   </data>
+  <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
+    <value>Большая V3 ({0} МБ, новейшая, очень тяжёлая)</value>
+  </data>
 </root>

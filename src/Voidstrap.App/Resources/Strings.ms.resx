@@ -8042,4 +8042,7 @@ Besar: {2} MB, paling tajam tetapi berat untuk GPU.
 
 Tutup tetingkap ini untuk kekal dengan anggaran terbina dalam tanpa muat turun. Anda boleh menukarnya kemudian di halaman RiShade.</value>
   </data>
+  <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
+    <value>Besar V3 ({0} MB, terbaharu, sangat berat)</value>
+  </data>
 </root>

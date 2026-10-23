@@ -8052,4 +8052,7 @@ Suuri: {2} Mt, terävin mutta raskas GPU:lle.
 
 Sulje tämä ikkuna, jos haluat pitää sisäänrakennetun arvion ilman latausta. Voit muuttaa tätä myöhemmin RiShade-sivulla.</value>
   </data>
+  <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
+    <value>Suuri V3 ({0} Mt, uusin, erittäin raskas)</value>
+  </data>
 </root>

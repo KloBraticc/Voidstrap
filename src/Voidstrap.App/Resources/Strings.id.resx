@@ -8053,4 +8053,7 @@ Besar: {2} MB, paling tajam tetapi berat bagi GPU.
 
 Tutup jendela ini untuk tetap memakai perkiraan bawaan tanpa unduhan. Anda dapat mengubahnya nanti di halaman RiShade.</value>
   </data>
+  <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
+    <value>Besar V3 ({0} MB, terbaru, sangat berat)</value>
+  </data>
 </root>

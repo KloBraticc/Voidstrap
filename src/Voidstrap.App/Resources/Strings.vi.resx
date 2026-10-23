@@ -8054,4 +8054,7 @@ Lớn: {2} MB, sắc nét nhất nhưng nặng cho GPU.
 
 Đóng cửa sổ này để giữ ước tính tích hợp mà không cần tải xuống. Bạn có thể thay đổi sau trên trang RiShade.</value>
   </data>
+  <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
+    <value>Lớn V3 ({0} MB, mới nhất, rất nặng)</value>
+  </data>
 </root>

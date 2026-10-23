@@ -8052,4 +8052,7 @@ Mare: {2} MB, cel mai clar, dar solicită mult GPU-ul.
 
 Închide această fereastră ca să păstrezi estimarea integrată fără descărcare. Poți schimba asta mai târziu pe pagina RiShade.</value>
   </data>
+  <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
+    <value>Mare V3 ({0} MB, cel mai nou, foarte solicitant)</value>
+  </data>
 </root>

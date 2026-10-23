@@ -8075,4 +8075,7 @@ Voidstrap 无法写入桌面文件夹。</value>
 
 关闭此窗口即可继续使用内置估算，无需下载。您以后可以在 RiShade 页面中更改。</value>
   </data>
+  <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
+    <value>大 V3 ({0} MB，最新，负载极高)</value>
+  </data>
 </root>

@@ -8052,4 +8052,7 @@ Grande: {2} MB, o mais nítido, mas pesado para a GPU.
 
 Feche esta janela para manter a estimativa integrada sem baixar nada. Você pode mudar isso depois na página do RiShade.</value>
   </data>
+  <data name="Ui.RiShade.DepthModel.LargeV3" xml:space="preserve">
+    <value>Grande V3 ({0} MB, o mais novo, muito pesado)</value>
+  </data>
 </root>
