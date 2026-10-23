@@ -196,6 +196,8 @@ void Upsample(uint3 id : SV_DispatchThreadID)
 
 constexpr const char* kEntryPoints[] = { "Preprocess", "Peak", "Histogram", "Smooth", "Upsample" };
 
+constexpr std::chrono::milliseconds kMinDepthInterval{ 50 };
+
 struct Depth
 {
     bool enabled = false;
@@ -208,6 +210,7 @@ struct Depth
     UINT sourceHeight = 0;
     std::optional<int64_t> lastInput;
     FrameStatistics::Clock::time_point requestedAt{};
+    FrameStatistics::Clock::time_point nextRequestAt{};
     std::atomic<double> workerMs = 0;
     bool slowRequestLogged = false;
     std::array<winrt::com_ptr<ID3DBlob>, std::size(kEntryPoints)> code;
@@ -780,6 +783,8 @@ void UpdateDepth(ID3D11Texture2D* frame, int64_t frameTimestamp)
                 return;
             d.done = false;
             d.busy = false;
+            const auto completedAt = FrameStatistics::Clock::now();
+            d.nextRequestAt = d.requestedAt + std::max<FrameStatistics::Clock::duration>(kMinDepthInterval, (completedAt - d.requestedAt) * 2);
             if (d.inputValue && d.texture && !D3D12Removed())
             {
                 Publish();
@@ -808,6 +813,8 @@ void UpdateDepth(ID3D11Texture2D* frame, int64_t frameTimestamp)
             Request(0);
             return;
         }
+        if (FrameStatistics::Clock::now() < d.nextRequestAt)
+            return;
         if (!d.texture)
             CreateShared();
 
@@ -880,6 +887,7 @@ void ShutdownDepth()
     d.inputValue = 0;
     d.version = 0;
     d.slowRequestLogged = false;
+    d.nextRequestAt = {};
     d.width = d.height = d.size = 0;
     d.modelWidth = d.modelHeight = 0;
     d.distanceOutput = false;
