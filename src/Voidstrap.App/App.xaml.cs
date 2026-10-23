@@ -332,6 +332,7 @@ public partial class App : Application
 	private static void ShutdownApplication(int exitCodeNum)
 	{
 		Application? application = Current;
+		Voidstrap.Utility.HiddenErrorLog.Uninstall();
 		Voidstrap.Utility.LogDiagnostics.MarkSessionEnded();
 		if (application == null)
 		{
@@ -1392,6 +1393,7 @@ public partial class App : Application
 		Voidstrap.Utility.LogDiagnostics.WriteEnvironment();
 		if (Logger.Initialized && !Logger.NoWriteMode)
 			Voidstrap.Utility.LogDiagnostics.MarkSessionStarted(Logger.FileLocation);
+		Voidstrap.Utility.HiddenErrorLog.Install();
 
 		if (!Voidstrap.Utility.Platform.IsWindows)
 			return;
@@ -2073,6 +2075,7 @@ public partial class App : Application
 
 	protected override void OnExit(ExitEventArgs e)
 	{
+		Voidstrap.Utility.HiddenErrorLog.Uninstall();
 		Voidstrap.Utility.LogDiagnostics.MarkSessionEnded();
 		LinuxUiPerformance.Shutdown();
 		UnregisterExceptionHandlers();
