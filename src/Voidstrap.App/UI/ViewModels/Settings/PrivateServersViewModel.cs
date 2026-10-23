@@ -81,16 +81,29 @@ namespace Voidstrap.UI.ViewModels.Settings
         }
     }
 
-    internal sealed class PrivateServerGame
+    internal sealed class PrivateServerGame : NotifyPropertyChangedViewModel
     {
+        private string? _iconUrl;
+
+        public long UniverseId { get; init; }
+
         public string Name { get; init; } = string.Empty;
 
-        public string? IconUrl { get; init; }
+        public string? IconUrl
+        {
+            get => _iconUrl;
+            set
+            {
+                if (_iconUrl == value)
+                    return;
+                _iconUrl = value;
+                OnPropertyChanged(nameof(IconUrl));
+            }
+        }
 
         public string CountText { get; init; } = string.Empty;
 
         public List<PrivateServerRow> Servers { get; init; } = [];
-
     }
 
     internal sealed class PrivateServersViewModel : NotifyPropertyChangedViewModel
@@ -203,20 +216,6 @@ namespace Voidstrap.UI.ViewModels.Settings
             try
             {
                 (PrivateServersStatus result, List<AccountPrivateServer> servers) = await Task.Run(() => RobloxServers.GetAccountPrivateServersAsync(CancellationToken.None));
-                List<long> universes = servers.Select(server => server.UniverseId).Where(id => id > 0).Distinct().ToList();
-                if (universes.Count > 0)
-                {
-                    try
-                    {
-                        foreach (long[] chunk in universes.Chunk(50))
-                            await UniverseDetails.FetchBulk(string.Join(",", chunk));
-                        await UniverseDetails.RefreshMissingThumbnailsAsync(universes);
-                    }
-                    catch (Exception ex)
-                    {
-                        App.Logger.WriteLine("PrivateServersViewModel::Load", "Game names and icons could not be loaded: " + ex.Message);
-                    }
-                }
                 _mineGames = BuildGames(servers.Where(server => server.IsMine));
                 _friendGames = BuildGames(servers.Where(server => !server.IsMine));
                 ApplyFilter();
@@ -228,6 +227,8 @@ namespace Voidstrap.UI.ViewModels.Settings
                 };
                 _loaded = result == PrivateServersStatus.Ready;
                 App.Logger.WriteLine("PrivateServersViewModel::Load", $"Showing {servers.Count} private servers, {_mineGames.Count} games of your own and {_friendGames.Count} shared with you");
+                IsLoading = false;
+                await LoadIconsAsync();
             }
             catch (Exception ex)
             {
@@ -238,6 +239,31 @@ namespace Voidstrap.UI.ViewModels.Settings
             {
                 IsLoading = false;
                 _loadGate.Release();
+            }
+        }
+
+        private async Task LoadIconsAsync()
+        {
+            List<PrivateServerGame> games = _mineGames.Concat(_friendGames).ToList();
+            List<long> missing = games.Where(game => game.UniverseId > 0 && string.IsNullOrEmpty(game.IconUrl)).Select(game => game.UniverseId).Distinct().ToList();
+            if (missing.Count == 0)
+                return;
+            try
+            {
+                await Task.Run(async () =>
+                {
+                    await Task.WhenAll(missing.Chunk(50).Select(chunk => UniverseDetails.FetchBulk(string.Join(",", chunk))));
+                    await UniverseDetails.RefreshMissingThumbnailsAsync(missing);
+                });
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine("PrivateServersViewModel::LoadIcons", "Game icons could not be loaded: " + ex.Message);
+            }
+            foreach (PrivateServerGame game in games)
+            {
+                if (game.UniverseId > 0 && UniverseDetails.LoadFromCache(game.UniverseId)?.Thumbnail?.ImageUrl is { Length: > 0 } url)
+                    game.IconUrl = url;
             }
         }
 
@@ -255,6 +281,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                     .ToList();
                 games.Add(new PrivateServerGame
                 {
+                    UniverseId = group.Key,
                     Name = name,
                     IconUrl = details?.Thumbnail?.ImageUrl,
                     CountText = string.Format(Strings.PrivateServers_Count, rows.Count),

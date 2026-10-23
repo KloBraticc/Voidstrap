@@ -207,66 +207,76 @@ public static class RobloxServers
 
 	public static async Task<(PrivateServersStatus Status, List<AccountPrivateServer> Servers)> GetAccountPrivateServersAsync(CancellationToken token)
 	{
-		List<AccountPrivateServer> servers = new();
 		string? cookie = RobloxCookie.Get();
 		if (string.IsNullOrEmpty(cookie))
-			return (PrivateServersStatus.NotSignedIn, servers);
+			return (PrivateServersStatus.NotSignedIn, new List<AccountPrivateServer>());
+		(PrivateServersStatus Status, List<AccountPrivateServer> Servers)[] tabs = await Task.WhenAll(
+			GetAccountPrivateServersTabAsync(cookie, "MyPrivateServers", true, token),
+			GetAccountPrivateServersTabAsync(cookie, "OtherPrivateServers", false, token)).ConfigureAwait(false);
 		HashSet<long> seen = new();
+		List<AccountPrivateServer> servers = tabs.SelectMany(tab => tab.Servers).Where(server => seen.Add(server.Id)).ToList();
+		if (tabs.Any(tab => tab.Status == PrivateServersStatus.NotSignedIn))
+			return (PrivateServersStatus.NotSignedIn, servers);
+		if (tabs.All(tab => tab.Status == PrivateServersStatus.Ready) || servers.Count > 0)
+			return (PrivateServersStatus.Ready, servers);
+		return (PrivateServersStatus.Unavailable, servers);
+	}
+
+	private static async Task<(PrivateServersStatus Status, List<AccountPrivateServer> Servers)> GetAccountPrivateServersTabAsync(string cookie, string tab, bool mine, CancellationToken token)
+	{
+		List<AccountPrivateServer> servers = new();
 		try
 		{
-			foreach ((string tab, bool mine) in new[] { ("MyPrivateServers", true), ("OtherPrivateServers", false) })
+			string? cursor = null;
+			for (int page = 0; page < 10; page++)
 			{
-				string? cursor = null;
-				for (int page = 0; page < 10; page++)
+				string url = "https://games.roblox.com/v1/private-servers/my-private-servers?privateServersTab=" + tab + "&itemsPerPage=100";
+				if (!string.IsNullOrEmpty(cursor))
+					url += "&cursor=" + Uri.EscapeDataString(cursor);
+				using HttpRequestMessage request = new(HttpMethod.Get, url);
+				request.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
+				using HttpResponseMessage response = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
+				if (response.StatusCode == HttpStatusCode.Unauthorized)
+					return (PrivateServersStatus.NotSignedIn, servers);
+				if (!response.IsSuccessStatusCode)
 				{
-					string url = "https://games.roblox.com/v1/private-servers/my-private-servers?privateServersTab=" + tab + "&itemsPerPage=100";
-					if (!string.IsNullOrEmpty(cursor))
-						url += "&cursor=" + Uri.EscapeDataString(cursor);
-					using HttpRequestMessage request = new(HttpMethod.Get, url);
-					request.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
-					using HttpResponseMessage response = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
-					if (response.StatusCode == HttpStatusCode.Unauthorized)
-						return (PrivateServersStatus.NotSignedIn, servers);
-					if (!response.IsSuccessStatusCode)
-					{
-						App.Logger.WriteLine(LOG_IDENT, $"Account private servers answered {(int)response.StatusCode} {response.StatusCode}");
-						return (servers.Count > 0 ? PrivateServersStatus.Ready : PrivateServersStatus.Unavailable, servers);
-					}
-					using JsonDocument document = JsonDocument.Parse(await Utility.Http.ReadStringBoundedAsync(response.Content, MaxApiResponseBytes, token).ConfigureAwait(false));
-					JsonElement root = document.RootElement;
-					if (root.TryGetProperty("data", out JsonElement data) && data.ValueKind == JsonValueKind.Array)
-					{
-						foreach (JsonElement item in data.EnumerateArray())
-						{
-							if (Interlocked.Exchange(ref _accountFieldsLogged, 1) == 0 && item.ValueKind == JsonValueKind.Object)
-								App.Logger.WriteLine(LOG_IDENT, "Account private server fields: " + string.Join(", ", item.EnumerateObject().Select(property => property.Name)));
-							long id = ReadLong(item, "privateServerId");
-							if (id <= 0)
-								id = ReadLong(item, "vipServerId");
-							if (id <= 0)
-								id = ReadLong(item, "id");
-							if (id <= 0 || !seen.Add(id))
-								continue;
-							DateTime? expires = item.TryGetProperty("expirationDate", out JsonElement expiration) && expiration.ValueKind == JsonValueKind.String && expiration.TryGetDateTime(out DateTime parsed) ? parsed.ToUniversalTime() : null;
-							servers.Add(new AccountPrivateServer
-							{
-								Id = id,
-								Name = ReadString(item, "name"),
-								UniverseId = ReadLong(item, "universeId"),
-								PlaceId = ReadLong(item, "placeId"),
-								GameName = ReadString(item, "universeName"),
-								OwnerName = ReadString(item, "ownerName"),
-								IsMine = mine,
-								Active = !item.TryGetProperty("active", out JsonElement active) || active.ValueKind != JsonValueKind.False,
-								Expires = expires,
-								WillRenew = item.TryGetProperty("willRenew", out JsonElement renew) && renew.ValueKind == JsonValueKind.True
-							});
-						}
-					}
-					cursor = ReadString(root, "nextPageCursor");
-					if (cursor.Length == 0)
-						break;
+					App.Logger.WriteLine(LOG_IDENT, $"Account private servers ({tab}) answered {(int)response.StatusCode} {response.StatusCode}");
+					return (servers.Count > 0 ? PrivateServersStatus.Ready : PrivateServersStatus.Unavailable, servers);
 				}
+				using JsonDocument document = JsonDocument.Parse(await Utility.Http.ReadStringBoundedAsync(response.Content, MaxApiResponseBytes, token).ConfigureAwait(false));
+				JsonElement root = document.RootElement;
+				if (root.TryGetProperty("data", out JsonElement data) && data.ValueKind == JsonValueKind.Array)
+				{
+					foreach (JsonElement item in data.EnumerateArray())
+					{
+						if (Interlocked.Exchange(ref _accountFieldsLogged, 1) == 0 && item.ValueKind == JsonValueKind.Object)
+							App.Logger.WriteLine(LOG_IDENT, "Account private server fields: " + string.Join(", ", item.EnumerateObject().Select(property => property.Name)));
+						long id = ReadLong(item, "privateServerId");
+						if (id <= 0)
+							id = ReadLong(item, "vipServerId");
+						if (id <= 0)
+							id = ReadLong(item, "id");
+						if (id <= 0)
+							continue;
+						DateTime? expires = item.TryGetProperty("expirationDate", out JsonElement expiration) && expiration.ValueKind == JsonValueKind.String && expiration.TryGetDateTime(out DateTime parsed) ? parsed.ToUniversalTime() : null;
+						servers.Add(new AccountPrivateServer
+						{
+							Id = id,
+							Name = ReadString(item, "name"),
+							UniverseId = ReadLong(item, "universeId"),
+							PlaceId = ReadLong(item, "placeId"),
+							GameName = ReadString(item, "universeName"),
+							OwnerName = ReadString(item, "ownerName"),
+							IsMine = mine,
+							Active = !item.TryGetProperty("active", out JsonElement active) || active.ValueKind != JsonValueKind.False,
+							Expires = expires,
+							WillRenew = item.TryGetProperty("willRenew", out JsonElement renew) && renew.ValueKind == JsonValueKind.True
+						});
+					}
+				}
+				cursor = ReadString(root, "nextPageCursor");
+				if (cursor.Length == 0)
+					break;
 			}
 			return (PrivateServersStatus.Ready, servers);
 		}
@@ -276,7 +286,7 @@ public static class RobloxServers
 		}
 		catch (Exception ex)
 		{
-			App.Logger.WriteLine(LOG_IDENT, "Account private servers could not be loaded: " + ex.Message);
+			App.Logger.WriteLine(LOG_IDENT, $"Account private servers ({tab}) could not be loaded: " + ex.Message);
 			return (servers.Count > 0 ? PrivateServersStatus.Ready : PrivateServersStatus.Unavailable, servers);
 		}
 	}
