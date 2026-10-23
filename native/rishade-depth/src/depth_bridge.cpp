@@ -11,6 +11,7 @@
 #include <cstdint>
 #include <cwchar>
 #include <string>
+#include <algorithm>
 #include <vector>
 
 State g;
@@ -161,6 +162,26 @@ extern "C" __declspec(dllexport) bool RiShadeDepthBridgeReload(const wchar_t* fi
     }
     Log(LogLevel::Info, usingModel ? L"Depth switched to the AI model %ls" : L"Depth switched to scene estimation", modelFile.c_str());
     return initialized;
+}
+
+extern "C" __declspec(dllexport) bool RiShadeDepthBridgeAttachRuntime(reshade::api::effect_runtime* runtime)
+{
+    if (!initialized || !runtime)
+        return false;
+    try
+    {
+        if (std::find(liveRuntimes.begin(), liveRuntimes.end(), runtime) == liveRuntimes.end())
+            liveRuntimes.push_back(runtime);
+        if (usingModel)
+            AdoptDepthRuntime(runtime);
+        else
+            SceneAdoptDepthRuntime(runtime);
+        return true;
+    }
+    catch (...)
+    {
+        return false;
+    }
 }
 
 extern "C" __declspec(dllexport) bool RiShadeDepthBridgeUsingModel()

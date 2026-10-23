@@ -41,6 +41,10 @@ namespace Voidstrap.Integrations.RiShade
         [return: MarshalAs(UnmanagedType.I1)]
         public static partial bool DepthBridgeReload(string modelFile);
 
+        [LibraryImport("rishade_depth_bridge", EntryPoint = "RiShadeDepthBridgeAttachRuntime")]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public static partial bool DepthBridgeAttachRuntime(IntPtr runtime);
+
         [LibraryImport("rishade_depth_bridge", EntryPoint = "RiShadeDepthBridgeUsingModel")]
         [return: MarshalAs(UnmanagedType.I1)]
         public static partial bool DepthBridgeUsingModel();

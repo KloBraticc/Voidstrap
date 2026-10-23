@@ -875,6 +875,7 @@ namespace Voidstrap.Integrations.Overlays
                     RiShadeManager.SetRuntime(_riRuntime);
                     _riRuntimeRetryAt = 0;
                     App.Logger.WriteLine(LOG_IDENT, "Using ReShade's own runtime on the wrapped compositor swapchain");
+                    StartRiShadeDepth();
                     return;
                 }
 
@@ -898,34 +899,7 @@ namespace Voidstrap.Integrations.Overlays
                 s_reshadeLoadedUnwrapped = true;
                 _riMissingRuntimeLogged = false;
 
-                if (RiShadeManager.DepthBridgeAvailable)
-                {
-                    try
-                    {
-                        if (_riDepthBridgeInitialized)
-                            _riDepthBridge = RiShadeInterop.DepthBridgeSetDevice(_device!.NativePointer, _context!.NativePointer);
-                        else
-                        {
-                            _riDepthModelVersion = RiShadeDepthModels.Version;
-                            string? modelFile = RiShadeDepthModels.ActiveModelFile;
-                            RiShadeInterop.DepthBridgeSetModel(modelFile ?? string.Empty);
-                            _riDepthBridgeInitialized = _riDepthBridge = RiShadeInterop.DepthBridgeInitialize(
-                                _device!.NativePointer,
-                                _context!.NativePointer,
-                                RiShadeManager.RiShadeDir);
-                            if (_riDepthBridge)
-                                App.Logger.WriteLine(LOG_IDENT, RiShadeInterop.DepthBridgeUsingModel()
-                                    ? "RiShade depth uses the AI model " + modelFile
-                                    : "RiShade depth uses scene estimation");
-                        }
-                        if (!_riDepthBridge)
-                            App.Logger.WriteLine(LOG_IDENT, "RiShade depth estimation could not start, color effects remain available");
-                    }
-                    catch (Exception ex)
-                    {
-                        App.Logger.WriteException("OverlayCompositor::CreateRiShadeDepth", ex);
-                    }
-                }
+                StartRiShadeDepth();
 
                 string configPath = Path.Combine(RiShadeManager.RiShadeDir, "ReShade.ini");
                 IntPtr targetHwnd = _hwnd != IntPtr.Zero ? _hwnd : _robloxHwnd;
@@ -938,6 +912,8 @@ namespace Voidstrap.Integrations.Overlays
                 RiShadeManager.SetRuntime(_riRuntime);
                 if (_riRuntime != IntPtr.Zero)
                     _riRuntimeRetryAt = 0;
+                if (_riRuntime != IntPtr.Zero && _riDepthBridge)
+                    RiShadeInterop.DepthBridgeAttachRuntime(_riRuntime);
                 App.Logger.WriteLine(LOG_IDENT, _riRuntime != IntPtr.Zero
                     ? "ReShade runtime created for the in-process compositor swapchain"
                     : "ReShade could not create a runtime for the compositor swapchain, frames remain unmodified");
@@ -945,6 +921,39 @@ namespace Voidstrap.Integrations.Overlays
             catch (Exception ex)
             {
                 App.Logger.WriteException("OverlayCompositor::CreateRiShadeRuntime", ex);
+            }
+        }
+
+        private void StartRiShadeDepth()
+        {
+            if (!RiShadeManager.DepthBridgeAvailable)
+                return;
+            try
+            {
+                if (_riDepthBridgeInitialized)
+                    _riDepthBridge = RiShadeInterop.DepthBridgeSetDevice(_device!.NativePointer, _context!.NativePointer);
+                else
+                {
+                    _riDepthModelVersion = RiShadeDepthModels.Version;
+                    string? modelFile = RiShadeDepthModels.ActiveModelFile;
+                    RiShadeInterop.DepthBridgeSetModel(modelFile ?? string.Empty);
+                    _riDepthBridgeInitialized = _riDepthBridge = RiShadeInterop.DepthBridgeInitialize(
+                        _device!.NativePointer,
+                        _context!.NativePointer,
+                        RiShadeManager.RiShadeDir);
+                    if (_riDepthBridge)
+                        App.Logger.WriteLine(LOG_IDENT, RiShadeInterop.DepthBridgeUsingModel()
+                            ? "RiShade depth uses the AI model " + modelFile
+                            : "RiShade depth uses scene estimation");
+                }
+                if (!_riDepthBridge)
+                    App.Logger.WriteLine(LOG_IDENT, "RiShade depth estimation could not start, color effects remain available");
+                else if (_riRuntime != IntPtr.Zero && !RiShadeInterop.DepthBridgeAttachRuntime(_riRuntime))
+                    App.Logger.WriteLine(LOG_IDENT, "RiShade depth could not attach to the ReShade runtime");
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteException("OverlayCompositor::CreateRiShadeDepth", ex);
             }
         }
 
