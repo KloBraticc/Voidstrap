@@ -1219,7 +1219,7 @@ public class LibraryViewModel : INotifyPropertyChanged
 
         foreach (Integrations.RobloxFavorites.Favorite favorite in favorites)
         {
-            if (favorite.UniverseId == 0)
+            if (favorite.UniverseId == 0 || Integrations.LibraryStore.IsFavoriteHidden(favorite.UniverseId))
                 continue;
             if (!byUniverse.TryGetValue(favorite.UniverseId, out LibraryGameEntry? entry))
             {
@@ -1850,6 +1850,7 @@ public class LibraryViewModel : INotifyPropertyChanged
             });
             game.IsPinned = true;
         }
+        Integrations.LibraryStore.SetFavoriteHidden(game.UniverseId, false);
         Integrations.LibraryStore.Save();
         RebuildSidebar();
     }
@@ -1865,6 +1866,8 @@ public class LibraryViewModel : INotifyPropertyChanged
         pins.RemoveAll(p => p.UniverseId == game.UniverseId);
         Integrations.LibraryStore.Save();
         long universeId = game.UniverseId;
+        if (game.IsFavorite)
+            Integrations.LibraryStore.SetFavoriteHidden(universeId, true);
         await Task.Run(() =>
         {
             List<string> sessionKeys = RemoveFromHistoryFile(universeId);
@@ -1940,6 +1943,7 @@ public class LibraryViewModel : INotifyPropertyChanged
                     pin.Name = $"Place {placeId}";
             }
             Integrations.LibraryStore.Save();
+            Integrations.LibraryStore.SetFavoriteHidden(universeId, false);
             AddGameText = "";
             await LoadAsync();
         }

@@ -16,9 +16,13 @@ internal static class LibraryStore
 
 	private static List<AppSettings.LibraryPin>? _pins;
 
+	private static HashSet<long>? _hiddenFavorites;
+
 	public static string SnapshotPath => Path.Combine(Paths.Library, "LibrarySnapshot.json");
 
 	private static string PinsPath => Path.Combine(Paths.Library, "Pins.json");
+
+	private static string HiddenFavoritesPath => Path.Combine(Paths.Library, "HiddenFavorites.json");
 
 	public static List<AppSettings.LibraryPin> Pins
 	{
@@ -29,6 +33,48 @@ internal static class LibraryStore
 				return _pins ??= Load();
 			}
 		}
+	}
+
+	public static bool IsFavoriteHidden(long universeId)
+	{
+		lock (Sync)
+		{
+			return HiddenFavorites().Contains(universeId);
+		}
+	}
+
+	public static void SetFavoriteHidden(long universeId, bool hidden)
+	{
+		lock (Sync)
+		{
+			HashSet<long> set = HiddenFavorites();
+			if (hidden ? !set.Add(universeId) : !set.Remove(universeId))
+				return;
+			try
+			{
+				JsonFile.SerializeAtomic(HiddenFavoritesPath, new List<long>(set), JsonOptions.Indented, false);
+			}
+			catch (Exception ex)
+			{
+				App.Logger?.WriteLine(LOG_IDENT, "The removed favorites could not be saved: " + ex.Message);
+			}
+		}
+	}
+
+	private static HashSet<long> HiddenFavorites()
+	{
+		if (_hiddenFavorites != null)
+			return _hiddenFavorites;
+		try
+		{
+			if (File.Exists(HiddenFavoritesPath))
+				return _hiddenFavorites = new HashSet<long>(JsonFile.Deserialize<List<long>>(HiddenFavoritesPath, JsonOptions.Tolerant, MaximumPinBytes) ?? []);
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine(LOG_IDENT, "The removed favorites could not be read: " + ex.Message);
+		}
+		return _hiddenFavorites = new HashSet<long>();
 	}
 
 	public static void Save()
