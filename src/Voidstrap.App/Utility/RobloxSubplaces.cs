@@ -18,7 +18,32 @@ public static class RobloxSubplaces
 		public string DisplayName => string.IsNullOrWhiteSpace(Name) ? Id.ToString(CultureInfo.InvariantCulture) : Name + " (" + Id.ToString(CultureInfo.InvariantCulture) + ")";
 	}
 
+	private static readonly TimeSpan CacheLifetime = TimeSpan.FromMinutes(10);
+
+	private static readonly System.Collections.Concurrent.ConcurrentDictionary<long, (IReadOnlyList<Place> Places, DateTime At)> Cache = new();
+
+	public static bool TryGetCached(long universeId, out IReadOnlyList<Place> places)
+	{
+		if (universeId > 0 && Cache.TryGetValue(universeId, out var entry) && DateTime.UtcNow - entry.At < CacheLifetime)
+		{
+			places = entry.Places;
+			return true;
+		}
+		places = Array.Empty<Place>();
+		return false;
+	}
+
 	public static async Task<IReadOnlyList<Place>> GetAsync(HttpClient client, long placeId, CancellationToken token, long universeId = 0)
+	{
+		if (TryGetCached(universeId, out IReadOnlyList<Place> cached))
+			return cached;
+		IReadOnlyList<Place> fetched = await FetchAsync(client, placeId, token, universeId).ConfigureAwait(false);
+		if (universeId > 0)
+			Cache[universeId] = (fetched, DateTime.UtcNow);
+		return fetched;
+	}
+
+	private static async Task<IReadOnlyList<Place>> FetchAsync(HttpClient client, long placeId, CancellationToken token, long universeId)
 	{
 		if (universeId <= 0)
 		{

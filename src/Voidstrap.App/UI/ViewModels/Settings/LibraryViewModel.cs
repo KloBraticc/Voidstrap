@@ -385,6 +385,7 @@ public class LibraryViewModel : INotifyPropertyChanged
 
     private CancellationTokenSource? _loadCts;
 
+    private static readonly TimeSpan SubplaceSelectionDelay = TimeSpan.FromMilliseconds(300);
     private CancellationTokenSource? _subplaceLoadCts;
     private IReadOnlyList<RobloxSubplaces.Place> _subplaces = Array.Empty<RobloxSubplaces.Place>();
     private string _subplaceStatus = "";
@@ -454,6 +455,12 @@ public class LibraryViewModel : INotifyPropertyChanged
         SubplaceStatus = "";
         if (game == null)
             return;
+        if (RobloxSubplaces.TryGetCached(game.UniverseId, out IReadOnlyList<RobloxSubplaces.Place> cached))
+        {
+            Subplaces = cached;
+            SubplaceStatus = cached.Count == 0 ? Strings.Shortcuts_SubplaceEmpty : "";
+            return;
+        }
         using CancellationTokenSource current = new(TimeSpan.FromSeconds(30));
         _subplaceLoadCts = current;
         CancellationToken token = current.Token;
@@ -461,6 +468,7 @@ public class LibraryViewModel : INotifyPropertyChanged
         SubplaceStatus = Strings.Shortcuts_SubplaceLoading;
         try
         {
+            await Task.Delay(SubplaceSelectionDelay, token);
             IReadOnlyList<RobloxSubplaces.Place> places = await RobloxSubplaces.GetAsync(_http, game.PlaceId, token, game.UniverseId);
             if (!ReferenceEquals(_subplaceLoadCts, current) || !ReferenceEquals(SelectedGame, game))
                 return;
