@@ -1,6 +1,6 @@
 <Window xmlns:resources="clr-namespace:Voidstrap.Resources" x:Class="Voidstrap.UI.Elements.Overlay.SessionNotificationSettings"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:platform="clr-namespace:Voidstrap.UI" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
         Title="{resources:Loc Ui_Nav_Settings}" Width="540" Height="680" MinWidth="440" MinHeight="420"
         WindowStyle="None" Background="{DynamicResource SolidBackgroundFillColorBaseBrush}"
@@ -115,7 +115,7 @@
             </ui:Button>
           </Grid>
         </Border>
-        <Border Style="{StaticResource Row}">
+        <Border Style="{StaticResource Row}" Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}">
           <Grid>
             <Grid.ColumnDefinitions>
               <ColumnDefinition Width="*" />
