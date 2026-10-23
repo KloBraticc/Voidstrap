@@ -6,7 +6,7 @@ DESCRIPTION="Roblox bootstrapper for Linux, fork of Bloxstrap (launches Roblox t
 HOMEPAGE="https://github.com/KloBraticc/Voidstrap"
 
 EGIT_REPO_URI="https://github.com/KloBraticc/Voidstrap.git"
-EGIT_SUBMODULES=( external/wpfui )
+EGIT_SUBMODULES=( external/wpfui external/RinColorPicker )
 
 if [[ ${PV} == 9999 ]]; then
 	EGIT_BRANCH="main"

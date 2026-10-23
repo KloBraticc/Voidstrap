@@ -8092,4 +8092,52 @@ Voidstrap не смог записать в папку рабочего стол
   <data name="Ui.Sound.Equalizer.Treble" xml:space="preserve">
     <value>Усиление высоких</value>
   </data>
+  <data name="ColorPicker.Title" xml:space="preserve">
+    <value>Выберите цвет</value>
+  </data>
+  <data name="ColorPicker.Hue" xml:space="preserve">
+    <value>Оттенок</value>
+  </data>
+  <data name="ColorPicker.Saturation" xml:space="preserve">
+    <value>Насыщенность</value>
+  </data>
+  <data name="ColorPicker.Brightness" xml:space="preserve">
+    <value>Яркость</value>
+  </data>
+  <data name="ColorPicker.Lightness" xml:space="preserve">
+    <value>Светлота</value>
+  </data>
+  <data name="ColorPicker.Opacity" xml:space="preserve">
+    <value>Непрозрачность</value>
+  </data>
+  <data name="ColorPicker.Hex" xml:space="preserve">
+    <value>Hex код</value>
+  </data>
+  <data name="ColorPicker.Recent" xml:space="preserve">
+    <value>Недавние</value>
+  </data>
+  <data name="ColorPicker.Saved" xml:space="preserve">
+    <value>Сохранённые</value>
+  </data>
+  <data name="ColorPicker.SaveColor" xml:space="preserve">
+    <value>Сохранить этот цвет</value>
+  </data>
+  <data name="ColorPicker.RemoveColor" xml:space="preserve">
+    <value>Щёлкните правой кнопкой, чтобы удалить</value>
+  </data>
+  <data name="ColorPicker.PickFromScreen" xml:space="preserve">
+    <value>Выберите цвет на экране</value>
+  </data>
+  <data name="ColorPicker.CopyHex" xml:space="preserve">
+    <value>Копировать Hex код</value>
+  </data>
+  <data name="ColorPicker.PasteHex" xml:space="preserve">
+    <value>Вставить Hex код</value>
+  </data>
+  <data name="ColorPicker.Original" xml:space="preserve">
+    <value>Исходный, щёлкните, чтобы восстановить</value>
+  </data>
+  <data name="ColorPicker.New" xml:space="preserve">
+    <value>Новый</value>
+  </data>
 </root>

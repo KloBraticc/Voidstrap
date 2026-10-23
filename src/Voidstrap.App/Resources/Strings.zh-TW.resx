@@ -8096,4 +8096,52 @@ Voidstrap 無法寫入桌面資料夾。</value>
   <data name="Ui.Sound.Equalizer.Treble" xml:space="preserve">
     <value>高音增強</value>
   </data>
+  <data name="ColorPicker.Title" xml:space="preserve">
+    <value>選擇色彩</value>
+  </data>
+  <data name="ColorPicker.Hue" xml:space="preserve">
+    <value>色相</value>
+  </data>
+  <data name="ColorPicker.Saturation" xml:space="preserve">
+    <value>飽和度</value>
+  </data>
+  <data name="ColorPicker.Brightness" xml:space="preserve">
+    <value>亮度</value>
+  </data>
+  <data name="ColorPicker.Lightness" xml:space="preserve">
+    <value>明度</value>
+  </data>
+  <data name="ColorPicker.Opacity" xml:space="preserve">
+    <value>不透明度</value>
+  </data>
+  <data name="ColorPicker.Hex" xml:space="preserve">
+    <value>Hex 代碼</value>
+  </data>
+  <data name="ColorPicker.Recent" xml:space="preserve">
+    <value>最近使用</value>
+  </data>
+  <data name="ColorPicker.Saved" xml:space="preserve">
+    <value>已儲存</value>
+  </data>
+  <data name="ColorPicker.SaveColor" xml:space="preserve">
+    <value>儲存這個色彩</value>
+  </data>
+  <data name="ColorPicker.RemoveColor" xml:space="preserve">
+    <value>按右鍵即可移除</value>
+  </data>
+  <data name="ColorPicker.PickFromScreen" xml:space="preserve">
+    <value>從螢幕取色</value>
+  </data>
+  <data name="ColorPicker.CopyHex" xml:space="preserve">
+    <value>複製 Hex 代碼</value>
+  </data>
+  <data name="ColorPicker.PasteHex" xml:space="preserve">
+    <value>貼上 Hex 代碼</value>
+  </data>
+  <data name="ColorPicker.Original" xml:space="preserve">
+    <value>原始色彩，按一下即可還原</value>
+  </data>
+  <data name="ColorPicker.New" xml:space="preserve">
+    <value>新色彩</value>
+  </data>
 </root>

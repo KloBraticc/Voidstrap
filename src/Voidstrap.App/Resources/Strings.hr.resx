@@ -8092,4 +8092,52 @@ Zatvori ovaj prozor da zadržiš ugrađenu procjenu bez preuzimanja. Ovo možeš
   <data name="Ui.Sound.Equalizer.Treble" xml:space="preserve">
     <value>Pojačanje visokih tonova</value>
   </data>
+  <data name="ColorPicker.Title" xml:space="preserve">
+    <value>Odaberi boju</value>
+  </data>
+  <data name="ColorPicker.Hue" xml:space="preserve">
+    <value>Nijansa</value>
+  </data>
+  <data name="ColorPicker.Saturation" xml:space="preserve">
+    <value>Zasićenost</value>
+  </data>
+  <data name="ColorPicker.Brightness" xml:space="preserve">
+    <value>Svjetlina</value>
+  </data>
+  <data name="ColorPicker.Lightness" xml:space="preserve">
+    <value>Osvijetljenost</value>
+  </data>
+  <data name="ColorPicker.Opacity" xml:space="preserve">
+    <value>Neprozirnost</value>
+  </data>
+  <data name="ColorPicker.Hex" xml:space="preserve">
+    <value>Hex kod</value>
+  </data>
+  <data name="ColorPicker.Recent" xml:space="preserve">
+    <value>Nedavne</value>
+  </data>
+  <data name="ColorPicker.Saved" xml:space="preserve">
+    <value>Spremljene</value>
+  </data>
+  <data name="ColorPicker.SaveColor" xml:space="preserve">
+    <value>Spremi ovu boju</value>
+  </data>
+  <data name="ColorPicker.RemoveColor" xml:space="preserve">
+    <value>Desni klik za uklanjanje</value>
+  </data>
+  <data name="ColorPicker.PickFromScreen" xml:space="preserve">
+    <value>Odaberi boju sa zaslona</value>
+  </data>
+  <data name="ColorPicker.CopyHex" xml:space="preserve">
+    <value>Kopiraj hex kod</value>
+  </data>
+  <data name="ColorPicker.PasteHex" xml:space="preserve">
+    <value>Zalijepi hex kod</value>
+  </data>
+  <data name="ColorPicker.Original" xml:space="preserve">
+    <value>Izvorna, klikni za vraćanje</value>
+  </data>
+  <data name="ColorPicker.New" xml:space="preserve">
+    <value>Nova</value>
+  </data>
 </root>

@@ -8094,4 +8094,52 @@ Zavřete toto okno, chcete-li ponechat vestavěný odhad bez stahování. Pozdě
   <data name="Ui.Sound.Equalizer.Treble" xml:space="preserve">
     <value>Zesílení výšek</value>
   </data>
+  <data name="ColorPicker.Title" xml:space="preserve">
+    <value>Vyberte barvu</value>
+  </data>
+  <data name="ColorPicker.Hue" xml:space="preserve">
+    <value>Odstín</value>
+  </data>
+  <data name="ColorPicker.Saturation" xml:space="preserve">
+    <value>Sytost</value>
+  </data>
+  <data name="ColorPicker.Brightness" xml:space="preserve">
+    <value>Jas</value>
+  </data>
+  <data name="ColorPicker.Lightness" xml:space="preserve">
+    <value>Světlost</value>
+  </data>
+  <data name="ColorPicker.Opacity" xml:space="preserve">
+    <value>Neprůhlednost</value>
+  </data>
+  <data name="ColorPicker.Hex" xml:space="preserve">
+    <value>Hex kód</value>
+  </data>
+  <data name="ColorPicker.Recent" xml:space="preserve">
+    <value>Nedávné</value>
+  </data>
+  <data name="ColorPicker.Saved" xml:space="preserve">
+    <value>Uložené</value>
+  </data>
+  <data name="ColorPicker.SaveColor" xml:space="preserve">
+    <value>Uložit tuto barvu</value>
+  </data>
+  <data name="ColorPicker.RemoveColor" xml:space="preserve">
+    <value>Pravým tlačítkem odeberete</value>
+  </data>
+  <data name="ColorPicker.PickFromScreen" xml:space="preserve">
+    <value>Vyberte barvu z obrazovky</value>
+  </data>
+  <data name="ColorPicker.CopyHex" xml:space="preserve">
+    <value>Kopírovat hex kód</value>
+  </data>
+  <data name="ColorPicker.PasteHex" xml:space="preserve">
+    <value>Vložit hex kód</value>
+  </data>
+  <data name="ColorPicker.Original" xml:space="preserve">
+    <value>Původní, klepnutím obnovíte</value>
+  </data>
+  <data name="ColorPicker.New" xml:space="preserve">
+    <value>Nová</value>
+  </data>
 </root>

@@ -8096,4 +8096,52 @@ Lớn: {2} MB, sắc nét nhất nhưng nặng cho GPU.
   <data name="Ui.Sound.Equalizer.Treble" xml:space="preserve">
     <value>Tăng âm cao</value>
   </data>
+  <data name="ColorPicker.Title" xml:space="preserve">
+    <value>Chọn màu</value>
+  </data>
+  <data name="ColorPicker.Hue" xml:space="preserve">
+    <value>Sắc độ</value>
+  </data>
+  <data name="ColorPicker.Saturation" xml:space="preserve">
+    <value>Độ bão hòa</value>
+  </data>
+  <data name="ColorPicker.Brightness" xml:space="preserve">
+    <value>Độ sáng</value>
+  </data>
+  <data name="ColorPicker.Lightness" xml:space="preserve">
+    <value>Độ sáng màu</value>
+  </data>
+  <data name="ColorPicker.Opacity" xml:space="preserve">
+    <value>Độ mờ đục</value>
+  </data>
+  <data name="ColorPicker.Hex" xml:space="preserve">
+    <value>Mã hex</value>
+  </data>
+  <data name="ColorPicker.Recent" xml:space="preserve">
+    <value>Gần đây</value>
+  </data>
+  <data name="ColorPicker.Saved" xml:space="preserve">
+    <value>Đã lưu</value>
+  </data>
+  <data name="ColorPicker.SaveColor" xml:space="preserve">
+    <value>Lưu màu này</value>
+  </data>
+  <data name="ColorPicker.RemoveColor" xml:space="preserve">
+    <value>Nhấp chuột phải để xóa</value>
+  </data>
+  <data name="ColorPicker.PickFromScreen" xml:space="preserve">
+    <value>Chọn màu từ màn hình</value>
+  </data>
+  <data name="ColorPicker.CopyHex" xml:space="preserve">
+    <value>Sao chép mã hex</value>
+  </data>
+  <data name="ColorPicker.PasteHex" xml:space="preserve">
+    <value>Dán mã hex</value>
+  </data>
+  <data name="ColorPicker.Original" xml:space="preserve">
+    <value>Màu gốc, nhấp để khôi phục</value>
+  </data>
+  <data name="ColorPicker.New" xml:space="preserve">
+    <value>Mới</value>
+  </data>
 </root>

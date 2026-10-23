@@ -239,6 +239,7 @@
 		<ProjectReference Include="..\Voidstrap.Platform.Linux\Voidstrap.Platform.Linux.csproj" />
 		<ProjectReference Include="..\Voidstrap.Platform.MacOS\Voidstrap.Platform.MacOS.csproj" />
 		<ProjectReference Include="..\..\external\wpfui\src\Wpf.Ui\Wpf.Ui.csproj" />
+		<ProjectReference Include="..\..\external\RinColorPicker\src\RinColorPicker\RinColorPicker.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -3,14 +3,13 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using Voidstrap.UI.Elements.Base;
 
 namespace Voidstrap.UI.Elements.Controls;
 
 public class RinColorPickerDialog : WpfUiWindow
 {
-	private readonly RinColorPicker _picker;
+	private readonly RinColor.RinColorPicker _picker;
 
 	private readonly Button _ok;
 
@@ -18,11 +17,11 @@ public class RinColorPickerDialog : WpfUiWindow
 
 	public bool UseAccent { get; private set; }
 
-	internal RinColorPicker Picker => _picker;
+	internal RinColor.RinColorPicker Picker => _picker;
 
 	public RinColorPickerDialog(Color? initial = null, bool alphaEnabled = false, string? title = null, bool allowAccent = false)
 	{
-		Title = title ?? "Pick a colour";
+		Title = title ?? Voidstrap.Resources.Strings.ColorPicker_Title;
 		SizeToContent = SizeToContent.WidthAndHeight;
 		ResizeMode = ResizeMode.NoResize;
 		WindowStartupLocation = WindowStartupLocation.CenterOwner;
@@ -30,11 +29,13 @@ public class RinColorPickerDialog : WpfUiWindow
 		ExtendsContentIntoTitleBar = true;
 		SetResourceReference(BackgroundProperty, "ApplicationBackgroundBrush");
 
-		_picker = new RinColorPicker
+		Voidstrap.Utility.ColorPickerSetup.EnsureConfigured();
+		_picker = new RinColor.RinColorPicker
 		{
 			AlphaEnabled = alphaEnabled,
 			SelectedColor = initial ?? Colors.White
 		};
+		_picker.OriginalColor = _picker.SelectedColor;
 
 		var ok = new Button
 		{
@@ -70,12 +71,8 @@ public class RinColorPickerDialog : WpfUiWindow
 				Margin = new Thickness(0, 0, 8, 0)
 			};
 			accentBtn.SetResourceReference(StyleProperty, typeof(Button));
-			accentBtn.Click += (s, e) =>
-			{
-				UseAccent = true;
-				DialogResult = true;
-				Close();
-			};
+			accentBtn.Click += OnAccentClick;
+			_accent = accentBtn;
 			buttons.Children.Add(accentBtn);
 		}
 		buttons.Children.Add(ok);
@@ -111,8 +108,18 @@ public class RinColorPickerDialog : WpfUiWindow
 		}
 	}
 
+	private Button? _accent;
+
+	private void OnAccentClick(object sender, RoutedEventArgs e)
+	{
+		UseAccent = true;
+		DialogResult = true;
+		Close();
+	}
+
 	private void OnOkClick(object sender, RoutedEventArgs e)
 	{
+		_picker.RememberSelection();
 		DialogResult = true;
 		Close();
 	}
@@ -126,6 +133,8 @@ public class RinColorPickerDialog : WpfUiWindow
 				Voidstrap.Integrations.Overlays.OverlayDiagnostics.UnregisterOverlayHandle(hwnd);
 		}
 		_ok.Click -= OnOkClick;
+		if (_accent != null)
+			_accent.Click -= OnAccentClick;
 		base.OnClosed(e);
 	}
 }

@@ -8093,4 +8093,52 @@ Stäng det här fönstret för att behålla den inbyggda uppskattningen utan ned
   <data name="Ui.Sound.Equalizer.Treble" xml:space="preserve">
     <value>Diskantförstärkning</value>
   </data>
+  <data name="ColorPicker.Title" xml:space="preserve">
+    <value>Välj en färg</value>
+  </data>
+  <data name="ColorPicker.Hue" xml:space="preserve">
+    <value>Nyans</value>
+  </data>
+  <data name="ColorPicker.Saturation" xml:space="preserve">
+    <value>Mättnad</value>
+  </data>
+  <data name="ColorPicker.Brightness" xml:space="preserve">
+    <value>Ljusstyrka</value>
+  </data>
+  <data name="ColorPicker.Lightness" xml:space="preserve">
+    <value>Ljushet</value>
+  </data>
+  <data name="ColorPicker.Opacity" xml:space="preserve">
+    <value>Opacitet</value>
+  </data>
+  <data name="ColorPicker.Hex" xml:space="preserve">
+    <value>Hex-kod</value>
+  </data>
+  <data name="ColorPicker.Recent" xml:space="preserve">
+    <value>Senaste</value>
+  </data>
+  <data name="ColorPicker.Saved" xml:space="preserve">
+    <value>Sparade</value>
+  </data>
+  <data name="ColorPicker.SaveColor" xml:space="preserve">
+    <value>Spara den här färgen</value>
+  </data>
+  <data name="ColorPicker.RemoveColor" xml:space="preserve">
+    <value>Högerklicka för att ta bort</value>
+  </data>
+  <data name="ColorPicker.PickFromScreen" xml:space="preserve">
+    <value>Välj en färg från skärmen</value>
+  </data>
+  <data name="ColorPicker.CopyHex" xml:space="preserve">
+    <value>Kopiera hex-kod</value>
+  </data>
+  <data name="ColorPicker.PasteHex" xml:space="preserve">
+    <value>Klistra in hex-kod</value>
+  </data>
+  <data name="ColorPicker.Original" xml:space="preserve">
+    <value>Original, klicka för att återställa</value>
+  </data>
+  <data name="ColorPicker.New" xml:space="preserve">
+    <value>Ny</value>
+  </data>
 </root>

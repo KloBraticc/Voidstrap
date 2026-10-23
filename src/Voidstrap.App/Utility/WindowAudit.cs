@@ -6294,7 +6294,7 @@ internal static class WindowAudit
 			window.Show();
 			Pump(3000);
 			AuditColorPicker(window);
-			window.Picker.SetSpectrumFromPosition(new Point(40, 30));
+			window.Picker.SetSaturationValueFromPosition(new Point(40, 30));
 			Pump(int.TryParse(Environment.GetEnvironmentVariable("VOIDSTRAP_AUDIT_HOLD_MS"), out int hold) ? hold : 500);
 			Emit($"colour picker window: PASS, shown at {window.ActualWidth:F0} by {window.ActualHeight:F0}, colour {window.SelectedColor}");
 		}
@@ -6310,43 +6310,57 @@ internal static class WindowAudit
 
 	private static void AuditColorPicker(Voidstrap.UI.Elements.Controls.RinColorPickerDialog window)
 	{
-		Voidstrap.UI.Elements.Controls.RinColorPicker picker = window.Picker;
+		RinColor.RinColorPicker picker = window.Picker;
 		picker.AlphaEnabled = true;
 		window.UpdateLayout();
 
-		System.Windows.Controls.Border? valueTrack = FindVisualDescendants<System.Windows.Controls.Border>(picker)
-			.FirstOrDefault(element => string.Equals(element.Name, "ValueTrack", StringComparison.Ordinal));
+		System.Windows.Controls.Border? hueTrack = FindVisualDescendants<System.Windows.Controls.Border>(picker)
+			.FirstOrDefault(element => string.Equals(element.Name, "HueTrack", StringComparison.Ordinal));
 		System.Windows.Controls.Border? alphaTrack = FindVisualDescendants<System.Windows.Controls.Border>(picker)
 			.FirstOrDefault(element => string.Equals(element.Name, "AlphaTrack", StringComparison.Ordinal));
-		System.Windows.Shapes.Ellipse? valueHandle = FindVisualDescendants<System.Windows.Shapes.Ellipse>(picker)
-			.FirstOrDefault(element => string.Equals(element.Name, "ValueHandle", StringComparison.Ordinal));
+		System.Windows.Shapes.Ellipse? hueHandle = FindVisualDescendants<System.Windows.Shapes.Ellipse>(picker)
+			.FirstOrDefault(element => string.Equals(element.Name, "HueHandle", StringComparison.Ordinal));
 		System.Windows.Shapes.Ellipse? alphaHandle = FindVisualDescendants<System.Windows.Shapes.Ellipse>(picker)
 			.FirstOrDefault(element => string.Equals(element.Name, "AlphaHandle", StringComparison.Ordinal));
 		System.Windows.Controls.Grid? spectrum = FindVisualDescendants<System.Windows.Controls.Grid>(picker)
 			.FirstOrDefault(element => string.Equals(element.Name, "SpectrumGrid", StringComparison.Ordinal));
 		System.Windows.Shapes.Ellipse? spectrumHandle = FindVisualDescendants<System.Windows.Shapes.Ellipse>(picker)
 			.FirstOrDefault(element => string.Equals(element.Name, "SpectrumThumb", StringComparison.Ordinal));
-		if (valueTrack == null || alphaTrack == null || valueHandle == null || alphaHandle == null
+		if (hueTrack == null || alphaTrack == null || hueHandle == null || alphaHandle == null
 			|| spectrum == null || spectrumHandle == null
-			|| valueTrack.ActualWidth <= valueHandle.ActualWidth || alphaTrack.ActualWidth <= alphaHandle.ActualWidth
+			|| hueTrack.ActualWidth <= hueHandle.ActualWidth || alphaTrack.ActualWidth <= alphaHandle.ActualWidth
 			|| spectrum.ActualWidth <= spectrumHandle.ActualWidth || spectrum.ActualHeight <= spectrumHandle.ActualHeight)
 		{
 			throw new InvalidOperationException("Colour picker tracks were unavailable");
 		}
 
-		picker.SetValueFromPosition(0);
-		if (picker.SelectedColor.R != 0 || picker.SelectedColor.G != 0 || picker.SelectedColor.B != 0
-			|| Math.Abs(System.Windows.Controls.Canvas.GetLeft(valueHandle)) > 0.01)
+		picker.SetHueFromPosition(0);
+		picker.SetSaturationValueFromPosition(new Point(spectrum.ActualWidth, 0));
+		if (picker.SelectedColor.R != 255 || picker.SelectedColor.G != 0 || picker.SelectedColor.B != 0
+			|| Math.Abs(System.Windows.Controls.Canvas.GetLeft(hueHandle)) > 0.01)
 		{
-			throw new InvalidOperationException("Colour picker value track did not reach its left endpoint");
+			throw new InvalidOperationException("Colour picker hue track did not reach its left endpoint");
 		}
 
-		picker.SetValueFromPosition(valueTrack.ActualWidth);
-		double valueRight = valueTrack.ActualWidth - valueHandle.ActualWidth;
-		if (picker.SelectedColor.R != 255 || picker.SelectedColor.G != 255 || picker.SelectedColor.B != 255
-			|| Math.Abs(System.Windows.Controls.Canvas.GetLeft(valueHandle) - valueRight) > 0.01)
+		picker.SetHueFromPosition(hueTrack.ActualWidth);
+		double hueRight = hueTrack.ActualWidth - hueHandle.ActualWidth;
+		if (picker.SelectedColor.R != 255 || picker.SelectedColor.G != 0 || picker.SelectedColor.B != 0
+			|| Math.Abs(System.Windows.Controls.Canvas.GetLeft(hueHandle) - hueRight) > 0.01)
 		{
-			throw new InvalidOperationException("Colour picker value track did not reach its right endpoint");
+			throw new InvalidOperationException("Colour picker hue track did not reach its right endpoint");
+		}
+
+		picker.SetHueFromPosition(0);
+		picker.SetSaturationValueFromPosition(new Point(0, 0));
+		if (picker.SelectedColor.R != 255 || picker.SelectedColor.G != 255 || picker.SelectedColor.B != 255)
+		{
+			throw new InvalidOperationException("Colour picker square did not reach white at its top left corner");
+		}
+
+		picker.SetSaturationValueFromPosition(new Point(spectrum.ActualWidth, spectrum.ActualHeight));
+		if (picker.SelectedColor.R != 0 || picker.SelectedColor.G != 0 || picker.SelectedColor.B != 0)
+		{
+			throw new InvalidOperationException("Colour picker square did not reach black at its bottom right corner");
 		}
 
 		picker.SetAlphaFromPosition(0);
@@ -6355,7 +6369,7 @@ internal static class WindowAudit
 			throw new InvalidOperationException("Colour picker alpha track did not reach its left endpoint");
 		}
 
-		picker.BeginAlphaInteraction();
+		picker.BeginInteraction();
 		for (int index = 0; index < 1000; index++)
 		{
 			picker.SetAlphaFromPosition(alphaTrack.ActualWidth * index / 999.0);
@@ -6373,15 +6387,15 @@ internal static class WindowAudit
 			throw new InvalidOperationException("Colour picker rapid alpha input did not settle at its right endpoint");
 		}
 
-		picker.SetSpectrumFromPosition(new Point(spectrum.ActualWidth / 2.0, spectrum.ActualHeight / 4.0));
-		if (Math.Abs(picker.SelectedColor.R - 64) > 1 || picker.SelectedColor.G != 255 || picker.SelectedColor.B != 255
+		picker.SetSaturationValueFromPosition(new Point(spectrum.ActualWidth / 2.0, spectrum.ActualHeight / 4.0));
+		if (Math.Abs(picker.SelectedColor.R - 191) > 1 || Math.Abs(picker.SelectedColor.G - 96) > 1 || Math.Abs(picker.SelectedColor.B - 96) > 1
 			|| Math.Abs(System.Windows.Controls.Canvas.GetLeft(spectrumHandle) - (spectrum.ActualWidth / 2.0 - spectrumHandle.ActualWidth / 2.0)) > 0.01
 			|| Math.Abs(System.Windows.Controls.Canvas.GetTop(spectrumHandle) - (spectrum.ActualHeight / 4.0 - spectrumHandle.ActualHeight / 2.0)) > 0.01)
 		{
-			throw new InvalidOperationException("Colour picker spectrum did not preserve pointer geometry and HSV output");
+			throw new InvalidOperationException("Colour picker square did not preserve pointer geometry and HSV output");
 		}
 
-		Emit("colour picker input audit: PASS, exact endpoints, spectrum geometry, and 1000 rapid updates settled");
+		Emit("colour picker input audit: PASS, hue and alpha endpoints, square corners and geometry, and 1000 rapid updates settled");
 	}
 
 	private static string DescribeAncestors(DependencyObject element)

@@ -8092,4 +8092,52 @@ Zárd be ezt az ablakot, ha letöltés nélkül a beépített becslésnél marad
   <data name="Ui.Sound.Equalizer.Treble" xml:space="preserve">
     <value>Magaskiemelés</value>
   </data>
+  <data name="ColorPicker.Title" xml:space="preserve">
+    <value>Válassz színt</value>
+  </data>
+  <data name="ColorPicker.Hue" xml:space="preserve">
+    <value>Árnyalat</value>
+  </data>
+  <data name="ColorPicker.Saturation" xml:space="preserve">
+    <value>Telítettség</value>
+  </data>
+  <data name="ColorPicker.Brightness" xml:space="preserve">
+    <value>Fényerő</value>
+  </data>
+  <data name="ColorPicker.Lightness" xml:space="preserve">
+    <value>Világosság</value>
+  </data>
+  <data name="ColorPicker.Opacity" xml:space="preserve">
+    <value>Átlátszatlanság</value>
+  </data>
+  <data name="ColorPicker.Hex" xml:space="preserve">
+    <value>Hex kód</value>
+  </data>
+  <data name="ColorPicker.Recent" xml:space="preserve">
+    <value>Legutóbbiak</value>
+  </data>
+  <data name="ColorPicker.Saved" xml:space="preserve">
+    <value>Mentettek</value>
+  </data>
+  <data name="ColorPicker.SaveColor" xml:space="preserve">
+    <value>Szín mentése</value>
+  </data>
+  <data name="ColorPicker.RemoveColor" xml:space="preserve">
+    <value>Jobb kattintással eltávolíthatod</value>
+  </data>
+  <data name="ColorPicker.PickFromScreen" xml:space="preserve">
+    <value>Szín felvétele a képernyőről</value>
+  </data>
+  <data name="ColorPicker.CopyHex" xml:space="preserve">
+    <value>Hex kód másolása</value>
+  </data>
+  <data name="ColorPicker.PasteHex" xml:space="preserve">
+    <value>Hex kód beillesztése</value>
+  </data>
+  <data name="ColorPicker.Original" xml:space="preserve">
+    <value>Eredeti, kattints a visszaállításhoz</value>
+  </data>
+  <data name="ColorPicker.New" xml:space="preserve">
+    <value>Új</value>
+  </data>
 </root>

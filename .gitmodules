@@ -4,3 +4,7 @@
 [submodule "src/VirtualDisplay/virtualdisplay"]
 	path = src/VirtualDisplay/virtualdisplay
 	url = https://github.com/KloBraticc/virtualdisplay
+[submodule "external/RinColorPicker"]
+	path = external/RinColorPicker
+	url = https://github.com/KloBraticc/RinColorPicker
+	branch = main

@@ -8091,4 +8091,52 @@ Voidstrap이 바탕 화면 폴더에 쓸 수 없습니다.</value>
   <data name="Ui.Sound.Equalizer.Treble" xml:space="preserve">
     <value>고음 강화</value>
   </data>
+  <data name="ColorPicker.Title" xml:space="preserve">
+    <value>색 선택</value>
+  </data>
+  <data name="ColorPicker.Hue" xml:space="preserve">
+    <value>색조</value>
+  </data>
+  <data name="ColorPicker.Saturation" xml:space="preserve">
+    <value>채도</value>
+  </data>
+  <data name="ColorPicker.Brightness" xml:space="preserve">
+    <value>밝기</value>
+  </data>
+  <data name="ColorPicker.Lightness" xml:space="preserve">
+    <value>명도</value>
+  </data>
+  <data name="ColorPicker.Opacity" xml:space="preserve">
+    <value>불투명도</value>
+  </data>
+  <data name="ColorPicker.Hex" xml:space="preserve">
+    <value>Hex 코드</value>
+  </data>
+  <data name="ColorPicker.Recent" xml:space="preserve">
+    <value>최근</value>
+  </data>
+  <data name="ColorPicker.Saved" xml:space="preserve">
+    <value>저장됨</value>
+  </data>
+  <data name="ColorPicker.SaveColor" xml:space="preserve">
+    <value>이 색 저장</value>
+  </data>
+  <data name="ColorPicker.RemoveColor" xml:space="preserve">
+    <value>마우스 오른쪽 단추를 클릭하여 제거</value>
+  </data>
+  <data name="ColorPicker.PickFromScreen" xml:space="preserve">
+    <value>화면에서 색 선택</value>
+  </data>
+  <data name="ColorPicker.CopyHex" xml:space="preserve">
+    <value>Hex 코드 복사</value>
+  </data>
+  <data name="ColorPicker.PasteHex" xml:space="preserve">
+    <value>Hex 코드 붙여넣기</value>
+  </data>
+  <data name="ColorPicker.Original" xml:space="preserve">
+    <value>원래 색, 클릭하여 복원</value>
+  </data>
+  <data name="ColorPicker.New" xml:space="preserve">
+    <value>새 색</value>
+  </data>
 </root>

@@ -8094,4 +8094,52 @@ Sulje tämä ikkuna, jos haluat pitää sisäänrakennetun arvion ilman latausta
   <data name="Ui.Sound.Equalizer.Treble" xml:space="preserve">
     <value>Diskanttikorostus</value>
   </data>
+  <data name="ColorPicker.Title" xml:space="preserve">
+    <value>Valitse väri</value>
+  </data>
+  <data name="ColorPicker.Hue" xml:space="preserve">
+    <value>Sävy</value>
+  </data>
+  <data name="ColorPicker.Saturation" xml:space="preserve">
+    <value>Kylläisyys</value>
+  </data>
+  <data name="ColorPicker.Brightness" xml:space="preserve">
+    <value>Kirkkaus</value>
+  </data>
+  <data name="ColorPicker.Lightness" xml:space="preserve">
+    <value>Vaaleus</value>
+  </data>
+  <data name="ColorPicker.Opacity" xml:space="preserve">
+    <value>Peittävyys</value>
+  </data>
+  <data name="ColorPicker.Hex" xml:space="preserve">
+    <value>Hex-koodi</value>
+  </data>
+  <data name="ColorPicker.Recent" xml:space="preserve">
+    <value>Viimeisimmät</value>
+  </data>
+  <data name="ColorPicker.Saved" xml:space="preserve">
+    <value>Tallennetut</value>
+  </data>
+  <data name="ColorPicker.SaveColor" xml:space="preserve">
+    <value>Tallenna tämä väri</value>
+  </data>
+  <data name="ColorPicker.RemoveColor" xml:space="preserve">
+    <value>Poista napsauttamalla hiiren oikealla</value>
+  </data>
+  <data name="ColorPicker.PickFromScreen" xml:space="preserve">
+    <value>Valitse väri näytöltä</value>
+  </data>
+  <data name="ColorPicker.CopyHex" xml:space="preserve">
+    <value>Kopioi hex-koodi</value>
+  </data>
+  <data name="ColorPicker.PasteHex" xml:space="preserve">
+    <value>Liitä hex-koodi</value>
+  </data>
+  <data name="ColorPicker.Original" xml:space="preserve">
+    <value>Alkuperäinen, palauta napsauttamalla</value>
+  </data>
+  <data name="ColorPicker.New" xml:space="preserve">
+    <value>Uusi</value>
+  </data>
 </root>

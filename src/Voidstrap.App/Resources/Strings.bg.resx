@@ -8093,4 +8093,52 @@ Voidstrap не можа да запише в папката на работни�
   <data name="Ui.Sound.Equalizer.Treble" xml:space="preserve">
     <value>Усилване на високите</value>
   </data>
+  <data name="ColorPicker.Title" xml:space="preserve">
+    <value>Изберете цвят</value>
+  </data>
+  <data name="ColorPicker.Hue" xml:space="preserve">
+    <value>Нюанс</value>
+  </data>
+  <data name="ColorPicker.Saturation" xml:space="preserve">
+    <value>Наситеност</value>
+  </data>
+  <data name="ColorPicker.Brightness" xml:space="preserve">
+    <value>Яркост</value>
+  </data>
+  <data name="ColorPicker.Lightness" xml:space="preserve">
+    <value>Светлота</value>
+  </data>
+  <data name="ColorPicker.Opacity" xml:space="preserve">
+    <value>Непрозрачност</value>
+  </data>
+  <data name="ColorPicker.Hex" xml:space="preserve">
+    <value>Hex код</value>
+  </data>
+  <data name="ColorPicker.Recent" xml:space="preserve">
+    <value>Последни</value>
+  </data>
+  <data name="ColorPicker.Saved" xml:space="preserve">
+    <value>Запазени</value>
+  </data>
+  <data name="ColorPicker.SaveColor" xml:space="preserve">
+    <value>Запазете този цвят</value>
+  </data>
+  <data name="ColorPicker.RemoveColor" xml:space="preserve">
+    <value>Щракнете с десен бутон за премахване</value>
+  </data>
+  <data name="ColorPicker.PickFromScreen" xml:space="preserve">
+    <value>Изберете цвят от екрана</value>
+  </data>
+  <data name="ColorPicker.CopyHex" xml:space="preserve">
+    <value>Копирайте Hex кода</value>
+  </data>
+  <data name="ColorPicker.PasteHex" xml:space="preserve">
+    <value>Поставете Hex код</value>
+  </data>
+  <data name="ColorPicker.Original" xml:space="preserve">
+    <value>Оригинал, щракнете за възстановяване</value>
+  </data>
+  <data name="ColorPicker.New" xml:space="preserve">
+    <value>Нов</value>
+  </data>
 </root>

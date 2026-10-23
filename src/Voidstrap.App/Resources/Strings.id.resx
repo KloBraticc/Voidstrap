@@ -8095,4 +8095,52 @@ Tutup jendela ini untuk tetap memakai perkiraan bawaan tanpa unduhan. Anda dapat
   <data name="Ui.Sound.Equalizer.Treble" xml:space="preserve">
     <value>Penguat treble</value>
   </data>
+  <data name="ColorPicker.Title" xml:space="preserve">
+    <value>Pilih warna</value>
+  </data>
+  <data name="ColorPicker.Hue" xml:space="preserve">
+    <value>Rona</value>
+  </data>
+  <data name="ColorPicker.Saturation" xml:space="preserve">
+    <value>Saturasi</value>
+  </data>
+  <data name="ColorPicker.Brightness" xml:space="preserve">
+    <value>Kecerahan</value>
+  </data>
+  <data name="ColorPicker.Lightness" xml:space="preserve">
+    <value>Kecerlangan</value>
+  </data>
+  <data name="ColorPicker.Opacity" xml:space="preserve">
+    <value>Opasitas</value>
+  </data>
+  <data name="ColorPicker.Hex" xml:space="preserve">
+    <value>Kode hex</value>
+  </data>
+  <data name="ColorPicker.Recent" xml:space="preserve">
+    <value>Terbaru</value>
+  </data>
+  <data name="ColorPicker.Saved" xml:space="preserve">
+    <value>Tersimpan</value>
+  </data>
+  <data name="ColorPicker.SaveColor" xml:space="preserve">
+    <value>Simpan warna ini</value>
+  </data>
+  <data name="ColorPicker.RemoveColor" xml:space="preserve">
+    <value>Klik kanan untuk menghapus</value>
+  </data>
+  <data name="ColorPicker.PickFromScreen" xml:space="preserve">
+    <value>Pilih warna dari layar</value>
+  </data>
+  <data name="ColorPicker.CopyHex" xml:space="preserve">
+    <value>Salin kode hex</value>
+  </data>
+  <data name="ColorPicker.PasteHex" xml:space="preserve">
+    <value>Tempel kode hex</value>
+  </data>
+  <data name="ColorPicker.Original" xml:space="preserve">
+    <value>Asli, klik untuk memulihkan</value>
+  </data>
+  <data name="ColorPicker.New" xml:space="preserve">
+    <value>Baru</value>
+  </data>
 </root>

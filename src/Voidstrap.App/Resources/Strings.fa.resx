@@ -8095,4 +8095,52 @@ Voidstrap نتوانست در پوشهٔ دسکتاپ بنویسد.</value>
   <data name="Ui.Sound.Equalizer.Treble" xml:space="preserve">
     <value>تقویت صدای زیر</value>
   </data>
+  <data name="ColorPicker.Title" xml:space="preserve">
+    <value>یک رنگ انتخاب کنید</value>
+  </data>
+  <data name="ColorPicker.Hue" xml:space="preserve">
+    <value>فام</value>
+  </data>
+  <data name="ColorPicker.Saturation" xml:space="preserve">
+    <value>اشباع</value>
+  </data>
+  <data name="ColorPicker.Brightness" xml:space="preserve">
+    <value>روشنایی</value>
+  </data>
+  <data name="ColorPicker.Lightness" xml:space="preserve">
+    <value>تابندگی</value>
+  </data>
+  <data name="ColorPicker.Opacity" xml:space="preserve">
+    <value>کدری</value>
+  </data>
+  <data name="ColorPicker.Hex" xml:space="preserve">
+    <value>کد Hex</value>
+  </data>
+  <data name="ColorPicker.Recent" xml:space="preserve">
+    <value>اخیر</value>
+  </data>
+  <data name="ColorPicker.Saved" xml:space="preserve">
+    <value>ذخیره‌شده</value>
+  </data>
+  <data name="ColorPicker.SaveColor" xml:space="preserve">
+    <value>این رنگ را ذخیره کنید</value>
+  </data>
+  <data name="ColorPicker.RemoveColor" xml:space="preserve">
+    <value>برای حذف کلیک راست کنید</value>
+  </data>
+  <data name="ColorPicker.PickFromScreen" xml:space="preserve">
+    <value>یک رنگ از صفحه انتخاب کنید</value>
+  </data>
+  <data name="ColorPicker.CopyHex" xml:space="preserve">
+    <value>کپی کد Hex</value>
+  </data>
+  <data name="ColorPicker.PasteHex" xml:space="preserve">
+    <value>چسباندن کد Hex</value>
+  </data>
+  <data name="ColorPicker.Original" xml:space="preserve">
+    <value>اصلی، برای بازگرداندن کلیک کنید</value>
+  </data>
+  <data name="ColorPicker.New" xml:space="preserve">
+    <value>جدید</value>
+  </data>
 </root>

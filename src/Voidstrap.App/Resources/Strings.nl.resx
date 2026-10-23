@@ -8094,4 +8094,52 @@ Sluit dit venster om de ingebouwde schatting zonder download te houden. Je kunt 
   <data name="Ui.Sound.Equalizer.Treble" xml:space="preserve">
     <value>Hogetonenversterking</value>
   </data>
+  <data name="ColorPicker.Title" xml:space="preserve">
+    <value>Kies een kleur</value>
+  </data>
+  <data name="ColorPicker.Hue" xml:space="preserve">
+    <value>Tint</value>
+  </data>
+  <data name="ColorPicker.Saturation" xml:space="preserve">
+    <value>Verzadiging</value>
+  </data>
+  <data name="ColorPicker.Brightness" xml:space="preserve">
+    <value>Helderheid</value>
+  </data>
+  <data name="ColorPicker.Lightness" xml:space="preserve">
+    <value>Lichtheid</value>
+  </data>
+  <data name="ColorPicker.Opacity" xml:space="preserve">
+    <value>Dekking</value>
+  </data>
+  <data name="ColorPicker.Hex" xml:space="preserve">
+    <value>Hex-code</value>
+  </data>
+  <data name="ColorPicker.Recent" xml:space="preserve">
+    <value>Recent</value>
+  </data>
+  <data name="ColorPicker.Saved" xml:space="preserve">
+    <value>Opgeslagen</value>
+  </data>
+  <data name="ColorPicker.SaveColor" xml:space="preserve">
+    <value>Deze kleur opslaan</value>
+  </data>
+  <data name="ColorPicker.RemoveColor" xml:space="preserve">
+    <value>Rechtsklik om te verwijderen</value>
+  </data>
+  <data name="ColorPicker.PickFromScreen" xml:space="preserve">
+    <value>Kies een kleur van het scherm</value>
+  </data>
+  <data name="ColorPicker.CopyHex" xml:space="preserve">
+    <value>Hex-code kopiëren</value>
+  </data>
+  <data name="ColorPicker.PasteHex" xml:space="preserve">
+    <value>Hex-code plakken</value>
+  </data>
+  <data name="ColorPicker.Original" xml:space="preserve">
+    <value>Origineel, klik om te herstellen</value>
+  </data>
+  <data name="ColorPicker.New" xml:space="preserve">
+    <value>Nieuw</value>
+  </data>
 </root>

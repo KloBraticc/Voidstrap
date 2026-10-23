@@ -250,6 +250,7 @@
 		<TrimmerRootAssembly Include="UIAutomationProvider" />
 		<TrimmerRootAssembly Include="UIAutomationTypes" />
 		<TrimmerRootAssembly Include="Wpf.Ui" />
+		<TrimmerRootAssembly Include="RinColorPicker" />
 		<TrimmerRootAssembly Include="Newtonsoft.Json" />
 	</ItemGroup>
 
@@ -376,6 +377,7 @@
 		<ProjectReference Include="..\Voidstrap.Platform.Linux\Voidstrap.Platform.Linux.csproj" />
 		<ProjectReference Include="..\Voidstrap.Platform.MacOS\Voidstrap.Platform.MacOS.csproj" />
 		<ProjectReference Include="..\..\external\wpfui\src\Wpf.Ui\Wpf.Ui.Cross.csproj" />
+		<ProjectReference Include="..\..\external\RinColorPicker\src\RinColorPicker\RinColorPicker.Cross.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

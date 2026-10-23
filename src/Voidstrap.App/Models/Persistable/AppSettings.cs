@@ -436,6 +436,8 @@ namespace Voidstrap.Models.Persistable
 
         public double LibrarySidebarWidth { get; set; } = 225;
         public double PrivateServersSidebarWidth { get; set; } = 225;
+        public List<string> ColorPickerRecent { get; set; } = [];
+        public List<string> ColorPickerSaved { get; set; } = [];
         public int UiZoomPercent { get; set; } = 100;
         public bool VoidstrapMatchmakerAutoCandidates { get; set; } = true;
         public List<string> VoidstrapMatchmakerDisabledDatacenters { get; set; } = [];

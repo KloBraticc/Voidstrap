@@ -8091,4 +8091,52 @@ Büyük: {2} MB, en keskin ama GPU için ağır.
   <data name="Ui.Sound.Equalizer.Treble" xml:space="preserve">
     <value>Tiz güçlendirme</value>
   </data>
+  <data name="ColorPicker.Title" xml:space="preserve">
+    <value>Bir renk seçin</value>
+  </data>
+  <data name="ColorPicker.Hue" xml:space="preserve">
+    <value>Ton</value>
+  </data>
+  <data name="ColorPicker.Saturation" xml:space="preserve">
+    <value>Doygunluk</value>
+  </data>
+  <data name="ColorPicker.Brightness" xml:space="preserve">
+    <value>Parlaklık</value>
+  </data>
+  <data name="ColorPicker.Lightness" xml:space="preserve">
+    <value>Açıklık</value>
+  </data>
+  <data name="ColorPicker.Opacity" xml:space="preserve">
+    <value>Opaklık</value>
+  </data>
+  <data name="ColorPicker.Hex" xml:space="preserve">
+    <value>Hex kodu</value>
+  </data>
+  <data name="ColorPicker.Recent" xml:space="preserve">
+    <value>Son kullanılanlar</value>
+  </data>
+  <data name="ColorPicker.Saved" xml:space="preserve">
+    <value>Kaydedilenler</value>
+  </data>
+  <data name="ColorPicker.SaveColor" xml:space="preserve">
+    <value>Bu rengi kaydedin</value>
+  </data>
+  <data name="ColorPicker.RemoveColor" xml:space="preserve">
+    <value>Kaldırmak için sağ tıklayın</value>
+  </data>
+  <data name="ColorPicker.PickFromScreen" xml:space="preserve">
+    <value>Ekrandan bir renk seçin</value>
+  </data>
+  <data name="ColorPicker.CopyHex" xml:space="preserve">
+    <value>Hex kodunu kopyalayın</value>
+  </data>
+  <data name="ColorPicker.PasteHex" xml:space="preserve">
+    <value>Hex kodunu yapıştırın</value>
+  </data>
+  <data name="ColorPicker.Original" xml:space="preserve">
+    <value>Orijinal, geri yüklemek için tıklayın</value>
+  </data>
+  <data name="ColorPicker.New" xml:space="preserve">
+    <value>Yeni</value>
+  </data>
 </root>

@@ -8091,4 +8091,52 @@ Voidstrap не зміг записати до теки робочого стол
   <data name="Ui.Sound.Equalizer.Treble" xml:space="preserve">
     <value>Посилення високих</value>
   </data>
+  <data name="ColorPicker.Title" xml:space="preserve">
+    <value>Виберіть колір</value>
+  </data>
+  <data name="ColorPicker.Hue" xml:space="preserve">
+    <value>Відтінок</value>
+  </data>
+  <data name="ColorPicker.Saturation" xml:space="preserve">
+    <value>Насиченість</value>
+  </data>
+  <data name="ColorPicker.Brightness" xml:space="preserve">
+    <value>Яскравість</value>
+  </data>
+  <data name="ColorPicker.Lightness" xml:space="preserve">
+    <value>Світлота</value>
+  </data>
+  <data name="ColorPicker.Opacity" xml:space="preserve">
+    <value>Непрозорість</value>
+  </data>
+  <data name="ColorPicker.Hex" xml:space="preserve">
+    <value>Hex код</value>
+  </data>
+  <data name="ColorPicker.Recent" xml:space="preserve">
+    <value>Нещодавні</value>
+  </data>
+  <data name="ColorPicker.Saved" xml:space="preserve">
+    <value>Збережені</value>
+  </data>
+  <data name="ColorPicker.SaveColor" xml:space="preserve">
+    <value>Зберегти цей колір</value>
+  </data>
+  <data name="ColorPicker.RemoveColor" xml:space="preserve">
+    <value>Клацніть правою кнопкою, щоб видалити</value>
+  </data>
+  <data name="ColorPicker.PickFromScreen" xml:space="preserve">
+    <value>Виберіть колір на екрані</value>
+  </data>
+  <data name="ColorPicker.CopyHex" xml:space="preserve">
+    <value>Копіювати Hex код</value>
+  </data>
+  <data name="ColorPicker.PasteHex" xml:space="preserve">
+    <value>Вставити Hex код</value>
+  </data>
+  <data name="ColorPicker.Original" xml:space="preserve">
+    <value>Початковий, клацніть, щоб відновити</value>
+  </data>
+  <data name="ColorPicker.New" xml:space="preserve">
+    <value>Новий</value>
+  </data>
 </root>

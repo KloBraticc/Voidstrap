@@ -7780,4 +7780,52 @@ Close this window to keep the built in estimate with no download. You can change
   <data name="Ui.Sound.Equalizer.Treble" xml:space="preserve">
     <value>Treble boost</value>
   </data>
+  <data name="ColorPicker.Title" xml:space="preserve">
+    <value>Pick a colour</value>
+  </data>
+  <data name="ColorPicker.Hue" xml:space="preserve">
+    <value>Hue</value>
+  </data>
+  <data name="ColorPicker.Saturation" xml:space="preserve">
+    <value>Saturation</value>
+  </data>
+  <data name="ColorPicker.Brightness" xml:space="preserve">
+    <value>Brightness</value>
+  </data>
+  <data name="ColorPicker.Lightness" xml:space="preserve">
+    <value>Lightness</value>
+  </data>
+  <data name="ColorPicker.Opacity" xml:space="preserve">
+    <value>Opacity</value>
+  </data>
+  <data name="ColorPicker.Hex" xml:space="preserve">
+    <value>Hex code</value>
+  </data>
+  <data name="ColorPicker.Recent" xml:space="preserve">
+    <value>Recent</value>
+  </data>
+  <data name="ColorPicker.Saved" xml:space="preserve">
+    <value>Saved</value>
+  </data>
+  <data name="ColorPicker.SaveColor" xml:space="preserve">
+    <value>Save this colour</value>
+  </data>
+  <data name="ColorPicker.RemoveColor" xml:space="preserve">
+    <value>Right click to remove</value>
+  </data>
+  <data name="ColorPicker.PickFromScreen" xml:space="preserve">
+    <value>Pick a colour from the screen</value>
+  </data>
+  <data name="ColorPicker.CopyHex" xml:space="preserve">
+    <value>Copy hex code</value>
+  </data>
+  <data name="ColorPicker.PasteHex" xml:space="preserve">
+    <value>Paste hex code</value>
+  </data>
+  <data name="ColorPicker.Original" xml:space="preserve">
+    <value>Original, click to restore</value>
+  </data>
+  <data name="ColorPicker.New" xml:space="preserve">
+    <value>New</value>
+  </data>
 </root>

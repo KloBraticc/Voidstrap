@@ -8093,4 +8093,52 @@ Zamknij to okno, aby zostać przy wbudowanym oszacowaniu bez pobierania. Możesz
   <data name="Ui.Sound.Equalizer.Treble" xml:space="preserve">
     <value>Wzmocnienie sopranów</value>
   </data>
+  <data name="ColorPicker.Title" xml:space="preserve">
+    <value>Wybierz kolor</value>
+  </data>
+  <data name="ColorPicker.Hue" xml:space="preserve">
+    <value>Odcień</value>
+  </data>
+  <data name="ColorPicker.Saturation" xml:space="preserve">
+    <value>Nasycenie</value>
+  </data>
+  <data name="ColorPicker.Brightness" xml:space="preserve">
+    <value>Jasność</value>
+  </data>
+  <data name="ColorPicker.Lightness" xml:space="preserve">
+    <value>Luminancja</value>
+  </data>
+  <data name="ColorPicker.Opacity" xml:space="preserve">
+    <value>Krycie</value>
+  </data>
+  <data name="ColorPicker.Hex" xml:space="preserve">
+    <value>Kod hex</value>
+  </data>
+  <data name="ColorPicker.Recent" xml:space="preserve">
+    <value>Ostatnie</value>
+  </data>
+  <data name="ColorPicker.Saved" xml:space="preserve">
+    <value>Zapisane</value>
+  </data>
+  <data name="ColorPicker.SaveColor" xml:space="preserve">
+    <value>Zapisz ten kolor</value>
+  </data>
+  <data name="ColorPicker.RemoveColor" xml:space="preserve">
+    <value>Kliknij prawym przyciskiem, aby usunąć</value>
+  </data>
+  <data name="ColorPicker.PickFromScreen" xml:space="preserve">
+    <value>Pobierz kolor z ekranu</value>
+  </data>
+  <data name="ColorPicker.CopyHex" xml:space="preserve">
+    <value>Kopiuj kod hex</value>
+  </data>
+  <data name="ColorPicker.PasteHex" xml:space="preserve">
+    <value>Wklej kod hex</value>
+  </data>
+  <data name="ColorPicker.Original" xml:space="preserve">
+    <value>Oryginalny, kliknij, aby przywrócić</value>
+  </data>
+  <data name="ColorPicker.New" xml:space="preserve">
+    <value>Nowy</value>
+  </data>
 </root>

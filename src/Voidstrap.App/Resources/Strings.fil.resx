@@ -8091,4 +8091,52 @@ Isara ang window na ito para manatili sa built in na tantiya nang walang downloa
   <data name="Ui.Sound.Equalizer.Treble" xml:space="preserve">
     <value>Lakas ng treble</value>
   </data>
+  <data name="ColorPicker.Title" xml:space="preserve">
+    <value>Pumili ng kulay</value>
+  </data>
+  <data name="ColorPicker.Hue" xml:space="preserve">
+    <value>Hue</value>
+  </data>
+  <data name="ColorPicker.Saturation" xml:space="preserve">
+    <value>Saturation</value>
+  </data>
+  <data name="ColorPicker.Brightness" xml:space="preserve">
+    <value>Liwanag</value>
+  </data>
+  <data name="ColorPicker.Lightness" xml:space="preserve">
+    <value>Lightness</value>
+  </data>
+  <data name="ColorPicker.Opacity" xml:space="preserve">
+    <value>Opacity</value>
+  </data>
+  <data name="ColorPicker.Hex" xml:space="preserve">
+    <value>Hex code</value>
+  </data>
+  <data name="ColorPicker.Recent" xml:space="preserve">
+    <value>Kamakailan</value>
+  </data>
+  <data name="ColorPicker.Saved" xml:space="preserve">
+    <value>Naka-save</value>
+  </data>
+  <data name="ColorPicker.SaveColor" xml:space="preserve">
+    <value>I-save ang kulay na ito</value>
+  </data>
+  <data name="ColorPicker.RemoveColor" xml:space="preserve">
+    <value>I-right click para alisin</value>
+  </data>
+  <data name="ColorPicker.PickFromScreen" xml:space="preserve">
+    <value>Pumili ng kulay mula sa screen</value>
+  </data>
+  <data name="ColorPicker.CopyHex" xml:space="preserve">
+    <value>Kopyahin ang hex code</value>
+  </data>
+  <data name="ColorPicker.PasteHex" xml:space="preserve">
+    <value>I-paste ang hex code</value>
+  </data>
+  <data name="ColorPicker.Original" xml:space="preserve">
+    <value>Orihinal, i-click para ibalik</value>
+  </data>
+  <data name="ColorPicker.New" xml:space="preserve">
+    <value>Bago</value>
+  </data>
 </root>

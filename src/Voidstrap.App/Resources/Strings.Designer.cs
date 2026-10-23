@@ -1050,6 +1050,22 @@ namespace Voidstrap.Resources {
         public static string Ui_Sound_Equalizer_Footsteps => ResourceManager.GetString("Ui.Sound.Equalizer.Footsteps", resourceCulture);
         public static string Ui_Sound_Equalizer_Voice => ResourceManager.GetString("Ui.Sound.Equalizer.Voice", resourceCulture);
         public static string Ui_Sound_Equalizer_Treble => ResourceManager.GetString("Ui.Sound.Equalizer.Treble", resourceCulture);
+        public static string ColorPicker_Title => ResourceManager.GetString("ColorPicker.Title", resourceCulture);
+        public static string ColorPicker_Hue => ResourceManager.GetString("ColorPicker.Hue", resourceCulture);
+        public static string ColorPicker_Saturation => ResourceManager.GetString("ColorPicker.Saturation", resourceCulture);
+        public static string ColorPicker_Brightness => ResourceManager.GetString("ColorPicker.Brightness", resourceCulture);
+        public static string ColorPicker_Lightness => ResourceManager.GetString("ColorPicker.Lightness", resourceCulture);
+        public static string ColorPicker_Opacity => ResourceManager.GetString("ColorPicker.Opacity", resourceCulture);
+        public static string ColorPicker_Hex => ResourceManager.GetString("ColorPicker.Hex", resourceCulture);
+        public static string ColorPicker_Recent => ResourceManager.GetString("ColorPicker.Recent", resourceCulture);
+        public static string ColorPicker_Saved => ResourceManager.GetString("ColorPicker.Saved", resourceCulture);
+        public static string ColorPicker_SaveColor => ResourceManager.GetString("ColorPicker.SaveColor", resourceCulture);
+        public static string ColorPicker_RemoveColor => ResourceManager.GetString("ColorPicker.RemoveColor", resourceCulture);
+        public static string ColorPicker_PickFromScreen => ResourceManager.GetString("ColorPicker.PickFromScreen", resourceCulture);
+        public static string ColorPicker_CopyHex => ResourceManager.GetString("ColorPicker.CopyHex", resourceCulture);
+        public static string ColorPicker_PasteHex => ResourceManager.GetString("ColorPicker.PasteHex", resourceCulture);
+        public static string ColorPicker_Original => ResourceManager.GetString("ColorPicker.Original", resourceCulture);
+        public static string ColorPicker_New => ResourceManager.GetString("ColorPicker.New", resourceCulture);
         public static string Ui_Integrations_HeadsetLoudness => ResourceManager.GetString("Ui.Integrations.HeadsetLoudness", resourceCulture);
 
         public static string Ui_Integrations_BalanceLoudAndQuietRobloxAudio => ResourceManager.GetString("Ui.Integrations.BalanceLoudAndQuietRobloxAudio", resourceCulture);
