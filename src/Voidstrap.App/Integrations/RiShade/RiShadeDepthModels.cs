@@ -120,24 +120,31 @@ namespace Voidstrap.Integrations.RiShade
             Enum.TryParse(App.Settings.Prop.RiShadeDepthModel, true, out RiShadeDepthModel model) ? model : RiShadeDepthModel.Off;
 
         public static int SizeMegabytes(RiShadeDepthModel model) =>
-            Models.TryGetValue(model, out Asset[]? files) ? (int)Math.Round(files.Sum(file => file.Size) / 1048576.0) : 0;
+            Models.ContainsKey(model) ? (int)Math.Round(RequiredAssets(model).Sum(file => file.Size) / 1048576.0) : 0;
 
-        public static string? ActiveModelFile
+        public static string? ActiveModelFile => InstalledModelFile(Selected);
+
+        public static string? ActiveFastModelFile =>
+            Selected is RiShadeDepthModel.Off or FastModel ? null : InstalledModelFile(FastModel);
+
+        private const RiShadeDepthModel FastModel = RiShadeDepthModel.Small;
+
+        private static string? InstalledModelFile(RiShadeDepthModel model)
         {
-            get
+            if (!Voidstrap.Utility.Platform.IsWindows || !Models.TryGetValue(model, out Asset[]? files))
+                return null;
+            string directory = RiShadeManager.RiShadeDir;
+            foreach (Asset asset in files.Prepend(DirectMl).Prepend(OnnxRuntime))
             {
-                if (!Voidstrap.Utility.Platform.IsWindows || !Models.TryGetValue(Selected, out Asset[]? files))
+                FileInfo file = new(Path.Combine(directory, asset.FileName));
+                if (!file.Exists || file.Length != asset.Size)
                     return null;
-                string directory = RiShadeManager.RiShadeDir;
-                foreach (Asset asset in files.Prepend(DirectMl).Prepend(OnnxRuntime))
-                {
-                    FileInfo file = new(Path.Combine(directory, asset.FileName));
-                    if (!file.Exists || file.Length != asset.Size)
-                        return null;
-                }
-                return files[0].FileName;
             }
+            return files[0].FileName;
         }
+
+        private static Asset[] RequiredAssets(RiShadeDepthModel model) =>
+            model == FastModel ? Models[model] : [.. Models[model], .. Models[FastModel]];
 
         public static async Task<(bool Success, string Message)> SelectAsync(RiShadeDepthModel model, IProgress<double>? progress = null, CancellationToken token = default)
         {
@@ -168,14 +175,14 @@ namespace Voidstrap.Integrations.RiShade
 
                 if (model == RiShadeDepthModel.Off)
                 {
-                    RemoveUnused(directory, null);
+                    RemoveUnused(directory, []);
                     App.Logger.WriteLine(LogIdent, "AI depth turned off, scene depth estimation is used");
                     Interlocked.Increment(ref _version);
                     Publish(new RiShadeDepthModelState(model, false, 0, null));
                     return (true, string.Empty);
                 }
 
-                Asset[] chosen = Models[model];
+                Asset[] chosen = RequiredAssets(model);
                 List<Asset> missing = chosen.Prepend(DirectMl).Prepend(OnnxRuntime).Where(asset => !IsInstalled(directory, asset)).ToList();
                 long total = missing.Sum(asset => asset.Size);
                 long received = 0;
@@ -241,14 +248,14 @@ namespace Voidstrap.Integrations.RiShade
             return valid;
         }
 
-        private static void RemoveUnused(string directory, Asset[]? keep)
+        private static void RemoveUnused(string directory, Asset[] keep)
         {
             foreach (Asset[] files in Models.Values)
             {
-                if (ReferenceEquals(files, keep))
-                    continue;
                 foreach (Asset file in files)
                 {
+                    if (keep.Contains(file))
+                        continue;
                     string path = Path.Combine(directory, file.FileName);
                     TryDelete(path);
                     string? folder = Path.GetDirectoryName(path);

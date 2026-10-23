@@ -205,15 +205,17 @@ Texture2D<float> PrevQuarter : register(t4);
 Texture2D<float2> Coarse : register(t5);
 Texture2D<float4> Flow : register(t6);
 Texture2D<float> Anchor : register(t7);
-Texture2D<float2> Warped : register(t8);
+Texture2D<float4> Warped : register(t8);
 StructuredBuffer<float4> Motion : register(t9);
 Texture2D<float> Mask : register(t10);
+Texture2D<float> FastAnchor : register(t11);
+Texture2D<float> Gain : register(t12);
 RWTexture2D<float> LumaTarget : register(u0);
 RWTexture2D<float> QuarterTarget : register(u1);
 RWTexture2D<float2> CoarseTarget : register(u2);
 RWTexture2D<float4> FlowTarget : register(u3);
 RWTexture2D<float> Depth : register(u4);
-RWTexture2D<float2> WarpedTarget : register(u5);
+RWTexture2D<float4> WarpedTarget : register(u5);
 RWStructuredBuffer<float4> Affine : register(u6);
 RWTexture2D<float> MaskTarget : register(u7);
 
@@ -236,8 +238,14 @@ static const int ErodeRadius = 1;
 static const int DilateRadius = 2;
 static const uint Composed = 1;
 static const uint Advance = 2;
-static const uint Reset = 4;
-static const uint Published = 8;
+static const uint Fused = 4;
+static const uint Reset = 8;
+static const uint Published = 16;
+static const uint DetailRows = 2;
+static const uint FastRows = 10;
+static const int GainRadius = 4;
+static const int GainStride = 2;
+static const float GainFloor = 1e-3;
 
 uint2 QuarterSize()
 {
@@ -466,18 +474,16 @@ void Combine(float4 k0, float4 k1, float4 l0, float4 l1, out float4 r0, out floa
     r1 = float4(k1.x * l0.x + k1.y * l1.x, k1.x * l0.y + k1.y * l1.y, k1.x * l0.z + k1.y * l1.z + k1.z, 0);
 }
 
-[numthreads(1, 1, 1)]
-void Step(uint3 id : SV_DispatchThreadID)
+void StepLane(uint rows, uint shift, float4 motion0, float4 motion1)
 {
     float4 identity0 = float4(1, 0, 0, 0);
     float4 identity1 = float4(0, 1, 0, 0);
-    float4 motion0 = Flags & Composed ? Affine[0] : identity0;
-    float4 motion1 = Flags & Composed ? Affine[1] : identity1;
-    float4 anchor0 = Affine[2];
-    float4 anchor1 = Affine[3];
-    float4 pending0 = Affine[6];
-    float4 pending1 = Affine[7];
-    if (Flags & Published)
+    uint flags = Flags >> shift;
+    float4 anchor0 = Affine[rows];
+    float4 anchor1 = Affine[rows + 1];
+    float4 pending0 = Affine[rows + 4];
+    float4 pending1 = Affine[rows + 5];
+    if (flags & Published)
     {
         anchor0 = pending0;
         anchor1 = pending1;
@@ -495,28 +501,43 @@ void Step(uint3 id : SV_DispatchThreadID)
         pending0 = pendingLive0;
         pending1 = pendingLive1;
     }
-    if (Flags & Reset)
+    if (flags & Reset)
     {
-        pending0 = identity0;
-        pending1 = identity1;
+        float determinant = motion0.x * motion1.y - motion0.y * motion1.x;
+        float4 inverse0 = float4(motion1.y, -motion0.y, 0, 0) / determinant;
+        float4 inverse1 = float4(-motion1.x, motion0.x, 0, 0) / determinant;
+        inverse0.z = -(inverse0.x * motion0.z + inverse0.y * motion1.z);
+        inverse1.z = -(inverse1.x * motion0.z + inverse1.y * motion1.z);
+        bool fresh = (Flags & Advance) != 0;
+        pending0 = fresh ? identity0 : inverse0;
+        pending1 = fresh ? identity1 : inverse1;
         pendingLive0 = identity0;
         pendingLive1 = identity1;
     }
-    Affine[2] = anchor0;
-    Affine[3] = anchor1;
-    Affine[4] = anchorLive0;
-    Affine[5] = anchorLive1;
-    Affine[6] = pending0;
-    Affine[7] = pending1;
-    Affine[8] = pendingLive0;
-    Affine[9] = pendingLive1;
+    Affine[rows] = anchor0;
+    Affine[rows + 1] = anchor1;
+    Affine[rows + 2] = anchorLive0;
+    Affine[rows + 3] = anchorLive1;
+    Affine[rows + 4] = pending0;
+    Affine[rows + 5] = pending1;
+    Affine[rows + 6] = pendingLive0;
+    Affine[rows + 7] = pendingLive1;
 }
 
-float2 OriginOf(float2 work)
+[numthreads(1, 1, 1)]
+void Step(uint3 id : SV_DispatchThreadID)
+{
+    float4 motion0 = Flags & Composed ? Affine[0] : float4(1, 0, 0, 0);
+    float4 motion1 = Flags & Composed ? Affine[1] : float4(0, 1, 0, 0);
+    StepLane(DetailRows, 0, motion0, motion1);
+    StepLane(FastRows, 2, motion0, motion1);
+}
+
+float2 OriginOf(float2 work, uint rows)
 {
     float2 centre = Centre();
     float3 x = float3(work - centre, 1);
-    return float2(dot(Motion[4].xyz, x), dot(Motion[5].xyz, x)) + centre;
+    return float2(dot(Motion[rows + 2].xyz, x), dot(Motion[rows + 3].xyz, x)) + centre;
 }
 
 float LumaBefore(float2 position)
@@ -536,7 +557,7 @@ void Stale(uint3 id : SV_DispatchThreadID)
 {
     if (any(id.xy >= WorkSize))
         return;
-    float difference = abs(Luma.Load(int3(id.xy, 0)) - LumaBefore(OriginOf(float2(id.xy))));
+    float difference = abs(Luma.Load(int3(id.xy, 0)) - LumaBefore(OriginOf(float2(id.xy), DetailRows)));
     MaskTarget[id.xy] = saturate((difference - StaleStart) / StaleRange);
 }
 
@@ -583,16 +604,16 @@ float MaskAt(float2 position)
     return lerp(lerp(a, b, t.x), lerp(c, d, t.x), t.y);
 }
 
-float AnchorAt(float2 work)
+float SampleDepth(Texture2D<float> source, float2 work)
 {
     int2 size = int2(SourceSize);
     float2 position = (work + 0.5) * float2(SourceSize) / float2(WorkSize) - 0.5;
     int2 base = int2(floor(position));
     float2 t = position - base;
-    float a = Anchor.Load(int3(clamp(base, 0, size - 1), 0));
-    float b = Anchor.Load(int3(clamp(base + int2(1, 0), 0, size - 1), 0));
-    float c = Anchor.Load(int3(clamp(base + int2(0, 1), 0, size - 1), 0));
-    float d = Anchor.Load(int3(clamp(base + int2(1, 1), 0, size - 1), 0));
+    float a = source.Load(int3(clamp(base, 0, size - 1), 0));
+    float b = source.Load(int3(clamp(base + int2(1, 0), 0, size - 1), 0));
+    float c = source.Load(int3(clamp(base + int2(0, 1), 0, size - 1), 0));
+    float d = source.Load(int3(clamp(base + int2(1, 1), 0, size - 1), 0));
     return lerp(lerp(a, b, t.x), lerp(c, d, t.x), t.y);
 }
 
@@ -602,7 +623,53 @@ void Warp(uint3 id : SV_DispatchThreadID)
     if (any(id.xy >= SourceSize))
         return;
     float2 work = (id.xy + 0.5) * float2(WorkSize) / float2(SourceSize) - 0.5;
-    WarpedTarget[id.xy] = float2(AnchorAt(OriginOf(work)), MaskAt(work));
+    float detail = SampleDepth(Anchor, OriginOf(work, DetailRows));
+    if (Flags & Fused)
+        WarpedTarget[id.xy] = float4(detail, SampleDepth(FastAnchor, OriginOf(work, FastRows)), MaskAt(work), 0);
+    else
+        WarpedTarget[id.xy] = float4(detail, detail, 0, 0);
+}
+
+[numthreads(16, 16, 1)]
+void Align(uint3 id : SV_DispatchThreadID)
+{
+    if (any(id.xy >= WorkSize))
+        return;
+    int2 size = int2(WorkSize);
+    float detail = 0;
+    float fast = 0;
+    for (int dy = -GainRadius; dy <= GainRadius; ++dy)
+        for (int dx = -GainRadius; dx <= GainRadius; ++dx)
+        {
+            int2 w = clamp(int2(id.xy) + int2(dx, dy) * GainStride, 0, size - 1);
+            int2 q = min(int2((float2(w) + 0.5) * float2(SourceSize) / float2(WorkSize)), int2(SourceSize) - 1);
+            float4 sample = Warped.Load(int3(q, 0));
+            float weight = 1 - sample.z;
+            detail += weight * sample.x;
+            fast += weight * sample.y;
+        }
+    MaskTarget[id.xy] = fast > GainFloor ? detail / fast : 1;
+}
+
+float GainAt(float2 position)
+{
+    int2 size = int2(WorkSize);
+    int2 base = int2(floor(position));
+    float2 t = position - base;
+    float a = Gain.Load(int3(clamp(base, 0, size - 1), 0));
+    float b = Gain.Load(int3(clamp(base + int2(1, 0), 0, size - 1), 0));
+    float c = Gain.Load(int3(clamp(base + int2(0, 1), 0, size - 1), 0));
+    float d = Gain.Load(int3(clamp(base + int2(1, 1), 0, size - 1), 0));
+    return lerp(lerp(a, b, t.x), lerp(c, d, t.x), t.y);
+}
+
+float FusedAt(int2 q)
+{
+    float4 sample = Warped.Load(int3(q, 0));
+    if (!(Flags & Fused) || sample.z <= 0)
+        return sample.x;
+    float2 work = (q + 0.5) * float2(WorkSize) / float2(SourceSize) - 0.5;
+    return lerp(sample.x, saturate(sample.y * GainAt(work)), sample.z);
 }
 
 [numthreads(16, 16, 1)]
@@ -613,40 +680,18 @@ void Refine(uint3 id : SV_DispatchThreadID)
     int2 p = int2(id.xy);
     int2 size = int2(SourceSize);
     float3 centre = Color.Load(int3(p, 0)).rgb;
-    float stale = Warped.Load(int3(p, 0)).y;
     float sum = 0;
     float weights = 0;
-    float fillSum = 0;
-    float fillWeights = 0;
     for (int dy = -RefineRadius; dy <= RefineRadius; ++dy)
         for (int dx = -RefineRadius; dx <= RefineRadius; ++dx)
         {
             int2 q = clamp(p + int2(dx, dy) * RefineStride, 0, size - 1);
             float3 difference = Color.Load(int3(q, 0)).rgb - centre;
             float weight = exp(-dot(difference, difference) / (2 * RefineColor * RefineColor)) * exp(-(dx * dx + dy * dy) / 4.0);
-            float2 sample = Warped.Load(int3(q, 0));
-            sum += weight * sample.x;
+            sum += weight * FusedAt(q);
             weights += weight;
         }
     float current = sum / weights;
-    if (stale > 0.01)
-    {
-        const int strides[2] = { 8, 24 };
-        for (int ring = 0; ring < 2; ++ring)
-            for (int fy = -RefineRadius; fy <= RefineRadius; ++fy)
-                for (int fx = -RefineRadius; fx <= RefineRadius; ++fx)
-                {
-                    int2 q = clamp(p + int2(fx, fy) * strides[ring], 0, size - 1);
-                    float3 difference = Color.Load(int3(q, 0)).rgb - centre;
-                    float2 sample = Warped.Load(int3(q, 0));
-                    float weight = exp(-dot(difference, difference) / (2 * RefineColor * RefineColor)) * exp(-(fx * fx + fy * fy) / 4.0) *
-                                   (1 - sample.y) * (ring == 0 ? 1 : 0.4);
-                    fillSum += weight * sample.x;
-                    fillWeights += weight;
-                }
-        if (fillWeights > 1e-4)
-            current = lerp(current, fillSum / fillWeights, stale * saturate(fillWeights * 4));
-    }
     float previous = Depth[id.xy];
     float change = abs(current - previous) / max(max(current, previous), 1e-4);
     Depth[id.xy] = lerp(previous, current, saturate(TemporalBase + change * TemporalResponse));
@@ -654,7 +699,7 @@ void Refine(uint3 id : SV_DispatchThreadID)
 )";
 
 constexpr const char* kEntryPoints[] = { "Preprocess", "Peak", "Histogram", "Smooth", "Upsample" };
-constexpr const char* kTrackEntryPoints[] = { "Shrink", "Reduce", "MatchCoarse", "MatchFine", "Fit", "FitRefine", "Step", "Warp", "Refine", "Stale", "Erode", "Dilate" };
+constexpr const char* kTrackEntryPoints[] = { "Shrink", "Reduce", "MatchCoarse", "MatchFine", "Fit", "FitRefine", "Step", "Warp", "Refine", "Stale", "Erode", "Dilate", "Align" };
 constexpr size_t kShaderCount = std::size(kEntryPoints) + std::size(kTrackEntryPoints);
 constexpr size_t kShrink = std::size(kEntryPoints);
 constexpr size_t kReduce = kShrink + 1;
@@ -668,11 +713,16 @@ constexpr size_t kRefine = kShrink + 8;
 constexpr size_t kStale = kShrink + 9;
 constexpr size_t kErode = kShrink + 10;
 constexpr size_t kDilate = kShrink + 11;
+constexpr size_t kAlign = kShrink + 12;
 constexpr UINT kComposed = 1;
 constexpr UINT kAdvance = 2;
-constexpr UINT kReset = 4;
-constexpr UINT kPublished = 8;
-constexpr UINT kAffineRows = 10;
+constexpr UINT kFused = 4;
+constexpr UINT kReset = 8;
+constexpr UINT kPublished = 16;
+constexpr UINT kLaneShift = 2;
+constexpr UINT kAffineRows = 18;
+constexpr size_t kDetail = 0;
+constexpr size_t kFast = 1;
 
 struct Surface
 {
@@ -684,48 +734,20 @@ struct Surface
 constexpr std::chrono::milliseconds kMinDepthInterval{ 8 };
 constexpr std::chrono::milliseconds kKeyframeInterval{ 33 };
 
-struct Depth
+struct Lane
 {
-    bool enabled = false;
-    std::wstring directory;
-
+    size_t index = 0;
+    std::wstring modelFile;
+    std::atomic<bool> enabled = false;
     int width = 0;
     int height = 0;
     int size = 0;
-    UINT sourceWidth = 0;
-    UINT sourceHeight = 0;
     std::optional<int64_t> lastInput;
     FrameStatistics::Clock::time_point requestedAt{};
     FrameStatistics::Clock::time_point nextRequestAt{};
     std::atomic<double> workerMs = 0;
     bool slowRequestLogged = false;
-    std::array<winrt::com_ptr<ID3DBlob>, kShaderCount> code;
-    std::array<winrt::com_ptr<ID3D11ComputeShader>, kShaderCount> shaders;
     winrt::com_ptr<ID3D11Buffer> sizes;
-    winrt::com_ptr<ID3D11Buffer> trackSizes;
-    winrt::com_ptr<ID3D11Texture2D> liveCopy;
-    winrt::com_ptr<ID3D11ShaderResourceView> liveView;
-    std::array<Surface, 2> luma;
-    std::array<Surface, 2> quarter;
-    winrt::com_ptr<ID3D11Buffer> affine;
-    winrt::com_ptr<ID3D11UnorderedAccessView> affineTarget;
-    winrt::com_ptr<ID3D11ShaderResourceView> affineView;
-    size_t key = 0;
-    bool tracking = false;
-    FrameStatistics::Clock::time_point keyAt{};
-    bool resetPending = false;
-    bool published = false;
-    Surface coarse;
-    Surface flow;
-    Surface anchor;
-    Surface warped;
-    Surface anchorLuma;
-    Surface staleRaw;
-    Surface staleOpen;
-    UINT workWidth = 0;
-    UINT workHeight = 0;
-    bool anchored = false;
-    std::optional<int64_t> lastTracked;
     winrt::com_ptr<ID3D11Texture2D> frameCopy;
     winrt::com_ptr<ID3D11ShaderResourceView> frameView;
 
@@ -741,12 +763,13 @@ struct Depth
     winrt::com_ptr<ID3D11Buffer> state;
     winrt::com_ptr<ID3D11UnorderedAccessView> stateTarget;
     winrt::com_ptr<ID3D11ShaderResourceView> stateView;
-    winrt::com_ptr<ID3D11Texture2D> texture;
-    winrt::com_ptr<ID3D11UnorderedAccessView> textureTarget;
-    winrt::com_ptr<ID3D11ShaderResourceView> view;
+    Surface anchor;
+    Surface anchorLuma;
+    bool anchored = false;
+    bool resetPending = false;
+    bool published = false;
     winrt::com_ptr<ID3D11Fence> fence;
     uint64_t fenceValue = 0;
-    std::vector<reshade::api::effect_runtime*> runtimes;
 
     winrt::com_ptr<ID3D12Device> d3d12Proxy;
     winrt::com_ptr<ID3D12Device> d3d12;
@@ -771,7 +794,53 @@ struct Depth
     bool halfOutput = false;
     bool distanceOutput = false;
 };
+
+struct Depth
+{
+    bool enabled = false;
+    std::wstring directory;
+    std::array<Lane, 2> lanes;
+
+    UINT sourceWidth = 0;
+    UINT sourceHeight = 0;
+    UINT workWidth = 0;
+    UINT workHeight = 0;
+    std::array<winrt::com_ptr<ID3DBlob>, kShaderCount> code;
+    std::array<winrt::com_ptr<ID3D11ComputeShader>, kShaderCount> shaders;
+    winrt::com_ptr<ID3D11Buffer> trackSizes;
+    winrt::com_ptr<ID3D11Texture2D> liveCopy;
+    winrt::com_ptr<ID3D11ShaderResourceView> liveView;
+    std::array<Surface, 2> luma;
+    std::array<Surface, 2> quarter;
+    winrt::com_ptr<ID3D11Buffer> affine;
+    winrt::com_ptr<ID3D11UnorderedAccessView> affineTarget;
+    winrt::com_ptr<ID3D11ShaderResourceView> affineView;
+    size_t key = 0;
+    bool tracking = false;
+    FrameStatistics::Clock::time_point keyAt{};
+    Surface coarse;
+    Surface flow;
+    Surface warped;
+    Surface staleRaw;
+    Surface staleOpen;
+    Surface gain;
+    std::optional<int64_t> lastTracked;
+    winrt::com_ptr<ID3D11Texture2D> texture;
+    winrt::com_ptr<ID3D11UnorderedAccessView> textureTarget;
+    winrt::com_ptr<ID3D11ShaderResourceView> view;
+    std::vector<reshade::api::effect_runtime*> runtimes;
+};
 Depth& d = *new Depth();
+
+Lane& Detail()
+{
+    return d.lanes[kDetail];
+}
+
+Lane& Fast()
+{
+    return d.lanes[kFast];
+}
 
 std::mutex nativeMutex;
 std::vector<ID3D12Device*> nativeDevices;
@@ -820,44 +889,44 @@ void OnDestroyDevice(reshade::api::device* device)
     std::erase(nativeDevices, reinterpret_cast<ID3D12Device*>(device->get_native()));
 }
 
-void CreateD3D12()
+void CreateD3D12(Lane& l)
 {
-    if (FAILED(D3D12CreateDevice(nullptr, D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(d.d3d12Proxy.put()))))
+    if (FAILED(D3D12CreateDevice(nullptr, D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(l.d3d12Proxy.put()))))
         throw std::runtime_error("DirectX 12 is unavailable on this GPU.");
-    const LUID adapter = d.d3d12Proxy->GetAdapterLuid();
+    const LUID adapter = l.d3d12Proxy->GetAdapterLuid();
     {
         const std::lock_guard lock(nativeMutex);
         for (ID3D12Device* native : nativeDevices)
             if (const LUID luid = native->GetAdapterLuid(); luid.LowPart == adapter.LowPart && luid.HighPart == adapter.HighPart)
-                d.d3d12.copy_from(native);
+                l.d3d12.copy_from(native);
     }
-    if (!d.d3d12)
-        d.d3d12 = d.d3d12Proxy;
+    if (!l.d3d12)
+        l.d3d12 = l.d3d12Proxy;
 
-    winrt::check_hresult(d.d3d12->CreateFence(0, D3D12_FENCE_FLAG_SHARED, IID_PPV_ARGS(d.d3d12Fence.put())));
-    winrt::check_hresult(d.d3d12->CreateSharedHandle(d.d3d12Fence.get(), nullptr, GENERIC_ALL, nullptr, &d.fenceHandle));
-    winrt::check_hresult(d.d3d12->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(d.allocator.put())));
-    winrt::check_hresult(d.d3d12->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, d.allocator.get(), nullptr, IID_PPV_ARGS(d.list.put())));
-    winrt::check_hresult(d.list->Close());
+    winrt::check_hresult(l.d3d12->CreateFence(0, D3D12_FENCE_FLAG_SHARED, IID_PPV_ARGS(l.d3d12Fence.put())));
+    winrt::check_hresult(l.d3d12->CreateSharedHandle(l.d3d12Fence.get(), nullptr, GENERIC_ALL, nullptr, &l.fenceHandle));
+    winrt::check_hresult(l.d3d12->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(l.allocator.put())));
+    winrt::check_hresult(l.d3d12->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, l.allocator.get(), nullptr, IID_PPV_ARGS(l.list.put())));
+    winrt::check_hresult(l.list->Close());
 }
 
-void ReleaseD3D12()
+void ReleaseD3D12(Lane& l)
 {
-    d.list = nullptr;
-    d.allocator = nullptr;
-    d.d3d12Fence = nullptr;
-    if (d.fenceHandle)
-        CloseHandle(std::exchange(d.fenceHandle, nullptr));
-    d.d3d12 = nullptr;
-    d.d3d12Proxy = nullptr;
+    l.list = nullptr;
+    l.allocator = nullptr;
+    l.d3d12Fence = nullptr;
+    if (l.fenceHandle)
+        CloseHandle(std::exchange(l.fenceHandle, nullptr));
+    l.d3d12 = nullptr;
+    l.d3d12Proxy = nullptr;
 }
 
-bool D3D12Removed()
+bool D3D12Removed(const Lane& l)
 {
-    return d.d3d12 && FAILED(d.d3d12->GetDeviceRemovedReason());
+    return l.d3d12 && FAILED(l.d3d12->GetDeviceRemovedReason());
 }
 
-winrt::com_ptr<ID3D12Resource> CreateD3D12Buffer(UINT64 size)
+winrt::com_ptr<ID3D12Resource> CreateD3D12Buffer(Lane& l, UINT64 size)
 {
     const D3D12_HEAP_PROPERTIES heap{ D3D12_HEAP_TYPE_DEFAULT };
     D3D12_RESOURCE_DESC desc{};
@@ -870,49 +939,54 @@ winrt::com_ptr<ID3D12Resource> CreateD3D12Buffer(UINT64 size)
     desc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
     desc.Flags = D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS;
     winrt::com_ptr<ID3D12Resource> buffer;
-    winrt::check_hresult(d.d3d12->CreateCommittedResource(&heap, D3D12_HEAP_FLAG_NONE, &desc, D3D12_RESOURCE_STATE_COMMON, nullptr, IID_PPV_ARGS(buffer.put())));
+    winrt::check_hresult(l.d3d12->CreateCommittedResource(&heap, D3D12_HEAP_FLAG_NONE, &desc, D3D12_RESOURCE_STATE_COMMON, nullptr, IID_PPV_ARGS(buffer.put())));
     return buffer;
 }
 
-void Copy(ID3D12CommandQueue* queue, ID3D12Resource* texture, ID3D12Resource* buffer, bool toBuffer)
+void Copy(Lane& l, ID3D12CommandQueue* queue, ID3D12Resource* texture, ID3D12Resource* buffer, bool toBuffer)
 {
     const D3D12_RESOURCE_DESC desc = texture->GetDesc();
     D3D12_TEXTURE_COPY_LOCATION textureLocation{ texture, D3D12_TEXTURE_COPY_TYPE_SUBRESOURCE_INDEX };
     textureLocation.SubresourceIndex = 0;
     D3D12_TEXTURE_COPY_LOCATION bufferLocation{ buffer, D3D12_TEXTURE_COPY_TYPE_PLACED_FOOTPRINT };
     bufferLocation.PlacedFootprint = { 0, { desc.Format, static_cast<UINT>(desc.Width), desc.Height, 1, kRowBytes } };
-    winrt::check_hresult(d.list->Reset(d.allocator.get(), nullptr));
+    winrt::check_hresult(l.list->Reset(l.allocator.get(), nullptr));
     if (toBuffer)
-        d.list->CopyTextureRegion(&bufferLocation, 0, 0, 0, &textureLocation, nullptr);
+        l.list->CopyTextureRegion(&bufferLocation, 0, 0, 0, &textureLocation, nullptr);
     else
     {
-        d.list->CopyTextureRegion(&textureLocation, 0, 0, 0, &bufferLocation, nullptr);
+        l.list->CopyTextureRegion(&textureLocation, 0, 0, 0, &bufferLocation, nullptr);
         D3D12_RESOURCE_BARRIER barrier{ D3D12_RESOURCE_BARRIER_TYPE_TRANSITION };
         barrier.Transition = { texture, D3D12_RESOURCE_BARRIER_ALL_SUBRESOURCES, D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_COMMON };
-        d.list->ResourceBarrier(1, &barrier);
+        l.list->ResourceBarrier(1, &barrier);
     }
-    winrt::check_hresult(d.list->Close());
-    ID3D12CommandList* lists[] = { d.list.get() };
+    winrt::check_hresult(l.list->Close());
+    ID3D12CommandList* lists[] = { l.list.get() };
     queue->ExecuteCommandLists(1, lists);
 }
 
-void Worker()
+const wchar_t* LaneName(const Lane& l)
+{
+    return l.index == kDetail ? L"detail" : L"fast";
+}
+
+void Worker(Lane& l)
 {
     InitThreadLog();
-    Log(LogLevel::Info, L"Depth worker started.");
+    Log(LogLevel::Info, L"Depth %ls worker started.", LaneName(l));
     winrt::com_ptr<ID3D12Resource> input, output, inputBuffer, outputBuffer;
     std::unique_ptr<DepthModel> model;
     int loadedWidth = 0, loadedHeight = 0;
     unsigned boundVersion = 0;
     for (;;)
     {
-        WaitForSingleObject(d.request, INFINITE);
-        if (d.stopping)
+        WaitForSingleObject(l.request, INFINITE);
+        if (l.stopping)
         {
-            if (d.inputValue && d.d3d12Fence && d.d3d12Fence->GetCompletedValue() < d.inputValue + 1)
+            if (l.inputValue && l.d3d12Fence && l.d3d12Fence->GetCompletedValue() < l.inputValue + 1)
                 if (const HANDLE finished = CreateEventW(nullptr, FALSE, FALSE, nullptr))
                 {
-                    if (SUCCEEDED(d.d3d12Fence->SetEventOnCompletion(d.inputValue + 1, finished)))
+                    if (SUCCEEDED(l.d3d12Fence->SetEventOnCompletion(l.inputValue + 1, finished)))
                         WaitForSingleObject(finished, 1000);
                     CloseHandle(finished);
                 }
@@ -921,94 +995,95 @@ void Worker()
         try
         {
             const auto started = FrameStatistics::Clock::now();
-            if (!d.inputValue && d.d3d12 && (!d.enabled || !d.list || D3D12Removed()))
+            if (!l.inputValue && l.d3d12 && (!l.enabled || !l.list || D3D12Removed(l)))
             {
-                Log(LogLevel::Info, L"Releasing the depth D3D12 device: removed_reason=0x%08X, depth_enabled=%d.",
-                    static_cast<unsigned>(d.d3d12->GetDeviceRemovedReason()), d.enabled);
+                Log(LogLevel::Info, L"Releasing the depth %ls D3D12 device: removed_reason=0x%08X, lane_enabled=%d.", LaneName(l),
+                    static_cast<unsigned>(l.d3d12->GetDeviceRemovedReason()), l.enabled.load());
                 model.reset();
                 input = output = inputBuffer = outputBuffer = nullptr;
                 loadedWidth = loadedHeight = 0;
-                ReleaseD3D12();
+                ReleaseD3D12(l);
             }
-            if (!d.enabled)
+            if (!l.enabled)
             {
-                d.done = true;
+                l.done = true;
                 continue;
             }
-            if (!d.d3d12)
-                CreateD3D12();
-            if (d.width != loadedWidth || d.height != loadedHeight)
+            if (!l.d3d12)
+                CreateD3D12(l);
+            if (l.width != loadedWidth || l.height != loadedHeight)
             {
                 model.reset();
                 boundVersion = 0;
                 model = std::make_unique<DepthModel>();
-                model->Load(d.directory, ModelFile(), d.width, d.height, d.d3d12.get());
-                loadedWidth = d.modelWidth = d.width;
-                loadedHeight = d.modelHeight = d.height;
-                Log(LogLevel::Info, L"Depth model loaded: %ls%ls, input=%dx%d, half_input=%d, half_output=%d.", d.directory.c_str(),
-                    ModelFile().c_str(), d.width, d.height, model->HalfInput(), model->HalfOutput());
-                d.halfInput = model->HalfInput();
-                d.halfOutput = model->HalfOutput();
-                d.distanceOutput = model->DistanceOutput();
-                Report(LogLevel::Ok, L"Depth estimation ready (%dx%d)", d.width, d.height);
+                model->Load(d.directory, l.modelFile, l.width, l.height, l.d3d12.get());
+                loadedWidth = l.modelWidth = l.width;
+                loadedHeight = l.modelHeight = l.height;
+                Log(LogLevel::Info, L"Depth %ls model loaded: %ls%ls, input=%dx%d, half_input=%d, half_output=%d.", LaneName(l), d.directory.c_str(),
+                    l.modelFile.c_str(), l.width, l.height, model->HalfInput(), model->HalfOutput());
+                l.halfInput = model->HalfInput();
+                l.halfOutput = model->HalfOutput();
+                l.distanceOutput = model->DistanceOutput();
+                if (l.index == kDetail)
+                    Report(LogLevel::Ok, L"Depth estimation ready (%dx%d)", l.width, l.height);
             }
-            if (d.inputValue)
+            if (l.inputValue)
             {
-                if (boundVersion != d.version)
+                if (boundVersion != l.version)
                 {
-                    winrt::check_hresult(d.d3d12->OpenSharedHandle(d.inputHandle, IID_PPV_ARGS(input.put())));
-                    winrt::check_hresult(d.d3d12->OpenSharedHandle(d.outputHandle, IID_PPV_ARGS(output.put())));
-                    inputBuffer = CreateD3D12Buffer(input->GetDesc().Height * kRowBytes);
-                    outputBuffer = CreateD3D12Buffer(output->GetDesc().Height * kRowBytes);
+                    winrt::check_hresult(l.d3d12->OpenSharedHandle(l.inputHandle, IID_PPV_ARGS(input.put())));
+                    winrt::check_hresult(l.d3d12->OpenSharedHandle(l.outputHandle, IID_PPV_ARGS(output.put())));
+                    inputBuffer = CreateD3D12Buffer(l, input->GetDesc().Height * kRowBytes);
+                    outputBuffer = CreateD3D12Buffer(l, output->GetDesc().Height * kRowBytes);
                     model->Bind(inputBuffer.get(), outputBuffer.get());
-                    boundVersion = d.version;
+                    boundVersion = l.version;
                 }
                 ID3D12CommandQueue* queue = model->Queue();
-                winrt::check_hresult(queue->Wait(d.d3d12Fence.get(), d.inputValue));
-                winrt::check_hresult(d.allocator->Reset());
-                Copy(queue, input.get(), inputBuffer.get(), true);
+                winrt::check_hresult(queue->Wait(l.d3d12Fence.get(), l.inputValue));
+                winrt::check_hresult(l.allocator->Reset());
+                Copy(l, queue, input.get(), inputBuffer.get(), true);
                 model->Run();
-                Copy(queue, output.get(), outputBuffer.get(), false);
-                winrt::check_hresult(queue->Signal(d.d3d12Fence.get(), d.inputValue + 1));
+                Copy(l, queue, output.get(), outputBuffer.get(), false);
+                winrt::check_hresult(queue->Signal(l.d3d12Fence.get(), l.inputValue + 1));
             }
-            d.workerMs = std::chrono::duration<double, std::milli>(FrameStatistics::Clock::now() - started).count();
+            l.workerMs = std::chrono::duration<double, std::milli>(FrameStatistics::Clock::now() - started).count();
         }
         catch (const std::exception& e)
         {
-            if (D3D12Removed())
-                Log(LogLevel::Info, L"Depth run failed on a removed D3D12 device: %hs", e.what());
+            if (D3D12Removed(l))
+                Log(LogLevel::Info, L"Depth %ls run failed on a removed D3D12 device: %hs", LaneName(l), e.what());
             else
             {
-                Log(LogLevel::Error, L"Depth estimation stopped: %hs", e.what());
+                Log(LogLevel::Error, L"Depth %ls estimation stopped: %hs", LaneName(l), e.what());
                 LogStackTrace();
-                d.failed = true;
+                l.failed = true;
             }
         }
         catch (const winrt::hresult_error& e)
         {
-            if (D3D12Removed())
-                Log(LogLevel::Info, L"Depth run failed on a removed D3D12 device: %ls (0x%08X)", e.message().c_str(),
+            if (D3D12Removed(l))
+                Log(LogLevel::Info, L"Depth %ls run failed on a removed D3D12 device: %ls (0x%08X)", LaneName(l), e.message().c_str(),
                     static_cast<unsigned>(e.code()));
             else
             {
-                Log(LogLevel::Error, L"Depth estimation stopped: %ls (0x%08X)", e.message().c_str(), static_cast<unsigned>(e.code()));
-                Log(LogLevel::Info, L"Depth worker state: model=%dx%d, requested=%dx%d, input_fence=%llu, resource_version=%u.",
-                    loadedWidth, loadedHeight, d.width, d.height, d.inputValue, d.version);
+                Log(LogLevel::Error, L"Depth %ls estimation stopped: %ls (0x%08X)", LaneName(l), e.message().c_str(), static_cast<unsigned>(e.code()));
+                Log(LogLevel::Info, L"Depth %ls worker state: model=%dx%d, requested=%dx%d, input_fence=%llu, resource_version=%u.", LaneName(l),
+                    loadedWidth, loadedHeight, l.width, l.height, l.inputValue, l.version);
                 LogStackTrace();
-                d.failed = true;
+                l.failed = true;
             }
         }
-        d.done = true;
+        l.done = true;
     }
 }
 
-void Request(uint64_t value)
+void Request(Lane& l, uint64_t value)
 {
-    d.inputValue = value;
-    d.requestedAt = FrameStatistics::Clock::now();
-    d.slowRequestLogged = false;
-    d.busy = true;
-    SetEvent(d.request);
+    l.inputValue = value;
+    l.requestedAt = FrameStatistics::Clock::now();
+    l.slowRequestLogged = false;
+    l.busy = true;
+    SetEvent(l.request);
 }
 
 void CreateShaders()
@@ -1020,8 +1095,11 @@ void CreateShaders()
     desc.ByteWidth = 32;
     desc.Usage = D3D11_USAGE_DEFAULT;
     desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-    winrt::check_hresult(g.device->CreateBuffer(&desc, nullptr, d.sizes.put()));
-    desc.ByteWidth = 32;
+    for (Lane& l : d.lanes)
+    {
+        l.sizes = nullptr;
+        winrt::check_hresult(g.device->CreateBuffer(&desc, nullptr, l.sizes.put()));
+    }
     winrt::check_hresult(g.device->CreateBuffer(&desc, nullptr, d.trackSizes.put()));
 }
 
@@ -1041,11 +1119,12 @@ void CompileShaders()
     CreateShaders();
 }
 
-void Dispatch(size_t shader, std::array<ID3D11ShaderResourceView*, 11> views, std::array<ID3D11UnorderedAccessView*, 8> targets, UINT x, UINT y)
+void Dispatch(size_t shader, std::array<ID3D11ShaderResourceView*, 13> views, std::array<ID3D11UnorderedAccessView*, 8> targets, UINT x, UINT y,
+              ID3D11Buffer* constants = nullptr)
 {
-    ID3D11Buffer* constants[] = { shader >= kShrink ? d.trackSizes.get() : d.sizes.get() };
+    ID3D11Buffer* buffers[] = { constants ? constants : d.trackSizes.get() };
     g.context->CSSetShader(d.shaders[shader].get(), nullptr, 0);
-    g.context->CSSetConstantBuffers(0, 1, constants);
+    g.context->CSSetConstantBuffers(0, 1, buffers);
     g.context->CSSetShaderResources(0, static_cast<UINT>(views.size()), views.data());
     g.context->CSSetUnorderedAccessViews(0, static_cast<UINT>(targets.size()), targets.data(), nullptr);
     g.context->Dispatch(x, y, 1);
@@ -1055,6 +1134,30 @@ void Dispatch(size_t shader, std::array<ID3D11ShaderResourceView*, 11> views, st
     g.context->CSSetUnorderedAccessViews(0, static_cast<UINT>(targets.size()), targets.data(), nullptr);
 }
 
+void ReleaseLaneShared(Lane& l)
+{
+    l.anchor = {};
+    l.anchorLuma = {};
+    l.anchored = false;
+    l.resetPending = false;
+    l.published = false;
+    l.stateView = nullptr;
+    l.stateTarget = nullptr;
+    l.state = nullptr;
+    l.keysTarget = nullptr;
+    l.keys = nullptr;
+    l.outputView = nullptr;
+    l.output = nullptr;
+    l.guideView = nullptr;
+    l.guideTarget = nullptr;
+    l.guide = nullptr;
+    l.inputTarget = nullptr;
+    l.input = nullptr;
+    for (HANDLE* handle : { &l.inputHandle, &l.outputHandle })
+        if (*handle)
+            CloseHandle(std::exchange(*handle, nullptr));
+}
+
 void ReleaseShared()
 {
     for (auto* runtime : d.runtimes)
@@ -1062,51 +1165,50 @@ void ReleaseShared()
     d.view = nullptr;
     d.textureTarget = nullptr;
     d.texture = nullptr;
-    for (Surface* surface : { &d.luma[0], &d.luma[1], &d.quarter[0], &d.quarter[1], &d.coarse, &d.flow, &d.anchor, &d.warped, &d.anchorLuma, &d.staleRaw,
-                              &d.staleOpen })
+    for (Surface* surface : { &d.luma[0], &d.luma[1], &d.quarter[0], &d.quarter[1], &d.coarse, &d.flow, &d.warped, &d.staleRaw, &d.staleOpen, &d.gain })
         *surface = {};
     d.affineView = nullptr;
     d.affineTarget = nullptr;
     d.affine = nullptr;
-    d.anchored = false;
     d.tracking = false;
-    d.resetPending = false;
-    d.published = false;
-    d.stateView = nullptr;
-    d.stateTarget = nullptr;
-    d.state = nullptr;
-    d.keysTarget = nullptr;
-    d.keys = nullptr;
-    d.outputView = nullptr;
-    d.output = nullptr;
-    d.guideView = nullptr;
-    d.guideTarget = nullptr;
-    d.guide = nullptr;
-    d.inputTarget = nullptr;
-    d.input = nullptr;
-    for (HANDLE* handle : { &d.inputHandle, &d.outputHandle })
-        if (*handle)
-            CloseHandle(std::exchange(*handle, nullptr));
+    for (Lane& l : d.lanes)
+        ReleaseLaneShared(l);
+}
+
+void ReleaseLaneResources(Lane& l)
+{
+    if (l.busy && l.inputValue && l.d3d12Fence && l.d3d12Fence->GetCompletedValue() < l.inputValue)
+        l.d3d12Fence->Signal(l.inputValue);
+    l.fence = nullptr;
+    l.frameView = nullptr;
+    l.frameCopy = nullptr;
+    l.sizes = nullptr;
+    l.lastInput.reset();
 }
 
 void ReleaseResources()
 {
-    if (d.busy && d.inputValue && d.d3d12Fence->GetCompletedValue() < d.inputValue)
-        d.d3d12Fence->Signal(d.inputValue);
     ReleaseShared();
-    d.fence = nullptr;
-    d.frameView = nullptr;
-    d.frameCopy = nullptr;
+    for (Lane& l : d.lanes)
+        ReleaseLaneResources(l);
     d.liveView = nullptr;
     d.liveCopy = nullptr;
-    d.sizes = nullptr;
     d.trackSizes = nullptr;
     d.lastTracked.reset();
     for (auto& shader : d.shaders)
         shader = nullptr;
     d.sourceWidth = 0;
     d.sourceHeight = 0;
-    d.lastInput.reset();
+}
+
+void StopFast()
+{
+    Lane& l = Fast();
+    ReleaseLaneShared(l);
+    ReleaseLaneResources(l);
+    l.enabled = false;
+    Request(l, 0);
+    Report(LogLevel::Warning, L"The fast depth model failed, so only the chosen depth model is used.");
 }
 
 void Stop()
@@ -1115,28 +1217,46 @@ void Stop()
     if (DepthSize() == kDefaultDepthSize)
     {
         d.enabled = false;
-        Request(0);
+        for (Lane& l : d.lanes)
+        {
+            l.enabled = false;
+            if (l.request)
+                Request(l, 0);
+        }
         return;
     }
     SetDepthSize(kDefaultDepthSize);
     Report(LogLevel::Warning, L"Depth estimation failed, so Depth detail went back to High.");
 }
 
-void Resize(const D3D11_TEXTURE2D_DESC& frame)
+int LaneSize(const Lane& l)
+{
+    return l.index == kDetail ? DepthSize() : *std::min_element(std::begin(kDepthSizes), std::end(kDepthSizes));
+}
+
+void ResizeLane(Lane& l, const D3D11_TEXTURE2D_DESC& frame, const D3D11_TEXTURE2D_DESC& copy)
 {
     const bool landscape = frame.Width >= frame.Height;
     const float ratio = landscape ? static_cast<float>(frame.Height) / frame.Width : static_cast<float>(frame.Width) / frame.Height;
-    d.size = DepthSize();
-    const int shortSide = std::max(14, static_cast<int>(std::lround(d.size * ratio / 14)) * 14);
-    d.width = landscape ? d.size : shortSide;
-    d.height = landscape ? shortSide : d.size;
+    l.size = LaneSize(l);
+    const int shortSide = std::max(14, static_cast<int>(std::lround(l.size * ratio / 14)) * 14);
+    l.width = landscape ? l.size : shortSide;
+    l.height = landscape ? shortSide : l.size;
+    l.lastInput.reset();
+    l.frameCopy = nullptr;
+    l.frameView = nullptr;
+    winrt::check_hresult(g.device->CreateTexture2D(&copy, nullptr, l.frameCopy.put()));
+    winrt::check_hresult(g.device->CreateShaderResourceView(l.frameCopy.get(), nullptr, l.frameView.put()));
+    Log(LogLevel::Info, L"Depth %ls resize: source=%ux%u, model=%dx%d, detail=%d.", LaneName(l), frame.Width, frame.Height, l.width, l.height, l.size);
+}
+
+void Resize(const D3D11_TEXTURE2D_DESC& frame)
+{
     d.sourceWidth = frame.Width;
     d.sourceHeight = frame.Height;
     d.workWidth = std::max(1u, (frame.Width + 3) / 4);
     d.workHeight = std::max(1u, (frame.Height + 3) / 4);
-    d.lastInput.reset();
     d.lastTracked.reset();
-    Log(LogLevel::Info, L"Depth resize: source=%ux%u, model=%dx%d, detail=%d.", frame.Width, frame.Height, d.width, d.height, d.size);
     ReleaseShared();
 
     D3D11_TEXTURE2D_DESC copy = frame;
@@ -1147,10 +1267,9 @@ void Resize(const D3D11_TEXTURE2D_DESC& frame)
     copy.BindFlags = D3D11_BIND_SHADER_RESOURCE;
     copy.CPUAccessFlags = 0;
     copy.MiscFlags = 0;
-    d.frameCopy = nullptr;
-    d.frameView = nullptr;
-    winrt::check_hresult(g.device->CreateTexture2D(&copy, nullptr, d.frameCopy.put()));
-    winrt::check_hresult(g.device->CreateShaderResourceView(d.frameCopy.get(), nullptr, d.frameView.put()));
+    for (Lane& l : d.lanes)
+        if (l.enabled)
+            ResizeLane(l, frame, copy);
     d.liveCopy = nullptr;
     d.liveView = nullptr;
     winrt::check_hresult(g.device->CreateTexture2D(&copy, nullptr, d.liveCopy.put()));
@@ -1190,56 +1309,17 @@ void CreateSharedTexture(size_t count, bool half, UINT bind, winrt::com_ptr<ID3D
     winrt::check_hresult(texture.as<IDXGIResource1>()->CreateSharedHandle(nullptr, DXGI_SHARED_RESOURCE_READ | DXGI_SHARED_RESOURCE_WRITE, nullptr, &handle));
 }
 
-void CreateShared()
+void CreateCommon()
 {
-    const size_t pixels = static_cast<size_t>(d.width) * d.height;
-    CreateSharedTexture(3 * pixels, d.halfInput, D3D11_BIND_UNORDERED_ACCESS, d.input, d.inputHandle);
-    CreateSharedTexture(pixels, d.halfOutput, D3D11_BIND_SHADER_RESOURCE, d.output, d.outputHandle);
-    ++d.version;
-    winrt::check_hresult(g.device->CreateUnorderedAccessView(d.input.get(), nullptr, d.inputTarget.put()));
-    winrt::check_hresult(g.device->CreateShaderResourceView(d.output.get(), nullptr, d.outputView.put()));
-    if (!d.fence)
-        winrt::check_hresult(g.device.as<ID3D11Device5>()->OpenSharedFence(d.fenceHandle, IID_PPV_ARGS(d.fence.put())));
-
-    D3D11_BUFFER_DESC buffer{};
-    buffer.ByteWidth = 4 * 260;
-    buffer.Usage = D3D11_USAGE_DEFAULT;
-    buffer.BindFlags = D3D11_BIND_UNORDERED_ACCESS;
-    buffer.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_ALLOW_RAW_VIEWS;
-    winrt::check_hresult(g.device->CreateBuffer(&buffer, nullptr, d.keys.put()));
-    D3D11_UNORDERED_ACCESS_VIEW_DESC raw{};
-    raw.Format = DXGI_FORMAT_R32_TYPELESS;
-    raw.ViewDimension = D3D11_UAV_DIMENSION_BUFFER;
-    raw.Buffer.NumElements = 260;
-    raw.Buffer.Flags = D3D11_BUFFER_UAV_FLAG_RAW;
-    winrt::check_hresult(g.device->CreateUnorderedAccessView(d.keys.get(), &raw, d.keysTarget.put()));
-
-    buffer.ByteWidth = 16;
-    buffer.BindFlags = D3D11_BIND_UNORDERED_ACCESS | D3D11_BIND_SHADER_RESOURCE;
-    buffer.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
-    buffer.StructureByteStride = 16;
-    winrt::check_hresult(g.device->CreateBuffer(&buffer, nullptr, d.state.put()));
-    winrt::check_hresult(g.device->CreateUnorderedAccessView(d.state.get(), nullptr, d.stateTarget.put()));
-    winrt::check_hresult(g.device->CreateShaderResourceView(d.state.get(), nullptr, d.stateView.put()));
-    const UINT zero[4] = {};
-    g.context->ClearUnorderedAccessViewUint(d.stateTarget.get(), zero);
-
     D3D11_TEXTURE2D_DESC desc{};
-    desc.Width = d.width;
-    desc.Height = d.height;
+    desc.Width = d.sourceWidth;
+    desc.Height = d.sourceHeight;
     desc.MipLevels = 1;
     desc.ArraySize = 1;
-    desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+    desc.Format = DXGI_FORMAT_R32_FLOAT;
     desc.SampleDesc = { 1, 0 };
     desc.Usage = D3D11_USAGE_DEFAULT;
     desc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS;
-    winrt::check_hresult(g.device->CreateTexture2D(&desc, nullptr, d.guide.put()));
-    winrt::check_hresult(g.device->CreateUnorderedAccessView(d.guide.get(), nullptr, d.guideTarget.put()));
-    winrt::check_hresult(g.device->CreateShaderResourceView(d.guide.get(), nullptr, d.guideView.put()));
-
-    desc.Width = d.sourceWidth;
-    desc.Height = d.sourceHeight;
-    desc.Format = DXGI_FORMAT_R32_FLOAT;
     winrt::check_hresult(g.device->CreateTexture2D(&desc, nullptr, d.texture.put()));
     winrt::check_hresult(g.device->CreateUnorderedAccessView(d.texture.get(), nullptr, d.textureTarget.put()));
     winrt::check_hresult(g.device->CreateShaderResourceView(d.texture.get(), nullptr, d.view.put()));
@@ -1248,7 +1328,6 @@ void CreateShared()
 
     const UINT quarterWidth = (d.workWidth + 3) / 4;
     const UINT quarterHeight = (d.workHeight + 3) / 4;
-    CreateSurface(d.sourceWidth, d.sourceHeight, DXGI_FORMAT_R32_FLOAT, d.anchor);
     for (size_t i = 0; i < 2; ++i)
     {
         CreateSurface(d.workWidth, d.workHeight, DXGI_FORMAT_R32_FLOAT, d.luma[i]);
@@ -1256,11 +1335,10 @@ void CreateShared()
     }
     CreateSurface(quarterWidth, quarterHeight, DXGI_FORMAT_R32G32_FLOAT, d.coarse);
     CreateSurface(d.workWidth, d.workHeight, DXGI_FORMAT_R32G32B32A32_FLOAT, d.flow);
-    CreateSurface(d.sourceWidth, d.sourceHeight, DXGI_FORMAT_R32G32_FLOAT, d.warped);
-    CreateSurface(d.workWidth, d.workHeight, DXGI_FORMAT_R32_FLOAT, d.anchorLuma);
+    CreateSurface(d.sourceWidth, d.sourceHeight, DXGI_FORMAT_R32G32B32A32_FLOAT, d.warped);
     CreateSurface(d.workWidth, d.workHeight, DXGI_FORMAT_R32_FLOAT, d.staleRaw);
     CreateSurface(d.workWidth, d.workHeight, DXGI_FORMAT_R32_FLOAT, d.staleOpen);
-    g.context->ClearUnorderedAccessViewFloat(d.anchor.target.get(), farPlane);
+    CreateSurface(d.workWidth, d.workHeight, DXGI_FORMAT_R32_FLOAT, d.gain);
     std::array<float, 4 * kAffineRows> identity{};
     for (UINT row = 0; row < kAffineRows; ++row)
         identity[row * 4 + row % 2] = 1;
@@ -1274,28 +1352,85 @@ void CreateShared()
     winrt::check_hresult(g.device->CreateBuffer(&affine, &initial, d.affine.put()));
     winrt::check_hresult(g.device->CreateUnorderedAccessView(d.affine.get(), nullptr, d.affineTarget.put()));
     winrt::check_hresult(g.device->CreateShaderResourceView(d.affine.get(), nullptr, d.affineView.put()));
-
-    const UINT sizes[8] = { d.sourceWidth, d.sourceHeight, static_cast<UINT>(d.width), static_cast<UINT>(d.height),
-                            kRowBytes / (d.halfInput ? 2 : 4), kRowBytes / (d.halfOutput ? 2 : 4), d.distanceOutput ? 1u : 0u };
-    g.context->UpdateSubresource(d.sizes.get(), 0, nullptr, sizes, 0, 0);
+    const UINT constants[8] = { d.sourceWidth, d.sourceHeight, d.workWidth, d.workHeight };
+    g.context->UpdateSubresource(d.trackSizes.get(), 0, nullptr, constants, 0, 0);
     for (auto* runtime : d.runtimes)
         Bind(runtime, d.view.get());
 }
 
-void Publish()
+void CreateLaneShared(Lane& l)
 {
-    winrt::check_hresult(g.context.as<ID3D11DeviceContext4>()->Wait(d.fence.get(), d.inputValue + 1));
+    const size_t pixels = static_cast<size_t>(l.width) * l.height;
+    CreateSharedTexture(3 * pixels, l.halfInput, D3D11_BIND_UNORDERED_ACCESS, l.input, l.inputHandle);
+    CreateSharedTexture(pixels, l.halfOutput, D3D11_BIND_SHADER_RESOURCE, l.output, l.outputHandle);
+    ++l.version;
+    winrt::check_hresult(g.device->CreateUnorderedAccessView(l.input.get(), nullptr, l.inputTarget.put()));
+    winrt::check_hresult(g.device->CreateShaderResourceView(l.output.get(), nullptr, l.outputView.put()));
+    if (!l.fence)
+        winrt::check_hresult(g.device.as<ID3D11Device5>()->OpenSharedFence(l.fenceHandle, IID_PPV_ARGS(l.fence.put())));
+
+    D3D11_BUFFER_DESC buffer{};
+    buffer.ByteWidth = 4 * 260;
+    buffer.Usage = D3D11_USAGE_DEFAULT;
+    buffer.BindFlags = D3D11_BIND_UNORDERED_ACCESS;
+    buffer.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_ALLOW_RAW_VIEWS;
+    winrt::check_hresult(g.device->CreateBuffer(&buffer, nullptr, l.keys.put()));
+    D3D11_UNORDERED_ACCESS_VIEW_DESC raw{};
+    raw.Format = DXGI_FORMAT_R32_TYPELESS;
+    raw.ViewDimension = D3D11_UAV_DIMENSION_BUFFER;
+    raw.Buffer.NumElements = 260;
+    raw.Buffer.Flags = D3D11_BUFFER_UAV_FLAG_RAW;
+    winrt::check_hresult(g.device->CreateUnorderedAccessView(l.keys.get(), &raw, l.keysTarget.put()));
+
+    buffer.ByteWidth = 16;
+    buffer.BindFlags = D3D11_BIND_UNORDERED_ACCESS | D3D11_BIND_SHADER_RESOURCE;
+    buffer.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_STRUCTURED;
+    buffer.StructureByteStride = 16;
+    winrt::check_hresult(g.device->CreateBuffer(&buffer, nullptr, l.state.put()));
+    winrt::check_hresult(g.device->CreateUnorderedAccessView(l.state.get(), nullptr, l.stateTarget.put()));
+    winrt::check_hresult(g.device->CreateShaderResourceView(l.state.get(), nullptr, l.stateView.put()));
     const UINT zero[4] = {};
-    g.context->ClearUnorderedAccessViewUint(d.keysTarget.get(), zero);
-    const UINT pixels = static_cast<UINT>(d.width * d.height);
-    Dispatch(1, { nullptr, d.outputView.get() }, { nullptr, d.keysTarget.get() }, (pixels + 255) / 256, 1);
-    Dispatch(2, { nullptr, d.outputView.get() }, { nullptr, d.keysTarget.get() }, (pixels + 255) / 256, 1);
-    Dispatch(3, {}, { nullptr, d.keysTarget.get(), d.stateTarget.get() }, 1, 1);
-    Dispatch(4, { d.frameView.get(), d.outputView.get(), d.stateView.get(), d.guideView.get() }, { nullptr, nullptr, nullptr, d.anchor.target.get() },
-             (d.sourceWidth + 15) / 16, (d.sourceHeight + 15) / 16);
-    Dispatch(kShrink, { d.frameView.get() }, { d.anchorLuma.target.get() }, (d.workWidth + 15) / 16, (d.workHeight + 15) / 16);
-    d.anchored = true;
-    d.published = true;
+    g.context->ClearUnorderedAccessViewUint(l.stateTarget.get(), zero);
+
+    D3D11_TEXTURE2D_DESC desc{};
+    desc.Width = l.width;
+    desc.Height = l.height;
+    desc.MipLevels = 1;
+    desc.ArraySize = 1;
+    desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+    desc.SampleDesc = { 1, 0 };
+    desc.Usage = D3D11_USAGE_DEFAULT;
+    desc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_UNORDERED_ACCESS;
+    winrt::check_hresult(g.device->CreateTexture2D(&desc, nullptr, l.guide.put()));
+    winrt::check_hresult(g.device->CreateUnorderedAccessView(l.guide.get(), nullptr, l.guideTarget.put()));
+    winrt::check_hresult(g.device->CreateShaderResourceView(l.guide.get(), nullptr, l.guideView.put()));
+
+    CreateSurface(d.sourceWidth, d.sourceHeight, DXGI_FORMAT_R32_FLOAT, l.anchor);
+    CreateSurface(d.workWidth, d.workHeight, DXGI_FORMAT_R32_FLOAT, l.anchorLuma);
+    const float farPlane[4] = { 1, 1, 1, 1 };
+    g.context->ClearUnorderedAccessViewFloat(l.anchor.target.get(), farPlane);
+
+    const UINT sizes[8] = { d.sourceWidth, d.sourceHeight, static_cast<UINT>(l.width), static_cast<UINT>(l.height),
+                            kRowBytes / (l.halfInput ? 2 : 4), kRowBytes / (l.halfOutput ? 2 : 4), l.distanceOutput ? 1u : 0u };
+    g.context->UpdateSubresource(l.sizes.get(), 0, nullptr, sizes, 0, 0);
+}
+
+void Publish(Lane& l)
+{
+    winrt::check_hresult(g.context.as<ID3D11DeviceContext4>()->Wait(l.fence.get(), l.inputValue + 1));
+    const UINT zero[4] = {};
+    g.context->ClearUnorderedAccessViewUint(l.keysTarget.get(), zero);
+    const UINT pixels = static_cast<UINT>(l.width * l.height);
+    ID3D11Buffer* sizes = l.sizes.get();
+    Dispatch(1, { nullptr, l.outputView.get() }, { nullptr, l.keysTarget.get() }, (pixels + 255) / 256, 1, sizes);
+    Dispatch(2, { nullptr, l.outputView.get() }, { nullptr, l.keysTarget.get() }, (pixels + 255) / 256, 1, sizes);
+    Dispatch(3, {}, { nullptr, l.keysTarget.get(), l.stateTarget.get() }, 1, 1, sizes);
+    Dispatch(4, { l.frameView.get(), l.outputView.get(), l.stateView.get(), l.guideView.get() }, { nullptr, nullptr, nullptr, l.anchor.target.get() },
+             (d.sourceWidth + 15) / 16, (d.sourceHeight + 15) / 16, sizes);
+    if (l.index == kDetail)
+        Dispatch(kShrink, { l.frameView.get() }, { l.anchorLuma.target.get() }, (d.workWidth + 15) / 16, (d.workHeight + 15) / 16);
+    l.anchored = true;
+    l.published = true;
 }
 
 void Track(ID3D11Texture2D* frame, int64_t frameTimestamp)
@@ -1326,35 +1461,56 @@ void Track(ID3D11Texture2D* frame, int64_t frameTimestamp)
         Dispatch(kFitRefine, { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.flow.view.get() },
                  { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.affineTarget.get() }, 1, 1);
     }
+    Lane& detail = Detail();
+    Lane& fast = Fast();
+    const bool fused = detail.anchored && fast.enabled && fast.anchored;
     const auto now = FrameStatistics::Clock::now();
-    const bool advance = !d.tracking || d.resetPending || now - d.keyAt >= kKeyframeInterval;
-    const UINT flags = (composed ? kComposed : 0) | (advance ? kAdvance : 0) | (d.resetPending ? kReset : 0) | (d.published ? kPublished : 0);
+    const bool advance = !d.tracking || now - d.keyAt >= kKeyframeInterval;
+    UINT flags = (composed ? kComposed : 0) | (advance ? kAdvance : 0) | (fused ? kFused : 0);
+    for (Lane& l : d.lanes)
+    {
+        const UINT shift = static_cast<UINT>(l.index) * kLaneShift;
+        flags |= ((l.resetPending ? kReset : 0) | (l.published ? kPublished : 0)) << shift;
+        l.resetPending = false;
+        l.published = false;
+    }
     const UINT constants[8] = { d.sourceWidth, d.sourceHeight, d.workWidth, d.workHeight, flags };
     g.context->UpdateSubresource(d.trackSizes.get(), 0, nullptr, constants, 0, 0);
     Dispatch(kStep, {}, { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.affineTarget.get() }, 1, 1);
-    d.published = false;
-    d.resetPending = false;
     if (advance)
     {
         d.key ^= 1;
         d.keyAt = now;
         d.tracking = true;
     }
-    if (!d.anchored)
+    if (!detail.anchored)
         return;
-    Dispatch(kStale, { nullptr, luma.view.get(), d.anchorLuma.view.get(), nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.affineView.get() },
-             { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.staleRaw.target.get() }, workGroupsX, workGroupsY);
-    Dispatch(kErode, { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.staleRaw.view.get() },
-             { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.staleOpen.target.get() }, workGroupsX, workGroupsY);
-    Dispatch(kDilate, { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.staleOpen.view.get() },
-             { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.staleRaw.target.get() }, workGroupsX, workGroupsY);
+    if (fused)
+    {
+        Dispatch(kStale, { nullptr, luma.view.get(), detail.anchorLuma.view.get(), nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.affineView.get() },
+                 { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.staleRaw.target.get() }, workGroupsX, workGroupsY);
+        Dispatch(kErode, { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.staleRaw.view.get() },
+                 { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.staleOpen.target.get() }, workGroupsX, workGroupsY);
+        Dispatch(kDilate, { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.staleOpen.view.get() },
+                 { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.staleRaw.target.get() }, workGroupsX, workGroupsY);
+    }
     const UINT sourceGroupsX = (d.sourceWidth + 15) / 16;
     const UINT sourceGroupsY = (d.sourceHeight + 15) / 16;
-    Dispatch(kWarp, { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.anchor.view.get(), nullptr, d.affineView.get(),
-                      d.staleRaw.view.get() },
+    Dispatch(kWarp, { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, detail.anchor.view.get(), nullptr, d.affineView.get(),
+                      d.staleRaw.view.get(), fused ? fast.anchor.view.get() : nullptr },
              { nullptr, nullptr, nullptr, nullptr, nullptr, d.warped.target.get() }, sourceGroupsX, sourceGroupsY);
-    Dispatch(kRefine, { d.liveView.get(), nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.warped.view.get() },
+    if (fused)
+        Dispatch(kAlign, { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.warped.view.get() },
+                 { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.gain.target.get() }, workGroupsX, workGroupsY);
+    Dispatch(kRefine, { d.liveView.get(), nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.warped.view.get(), nullptr, nullptr, nullptr,
+                        d.gain.view.get() },
              { nullptr, nullptr, nullptr, nullptr, d.textureTarget.get() }, sourceGroupsX, sourceGroupsY);
+}
+
+bool FastModelUsable()
+{
+    const std::wstring file = FastModelFile();
+    return !file.empty() && file != ModelFile() && GetFileAttributesW((d.directory + file).c_str()) != INVALID_FILE_ATTRIBUTES;
 }
 }
 
@@ -1392,80 +1548,104 @@ bool InitDepth()
         LogStackTrace();
         return false;
     }
-    d.request = CreateEventW(nullptr, FALSE, FALSE, nullptr);
-    d.worker = std::thread(Worker);
+    for (size_t i = 0; i < d.lanes.size(); ++i)
+    {
+        Lane& l = d.lanes[i];
+        l.index = i;
+        l.modelFile = i == kDetail ? ModelFile() : FastModelFile();
+        l.enabled = i == kDetail || FastModelUsable();
+        if (!l.enabled)
+            continue;
+        l.request = CreateEventW(nullptr, FALSE, FALSE, nullptr);
+        l.worker = std::thread(Worker, std::ref(l));
+    }
     d.enabled = true;
-    Log(LogLevel::Info, L"Depth estimation initialized: model=%ls%ls, depth_size=%d.", d.directory.c_str(), ModelFile().c_str(), DepthSize());
+    Log(LogLevel::Info, L"Depth estimation initialized: model=%ls%ls, fast_model=%ls, depth_size=%d.", d.directory.c_str(), ModelFile().c_str(),
+        Fast().enabled ? Fast().modelFile.c_str() : L"none", DepthSize());
     return true;
 }
 
 namespace
 {
-void Schedule(ID3D11Texture2D* frame, int64_t frameTimestamp)
+bool Schedule(Lane& l, ID3D11Texture2D* frame, int64_t frameTimestamp)
 {
-    if (d.busy)
+    if (l.busy)
     {
-        if (!d.slowRequestLogged && FrameStatistics::Clock::now() - d.requestedAt >= std::chrono::seconds(2))
+        if (!l.slowRequestLogged && FrameStatistics::Clock::now() - l.requestedAt >= std::chrono::seconds(2))
         {
-            d.slowRequestLogged = true;
+            l.slowRequestLogged = true;
             LogDepthDiagnostics();
         }
-        if (!d.done)
-            return;
-        if (d.failed)
+        if (!l.done)
+            return true;
+        if (l.failed)
         {
-            d.done = false;
-            d.busy = false;
-            d.failed = false;
-            Stop();
-            return;
+            l.done = false;
+            l.busy = false;
+            l.failed = false;
+            return false;
         }
-        if (d.inputValue && d.d3d12Fence->GetCompletedValue() < d.inputValue + 1)
-            return;
-        d.done = false;
-        d.busy = false;
+        if (l.inputValue && l.d3d12Fence->GetCompletedValue() < l.inputValue + 1)
+            return true;
+        l.done = false;
+        l.busy = false;
         const auto completedAt = FrameStatistics::Clock::now();
-        d.nextRequestAt = std::max(d.requestedAt + kMinDepthInterval, completedAt);
-        if (d.inputValue && d.texture && !D3D12Removed())
+        l.nextRequestAt = std::max(l.requestedAt + kMinDepthInterval, completedAt);
+        if (l.inputValue && d.texture && l.input && !D3D12Removed(l))
         {
-            Publish();
-            g.frameStatistics.RecordDepth(std::chrono::duration<double, std::milli>(FrameStatistics::Clock::now() - d.requestedAt).count(),
-                                          d.workerMs.load());
+            Publish(l);
+            if (l.index == kDetail)
+                g.frameStatistics.RecordDepth(std::chrono::duration<double, std::milli>(FrameStatistics::Clock::now() - l.requestedAt).count(),
+                                              l.workerMs.load());
         }
     }
 
-    if (D3D12Removed())
+    if (D3D12Removed(l))
     {
-        ReleaseShared();
-        d.fence = nullptr;
-        d.modelWidth = d.modelHeight = 0;
+        ReleaseLaneShared(l);
+        l.fence = nullptr;
+        l.modelWidth = l.modelHeight = 0;
     }
+    if (l.lastInput && *l.lastInput == frameTimestamp)
+        return true;
+    if (l.modelWidth != l.width || l.modelHeight != l.height)
+    {
+        Request(l, 0);
+        return true;
+    }
+    if (FrameStatistics::Clock::now() < l.nextRequestAt)
+        return true;
+    if (!d.texture)
+        CreateCommon();
+    if (!l.input)
+        CreateLaneShared(l);
 
+    g.context->CopyResource(l.frameCopy.get(), frame);
+    Dispatch(0, { l.frameView.get() }, { l.inputTarget.get(), nullptr, nullptr, nullptr, l.guideTarget.get() }, (l.width + 15) / 16, (l.height + 15) / 16,
+             l.sizes.get());
+    l.fenceValue += 2;
+    winrt::check_hresult(g.context.as<ID3D11DeviceContext4>()->Signal(l.fence.get(), l.fenceValue - 1));
+    Request(l, l.fenceValue - 1);
+    l.resetPending = true;
+    l.lastInput = frameTimestamp;
+    return true;
+}
+
+void ScheduleAll(ID3D11Texture2D* frame, int64_t frameTimestamp)
+{
     if (!d.shaders[0])
         CreateShaders();
     D3D11_TEXTURE2D_DESC desc{};
     frame->GetDesc(&desc);
-    if (desc.Width != d.sourceWidth || desc.Height != d.sourceHeight || d.size != DepthSize())
+    if (desc.Width != d.sourceWidth || desc.Height != d.sourceHeight || Detail().size != DepthSize())
         Resize(desc);
-    if (d.lastInput && *d.lastInput == frameTimestamp)
-        return;
-    if (d.modelWidth != d.width || d.modelHeight != d.height)
+    if (!Schedule(Detail(), frame, frameTimestamp))
     {
-        Request(0);
+        Stop();
         return;
     }
-    if (FrameStatistics::Clock::now() < d.nextRequestAt)
-        return;
-    if (!d.texture)
-        CreateShared();
-
-    g.context->CopyResource(d.frameCopy.get(), frame);
-    Dispatch(0, { d.frameView.get() }, { d.inputTarget.get(), nullptr, nullptr, nullptr, d.guideTarget.get() }, (d.width + 15) / 16, (d.height + 15) / 16);
-    d.fenceValue += 2;
-    winrt::check_hresult(g.context.as<ID3D11DeviceContext4>()->Signal(d.fence.get(), d.fenceValue - 1));
-    Request(d.fenceValue - 1);
-    d.resetPending = true;
-    d.lastInput = frameTimestamp;
+    if (Fast().enabled && !Schedule(Fast(), frame, frameTimestamp))
+        StopFast();
 }
 }
 
@@ -1476,7 +1656,7 @@ void UpdateDepth(ID3D11Texture2D* frame, int64_t frameTimestamp)
 
     try
     {
-        Schedule(frame, frameTimestamp);
+        ScheduleAll(frame, frameTimestamp);
         if (d.enabled)
             Track(frame, frameTimestamp);
     }
@@ -1496,17 +1676,23 @@ bool DepthEnabled()
 
 void ResetDepthInput()
 {
-    d.lastInput.reset();
+    for (Lane& l : d.lanes)
+        l.lastInput.reset();
 }
 
 void LogDepthDiagnostics()
 {
-    const double pendingMs = d.busy ? std::chrono::duration<double, std::milli>(FrameStatistics::Clock::now() - d.requestedAt).count() : 0;
-    const bool fenceReady = !d.busy || d.done || d.inputValue;
-    Log(LogLevel::Info, L"Depth state: enabled=%d, busy=%d, worker_done=%d, pending_ms=%.2f, worker_submit_ms=%.2f, "
-                       L"input_fence=%llu, completed_fence=%llu, source=%ux%u, requested_model=%dx%d, resource_version=%u.",
-        d.enabled, d.busy.load(), d.done.load(), pendingMs, d.workerMs.load(), d.inputValue,
-        fenceReady && d.d3d12Fence ? d.d3d12Fence->GetCompletedValue() : 0, d.sourceWidth, d.sourceHeight, d.width, d.height, d.version);
+    for (const Lane& l : d.lanes)
+    {
+        if (!l.enabled)
+            continue;
+        const double pendingMs = l.busy ? std::chrono::duration<double, std::milli>(FrameStatistics::Clock::now() - l.requestedAt).count() : 0;
+        const bool fenceReady = !l.busy || l.done || l.inputValue;
+        Log(LogLevel::Info, L"Depth %ls state: enabled=%d, busy=%d, worker_done=%d, pending_ms=%.2f, worker_submit_ms=%.2f, "
+                           L"input_fence=%llu, completed_fence=%llu, source=%ux%u, requested_model=%dx%d, resource_version=%u.",
+            LaneName(l), d.enabled, l.busy.load(), l.done.load(), pendingMs, l.workerMs.load(), l.inputValue,
+            fenceReady && l.d3d12Fence ? l.d3d12Fence->GetCompletedValue() : 0, d.sourceWidth, d.sourceHeight, l.width, l.height, l.version);
+    }
 }
 
 void ReleaseDepthDevice()
@@ -1516,17 +1702,36 @@ void ReleaseDepthDevice()
 
 void ShutdownDepth()
 {
-    if (d.worker.joinable())
+    for (Lane& l : d.lanes)
     {
-        d.stopping = true;
-        SetEvent(d.request);
-        d.worker.join();
+        if (l.worker.joinable())
+        {
+            l.stopping = true;
+            SetEvent(l.request);
+            l.worker.join();
+        }
+        ReleaseD3D12(l);
+        for (HANDLE handle : { l.inputHandle, l.outputHandle, l.request })
+            if (handle)
+                CloseHandle(handle);
+        l.inputHandle = l.outputHandle = l.request = nullptr;
+        l.enabled = false;
+        l.stopping = false;
+        l.busy = false;
+        l.done = false;
+        l.failed = false;
+        l.lastInput.reset();
+        l.anchored = false;
+        l.resetPending = false;
+        l.published = false;
+        l.inputValue = 0;
+        l.version = 0;
+        l.slowRequestLogged = false;
+        l.nextRequestAt = {};
+        l.width = l.height = l.size = 0;
+        l.modelWidth = l.modelHeight = 0;
+        l.distanceOutput = false;
     }
-    ReleaseD3D12();
-    for (HANDLE handle : { d.inputHandle, d.outputHandle, d.request })
-        if (handle)
-            CloseHandle(handle);
-    d.inputHandle = d.outputHandle = d.request = nullptr;
     reshade::unregister_event<reshade::addon_event::init_effect_runtime>(OnInitRuntime);
     reshade::unregister_event<reshade::addon_event::destroy_effect_runtime>(OnDestroyRuntime);
     reshade::unregister_event<reshade::addon_event::reshade_reloaded_effects>(OnReloadedEffects);
@@ -1534,23 +1739,8 @@ void ShutdownDepth()
         Bind(runtime, nullptr);
     d.runtimes.clear();
     d.enabled = false;
-    d.stopping = false;
-    d.busy = false;
-    d.done = false;
-    d.failed = false;
-    d.lastInput.reset();
     d.lastTracked.reset();
-    d.anchored = false;
     d.tracking = false;
-    d.resetPending = false;
-    d.published = false;
-    d.inputValue = 0;
-    d.version = 0;
-    d.slowRequestLogged = false;
-    d.nextRequestAt = {};
-    d.width = d.height = d.size = 0;
-    d.modelWidth = d.modelHeight = 0;
-    d.distanceOutput = false;
 }
 
 void AdoptDepthRuntime(reshade::api::effect_runtime* runtime)

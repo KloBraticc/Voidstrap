@@ -936,6 +936,7 @@ namespace Voidstrap.Integrations.Overlays
                 {
                     _riDepthModelVersion = RiShadeDepthModels.Version;
                     string? modelFile = RiShadeDepthModels.ActiveModelFile;
+                    RiShadeInterop.DepthBridgeSetFastModel(RiShadeDepthModels.ActiveFastModelFile ?? string.Empty);
                     RiShadeInterop.DepthBridgeSetModel(modelFile ?? string.Empty);
                     _riDepthBridgeInitialized = _riDepthBridge = RiShadeInterop.DepthBridgeInitialize(
                         _device!.NativePointer,
@@ -2310,6 +2311,7 @@ namespace Voidstrap.Integrations.Overlays
                     {
                         _riDepthModelVersion = modelVersion;
                         string? modelFile = RiShadeDepthModels.ActiveModelFile;
+                        RiShadeInterop.DepthBridgeSetFastModel(RiShadeDepthModels.ActiveFastModelFile ?? string.Empty);
                         _riDepthBridge = RiShadeInterop.DepthBridgeReload(modelFile ?? string.Empty);
                         App.Logger.WriteLine(LOG_IDENT, _riDepthBridge && RiShadeInterop.DepthBridgeUsingModel()
                             ? "RiShade depth switched live to the AI model " + modelFile
