@@ -33,6 +33,8 @@ internal sealed partial class RobloxProcessOptimizer : IDisposable
 
 	private readonly int _processId;
 
+	private volatile bool _processExited;
+
 	private readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
 
 	private Task? _loopTask;
@@ -187,13 +189,20 @@ internal sealed partial class RobloxProcessOptimizer : IDisposable
 		try
 		{
 			using Process? process = TryGetProcess();
-			if (process == null || process.HasExited || !IsRobloxPlayer(process))
+			if (process == null || process.HasExited)
+			{
+				_processExited = true;
+				return;
+			}
+			if (!IsRobloxPlayer(process))
 				return;
 			while (!token.IsCancellationRequested && !process.HasExited)
 			{
 				ApplySettings(process);
 				await Task.Delay(PollIntervalMs, token).ConfigureAwait(false);
 			}
+			if (process.HasExited)
+				_processExited = true;
 		}
 		catch (OperationCanceledException)
 		{
@@ -323,6 +332,8 @@ internal sealed partial class RobloxProcessOptimizer : IDisposable
 	private void RestoreProcessState()
 	{
 		RobloxMemoryLimit.Forget(_processId);
+		if (_processExited)
+			return;
 		using Process? process = TryGetProcess();
 		if (process == null || process.HasExited)
 		{
