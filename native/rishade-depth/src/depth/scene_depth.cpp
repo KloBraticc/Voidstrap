@@ -713,7 +713,7 @@ struct Depth
     bool hasPrevious = false;
     std::vector<reshade::api::effect_runtime*> runtimes;
 };
-Depth d;
+Depth& d = *new Depth();
 
 void Bind(reshade::api::effect_runtime* runtime, ID3D11ShaderResourceView* view)
 {

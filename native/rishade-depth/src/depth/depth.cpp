@@ -258,7 +258,7 @@ struct Depth
     bool halfOutput = false;
     bool distanceOutput = false;
 };
-Depth d;
+Depth& d = *new Depth();
 
 std::mutex nativeMutex;
 std::vector<ID3D12Device*> nativeDevices;

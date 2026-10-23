@@ -24,4 +24,4 @@ struct State
     FrameStatistics frameStatistics;
 };
 
-extern State g;
+extern State& g;

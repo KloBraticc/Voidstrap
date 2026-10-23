@@ -14,7 +14,7 @@
 #include <algorithm>
 #include <vector>
 
-State g;
+State& g = *new State();
 
 extern "C" __declspec(dllexport) const char* NAME = "RiShade Depth";
 extern "C" __declspec(dllexport) const char* DESCRIPTION = "Supplies estimated depth to ReShade effects in Voidstrap.";
