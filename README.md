@@ -240,7 +240,7 @@ nix run "git+https://github.com/KloBraticc/Voidstrap?submodules=1"
 
 This only runs it once. It does not add the `voidstrap` command or an app launcher entry, so follow the steps below to keep it installed.
 
-To install it on NixOS, add the flake to your system flake:
+To install it on NixOS, add the flake to your system flake and enable the module:
 
 ```nix
 {
@@ -249,22 +249,23 @@ To install it on NixOS, add the flake to your system flake:
   outputs = { nixpkgs, voidstrap, ... }: {
     nixosConfigurations.your-hostname = nixpkgs.lib.nixosSystem {
       modules = [
-        ({ pkgs, ... }: {
-          environment.systemPackages = [ voidstrap.packages.${pkgs.stdenv.hostPlatform.system}.default ];
-          hardware.graphics.enable = true;
-          services.flatpak.enable = true;
-        })
+        voidstrap.nixosModules.default
+        { programs.voidstrap.enable = true; }
       ];
     };
   };
 }
 ```
 
-`hardware.graphics.enable` provides the graphics drivers Voidstrap renders with, and `services.flatpak.enable` lets Voidstrap install and run Sober. The flake also provides `overlays.default`, which adds `pkgs.voidstrap`.
+`programs.voidstrap.enable` installs the `voidstrap` command and the app launcher entry, turns on `hardware.graphics` for the graphics drivers Voidstrap renders with, turns on `services.flatpak` and a desktop portal so Voidstrap can install and run Sober, and makes Voidstrap open `roblox://` links. Set `programs.voidstrap.openRobloxLinks = false` to leave link handling alone, or `programs.voidstrap.package` to use another build such as `voidstrap.packages.x86_64-linux.voidstrap-git`.
+
+With Home Manager, import `voidstrap.homeModules.default` and set `programs.voidstrap.enable = true`. Home Manager cannot turn on system services, so Flatpak still has to be enabled with `services.flatpak.enable = true` in your NixOS configuration.
+
+Without the modules, add `voidstrap.packages.${pkgs.stdenv.hostPlatform.system}.default` to `environment.systemPackages` (or `home.packages`) and enable `hardware.graphics` and `services.flatpak` yourself. The flake also provides `overlays.default`, which adds `pkgs.voidstrap`.
 
 Use the `git+https` URL with `?submodules=1` rather than `github:KloBraticc/Voidstrap`. The build needs the bundled WPF UI submodule, and the `github:` scheme cannot fetch submodules, so `nix flake update` fails with `input attribute 'submodules' not supported by scheme 'github'`.
 
-Adding the flake as an input is not enough on its own: the package must be in `environment.systemPackages` (or `home.packages` with Home Manager) before `voidstrap` works in a terminal or the app launcher. The flake installs the latest release. To update, run `nix flake update voidstrap` in your configuration and rebuild.
+Adding the flake as an input is not enough on its own: enable the module or add the package before `voidstrap` works in a terminal or the app launcher. The flake installs the latest release. To update, run `nix flake update voidstrap` in your configuration and rebuild.
 
 </details>
 

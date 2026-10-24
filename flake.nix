@@ -26,6 +26,13 @@
         default = voidstrap;
       });
 
+      nixosModules.default = import ./nix/nixos-module.nix self;
+      nixosModules.voidstrap = self.nixosModules.default;
+
+      homeModules.default = import ./nix/home-module.nix self;
+      homeModules.voidstrap = self.homeModules.default;
+      homeManagerModules = self.homeModules;
+
       overlays.default = final: prev: {
         voidstrap = self.packages.${final.stdenv.hostPlatform.system}.voidstrap;
       };
