@@ -51,18 +51,17 @@ RWTexture2D<float4> GuideTarget : register(u4);
 
 static const float3 Mean = float3(0.485, 0.456, 0.406);
 static const float3 Std = float3(0.229, 0.224, 0.225);
-static const float PeakSmoothing = 0.2;
+static const float PeakSmoothing = 0.08;
 static const float FarPlane = 1000.0;
 static const float Nearest = 0.01;
 static const float SpatialSigma = 1.0;
 static const float ColorSigma = 0.1;
 static const uint Bins = 256;
-static const float ReferenceShare = 0.02;
+static const float ReferenceShare = 0.1;
 static const float SkyStart = 0.03;
 static const float SkyRange = 0.05;
-static const float EdgeStart = 0.08;
-static const float EdgeRange = 0.15;
-static const float SurfaceSigma = 0.05;
+static const float EdgeStart = 0.04;
+static const float EdgeRange = 0.08;
 
 void Store(uint index, float value)
 {
@@ -174,43 +173,71 @@ void Upsample(uint3 id : SV_DispatchThreadID)
     float3 color = Source.Load(int3(id.xy, 0)).rgb;
     float2 position = (id.xy + 0.5) * ModelSize / SourceSize - 0.5;
     int2 corner = int2(floor(position)) - 1;
+    float2 f = position - floor(position);
+    float4 wx = float4(((-0.5 * f.x + 1.0) * f.x - 0.5) * f.x, (1.5 * f.x - 2.5) * f.x * f.x + 1.0, ((-1.5 * f.x + 2.0) * f.x + 0.5) * f.x, (0.5 * f.x - 0.5) * f.x * f.x);
+    float4 wy = float4(((-0.5 * f.y + 1.0) * f.y - 0.5) * f.y, (1.5 * f.y - 2.5) * f.y * f.y + 1.0, ((-1.5 * f.y + 2.0) * f.y + 0.5) * f.y, (0.5 * f.y - 0.5) * f.y * f.y);
     float values[16];
     float spatial[16];
     float tones[16];
     float mean = 0;
-    float total = 0;
+    float slopeX = 0;
+    float slopeY = 0;
+    float smooth = 0;
     float lowest = 1e9;
     float highest = -1e9;
     for (uint k = 0; k < 16; ++k)
     {
-        int2 texel = corner + int2(k % 4, k / 4);
+        int2 cell = int2(k % 4, k / 4);
+        int2 texel = corner + cell;
         float2 offset = texel - position;
         texel = clamp(texel, 0, int2(ModelSize) - 1);
         float3 difference = Guide.Load(int3(texel, 0)).rgb - color;
         values[k] = Load(texel.y * ModelSize.x + texel.x);
         spatial[k] = exp(-dot(offset, offset) / (2 * SpatialSigma * SpatialSigma));
         tones[k] = exp(-dot(difference, difference) / (2 * ColorSigma * ColorSigma)) + 1e-3;
-        mean += spatial[k] * values[k];
-        total += spatial[k];
+        float2 centered = cell - 1.5;
+        mean += values[k];
+        slopeX += values[k] * centered.x;
+        slopeY += values[k] * centered.y;
+        smooth += wx[cell.x] * wy[cell.y] * values[k];
         lowest = min(lowest, values[k]);
         highest = max(highest, values[k]);
     }
-    mean /= total;
-    float edge = saturate(((highest - lowest) / max(abs(mean), 1e-6) - EdgeStart) / EdgeRange);
-    float surface = 0;
-    float surfaceWeights = 0;
-    float snapped = 0;
-    float snappedWeights = 0;
+    mean /= 16;
+    slopeX /= 20;
+    slopeY /= 20;
+    float residual = 0;
+    for (uint r = 0; r < 16; ++r)
+    {
+        float2 centered = float2(r % 4, r / 4) - 1.5;
+        residual = max(residual, abs(values[r] - (mean + slopeX * centered.x + slopeY * centered.y)));
+    }
+    float edge = saturate((residual / max(abs(mean), 1e-6) - EdgeStart) / EdgeRange);
+    smooth = clamp(smooth, lowest, highest);
+    float split = 0.5 * (lowest + highest);
+    float2 sides = 0;
+    float2 sideWeights = 0;
     for (uint j = 0; j < 16; ++j)
     {
-        float relative = (values[j] - mean) / max(abs(mean) * SurfaceSigma, 1e-6);
-        float weight = spatial[j] * exp(-0.5 * relative * relative);
-        surface += weight * values[j];
-        surfaceWeights += weight;
-        snapped += spatial[j] * tones[j] * values[j];
-        snappedWeights += spatial[j] * tones[j];
+        float match = spatial[j] * tones[j] * tones[j];
+        if (values[j] > split)
+        {
+            sides.x += match * values[j];
+            sideWeights.x += match;
+        }
+        else
+        {
+            sides.y += match * values[j];
+            sideWeights.y += match;
+        }
     }
-    float value = lerp(surface / max(surfaceWeights, 1e-6), snapped / snappedWeights, edge);
+    float nearShare = sideWeights.x * sideWeights.x / max(sideWeights.x * sideWeights.x + sideWeights.y * sideWeights.y, 1e-12);
+    float snapped = lerp(sides.y / max(sideWeights.y, 1e-12), sides.x / max(sideWeights.x, 1e-12), nearShare);
+    if (sideWeights.x <= 0)
+        snapped = sides.y / max(sideWeights.y, 1e-12);
+    if (sideWeights.y <= 0)
+        snapped = sides.x / max(sideWeights.x, 1e-12);
+    float value = lerp(smooth, snapped, edge);
 
     float closeness = value / max(Smoothed[0].x, 1e-6);
     float distance01 = Nearest / max(closeness, Nearest);
@@ -769,7 +796,7 @@ void Refine(uint3 id : SV_DispatchThreadID)
     float current = Encoded(lerp(surface / max(surfaceWeights, 1e-6), snapped / max(snappedWeights, 1e-6), edge));
     float previous = Depth[id.xy];
     float change = abs(current - previous) / max(max(current, previous), 1e-4);
-    Depth[id.xy] = Flags & Exact ? current : lerp(previous, current, saturate(TemporalBase + change * TemporalResponse));
+    Depth[id.xy] = Flags & Exact ? Warped.Load(int3(p, 0)).x : lerp(previous, current, saturate(TemporalBase + change * TemporalResponse));
 }
 )";
 
