@@ -8,3 +8,7 @@
 	path = external/RinColorPicker
 	url = https://github.com/KloBraticc/RinColorPicker
 	branch = main
+[submodule "external/Kiln"]
+	path = external/Kiln
+	url = https://github.com/KloBraticc/Kiln
+	branch = main
