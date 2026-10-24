@@ -108,6 +108,11 @@ namespace Voidstrap.Integrations.RiShade
 
         public static bool NeedsMigration => LegacyModels.Contains(App.Settings.Prop.RiShadeDepthModel, StringComparer.OrdinalIgnoreCase);
 
+        public static bool NeedsUpdate =>
+            Voidstrap.Utility.Platform.IsWindows
+            && Models.TryGetValue(Selected, out Asset[]? files)
+            && files.Prepend(DirectMl).Prepend(OnnxRuntime).Any(asset => !IsInstalled(RiShadeManager.RiShadeDir, asset));
+
         public static int SizeMegabytes(RiShadeDepthModel model) =>
             Models.TryGetValue(model, out Asset[]? files) ? (int)Math.Round(files.Sum(file => file.Size) / 1048576.0) : 0;
 

@@ -403,6 +403,11 @@ namespace Voidstrap.Integrations.RiShade
                     App.Logger.WriteLine(LogIdent, "Moving the retired depth model setting to RiDepth Tiny");
                     _ = RiShadeDepthModels.SelectAsync(RiShadeDepthModel.RiDepthTiny);
                 }
+                else if (RiShadeDepthModels.NeedsUpdate)
+                {
+                    App.Logger.WriteLine(LogIdent, "The installed depth model is outdated or incomplete, downloading the current one");
+                    _ = RiShadeDepthModels.SelectAsync(RiShadeDepthModels.Selected);
+                }
             }
             catch (Exception ex)
             {
