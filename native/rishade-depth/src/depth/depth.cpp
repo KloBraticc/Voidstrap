@@ -9,6 +9,7 @@
 
 #include <d3d12.h>
 #include <d3dcompiler.h>
+#include <dxgi1_4.h>
 
 #include <algorithm>
 #include <array>
@@ -796,6 +797,8 @@ constexpr UINT kReset = 8;
 constexpr UINT kPublished = 16;
 constexpr UINT kExact = 128;
 constexpr DWORD kExactTimeoutMs = 100;
+constexpr double kExactBudgetMs = 6.0;
+constexpr int kSlowFramesBeforeStepDown = 90;
 constexpr UINT kLaneShift = 2;
 constexpr UINT kAffineRows = 18;
 constexpr size_t kDetail = 0;
@@ -882,6 +885,9 @@ struct Depth
 
     UINT sourceWidth = 0;
     UINT sourceHeight = 0;
+    LUID adapter{};
+    bool adapterKnown = false;
+    int slowFrames = 0;
     UINT workWidth = 0;
     UINT workHeight = 0;
     std::array<winrt::com_ptr<ID3DBlob>, kShaderCount> code;
@@ -976,7 +982,14 @@ void OnDestroyDevice(reshade::api::device* device)
 
 void CreateD3D12(Lane& l)
 {
-    if (FAILED(D3D12CreateDevice(nullptr, D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(l.d3d12Proxy.put()))))
+    winrt::com_ptr<IDXGIAdapter1> sameAdapter;
+    if (d.adapterKnown)
+    {
+        winrt::com_ptr<IDXGIFactory4> factory;
+        if (SUCCEEDED(CreateDXGIFactory1(IID_PPV_ARGS(factory.put()))))
+            factory->EnumAdapterByLuid(d.adapter, IID_PPV_ARGS(sameAdapter.put()));
+    }
+    if (FAILED(D3D12CreateDevice(sameAdapter.get(), D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(l.d3d12Proxy.put()))))
         throw std::runtime_error("DirectX 12 is unavailable on this GPU.");
     const LUID adapter = l.d3d12Proxy->GetAdapterLuid();
     {
@@ -1106,7 +1119,7 @@ void Worker(Lane& l)
                 loadedWidth = l.modelWidth = l.width;
                 loadedHeight = l.modelHeight = l.height;
                 Log(LogLevel::Info, L"Depth %ls model loaded: %ls%ls, input=%dx%d, half_input=%d, half_output=%d.", LaneName(l), d.directory.c_str(),
-                    l.modelFile.c_str(), l.width, l.height, model->HalfInput(), model->HalfOutput());
+                    model->LoadedFile().c_str(), l.width, l.height, model->HalfInput(), model->HalfOutput());
                 l.halfInput = model->HalfInput();
                 l.halfOutput = model->HalfOutput();
                 l.distanceOutput = model->DistanceOutput();
@@ -1303,20 +1316,26 @@ void StopFast()
     Report(LogLevel::Warning, L"The fast depth model failed, so only the chosen depth model is used.");
 }
 
-void Stop()
+void Disable()
 {
     ReleaseResources();
+    d.enabled = false;
+    for (Lane& l : d.lanes)
+    {
+        l.enabled = false;
+        if (l.request)
+            Request(l, 0);
+    }
+}
+
+void Stop()
+{
     if (DepthSize() == kDefaultDepthSize)
     {
-        d.enabled = false;
-        for (Lane& l : d.lanes)
-        {
-            l.enabled = false;
-            if (l.request)
-                Request(l, 0);
-        }
+        Disable();
         return;
     }
+    ReleaseResources();
     SetDepthSize(kDefaultDepthSize);
     Report(LogLevel::Warning, L"Depth estimation failed, so Depth detail went back to High.");
 }
@@ -1342,8 +1361,22 @@ void ResizeLane(Lane& l, const D3D11_TEXTURE2D_DESC& frame, const D3D11_TEXTURE2
     Log(LogLevel::Info, L"Depth %ls resize: source=%ux%u, model=%dx%d, detail=%d.", LaneName(l), frame.Width, frame.Height, l.width, l.height, l.size);
 }
 
+void FindAdapter()
+{
+    d.adapterKnown = false;
+    winrt::com_ptr<IDXGIAdapter> adapter;
+    DXGI_ADAPTER_DESC desc{};
+    if (const auto device = g.device.try_as<IDXGIDevice>(); device && SUCCEEDED(device->GetAdapter(adapter.put())) && SUCCEEDED(adapter->GetDesc(&desc)))
+    {
+        d.adapter = desc.AdapterLuid;
+        d.adapterKnown = true;
+    }
+}
+
 void Resize(const D3D11_TEXTURE2D_DESC& frame)
 {
+    FindAdapter();
+    d.slowFrames = 0;
     d.sourceWidth = frame.Width;
     d.sourceHeight = frame.Height;
     d.workWidth = std::max(1u, (frame.Width + 3) / 4);
@@ -1788,6 +1821,23 @@ bool Schedule(Lane& l, ID3D11Texture2D* frame, int64_t frameTimestamp)
     return true;
 }
 
+void StepDownWhenSlow(double spentMs)
+{
+    d.slowFrames = spentMs > kExactBudgetMs ? d.slowFrames + 1 : std::max(0, d.slowFrames - 1);
+    if (d.slowFrames < kSlowFramesBeforeStepDown)
+        return;
+    d.slowFrames = 0;
+    for (const int size : kDepthSizes)
+        if (size < DepthSize())
+        {
+            Log(LogLevel::Info, L"Depth took %.1f ms per frame, lowering the depth size from %d to %d.", spentMs, DepthSize(), size);
+            SetDepthSize(size);
+            return;
+        }
+    Log(LogLevel::Warning, L"Depth takes %.1f ms per frame even at the smallest size, switching to scene depth estimation.", spentMs);
+    Disable();
+}
+
 bool WaitLane(Lane& l)
 {
     return l.done || WaitForSingleObject(l.finished, kExactTimeoutMs) == WAIT_OBJECT_0 || l.done;
@@ -1852,7 +1902,9 @@ bool ScheduleExact(Lane& l, ID3D11Texture2D* frame, int64_t frameTimestamp)
     if (D3D12Removed(l))
         return true;
     Publish(l);
-    g.frameStatistics.RecordDepth(std::chrono::duration<double, std::milli>(FrameStatistics::Clock::now() - l.requestedAt).count(), l.workerMs.load());
+    const double spent = std::chrono::duration<double, std::milli>(FrameStatistics::Clock::now() - l.requestedAt).count();
+    g.frameStatistics.RecordDepth(spent, l.workerMs.load());
+    StepDownWhenSlow(spent);
     return true;
 }
 
@@ -1898,6 +1950,8 @@ bool DepthEnabled()
 {
     return d.enabled;
 }
+
+
 
 void ResetDepthInput()
 {

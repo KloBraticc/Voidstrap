@@ -5,6 +5,7 @@
 #include "reshade_imgui.h"
 #include "state.h"
 #include "depth/depth.h"
+#include "depth/depth_model.h"
 #include "depth/scene_depth.h"
 
 #include <cstdarg>
@@ -199,6 +200,24 @@ extern "C" __declspec(dllexport) bool RiShadeDepthBridgeAttachRuntime(reshade::a
         else
             SceneAdoptDepthRuntime(runtime);
         return true;
+    }
+    catch (...)
+    {
+        return false;
+    }
+}
+
+extern "C" __declspec(dllexport) bool RiShadeDepthBridgeProbe(const wchar_t* runtimeDirectory, DepthHardware* hardware)
+{
+    if (!runtimeDirectory || !hardware)
+        return false;
+    try
+    {
+        std::wstring folder = runtimeDirectory;
+        if (!folder.empty() && folder.back() != L'\\' && folder.back() != L'/')
+            folder += L'\\';
+        *hardware = {};
+        return ProbeDepthHardware(folder, *hardware);
     }
     catch (...)
     {

@@ -2,6 +2,7 @@
 
 #include <windows.h>
 #include <d3d12.h>
+#include <dxgi1_6.h>
 #include <onnxruntime_c_api.h>
 #include <dml_provider_factory.h>
 
@@ -42,6 +43,32 @@ TensorInfo ReadTensorInfo(const OrtApi* api, OrtTypeInfo* info)
     api->ReleaseTypeInfo(info);
     OrtError{ api }(status);
     return tensor;
+}
+
+bool HalfSupported(IDMLDevice* dml)
+{
+    const DML_FEATURE_QUERY_TENSOR_DATA_TYPE_SUPPORT query{ DML_TENSOR_DATA_TYPE_FLOAT16 };
+    DML_FEATURE_DATA_TENSOR_DATA_TYPE_SUPPORT support{};
+    return SUCCEEDED(dml->CheckFeatureSupport(DML_FEATURE_TENSOR_DATA_TYPE_SUPPORT, sizeof(query), &query, sizeof(support), &support)) &&
+           support.IsSupported;
+}
+
+std::wstring FullPrecisionSibling(const std::wstring& file)
+{
+    const size_t dot = file.rfind(L'.');
+    return dot == std::wstring::npos ? file + L"-fp32" : file.substr(0, dot) + L"-fp32" + file.substr(dot);
+}
+
+bool Exists(const std::wstring& path)
+{
+    return GetFileAttributesW(path.c_str()) != INVALID_FILE_ATTRIBUTES;
+}
+
+template <typename T>
+void Release(T*& value)
+{
+    if (value)
+        std::exchange(value, nullptr)->Release();
 }
 
 bool IsHalf(ONNXTensorElementDataType type, const char* what)
@@ -99,6 +126,10 @@ void DepthModel::Load(const std::wstring& directory, const std::wstring& modelFi
 
     if (FAILED(createDml(device, DML_CREATE_DEVICE_FLAG_NONE, IID_PPV_ARGS(&dml))))
         throw std::runtime_error("DirectML could not use this GPU.");
+    const bool halfSupported = HalfSupported(dml);
+    loadedFile = modelFile;
+    if (!halfSupported && Exists(directory + FullPrecisionSibling(modelFile)))
+        loadedFile = FullPrecisionSibling(modelFile);
     const D3D12_COMMAND_QUEUE_DESC queueDesc{ D3D12_COMMAND_LIST_TYPE_DIRECT };
     if (FAILED(device->CreateCommandQueue(&queueDesc, IID_PPV_ARGS(&queue))))
         throw std::runtime_error("The GPU command queue could not be created.");
@@ -114,7 +145,7 @@ void DepthModel::Load(const std::wstring& directory, const std::wstring& modelFi
     check(api->AddFreeDimensionOverrideByName(options, "height", height));
     check(api->AddFreeDimensionOverrideByName(options, "width", width));
     check(dmlApi->SessionOptionsAppendExecutionProvider_DML1(options, dml, queue));
-    check(api->CreateSession(env, (directory + modelFile).c_str(), options, &session));
+    check(api->CreateSession(env, (directory + loadedFile).c_str(), options, &session));
     check(api->CreateMemoryInfo("DML", OrtDeviceAllocator, 0, OrtMemTypeDefault, &memory));
 
     OrtAllocator* allocator = nullptr;
@@ -147,6 +178,8 @@ void DepthModel::Load(const std::wstring& directory, const std::wstring& modelFi
     check(api->SessionGetInputTypeInfo(session, 0, &info));
     const TensorInfo input = ReadTensorInfo(api, info);
     halfInput = IsHalf(input.type, "input");
+    if (halfInput && !halfSupported)
+        throw std::runtime_error("This GPU cannot run half precision models and no full precision copy is installed.");
     check(api->SessionGetOutputTypeInfo(session, depthOutput, &info));
     const TensorInfo output = ReadTensorInfo(api, info);
     halfOutput = IsHalf(output.type, "output");
@@ -204,4 +237,56 @@ void DepthModel::Run()
     const char* inNames[] = { inputName.c_str() };
     const char* outNames[] = { outputName.c_str() };
     OrtError{ api }(api->Run(session, nullptr, inNames, &inputValue, 1, outNames, 1, &outputValue));
+}
+
+bool ProbeDepthHardware(const std::wstring& directory, DepthHardware& hardware)
+{
+    IDXGIFactory1* factory = nullptr;
+    if (FAILED(CreateDXGIFactory1(IID_PPV_ARGS(&factory))))
+        return false;
+    IDXGIAdapter1* adapter = nullptr;
+    IDXGIFactory6* preferred = nullptr;
+    if (SUCCEEDED(factory->QueryInterface(IID_PPV_ARGS(&preferred))))
+    {
+        preferred->EnumAdapterByGpuPreference(0, DXGI_GPU_PREFERENCE_HIGH_PERFORMANCE, IID_PPV_ARGS(&adapter));
+        Release(preferred);
+    }
+    if (!adapter)
+        factory->EnumAdapters1(0, &adapter);
+    Release(factory);
+    if (!adapter)
+        return false;
+
+    DXGI_ADAPTER_DESC1 desc{};
+    ID3D12Device* device = nullptr;
+    const bool usable = SUCCEEDED(adapter->GetDesc1(&desc)) && !(desc.Flags & DXGI_ADAPTER_FLAG_SOFTWARE) &&
+                        SUCCEEDED(D3D12CreateDevice(adapter, D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(&device)));
+    Release(adapter);
+    if (!usable)
+        return false;
+
+    hardware.vendorId = desc.VendorId;
+    hardware.dedicatedMemory = desc.DedicatedVideoMemory;
+    hardware.sharedMemory = desc.SharedSystemMemory;
+    D3D12_FEATURE_DATA_ARCHITECTURE architecture{};
+    if (SUCCEEDED(device->CheckFeatureSupport(D3D12_FEATURE_ARCHITECTURE, &architecture, sizeof(architecture))))
+        hardware.integrated = architecture.UMA ? 1 : 0;
+
+    hardware.halfPrecision = -1;
+    if (const HMODULE library = LoadLibraryW((directory + L"DirectML.dll").c_str()))
+    {
+        using CreateDml = HRESULT(WINAPI*)(ID3D12Device*, DML_CREATE_DEVICE_FLAGS, REFIID, void**);
+        if (const auto createDml = reinterpret_cast<CreateDml>(GetProcAddress(library, "DMLCreateDevice")))
+        {
+            IDMLDevice* dml = nullptr;
+            if (SUCCEEDED(createDml(device, DML_CREATE_DEVICE_FLAG_NONE, IID_PPV_ARGS(&dml))))
+            {
+                hardware.halfPrecision = HalfSupported(dml) ? 1 : 0;
+                Release(dml);
+            }
+        }
+        FreeLibrary(library);
+    }
+    Release(device);
+    return true;
 }
