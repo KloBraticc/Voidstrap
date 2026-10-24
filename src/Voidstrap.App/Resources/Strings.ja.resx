@@ -8127,4 +8127,103 @@ Voidstrap がデスクトップ フォルダーに書き込めませんでした
   <data name="ColorPicker.New" xml:space="preserve">
     <value>新しい色</value>
   </data>
+  <data name="Ui.Mods.StudioPlugins.Tab" xml:space="preserve">
+    <value>Studio プラグイン</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Intro" xml:space="preserve">
+    <value>Creator Store でプラグインを探して Roblox Studio に追加するか、自分のプラグインファイルをインポートできます。Studio の次回起動時に読み込まれます。</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Search" xml:space="preserve">
+    <value>Studio プラグインを検索</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.FilterStore" xml:space="preserve">
+    <value>Creator Store</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.FilterInstalled" xml:space="preserve">
+    <value>インストール済み</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Import" xml:space="preserve">
+    <value>プラグインをインポート</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Folder" xml:space="preserve">
+    <value>プラグインフォルダー</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Install" xml:space="preserve">
+    <value>インストール</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Update" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Remove" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.LoadMore" xml:space="preserve">
+    <value>さらに読み込む</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Free" xml:space="preserve">
+    <value>無料</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Price" xml:space="preserve">
+    <value>有料、{0}</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Liked" xml:space="preserve">
+    <value>高評価 {0}%</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Local" xml:space="preserve">
+    <value>ローカルのプラグインファイル</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.UpdateAvailable" xml:space="preserve">
+    <value>更新があります</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Installing" xml:space="preserve">
+    <value>インストール中</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.InstalledRestart" xml:space="preserve">
+    <value>インストールしました。Roblox Studio を再起動すると読み込まれます。</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.RemovedRestart" xml:space="preserve">
+    <value>削除しました。Roblox Studio を再起動すると無効になります。</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.RemoveConfirm" xml:space="preserve">
+    <value>{0} を Roblox Studio から削除しますか？</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.NeedsLogin" xml:space="preserve">
+    <value>先に Roblox にサインインしてください。プラグインは Roblox アカウントでダウンロードされます。</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.NeedsPurchase" xml:space="preserve">
+    <value>このプラグインは有料です。先に Creator Store で購入してください。</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Unavailable" xml:space="preserve">
+    <value>Roblox が現在このプラグインを送信できませんでした。しばらくしてからもう一度お試しください。</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.InvalidFile" xml:space="preserve">
+    <value>このファイルは Roblox Studio のプラグインではありません。</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.StoreUnavailable" xml:space="preserve">
+    <value>現在 Creator Store に接続できません。</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.EmptyTitle" xml:space="preserve">
+    <value>プラグインが見つかりません</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.EmptySubtitle" xml:space="preserve">
+    <value>別のキーワードで検索するか、プラグインファイルをインポートしてください。</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.EmptyInstalled" xml:space="preserve">
+    <value>Studio プラグインはまだインストールされていません</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.FileFilter" xml:space="preserve">
+    <value>Studio プラグイン|*.rbxm;*.rbxmx;*.lua;*.luau</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Back" xml:space="preserve">
+    <value>プラグイン一覧に戻る</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.OpenStore" xml:space="preserve">
+    <value>Creator Store で開く</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PriceLabel" xml:space="preserve">
+    <value>価格</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.RatingLabel" xml:space="preserve">
+    <value>評価</value>
+  </data>
 </root>

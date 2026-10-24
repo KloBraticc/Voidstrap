@@ -8111,4 +8111,103 @@ Bu dosyayı size yardım eden kişiye gönderin. Bilgisayar kullanıcı adınız
   <data name="ColorPicker.New" xml:space="preserve">
     <value>Yeni</value>
   </data>
+  <data name="Ui.Mods.StudioPlugins.Tab" xml:space="preserve">
+    <value>Studio Eklentileri</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Intro" xml:space="preserve">
+    <value>Creator Store'da eklentiler bulun ve bunları Roblox Studio'ya ekleyin ya da kendi eklenti dosyalarınızı içe aktarın. Studio bunları bir sonraki açılışta yükler.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Search" xml:space="preserve">
+    <value>Studio eklentilerinde ara</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.FilterStore" xml:space="preserve">
+    <value>Creator Store</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.FilterInstalled" xml:space="preserve">
+    <value>Yüklü</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Import" xml:space="preserve">
+    <value>Eklenti içe aktar</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Folder" xml:space="preserve">
+    <value>Eklenti klasörü</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Install" xml:space="preserve">
+    <value>Yükle</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Update" xml:space="preserve">
+    <value>Güncelle</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Remove" xml:space="preserve">
+    <value>Kaldır</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.LoadMore" xml:space="preserve">
+    <value>Daha fazla yükle</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Free" xml:space="preserve">
+    <value>Ücretsiz</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Price" xml:space="preserve">
+    <value>Ücretli, {0}</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Liked" xml:space="preserve">
+    <value>%{0} beğeni</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Local" xml:space="preserve">
+    <value>Yerel eklenti dosyası</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.UpdateAvailable" xml:space="preserve">
+    <value>Güncelleme var</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Installing" xml:space="preserve">
+    <value>Yükleniyor</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.InstalledRestart" xml:space="preserve">
+    <value>Yüklendi. Etkinleştirmek için Roblox Studio'yu yeniden başlatın.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.RemovedRestart" xml:space="preserve">
+    <value>Kaldırıldı. Devre dışı kalması için Roblox Studio'yu yeniden başlatın.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.RemoveConfirm" xml:space="preserve">
+    <value>{0} Roblox Studio'dan kaldırılsın mı?</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.NeedsLogin" xml:space="preserve">
+    <value>Önce Roblox'a giriş yapın. Eklentiler Roblox hesabınızla indirilir.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.NeedsPurchase" xml:space="preserve">
+    <value>Bu eklenti ücretli. Önce Creator Store'dan satın alın.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Unavailable" xml:space="preserve">
+    <value>Roblox bu eklentiyi şu anda gönderemedi. Daha sonra tekrar deneyin.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.InvalidFile" xml:space="preserve">
+    <value>Bu dosya bir Roblox Studio eklentisi değil.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.StoreUnavailable" xml:space="preserve">
+    <value>Creator Store'a şu anda ulaşılamıyor.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.EmptyTitle" xml:space="preserve">
+    <value>Eklenti bulunamadı</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.EmptySubtitle" xml:space="preserve">
+    <value>Başka bir arama deneyin veya bir eklenti dosyası içe aktarın.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.EmptyInstalled" xml:space="preserve">
+    <value>Henüz yüklü Studio eklentisi yok</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.FileFilter" xml:space="preserve">
+    <value>Studio eklentileri|*.rbxm;*.rbxmx;*.lua;*.luau</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Back" xml:space="preserve">
+    <value>Eklentilere dön</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.OpenStore" xml:space="preserve">
+    <value>Creator Store'da aç</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PriceLabel" xml:space="preserve">
+    <value>Fiyat</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.RatingLabel" xml:space="preserve">
+    <value>Puan</value>
+  </data>
 </root>

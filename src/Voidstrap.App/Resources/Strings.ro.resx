@@ -8114,4 +8114,103 @@ Se descarcă {0} MB. Dacă refuzi, se folosește estimarea integrată. Poți sch
   <data name="ColorPicker.New" xml:space="preserve">
     <value>Nouă</value>
   </data>
+  <data name="Ui.Mods.StudioPlugins.Tab" xml:space="preserve">
+    <value>Pluginuri Studio</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Intro" xml:space="preserve">
+    <value>Găsește pluginuri în Creator Store și adaugă-le în Roblox Studio sau importă propriile fișiere de plugin. Studio le încarcă la următoarea pornire.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Search" xml:space="preserve">
+    <value>Caută pluginuri Studio</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.FilterStore" xml:space="preserve">
+    <value>Creator Store</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.FilterInstalled" xml:space="preserve">
+    <value>Instalate</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Import" xml:space="preserve">
+    <value>Importă plugin</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Folder" xml:space="preserve">
+    <value>Dosarul de pluginuri</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Install" xml:space="preserve">
+    <value>Instalează</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Update" xml:space="preserve">
+    <value>Actualizează</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Remove" xml:space="preserve">
+    <value>Elimină</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.LoadMore" xml:space="preserve">
+    <value>Încarcă mai multe</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Free" xml:space="preserve">
+    <value>Gratuit</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Price" xml:space="preserve">
+    <value>Cu plată, {0}</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Liked" xml:space="preserve">
+    <value>{0}% aprecieri</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Local" xml:space="preserve">
+    <value>Fișier de plugin local</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.UpdateAvailable" xml:space="preserve">
+    <value>Actualizare disponibilă</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Installing" xml:space="preserve">
+    <value>Se instalează</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.InstalledRestart" xml:space="preserve">
+    <value>Instalat. Repornește Roblox Studio ca să îl încarce.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.RemovedRestart" xml:space="preserve">
+    <value>Eliminat. Repornește Roblox Studio ca să nu îl mai încarce.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.RemoveConfirm" xml:space="preserve">
+    <value>Elimini {0} din Roblox Studio?</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.NeedsLogin" xml:space="preserve">
+    <value>Conectează-te mai întâi la Roblox. Pluginurile se descarcă folosind contul tău Roblox.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.NeedsPurchase" xml:space="preserve">
+    <value>Acest plugin este cu plată. Cumpără-l mai întâi din Creator Store.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Unavailable" xml:space="preserve">
+    <value>Roblox nu a putut trimite acest plugin acum. Încearcă din nou mai târziu.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.InvalidFile" xml:space="preserve">
+    <value>Acest fișier nu este un plugin Roblox Studio.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.StoreUnavailable" xml:space="preserve">
+    <value>Creator Store nu poate fi accesat acum.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.EmptyTitle" xml:space="preserve">
+    <value>Nu s-au găsit pluginuri</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.EmptySubtitle" xml:space="preserve">
+    <value>Încearcă altă căutare sau importă un fișier de plugin.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.EmptyInstalled" xml:space="preserve">
+    <value>Încă nu ai pluginuri Studio instalate</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.FileFilter" xml:space="preserve">
+    <value>Pluginuri Studio|*.rbxm;*.rbxmx;*.lua;*.luau</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Back" xml:space="preserve">
+    <value>Înapoi la pluginuri</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.OpenStore" xml:space="preserve">
+    <value>Deschide în Creator Store</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PriceLabel" xml:space="preserve">
+    <value>Preț</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.RatingLabel" xml:space="preserve">
+    <value>Evaluare</value>
+  </data>
 </root>

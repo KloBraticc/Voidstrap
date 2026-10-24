@@ -8113,4 +8113,103 @@ Es werden {0} MB heruntergeladen. Wenn du ablehnst, wird die eingebaute Schätzu
   <data name="ColorPicker.New" xml:space="preserve">
     <value>Neu</value>
   </data>
+  <data name="Ui.Mods.StudioPlugins.Tab" xml:space="preserve">
+    <value>Studio-Plugins</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Intro" xml:space="preserve">
+    <value>Finde Plugins im Creator Store und füge sie zu Roblox Studio hinzu oder importiere deine eigenen Plugin-Dateien. Studio lädt sie beim nächsten Start.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Search" xml:space="preserve">
+    <value>Studio-Plugins durchsuchen</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.FilterStore" xml:space="preserve">
+    <value>Creator Store</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.FilterInstalled" xml:space="preserve">
+    <value>Installiert</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Import" xml:space="preserve">
+    <value>Plugin importieren</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Folder" xml:space="preserve">
+    <value>Plugin-Ordner</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Install" xml:space="preserve">
+    <value>Installieren</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Update" xml:space="preserve">
+    <value>Aktualisieren</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Remove" xml:space="preserve">
+    <value>Entfernen</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.LoadMore" xml:space="preserve">
+    <value>Mehr laden</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Free" xml:space="preserve">
+    <value>Kostenlos</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Price" xml:space="preserve">
+    <value>Kostenpflichtig, {0}</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Liked" xml:space="preserve">
+    <value>{0} % positiv</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Local" xml:space="preserve">
+    <value>Lokale Plugin-Datei</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.UpdateAvailable" xml:space="preserve">
+    <value>Update verfügbar</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Installing" xml:space="preserve">
+    <value>Wird installiert</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.InstalledRestart" xml:space="preserve">
+    <value>Installiert. Starte Roblox Studio neu, um es zu laden.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.RemovedRestart" xml:space="preserve">
+    <value>Entfernt. Starte Roblox Studio neu, um es zu entladen.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.RemoveConfirm" xml:space="preserve">
+    <value>{0} aus Roblox Studio entfernen?</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.NeedsLogin" xml:space="preserve">
+    <value>Melde dich zuerst bei Roblox an. Plugins werden mit deinem Roblox-Konto heruntergeladen.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.NeedsPurchase" xml:space="preserve">
+    <value>Dieses Plugin ist kostenpflichtig. Kaufe es zuerst im Creator Store.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Unavailable" xml:space="preserve">
+    <value>Roblox konnte dieses Plugin gerade nicht senden. Versuche es später erneut.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.InvalidFile" xml:space="preserve">
+    <value>Diese Datei ist kein Roblox-Studio-Plugin.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.StoreUnavailable" xml:space="preserve">
+    <value>Der Creator Store ist gerade nicht erreichbar.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.EmptyTitle" xml:space="preserve">
+    <value>Keine Plugins gefunden</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.EmptySubtitle" xml:space="preserve">
+    <value>Versuche eine andere Suche oder importiere eine Plugin-Datei.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.EmptyInstalled" xml:space="preserve">
+    <value>Noch keine Studio-Plugins installiert</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.FileFilter" xml:space="preserve">
+    <value>Studio-Plugins|*.rbxm;*.rbxmx;*.lua;*.luau</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Back" xml:space="preserve">
+    <value>Zurück zu den Plugins</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.OpenStore" xml:space="preserve">
+    <value>Im Creator Store öffnen</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PriceLabel" xml:space="preserve">
+    <value>Preis</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.RatingLabel" xml:space="preserve">
+    <value>Bewertung</value>
+  </data>
 </root>

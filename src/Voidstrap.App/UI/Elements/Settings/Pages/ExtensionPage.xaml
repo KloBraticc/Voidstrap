@@ -1,101 +1,44 @@
 <ui:UiPage xmlns:resources="clr-namespace:Voidstrap.Resources" x:Class="Voidstrap.UI.Elements.Settings.Pages.ExtensionPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:util="clr-namespace:Voidstrap.Utility" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:local="clr-namespace:Voidstrap.UI.Elements.Settings.Pages" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" Title="{resources:Loc Ui_Nav_Extensions}" Scrollable="True">
   <ui:UiPage.Resources>
-    <Style x:Key="RowCard" TargetType="Border">
-      <Setter Property="Margin" Value="0,0,0,10" />
-      <Setter Property="Padding" Value="14" />
-      <Setter Property="CornerRadius" Value="10" />
-      <Setter Property="BorderThickness" Value="1" />
-      <Setter Property="BorderBrush" Value="{DynamicResource CardStrokeColorDefaultBrush}" />
-      <Setter Property="Background" Value="{DynamicResource CardBackgroundBrush}" />
-    </Style>
-    <Style x:Key="RowIcon" TargetType="Border">
-      <Setter Property="Width" Value="84" />
-      <Setter Property="Height" Value="84" />
-      <Setter Property="CornerRadius" Value="12" />
-      <Setter Property="ClipToBounds" Value="True" />
-      <Setter Property="Background" Value="{DynamicResource ControlFillColorDefaultBrush}" />
-      <Setter Property="VerticalAlignment" Value="Top" />
-    </Style>
-    <Style x:Key="RowTitle" TargetType="TextBlock">
-      <Setter Property="FontSize" Value="18" />
-      <Setter Property="FontWeight" Value="SemiBold" />
-      <Setter Property="TextTrimming" Value="CharacterEllipsis" />
-    </Style>
-    <Style x:Key="RowSummary" TargetType="TextBlock">
-      <Setter Property="Margin" Value="0,4,0,0" />
-      <Setter Property="FontSize" Value="13" />
-      <Setter Property="TextWrapping" Value="Wrap" />
-      <Setter Property="TextTrimming" Value="CharacterEllipsis" />
-      <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
-    </Style>
-    <Style x:Key="RowMeta" TargetType="TextBlock">
-      <Setter Property="FontSize" Value="12" />
-      <Setter Property="VerticalAlignment" Value="Center" />
-      <Setter Property="Foreground" Value="{DynamicResource TextFillColorTertiaryBrush}" />
-    </Style>
-    <Style x:Key="Chip" TargetType="Border">
-      <Setter Property="Margin" Value="0,0,6,6" />
-      <Setter Property="Padding" Value="9,3" />
-      <Setter Property="CornerRadius" Value="6" />
-      <Setter Property="Background" Value="{DynamicResource ControlFillColorDefaultBrush}" />
-    </Style>
-    <Style x:Key="ChipText" TargetType="TextBlock">
-      <Setter Property="FontSize" Value="12" />
-      <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
-    </Style>
-    <Style x:Key="DetailLabel" TargetType="TextBlock">
-      <Setter Property="FontSize" Value="13" />
-      <Setter Property="FontWeight" Value="SemiBold" />
-      <Setter Property="Margin" Value="0,14,0,6" />
-    </Style>
-    <Style x:Key="Paragraph" TargetType="TextBlock">
-      <Setter Property="FontSize" Value="14" />
-      <Setter Property="TextWrapping" Value="Wrap" />
-      <Setter Property="Margin" Value="0,0,0,12" />
-      <Setter Property="LineHeight" Value="22" />
-      <Setter Property="Foreground" Value="{DynamicResource TextFillColorSecondaryBrush}" />
-    </Style>
-
-    <DataTemplate x:Key="TagChip">
-      <Border Style="{StaticResource Chip}">
-        <TextBlock Style="{StaticResource ChipText}" Text="{Binding}" />
-      </Border>
-    </DataTemplate>
-
-    <DataTemplate x:Key="AssetRow" DataType="{x:Type local:ExtensionEntry}">
-      <Border Style="{StaticResource RowCard}" Visibility="{Binding Visible, Converter={StaticResource BooleanToVisibilityConverter}}">
-        <Grid>
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
-          </Grid.ColumnDefinitions>
-          <Border Grid.Column="0" Style="{StaticResource RowIcon}">
-            <Image Stretch="Uniform" Margin="8" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding Icon}" />
-          </Border>
-          <StackPanel Grid.Column="1" Margin="16,0,16,0" VerticalAlignment="Center">
-            <TextBlock Style="{StaticResource RowTitle}" Text="{Binding Name}" />
-            <TextBlock Style="{StaticResource RowSummary}" Text="{Binding Summary}" MaxHeight="40" />
-            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-              <TextBlock Style="{StaticResource RowMeta}" Text="{Binding Author}" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
-              <TextBlock Style="{StaticResource RowMeta}" Margin="12,0,0,0" Text="{Binding Type}" />
-              <TextBlock Style="{StaticResource RowMeta}" Margin="12,0,0,0" Text="{Binding TagsLine}" />
+    <ResourceDictionary>
+      <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="ExtensionStyles.xaml" />
+      </ResourceDictionary.MergedDictionaries>
+      <DataTemplate x:Key="AssetRow" DataType="{x:Type local:ExtensionEntry}">
+        <Border Style="{StaticResource RowCard}" Visibility="{Binding Visible, Converter={StaticResource BooleanToVisibilityConverter}}">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="0" Style="{StaticResource RowIcon}">
+              <Image Stretch="Uniform" Margin="8" RenderOptions.BitmapScalingMode="HighQuality" util:DynamicRenderSystem.LazyImageSource="{Binding Icon}" />
+            </Border>
+            <StackPanel Grid.Column="1" Margin="16,0,16,0" VerticalAlignment="Center">
+              <TextBlock Style="{StaticResource RowTitle}" Text="{Binding Name}" />
+              <TextBlock Style="{StaticResource RowSummary}" Text="{Binding Summary}" MaxHeight="40" />
+              <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                <TextBlock Style="{StaticResource RowMeta}" Text="{Binding Author}" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+                <TextBlock Style="{StaticResource RowMeta}" Margin="12,0,0,0" Text="{Binding Type}" />
+                <TextBlock Style="{StaticResource RowMeta}" Margin="12,0,0,0" Text="{Binding TagsLine}" />
+              </StackPanel>
             </StackPanel>
-          </StackPanel>
-          <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right">
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,10">
-              <ui:SymbolIcon Symbol="Tag24" FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
-              <TextBlock Style="{StaticResource RowMeta}" Margin="5,0,12,0" Text="{Binding Version}" />
-              <TextBlock Style="{StaticResource RowMeta}" Text="{Binding StatusLabel}" />
+            <StackPanel Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Right">
+              <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,0,0,10">
+                <ui:SymbolIcon Symbol="Tag24" FontSize="14" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                <TextBlock Style="{StaticResource RowMeta}" Margin="5,0,12,0" Text="{Binding Version}" />
+                <TextBlock Style="{StaticResource RowMeta}" Text="{Binding StatusLabel}" />
+              </StackPanel>
+              <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <ui:Button Content="{resources:Loc Ui_Mods_View}" Appearance="Secondary" MinWidth="76" Margin="0,0,8,0" Tag="{Binding}" Click="ViewAsset_Click" />
+                <ui:Button Content="{Binding EnableLabel}" IsEnabled="{Binding CanChange}" Appearance="Primary" MinWidth="84" Tag="{Binding}" Click="ToggleAsset_Click" />
+              </StackPanel>
             </StackPanel>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-              <ui:Button Content="{resources:Loc Ui_Mods_View}" Appearance="Secondary" MinWidth="76" Margin="0,0,8,0" Tag="{Binding}" Click="ViewAsset_Click" />
-              <ui:Button Content="{Binding EnableLabel}" IsEnabled="{Binding CanChange}" Appearance="Primary" MinWidth="84" Tag="{Binding}" Click="ToggleAsset_Click" />
-            </StackPanel>
-          </StackPanel>
-        </Grid>
-      </Border>
-    </DataTemplate>
+          </Grid>
+        </Border>
+      </DataTemplate>
+    </ResourceDictionary>
   </ui:UiPage.Resources>
 
   <Grid>

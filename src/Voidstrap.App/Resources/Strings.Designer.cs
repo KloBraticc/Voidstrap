@@ -470,6 +470,39 @@ namespace Voidstrap.Resources {
         public static string Ui_Mods_Page => ResourceManager.GetString("Ui.Mods.Page", resourceCulture);
 
         public static string Ui_Mods_View => ResourceManager.GetString("Ui.Mods.View", resourceCulture);
+        public static string Ui_Mods_StudioPlugins_Tab => ResourceManager.GetString("Ui.Mods.StudioPlugins.Tab", resourceCulture);
+        public static string Ui_Mods_StudioPlugins_Intro => ResourceManager.GetString("Ui.Mods.StudioPlugins.Intro", resourceCulture);
+        public static string Ui_Mods_StudioPlugins_Search => ResourceManager.GetString("Ui.Mods.StudioPlugins.Search", resourceCulture);
+        public static string Ui_Mods_StudioPlugins_FilterStore => ResourceManager.GetString("Ui.Mods.StudioPlugins.FilterStore", resourceCulture);
+        public static string Ui_Mods_StudioPlugins_FilterInstalled => ResourceManager.GetString("Ui.Mods.StudioPlugins.FilterInstalled", resourceCulture);
+        public static string Ui_Mods_StudioPlugins_Import => ResourceManager.GetString("Ui.Mods.StudioPlugins.Import", resourceCulture);
+        public static string Ui_Mods_StudioPlugins_Folder => ResourceManager.GetString("Ui.Mods.StudioPlugins.Folder", resourceCulture);
+        public static string Ui_Mods_StudioPlugins_Install => ResourceManager.GetString("Ui.Mods.StudioPlugins.Install", resourceCulture);
+        public static string Ui_Mods_StudioPlugins_Update => ResourceManager.GetString("Ui.Mods.StudioPlugins.Update", resourceCulture);
+        public static string Ui_Mods_StudioPlugins_Remove => ResourceManager.GetString("Ui.Mods.StudioPlugins.Remove", resourceCulture);
+        public static string Ui_Mods_StudioPlugins_LoadMore => ResourceManager.GetString("Ui.Mods.StudioPlugins.LoadMore", resourceCulture);
+        public static string Ui_Mods_StudioPlugins_Free => ResourceManager.GetString("Ui.Mods.StudioPlugins.Free", resourceCulture);
+        public static string Ui_Mods_StudioPlugins_Price => ResourceManager.GetString("Ui.Mods.StudioPlugins.Price", resourceCulture);
+        public static string Ui_Mods_StudioPlugins_Liked => ResourceManager.GetString("Ui.Mods.StudioPlugins.Liked", resourceCulture);
+        public static string Ui_Mods_StudioPlugins_Local => ResourceManager.GetString("Ui.Mods.StudioPlugins.Local", resourceCulture);
+        public static string Ui_Mods_StudioPlugins_UpdateAvailable => ResourceManager.GetString("Ui.Mods.StudioPlugins.UpdateAvailable", resourceCulture);
+        public static string Ui_Mods_StudioPlugins_Installing => ResourceManager.GetString("Ui.Mods.StudioPlugins.Installing", resourceCulture);
+        public static string Ui_Mods_StudioPlugins_InstalledRestart => ResourceManager.GetString("Ui.Mods.StudioPlugins.InstalledRestart", resourceCulture);
+        public static string Ui_Mods_StudioPlugins_RemovedRestart => ResourceManager.GetString("Ui.Mods.StudioPlugins.RemovedRestart", resourceCulture);
+        public static string Ui_Mods_StudioPlugins_RemoveConfirm => ResourceManager.GetString("Ui.Mods.StudioPlugins.RemoveConfirm", resourceCulture);
+        public static string Ui_Mods_StudioPlugins_NeedsLogin => ResourceManager.GetString("Ui.Mods.StudioPlugins.NeedsLogin", resourceCulture);
+        public static string Ui_Mods_StudioPlugins_NeedsPurchase => ResourceManager.GetString("Ui.Mods.StudioPlugins.NeedsPurchase", resourceCulture);
+        public static string Ui_Mods_StudioPlugins_Unavailable => ResourceManager.GetString("Ui.Mods.StudioPlugins.Unavailable", resourceCulture);
+        public static string Ui_Mods_StudioPlugins_InvalidFile => ResourceManager.GetString("Ui.Mods.StudioPlugins.InvalidFile", resourceCulture);
+        public static string Ui_Mods_StudioPlugins_StoreUnavailable => ResourceManager.GetString("Ui.Mods.StudioPlugins.StoreUnavailable", resourceCulture);
+        public static string Ui_Mods_StudioPlugins_EmptyTitle => ResourceManager.GetString("Ui.Mods.StudioPlugins.EmptyTitle", resourceCulture);
+        public static string Ui_Mods_StudioPlugins_EmptySubtitle => ResourceManager.GetString("Ui.Mods.StudioPlugins.EmptySubtitle", resourceCulture);
+        public static string Ui_Mods_StudioPlugins_EmptyInstalled => ResourceManager.GetString("Ui.Mods.StudioPlugins.EmptyInstalled", resourceCulture);
+        public static string Ui_Mods_StudioPlugins_FileFilter => ResourceManager.GetString("Ui.Mods.StudioPlugins.FileFilter", resourceCulture);
+        public static string Ui_Mods_StudioPlugins_Back => ResourceManager.GetString("Ui.Mods.StudioPlugins.Back", resourceCulture);
+        public static string Ui_Mods_StudioPlugins_OpenStore => ResourceManager.GetString("Ui.Mods.StudioPlugins.OpenStore", resourceCulture);
+        public static string Ui_Mods_StudioPlugins_PriceLabel => ResourceManager.GetString("Ui.Mods.StudioPlugins.PriceLabel", resourceCulture);
+        public static string Ui_Mods_StudioPlugins_RatingLabel => ResourceManager.GetString("Ui.Mods.StudioPlugins.RatingLabel", resourceCulture);
 
         public static string Ui_Mods_LoadMore => ResourceManager.GetString("Ui.Mods.LoadMore", resourceCulture);
 

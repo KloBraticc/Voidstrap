@@ -8108,4 +8108,103 @@ Voidstrap เขียนลงในโฟลเดอร์เดสก์ท�
   <data name="ColorPicker.New" xml:space="preserve">
     <value>ใหม่</value>
   </data>
+  <data name="Ui.Mods.StudioPlugins.Tab" xml:space="preserve">
+    <value>ปลั๊กอิน Studio</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Intro" xml:space="preserve">
+    <value>ค้นหาปลั๊กอินใน Creator Store แล้วเพิ่มลงใน Roblox Studio หรือนำเข้าไฟล์ปลั๊กอินของคุณเอง Studio จะโหลดปลั๊กอินเหล่านี้ในครั้งถัดไปที่เปิด</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Search" xml:space="preserve">
+    <value>ค้นหาปลั๊กอิน Studio</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.FilterStore" xml:space="preserve">
+    <value>Creator Store</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.FilterInstalled" xml:space="preserve">
+    <value>ติดตั้งแล้ว</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Import" xml:space="preserve">
+    <value>นำเข้าปลั๊กอิน</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Folder" xml:space="preserve">
+    <value>โฟลเดอร์ปลั๊กอิน</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Install" xml:space="preserve">
+    <value>ติดตั้ง</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Update" xml:space="preserve">
+    <value>อัปเดต</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Remove" xml:space="preserve">
+    <value>นำออก</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.LoadMore" xml:space="preserve">
+    <value>โหลดเพิ่ม</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Free" xml:space="preserve">
+    <value>ฟรี</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Price" xml:space="preserve">
+    <value>มีค่าใช้จ่าย {0}</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Liked" xml:space="preserve">
+    <value>ถูกใจ {0}%</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Local" xml:space="preserve">
+    <value>ไฟล์ปลั๊กอินในเครื่อง</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.UpdateAvailable" xml:space="preserve">
+    <value>มีอัปเดต</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Installing" xml:space="preserve">
+    <value>กำลังติดตั้ง</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.InstalledRestart" xml:space="preserve">
+    <value>ติดตั้งแล้ว รีสตาร์ต Roblox Studio เพื่อโหลดปลั๊กอิน</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.RemovedRestart" xml:space="preserve">
+    <value>นำออกแล้ว รีสตาร์ต Roblox Studio เพื่อเลิกโหลดปลั๊กอิน</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.RemoveConfirm" xml:space="preserve">
+    <value>นำ {0} ออกจาก Roblox Studio ไหม</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.NeedsLogin" xml:space="preserve">
+    <value>โปรดลงชื่อเข้าใช้ Roblox ก่อน ปลั๊กอินจะดาวน์โหลดด้วยบัญชี Roblox ของคุณ</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.NeedsPurchase" xml:space="preserve">
+    <value>ปลั๊กอินนี้มีค่าใช้จ่าย โปรดซื้อใน Creator Store ก่อน</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Unavailable" xml:space="preserve">
+    <value>Roblox ส่งปลั๊กอินนี้ไม่ได้ในขณะนี้ โปรดลองอีกครั้งภายหลัง</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.InvalidFile" xml:space="preserve">
+    <value>ไฟล์นี้ไม่ใช่ปลั๊กอินของ Roblox Studio</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.StoreUnavailable" xml:space="preserve">
+    <value>ไม่สามารถเชื่อมต่อ Creator Store ได้ในขณะนี้</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.EmptyTitle" xml:space="preserve">
+    <value>ไม่พบปลั๊กอิน</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.EmptySubtitle" xml:space="preserve">
+    <value>ลองค้นหาคำอื่น หรือนำเข้าไฟล์ปลั๊กอิน</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.EmptyInstalled" xml:space="preserve">
+    <value>ยังไม่มีปลั๊กอิน Studio ที่ติดตั้ง</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.FileFilter" xml:space="preserve">
+    <value>ปลั๊กอิน Studio|*.rbxm;*.rbxmx;*.lua;*.luau</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Back" xml:space="preserve">
+    <value>กลับไปที่ปลั๊กอิน</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.OpenStore" xml:space="preserve">
+    <value>เปิดใน Creator Store</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PriceLabel" xml:space="preserve">
+    <value>ราคา</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.RatingLabel" xml:space="preserve">
+    <value>คะแนน</value>
+  </data>
 </root>

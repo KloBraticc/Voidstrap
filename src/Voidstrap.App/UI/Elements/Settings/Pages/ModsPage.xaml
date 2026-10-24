@@ -833,6 +833,15 @@
             </ItemsControl>
           </StackPanel>
         </TabItem>
+        <TabItem x:Name="StudioPluginsTab" FontWeight="Medium" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+          <TabItem.Header>
+            <StackPanel Orientation="Horizontal">
+              <ui:SymbolIcon Symbol="PuzzlePiece24" Margin="0,0,6,0" />
+              <TextBlock Text="{resources:Loc Ui_Mods_StudioPlugins_Tab}" />
+            </StackPanel>
+          </TabItem.Header>
+          <pages:StudioPluginsView Margin="12" FontWeight="Normal" />
+        </TabItem>
       </TabControl>
     </StackPanel>
     <Border Height="640" Padding="16" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="8" Visibility="{Binding ModExplorerVisible, Converter={StaticResource BooleanToVisibilityConverter}}">
