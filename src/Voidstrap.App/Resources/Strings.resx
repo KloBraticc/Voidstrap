@@ -7696,9 +7696,6 @@ Send that file to whoever is helping you. Personal details like your computer us
   <data name="Ui.RiShade.DepthModel.Title" xml:space="preserve">
     <value>AI depth model</value>
   </data>
-  <data name="Ui.RiShade.DepthModel.Off" xml:space="preserve">
-    <value>Off, built in estimate</value>
-  </data>
   <data name="Ui.RiShade.DepthModel.Downloading" xml:space="preserve">
     <value>Downloading the depth model: {0}%</value>
   </data>
@@ -7707,9 +7704,6 @@ Send that file to whoever is helping you. Personal details like your computer us
   </data>
   <data name="Ui.RiShade.DepthModel.Failed" xml:space="preserve">
     <value>The depth model could not be downloaded: {0}</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.RiDepthTiny" xml:space="preserve">
-    <value>RiDepth Tiny ({0} MB, made for Roblox, instant)</value>
   </data>
   <data name="Ui.RiShade.DepthModel.RiDepthPrompt" xml:space="preserve">
     <value>Turn on RiDepth for RiShade? It is an AI depth model made for Roblox, and effects that need depth, like ambient occlusion, depth of field and reflections, look far better with it.

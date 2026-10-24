@@ -8023,9 +8023,6 @@ Voidstrap がデスクトップ フォルダーに書き込めませんでした
   <data name="Ui.RiShade.DepthModel.Title" xml:space="preserve">
     <value>AI 深度モデル</value>
   </data>
-  <data name="Ui.RiShade.DepthModel.Off" xml:space="preserve">
-    <value>オフ、内蔵の推定</value>
-  </data>
   <data name="Ui.RiShade.DepthModel.Downloading" xml:space="preserve">
     <value>深度モデルをダウンロードしています: {0}%</value>
   </data>
@@ -8034,9 +8031,6 @@ Voidstrap がデスクトップ フォルダーに書き込めませんでした
   </data>
   <data name="Ui.RiShade.DepthModel.Failed" xml:space="preserve">
     <value>深度モデルをダウンロードできませんでした: {0}</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.RiDepthTiny" xml:space="preserve">
-    <value>RiDepth Tiny ({0} MB、Roblox 専用、即時)</value>
   </data>
   <data name="Ui.RiShade.DepthModel.RiDepthPrompt" xml:space="preserve">
     <value>RiShade で RiDepth を有効にしますか？Roblox 専用に作られた AI 深度モデルで、アンビエントオクルージョン、被写界深度、反射など深度を必要とするエフェクトがずっときれいに見えます。

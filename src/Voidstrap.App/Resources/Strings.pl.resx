@@ -8009,9 +8009,6 @@ Wyślij ten plik osobie, która Ci pomaga. Dane osobowe, takie jak nazwa użytko
   <data name="Ui.RiShade.DepthModel.Title" xml:space="preserve">
     <value>Model głębi AI</value>
   </data>
-  <data name="Ui.RiShade.DepthModel.Off" xml:space="preserve">
-    <value>Wyłączony, wbudowane oszacowanie</value>
-  </data>
   <data name="Ui.RiShade.DepthModel.Downloading" xml:space="preserve">
     <value>Pobieranie modelu głębi: {0}%</value>
   </data>
@@ -8020,9 +8017,6 @@ Wyślij ten plik osobie, która Ci pomaga. Dane osobowe, takie jak nazwa użytko
   </data>
   <data name="Ui.RiShade.DepthModel.Failed" xml:space="preserve">
     <value>Nie udało się pobrać modelu głębi: {0}</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.RiDepthTiny" xml:space="preserve">
-    <value>RiDepth Tiny ({0} MB, stworzony dla Roblox, natychmiastowy)</value>
   </data>
   <data name="Ui.RiShade.DepthModel.RiDepthPrompt" xml:space="preserve">
     <value>Włączyć RiDepth dla RiShade? To model głębi AI stworzony dla Roblox, a efekty, które potrzebują głębi, takie jak okluzja otoczenia, głębia ostrości i odbicia, wyglądają z nim znacznie lepiej.

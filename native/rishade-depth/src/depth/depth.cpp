@@ -888,6 +888,7 @@ struct Depth
     LUID adapter{};
     bool adapterKnown = false;
     int slowFrames = 0;
+    bool background = false;
     UINT workWidth = 0;
     UINT workHeight = 0;
     std::array<winrt::com_ptr<ID3DBlob>, kShaderCount> code;
@@ -1584,7 +1585,7 @@ void Publish(Lane& l)
 
 bool ExactActive()
 {
-    return ExactDepth() && !Fast().enabled;
+    return ExactDepth() && !Fast().enabled && !d.background;
 }
 
 void TrackExact()
@@ -1834,8 +1835,8 @@ void StepDownWhenSlow(double spentMs)
             SetDepthSize(size);
             return;
         }
-    Log(LogLevel::Warning, L"Depth takes %.1f ms per frame even at the smallest size, switching to scene depth estimation.", spentMs);
-    Disable();
+    Log(LogLevel::Warning, L"Depth takes %.1f ms per frame even at the smallest size, updating it in the background with motion tracking.", spentMs);
+    d.background = true;
 }
 
 bool WaitLane(Lane& l)
@@ -2020,6 +2021,7 @@ void ShutdownDepth()
     d.enabled = false;
     d.lastTracked.reset();
     d.tracking = false;
+    d.background = false;
 }
 
 void AdoptDepthRuntime(reshade::api::effect_runtime* runtime)

@@ -8011,9 +8011,6 @@ Voidstrap نتوانست در پوشهٔ دسکتاپ بنویسد.</value>
   <data name="Ui.RiShade.DepthModel.Title" xml:space="preserve">
     <value>مدل عمق هوش مصنوعی</value>
   </data>
-  <data name="Ui.RiShade.DepthModel.Off" xml:space="preserve">
-    <value>خاموش، تخمین داخلی</value>
-  </data>
   <data name="Ui.RiShade.DepthModel.Downloading" xml:space="preserve">
     <value>در حال دانلود مدل عمق: {0}%</value>
   </data>
@@ -8022,9 +8019,6 @@ Voidstrap نتوانست در پوشهٔ دسکتاپ بنویسد.</value>
   </data>
   <data name="Ui.RiShade.DepthModel.Failed" xml:space="preserve">
     <value>مدل عمق دانلود نشد: {0}</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.RiDepthTiny" xml:space="preserve">
-    <value>RiDepth Tiny ({0} مگابایت، ساخته‌شده برای Roblox، فوری)</value>
   </data>
   <data name="Ui.RiShade.DepthModel.RiDepthPrompt" xml:space="preserve">
     <value>RiDepth برای RiShade روشن شود؟ این یک مدل عمق هوش مصنوعی است که برای Roblox ساخته شده و جلوه‌هایی که به عمق نیاز دارند، مانند انسداد محیطی، عمق میدان و بازتاب‌ها، با آن بسیار بهتر به نظر می‌رسند.

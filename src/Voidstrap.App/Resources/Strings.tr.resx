@@ -8007,9 +8007,6 @@ Bu dosyayı size yardım eden kişiye gönderin. Bilgisayar kullanıcı adınız
   <data name="Ui.RiShade.DepthModel.Title" xml:space="preserve">
     <value>Yapay zekâ derinlik modeli</value>
   </data>
-  <data name="Ui.RiShade.DepthModel.Off" xml:space="preserve">
-    <value>Kapalı, yerleşik tahmin</value>
-  </data>
   <data name="Ui.RiShade.DepthModel.Downloading" xml:space="preserve">
     <value>Derinlik modeli indiriliyor: %{0}</value>
   </data>
@@ -8018,9 +8015,6 @@ Bu dosyayı size yardım eden kişiye gönderin. Bilgisayar kullanıcı adınız
   </data>
   <data name="Ui.RiShade.DepthModel.Failed" xml:space="preserve">
     <value>Derinlik modeli indirilemedi: {0}</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.RiDepthTiny" xml:space="preserve">
-    <value>RiDepth Tiny ({0} MB, Roblox için yapıldı, anında)</value>
   </data>
   <data name="Ui.RiShade.DepthModel.RiDepthPrompt" xml:space="preserve">
     <value>RiShade için RiDepth açılsın mı? Roblox için yapılmış bir yapay zeka derinlik modelidir ve ortam gölgelemesi, alan derinliği ve yansımalar gibi derinlik gerektiren efektler onunla çok daha iyi görünür.

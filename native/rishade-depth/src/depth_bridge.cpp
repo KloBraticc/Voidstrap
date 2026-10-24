@@ -13,6 +13,7 @@
 #include <cwchar>
 #include <string>
 #include <algorithm>
+#include <atomic>
 #include <vector>
 
 State& g = *new State();
@@ -44,6 +45,9 @@ void OnBridgeDestroyRuntime(reshade::api::effect_runtime* runtime)
 bool attempted = false;
 bool initialized = false;
 
+using LogSink = void(__stdcall*)(const wchar_t*);
+std::atomic<LogSink> logSink = nullptr;
+
 void Write(const wchar_t* format, va_list args)
 {
     wchar_t message[1024];
@@ -51,6 +55,8 @@ void Write(const wchar_t* format, va_list args)
     OutputDebugStringW(L"[RiShade Depth] ");
     OutputDebugStringW(message);
     OutputDebugStringW(L"\n");
+    if (const LogSink sink = logSink.load())
+        sink(message);
 }
 
 bool Attach(ID3D11Device* device, ID3D11DeviceContext* context)
@@ -150,6 +156,11 @@ void ActiveShutdown()
     else
         SceneShutdownDepth();
 }
+}
+
+extern "C" __declspec(dllexport) void RiShadeDepthBridgeSetLog(LogSink sink)
+{
+    logSink = sink;
 }
 
 extern "C" __declspec(dllexport) void RiShadeDepthBridgeSetModel(const wchar_t* file)

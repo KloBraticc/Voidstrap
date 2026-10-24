@@ -936,6 +936,7 @@ namespace Voidstrap.Integrations.Overlays
                 {
                     _riDepthModelVersion = RiShadeDepthModels.Version;
                     string? modelFile = RiShadeDepthModels.ActiveModelFile;
+                    RiShadeInterop.ConnectDepthLog();
                     RiShadeInterop.DepthBridgeSetFastModel(string.Empty);
                     RiShadeInterop.DepthBridgeSetExact(RiShadeDepthModels.ExactDepth);
                     RiShadeInterop.DepthBridgeSetModel(modelFile ?? string.Empty);

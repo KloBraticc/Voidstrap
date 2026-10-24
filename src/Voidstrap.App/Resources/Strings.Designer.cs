@@ -1529,8 +1529,6 @@ namespace Voidstrap.Resources {
         public static string Ui_Home_LatestRobloxNews => ResourceManager.GetString("Ui.Home.LatestRobloxNews", resourceCulture);
         public static string Ui_RiShade_Dlss_Title => ResourceManager.GetString("Ui.RiShade.Dlss.Title", resourceCulture);
         public static string Ui_RiShade_DepthModel_Title => ResourceManager.GetString("Ui.RiShade.DepthModel.Title", resourceCulture);
-        public static string Ui_RiShade_DepthModel_Off => ResourceManager.GetString("Ui.RiShade.DepthModel.Off", resourceCulture);
-        public static string Ui_RiShade_DepthModel_RiDepthTiny => ResourceManager.GetString("Ui.RiShade.DepthModel.RiDepthTiny", resourceCulture);
         public static string Ui_RiShade_DepthModel_RiDepthPrompt => ResourceManager.GetString("Ui.RiShade.DepthModel.RiDepthPrompt", resourceCulture);
         public static string Ui_RiShade_DepthModel_RiDepthDescription => ResourceManager.GetString("Ui.RiShade.DepthModel.RiDepthDescription", resourceCulture);
         public static string Ui_RiShade_DepthModel_Downloading => ResourceManager.GetString("Ui.RiShade.DepthModel.Downloading", resourceCulture);

@@ -8009,9 +8009,6 @@ Skicka filen till den som hjälper dig. Personliga uppgifter som datorns använd
   <data name="Ui.RiShade.DepthModel.Title" xml:space="preserve">
     <value>AI-djupmodell</value>
   </data>
-  <data name="Ui.RiShade.DepthModel.Off" xml:space="preserve">
-    <value>Av, inbyggd uppskattning</value>
-  </data>
   <data name="Ui.RiShade.DepthModel.Downloading" xml:space="preserve">
     <value>Laddar ner djupmodellen: {0} %</value>
   </data>
@@ -8020,9 +8017,6 @@ Skicka filen till den som hjälper dig. Personliga uppgifter som datorns använd
   </data>
   <data name="Ui.RiShade.DepthModel.Failed" xml:space="preserve">
     <value>Djupmodellen kunde inte laddas ner: {0}</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.RiDepthTiny" xml:space="preserve">
-    <value>RiDepth Tiny ({0} MB, gjord för Roblox, omedelbar)</value>
   </data>
   <data name="Ui.RiShade.DepthModel.RiDepthPrompt" xml:space="preserve">
     <value>Slå på RiDepth för RiShade? Det är en AI-djupmodell gjord för Roblox, och effekter som behöver djup, som ambient occlusion, skärpedjup och reflektioner, ser mycket bättre ut med den.

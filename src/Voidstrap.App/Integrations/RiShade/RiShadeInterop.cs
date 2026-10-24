@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Voidstrap.Integrations.RiShade
@@ -50,6 +51,37 @@ namespace Voidstrap.Integrations.RiShade
         [LibraryImport("rishade_depth_bridge", EntryPoint = "RiShadeDepthBridgeAttachRuntime")]
         [return: MarshalAs(UnmanagedType.I1)]
         public static partial bool DepthBridgeAttachRuntime(IntPtr runtime);
+
+        [LibraryImport("rishade_depth_bridge", EntryPoint = "RiShadeDepthBridgeSetLog")]
+        private static unsafe partial void DepthBridgeSetLog(delegate* unmanaged[Stdcall]<char*, void> sink);
+
+        public static unsafe void ConnectDepthLog() => DepthBridgeSetLog(&OnDepthLog);
+
+        [UnmanagedCallersOnly(CallConvs = [typeof(CallConvStdcall)])]
+        private static unsafe void OnDepthLog(char* message)
+        {
+            try
+            {
+                App.Logger.WriteLine("RiShadeDepth", new string(message));
+            }
+            catch (Exception)
+            {
+            }
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct DepthHardware
+        {
+            public uint VendorId;
+            public uint Integrated;
+            public ulong DedicatedMemory;
+            public ulong SharedMemory;
+            public int HalfPrecision;
+        }
+
+        [LibraryImport("rishade_depth_bridge", EntryPoint = "RiShadeDepthBridgeProbe", StringMarshalling = StringMarshalling.Utf16)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        public static partial bool DepthBridgeProbe(string runtimeDirectory, out DepthHardware hardware);
 
         [LibraryImport("rishade_depth_bridge", EntryPoint = "RiShadeDepthBridgeUsingModel")]
         [return: MarshalAs(UnmanagedType.I1)]

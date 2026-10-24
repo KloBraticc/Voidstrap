@@ -8010,9 +8010,6 @@ Trimite acest fișier persoanei care te ajută. Datele personale, cum ar fi nume
   <data name="Ui.RiShade.DepthModel.Title" xml:space="preserve">
     <value>Model de adâncime AI</value>
   </data>
-  <data name="Ui.RiShade.DepthModel.Off" xml:space="preserve">
-    <value>Dezactivat, estimare integrată</value>
-  </data>
   <data name="Ui.RiShade.DepthModel.Downloading" xml:space="preserve">
     <value>Se descarcă modelul de adâncime: {0}%</value>
   </data>
@@ -8021,9 +8018,6 @@ Trimite acest fișier persoanei care te ajută. Datele personale, cum ar fi nume
   </data>
   <data name="Ui.RiShade.DepthModel.Failed" xml:space="preserve">
     <value>Modelul de adâncime nu a putut fi descărcat: {0}</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.RiDepthTiny" xml:space="preserve">
-    <value>RiDepth Tiny ({0} MB, creat pentru Roblox, instantaneu)</value>
   </data>
   <data name="Ui.RiShade.DepthModel.RiDepthPrompt" xml:space="preserve">
     <value>Activezi RiDepth pentru RiShade? Este un model de adâncime cu IA creat pentru Roblox, iar efectele care au nevoie de adâncime, precum ocluzia ambientală, adâncimea câmpului și reflexiile, arată mult mai bine cu el.

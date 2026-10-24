@@ -8011,9 +8011,6 @@ Invia questo file a chi ti sta aiutando. I dati personali, come il nome utente d
   <data name="Ui.RiShade.DepthModel.Title" xml:space="preserve">
     <value>Modello di profondità IA</value>
   </data>
-  <data name="Ui.RiShade.DepthModel.Off" xml:space="preserve">
-    <value>Disattivato, stima integrata</value>
-  </data>
   <data name="Ui.RiShade.DepthModel.Downloading" xml:space="preserve">
     <value>Download del modello di profondità: {0}%</value>
   </data>
@@ -8022,9 +8019,6 @@ Invia questo file a chi ti sta aiutando. I dati personali, come il nome utente d
   </data>
   <data name="Ui.RiShade.DepthModel.Failed" xml:space="preserve">
     <value>Impossibile scaricare il modello di profondità: {0}</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.RiDepthTiny" xml:space="preserve">
-    <value>RiDepth Tiny ({0} MB, creato per Roblox, istantaneo)</value>
   </data>
   <data name="Ui.RiShade.DepthModel.RiDepthPrompt" xml:space="preserve">
     <value>Attivare RiDepth per RiShade? È un modello di profondità con IA creato per Roblox, e gli effetti che richiedono la profondità, come l'occlusione ambientale, la profondità di campo e i riflessi, appaiono molto meglio con esso.

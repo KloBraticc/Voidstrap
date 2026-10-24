@@ -359,17 +359,16 @@ namespace Voidstrap.Integrations.RiShade
 
         private static void AskForDepthModel()
         {
-            if (!Voidstrap.Utility.Platform.IsWindows || !DepthBridgeAvailable || RiShadeDepthModels.Selected != RiShadeDepthModel.Off)
+            if (!Voidstrap.Utility.Platform.IsWindows || !DepthBridgeAvailable || RiShadeDepthModels.Enabled)
                 return;
 
-            string message = string.Format(Voidstrap.Resources.Strings.Ui_RiShade_DepthModel_RiDepthPrompt, RiShadeDepthModels.SizeMegabytes(RiShadeDepthModel.RiDepthTiny));
+            string message = string.Format(Voidstrap.Resources.Strings.Ui_RiShade_DepthModel_RiDepthPrompt, RiShadeDepthModels.SizeMegabytes);
             if (Frontend.ShowMessageBox(message, MessageBoxImage.Question, MessageBoxButton.YesNo) != MessageBoxResult.Yes)
                 return;
-            RiShadeDepthModel model = RiShadeDepthModel.RiDepthTiny;
 
             _ = Task.Run(async () =>
             {
-                (bool success, string status) = await RiShadeDepthModels.SelectAsync(model);
+                (bool success, string status) = await RiShadeDepthModels.SetEnabledAsync(true);
                 if (!success)
                     Frontend.ShowMessageBox(string.Format(Voidstrap.Resources.Strings.Ui_RiShade_DepthModel_Failed, status), MessageBoxImage.Warning);
             });
@@ -401,13 +400,13 @@ namespace Voidstrap.Integrations.RiShade
                     throw new InvalidOperationException("The Rust RiShade library could not prepare ReShade configuration");
                 if (RiShadeDepthModels.NeedsMigration)
                 {
-                    App.Logger.WriteLine(LogIdent, "Moving the retired depth model setting to RiDepth Tiny");
-                    _ = RiShadeDepthModels.SelectAsync(RiShadeDepthModel.RiDepthTiny);
+                    App.Logger.WriteLine(LogIdent, "Moving the retired depth model setting to RiDepth");
+                    _ = RiShadeDepthModels.SetEnabledAsync(true);
                 }
                 else if (RiShadeDepthModels.NeedsUpdate)
                 {
                     App.Logger.WriteLine(LogIdent, "The installed depth model is outdated or incomplete, downloading the current one");
-                    _ = RiShadeDepthModels.SelectAsync(RiShadeDepthModels.Selected);
+                    _ = RiShadeDepthModels.SetEnabledAsync(true);
                 }
             }
             catch (Exception ex)

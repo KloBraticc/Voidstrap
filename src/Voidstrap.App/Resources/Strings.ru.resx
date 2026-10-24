@@ -8008,9 +8008,6 @@ Voidstrap не смог записать в папку рабочего стол
   <data name="Ui.RiShade.DepthModel.Title" xml:space="preserve">
     <value>Модель глубины ИИ</value>
   </data>
-  <data name="Ui.RiShade.DepthModel.Off" xml:space="preserve">
-    <value>Выкл., встроенная оценка</value>
-  </data>
   <data name="Ui.RiShade.DepthModel.Downloading" xml:space="preserve">
     <value>Загрузка модели глубины: {0}%</value>
   </data>
@@ -8019,9 +8016,6 @@ Voidstrap не смог записать в папку рабочего стол
   </data>
   <data name="Ui.RiShade.DepthModel.Failed" xml:space="preserve">
     <value>Не удалось загрузить модель глубины: {0}</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.RiDepthTiny" xml:space="preserve">
-    <value>RiDepth Tiny ({0} МБ, создана для Roblox, мгновенная)</value>
   </data>
   <data name="Ui.RiShade.DepthModel.RiDepthPrompt" xml:space="preserve">
     <value>Включить RiDepth для RiShade? Это модель глубины на основе ИИ, созданная для Roblox, и эффекты, которым нужна глубина, такие как ambient occlusion, глубина резкости и отражения, выглядят с ней намного лучше.

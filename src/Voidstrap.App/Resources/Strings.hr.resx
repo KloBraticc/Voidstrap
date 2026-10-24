@@ -8008,9 +8008,6 @@ Pošalji tu datoteku osobi koja ti pomaže. Osobni podaci poput korisničkog ime
   <data name="Ui.RiShade.DepthModel.Title" xml:space="preserve">
     <value>AI model dubine</value>
   </data>
-  <data name="Ui.RiShade.DepthModel.Off" xml:space="preserve">
-    <value>Isključeno, ugrađena procjena</value>
-  </data>
   <data name="Ui.RiShade.DepthModel.Downloading" xml:space="preserve">
     <value>Preuzimanje modela dubine: {0} %</value>
   </data>
@@ -8019,9 +8016,6 @@ Pošalji tu datoteku osobi koja ti pomaže. Osobni podaci poput korisničkog ime
   </data>
   <data name="Ui.RiShade.DepthModel.Failed" xml:space="preserve">
     <value>Model dubine nije moguće preuzeti: {0}</value>
-  </data>
-  <data name="Ui.RiShade.DepthModel.RiDepthTiny" xml:space="preserve">
-    <value>RiDepth Tiny ({0} MB, napravljen za Roblox, trenutačan)</value>
   </data>
   <data name="Ui.RiShade.DepthModel.RiDepthPrompt" xml:space="preserve">
     <value>Uključiti RiDepth za RiShade? To je AI model dubine napravljen za Roblox, a efekti kojima treba dubina, poput ambijentalne okluzije, dubinske oštrine i odraza, s njim izgledaju mnogo bolje.

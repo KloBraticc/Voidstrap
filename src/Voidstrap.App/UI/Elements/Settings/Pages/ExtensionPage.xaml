@@ -189,9 +189,17 @@
                 </Grid>
                 <TextBlock x:Name="RiShadePresetStatus" Margin="0,6,0,0" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
                 <StackPanel x:Name="RiShadeDepthModel" Margin="0,14,0,0">
-                  <TextBlock Style="{StaticResource DetailLabel}" Text="{resources:Loc Ui_RiShade_DepthModel_Title}" />
-                  <TextBlock FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_RiShade_DepthModel_RiDepthDescription}" />
-                  <ComboBox x:Name="RiShadeDepthModelPicker" Margin="0,8,0,0" Height="34" VerticalContentAlignment="Center" DisplayMemberPath="Label" SelectionChanged="RiShadeDepthModel_SelectionChanged" />
+                  <Grid>
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Margin="0,0,12,0">
+                      <TextBlock Style="{StaticResource DetailLabel}" Text="{resources:Loc Ui_RiShade_DepthModel_Title}" />
+                      <TextBlock FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_RiShade_DepthModel_RiDepthDescription}" />
+                    </StackPanel>
+                    <ui:ToggleSwitch x:Name="RiShadeDepthModelToggle" Grid.Column="1" VerticalAlignment="Center" Click="RiShadeDepthModel_Click" />
+                  </Grid>
                   <TextBlock x:Name="RiShadeDepthModelStatus" Margin="0,6,0,0" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Visibility="Collapsed" />
                 </StackPanel>
                 <Grid x:Name="RiShadeDlss" Margin="0,14,0,0">
