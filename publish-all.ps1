@@ -372,7 +372,7 @@ Add these to $gradleProperties :
     [System.IO.Directory]::CreateDirectory($ArtifactDir) | Out-Null
     $log = Join-Path $ArtifactDir 'android.log'
     $errorLog = Join-Path $ArtifactDir 'android.errors.log'
-    $gradleArgs = @('assemblePlayRelease', 'assembleDirectRelease', '--console=plain', '--build-cache')
+    $gradleArgs = @('assemblePlayRelease', 'assembleDirectRelease', 'bundlePlayRelease', '--console=plain', '--build-cache')
     Write-Host '  Starting Android...' -ForegroundColor DarkGray
     $previousJavaHome = $env:JAVA_HOME
     $previousAndroidHome = $env:ANDROID_HOME
@@ -452,6 +452,13 @@ function Complete-AndroidPublish {
         $published = Join-Path $androidOutput "Voidstrap-Android-$flavour-$Version.apk"
         Copy-Item -LiteralPath $built -Destination $published -Force
         Write-Host "  $([System.IO.Path]::GetFileName($published))" -ForegroundColor Green
+    }
+
+    $builtBundle = Join-Path $androidRoot "app/build/outputs/bundle/playRelease/app-play-release.aab"
+    if (Test-Path -LiteralPath $builtBundle -PathType Leaf) {
+        $publishedBundle = Join-Path $androidOutput "Voidstrap-Android-play-$Version.aab"
+        Copy-Item -LiteralPath $builtBundle -Destination $publishedBundle -Force
+        Write-Host "  $([System.IO.Path]::GetFileName($publishedBundle))" -ForegroundColor Green
     }
 
     Assert-AndroidFlavourSplit (Join-Path $androidOutput "Voidstrap-Android-play-$Version.apk")
