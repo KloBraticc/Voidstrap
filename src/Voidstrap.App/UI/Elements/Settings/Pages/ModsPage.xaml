@@ -110,7 +110,7 @@
                 <ui:Button Margin="8,0,0,0" Appearance="Danger" Icon="Delete16" Content="{resources:Loc Ui_Mods_Remove}" Command="{Binding CursorSettings.Drag.ClearCommand}" Visibility="{Binding CursorSettings.Drag.HasImage, Converter={StaticResource BooleanToVisibilityConverter}}" />
               </StackPanel>
             </controls:OptionControl>
-            <controls:OptionControl Visibility="{x:Static platform:PlatformFeatureVisibility.NotLinux}" Header="{resources:Loc Ui_Mods_CustomShiftlock}" Description="{resources:Loc Ui_Mods_ShownInTheMiddleOfThe}">
+            <controls:OptionControl Visibility="{Binding ShiftLockVisibility}" Header="{resources:Loc Ui_Mods_CustomShiftlock}" Description="{resources:Loc Ui_Mods_ShownInTheMiddleOfThe}">
               <StackPanel Orientation="Horizontal">
                 <Border Width="36" Height="36" Margin="0,0,10,0" CornerRadius="6" Background="#33000000" BorderThickness="1" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}">
                   <Image Margin="4" Stretch="Uniform" RenderOptions.BitmapScalingMode="HighQuality" Source="{Binding CursorSettings.ShiftLock.Preview}" />

@@ -70,6 +70,9 @@ public partial class ModsPage : UiPage{
 
 	private async void ModsPage_Loaded(object sender, RoutedEventArgs e)
 	{
+		Voidstrap.Utility.LinuxRuntimeChoice.Changed -= OnLinuxRuntimeChanged;
+		Voidstrap.Utility.LinuxRuntimeChoice.Changed += OnLinuxRuntimeChanged;
+		ViewModel.RefreshShiftLockVisibility();
 		try
 		{
 			if (PendingMyModsTab)
@@ -107,8 +110,14 @@ public partial class ModsPage : UiPage{
 		}
 	}
 
+	private void OnLinuxRuntimeChanged(object? sender, EventArgs e)
+	{
+		Dispatcher.BeginInvoke(ViewModel.RefreshShiftLockVisibility);
+	}
+
 	private void ModsPage_Unloaded(object sender, RoutedEventArgs e)
 	{
+		Voidstrap.Utility.LinuxRuntimeChoice.Changed -= OnLinuxRuntimeChanged;
 		CancellationTokenSource? previewCancellation = _previewCancellation;
 		_previewCancellation = null;
 		previewCancellation?.Cancel();

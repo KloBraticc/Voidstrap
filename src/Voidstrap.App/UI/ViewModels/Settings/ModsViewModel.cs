@@ -435,6 +435,12 @@ public partial class ModsViewModel : NotifyPropertyChangedViewModel
 
 	public bool ClassicTopBarCoreGuiEditable => !_classicTopBarBusy && !App.Settings.Prop.ClassicTopBarEnabled;
 
+	public Visibility ShiftLockVisibility => !Voidstrap.Utility.Platform.IsLinux || Voidstrap.Utility.LinuxRuntimeChoice.PageUsesRosemary
+		? Visibility.Visible
+		: Visibility.Collapsed;
+
+	public void RefreshShiftLockVisibility() => OnPropertyChanged(nameof(ShiftLockVisibility));
+
 	public Visibility ClassicTopBarVisibility => Voidstrap.Utility.Platform.IsWindows || Voidstrap.Utility.Platform.IsLinux && App.Settings.Prop.ClassicTopBarEnabled
 		? Visibility.Visible
 		: Visibility.Collapsed;
