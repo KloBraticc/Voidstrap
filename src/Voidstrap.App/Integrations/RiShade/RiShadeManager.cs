@@ -380,6 +380,7 @@ namespace Voidstrap.Integrations.RiShade
             if (!Voidstrap.Utility.Platform.IsWindows)
                 return;
 
+            await RiShadeDepthModels.RefreshAsync();
             await SetupGate.WaitAsync();
             try
             {

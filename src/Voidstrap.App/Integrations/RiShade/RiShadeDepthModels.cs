@@ -1,6 +1,7 @@
 using System;
 using System.Buffers.Binary;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -63,6 +64,14 @@ namespace Voidstrap.Integrations.RiShade
                 1996913)]
         };
 
+        private const string ReleasesUrl = "https://api.github.com/repos/KloBraticc/RiDepth/releases?per_page=20";
+        private const string ReleaseDownloadPrefix = "https://github.com/KloBraticc/RiDepth/releases/download/";
+        private const string TinyTagPrefix = "tiny-";
+        private const long MaxModelBytes = 64L * 1024 * 1024;
+        private static readonly TimeSpan ReleaseCheckInterval = TimeSpan.FromHours(6);
+        private static readonly TimeSpan ReleaseCheckTimeout = TimeSpan.FromSeconds(15);
+        private static Asset? _latestTiny;
+
         private const int MaxSegments = 8;
         private const long SegmentFloor = 4L * 1024 * 1024;
         private const int Attempts = 4;
@@ -110,11 +119,68 @@ namespace Voidstrap.Integrations.RiShade
 
         public static bool NeedsUpdate =>
             Voidstrap.Utility.Platform.IsWindows
-            && Models.TryGetValue(Selected, out Asset[]? files)
+            && TryGetFiles(Selected, out Asset[]? files)
             && files.Prepend(DirectMl).Prepend(OnnxRuntime).Any(asset => !IsInstalled(RiShadeManager.RiShadeDir, asset));
 
         public static int SizeMegabytes(RiShadeDepthModel model) =>
-            Models.TryGetValue(model, out Asset[]? files) ? (int)Math.Round(files.Sum(file => file.Size) / 1048576.0) : 0;
+            TryGetFiles(model, out Asset[]? files) ? (int)Math.Round(files.Sum(file => file.Size) / 1048576.0) : 0;
+
+        private static bool TryGetFiles(RiShadeDepthModel model, [NotNullWhen(true)] out Asset[]? files)
+        {
+            if (model == RiShadeDepthModel.RiDepthTiny && Volatile.Read(ref _latestTiny) is Asset latest)
+            {
+                files = [latest];
+                return true;
+            }
+            return Models.TryGetValue(model, out files);
+        }
+
+        public static async Task RefreshAsync(CancellationToken token = default)
+        {
+            if (!Voidstrap.Utility.Platform.IsWindows || Selected != RiShadeDepthModel.RiDepthTiny)
+                return;
+
+            using CancellationTokenSource timeout = CancellationTokenSource.CreateLinkedTokenSource(token);
+            timeout.CancelAfter(ReleaseCheckTimeout);
+            try
+            {
+                List<Voidstrap.Models.APIs.GitHub.GithubRelease>? releases = await Voidstrap.Utility.GitHubCache.GetJsonAsync<List<Voidstrap.Models.APIs.GitHub.GithubRelease>>(ReleasesUrl, ReleaseCheckInterval, timeout.Token).ConfigureAwait(false);
+                Asset? latest = releases?
+                    .Where(release => !release.Draft && !release.Prerelease && release.TagName?.StartsWith(TinyTagPrefix, StringComparison.OrdinalIgnoreCase) == true)
+                    .OrderByDescending(release => DateTimeOffset.TryParse(release.PublishedAt, out DateTimeOffset published) ? published : DateTimeOffset.MinValue)
+                    .Select(ToTinyAsset)
+                    .FirstOrDefault(asset => asset != null);
+                if (latest == null)
+                    return;
+                Asset? previous = Interlocked.Exchange(ref _latestTiny, latest);
+                if (previous == null || !previous.Sha256.Equals(latest.Sha256, StringComparison.OrdinalIgnoreCase))
+                    App.Logger.WriteLine(LogIdent, "Newest RiDepth Tiny release is " + latest.Url);
+            }
+            catch (OperationCanceledException) when (!token.IsCancellationRequested)
+            {
+                App.Logger.WriteLine(LogIdent, "Checking for a newer RiDepth Tiny release timed out, the known model stays in use");
+            }
+            catch (Exception ex) when (ex is not OperationCanceledException)
+            {
+                App.Logger.WriteException(LogIdent + "::RefreshAsync", ex);
+            }
+        }
+
+        private static Asset? ToTinyAsset(Voidstrap.Models.APIs.GitHub.GithubRelease release)
+        {
+            string fileName = Models[RiShadeDepthModel.RiDepthTiny][0].FileName;
+            Voidstrap.Models.APIs.GitHub.GithubReleaseAsset? file = release.Assets?.FirstOrDefault(asset => string.Equals(asset.Name, fileName, StringComparison.Ordinal));
+            string digest = file?.Digest ?? "";
+            if (file == null
+                || file.Size <= 0
+                || file.Size > MaxModelBytes
+                || file.BrowserDownloadUrl?.StartsWith(ReleaseDownloadPrefix, StringComparison.Ordinal) != true
+                || !digest.StartsWith("sha256:", StringComparison.OrdinalIgnoreCase)
+                || digest.Length != 71
+                || !digest[7..].All(Uri.IsHexDigit))
+                return null;
+            return new Asset(fileName, file.BrowserDownloadUrl, digest[7..], file.Size);
+        }
 
         public static string? ActiveModelFile => InstalledModelFile(Selected);
 
@@ -122,7 +188,7 @@ namespace Voidstrap.Integrations.RiShade
 
         private static string? InstalledModelFile(RiShadeDepthModel model)
         {
-            if (!Voidstrap.Utility.Platform.IsWindows || !Models.TryGetValue(model, out Asset[]? files))
+            if (!Voidstrap.Utility.Platform.IsWindows || !TryGetFiles(model, out Asset[]? files))
                 return null;
             string directory = RiShadeManager.RiShadeDir;
             foreach (Asset asset in files.Prepend(DirectMl).Prepend(OnnxRuntime))
@@ -170,7 +236,9 @@ namespace Voidstrap.Integrations.RiShade
                     return (true, string.Empty);
                 }
 
-                Asset[] chosen = Models[model];
+                await RefreshAsync(source.Token);
+                if (!TryGetFiles(model, out Asset[]? chosen))
+                    throw new InvalidOperationException("Unknown depth model " + model);
                 List<Asset> missing = chosen.Prepend(DirectMl).Prepend(OnnxRuntime).Where(asset => !IsInstalled(directory, asset)).ToList();
                 long total = missing.Sum(asset => asset.Size);
                 long received = 0;
@@ -238,7 +306,8 @@ namespace Voidstrap.Integrations.RiShade
 
         private static void RemoveUnused(string directory, Asset[] keep)
         {
-            IEnumerable<string> unused = Models.Values.SelectMany(files => files).Where(file => !keep.Contains(file)).Select(file => file.FileName).Concat(LegacyFiles);
+            IEnumerable<string> unused = Models.Values.SelectMany(files => files).Select(file => file.FileName)
+                .Where(name => !keep.Any(file => string.Equals(file.FileName, name, StringComparison.OrdinalIgnoreCase))).Concat(LegacyFiles);
             foreach (string name in unused)
             {
                 string path = Path.Combine(directory, name);

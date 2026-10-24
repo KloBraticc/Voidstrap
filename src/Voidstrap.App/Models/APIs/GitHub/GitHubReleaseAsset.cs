@@ -13,4 +13,7 @@ public class GithubReleaseAsset
 
     [JsonPropertyName("state")]
     public string? State { get; set; }
+
+    [JsonPropertyName("size")]
+    public long Size { get; set; }
 }
