@@ -58,8 +58,8 @@ namespace Voidstrap.Integrations.RiShade
         {
             [RiShadeDepthModel.RiDepthTiny] = [new(
                 "ridepth-tiny.onnx",
-                "https://github.com/KloBraticc/RiDepth/releases/download/tiny-1/ridepth-tiny.onnx",
-                "8668fb3aef1e1a907cfaeaee5b95c310f16245b98b92992497a13d796dca4abd",
+                "https://github.com/KloBraticc/RiDepth/releases/download/tiny-2/ridepth-tiny.onnx",
+                "af551958319a1ee07d379b398c7b1e0bea9a3712742d6ad80291ff41b6ed6d71",
                 1996913)]
         };
 
