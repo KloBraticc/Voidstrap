@@ -1859,6 +1859,8 @@ bool ScheduleExact(Lane& l, ID3D11Texture2D* frame, int64_t frameTimestamp)
         }
         l.done = false;
         l.busy = false;
+        if (l.inputValue && !D3D12Removed(l))
+            Publish(l);
     }
     if (D3D12Removed(l))
     {
