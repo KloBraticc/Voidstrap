@@ -1073,8 +1073,20 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         if (RootFrame.Content is not HomePage homePage)
         {
+            if (ReferenceEquals(HomeTargetButton.Content, PageBreadcrumb))
+            {
+                HomeTargetButton.Content = null;
+                PageBreadcrumb.Margin = new Thickness(6, 0, 0, 0);
+                PageTitleHost.Children.Insert(0, PageBreadcrumb);
+            }
             HomeTargetButton.Visibility = Visibility.Collapsed;
             return;
+        }
+        if (ReferenceEquals(PageBreadcrumb.Parent, PageTitleHost))
+        {
+            PageTitleHost.Children.Remove(PageBreadcrumb);
+            PageBreadcrumb.Margin = new Thickness(0);
+            HomeTargetButton.Content = PageBreadcrumb;
         }
         bool studio = homePage.IsStudioTab;
         HomeTargetButton.Visibility = Visibility.Visible;
