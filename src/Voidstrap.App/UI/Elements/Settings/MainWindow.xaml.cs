@@ -1063,63 +1063,37 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         if (BreadcrumbPanel == null || PageHeaderShift == null)
             return;
-        _pageHeaderShiftFrom = fromX;
-        PageHeaderShift.BeginAnimation(TranslateTransform.XProperty, new DoubleAnimation(fromX, fromX, TimeSpan.Zero));
-        BreadcrumbPanel.BeginAnimation(OpacityProperty, new DoubleAnimation(0.0, 0.0, TimeSpan.Zero));
-        Dispatcher.BeginInvoke(new Action(RunPageHeaderAnimation), DispatcherPriority.Loaded);
+        PageHeaderShift.BeginAnimation(TranslateTransform.XProperty, GetPageHeaderSlide(fromX));
+        BreadcrumbPanel.BeginAnimation(OpacityProperty, PageHeaderFade);
     }
 
-    private double _pageHeaderShiftFrom;
+    private static readonly CubicEase PageHeaderEase = CreatePageHeaderEase();
 
-    private void RunPageHeaderAnimation()
+    private static readonly DoubleAnimation PageHeaderFade = CreateFrozen(new DoubleAnimation(0.0, 1.0, TimeSpan.FromMilliseconds(240)) { EasingFunction = PageHeaderEase });
+
+    private static readonly Dictionary<double, DoubleAnimation> PageHeaderSlides = new Dictionary<double, DoubleAnimation>();
+
+    private static CubicEase CreatePageHeaderEase()
     {
         CubicEase ease = new CubicEase { EasingMode = EasingMode.EaseOut };
         ease.Freeze();
-        DoubleAnimation slide = new DoubleAnimation(_pageHeaderShiftFrom, 0.0, TimeSpan.FromMilliseconds(280)) { EasingFunction = ease };
-        DoubleAnimation fade = new DoubleAnimation(0.0, 1.0, TimeSpan.FromMilliseconds(240)) { EasingFunction = ease };
-        slide.Freeze();
-        fade.Freeze();
-        PageHeaderShift.BeginAnimation(TranslateTransform.XProperty, slide);
-        BreadcrumbPanel.BeginAnimation(OpacityProperty, fade);
-        if (RootFrame?.Content is not DependencyObject page)
-            return;
-        TextBlock? description = FindPageDescription(page, 0);
-        if (description == null)
-            return;
-        if (description.RenderTransform is not TranslateTransform shift || shift.IsFrozen)
-        {
-            shift = new TranslateTransform();
-            description.RenderTransform = shift;
-        }
-        shift.BeginAnimation(TranslateTransform.XProperty, slide);
-        description.BeginAnimation(OpacityProperty, fade);
+        return ease;
     }
 
-    private TextBlock? FindPageDescription(DependencyObject node, int depth)
+    private static DoubleAnimation CreateFrozen(DoubleAnimation animation)
     {
-        if (depth > 12)
-            return null;
-        int count = VisualTreeHelper.GetChildrenCount(node);
-        for (int i = 0; i < count; i++)
+        animation.Freeze();
+        return animation;
+    }
+
+    private static DoubleAnimation GetPageHeaderSlide(double fromX)
+    {
+        if (!PageHeaderSlides.TryGetValue(fromX, out DoubleAnimation? slide))
         {
-            DependencyObject child = VisualTreeHelper.GetChild(node, i);
-            if (child is TextBlock text && text.IsVisible && Math.Abs(text.FontSize - 14.0) < 0.01 && !string.IsNullOrWhiteSpace(text.Text))
-            {
-                try
-                {
-                    if (text.TransformToAncestor(RootFrame).Transform(new Point(0, 0)).Y < 90.0)
-                        return text;
-                }
-                catch (InvalidOperationException)
-                {
-                }
-                return null;
-            }
-            TextBlock? found = FindPageDescription(child, depth + 1);
-            if (found != null)
-                return found;
+            slide = CreateFrozen(new DoubleAnimation(fromX, 0.0, TimeSpan.FromMilliseconds(280)) { EasingFunction = PageHeaderEase });
+            PageHeaderSlides[fromX] = slide;
         }
-        return null;
+        return slide;
     }
 
     internal void RefreshGlobalSearchBoxVisibility()
