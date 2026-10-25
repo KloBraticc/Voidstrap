@@ -1020,7 +1020,6 @@ void CreateD3D12(Lane& l)
         if (SUCCEEDED(CreateDXGIFactory1(IID_PPV_ARGS(factory.put()))))
             factory->EnumAdapterByLuid(d.adapter, IID_PPV_ARGS(sameAdapter.put()));
     }
-    if (l.removals > 0)
     {
         winrt::com_ptr<ID3D12DeviceRemovedExtendedDataSettings> dred;
         if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(dred.put()))))
