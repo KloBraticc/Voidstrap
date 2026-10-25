@@ -954,20 +954,7 @@ public static class LaunchHandler
 
 	private static bool IsAnyProcessRunning(string processName) => Voidstrap.Utility.ProcessScan.Any(processName);
 
-	private static bool IsProcessAlive(int processId)
-	{
-		if (processId <= 0)
-			return false;
-		try
-		{
-			using Process process = Process.GetProcessById(processId);
-			return !process.HasExited;
-		}
-		catch (Exception)
-		{
-			return false;
-		}
-	}
+	private static bool IsProcessAlive(int processId) => Voidstrap.Utility.ProcessScan.IsAlive(processId);
 
 	private static async Task WaitForStudioExitAsync(int processId, CancellationToken cancellationToken)
 	{

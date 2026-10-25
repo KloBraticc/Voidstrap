@@ -377,6 +377,8 @@ internal sealed partial class RobloxProcessOptimizer : IDisposable
 
 	private Process? TryGetProcess()
 	{
+		if (!ProcessScan.IsAlive(_processId))
+			return null;
 		try
 		{
 			return Process.GetProcessById(_processId);

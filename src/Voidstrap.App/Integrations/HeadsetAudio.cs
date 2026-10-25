@@ -375,18 +375,7 @@ public static partial class HeadsetAudio
 			capture.ReleaseBuffer(frames);
 	}
 
-	private static bool IsProcessAlive(uint pid)
-	{
-		try
-		{
-			using Process process = Process.GetProcessById((int)pid);
-			return !process.HasExited;
-		}
-		catch
-		{
-			return false;
-		}
-	}
+	private static bool IsProcessAlive(uint pid) => Voidstrap.Utility.ProcessScan.IsAlive((int)pid);
 
 	private static bool IsDefaultDevice(MMDeviceEnumerator enumerator, string deviceId)
 	{
