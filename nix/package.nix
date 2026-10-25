@@ -136,7 +136,7 @@ buildDotnetModule (finalAttrs: {
       inherit (finalAttrs) version src;
       cargoRoot = "native/voidimage";
       buildAndTestSubdir = "native/voidimage";
-      cargoHash = "sha256-25ly3BBUjnx7nzhCbZi0GkHVuWYEtj+PG1Y1EefzZqY=";
+      cargoLock.lockFile = "${finalAttrs.src}/native/voidimage/Cargo.lock";
       doCheck = false;
     };
     updateScript = nix-update-script { };
