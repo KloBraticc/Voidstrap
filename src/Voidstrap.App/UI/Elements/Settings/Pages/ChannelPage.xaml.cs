@@ -296,10 +296,10 @@ public partial class ChannelPage : UiPage{
 			App.PendingSettingTasks.Clear();
 			ProcessStartInfo startInfo = new()
 			{
-				FileName = Voidstrap.Utility.Platform.IsLinux ? Paths.LaunchExecutable : Paths.Application,
-				UseShellExecute = !Voidstrap.Utility.Platform.IsLinux
+				FileName = Voidstrap.Utility.Platform.IsWindows ? Paths.Application : Paths.LaunchExecutable,
+				UseShellExecute = Voidstrap.Utility.Platform.IsWindows
 			};
-			if (Voidstrap.Utility.Platform.IsLinux)
+			if (!Voidstrap.Utility.Platform.IsWindows)
 			{
 				startInfo.ArgumentList.Add("-factoryreset");
 				startInfo.ArgumentList.Add(Environment.ProcessId.ToString(System.Globalization.CultureInfo.InvariantCulture));

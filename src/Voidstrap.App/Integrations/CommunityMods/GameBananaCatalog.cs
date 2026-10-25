@@ -765,7 +765,7 @@ public static partial class GameBananaCatalog
 
 	private static async Task UnpackWithTarAsync(string archivePath, string extension, string raw, CancellationToken token)
 	{
-		string tool = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "tar.exe");
+		string tool = Voidstrap.Utility.Platform.IsMacOS ? "/usr/bin/tar" : Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.System), "tar.exe");
 		if (!File.Exists(tool))
 		{
 			throw new InvalidDataException("This system cannot open " + extension.TrimStart('.') + " packages.");

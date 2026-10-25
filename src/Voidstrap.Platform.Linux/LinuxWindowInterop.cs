@@ -314,7 +314,7 @@ public static partial class LinuxWindowInterop
 				if (_initialized)
 					return _display;
 				_initialized = true;
-				if (_unavailable || string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("DISPLAY")))
+				if (_unavailable || !OperatingSystem.IsLinux() || string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("DISPLAY")))
 				{
 					_unavailable = true;
 					return 0;

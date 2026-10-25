@@ -58,7 +58,7 @@ public static class GlobalBackground
                 Background = Brushes.Black,
                 IsHitTestVisible = false
             };
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesPortableUi)
             {
                 _portableMedia = new Voidstrap.UI.Elements.Controls.HomepageMediaPreviewVideo
                 {
@@ -372,7 +372,7 @@ public static class GlobalBackground
                 return;
             }
             string extension = (Path.GetExtension(state.FilePath) ?? string.Empty).ToLowerInvariant();
-            BitmapSource? bitmap = Voidstrap.Utility.Platform.IsLinux || extension is ".mp4" or ".webm" or ".avi" or ".mov"
+            BitmapSource? bitmap = Voidstrap.Utility.Platform.UsesPortableUi || extension is ".mp4" or ".m4v" or ".webm" or ".avi" or ".mov"
                 ? null
                 : GetBackgroundImage(state.FilePath, Math.Max(800, (int)Math.Ceiling(window.ActualWidth)));
             host.Apply(state, bitmap, writeTimeUtc);

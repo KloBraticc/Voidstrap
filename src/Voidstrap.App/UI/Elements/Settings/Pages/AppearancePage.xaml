@@ -68,7 +68,7 @@
                 <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" IsChecked="{Binding GRADmentFR, Mode=TwoWay}" />
               </controls:OptionControl>
               <TextBlock Margin="4,16,0,6" FontSize="13" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_Appearance_Shape}" />
-              <controls:OptionControl Header="{resources:Loc Ui_Appearance_WindowCorners}" Description="{resources:Loc Ui_Appearance_WindowCornersDescription}">
+              <controls:OptionControl Header="{resources:Loc Ui_Appearance_WindowCorners}" Description="{resources:Loc Ui_Appearance_WindowCornersDescription}" Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}">
                 <ComboBox Width="200" Padding="10,5" ItemsSource="{Binding WindowCornerStyles, Mode=OneTime}" SelectedItem="{Binding WindowCornerStyle, Mode=TwoWay}">
                   <ItemsControl.ItemTemplate>
                     <DataTemplate>

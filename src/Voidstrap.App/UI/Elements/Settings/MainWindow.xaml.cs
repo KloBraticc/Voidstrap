@@ -635,7 +635,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
         try
         {
-            if (Voidstrap.Utility.Platform.IsLinux)
+            if (Voidstrap.Utility.Platform.UsesPortableUi)
             {
                 Voidstrap.UI.Elements.Controls.HomepageMediaPreviewVideo portable = new()
                 {

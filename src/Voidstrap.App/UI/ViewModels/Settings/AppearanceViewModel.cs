@@ -1338,7 +1338,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
         OpenFileDialog openFileDialog = new OpenFileDialog
         {
             Filter = Voidstrap.Utility.Platform.IsMacOS
-                ? "Background Files|*.png;*.jpg;*.jpeg;*.bmp;*.gif"
+                ? "Background Files|*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.mp4;*.m4v;*.mov"
                 : "Background Files|*.png;*.jpg;*.jpeg;*.bmp;*.gif;*.mp4;*.webm;*.avi;*.mov",
             Title = "Select Background File"
         };
@@ -1442,7 +1442,7 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
 
     internal static double? RecommendGradientOpacity(string path)
     {
-        if (Path.GetExtension(path).ToLowerInvariant() is ".mp4" or ".webm" or ".avi" or ".mov")
+        if (Path.GetExtension(path).ToLowerInvariant() is ".mp4" or ".m4v" or ".webm" or ".avi" or ".mov")
         {
             return null;
         }

@@ -66,6 +66,11 @@ internal static partial class ClassicTopBarInput
 		}
 		try
 		{
+			if (OperatingSystem.IsMacOS())
+			{
+				Voidstrap.Platform.MacOS.MacOSOverlayWindow.ActivateProcess(RobloxWindowTracker.MacProcessId);
+				return;
+			}
 			if (!OperatingSystem.IsWindows())
 			{
 				Voidstrap.Platform.Linux.LinuxWindowInterop.TryActivateWindow(hwnd);

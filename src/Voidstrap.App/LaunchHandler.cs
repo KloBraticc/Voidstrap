@@ -404,6 +404,27 @@ public static class LaunchHandler
 			App.Terminate();
 			return;
 		}
+		if (OperatingSystem.IsMacOS())
+		{
+			bool raised = false;
+			Process[] others = Process.GetProcessesByName("Voidstrap");
+			try
+			{
+				foreach (Process other in others)
+				{
+					if (other.Id != Environment.ProcessId && Voidstrap.Platform.MacOS.MacOSOverlayWindow.ActivateProcess(other.Id))
+						raised = true;
+				}
+			}
+			finally
+			{
+				foreach (Process other in others)
+					other.Dispose();
+			}
+			App.Logger.WriteLine("LaunchHandler::LaunchSettings", raised ? "Brought the open Voidstrap window to the front" : "The open Voidstrap window could not be brought to the front");
+			App.Terminate();
+			return;
+		}
 		Process[] processesSafe = Utilities.GetProcessesSafe();
 		try
 		{
