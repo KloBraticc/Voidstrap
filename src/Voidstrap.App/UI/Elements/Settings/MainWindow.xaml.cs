@@ -3889,7 +3889,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         Voidstrap.Utility.DynamicRenderSystem.SetLazyImageSource(AccountButtonAvatar, current?.AvatarUrl);
     }
 
-    private void AccountMenuButton_Click(object sender, RoutedEventArgs e)
+    private void ToggleAccountMenu()
     {
         if (AccountMenuPopup.IsOpen && !AccountMenuPopup.IsClosing)
         {
@@ -3924,6 +3924,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void AccountButton_Click(object sender, RoutedEventArgs e)
     {
+        if (AccountMenuChevron.IsMouseOver)
+        {
+            ToggleAccountMenu();
+            return;
+        }
         _accountsPage ??= new AccountsPage();
         if (!ReferenceEquals(RootFrame.Content, _accountsPage))
         {
