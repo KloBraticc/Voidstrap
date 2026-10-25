@@ -8402,4 +8402,7 @@ Se descarcă {0} MB. Dacă refuzi, se folosește estimarea integrată. Poți sch
   <data name="Accounts.Premium.None" xml:space="preserve">
     <value>Niciunul</value>
   </data>
+  <data name="Accounts.SignIn.RobloxApp" xml:space="preserve">
+    <value>Conectează-te sau înregistrează-te în fereastra Roblox. Voidstrap salvează contul imediat ce te conectezi.</value>
+  </data>
 </root>

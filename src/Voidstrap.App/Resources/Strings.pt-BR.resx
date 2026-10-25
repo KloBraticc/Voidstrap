@@ -8402,4 +8402,7 @@ O download tem {0} MB. Se você recusar, a estimativa integrada será usada. Voc
   <data name="Accounts.Premium.None" xml:space="preserve">
     <value>Nenhum</value>
   </data>
+  <data name="Accounts.SignIn.RobloxApp" xml:space="preserve">
+    <value>Entre ou cadastre-se na janela do Roblox. O Voidstrap salva a conta assim que você entrar.</value>
+  </data>
 </root>

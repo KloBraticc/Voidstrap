@@ -8399,4 +8399,7 @@ Voidstrap не зміг записати до теки робочого стол
   <data name="Accounts.Premium.None" xml:space="preserve">
     <value>Немає</value>
   </data>
+  <data name="Accounts.SignIn.RobloxApp" xml:space="preserve">
+    <value>Увійдіть або зареєструйтеся у вікні Roblox. Voidstrap збереже обліковий запис одразу після входу.</value>
+  </data>
 </root>

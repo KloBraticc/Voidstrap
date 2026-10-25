@@ -148,7 +148,7 @@ namespace Voidstrap.UI.ViewModels.Settings
         public ICommand CheckAllCommand { get; }
         public ICommand RefreshCommand { get; }
 
-        public Visibility BrowserSignInVisibility => Voidstrap.Utility.Platform.IsWindows ? Visibility.Visible : Visibility.Collapsed;
+        public Visibility BrowserSignInVisibility => Voidstrap.Utility.Platform.IsWindows || Voidstrap.Utility.Platform.IsMacOS ? Visibility.Visible : Visibility.Collapsed;
 
         public Visibility UnsupportedVisibility => SavedAccounts.SwitchingSupported ? Visibility.Collapsed : Visibility.Visible;
 
@@ -297,6 +297,11 @@ namespace Voidstrap.UI.ViewModels.Settings
 
         private async Task SignInAsync(bool signUp)
         {
+            if (Voidstrap.Utility.Platform.IsMacOS)
+            {
+                await SignInThroughRobloxAsync();
+                return;
+            }
 #if !CROSSPLAT
             string? cookie = Voidstrap.UI.Elements.Overlay.RobloxSignInWindow.Prompt(signUp);
             if (!string.IsNullOrEmpty(cookie))
@@ -304,6 +309,55 @@ namespace Voidstrap.UI.ViewModels.Settings
 #else
             await Task.CompletedTask;
 #endif
+        }
+
+        private async Task SignInThroughRobloxAsync()
+        {
+            if (_busy || !await EnsureRobloxClosedAsync())
+                return;
+            IsBusy = true;
+            CancellationToken token = _cts.Token;
+            try
+            {
+                await SavedAccounts.EnsureCurrentAccountSavedAsync(token);
+                await SavedAccounts.SignOutAsync();
+                MarkCurrent(0);
+                LaunchHandler.LaunchRoblox(LaunchMode.Player);
+                Status = Strings.Accounts_SignIn_RobloxApp;
+                DateTime deadline = DateTime.UtcNow.AddMinutes(15);
+                while (DateTime.UtcNow < deadline)
+                {
+                    await Task.Delay(2000, token);
+                    string? cookie = RobloxCookie.ExtractCookieFromDat(SavedAccounts.LiveCookiePath);
+                    if (string.IsNullOrEmpty(cookie) || await RobloxCookie.GetAccountAsync(cookie, token) == null)
+                        continue;
+                    await SavedAccounts.EnsureCurrentAccountSavedAsync(token);
+                    {
+                        IsBusy = false;
+                        await LoadAsync();
+                        CurrentAccountInfo? current = SavedAccounts.Current;
+                        if (current != null)
+                        {
+                            Status = string.Format(Strings.Accounts_Status_Added, current.Username);
+                            SelectedAccount = Accounts.FirstOrDefault(a => a.Model.UserId == current.UserId) ?? SelectedAccount;
+                        }
+                        return;
+                    }
+                }
+                Status = "";
+            }
+            catch (OperationCanceledException)
+            {
+            }
+            catch (Exception ex)
+            {
+                App.Logger?.WriteLine(LogIdent, "Signing in through Roblox failed: " + ex.Message);
+                Status = Strings.Accounts_Status_Failed;
+            }
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         private async Task ImportAsync()

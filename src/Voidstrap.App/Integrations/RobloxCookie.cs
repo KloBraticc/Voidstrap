@@ -286,6 +286,10 @@ public static partial class RobloxCookie
 			{
 				return null;
 			}
+			if (OperatingSystem.IsMacOS())
+			{
+				return Voidstrap.Platform.MacOS.MacOSBinaryCookies.Find(datPath, SecurityCookieName, "roblox.com");
+			}
 			if (Voidstrap.Utility.Platform.IsLinux)
 			{
 				return Extract(File.ReadAllText(datPath));
@@ -312,6 +316,18 @@ public static partial class RobloxCookie
 
 	public static bool WriteLoginFile(string cookie, string? templateDatPath, string outputDatPath)
 	{
+		if (OperatingSystem.IsMacOS())
+		{
+			try
+			{
+				return Voidstrap.Platform.MacOS.MacOSBinaryCookies.WriteWithCookie(templateDatPath, outputDatPath, SecurityCookieName, "roblox.com", cookie);
+			}
+			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or ArgumentException)
+			{
+				App.Logger?.WriteLine("RobloxCookie", "The login file could not be written: " + ex.Message);
+				return false;
+			}
+		}
 		if (!string.IsNullOrEmpty(templateDatPath) && File.Exists(templateDatPath) && SynthesizeDatWithCookie(templateDatPath, cookie, outputDatPath))
 		{
 			return true;

@@ -8392,4 +8392,7 @@ Muat turunnya {0} MB. Jika anda menolak, anggaran terbina dalam akan digunakan. 
   <data name="Accounts.Premium.None" xml:space="preserve">
     <value>Tiada</value>
   </data>
+  <data name="Accounts.SignIn.RobloxApp" xml:space="preserve">
+    <value>Log masuk atau daftar dalam tetingkap Roblox. Voidstrap menyimpan akaun sebaik sahaja anda log masuk.</value>
+  </data>
 </root>

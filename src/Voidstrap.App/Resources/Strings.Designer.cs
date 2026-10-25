@@ -8712,5 +8712,6 @@ namespace Voidstrap.Resources {
         public static string Accounts_Copied => ResourceManager.GetString("Accounts.Copied", resourceCulture);
         public static string Accounts_Premium_Active => ResourceManager.GetString("Accounts.Premium.Active", resourceCulture);
         public static string Accounts_Premium_None => ResourceManager.GetString("Accounts.Premium.None", resourceCulture);
+        public static string Accounts_SignIn_RobloxApp => ResourceManager.GetString("Accounts.SignIn.RobloxApp", resourceCulture);
     }
 }

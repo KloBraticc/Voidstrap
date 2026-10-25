@@ -8403,4 +8403,7 @@ Unduhannya {0} MB. Jika Anda menolak, perkiraan bawaan akan digunakan. Anda dapa
   <data name="Accounts.Premium.None" xml:space="preserve">
     <value>Tidak ada</value>
   </data>
+  <data name="Accounts.SignIn.RobloxApp" xml:space="preserve">
+    <value>Masuk atau daftar di jendela Roblox. Voidstrap menyimpan akun begitu Anda masuk.</value>
+  </data>
 </root>

@@ -856,7 +856,7 @@
           </ItemsControl.ItemsPanel>
           <StatusBarItem Grid.Column="0" Margin="0,0,4,0">
             <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
-              <Button x:Name="AccountButton" Height="32" Margin="0,0,14,0" Padding="4,0,12,0" Style="{StaticResource TopBarPillButtonStyle}" Background="#14FFFFFF" AutomationProperties.Name="{resources:Loc Accounts_Title}" Visibility="{x:Static appUi:PlatformFeatureVisibility.NotMacOS}" Click="AccountButton_Click">
+              <Button x:Name="AccountButton" Height="32" Margin="0,0,14,0" Padding="4,0,12,0" Style="{StaticResource TopBarPillButtonStyle}" Background="#14FFFFFF" AutomationProperties.Name="{resources:Loc Accounts_Title}" Click="AccountButton_Click">
                 <StackPanel Orientation="Horizontal">
                   <Grid Width="24" Height="24">
                     <Ellipse Fill="{DynamicResource ControlFillColorSecondaryBrush}" />

@@ -8404,4 +8404,7 @@ Voidstrap 無法寫入桌面資料夾。</value>
   <data name="Accounts.Premium.None" xml:space="preserve">
     <value>無</value>
   </data>
+  <data name="Accounts.SignIn.RobloxApp" xml:space="preserve">
+    <value>請在 Roblox 視窗中登入或註冊。你登入後 Voidstrap 會立即儲存該帳號。</value>
+  </data>
 </root>

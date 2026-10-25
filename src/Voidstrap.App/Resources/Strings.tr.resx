@@ -8399,4 +8399,7 @@ Bu dosyayı size yardım eden kişiye gönderin. Bilgisayar kullanıcı adınız
   <data name="Accounts.Premium.None" xml:space="preserve">
     <value>Yok</value>
   </data>
+  <data name="Accounts.SignIn.RobloxApp" xml:space="preserve">
+    <value>Roblox penceresinde giriş yapın veya kaydolun. Voidstrap, giriş yaptığınız anda hesabı kaydeder.</value>
+  </data>
 </root>

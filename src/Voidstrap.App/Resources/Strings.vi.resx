@@ -8404,4 +8404,7 @@ Dung lượng tải xuống là {0} MB. Nếu bạn từ chối, ước tính t�
   <data name="Accounts.Premium.None" xml:space="preserve">
     <value>Không có</value>
   </data>
+  <data name="Accounts.SignIn.RobloxApp" xml:space="preserve">
+    <value>Đăng nhập hoặc đăng ký trong cửa sổ Roblox. Voidstrap sẽ lưu tài khoản ngay khi bạn đăng nhập.</value>
+  </data>
 </root>

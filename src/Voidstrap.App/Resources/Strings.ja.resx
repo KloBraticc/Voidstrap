@@ -8415,4 +8415,7 @@ Voidstrap がデスクトップ フォルダーに書き込めませんでした
   <data name="Accounts.Premium.None" xml:space="preserve">
     <value>なし</value>
   </data>
+  <data name="Accounts.SignIn.RobloxApp" xml:space="preserve">
+    <value>Roblox のウィンドウでサインインまたは新規登録してください。サインインするとすぐに Voidstrap がアカウントを保存します。</value>
+  </data>
 </root>

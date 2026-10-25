@@ -8400,4 +8400,7 @@
   <data name="Accounts.Premium.None" xml:space="preserve">
     <value>لا يوجد</value>
   </data>
+  <data name="Accounts.SignIn.RobloxApp" xml:space="preserve">
+    <value>سجّل الدخول أو أنشئ حسابًا في نافذة Roblox. يحفظ Voidstrap الحساب بمجرد تسجيل دخولك.</value>
+  </data>
 </root>

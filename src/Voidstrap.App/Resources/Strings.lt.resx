@@ -8402,4 +8402,7 @@ Atsisiunčiama {0} MB. Jei atsisakysite, bus naudojamas įtaisytasis įvertinima
   <data name="Accounts.Premium.None" xml:space="preserve">
     <value>Nėra</value>
   </data>
+  <data name="Accounts.SignIn.RobloxApp" xml:space="preserve">
+    <value>Prisijunkite arba užsiregistruokite Roblox lange. Voidstrap išsaugos paskyrą, kai tik prisijungsite.</value>
+  </data>
 </root>

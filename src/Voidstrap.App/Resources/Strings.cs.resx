@@ -8402,4 +8402,7 @@ Stáhne se {0} MB. Pokud odmítnete, použije se vestavěný odhad. Později to 
   <data name="Accounts.Premium.None" xml:space="preserve">
     <value>Žádné</value>
   </data>
+  <data name="Accounts.SignIn.RobloxApp" xml:space="preserve">
+    <value>Přihlaste se nebo se zaregistrujte v okně Roblox. Voidstrap účet uloží, jakmile budete přihlášeni.</value>
+  </data>
 </root>

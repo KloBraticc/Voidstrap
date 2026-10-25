@@ -8400,4 +8400,7 @@ Le téléchargement fait {0} Mo. Si vous refusez, l'estimation intégrée est ut
   <data name="Accounts.Premium.None" xml:space="preserve">
     <value>Aucun</value>
   </data>
+  <data name="Accounts.SignIn.RobloxApp" xml:space="preserve">
+    <value>Connectez-vous ou inscrivez-vous dans la fenêtre Roblox. Voidstrap enregistre le compte dès que vous êtes connecté.</value>
+  </data>
 </root>

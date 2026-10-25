@@ -8396,4 +8396,7 @@ Voidstrap เขียนลงในโฟลเดอร์เดสก์ท�
   <data name="Accounts.Premium.None" xml:space="preserve">
     <value>ไม่มี</value>
   </data>
+  <data name="Accounts.SignIn.RobloxApp" xml:space="preserve">
+    <value>ลงชื่อเข้าใช้หรือสมัครสมาชิกในหน้าต่าง Roblox Voidstrap จะบันทึกบัญชีทันทีที่คุณลงชื่อเข้าใช้</value>
+  </data>
 </root>

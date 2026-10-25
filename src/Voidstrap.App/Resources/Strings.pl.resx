@@ -8401,4 +8401,7 @@ Pobieranie ma {0} MB. Jeśli odmówisz, zostanie użyte wbudowane oszacowanie. M
   <data name="Accounts.Premium.None" xml:space="preserve">
     <value>Brak</value>
   </data>
+  <data name="Accounts.SignIn.RobloxApp" xml:space="preserve">
+    <value>Zaloguj się lub zarejestruj w oknie Roblox. Voidstrap zapisze konto, gdy tylko się zalogujesz.</value>
+  </data>
 </root>

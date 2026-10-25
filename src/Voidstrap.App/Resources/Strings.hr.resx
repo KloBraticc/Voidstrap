@@ -8400,4 +8400,7 @@ Preuzima se {0} MB. Ako odbiješ, koristi se ugrađena procjena. To možeš prom
   <data name="Accounts.Premium.None" xml:space="preserve">
     <value>Nema</value>
   </data>
+  <data name="Accounts.SignIn.RobloxApp" xml:space="preserve">
+    <value>Prijavi se ili registriraj u prozoru Robloxa. Voidstrap sprema račun čim se prijaviš.</value>
+  </data>
 </root>

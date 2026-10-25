@@ -8400,4 +8400,7 @@ Voidstrap не смог записать в папку рабочего стол
   <data name="Accounts.Premium.None" xml:space="preserve">
     <value>Нет</value>
   </data>
+  <data name="Accounts.SignIn.RobloxApp" xml:space="preserve">
+    <value>Войдите или зарегистрируйтесь в окне Roblox. Voidstrap сохранит аккаунт сразу после входа.</value>
+  </data>
 </root>

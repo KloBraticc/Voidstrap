@@ -39,7 +39,7 @@ public static class SavedAccounts
 
 	private static readonly SemaphoreSlim AccountStoreGate = new SemaphoreSlim(1, 1);
 
-	private static readonly string[] RobloxProcessNames = { "RobloxPlayerBeta", "RobloxStudioBeta", "RobloxPlayer", "Roblox" };
+	private static readonly string[] RobloxProcessNames = { "RobloxPlayerBeta", "RobloxStudioBeta", "RobloxPlayer", "RobloxStudio", "Roblox" };
 
 	private static readonly string[] LinuxRobloxProcessNames = { "sober", "Sober", "org.vinegarhq.Sober" };
 
@@ -51,18 +51,20 @@ public static class SavedAccounts
 
 	public static CurrentAccountInfo? Current => _current;
 
-	public static bool SwitchingSupported => !Platform.IsMacOS && !(Platform.IsLinux && LinuxRuntimeChoice.PlayerUsesRosemary);
+	public static bool SwitchingSupported => !(Platform.IsLinux && LinuxRuntimeChoice.PlayerUsesRosemary);
 
 	private static string AccountMetaPath => Path.Combine(Paths.AccountBackups, "accounts.json");
 
 	private static string PreviousSessionPath => Path.Combine(Paths.AccountBackups, "_previous_session.dat");
 
-	internal static string LiveCookiePath => Platform.IsLinux ? RobloxCookie.SoberCookiePath : App.RobloxCookiesFilePath;
+	internal static string LiveCookiePath => Platform.IsLinux ? RobloxCookie.SoberCookiePath
+		: Platform.IsMacOS ? Voidstrap.Platform.MacOS.MacOSBinaryCookies.RobloxPlayerStore
+		: App.RobloxCookiesFilePath;
 
 	internal static void CopyLoginFile(string source, string destination, bool overwrite = true)
 	{
 		byte[] data = File.ReadAllBytes(source);
-		if (data.Length == 0 || data.Length > 1048576 || Array.IndexOf(data, (byte)0) >= 0)
+		if (data.Length == 0 || data.Length > 1048576 || (!Platform.IsMacOS && Array.IndexOf(data, (byte)0) >= 0))
 			throw new InvalidDataException("The Roblox login file is damaged, so it was not copied");
 		Directory.CreateDirectory(Path.GetDirectoryName(destination)!);
 		string temporary = destination + "." + Guid.NewGuid().ToString("N") + ".tmp";
@@ -73,7 +75,7 @@ public static class SavedAccounts
 				stream.Write(data);
 				stream.Flush(true);
 			}
-			if (Platform.IsLinux)
+			if (!OperatingSystem.IsWindows())
 				File.SetUnixFileMode(temporary, UnixFileMode.UserRead | UnixFileMode.UserWrite);
 			File.Move(temporary, destination, overwrite);
 		}
@@ -409,6 +411,13 @@ public static class SavedAccounts
 
 	public static bool IsRobloxRunning()
 	{
+		if (Platform.IsMacOS)
+		{
+			MacRobloxProcesses.Snapshot snapshot = MacRobloxProcesses.Scan();
+			if (!snapshot.GameRunning && snapshot.MenuBarHelpers.Count > 0)
+				MacRobloxProcesses.CloseIdleMenuBarHelpers();
+			return snapshot.GameRunning || ProcessesRunning("RobloxStudio");
+		}
 		if (Platform.IsLinux && Voidstrap.Platform.Linux.LinuxSoberProcessProbe.IsRunningNow())
 			return true;
 		IEnumerable<string> names = Platform.IsLinux ? RobloxProcessNames.Concat(LinuxRobloxProcessNames) : RobloxProcessNames;
@@ -465,6 +474,25 @@ public static class SavedAccounts
 		return !IsRobloxRunning();
 	}
 
+	private static bool ProcessesRunning(string name)
+	{
+		Process[] processes = Array.Empty<Process>();
+		try
+		{
+			processes = Process.GetProcessesByName(name);
+			return processes.Any(IsAlive);
+		}
+		catch (Exception ex) when (ex is InvalidOperationException or System.ComponentModel.Win32Exception)
+		{
+			return false;
+		}
+		finally
+		{
+			foreach (Process process in processes)
+				process.Dispose();
+		}
+	}
+
 	internal static (IReadOnlyList<string> Names, IReadOnlyList<long> UserIds) KnownIdentities()
 	{
 		List<SavedAccount> stored = ReadStoredAccounts();
@@ -494,7 +522,7 @@ public static class SavedAccounts
 	private static void EnsureFolder()
 	{
 		Directory.CreateDirectory(Paths.AccountBackups);
-		if (Platform.IsLinux)
+		if (!OperatingSystem.IsWindows())
 			File.SetUnixFileMode(Paths.AccountBackups, UnixFileMode.UserRead | UnixFileMode.UserWrite | UnixFileMode.UserExecute);
 	}
 

@@ -8403,4 +8403,7 @@ Voidstrap نتوانست در پوشهٔ دسکتاپ بنویسد.</value>
   <data name="Accounts.Premium.None" xml:space="preserve">
     <value>هیچ</value>
   </data>
+  <data name="Accounts.SignIn.RobloxApp" xml:space="preserve">
+    <value>در پنجرهٔ Roblox وارد شوید یا ثبت‌نام کنید. Voidstrap به محض ورود شما حساب را ذخیره می‌کند.</value>
+  </data>
 </root>

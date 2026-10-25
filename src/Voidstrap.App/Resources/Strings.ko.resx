@@ -8399,4 +8399,7 @@ Voidstrap이 바탕 화면 폴더에 쓸 수 없습니다.</value>
   <data name="Accounts.Premium.None" xml:space="preserve">
     <value>없음</value>
   </data>
+  <data name="Accounts.SignIn.RobloxApp" xml:space="preserve">
+    <value>Roblox 창에서 로그인하거나 가입하십시오. 로그인하는 즉시 Voidstrap이 계정을 저장합니다.</value>
+  </data>
 </root>
