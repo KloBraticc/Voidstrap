@@ -1078,8 +1078,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
         bool studio = homePage.IsStudioTab;
         HomeTargetButton.Visibility = Visibility.Visible;
-        HomeTargetButton.Text = studio ? Strings.Common_Studio : "Roblox";
-        AutomationProperties.SetName(HomeTargetButton, HomeTargetButton.Text);
+        string target = studio ? Strings.Common_Studio : "Roblox";
+        HomeTargetButton.ToolTip = target;
+        AutomationProperties.SetName(HomeTargetButton, target);
         HomeTargetRoblox.Tag = studio ? null : "Active";
         HomeTargetStudio.Tag = studio ? "Active" : null;
     }
