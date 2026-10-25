@@ -416,41 +416,8 @@
       </ui:TitleBar.Header>
     </ui:TitleBar>
     <StackPanel x:Name="TopNavPanel" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" Panel.ZIndex="1001">
-      <Button x:Name="AppMenuButton" Margin="0,0,8,0" Style="{StaticResource TopBarButtonStyle}" Click="AppMenuButton_Click">
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-          <Image Width="16" Height="16" Margin="0,0,8,0" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality" Source="{StaticResource AppIconImage}" />
-          <TextBlock Text="{resources:Loc Enums_Theme_Voidstrap}" FontSize="13" FontWeight="Normal" VerticalAlignment="Center" />
-          <Border Margin="6,1,0,0" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
-            <Border.RenderTransform><RotateTransform /></Border.RenderTransform>
-            <Border.Style>
-              <Style TargetType="Border">
-                <Style.Triggers>
-                  <DataTrigger Binding="{Binding IsOpen, ElementName=AppMenuPopup}" Value="True">
-                    <DataTrigger.EnterActions>
-                      <BeginStoryboard>
-                        <Storyboard>
-                          <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(RotateTransform.Angle)" To="180" Duration="0:0:0.22">
-                            <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut" /></DoubleAnimation.EasingFunction>
-                          </DoubleAnimation>
-                        </Storyboard>
-                      </BeginStoryboard>
-                    </DataTrigger.EnterActions>
-                    <DataTrigger.ExitActions>
-                      <BeginStoryboard>
-                        <Storyboard>
-                          <DoubleAnimation Storyboard.TargetProperty="RenderTransform.(RotateTransform.Angle)" To="0" Duration="0:0:0.22">
-                            <DoubleAnimation.EasingFunction><CubicEase EasingMode="EaseOut" /></DoubleAnimation.EasingFunction>
-                          </DoubleAnimation>
-                        </Storyboard>
-                      </BeginStoryboard>
-                    </DataTrigger.ExitActions>
-                  </DataTrigger>
-                </Style.Triggers>
-              </Style>
-            </Border.Style>
-            <Viewbox Width="12" Height="12"><Canvas Width="24" Height="24"><Path Style="{StaticResource TopBarLineIcon}" Data="M6 9L12 15L18 9" /></Canvas></Viewbox>
-          </Border>
-        </StackPanel>
+      <Button x:Name="AppMenuButton" Style="{StaticResource TopBarIconButtonStyle}" Margin="0,0,2,0" ToolTip="{resources:Loc Ui_Nav_More}" AutomationProperties.Name="{resources:Loc Ui_Nav_More}" Click="AppMenuButton_Click">
+        <Viewbox Width="16" Height="16"><Canvas Width="24" Height="24"><Path Style="{StaticResource TopBarLineIcon}" Data="M4 6h16 M4 12h16 M4 18h16" /></Canvas></Viewbox>
       </Button>
       <Button x:Name="SidebarToggle" Style="{StaticResource TopBarIconButtonStyle}" ToolTip="{resources:Loc Ui_Main_ToggleSidebar}" AutomationProperties.Name="{resources:Loc Ui_Main_ToggleSidebar}" Click="SidebarToggle_Click">
         <Viewbox Width="16" Height="16"><Canvas Width="24" Height="24"><Path Style="{StaticResource TopBarLineIcon}" Data="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2H5a2 2 0 0 1 -2 -2V5a2 2 0 0 1 2 -2z M9 3v18" /></Canvas></Viewbox>
