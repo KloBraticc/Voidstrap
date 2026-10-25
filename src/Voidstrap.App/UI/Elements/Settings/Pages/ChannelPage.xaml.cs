@@ -353,8 +353,15 @@ public partial class ChannelPage : UiPage{
 			uninstallerDialog.ShowOwnedDialog();
 			if (uninstallerDialog.Confirmed)
 			{
+				UIElement? button = sender as UIElement;
+				if (button != null)
+					button.IsEnabled = false;
 				if (!await Voidstrap.Installer.DoUninstallAsync(uninstallerDialog.KeepData))
+				{
+					if (button != null)
+						button.IsEnabled = true;
 					return;
+				}
 				Frontend.ShowMessageBox(Strings.Bootstrapper_SuccessfullyUninstalled, MessageBoxImage.Asterisk);
 				App.Terminate();
 			}

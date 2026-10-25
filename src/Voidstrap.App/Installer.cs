@@ -721,18 +721,21 @@ internal sealed partial class Installer
 			if (Voidstrap.Utility.Platform.IsWindows)
 				Registry.CurrentUser.DeleteSubKeyTree("Software\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Voidstrap", throwOnMissingSubKey: false);
 		});
-		foreach (Action item3 in list2)
+		await Task.Run(() =>
 		{
-			try
+			foreach (Action item3 in list2)
 			{
-				item3();
+				try
+				{
+					item3();
+				}
+				catch (Exception ex)
+				{
+					App.Logger.WriteLine("Installer::DoUninstall", $"Encountered exception when running cleanup sequence (#{list2.IndexOf(item3)})");
+					App.Logger.WriteException("Installer::DoUninstall", ex);
+				}
 			}
-			catch (Exception ex)
-			{
-				App.Logger.WriteLine("Installer::DoUninstall", $"Encountered exception when running cleanup sequence (#{list2.IndexOf(item3)})");
-				App.Logger.WriteException("Installer::DoUninstall", ex);
-			}
-		}
+		}).ConfigureAwait(true);
 		if (Directory.Exists(Paths.Base))
 		{
 			ScheduleDeferredCleanup(Paths.Base, Paths.Application, flag3);
