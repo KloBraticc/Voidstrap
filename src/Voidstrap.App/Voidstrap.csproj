@@ -390,6 +390,26 @@
 	</Target>
 
 	<PropertyGroup>
+		<VoidPkgCrate>$(MSBuildThisFileDirectory)../../native/voidpkg</VoidPkgCrate>
+		<VoidPkgTargetDir>$(MSBuildThisFileDirectory)obj/voidpkg</VoidPkgTargetDir>
+		<VoidPkgDll>$(VoidPkgTargetDir)/x86_64-pc-windows-msvc/release/voidpkg.dll</VoidPkgDll>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<VoidPkgSources Include="$(MSBuildThisFileDirectory)../../native/voidpkg/src/**/*.rs" />
+	</ItemGroup>
+
+	<Target Name="BuildVoidPkg" BeforeTargets="AssignTargetPaths" Condition="'$(DesignTimeBuild)' != 'true' And '$(OS)' == 'Windows_NT' And Exists('$(VoidPkgCrate)/Cargo.toml')" Inputs="$(VoidPkgCrate)/Cargo.toml;$(VoidPkgCrate)/Cargo.lock;@(VoidPkgSources)" Outputs="$(VoidPkgDll)">
+		<Exec Command="&quot;$(VoidImageCargo)&quot; build --release --locked --quiet --target x86_64-pc-windows-msvc --manifest-path &quot;$(VoidPkgCrate)/Cargo.toml&quot; --target-dir &quot;$(VoidPkgTargetDir)&quot;" IgnoreExitCode="true" IgnoreStandardErrorWarningFormat="true" StandardOutputImportance="low" StandardErrorImportance="low" />
+	</Target>
+
+	<Target Name="IncludeVoidPkg" AfterTargets="BuildVoidPkg" BeforeTargets="AssignTargetPaths" Condition="Exists('$(VoidPkgDll)')">
+		<ItemGroup>
+			<None Include="$(VoidPkgDll)" Link="voidpkg.dll" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+		</ItemGroup>
+	</Target>
+
+	<PropertyGroup>
 		<VoidRpcCrate>$(MSBuildThisFileDirectory)../../native/voidrpc</VoidRpcCrate>
 		<VoidRpcTargetDir>$(MSBuildThisFileDirectory)obj/voidrpc</VoidRpcTargetDir>
 		<VoidRpcDll>$(VoidRpcTargetDir)/x86_64-pc-windows-msvc/release/voidrpc.dll</VoidRpcDll>

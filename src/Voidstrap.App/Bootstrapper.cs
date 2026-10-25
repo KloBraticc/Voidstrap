@@ -3954,6 +3954,14 @@ public class Bootstrapper
     {
         string valueOrDefault = AppData.PackageDirectoryMap.GetValueOrDefault(package.Name)
             ?? throw new InvalidDataException("Package " + package.Name + " is not present in the extraction map");
+		string extractionRoot = _packageExtractionDirectory ?? _latestVersionDirectory;
+		if (NativePackageExtractor.IsAvailable)
+		{
+			App.Logger.WriteLine("Bootstrapper::ExtractPackage", "Extracting " + package.Name + " natively...");
+			NativePackageExtractor.Extract(package.DownloadPath, Path.Combine(extractionRoot, valueOrDefault), files, _cancelTokenSource.Token);
+			App.Logger.WriteLine("Bootstrapper::ExtractPackage", "Done: " + package.Name);
+			return;
+		}
         string? fileFilter = null;
         if (files != null)
         {
@@ -3961,7 +3969,6 @@ public class Bootstrapper
             fileFilter = string.Join(';', values);
         }
         App.Logger.WriteLine("Bootstrapper::ExtractPackage", "Extracting " + package.Name + "...");
-		string extractionRoot = _packageExtractionDirectory ?? _latestVersionDirectory;
 		new FastZip(_fastZipEvents).ExtractZip(package.DownloadPath, Path.Combine(extractionRoot, valueOrDefault), fileFilter);
         App.Logger.WriteLine("Bootstrapper::ExtractPackage", "Done: " + package.Name);
     }
