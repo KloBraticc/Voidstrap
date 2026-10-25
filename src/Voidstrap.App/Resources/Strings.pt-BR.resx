@@ -8240,4 +8240,166 @@ O download tem {0} MB. Se você recusar, a estimativa integrada será usada. Voc
   <data name="Ui.RiShade.Preset.Failed" xml:space="preserve">
     <value>Não foi possível selecionar esta predefinição.</value>
   </data>
+  <data name="Accounts.Title" xml:space="preserve">
+    <value>Gerenciador de contas</value>
+  </data>
+  <data name="Accounts.SignIn.Title" xml:space="preserve">
+    <value>Entrar no Roblox</value>
+  </data>
+  <data name="Accounts.SignIn.Hint" xml:space="preserve">
+    <value>Entre ou crie uma conta. O Voidstrap salva assim que você entrar.</value>
+  </data>
+  <data name="Accounts.SignIn.LogIn" xml:space="preserve">
+    <value>Entrar</value>
+  </data>
+  <data name="Accounts.SignIn.SignUp" xml:space="preserve">
+    <value>Cadastrar</value>
+  </data>
+  <data name="Accounts.SignIn.Verifying" xml:space="preserve">
+    <value>Verificando a conta</value>
+  </data>
+  <data name="Accounts.SignIn.BrowserFailed" xml:space="preserve">
+    <value>Não foi possível iniciar o navegador de login. Instale o Microsoft Edge WebView2 Runtime e tente novamente.</value>
+  </data>
+  <data name="Accounts.AddAccount" xml:space="preserve">
+    <value>Adicionar conta</value>
+  </data>
+  <data name="Accounts.SignInBrowser" xml:space="preserve">
+    <value>Entrar com Roblox</value>
+  </data>
+  <data name="Accounts.CreateAccount" xml:space="preserve">
+    <value>Criar uma nova conta</value>
+  </data>
+  <data name="Accounts.AddCurrent" xml:space="preserve">
+    <value>Salvar a conta conectada</value>
+  </data>
+  <data name="Accounts.ImportCookie" xml:space="preserve">
+    <value>Importar um cookie</value>
+  </data>
+  <data name="Accounts.Search" xml:space="preserve">
+    <value>Pesquisar contas</value>
+  </data>
+  <data name="Accounts.CheckAll" xml:space="preserve">
+    <value>Verificar todas as sessões</value>
+  </data>
+  <data name="Accounts.SignOut" xml:space="preserve">
+    <value>Sair do Roblox</value>
+  </data>
+  <data name="Accounts.RosemaryNotice" xml:space="preserve">
+    <value>Trocar de conta requer o Sober. O Rosemary mantém o próprio login, então mude para o Sober para usar contas salvas.</value>
+  </data>
+  <data name="Accounts.CookiePlaceholder" xml:space="preserve">
+    <value>Cole um cookie .ROBLOSECURITY</value>
+  </data>
+  <data name="Accounts.Empty" xml:space="preserve">
+    <value>Nenhuma conta salva ainda. Adicione uma para trocar de conta com um só clique.</value>
+  </data>
+  <data name="Accounts.SelectHint" xml:space="preserve">
+    <value>Selecione uma conta para ver os detalhes.</value>
+  </data>
+  <data name="Accounts.Current" xml:space="preserve">
+    <value>Atual</value>
+  </data>
+  <data name="Accounts.SwitchAndPlay" xml:space="preserve">
+    <value>Trocar e jogar</value>
+  </data>
+  <data name="Accounts.Switch" xml:space="preserve">
+    <value>Trocar</value>
+  </data>
+  <data name="Accounts.ExpiredDetail" xml:space="preserve">
+    <value>Esta sessão expirou. Entre novamente para continuar usando esta conta.</value>
+  </data>
+  <data name="Accounts.Expired" xml:space="preserve">
+    <value>Sessão expirada</value>
+  </data>
+  <data name="Accounts.Robux" xml:space="preserve">
+    <value>Robux</value>
+  </data>
+  <data name="Accounts.Premium" xml:space="preserve">
+    <value>Premium</value>
+  </data>
+  <data name="Accounts.Friends" xml:space="preserve">
+    <value>Amigos</value>
+  </data>
+  <data name="Accounts.Followers" xml:space="preserve">
+    <value>Seguidores</value>
+  </data>
+  <data name="Accounts.Joined" xml:space="preserve">
+    <value>Entrou em</value>
+  </data>
+  <data name="Accounts.Note" xml:space="preserve">
+    <value>Nota</value>
+  </data>
+  <data name="Accounts.NotePlaceholder" xml:space="preserve">
+    <value>Adicionar uma nota</value>
+  </data>
+  <data name="Accounts.LastUsed" xml:space="preserve">
+    <value>Último uso</value>
+  </data>
+  <data name="Accounts.Added" xml:space="preserve">
+    <value>Adicionada</value>
+  </data>
+  <data name="Accounts.CopyId" xml:space="preserve">
+    <value>Copiar ID de usuário</value>
+  </data>
+  <data name="Accounts.OpenProfile" xml:space="preserve">
+    <value>Abrir perfil</value>
+  </data>
+  <data name="Accounts.CopyUsername" xml:space="preserve">
+    <value>Copiar nome de usuário</value>
+  </data>
+  <data name="Accounts.SignInAgain" xml:space="preserve">
+    <value>Entrar novamente</value>
+  </data>
+  <data name="Accounts.Remove" xml:space="preserve">
+    <value>Remover</value>
+  </data>
+  <data name="Accounts.Pin" xml:space="preserve">
+    <value>Fixar no topo</value>
+  </data>
+  <data name="Accounts.Unpin" xml:space="preserve">
+    <value>Desafixar</value>
+  </data>
+  <data name="Accounts.Never" xml:space="preserve">
+    <value>Nunca</value>
+  </data>
+  <data name="Accounts.NotSignedIn" xml:space="preserve">
+    <value>Não conectado</value>
+  </data>
+  <data name="Accounts.Status.Failed" xml:space="preserve">
+    <value>Não foi possível salvar esse login. O cookie pode ser inválido ou ter expirado.</value>
+  </data>
+  <data name="Accounts.Status.Added" xml:space="preserve">
+    <value>{0} salva</value>
+  </data>
+  <data name="Accounts.Status.Switched" xml:space="preserve">
+    <value>Conectado como {0}</value>
+  </data>
+  <data name="Accounts.MissingLogin" xml:space="preserve">
+    <value>O login salvo desta conta não foi encontrado. Entre novamente para restaurá-lo.</value>
+  </data>
+  <data name="Accounts.CloseRobloxPrompt" xml:space="preserve">
+    <value>O Roblox está em execução. Fechar e continuar?</value>
+  </data>
+  <data name="Accounts.CloseRobloxFailed" xml:space="preserve">
+    <value>Não foi possível fechar o Roblox. Feche você mesmo e tente novamente.</value>
+  </data>
+  <data name="Accounts.RemoveConfirm" xml:space="preserve">
+    <value>Remover {0} do Voidstrap? Sua conta Roblox não é afetada.</value>
+  </data>
+  <data name="Accounts.Status.SignedOut" xml:space="preserve">
+    <value>Você saiu do Roblox</value>
+  </data>
+  <data name="Accounts.Status.Checked" xml:space="preserve">
+    <value>{0} de {1} sessões ainda são válidas</value>
+  </data>
+  <data name="Accounts.Copied" xml:space="preserve">
+    <value>Copiado</value>
+  </data>
+  <data name="Accounts.Premium.Active" xml:space="preserve">
+    <value>Ativo</value>
+  </data>
+  <data name="Accounts.Premium.None" xml:space="preserve">
+    <value>Nenhum</value>
+  </data>
 </root>

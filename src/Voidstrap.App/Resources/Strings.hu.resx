@@ -8238,4 +8238,166 @@ A letöltés {0} MB. Ha elutasítod, a beépített becslés lesz használva. Ezt
   <data name="Ui.RiShade.Preset.Failed" xml:space="preserve">
     <value>Ezt az előbeállítást nem sikerült kiválasztani.</value>
   </data>
+  <data name="Accounts.Title" xml:space="preserve">
+    <value>Fiókkezelő</value>
+  </data>
+  <data name="Accounts.SignIn.Title" xml:space="preserve">
+    <value>Bejelentkezés a Robloxba</value>
+  </data>
+  <data name="Accounts.SignIn.Hint" xml:space="preserve">
+    <value>Jelentkezz be vagy hozz létre fiókot. A Voidstrap elmenti, amint bejelentkeztél.</value>
+  </data>
+  <data name="Accounts.SignIn.LogIn" xml:space="preserve">
+    <value>Bejelentkezés</value>
+  </data>
+  <data name="Accounts.SignIn.SignUp" xml:space="preserve">
+    <value>Regisztráció</value>
+  </data>
+  <data name="Accounts.SignIn.Verifying" xml:space="preserve">
+    <value>Fiók ellenőrzése</value>
+  </data>
+  <data name="Accounts.SignIn.BrowserFailed" xml:space="preserve">
+    <value>A bejelentkezési böngésző nem indult el. Telepítsd a Microsoft Edge WebView2 Runtime csomagot, és próbáld újra.</value>
+  </data>
+  <data name="Accounts.AddAccount" xml:space="preserve">
+    <value>Fiók hozzáadása</value>
+  </data>
+  <data name="Accounts.SignInBrowser" xml:space="preserve">
+    <value>Bejelentkezés Robloxszal</value>
+  </data>
+  <data name="Accounts.CreateAccount" xml:space="preserve">
+    <value>Új fiók létrehozása</value>
+  </data>
+  <data name="Accounts.AddCurrent" xml:space="preserve">
+    <value>Bejelentkezett fiók mentése</value>
+  </data>
+  <data name="Accounts.ImportCookie" xml:space="preserve">
+    <value>Süti importálása</value>
+  </data>
+  <data name="Accounts.Search" xml:space="preserve">
+    <value>Fiókok keresése</value>
+  </data>
+  <data name="Accounts.CheckAll" xml:space="preserve">
+    <value>Összes munkamenet ellenőrzése</value>
+  </data>
+  <data name="Accounts.SignOut" xml:space="preserve">
+    <value>Kijelentkezés a Robloxból</value>
+  </data>
+  <data name="Accounts.RosemaryNotice" xml:space="preserve">
+    <value>A fiókváltáshoz Sober szükséges. A Rosemary saját bejelentkezést használ, ezért válts Soberre a mentett fiókok használatához.</value>
+  </data>
+  <data name="Accounts.CookiePlaceholder" xml:space="preserve">
+    <value>Illessz be egy .ROBLOSECURITY sütit</value>
+  </data>
+  <data name="Accounts.Empty" xml:space="preserve">
+    <value>Még nincs mentett fiók. Adj hozzá egyet, és egy kattintással válthatsz a fiókok között.</value>
+  </data>
+  <data name="Accounts.SelectHint" xml:space="preserve">
+    <value>Válassz egy fiókot a részletek megtekintéséhez.</value>
+  </data>
+  <data name="Accounts.Current" xml:space="preserve">
+    <value>Jelenlegi</value>
+  </data>
+  <data name="Accounts.SwitchAndPlay" xml:space="preserve">
+    <value>Váltás és játék</value>
+  </data>
+  <data name="Accounts.Switch" xml:space="preserve">
+    <value>Váltás</value>
+  </data>
+  <data name="Accounts.ExpiredDetail" xml:space="preserve">
+    <value>Ez a munkamenet lejárt. Jelentkezz be újra, hogy tovább használhasd ezt a fiókot.</value>
+  </data>
+  <data name="Accounts.Expired" xml:space="preserve">
+    <value>A munkamenet lejárt</value>
+  </data>
+  <data name="Accounts.Robux" xml:space="preserve">
+    <value>Robux</value>
+  </data>
+  <data name="Accounts.Premium" xml:space="preserve">
+    <value>Premium</value>
+  </data>
+  <data name="Accounts.Friends" xml:space="preserve">
+    <value>Barátok</value>
+  </data>
+  <data name="Accounts.Followers" xml:space="preserve">
+    <value>Követők</value>
+  </data>
+  <data name="Accounts.Joined" xml:space="preserve">
+    <value>Csatlakozott</value>
+  </data>
+  <data name="Accounts.Note" xml:space="preserve">
+    <value>Megjegyzés</value>
+  </data>
+  <data name="Accounts.NotePlaceholder" xml:space="preserve">
+    <value>Megjegyzés hozzáadása</value>
+  </data>
+  <data name="Accounts.LastUsed" xml:space="preserve">
+    <value>Utoljára használva</value>
+  </data>
+  <data name="Accounts.Added" xml:space="preserve">
+    <value>Hozzáadva</value>
+  </data>
+  <data name="Accounts.CopyId" xml:space="preserve">
+    <value>Felhasználói azonosító másolása</value>
+  </data>
+  <data name="Accounts.OpenProfile" xml:space="preserve">
+    <value>Profil megnyitása</value>
+  </data>
+  <data name="Accounts.CopyUsername" xml:space="preserve">
+    <value>Felhasználónév másolása</value>
+  </data>
+  <data name="Accounts.SignInAgain" xml:space="preserve">
+    <value>Újra bejelentkezés</value>
+  </data>
+  <data name="Accounts.Remove" xml:space="preserve">
+    <value>Eltávolítás</value>
+  </data>
+  <data name="Accounts.Pin" xml:space="preserve">
+    <value>Rögzítés felülre</value>
+  </data>
+  <data name="Accounts.Unpin" xml:space="preserve">
+    <value>Rögzítés feloldása</value>
+  </data>
+  <data name="Accounts.Never" xml:space="preserve">
+    <value>Soha</value>
+  </data>
+  <data name="Accounts.NotSignedIn" xml:space="preserve">
+    <value>Nincs bejelentkezve</value>
+  </data>
+  <data name="Accounts.Status.Failed" xml:space="preserve">
+    <value>Ezt a bejelentkezést nem sikerült menteni. Lehet, hogy a süti érvénytelen vagy lejárt.</value>
+  </data>
+  <data name="Accounts.Status.Added" xml:space="preserve">
+    <value>{0} mentve</value>
+  </data>
+  <data name="Accounts.Status.Switched" xml:space="preserve">
+    <value>Bejelentkezve mint {0}</value>
+  </data>
+  <data name="Accounts.MissingLogin" xml:space="preserve">
+    <value>A fiók mentett bejelentkezése hiányzik. Jelentkezz be újra a visszaállításhoz.</value>
+  </data>
+  <data name="Accounts.CloseRobloxPrompt" xml:space="preserve">
+    <value>A Roblox fut. Bezárod és folytatod?</value>
+  </data>
+  <data name="Accounts.CloseRobloxFailed" xml:space="preserve">
+    <value>A Robloxot nem sikerült bezárni. Zárd be magad, és próbáld újra.</value>
+  </data>
+  <data name="Accounts.RemoveConfirm" xml:space="preserve">
+    <value>Eltávolítod a(z) {0} fiókot a Voidstrapból? A Roblox fiókodat ez nem érinti.</value>
+  </data>
+  <data name="Accounts.Status.SignedOut" xml:space="preserve">
+    <value>Kijelentkeztél a Robloxból</value>
+  </data>
+  <data name="Accounts.Status.Checked" xml:space="preserve">
+    <value>{1} munkamenetből {0} még érvényes</value>
+  </data>
+  <data name="Accounts.Copied" xml:space="preserve">
+    <value>Másolva</value>
+  </data>
+  <data name="Accounts.Premium.Active" xml:space="preserve">
+    <value>Aktív</value>
+  </data>
+  <data name="Accounts.Premium.None" xml:space="preserve">
+    <value>Nincs</value>
+  </data>
 </root>

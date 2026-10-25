@@ -8237,4 +8237,166 @@ Voidstrap не зміг записати до теки робочого стол
   <data name="Ui.RiShade.Preset.Failed" xml:space="preserve">
     <value>Не вдалося вибрати цей пресет.</value>
   </data>
+  <data name="Accounts.Title" xml:space="preserve">
+    <value>Менеджер облікових записів</value>
+  </data>
+  <data name="Accounts.SignIn.Title" xml:space="preserve">
+    <value>Вхід у Roblox</value>
+  </data>
+  <data name="Accounts.SignIn.Hint" xml:space="preserve">
+    <value>Увійдіть або створіть обліковий запис. Voidstrap збереже його одразу після входу.</value>
+  </data>
+  <data name="Accounts.SignIn.LogIn" xml:space="preserve">
+    <value>Увійти</value>
+  </data>
+  <data name="Accounts.SignIn.SignUp" xml:space="preserve">
+    <value>Зареєструватися</value>
+  </data>
+  <data name="Accounts.SignIn.Verifying" xml:space="preserve">
+    <value>Перевірка облікового запису</value>
+  </data>
+  <data name="Accounts.SignIn.BrowserFailed" xml:space="preserve">
+    <value>Не вдалося запустити браузер для входу. Встановіть Microsoft Edge WebView2 Runtime і спробуйте ще раз.</value>
+  </data>
+  <data name="Accounts.AddAccount" xml:space="preserve">
+    <value>Додати обліковий запис</value>
+  </data>
+  <data name="Accounts.SignInBrowser" xml:space="preserve">
+    <value>Увійти через Roblox</value>
+  </data>
+  <data name="Accounts.CreateAccount" xml:space="preserve">
+    <value>Створити новий обліковий запис</value>
+  </data>
+  <data name="Accounts.AddCurrent" xml:space="preserve">
+    <value>Зберегти поточний обліковий запис</value>
+  </data>
+  <data name="Accounts.ImportCookie" xml:space="preserve">
+    <value>Імпортувати cookie</value>
+  </data>
+  <data name="Accounts.Search" xml:space="preserve">
+    <value>Пошук облікових записів</value>
+  </data>
+  <data name="Accounts.CheckAll" xml:space="preserve">
+    <value>Перевірити всі сеанси</value>
+  </data>
+  <data name="Accounts.SignOut" xml:space="preserve">
+    <value>Вийти з Roblox</value>
+  </data>
+  <data name="Accounts.RosemaryNotice" xml:space="preserve">
+    <value>Для перемикання облікових записів потрібен Sober. Rosemary має окремий вхід, тому перейдіть на Sober, щоб користуватися збереженими обліковими записами.</value>
+  </data>
+  <data name="Accounts.CookiePlaceholder" xml:space="preserve">
+    <value>Вставте cookie .ROBLOSECURITY</value>
+  </data>
+  <data name="Accounts.Empty" xml:space="preserve">
+    <value>Збережених облікових записів ще немає. Додайте один, щоб перемикатися одним клацанням.</value>
+  </data>
+  <data name="Accounts.SelectHint" xml:space="preserve">
+    <value>Виберіть обліковий запис, щоб побачити подробиці.</value>
+  </data>
+  <data name="Accounts.Current" xml:space="preserve">
+    <value>Поточний</value>
+  </data>
+  <data name="Accounts.SwitchAndPlay" xml:space="preserve">
+    <value>Перемкнути й грати</value>
+  </data>
+  <data name="Accounts.Switch" xml:space="preserve">
+    <value>Перемкнути</value>
+  </data>
+  <data name="Accounts.ExpiredDetail" xml:space="preserve">
+    <value>Термін дії сеансу минув. Увійдіть знову, щоб і далі користуватися цим обліковим записом.</value>
+  </data>
+  <data name="Accounts.Expired" xml:space="preserve">
+    <value>Сеанс завершився</value>
+  </data>
+  <data name="Accounts.Robux" xml:space="preserve">
+    <value>Robux</value>
+  </data>
+  <data name="Accounts.Premium" xml:space="preserve">
+    <value>Premium</value>
+  </data>
+  <data name="Accounts.Friends" xml:space="preserve">
+    <value>Друзі</value>
+  </data>
+  <data name="Accounts.Followers" xml:space="preserve">
+    <value>Підписники</value>
+  </data>
+  <data name="Accounts.Joined" xml:space="preserve">
+    <value>Приєднався</value>
+  </data>
+  <data name="Accounts.Note" xml:space="preserve">
+    <value>Нотатка</value>
+  </data>
+  <data name="Accounts.NotePlaceholder" xml:space="preserve">
+    <value>Додати нотатку</value>
+  </data>
+  <data name="Accounts.LastUsed" xml:space="preserve">
+    <value>Останнє використання</value>
+  </data>
+  <data name="Accounts.Added" xml:space="preserve">
+    <value>Додано</value>
+  </data>
+  <data name="Accounts.CopyId" xml:space="preserve">
+    <value>Копіювати ID користувача</value>
+  </data>
+  <data name="Accounts.OpenProfile" xml:space="preserve">
+    <value>Відкрити профіль</value>
+  </data>
+  <data name="Accounts.CopyUsername" xml:space="preserve">
+    <value>Копіювати ім'я користувача</value>
+  </data>
+  <data name="Accounts.SignInAgain" xml:space="preserve">
+    <value>Увійти знову</value>
+  </data>
+  <data name="Accounts.Remove" xml:space="preserve">
+    <value>Видалити</value>
+  </data>
+  <data name="Accounts.Pin" xml:space="preserve">
+    <value>Закріпити вгорі</value>
+  </data>
+  <data name="Accounts.Unpin" xml:space="preserve">
+    <value>Відкріпити</value>
+  </data>
+  <data name="Accounts.Never" xml:space="preserve">
+    <value>Ніколи</value>
+  </data>
+  <data name="Accounts.NotSignedIn" xml:space="preserve">
+    <value>Вхід не виконано</value>
+  </data>
+  <data name="Accounts.Status.Failed" xml:space="preserve">
+    <value>Не вдалося зберегти цей вхід. Можливо, cookie недійсний або застарів.</value>
+  </data>
+  <data name="Accounts.Status.Added" xml:space="preserve">
+    <value>{0} збережено</value>
+  </data>
+  <data name="Accounts.Status.Switched" xml:space="preserve">
+    <value>Ви увійшли як {0}</value>
+  </data>
+  <data name="Accounts.MissingLogin" xml:space="preserve">
+    <value>Збережений вхід для цього облікового запису відсутній. Увійдіть знову, щоб відновити його.</value>
+  </data>
+  <data name="Accounts.CloseRobloxPrompt" xml:space="preserve">
+    <value>Roblox запущено. Закрити його й продовжити?</value>
+  </data>
+  <data name="Accounts.CloseRobloxFailed" xml:space="preserve">
+    <value>Не вдалося закрити Roblox. Закрийте його вручну й спробуйте ще раз.</value>
+  </data>
+  <data name="Accounts.RemoveConfirm" xml:space="preserve">
+    <value>Видалити {0} з Voidstrap? Ваш обліковий запис Roblox не зміниться.</value>
+  </data>
+  <data name="Accounts.Status.SignedOut" xml:space="preserve">
+    <value>Ви вийшли з Roblox</value>
+  </data>
+  <data name="Accounts.Status.Checked" xml:space="preserve">
+    <value>Дійсних сеансів: {0} з {1}</value>
+  </data>
+  <data name="Accounts.Copied" xml:space="preserve">
+    <value>Скопійовано</value>
+  </data>
+  <data name="Accounts.Premium.Active" xml:space="preserve">
+    <value>Активний</value>
+  </data>
+  <data name="Accounts.Premium.None" xml:space="preserve">
+    <value>Немає</value>
+  </data>
 </root>

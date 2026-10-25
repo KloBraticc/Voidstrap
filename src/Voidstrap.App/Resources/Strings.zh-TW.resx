@@ -8242,4 +8242,166 @@ Voidstrap 無法寫入桌面資料夾。</value>
   <data name="Ui.RiShade.Preset.Failed" xml:space="preserve">
     <value>無法選擇此預設集。</value>
   </data>
+  <data name="Accounts.Title" xml:space="preserve">
+    <value>帳號管理</value>
+  </data>
+  <data name="Accounts.SignIn.Title" xml:space="preserve">
+    <value>登入 Roblox</value>
+  </data>
+  <data name="Accounts.SignIn.Hint" xml:space="preserve">
+    <value>請登入或建立帳號。你登入後 Voidstrap 會立即儲存。</value>
+  </data>
+  <data name="Accounts.SignIn.LogIn" xml:space="preserve">
+    <value>登入</value>
+  </data>
+  <data name="Accounts.SignIn.SignUp" xml:space="preserve">
+    <value>註冊</value>
+  </data>
+  <data name="Accounts.SignIn.Verifying" xml:space="preserve">
+    <value>正在驗證帳號</value>
+  </data>
+  <data name="Accounts.SignIn.BrowserFailed" xml:space="preserve">
+    <value>無法啟動登入瀏覽器。請安裝 Microsoft Edge WebView2 Runtime 後再試一次。</value>
+  </data>
+  <data name="Accounts.AddAccount" xml:space="preserve">
+    <value>新增帳號</value>
+  </data>
+  <data name="Accounts.SignInBrowser" xml:space="preserve">
+    <value>使用 Roblox 登入</value>
+  </data>
+  <data name="Accounts.CreateAccount" xml:space="preserve">
+    <value>建立新帳號</value>
+  </data>
+  <data name="Accounts.AddCurrent" xml:space="preserve">
+    <value>儲存目前登入的帳號</value>
+  </data>
+  <data name="Accounts.ImportCookie" xml:space="preserve">
+    <value>匯入 Cookie</value>
+  </data>
+  <data name="Accounts.Search" xml:space="preserve">
+    <value>搜尋帳號</value>
+  </data>
+  <data name="Accounts.CheckAll" xml:space="preserve">
+    <value>檢查所有工作階段</value>
+  </data>
+  <data name="Accounts.SignOut" xml:space="preserve">
+    <value>登出 Roblox</value>
+  </data>
+  <data name="Accounts.RosemaryNotice" xml:space="preserve">
+    <value>切換帳號需要 Sober。Rosemary 使用獨立的登入，請切換到 Sober 以使用已儲存的帳號。</value>
+  </data>
+  <data name="Accounts.CookiePlaceholder" xml:space="preserve">
+    <value>貼上 .ROBLOSECURITY Cookie</value>
+  </data>
+  <data name="Accounts.Empty" xml:space="preserve">
+    <value>尚未儲存任何帳號。新增一個即可一鍵切換帳號。</value>
+  </data>
+  <data name="Accounts.SelectHint" xml:space="preserve">
+    <value>選取一個帳號以查看詳細資料。</value>
+  </data>
+  <data name="Accounts.Current" xml:space="preserve">
+    <value>目前</value>
+  </data>
+  <data name="Accounts.SwitchAndPlay" xml:space="preserve">
+    <value>切換並開始遊戲</value>
+  </data>
+  <data name="Accounts.Switch" xml:space="preserve">
+    <value>切換</value>
+  </data>
+  <data name="Accounts.ExpiredDetail" xml:space="preserve">
+    <value>此工作階段已過期。請重新登入以繼續使用此帳號。</value>
+  </data>
+  <data name="Accounts.Expired" xml:space="preserve">
+    <value>工作階段已過期</value>
+  </data>
+  <data name="Accounts.Robux" xml:space="preserve">
+    <value>Robux</value>
+  </data>
+  <data name="Accounts.Premium" xml:space="preserve">
+    <value>Premium</value>
+  </data>
+  <data name="Accounts.Friends" xml:space="preserve">
+    <value>好友</value>
+  </data>
+  <data name="Accounts.Followers" xml:space="preserve">
+    <value>追蹤者</value>
+  </data>
+  <data name="Accounts.Joined" xml:space="preserve">
+    <value>加入日期</value>
+  </data>
+  <data name="Accounts.Note" xml:space="preserve">
+    <value>備註</value>
+  </data>
+  <data name="Accounts.NotePlaceholder" xml:space="preserve">
+    <value>新增備註</value>
+  </data>
+  <data name="Accounts.LastUsed" xml:space="preserve">
+    <value>上次使用</value>
+  </data>
+  <data name="Accounts.Added" xml:space="preserve">
+    <value>新增日期</value>
+  </data>
+  <data name="Accounts.CopyId" xml:space="preserve">
+    <value>複製使用者 ID</value>
+  </data>
+  <data name="Accounts.OpenProfile" xml:space="preserve">
+    <value>開啟個人檔案</value>
+  </data>
+  <data name="Accounts.CopyUsername" xml:space="preserve">
+    <value>複製使用者名稱</value>
+  </data>
+  <data name="Accounts.SignInAgain" xml:space="preserve">
+    <value>重新登入</value>
+  </data>
+  <data name="Accounts.Remove" xml:space="preserve">
+    <value>移除</value>
+  </data>
+  <data name="Accounts.Pin" xml:space="preserve">
+    <value>釘選到頂端</value>
+  </data>
+  <data name="Accounts.Unpin" xml:space="preserve">
+    <value>取消釘選</value>
+  </data>
+  <data name="Accounts.Never" xml:space="preserve">
+    <value>從未</value>
+  </data>
+  <data name="Accounts.NotSignedIn" xml:space="preserve">
+    <value>尚未登入</value>
+  </data>
+  <data name="Accounts.Status.Failed" xml:space="preserve">
+    <value>無法儲存此登入。Cookie 可能無效或已過期。</value>
+  </data>
+  <data name="Accounts.Status.Added" xml:space="preserve">
+    <value>已儲存 {0}</value>
+  </data>
+  <data name="Accounts.Status.Switched" xml:space="preserve">
+    <value>已登入為 {0}</value>
+  </data>
+  <data name="Accounts.MissingLogin" xml:space="preserve">
+    <value>此帳號儲存的登入資料遺失。請重新登入以還原。</value>
+  </data>
+  <data name="Accounts.CloseRobloxPrompt" xml:space="preserve">
+    <value>Roblox 正在執行。要關閉並繼續嗎？</value>
+  </data>
+  <data name="Accounts.CloseRobloxFailed" xml:space="preserve">
+    <value>無法關閉 Roblox。請你手動關閉後再試一次。</value>
+  </data>
+  <data name="Accounts.RemoveConfirm" xml:space="preserve">
+    <value>要從 Voidstrap 移除 {0} 嗎？你的 Roblox 帳號不受影響。</value>
+  </data>
+  <data name="Accounts.Status.SignedOut" xml:space="preserve">
+    <value>已登出 Roblox</value>
+  </data>
+  <data name="Accounts.Status.Checked" xml:space="preserve">
+    <value>{1} 個工作階段中有 {0} 個仍然有效</value>
+  </data>
+  <data name="Accounts.Copied" xml:space="preserve">
+    <value>已複製</value>
+  </data>
+  <data name="Accounts.Premium.Active" xml:space="preserve">
+    <value>有效</value>
+  </data>
+  <data name="Accounts.Premium.None" xml:space="preserve">
+    <value>無</value>
+  </data>
 </root>

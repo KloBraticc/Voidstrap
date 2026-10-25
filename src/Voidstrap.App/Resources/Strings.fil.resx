@@ -8237,4 +8237,166 @@ Magda-download ito ng {0} MB. Kung tatanggihan mo, gagamitin ang built in na tan
   <data name="Ui.RiShade.Preset.Failed" xml:space="preserve">
     <value>Hindi mapili ang preset na ito.</value>
   </data>
+  <data name="Accounts.Title" xml:space="preserve">
+    <value>Tagapamahala ng account</value>
+  </data>
+  <data name="Accounts.SignIn.Title" xml:space="preserve">
+    <value>Mag-sign in sa Roblox</value>
+  </data>
+  <data name="Accounts.SignIn.Hint" xml:space="preserve">
+    <value>Mag-log in o gumawa ng account. Ise-save ito ng Voidstrap kapag naka-sign in ka na.</value>
+  </data>
+  <data name="Accounts.SignIn.LogIn" xml:space="preserve">
+    <value>Mag-log in</value>
+  </data>
+  <data name="Accounts.SignIn.SignUp" xml:space="preserve">
+    <value>Mag-sign up</value>
+  </data>
+  <data name="Accounts.SignIn.Verifying" xml:space="preserve">
+    <value>Bine-verify ang account</value>
+  </data>
+  <data name="Accounts.SignIn.BrowserFailed" xml:space="preserve">
+    <value>Hindi masimulan ang browser para sa pag-sign in. I-install ang Microsoft Edge WebView2 Runtime at subukan ulit.</value>
+  </data>
+  <data name="Accounts.AddAccount" xml:space="preserve">
+    <value>Magdagdag ng account</value>
+  </data>
+  <data name="Accounts.SignInBrowser" xml:space="preserve">
+    <value>Mag-sign in gamit ang Roblox</value>
+  </data>
+  <data name="Accounts.CreateAccount" xml:space="preserve">
+    <value>Gumawa ng bagong account</value>
+  </data>
+  <data name="Accounts.AddCurrent" xml:space="preserve">
+    <value>I-save ang naka-sign in na account</value>
+  </data>
+  <data name="Accounts.ImportCookie" xml:space="preserve">
+    <value>Mag-import ng cookie</value>
+  </data>
+  <data name="Accounts.Search" xml:space="preserve">
+    <value>Maghanap ng account</value>
+  </data>
+  <data name="Accounts.CheckAll" xml:space="preserve">
+    <value>Suriin ang lahat ng session</value>
+  </data>
+  <data name="Accounts.SignOut" xml:space="preserve">
+    <value>Mag-sign out sa Roblox</value>
+  </data>
+  <data name="Accounts.RosemaryNotice" xml:space="preserve">
+    <value>Kailangan ang Sober para magpalit ng account. May sariling login ang Rosemary, kaya lumipat sa Sober para magamit ang mga naka-save na account.</value>
+  </data>
+  <data name="Accounts.CookiePlaceholder" xml:space="preserve">
+    <value>Mag-paste ng .ROBLOSECURITY cookie</value>
+  </data>
+  <data name="Accounts.Empty" xml:space="preserve">
+    <value>Wala pang naka-save na account. Magdagdag ng isa para makapagpalit ng account sa isang click.</value>
+  </data>
+  <data name="Accounts.SelectHint" xml:space="preserve">
+    <value>Pumili ng account para makita ang mga detalye nito.</value>
+  </data>
+  <data name="Accounts.Current" xml:space="preserve">
+    <value>Kasalukuyan</value>
+  </data>
+  <data name="Accounts.SwitchAndPlay" xml:space="preserve">
+    <value>Magpalit at maglaro</value>
+  </data>
+  <data name="Accounts.Switch" xml:space="preserve">
+    <value>Magpalit</value>
+  </data>
+  <data name="Accounts.ExpiredDetail" xml:space="preserve">
+    <value>Nag-expire na ang session na ito. Mag-sign in ulit para patuloy mong magamit ang account na ito.</value>
+  </data>
+  <data name="Accounts.Expired" xml:space="preserve">
+    <value>Nag-expire ang session</value>
+  </data>
+  <data name="Accounts.Robux" xml:space="preserve">
+    <value>Robux</value>
+  </data>
+  <data name="Accounts.Premium" xml:space="preserve">
+    <value>Premium</value>
+  </data>
+  <data name="Accounts.Friends" xml:space="preserve">
+    <value>Mga kaibigan</value>
+  </data>
+  <data name="Accounts.Followers" xml:space="preserve">
+    <value>Mga follower</value>
+  </data>
+  <data name="Accounts.Joined" xml:space="preserve">
+    <value>Sumali</value>
+  </data>
+  <data name="Accounts.Note" xml:space="preserve">
+    <value>Tala</value>
+  </data>
+  <data name="Accounts.NotePlaceholder" xml:space="preserve">
+    <value>Magdagdag ng tala</value>
+  </data>
+  <data name="Accounts.LastUsed" xml:space="preserve">
+    <value>Huling ginamit</value>
+  </data>
+  <data name="Accounts.Added" xml:space="preserve">
+    <value>Idinagdag</value>
+  </data>
+  <data name="Accounts.CopyId" xml:space="preserve">
+    <value>Kopyahin ang user ID</value>
+  </data>
+  <data name="Accounts.OpenProfile" xml:space="preserve">
+    <value>Buksan ang profile</value>
+  </data>
+  <data name="Accounts.CopyUsername" xml:space="preserve">
+    <value>Kopyahin ang username</value>
+  </data>
+  <data name="Accounts.SignInAgain" xml:space="preserve">
+    <value>Mag-sign in ulit</value>
+  </data>
+  <data name="Accounts.Remove" xml:space="preserve">
+    <value>Alisin</value>
+  </data>
+  <data name="Accounts.Pin" xml:space="preserve">
+    <value>I-pin sa itaas</value>
+  </data>
+  <data name="Accounts.Unpin" xml:space="preserve">
+    <value>I-unpin</value>
+  </data>
+  <data name="Accounts.Never" xml:space="preserve">
+    <value>Hindi kailanman</value>
+  </data>
+  <data name="Accounts.NotSignedIn" xml:space="preserve">
+    <value>Hindi naka-sign in</value>
+  </data>
+  <data name="Accounts.Status.Failed" xml:space="preserve">
+    <value>Hindi ma-save ang sign in na iyon. Maaaring hindi wasto o expired na ang cookie.</value>
+  </data>
+  <data name="Accounts.Status.Added" xml:space="preserve">
+    <value>Na-save ang {0}</value>
+  </data>
+  <data name="Accounts.Status.Switched" xml:space="preserve">
+    <value>Naka-sign in bilang {0}</value>
+  </data>
+  <data name="Accounts.MissingLogin" xml:space="preserve">
+    <value>Nawawala ang naka-save na login ng account na ito. Mag-sign in ulit para maibalik ito.</value>
+  </data>
+  <data name="Accounts.CloseRobloxPrompt" xml:space="preserve">
+    <value>Tumatakbo ang Roblox. Isara ito at magpatuloy?</value>
+  </data>
+  <data name="Accounts.CloseRobloxFailed" xml:space="preserve">
+    <value>Hindi maisara ang Roblox. Isara mo ito at subukan ulit.</value>
+  </data>
+  <data name="Accounts.RemoveConfirm" xml:space="preserve">
+    <value>Alisin ang {0} sa Voidstrap? Hindi maaapektuhan ang iyong Roblox account.</value>
+  </data>
+  <data name="Accounts.Status.SignedOut" xml:space="preserve">
+    <value>Naka-sign out na sa Roblox</value>
+  </data>
+  <data name="Accounts.Status.Checked" xml:space="preserve">
+    <value>{0} sa {1} session ang wasto pa</value>
+  </data>
+  <data name="Accounts.Copied" xml:space="preserve">
+    <value>Nakopya</value>
+  </data>
+  <data name="Accounts.Premium.Active" xml:space="preserve">
+    <value>Aktibo</value>
+  </data>
+  <data name="Accounts.Premium.None" xml:space="preserve">
+    <value>Wala</value>
+  </data>
 </root>

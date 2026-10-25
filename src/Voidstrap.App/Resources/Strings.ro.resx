@@ -8240,4 +8240,166 @@ Se descarcă {0} MB. Dacă refuzi, se folosește estimarea integrată. Poți sch
   <data name="Ui.RiShade.Preset.Failed" xml:space="preserve">
     <value>Această presetare nu a putut fi selectată.</value>
   </data>
+  <data name="Accounts.Title" xml:space="preserve">
+    <value>Manager de conturi</value>
+  </data>
+  <data name="Accounts.SignIn.Title" xml:space="preserve">
+    <value>Conectează-te la Roblox</value>
+  </data>
+  <data name="Accounts.SignIn.Hint" xml:space="preserve">
+    <value>Conectează-te sau creează un cont. Voidstrap îl salvează imediat ce te conectezi.</value>
+  </data>
+  <data name="Accounts.SignIn.LogIn" xml:space="preserve">
+    <value>Conectare</value>
+  </data>
+  <data name="Accounts.SignIn.SignUp" xml:space="preserve">
+    <value>Înregistrare</value>
+  </data>
+  <data name="Accounts.SignIn.Verifying" xml:space="preserve">
+    <value>Se verifică contul</value>
+  </data>
+  <data name="Accounts.SignIn.BrowserFailed" xml:space="preserve">
+    <value>Browserul de conectare nu a putut porni. Instalează Microsoft Edge WebView2 Runtime și încearcă din nou.</value>
+  </data>
+  <data name="Accounts.AddAccount" xml:space="preserve">
+    <value>Adaugă cont</value>
+  </data>
+  <data name="Accounts.SignInBrowser" xml:space="preserve">
+    <value>Conectează-te cu Roblox</value>
+  </data>
+  <data name="Accounts.CreateAccount" xml:space="preserve">
+    <value>Creează un cont nou</value>
+  </data>
+  <data name="Accounts.AddCurrent" xml:space="preserve">
+    <value>Salvează contul conectat</value>
+  </data>
+  <data name="Accounts.ImportCookie" xml:space="preserve">
+    <value>Importă un cookie</value>
+  </data>
+  <data name="Accounts.Search" xml:space="preserve">
+    <value>Caută conturi</value>
+  </data>
+  <data name="Accounts.CheckAll" xml:space="preserve">
+    <value>Verifică toate sesiunile</value>
+  </data>
+  <data name="Accounts.SignOut" xml:space="preserve">
+    <value>Deconectează-te de la Roblox</value>
+  </data>
+  <data name="Accounts.RosemaryNotice" xml:space="preserve">
+    <value>Schimbarea conturilor necesită Sober. Rosemary are propria conectare, așa că treci la Sober pentru a folosi conturile salvate.</value>
+  </data>
+  <data name="Accounts.CookiePlaceholder" xml:space="preserve">
+    <value>Lipește un cookie .ROBLOSECURITY</value>
+  </data>
+  <data name="Accounts.Empty" xml:space="preserve">
+    <value>Încă nu ai conturi salvate. Adaugă unul ca să schimbi contul cu un singur clic.</value>
+  </data>
+  <data name="Accounts.SelectHint" xml:space="preserve">
+    <value>Selectează un cont pentru a-i vedea detaliile.</value>
+  </data>
+  <data name="Accounts.Current" xml:space="preserve">
+    <value>Curent</value>
+  </data>
+  <data name="Accounts.SwitchAndPlay" xml:space="preserve">
+    <value>Schimbă și joacă</value>
+  </data>
+  <data name="Accounts.Switch" xml:space="preserve">
+    <value>Schimbă</value>
+  </data>
+  <data name="Accounts.ExpiredDetail" xml:space="preserve">
+    <value>Această sesiune a expirat. Conectează-te din nou ca să folosești în continuare acest cont.</value>
+  </data>
+  <data name="Accounts.Expired" xml:space="preserve">
+    <value>Sesiune expirată</value>
+  </data>
+  <data name="Accounts.Robux" xml:space="preserve">
+    <value>Robux</value>
+  </data>
+  <data name="Accounts.Premium" xml:space="preserve">
+    <value>Premium</value>
+  </data>
+  <data name="Accounts.Friends" xml:space="preserve">
+    <value>Prieteni</value>
+  </data>
+  <data name="Accounts.Followers" xml:space="preserve">
+    <value>Urmăritori</value>
+  </data>
+  <data name="Accounts.Joined" xml:space="preserve">
+    <value>Înscris</value>
+  </data>
+  <data name="Accounts.Note" xml:space="preserve">
+    <value>Notă</value>
+  </data>
+  <data name="Accounts.NotePlaceholder" xml:space="preserve">
+    <value>Adaugă o notă</value>
+  </data>
+  <data name="Accounts.LastUsed" xml:space="preserve">
+    <value>Ultima utilizare</value>
+  </data>
+  <data name="Accounts.Added" xml:space="preserve">
+    <value>Adăugat</value>
+  </data>
+  <data name="Accounts.CopyId" xml:space="preserve">
+    <value>Copiază ID utilizator</value>
+  </data>
+  <data name="Accounts.OpenProfile" xml:space="preserve">
+    <value>Deschide profilul</value>
+  </data>
+  <data name="Accounts.CopyUsername" xml:space="preserve">
+    <value>Copiază numele de utilizator</value>
+  </data>
+  <data name="Accounts.SignInAgain" xml:space="preserve">
+    <value>Conectează-te din nou</value>
+  </data>
+  <data name="Accounts.Remove" xml:space="preserve">
+    <value>Elimină</value>
+  </data>
+  <data name="Accounts.Pin" xml:space="preserve">
+    <value>Fixează sus</value>
+  </data>
+  <data name="Accounts.Unpin" xml:space="preserve">
+    <value>Anulează fixarea</value>
+  </data>
+  <data name="Accounts.Never" xml:space="preserve">
+    <value>Niciodată</value>
+  </data>
+  <data name="Accounts.NotSignedIn" xml:space="preserve">
+    <value>Neconectat</value>
+  </data>
+  <data name="Accounts.Status.Failed" xml:space="preserve">
+    <value>Conectarea nu a putut fi salvată. Cookie-ul poate fi invalid sau expirat.</value>
+  </data>
+  <data name="Accounts.Status.Added" xml:space="preserve">
+    <value>{0} salvat</value>
+  </data>
+  <data name="Accounts.Status.Switched" xml:space="preserve">
+    <value>Conectat ca {0}</value>
+  </data>
+  <data name="Accounts.MissingLogin" xml:space="preserve">
+    <value>Conectarea salvată pentru acest cont lipsește. Conectează-te din nou pentru a o restaura.</value>
+  </data>
+  <data name="Accounts.CloseRobloxPrompt" xml:space="preserve">
+    <value>Roblox rulează. Îl închizi și continui?</value>
+  </data>
+  <data name="Accounts.CloseRobloxFailed" xml:space="preserve">
+    <value>Roblox nu a putut fi închis. Închide-l tu și încearcă din nou.</value>
+  </data>
+  <data name="Accounts.RemoveConfirm" xml:space="preserve">
+    <value>Elimini {0} din Voidstrap? Contul tău Roblox nu este afectat.</value>
+  </data>
+  <data name="Accounts.Status.SignedOut" xml:space="preserve">
+    <value>Deconectat de la Roblox</value>
+  </data>
+  <data name="Accounts.Status.Checked" xml:space="preserve">
+    <value>{0} din {1} sesiuni sunt încă valide</value>
+  </data>
+  <data name="Accounts.Copied" xml:space="preserve">
+    <value>Copiat</value>
+  </data>
+  <data name="Accounts.Premium.Active" xml:space="preserve">
+    <value>Activ</value>
+  </data>
+  <data name="Accounts.Premium.None" xml:space="preserve">
+    <value>Niciunul</value>
+  </data>
 </root>

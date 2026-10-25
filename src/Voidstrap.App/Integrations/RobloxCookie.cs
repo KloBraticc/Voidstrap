@@ -225,13 +225,17 @@ public static partial class RobloxCookie
 		}
 	}
 
-	public static async Task<RobloxApiResponse> SendGetAsync(string url, CancellationToken ct = default(CancellationToken))
+	public static Task<RobloxApiResponse> SendGetAsync(string url, CancellationToken ct = default(CancellationToken))
+	{
+		return SendGetWithCookieAsync(url, Get(), ct);
+	}
+
+	public static async Task<RobloxApiResponse> SendGetWithCookieAsync(string url, string? cookie, CancellationToken ct = default(CancellationToken))
 	{
 		if (!IsRobloxUrl(Uri.TryCreate(url, UriKind.Absolute, out Uri? target) ? target : null))
 		{
 			return new RobloxApiResponse(0, null, null);
 		}
-		string? cookie = Get();
 		try
 		{
 			using HttpRequestMessage req = new HttpRequestMessage(HttpMethod.Get, url);
@@ -303,6 +307,43 @@ public static partial class RobloxCookie
 		{
 			App.Logger?.WriteLine("RobloxCookie", "ExtractCookieFromDat failed: " + ex.Message);
 			return null;
+		}
+	}
+
+	public static bool WriteLoginFile(string cookie, string? templateDatPath, string outputDatPath)
+	{
+		if (!string.IsNullOrEmpty(templateDatPath) && File.Exists(templateDatPath) && SynthesizeDatWithCookie(templateDatPath, cookie, outputDatPath))
+		{
+			return true;
+		}
+		try
+		{
+			Directory.CreateDirectory(Path.GetDirectoryName(outputDatPath)!);
+			if (Voidstrap.Utility.Platform.IsLinux)
+			{
+				File.WriteAllText(outputDatPath, SecurityCookieName + "=" + cookie + ";");
+				if (!OperatingSystem.IsWindows())
+					File.SetUnixFileMode(outputDatPath, UnixFileMode.UserRead | UnixFileMode.UserWrite);
+			}
+			else
+			{
+				byte[] protectedBlob = ProtectedData.Protect(Encoding.UTF8.GetBytes(SecurityCookieName + "\t" + cookie + ";"), null, DataProtectionScope.CurrentUser);
+				using MemoryStream memoryStream = new MemoryStream();
+				using (Utf8JsonWriter writer = new Utf8JsonWriter(memoryStream))
+				{
+					writer.WriteStartObject();
+					writer.WriteString("CookiesVersion", "1");
+					writer.WriteString("CookiesData", Convert.ToBase64String(protectedBlob));
+					writer.WriteEndObject();
+				}
+				File.WriteAllBytes(outputDatPath, memoryStream.ToArray());
+			}
+			return string.Equals(ExtractCookieFromDat(outputDatPath), cookie, StringComparison.Ordinal);
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine("RobloxCookie", "The login file could not be written: " + ex.Message);
+			return false;
 		}
 	}
 

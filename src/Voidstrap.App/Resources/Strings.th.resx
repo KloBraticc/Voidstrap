@@ -8234,4 +8234,166 @@ Voidstrap เขียนลงในโฟลเดอร์เดสก์ท�
   <data name="Ui.RiShade.Preset.Failed" xml:space="preserve">
     <value>ไม่สามารถเลือกพรีเซ็ตนี้ได้</value>
   </data>
+  <data name="Accounts.Title" xml:space="preserve">
+    <value>ตัวจัดการบัญชี</value>
+  </data>
+  <data name="Accounts.SignIn.Title" xml:space="preserve">
+    <value>ลงชื่อเข้าใช้ Roblox</value>
+  </data>
+  <data name="Accounts.SignIn.Hint" xml:space="preserve">
+    <value>เข้าสู่ระบบหรือสร้างบัญชี Voidstrap จะบันทึกไว้ทันทีที่คุณลงชื่อเข้าใช้</value>
+  </data>
+  <data name="Accounts.SignIn.LogIn" xml:space="preserve">
+    <value>เข้าสู่ระบบ</value>
+  </data>
+  <data name="Accounts.SignIn.SignUp" xml:space="preserve">
+    <value>สมัครสมาชิก</value>
+  </data>
+  <data name="Accounts.SignIn.Verifying" xml:space="preserve">
+    <value>กำลังตรวจสอบบัญชี</value>
+  </data>
+  <data name="Accounts.SignIn.BrowserFailed" xml:space="preserve">
+    <value>ไม่สามารถเปิดเบราว์เซอร์สำหรับลงชื่อเข้าใช้ได้ โปรดติดตั้ง Microsoft Edge WebView2 Runtime แล้วลองอีกครั้ง</value>
+  </data>
+  <data name="Accounts.AddAccount" xml:space="preserve">
+    <value>เพิ่มบัญชี</value>
+  </data>
+  <data name="Accounts.SignInBrowser" xml:space="preserve">
+    <value>ลงชื่อเข้าใช้ด้วย Roblox</value>
+  </data>
+  <data name="Accounts.CreateAccount" xml:space="preserve">
+    <value>สร้างบัญชีใหม่</value>
+  </data>
+  <data name="Accounts.AddCurrent" xml:space="preserve">
+    <value>บันทึกบัญชีที่ลงชื่อเข้าใช้อยู่</value>
+  </data>
+  <data name="Accounts.ImportCookie" xml:space="preserve">
+    <value>นำเข้าคุกกี้</value>
+  </data>
+  <data name="Accounts.Search" xml:space="preserve">
+    <value>ค้นหาบัญชี</value>
+  </data>
+  <data name="Accounts.CheckAll" xml:space="preserve">
+    <value>ตรวจสอบเซสชันทั้งหมด</value>
+  </data>
+  <data name="Accounts.SignOut" xml:space="preserve">
+    <value>ออกจากระบบ Roblox</value>
+  </data>
+  <data name="Accounts.RosemaryNotice" xml:space="preserve">
+    <value>การสลับบัญชีต้องใช้ Sober เนื่องจาก Rosemary เก็บการเข้าสู่ระบบแยกต่างหาก โปรดเปลี่ยนไปใช้ Sober เพื่อใช้บัญชีที่บันทึกไว้</value>
+  </data>
+  <data name="Accounts.CookiePlaceholder" xml:space="preserve">
+    <value>วางคุกกี้ .ROBLOSECURITY</value>
+  </data>
+  <data name="Accounts.Empty" xml:space="preserve">
+    <value>ยังไม่มีบัญชีที่บันทึกไว้ เพิ่มบัญชีเพื่อสลับบัญชีได้ในคลิกเดียว</value>
+  </data>
+  <data name="Accounts.SelectHint" xml:space="preserve">
+    <value>เลือกบัญชีเพื่อดูรายละเอียด</value>
+  </data>
+  <data name="Accounts.Current" xml:space="preserve">
+    <value>ปัจจุบัน</value>
+  </data>
+  <data name="Accounts.SwitchAndPlay" xml:space="preserve">
+    <value>สลับและเล่น</value>
+  </data>
+  <data name="Accounts.Switch" xml:space="preserve">
+    <value>สลับ</value>
+  </data>
+  <data name="Accounts.ExpiredDetail" xml:space="preserve">
+    <value>เซสชันนี้หมดอายุแล้ว โปรดลงชื่อเข้าใช้อีกครั้งเพื่อใช้บัญชีนี้ต่อ</value>
+  </data>
+  <data name="Accounts.Expired" xml:space="preserve">
+    <value>เซสชันหมดอายุ</value>
+  </data>
+  <data name="Accounts.Robux" xml:space="preserve">
+    <value>Robux</value>
+  </data>
+  <data name="Accounts.Premium" xml:space="preserve">
+    <value>Premium</value>
+  </data>
+  <data name="Accounts.Friends" xml:space="preserve">
+    <value>เพื่อน</value>
+  </data>
+  <data name="Accounts.Followers" xml:space="preserve">
+    <value>ผู้ติดตาม</value>
+  </data>
+  <data name="Accounts.Joined" xml:space="preserve">
+    <value>เข้าร่วมเมื่อ</value>
+  </data>
+  <data name="Accounts.Note" xml:space="preserve">
+    <value>บันทึกย่อ</value>
+  </data>
+  <data name="Accounts.NotePlaceholder" xml:space="preserve">
+    <value>เพิ่มบันทึกย่อ</value>
+  </data>
+  <data name="Accounts.LastUsed" xml:space="preserve">
+    <value>ใช้ล่าสุด</value>
+  </data>
+  <data name="Accounts.Added" xml:space="preserve">
+    <value>เพิ่มเมื่อ</value>
+  </data>
+  <data name="Accounts.CopyId" xml:space="preserve">
+    <value>คัดลอก ID ผู้ใช้</value>
+  </data>
+  <data name="Accounts.OpenProfile" xml:space="preserve">
+    <value>เปิดโปรไฟล์</value>
+  </data>
+  <data name="Accounts.CopyUsername" xml:space="preserve">
+    <value>คัดลอกชื่อผู้ใช้</value>
+  </data>
+  <data name="Accounts.SignInAgain" xml:space="preserve">
+    <value>ลงชื่อเข้าใช้อีกครั้ง</value>
+  </data>
+  <data name="Accounts.Remove" xml:space="preserve">
+    <value>นำออก</value>
+  </data>
+  <data name="Accounts.Pin" xml:space="preserve">
+    <value>ปักหมุดไว้ด้านบน</value>
+  </data>
+  <data name="Accounts.Unpin" xml:space="preserve">
+    <value>เลิกปักหมุด</value>
+  </data>
+  <data name="Accounts.Never" xml:space="preserve">
+    <value>ไม่เคย</value>
+  </data>
+  <data name="Accounts.NotSignedIn" xml:space="preserve">
+    <value>ยังไม่ได้ลงชื่อเข้าใช้</value>
+  </data>
+  <data name="Accounts.Status.Failed" xml:space="preserve">
+    <value>ไม่สามารถบันทึกการลงชื่อเข้าใช้นี้ได้ คุกกี้อาจไม่ถูกต้องหรือหมดอายุแล้ว</value>
+  </data>
+  <data name="Accounts.Status.Added" xml:space="preserve">
+    <value>บันทึก {0} แล้ว</value>
+  </data>
+  <data name="Accounts.Status.Switched" xml:space="preserve">
+    <value>ลงชื่อเข้าใช้เป็น {0}</value>
+  </data>
+  <data name="Accounts.MissingLogin" xml:space="preserve">
+    <value>ไม่พบข้อมูลเข้าสู่ระบบที่บันทึกไว้ของบัญชีนี้ โปรดลงชื่อเข้าใช้อีกครั้งเพื่อกู้คืน</value>
+  </data>
+  <data name="Accounts.CloseRobloxPrompt" xml:space="preserve">
+    <value>Roblox กำลังทำงานอยู่ ปิดแล้วดำเนินการต่อหรือไม่</value>
+  </data>
+  <data name="Accounts.CloseRobloxFailed" xml:space="preserve">
+    <value>ไม่สามารถปิด Roblox ได้ โปรดปิดด้วยตนเองแล้วลองอีกครั้ง</value>
+  </data>
+  <data name="Accounts.RemoveConfirm" xml:space="preserve">
+    <value>นำ {0} ออกจาก Voidstrap หรือไม่ บัญชี Roblox ของคุณจะไม่ได้รับผลกระทบ</value>
+  </data>
+  <data name="Accounts.Status.SignedOut" xml:space="preserve">
+    <value>ออกจากระบบ Roblox แล้ว</value>
+  </data>
+  <data name="Accounts.Status.Checked" xml:space="preserve">
+    <value>เซสชันที่ยังใช้ได้ {0} จาก {1}</value>
+  </data>
+  <data name="Accounts.Copied" xml:space="preserve">
+    <value>คัดลอกแล้ว</value>
+  </data>
+  <data name="Accounts.Premium.Active" xml:space="preserve">
+    <value>ใช้งานอยู่</value>
+  </data>
+  <data name="Accounts.Premium.None" xml:space="preserve">
+    <value>ไม่มี</value>
+  </data>
 </root>

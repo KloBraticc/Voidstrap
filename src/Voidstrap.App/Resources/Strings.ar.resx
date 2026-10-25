@@ -8238,4 +8238,166 @@
   <data name="Ui.RiShade.Preset.Failed" xml:space="preserve">
     <value>تعذّر اختيار هذا الإعداد المسبق.</value>
   </data>
+  <data name="Accounts.Title" xml:space="preserve">
+    <value>مدير الحسابات</value>
+  </data>
+  <data name="Accounts.SignIn.Title" xml:space="preserve">
+    <value>تسجيل الدخول إلى Roblox</value>
+  </data>
+  <data name="Accounts.SignIn.Hint" xml:space="preserve">
+    <value>سجّل الدخول أو أنشئ حسابًا. يحفظه Voidstrap بمجرد تسجيل دخولك.</value>
+  </data>
+  <data name="Accounts.SignIn.LogIn" xml:space="preserve">
+    <value>تسجيل الدخول</value>
+  </data>
+  <data name="Accounts.SignIn.SignUp" xml:space="preserve">
+    <value>إنشاء حساب</value>
+  </data>
+  <data name="Accounts.SignIn.Verifying" xml:space="preserve">
+    <value>جارٍ التحقق من الحساب</value>
+  </data>
+  <data name="Accounts.SignIn.BrowserFailed" xml:space="preserve">
+    <value>تعذّر تشغيل متصفح تسجيل الدخول. ثبّت Microsoft Edge WebView2 Runtime وحاول مرة أخرى.</value>
+  </data>
+  <data name="Accounts.AddAccount" xml:space="preserve">
+    <value>إضافة حساب</value>
+  </data>
+  <data name="Accounts.SignInBrowser" xml:space="preserve">
+    <value>تسجيل الدخول باستخدام Roblox</value>
+  </data>
+  <data name="Accounts.CreateAccount" xml:space="preserve">
+    <value>إنشاء حساب جديد</value>
+  </data>
+  <data name="Accounts.AddCurrent" xml:space="preserve">
+    <value>حفظ الحساب المسجّل حاليًا</value>
+  </data>
+  <data name="Accounts.ImportCookie" xml:space="preserve">
+    <value>استيراد ملف تعريف ارتباط</value>
+  </data>
+  <data name="Accounts.Search" xml:space="preserve">
+    <value>البحث في الحسابات</value>
+  </data>
+  <data name="Accounts.CheckAll" xml:space="preserve">
+    <value>فحص كل الجلسات</value>
+  </data>
+  <data name="Accounts.SignOut" xml:space="preserve">
+    <value>تسجيل الخروج من Roblox</value>
+  </data>
+  <data name="Accounts.RosemaryNotice" xml:space="preserve">
+    <value>يتطلب تبديل الحسابات Sober. يحتفظ Rosemary بتسجيل دخول خاص به، لذا انتقل إلى Sober لاستخدام الحسابات المحفوظة.</value>
+  </data>
+  <data name="Accounts.CookiePlaceholder" xml:space="preserve">
+    <value>الصق ملف تعريف الارتباط .ROBLOSECURITY</value>
+  </data>
+  <data name="Accounts.Empty" xml:space="preserve">
+    <value>لا توجد حسابات محفوظة بعد. أضف حسابًا للتبديل بين الحسابات بنقرة واحدة.</value>
+  </data>
+  <data name="Accounts.SelectHint" xml:space="preserve">
+    <value>اختر حسابًا لعرض تفاصيله.</value>
+  </data>
+  <data name="Accounts.Current" xml:space="preserve">
+    <value>الحالي</value>
+  </data>
+  <data name="Accounts.SwitchAndPlay" xml:space="preserve">
+    <value>تبديل واللعب</value>
+  </data>
+  <data name="Accounts.Switch" xml:space="preserve">
+    <value>تبديل</value>
+  </data>
+  <data name="Accounts.ExpiredDetail" xml:space="preserve">
+    <value>انتهت صلاحية هذه الجلسة. سجّل الدخول مرة أخرى لمتابعة استخدام هذا الحساب.</value>
+  </data>
+  <data name="Accounts.Expired" xml:space="preserve">
+    <value>انتهت صلاحية الجلسة</value>
+  </data>
+  <data name="Accounts.Robux" xml:space="preserve">
+    <value>Robux</value>
+  </data>
+  <data name="Accounts.Premium" xml:space="preserve">
+    <value>Premium</value>
+  </data>
+  <data name="Accounts.Friends" xml:space="preserve">
+    <value>الأصدقاء</value>
+  </data>
+  <data name="Accounts.Followers" xml:space="preserve">
+    <value>المتابعون</value>
+  </data>
+  <data name="Accounts.Joined" xml:space="preserve">
+    <value>تاريخ الانضمام</value>
+  </data>
+  <data name="Accounts.Note" xml:space="preserve">
+    <value>ملاحظة</value>
+  </data>
+  <data name="Accounts.NotePlaceholder" xml:space="preserve">
+    <value>أضف ملاحظة</value>
+  </data>
+  <data name="Accounts.LastUsed" xml:space="preserve">
+    <value>آخر استخدام</value>
+  </data>
+  <data name="Accounts.Added" xml:space="preserve">
+    <value>تاريخ الإضافة</value>
+  </data>
+  <data name="Accounts.CopyId" xml:space="preserve">
+    <value>نسخ معرّف المستخدم</value>
+  </data>
+  <data name="Accounts.OpenProfile" xml:space="preserve">
+    <value>فتح الملف الشخصي</value>
+  </data>
+  <data name="Accounts.CopyUsername" xml:space="preserve">
+    <value>نسخ اسم المستخدم</value>
+  </data>
+  <data name="Accounts.SignInAgain" xml:space="preserve">
+    <value>تسجيل الدخول مرة أخرى</value>
+  </data>
+  <data name="Accounts.Remove" xml:space="preserve">
+    <value>إزالة</value>
+  </data>
+  <data name="Accounts.Pin" xml:space="preserve">
+    <value>تثبيت في الأعلى</value>
+  </data>
+  <data name="Accounts.Unpin" xml:space="preserve">
+    <value>إلغاء التثبيت</value>
+  </data>
+  <data name="Accounts.Never" xml:space="preserve">
+    <value>أبدًا</value>
+  </data>
+  <data name="Accounts.NotSignedIn" xml:space="preserve">
+    <value>لم تسجّل الدخول</value>
+  </data>
+  <data name="Accounts.Status.Failed" xml:space="preserve">
+    <value>تعذّر حفظ تسجيل الدخول هذا. قد يكون ملف تعريف الارتباط غير صالح أو منتهي الصلاحية.</value>
+  </data>
+  <data name="Accounts.Status.Added" xml:space="preserve">
+    <value>تم حفظ {0}</value>
+  </data>
+  <data name="Accounts.Status.Switched" xml:space="preserve">
+    <value>تم تسجيل الدخول باسم {0}</value>
+  </data>
+  <data name="Accounts.MissingLogin" xml:space="preserve">
+    <value>تسجيل الدخول المحفوظ لهذا الحساب مفقود. سجّل الدخول مرة أخرى لاستعادته.</value>
+  </data>
+  <data name="Accounts.CloseRobloxPrompt" xml:space="preserve">
+    <value>Roblox قيد التشغيل. هل تريد إغلاقه والمتابعة؟</value>
+  </data>
+  <data name="Accounts.CloseRobloxFailed" xml:space="preserve">
+    <value>تعذّر إغلاق Roblox. أغلقه بنفسك وحاول مرة أخرى.</value>
+  </data>
+  <data name="Accounts.RemoveConfirm" xml:space="preserve">
+    <value>هل تريد إزالة {0} من Voidstrap؟ لن يتأثر حسابك في Roblox.</value>
+  </data>
+  <data name="Accounts.Status.SignedOut" xml:space="preserve">
+    <value>تم تسجيل الخروج من Roblox</value>
+  </data>
+  <data name="Accounts.Status.Checked" xml:space="preserve">
+    <value>{0} من أصل {1} جلسات ما زالت صالحة</value>
+  </data>
+  <data name="Accounts.Copied" xml:space="preserve">
+    <value>تم النسخ</value>
+  </data>
+  <data name="Accounts.Premium.Active" xml:space="preserve">
+    <value>نشط</value>
+  </data>
+  <data name="Accounts.Premium.None" xml:space="preserve">
+    <value>لا يوجد</value>
+  </data>
 </root>

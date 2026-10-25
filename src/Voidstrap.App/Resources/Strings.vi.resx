@@ -8242,4 +8242,166 @@ Dung lượng tải xuống là {0} MB. Nếu bạn từ chối, ước tính t�
   <data name="Ui.RiShade.Preset.Failed" xml:space="preserve">
     <value>Không thể chọn cài đặt sẵn này.</value>
   </data>
+  <data name="Accounts.Title" xml:space="preserve">
+    <value>Quản lý tài khoản</value>
+  </data>
+  <data name="Accounts.SignIn.Title" xml:space="preserve">
+    <value>Đăng nhập Roblox</value>
+  </data>
+  <data name="Accounts.SignIn.Hint" xml:space="preserve">
+    <value>Đăng nhập hoặc tạo tài khoản. Voidstrap sẽ lưu ngay khi bạn đăng nhập.</value>
+  </data>
+  <data name="Accounts.SignIn.LogIn" xml:space="preserve">
+    <value>Đăng nhập</value>
+  </data>
+  <data name="Accounts.SignIn.SignUp" xml:space="preserve">
+    <value>Đăng ký</value>
+  </data>
+  <data name="Accounts.SignIn.Verifying" xml:space="preserve">
+    <value>Đang xác minh tài khoản</value>
+  </data>
+  <data name="Accounts.SignIn.BrowserFailed" xml:space="preserve">
+    <value>Không thể khởi động trình duyệt đăng nhập. Hãy cài đặt Microsoft Edge WebView2 Runtime rồi thử lại.</value>
+  </data>
+  <data name="Accounts.AddAccount" xml:space="preserve">
+    <value>Thêm tài khoản</value>
+  </data>
+  <data name="Accounts.SignInBrowser" xml:space="preserve">
+    <value>Đăng nhập bằng Roblox</value>
+  </data>
+  <data name="Accounts.CreateAccount" xml:space="preserve">
+    <value>Tạo tài khoản mới</value>
+  </data>
+  <data name="Accounts.AddCurrent" xml:space="preserve">
+    <value>Lưu tài khoản đang đăng nhập</value>
+  </data>
+  <data name="Accounts.ImportCookie" xml:space="preserve">
+    <value>Nhập cookie</value>
+  </data>
+  <data name="Accounts.Search" xml:space="preserve">
+    <value>Tìm tài khoản</value>
+  </data>
+  <data name="Accounts.CheckAll" xml:space="preserve">
+    <value>Kiểm tra tất cả phiên</value>
+  </data>
+  <data name="Accounts.SignOut" xml:space="preserve">
+    <value>Đăng xuất khỏi Roblox</value>
+  </data>
+  <data name="Accounts.RosemaryNotice" xml:space="preserve">
+    <value>Chuyển tài khoản cần Sober. Rosemary dùng thông tin đăng nhập riêng, vì vậy hãy chuyển sang Sober để dùng các tài khoản đã lưu.</value>
+  </data>
+  <data name="Accounts.CookiePlaceholder" xml:space="preserve">
+    <value>Dán cookie .ROBLOSECURITY</value>
+  </data>
+  <data name="Accounts.Empty" xml:space="preserve">
+    <value>Chưa có tài khoản nào được lưu. Thêm một tài khoản để chuyển đổi chỉ với một cú nhấp.</value>
+  </data>
+  <data name="Accounts.SelectHint" xml:space="preserve">
+    <value>Chọn một tài khoản để xem chi tiết.</value>
+  </data>
+  <data name="Accounts.Current" xml:space="preserve">
+    <value>Hiện tại</value>
+  </data>
+  <data name="Accounts.SwitchAndPlay" xml:space="preserve">
+    <value>Chuyển và chơi</value>
+  </data>
+  <data name="Accounts.Switch" xml:space="preserve">
+    <value>Chuyển</value>
+  </data>
+  <data name="Accounts.ExpiredDetail" xml:space="preserve">
+    <value>Phiên này đã hết hạn. Hãy đăng nhập lại để tiếp tục dùng tài khoản này.</value>
+  </data>
+  <data name="Accounts.Expired" xml:space="preserve">
+    <value>Phiên đã hết hạn</value>
+  </data>
+  <data name="Accounts.Robux" xml:space="preserve">
+    <value>Robux</value>
+  </data>
+  <data name="Accounts.Premium" xml:space="preserve">
+    <value>Premium</value>
+  </data>
+  <data name="Accounts.Friends" xml:space="preserve">
+    <value>Bạn bè</value>
+  </data>
+  <data name="Accounts.Followers" xml:space="preserve">
+    <value>Người theo dõi</value>
+  </data>
+  <data name="Accounts.Joined" xml:space="preserve">
+    <value>Tham gia</value>
+  </data>
+  <data name="Accounts.Note" xml:space="preserve">
+    <value>Ghi chú</value>
+  </data>
+  <data name="Accounts.NotePlaceholder" xml:space="preserve">
+    <value>Thêm ghi chú</value>
+  </data>
+  <data name="Accounts.LastUsed" xml:space="preserve">
+    <value>Dùng lần cuối</value>
+  </data>
+  <data name="Accounts.Added" xml:space="preserve">
+    <value>Đã thêm</value>
+  </data>
+  <data name="Accounts.CopyId" xml:space="preserve">
+    <value>Sao chép ID người dùng</value>
+  </data>
+  <data name="Accounts.OpenProfile" xml:space="preserve">
+    <value>Mở hồ sơ</value>
+  </data>
+  <data name="Accounts.CopyUsername" xml:space="preserve">
+    <value>Sao chép tên người dùng</value>
+  </data>
+  <data name="Accounts.SignInAgain" xml:space="preserve">
+    <value>Đăng nhập lại</value>
+  </data>
+  <data name="Accounts.Remove" xml:space="preserve">
+    <value>Xóa</value>
+  </data>
+  <data name="Accounts.Pin" xml:space="preserve">
+    <value>Ghim lên đầu</value>
+  </data>
+  <data name="Accounts.Unpin" xml:space="preserve">
+    <value>Bỏ ghim</value>
+  </data>
+  <data name="Accounts.Never" xml:space="preserve">
+    <value>Chưa bao giờ</value>
+  </data>
+  <data name="Accounts.NotSignedIn" xml:space="preserve">
+    <value>Chưa đăng nhập</value>
+  </data>
+  <data name="Accounts.Status.Failed" xml:space="preserve">
+    <value>Không thể lưu lần đăng nhập đó. Cookie có thể không hợp lệ hoặc đã hết hạn.</value>
+  </data>
+  <data name="Accounts.Status.Added" xml:space="preserve">
+    <value>Đã lưu {0}</value>
+  </data>
+  <data name="Accounts.Status.Switched" xml:space="preserve">
+    <value>Đã đăng nhập với tên {0}</value>
+  </data>
+  <data name="Accounts.MissingLogin" xml:space="preserve">
+    <value>Thông tin đăng nhập đã lưu của tài khoản này bị thiếu. Hãy đăng nhập lại để khôi phục.</value>
+  </data>
+  <data name="Accounts.CloseRobloxPrompt" xml:space="preserve">
+    <value>Roblox đang chạy. Đóng nó và tiếp tục?</value>
+  </data>
+  <data name="Accounts.CloseRobloxFailed" xml:space="preserve">
+    <value>Không thể đóng Roblox. Hãy tự đóng rồi thử lại.</value>
+  </data>
+  <data name="Accounts.RemoveConfirm" xml:space="preserve">
+    <value>Xóa {0} khỏi Voidstrap? Tài khoản Roblox của bạn không bị ảnh hưởng.</value>
+  </data>
+  <data name="Accounts.Status.SignedOut" xml:space="preserve">
+    <value>Đã đăng xuất khỏi Roblox</value>
+  </data>
+  <data name="Accounts.Status.Checked" xml:space="preserve">
+    <value>{0} trên {1} phiên vẫn còn hợp lệ</value>
+  </data>
+  <data name="Accounts.Copied" xml:space="preserve">
+    <value>Đã sao chép</value>
+  </data>
+  <data name="Accounts.Premium.Active" xml:space="preserve">
+    <value>Đang hoạt động</value>
+  </data>
+  <data name="Accounts.Premium.None" xml:space="preserve">
+    <value>Không có</value>
+  </data>
 </root>

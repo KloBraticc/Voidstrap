@@ -8237,4 +8237,166 @@ Voidstrap이 바탕 화면 폴더에 쓸 수 없습니다.</value>
   <data name="Ui.RiShade.Preset.Failed" xml:space="preserve">
     <value>이 프리셋을 선택할 수 없습니다.</value>
   </data>
+  <data name="Accounts.Title" xml:space="preserve">
+    <value>계정 관리자</value>
+  </data>
+  <data name="Accounts.SignIn.Title" xml:space="preserve">
+    <value>Roblox에 로그인</value>
+  </data>
+  <data name="Accounts.SignIn.Hint" xml:space="preserve">
+    <value>로그인하거나 계정을 만드십시오. 로그인하는 즉시 Voidstrap이 저장합니다.</value>
+  </data>
+  <data name="Accounts.SignIn.LogIn" xml:space="preserve">
+    <value>로그인</value>
+  </data>
+  <data name="Accounts.SignIn.SignUp" xml:space="preserve">
+    <value>가입하기</value>
+  </data>
+  <data name="Accounts.SignIn.Verifying" xml:space="preserve">
+    <value>계정 확인 중</value>
+  </data>
+  <data name="Accounts.SignIn.BrowserFailed" xml:space="preserve">
+    <value>로그인 브라우저를 시작할 수 없습니다. Microsoft Edge WebView2 Runtime을 설치한 후 다시 시도하십시오.</value>
+  </data>
+  <data name="Accounts.AddAccount" xml:space="preserve">
+    <value>계정 추가</value>
+  </data>
+  <data name="Accounts.SignInBrowser" xml:space="preserve">
+    <value>Roblox로 로그인</value>
+  </data>
+  <data name="Accounts.CreateAccount" xml:space="preserve">
+    <value>새 계정 만들기</value>
+  </data>
+  <data name="Accounts.AddCurrent" xml:space="preserve">
+    <value>로그인된 계정 저장</value>
+  </data>
+  <data name="Accounts.ImportCookie" xml:space="preserve">
+    <value>쿠키 가져오기</value>
+  </data>
+  <data name="Accounts.Search" xml:space="preserve">
+    <value>계정 검색</value>
+  </data>
+  <data name="Accounts.CheckAll" xml:space="preserve">
+    <value>모든 세션 확인</value>
+  </data>
+  <data name="Accounts.SignOut" xml:space="preserve">
+    <value>Roblox에서 로그아웃</value>
+  </data>
+  <data name="Accounts.RosemaryNotice" xml:space="preserve">
+    <value>계정을 전환하려면 Sober가 필요합니다. Rosemary는 자체 로그인을 사용하므로 저장된 계정을 사용하려면 Sober로 전환하십시오.</value>
+  </data>
+  <data name="Accounts.CookiePlaceholder" xml:space="preserve">
+    <value>.ROBLOSECURITY 쿠키를 붙여 넣으십시오</value>
+  </data>
+  <data name="Accounts.Empty" xml:space="preserve">
+    <value>저장된 계정이 아직 없습니다. 계정을 추가하면 한 번의 클릭으로 전환할 수 있습니다.</value>
+  </data>
+  <data name="Accounts.SelectHint" xml:space="preserve">
+    <value>계정을 선택하면 세부 정보가 표시됩니다.</value>
+  </data>
+  <data name="Accounts.Current" xml:space="preserve">
+    <value>현재</value>
+  </data>
+  <data name="Accounts.SwitchAndPlay" xml:space="preserve">
+    <value>전환 후 플레이</value>
+  </data>
+  <data name="Accounts.Switch" xml:space="preserve">
+    <value>전환</value>
+  </data>
+  <data name="Accounts.ExpiredDetail" xml:space="preserve">
+    <value>이 세션이 만료되었습니다. 이 계정을 계속 사용하려면 다시 로그인하십시오.</value>
+  </data>
+  <data name="Accounts.Expired" xml:space="preserve">
+    <value>세션 만료됨</value>
+  </data>
+  <data name="Accounts.Robux" xml:space="preserve">
+    <value>Robux</value>
+  </data>
+  <data name="Accounts.Premium" xml:space="preserve">
+    <value>Premium</value>
+  </data>
+  <data name="Accounts.Friends" xml:space="preserve">
+    <value>친구</value>
+  </data>
+  <data name="Accounts.Followers" xml:space="preserve">
+    <value>팔로워</value>
+  </data>
+  <data name="Accounts.Joined" xml:space="preserve">
+    <value>가입일</value>
+  </data>
+  <data name="Accounts.Note" xml:space="preserve">
+    <value>메모</value>
+  </data>
+  <data name="Accounts.NotePlaceholder" xml:space="preserve">
+    <value>메모 추가</value>
+  </data>
+  <data name="Accounts.LastUsed" xml:space="preserve">
+    <value>마지막 사용</value>
+  </data>
+  <data name="Accounts.Added" xml:space="preserve">
+    <value>추가됨</value>
+  </data>
+  <data name="Accounts.CopyId" xml:space="preserve">
+    <value>사용자 ID 복사</value>
+  </data>
+  <data name="Accounts.OpenProfile" xml:space="preserve">
+    <value>프로필 열기</value>
+  </data>
+  <data name="Accounts.CopyUsername" xml:space="preserve">
+    <value>사용자 이름 복사</value>
+  </data>
+  <data name="Accounts.SignInAgain" xml:space="preserve">
+    <value>다시 로그인</value>
+  </data>
+  <data name="Accounts.Remove" xml:space="preserve">
+    <value>제거</value>
+  </data>
+  <data name="Accounts.Pin" xml:space="preserve">
+    <value>맨 위에 고정</value>
+  </data>
+  <data name="Accounts.Unpin" xml:space="preserve">
+    <value>고정 해제</value>
+  </data>
+  <data name="Accounts.Never" xml:space="preserve">
+    <value>없음</value>
+  </data>
+  <data name="Accounts.NotSignedIn" xml:space="preserve">
+    <value>로그인하지 않음</value>
+  </data>
+  <data name="Accounts.Status.Failed" xml:space="preserve">
+    <value>로그인을 저장할 수 없습니다. 쿠키가 잘못되었거나 만료되었을 수 있습니다.</value>
+  </data>
+  <data name="Accounts.Status.Added" xml:space="preserve">
+    <value>{0} 저장됨</value>
+  </data>
+  <data name="Accounts.Status.Switched" xml:space="preserve">
+    <value>{0}(으)로 로그인됨</value>
+  </data>
+  <data name="Accounts.MissingLogin" xml:space="preserve">
+    <value>이 계정의 저장된 로그인이 없습니다. 다시 로그인하여 복원하십시오.</value>
+  </data>
+  <data name="Accounts.CloseRobloxPrompt" xml:space="preserve">
+    <value>Roblox가 실행 중입니다. 종료하고 계속하시겠습니까?</value>
+  </data>
+  <data name="Accounts.CloseRobloxFailed" xml:space="preserve">
+    <value>Roblox를 종료할 수 없습니다. 직접 종료한 후 다시 시도하십시오.</value>
+  </data>
+  <data name="Accounts.RemoveConfirm" xml:space="preserve">
+    <value>Voidstrap에서 {0}을(를) 제거하시겠습니까? Roblox 계정에는 영향이 없습니다.</value>
+  </data>
+  <data name="Accounts.Status.SignedOut" xml:space="preserve">
+    <value>Roblox에서 로그아웃됨</value>
+  </data>
+  <data name="Accounts.Status.Checked" xml:space="preserve">
+    <value>{1}개 중 {0}개 세션이 아직 유효합니다</value>
+  </data>
+  <data name="Accounts.Copied" xml:space="preserve">
+    <value>복사됨</value>
+  </data>
+  <data name="Accounts.Premium.Active" xml:space="preserve">
+    <value>활성</value>
+  </data>
+  <data name="Accounts.Premium.None" xml:space="preserve">
+    <value>없음</value>
+  </data>
 </root>

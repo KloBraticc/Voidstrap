@@ -8237,4 +8237,166 @@ Bu dosyayı size yardım eden kişiye gönderin. Bilgisayar kullanıcı adınız
   <data name="Ui.RiShade.Preset.Failed" xml:space="preserve">
     <value>Bu ön ayar seçilemedi.</value>
   </data>
+  <data name="Accounts.Title" xml:space="preserve">
+    <value>Hesap yöneticisi</value>
+  </data>
+  <data name="Accounts.SignIn.Title" xml:space="preserve">
+    <value>Roblox'a giriş yapın</value>
+  </data>
+  <data name="Accounts.SignIn.Hint" xml:space="preserve">
+    <value>Giriş yapın veya bir hesap oluşturun. Voidstrap, giriş yaptığınız anda hesabı kaydeder.</value>
+  </data>
+  <data name="Accounts.SignIn.LogIn" xml:space="preserve">
+    <value>Giriş yap</value>
+  </data>
+  <data name="Accounts.SignIn.SignUp" xml:space="preserve">
+    <value>Kaydol</value>
+  </data>
+  <data name="Accounts.SignIn.Verifying" xml:space="preserve">
+    <value>Hesap doğrulanıyor</value>
+  </data>
+  <data name="Accounts.SignIn.BrowserFailed" xml:space="preserve">
+    <value>Giriş tarayıcısı başlatılamadı. Microsoft Edge WebView2 Runtime yükleyip tekrar deneyin.</value>
+  </data>
+  <data name="Accounts.AddAccount" xml:space="preserve">
+    <value>Hesap ekle</value>
+  </data>
+  <data name="Accounts.SignInBrowser" xml:space="preserve">
+    <value>Roblox ile giriş yap</value>
+  </data>
+  <data name="Accounts.CreateAccount" xml:space="preserve">
+    <value>Yeni hesap oluştur</value>
+  </data>
+  <data name="Accounts.AddCurrent" xml:space="preserve">
+    <value>Giriş yapılmış hesabı kaydet</value>
+  </data>
+  <data name="Accounts.ImportCookie" xml:space="preserve">
+    <value>Çerez içe aktar</value>
+  </data>
+  <data name="Accounts.Search" xml:space="preserve">
+    <value>Hesaplarda ara</value>
+  </data>
+  <data name="Accounts.CheckAll" xml:space="preserve">
+    <value>Tüm oturumları kontrol et</value>
+  </data>
+  <data name="Accounts.SignOut" xml:space="preserve">
+    <value>Roblox oturumunu kapat</value>
+  </data>
+  <data name="Accounts.RosemaryNotice" xml:space="preserve">
+    <value>Hesap değiştirmek için Sober gerekir. Rosemary kendi oturumunu tutar, kayıtlı hesapları kullanmak için Sober'a geçin.</value>
+  </data>
+  <data name="Accounts.CookiePlaceholder" xml:space="preserve">
+    <value>Bir .ROBLOSECURITY çerezi yapıştırın</value>
+  </data>
+  <data name="Accounts.Empty" xml:space="preserve">
+    <value>Henüz kayıtlı hesap yok. Tek tıkla hesap değiştirmek için bir hesap ekleyin.</value>
+  </data>
+  <data name="Accounts.SelectHint" xml:space="preserve">
+    <value>Ayrıntılarını görmek için bir hesap seçin.</value>
+  </data>
+  <data name="Accounts.Current" xml:space="preserve">
+    <value>Geçerli</value>
+  </data>
+  <data name="Accounts.SwitchAndPlay" xml:space="preserve">
+    <value>Değiştir ve oyna</value>
+  </data>
+  <data name="Accounts.Switch" xml:space="preserve">
+    <value>Değiştir</value>
+  </data>
+  <data name="Accounts.ExpiredDetail" xml:space="preserve">
+    <value>Bu oturumun süresi doldu. Bu hesabı kullanmaya devam etmek için yeniden giriş yapın.</value>
+  </data>
+  <data name="Accounts.Expired" xml:space="preserve">
+    <value>Oturum süresi doldu</value>
+  </data>
+  <data name="Accounts.Robux" xml:space="preserve">
+    <value>Robux</value>
+  </data>
+  <data name="Accounts.Premium" xml:space="preserve">
+    <value>Premium</value>
+  </data>
+  <data name="Accounts.Friends" xml:space="preserve">
+    <value>Arkadaşlar</value>
+  </data>
+  <data name="Accounts.Followers" xml:space="preserve">
+    <value>Takipçiler</value>
+  </data>
+  <data name="Accounts.Joined" xml:space="preserve">
+    <value>Katılma</value>
+  </data>
+  <data name="Accounts.Note" xml:space="preserve">
+    <value>Not</value>
+  </data>
+  <data name="Accounts.NotePlaceholder" xml:space="preserve">
+    <value>Not ekleyin</value>
+  </data>
+  <data name="Accounts.LastUsed" xml:space="preserve">
+    <value>Son kullanım</value>
+  </data>
+  <data name="Accounts.Added" xml:space="preserve">
+    <value>Eklendi</value>
+  </data>
+  <data name="Accounts.CopyId" xml:space="preserve">
+    <value>Kullanıcı kimliğini kopyala</value>
+  </data>
+  <data name="Accounts.OpenProfile" xml:space="preserve">
+    <value>Profili aç</value>
+  </data>
+  <data name="Accounts.CopyUsername" xml:space="preserve">
+    <value>Kullanıcı adını kopyala</value>
+  </data>
+  <data name="Accounts.SignInAgain" xml:space="preserve">
+    <value>Yeniden giriş yap</value>
+  </data>
+  <data name="Accounts.Remove" xml:space="preserve">
+    <value>Kaldır</value>
+  </data>
+  <data name="Accounts.Pin" xml:space="preserve">
+    <value>En üste sabitle</value>
+  </data>
+  <data name="Accounts.Unpin" xml:space="preserve">
+    <value>Sabitlemeyi kaldır</value>
+  </data>
+  <data name="Accounts.Never" xml:space="preserve">
+    <value>Hiçbir zaman</value>
+  </data>
+  <data name="Accounts.NotSignedIn" xml:space="preserve">
+    <value>Giriş yapılmadı</value>
+  </data>
+  <data name="Accounts.Status.Failed" xml:space="preserve">
+    <value>Bu giriş kaydedilemedi. Çerez geçersiz veya süresi dolmuş olabilir.</value>
+  </data>
+  <data name="Accounts.Status.Added" xml:space="preserve">
+    <value>{0} kaydedildi</value>
+  </data>
+  <data name="Accounts.Status.Switched" xml:space="preserve">
+    <value>{0} olarak giriş yapıldı</value>
+  </data>
+  <data name="Accounts.MissingLogin" xml:space="preserve">
+    <value>Bu hesabın kayıtlı girişi bulunamadı. Geri yüklemek için yeniden giriş yapın.</value>
+  </data>
+  <data name="Accounts.CloseRobloxPrompt" xml:space="preserve">
+    <value>Roblox çalışıyor. Kapatıp devam edilsin mi?</value>
+  </data>
+  <data name="Accounts.CloseRobloxFailed" xml:space="preserve">
+    <value>Roblox kapatılamadı. Kendiniz kapatıp tekrar deneyin.</value>
+  </data>
+  <data name="Accounts.RemoveConfirm" xml:space="preserve">
+    <value>{0} Voidstrap'tan kaldırılsın mı? Roblox hesabınız etkilenmez.</value>
+  </data>
+  <data name="Accounts.Status.SignedOut" xml:space="preserve">
+    <value>Roblox oturumu kapatıldı</value>
+  </data>
+  <data name="Accounts.Status.Checked" xml:space="preserve">
+    <value>{1} oturumdan {0} tanesi hâlâ geçerli</value>
+  </data>
+  <data name="Accounts.Copied" xml:space="preserve">
+    <value>Kopyalandı</value>
+  </data>
+  <data name="Accounts.Premium.Active" xml:space="preserve">
+    <value>Aktif</value>
+  </data>
+  <data name="Accounts.Premium.None" xml:space="preserve">
+    <value>Yok</value>
+  </data>
 </root>

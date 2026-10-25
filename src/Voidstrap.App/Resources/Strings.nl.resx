@@ -8240,4 +8240,166 @@ Er wordt {0} MB gedownload. Als je weigert, wordt de ingebouwde schatting gebrui
   <data name="Ui.RiShade.Preset.Failed" xml:space="preserve">
     <value>Deze voorinstelling kon niet worden geselecteerd.</value>
   </data>
+  <data name="Accounts.Title" xml:space="preserve">
+    <value>Accountbeheer</value>
+  </data>
+  <data name="Accounts.SignIn.Title" xml:space="preserve">
+    <value>Inloggen bij Roblox</value>
+  </data>
+  <data name="Accounts.SignIn.Hint" xml:space="preserve">
+    <value>Log in of maak een account. Voidstrap slaat het op zodra je bent ingelogd.</value>
+  </data>
+  <data name="Accounts.SignIn.LogIn" xml:space="preserve">
+    <value>Inloggen</value>
+  </data>
+  <data name="Accounts.SignIn.SignUp" xml:space="preserve">
+    <value>Registreren</value>
+  </data>
+  <data name="Accounts.SignIn.Verifying" xml:space="preserve">
+    <value>Account wordt gecontroleerd</value>
+  </data>
+  <data name="Accounts.SignIn.BrowserFailed" xml:space="preserve">
+    <value>De inlogbrowser kon niet starten. Installeer de Microsoft Edge WebView2 Runtime en probeer het opnieuw.</value>
+  </data>
+  <data name="Accounts.AddAccount" xml:space="preserve">
+    <value>Account toevoegen</value>
+  </data>
+  <data name="Accounts.SignInBrowser" xml:space="preserve">
+    <value>Inloggen met Roblox</value>
+  </data>
+  <data name="Accounts.CreateAccount" xml:space="preserve">
+    <value>Nieuw account maken</value>
+  </data>
+  <data name="Accounts.AddCurrent" xml:space="preserve">
+    <value>Ingelogd account opslaan</value>
+  </data>
+  <data name="Accounts.ImportCookie" xml:space="preserve">
+    <value>Cookie importeren</value>
+  </data>
+  <data name="Accounts.Search" xml:space="preserve">
+    <value>Accounts zoeken</value>
+  </data>
+  <data name="Accounts.CheckAll" xml:space="preserve">
+    <value>Alle sessies controleren</value>
+  </data>
+  <data name="Accounts.SignOut" xml:space="preserve">
+    <value>Uitloggen bij Roblox</value>
+  </data>
+  <data name="Accounts.RosemaryNotice" xml:space="preserve">
+    <value>Wisselen van account vereist Sober. Rosemary heeft een eigen login, dus schakel over naar Sober om opgeslagen accounts te gebruiken.</value>
+  </data>
+  <data name="Accounts.CookiePlaceholder" xml:space="preserve">
+    <value>Plak een .ROBLOSECURITY cookie</value>
+  </data>
+  <data name="Accounts.Empty" xml:space="preserve">
+    <value>Nog geen opgeslagen accounts. Voeg er een toe om met één klik van account te wisselen.</value>
+  </data>
+  <data name="Accounts.SelectHint" xml:space="preserve">
+    <value>Selecteer een account om de details te zien.</value>
+  </data>
+  <data name="Accounts.Current" xml:space="preserve">
+    <value>Huidig</value>
+  </data>
+  <data name="Accounts.SwitchAndPlay" xml:space="preserve">
+    <value>Wisselen en spelen</value>
+  </data>
+  <data name="Accounts.Switch" xml:space="preserve">
+    <value>Wisselen</value>
+  </data>
+  <data name="Accounts.ExpiredDetail" xml:space="preserve">
+    <value>Deze sessie is verlopen. Log opnieuw in om dit account te blijven gebruiken.</value>
+  </data>
+  <data name="Accounts.Expired" xml:space="preserve">
+    <value>Sessie verlopen</value>
+  </data>
+  <data name="Accounts.Robux" xml:space="preserve">
+    <value>Robux</value>
+  </data>
+  <data name="Accounts.Premium" xml:space="preserve">
+    <value>Premium</value>
+  </data>
+  <data name="Accounts.Friends" xml:space="preserve">
+    <value>Vrienden</value>
+  </data>
+  <data name="Accounts.Followers" xml:space="preserve">
+    <value>Volgers</value>
+  </data>
+  <data name="Accounts.Joined" xml:space="preserve">
+    <value>Lid sinds</value>
+  </data>
+  <data name="Accounts.Note" xml:space="preserve">
+    <value>Notitie</value>
+  </data>
+  <data name="Accounts.NotePlaceholder" xml:space="preserve">
+    <value>Notitie toevoegen</value>
+  </data>
+  <data name="Accounts.LastUsed" xml:space="preserve">
+    <value>Laatst gebruikt</value>
+  </data>
+  <data name="Accounts.Added" xml:space="preserve">
+    <value>Toegevoegd</value>
+  </data>
+  <data name="Accounts.CopyId" xml:space="preserve">
+    <value>Gebruikers-ID kopiëren</value>
+  </data>
+  <data name="Accounts.OpenProfile" xml:space="preserve">
+    <value>Profiel openen</value>
+  </data>
+  <data name="Accounts.CopyUsername" xml:space="preserve">
+    <value>Gebruikersnaam kopiëren</value>
+  </data>
+  <data name="Accounts.SignInAgain" xml:space="preserve">
+    <value>Opnieuw inloggen</value>
+  </data>
+  <data name="Accounts.Remove" xml:space="preserve">
+    <value>Verwijderen</value>
+  </data>
+  <data name="Accounts.Pin" xml:space="preserve">
+    <value>Bovenaan vastzetten</value>
+  </data>
+  <data name="Accounts.Unpin" xml:space="preserve">
+    <value>Losmaken</value>
+  </data>
+  <data name="Accounts.Never" xml:space="preserve">
+    <value>Nooit</value>
+  </data>
+  <data name="Accounts.NotSignedIn" xml:space="preserve">
+    <value>Niet ingelogd</value>
+  </data>
+  <data name="Accounts.Status.Failed" xml:space="preserve">
+    <value>Die login kon niet worden opgeslagen. De cookie is mogelijk ongeldig of verlopen.</value>
+  </data>
+  <data name="Accounts.Status.Added" xml:space="preserve">
+    <value>{0} opgeslagen</value>
+  </data>
+  <data name="Accounts.Status.Switched" xml:space="preserve">
+    <value>Ingelogd als {0}</value>
+  </data>
+  <data name="Accounts.MissingLogin" xml:space="preserve">
+    <value>De opgeslagen login voor dit account ontbreekt. Log opnieuw in om hem te herstellen.</value>
+  </data>
+  <data name="Accounts.CloseRobloxPrompt" xml:space="preserve">
+    <value>Roblox is actief. Afsluiten en doorgaan?</value>
+  </data>
+  <data name="Accounts.CloseRobloxFailed" xml:space="preserve">
+    <value>Roblox kon niet worden afgesloten. Sluit het zelf af en probeer het opnieuw.</value>
+  </data>
+  <data name="Accounts.RemoveConfirm" xml:space="preserve">
+    <value>{0} uit Voidstrap verwijderen? Je Roblox-account wordt niet aangetast.</value>
+  </data>
+  <data name="Accounts.Status.SignedOut" xml:space="preserve">
+    <value>Uitgelogd bij Roblox</value>
+  </data>
+  <data name="Accounts.Status.Checked" xml:space="preserve">
+    <value>{0} van {1} sessies zijn nog geldig</value>
+  </data>
+  <data name="Accounts.Copied" xml:space="preserve">
+    <value>Gekopieerd</value>
+  </data>
+  <data name="Accounts.Premium.Active" xml:space="preserve">
+    <value>Actief</value>
+  </data>
+  <data name="Accounts.Premium.None" xml:space="preserve">
+    <value>Geen</value>
+  </data>
 </root>

@@ -8240,4 +8240,166 @@ Ladattava koko on {0} Mt. Jos kieltäydyt, käytetään sisäänrakennettua arvi
   <data name="Ui.RiShade.Preset.Failed" xml:space="preserve">
     <value>Tätä esiasetusta ei voitu valita.</value>
   </data>
+  <data name="Accounts.Title" xml:space="preserve">
+    <value>Tilien hallinta</value>
+  </data>
+  <data name="Accounts.SignIn.Title" xml:space="preserve">
+    <value>Kirjaudu Robloxiin</value>
+  </data>
+  <data name="Accounts.SignIn.Hint" xml:space="preserve">
+    <value>Kirjaudu sisään tai luo tili. Voidstrap tallentaa sen heti, kun olet kirjautunut.</value>
+  </data>
+  <data name="Accounts.SignIn.LogIn" xml:space="preserve">
+    <value>Kirjaudu</value>
+  </data>
+  <data name="Accounts.SignIn.SignUp" xml:space="preserve">
+    <value>Rekisteröidy</value>
+  </data>
+  <data name="Accounts.SignIn.Verifying" xml:space="preserve">
+    <value>Tarkistetaan tiliä</value>
+  </data>
+  <data name="Accounts.SignIn.BrowserFailed" xml:space="preserve">
+    <value>Kirjautumisselainta ei voitu käynnistää. Asenna Microsoft Edge WebView2 Runtime ja yritä uudelleen.</value>
+  </data>
+  <data name="Accounts.AddAccount" xml:space="preserve">
+    <value>Lisää tili</value>
+  </data>
+  <data name="Accounts.SignInBrowser" xml:space="preserve">
+    <value>Kirjaudu Robloxilla</value>
+  </data>
+  <data name="Accounts.CreateAccount" xml:space="preserve">
+    <value>Luo uusi tili</value>
+  </data>
+  <data name="Accounts.AddCurrent" xml:space="preserve">
+    <value>Tallenna kirjautunut tili</value>
+  </data>
+  <data name="Accounts.ImportCookie" xml:space="preserve">
+    <value>Tuo eväste</value>
+  </data>
+  <data name="Accounts.Search" xml:space="preserve">
+    <value>Hae tilejä</value>
+  </data>
+  <data name="Accounts.CheckAll" xml:space="preserve">
+    <value>Tarkista kaikki istunnot</value>
+  </data>
+  <data name="Accounts.SignOut" xml:space="preserve">
+    <value>Kirjaudu ulos Robloxista</value>
+  </data>
+  <data name="Accounts.RosemaryNotice" xml:space="preserve">
+    <value>Tilin vaihtaminen vaatii Soberin. Rosemaryllä on oma kirjautumisensa, joten vaihda Soberiin käyttääksesi tallennettuja tilejä.</value>
+  </data>
+  <data name="Accounts.CookiePlaceholder" xml:space="preserve">
+    <value>Liitä .ROBLOSECURITY eväste</value>
+  </data>
+  <data name="Accounts.Empty" xml:space="preserve">
+    <value>Tallennettuja tilejä ei vielä ole. Lisää tili, niin voit vaihtaa tiliä yhdellä napsautuksella.</value>
+  </data>
+  <data name="Accounts.SelectHint" xml:space="preserve">
+    <value>Valitse tili nähdäksesi sen tiedot.</value>
+  </data>
+  <data name="Accounts.Current" xml:space="preserve">
+    <value>Nykyinen</value>
+  </data>
+  <data name="Accounts.SwitchAndPlay" xml:space="preserve">
+    <value>Vaihda ja pelaa</value>
+  </data>
+  <data name="Accounts.Switch" xml:space="preserve">
+    <value>Vaihda</value>
+  </data>
+  <data name="Accounts.ExpiredDetail" xml:space="preserve">
+    <value>Tämä istunto on vanhentunut. Kirjaudu uudelleen jatkaaksesi tilin käyttöä.</value>
+  </data>
+  <data name="Accounts.Expired" xml:space="preserve">
+    <value>Istunto vanhentunut</value>
+  </data>
+  <data name="Accounts.Robux" xml:space="preserve">
+    <value>Robux</value>
+  </data>
+  <data name="Accounts.Premium" xml:space="preserve">
+    <value>Premium</value>
+  </data>
+  <data name="Accounts.Friends" xml:space="preserve">
+    <value>Kaverit</value>
+  </data>
+  <data name="Accounts.Followers" xml:space="preserve">
+    <value>Seuraajat</value>
+  </data>
+  <data name="Accounts.Joined" xml:space="preserve">
+    <value>Liittynyt</value>
+  </data>
+  <data name="Accounts.Note" xml:space="preserve">
+    <value>Muistiinpano</value>
+  </data>
+  <data name="Accounts.NotePlaceholder" xml:space="preserve">
+    <value>Lisää muistiinpano</value>
+  </data>
+  <data name="Accounts.LastUsed" xml:space="preserve">
+    <value>Viimeksi käytetty</value>
+  </data>
+  <data name="Accounts.Added" xml:space="preserve">
+    <value>Lisätty</value>
+  </data>
+  <data name="Accounts.CopyId" xml:space="preserve">
+    <value>Kopioi käyttäjätunnus ID</value>
+  </data>
+  <data name="Accounts.OpenProfile" xml:space="preserve">
+    <value>Avaa profiili</value>
+  </data>
+  <data name="Accounts.CopyUsername" xml:space="preserve">
+    <value>Kopioi käyttäjänimi</value>
+  </data>
+  <data name="Accounts.SignInAgain" xml:space="preserve">
+    <value>Kirjaudu uudelleen</value>
+  </data>
+  <data name="Accounts.Remove" xml:space="preserve">
+    <value>Poista</value>
+  </data>
+  <data name="Accounts.Pin" xml:space="preserve">
+    <value>Kiinnitä ylös</value>
+  </data>
+  <data name="Accounts.Unpin" xml:space="preserve">
+    <value>Irrota</value>
+  </data>
+  <data name="Accounts.Never" xml:space="preserve">
+    <value>Ei koskaan</value>
+  </data>
+  <data name="Accounts.NotSignedIn" xml:space="preserve">
+    <value>Ei kirjautunut</value>
+  </data>
+  <data name="Accounts.Status.Failed" xml:space="preserve">
+    <value>Kirjautumista ei voitu tallentaa. Eväste voi olla virheellinen tai vanhentunut.</value>
+  </data>
+  <data name="Accounts.Status.Added" xml:space="preserve">
+    <value>{0} tallennettu</value>
+  </data>
+  <data name="Accounts.Status.Switched" xml:space="preserve">
+    <value>Kirjautunut käyttäjänä {0}</value>
+  </data>
+  <data name="Accounts.MissingLogin" xml:space="preserve">
+    <value>Tämän tilin tallennettu kirjautuminen puuttuu. Kirjaudu uudelleen palauttaaksesi sen.</value>
+  </data>
+  <data name="Accounts.CloseRobloxPrompt" xml:space="preserve">
+    <value>Roblox on käynnissä. Suljetaanko se ja jatketaan?</value>
+  </data>
+  <data name="Accounts.CloseRobloxFailed" xml:space="preserve">
+    <value>Robloxia ei voitu sulkea. Sulje se itse ja yritä uudelleen.</value>
+  </data>
+  <data name="Accounts.RemoveConfirm" xml:space="preserve">
+    <value>Poistetaanko {0} Voidstrapista? Roblox-tiliisi tämä ei vaikuta.</value>
+  </data>
+  <data name="Accounts.Status.SignedOut" xml:space="preserve">
+    <value>Kirjauduttu ulos Robloxista</value>
+  </data>
+  <data name="Accounts.Status.Checked" xml:space="preserve">
+    <value>{0}/{1} istuntoa on yhä voimassa</value>
+  </data>
+  <data name="Accounts.Copied" xml:space="preserve">
+    <value>Kopioitu</value>
+  </data>
+  <data name="Accounts.Premium.Active" xml:space="preserve">
+    <value>Aktiivinen</value>
+  </data>
+  <data name="Accounts.Premium.None" xml:space="preserve">
+    <value>Ei mitään</value>
+  </data>
 </root>

@@ -52,7 +52,6 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 	public ICommand MusicWindowCommand { get; }
 
 
-	public ICommand AccountWindowCommand { get; }
 
 	public ICommand GrantSnapTapAccessCommand { get; }
 
@@ -917,7 +916,6 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 		_blockTelemetry = App.Settings.Prop.BlockRobloxTelemetry;
 		OpenHistoryWindowCommand = new RelayCommand(OpenHistoryWindow);
 		MusicWindowCommand = new RelayCommand(MusicPlayerWindow);
-		AccountWindowCommand = new RelayCommand(AccountWindow);
 		GrantSnapTapAccessCommand = new AsyncRelayCommand(GrantSnapTapAccessAsync);
 		AddToSteamCommand = new AsyncRelayCommand(AddToSteamAsync);
 		RefreshAudioOutputsCommand = new AsyncRelayCommand(RefreshAudioOutputsAsync);
@@ -1073,11 +1071,6 @@ public class IntegrationsViewModel : NotifyPropertyChangedViewModel, IDisposable
 				OnPropertyChanged(nameof(SelectedCustomIntegration));
 			}
 		}
-	}
-
-	private void AccountWindow()
-	{
-		new AccountManagerWindow().Show();
 	}
 
 	private async Task ApplyTelemetrySettingAsync(bool value, int version)

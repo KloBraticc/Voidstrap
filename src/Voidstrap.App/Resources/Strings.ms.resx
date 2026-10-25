@@ -8230,4 +8230,166 @@ Muat turunnya {0} MB. Jika anda menolak, anggaran terbina dalam akan digunakan. 
   <data name="Ui.RiShade.Preset.Failed" xml:space="preserve">
     <value>Praset ini tidak dapat dipilih.</value>
   </data>
+  <data name="Accounts.Title" xml:space="preserve">
+    <value>Pengurus akaun</value>
+  </data>
+  <data name="Accounts.SignIn.Title" xml:space="preserve">
+    <value>Log masuk ke Roblox</value>
+  </data>
+  <data name="Accounts.SignIn.Hint" xml:space="preserve">
+    <value>Log masuk atau cipta akaun. Voidstrap menyimpannya sebaik sahaja anda log masuk.</value>
+  </data>
+  <data name="Accounts.SignIn.LogIn" xml:space="preserve">
+    <value>Log masuk</value>
+  </data>
+  <data name="Accounts.SignIn.SignUp" xml:space="preserve">
+    <value>Daftar</value>
+  </data>
+  <data name="Accounts.SignIn.Verifying" xml:space="preserve">
+    <value>Mengesahkan akaun</value>
+  </data>
+  <data name="Accounts.SignIn.BrowserFailed" xml:space="preserve">
+    <value>Pelayar log masuk tidak dapat dimulakan. Pasang Microsoft Edge WebView2 Runtime dan cuba lagi.</value>
+  </data>
+  <data name="Accounts.AddAccount" xml:space="preserve">
+    <value>Tambah akaun</value>
+  </data>
+  <data name="Accounts.SignInBrowser" xml:space="preserve">
+    <value>Log masuk dengan Roblox</value>
+  </data>
+  <data name="Accounts.CreateAccount" xml:space="preserve">
+    <value>Cipta akaun baharu</value>
+  </data>
+  <data name="Accounts.AddCurrent" xml:space="preserve">
+    <value>Simpan akaun yang sedang log masuk</value>
+  </data>
+  <data name="Accounts.ImportCookie" xml:space="preserve">
+    <value>Import kuki</value>
+  </data>
+  <data name="Accounts.Search" xml:space="preserve">
+    <value>Cari akaun</value>
+  </data>
+  <data name="Accounts.CheckAll" xml:space="preserve">
+    <value>Semak semua sesi</value>
+  </data>
+  <data name="Accounts.SignOut" xml:space="preserve">
+    <value>Log keluar daripada Roblox</value>
+  </data>
+  <data name="Accounts.RosemaryNotice" xml:space="preserve">
+    <value>Menukar akaun memerlukan Sober. Rosemary menyimpan log masuknya sendiri, jadi tukar kepada Sober untuk menggunakan akaun yang disimpan.</value>
+  </data>
+  <data name="Accounts.CookiePlaceholder" xml:space="preserve">
+    <value>Tampal kuki .ROBLOSECURITY</value>
+  </data>
+  <data name="Accounts.Empty" xml:space="preserve">
+    <value>Belum ada akaun disimpan. Tambah satu untuk menukar akaun dengan satu klik.</value>
+  </data>
+  <data name="Accounts.SelectHint" xml:space="preserve">
+    <value>Pilih akaun untuk melihat butirannya.</value>
+  </data>
+  <data name="Accounts.Current" xml:space="preserve">
+    <value>Semasa</value>
+  </data>
+  <data name="Accounts.SwitchAndPlay" xml:space="preserve">
+    <value>Tukar dan main</value>
+  </data>
+  <data name="Accounts.Switch" xml:space="preserve">
+    <value>Tukar</value>
+  </data>
+  <data name="Accounts.ExpiredDetail" xml:space="preserve">
+    <value>Sesi ini telah tamat tempoh. Log masuk semula untuk terus menggunakan akaun ini.</value>
+  </data>
+  <data name="Accounts.Expired" xml:space="preserve">
+    <value>Sesi tamat tempoh</value>
+  </data>
+  <data name="Accounts.Robux" xml:space="preserve">
+    <value>Robux</value>
+  </data>
+  <data name="Accounts.Premium" xml:space="preserve">
+    <value>Premium</value>
+  </data>
+  <data name="Accounts.Friends" xml:space="preserve">
+    <value>Rakan</value>
+  </data>
+  <data name="Accounts.Followers" xml:space="preserve">
+    <value>Pengikut</value>
+  </data>
+  <data name="Accounts.Joined" xml:space="preserve">
+    <value>Menyertai</value>
+  </data>
+  <data name="Accounts.Note" xml:space="preserve">
+    <value>Nota</value>
+  </data>
+  <data name="Accounts.NotePlaceholder" xml:space="preserve">
+    <value>Tambah nota</value>
+  </data>
+  <data name="Accounts.LastUsed" xml:space="preserve">
+    <value>Kali terakhir digunakan</value>
+  </data>
+  <data name="Accounts.Added" xml:space="preserve">
+    <value>Ditambah</value>
+  </data>
+  <data name="Accounts.CopyId" xml:space="preserve">
+    <value>Salin ID pengguna</value>
+  </data>
+  <data name="Accounts.OpenProfile" xml:space="preserve">
+    <value>Buka profil</value>
+  </data>
+  <data name="Accounts.CopyUsername" xml:space="preserve">
+    <value>Salin nama pengguna</value>
+  </data>
+  <data name="Accounts.SignInAgain" xml:space="preserve">
+    <value>Log masuk semula</value>
+  </data>
+  <data name="Accounts.Remove" xml:space="preserve">
+    <value>Buang</value>
+  </data>
+  <data name="Accounts.Pin" xml:space="preserve">
+    <value>Sematkan di atas</value>
+  </data>
+  <data name="Accounts.Unpin" xml:space="preserve">
+    <value>Nyahsemat</value>
+  </data>
+  <data name="Accounts.Never" xml:space="preserve">
+    <value>Tidak pernah</value>
+  </data>
+  <data name="Accounts.NotSignedIn" xml:space="preserve">
+    <value>Belum log masuk</value>
+  </data>
+  <data name="Accounts.Status.Failed" xml:space="preserve">
+    <value>Log masuk itu tidak dapat disimpan. Kuki mungkin tidak sah atau telah tamat tempoh.</value>
+  </data>
+  <data name="Accounts.Status.Added" xml:space="preserve">
+    <value>{0} disimpan</value>
+  </data>
+  <data name="Accounts.Status.Switched" xml:space="preserve">
+    <value>Log masuk sebagai {0}</value>
+  </data>
+  <data name="Accounts.MissingLogin" xml:space="preserve">
+    <value>Log masuk yang disimpan untuk akaun ini tiada. Log masuk semula untuk memulihkannya.</value>
+  </data>
+  <data name="Accounts.CloseRobloxPrompt" xml:space="preserve">
+    <value>Roblox sedang berjalan. Tutup dan teruskan?</value>
+  </data>
+  <data name="Accounts.CloseRobloxFailed" xml:space="preserve">
+    <value>Roblox tidak dapat ditutup. Tutup sendiri dan cuba lagi.</value>
+  </data>
+  <data name="Accounts.RemoveConfirm" xml:space="preserve">
+    <value>Buang {0} daripada Voidstrap? Akaun Roblox anda tidak terjejas.</value>
+  </data>
+  <data name="Accounts.Status.SignedOut" xml:space="preserve">
+    <value>Telah log keluar daripada Roblox</value>
+  </data>
+  <data name="Accounts.Status.Checked" xml:space="preserve">
+    <value>{0} daripada {1} sesi masih sah</value>
+  </data>
+  <data name="Accounts.Copied" xml:space="preserve">
+    <value>Disalin</value>
+  </data>
+  <data name="Accounts.Premium.Active" xml:space="preserve">
+    <value>Aktif</value>
+  </data>
+  <data name="Accounts.Premium.None" xml:space="preserve">
+    <value>Tiada</value>
+  </data>
 </root>

@@ -856,6 +856,17 @@
           </ItemsControl.ItemsPanel>
           <StatusBarItem Grid.Column="0" Margin="0,0,4,0">
             <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+              <Button x:Name="AccountButton" Height="32" Margin="0,0,14,0" Padding="4,0,12,0" Style="{StaticResource TopBarPillButtonStyle}" Background="#14FFFFFF" AutomationProperties.Name="{resources:Loc Accounts_Title}" Visibility="{x:Static appUi:PlatformFeatureVisibility.NotMacOS}" Click="AccountButton_Click">
+                <StackPanel Orientation="Horizontal">
+                  <Grid Width="24" Height="24">
+                    <Ellipse Fill="{DynamicResource ControlFillColorSecondaryBrush}" />
+                    <Image x:Name="AccountButtonAvatar" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality">
+                      <Image.Clip><EllipseGeometry Center="12,12" RadiusX="12" RadiusY="12" /></Image.Clip>
+                    </Image>
+                  </Grid>
+                  <TextBlock x:Name="AccountButtonName" Margin="8,0,0,0" MaxWidth="160" VerticalAlignment="Center" FontSize="13.5" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{resources:Loc Accounts_NotSignedIn}" />
+                </StackPanel>
+              </Button>
               <ui:ToggleSwitch Background="{DynamicResource SystemAccentBrush}" Foreground="{DynamicResource SystemAccentBrush}" AutomationProperties.Name="{resources:Loc Menu_TestMode}" IsChecked="{Binding TestModeEnabled, Mode=TwoWay}" />
               <TextBlock Padding="10,0,0,0" VerticalAlignment="Center" FontSize="14" Text="{resources:Loc Menu_TestMode}" />
             </StackPanel>

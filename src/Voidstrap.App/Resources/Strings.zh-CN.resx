@@ -8263,4 +8263,166 @@ Voidstrap 无法写入桌面文件夹。</value>
   <data name="Ui.RiShade.Preset.Failed" xml:space="preserve">
     <value>无法选择此预设。</value>
   </data>
+  <data name="Accounts.Title" xml:space="preserve">
+    <value>账号管理</value>
+  </data>
+  <data name="Accounts.SignIn.Title" xml:space="preserve">
+    <value>登录 Roblox</value>
+  </data>
+  <data name="Accounts.SignIn.Hint" xml:space="preserve">
+    <value>请登录或创建账号。您登录后 Voidstrap 会立即保存。</value>
+  </data>
+  <data name="Accounts.SignIn.LogIn" xml:space="preserve">
+    <value>登录</value>
+  </data>
+  <data name="Accounts.SignIn.SignUp" xml:space="preserve">
+    <value>注册</value>
+  </data>
+  <data name="Accounts.SignIn.Verifying" xml:space="preserve">
+    <value>正在验证账号</value>
+  </data>
+  <data name="Accounts.SignIn.BrowserFailed" xml:space="preserve">
+    <value>无法启动登录浏览器。请安装 Microsoft Edge WebView2 Runtime 后重试。</value>
+  </data>
+  <data name="Accounts.AddAccount" xml:space="preserve">
+    <value>添加账号</value>
+  </data>
+  <data name="Accounts.SignInBrowser" xml:space="preserve">
+    <value>使用 Roblox 登录</value>
+  </data>
+  <data name="Accounts.CreateAccount" xml:space="preserve">
+    <value>创建新账号</value>
+  </data>
+  <data name="Accounts.AddCurrent" xml:space="preserve">
+    <value>保存当前登录的账号</value>
+  </data>
+  <data name="Accounts.ImportCookie" xml:space="preserve">
+    <value>导入 Cookie</value>
+  </data>
+  <data name="Accounts.Search" xml:space="preserve">
+    <value>搜索账号</value>
+  </data>
+  <data name="Accounts.CheckAll" xml:space="preserve">
+    <value>检查所有会话</value>
+  </data>
+  <data name="Accounts.SignOut" xml:space="preserve">
+    <value>退出 Roblox</value>
+  </data>
+  <data name="Accounts.RosemaryNotice" xml:space="preserve">
+    <value>切换账号需要 Sober。Rosemary 使用独立的登录，请切换到 Sober 以使用已保存的账号。</value>
+  </data>
+  <data name="Accounts.CookiePlaceholder" xml:space="preserve">
+    <value>粘贴 .ROBLOSECURITY Cookie</value>
+  </data>
+  <data name="Accounts.Empty" xml:space="preserve">
+    <value>还没有已保存的账号。添加一个即可一键切换账号。</value>
+  </data>
+  <data name="Accounts.SelectHint" xml:space="preserve">
+    <value>选择一个账号以查看详细信息。</value>
+  </data>
+  <data name="Accounts.Current" xml:space="preserve">
+    <value>当前</value>
+  </data>
+  <data name="Accounts.SwitchAndPlay" xml:space="preserve">
+    <value>切换并开始游戏</value>
+  </data>
+  <data name="Accounts.Switch" xml:space="preserve">
+    <value>切换</value>
+  </data>
+  <data name="Accounts.ExpiredDetail" xml:space="preserve">
+    <value>此会话已过期。请重新登录以继续使用此账号。</value>
+  </data>
+  <data name="Accounts.Expired" xml:space="preserve">
+    <value>会话已过期</value>
+  </data>
+  <data name="Accounts.Robux" xml:space="preserve">
+    <value>Robux</value>
+  </data>
+  <data name="Accounts.Premium" xml:space="preserve">
+    <value>Premium</value>
+  </data>
+  <data name="Accounts.Friends" xml:space="preserve">
+    <value>好友</value>
+  </data>
+  <data name="Accounts.Followers" xml:space="preserve">
+    <value>粉丝</value>
+  </data>
+  <data name="Accounts.Joined" xml:space="preserve">
+    <value>加入时间</value>
+  </data>
+  <data name="Accounts.Note" xml:space="preserve">
+    <value>备注</value>
+  </data>
+  <data name="Accounts.NotePlaceholder" xml:space="preserve">
+    <value>添加备注</value>
+  </data>
+  <data name="Accounts.LastUsed" xml:space="preserve">
+    <value>上次使用</value>
+  </data>
+  <data name="Accounts.Added" xml:space="preserve">
+    <value>添加时间</value>
+  </data>
+  <data name="Accounts.CopyId" xml:space="preserve">
+    <value>复制用户 ID</value>
+  </data>
+  <data name="Accounts.OpenProfile" xml:space="preserve">
+    <value>打开个人资料</value>
+  </data>
+  <data name="Accounts.CopyUsername" xml:space="preserve">
+    <value>复制用户名</value>
+  </data>
+  <data name="Accounts.SignInAgain" xml:space="preserve">
+    <value>重新登录</value>
+  </data>
+  <data name="Accounts.Remove" xml:space="preserve">
+    <value>移除</value>
+  </data>
+  <data name="Accounts.Pin" xml:space="preserve">
+    <value>置顶</value>
+  </data>
+  <data name="Accounts.Unpin" xml:space="preserve">
+    <value>取消置顶</value>
+  </data>
+  <data name="Accounts.Never" xml:space="preserve">
+    <value>从未</value>
+  </data>
+  <data name="Accounts.NotSignedIn" xml:space="preserve">
+    <value>未登录</value>
+  </data>
+  <data name="Accounts.Status.Failed" xml:space="preserve">
+    <value>无法保存此登录。Cookie 可能无效或已过期。</value>
+  </data>
+  <data name="Accounts.Status.Added" xml:space="preserve">
+    <value>已保存 {0}</value>
+  </data>
+  <data name="Accounts.Status.Switched" xml:space="preserve">
+    <value>已登录为 {0}</value>
+  </data>
+  <data name="Accounts.MissingLogin" xml:space="preserve">
+    <value>此账号保存的登录信息丢失。请重新登录以恢复。</value>
+  </data>
+  <data name="Accounts.CloseRobloxPrompt" xml:space="preserve">
+    <value>Roblox 正在运行。是否关闭并继续？</value>
+  </data>
+  <data name="Accounts.CloseRobloxFailed" xml:space="preserve">
+    <value>无法关闭 Roblox。请您手动关闭后重试。</value>
+  </data>
+  <data name="Accounts.RemoveConfirm" xml:space="preserve">
+    <value>要从 Voidstrap 中移除 {0} 吗？您的 Roblox 账号不受影响。</value>
+  </data>
+  <data name="Accounts.Status.SignedOut" xml:space="preserve">
+    <value>已退出 Roblox</value>
+  </data>
+  <data name="Accounts.Status.Checked" xml:space="preserve">
+    <value>{1} 个会话中有 {0} 个仍然有效</value>
+  </data>
+  <data name="Accounts.Copied" xml:space="preserve">
+    <value>已复制</value>
+  </data>
+  <data name="Accounts.Premium.Active" xml:space="preserve">
+    <value>有效</value>
+  </data>
+  <data name="Accounts.Premium.None" xml:space="preserve">
+    <value>无</value>
+  </data>
 </root>

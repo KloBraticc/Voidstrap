@@ -351,7 +351,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         ["BootstrapperPage"] = ("Bootstrapper", "Customizing the launch window"),
         ["LibraryPage"] = ("Library", "Browsing the game library"),
         ["PrivateServersPage"] = ("Private Servers", "Managing private servers"),
-        ["PrivateServersPage"] = ("Private Servers", "Managing private servers"),
+        ["AccountsPage"] = ("Account Manager", "Managing Roblox accounts"),
         ["SoberPage"] = ("Sober", "Setting up Roblox on Linux"),
         ["RosemaryPage"] = ("Rosemary", "Setting up Roblox on Linux"),
         ["Releases"] = ("Releases", "Reading the release history"),
@@ -445,12 +445,15 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         typeof(ReleasesPage),
         typeof(DonoPage),
         typeof(LibraryPage),
-        typeof(PrivateServersPage)
+        typeof(PrivateServersPage),
+        typeof(AccountsPage)
     };
 
     private LibraryPage? _libraryPage;
 
     private PrivateServersPage? _privateServersPage;
+
+    private AccountsPage? _accountsPage;
 
     private Pages.RobloxNewsPage? _robloxNewsPage;
 
@@ -929,7 +932,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private bool IsCachedPage(FrameworkElement page)
     {
-        if (ReferenceEquals(page, _libraryPage) || ReferenceEquals(page, _privateServersPage) || ReferenceEquals(page, _robloxNewsPage))
+        if (ReferenceEquals(page, _libraryPage) || ReferenceEquals(page, _privateServersPage) || ReferenceEquals(page, _accountsPage) || ReferenceEquals(page, _robloxNewsPage))
         {
             return true;
         }
@@ -1040,9 +1043,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         RefreshGlobalSearchBoxVisibility();
         if (BreadcrumbPanel != null)
         {
-            BreadcrumbPanel.Visibility = content is LibraryPage or PrivateServersPage ? Visibility.Collapsed : Visibility.Visible;
+            BreadcrumbPanel.Visibility = content is LibraryPage or PrivateServersPage or AccountsPage ? Visibility.Collapsed : Visibility.Visible;
         }
-        bool hasOwnSidebar = content is LibraryPage or PrivateServersPage;
+        bool hasOwnSidebar = content is LibraryPage or PrivateServersPage or AccountsPage;
         SetRootNavigationShown(!hasOwnSidebar);
         SynchronizeSidebarSelection(content);
         SidebarGroup.RefreshActiveChild(MoreNavItem);
@@ -3705,6 +3708,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         Activated += MainWindow_ActivatedRpc;
         AddHandler(System.Windows.Controls.Primitives.Selector.SelectionChangedEvent, new System.Windows.Controls.SelectionChangedEventHandler(OnRpcTabSelectionChanged), true);
         Closed += MainWindow_ClosedRpc;
+        Voidstrap.Utility.SavedAccounts.Changed += OnSavedAccountsChanged;
+        _ = RefreshAccountButtonAsync();
         Voidstrap.UI.Elements.Settings.Pages.ExtensionViewModel.AnyProgressChanged += OnExtensionProgressChanged;
         _ = CheckForNewNewsAsync();
         _ = FetchRpcAvatarAsync();
@@ -3848,6 +3853,44 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         Activated -= MainWindow_ActivatedRpc;
         RemoveHandler(System.Windows.Controls.Primitives.Selector.SelectionChangedEvent, new System.Windows.Controls.SelectionChangedEventHandler(OnRpcTabSelectionChanged));
         Closed -= MainWindow_ClosedRpc;
+        Voidstrap.Utility.SavedAccounts.Changed -= OnSavedAccountsChanged;
+        _accountsPage?.Release();
+    }
+
+    private void OnSavedAccountsChanged()
+    {
+        Dispatcher.BeginInvoke(new Action(ApplyAccountButton));
+    }
+
+    private async Task RefreshAccountButtonAsync()
+    {
+        try
+        {
+            await Voidstrap.Utility.SavedAccounts.RefreshCurrentAsync(_lifetimeCts.SafeToken());
+        }
+        catch (OperationCanceledException)
+        {
+        }
+        ApplyAccountButton();
+    }
+
+    private void ApplyAccountButton()
+    {
+        Voidstrap.Utility.CurrentAccountInfo? current = Voidstrap.Utility.SavedAccounts.Current;
+        AccountButtonName.Text = current == null
+            ? Strings.Accounts_NotSignedIn
+            : string.IsNullOrWhiteSpace(current.DisplayName) ? current.Username : current.DisplayName;
+        AccountButton.ToolTip = current == null ? Strings.Accounts_Title : "@" + current.Username;
+        Voidstrap.Utility.DynamicRenderSystem.SetLazyImageSource(AccountButtonAvatar, current?.AvatarUrl);
+    }
+
+    private void AccountButton_Click(object sender, RoutedEventArgs e)
+    {
+        _accountsPage ??= new AccountsPage();
+        if (!ReferenceEquals(RootFrame.Content, _accountsPage))
+        {
+            RootNavigation.NavigateExternal(_accountsPage);
+        }
     }
 
     private string _latestNewsKey = "";
@@ -5164,6 +5207,12 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             AnimatePageHeader(-14.0);
             return;
         }
+        if (RootFrame.Content is AccountsPage accountsPage)
+        {
+            accountsPage.ToggleSidebar();
+            AnimatePageHeader(-14.0);
+            return;
+        }
         if (RootNavigation == null)
             return;
         if (_sidebarResizing)
@@ -6329,6 +6378,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             LaunchTargetList.ItemsSource = null;
         _libraryPage = null;
         _privateServersPage = null;
+        _accountsPage?.Release();
+        _accountsPage = null;
         _robloxNewsPage = null;
         _lastPage = null;
         try

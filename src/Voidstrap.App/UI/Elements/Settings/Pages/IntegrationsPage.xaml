@@ -213,9 +213,6 @@
                     <controls:OptionControl Header="{resources:Loc Ui_Integrations_SteamLibrary}" Description="{Binding SteamShortcutDescription}" Visibility="{Binding SteamShortcutVisibility}">
             <Button Content="{resources:Loc Ui_Integrations_AddToSteam}" Command="{Binding AddToSteamCommand}" />
           </controls:OptionControl>
-                    <controls:OptionControl Header="{resources:Loc Ui_Integrations_AccountSwitcher}" Description="{resources:Loc Ui_Integrations_CreateBackUpAndSwitchRoblox}" Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}">
-            <Button Content="{resources:Loc Common_Open}" HorizontalAlignment="Left" Command="{Binding AccountWindowCommand}" />
-          </controls:OptionControl>
                     <controls:OptionControl Header="{resources:Loc ContextMenu_GameHistory_Title}" Description="{resources:Loc Ui_Integrations_ViewGamesYouRecentlyPlayed}">
                         <Button Content="{resources:Loc Common_Open}" HorizontalAlignment="Left" VerticalAlignment="Top" Command="{Binding OpenHistoryWindowCommand}" />
                     </controls:OptionControl>

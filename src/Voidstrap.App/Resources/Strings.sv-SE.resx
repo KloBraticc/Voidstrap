@@ -8239,4 +8239,166 @@ Den laddar ner {0} MB. Om du tackar nej används den inbyggda uppskattningen. Du
   <data name="Ui.RiShade.Preset.Failed" xml:space="preserve">
     <value>Det gick inte att välja den här förinställningen.</value>
   </data>
+  <data name="Accounts.Title" xml:space="preserve">
+    <value>Kontohanterare</value>
+  </data>
+  <data name="Accounts.SignIn.Title" xml:space="preserve">
+    <value>Logga in på Roblox</value>
+  </data>
+  <data name="Accounts.SignIn.Hint" xml:space="preserve">
+    <value>Logga in eller skapa ett konto. Voidstrap sparar det så fort du är inloggad.</value>
+  </data>
+  <data name="Accounts.SignIn.LogIn" xml:space="preserve">
+    <value>Logga in</value>
+  </data>
+  <data name="Accounts.SignIn.SignUp" xml:space="preserve">
+    <value>Registrera dig</value>
+  </data>
+  <data name="Accounts.SignIn.Verifying" xml:space="preserve">
+    <value>Verifierar kontot</value>
+  </data>
+  <data name="Accounts.SignIn.BrowserFailed" xml:space="preserve">
+    <value>Inloggningswebbläsaren kunde inte starta. Installera Microsoft Edge WebView2 Runtime och försök igen.</value>
+  </data>
+  <data name="Accounts.AddAccount" xml:space="preserve">
+    <value>Lägg till konto</value>
+  </data>
+  <data name="Accounts.SignInBrowser" xml:space="preserve">
+    <value>Logga in med Roblox</value>
+  </data>
+  <data name="Accounts.CreateAccount" xml:space="preserve">
+    <value>Skapa ett nytt konto</value>
+  </data>
+  <data name="Accounts.AddCurrent" xml:space="preserve">
+    <value>Spara det inloggade kontot</value>
+  </data>
+  <data name="Accounts.ImportCookie" xml:space="preserve">
+    <value>Importera en cookie</value>
+  </data>
+  <data name="Accounts.Search" xml:space="preserve">
+    <value>Sök konton</value>
+  </data>
+  <data name="Accounts.CheckAll" xml:space="preserve">
+    <value>Kontrollera alla sessioner</value>
+  </data>
+  <data name="Accounts.SignOut" xml:space="preserve">
+    <value>Logga ut från Roblox</value>
+  </data>
+  <data name="Accounts.RosemaryNotice" xml:space="preserve">
+    <value>Byte av konto kräver Sober. Rosemary har en egen inloggning, så byt till Sober för att använda sparade konton.</value>
+  </data>
+  <data name="Accounts.CookiePlaceholder" xml:space="preserve">
+    <value>Klistra in en .ROBLOSECURITY cookie</value>
+  </data>
+  <data name="Accounts.Empty" xml:space="preserve">
+    <value>Inga sparade konton än. Lägg till ett för att byta konto med ett klick.</value>
+  </data>
+  <data name="Accounts.SelectHint" xml:space="preserve">
+    <value>Välj ett konto för att se detaljerna.</value>
+  </data>
+  <data name="Accounts.Current" xml:space="preserve">
+    <value>Aktuellt</value>
+  </data>
+  <data name="Accounts.SwitchAndPlay" xml:space="preserve">
+    <value>Byt och spela</value>
+  </data>
+  <data name="Accounts.Switch" xml:space="preserve">
+    <value>Byt</value>
+  </data>
+  <data name="Accounts.ExpiredDetail" xml:space="preserve">
+    <value>Den här sessionen har gått ut. Logga in igen för att fortsätta använda kontot.</value>
+  </data>
+  <data name="Accounts.Expired" xml:space="preserve">
+    <value>Sessionen har gått ut</value>
+  </data>
+  <data name="Accounts.Robux" xml:space="preserve">
+    <value>Robux</value>
+  </data>
+  <data name="Accounts.Premium" xml:space="preserve">
+    <value>Premium</value>
+  </data>
+  <data name="Accounts.Friends" xml:space="preserve">
+    <value>Vänner</value>
+  </data>
+  <data name="Accounts.Followers" xml:space="preserve">
+    <value>Följare</value>
+  </data>
+  <data name="Accounts.Joined" xml:space="preserve">
+    <value>Gick med</value>
+  </data>
+  <data name="Accounts.Note" xml:space="preserve">
+    <value>Anteckning</value>
+  </data>
+  <data name="Accounts.NotePlaceholder" xml:space="preserve">
+    <value>Lägg till en anteckning</value>
+  </data>
+  <data name="Accounts.LastUsed" xml:space="preserve">
+    <value>Senast använt</value>
+  </data>
+  <data name="Accounts.Added" xml:space="preserve">
+    <value>Tillagt</value>
+  </data>
+  <data name="Accounts.CopyId" xml:space="preserve">
+    <value>Kopiera användar-ID</value>
+  </data>
+  <data name="Accounts.OpenProfile" xml:space="preserve">
+    <value>Öppna profil</value>
+  </data>
+  <data name="Accounts.CopyUsername" xml:space="preserve">
+    <value>Kopiera användarnamn</value>
+  </data>
+  <data name="Accounts.SignInAgain" xml:space="preserve">
+    <value>Logga in igen</value>
+  </data>
+  <data name="Accounts.Remove" xml:space="preserve">
+    <value>Ta bort</value>
+  </data>
+  <data name="Accounts.Pin" xml:space="preserve">
+    <value>Fäst överst</value>
+  </data>
+  <data name="Accounts.Unpin" xml:space="preserve">
+    <value>Lossa</value>
+  </data>
+  <data name="Accounts.Never" xml:space="preserve">
+    <value>Aldrig</value>
+  </data>
+  <data name="Accounts.NotSignedIn" xml:space="preserve">
+    <value>Inte inloggad</value>
+  </data>
+  <data name="Accounts.Status.Failed" xml:space="preserve">
+    <value>Inloggningen kunde inte sparas. Cookien kan vara ogiltig eller ha gått ut.</value>
+  </data>
+  <data name="Accounts.Status.Added" xml:space="preserve">
+    <value>{0} sparat</value>
+  </data>
+  <data name="Accounts.Status.Switched" xml:space="preserve">
+    <value>Inloggad som {0}</value>
+  </data>
+  <data name="Accounts.MissingLogin" xml:space="preserve">
+    <value>Den sparade inloggningen för kontot saknas. Logga in igen för att återställa den.</value>
+  </data>
+  <data name="Accounts.CloseRobloxPrompt" xml:space="preserve">
+    <value>Roblox körs. Stäng det och fortsätt?</value>
+  </data>
+  <data name="Accounts.CloseRobloxFailed" xml:space="preserve">
+    <value>Roblox kunde inte stängas. Stäng det själv och försök igen.</value>
+  </data>
+  <data name="Accounts.RemoveConfirm" xml:space="preserve">
+    <value>Ta bort {0} från Voidstrap? Ditt Roblox-konto påverkas inte.</value>
+  </data>
+  <data name="Accounts.Status.SignedOut" xml:space="preserve">
+    <value>Utloggad från Roblox</value>
+  </data>
+  <data name="Accounts.Status.Checked" xml:space="preserve">
+    <value>{0} av {1} sessioner är fortfarande giltiga</value>
+  </data>
+  <data name="Accounts.Copied" xml:space="preserve">
+    <value>Kopierat</value>
+  </data>
+  <data name="Accounts.Premium.Active" xml:space="preserve">
+    <value>Aktivt</value>
+  </data>
+  <data name="Accounts.Premium.None" xml:space="preserve">
+    <value>Inget</value>
+  </data>
 </root>
