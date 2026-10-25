@@ -191,6 +191,7 @@ pub fn prepare_reshade_config(directory: &Path) -> io::Result<()> {
         let _ = ini.set("GENERAL", "PresetPath", &renamed);
     }
 
+    let dlss_installed = crate::dlss::installed(directory);
     let disabled = ini.get("ADDON", "DisabledAddons").unwrap_or_default();
     let mut kept = Vec::new();
     for item in disabled.split([',', ';']) {
@@ -206,6 +207,7 @@ pub fn prepare_reshade_config(directory: &Path) -> io::Result<()> {
             && !item.to_ascii_lowercase().starts_with("unishade@")
             && !item.eq_ignore_ascii_case("RobloxShadeHost")
             && !item.to_ascii_lowercase().starts_with("robloxshadehost@")
+            && !(dlss_installed && is_dlss_addon(item))
         {
             kept.push(item);
         }
@@ -304,10 +306,44 @@ pub fn prepare_reshade_config(directory: &Path) -> io::Result<()> {
     Ok(())
 }
 
+fn is_dlss_addon(item: &str) -> bool {
+    let lower = item.to_ascii_lowercase();
+    lower == "renodx dlss" || lower.starts_with("renodx dlss@") || lower.ends_with(&format!("@{}", crate::dlss::ADDON_FILE))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
     use std::fs;
+
+    #[test]
+    fn installed_dlss_is_never_left_disabled() {
+        let temp_dir = std::env::temp_dir().join(format!("rishade_cfg_dlss_{}", std::process::id()));
+        let _ = fs::create_dir_all(&temp_dir);
+        for name in ["nvngx_dlssnr.dll", crate::dlss::ADDON_FILE] {
+            fs::write(temp_dir.join(name), b"x").unwrap();
+        }
+        fs::write(temp_dir.join("ReShade.ini"), "[ADDON]
+DisabledAddons=Generic Depth,RenoDX DLSS@renodx-dlss.addon64,SomeMod
+").unwrap();
+        prepare_reshade_config(&temp_dir).unwrap();
+        let parsed = PresetIni::parse(&fs::read_to_string(temp_dir.join("ReShade.ini")).unwrap());
+        assert_eq!(parsed.get("ADDON", "DisabledAddons"), Some("Generic Depth,SomeMod"));
+        let _ = fs::remove_dir_all(&temp_dir);
+    }
+
+    #[test]
+    fn dlss_entry_stays_disabled_when_dlss_is_not_installed() {
+        let temp_dir = std::env::temp_dir().join(format!("rishade_cfg_nodlss_{}", std::process::id()));
+        let _ = fs::create_dir_all(&temp_dir);
+        fs::write(temp_dir.join("ReShade.ini"), "[ADDON]
+DisabledAddons=RenoDX DLSS@renodx-dlss.addon64
+").unwrap();
+        prepare_reshade_config(&temp_dir).unwrap();
+        let parsed = PresetIni::parse(&fs::read_to_string(temp_dir.join("ReShade.ini")).unwrap());
+        assert_eq!(parsed.get("ADDON", "DisabledAddons"), Some("RenoDX DLSS@renodx-dlss.addon64,Generic Depth"));
+        let _ = fs::remove_dir_all(&temp_dir);
+    }
 
     #[test]
     fn prepare_reshade_config_applies_all_unishade_parity_settings() {
