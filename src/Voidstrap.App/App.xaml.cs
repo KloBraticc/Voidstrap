@@ -1002,6 +1002,7 @@ public partial class App : Application
 		}
 		long persistentStateStarted = Stopwatch.GetTimestamp();
 		LoadPersistentState();
+		Voidstrap.Integrations.Overlays.GraphicsPrewarm.StartIfUseful();
 		if (cli)
 		{
 			int exitCode = await Cli.RunAsync(args[1..]);
