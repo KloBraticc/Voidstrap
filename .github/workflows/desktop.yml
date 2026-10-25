@@ -66,7 +66,7 @@ jobs:
           submodules: recursive
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
         with:
-          dotnet-version: 10.0.x
+          dotnet-version: 10.0.402
       - &dependency-cache
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
         with:
@@ -107,7 +107,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
         with:
-          dotnet-version: 10.0.x
+          dotnet-version: 10.0.402
       - *dependency-cache
       - run: dotnet build src/ClientServer/ClientServer.slnx -c Debug -warnaserror
 
@@ -127,7 +127,7 @@ jobs:
           submodules: recursive
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
         with:
-          dotnet-version: 10.0.x
+          dotnet-version: 10.0.402
       - *dependency-cache
       - name: Cache compiled native libraries
         uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9
@@ -822,7 +822,7 @@ jobs:
           submodules: recursive
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
         with:
-          dotnet-version: 10.0.x
+          dotnet-version: 10.0.402
       - *dependency-cache
       - run: sudo apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=30 update && sudo apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=30 install -y genisoimage
       - run: pwsh -NoProfile -File ./publish-all.ps1 -Only osx-arm64,osx-x64 -SkipSolutionBuild -NoPause
@@ -960,7 +960,7 @@ jobs:
           submodules: recursive
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
         with:
-          dotnet-version: 10.0.x
+          dotnet-version: 10.0.402
       - *dependency-cache
       - run: dotnet build src/Voidstrap.Cross/Voidstrap.Cross.csproj -c Debug -warnaserror -p:BaseIntermediateOutputPath=obj-linux-ci-cross/
       - run: dotnet build src/Voidstrap.Desktop.Linux/Voidstrap.Desktop.Linux.csproj -c Debug -warnaserror -p:BaseIntermediateOutputPath=obj-linux-ci-experimental/
@@ -995,7 +995,7 @@ jobs:
           submodules: recursive
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
         with:
-          dotnet-version: 10.0.x
+          dotnet-version: 10.0.402
       - *dependency-cache
       - run: sudo apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=30 update && sudo apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=30 install -y build-essential gcc-aarch64-linux-gnu binutils desktop-file-utils file
       - run: bash build/Packaging/Linux/package.sh ${{ matrix.rid }} '' ${{ matrix.format }} artifacts/packages
@@ -1021,7 +1021,7 @@ jobs:
           submodules: recursive
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
         with:
-          dotnet-version: 10.0.x
+          dotnet-version: 10.0.402
       - *dependency-cache
       - run: sudo apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=30 update && sudo apt-get -o Acquire::Retries=3 -o Acquire::http::Timeout=30 install -y build-essential gcc-aarch64-linux-gnu binutils cpio desktop-file-utils file rpm
       - run: bash build/Packaging/Linux/package.sh ${{ matrix.rid }} '' rpm artifacts/packages
@@ -1065,7 +1065,7 @@ jobs:
           submodules: recursive
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
         with:
-          dotnet-version: 10.0.x
+          dotnet-version: 10.0.402
       - *dependency-cache
       - id: tool
         run: if command -v appimagetool >/dev/null 2>&1; then echo 'available=true' >> "$GITHUB_OUTPUT"; else echo 'available=false' >> "$GITHUB_OUTPUT"; fi
@@ -1098,7 +1098,7 @@ jobs:
 
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
         with:
-          dotnet-version: 10.0.x
+          dotnet-version: 10.0.402
       - *dependency-cache
 
       - *image-check-harness
