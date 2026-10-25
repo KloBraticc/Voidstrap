@@ -22,6 +22,8 @@ namespace Voidstrap.Integrations.AntiAliasing
         public const uint SWP_NOACTIVATE = 0x0010;
         public const uint SWP_NOZORDER = 0x0004;
         public const uint SWP_SHOWWINDOW = 0x0040;
+        public const uint SWP_HIDEWINDOW = 0x0080;
+        public const uint SWP_ASYNCWINDOWPOS = 0x4000;
         public const uint WDA_NONE = 0;
         public const uint WDA_EXCLUDEFROMCAPTURE = 0x11;
         public static readonly IntPtr HWND_TOPMOST = new IntPtr(-1);

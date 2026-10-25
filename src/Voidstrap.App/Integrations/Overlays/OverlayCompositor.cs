@@ -227,6 +227,8 @@ namespace Voidstrap.Integrations.Overlays
         }
 
         private double _lastFreshPresentMs;
+        private long _lastFreshTick;
+        private bool _stallHidden;
 
         private double _captureSrcMs;
         private double _lastSrcMs;
@@ -433,6 +435,18 @@ namespace Voidstrap.Integrations.Overlays
                     {
                         App.Logger.WriteLine(LOG_IDENT, "Restarting the compositor session to recover");
                         break;
+                    }
+
+                    OverlayHub.CompositorHeartbeat();
+                    if (OverlayHub.TakeCompositorStallHidden())
+                    {
+                        App.Logger.WriteLine(LOG_IDENT, "Compositor responded again, showing its window");
+                        _lastFreshTick = Environment.TickCount64;
+                        if (!_hiddenByFocus && !_stallHidden)
+                        {
+                            Interop.ShowWindow(_hwnd, Interop.SW_SHOWNOACTIVATE);
+                            AssertZOrder();
+                        }
                     }
 
                     if (!OverlayHub.HomepageBackgroundActive)
@@ -1445,6 +1459,8 @@ namespace Voidstrap.Integrations.Overlays
                 if (_hiddenByFocus)
                 {
                     _hiddenByFocus = false;
+                    _lastFreshTick = Environment.TickCount64;
+                    _stallHidden = false;
                     _homepageRepaintDue = true;
                     App.Logger.WriteLine(LOG_IDENT, "Roblox is in the foreground again, the overlay is rendering");
                     TryRestoreWindowCapture();
@@ -2273,6 +2289,13 @@ namespace Voidstrap.Integrations.Overlays
             if (fgConfigured)
                 UpdateVBlankInfo();
             bool fresh = CaptureFrame();
+            if (!fresh && HandleCaptureStall())
+            {
+                _wgc?.WaitForFrame(20);
+                return;
+            }
+            if (fresh)
+                ClearCaptureStall();
             if (!fresh)
             {
                 bool filled = TryStutterFill(token);
@@ -2447,6 +2470,39 @@ namespace Voidstrap.Integrations.Overlays
                 DrawBlit(_psPass!, _backBufferRtv!, composited);
                 if (Present())
                     _realPresented++;
+            }
+        }
+
+        private bool HandleCaptureStall()
+        {
+            long now = Environment.TickCount64;
+            if (_lastFreshTick == 0)
+                _lastFreshTick = now;
+            if (_wgc == null || _hiddenByFocus || _riShadeInteractive || now - _lastFreshTick < 1500)
+                return _stallHidden;
+            if (!_stallHidden)
+            {
+                _stallHidden = true;
+                App.Logger.WriteLine(LOG_IDENT, $"Window capture delivered no frame for {now - _lastFreshTick} ms, hiding the overlay so Roblox stays visible and rebuilding capture");
+                Interop.ShowWindow(_hwnd, Interop.SW_HIDE);
+            }
+            if (_clock.Elapsed.TotalMilliseconds >= _captureRestartAllowedAtMs)
+                RestartWindowCapture(0, ReliableActualFps());
+            return true;
+        }
+
+        private void ClearCaptureStall()
+        {
+            _lastFreshTick = Environment.TickCount64;
+            if (!_stallHidden)
+                return;
+            _stallHidden = false;
+            _homepageRepaintDue = true;
+            App.Logger.WriteLine(LOG_IDENT, "Window capture is delivering frames again, showing the overlay");
+            if (!_hiddenByFocus)
+            {
+                Interop.ShowWindow(_hwnd, Interop.SW_SHOWNOACTIVATE);
+                AssertZOrder();
             }
         }
 

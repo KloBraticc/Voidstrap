@@ -27,6 +27,10 @@ namespace Voidstrap.Integrations.Overlays
 		private static IntPtr _compositorWindow;
 		internal static IntPtr CompositorWindow => Volatile.Read(ref _compositorWindow);
 		internal static void SetCompositorWindow(IntPtr handle) => Volatile.Write(ref _compositorWindow, handle);
+		private static long _compositorHeartbeat;
+		private static int _compositorStallHidden;
+		internal static void CompositorHeartbeat() => Volatile.Write(ref _compositorHeartbeat, Environment.TickCount64);
+		internal static bool TakeCompositorStallHidden() => Interlocked.Exchange(ref _compositorStallHidden, 0) != 0;
 		internal static bool WorkerRunning
 		{
 			get
@@ -974,6 +978,19 @@ namespace Voidstrap.Integrations.Overlays
 			}
         }
 
+        private static void HideStalledCompositor()
+        {
+            IntPtr hwnd = CompositorWindow;
+            long beat = Volatile.Read(ref _compositorHeartbeat);
+            if (hwnd == IntPtr.Zero || beat == 0 || Environment.TickCount64 - beat < 4000 || Volatile.Read(ref _compositorStallHidden) != 0)
+                return;
+            Volatile.Write(ref _compositorStallHidden, 1);
+            AntiAliasing.AntiAliasingInterop.SetWindowPos(hwnd, IntPtr.Zero, 0, 0, 0, 0,
+                AntiAliasing.AntiAliasingInterop.SWP_HIDEWINDOW | AntiAliasing.AntiAliasingInterop.SWP_ASYNCWINDOWPOS | AntiAliasing.AntiAliasingInterop.SWP_NOMOVE
+                | AntiAliasing.AntiAliasingInterop.SWP_NOSIZE | AntiAliasing.AntiAliasingInterop.SWP_NOZORDER | AntiAliasing.AntiAliasingInterop.SWP_NOACTIVATE);
+            App.Logger.WriteLine("Overlays", "Compositor stopped responding, hiding its window so Roblox stays visible");
+        }
+
         private static void WatchRoblox(CancellationTokenSource runCts)
         {
             try
@@ -985,6 +1002,7 @@ namespace Voidstrap.Integrations.Overlays
                         runCts.Cancel();
                         break;
                     }
+                    HideStalledCompositor();
                     if (runCts.Token.WaitHandle.WaitOne(750))
                         break;
                 }
