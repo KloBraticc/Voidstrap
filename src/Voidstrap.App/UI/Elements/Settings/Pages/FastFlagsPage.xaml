@@ -1,4 +1,4 @@
-<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.FastFlagsPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:platform="clr-namespace:Voidstrap.UI" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:local="clr-namespace:Voidstrap" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:models="clr-namespace:Voidstrap.UI.ViewModels" xmlns:pages="clr-namespace:Voidstrap.UI.Elements.Settings.Pages" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:settings="clr-namespace:Voidstrap.UI.ViewModels.Settings" xmlns:conv="clr-namespace:Voidstrap.Converters" xmlns:converters="clr-namespace:Voidstrap.UI.Converters" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" Title="FastFlagsPage" Scrollable="True" Loaded="Window_Loaded">
+<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.FastFlagsPage" xmlns:uianim="clr-namespace:Wpf.Ui.Animations;assembly=Wpf.Ui" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:platform="clr-namespace:Voidstrap.UI" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:local="clr-namespace:Voidstrap" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:models="clr-namespace:Voidstrap.UI.ViewModels" xmlns:pages="clr-namespace:Voidstrap.UI.Elements.Settings.Pages" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:settings="clr-namespace:Voidstrap.UI.ViewModels.Settings" xmlns:conv="clr-namespace:Voidstrap.Converters" xmlns:converters="clr-namespace:Voidstrap.UI.Converters" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" Title="FastFlagsPage" Scrollable="True" Loaded="Window_Loaded">
   <FrameworkElement.Resources>
     <ResourceDictionary>
       <conv:CustomVisibilityConverter x:Key="CustomVisibilityConverter" />
@@ -6,7 +6,7 @@
     </ResourceDictionary>
   </FrameworkElement.Resources>
   <StackPanel Margin="0,0,14,14">
-    <TextBlock Margin="0,0,0,8" FontSize="14" Text="{resources:Loc Menu_FastFlags_Description}" />
+    <TextBlock uianim:Transitions.HoldStill="True" Margin="0,0,0,8" FontSize="14" Text="{resources:Loc Menu_FastFlags_Description}" />
     <TabControl x:Name="FlagTabs" Margin="0,0,0,0" SelectionChanged="FlagTabs_SelectionChanged">
       <TabItem>
         <TabItem.Header>
