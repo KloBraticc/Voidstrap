@@ -44,7 +44,10 @@ public class JsonManager<T> where T : class, new()
 			Save();
 			return;
 		}
-		if (JsonFile.TryLoad<T>(FileLocation, JsonOptions.Tolerant, out T? loaded, out bool recovered, out Exception? failure) && loaded != null)
+		bool recovered = false;
+		Exception? failure = null;
+		if ((Voidstrap.Utility.NativeStateLoader.TryLoad(FileLocation, JsonFile.DefaultMaximumBytes, out T? loaded)
+			|| JsonFile.TryLoad<T>(FileLocation, JsonOptions.Tolerant, out loaded, out recovered, out failure)) && loaded != null)
 		{
 			Prop = loaded;
 			Interlocked.Increment(ref _revision);

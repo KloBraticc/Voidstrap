@@ -209,6 +209,37 @@
 		</ItemGroup>
 	</Target>
 
+	<PropertyGroup Condition="$(RuntimeIdentifier.StartsWith('linux')) Or $(RuntimeIdentifier.StartsWith('osx'))">
+		<VoidStateFileName Condition="$(RuntimeIdentifier.StartsWith('linux'))">libvoidstate.so</VoidStateFileName>
+		<VoidStateFileName Condition="$(RuntimeIdentifier.StartsWith('osx'))">libvoidstate.dylib</VoidStateFileName>
+		<VoidStateLibrary>$(BaseIntermediateOutputPath)voidstate/$(RuntimeIdentifier)/$(VoidStateFileName)</VoidStateLibrary>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<VoidStateSources Include="$(MSBuildProjectDirectory)/../../native/voidstate/src/**/*.rs" />
+	</ItemGroup>
+
+	<Target Name="BuildVoidState" BeforeTargets="AssignTargetPaths" Condition="'$(VoidStateLibrary)' != '' And '$(DesignTimeBuild)' != 'true' And !$([MSBuild]::IsOSPlatform('Windows'))" Inputs="$(MSBuildProjectDirectory)/../../native/voidstate/Cargo.toml;$(MSBuildProjectDirectory)/../../native/voidstate/Cargo.lock;@(VoidStateSources);$(MSBuildProjectDirectory)/../../build/Packaging/build-voidstate.sh" Outputs="$(VoidStateLibrary)">
+		<Exec Command="bash &quot;$(MSBuildProjectDirectory)/../../build/Packaging/build-voidstate.sh&quot; &quot;$(RuntimeIdentifier)&quot; &quot;$(VoidStateLibrary)&quot; &quot;$(BaseIntermediateOutputPath)voidstate/target&quot;" IgnoreExitCode="true" IgnoreStandardErrorWarningFormat="true" />
+	</Target>
+
+	<PropertyGroup Condition="$(RuntimeIdentifier.StartsWith('linux')) And $([MSBuild]::IsOSPlatform('Windows'))">
+		<_VoidStateLibraryWin>$([System.IO.Path]::GetFullPath($([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', '$(VoidStateLibrary)'))))</_VoidStateLibraryWin>
+		<_VoidStateTargetWin>$([System.IO.Path]::GetFullPath($([System.IO.Path]::Combine('$(MSBuildProjectDirectory)', '$(BaseIntermediateOutputPath)voidstate/target'))))</_VoidStateTargetWin>
+		<_VoidStateLibraryWsl>/mnt/$(_VoidStateLibraryWin.Substring(0, 1).ToLowerInvariant())$(_VoidStateLibraryWin.Substring(2).Replace('%5C', '/'))</_VoidStateLibraryWsl>
+		<_VoidStateTargetWsl>/mnt/$(_VoidStateTargetWin.Substring(0, 1).ToLowerInvariant())$(_VoidStateTargetWin.Substring(2).Replace('%5C', '/'))</_VoidStateTargetWsl>
+	</PropertyGroup>
+
+	<Target Name="BuildVoidStateThroughWsl" BeforeTargets="AssignTargetPaths" Condition="$(RuntimeIdentifier.StartsWith('linux')) And '$(DesignTimeBuild)' != 'true' And $([MSBuild]::IsOSPlatform('Windows'))" Inputs="$(MSBuildProjectDirectory)/../../native/voidstate/Cargo.toml;$(MSBuildProjectDirectory)/../../native/voidstate/Cargo.lock;@(VoidStateSources);$(MSBuildProjectDirectory)/../../build/Packaging/build-voidstate.sh" Outputs="$(VoidStateLibrary)">
+		<Exec Command="wsl.exe -d $(VoidstrapWslDistro) -e bash &quot;$(_VoidImageRootWsl)build/Packaging/build-voidstate.sh&quot; &quot;$(RuntimeIdentifier)&quot; &quot;$(_VoidStateLibraryWsl)&quot; &quot;$(_VoidStateTargetWsl)&quot;" IgnoreExitCode="true" IgnoreStandardErrorWarningFormat="true" />
+	</Target>
+
+	<Target Name="IncludeVoidState" DependsOnTargets="BuildVoidState;BuildVoidStateThroughWsl" BeforeTargets="AssignTargetPaths" Condition="'$(VoidStateLibrary)' != ''">
+		<ItemGroup>
+			<None Condition="Exists('$(VoidStateLibrary)')" Include="$(VoidStateLibrary)" Link="$(VoidStateFileName)" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+		</ItemGroup>
+	</Target>
+
 	<ItemGroup Condition="$(RuntimeIdentifier.StartsWith('linux'))">
 		<None Include="$(MSBuildProjectDirectory)\..\..\external\LibreWPF\GLFW-LICENSE.txt" Condition="Exists('$(LinuxGlfwLibrary)')">
 			<Link>GLFW-LICENSE.txt</Link>

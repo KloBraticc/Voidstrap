@@ -10,7 +10,7 @@ namespace Voidstrap.Utility;
 
 internal static class JsonFile
 {
-	private const long DefaultMaximumBytes = 67108864;
+	internal const long DefaultMaximumBytes = 67108864;
 	private static readonly ConcurrentDictionary<string, object> Gates = new(StringComparer.OrdinalIgnoreCase);
 
 	public static string ReadText(string path, long maximumBytes = DefaultMaximumBytes)
