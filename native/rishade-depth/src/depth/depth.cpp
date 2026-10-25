@@ -304,7 +304,8 @@ static const float RefineEdgeStart = 0.15;
 static const float RefineEdgeRange = 0.15;
 static const float RefineSurfaceSigma = 0.05;
 static const int PlaneRadius = 3;
-static const int PlaneStride = 4;
+static const int PlaneStride = 3;
+static const float PlaneColor = 0.12;
 static const float PlaneGate = 0.3;
 static const float PlaneResidualSigma = 0.02;
 static const float LinearFar = 1000.0;
@@ -789,7 +790,7 @@ bool SolvePlane(float3x3 m, float3 b, out float3 plane)
     return true;
 }
 
-float FitSurface(int2 p, int2 size, float centre, float fallback)
+float FitSurface(int2 p, int2 size, float centre, float3 tone, float fallback)
 {
     float samples[49];
     float2 offsets[49];
@@ -800,7 +801,8 @@ float FitSurface(int2 p, int2 size, float centre, float fallback)
         int2 q = clamp(p + cell * PlaneStride, 0, size - 1);
         samples[k] = Linear(Warped.Load(int3(q, 0)).x);
         offsets[k] = float2(cell);
-        spatial[k] = exp(-dot(float2(cell), float2(cell)) / (2.0 * PlaneRadius * PlaneRadius));
+        float3 difference = Color.Load(int3(q, 0)).rgb - tone;
+        spatial[k] = exp(-dot(float2(cell), float2(cell)) / (2.0 * PlaneRadius * PlaneRadius)) * exp(-dot(difference, difference) / (2 * PlaneColor * PlaneColor));
     }
     float3 plane = float3(fallback, 0, 0);
     for (uint iteration = 0; iteration < 2; ++iteration)
@@ -868,7 +870,7 @@ void Refine(uint3 id : SV_DispatchThreadID)
         snapped += spatial[j] * tones[j] * values[j];
         snappedWeights += spatial[j] * tones[j];
     }
-    float fitted = FitSurface(p, size, values[12], surface / max(surfaceWeights, 1e-6));
+    float fitted = FitSurface(p, size, values[12], centre, surface / max(surfaceWeights, 1e-6));
     float current = Encoded(lerp(fitted, snapped / max(snappedWeights, 1e-6), edge));
     float previous = Depth[id.xy];
     float change = abs(current - previous) / max(max(current, previous), 1e-4);
