@@ -7762,7 +7762,7 @@ Ralat: {0}</value>
     <value>NVIDIA DLSS</value>
   </data>
   <data name="Ui.RiShade.Dlss.Description" xml:space="preserve">
-    <value>Menjalankan NVIDIA DLSS melalui alat tambah RenoDX pada kad grafik RTX. Muat turun pertama kira-kira 170 MB.</value>
+    <value>Menggunakan NVIDIA DLSS pada kad grafik RTX. Muat turun pertama kira kira 170 MB.</value>
   </data>
   <data name="Ui.RiShade.Dlss.Downloading" xml:space="preserve">
     <value>Memuat turun fail DLSS, ini mungkin mengambil masa seminit...</value>
@@ -8015,7 +8015,7 @@ Hantar fail itu kepada orang yang membantu anda. Butiran peribadi seperti nama p
 Muat turunnya {0} MB. Jika anda menolak, anggaran terbina dalam akan digunakan. Anda boleh menukar ini kemudian di halaman RiShade.</value>
   </data>
   <data name="Ui.RiShade.DepthModel.RiDepthDescription" xml:space="preserve">
-    <value>Memberi kesan kedalaman seperti ambient occlusion, kedalaman medan dan pantulan rasa jarak yang sebenar. RiDepth dibuat untuk Roblox dan dikemas kini setiap bingkai. Perubahan berkuat kuasa apabila Roblox dimulakan lagi.</value>
+    <value>Menggunakan RiDepth untuk kesan kedalaman yang lebih tepat. Berkuat kuasa apabila Roblox dimulakan seterusnya.</value>
   </data>
   <data name="Ui.Sound.Tab" xml:space="preserve">
     <value>Bunyi</value>

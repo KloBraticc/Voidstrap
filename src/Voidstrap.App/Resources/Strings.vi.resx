@@ -7774,7 +7774,7 @@ Lỗi: {0}</value>
     <value>NVIDIA DLSS</value>
   </data>
   <data name="Ui.RiShade.Dlss.Description" xml:space="preserve">
-    <value>Chạy NVIDIA DLSS thông qua tiện ích bổ sung của RenoDX trên card đồ họa RTX. Lần tải đầu tiên khoảng 170 MB.</value>
+    <value>Dùng NVIDIA DLSS trên card đồ họa RTX. Lần tải đầu tiên khoảng 170 MB.</value>
   </data>
   <data name="Ui.RiShade.Dlss.Downloading" xml:space="preserve">
     <value>Đang tải các tệp DLSS, việc này có thể mất một phút...</value>
@@ -8027,7 +8027,7 @@ Hãy gửi tệp đó cho người đang giúp bạn. Các thông tin cá nhân 
 Dung lượng tải xuống là {0} MB. Nếu bạn từ chối, ước tính tích hợp sẽ được dùng. Bạn có thể thay đổi điều này sau trong trang RiShade.</value>
   </data>
   <data name="Ui.RiShade.DepthModel.RiDepthDescription" xml:space="preserve">
-    <value>Mang lại cảm giác khoảng cách thật cho các hiệu ứng độ sâu như che khuất môi trường, độ sâu trường ảnh và phản chiếu. RiDepth dành riêng cho Roblox và cập nhật mỗi khung hình. Thay đổi sẽ áp dụng vào lần tới bạn khởi động Roblox.</value>
+    <value>Dùng RiDepth để hiệu ứng chiều sâu chính xác hơn. Áp dụng vào lần tới bạn mở Roblox.</value>
   </data>
   <data name="Ui.Sound.Tab" xml:space="preserve">
     <value>Âm thanh</value>

@@ -7771,7 +7771,7 @@ Błąd: {0}</value>
     <value>NVIDIA DLSS</value>
   </data>
   <data name="Ui.RiShade.Dlss.Description" xml:space="preserve">
-    <value>Uruchamia NVIDIA DLSS przez dodatek RenoDX na kartach graficznych RTX. Pierwsze pobieranie to około 170 MB.</value>
+    <value>Używa NVIDIA DLSS na kartach graficznych RTX. Pierwsze pobieranie ma około 170 MB.</value>
   </data>
   <data name="Ui.RiShade.Dlss.Downloading" xml:space="preserve">
     <value>Pobieranie plików DLSS, może to potrwać minutę...</value>
@@ -8024,7 +8024,7 @@ Wyślij ten plik osobie, która Ci pomaga. Dane osobowe, takie jak nazwa użytko
 Pobieranie ma {0} MB. Jeśli odmówisz, zostanie użyte wbudowane oszacowanie. Możesz to zmienić później na stronie RiShade.</value>
   </data>
   <data name="Ui.RiShade.DepthModel.RiDepthDescription" xml:space="preserve">
-    <value>Nadaje efektom głębi, takim jak okluzja otoczenia, głębia ostrości i odbicia, prawdziwe poczucie odległości. RiDepth został stworzony dla Roblox i aktualizuje się w każdej klatce. Zmiany zostaną zastosowane przy następnym uruchomieniu Roblox.</value>
+    <value>Używa RiDepth do dokładniejszych efektów głębi. Zadziała przy następnym uruchomieniu Roblox.</value>
   </data>
   <data name="Ui.Sound.Tab" xml:space="preserve">
     <value>Dźwięk</value>

@@ -7785,7 +7785,7 @@ Voidstrap がデスクトップ フォルダーに書き込めませんでした
     <value>NVIDIA DLSS</value>
   </data>
   <data name="Ui.RiShade.Dlss.Description" xml:space="preserve">
-    <value>RTX グラフィックカードで RenoDX のアドオンを使って NVIDIA DLSS を実行します。初回のダウンロードは約 170 MB です。</value>
+    <value>RTX グラフィックカードで NVIDIA DLSS を使用します。初回のダウンロードは約 170 MB です。</value>
   </data>
   <data name="Ui.RiShade.Dlss.Downloading" xml:space="preserve">
     <value>DLSS のファイルをダウンロードしています。1 分ほどかかる場合があります...</value>
@@ -8038,7 +8038,7 @@ Voidstrap がデスクトップ フォルダーに書き込めませんでした
 ダウンロードサイズは {0} MB です。断った場合は内蔵の推定が使われます。この設定は後で RiShade ページから変更できます。</value>
   </data>
   <data name="Ui.RiShade.DepthModel.RiDepthDescription" xml:space="preserve">
-    <value>アンビエントオクルージョン、被写界深度、反射などの深度エフェクトに本物の距離感を与えます。RiDepth は Roblox 専用に作られ、毎フレーム更新されます。変更は次回 Roblox を起動したときに適用されます。</value>
+    <value>RiDepth を使って奥行き効果をより正確にします。次回 Roblox を起動したときに適用されます。</value>
   </data>
   <data name="Ui.Sound.Tab" xml:space="preserve">
     <value>サウンド</value>

@@ -7770,7 +7770,7 @@ Hiba: {0}</value>
     <value>NVIDIA DLSS</value>
   </data>
   <data name="Ui.RiShade.Dlss.Description" xml:space="preserve">
-    <value>A RenoDX bővítményén keresztül futtatja az NVIDIA DLSS-t RTX videokártyákon. Az első letöltés körülbelül 170 MB.</value>
+    <value>NVIDIA DLSS használata RTX videokártyákon. Az első letöltés körülbelül 170 MB.</value>
   </data>
   <data name="Ui.RiShade.Dlss.Downloading" xml:space="preserve">
     <value>A DLSS fájlok letöltése folyamatban, ez egy percig is eltarthat...</value>
@@ -8023,7 +8023,7 @@ Küldd el ezt a fájlt annak, aki segít neked. A személyes adatokat, például
 A letöltés {0} MB. Ha elutasítod, a beépített becslés lesz használva. Ezt később a RiShade oldalon módosíthatod.</value>
   </data>
   <data name="Ui.RiShade.DepthModel.RiDepthDescription" xml:space="preserve">
-    <value>Valódi távolságérzetet ad a mélységeffekteknek, például a környezeti takarásnak, a mélységélességnek és a tükröződéseknek. A RiDepth a Roblox számára készült, és minden képkockán frissül. A változások a Roblox következő indításakor lépnek életbe.</value>
+    <value>A RiDepth segítségével pontosabbak a mélységeffektek. A Roblox következő indításakor lép életbe.</value>
   </data>
   <data name="Ui.Sound.Tab" xml:space="preserve">
     <value>Hang</value>

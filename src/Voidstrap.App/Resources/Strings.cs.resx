@@ -7772,7 +7772,7 @@ Chyba: {0}</value>
     <value>NVIDIA DLSS</value>
   </data>
   <data name="Ui.RiShade.Dlss.Description" xml:space="preserve">
-    <value>Spouští NVIDIA DLSS pomocí doplňku RenoDX na grafických kartách RTX. První stahování má asi 170 MB.</value>
+    <value>Používá NVIDIA DLSS na grafických kartách RTX. První stažení má asi 170 MB.</value>
   </data>
   <data name="Ui.RiShade.Dlss.Downloading" xml:space="preserve">
     <value>Stahují se soubory DLSS, může to trvat minutu...</value>
@@ -8025,7 +8025,7 @@ Pošlete tento soubor tomu, kdo vám pomáhá. Osobní údaje, jako je uživatel
 Stáhne se {0} MB. Pokud odmítnete, použije se vestavěný odhad. Později to můžete změnit na stránce RiShade.</value>
   </data>
   <data name="Ui.RiShade.DepthModel.RiDepthDescription" xml:space="preserve">
-    <value>Dává efektům hloubky, jako je ambient occlusion, hloubka ostrosti a odrazy, skutečný pocit vzdálenosti. RiDepth je vytvořený pro Roblox a aktualizuje se každý snímek. Změny se projeví při dalším spuštění Roblox.</value>
+    <value>Používá RiDepth pro přesnější efekty hloubky. Projeví se při příštím spuštění Robloxu.</value>
   </data>
   <data name="Ui.Sound.Tab" xml:space="preserve">
     <value>Zvuk</value>

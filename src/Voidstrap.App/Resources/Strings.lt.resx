@@ -7772,7 +7772,7 @@ Klaida: {0}</value>
     <value>NVIDIA DLSS</value>
   </data>
   <data name="Ui.RiShade.Dlss.Description" xml:space="preserve">
-    <value>Paleidžia NVIDIA DLSS per RenoDX priedą RTX vaizdo plokštėse. Pirmas atsisiuntimas yra apie 170 MB.</value>
+    <value>Naudoja NVIDIA DLSS su RTX vaizdo plokštėmis. Pirmas atsisiuntimas yra apie 170 MB.</value>
   </data>
   <data name="Ui.RiShade.Dlss.Downloading" xml:space="preserve">
     <value>Atsisiunčiami DLSS failai, tai gali užtrukti minutę...</value>
@@ -8025,7 +8025,7 @@ Nusiųskite šį failą tam, kas jums padeda. Asmeniniai duomenys, pavyzdžiui, 
 Atsisiunčiama {0} MB. Jei atsisakysite, bus naudojamas įtaisytasis įvertinimas. Tai galėsite pakeisti vėliau RiShade puslapyje.</value>
   </data>
   <data name="Ui.RiShade.DepthModel.RiDepthDescription" xml:space="preserve">
-    <value>Suteikia gylio efektams, tokiems kaip aplinkos užstojimas, lauko gylis ir atspindžiai, tikrą atstumo pojūtį. RiDepth sukurtas Roblox ir atnaujinamas kiekviename kadre. Pakeitimai pritaikomi kitą kartą paleidus Roblox.</value>
+    <value>Naudoja RiDepth tikslesniems gylio efektams. Įsigalioja kitą kartą paleidus Roblox.</value>
   </data>
   <data name="Ui.Sound.Tab" xml:space="preserve">
     <value>Garsas</value>

@@ -7772,7 +7772,7 @@ Fout: {0}</value>
     <value>NVIDIA DLSS</value>
   </data>
   <data name="Ui.RiShade.Dlss.Description" xml:space="preserve">
-    <value>Voert NVIDIA DLSS uit via de add-on van RenoDX op RTX videokaarten. De eerste download is ongeveer 170 MB.</value>
+    <value>Gebruikt NVIDIA DLSS op RTX videokaarten. De eerste download is ongeveer 170 MB.</value>
   </data>
   <data name="Ui.RiShade.Dlss.Downloading" xml:space="preserve">
     <value>De DLSS bestanden worden gedownload, dit kan een minuut duren...</value>
@@ -8025,7 +8025,7 @@ Stuur dat bestand naar degene die je helpt. Persoonlijke gegevens zoals de gebru
 Er wordt {0} MB gedownload. Als je weigert, wordt de ingebouwde schatting gebruikt. Je kunt dit later wijzigen op de RiShade-pagina.</value>
   </data>
   <data name="Ui.RiShade.DepthModel.RiDepthDescription" xml:space="preserve">
-    <value>Geeft diepte-effecten zoals ambient occlusion, scherptediepte en reflecties een echt gevoel van afstand. RiDepth is gemaakt voor Roblox en wordt elk frame bijgewerkt. Wijzigingen gaan in bij de volgende start van Roblox.</value>
+    <value>Gebruikt RiDepth voor nauwkeurigere diepte-effecten. Wordt toegepast wanneer je Roblox de volgende keer start.</value>
   </data>
   <data name="Ui.Sound.Tab" xml:space="preserve">
     <value>Geluid</value>

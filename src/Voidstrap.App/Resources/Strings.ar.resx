@@ -7770,7 +7770,7 @@
     <value>NVIDIA DLSS</value>
   </data>
   <data name="Ui.RiShade.Dlss.Description" xml:space="preserve">
-    <value>يشغّل NVIDIA DLSS عبر إضافة RenoDX على بطاقات رسومات RTX. يبلغ حجم التنزيل الأول نحو 170 ميغابايت.</value>
+    <value>يستخدم NVIDIA DLSS على بطاقات الرسوميات RTX. أول تنزيل حوالي 170 ميغابايت.</value>
   </data>
   <data name="Ui.RiShade.Dlss.Downloading" xml:space="preserve">
     <value>جارٍ تنزيل ملفات DLSS، قد يستغرق ذلك دقيقة...</value>
@@ -8023,7 +8023,7 @@
 حجم التنزيل {0} ميغابايت. إذا رفضت، فسيُستخدم التقدير المدمج. يمكنك تغيير هذا لاحقًا من صفحة RiShade.</value>
   </data>
   <data name="Ui.RiShade.DepthModel.RiDepthDescription" xml:space="preserve">
-    <value>يمنح تأثيرات العمق مثل الإظلال المحيطي وعمق الميدان والانعكاسات إحساسًا حقيقيًا بالمسافة. RiDepth مصمم لـ Roblox ويتحدث في كل إطار. تُطبق التغييرات عند بدء تشغيل Roblox في المرة القادمة.</value>
+    <value>يستخدم RiDepth لتأثيرات عمق أدق. يُطبَّق عند تشغيل Roblox في المرة القادمة.</value>
   </data>
   <data name="Ui.Sound.Tab" xml:space="preserve">
     <value>الصوت</value>

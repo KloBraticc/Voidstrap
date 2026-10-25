@@ -7773,7 +7773,7 @@ Voidstrap نتوانست در پوشهٔ دسکتاپ بنویسد.</value>
     <value>NVIDIA DLSS</value>
   </data>
   <data name="Ui.RiShade.Dlss.Description" xml:space="preserve">
-    <value>NVIDIA DLSS را از طریق افزونهٔ RenoDX روی کارت‌های گرافیک RTX اجرا می‌کند. اولین دانلود حدود ۱۷۰ مگابایت است.</value>
+    <value>از NVIDIA DLSS روی کارت‌های گرافیک RTX استفاده می‌کند. اولین دانلود حدود ۱۷۰ مگابایت است.</value>
   </data>
   <data name="Ui.RiShade.Dlss.Downloading" xml:space="preserve">
     <value>در حال دانلود فایل‌های DLSS، ممکن است یک دقیقه طول بکشد...</value>
@@ -8026,7 +8026,7 @@ Voidstrap نتوانست در پوشهٔ دسکتاپ بنویسد.</value>
 حجم دانلود {0} مگابایت است. اگر رد کنید، تخمین داخلی استفاده می‌شود. می‌توانید بعداً این را در صفحه RiShade تغییر دهید.</value>
   </data>
   <data name="Ui.RiShade.DepthModel.RiDepthDescription" xml:space="preserve">
-    <value>به جلوه‌های عمق مانند انسداد محیطی، عمق میدان و بازتاب‌ها حس واقعی فاصله می‌دهد. RiDepth برای Roblox ساخته شده و در هر فریم به‌روز می‌شود. تغییرات دفعه بعد که Roblox اجرا شود اعمال می‌شوند.</value>
+    <value>از RiDepth برای جلوه‌های عمق دقیق‌تر استفاده می‌کند. دفعه بعد که Roblox اجرا شود اعمال می‌شود.</value>
   </data>
   <data name="Ui.Sound.Tab" xml:space="preserve">
     <value>صدا</value>

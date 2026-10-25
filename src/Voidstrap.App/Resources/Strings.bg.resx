@@ -7771,7 +7771,7 @@ Voidstrap не можа да запише в папката на работни�
     <value>NVIDIA DLSS</value>
   </data>
   <data name="Ui.RiShade.Dlss.Description" xml:space="preserve">
-    <value>Стартира NVIDIA DLSS чрез добавката на RenoDX на графични карти RTX. Първото изтегляне е около 170 MB.</value>
+    <value>Използва NVIDIA DLSS на видеокарти RTX. Първото изтегляне е около 170 MB.</value>
   </data>
   <data name="Ui.RiShade.Dlss.Downloading" xml:space="preserve">
     <value>Изтегляне на файловете за DLSS, това може да отнеме минута...</value>
@@ -8024,7 +8024,7 @@ Voidstrap не можа да запише в папката на работни�
 Изтеглят се {0} MB. Ако откажете, се използва вградената оценка. Можете да промените това по-късно на страницата RiShade.</value>
   </data>
   <data name="Ui.RiShade.DepthModel.RiDepthDescription" xml:space="preserve">
-    <value>Дава на ефектите за дълбочина като ambient occlusion, дълбочина на рязкост и отражения истинско усещане за разстояние. RiDepth е създаден за Roblox и се обновява на всеки кадър. Промените се прилагат при следващото стартиране на Roblox.</value>
+    <value>Използва RiDepth за по-точни ефекти на дълбочина. Прилага се при следващото стартиране на Roblox.</value>
   </data>
   <data name="Ui.Sound.Tab" xml:space="preserve">
     <value>Звук</value>

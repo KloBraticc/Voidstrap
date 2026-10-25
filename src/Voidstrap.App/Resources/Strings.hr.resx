@@ -7770,7 +7770,7 @@ Pogreška: {0}</value>
     <value>NVIDIA DLSS</value>
   </data>
   <data name="Ui.RiShade.Dlss.Description" xml:space="preserve">
-    <value>Pokreće NVIDIA DLSS putem RenoDX dodatka na RTX grafičkim karticama. Prvo preuzimanje ima oko 170 MB.</value>
+    <value>Koristi NVIDIA DLSS na RTX grafičkim karticama. Prvo preuzimanje ima oko 170 MB.</value>
   </data>
   <data name="Ui.RiShade.Dlss.Downloading" xml:space="preserve">
     <value>Preuzimanje DLSS datoteka, to može potrajati minutu...</value>
@@ -8023,7 +8023,7 @@ Pošalji tu datoteku osobi koja ti pomaže. Osobni podaci poput korisničkog ime
 Preuzima se {0} MB. Ako odbiješ, koristi se ugrađena procjena. To možeš promijeniti kasnije na stranici RiShade.</value>
   </data>
   <data name="Ui.RiShade.DepthModel.RiDepthDescription" xml:space="preserve">
-    <value>Daje efektima dubine kao što su ambijentalna okluzija, dubinska oštrina i odrazi pravi osjećaj udaljenosti. RiDepth je napravljen za Roblox i osvježava se u svakom kadru. Promjene se primjenjuju pri sljedećem pokretanju Robloxa.</value>
+    <value>Koristi RiDepth za preciznije efekte dubine. Primjenjuje se pri sljedećem pokretanju Robloxa.</value>
   </data>
   <data name="Ui.Sound.Tab" xml:space="preserve">
     <value>Zvuk</value>

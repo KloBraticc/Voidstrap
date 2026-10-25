@@ -7766,7 +7766,7 @@ Voidstrap เขียนลงในโฟลเดอร์เดสก์ท�
     <value>NVIDIA DLSS</value>
   </data>
   <data name="Ui.RiShade.Dlss.Description" xml:space="preserve">
-    <value>เรียกใช้ NVIDIA DLSS ผ่านส่วนเสริมของ RenoDX บนการ์ดจอ RTX การดาวน์โหลดครั้งแรกมีขนาดประมาณ 170 MB</value>
+    <value>ใช้ NVIDIA DLSS บนการ์ดจอ RTX การดาวน์โหลดครั้งแรกประมาณ 170 MB</value>
   </data>
   <data name="Ui.RiShade.Dlss.Downloading" xml:space="preserve">
     <value>กำลังดาวน์โหลดไฟล์ DLSS อาจใช้เวลาประมาณหนึ่งนาที...</value>
@@ -8019,7 +8019,7 @@ Voidstrap เขียนลงในโฟลเดอร์เดสก์ท�
 ขนาดดาวน์โหลด {0} MB หากคุณปฏิเสธ ระบบจะใช้การประมาณในตัว คุณเปลี่ยนการตั้งค่านี้ภายหลังได้ที่หน้า RiShade</value>
   </data>
   <data name="Ui.RiShade.DepthModel.RiDepthDescription" xml:space="preserve">
-    <value>ทำให้เอฟเฟกต์ความลึก เช่น ambient occlusion ความชัดลึก และการสะท้อน รู้สึกถึงระยะห่างได้จริง RiDepth สร้างมาเพื่อ Roblox และอัปเดตทุกเฟรม การเปลี่ยนแปลงจะมีผลเมื่อเริ่ม Roblox ครั้งถัดไป</value>
+    <value>ใช้ RiDepth เพื่อเอฟเฟกต์ความลึกที่แม่นยำขึ้น มีผลเมื่อเปิด Roblox ครั้งถัดไป</value>
   </data>
   <data name="Ui.Sound.Tab" xml:space="preserve">
     <value>เสียง</value>

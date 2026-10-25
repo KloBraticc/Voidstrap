@@ -7773,7 +7773,7 @@ Kesalahan: {0}</value>
     <value>NVIDIA DLSS</value>
   </data>
   <data name="Ui.RiShade.Dlss.Description" xml:space="preserve">
-    <value>Menjalankan NVIDIA DLSS melalui add-on RenoDX pada kartu grafis RTX. Unduhan pertama sekitar 170 MB.</value>
+    <value>Menggunakan NVIDIA DLSS pada kartu grafis RTX. Unduhan pertama sekitar 170 MB.</value>
   </data>
   <data name="Ui.RiShade.Dlss.Downloading" xml:space="preserve">
     <value>Mengunduh file DLSS, ini bisa memakan waktu satu menit...</value>
@@ -8026,7 +8026,7 @@ Kirim file tersebut kepada orang yang membantu Anda. Data pribadi seperti nama p
 Unduhannya {0} MB. Jika Anda menolak, perkiraan bawaan akan digunakan. Anda dapat mengubahnya nanti di halaman RiShade.</value>
   </data>
   <data name="Ui.RiShade.DepthModel.RiDepthDescription" xml:space="preserve">
-    <value>Memberi efek kedalaman seperti ambient occlusion, depth of field, dan pantulan kesan jarak yang nyata. RiDepth dibuat untuk Roblox dan diperbarui setiap frame. Perubahan berlaku saat Roblox dijalankan berikutnya.</value>
+    <value>Menggunakan RiDepth untuk efek kedalaman yang lebih akurat. Berlaku saat Roblox dijalankan berikutnya.</value>
   </data>
   <data name="Ui.Sound.Tab" xml:space="preserve">
     <value>Suara</value>

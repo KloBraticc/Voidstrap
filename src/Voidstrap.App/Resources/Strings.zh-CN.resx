@@ -7795,7 +7795,7 @@ Voidstrap 无法写入桌面文件夹。</value>
     <value>NVIDIA DLSS</value>
   </data>
   <data name="Ui.RiShade.Dlss.Description" xml:space="preserve">
-    <value>在 RTX 显卡上通过 RenoDX 的附加组件运行 NVIDIA DLSS。首次下载约 170 MB。</value>
+    <value>在 RTX 显卡上使用 NVIDIA DLSS。首次下载约 170 MB。</value>
   </data>
   <data name="Ui.RiShade.Dlss.Downloading" xml:space="preserve">
     <value>正在下载 DLSS 文件，可能需要一分钟...</value>
@@ -8048,7 +8048,7 @@ Voidstrap 无法写入桌面文件夹。</value>
 需要下载 {0} MB。如果您拒绝，将使用内置估算。您可以稍后在 RiShade 页面更改此设置。</value>
   </data>
   <data name="Ui.RiShade.DepthModel.RiDepthDescription" xml:space="preserve">
-    <value>为环境光遮蔽、景深和反射等深度效果带来真实的距离感。RiDepth 专为 Roblox 打造，每一帧都会更新。更改将在下次启动 Roblox 时生效。</value>
+    <value>使用 RiDepth 让深度效果更准确。下次启动 Roblox 时生效。</value>
   </data>
   <data name="Ui.Sound.Tab" xml:space="preserve">
     <value>声音</value>

@@ -7772,7 +7772,7 @@ Virhe: {0}</value>
     <value>NVIDIA DLSS</value>
   </data>
   <data name="Ui.RiShade.Dlss.Description" xml:space="preserve">
-    <value>Käyttää NVIDIA DLSS:ää RenoDX:n lisäosan kautta RTX näytönohjaimilla. Ensimmäinen lataus on noin 170 Mt.</value>
+    <value>Käyttää NVIDIA DLSS:ää RTX näytönohjaimissa. Ensimmäinen lataus on noin 170 Mt.</value>
   </data>
   <data name="Ui.RiShade.Dlss.Downloading" xml:space="preserve">
     <value>Ladataan DLSS tiedostoja, tämä voi kestää minuutin...</value>
@@ -8025,7 +8025,7 @@ Lähetä tiedosto sille, joka auttaa sinua. Henkilötiedot, kuten tietokoneesi k
 Ladattava koko on {0} Mt. Jos kieltäydyt, käytetään sisäänrakennettua arviota. Voit muuttaa tätä myöhemmin RiShade-sivulla.</value>
   </data>
   <data name="Ui.RiShade.DepthModel.RiDepthDescription" xml:space="preserve">
-    <value>Antaa syvyystehosteille, kuten ympäristön varjostukselle, syväterävyydelle ja heijastuksille, todellisen etäisyyden tunnun. RiDepth on tehty Roblox-peleille ja päivittyy joka ruudulla. Muutokset tulevat voimaan, kun Roblox käynnistetään seuraavan kerran.</value>
+    <value>Käyttää RiDepthiä tarkempiin syvyystehosteisiin. Tulee voimaan, kun käynnistät Robloxin seuraavan kerran.</value>
   </data>
   <data name="Ui.Sound.Tab" xml:space="preserve">
     <value>Ääni</value>

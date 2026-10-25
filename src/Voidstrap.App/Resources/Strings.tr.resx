@@ -7769,7 +7769,7 @@ Hata: {0}</value>
     <value>NVIDIA DLSS</value>
   </data>
   <data name="Ui.RiShade.Dlss.Description" xml:space="preserve">
-    <value>RTX ekran kartlarında NVIDIA DLSS'yi RenoDX eklentisi üzerinden çalıştırır. İlk indirme yaklaşık 170 MB'tır.</value>
+    <value>RTX ekran kartlarında NVIDIA DLSS kullanır. İlk indirme yaklaşık 170 MB'tır.</value>
   </data>
   <data name="Ui.RiShade.Dlss.Downloading" xml:space="preserve">
     <value>DLSS dosyaları indiriliyor, bu bir dakika sürebilir...</value>
@@ -8022,7 +8022,7 @@ Bu dosyayı size yardım eden kişiye gönderin. Bilgisayar kullanıcı adınız
 İndirme boyutu {0} MB. Reddederseniz yerleşik tahmin kullanılır. Bunu daha sonra RiShade sayfasından değiştirebilirsiniz.</value>
   </data>
   <data name="Ui.RiShade.DepthModel.RiDepthDescription" xml:space="preserve">
-    <value>Ortam gölgelemesi, alan derinliği ve yansımalar gibi derinlik efektlerine gerçek bir mesafe hissi verir. RiDepth Roblox için yapılmıştır ve her karede güncellenir. Değişiklikler Roblox bir sonraki başlatıldığında uygulanır.</value>
+    <value>Daha doğru derinlik efektleri için RiDepth kullanır. Roblox bir sonraki başlatıldığında uygulanır.</value>
   </data>
   <data name="Ui.Sound.Tab" xml:space="preserve">
     <value>Ses</value>

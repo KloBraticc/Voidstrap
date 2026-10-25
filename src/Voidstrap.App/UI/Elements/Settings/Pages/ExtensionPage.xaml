@@ -132,29 +132,21 @@
                 </Grid>
                 <TextBlock x:Name="RiShadePresetStatus" Margin="0,6,0,0" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
                 <StackPanel x:Name="RiShadeDepthModel" Margin="0,14,0,0">
-                  <Grid>
-                    <Grid.ColumnDefinitions>
-                      <ColumnDefinition Width="*" />
-                      <ColumnDefinition Width="Auto" />
-                    </Grid.ColumnDefinitions>
-                    <StackPanel Margin="0,0,12,0">
-                      <TextBlock Style="{StaticResource DetailLabel}" Text="{resources:Loc Ui_RiShade_DepthModel_Title}" />
+                  <CheckBox x:Name="RiShadeDepthModelToggle" VerticalContentAlignment="Top" Click="RiShadeDepthModel_Click">
+                    <StackPanel>
+                      <TextBlock Style="{StaticResource DetailLabel}" Margin="0" Text="{resources:Loc Ui_RiShade_DepthModel_Title}" />
                       <TextBlock FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_RiShade_DepthModel_RiDepthDescription}" />
                     </StackPanel>
-                    <ui:ToggleSwitch x:Name="RiShadeDepthModelToggle" Grid.Column="1" VerticalAlignment="Center" Click="RiShadeDepthModel_Click" />
-                  </Grid>
+                  </CheckBox>
                   <TextBlock x:Name="RiShadeDepthModelStatus" Margin="0,6,0,0" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Visibility="Collapsed" />
                 </StackPanel>
                 <Grid x:Name="RiShadeDlss" Margin="0,14,0,0">
-                  <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                  </Grid.ColumnDefinitions>
-                  <StackPanel Margin="0,0,12,0">
-                    <TextBlock Style="{StaticResource DetailLabel}" Text="{resources:Loc Ui_RiShade_Dlss_Title}" />
-                    <TextBlock FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_RiShade_Dlss_Description}" />
-                  </StackPanel>
-                  <ui:ToggleSwitch x:Name="RiShadeDlssToggle" Grid.Column="1" VerticalAlignment="Center" Click="RiShadeDlss_Click" />
+                  <CheckBox x:Name="RiShadeDlssToggle" VerticalContentAlignment="Top" Click="RiShadeDlss_Click">
+                    <StackPanel>
+                      <TextBlock Style="{StaticResource DetailLabel}" Margin="0" Text="{resources:Loc Ui_RiShade_Dlss_Title}" />
+                      <TextBlock FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_RiShade_Dlss_Description}" />
+                    </StackPanel>
+                  </CheckBox>
                 </Grid>
                 <TextBlock x:Name="RiShadeDlssStatus" Margin="0,6,0,0" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Visibility="Collapsed" />
               </StackPanel>
