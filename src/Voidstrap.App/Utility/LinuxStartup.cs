@@ -111,6 +111,7 @@ internal static partial class LinuxStartup
 			_supervised = Environment.GetEnvironmentVariable(SupervisedFlag) == "1";
 			_safeMode = DecideSafeMode();
 			RestoreChildEnvironment();
+			PreferXWaylandForFallbackStages();
 			return;
 		}
 		long fontStarted = Stopwatch.GetTimestamp();
@@ -248,6 +249,20 @@ internal static partial class LinuxStartup
 		foreach (string key in new[] { ConfiguredFlag, SupervisedFlag, OwnedKeysFlag })
 		{
 			Environment.SetEnvironmentVariable(key, null);
+		}
+	}
+
+	private static void PreferXWaylandForFallbackStages()
+	{
+		if (_activeStage is not (HardwareGlStage or SoftwareStage)
+			|| string.IsNullOrEmpty(Environment.GetEnvironmentVariable("WAYLAND_DISPLAY"))
+			|| string.IsNullOrEmpty(Environment.GetEnvironmentVariable("DISPLAY")))
+		{
+			return;
+		}
+		if (UnsetNativeEnvironment("WAYLAND_DISPLAY") == 0)
+		{
+			WriteError("Voidstrap draws its own windows through XWayland while it uses the " + (_activeStage == SoftwareStage ? "software" : "OpenGL") + " renderer, because that renderer cannot present to Wayland windows. Roblox still runs on Wayland.");
 		}
 	}
 
