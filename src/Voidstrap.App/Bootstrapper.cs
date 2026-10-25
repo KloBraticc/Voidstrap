@@ -655,15 +655,15 @@ public class Bootstrapper
         bool mutexExists = false;
         try
         {
-            using (Mutex.OpenExisting("Voidstrap-Bootstrapper"))
+            if (Mutex.TryOpenExisting("Voidstrap-Bootstrapper", out Mutex? existing))
             {
-                App.Logger.WriteLine("Bootstrapper::Run", "Voidstrap-Bootstrapper mutex exists, waiting...");
-                SetStatus(Strings.Bootstrapper_Status_WaitingOtherInstances);
-                mutexExists = true;
+                using (existing)
+                {
+                    App.Logger.WriteLine("Bootstrapper::Run", "Voidstrap-Bootstrapper mutex exists, waiting...");
+                    SetStatus(Strings.Bootstrapper_Status_WaitingOtherInstances);
+                    mutexExists = true;
+                }
             }
-        }
-        catch (WaitHandleCannotBeOpenedException)
-        {
         }
         catch (Exception value)
         {
