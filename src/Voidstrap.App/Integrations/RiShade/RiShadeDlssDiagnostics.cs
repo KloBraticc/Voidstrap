@@ -125,10 +125,6 @@ namespace Voidstrap.Integrations.RiShade
                 _evaluating = true;
                 Report("evaluating", "DLSS is evaluating frames, it is working");
             }
-            else if (message.Contains("not loaded yet", StringComparison.Ordinal) || message.Contains("not found", StringComparison.Ordinal))
-            {
-                Report("info:" + message, "DLSS note: " + message);
-            }
             bool failedCall = message.Contains(" hr=0x", StringComparison.Ordinal) && !message.Contains(" hr=0x00000000", StringComparison.Ordinal);
             if (line.Contains("| ERROR", StringComparison.Ordinal) || line.Contains("| WARN", StringComparison.Ordinal) || failedCall)
                 ForwardIssue(line.Contains("| ERROR", StringComparison.Ordinal) || failedCall ? "error" : "warning", message);
