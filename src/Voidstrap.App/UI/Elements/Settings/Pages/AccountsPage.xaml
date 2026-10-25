@@ -8,6 +8,7 @@
     xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls"
     xmlns:platform="clr-namespace:Voidstrap.UI"
     Title="{resources:Loc Accounts_Title}"
+    ui:Breadcrumb.Header="{resources:Loc Accounts_Title}"
     Scrollable="False">
   <FrameworkElement.Resources>
     <ResourceDictionary>
