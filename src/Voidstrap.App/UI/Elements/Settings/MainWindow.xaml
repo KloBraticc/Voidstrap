@@ -335,6 +335,12 @@
     <ui:TitleBar Name="RootTitleBar" Padding="8" Grid.Row="0" Panel.ZIndex="1000" ForceShutdown="False" MinimizeToTray="False" UseSnapLayout="True">
       <ui:TitleBar.Header>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" FlowDirection="LeftToRight" Margin="0,1,0,-1">
+          <Button x:Name="TopNavBack" Style="{StaticResource TopBarIconButtonStyle}" IsEnabled="False" ToolTip="{resources:Loc Menu_FastFlagEditor_Back}" AutomationProperties.Name="{resources:Loc Menu_FastFlagEditor_Back}" Click="TopNavBack_Click">
+            <ui:SymbolIcon Symbol="ArrowLeft16" FontSize="15" />
+          </Button>
+          <Button x:Name="TopNavForward" Style="{StaticResource TopBarIconButtonStyle}" IsEnabled="False" ToolTip="{resources:Loc Ui_Main_Forward}" AutomationProperties.Name="{resources:Loc Ui_Main_Forward}" Margin="0,0,4,0" Click="TopNavForward_Click">
+            <ui:SymbolIcon Symbol="ArrowRight16" FontSize="15" />
+          </Button>
           <Grid Margin="0,0,2,0">
             <Button x:Name="TopSearchButton" Style="{StaticResource TopBarIconButtonStyle}" AutomationProperties.Name="{resources:Loc ContextMenu_GameBrowser_Search}" Click="TopSearchButton_Click">
               <Button.ToolTip>
@@ -362,17 +368,8 @@
         </StackPanel>
       </ui:TitleBar.Header>
     </ui:TitleBar>
-    <StackPanel x:Name="TopNavPanel" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="8,4,0,0" Panel.ZIndex="1001">
-      <Button x:Name="SidebarToggle" Style="{StaticResource TopBarIconButtonStyle}" ToolTip="{resources:Loc Ui_Main_ToggleSidebar}" AutomationProperties.Name="{resources:Loc Ui_Main_ToggleSidebar}" Click="SidebarToggle_Click">
-        <ui:SymbolIcon Symbol="PanelLeft20" FontSize="16" />
-      </Button>
-      <Button x:Name="TopNavBack" Style="{StaticResource TopBarIconButtonStyle}" Margin="4,0,0,0" IsEnabled="False" ToolTip="{resources:Loc Menu_FastFlagEditor_Back}" AutomationProperties.Name="{resources:Loc Menu_FastFlagEditor_Back}" Click="TopNavBack_Click">
-        <ui:SymbolIcon Symbol="ChevronLeft20" FontSize="15" />
-      </Button>
-      <Button x:Name="TopNavForward" Style="{StaticResource TopBarIconButtonStyle}" IsEnabled="False" ToolTip="{resources:Loc Ui_Main_Forward}" AutomationProperties.Name="{resources:Loc Ui_Main_Forward}" Click="TopNavForward_Click">
-        <ui:SymbolIcon Symbol="ChevronRight20" FontSize="15" />
-      </Button>
-      <Button x:Name="AppMenuButton" Margin="10,0,6,0" Style="{StaticResource TopBarButtonStyle}" Click="AppMenuButton_Click">
+    <StackPanel x:Name="TopNavPanel" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="4,1,0,0" Panel.ZIndex="1001">
+      <Button x:Name="AppMenuButton" Margin="0,0,8,0" Style="{StaticResource TopBarButtonStyle}" Click="AppMenuButton_Click">
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
           <TextBlock Text="{resources:Loc Enums_Theme_Voidstrap}" FontSize="13" FontWeight="Normal" VerticalAlignment="Center" />
           <Border Margin="6,1,0,0" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
@@ -406,6 +403,9 @@
             <ui:SymbolIcon Symbol="ChevronDown12" FontSize="10" Foreground="{StaticResource LauncherTextSecondaryBrush}" />
           </Border>
         </StackPanel>
+      </Button>
+      <Button x:Name="SidebarToggle" Style="{StaticResource TopBarIconButtonStyle}" ToolTip="{resources:Loc Ui_Main_ToggleSidebar}" AutomationProperties.Name="{resources:Loc Ui_Main_ToggleSidebar}" Click="SidebarToggle_Click">
+        <ui:SymbolIcon Symbol="PanelLeft20" FontSize="16" />
       </Button>
       <Button x:Name="TopNavHome" Content="{resources:Loc Ui_Main_TabHome}" Style="{StaticResource TopNavButtonStyle}" Click="TopNavHome_Click" />
       <Button x:Name="TopNavLibrary" Content="{resources:Loc Ui_Main_TabLibrary}" Style="{StaticResource TopNavButtonStyle}" Click="TopNavLibrary_Click" />
