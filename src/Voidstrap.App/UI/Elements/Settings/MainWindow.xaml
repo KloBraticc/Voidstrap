@@ -785,8 +785,8 @@
               <TranslateTransform x:Name="PageHeaderShift" />
             </Grid.RenderTransform>
             <StackPanel x:Name="PageTitleHost" Orientation="Horizontal" HorizontalAlignment="Left">
-              <ui:Breadcrumb Name="PageBreadcrumb" Margin="6,0,0,0" FontSize="20" HorizontalAlignment="Left" Icon="Add12" Navigation="{Binding ElementName=RootNavigation}" />
-              <ui:DropDownTitleButton x:Name="HomeTargetButton" Margin="0" Padding="6,2,8,2" ChevronSize="18" ChevronThickness="2.5" Visibility="Collapsed" Text="" ToolTip="Roblox" AutomationProperties.Name="Roblox">
+              <ui:Breadcrumb Name="PageBreadcrumb" Margin="6,0,0,0" FontSize="17" HorizontalAlignment="Left" Icon="Add12" Navigation="{Binding ElementName=RootNavigation}" />
+              <ui:DropDownTitleButton x:Name="HomeTargetButton" Margin="0" Padding="6,2,8,2" ChevronSize="15" ChevronThickness="2.5" Visibility="Collapsed" Text="" ToolTip="Roblox" AutomationProperties.Name="Roblox">
                 <ui:DropDownTitleButton.DropDownMenu>
                   <ContextMenu x:Name="HomeTargetMenu" HasDropShadow="False">
                     <ContextMenu.Template>
