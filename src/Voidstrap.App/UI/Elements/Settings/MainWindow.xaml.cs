@@ -4996,22 +4996,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             RootNavigation.Visibility = Visibility.Visible;
         CubicEase ease = new CubicEase { EasingMode = EasingMode.EaseInOut };
         ease.Freeze();
-        double pageScale = RootFrame.LayoutTransform is ScaleTransform zoom && zoom.ScaleX > 0 ? zoom.ScaleX : 1.0;
-        double shift = to - from;
-        double pageWidth = RootFrame.ActualWidth * pageScale;
-        if (pageWidth > 0 && pageWidth - shift > 0)
-        {
-            RootFrame.Width = (pageWidth - shift) / pageScale;
-            RootFrame.HorizontalAlignment = HorizontalAlignment.Left;
-            PageSurface.ClipToBounds = true;
-            ThicknessAnimation hold = new ThicknessAnimation(new Thickness(shift, 0, 0, 0), new Thickness(0), TimeSpan.FromMilliseconds(220))
-            {
-                EasingFunction = ease,
-                FillBehavior = FillBehavior.Stop
-            };
-            hold.Freeze();
-            RootFrame.BeginAnimation(MarginProperty, hold);
-        }
+        PinPageForSidebarShift(to - from, ease, 220);
         SidebarHost.ClipToBounds = true;
         DoubleAnimation slide = new DoubleAnimation(from, to, TimeSpan.FromMilliseconds(220))
         {
@@ -5046,6 +5031,24 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         SidebarHost.BeginAnimation(WidthProperty, null);
         SidebarHost.ClipToBounds = false;
         ReleasePinnedPage();
+    }
+
+    private void PinPageForSidebarShift(double shift, IEasingFunction ease, int durationMs)
+    {
+        double pageScale = RootFrame.LayoutTransform is ScaleTransform zoom && zoom.ScaleX > 0 ? zoom.ScaleX : 1.0;
+        double pageWidth = RootFrame.ActualWidth * pageScale;
+        if (pageWidth <= 0 || pageWidth - shift <= 0)
+            return;
+        RootFrame.Width = (pageWidth - shift) / pageScale;
+        RootFrame.HorizontalAlignment = HorizontalAlignment.Left;
+        PageSurface.ClipToBounds = true;
+        ThicknessAnimation hold = new ThicknessAnimation(new Thickness(shift, 0, 0, 0), new Thickness(0), TimeSpan.FromMilliseconds(durationMs))
+        {
+            EasingFunction = ease,
+            FillBehavior = FillBehavior.Stop
+        };
+        hold.Freeze();
+        RootFrame.BeginAnimation(MarginProperty, hold);
     }
 
     private void ReleasePinnedPage()
@@ -5097,12 +5100,16 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         AnimatePageHeader(to > from ? -18.0 : 18.0);
         if (Math.Abs(to - from) > 1.0)
         {
-            DoubleAnimation slide = new DoubleAnimation(from, to, TimeSpan.FromMilliseconds(180))
+            QuinticEase ease = new QuinticEase { EasingMode = EasingMode.EaseInOut };
+            ease.Freeze();
+            DoubleAnimation slide = new DoubleAnimation(from, to, TimeSpan.FromMilliseconds(260))
             {
-                EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut },
+                EasingFunction = ease,
                 FillBehavior = FillBehavior.Stop
             };
             slide.Completed += SidebarToggleAnimation_Completed;
+            ReleasePinnedPage();
+            PinPageForSidebarShift(to - from, ease, 260);
             RootNavigation.Tag = "full";
             RootNavigation.BeginAnimation(WidthProperty, slide);
         }
@@ -5115,6 +5122,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void SidebarToggleAnimation_Completed(object? sender, EventArgs e)
     {
+        ReleasePinnedPage();
         if (RootNavigation == null)
             return;
         ApplySidebarWidth(_sidebarIconMode == true ? Math.Max(SidebarIconThreshold, _sidebarExpandedWidth) : SidebarCollapsedWidth);
