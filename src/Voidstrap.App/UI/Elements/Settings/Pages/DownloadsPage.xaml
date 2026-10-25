@@ -12,22 +12,35 @@
         <ResourceDictionary>
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
 
-            <Style x:Key="PosterCardStyle" TargetType="{x:Type Border}">
-                <Setter Property="Height" Value="230" />
-                <Setter Property="CornerRadius" Value="12" />
-                <Setter Property="BorderThickness" Value="2" />
-                <Setter Property="BorderBrush" Value="Transparent" />
-                <Setter Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
+            <Style x:Key="InstallRowStyle" TargetType="{x:Type Border}">
+                <Setter Property="MinHeight" Value="68" />
+                <Setter Property="Padding" Value="12,10,12,10" />
+                <Setter Property="Margin" Value="0,0,0,6" />
+                <Setter Property="CornerRadius" Value="8" />
+                <Setter Property="BorderThickness" Value="1" />
+                <Setter Property="BorderBrush" Value="{DynamicResource ControlElevationBorderBrush}" />
+                <Setter Property="Background" Value="{DynamicResource ControlFillColorDefaultBrush}" />
                 <Setter Property="Cursor" Value="Hand" />
                 <Setter Property="SnapsToDevicePixels" Value="True" />
                 <Style.Triggers>
                     <Trigger Property="IsMouseOver" Value="True">
-                        <Setter Property="BorderBrush" Value="{DynamicResource ControlStrongStrokeColorDefaultBrush}" />
+                        <Setter Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
                     </Trigger>
                     <DataTrigger Binding="{Binding IsSelected}" Value="True">
                         <Setter Property="BorderBrush" Value="{DynamicResource AccentFillColorDefaultBrush}" />
+                        <Setter Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
                     </DataTrigger>
                 </Style.Triggers>
+            </Style>
+
+            <Style x:Key="InstallPillStyle" TargetType="{x:Type Border}">
+                <Setter Property="Padding" Value="8,3" />
+                <Setter Property="Margin" Value="10,0,0,0" />
+                <Setter Property="CornerRadius" Value="10" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
+                <Setter Property="BorderBrush" Value="{DynamicResource ControlStrokeColorDefaultBrush}" />
+                <Setter Property="BorderThickness" Value="1" />
             </Style>
 
             <Style x:Key="PosterActionStyle" TargetType="{x:Type ui:Button}" BasedOn="{StaticResource {x:Type ui:Button}}">
@@ -66,15 +79,22 @@
             </Style>
 
             <DataTemplate x:Key="PosterCardTemplate">
-                <StackPanel Margin="0,0,16,18">
-                    <Border Style="{StaticResource PosterCardStyle}" ToolTip="{Binding Subtitle}">
-                        <Border.InputBindings>
-                            <MouseBinding MouseAction="LeftClick" Command="{Binding SelectCommand}" />
-                        </Border.InputBindings>
-                        <Grid>
-                            <Border CornerRadius="10" Margin="1">
+                <Border Style="{StaticResource InstallRowStyle}" ToolTip="{Binding Subtitle}">
+                    <Border.InputBindings>
+                        <MouseBinding MouseAction="LeftClick" Command="{Binding SelectCommand}" />
+                    </Border.InputBindings>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <Grid Grid.Column="0" Width="44" Height="44" VerticalAlignment="Center">
+                            <Border CornerRadius="8">
                                 <Border.Style>
                                     <Style TargetType="Border">
+                                        <Setter Property="Background" Value="{DynamicResource ControlFillColorSecondaryBrush}" />
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding IsVng}" Value="True">
                                                 <Setter Property="Background" Value="#335FFF" />
@@ -83,41 +103,39 @@
                                     </Style>
                                 </Border.Style>
                             </Border>
-                            <Border CornerRadius="10" Margin="1" ClipToBounds="True">
+                            <Border CornerRadius="8" ClipToBounds="True">
                                 <Border.Background>
                                     <ImageBrush ImageSource="{Binding IconImage}" Stretch="UniformToFill" />
                                 </Border.Background>
                                 <Image Source="{Binding IconImage}" Stretch="UniformToFill" Visibility="{x:Static fx:PlatformFeatureVisibility.PortableImages}" />
                             </Border>
-                            <Border HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Padding="7,2" CornerRadius="6" Background="#CC1E1E24" Visibility="{Binding IsInstalled, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                <StackPanel Orientation="Horizontal">
-                                    <ui:SymbolIcon Symbol="CheckmarkCircle16" FontSize="12" Foreground="{DynamicResource SystemFillColorSuccessBrush}" VerticalAlignment="Center" />
-                                    <TextBlock Text="{resources:Loc Ui_Pages_Installed}" FontSize="11" Foreground="White" Margin="4,0,0,0" VerticalAlignment="Center" />
-                                </StackPanel>
-                            </Border>
-                            <Border HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10" Padding="7,2" CornerRadius="6" Background="#CC1E1E24" Visibility="{Binding UpdateAvailable, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                <StackPanel Orientation="Horizontal">
-                                    <ui:SymbolIcon Symbol="ArrowSync16" FontSize="12" Foreground="{DynamicResource AccentFillColorDefaultBrush}" VerticalAlignment="Center" />
-                                    <TextBlock Text="{resources:Loc Ui_Pages_Update}" FontSize="11" Foreground="White" Margin="4,0,0,0" VerticalAlignment="Center" />
-                                </StackPanel>
-                            </Border>
-                            <Border VerticalAlignment="Bottom" Margin="1" Padding="10,8" CornerRadius="0,0,10,10" Background="#CC1E1E24" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                <StackPanel>
-                                    <TextBlock Text="{Binding ProgressDetail}" FontSize="10" Foreground="White" Opacity="0.85" TextTrimming="CharacterEllipsis" />
-                                    <ProgressBar Height="4" Margin="0,4,0,0" Minimum="0" Maximum="100" Value="{Binding Progress, Mode=OneWay}" />
-                                </StackPanel>
-                            </Border>
                         </Grid>
-                    </Border>
-                    <Grid Margin="4,8,0,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="Auto" />
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Grid.Column="0" FontSize="15" FontWeight="SemiBold" VerticalAlignment="Center" Text="{Binding Title}" TextTrimming="CharacterEllipsis" ToolTip="{Binding Title}" />
-                        <ui:Button Grid.Column="1" Style="{StaticResource PosterActionStyle}" Icon="ArrowDownload24" ToolTip="{Binding PrimaryButtonText}" IsEnabled="{Binding CanPrimary}" Command="{Binding InstallCommand}" />
+                        <StackPanel Grid.Column="1" Margin="14,0,0,0" VerticalAlignment="Center">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" Text="{Binding Title}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
+                                <Border Style="{StaticResource InstallPillStyle}" Visibility="{Binding IsInstalled, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <ui:SymbolIcon Symbol="CheckmarkCircle16" FontSize="12" Foreground="{DynamicResource SystemFillColorSuccessBrush}" VerticalAlignment="Center" />
+                                        <TextBlock Text="{resources:Loc Ui_Pages_Installed}" FontSize="11" Margin="4,0,0,0" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                                    </StackPanel>
+                                </Border>
+                                <Border Style="{StaticResource InstallPillStyle}" Visibility="{Binding UpdateAvailable, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <ui:SymbolIcon Symbol="ArrowSync16" FontSize="12" Foreground="{DynamicResource AccentFillColorDefaultBrush}" VerticalAlignment="Center" />
+                                        <TextBlock Text="{resources:Loc Ui_Pages_Update}" FontSize="11" Margin="4,0,0,0" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                                    </StackPanel>
+                                </Border>
+                            </StackPanel>
+                            <TextBlock Margin="0,3,0,0" FontSize="12" Text="{Binding Subtitle}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                            <StackPanel Margin="0,6,0,0" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <ProgressBar Height="3" Minimum="0" Maximum="100" Value="{Binding Progress, Mode=OneWay}" />
+                                <TextBlock Margin="0,4,0,0" FontSize="11" Text="{Binding ProgressDetail}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                            </StackPanel>
+                        </StackPanel>
+                        <TextBlock Grid.Column="2" Margin="12,0" MaxWidth="160" VerticalAlignment="Center" FontSize="12" Text="{Binding VersionText}" TextTrimming="CharacterEllipsis" ToolTip="{Binding VersionText}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                        <ui:Button Grid.Column="3" MinWidth="96" VerticalAlignment="Center" Appearance="Secondary" Icon="ArrowDownload24" Content="{Binding PrimaryButtonText}" IsEnabled="{Binding CanPrimary}" Command="{Binding InstallCommand}" />
                     </Grid>
-                </StackPanel>
+                </Border>
             </DataTemplate>
         </ResourceDictionary>
     </FrameworkElement.Resources>
@@ -167,7 +185,7 @@
                         <ItemsControl x:Name="RobloxItems" ItemsSource="{Binding Items}" ItemTemplate="{StaticResource PosterCardTemplate}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <UniformGrid Columns="{Binding RobloxColumns, RelativeSource={RelativeSource AncestorType=pages:DownloadsPage}}" />
+                                    <StackPanel />
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>
@@ -187,7 +205,7 @@
                         <ItemsControl x:Name="ClassicItems" ItemsSource="{Binding ClientItems}" ItemTemplate="{StaticResource PosterCardTemplate}">
                             <ItemsControl.ItemsPanel>
                                 <ItemsPanelTemplate>
-                                    <UniformGrid Columns="{Binding ClassicColumns, RelativeSource={RelativeSource AncestorType=pages:DownloadsPage}}" />
+                                    <StackPanel />
                                 </ItemsPanelTemplate>
                             </ItemsControl.ItemsPanel>
                         </ItemsControl>
