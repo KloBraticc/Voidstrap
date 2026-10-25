@@ -339,7 +339,7 @@
       </Control.Background>
     </ui:Snackbar>
     <ui:Snackbar Name="SettingFailureSnackbar" Title="{resources:Loc Ui_Main_SettingNotChanged}" Grid.RowSpan="10" Margin="180,0,180,20" Panel.ZIndex="11" Icon="ErrorCircle24" Timeout="5000" />
-    <ui:TitleBar Name="RootTitleBar" MinHeight="44" Padding="8" Grid.Row="0" Panel.ZIndex="1000" ForceShutdown="False" MinimizeToTray="False" UseSnapLayout="True">
+    <ui:TitleBar Name="RootTitleBar" MinHeight="40" Padding="8" Grid.Row="0" Panel.ZIndex="1000" ForceShutdown="False" MinimizeToTray="False" UseSnapLayout="True">
       <ui:TitleBar.Header>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" FlowDirection="LeftToRight" Margin="0,1,0,-1">
           <Button x:Name="TopNavBack" Style="{StaticResource TopBarIconButtonStyle}" IsEnabled="False" ToolTip="{resources:Loc Menu_FastFlagEditor_Back}" AutomationProperties.Name="{resources:Loc Menu_FastFlagEditor_Back}" Click="TopNavBack_Click">
@@ -377,7 +377,7 @@
     </ui:TitleBar>
     <StackPanel x:Name="TopNavPanel" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" Panel.ZIndex="1001">
       <Button x:Name="AppMenuButton" Style="{StaticResource TopBarIconButtonStyle}" Margin="0,0,2,0" ToolTip="{resources:Loc Ui_Nav_More}" AutomationProperties.Name="{resources:Loc Ui_Nav_More}" Click="AppMenuButton_Click">
-        <Viewbox Width="16" Height="16"><Canvas Width="24" Height="24"><Path Style="{StaticResource TopBarLineIcon}" Data="M4 6h16 M4 12h16 M4 18h16" /></Canvas></Viewbox>
+        <Viewbox Width="16" Height="16"><Canvas Width="24" Height="24"><Path Style="{StaticResource TopBarLineIcon}" Data="M4 6h16 M4 12h11 M4 18h7" /></Canvas></Viewbox>
       </Button>
       <Button x:Name="SidebarToggle" Style="{StaticResource TopBarIconButtonStyle}" ToolTip="{resources:Loc Ui_Main_ToggleSidebar}" AutomationProperties.Name="{resources:Loc Ui_Main_ToggleSidebar}" Click="SidebarToggle_Click">
         <Viewbox Width="16" Height="16"><Canvas Width="24" Height="24"><Path Style="{StaticResource TopBarLineIcon}" Data="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2H5a2 2 0 0 1 -2 -2V5a2 2 0 0 1 2 -2z M9 3v18" /></Canvas></Viewbox>
