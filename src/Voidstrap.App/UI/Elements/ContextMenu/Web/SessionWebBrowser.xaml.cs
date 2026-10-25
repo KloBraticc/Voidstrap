@@ -1206,7 +1206,7 @@ public partial class SessionWebBrowser : Window
         _ = SaveSessionAsync(false);
         _closed = true;
         CloseFloatingParts();
-        StopChrome();
+        ReleaseChrome();
         Loaded -= OnLoaded;
         Closed -= OnClosed;
         ViewHost.IsVisibleChanged -= OnHostVisibleChanged;

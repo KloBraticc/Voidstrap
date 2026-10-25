@@ -54,15 +54,11 @@ public partial class SessionWebBrowser
     private void InitializeChrome()
     {
         _zenTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(350) };
-        _zenTimer.Tick += (_, _) => TuckChromeIfIdle();
+        _zenTimer.Tick += ZenTimer_Tick;
         _toastTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1.8) };
-        _toastTimer.Tick += (_, _) =>
-        {
-            _toastTimer.Stop();
-            ToastPopup.IsOpen = false;
-        };
+        _toastTimer.Tick += ToastTimer_Tick;
         _clockTimer = new DispatcherTimer(DispatcherPriority.Background) { Interval = TimeSpan.FromSeconds(15) };
-        _clockTimer.Tick += (_, _) => NewTabClock.Text = DateTime.Now.ToString("t");
+        _clockTimer.Tick += ClockTimer_Tick;
         foreach (ItemsControl host in new ItemsControl[] { TabStrip, TabList })
         {
             host.MouseMove += TabHost_MouseMove;
@@ -73,12 +69,36 @@ public partial class SessionWebBrowser
         ApplyLayout();
     }
 
+    private void ZenTimer_Tick(object? sender, EventArgs e) => TuckChromeIfIdle();
+
+    private void ToastTimer_Tick(object? sender, EventArgs e)
+    {
+        _toastTimer?.Stop();
+        ToastPopup.IsOpen = false;
+    }
+
+    private void ClockTimer_Tick(object? sender, EventArgs e) => NewTabClock.Text = DateTime.Now.ToString("t");
+
     private void StopChrome()
     {
         _zenTimer?.Stop();
         _toastTimer?.Stop();
         _clockTimer?.Stop();
         StopOmnibox();
+    }
+
+    private void ReleaseChrome()
+    {
+        StopChrome();
+        if (_zenTimer != null)
+            _zenTimer.Tick -= ZenTimer_Tick;
+        if (_toastTimer != null)
+            _toastTimer.Tick -= ToastTimer_Tick;
+        if (_clockTimer != null)
+            _clockTimer.Tick -= ClockTimer_Tick;
+        _zenTimer = null;
+        _toastTimer = null;
+        _clockTimer = null;
     }
 
     // Popups float in their own little windows, so they are closed whenever the panel goes away
