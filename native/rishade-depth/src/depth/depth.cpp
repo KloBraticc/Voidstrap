@@ -872,7 +872,7 @@ void Refine(uint3 id : SV_DispatchThreadID)
     float current = Encoded(lerp(fitted, snapped / max(snappedWeights, 1e-6), edge));
     float previous = Depth[id.xy];
     float change = abs(current - previous) / max(max(current, previous), 1e-4);
-    Depth[id.xy] = Flags & Exact ? Warped.Load(int3(p, 0)).x : lerp(previous, current, saturate(TemporalBase + change * TemporalResponse));
+    Depth[id.xy] = Flags & Exact ? current : lerp(previous, current, saturate(TemporalBase + change * TemporalResponse));
 }
 )";
 
