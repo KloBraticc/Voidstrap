@@ -789,7 +789,7 @@ namespace Voidstrap.Integrations.Overlays
                 BufferCount = 4,
                 Scaling = Scaling.Stretch,
                 SwapEffect = SwapEffect.FlipDiscard,
-                AlphaMode = Vortice.DXGI.AlphaMode.Premultiplied,
+                AlphaMode = Vortice.DXGI.AlphaMode.Ignore,
                 Flags = _swapChainFlags,
             };
 
