@@ -304,10 +304,10 @@ static const float RefineColor = 0.08;
 static const float RefineEdgeStart = 0.15;
 static const float RefineEdgeRange = 0.15;
 static const float RefineSurfaceSigma = 0.05;
-static const int PlaneRadius = 3;
-static const int PlaneStride = 3;
+static const int PlaneRadius = 4;
+static const int PlaneStride = 5;
 static const float PlaneColor = 0.12;
-static const float PlaneAgree = 0.015;
+static const float PlaneAgree = 0.025;
 static const float PlaneSeedAgree = 0.03;
 static const float FocusHold = 0.92;
 static const float FocusStillStart = 0.008;
@@ -322,7 +322,7 @@ static const float FocusSceneRange = 0.008;
 
 groupshared uint FocusMovedCount;
 static const float PlaneGate = 0.3;
-static const float PlaneResidualSigma = 0.02;
+static const float PlaneResidualSigma = 0.04;
 static const float LinearFar = 1000.0;
 static const float StaleStart = 0.04;
 static const float StaleRange = 0.06;
@@ -807,13 +807,13 @@ bool SolvePlane(float3x3 m, float3 b, out float3 plane)
 
 float FitSurface(int2 p, int2 size, float centre, float3 tone, float fallback)
 {
-    float samples[49];
-    float2 offsets[49];
-    float spatial[49];
-    float tones[49];
-    for (uint k = 0; k < 49; ++k)
+    float samples[81];
+    float2 offsets[81];
+    float spatial[81];
+    float tones[81];
+    for (uint k = 0; k < 81; ++k)
     {
-        int2 cell = int2(k % 7, k / 7) - PlaneRadius;
+        int2 cell = int2(k % 9, k / 9) - PlaneRadius;
         int2 q = clamp(p + cell * PlaneStride, 0, size - 1);
         samples[k] = Linear(Warped.Load(int3(q, 0)).x);
         offsets[k] = float2(cell);
@@ -826,7 +826,7 @@ float FitSurface(int2 p, int2 size, float centre, float3 tone, float fallback)
     {
         float3x3 m = 0;
         float3 b = 0;
-        for (uint j = 0; j < 49; ++j)
+        for (uint j = 0; j < 81; ++j)
         {
             float predicted = iteration == 0 ? centre : plane.x + plane.y * offsets[j].x + plane.z * offsets[j].y;
             float relative = (samples[j] - predicted) / max(predicted, 1e-6);
