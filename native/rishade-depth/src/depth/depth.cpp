@@ -908,7 +908,7 @@ bool RefinePixel(uint3 id)
         }
         float colorStill = 1 - saturate((motion - FocusStillStart) / FocusStillRange);
         float depthStill = 1 - saturate((change - FocusDepthStart) / FocusDepthRange);
-        float moving = FocusMotion.Load(4 * (Padding.x ^ 1)) / float(SourceSize.x * SourceSize.y);
+        float moving = FocusMotion.Load(16 * (Padding.x ^ 1)) / float(SourceSize.x * SourceSize.y);
         float sceneStill = 1 - saturate((moving - FocusSceneStart) / FocusSceneRange);
         float stillness = history < 0 ? 0 : colorStill * depthStill * sceneStill;
         Depth[id.xy] = lerp(current, previous, FocusHold * stillness);
@@ -928,7 +928,7 @@ void Refine(uint3 id : SV_DispatchThreadID, uint index : SV_GroupIndex)
         InterlockedAdd(FocusMovedCount, 1);
     GroupMemoryBarrierWithGroupSync();
     if (index == 0 && (Flags & Exact) && FocusMovedCount > 0)
-        FocusMotion.InterlockedAdd(4 * Padding.x, FocusMovedCount);
+        FocusMotion.InterlockedAdd(16 * Padding.x, FocusMovedCount);
 }
 )";
 
@@ -1714,7 +1714,7 @@ void CreateCommon()
     winrt::check_hresult(g.device->CreateUnorderedAccessView(d.affine.get(), nullptr, d.affineTarget.put()));
     winrt::check_hresult(g.device->CreateShaderResourceView(d.affine.get(), nullptr, d.affineView.put()));
     D3D11_BUFFER_DESC motion{};
-    motion.ByteWidth = 16;
+    motion.ByteWidth = 32;
     motion.Usage = D3D11_USAGE_DEFAULT;
     motion.BindFlags = D3D11_BIND_UNORDERED_ACCESS;
     motion.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_ALLOW_RAW_VIEWS;
@@ -1722,13 +1722,13 @@ void CreateCommon()
     D3D11_UNORDERED_ACCESS_VIEW_DESC motionView{};
     motionView.Format = DXGI_FORMAT_R32_TYPELESS;
     motionView.ViewDimension = D3D11_UAV_DIMENSION_BUFFER;
-    motionView.Buffer.NumElements = 4;
+    motionView.Buffer.NumElements = 8;
     motionView.Buffer.Flags = D3D11_BUFFER_UAV_FLAG_RAW;
     winrt::check_hresult(g.device->CreateUnorderedAccessView(d.focusMotion.get(), &motionView, d.focusMotionTarget.put()));
     for (UINT i = 0; i < 2; ++i)
     {
-        motionView.Buffer.FirstElement = i;
-        motionView.Buffer.NumElements = 1;
+        motionView.Buffer.FirstElement = i * 4;
+        motionView.Buffer.NumElements = 4;
         winrt::check_hresult(g.device->CreateUnorderedAccessView(d.focusMotion.get(), &motionView, d.focusMotionSlots[i].put()));
     }
     const UINT zero[4] = {};
