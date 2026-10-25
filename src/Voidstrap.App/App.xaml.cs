@@ -869,7 +869,6 @@ public partial class App : Application
 		if (cli)
 			Cli.AttachTerminal();
 		LaunchSettings = new LaunchSettings(cli ? [] : args);
-		Voidstrap.Integrations.Overlays.GraphicsPrewarm.StartIfUseful();
 		if (OperatingSystem.IsWindows() && LaunchSettings.MenuFlag.Active && Voidstrap.UI.TaskbarJumpList.TryForwardToOpenWindow(LaunchSettings.MenuFlag.Data))
 		{
 			Shutdown(0);
