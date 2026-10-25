@@ -455,6 +455,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private AccountsPage? _accountsPage;
 
+    private Voidstrap.UI.SettingsIconMotion? _settingsIconMotion;
+
     private Pages.RobloxNewsPage? _robloxNewsPage;
 
     private static readonly int ProcessorCount = Environment.ProcessorCount;
@@ -3709,6 +3711,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         AddHandler(System.Windows.Controls.Primitives.Selector.SelectionChangedEvent, new System.Windows.Controls.SelectionChangedEventHandler(OnRpcTabSelectionChanged), true);
         Closed += MainWindow_ClosedRpc;
         Voidstrap.Utility.SavedAccounts.Changed += OnSavedAccountsChanged;
+        _settingsIconMotion = new Voidstrap.UI.SettingsIconMotion(SettingsNavItem);
         _ = RefreshAccountButtonAsync();
         Voidstrap.UI.Elements.Settings.Pages.ExtensionViewModel.AnyProgressChanged += OnExtensionProgressChanged;
         _ = CheckForNewNewsAsync();
@@ -3854,6 +3857,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         RemoveHandler(System.Windows.Controls.Primitives.Selector.SelectionChangedEvent, new System.Windows.Controls.SelectionChangedEventHandler(OnRpcTabSelectionChanged));
         Closed -= MainWindow_ClosedRpc;
         Voidstrap.Utility.SavedAccounts.Changed -= OnSavedAccountsChanged;
+        _settingsIconMotion?.Dispose();
+        _settingsIconMotion = null;
         _accountsPage?.Release();
     }
 
