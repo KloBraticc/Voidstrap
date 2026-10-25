@@ -1056,6 +1056,16 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             PageBreadcrumb.Icon = navigationItem.Icon;
         }
+        AnimatePageHeader(18.0);
+    }
+
+    private void AnimatePageHeader(double fromX)
+    {
+        if (BreadcrumbPanel == null || PageHeaderShift == null)
+            return;
+        CubicEase ease = new CubicEase { EasingMode = EasingMode.EaseOut };
+        PageHeaderShift.BeginAnimation(TranslateTransform.XProperty, new DoubleAnimation(fromX, 0.0, TimeSpan.FromMilliseconds(280)) { EasingFunction = ease });
+        BreadcrumbPanel.BeginAnimation(OpacityProperty, new DoubleAnimation(0.0, 1.0, TimeSpan.FromMilliseconds(240)) { EasingFunction = ease });
     }
 
     internal void RefreshGlobalSearchBoxVisibility()
@@ -5044,11 +5054,13 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         if (RootFrame.Content is LibraryPage libraryPage)
         {
             libraryPage.ToggleSidebar();
+            AnimatePageHeader(-14.0);
             return;
         }
         if (RootFrame.Content is PrivateServersPage privateServersPage)
         {
             privateServersPage.ToggleSidebar();
+            AnimatePageHeader(-14.0);
             return;
         }
         if (RootNavigation == null)
@@ -5067,6 +5079,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         RootNavigation.BeginAnimation(WidthProperty, null);
         double from = double.IsNaN(RootNavigation.Width) ? SidebarDefaultWidth : RootNavigation.Width;
         double to = _sidebarIconMode == true ? Math.Max(SidebarIconThreshold, _sidebarExpandedWidth) : SidebarCollapsedWidth;
+        AnimatePageHeader(to > from ? -18.0 : 18.0);
         if (Math.Abs(to - from) > 1.0)
         {
             DoubleAnimation slide = new DoubleAnimation(from, to, TimeSpan.FromMilliseconds(180))
