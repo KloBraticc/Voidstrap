@@ -1043,7 +1043,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         RefreshGlobalSearchBoxVisibility();
         if (BreadcrumbPanel != null)
         {
-            BreadcrumbPanel.Visibility = content is LibraryPage or PrivateServersPage or AccountsPage ? Visibility.Collapsed : Visibility.Visible;
+            BreadcrumbPanel.Visibility = content is LibraryPage or PrivateServersPage ? Visibility.Collapsed : Visibility.Visible;
         }
         bool hasOwnSidebar = content is LibraryPage or PrivateServersPage or AccountsPage;
         SetRootNavigationShown(!hasOwnSidebar);

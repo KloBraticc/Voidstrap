@@ -7927,7 +7927,7 @@ It downloads {0} MB. If you decline, the built in estimate is used. You can chan
     <value>This preset could not be selected.</value>
   </data>
   <data name="Accounts.Title" xml:space="preserve">
-    <value>Account manager</value>
+    <value>Account management</value>
   </data>
   <data name="Accounts.SignIn.Title" xml:space="preserve">
     <value>Sign in to Roblox</value>
