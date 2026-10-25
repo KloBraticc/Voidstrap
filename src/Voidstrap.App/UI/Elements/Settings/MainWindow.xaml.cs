@@ -697,6 +697,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             PreviewMouseMove += OnLinuxGradientMouseMove;
             MouseLeave += RootGrid_MouseLeave;
         }
+        else if (Voidstrap.UI.LinuxUiPerformance.ReducedMotion)
+        {
+            RootNavigation.TransitionDuration = 0;
+        }
         CommandPaletteResultsList.ItemsSource = _commandPaletteRows;
         PrepareLinuxRestartNotificationInput();
         SoberNavItem.Visibility = IsSidebarItemAvailable("SoberNavItem") ? Visibility.Visible : Visibility.Collapsed;

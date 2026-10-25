@@ -24,7 +24,7 @@ internal static class LinuxUiPerformance
 	private static long _lastDispatchTick;
 	private static int _reportedStalls;
 
-	internal static bool ReducedMotion => OperatingSystem.IsLinux() && (_reducedMotion || LinuxStartup.ActiveStage == "software");
+	internal static bool ReducedMotion => Voidstrap.Utility.RenderAcceleration.RendersInSoftware || OperatingSystem.IsLinux() && (_reducedMotion || LinuxStartup.ActiveStage == "software");
 
 	internal static event EventHandler? ReducedMotionChanged;
 
