@@ -15,7 +15,7 @@
       <SolidColorBrush x:Key="LauncherTextSecondaryBrush" Color="#FFB4B4B4" />
       <SolidColorBrush x:Key="LauncherTextTertiaryBrush" Color="#FF7C7C7C" />
       <Style x:Key="TopBarButtonStyle" TargetType="Button">
-        <Setter Property="Height" Value="28" />
+        <Setter Property="Height" Value="32" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="BorderThickness" Value="1" />
@@ -47,14 +47,21 @@
         </Setter>
       </Style>
       <Style x:Key="TopBarIconButtonStyle" TargetType="Button" BasedOn="{StaticResource TopBarButtonStyle}">
-        <Setter Property="Width" Value="28" />
+        <Setter Property="Width" Value="32" />
         <Setter Property="Padding" Value="0" />
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Foreground" Value="#FFB4B4B4" />
       </Style>
+      <Style x:Key="TopBarLineIcon" TargetType="{x:Type Path}">
+        <Setter Property="StrokeThickness" Value="1.75" />
+        <Setter Property="StrokeLineJoin" Value="Round" />
+        <Setter Property="StrokeStartLineCap" Value="Round" />
+        <Setter Property="StrokeEndLineCap" Value="Round" />
+        <Setter Property="Stroke" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Control}}" />
+      </Style>
       <Style x:Key="TopSearchBoxButtonStyle" TargetType="Button">
-        <Setter Property="Width" Value="240" />
-        <Setter Property="Height" Value="30" />
+        <Setter Property="Width" Value="260" />
+        <Setter Property="Height" Value="32" />
         <Setter Property="Padding" Value="11,0,10,0" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="Background" Value="#0DFFFFFF" />
@@ -363,14 +370,14 @@
       </Control.Background>
     </ui:Snackbar>
     <ui:Snackbar Name="SettingFailureSnackbar" Title="{resources:Loc Ui_Main_SettingNotChanged}" Grid.RowSpan="10" Margin="180,0,180,20" Panel.ZIndex="11" Icon="ErrorCircle24" Timeout="5000" />
-    <ui:TitleBar Name="RootTitleBar" Padding="8" Grid.Row="0" Panel.ZIndex="1000" ForceShutdown="False" MinimizeToTray="False" UseSnapLayout="True">
+    <ui:TitleBar Name="RootTitleBar" MinHeight="44" Padding="8" Grid.Row="0" Panel.ZIndex="1000" ForceShutdown="False" MinimizeToTray="False" UseSnapLayout="True">
       <ui:TitleBar.Header>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" FlowDirection="LeftToRight" Margin="0,1,0,-1">
           <Button x:Name="TopNavBack" Style="{StaticResource TopBarIconButtonStyle}" IsEnabled="False" ToolTip="{resources:Loc Menu_FastFlagEditor_Back}" AutomationProperties.Name="{resources:Loc Menu_FastFlagEditor_Back}" Click="TopNavBack_Click">
-            <ui:SymbolIcon Symbol="ArrowLeft16" FontSize="15" />
+            <Viewbox Width="16" Height="16"><Canvas Width="24" Height="24"><Path Style="{StaticResource TopBarLineIcon}" Data="M12 19L5 12L12 5 M19 12H5" /></Canvas></Viewbox>
           </Button>
           <Button x:Name="TopNavForward" Style="{StaticResource TopBarIconButtonStyle}" IsEnabled="False" ToolTip="{resources:Loc Ui_Main_Forward}" AutomationProperties.Name="{resources:Loc Ui_Main_Forward}" Margin="0,0,4,0" Click="TopNavForward_Click">
-            <ui:SymbolIcon Symbol="ArrowRight16" FontSize="15" />
+            <Viewbox Width="16" Height="16"><Canvas Width="24" Height="24"><Path Style="{StaticResource TopBarLineIcon}" Data="M5 12h14 M12 5L19 12L12 19" /></Canvas></Viewbox>
           </Button>
           <Grid Margin="4,0,6,0">
             <Button x:Name="TopSearchButton" Style="{StaticResource TopSearchBoxButtonStyle}" AutomationProperties.Name="{resources:Loc ContextMenu_GameBrowser_Search}" Click="TopSearchButton_Click">
@@ -386,7 +393,7 @@
                   <ColumnDefinition Width="*" />
                   <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <ui:SymbolIcon Symbol="Search20" FontSize="14" VerticalAlignment="Center" Foreground="{StaticResource LauncherTextSecondaryBrush}" />
+                <Viewbox Width="14" Height="14" VerticalAlignment="Center"><Canvas Width="24" Height="24"><Path Style="{StaticResource TopBarLineIcon}" Data="M3 11a8 8 0 1 0 16 0a8 8 0 1 0 -16 0z M21 21L16.7 16.7" /></Canvas></Viewbox>
                 <TextBlock Grid.Column="1" Margin="10,0,8,0" Text="{resources:Loc Ui_Main_SearchPlaceholder}" FontSize="13" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Foreground="{StaticResource LauncherTextTertiaryBrush}" />
                 <TextBlock Grid.Column="2" Text="{Binding Source='Ctrl K', Converter={x:Static wpfconv:ShortcutTextConverter.Instance}}" FontSize="11" VerticalAlignment="Center" Foreground="{StaticResource LauncherTextTertiaryBrush}" />
               </Grid>
@@ -395,7 +402,7 @@
           <Grid Margin="2,0,12,0">
             <Button x:Name="NotificationsButton" Style="{StaticResource TopBarIconButtonStyle}" ToolTip="{resources:Loc Notifications_Title}" Click="NotificationsButton_Click">
               <Grid Width="28" Height="28" ClipToBounds="False">
-                <ui:SymbolIcon Symbol="Alert20" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" />
+                <Viewbox Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center"><Canvas Width="24" Height="24"><Path Style="{StaticResource TopBarLineIcon}" Data="M10.268 21a2 2 0 0 0 3.464 0 M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 0.74 -1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499 -1.411 5.956 -2.738 7.326" /></Canvas></Viewbox>
                 <Border x:Name="NotificationsBadge" MinWidth="16" Height="16" Padding="3,0" CornerRadius="8" Background="#FFFF4D4F" BorderBrush="#FF0E0E0E" BorderThickness="1.5" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-1,-4,0" Panel.ZIndex="2" RenderTransformOrigin="0.5,0.5" Visibility="Collapsed" appUi:LinuxTextGuard.PreserveCompactLayout="True">
                   <Border.RenderTransform>
                     <ScaleTransform x:Name="NotificationsBadgeScale" ScaleX="1" ScaleY="1" />
@@ -408,9 +415,10 @@
         </StackPanel>
       </ui:TitleBar.Header>
     </ui:TitleBar>
-    <StackPanel x:Name="TopNavPanel" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="4,1,0,0" Panel.ZIndex="1001">
+    <StackPanel x:Name="TopNavPanel" Grid.Row="0" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" Panel.ZIndex="1001">
       <Button x:Name="AppMenuButton" Margin="0,0,8,0" Style="{StaticResource TopBarButtonStyle}" Click="AppMenuButton_Click">
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+          <Image Width="16" Height="16" Margin="0,0,8,0" VerticalAlignment="Center" RenderOptions.BitmapScalingMode="HighQuality" Source="{StaticResource AppIconImage}" />
           <TextBlock Text="{resources:Loc Enums_Theme_Voidstrap}" FontSize="13" FontWeight="Normal" VerticalAlignment="Center" />
           <Border Margin="6,1,0,0" VerticalAlignment="Center" RenderTransformOrigin="0.5,0.5">
             <Border.RenderTransform><RotateTransform /></Border.RenderTransform>
@@ -440,12 +448,12 @@
                 </Style.Triggers>
               </Style>
             </Border.Style>
-            <ui:SymbolIcon Symbol="ChevronDown12" FontSize="10" Foreground="{StaticResource LauncherTextSecondaryBrush}" />
+            <Viewbox Width="12" Height="12"><Canvas Width="24" Height="24"><Path Style="{StaticResource TopBarLineIcon}" Data="M6 9L12 15L18 9" /></Canvas></Viewbox>
           </Border>
         </StackPanel>
       </Button>
       <Button x:Name="SidebarToggle" Style="{StaticResource TopBarIconButtonStyle}" ToolTip="{resources:Loc Ui_Main_ToggleSidebar}" AutomationProperties.Name="{resources:Loc Ui_Main_ToggleSidebar}" Click="SidebarToggle_Click">
-        <Canvas Width="16" Height="16" SnapsToDevicePixels="True"><Rectangle Canvas.Left="1.5" Canvas.Top="2.5" Width="13" Height="11" RadiusX="2" RadiusY="2" StrokeThickness="1.2" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" /><Rectangle Canvas.Left="5.4" Canvas.Top="3" Width="1.2" Height="10" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" /></Canvas>
+        <Viewbox Width="16" Height="16"><Canvas Width="24" Height="24"><Path Style="{StaticResource TopBarLineIcon}" Data="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2H5a2 2 0 0 1 -2 -2V5a2 2 0 0 1 2 -2z M9 3v18" /></Canvas></Viewbox>
       </Button>
       <Button x:Name="TopNavHome" Content="{resources:Loc Ui_Main_TabHome}" Style="{StaticResource TopNavButtonStyle}" Click="TopNavHome_Click" />
       <Button x:Name="TopNavLibrary" Content="{resources:Loc Ui_Main_TabLibrary}" Style="{StaticResource TopNavButtonStyle}" Click="TopNavLibrary_Click" />
