@@ -1951,13 +1951,26 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         return CamelCaseBoundaryPattern.Replace(name.Replace('_', ' '), " ");
     }
 
+    private void PagesMenuButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (PagesMenuPopup.IsOpen && !PagesMenuPopup.IsClosing)
+        {
+            PagesMenuPopup.IsOpen = false;
+            return;
+        }
+        CloseOverlayPopups();
+        PagesMenuPopup.IsOpen = true;
+    }
+
     private void TopNavHome_Click(object sender, RoutedEventArgs e)
     {
+        PagesMenuPopup.IsOpen = false;
         NavigateTopNav(typeof(HomePage));
     }
 
     private void TopNavLibrary_Click(object sender, RoutedEventArgs e)
     {
+        PagesMenuPopup.IsOpen = false;
         _libraryPage ??= new LibraryPage();
         if (!ReferenceEquals(RootFrame.Content, _libraryPage))
         {
@@ -1986,11 +1999,13 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private void TopNavNews_Click(object sender, RoutedEventArgs e)
     {
+        PagesMenuPopup.IsOpen = false;
         NavigateTopNav(typeof(NewsPage));
     }
 
     private void TopNavServers_Click(object sender, RoutedEventArgs e)
     {
+        PagesMenuPopup.IsOpen = false;
         _privateServersPage ??= new PrivateServersPage();
         if (!ReferenceEquals(RootFrame.Content, _privateServersPage))
         {
@@ -5312,6 +5327,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         if (AppMenuPopup != null)
         {
             AppMenuPopup.IsOpen = false;
+        }
+        if (PagesMenuPopup != null)
+        {
+            PagesMenuPopup.IsOpen = false;
         }
         if (NotificationsOpen)
         {

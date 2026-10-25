@@ -210,6 +210,10 @@
                 <Trigger Property="IsSubmenuOpen" Value="True">
                   <Setter TargetName="MenuChrome" Property="Background" Value="{StaticResource LauncherMenuHoverBrush}" />
                 </Trigger>
+                <Trigger Property="Tag" Value="Active">
+                  <Setter TargetName="MenuChrome" Property="Background" Value="{StaticResource LauncherMenuHoverBrush}" />
+                  <Setter Property="FontWeight" Value="SemiBold" />
+                </Trigger>
                 <Trigger Property="IsEnabled" Value="False">
                   <Setter Property="Opacity" Value="0.45" />
                 </Trigger>
@@ -391,11 +395,29 @@
       <Button x:Name="SidebarToggle" Style="{StaticResource TopBarIconButtonStyle}" ToolTip="{resources:Loc Ui_Main_ToggleSidebar}" AutomationProperties.Name="{resources:Loc Ui_Main_ToggleSidebar}" Click="SidebarToggle_Click">
         <Viewbox Width="16" Height="16"><Canvas Width="24" Height="24"><Path Style="{StaticResource TopBarLineIcon}" Data="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2H5a2 2 0 0 1 -2 -2V5a2 2 0 0 1 2 -2z M9 3v18" /></Canvas></Viewbox>
       </Button>
-      <Button x:Name="TopNavHome" Content="{resources:Loc Ui_Main_TabHome}" Style="{StaticResource TopNavButtonStyle}" Click="TopNavHome_Click" />
-      <Button x:Name="TopNavLibrary" Content="{resources:Loc Ui_Main_TabLibrary}" Style="{StaticResource TopNavButtonStyle}" Click="TopNavLibrary_Click" />
-      <Button x:Name="TopNavServers" Content="{resources:Loc Ui_Main_TabServers}" Style="{StaticResource TopNavButtonStyle}" Click="TopNavServers_Click" />
-      <Button x:Name="TopNavNews" Content="{resources:Loc Ui_Main_TabNews}" Style="{StaticResource TopNavButtonStyle}" Click="TopNavNews_Click" />
+      <Border Width="1" Height="18" Margin="7,0" VerticalAlignment="Center" Background="#1FFFFFFF" SnapsToDevicePixels="True" />
+      <Button x:Name="PagesMenuButton" Style="{StaticResource TopBarIconButtonStyle}" ToolTip="{resources:Loc Ui_Main_PalettePages}" AutomationProperties.Name="{resources:Loc Ui_Main_PalettePages}" Click="PagesMenuButton_Click">
+        <Viewbox Width="16" Height="16"><Canvas Width="24" Height="24"><Path Style="{StaticResource TopBarLineIcon}" Data="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2H5a2 2 0 0 1 -2 -2V5a2 2 0 0 1 2 -2z M8 8h8 M8 12h8 M8 16h8" /></Canvas></Viewbox>
+      </Button>
     </StackPanel>
+    <vscontrols:AnimatedPopup x:Name="PagesMenuPopup" PlacementTarget="{Binding ElementName=PagesMenuButton}" Placement="Bottom" LightDismiss="True" AllowsTransparency="True" HorizontalOffset="-8" VerticalOffset="-4" Closed="OverlayPopup_Closed">
+      <Border Margin="12" MinWidth="220" Background="{DynamicResource LauncherMenuBrush}" BorderBrush="{StaticResource LauncherMenuBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="6" TextElement.FontSize="13.5" TextElement.Foreground="{StaticResource LauncherTextPrimaryBrush}">
+        <StackPanel>
+          <MenuItem x:Name="TopNavHome" Header="{resources:Loc Ui_Nav_Home}" Style="{StaticResource TopBarMenuItemStyle}" Click="TopNavHome_Click">
+            <MenuItem.Icon><ui:SymbolIcon Symbol="Home24" FontSize="16" /></MenuItem.Icon>
+          </MenuItem>
+          <MenuItem x:Name="TopNavLibrary" Header="{resources:Loc Ui_Pages_Library}" Style="{StaticResource TopBarMenuItemStyle}" Click="TopNavLibrary_Click">
+            <MenuItem.Icon><ui:SymbolIcon Symbol="Apps24" FontSize="16" /></MenuItem.Icon>
+          </MenuItem>
+          <MenuItem x:Name="TopNavServers" Header="{resources:Loc Library_PrivateServersTab}" Style="{StaticResource TopBarMenuItemStyle}" Click="TopNavServers_Click">
+            <MenuItem.Icon><ui:SymbolIcon Symbol="Server24" FontSize="16" /></MenuItem.Icon>
+          </MenuItem>
+          <MenuItem x:Name="TopNavNews" Header="{resources:Loc Ui_Nav_News}" Style="{StaticResource TopBarMenuItemStyle}" Click="TopNavNews_Click">
+            <MenuItem.Icon><ui:SymbolIcon Symbol="News24" FontSize="16" /></MenuItem.Icon>
+          </MenuItem>
+        </StackPanel>
+      </Border>
+    </vscontrols:AnimatedPopup>
     <vscontrols:AnimatedPopup x:Name="AppMenuPopup" PlacementTarget="{Binding ElementName=AppMenuButton}" Placement="Bottom" LightDismiss="True" AllowsTransparency="True" HorizontalOffset="-8" VerticalOffset="-4">
       <Border Margin="12" MinWidth="220" Background="{DynamicResource LauncherMenuBrush}" BorderBrush="{StaticResource LauncherMenuBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="6" TextElement.FontSize="13.5" TextElement.Foreground="{StaticResource LauncherTextPrimaryBrush}">
         <StackPanel x:Name="AppMenuItemsPanel" PreviewMouseMove="AppMenuItems_PreviewMouseMove">
