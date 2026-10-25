@@ -540,8 +540,6 @@ Voidstrap would not exist without the projects and people below. Thank you all.
 
 ## License
 
-[![License][shield-license]][link-license]
-
 Voidstrap's own code is released under the [MIT License](LICENSE.VOIDSTRAP). Third party code, fonts, artwork and packages keep their own licenses. The Bloxstrap and Fishstrap notices are also preserved:
 
 | Project | License | Copyright | File |
@@ -706,8 +704,6 @@ The macOS virtual display helper implements the [AppleBlox VirtualDisplay approa
 [crowdin-project]:        https://crowdin.com/project/voidstrap
 [discord-invite]:         https://discord.gg/dfA9PdWgcV
 
-[shield-license]:         https://img.shields.io/github/license/KloBraticc/Voidstrap?style=for-the-badge
-[link-license]:           LICENSE.VOIDSTRAP
 
 
 
