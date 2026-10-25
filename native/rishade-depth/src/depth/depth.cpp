@@ -307,6 +307,8 @@ static const float RefineSurfaceSigma = 0.05;
 static const int PlaneRadius = 3;
 static const int PlaneStride = 3;
 static const float PlaneColor = 0.12;
+static const float PlaneAgree = 0.015;
+static const float PlaneSeedAgree = 0.03;
 static const float FocusHold = 0.92;
 static const float FocusStillStart = 0.008;
 static const float FocusStillRange = 0.03;
@@ -808,6 +810,7 @@ float FitSurface(int2 p, int2 size, float centre, float3 tone, float fallback)
     float samples[49];
     float2 offsets[49];
     float spatial[49];
+    float tones[49];
     for (uint k = 0; k < 49; ++k)
     {
         int2 cell = int2(k % 7, k / 7) - PlaneRadius;
@@ -815,7 +818,8 @@ float FitSurface(int2 p, int2 size, float centre, float3 tone, float fallback)
         samples[k] = Linear(Warped.Load(int3(q, 0)).x);
         offsets[k] = float2(cell);
         float3 difference = Color.Load(int3(q, 0)).rgb - tone;
-        spatial[k] = exp(-dot(float2(cell), float2(cell)) / (2.0 * PlaneRadius * PlaneRadius)) * exp(-dot(difference, difference) / (2 * PlaneColor * PlaneColor));
+        spatial[k] = exp(-dot(float2(cell), float2(cell)) / (2.0 * PlaneRadius * PlaneRadius));
+        tones[k] = exp(-dot(difference, difference) / (2 * PlaneColor * PlaneColor));
     }
     float3 plane = float3(fallback, 0, 0);
     for (uint iteration = 0; iteration < 2; ++iteration)
@@ -827,7 +831,9 @@ float FitSurface(int2 p, int2 size, float centre, float3 tone, float fallback)
             float predicted = iteration == 0 ? centre : plane.x + plane.y * offsets[j].x + plane.z * offsets[j].y;
             float relative = (samples[j] - predicted) / max(predicted, 1e-6);
             float gate = iteration == 0 ? step(abs(relative), PlaneGate) : exp(-0.5 * relative * relative / (PlaneResidualSigma * PlaneResidualSigma));
-            float weight = spatial[j] * gate;
+            float agree = iteration == 0 ? PlaneSeedAgree : PlaneAgree;
+            float belongs = max(tones[j], exp(-0.5 * relative * relative / (agree * agree)));
+            float weight = spatial[j] * gate * belongs;
             float3 basis = float3(1, offsets[j]);
             m += weight * float3x3(basis * basis.x, basis * basis.y, basis * basis.z);
             b += weight * basis * samples[j];
