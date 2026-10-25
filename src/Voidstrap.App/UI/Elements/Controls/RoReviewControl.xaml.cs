@@ -57,6 +57,8 @@ public partial class RoReviewControl : UserControl
     }
 
     private CancellationTokenSource? _loadCts;
+
+    private (long, long) _lastRequest;
     private CancellationTokenSource? _lifetimeCts;
     private readonly ObservableCollection<RoReviewService.ReviewEntry> _reviews = new();
     private long _activePlaceId;
@@ -333,10 +335,14 @@ public partial class RoReviewControl : UserControl
         });
     }
 
-    private async Task ReloadAsync()
+    private async Task ReloadAsync(bool force = false)
     {
         if (_isUnloaded)
             return;
+        (long, long) request = (PlaceId, UniverseId);
+        if (!force && request == _lastRequest && _loadCts is { IsCancellationRequested: false })
+            return;
+        _lastRequest = request;
 
         _loadCts?.Cancel();
         _loadCts?.Dispose();
@@ -512,7 +518,7 @@ public partial class RoReviewControl : UserControl
                 _ = Dispatcher.BeginInvoke(() =>
                 {
                     if (!_isUnloaded)
-                        _ = ReloadAsync();
+                        _ = ReloadAsync(true);
                 });
             }
         }
