@@ -68,6 +68,9 @@
         <Setter Property="StrokeEndLineCap" Value="Round" />
         <Setter Property="Stroke" Value="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Control}}" />
       </Style>
+      <Style x:Key="TopBarArrowIcon" TargetType="{x:Type Path}" BasedOn="{StaticResource TopBarLineIcon}">
+        <Setter Property="StrokeThickness" Value="2.75" />
+      </Style>
       <Style x:Key="TopBarPillButtonStyle" TargetType="Button" BasedOn="{StaticResource TopBarButtonStyle}">
         <Setter Property="Padding" Value="10,0" />
       </Style>
@@ -356,10 +359,10 @@
       <ui:TitleBar.Header>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" FlowDirection="LeftToRight" Margin="0,1,0,-1">
           <Button x:Name="TopNavBack" Style="{StaticResource TopBarIconButtonStyle}" Margin="0,0,2,0" IsEnabled="False" ToolTip="{resources:Loc Menu_FastFlagEditor_Back}" AutomationProperties.Name="{resources:Loc Menu_FastFlagEditor_Back}" Click="TopNavBack_Click">
-            <Viewbox Width="16" Height="16"><Canvas Width="24" Height="24"><Path Style="{StaticResource TopBarLineIcon}" Data="M12 19L5 12L12 5 M19 12H5" /></Canvas></Viewbox>
+            <Viewbox Width="16" Height="16"><Canvas Width="24" Height="24"><Path Style="{StaticResource TopBarArrowIcon}" Data="M10.5 4.5L3.5 12L10.5 19.5 M4.5 12H20.5" /></Canvas></Viewbox>
           </Button>
           <Button x:Name="TopNavForward" Style="{StaticResource TopBarIconButtonStyle}" IsEnabled="False" ToolTip="{resources:Loc Ui_Main_Forward}" AutomationProperties.Name="{resources:Loc Ui_Main_Forward}" Margin="0,0,2,0" Click="TopNavForward_Click">
-            <Viewbox Width="16" Height="16"><Canvas Width="24" Height="24"><Path Style="{StaticResource TopBarLineIcon}" Data="M5 12h14 M12 5L19 12L12 19" /></Canvas></Viewbox>
+            <Viewbox Width="16" Height="16"><Canvas Width="24" Height="24"><Path Style="{StaticResource TopBarArrowIcon}" Data="M3.5 12H19.5 M13.5 4.5L20.5 12L13.5 19.5" /></Canvas></Viewbox>
           </Button>
           <Grid Margin="0,0,2,0">
             <Button x:Name="TopSearchButton" Style="{StaticResource TopBarIconButtonStyle}" AutomationProperties.Name="{resources:Loc ContextMenu_GameBrowser_Search}" Click="TopSearchButton_Click">
