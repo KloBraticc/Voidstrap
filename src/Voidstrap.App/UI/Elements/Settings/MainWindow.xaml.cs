@@ -1066,6 +1066,55 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         CubicEase ease = new CubicEase { EasingMode = EasingMode.EaseOut };
         PageHeaderShift.BeginAnimation(TranslateTransform.XProperty, new DoubleAnimation(fromX, 0.0, TimeSpan.FromMilliseconds(280)) { EasingFunction = ease });
         BreadcrumbPanel.BeginAnimation(OpacityProperty, new DoubleAnimation(0.0, 1.0, TimeSpan.FromMilliseconds(240)) { EasingFunction = ease });
+        _pageDescriptionShift = fromX;
+        Dispatcher.BeginInvoke(new Action(AnimatePageDescription), DispatcherPriority.Loaded);
+    }
+
+    private double _pageDescriptionShift;
+
+    private void AnimatePageDescription()
+    {
+        if (RootFrame?.Content is not DependencyObject page)
+            return;
+        TextBlock? description = FindPageDescription(page, 0);
+        if (description == null)
+            return;
+        if (description.RenderTransform is not TranslateTransform shift || shift.IsFrozen)
+        {
+            shift = new TranslateTransform();
+            description.RenderTransform = shift;
+        }
+        CubicEase ease = new CubicEase { EasingMode = EasingMode.EaseOut };
+        ease.Freeze();
+        shift.BeginAnimation(TranslateTransform.XProperty, new DoubleAnimation(_pageDescriptionShift, 0.0, TimeSpan.FromMilliseconds(300)) { EasingFunction = ease });
+        description.BeginAnimation(OpacityProperty, new DoubleAnimation(0.0, 1.0, TimeSpan.FromMilliseconds(260)) { EasingFunction = ease });
+    }
+
+    private TextBlock? FindPageDescription(DependencyObject node, int depth)
+    {
+        if (depth > 12)
+            return null;
+        int count = VisualTreeHelper.GetChildrenCount(node);
+        for (int i = 0; i < count; i++)
+        {
+            DependencyObject child = VisualTreeHelper.GetChild(node, i);
+            if (child is TextBlock text && text.IsVisible && Math.Abs(text.FontSize - 14.0) < 0.01 && !string.IsNullOrWhiteSpace(text.Text))
+            {
+                try
+                {
+                    if (text.TransformToAncestor(RootFrame).Transform(new Point(0, 0)).Y < 90.0)
+                        return text;
+                }
+                catch (InvalidOperationException)
+                {
+                }
+                return null;
+            }
+            TextBlock? found = FindPageDescription(child, depth + 1);
+            if (found != null)
+                return found;
+        }
+        return null;
     }
 
     internal void RefreshGlobalSearchBoxVisibility()
