@@ -109,6 +109,7 @@ impl InstallSummary {
 
 pub fn install_effects_and_presets(root: &Path) -> io::Result<InstallSummary> {
     let root = prepare_root(root)?;
+    install_bundled_shaders(&root)?;
     let marker = root.join(ASSET_MARKER);
     if marker.is_file() && root.join("reshade-shaders/Shaders/ReShade.fxh").is_file() {
         let mut summary = InstallSummary {
@@ -208,10 +209,103 @@ pub fn install_effects_and_presets(root: &Path) -> io::Result<InstallSummary> {
     Ok(summary)
 }
 
-const UPGRADED_PRESETS: [(&str, &str); 1] = [(
-    "RiShade Reflections.ini",
-    "afdcf21fa758ef1a229d9a350738b5f7a76b8f90044fa2fafb3d8df67ad4c68a",
+const UPGRADED_PRESETS: [(&str, &str); 2] = [
+    (
+        "RiShade Reflections.ini",
+        "afdcf21fa758ef1a229d9a350738b5f7a76b8f90044fa2fafb3d8df67ad4c68a",
+    ),
+    (
+        "RiShade Reflections.ini",
+        "39cf148e54f45e7119272d97bd7ac48dbb4be7119ad815b34a44c4ca809bc31c",
+    ),
+];
+
+const BUNDLED_SHADERS: &[(&str, &[u8])] = &[(
+    "RiShade_SSR.fx",
+    include_bytes!("../shaders/RiShade_SSR.fx"),
 )];
+const RETIRED_SSR_TECHNIQUE: &str = "SSR@qUINT_ssr.fx";
+const BUNDLED_SSR_TECHNIQUE: &str = "RiShade_SSR@RiShade_SSR.fx";
+
+pub fn install_bundled_shaders(root: &Path) -> io::Result<()> {
+    let directory = root.join("reshade-shaders").join("Shaders").join("RiShade");
+    ensure_safe_directory(root, &directory)?;
+    for (name, data) in BUNDLED_SHADERS {
+        let path = directory.join(name);
+        if fs::read(&path).is_ok_and(|current| current == *data) {
+            continue;
+        }
+        let staged = directory.join(format!("{name}.update"));
+        fs::write(&staged, data)?;
+        if let Err(error) = fs::rename(&staged, &path) {
+            let _ = fs::remove_file(&staged);
+            return Err(error);
+        }
+    }
+    Ok(())
+}
+
+pub fn migrate_ssr_technique(root: &Path) {
+    let Ok(entries) = fs::read_dir(root.join("presets")) else {
+        return;
+    };
+    for entry in entries.flatten() {
+        let path = entry.path();
+        let is_preset = entry.file_type().is_ok_and(|kind| kind.is_file())
+            && path
+                .extension()
+                .is_some_and(|extension| extension.eq_ignore_ascii_case("ini"));
+        if !is_preset {
+            continue;
+        }
+        let Ok(text) = fs::read_to_string(&path) else {
+            continue;
+        };
+        if let Some(updated) = replace_ssr_technique(&text) {
+            let staged = path.with_extension("ini.migrate");
+            if fs::write(&staged, updated).is_ok() && fs::rename(&staged, &path).is_err() {
+                let _ = fs::remove_file(&staged);
+            }
+        }
+    }
+}
+
+fn replace_ssr_technique(text: &str) -> Option<String> {
+    let mut changed = false;
+    let lines: Vec<String> = text
+        .split_inclusive('\n')
+        .map(|line| {
+            let Some((head, value)) = line.split_once('=') else {
+                return line.to_owned();
+            };
+            let key = head.trim();
+            if !(key.eq_ignore_ascii_case("Techniques") || key.eq_ignore_ascii_case("TechniqueSorting")) {
+                return line.to_owned();
+            }
+            let body = value.trim_end_matches(['\r', '\n']);
+            let ending = &value[body.len()..];
+            let items: Vec<&str> = body.split(',').map(str::trim).collect();
+            if !items.iter().any(|item| item.eq_ignore_ascii_case(RETIRED_SSR_TECHNIQUE)) {
+                return line.to_owned();
+            }
+            let mut seen = items.iter().any(|item| item.eq_ignore_ascii_case(BUNDLED_SSR_TECHNIQUE));
+            let mut output: Vec<&str> = Vec::with_capacity(items.len());
+            for item in items {
+                if item.eq_ignore_ascii_case(RETIRED_SSR_TECHNIQUE) {
+                    if !seen {
+                        output.push(BUNDLED_SSR_TECHNIQUE);
+                        seen = true;
+                    }
+                } else {
+                    output.push(item);
+                }
+            }
+            changed = true;
+            format!("{head}={}{ending}", output.join(","))
+        })
+        .collect();
+    changed.then(|| lines.concat())
+}
 
 pub fn upgrade_unmodified_presets(root: &Path) {
     let directory = root.join("presets");
@@ -955,7 +1049,7 @@ mod tests {
         let shader_dir = root.join("reshade-shaders/Shaders");
         fs::create_dir_all(&shader_dir).unwrap();
         fs::write(shader_dir.join("ReShade.fxh"), b"fxh").unwrap();
-        for effect in ["qUINT_ssr.fx", "AdaptiveTonemapper.fx"] {
+        for effect in ["CAS.fx"] {
             fs::write(shader_dir.join(effect), b"effect").unwrap();
         }
         fs::write(root.join(ASSET_MARKER), b"already done").unwrap();
@@ -1003,6 +1097,17 @@ mod tests {
         fs::remove_dir_all(root).unwrap();
     }
 
+
+    #[test]
+    fn retired_ssr_technique_is_replaced_once() {
+        let text = "Techniques=Vibrance@Vibrance.fx,SSR@qUINT_ssr.fx\r\nTechniqueSorting=SSR@qUINT_ssr.fx,Vibrance@Vibrance.fx\r\n[qUINT_ssr.fx]\r\nSSR_FADE_DIST=0.3\r\n";
+        let updated = replace_ssr_technique(text).unwrap();
+        assert_eq!(
+            updated,
+            "Techniques=Vibrance@Vibrance.fx,RiShade_SSR@RiShade_SSR.fx\r\nTechniqueSorting=RiShade_SSR@RiShade_SSR.fx,Vibrance@Vibrance.fx\r\n[qUINT_ssr.fx]\r\nSSR_FADE_DIST=0.3\r\n"
+        );
+        assert!(replace_ssr_technique(&updated).is_none());
+    }
     #[test]
     fn upgrades_only_unmodified_presets() {
         let root = tempfile::tempdir().unwrap();
@@ -1012,12 +1117,35 @@ mod tests {
             .iter()
             .find(|(name, _)| *name == "RiShade Reflections.ini")
             .unwrap();
-        let mut previous = String::from_utf8(current.to_vec()).unwrap();
-        previous = previous
-            .replace("SSR_FIELD_OF_VIEW=70.000000", "SSR_FIELD_OF_VIEW=50.000000")
-            .replace("SSR_JITTER_AMOUNT=0.350000", "SSR_JITTER_AMOUNT=0.800000")
-            .replace("SSR_ACCEPT_RANGE=0.200000", "SSR_ACCEPT_RANGE=0.350000");
-        assert_eq!(format!("{:x}", Sha256::digest(previous.as_bytes())), UPGRADED_PRESETS[0].1);
+        let previous = concat!(
+            "Techniques=SSR@qUINT_ssr.fx,AdaptiveTonemapper@AdaptiveTonemapper.fx\r\n",
+            "TechniqueSorting=SSR@qUINT_ssr.fx,AdaptiveTonemapper@AdaptiveTonemapper.fx\r\n",
+            "\r\n",
+            "[AdaptiveTonemapper.fx]\r\n",
+            "AdaptFocalPoint=0.500000,0.500000\r\n",
+            "AdaptPrecision=0\r\n",
+            "AdaptRange=0.000000,1.000000\r\n",
+            "AdaptSensitivity=1.000000\r\n",
+            "AdaptTime=1.000000\r\n",
+            "Amount=0.409000\r\n",
+            "Exposure=-4.842000\r\n",
+            "FixWhitePoint=1\r\n",
+            "TonemapOperator=2\r\n",
+            "\r\n",
+            "[qUINT_ssr.fx]\r\n",
+            "SSR_ACCEPT_RANGE=0.200000\r\n",
+            "SSR_FADE_DIST=0.300000\r\n",
+            "SSR_FIELD_OF_VIEW=70.000000\r\n",
+            "SSR_FILTER_SIZE=2.500000\r\n",
+            "SSR_FRESNEL_EXP=7.000000\r\n",
+            "SSR_JITTER_AMOUNT=0.350000\r\n",
+            "SSR_RAY_INC=1.600000\r\n",
+            "SSR_REFLECTION_INTENSITY=0.400000\r\n",
+            "SSR_RELIEF_AMOUNT=0.000000\r\n",
+            "SSR_RELIEF_SCALE=0.350000\r\n",
+        )
+        .to_owned();
+        assert_eq!(format!("{:x}", Sha256::digest(previous.as_bytes())), UPGRADED_PRESETS[1].1);
         fs::write(presets.join("RiShade Reflections.ini"), &previous).unwrap();
         upgrade_unmodified_presets(root.path());
         assert_eq!(fs::read(presets.join("RiShade Reflections.ini")).unwrap(), *current);

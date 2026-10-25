@@ -482,7 +482,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<RiShadeSources Include="$(RiShadeCrate)/**/*.rs" Exclude="$(RiShadeTargetDir)/**/*.rs" />
+		<RiShadeSources Include="$(RiShadeCrate)/**/*.rs;$(RiShadeCrate)/presets/**/*.ini;$(RiShadeCrate)/shaders/**/*.fx" Exclude="$(RiShadeTargetDir)/**/*.rs" />
 		<RiShadeDepthSources Include="$(RiShadeDepthRoot)/CMakeLists.txt;$(RiShadeDepthRoot)/src/**/*.cpp;$(RiShadeDepthRoot)/src/**/*.h" />
 	</ItemGroup>
 
