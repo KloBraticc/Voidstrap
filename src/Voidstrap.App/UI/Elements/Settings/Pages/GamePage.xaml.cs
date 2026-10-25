@@ -71,7 +71,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             _cts?.Cancel();
             _cts?.Dispose();
             _cts = null;
-            BannerImage.Source = null;
+            BannerImage.Background = null;
             Voidstrap.Integrations.VoidstrapPresence.Clear(nameof(GamePage));
         }
 
@@ -180,7 +180,6 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                     Voidstrap.Integrations.VoidstrapPresence.SetGame(nameof(GamePage), string.IsNullOrEmpty(name) ? $"Place {_placeId}" : name, creator, _universeId, _placeId);
                     GameTitleText.Text = string.IsNullOrEmpty(name) ? $"Place {_placeId}" : name;
                     CreatorText.Text = string.IsNullOrEmpty(creator) ? "" : $"By {creator}{(verified ? " ☑️" : "")}";
-                    GenreText.Text = string.IsNullOrEmpty(genre) ? "" : genre;
                     DescriptionText.Text = description;
                     DescriptionText.Visibility = string.IsNullOrWhiteSpace(description) ? Visibility.Collapsed : Visibility.Visible;
 
@@ -271,7 +270,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
 				await Dispatcher.InvokeAsync(() =>
 				{
 					if (!token.IsCancellationRequested)
-						BannerImage.Source = bmp;
+						BannerImage.Background = new System.Windows.Media.ImageBrush(bmp) { Stretch = System.Windows.Media.Stretch.UniformToFill };
 				});
 			}
 			catch (OperationCanceledException) when (token.IsCancellationRequested)
