@@ -284,9 +284,15 @@
           <TextBlock x:Name="SidebarHomeLabel" FontSize="14" VerticalAlignment="Center" Text="{resources:Loc Ui_Pages_LibraryHome}" />
         </StackPanel>
       </Button>
-      <ui:TextBox x:Name="SidebarSearchBox" Grid.Row="1" Margin="0,2,0,0" PlaceholderText="{resources:Loc Ui_Pages_SearchGames}" Icon="Search24" ClearButtonEnabled="True" Text="{Binding SidebarSearch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
-      <Grid x:Name="SidebarRefreshRow" Grid.Row="2" Margin="16,6,0,0">
-        <ui:Button HorizontalAlignment="Right" Padding="4,0" Appearance="Transparent" Icon="ArrowSync24" ToolTip="{resources:Loc Ui_Pages_RefreshLibrary}" Command="{Binding RefreshCommand}" />
+      <Grid Grid.Row="1" Margin="0,2,0,6">
+        <Grid.ColumnDefinitions>
+          <ColumnDefinition Width="*" />
+          <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <ui:TextBox x:Name="SidebarSearchBox" PlaceholderText="{resources:Loc Ui_Pages_SearchGames}" Icon="Search24" ClearButtonEnabled="True" Text="{Binding SidebarSearch, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <Grid x:Name="SidebarRefreshRow" Grid.Column="1" Margin="6,0,0,0">
+          <ui:Button Width="34" Height="34" Padding="0" VerticalAlignment="Center" Appearance="Transparent" Icon="ArrowSync24" ToolTip="{resources:Loc Ui_Pages_RefreshLibrary}" AutomationProperties.Name="{resources:Loc Ui_Pages_RefreshLibrary}" Command="{Binding RefreshCommand}" />
+        </Grid>
       </Grid>
       <ListBox x:Name="SidebarList" Grid.Row="3" Background="#00FFFFFF" BorderThickness="0" Padding="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled" VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling" VirtualizingPanel.IsVirtualizingWhenGrouping="True" VirtualizingPanel.ScrollUnit="Pixel" ItemContainerStyle="{StaticResource NavSideItem}" ItemsSource="{Binding Source={StaticResource SidebarGamesView}}" SelectedItem="{Binding SelectedGame, Mode=TwoWay}">
         <ListBox.GroupStyle>
@@ -646,29 +652,32 @@
             <ui:Button Grid.Column="0" MinWidth="140" Height="40" FontSize="15" Appearance="Primary" Background="{DynamicResource SystemAccentBrush}" Icon="Play24" Content="{resources:Loc Ui_Pages_Play}" Command="{Binding LaunchCommand}" CommandParameter="{Binding SelectedGame}" />
             <ui:Button Grid.Column="1" Margin="10,0,0,0" Height="40" Appearance="Secondary" Icon="Pin24" Content="{Binding SelectedGame.PinButtonText}" Command="{Binding TogglePinCommand}" CommandParameter="{Binding SelectedGame}" />
             <ui:Button Grid.Column="2" Margin="10,0,0,0" Height="40" Appearance="Secondary" Icon="Delete24" ToolTip="{resources:Loc Ui_Pages_RemoveThisGameFromYourLibrary}" Content="{resources:Loc Ui_Mods_Remove}" Command="{Binding RemoveGameCommand}" CommandParameter="{Binding SelectedGame}" />
-            <StackPanel Grid.Column="3" Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
-              <StackPanel Margin="0,0,22,0">
-                <TextBlock FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Pages_LASTPLAYED}" />
-                <TextBlock FontSize="13" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding SelectedGame.LastPlayedDisplay}" />
-              </StackPanel>
-              <StackPanel Margin="0,0,22,0">
-                <TextBlock FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Pages_PLAYTIME}" />
-                <TextBlock FontSize="13" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding SelectedGame.PlayTimeDisplay}" />
-              </StackPanel>
-              <StackPanel Margin="0,0,22,0">
-                <TextBlock FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Pages_PLAYINGNOW}" />
-                <TextBlock FontSize="13" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding SelectedGame.PlayingDisplay}" />
-              </StackPanel>
-              <StackPanel Margin="0,0,22,0" ToolTip="{Binding SelectedGame.BadgeTooltip}">
-                <TextBlock FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Library_Badges_Stat}" />
-                <TextBlock FontSize="13" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding SelectedGame.BadgeStatDisplay}" />
-              </StackPanel>
-              <StackPanel>
-                <TextBlock FontSize="10" FontWeight="SemiBold" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Pages_RATING}" />
-                <TextBlock FontSize="13" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding SelectedGame.LikePercent}" />
-              </StackPanel>
-            </StackPanel>
           </Grid>
+
+          <Border Margin="0,12,0,0" Padding="8,10" CornerRadius="8" Background="{DynamicResource ControlFillColorDefaultBrush}" BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="1">
+            <UniformGrid Rows="1">
+              <StackPanel HorizontalAlignment="Center">
+                <TextBlock FontSize="10" FontWeight="SemiBold" HorizontalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Pages_LASTPLAYED}" />
+                <TextBlock Margin="0,3,0,0" FontSize="13.5" FontWeight="SemiBold" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding SelectedGame.LastPlayedDisplay}" />
+              </StackPanel>
+              <StackPanel HorizontalAlignment="Center">
+                <TextBlock FontSize="10" FontWeight="SemiBold" HorizontalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Pages_PLAYTIME}" />
+                <TextBlock Margin="0,3,0,0" FontSize="13.5" FontWeight="SemiBold" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding SelectedGame.PlayTimeDisplay}" />
+              </StackPanel>
+              <StackPanel HorizontalAlignment="Center">
+                <TextBlock FontSize="10" FontWeight="SemiBold" HorizontalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Pages_PLAYINGNOW}" />
+                <TextBlock Margin="0,3,0,0" FontSize="13.5" FontWeight="SemiBold" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding SelectedGame.PlayingDisplay}" />
+              </StackPanel>
+              <StackPanel HorizontalAlignment="Center" ToolTip="{Binding SelectedGame.BadgeTooltip}">
+                <TextBlock FontSize="10" FontWeight="SemiBold" HorizontalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Library_Badges_Stat}" />
+                <TextBlock Margin="0,3,0,0" FontSize="13.5" FontWeight="SemiBold" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding SelectedGame.BadgeStatDisplay}" />
+              </StackPanel>
+              <StackPanel HorizontalAlignment="Center">
+                <TextBlock FontSize="10" FontWeight="SemiBold" HorizontalAlignment="Center" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Pages_RATING}" />
+                <TextBlock Margin="0,3,0,0" FontSize="13.5" FontWeight="SemiBold" HorizontalAlignment="Center" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{Binding SelectedGame.LikePercent}" />
+              </StackPanel>
+            </UniformGrid>
+          </Border>
 
           <TabControl Margin="0,14,0,0">
             <TabItem>
