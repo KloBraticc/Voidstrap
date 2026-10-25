@@ -142,8 +142,8 @@
                                                   CommandParameter="{Binding}"/>
                                 </Border.InputBindings>
                                 <Grid>
-                                    <Border x:Name="NewsImageHost" CornerRadius="9" RenderOptions.BitmapScalingMode="LowQuality"
-                                        util:DynamicRenderSystem.BrushDecodeWidth="520"
+                                    <Border x:Name="NewsImageHost" CornerRadius="9" RenderOptions.BitmapScalingMode="HighQuality"
+                                        util:DynamicRenderSystem.BrushDecodeWidth="960"
                                         util:DynamicRenderSystem.BrushImageSource="{Binding ImageUrl}">
                                         <Border.Background>
                                             <ImageBrush Stretch="UniformToFill">
@@ -156,17 +156,18 @@
                                     <Border CornerRadius="9" IsHitTestVisible="False">
                                         <Border.Background>
                                             <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                                <GradientStop Color="#66080A0E" Offset="0"/>
-                                                <GradientStop Color="#2E080A0E" Offset="0.45"/>
-                                                <GradientStop Color="#8C05060A" Offset="1"/>
+                                                <GradientStop Color="#33080A0E" Offset="0"/>
+                                                <GradientStop Color="#00080A0E" Offset="0.3"/>
+                                                <GradientStop Color="#B305060A" Offset="0.72"/>
+                                                <GradientStop Color="#F205060A" Offset="1"/>
                                             </LinearGradientBrush>
                                         </Border.Background>
                                     </Border>
-                                    <Border HorizontalAlignment="Right"
+                                    <Border HorizontalAlignment="Left"
                                             VerticalAlignment="Top"
-                                            Margin="0,12,12,0"
-                                            Padding="11,4"
-                                            CornerRadius="13"
+                                            Margin="14,14,0,0"
+                                            Padding="10,4"
+                                            CornerRadius="12"
                                             Background="{DynamicResource AccentFillColorPrimaryBrush}"
                                             Visibility="{Binding TagVisibility}">
                                         <StackPanel Orientation="Horizontal">
@@ -182,57 +183,51 @@
                                                        Foreground="{DynamicResource TextOnAccentFillColorPrimaryBrush}"/>
                                         </StackPanel>
                                     </Border>
-                                    <StackPanel Margin="16,13,108,0" VerticalAlignment="Top" HorizontalAlignment="Left" IsHitTestVisible="False">
-                                        <TextBlock Text="{Binding CardTitle}"
-                                                   FontSize="17"
-                                                   FontWeight="Bold"
-                                                   MaxHeight="66"
-                                                   LineHeight="21"
-                                                   Margin="0"
-                                                   TextAlignment="Left"
-                                                   HorizontalAlignment="Left"
-                                                   VerticalAlignment="Top"
-                                                   Foreground="White"
-                                                   TextWrapping="Wrap"
-                                                   TextTrimming="CharacterEllipsis"
-                                                   IsHitTestVisible="False"/>
-                                        <TextBlock Text="{Binding Blurb}"
-                                                   FontSize="12.5"
-                                                   LineHeight="17"
-                                                   Margin="0,6,0,0"
-                                                   Opacity="0.9"
-                                                   HorizontalAlignment="Left"
-                                                   VerticalAlignment="Top"
-                                                   Foreground="White"
-                                                   TextWrapping="Wrap"
-                                                   TextTrimming="CharacterEllipsis"
-                                                   MaxHeight="52"
-                                                   Visibility="{Binding BlurbVisibility}"
-                                                   IsHitTestVisible="False"/>
-                                    </StackPanel>
-                                    <TextBlock Text="{Binding DateLabel}"
-                                               Visibility="{Binding DateVisibility}"
-                                               FontSize="11.5"
-                                               FontWeight="SemiBold"
-                                               Margin="16,0,0,14"
-                                               Opacity="0.92"
-                                               HorizontalAlignment="Left"
-                                               VerticalAlignment="Bottom"
-                                               Foreground="White"
-                                               IsHitTestVisible="False"/>
-                                    <Border Width="28"
-                                            Height="28"
-                                            Margin="0,0,13,12"
-                                            CornerRadius="14"
-                                            Background="White"
-                                            HorizontalAlignment="Right"
-                                            VerticalAlignment="Bottom">
-                                        <ui:SymbolIcon Symbol="ArrowRight24"
-                                                       FontSize="12"
-                                                       Foreground="#FF0B0D11"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"/>
-                                    </Border>
+                                    <Grid Margin="16,0,14,14" VerticalAlignment="Bottom">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <StackPanel Margin="0,0,14,0" VerticalAlignment="Bottom" IsHitTestVisible="False">
+                                            <TextBlock Text="{Binding CardTitle}"
+                                                       FontSize="17"
+                                                       FontWeight="Bold"
+                                                       MaxHeight="44"
+                                                       LineHeight="22"
+                                                       Foreground="White"
+                                                       TextWrapping="Wrap"
+                                                       TextTrimming="CharacterEllipsis"/>
+                                            <TextBlock Text="{Binding Blurb}"
+                                                       FontSize="12.5"
+                                                       LineHeight="17"
+                                                       Margin="0,4,0,0"
+                                                       MaxHeight="34"
+                                                       Opacity="0.85"
+                                                       Foreground="White"
+                                                       TextWrapping="Wrap"
+                                                       TextTrimming="CharacterEllipsis"
+                                                       Visibility="{Binding BlurbVisibility}"/>
+                                            <TextBlock Text="{Binding DateLabel}"
+                                                       Visibility="{Binding DateVisibility}"
+                                                       FontSize="11.5"
+                                                       FontWeight="SemiBold"
+                                                       Margin="0,6,0,0"
+                                                       Opacity="0.7"
+                                                       Foreground="White"/>
+                                        </StackPanel>
+                                        <Border Grid.Column="1"
+                                                Width="30"
+                                                Height="30"
+                                                CornerRadius="15"
+                                                Background="White"
+                                                VerticalAlignment="Bottom">
+                                            <ui:SymbolIcon Symbol="ArrowRight24"
+                                                           FontSize="13"
+                                                           Foreground="#FF0B0D11"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center"/>
+                                        </Border>
+                                    </Grid>
                                     <ui:ProgressRing Width="26"
                                                      Height="26"
                                                      IsIndeterminate="True"
