@@ -286,6 +286,7 @@ RWTexture2D<float> Depth : register(u4);
 RWTexture2D<float4> WarpedTarget : register(u5);
 RWStructuredBuffer<float4> Affine : register(u6);
 RWTexture2D<float> MaskTarget : register(u7);
+RWByteAddressBuffer FocusMotion : register(u1);
 
 static const int CoarseSearch = 8;
 static const int Patch = 2;
@@ -313,6 +314,11 @@ static const int FocusReach = 8;
 static const int2 FocusRing[8] = { int2(-1, -1), int2(0, -1), int2(1, -1), int2(-1, 0), int2(1, 0), int2(-1, 1), int2(0, 1), int2(1, 1) };
 static const float FocusDepthStart = 0.10;
 static const float FocusDepthRange = 0.10;
+static const float FocusMovedLuma = 0.02;
+static const float FocusSceneStart = 0.002;
+static const float FocusSceneRange = 0.008;
+
+groupshared uint FocusMovedCount;
 static const float PlaneGate = 0.3;
 static const float PlaneResidualSigma = 0.02;
 static const float LinearFar = 1000.0;
@@ -834,11 +840,10 @@ float FitSurface(int2 p, int2 size, float centre, float3 tone, float fallback)
     return plane.x > 0 ? plane.x : fallback;
 }
 
-[numthreads(16, 16, 1)]
-void Refine(uint3 id : SV_DispatchThreadID)
+bool RefinePixel(uint3 id)
 {
     if (any(id.xy >= SourceSize))
-        return;
+        return false;
     int2 p = int2(id.xy);
     int2 size = int2(SourceSize);
     float3 centre = AverageColor(p, size);
@@ -897,11 +902,27 @@ void Refine(uint3 id : SV_DispatchThreadID)
         }
         float colorStill = 1 - saturate((motion - FocusStillStart) / FocusStillRange);
         float depthStill = 1 - saturate((change - FocusDepthStart) / FocusDepthRange);
-        float stillness = history < 0 ? 0 : colorStill * depthStill;
+        float moving = FocusMotion.Load(4 * (Padding.x ^ 1)) / float(SourceSize.x * SourceSize.y);
+        float sceneStill = 1 - saturate((moving - FocusSceneStart) / FocusSceneRange);
+        float stillness = history < 0 ? 0 : colorStill * depthStill * sceneStill;
         Depth[id.xy] = lerp(current, previous, FocusHold * stillness);
-        return;
+        return abs(luma - Luma.Load(int3(p, 0))) > FocusMovedLuma;
     }
     Depth[id.xy] = lerp(previous, current, saturate(TemporalBase + change * TemporalResponse));
+    return false;
+}
+
+[numthreads(16, 16, 1)]
+void Refine(uint3 id : SV_DispatchThreadID, uint index : SV_GroupIndex)
+{
+    if (index == 0)
+        FocusMovedCount = 0;
+    GroupMemoryBarrierWithGroupSync();
+    if (RefinePixel(id))
+        InterlockedAdd(FocusMovedCount, 1);
+    GroupMemoryBarrierWithGroupSync();
+    if (index == 0 && (Flags & Exact) && FocusMovedCount > 0)
+        FocusMotion.InterlockedAdd(4 * Padding.x, FocusMovedCount);
 }
 )";
 
@@ -1047,6 +1068,9 @@ struct Depth
     Surface ratioBlur;
     Surface focus[2];
     size_t focusIndex = 0;
+    winrt::com_ptr<ID3D11Buffer> focusMotion;
+    winrt::com_ptr<ID3D11UnorderedAccessView> focusMotionTarget;
+    std::array<winrt::com_ptr<ID3D11UnorderedAccessView>, 2> focusMotionSlots;
     winrt::com_ptr<ID3D11Texture2D> pairCopy;
     bool pairPending = false;
     bool pairReady = false;
@@ -1463,6 +1487,10 @@ void ReleaseShared()
     d.affineView = nullptr;
     d.affineTarget = nullptr;
     d.affine = nullptr;
+    d.focusMotionTarget = nullptr;
+    for (auto& slot : d.focusMotionSlots)
+        slot = nullptr;
+    d.focusMotion = nullptr;
     d.tracking = false;
     d.pairPending = false;
     d.pairReady = false;
@@ -1679,6 +1707,26 @@ void CreateCommon()
     winrt::check_hresult(g.device->CreateBuffer(&affine, &initial, d.affine.put()));
     winrt::check_hresult(g.device->CreateUnorderedAccessView(d.affine.get(), nullptr, d.affineTarget.put()));
     winrt::check_hresult(g.device->CreateShaderResourceView(d.affine.get(), nullptr, d.affineView.put()));
+    D3D11_BUFFER_DESC motion{};
+    motion.ByteWidth = 16;
+    motion.Usage = D3D11_USAGE_DEFAULT;
+    motion.BindFlags = D3D11_BIND_UNORDERED_ACCESS;
+    motion.MiscFlags = D3D11_RESOURCE_MISC_BUFFER_ALLOW_RAW_VIEWS;
+    winrt::check_hresult(g.device->CreateBuffer(&motion, nullptr, d.focusMotion.put()));
+    D3D11_UNORDERED_ACCESS_VIEW_DESC motionView{};
+    motionView.Format = DXGI_FORMAT_R32_TYPELESS;
+    motionView.ViewDimension = D3D11_UAV_DIMENSION_BUFFER;
+    motionView.Buffer.NumElements = 4;
+    motionView.Buffer.Flags = D3D11_BUFFER_UAV_FLAG_RAW;
+    winrt::check_hresult(g.device->CreateUnorderedAccessView(d.focusMotion.get(), &motionView, d.focusMotionTarget.put()));
+    for (UINT i = 0; i < 2; ++i)
+    {
+        motionView.Buffer.FirstElement = i;
+        motionView.Buffer.NumElements = 1;
+        winrt::check_hresult(g.device->CreateUnorderedAccessView(d.focusMotion.get(), &motionView, d.focusMotionSlots[i].put()));
+    }
+    const UINT zero[4] = {};
+    g.context->ClearUnorderedAccessViewUint(d.focusMotionTarget.get(), zero);
     const UINT constants[8] = { d.sourceWidth, d.sourceHeight, d.workWidth, d.workHeight };
     g.context->UpdateSubresource(d.trackSizes.get(), 0, nullptr, constants, 0, 0);
     for (auto* runtime : d.runtimes)
@@ -1792,16 +1840,19 @@ void TrackExact()
     detail.published = false;
     if (!detail.anchored)
         return;
-    const UINT constants[8] = { d.sourceWidth, d.sourceHeight, d.workWidth, d.workHeight, kExact };
+    const Surface& history = d.focus[d.focusIndex];
+    d.focusIndex ^= 1;
+    const UINT parity = static_cast<UINT>(d.focusIndex);
+    const UINT zero[4] = {};
+    g.context->ClearUnorderedAccessViewUint(d.focusMotionSlots[parity].get(), zero);
+    const UINT constants[8] = { d.sourceWidth, d.sourceHeight, d.workWidth, d.workHeight, kExact, parity };
     g.context->UpdateSubresource(d.trackSizes.get(), 0, nullptr, constants, 0, 0);
     const UINT sourceGroupsX = (d.sourceWidth + 15) / 16;
     const UINT sourceGroupsY = (d.sourceHeight + 15) / 16;
     Dispatch(kWarp, { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, detail.anchor.view.get() },
              { nullptr, nullptr, nullptr, nullptr, nullptr, d.warped.target.get() }, sourceGroupsX, sourceGroupsY);
-    const Surface& history = d.focus[d.focusIndex];
-    d.focusIndex ^= 1;
     Dispatch(kRefine, { d.liveView.get(), history.view.get(), nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.warped.view.get() },
-             { d.focus[d.focusIndex].target.get(), nullptr, nullptr, nullptr, d.textureTarget.get() }, sourceGroupsX, sourceGroupsY);
+             { d.focus[d.focusIndex].target.get(), d.focusMotionTarget.get(), nullptr, nullptr, d.textureTarget.get() }, sourceGroupsX, sourceGroupsY);
 }
 
 void Track(ID3D11Texture2D* frame, int64_t frameTimestamp)
