@@ -1063,17 +1063,24 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         if (BreadcrumbPanel == null || PageHeaderShift == null)
             return;
-        CubicEase ease = new CubicEase { EasingMode = EasingMode.EaseOut };
-        PageHeaderShift.BeginAnimation(TranslateTransform.XProperty, new DoubleAnimation(fromX, 0.0, TimeSpan.FromMilliseconds(280)) { EasingFunction = ease });
-        BreadcrumbPanel.BeginAnimation(OpacityProperty, new DoubleAnimation(0.0, 1.0, TimeSpan.FromMilliseconds(240)) { EasingFunction = ease });
-        _pageDescriptionShift = fromX;
-        Dispatcher.BeginInvoke(new Action(AnimatePageDescription), DispatcherPriority.Loaded);
+        _pageHeaderShiftFrom = fromX;
+        PageHeaderShift.BeginAnimation(TranslateTransform.XProperty, new DoubleAnimation(fromX, fromX, TimeSpan.Zero));
+        BreadcrumbPanel.BeginAnimation(OpacityProperty, new DoubleAnimation(0.0, 0.0, TimeSpan.Zero));
+        Dispatcher.BeginInvoke(new Action(RunPageHeaderAnimation), DispatcherPriority.Loaded);
     }
 
-    private double _pageDescriptionShift;
+    private double _pageHeaderShiftFrom;
 
-    private void AnimatePageDescription()
+    private void RunPageHeaderAnimation()
     {
+        CubicEase ease = new CubicEase { EasingMode = EasingMode.EaseOut };
+        ease.Freeze();
+        DoubleAnimation slide = new DoubleAnimation(_pageHeaderShiftFrom, 0.0, TimeSpan.FromMilliseconds(280)) { EasingFunction = ease };
+        DoubleAnimation fade = new DoubleAnimation(0.0, 1.0, TimeSpan.FromMilliseconds(240)) { EasingFunction = ease };
+        slide.Freeze();
+        fade.Freeze();
+        PageHeaderShift.BeginAnimation(TranslateTransform.XProperty, slide);
+        BreadcrumbPanel.BeginAnimation(OpacityProperty, fade);
         if (RootFrame?.Content is not DependencyObject page)
             return;
         TextBlock? description = FindPageDescription(page, 0);
@@ -1084,10 +1091,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             shift = new TranslateTransform();
             description.RenderTransform = shift;
         }
-        CubicEase ease = new CubicEase { EasingMode = EasingMode.EaseOut };
-        ease.Freeze();
-        shift.BeginAnimation(TranslateTransform.XProperty, new DoubleAnimation(_pageDescriptionShift, 0.0, TimeSpan.FromMilliseconds(300)) { EasingFunction = ease });
-        description.BeginAnimation(OpacityProperty, new DoubleAnimation(0.0, 1.0, TimeSpan.FromMilliseconds(260)) { EasingFunction = ease });
+        shift.BeginAnimation(TranslateTransform.XProperty, slide);
+        description.BeginAnimation(OpacityProperty, fade);
     }
 
     private TextBlock? FindPageDescription(DependencyObject node, int depth)
