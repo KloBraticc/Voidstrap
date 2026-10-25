@@ -1251,6 +1251,12 @@ void Worker(Lane& l)
                 l.failed = true;
             }
         }
+        catch (...)
+        {
+            Log(LogLevel::Error, L"Depth %ls estimation stopped on an unexpected error.", LaneName(l));
+            LogStackTrace();
+            l.failed = true;
+        }
         l.done = true;
         SetEvent(l.finished);
     }
