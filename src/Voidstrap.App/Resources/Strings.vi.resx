@@ -4634,7 +4634,7 @@ Bạn muốn làm gì?</value>
     <value>Muộn (Opt out)</value>
   </data>
   <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
-    <value>Giữ phiên bản của bạn 3 ngày sau mỗi bản cập nhật Roblox để lỗi sớm được sửa trước, rồi tự cập nhật. Bản cài bị thiếu hoặc hỏng luôn được cập nhật ngay</value>
+    <value>Giữ phiên bản của bạn 1 ngày sau mỗi bản cập nhật Roblox để lỗi sớm được sửa trước, rồi tự cập nhật. Bản cài bị thiếu hoặc hỏng luôn được cập nhật ngay</value>
   </data>
   <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
     <value>Chế độ hiệu quả</value>

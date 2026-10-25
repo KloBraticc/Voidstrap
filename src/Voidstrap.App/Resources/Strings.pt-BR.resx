@@ -4608,7 +4608,7 @@ O que você gostaria de fazer?</value>
     <value>Tardia (Opt out)</value>
   </data>
   <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
-    <value>Mantém sua versão por 3 dias após cada atualização do Roblox para que os primeiros bugs sejam corrigidos, depois atualiza sozinho. Uma instalação ausente ou quebrada sempre atualiza na hora</value>
+    <value>Mantém sua versão por 1 dia após cada atualização do Roblox para que os primeiros bugs sejam corrigidos, depois atualiza sozinho. Uma instalação ausente ou quebrada sempre atualiza na hora</value>
   </data>
   <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
     <value>Modo de eficiência</value>

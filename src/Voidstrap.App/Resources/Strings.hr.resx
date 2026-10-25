@@ -4627,7 +4627,7 @@ Roblox će se preuzeti kada ga prvi put pokreneš putem Voidstrapa. Postavke mo�
     <value>Kasno (Opt out)</value>
   </data>
   <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
-    <value>Zadržava tvoju verziju 3 dana nakon svakog Roblox ažuriranja kako bi se rane greške ispravile, a zatim se sam ažurira. Nedostajuća ili oštećena instalacija uvijek se odmah ažurira</value>
+    <value>Zadržava tvoju verziju 1 dan nakon svakog Roblox ažuriranja kako bi se rane greške ispravile, a zatim se sam ažurira. Nedostajuća ili oštećena instalacija uvijek se odmah ažurira</value>
   </data>
   <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
     <value>Način učinkovitosti</value>

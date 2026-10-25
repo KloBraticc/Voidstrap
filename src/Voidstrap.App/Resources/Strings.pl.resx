@@ -4622,7 +4622,7 @@ Co chcesz zrobić?</value>
     <value>Później (Opt out)</value>
   </data>
   <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
-    <value>Zatrzymuje twoją wersję na 3 dni po każdej aktualizacji Roblox, aby najpierw naprawiono wczesne błędy, a potem aktualizuje się sam. Brakująca lub uszkodzona instalacja zawsze aktualizuje się od razu</value>
+    <value>Zatrzymuje twoją wersję na 1 dzień po każdej aktualizacji Roblox, aby najpierw naprawiono wczesne błędy, a potem aktualizuje się sam. Brakująca lub uszkodzona instalacja zawsze aktualizuje się od razu</value>
   </data>
   <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
     <value>Tryb wydajności</value>

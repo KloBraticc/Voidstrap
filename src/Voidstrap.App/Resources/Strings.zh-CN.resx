@@ -4649,7 +4649,7 @@ Voidstrap 的安装路径是：
     <value>延后 (Opt out)</value>
   </data>
   <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
-    <value>每次 Roblox 更新后保留当前版本 3 天，以便先修复早期错误，然后自动更新。缺失或损坏的安装始终会立即更新</value>
+    <value>每次 Roblox 更新后保留当前版本 1 天，以便先修复早期错误，然后自动更新。缺失或损坏的安装始终会立即更新</value>
   </data>
   <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
     <value>效率模式</value>

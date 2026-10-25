@@ -4657,7 +4657,7 @@
     <value>متأخر (Opt out)</value>
   </data>
   <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
-    <value>يحتفظ بإصدارك 3 أيام بعد كل تحديث لـ Roblox لتُصلح الأخطاء المبكرة أولًا، ثم يحدّث نفسه. التثبيت المفقود أو التالف يُحدَّث دائمًا فورًا</value>
+    <value>يحتفظ بإصدارك يومًا واحدًا بعد كل تحديث لـ Roblox لتُصلح الأخطاء المبكرة أولًا، ثم يحدّث نفسه. التثبيت المفقود أو التالف يُحدَّث دائمًا فورًا</value>
   </data>
   <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
     <value>وضع الكفاءة</value>

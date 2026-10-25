@@ -4608,7 +4608,7 @@ Ce vrei să faci?</value>
     <value>Târziu (Opt out)</value>
   </data>
   <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
-    <value>Păstrează versiunea ta 3 zile după fiecare actualizare Roblox ca erorile timpurii să fie reparate, apoi se actualizează singur. O instalare lipsă sau stricată se actualizează mereu imediat</value>
+    <value>Păstrează versiunea ta 1 zi după fiecare actualizare Roblox ca erorile timpurii să fie reparate, apoi se actualizează singur. O instalare lipsă sau stricată se actualizează mereu imediat</value>
   </data>
   <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
     <value>Mod eficiență</value>

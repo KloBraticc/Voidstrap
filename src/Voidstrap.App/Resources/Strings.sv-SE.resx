@@ -4586,7 +4586,7 @@ Vad vill du göra?</value>
     <value>Sent (Opt out)</value>
   </data>
   <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
-    <value>Behåller din version i 3 dagar efter varje Roblox uppdatering så att tidiga buggar hinner åtgärdas, och uppdaterar sedan av sig själv. En saknad eller trasig installation uppdateras alltid direkt</value>
+    <value>Behåller din version i 1 dag efter varje Roblox uppdatering så att tidiga buggar hinner åtgärdas, och uppdaterar sedan av sig själv. En saknad eller trasig installation uppdateras alltid direkt</value>
   </data>
   <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
     <value>Effektivitetsläge</value>

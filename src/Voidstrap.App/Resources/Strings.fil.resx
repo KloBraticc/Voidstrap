@@ -4401,7 +4401,7 @@ Ano ang gusto mong gawin?</value>
     <value>Huli (Opt out)</value>
   </data>
   <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
-    <value>Pinapanatili ang bersyon mo nang 3 araw pagkatapos ng bawat update ng Roblox para maayos muna ang mga maagang bug, saka kusang nag a update. Ang nawawala o sirang install ay laging agad na ina update</value>
+    <value>Pinapanatili ang bersyon mo nang 1 araw pagkatapos ng bawat update ng Roblox para maayos muna ang mga maagang bug, saka kusang nag a update. Ang nawawala o sirang install ay laging agad na ina update</value>
   </data>
   <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
     <value>Mode ng pagtitipid</value>

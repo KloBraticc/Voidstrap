@@ -4651,7 +4651,7 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
     <value>遅延 (Opt out)</value>
   </data>
   <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
-    <value>初期のバグが修正されるよう、Roblox の更新ごとに現在のバージョンを 3 日間維持し、その後自動で更新します。インストールが見つからないか壊れている場合は常に即時更新します</value>
+    <value>初期のバグが修正されるよう、Roblox の更新ごとに現在のバージョンを 1 日間維持し、その後自動で更新します。インストールが見つからないか壊れている場合は常に即時更新します</value>
   </data>
   <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
     <value>効率モード</value>

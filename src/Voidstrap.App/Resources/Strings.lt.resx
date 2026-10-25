@@ -4662,7 +4662,7 @@ Ką norėtumėte daryti?</value>
     <value>Vėlai (Opt out)</value>
   </data>
   <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
-    <value>Po kiekvieno Roblox atnaujinimo 3 dienas laiko jūsų versiją, kad ankstyvos klaidos būtų ištaisytos, tada atsinaujina pats. Trūkstamas ar sugadintas diegimas visada atnaujinamas iškart</value>
+    <value>Po kiekvieno Roblox atnaujinimo 1 dieną laiko jūsų versiją, kad ankstyvos klaidos būtų ištaisytos, tada atsinaujina pats. Trūkstamas ar sugadintas diegimas visada atnaujinamas iškart</value>
   </data>
   <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
     <value>Efektyvumo režimas</value>

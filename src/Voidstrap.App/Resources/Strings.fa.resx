@@ -4666,7 +4666,7 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
     <value>دیرهنگام (Opt out)</value>
   </data>
   <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
-    <value>پس از هر به‌روزرسانی Roblox نسخه شما را 3 روز نگه می‌دارد تا خطاهای اولیه رفع شوند، سپس خودش به‌روز می‌شود. نصب گم‌شده یا خراب همیشه فوراً به‌روز می‌شود</value>
+    <value>پس از هر به‌روزرسانی Roblox نسخه شما را 1 روز نگه می‌دارد تا خطاهای اولیه رفع شوند، سپس خودش به‌روز می‌شود. نصب گم‌شده یا خراب همیشه فوراً به‌روز می‌شود</value>
   </data>
   <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
     <value>حالت بهره‌وری</value>

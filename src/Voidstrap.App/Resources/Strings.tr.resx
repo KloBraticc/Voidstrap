@@ -4620,7 +4620,7 @@ Ne yapmak istersiniz?</value>
     <value>Geç (Opt out)</value>
   </data>
   <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
-    <value>Erken hatalar düzeltilsin diye her Roblox güncellemesinden sonra sürümünüzü 3 gün korur, sonra kendi güncellenir. Eksik veya bozuk bir kurulum her zaman hemen güncellenir</value>
+    <value>Erken hatalar düzeltilsin diye her Roblox güncellemesinden sonra sürümünüzü 1 gün korur, sonra kendi güncellenir. Eksik veya bozuk bir kurulum her zaman hemen güncellenir</value>
   </data>
   <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
     <value>Verimlilik modu</value>

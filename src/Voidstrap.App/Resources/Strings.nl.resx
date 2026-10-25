@@ -4584,7 +4584,7 @@ Wat wil je doen?</value>
     <value>Laat (Opt out)</value>
   </data>
   <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
-    <value>Houdt je versie 3 dagen na elke Roblox update zodat vroege bugs eerst worden opgelost, en werkt daarna zelf bij. Een ontbrekende of kapotte installatie wordt altijd meteen bijgewerkt</value>
+    <value>Houdt je versie 1 dag na elke Roblox update zodat vroege bugs eerst worden opgelost, en werkt daarna zelf bij. Een ontbrekende of kapotte installatie wordt altijd meteen bijgewerkt</value>
   </data>
   <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
     <value>Efficiëntiemodus</value>

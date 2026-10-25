@@ -4549,7 +4549,7 @@ Que souhaitez-vous faire ?</value>
     <value>Tardif (Opt out)</value>
   </data>
   <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
-    <value>Garde votre version 3 jours après chaque mise à jour de Roblox pour que les premiers bugs soient corrigés, puis met à jour tout seul. Une installation absente ou cassée est toujours mise à jour immédiatement</value>
+    <value>Garde votre version 1 jour après chaque mise à jour de Roblox pour que les premiers bugs soient corrigés, puis met à jour tout seul. Une installation absente ou cassée est toujours mise à jour immédiatement</value>
   </data>
   <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
     <value>Mode efficacité</value>

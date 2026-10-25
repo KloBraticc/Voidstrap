@@ -4597,7 +4597,7 @@ Cosa vuoi fare?</value>
     <value>Ritardato (Opt out)</value>
   </data>
   <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
-    <value>Mantiene la tua versione per 3 giorni dopo ogni aggiornamento di Roblox così i primi bug vengono corretti, poi si aggiorna da solo. Un'installazione mancante o rotta si aggiorna sempre subito</value>
+    <value>Mantiene la tua versione per 1 giorno dopo ogni aggiornamento di Roblox così i primi bug vengono corretti, poi si aggiorna da solo. Un'installazione mancante o rotta si aggiorna sempre subito</value>
   </data>
   <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
     <value>Modalità efficienza</value>

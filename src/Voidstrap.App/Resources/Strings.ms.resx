@@ -4589,7 +4589,7 @@ Apakah yang anda mahu lakukan?</value>
     <value>Lewat (Opt out)</value>
   </data>
   <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
-    <value>Mengekalkan versi anda selama 3 hari selepas setiap kemas kini Roblox supaya pepijat awal dibaiki dahulu, kemudian dikemas kini sendiri. Pemasangan yang hilang atau rosak sentiasa dikemas kini serta merta</value>
+    <value>Mengekalkan versi anda selama 1 hari selepas setiap kemas kini Roblox supaya pepijat awal dibaiki dahulu, kemudian dikemas kini sendiri. Pemasangan yang hilang atau rosak sentiasa dikemas kini serta merta</value>
   </data>
   <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
     <value>Mod kecekapan</value>

@@ -4608,7 +4608,7 @@ Co chcete udělat?</value>
     <value>Později (Opt out)</value>
   </data>
   <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
-    <value>Ponechá vaši verzi 3 dny po každé aktualizaci Robloxu, aby se nejdřív opravily rané chyby, a pak se aktualizuje sama. Chybějící nebo poškozená instalace se vždy aktualizuje hned</value>
+    <value>Ponechá vaši verzi 1 den po každé aktualizaci Robloxu, aby se nejdřív opravily rané chyby, a pak se aktualizuje sama. Chybějící nebo poškozená instalace se vždy aktualizuje hned</value>
   </data>
   <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
     <value>Úsporný režim</value>

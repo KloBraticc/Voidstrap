@@ -4582,7 +4582,7 @@ Apa yang ingin Anda lakukan?</value>
     <value>Lambat (Opt out)</value>
   </data>
   <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
-    <value>Mempertahankan versi Anda selama 3 hari setelah setiap pembaruan Roblox agar bug awal diperbaiki dulu, lalu memperbarui sendiri. Instalasi yang hilang atau rusak selalu langsung diperbarui</value>
+    <value>Mempertahankan versi Anda selama 1 hari setelah setiap pembaruan Roblox agar bug awal diperbaiki dulu, lalu memperbarui sendiri. Instalasi yang hilang atau rusak selalu langsung diperbarui</value>
   </data>
   <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
     <value>Mode efisiensi</value>

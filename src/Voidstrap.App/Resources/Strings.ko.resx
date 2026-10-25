@@ -4638,7 +4638,7 @@ Roblox는 Voidstrap으로 처음 실행할 때 다운로드됩니다. 실행하�
     <value>늦게 (Opt out)</value>
   </data>
   <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
-    <value>초기 버그가 먼저 수정되도록 Roblox 업데이트마다 현재 버전을 3일간 유지한 뒤 자동으로 업데이트합니다. 설치가 없거나 손상된 경우에는 항상 즉시 업데이트합니다</value>
+    <value>초기 버그가 먼저 수정되도록 Roblox 업데이트마다 현재 버전을 1일간 유지한 뒤 자동으로 업데이트합니다. 설치가 없거나 손상된 경우에는 항상 즉시 업데이트합니다</value>
   </data>
   <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
     <value>효율 모드</value>

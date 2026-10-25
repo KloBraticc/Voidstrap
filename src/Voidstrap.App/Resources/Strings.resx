@@ -4411,7 +4411,7 @@ What would you like to do?</value>
     <value>Late (Opt Out)</value>
   </data>
   <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
-    <value>Keeps the version you have for 3 days after each Roblox update so early bugs get fixed first, then updates on its own. A missing or broken install always updates right away</value>
+    <value>Keeps the version you have for 1 day after each Roblox update so early bugs get fixed first, then updates on its own. A missing or broken install always updates right away</value>
   </data>
   <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
     <value>Efficiency mode</value>

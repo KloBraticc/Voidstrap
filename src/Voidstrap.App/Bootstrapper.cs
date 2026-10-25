@@ -296,7 +296,7 @@ public class Bootstrapper
 
     public bool IsStudioLaunch => _launchMode != LaunchMode.Player;
 
-    private static readonly TimeSpan LateDeliveryHold = TimeSpan.FromDays(3);
+    private static readonly TimeSpan LateDeliveryHold = TimeSpan.FromDays(1);
 
     private string ApplyUpdateDelivery(string latest, bool forceManifest)
     {

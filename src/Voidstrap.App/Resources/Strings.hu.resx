@@ -4624,7 +4624,7 @@ Mit szeretnél tenni?</value>
     <value>Késői (Opt out)</value>
   </data>
   <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
-    <value>Minden Roblox frissítés után 3 napig megtartja a verziódat, hogy a korai hibákat kijavítsák, aztán magától frissít. Hiányzó vagy sérült telepítés mindig azonnal frissül</value>
+    <value>Minden Roblox frissítés után 1 napig megtartja a verziódat, hogy a korai hibákat kijavítsák, aztán magától frissít. Hiányzó vagy sérült telepítés mindig azonnal frissül</value>
   </data>
   <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
     <value>Hatékonysági mód</value>

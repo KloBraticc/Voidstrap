@@ -4620,7 +4620,7 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
     <value>ช้า (Opt out)</value>
   </data>
   <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
-    <value>เก็บเวอร์ชันของคุณไว้ 3 วันหลังแต่ละอัปเดตของ Roblox เพื่อให้แก้บั๊กช่วงแรกก่อน แล้วจึงอัปเดตเอง การติดตั้งที่หายไปหรือเสียจะอัปเดตทันทีเสมอ</value>
+    <value>เก็บเวอร์ชันของคุณไว้ 1 วันหลังแต่ละอัปเดตของ Roblox เพื่อให้แก้บั๊กช่วงแรกก่อน แล้วจึงอัปเดตเอง การติดตั้งที่หายไปหรือเสียจะอัปเดตทันทีเสมอ</value>
   </data>
   <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
     <value>โหมดประหยัดพลังงาน</value>

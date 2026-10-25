@@ -1986,7 +1986,7 @@ public static class LaunchHandler
 			state.HeldVersionFirstSeenUtc = DateTime.UtcNow;
 			App.State.Save();
 		}
-		TimeSpan hold = TimeSpan.FromDays(3);
+		TimeSpan hold = TimeSpan.FromDays(1);
 		TimeSpan remaining = state.HeldVersionFirstSeenUtc + hold - DateTime.UtcNow;
 		if (remaining <= TimeSpan.Zero || remaining > hold)
 		{

@@ -4628,7 +4628,7 @@ Voidstrap 安裝在 "{1}"。</value>
     <value>延後 (Opt out)</value>
   </data>
   <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
-    <value>每次 Roblox 更新後保留目前版本 3 天，讓早期錯誤先修正，然後自動更新。遺失或損毀的安裝一律會立即更新</value>
+    <value>每次 Roblox 更新後保留目前版本 1 天，讓早期錯誤先修正，然後自動更新。遺失或損毀的安裝一律會立即更新</value>
   </data>
   <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
     <value>效率模式</value>

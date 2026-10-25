@@ -4620,7 +4620,7 @@ Mitä haluat tehdä?</value>
     <value>Myöhään (Opt out)</value>
   </data>
   <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
-    <value>Pitää nykyisen version 3 päivää jokaisen Roblox-päivityksen jälkeen, jotta varhaiset virheet ehditään korjata, ja päivittää sitten itse. Puuttuva tai rikkinäinen asennus päivitetään aina heti</value>
+    <value>Pitää nykyisen version 1 päivän jokaisen Roblox-päivityksen jälkeen, jotta varhaiset virheet ehditään korjata, ja päivittää sitten itse. Puuttuva tai rikkinäinen asennus päivitetään aina heti</value>
   </data>
   <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
     <value>Tehokkuustila</value>

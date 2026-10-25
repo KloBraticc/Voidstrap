@@ -4556,7 +4556,7 @@ Was möchtest du tun?</value>
     <value>Spät (Opt out)</value>
   </data>
   <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
-    <value>Behält deine Version nach jedem Roblox Update 3 Tage, damit frühe Fehler zuerst behoben werden, und aktualisiert dann selbst. Eine fehlende oder defekte Installation wird immer sofort aktualisiert</value>
+    <value>Behält deine Version nach jedem Roblox Update 1 Tag, damit frühe Fehler zuerst behoben werden, und aktualisiert dann selbst. Eine fehlende oder defekte Installation wird immer sofort aktualisiert</value>
   </data>
   <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
     <value>Effizienzmodus</value>

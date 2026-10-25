@@ -4619,7 +4619,7 @@ Roblox se descargará cuando lo inicies por primera vez a través de Voidstrap. 
     <value>Tardía (Opt out)</value>
   </data>
   <data name="Ui.Channel.KeepsTheVersionYouHaveFor" xml:space="preserve">
-    <value>Mantiene tu versión 3 días después de cada actualización de Roblox para que se corrijan los primeros errores, y luego se actualiza sola. Una instalación ausente o dañada siempre se actualiza al momento</value>
+    <value>Mantiene tu versión 1 día después de cada actualización de Roblox para que se corrijan los primeros errores, y luego se actualiza sola. Una instalación ausente o dañada siempre se actualiza al momento</value>
   </data>
   <data name="Ui.Channel.EfficiencyMode" xml:space="preserve">
     <value>Modo de eficiencia</value>
