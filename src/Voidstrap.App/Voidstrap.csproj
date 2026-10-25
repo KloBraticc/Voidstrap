@@ -187,7 +187,7 @@
 		<PackageReference Include="AvalonEdit" Version="6.3.1.120" />
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
 		<PackageReference Include="DiscordRichPresence" Version="1.6.1.70" />
-		<PackageReference Include="Markdig" Version="1.4.1" />
+		<PackageReference Include="Markdig" Version="1.5.0" />
 		<PackageReference Include="Microsoft.ML.OnnxRuntime.Managed" Version="1.24.4" />
 		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.4258.31" />
 		<PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.3.1" />
