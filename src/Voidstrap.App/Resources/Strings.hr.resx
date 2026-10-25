@@ -8217,12 +8217,6 @@ Preuzima se {0} MB. Ako odbiješ, koristi se ugrađena procjena. To možeš prom
   <data name="Ui.TitleBar.Restore" xml:space="preserve">
     <value>Vrati</value>
   </data>
-  <data name="Ui.TitleBar.Move" xml:space="preserve">
-    <value>Premjesti</value>
-  </data>
-  <data name="Ui.TitleBar.Size" xml:space="preserve">
-    <value>Veličina</value>
-  </data>
   <data name="Ui.TitleBar.Minimize" xml:space="preserve">
     <value>Minimiziraj</value>
   </data>

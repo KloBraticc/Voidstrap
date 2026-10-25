@@ -8220,12 +8220,6 @@ Voidstrap نتوانست در پوشهٔ دسکتاپ بنویسد.</value>
   <data name="Ui.TitleBar.Restore" xml:space="preserve">
     <value>بازیابی</value>
   </data>
-  <data name="Ui.TitleBar.Move" xml:space="preserve">
-    <value>جابه‌جایی</value>
-  </data>
-  <data name="Ui.TitleBar.Size" xml:space="preserve">
-    <value>اندازه</value>
-  </data>
   <data name="Ui.TitleBar.Minimize" xml:space="preserve">
     <value>کوچک کردن</value>
   </data>

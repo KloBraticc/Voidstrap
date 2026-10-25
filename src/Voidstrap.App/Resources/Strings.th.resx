@@ -8213,12 +8213,6 @@ Voidstrap เขียนลงในโฟลเดอร์เดสก์ท�
   <data name="Ui.TitleBar.Restore" xml:space="preserve">
     <value>คืนค่า</value>
   </data>
-  <data name="Ui.TitleBar.Move" xml:space="preserve">
-    <value>ย้าย</value>
-  </data>
-  <data name="Ui.TitleBar.Size" xml:space="preserve">
-    <value>ขนาด</value>
-  </data>
   <data name="Ui.TitleBar.Minimize" xml:space="preserve">
     <value>ย่อเล็กสุด</value>
   </data>

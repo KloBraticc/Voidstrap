@@ -7905,12 +7905,6 @@ It downloads {0} MB. If you decline, the built in estimate is used. You can chan
   <data name="Ui.TitleBar.Restore" xml:space="preserve">
     <value>Restore</value>
   </data>
-  <data name="Ui.TitleBar.Move" xml:space="preserve">
-    <value>Move</value>
-  </data>
-  <data name="Ui.TitleBar.Size" xml:space="preserve">
-    <value>Size</value>
-  </data>
   <data name="Ui.TitleBar.Minimize" xml:space="preserve">
     <value>Minimize</value>
   </data>

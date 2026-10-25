@@ -8217,12 +8217,6 @@
   <data name="Ui.TitleBar.Restore" xml:space="preserve">
     <value>استعادة</value>
   </data>
-  <data name="Ui.TitleBar.Move" xml:space="preserve">
-    <value>نقل</value>
-  </data>
-  <data name="Ui.TitleBar.Size" xml:space="preserve">
-    <value>الحجم</value>
-  </data>
   <data name="Ui.TitleBar.Minimize" xml:space="preserve">
     <value>تصغير</value>
   </data>

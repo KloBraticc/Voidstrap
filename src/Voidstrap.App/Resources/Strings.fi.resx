@@ -8219,12 +8219,6 @@ Ladattava koko on {0} Mt. Jos kieltäydyt, käytetään sisäänrakennettua arvi
   <data name="Ui.TitleBar.Restore" xml:space="preserve">
     <value>Palauta</value>
   </data>
-  <data name="Ui.TitleBar.Move" xml:space="preserve">
-    <value>Siirrä</value>
-  </data>
-  <data name="Ui.TitleBar.Size" xml:space="preserve">
-    <value>Muuta kokoa</value>
-  </data>
   <data name="Ui.TitleBar.Minimize" xml:space="preserve">
     <value>Pienennä</value>
   </data>

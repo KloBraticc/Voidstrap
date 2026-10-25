@@ -8216,12 +8216,6 @@ Magda-download ito ng {0} MB. Kung tatanggihan mo, gagamitin ang built in na tan
   <data name="Ui.TitleBar.Restore" xml:space="preserve">
     <value>I-restore</value>
   </data>
-  <data name="Ui.TitleBar.Move" xml:space="preserve">
-    <value>Ilipat</value>
-  </data>
-  <data name="Ui.TitleBar.Size" xml:space="preserve">
-    <value>Laki</value>
-  </data>
   <data name="Ui.TitleBar.Minimize" xml:space="preserve">
     <value>I-minimize</value>
   </data>

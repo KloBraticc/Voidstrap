@@ -8220,12 +8220,6 @@ Unduhannya {0} MB. Jika Anda menolak, perkiraan bawaan akan digunakan. Anda dapa
   <data name="Ui.TitleBar.Restore" xml:space="preserve">
     <value>Pulihkan</value>
   </data>
-  <data name="Ui.TitleBar.Move" xml:space="preserve">
-    <value>Pindahkan</value>
-  </data>
-  <data name="Ui.TitleBar.Size" xml:space="preserve">
-    <value>Ukuran</value>
-  </data>
   <data name="Ui.TitleBar.Minimize" xml:space="preserve">
     <value>Minimalkan</value>
   </data>

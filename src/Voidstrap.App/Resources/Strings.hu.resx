@@ -8217,12 +8217,6 @@ A letöltés {0} MB. Ha elutasítod, a beépített becslés lesz használva. Ezt
   <data name="Ui.TitleBar.Restore" xml:space="preserve">
     <value>Előző méret</value>
   </data>
-  <data name="Ui.TitleBar.Move" xml:space="preserve">
-    <value>Áthelyezés</value>
-  </data>
-  <data name="Ui.TitleBar.Size" xml:space="preserve">
-    <value>Méretezés</value>
-  </data>
   <data name="Ui.TitleBar.Minimize" xml:space="preserve">
     <value>Kis méret</value>
   </data>

@@ -8218,12 +8218,6 @@ Den laddar ner {0} MB. Om du tackar nej används den inbyggda uppskattningen. Du
   <data name="Ui.TitleBar.Restore" xml:space="preserve">
     <value>Återställ</value>
   </data>
-  <data name="Ui.TitleBar.Move" xml:space="preserve">
-    <value>Flytta</value>
-  </data>
-  <data name="Ui.TitleBar.Size" xml:space="preserve">
-    <value>Storlek</value>
-  </data>
   <data name="Ui.TitleBar.Minimize" xml:space="preserve">
     <value>Minimera</value>
   </data>

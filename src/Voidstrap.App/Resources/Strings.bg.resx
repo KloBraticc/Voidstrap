@@ -8218,12 +8218,6 @@ Voidstrap не можа да запише в папката на работни�
   <data name="Ui.TitleBar.Restore" xml:space="preserve">
     <value>Възстановяване</value>
   </data>
-  <data name="Ui.TitleBar.Move" xml:space="preserve">
-    <value>Преместване</value>
-  </data>
-  <data name="Ui.TitleBar.Size" xml:space="preserve">
-    <value>Размер</value>
-  </data>
   <data name="Ui.TitleBar.Minimize" xml:space="preserve">
     <value>Минимизиране</value>
   </data>

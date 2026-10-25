@@ -1451,8 +1451,6 @@ public partial class App : Application
 	private static string WindowMenuText(string key) => key switch
 	{
 		"Restore" => Strings.Ui_TitleBar_Restore,
-		"Move" => Strings.Ui_TitleBar_Move,
-		"Size" => Strings.Ui_TitleBar_Size,
 		"Minimize" => Strings.Ui_TitleBar_Minimize,
 		"Maximize" => Strings.Ui_TitleBar_Maximize,
 		"Close" => Strings.Common_Close,

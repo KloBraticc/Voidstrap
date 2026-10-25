@@ -8209,12 +8209,6 @@ Muat turunnya {0} MB. Jika anda menolak, anggaran terbina dalam akan digunakan. 
   <data name="Ui.TitleBar.Restore" xml:space="preserve">
     <value>Pulihkan</value>
   </data>
-  <data name="Ui.TitleBar.Move" xml:space="preserve">
-    <value>Alih</value>
-  </data>
-  <data name="Ui.TitleBar.Size" xml:space="preserve">
-    <value>Saiz</value>
-  </data>
   <data name="Ui.TitleBar.Minimize" xml:space="preserve">
     <value>Minimumkan</value>
   </data>

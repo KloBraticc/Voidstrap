@@ -8232,12 +8232,6 @@ Voidstrap がデスクトップ フォルダーに書き込めませんでした
   <data name="Ui.TitleBar.Restore" xml:space="preserve">
     <value>元のサイズに戻す</value>
   </data>
-  <data name="Ui.TitleBar.Move" xml:space="preserve">
-    <value>移動</value>
-  </data>
-  <data name="Ui.TitleBar.Size" xml:space="preserve">
-    <value>サイズ変更</value>
-  </data>
   <data name="Ui.TitleBar.Minimize" xml:space="preserve">
     <value>最小化</value>
   </data>

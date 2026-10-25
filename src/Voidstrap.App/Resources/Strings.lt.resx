@@ -8219,12 +8219,6 @@ Atsisiunčiama {0} MB. Jei atsisakysite, bus naudojamas įtaisytasis įvertinima
   <data name="Ui.TitleBar.Restore" xml:space="preserve">
     <value>Atkurti</value>
   </data>
-  <data name="Ui.TitleBar.Move" xml:space="preserve">
-    <value>Perkelti</value>
-  </data>
-  <data name="Ui.TitleBar.Size" xml:space="preserve">
-    <value>Dydis</value>
-  </data>
   <data name="Ui.TitleBar.Minimize" xml:space="preserve">
     <value>Sumažinti</value>
   </data>

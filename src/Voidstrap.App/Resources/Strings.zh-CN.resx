@@ -8242,12 +8242,6 @@ Voidstrap 无法写入桌面文件夹。</value>
   <data name="Ui.TitleBar.Restore" xml:space="preserve">
     <value>还原</value>
   </data>
-  <data name="Ui.TitleBar.Move" xml:space="preserve">
-    <value>移动</value>
-  </data>
-  <data name="Ui.TitleBar.Size" xml:space="preserve">
-    <value>大小</value>
-  </data>
   <data name="Ui.TitleBar.Minimize" xml:space="preserve">
     <value>最小化</value>
   </data>

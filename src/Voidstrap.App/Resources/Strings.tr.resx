@@ -8216,12 +8216,6 @@ Bu dosyayı size yardım eden kişiye gönderin. Bilgisayar kullanıcı adınız
   <data name="Ui.TitleBar.Restore" xml:space="preserve">
     <value>Geri yükle</value>
   </data>
-  <data name="Ui.TitleBar.Move" xml:space="preserve">
-    <value>Taşı</value>
-  </data>
-  <data name="Ui.TitleBar.Size" xml:space="preserve">
-    <value>Boyut</value>
-  </data>
   <data name="Ui.TitleBar.Minimize" xml:space="preserve">
     <value>Simge durumuna küçült</value>
   </data>
