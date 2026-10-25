@@ -965,7 +965,7 @@
           <ScaleTransform x:Name="CommandPalettePanelScale" ScaleX="1" ScaleY="1" />
         </Border.RenderTransform>
         <StackPanel>
-          <Border Height="50" Padding="16,0,6,0" CornerRadius="10" Background="{StaticResource LauncherControlBrush}" BorderBrush="{DynamicResource SystemAccentBrush}" BorderThickness="1.5">
+          <Border Height="50" Padding="16,0,6,0" CornerRadius="10" Background="{StaticResource LauncherControlBrush}" BorderBrush="{StaticResource LauncherMenuBorderBrush}" BorderThickness="1">
             <Grid>
               <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
               <ui:SymbolIcon Symbol="Search24" FontSize="18" VerticalAlignment="Center" Foreground="{StaticResource LauncherTextSecondaryBrush}" />
