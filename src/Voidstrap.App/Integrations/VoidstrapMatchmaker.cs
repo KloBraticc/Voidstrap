@@ -54,7 +54,7 @@ public static class VoidstrapMatchmaker
 
 	private const int EarlyExitClosestMatches = 6;
 
-	private const int LinuxSettleMs = 6000;
+	private const int SettleMs = 4000;
 
 	private static readonly TimeSpan LaunchPickLifetime = TimeSpan.FromMinutes(3.0);
 
@@ -897,23 +897,11 @@ public static class VoidstrapMatchmaker
 		CancellationToken localToken = earlyCts.Token;
 		ConcurrentQueue<ServerListItem> queue = new ConcurrentQueue<ServerListItem>(servers);
 		System.Diagnostics.Stopwatch probeClock = System.Diagnostics.Stopwatch.StartNew();
-		int settled = 0;
 
 		async Task WorkerAsync()
 		{
 			while (!localToken.IsCancellationRequested && queue.TryDequeue(out ServerListItem? sv))
 			{
-				if (allowEarlyExit
-					&& Voidstrap.Utility.Platform.IsLinux
-					&& Volatile.Read(ref goodEnough) >= 1
-					&& probeClock.ElapsedMilliseconds >= LinuxSettleMs)
-				{
-					if (Interlocked.Exchange(ref settled, 1) == 0)
-						App.Logger.WriteLine(LOG_IDENT, $"A good server was found and {LinuxSettleMs / 1000}s passed, settling with {Volatile.Read(ref resultCount)} results");
-					earlyCts.Cancel();
-					return;
-				}
-
 				(string Ip, int Port)? resolved;
 				try
 				{
@@ -985,7 +973,12 @@ public static class VoidstrapMatchmaker
 				bool onTarget = preferred.Length > 0 ? MatchesPreferredDc(dc, preferred) : EstimateRttMs(km) <= floorMs + ClosestDatacenterBandMs;
 				bool populated = preferEmpty || sv.Playing >= 4 || sv.MaxPlayers > 0 && sv.Playing >= Math.Ceiling(sv.MaxPlayers * 0.15);
 				int requiredMatches = preferred.Length > 0 ? 3 : EarlyExitClosestMatches;
-				if (usable && onTarget && populated && Interlocked.Increment(ref goodEnough) >= requiredMatches && Volatile.Read(ref resultCount) >= EarlyExitMinResults)
+				if (!usable || !onTarget || !populated)
+					continue;
+				int good = Interlocked.Increment(ref goodEnough);
+				if (good == 1)
+					earlyCts.CancelAfter(TimeSpan.FromMilliseconds(Math.Max(0L, SettleMs - probeClock.ElapsedMilliseconds)));
+				if (good >= requiredMatches && Volatile.Read(ref resultCount) >= EarlyExitMinResults)
 				{
 					earlyCts.Cancel();
 					return;
@@ -1003,7 +996,7 @@ public static class VoidstrapMatchmaker
 		}
 
 		if (earlyCts.IsCancellationRequested && !token.IsCancellationRequested)
-			App.Logger.WriteLine(LOG_IDENT, $"Found enough good servers after {results.Count} probes, stopping early");
+			App.Logger.WriteLine(LOG_IDENT, $"Settled after {results.Count} probes in {probeClock.ElapsedMilliseconds}ms with {Volatile.Read(ref goodEnough)} good servers");
 
 		return results.ToList();
 	}
