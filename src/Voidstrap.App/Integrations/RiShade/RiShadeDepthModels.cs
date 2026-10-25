@@ -128,7 +128,11 @@ namespace Voidstrap.Integrations.RiShade
                 {
                     try
                     {
-                        if (RiShadeInterop.DepthBridgeProbe(RiShadeManager.RiShadeDir, out RiShadeInterop.DepthHardware hardware))
+                        bool probed;
+                        RiShadeInterop.DepthHardware hardware;
+                        lock (RiShadeInterop.GraphicsSetupLock)
+                            probed = RiShadeInterop.DepthBridgeProbe(RiShadeManager.RiShadeDir, out hardware);
+                        if (probed)
                         {
                             _hardware = hardware;
                             string half = hardware.HalfPrecision switch { 1 => "supported", 0 => "unsupported", _ => "not checked yet" };

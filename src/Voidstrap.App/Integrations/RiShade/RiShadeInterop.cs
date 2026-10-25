@@ -6,6 +6,8 @@ namespace Voidstrap.Integrations.RiShade
 {
     internal static partial class RiShadeInterop
     {
+        public static readonly System.Threading.Lock GraphicsSetupLock = new();
+
         [LibraryImport("rishade_reshade_addon", EntryPoint = "RiShadeRuntimeLoad", StringMarshalling = StringMarshalling.Utf16)]
         [return: MarshalAs(UnmanagedType.I1)]
         public static partial bool RuntimeLoad(string dxgiPath);

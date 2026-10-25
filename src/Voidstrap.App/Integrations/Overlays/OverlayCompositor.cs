@@ -140,6 +140,9 @@ namespace Voidstrap.Integrations.Overlays
         private bool _riDepthBridgeInitialized;
         private bool _riPresentFailureLogged;
         private long _riRuntimeRetryAt;
+        private int _riDepthStartPresents = -1;
+        private RiShadeDlssDiagnostics? _dlssDiagnostics;
+        private const int WrappedPresentsBeforeDepth = 3;
         private bool _riShadeInteractive;
         private bool _riMissingRuntimeLogged;
         private long _riDepthStamp;
@@ -588,6 +591,8 @@ namespace Voidstrap.Integrations.Overlays
         private void CreateDevice()
         {
             _riWrapped = LoadReShadeForWrapping();
+            if (_riWrapped && _dlssDiagnostics == null)
+                _dlssDiagnostics = RiShadeDlssDiagnostics.Start(RiShadeManager.RiShadeDir);
             _factory = _riWrapped ? CreateWrappedFactory() : DXGI.CreateDXGIFactory2<IDXGIFactory2>(false);
 
             IDXGIAdapter1? chosen = FindRobloxRenderAdapter();
@@ -727,8 +732,11 @@ namespace Voidstrap.Integrations.Overlays
         {
             if (_riWrapped)
             {
-                SharpGen.Runtime.Result wrapped = CreateWrappedDevice(adapter, driverType, DeviceCreationFlags.BgraSupport | DeviceCreationFlags.VideoSupport);
-                return wrapped.Success ? wrapped : CreateWrappedDevice(adapter, driverType, DeviceCreationFlags.BgraSupport);
+                lock (RiShadeInterop.GraphicsSetupLock)
+                {
+                    SharpGen.Runtime.Result wrapped = CreateWrappedDevice(adapter, driverType, DeviceCreationFlags.BgraSupport | DeviceCreationFlags.VideoSupport);
+                    return wrapped.Success ? wrapped : CreateWrappedDevice(adapter, driverType, DeviceCreationFlags.BgraSupport);
+                }
             }
             SharpGen.Runtime.Result result = D3D11.D3D11CreateDevice(adapter, driverType, DeviceCreationFlags.BgraSupport | DeviceCreationFlags.VideoSupport, _featureLevels, out _device, out _context);
             if (result.Success)
@@ -874,8 +882,8 @@ namespace Voidstrap.Integrations.Overlays
                     AttachWrappedRuntimeWindow();
                     RiShadeManager.SetRuntime(_riRuntime);
                     _riRuntimeRetryAt = 0;
-                    App.Logger.WriteLine(LOG_IDENT, "Using ReShade's own runtime on the wrapped compositor swapchain");
-                    StartRiShadeDepth();
+                    App.Logger.WriteLine(LOG_IDENT, "Using ReShade's own runtime on the wrapped compositor swapchain, depth starts after the first frames so DLSS finishes its setup alone");
+                    _riDepthStartPresents = WrappedPresentsBeforeDepth;
                     return;
                 }
 
@@ -940,10 +948,11 @@ namespace Voidstrap.Integrations.Overlays
                     RiShadeInterop.DepthBridgeSetFastModel(string.Empty);
                     RiShadeInterop.DepthBridgeSetExact(RiShadeDepthModels.ExactDepth);
                     RiShadeInterop.DepthBridgeSetModel(modelFile ?? string.Empty);
-                    _riDepthBridgeInitialized = _riDepthBridge = RiShadeInterop.DepthBridgeInitialize(
-                        _device!.NativePointer,
-                        _context!.NativePointer,
-                        RiShadeManager.RiShadeDir);
+                    lock (RiShadeInterop.GraphicsSetupLock)
+                        _riDepthBridgeInitialized = _riDepthBridge = RiShadeInterop.DepthBridgeInitialize(
+                            _device!.NativePointer,
+                            _context!.NativePointer,
+                            RiShadeManager.RiShadeDir);
                     if (_riDepthBridge)
                         App.Logger.WriteLine(LOG_IDENT, RiShadeInterop.DepthBridgeUsingModel()
                             ? "RiShade depth uses the AI model " + modelFile
@@ -2315,7 +2324,8 @@ namespace Voidstrap.Integrations.Overlays
                         string? modelFile = RiShadeDepthModels.ActiveModelFile;
                         RiShadeInterop.DepthBridgeSetFastModel(string.Empty);
                         RiShadeInterop.DepthBridgeSetExact(RiShadeDepthModels.ExactDepth);
-                        _riDepthBridge = RiShadeInterop.DepthBridgeReload(modelFile ?? string.Empty);
+                        lock (RiShadeInterop.GraphicsSetupLock)
+                            _riDepthBridge = RiShadeInterop.DepthBridgeReload(modelFile ?? string.Empty);
                         App.Logger.WriteLine(LOG_IDENT, _riDepthBridge && RiShadeInterop.DepthBridgeUsingModel()
                             ? "RiShade depth switched live to the AI model " + modelFile
                             : "RiShade depth switched live to scene estimation");
@@ -3448,6 +3458,11 @@ namespace Voidstrap.Integrations.Overlays
             var presentResult = _swapChain!.Present((uint)syncInterval, flags);
             _presentWaitMs += _clock.Elapsed.TotalMilliseconds - before;
             _presentWaitCount++;
+            if (_riDepthStartPresents > 0 && --_riDepthStartPresents == 0)
+            {
+                _riDepthStartPresents = -1;
+                StartRiShadeDepth();
+            }
             if (presentResult == Vortice.DXGI.ResultCode.DeviceRemoved || presentResult == Vortice.DXGI.ResultCode.DeviceReset)
             {
                 App.Logger.WriteLine(LOG_IDENT, "Graphics device was lost, the session will restart");
@@ -3708,6 +3723,8 @@ namespace Voidstrap.Integrations.Overlays
         {
             try
             {
+                _dlssDiagnostics?.Dispose();
+                _dlssDiagnostics = null;
                 DestroyRiShadeRuntime();
                 if (_riDepthBridgeInitialized)
                 {
