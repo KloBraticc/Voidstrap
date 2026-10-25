@@ -781,7 +781,28 @@
             <Grid.RenderTransform>
               <TranslateTransform x:Name="PageHeaderShift" />
             </Grid.RenderTransform>
-            <ui:Breadcrumb Name="PageBreadcrumb" Margin="6,0,0,0" FontSize="20" HorizontalAlignment="Left" Icon="Add12" Navigation="{Binding ElementName=RootNavigation}" />
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+              <ui:Breadcrumb Name="PageBreadcrumb" Margin="6,0,0,0" FontSize="20" HorizontalAlignment="Left" Icon="Add12" Navigation="{Binding ElementName=RootNavigation}" />
+              <ui:DropDownTitleButton x:Name="HomeTargetButton" Margin="10,2,0,0" Visibility="Collapsed" Text="Roblox" AutomationProperties.Name="Roblox">
+                <ui:DropDownTitleButton.DropDownMenu>
+                  <ContextMenu x:Name="HomeTargetMenu" HasDropShadow="False">
+                    <ContextMenu.Template>
+                      <ControlTemplate TargetType="{x:Type ContextMenu}">
+                        <Border Margin="12" MinWidth="200" Background="{DynamicResource LauncherMenuBrush}" BorderBrush="{StaticResource LauncherMenuBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="6" TextElement.FontSize="13.5" TextElement.Foreground="{StaticResource LauncherTextPrimaryBrush}">
+                          <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Cycle" />
+                        </Border>
+                      </ControlTemplate>
+                    </ContextMenu.Template>
+                    <MenuItem x:Name="HomeTargetRoblox" Header="Roblox" Tag="Active" Style="{StaticResource TopBarMenuItemStyle}" Click="HomeTargetRoblox_Click">
+                      <MenuItem.Icon><Image Width="16" Height="16" RenderOptions.BitmapScalingMode="HighQuality" Source="pack://application:,,,/Resources/RobloxPlayerIcon.png" /></MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem x:Name="HomeTargetStudio" Header="{resources:Loc Common_Studio}" Style="{StaticResource TopBarMenuItemStyle}" Click="HomeTargetStudio_Click">
+                      <MenuItem.Icon><Image Width="16" Height="16" RenderOptions.BitmapScalingMode="HighQuality" Source="pack://application:,,,/Resources/RobloxStudioIcon.png" /></MenuItem.Icon>
+                    </MenuItem>
+                  </ContextMenu>
+                </ui:DropDownTitleButton.DropDownMenu>
+              </ui:DropDownTitleButton>
+            </StackPanel>
           </Grid>
           <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right">
             <ui:TextBox Name="GlobalSearchBox" Width="240" Height="36" Margin="0,0,8,0" VerticalContentAlignment="Center" HorizontalAlignment="Stretch" Visibility="Collapsed" PlaceholderText="{resources:Loc Ui_Main_SearchPlaceholder}" ClearButtonEnabled="True" Icon="Search24" TextChanged="GlobalSearchBox_TextChanged" />

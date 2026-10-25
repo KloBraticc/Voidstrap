@@ -517,6 +517,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         base.ApplyTheme();
         Voidstrap.UI.WindowBackdrop.ApplyMainWindow(this);
         Resources["LauncherMenuBrush"] = TryFindResource("SystemFillColorSolidNeutralBackgroundBrush") as Brush ?? Voidstrap.UI.WindowBackdrop.CreateOpaqueSurfaceBrush(this);
+        SyncHomeTargetMenuBrush();
     }
 
     protected override void OnSourceInitialized(EventArgs e)
@@ -596,6 +597,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private void ApplyThemeBackground()
     {
         Resources["LauncherMenuBrush"] = TryFindResource("SystemFillColorSolidNeutralBackgroundBrush") as Brush ?? Voidstrap.UI.WindowBackdrop.CreateOpaqueSurfaceBrush(this);
+        SyncHomeTargetMenuBrush();
         if (GradientLayer == null)
         {
             return;
@@ -675,6 +677,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         //IL_01cc: Unknown result type (might be due to invalid IL or missing references)
         //IL_01de: Expected O, but got Unknown
         InitializeComponent();
+        SyncHomeTargetMenuBrush();
         InstallLaunchButton.SetBinding(SplitButton.DropDownOnRightProperty, new System.Windows.Data.Binding(nameof(MainWindowViewModel.LaunchDropdownOnRight)) { Mode = System.Windows.Data.BindingMode.OneWay });
         InstallLaunchButton.SetBinding(SplitButton.DropDownToolTipProperty, new System.Windows.Data.Binding(nameof(MainWindowViewModel.SelectedLaunchTargetName)) { Mode = System.Windows.Data.BindingMode.OneWay });
         InstallLaunchButton.DropDownClick += LaunchTargetButton_Click;
@@ -1056,7 +1059,47 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             PageBreadcrumb.Icon = navigationItem.Icon;
         }
+        RefreshHomeTargetButton();
         AnimatePageHeader(18.0);
+    }
+
+    private void SyncHomeTargetMenuBrush()
+    {
+        if (HomeTargetMenu != null && Resources["LauncherMenuBrush"] is Brush brush)
+            HomeTargetMenu.Resources["LauncherMenuBrush"] = brush;
+    }
+
+    private void RefreshHomeTargetButton()
+    {
+        if (RootFrame.Content is not HomePage homePage)
+        {
+            HomeTargetButton.Visibility = Visibility.Collapsed;
+            return;
+        }
+        bool studio = homePage.IsStudioTab;
+        HomeTargetButton.Visibility = Visibility.Visible;
+        HomeTargetButton.Text = studio ? Strings.Common_Studio : "Roblox";
+        AutomationProperties.SetName(HomeTargetButton, HomeTargetButton.Text);
+        HomeTargetRoblox.Tag = studio ? null : "Active";
+        HomeTargetStudio.Tag = studio ? "Active" : null;
+    }
+
+    private void SetHomeTarget(bool studio)
+    {
+        HomeTargetButton.IsDropDownOpen = false;
+        if (RootFrame.Content is HomePage homePage)
+            homePage.IsStudioTab = studio;
+        RefreshHomeTargetButton();
+    }
+
+    private void HomeTargetRoblox_Click(object sender, RoutedEventArgs e)
+    {
+        SetHomeTarget(false);
+    }
+
+    private void HomeTargetStudio_Click(object sender, RoutedEventArgs e)
+    {
+        SetHomeTarget(true);
     }
 
     private void AnimatePageHeader(double fromX)

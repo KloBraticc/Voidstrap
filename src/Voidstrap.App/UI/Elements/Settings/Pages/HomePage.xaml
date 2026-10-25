@@ -297,42 +297,6 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0" Margin="0,4,28,6">
-            <Border HorizontalAlignment="Left" Padding="4" CornerRadius="8" Background="{DynamicResource ControlFillColorDefaultBrush}" BorderThickness="1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
-                <StackPanel Orientation="Horizontal">
-                    <ui:Button Height="32" Margin="0,0,4,0" Padding="12,0" Tag="Roblox" Click="HomeTab_Click">
-                        <ui:Button.Style>
-                            <Style TargetType="{x:Type ui:Button}" BasedOn="{StaticResource {x:Type ui:Button}}">
-                                <Setter Property="Appearance" Value="Transparent" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsStudioTab}" Value="False">
-                                        <Setter Property="Appearance" Value="Primary" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </ui:Button.Style>
-                        <StackPanel Orientation="Horizontal">
-                            <Image Width="16" Height="16" Margin="0,0,7,0" RenderOptions.BitmapScalingMode="HighQuality" Source="pack://application:,,,/Resources/RobloxPlayerIcon.png" />
-                            <TextBlock VerticalAlignment="Center" Text="Roblox" />
-                        </StackPanel>
-                    </ui:Button>
-                    <ui:Button Height="32" Padding="12,0" Tag="Studio" Click="HomeTab_Click">
-                        <ui:Button.Style>
-                            <Style TargetType="{x:Type ui:Button}" BasedOn="{StaticResource {x:Type ui:Button}}">
-                                <Setter Property="Appearance" Value="Transparent" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsStudioTab}" Value="True">
-                                        <Setter Property="Appearance" Value="Primary" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </ui:Button.Style>
-                        <StackPanel Orientation="Horizontal">
-                            <Image Width="16" Height="16" Margin="0,0,7,0" RenderOptions.BitmapScalingMode="HighQuality" Source="pack://application:,,,/Resources/RobloxStudioIcon.png" />
-                            <TextBlock VerticalAlignment="Center" Text="{resources:Loc Common_Studio}" />
-                        </StackPanel>
-                    </ui:Button>
-                </StackPanel>
-            </Border>
             <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center" Orientation="Horizontal" Visibility="{Binding StudioTabVisibility}">
                 <ProgressBar Width="120" Height="3" Margin="0,0,12,0" VerticalAlignment="Center" IsIndeterminate="True"
                              Visibility="{Binding IsStudioLoading, Converter={StaticResource BooleanToVisibilityConverter}}" />

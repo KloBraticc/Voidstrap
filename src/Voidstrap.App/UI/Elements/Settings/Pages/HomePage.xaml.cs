@@ -51,10 +51,10 @@ namespace Voidstrap.UI.Elements.Settings.Pages
             Utilities.OpenWebLink("https://www.roblox.com/catalog?Category=1&SortType=3");
         }
 
-        private void HomeTab_Click(object sender, RoutedEventArgs e)
+        public bool IsStudioTab
         {
-            if (sender is FrameworkElement { Tag: string tab })
-                _viewModel.IsStudioTab = tab == "Studio";
+            get => _viewModel.IsStudioTab;
+            set => _viewModel.IsStudioTab = value;
         }
 
         private void StudioScroller_SizeChanged(object sender, SizeChangedEventArgs e)
