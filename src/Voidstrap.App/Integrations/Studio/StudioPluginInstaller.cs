@@ -54,7 +54,7 @@ public static class StudioPluginInstaller
 		{
 			if (Voidstrap.Utility.Platform.IsLinux
 				? Voidstrap.Platform.Linux.StudioProcessNames.AnyRunning()
-				: Process.GetProcessesByName(Voidstrap.Utility.Platform.RobloxStudioProcessName).Length != 0)
+				: Voidstrap.Utility.ProcessScan.Any(Voidstrap.Utility.Platform.RobloxStudioProcessName))
 			{
 				return true;
 			}

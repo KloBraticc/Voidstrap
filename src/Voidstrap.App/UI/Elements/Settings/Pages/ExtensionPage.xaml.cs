@@ -497,7 +497,7 @@ public partial class ExtensionPage : UiPage
 		{
 			try
 			{
-				if (Process.GetProcessesByName("RobloxAPIDumpTool").Length == 0)
+				if (!Voidstrap.Utility.ProcessScan.Any("RobloxAPIDumpTool"))
 					Process.Start(new ProcessStartInfo(exe) { UseShellExecute = true, WorkingDirectory = directory });
 				return;
 			}

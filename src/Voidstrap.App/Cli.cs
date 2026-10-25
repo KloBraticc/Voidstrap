@@ -181,7 +181,7 @@ internal static partial class Cli
 			Console.Error.WriteLine("Clear the cache from Sober on Linux");
 			return 1;
 		}
-		if (Process.GetProcessesByName(Voidstrap.Utility.Platform.RobloxPlayerProcessName).Length > 0)
+		if (Voidstrap.Utility.ProcessScan.Any(Voidstrap.Utility.Platform.RobloxPlayerProcessName))
 		{
 			Console.Error.WriteLine("Close Roblox first");
 			return 1;

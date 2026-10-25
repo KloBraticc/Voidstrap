@@ -804,26 +804,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                 return null;
             }
 
-            private static bool IsProcessRunning(string name)
-            {
-                Process[] processes = Array.Empty<Process>();
-                try
-                {
-                    processes = Process.GetProcessesByName(name);
-                    return processes.Length > 0;
-                }
-                catch
-                {
-                    return false;
-                }
-                finally
-                {
-                    foreach (Process process in processes)
-                    {
-                        try { process.Dispose(); } catch { }
-                    }
-                }
-            }
+            private static bool IsProcessRunning(string name) => Voidstrap.Utility.ProcessScan.Any(name);
 
             private static BitmapSource? LoadIcon(string uri)
             {

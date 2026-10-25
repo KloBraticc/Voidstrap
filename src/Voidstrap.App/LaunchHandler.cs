@@ -375,7 +375,7 @@ public static class LaunchHandler
 		using InterProcessLock interProcessLock = new InterProcessLock("Settings");
 		if (interProcessLock.IsAcquired)
 		{
-			Voidstrap.UI.Elements.Settings.MainWindow window = new(Process.GetProcessesByName("Voidstrap").Length > 1);
+			Voidstrap.UI.Elements.Settings.MainWindow window = new(Voidstrap.Utility.ProcessScan.Count("Voidstrap") > 1);
 			window.RequestStartupView(App.LaunchSettings.MenuFlag.Data);
 			Application? application = Application.Current;
 			Window? previousMainWindow = null;
@@ -952,13 +952,7 @@ public static class LaunchHandler
 		}
 	}
 
-	private static bool IsAnyProcessRunning(string processName)
-	{
-		Process[] processes = Process.GetProcessesByName(processName);
-		foreach (Process process in processes)
-			process.Dispose();
-		return processes.Length > 0;
-	}
+	private static bool IsAnyProcessRunning(string processName) => Voidstrap.Utility.ProcessScan.Any(processName);
 
 	private static bool IsProcessAlive(int processId)
 	{

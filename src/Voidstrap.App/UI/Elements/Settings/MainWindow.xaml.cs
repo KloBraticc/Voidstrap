@@ -4315,22 +4315,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
     }
 
-    private static bool AnyProcessRunning(string name)
-    {
-        Process[] processes = Process.GetProcessesByName(name);
-        bool running = processes.Length != 0;
-        for (int i = 0; i < processes.Length; i++)
-        {
-            try
-            {
-                processes[i].Dispose();
-            }
-            catch
-            {
-            }
-        }
-        return running;
-    }
+    private static bool AnyProcessRunning(string name) => Voidstrap.Utility.ProcessScan.Any(name);
 
     private void UpdateDiscordPresence()
     {
