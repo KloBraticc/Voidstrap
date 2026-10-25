@@ -68,10 +68,11 @@ public class Cleaner
 					string[] array = RecursivlyGetFiles(value);
 					App.Logger.WriteLine("Cleaner::DoCleaning", $"Running cleaner in {key}, {array.Length} files found");
 					string activeLog = App.Logger.FileLocation ?? string.Empty;
+					Lazy<HashSet<int>> livePids = new Lazy<HashSet<int>>(SnapshotProcessIds);
 					string[] array2 = array;
 					foreach (string text in array2)
 					{
-						if (IsLiveVoidstrapLog(text))
+						if (IsLiveVoidstrapLog(text, livePids))
 						{
 							continue;
 						}
@@ -160,7 +161,7 @@ public class Cleaner
 		App.Logger.WriteLine("Cleaner::DoCleaning", $"Running cleaner in SoberLogs, removed {removed} and kept {kept}");
 	}
 
-	private static bool IsLiveVoidstrapLog(string file)
+	private static bool IsLiveVoidstrapLog(string file, Lazy<HashSet<int>> livePids)
 	{
 		string name = Path.GetFileNameWithoutExtension(file);
 		if (!name.StartsWith("Voidstrap_", StringComparison.OrdinalIgnoreCase))
@@ -172,15 +173,18 @@ public class Cleaner
 		{
 			return false;
 		}
-		try
+		return livePids.Value.Contains(processId);
+	}
+
+	private static HashSet<int> SnapshotProcessIds()
+	{
+		HashSet<int> ids = new HashSet<int>();
+		foreach (System.Diagnostics.Process process in System.Diagnostics.Process.GetProcesses())
 		{
-			using System.Diagnostics.Process process = System.Diagnostics.Process.GetProcessById(processId);
-			return !process.HasExited;
+			using (process)
+				ids.Add(process.Id);
 		}
-		catch
-		{
-			return false;
-		}
+		return ids;
 	}
 
 	private static bool IsInUse(Exception ex)
