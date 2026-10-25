@@ -8212,4 +8212,22 @@ Voidstrap не можа да запише в папката на работни�
   <data name="Ui.Mods.StudioPlugins.RatingLabel" xml:space="preserve">
     <value>Оценка</value>
   </data>
+  <data name="Ui.Main.ClearSearch" xml:space="preserve">
+    <value>Изчистване на търсенето</value>
+  </data>
+  <data name="Ui.TitleBar.Restore" xml:space="preserve">
+    <value>Възстановяване</value>
+  </data>
+  <data name="Ui.TitleBar.Move" xml:space="preserve">
+    <value>Преместване</value>
+  </data>
+  <data name="Ui.TitleBar.Size" xml:space="preserve">
+    <value>Размер</value>
+  </data>
+  <data name="Ui.TitleBar.Minimize" xml:space="preserve">
+    <value>Минимизиране</value>
+  </data>
+  <data name="Ui.TitleBar.Maximize" xml:space="preserve">
+    <value>Максимизиране</value>
+  </data>
 </root>

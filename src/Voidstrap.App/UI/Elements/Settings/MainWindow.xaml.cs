@@ -250,6 +250,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
         public bool IsHeader { get; init; }
 
+        public bool IsSetting { get; init; }
+
         public string TitleBefore { get; init; } = "";
 
         public string TitleMatch { get; init; } = "";
@@ -2138,9 +2140,15 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         CloseModalOverlay();
     }
 
-    private void CommandPaletteClose_Click(object sender, RoutedEventArgs e)
+    private void CommandPaletteClear_Click(object sender, RoutedEventArgs e)
     {
-        CloseCommandPalette();
+        if (string.IsNullOrEmpty(CommandPaletteSearchBox.Text))
+        {
+            CloseCommandPalette();
+            return;
+        }
+        CommandPaletteSearchBox.Clear();
+        CommandPaletteSearchBox.Focus();
     }
 
     private void ResetCommandPalette()
@@ -2333,7 +2341,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 {
                     TopSearchEntry captured = entry;
                     string pageName = snapshot.PageNames.GetValueOrDefault(entry.PageType, "");
-                    _commandPaletteRows.Add(CreateCommandPaletteRow(entry.TargetText ?? pageName, pageName, snapshot.PageIcons.GetValueOrDefault(entry.PageType, SymbolRegular.Document24), snapshot.Query, () => QueueTopSearchNavigation(captured)));
+                    _commandPaletteRows.Add(CreateCommandPaletteRow(entry.TargetText ?? pageName, pageName, snapshot.PageIcons.GetValueOrDefault(entry.PageType, SymbolRegular.Document24), snapshot.Query, () => QueueTopSearchNavigation(captured), true));
                     results++;
                 }
             }
@@ -2357,10 +2365,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         MoveCommandPaletteSelection(1);
     }
 
-    private static CommandPaletteRow CreateCommandPaletteRow(string title, string detail, SymbolRegular icon, string query, Action open)
+    private static CommandPaletteRow CreateCommandPaletteRow(string title, string detail, SymbolRegular icon, string query, Action open, bool isSetting = false)
     {
         (string before, string match, string after) = SplitCommandPaletteMatch(title, query);
-        return new CommandPaletteRow { Title = title, TitleBefore = before, TitleMatch = match, TitleAfter = after, Detail = detail, Icon = icon, Open = open };
+        return new CommandPaletteRow { Title = title, TitleBefore = before, TitleMatch = match, TitleAfter = after, Detail = detail, Icon = icon, Open = open, IsSetting = isSetting };
     }
 
     internal static (string Before, string Match, string After) SplitCommandPaletteMatch(string title, string query)

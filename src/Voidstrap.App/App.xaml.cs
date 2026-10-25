@@ -1003,6 +1003,7 @@ public partial class App : Application
 		}
 		long persistentStateStarted = Stopwatch.GetTimestamp();
 		LoadPersistentState();
+		Wpf.Ui.Controls.TitleBar.WindowMenuText = WindowMenuText;
 		if (cli)
 		{
 			int exitCode = await Cli.RunAsync(args[1..]);
@@ -1446,6 +1447,17 @@ public partial class App : Application
 		ResetServerInfoInTitleOnce();
 		ResetClockOverlayOnce();
 	}
+
+	private static string WindowMenuText(string key) => key switch
+	{
+		"Restore" => Strings.Ui_TitleBar_Restore,
+		"Move" => Strings.Ui_TitleBar_Move,
+		"Size" => Strings.Ui_TitleBar_Size,
+		"Minimize" => Strings.Ui_TitleBar_Minimize,
+		"Maximize" => Strings.Ui_TitleBar_Maximize,
+		"Close" => Strings.Common_Close,
+		_ => key
+	};
 
 	private static void TimedLoad(string name, Action load)
 	{

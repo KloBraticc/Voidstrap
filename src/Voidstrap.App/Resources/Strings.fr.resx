@@ -8211,4 +8211,22 @@ Le téléchargement fait {0} Mo. Si vous refusez, l'estimation intégrée est ut
   <data name="Ui.Mods.StudioPlugins.RatingLabel" xml:space="preserve">
     <value>Note</value>
   </data>
+  <data name="Ui.Main.ClearSearch" xml:space="preserve">
+    <value>Effacer la recherche</value>
+  </data>
+  <data name="Ui.TitleBar.Restore" xml:space="preserve">
+    <value>Restaurer</value>
+  </data>
+  <data name="Ui.TitleBar.Move" xml:space="preserve">
+    <value>Déplacer</value>
+  </data>
+  <data name="Ui.TitleBar.Size" xml:space="preserve">
+    <value>Taille</value>
+  </data>
+  <data name="Ui.TitleBar.Minimize" xml:space="preserve">
+    <value>Réduire</value>
+  </data>
+  <data name="Ui.TitleBar.Maximize" xml:space="preserve">
+    <value>Agrandir</value>
+  </data>
 </root>

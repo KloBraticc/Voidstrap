@@ -189,6 +189,12 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Main_ChooseRobloxVersionHint => ResourceManager.GetString("Ui.Main.ChooseRobloxVersionHint", resourceCulture);
 
+        public static string Ui_Main_ClearSearch => ResourceManager.GetString("Ui.Main.ClearSearch", resourceCulture);
+        public static string Ui_TitleBar_Restore => ResourceManager.GetString("Ui.TitleBar.Restore", resourceCulture);
+        public static string Ui_TitleBar_Move => ResourceManager.GetString("Ui.TitleBar.Move", resourceCulture);
+        public static string Ui_TitleBar_Size => ResourceManager.GetString("Ui.TitleBar.Size", resourceCulture);
+        public static string Ui_TitleBar_Minimize => ResourceManager.GetString("Ui.TitleBar.Minimize", resourceCulture);
+        public static string Ui_TitleBar_Maximize => ResourceManager.GetString("Ui.TitleBar.Maximize", resourceCulture);
         public static string Ui_Main_SearchHint => ResourceManager.GetString("Ui.Main.SearchHint", resourceCulture);
 
         public static string Ui_Main_SearchTitle => ResourceManager.GetString("Ui.Main.SearchTitle", resourceCulture);

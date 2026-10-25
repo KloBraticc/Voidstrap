@@ -8215,4 +8215,22 @@ Dung lượng tải xuống là {0} MB. Nếu bạn từ chối, ước tính t�
   <data name="Ui.Mods.StudioPlugins.RatingLabel" xml:space="preserve">
     <value>Đánh giá</value>
   </data>
+  <data name="Ui.Main.ClearSearch" xml:space="preserve">
+    <value>Xóa tìm kiếm</value>
+  </data>
+  <data name="Ui.TitleBar.Restore" xml:space="preserve">
+    <value>Khôi phục</value>
+  </data>
+  <data name="Ui.TitleBar.Move" xml:space="preserve">
+    <value>Di chuyển</value>
+  </data>
+  <data name="Ui.TitleBar.Size" xml:space="preserve">
+    <value>Kích thước</value>
+  </data>
+  <data name="Ui.TitleBar.Minimize" xml:space="preserve">
+    <value>Thu nhỏ</value>
+  </data>
+  <data name="Ui.TitleBar.Maximize" xml:space="preserve">
+    <value>Phóng to</value>
+  </data>
 </root>

@@ -8212,4 +8212,22 @@ Pobieranie ma {0} MB. Jeśli odmówisz, zostanie użyte wbudowane oszacowanie. M
   <data name="Ui.Mods.StudioPlugins.RatingLabel" xml:space="preserve">
     <value>Ocena</value>
   </data>
+  <data name="Ui.Main.ClearSearch" xml:space="preserve">
+    <value>Wyczyść wyszukiwanie</value>
+  </data>
+  <data name="Ui.TitleBar.Restore" xml:space="preserve">
+    <value>Przywróć</value>
+  </data>
+  <data name="Ui.TitleBar.Move" xml:space="preserve">
+    <value>Przenieś</value>
+  </data>
+  <data name="Ui.TitleBar.Size" xml:space="preserve">
+    <value>Rozmiar</value>
+  </data>
+  <data name="Ui.TitleBar.Minimize" xml:space="preserve">
+    <value>Minimalizuj</value>
+  </data>
+  <data name="Ui.TitleBar.Maximize" xml:space="preserve">
+    <value>Maksymalizuj</value>
+  </data>
 </root>

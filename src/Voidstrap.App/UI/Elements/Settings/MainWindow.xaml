@@ -965,37 +965,39 @@
           <ScaleTransform x:Name="CommandPalettePanelScale" ScaleX="1" ScaleY="1" />
         </Border.RenderTransform>
         <StackPanel>
-          <Grid>
-            <Grid.ColumnDefinitions><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
-            <TextBlock Style="{StaticResource RinDialogTitleStyle}" Text="{resources:Loc ContextMenu_GameBrowser_Search}" />
-            <ui:Button Grid.Column="1" Width="34" Height="34" Padding="0" Appearance="Transparent" Icon="Dismiss24" ToolTip="{resources:Loc Common_Close}" Click="CommandPaletteClose_Click" />
-          </Grid>
-          <TextBlock Margin="0,6,0,16" FontSize="13" Foreground="{StaticResource LauncherTextSecondaryBrush}" Text="{resources:Loc Ui_Main_SearchHint}" TextWrapping="Wrap" />
-          <Border Height="44" Padding="14,0" CornerRadius="8" Background="{StaticResource LauncherControlBrush}" BorderBrush="{StaticResource LauncherMenuBorderBrush}" BorderThickness="1">
+          <Border Height="50" Padding="16,0,6,0" CornerRadius="10" Background="{StaticResource LauncherControlBrush}" BorderBrush="{DynamicResource SystemAccentBrush}" BorderThickness="1.5">
             <Grid>
-              <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
-              <ui:SymbolIcon Symbol="Search24" FontSize="17" VerticalAlignment="Center" Foreground="{StaticResource LauncherTextSecondaryBrush}" />
-              <TextBlock x:Name="CommandPalettePlaceholder" Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center" FontSize="14.5" Text="{resources:Loc Ui_Main_SearchTitle}" Foreground="{StaticResource LauncherTextTertiaryBrush}" IsHitTestVisible="False" />
-              <TextBox x:Name="CommandPaletteSearchBox" Grid.Column="1" Margin="10,0,0,0" FontSize="14.5" Style="{StaticResource TopSearchTextBoxStyle}" TextChanged="CommandPaletteSearchBox_TextChanged" PreviewKeyDown="CommandPaletteSearchBox_PreviewKeyDown" />
+              <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+              <ui:SymbolIcon Symbol="Search24" FontSize="18" VerticalAlignment="Center" Foreground="{StaticResource LauncherTextSecondaryBrush}" />
+              <TextBlock x:Name="CommandPalettePlaceholder" Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center" FontSize="15" Text="{resources:Loc Ui_Main_SearchTitle}" Foreground="{StaticResource LauncherTextTertiaryBrush}" IsHitTestVisible="False" />
+              <TextBox x:Name="CommandPaletteSearchBox" Grid.Column="1" Margin="10,0,0,0" FontSize="15" Style="{StaticResource TopSearchTextBoxStyle}" TextChanged="CommandPaletteSearchBox_TextChanged" PreviewKeyDown="CommandPaletteSearchBox_PreviewKeyDown" />
+              <ui:Button Grid.Column="2" Width="36" Height="36" Padding="0" Appearance="Transparent" Icon="Dismiss24" FontSize="16" ToolTip="{resources:Loc Ui_Main_ClearSearch}" AutomationProperties.Name="{resources:Loc Ui_Main_ClearSearch}" Click="CommandPaletteClear_Click" />
             </Grid>
           </Border>
-          <Grid x:Name="CommandPaletteResultsArea" Height="420" Margin="0,10,0,0">
+          <TextBlock x:Name="CommandPaletteCount" Margin="2,14,0,4" FontSize="12.5" FontWeight="SemiBold" Foreground="{StaticResource LauncherTextSecondaryBrush}" />
+          <Grid x:Name="CommandPaletteResultsArea" Height="440" Margin="0,4,0,0">
             <ScrollViewer x:Name="CommandPaletteResultsScroll" Padding="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
-              <ItemsControl x:Name="CommandPaletteResultsList" Margin="0,0,16,0" Focusable="False">
+              <ItemsControl x:Name="CommandPaletteResultsList" Margin="0,0,14,0" Focusable="False">
                 <ItemsControl.ItemTemplate>
                   <DataTemplate>
                     <Grid>
-                      <TextBlock x:Name="PaletteHeader" Margin="10,10,10,4" FontSize="11.5" FontWeight="SemiBold" Text="{Binding Title}" Foreground="{StaticResource LauncherTextTertiaryBrush}" Visibility="Collapsed" />
-                      <Border x:Name="PaletteRow" Height="40" CornerRadius="8" Background="Transparent" Cursor="Hand" MouseEnter="CommandPaletteRow_MouseEnter" MouseLeftButtonUp="CommandPaletteRow_MouseLeftButtonUp">
-                        <Grid>
-                          <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
-                          <Border x:Name="PaletteAccent" Width="3" Height="16" Margin="1,0,0,0" CornerRadius="1.5" VerticalAlignment="Center" Background="{DynamicResource SystemAccentBrush}" Opacity="0" />
-                          <Border Grid.Column="1" Width="28" Height="28" Margin="6,0,0,0" CornerRadius="7" VerticalAlignment="Center" Background="{StaticResource LauncherMenuHoverBrush}">
-                            <ui:SymbolIcon Symbol="{Binding Icon}" FontSize="15" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource LauncherTextSecondaryBrush}" />
-                          </Border>
-                          <TextBlock Grid.Column="2" Margin="12,0,10,0" VerticalAlignment="Center" FontSize="13.5" TextTrimming="CharacterEllipsis"><Run Text="{Binding TitleBefore, Mode=OneWay}" /><Run Text="{Binding TitleMatch, Mode=OneWay}" FontWeight="SemiBold" Foreground="{DynamicResource SystemAccentBrush}" /><Run Text="{Binding TitleAfter, Mode=OneWay}" /></TextBlock>
-                          <TextBlock Grid.Column="3" Margin="0,0,10,0" MaxWidth="150" VerticalAlignment="Center" FontSize="12" Text="{Binding Detail}" TextTrimming="CharacterEllipsis" Foreground="{StaticResource LauncherTextTertiaryBrush}" />
-                        </Grid>
+                      <TextBlock x:Name="PaletteHeader" Margin="4,12,4,8" FontSize="11.5" FontWeight="SemiBold" Text="{Binding Title}" Foreground="{StaticResource LauncherTextTertiaryBrush}" Visibility="Collapsed" />
+                      <Border x:Name="PaletteRow" Margin="0,0,0,6" CornerRadius="8" Background="{StaticResource LauncherControlBrush}" BorderBrush="Transparent" BorderThickness="1" Cursor="Hand" MouseEnter="CommandPaletteRow_MouseEnter" MouseLeftButtonUp="CommandPaletteRow_MouseLeftButtonUp">
+                        <StackPanel>
+                          <Grid Height="44">
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                            <ui:SymbolIcon Margin="14,0,0,0" Symbol="{Binding Icon}" FontSize="17" VerticalAlignment="Center" Foreground="{StaticResource LauncherTextSecondaryBrush}" />
+                            <TextBlock Grid.Column="1" Margin="12,0,10,0" VerticalAlignment="Center" FontSize="14" FontWeight="SemiBold" TextTrimming="CharacterEllipsis"><Run Text="{Binding TitleBefore, Mode=OneWay}" /><Run Text="{Binding TitleMatch, Mode=OneWay}" Foreground="{DynamicResource SystemAccentBrush}" /><Run Text="{Binding TitleAfter, Mode=OneWay}" /></TextBlock>
+                            <Border x:Name="PaletteShortcut" Grid.Column="2" Height="22" Margin="0,0,12,0" Padding="7,0" CornerRadius="5" VerticalAlignment="Center" Background="{StaticResource LauncherMenuHoverBrush}">
+                              <TextBlock VerticalAlignment="Center" FontSize="11.5" Text="{Binding Detail}" Foreground="{StaticResource LauncherTextSecondaryBrush}" />
+                            </Border>
+                          </Grid>
+                          <Grid x:Name="PaletteLocation" Margin="0,-8,0,10" Visibility="Collapsed">
+                            <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition Width="*" /></Grid.ColumnDefinitions>
+                            <Path Margin="22,0,0,4" Width="12" Height="11" VerticalAlignment="Center" Data="M1,0 V10 H12" Stroke="{StaticResource LauncherTextTertiaryBrush}" StrokeThickness="1.2" SnapsToDevicePixels="True" />
+                            <TextBlock Grid.Column="1" Margin="8,0,12,0" VerticalAlignment="Center" FontSize="12.5" Text="{Binding Detail}" TextTrimming="CharacterEllipsis" Foreground="{StaticResource LauncherTextTertiaryBrush}" />
+                          </Grid>
+                        </StackPanel>
                       </Border>
                     </Grid>
                     <DataTemplate.Triggers>
@@ -1003,9 +1005,16 @@
                         <Setter TargetName="PaletteHeader" Property="Visibility" Value="Visible" />
                         <Setter TargetName="PaletteRow" Property="Visibility" Value="Collapsed" />
                       </DataTrigger>
+                      <DataTrigger Binding="{Binding IsSetting}" Value="True">
+                        <Setter TargetName="PaletteLocation" Property="Visibility" Value="Visible" />
+                        <Setter TargetName="PaletteShortcut" Property="Visibility" Value="Collapsed" />
+                      </DataTrigger>
+                      <DataTrigger Binding="{Binding Detail}" Value="">
+                        <Setter TargetName="PaletteShortcut" Property="Visibility" Value="Collapsed" />
+                      </DataTrigger>
                       <DataTrigger Binding="{Binding IsSelected}" Value="True">
                         <Setter TargetName="PaletteRow" Property="Background" Value="{StaticResource LauncherMenuHoverBrush}" />
-                        <Setter TargetName="PaletteAccent" Property="Opacity" Value="1" />
+                        <Setter TargetName="PaletteRow" Property="BorderBrush" Value="{DynamicResource SystemAccentBrush}" />
                       </DataTrigger>
                     </DataTemplate.Triggers>
                   </DataTemplate>
@@ -1013,23 +1022,20 @@
               </ItemsControl>
             </ScrollViewer>
             <StackPanel x:Name="CommandPaletteEmpty" Margin="24,30,24,30" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
-              <ui:SymbolIcon Symbol="Search24" FontSize="26" HorizontalAlignment="Center" Foreground="{StaticResource LauncherTextTertiaryBrush}" />
-              <TextBlock x:Name="CommandPaletteEmptyText" Margin="0,10,0,0" HorizontalAlignment="Center" TextAlignment="Center" TextTrimming="CharacterEllipsis" MaxWidth="380" FontSize="13.5" FontWeight="SemiBold" Text="{resources:Loc Ui_Main_NoResults}" />
+              <ui:SymbolIcon Symbol="Search24" FontSize="28" HorizontalAlignment="Center" Foreground="{StaticResource LauncherTextTertiaryBrush}" />
+              <TextBlock x:Name="CommandPaletteEmptyText" Margin="0,10,0,0" HorizontalAlignment="Center" TextAlignment="Center" TextTrimming="CharacterEllipsis" MaxWidth="380" FontSize="14" FontWeight="SemiBold" Text="{resources:Loc Ui_Main_NoResults}" />
               <TextBlock Margin="0,4,0,0" HorizontalAlignment="Center" TextAlignment="Center" FontSize="12" Text="{resources:Loc Ui_Main_NoResultsHint}" Foreground="{StaticResource LauncherTextTertiaryBrush}" />
             </StackPanel>
           </Grid>
-          <Grid Height="36" Margin="0,10,0,0" TextElement.FontSize="11.5" TextElement.Foreground="{StaticResource LauncherTextTertiaryBrush}">
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-              <Border Width="20" Height="20" CornerRadius="5" Background="{StaticResource LauncherMenuHoverBrush}"><ui:SymbolIcon Symbol="ChevronUp24" FontSize="11" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource LauncherTextSecondaryBrush}" /></Border>
-              <Border Width="20" Height="20" Margin="3,0,0,0" CornerRadius="5" Background="{StaticResource LauncherMenuHoverBrush}"><ui:SymbolIcon Symbol="ChevronDown24" FontSize="11" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource LauncherTextSecondaryBrush}" /></Border>
-              <TextBlock Margin="6,0,14,0" VerticalAlignment="Center" Text="{resources:Loc Ui_Main_ToMove}" />
-              <Border Height="20" Padding="6,0" CornerRadius="5" Background="{StaticResource LauncherMenuHoverBrush}"><TextBlock VerticalAlignment="Center" FontSize="11" Text="{Binding Source='Enter', Converter={x:Static wpfconv:ShortcutTextConverter.Instance}}" Foreground="{StaticResource LauncherTextSecondaryBrush}" /></Border>
-              <TextBlock Margin="6,0,14,0" VerticalAlignment="Center" Text="{resources:Loc Ui_Main_ToOpen}" />
-              <Border Height="20" Padding="6,0" CornerRadius="5" Background="{StaticResource LauncherMenuHoverBrush}"><TextBlock VerticalAlignment="Center" FontSize="11" Text="Esc" Foreground="{StaticResource LauncherTextSecondaryBrush}" /></Border>
-              <TextBlock Margin="6,0,0,0" VerticalAlignment="Center" Text="{resources:Loc Ui_Main_ToClose}" />
-            </StackPanel>
-            <TextBlock x:Name="CommandPaletteCount" HorizontalAlignment="Right" VerticalAlignment="Center" />
-          </Grid>
+          <StackPanel Height="30" Margin="0,8,0,0" Orientation="Horizontal" VerticalAlignment="Center" TextElement.FontSize="11.5" TextElement.Foreground="{StaticResource LauncherTextTertiaryBrush}">
+            <Border Width="20" Height="20" CornerRadius="5" Background="{StaticResource LauncherMenuHoverBrush}"><ui:SymbolIcon Symbol="ChevronUp24" FontSize="11" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource LauncherTextSecondaryBrush}" /></Border>
+            <Border Width="20" Height="20" Margin="3,0,0,0" CornerRadius="5" Background="{StaticResource LauncherMenuHoverBrush}"><ui:SymbolIcon Symbol="ChevronDown24" FontSize="11" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource LauncherTextSecondaryBrush}" /></Border>
+            <TextBlock Margin="6,0,14,0" VerticalAlignment="Center" Text="{resources:Loc Ui_Main_ToMove}" />
+            <Border Height="20" Padding="6,0" CornerRadius="5" Background="{StaticResource LauncherMenuHoverBrush}"><TextBlock VerticalAlignment="Center" FontSize="11" Text="{Binding Source='Enter', Converter={x:Static wpfconv:ShortcutTextConverter.Instance}}" Foreground="{StaticResource LauncherTextSecondaryBrush}" /></Border>
+            <TextBlock Margin="6,0,14,0" VerticalAlignment="Center" Text="{resources:Loc Ui_Main_ToOpen}" />
+            <Border Height="20" Padding="6,0" CornerRadius="5" Background="{StaticResource LauncherMenuHoverBrush}"><TextBlock VerticalAlignment="Center" FontSize="11" Text="Esc" Foreground="{StaticResource LauncherTextSecondaryBrush}" /></Border>
+            <TextBlock Margin="6,0,0,0" VerticalAlignment="Center" Text="{resources:Loc Ui_Main_ToClose}" />
+          </StackPanel>
         </StackPanel>
       </Border>
       <Border x:Name="NotificationsPanel" Style="{StaticResource RinDialogPanelStyle}" Width="440">

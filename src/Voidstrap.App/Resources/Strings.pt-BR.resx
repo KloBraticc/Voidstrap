@@ -8213,4 +8213,22 @@ O download tem {0} MB. Se você recusar, a estimativa integrada será usada. Voc
   <data name="Ui.Mods.StudioPlugins.RatingLabel" xml:space="preserve">
     <value>Avaliação</value>
   </data>
+  <data name="Ui.Main.ClearSearch" xml:space="preserve">
+    <value>Limpar pesquisa</value>
+  </data>
+  <data name="Ui.TitleBar.Restore" xml:space="preserve">
+    <value>Restaurar</value>
+  </data>
+  <data name="Ui.TitleBar.Move" xml:space="preserve">
+    <value>Mover</value>
+  </data>
+  <data name="Ui.TitleBar.Size" xml:space="preserve">
+    <value>Tamanho</value>
+  </data>
+  <data name="Ui.TitleBar.Minimize" xml:space="preserve">
+    <value>Minimizar</value>
+  </data>
+  <data name="Ui.TitleBar.Maximize" xml:space="preserve">
+    <value>Maximizar</value>
+  </data>
 </root>

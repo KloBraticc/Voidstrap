@@ -8214,4 +8214,22 @@ Il download è di {0} MB. Se rifiuti, viene usata la stima integrata. Puoi cambi
   <data name="Ui.Mods.StudioPlugins.RatingLabel" xml:space="preserve">
     <value>Valutazione</value>
   </data>
+  <data name="Ui.Main.ClearSearch" xml:space="preserve">
+    <value>Cancella ricerca</value>
+  </data>
+  <data name="Ui.TitleBar.Restore" xml:space="preserve">
+    <value>Ripristina</value>
+  </data>
+  <data name="Ui.TitleBar.Move" xml:space="preserve">
+    <value>Sposta</value>
+  </data>
+  <data name="Ui.TitleBar.Size" xml:space="preserve">
+    <value>Ridimensiona</value>
+  </data>
+  <data name="Ui.TitleBar.Minimize" xml:space="preserve">
+    <value>Riduci a icona</value>
+  </data>
+  <data name="Ui.TitleBar.Maximize" xml:space="preserve">
+    <value>Ingrandisci</value>
+  </data>
 </root>

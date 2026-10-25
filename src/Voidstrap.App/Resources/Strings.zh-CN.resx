@@ -8236,4 +8236,22 @@ Voidstrap 无法写入桌面文件夹。</value>
   <data name="Ui.Mods.StudioPlugins.RatingLabel" xml:space="preserve">
     <value>评分</value>
   </data>
+  <data name="Ui.Main.ClearSearch" xml:space="preserve">
+    <value>清除搜索</value>
+  </data>
+  <data name="Ui.TitleBar.Restore" xml:space="preserve">
+    <value>还原</value>
+  </data>
+  <data name="Ui.TitleBar.Move" xml:space="preserve">
+    <value>移动</value>
+  </data>
+  <data name="Ui.TitleBar.Size" xml:space="preserve">
+    <value>大小</value>
+  </data>
+  <data name="Ui.TitleBar.Minimize" xml:space="preserve">
+    <value>最小化</value>
+  </data>
+  <data name="Ui.TitleBar.Maximize" xml:space="preserve">
+    <value>最大化</value>
+  </data>
 </root>

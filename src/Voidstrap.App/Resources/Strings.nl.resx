@@ -8213,4 +8213,22 @@ Er wordt {0} MB gedownload. Als je weigert, wordt de ingebouwde schatting gebrui
   <data name="Ui.Mods.StudioPlugins.RatingLabel" xml:space="preserve">
     <value>Beoordeling</value>
   </data>
+  <data name="Ui.Main.ClearSearch" xml:space="preserve">
+    <value>Zoekopdracht wissen</value>
+  </data>
+  <data name="Ui.TitleBar.Restore" xml:space="preserve">
+    <value>Vorige grootte</value>
+  </data>
+  <data name="Ui.TitleBar.Move" xml:space="preserve">
+    <value>Verplaatsen</value>
+  </data>
+  <data name="Ui.TitleBar.Size" xml:space="preserve">
+    <value>Formaat wijzigen</value>
+  </data>
+  <data name="Ui.TitleBar.Minimize" xml:space="preserve">
+    <value>Minimaliseren</value>
+  </data>
+  <data name="Ui.TitleBar.Maximize" xml:space="preserve">
+    <value>Maximaliseren</value>
+  </data>
 </root>

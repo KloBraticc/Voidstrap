@@ -8212,4 +8212,22 @@ Es werden {0} MB heruntergeladen. Wenn du ablehnst, wird die eingebaute Schätzu
   <data name="Ui.Mods.StudioPlugins.RatingLabel" xml:space="preserve">
     <value>Bewertung</value>
   </data>
+  <data name="Ui.Main.ClearSearch" xml:space="preserve">
+    <value>Suche leeren</value>
+  </data>
+  <data name="Ui.TitleBar.Restore" xml:space="preserve">
+    <value>Wiederherstellen</value>
+  </data>
+  <data name="Ui.TitleBar.Move" xml:space="preserve">
+    <value>Verschieben</value>
+  </data>
+  <data name="Ui.TitleBar.Size" xml:space="preserve">
+    <value>Größe ändern</value>
+  </data>
+  <data name="Ui.TitleBar.Minimize" xml:space="preserve">
+    <value>Minimieren</value>
+  </data>
+  <data name="Ui.TitleBar.Maximize" xml:space="preserve">
+    <value>Maximieren</value>
+  </data>
 </root>

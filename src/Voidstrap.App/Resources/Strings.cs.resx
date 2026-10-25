@@ -8213,4 +8213,22 @@ Stáhne se {0} MB. Pokud odmítnete, použije se vestavěný odhad. Později to 
   <data name="Ui.Mods.StudioPlugins.RatingLabel" xml:space="preserve">
     <value>Hodnocení</value>
   </data>
+  <data name="Ui.Main.ClearSearch" xml:space="preserve">
+    <value>Vymazat hledání</value>
+  </data>
+  <data name="Ui.TitleBar.Restore" xml:space="preserve">
+    <value>Obnovit</value>
+  </data>
+  <data name="Ui.TitleBar.Move" xml:space="preserve">
+    <value>Přesunout</value>
+  </data>
+  <data name="Ui.TitleBar.Size" xml:space="preserve">
+    <value>Velikost</value>
+  </data>
+  <data name="Ui.TitleBar.Minimize" xml:space="preserve">
+    <value>Minimalizovat</value>
+  </data>
+  <data name="Ui.TitleBar.Maximize" xml:space="preserve">
+    <value>Maximalizovat</value>
+  </data>
 </root>

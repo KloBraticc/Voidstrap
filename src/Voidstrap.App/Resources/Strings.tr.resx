@@ -8210,4 +8210,22 @@ Bu dosyayı size yardım eden kişiye gönderin. Bilgisayar kullanıcı adınız
   <data name="Ui.Mods.StudioPlugins.RatingLabel" xml:space="preserve">
     <value>Puan</value>
   </data>
+  <data name="Ui.Main.ClearSearch" xml:space="preserve">
+    <value>Aramayı temizle</value>
+  </data>
+  <data name="Ui.TitleBar.Restore" xml:space="preserve">
+    <value>Geri yükle</value>
+  </data>
+  <data name="Ui.TitleBar.Move" xml:space="preserve">
+    <value>Taşı</value>
+  </data>
+  <data name="Ui.TitleBar.Size" xml:space="preserve">
+    <value>Boyut</value>
+  </data>
+  <data name="Ui.TitleBar.Minimize" xml:space="preserve">
+    <value>Simge durumuna küçült</value>
+  </data>
+  <data name="Ui.TitleBar.Maximize" xml:space="preserve">
+    <value>Ekranı kapla</value>
+  </data>
 </root>

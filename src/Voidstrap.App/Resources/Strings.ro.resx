@@ -8213,4 +8213,22 @@ Se descarcă {0} MB. Dacă refuzi, se folosește estimarea integrată. Poți sch
   <data name="Ui.Mods.StudioPlugins.RatingLabel" xml:space="preserve">
     <value>Evaluare</value>
   </data>
+  <data name="Ui.Main.ClearSearch" xml:space="preserve">
+    <value>Golește căutarea</value>
+  </data>
+  <data name="Ui.TitleBar.Restore" xml:space="preserve">
+    <value>Restabilire</value>
+  </data>
+  <data name="Ui.TitleBar.Move" xml:space="preserve">
+    <value>Mutare</value>
+  </data>
+  <data name="Ui.TitleBar.Size" xml:space="preserve">
+    <value>Dimensiune</value>
+  </data>
+  <data name="Ui.TitleBar.Minimize" xml:space="preserve">
+    <value>Minimizare</value>
+  </data>
+  <data name="Ui.TitleBar.Maximize" xml:space="preserve">
+    <value>Maximizare</value>
+  </data>
 </root>
