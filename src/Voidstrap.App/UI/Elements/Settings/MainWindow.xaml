@@ -14,6 +14,15 @@
       <SolidColorBrush x:Key="LauncherTextPrimaryBrush" Color="#FFEDEDED" />
       <SolidColorBrush x:Key="LauncherTextSecondaryBrush" Color="#FFB4B4B4" />
       <SolidColorBrush x:Key="LauncherTextTertiaryBrush" Color="#FF7C7C7C" />
+      <Style x:Key="TopBarFocusVisual">
+        <Setter Property="Control.Template">
+          <Setter.Value>
+            <ControlTemplate>
+              <Border CornerRadius="5" BorderThickness="1.5" BorderBrush="{DynamicResource SystemAccentBrush}" SnapsToDevicePixels="True" />
+            </ControlTemplate>
+          </Setter.Value>
+        </Setter>
+      </Style>
       <Style x:Key="TopBarButtonStyle" TargetType="Button">
         <Setter Property="Height" Value="32" />
         <Setter Property="Background" Value="Transparent" />
@@ -23,7 +32,7 @@
         <Setter Property="Foreground" Value="{StaticResource LauncherTextPrimaryBrush}" />
         <Setter Property="Cursor" Value="Arrow" />
         <Setter Property="Focusable" Value="True" />
-        <Setter Property="FocusVisualStyle" Value="{DynamicResource DefaultControlFocusVisualStyle}" />
+        <Setter Property="FocusVisualStyle" Value="{StaticResource TopBarFocusVisual}" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Template">
           <Setter.Value>
@@ -97,7 +106,7 @@
         <Setter Property="Foreground" Value="{StaticResource LauncherTextTertiaryBrush}" />
         <Setter Property="Cursor" Value="Arrow" />
         <Setter Property="Focusable" Value="True" />
-        <Setter Property="FocusVisualStyle" Value="{DynamicResource DefaultControlFocusVisualStyle}" />
+        <Setter Property="FocusVisualStyle" Value="{StaticResource TopBarFocusVisual}" />
         <Setter Property="Template">
           <Setter.Value>
             <ControlTemplate TargetType="{x:Type Button}">
@@ -342,13 +351,13 @@
     <ui:TitleBar Name="RootTitleBar" MinHeight="40" Padding="8" Grid.Row="0" Panel.ZIndex="1000" ForceShutdown="False" MinimizeToTray="False" UseSnapLayout="True">
       <ui:TitleBar.Header>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" FlowDirection="LeftToRight" Margin="0,1,0,-1">
-          <Button x:Name="TopNavBack" Style="{StaticResource TopBarIconButtonStyle}" IsEnabled="False" ToolTip="{resources:Loc Menu_FastFlagEditor_Back}" AutomationProperties.Name="{resources:Loc Menu_FastFlagEditor_Back}" Click="TopNavBack_Click">
+          <Button x:Name="TopNavBack" Style="{StaticResource TopBarIconButtonStyle}" Margin="0,0,2,0" IsEnabled="False" ToolTip="{resources:Loc Menu_FastFlagEditor_Back}" AutomationProperties.Name="{resources:Loc Menu_FastFlagEditor_Back}" Click="TopNavBack_Click">
             <Viewbox Width="16" Height="16"><Canvas Width="24" Height="24"><Path Style="{StaticResource TopBarLineIcon}" Data="M12 19L5 12L12 5 M19 12H5" /></Canvas></Viewbox>
           </Button>
-          <Button x:Name="TopNavForward" Style="{StaticResource TopBarIconButtonStyle}" IsEnabled="False" ToolTip="{resources:Loc Ui_Main_Forward}" AutomationProperties.Name="{resources:Loc Ui_Main_Forward}" Margin="0,0,4,0" Click="TopNavForward_Click">
+          <Button x:Name="TopNavForward" Style="{StaticResource TopBarIconButtonStyle}" IsEnabled="False" ToolTip="{resources:Loc Ui_Main_Forward}" AutomationProperties.Name="{resources:Loc Ui_Main_Forward}" Margin="0,0,2,0" Click="TopNavForward_Click">
             <Viewbox Width="16" Height="16"><Canvas Width="24" Height="24"><Path Style="{StaticResource TopBarLineIcon}" Data="M5 12h14 M12 5L19 12L12 19" /></Canvas></Viewbox>
           </Button>
-          <Grid Margin="4,0,2,0">
+          <Grid Margin="0,0,2,0">
             <Button x:Name="TopSearchButton" Style="{StaticResource TopBarIconButtonStyle}" AutomationProperties.Name="{resources:Loc ContextMenu_GameBrowser_Search}" Click="TopSearchButton_Click">
               <Button.ToolTip>
                 <StackPanel>
@@ -359,7 +368,7 @@
               <Viewbox Width="16" Height="16"><Canvas Width="24" Height="24"><Path Style="{StaticResource TopBarLineIcon}" Data="M3 11a8 8 0 1 0 16 0a8 8 0 1 0 -16 0z M21 21L16.7 16.7" /></Canvas></Viewbox>
             </Button>
           </Grid>
-          <Grid Margin="2,0,12,0">
+          <Grid Margin="0,0,12,0">
             <Button x:Name="NotificationsButton" Style="{StaticResource TopBarIconButtonStyle}" ToolTip="{resources:Loc Notifications_Title}" Click="NotificationsButton_Click">
               <Grid Width="28" Height="28" ClipToBounds="False">
                 <Viewbox Width="16" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center"><Canvas Width="24" Height="24"><Path Style="{StaticResource TopBarLineIcon}" Data="M10.268 21a2 2 0 0 0 3.464 0 M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 0.74 -1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499 -1.411 5.956 -2.738 7.326" /></Canvas></Viewbox>
