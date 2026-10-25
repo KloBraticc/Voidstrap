@@ -22,8 +22,6 @@ internal static class GraphicsPrewarm
 			return;
 		if (App.LaunchSettings.RobloxLaunchMode != LaunchMode.Player && !App.LaunchSettings.WatcherFlag.Active)
 			return;
-		if (!OverlaySettings.RiShadeClientActive && !OverlaySettings.GameEffectsEnabled && !OverlaySettings.HomepageBackgroundEnabled)
-			return;
 		if (Interlocked.Exchange(ref _started, 1) != 0)
 			return;
 		Thread thread = new Thread(Run)
