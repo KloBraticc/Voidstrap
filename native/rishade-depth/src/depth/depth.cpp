@@ -60,8 +60,18 @@ static const uint Bins = 256;
 static const float ReferenceShare = 0.1;
 static const float SkyStart = 0.03;
 static const float SkyRange = 0.05;
-static const float EdgeStart = 0.04;
-static const float EdgeRange = 0.08;
+static const float EdgeStart = 0.12;
+static const float EdgeRange = 0.12;
+
+float3 AverageSource(int2 p)
+{
+    int2 limit = int2(SourceSize) - 1;
+    float3 sum = 0;
+    for (int dy = -1; dy <= 1; ++dy)
+        for (int dx = -1; dx <= 1; ++dx)
+            sum += Source.Load(int3(clamp(p + int2(dx, dy), 0, limit), 0)).rgb;
+    return sum / 9;
+}
 
 void Store(uint index, float value)
 {
@@ -170,7 +180,7 @@ void Upsample(uint3 id : SV_DispatchThreadID)
 {
     if (any(id.xy >= SourceSize))
         return;
-    float3 color = Source.Load(int3(id.xy, 0)).rgb;
+    float3 color = AverageSource(int2(id.xy));
     float2 position = (id.xy + 0.5) * ModelSize / SourceSize - 0.5;
     int2 corner = int2(floor(position)) - 1;
     float2 f = position - floor(position);
@@ -290,7 +300,7 @@ static const float TemporalResponse = 6.0;
 static const int RefineRadius = 2;
 static const int RefineStride = 2;
 static const float RefineColor = 0.08;
-static const float RefineEdgeStart = 0.08;
+static const float RefineEdgeStart = 0.15;
 static const float RefineEdgeRange = 0.15;
 static const float RefineSurfaceSigma = 0.05;
 static const float LinearFar = 1000.0;
@@ -740,6 +750,15 @@ void Spread(uint3 id : SV_DispatchThreadID)
     MaskTarget[id.xy] = sum / count;
 }
 
+float3 AverageColor(int2 p, int2 size)
+{
+    float3 sum = 0;
+    for (int dy = -1; dy <= 1; ++dy)
+        for (int dx = -1; dx <= 1; ++dx)
+            sum += Color.Load(int3(clamp(p + int2(dx, dy), 0, size - 1), 0)).rgb;
+    return sum / 9;
+}
+
 float Linear(float depth)
 {
     return depth / max(LinearFar - depth * (LinearFar - 1), 1e-6);
@@ -757,7 +776,7 @@ void Refine(uint3 id : SV_DispatchThreadID)
         return;
     int2 p = int2(id.xy);
     int2 size = int2(SourceSize);
-    float3 centre = Color.Load(int3(p, 0)).rgb;
+    float3 centre = AverageColor(p, size);
     float values[25];
     float spatial[25];
     float tones[25];
