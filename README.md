@@ -500,14 +500,6 @@ On Linux or macOS, use `pwsh -NoProfile -File ./publish-all.ps1 -Only android -N
 
 </details>
 
-## Forking
-
-To create your own copy of Voidstrap:
-
-1. Open the [Voidstrap repository](https://github.com/KloBraticc/Voidstrap).
-2. Click **Fork**.
-3. Select your GitHub account.
-
 ## Inspiration & Credits
 
 Voidstrap would not exist without the projects and people below. Thank you all.
