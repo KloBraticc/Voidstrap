@@ -8428,4 +8428,7 @@ Voidstrap 无法写入桌面文件夹。</value>
   <data name="Accounts.SignIn.RobloxApp" xml:space="preserve">
     <value>请在 Roblox 窗口中登录或注册。您登录后 Voidstrap 会立即保存该账号。</value>
   </data>
+  <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
+    <value>未安装地图</value>
+  </data>
 </root>

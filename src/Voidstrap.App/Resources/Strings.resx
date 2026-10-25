@@ -8091,4 +8091,7 @@ It downloads {0} MB. If you decline, the built in estimate is used. You can chan
   <data name="Accounts.SignIn.RobloxApp" xml:space="preserve">
     <value>Sign in or sign up in the Roblox window. Voidstrap saves the account as soon as you are signed in.</value>
   </data>
+  <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
+    <value>No maps installed</value>
+  </data>
 </root>

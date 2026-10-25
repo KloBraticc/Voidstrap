@@ -8406,4 +8406,7 @@ Il download è di {0} MB. Se rifiuti, viene usata la stima integrata. Puoi cambi
   <data name="Accounts.SignIn.RobloxApp" xml:space="preserve">
     <value>Accedi o registrati nella finestra di Roblox. Voidstrap salva l'account appena hai effettuato l'accesso.</value>
   </data>
+  <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
+    <value>Nessuna mappa installata</value>
+  </data>
 </root>

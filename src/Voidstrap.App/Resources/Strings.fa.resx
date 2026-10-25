@@ -8406,4 +8406,7 @@ Voidstrap نتوانست در پوشهٔ دسکتاپ بنویسد.</value>
   <data name="Accounts.SignIn.RobloxApp" xml:space="preserve">
     <value>در پنجرهٔ Roblox وارد شوید یا ثبت‌نام کنید. Voidstrap به محض ورود شما حساب را ذخیره می‌کند.</value>
   </data>
+  <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
+    <value>هیچ نقشه‌ای نصب نشده است</value>
+  </data>
 </root>

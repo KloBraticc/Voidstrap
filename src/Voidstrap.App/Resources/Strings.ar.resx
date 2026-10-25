@@ -8403,4 +8403,7 @@
   <data name="Accounts.SignIn.RobloxApp" xml:space="preserve">
     <value>سجّل الدخول أو أنشئ حسابًا في نافذة Roblox. يحفظ Voidstrap الحساب بمجرد تسجيل دخولك.</value>
   </data>
+  <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
+    <value>لا توجد خرائط مثبتة</value>
+  </data>
 </root>

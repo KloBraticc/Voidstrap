@@ -8404,4 +8404,7 @@ Den laddar ner {0} MB. Om du tackar nej används den inbyggda uppskattningen. Du
   <data name="Accounts.SignIn.RobloxApp" xml:space="preserve">
     <value>Logga in eller registrera dig i Roblox-fönstret. Voidstrap sparar kontot så fort du är inloggad.</value>
   </data>
+  <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
+    <value>Inga kartor installerade</value>
+  </data>
 </root>

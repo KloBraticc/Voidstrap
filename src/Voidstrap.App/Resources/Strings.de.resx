@@ -8404,4 +8404,7 @@ Es werden {0} MB heruntergeladen. Wenn du ablehnst, wird die eingebaute Schätzu
   <data name="Accounts.SignIn.RobloxApp" xml:space="preserve">
     <value>Melde dich im Roblox-Fenster an oder registriere dich. Voidstrap speichert das Konto, sobald du angemeldet bist.</value>
   </data>
+  <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
+    <value>Keine Karten installiert</value>
+  </data>
 </root>

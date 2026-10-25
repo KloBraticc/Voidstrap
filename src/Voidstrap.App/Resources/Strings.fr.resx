@@ -8403,4 +8403,7 @@ Le téléchargement fait {0} Mo. Si vous refusez, l'estimation intégrée est ut
   <data name="Accounts.SignIn.RobloxApp" xml:space="preserve">
     <value>Connectez-vous ou inscrivez-vous dans la fenêtre Roblox. Voidstrap enregistre le compte dès que vous êtes connecté.</value>
   </data>
+  <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
+    <value>Aucune carte installée</value>
+  </data>
 </root>

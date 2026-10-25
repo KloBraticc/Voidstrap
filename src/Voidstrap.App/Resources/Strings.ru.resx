@@ -8403,4 +8403,7 @@ Voidstrap не смог записать в папку рабочего стол
   <data name="Accounts.SignIn.RobloxApp" xml:space="preserve">
     <value>Войдите или зарегистрируйтесь в окне Roblox. Voidstrap сохранит аккаунт сразу после входа.</value>
   </data>
+  <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
+    <value>Нет установленных карт</value>
+  </data>
 </root>

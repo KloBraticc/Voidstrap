@@ -1311,6 +1311,10 @@ namespace Voidstrap.UI.ViewModels.Settings
 
         public ObservableCollection<ClientItem> ClientItems { get; } = new ObservableCollection<ClientItem>();
         public ObservableCollection<string> ClientMaps { get; } = new ObservableCollection<string>();
+
+        public bool HasClientMaps => ClientMaps.Count > 0;
+
+        public Visibility NoClientMapsVisibility => ClientMaps.Count > 0 ? Visibility.Collapsed : Visibility.Visible;
         public string ClassicStatusText { get; private set; } = "";
 
         public string ClassicDownloadBaseUrl
@@ -1517,6 +1521,8 @@ namespace Voidstrap.UI.ViewModels.Settings
                 _isRefreshingClassicMaps = false;
             }
             OnPropertyChanged(nameof(SelectedClassicMap));
+            OnPropertyChanged(nameof(HasClientMaps));
+            OnPropertyChanged(nameof(NoClientMapsVisibility));
         }
 
         private void LocateClassicSource()

@@ -8402,4 +8402,7 @@ Magda-download ito ng {0} MB. Kung tatanggihan mo, gagamitin ang built in na tan
   <data name="Accounts.SignIn.RobloxApp" xml:space="preserve">
     <value>Mag-sign in o mag-sign up sa window ng Roblox. Ise-save ng Voidstrap ang account kapag naka-sign in ka na.</value>
   </data>
+  <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
+    <value>Walang naka-install na mapa</value>
+  </data>
 </root>

@@ -8405,4 +8405,7 @@ Er wordt {0} MB gedownload. Als je weigert, wordt de ingebouwde schatting gebrui
   <data name="Accounts.SignIn.RobloxApp" xml:space="preserve">
     <value>Log in of registreer je in het Roblox-venster. Voidstrap slaat het account op zodra je bent ingelogd.</value>
   </data>
+  <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
+    <value>Geen kaarten geïnstalleerd</value>
+  </data>
 </root>

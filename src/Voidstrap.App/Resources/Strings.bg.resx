@@ -8404,4 +8404,7 @@ Voidstrap не можа да запише в папката на работни�
   <data name="Accounts.SignIn.RobloxApp" xml:space="preserve">
     <value>Влезте или се регистрирайте в прозореца на Roblox. Voidstrap запазва акаунта веднага щом влезете.</value>
   </data>
+  <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
+    <value>Няма инсталирани карти</value>
+  </data>
 </root>

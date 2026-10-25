@@ -8404,4 +8404,7 @@ Pobieranie ma {0} MB. Jeśli odmówisz, zostanie użyte wbudowane oszacowanie. M
   <data name="Accounts.SignIn.RobloxApp" xml:space="preserve">
     <value>Zaloguj się lub zarejestruj w oknie Roblox. Voidstrap zapisze konto, gdy tylko się zalogujesz.</value>
   </data>
+  <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
+    <value>Brak zainstalowanych map</value>
+  </data>
 </root>

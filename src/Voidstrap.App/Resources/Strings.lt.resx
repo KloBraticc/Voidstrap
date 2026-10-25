@@ -8405,4 +8405,7 @@ Atsisiunčiama {0} MB. Jei atsisakysite, bus naudojamas įtaisytasis įvertinima
   <data name="Accounts.SignIn.RobloxApp" xml:space="preserve">
     <value>Prisijunkite arba užsiregistruokite Roblox lange. Voidstrap išsaugos paskyrą, kai tik prisijungsite.</value>
   </data>
+  <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
+    <value>Neįdiegta jokių žemėlapių</value>
+  </data>
 </root>

@@ -8402,4 +8402,7 @@ Voidstrap не зміг записати до теки робочого стол
   <data name="Accounts.SignIn.RobloxApp" xml:space="preserve">
     <value>Увійдіть або зареєструйтеся у вікні Roblox. Voidstrap збереже обліковий запис одразу після входу.</value>
   </data>
+  <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
+    <value>Немає встановлених карт</value>
+  </data>
 </root>

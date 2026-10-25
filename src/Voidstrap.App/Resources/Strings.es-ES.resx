@@ -8404,4 +8404,7 @@ Se descargan {0} MB. Si lo rechazas, se usa la estimación integrada. Puedes cam
   <data name="Accounts.SignIn.RobloxApp" xml:space="preserve">
     <value>Inicia sesión o regístrate en la ventana de Roblox. Voidstrap guarda la cuenta en cuanto inicies sesión.</value>
   </data>
+  <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
+    <value>No hay mapas instalados</value>
+  </data>
 </root>

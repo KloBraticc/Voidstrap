@@ -111,7 +111,7 @@
                             </Border>
                         </Grid>
                         <StackPanel Grid.Column="1" Margin="14,0,0,0" VerticalAlignment="Center">
-                            <StackPanel Orientation="Horizontal">
+                            <DockPanel LastChildFill="False">
                                 <TextBlock FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" Text="{Binding Title}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" />
                                 <Border Style="{StaticResource InstallPillStyle}" Visibility="{Binding IsInstalled, Converter={StaticResource BooleanToVisibilityConverter}}">
                                     <StackPanel Orientation="Horizontal">
@@ -125,15 +125,14 @@
                                         <TextBlock Text="{resources:Loc Ui_Pages_Update}" FontSize="11" Margin="4,0,0,0" VerticalAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
                                     </StackPanel>
                                 </Border>
-                            </StackPanel>
+                            </DockPanel>
                             <TextBlock Margin="0,3,0,0" FontSize="12" Text="{Binding Subtitle}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
                             <StackPanel Margin="0,6,0,0" Visibility="{Binding IsBusy, Converter={StaticResource BooleanToVisibilityConverter}}">
                                 <ProgressBar Height="3" Minimum="0" Maximum="100" Value="{Binding Progress, Mode=OneWay}" />
                                 <TextBlock Margin="0,4,0,0" FontSize="11" Text="{Binding ProgressDetail}" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
                             </StackPanel>
                         </StackPanel>
-                        <TextBlock Grid.Column="2" Margin="12,0" MaxWidth="160" VerticalAlignment="Center" FontSize="12" Text="{Binding VersionText}" TextTrimming="CharacterEllipsis" ToolTip="{Binding VersionText}" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
-                        <ui:Button Grid.Column="3" MinWidth="96" VerticalAlignment="Center" Appearance="Secondary" Icon="ArrowDownload24" Content="{Binding PrimaryButtonText}" IsEnabled="{Binding CanPrimary}" Command="{Binding InstallCommand}" />
+                        <ui:Button Grid.Column="3" Margin="12,0,0,0" MinWidth="96" VerticalAlignment="Center" Appearance="Secondary" Icon="ArrowDownload24" Content="{Binding PrimaryButtonText}" IsEnabled="{Binding CanPrimary}" Command="{Binding InstallCommand}" />
                     </Grid>
                 </Border>
             </DataTemplate>
@@ -200,7 +199,10 @@
                             </Grid.ColumnDefinitions>
                             <TextBlock Grid.Column="0" Text="{resources:Loc Ui_Pages_ClassicClients}" FontSize="16" FontWeight="SemiBold" VerticalAlignment="Center" />
                             <TextBlock Grid.Column="1" Text="{resources:Loc Ui_Pages_Map}" FontSize="12" Opacity="0.7" Margin="0,0,8,0" VerticalAlignment="Center" />
-                            <ComboBox Grid.Column="2" MinWidth="170" Padding="10,5" ItemsSource="{Binding ClientMaps}" SelectedItem="{Binding SelectedClassicMap, Mode=TwoWay}" VerticalAlignment="Center" />
+                            <Grid Grid.Column="2" VerticalAlignment="Center">
+                                <ComboBox MinWidth="170" Padding="10,5" ItemsSource="{Binding ClientMaps}" SelectedItem="{Binding SelectedClassicMap, Mode=TwoWay}" IsEnabled="{Binding HasClientMaps}" />
+                                <TextBlock Margin="12,0,32,0" VerticalAlignment="Center" FontSize="13" IsHitTestVisible="False" Foreground="{DynamicResource TextFillColorDisabledBrush}" Text="{resources:Loc Ui_Pages_NoMapsInstalled}" Visibility="{Binding NoClientMapsVisibility}" />
+                            </Grid>
                         </Grid>
                         <ItemsControl x:Name="ClassicItems" ItemsSource="{Binding ClientItems}" ItemTemplate="{StaticResource PosterCardTemplate}">
                             <ItemsControl.ItemsPanel>

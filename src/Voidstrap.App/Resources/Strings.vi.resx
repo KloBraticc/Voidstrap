@@ -8407,4 +8407,7 @@ Dung lượng tải xuống là {0} MB. Nếu bạn từ chối, ước tính t�
   <data name="Accounts.SignIn.RobloxApp" xml:space="preserve">
     <value>Đăng nhập hoặc đăng ký trong cửa sổ Roblox. Voidstrap sẽ lưu tài khoản ngay khi bạn đăng nhập.</value>
   </data>
+  <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
+    <value>Chưa cài đặt bản đồ nào</value>
+  </data>
 </root>

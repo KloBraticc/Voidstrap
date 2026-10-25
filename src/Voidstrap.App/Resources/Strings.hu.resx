@@ -8403,4 +8403,7 @@ A letöltés {0} MB. Ha elutasítod, a beépített becslés lesz használva. Ezt
   <data name="Accounts.SignIn.RobloxApp" xml:space="preserve">
     <value>Jelentkezz be vagy regisztrálj a Roblox ablakában. A Voidstrap elmenti a fiókot, amint bejelentkeztél.</value>
   </data>
+  <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
+    <value>Nincs telepített pálya</value>
+  </data>
 </root>

@@ -8403,4 +8403,7 @@ Preuzima se {0} MB. Ako odbiješ, koristi se ugrađena procjena. To možeš prom
   <data name="Accounts.SignIn.RobloxApp" xml:space="preserve">
     <value>Prijavi se ili registriraj u prozoru Robloxa. Voidstrap sprema račun čim se prijaviš.</value>
   </data>
+  <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
+    <value>Nema instaliranih mapa</value>
+  </data>
 </root>

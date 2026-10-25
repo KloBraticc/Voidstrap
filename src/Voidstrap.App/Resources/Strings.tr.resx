@@ -8402,4 +8402,7 @@ Bu dosyayı size yardım eden kişiye gönderin. Bilgisayar kullanıcı adınız
   <data name="Accounts.SignIn.RobloxApp" xml:space="preserve">
     <value>Roblox penceresinde giriş yapın veya kaydolun. Voidstrap, giriş yaptığınız anda hesabı kaydeder.</value>
   </data>
+  <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
+    <value>Yüklü harita yok</value>
+  </data>
 </root>

@@ -8405,4 +8405,7 @@ O download tem {0} MB. Se você recusar, a estimativa integrada será usada. Voc
   <data name="Accounts.SignIn.RobloxApp" xml:space="preserve">
     <value>Entre ou cadastre-se na janela do Roblox. O Voidstrap salva a conta assim que você entrar.</value>
   </data>
+  <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
+    <value>Nenhum mapa instalado</value>
+  </data>
 </root>
