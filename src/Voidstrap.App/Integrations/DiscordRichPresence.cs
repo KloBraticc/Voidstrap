@@ -1186,13 +1186,16 @@ public partial class DiscordRichPresence : IDisposable
 			try
 			{
 				ActivityData data = _activityWatcher.Data;
-				if (data != null && data.UserId > 0)
+				long userId = data?.UserId ?? 0;
+				if (userId <= 0 && App.Settings.Prop.ShowAccountOnRichPresence)
+					userId = await Voidstrap.Utility.RobloxBadges.GetSignedInUserIdAsync(idleToken).ConfigureAwait(continueOnCapturedContext: false);
+				if (userId > 0)
 				{
-					if (_currentPresence == null && App.Settings.Prop.ShowAccountOnRichPresence && !UserDetails.IsCached(data.UserId))
+					if (_currentPresence == null && App.Settings.Prop.ShowAccountOnRichPresence && !UserDetails.IsCached(userId))
 					{
 						PublishIdlePresence(App.RpcLoadingImageUrl, string.Empty);
 					}
-					(smallImage, smallText) = await GetSmallImageAsync(data, idleToken).ConfigureAwait(continueOnCapturedContext: false);
+					(smallImage, smallText) = await GetSmallImageAsync(userId, idleToken).ConfigureAwait(continueOnCapturedContext: false);
 				}
 			}
 			catch
@@ -1454,9 +1457,11 @@ public partial class DiscordRichPresence : IDisposable
 		return (CleanName: string.IsNullOrWhiteSpace(working) ? gameName : working, Tag: tag);
 	}
 
-	private async Task<(string key, string text)> GetSmallImageAsync(ActivityData activity, CancellationToken token = default)
+	private Task<(string key, string text)> GetSmallImageAsync(ActivityData activity, CancellationToken token = default) => GetSmallImageAsync(activity.UserId, token);
+
+	private async Task<(string key, string text)> GetSmallImageAsync(long userId, CancellationToken token = default)
 	{
-		if (!App.Settings.Prop.ShowAccountOnRichPresence || activity.UserId <= 0 || token.IsCancellationRequested)
+		if (!App.Settings.Prop.ShowAccountOnRichPresence || userId <= 0 || token.IsCancellationRequested)
 		{
 			return (key: App.RpcVoidstrapImageUrl, text: "Voidstrap");
 		}
@@ -1464,7 +1469,7 @@ public partial class DiscordRichPresence : IDisposable
 		{
 			using var timeout = CancellationTokenSource.CreateLinkedTokenSource(_lifetimeToken, token);
 			timeout.CancelAfter(TimeSpan.FromSeconds(5));
-			UserDetails userDetails = await UserDetails.Fetch(activity.UserId, timeout.Token).ConfigureAwait(continueOnCapturedContext: false);
+			UserDetails userDetails = await UserDetails.Fetch(userId, timeout.Token).ConfigureAwait(continueOnCapturedContext: false);
 			if (userDetails?.Data == null)
 			{
 				return (key: App.RpcVoidstrapImageUrl, text: "Voidstrap");
