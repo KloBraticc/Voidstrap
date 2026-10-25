@@ -856,6 +856,23 @@
           </ItemsControl.ItemsPanel>
           <StatusBarItem Grid.Column="0" Margin="0,0,4,0">
             <StackPanel VerticalAlignment="Center" Orientation="Horizontal">
+              <Button x:Name="AccountMenuButton" Height="32" VerticalAlignment="Center" Margin="0,0,2,0" Style="{StaticResource TopBarIconButtonStyle}" AutomationProperties.Name="{resources:Loc Accounts_Title}" Click="AccountMenuButton_Click">
+                <Viewbox Width="12" Height="12" RenderTransformOrigin="0.5,0.5">
+                  <Viewbox.RenderTransform>
+                    <RotateTransform x:Name="AccountMenuChevronRotation" Angle="0" />
+                  </Viewbox.RenderTransform>
+                  <Canvas Width="24" Height="24"><Path Style="{StaticResource TopBarArrowIcon}" Data="M6 9l6 6l6 -6" /></Canvas>
+                </Viewbox>
+              </Button>
+              <vscontrols:AnimatedPopup x:Name="AccountMenuPopup" PlacementTarget="{Binding ElementName=AccountMenuButton}" Placement="Top" LightDismiss="True" AllowsTransparency="True" HorizontalOffset="-8" VerticalOffset="4" Opened="AccountMenuPopup_Opened" Closed="AccountMenuPopup_Closed">
+                <Border Margin="12" MinWidth="200" Background="{DynamicResource LauncherMenuBrush}" BorderBrush="{StaticResource LauncherMenuBorderBrush}" BorderThickness="1" CornerRadius="10" Padding="6" TextElement.FontSize="13.5" TextElement.Foreground="{StaticResource LauncherTextPrimaryBrush}">
+                  <StackPanel>
+                    <MenuItem x:Name="TestModeMenuItem" Header="{resources:Loc Menu_TestMode}" Style="{StaticResource TopBarMenuItemStyle}" Click="TestModeMenuItem_Click">
+                      <MenuItem.Icon><ui:SymbolIcon Symbol="Beaker24" FontSize="16" /></MenuItem.Icon>
+                    </MenuItem>
+                  </StackPanel>
+                </Border>
+              </vscontrols:AnimatedPopup>
               <Button x:Name="AccountButton" Height="32" VerticalAlignment="Center" Margin="0,0,14,0" Padding="4,0,12,0" Style="{StaticResource TopBarPillButtonStyle}" AutomationProperties.Name="{resources:Loc Accounts_Title}" Click="AccountButton_Click">
                 <StackPanel Orientation="Horizontal">
                   <Grid Width="24" Height="24">
@@ -867,8 +884,6 @@
                   <TextBlock x:Name="AccountButtonName" Margin="8,0,0,0" MaxWidth="160" VerticalAlignment="Center" FontSize="14" TextTrimming="CharacterEllipsis" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{resources:Loc Accounts_NotSignedIn}" />
                 </StackPanel>
               </Button>
-              <ui:ToggleSwitch VerticalAlignment="Center" Background="{DynamicResource SystemAccentBrush}" Foreground="{DynamicResource SystemAccentBrush}" AutomationProperties.Name="{resources:Loc Menu_TestMode}" IsChecked="{Binding TestModeEnabled, Mode=TwoWay}" />
-              <TextBlock Padding="10,0,0,0" VerticalAlignment="Center" FontSize="14" Text="{resources:Loc Menu_TestMode}" />
             </StackPanel>
           </StatusBarItem>
           <StatusBarItem Grid.Column="2" Padding="0,0,8,0">

@@ -3889,6 +3889,39 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         Voidstrap.Utility.DynamicRenderSystem.SetLazyImageSource(AccountButtonAvatar, current?.AvatarUrl);
     }
 
+    private void AccountMenuButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (AccountMenuPopup.IsOpen && !AccountMenuPopup.IsClosing)
+        {
+            AccountMenuPopup.IsOpen = false;
+            return;
+        }
+        if (DataContext is MainWindowViewModel viewModel)
+            TestModeMenuItem.Tag = viewModel.TestModeEnabled ? "Active" : null;
+        CloseOverlayPopups();
+        AccountMenuPopup.IsOpen = true;
+    }
+
+    private void AccountMenuPopup_Opened(object? sender, EventArgs e) => RotateAccountMenuChevron(180);
+
+    private void AccountMenuPopup_Closed(object? sender, EventArgs e) => RotateAccountMenuChevron(0);
+
+    private void RotateAccountMenuChevron(double angle)
+    {
+        DoubleAnimation rotation = new(angle, new Duration(TimeSpan.FromMilliseconds(220)))
+        {
+            EasingFunction = new CubicEase { EasingMode = EasingMode.EaseOut }
+        };
+        AccountMenuChevronRotation.BeginAnimation(RotateTransform.AngleProperty, rotation);
+    }
+
+    private void TestModeMenuItem_Click(object sender, RoutedEventArgs e)
+    {
+        AccountMenuPopup.IsOpen = false;
+        if (DataContext is MainWindowViewModel viewModel)
+            viewModel.TestModeEnabled = !viewModel.TestModeEnabled;
+    }
+
     private void AccountButton_Click(object sender, RoutedEventArgs e)
     {
         _accountsPage ??= new AccountsPage();
