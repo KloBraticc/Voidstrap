@@ -527,6 +527,7 @@ namespace Voidstrap.Integrations.Overlays
                 App.Logger.WriteLine(LOG_IDENT, "DLSS was turned on after Voidstrap started, restart Voidstrap for DLSS");
                 return false;
             }
+            RiShadeDepthModels.ProbeHardware();
             try
             {
                 if (s_reshadeLoadedUnwrapped)

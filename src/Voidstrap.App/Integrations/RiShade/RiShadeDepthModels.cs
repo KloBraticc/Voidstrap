@@ -120,6 +120,8 @@ namespace Voidstrap.Integrations.RiShade
 
         private static Asset[]? Files => ModelAsset is Asset model ? [OnnxRuntime, DirectMl, model] : null;
 
+        public static void ProbeHardware() => _ = FullPrecision;
+
         private static bool FullPrecision
         {
             get
