@@ -52,6 +52,37 @@
         <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Foreground" Value="#FFB4B4B4" />
       </Style>
+      <Style x:Key="TopSearchBoxButtonStyle" TargetType="Button">
+        <Setter Property="Width" Value="240" />
+        <Setter Property="Height" Value="30" />
+        <Setter Property="Padding" Value="11,0,10,0" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="Background" Value="#0DFFFFFF" />
+        <Setter Property="BorderBrush" Value="#14FFFFFF" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="Cursor" Value="IBeam" />
+        <Setter Property="Focusable" Value="True" />
+        <Setter Property="FocusVisualStyle" Value="{DynamicResource DefaultControlFocusVisualStyle}" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Template">
+          <Setter.Value>
+            <ControlTemplate TargetType="Button">
+              <Border x:Name="SearchChrome" Padding="{TemplateBinding Padding}" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="6">
+                <ContentPresenter HorizontalAlignment="Stretch" VerticalAlignment="Center" />
+              </Border>
+              <ControlTemplate.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                  <Setter TargetName="SearchChrome" Property="Background" Value="#17FFFFFF" />
+                  <Setter TargetName="SearchChrome" Property="BorderBrush" Value="#1FFFFFFF" />
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                  <Setter TargetName="SearchChrome" Property="Background" Value="#0AFFFFFF" />
+                </Trigger>
+              </ControlTemplate.Triggers>
+            </ControlTemplate>
+          </Setter.Value>
+        </Setter>
+      </Style>
       <Style x:Key="TopBarPillButtonStyle" TargetType="Button" BasedOn="{StaticResource TopBarButtonStyle}">
         <Setter Property="Padding" Value="10,0" />
       </Style>
@@ -341,15 +372,24 @@
           <Button x:Name="TopNavForward" Style="{StaticResource TopBarIconButtonStyle}" IsEnabled="False" ToolTip="{resources:Loc Ui_Main_Forward}" AutomationProperties.Name="{resources:Loc Ui_Main_Forward}" Margin="0,0,4,0" Click="TopNavForward_Click">
             <ui:SymbolIcon Symbol="ArrowRight16" FontSize="15" />
           </Button>
-          <Grid Margin="0,0,2,0">
-            <Button x:Name="TopSearchButton" Style="{StaticResource TopBarIconButtonStyle}" AutomationProperties.Name="{resources:Loc ContextMenu_GameBrowser_Search}" Click="TopSearchButton_Click">
+          <Grid Margin="4,0,6,0">
+            <Button x:Name="TopSearchButton" Style="{StaticResource TopSearchBoxButtonStyle}" AutomationProperties.Name="{resources:Loc ContextMenu_GameBrowser_Search}" Click="TopSearchButton_Click">
               <Button.ToolTip>
                 <StackPanel>
                   <TextBlock Text="{resources:Loc ContextMenu_GameBrowser_Search}" />
                   <TextBlock Text="{Binding Source='Ctrl K', Converter={x:Static wpfconv:ShortcutTextConverter.Instance}}" FontSize="11" Foreground="{StaticResource LauncherTextTertiaryBrush}" />
                 </StackPanel>
               </Button.ToolTip>
-              <ui:SymbolIcon Symbol="Search20" FontSize="15" />
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="Auto" />
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <ui:SymbolIcon Symbol="Search20" FontSize="14" VerticalAlignment="Center" Foreground="{StaticResource LauncherTextSecondaryBrush}" />
+                <TextBlock Grid.Column="1" Margin="10,0,8,0" Text="{resources:Loc Ui_Main_SearchPlaceholder}" FontSize="13" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" Foreground="{StaticResource LauncherTextTertiaryBrush}" />
+                <TextBlock Grid.Column="2" Text="{Binding Source='Ctrl K', Converter={x:Static wpfconv:ShortcutTextConverter.Instance}}" FontSize="11" VerticalAlignment="Center" Foreground="{StaticResource LauncherTextTertiaryBrush}" />
+              </Grid>
             </Button>
           </Grid>
           <Grid Margin="2,0,12,0">
@@ -405,7 +445,7 @@
         </StackPanel>
       </Button>
       <Button x:Name="SidebarToggle" Style="{StaticResource TopBarIconButtonStyle}" ToolTip="{resources:Loc Ui_Main_ToggleSidebar}" AutomationProperties.Name="{resources:Loc Ui_Main_ToggleSidebar}" Click="SidebarToggle_Click">
-        <ui:SymbolIcon Symbol="PanelLeft20" FontSize="16" />
+        <Canvas Width="16" Height="16" SnapsToDevicePixels="True"><Rectangle Canvas.Left="1.5" Canvas.Top="2.5" Width="13" Height="11" RadiusX="2" RadiusY="2" StrokeThickness="1.2" Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" /><Rectangle Canvas.Left="5.4" Canvas.Top="3" Width="1.2" Height="10" Fill="{Binding Foreground, RelativeSource={RelativeSource AncestorType=Button}}" /></Canvas>
       </Button>
       <Button x:Name="TopNavHome" Content="{resources:Loc Ui_Main_TabHome}" Style="{StaticResource TopNavButtonStyle}" Click="TopNavHome_Click" />
       <Button x:Name="TopNavLibrary" Content="{resources:Loc Ui_Main_TabLibrary}" Style="{StaticResource TopNavButtonStyle}" Click="TopNavLibrary_Click" />
