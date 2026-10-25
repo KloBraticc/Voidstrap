@@ -892,6 +892,7 @@ struct Lane
     std::atomic<bool> busy = false;
     std::atomic<bool> done = false;
     std::atomic<bool> failed = false;
+    int removals = 0;
     uint64_t inputValue = 0;
     unsigned version = 0;
     HANDLE inputHandle = nullptr;
@@ -963,6 +964,8 @@ Lane& Fast()
 
 std::mutex nativeMutex;
 std::vector<ID3D12Device*> nativeDevices;
+std::mutex creationMutex;
+constexpr int kMaxDeviceRemovals = 2;
 
 void Bind(reshade::api::effect_runtime* runtime, ID3D11ShaderResourceView* view)
 {
@@ -1017,23 +1020,65 @@ void CreateD3D12(Lane& l)
         if (SUCCEEDED(CreateDXGIFactory1(IID_PPV_ARGS(factory.put()))))
             factory->EnumAdapterByLuid(d.adapter, IID_PPV_ARGS(sameAdapter.put()));
     }
-    if (FAILED(D3D12CreateDevice(sameAdapter.get(), D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(l.d3d12Proxy.put()))))
+    if (l.removals > 0)
+    {
+        winrt::com_ptr<ID3D12DeviceRemovedExtendedDataSettings> dred;
+        if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(dred.put()))))
+        {
+            dred->SetAutoBreadcrumbsEnablement(D3D12_DRED_ENABLEMENT_FORCED_ON);
+            dred->SetPageFaultEnablement(D3D12_DRED_ENABLEMENT_FORCED_ON);
+        }
+    }
+    const std::lock_guard creation(creationMutex);
+    std::vector<ID3D12Device*> before;
+    {
+        const std::lock_guard lock(nativeMutex);
+        before = nativeDevices;
+    }
+    winrt::com_ptr<ID3D12Device> proxy;
+    if (FAILED(D3D12CreateDevice(sameAdapter.get(), D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(proxy.put()))))
         throw std::runtime_error("DirectX 12 is unavailable on this GPU.");
-    const LUID adapter = l.d3d12Proxy->GetAdapterLuid();
+    if (FAILED(proxy->GetDeviceRemovedReason()))
+        throw std::runtime_error("DirectX 12 returned the device that already stopped responding, the depth model cannot restart this session.");
+    winrt::com_ptr<ID3D12Device> device;
+    const LUID adapter = proxy->GetAdapterLuid();
     {
         const std::lock_guard lock(nativeMutex);
         for (ID3D12Device* native : nativeDevices)
-            if (const LUID luid = native->GetAdapterLuid(); luid.LowPart == adapter.LowPart && luid.HighPart == adapter.HighPart)
-                l.d3d12.copy_from(native);
+            if (const LUID luid = native->GetAdapterLuid(); luid.LowPart == adapter.LowPart && luid.HighPart == adapter.HighPart
+                && std::find(before.begin(), before.end(), native) == before.end() && SUCCEEDED(native->GetDeviceRemovedReason()))
+                device.copy_from(native);
     }
-    if (!l.d3d12)
-        l.d3d12 = l.d3d12Proxy;
+    l.d3d12Proxy = proxy;
+    l.d3d12 = device ? device : proxy;
 
     winrt::check_hresult(l.d3d12->CreateFence(0, D3D12_FENCE_FLAG_SHARED, IID_PPV_ARGS(l.d3d12Fence.put())));
     winrt::check_hresult(l.d3d12->CreateSharedHandle(l.d3d12Fence.get(), nullptr, GENERIC_ALL, nullptr, &l.fenceHandle));
     winrt::check_hresult(l.d3d12->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(l.allocator.put())));
     winrt::check_hresult(l.d3d12->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, l.allocator.get(), nullptr, IID_PPV_ARGS(l.list.put())));
     winrt::check_hresult(l.list->Close());
+}
+
+void LogDeviceRemoval(Lane& l, const wchar_t* lane)
+{
+    winrt::com_ptr<ID3D12DeviceRemovedExtendedData> dred = l.d3d12.try_as<ID3D12DeviceRemovedExtendedData>();
+    if (!dred)
+        return;
+    D3D12_DRED_AUTO_BREADCRUMBS_OUTPUT breadcrumbs{};
+    if (SUCCEEDED(dred->GetAutoBreadcrumbsOutput(&breadcrumbs)))
+        for (const D3D12_AUTO_BREADCRUMB_NODE* node = breadcrumbs.pHeadAutoBreadcrumbNode; node; node = node->pNext)
+        {
+            const UINT completed = node->pLastBreadcrumbValue ? *node->pLastBreadcrumbValue : 0;
+            if (completed >= node->BreadcrumbCount)
+                continue;
+            Log(LogLevel::Info, L"Depth %ls GPU work stopped at operation %u of %u, op=%d, queue=%ls, list=%ls.", lane, completed, node->BreadcrumbCount,
+                node->pCommandHistory ? static_cast<int>(node->pCommandHistory[completed]) : -1,
+                node->pCommandQueueDebugNameW ? node->pCommandQueueDebugNameW : L"unnamed", node->pCommandListDebugNameW ? node->pCommandListDebugNameW : L"unnamed");
+            break;
+        }
+    D3D12_DRED_PAGE_FAULT_OUTPUT fault{};
+    if (SUCCEEDED(dred->GetPageFaultAllocationOutput(&fault)) && fault.PageFaultVA)
+        Log(LogLevel::Info, L"Depth %ls GPU page fault at 0x%llX.", lane, static_cast<unsigned long long>(fault.PageFaultVA));
 }
 
 void ReleaseD3D12(Lane& l)
@@ -1125,6 +1170,11 @@ void Worker(Lane& l)
             {
                 Log(LogLevel::Info, L"Releasing the depth %ls D3D12 device: removed_reason=0x%08X, lane_enabled=%d.", LaneName(l),
                     static_cast<unsigned>(l.d3d12->GetDeviceRemovedReason()), l.enabled.load());
+                if (D3D12Removed(l))
+                {
+                    ++l.removals;
+                    LogDeviceRemoval(l, LaneName(l));
+                }
                 model.reset();
                 input = output = inputBuffer = outputBuffer = nullptr;
                 loadedWidth = loadedHeight = 0;
@@ -1136,6 +1186,8 @@ void Worker(Lane& l)
                 SetEvent(l.finished);
                 continue;
             }
+            if (!l.d3d12 && l.removals >= kMaxDeviceRemovals)
+                throw std::runtime_error("The GPU stopped responding while running the depth model again, the depth model stays off this session.");
             if (!l.d3d12)
                 CreateD3D12(l);
             if (l.width != loadedWidth || l.height != loadedHeight)
