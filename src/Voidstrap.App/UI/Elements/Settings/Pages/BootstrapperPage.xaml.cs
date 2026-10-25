@@ -19,7 +19,6 @@ public partial class BehaviourPage : UiPage{
 	{
 		base.DataContext = new BehaviourViewModel();
 		InitializeComponent();
-		MtuOption.DataContext = ((BehaviourViewModel)base.DataContext).Mtu;
 		_settingsRevision = App.Settings.Revision;
 		base.Loaded += OnPageLoaded;
 		base.Unloaded += OnPageUnloaded;
