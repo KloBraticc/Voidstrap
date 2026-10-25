@@ -306,6 +306,9 @@ static const float RefineSurfaceSigma = 0.05;
 static const int PlaneRadius = 3;
 static const int PlaneStride = 3;
 static const float PlaneColor = 0.12;
+static const float FocusHold = 0.92;
+static const float FocusStillStart = 0.008;
+static const float FocusStillRange = 0.03;
 static const float PlaneGate = 0.3;
 static const float PlaneResidualSigma = 0.02;
 static const float LinearFar = 1000.0;
@@ -874,7 +877,16 @@ void Refine(uint3 id : SV_DispatchThreadID)
     float current = Encoded(lerp(fitted, snapped / max(snappedWeights, 1e-6), edge));
     float previous = Depth[id.xy];
     float change = abs(current - previous) / max(max(current, previous), 1e-4);
-    Depth[id.xy] = Flags & Exact ? current : lerp(previous, current, saturate(TemporalBase + change * TemporalResponse));
+    if (Flags & Exact)
+    {
+        float luma = dot(centre, float3(0.299, 0.587, 0.114));
+        float history = LumaTarget[id.xy];
+        LumaTarget[id.xy] = luma;
+        float stillness = history < 0 ? 0 : 1 - saturate((abs(luma - history) - FocusStillStart) / FocusStillRange);
+        Depth[id.xy] = lerp(current, previous, FocusHold * stillness);
+        return;
+    }
+    Depth[id.xy] = lerp(previous, current, saturate(TemporalBase + change * TemporalResponse));
 }
 )";
 
@@ -1018,6 +1030,7 @@ struct Depth
     Surface paired;
     Surface ratio;
     Surface ratioBlur;
+    Surface focus;
     winrt::com_ptr<ID3D11Texture2D> pairCopy;
     bool pairPending = false;
     bool pairReady = false;
@@ -1429,7 +1442,7 @@ void ReleaseShared()
     d.textureTarget = nullptr;
     d.texture = nullptr;
     for (Surface* surface : { &d.luma[0], &d.luma[1], &d.quarter[0], &d.quarter[1], &d.coarse, &d.flow, &d.warped, &d.staleRaw, &d.staleOpen, &d.paired, &d.ratio,
-                              &d.ratioBlur })
+                              &d.ratioBlur, &d.focus })
         *surface = {};
     d.affineView = nullptr;
     d.affineTarget = nullptr;
@@ -1631,6 +1644,9 @@ void CreateCommon()
     CreateSurface(d.sourceWidth, d.sourceHeight, DXGI_FORMAT_R32_FLOAT, d.paired);
     CreateSurface(d.sourceWidth, d.sourceHeight, DXGI_FORMAT_R32_FLOAT, d.ratio);
     CreateSurface(d.workWidth, d.workHeight, DXGI_FORMAT_R32_FLOAT, d.ratioBlur);
+    CreateSurface(d.sourceWidth, d.sourceHeight, DXGI_FORMAT_R32_FLOAT, d.focus);
+    const float noHistory[4] = { -1, -1, -1, -1 };
+    g.context->ClearUnorderedAccessViewFloat(d.focus.target.get(), noHistory);
     std::array<float, 4 * kAffineRows> identity{};
     for (UINT row = 0; row < kAffineRows; ++row)
         identity[row * 4 + row % 2] = 1;
@@ -1764,7 +1780,7 @@ void TrackExact()
     Dispatch(kWarp, { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, detail.anchor.view.get() },
              { nullptr, nullptr, nullptr, nullptr, nullptr, d.warped.target.get() }, sourceGroupsX, sourceGroupsY);
     Dispatch(kRefine, { d.liveView.get(), nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.warped.view.get() },
-             { nullptr, nullptr, nullptr, nullptr, d.textureTarget.get() }, sourceGroupsX, sourceGroupsY);
+             { d.focus.target.get(), nullptr, nullptr, nullptr, d.textureTarget.get() }, sourceGroupsX, sourceGroupsY);
 }
 
 void Track(ID3D11Texture2D* frame, int64_t frameTimestamp)
