@@ -8222,4 +8222,19 @@ Voidstrap не зміг записати до теки робочого стол
   <data name="Ui.TitleBar.Maximize" xml:space="preserve">
     <value>Розгорнути</value>
   </data>
+  <data name="Ui.RiShade.Preset.Title" xml:space="preserve">
+    <value>Пресет</value>
+  </data>
+  <data name="Ui.RiShade.Preset.None" xml:space="preserve">
+    <value>У папці пресетів RiShade немає пресетів.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Applied" xml:space="preserve">
+    <value>Пресет застосовано.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Saved" xml:space="preserve">
+    <value>Пресет збережено. Його буде застосовано під час наступного запуску RiShade.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Failed" xml:space="preserve">
+    <value>Не вдалося вибрати цей пресет.</value>
+  </data>
 </root>

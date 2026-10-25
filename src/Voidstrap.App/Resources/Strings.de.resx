@@ -8224,4 +8224,19 @@ Es werden {0} MB heruntergeladen. Wenn du ablehnst, wird die eingebaute Schätzu
   <data name="Ui.TitleBar.Maximize" xml:space="preserve">
     <value>Maximieren</value>
   </data>
+  <data name="Ui.RiShade.Preset.Title" xml:space="preserve">
+    <value>Voreinstellung</value>
+  </data>
+  <data name="Ui.RiShade.Preset.None" xml:space="preserve">
+    <value>Im RiShade Ordner für Voreinstellungen wurden keine Voreinstellungen gefunden.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Applied" xml:space="preserve">
+    <value>Voreinstellung angewendet.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Saved" xml:space="preserve">
+    <value>Voreinstellung gespeichert. Sie wird beim nächsten Start von RiShade übernommen.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Failed" xml:space="preserve">
+    <value>Diese Voreinstellung konnte nicht ausgewählt werden.</value>
+  </data>
 </root>

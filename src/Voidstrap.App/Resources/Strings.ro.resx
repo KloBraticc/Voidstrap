@@ -8225,4 +8225,19 @@ Se descarcă {0} MB. Dacă refuzi, se folosește estimarea integrată. Poți sch
   <data name="Ui.TitleBar.Maximize" xml:space="preserve">
     <value>Maximizare</value>
   </data>
+  <data name="Ui.RiShade.Preset.Title" xml:space="preserve">
+    <value>Presetare</value>
+  </data>
+  <data name="Ui.RiShade.Preset.None" xml:space="preserve">
+    <value>Nu s-au găsit presetări în folderul de presetări RiShade.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Applied" xml:space="preserve">
+    <value>Presetare aplicată.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Saved" xml:space="preserve">
+    <value>Presetare salvată. Se aplică la următoarea pornire a RiShade.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Failed" xml:space="preserve">
+    <value>Această presetare nu a putut fi selectată.</value>
+  </data>
 </root>

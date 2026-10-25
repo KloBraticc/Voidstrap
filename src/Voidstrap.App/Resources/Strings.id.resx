@@ -8226,4 +8226,19 @@ Unduhannya {0} MB. Jika Anda menolak, perkiraan bawaan akan digunakan. Anda dapa
   <data name="Ui.TitleBar.Maximize" xml:space="preserve">
     <value>Maksimalkan</value>
   </data>
+  <data name="Ui.RiShade.Preset.Title" xml:space="preserve">
+    <value>Preset</value>
+  </data>
+  <data name="Ui.RiShade.Preset.None" xml:space="preserve">
+    <value>Tidak ada preset di folder preset RiShade.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Applied" xml:space="preserve">
+    <value>Preset diterapkan.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Saved" xml:space="preserve">
+    <value>Preset disimpan. Akan diterapkan saat RiShade dijalankan berikutnya.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Failed" xml:space="preserve">
+    <value>Preset ini tidak dapat dipilih.</value>
+  </data>
 </root>

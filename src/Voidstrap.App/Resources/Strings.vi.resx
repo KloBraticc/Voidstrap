@@ -8227,4 +8227,19 @@ Dung lượng tải xuống là {0} MB. Nếu bạn từ chối, ước tính t�
   <data name="Ui.TitleBar.Maximize" xml:space="preserve">
     <value>Phóng to</value>
   </data>
+  <data name="Ui.RiShade.Preset.Title" xml:space="preserve">
+    <value>Cài đặt sẵn</value>
+  </data>
+  <data name="Ui.RiShade.Preset.None" xml:space="preserve">
+    <value>Không tìm thấy cài đặt sẵn nào trong thư mục cài đặt sẵn của RiShade.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Applied" xml:space="preserve">
+    <value>Đã áp dụng cài đặt sẵn.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Saved" xml:space="preserve">
+    <value>Đã lưu cài đặt sẵn. Cài đặt sẽ được áp dụng vào lần tới RiShade khởi động.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Failed" xml:space="preserve">
+    <value>Không thể chọn cài đặt sẵn này.</value>
+  </data>
 </root>

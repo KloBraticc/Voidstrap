@@ -8222,4 +8222,19 @@ Magda-download ito ng {0} MB. Kung tatanggihan mo, gagamitin ang built in na tan
   <data name="Ui.TitleBar.Maximize" xml:space="preserve">
     <value>I-maximize</value>
   </data>
+  <data name="Ui.RiShade.Preset.Title" xml:space="preserve">
+    <value>Preset</value>
+  </data>
+  <data name="Ui.RiShade.Preset.None" xml:space="preserve">
+    <value>Walang nakitang preset sa presets folder ng RiShade.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Applied" xml:space="preserve">
+    <value>Nailapat ang preset.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Saved" xml:space="preserve">
+    <value>Na-save ang preset. Gagamitin ito sa susunod na pagsisimula ng RiShade.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Failed" xml:space="preserve">
+    <value>Hindi mapili ang preset na ito.</value>
+  </data>
 </root>

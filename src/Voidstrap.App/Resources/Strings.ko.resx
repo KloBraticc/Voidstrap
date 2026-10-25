@@ -8222,4 +8222,19 @@ Voidstrap이 바탕 화면 폴더에 쓸 수 없습니다.</value>
   <data name="Ui.TitleBar.Maximize" xml:space="preserve">
     <value>최대화</value>
   </data>
+  <data name="Ui.RiShade.Preset.Title" xml:space="preserve">
+    <value>프리셋</value>
+  </data>
+  <data name="Ui.RiShade.Preset.None" xml:space="preserve">
+    <value>RiShade 프리셋 폴더에 프리셋이 없습니다.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Applied" xml:space="preserve">
+    <value>프리셋을 적용했습니다.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Saved" xml:space="preserve">
+    <value>프리셋을 저장했습니다. 다음에 RiShade를 시작할 때 적용됩니다.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Failed" xml:space="preserve">
+    <value>이 프리셋을 선택할 수 없습니다.</value>
+  </data>
 </root>

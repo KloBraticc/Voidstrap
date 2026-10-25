@@ -8238,4 +8238,19 @@ Voidstrap がデスクトップ フォルダーに書き込めませんでした
   <data name="Ui.TitleBar.Maximize" xml:space="preserve">
     <value>最大化</value>
   </data>
+  <data name="Ui.RiShade.Preset.Title" xml:space="preserve">
+    <value>プリセット</value>
+  </data>
+  <data name="Ui.RiShade.Preset.None" xml:space="preserve">
+    <value>RiShade のプリセットフォルダーにプリセットが見つかりません。</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Applied" xml:space="preserve">
+    <value>プリセットを適用しました。</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Saved" xml:space="preserve">
+    <value>プリセットを保存しました。次回 RiShade の起動時に適用されます。</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Failed" xml:space="preserve">
+    <value>このプリセットを選択できませんでした。</value>
+  </data>
 </root>

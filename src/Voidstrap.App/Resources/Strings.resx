@@ -7911,4 +7911,19 @@ It downloads {0} MB. If you decline, the built in estimate is used. You can chan
   <data name="Ui.TitleBar.Maximize" xml:space="preserve">
     <value>Maximize</value>
   </data>
+  <data name="Ui.RiShade.Preset.Title" xml:space="preserve">
+    <value>Preset</value>
+  </data>
+  <data name="Ui.RiShade.Preset.None" xml:space="preserve">
+    <value>No presets found in the RiShade presets folder.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Applied" xml:space="preserve">
+    <value>Preset applied.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Saved" xml:space="preserve">
+    <value>Preset saved. It applies the next time RiShade starts.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Failed" xml:space="preserve">
+    <value>This preset could not be selected.</value>
+  </data>
 </root>

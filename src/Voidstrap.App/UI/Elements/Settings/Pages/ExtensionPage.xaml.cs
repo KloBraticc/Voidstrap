@@ -372,7 +372,7 @@ public partial class ExtensionPage : UiPage
 
 	private void RefreshRiShadePresets()
 	{
-		string? selectedPath = Voidstrap.Integrations.RiShade.RiShadePanel.CurrentPresetPath;
+		string? selectedPath = Voidstrap.Integrations.RiShade.RiShadePanel.PreferredPresetPath;
 		var presets = Voidstrap.Integrations.RiShade.RiShadePanel.AvailablePresets
 			.Select(path => new RiShadePresetEntry(path))
 			.ToList();
@@ -387,9 +387,13 @@ public partial class ExtensionPage : UiPage
 		{
 			_refreshingRiShadePresets = false;
 		}
-		RiShadePresetStatus.Text = presets.Count == 0
-			? "No loadable presets found in RiShade\\presets."
-			: selectedPath is null ? "Presets are available once RiShade is active." : "Select a preset to apply it.";
+		ShowRiShadePresetStatus(presets.Count == 0 ? Voidstrap.Resources.Strings.Ui_RiShade_Preset_None : null);
+	}
+
+	private void ShowRiShadePresetStatus(string? text)
+	{
+		RiShadePresetStatus.Text = text ?? string.Empty;
+		RiShadePresetStatus.Visibility = string.IsNullOrEmpty(text) ? Visibility.Collapsed : Visibility.Visible;
 	}
 
 	private void RiShadePreset_Refresh_Click(object sender, RoutedEventArgs e) => RefreshRiShadePresets();
@@ -471,10 +475,11 @@ public partial class ExtensionPage : UiPage
 	{
 		if (!IsLoaded || _refreshingRiShadePresets || RiShadePresetPicker.SelectedItem is not RiShadePresetEntry preset)
 			return;
+		bool live = Voidstrap.Integrations.RiShade.RiShadePanel.HasRuntime;
 		if (Voidstrap.Integrations.RiShade.RiShadePanel.SelectPreset(preset.Path))
-			RiShadePresetStatus.Text = "Preset queued for the next rendered frame.";
+			ShowRiShadePresetStatus(live ? Voidstrap.Resources.Strings.Ui_RiShade_Preset_Applied : Voidstrap.Resources.Strings.Ui_RiShade_Preset_Saved);
 		else
-			RiShadePresetStatus.Text = "Preset could not be selected. Check that RiShade is active and the file is valid.";
+			ShowRiShadePresetStatus(Voidstrap.Resources.Strings.Ui_RiShade_Preset_Failed);
 	}
 
 	private sealed record RiShadePresetEntry(string Path)

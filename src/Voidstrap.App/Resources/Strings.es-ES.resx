@@ -8224,4 +8224,19 @@ Se descargan {0} MB. Si lo rechazas, se usa la estimación integrada. Puedes cam
   <data name="Ui.TitleBar.Maximize" xml:space="preserve">
     <value>Maximizar</value>
   </data>
+  <data name="Ui.RiShade.Preset.Title" xml:space="preserve">
+    <value>Ajuste preestablecido</value>
+  </data>
+  <data name="Ui.RiShade.Preset.None" xml:space="preserve">
+    <value>No se encontraron ajustes preestablecidos en la carpeta de RiShade.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Applied" xml:space="preserve">
+    <value>Ajuste preestablecido aplicado.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Saved" xml:space="preserve">
+    <value>Ajuste preestablecido guardado. Se aplicará la próxima vez que inicies RiShade.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Failed" xml:space="preserve">
+    <value>No se pudo seleccionar este ajuste preestablecido.</value>
+  </data>
 </root>

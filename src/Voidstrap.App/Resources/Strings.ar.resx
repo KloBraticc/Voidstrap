@@ -8223,4 +8223,19 @@
   <data name="Ui.TitleBar.Maximize" xml:space="preserve">
     <value>تكبير</value>
   </data>
+  <data name="Ui.RiShade.Preset.Title" xml:space="preserve">
+    <value>الإعداد المسبق</value>
+  </data>
+  <data name="Ui.RiShade.Preset.None" xml:space="preserve">
+    <value>لم يتم العثور على إعدادات مسبقة في مجلد إعدادات RiShade.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Applied" xml:space="preserve">
+    <value>تم تطبيق الإعداد المسبق.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Saved" xml:space="preserve">
+    <value>تم حفظ الإعداد المسبق. سيُطبَّق عند تشغيل RiShade في المرة القادمة.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Failed" xml:space="preserve">
+    <value>تعذّر اختيار هذا الإعداد المسبق.</value>
+  </data>
 </root>

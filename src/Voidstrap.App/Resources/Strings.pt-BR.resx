@@ -8225,4 +8225,19 @@ O download tem {0} MB. Se você recusar, a estimativa integrada será usada. Voc
   <data name="Ui.TitleBar.Maximize" xml:space="preserve">
     <value>Maximizar</value>
   </data>
+  <data name="Ui.RiShade.Preset.Title" xml:space="preserve">
+    <value>Predefinição</value>
+  </data>
+  <data name="Ui.RiShade.Preset.None" xml:space="preserve">
+    <value>Nenhuma predefinição encontrada na pasta de predefinições do RiShade.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Applied" xml:space="preserve">
+    <value>Predefinição aplicada.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Saved" xml:space="preserve">
+    <value>Predefinição salva. Ela será aplicada na próxima vez que o RiShade iniciar.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Failed" xml:space="preserve">
+    <value>Não foi possível selecionar esta predefinição.</value>
+  </data>
 </root>

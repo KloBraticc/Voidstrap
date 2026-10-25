@@ -8225,4 +8225,19 @@ Stáhne se {0} MB. Pokud odmítnete, použije se vestavěný odhad. Později to 
   <data name="Ui.TitleBar.Maximize" xml:space="preserve">
     <value>Maximalizovat</value>
   </data>
+  <data name="Ui.RiShade.Preset.Title" xml:space="preserve">
+    <value>Předvolba</value>
+  </data>
+  <data name="Ui.RiShade.Preset.None" xml:space="preserve">
+    <value>Ve složce předvoleb RiShade nebyly nalezeny žádné předvolby.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Applied" xml:space="preserve">
+    <value>Předvolba byla použita.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Saved" xml:space="preserve">
+    <value>Předvolba byla uložena. Použije se při příštím spuštění RiShade.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Failed" xml:space="preserve">
+    <value>Tuto předvolbu nelze vybrat.</value>
+  </data>
 </root>

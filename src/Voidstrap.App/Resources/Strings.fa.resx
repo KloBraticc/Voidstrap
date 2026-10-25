@@ -8226,4 +8226,19 @@ Voidstrap نتوانست در پوشهٔ دسکتاپ بنویسد.</value>
   <data name="Ui.TitleBar.Maximize" xml:space="preserve">
     <value>بزرگ کردن</value>
   </data>
+  <data name="Ui.RiShade.Preset.Title" xml:space="preserve">
+    <value>پیش‌تنظیم</value>
+  </data>
+  <data name="Ui.RiShade.Preset.None" xml:space="preserve">
+    <value>هیچ پیش‌تنظیمی در پوشه پیش‌تنظیم‌های RiShade پیدا نشد.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Applied" xml:space="preserve">
+    <value>پیش‌تنظیم اعمال شد.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Saved" xml:space="preserve">
+    <value>پیش‌تنظیم ذخیره شد. دفعه بعد که RiShade اجرا شود اعمال می‌شود.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Failed" xml:space="preserve">
+    <value>این پیش‌تنظیم انتخاب نشد.</value>
+  </data>
 </root>

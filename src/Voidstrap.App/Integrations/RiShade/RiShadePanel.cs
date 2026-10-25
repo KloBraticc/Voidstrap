@@ -14,6 +14,10 @@ namespace Voidstrap.Integrations.RiShade
 
         public static string? CurrentPresetPath => RiShadeManager.CurrentPresetPath;
 
+        public static string? PreferredPresetPath => RiShadeManager.PreferredPresetPath;
+
+        public static bool HasRuntime => RiShadeManager.HasRuntime;
+
         public static IReadOnlyList<string> AvailablePresets => RiShadeManager.GetAvailablePresets();
 
         public static bool SelectPreset(string presetPath) => RiShadeManager.SelectPreset(presetPath);

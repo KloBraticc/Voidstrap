@@ -8225,4 +8225,19 @@ Ladattava koko on {0} Mt. Jos kieltäydyt, käytetään sisäänrakennettua arvi
   <data name="Ui.TitleBar.Maximize" xml:space="preserve">
     <value>Suurenna</value>
   </data>
+  <data name="Ui.RiShade.Preset.Title" xml:space="preserve">
+    <value>Esiasetus</value>
+  </data>
+  <data name="Ui.RiShade.Preset.None" xml:space="preserve">
+    <value>RiShaden esiasetuskansiosta ei löytynyt esiasetuksia.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Applied" xml:space="preserve">
+    <value>Esiasetus otettu käyttöön.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Saved" xml:space="preserve">
+    <value>Esiasetus tallennettu. Se otetaan käyttöön, kun RiShade käynnistyy seuraavan kerran.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Failed" xml:space="preserve">
+    <value>Tätä esiasetusta ei voitu valita.</value>
+  </data>
 </root>

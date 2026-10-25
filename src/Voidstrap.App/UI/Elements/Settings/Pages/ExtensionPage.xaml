@@ -113,6 +113,58 @@
               </StackPanel>
             </TabItem.Header>
             <StackPanel Margin="10">
+              <Border x:Name="RiShadeTools" Visibility="Collapsed" Margin="0,0,0,16" Padding="16" CornerRadius="8" Background="{DynamicResource ControlFillColorDefaultBrush}" BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="1">
+                <StackPanel>
+                  <TextBlock Style="{StaticResource DetailLabel}" Text="{resources:Loc Ui_RiShade_Preset_Title}" />
+                  <Grid>
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <ComboBox x:Name="RiShadePresetPicker" Grid.Column="0" Height="34" VerticalContentAlignment="Center" DisplayMemberPath="Name" SelectionChanged="RiShadePreset_SelectionChanged" />
+                    <ui:Button Grid.Column="1" Height="34" Margin="8,0,0,0" Content="{resources:Loc Common_Refresh}" Click="RiShadePreset_Refresh_Click" />
+                  </Grid>
+                  <TextBlock x:Name="RiShadePresetStatus" Margin="0,6,0,0" Visibility="Collapsed" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+                  <StackPanel x:Name="RiShadeDepthModel" Margin="0,14,0,0">
+                    <CheckBox x:Name="RiShadeDepthModelToggle" VerticalContentAlignment="Top" Click="RiShadeDepthModel_Click">
+                      <StackPanel>
+                        <TextBlock Style="{StaticResource DetailLabel}" Margin="0" Text="{resources:Loc Ui_RiShade_DepthModel_Title}" />
+                        <TextBlock FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_RiShade_DepthModel_RiDepthDescription}" />
+                      </StackPanel>
+                    </CheckBox>
+                    <TextBlock x:Name="RiShadeDepthModelStatus" Margin="0,6,0,0" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Visibility="Collapsed" />
+                  </StackPanel>
+                  <Grid x:Name="RiShadeDlss" Margin="0,14,0,0">
+                    <CheckBox x:Name="RiShadeDlssToggle" VerticalContentAlignment="Top" Click="RiShadeDlss_Click">
+                      <StackPanel>
+                        <TextBlock Style="{StaticResource DetailLabel}" Margin="0" Text="{resources:Loc Ui_RiShade_Dlss_Title}" />
+                        <TextBlock FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_RiShade_Dlss_Description}" />
+                      </StackPanel>
+                    </CheckBox>
+                  </Grid>
+                  <TextBlock x:Name="RiShadeDlssStatus" Margin="0,6,0,0" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Visibility="Collapsed" />
+                </StackPanel>
+              </Border>
+              <Border x:Name="RojoTools" Visibility="Collapsed" Margin="0,0,0,16" Padding="16" CornerRadius="8" Background="{DynamicResource ControlFillColorDefaultBrush}" BorderBrush="{DynamicResource ControlElevationBorderBrush}" BorderThickness="1">
+                <StackPanel>
+                  <TextBlock Style="{StaticResource DetailLabel}" Text="{resources:Loc Ui_Pages_ProjectTools}" />
+                  <Grid>
+                    <Grid.ColumnDefinitions>
+                      <ColumnDefinition Width="*" />
+                      <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <ui:TextBox Grid.Column="0" Height="34" Margin="0,0,8,0" VerticalContentAlignment="Center" PlaceholderText="{resources:Loc Ui_Pages_ProjectFolder}" Text="{Binding RojoProjectPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding rojoenabler}" />
+                    <ui:Button Grid.Column="1" Height="34" Content="{resources:Loc Common_Browse}" Click="BrowseRojoFolder_Click" IsEnabled="{Binding rojoenabler}" />
+                  </Grid>
+                  <WrapPanel Margin="0,10,0,0">
+                    <ui:Button Margin="0,0,8,8" Content="{resources:Loc Ui_Pages_NewProject}" Click="RojoInit_Click" IsEnabled="{Binding rojoenabler}" />
+                    <ui:Button Margin="0,0,8,8" Content="{Binding RojoServeLabel}" Appearance="Primary" Click="RojoServe_Click" IsEnabled="{Binding rojoenabler}" />
+                    <ui:Button Margin="0,0,8,8" Content="{resources:Loc Ui_Pages_BuildPlace}" Click="RojoBuild_Click" IsEnabled="{Binding rojoenabler}" />
+                    <ui:Button Margin="0,0,8,8" Content="{resources:Loc Ui_Pages_InstallStudioPlugin}" Click="RojoInstallPlugin_Click" IsEnabled="{Binding rojoenabler}" />
+                    <ui:Button Margin="0,0,0,8" Content="{resources:Loc SettingsProfiles_Folder}" Click="OpenRojo_Click" IsEnabled="{Binding rojoenabler}" />
+                  </WrapPanel>
+                </StackPanel>
+              </Border>
               <ItemsControl x:Name="DetailParagraphs" Focusable="False">
                 <ItemsControl.ItemTemplate>
                   <DataTemplate>
@@ -120,54 +172,6 @@
                   </DataTemplate>
                 </ItemsControl.ItemTemplate>
               </ItemsControl>
-              <StackPanel x:Name="RiShadeTools" Visibility="Collapsed" Margin="0,0,0,10">
-                <TextBlock Style="{StaticResource DetailLabel}" Text="RiShade preset" />
-                <Grid>
-                  <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                  </Grid.ColumnDefinitions>
-                  <ComboBox x:Name="RiShadePresetPicker" Grid.Column="0" Height="34" VerticalContentAlignment="Center" DisplayMemberPath="Name" SelectionChanged="RiShadePreset_SelectionChanged" />
-                  <ui:Button Grid.Column="1" Height="34" Margin="8,0,0,0" Content="Refresh" Click="RiShadePreset_Refresh_Click" />
-                </Grid>
-                <TextBlock x:Name="RiShadePresetStatus" Margin="0,6,0,0" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
-                <StackPanel x:Name="RiShadeDepthModel" Margin="0,14,0,0">
-                  <CheckBox x:Name="RiShadeDepthModelToggle" VerticalContentAlignment="Top" Click="RiShadeDepthModel_Click">
-                    <StackPanel>
-                      <TextBlock Style="{StaticResource DetailLabel}" Margin="0" Text="{resources:Loc Ui_RiShade_DepthModel_Title}" />
-                      <TextBlock FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_RiShade_DepthModel_RiDepthDescription}" />
-                    </StackPanel>
-                  </CheckBox>
-                  <TextBlock x:Name="RiShadeDepthModelStatus" Margin="0,6,0,0" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Visibility="Collapsed" />
-                </StackPanel>
-                <Grid x:Name="RiShadeDlss" Margin="0,14,0,0">
-                  <CheckBox x:Name="RiShadeDlssToggle" VerticalContentAlignment="Top" Click="RiShadeDlss_Click">
-                    <StackPanel>
-                      <TextBlock Style="{StaticResource DetailLabel}" Margin="0" Text="{resources:Loc Ui_RiShade_Dlss_Title}" />
-                      <TextBlock FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_RiShade_Dlss_Description}" />
-                    </StackPanel>
-                  </CheckBox>
-                </Grid>
-                <TextBlock x:Name="RiShadeDlssStatus" Margin="0,6,0,0" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Visibility="Collapsed" />
-              </StackPanel>
-              <StackPanel x:Name="RojoTools" Visibility="Collapsed">
-                <TextBlock Style="{StaticResource DetailLabel}" Text="{resources:Loc Ui_Pages_ProjectTools}" />
-                <Grid>
-                  <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="Auto" />
-                  </Grid.ColumnDefinitions>
-                  <ui:TextBox Grid.Column="0" Height="34" Margin="0,0,8,0" VerticalContentAlignment="Center" PlaceholderText="{resources:Loc Ui_Pages_ProjectFolder}" Text="{Binding RojoProjectPath, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding rojoenabler}" />
-                  <ui:Button Grid.Column="1" Height="34" Content="{resources:Loc Common_Browse}" Click="BrowseRojoFolder_Click" IsEnabled="{Binding rojoenabler}" />
-                </Grid>
-                <WrapPanel Margin="0,10,0,0">
-                  <ui:Button Margin="0,0,8,8" Content="{resources:Loc Ui_Pages_NewProject}" Click="RojoInit_Click" IsEnabled="{Binding rojoenabler}" />
-                  <ui:Button Margin="0,0,8,8" Content="{Binding RojoServeLabel}" Appearance="Primary" Click="RojoServe_Click" IsEnabled="{Binding rojoenabler}" />
-                  <ui:Button Margin="0,0,8,8" Content="{resources:Loc Ui_Pages_BuildPlace}" Click="RojoBuild_Click" IsEnabled="{Binding rojoenabler}" />
-                  <ui:Button Margin="0,0,8,8" Content="{resources:Loc Ui_Pages_InstallStudioPlugin}" Click="RojoInstallPlugin_Click" IsEnabled="{Binding rojoenabler}" />
-                  <ui:Button Margin="0,0,0,8" Content="{resources:Loc SettingsProfiles_Folder}" Click="OpenRojo_Click" IsEnabled="{Binding rojoenabler}" />
-                </WrapPanel>
-              </StackPanel>
             </StackPanel>
           </TabItem>
           <TabItem>

@@ -8226,4 +8226,19 @@ Il download è di {0} MB. Se rifiuti, viene usata la stima integrata. Puoi cambi
   <data name="Ui.TitleBar.Maximize" xml:space="preserve">
     <value>Ingrandisci</value>
   </data>
+  <data name="Ui.RiShade.Preset.Title" xml:space="preserve">
+    <value>Preset</value>
+  </data>
+  <data name="Ui.RiShade.Preset.None" xml:space="preserve">
+    <value>Nessun preset trovato nella cartella dei preset di RiShade.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Applied" xml:space="preserve">
+    <value>Preset applicato.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Saved" xml:space="preserve">
+    <value>Preset salvato. Verrà applicato al prossimo avvio di RiShade.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Failed" xml:space="preserve">
+    <value>Impossibile selezionare questo preset.</value>
+  </data>
 </root>

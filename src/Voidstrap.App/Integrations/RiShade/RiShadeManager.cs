@@ -112,6 +112,60 @@ namespace Voidstrap.Integrations.RiShade
             }
         }
 
+        public static string? PreferredPresetPath => CurrentPresetPath ?? SavedPresetPath;
+
+        private static string ConfigPath => Path.Combine(RiShadeDir, "ReShade.ini");
+
+        public static string? SavedPresetPath
+        {
+            get
+            {
+                try
+                {
+                    if (!File.Exists(ConfigPath))
+                        return null;
+                    foreach (string line in File.ReadLines(ConfigPath))
+                    {
+                        string trimmed = line.Trim();
+                        if (trimmed.StartsWith("PresetPath=", StringComparison.OrdinalIgnoreCase))
+                            return ResolvePresetPath(trimmed["PresetPath=".Length..].Trim());
+                    }
+                }
+                catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+                {
+                }
+                return null;
+            }
+        }
+
+        private static bool SavePresetPath(string fullPath)
+        {
+            try
+            {
+                List<string> lines = File.Exists(ConfigPath) ? File.ReadAllLines(ConfigPath).ToList() : new List<string>();
+                int existing = lines.FindIndex(line => line.TrimStart().StartsWith("PresetPath=", StringComparison.OrdinalIgnoreCase));
+                if (existing >= 0)
+                    lines[existing] = "PresetPath=" + fullPath;
+                else
+                {
+                    int general = lines.FindIndex(line => line.Trim().Equals("[GENERAL]", StringComparison.OrdinalIgnoreCase));
+                    if (general < 0)
+                    {
+                        lines.Insert(0, "[GENERAL]");
+                        general = 0;
+                    }
+                    lines.Insert(general + 1, "PresetPath=" + fullPath);
+                }
+                Voidstrap.Utility.JsonFile.WriteAtomicText(ConfigPath, string.Join(Environment.NewLine, lines) + Environment.NewLine, false);
+                return true;
+            }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+            {
+                App.Logger.WriteLine("RiShade", "The preset could not be saved to ReShade.ini: " + ex.Message);
+                return false;
+            }
+        }
+
         public static IReadOnlyList<string> GetAvailablePresets()
         {
             string root = Path.Combine(RiShadeDir, "presets");
@@ -158,7 +212,9 @@ namespace Voidstrap.Integrations.RiShade
 
             lock (RuntimeLock)
             {
-                bool selected = _runtime != IntPtr.Zero && RiShadeInterop.RuntimeSelectPreset(_runtime, fullPath);
+                if (_runtime == IntPtr.Zero)
+                    return SavePresetPath(fullPath);
+                bool selected = RiShadeInterop.RuntimeSelectPreset(_runtime, fullPath);
                 if (selected)
                     Volatile.Write(ref _nextPresetStateCheck, 0);
                 return selected;

@@ -8225,4 +8225,19 @@ Er wordt {0} MB gedownload. Als je weigert, wordt de ingebouwde schatting gebrui
   <data name="Ui.TitleBar.Maximize" xml:space="preserve">
     <value>Maximaliseren</value>
   </data>
+  <data name="Ui.RiShade.Preset.Title" xml:space="preserve">
+    <value>Voorinstelling</value>
+  </data>
+  <data name="Ui.RiShade.Preset.None" xml:space="preserve">
+    <value>Geen voorinstellingen gevonden in de map met RiShade voorinstellingen.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Applied" xml:space="preserve">
+    <value>Voorinstelling toegepast.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Saved" xml:space="preserve">
+    <value>Voorinstelling opgeslagen. Deze wordt toegepast wanneer RiShade de volgende keer start.</value>
+  </data>
+  <data name="Ui.RiShade.Preset.Failed" xml:space="preserve">
+    <value>Deze voorinstelling kon niet worden geselecteerd.</value>
+  </data>
 </root>

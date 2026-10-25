@@ -193,6 +193,11 @@ namespace Voidstrap.Resources {
         public static string Ui_TitleBar_Restore => ResourceManager.GetString("Ui.TitleBar.Restore", resourceCulture);
         public static string Ui_TitleBar_Minimize => ResourceManager.GetString("Ui.TitleBar.Minimize", resourceCulture);
         public static string Ui_TitleBar_Maximize => ResourceManager.GetString("Ui.TitleBar.Maximize", resourceCulture);
+        public static string Ui_RiShade_Preset_Title => ResourceManager.GetString("Ui.RiShade.Preset.Title", resourceCulture);
+        public static string Ui_RiShade_Preset_None => ResourceManager.GetString("Ui.RiShade.Preset.None", resourceCulture);
+        public static string Ui_RiShade_Preset_Applied => ResourceManager.GetString("Ui.RiShade.Preset.Applied", resourceCulture);
+        public static string Ui_RiShade_Preset_Saved => ResourceManager.GetString("Ui.RiShade.Preset.Saved", resourceCulture);
+        public static string Ui_RiShade_Preset_Failed => ResourceManager.GetString("Ui.RiShade.Preset.Failed", resourceCulture);
         public static string Ui_Main_SearchHint => ResourceManager.GetString("Ui.Main.SearchHint", resourceCulture);
 
         public static string Ui_Main_SearchTitle => ResourceManager.GetString("Ui.Main.SearchTitle", resourceCulture);
