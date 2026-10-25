@@ -269,12 +269,6 @@ Adding the flake as an input is not enough on its own: enable the module or add 
 
 </details>
 
-## Built With
-
-[![C#][shield-csharp]][link-csharp] [![.NET][shield-dotnet]][link-dotnet] [![WPF][shield-wpf]][link-wpf] [![WPF UI][shield-wpfui]][link-wpfui] [![WebView2][shield-webview2]][link-webview2]
-
-[![Java][shield-java]][link-java] [![Rust][shield-rust]][link-rust] [![Android][shield-android]][link-android]
-
 ## Building
 
 <details>
@@ -715,21 +709,5 @@ The macOS virtual display helper implements the [AppleBlox VirtualDisplay approa
 [shield-license]:         https://img.shields.io/github/license/KloBraticc/Voidstrap?style=for-the-badge
 [link-license]:           LICENSE.VOIDSTRAP
 
-[shield-csharp]:          https://img.shields.io/badge/C%23-239120?style=for-the-badge
-[shield-dotnet]:          https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white
-[shield-wpf]:             https://img.shields.io/badge/WPF-0078D4?style=for-the-badge
-[shield-wpfui]:           https://img.shields.io/badge/WPF%20UI-24292F?style=for-the-badge
-[shield-webview2]:        https://img.shields.io/badge/WebView2-0C59A4?style=for-the-badge
-[shield-java]:            https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white
-[shield-rust]:            https://img.shields.io/badge/Rust-000000?style=for-the-badge&logo=rust&logoColor=white
-[shield-android]:         https://img.shields.io/badge/Android-3DDC84?style=for-the-badge&logo=android&logoColor=white
 
-[link-csharp]:            https://learn.microsoft.com/dotnet/csharp/
-[link-dotnet]:            https://dotnet.microsoft.com/
-[link-wpf]:               https://github.com/dotnet/wpf
-[link-wpfui]:             https://github.com/lepoco/wpfui
-[link-webview2]:          https://developer.microsoft.com/microsoft-edge/webview2/
-[link-java]:              https://openjdk.org/
-[link-rust]:              https://www.rust-lang.org/
-[link-android]:           https://developer.android.com/
 
