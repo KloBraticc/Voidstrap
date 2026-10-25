@@ -309,6 +309,10 @@ static const float PlaneColor = 0.12;
 static const float FocusHold = 0.92;
 static const float FocusStillStart = 0.008;
 static const float FocusStillRange = 0.03;
+static const int FocusReach = 8;
+static const int2 FocusRing[8] = { int2(-1, -1), int2(0, -1), int2(1, -1), int2(-1, 0), int2(1, 0), int2(-1, 1), int2(0, 1), int2(1, 1) };
+static const float FocusDepthStart = 0.10;
+static const float FocusDepthRange = 0.10;
 static const float PlaneGate = 0.3;
 static const float PlaneResidualSigma = 0.02;
 static const float LinearFar = 1000.0;
@@ -879,10 +883,21 @@ void Refine(uint3 id : SV_DispatchThreadID)
     float change = abs(current - previous) / max(max(current, previous), 1e-4);
     if (Flags & Exact)
     {
-        float luma = dot(centre, float3(0.299, 0.587, 0.114));
-        float history = LumaTarget[id.xy];
+        const float3 weights = float3(0.299, 0.587, 0.114);
+        float luma = dot(centre, weights);
         LumaTarget[id.xy] = luma;
-        float stillness = history < 0 ? 0 : 1 - saturate((abs(luma - history) - FocusStillStart) / FocusStillRange);
+        float history = Luma.Load(int3(p, 0));
+        float motion = abs(luma - history);
+        for (uint n = 0; n < 8; ++n)
+        {
+            int2 q = clamp(p + FocusRing[n] * FocusReach, 0, size - 1);
+            float before = Luma.Load(int3(q, 0));
+            history = min(history, before);
+            motion = max(motion, abs(dot(AverageColor(q, size), weights) - before));
+        }
+        float colorStill = 1 - saturate((motion - FocusStillStart) / FocusStillRange);
+        float depthStill = 1 - saturate((change - FocusDepthStart) / FocusDepthRange);
+        float stillness = history < 0 ? 0 : colorStill * depthStill;
         Depth[id.xy] = lerp(current, previous, FocusHold * stillness);
         return;
     }
@@ -1030,7 +1045,8 @@ struct Depth
     Surface paired;
     Surface ratio;
     Surface ratioBlur;
-    Surface focus;
+    Surface focus[2];
+    size_t focusIndex = 0;
     winrt::com_ptr<ID3D11Texture2D> pairCopy;
     bool pairPending = false;
     bool pairReady = false;
@@ -1442,7 +1458,7 @@ void ReleaseShared()
     d.textureTarget = nullptr;
     d.texture = nullptr;
     for (Surface* surface : { &d.luma[0], &d.luma[1], &d.quarter[0], &d.quarter[1], &d.coarse, &d.flow, &d.warped, &d.staleRaw, &d.staleOpen, &d.paired, &d.ratio,
-                              &d.ratioBlur, &d.focus })
+                              &d.ratioBlur, &d.focus[0], &d.focus[1] })
         *surface = {};
     d.affineView = nullptr;
     d.affineTarget = nullptr;
@@ -1644,9 +1660,12 @@ void CreateCommon()
     CreateSurface(d.sourceWidth, d.sourceHeight, DXGI_FORMAT_R32_FLOAT, d.paired);
     CreateSurface(d.sourceWidth, d.sourceHeight, DXGI_FORMAT_R32_FLOAT, d.ratio);
     CreateSurface(d.workWidth, d.workHeight, DXGI_FORMAT_R32_FLOAT, d.ratioBlur);
-    CreateSurface(d.sourceWidth, d.sourceHeight, DXGI_FORMAT_R32_FLOAT, d.focus);
     const float noHistory[4] = { -1, -1, -1, -1 };
-    g.context->ClearUnorderedAccessViewFloat(d.focus.target.get(), noHistory);
+    for (Surface& focus : d.focus)
+    {
+        CreateSurface(d.sourceWidth, d.sourceHeight, DXGI_FORMAT_R32_FLOAT, focus);
+        g.context->ClearUnorderedAccessViewFloat(focus.target.get(), noHistory);
+    }
     std::array<float, 4 * kAffineRows> identity{};
     for (UINT row = 0; row < kAffineRows; ++row)
         identity[row * 4 + row % 2] = 1;
@@ -1779,8 +1798,10 @@ void TrackExact()
     const UINT sourceGroupsY = (d.sourceHeight + 15) / 16;
     Dispatch(kWarp, { nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, detail.anchor.view.get() },
              { nullptr, nullptr, nullptr, nullptr, nullptr, d.warped.target.get() }, sourceGroupsX, sourceGroupsY);
-    Dispatch(kRefine, { d.liveView.get(), nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.warped.view.get() },
-             { d.focus.target.get(), nullptr, nullptr, nullptr, d.textureTarget.get() }, sourceGroupsX, sourceGroupsY);
+    const Surface& history = d.focus[d.focusIndex];
+    d.focusIndex ^= 1;
+    Dispatch(kRefine, { d.liveView.get(), history.view.get(), nullptr, nullptr, nullptr, nullptr, nullptr, nullptr, d.warped.view.get() },
+             { d.focus[d.focusIndex].target.get(), nullptr, nullptr, nullptr, d.textureTarget.get() }, sourceGroupsX, sourceGroupsY);
 }
 
 void Track(ID3D11Texture2D* frame, int64_t frameTimestamp)
