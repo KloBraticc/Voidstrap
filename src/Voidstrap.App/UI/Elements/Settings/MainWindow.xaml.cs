@@ -4479,6 +4479,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private bool? _sidebarIconMode;
 
+    private double? _sidebarToggleTarget;
+
     private double _sidebarExpandedWidth = SidebarDefaultWidth;
 
     private const double SidebarCollapsedWidth = 72.0;
@@ -5094,9 +5096,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             {
             }
         }
+        bool interrupted = _sidebarToggleTarget.HasValue;
+        double from = interrupted && RootNavigation.ActualWidth > 0 ? RootNavigation.ActualWidth : (double.IsNaN(RootNavigation.Width) ? SidebarDefaultWidth : RootNavigation.Width);
+        bool collapsed = interrupted ? _sidebarToggleTarget!.Value < SidebarIconThreshold : _sidebarIconMode == true;
+        double to = collapsed ? Math.Max(SidebarIconThreshold, _sidebarExpandedWidth) : SidebarCollapsedWidth;
         RootNavigation.BeginAnimation(WidthProperty, null);
-        double from = double.IsNaN(RootNavigation.Width) ? SidebarDefaultWidth : RootNavigation.Width;
-        double to = _sidebarIconMode == true ? Math.Max(SidebarIconThreshold, _sidebarExpandedWidth) : SidebarCollapsedWidth;
         AnimatePageHeader(to > from ? -18.0 : 18.0);
         if (Math.Abs(to - from) > 1.0)
         {
@@ -5109,12 +5113,16 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             };
             slide.Completed += SidebarToggleAnimation_Completed;
             ReleasePinnedPage();
-            PinPageForSidebarShift(to - from, ease, 260);
+            if (!interrupted)
+                PinPageForSidebarShift(to - from, ease, 260);
+            _sidebarToggleTarget = to;
             RootNavigation.Tag = "full";
             RootNavigation.BeginAnimation(WidthProperty, slide);
         }
         else
         {
+            _sidebarToggleTarget = null;
+            ReleasePinnedPage();
             ApplySidebarWidth(to);
             SaveSidebarWidth();
         }
@@ -5123,15 +5131,19 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     private void SidebarToggleAnimation_Completed(object? sender, EventArgs e)
     {
         ReleasePinnedPage();
-        if (RootNavigation == null)
+        double? target = _sidebarToggleTarget;
+        _sidebarToggleTarget = null;
+        if (RootNavigation == null || target == null)
             return;
-        ApplySidebarWidth(_sidebarIconMode == true ? Math.Max(SidebarIconThreshold, _sidebarExpandedWidth) : SidebarCollapsedWidth);
+        ApplySidebarWidth(target.Value);
         SaveSidebarWidth();
     }
 
     private void SidebarResizer_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         RootNavigation?.BeginAnimation(WidthProperty, null);
+        _sidebarToggleTarget = null;
+        ReleasePinnedPage();
         if (e.ClickCount > 1)
         {
             _sidebarResizing = false;
