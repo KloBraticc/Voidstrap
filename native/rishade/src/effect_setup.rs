@@ -16,7 +16,11 @@ const ZIP_ENTRY_LIMIT: usize = 20_000;
 const ZIP_ENTRY_SIZE_LIMIT: u64 = 128 << 20;
 const ZIP_TOTAL_SIZE_LIMIT: u64 = 1 << 30;
 const ASSET_MARKER: &str = ".rishade-effect-packages-v1";
-const RETIRED_ASSETS: [&str; 1] = [".rishade-depth-verified"];
+const RETIRED_ASSETS: [&str; 3] = [
+    ".rishade-depth-verified",
+    "reshade-shaders/Shaders/RiShade/RiShade_SSR.fx",
+    "reshade-shaders/Shaders/RiShade/RiShade_SSR.fx.update",
+];
 pub const DEFAULT_PRESET: &str = "RiShade Natural.ini";
 pub const RENAMED_PRESETS: [(&str, &str, &str); 3] = [
     (
@@ -109,7 +113,6 @@ impl InstallSummary {
 
 pub fn install_effects_and_presets(root: &Path) -> io::Result<InstallSummary> {
     let root = prepare_root(root)?;
-    install_bundled_shaders(&root)?;
     let marker = root.join(ASSET_MARKER);
     if marker.is_file() && root.join("reshade-shaders/Shaders/ReShade.fxh").is_file() {
         let mut summary = InstallSummary {
@@ -209,7 +212,7 @@ pub fn install_effects_and_presets(root: &Path) -> io::Result<InstallSummary> {
     Ok(summary)
 }
 
-const UPGRADED_PRESETS: [(&str, &str); 2] = [
+const UPGRADED_PRESETS: [(&str, &str); 3] = [
     (
         "RiShade Reflections.ini",
         "afdcf21fa758ef1a229d9a350738b5f7a76b8f90044fa2fafb3d8df67ad4c68a",
@@ -218,32 +221,14 @@ const UPGRADED_PRESETS: [(&str, &str); 2] = [
         "RiShade Reflections.ini",
         "39cf148e54f45e7119272d97bd7ac48dbb4be7119ad815b34a44c4ca809bc31c",
     ),
+    (
+        "RiShade Reflections.ini",
+        "be961699e182e5040e4bbbce54e59fc312cb1214377c9122e6d73b0a2632dd88",
+    ),
 ];
 
-const BUNDLED_SHADERS: &[(&str, &[u8])] = &[(
-    "RiShade_SSR.fx",
-    include_bytes!("../shaders/RiShade_SSR.fx"),
-)];
-const RETIRED_SSR_TECHNIQUE: &str = "SSR@qUINT_ssr.fx";
-const BUNDLED_SSR_TECHNIQUE: &str = "RiShade_SSR@RiShade_SSR.fx";
-
-pub fn install_bundled_shaders(root: &Path) -> io::Result<()> {
-    let directory = root.join("reshade-shaders").join("Shaders").join("RiShade");
-    ensure_safe_directory(root, &directory)?;
-    for (name, data) in BUNDLED_SHADERS {
-        let path = directory.join(name);
-        if fs::read(&path).is_ok_and(|current| current == *data) {
-            continue;
-        }
-        let staged = directory.join(format!("{name}.update"));
-        fs::write(&staged, data)?;
-        if let Err(error) = fs::rename(&staged, &path) {
-            let _ = fs::remove_file(&staged);
-            return Err(error);
-        }
-    }
-    Ok(())
-}
+const RETIRED_SSR_TECHNIQUES: [&str; 2] = ["SSR@qUINT_ssr.fx", "RiShade_SSR@RiShade_SSR.fx"];
+const REPLACEMENT_SSR_TECHNIQUE: &str = "BaBa_SSR@BaBa_SSR.fx";
 
 pub fn migrate_ssr_technique(root: &Path) {
     let Ok(entries) = fs::read_dir(root.join("presets")) else {
@@ -285,15 +270,16 @@ fn replace_ssr_technique(text: &str) -> Option<String> {
             let body = value.trim_end_matches(['\r', '\n']);
             let ending = &value[body.len()..];
             let items: Vec<&str> = body.split(',').map(str::trim).collect();
-            if !items.iter().any(|item| item.eq_ignore_ascii_case(RETIRED_SSR_TECHNIQUE)) {
+            let retired = |item: &str| RETIRED_SSR_TECHNIQUES.iter().any(|old| item.eq_ignore_ascii_case(old));
+            if !items.iter().any(|item| retired(item)) {
                 return line.to_owned();
             }
-            let mut seen = items.iter().any(|item| item.eq_ignore_ascii_case(BUNDLED_SSR_TECHNIQUE));
+            let mut seen = items.iter().any(|item| item.eq_ignore_ascii_case(REPLACEMENT_SSR_TECHNIQUE));
             let mut output: Vec<&str> = Vec::with_capacity(items.len());
             for item in items {
-                if item.eq_ignore_ascii_case(RETIRED_SSR_TECHNIQUE) {
+                if retired(item) {
                     if !seen {
-                        output.push(BUNDLED_SSR_TECHNIQUE);
+                        output.push(REPLACEMENT_SSR_TECHNIQUE);
                         seen = true;
                     }
                 } else {
@@ -1049,7 +1035,7 @@ mod tests {
         let shader_dir = root.join("reshade-shaders/Shaders");
         fs::create_dir_all(&shader_dir).unwrap();
         fs::write(shader_dir.join("ReShade.fxh"), b"fxh").unwrap();
-        for effect in ["CAS.fx"] {
+        for effect in ["CAS.fx", "BaBa_SSR.fx"] {
             fs::write(shader_dir.join(effect), b"effect").unwrap();
         }
         fs::write(root.join(ASSET_MARKER), b"already done").unwrap();
@@ -1104,7 +1090,7 @@ mod tests {
         let updated = replace_ssr_technique(text).unwrap();
         assert_eq!(
             updated,
-            "Techniques=Vibrance@Vibrance.fx,RiShade_SSR@RiShade_SSR.fx\r\nTechniqueSorting=RiShade_SSR@RiShade_SSR.fx,Vibrance@Vibrance.fx\r\n[qUINT_ssr.fx]\r\nSSR_FADE_DIST=0.3\r\n"
+            "Techniques=Vibrance@Vibrance.fx,BaBa_SSR@BaBa_SSR.fx\r\nTechniqueSorting=BaBa_SSR@BaBa_SSR.fx,Vibrance@Vibrance.fx\r\n[qUINT_ssr.fx]\r\nSSR_FADE_DIST=0.3\r\n"
         );
         assert!(replace_ssr_technique(&updated).is_none());
     }
