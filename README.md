@@ -500,6 +500,36 @@ On Linux or macOS, use `pwsh -NoProfile -File ./publish-all.ps1 -Only android -N
 
 </details>
 
+## Inspiration & Credits
+
+Voidstrap would not exist without the projects and people below. Thank you all.
+
+### Inspiration
+
+- **[Froststrap](https://github.com/Froststrap)**, the inspiration for the title bar and many UI elements, the mod generator, the virtual display, and some of our custom cursor features.
+- **[Chevstrap](https://github.com/FrosSky/Chevstrap)**, the inspiration for the Android app, with attributed Android adaptations.
+- **[Helium](https://github.com/imputnet/helium)**, the inspiration for the title bar UI.
+- **[Claude Code](https://claude.com/claude-code)** by Anthropic, the inspiration for the title bar UI.
+- **[Codex](https://github.com/openai/codex)** by OpenAI, the inspiration for the title bar UI.
+
+### Built on
+
+- **[Bloxstrap](https://github.com/bloxstraplabs/bloxstrap)** by pizzaboxer, the base Voidstrap is built on.
+- **[Fishstrap](https://github.com/fishstrap/fishstrap)** by returnrqt, whose license is preserved below.
+- **[WPF UI](https://github.com/lepoco/wpfui)** by lepoco, the UI library behind every Voidstrap window (used through our own fork).
+
+### RiShade
+
+- **[Unishade](https://github.com/OMouta/Unishade)** by OMouta, the base of RiShade's in-process ReShade architecture (huge credit to him for his work in C++).
+- **[ReShade](https://github.com/crosire/reshade)** by crosire, the shader runtime RiShade runs.
+- **[Depth Anything V2](https://github.com/DepthAnything/Depth-Anything-V2)**, the model RiDepth is fine tuned from.
+- **[RenoDX](https://github.com/clshortfuse/renodx)**, whose add-on powers NVIDIA DLSS in RiShade.
+
+### Platforms and features
+
+- **[Sober](https://sober.vinegarhq.org)** and **[Vinegar](https://github.com/vinegarhq/vinegar)** by VinegarHQ, which run Roblox and Roblox Studio on Linux.
+- **[Bibata Cursor](https://github.com/ful1e5/Bibata_Cursor)** by ful1e5, used for custom cursors.
+
 ## License
 
 Voidstrap's own code is released under the [MIT License](LICENSE.VOIDSTRAP). Third party code, fonts, artwork and packages keep their own licenses. The Bloxstrap and Fishstrap notices are also preserved:
@@ -626,36 +656,6 @@ Dependencies brought in by these packages keep their own license terms. The tabl
 The macOS virtual display helper implements the [AppleBlox VirtualDisplay approach](https://github.com/AppleBlox/virtualdisplay) in Rust. Its [bundled notices](src/VirtualDisplay/THIRD-PARTY-NOTICES.txt) cover libc, objc2 and objc2-encode.
 
 </details>
-
-## Inspiration & Credits
-
-Voidstrap would not exist without the projects and people below. Thank you all.
-
-### Inspiration
-
-- **[Froststrap](https://github.com/Froststrap)**, the inspiration for the title bar and many UI elements, the mod generator, the virtual display, and some of our custom cursor features.
-- **[Chevstrap](https://github.com/FrosSky/Chevstrap)**, the inspiration for the Android app, with attributed Android adaptations.
-- **[Helium](https://github.com/imputnet/helium)**, the inspiration for the title bar UI.
-- **[Claude Code](https://claude.com/claude-code)** by Anthropic, the inspiration for the title bar UI.
-- **[Codex](https://github.com/openai/codex)** by OpenAI, the inspiration for the title bar UI.
-
-### Built on
-
-- **[Bloxstrap](https://github.com/bloxstraplabs/bloxstrap)** by pizzaboxer, the base Voidstrap is built on.
-- **[Fishstrap](https://github.com/fishstrap/fishstrap)** by returnrqt, whose license is preserved above.
-- **[WPF UI](https://github.com/lepoco/wpfui)** by lepoco, the UI library behind every Voidstrap window (used through our own fork).
-
-### RiShade
-
-- **[Unishade](https://github.com/OMouta/Unishade)** by OMouta, the base of RiShade's in-process ReShade architecture (huge credit to him for his work in C++).
-- **[ReShade](https://github.com/crosire/reshade)** by crosire, the shader runtime RiShade runs.
-- **[Depth Anything V2](https://github.com/DepthAnything/Depth-Anything-V2)**, the model RiDepth is fine tuned from.
-- **[RenoDX](https://github.com/clshortfuse/renodx)**, whose add-on powers NVIDIA DLSS in RiShade.
-
-### Platforms and features
-
-- **[Sober](https://sober.vinegarhq.org)** and **[Vinegar](https://github.com/vinegarhq/vinegar)** by VinegarHQ, which run Roblox and Roblox Studio on Linux.
-- **[Bibata Cursor](https://github.com/ful1e5/Bibata_Cursor)** by ful1e5, used for custom cursors.
 
 ---
 
