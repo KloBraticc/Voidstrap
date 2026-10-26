@@ -120,6 +120,7 @@ pub fn prepare_reshade_config(directory: &Path) -> io::Result<()> {
     crate::effect_setup::migrate_renamed_presets(directory);
     crate::effect_setup::upgrade_unmodified_presets(directory);
     crate::effect_setup::migrate_ssr_technique(directory);
+    crate::effect_setup::patch_quint_ssr(directory);
     let path = directory.join("ReShade.ini");
     let original_text = if path.is_file() {
         fs::read_to_string(&path)?

@@ -16,10 +16,11 @@ const ZIP_ENTRY_LIMIT: usize = 20_000;
 const ZIP_ENTRY_SIZE_LIMIT: u64 = 128 << 20;
 const ZIP_TOTAL_SIZE_LIMIT: u64 = 1 << 30;
 const ASSET_MARKER: &str = ".rishade-effect-packages-v1";
-const RETIRED_ASSETS: [&str; 3] = [
+const RETIRED_ASSETS: [&str; 4] = [
     ".rishade-depth-verified",
     "reshade-shaders/Shaders/RiShade/RiShade_SSR.fx",
     "reshade-shaders/Shaders/RiShade/RiShade_SSR.fx.update",
+    "reshade-shaders/Shaders/qUINT/qUINT_ssr.fx.patch",
 ];
 pub const DEFAULT_PRESET: &str = "RiShade Natural.ini";
 pub const RENAMED_PRESETS: [(&str, &str, &str); 3] = [
@@ -227,8 +228,66 @@ const UPGRADED_PRESETS: [(&str, &str); 3] = [
     ),
 ];
 
-const RETIRED_SSR_TECHNIQUES: [&str; 2] = ["SSR@qUINT_ssr.fx", "RiShade_SSR@RiShade_SSR.fx"];
-const REPLACEMENT_SSR_TECHNIQUE: &str = "BaBa_SSR@BaBa_SSR.fx";
+const RETIRED_SSR_TECHNIQUES: [&str; 1] = ["RiShade_SSR@RiShade_SSR.fx"];
+const REPLACEMENT_SSR_TECHNIQUE: &str = "SSR@qUINT_ssr.fx";
+const QUINT_SSR_PATH: &str = "reshade-shaders/Shaders/qUINT/qUINT_ssr.fx";
+const QUINT_SSR_PATCHED: &str = "SSR_FLOOR_ONLY";
+const QUINT_SSR_PATCHES: [(&str, &str); 6] = [
+    (
+        "#define RESHADE_QUINT_COMMON_VERSION_REQUIRE    202",
+        "uniform float SSR_FLOOR_ONLY <\n\tui_type = \"drag\";\n\tui_min = 0.0; ui_max = 1.0;\n\tui_label = \"Floor Only\";\n\tui_tooltip = \"Limits reflections to surfaces that face up, so walls and characters stay clean.\";\n> = 0.85;\n\n#define RESHADE_QUINT_COMMON_VERSION_REQUIRE    202",
+    ),
+    (
+        "float3 single_pixel_offset = float3(qUINT::PIXEL_SIZE, 0);",
+        "float3 single_pixel_offset = float3(qUINT::PIXEL_SIZE * 2.0, 0);",
+    ),
+    (
+        "uv_inside_screen = all(saturate(-trace.uv.y * trace.uv.y + trace.uv.y));",
+        "uv_inside_screen = all(saturate(trace.uv - trace.uv * trace.uv));",
+    ),
+    (
+        "trace.hit = k != 0;",
+        "trace.hit = k != 0 && all(saturate(trace.uv - trace.uv * trace.uv)) && qUINT::linear_depth(trace.uv) < 0.98 && scene.depth < 0.98;",
+    ),
+    (
+        "reflection.a   = trace.hit * schlick * fade;",
+        "float2 edge = min(trace.uv, 1.0 - trace.uv);\n\tfloat edge_fade = saturate(min(edge.x, edge.y) * 10.0);\n\tfloat surface = lerp(1.0, smoothstep(0.25, 0.65, -blurbuffer.y), SSR_FLOOR_ONLY);\n\treflection.a   = trace.hit * schlick * fade * edge_fade * edge_fade * surface;",
+    ),
+    (
+        "o.rgb = lerp(o.rgb, reflection.rgb, alpha * fade);",
+        "o.rgb = lerp(o.rgb, reflection.rgb / max(alpha, 1e-4), saturate(alpha * fade));",
+    ),
+];
+
+pub fn patch_quint_ssr(root: &Path) {
+    let path = root.join(QUINT_SSR_PATH);
+    if !fs::symlink_metadata(&path).is_ok_and(|metadata| metadata.is_file()) {
+        return;
+    }
+    let Ok(text) = fs::read_to_string(&path) else {
+        return;
+    };
+    if let Some(patched) = patched_quint_ssr(&text) {
+        let staged = path.with_extension("fx.patch");
+        if fs::write(&staged, patched).is_ok() && fs::rename(&staged, &path).is_err() {
+            let _ = fs::remove_file(&staged);
+        }
+    }
+}
+
+fn patched_quint_ssr(text: &str) -> Option<String> {
+    if text.contains(QUINT_SSR_PATCHED) {
+        return None;
+    }
+    let mut output = text.to_owned();
+    for (find, replace) in QUINT_SSR_PATCHES {
+        if output.matches(find).count() != 1 {
+            return None;
+        }
+        output = output.replacen(find, replace, 1);
+    }
+    Some(output)
+}
 
 pub fn migrate_ssr_technique(root: &Path) {
     let Ok(entries) = fs::read_dir(root.join("presets")) else {
@@ -1035,7 +1094,7 @@ mod tests {
         let shader_dir = root.join("reshade-shaders/Shaders");
         fs::create_dir_all(&shader_dir).unwrap();
         fs::write(shader_dir.join("ReShade.fxh"), b"fxh").unwrap();
-        for effect in ["CAS.fx", "BaBa_SSR.fx"] {
+        for effect in ["CAS.fx", "qUINT_ssr.fx"] {
             fs::write(shader_dir.join(effect), b"effect").unwrap();
         }
         fs::write(root.join(ASSET_MARKER), b"already done").unwrap();
@@ -1085,12 +1144,26 @@ mod tests {
 
 
     #[test]
+    fn quint_ssr_is_patched_once_and_left_alone_when_unknown() {
+        let mut stock = String::new();
+        for (find, _) in QUINT_SSR_PATCHES {
+            stock.push_str(find);
+            stock.push_str("\n");
+        }
+        let patched = patched_quint_ssr(&stock).unwrap();
+        assert!(patched.contains(QUINT_SSR_PATCHED));
+        assert!(patched.contains("reflection.rgb / max(alpha, 1e-4)"));
+        assert!(patched_quint_ssr(&patched).is_none());
+        assert!(patched_quint_ssr("technique SSR {}").is_none());
+    }
+
+    #[test]
     fn retired_ssr_technique_is_replaced_once() {
-        let text = "Techniques=Vibrance@Vibrance.fx,SSR@qUINT_ssr.fx\r\nTechniqueSorting=SSR@qUINT_ssr.fx,Vibrance@Vibrance.fx\r\n[qUINT_ssr.fx]\r\nSSR_FADE_DIST=0.3\r\n";
+        let text = "Techniques=Vibrance@Vibrance.fx,RiShade_SSR@RiShade_SSR.fx\r\nTechniqueSorting=RiShade_SSR@RiShade_SSR.fx,Vibrance@Vibrance.fx\r\n[qUINT_ssr.fx]\r\nSSR_FADE_DIST=0.3\r\n";
         let updated = replace_ssr_technique(text).unwrap();
         assert_eq!(
             updated,
-            "Techniques=Vibrance@Vibrance.fx,BaBa_SSR@BaBa_SSR.fx\r\nTechniqueSorting=BaBa_SSR@BaBa_SSR.fx,Vibrance@Vibrance.fx\r\n[qUINT_ssr.fx]\r\nSSR_FADE_DIST=0.3\r\n"
+            "Techniques=Vibrance@Vibrance.fx,SSR@qUINT_ssr.fx\r\nTechniqueSorting=SSR@qUINT_ssr.fx,Vibrance@Vibrance.fx\r\n[qUINT_ssr.fx]\r\nSSR_FADE_DIST=0.3\r\n"
         );
         assert!(replace_ssr_technique(&updated).is_none());
     }
