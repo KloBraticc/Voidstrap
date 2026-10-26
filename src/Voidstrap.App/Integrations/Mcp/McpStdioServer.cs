@@ -12,6 +12,8 @@ public static class McpStdioServer
 
 	private const string ServerInstructions =
 		"Voidstrap MCP Server gives you complete live control over Voidstrap on Windows. " +
+		"IMPORTANT: before building a launcher (bootstrapper) theme, keystroke theme or app theme, call get_guide with that topic and follow it exactly, do not guess file formats or JavaScript APIs. " +
+		"Launcher themes are only used when the launcher style is Custom and the theme is selected, open_editor with activate true does both, and test_bootstrapper_theme confirms a theme builds and is active. Read every tool reply, an error reply means the change did not happen. " +
 		"Start with get_voidstrap_overview to see the app state, active settings, installed themes/mods, FastFlag count, and open windows. " +
 		"Use get_settings (with optional filter like 'Keystrokes', 'RiShade', 'Crosshair', 'Clipper', 'Matchmaker', 'Web', 'DoubleMovement', 'Texture') and set_settings to inspect or modify any of the 200+ Voidstrap settings and Roblox GlobalBasicSettings_13.xml properties in real time. " +
 		"Use list_fastflags, set_fastflags, and search_fastflag_tracker to read, validate, search, or modify raw Roblox FastFlags and Voidstrap FastFlag presets. " +
@@ -263,6 +265,10 @@ public static class McpStdioServer
 				["description"] = "Complete reference for Roblox's official local FastFlag allowlist (https://devforum.roblox.com/t/allowlist-for-local-client-configuration-via-fast-flags/3966569) and MaximumADHD's Roblox-FFlag-Tracker (https://github.com/MaximumADHD/Roblox-FFlag-Tracker).",
 				["mimeType"] = "text/plain"
 			},
+			Guide("bootstrapper_theme", "Custom Launcher Theme Guide", "Exact Theme.xml elements and attributes, the HTML web panel and its window.voidstrap JavaScript API, a step by step workflow, and examples."),
+			Guide("keystroke_theme", "Keystroke Theme Guide", "How to edit keystroke overlay themes in C#, HTML, Rust or JSON."),
+			Guide("app_theme", "Voidstrap App Theme Guide", "How to recolor Voidstrap itself."),
+			Guide("fixing", "Fixing Voidstrap Guide", "How to find and fix in app errors and broken state."),
 			new JsonObject
 			{
 				["uri"] = "voidstrap://state/overview",
@@ -270,6 +276,17 @@ public static class McpStdioServer
 				["description"] = "Live snapshot of Voidstrap state, paths, active settings, installed themes, and running processes.",
 				["mimeType"] = "text/plain"
 			}
+		};
+	}
+
+	private static JsonObject Guide(string topic, string name, string description)
+	{
+		return new JsonObject
+		{
+			["uri"] = "voidstrap://guide/" + topic,
+			["name"] = name,
+			["description"] = description,
+			["mimeType"] = "text/plain"
 		};
 	}
 
@@ -282,6 +299,10 @@ public static class McpStdioServer
 		{
 			McpToolResult live = ForwardToRunningApp("get_voidstrap_overview", new JsonObject());
 			text = live.Text;
+		}
+		else if (uri.StartsWith("voidstrap://guide/", StringComparison.OrdinalIgnoreCase) && McpGuides.Get(uri["voidstrap://guide/".Length..]) is string guide)
+		{
+			text = guide;
 		}
 		else if (string.Equals(uri, "voidstrap://fastflags/allowlist-and-tracker", StringComparison.OrdinalIgnoreCase))
 		{

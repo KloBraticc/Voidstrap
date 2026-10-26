@@ -47,6 +47,8 @@ public partial class AppearancePage : UiPage
 
 	private void OnAppearancePageLoaded(object sender, RoutedEventArgs e)
 	{
+		_customThemeSelectionReady = false;
+		_appearanceViewModel.ReloadFromSettings();
 		_appearanceViewModel.OnPropertyChanged(nameof(AppearanceViewModel.SelectedBackdrop));
 		_appearanceViewModel.OnPropertyChanged(nameof(AppearanceViewModel.UiZoomPercent));
 		Dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.ContextIdle, new Action(() => _backdropSelectionReady = true));
@@ -172,6 +174,8 @@ public partial class AppearancePage : UiPage
 
 	public void CustomThemeSelection(object sender, SelectionChangedEventArgs e)
 	{
+		if (_appearanceViewModel.IsReloadingThemes)
+			return;
 		string? selectedTheme = ((ListBox)sender).SelectedItem as string;
 		_appearanceViewModel.SelectedCustomTheme = selectedTheme;
 		_appearanceViewModel.SelectedCustomThemeName = selectedTheme ?? "";

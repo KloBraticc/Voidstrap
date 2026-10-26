@@ -75,7 +75,7 @@ public static partial class McpTools
 	{
 		try
 		{
-			return name switch
+			McpToolResult result = name switch
 			{
 				"get_voidstrap_overview" => GetVoidstrapOverview(),
 				"get_settings" => GetSettings(args),
@@ -101,12 +101,16 @@ public static partial class McpTools
 				"undo_last_change" => UndoLastChange(args),
 				"manage_mods" => ManageMods(args),
 				"manage_rishade" => ManageRiShade(args),
-				"read_voidstrap_file" => ReadVoidstrapFile(args),
 				"diagnose_app" => DiagnoseApp(args),
 				"fix_app_issue" => FixAppIssue(args),
 				"manage_app_theme" => ManageAppTheme(args),
+				"get_guide" => GetGuide(args),
+				"test_bootstrapper_theme" => TestBootstrapperTheme(args),
 				_ => new McpToolResult($"Unknown tool: {name}", true)
 			};
+			if (!result.IsError && !McpToolCatalog.IsReadOnly(name))
+				RefreshMainWindow();
+			return result;
 		}
 		catch (Exception ex)
 		{

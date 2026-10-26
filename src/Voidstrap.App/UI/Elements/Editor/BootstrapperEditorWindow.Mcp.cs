@@ -19,9 +19,7 @@ public partial class BootstrapperEditorWindow : IMcpEditor
 
 	string IMcpEditor.Language => ".xaml";
 
-	string IMcpEditor.Guidance =>
-		"Custom bootstrapper theme, the Theme.xml file. It is Voidstrap custom bootstrapper XML with a root VoidstrapCustomBootstrapper element, " +
-		"keep the root element and its attributes. Every change is built into the live preview and any build error is returned.";
+	string IMcpEditor.Guidance => McpGuides.BootstrapperTheme;
 
 	private void RegisterMcpEditor()
 	{

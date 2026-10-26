@@ -22,6 +22,8 @@ public static class McpToolCatalog
 
 	public static bool Exists(string name) => ByName.ContainsKey(name);
 
+	public static bool IsReadOnly(string name) => ByName.TryGetValue(name, out Definition? d) && d.Kind == Kind.Read;
+
 	public static bool RunsOffUiThread(string name) => ByName.TryGetValue(name, out Definition? d) && d.OffUiThread;
 
 	public static TimeSpan Timeout(string name) => TimeSpan.FromSeconds(ByName.TryGetValue(name, out Definition? d) ? d.TimeoutSeconds : 30);
@@ -82,6 +84,23 @@ public static class McpToolCatalog
 	{
 		return
 		[
+			T("get_guide",
+				"Read a how to guide before building anything. Topics: workflow, bootstrapper_theme (launcher themes in XML or HTML, CSS and JavaScript, with the exact element list and the window.voidstrap web API), keystroke_theme, app_theme, fixing. Always read bootstrapper_theme before writing a launcher theme.",
+				Kind.Read, new JsonObject
+				{
+					["topic"] = P("string", "workflow, bootstrapper_theme, keystroke_theme, app_theme, or fixing.")
+				}),
+
+			T("test_bootstrapper_theme",
+				"Build a custom launcher theme with the same code a real Roblox launch uses and report any error, plus whether it is actually the active launcher. show puts it on screen with a simulated install so the user can see it. activate makes it the active launcher first. Run this before telling the user a launcher theme is done.",
+				Kind.Write, new JsonObject
+				{
+					["name"] = P("string", "Theme name, defaults to the selected custom theme."),
+					["show"] = P("boolean", "Show the launcher on screen with a simulated install."),
+					["seconds"] = P("integer", "How long to show it (3 to 30, default 8)."),
+					["activate"] = P("boolean", "Set the launcher style to Custom and select this theme first.")
+				}),
+
 			T("get_voidstrap_overview",
 				"Snapshot of Voidstrap: version, folders, open window and page, open editors, Roblox running state and versions, key settings, installed themes, and FastFlag counts. Call this first.",
 				Kind.Read, new JsonObject()),
@@ -284,7 +303,7 @@ public static class McpToolCatalog
 				Kind.Read, new JsonObject
 				{
 					["path"] = P("string", "Relative path inside the Voidstrap folder, empty to list the root.")
-				}),
+				}) with { OffUiThread = true, TimeoutSeconds = 30 },
 
 			T("diagnose_app",
 				"Find what is wrong with Voidstrap: recent in app errors and crashes (source, message, count, log path) plus broken state such as an invalid custom UI theme, a missing bootstrapper or keystroke theme, invalid FastFlag names, failing mods, or RiShade without a preset. Every problem comes with a fix id for fix_app_issue.",

@@ -2847,6 +2847,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         if (RootFrame.Content is FrameworkElement element && element.DataContext != null)
         {
             object ctx = element.DataContext;
+            if (ctx is Voidstrap.UI.ViewModels.ISettingsRefreshable refreshable)
+                refreshable.ReloadFromSettings();
             element.DataContext = null;
             element.DataContext = ctx;
         }

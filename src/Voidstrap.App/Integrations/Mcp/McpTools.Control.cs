@@ -244,6 +244,18 @@ public static partial class McpTools
 		}.ToJsonString(IndentedJson));
 	}
 
+	public static McpToolResult ReadVoidstrapFileSafe(JsonObject args)
+	{
+		try
+		{
+			return ReadVoidstrapFile(args);
+		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or ArgumentException)
+		{
+			return new McpToolResult("The file or folder could not be read: " + ex.Message, true);
+		}
+	}
+
 	private static McpToolResult ReadVoidstrapFile(JsonObject args)
 	{
 		string relative = McpArgs.Trimmed(args, "path");

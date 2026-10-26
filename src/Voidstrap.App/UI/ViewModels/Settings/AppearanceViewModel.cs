@@ -30,7 +30,7 @@ using SymbolRegular = Wpf.Ui.Common.SymbolRegular;
 
 namespace Voidstrap.UI.ViewModels.Settings;
 
-public class AppearanceViewModel : NotifyPropertyChangedViewModel
+public class AppearanceViewModel : NotifyPropertyChangedViewModel, Voidstrap.UI.ViewModels.ISettingsRefreshable
 {
     private const string ClearFontRestartKey = "appearance.clearFont";
 
@@ -1031,6 +1031,29 @@ public class AppearanceViewModel : NotifyPropertyChangedViewModel
     public ObservableCollection<string> CustomThemes { get; set; } = new ObservableCollection<string>();
 
     public bool IsCustomThemeSelected => SelectedCustomTheme != null;
+
+    public bool IsReloadingThemes { get; private set; }
+
+    public void ReloadFromSettings()
+    {
+        IsReloadingThemes = true;
+        try
+        {
+            PopulateCustomThemes();
+        }
+        finally
+        {
+            IsReloadingThemes = false;
+        }
+        SelectedCustomThemeName = App.Settings.Prop.SelectedCustomTheme ?? "";
+        OnPropertyChanged(nameof(Dialog));
+        OnPropertyChanged(nameof(CustomThemesExpanded));
+        OnPropertyChanged(nameof(LauncherExtrasEnabled));
+        OnPropertyChanged(nameof(SelectedCustomTheme));
+        OnPropertyChanged(nameof(SelectedCustomThemeName));
+        OnPropertyChanged(nameof(IsCustomThemeSelected));
+        OnPropertyChanged(nameof(SelectedCustomThemeIndex));
+    }
 
     private void ManageAppFont()
     {

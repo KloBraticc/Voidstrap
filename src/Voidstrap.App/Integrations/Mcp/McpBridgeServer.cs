@@ -100,7 +100,6 @@ public static class McpBridgeServer
 		{
 			using (stream)
 			using (var reader = new StreamReader(stream, new UTF8Encoding(false), false, 4096, leaveOpen: true))
-			using (var writer = new StreamWriter(stream, new UTF8Encoding(false), 4096, leaveOpen: true) { AutoFlush = true, NewLine = "\n" })
 			{
 				while (stream.IsConnected && !token.IsCancellationRequested)
 				{
@@ -131,7 +130,10 @@ public static class McpBridgeServer
 						["isError"] = result.IsError
 					};
 
-					await writer.WriteLineAsync(response.ToJsonString()).ConfigureAwait(false);
+					if (!stream.IsConnected)
+						break;
+					byte[] data = Encoding.UTF8.GetBytes(response.ToJsonString() + "\n");
+					await stream.WriteAsync(data, token).ConfigureAwait(false);
 				}
 			}
 		}
@@ -226,6 +228,7 @@ public static class McpBridgeServer
 			"search_fastflag_tracker" => McpTools.SearchFastFlagTrackerAsync(args, dispatcher, limit.Token),
 			"manage_mod_generator" => McpTools.ManageModGeneratorAsync(args, dispatcher, limit.Token),
 			"list_accounts" => McpTools.ListAccountsAsync(limit.Token),
+			"read_voidstrap_file" => Task.Run(() => McpTools.ReadVoidstrapFileSafe(args), limit.Token),
 			_ => Task.FromResult(new McpToolResult($"The tool {name} has no background handler.", true))
 		};
 

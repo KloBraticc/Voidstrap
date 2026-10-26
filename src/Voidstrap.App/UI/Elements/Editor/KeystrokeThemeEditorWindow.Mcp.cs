@@ -15,7 +15,7 @@ public partial class KeystrokeThemeEditorWindow : IMcpEditor
 
 	string IMcpEditor.Language => KeystrokeThemeCodeConverter.GetExtension(_currentLanguage);
 
-	string IMcpEditor.Guidance =>
+	string IMcpEditor.Guidance => McpGuides.KeystrokeTheme + " " +
 		"Keystrokes overlay theme. The code must keep the same shape the editor generates for its current language, " +
 		"colors are hex strings like #RRGGBB or the word Accent. The preview on the right updates after every change.";
 
