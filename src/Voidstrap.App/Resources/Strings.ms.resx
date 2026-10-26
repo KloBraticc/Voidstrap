@@ -8605,4 +8605,7 @@ Tambahkan pelayan ini pada tetapan MCP dalam aplikasi AI anda (sudah disalin ke 
 
 Biarkan Voidstrap dan penyunting kekal dibuka semasa AI bekerja. Perubahannya dipaparkan terus dalam pratonton dan hanya ditulis ke cakera apabila ia menyimpan.</value>
   </data>
+  <data name="Ui.Mcp.ConnectTo" xml:space="preserve">
+    <value>Sambung ke {0}</value>
+  </data>
 </root>

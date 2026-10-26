@@ -1202,4 +1202,7 @@ Add this server to the MCP settings in your AI app (already copied to your clipb
 
 Keep Voidstrap and the editor open while the AI works. Its changes show in the preview right away and are only written to disk when it saves.</value>
   </data>
+  <data name="Ui.Mcp.ConnectTo" xml:space="preserve">
+    <value>Connect to {0}</value>
+  </data>
 </root>

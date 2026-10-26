@@ -8615,4 +8615,7 @@ Přidejte tento server do nastavení MCP ve své aplikaci AI (již zkopírováno
 
 Během práce AI ponechte Voidstrap i editor otevřené. Změny se okamžitě projeví v náhledu a na disk se zapíší až při uložení.</value>
   </data>
+  <data name="Ui.Mcp.ConnectTo" xml:space="preserve">
+    <value>Připojit k {0}</value>
+  </data>
 </root>

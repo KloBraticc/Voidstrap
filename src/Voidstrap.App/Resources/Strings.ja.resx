@@ -8628,4 +8628,7 @@ AIの作業中はVoidstrapとエディターを開いたままにしてくださ
 
 AIの作業中はVoidstrapとエディターを開いたままにしてください。変更内容はすぐにプレビューへ反映され、保存したときにのみディスクへ書き込まれます。</value>
   </data>
+  <data name="Ui.Mcp.ConnectTo" xml:space="preserve">
+    <value>{0} に接続</value>
+  </data>
 </root>

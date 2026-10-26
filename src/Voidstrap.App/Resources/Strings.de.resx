@@ -8614,4 +8614,7 @@ Füge diesen Server in den MCP-Einstellungen deiner KI-App hinzu (bereits in dei
 
 Lass Voidstrap und den Editor geöffnet, während die KI arbeitet. Ihre Änderungen erscheinen sofort in der Vorschau und werden erst beim Speichern auf die Festplatte geschrieben.</value>
   </data>
+  <data name="Ui.Mcp.ConnectTo" xml:space="preserve">
+    <value>Mit {0} verbinden</value>
+  </data>
 </root>

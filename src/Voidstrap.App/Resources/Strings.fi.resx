@@ -8615,4 +8615,7 @@ Lisää tämä palvelin tekoälysovelluksesi MCP-asetuksiin (kopioitu jo leikep�
 
 Pidä Voidstrap ja muokkain avoinna, kun tekoäly työskentelee. Sen tekemät muutokset näkyvät esikatselussa heti, ja ne kirjoitetaan levylle vasta tallennettaessa.</value>
   </data>
+  <data name="Ui.Mcp.ConnectTo" xml:space="preserve">
+    <value>Yhdistä: {0}</value>
+  </data>
 </root>

@@ -34,6 +34,8 @@ public static class McpBridgeServer
 		if (Interlocked.Exchange(ref _started, 1) == 1)
 			return;
 
+		McpConnectInfo.RefreshConnectedClients();
+
 		CancellationToken token = ShutdownCts.Token;
 		string pipeName = PipeName;
 		var thread = new Thread(() => AcceptLoopAsync(pipeName, token).GetAwaiter().GetResult())

@@ -8613,4 +8613,7 @@ Add hozzá ezt a kiszolgálót az MI-alkalmazásod MCP-beállításaihoz (már a
 
 Tartsd nyitva a Voidstrapet és a szerkesztőt, amíg az MI dolgozik. A módosításai azonnal megjelennek az előnézetben, és csak mentéskor kerülnek a lemezre.</value>
   </data>
+  <data name="Ui.Mcp.ConnectTo" xml:space="preserve">
+    <value>Csatlakozás: {0}</value>
+  </data>
 </root>

@@ -8613,4 +8613,7 @@
 
 أبقِ Voidstrap والمحرر مفتوحين أثناء عمل الذكاء الاصطناعي. تظهر تغييراته في المعاينة فوراً ولا تُكتب على القرص إلا عندما يقوم بالحفظ.</value>
   </data>
+  <data name="Ui.Mcp.ConnectTo" xml:space="preserve">
+    <value>الاتصال بـ {0}</value>
+  </data>
 </root>

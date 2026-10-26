@@ -8615,4 +8615,7 @@ Voeg deze server toe aan de MCP-instellingen van je AI-app (al naar je klembord 
 
 Houd Voidstrap en de editor geopend terwijl de AI werkt. De wijzigingen zijn direct zichtbaar in het voorbeeld en worden pas op schijf opgeslagen wanneer de AI opslaat.</value>
   </data>
+  <data name="Ui.Mcp.ConnectTo" xml:space="preserve">
+    <value>Verbinden met {0}</value>
+  </data>
 </root>

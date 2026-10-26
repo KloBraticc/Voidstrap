@@ -8609,4 +8609,7 @@ Voidstrap เขียนลงในโฟลเดอร์เดสก์ท�
 
 เปิด Voidstrap และตัวแก้ไขค้างไว้ในขณะที่ AI ทำงาน การเปลี่ยนแปลงจะแสดงในตัวอย่างทันที และจะถูกเขียนลงดิสก์เมื่อบันทึกเท่านั้น</value>
   </data>
+  <data name="Ui.Mcp.ConnectTo" xml:space="preserve">
+    <value>เชื่อมต่อกับ {0}</value>
+  </data>
 </root>

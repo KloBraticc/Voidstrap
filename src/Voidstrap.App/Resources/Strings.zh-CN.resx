@@ -8638,4 +8638,7 @@ Voidstrap 无法写入桌面文件夹。</value>
 
 在 AI 工作期间，请保持 Voidstrap 和编辑器处于打开状态。其修改会立即显示在预览中，并且仅在保存时才会写入磁盘。</value>
   </data>
+  <data name="Ui.Mcp.ConnectTo" xml:space="preserve">
+    <value>连接到 {0}</value>
+  </data>
 </root>

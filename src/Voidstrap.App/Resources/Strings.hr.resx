@@ -8613,4 +8613,7 @@ Dodaj ovaj poslužitelj u MCP postavke svoje AI aplikacije (već je kopirano u m
 
 Drži Voidstrap i uređivač otvorenima dok AI radi. Njegove se promjene odmah prikazuju u pregledu i zapisuju se na disk tek kada ih spremi.</value>
   </data>
+  <data name="Ui.Mcp.ConnectTo" xml:space="preserve">
+    <value>Poveži s {0}</value>
+  </data>
 </root>

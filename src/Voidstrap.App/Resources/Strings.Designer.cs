@@ -8779,5 +8779,6 @@ namespace Voidstrap.Resources {
         public static string Ui_Mcp_ConnectTooltip => ResourceManager.GetString("Ui.Mcp.ConnectTooltip", resourceCulture);
         public static string Ui_Mcp_ConnectMessage => ResourceManager.GetString("Ui.Mcp.ConnectMessage", resourceCulture);
         public static string Ui_Mcp_ConnectMessageCopied => ResourceManager.GetString("Ui.Mcp.ConnectMessageCopied", resourceCulture);
+        public static string Ui_Mcp_ConnectTo => ResourceManager.GetString("Ui.Mcp.ConnectTo", resourceCulture);
     }
 }

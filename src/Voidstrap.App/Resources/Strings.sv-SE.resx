@@ -8614,4 +8614,7 @@ Lägg till den här servern i MCP-inställningarna i din AI-app (redan kopierat 
 
 Håll Voidstrap och redigeraren öppna medan AI:n arbetar. Ändringarna visas direkt i förhandsgranskningen och skrivs bara till disken när den sparar.</value>
   </data>
+  <data name="Ui.Mcp.ConnectTo" xml:space="preserve">
+    <value>Anslut till {0}</value>
+  </data>
 </root>

@@ -8614,4 +8614,7 @@ Añade este servidor a los ajustes de MCP de tu aplicación de IA (ya copiado en
 
 Mantén abiertos Voidstrap y el editor mientras la IA trabaja. Sus cambios se muestran al instante en la vista previa y solo se guardan en el disco cuando los guarda.</value>
   </data>
+  <data name="Ui.Mcp.ConnectTo" xml:space="preserve">
+    <value>Conectar con {0}</value>
+  </data>
 </root>

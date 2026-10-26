@@ -8616,4 +8616,7 @@ Tambahkan server ini ke pengaturan MCP di aplikasi AI Anda (sudah disalin ke pap
 
 Biarkan Voidstrap dan editor tetap terbuka saat AI bekerja. Perubahannya langsung terlihat di pratinjau dan hanya ditulis ke disk saat disimpan.</value>
   </data>
+  <data name="Ui.Mcp.ConnectTo" xml:space="preserve">
+    <value>Hubungkan ke {0}</value>
+  </data>
 </root>

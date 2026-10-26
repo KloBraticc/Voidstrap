@@ -8617,4 +8617,7 @@ Thêm máy chủ này vào phần cài đặt MCP trong ứng dụng AI của b�
 
 Hãy giữ Voidstrap và trình chỉnh sửa luôn mở trong khi AI làm việc. Các thay đổi sẽ hiển thị ngay trong bản xem trước và chỉ được ghi vào ổ đĩa khi AI lưu lại.</value>
   </data>
+  <data name="Ui.Mcp.ConnectTo" xml:space="preserve">
+    <value>Kết nối với {0}</value>
+  </data>
 </root>

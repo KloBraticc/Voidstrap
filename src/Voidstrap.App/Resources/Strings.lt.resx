@@ -8615,4 +8615,7 @@ Pridėkite šį serverį prie savo DI programos MCP nustatymų (jau nukopijuota 
 
 Palikite Voidstrap ir redaktorių atidarytus, kol DI dirba. Jo pakeitimai iš karto rodomi peržiūroje ir įrašomi į diską tik tada, kai jis juos išsaugo.</value>
   </data>
+  <data name="Ui.Mcp.ConnectTo" xml:space="preserve">
+    <value>Prisijungti prie {0}</value>
+  </data>
 </root>

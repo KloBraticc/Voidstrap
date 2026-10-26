@@ -8613,4 +8613,7 @@ Ajoutez ce serveur aux paramètres MCP de votre application d'IA (déjà copié 
 
 Gardez Voidstrap et l'éditeur ouverts pendant que l'IA travaille. Ses modifications s'affichent immédiatement dans l'aperçu et ne sont écrites sur le disque que lorsqu'elle enregistre.</value>
   </data>
+  <data name="Ui.Mcp.ConnectTo" xml:space="preserve">
+    <value>Connecter à {0}</value>
+  </data>
 </root>

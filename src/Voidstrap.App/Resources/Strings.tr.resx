@@ -8612,4 +8612,7 @@ Bu sunucuyu YZ uygulamanızın MCP ayarlarına ekleyin (panonuza zaten kopyaland
 
 YZ çalışırken Voidstrap'i ve düzenleyiciyi açık tutun. Yaptığı değişiklikler önizlemede hemen görünür ve yalnızca kaydettiğinde diske yazılır.</value>
   </data>
+  <data name="Ui.Mcp.ConnectTo" xml:space="preserve">
+    <value>{0} ile bağlan</value>
+  </data>
 </root>
