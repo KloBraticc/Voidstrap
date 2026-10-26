@@ -445,6 +445,9 @@
           <MenuItem Header="{resources:Loc Ui_Main_OpenAppFolder}" Style="{StaticResource TopBarMenuItemStyle}" Click="AppMenuApplicationFolder_Click">
             <MenuItem.Icon><ui:SymbolIcon Symbol="FolderOpen24" FontSize="16" /></MenuItem.Icon>
           </MenuItem>
+          <MenuItem Header="{resources:Loc Ui_Mcp_Connect}" ToolTip="{resources:Loc Ui_Mcp_ConnectTooltip}" Style="{StaticResource TopBarMenuItemStyle}" Visibility="{x:Static appUi:PlatformFeatureVisibility.WindowsIntegration}" Click="AppMenuConnectAi_Click">
+            <MenuItem.Icon><ui:SymbolIcon Symbol="Sparkle24" FontSize="16" /></MenuItem.Icon>
+          </MenuItem>
           <Separator Style="{StaticResource TopBarMenuSeparatorStyle}" />
           <MenuItem Header="{resources:Loc Ui_Main_Support}" Style="{StaticResource TopBarMenuItemStyle}" Click="AppMenuSupport_Click">
             <MenuItem.Icon><ui:SymbolIcon Symbol="Question24" FontSize="16" /></MenuItem.Icon>

@@ -2834,6 +2834,92 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         Utilities.ShellExecute(App.ProjectDonateLink);
     }
 
+    private void AppMenuConnectAi_Click(object sender, RoutedEventArgs e)
+    {
+        AppMenuPopup.IsOpen = false;
+        Voidstrap.Integrations.Mcp.McpConnectInfo.Show();
+    }
+
+    public string CurrentPageName => RootFrame.Content?.GetType().Name ?? "None";
+
+    public void RefreshCurrentPage()
+    {
+        if (RootFrame.Content is FrameworkElement element && element.DataContext != null)
+        {
+            object ctx = element.DataContext;
+            element.DataContext = null;
+            element.DataContext = ctx;
+        }
+    }
+
+    public bool NavigateToPageByName(string pageName, string? searchQuery = null, bool focusWindow = true)
+    {
+        if (focusWindow)
+        {
+            if (WindowState == System.Windows.WindowState.Minimized)
+                WindowState = System.Windows.WindowState.Normal;
+            Activate();
+        }
+
+        string key = pageName.Trim().Replace(" ", "", StringComparison.Ordinal).Replace("Page", "", StringComparison.OrdinalIgnoreCase).ToLowerInvariant();
+        bool navigated;
+
+        switch (key)
+        {
+            case "library":
+                _libraryPage ??= new LibraryPage();
+                if (!ReferenceEquals(RootFrame.Content, _libraryPage))
+                    RootNavigation.NavigateExternal(_libraryPage);
+                navigated = true;
+                break;
+            case "privateservers":
+            case "servers":
+                _privateServersPage ??= new PrivateServersPage();
+                if (!ReferenceEquals(RootFrame.Content, _privateServersPage))
+                    RootNavigation.NavigateExternal(_privateServersPage);
+                navigated = true;
+                break;
+            case "accounts":
+            case "accountmanager":
+                _accountsPage ??= new AccountsPage();
+                if (!ReferenceEquals(RootFrame.Content, _accountsPage))
+                    RootNavigation.NavigateExternal(_accountsPage);
+                navigated = true;
+                break;
+            default:
+                Type? targetType = key switch
+                {
+                    "home" => typeof(HomePage),
+                    "integrations" => typeof(IntegrationsPage),
+                    "bootstrapper" or "deployment" => typeof(BehaviourPage),
+                    "appearance" or "customtheme" => typeof(AppearancePage),
+                    "fastflags" or "fastflagsettings" => typeof(FastFlagsPage),
+                    "fastflageditor" => typeof(FastFlagEditorPage),
+                    "mods" => typeof(ModsPage),
+                    "more" => typeof(MorePage),
+                    "global" or "gbseditor" or "globalbasicsettings" => typeof(GBSEditorPage),
+                    "shortcuts" => typeof(ShortcutsPage),
+                    "news" => typeof(NewsPage),
+                    "extensions" or "extension" => typeof(ExtensionPage),
+                    "downloads" or "manager" => typeof(DownloadsPage),
+                    "settings" or "channel" => typeof(ChannelPage),
+                    _ => null
+                };
+                if (targetType == null)
+                    return false;
+                navigated = Navigate(targetType);
+                break;
+        }
+
+        if (!string.IsNullOrWhiteSpace(searchQuery))
+        {
+            GlobalSearchBox.Text = searchQuery;
+            PerformSearch(searchQuery);
+        }
+
+        return navigated;
+    }
+
     private void AppMenuRestart_Click(object sender, RoutedEventArgs e)
     {
         AppMenuPopup.IsOpen = false;

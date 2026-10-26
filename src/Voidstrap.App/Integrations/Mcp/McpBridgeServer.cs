@@ -159,6 +159,9 @@ public static class McpBridgeServer
 
 		App.Logger?.WriteLine(LOG_IDENT, "Running tool " + name);
 
+		if (string.Equals(name, "search_fastflag_tracker", StringComparison.OrdinalIgnoreCase))
+			return await McpTools.SearchFastFlagTrackerAsync(args, dispatcher, token).ConfigureAwait(false);
+
 		var operation = dispatcher.InvokeAsync(() => McpTools.Execute(name, args));
 		Task<McpToolResult> task = operation.Task;
 		Task finished = await Task.WhenAny(task, Task.Delay(TimeSpan.FromSeconds(30), token)).ConfigureAwait(false);

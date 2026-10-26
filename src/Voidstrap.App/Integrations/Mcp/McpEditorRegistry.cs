@@ -63,10 +63,34 @@ public static class McpEditorRegistry
 
 	public static IMcpEditor? Find(string? id)
 	{
-		if (string.IsNullOrWhiteSpace(id))
-			return null;
+		return FindEntry(id)?.Value;
+	}
 
+	public static KeyValuePair<string, IMcpEditor>? FindEntry(string? id)
+	{
 		lock (Gate)
-			return Editors.TryGetValue(id.Trim(), out IMcpEditor? editor) ? editor : null;
+		{
+			if (Editors.Count == 0)
+				return null;
+
+			if (string.IsNullOrWhiteSpace(id))
+				return Editors.Last();
+
+			string needle = id.Trim();
+			if (Editors.TryGetValue(needle, out IMcpEditor? exact))
+				return new KeyValuePair<string, IMcpEditor>(needle, exact);
+
+			foreach (KeyValuePair<string, IMcpEditor> kv in Editors.Reverse())
+			{
+				if (string.Equals(kv.Value.Kind, needle, StringComparison.OrdinalIgnoreCase)
+					|| string.Equals(kv.Value.DisplayName, needle, StringComparison.OrdinalIgnoreCase)
+					|| kv.Value.DisplayName.Contains(needle, StringComparison.OrdinalIgnoreCase))
+				{
+					return kv;
+				}
+			}
+
+			return null;
+		}
 	}
 }
