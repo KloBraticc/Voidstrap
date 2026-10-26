@@ -330,7 +330,34 @@ namespace Voidstrap.Integrations.RiShade
             {
                 if (!located.TryGetValue(effectFile, out string? source))
                     return true;
-                if (File.ReadAllText(source).Contains("depth", StringComparison.OrdinalIgnoreCase))
+                if (EffectReadsDepth(source))
+                    return true;
+            }
+            return false;
+        }
+
+        private static readonly System.Text.RegularExpressions.Regex DepthUsage = new(
+            @"\b\w*depth\w*\s*\(|:\s*DEPTH\b|\bDepth::|ReShade::DepthBuffer|tex2D\w*\s*\(\s*\w*depth",
+            System.Text.RegularExpressions.RegexOptions.IgnoreCase | System.Text.RegularExpressions.RegexOptions.CultureInvariant);
+
+        private static readonly System.Text.RegularExpressions.Regex LineComment = new(@"//[^\r\n]*", System.Text.RegularExpressions.RegexOptions.CultureInvariant);
+
+        private static readonly System.Text.RegularExpressions.Regex IncludeLine = new(@"#\s*include\s*""([^""]+)""", System.Text.RegularExpressions.RegexOptions.CultureInvariant);
+
+        private static bool EffectReadsDepth(string effectPath)
+        {
+            string text = File.ReadAllText(effectPath);
+            if (DepthUsage.IsMatch(LineComment.Replace(text, string.Empty)))
+                return true;
+            string baseName = Path.GetFileNameWithoutExtension(effectPath);
+            string folder = Path.GetDirectoryName(effectPath) ?? string.Empty;
+            foreach (System.Text.RegularExpressions.Match include in IncludeLine.Matches(text))
+            {
+                string header = include.Groups[1].Value;
+                if (!Path.GetFileNameWithoutExtension(header).StartsWith(baseName, StringComparison.OrdinalIgnoreCase))
+                    continue;
+                string headerPath = Path.Combine(folder, header);
+                if (File.Exists(headerPath) && DepthUsage.IsMatch(LineComment.Replace(File.ReadAllText(headerPath), string.Empty)))
                     return true;
             }
             return false;
