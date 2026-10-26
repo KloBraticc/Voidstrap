@@ -1148,6 +1148,8 @@ void OnDestroyDevice(reshade::api::device* device)
     std::erase(nativeDevices, reinterpret_cast<ID3D12Device*>(device->get_native()));
 }
 
+const wchar_t* LaneName(const Lane& l);
+
 void CreateD3D12(Lane& l)
 {
     winrt::com_ptr<IDXGIAdapter1> sameAdapter;
@@ -1180,13 +1182,18 @@ void CreateD3D12(Lane& l)
     const LUID adapter = proxy->GetAdapterLuid();
     {
         const std::lock_guard lock(nativeMutex);
+        ID3D12Device* fresh = nullptr;
+        ID3D12Device* existing = nullptr;
         for (ID3D12Device* native : nativeDevices)
             if (const LUID luid = native->GetAdapterLuid(); luid.LowPart == adapter.LowPart && luid.HighPart == adapter.HighPart
-                && std::find(before.begin(), before.end(), native) == before.end() && SUCCEEDED(native->GetDeviceRemovedReason()))
-                device.copy_from(native);
+                && SUCCEEDED(native->GetDeviceRemovedReason()))
+                (std::find(before.begin(), before.end(), native) == before.end() ? fresh : existing) = native;
+        if (ID3D12Device* chosen = fresh ? fresh : existing)
+            device.copy_from(chosen);
     }
     l.d3d12Proxy = proxy;
     l.d3d12 = device ? device : proxy;
+    Log(LogLevel::Info, L"Depth %ls D3D12 device: %ls.", LaneName(l), device ? L"native device behind ReShade" : L"device as created, no ReShade native device was reported");
 
     winrt::check_hresult(l.d3d12->CreateFence(0, D3D12_FENCE_FLAG_SHARED, IID_PPV_ARGS(l.d3d12Fence.put())));
     winrt::check_hresult(l.d3d12->CreateSharedHandle(l.d3d12Fence.get(), nullptr, GENERIC_ALL, nullptr, &l.fenceHandle));
