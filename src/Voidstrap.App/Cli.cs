@@ -88,17 +88,7 @@ internal static partial class Cli
 		if (handle == 0 || handle == -1)
 			return false;
 		uint fileType = GetFileType(handle);
-		if (fileType == FileTypeDisk)
-			return true;
-		for (int i = 0; i < 20; i++)
-		{
-			if (!PeekNamedPipe(handle, 0, 0, 0, out uint available, 0))
-				return false;
-			if (available > 0)
-				return true;
-			System.Threading.Thread.Sleep(10);
-		}
-		return false;
+		return fileType is FileTypeDisk or FileTypePipe;
 	}
 
 	private static bool IsStdHandleRedirected(int stdHandle)

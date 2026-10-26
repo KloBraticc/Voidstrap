@@ -10,6 +10,8 @@ public static class McpStdioServer
 {
 	public const string CommandArg = "mcp";
 
+	public const string StdioArg = "stdio";
+
 	private const string ServerInstructions =
 		"Voidstrap MCP Server gives you complete live control over Voidstrap on Windows. " +
 		"IMPORTANT: before building a launcher (bootstrapper) theme, keystroke theme or app theme, call get_guide with that topic and follow it exactly, do not guess file formats or JavaScript APIs. " +

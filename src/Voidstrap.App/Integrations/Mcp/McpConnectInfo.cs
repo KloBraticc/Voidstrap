@@ -49,7 +49,7 @@ public static class McpConnectInfo
 				["voidstrap"] = new JsonObject
 				{
 					["command"] = exe,
-					["args"] = new JsonArray(McpStdioServer.CommandArg)
+					["args"] = new JsonArray(McpStdioServer.CommandArg, McpStdioServer.StdioArg)
 				}
 			}
 		};
@@ -169,7 +169,7 @@ public static class McpConnectInfo
 				Directory.CreateDirectory(dir);
 
 			string escapedExe = ExecutablePath().Replace("\\", "\\\\").Replace("\"", "\\\"");
-			string sectionBlock = $"[mcp_servers.voidstrap]{Environment.NewLine}command = \"{escapedExe}\"{Environment.NewLine}args = [\"{McpStdioServer.CommandArg}\"]";
+			string sectionBlock = $"[mcp_servers.voidstrap]{Environment.NewLine}command = \"{escapedExe}\"{Environment.NewLine}args = [\"{McpStdioServer.CommandArg}\", \"{McpStdioServer.StdioArg}\"]";
 
 			if (!File.Exists(tomlPath))
 			{
@@ -178,7 +178,7 @@ public static class McpConnectInfo
 			}
 
 			string existing = File.ReadAllText(tomlPath);
-			if (existing.Contains("command = \"" + escapedExe + "\"", StringComparison.OrdinalIgnoreCase) && IsCliClientConnected())
+			if (existing.Contains("command = \"" + escapedExe + "\"", StringComparison.OrdinalIgnoreCase) && existing.Contains("\"" + McpStdioServer.StdioArg + "\"]", StringComparison.Ordinal) && IsCliClientConnected())
 				return true;
 			string[] lines = existing.Replace("\r\n", "\n").Split('\n');
 			var sb = new StringBuilder();
@@ -192,7 +192,7 @@ public static class McpConnectInfo
 				{
 					sb.AppendLine($"[mcp_servers.voidstrap]");
 					sb.AppendLine($"command = \"{escapedExe}\"");
-					sb.AppendLine($"args = [\"{McpStdioServer.CommandArg}\"]");
+					sb.AppendLine($"args = [\"{McpStdioServer.CommandArg}\", \"{McpStdioServer.StdioArg}\"]");
 					replaced = true;
 					i++;
 
@@ -220,7 +220,7 @@ public static class McpConnectInfo
 					sb.AppendLine();
 				sb.AppendLine($"[mcp_servers.voidstrap]");
 				sb.AppendLine($"command = \"{escapedExe}\"");
-				sb.AppendLine($"args = [\"{McpStdioServer.CommandArg}\"]");
+				sb.AppendLine($"args = [\"{McpStdioServer.CommandArg}\", \"{McpStdioServer.StdioArg}\"]");
 			}
 
 			WriteConfigSafely(tomlPath, sb.ToString());
@@ -433,7 +433,7 @@ public static class McpConnectInfo
 		if (includeTypeAndEnv)
 			entry["type"] = "stdio";
 		entry["command"] = exe;
-		entry["args"] = new JsonArray(McpStdioServer.CommandArg);
+		entry["args"] = new JsonArray(McpStdioServer.CommandArg, McpStdioServer.StdioArg);
 		if (includeTypeAndEnv)
 			entry["env"] = new JsonObject();
 
@@ -463,7 +463,7 @@ public static class McpConnectInfo
 		var desired = new JsonObject
 		{
 			["type"] = "local",
-			["command"] = new JsonArray(exe, McpStdioServer.CommandArg),
+			["command"] = new JsonArray(exe, McpStdioServer.CommandArg, McpStdioServer.StdioArg),
 			["enabled"] = true
 		};
 
