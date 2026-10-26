@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
@@ -14,7 +15,7 @@ namespace Voidstrap.UI;
 
 internal static class LiveLanguageRefresher
 {
-	private sealed record TextEntry(string Original, string Written);
+	private sealed record TextEntry(string Original, string Written, WeakReference? Context);
 
 	private sealed class ImageEntry
 	{
@@ -596,6 +597,22 @@ internal static class LiveLanguageRefresher
 		_dependencyPropertyOriginals.TryGetValue(target, out Dictionary<DependencyProperty, TextEntry>? entries);
 		TextEntry? entry = null;
 		entries?.TryGetValue(property, out entry);
+		object? context = (target as FrameworkElement)?.DataContext ?? (target as FrameworkContentElement)?.DataContext;
+		if (entry != null && !ReferenceEquals(entry.Context?.Target, context))
+		{
+			entries!.Remove(property);
+			entry = null;
+			BindingExpressionBase? binding = BindingOperations.GetBindingExpressionBase(target, property);
+			if (binding != null)
+			{
+				binding.UpdateTarget();
+				if (target.GetValue(property) is not string refreshed)
+				{
+					return;
+				}
+				current = refreshed;
+			}
+		}
 		if (!on)
 		{
 			if (entry != null)
@@ -636,7 +653,7 @@ internal static class LiveLanguageRefresher
 			target.SetCurrentValue(property, expected);
 		}
 		entries ??= _dependencyPropertyOriginals.GetOrCreateValue(target);
-		entries[property] = new TextEntry(source, expected);
+		entries[property] = new TextEntry(source, expected, context == null ? null : new WeakReference(context));
 		_touched = true;
 	}
 
