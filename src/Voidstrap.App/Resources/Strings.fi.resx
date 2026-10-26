@@ -8651,12 +8651,6 @@ Pidä Voidstrap ja muokkain avoinna, kun tekoäly työskentelee. Sen tekemät mu
   <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
     <value>Leikepöydälle kopiointi epäonnistui, yritä uudelleen.</value>
   </data>
-  <data name="Ui.Mcp.SettingsTitle" xml:space="preserve">
-    <value>Tekoälysovellukset</value>
-  </data>
-  <data name="Ui.Mcp.SettingsDescription" xml:space="preserve">
-    <value>Anna MCP:tä tukevien tekoälysovellusten lukea ja muuttaa puolestasi Voidstrapin asetuksia, FastFlags-lippuja, teemoja ja modeja.</value>
-  </data>
   <data name="Ui.Mcp.Activity.Title" xml:space="preserve">
     <value>{0} käyttää Voidstrapia</value>
   </data>

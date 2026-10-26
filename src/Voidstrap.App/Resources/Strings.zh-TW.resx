@@ -8653,12 +8653,6 @@ Voidstrap 無法寫入桌面資料夾。</value>
   <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
     <value>無法複製到剪貼簿，請再試一次。</value>
   </data>
-  <data name="Ui.Mcp.SettingsTitle" xml:space="preserve">
-    <value>AI 應用程式</value>
-  </data>
-  <data name="Ui.Mcp.SettingsDescription" xml:space="preserve">
-    <value>讓支援 MCP 的 AI 應用程式替你讀取和變更 Voidstrap 的設定、FastFlags、主題和模組。</value>
-  </data>
   <data name="Ui.Mcp.Activity.Title" xml:space="preserve">
     <value>{0} 正在使用 Voidstrap</value>
   </data>

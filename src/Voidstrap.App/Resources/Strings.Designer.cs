@@ -1590,8 +1590,6 @@ namespace Voidstrap.Resources {
         public static string Ui_Mcp_Activity_Problems => ResourceManager.GetString("Ui.Mcp.Activity.Problems", resourceCulture);
         public static string Ui_Mcp_Activity_AppTheme => ResourceManager.GetString("Ui.Mcp.Activity.AppTheme", resourceCulture);
         public static string Ui_Mcp_Activity_Logs => ResourceManager.GetString("Ui.Mcp.Activity.Logs", resourceCulture);
-        public static string Ui_Mcp_SettingsTitle => ResourceManager.GetString("Ui.Mcp.SettingsTitle", resourceCulture);
-        public static string Ui_Mcp_SettingsDescription => ResourceManager.GetString("Ui.Mcp.SettingsDescription", resourceCulture);
         public static string Ui_Mcp_ChooseClient => ResourceManager.GetString("Ui.Mcp.ChooseClient", resourceCulture);
         public static string Ui_Mcp_StatusConnected => ResourceManager.GetString("Ui.Mcp.StatusConnected", resourceCulture);
         public static string Ui_Mcp_StatusNotConnected => ResourceManager.GetString("Ui.Mcp.StatusNotConnected", resourceCulture);

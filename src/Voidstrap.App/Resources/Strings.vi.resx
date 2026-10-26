@@ -8653,12 +8653,6 @@ Hãy giữ Voidstrap và trình chỉnh sửa luôn mở trong khi AI làm việ
   <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
     <value>Không thể sao chép vào bộ nhớ tạm, hãy thử lại.</value>
   </data>
-  <data name="Ui.Mcp.SettingsTitle" xml:space="preserve">
-    <value>Ứng dụng AI</value>
-  </data>
-  <data name="Ui.Mcp.SettingsDescription" xml:space="preserve">
-    <value>Cho phép các ứng dụng AI hỗ trợ MCP đọc và thay đổi cài đặt, FastFlags, chủ đề và mod của Voidstrap giúp bạn.</value>
-  </data>
   <data name="Ui.Mcp.Activity.Title" xml:space="preserve">
     <value>{0} đang dùng Voidstrap</value>
   </data>

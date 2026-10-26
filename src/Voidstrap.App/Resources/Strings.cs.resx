@@ -8651,12 +8651,6 @@ Během práce AI ponechte Voidstrap i editor otevřené. Změny se okamžitě pr
   <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
     <value>Kopírování do schránky se nezdařilo, zkuste to znovu.</value>
   </data>
-  <data name="Ui.Mcp.SettingsTitle" xml:space="preserve">
-    <value>Aplikace AI</value>
-  </data>
-  <data name="Ui.Mcp.SettingsDescription" xml:space="preserve">
-    <value>Umožněte aplikacím AI s podporou MCP číst a měnit za vás nastavení, FastFlags, motivy a mody Voidstrapu.</value>
-  </data>
   <data name="Ui.Mcp.Activity.Title" xml:space="preserve">
     <value>{0} používá Voidstrap</value>
   </data>

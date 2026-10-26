@@ -8651,12 +8651,6 @@ Palikite Voidstrap ir redaktorių atidarytus, kol DI dirba. Jo pakeitimai iš ka
   <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
     <value>Nepavyko nukopijuoti į iškarpinę, bandykite dar kartą.</value>
   </data>
-  <data name="Ui.Mcp.SettingsTitle" xml:space="preserve">
-    <value>DI programos</value>
-  </data>
-  <data name="Ui.Mcp.SettingsDescription" xml:space="preserve">
-    <value>Leiskite MCP palaikančioms DI programoms skaityti ir keisti Voidstrap nustatymus, FastFlags, temas ir modifikacijas už jus.</value>
-  </data>
   <data name="Ui.Mcp.Activity.Title" xml:space="preserve">
     <value>{0} naudoja Voidstrap</value>
   </data>

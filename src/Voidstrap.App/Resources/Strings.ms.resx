@@ -8641,12 +8641,6 @@ Biarkan Voidstrap dan penyunting kekal dibuka semasa AI bekerja. Perubahannya di
   <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
     <value>Tidak dapat menyalin ke papan keratan, cuba lagi.</value>
   </data>
-  <data name="Ui.Mcp.SettingsTitle" xml:space="preserve">
-    <value>Aplikasi AI</value>
-  </data>
-  <data name="Ui.Mcp.SettingsDescription" xml:space="preserve">
-    <value>Benarkan aplikasi AI yang menyokong MCP membaca dan menukar tetapan, FastFlags, tema dan mod Voidstrap untuk anda.</value>
-  </data>
   <data name="Ui.Mcp.Activity.Title" xml:space="preserve">
     <value>{0} sedang menggunakan Voidstrap</value>
   </data>

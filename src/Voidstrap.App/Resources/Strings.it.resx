@@ -8652,12 +8652,6 @@ Tieni aperti Voidstrap e l'editor mentre l'IA lavora. Le modifiche vengono mostr
   <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
     <value>Impossibile copiare negli appunti, riprova.</value>
   </data>
-  <data name="Ui.Mcp.SettingsTitle" xml:space="preserve">
-    <value>App di IA</value>
-  </data>
-  <data name="Ui.Mcp.SettingsDescription" xml:space="preserve">
-    <value>Permetti alle app di IA compatibili con MCP di leggere e modificare per te impostazioni, FastFlags, temi e mod di Voidstrap.</value>
-  </data>
   <data name="Ui.Mcp.Activity.Title" xml:space="preserve">
     <value>{0} sta usando Voidstrap</value>
   </data>

@@ -8650,12 +8650,6 @@ Pozostaw Voidstrap i edytor otwarte podczas pracy AI. Wprowadzane zmiany są od 
   <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
     <value>Nie udało się skopiować do schowka, spróbuj ponownie.</value>
   </data>
-  <data name="Ui.Mcp.SettingsTitle" xml:space="preserve">
-    <value>Aplikacje AI</value>
-  </data>
-  <data name="Ui.Mcp.SettingsDescription" xml:space="preserve">
-    <value>Pozwól aplikacjom AI obsługującym MCP odczytywać i zmieniać za ciebie ustawienia, FastFlags, motywy i mody Voidstrap.</value>
-  </data>
   <data name="Ui.Mcp.Activity.Title" xml:space="preserve">
     <value>{0} używa Voidstrap</value>
   </data>

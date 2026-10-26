@@ -8645,12 +8645,6 @@ Voidstrap เขียนลงในโฟลเดอร์เดสก์ท�
   <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
     <value>ไม่สามารถคัดลอกไปยังคลิปบอร์ด โปรดลองอีกครั้ง</value>
   </data>
-  <data name="Ui.Mcp.SettingsTitle" xml:space="preserve">
-    <value>แอป AI</value>
-  </data>
-  <data name="Ui.Mcp.SettingsDescription" xml:space="preserve">
-    <value>ให้แอป AI ที่รองรับ MCP อ่านและเปลี่ยนการตั้งค่า FastFlags ธีม และม็อดของ Voidstrap แทนคุณ</value>
-  </data>
   <data name="Ui.Mcp.Activity.Title" xml:space="preserve">
     <value>{0} กำลังใช้ Voidstrap</value>
   </data>

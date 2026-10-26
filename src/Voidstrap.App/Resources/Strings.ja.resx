@@ -8664,12 +8664,6 @@ AIの作業中はVoidstrapとエディターを開いたままにしてくださ
   <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
     <value>クリップボードにコピーできませんでした。もう一度お試しください。</value>
   </data>
-  <data name="Ui.Mcp.SettingsTitle" xml:space="preserve">
-    <value>AI アプリ</value>
-  </data>
-  <data name="Ui.Mcp.SettingsDescription" xml:space="preserve">
-    <value>MCP に対応した AI アプリに、Voidstrap の設定、FastFlags、テーマ、Mod の読み取りと変更を任せられます。</value>
-  </data>
   <data name="Ui.Mcp.Activity.Title" xml:space="preserve">
     <value>{0} が Voidstrap を使用しています</value>
   </data>

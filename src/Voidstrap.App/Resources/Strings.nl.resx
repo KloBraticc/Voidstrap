@@ -8651,12 +8651,6 @@ Houd Voidstrap en de editor geopend terwijl de AI werkt. De wijzigingen zijn dir
   <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
     <value>Kopiëren naar het klembord is mislukt, probeer het opnieuw.</value>
   </data>
-  <data name="Ui.Mcp.SettingsTitle" xml:space="preserve">
-    <value>AI-apps</value>
-  </data>
-  <data name="Ui.Mcp.SettingsDescription" xml:space="preserve">
-    <value>Laat AI-apps met MCP-ondersteuning Voidstrap-instellingen, FastFlags, thema's en mods voor je lezen en wijzigen.</value>
-  </data>
   <data name="Ui.Mcp.Activity.Title" xml:space="preserve">
     <value>{0} gebruikt Voidstrap</value>
   </data>

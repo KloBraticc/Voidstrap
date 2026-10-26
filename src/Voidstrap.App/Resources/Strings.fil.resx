@@ -8648,12 +8648,6 @@ Panatilihing nakabukas ang Voidstrap at ang editor habang gumagawa ang AI. Agad 
   <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
     <value>Hindi makopya sa clipboard, subukan ulit.</value>
   </data>
-  <data name="Ui.Mcp.SettingsTitle" xml:space="preserve">
-    <value>Mga AI app</value>
-  </data>
-  <data name="Ui.Mcp.SettingsDescription" xml:space="preserve">
-    <value>Hayaan ang mga AI app na may MCP na basahin at baguhin para sa iyo ang mga setting, FastFlags, tema at mod ng Voidstrap.</value>
-  </data>
   <data name="Ui.Mcp.Activity.Title" xml:space="preserve">
     <value>Ginagamit ng {0} ang Voidstrap</value>
   </data>
