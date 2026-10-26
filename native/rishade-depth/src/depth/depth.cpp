@@ -970,7 +970,8 @@ struct Surface
     winrt::com_ptr<ID3D11ShaderResourceView> view;
 };
 
-constexpr std::chrono::milliseconds kMinDepthInterval{ 8 };
+constexpr std::chrono::milliseconds kMinDepthInterval{ 33 };
+constexpr double kDepthGpuShare = 0.4;
 constexpr std::chrono::milliseconds kKeyframeInterval{ 33 };
 
 struct Lane
@@ -2073,7 +2074,9 @@ bool Schedule(Lane& l, ID3D11Texture2D* frame, int64_t frameTimestamp)
         l.done = false;
         l.busy = false;
         const auto completedAt = FrameStatistics::Clock::now();
-        l.nextRequestAt = std::max(l.requestedAt + kMinDepthInterval, completedAt);
+        const auto budget = std::chrono::duration_cast<FrameStatistics::Clock::duration>(
+            std::chrono::duration<double, std::milli>(l.workerMs.load() / kDepthGpuShare));
+        l.nextRequestAt = std::max(completedAt + budget, l.requestedAt + kMinDepthInterval);
         if (l.inputValue && d.texture && l.input && !D3D12Removed(l))
         {
             Publish(l);
