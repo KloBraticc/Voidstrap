@@ -4585,6 +4585,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             ApplyLinuxWindowSize();
             if (Voidstrap.Utility.Platform.IsMacOS)
                 FitToScreen();
+            else if (Voidstrap.Utility.Platform.IsWindows)
+                KeepInsideWorkArea();
             SetupNavShortcuts();
             _ = Dispatcher.BeginInvoke(new Action(ResetNavigationHistory), DispatcherPriority.ApplicationIdle);
             Microsoft.Win32.SystemEvents.DisplaySettingsChanged -= OnDisplaySettingsChanged;
@@ -4975,6 +4977,45 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         catch (Exception ex)
         {
             App.Logger.WriteException("MainWindow::OnDisplaySettingsChanged", ex);
+        }
+    }
+
+    private void KeepInsideWorkArea()
+    {
+        try
+        {
+            if (WindowState != System.Windows.WindowState.Normal)
+                return;
+            IntPtr handle = new System.Windows.Interop.WindowInteropHelper(this).Handle;
+            if (handle == IntPtr.Zero)
+                return;
+            System.Drawing.Rectangle area = System.Windows.Forms.Screen.FromHandle(handle).WorkingArea;
+            System.Windows.Media.Matrix toDevice = PresentationSource.FromVisual(this)?.CompositionTarget?.TransformToDevice ?? System.Windows.Media.Matrix.Identity;
+            double scaleX = toDevice.M11 > 0 ? toDevice.M11 : 1.0;
+            double scaleY = toDevice.M22 > 0 ? toDevice.M22 : 1.0;
+            Rect work = new(area.Left / scaleX, area.Top / scaleY, area.Width / scaleX, area.Height / scaleY);
+            if (work.Width <= 0.0 || work.Height <= 0.0)
+                return;
+            double width = Math.Min(ActualWidth > 0 ? ActualWidth : Width, work.Width);
+            double height = Math.Min(ActualHeight > 0 ? ActualHeight : Height, work.Height);
+            if (MinWidth > width)
+                MinWidth = width;
+            if (MinHeight > height)
+                MinHeight = height;
+            double left = Math.Clamp(Left, work.Left, work.Right - width);
+            double top = Math.Clamp(Top, work.Top, work.Bottom - height);
+            if (Math.Abs(width - Width) > 0.5)
+                Width = width;
+            if (Math.Abs(height - Height) > 0.5)
+                Height = height;
+            if (Math.Abs(left - Left) > 0.5)
+                Left = left;
+            if (Math.Abs(top - Top) > 0.5)
+                Top = top;
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("MainWindow::KeepInsideWorkArea", ex);
         }
     }
 
