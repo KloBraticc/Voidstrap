@@ -8408,4 +8408,19 @@ Ladattava koko on {0} Mt. Jos kieltäydyt, käytetään sisäänrakennettua arvi
   <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
     <value>Karttoja ei ole asennettu</value>
   </data>
+  <data name="Ui.RiShade.OverlayKey.Title" xml:space="preserve">
+    <value>Peittokuvan näppäin</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Description" xml:space="preserve">
+    <value>Avaa ja sulkee ReShade-valikon pelatessasi. Napsauta ruutua ja paina sitten näppäintä.</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Press" xml:space="preserve">
+    <value>Paina näppäintä, Esc peruuttaa</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.InUse" xml:space="preserve">
+    <value>{0} on jo toisen sovelluksen käytössä.</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Saved" xml:space="preserve">
+    <value>Tallennettu, ReShade-valikko avautuu nyt näppäimellä {0}.</value>
+  </data>
 </root>

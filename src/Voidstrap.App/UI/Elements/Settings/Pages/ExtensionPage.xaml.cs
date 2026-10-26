@@ -77,9 +77,95 @@ public partial class ExtensionPage : UiPage
 		_vm.PropertyChanged -= Vm_PropertyChanged;
 		Voidstrap.Integrations.RiShade.RiShadePanel.OpenChanged -= RiShadePanel_OpenChanged;
 		Voidstrap.Integrations.RiShade.RiShadeDepthModels.StateChanged -= RiShadeDepthModels_StateChanged;
+		StopRiShadeKeyRecording();
 		if (_detailItem is ExtensionEntry asset)
 			asset.PropertyChanged -= Asset_PropertyChanged;
 		Voidstrap.Integrations.VoidstrapPresence.Clear(nameof(ExtensionPage));
+	}
+
+	private bool _recordingRiShadeKey;
+
+	private void ShowRiShadeKey(string? status)
+	{
+		Voidstrap.Models.Persistable.OverlayShortcut shortcut = App.Settings.Prop.RiShadeOverlayShortcut ??= new Voidstrap.Models.Persistable.OverlayShortcut { Modifiers = 0, Key = 0x24 };
+		RiShadeKeyText.Text = shortcut.Describe();
+		RiShadeKeyBox.SetResourceReference(Border.BorderBrushProperty, "ControlStrokeColorDefaultBrush");
+		RiShadeKeyStatus.Text = status ?? string.Empty;
+		RiShadeKeyStatus.Visibility = string.IsNullOrEmpty(status) ? Visibility.Collapsed : Visibility.Visible;
+	}
+
+	private void RiShadeKeyBox_Click(object sender, System.Windows.Input.MouseButtonEventArgs e)
+	{
+		if (_recordingRiShadeKey)
+			return;
+		_recordingRiShadeKey = true;
+		Voidstrap.UI.Elements.ContextMenu.MenuContainer.SuspendRiShadeHotkey(true);
+		RiShadeKeyText.Text = Voidstrap.Resources.Strings.Ui_RiShade_OverlayKey_Press;
+		RiShadeKeyBox.SetResourceReference(Border.BorderBrushProperty, "AccentFillColorDefaultBrush");
+		RiShadeKeyBox.Focus();
+		System.Windows.Input.Keyboard.Focus(RiShadeKeyBox);
+	}
+
+	private void RiShadeKeyBox_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+	{
+		if (!_recordingRiShadeKey)
+			return;
+		e.Handled = true;
+		System.Windows.Input.Key key = e.Key switch
+		{
+			System.Windows.Input.Key.System => e.SystemKey,
+			System.Windows.Input.Key.ImeProcessed => e.ImeProcessedKey,
+			_ => e.Key
+		};
+		if (key == System.Windows.Input.Key.Escape)
+		{
+			StopRiShadeKeyRecording();
+			return;
+		}
+		if (key is System.Windows.Input.Key.LeftCtrl or System.Windows.Input.Key.RightCtrl or System.Windows.Input.Key.LeftAlt or System.Windows.Input.Key.RightAlt
+			or System.Windows.Input.Key.LeftShift or System.Windows.Input.Key.RightShift or System.Windows.Input.Key.LWin or System.Windows.Input.Key.RWin)
+			return;
+		System.Windows.Input.ModifierKeys held = System.Windows.Input.Keyboard.Modifiers;
+		uint modifiers = 0;
+		if (held.HasFlag(System.Windows.Input.ModifierKeys.Control))
+			modifiers |= Voidstrap.Models.Persistable.OverlayShortcut.Control;
+		if (held.HasFlag(System.Windows.Input.ModifierKeys.Alt))
+			modifiers |= Voidstrap.Models.Persistable.OverlayShortcut.Alt;
+		if (held.HasFlag(System.Windows.Input.ModifierKeys.Shift))
+			modifiers |= Voidstrap.Models.Persistable.OverlayShortcut.Shift;
+		uint virtualKey = (uint)System.Windows.Input.KeyInterop.VirtualKeyFromKey(key);
+		if (virtualKey == 0)
+			return;
+		Voidstrap.Models.Persistable.OverlayShortcut candidate = new() { Modifiers = modifiers, Key = virtualKey };
+		if (!Voidstrap.UI.Elements.ContextMenu.MenuContainer.TryShortcut(candidate))
+		{
+			RiShadeKeyStatus.Text = string.Format(Voidstrap.Resources.Strings.Ui_RiShade_OverlayKey_InUse, candidate.Describe());
+			RiShadeKeyStatus.Visibility = Visibility.Visible;
+			return;
+		}
+		_recordingRiShadeKey = false;
+		Voidstrap.Integrations.RiShade.RiShadeManager.SetOverlayShortcut(candidate);
+		Voidstrap.UI.Elements.ContextMenu.MenuContainer.SuspendRiShadeHotkey(false);
+		ShowRiShadeKey(string.Format(Voidstrap.Resources.Strings.Ui_RiShade_OverlayKey_Saved, candidate.Describe()));
+	}
+
+	private void RiShadeKeyBox_LostFocus(object sender, System.Windows.Input.KeyboardFocusChangedEventArgs e) => StopRiShadeKeyRecording();
+
+	private void StopRiShadeKeyRecording()
+	{
+		if (!_recordingRiShadeKey)
+			return;
+		_recordingRiShadeKey = false;
+		Voidstrap.UI.Elements.ContextMenu.MenuContainer.SuspendRiShadeHotkey(false);
+		ShowRiShadeKey(null);
+	}
+
+	private void RiShadeKeyReset_Click(object sender, RoutedEventArgs e)
+	{
+		StopRiShadeKeyRecording();
+		Voidstrap.Models.Persistable.OverlayShortcut home = new() { Modifiers = 0, Key = 0x24 };
+		Voidstrap.Integrations.RiShade.RiShadeManager.SetOverlayShortcut(home);
+		ShowRiShadeKey(string.Format(Voidstrap.Resources.Strings.Ui_RiShade_OverlayKey_Saved, home.Describe()));
 	}
 
 	private void DetailRoot_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -168,6 +254,7 @@ public partial class ExtensionPage : UiPage
 			RefreshRiShadePresets();
 			RefreshRiShadeDepthModel();
 			RefreshRiShadeDlss();
+			ShowRiShadeKey(null);
 		}
 		_ = LoadReleasesAsync(asset);
 		DetailVersion.Text = asset.Version;

@@ -8406,4 +8406,19 @@ Voidstrap не смог записать в папку рабочего стол
   <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
     <value>Нет установленных карт</value>
   </data>
+  <data name="Ui.RiShade.OverlayKey.Title" xml:space="preserve">
+    <value>Клавиша оверлея</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Description" xml:space="preserve">
+    <value>Открывает и закрывает меню ReShade во время игры. Нажмите на поле, затем нажмите клавишу.</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Press" xml:space="preserve">
+    <value>Нажмите клавишу, Esc для отмены</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.InUse" xml:space="preserve">
+    <value>{0} уже используется другим приложением.</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Saved" xml:space="preserve">
+    <value>Сохранено, меню ReShade теперь открывается клавишей {0}.</value>
+  </data>
 </root>

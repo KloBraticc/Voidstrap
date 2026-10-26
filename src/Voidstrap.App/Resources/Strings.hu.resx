@@ -8406,4 +8406,19 @@ A letöltés {0} MB. Ha elutasítod, a beépített becslés lesz használva. Ezt
   <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
     <value>Nincs telepített pálya</value>
   </data>
+  <data name="Ui.RiShade.OverlayKey.Title" xml:space="preserve">
+    <value>Overlay billentyű</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Description" xml:space="preserve">
+    <value>Megnyitja és bezárja a ReShade menüt játék közben. Kattints a mezőre, majd nyomj meg egy billentyűt.</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Press" xml:space="preserve">
+    <value>Nyomj meg egy billentyűt, az Esc megszakítja</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.InUse" xml:space="preserve">
+    <value>A(z) {0} billentyűt már egy másik alkalmazás használja.</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Saved" xml:space="preserve">
+    <value>Mentve, a ReShade menü mostantól a(z) {0} billentyűvel nyílik meg.</value>
+  </data>
 </root>

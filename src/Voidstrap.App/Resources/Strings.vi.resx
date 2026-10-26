@@ -8410,4 +8410,19 @@ Dung lượng tải xuống là {0} MB. Nếu bạn từ chối, ước tính t�
   <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
     <value>Chưa cài đặt bản đồ nào</value>
   </data>
+  <data name="Ui.RiShade.OverlayKey.Title" xml:space="preserve">
+    <value>Phím lớp phủ</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Description" xml:space="preserve">
+    <value>Mở và đóng menu ReShade khi bạn chơi. Nhấp vào ô, sau đó nhấn một phím.</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Press" xml:space="preserve">
+    <value>Nhấn một phím, Esc để hủy</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.InUse" xml:space="preserve">
+    <value>{0} đã được ứng dụng khác sử dụng.</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Saved" xml:space="preserve">
+    <value>Đã lưu, menu ReShade giờ mở bằng {0}.</value>
+  </data>
 </root>

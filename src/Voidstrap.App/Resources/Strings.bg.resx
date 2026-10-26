@@ -8407,4 +8407,19 @@ Voidstrap не можа да запише в папката на работни�
   <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
     <value>Няма инсталирани карти</value>
   </data>
+  <data name="Ui.RiShade.OverlayKey.Title" xml:space="preserve">
+    <value>Клавиш за наслагването</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Description" xml:space="preserve">
+    <value>Отваря и затваря менюто на ReShade, докато играете. Щракнете върху полето и натиснете клавиш.</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Press" xml:space="preserve">
+    <value>Натиснете клавиш, Esc отменя</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.InUse" xml:space="preserve">
+    <value>{0} вече се използва от друго приложение.</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Saved" xml:space="preserve">
+    <value>Запазено, менюто на ReShade вече се отваря с {0}.</value>
+  </data>
 </root>

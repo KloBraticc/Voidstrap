@@ -8406,4 +8406,19 @@ Preuzima se {0} MB. Ako odbiješ, koristi se ugrađena procjena. To možeš prom
   <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
     <value>Nema instaliranih mapa</value>
   </data>
+  <data name="Ui.RiShade.OverlayKey.Title" xml:space="preserve">
+    <value>Tipka za sloj</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Description" xml:space="preserve">
+    <value>Otvara i zatvara ReShade izbornik dok igraš. Klikni na okvir, a zatim pritisni tipku.</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Press" xml:space="preserve">
+    <value>Pritisni tipku, Esc poništava</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.InUse" xml:space="preserve">
+    <value>{0} već koristi druga aplikacija.</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Saved" xml:space="preserve">
+    <value>Spremljeno, ReShade izbornik sada se otvara tipkom {0}.</value>
+  </data>
 </root>

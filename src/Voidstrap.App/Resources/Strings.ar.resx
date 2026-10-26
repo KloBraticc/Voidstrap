@@ -8406,4 +8406,19 @@
   <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
     <value>لا توجد خرائط مثبتة</value>
   </data>
+  <data name="Ui.RiShade.OverlayKey.Title" xml:space="preserve">
+    <value>مفتاح الواجهة</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Description" xml:space="preserve">
+    <value>يفتح قائمة ReShade ويغلقها أثناء اللعب. انقر على المربع ثم اضغط على مفتاح.</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Press" xml:space="preserve">
+    <value>اضغط على مفتاح، Esc للإلغاء</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.InUse" xml:space="preserve">
+    <value>{0} مستخدم بالفعل من تطبيق آخر.</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Saved" xml:space="preserve">
+    <value>تم الحفظ، تفتح قائمة ReShade الآن بالمفتاح {0}.</value>
+  </data>
 </root>

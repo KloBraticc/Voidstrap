@@ -8402,4 +8402,19 @@ Voidstrap เขียนลงในโฟลเดอร์เดสก์ท�
   <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
     <value>ไม่มีแผนที่ที่ติดตั้ง</value>
   </data>
+  <data name="Ui.RiShade.OverlayKey.Title" xml:space="preserve">
+    <value>ปุ่มโอเวอร์เลย์</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Description" xml:space="preserve">
+    <value>เปิดและปิดเมนู ReShade ขณะที่คุณเล่น คลิกที่ช่อง แล้วกดปุ่ม</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Press" xml:space="preserve">
+    <value>กดปุ่ม หรือกด Esc เพื่อยกเลิก</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.InUse" xml:space="preserve">
+    <value>{0} ถูกใช้งานโดยแอปอื่นอยู่แล้ว</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Saved" xml:space="preserve">
+    <value>บันทึกแล้ว ตอนนี้เมนู ReShade จะเปิดด้วย {0}</value>
+  </data>
 </root>

@@ -8405,4 +8405,19 @@ Voidstrap이 바탕 화면 폴더에 쓸 수 없습니다.</value>
   <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
     <value>설치된 맵이 없습니다</value>
   </data>
+  <data name="Ui.RiShade.OverlayKey.Title" xml:space="preserve">
+    <value>오버레이 키</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Description" xml:space="preserve">
+    <value>플레이 중 ReShade 메뉴를 열고 닫습니다. 상자를 클릭한 다음 키를 누르십시오.</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Press" xml:space="preserve">
+    <value>키를 누르십시오. Esc를 누르면 취소됩니다</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.InUse" xml:space="preserve">
+    <value>{0}은(는) 이미 다른 앱에서 사용 중입니다.</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Saved" xml:space="preserve">
+    <value>저장되었습니다. 이제 {0}(으)로 ReShade 메뉴가 열립니다.</value>
+  </data>
 </root>

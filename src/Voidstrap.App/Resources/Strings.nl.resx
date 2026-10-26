@@ -8408,4 +8408,19 @@ Er wordt {0} MB gedownload. Als je weigert, wordt de ingebouwde schatting gebrui
   <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
     <value>Geen kaarten geïnstalleerd</value>
   </data>
+  <data name="Ui.RiShade.OverlayKey.Title" xml:space="preserve">
+    <value>Overlaytoets</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Description" xml:space="preserve">
+    <value>Opent en sluit het ReShade-menu terwijl je speelt. Klik op het vak en druk daarna op een toets.</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Press" xml:space="preserve">
+    <value>Druk op een toets, Esc annuleert</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.InUse" xml:space="preserve">
+    <value>{0} wordt al gebruikt door een andere app.</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Saved" xml:space="preserve">
+    <value>Opgeslagen, het ReShade-menu opent nu met {0}.</value>
+  </data>
 </root>

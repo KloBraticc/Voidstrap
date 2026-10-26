@@ -8409,4 +8409,19 @@ Unduhannya {0} MB. Jika Anda menolak, perkiraan bawaan akan digunakan. Anda dapa
   <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
     <value>Tidak ada peta yang terpasang</value>
   </data>
+  <data name="Ui.RiShade.OverlayKey.Title" xml:space="preserve">
+    <value>Tombol overlay</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Description" xml:space="preserve">
+    <value>Membuka dan menutup menu ReShade saat Anda bermain. Klik kotak, lalu tekan sebuah tombol.</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Press" xml:space="preserve">
+    <value>Tekan sebuah tombol, Esc membatalkan</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.InUse" xml:space="preserve">
+    <value>{0} sudah digunakan oleh aplikasi lain.</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Saved" xml:space="preserve">
+    <value>Disimpan, menu ReShade sekarang terbuka dengan {0}.</value>
+  </data>
 </root>

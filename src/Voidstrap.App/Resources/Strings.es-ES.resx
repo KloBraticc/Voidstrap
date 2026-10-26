@@ -8407,4 +8407,19 @@ Se descargan {0} MB. Si lo rechazas, se usa la estimación integrada. Puedes cam
   <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
     <value>No hay mapas instalados</value>
   </data>
+  <data name="Ui.RiShade.OverlayKey.Title" xml:space="preserve">
+    <value>Tecla del overlay</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Description" xml:space="preserve">
+    <value>Abre y cierra el menú de ReShade mientras juegas. Haz clic en el cuadro y pulsa una tecla.</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Press" xml:space="preserve">
+    <value>Pulsa una tecla, Esc cancela</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.InUse" xml:space="preserve">
+    <value>{0} ya lo usa otra aplicación.</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Saved" xml:space="preserve">
+    <value>Guardado, el menú de ReShade ahora se abre con {0}.</value>
+  </data>
 </root>

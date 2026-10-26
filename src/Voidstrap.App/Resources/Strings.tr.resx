@@ -8405,4 +8405,19 @@ Bu dosyayı size yardım eden kişiye gönderin. Bilgisayar kullanıcı adınız
   <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
     <value>Yüklü harita yok</value>
   </data>
+  <data name="Ui.RiShade.OverlayKey.Title" xml:space="preserve">
+    <value>Kaplama tuşu</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Description" xml:space="preserve">
+    <value>Oyun oynarken ReShade menüsünü açar ve kapatır. Kutuya tıklayın, ardından bir tuşa basın.</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Press" xml:space="preserve">
+    <value>Bir tuşa basın, Esc iptal eder</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.InUse" xml:space="preserve">
+    <value>{0} zaten başka bir uygulama tarafından kullanılıyor.</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Saved" xml:space="preserve">
+    <value>Kaydedildi, ReShade menüsü artık {0} ile açılıyor.</value>
+  </data>
 </root>

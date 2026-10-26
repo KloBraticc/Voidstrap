@@ -8407,4 +8407,19 @@ Pobieranie ma {0} MB. Jeśli odmówisz, zostanie użyte wbudowane oszacowanie. M
   <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
     <value>Brak zainstalowanych map</value>
   </data>
+  <data name="Ui.RiShade.OverlayKey.Title" xml:space="preserve">
+    <value>Klawisz nakładki</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Description" xml:space="preserve">
+    <value>Otwiera i zamyka menu ReShade podczas gry. Kliknij pole, a następnie naciśnij klawisz.</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Press" xml:space="preserve">
+    <value>Naciśnij klawisz, Esc anuluje</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.InUse" xml:space="preserve">
+    <value>{0} jest już używany przez inną aplikację.</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Saved" xml:space="preserve">
+    <value>Zapisano, menu ReShade otwiera się teraz klawiszem {0}.</value>
+  </data>
 </root>

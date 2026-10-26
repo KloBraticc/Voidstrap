@@ -166,6 +166,50 @@ namespace Voidstrap.Integrations.RiShade
             }
         }
 
+        public static void SetOverlayShortcut(Voidstrap.Models.Persistable.OverlayShortcut shortcut)
+        {
+            App.Settings.Prop.RiShadeOverlayShortcut = shortcut;
+            App.Settings.SaveDeferred();
+            string binding = shortcut.Key + ","
+                + ((shortcut.Modifiers & Voidstrap.Models.Persistable.OverlayShortcut.Control) != 0 ? "1" : "0") + ","
+                + ((shortcut.Modifiers & Voidstrap.Models.Persistable.OverlayShortcut.Shift) != 0 ? "1" : "0") + ","
+                + ((shortcut.Modifiers & Voidstrap.Models.Persistable.OverlayShortcut.Alt) != 0 ? "1" : "0");
+            try
+            {
+                if (File.Exists(ConfigPath))
+                {
+                    List<string> lines = File.ReadAllLines(ConfigPath).ToList();
+                    int input = lines.FindIndex(line => line.Trim().Equals("[INPUT]", StringComparison.OrdinalIgnoreCase));
+                    if (input < 0)
+                    {
+                        lines.Add("[INPUT]");
+                        input = lines.Count - 1;
+                    }
+                    int end = lines.FindIndex(input + 1, line => line.TrimStart().StartsWith('['));
+                    if (end < 0)
+                        end = lines.Count;
+                    foreach (string key in new[] { "KeyMenu", "KeyOverlay" })
+                    {
+                        int existing = lines.FindIndex(input + 1, end - input - 1, line => line.TrimStart().StartsWith(key + "=", StringComparison.OrdinalIgnoreCase));
+                        if (existing >= 0)
+                            lines[existing] = key + "=" + binding;
+                        else
+                        {
+                            lines.Insert(input + 1, key + "=" + binding);
+                            end++;
+                        }
+                    }
+                    Voidstrap.Utility.JsonFile.WriteAtomicText(ConfigPath, string.Join(Environment.NewLine, lines) + Environment.NewLine, false);
+                }
+            }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+            {
+                App.Logger.WriteLine(LogIdent, "The overlay key could not be saved to ReShade.ini: " + ex.Message);
+            }
+            App.Logger.WriteLine(LogIdent, "Overlay key set to " + shortcut.Describe());
+            Voidstrap.UI.Elements.ContextMenu.MenuContainer.SyncRiShadeHotkey();
+        }
+
         public static IReadOnlyList<string> GetAvailablePresets()
         {
             string root = Path.Combine(RiShadeDir, "presets");

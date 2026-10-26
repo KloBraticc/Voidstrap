@@ -24,7 +24,7 @@ public sealed partial class OverlayShortcut
 	// Written the way it is pressed, "Ctrl + Alt + L"
 	public string Describe()
 	{
-		if (!IsSet)
+		if (Key == 0)
 			return "None";
 		List<string> parts = new();
 		if ((Modifiers & Control) != 0)

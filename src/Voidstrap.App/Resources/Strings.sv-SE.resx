@@ -8407,4 +8407,19 @@ Den laddar ner {0} MB. Om du tackar nej används den inbyggda uppskattningen. Du
   <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
     <value>Inga kartor installerade</value>
   </data>
+  <data name="Ui.RiShade.OverlayKey.Title" xml:space="preserve">
+    <value>Överlagringstangent</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Description" xml:space="preserve">
+    <value>Öppnar och stänger ReShade-menyn medan du spelar. Klicka på rutan och tryck sedan på en tangent.</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Press" xml:space="preserve">
+    <value>Tryck på en tangent, Esc avbryter</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.InUse" xml:space="preserve">
+    <value>{0} används redan av en annan app.</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Saved" xml:space="preserve">
+    <value>Sparat, ReShade-menyn öppnas nu med {0}.</value>
+  </data>
 </root>

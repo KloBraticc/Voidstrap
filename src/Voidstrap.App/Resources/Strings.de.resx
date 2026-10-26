@@ -8407,4 +8407,19 @@ Es werden {0} MB heruntergeladen. Wenn du ablehnst, wird die eingebaute Schätzu
   <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
     <value>Keine Karten installiert</value>
   </data>
+  <data name="Ui.RiShade.OverlayKey.Title" xml:space="preserve">
+    <value>Overlay-Taste</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Description" xml:space="preserve">
+    <value>Öffnet und schließt das ReShade-Menü, während du spielst. Klicke auf das Feld und drücke dann eine Taste.</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Press" xml:space="preserve">
+    <value>Drücke eine Taste, Esc bricht ab</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.InUse" xml:space="preserve">
+    <value>{0} wird bereits von einer anderen App verwendet.</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Saved" xml:space="preserve">
+    <value>Gespeichert, das ReShade-Menü öffnet sich jetzt mit {0}.</value>
+  </data>
 </root>

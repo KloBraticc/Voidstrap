@@ -8409,4 +8409,19 @@ Il download è di {0} MB. Se rifiuti, viene usata la stima integrata. Puoi cambi
   <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
     <value>Nessuna mappa installata</value>
   </data>
+  <data name="Ui.RiShade.OverlayKey.Title" xml:space="preserve">
+    <value>Tasto overlay</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Description" xml:space="preserve">
+    <value>Apre e chiude il menu di ReShade mentre giochi. Fai clic sulla casella, poi premi un tasto.</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Press" xml:space="preserve">
+    <value>Premi un tasto, Esc annulla</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.InUse" xml:space="preserve">
+    <value>{0} è già usato da un'altra app.</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Saved" xml:space="preserve">
+    <value>Salvato, il menu di ReShade ora si apre con {0}.</value>
+  </data>
 </root>

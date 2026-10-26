@@ -8408,4 +8408,19 @@ Stáhne se {0} MB. Pokud odmítnete, použije se vestavěný odhad. Později to 
   <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
     <value>Nejsou nainstalovány žádné mapy</value>
   </data>
+  <data name="Ui.RiShade.OverlayKey.Title" xml:space="preserve">
+    <value>Klávesa překryvu</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Description" xml:space="preserve">
+    <value>Otevírá a zavírá nabídku ReShade během hraní. Klikněte na pole a stiskněte klávesu.</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Press" xml:space="preserve">
+    <value>Stiskněte klávesu, Esc zruší</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.InUse" xml:space="preserve">
+    <value>{0} už používá jiná aplikace.</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Saved" xml:space="preserve">
+    <value>Uloženo, nabídka ReShade se nyní otevírá klávesou {0}.</value>
+  </data>
 </root>

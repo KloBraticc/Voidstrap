@@ -8409,4 +8409,19 @@ Voidstrap نتوانست در پوشهٔ دسکتاپ بنویسد.</value>
   <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
     <value>هیچ نقشه‌ای نصب نشده است</value>
   </data>
+  <data name="Ui.RiShade.OverlayKey.Title" xml:space="preserve">
+    <value>کلید پوشش</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Description" xml:space="preserve">
+    <value>منوی ReShade را هنگام بازی باز و بسته می‌کند. روی کادر کلیک کنید و سپس یک کلید را فشار دهید.</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Press" xml:space="preserve">
+    <value>یک کلید را فشار دهید، Esc لغو می‌کند</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.InUse" xml:space="preserve">
+    <value>{0} از قبل توسط برنامه دیگری استفاده می‌شود.</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Saved" xml:space="preserve">
+    <value>ذخیره شد، منوی ReShade اکنون با {0} باز می‌شود.</value>
+  </data>
 </root>

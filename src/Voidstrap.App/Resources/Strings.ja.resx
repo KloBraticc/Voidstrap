@@ -8421,4 +8421,19 @@ Voidstrap がデスクトップ フォルダーに書き込めませんでした
   <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
     <value>インストール済みのマップはありません</value>
   </data>
+  <data name="Ui.RiShade.OverlayKey.Title" xml:space="preserve">
+    <value>オーバーレイのキー</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Description" xml:space="preserve">
+    <value>プレイ中に ReShade メニューを開閉します。ボックスをクリックしてからキーを押してください。</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Press" xml:space="preserve">
+    <value>キーを押してください。Esc でキャンセルします</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.InUse" xml:space="preserve">
+    <value>{0} はすでに別のアプリで使用されています。</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Saved" xml:space="preserve">
+    <value>保存しました。ReShade メニューは {0} で開くようになりました。</value>
+  </data>
 </root>

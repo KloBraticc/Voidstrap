@@ -80,6 +80,9 @@ public partial class MenuContainer : WpfUiWindow
     private bool _closed;
     private bool _sessionDockHotkeyRegistered;
     private bool _riShadeHotkeyRegistered;
+    private bool _riShadeHotkeySuspended;
+    private uint _riShadeRegisteredKey;
+    private uint _riShadeRegisteredModifiers;
     private bool _clipperHotkeyRegistered;
     private OverlayShortcut? _registeredShortcut;
     private OverlayShortcut? _registeredClipperShortcut;
@@ -234,24 +237,41 @@ public partial class MenuContainer : WpfUiWindow
     {
         if (_closed || _handle == IntPtr.Zero)
             return;
-        bool enabled = Voidstrap.Utility.Platform.SupportsOverlays && App.Settings.Prop.RiShadeEnabled && _activityWatcher != null;
-        if (enabled == _riShadeHotkeyRegistered)
+        OverlayShortcut shortcut = App.Settings.Prop.RiShadeOverlayShortcut ??= new OverlayShortcut { Modifiers = 0, Key = VirtualKeyHome };
+        bool enabled = Voidstrap.Utility.Platform.SupportsOverlays && App.Settings.Prop.RiShadeEnabled && _activityWatcher != null && !_riShadeHotkeySuspended && shortcut.Key != 0;
+        bool unchanged = shortcut.Key == _riShadeRegisteredKey && shortcut.Modifiers == _riShadeRegisteredModifiers;
+        if (enabled == _riShadeHotkeyRegistered && (!enabled || unchanged))
             return;
+        UnregisterHotKey(_handle, RiShadeHotkeyId);
+        UnregisterHotKey(_handle, RiShadeAltHotkeyId);
+        _riShadeHotkeyRegistered = false;
+        _riShadeRegisteredKey = 0;
+        _riShadeRegisteredModifiers = 0;
         if (!enabled)
-        {
-            UnregisterHotKey(_handle, RiShadeHotkeyId);
-            UnregisterHotKey(_handle, RiShadeAltHotkeyId);
-            _riShadeHotkeyRegistered = false;
             return;
-        }
-        _riShadeHotkeyRegistered = RegisterHotKey(_handle, RiShadeHotkeyId, 0x4000, VirtualKeyHome);
-        RegisterHotKey(_handle, RiShadeAltHotkeyId, 0x4000, VirtualKeyF8);
+        _riShadeHotkeyRegistered = RegisterHotKey(_handle, RiShadeHotkeyId, shortcut.Modifiers | 0x4000, shortcut.Key);
+        if (shortcut.Key != VirtualKeyF8 || shortcut.Modifiers != 0)
+            RegisterHotKey(_handle, RiShadeAltHotkeyId, 0x4000, VirtualKeyF8);
+        _riShadeRegisteredKey = shortcut.Key;
+        _riShadeRegisteredModifiers = shortcut.Modifiers;
         App.Logger.WriteLine("MenuContainer", _riShadeHotkeyRegistered
-            ? "RiShade overlay hotkey Home is registered"
-            : "Home could not be registered because another program already owns it, open the RiShade panel from Voidstrap settings instead");
+            ? "RiShade overlay hotkey " + shortcut.Describe() + " is registered"
+            : shortcut.Describe() + " could not be registered because another program already owns it, open the RiShade panel from Voidstrap settings instead");
     }
 
     // Lets the settings record a new shortcut without the current one firing while it is pressed
+    public static void SuspendRiShadeHotkey(bool suspend)
+    {
+        MenuContainer? instance = _currentInstance;
+        if (instance == null || instance._closed)
+            return;
+        instance.Dispatcher.BeginInvoke(new Action(() =>
+        {
+            instance._riShadeHotkeySuspended = suspend;
+            instance.RefreshRiShadeHotkey();
+        }));
+    }
+
     public static void SuspendSessionDockHotkey(bool suspend)
     {
         MenuContainer? instance = _currentInstance;
@@ -268,9 +288,10 @@ public partial class MenuContainer : WpfUiWindow
     public static bool TryShortcut(OverlayShortcut shortcut)
     {
         MenuContainer? instance = _currentInstance;
-        if (instance == null || instance._closed || !shortcut.IsSet)
+        if (instance == null || instance._closed || shortcut.Key == 0)
             return true;
-        if (shortcut.SameAs(instance._registeredShortcut) || shortcut.SameAs(instance._registeredClipperShortcut))
+        if (shortcut.SameAs(instance._registeredShortcut) || shortcut.SameAs(instance._registeredClipperShortcut)
+            || (shortcut.Key == instance._riShadeRegisteredKey && shortcut.Modifiers == instance._riShadeRegisteredModifiers))
             return true;
         if (Voidstrap.UI.PortableOverlay.Active)
         {

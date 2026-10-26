@@ -995,4 +995,19 @@ Send that file to whoever is helping you. Personal details like your computer us
   <data name="ColorPicker.New" xml:space="preserve">
     <value>New</value>
   </data>
+  <data name="Ui.RiShade.OverlayKey.Title" xml:space="preserve">
+    <value>Overlay key</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Description" xml:space="preserve">
+    <value>Opens and closes the ReShade menu while you play. Click the box, then press a key.</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Press" xml:space="preserve">
+    <value>Press a key, Esc cancels</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.InUse" xml:space="preserve">
+    <value>{0} is already used by another app.</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Saved" xml:space="preserve">
+    <value>Saved, the ReShade menu now opens with {0}.</value>
+  </data>
 </root>

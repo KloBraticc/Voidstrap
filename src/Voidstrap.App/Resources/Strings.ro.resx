@@ -8408,4 +8408,19 @@ Se descarcă {0} MB. Dacă refuzi, se folosește estimarea integrată. Poți sch
   <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
     <value>Nicio hartă instalată</value>
   </data>
+  <data name="Ui.RiShade.OverlayKey.Title" xml:space="preserve">
+    <value>Tasta overlay</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Description" xml:space="preserve">
+    <value>Deschide și închide meniul ReShade în timp ce joci. Dă clic pe casetă, apoi apasă o tastă.</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Press" xml:space="preserve">
+    <value>Apasă o tastă, Esc anulează</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.InUse" xml:space="preserve">
+    <value>{0} este deja folosită de altă aplicație.</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Saved" xml:space="preserve">
+    <value>Salvat, meniul ReShade se deschide acum cu {0}.</value>
+  </data>
 </root>

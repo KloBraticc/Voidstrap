@@ -8408,4 +8408,19 @@ Atsisiunčiama {0} MB. Jei atsisakysite, bus naudojamas įtaisytasis įvertinima
   <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
     <value>Neįdiegta jokių žemėlapių</value>
   </data>
+  <data name="Ui.RiShade.OverlayKey.Title" xml:space="preserve">
+    <value>Perdangos klavišas</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Description" xml:space="preserve">
+    <value>Atidaro ir uždaro ReShade meniu, kol žaidžiate. Spustelėkite laukelį ir paspauskite klavišą.</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Press" xml:space="preserve">
+    <value>Paspauskite klavišą, Esc atšaukia</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.InUse" xml:space="preserve">
+    <value>{0} jau naudoja kita programa.</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Saved" xml:space="preserve">
+    <value>Išsaugota, ReShade meniu dabar atidaromas klavišu {0}.</value>
+  </data>
 </root>

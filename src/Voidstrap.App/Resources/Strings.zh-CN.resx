@@ -8431,4 +8431,19 @@ Voidstrap 无法写入桌面文件夹。</value>
   <data name="Ui.Pages.NoMapsInstalled" xml:space="preserve">
     <value>未安装地图</value>
   </data>
+  <data name="Ui.RiShade.OverlayKey.Title" xml:space="preserve">
+    <value>叠加层按键</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Description" xml:space="preserve">
+    <value>在您游戏时打开和关闭 ReShade 菜单。点击方框，然后按下一个键。</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Press" xml:space="preserve">
+    <value>请按下一个键，按 Esc 取消</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.InUse" xml:space="preserve">
+    <value>{0} 已被其他应用占用。</value>
+  </data>
+  <data name="Ui.RiShade.OverlayKey.Saved" xml:space="preserve">
+    <value>已保存，现在按 {0} 即可打开 ReShade 菜单。</value>
+  </data>
 </root>
