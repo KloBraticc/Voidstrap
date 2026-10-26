@@ -2125,6 +2125,28 @@ bool Schedule(Lane& l, ID3D11Texture2D* frame, int64_t frameTimestamp)
     return true;
 }
 
+void LogExactTiming(double spentMs, double workerMs)
+{
+    static FrameStatistics::Clock::time_point windowStart = FrameStatistics::Clock::now();
+    static double spentTotal = 0;
+    static double workerTotal = 0;
+    static double spentPeak = 0;
+    static int frames = 0;
+    spentTotal += spentMs;
+    workerTotal += workerMs;
+    spentPeak = std::max(spentPeak, spentMs);
+    ++frames;
+    const auto now = FrameStatistics::Clock::now();
+    const double windowMs = std::chrono::duration<double, std::milli>(now - windowStart).count();
+    if (windowMs < 5000)
+        return;
+    Log(LogLevel::Info, L"Depth per frame over %.1f s: %d frames, wait %.1f ms average (peak %.1f ms), model worker %.1f ms average, size %d.", windowMs / 1000.0, frames,
+        spentTotal / frames, spentPeak, workerTotal / frames, DepthSize());
+    windowStart = now;
+    spentTotal = workerTotal = spentPeak = 0;
+    frames = 0;
+}
+
 void StepDownWhenSlow(double spentMs)
 {
     d.slowFrames = spentMs > kExactBudgetMs ? d.slowFrames + 1 : std::max(0, d.slowFrames - 1);
@@ -2206,6 +2228,7 @@ bool ScheduleExact(Lane& l, ID3D11Texture2D* frame, int64_t frameTimestamp)
     Publish(l);
     const double spent = std::chrono::duration<double, std::milli>(FrameStatistics::Clock::now() - l.requestedAt).count();
     g.frameStatistics.RecordDepth(spent, l.workerMs.load());
+    LogExactTiming(spent, l.workerMs.load());
     StepDownWhenSlow(spent);
     return true;
 }
