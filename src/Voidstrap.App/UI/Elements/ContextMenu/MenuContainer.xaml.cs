@@ -82,6 +82,10 @@ public partial class MenuContainer : WpfUiWindow
     private bool _closed;
     private bool _sessionDockHotkeyRegistered;
     private bool _riShadeHotkeyRegistered;
+
+    private bool _riShadeRawInputActive;
+
+    private uint _riShadeRawKeyDown;
     private bool _riShadeHotkeySuspended;
     private uint _riShadeRegisteredKey;
     private uint _riShadeRegisteredModifiers;
@@ -251,20 +255,122 @@ public partial class MenuContainer : WpfUiWindow
             return;
         UnregisterHotKey(_handle, RiShadeHotkeyId);
         UnregisterHotKey(_handle, RiShadeAltHotkeyId);
+        SetRiShadeRawInput(false);
         _riShadeHotkeyRegistered = false;
         _riShadeRegisteredKey = 0;
         _riShadeRegisteredModifiers = 0;
         if (!enabled)
             return;
         _riShadeHotkeyRegistered = RegisterHotKey(_handle, RiShadeHotkeyId, shortcut.Modifiers | 0x4000, shortcut.Key);
-        if (shortcut.Key != VirtualKeyF8 || shortcut.Modifiers != 0)
-            RegisterHotKey(_handle, RiShadeAltHotkeyId, 0x4000, VirtualKeyF8);
+        bool altRegistered = shortcut.Key == VirtualKeyF8 && shortcut.Modifiers == 0
+            || RegisterHotKey(_handle, RiShadeAltHotkeyId, 0x4000, VirtualKeyF8);
         _riShadeRegisteredKey = shortcut.Key;
         _riShadeRegisteredModifiers = shortcut.Modifiers;
-        App.Logger.WriteLine("MenuContainer", _riShadeHotkeyRegistered
-            ? "RiShade overlay hotkey " + shortcut.Describe() + " is registered"
-            : shortcut.Describe() + " could not be registered because another program already owns it, open the RiShade panel from Voidstrap settings instead");
+        if (_riShadeHotkeyRegistered && altRegistered)
+        {
+            App.Logger.WriteLine("MenuContainer", "RiShade overlay hotkey " + shortcut.Describe() + " is registered");
+            return;
+        }
+        SetRiShadeRawInput(true);
+        App.Logger.WriteLine("MenuContainer", _riShadeRawInputActive
+            ? "Another program owns " + (_riShadeHotkeyRegistered ? "F8" : shortcut.Describe()) + ", RiShade now reads the key directly from the keyboard instead"
+            : shortcut.Describe() + " could not be registered and keyboard input could not be read, open the RiShade panel from Voidstrap settings instead");
     }
+
+    private void SetRiShadeRawInput(bool active)
+    {
+        if (active == _riShadeRawInputActive || _handle == IntPtr.Zero)
+            return;
+        RawInputDevice[] devices =
+        {
+            new RawInputDevice { UsagePage = 0x01, Usage = 0x06, Flags = active ? 0x100u : 0x1u, Target = active ? _handle : IntPtr.Zero }
+        };
+        if (RegisterRawInputDevices(devices, 1, (uint)Marshal.SizeOf<RawInputDevice>()))
+            _riShadeRawInputActive = active;
+        else if (active)
+            App.Logger.WriteLine("MenuContainer", "Keyboard input for the RiShade key could not be registered, error " + Marshal.GetLastPInvokeError());
+        else
+            _riShadeRawInputActive = false;
+        _riShadeRawKeyDown = 0;
+    }
+
+    private unsafe void HandleRiShadeRawInput(IntPtr rawInput)
+    {
+        uint size = 0;
+        uint headerSize = (uint)sizeof(RawInputHeader);
+        if (GetRawInputData(rawInput, 0x10000003, null, ref size, headerSize) != 0 || size < headerSize + (uint)sizeof(RawKeyboard))
+            return;
+        byte* buffer = stackalloc byte[(int)size];
+        if (GetRawInputData(rawInput, 0x10000003, buffer, ref size, headerSize) != size)
+            return;
+        RawInputHeader* header = (RawInputHeader*)buffer;
+        if (header->Type != 1)
+            return;
+        RawKeyboard* keyboard = (RawKeyboard*)(buffer + headerSize);
+        uint key = keyboard->VKey;
+        bool down = keyboard->Message is 0x0100 or 0x0104;
+        bool up = keyboard->Message is 0x0101 or 0x0105;
+        if (up)
+        {
+            if (key == _riShadeRawKeyDown)
+                _riShadeRawKeyDown = 0;
+            return;
+        }
+        if (!down || key == _riShadeRawKeyDown)
+            return;
+        uint modifiers = 0;
+        if (GetAsyncKeyState(0x11) < 0)
+            modifiers |= OverlayShortcut.Control;
+        if (GetAsyncKeyState(0x10) < 0)
+            modifiers |= OverlayShortcut.Shift;
+        if (GetAsyncKeyState(0x12) < 0)
+            modifiers |= OverlayShortcut.Alt;
+        bool main = !_riShadeHotkeyRegistered && key == _riShadeRegisteredKey && modifiers == _riShadeRegisteredModifiers;
+        bool alternate = key == VirtualKeyF8 && modifiers == 0;
+        if (!main && !alternate)
+            return;
+        _riShadeRawKeyDown = key;
+        Voidstrap.Integrations.RiShade.RiShadePanel.Toggle();
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct RawInputDevice
+    {
+        public ushort UsagePage;
+        public ushort Usage;
+        public uint Flags;
+        public IntPtr Target;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct RawInputHeader
+    {
+        public uint Type;
+        public uint Size;
+        public IntPtr Device;
+        public IntPtr WParam;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct RawKeyboard
+    {
+        public ushort MakeCode;
+        public ushort Flags;
+        public ushort Reserved;
+        public ushort VKey;
+        public uint Message;
+        public uint ExtraInformation;
+    }
+
+    [LibraryImport("user32.dll", SetLastError = true)]
+    [return: MarshalAs(UnmanagedType.Bool)]
+    private static partial bool RegisterRawInputDevices([In] RawInputDevice[] devices, uint count, uint size);
+
+    [LibraryImport("user32.dll")]
+    private static unsafe partial uint GetRawInputData(IntPtr rawInput, uint command, void* data, ref uint size, uint headerSize);
+
+    [LibraryImport("user32.dll")]
+    private static partial short GetAsyncKeyState(int key);
 
     // Lets the settings record a new shortcut without the current one firing while it is pressed
     public static void SuspendRiShadeHotkey(bool suspend)
@@ -604,6 +710,18 @@ public partial class MenuContainer : WpfUiWindow
 
     private IntPtr WindowMessage(IntPtr hwnd, int message, IntPtr wParam, IntPtr lParam, ref bool handled)
     {
+        if (message == 0x00FF && _riShadeRawInputActive)
+        {
+            try
+            {
+                HandleRiShadeRawInput(lParam);
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteException("MenuContainer::RiShadeRawInput", ex);
+            }
+            return IntPtr.Zero;
+        }
         if (message == 0x0312 && (wParam.ToInt32() == RiShadeHotkeyId || wParam.ToInt32() == RiShadeAltHotkeyId))
         {
             handled = true;
@@ -1947,6 +2065,7 @@ public partial class MenuContainer : WpfUiWindow
             UnregisterHotKey(_handle, RiShadeHotkeyId);
             UnregisterHotKey(_handle, RiShadeAltHotkeyId);
         }
+        SetRiShadeRawInput(false);
         _riShadeHotkeyRegistered = false;
         _clipperHotkeyRegistered = false;
         _portableHotkey?.Dispose();
