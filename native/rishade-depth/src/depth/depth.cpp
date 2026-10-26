@@ -970,8 +970,8 @@ struct Surface
     winrt::com_ptr<ID3D11ShaderResourceView> view;
 };
 
-constexpr std::chrono::milliseconds kMinDepthInterval{ 33 };
-constexpr double kDepthGpuShare = 0.4;
+constexpr std::chrono::milliseconds kMinDepthInterval{ 16 };
+constexpr double kDepthGpuShare = 0.5;
 constexpr std::chrono::milliseconds kKeyframeInterval{ 33 };
 
 struct Lane
