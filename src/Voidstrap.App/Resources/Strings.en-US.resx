@@ -1244,4 +1244,64 @@ Keep Voidstrap and the editor open while the AI works. Its changes show in the p
   <data name="Ui.Mcp.SettingsDescription" xml:space="preserve">
     <value>Let AI apps that support MCP read and change Voidstrap settings, FastFlags, themes and mods for you.</value>
   </data>
+  <data name="Ui.Mcp.Activity.Title" xml:space="preserve">
+    <value>{0} is using Voidstrap</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Reading" xml:space="preserve">
+    <value>Reading {0}</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Editing" xml:space="preserve">
+    <value>Editing {0}</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Changing" xml:space="preserve">
+    <value>Changing {0}</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Testing" xml:space="preserve">
+    <value>Testing {0}</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Fixing" xml:space="preserve">
+    <value>Fixing {0}</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Saving" xml:space="preserve">
+    <value>Saving {0}</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Opening" xml:space="preserve">
+    <value>Opening {0}</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Launching" xml:space="preserve">
+    <value>Launching Roblox</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Undoing" xml:space="preserve">
+    <value>Undoing its last change</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Overview" xml:space="preserve">
+    <value>Voidstrap's current state</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Settings" xml:space="preserve">
+    <value>settings</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Editors" xml:space="preserve">
+    <value>the editors</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Themes" xml:space="preserve">
+    <value>themes and mods</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Mods" xml:space="preserve">
+    <value>mods</value>
+  </data>
+  <data name="Ui.Mcp.Activity.ModGenerator" xml:space="preserve">
+    <value>the UI theme mod</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Accounts" xml:space="preserve">
+    <value>saved accounts</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Problems" xml:space="preserve">
+    <value>Voidstrap problems</value>
+  </data>
+  <data name="Ui.Mcp.Activity.AppTheme" xml:space="preserve">
+    <value>the Voidstrap look</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Logs" xml:space="preserve">
+    <value>the logs</value>
+  </data>
 </root>

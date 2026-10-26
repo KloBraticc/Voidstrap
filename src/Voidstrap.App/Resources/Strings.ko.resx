@@ -8654,4 +8654,64 @@ AI가 작업하는 동안 Voidstrap과 편집기를 열어 두세요. 변경 사
   <data name="Ui.Mcp.SettingsDescription" xml:space="preserve">
     <value>MCP를 지원하는 AI 앱이 Voidstrap 설정, FastFlags, 테마, 모드를 대신 읽고 변경하도록 허용합니다.</value>
   </data>
+  <data name="Ui.Mcp.Activity.Title" xml:space="preserve">
+    <value>{0}이(가) Voidstrap을 사용하는 중입니다</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Reading" xml:space="preserve">
+    <value>{0} 읽는 중</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Editing" xml:space="preserve">
+    <value>{0} 편집 중</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Changing" xml:space="preserve">
+    <value>{0} 변경 중</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Testing" xml:space="preserve">
+    <value>{0} 테스트 중</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Fixing" xml:space="preserve">
+    <value>{0} 수정 중</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Saving" xml:space="preserve">
+    <value>{0} 저장 중</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Opening" xml:space="preserve">
+    <value>{0} 여는 중</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Launching" xml:space="preserve">
+    <value>Roblox 실행 중</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Undoing" xml:space="preserve">
+    <value>마지막 변경을 취소하는 중</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Overview" xml:space="preserve">
+    <value>Voidstrap의 현재 상태</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Settings" xml:space="preserve">
+    <value>설정</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Editors" xml:space="preserve">
+    <value>편집기</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Themes" xml:space="preserve">
+    <value>테마와 모드</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Mods" xml:space="preserve">
+    <value>모드</value>
+  </data>
+  <data name="Ui.Mcp.Activity.ModGenerator" xml:space="preserve">
+    <value>UI 테마 모드</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Accounts" xml:space="preserve">
+    <value>저장된 계정</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Problems" xml:space="preserve">
+    <value>Voidstrap 문제</value>
+  </data>
+  <data name="Ui.Mcp.Activity.AppTheme" xml:space="preserve">
+    <value>Voidstrap 모양</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Logs" xml:space="preserve">
+    <value>로그</value>
+  </data>
 </root>

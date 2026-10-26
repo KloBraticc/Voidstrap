@@ -154,6 +154,7 @@ public static class McpBridgeServer
 	private static async Task<McpToolResult> RunAsync(string line, CancellationToken token)
 	{
 		string name;
+		string? client;
 		JsonObject args;
 
 		try
@@ -162,6 +163,7 @@ public static class McpBridgeServer
 				throw new FormatException("Request is too large");
 			JsonObject request = JsonNode.Parse(line) as JsonObject ?? throw new FormatException("Request is not an object");
 			name = McpArgs.String(request, "name")?.Trim() ?? throw new FormatException("Request has no tool name");
+			client = McpArgs.String(request, "client");
 			args = request["arguments"] is JsonObject given ? (JsonObject)given.DeepClone() : new JsonObject();
 		}
 		catch (Exception ex)
@@ -176,6 +178,8 @@ public static class McpBridgeServer
 
 		if (dispatcher == null || dispatcher.HasShutdownStarted)
 			return new McpToolResult("Voidstrap is shutting down.", true);
+
+		McpActivity.Report(client, name, args);
 
 		Stopwatch timer = Stopwatch.StartNew();
 		McpToolResult result;

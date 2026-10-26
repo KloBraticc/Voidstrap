@@ -8656,4 +8656,64 @@ Håll Voidstrap och redigeraren öppna medan AI:n arbetar. Ändringarna visas di
   <data name="Ui.Mcp.SettingsDescription" xml:space="preserve">
     <value>Låt AI-appar med MCP-stöd läsa och ändra Voidstraps inställningar, FastFlags, teman och moddar åt dig.</value>
   </data>
+  <data name="Ui.Mcp.Activity.Title" xml:space="preserve">
+    <value>{0} använder Voidstrap</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Reading" xml:space="preserve">
+    <value>Läser {0}</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Editing" xml:space="preserve">
+    <value>Redigerar {0}</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Changing" xml:space="preserve">
+    <value>Ändrar {0}</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Testing" xml:space="preserve">
+    <value>Testar {0}</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Fixing" xml:space="preserve">
+    <value>Åtgärdar {0}</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Saving" xml:space="preserve">
+    <value>Sparar {0}</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Opening" xml:space="preserve">
+    <value>Öppnar {0}</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Launching" xml:space="preserve">
+    <value>Startar Roblox</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Undoing" xml:space="preserve">
+    <value>Ångrar sin senaste ändring</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Overview" xml:space="preserve">
+    <value>Voidstraps nuvarande läge</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Settings" xml:space="preserve">
+    <value>inställningar</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Editors" xml:space="preserve">
+    <value>redigerarna</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Themes" xml:space="preserve">
+    <value>teman och moddar</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Mods" xml:space="preserve">
+    <value>moddar</value>
+  </data>
+  <data name="Ui.Mcp.Activity.ModGenerator" xml:space="preserve">
+    <value>UI-temamodden</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Accounts" xml:space="preserve">
+    <value>sparade konton</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Problems" xml:space="preserve">
+    <value>Voidstrap-problem</value>
+  </data>
+  <data name="Ui.Mcp.Activity.AppTheme" xml:space="preserve">
+    <value>Voidstraps utseende</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Logs" xml:space="preserve">
+    <value>loggarna</value>
+  </data>
 </root>

@@ -8656,4 +8656,64 @@ Pozostaw Voidstrap i edytor otwarte podczas pracy AI. Wprowadzane zmiany są od 
   <data name="Ui.Mcp.SettingsDescription" xml:space="preserve">
     <value>Pozwól aplikacjom AI obsługującym MCP odczytywać i zmieniać za ciebie ustawienia, FastFlags, motywy i mody Voidstrap.</value>
   </data>
+  <data name="Ui.Mcp.Activity.Title" xml:space="preserve">
+    <value>{0} używa Voidstrap</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Reading" xml:space="preserve">
+    <value>Odczytuje: {0}</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Editing" xml:space="preserve">
+    <value>Edytuje: {0}</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Changing" xml:space="preserve">
+    <value>Zmienia: {0}</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Testing" xml:space="preserve">
+    <value>Testuje: {0}</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Fixing" xml:space="preserve">
+    <value>Naprawia: {0}</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Saving" xml:space="preserve">
+    <value>Zapisuje: {0}</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Opening" xml:space="preserve">
+    <value>Otwiera: {0}</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Launching" xml:space="preserve">
+    <value>Uruchamia Roblox</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Undoing" xml:space="preserve">
+    <value>Cofa ostatnią zmianę</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Overview" xml:space="preserve">
+    <value>bieżący stan Voidstrap</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Settings" xml:space="preserve">
+    <value>ustawienia</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Editors" xml:space="preserve">
+    <value>edytory</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Themes" xml:space="preserve">
+    <value>motywy i mody</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Mods" xml:space="preserve">
+    <value>mody</value>
+  </data>
+  <data name="Ui.Mcp.Activity.ModGenerator" xml:space="preserve">
+    <value>mod motywu interfejsu</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Accounts" xml:space="preserve">
+    <value>zapisane konta</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Problems" xml:space="preserve">
+    <value>problemy Voidstrap</value>
+  </data>
+  <data name="Ui.Mcp.Activity.AppTheme" xml:space="preserve">
+    <value>wygląd Voidstrap</value>
+  </data>
+  <data name="Ui.Mcp.Activity.Logs" xml:space="preserve">
+    <value>dzienniki</value>
+  </data>
 </root>

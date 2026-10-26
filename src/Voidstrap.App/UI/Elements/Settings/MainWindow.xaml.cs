@@ -6306,6 +6306,15 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 		RestartNotificationTranslate.X = 0.0;
 	}
 
+    public void ShowAiActivity(string title, string message)
+    {
+        if (_isClosed || AiActivitySnackbar == null)
+            return;
+        AiActivitySnackbar.Title = title;
+        AiActivitySnackbar.Message = message;
+        AiActivitySnackbar.Show();
+    }
+
     private async Task ShowAlreadyRunningSnackbarAsync()
     {
         try

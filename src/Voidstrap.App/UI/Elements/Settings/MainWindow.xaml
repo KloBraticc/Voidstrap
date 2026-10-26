@@ -334,6 +334,15 @@
         </LinearGradientBrush>
       </Control.Background>
     </ui:Snackbar>
+    <ui:Snackbar Name="AiActivitySnackbar" Grid.RowSpan="10" Margin="200,0,200,20" Panel.ZIndex="11" Icon="Bot24" Timeout="6000">
+      <Control.Background>
+        <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
+          <GradientStop Offset="0.00" Color="{DynamicResource WindowBackgroundColorPrimary}" />
+          <GradientStop Offset="0.70" Color="{DynamicResource WindowBackgroundColorSecondary}" />
+          <GradientStop Offset="1.00" Color="{DynamicResource WindowBackgroundColorThird}" />
+        </LinearGradientBrush>
+      </Control.Background>
+    </ui:Snackbar>
     <ui:Snackbar Name="SettingsSavedSnackbar" Title="{resources:Loc Menu_SettingsSaved_Title}" Grid.RowSpan="10" Margin="200,0,200,20" Panel.ZIndex="9" Icon="CheckboxChecked24" Message="{resources:Loc Menu_SettingsSaved_Message}" Timeout="2100">
       <Control.Background>
         <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">

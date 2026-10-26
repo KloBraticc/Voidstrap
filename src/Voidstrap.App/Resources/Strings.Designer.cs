@@ -1570,6 +1570,26 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Home_LatestRobloxNews => ResourceManager.GetString("Ui.Home.LatestRobloxNews", resourceCulture);
         public static string Ui_RiShade_Dlss_Title => ResourceManager.GetString("Ui.RiShade.Dlss.Title", resourceCulture);
+        public static string Ui_Mcp_Activity_Title => ResourceManager.GetString("Ui.Mcp.Activity.Title", resourceCulture);
+        public static string Ui_Mcp_Activity_Reading => ResourceManager.GetString("Ui.Mcp.Activity.Reading", resourceCulture);
+        public static string Ui_Mcp_Activity_Editing => ResourceManager.GetString("Ui.Mcp.Activity.Editing", resourceCulture);
+        public static string Ui_Mcp_Activity_Changing => ResourceManager.GetString("Ui.Mcp.Activity.Changing", resourceCulture);
+        public static string Ui_Mcp_Activity_Testing => ResourceManager.GetString("Ui.Mcp.Activity.Testing", resourceCulture);
+        public static string Ui_Mcp_Activity_Fixing => ResourceManager.GetString("Ui.Mcp.Activity.Fixing", resourceCulture);
+        public static string Ui_Mcp_Activity_Saving => ResourceManager.GetString("Ui.Mcp.Activity.Saving", resourceCulture);
+        public static string Ui_Mcp_Activity_Opening => ResourceManager.GetString("Ui.Mcp.Activity.Opening", resourceCulture);
+        public static string Ui_Mcp_Activity_Launching => ResourceManager.GetString("Ui.Mcp.Activity.Launching", resourceCulture);
+        public static string Ui_Mcp_Activity_Undoing => ResourceManager.GetString("Ui.Mcp.Activity.Undoing", resourceCulture);
+        public static string Ui_Mcp_Activity_Overview => ResourceManager.GetString("Ui.Mcp.Activity.Overview", resourceCulture);
+        public static string Ui_Mcp_Activity_Settings => ResourceManager.GetString("Ui.Mcp.Activity.Settings", resourceCulture);
+        public static string Ui_Mcp_Activity_Editors => ResourceManager.GetString("Ui.Mcp.Activity.Editors", resourceCulture);
+        public static string Ui_Mcp_Activity_Themes => ResourceManager.GetString("Ui.Mcp.Activity.Themes", resourceCulture);
+        public static string Ui_Mcp_Activity_Mods => ResourceManager.GetString("Ui.Mcp.Activity.Mods", resourceCulture);
+        public static string Ui_Mcp_Activity_ModGenerator => ResourceManager.GetString("Ui.Mcp.Activity.ModGenerator", resourceCulture);
+        public static string Ui_Mcp_Activity_Accounts => ResourceManager.GetString("Ui.Mcp.Activity.Accounts", resourceCulture);
+        public static string Ui_Mcp_Activity_Problems => ResourceManager.GetString("Ui.Mcp.Activity.Problems", resourceCulture);
+        public static string Ui_Mcp_Activity_AppTheme => ResourceManager.GetString("Ui.Mcp.Activity.AppTheme", resourceCulture);
+        public static string Ui_Mcp_Activity_Logs => ResourceManager.GetString("Ui.Mcp.Activity.Logs", resourceCulture);
         public static string Ui_Mcp_SettingsTitle => ResourceManager.GetString("Ui.Mcp.SettingsTitle", resourceCulture);
         public static string Ui_Mcp_SettingsDescription => ResourceManager.GetString("Ui.Mcp.SettingsDescription", resourceCulture);
         public static string Ui_Mcp_ChooseClient => ResourceManager.GetString("Ui.Mcp.ChooseClient", resourceCulture);

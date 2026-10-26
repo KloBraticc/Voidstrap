@@ -115,6 +115,8 @@ public static class McpStdioServer
 
 	private const int MaxRequestChars = 32 * 1024 * 1024;
 
+	private static string? _clientName;
+
 	public static int Run()
 	{
 		if (!Voidstrap.Utility.Platform.IsWindows)
@@ -229,6 +231,7 @@ public static class McpStdioServer
 
 	private static JsonObject BuildInitializeResult(JsonObject @params)
 	{
+		_clientName = McpArgs.String(@params["clientInfo"] as JsonObject, "name")?.Trim();
 		string clientVersion = McpArgs.String(@params, "protocolVersion") ?? SupportedProtocols[^1];
 		string negotiated = Array.IndexOf(SupportedProtocols, clientVersion) >= 0 ? clientVersion : SupportedProtocols[0];
 
@@ -357,6 +360,7 @@ public static class McpStdioServer
 			var payload = new JsonObject
 			{
 				["name"] = name,
+				["client"] = _clientName,
 				["arguments"] = args.DeepClone()
 			};
 
