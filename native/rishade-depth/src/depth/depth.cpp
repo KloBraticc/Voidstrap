@@ -1150,23 +1150,23 @@ void OnDestroyDevice(reshade::api::device* device)
 
 const wchar_t* LaneName(const Lane& l);
 
-void CreateD3D12(Lane& l)
+winrt::com_ptr<ID3D12Device> CreateUnhookedD3D12(IDXGIAdapter1* adapter)
 {
-    winrt::com_ptr<IDXGIAdapter1> sameAdapter;
-    if (d.adapterKnown)
-    {
-        winrt::com_ptr<IDXGIFactory4> factory;
-        if (SUCCEEDED(CreateDXGIFactory1(IID_PPV_ARGS(factory.put()))))
-            factory->EnumAdapterByLuid(d.adapter, IID_PPV_ARGS(sameAdapter.put()));
-    }
-    {
-        winrt::com_ptr<ID3D12DeviceRemovedExtendedDataSettings> dred;
-        if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(dred.put()))))
-        {
-            dred->SetAutoBreadcrumbsEnablement(D3D12_DRED_ENABLEMENT_FORCED_ON);
-            dred->SetPageFaultEnablement(D3D12_DRED_ENABLEMENT_FORCED_ON);
-        }
-    }
+    static const GUID deviceFactory = { 0x114863bf, 0xc386, 0x4aee, { 0xb3, 0x9d, 0x8f, 0x0b, 0xbb, 0x06, 0x29, 0x55 } };
+    using GetInterface = HRESULT(WINAPI*)(REFCLSID, REFIID, void**);
+    const HMODULE module = GetModuleHandleW(L"d3d12.dll");
+    const auto getInterface = module ? reinterpret_cast<GetInterface>(GetProcAddress(module, "D3D12GetInterface")) : nullptr;
+    winrt::com_ptr<ID3D12DeviceFactory> factory;
+    winrt::com_ptr<ID3D12Device> device;
+    if (!getInterface || FAILED(getInterface(deviceFactory, IID_PPV_ARGS(factory.put())))
+        || FAILED(factory->CreateDevice(adapter, D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(device.put())))
+        || FAILED(device->GetDeviceRemovedReason()))
+        return nullptr;
+    return device;
+}
+
+void AdoptReShadeDevice(Lane& l, IDXGIAdapter1* sameAdapter)
+{
     const std::lock_guard creation(creationMutex);
     std::vector<ID3D12Device*> before;
     {
@@ -1174,7 +1174,7 @@ void CreateD3D12(Lane& l)
         before = nativeDevices;
     }
     winrt::com_ptr<ID3D12Device> proxy;
-    if (FAILED(D3D12CreateDevice(sameAdapter.get(), D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(proxy.put()))))
+    if (FAILED(D3D12CreateDevice(sameAdapter, D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(proxy.put()))))
         throw std::runtime_error("DirectX 12 is unavailable on this GPU.");
     if (FAILED(proxy->GetDeviceRemovedReason()))
         throw std::runtime_error("DirectX 12 returned the device that already stopped responding, the depth model cannot restart this session.");
@@ -1194,6 +1194,33 @@ void CreateD3D12(Lane& l)
     l.d3d12Proxy = proxy;
     l.d3d12 = device ? device : proxy;
     Log(LogLevel::Info, L"Depth %ls D3D12 device: %ls.", LaneName(l), device ? L"native device behind ReShade" : L"device as created, no ReShade native device was reported");
+}
+
+void CreateD3D12(Lane& l)
+{
+    winrt::com_ptr<IDXGIAdapter1> sameAdapter;
+    if (d.adapterKnown)
+    {
+        winrt::com_ptr<IDXGIFactory4> factory;
+        if (SUCCEEDED(CreateDXGIFactory1(IID_PPV_ARGS(factory.put()))))
+            factory->EnumAdapterByLuid(d.adapter, IID_PPV_ARGS(sameAdapter.put()));
+    }
+    {
+        winrt::com_ptr<ID3D12DeviceRemovedExtendedDataSettings> dred;
+        if (SUCCEEDED(D3D12GetDebugInterface(IID_PPV_ARGS(dred.put()))))
+        {
+            dred->SetAutoBreadcrumbsEnablement(D3D12_DRED_ENABLEMENT_FORCED_ON);
+            dred->SetPageFaultEnablement(D3D12_DRED_ENABLEMENT_FORCED_ON);
+        }
+    }
+    if (winrt::com_ptr<ID3D12Device> own = CreateUnhookedD3D12(sameAdapter.get()))
+    {
+        l.d3d12Proxy = own;
+        l.d3d12 = own;
+        Log(LogLevel::Info, L"Depth %ls D3D12 device: own device from the D3D12 device factory.", LaneName(l));
+    }
+    else
+        AdoptReShadeDevice(l, sameAdapter.get());
 
     winrt::check_hresult(l.d3d12->CreateFence(0, D3D12_FENCE_FLAG_SHARED, IID_PPV_ARGS(l.d3d12Fence.put())));
     winrt::check_hresult(l.d3d12->CreateSharedHandle(l.d3d12Fence.get(), nullptr, GENERIC_ALL, nullptr, &l.fenceHandle));
