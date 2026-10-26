@@ -5085,8 +5085,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             Rect work = new(area.Left / scaleX, area.Top / scaleY, area.Width / scaleX, area.Height / scaleY);
             if (work.Width <= 0.0 || work.Height <= 0.0)
                 return;
-            double width = Math.Min(ActualWidth > 0 ? ActualWidth : Width, work.Width);
-            double height = Math.Min(ActualHeight > 0 ? ActualHeight : Height, work.Height);
+            double wantedWidth = ActualWidth > 0 ? ActualWidth : Width;
+            double wantedHeight = ActualHeight > 0 ? ActualHeight : Height;
+            bool oversized = wantedWidth > work.Width + 0.5 || wantedHeight > work.Height + 0.5;
+            double width = Math.Min(wantedWidth, oversized ? work.Width * 0.9 : work.Width);
+            double height = Math.Min(wantedHeight, oversized ? work.Height * 0.9 : work.Height);
             if (MinWidth > width)
                 MinWidth = width;
             if (MinHeight > height)
@@ -5101,6 +5104,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 Left = left;
             if (Math.Abs(top - Top) > 0.5)
                 Top = top;
+            if (oversized)
+            {
+                App.Logger.WriteLine("MainWindow::KeepInsideWorkArea", "The window was larger than the screen's usable area, opening it maximized so the taskbar stays visible");
+                WindowState = System.Windows.WindowState.Maximized;
+            }
         }
         catch (Exception ex)
         {
@@ -5791,6 +5799,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         if (WindowState == System.Windows.WindowState.Minimized)
             StopLinuxGradientAnimation(reset: false);
         CloseTopBarMenus();
+        if (Voidstrap.Utility.Platform.IsWindows && WindowState != System.Windows.WindowState.Minimized && IsLoaded)
+        {
+            _state.MaximizedUpdateV2 = WindowState == System.Windows.WindowState.Maximized;
+            App.State.SaveDeferred();
+        }
     }
 
 
