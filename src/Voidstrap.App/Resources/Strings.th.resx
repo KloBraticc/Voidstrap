@@ -8612,4 +8612,37 @@ Voidstrap เขียนลงในโฟลเดอร์เดสก์ท�
   <data name="Ui.Mcp.ConnectTo" xml:space="preserve">
     <value>เชื่อมต่อกับ {0}</value>
   </data>
+  <data name="Ui.Mcp.ChooseClient" xml:space="preserve">
+    <value>เลือกแอป AI ที่จะเชื่อมต่อกับ Voidstrap</value>
+  </data>
+  <data name="Ui.Mcp.StatusConnected" xml:space="preserve">
+    <value>เชื่อมต่อแล้ว</value>
+  </data>
+  <data name="Ui.Mcp.StatusNotConnected" xml:space="preserve">
+    <value>ยังไม่ได้เชื่อมต่อ</value>
+  </data>
+  <data name="Ui.Mcp.OtherApp" xml:space="preserve">
+    <value>แอป AI อื่น</value>
+  </data>
+  <data name="Ui.Mcp.OtherAppDetail" xml:space="preserve">
+    <value>คัดลอกการตั้งค่าสำหรับ Cursor, VS Code, Windsurf, LM Studio และอื่นๆ</value>
+  </data>
+  <data name="Ui.Mcp.ConnectButton" xml:space="preserve">
+    <value>เชื่อมต่อ</value>
+  </data>
+  <data name="Ui.Mcp.Connecting" xml:space="preserve">
+    <value>กำลังเชื่อมต่อ...</value>
+  </data>
+  <data name="Ui.Mcp.ConnectedRestart" xml:space="preserve">
+    <value>เชื่อมต่อกับ {0} แล้ว โปรดรีสตาร์ท {0} เพื่อให้โหลด Voidstrap</value>
+  </data>
+  <data name="Ui.Mcp.ConnectFailed" xml:space="preserve">
+    <value>ไม่สามารถเชื่อมต่อกับ {0} ไฟล์การตั้งค่าอาจเสียหาย โปรดดูบันทึกของ Voidstrap</value>
+  </data>
+  <data name="Ui.Mcp.ConfigCopied" xml:space="preserve">
+    <value>คัดลอกการตั้งค่าแล้ว วางลงในการตั้งค่า MCP ของแอป AI ของคุณ</value>
+  </data>
+  <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
+    <value>ไม่สามารถคัดลอกไปยังคลิปบอร์ด โปรดลองอีกครั้ง</value>
+  </data>
 </root>

@@ -34,7 +34,7 @@ public static class McpBridgeServer
 		if (Interlocked.Exchange(ref _started, 1) == 1)
 			return;
 
-		McpConnectInfo.RefreshConnectedClients();
+		_ = Task.Run(McpConnectInfo.RefreshConnectedClients);
 
 		CancellationToken token = ShutdownCts.Token;
 		string pipeName = PipeName;

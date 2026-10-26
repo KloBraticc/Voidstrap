@@ -94,7 +94,9 @@ public static class McpConnectInfo
 		}
 	}
 
-	public static bool ConnectDesktopClient()
+	public static bool ConnectDesktopClient() => RunExclusive(ConnectDesktopClientCore);
+
+	private static bool ConnectDesktopClientCore()
 	{
 		if (!Voidstrap.Utility.Platform.IsWindows)
 			return false;
@@ -152,7 +154,9 @@ public static class McpConnectInfo
 		}
 	}
 
-	public static bool ConnectCliClient()
+	public static bool ConnectCliClient() => RunExclusive(ConnectCliClientCore);
+
+	private static bool ConnectCliClientCore()
 	{
 		if (!Voidstrap.Utility.Platform.IsWindows)
 			return false;
@@ -249,7 +253,9 @@ public static class McpConnectInfo
 		}
 	}
 
-	public static bool ConnectOpenCodeClient()
+	public static bool ConnectOpenCodeClient() => RunExclusive(ConnectOpenCodeClientCore);
+
+	private static bool ConnectOpenCodeClientCore()
 	{
 		if (!Voidstrap.Utility.Platform.IsWindows)
 			return false;
@@ -279,28 +285,42 @@ public static class McpConnectInfo
 			return;
 
 		McpBridgeServer.EnsureStarted();
-		RefreshConnectedClients();
+		McpConnectDialog.ShowSingle();
+	}
 
-		string json = ConfigJson();
-		bool copied = false;
+	private static readonly object ConfigGate = new();
 
-		try
+	private const string ConfigMutexName = "Local\\Voidstrap.McpConfig";
+
+	private static bool RunExclusive(Func<bool> action)
+	{
+		lock (ConfigGate)
 		{
-			System.Windows.Clipboard.SetText(json);
-			copied = true;
+			using var mutex = new System.Threading.Mutex(false, ConfigMutexName);
+			bool owned = false;
+			try
+			{
+				try
+				{
+					owned = mutex.WaitOne(TimeSpan.FromSeconds(10));
+				}
+				catch (System.Threading.AbandonedMutexException)
+				{
+					owned = true;
+				}
+				if (!owned)
+				{
+					App.Logger?.WriteLine("McpConnectInfo", "Another Voidstrap is still writing MCP configs, try again in a moment");
+					return false;
+				}
+				return action();
+			}
+			finally
+			{
+				if (owned)
+					mutex.ReleaseMutex();
+			}
 		}
-		catch (Exception ex)
-		{
-			App.Logger?.WriteLine("McpConnectInfo", "Could not copy the MCP config: " + ex.Message.Replace('-', ' '));
-		}
-
-		string template = copied ? Strings.Ui_Mcp_ConnectMessageCopied : Strings.Ui_Mcp_ConnectMessage;
-		string[] parts = template.Split("{0}", 2, StringSplitOptions.None);
-		string headerText = parts.Length > 0 ? parts[0].Trim() : template;
-		string footerText = parts.Length > 1 ? parts[1].Trim() : string.Empty;
-
-		var controller = new McpConnectDialogController(headerText, json, footerText);
-		controller.ShowDialog();
 	}
 
 	private static string GetDesktopConfigPath()
@@ -491,174 +511,6 @@ public static class McpConnectInfo
 		{
 			if (File.Exists(temporary))
 				File.Delete(temporary);
-		}
-	}
-
-	private sealed class McpConnectDialogController
-	{
-		private readonly FluentMessageBox _dialog;
-		private readonly Wpf.Ui.Controls.Button _desktopButton;
-		private readonly Wpf.Ui.Controls.Button _cliButton;
-		private readonly Wpf.Ui.Controls.Button _openCodeButton;
-
-		public McpConnectDialogController(string headerText, string jsonText, string footerText)
-		{
-			_dialog = new FluentMessageBox(string.Empty, MessageBoxImage.Information, MessageBoxButton.OK)
-			{
-				MaxWidth = 740,
-				Width = 700
-			};
-
-			_desktopButton = CreateClientButton(string.Format(Strings.Ui_Mcp_ConnectTo, DesktopClientLabel), !IsDesktopClientConnected());
-			_cliButton = CreateClientButton(string.Format(Strings.Ui_Mcp_ConnectTo, CliClientLabel), !IsCliClientConnected());
-			_openCodeButton = CreateClientButton(string.Format(Strings.Ui_Mcp_ConnectTo, OpenCodeClientLabel), !IsOpenCodeClientConnected());
-
-			_desktopButton.Click += OnDesktopButtonClick;
-			_cliButton.Click += OnCliButtonClick;
-			_openCodeButton.Click += OnOpenCodeButtonClick;
-			_dialog.Closed += OnDialogClosed;
-
-			ConfigureContent(headerText, jsonText, footerText);
-			ConfigureFooter();
-		}
-
-		public void ShowDialog()
-		{
-			_dialog.ShowOwnedDialog();
-		}
-
-		private void ConfigureContent(string headerText, string jsonText, string footerText)
-		{
-			_dialog.MessageTextBlock.Visibility = Visibility.Collapsed;
-			if (_dialog.MessageTextBlock.Parent is not Grid contentGrid)
-				return;
-
-			var bodyStack = new StackPanel
-			{
-				Orientation = Orientation.Vertical,
-				VerticalAlignment = VerticalAlignment.Center
-			};
-
-			var headerBlock = new TextBlock
-			{
-				Text = headerText,
-				FontSize = 14,
-				LineHeight = 20,
-				TextWrapping = TextWrapping.Wrap
-			};
-			headerBlock.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
-			bodyStack.Children.Add(headerBlock);
-
-			var codeBorder = new Border
-			{
-				Margin = new Thickness(0, 12, 0, 12),
-				Padding = new Thickness(14, 10, 14, 10),
-				CornerRadius = new CornerRadius(6),
-				BorderThickness = new Thickness(1)
-			};
-			codeBorder.SetResourceReference(Border.BackgroundProperty, "ControlFillColorDefaultBrush");
-			codeBorder.SetResourceReference(Border.BorderBrushProperty, "ControlElevationBorderBrush");
-
-			var codeBlock = new TextBlock
-			{
-				Text = jsonText,
-				FontFamily = new System.Windows.Media.FontFamily("Cascadia Mono, Consolas, Courier New"),
-				FontSize = 12.5,
-				LineHeight = 18,
-				TextWrapping = TextWrapping.Wrap
-			};
-			codeBlock.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
-			codeBorder.Child = codeBlock;
-			bodyStack.Children.Add(codeBorder);
-
-			if (!string.IsNullOrEmpty(footerText))
-			{
-				var footerBlock = new TextBlock
-				{
-					Text = footerText,
-					FontSize = 13,
-					LineHeight = 19,
-					TextWrapping = TextWrapping.Wrap,
-					Opacity = 0.88
-				};
-				footerBlock.SetResourceReference(TextBlock.ForegroundProperty, "TextFillColorSecondaryBrush");
-				bodyStack.Children.Add(footerBlock);
-			}
-
-			Grid.SetColumn(bodyStack, 1);
-			contentGrid.Children.Add(bodyStack);
-		}
-
-		private void ConfigureFooter()
-		{
-			if (_dialog.ButtonOne.Parent is not StackPanel rightButtons || rightButtons.Parent is not Border footerBorder)
-				return;
-
-			footerBorder.Child = null;
-
-			var footerGrid = new Grid();
-			footerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-			footerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-
-			var leftButtons = new WrapPanel
-			{
-				Orientation = Orientation.Horizontal,
-				HorizontalAlignment = HorizontalAlignment.Left,
-				VerticalAlignment = VerticalAlignment.Center
-			};
-			leftButtons.Children.Add(_desktopButton);
-			leftButtons.Children.Add(_cliButton);
-			leftButtons.Children.Add(_openCodeButton);
-
-			Grid.SetColumn(leftButtons, 0);
-			footerGrid.Children.Add(leftButtons);
-
-			rightButtons.VerticalAlignment = VerticalAlignment.Center;
-			rightButtons.Margin = new Thickness(8, 0, 0, 0);
-			Grid.SetColumn(rightButtons, 1);
-			footerGrid.Children.Add(rightButtons);
-
-			footerBorder.Child = footerGrid;
-		}
-
-		private static Wpf.Ui.Controls.Button CreateClientButton(string content, bool isEnabled)
-		{
-			return new Wpf.Ui.Controls.Button
-			{
-				Content = content,
-				Height = 34,
-				Padding = new Thickness(12, 0, 12, 0),
-				Margin = new Thickness(0, 2, 8, 2),
-				HorizontalContentAlignment = HorizontalAlignment.Center,
-				Appearance = ControlAppearance.Secondary,
-				IsEnabled = isEnabled
-			};
-		}
-
-		private void OnDesktopButtonClick(object sender, RoutedEventArgs e)
-		{
-			if (ConnectDesktopClient())
-				_desktopButton.IsEnabled = false;
-		}
-
-		private void OnCliButtonClick(object sender, RoutedEventArgs e)
-		{
-			if (ConnectCliClient())
-				_cliButton.IsEnabled = false;
-		}
-
-		private void OnOpenCodeButtonClick(object sender, RoutedEventArgs e)
-		{
-			if (ConnectOpenCodeClient())
-				_openCodeButton.IsEnabled = false;
-		}
-
-		private void OnDialogClosed(object? sender, EventArgs e)
-		{
-			_desktopButton.Click -= OnDesktopButtonClick;
-			_cliButton.Click -= OnCliButtonClick;
-			_openCodeButton.Click -= OnOpenCodeButtonClick;
-			_dialog.Closed -= OnDialogClosed;
 		}
 	}
 }

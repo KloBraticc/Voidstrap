@@ -8631,4 +8631,37 @@ AIの作業中はVoidstrapとエディターを開いたままにしてくださ
   <data name="Ui.Mcp.ConnectTo" xml:space="preserve">
     <value>{0} に接続</value>
   </data>
+  <data name="Ui.Mcp.ChooseClient" xml:space="preserve">
+    <value>Voidstrap に接続する AI アプリを選択してください</value>
+  </data>
+  <data name="Ui.Mcp.StatusConnected" xml:space="preserve">
+    <value>接続済み</value>
+  </data>
+  <data name="Ui.Mcp.StatusNotConnected" xml:space="preserve">
+    <value>未接続</value>
+  </data>
+  <data name="Ui.Mcp.OtherApp" xml:space="preserve">
+    <value>その他の AI アプリ</value>
+  </data>
+  <data name="Ui.Mcp.OtherAppDetail" xml:space="preserve">
+    <value>Cursor、VS Code、Windsurf、LM Studio などの設定をコピーします</value>
+  </data>
+  <data name="Ui.Mcp.ConnectButton" xml:space="preserve">
+    <value>接続</value>
+  </data>
+  <data name="Ui.Mcp.Connecting" xml:space="preserve">
+    <value>接続中...</value>
+  </data>
+  <data name="Ui.Mcp.ConnectedRestart" xml:space="preserve">
+    <value>{0} に接続しました。{0} を再起動すると Voidstrap が読み込まれます。</value>
+  </data>
+  <data name="Ui.Mcp.ConnectFailed" xml:space="preserve">
+    <value>{0} に接続できませんでした。設定ファイルが破損している可能性があります。Voidstrap のログを確認してください。</value>
+  </data>
+  <data name="Ui.Mcp.ConfigCopied" xml:space="preserve">
+    <value>設定をコピーしました。AI アプリの MCP 設定に貼り付けてください。</value>
+  </data>
+  <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
+    <value>クリップボードにコピーできませんでした。もう一度お試しください。</value>
+  </data>
 </root>

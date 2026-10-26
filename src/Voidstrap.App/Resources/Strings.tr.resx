@@ -8615,4 +8615,37 @@ YZ çalışırken Voidstrap'i ve düzenleyiciyi açık tutun. Yaptığı değiş
   <data name="Ui.Mcp.ConnectTo" xml:space="preserve">
     <value>{0} ile bağlan</value>
   </data>
+  <data name="Ui.Mcp.ChooseClient" xml:space="preserve">
+    <value>Voidstrap'e bağlanacak yapay zekâ uygulamasını seçin</value>
+  </data>
+  <data name="Ui.Mcp.StatusConnected" xml:space="preserve">
+    <value>Bağlı</value>
+  </data>
+  <data name="Ui.Mcp.StatusNotConnected" xml:space="preserve">
+    <value>Bağlı değil</value>
+  </data>
+  <data name="Ui.Mcp.OtherApp" xml:space="preserve">
+    <value>Başka bir yapay zekâ uygulaması</value>
+  </data>
+  <data name="Ui.Mcp.OtherAppDetail" xml:space="preserve">
+    <value>Cursor, VS Code, Windsurf, LM Studio ve diğerleri için kurulumu kopyalar</value>
+  </data>
+  <data name="Ui.Mcp.ConnectButton" xml:space="preserve">
+    <value>Bağlan</value>
+  </data>
+  <data name="Ui.Mcp.Connecting" xml:space="preserve">
+    <value>Bağlanıyor...</value>
+  </data>
+  <data name="Ui.Mcp.ConnectedRestart" xml:space="preserve">
+    <value>{0} ile bağlantı kuruldu. Voidstrap'i yüklemesi için {0} uygulamasını yeniden başlatın.</value>
+  </data>
+  <data name="Ui.Mcp.ConnectFailed" xml:space="preserve">
+    <value>{0} ile bağlantı kurulamadı. Yapılandırma dosyası bozuk olabilir, Voidstrap günlüğüne bakın.</value>
+  </data>
+  <data name="Ui.Mcp.ConfigCopied" xml:space="preserve">
+    <value>Kurulum kopyalandı. Yapay zekâ uygulamanızın MCP ayarlarına yapıştırın.</value>
+  </data>
+  <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
+    <value>Panoya kopyalanamadı, tekrar deneyin.</value>
+  </data>
 </root>

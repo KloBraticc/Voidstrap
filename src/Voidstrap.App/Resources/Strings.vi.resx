@@ -8620,4 +8620,37 @@ Hãy giữ Voidstrap và trình chỉnh sửa luôn mở trong khi AI làm việ
   <data name="Ui.Mcp.ConnectTo" xml:space="preserve">
     <value>Kết nối với {0}</value>
   </data>
+  <data name="Ui.Mcp.ChooseClient" xml:space="preserve">
+    <value>Chọn ứng dụng AI để kết nối với Voidstrap</value>
+  </data>
+  <data name="Ui.Mcp.StatusConnected" xml:space="preserve">
+    <value>Đã kết nối</value>
+  </data>
+  <data name="Ui.Mcp.StatusNotConnected" xml:space="preserve">
+    <value>Chưa kết nối</value>
+  </data>
+  <data name="Ui.Mcp.OtherApp" xml:space="preserve">
+    <value>Ứng dụng AI khác</value>
+  </data>
+  <data name="Ui.Mcp.OtherAppDetail" xml:space="preserve">
+    <value>Sao chép thiết lập cho Cursor, VS Code, Windsurf, LM Studio và các ứng dụng khác</value>
+  </data>
+  <data name="Ui.Mcp.ConnectButton" xml:space="preserve">
+    <value>Kết nối</value>
+  </data>
+  <data name="Ui.Mcp.Connecting" xml:space="preserve">
+    <value>Đang kết nối...</value>
+  </data>
+  <data name="Ui.Mcp.ConnectedRestart" xml:space="preserve">
+    <value>Đã kết nối với {0}. Khởi động lại {0} để nó tải Voidstrap.</value>
+  </data>
+  <data name="Ui.Mcp.ConnectFailed" xml:space="preserve">
+    <value>Không thể kết nối với {0}. Tệp cấu hình của nó có thể bị hỏng, hãy xem nhật ký Voidstrap.</value>
+  </data>
+  <data name="Ui.Mcp.ConfigCopied" xml:space="preserve">
+    <value>Đã sao chép thiết lập. Dán vào phần cài đặt MCP của ứng dụng AI.</value>
+  </data>
+  <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
+    <value>Không thể sao chép vào bộ nhớ tạm, hãy thử lại.</value>
+  </data>
 </root>

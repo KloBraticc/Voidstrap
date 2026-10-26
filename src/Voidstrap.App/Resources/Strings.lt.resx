@@ -8618,4 +8618,37 @@ Palikite Voidstrap ir redaktorių atidarytus, kol DI dirba. Jo pakeitimai iš ka
   <data name="Ui.Mcp.ConnectTo" xml:space="preserve">
     <value>Prisijungti prie {0}</value>
   </data>
+  <data name="Ui.Mcp.ChooseClient" xml:space="preserve">
+    <value>Pasirinkite, kurią DI programą prijungti prie Voidstrap</value>
+  </data>
+  <data name="Ui.Mcp.StatusConnected" xml:space="preserve">
+    <value>Prijungta</value>
+  </data>
+  <data name="Ui.Mcp.StatusNotConnected" xml:space="preserve">
+    <value>Neprijungta</value>
+  </data>
+  <data name="Ui.Mcp.OtherApp" xml:space="preserve">
+    <value>Kita DI programa</value>
+  </data>
+  <data name="Ui.Mcp.OtherAppDetail" xml:space="preserve">
+    <value>Nukopijuoja sąranką Cursor, VS Code, Windsurf, LM Studio ir kitoms</value>
+  </data>
+  <data name="Ui.Mcp.ConnectButton" xml:space="preserve">
+    <value>Prijungti</value>
+  </data>
+  <data name="Ui.Mcp.Connecting" xml:space="preserve">
+    <value>Jungiamasi...</value>
+  </data>
+  <data name="Ui.Mcp.ConnectedRestart" xml:space="preserve">
+    <value>Prijungta prie {0}. Paleiskite {0} iš naujo, kad įkeltų Voidstrap.</value>
+  </data>
+  <data name="Ui.Mcp.ConnectFailed" xml:space="preserve">
+    <value>Nepavyko prisijungti prie {0}. Jos konfigūracijos failas gali būti sugadintas, žr. Voidstrap žurnalą.</value>
+  </data>
+  <data name="Ui.Mcp.ConfigCopied" xml:space="preserve">
+    <value>Sąranka nukopijuota. Įklijuokite ją į DI programos MCP nustatymus.</value>
+  </data>
+  <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
+    <value>Nepavyko nukopijuoti į iškarpinę, bandykite dar kartą.</value>
+  </data>
 </root>

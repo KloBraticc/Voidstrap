@@ -8617,4 +8617,37 @@ Håll Voidstrap och redigeraren öppna medan AI:n arbetar. Ändringarna visas di
   <data name="Ui.Mcp.ConnectTo" xml:space="preserve">
     <value>Anslut till {0}</value>
   </data>
+  <data name="Ui.Mcp.ChooseClient" xml:space="preserve">
+    <value>Välj vilken AI-app du vill ansluta till Voidstrap</value>
+  </data>
+  <data name="Ui.Mcp.StatusConnected" xml:space="preserve">
+    <value>Ansluten</value>
+  </data>
+  <data name="Ui.Mcp.StatusNotConnected" xml:space="preserve">
+    <value>Inte ansluten</value>
+  </data>
+  <data name="Ui.Mcp.OtherApp" xml:space="preserve">
+    <value>Annan AI-app</value>
+  </data>
+  <data name="Ui.Mcp.OtherAppDetail" xml:space="preserve">
+    <value>Kopierar inställningen för Cursor, VS Code, Windsurf, LM Studio med flera</value>
+  </data>
+  <data name="Ui.Mcp.ConnectButton" xml:space="preserve">
+    <value>Anslut</value>
+  </data>
+  <data name="Ui.Mcp.Connecting" xml:space="preserve">
+    <value>Ansluter...</value>
+  </data>
+  <data name="Ui.Mcp.ConnectedRestart" xml:space="preserve">
+    <value>Ansluten till {0}. Starta om {0} så att Voidstrap läses in.</value>
+  </data>
+  <data name="Ui.Mcp.ConnectFailed" xml:space="preserve">
+    <value>Det gick inte att ansluta till {0}. Konfigurationsfilen kan vara skadad, se Voidstraps logg.</value>
+  </data>
+  <data name="Ui.Mcp.ConfigCopied" xml:space="preserve">
+    <value>Inställningen kopierades. Klistra in den i AI-appens MCP-inställningar.</value>
+  </data>
+  <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
+    <value>Det gick inte att kopiera till urklipp, försök igen.</value>
+  </data>
 </root>

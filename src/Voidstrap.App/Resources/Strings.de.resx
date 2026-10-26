@@ -8617,4 +8617,37 @@ Lass Voidstrap und den Editor geöffnet, während die KI arbeitet. Ihre Änderun
   <data name="Ui.Mcp.ConnectTo" xml:space="preserve">
     <value>Mit {0} verbinden</value>
   </data>
+  <data name="Ui.Mcp.ChooseClient" xml:space="preserve">
+    <value>Wähle die KI-App, die du mit Voidstrap verbinden möchtest</value>
+  </data>
+  <data name="Ui.Mcp.StatusConnected" xml:space="preserve">
+    <value>Verbunden</value>
+  </data>
+  <data name="Ui.Mcp.StatusNotConnected" xml:space="preserve">
+    <value>Nicht verbunden</value>
+  </data>
+  <data name="Ui.Mcp.OtherApp" xml:space="preserve">
+    <value>Andere KI-App</value>
+  </data>
+  <data name="Ui.Mcp.OtherAppDetail" xml:space="preserve">
+    <value>Kopiert die Einrichtung für Cursor, VS Code, Windsurf, LM Studio und mehr</value>
+  </data>
+  <data name="Ui.Mcp.ConnectButton" xml:space="preserve">
+    <value>Verbinden</value>
+  </data>
+  <data name="Ui.Mcp.Connecting" xml:space="preserve">
+    <value>Wird verbunden...</value>
+  </data>
+  <data name="Ui.Mcp.ConnectedRestart" xml:space="preserve">
+    <value>Mit {0} verbunden. Starte {0} neu, damit Voidstrap geladen wird.</value>
+  </data>
+  <data name="Ui.Mcp.ConnectFailed" xml:space="preserve">
+    <value>Verbindung mit {0} fehlgeschlagen. Die Konfigurationsdatei ist eventuell beschädigt, sieh im Voidstrap-Protokoll nach.</value>
+  </data>
+  <data name="Ui.Mcp.ConfigCopied" xml:space="preserve">
+    <value>Einrichtung kopiert. Füge sie in die MCP-Einstellungen deiner KI-App ein.</value>
+  </data>
+  <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
+    <value>Kopieren in die Zwischenablage fehlgeschlagen, versuch es erneut.</value>
+  </data>
 </root>

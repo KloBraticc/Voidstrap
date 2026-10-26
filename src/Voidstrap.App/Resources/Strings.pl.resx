@@ -8617,4 +8617,37 @@ Pozostaw Voidstrap i edytor otwarte podczas pracy AI. Wprowadzane zmiany są od 
   <data name="Ui.Mcp.ConnectTo" xml:space="preserve">
     <value>Połącz z {0}</value>
   </data>
+  <data name="Ui.Mcp.ChooseClient" xml:space="preserve">
+    <value>Wybierz aplikację AI, którą chcesz połączyć z Voidstrap</value>
+  </data>
+  <data name="Ui.Mcp.StatusConnected" xml:space="preserve">
+    <value>Połączono</value>
+  </data>
+  <data name="Ui.Mcp.StatusNotConnected" xml:space="preserve">
+    <value>Nie połączono</value>
+  </data>
+  <data name="Ui.Mcp.OtherApp" xml:space="preserve">
+    <value>Inna aplikacja AI</value>
+  </data>
+  <data name="Ui.Mcp.OtherAppDetail" xml:space="preserve">
+    <value>Kopiuje konfigurację dla Cursor, VS Code, Windsurf, LM Studio i innych</value>
+  </data>
+  <data name="Ui.Mcp.ConnectButton" xml:space="preserve">
+    <value>Połącz</value>
+  </data>
+  <data name="Ui.Mcp.Connecting" xml:space="preserve">
+    <value>Łączenie...</value>
+  </data>
+  <data name="Ui.Mcp.ConnectedRestart" xml:space="preserve">
+    <value>Połączono z {0}. Uruchom ponownie {0}, aby wczytał Voidstrap.</value>
+  </data>
+  <data name="Ui.Mcp.ConnectFailed" xml:space="preserve">
+    <value>Nie udało się połączyć z {0}. Plik konfiguracji może być uszkodzony, sprawdź dziennik Voidstrap.</value>
+  </data>
+  <data name="Ui.Mcp.ConfigCopied" xml:space="preserve">
+    <value>Skopiowano konfigurację. Wklej ją w ustawieniach MCP swojej aplikacji AI.</value>
+  </data>
+  <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
+    <value>Nie udało się skopiować do schowka, spróbuj ponownie.</value>
+  </data>
 </root>

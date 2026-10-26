@@ -8641,4 +8641,37 @@ Voidstrap 无法写入桌面文件夹。</value>
   <data name="Ui.Mcp.ConnectTo" xml:space="preserve">
     <value>连接到 {0}</value>
   </data>
+  <data name="Ui.Mcp.ChooseClient" xml:space="preserve">
+    <value>选择要连接到 Voidstrap 的 AI 应用</value>
+  </data>
+  <data name="Ui.Mcp.StatusConnected" xml:space="preserve">
+    <value>已连接</value>
+  </data>
+  <data name="Ui.Mcp.StatusNotConnected" xml:space="preserve">
+    <value>未连接</value>
+  </data>
+  <data name="Ui.Mcp.OtherApp" xml:space="preserve">
+    <value>其他 AI 应用</value>
+  </data>
+  <data name="Ui.Mcp.OtherAppDetail" xml:space="preserve">
+    <value>复制适用于 Cursor、VS Code、Windsurf、LM Studio 等应用的设置</value>
+  </data>
+  <data name="Ui.Mcp.ConnectButton" xml:space="preserve">
+    <value>连接</value>
+  </data>
+  <data name="Ui.Mcp.Connecting" xml:space="preserve">
+    <value>正在连接...</value>
+  </data>
+  <data name="Ui.Mcp.ConnectedRestart" xml:space="preserve">
+    <value>已连接到 {0}。请重新启动 {0} 以加载 Voidstrap。</value>
+  </data>
+  <data name="Ui.Mcp.ConnectFailed" xml:space="preserve">
+    <value>无法连接到 {0}。其配置文件可能已损坏，请查看 Voidstrap 日志。</value>
+  </data>
+  <data name="Ui.Mcp.ConfigCopied" xml:space="preserve">
+    <value>已复制设置。请将其粘贴到您的 AI 应用的 MCP 设置中。</value>
+  </data>
+  <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
+    <value>无法复制到剪贴板，请重试。</value>
+  </data>
 </root>

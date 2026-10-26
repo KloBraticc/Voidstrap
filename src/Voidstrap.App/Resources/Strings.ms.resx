@@ -8608,4 +8608,37 @@ Biarkan Voidstrap dan penyunting kekal dibuka semasa AI bekerja. Perubahannya di
   <data name="Ui.Mcp.ConnectTo" xml:space="preserve">
     <value>Sambung ke {0}</value>
   </data>
+  <data name="Ui.Mcp.ChooseClient" xml:space="preserve">
+    <value>Pilih aplikasi AI yang hendak disambungkan ke Voidstrap</value>
+  </data>
+  <data name="Ui.Mcp.StatusConnected" xml:space="preserve">
+    <value>Disambungkan</value>
+  </data>
+  <data name="Ui.Mcp.StatusNotConnected" xml:space="preserve">
+    <value>Tidak disambungkan</value>
+  </data>
+  <data name="Ui.Mcp.OtherApp" xml:space="preserve">
+    <value>Aplikasi AI lain</value>
+  </data>
+  <data name="Ui.Mcp.OtherAppDetail" xml:space="preserve">
+    <value>Menyalin tetapan untuk Cursor, VS Code, Windsurf, LM Studio dan lain lain</value>
+  </data>
+  <data name="Ui.Mcp.ConnectButton" xml:space="preserve">
+    <value>Sambung</value>
+  </data>
+  <data name="Ui.Mcp.Connecting" xml:space="preserve">
+    <value>Sedang menyambung...</value>
+  </data>
+  <data name="Ui.Mcp.ConnectedRestart" xml:space="preserve">
+    <value>Disambungkan ke {0}. Mulakan semula {0} supaya ia memuatkan Voidstrap.</value>
+  </data>
+  <data name="Ui.Mcp.ConnectFailed" xml:space="preserve">
+    <value>Tidak dapat menyambung ke {0}. Fail konfigurasinya mungkin rosak, lihat log Voidstrap.</value>
+  </data>
+  <data name="Ui.Mcp.ConfigCopied" xml:space="preserve">
+    <value>Tetapan telah disalin. Tampalkannya dalam tetapan MCP aplikasi AI anda.</value>
+  </data>
+  <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
+    <value>Tidak dapat menyalin ke papan keratan, cuba lagi.</value>
+  </data>
 </root>

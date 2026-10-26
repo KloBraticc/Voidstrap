@@ -8618,4 +8618,37 @@ Během práce AI ponechte Voidstrap i editor otevřené. Změny se okamžitě pr
   <data name="Ui.Mcp.ConnectTo" xml:space="preserve">
     <value>Připojit k {0}</value>
   </data>
+  <data name="Ui.Mcp.ChooseClient" xml:space="preserve">
+    <value>Vyberte aplikaci AI, kterou chcete připojit k Voidstrapu</value>
+  </data>
+  <data name="Ui.Mcp.StatusConnected" xml:space="preserve">
+    <value>Připojeno</value>
+  </data>
+  <data name="Ui.Mcp.StatusNotConnected" xml:space="preserve">
+    <value>Nepřipojeno</value>
+  </data>
+  <data name="Ui.Mcp.OtherApp" xml:space="preserve">
+    <value>Jiná aplikace AI</value>
+  </data>
+  <data name="Ui.Mcp.OtherAppDetail" xml:space="preserve">
+    <value>Zkopíruje nastavení pro Cursor, VS Code, Windsurf, LM Studio a další</value>
+  </data>
+  <data name="Ui.Mcp.ConnectButton" xml:space="preserve">
+    <value>Připojit</value>
+  </data>
+  <data name="Ui.Mcp.Connecting" xml:space="preserve">
+    <value>Připojování...</value>
+  </data>
+  <data name="Ui.Mcp.ConnectedRestart" xml:space="preserve">
+    <value>Připojeno k {0}. Restartujte {0}, aby načetl Voidstrap.</value>
+  </data>
+  <data name="Ui.Mcp.ConnectFailed" xml:space="preserve">
+    <value>K {0} se nepodařilo připojit. Jeho konfigurační soubor může být poškozený, podívejte se do protokolu Voidstrapu.</value>
+  </data>
+  <data name="Ui.Mcp.ConfigCopied" xml:space="preserve">
+    <value>Nastavení zkopírováno. Vložte ho do nastavení MCP své aplikace AI.</value>
+  </data>
+  <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
+    <value>Kopírování do schránky se nezdařilo, zkuste to znovu.</value>
+  </data>
 </root>

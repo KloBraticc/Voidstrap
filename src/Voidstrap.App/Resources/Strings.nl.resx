@@ -8618,4 +8618,37 @@ Houd Voidstrap en de editor geopend terwijl de AI werkt. De wijzigingen zijn dir
   <data name="Ui.Mcp.ConnectTo" xml:space="preserve">
     <value>Verbinden met {0}</value>
   </data>
+  <data name="Ui.Mcp.ChooseClient" xml:space="preserve">
+    <value>Kies welke AI-app je met Voidstrap wilt verbinden</value>
+  </data>
+  <data name="Ui.Mcp.StatusConnected" xml:space="preserve">
+    <value>Verbonden</value>
+  </data>
+  <data name="Ui.Mcp.StatusNotConnected" xml:space="preserve">
+    <value>Niet verbonden</value>
+  </data>
+  <data name="Ui.Mcp.OtherApp" xml:space="preserve">
+    <value>Andere AI-app</value>
+  </data>
+  <data name="Ui.Mcp.OtherAppDetail" xml:space="preserve">
+    <value>Kopieert de instellingen voor Cursor, VS Code, Windsurf, LM Studio en meer</value>
+  </data>
+  <data name="Ui.Mcp.ConnectButton" xml:space="preserve">
+    <value>Verbinden</value>
+  </data>
+  <data name="Ui.Mcp.Connecting" xml:space="preserve">
+    <value>Bezig met verbinden...</value>
+  </data>
+  <data name="Ui.Mcp.ConnectedRestart" xml:space="preserve">
+    <value>Verbonden met {0}. Start {0} opnieuw zodat Voidstrap wordt geladen.</value>
+  </data>
+  <data name="Ui.Mcp.ConnectFailed" xml:space="preserve">
+    <value>Kan geen verbinding maken met {0}. Het configuratiebestand is mogelijk beschadigd, bekijk het Voidstrap-logboek.</value>
+  </data>
+  <data name="Ui.Mcp.ConfigCopied" xml:space="preserve">
+    <value>Instellingen gekopieerd. Plak ze in de MCP-instellingen van je AI-app.</value>
+  </data>
+  <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
+    <value>Kopiëren naar het klembord is mislukt, probeer het opnieuw.</value>
+  </data>
 </root>

@@ -8616,4 +8616,37 @@ Tartsd nyitva a Voidstrapet és a szerkesztőt, amíg az MI dolgozik. A módosí
   <data name="Ui.Mcp.ConnectTo" xml:space="preserve">
     <value>Csatlakozás: {0}</value>
   </data>
+  <data name="Ui.Mcp.ChooseClient" xml:space="preserve">
+    <value>Válaszd ki, melyik MI-alkalmazást csatlakoztatod a Voidstraphez</value>
+  </data>
+  <data name="Ui.Mcp.StatusConnected" xml:space="preserve">
+    <value>Csatlakoztatva</value>
+  </data>
+  <data name="Ui.Mcp.StatusNotConnected" xml:space="preserve">
+    <value>Nincs csatlakoztatva</value>
+  </data>
+  <data name="Ui.Mcp.OtherApp" xml:space="preserve">
+    <value>Más MI-alkalmazás</value>
+  </data>
+  <data name="Ui.Mcp.OtherAppDetail" xml:space="preserve">
+    <value>Kimásolja a beállítást a Cursor, VS Code, Windsurf, LM Studio és más alkalmazások számára</value>
+  </data>
+  <data name="Ui.Mcp.ConnectButton" xml:space="preserve">
+    <value>Csatlakozás</value>
+  </data>
+  <data name="Ui.Mcp.Connecting" xml:space="preserve">
+    <value>Csatlakozás...</value>
+  </data>
+  <data name="Ui.Mcp.ConnectedRestart" xml:space="preserve">
+    <value>Csatlakoztatva: {0}. Indítsd újra a(z) {0} alkalmazást, hogy betöltse a Voidstrapet.</value>
+  </data>
+  <data name="Ui.Mcp.ConnectFailed" xml:space="preserve">
+    <value>Nem sikerült csatlakozni ehhez: {0}. A konfigurációs fájlja sérült lehet, nézd meg a Voidstrap naplóját.</value>
+  </data>
+  <data name="Ui.Mcp.ConfigCopied" xml:space="preserve">
+    <value>A beállítás kimásolva. Illeszd be az MI-alkalmazásod MCP-beállításaiba.</value>
+  </data>
+  <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
+    <value>Nem sikerült a vágólapra másolni, próbáld újra.</value>
+  </data>
 </root>

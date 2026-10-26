@@ -8619,4 +8619,37 @@ Voidstrap نتوانست در پوشهٔ دسکتاپ بنویسد.</value>
   <data name="Ui.Mcp.ConnectTo" xml:space="preserve">
     <value>اتصال به {0}</value>
   </data>
+  <data name="Ui.Mcp.ChooseClient" xml:space="preserve">
+    <value>برنامهٔ هوش مصنوعی را برای اتصال به Voidstrap انتخاب کنید</value>
+  </data>
+  <data name="Ui.Mcp.StatusConnected" xml:space="preserve">
+    <value>متصل</value>
+  </data>
+  <data name="Ui.Mcp.StatusNotConnected" xml:space="preserve">
+    <value>متصل نیست</value>
+  </data>
+  <data name="Ui.Mcp.OtherApp" xml:space="preserve">
+    <value>برنامهٔ هوش مصنوعی دیگر</value>
+  </data>
+  <data name="Ui.Mcp.OtherAppDetail" xml:space="preserve">
+    <value>تنظیمات را برای Cursor، VS Code، Windsurf، LM Studio و برنامه‌های دیگر کپی می‌کند</value>
+  </data>
+  <data name="Ui.Mcp.ConnectButton" xml:space="preserve">
+    <value>اتصال</value>
+  </data>
+  <data name="Ui.Mcp.Connecting" xml:space="preserve">
+    <value>در حال اتصال...</value>
+  </data>
+  <data name="Ui.Mcp.ConnectedRestart" xml:space="preserve">
+    <value>به {0} متصل شد. {0} را دوباره راه‌اندازی کنید تا Voidstrap را بارگذاری کند.</value>
+  </data>
+  <data name="Ui.Mcp.ConnectFailed" xml:space="preserve">
+    <value>اتصال به {0} ممکن نشد. ممکن است فایل تنظیمات آن آسیب دیده باشد، گزارش Voidstrap را ببینید.</value>
+  </data>
+  <data name="Ui.Mcp.ConfigCopied" xml:space="preserve">
+    <value>تنظیمات کپی شد. آن را در تنظیمات MCP برنامهٔ هوش مصنوعی خود جای‌گذاری کنید.</value>
+  </data>
+  <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
+    <value>کپی در کلیپ‌بورد ممکن نشد، دوباره امتحان کنید.</value>
+  </data>
 </root>

@@ -8618,4 +8618,37 @@ Pidä Voidstrap ja muokkain avoinna, kun tekoäly työskentelee. Sen tekemät mu
   <data name="Ui.Mcp.ConnectTo" xml:space="preserve">
     <value>Yhdistä: {0}</value>
   </data>
+  <data name="Ui.Mcp.ChooseClient" xml:space="preserve">
+    <value>Valitse tekoälysovellus, jonka yhdistät Voidstrapiin</value>
+  </data>
+  <data name="Ui.Mcp.StatusConnected" xml:space="preserve">
+    <value>Yhdistetty</value>
+  </data>
+  <data name="Ui.Mcp.StatusNotConnected" xml:space="preserve">
+    <value>Ei yhdistetty</value>
+  </data>
+  <data name="Ui.Mcp.OtherApp" xml:space="preserve">
+    <value>Muu tekoälysovellus</value>
+  </data>
+  <data name="Ui.Mcp.OtherAppDetail" xml:space="preserve">
+    <value>Kopioi asetukset Cursorille, VS Codelle, Windsurfille, LM Studiolle ja muille</value>
+  </data>
+  <data name="Ui.Mcp.ConnectButton" xml:space="preserve">
+    <value>Yhdistä</value>
+  </data>
+  <data name="Ui.Mcp.Connecting" xml:space="preserve">
+    <value>Yhdistetään...</value>
+  </data>
+  <data name="Ui.Mcp.ConnectedRestart" xml:space="preserve">
+    <value>Yhdistetty sovellukseen {0}. Käynnistä {0} uudelleen, jotta se lataa Voidstrapin.</value>
+  </data>
+  <data name="Ui.Mcp.ConnectFailed" xml:space="preserve">
+    <value>Yhdistäminen sovellukseen {0} epäonnistui. Sen asetustiedosto voi olla vioittunut, katso Voidstrapin loki.</value>
+  </data>
+  <data name="Ui.Mcp.ConfigCopied" xml:space="preserve">
+    <value>Asetukset kopioitu. Liitä ne tekoälysovelluksesi MCP-asetuksiin.</value>
+  </data>
+  <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
+    <value>Leikepöydälle kopiointi epäonnistui, yritä uudelleen.</value>
+  </data>
 </root>

@@ -8616,4 +8616,37 @@ Drži Voidstrap i uređivač otvorenima dok AI radi. Njegove se promjene odmah p
   <data name="Ui.Mcp.ConnectTo" xml:space="preserve">
     <value>Poveži s {0}</value>
   </data>
+  <data name="Ui.Mcp.ChooseClient" xml:space="preserve">
+    <value>Odaberi koju AI aplikaciju povezati s Voidstrapom</value>
+  </data>
+  <data name="Ui.Mcp.StatusConnected" xml:space="preserve">
+    <value>Povezano</value>
+  </data>
+  <data name="Ui.Mcp.StatusNotConnected" xml:space="preserve">
+    <value>Nije povezano</value>
+  </data>
+  <data name="Ui.Mcp.OtherApp" xml:space="preserve">
+    <value>Druga AI aplikacija</value>
+  </data>
+  <data name="Ui.Mcp.OtherAppDetail" xml:space="preserve">
+    <value>Kopira postavke za Cursor, VS Code, Windsurf, LM Studio i druge</value>
+  </data>
+  <data name="Ui.Mcp.ConnectButton" xml:space="preserve">
+    <value>Poveži</value>
+  </data>
+  <data name="Ui.Mcp.Connecting" xml:space="preserve">
+    <value>Povezivanje...</value>
+  </data>
+  <data name="Ui.Mcp.ConnectedRestart" xml:space="preserve">
+    <value>Povezano s {0}. Ponovno pokreni {0} da učita Voidstrap.</value>
+  </data>
+  <data name="Ui.Mcp.ConnectFailed" xml:space="preserve">
+    <value>Povezivanje s {0} nije uspjelo. Konfiguracijska datoteka možda je oštećena, pogledaj Voidstrap zapisnik.</value>
+  </data>
+  <data name="Ui.Mcp.ConfigCopied" xml:space="preserve">
+    <value>Postavke su kopirane. Zalijepi ih u MCP postavke svoje AI aplikacije.</value>
+  </data>
+  <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
+    <value>Kopiranje u međuspremnik nije uspjelo, pokušaj ponovno.</value>
+  </data>
 </root>

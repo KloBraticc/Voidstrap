@@ -8617,4 +8617,37 @@ Voidstrap не можа да запише в папката на работни�
   <data name="Ui.Mcp.ConnectTo" xml:space="preserve">
     <value>Свързване с {0}</value>
   </data>
+  <data name="Ui.Mcp.ChooseClient" xml:space="preserve">
+    <value>Изберете кое приложение с ИИ да свържете с Voidstrap</value>
+  </data>
+  <data name="Ui.Mcp.StatusConnected" xml:space="preserve">
+    <value>Свързано</value>
+  </data>
+  <data name="Ui.Mcp.StatusNotConnected" xml:space="preserve">
+    <value>Не е свързано</value>
+  </data>
+  <data name="Ui.Mcp.OtherApp" xml:space="preserve">
+    <value>Друго приложение с ИИ</value>
+  </data>
+  <data name="Ui.Mcp.OtherAppDetail" xml:space="preserve">
+    <value>Копира настройката за Cursor, VS Code, Windsurf, LM Studio и други</value>
+  </data>
+  <data name="Ui.Mcp.ConnectButton" xml:space="preserve">
+    <value>Свързване</value>
+  </data>
+  <data name="Ui.Mcp.Connecting" xml:space="preserve">
+    <value>Свързване...</value>
+  </data>
+  <data name="Ui.Mcp.ConnectedRestart" xml:space="preserve">
+    <value>Свързано с {0}. Рестартирайте {0}, за да зареди Voidstrap.</value>
+  </data>
+  <data name="Ui.Mcp.ConnectFailed" xml:space="preserve">
+    <value>Неуспешно свързване с {0}. Файлът с настройките може да е повреден, вижте дневника на Voidstrap.</value>
+  </data>
+  <data name="Ui.Mcp.ConfigCopied" xml:space="preserve">
+    <value>Настройката е копирана. Поставете я в настройките за MCP на вашето приложение с ИИ.</value>
+  </data>
+  <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
+    <value>Копирането в клипборда не бе успешно, опитайте отново.</value>
+  </data>
 </root>

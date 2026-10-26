@@ -1570,6 +1570,17 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Home_LatestRobloxNews => ResourceManager.GetString("Ui.Home.LatestRobloxNews", resourceCulture);
         public static string Ui_RiShade_Dlss_Title => ResourceManager.GetString("Ui.RiShade.Dlss.Title", resourceCulture);
+        public static string Ui_Mcp_ChooseClient => ResourceManager.GetString("Ui.Mcp.ChooseClient", resourceCulture);
+        public static string Ui_Mcp_StatusConnected => ResourceManager.GetString("Ui.Mcp.StatusConnected", resourceCulture);
+        public static string Ui_Mcp_StatusNotConnected => ResourceManager.GetString("Ui.Mcp.StatusNotConnected", resourceCulture);
+        public static string Ui_Mcp_OtherApp => ResourceManager.GetString("Ui.Mcp.OtherApp", resourceCulture);
+        public static string Ui_Mcp_OtherAppDetail => ResourceManager.GetString("Ui.Mcp.OtherAppDetail", resourceCulture);
+        public static string Ui_Mcp_ConnectButton => ResourceManager.GetString("Ui.Mcp.ConnectButton", resourceCulture);
+        public static string Ui_Mcp_Connecting => ResourceManager.GetString("Ui.Mcp.Connecting", resourceCulture);
+        public static string Ui_Mcp_ConnectedRestart => ResourceManager.GetString("Ui.Mcp.ConnectedRestart", resourceCulture);
+        public static string Ui_Mcp_ConnectFailed => ResourceManager.GetString("Ui.Mcp.ConnectFailed", resourceCulture);
+        public static string Ui_Mcp_ConfigCopied => ResourceManager.GetString("Ui.Mcp.ConfigCopied", resourceCulture);
+        public static string Ui_Mcp_CopyFailed => ResourceManager.GetString("Ui.Mcp.CopyFailed", resourceCulture);
         public static string Ui_RiShade_PerformancePrompt => ResourceManager.GetString("Ui.RiShade.PerformancePrompt", resourceCulture);
         public static string Ui_Mods_StudioPlugins_Publish => ResourceManager.GetString("Ui.Mods.StudioPlugins.Publish", resourceCulture);
         public static string Ui_ModGen_SwapIcons => ResourceManager.GetString("Ui.ModGen.SwapIcons", resourceCulture);

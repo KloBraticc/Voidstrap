@@ -8616,4 +8616,37 @@
   <data name="Ui.Mcp.ConnectTo" xml:space="preserve">
     <value>الاتصال بـ {0}</value>
   </data>
+  <data name="Ui.Mcp.ChooseClient" xml:space="preserve">
+    <value>اختر تطبيق الذكاء الاصطناعي الذي تريد ربطه بـ Voidstrap</value>
+  </data>
+  <data name="Ui.Mcp.StatusConnected" xml:space="preserve">
+    <value>متصل</value>
+  </data>
+  <data name="Ui.Mcp.StatusNotConnected" xml:space="preserve">
+    <value>غير متصل</value>
+  </data>
+  <data name="Ui.Mcp.OtherApp" xml:space="preserve">
+    <value>تطبيق ذكاء اصطناعي آخر</value>
+  </data>
+  <data name="Ui.Mcp.OtherAppDetail" xml:space="preserve">
+    <value>ينسخ الإعداد لتطبيقات Cursor وVS Code وWindsurf وLM Studio وغيرها</value>
+  </data>
+  <data name="Ui.Mcp.ConnectButton" xml:space="preserve">
+    <value>اتصال</value>
+  </data>
+  <data name="Ui.Mcp.Connecting" xml:space="preserve">
+    <value>جارٍ الاتصال...</value>
+  </data>
+  <data name="Ui.Mcp.ConnectedRestart" xml:space="preserve">
+    <value>تم الاتصال بـ {0}. أعد تشغيل {0} ليحمّل Voidstrap.</value>
+  </data>
+  <data name="Ui.Mcp.ConnectFailed" xml:space="preserve">
+    <value>تعذر الاتصال بـ {0}. قد يكون ملف الإعدادات تالفًا، راجع سجل Voidstrap.</value>
+  </data>
+  <data name="Ui.Mcp.ConfigCopied" xml:space="preserve">
+    <value>تم نسخ الإعداد. الصقه في إعدادات MCP لتطبيق الذكاء الاصطناعي.</value>
+  </data>
+  <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
+    <value>تعذر النسخ إلى الحافظة، حاول مجددًا.</value>
+  </data>
 </root>
