@@ -308,6 +308,37 @@ public abstract partial class WpfUiWindow : UiWindow, IDisposable
 
 	private const int WmGetMinMaxInfo = 36;
 
+	private const int WmWindowPosChanging = 0x0046;
+
+	private const uint SwpNoSize = 0x0001;
+
+	private const uint SwpNoMove = 0x0002;
+
+	[LibraryImport("user32.dll")]
+	[return: MarshalAs(UnmanagedType.Bool)]
+	private static partial bool IsZoomed(IntPtr hWnd);
+
+	[LibraryImport("user32.dll")]
+	private static partial IntPtr MonitorFromRect(ref NativeRect rect, uint flags);
+
+	[System.Runtime.InteropServices.StructLayout(System.Runtime.InteropServices.LayoutKind.Sequential)]
+	private partial struct NativeWindowPos
+	{
+		public IntPtr Hwnd;
+
+		public IntPtr InsertAfter;
+
+		public int X;
+
+		public int Y;
+
+		public int Width;
+
+		public int Height;
+
+		public uint Flags;
+	}
+
 	private HwndSource? _hwndSource;
 
 	private static readonly bool IsWindows11OrNewer = Voidstrap.Utility.Platform.IsWindows && OperatingSystem.IsWindowsVersionAtLeast(10, 0, 22000);
@@ -490,6 +521,27 @@ public abstract partial class WpfUiWindow : UiWindow, IDisposable
 
 	private IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
 	{
+		if (msg == WmWindowPosChanging && Voidstrap.Utility.Platform.IsWindows && IsZoomed(hwnd))
+		{
+			NativeWindowPos position = System.Runtime.InteropServices.Marshal.PtrToStructure<NativeWindowPos>(lParam);
+			if ((position.Flags & SwpNoSize) == 0)
+			{
+				NativeRect proposed = new NativeRect { Left = position.X, Top = position.Y, Right = position.X + position.Width, Bottom = position.Y + position.Height };
+				IntPtr monitor = MonitorFromRect(ref proposed, 2u);
+				NativeMonitorInfo info = default(NativeMonitorInfo);
+				info.Size = System.Runtime.InteropServices.Marshal.SizeOf<NativeMonitorInfo>();
+				if (monitor != IntPtr.Zero && GetMonitorInfo(monitor, ref info))
+				{
+					position.X = info.Work.Left;
+					position.Y = info.Work.Top;
+					position.Width = info.Work.Right - info.Work.Left;
+					position.Height = info.Work.Bottom - info.Work.Top;
+					position.Flags &= ~SwpNoMove;
+					System.Runtime.InteropServices.Marshal.StructureToPtr(position, lParam, fDeleteOld: false);
+				}
+			}
+			return IntPtr.Zero;
+		}
 		if (msg == WmGetMinMaxInfo && Voidstrap.Utility.Platform.IsWindows)
 		{
 			IntPtr monitor = MonitorFromWindow(hwnd, 2u);
