@@ -2153,8 +2153,7 @@ void StepDownWhenSlow(double spentMs)
     if (d.slowFrames < kSlowFramesBeforeStepDown)
         return;
     d.slowFrames = 0;
-    Log(LogLevel::Info, L"Depth took %.1f ms per frame, updating it in the background with motion tracking at %d so the frame rate stays smooth.", spentMs, DepthSize());
-    d.background = true;
+    Log(LogLevel::Info, L"Depth took %.1f ms per frame at %d, staying on per frame depth so nothing ghosts.", spentMs, DepthSize());
 }
 
 bool WaitLane(Lane& l)
