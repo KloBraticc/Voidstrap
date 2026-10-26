@@ -213,7 +213,7 @@ pub fn install_effects_and_presets(root: &Path) -> io::Result<InstallSummary> {
     Ok(summary)
 }
 
-const UPGRADED_PRESETS: [(&str, &str); 5] = [
+const UPGRADED_PRESETS: [(&str, &str); 6] = [
     (
         "RiShade Reflections.ini",
         "afdcf21fa758ef1a229d9a350738b5f7a76b8f90044fa2fafb3d8df67ad4c68a",
@@ -233,6 +233,10 @@ const UPGRADED_PRESETS: [(&str, &str); 5] = [
     (
         "RiShade Reflections.ini",
         "f67fd9c6e5c31f073b62f8ea976ee1778ea7d2f4de92be3fcd1b6712d6178d45",
+    ),
+    (
+        "RiShade Reflections.ini",
+        "f49de633b319b8f1bc976eb44de41ce7650c0e077e6112771806b9922268e876",
     ),
 ];
 
@@ -417,6 +421,83 @@ fn patched_quint_ssr(text: &str) -> Option<String> {
         output = output.replacen(find, replace, 1);
     }
     Some(output)
+}
+
+const SSR_CONFIG_MARKER: &str = ".rishade-ssr-config-v1";
+const SSR_CONFIG_SECTION: &str = "qUINT_ssr.fx";
+const SSR_CONFIG: [(&str, &str); 12] = [
+    ("SSR_ACCEPT_RANGE", "2.500000"),
+    ("SSR_BASE_REFLECTIVITY", "0.300000"),
+    ("SSR_FADE_DIST", "100.000000"),
+    ("SSR_FIELD_OF_VIEW", "1.000000"),
+    ("SSR_FILTER_SIZE", "0.500000"),
+    ("SSR_FLOOR_ONLY", "0.850000"),
+    ("SSR_FRESNEL_EXP", "100.000000"),
+    ("SSR_JITTER_AMOUNT", "0.250000"),
+    ("SSR_RAY_INC", "1.600000"),
+    ("SSR_REFLECTION_INTENSITY", "1.100000"),
+    ("SSR_RELIEF_AMOUNT", "0.050000"),
+    ("SSR_RELIEF_SCALE", "0.350000"),
+];
+
+pub fn reset_ssr_config(root: &Path) {
+    let marker = root.join(SSR_CONFIG_MARKER);
+    if marker.exists() {
+        return;
+    }
+    let presets = root.join("presets");
+    let mut folders = vec![presets.clone()];
+    if let Ok(entries) = fs::read_dir(&presets) {
+        folders.extend(
+            entries
+                .flatten()
+                .filter(|entry| entry.file_type().is_ok_and(|kind| kind.is_dir()))
+                .map(|entry| entry.path()),
+        );
+    }
+    for folder in folders {
+        let Ok(entries) = fs::read_dir(&folder) else {
+            continue;
+        };
+        for entry in entries.flatten() {
+            let path = entry.path();
+            let is_preset = entry.file_type().is_ok_and(|kind| kind.is_file())
+                && path
+                    .extension()
+                    .is_some_and(|extension| extension.eq_ignore_ascii_case("ini"));
+            if !is_preset {
+                continue;
+            }
+            let Ok(text) = fs::read_to_string(&path) else {
+                continue;
+            };
+            if let Some(updated) = with_ssr_config(&text) {
+                let staged = path.with_extension("ini.ssr");
+                if fs::write(&staged, updated).is_ok() && fs::rename(&staged, &path).is_err() {
+                    let _ = fs::remove_file(&staged);
+                }
+            }
+        }
+    }
+    let _ = fs::write(marker, b"qUINT SSR config reset to the RiShade default\n");
+}
+
+fn with_ssr_config(text: &str) -> Option<String> {
+    let mut preset = PresetIni::parse(text);
+    let uses_ssr = preset
+        .get("", "Techniques")
+        .is_some_and(|techniques| techniques.split(',').any(|item| item.trim().eq_ignore_ascii_case(REPLACEMENT_SSR_TECHNIQUE)))
+        || preset
+            .section_names()
+            .any(|name| name.eq_ignore_ascii_case(SSR_CONFIG_SECTION));
+    if !uses_ssr {
+        return None;
+    }
+    for (key, value) in SSR_CONFIG {
+        preset.set(SSR_CONFIG_SECTION, key, value).ok()?;
+    }
+    let updated = preset.text();
+    (updated != text).then_some(updated)
 }
 
 pub fn migrate_ssr_technique(root: &Path) {
@@ -1292,6 +1373,18 @@ mod tests {
             assert_eq!(patched_quint_ssr(&legacy).unwrap(), patched);
         }
         assert!(patched_quint_ssr("technique SSR {}").is_none());
+    }
+
+    #[test]
+    fn ssr_config_overwrites_only_presets_that_use_ssr() {
+        let custom = "Techniques=SSR@qUINT_ssr.fx\r\n\r\n[qUINT_ssr.fx]\r\nSSR_FIELD_OF_VIEW=70.000000\r\nSSR_REFLECTION_INTENSITY=0.400000\r\n";
+        let updated = with_ssr_config(custom).unwrap();
+        let parsed = PresetIni::parse(&updated);
+        for (key, value) in SSR_CONFIG {
+            assert_eq!(parsed.get(SSR_CONFIG_SECTION, key), Some(value));
+        }
+        assert!(with_ssr_config(&updated).is_none());
+        assert!(with_ssr_config("Techniques=Vibrance@Vibrance.fx\r\n").is_none());
     }
 
     #[test]
