@@ -128,7 +128,8 @@ public partial class Watcher : IDisposable
 		_overlayGameStateEnabled = OverlaysNeedGameState();
 		_discordRichPresenceEnabled = App.Settings.Prop.UseDiscordRichPresence;
 		_disableAppPatchEnabled = App.Settings.Prop.UseDisableAppPatch;
-		if (enableActivityTracking || flag || _overlayGameStateEnabled || FullscreenModeActive)
+		bool inGameHotkeys = NeedsInGameHotkeys;
+		if (enableActivityTracking || flag || _overlayGameStateEnabled || FullscreenModeActive || inGameHotkeys)
 		{
 			ActivityWatcher = new ActivityWatcher(_watcherData.LogFile, _watcherData.ProcessId);
 			ActivityWatcher.OnGameJoin += OnRuntimeGameJoin;
@@ -148,7 +149,7 @@ public partial class Watcher : IDisposable
 				ServerMatchmaker = new ServerMatchmaker(ActivityWatcher, this);
 			}
 		}
-		if ((enableActivityTracking || App.LaunchSettings.TestModeFlag.Active) && Voidstrap.Utility.Platform.SupportsTrayIcon)
+		if ((enableActivityTracking || App.LaunchSettings.TestModeFlag.Active || inGameHotkeys) && Voidstrap.Utility.Platform.SupportsTrayIcon)
 			_notifyIcon = new NotifyIconWrapper(this);
 		if (ServerMatchmaker != null)
 			ServerMatchmaker.NotifyIconResolver = () => _notifyIcon;
@@ -469,6 +470,9 @@ public partial class Watcher : IDisposable
 			_notifyIcon = null;
 		}
 	}
+
+	internal static bool NeedsInGameHotkeys => Voidstrap.Utility.Platform.IsWindows
+		&& (App.Settings.Prop.RiShadeEnabled || App.Settings.Prop.CrosshairShortcutEnabled);
 
 	internal static bool OverlaysNeedGameState()
 	{
