@@ -3057,7 +3057,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			UniverseId = item.UniverseId,
 			Name = item.Name,
 			IconPath = imported,
-			AllPlaces = !item.IsSubplace && item.UniverseId > 0
+			AllPlaces = !item.IsSubplace
 		};
 		list.Add(model);
 		var vmItem = new WindowIconOverrideItem(model)
@@ -3168,6 +3168,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 				App.Logger?.WriteLine("BehaviourViewModel::ResolveWindowIconOverrideDetails", "Could not resolve override game details: " + ex.Message);
 			}
 		}
+		App.Settings.SaveDeferred();
 	}
 
 	private static async Task ApplyWindowIconOverrideNamesAsync(WindowIconOverrideItem[] chunk, string ids)
