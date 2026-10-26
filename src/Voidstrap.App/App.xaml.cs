@@ -782,6 +782,9 @@ public partial class App : Application
 	[System.Runtime.InteropServices.LibraryImport("shell32.dll", StringMarshalling = System.Runtime.InteropServices.StringMarshalling.Utf16)]
 	private static partial int SetCurrentProcessExplicitAppUserModelID(string appId);
 
+	[System.Runtime.InteropServices.LibraryImport("user32.dll")]
+	private static partial void DisableProcessWindowsGhosting();
+
 	private static void StartJitProfile(string[] args)
 	{
 		if (args.Any(arg => string.Equals(arg, "-uninstall", StringComparison.OrdinalIgnoreCase) || string.Equals(arg, "-deferredcleanup", StringComparison.OrdinalIgnoreCase)))
@@ -804,6 +807,8 @@ public partial class App : Application
 		StartJitProfile(e.Args);
 		if (Paths.StartedByLauncher)
 			SetCurrentProcessExplicitAppUserModelID(Voidstrap.Utility.Shortcut.AppUserModelId);
+		if (Voidstrap.Utility.Platform.IsWindows)
+			DisableProcessWindowsGhosting();
 		RegisterExceptionHandlers();
 		if (!Voidstrap.Utility.LinuxRuntimePreflight.Verify())
 		{
