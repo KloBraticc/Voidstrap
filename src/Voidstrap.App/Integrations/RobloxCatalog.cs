@@ -98,15 +98,19 @@ internal static class RobloxCatalog
 		public string Image { get; init; } = string.Empty;
 	}
 
-	public static async Task<List<NewItem>> GetNewestAsync(CancellationToken token)
+	public static Task<List<NewItem>> GetNewestAsync(CancellationToken token) => GetNewestAsync(CacheAge, token);
+
+	public static Task<List<NewItem>> GetNewestSavedAsync(CancellationToken token) => GetNewestAsync(TimeSpan.MaxValue, token);
+
+	private static async Task<List<NewItem>> GetNewestAsync(TimeSpan maxAge, CancellationToken token)
 	{
-		SearchResponse? response = await GitHubCache.GetJsonAsync<SearchResponse>(NewestUrl, CacheAge, token).ConfigureAwait(false);
+		SearchResponse? response = await GitHubCache.GetJsonAsync<SearchResponse>(NewestUrl, maxAge, token).ConfigureAwait(false);
 		List<SearchItem> source = response?.Data ?? [];
 		if (source.Count == 0)
 			return [];
 
 		List<long> ids = source.Where(item => item.Id > 0).Select(item => item.Id).Distinct().ToList();
-		Dictionary<long, string> images = await LoadThumbnailsAsync(ids, token).ConfigureAwait(false);
+		Dictionary<long, string> images = await LoadThumbnailsAsync(ids, maxAge, token).ConfigureAwait(false);
 		List<NewItem> items = new(source.Count);
 		foreach (SearchItem item in source)
 		{
@@ -126,7 +130,7 @@ internal static class RobloxCatalog
 		return items;
 	}
 
-	private static async Task<Dictionary<long, string>> LoadThumbnailsAsync(List<long> ids, CancellationToken token)
+	private static async Task<Dictionary<long, string>> LoadThumbnailsAsync(List<long> ids, TimeSpan maxAge, CancellationToken token)
 	{
 		Dictionary<long, string> images = new();
 		if (ids.Count == 0)
@@ -135,7 +139,7 @@ internal static class RobloxCatalog
 		try
 		{
 			string url = ThumbnailUrl + string.Join(',', ids) + ThumbnailOptions;
-			ThumbnailResponse? response = await GitHubCache.GetJsonAsync<ThumbnailResponse>(url, CacheAge, token).ConfigureAwait(false);
+			ThumbnailResponse? response = await GitHubCache.GetJsonAsync<ThumbnailResponse>(url, maxAge, token).ConfigureAwait(false);
 			foreach (ThumbnailItem item in response?.Data ?? [])
 			{
 				if (item.TargetId > 0 && !string.IsNullOrEmpty(item.ImageUrl))

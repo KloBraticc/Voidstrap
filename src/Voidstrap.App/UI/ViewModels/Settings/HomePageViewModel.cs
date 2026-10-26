@@ -1109,35 +1109,54 @@ namespace Voidstrap.UI.ViewModels.Pages
         {
             try
             {
-                List<RobloxCatalog.NewItem> source = await RobloxCatalog.GetNewestAsync(CancellationToken.None).ConfigureAwait(false);
-                List<CatalogItemEntry> items = source.Select(item => new CatalogItemEntry
+                if (_cachedCatalog == null)
                 {
-                    Id = item.Id,
-                    Name = item.Name,
-                    Creator = item.Creator,
-                    TypeName = item.TypeName,
-                    Limited = item.Limited,
-                    Price = item.Price,
-                    ImageUrl = string.IsNullOrEmpty(item.Image) ? null : item.Image
-                }).ToList();
+                    List<CatalogItemEntry> saved = ToCatalogEntries(await RobloxCatalog.GetNewestSavedAsync(CancellationToken.None).ConfigureAwait(false));
+                    if (saved.Count > 0 && _cachedCatalog == null)
+                    {
+                        _cachedCatalog = saved;
+                        Application.Current.Dispatcher.Invoke(() => PublishCatalog(saved));
+                    }
+                }
+                List<CatalogItemEntry> items = ToCatalogEntries(await RobloxCatalog.GetNewestAsync(CancellationToken.None).ConfigureAwait(false));
+                if (_cachedCatalog != null && _cachedCatalog.Count > 0 && _cachedCatalog.Select(item => item.Id).SequenceEqual(items.Select(item => item.Id)))
+                    return;
                 _cachedCatalog = items;
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    _appliedCatalog = items;
-                    _newCatalogItems.Clear();
-                    foreach (CatalogItemEntry item in items)
-                        _newCatalogItems.Add(item);
-                    _catalogLoadState = GenericTriState.Successful;
-                    NotifyCatalogChanged();
-                });
+                Application.Current.Dispatcher.Invoke(() => PublishCatalog(items));
             }
             catch (Exception ex)
             {
                 App.Logger.WriteException("HomePageViewModel::FetchNewCatalogItems", ex);
                 CatalogError = string.Empty;
+                if (_cachedCatalog != null && _cachedCatalog.Count > 0)
+                    return;
                 _catalogLoadState = GenericTriState.Failed;
                 Application.Current.Dispatcher.Invoke(NotifyCatalogChanged);
             }
+        }
+
+        private void PublishCatalog(List<CatalogItemEntry> items)
+        {
+            _appliedCatalog = items;
+            _newCatalogItems.Clear();
+            foreach (CatalogItemEntry item in items)
+                _newCatalogItems.Add(item);
+            _catalogLoadState = GenericTriState.Successful;
+            NotifyCatalogChanged();
+        }
+
+        private static List<CatalogItemEntry> ToCatalogEntries(List<RobloxCatalog.NewItem> source)
+        {
+            return source.Select(item => new CatalogItemEntry
+            {
+                Id = item.Id,
+                Name = item.Name,
+                Creator = item.Creator,
+                TypeName = item.TypeName,
+                Limited = item.Limited,
+                Price = item.Price,
+                ImageUrl = string.IsNullOrEmpty(item.Image) ? null : Voidstrap.Utility.DiskImageCache.Resolve(item.Image, "Catalog")
+            }).ToList();
         }
 
         private void NotifyCatalogChanged()
