@@ -6,7 +6,7 @@
     xmlns:resources="clr-namespace:Voidstrap.Resources"
     xmlns:util="clr-namespace:Voidstrap.Utility"
     xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls"
-    Title="{resources:Loc PrivateServers_Title}"
+    Title="{resources:Loc PrivateServers_Title}" ui:Breadcrumb.Header="{resources:Loc PrivateServers_Title}"
     Scrollable="False">
   <FrameworkElement.Resources>
     <ResourceDictionary>
