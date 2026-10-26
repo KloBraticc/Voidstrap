@@ -2162,6 +2162,16 @@ bool WaitLane(Lane& l)
     return l.done || WaitForSingleObject(l.finished, kExactTimeoutMs) == WAIT_OBJECT_0 || l.done;
 }
 
+bool WaitModelOnGpu(Lane& l)
+{
+    if (!l.inputValue || !l.d3d12Fence || l.d3d12Fence->GetCompletedValue() >= l.inputValue + 1)
+        return true;
+    static const HANDLE completed = CreateEventW(nullptr, FALSE, FALSE, nullptr);
+    if (!completed || FAILED(l.d3d12Fence->SetEventOnCompletion(l.inputValue + 1, completed)))
+        return false;
+    return WaitForSingleObject(completed, kExactTimeoutMs) == WAIT_OBJECT_0;
+}
+
 bool ScheduleExact(Lane& l, ID3D11Texture2D* frame, int64_t frameTimestamp)
 {
     if (l.busy)
@@ -2187,6 +2197,8 @@ bool ScheduleExact(Lane& l, ID3D11Texture2D* frame, int64_t frameTimestamp)
         l.modelWidth = l.modelHeight = 0;
     }
     if (l.lastInput && *l.lastInput == frameTimestamp)
+        return true;
+    if (!D3D12Removed(l) && !WaitModelOnGpu(l))
         return true;
     if (l.modelWidth != l.width || l.modelHeight != l.height)
     {
@@ -2225,6 +2237,11 @@ bool ScheduleExact(Lane& l, ID3D11Texture2D* frame, int64_t frameTimestamp)
     l.busy = false;
     if (D3D12Removed(l))
         return true;
+    if (!WaitModelOnGpu(l))
+    {
+        StepDownWhenSlow(static_cast<double>(kExactTimeoutMs));
+        return true;
+    }
     Publish(l);
     const double spent = std::chrono::duration<double, std::milli>(FrameStatistics::Clock::now() - l.requestedAt).count();
     g.frameStatistics.RecordDepth(spent, l.workerMs.load());
