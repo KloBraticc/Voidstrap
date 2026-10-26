@@ -8531,4 +8531,10 @@ Bu dosyayı size yardım eden kişiye gönderin. Bilgisayar kullanıcı adınız
   <data name="Ui.Mods.StudioPlugins.PublishFailed" xml:space="preserve">
     <value>Yayınlama başarısız: {0}</value>
   </data>
+  <data name="Ui.Misc2.MusashiQuote" xml:space="preserve">
+    <value>“Kıskançlığınızı kontrol etmek, başkasının ışığının sizinkini söndürmediğini anlamanızı sağlar.”</value>
+  </data>
+  <data name="Ui.Misc2.MusashiQuoteAuthor" xml:space="preserve">
+    <value>Miyamoto Musashi</value>
+  </data>
 </root>

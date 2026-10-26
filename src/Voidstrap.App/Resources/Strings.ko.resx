@@ -8531,4 +8531,10 @@ Voidstrap이 바탕 화면 폴더에 쓸 수 없습니다.</value>
   <data name="Ui.Mods.StudioPlugins.PublishFailed" xml:space="preserve">
     <value>게시 실패: {0}</value>
   </data>
+  <data name="Ui.Misc2.MusashiQuote" xml:space="preserve">
+    <value>“질투를 다스리면 다른 사람의 빛이 당신의 빛을 흐리게 하지 않는다는 것을 깨닫게 됩니다.”</value>
+  </data>
+  <data name="Ui.Misc2.MusashiQuoteAuthor" xml:space="preserve">
+    <value>미야모토 무사시</value>
+  </data>
 </root>

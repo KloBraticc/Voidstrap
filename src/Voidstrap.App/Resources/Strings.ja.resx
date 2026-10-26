@@ -8547,4 +8547,10 @@ Voidstrap がデスクトップ フォルダーに書き込めませんでした
   <data name="Ui.Mods.StudioPlugins.PublishFailed" xml:space="preserve">
     <value>公開に失敗しました: {0}</value>
   </data>
+  <data name="Ui.Misc2.MusashiQuote" xml:space="preserve">
+    <value>「嫉妬を抑えると、他人の光が自分の光を曇らせることはないと気づきます。」</value>
+  </data>
+  <data name="Ui.Misc2.MusashiQuoteAuthor" xml:space="preserve">
+    <value>宮本武蔵</value>
+  </data>
 </root>

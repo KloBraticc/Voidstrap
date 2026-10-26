@@ -8528,4 +8528,10 @@ Voidstrap เขียนลงในโฟลเดอร์เดสก์ท�
   <data name="Ui.Mods.StudioPlugins.PublishFailed" xml:space="preserve">
     <value>เผยแพร่ไม่สำเร็จ: {0}</value>
   </data>
+  <data name="Ui.Misc2.MusashiQuote" xml:space="preserve">
+    <value>“การควบคุมความอิจฉาทำให้คุณตระหนักว่าแสงของผู้อื่นไม่ได้ทำให้แสงของคุณมืดลง”</value>
+  </data>
+  <data name="Ui.Misc2.MusashiQuoteAuthor" xml:space="preserve">
+    <value>มิยาโมโตะ มูซาชิ</value>
+  </data>
 </root>

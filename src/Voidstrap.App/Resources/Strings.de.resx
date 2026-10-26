@@ -8533,4 +8533,10 @@ Es werden {0} MB heruntergeladen. Wenn du ablehnst, wird die eingebaute Schätzu
   <data name="Ui.Mods.StudioPlugins.PublishFailed" xml:space="preserve">
     <value>Veröffentlichen fehlgeschlagen: {0}</value>
   </data>
+  <data name="Ui.Misc2.MusashiQuote" xml:space="preserve">
+    <value>„Wenn du deine Eifersucht kontrollierst, erkennst du, dass das Licht eines anderen deines nicht schwächer macht.“</value>
+  </data>
+  <data name="Ui.Misc2.MusashiQuoteAuthor" xml:space="preserve">
+    <value>Miyamoto Musashi</value>
+  </data>
 </root>

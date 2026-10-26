@@ -8531,4 +8531,10 @@ Magda-download ito ng {0} MB. Kung tatanggihan mo, gagamitin ang built in na tan
   <data name="Ui.Mods.StudioPlugins.PublishFailed" xml:space="preserve">
     <value>Hindi na-publish: {0}</value>
   </data>
+  <data name="Ui.Misc2.MusashiQuote" xml:space="preserve">
+    <value>“Kapag kontrolado mo ang iyong inggit, mauunawaan mo na hindi pinalalabo ng liwanag ng iba ang liwanag mo.”</value>
+  </data>
+  <data name="Ui.Misc2.MusashiQuoteAuthor" xml:space="preserve">
+    <value>Miyamoto Musashi</value>
+  </data>
 </root>

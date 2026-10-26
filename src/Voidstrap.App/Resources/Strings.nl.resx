@@ -8534,4 +8534,10 @@ Er wordt {0} MB gedownload. Als je weigert, wordt de ingebouwde schatting gebrui
   <data name="Ui.Mods.StudioPlugins.PublishFailed" xml:space="preserve">
     <value>Publiceren mislukt: {0}</value>
   </data>
+  <data name="Ui.Misc2.MusashiQuote" xml:space="preserve">
+    <value>‘Als je je jaloezie onder controle hebt, besef je dat het licht van een ander het jouwe niet dimt.’</value>
+  </data>
+  <data name="Ui.Misc2.MusashiQuoteAuthor" xml:space="preserve">
+    <value>Miyamoto Musashi</value>
+  </data>
 </root>

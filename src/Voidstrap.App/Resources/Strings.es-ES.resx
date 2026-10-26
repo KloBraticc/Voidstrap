@@ -8533,4 +8533,10 @@ Se descargan {0} MB. Si lo rechazas, se usa la estimación integrada. Puedes cam
   <data name="Ui.Mods.StudioPlugins.PublishFailed" xml:space="preserve">
     <value>Error al publicar: {0}</value>
   </data>
+  <data name="Ui.Misc2.MusashiQuote" xml:space="preserve">
+    <value>«Controlar tus celos te hace ver que la luz de otra persona no apaga la tuya».</value>
+  </data>
+  <data name="Ui.Misc2.MusashiQuoteAuthor" xml:space="preserve">
+    <value>Miyamoto Musashi</value>
+  </data>
 </root>

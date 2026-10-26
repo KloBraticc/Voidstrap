@@ -8533,4 +8533,10 @@ Voidstrap не можа да запише в папката на работни�
   <data name="Ui.Mods.StudioPlugins.PublishFailed" xml:space="preserve">
     <value>Публикуването не бе успешно: {0}</value>
   </data>
+  <data name="Ui.Misc2.MusashiQuote" xml:space="preserve">
+    <value>„Когато овладеете ревността си, осъзнавате, че чуждата светлина не помрачава вашата.“</value>
+  </data>
+  <data name="Ui.Misc2.MusashiQuoteAuthor" xml:space="preserve">
+    <value>Миямото Мусаши</value>
+  </data>
 </root>

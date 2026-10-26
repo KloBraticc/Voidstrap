@@ -8534,4 +8534,10 @@ O download tem {0} MB. Se você recusar, a estimativa integrada será usada. Voc
   <data name="Ui.Mods.StudioPlugins.PublishFailed" xml:space="preserve">
     <value>Falha ao publicar: {0}</value>
   </data>
+  <data name="Ui.Misc2.MusashiQuote" xml:space="preserve">
+    <value>“Controlar o seu ciúme faz você perceber que a luz de outra pessoa não apaga a sua.”</value>
+  </data>
+  <data name="Ui.Misc2.MusashiQuoteAuthor" xml:space="preserve">
+    <value>Miyamoto Musashi</value>
+  </data>
 </root>

@@ -8524,4 +8524,10 @@ Muat turunnya {0} MB. Jika anda menolak, anggaran terbina dalam akan digunakan. 
   <data name="Ui.Mods.StudioPlugins.PublishFailed" xml:space="preserve">
     <value>Gagal menerbitkan: {0}</value>
   </data>
+  <data name="Ui.Misc2.MusashiQuote" xml:space="preserve">
+    <value>“Mengawal rasa cemburu membuat anda sedar bahawa cahaya orang lain tidak memalapkan cahaya anda.”</value>
+  </data>
+  <data name="Ui.Misc2.MusashiQuoteAuthor" xml:space="preserve">
+    <value>Miyamoto Musashi</value>
+  </data>
 </root>

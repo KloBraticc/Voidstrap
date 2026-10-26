@@ -8534,4 +8534,10 @@ Ladattava koko on {0} Mt. Jos kieltäydyt, käytetään sisäänrakennettua arvi
   <data name="Ui.Mods.StudioPlugins.PublishFailed" xml:space="preserve">
     <value>Julkaisu epäonnistui: {0}</value>
   </data>
+  <data name="Ui.Misc2.MusashiQuote" xml:space="preserve">
+    <value>”Kun hallitset kateutesi, ymmärrät, ettei toisen valo himmennä omaasi.”</value>
+  </data>
+  <data name="Ui.Misc2.MusashiQuoteAuthor" xml:space="preserve">
+    <value>Miyamoto Musashi</value>
+  </data>
 </root>

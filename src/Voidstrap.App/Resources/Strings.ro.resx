@@ -8534,4 +8534,10 @@ Se descarcă {0} MB. Dacă refuzi, se folosește estimarea integrată. Poți sch
   <data name="Ui.Mods.StudioPlugins.PublishFailed" xml:space="preserve">
     <value>Publicarea a eșuat: {0}</value>
   </data>
+  <data name="Ui.Misc2.MusashiQuote" xml:space="preserve">
+    <value>„Când îți controlezi gelozia, îți dai seama că lumina altcuiva nu o estompează pe a ta.”</value>
+  </data>
+  <data name="Ui.Misc2.MusashiQuoteAuthor" xml:space="preserve">
+    <value>Miyamoto Musashi</value>
+  </data>
 </root>

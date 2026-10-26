@@ -81,6 +81,10 @@
       <ui:Anchor Margin="4" HorizontalAlignment="Stretch" Content="{resources:Loc Menu_About_ReportIssue}" Icon="BookExclamationMark24" NavigateUri="https://github.com/KloBraticc/Voidstrap/issues" />
       <ui:Anchor Margin="4" HorizontalAlignment="Stretch" Content="{resources:Loc Menu_About_DiscordServer}" Icon="Chat48" NavigateUri="https://discord.gg/X3CRTP66VG" />
     </UniformGrid>
+    <StackPanel Margin="0,22,0,0" HorizontalAlignment="Center" MaxWidth="560">
+      <TextBlock FontFamily="Segoe Script, Segoe Print, Brush Script MT, Lucida Handwriting, Apple Chancery, Snell Roundhand, URW Chancery L, Z003, TeX Gyre Chorus, Global User Interface" FontSize="18" TextAlignment="Center" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{resources:Loc Ui_Misc2_MusashiQuote}" />
+      <TextBlock Margin="0,6,0,0" FontFamily="Segoe Script, Segoe Print, Brush Script MT, Lucida Handwriting, Apple Chancery, Snell Roundhand, URW Chancery L, Z003, TeX Gyre Chorus, Global User Interface" FontSize="14" HorizontalAlignment="Right" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_Misc2_MusashiQuoteAuthor}" />
+    </StackPanel>
     <TextBlock Style="{StaticResource AboutSectionTitle}" Text="{resources:Loc Ui_Misc2_MainContributors}" />
     <TextBlock Style="{StaticResource AboutSectionSubtitle}" Text="{resources:Loc Ui_Misc2_ThePeopleWhoMadeVoidstrapPossible}" />
     <UniformGrid Margin="-4,6,-4,0" Columns="2">

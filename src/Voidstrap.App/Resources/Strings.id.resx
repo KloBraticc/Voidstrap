@@ -8535,4 +8535,10 @@ Unduhannya {0} MB. Jika Anda menolak, perkiraan bawaan akan digunakan. Anda dapa
   <data name="Ui.Mods.StudioPlugins.PublishFailed" xml:space="preserve">
     <value>Gagal menerbitkan: {0}</value>
   </data>
+  <data name="Ui.Misc2.MusashiQuote" xml:space="preserve">
+    <value>“Mengendalikan rasa iri membuat Anda sadar bahwa cahaya orang lain tidak meredupkan cahaya Anda.”</value>
+  </data>
+  <data name="Ui.Misc2.MusashiQuoteAuthor" xml:space="preserve">
+    <value>Miyamoto Musashi</value>
+  </data>
 </root>

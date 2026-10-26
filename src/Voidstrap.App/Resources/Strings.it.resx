@@ -8535,4 +8535,10 @@ Il download è di {0} MB. Se rifiuti, viene usata la stima integrata. Puoi cambi
   <data name="Ui.Mods.StudioPlugins.PublishFailed" xml:space="preserve">
     <value>Pubblicazione non riuscita: {0}</value>
   </data>
+  <data name="Ui.Misc2.MusashiQuote" xml:space="preserve">
+    <value>«Controllare la tua gelosia ti fa capire che la luce di qualcun altro non offusca la tua.»</value>
+  </data>
+  <data name="Ui.Misc2.MusashiQuoteAuthor" xml:space="preserve">
+    <value>Miyamoto Musashi</value>
+  </data>
 </root>

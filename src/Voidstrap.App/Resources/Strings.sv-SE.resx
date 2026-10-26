@@ -8533,4 +8533,10 @@ Den laddar ner {0} MB. Om du tackar nej används den inbyggda uppskattningen. Du
   <data name="Ui.Mods.StudioPlugins.PublishFailed" xml:space="preserve">
     <value>Publiceringen misslyckades: {0}</value>
   </data>
+  <data name="Ui.Misc2.MusashiQuote" xml:space="preserve">
+    <value>”När du kontrollerar din avundsjuka inser du att någon annans ljus inte dämpar ditt.”</value>
+  </data>
+  <data name="Ui.Misc2.MusashiQuoteAuthor" xml:space="preserve">
+    <value>Miyamoto Musashi</value>
+  </data>
 </root>

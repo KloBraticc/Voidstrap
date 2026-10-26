@@ -8536,4 +8536,10 @@ Dung lượng tải xuống là {0} MB. Nếu bạn từ chối, ước tính t�
   <data name="Ui.Mods.StudioPlugins.PublishFailed" xml:space="preserve">
     <value>Xuất bản thất bại: {0}</value>
   </data>
+  <data name="Ui.Misc2.MusashiQuote" xml:space="preserve">
+    <value>“Kiểm soát lòng đố kỵ giúp bạn nhận ra rằng ánh sáng của người khác không làm lu mờ ánh sáng của bạn.”</value>
+  </data>
+  <data name="Ui.Misc2.MusashiQuoteAuthor" xml:space="preserve">
+    <value>Miyamoto Musashi</value>
+  </data>
 </root>

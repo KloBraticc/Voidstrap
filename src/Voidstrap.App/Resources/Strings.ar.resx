@@ -8532,4 +8532,10 @@
   <data name="Ui.Mods.StudioPlugins.PublishFailed" xml:space="preserve">
     <value>فشل النشر: {0}</value>
   </data>
+  <data name="Ui.Misc2.MusashiQuote" xml:space="preserve">
+    <value>«التحكم في غيرتك يجعلك تدرك أن نور غيرك لا يُطفئ نورك.»</value>
+  </data>
+  <data name="Ui.Misc2.MusashiQuoteAuthor" xml:space="preserve">
+    <value>مياموتو موساشي</value>
+  </data>
 </root>

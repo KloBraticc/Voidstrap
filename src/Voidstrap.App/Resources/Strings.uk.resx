@@ -8531,4 +8531,10 @@ Voidstrap не зміг записати до теки робочого стол
   <data name="Ui.Mods.StudioPlugins.PublishFailed" xml:space="preserve">
     <value>Не вдалося опублікувати: {0}</value>
   </data>
+  <data name="Ui.Misc2.MusashiQuote" xml:space="preserve">
+    <value>«Контролюючи свої заздрощі, Ви розумієте, що чуже світло не затьмарює Ваше».</value>
+  </data>
+  <data name="Ui.Misc2.MusashiQuoteAuthor" xml:space="preserve">
+    <value>Міямото Мусасі</value>
+  </data>
 </root>

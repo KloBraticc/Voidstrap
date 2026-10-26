@@ -8532,4 +8532,10 @@ Le téléchargement fait {0} Mo. Si vous refusez, l'estimation intégrée est ut
   <data name="Ui.Mods.StudioPlugins.PublishFailed" xml:space="preserve">
     <value>Échec de la publication : {0}</value>
   </data>
+  <data name="Ui.Misc2.MusashiQuote" xml:space="preserve">
+    <value>« Maîtriser votre jalousie vous fait comprendre que la lumière d’un autre n’atténue pas la vôtre. »</value>
+  </data>
+  <data name="Ui.Misc2.MusashiQuoteAuthor" xml:space="preserve">
+    <value>Miyamoto Musashi</value>
+  </data>
 </root>

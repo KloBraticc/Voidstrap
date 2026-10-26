@@ -8535,4 +8535,10 @@ Voidstrap نتوانست در پوشهٔ دسکتاپ بنویسد.</value>
   <data name="Ui.Mods.StudioPlugins.PublishFailed" xml:space="preserve">
     <value>انتشار ناموفق بود: {0}</value>
   </data>
+  <data name="Ui.Misc2.MusashiQuote" xml:space="preserve">
+    <value>«وقتی حسادتتان را مهار کنید، درمی‌یابید که نور دیگران نور شما را کم‌فروغ نمی‌کند.»</value>
+  </data>
+  <data name="Ui.Misc2.MusashiQuoteAuthor" xml:space="preserve">
+    <value>میاموتو موساشی</value>
+  </data>
 </root>

@@ -8532,4 +8532,10 @@ A letöltés {0} MB. Ha elutasítod, a beépített becslés lesz használva. Ezt
   <data name="Ui.Mods.StudioPlugins.PublishFailed" xml:space="preserve">
     <value>Sikertelen közzététel: {0}</value>
   </data>
+  <data name="Ui.Misc2.MusashiQuote" xml:space="preserve">
+    <value>„Ha uralod a féltékenységedet, rájössz, hogy más fénye nem halványítja el a tiédet.”</value>
+  </data>
+  <data name="Ui.Misc2.MusashiQuoteAuthor" xml:space="preserve">
+    <value>Miyamoto Musashi</value>
+  </data>
 </root>

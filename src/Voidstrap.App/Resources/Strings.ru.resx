@@ -8532,4 +8532,10 @@ Voidstrap не смог записать в папку рабочего стол
   <data name="Ui.Mods.StudioPlugins.PublishFailed" xml:space="preserve">
     <value>Не удалось опубликовать: {0}</value>
   </data>
+  <data name="Ui.Misc2.MusashiQuote" xml:space="preserve">
+    <value>«Контролируя свою зависть, Вы понимаете, что чужой свет не затмевает Ваш».</value>
+  </data>
+  <data name="Ui.Misc2.MusashiQuoteAuthor" xml:space="preserve">
+    <value>Миямото Мусаси</value>
+  </data>
 </root>

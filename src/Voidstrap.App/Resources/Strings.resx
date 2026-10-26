@@ -8220,4 +8220,10 @@ It downloads {0} MB. If you decline, the built in estimate is used. You can chan
   <data name="Ui.Mods.StudioPlugins.PublishFailed" xml:space="preserve">
     <value>Publishing failed: {0}</value>
   </data>
+  <data name="Ui.Misc2.MusashiQuote" xml:space="preserve">
+    <value>“Controlling your jealousy makes you realize that someone else’s light doesn’t dim yours.”</value>
+  </data>
+  <data name="Ui.Misc2.MusashiQuoteAuthor" xml:space="preserve">
+    <value>Miyamoto Musashi</value>
+  </data>
 </root>

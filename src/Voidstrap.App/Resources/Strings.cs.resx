@@ -8534,4 +8534,10 @@ Stáhne se {0} MB. Pokud odmítnete, použije se vestavěný odhad. Později to 
   <data name="Ui.Mods.StudioPlugins.PublishFailed" xml:space="preserve">
     <value>Publikování selhalo: {0}</value>
   </data>
+  <data name="Ui.Misc2.MusashiQuote" xml:space="preserve">
+    <value>„Když ovládnete svou žárlivost, uvědomíte si, že cizí světlo to vaše nezastíní.“</value>
+  </data>
+  <data name="Ui.Misc2.MusashiQuoteAuthor" xml:space="preserve">
+    <value>Miyamoto Musashi</value>
+  </data>
 </root>

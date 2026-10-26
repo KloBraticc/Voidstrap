@@ -8534,4 +8534,10 @@ Atsisiunčiama {0} MB. Jei atsisakysite, bus naudojamas įtaisytasis įvertinima
   <data name="Ui.Mods.StudioPlugins.PublishFailed" xml:space="preserve">
     <value>Paskelbti nepavyko: {0}</value>
   </data>
+  <data name="Ui.Misc2.MusashiQuote" xml:space="preserve">
+    <value>„Suvaldę pavydą suprantate, kad kito žmogaus šviesa nepritemdo jūsiškės.“</value>
+  </data>
+  <data name="Ui.Misc2.MusashiQuoteAuthor" xml:space="preserve">
+    <value>Miyamoto Musashi</value>
+  </data>
 </root>

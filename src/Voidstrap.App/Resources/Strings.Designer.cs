@@ -1571,6 +1571,8 @@ namespace Voidstrap.Resources {
         public static string Ui_Home_LatestRobloxNews => ResourceManager.GetString("Ui.Home.LatestRobloxNews", resourceCulture);
         public static string Ui_RiShade_Dlss_Title => ResourceManager.GetString("Ui.RiShade.Dlss.Title", resourceCulture);
         public static string Ui_Mods_StudioPlugins_Publish => ResourceManager.GetString("Ui.Mods.StudioPlugins.Publish", resourceCulture);
+        public static string Ui_Misc2_MusashiQuote => ResourceManager.GetString("Ui.Misc2.MusashiQuote", resourceCulture);
+        public static string Ui_Misc2_MusashiQuoteAuthor => ResourceManager.GetString("Ui.Misc2.MusashiQuoteAuthor", resourceCulture);
         public static string Ui_Mods_StudioPlugins_Like => ResourceManager.GetString("Ui.Mods.StudioPlugins.Like", resourceCulture);
         public static string Ui_Mods_StudioPlugins_Dislike => ResourceManager.GetString("Ui.Mods.StudioPlugins.Dislike", resourceCulture);
         public static string Ui_Mods_StudioPlugins_Reviews => ResourceManager.GetString("Ui.Mods.StudioPlugins.Reviews", resourceCulture);

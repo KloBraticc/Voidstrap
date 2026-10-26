@@ -8536,4 +8536,10 @@ Voidstrap 無法寫入桌面資料夾。</value>
   <data name="Ui.Mods.StudioPlugins.PublishFailed" xml:space="preserve">
     <value>發布失敗：{0}</value>
   </data>
+  <data name="Ui.Misc2.MusashiQuote" xml:space="preserve">
+    <value>「控制住嫉妒，你就會明白，別人的光芒並不會讓你的光芒黯淡。」</value>
+  </data>
+  <data name="Ui.Misc2.MusashiQuoteAuthor" xml:space="preserve">
+    <value>宮本武藏</value>
+  </data>
 </root>
