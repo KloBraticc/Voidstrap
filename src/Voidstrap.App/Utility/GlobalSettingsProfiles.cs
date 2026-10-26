@@ -32,9 +32,16 @@ internal static class GlobalSettingsProfiles
 
 	public static Profile Read(string name)
 	{
-		Profile profile = JsonFile.Deserialize<Profile>(SettingsProfiles.GetPath(DirectoryPath, name), JsonOptions.Compact);
-		if (profile.FormatVersion != 1 || profile.Values == null || profile.Values.Any(pair => !GBSEditor.KnownProperties.ContainsKey(pair.Key) || pair.Value == null))
+		Profile profile = JsonFile.Deserialize<Profile>(SettingsProfiles.GetPath(DirectoryPath, name), JsonOptions.Tolerant);
+		if (profile.FormatVersion != 1 || profile.Values == null)
 			throw new InvalidDataException(Strings.SettingsProfiles_InvalidFile);
+		Dictionary<string, string> cleaned = new(StringComparer.Ordinal);
+		foreach (KeyValuePair<string, string> pair in profile.Values)
+		{
+			if (!string.IsNullOrWhiteSpace(pair.Key) && pair.Value != null && GBSEditor.KnownProperties.ContainsKey(pair.Key))
+				cleaned[pair.Key] = pair.Value;
+		}
+		profile.Values = cleaned;
 		return profile;
 	}
 

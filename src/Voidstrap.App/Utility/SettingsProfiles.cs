@@ -47,29 +47,89 @@ internal static class SettingsProfiles
 	public static void Save(string name)
 	{
 		string path = GetPath(name);
-		AppSettings settings = JsonSerializer.Deserialize<AppSettings>(JsonSerializer.Serialize(App.Settings.Prop))!;
+		AppSettings settings = JsonSerializer.Deserialize<AppSettings>(JsonSerializer.Serialize(App.Settings.Prop, JsonOptions.Compact), JsonOptions.Tolerant)!;
+		NormalizeSettings(settings);
 		if (RestartNotificationService.TryGetPendingValue("application.hardwareAcceleration", out bool softwareRender))
 			settings.WPFSoftwareRender = softwareRender;
 		if (RestartNotificationService.TryGetPendingValue("appearance.clearFont", out bool clearFont))
 			settings.ClearFont = clearFont;
-		Profile profile = new() { FormatVersion = 1, Settings = settings, FastFlags = new(App.FastFlags.Prop) };
+		Dictionary<string, object> fastFlags = new(StringComparer.Ordinal);
+		if (App.FastFlags.Prop != null)
+		{
+			foreach (KeyValuePair<string, object> pair in App.FastFlags.Prop)
+			{
+				if (!string.IsNullOrWhiteSpace(pair.Key) && pair.Value != null)
+					fastFlags[pair.Key] = pair.Value;
+			}
+		}
+		Profile profile = new() { FormatVersion = 1, Settings = settings, FastFlags = fastFlags };
 		Directory.CreateDirectory(DirectoryPath);
 		JsonFile.SerializeAtomic(path, profile, JsonOptions.Indented);
 	}
 
 	public static Profile Read(string name)
 	{
-		Profile profile = JsonFile.Deserialize<Profile>(GetPath(name), JsonOptions.Compact);
-		if (profile.FormatVersion != 1 || profile.Settings == null || profile.FastFlags == null
-			|| profile.FastFlags.Any(pair => string.IsNullOrWhiteSpace(pair.Key) || pair.Value == null
-				|| pair.Value is JsonElement element && element.ValueKind is not (JsonValueKind.String or JsonValueKind.Number or JsonValueKind.True or JsonValueKind.False)))
+		string path = GetPath(name);
+		Profile profile = JsonFile.Deserialize<Profile>(path, JsonOptions.Tolerant);
+		if (profile.FormatVersion == 0 && profile.Settings == null && profile.FastFlags == null)
+		{
+			string raw = JsonFile.ReadText(path);
+			using JsonDocument doc = JsonDocument.Parse(raw, new JsonDocumentOptions
+			{
+				AllowTrailingCommas = true,
+				CommentHandling = JsonCommentHandling.Skip
+			});
+			if (doc.RootElement.ValueKind == JsonValueKind.Object
+				&& (doc.RootElement.TryGetProperty("BootstrapperStyle", out _) || doc.RootElement.TryGetProperty("Channel", out _)))
+			{
+				AppSettings? directSettings = JsonSerializer.Deserialize<AppSettings>(raw, JsonOptions.Tolerant);
+				if (directSettings != null)
+				{
+					NormalizeSettings(directSettings);
+					return new Profile
+					{
+						FormatVersion = 1,
+						Settings = directSettings,
+						FastFlags = new Dictionary<string, object>(App.FastFlags.Prop, StringComparer.Ordinal)
+					};
+				}
+			}
+		}
+		if (profile.FormatVersion != 1 || profile.Settings == null)
 			throw new InvalidDataException(Strings.SettingsProfiles_InvalidFile);
+		Dictionary<string, object> cleanedFlags = new(StringComparer.Ordinal);
+		if (profile.FastFlags != null)
+		{
+			foreach (KeyValuePair<string, object> pair in profile.FastFlags)
+			{
+				if (string.IsNullOrWhiteSpace(pair.Key) || pair.Value == null)
+					continue;
+				if (pair.Value is JsonElement element)
+				{
+					if (element.ValueKind is JsonValueKind.Null or JsonValueKind.Undefined)
+						continue;
+					if (element.ValueKind is not (JsonValueKind.String or JsonValueKind.Number or JsonValueKind.True or JsonValueKind.False))
+						throw new InvalidDataException(Strings.SettingsProfiles_InvalidFile);
+				}
+				cleanedFlags[pair.Key] = pair.Value;
+			}
+		}
+		profile.FastFlags = cleanedFlags;
+		NormalizeSettings(profile.Settings);
+		return profile;
+	}
+
+	public static void NormalizeSettings(AppSettings settings)
+	{
+		AppSettings defaults = new();
 		NullabilityInfoContext nullability = new();
 		foreach (PropertyInfo property in typeof(AppSettings).GetProperties(BindingFlags.Instance | BindingFlags.Public))
-			if (property.CanRead && property.CanWrite && property.GetCustomAttribute<JsonIgnoreAttribute>() == null
-				&& nullability.Create(property).ReadState == NullabilityState.NotNull && property.GetValue(profile.Settings) == null)
-				throw new InvalidDataException(Strings.SettingsProfiles_InvalidFile);
-		return profile;
+		{
+			if (!property.CanRead || !property.CanWrite || property.GetCustomAttribute<JsonIgnoreAttribute>() != null)
+				continue;
+			if (nullability.Create(property).ReadState == NullabilityState.NotNull && property.GetValue(settings) == null)
+				property.SetValue(settings, property.GetValue(defaults));
+		}
 	}
 
 	public static void Apply(Profile profile)
@@ -82,7 +142,9 @@ internal static class SettingsProfiles
 		bool settingsSaved = false;
 		try
 		{
-			App.Settings.Prop = profile.Settings ?? throw new InvalidDataException(Strings.SettingsProfiles_InvalidFile);
+			AppSettings nextSettings = profile.Settings ?? throw new InvalidDataException(Strings.SettingsProfiles_InvalidFile);
+			NormalizeSettings(nextSettings);
+			App.Settings.Prop = nextSettings;
 			App.FastFlags.Prop = profile.FastFlags ?? throw new InvalidDataException(Strings.SettingsProfiles_InvalidFile);
 			App.Settings.SaveChecked();
 			settingsSaved = true;

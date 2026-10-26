@@ -325,8 +325,18 @@ namespace Voidstrap.Models.Persistable
         public string KeystrokesMouseSoundPack { get; set; } = "Crisp";
         public string KeystrokesMouseCustomWav { get; set; } = string.Empty;
         public double KeystrokesMouseVolume { get; set; } = 0.5;
-        public string KeystrokesThemeName { get; set; } = "Voidstrap (Default)";
-        public string KeystrokesScalePreset { get; set; } = "Normal";
+        private string _keystrokesThemeName = "Voidstrap (Default)";
+        public string KeystrokesThemeName
+        {
+            get => _keystrokesThemeName;
+            set => _keystrokesThemeName = string.IsNullOrWhiteSpace(value) ? "Voidstrap (Default)" : value;
+        }
+        private string _keystrokesScalePreset = "Normal";
+        public string KeystrokesScalePreset
+        {
+            get => _keystrokesScalePreset;
+            set => _keystrokesScalePreset = string.IsNullOrWhiteSpace(value) ? "Normal" : value;
+        }
         public string? SelectedCustomKeystrokeTheme { get; set; } = null;
 
         // Off shows the server details as a Windows notification instead of the in game one

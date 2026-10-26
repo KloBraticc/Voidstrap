@@ -1846,6 +1846,8 @@ public ICommand PickCursorColorCommand { get; }
 		}
 		set
 		{
+			if (string.IsNullOrWhiteSpace(value))
+				return;
 			if (string.Equals(App.Settings.Prop.KeystrokesScalePreset, value, StringComparison.OrdinalIgnoreCase))
 				return;
 			App.Settings.Prop.KeystrokesScalePreset = value;
