@@ -8710,4 +8710,16 @@ Voidstrap не можа да запише в папката на работни�
   <data name="Ui.Mcp.Activity.Logs" xml:space="preserve">
     <value>дневниците</value>
   </data>
+  <data name="Ui.Mods.CrosshairShortcut.Title" xml:space="preserve">
+    <value>Клавишна комбинация за мерника</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Description" xml:space="preserve">
+    <value>Натиснете клавиш по време на игра, за да покажете или скриете мерника.</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Key" xml:space="preserve">
+    <value>Клавиш</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Saved" xml:space="preserve">
+    <value>Запазено, {0} вече показва или скрива мерника.</value>
+  </data>
 </root>

@@ -8709,4 +8709,16 @@ Gardez Voidstrap et l'éditeur ouverts pendant que l'IA travaille. Ses modificat
   <data name="Ui.Mcp.Activity.Logs" xml:space="preserve">
     <value>les journaux</value>
   </data>
+  <data name="Ui.Mods.CrosshairShortcut.Title" xml:space="preserve">
+    <value>Raccourci du réticule</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Description" xml:space="preserve">
+    <value>Appuyez sur une touche en jeu pour afficher ou masquer le réticule.</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Key" xml:space="preserve">
+    <value>Touche du raccourci</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Saved" xml:space="preserve">
+    <value>Enregistré, {0} affiche ou masque maintenant le réticule.</value>
+  </data>
 </root>

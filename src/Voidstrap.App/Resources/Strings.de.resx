@@ -8710,4 +8710,16 @@ Lass Voidstrap und den Editor geöffnet, während die KI arbeitet. Ihre Änderun
   <data name="Ui.Mcp.Activity.Logs" xml:space="preserve">
     <value>die Protokolle</value>
   </data>
+  <data name="Ui.Mods.CrosshairShortcut.Title" xml:space="preserve">
+    <value>Fadenkreuz-Tastenkürzel</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Description" xml:space="preserve">
+    <value>Drück beim Spielen eine Taste, um das Fadenkreuz ein- oder auszublenden.</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Key" xml:space="preserve">
+    <value>Taste</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Saved" xml:space="preserve">
+    <value>Gespeichert, {0} blendet das Fadenkreuz jetzt ein oder aus.</value>
+  </data>
 </root>

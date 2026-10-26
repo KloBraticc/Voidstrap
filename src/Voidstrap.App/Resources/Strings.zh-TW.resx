@@ -8713,4 +8713,16 @@ Voidstrap 無法寫入桌面資料夾。</value>
   <data name="Ui.Mcp.Activity.Logs" xml:space="preserve">
     <value>記錄</value>
   </data>
+  <data name="Ui.Mods.CrosshairShortcut.Title" xml:space="preserve">
+    <value>準心快捷鍵</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Description" xml:space="preserve">
+    <value>遊戲時按下按鍵即可顯示或隱藏準心。</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Key" xml:space="preserve">
+    <value>快捷鍵</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Saved" xml:space="preserve">
+    <value>已儲存，現在按 {0} 可顯示或隱藏準心。</value>
+  </data>
 </root>

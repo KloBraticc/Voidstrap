@@ -8734,4 +8734,16 @@ Voidstrap 无法写入桌面文件夹。</value>
   <data name="Ui.Mcp.Activity.Logs" xml:space="preserve">
     <value>日志</value>
   </data>
+  <data name="Ui.Mods.CrosshairShortcut.Title" xml:space="preserve">
+    <value>准星快捷键</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Description" xml:space="preserve">
+    <value>游戏时按下按键即可显示或隐藏准星。</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Key" xml:space="preserve">
+    <value>快捷键</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Saved" xml:space="preserve">
+    <value>已保存，现在按 {0} 可显示或隐藏准星。</value>
+  </data>
 </root>

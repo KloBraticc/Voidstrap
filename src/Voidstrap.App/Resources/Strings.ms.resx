@@ -8701,4 +8701,16 @@ Biarkan Voidstrap dan penyunting kekal dibuka semasa AI bekerja. Perubahannya di
   <data name="Ui.Mcp.Activity.Logs" xml:space="preserve">
     <value>log</value>
   </data>
+  <data name="Ui.Mods.CrosshairShortcut.Title" xml:space="preserve">
+    <value>Pintasan sasaran</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Description" xml:space="preserve">
+    <value>Tekan kekunci semasa bermain untuk menunjukkan atau menyembunyikan sasaran.</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Key" xml:space="preserve">
+    <value>Kekunci pintasan</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Saved" xml:space="preserve">
+    <value>Disimpan, {0} kini menunjukkan atau menyembunyikan sasaran.</value>
+  </data>
 </root>

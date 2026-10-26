@@ -8710,4 +8710,16 @@ Håll Voidstrap och redigeraren öppna medan AI:n arbetar. Ändringarna visas di
   <data name="Ui.Mcp.Activity.Logs" xml:space="preserve">
     <value>loggarna</value>
   </data>
+  <data name="Ui.Mods.CrosshairShortcut.Title" xml:space="preserve">
+    <value>Kortkommando för sikte</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Description" xml:space="preserve">
+    <value>Tryck på en tangent medan du spelar för att visa eller dölja siktet.</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Key" xml:space="preserve">
+    <value>Tangent</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Saved" xml:space="preserve">
+    <value>Sparat, {0} visar eller döljer nu siktet.</value>
+  </data>
 </root>

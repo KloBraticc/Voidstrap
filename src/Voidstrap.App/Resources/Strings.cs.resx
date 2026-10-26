@@ -8711,4 +8711,16 @@ Během práce AI ponechte Voidstrap i editor otevřené. Změny se okamžitě pr
   <data name="Ui.Mcp.Activity.Logs" xml:space="preserve">
     <value>protokoly</value>
   </data>
+  <data name="Ui.Mods.CrosshairShortcut.Title" xml:space="preserve">
+    <value>Zkratka zaměřovače</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Description" xml:space="preserve">
+    <value>Stisknutím klávesy během hraní zobrazíte nebo skryjete zaměřovač.</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Key" xml:space="preserve">
+    <value>Klávesová zkratka</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Saved" xml:space="preserve">
+    <value>Uloženo, {0} nyní zobrazuje nebo skrývá zaměřovač.</value>
+  </data>
 </root>

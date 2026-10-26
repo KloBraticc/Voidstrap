@@ -8708,4 +8708,16 @@ AI가 작업하는 동안 Voidstrap과 편집기를 열어 두세요. 변경 사
   <data name="Ui.Mcp.Activity.Logs" xml:space="preserve">
     <value>로그</value>
   </data>
+  <data name="Ui.Mods.CrosshairShortcut.Title" xml:space="preserve">
+    <value>조준선 단축키</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Description" xml:space="preserve">
+    <value>플레이 중 키를 눌러 조준선을 표시하거나 숨깁니다.</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Key" xml:space="preserve">
+    <value>단축키</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Saved" xml:space="preserve">
+    <value>저장되었습니다. 이제 {0}(으)로 조준선을 표시하거나 숨깁니다.</value>
+  </data>
 </root>

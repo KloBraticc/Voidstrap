@@ -439,6 +439,22 @@
           </Grid>
         </HeaderedContentControl.Header>
         <StackPanel>
+          <controls:OptionControl Header="{resources:Loc Ui_Mods_CrosshairShortcut_Title}" Description="{resources:Loc Ui_Mods_CrosshairShortcut_Description}">
+            <ui:ToggleSwitch IsChecked="{Binding CrosshairShortcutEnabled, Mode=TwoWay}" />
+          </controls:OptionControl>
+          <controls:OptionControl Header="{resources:Loc Ui_Mods_CrosshairShortcut_Key}" IsEnabled="{Binding CrosshairShortcutEnabled}">
+            <StackPanel>
+              <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Border Loaded="CrosshairKeyBox_Loaded" MinWidth="130" Height="34" CornerRadius="5" Cursor="Hand" Focusable="True" BorderThickness="1"
+                        Background="{DynamicResource ControlFillColorSecondaryBrush}" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}"
+                        MouseLeftButtonUp="CrosshairKeyBox_Click" PreviewKeyDown="CrosshairKeyBox_KeyDown" LostKeyboardFocus="CrosshairKeyBox_LostFocus">
+                  <TextBlock Margin="12,0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="14" />
+                </Border>
+                <ui:Button Height="34" Margin="8,0,0,0" Focusable="False" Content="{resources:Loc Common_Reset}" Click="CrosshairKeyReset_Click" />
+              </StackPanel>
+              <TextBlock Loaded="CrosshairKeyStatus_Loaded" Margin="0,6,0,0" MaxWidth="320" HorizontalAlignment="Right" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Visibility="Collapsed" />
+            </StackPanel>
+          </controls:OptionControl>
           <controls:OptionControl Header="{resources:Loc Ui_Appearance_Shape}">
             <ComboBox Width="160" ItemsSource="{Binding CrosshairShapes}" SelectedItem="{Binding SelectedShape, Mode=TwoWay}" />
           </controls:OptionControl>

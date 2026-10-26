@@ -8709,4 +8709,16 @@ Drži Voidstrap i uređivač otvorenima dok AI radi. Njegove se promjene odmah p
   <data name="Ui.Mcp.Activity.Logs" xml:space="preserve">
     <value>zapisnike</value>
   </data>
+  <data name="Ui.Mods.CrosshairShortcut.Title" xml:space="preserve">
+    <value>Prečac za nišan</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Description" xml:space="preserve">
+    <value>Pritisni tipku dok igraš da prikažeš ili sakriješ nišan.</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Key" xml:space="preserve">
+    <value>Tipka prečaca</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Saved" xml:space="preserve">
+    <value>Spremljeno, {0} sada prikazuje ili skriva nišan.</value>
+  </data>
 </root>

@@ -8712,4 +8712,16 @@ Biarkan Voidstrap dan editor tetap terbuka saat AI bekerja. Perubahannya langsun
   <data name="Ui.Mcp.Activity.Logs" xml:space="preserve">
     <value>log</value>
   </data>
+  <data name="Ui.Mods.CrosshairShortcut.Title" xml:space="preserve">
+    <value>Pintasan bidik</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Description" xml:space="preserve">
+    <value>Tekan tombol saat bermain untuk menampilkan atau menyembunyikan bidik.</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Key" xml:space="preserve">
+    <value>Tombol pintasan</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Saved" xml:space="preserve">
+    <value>Tersimpan, {0} kini menampilkan atau menyembunyikan bidik.</value>
+  </data>
 </root>

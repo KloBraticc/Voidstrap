@@ -8711,4 +8711,16 @@ Houd Voidstrap en de editor geopend terwijl de AI werkt. De wijzigingen zijn dir
   <data name="Ui.Mcp.Activity.Logs" xml:space="preserve">
     <value>de logboeken</value>
   </data>
+  <data name="Ui.Mods.CrosshairShortcut.Title" xml:space="preserve">
+    <value>Sneltoets voor het vizier</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Description" xml:space="preserve">
+    <value>Druk tijdens het spelen op een toets om het vizier te tonen of te verbergen.</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Key" xml:space="preserve">
+    <value>Sneltoets</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Saved" xml:space="preserve">
+    <value>Opgeslagen, {0} toont of verbergt nu het vizier.</value>
+  </data>
 </root>

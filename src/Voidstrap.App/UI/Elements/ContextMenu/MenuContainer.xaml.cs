@@ -40,6 +40,8 @@ public partial class MenuContainer : WpfUiWindow
     private const int RiShadeHotkeyId = 0x564E;
     private const int RiShadeAltHotkeyId = 0x5650;
     private const int ClipperHotkeyId = 0x564F;
+
+    private const int CrosshairHotkeyId = 0x5651;
     private const uint VirtualKeyHome = 0x24;
     private const uint VirtualKeyF8 = 0x77;
     private static MenuContainer? _currentInstance;
@@ -90,6 +92,10 @@ public partial class MenuContainer : WpfUiWindow
     private IDisposable? _portableClipperHotkey;
     private bool _sessionDockHotkeySuspended;
     private bool _clipperHotkeySuspended;
+    private bool _crosshairHotkeyRegistered;
+    private bool _crosshairHotkeySuspended;
+    private OverlayShortcut? _registeredCrosshairShortcut;
+    private IDisposable? _portableCrosshairHotkey;
     private int _clipSaveActive;
     private SessionNotifier? _sessionNotifier;
 
@@ -150,6 +156,7 @@ public partial class MenuContainer : WpfUiWindow
         RefreshSessionDockHotkey();
         RefreshRiShadeHotkey();
         RefreshClipperHotkey();
+        RefreshCrosshairHotkey();
         Voidstrap.Integrations.Clipper.ClipperService.ClipSaved += OnClipSavedByService;
         Voidstrap.Integrations.Clipper.ClipperService.NotifyClientRunning(true);
         MenuContainerViewModel dataContext = (MenuContainerViewModel)(base.DataContext = new MenuContainerViewModel());
@@ -290,7 +297,7 @@ public partial class MenuContainer : WpfUiWindow
         MenuContainer? instance = _currentInstance;
         if (instance == null || instance._closed || shortcut.Key == 0)
             return true;
-        if (shortcut.SameAs(instance._registeredShortcut) || shortcut.SameAs(instance._registeredClipperShortcut)
+        if (shortcut.SameAs(instance._registeredShortcut) || shortcut.SameAs(instance._registeredClipperShortcut) || shortcut.SameAs(instance._registeredCrosshairShortcut)
             || (shortcut.Key == instance._riShadeRegisteredKey && shortcut.Modifiers == instance._riShadeRegisteredModifiers))
             return true;
         if (Voidstrap.UI.PortableOverlay.Active)
@@ -400,6 +407,81 @@ public partial class MenuContainer : WpfUiWindow
         dock.Closed -= SessionDock_Closed;
         if (ReferenceEquals(_sessionDock, dock))
             _sessionDock = null;
+    }
+
+    public static void SyncCrosshairHotkey()
+    {
+        MenuContainer? instance = _currentInstance;
+        if (instance == null || instance._closed)
+            return;
+        instance.Dispatcher.BeginInvoke(new Action(instance.RefreshCrosshairHotkey));
+    }
+
+    public static void SuspendCrosshairHotkey(bool suspend)
+    {
+        MenuContainer? instance = _currentInstance;
+        if (instance == null || instance._closed)
+            return;
+        instance._crosshairHotkeySuspended = suspend;
+        instance.Dispatcher.BeginInvoke(new Action(instance.RefreshCrosshairHotkey));
+    }
+
+    private void RefreshCrosshairHotkey()
+    {
+        if (_closed)
+            return;
+        OverlayShortcut shortcut = App.Settings.Prop.CrosshairShortcut ??= new OverlayShortcut { Modifiers = OverlayShortcut.Alt, Key = 0x58 };
+        bool enabled = App.Settings.Prop.CrosshairShortcutEnabled && shortcut.IsSet && !_crosshairHotkeySuspended;
+        if (enabled && _crosshairHotkeyRegistered && shortcut.SameAs(_registeredCrosshairShortcut))
+            return;
+        if (_crosshairHotkeyRegistered)
+        {
+            if (Voidstrap.Utility.Platform.IsWindows)
+                UnregisterHotKey(_handle, CrosshairHotkeyId);
+            _portableCrosshairHotkey?.Dispose();
+            _portableCrosshairHotkey = null;
+            _crosshairHotkeyRegistered = false;
+            _registeredCrosshairShortcut = null;
+        }
+        if (!enabled)
+            return;
+        if (Voidstrap.UI.PortableOverlay.Active)
+        {
+            _portableCrosshairHotkey = RegisterPortableShortcut(shortcut, OnPortableCrosshairShortcut);
+            _crosshairHotkeyRegistered = _portableCrosshairHotkey != null;
+        }
+        else
+        {
+            _crosshairHotkeyRegistered = RegisterHotKey(_handle, CrosshairHotkeyId, shortcut.Modifiers | 0x4000, shortcut.Key);
+        }
+        if (_crosshairHotkeyRegistered)
+            _registeredCrosshairShortcut = shortcut.Copy();
+        else
+            App.Logger.WriteLine("MenuContainer", shortcut.Describe() + " could not be registered for the crosshair");
+    }
+
+    private void OnPortableCrosshairShortcut()
+    {
+        if (!_closed && !Dispatcher.HasShutdownStarted)
+            Dispatcher.BeginInvoke(new Action(ToggleCrosshairFromHotkey));
+    }
+
+    private void ToggleCrosshairFromHotkey()
+    {
+        if (_closed || !App.Settings.Prop.CrosshairShortcutEnabled)
+            return;
+        try
+        {
+            App.Settings.Prop.Crosshair = !App.Settings.Prop.Crosshair;
+            App.Settings.SaveDeferred();
+            Voidstrap.Integrations.Overlays.OverlayHub.RefreshCrosshair();
+            App.Logger.WriteLine("MenuContainer", "Crosshair turned " + (App.Settings.Prop.Crosshair ? "on" : "off") + " from its shortcut");
+            System.Windows.Application.Current?.Windows.OfType<Voidstrap.UI.Elements.Settings.MainWindow>().FirstOrDefault()?.RefreshCurrentPage();
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("MenuContainer::CrosshairHotkey", ex);
+        }
     }
 
     public static void SyncClipperHotkey()
@@ -533,6 +615,12 @@ public partial class MenuContainer : WpfUiWindow
             {
                 App.Logger.WriteException("MenuContainer::RiShadeHotkey", ex);
             }
+            return IntPtr.Zero;
+        }
+        if (message == 0x0312 && wParam.ToInt32() == CrosshairHotkeyId)
+        {
+            handled = true;
+            ToggleCrosshairFromHotkey();
             return IntPtr.Zero;
         }
         if (message == 0x0312 && wParam.ToInt32() == ClipperHotkeyId)
@@ -1849,6 +1937,11 @@ public partial class MenuContainer : WpfUiWindow
             UnregisterHotKey(_handle, SessionDockHotkeyId);
         if (_clipperHotkeyRegistered && Voidstrap.Utility.Platform.IsWindows)
             UnregisterHotKey(_handle, ClipperHotkeyId);
+        if (_crosshairHotkeyRegistered && Voidstrap.Utility.Platform.IsWindows)
+            UnregisterHotKey(_handle, CrosshairHotkeyId);
+        _crosshairHotkeyRegistered = false;
+        _portableCrosshairHotkey?.Dispose();
+        _portableCrosshairHotkey = null;
         if (_riShadeHotkeyRegistered)
         {
             UnregisterHotKey(_handle, RiShadeHotkeyId);

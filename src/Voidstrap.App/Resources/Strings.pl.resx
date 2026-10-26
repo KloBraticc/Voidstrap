@@ -8710,4 +8710,16 @@ Pozostaw Voidstrap i edytor otwarte podczas pracy AI. Wprowadzane zmiany są od 
   <data name="Ui.Mcp.Activity.Logs" xml:space="preserve">
     <value>dzienniki</value>
   </data>
+  <data name="Ui.Mods.CrosshairShortcut.Title" xml:space="preserve">
+    <value>Skrót celownika</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Description" xml:space="preserve">
+    <value>Naciśnij klawisz podczas gry, aby pokazać lub ukryć celownik.</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Key" xml:space="preserve">
+    <value>Klawisz skrótu</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Saved" xml:space="preserve">
+    <value>Zapisano, {0} pokazuje teraz lub ukrywa celownik.</value>
+  </data>
 </root>

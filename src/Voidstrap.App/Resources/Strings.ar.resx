@@ -8709,4 +8709,16 @@
   <data name="Ui.Mcp.Activity.Logs" xml:space="preserve">
     <value>السجلات</value>
   </data>
+  <data name="Ui.Mods.CrosshairShortcut.Title" xml:space="preserve">
+    <value>اختصار علامة التصويب</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Description" xml:space="preserve">
+    <value>اضغط مفتاحًا أثناء اللعب لإظهار علامة التصويب أو إخفائها.</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Key" xml:space="preserve">
+    <value>مفتاح الاختصار</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Saved" xml:space="preserve">
+    <value>تم الحفظ، الآن يُظهر {0} علامة التصويب أو يخفيها.</value>
+  </data>
 </root>

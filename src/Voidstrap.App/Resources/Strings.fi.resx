@@ -8711,4 +8711,16 @@ Pidä Voidstrap ja muokkain avoinna, kun tekoäly työskentelee. Sen tekemät mu
   <data name="Ui.Mcp.Activity.Logs" xml:space="preserve">
     <value>lokit</value>
   </data>
+  <data name="Ui.Mods.CrosshairShortcut.Title" xml:space="preserve">
+    <value>Tähtäimen pikanäppäin</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Description" xml:space="preserve">
+    <value>Paina pelatessasi näppäintä näyttääksesi tai piilottaaksesi tähtäimen.</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Key" xml:space="preserve">
+    <value>Pikanäppäin</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Saved" xml:space="preserve">
+    <value>Tallennettu, {0} näyttää tai piilottaa nyt tähtäimen.</value>
+  </data>
 </root>

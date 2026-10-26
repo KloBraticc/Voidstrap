@@ -8712,4 +8712,16 @@ Voidstrap نتوانست در پوشهٔ دسکتاپ بنویسد.</value>
   <data name="Ui.Mcp.Activity.Logs" xml:space="preserve">
     <value>گزارش‌ها</value>
   </data>
+  <data name="Ui.Mods.CrosshairShortcut.Title" xml:space="preserve">
+    <value>میان‌بر نشانگر</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Description" xml:space="preserve">
+    <value>هنگام بازی کلیدی را بزنید تا نشانگر نمایش داده یا پنهان شود.</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Key" xml:space="preserve">
+    <value>کلید میان‌بر</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Saved" xml:space="preserve">
+    <value>ذخیره شد، اکنون {0} نشانگر را نمایش می‌دهد یا پنهان می‌کند.</value>
+  </data>
 </root>

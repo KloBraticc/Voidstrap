@@ -8708,4 +8708,16 @@ Voidstrap не зміг записати до теки робочого стол
   <data name="Ui.Mcp.Activity.Logs" xml:space="preserve">
     <value>журнали</value>
   </data>
+  <data name="Ui.Mods.CrosshairShortcut.Title" xml:space="preserve">
+    <value>Гаряча клавіша приціла</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Description" xml:space="preserve">
+    <value>Натисніть клавішу під час гри, щоб показати або сховати приціл.</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Key" xml:space="preserve">
+    <value>Клавіша</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Saved" xml:space="preserve">
+    <value>Збережено, тепер {0} показує або ховає приціл.</value>
+  </data>
 </root>

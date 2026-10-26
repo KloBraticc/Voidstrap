@@ -8711,4 +8711,16 @@ Mantenha o Voidstrap e o editor abertos enquanto a IA trabalha. As alterações 
   <data name="Ui.Mcp.Activity.Logs" xml:space="preserve">
     <value>os logs</value>
   </data>
+  <data name="Ui.Mods.CrosshairShortcut.Title" xml:space="preserve">
+    <value>Atalho da mira</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Description" xml:space="preserve">
+    <value>Pressione uma tecla enquanto joga para mostrar ou ocultar a mira.</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Key" xml:space="preserve">
+    <value>Tecla do atalho</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Saved" xml:space="preserve">
+    <value>Salvo, {0} agora mostra ou oculta a mira.</value>
+  </data>
 </root>

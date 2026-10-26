@@ -1570,6 +1570,10 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Home_LatestRobloxNews => ResourceManager.GetString("Ui.Home.LatestRobloxNews", resourceCulture);
         public static string Ui_RiShade_Dlss_Title => ResourceManager.GetString("Ui.RiShade.Dlss.Title", resourceCulture);
+        public static string Ui_Mods_CrosshairShortcut_Title => ResourceManager.GetString("Ui.Mods.CrosshairShortcut.Title", resourceCulture);
+        public static string Ui_Mods_CrosshairShortcut_Description => ResourceManager.GetString("Ui.Mods.CrosshairShortcut.Description", resourceCulture);
+        public static string Ui_Mods_CrosshairShortcut_Key => ResourceManager.GetString("Ui.Mods.CrosshairShortcut.Key", resourceCulture);
+        public static string Ui_Mods_CrosshairShortcut_Saved => ResourceManager.GetString("Ui.Mods.CrosshairShortcut.Saved", resourceCulture);
         public static string Ui_Mcp_Activity_Title => ResourceManager.GetString("Ui.Mcp.Activity.Title", resourceCulture);
         public static string Ui_Mcp_Activity_Reading => ResourceManager.GetString("Ui.Mcp.Activity.Reading", resourceCulture);
         public static string Ui_Mcp_Activity_Editing => ResourceManager.GetString("Ui.Mcp.Activity.Editing", resourceCulture);

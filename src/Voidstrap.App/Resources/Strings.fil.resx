@@ -8708,4 +8708,16 @@ Panatilihing nakabukas ang Voidstrap at ang editor habang gumagawa ang AI. Agad 
   <data name="Ui.Mcp.Activity.Logs" xml:space="preserve">
     <value>mga log</value>
   </data>
+  <data name="Ui.Mods.CrosshairShortcut.Title" xml:space="preserve">
+    <value>Shortcut ng crosshair</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Description" xml:space="preserve">
+    <value>Pindutin ang isang key habang naglalaro para ipakita o itago ang crosshair.</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Key" xml:space="preserve">
+    <value>Shortcut key</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Saved" xml:space="preserve">
+    <value>Na-save, ipinapakita o itinatago na ng {0} ang crosshair.</value>
+  </data>
 </root>

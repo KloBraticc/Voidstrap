@@ -230,6 +230,8 @@ namespace Voidstrap.Models.Persistable
         public bool Clock24Hour { get; set; } = false;
         public bool ExclusiveFullscreen { get; set; } = false;
         public bool Crosshair { get; set; } = false;
+        public bool CrosshairShortcutEnabled { get; set; } = false;
+        public OverlayShortcut CrosshairShortcut { get; set; } = new() { Modifiers = OverlayShortcut.Alt, Key = 0x58 };
         public int CrosshairShapeIndex { get; set; }
         public string CrosshairImagePath { get; set; } = "";
         public string CrosshairColorHex { get; set; } = "#FF00FF00";

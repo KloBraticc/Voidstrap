@@ -8713,4 +8713,16 @@ Hãy giữ Voidstrap và trình chỉnh sửa luôn mở trong khi AI làm việ
   <data name="Ui.Mcp.Activity.Logs" xml:space="preserve">
     <value>nhật ký</value>
   </data>
+  <data name="Ui.Mods.CrosshairShortcut.Title" xml:space="preserve">
+    <value>Phím tắt tâm ngắm</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Description" xml:space="preserve">
+    <value>Nhấn một phím khi đang chơi để hiện hoặc ẩn tâm ngắm.</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Key" xml:space="preserve">
+    <value>Phím tắt</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Saved" xml:space="preserve">
+    <value>Đã lưu, {0} giờ hiện hoặc ẩn tâm ngắm.</value>
+  </data>
 </root>

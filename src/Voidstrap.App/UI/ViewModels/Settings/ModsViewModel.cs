@@ -2721,6 +2721,23 @@ public ICommand PickCursorColorCommand { get; }
 		}
 	}
 
+	public bool CrosshairShortcutEnabled
+	{
+		get
+		{
+			return App.Settings.Prop.CrosshairShortcutEnabled;
+		}
+		set
+		{
+			if (App.Settings.Prop.CrosshairShortcutEnabled == value)
+				return;
+			App.Settings.Prop.CrosshairShortcutEnabled = value;
+			OnPropertyChanged(nameof(CrosshairShortcutEnabled));
+			App.Settings.SaveDeferred();
+			Voidstrap.UI.Elements.ContextMenu.MenuContainer.SyncCrosshairHotkey();
+		}
+	}
+
 	public bool Crosshair
 	{
 		get

@@ -8705,4 +8705,16 @@ Voidstrap เขียนลงในโฟลเดอร์เดสก์ท�
   <data name="Ui.Mcp.Activity.Logs" xml:space="preserve">
     <value>บันทึกการทำงาน</value>
   </data>
+  <data name="Ui.Mods.CrosshairShortcut.Title" xml:space="preserve">
+    <value>ปุ่มลัดเป้าเล็ง</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Description" xml:space="preserve">
+    <value>กดปุ่มระหว่างเล่นเพื่อแสดงหรือซ่อนเป้าเล็ง</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Key" xml:space="preserve">
+    <value>ปุ่มลัด</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Saved" xml:space="preserve">
+    <value>บันทึกแล้ว ตอนนี้ {0} จะแสดงหรือซ่อนเป้าเล็ง</value>
+  </data>
 </root>

@@ -8708,4 +8708,16 @@ YZ çalışırken Voidstrap'i ve düzenleyiciyi açık tutun. Yaptığı değiş
   <data name="Ui.Mcp.Activity.Logs" xml:space="preserve">
     <value>günlükler</value>
   </data>
+  <data name="Ui.Mods.CrosshairShortcut.Title" xml:space="preserve">
+    <value>Nişangâh kısayolu</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Description" xml:space="preserve">
+    <value>Oynarken nişangâhı göstermek veya gizlemek için bir tuşa basın.</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Key" xml:space="preserve">
+    <value>Kısayol tuşu</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Saved" xml:space="preserve">
+    <value>Kaydedildi, {0} artık nişangâhı gösterip gizliyor.</value>
+  </data>
 </root>

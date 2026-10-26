@@ -8397,4 +8397,16 @@ Keep Voidstrap and the editor open while the AI works. Its changes show in the p
   <data name="Ui.Mcp.Activity.Logs" xml:space="preserve">
     <value>the logs</value>
   </data>
+  <data name="Ui.Mods.CrosshairShortcut.Title" xml:space="preserve">
+    <value>Crosshair shortcut</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Description" xml:space="preserve">
+    <value>Press a key while you play to show or hide the crosshair.</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Key" xml:space="preserve">
+    <value>Shortcut key</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Saved" xml:space="preserve">
+    <value>Saved, {0} now shows or hides the crosshair.</value>
+  </data>
 </root>

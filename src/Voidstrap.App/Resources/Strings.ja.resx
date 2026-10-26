@@ -8724,4 +8724,16 @@ AIの作業中はVoidstrapとエディターを開いたままにしてくださ
   <data name="Ui.Mcp.Activity.Logs" xml:space="preserve">
     <value>ログ</value>
   </data>
+  <data name="Ui.Mods.CrosshairShortcut.Title" xml:space="preserve">
+    <value>クロスヘアのショートカット</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Description" xml:space="preserve">
+    <value>プレイ中にキーを押すとクロスヘアを表示または非表示にします。</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Key" xml:space="preserve">
+    <value>ショートカットキー</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Saved" xml:space="preserve">
+    <value>保存しました。{0} でクロスヘアを表示または非表示にできます。</value>
+  </data>
 </root>

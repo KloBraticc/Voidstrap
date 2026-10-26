@@ -8711,4 +8711,16 @@ Palikite Voidstrap ir redaktorių atidarytus, kol DI dirba. Jo pakeitimai iš ka
   <data name="Ui.Mcp.Activity.Logs" xml:space="preserve">
     <value>žurnalus</value>
   </data>
+  <data name="Ui.Mods.CrosshairShortcut.Title" xml:space="preserve">
+    <value>Taikiklio spartusis klavišas</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Description" xml:space="preserve">
+    <value>Žaisdami paspauskite klavišą, kad parodytumėte ar paslėptumėte taikiklį.</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Key" xml:space="preserve">
+    <value>Spartusis klavišas</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Saved" xml:space="preserve">
+    <value>Įrašyta, {0} dabar parodo arba paslepia taikiklį.</value>
+  </data>
 </root>

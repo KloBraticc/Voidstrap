@@ -8709,4 +8709,16 @@ Voidstrap не смог записать в папку рабочего стол
   <data name="Ui.Mcp.Activity.Logs" xml:space="preserve">
     <value>журналы</value>
   </data>
+  <data name="Ui.Mods.CrosshairShortcut.Title" xml:space="preserve">
+    <value>Горячая клавиша прицела</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Description" xml:space="preserve">
+    <value>Нажмите клавишу во время игры, чтобы показать или скрыть прицел.</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Key" xml:space="preserve">
+    <value>Клавиша</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Saved" xml:space="preserve">
+    <value>Сохранено, теперь {0} показывает или скрывает прицел.</value>
+  </data>
 </root>

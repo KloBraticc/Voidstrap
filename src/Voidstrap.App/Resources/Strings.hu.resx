@@ -8709,4 +8709,16 @@ Tartsd nyitva a Voidstrapet és a szerkesztőt, amíg az MI dolgozik. A módosí
   <data name="Ui.Mcp.Activity.Logs" xml:space="preserve">
     <value>a naplókat</value>
   </data>
+  <data name="Ui.Mods.CrosshairShortcut.Title" xml:space="preserve">
+    <value>Célkereszt gyorsbillentyű</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Description" xml:space="preserve">
+    <value>Játék közben egy billentyűvel megjelenítheted vagy elrejtheted a célkeresztet.</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Key" xml:space="preserve">
+    <value>Gyorsbillentyű</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Saved" xml:space="preserve">
+    <value>Mentve, a(z) {0} mostantól megjeleníti vagy elrejti a célkeresztet.</value>
+  </data>
 </root>

@@ -8711,4 +8711,16 @@ Păstrează Voidstrap și editorul deschise în timp ce AI-ul lucrează. Modific
   <data name="Ui.Mcp.Activity.Logs" xml:space="preserve">
     <value>jurnalele</value>
   </data>
+  <data name="Ui.Mods.CrosshairShortcut.Title" xml:space="preserve">
+    <value>Comandă rapidă pentru țintă</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Description" xml:space="preserve">
+    <value>Apasă o tastă în timp ce joci ca să afișezi sau să ascunzi ținta.</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Key" xml:space="preserve">
+    <value>Tasta comenzii rapide</value>
+  </data>
+  <data name="Ui.Mods.CrosshairShortcut.Saved" xml:space="preserve">
+    <value>Salvat, {0} afișează sau ascunde acum ținta.</value>
+  </data>
 </root>
