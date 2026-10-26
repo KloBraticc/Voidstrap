@@ -39,6 +39,7 @@ public:
     bool DistanceOutput() const { return distanceOutput; }
     const std::wstring& LoadedFile() const { return loadedFile; }
     ID3D12CommandQueue* Queue() const { return queue; }
+    const std::string& FusionError() const { return fusionError; }
 
     void Bind(ID3D12Resource* input, ID3D12Resource* output);
 
@@ -56,6 +57,7 @@ private:
     OrtEnv* env = nullptr;
     OrtSessionOptions* options = nullptr;
     OrtSession* session = nullptr;
+    std::string fusionError;
     OrtMemoryInfo* memory = nullptr;
     std::string inputName;
     std::string outputName;

@@ -131,21 +131,43 @@ void DepthModel::Load(const std::wstring& directory, const std::wstring& modelFi
     if (!halfSupported && Exists(directory + FullPrecisionSibling(modelFile)))
         loadedFile = FullPrecisionSibling(modelFile);
     const D3D12_COMMAND_QUEUE_DESC queueDesc{ D3D12_COMMAND_LIST_TYPE_DIRECT };
-    if (FAILED(device->CreateCommandQueue(&queueDesc, IID_PPV_ARGS(&queue))))
-        throw std::runtime_error("The GPU command queue could not be created.");
-
     check(api->CreateEnv(ORT_LOGGING_LEVEL_ERROR, "Unishade", &env));
-    check(api->CreateSessionOptions(&options));
-    check(api->SetSessionExecutionMode(options, ORT_SEQUENTIAL));
-    check(api->DisableMemPattern(options));
-    check(api->SetSessionGraphOptimizationLevel(options, ORT_ENABLE_ALL));
-    check(api->AddSessionConfigEntry(options, "session.intra_op.allow_spinning", "0"));
-    check(api->AddFreeDimensionOverrideByName(options, "batch_size", 1));
-    check(api->AddFreeDimensionOverrideByName(options, "num_images", 1));
-    check(api->AddFreeDimensionOverrideByName(options, "height", height));
-    check(api->AddFreeDimensionOverrideByName(options, "width", width));
-    check(dmlApi->SessionOptionsAppendExecutionProvider_DML1(options, dml, queue));
-    check(api->CreateSession(env, (directory + loadedFile).c_str(), options, &session));
+    const auto createSession = [&](bool fuse) {
+        if (!dml && FAILED(createDml(device, DML_CREATE_DEVICE_FLAG_NONE, IID_PPV_ARGS(&dml))))
+            throw std::runtime_error("DirectML could not use this GPU.");
+        if (!queue && FAILED(device->CreateCommandQueue(&queueDesc, IID_PPV_ARGS(&queue))))
+            throw std::runtime_error("The GPU command queue could not be created.");
+        check(api->CreateSessionOptions(&options));
+        check(api->SetSessionExecutionMode(options, ORT_SEQUENTIAL));
+        check(api->DisableMemPattern(options));
+        check(api->SetSessionGraphOptimizationLevel(options, ORT_ENABLE_ALL));
+        check(api->AddSessionConfigEntry(options, "session.intra_op.allow_spinning", "0"));
+        if (!fuse)
+            check(api->AddSessionConfigEntry(options, "ep.dml.disable_graph_fusion", "1"));
+        check(api->AddFreeDimensionOverrideByName(options, "batch_size", 1));
+        check(api->AddFreeDimensionOverrideByName(options, "num_images", 1));
+        check(api->AddFreeDimensionOverrideByName(options, "height", height));
+        check(api->AddFreeDimensionOverrideByName(options, "width", width));
+        check(dmlApi->SessionOptionsAppendExecutionProvider_DML1(options, dml, queue));
+        check(api->CreateSession(env, (directory + loadedFile).c_str(), options, &session));
+    };
+    try
+    {
+        createSession(true);
+    }
+    catch (const std::runtime_error& fused)
+    {
+        if (FAILED(device->GetDeviceRemovedReason()))
+            throw;
+        fusionError = fused.what();
+        if (session)
+            api->ReleaseSession(std::exchange(session, nullptr));
+        if (options)
+            api->ReleaseSessionOptions(std::exchange(options, nullptr));
+        Release(queue);
+        Release(dml);
+        createSession(false);
+    }
     check(api->CreateMemoryInfo("DML", OrtDeviceAllocator, 0, OrtMemTypeDefault, &memory));
 
     OrtAllocator* allocator = nullptr;

@@ -1336,6 +1336,8 @@ void Worker(Lane& l)
                 loadedHeight = l.modelHeight = l.height;
                 Log(LogLevel::Info, L"Depth %ls model loaded: %ls%ls, input=%dx%d, half_input=%d, half_output=%d.", LaneName(l), d.directory.c_str(),
                     model->LoadedFile().c_str(), l.width, l.height, model->HalfInput(), model->HalfOutput());
+                if (!model->FusionError().empty())
+                    Log(LogLevel::Warning, L"Depth %ls model runs without DirectML graph fusion because fused setup failed: %hs", LaneName(l), model->FusionError().c_str());
                 l.halfInput = model->HalfInput();
                 l.halfOutput = model->HalfOutput();
                 l.distanceOutput = model->DistanceOutput();
