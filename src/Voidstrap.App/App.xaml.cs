@@ -1320,7 +1320,7 @@ public partial class App : Application
 			AssetWarpLegacyCleanup.Run();
 			if (Voidstrap.Integrations.TelemetryBlocker.IsApplied() && !Voidstrap.Integrations.TelemetryBlocker.Set(false))
 			{
-				throw new InvalidOperationException("The telemetry block could not be removed");
+				Logger.WriteLine("App::RunFactoryReset", "The telemetry block in the hosts file could not be removed, continuing the reset. Voidstrap clears it on a later start or when Block Roblox telemetry is turned off");
 			}
 			Voidstrap.Integrations.RobloxAppStorage.Reset();
 			if (Voidstrap.Utility.Platform.IsLinux)

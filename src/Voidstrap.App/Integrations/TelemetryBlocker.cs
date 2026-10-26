@@ -203,7 +203,7 @@ public static class TelemetryBlocker
 				lines.Add("0.0.0.0 " + domain + " " + Marker);
 				lines.Add(":: " + domain + " " + Marker);
 			}
-			File.WriteAllLines(HostsPath, lines);
+			WriteHosts(lines);
 			FlushDns();
 			App.Logger?.WriteLine(LOG_IDENT, $"Blocked {Domains.Length} telemetry domains at the DNS level");
 			Verify();
@@ -229,7 +229,7 @@ public static class TelemetryBlocker
 			string[] kept = all.Where((string l) => !l.Contains(Marker, StringComparison.Ordinal)).ToArray();
 			if (kept.Length != all.Length)
 			{
-				File.WriteAllLines(hostsPath, kept);
+				WriteHosts(kept);
 				FlushDns();
 				App.Logger?.WriteLine(LOG_IDENT, "Removed telemetry block entries");
 			}
@@ -272,6 +272,49 @@ public static class TelemetryBlocker
 			Verify();
 		}
 		return IsApplied() == enable;
+	}
+
+	private static void WriteHosts(IEnumerable<string> lines)
+	{
+		string hostsPath = HostsPath;
+		string[] content = lines as string[] ?? lines.ToArray();
+		FileAttributes? original = null;
+		if (File.Exists(hostsPath))
+		{
+			FileAttributes attributes = File.GetAttributes(hostsPath);
+			if ((attributes & FileAttributes.ReadOnly) != 0)
+			{
+				original = attributes;
+				File.SetAttributes(hostsPath, attributes & ~FileAttributes.ReadOnly);
+				App.Logger?.WriteLine(LOG_IDENT, "The hosts file was read only, cleared that for the change");
+			}
+		}
+		try
+		{
+			try
+			{
+				File.WriteAllLines(hostsPath, content);
+			}
+			catch (IOException ex) when (ex is not FileNotFoundException and not DirectoryNotFoundException)
+			{
+				App.Logger?.WriteLine(LOG_IDENT, "The hosts file was busy, trying once more: " + ex.Message);
+				File.WriteAllLines(hostsPath, content);
+			}
+		}
+		finally
+		{
+			if (original is FileAttributes restore)
+			{
+				try
+				{
+					File.SetAttributes(hostsPath, restore);
+				}
+				catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+				{
+					App.Logger?.WriteLine(LOG_IDENT, "Could not restore the read only flag on the hosts file: " + ex.Message);
+				}
+			}
+		}
 	}
 
 	private static List<string> ReadHostsWithoutBlock()
