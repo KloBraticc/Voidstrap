@@ -145,6 +145,10 @@ namespace Voidstrap.Integrations.RiShade
 
         private long _lastUsedPresentTicks;
 
+        private const long SizeMismatchGraceMs = 500;
+
+        private long _sizeMismatchSince;
+
         private long _droppedTotal;
 
         public long DroppedCount => System.Threading.Interlocked.Read(ref _droppedTotal);
@@ -233,6 +237,14 @@ namespace Voidstrap.Integrations.RiShade
                 }
                 using var frameTex = new ID3D11Texture2D(texPtr);
                 var desc = frameTex.Description;
+                bool mismatched = Math.Abs((int)desc.Width - destWidth) > 2 || Math.Abs((int)desc.Height - destHeight) > 2;
+                long nowTick = Environment.TickCount64;
+                if (!mismatched)
+                    _sizeMismatchSince = 0;
+                else if (_sizeMismatchSince == 0)
+                    _sizeMismatchSince = nowTick;
+                if (mismatched && nowTick - _sizeMismatchSince < SizeMismatchGraceMs)
+                    return false;
                 int w = Math.Min(destWidth, (int)desc.Width);
                 int h = Math.Min(destHeight, (int)desc.Height);
                 var box = new Box(0, 0, 0, w, h, 1);
