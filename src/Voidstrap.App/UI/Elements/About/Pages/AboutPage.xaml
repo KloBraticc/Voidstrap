@@ -69,8 +69,8 @@
             </Border>
           </StackPanel>
           <TextBlock Margin="0,4,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Misc2_ASimpleYetAdvancedBloxstrapFork}" TextWrapping="Wrap" />
-          <TextBlock Margin="0,10,0,0" FontFamily="Segoe Script, Segoe Print, Brush Script MT, Lucida Handwriting, Apple Chancery, Snell Roundhand, URW Chancery L, Z003, TeX Gyre Chorus, Global User Interface" FontSize="13" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{resources:Loc Ui_Misc2_MusashiQuote}" />
-          <TextBlock Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}"><Run Text="— " /><Run Text="{resources:Loc Ui_Misc2_MusashiQuoteAuthor}" /></TextBlock>
+          <TextBlock Margin="0,10,0,0" FontFamily="Segoe Script, Segoe Print, Brush Script MT, Lucida Handwriting, Apple Chancery, Snell Roundhand, URW Chancery L, Z003, TeX Gyre Chorus, Global User Interface" FontSize="11.5" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorPrimaryBrush}" Text="{resources:Loc Ui_Misc2_MusashiQuote}" />
+          <TextBlock Margin="0,2,0,0" FontSize="11" Foreground="{DynamicResource TextFillColorSecondaryBrush}"><Run Text="— " /><Run Text="{resources:Loc Ui_Misc2_MusashiQuoteAuthor}" /></TextBlock>
         </StackPanel>
         <Button Grid.Column="2" Margin="24,0,6,0" VerticalAlignment="Bottom" Style="{StaticResource ErikButton}" ToolTip="{resources:Loc Ui_Misc2_ThankYouErik}" Click="ErikButton_Click">
           <Image Height="74" Stretch="Uniform" Source="{StaticResource ErikImage}" RenderOptions.BitmapScalingMode="HighQuality" />
