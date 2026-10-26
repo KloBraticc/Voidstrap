@@ -1570,6 +1570,8 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Home_LatestRobloxNews => ResourceManager.GetString("Ui.Home.LatestRobloxNews", resourceCulture);
         public static string Ui_RiShade_Dlss_Title => ResourceManager.GetString("Ui.RiShade.Dlss.Title", resourceCulture);
+        public static string Ui_Mcp_SettingsTitle => ResourceManager.GetString("Ui.Mcp.SettingsTitle", resourceCulture);
+        public static string Ui_Mcp_SettingsDescription => ResourceManager.GetString("Ui.Mcp.SettingsDescription", resourceCulture);
         public static string Ui_Mcp_ChooseClient => ResourceManager.GetString("Ui.Mcp.ChooseClient", resourceCulture);
         public static string Ui_Mcp_StatusConnected => ResourceManager.GetString("Ui.Mcp.StatusConnected", resourceCulture);
         public static string Ui_Mcp_StatusNotConnected => ResourceManager.GetString("Ui.Mcp.StatusNotConnected", resourceCulture);

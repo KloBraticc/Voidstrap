@@ -8649,4 +8649,10 @@
   <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
     <value>تعذر النسخ إلى الحافظة، حاول مجددًا.</value>
   </data>
+  <data name="Ui.Mcp.SettingsTitle" xml:space="preserve">
+    <value>تطبيقات الذكاء الاصطناعي</value>
+  </data>
+  <data name="Ui.Mcp.SettingsDescription" xml:space="preserve">
+    <value>اسمح لتطبيقات الذكاء الاصطناعي التي تدعم MCP بقراءة إعدادات Voidstrap وFastFlags والسمات والتعديلات وتغييرها نيابةً عنك.</value>
+  </data>
 </root>

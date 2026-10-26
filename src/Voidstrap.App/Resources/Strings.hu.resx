@@ -8649,4 +8649,10 @@ Tartsd nyitva a Voidstrapet és a szerkesztőt, amíg az MI dolgozik. A módosí
   <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
     <value>Nem sikerült a vágólapra másolni, próbáld újra.</value>
   </data>
+  <data name="Ui.Mcp.SettingsTitle" xml:space="preserve">
+    <value>MI-alkalmazások</value>
+  </data>
+  <data name="Ui.Mcp.SettingsDescription" xml:space="preserve">
+    <value>Engedd, hogy az MCP-t támogató MI-alkalmazások helyetted olvassák és módosítsák a Voidstrap beállításait, FastFlags-eit, témáit és modjait.</value>
+  </data>
 </root>

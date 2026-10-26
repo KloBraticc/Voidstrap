@@ -8650,4 +8650,10 @@ Håll Voidstrap och redigeraren öppna medan AI:n arbetar. Ändringarna visas di
   <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
     <value>Det gick inte att kopiera till urklipp, försök igen.</value>
   </data>
+  <data name="Ui.Mcp.SettingsTitle" xml:space="preserve">
+    <value>AI-appar</value>
+  </data>
+  <data name="Ui.Mcp.SettingsDescription" xml:space="preserve">
+    <value>Låt AI-appar med MCP-stöd läsa och ändra Voidstraps inställningar, FastFlags, teman och moddar åt dig.</value>
+  </data>
 </root>

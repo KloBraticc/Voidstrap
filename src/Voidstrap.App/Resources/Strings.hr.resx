@@ -8649,4 +8649,10 @@ Drži Voidstrap i uređivač otvorenima dok AI radi. Njegove se promjene odmah p
   <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
     <value>Kopiranje u međuspremnik nije uspjelo, pokušaj ponovno.</value>
   </data>
+  <data name="Ui.Mcp.SettingsTitle" xml:space="preserve">
+    <value>AI aplikacije</value>
+  </data>
+  <data name="Ui.Mcp.SettingsDescription" xml:space="preserve">
+    <value>Dopusti AI aplikacijama s podrškom za MCP da umjesto tebe čitaju i mijenjaju Voidstrap postavke, FastFlags, teme i modove.</value>
+  </data>
 </root>

@@ -8648,4 +8648,10 @@ Voidstrap не зміг записати до теки робочого стол
   <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
     <value>Не вдалося скопіювати в буфер обміну, спробуйте ще раз.</value>
   </data>
+  <data name="Ui.Mcp.SettingsTitle" xml:space="preserve">
+    <value>Застосунки ШІ</value>
+  </data>
+  <data name="Ui.Mcp.SettingsDescription" xml:space="preserve">
+    <value>Дозвольте застосункам ШІ з підтримкою MCP читати та змінювати за Вас налаштування, FastFlags, теми й моди Voidstrap.</value>
+  </data>
 </root>

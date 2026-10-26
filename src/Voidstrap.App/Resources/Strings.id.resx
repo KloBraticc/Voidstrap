@@ -8652,4 +8652,10 @@ Biarkan Voidstrap dan editor tetap terbuka saat AI bekerja. Perubahannya langsun
   <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
     <value>Tidak dapat menyalin ke papan klip, coba lagi.</value>
   </data>
+  <data name="Ui.Mcp.SettingsTitle" xml:space="preserve">
+    <value>Aplikasi AI</value>
+  </data>
+  <data name="Ui.Mcp.SettingsDescription" xml:space="preserve">
+    <value>Izinkan aplikasi AI yang mendukung MCP membaca dan mengubah pengaturan, FastFlags, tema, dan mod Voidstrap untuk Anda.</value>
+  </data>
 </root>

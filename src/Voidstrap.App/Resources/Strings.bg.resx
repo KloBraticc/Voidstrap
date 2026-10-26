@@ -8650,4 +8650,10 @@ Voidstrap не можа да запише в папката на работни�
   <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
     <value>Копирането в клипборда не бе успешно, опитайте отново.</value>
   </data>
+  <data name="Ui.Mcp.SettingsTitle" xml:space="preserve">
+    <value>Приложения с ИИ</value>
+  </data>
+  <data name="Ui.Mcp.SettingsDescription" xml:space="preserve">
+    <value>Позволете на приложения с ИИ, поддържащи MCP, да четат и променят вместо вас настройките, FastFlags, темите и модовете на Voidstrap.</value>
+  </data>
 </root>

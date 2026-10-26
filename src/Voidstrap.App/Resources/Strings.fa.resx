@@ -8652,4 +8652,10 @@ Voidstrap نتوانست در پوشهٔ دسکتاپ بنویسد.</value>
   <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
     <value>کپی در کلیپ‌بورد ممکن نشد، دوباره امتحان کنید.</value>
   </data>
+  <data name="Ui.Mcp.SettingsTitle" xml:space="preserve">
+    <value>برنامه‌های هوش مصنوعی</value>
+  </data>
+  <data name="Ui.Mcp.SettingsDescription" xml:space="preserve">
+    <value>به برنامه‌های هوش مصنوعی پشتیبان MCP اجازه دهید تنظیمات، FastFlags، پوسته‌ها و مادهای Voidstrap را برای شما بخوانند و تغییر دهند.</value>
+  </data>
 </root>

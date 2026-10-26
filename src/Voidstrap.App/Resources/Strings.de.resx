@@ -8650,4 +8650,10 @@ Lass Voidstrap und den Editor geöffnet, während die KI arbeitet. Ihre Änderun
   <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
     <value>Kopieren in die Zwischenablage fehlgeschlagen, versuch es erneut.</value>
   </data>
+  <data name="Ui.Mcp.SettingsTitle" xml:space="preserve">
+    <value>KI-Apps</value>
+  </data>
+  <data name="Ui.Mcp.SettingsDescription" xml:space="preserve">
+    <value>Lass KI-Apps mit MCP-Unterstützung Voidstrap-Einstellungen, FastFlags, Designs und Mods für dich lesen und ändern.</value>
+  </data>
 </root>

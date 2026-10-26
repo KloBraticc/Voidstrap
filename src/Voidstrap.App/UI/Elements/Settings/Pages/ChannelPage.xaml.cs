@@ -48,6 +48,8 @@ public partial class ChannelPage : UiPage{
 			SettingsTabs.SelectedItem = NotificationsTab;
 	}
 
+	private void OnConnectAiClicked(object sender, RoutedEventArgs e) => Voidstrap.Integrations.Mcp.McpConnectInfo.Show();
+
 	private void OnChannelPageLoaded(object sender, RoutedEventArgs e)
 	{
 		if (PendingNotificationsTab)

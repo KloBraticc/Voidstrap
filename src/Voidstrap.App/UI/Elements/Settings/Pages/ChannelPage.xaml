@@ -34,6 +34,9 @@
           <controls:OptionControl Header="{resources:Loc Ui_Channel_LaunchRobloxWithoutVoidstrap}" Description="{resources:Loc Ui_Channel_JoiningAGameFromYourBrowser}" Visibility="{x:Static platform:PlatformFeatureVisibility.NotLinux}">
             <ui:ToggleSwitch IsChecked="{Binding LaunchWithoutVoidstrap, Mode=TwoWay}" />
           </controls:OptionControl>
+          <controls:OptionControl Header="{resources:Loc Ui_Mcp_SettingsTitle}" Description="{resources:Loc Ui_Mcp_SettingsDescription}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
+            <ui:Button Icon="PlugConnected24" Content="{resources:Loc Ui_Mcp_Connect}" Click="OnConnectAiClicked" />
+          </controls:OptionControl>
           <controls:BootstrapperImportControl Imported="OnSettingsImported" />
           <Expander Header="{resources:Loc Ui_Channel_DisplayAndResolution}" IsExpanded="False" Margin="0,8,0,0" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}">
             <StackPanel Margin="0,4,0,0">

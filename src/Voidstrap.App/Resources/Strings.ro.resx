@@ -8651,4 +8651,10 @@ Păstrează Voidstrap și editorul deschise în timp ce AI-ul lucrează. Modific
   <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
     <value>Nu s-a putut copia în clipboard, încearcă din nou.</value>
   </data>
+  <data name="Ui.Mcp.SettingsTitle" xml:space="preserve">
+    <value>Aplicații AI</value>
+  </data>
+  <data name="Ui.Mcp.SettingsDescription" xml:space="preserve">
+    <value>Permite aplicațiilor AI compatibile cu MCP să citească și să modifice pentru tine setările, FastFlags, temele și modurile Voidstrap.</value>
+  </data>
 </root>

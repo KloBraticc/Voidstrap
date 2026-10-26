@@ -8674,4 +8674,10 @@ Voidstrap 无法写入桌面文件夹。</value>
   <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
     <value>无法复制到剪贴板，请重试。</value>
   </data>
+  <data name="Ui.Mcp.SettingsTitle" xml:space="preserve">
+    <value>AI 应用</value>
+  </data>
+  <data name="Ui.Mcp.SettingsDescription" xml:space="preserve">
+    <value>允许支持 MCP 的 AI 应用替您读取和更改 Voidstrap 的设置、FastFlags、主题和模组。</value>
+  </data>
 </root>

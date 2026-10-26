@@ -8649,4 +8649,10 @@ Voidstrap не смог записать в папку рабочего стол
   <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
     <value>Не удалось скопировать в буфер обмена, повторите попытку.</value>
   </data>
+  <data name="Ui.Mcp.SettingsTitle" xml:space="preserve">
+    <value>Приложения ИИ</value>
+  </data>
+  <data name="Ui.Mcp.SettingsDescription" xml:space="preserve">
+    <value>Разрешите приложениям ИИ с поддержкой MCP читать и изменять за Вас настройки, FastFlags, темы и моды Voidstrap.</value>
+  </data>
 </root>

@@ -8650,4 +8650,10 @@ Mantén abiertos Voidstrap y el editor mientras la IA trabaja. Sus cambios se mu
   <data name="Ui.Mcp.CopyFailed" xml:space="preserve">
     <value>No se ha podido copiar al portapapeles, inténtalo de nuevo.</value>
   </data>
+  <data name="Ui.Mcp.SettingsTitle" xml:space="preserve">
+    <value>Aplicaciones de IA</value>
+  </data>
+  <data name="Ui.Mcp.SettingsDescription" xml:space="preserve">
+    <value>Deja que las aplicaciones de IA compatibles con MCP lean y cambien por ti los ajustes, FastFlags, temas y mods de Voidstrap.</value>
+  </data>
 </root>
