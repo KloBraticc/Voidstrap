@@ -8586,4 +8586,7 @@
   <data name="Ui.ModGen.Done" xml:space="preserve">
     <value>تم</value>
   </data>
+  <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
+    <value>بطاقة الرسوميات لديك أضعف من أن تشغّل RiShade بسلاسة. هل تريد تشغيل وضع الأداء في ReShade؟ ستعمل التأثيرات بشكل أسرع، ويمكنك إيقافه في أي وقت من واجهة ReShade.</value>
+  </data>
 </root>

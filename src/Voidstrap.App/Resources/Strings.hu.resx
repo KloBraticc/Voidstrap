@@ -8586,4 +8586,7 @@ A letöltés {0} MB. Ha elutasítod, a beépített becslés lesz használva. Ezt
   <data name="Ui.ModGen.Done" xml:space="preserve">
     <value>Kész</value>
   </data>
+  <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
+    <value>A videokártyád túl gyenge a RiShade akadásmentes futtatásához. Bekapcsolod a ReShade teljesítmény módját? Az effektek gyorsabban futnak, és bármikor kikapcsolhatod a ReShade átfedésben.</value>
+  </data>
 </root>

@@ -8588,4 +8588,7 @@ Stáhne se {0} MB. Pokud odmítnete, použije se vestavěný odhad. Později to 
   <data name="Ui.ModGen.Done" xml:space="preserve">
     <value>Hotovo</value>
   </data>
+  <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
+    <value>Vaše grafická karta je příliš slabá na plynulý běh RiShade. Chcete zapnout výkonnostní režim ReShade? Efekty poběží rychleji a kdykoli ho můžete vypnout v překryvu ReShade.</value>
+  </data>
 </root>

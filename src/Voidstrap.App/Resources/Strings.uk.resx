@@ -8585,4 +8585,7 @@ Voidstrap не зміг записати до теки робочого стол
   <data name="Ui.ModGen.Done" xml:space="preserve">
     <value>Готово</value>
   </data>
+  <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
+    <value>Ваша відеокарта надто слабка для плавної роботи RiShade. Увімкнути режим продуктивності ReShade? Ефекти працюватимуть швидше, а вимкнути його можна будь-коли в оверлеї ReShade.</value>
+  </data>
 </root>

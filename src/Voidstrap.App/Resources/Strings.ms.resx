@@ -8578,4 +8578,7 @@ Muat turunnya {0} MB. Jika anda menolak, anggaran terbina dalam akan digunakan. 
   <data name="Ui.ModGen.Done" xml:space="preserve">
     <value>Selesai</value>
   </data>
+  <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
+    <value>Kad grafik anda terlalu lemah untuk menjalankan RiShade dengan lancar. Adakah anda mahu menghidupkan mod prestasi ReShade? Kesan akan berjalan lebih pantas, dan anda boleh mematikannya pada bila-bila masa dalam tindanan ReShade.</value>
+  </data>
 </root>

@@ -8585,4 +8585,7 @@ Bu dosyayı size yardım eden kişiye gönderin. Bilgisayar kullanıcı adınız
   <data name="Ui.ModGen.Done" xml:space="preserve">
     <value>Bitti</value>
   </data>
+  <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
+    <value>Ekran kartınız RiShade'i akıcı çalıştırmak için çok zayıf. ReShade performans modunu açmak ister misiniz? Efektler daha hızlı çalışır ve istediğiniz zaman ReShade arayüzünden kapatabilirsiniz.</value>
+  </data>
 </root>

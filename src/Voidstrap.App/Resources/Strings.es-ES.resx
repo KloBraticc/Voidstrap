@@ -8587,4 +8587,7 @@ Se descargan {0} MB. Si lo rechazas, se usa la estimación integrada. Puedes cam
   <data name="Ui.ModGen.Done" xml:space="preserve">
     <value>Listo</value>
   </data>
+  <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
+    <value>Tu tarjeta gráfica es demasiado débil para ejecutar RiShade con fluidez. ¿Quieres activar el modo de rendimiento de ReShade? Los efectos irán más rápido y puedes desactivarlo cuando quieras en la superposición de ReShade.</value>
+  </data>
 </root>

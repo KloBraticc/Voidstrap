@@ -8586,4 +8586,7 @@ Preuzima se {0} MB. Ako odbiješ, koristi se ugrađena procjena. To možeš prom
   <data name="Ui.ModGen.Done" xml:space="preserve">
     <value>Gotovo</value>
   </data>
+  <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
+    <value>Tvoja grafička kartica je preslaba za glatko pokretanje RiShadea. Želiš li uključiti način rada za performanse u ReShadeu? Efekti će raditi brže, a možeš ga isključiti u bilo kojem trenutku u ReShade prekrivaču.</value>
+  </data>
 </root>

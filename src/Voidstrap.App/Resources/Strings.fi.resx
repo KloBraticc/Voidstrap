@@ -8588,4 +8588,7 @@ Ladattava koko on {0} Mt. Jos kieltäydyt, käytetään sisäänrakennettua arvi
   <data name="Ui.ModGen.Done" xml:space="preserve">
     <value>Valmis</value>
   </data>
+  <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
+    <value>Näytönohjaimesi on liian heikko RiShaden sujuvaan käyttöön. Haluatko ottaa ReShaden suorituskykytilan käyttöön? Tehosteet toimivat nopeammin, ja voit poistaa sen käytöstä milloin tahansa ReShaden peittokuvassa.</value>
+  </data>
 </root>

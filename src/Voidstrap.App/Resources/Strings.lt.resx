@@ -8588,4 +8588,7 @@ Atsisiunčiama {0} MB. Jei atsisakysite, bus naudojamas įtaisytasis įvertinima
   <data name="Ui.ModGen.Done" xml:space="preserve">
     <value>Atlikta</value>
   </data>
+  <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
+    <value>Jūsų vaizdo plokštė per silpna, kad RiShade veiktų sklandžiai. Ar norite įjungti ReShade našumo režimą? Efektai veiks greičiau, o jį bet kada galėsite išjungti ReShade perdangoje.</value>
+  </data>
 </root>

@@ -8601,4 +8601,7 @@ Voidstrap がデスクトップ フォルダーに書き込めませんでした
   <data name="Ui.ModGen.Done" xml:space="preserve">
     <value>完了</value>
   </data>
+  <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
+    <value>お使いのグラフィックカードは RiShade を快適に動かすには性能が不足しています。ReShade のパフォーマンスモードをオンにしますか？エフェクトが速く動作するようになり、ReShade のオーバーレイからいつでもオフにできます。</value>
+  </data>
 </root>

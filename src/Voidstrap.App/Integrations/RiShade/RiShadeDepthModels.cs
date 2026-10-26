@@ -116,23 +116,15 @@ namespace Voidstrap.Integrations.RiShade
 
         public static bool ExactDepth => Enabled;
 
-        private const ulong LowEndDedicatedMemory = 2UL * 1024 * 1024 * 1024;
+        private static int _gpuClass;
 
-        private static readonly int CpuCount = Environment.ProcessorCount;
+        public static bool LowEndHardware => Volatile.Read(ref _gpuClass) == 2;
 
-        private static int _lowEndLogged;
-
-        public static bool LowEndHardware
+        public static void ReportGpu(bool weak, string detail)
         {
-            get
-            {
-                ProbeHardware();
-                bool weakGpu = _hardware is RiShadeInterop.DepthHardware hardware && (hardware.Integrated != 0 || hardware.DedicatedMemory < LowEndDedicatedMemory);
-                bool lowEnd = weakGpu || CpuCount <= 4;
-                if (lowEnd && Interlocked.Exchange(ref _lowEndLogged, 1) == 0)
-                    App.Logger.WriteLine(LogIdent, $"Low end hardware detected ({(weakGpu ? "weak GPU" : "few CPU cores")}, {CpuCount} threads), RiShade uses its lightweight path");
-                return lowEnd;
-            }
+            int value = weak ? 2 : 1;
+            if (Interlocked.Exchange(ref _gpuClass, value) != value)
+                App.Logger.WriteLine(LogIdent, (weak ? "RiShade GPU is weak, using the lightweight path: " : "RiShade GPU is capable: ") + detail);
         }
 
         private static Asset? ModelAsset => Volatile.Read(ref _latest) ?? BuiltinModel;

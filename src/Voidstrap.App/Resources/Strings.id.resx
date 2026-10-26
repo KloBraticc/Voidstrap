@@ -8589,4 +8589,7 @@ Unduhannya {0} MB. Jika Anda menolak, perkiraan bawaan akan digunakan. Anda dapa
   <data name="Ui.ModGen.Done" xml:space="preserve">
     <value>Selesai</value>
   </data>
+  <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
+    <value>Kartu grafis Anda terlalu lemah untuk menjalankan RiShade dengan lancar. Apakah Anda ingin mengaktifkan mode performa ReShade? Efek berjalan lebih cepat, dan Anda dapat menonaktifkannya kapan saja di overlay ReShade.</value>
+  </data>
 </root>

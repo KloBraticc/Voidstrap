@@ -8589,4 +8589,7 @@ Voidstrap نتوانست در پوشهٔ دسکتاپ بنویسد.</value>
   <data name="Ui.ModGen.Done" xml:space="preserve">
     <value>انجام شد</value>
   </data>
+  <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
+    <value>کارت گرافیک شما برای اجرای روان RiShade ضعیف است. آیا می‌خواهید حالت کارایی ReShade را روشن کنید؟ جلوه‌ها سریع‌تر اجرا می‌شوند و هر زمان بخواهید می‌توانید آن را در لایهٔ ReShade خاموش کنید.</value>
+  </data>
 </root>

@@ -1570,6 +1570,7 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Home_LatestRobloxNews => ResourceManager.GetString("Ui.Home.LatestRobloxNews", resourceCulture);
         public static string Ui_RiShade_Dlss_Title => ResourceManager.GetString("Ui.RiShade.Dlss.Title", resourceCulture);
+        public static string Ui_RiShade_PerformancePrompt => ResourceManager.GetString("Ui.RiShade.PerformancePrompt", resourceCulture);
         public static string Ui_Mods_StudioPlugins_Publish => ResourceManager.GetString("Ui.Mods.StudioPlugins.Publish", resourceCulture);
         public static string Ui_ModGen_SwapIcons => ResourceManager.GetString("Ui.ModGen.SwapIcons", resourceCulture);
         public static string Ui_ModGen_SwapIconsHelp => ResourceManager.GetString("Ui.ModGen.SwapIconsHelp", resourceCulture);

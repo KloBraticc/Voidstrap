@@ -153,10 +153,57 @@ namespace Voidstrap.Integrations.RiShade
             }
         }
 
-        public static void ApplyLowEndConfig()
+        private static int _performanceModeRequested;
+
+        public static bool TakePerformanceModeRequest() => Interlocked.Exchange(ref _performanceModeRequested, 0) == 1;
+
+        public static void OfferPerformanceMode()
         {
-            if (!RiShadeDepthModels.LowEndHardware)
+            if (!RiShadeDepthModels.LowEndHardware || App.Settings.Prop.RiShadePerformancePromptShown)
                 return;
+            try
+            {
+                if (File.Exists(ConfigPath) && File.ReadAllLines(ConfigPath).Any(line => line.TrimStart().StartsWith("PerformanceMode=", StringComparison.OrdinalIgnoreCase)))
+                {
+                    App.Settings.Prop.RiShadePerformancePromptShown = true;
+                    App.Settings.SaveDeferred();
+                    return;
+                }
+                System.Windows.Threading.Dispatcher? dispatcher = System.Windows.Application.Current?.Dispatcher;
+                if (dispatcher == null)
+                    return;
+                App.Settings.Prop.RiShadePerformancePromptShown = true;
+                App.Settings.SaveDeferred();
+                dispatcher.BeginInvoke(new Action(AskPerformanceMode));
+            }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidOperationException)
+            {
+                App.Logger.WriteLine(LogIdent, "The performance mode prompt could not be shown: " + ex.Message);
+            }
+        }
+
+        private static void AskPerformanceMode()
+        {
+            try
+            {
+                if (Voidstrap.UI.Frontend.ShowMessageBox(Voidstrap.Resources.Strings.Ui_RiShade_PerformancePrompt, System.Windows.MessageBoxImage.Question, System.Windows.MessageBoxButton.YesNo) == System.Windows.MessageBoxResult.Yes)
+                {
+                    Interlocked.Exchange(ref _performanceModeRequested, 1);
+                    App.Logger.WriteLine(LogIdent, "The user turned on ReShade performance mode");
+                }
+                else
+                {
+                    App.Logger.WriteLine(LogIdent, "The user kept ReShade performance mode off");
+                }
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteException(LogIdent + "::AskPerformanceMode", ex);
+            }
+        }
+
+        public static void WritePerformanceMode()
+        {
             try
             {
                 List<string> lines = File.Exists(ConfigPath) ? File.ReadAllLines(ConfigPath).ToList() : new List<string>();
@@ -169,11 +216,13 @@ namespace Voidstrap.Integrations.RiShade
                 int end = lines.FindIndex(general + 1, line => line.TrimStart().StartsWith('['));
                 if (end < 0)
                     end = lines.Count;
-                if (lines.FindIndex(general + 1, end - general - 1, line => line.TrimStart().StartsWith("PerformanceMode=", StringComparison.OrdinalIgnoreCase)) >= 0)
-                    return;
-                lines.Insert(general + 1, "PerformanceMode=1");
+                int existing = lines.FindIndex(general + 1, end - general - 1, line => line.TrimStart().StartsWith("PerformanceMode=", StringComparison.OrdinalIgnoreCase));
+                if (existing >= 0)
+                    lines[existing] = "PerformanceMode=1";
+                else
+                    lines.Insert(general + 1, "PerformanceMode=1");
                 WriteConfig(lines);
-                App.Logger.WriteLine(LogIdent, "Turned on ReShade performance mode for low end hardware");
+                App.Logger.WriteLine(LogIdent, "ReShade performance mode saved");
             }
             catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
             {

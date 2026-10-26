@@ -1175,4 +1175,7 @@ Send that file to whoever is helping you. Personal details like your computer us
   <data name="Ui.ModGen.Done" xml:space="preserve">
     <value>Done</value>
   </data>
+  <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
+    <value>Your graphics card is too weak to run RiShade smoothly. Do you want to turn on ReShade performance mode? Effects run faster, and you can turn it off at any time in the ReShade overlay.</value>
+  </data>
 </root>

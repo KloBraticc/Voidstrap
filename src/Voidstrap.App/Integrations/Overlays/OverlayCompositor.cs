@@ -150,6 +150,7 @@ namespace Voidstrap.Integrations.Overlays
         private double _riDepthNextMs;
         private int _riDepthModelVersion;
         private const double LowEndDepthIntervalMs = 50.0;
+        private const ulong LowEndDedicatedMemory = 2UL * 1024 * 1024 * 1024;
         private readonly ID3D11Texture2D?[] _stageTex = new ID3D11Texture2D?[2];
         private readonly ID3D11ShaderResourceView?[] _stageSrv = new ID3D11ShaderResourceView?[2];
         private readonly ID3D11RenderTargetView?[] _stageRtv = new ID3D11RenderTargetView?[2];
@@ -985,8 +986,8 @@ namespace Voidstrap.Integrations.Overlays
                 s_reshadeLoadedUnwrapped = true;
                 _riMissingRuntimeLogged = false;
 
-                _riLowEnd = RiShadeDepthModels.LowEndHardware;
-                RiShadeManager.ApplyLowEndConfig();
+                _riLowEnd = ClassifyGpu();
+                RiShadeManager.OfferPerformanceMode();
                 StartRiShadeDepth();
 
                 string configPath = Path.Combine(RiShadeManager.RiShadeDir, "ReShade.ini");
@@ -1113,6 +1114,29 @@ namespace Voidstrap.Integrations.Overlays
             else
             {
                 DestroyRiShadeRuntime();
+            }
+        }
+
+        private bool ClassifyGpu()
+        {
+            if (_device == null)
+                return false;
+            try
+            {
+                bool unified = _device.CheckFeatureSupport<FeatureDataD3D11Options2>(Vortice.Direct3D11.Feature.D3D11Options2).UnifiedMemoryArchitecture;
+                using IDXGIDevice dxgi = _device.QueryInterface<IDXGIDevice>();
+                using IDXGIAdapter adapter = dxgi.GetAdapter();
+                AdapterDescription description = adapter.Description;
+                ulong dedicated = (ulong)description.DedicatedVideoMemory;
+                bool software = description.VendorId == 0x1414;
+                bool weak = software || unified || dedicated < LowEndDedicatedMemory;
+                RiShadeDepthModels.ReportGpu(weak, description.Description + ", vendor 0x" + description.VendorId.ToString("X4") + ", " + (dedicated / 1048576) + " MB dedicated memory, " + (unified ? "integrated" : "discrete") + (software ? ", software renderer" : ""));
+                return weak;
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteException("OverlayCompositor::ClassifyGpu", ex);
+                return false;
             }
         }
 
@@ -2431,6 +2455,19 @@ namespace Voidstrap.Integrations.Overlays
                 {
                     App.Logger.WriteException("OverlayCompositor::RiShadeDepthStage", ex);
                     _riDepthBridge = false;
+                }
+            }
+
+            if (RiShadeManager.TakePerformanceModeRequest())
+            {
+                if (_riRuntime != IntPtr.Zero && !_riWrapped)
+                {
+                    DestroyRiShadeRuntime();
+                    RiShadeManager.WritePerformanceMode();
+                }
+                else
+                {
+                    RiShadeManager.WritePerformanceMode();
                 }
             }
 

@@ -8587,4 +8587,7 @@ Den laddar ner {0} MB. Om du tackar nej används den inbyggda uppskattningen. Du
   <data name="Ui.ModGen.Done" xml:space="preserve">
     <value>Klar</value>
   </data>
+  <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
+    <value>Ditt grafikkort är för svagt för att köra RiShade smidigt. Vill du slå på ReShades prestandaläge? Effekterna går snabbare, och du kan stänga av det när som helst i ReShade-överlägget.</value>
+  </data>
 </root>

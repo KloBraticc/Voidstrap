@@ -8587,4 +8587,7 @@ Pobieranie ma {0} MB. Jeśli odmówisz, zostanie użyte wbudowane oszacowanie. M
   <data name="Ui.ModGen.Done" xml:space="preserve">
     <value>Gotowe</value>
   </data>
+  <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
+    <value>Twoja karta graficzna jest zbyt słaba, aby płynnie uruchamiać RiShade. Czy chcesz włączyć tryb wydajności ReShade? Efekty będą działać szybciej, a w każdej chwili możesz go wyłączyć w nakładce ReShade.</value>
+  </data>
 </root>

@@ -8587,4 +8587,7 @@ Es werden {0} MB heruntergeladen. Wenn du ablehnst, wird die eingebaute Schätzu
   <data name="Ui.ModGen.Done" xml:space="preserve">
     <value>Fertig</value>
   </data>
+  <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
+    <value>Deine Grafikkarte ist zu schwach, um RiShade flüssig auszuführen. Möchtest du den ReShade-Leistungsmodus einschalten? Effekte laufen dann schneller, und du kannst ihn jederzeit im ReShade-Overlay ausschalten.</value>
+  </data>
 </root>

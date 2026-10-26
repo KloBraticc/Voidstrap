@@ -8588,4 +8588,7 @@ O download tem {0} MB. Se você recusar, a estimativa integrada será usada. Voc
   <data name="Ui.ModGen.Done" xml:space="preserve">
     <value>Concluído</value>
   </data>
+  <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
+    <value>Sua placa de vídeo é fraca demais para rodar o RiShade com fluidez. Quer ativar o modo de desempenho do ReShade? Os efeitos ficam mais rápidos, e você pode desativá-lo a qualquer momento na sobreposição do ReShade.</value>
+  </data>
 </root>

@@ -8590,4 +8590,7 @@ Dung lượng tải xuống là {0} MB. Nếu bạn từ chối, ước tính t�
   <data name="Ui.ModGen.Done" xml:space="preserve">
     <value>Xong</value>
   </data>
+  <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
+    <value>Card đồ họa của bạn quá yếu để chạy RiShade mượt mà. Bạn có muốn bật chế độ hiệu năng của ReShade không? Hiệu ứng sẽ chạy nhanh hơn và bạn có thể tắt nó bất cứ lúc nào trong lớp phủ ReShade.</value>
+  </data>
 </root>

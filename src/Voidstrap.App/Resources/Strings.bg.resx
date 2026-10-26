@@ -8587,4 +8587,7 @@ Voidstrap не можа да запише в папката на работни�
   <data name="Ui.ModGen.Done" xml:space="preserve">
     <value>Готово</value>
   </data>
+  <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
+    <value>Вашата видеокарта е твърде слаба, за да работи RiShade плавно. Искате ли да включите режима на производителност на ReShade? Ефектите ще работят по-бързо и можете да го изключите по всяко време от наслагването на ReShade.</value>
+  </data>
 </root>

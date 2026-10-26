@@ -8589,4 +8589,7 @@ Il download è di {0} MB. Se rifiuti, viene usata la stima integrata. Puoi cambi
   <data name="Ui.ModGen.Done" xml:space="preserve">
     <value>Fatto</value>
   </data>
+  <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
+    <value>La tua scheda grafica è troppo debole per eseguire RiShade in modo fluido. Vuoi attivare la modalità prestazioni di ReShade? Gli effetti saranno più veloci e potrai disattivarla in qualsiasi momento dall'overlay di ReShade.</value>
+  </data>
 </root>

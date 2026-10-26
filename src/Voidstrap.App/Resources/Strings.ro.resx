@@ -8588,4 +8588,7 @@ Se descarcă {0} MB. Dacă refuzi, se folosește estimarea integrată. Poți sch
   <data name="Ui.ModGen.Done" xml:space="preserve">
     <value>Gata</value>
   </data>
+  <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
+    <value>Placa ta video este prea slabă pentru a rula RiShade fluid. Vrei să activezi modul de performanță ReShade? Efectele vor rula mai rapid și îl poți dezactiva oricând din suprapunerea ReShade.</value>
+  </data>
 </root>

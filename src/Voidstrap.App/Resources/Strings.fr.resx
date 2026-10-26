@@ -8586,4 +8586,7 @@ Le téléchargement fait {0} Mo. Si vous refusez, l'estimation intégrée est ut
   <data name="Ui.ModGen.Done" xml:space="preserve">
     <value>Terminé</value>
   </data>
+  <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
+    <value>Votre carte graphique est trop faible pour faire tourner RiShade de manière fluide. Voulez-vous activer le mode performance de ReShade ? Les effets seront plus rapides, et vous pourrez le désactiver à tout moment dans l'overlay ReShade.</value>
+  </data>
 </root>

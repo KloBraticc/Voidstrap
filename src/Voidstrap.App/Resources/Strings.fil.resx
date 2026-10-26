@@ -8585,4 +8585,7 @@ Magda-download ito ng {0} MB. Kung tatanggihan mo, gagamitin ang built in na tan
   <data name="Ui.ModGen.Done" xml:space="preserve">
     <value>Tapos na</value>
   </data>
+  <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
+    <value>Masyadong mahina ang graphics card mo para patakbuhin nang maayos ang RiShade. Gusto mo bang i-on ang performance mode ng ReShade? Mas bibilis ang mga effect, at puwede mo itong i-off anumang oras sa ReShade overlay.</value>
+  </data>
 </root>

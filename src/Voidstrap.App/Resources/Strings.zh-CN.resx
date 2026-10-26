@@ -8611,4 +8611,7 @@ Voidstrap 无法写入桌面文件夹。</value>
   <data name="Ui.ModGen.Done" xml:space="preserve">
     <value>完成</value>
   </data>
+  <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
+    <value>您的显卡性能不足，无法流畅运行 RiShade。要开启 ReShade 性能模式吗？开启后效果运行更快，您也可以随时在 ReShade 叠加层中关闭它。</value>
+  </data>
 </root>

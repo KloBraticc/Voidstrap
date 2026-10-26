@@ -18,6 +18,7 @@ namespace Voidstrap.Models.Persistable
         public BootstrapperIcon StudioBootstrapperIcon { get; set; }
         public bool RiShadeEnabled { get; set; } = false;
         public string RiShadeDepthModel { get; set; } = "RiDepth";
+        public bool RiShadePerformancePromptShown { get; set; }
         public OverlayShortcut RiShadeOverlayShortcut { get; set; } = new() { Modifiers = 0, Key = 0x24 };
         public bool StudioReShadeEnabled { get; set; } = false;
         public int AntiAliasingMethodIndex { get; set; } = 0;
