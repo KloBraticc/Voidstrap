@@ -672,10 +672,15 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <ui:Card Margin="0,0,10,10" Padding="0" Cursor="Hand">
+                                <ui:Card.Style>
+                                    <Style TargetType="{x:Type ui:Card}" BasedOn="{StaticResource {x:Type ui:Card}}">
+                                        <Setter Property="Border.CornerRadius" Value="8"/>
+                                    </Style>
+                                </ui:Card.Style>
                                 <StackPanel>
                                     <Border Height="112"
-                                            CornerRadius="8,8,0,0"
-                                            util:TopRoundedClip.Radius="8"
+                                            CornerRadius="7,7,0,0"
+                                            util:TopRoundedClip.Radius="7"
                                             Cursor="Hand"
                                             ToolTip="{resources:Loc Ui_Home_ViewGamePage}"
                                             MouseLeftButtonUp="GameThumbnail_Click"
