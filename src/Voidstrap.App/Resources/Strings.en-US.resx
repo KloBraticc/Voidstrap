@@ -1127,4 +1127,52 @@ Send that file to whoever is helping you. Personal details like your computer us
   <data name="Ui.Misc2.MusashiQuoteAuthor" xml:space="preserve">
     <value>Miyamoto Musashi</value>
   </data>
+  <data name="Ui.ModGen.SwapIcons" xml:space="preserve">
+    <value>Swap icons</value>
+  </data>
+  <data name="Ui.ModGen.SwapIconsHelp" xml:space="preserve">
+    <value>Replace any Roblox menu or topbar icon with your own image. Swapped icons are not recoloured.</value>
+  </data>
+  <data name="Ui.ModGen.ChooseIcons" xml:space="preserve">
+    <value>Choose icons</value>
+  </data>
+  <data name="Ui.ModGen.SwappedCount" xml:space="preserve">
+    <value>{0} icons swapped</value>
+  </data>
+  <data name="Ui.ModGen.NoSwaps" xml:space="preserve">
+    <value>No icons swapped yet</value>
+  </data>
+  <data name="Ui.ModGen.SearchIcons" xml:space="preserve">
+    <value>Search icons</value>
+  </data>
+  <data name="Ui.ModGen.ReplaceIcon" xml:space="preserve">
+    <value>Replace</value>
+  </data>
+  <data name="Ui.ModGen.RestoreIcon" xml:space="preserve">
+    <value>Restore</value>
+  </data>
+  <data name="Ui.ModGen.LoadingIcons" xml:space="preserve">
+    <value>Reading the icons from your Roblox build...</value>
+  </data>
+  <data name="Ui.ModGen.IconsUnavailable" xml:space="preserve">
+    <value>The icons could not be read. Launch Roblox once, then try again.</value>
+  </data>
+  <data name="Ui.ModGen.SavedThemes" xml:space="preserve">
+    <value>Saved themes</value>
+  </data>
+  <data name="Ui.ModGen.SaveTheme" xml:space="preserve">
+    <value>Save theme</value>
+  </data>
+  <data name="Ui.ModGen.DeleteTheme" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Ui.ModGen.ThemeLibrarySaved" xml:space="preserve">
+    <value>Saved {0} to your themes.</value>
+  </data>
+  <data name="Ui.ModGen.NoSavedThemes" xml:space="preserve">
+    <value>No saved themes yet</value>
+  </data>
+  <data name="Ui.ModGen.Done" xml:space="preserve">
+    <value>Done</value>
+  </data>
 </root>

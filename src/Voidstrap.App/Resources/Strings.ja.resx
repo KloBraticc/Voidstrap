@@ -8553,4 +8553,52 @@ Voidstrap がデスクトップ フォルダーに書き込めませんでした
   <data name="Ui.Misc2.MusashiQuoteAuthor" xml:space="preserve">
     <value>宮本武蔵</value>
   </data>
+  <data name="Ui.ModGen.SwapIcons" xml:space="preserve">
+    <value>アイコンを差し替え</value>
+  </data>
+  <data name="Ui.ModGen.SwapIconsHelp" xml:space="preserve">
+    <value>Roblox のメニューやトップバーのアイコンを自分の画像に置き換えます。差し替えたアイコンは再着色されません。</value>
+  </data>
+  <data name="Ui.ModGen.ChooseIcons" xml:space="preserve">
+    <value>アイコンを選択</value>
+  </data>
+  <data name="Ui.ModGen.SwappedCount" xml:space="preserve">
+    <value>{0} 個のアイコンを差し替え済み</value>
+  </data>
+  <data name="Ui.ModGen.NoSwaps" xml:space="preserve">
+    <value>差し替えたアイコンはまだありません</value>
+  </data>
+  <data name="Ui.ModGen.SearchIcons" xml:space="preserve">
+    <value>アイコンを検索</value>
+  </data>
+  <data name="Ui.ModGen.ReplaceIcon" xml:space="preserve">
+    <value>置き換え</value>
+  </data>
+  <data name="Ui.ModGen.RestoreIcon" xml:space="preserve">
+    <value>元に戻す</value>
+  </data>
+  <data name="Ui.ModGen.LoadingIcons" xml:space="preserve">
+    <value>Roblox ビルドからアイコンを読み込んでいます...</value>
+  </data>
+  <data name="Ui.ModGen.IconsUnavailable" xml:space="preserve">
+    <value>アイコンを読み込めませんでした。Roblox を一度起動してから、もう一度お試しください。</value>
+  </data>
+  <data name="Ui.ModGen.SavedThemes" xml:space="preserve">
+    <value>保存したテーマ</value>
+  </data>
+  <data name="Ui.ModGen.SaveTheme" xml:space="preserve">
+    <value>テーマを保存</value>
+  </data>
+  <data name="Ui.ModGen.DeleteTheme" xml:space="preserve">
+    <value>削除</value>
+  </data>
+  <data name="Ui.ModGen.ThemeLibrarySaved" xml:space="preserve">
+    <value>{0} をテーマに保存しました。</value>
+  </data>
+  <data name="Ui.ModGen.NoSavedThemes" xml:space="preserve">
+    <value>保存したテーマはまだありません</value>
+  </data>
+  <data name="Ui.ModGen.Done" xml:space="preserve">
+    <value>完了</value>
+  </data>
 </root>

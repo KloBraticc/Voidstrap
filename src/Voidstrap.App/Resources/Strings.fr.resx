@@ -8538,4 +8538,52 @@ Le téléchargement fait {0} Mo. Si vous refusez, l'estimation intégrée est ut
   <data name="Ui.Misc2.MusashiQuoteAuthor" xml:space="preserve">
     <value>Miyamoto Musashi</value>
   </data>
+  <data name="Ui.ModGen.SwapIcons" xml:space="preserve">
+    <value>Remplacer des icônes</value>
+  </data>
+  <data name="Ui.ModGen.SwapIconsHelp" xml:space="preserve">
+    <value>Remplacez n'importe quelle icône du menu ou de la barre Roblox par votre propre image. Les icônes remplacées ne sont pas recolorées.</value>
+  </data>
+  <data name="Ui.ModGen.ChooseIcons" xml:space="preserve">
+    <value>Choisir des icônes</value>
+  </data>
+  <data name="Ui.ModGen.SwappedCount" xml:space="preserve">
+    <value>{0} icônes remplacées</value>
+  </data>
+  <data name="Ui.ModGen.NoSwaps" xml:space="preserve">
+    <value>Aucune icône remplacée pour l'instant</value>
+  </data>
+  <data name="Ui.ModGen.SearchIcons" xml:space="preserve">
+    <value>Rechercher des icônes</value>
+  </data>
+  <data name="Ui.ModGen.ReplaceIcon" xml:space="preserve">
+    <value>Remplacer</value>
+  </data>
+  <data name="Ui.ModGen.RestoreIcon" xml:space="preserve">
+    <value>Restaurer</value>
+  </data>
+  <data name="Ui.ModGen.LoadingIcons" xml:space="preserve">
+    <value>Lecture des icônes de votre version de Roblox...</value>
+  </data>
+  <data name="Ui.ModGen.IconsUnavailable" xml:space="preserve">
+    <value>Impossible de lire les icônes. Lancez Roblox une fois, puis réessayez.</value>
+  </data>
+  <data name="Ui.ModGen.SavedThemes" xml:space="preserve">
+    <value>Thèmes enregistrés</value>
+  </data>
+  <data name="Ui.ModGen.SaveTheme" xml:space="preserve">
+    <value>Enregistrer le thème</value>
+  </data>
+  <data name="Ui.ModGen.DeleteTheme" xml:space="preserve">
+    <value>Supprimer</value>
+  </data>
+  <data name="Ui.ModGen.ThemeLibrarySaved" xml:space="preserve">
+    <value>{0} a été ajouté à vos thèmes.</value>
+  </data>
+  <data name="Ui.ModGen.NoSavedThemes" xml:space="preserve">
+    <value>Aucun thème enregistré pour l'instant</value>
+  </data>
+  <data name="Ui.ModGen.Done" xml:space="preserve">
+    <value>Terminé</value>
+  </data>
 </root>

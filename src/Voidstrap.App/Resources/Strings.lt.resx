@@ -8540,4 +8540,52 @@ Atsisiunčiama {0} MB. Jei atsisakysite, bus naudojamas įtaisytasis įvertinima
   <data name="Ui.Misc2.MusashiQuoteAuthor" xml:space="preserve">
     <value>Miyamoto Musashi</value>
   </data>
+  <data name="Ui.ModGen.SwapIcons" xml:space="preserve">
+    <value>Keisti piktogramas</value>
+  </data>
+  <data name="Ui.ModGen.SwapIconsHelp" xml:space="preserve">
+    <value>Pakeiskite bet kurią Roblox meniu ar juostos piktogramą savo paveikslėliu. Pakeistos piktogramos nėra perspalvinamos.</value>
+  </data>
+  <data name="Ui.ModGen.ChooseIcons" xml:space="preserve">
+    <value>Pasirinkti piktogramas</value>
+  </data>
+  <data name="Ui.ModGen.SwappedCount" xml:space="preserve">
+    <value>Pakeista piktogramų: {0}</value>
+  </data>
+  <data name="Ui.ModGen.NoSwaps" xml:space="preserve">
+    <value>Dar nepakeista jokių piktogramų</value>
+  </data>
+  <data name="Ui.ModGen.SearchIcons" xml:space="preserve">
+    <value>Ieškoti piktogramų</value>
+  </data>
+  <data name="Ui.ModGen.ReplaceIcon" xml:space="preserve">
+    <value>Pakeisti</value>
+  </data>
+  <data name="Ui.ModGen.RestoreIcon" xml:space="preserve">
+    <value>Atkurti</value>
+  </data>
+  <data name="Ui.ModGen.LoadingIcons" xml:space="preserve">
+    <value>Skaitomos piktogramos iš jūsų Roblox versijos...</value>
+  </data>
+  <data name="Ui.ModGen.IconsUnavailable" xml:space="preserve">
+    <value>Nepavyko perskaityti piktogramų. Vieną kartą paleiskite Roblox ir bandykite dar kartą.</value>
+  </data>
+  <data name="Ui.ModGen.SavedThemes" xml:space="preserve">
+    <value>Išsaugotos temos</value>
+  </data>
+  <data name="Ui.ModGen.SaveTheme" xml:space="preserve">
+    <value>Išsaugoti temą</value>
+  </data>
+  <data name="Ui.ModGen.DeleteTheme" xml:space="preserve">
+    <value>Ištrinti</value>
+  </data>
+  <data name="Ui.ModGen.ThemeLibrarySaved" xml:space="preserve">
+    <value>{0} išsaugota jūsų temose.</value>
+  </data>
+  <data name="Ui.ModGen.NoSavedThemes" xml:space="preserve">
+    <value>Dar nėra išsaugotų temų</value>
+  </data>
+  <data name="Ui.ModGen.Done" xml:space="preserve">
+    <value>Atlikta</value>
+  </data>
 </root>

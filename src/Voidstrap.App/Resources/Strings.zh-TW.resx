@@ -8542,4 +8542,52 @@ Voidstrap 無法寫入桌面資料夾。</value>
   <data name="Ui.Misc2.MusashiQuoteAuthor" xml:space="preserve">
     <value>宮本武藏</value>
   </data>
+  <data name="Ui.ModGen.SwapIcons" xml:space="preserve">
+    <value>替換圖示</value>
+  </data>
+  <data name="Ui.ModGen.SwapIconsHelp" xml:space="preserve">
+    <value>用你自己的圖片替換任何 Roblox 選單或頂端列圖示。替換後的圖示不會重新上色。</value>
+  </data>
+  <data name="Ui.ModGen.ChooseIcons" xml:space="preserve">
+    <value>選擇圖示</value>
+  </data>
+  <data name="Ui.ModGen.SwappedCount" xml:space="preserve">
+    <value>已替換 {0} 個圖示</value>
+  </data>
+  <data name="Ui.ModGen.NoSwaps" xml:space="preserve">
+    <value>尚未替換任何圖示</value>
+  </data>
+  <data name="Ui.ModGen.SearchIcons" xml:space="preserve">
+    <value>搜尋圖示</value>
+  </data>
+  <data name="Ui.ModGen.ReplaceIcon" xml:space="preserve">
+    <value>替換</value>
+  </data>
+  <data name="Ui.ModGen.RestoreIcon" xml:space="preserve">
+    <value>還原</value>
+  </data>
+  <data name="Ui.ModGen.LoadingIcons" xml:space="preserve">
+    <value>正在從你的 Roblox 版本讀取圖示...</value>
+  </data>
+  <data name="Ui.ModGen.IconsUnavailable" xml:space="preserve">
+    <value>無法讀取圖示。請先啟動一次 Roblox，然後再試一次。</value>
+  </data>
+  <data name="Ui.ModGen.SavedThemes" xml:space="preserve">
+    <value>已儲存的主題</value>
+  </data>
+  <data name="Ui.ModGen.SaveTheme" xml:space="preserve">
+    <value>儲存主題</value>
+  </data>
+  <data name="Ui.ModGen.DeleteTheme" xml:space="preserve">
+    <value>刪除</value>
+  </data>
+  <data name="Ui.ModGen.ThemeLibrarySaved" xml:space="preserve">
+    <value>已將 {0} 儲存到你的主題。</value>
+  </data>
+  <data name="Ui.ModGen.NoSavedThemes" xml:space="preserve">
+    <value>還沒有已儲存的主題</value>
+  </data>
+  <data name="Ui.ModGen.Done" xml:space="preserve">
+    <value>完成</value>
+  </data>
 </root>

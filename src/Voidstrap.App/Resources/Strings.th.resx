@@ -8534,4 +8534,52 @@ Voidstrap เขียนลงในโฟลเดอร์เดสก์ท�
   <data name="Ui.Misc2.MusashiQuoteAuthor" xml:space="preserve">
     <value>มิยาโมโตะ มูซาชิ</value>
   </data>
+  <data name="Ui.ModGen.SwapIcons" xml:space="preserve">
+    <value>สลับไอคอน</value>
+  </data>
+  <data name="Ui.ModGen.SwapIconsHelp" xml:space="preserve">
+    <value>แทนที่ไอคอนเมนูหรือแถบด้านบนของ Roblox ด้วยรูปภาพของคุณเอง ไอคอนที่สลับแล้วจะไม่ถูกเปลี่ยนสี</value>
+  </data>
+  <data name="Ui.ModGen.ChooseIcons" xml:space="preserve">
+    <value>เลือกไอคอน</value>
+  </data>
+  <data name="Ui.ModGen.SwappedCount" xml:space="preserve">
+    <value>สลับไอคอนแล้ว {0} รายการ</value>
+  </data>
+  <data name="Ui.ModGen.NoSwaps" xml:space="preserve">
+    <value>ยังไม่ได้สลับไอคอน</value>
+  </data>
+  <data name="Ui.ModGen.SearchIcons" xml:space="preserve">
+    <value>ค้นหาไอคอน</value>
+  </data>
+  <data name="Ui.ModGen.ReplaceIcon" xml:space="preserve">
+    <value>แทนที่</value>
+  </data>
+  <data name="Ui.ModGen.RestoreIcon" xml:space="preserve">
+    <value>คืนค่า</value>
+  </data>
+  <data name="Ui.ModGen.LoadingIcons" xml:space="preserve">
+    <value>กำลังอ่านไอคอนจาก Roblox เวอร์ชันของคุณ...</value>
+  </data>
+  <data name="Ui.ModGen.IconsUnavailable" xml:space="preserve">
+    <value>ไม่สามารถอ่านไอคอนได้ โปรดเปิด Roblox หนึ่งครั้งแล้วลองอีกครั้ง</value>
+  </data>
+  <data name="Ui.ModGen.SavedThemes" xml:space="preserve">
+    <value>ธีมที่บันทึกไว้</value>
+  </data>
+  <data name="Ui.ModGen.SaveTheme" xml:space="preserve">
+    <value>บันทึกธีม</value>
+  </data>
+  <data name="Ui.ModGen.DeleteTheme" xml:space="preserve">
+    <value>ลบ</value>
+  </data>
+  <data name="Ui.ModGen.ThemeLibrarySaved" xml:space="preserve">
+    <value>บันทึก {0} ลงในธีมของคุณแล้ว</value>
+  </data>
+  <data name="Ui.ModGen.NoSavedThemes" xml:space="preserve">
+    <value>ยังไม่มีธีมที่บันทึกไว้</value>
+  </data>
+  <data name="Ui.ModGen.Done" xml:space="preserve">
+    <value>เสร็จสิ้น</value>
+  </data>
 </root>

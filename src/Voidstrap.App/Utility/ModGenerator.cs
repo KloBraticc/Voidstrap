@@ -50,6 +50,8 @@ public sealed class ModGeneratorSettings
 
 	public string ModName { get; set; } = "Generated UI theme";
 
+	public Dictionary<string, string> IconSwaps { get; set; } = [];
+
 	public string RobloxVersion { get; set; } = "";
 
 	public DateTime GeneratedUtc { get; set; }
@@ -83,6 +85,13 @@ public sealed class ModGeneratorPreview
 	public Brush? FontBrush { get; init; }
 }
 
+public sealed class ModGeneratorIcon
+{
+	public required string Name { get; init; }
+
+	public required BitmapSource Thumbnail { get; init; }
+}
+
 public static class ModGenerator
 {
 	private const string LogIdent = "ModGenerator";
@@ -107,7 +116,27 @@ public static class ModGenerator
 
 	private const int PreviewRows = 4;
 
-	private static readonly int Workers = Math.Clamp(Environment.ProcessorCount / 2, 1, 6);
+	private static readonly int Workers = Math.Clamp(Environment.ProcessorCount - 1, 1, 12);
+
+	private const string SwapFolderName = "swaps";
+
+	private const int MaxSwaps = 512;
+
+	private const int GradientSteps = 1024;
+
+	private const int ThumbnailSize = 48;
+
+	private static readonly object SourceGate = new object();
+
+	private static PreviewSource? _source;
+
+	private static long _sourceCheckedAt;
+
+	private static IReadOnlyList<ModGeneratorIcon>? _icons;
+
+	private static string? _iconsGuid;
+
+	private static readonly System.Text.RegularExpressions.Regex ThemeNameCleaner = new System.Text.RegularExpressions.Regex("[^A-Za-z0-9 _.()-]", System.Text.RegularExpressions.RegexOptions.Compiled);
 
 	private static readonly SemaphoreSlim GenerateGate = new SemaphoreSlim(1, 1);
 
@@ -209,6 +238,33 @@ public static class ModGenerator
 
 	private static string OriginalsRoot => Path.Combine(Root, "Originals");
 
+	private static string ThemesRoot => Path.Combine(Root, "Themes");
+
+	private sealed class PreviewSource
+	{
+		public required string VersionDirectory;
+
+		public required string VersionGuid;
+
+		public required HashSet<string> Manifest;
+
+		public required IReadOnlyDictionary<string, List<IconRect>> Index;
+
+		public string? FontSource;
+
+		public byte[]? Canvas;
+
+		public int Width;
+
+		public int Height;
+
+		public List<IconRect> Placed = [];
+
+		public int Scale = 2;
+
+		public bool Indexed;
+	}
+
 	private sealed class Painter
 	{
 		public ModGeneratorFill Fill;
@@ -246,6 +302,10 @@ public static class ModGenerator
 		public Color[] FontBands = [];
 
 		public Brush? FontBrush;
+
+		public Color[] GradientLut = [];
+
+		public Dictionary<string, (byte[] Pixels, int Width, int Height)> Swaps = new Dictionary<string, (byte[], int, int)>(StringComparer.Ordinal);
 	}
 
 	private struct Region
@@ -393,66 +453,27 @@ public static class ModGenerator
 	{
 		try
 		{
-			RobloxPlayerData data = new RobloxPlayerData();
-			(string versionDirectory, string versionGuid) = ResolveInstall(data);
-			if (!Directory.Exists(Path.Combine(versionDirectory, "ExtraContent")))
+			PreviewSource? source = GetPreviewSource();
+			if (source?.Canvas == null)
 			{
-				App.Logger?.WriteLine(LogIdent, "No installed Roblox client was found for the preview in " + versionDirectory);
 				return null;
 			}
-			HashSet<string> manifest = CurrentManifest(data);
 			Painter painter = BuildPainter(settings, null);
-			string? fontSource = null;
-			try
+			byte[] after = (byte[])source.Canvas.Clone();
+			if (source.Indexed)
 			{
-				string? font = FindIconFonts(versionDirectory).FirstOrDefault();
-				fontSource = font == null ? null : ResolveSource(versionDirectory, versionGuid, font, manifest);
+				PaintIndexed(after, source.Width, source.Height, source.Placed, painter, source.Scale, null);
 			}
-			catch (Exception ex)
+			else
 			{
-				App.Logger?.WriteLine(LogIdent, "The icon font preview is unavailable: " + ex.Message);
+				PaintComponents(after, source.Width, source.Height, painter, source.Scale);
 			}
-			IReadOnlyDictionary<string, List<IconRect>> index = new Dictionary<string, List<IconRect>>();
-			ModGeneratorPreview? grid = null;
-			try
-			{
-				index = RobloxIconIndex.Load(versionDirectory, versionGuid);
-				grid = RenderIconGrid(index, painter, versionDirectory, versionGuid, manifest);
-			}
-			catch (Exception ex)
-			{
-				App.Logger?.WriteLine(LogIdent, "The named icon preview is unavailable: " + ex.Message);
-			}
-			if (grid != null)
-			{
-				return new ModGeneratorPreview
-				{
-					Before = grid.Before,
-					After = grid.After,
-					NamedIcons = index.Values.Sum(list => list.Count),
-					IconFont = fontSource,
-					FontColor = painter.FontColor,
-					FontBrush = painter.FontBrush
-				};
-			}
-			string? sheet = FindSheets(versionDirectory, 0)
-				.OrderBy(relative => relative.Contains("_2x_", StringComparison.OrdinalIgnoreCase) ? 0 : 1)
-				.ThenBy(relative => relative, StringComparer.OrdinalIgnoreCase)
-				.FirstOrDefault();
-			if (sheet == null)
-			{
-				return null;
-			}
-			(byte[] pixels, int width, int height) = Load(ResolveSource(versionDirectory, versionGuid, sheet, manifest));
-			int crop = Math.Min(320, Math.Min(width, height));
-			byte[] before = Crop(pixels, width, 0, 0, crop, crop);
-			byte[] after = (byte[])before.Clone();
-			PaintComponents(after, crop, crop, painter, ScaleOf(sheet));
 			return new ModGeneratorPreview
 			{
-				Before = Create(before, crop, crop),
-				After = Create(after, crop, crop),
-				IconFont = fontSource,
+				Before = Create(source.Canvas, source.Width, source.Height),
+				After = Create(after, source.Width, source.Height),
+				NamedIcons = source.Indexed ? source.Index.Values.Sum(list => list.Count) : 0,
+				IconFont = source.FontSource,
 				FontColor = painter.FontColor,
 				FontBrush = painter.FontBrush
 			};
@@ -464,13 +485,81 @@ public static class ModGenerator
 		}
 	}
 
-	private static ModGeneratorPreview? RenderIconGrid(IReadOnlyDictionary<string, List<IconRect>> index, Painter painter, string versionDirectory, string versionGuid, HashSet<string> manifest)
+	private static PreviewSource? GetPreviewSource()
+	{
+		lock (SourceGate)
+		{
+			if (_source != null && Environment.TickCount64 - _sourceCheckedAt < 60000)
+			{
+				return _source;
+			}
+			_sourceCheckedAt = Environment.TickCount64;
+			RobloxPlayerData data = new RobloxPlayerData();
+			(string versionDirectory, string versionGuid) = ResolveInstall(data);
+			if (_source != null && string.Equals(_source.VersionDirectory, versionDirectory, StringComparison.OrdinalIgnoreCase) && string.Equals(_source.VersionGuid, versionGuid, StringComparison.OrdinalIgnoreCase))
+			{
+				return _source;
+			}
+			if (!Directory.Exists(Path.Combine(versionDirectory, "ExtraContent")))
+			{
+				App.Logger?.WriteLine(LogIdent, "No installed Roblox client was found for the preview in " + versionDirectory);
+				return null;
+			}
+			HashSet<string> manifest = CurrentManifest(data);
+			PreviewSource source = new PreviewSource
+			{
+				VersionDirectory = versionDirectory,
+				VersionGuid = versionGuid,
+				Manifest = manifest,
+				Index = new Dictionary<string, List<IconRect>>()
+			};
+			try
+			{
+				string? font = FindIconFonts(versionDirectory).FirstOrDefault();
+				source.FontSource = font == null ? null : ResolveSource(versionDirectory, versionGuid, font, manifest);
+			}
+			catch (Exception ex)
+			{
+				App.Logger?.WriteLine(LogIdent, "The icon font preview is unavailable: " + ex.Message);
+			}
+			try
+			{
+				source.Index = RobloxIconIndex.Load(versionDirectory, versionGuid);
+				BuildIconGrid(source);
+			}
+			catch (Exception ex)
+			{
+				App.Logger?.WriteLine(LogIdent, "The named icon preview is unavailable: " + ex.Message);
+			}
+			if (source.Canvas == null)
+			{
+				string? sheet = FindSheets(versionDirectory, 0)
+					.OrderBy(relative => relative.Contains("_2x_", StringComparison.OrdinalIgnoreCase) ? 0 : 1)
+					.ThenBy(relative => relative, StringComparer.OrdinalIgnoreCase)
+					.FirstOrDefault();
+				if (sheet == null)
+				{
+					return null;
+				}
+				(byte[] pixels, int width, int height) = Load(ResolveSource(versionDirectory, versionGuid, sheet, manifest));
+				int crop = Math.Min(320, Math.Min(width, height));
+				source.Canvas = Crop(pixels, width, 0, 0, crop, crop);
+				source.Width = crop;
+				source.Height = crop;
+				source.Scale = ScaleOf(sheet);
+			}
+			_source = source;
+			return source;
+		}
+	}
+
+	private static void BuildIconGrid(PreviewSource source)
 	{
 		List<(string Sheet, IconRect Icon)> picks = [];
 		HashSet<string> seen = new HashSet<string>(StringComparer.Ordinal);
 		foreach (string group in PreviewGroups)
 		{
-			foreach ((string sheet, List<IconRect> icons) in index.OrderBy(pair => pair.Key, StringComparer.OrdinalIgnoreCase))
+			foreach ((string sheet, List<IconRect> icons) in source.Index.OrderBy(pair => pair.Key, StringComparer.OrdinalIgnoreCase))
 			{
 				if (!sheet.Contains("img_set_2x_", StringComparison.OrdinalIgnoreCase))
 				{
@@ -496,7 +585,7 @@ public static class ModGenerator
 		}
 		if (picks.Count < 6)
 		{
-			return null;
+			return;
 		}
 		int width = PreviewColumns * PreviewCell;
 		int height = (picks.Count + PreviewColumns - 1) / PreviewColumns * PreviewCell;
@@ -506,12 +595,12 @@ public static class ModGenerator
 		for (int i = 0; i < picks.Count; i++)
 		{
 			(string sheet, IconRect icon) = picks[i];
-			if (!sheets.TryGetValue(sheet, out (byte[] Pixels, int Width, int Height) source))
+			if (!sheets.TryGetValue(sheet, out (byte[] Pixels, int Width, int Height) loaded))
 			{
-				source = Load(ResolveSource(versionDirectory, versionGuid, sheet, manifest));
-				sheets[sheet] = source;
+				loaded = Load(ResolveSource(source.VersionDirectory, source.VersionGuid, sheet, source.Manifest));
+				sheets[sheet] = loaded;
 			}
-			if (icon.X + icon.Width > source.Width || icon.Y + icon.Height > source.Height)
+			if (icon.X + icon.Width > loaded.Width || icon.Y + icon.Height > loaded.Height)
 			{
 				continue;
 			}
@@ -519,17 +608,161 @@ public static class ModGenerator
 			int y = i / PreviewColumns * PreviewCell + (PreviewCell - icon.Height) / 2;
 			for (int row = 0; row < icon.Height; row++)
 			{
-				Buffer.BlockCopy(source.Pixels, ((icon.Y + row) * source.Width + icon.X) * 4, canvas, ((y + row) * width + x) * 4, icon.Width * 4);
+				Buffer.BlockCopy(loaded.Pixels, ((icon.Y + row) * loaded.Width + icon.X) * 4, canvas, ((y + row) * width + x) * 4, icon.Width * 4);
 			}
 			placed.Add(icon with { X = x, Y = y });
 		}
-		byte[] after = (byte[])canvas.Clone();
-		PaintIndexed(after, width, height, placed, painter, 2, null);
-		return new ModGeneratorPreview
+		source.Canvas = canvas;
+		source.Width = width;
+		source.Height = height;
+		source.Placed = placed;
+		source.Scale = 2;
+		source.Indexed = true;
+	}
+
+	public static IReadOnlyList<ModGeneratorIcon> ListIcons()
+	{
+		PreviewSource source = GetPreviewSource() ?? throw new InvalidOperationException("Roblox is not installed yet. Launch Roblox once, then try again.");
+		lock (SourceGate)
 		{
-			Before = Create(canvas, width, height),
-			After = Create(after, width, height)
-		};
+			if (_icons != null && string.Equals(_iconsGuid, source.VersionGuid, StringComparison.OrdinalIgnoreCase))
+			{
+				return _icons;
+			}
+		}
+		Dictionary<string, (string Sheet, IconRect Icon, int Rank)> best = new Dictionary<string, (string, IconRect, int)>(StringComparer.Ordinal);
+		foreach ((string sheet, List<IconRect> icons) in source.Index)
+		{
+			int scale = ScaleOf(sheet);
+			int rank = scale == 2 ? 0 : scale == 3 ? 1 : 2;
+			foreach (IconRect icon in icons)
+			{
+				if (!IsIconName(icon.Name) || IsStructural(icon.Name) || icon.Width <= 0 || icon.Height <= 0)
+				{
+					continue;
+				}
+				if (!best.TryGetValue(icon.Name, out (string Sheet, IconRect Icon, int Rank) current) || rank < current.Rank)
+				{
+					best[icon.Name] = (sheet, icon, rank);
+				}
+			}
+		}
+		List<ModGeneratorIcon> result = new List<ModGeneratorIcon>(best.Count);
+		foreach (IGrouping<string, KeyValuePair<string, (string Sheet, IconRect Icon, int Rank)>> group in best.GroupBy(pair => pair.Value.Sheet, StringComparer.OrdinalIgnoreCase))
+		{
+			(byte[] Pixels, int Width, int Height) sheet;
+			try
+			{
+				sheet = Load(ResolveSource(source.VersionDirectory, source.VersionGuid, group.Key, source.Manifest));
+			}
+			catch (Exception ex)
+			{
+				App.Logger?.WriteLine(LogIdent, "Icons in " + group.Key + " could not be read: " + ex.Message);
+				continue;
+			}
+			foreach (KeyValuePair<string, (string Sheet, IconRect Icon, int Rank)> pair in group)
+			{
+				IconRect icon = pair.Value.Icon;
+				if (icon.X < 0 || icon.Y < 0 || icon.X + icon.Width > sheet.Width || icon.Y + icon.Height > sheet.Height)
+				{
+					continue;
+				}
+				byte[] pixels = Crop(sheet.Pixels, sheet.Width, icon.X, icon.Y, icon.Width, icon.Height);
+				int width = icon.Width;
+				int height = icon.Height;
+				if (Math.Max(width, height) > ThumbnailSize)
+				{
+					(pixels, width, height) = Shrink(pixels, width, height, ThumbnailSize);
+				}
+				result.Add(new ModGeneratorIcon { Name = pair.Key, Thumbnail = Create(pixels, width, height) });
+			}
+		}
+		result.Sort((left, right) => string.CompareOrdinal(left.Name, right.Name));
+		lock (SourceGate)
+		{
+			_icons = result;
+			_iconsGuid = source.VersionGuid;
+		}
+		return result;
+	}
+
+	public static IReadOnlyList<string> ListThemes()
+	{
+		try
+		{
+			if (!Directory.Exists(ThemesRoot))
+			{
+				return [];
+			}
+			return [.. Directory.EnumerateFiles(ThemesRoot, "*.json").Select(Path.GetFileNameWithoutExtension).OfType<string>().OrderBy(name => name, StringComparer.CurrentCultureIgnoreCase)];
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine(LogIdent, "The saved themes could not be listed: " + ex.Message);
+			return [];
+		}
+	}
+
+	public static string SaveTheme(string name, ModGeneratorSettings settings)
+	{
+		string clean = ThemeNameCleaner.Replace(name ?? "", "").Trim().TrimEnd('.').Trim();
+		if (clean.Length == 0)
+		{
+			clean = "Theme";
+		}
+		if (clean.Length > 60)
+		{
+			clean = clean[..60].Trim();
+		}
+		Directory.CreateDirectory(ThemesRoot);
+		JsonFile.SerializeAtomic(Path.Combine(ThemesRoot, clean + ".json"), settings, JsonOptions.Indented);
+		return clean;
+	}
+
+	public static ModGeneratorSettings? LoadTheme(string name)
+	{
+		string? path = ThemePath(name);
+		if (path == null || !File.Exists(path) || new FileInfo(path).Length > 256 * 1024)
+		{
+			return null;
+		}
+		try
+		{
+			ModGeneratorSettings? settings = JsonSerializer.Deserialize<ModGeneratorSettings>(File.ReadAllText(path));
+			if (settings != null)
+			{
+				settings.GradientColors ??= [];
+				settings.IconSwaps ??= [];
+				if (!Enum.IsDefined(settings.Fill))
+				{
+					settings.Fill = ModGeneratorFill.Solid;
+				}
+			}
+			return settings;
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine(LogIdent, "The saved theme could not be read: " + ex.Message);
+			return null;
+		}
+	}
+
+	public static void DeleteTheme(string name)
+	{
+		string? path = ThemePath(name);
+		if (path != null && File.Exists(path))
+		{
+			File.Delete(path);
+		}
+	}
+
+	private static string? ThemePath(string name)
+	{
+		if (string.IsNullOrWhiteSpace(name) || ThemeNameCleaner.IsMatch(name) || name.Contains("..", StringComparison.Ordinal))
+		{
+			return null;
+		}
+		return Path.Combine(ThemesRoot, name + ".json");
 	}
 
 	private static string GenerateCore(ModGeneratorSettings settings, string? existingId, IProgress<ModGeneratorProgress>? progress, CancellationToken token, string? versionDirectory = null, string? versionGuid = null)
@@ -555,6 +788,7 @@ public static class ModGenerator
 		StoreImage(settings.LogoImage, Path.Combine(stateFolder, LogoImageName));
 		settings.FillImage = File.Exists(Path.Combine(stateFolder, FillImageName)) ? Path.Combine(stateFolder, FillImageName) : null;
 		settings.LogoImage = File.Exists(Path.Combine(stateFolder, LogoImageName)) ? Path.Combine(stateFolder, LogoImageName) : null;
+		settings.IconSwaps = StoreSwaps(settings.IconSwaps, Path.Combine(stateFolder, SwapFolderName));
 
 		string output = ManagedModStore.GetFolder(modId);
 		string staging = output + ".generating";
@@ -869,6 +1103,49 @@ public static class ModGenerator
 		Save(destination, pixels, width, height);
 	}
 
+	private static Dictionary<string, string> StoreSwaps(Dictionary<string, string>? swaps, string folder)
+	{
+		Dictionary<string, string> stored = new Dictionary<string, string>(StringComparer.Ordinal);
+		HashSet<string> keep = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+		foreach ((string name, string path) in (swaps ?? []).Take(MaxSwaps))
+		{
+			if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(path))
+			{
+				continue;
+			}
+			string fileName = Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(System.Text.Encoding.UTF8.GetBytes(name)))[..24] + ".png";
+			string destination = Path.Combine(folder, fileName);
+			try
+			{
+				Directory.CreateDirectory(folder);
+				StoreImage(path, destination);
+				stored[name] = destination;
+				keep.Add(destination);
+			}
+			catch (Exception ex)
+			{
+				App.Logger?.WriteLine(LogIdent, "The swapped icon for " + name + " could not be stored: " + ex.Message);
+			}
+		}
+		if (Directory.Exists(folder))
+		{
+			foreach (string file in Directory.EnumerateFiles(folder, "*.png"))
+			{
+				if (!keep.Contains(file))
+				{
+					try
+					{
+						File.Delete(file);
+					}
+					catch (IOException)
+					{
+					}
+				}
+			}
+		}
+		return stored;
+	}
+
 	private static void WriteLogos(Painter painter, string versionDirectory, string versionGuid, HashSet<string> manifest, string staging)
 	{
 		foreach (string relative in LogoTargets)
@@ -927,6 +1204,11 @@ public static class ModGenerator
 		double radians = settings.GradientAngle * Math.PI / 180.0;
 		painter.Dx = Math.Cos(radians);
 		painter.Dy = Math.Sin(radians);
+		painter.GradientLut = new Color[GradientSteps];
+		for (int step = 0; step < GradientSteps; step++)
+		{
+			painter.GradientLut[step] = Sample(painter.Stops, step / (double)(GradientSteps - 1));
+		}
 		painter.FontColor = settings.Fill == ModGeneratorFill.Gradient ? colors[0] : painter.Solid;
 		painter.FontBands = [painter.FontColor];
 		if (settings.Fill == ModGeneratorFill.Gradient && colors.Distinct().Count() > 1)
@@ -963,6 +1245,20 @@ public static class ModGenerator
 		if (!string.IsNullOrWhiteSpace(logoPath) && File.Exists(logoPath))
 		{
 			(painter.Logo, painter.LogoWidth, painter.LogoHeight) = Load(logoPath);
+		}
+		foreach ((string name, string path) in (settings.IconSwaps ?? []).Take(MaxSwaps))
+		{
+			try
+			{
+				if (!string.IsNullOrWhiteSpace(name) && File.Exists(path))
+				{
+					painter.Swaps[name] = Load(path);
+				}
+			}
+			catch (Exception ex)
+			{
+				App.Logger?.WriteLine(LogIdent, "The swapped icon for " + name + " could not be read: " + ex.Message);
+			}
 		}
 		return painter;
 	}
@@ -1053,6 +1349,12 @@ public static class ModGenerator
 		{
 			if (icon.X < 0 || icon.Y < 0 || icon.X + icon.Width > width || icon.Y + icon.Height > height)
 			{
+				continue;
+			}
+			if (painter.Swaps.TryGetValue(icon.Name, out (byte[] Pixels, int Width, int Height) swap))
+			{
+				DrawFitted(pixels, width, icon, swap.Pixels, swap.Width, swap.Height);
+				painted++;
 				continue;
 			}
 			if (painter.Logo != null && IsLogoIcon(icon.Name))
@@ -1253,7 +1555,7 @@ public static class ModGenerator
 				double v = (y - minY) / spanY;
 				Color color = painter.Fill switch
 				{
-					ModGeneratorFill.Gradient => Sample(painter.Stops, range <= 0 ? 0 : (u * painter.Dx + v * painter.Dy - lowest) / range),
+					ModGeneratorFill.Gradient => painter.GradientLut[(int)(Math.Clamp(range <= 0 ? 0 : (u * painter.Dx + v * painter.Dy - lowest) / range, 0.0, 1.0) * (GradientSteps - 1))],
 					ModGeneratorFill.Image => SampleImage(painter, u, v, boxWidth, boxHeight),
 					_ => painter.Solid
 				};
@@ -1270,14 +1572,23 @@ public static class ModGenerator
 
 	private static void DrawLogo(byte[] pixels, int width, IconRect icon, Painter painter)
 	{
+		DrawFitted(pixels, width, icon, painter.Logo!, painter.LogoWidth, painter.LogoHeight);
+	}
+
+	private static void DrawFitted(byte[] pixels, int width, IconRect icon, byte[] image, int imageWidth, int imageHeight)
+	{
 		for (int y = icon.Y; y < icon.Y + icon.Height; y++)
 		{
 			Array.Clear(pixels, (y * width + icon.X) * 4, icon.Width * 4);
 		}
-		double scale = Math.Min((double)icon.Width / painter.LogoWidth, (double)icon.Height / painter.LogoHeight);
-		int drawWidth = Math.Clamp((int)Math.Round(painter.LogoWidth * scale), 1, icon.Width);
-		int drawHeight = Math.Clamp((int)Math.Round(painter.LogoHeight * scale), 1, icon.Height);
-		byte[] fitted = Resize(painter.Logo!, painter.LogoWidth, painter.LogoHeight, drawWidth, drawHeight);
+		if (imageWidth <= 0 || imageHeight <= 0)
+		{
+			return;
+		}
+		double scale = Math.Min((double)icon.Width / imageWidth, (double)icon.Height / imageHeight);
+		int drawWidth = Math.Clamp((int)Math.Round(imageWidth * scale), 1, icon.Width);
+		int drawHeight = Math.Clamp((int)Math.Round(imageHeight * scale), 1, icon.Height);
+		byte[] fitted = Resize(image, imageWidth, imageHeight, drawWidth, drawHeight);
 		int left = icon.X + (icon.Width - drawWidth) / 2;
 		int top = icon.Y + (icon.Height - drawHeight) / 2;
 		for (int row = 0; row < drawHeight; row++)

@@ -270,6 +270,27 @@
       </StackPanel>
     </ui:CardExpander>
 
+    <ui:CardControl Margin="0,8,0,0" Focusable="False" Icon="Image24">
+      <ui:CardControl.Header>
+        <StackPanel Margin="0,0,12,0">
+          <TextBlock FontSize="13" FontWeight="SemiBold" Text="{resources:Loc Ui_ModGen_SwapIcons}" />
+          <TextBlock x:Name="SwapSummary" FontSize="11.5" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_ModGen_NoSwaps}" />
+        </StackPanel>
+      </ui:CardControl.Header>
+      <ui:Button x:Name="SwapButton" Content="{resources:Loc Ui_ModGen_ChooseIcons}" Icon="ArrowSwap24" Appearance="Secondary" Click="SwapIcons_Click" />
+    </ui:CardControl>
+
+    <ui:CardControl Margin="0,8,0,0" Focusable="False" Icon="Color24">
+      <ui:CardControl.Header>
+        <TextBlock FontSize="13" FontWeight="SemiBold" VerticalAlignment="Center" Text="{resources:Loc Ui_ModGen_SavedThemes}" />
+      </ui:CardControl.Header>
+      <StackPanel Orientation="Horizontal">
+        <ComboBox x:Name="ThemePicker" MinWidth="180" Margin="0,0,8,0" SelectionChanged="ThemePicker_SelectionChanged" />
+        <ui:Button x:Name="DeleteThemeButton" Margin="0,0,8,0" Content="{resources:Loc Ui_ModGen_DeleteTheme}" Icon="Delete24" Appearance="Secondary" IsEnabled="False" Click="DeleteTheme_Click" />
+        <ui:Button x:Name="SaveThemeButton" Content="{resources:Loc Ui_ModGen_SaveTheme}" Icon="Save24" Appearance="Secondary" Click="SaveTheme_Click" />
+      </StackPanel>
+    </ui:CardControl>
+
     <WrapPanel Margin="0,8,0,0">
       <ui:Button x:Name="RandomizeButton" Margin="0,0,8,8" Content="{resources:Loc Ui_ModGen_Randomize}" Icon="ArrowShuffle24" Appearance="Secondary" Click="Randomize_Click" />
       <ui:Button x:Name="ResetButton" Margin="0,0,8,8" Content="{resources:Loc Ui_ModGen_Reset}" Icon="ArrowReset24" Appearance="Secondary" Click="Reset_Click" />

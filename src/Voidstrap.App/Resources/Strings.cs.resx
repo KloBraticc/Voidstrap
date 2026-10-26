@@ -8540,4 +8540,52 @@ Stáhne se {0} MB. Pokud odmítnete, použije se vestavěný odhad. Později to 
   <data name="Ui.Misc2.MusashiQuoteAuthor" xml:space="preserve">
     <value>Miyamoto Musashi</value>
   </data>
+  <data name="Ui.ModGen.SwapIcons" xml:space="preserve">
+    <value>Vyměnit ikony</value>
+  </data>
+  <data name="Ui.ModGen.SwapIconsHelp" xml:space="preserve">
+    <value>Nahraďte libovolnou ikonu nabídky nebo lišty Roblox vlastním obrázkem. Vyměněné ikony se nepřebarvují.</value>
+  </data>
+  <data name="Ui.ModGen.ChooseIcons" xml:space="preserve">
+    <value>Vybrat ikony</value>
+  </data>
+  <data name="Ui.ModGen.SwappedCount" xml:space="preserve">
+    <value>Vyměněné ikony: {0}</value>
+  </data>
+  <data name="Ui.ModGen.NoSwaps" xml:space="preserve">
+    <value>Zatím nejsou vyměněné žádné ikony</value>
+  </data>
+  <data name="Ui.ModGen.SearchIcons" xml:space="preserve">
+    <value>Hledat ikony</value>
+  </data>
+  <data name="Ui.ModGen.ReplaceIcon" xml:space="preserve">
+    <value>Nahradit</value>
+  </data>
+  <data name="Ui.ModGen.RestoreIcon" xml:space="preserve">
+    <value>Obnovit</value>
+  </data>
+  <data name="Ui.ModGen.LoadingIcons" xml:space="preserve">
+    <value>Čtení ikon z vaší verze Robloxu...</value>
+  </data>
+  <data name="Ui.ModGen.IconsUnavailable" xml:space="preserve">
+    <value>Ikony se nepodařilo načíst. Spusťte jednou Roblox a zkuste to znovu.</value>
+  </data>
+  <data name="Ui.ModGen.SavedThemes" xml:space="preserve">
+    <value>Uložené motivy</value>
+  </data>
+  <data name="Ui.ModGen.SaveTheme" xml:space="preserve">
+    <value>Uložit motiv</value>
+  </data>
+  <data name="Ui.ModGen.DeleteTheme" xml:space="preserve">
+    <value>Smazat</value>
+  </data>
+  <data name="Ui.ModGen.ThemeLibrarySaved" xml:space="preserve">
+    <value>Motiv {0} byl uložen.</value>
+  </data>
+  <data name="Ui.ModGen.NoSavedThemes" xml:space="preserve">
+    <value>Zatím žádné uložené motivy</value>
+  </data>
+  <data name="Ui.ModGen.Done" xml:space="preserve">
+    <value>Hotovo</value>
+  </data>
 </root>

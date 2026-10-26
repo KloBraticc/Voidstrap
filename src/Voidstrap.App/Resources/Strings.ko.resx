@@ -8537,4 +8537,52 @@ Voidstrap이 바탕 화면 폴더에 쓸 수 없습니다.</value>
   <data name="Ui.Misc2.MusashiQuoteAuthor" xml:space="preserve">
     <value>미야모토 무사시</value>
   </data>
+  <data name="Ui.ModGen.SwapIcons" xml:space="preserve">
+    <value>아이콘 교체</value>
+  </data>
+  <data name="Ui.ModGen.SwapIconsHelp" xml:space="preserve">
+    <value>Roblox 메뉴나 상단 바의 아이콘을 원하는 이미지로 바꿉니다. 교체한 아이콘은 다시 색칠되지 않습니다.</value>
+  </data>
+  <data name="Ui.ModGen.ChooseIcons" xml:space="preserve">
+    <value>아이콘 선택</value>
+  </data>
+  <data name="Ui.ModGen.SwappedCount" xml:space="preserve">
+    <value>아이콘 {0}개 교체됨</value>
+  </data>
+  <data name="Ui.ModGen.NoSwaps" xml:space="preserve">
+    <value>아직 교체한 아이콘이 없습니다</value>
+  </data>
+  <data name="Ui.ModGen.SearchIcons" xml:space="preserve">
+    <value>아이콘 검색</value>
+  </data>
+  <data name="Ui.ModGen.ReplaceIcon" xml:space="preserve">
+    <value>교체</value>
+  </data>
+  <data name="Ui.ModGen.RestoreIcon" xml:space="preserve">
+    <value>복원</value>
+  </data>
+  <data name="Ui.ModGen.LoadingIcons" xml:space="preserve">
+    <value>Roblox 빌드에서 아이콘을 읽는 중...</value>
+  </data>
+  <data name="Ui.ModGen.IconsUnavailable" xml:space="preserve">
+    <value>아이콘을 읽을 수 없습니다. Roblox를 한 번 실행한 후 다시 시도하십시오.</value>
+  </data>
+  <data name="Ui.ModGen.SavedThemes" xml:space="preserve">
+    <value>저장된 테마</value>
+  </data>
+  <data name="Ui.ModGen.SaveTheme" xml:space="preserve">
+    <value>테마 저장</value>
+  </data>
+  <data name="Ui.ModGen.DeleteTheme" xml:space="preserve">
+    <value>삭제</value>
+  </data>
+  <data name="Ui.ModGen.ThemeLibrarySaved" xml:space="preserve">
+    <value>{0}을(를) 테마에 저장했습니다.</value>
+  </data>
+  <data name="Ui.ModGen.NoSavedThemes" xml:space="preserve">
+    <value>아직 저장된 테마가 없습니다</value>
+  </data>
+  <data name="Ui.ModGen.Done" xml:space="preserve">
+    <value>완료</value>
+  </data>
 </root>

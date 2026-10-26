@@ -48,6 +48,10 @@ public partial class ModGeneratorSection : UserControl
 
 	private bool _generating;
 
+	private Dictionary<string, string> _swaps = new Dictionary<string, string>(StringComparer.Ordinal);
+
+	private bool _themesLoading;
+
 	public ModGeneratorSection()
 	{
 		InitializeComponent();
@@ -73,6 +77,7 @@ public partial class ModGeneratorSection : UserControl
 		{
 			_initialized = true;
 			LoadSettings();
+			RefreshThemes(null);
 		}
 		SchedulePreview();
 	}
@@ -130,6 +135,7 @@ public partial class ModGeneratorSection : UserControl
 			OpacityText.Text = Math.Round(OpacitySlider.Value) + "%";
 			_fillImage = settings.FillImage;
 			_logoImage = settings.LogoImage;
+			_swaps = new Dictionary<string, string>(settings.IconSwaps ?? [], StringComparer.Ordinal);
 		}
 		finally
 		{
@@ -168,6 +174,7 @@ public partial class ModGeneratorSection : UserControl
 			IncludeUiTextures = UiTexturesToggle.IsChecked == true,
 			IconOpacity = Math.Clamp(OpacitySlider.Value / 100.0, 0.1, 1.0),
 			LogoImage = _logoImage,
+			IconSwaps = new Dictionary<string, string>(_swaps, StringComparer.Ordinal),
 			ModName = string.IsNullOrWhiteSpace(ModNameBox.Text) ? "Generated UI theme" : ModNameBox.Text.Trim()
 		};
 	}
@@ -292,6 +299,7 @@ public partial class ModGeneratorSection : UserControl
 	{
 		FillImageText.Text = string.IsNullOrWhiteSpace(_fillImage) ? Voidstrap.Resources.Strings.Ui_ModGen_NoImageChosen : Path.GetFileName(_fillImage);
 		bool hasLogo = !string.IsNullOrWhiteSpace(_logoImage);
+		SwapSummary.Text = _swaps.Count == 0 ? Voidstrap.Resources.Strings.Ui_ModGen_NoSwaps : string.Format(CultureInfo.CurrentCulture, Voidstrap.Resources.Strings.Ui_ModGen_SwappedCount, _swaps.Count);
 		LogoText.Text = hasLogo ? Path.GetFileName(_logoImage) : Voidstrap.Resources.Strings.Ui_ModGen_ReplacesTheRobloxLogoInMenus;
 		ClearLogoButton.Visibility = hasLogo ? Visibility.Visible : Visibility.Collapsed;
 	}
@@ -513,6 +521,9 @@ public partial class ModGeneratorSection : UserControl
 	private void SetToolsEnabled(bool enabled)
 	{
 		GenerateButton.IsEnabled = enabled;
+		SwapButton.IsEnabled = enabled;
+		SaveThemeButton.IsEnabled = enabled;
+		ThemePicker.IsEnabled = enabled;
 		ResetButton.IsEnabled = enabled;
 		ImportButton.IsEnabled = enabled;
 		RandomizeButton.IsEnabled = enabled;
@@ -584,6 +595,7 @@ public partial class ModGeneratorSection : UserControl
 			ModGeneratorSettings settings = ReadSettings();
 			settings.FillImage = null;
 			settings.LogoImage = null;
+			settings.IconSwaps = [];
 			File.WriteAllText(dialog.FileName, System.Text.Json.JsonSerializer.Serialize(settings, ThemeJson));
 			StatusText.Text = string.Format(CultureInfo.CurrentCulture, Voidstrap.Resources.Strings.Ui_ModGen_ThemeSaved, Path.GetFileName(dialog.FileName));
 		}
@@ -620,6 +632,7 @@ public partial class ModGeneratorSection : UserControl
 			settings.GradientColors ??= [];
 			settings.FillImage = _fillImage;
 			settings.LogoImage = _logoImage;
+			settings.IconSwaps = new Dictionary<string, string>(_swaps, StringComparer.Ordinal);
 			if (string.IsNullOrWhiteSpace(settings.ModName))
 			{
 				settings.ModName = ModNameBox.Text;
@@ -638,6 +651,100 @@ public partial class ModGeneratorSection : UserControl
 	{
 		GenerateProgress.Value = value.Fraction;
 		StatusText.Text = value.Message;
+	}
+
+	private void SwapIcons_Click(object sender, RoutedEventArgs e)
+	{
+		ModGeneratorIconSwapDialog dialog = new ModGeneratorIconSwapDialog(_swaps);
+		if (dialog.ShowOwnedDialog() != true)
+		{
+			return;
+		}
+		_swaps = new Dictionary<string, string>(dialog.Swaps, StringComparer.Ordinal);
+		UpdateImageLabels();
+	}
+
+	private void RefreshThemes(string? select)
+	{
+		_themesLoading = true;
+		try
+		{
+			IReadOnlyList<string> themes = ModGenerator.ListThemes();
+			ThemePicker.ItemsSource = themes;
+			ThemePicker.SelectedItem = select != null && themes.Contains(select) ? select : null;
+			ThemePicker.IsEnabled = themes.Count > 0 && !_generating;
+			if (themes.Count == 0)
+			{
+				ThemePicker.ToolTip = Voidstrap.Resources.Strings.Ui_ModGen_NoSavedThemes;
+			}
+			else
+			{
+				ThemePicker.ClearValue(ToolTipProperty);
+			}
+			DeleteThemeButton.IsEnabled = ThemePicker.SelectedItem != null;
+		}
+		finally
+		{
+			_themesLoading = false;
+		}
+	}
+
+	private void ThemePicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
+	{
+		DeleteThemeButton.IsEnabled = ThemePicker.SelectedItem != null;
+		if (_themesLoading || ThemePicker.SelectedItem is not string name)
+		{
+			return;
+		}
+		ModGeneratorSettings? settings = ModGenerator.LoadTheme(name);
+		if (settings == null)
+		{
+			StatusText.Text = string.Format(CultureInfo.CurrentCulture, Voidstrap.Resources.Strings.Ui_ModGen_ImportFailed, name);
+			return;
+		}
+		if (settings.Fill == ModGeneratorFill.Image && (string.IsNullOrWhiteSpace(settings.FillImage) || !File.Exists(settings.FillImage)))
+		{
+			settings.Fill = ModGeneratorFill.Solid;
+		}
+		if (!string.IsNullOrWhiteSpace(settings.LogoImage) && !File.Exists(settings.LogoImage))
+		{
+			settings.LogoImage = null;
+		}
+		ApplySettings(settings);
+		RefreshAfterApply();
+	}
+
+	private void SaveTheme_Click(object sender, RoutedEventArgs e)
+	{
+		try
+		{
+			ModGeneratorSettings settings = ReadSettings();
+			string saved = ModGenerator.SaveTheme(settings.ModName, settings);
+			RefreshThemes(saved);
+			StatusText.Text = string.Format(CultureInfo.CurrentCulture, Voidstrap.Resources.Strings.Ui_ModGen_ThemeLibrarySaved, saved);
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("ModGeneratorSection", "The theme could not be saved: " + ex.Message);
+			StatusText.Text = string.Format(CultureInfo.CurrentCulture, Voidstrap.Resources.Strings.Ui_ModGen_ExportFailed, ex.Message);
+		}
+	}
+
+	private void DeleteTheme_Click(object sender, RoutedEventArgs e)
+	{
+		if (ThemePicker.SelectedItem is not string name)
+		{
+			return;
+		}
+		try
+		{
+			ModGenerator.DeleteTheme(name);
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("ModGeneratorSection", "The theme could not be deleted: " + ex.Message);
+		}
+		RefreshThemes(null);
 	}
 
 	private void Cancel_Click(object sender, RoutedEventArgs e)

@@ -8541,4 +8541,52 @@ Voidstrap نتوانست در پوشهٔ دسکتاپ بنویسد.</value>
   <data name="Ui.Misc2.MusashiQuoteAuthor" xml:space="preserve">
     <value>میاموتو موساشی</value>
   </data>
+  <data name="Ui.ModGen.SwapIcons" xml:space="preserve">
+    <value>تعویض آیکون‌ها</value>
+  </data>
+  <data name="Ui.ModGen.SwapIconsHelp" xml:space="preserve">
+    <value>هر آیکون منو یا نوار بالای Roblox را با تصویر خودتان جایگزین کنید. آیکون‌های تعویض‌شده دوباره رنگ‌آمیزی نمی‌شوند.</value>
+  </data>
+  <data name="Ui.ModGen.ChooseIcons" xml:space="preserve">
+    <value>انتخاب آیکون‌ها</value>
+  </data>
+  <data name="Ui.ModGen.SwappedCount" xml:space="preserve">
+    <value>{0} آیکون تعویض شد</value>
+  </data>
+  <data name="Ui.ModGen.NoSwaps" xml:space="preserve">
+    <value>هنوز آیکونی تعویض نشده است</value>
+  </data>
+  <data name="Ui.ModGen.SearchIcons" xml:space="preserve">
+    <value>جستجوی آیکون‌ها</value>
+  </data>
+  <data name="Ui.ModGen.ReplaceIcon" xml:space="preserve">
+    <value>جایگزینی</value>
+  </data>
+  <data name="Ui.ModGen.RestoreIcon" xml:space="preserve">
+    <value>بازگردانی</value>
+  </data>
+  <data name="Ui.ModGen.LoadingIcons" xml:space="preserve">
+    <value>در حال خواندن آیکون‌ها از نسخهٔ Roblox شما...</value>
+  </data>
+  <data name="Ui.ModGen.IconsUnavailable" xml:space="preserve">
+    <value>آیکون‌ها خوانده نشدند. یک بار Roblox را اجرا کنید و دوباره امتحان کنید.</value>
+  </data>
+  <data name="Ui.ModGen.SavedThemes" xml:space="preserve">
+    <value>پوسته‌های ذخیره‌شده</value>
+  </data>
+  <data name="Ui.ModGen.SaveTheme" xml:space="preserve">
+    <value>ذخیرهٔ پوسته</value>
+  </data>
+  <data name="Ui.ModGen.DeleteTheme" xml:space="preserve">
+    <value>حذف</value>
+  </data>
+  <data name="Ui.ModGen.ThemeLibrarySaved" xml:space="preserve">
+    <value>{0} در پوسته‌های شما ذخیره شد.</value>
+  </data>
+  <data name="Ui.ModGen.NoSavedThemes" xml:space="preserve">
+    <value>هنوز پوسته‌ای ذخیره نشده است</value>
+  </data>
+  <data name="Ui.ModGen.Done" xml:space="preserve">
+    <value>انجام شد</value>
+  </data>
 </root>

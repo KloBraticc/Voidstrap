@@ -8538,4 +8538,52 @@
   <data name="Ui.Misc2.MusashiQuoteAuthor" xml:space="preserve">
     <value>مياموتو موساشي</value>
   </data>
+  <data name="Ui.ModGen.SwapIcons" xml:space="preserve">
+    <value>تبديل الأيقونات</value>
+  </data>
+  <data name="Ui.ModGen.SwapIconsHelp" xml:space="preserve">
+    <value>استبدل أي أيقونة في قائمة Roblox أو شريطه العلوي بصورتك الخاصة. لا يُعاد تلوين الأيقونات المُبدّلة.</value>
+  </data>
+  <data name="Ui.ModGen.ChooseIcons" xml:space="preserve">
+    <value>اختر الأيقونات</value>
+  </data>
+  <data name="Ui.ModGen.SwappedCount" xml:space="preserve">
+    <value>تم تبديل {0} أيقونة</value>
+  </data>
+  <data name="Ui.ModGen.NoSwaps" xml:space="preserve">
+    <value>لم تُبدّل أي أيقونة بعد</value>
+  </data>
+  <data name="Ui.ModGen.SearchIcons" xml:space="preserve">
+    <value>ابحث عن الأيقونات</value>
+  </data>
+  <data name="Ui.ModGen.ReplaceIcon" xml:space="preserve">
+    <value>استبدال</value>
+  </data>
+  <data name="Ui.ModGen.RestoreIcon" xml:space="preserve">
+    <value>استعادة</value>
+  </data>
+  <data name="Ui.ModGen.LoadingIcons" xml:space="preserve">
+    <value>جارٍ قراءة الأيقونات من إصدار Roblox لديك...</value>
+  </data>
+  <data name="Ui.ModGen.IconsUnavailable" xml:space="preserve">
+    <value>تعذرت قراءة الأيقونات. شغّل Roblox مرة واحدة ثم حاول مجددًا.</value>
+  </data>
+  <data name="Ui.ModGen.SavedThemes" xml:space="preserve">
+    <value>السمات المحفوظة</value>
+  </data>
+  <data name="Ui.ModGen.SaveTheme" xml:space="preserve">
+    <value>حفظ السمة</value>
+  </data>
+  <data name="Ui.ModGen.DeleteTheme" xml:space="preserve">
+    <value>حذف</value>
+  </data>
+  <data name="Ui.ModGen.ThemeLibrarySaved" xml:space="preserve">
+    <value>تم حفظ {0} في سماتك.</value>
+  </data>
+  <data name="Ui.ModGen.NoSavedThemes" xml:space="preserve">
+    <value>لا توجد سمات محفوظة بعد</value>
+  </data>
+  <data name="Ui.ModGen.Done" xml:space="preserve">
+    <value>تم</value>
+  </data>
 </root>
