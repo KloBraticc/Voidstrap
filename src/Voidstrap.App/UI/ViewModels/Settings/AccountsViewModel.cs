@@ -524,7 +524,7 @@ namespace Voidstrap.UI.ViewModels.Settings
             {
                 foreach (AccountRow row in _all.ToList())
                 {
-                    string? cookie = SavedAccounts.ReadCookie(row.Model);
+                    string? cookie = SavedAccounts.ReadCurrentCookie(row.Model);
                     RobloxAccount? account = string.IsNullOrEmpty(cookie) ? null : await RobloxCookie.GetAccountAsync(cookie, _cts.Token);
                     bool expired = account == null;
                     if (!expired)
@@ -559,7 +559,7 @@ namespace Voidstrap.UI.ViewModels.Settings
             _detailCts = CancellationTokenSource.CreateLinkedTokenSource(_cts.Token);
             CancellationToken token = _detailCts.Token;
             long id = row.Model.UserId;
-            string? cookie = SavedAccounts.ReadCookie(row.Model);
+            string? cookie = SavedAccounts.ReadCurrentCookie(row.Model);
             try
             {
                 Task<RobloxApiResponse> robux = RobloxCookie.SendGetWithCookieAsync("https://economy.roblox.com/v1/users/" + id + "/currency", cookie, token);

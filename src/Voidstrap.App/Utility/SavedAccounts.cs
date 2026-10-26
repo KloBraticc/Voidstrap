@@ -89,6 +89,47 @@ public static class SavedAccounts
 
 	public static string? ReadCookie(SavedAccount account) => RobloxCookie.ExtractCookieFromDat(DatPath(account));
 
+	public static string? ReadCurrentCookie(SavedAccount account)
+	{
+		if (_current != null && _current.UserId == account.UserId && SwitchingSupported)
+		{
+			string? live = RobloxCookie.ExtractCookieFromDat(LiveCookiePath);
+			if (!string.IsNullOrEmpty(live))
+				return live;
+		}
+		return ReadCookie(account);
+	}
+
+	public static async Task RecordRotatedCookieAsync(string previous, string rotated)
+	{
+		if (string.IsNullOrEmpty(previous) || string.IsNullOrEmpty(rotated))
+			return;
+		await AccountStoreGate.WaitAsync().ConfigureAwait(false);
+		try
+		{
+			int updated = 0;
+			foreach (SavedAccount account in ReadStoredAccounts())
+			{
+				string path = DatPath(account);
+				if (string.Equals(RobloxCookie.ExtractCookieFromDat(path), previous, StringComparison.Ordinal) && RobloxCookie.WriteLoginFile(rotated, path, path))
+					updated++;
+			}
+			string live = LiveCookiePath;
+			if (!string.IsNullOrEmpty(live) && string.Equals(RobloxCookie.ExtractCookieFromDat(live), previous, StringComparison.Ordinal) && RobloxCookie.WriteLoginFile(rotated, live, live))
+				updated++;
+			RobloxCookie.InvalidateCache();
+			App.Logger?.WriteLine(LogIdent, "Saved a rotated Roblox session in " + updated + " login file(s)");
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine(LogIdent, "A rotated Roblox session could not be saved: " + ex.Message);
+		}
+		finally
+		{
+			AccountStoreGate.Release();
+		}
+	}
+
 	public static void RaiseChanged() => Changed?.Invoke();
 
 	public static async Task<List<SavedAccount>> LoadAsync(CancellationToken token = default)

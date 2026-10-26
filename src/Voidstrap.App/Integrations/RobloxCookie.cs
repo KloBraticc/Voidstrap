@@ -143,6 +143,26 @@ public static partial class RobloxCookie
 		_cachedAt = DateTime.MinValue;
 	}
 
+	internal static void ObserveRotation(HttpResponseMessage response, string? sentCookie)
+	{
+		if (string.IsNullOrEmpty(sentCookie) || !response.Headers.TryGetValues("Set-Cookie", out IEnumerable<string>? values))
+			return;
+		foreach (string header in values)
+		{
+			if (!header.StartsWith(SecurityCookieName + "=", StringComparison.OrdinalIgnoreCase))
+				continue;
+			int end = header.IndexOf(';');
+			string value = (end < 0 ? header[(SecurityCookieName.Length + 1)..] : header[(SecurityCookieName.Length + 1)..end]).Trim();
+			if (value.Length < 100 || string.Equals(value, sentCookie, StringComparison.Ordinal) || header.Contains("1970", StringComparison.Ordinal))
+				continue;
+			App.Logger?.WriteLine("RobloxCookie", "Roblox rotated a session cookie, the saved logins are being updated");
+			InvalidateCache();
+			string previous = sentCookie;
+			_ = Task.Run(() => Voidstrap.Utility.SavedAccounts.RecordRotatedCookieAsync(previous, value));
+			return;
+		}
+	}
+
 	public static Task<RobloxAccount?> GetAccountAsync(CancellationToken ct = default(CancellationToken))
 	{
 		return GetAccountAsync(Get() ?? "", ct);
@@ -160,6 +180,7 @@ public static partial class RobloxCookie
 			req.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
 			req.Headers.TryAddWithoutValidation("User-Agent", "Voidstrap/1.0");
 			using HttpResponseMessage res = await _authClient.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, ct).ConfigureAwait(continueOnCapturedContext: false);
+			ObserveRotation(res, cookie);
 			if (!res.IsSuccessStatusCode)
 			{
 				return null;
@@ -246,6 +267,7 @@ public static partial class RobloxCookie
 			req.Headers.TryAddWithoutValidation("User-Agent", "Voidstrap/1.0");
 			req.Headers.TryAddWithoutValidation("Accept", "application/json");
 			using HttpResponseMessage res = await _authClient.SendAsync(req, HttpCompletionOption.ResponseHeadersRead, ct).ConfigureAwait(continueOnCapturedContext: false);
+			ObserveRotation(res, cookie);
 			int status = (int)res.StatusCode;
 			TimeSpan? retryAfter = res.Headers.RetryAfter?.Delta;
 			if (!retryAfter.HasValue && res.Headers.RetryAfter?.Date is DateTimeOffset date)

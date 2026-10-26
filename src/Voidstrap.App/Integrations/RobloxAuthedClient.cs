@@ -121,6 +121,7 @@ public static class RobloxAuthedClient
 				request.Content = content();
 
 			using HttpResponseMessage response = await Client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, token).ConfigureAwait(false);
+			RobloxCookie.ObserveRotation(response, cookie);
 			if (response.StatusCode == HttpStatusCode.Forbidden && method != HttpMethod.Get
 				&& response.Headers.TryGetValues("x-csrf-token", out IEnumerable<string>? values))
 			{
