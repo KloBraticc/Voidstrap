@@ -675,7 +675,7 @@
                                 <StackPanel>
                                     <Border Height="112"
                                             CornerRadius="8,8,0,0"
-                                            ClipToBounds="True"
+                                            util:TopRoundedClip.Radius="8"
                                             Cursor="Hand"
                                             ToolTip="{resources:Loc Ui_Home_ViewGamePage}"
                                             MouseLeftButtonUp="GameThumbnail_Click"
