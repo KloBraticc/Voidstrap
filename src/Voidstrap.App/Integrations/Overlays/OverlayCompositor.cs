@@ -348,6 +348,55 @@ namespace Voidstrap.Integrations.Overlays
         [LibraryImport("user32.dll")]
         private static partial uint GetWindowThreadProcessId(IntPtr hwnd, out uint processId);
 
+        [LibraryImport("gdi32.dll")]
+        private static partial int D3DKMTSetProcessSchedulingPriorityClass(IntPtr process, int priority);
+
+        private const int GpuPriorityBelowNormal = 1;
+        private const int GpuPriorityNormal = 2;
+        private const int GpuPriorityAboveNormal = 3;
+        private const int GpuPriorityHigh = 4;
+
+        private bool _depthGpuPriority;
+        private uint _depthGpuPriorityPid;
+
+        private void ApplyDepthGpuPriority(bool depthActive)
+        {
+            uint pid = 0;
+            if (depthActive && _robloxHwnd != IntPtr.Zero)
+                GetWindowThreadProcessId(_robloxHwnd, out pid);
+            bool wanted = depthActive && pid != 0;
+            if (wanted == _depthGpuPriority && (!wanted || pid == _depthGpuPriorityPid))
+                return;
+            if (_depthGpuPriority)
+            {
+                SetGpuPriority(_depthGpuPriorityPid, GpuPriorityNormal);
+                SetGpuPriority((uint)Environment.ProcessId, GpuPriorityNormal);
+                _depthGpuPriority = false;
+                _depthGpuPriorityPid = 0;
+                App.Logger.WriteLine(LOG_IDENT, "GPU scheduling back to normal for Roblox and Voidstrap");
+            }
+            if (!wanted)
+                return;
+            bool roblox = SetGpuPriority(pid, GpuPriorityBelowNormal);
+            bool self = SetGpuPriority((uint)Environment.ProcessId, GpuPriorityHigh) || SetGpuPriority((uint)Environment.ProcessId, GpuPriorityAboveNormal);
+            _depthGpuPriority = true;
+            _depthGpuPriorityPid = pid;
+            App.Logger.WriteLine(LOG_IDENT, $"Depth effects are active, GPU scheduling lowered for Roblox ({(roblox ? "applied" : "refused")}) and raised for Voidstrap ({(self ? "applied" : "refused")}) so depth keeps up");
+        }
+
+        private static bool SetGpuPriority(uint pid, int priority)
+        {
+            try
+            {
+                using Process process = Process.GetProcessById((int)pid);
+                return D3DKMTSetProcessSchedulingPriorityClass(process.Handle, priority) == 0;
+            }
+            catch (Exception ex) when (ex is ArgumentException or InvalidOperationException or System.ComponentModel.Win32Exception or EntryPointNotFoundException)
+            {
+                return false;
+            }
+        }
+
         private static ProcessPriorityClass ReadRobloxPriority()
         {
             try
@@ -2348,7 +2397,9 @@ namespace Voidstrap.Integrations.Overlays
                 App.Logger.WriteLine(LOG_IDENT, $"First frame captured at {_width}x{_height} via {(_wgc != null ? "window capture" : "desktop duplication")}, compositor is live");
             }
 
-            if (App.Settings.Prop.RiShadeEnabled && _riRuntime != IntPtr.Zero && _riDepthBridge && _rawSrv != null && RiShadeManager.PresetNeedsDepth)
+            bool depthActive = App.Settings.Prop.RiShadeEnabled && _riRuntime != IntPtr.Zero && _riDepthBridge && _rawSrv != null && RiShadeManager.PresetNeedsDepth;
+            ApplyDepthGpuPriority(depthActive);
+            if (depthActive)
             {
                 try
                 {
@@ -2366,7 +2417,7 @@ namespace Voidstrap.Integrations.Overlays
                             : "RiShade depth switched live to scene estimation");
                     }
                     if (_riDepthBridge)
-                        _ = RiShadeInterop.DepthBridgeUpdate(_rawSrv.NativePointer, ++_riDepthStamp);
+                        _ = RiShadeInterop.DepthBridgeUpdate(_rawSrv!.NativePointer, ++_riDepthStamp);
                 }
                 catch (Exception ex)
                 {
@@ -3789,6 +3840,7 @@ namespace Voidstrap.Integrations.Overlays
 
         private void Cleanup()
         {
+            ApplyDepthGpuPriority(false);
             try
             {
                 _dlssDiagnostics?.Dispose();
