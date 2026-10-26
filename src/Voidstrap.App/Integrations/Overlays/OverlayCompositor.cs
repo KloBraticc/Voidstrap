@@ -741,6 +741,17 @@ namespace Voidstrap.Integrations.Overlays
             {
                 App.Logger.WriteLine(LOG_IDENT, "Graphics device thread protection is unavailable: " + ex.Message);
             }
+            try
+            {
+                using IDXGIDevice dxgiDevice = _device!.QueryInterface<IDXGIDevice>();
+                App.Logger.WriteLine(LOG_IDENT, dxgiDevice.SetGPUThreadPriority(7).Success
+                    ? "Compositor GPU priority raised so Roblox rendering cannot starve the overlay"
+                    : "Compositor GPU priority could not be raised, Windows did not allow it");
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine(LOG_IDENT, "Compositor GPU priority is unavailable: " + ex.Message);
+            }
         }
 
         private SharpGen.Runtime.Result CreateD3DDevice(IDXGIAdapter? adapter, DriverType driverType)
@@ -3736,7 +3747,7 @@ namespace Voidstrap.Integrations.Overlays
 
             if (FrameGenSettings.ModeIndex <= 0)
             {
-                App.Logger.WriteLine(LOG_IDENT, $"chain [{chain}], {outFps:0} fps presented");
+                App.Logger.WriteLine(LOG_IDENT, $"chain [{chain}], {outFps:0} fps presented, capture cadence {captureCadenceFps:0} fps, Roblox {(actualFps > 0.5 ? actualFps.ToString("0") + " fps" : "unavailable")}, present cost {presentAvg:0.00}ms, capture age p95 {captureAgeP95:0.00}ms, queued captures dropped {dropped}");
                 return;
             }
 
