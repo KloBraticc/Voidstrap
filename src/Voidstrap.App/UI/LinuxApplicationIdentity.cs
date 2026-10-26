@@ -204,14 +204,14 @@ internal static class LinuxApplicationIdentity
 		return Voidstrap.Utility.SafeImaging.FromUri(new Uri("pack://application:,,,/Voidstrap.png", UriKind.Absolute), decodeWidth);
 	}
 
-	private static nint[] BuildNativeIcon(BootstrapperIcon selected)
+	internal static nint[] BuildNativeIcon(BootstrapperIcon selected, string? customLocation = null)
 	{
 		List<nint> data = new();
 		HashSet<long> emitted = new();
 
 		foreach (int size in IconSizes)
 		{
-			BitmapSource? decoded = IconEx.LoadPortableIcon(selected, size) ?? ReadFallbackIcon(size);
+			BitmapSource? decoded = IconEx.LoadPortableIcon(selected, size, customLocation) ?? ReadFallbackIcon(size);
 			if (decoded == null)
 				continue;
 

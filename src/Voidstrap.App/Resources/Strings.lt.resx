@@ -8723,4 +8723,88 @@ Palikite Voidstrap ir redaktorių atidarytus, kol DI dirba. Jo pakeitimai iš ka
   <data name="Ui.Mods.CrosshairShortcut.Saved" xml:space="preserve">
     <value>Įrašyta, {0} dabar parodo arba paslepia taikiklį.</value>
   </data>
+  <data name="Ui.Bootstrapper.DefaultWindowIcon" xml:space="preserve">
+    <value>Numatytoji lango piktograma</value>
+  </data>
+  <data name="Ui.Bootstrapper.DefaultWindowIconDescription" xml:space="preserve">
+    <value>Piktograma, rodoma Roblox lange ir užduočių juostoje, kai jos nepakeičia žaidimo piktograma.</value>
+  </data>
+  <data name="Ui.Bootstrapper.ChooseCustomIcon" xml:space="preserve">
+    <value>Pasirinkti piktogramą</value>
+  </data>
+  <data name="Ui.Bootstrapper.CustomGameIcons" xml:space="preserve">
+    <value>Pasirinktinės žaidimų piktogramos</value>
+  </data>
+  <data name="Ui.Bootstrapper.CustomGameIconsDescription" xml:space="preserve">
+    <value>Ieškokite Roblox žaidimo pagal pavadinimą arba vietos ID, naršykite jo antrines vietas ir priskirkite pasirinktinę piktogramą, kuri pakeis to žaidimo lango piktogramą.</value>
+  </data>
+  <data name="Ui.Bootstrapper.SearchGameOrPlaceId" xml:space="preserve">
+    <value>Ieškoti žaidimo pagal pavadinimą, vietos ID arba žaidimo nuorodą</value>
+  </data>
+  <data name="Ui.Bootstrapper.Subplaces" xml:space="preserve">
+    <value>Antrinės vietos</value>
+  </data>
+  <data name="Ui.Bootstrapper.LoadSubplacesTooltip" xml:space="preserve">
+    <value>Rodyti šios patirties antrines vietas</value>
+  </data>
+  <data name="Ui.Bootstrapper.SetIcon" xml:space="preserve">
+    <value>Nustatyti piktogramą</value>
+  </data>
+  <data name="Ui.Bootstrapper.SetIconTooltip" xml:space="preserve">
+    <value>Pasirinkite pasirinktinę lango piktogramą šiai vietai</value>
+  </data>
+  <data name="Ui.Bootstrapper.CustomIconColumn" xml:space="preserve">
+    <value>Pasirinktinė piktograma</value>
+  </data>
+  <data name="Ui.Bootstrapper.AllSubplacesColumn" xml:space="preserve">
+    <value>Visos antrinės vietos</value>
+  </data>
+  <data name="Ui.Bootstrapper.AllSubplacesTooltip" xml:space="preserve">
+    <value>Naudoti šią piktogramą kiekvienai šios patirties antrinei vietai, nebent antrinė vieta turi savo piktogramą</value>
+  </data>
+  <data name="Ui.Bootstrapper.ChangeIconTooltip" xml:space="preserve">
+    <value>Pasirinkti kitą pasirinktinę piktogramą</value>
+  </data>
+  <data name="Ui.Bootstrapper.RemoveIconTooltip" xml:space="preserve">
+    <value>Atkurti įprastą šios vietos lango piktogramą</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSummaryNone" xml:space="preserve">
+    <value>Kiekvienas žaidimas naudoja numatytąją arba patirties lango piktogramą.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSummaryOne" xml:space="preserve">
+    <value>1 žaidimas arba antrinė vieta naudoja pasirinktinę lango piktogramą.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSummaryMany" xml:space="preserve">
+    <value>{0} žaidimai ar antrinės vietos naudoja pasirinktines lango piktogramas.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsFilter" xml:space="preserve">
+    <value>Piktogramų ir vaizdų failai|*.png;*.jpg;*.jpeg;*.bmp;*.ico</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSearching" xml:space="preserve">
+    <value>Ieškoma...</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsNoGamesFound" xml:space="preserve">
+    <value>Žaidimų nerasta.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSearchUnavailable" xml:space="preserve">
+    <value>Paieška šiuo metu nepasiekiama, vietoj to įklijuokite vietos ID.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsNoSubplaces" xml:space="preserve">
+    <value>Papildomų antrinių vietų žaidimui {0} nerasta.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsLoadedSubplaces" xml:space="preserve">
+    <value>Įkelta {0} antrinių vietų žaidimui {1}.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSubplacesFailed" xml:space="preserve">
+    <value>Nepavyko įkelti šios patirties antrinių vietų.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSubplaceOf" xml:space="preserve">
+    <value>{0} antrinė vieta</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsPlaceFallback" xml:space="preserve">
+    <value>Vieta {0}</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsImportFailed" xml:space="preserve">
+    <value>Nepavyko importuoti piktogramos: {0}</value>
+  </data>
 </root>

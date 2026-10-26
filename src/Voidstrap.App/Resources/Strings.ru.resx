@@ -8721,4 +8721,88 @@ Voidstrap не смог записать в папку рабочего стол
   <data name="Ui.Mods.CrosshairShortcut.Saved" xml:space="preserve">
     <value>Сохранено, теперь {0} показывает или скрывает прицел.</value>
   </data>
+  <data name="Ui.Bootstrapper.DefaultWindowIcon" xml:space="preserve">
+    <value>Значок окна по умолчанию</value>
+  </data>
+  <data name="Ui.Bootstrapper.DefaultWindowIconDescription" xml:space="preserve">
+    <value>Значок, отображаемый в окне Roblox и на панели задач, когда он не заменён значком игры.</value>
+  </data>
+  <data name="Ui.Bootstrapper.ChooseCustomIcon" xml:space="preserve">
+    <value>Выбрать значок</value>
+  </data>
+  <data name="Ui.Bootstrapper.CustomGameIcons" xml:space="preserve">
+    <value>Пользовательские значки игр</value>
+  </data>
+  <data name="Ui.Bootstrapper.CustomGameIconsDescription" xml:space="preserve">
+    <value>Найдите игру Roblox по названию или ID места, просмотрите её подместа и назначьте собственный значок, который заменит значок окна этой игры.</value>
+  </data>
+  <data name="Ui.Bootstrapper.SearchGameOrPlaceId" xml:space="preserve">
+    <value>Поиск игры по названию, ID места или ссылке на игру</value>
+  </data>
+  <data name="Ui.Bootstrapper.Subplaces" xml:space="preserve">
+    <value>Подместа</value>
+  </data>
+  <data name="Ui.Bootstrapper.LoadSubplacesTooltip" xml:space="preserve">
+    <value>Показать подместа для этого плейса</value>
+  </data>
+  <data name="Ui.Bootstrapper.SetIcon" xml:space="preserve">
+    <value>Задать значок</value>
+  </data>
+  <data name="Ui.Bootstrapper.SetIconTooltip" xml:space="preserve">
+    <value>Выбрать собственный значок окна для этого места</value>
+  </data>
+  <data name="Ui.Bootstrapper.CustomIconColumn" xml:space="preserve">
+    <value>Свой значок</value>
+  </data>
+  <data name="Ui.Bootstrapper.AllSubplacesColumn" xml:space="preserve">
+    <value>Все подместа</value>
+  </data>
+  <data name="Ui.Bootstrapper.AllSubplacesTooltip" xml:space="preserve">
+    <value>Использовать этот значок для каждого подместа в этом плейсе, если для подместа не задан собственный значок</value>
+  </data>
+  <data name="Ui.Bootstrapper.ChangeIconTooltip" xml:space="preserve">
+    <value>Выбрать другой собственный значок</value>
+  </data>
+  <data name="Ui.Bootstrapper.RemoveIconTooltip" xml:space="preserve">
+    <value>Восстановить обычный значок окна для этого места</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSummaryNone" xml:space="preserve">
+    <value>Каждая игра использует значок окна по умолчанию или значок плейса.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSummaryOne" xml:space="preserve">
+    <value>1 игра или подместо использует собственный значок окна.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSummaryMany" xml:space="preserve">
+    <value>Собственные значки окна используются для {0} игр или подмест.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsFilter" xml:space="preserve">
+    <value>Файлы значков и изображений|*.png;*.jpg;*.jpeg;*.bmp;*.ico</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSearching" xml:space="preserve">
+    <value>Поиск...</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsNoGamesFound" xml:space="preserve">
+    <value>Игры не найдены.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSearchUnavailable" xml:space="preserve">
+    <value>Поиск сейчас недоступен, вставьте вместо этого ID места.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsNoSubplaces" xml:space="preserve">
+    <value>Дополнительные подместа для {0} не найдены.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsLoadedSubplaces" xml:space="preserve">
+    <value>Загружено подмест для {1}: {0}.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSubplacesFailed" xml:space="preserve">
+    <value>Не удалось загрузить подместа для этого плейса.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSubplaceOf" xml:space="preserve">
+    <value>Подместо {0}</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsPlaceFallback" xml:space="preserve">
+    <value>Место {0}</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsImportFailed" xml:space="preserve">
+    <value>Не удалось импортировать значок: {0}</value>
+  </data>
 </root>

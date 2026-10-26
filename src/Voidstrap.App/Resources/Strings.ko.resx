@@ -8720,4 +8720,88 @@ AI가 작업하는 동안 Voidstrap과 편집기를 열어 두세요. 변경 사
   <data name="Ui.Mods.CrosshairShortcut.Saved" xml:space="preserve">
     <value>저장되었습니다. 이제 {0}(으)로 조준선을 표시하거나 숨깁니다.</value>
   </data>
+  <data name="Ui.Bootstrapper.DefaultWindowIcon" xml:space="preserve">
+    <value>기본 창 아이콘</value>
+  </data>
+  <data name="Ui.Bootstrapper.DefaultWindowIconDescription" xml:space="preserve">
+    <value>게임 아이콘으로 대체되지 않을 때 Roblox 창과 작업 표시줄에 표시되는 아이콘입니다.</value>
+  </data>
+  <data name="Ui.Bootstrapper.ChooseCustomIcon" xml:space="preserve">
+    <value>아이콘 선택</value>
+  </data>
+  <data name="Ui.Bootstrapper.CustomGameIcons" xml:space="preserve">
+    <value>사용자 지정 게임 아이콘</value>
+  </data>
+  <data name="Ui.Bootstrapper.CustomGameIconsDescription" xml:space="preserve">
+    <value>이름이나 플레이스 ID로 Roblox 게임을 검색하고, 하위 플레이스를 찾아 해당 게임의 창 아이콘을 덮어쓸 사용자 지정 아이콘을 지정합니다.</value>
+  </data>
+  <data name="Ui.Bootstrapper.SearchGameOrPlaceId" xml:space="preserve">
+    <value>이름, 플레이스 ID 또는 게임 링크로 게임 검색</value>
+  </data>
+  <data name="Ui.Bootstrapper.Subplaces" xml:space="preserve">
+    <value>하위 플레이스</value>
+  </data>
+  <data name="Ui.Bootstrapper.LoadSubplacesTooltip" xml:space="preserve">
+    <value>이 체험의 하위 플레이스 표시</value>
+  </data>
+  <data name="Ui.Bootstrapper.SetIcon" xml:space="preserve">
+    <value>아이콘 설정</value>
+  </data>
+  <data name="Ui.Bootstrapper.SetIconTooltip" xml:space="preserve">
+    <value>이 플레이스의 사용자 지정 창 아이콘 선택</value>
+  </data>
+  <data name="Ui.Bootstrapper.CustomIconColumn" xml:space="preserve">
+    <value>사용자 지정 아이콘</value>
+  </data>
+  <data name="Ui.Bootstrapper.AllSubplacesColumn" xml:space="preserve">
+    <value>모든 하위 플레이스</value>
+  </data>
+  <data name="Ui.Bootstrapper.AllSubplacesTooltip" xml:space="preserve">
+    <value>하위 플레이스에 자체 아이콘이 없는 한 이 체험의 모든 하위 플레이스에 이 아이콘을 사용합니다</value>
+  </data>
+  <data name="Ui.Bootstrapper.ChangeIconTooltip" xml:space="preserve">
+    <value>다른 사용자 지정 아이콘 선택</value>
+  </data>
+  <data name="Ui.Bootstrapper.RemoveIconTooltip" xml:space="preserve">
+    <value>이 플레이스의 기본 창 아이콘 복원</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSummaryNone" xml:space="preserve">
+    <value>모든 게임이 기본 창 아이콘 또는 체험 아이콘을 사용합니다.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSummaryOne" xml:space="preserve">
+    <value>1개의 게임 또는 하위 플레이스가 사용자 지정 창 아이콘을 사용합니다.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSummaryMany" xml:space="preserve">
+    <value>{0}개의 게임 또는 하위 플레이스가 사용자 지정 창 아이콘을 사용합니다.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsFilter" xml:space="preserve">
+    <value>아이콘 및 이미지 파일|*.png;*.jpg;*.jpeg;*.bmp;*.ico</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSearching" xml:space="preserve">
+    <value>검색 중...</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsNoGamesFound" xml:space="preserve">
+    <value>게임을 찾을 수 없습니다.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSearchUnavailable" xml:space="preserve">
+    <value>지금은 검색을 사용할 수 없습니다. 대신 플레이스 ID를 붙여넣으세요.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsNoSubplaces" xml:space="preserve">
+    <value>{0}에 대한 추가 하위 플레이스를 찾을 수 없습니다.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsLoadedSubplaces" xml:space="preserve">
+    <value>{1}의 하위 플레이스 {0}개를 불러왔습니다.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSubplacesFailed" xml:space="preserve">
+    <value>이 체험의 하위 플레이스를 불러올 수 없습니다.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSubplaceOf" xml:space="preserve">
+    <value>{0}의 하위 플레이스</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsPlaceFallback" xml:space="preserve">
+    <value>플레이스 {0}</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsImportFailed" xml:space="preserve">
+    <value>아이콘을 가져올 수 없습니다: {0}</value>
+  </data>
 </root>

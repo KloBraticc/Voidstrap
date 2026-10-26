@@ -8720,4 +8720,88 @@ Voidstrap не зміг записати до теки робочого стол
   <data name="Ui.Mods.CrosshairShortcut.Saved" xml:space="preserve">
     <value>Збережено, тепер {0} показує або ховає приціл.</value>
   </data>
+  <data name="Ui.Bootstrapper.DefaultWindowIcon" xml:space="preserve">
+    <value>Стандартна піктограма вікна</value>
+  </data>
+  <data name="Ui.Bootstrapper.DefaultWindowIconDescription" xml:space="preserve">
+    <value>Піктограма, що відображається у вікні Roblox і на панелі завдань, коли її не замінює піктограма гри.</value>
+  </data>
+  <data name="Ui.Bootstrapper.ChooseCustomIcon" xml:space="preserve">
+    <value>Вибрати піктограму</value>
+  </data>
+  <data name="Ui.Bootstrapper.CustomGameIcons" xml:space="preserve">
+    <value>Власні піктограми ігор</value>
+  </data>
+  <data name="Ui.Bootstrapper.CustomGameIconsDescription" xml:space="preserve">
+    <value>Знайдіть гру Roblox за назвою або ID місця, перегляньте її підмісця та призначте власну піктограму, щоб замінити піктограму вікна цієї гри.</value>
+  </data>
+  <data name="Ui.Bootstrapper.SearchGameOrPlaceId" xml:space="preserve">
+    <value>Пошук гри за назвою, ID місця або посиланням на гру</value>
+  </data>
+  <data name="Ui.Bootstrapper.Subplaces" xml:space="preserve">
+    <value>Підмісця</value>
+  </data>
+  <data name="Ui.Bootstrapper.LoadSubplacesTooltip" xml:space="preserve">
+    <value>Показати підмісця для цього плейсу</value>
+  </data>
+  <data name="Ui.Bootstrapper.SetIcon" xml:space="preserve">
+    <value>Встановити піктограму</value>
+  </data>
+  <data name="Ui.Bootstrapper.SetIconTooltip" xml:space="preserve">
+    <value>Виберіть власну піктограму вікна для цього місця</value>
+  </data>
+  <data name="Ui.Bootstrapper.CustomIconColumn" xml:space="preserve">
+    <value>Власна піктограма</value>
+  </data>
+  <data name="Ui.Bootstrapper.AllSubplacesColumn" xml:space="preserve">
+    <value>Усі підмісця</value>
+  </data>
+  <data name="Ui.Bootstrapper.AllSubplacesTooltip" xml:space="preserve">
+    <value>Використовувати цю піктограму для кожного підмісця в цьому плейсі, якщо для підмісця не задано власну піктограму</value>
+  </data>
+  <data name="Ui.Bootstrapper.ChangeIconTooltip" xml:space="preserve">
+    <value>Вибрати іншу власну піктограму</value>
+  </data>
+  <data name="Ui.Bootstrapper.RemoveIconTooltip" xml:space="preserve">
+    <value>Відновити звичайну піктограму вікна для цього місця</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSummaryNone" xml:space="preserve">
+    <value>Кожна гра використовує стандартну піктограму вікна або піктограму плейсу.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSummaryOne" xml:space="preserve">
+    <value>1 гра або підмісце використовує власну піктограму вікна.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSummaryMany" xml:space="preserve">
+    <value>Власні піктограми вікна використовуються для {0} ігор або підмісць.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsFilter" xml:space="preserve">
+    <value>Файли піктограм і зображень|*.png;*.jpg;*.jpeg;*.bmp;*.ico</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSearching" xml:space="preserve">
+    <value>Пошук...</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsNoGamesFound" xml:space="preserve">
+    <value>Ігор не знайдено.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSearchUnavailable" xml:space="preserve">
+    <value>Пошук зараз недоступний, вставте натомість ID місця.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsNoSubplaces" xml:space="preserve">
+    <value>Додаткових підмісць для {0} не знайдено.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsLoadedSubplaces" xml:space="preserve">
+    <value>Завантажено підмісць для {1}: {0}.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSubplacesFailed" xml:space="preserve">
+    <value>Не вдалося завантажити підмісця для цього плейсу.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSubplaceOf" xml:space="preserve">
+    <value>Підмісце {0}</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsPlaceFallback" xml:space="preserve">
+    <value>Місце {0}</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsImportFailed" xml:space="preserve">
+    <value>Не вдалося імпортувати піктограму: {0}</value>
+  </data>
 </root>

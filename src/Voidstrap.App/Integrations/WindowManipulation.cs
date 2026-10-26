@@ -70,7 +70,7 @@ namespace Voidstrap.Integrations
             ApplyWindowModifications();
             ApplyWindowBackdrop();
 
-            bool useGameIcon = App.Settings.Prop.UseGameIconForRobloxWindow;
+            bool useGameIcon = App.Settings.Prop.UseGameIconForRobloxWindow || RobloxWindowIcons.HasOverrides;
 
             if (_activityWatcher != null && RobloxWindowTitle.WantsUpdates)
                 _titleUpdater = new RobloxWindowTitle(_activityWatcher, ApplyTitle);
@@ -83,7 +83,8 @@ namespace Voidstrap.Integrations
                 if (useGameIcon && _activityWatcher.InGame && _activityWatcher.Data?.UniverseId > 0)
                 {
                     long universeId = _activityWatcher.Data.UniverseId;
-                    _ = Task.Run(() => ApplyGameIconAsync(universeId));
+                    long placeId = _activityWatcher.Data.PlaceId;
+                    _ = Task.Run(() => ApplyGameIconAsync(universeId, placeId));
                 }
             }
         }
@@ -159,8 +160,8 @@ namespace Voidstrap.Integrations
 
                 _titleUpdater?.Refresh();
 
-                if (App.Settings.Prop.UseGameIconForRobloxWindow)
-                    await ApplyGameIconAsync(universeId);
+                if (App.Settings.Prop.UseGameIconForRobloxWindow || RobloxWindowIcons.HasOverrides)
+                    await ApplyGameIconAsync(universeId, _activityWatcher.Data?.PlaceId ?? 0);
             }
             catch (Exception ex)
             {
@@ -173,7 +174,7 @@ namespace Voidstrap.Integrations
             if (_disposed)
                 return;
 
-            if (App.Settings.Prop.UseGameIconForRobloxWindow)
+            if (App.Settings.Prop.UseGameIconForRobloxWindow || RobloxWindowIcons.HasOverrides)
                 ApplyBaseIcon();
 
             _titleUpdater?.Refresh();
@@ -498,7 +499,20 @@ namespace Voidstrap.Integrations
             {
                 string location = App.Settings.Prop.RobloxIconCustomLocation;
                 if (App.Settings.Prop.RobloxIcon == BootstrapperIcon.IconCustom && !string.IsNullOrEmpty(location) && File.Exists(location))
-                    custom = new System.Drawing.Icon(location);
+                {
+                    if (!string.Equals(Path.GetExtension(location), ".ico", StringComparison.OrdinalIgnoreCase))
+                    {
+                        using var bitmap = new Bitmap(location);
+                        small = HIconFromBitmap(bitmap, 32);
+                        big = HIconFromBitmap(bitmap, 64);
+                        if (small != 0 || big != 0)
+                            return;
+                    }
+                    else
+                    {
+                        custom = new System.Drawing.Icon(location);
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -553,14 +567,31 @@ namespace Voidstrap.Integrations
             }
         }
 
-        private async Task ApplyGameIconAsync(long universeId)
+        private async Task ApplyGameIconAsync(long universeId, long placeId)
         {
             const string LOG_IDENT = "WindowManipulation::ApplyGameIcon";
 
             try
             {
-                if (_disposed || !App.Settings.Prop.UseGameIconForRobloxWindow)
+                if (_disposed)
                     return;
+
+                string? overridePath = RobloxWindowIcons.Resolve(placeId, universeId);
+                if (overridePath != null)
+                {
+                    byte[]? custom = RobloxWindowIcons.ReadIcon(overridePath);
+                    if (custom != null && ApplyIconBytes(custom))
+                    {
+                        App.Logger.WriteLine(LOG_IDENT, $"Applying the custom icon for place {placeId}");
+                        return;
+                    }
+                }
+
+                if (!App.Settings.Prop.UseGameIconForRobloxWindow)
+                {
+                    ApplyBaseIcon();
+                    return;
+                }
 
                 string? url = await GetGameIconUrlAsync(universeId).ConfigureAwait(false);
 
@@ -616,6 +647,48 @@ namespace Voidstrap.Integrations
                 {
                     App.Logger.WriteLine(LOG_IDENT, "Failed to restore the base icon: " + fallbackEx.Message);
                 }
+            }
+        }
+
+        private bool ApplyIconBytes(byte[] data)
+        {
+            if (_disposed)
+                return false;
+            try
+            {
+                nint small = 0;
+                nint big = 0;
+                if (data.Length >= 4 && data[0] == 0 && data[1] == 0 && data[2] == 1 && data[3] == 0)
+                {
+                    try
+                    {
+                        using var icoStream = new MemoryStream(data);
+                        using var ico = new System.Drawing.Icon(icoStream);
+                        small = ScaleIconHandle(ico, 32);
+                        big = ScaleIconHandle(ico, 64);
+                    }
+                    catch
+                    {
+                        small = 0;
+                        big = 0;
+                    }
+                }
+                if (small == 0 && big == 0)
+                {
+                    using var stream = new MemoryStream(data);
+                    using var bitmap = new Bitmap(stream);
+                    small = HIconFromBitmap(bitmap, 32);
+                    big = HIconFromBitmap(bitmap, 64);
+                }
+                if (small == 0 && big == 0)
+                    return false;
+                ApplyIcons(small, big, true);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                App.Logger.WriteLine("WindowManipulation::ApplyIconBytes", "The custom icon could not be decoded: " + ex.Message);
+                return false;
             }
         }
 

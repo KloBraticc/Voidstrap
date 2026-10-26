@@ -138,9 +138,132 @@
           <controls:OptionControl Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}" Header="{resources:Loc Ui_Bootstrapper_AddTheGameName}" Description="{resources:Loc Ui_Bootstrapper_ShowsTheExperienceYouArePlaying}">
             <ui:ToggleSwitch IsChecked="{Binding CycleTitleWithGameName, Mode=TwoWay}" />
           </controls:OptionControl>
+          <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_DefaultWindowIcon}" Description="{resources:Loc Ui_Bootstrapper_DefaultWindowIconDescription}">
+            <StackPanel Orientation="Horizontal">
+              <ComboBox Width="200" Padding="10,5,10,5" SelectedValuePath="IconType" ItemsSource="{Binding RobloxIcons, Mode=OneWay}" SelectedValue="{Binding RobloxIcon, Mode=TwoWay}">
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate>
+                    <Grid>
+                      <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="16" />
+                        <ColumnDefinition Width="*" />
+                      </Grid.ColumnDefinitions>
+                      <Image Height="16" RenderOptions.BitmapScalingMode="HighQuality" Source="{Binding ImageSource, Mode=OneWay, TargetNullValue={x:Null}, FallbackValue={x:Null}}" />
+                      <TextBlock Grid.Column="1" Margin="8,0,0,0" Text="{Binding Path=IconType, Converter={StaticResource EnumNameConverter}}" />
+                    </Grid>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ComboBox>
+              <ui:Button Margin="8,0,0,0" Icon="FolderOpen24" Content="{resources:Loc Ui_Bootstrapper_ChooseCustomIcon}" Visibility="{Binding IsRobloxIconCustom, Converter={StaticResource BooleanToVisibilityConverter}}" Command="{Binding BrowseRobloxCustomIconCommand}" />
+            </StackPanel>
+          </controls:OptionControl>
           <controls:OptionControl Header="{resources:Loc Ui_Bootstrapper_UseTheGameIcon}" Description="{resources:Loc Ui_Bootstrapper_ShowsTheExperienceIconOnThe}">
             <ui:ToggleSwitch IsChecked="{Binding UseGameIconForRobloxWindow, Mode=TwoWay}" />
           </controls:OptionControl>
+          <ui:CardExpander Margin="0,8,0,0" IsExpanded="False">
+            <HeaderedContentControl.Header>
+              <Grid>
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" VerticalAlignment="Center">
+                  <TextBlock FontSize="14" FontWeight="Medium" Text="{resources:Loc Ui_Bootstrapper_CustomGameIcons}" />
+                  <TextBlock Margin="0,2,0,0" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" Text="{Binding WindowIconOverridesSummary}" />
+                </StackPanel>
+                <ui:Button Grid.Column="1" Margin="12,0,8,0" VerticalAlignment="Center" Content="{resources:Loc FlagSearch_Label25}" Icon="ArrowReset24" Visibility="{Binding HasWindowIconOverrides, Converter={StaticResource BooleanToVisibilityConverter}}" Command="{Binding ClearWindowIconOverridesCommand}" />
+              </Grid>
+            </HeaderedContentControl.Header>
+            <StackPanel>
+              <TextBlock Margin="0,0,0,8" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_Bootstrapper_CustomGameIconsDescription}" />
+              <ui:TextBox Margin="0,0,0,8" Padding="10,5,10,5" PlaceholderText="{resources:Loc Ui_Bootstrapper_SearchGameOrPlaceId}" Text="{Binding WindowIconSearchText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+              <TextBlock Margin="0,0,0,8" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{Binding WindowIconSearchStatus}" Visibility="{Binding HasWindowIconSearchStatus, Converter={StaticResource BooleanToVisibilityConverter}}" />
+              <Border Margin="0,0,0,8" BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="4" MaxHeight="280" Visibility="{Binding HasWindowIconSearchResults, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <DataGrid AutoGenerateColumns="False" HeadersVisibility="Column" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" GridLinesVisibility="None" IsReadOnly="True" RowHeaderWidth="0" Background="#00FFFFFF" BorderThickness="0" RowHeight="52" AlternatingRowBackground="{DynamicResource SubtleFillColorTertiaryBrush}" ItemsSource="{Binding WindowIconSearchResults}">
+                  <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="{resources:Loc Shortcuts_GameTab}" Width="*" MinWidth="220">
+                      <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                          <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <Border Width="36" Height="36" Margin="0,0,10,0" CornerRadius="6" Background="{DynamicResource SubtleFillColorSecondaryBrush}">
+                              <Image Source="{Binding IconUrl}" util:DynamicRenderSystem.LinuxImageSource="{Binding IconUrl}" Width="36" Height="36" Visibility="{Binding HasIcon, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                            </Border>
+                            <StackPanel VerticalAlignment="Center">
+                              <TextBlock FontWeight="Medium" TextTrimming="CharacterEllipsis" Text="{Binding Name}" />
+                              <StackPanel Orientation="Horizontal" Margin="0,2,0,0">
+                                <TextBlock FontSize="11" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{Binding Players}" Visibility="{Binding HasPlayers, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                                <TextBlock FontSize="11" Margin="6,0,0,0" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextTrimming="CharacterEllipsis" Text="{Binding Detail}" Visibility="{Binding HasDetail, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                              </StackPanel>
+                            </StackPanel>
+                          </StackPanel>
+                        </DataTemplate>
+                      </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="{resources:Loc Ui_Bootstrapper_PlaceId}" Width="130" MinWidth="105" Binding="{Binding PlaceIdDisplay}" />
+                    <DataGridTemplateColumn Header="" Width="220" CanUserSort="False">
+                      <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                          <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" VerticalAlignment="Center">
+                            <ui:Button Margin="0,0,6,0" Icon="Branch24" Content="{resources:Loc Ui_Bootstrapper_Subplaces}" ToolTip="{resources:Loc Ui_Bootstrapper_LoadSubplacesTooltip}" Visibility="{Binding CanLoadSubplaces, Converter={StaticResource BooleanToVisibilityConverter}}" Command="{Binding DataContext.LoadWindowIconSubplacesCommand, RelativeSource={RelativeSource AncestorType=Page}}" CommandParameter="{Binding}" />
+                            <ui:Button Icon="ImageAdd24" Appearance="Primary" Content="{resources:Loc Ui_Bootstrapper_SetIcon}" ToolTip="{resources:Loc Ui_Bootstrapper_SetIconTooltip}" Command="{Binding DataContext.AddWindowIconSearchResultCommand, RelativeSource={RelativeSource AncestorType=Page}}" CommandParameter="{Binding}" />
+                          </StackPanel>
+                        </DataTemplate>
+                      </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                  </DataGrid.Columns>
+                </DataGrid>
+              </Border>
+              <Border BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}" BorderThickness="1" CornerRadius="4" MaxHeight="340" Visibility="{Binding HasWindowIconOverrides, Converter={StaticResource BooleanToVisibilityConverter}}">
+                <DataGrid AutoGenerateColumns="False" HeadersVisibility="Column" CanUserAddRows="False" CanUserDeleteRows="False" CanUserResizeRows="False" GridLinesVisibility="None" IsReadOnly="True" RowHeaderWidth="0" Background="#00FFFFFF" BorderThickness="0" RowHeight="52" AlternatingRowBackground="{DynamicResource SubtleFillColorTertiaryBrush}" ItemsSource="{Binding WindowIconOverrides}">
+                  <DataGrid.Columns>
+                    <DataGridTemplateColumn Header="{resources:Loc Ui_Bootstrapper_CustomIconColumn}" Width="90" CanUserSort="False">
+                      <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                          <Border Width="36" Height="36" HorizontalAlignment="Center" VerticalAlignment="Center" CornerRadius="6" Background="{DynamicResource SubtleFillColorSecondaryBrush}">
+                            <Image Source="{Binding CustomIconPreview}" Width="32" Height="32" RenderOptions.BitmapScalingMode="HighQuality" Visibility="{Binding HasCustomIconPreview, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                          </Border>
+                        </DataTemplate>
+                      </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="{resources:Loc Shortcuts_GameTab}" Width="*" MinWidth="180">
+                      <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                          <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                            <Border Width="32" Height="32" Margin="0,0,10,0" CornerRadius="6" Background="{DynamicResource SubtleFillColorSecondaryBrush}">
+                              <Image Source="{Binding IconUrl}" util:DynamicRenderSystem.LinuxImageSource="{Binding IconUrl}" Width="32" Height="32" Visibility="{Binding HasIcon, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                            </Border>
+                            <StackPanel VerticalAlignment="Center">
+                              <TextBlock FontWeight="Medium" TextTrimming="CharacterEllipsis" Text="{Binding Name}" />
+                              <TextBlock FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextTrimming="CharacterEllipsis" Text="{Binding IconFileName}" />
+                            </StackPanel>
+                          </StackPanel>
+                        </DataTemplate>
+                      </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Header="{resources:Loc Ui_Bootstrapper_PlaceId}" Width="125" MinWidth="100" Binding="{Binding PlaceIdDisplay}" />
+                    <DataGridTemplateColumn Header="{resources:Loc Ui_Bootstrapper_AllSubplacesColumn}" Width="115" CanUserSort="False">
+                      <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                          <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding AllPlaces, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="{Binding CanApplyToSubplaces}" ToolTip="{resources:Loc Ui_Bootstrapper_AllSubplacesTooltip}" />
+                        </DataTemplate>
+                      </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="" Width="150" CanUserSort="False">
+                      <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                          <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                            <ui:Button Margin="0,0,4,0" Icon="Branch24" Appearance="Secondary" ToolTip="{resources:Loc Ui_Bootstrapper_LoadSubplacesTooltip}" Visibility="{Binding CanApplyToSubplaces, Converter={StaticResource BooleanToVisibilityConverter}}" Command="{Binding DataContext.BrowseOverrideSubplacesCommand, RelativeSource={RelativeSource AncestorType=Page}}" CommandParameter="{Binding}" />
+                            <ui:Button Margin="0,0,4,0" Icon="FolderOpen24" Appearance="Secondary" ToolTip="{resources:Loc Ui_Bootstrapper_ChangeIconTooltip}" Command="{Binding DataContext.ChangeWindowIconOverrideCommand, RelativeSource={RelativeSource AncestorType=Page}}" CommandParameter="{Binding}" />
+                            <ui:Button Icon="Delete24" Appearance="Secondary" ToolTip="{resources:Loc Ui_Bootstrapper_RemoveIconTooltip}" Command="{Binding DataContext.RemoveWindowIconOverrideCommand, RelativeSource={RelativeSource AncestorType=Page}}" CommandParameter="{Binding}" />
+                          </StackPanel>
+                        </DataTemplate>
+                      </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                  </DataGrid.Columns>
+                </DataGrid>
+              </Border>
+            </StackPanel>
+          </ui:CardExpander>
           <controls:OptionControl Visibility="{x:Static platform:PlatformFeatureVisibility.NotMacOS}" Header="{resources:Loc Ui_Bootstrapper_AddTheServerInfo}" Description="{resources:Loc Ui_Bootstrapper_ShowsTheServerRegionAndPlayer}">
             <ui:ToggleSwitch IsChecked="{Binding ShowServerInfoInTitle, Mode=TwoWay}" />
           </controls:OptionControl>

@@ -8723,4 +8723,88 @@ Pidä Voidstrap ja muokkain avoinna, kun tekoäly työskentelee. Sen tekemät mu
   <data name="Ui.Mods.CrosshairShortcut.Saved" xml:space="preserve">
     <value>Tallennettu, {0} näyttää tai piilottaa nyt tähtäimen.</value>
   </data>
+  <data name="Ui.Bootstrapper.DefaultWindowIcon" xml:space="preserve">
+    <value>Ikkunan oletuskuvake</value>
+  </data>
+  <data name="Ui.Bootstrapper.DefaultWindowIconDescription" xml:space="preserve">
+    <value>Roblox-ikkunassa ja tehtäväpalkissa näkyvä kuvake, kun pelin kuvake ei korvaa sitä.</value>
+  </data>
+  <data name="Ui.Bootstrapper.ChooseCustomIcon" xml:space="preserve">
+    <value>Valitse kuvake</value>
+  </data>
+  <data name="Ui.Bootstrapper.CustomGameIcons" xml:space="preserve">
+    <value>Mukautetut pelikuvakkeet</value>
+  </data>
+  <data name="Ui.Bootstrapper.CustomGameIconsDescription" xml:space="preserve">
+    <value>Hae Roblox-peliä nimellä tai paikan tunnuksella, selaa sen alipaikkoja ja aseta mukautettu kuvake korvaamaan kyseisen pelin ikkunakuvake.</value>
+  </data>
+  <data name="Ui.Bootstrapper.SearchGameOrPlaceId" xml:space="preserve">
+    <value>Hae peliä nimellä, paikan tunnuksella tai pelilinkillä</value>
+  </data>
+  <data name="Ui.Bootstrapper.Subplaces" xml:space="preserve">
+    <value>Alipaikat</value>
+  </data>
+  <data name="Ui.Bootstrapper.LoadSubplacesTooltip" xml:space="preserve">
+    <value>Näytä tämän elämyksen alipaikat</value>
+  </data>
+  <data name="Ui.Bootstrapper.SetIcon" xml:space="preserve">
+    <value>Aseta kuvake</value>
+  </data>
+  <data name="Ui.Bootstrapper.SetIconTooltip" xml:space="preserve">
+    <value>Valitse mukautettu ikkunakuvake tälle paikalle</value>
+  </data>
+  <data name="Ui.Bootstrapper.CustomIconColumn" xml:space="preserve">
+    <value>Mukautettu kuvake</value>
+  </data>
+  <data name="Ui.Bootstrapper.AllSubplacesColumn" xml:space="preserve">
+    <value>Kaikki alipaikat</value>
+  </data>
+  <data name="Ui.Bootstrapper.AllSubplacesTooltip" xml:space="preserve">
+    <value>Käytä tätä kuvaketta jokaiselle tämän elämyksen alipaikalle, ellei alipaikalla ole omaa kuvaketta</value>
+  </data>
+  <data name="Ui.Bootstrapper.ChangeIconTooltip" xml:space="preserve">
+    <value>Valitse toinen mukautettu kuvake</value>
+  </data>
+  <data name="Ui.Bootstrapper.RemoveIconTooltip" xml:space="preserve">
+    <value>Palauta tämän paikan tavallinen ikkunakuvake</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSummaryNone" xml:space="preserve">
+    <value>Jokainen peli käyttää oletusarvoista tai elämyksen omaa ikkunakuvaketta.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSummaryOne" xml:space="preserve">
+    <value>1 peli tai alipaikka käyttää mukautettua ikkunakuvaketta.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSummaryMany" xml:space="preserve">
+    <value>{0} peliä tai alipaikkaa käyttää mukautettuja ikkunakuvakkeita.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsFilter" xml:space="preserve">
+    <value>Kuvake- ja kuvatiedostot|*.png;*.jpg;*.jpeg;*.bmp;*.ico</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSearching" xml:space="preserve">
+    <value>Haetaan...</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsNoGamesFound" xml:space="preserve">
+    <value>Pelejä ei löytynyt.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSearchUnavailable" xml:space="preserve">
+    <value>Haku ei ole juuri nyt käytettävissä, liitä sen sijaan paikan tunnus.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsNoSubplaces" xml:space="preserve">
+    <value>Kohteelle {0} ei löytynyt muita alipaikkoja.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsLoadedSubplaces" xml:space="preserve">
+    <value>Ladattiin {0} alipaikkaa kohteelle {1}.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSubplacesFailed" xml:space="preserve">
+    <value>Tämän elämyksen alipaikkoja ei voitu ladata.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSubplaceOf" xml:space="preserve">
+    <value>Alipaikka kohteelle {0}</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsPlaceFallback" xml:space="preserve">
+    <value>Paikka {0}</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsImportFailed" xml:space="preserve">
+    <value>Kuvakkeen tuonti epäonnistui: {0}</value>
+  </data>
 </root>

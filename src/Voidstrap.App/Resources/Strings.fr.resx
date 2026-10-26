@@ -8721,4 +8721,88 @@ Gardez Voidstrap et l'éditeur ouverts pendant que l'IA travaille. Ses modificat
   <data name="Ui.Mods.CrosshairShortcut.Saved" xml:space="preserve">
     <value>Enregistré, {0} affiche ou masque maintenant le réticule.</value>
   </data>
+  <data name="Ui.Bootstrapper.DefaultWindowIcon" xml:space="preserve">
+    <value>Icône de fenêtre par défaut</value>
+  </data>
+  <data name="Ui.Bootstrapper.DefaultWindowIconDescription" xml:space="preserve">
+    <value>L'icône affichée sur la fenêtre Roblox et dans la barre des tâches lorsqu'aucune icône de jeu ne la remplace.</value>
+  </data>
+  <data name="Ui.Bootstrapper.ChooseCustomIcon" xml:space="preserve">
+    <value>Choisir une icône</value>
+  </data>
+  <data name="Ui.Bootstrapper.CustomGameIcons" xml:space="preserve">
+    <value>Icônes de jeu personnalisées</value>
+  </data>
+  <data name="Ui.Bootstrapper.CustomGameIconsDescription" xml:space="preserve">
+    <value>Recherchez un jeu Roblox par nom ou identifiant de place, parcourez ses sous-places et attribuez une icône personnalisée pour remplacer l'icône de fenêtre de ce jeu.</value>
+  </data>
+  <data name="Ui.Bootstrapper.SearchGameOrPlaceId" xml:space="preserve">
+    <value>Rechercher un jeu par nom, identifiant de place ou lien de jeu</value>
+  </data>
+  <data name="Ui.Bootstrapper.Subplaces" xml:space="preserve">
+    <value>Sous-places</value>
+  </data>
+  <data name="Ui.Bootstrapper.LoadSubplacesTooltip" xml:space="preserve">
+    <value>Afficher les sous-places de cette expérience</value>
+  </data>
+  <data name="Ui.Bootstrapper.SetIcon" xml:space="preserve">
+    <value>Définir l'icône</value>
+  </data>
+  <data name="Ui.Bootstrapper.SetIconTooltip" xml:space="preserve">
+    <value>Choisir une icône de fenêtre personnalisée pour cette place</value>
+  </data>
+  <data name="Ui.Bootstrapper.CustomIconColumn" xml:space="preserve">
+    <value>Icône personnalisée</value>
+  </data>
+  <data name="Ui.Bootstrapper.AllSubplacesColumn" xml:space="preserve">
+    <value>Toutes les sous-places</value>
+  </data>
+  <data name="Ui.Bootstrapper.AllSubplacesTooltip" xml:space="preserve">
+    <value>Utiliser cette icône pour chaque sous-place de cette expérience sauf si une sous-place possède sa propre icône</value>
+  </data>
+  <data name="Ui.Bootstrapper.ChangeIconTooltip" xml:space="preserve">
+    <value>Choisir une autre icône personnalisée</value>
+  </data>
+  <data name="Ui.Bootstrapper.RemoveIconTooltip" xml:space="preserve">
+    <value>Restaurer l'icône de fenêtre normale pour cette place</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSummaryNone" xml:space="preserve">
+    <value>Chaque jeu utilise l'icône de fenêtre par défaut ou celle de l'expérience.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSummaryOne" xml:space="preserve">
+    <value>1 jeu ou sous-place utilise une icône de fenêtre personnalisée.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSummaryMany" xml:space="preserve">
+    <value>{0} jeux ou sous-places utilisent des icônes de fenêtre personnalisées.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsFilter" xml:space="preserve">
+    <value>Fichiers d'icône et d'image|*.png;*.jpg;*.jpeg;*.bmp;*.ico</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSearching" xml:space="preserve">
+    <value>Recherche...</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsNoGamesFound" xml:space="preserve">
+    <value>Aucun jeu trouvé.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSearchUnavailable" xml:space="preserve">
+    <value>La recherche est indisponible pour le moment, collez plutôt un identifiant de place.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsNoSubplaces" xml:space="preserve">
+    <value>Aucune sous-place supplémentaire trouvée pour {0}.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsLoadedSubplaces" xml:space="preserve">
+    <value>{0} sous-places chargées pour {1}.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSubplacesFailed" xml:space="preserve">
+    <value>Impossible de charger les sous-places de cette expérience.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSubplaceOf" xml:space="preserve">
+    <value>Sous-place de {0}</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsPlaceFallback" xml:space="preserve">
+    <value>Place {0}</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsImportFailed" xml:space="preserve">
+    <value>Impossible d'importer l'icône : {0}</value>
+  </data>
 </root>

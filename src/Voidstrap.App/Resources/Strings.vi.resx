@@ -8725,4 +8725,88 @@ Hãy giữ Voidstrap và trình chỉnh sửa luôn mở trong khi AI làm việ
   <data name="Ui.Mods.CrosshairShortcut.Saved" xml:space="preserve">
     <value>Đã lưu, {0} giờ hiện hoặc ẩn tâm ngắm.</value>
   </data>
+  <data name="Ui.Bootstrapper.DefaultWindowIcon" xml:space="preserve">
+    <value>Biểu tượng cửa sổ mặc định</value>
+  </data>
+  <data name="Ui.Bootstrapper.DefaultWindowIconDescription" xml:space="preserve">
+    <value>Biểu tượng hiển thị trên cửa sổ Roblox và thanh tác vụ khi không có biểu tượng trò chơi nào thay thế.</value>
+  </data>
+  <data name="Ui.Bootstrapper.ChooseCustomIcon" xml:space="preserve">
+    <value>Chọn biểu tượng</value>
+  </data>
+  <data name="Ui.Bootstrapper.CustomGameIcons" xml:space="preserve">
+    <value>Biểu tượng trò chơi tùy chỉnh</value>
+  </data>
+  <data name="Ui.Bootstrapper.CustomGameIconsDescription" xml:space="preserve">
+    <value>Tìm kiếm trò chơi Roblox theo tên hoặc Place ID, duyệt các địa điểm phụ và gán biểu tượng tùy chỉnh để ghi đè biểu tượng cửa sổ của trò chơi đó.</value>
+  </data>
+  <data name="Ui.Bootstrapper.SearchGameOrPlaceId" xml:space="preserve">
+    <value>Tìm trò chơi theo tên, Place ID hoặc liên kết trò chơi</value>
+  </data>
+  <data name="Ui.Bootstrapper.Subplaces" xml:space="preserve">
+    <value>Địa điểm phụ</value>
+  </data>
+  <data name="Ui.Bootstrapper.LoadSubplacesTooltip" xml:space="preserve">
+    <value>Hiển thị các địa điểm phụ cho trải nghiệm này</value>
+  </data>
+  <data name="Ui.Bootstrapper.SetIcon" xml:space="preserve">
+    <value>Đặt biểu tượng</value>
+  </data>
+  <data name="Ui.Bootstrapper.SetIconTooltip" xml:space="preserve">
+    <value>Chọn biểu tượng cửa sổ tùy chỉnh cho địa điểm này</value>
+  </data>
+  <data name="Ui.Bootstrapper.CustomIconColumn" xml:space="preserve">
+    <value>Biểu tượng tùy chỉnh</value>
+  </data>
+  <data name="Ui.Bootstrapper.AllSubplacesColumn" xml:space="preserve">
+    <value>Mọi địa điểm phụ</value>
+  </data>
+  <data name="Ui.Bootstrapper.AllSubplacesTooltip" xml:space="preserve">
+    <value>Sử dụng biểu tượng này cho mọi địa điểm phụ trong trải nghiệm này trừ khi địa điểm phụ có biểu tượng riêng</value>
+  </data>
+  <data name="Ui.Bootstrapper.ChangeIconTooltip" xml:space="preserve">
+    <value>Chọn một biểu tượng tùy chỉnh khác</value>
+  </data>
+  <data name="Ui.Bootstrapper.RemoveIconTooltip" xml:space="preserve">
+    <value>Khôi phục biểu tượng cửa sổ bình thường cho địa điểm này</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSummaryNone" xml:space="preserve">
+    <value>Mọi trò chơi đều dùng biểu tượng cửa sổ mặc định hoặc biểu tượng của trải nghiệm.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSummaryOne" xml:space="preserve">
+    <value>1 trò chơi hoặc địa điểm phụ đang dùng biểu tượng cửa sổ tùy chỉnh.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSummaryMany" xml:space="preserve">
+    <value>{0} trò chơi hoặc địa điểm phụ đang dùng biểu tượng cửa sổ tùy chỉnh.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsFilter" xml:space="preserve">
+    <value>Tệp biểu tượng và hình ảnh|*.png;*.jpg;*.jpeg;*.bmp;*.ico</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSearching" xml:space="preserve">
+    <value>Đang tìm kiếm...</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsNoGamesFound" xml:space="preserve">
+    <value>Không tìm thấy trò chơi nào.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSearchUnavailable" xml:space="preserve">
+    <value>Tìm kiếm hiện không khả dụng, hãy dán Place ID thay thế.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsNoSubplaces" xml:space="preserve">
+    <value>Không tìm thấy địa điểm phụ bổ sung nào cho {0}.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsLoadedSubplaces" xml:space="preserve">
+    <value>Đã tải {0} địa điểm phụ cho {1}.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSubplacesFailed" xml:space="preserve">
+    <value>Không thể tải danh sách địa điểm phụ cho trải nghiệm này.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSubplaceOf" xml:space="preserve">
+    <value>Địa điểm phụ của {0}</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsPlaceFallback" xml:space="preserve">
+    <value>Địa điểm {0}</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsImportFailed" xml:space="preserve">
+    <value>Không thể nhập biểu tượng: {0}</value>
+  </data>
 </root>

@@ -41,7 +41,7 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		public ExcludedGameItem(long placeId)
 		{
 			PlaceId = placeId;
-			_name = "Place " + placeId.ToString(CultureInfo.InvariantCulture);
+			_name = string.Format(CultureInfo.CurrentUICulture, Voidstrap.Resources.Strings.Ui_Bootstrapper_WindowIconsPlaceFallback, placeId.ToString(CultureInfo.InvariantCulture));
 		}
 
 		public long PlaceId { get; }
@@ -1155,7 +1155,9 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 		_ = LoadUserGeoForPreferredAsync();
 		_ = FetchPresetAsync(false);
 		_ = LoadAccountAsync();
+		RebuildRobloxIcons();
 		LoadExcludedGames();
+		LoadWindowIconOverrides();
 		SelectedWebBackground = App.Settings.Prop.WebCustomBackgrounds.FirstOrDefault();
 	}
 
@@ -2341,8 +2343,894 @@ public class BehaviourViewModel : NotifyPropertyChangedViewModel
 			if (App.Settings.Prop.UseGameIconForRobloxWindow != value)
 			{
 				App.Settings.Prop.UseGameIconForRobloxWindow = value;
+				App.Settings.SaveDeferred();
 				OnPropertyChanged(nameof(UseGameIconForRobloxWindow));
 			}
+		}
+	}
+
+	public ObservableCollection<Voidstrap.Models.BootstrapperIconEntry> RobloxIcons { get; } = new ObservableCollection<Voidstrap.Models.BootstrapperIconEntry>();
+
+	public BootstrapperIcon RobloxIcon
+	{
+		get
+		{
+			return App.Settings.Prop.RobloxIcon;
+		}
+		set
+		{
+			if (value == BootstrapperIcon.IconCustom && !HasValidRobloxCustomIcon() && !PromptRobloxCustomIcon())
+			{
+				OnPropertyChanged(nameof(RobloxIcon));
+				return;
+			}
+			App.Settings.Prop.RobloxIcon = value;
+			App.Settings.SaveDeferred();
+			OnPropertyChanged(nameof(RobloxIcon));
+			OnPropertyChanged(nameof(IsRobloxIconCustom));
+		}
+	}
+
+	public bool IsRobloxIconCustom => App.Settings.Prop.RobloxIcon == BootstrapperIcon.IconCustom;
+
+	public ICommand BrowseRobloxCustomIconCommand => new RelayCommand(BrowseRobloxCustomIcon);
+
+	private static string WindowIconFileFilter => Voidstrap.Resources.Strings.Ui_Bootstrapper_WindowIconsFilter;
+
+	private void RebuildRobloxIcons()
+	{
+		RobloxIcons.Clear();
+		foreach (BootstrapperIcon selection in BootstrapperIconEx.Selections)
+		{
+			RobloxIcons.Add(new Voidstrap.Models.BootstrapperIconEntry
+			{
+				IconType = selection,
+				CustomLocation = selection == BootstrapperIcon.IconCustom ? App.Settings.Prop.RobloxIconCustomLocation : null
+			});
+		}
+		OnPropertyChanged(nameof(RobloxIcons));
+	}
+
+	private static bool HasValidRobloxCustomIcon()
+	{
+		string location = App.Settings.Prop.RobloxIconCustomLocation;
+		return !string.IsNullOrEmpty(location) && File.Exists(location);
+	}
+
+	private bool PromptRobloxCustomIcon()
+	{
+		Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog
+		{
+			Filter = WindowIconFileFilter
+		};
+		if (dialog.ShowDialog() != true)
+		{
+			return false;
+		}
+		App.Settings.Prop.RobloxIconCustomLocation = dialog.FileName;
+		App.Settings.SaveDeferred();
+		RebuildRobloxIcons();
+		return true;
+	}
+
+	private void BrowseRobloxCustomIcon()
+	{
+		if (!PromptRobloxCustomIcon())
+		{
+			return;
+		}
+		App.Settings.Prop.RobloxIcon = BootstrapperIcon.IconCustom;
+		App.Settings.SaveDeferred();
+		OnPropertyChanged(nameof(RobloxIcon));
+		OnPropertyChanged(nameof(IsRobloxIconCustom));
+	}
+
+	public sealed class WindowIconSearchItem : NotifyPropertyChangedViewModel
+	{
+		private string _name;
+
+		private string _iconUrl = "";
+
+		private string _players = "";
+
+		private string _detail = "";
+
+		private bool _subplacesLoaded;
+
+		private bool _isLoadingSubplaces;
+
+		public WindowIconSearchItem(long placeId, bool isSubplace = false, string parentName = "")
+		{
+			PlaceId = placeId;
+			IsSubplace = isSubplace;
+			ParentName = parentName ?? "";
+			_name = "Place " + placeId.ToString(CultureInfo.InvariantCulture);
+		}
+
+		public long PlaceId { get; }
+
+		public string PlaceIdDisplay => PlaceId.ToString(CultureInfo.InvariantCulture);
+
+		public long UniverseId { get; set; }
+
+		public bool IsSubplace { get; }
+
+		public string ParentName { get; }
+
+		public string Name
+		{
+			get => _name;
+			set
+			{
+				if (string.IsNullOrWhiteSpace(value) || _name == value)
+					return;
+				_name = value;
+				OnPropertyChanged(nameof(Name));
+			}
+		}
+
+		public string IconUrl
+		{
+			get => _iconUrl;
+			set
+			{
+				if (_iconUrl == value)
+					return;
+				_iconUrl = value ?? "";
+				OnPropertyChanged(nameof(IconUrl));
+				OnPropertyChanged(nameof(HasIcon));
+			}
+		}
+
+		public bool HasIcon => !string.IsNullOrEmpty(_iconUrl);
+
+		public string Players
+		{
+			get => _players;
+			set
+			{
+				if (_players == value)
+					return;
+				_players = value ?? "";
+				OnPropertyChanged(nameof(Players));
+				OnPropertyChanged(nameof(HasPlayers));
+			}
+		}
+
+		public bool HasPlayers => !string.IsNullOrEmpty(_players);
+
+		public string Detail
+		{
+			get => _detail;
+			set
+			{
+				if (_detail == value)
+					return;
+				_detail = value ?? "";
+				OnPropertyChanged(nameof(Detail));
+				OnPropertyChanged(nameof(HasDetail));
+			}
+		}
+
+		public bool HasDetail => !string.IsNullOrEmpty(_detail);
+
+		public bool SubplacesLoaded
+		{
+			get => _subplacesLoaded;
+			set
+			{
+				if (_subplacesLoaded == value)
+					return;
+				_subplacesLoaded = value;
+				OnPropertyChanged(nameof(SubplacesLoaded));
+				OnPropertyChanged(nameof(CanLoadSubplaces));
+			}
+		}
+
+		public bool IsLoadingSubplaces
+		{
+			get => _isLoadingSubplaces;
+			set
+			{
+				if (_isLoadingSubplaces == value)
+					return;
+				_isLoadingSubplaces = value;
+				OnPropertyChanged(nameof(IsLoadingSubplaces));
+				OnPropertyChanged(nameof(CanLoadSubplaces));
+			}
+		}
+
+		public bool CanLoadSubplaces => !IsSubplace && !_subplacesLoaded && !_isLoadingSubplaces && PlaceId > 0;
+	}
+
+	public sealed class WindowIconOverrideItem : NotifyPropertyChangedViewModel
+	{
+		private string _name;
+
+		private string _iconUrl = "";
+
+		private string _iconPath;
+
+		private System.Windows.Media.ImageSource? _customIconPreview;
+
+		public WindowIconOverrideItem(Voidstrap.Models.RobloxWindowIconOverride model)
+		{
+			Model = model;
+			_name = string.IsNullOrWhiteSpace(model.Name)
+				? string.Format(CultureInfo.CurrentUICulture, Voidstrap.Resources.Strings.Ui_Bootstrapper_WindowIconsPlaceFallback, model.PlaceId.ToString(CultureInfo.InvariantCulture))
+				: model.Name;
+			_iconPath = model.IconPath ?? "";
+			ReloadCustomPreview();
+		}
+
+		public Voidstrap.Models.RobloxWindowIconOverride Model { get; }
+
+		public long PlaceId => Model.PlaceId;
+
+		public string PlaceIdDisplay => Model.PlaceId.ToString(CultureInfo.InvariantCulture);
+
+		public long UniverseId
+		{
+			get => Model.UniverseId;
+			set
+			{
+				if (Model.UniverseId == value)
+					return;
+				Model.UniverseId = value;
+				OnPropertyChanged(nameof(UniverseId));
+				OnPropertyChanged(nameof(CanApplyToSubplaces));
+			}
+		}
+
+		public bool CanApplyToSubplaces => Model.UniverseId > 0;
+
+		public string Name
+		{
+			get => _name;
+			set
+			{
+				if (string.IsNullOrWhiteSpace(value) || _name == value)
+					return;
+				_name = value;
+				Model.Name = value;
+				OnPropertyChanged(nameof(Name));
+			}
+		}
+
+		public string IconUrl
+		{
+			get => _iconUrl;
+			set
+			{
+				if (_iconUrl == value)
+					return;
+				_iconUrl = value ?? "";
+				OnPropertyChanged(nameof(IconUrl));
+				OnPropertyChanged(nameof(HasIcon));
+			}
+		}
+
+		public bool HasIcon => !string.IsNullOrEmpty(_iconUrl);
+
+		public string IconPath
+		{
+			get => _iconPath;
+			set
+			{
+				if (_iconPath == value)
+					return;
+				_iconPath = value ?? "";
+				Model.IconPath = _iconPath;
+				ReloadCustomPreview();
+				OnPropertyChanged(nameof(IconPath));
+				OnPropertyChanged(nameof(IconFileName));
+			}
+		}
+
+		public string IconFileName => string.IsNullOrWhiteSpace(_iconPath) ? "" : Path.GetFileName(_iconPath);
+
+		public System.Windows.Media.ImageSource? CustomIconPreview => _customIconPreview;
+
+		public bool HasCustomIconPreview => _customIconPreview != null;
+
+		public bool AllPlaces
+		{
+			get => Model.AllPlaces;
+			set
+			{
+				if (Model.AllPlaces == value)
+					return;
+				Model.AllPlaces = value;
+				App.Settings.SaveDeferred();
+				OnPropertyChanged(nameof(AllPlaces));
+			}
+		}
+
+		public void ReloadCustomPreview()
+		{
+			_customIconPreview = string.IsNullOrWhiteSpace(_iconPath) || !File.Exists(_iconPath)
+				? null
+				: Voidstrap.Utility.SafeImaging.FromFile(_iconPath, 64);
+			OnPropertyChanged(nameof(CustomIconPreview));
+			OnPropertyChanged(nameof(HasCustomIconPreview));
+		}
+	}
+
+	private string _windowIconSearchText = "";
+
+	private string _windowIconSearchStatus = "";
+
+	private CancellationTokenSource? _windowIconSearchCts;
+
+	public ObservableCollection<WindowIconSearchItem> WindowIconSearchResults { get; } = new ObservableCollection<WindowIconSearchItem>();
+
+	public ObservableCollection<WindowIconOverrideItem> WindowIconOverrides { get; } = new ObservableCollection<WindowIconOverrideItem>();
+
+	public string WindowIconSearchText
+	{
+		get => _windowIconSearchText;
+		set
+		{
+			if (_windowIconSearchText == value)
+				return;
+			_windowIconSearchText = value ?? "";
+			OnPropertyChanged(nameof(WindowIconSearchText));
+			BeginWindowIconSearch();
+		}
+	}
+
+	public string WindowIconSearchStatus
+	{
+		get => _windowIconSearchStatus;
+		private set
+		{
+			if (_windowIconSearchStatus == value)
+				return;
+			_windowIconSearchStatus = value ?? "";
+			OnPropertyChanged(nameof(WindowIconSearchStatus));
+			OnPropertyChanged(nameof(HasWindowIconSearchStatus));
+		}
+	}
+
+	public bool HasWindowIconSearchStatus => !string.IsNullOrEmpty(_windowIconSearchStatus);
+
+	public bool HasWindowIconSearchResults => WindowIconSearchResults.Count > 0;
+
+	public bool HasWindowIconOverrides => WindowIconOverrides.Count > 0;
+
+	public string WindowIconOverridesSummary => WindowIconOverrides.Count == 0
+		? Voidstrap.Resources.Strings.Ui_Bootstrapper_WindowIconsSummaryNone
+		: (WindowIconOverrides.Count == 1
+			? Voidstrap.Resources.Strings.Ui_Bootstrapper_WindowIconsSummaryOne
+			: string.Format(CultureInfo.CurrentUICulture, Voidstrap.Resources.Strings.Ui_Bootstrapper_WindowIconsSummaryMany, WindowIconOverrides.Count));
+
+	public ICommand AddWindowIconSearchResultCommand => new RelayCommand<WindowIconSearchItem>(AddWindowIconSearchResult);
+
+	public ICommand LoadWindowIconSubplacesCommand => new RelayCommand<WindowIconSearchItem>(item => _ = LoadWindowIconSubplacesAsync(item));
+
+	public ICommand BrowseOverrideSubplacesCommand => new RelayCommand<WindowIconOverrideItem>(item => _ = BrowseOverrideSubplacesAsync(item));
+
+	public ICommand ChangeWindowIconOverrideCommand => new RelayCommand<WindowIconOverrideItem>(ChangeWindowIconOverride);
+
+	public ICommand RemoveWindowIconOverrideCommand => new RelayCommand<WindowIconOverrideItem>(RemoveWindowIconOverride);
+
+	public ICommand ClearWindowIconOverridesCommand => new RelayCommand(ClearWindowIconOverrides);
+
+	private void BeginWindowIconSearch()
+	{
+		CancellationTokenSource? previous = _windowIconSearchCts;
+		_windowIconSearchCts = null;
+		try
+		{
+			previous?.Cancel();
+			previous?.Dispose();
+		}
+		catch
+		{
+		}
+
+		string query = (_windowIconSearchText ?? "").Trim();
+		if (query.Length < 2)
+		{
+			ClearWindowIconSearchResults();
+			WindowIconSearchStatus = "";
+			return;
+		}
+
+		var cts = new CancellationTokenSource();
+		_windowIconSearchCts = cts;
+		_ = RunWindowIconSearchAsync(query, cts);
+	}
+
+	private void ClearWindowIconSearchResults()
+	{
+		if (WindowIconSearchResults.Count == 0)
+			return;
+		WindowIconSearchResults.Clear();
+		OnPropertyChanged(nameof(HasWindowIconSearchResults));
+	}
+
+	private async Task RunWindowIconSearchAsync(string query, CancellationTokenSource cts)
+	{
+		try
+		{
+			await Task.Delay(350, cts.Token).ConfigureAwait(true);
+			WindowIconSearchStatus = Voidstrap.Resources.Strings.Ui_Bootstrapper_WindowIconsSearching;
+
+			string normalized = ShortcutsViewModel.NormalizeGameId(query).Trim();
+			if (long.TryParse(normalized, NumberStyles.Integer, CultureInfo.InvariantCulture, out long typedPlaceId) && typedPlaceId > 0)
+			{
+				var direct = new WindowIconSearchItem(typedPlaceId);
+				await ResolveWindowIconPlaceAsync(direct, cts.Token).ConfigureAwait(true);
+				if (cts.Token.IsCancellationRequested)
+					return;
+
+				ClearWindowIconSearchResults();
+				WindowIconSearchResults.Add(direct);
+				OnPropertyChanged(nameof(HasWindowIconSearchResults));
+				await ApplyWindowIconSearchThumbnailsAsync([direct], typedPlaceId.ToString(CultureInfo.InvariantCulture)).ConfigureAwait(true);
+				if (cts.Token.IsCancellationRequested)
+					return;
+
+				await AppendSubplacesToSearchAsync(direct, cts.Token).ConfigureAwait(true);
+				WindowIconSearchStatus = "";
+				return;
+			}
+
+			List<ExcludedGameItem> found = await FindGamesAsync(query, cts.Token).ConfigureAwait(true);
+			if (cts.Token.IsCancellationRequested)
+				return;
+
+			ClearWindowIconSearchResults();
+			var items = new List<WindowIconSearchItem>(found.Count);
+			foreach (ExcludedGameItem game in found)
+			{
+				var item = new WindowIconSearchItem(game.PlaceId)
+				{
+					UniverseId = game.UniverseId,
+					Name = game.Name,
+					Players = game.Players,
+					Detail = game.Detail
+				};
+				WindowIconSearchResults.Add(item);
+				items.Add(item);
+			}
+
+			OnPropertyChanged(nameof(HasWindowIconSearchResults));
+			WindowIconSearchStatus = items.Count == 0 ? Voidstrap.Resources.Strings.Ui_Bootstrapper_WindowIconsNoGamesFound : "";
+
+			if (items.Count > 0)
+			{
+				string ids = string.Join(",", items.Select(g => g.PlaceId.ToString(CultureInfo.InvariantCulture)));
+				await ApplyWindowIconSearchThumbnailsAsync([.. items], ids).ConfigureAwait(true);
+			}
+		}
+		catch (OperationCanceledException)
+		{
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine("BehaviourViewModel::RunWindowIconSearch", "Window icon game search failed: " + ex.Message);
+			WindowIconSearchStatus = Voidstrap.Resources.Strings.Ui_Bootstrapper_WindowIconsSearchUnavailable;
+		}
+		finally
+		{
+			if (ReferenceEquals(_windowIconSearchCts, cts))
+				_windowIconSearchCts = null;
+			try
+			{
+				cts.Dispose();
+			}
+			catch
+			{
+			}
+		}
+	}
+
+	private static async Task ResolveWindowIconPlaceAsync(WindowIconSearchItem item, CancellationToken token)
+	{
+		string idText = item.PlaceId.ToString(CultureInfo.InvariantCulture);
+		try
+		{
+			using var request = new System.Net.Http.HttpRequestMessage(System.Net.Http.HttpMethod.Get, "https://games.roblox.com/v1/games/multiget-place-details?placeIds=" + idText);
+			string? cookie = RobloxCookie.Get();
+			if (!string.IsNullOrEmpty(cookie))
+				request.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
+			using System.Net.Http.HttpResponseMessage response = await App.HttpClient.SendAsync(request, token).ConfigureAwait(false);
+			if (response.IsSuccessStatusCode)
+			{
+				using JsonDocument doc = JsonDocument.Parse(await response.Content.ReadAsStringAsync(token).ConfigureAwait(false));
+				if (doc.RootElement.ValueKind == JsonValueKind.Array)
+				{
+					foreach (JsonElement entry in doc.RootElement.EnumerateArray())
+					{
+						if (entry.TryGetProperty("placeId", out JsonElement pidEl) && pidEl.TryGetInt64(out long pid) && pid == item.PlaceId)
+						{
+							if (entry.TryGetProperty("name", out JsonElement nameEl) && nameEl.ValueKind == JsonValueKind.String)
+								item.Name = nameEl.GetString() ?? "";
+							if (entry.TryGetProperty("universeId", out JsonElement uidEl) && uidEl.TryGetInt64(out long uid) && uid > 0)
+								item.UniverseId = uid;
+							if (entry.TryGetProperty("builder", out JsonElement builderEl) && builderEl.ValueKind == JsonValueKind.String)
+							{
+								string builder = builderEl.GetString() ?? "";
+								if (builder.Length > 0)
+									item.Detail = "by " + builder;
+							}
+						}
+					}
+				}
+			}
+		}
+		catch (Exception ex) when (ex is not OperationCanceledException)
+		{
+		}
+
+		if (item.UniverseId <= 0)
+		{
+			try
+			{
+				using System.Net.Http.HttpResponseMessage uniResp = await App.HttpClient.GetAsync("https://apis.roblox.com/universes/v1/places/" + idText + "/universe", token).ConfigureAwait(false);
+				if (uniResp.IsSuccessStatusCode)
+				{
+					using JsonDocument uniDoc = JsonDocument.Parse(await uniResp.Content.ReadAsStringAsync(token).ConfigureAwait(false));
+					if (uniDoc.RootElement.ValueKind == JsonValueKind.Object && uniDoc.RootElement.TryGetProperty("universeId", out JsonElement uidEl) && uidEl.TryGetInt64(out long uid) && uid > 0)
+						item.UniverseId = uid;
+				}
+			}
+			catch (Exception ex) when (ex is not OperationCanceledException)
+			{
+			}
+		}
+
+		if (item.UniverseId > 0 && item.Name.StartsWith("Place ", StringComparison.Ordinal))
+		{
+			try
+			{
+				using System.Net.Http.HttpResponseMessage gameResp = await App.HttpClient.GetAsync("https://games.roblox.com/v1/games?universeIds=" + item.UniverseId.ToString(CultureInfo.InvariantCulture), token).ConfigureAwait(false);
+				if (gameResp.IsSuccessStatusCode)
+				{
+					using JsonDocument gameDoc = JsonDocument.Parse(await gameResp.Content.ReadAsStringAsync(token).ConfigureAwait(false));
+					if (gameDoc.RootElement.ValueKind == JsonValueKind.Object && gameDoc.RootElement.TryGetProperty("data", out JsonElement dataArr) && dataArr.ValueKind == JsonValueKind.Array && dataArr.GetArrayLength() > 0)
+					{
+						JsonElement g = dataArr[0];
+						if (g.TryGetProperty("name", out JsonElement nameEl) && nameEl.ValueKind == JsonValueKind.String)
+							item.Name = nameEl.GetString() ?? "";
+					}
+				}
+			}
+			catch (Exception ex) when (ex is not OperationCanceledException)
+			{
+			}
+		}
+	}
+
+	private async Task LoadWindowIconSubplacesAsync(WindowIconSearchItem? item)
+	{
+		if (item == null || !item.CanLoadSubplaces)
+			return;
+		using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(25));
+		await AppendSubplacesToSearchAsync(item, cts.Token).ConfigureAwait(true);
+	}
+
+	private async Task BrowseOverrideSubplacesAsync(WindowIconOverrideItem? overrideItem)
+	{
+		if (overrideItem == null || overrideItem.PlaceId <= 0)
+			return;
+		ClearWindowIconSearchResults();
+		var rootItem = new WindowIconSearchItem(overrideItem.PlaceId)
+		{
+			UniverseId = overrideItem.UniverseId,
+			Name = overrideItem.Name,
+			IconUrl = overrideItem.IconUrl
+		};
+		WindowIconSearchResults.Add(rootItem);
+		OnPropertyChanged(nameof(HasWindowIconSearchResults));
+		using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(25));
+		await AppendSubplacesToSearchAsync(rootItem, cts.Token).ConfigureAwait(true);
+	}
+
+	private async Task AppendSubplacesToSearchAsync(WindowIconSearchItem parent, CancellationToken token)
+	{
+		if (parent.IsLoadingSubplaces || parent.SubplacesLoaded)
+			return;
+		parent.IsLoadingSubplaces = true;
+		try
+		{
+			IReadOnlyList<Voidstrap.Utility.RobloxSubplaces.Place> places = await Voidstrap.Utility.RobloxSubplaces.GetAsync(App.HttpClient, parent.PlaceId, token, parent.UniverseId).ConfigureAwait(true);
+			parent.SubplacesLoaded = true;
+			if (places.Count == 0)
+			{
+				WindowIconSearchStatus = string.Format(CultureInfo.CurrentUICulture, Voidstrap.Resources.Strings.Ui_Bootstrapper_WindowIconsNoSubplaces, parent.Name);
+				return;
+			}
+
+			int insertIndex = WindowIconSearchResults.IndexOf(parent);
+			if (insertIndex < 0)
+				insertIndex = WindowIconSearchResults.Count - 1;
+
+			var added = new List<WindowIconSearchItem>();
+			foreach (Voidstrap.Utility.RobloxSubplaces.Place place in places)
+			{
+				if (WindowIconSearchResults.Any(existing => existing.PlaceId == place.Id))
+					continue;
+				var sub = new WindowIconSearchItem(place.Id, isSubplace: true, parentName: parent.Name)
+				{
+					UniverseId = parent.UniverseId,
+					Name = string.IsNullOrWhiteSpace(place.Name) ? string.Format(CultureInfo.CurrentUICulture, Voidstrap.Resources.Strings.Ui_Bootstrapper_WindowIconsPlaceFallback, place.Id.ToString(CultureInfo.InvariantCulture)) : place.Name,
+					IconUrl = place.IconUrl,
+					Detail = string.Format(CultureInfo.CurrentUICulture, Voidstrap.Resources.Strings.Ui_Bootstrapper_WindowIconsSubplaceOf, parent.Name)
+				};
+				insertIndex++;
+				WindowIconSearchResults.Insert(Math.Min(insertIndex, WindowIconSearchResults.Count), sub);
+				added.Add(sub);
+			}
+
+			OnPropertyChanged(nameof(HasWindowIconSearchResults));
+			WindowIconSearchStatus = string.Format(CultureInfo.CurrentUICulture, Voidstrap.Resources.Strings.Ui_Bootstrapper_WindowIconsLoadedSubplaces, places.Count, parent.Name);
+
+			WindowIconSearchItem[] missingIcons = added.Where(s => !s.HasIcon).ToArray();
+			if (missingIcons.Length > 0)
+			{
+				foreach (WindowIconSearchItem[] chunk in missingIcons.Chunk(25))
+				{
+					string ids = string.Join(",", chunk.Select(c => c.PlaceId.ToString(CultureInfo.InvariantCulture)));
+					await ApplyWindowIconSearchThumbnailsAsync(chunk, ids).ConfigureAwait(true);
+				}
+			}
+		}
+		catch (OperationCanceledException)
+		{
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine("BehaviourViewModel::AppendSubplacesToSearch", "Could not load subplaces: " + ex.Message);
+			WindowIconSearchStatus = Voidstrap.Resources.Strings.Ui_Bootstrapper_WindowIconsSubplacesFailed;
+		}
+		finally
+		{
+			parent.IsLoadingSubplaces = false;
+		}
+	}
+
+	private static async Task ApplyWindowIconSearchThumbnailsAsync(WindowIconSearchItem[] chunk, string ids)
+	{
+		var response = await Voidstrap.Utility.Http.GetJson<Voidstrap.Models.APIs.Roblox.ApiArrayResponse<Voidstrap.Models.APIs.Roblox.ThumbnailResponse>>(
+			"https://thumbnails.roblox.com/v1/places/gameicons?placeIds=" + ids + "&returnPolicy=PlaceHolder&size=150x150&format=Png&isCircular=false").ConfigureAwait(true);
+
+		if (response?.Data == null)
+			return;
+
+		foreach (var thumbnail in response.Data)
+		{
+			if (thumbnail == null || string.IsNullOrWhiteSpace(thumbnail.ImageUrl))
+				continue;
+			WindowIconSearchItem? match = chunk.FirstOrDefault(g => g.PlaceId == thumbnail.TargetId);
+			if (match != null)
+				match.IconUrl = thumbnail.ImageUrl;
+		}
+	}
+
+	private void AddWindowIconSearchResult(WindowIconSearchItem? item)
+	{
+		if (item == null || item.PlaceId <= 0)
+			return;
+
+		Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog
+		{
+			Filter = WindowIconFileFilter
+		};
+		if (dialog.ShowDialog() != true)
+			return;
+
+		string imported;
+		try
+		{
+			imported = Voidstrap.Utility.RobloxWindowIcons.Import(dialog.FileName, item.PlaceId);
+		}
+		catch (Exception ex)
+		{
+			Frontend.ShowMessageBox(string.Format(CultureInfo.CurrentUICulture, Voidstrap.Resources.Strings.Ui_Bootstrapper_WindowIconsImportFailed, ex.Message), MessageBoxImage.Hand);
+			return;
+		}
+
+		List<Voidstrap.Models.RobloxWindowIconOverride> list = App.Settings.Prop.RobloxWindowIconOverrides ??= [];
+		WindowIconOverrideItem? existingVm = WindowIconOverrides.FirstOrDefault(o => o.PlaceId == item.PlaceId);
+		if (existingVm != null)
+		{
+			string oldPath = existingVm.IconPath;
+			existingVm.IconPath = imported;
+			if (!string.IsNullOrWhiteSpace(item.Name) && !item.Name.StartsWith("Place ", StringComparison.Ordinal))
+				existingVm.Name = item.Name;
+			if (item.UniverseId > 0)
+				existingVm.UniverseId = item.UniverseId;
+			if (item.HasIcon)
+				existingVm.IconUrl = item.IconUrl;
+			Voidstrap.Utility.RobloxWindowIcons.TryDelete(oldPath);
+			App.Settings.SaveDeferred();
+			RaiseWindowIconOverridesChanged();
+			return;
+		}
+
+		var model = new Voidstrap.Models.RobloxWindowIconOverride
+		{
+			PlaceId = item.PlaceId,
+			UniverseId = item.UniverseId,
+			Name = item.Name,
+			IconPath = imported,
+			AllPlaces = !item.IsSubplace && item.UniverseId > 0
+		};
+		list.Add(model);
+		var vmItem = new WindowIconOverrideItem(model)
+		{
+			IconUrl = item.IconUrl
+		};
+		WindowIconOverrides.Add(vmItem);
+		App.Settings.SaveDeferred();
+		RaiseWindowIconOverridesChanged();
+		_ = ResolveWindowIconOverrideDetailsAsync();
+	}
+
+	private void ChangeWindowIconOverride(WindowIconOverrideItem? item)
+	{
+		if (item == null)
+			return;
+
+		Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog
+		{
+			Filter = WindowIconFileFilter
+		};
+		if (dialog.ShowDialog() != true)
+			return;
+
+		string imported;
+		try
+		{
+			imported = Voidstrap.Utility.RobloxWindowIcons.Import(dialog.FileName, item.PlaceId);
+		}
+		catch (Exception ex)
+		{
+			Frontend.ShowMessageBox(string.Format(CultureInfo.CurrentUICulture, Voidstrap.Resources.Strings.Ui_Bootstrapper_WindowIconsImportFailed, ex.Message), MessageBoxImage.Hand);
+			return;
+		}
+
+		string oldPath = item.IconPath;
+		item.IconPath = imported;
+		Voidstrap.Utility.RobloxWindowIcons.TryDelete(oldPath);
+		App.Settings.SaveDeferred();
+	}
+
+	private void RemoveWindowIconOverride(WindowIconOverrideItem? item)
+	{
+		if (item == null)
+			return;
+
+		(App.Settings.Prop.RobloxWindowIconOverrides ??= []).RemoveAll(o => o == null || o.PlaceId == item.PlaceId);
+		WindowIconOverrides.Remove(item);
+		Voidstrap.Utility.RobloxWindowIcons.TryDelete(item.IconPath);
+		App.Settings.SaveDeferred();
+		RaiseWindowIconOverridesChanged();
+	}
+
+	private void ClearWindowIconOverrides()
+	{
+		foreach (WindowIconOverrideItem item in WindowIconOverrides.ToList())
+			Voidstrap.Utility.RobloxWindowIcons.TryDelete(item.IconPath);
+
+		(App.Settings.Prop.RobloxWindowIconOverrides ??= []).Clear();
+		WindowIconOverrides.Clear();
+		App.Settings.SaveDeferred();
+		RaiseWindowIconOverridesChanged();
+	}
+
+	public void RefreshWindowIconOverrides()
+	{
+		RebuildRobloxIcons();
+		OnPropertyChanged(nameof(RobloxIcon));
+		OnPropertyChanged(nameof(IsRobloxIconCustom));
+		List<Voidstrap.Models.RobloxWindowIconOverride> saved = App.Settings.Prop.RobloxWindowIconOverrides ??= [];
+		if (WindowIconOverrides.Count == saved.Count && WindowIconOverrides.All(vm => saved.Any(s => s != null && s.PlaceId == vm.PlaceId && s.IconPath == vm.IconPath)))
+			return;
+		LoadWindowIconOverrides();
+	}
+
+	private void LoadWindowIconOverrides()
+	{
+		WindowIconOverrides.Clear();
+		List<Voidstrap.Models.RobloxWindowIconOverride> saved = App.Settings.Prop.RobloxWindowIconOverrides ??= [];
+		foreach (Voidstrap.Models.RobloxWindowIconOverride entry in saved.Where(e => e != null && e.PlaceId > 0))
+			WindowIconOverrides.Add(new WindowIconOverrideItem(entry));
+		RaiseWindowIconOverridesChanged();
+		_ = ResolveWindowIconOverrideDetailsAsync();
+	}
+
+	private void RaiseWindowIconOverridesChanged()
+	{
+		OnPropertyChanged(nameof(HasWindowIconOverrides));
+		OnPropertyChanged(nameof(WindowIconOverridesSummary));
+	}
+
+	private async Task ResolveWindowIconOverrideDetailsAsync()
+	{
+		WindowIconOverrideItem[] pending = WindowIconOverrides.Where(o => !o.HasIcon || o.UniverseId <= 0 || o.Name.StartsWith("Place ", StringComparison.Ordinal)).ToArray();
+		if (pending.Length == 0)
+			return;
+
+		foreach (WindowIconOverrideItem[] chunk in pending.Chunk(25))
+		{
+			try
+			{
+				string ids = string.Join(",", chunk.Select(g => g.PlaceId.ToString(CultureInfo.InvariantCulture)));
+				await ApplyWindowIconOverrideNamesAsync(chunk, ids).ConfigureAwait(true);
+				await ApplyWindowIconOverrideThumbnailsAsync(chunk, ids).ConfigureAwait(true);
+			}
+			catch (Exception ex)
+			{
+				App.Logger?.WriteLine("BehaviourViewModel::ResolveWindowIconOverrideDetails", "Could not resolve override game details: " + ex.Message);
+			}
+		}
+	}
+
+	private static async Task ApplyWindowIconOverrideNamesAsync(WindowIconOverrideItem[] chunk, string ids)
+	{
+		using var request = new System.Net.Http.HttpRequestMessage(System.Net.Http.HttpMethod.Get, "https://games.roblox.com/v1/games/multiget-place-details?placeIds=" + ids);
+		string? cookie = RobloxCookie.Get();
+		if (!string.IsNullOrEmpty(cookie))
+			request.Headers.TryAddWithoutValidation("Cookie", ".ROBLOSECURITY=" + cookie);
+
+		using System.Net.Http.HttpResponseMessage response = await App.HttpClient.SendAsync(request).ConfigureAwait(true);
+		if (response.IsSuccessStatusCode)
+		{
+			using JsonDocument json = JsonDocument.Parse(await response.Content.ReadAsStringAsync().ConfigureAwait(true));
+			if (json.RootElement.ValueKind == JsonValueKind.Array)
+			{
+				foreach (JsonElement entry in json.RootElement.EnumerateArray())
+				{
+					if (!entry.TryGetProperty("placeId", out JsonElement idElement) || !idElement.TryGetInt64(out long placeId))
+						continue;
+					WindowIconOverrideItem? match = chunk.FirstOrDefault(g => g.PlaceId == placeId);
+					if (match == null)
+						continue;
+					if (entry.TryGetProperty("name", out JsonElement nameElement) && nameElement.ValueKind == JsonValueKind.String)
+						match.Name = nameElement.GetString() ?? "";
+					if (entry.TryGetProperty("universeId", out JsonElement uidElement) && uidElement.TryGetInt64(out long uid) && uid > 0)
+						match.UniverseId = uid;
+				}
+			}
+		}
+
+		foreach (WindowIconOverrideItem unresolved in chunk.Where(c => c.UniverseId <= 0))
+		{
+			try
+			{
+				using System.Net.Http.HttpResponseMessage uniResp = await App.HttpClient.GetAsync("https://apis.roblox.com/universes/v1/places/" + unresolved.PlaceId.ToString(CultureInfo.InvariantCulture) + "/universe").ConfigureAwait(true);
+				if (uniResp.IsSuccessStatusCode)
+				{
+					using JsonDocument uniDoc = JsonDocument.Parse(await uniResp.Content.ReadAsStringAsync().ConfigureAwait(true));
+					if (uniDoc.RootElement.ValueKind == JsonValueKind.Object && uniDoc.RootElement.TryGetProperty("universeId", out JsonElement uidEl) && uidEl.TryGetInt64(out long uid) && uid > 0)
+						unresolved.UniverseId = uid;
+				}
+			}
+			catch
+			{
+			}
+		}
+	}
+
+	private static async Task ApplyWindowIconOverrideThumbnailsAsync(WindowIconOverrideItem[] chunk, string ids)
+	{
+		var response = await Voidstrap.Utility.Http.GetJson<Voidstrap.Models.APIs.Roblox.ApiArrayResponse<Voidstrap.Models.APIs.Roblox.ThumbnailResponse>>(
+			"https://thumbnails.roblox.com/v1/places/gameicons?placeIds=" + ids + "&returnPolicy=PlaceHolder&size=150x150&format=Png&isCircular=false").ConfigureAwait(true);
+
+		if (response?.Data == null)
+			return;
+
+		foreach (var thumbnail in response.Data)
+		{
+			if (thumbnail == null || string.IsNullOrWhiteSpace(thumbnail.ImageUrl))
+				continue;
+			WindowIconOverrideItem? match = chunk.FirstOrDefault(g => g.PlaceId == thumbnail.TargetId);
+			if (match != null)
+				match.IconUrl = thumbnail.ImageUrl;
 		}
 	}
 

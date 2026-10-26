@@ -8722,4 +8722,88 @@ Pozostaw Voidstrap i edytor otwarte podczas pracy AI. Wprowadzane zmiany są od 
   <data name="Ui.Mods.CrosshairShortcut.Saved" xml:space="preserve">
     <value>Zapisano, {0} pokazuje teraz lub ukrywa celownik.</value>
   </data>
+  <data name="Ui.Bootstrapper.DefaultWindowIcon" xml:space="preserve">
+    <value>Domyślna ikona okna</value>
+  </data>
+  <data name="Ui.Bootstrapper.DefaultWindowIconDescription" xml:space="preserve">
+    <value>Ikona wyświetlana w oknie Roblox i na pasku zadań, gdy nie zastępuje jej ikona gry.</value>
+  </data>
+  <data name="Ui.Bootstrapper.ChooseCustomIcon" xml:space="preserve">
+    <value>Wybierz ikonę</value>
+  </data>
+  <data name="Ui.Bootstrapper.CustomGameIcons" xml:space="preserve">
+    <value>Własne ikony gier</value>
+  </data>
+  <data name="Ui.Bootstrapper.CustomGameIconsDescription" xml:space="preserve">
+    <value>Wyszukaj grę Roblox według nazwy lub identyfikatora miejsca, przeglądaj jej podmiejsca i przypisz własną ikonę, aby zastąpić ikonę okna tej gry.</value>
+  </data>
+  <data name="Ui.Bootstrapper.SearchGameOrPlaceId" xml:space="preserve">
+    <value>Wyszukaj grę według nazwy, identyfikatora miejsca lub linku do gry</value>
+  </data>
+  <data name="Ui.Bootstrapper.Subplaces" xml:space="preserve">
+    <value>Podmiejsca</value>
+  </data>
+  <data name="Ui.Bootstrapper.LoadSubplacesTooltip" xml:space="preserve">
+    <value>Pokaż podmiejsca dla tego doświadczenia</value>
+  </data>
+  <data name="Ui.Bootstrapper.SetIcon" xml:space="preserve">
+    <value>Ustaw ikonę</value>
+  </data>
+  <data name="Ui.Bootstrapper.SetIconTooltip" xml:space="preserve">
+    <value>Wybierz własną ikonę okna dla tego miejsca</value>
+  </data>
+  <data name="Ui.Bootstrapper.CustomIconColumn" xml:space="preserve">
+    <value>Własna ikona</value>
+  </data>
+  <data name="Ui.Bootstrapper.AllSubplacesColumn" xml:space="preserve">
+    <value>Wszystkie podmiejsca</value>
+  </data>
+  <data name="Ui.Bootstrapper.AllSubplacesTooltip" xml:space="preserve">
+    <value>Użyj tej ikony dla każdego podmiejsca w tym doświadczeniu, chyba że podmiejsce ma własną ikonę</value>
+  </data>
+  <data name="Ui.Bootstrapper.ChangeIconTooltip" xml:space="preserve">
+    <value>Wybierz inną własną ikonę</value>
+  </data>
+  <data name="Ui.Bootstrapper.RemoveIconTooltip" xml:space="preserve">
+    <value>Przywróć zwykłą ikonę okna dla tego miejsca</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSummaryNone" xml:space="preserve">
+    <value>Każda gra używa domyślnej ikony okna lub ikony doświadczenia.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSummaryOne" xml:space="preserve">
+    <value>1 gra lub podmiejsce używa własnej ikony okna.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSummaryMany" xml:space="preserve">
+    <value>{0} gier lub podmiejsc używa własnych ikon okna.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsFilter" xml:space="preserve">
+    <value>Pliki ikon i obrazów|*.png;*.jpg;*.jpeg;*.bmp;*.ico</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSearching" xml:space="preserve">
+    <value>Wyszukiwanie...</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsNoGamesFound" xml:space="preserve">
+    <value>Nie znaleziono gier.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSearchUnavailable" xml:space="preserve">
+    <value>Wyszukiwanie jest teraz niedostępne, wklej zamiast tego identyfikator miejsca.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsNoSubplaces" xml:space="preserve">
+    <value>Nie znaleziono dodatkowych podmiejsc dla {0}.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsLoadedSubplaces" xml:space="preserve">
+    <value>Wczytano {0} podmiejsc dla {1}.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSubplacesFailed" xml:space="preserve">
+    <value>Nie udało się wczytać podmiejsc dla tego doświadczenia.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSubplaceOf" xml:space="preserve">
+    <value>Podmiejsce gry {0}</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsPlaceFallback" xml:space="preserve">
+    <value>Miejsce {0}</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsImportFailed" xml:space="preserve">
+    <value>Nie udało się zaimportować ikony: {0}</value>
+  </data>
 </root>

@@ -25,11 +25,11 @@ public static class IconEx
 		return GetIconSource(App.Settings.Prop.ActiveBootstrapperIcon);
 	}
 
-	internal static BitmapSource? LoadPortableIcon(BootstrapperIcon icon, int decodeWidth)
+	internal static BitmapSource? LoadPortableIcon(BootstrapperIcon icon, int decodeWidth, string? customLocation = null)
 	{
 		if (icon == BootstrapperIcon.IconCustom)
 		{
-			string custom = App.Settings.Prop.BootstrapperIconCustomLocation;
+			string custom = customLocation ?? App.Settings.Prop.BootstrapperIconCustomLocation;
 			if (!string.IsNullOrEmpty(custom) && File.Exists(custom))
 			{
 				try
@@ -74,11 +74,11 @@ public static class IconEx
 		return null;
 	}
 
-	public static ImageSource GetIconSource(BootstrapperIcon icon)
+	public static ImageSource GetIconSource(BootstrapperIcon icon, string? customLocation = null)
 	{
 		if (!Voidstrap.Utility.Platform.IsWindows)
 		{
-			BitmapSource? portable = LoadPortableIcon(icon, 128);
+			BitmapSource? portable = LoadPortableIcon(icon, 128, customLocation);
 			if (portable != null)
 			{
 				return portable;
@@ -87,13 +87,18 @@ public static class IconEx
 
 		if (icon == BootstrapperIcon.IconCustom)
 		{
-			string custom = App.Settings.Prop.BootstrapperIconCustomLocation;
+			string custom = customLocation ?? App.Settings.Prop.BootstrapperIconCustomLocation;
 			if (!string.IsNullOrEmpty(custom) && File.Exists(custom))
 			{
 				ImageSource? loaded = DecodeIcon(() => File.OpenRead(custom));
 				if (loaded != null)
 				{
 					return loaded;
+				}
+				BitmapSource? fallback = Voidstrap.Utility.SafeImaging.FromFile(custom, 128);
+				if (fallback != null)
+				{
+					return fallback;
 				}
 			}
 			icon = BootstrapperIcon.IconVoidstrap;

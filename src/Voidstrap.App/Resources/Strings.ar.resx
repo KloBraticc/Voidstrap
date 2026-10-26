@@ -8721,4 +8721,88 @@
   <data name="Ui.Mods.CrosshairShortcut.Saved" xml:space="preserve">
     <value>تم الحفظ، الآن يُظهر {0} علامة التصويب أو يخفيها.</value>
   </data>
+  <data name="Ui.Bootstrapper.DefaultWindowIcon" xml:space="preserve">
+    <value>أيقونة النافذة الافتراضية</value>
+  </data>
+  <data name="Ui.Bootstrapper.DefaultWindowIconDescription" xml:space="preserve">
+    <value>الأيقونة المعروضة على نافذة Roblox وشريط المهام عندما لا تستبدلها أيقونة لعبة.</value>
+  </data>
+  <data name="Ui.Bootstrapper.ChooseCustomIcon" xml:space="preserve">
+    <value>اختر أيقونة</value>
+  </data>
+  <data name="Ui.Bootstrapper.CustomGameIcons" xml:space="preserve">
+    <value>أيقونات ألعاب مخصصة</value>
+  </data>
+  <data name="Ui.Bootstrapper.CustomGameIconsDescription" xml:space="preserve">
+    <value>ابحث عن لعبة Roblox بالاسم أو معرف المكان، واستعرض الأماكن الفرعية الخاصة بها، وعيّن أيقونة مخصصة لاستبدال أيقونة نافذة تلك اللعبة.</value>
+  </data>
+  <data name="Ui.Bootstrapper.SearchGameOrPlaceId" xml:space="preserve">
+    <value>ابحث عن لعبة بالاسم أو معرف المكان أو رابط اللعبة</value>
+  </data>
+  <data name="Ui.Bootstrapper.Subplaces" xml:space="preserve">
+    <value>الأماكن الفرعية</value>
+  </data>
+  <data name="Ui.Bootstrapper.LoadSubplacesTooltip" xml:space="preserve">
+    <value>إظهار الأماكن الفرعية لهذه التجربة</value>
+  </data>
+  <data name="Ui.Bootstrapper.SetIcon" xml:space="preserve">
+    <value>تعيين أيقونة</value>
+  </data>
+  <data name="Ui.Bootstrapper.SetIconTooltip" xml:space="preserve">
+    <value>اختر أيقونة نافذة مخصصة لهذا المكان</value>
+  </data>
+  <data name="Ui.Bootstrapper.CustomIconColumn" xml:space="preserve">
+    <value>أيقونة مخصصة</value>
+  </data>
+  <data name="Ui.Bootstrapper.AllSubplacesColumn" xml:space="preserve">
+    <value>كل الأماكن الفرعية</value>
+  </data>
+  <data name="Ui.Bootstrapper.AllSubplacesTooltip" xml:space="preserve">
+    <value>استخدم هذه الأيقونة لكل مكان فرعي في هذه التجربة ما لم يكن للمكان الفرعي أيقونته الخاصة</value>
+  </data>
+  <data name="Ui.Bootstrapper.ChangeIconTooltip" xml:space="preserve">
+    <value>اختر أيقونة مخصصة مختلفة</value>
+  </data>
+  <data name="Ui.Bootstrapper.RemoveIconTooltip" xml:space="preserve">
+    <value>استعادة أيقونة النافذة العادية لهذا المكان</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSummaryNone" xml:space="preserve">
+    <value>تستخدم كل لعبة أيقونة النافذة الافتراضية أو أيقونة التجربة.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSummaryOne" xml:space="preserve">
+    <value>لعبة واحدة أو مكان فرعي واحد يستخدم أيقونة نافذة مخصصة.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSummaryMany" xml:space="preserve">
+    <value>{0} ألعاب أو أماكن فرعية تستخدم أيقونات نافذة مخصصة.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsFilter" xml:space="preserve">
+    <value>ملفات الأيقونات والصور|*.png;*.jpg;*.jpeg;*.bmp;*.ico</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSearching" xml:space="preserve">
+    <value>جارٍ البحث...</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsNoGamesFound" xml:space="preserve">
+    <value>لم يتم العثور على ألعاب.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSearchUnavailable" xml:space="preserve">
+    <value>البحث غير متاح الآن، الصق معرف المكان بدلاً من ذلك.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsNoSubplaces" xml:space="preserve">
+    <value>لم يتم العثور على أماكن فرعية إضافية لـ {0}.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsLoadedSubplaces" xml:space="preserve">
+    <value>تم تحميل {0} من الأماكن الفرعية لـ {1}.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSubplacesFailed" xml:space="preserve">
+    <value>تعذر تحميل الأماكن الفرعية لهذه التجربة.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSubplaceOf" xml:space="preserve">
+    <value>مكان فرعي لـ {0}</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsPlaceFallback" xml:space="preserve">
+    <value>المكان {0}</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsImportFailed" xml:space="preserve">
+    <value>تعذر استيراد الأيقونة: {0}</value>
+  </data>
 </root>

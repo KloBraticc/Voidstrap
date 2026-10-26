@@ -8736,4 +8736,88 @@ AIの作業中はVoidstrapとエディターを開いたままにしてくださ
   <data name="Ui.Mods.CrosshairShortcut.Saved" xml:space="preserve">
     <value>保存しました。{0} でクロスヘアを表示または非表示にできます。</value>
   </data>
+  <data name="Ui.Bootstrapper.DefaultWindowIcon" xml:space="preserve">
+    <value>既定のウィンドウアイコン</value>
+  </data>
+  <data name="Ui.Bootstrapper.DefaultWindowIconDescription" xml:space="preserve">
+    <value>ゲームのアイコンに置き換えられていないときに、Robloxのウィンドウとタスクバーに表示されるアイコンです。</value>
+  </data>
+  <data name="Ui.Bootstrapper.ChooseCustomIcon" xml:space="preserve">
+    <value>アイコンを選択</value>
+  </data>
+  <data name="Ui.Bootstrapper.CustomGameIcons" xml:space="preserve">
+    <value>カスタムゲームアイコン</value>
+  </data>
+  <data name="Ui.Bootstrapper.CustomGameIconsDescription" xml:space="preserve">
+    <value>Robloxのゲームを名前またはプレースIDで検索し、サブプレースを参照して、そのゲームのウィンドウアイコンを上書きするカスタムアイコンを設定します。</value>
+  </data>
+  <data name="Ui.Bootstrapper.SearchGameOrPlaceId" xml:space="preserve">
+    <value>名前、プレースID、またはゲームリンクで検索</value>
+  </data>
+  <data name="Ui.Bootstrapper.Subplaces" xml:space="preserve">
+    <value>サブプレース</value>
+  </data>
+  <data name="Ui.Bootstrapper.LoadSubplacesTooltip" xml:space="preserve">
+    <value>このバーチャル空間のサブプレースを表示します</value>
+  </data>
+  <data name="Ui.Bootstrapper.SetIcon" xml:space="preserve">
+    <value>アイコンを設定</value>
+  </data>
+  <data name="Ui.Bootstrapper.SetIconTooltip" xml:space="preserve">
+    <value>このプレースのカスタムウィンドウアイコンを選択します</value>
+  </data>
+  <data name="Ui.Bootstrapper.CustomIconColumn" xml:space="preserve">
+    <value>カスタムアイコン</value>
+  </data>
+  <data name="Ui.Bootstrapper.AllSubplacesColumn" xml:space="preserve">
+    <value>すべてのサブプレース</value>
+  </data>
+  <data name="Ui.Bootstrapper.AllSubplacesTooltip" xml:space="preserve">
+    <value>サブプレースに個別のアイコンが設定されていない限り、このバーチャル空間のすべてのサブプレースでこのアイコンを使用します</value>
+  </data>
+  <data name="Ui.Bootstrapper.ChangeIconTooltip" xml:space="preserve">
+    <value>別のカスタムアイコンを選択します</value>
+  </data>
+  <data name="Ui.Bootstrapper.RemoveIconTooltip" xml:space="preserve">
+    <value>このプレースの通常のウィンドウアイコンに戻します</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSummaryNone" xml:space="preserve">
+    <value>すべてのゲームで既定のアイコンまたはバーチャル空間のアイコンが使用されます。</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSummaryOne" xml:space="preserve">
+    <value>1件のゲームまたはサブプレースがカスタムウィンドウアイコンを使用しています。</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSummaryMany" xml:space="preserve">
+    <value>{0}件のゲームまたはサブプレースがカスタムウィンドウアイコンを使用しています。</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsFilter" xml:space="preserve">
+    <value>アイコンと画像ファイル|*.png;*.jpg;*.jpeg;*.bmp;*.ico</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSearching" xml:space="preserve">
+    <value>検索中...</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsNoGamesFound" xml:space="preserve">
+    <value>ゲームが見つかりませんでした。</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSearchUnavailable" xml:space="preserve">
+    <value>現在検索を利用できません。代わりにプレースIDを貼り付けてください。</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsNoSubplaces" xml:space="preserve">
+    <value>{0} の追加のサブプレースは見つかりませんでした。</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsLoadedSubplaces" xml:space="preserve">
+    <value>{1} のサブプレースを {0} 件読み込みました。</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSubplacesFailed" xml:space="preserve">
+    <value>このバーチャル空間のサブプレースを読み込めませんでした。</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSubplaceOf" xml:space="preserve">
+    <value>{0} のサブプレース</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsPlaceFallback" xml:space="preserve">
+    <value>プレース {0}</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsImportFailed" xml:space="preserve">
+    <value>アイコンをインポートできませんでした: {0}</value>
+  </data>
 </root>

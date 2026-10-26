@@ -8724,4 +8724,88 @@ Voidstrap نتوانست در پوشهٔ دسکتاپ بنویسد.</value>
   <data name="Ui.Mods.CrosshairShortcut.Saved" xml:space="preserve">
     <value>ذخیره شد، اکنون {0} نشانگر را نمایش می‌دهد یا پنهان می‌کند.</value>
   </data>
+  <data name="Ui.Bootstrapper.DefaultWindowIcon" xml:space="preserve">
+    <value>نماد پیش‌فرض پنجره</value>
+  </data>
+  <data name="Ui.Bootstrapper.DefaultWindowIconDescription" xml:space="preserve">
+    <value>نمادی که روی پنجره Roblox و نوار وظیفه نمایش داده می‌شود زمانی که هیچ نماد بازی جایگزین آن نشود.</value>
+  </data>
+  <data name="Ui.Bootstrapper.ChooseCustomIcon" xml:space="preserve">
+    <value>انتخاب نماد</value>
+  </data>
+  <data name="Ui.Bootstrapper.CustomGameIcons" xml:space="preserve">
+    <value>نمادهای سفارشی بازی‌ها</value>
+  </data>
+  <data name="Ui.Bootstrapper.CustomGameIconsDescription" xml:space="preserve">
+    <value>یک بازی Roblox را با نام یا شناسه مکان جستجو کنید، مکان‌های فرعی آن را مرور کنید و یک نماد سفارشی برای جایگزینی نماد پنجره آن بازی اختصاص دهید.</value>
+  </data>
+  <data name="Ui.Bootstrapper.SearchGameOrPlaceId" xml:space="preserve">
+    <value>جستجوی بازی با نام، شناسه مکان یا پیوند بازی</value>
+  </data>
+  <data name="Ui.Bootstrapper.Subplaces" xml:space="preserve">
+    <value>مکان‌های فرعی</value>
+  </data>
+  <data name="Ui.Bootstrapper.LoadSubplacesTooltip" xml:space="preserve">
+    <value>نمایش مکان‌های فرعی برای این تجربه</value>
+  </data>
+  <data name="Ui.Bootstrapper.SetIcon" xml:space="preserve">
+    <value>تنظیم نماد</value>
+  </data>
+  <data name="Ui.Bootstrapper.SetIconTooltip" xml:space="preserve">
+    <value>انتخاب نماد پنجره سفارشی برای این مکان</value>
+  </data>
+  <data name="Ui.Bootstrapper.CustomIconColumn" xml:space="preserve">
+    <value>نماد سفارشی</value>
+  </data>
+  <data name="Ui.Bootstrapper.AllSubplacesColumn" xml:space="preserve">
+    <value>همه مکان‌های فرعی</value>
+  </data>
+  <data name="Ui.Bootstrapper.AllSubplacesTooltip" xml:space="preserve">
+    <value>استفاده از این نماد برای هر مکان فرعی در این تجربه مگر اینکه آن مکان فرعی نماد خودش را داشته باشد</value>
+  </data>
+  <data name="Ui.Bootstrapper.ChangeIconTooltip" xml:space="preserve">
+    <value>انتخاب یک نماد سفارشی دیگر</value>
+  </data>
+  <data name="Ui.Bootstrapper.RemoveIconTooltip" xml:space="preserve">
+    <value>بازگرداندن نماد عادی پنجره برای این مکان</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSummaryNone" xml:space="preserve">
+    <value>هر بازی از نماد پیش‌فرض یا نماد تجربه پنجره استفاده می‌کند.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSummaryOne" xml:space="preserve">
+    <value>۱ بازی یا مکان فرعی از نماد پنجره سفارشی استفاده می‌کند.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSummaryMany" xml:space="preserve">
+    <value>{0} بازی یا مکان فرعی از نمادهای پنجره سفارشی استفاده می‌کنند.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsFilter" xml:space="preserve">
+    <value>فایل‌های نماد و تصویر|*.png;*.jpg;*.jpeg;*.bmp;*.ico</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSearching" xml:space="preserve">
+    <value>در حال جستجو...</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsNoGamesFound" xml:space="preserve">
+    <value>هیچ بازی‌ای یافت نشد.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSearchUnavailable" xml:space="preserve">
+    <value>جستجو در حال حاضر در دسترس نیست، به جای آن شناسه مکان را جای‌گذاری کنید.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsNoSubplaces" xml:space="preserve">
+    <value>مکان فرعی اضافی‌ای برای {0} یافت نشد.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsLoadedSubplaces" xml:space="preserve">
+    <value>{0} مکان فرعی برای {1} بارگذاری شد.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSubplacesFailed" xml:space="preserve">
+    <value>بارگذاری مکان‌های فرعی برای این تجربه ممکن نشد.</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSubplaceOf" xml:space="preserve">
+    <value>مکان فرعیِ {0}</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsPlaceFallback" xml:space="preserve">
+    <value>مکان {0}</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsImportFailed" xml:space="preserve">
+    <value>وارد کردن نماد ممکن نشد: {0}</value>
+  </data>
 </root>

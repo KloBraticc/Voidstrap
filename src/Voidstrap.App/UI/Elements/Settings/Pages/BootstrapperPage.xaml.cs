@@ -33,6 +33,7 @@ public partial class BehaviourPage : UiPage{
 				behaviourViewModel.OnPropertyChanged(string.Empty);
 			}
 			behaviourViewModel.RefreshExcludedGames();
+			behaviourViewModel.RefreshWindowIconOverrides();
 			if (behaviourViewModel.Mtu.RefreshCommand.CanExecute(null))
 				behaviourViewModel.Mtu.RefreshCommand.Execute(null);
 		}

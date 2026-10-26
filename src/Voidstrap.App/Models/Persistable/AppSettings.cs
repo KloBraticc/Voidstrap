@@ -431,6 +431,7 @@ namespace Voidstrap.Models.Persistable
         public List<long> MatchmakerExcludedPlaceIds { get; set; } = [];
         public BootstrapperIcon RobloxIcon { get; set; } = BootstrapperIcon.IconVoidstrap;
         public string RobloxIconCustomLocation { get; set; } = "";
+        public List<Voidstrap.Models.RobloxWindowIconOverride> RobloxWindowIconOverrides { get; set; } = [];
         public string RobloxTitle { get; set; } = "Voidstrap";
         public int RobloxWindowBackdropType { get; set; } = 0;
         public bool RpcAutoTranslate { get; set; } = false;

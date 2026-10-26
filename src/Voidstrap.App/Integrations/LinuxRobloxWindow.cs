@@ -34,6 +34,7 @@ internal sealed class LinuxRobloxWindow : IDisposable
 	{
 		_activityWatcher = activityWatcher;
 		_title = BaseTitle;
+		_gameIcon = BuildBaseIcon();
 	}
 
 	public static bool IsEnabled
@@ -43,11 +44,21 @@ internal sealed class LinuxRobloxWindow : IDisposable
 			var prop = App.Settings.Prop;
 			return prop.CycleTitleWithGameName
 				|| prop.UseGameIconForRobloxWindow
+				|| Voidstrap.Utility.RobloxWindowIcons.HasOverrides
+				|| prop.RobloxIcon != Voidstrap.Enums.BootstrapperIcon.IconVoidstrap
 				|| (!string.IsNullOrWhiteSpace(prop.RobloxTitle) && prop.RobloxTitle != DefaultTitle);
 		}
 	}
 
 	private static string BaseTitle => string.IsNullOrWhiteSpace(App.Settings.Prop.RobloxTitle) ? DefaultTitle : App.Settings.Prop.RobloxTitle;
+
+	private static nint[] BuildBaseIcon()
+	{
+		var prop = App.Settings.Prop;
+		if (prop.RobloxIcon == Voidstrap.Enums.BootstrapperIcon.IconVoidstrap)
+			return [];
+		return Voidstrap.UI.LinuxApplicationIdentity.BuildNativeIcon(prop.RobloxIcon, prop.RobloxIconCustomLocation);
+	}
 
 	public static LinuxRobloxWindow Start(ActivityWatcher activityWatcher)
 	{
@@ -80,10 +91,11 @@ internal sealed class LinuxRobloxWindow : IDisposable
 
 	private void OnGameLeave(object? sender, EventArgs e)
 	{
+		nint[] baseIcon = BuildBaseIcon();
 		lock (_gate)
 		{
 			_title = BaseTitle;
-			_gameIcon = [];
+			_gameIcon = baseIcon;
 			_iconVersion++;
 		}
 		_titleUpdater?.Refresh();
@@ -107,6 +119,23 @@ internal sealed class LinuxRobloxWindow : IDisposable
 		if (_disposed)
 			return;
 
+		string? overridePath = Voidstrap.Utility.RobloxWindowIcons.Resolve(_activityWatcher.Data?.PlaceId ?? 0, universeId);
+		if (overridePath != null)
+		{
+			byte[]? custom = Voidstrap.Utility.RobloxWindowIcons.ReadIcon(overridePath);
+			nint[] customIcon = custom == null ? [] : ConvertIcon(custom);
+			if (customIcon.Length > 2 && !_disposed)
+			{
+				lock (_gate)
+				{
+					_gameIcon = customIcon;
+					_iconVersion++;
+				}
+				App.Logger?.WriteLine(LOG_IDENT, $"Applying the custom icon for universe {universeId} to the Sober window");
+				return;
+			}
+		}
+
 		string? iconUrl = details?.Thumbnail?.ImageUrl;
 		if (App.Settings.Prop.UseGameIconForRobloxWindow && !string.IsNullOrWhiteSpace(iconUrl))
 		{
@@ -119,7 +148,15 @@ internal sealed class LinuxRobloxWindow : IDisposable
 					_iconVersion++;
 				}
 				App.Logger?.WriteLine(LOG_IDENT, $"Applying the game icon for universe {universeId} to the Sober window");
+				return;
 			}
+		}
+
+		nint[] baseIcon = BuildBaseIcon();
+		lock (_gate)
+		{
+			_gameIcon = baseIcon;
+			_iconVersion++;
 		}
 	}
 
@@ -195,9 +232,19 @@ internal sealed class LinuxRobloxWindow : IDisposable
 			if (!response.IsSuccessStatusCode)
 				return [];
 			byte[] data = await Voidstrap.Utility.Http.ReadBytesBoundedAsync(response.Content, GameIconMaxBytes, CancellationToken.None).ConfigureAwait(false);
-			if (data.Length == 0)
-				return [];
+			return data.Length == 0 ? [] : ConvertIcon(data);
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine(LOG_IDENT, "The game icon could not be prepared: " + ex.Message);
+			return [];
+		}
+	}
 
+	private static nint[] ConvertIcon(byte[] data)
+	{
+		try
+		{
 			Voidstrap.Utility.Raster source = Voidstrap.Utility.Raster.Decode(data);
 			List<nint> native = new();
 			foreach (int size in IconSizes)

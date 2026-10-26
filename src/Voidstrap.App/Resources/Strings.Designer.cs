@@ -8815,5 +8815,33 @@ namespace Voidstrap.Resources {
         public static string Ui_Mcp_ConnectMessage => ResourceManager.GetString("Ui.Mcp.ConnectMessage", resourceCulture);
         public static string Ui_Mcp_ConnectMessageCopied => ResourceManager.GetString("Ui.Mcp.ConnectMessageCopied", resourceCulture);
         public static string Ui_Mcp_ConnectTo => ResourceManager.GetString("Ui.Mcp.ConnectTo", resourceCulture);
+        public static string Ui_Bootstrapper_DefaultWindowIcon => ResourceManager.GetString("Ui.Bootstrapper.DefaultWindowIcon", resourceCulture);
+        public static string Ui_Bootstrapper_DefaultWindowIconDescription => ResourceManager.GetString("Ui.Bootstrapper.DefaultWindowIconDescription", resourceCulture);
+        public static string Ui_Bootstrapper_ChooseCustomIcon => ResourceManager.GetString("Ui.Bootstrapper.ChooseCustomIcon", resourceCulture);
+        public static string Ui_Bootstrapper_CustomGameIcons => ResourceManager.GetString("Ui.Bootstrapper.CustomGameIcons", resourceCulture);
+        public static string Ui_Bootstrapper_CustomGameIconsDescription => ResourceManager.GetString("Ui.Bootstrapper.CustomGameIconsDescription", resourceCulture);
+        public static string Ui_Bootstrapper_SearchGameOrPlaceId => ResourceManager.GetString("Ui.Bootstrapper.SearchGameOrPlaceId", resourceCulture);
+        public static string Ui_Bootstrapper_Subplaces => ResourceManager.GetString("Ui.Bootstrapper.Subplaces", resourceCulture);
+        public static string Ui_Bootstrapper_LoadSubplacesTooltip => ResourceManager.GetString("Ui.Bootstrapper.LoadSubplacesTooltip", resourceCulture);
+        public static string Ui_Bootstrapper_SetIcon => ResourceManager.GetString("Ui.Bootstrapper.SetIcon", resourceCulture);
+        public static string Ui_Bootstrapper_SetIconTooltip => ResourceManager.GetString("Ui.Bootstrapper.SetIconTooltip", resourceCulture);
+        public static string Ui_Bootstrapper_CustomIconColumn => ResourceManager.GetString("Ui.Bootstrapper.CustomIconColumn", resourceCulture);
+        public static string Ui_Bootstrapper_AllSubplacesColumn => ResourceManager.GetString("Ui.Bootstrapper.AllSubplacesColumn", resourceCulture);
+        public static string Ui_Bootstrapper_AllSubplacesTooltip => ResourceManager.GetString("Ui.Bootstrapper.AllSubplacesTooltip", resourceCulture);
+        public static string Ui_Bootstrapper_ChangeIconTooltip => ResourceManager.GetString("Ui.Bootstrapper.ChangeIconTooltip", resourceCulture);
+        public static string Ui_Bootstrapper_RemoveIconTooltip => ResourceManager.GetString("Ui.Bootstrapper.RemoveIconTooltip", resourceCulture);
+        public static string Ui_Bootstrapper_WindowIconsSummaryNone => ResourceManager.GetString("Ui.Bootstrapper.WindowIconsSummaryNone", resourceCulture);
+        public static string Ui_Bootstrapper_WindowIconsSummaryOne => ResourceManager.GetString("Ui.Bootstrapper.WindowIconsSummaryOne", resourceCulture);
+        public static string Ui_Bootstrapper_WindowIconsSummaryMany => ResourceManager.GetString("Ui.Bootstrapper.WindowIconsSummaryMany", resourceCulture);
+        public static string Ui_Bootstrapper_WindowIconsFilter => ResourceManager.GetString("Ui.Bootstrapper.WindowIconsFilter", resourceCulture);
+        public static string Ui_Bootstrapper_WindowIconsSearching => ResourceManager.GetString("Ui.Bootstrapper.WindowIconsSearching", resourceCulture);
+        public static string Ui_Bootstrapper_WindowIconsNoGamesFound => ResourceManager.GetString("Ui.Bootstrapper.WindowIconsNoGamesFound", resourceCulture);
+        public static string Ui_Bootstrapper_WindowIconsSearchUnavailable => ResourceManager.GetString("Ui.Bootstrapper.WindowIconsSearchUnavailable", resourceCulture);
+        public static string Ui_Bootstrapper_WindowIconsNoSubplaces => ResourceManager.GetString("Ui.Bootstrapper.WindowIconsNoSubplaces", resourceCulture);
+        public static string Ui_Bootstrapper_WindowIconsLoadedSubplaces => ResourceManager.GetString("Ui.Bootstrapper.WindowIconsLoadedSubplaces", resourceCulture);
+        public static string Ui_Bootstrapper_WindowIconsSubplacesFailed => ResourceManager.GetString("Ui.Bootstrapper.WindowIconsSubplacesFailed", resourceCulture);
+        public static string Ui_Bootstrapper_WindowIconsSubplaceOf => ResourceManager.GetString("Ui.Bootstrapper.WindowIconsSubplaceOf", resourceCulture);
+        public static string Ui_Bootstrapper_WindowIconsPlaceFallback => ResourceManager.GetString("Ui.Bootstrapper.WindowIconsPlaceFallback", resourceCulture);
+        public static string Ui_Bootstrapper_WindowIconsImportFailed => ResourceManager.GetString("Ui.Bootstrapper.WindowIconsImportFailed", resourceCulture);
     }
 }

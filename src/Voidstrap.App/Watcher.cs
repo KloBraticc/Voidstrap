@@ -1061,7 +1061,7 @@ public partial class Watcher : IDisposable
 		}
 
 		var prop = App.Settings.Prop;
-		if (prop.CycleTitleWithGameName || prop.UseGameIconForRobloxWindow)
+		if (prop.CycleTitleWithGameName || prop.UseGameIconForRobloxWindow || prop.RobloxIcon != Voidstrap.Enums.BootstrapperIcon.IconVoidstrap || Voidstrap.Utility.RobloxWindowIcons.HasOverrides)
 		{
 			return true;
 		}

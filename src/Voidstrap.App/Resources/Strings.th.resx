@@ -8717,4 +8717,88 @@ Voidstrap เขียนลงในโฟลเดอร์เดสก์ท�
   <data name="Ui.Mods.CrosshairShortcut.Saved" xml:space="preserve">
     <value>บันทึกแล้ว ตอนนี้ {0} จะแสดงหรือซ่อนเป้าเล็ง</value>
   </data>
+  <data name="Ui.Bootstrapper.DefaultWindowIcon" xml:space="preserve">
+    <value>ไอคอนหน้าต่างเริ่มต้น</value>
+  </data>
+  <data name="Ui.Bootstrapper.DefaultWindowIconDescription" xml:space="preserve">
+    <value>ไอคอนที่แสดงบนหน้าต่าง Roblox และแถบงานเมื่อไม่มีไอคอนเกมมาแทนที่</value>
+  </data>
+  <data name="Ui.Bootstrapper.ChooseCustomIcon" xml:space="preserve">
+    <value>เลือกไอคอน</value>
+  </data>
+  <data name="Ui.Bootstrapper.CustomGameIcons" xml:space="preserve">
+    <value>ไอคอนเกมแบบกำหนดเอง</value>
+  </data>
+  <data name="Ui.Bootstrapper.CustomGameIconsDescription" xml:space="preserve">
+    <value>ค้นหาเกม Roblox ด้วยชื่อหรือ Place ID ดูสถานที่ย่อยของเกม และกำหนดไอคอนแบบกำหนดเองเพื่อเขียนทับไอคอนหน้าต่างของเกมนั้น</value>
+  </data>
+  <data name="Ui.Bootstrapper.SearchGameOrPlaceId" xml:space="preserve">
+    <value>ค้นหาเกมด้วยชื่อ Place ID หรือลิงก์เกม</value>
+  </data>
+  <data name="Ui.Bootstrapper.Subplaces" xml:space="preserve">
+    <value>สถานที่ย่อย</value>
+  </data>
+  <data name="Ui.Bootstrapper.LoadSubplacesTooltip" xml:space="preserve">
+    <value>แสดงสถานที่ย่อยสำหรับประสบการณ์นี้</value>
+  </data>
+  <data name="Ui.Bootstrapper.SetIcon" xml:space="preserve">
+    <value>ตั้งค่าไอคอน</value>
+  </data>
+  <data name="Ui.Bootstrapper.SetIconTooltip" xml:space="preserve">
+    <value>เลือกไอคอนหน้าต่างแบบกำหนดเองสำหรับสถานที่นี้</value>
+  </data>
+  <data name="Ui.Bootstrapper.CustomIconColumn" xml:space="preserve">
+    <value>ไอคอนกำหนดเอง</value>
+  </data>
+  <data name="Ui.Bootstrapper.AllSubplacesColumn" xml:space="preserve">
+    <value>สถานที่ย่อยทั้งหมด</value>
+  </data>
+  <data name="Ui.Bootstrapper.AllSubplacesTooltip" xml:space="preserve">
+    <value>ใช้ไอคอนนี้กับทุกสถานที่ย่อยในประสบการณ์นี้ ยกเว้นสถานที่ย่อยที่มีไอคอนของตัวเอง</value>
+  </data>
+  <data name="Ui.Bootstrapper.ChangeIconTooltip" xml:space="preserve">
+    <value>เลือกไอคอนแบบกำหนดเองอื่น</value>
+  </data>
+  <data name="Ui.Bootstrapper.RemoveIconTooltip" xml:space="preserve">
+    <value>คืนค่าไอคอนหน้าต่างปกติสำหรับสถานที่นี้</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSummaryNone" xml:space="preserve">
+    <value>ทุกเกมใช้ไอคอนหน้าต่างเริ่มต้นหรือไอคอนของประสบการณ์</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSummaryOne" xml:space="preserve">
+    <value>1 เกมหรือสถานที่ย่อยใช้ไอคอนหน้าต่างแบบกำหนดเอง</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSummaryMany" xml:space="preserve">
+    <value>{0} เกมหรือสถานที่ย่อยใช้ไอคอนหน้าต่างแบบกำหนดเอง</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsFilter" xml:space="preserve">
+    <value>ไฟล์ไอคอนและรูปภาพ|*.png;*.jpg;*.jpeg;*.bmp;*.ico</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSearching" xml:space="preserve">
+    <value>กำลังค้นหา...</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsNoGamesFound" xml:space="preserve">
+    <value>ไม่พบเกม</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSearchUnavailable" xml:space="preserve">
+    <value>ไม่สามารถค้นหาได้ในขณะนี้ โปรดวาง Place ID แทน</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsNoSubplaces" xml:space="preserve">
+    <value>ไม่พบสถานที่ย่อยเพิ่มเติมสำหรับ {0}</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsLoadedSubplaces" xml:space="preserve">
+    <value>โหลดสถานที่ย่อย {0} รายการสำหรับ {1} แล้ว</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSubplacesFailed" xml:space="preserve">
+    <value>ไม่สามารถโหลดสถานที่ย่อยสำหรับประสบการณ์นี้ได้</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsSubplaceOf" xml:space="preserve">
+    <value>สถานที่ย่อยของ {0}</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsPlaceFallback" xml:space="preserve">
+    <value>สถานที่ {0}</value>
+  </data>
+  <data name="Ui.Bootstrapper.WindowIconsImportFailed" xml:space="preserve">
+    <value>ไม่สามารถนำเข้าไอคอนได้: {0}</value>
+  </data>
 </root>
