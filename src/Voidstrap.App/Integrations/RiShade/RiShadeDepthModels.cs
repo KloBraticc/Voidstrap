@@ -114,7 +114,7 @@ namespace Voidstrap.Integrations.RiShade
 
         public static int SizeMegabytes => ModelAsset is Asset model ? (int)Math.Round(model.Size / 1048576.0) : 0;
 
-        public static bool ExactDepth => false;
+        public static bool ExactDepth => Enabled;
 
         private static Asset? ModelAsset => Volatile.Read(ref _latest) ?? BuiltinModel;
 
