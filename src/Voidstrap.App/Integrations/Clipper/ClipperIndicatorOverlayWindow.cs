@@ -245,12 +245,13 @@ public sealed partial class ClipperIndicatorOverlayWindow : Window
 
     private void SyncScreenBounds()
     {
-        double w = Math.Max(320, SystemParameters.PrimaryScreenWidth);
-        double h = Math.Max(240, SystemParameters.PrimaryScreenHeight);
-        if (Math.Abs(Left) > 0.5)
-            Left = 0;
-        if (Math.Abs(Top) > 0.5)
-            Top = 0;
+        Rect work = Voidstrap.Utility.ScreenMetrics.WorkArea;
+        double w = Math.Max(320, work.Width);
+        double h = Math.Max(240, work.Height);
+        if (Math.Abs(Left - work.Left) > 0.5)
+            Left = work.Left;
+        if (Math.Abs(Top - work.Top) > 0.5)
+            Top = work.Top;
         if (Math.Abs(Width - w) > 0.5)
             Width = w;
         if (Math.Abs(Height - h) > 0.5)
