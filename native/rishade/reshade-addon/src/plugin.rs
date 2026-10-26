@@ -56,6 +56,14 @@ unsafe impl Sync for ExportedString {}
 static ADDON_NAME: &[u8] = b"RiShadeRuntime\0";
 static ADDON_DESCRIPTION: &[u8] = b"In-process RiShade runtime for Voidstrap\0";
 
+fn guarded<T: Default>(body: impl FnOnce() -> T) -> T {
+    guarded_or(T::default(), body)
+}
+
+fn guarded_or<T>(fallback: T, body: impl FnOnce() -> T) -> T {
+    std::panic::catch_unwind(std::panic::AssertUnwindSafe(body)).unwrap_or(fallback)
+}
+
 #[unsafe(no_mangle)]
 pub static NAME: ExportedString = ExportedString(ADDON_NAME.as_ptr().cast());
 
@@ -192,68 +200,73 @@ fn is_allowed_runtime_path(path: &std::path::Path) -> bool {
 
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn RiShadeRuntimeLoad(dxgi_path: *const u16) -> bool {
-    if dxgi_path.is_null() {
-        return false;
-    }
-    if LOADED_RESHADE_MODULE.load(Ordering::Acquire) != 0 {
-        return unsafe { initialize_addon() };
-    }
+    guarded(|| {
+        if dxgi_path.is_null() {
+            return false;
+        }
+        if LOADED_RESHADE_MODULE.load(Ordering::Acquire) != 0 {
+            return unsafe { initialize_addon() };
+        }
 
-    let mut path_len = 0usize;
-    while path_len < 32_768 && unsafe { *dxgi_path.add(path_len) } != 0 {
-        path_len += 1;
-    }
-    if path_len == 0 || path_len == 32_768 {
-        return false;
-    }
-    let path = PathBuf::from(std::ffi::OsString::from_wide(unsafe {
-        std::slice::from_raw_parts(dxgi_path, path_len)
-    }));
-    if !is_allowed_runtime_path(&path) {
-        return false;
-    }
+        let mut path_len = 0usize;
+        while path_len < 32_768 && unsafe { *dxgi_path.add(path_len) } != 0 {
+            path_len += 1;
+        }
+        if path_len == 0 || path_len == 32_768 {
+            return false;
+        }
+        let path = PathBuf::from(std::ffi::OsString::from_wide(unsafe {
+            std::slice::from_raw_parts(dxgi_path, path_len)
+        }));
+        if !is_allowed_runtime_path(&path) {
+            return false;
+        }
 
-    let module = unsafe {
-        LoadLibraryExW(
-            dxgi_path,
-            std::ptr::null_mut(),
-            LOAD_WITH_ALTERED_SEARCH_PATH,
-        )
-    };
-    if module.is_null()
-        || unsafe { GetProcAddress(module, c"ReShadeCreateEffectRuntime".as_ptr()) }.is_null()
-        || unsafe { GetProcAddress(module, c"ReShadeDestroyEffectRuntime".as_ptr()) }.is_null()
-        || unsafe { GetProcAddress(module, c"ReShadeUpdateAndPresentEffectRuntime".as_ptr()) }
-            .is_null()
-    {
-        if !module.is_null() {
+        let module = unsafe {
+            LoadLibraryExW(
+                dxgi_path,
+                std::ptr::null_mut(),
+                LOAD_WITH_ALTERED_SEARCH_PATH,
+            )
+        };
+        if module.is_null()
+            || unsafe { GetProcAddress(module, c"ReShadeCreateEffectRuntime".as_ptr()) }.is_null()
+            || unsafe { GetProcAddress(module, c"ReShadeDestroyEffectRuntime".as_ptr()) }.is_null()
+            || unsafe { GetProcAddress(module, c"ReShadeUpdateAndPresentEffectRuntime".as_ptr()) }
+                .is_null()
+        {
+            if !module.is_null() {
+                unsafe { FreeLibrary(module) };
+            }
+            return false;
+        }
+
+        let Some(update_and_present) = (unsafe {
+            symbol::<UpdateAndPresentEffectRuntime>(
+                module,
+                b"ReShadeUpdateAndPresentEffectRuntime\0",
+            )
+        }) else {
             unsafe { FreeLibrary(module) };
-        }
-        return false;
-    }
+            return false;
+        };
 
-    let Some(update_and_present) = (unsafe {
-        symbol::<UpdateAndPresentEffectRuntime>(module, b"ReShadeUpdateAndPresentEffectRuntime\0")
-    }) else {
-        unsafe { FreeLibrary(module) };
-        return false;
-    };
-
-    match LOADED_RESHADE_MODULE.compare_exchange(
-        0,
-        module as usize,
-        Ordering::AcqRel,
-        Ordering::Acquire,
-    ) {
-        Ok(_) => {
-            UPDATE_AND_PRESENT.store(update_and_present as usize, Ordering::Release);
-            unsafe { initialize_addon() }
+        match LOADED_RESHADE_MODULE.compare_exchange(
+            0,
+            module as usize,
+            Ordering::AcqRel,
+            Ordering::Acquire,
+        ) {
+            Ok(_) => {
+                UPDATE_AND_PRESENT.store(update_and_present as usize, Ordering::Release);
+                unsafe { initialize_addon() }
+            }
+            Err(_) => {
+                unsafe { FreeLibrary(module) };
+                unsafe { initialize_addon() }
+            }
         }
-        Err(_) => {
-            unsafe { FreeLibrary(module) };
-            unsafe { initialize_addon() }
-        }
-    }
+    })
 }
 
 #[repr(C)]
@@ -346,57 +359,77 @@ unsafe impl Send for AttachedSwapchain {}
 static ATTACHED_SWAPCHAIN: Mutex<Option<AttachedSwapchain>> = Mutex::new(None);
 
 #[unsafe(no_mangle)]
-pub unsafe extern "system" fn RiShadeRuntimeAttachWindow(runtime: *mut c_void, window: *mut c_void) -> bool {
-    if runtime.is_null() || window.is_null() {
-        return false;
-    }
-    let vtable = unsafe { *(runtime.cast::<*const *const c_void>()) };
-    if vtable.is_null() {
-        return false;
-    }
-    let get_native = unsafe { *vtable };
-    if get_native.is_null() {
-        return false;
-    }
-    let get_native: unsafe extern "system" fn(*mut c_void) -> u64 = unsafe { std::mem::transmute(get_native) };
-    let swapchain = unsafe { get_native(runtime) } as usize as *mut c_void;
-    if swapchain.is_null() {
-        return false;
-    }
-    let Ok(mut attached) = ATTACHED_SWAPCHAIN.lock() else {
-        return false;
-    };
-    if attached.as_ref().is_some_and(|current| current.swapchain == swapchain as usize) {
-        SWAPCHAIN_TARGET_WINDOW.store(window as usize, Ordering::Relaxed);
-        return true;
-    }
-    unsafe { restore_attached(&mut attached) };
+pub unsafe extern "system" fn RiShadeRuntimeAttachWindow(
+    runtime: *mut c_void,
+    window: *mut c_void,
+) -> bool {
+    guarded(|| {
+        if runtime.is_null() || window.is_null() {
+            return false;
+        }
+        let vtable = unsafe { *(runtime.cast::<*const *const c_void>()) };
+        if vtable.is_null() {
+            return false;
+        }
+        let get_native = unsafe { *vtable };
+        if get_native.is_null() {
+            return false;
+        }
+        let get_native: unsafe extern "system" fn(*mut c_void) -> u64 =
+            unsafe { std::mem::transmute(get_native) };
+        let swapchain = unsafe { get_native(runtime) } as usize as *mut c_void;
+        if swapchain.is_null() {
+            return false;
+        }
+        let Ok(mut attached) = ATTACHED_SWAPCHAIN.lock() else {
+            return false;
+        };
+        if attached
+            .as_ref()
+            .is_some_and(|current| current.swapchain == swapchain as usize)
+        {
+            SWAPCHAIN_TARGET_WINDOW.store(window as usize, Ordering::Relaxed);
+            return true;
+        }
+        unsafe { restore_attached(&mut attached) };
 
-    let original_vtable = unsafe { *(swapchain.cast::<*const *const c_void>()) };
-    let mut shadow_vtable = Box::new([std::ptr::null::<c_void>(); SWAPCHAIN4_VTABLE_LEN]);
-    unsafe {
-        std::ptr::copy_nonoverlapping(original_vtable, shadow_vtable.as_mut_ptr(), SWAPCHAIN4_VTABLE_LEN);
-    }
-    ORIGINAL_GET_DESC.store(shadow_vtable[SWAPCHAIN_GET_DESC_VTABLE_INDEX] as usize, Ordering::Relaxed);
-    ORIGINAL_GET_HWND.store(shadow_vtable[SWAPCHAIN_GET_HWND_VTABLE_INDEX] as usize, Ordering::Relaxed);
-    SWAPCHAIN_TARGET_WINDOW.store(window as usize, Ordering::Relaxed);
-    shadow_vtable[SWAPCHAIN_GET_DESC_VTABLE_INDEX] = swapchain_hook_get_desc as *const c_void;
-    shadow_vtable[SWAPCHAIN_GET_HWND_VTABLE_INDEX] = swapchain_hook_get_hwnd as *const c_void;
-    unsafe {
-        *(swapchain.cast::<*const *const c_void>()) = shadow_vtable.as_ptr();
-    }
-    *attached = Some(AttachedSwapchain {
-        swapchain: swapchain as usize,
-        original_vtable: original_vtable as usize,
-        shadow_vtable,
-    });
-    true
+        let original_vtable = unsafe { *(swapchain.cast::<*const *const c_void>()) };
+        let mut shadow_vtable = Box::new([std::ptr::null::<c_void>(); SWAPCHAIN4_VTABLE_LEN]);
+        unsafe {
+            std::ptr::copy_nonoverlapping(
+                original_vtable,
+                shadow_vtable.as_mut_ptr(),
+                SWAPCHAIN4_VTABLE_LEN,
+            );
+        }
+        ORIGINAL_GET_DESC.store(
+            shadow_vtable[SWAPCHAIN_GET_DESC_VTABLE_INDEX] as usize,
+            Ordering::Relaxed,
+        );
+        ORIGINAL_GET_HWND.store(
+            shadow_vtable[SWAPCHAIN_GET_HWND_VTABLE_INDEX] as usize,
+            Ordering::Relaxed,
+        );
+        SWAPCHAIN_TARGET_WINDOW.store(window as usize, Ordering::Relaxed);
+        shadow_vtable[SWAPCHAIN_GET_DESC_VTABLE_INDEX] = swapchain_hook_get_desc as *const c_void;
+        shadow_vtable[SWAPCHAIN_GET_HWND_VTABLE_INDEX] = swapchain_hook_get_hwnd as *const c_void;
+        unsafe {
+            *(swapchain.cast::<*const *const c_void>()) = shadow_vtable.as_ptr();
+        }
+        *attached = Some(AttachedSwapchain {
+            swapchain: swapchain as usize,
+            original_vtable: original_vtable as usize,
+            shadow_vtable,
+        });
+        true
+    })
 }
 
 unsafe fn restore_attached(attached: &mut Option<AttachedSwapchain>) {
     if let Some(current) = attached.take() {
         unsafe {
-            *(current.swapchain as *mut *const *const c_void) = current.original_vtable as *const *const c_void;
+            *(current.swapchain as *mut *const *const c_void) =
+                current.original_vtable as *const *const c_void;
         }
         drop(current.shadow_vtable);
         SWAPCHAIN_TARGET_WINDOW.store(0, Ordering::Relaxed);
@@ -407,9 +440,11 @@ unsafe fn restore_attached(attached: &mut Option<AttachedSwapchain>) {
 
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn RiShadeRuntimeDetachWindow() {
-    if let Ok(mut attached) = ATTACHED_SWAPCHAIN.lock() {
-        unsafe { restore_attached(&mut attached) };
-    }
+    guarded(|| {
+        if let Ok(mut attached) = ATTACHED_SWAPCHAIN.lock() {
+            unsafe { restore_attached(&mut attached) };
+        }
+    })
 }
 
 #[unsafe(no_mangle)]
@@ -420,162 +455,172 @@ pub unsafe extern "system" fn RiShadeRuntimeCreate(
     window: *mut c_void,
     config_path: *const c_char,
 ) -> *mut c_void {
-    if device.is_null()
-        || immediate_context.is_null()
-        || swapchain.is_null()
-        || config_path.is_null()
-    {
-        return std::ptr::null_mut();
-    }
-    let Some(module) = (unsafe { find_reshade_module() }) else {
-        return std::ptr::null_mut();
-    };
-    let Some(create) =
-        (unsafe { symbol::<CreateEffectRuntime>(module, b"ReShadeCreateEffectRuntime\0") })
-    else {
-        return std::ptr::null_mut();
-    };
-
-    let mut runtime = std::ptr::null_mut();
-    let created = if !window.is_null() {
-        let vtable_ptr = swapchain.cast::<*const *const c_void>();
-        let original_vtable = unsafe { *vtable_ptr };
-        let mut shadow_vtable = [std::ptr::null::<c_void>(); SWAPCHAIN4_VTABLE_LEN];
-        unsafe {
-            std::ptr::copy_nonoverlapping(
-                original_vtable,
-                shadow_vtable.as_mut_ptr(),
-                SWAPCHAIN4_VTABLE_LEN,
-            );
+    guarded_or(std::ptr::null_mut(), || {
+        if device.is_null()
+            || immediate_context.is_null()
+            || swapchain.is_null()
+            || config_path.is_null()
+        {
+            return std::ptr::null_mut();
         }
-
-        ORIGINAL_GET_DESC.store(
-            shadow_vtable[SWAPCHAIN_GET_DESC_VTABLE_INDEX] as usize,
-            Ordering::Relaxed,
-        );
-        ORIGINAL_GET_HWND.store(
-            shadow_vtable[SWAPCHAIN_GET_HWND_VTABLE_INDEX] as usize,
-            Ordering::Relaxed,
-        );
-        SWAPCHAIN_TARGET_WINDOW.store(window as usize, Ordering::Relaxed);
-
-        shadow_vtable[SWAPCHAIN_GET_DESC_VTABLE_INDEX] = swapchain_hook_get_desc as *const c_void;
-        shadow_vtable[SWAPCHAIN_GET_HWND_VTABLE_INDEX] = swapchain_hook_get_hwnd as *const c_void;
-
-        unsafe {
-            *(swapchain.cast::<*const *const c_void>()) = shadow_vtable.as_ptr();
-        }
-
-        let res = unsafe {
-            create(
-                RESHADE_D3D11_API,
-                device,
-                immediate_context,
-                swapchain,
-                config_path,
-                &mut runtime,
-            )
+        let Some(module) = (unsafe { find_reshade_module() }) else {
+            return std::ptr::null_mut();
+        };
+        let Some(create) =
+            (unsafe { symbol::<CreateEffectRuntime>(module, b"ReShadeCreateEffectRuntime\0") })
+        else {
+            return std::ptr::null_mut();
         };
 
-        unsafe {
-            *(swapchain.cast::<*const *const c_void>()) = original_vtable;
-        }
-        SWAPCHAIN_TARGET_WINDOW.store(0, Ordering::Relaxed);
-        ORIGINAL_GET_DESC.store(0, Ordering::Relaxed);
-        ORIGINAL_GET_HWND.store(0, Ordering::Relaxed);
+        let mut runtime = std::ptr::null_mut();
+        let created = if !window.is_null() {
+            let vtable_ptr = swapchain.cast::<*const *const c_void>();
+            let original_vtable = unsafe { *vtable_ptr };
+            let mut shadow_vtable = [std::ptr::null::<c_void>(); SWAPCHAIN4_VTABLE_LEN];
+            unsafe {
+                std::ptr::copy_nonoverlapping(
+                    original_vtable,
+                    shadow_vtable.as_mut_ptr(),
+                    SWAPCHAIN4_VTABLE_LEN,
+                );
+            }
 
-        res
-    } else {
-        unsafe {
-            create(
-                RESHADE_D3D11_API,
-                device,
-                immediate_context,
-                swapchain,
-                config_path,
-                &mut runtime,
-            )
+            ORIGINAL_GET_DESC.store(
+                shadow_vtable[SWAPCHAIN_GET_DESC_VTABLE_INDEX] as usize,
+                Ordering::Relaxed,
+            );
+            ORIGINAL_GET_HWND.store(
+                shadow_vtable[SWAPCHAIN_GET_HWND_VTABLE_INDEX] as usize,
+                Ordering::Relaxed,
+            );
+            SWAPCHAIN_TARGET_WINDOW.store(window as usize, Ordering::Relaxed);
+
+            shadow_vtable[SWAPCHAIN_GET_DESC_VTABLE_INDEX] =
+                swapchain_hook_get_desc as *const c_void;
+            shadow_vtable[SWAPCHAIN_GET_HWND_VTABLE_INDEX] =
+                swapchain_hook_get_hwnd as *const c_void;
+
+            unsafe {
+                *(swapchain.cast::<*const *const c_void>()) = shadow_vtable.as_ptr();
+            }
+
+            let res = unsafe {
+                create(
+                    RESHADE_D3D11_API,
+                    device,
+                    immediate_context,
+                    swapchain,
+                    config_path,
+                    &mut runtime,
+                )
+            };
+
+            unsafe {
+                *(swapchain.cast::<*const *const c_void>()) = original_vtable;
+            }
+            SWAPCHAIN_TARGET_WINDOW.store(0, Ordering::Relaxed);
+            ORIGINAL_GET_DESC.store(0, Ordering::Relaxed);
+            ORIGINAL_GET_HWND.store(0, Ordering::Relaxed);
+
+            res
+        } else {
+            unsafe {
+                create(
+                    RESHADE_D3D11_API,
+                    device,
+                    immediate_context,
+                    swapchain,
+                    config_path,
+                    &mut runtime,
+                )
+            }
+        };
+        if created {
+            runtime
+        } else {
+            std::ptr::null_mut()
         }
-    };
-    if created {
-        runtime
-    } else {
-        std::ptr::null_mut()
-    }
+    })
 }
 
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn RiShadeRuntimeDestroy(runtime: *mut c_void) {
-    if runtime.is_null() {
-        return;
-    }
-    let Some(module) = (unsafe { find_reshade_module() }) else {
-        return;
-    };
-    if let Some(destroy) =
-        unsafe { symbol::<DestroyEffectRuntime>(module, b"ReShadeDestroyEffectRuntime\0") }
-    {
-        unsafe { destroy(runtime) };
-    }
+    guarded(|| {
+        if runtime.is_null() {
+            return;
+        }
+        let Some(module) = (unsafe { find_reshade_module() }) else {
+            return;
+        };
+        if let Some(destroy) =
+            unsafe { symbol::<DestroyEffectRuntime>(module, b"ReShadeDestroyEffectRuntime\0") }
+        {
+            unsafe { destroy(runtime) };
+        }
+    })
 }
 
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn RiShadeRuntimeOpenOverlay(runtime: *mut c_void, open: bool) -> bool {
-    if runtime.is_null() {
-        return false;
-    }
-    let vtable = unsafe { *(runtime.cast::<*const *const c_void>()) };
-    if vtable.is_null() {
-        return false;
-    }
-    let open_overlay = unsafe { *vtable.add(EFFECT_RUNTIME_OPEN_OVERLAY_VTABLE_INDEX) };
-    if open_overlay.is_null() {
-        return false;
-    }
-    let open_overlay: unsafe extern "system" fn(*mut c_void, bool, u32) -> bool =
-        unsafe { std::mem::transmute(open_overlay) };
-    let success = unsafe { open_overlay(runtime, open, INPUT_SOURCE_KEYBOARD) };
-    if success {
-        OVERLAY_OPEN.store(usize::from(open), Ordering::Release);
-    }
-    success
+    guarded(|| {
+        if runtime.is_null() {
+            return false;
+        }
+        let vtable = unsafe { *(runtime.cast::<*const *const c_void>()) };
+        if vtable.is_null() {
+            return false;
+        }
+        let open_overlay = unsafe { *vtable.add(EFFECT_RUNTIME_OPEN_OVERLAY_VTABLE_INDEX) };
+        if open_overlay.is_null() {
+            return false;
+        }
+        let open_overlay: unsafe extern "system" fn(*mut c_void, bool, u32) -> bool =
+            unsafe { std::mem::transmute(open_overlay) };
+        let success = unsafe { open_overlay(runtime, open, INPUT_SOURCE_KEYBOARD) };
+        if success {
+            OVERLAY_OPEN.store(usize::from(open), Ordering::Release);
+        }
+        success
+    })
 }
 
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn RiShadeRuntimePresent(runtime: *mut c_void) -> bool {
-    if runtime.is_null() {
-        return false;
-    }
-    let vtable = unsafe { *(runtime.cast::<*const *const c_void>()) };
-    if vtable.is_null() {
-        return false;
-    }
+    guarded(|| {
+        if runtime.is_null() {
+            return false;
+        }
+        let vtable = unsafe { *(runtime.cast::<*const *const c_void>()) };
+        if vtable.is_null() {
+            return false;
+        }
 
-    if PRESET_PENDING.swap(false, Ordering::AcqRel) {
-        let pending_preset = PENDING_PRESET_PATH
-            .lock()
-            .ok()
-            .and_then(|mut pending| pending.take());
-        if let Some(preset) = pending_preset {
-            let set_path =
-                unsafe { *vtable.add(EFFECT_RUNTIME_SET_CURRENT_PRESET_PATH_VTABLE_INDEX) };
-            if !set_path.is_null() {
-                let set_path: unsafe extern "system" fn(*mut c_void, *const c_char) =
-                    unsafe { std::mem::transmute(set_path) };
-                unsafe { set_path(runtime, preset.as_ptr()) };
-                cache_preset_path(preset);
+        if PRESET_PENDING.swap(false, Ordering::AcqRel) {
+            let pending_preset = PENDING_PRESET_PATH
+                .lock()
+                .ok()
+                .and_then(|mut pending| pending.take());
+            if let Some(preset) = pending_preset {
+                let set_path =
+                    unsafe { *vtable.add(EFFECT_RUNTIME_SET_CURRENT_PRESET_PATH_VTABLE_INDEX) };
+                if !set_path.is_null() {
+                    let set_path: unsafe extern "system" fn(*mut c_void, *const c_char) =
+                        unsafe { std::mem::transmute(set_path) };
+                    unsafe { set_path(runtime, preset.as_ptr()) };
+                    cache_preset_path(preset);
+                }
             }
         }
-    }
 
-    let update_and_present = UPDATE_AND_PRESENT.load(Ordering::Acquire);
-    if update_and_present == 0 {
-        return false;
-    }
-    let update_and_present: UpdateAndPresentEffectRuntime =
-        unsafe { std::mem::transmute(update_and_present) };
-    unsafe { update_and_present(runtime) };
-    true
+        let update_and_present = UPDATE_AND_PRESENT.load(Ordering::Acquire);
+        if update_and_present == 0 {
+            return false;
+        }
+        let update_and_present: UpdateAndPresentEffectRuntime =
+            unsafe { std::mem::transmute(update_and_present) };
+        unsafe { update_and_present(runtime) };
+        true
+    })
 }
 
 unsafe extern "system" fn on_runtime_created(runtime: *mut c_void) {
@@ -690,23 +735,25 @@ pub unsafe extern "system" fn RiShadeRuntimeBindDepthTexture(
     runtime: *mut c_void,
     depth_srv: *mut c_void,
 ) -> bool {
-    if runtime.is_null() {
-        return false;
-    }
-    DEPTH_SRV.store(depth_srv as usize, Ordering::Release);
-    let vtable = unsafe { *(runtime.cast::<*const *const c_void>()) };
-    if vtable.is_null() {
-        return false;
-    }
-    let update = unsafe { *vtable.add(EFFECT_RUNTIME_UPDATE_TEXTURE_BINDINGS_VTABLE_INDEX) };
-    if update.is_null() {
-        return false;
-    }
-    let update: unsafe extern "system" fn(*mut c_void, *const c_char, u64, u64) =
-        unsafe { std::mem::transmute(update) };
-    let handle = depth_srv as usize as u64;
-    unsafe { update(runtime, c"DEPTH".as_ptr(), handle, handle) };
-    true
+    guarded(|| {
+        if runtime.is_null() {
+            return false;
+        }
+        DEPTH_SRV.store(depth_srv as usize, Ordering::Release);
+        let vtable = unsafe { *(runtime.cast::<*const *const c_void>()) };
+        if vtable.is_null() {
+            return false;
+        }
+        let update = unsafe { *vtable.add(EFFECT_RUNTIME_UPDATE_TEXTURE_BINDINGS_VTABLE_INDEX) };
+        if update.is_null() {
+            return false;
+        }
+        let update: unsafe extern "system" fn(*mut c_void, *const c_char, u64, u64) =
+            unsafe { std::mem::transmute(update) };
+        let handle = depth_srv as usize as u64;
+        unsafe { update(runtime, c"DEPTH".as_ptr(), handle, handle) };
+        true
+    })
 }
 
 #[unsafe(no_mangle)]
@@ -715,171 +762,183 @@ pub unsafe extern "system" fn RiShadeRenderEffects(
     render_target: *mut c_void,
     render_target_srgb: *mut c_void,
 ) -> bool {
-    if runtime.is_null() || render_target.is_null() {
-        return false;
-    }
-    let runtime_vtable = unsafe { *(runtime.cast::<*const *const c_void>()) };
-    if runtime_vtable.is_null() {
-        return false;
-    }
-    let get_queue = unsafe { *runtime_vtable.add(EFFECT_RUNTIME_GET_COMMAND_QUEUE_VTABLE_INDEX) };
-    if get_queue.is_null() {
-        return false;
-    }
-    let get_queue: unsafe extern "system" fn(*mut c_void) -> *mut c_void =
-        unsafe { std::mem::transmute(get_queue) };
-    let queue = unsafe { get_queue(runtime) };
-    if queue.is_null() {
-        return false;
-    }
-    let queue_vtable = unsafe { *(queue.cast::<*const *const c_void>()) };
-    if queue_vtable.is_null() {
-        return false;
-    }
-    let get_command_list =
-        unsafe { *queue_vtable.add(COMMAND_QUEUE_GET_IMMEDIATE_COMMAND_LIST_VTABLE_INDEX) };
-    if get_command_list.is_null() {
-        return false;
-    }
-    let get_command_list: unsafe extern "system" fn(*mut c_void) -> *mut c_void =
-        unsafe { std::mem::transmute(get_command_list) };
-    let command_list = unsafe { get_command_list(queue) };
-    if command_list.is_null() {
-        return false;
-    }
-    let render_effects = unsafe { *runtime_vtable.add(EFFECT_RUNTIME_RENDER_EFFECTS_VTABLE_INDEX) };
-    if render_effects.is_null() {
-        return false;
-    }
-    let render_effects: unsafe extern "system" fn(*mut c_void, *mut c_void, u64, u64) =
-        unsafe { std::mem::transmute(render_effects) };
-    unsafe {
-        render_effects(
-            runtime,
-            command_list,
-            render_target as usize as u64,
-            render_target_srgb as usize as u64,
-        )
-    };
-    true
+    guarded(|| {
+        if runtime.is_null() || render_target.is_null() {
+            return false;
+        }
+        let runtime_vtable = unsafe { *(runtime.cast::<*const *const c_void>()) };
+        if runtime_vtable.is_null() {
+            return false;
+        }
+        let get_queue =
+            unsafe { *runtime_vtable.add(EFFECT_RUNTIME_GET_COMMAND_QUEUE_VTABLE_INDEX) };
+        if get_queue.is_null() {
+            return false;
+        }
+        let get_queue: unsafe extern "system" fn(*mut c_void) -> *mut c_void =
+            unsafe { std::mem::transmute(get_queue) };
+        let queue = unsafe { get_queue(runtime) };
+        if queue.is_null() {
+            return false;
+        }
+        let queue_vtable = unsafe { *(queue.cast::<*const *const c_void>()) };
+        if queue_vtable.is_null() {
+            return false;
+        }
+        let get_command_list =
+            unsafe { *queue_vtable.add(COMMAND_QUEUE_GET_IMMEDIATE_COMMAND_LIST_VTABLE_INDEX) };
+        if get_command_list.is_null() {
+            return false;
+        }
+        let get_command_list: unsafe extern "system" fn(*mut c_void) -> *mut c_void =
+            unsafe { std::mem::transmute(get_command_list) };
+        let command_list = unsafe { get_command_list(queue) };
+        if command_list.is_null() {
+            return false;
+        }
+        let render_effects =
+            unsafe { *runtime_vtable.add(EFFECT_RUNTIME_RENDER_EFFECTS_VTABLE_INDEX) };
+        if render_effects.is_null() {
+            return false;
+        }
+        let render_effects: unsafe extern "system" fn(*mut c_void, *mut c_void, u64, u64) =
+            unsafe { std::mem::transmute(render_effects) };
+        unsafe {
+            render_effects(
+                runtime,
+                command_list,
+                render_target as usize as u64,
+                render_target_srgb as usize as u64,
+            )
+        };
+        true
+    })
 }
 
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn AddonInit(module: Module, reshade_module: Module) -> bool {
-    if module.is_null() || reshade_module.is_null() {
-        return false;
-    }
+    guarded(|| {
+        if module.is_null() || reshade_module.is_null() {
+            return false;
+        }
 
-    let mut api_slot = match API.lock() {
-        Ok(api) => api,
-        Err(_) => return false,
-    };
-    if api_slot.is_some() {
-        return true;
-    }
+        let mut api_slot = match API.lock() {
+            Ok(api) => api,
+            Err(_) => return false,
+        };
+        if api_slot.is_some() {
+            return true;
+        }
 
-    let Some(register_addon) =
-        (unsafe { symbol::<RegisterAddon>(reshade_module, b"ReShadeRegisterAddon\0") })
-    else {
-        return false;
-    };
-    let Some(unregister_addon) =
-        (unsafe { symbol::<UnregisterAddon>(reshade_module, b"ReShadeUnregisterAddon\0") })
-    else {
-        return false;
-    };
-    let Some(register_event) =
-        (unsafe { symbol::<RegisterEvent>(reshade_module, b"ReShadeRegisterEventForAddon\0") })
-    else {
-        return false;
-    };
-    let Some(unregister_event) =
-        (unsafe { symbol::<UnregisterEvent>(reshade_module, b"ReShadeUnregisterEventForAddon\0") })
-    else {
-        return false;
-    };
-    if !unsafe { register_addon(module, RESHADE_API_VERSION) } {
-        return false;
-    }
+        let Some(register_addon) =
+            (unsafe { symbol::<RegisterAddon>(reshade_module, b"ReShadeRegisterAddon\0") })
+        else {
+            return false;
+        };
+        let Some(unregister_addon) =
+            (unsafe { symbol::<UnregisterAddon>(reshade_module, b"ReShadeUnregisterAddon\0") })
+        else {
+            return false;
+        };
+        let Some(register_event) =
+            (unsafe { symbol::<RegisterEvent>(reshade_module, b"ReShadeRegisterEventForAddon\0") })
+        else {
+            return false;
+        };
+        let Some(unregister_event) = (unsafe {
+            symbol::<UnregisterEvent>(reshade_module, b"ReShadeUnregisterEventForAddon\0")
+        }) else {
+            return false;
+        };
+        if !unsafe { register_addon(module, RESHADE_API_VERSION) } {
+            return false;
+        }
 
-    unsafe {
-        register_event(
-            module,
-            INIT_EFFECT_RUNTIME,
-            on_runtime_created as *mut c_void,
-        );
-        register_event(
-            module,
-            DESTROY_EFFECT_RUNTIME,
-            on_runtime_destroyed as *mut c_void,
-        );
-        register_event(
-            module,
-            RESHADE_RELOADED_EFFECTS,
-            on_effects_reloaded as *mut c_void,
-        );
-        register_event(
-            module,
-            RESHADE_SET_CURRENT_PRESET_PATH,
-            on_preset_path_changed as *mut c_void,
-        );
-        register_event(
-            module,
-            RESHADE_OPEN_OVERLAY,
-            on_overlay_state_changed as *mut c_void,
-        );
-    }
-    *api_slot = Some(ReShadeApi {
-        module: module as usize,
-        unregister_event,
-        unregister_addon,
-    });
-    true
+        unsafe {
+            register_event(
+                module,
+                INIT_EFFECT_RUNTIME,
+                on_runtime_created as *mut c_void,
+            );
+            register_event(
+                module,
+                DESTROY_EFFECT_RUNTIME,
+                on_runtime_destroyed as *mut c_void,
+            );
+            register_event(
+                module,
+                RESHADE_RELOADED_EFFECTS,
+                on_effects_reloaded as *mut c_void,
+            );
+            register_event(
+                module,
+                RESHADE_SET_CURRENT_PRESET_PATH,
+                on_preset_path_changed as *mut c_void,
+            );
+            register_event(
+                module,
+                RESHADE_OPEN_OVERLAY,
+                on_overlay_state_changed as *mut c_void,
+            );
+        }
+        *api_slot = Some(ReShadeApi {
+            module: module as usize,
+            unregister_event,
+            unregister_addon,
+        });
+        true
+    })
 }
 
 #[unsafe(no_mangle)]
 pub extern "system" fn RiShadeAddonIsInitialized() -> bool {
-    API.lock().is_ok_and(|api| api.is_some())
+    guarded(|| API.lock().is_ok_and(|api| api.is_some()))
 }
 
 #[unsafe(no_mangle)]
 pub extern "system" fn RiShadeAddonActiveRuntime() -> *mut c_void {
-    ACTIVE_RUNTIME.load(Ordering::Acquire) as *mut c_void
+    guarded_or(std::ptr::null_mut(), || {
+        ACTIVE_RUNTIME.load(Ordering::Acquire) as *mut c_void
+    })
 }
 
 #[unsafe(no_mangle)]
 pub extern "system" fn RiShadeAddonRuntimeIsActive() -> bool {
-    ACTIVE_RUNTIME.load(Ordering::Acquire) != 0
+    guarded(|| ACTIVE_RUNTIME.load(Ordering::Acquire) != 0)
 }
 
 #[unsafe(no_mangle)]
 pub extern "system" fn RiShadeAddonIsCompilingEffects() -> bool {
-    let started = LOADING_STARTED.load(Ordering::Acquire) as u64;
-    if started != 0
-        && unsafe { GetTickCount64() }.saturating_sub(started) >= EFFECT_LOADING_TIMEOUT_MS
-    {
-        COMPILING_EFFECTS.store(0, Ordering::Release);
-        LOADING_STARTED.store(0, Ordering::Release);
-        return false;
-    }
-    COMPILING_EFFECTS.load(Ordering::Acquire) != 0
+    guarded(|| {
+        let started = LOADING_STARTED.load(Ordering::Acquire) as u64;
+        if started != 0
+            && unsafe { GetTickCount64() }.saturating_sub(started) >= EFFECT_LOADING_TIMEOUT_MS
+        {
+            COMPILING_EFFECTS.store(0, Ordering::Release);
+            LOADING_STARTED.store(0, Ordering::Release);
+            return false;
+        }
+        COMPILING_EFFECTS.load(Ordering::Acquire) != 0
+    })
 }
 
 #[unsafe(no_mangle)]
 pub extern "system" fn RiShadeAddonIsLoadingEffects() -> bool {
-    let started = LOADING_STARTED.load(Ordering::Acquire) as u64;
-    if started != 0
-        && unsafe { GetTickCount64() }.saturating_sub(started) >= EFFECT_LOADING_TIMEOUT_MS
-    {
-        LOADING_STARTED.store(0, Ordering::Release);
-        return false;
-    }
-    started != 0 && COMPILING_EFFECTS.load(Ordering::Acquire) != 0
+    guarded(|| {
+        let started = LOADING_STARTED.load(Ordering::Acquire) as u64;
+        if started != 0
+            && unsafe { GetTickCount64() }.saturating_sub(started) >= EFFECT_LOADING_TIMEOUT_MS
+        {
+            LOADING_STARTED.store(0, Ordering::Release);
+            return false;
+        }
+        started != 0 && COMPILING_EFFECTS.load(Ordering::Acquire) != 0
+    })
 }
 
 #[unsafe(no_mangle)]
 pub extern "system" fn RiShadeAddonIsOverlayOpen() -> bool {
-    OVERLAY_OPEN.load(Ordering::Acquire) != 0
+    guarded(|| OVERLAY_OPEN.load(Ordering::Acquire) != 0)
 }
 
 #[unsafe(no_mangle)]
@@ -887,35 +946,37 @@ pub unsafe extern "system" fn RiShadeRuntimeSelectPreset(
     runtime: *mut c_void,
     path: *const c_char,
 ) -> bool {
-    if runtime.is_null()
-        || runtime as usize != ACTIVE_RUNTIME.load(Ordering::Acquire)
-        || path.is_null()
-    {
-        return false;
-    }
-    let Ok(path_text) = unsafe { CStr::from_ptr(path) }.to_str() else {
-        return false;
-    };
-    let path = Path::new(path_text);
-    if !path.is_absolute()
-        || !matches!(
-            path.extension().and_then(std::ffi::OsStr::to_str),
-            Some(extension) if extension.eq_ignore_ascii_case("ini") || extension.eq_ignore_ascii_case("txt")
-        )
-        || !path.is_file()
-        || path_text.len() > 32_767
-    {
-        return false;
-    }
-    let Ok(path) = CString::new(path_text) else {
-        return false;
-    };
-    let Ok(mut pending) = PENDING_PRESET_PATH.lock() else {
-        return false;
-    };
-    *pending = Some(path);
-    PRESET_PENDING.store(true, Ordering::Release);
-    true
+    guarded(|| {
+        if runtime.is_null()
+            || runtime as usize != ACTIVE_RUNTIME.load(Ordering::Acquire)
+            || path.is_null()
+        {
+            return false;
+        }
+        let Ok(path_text) = unsafe { CStr::from_ptr(path) }.to_str() else {
+            return false;
+        };
+        let path = Path::new(path_text);
+        if !path.is_absolute()
+            || !matches!(
+                path.extension().and_then(std::ffi::OsStr::to_str),
+                Some(extension) if extension.eq_ignore_ascii_case("ini") || extension.eq_ignore_ascii_case("txt")
+            )
+            || !path.is_file()
+            || path_text.len() > 32_767
+        {
+            return false;
+        }
+        let Ok(path) = CString::new(path_text) else {
+            return false;
+        };
+        let Ok(mut pending) = PENDING_PRESET_PATH.lock() else {
+            return false;
+        };
+        *pending = Some(path);
+        PRESET_PENDING.store(true, Ordering::Release);
+        true
+    })
 }
 
 #[unsafe(no_mangle)]
@@ -923,66 +984,70 @@ pub unsafe extern "system" fn RiShadeAddonCopyCurrentPresetPath(
     buffer: *mut u8,
     capacity: usize,
 ) -> usize {
-    let Ok(current) = CURRENT_PRESET_PATH.lock() else {
-        return 0;
-    };
-    let Some(path) = current.as_ref() else {
-        return 0;
-    };
-    let bytes = path.as_bytes();
-    if !buffer.is_null() && capacity > 0 {
-        let copied = bytes.len().min(capacity - 1);
-        unsafe {
-            std::ptr::copy_nonoverlapping(bytes.as_ptr(), buffer, copied);
-            *buffer.add(copied) = 0;
+    guarded(|| {
+        let Ok(current) = CURRENT_PRESET_PATH.lock() else {
+            return 0;
+        };
+        let Some(path) = current.as_ref() else {
+            return 0;
+        };
+        let bytes = path.as_bytes();
+        if !buffer.is_null() && capacity > 0 {
+            let copied = bytes.len().min(capacity - 1);
+            unsafe {
+                std::ptr::copy_nonoverlapping(bytes.as_ptr(), buffer, copied);
+                *buffer.add(copied) = 0;
+            }
         }
-    }
-    bytes.len()
+        bytes.len()
+    })
 }
 
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn AddonUninit(module: Module, _reshade_module: Module) {
-    let Ok(mut api_slot) = API.lock() else {
-        return;
-    };
-    let Some(api) = api_slot.take() else {
-        return;
-    };
-    let registered_module = api.module as Module;
-    if registered_module != module {
-        *api_slot = Some(api);
-        return;
-    }
+    guarded(|| {
+        let Ok(mut api_slot) = API.lock() else {
+            return;
+        };
+        let Some(api) = api_slot.take() else {
+            return;
+        };
+        let registered_module = api.module as Module;
+        if registered_module != module {
+            *api_slot = Some(api);
+            return;
+        }
 
-    unsafe {
-        (api.unregister_event)(
-            module,
-            INIT_EFFECT_RUNTIME,
-            on_runtime_created as *mut c_void,
-        );
-        (api.unregister_event)(
-            module,
-            DESTROY_EFFECT_RUNTIME,
-            on_runtime_destroyed as *mut c_void,
-        );
-        (api.unregister_event)(
-            module,
-            RESHADE_RELOADED_EFFECTS,
-            on_effects_reloaded as *mut c_void,
-        );
-        (api.unregister_event)(
-            module,
-            RESHADE_SET_CURRENT_PRESET_PATH,
-            on_preset_path_changed as *mut c_void,
-        );
-        (api.unregister_event)(
-            module,
-            RESHADE_OPEN_OVERLAY,
-            on_overlay_state_changed as *mut c_void,
-        );
-        (api.unregister_addon)(module);
-    }
-    ACTIVE_RUNTIME.store(0, Ordering::Release);
+        unsafe {
+            (api.unregister_event)(
+                module,
+                INIT_EFFECT_RUNTIME,
+                on_runtime_created as *mut c_void,
+            );
+            (api.unregister_event)(
+                module,
+                DESTROY_EFFECT_RUNTIME,
+                on_runtime_destroyed as *mut c_void,
+            );
+            (api.unregister_event)(
+                module,
+                RESHADE_RELOADED_EFFECTS,
+                on_effects_reloaded as *mut c_void,
+            );
+            (api.unregister_event)(
+                module,
+                RESHADE_SET_CURRENT_PRESET_PATH,
+                on_preset_path_changed as *mut c_void,
+            );
+            (api.unregister_event)(
+                module,
+                RESHADE_OPEN_OVERLAY,
+                on_overlay_state_changed as *mut c_void,
+            );
+            (api.unregister_addon)(module);
+        }
+        ACTIVE_RUNTIME.store(0, Ordering::Release);
+    })
 }
 
 #[cfg(test)]

@@ -1,6 +1,10 @@
 use std::ffi::{CStr, c_char};
 use std::path::Path;
 
+fn guarded<T: Default>(body: impl FnOnce() -> T) -> T {
+    std::panic::catch_unwind(std::panic::AssertUnwindSafe(body)).unwrap_or_default()
+}
+
 unsafe fn copy_str_to_buffer(src: &str, out_buffer: *mut u8, buffer_len: usize) -> usize {
     let bytes = src.as_bytes();
     if !out_buffer.is_null() && buffer_len > 0 {
@@ -17,7 +21,10 @@ unsafe fn base_directory<'a>(base_dir: *const c_char) -> Option<&'a Path> {
     if base_dir.is_null() {
         return None;
     }
-    unsafe { CStr::from_ptr(base_dir) }.to_str().ok().map(Path::new)
+    unsafe { CStr::from_ptr(base_dir) }
+        .to_str()
+        .ok()
+        .map(Path::new)
 }
 
 #[unsafe(no_mangle)]
@@ -30,7 +37,10 @@ pub unsafe extern "system" fn RiShadeInstallDlss(
         return false;
     };
     let (success, message) = match std::panic::catch_unwind(|| crate::dlss::install(base_dir)) {
-        Ok(Ok(())) => (true, "DLSS files are installed and match their pinned checksums".to_owned()),
+        Ok(Ok(())) => (
+            true,
+            "DLSS files are installed and match their pinned checksums".to_owned(),
+        ),
         Ok(Err(error)) => (false, error.to_string()),
         Err(_) => (false, "DLSS setup failed unexpectedly".to_owned()),
     };
@@ -58,7 +68,7 @@ pub unsafe extern "system" fn RiShadeRemoveDlss(
 
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn RiShadeDlssInstalled(base_dir: *const c_char) -> bool {
-    unsafe { base_directory(base_dir) }.is_some_and(crate::dlss::installed)
+    guarded(|| unsafe { base_directory(base_dir) }.is_some_and(crate::dlss::installed))
 }
 
 #[unsafe(no_mangle)]
@@ -68,16 +78,18 @@ pub extern "system" fn RiShadeHasRtxGpu() -> bool {
 
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn RiShadeHdrWhiteLevel(hwnd: isize) -> f32 {
-    #[cfg(windows)]
-    {
-        use windows::Win32::Foundation::HWND;
-        crate::hdr::hdr_white_level(HWND(hwnd as *mut _)).unwrap_or(0.0)
-    }
-    #[cfg(not(windows))]
-    {
-        let _ = hwnd;
-        0.0
-    }
+    guarded(|| {
+        #[cfg(windows)]
+        {
+            use windows::Win32::Foundation::HWND;
+            crate::hdr::hdr_white_level(HWND(hwnd as *mut _)).unwrap_or(0.0)
+        }
+        #[cfg(not(windows))]
+        {
+            let _ = hwnd;
+            0.0
+        }
+    })
 }
 
 #[unsafe(no_mangle)]
@@ -89,30 +101,32 @@ pub unsafe extern "system" fn RiShadeParseHotkey(
     out_alt: *mut bool,
     out_win: *mut bool,
 ) -> bool {
-    if text.is_null()
-        || out_key.is_null()
-        || out_ctrl.is_null()
-        || out_shift.is_null()
-        || out_alt.is_null()
-        || out_win.is_null()
-    {
-        return false;
-    }
-    let c_str = unsafe { CStr::from_ptr(text) };
-    let Ok(str_slice) = c_str.to_str() else {
-        return false;
-    };
-    let Some(hotkey) = crate::hotkey::parse_hotkey(str_slice) else {
-        return false;
-    };
-    unsafe {
-        *out_key = hotkey.key;
-        *out_ctrl = (hotkey.modifiers & crate::hotkey::MOD_CONTROL) != 0;
-        *out_shift = (hotkey.modifiers & crate::hotkey::MOD_SHIFT) != 0;
-        *out_alt = (hotkey.modifiers & crate::hotkey::MOD_ALT) != 0;
-        *out_win = (hotkey.modifiers & crate::hotkey::MOD_WIN) != 0;
-    }
-    true
+    guarded(|| {
+        if text.is_null()
+            || out_key.is_null()
+            || out_ctrl.is_null()
+            || out_shift.is_null()
+            || out_alt.is_null()
+            || out_win.is_null()
+        {
+            return false;
+        }
+        let c_str = unsafe { CStr::from_ptr(text) };
+        let Ok(str_slice) = c_str.to_str() else {
+            return false;
+        };
+        let Some(hotkey) = crate::hotkey::parse_hotkey(str_slice) else {
+            return false;
+        };
+        unsafe {
+            *out_key = hotkey.key;
+            *out_ctrl = (hotkey.modifiers & crate::hotkey::MOD_CONTROL) != 0;
+            *out_shift = (hotkey.modifiers & crate::hotkey::MOD_SHIFT) != 0;
+            *out_alt = (hotkey.modifiers & crate::hotkey::MOD_ALT) != 0;
+            *out_win = (hotkey.modifiers & crate::hotkey::MOD_WIN) != 0;
+        }
+        true
+    })
 }
 
 #[unsafe(no_mangle)]
@@ -125,33 +139,37 @@ pub unsafe extern "system" fn RiShadeFormatHotkey(
     out_buffer: *mut u8,
     buffer_len: usize,
 ) -> usize {
-    let mut modifiers = 0;
-    if ctrl {
-        modifiers |= crate::hotkey::MOD_CONTROL;
-    }
-    if shift {
-        modifiers |= crate::hotkey::MOD_SHIFT;
-    }
-    if alt {
-        modifiers |= crate::hotkey::MOD_ALT;
-    }
-    if win {
-        modifiers |= crate::hotkey::MOD_WIN;
-    }
-    let hotkey = crate::hotkey::Hotkey { modifiers, key };
-    let formatted = crate::hotkey::format_hotkey(&hotkey);
-    unsafe { copy_str_to_buffer(&formatted, out_buffer, buffer_len) }
+    guarded(|| {
+        let mut modifiers = 0;
+        if ctrl {
+            modifiers |= crate::hotkey::MOD_CONTROL;
+        }
+        if shift {
+            modifiers |= crate::hotkey::MOD_SHIFT;
+        }
+        if alt {
+            modifiers |= crate::hotkey::MOD_ALT;
+        }
+        if win {
+            modifiers |= crate::hotkey::MOD_WIN;
+        }
+        let hotkey = crate::hotkey::Hotkey { modifiers, key };
+        let formatted = crate::hotkey::format_hotkey(&hotkey);
+        unsafe { copy_str_to_buffer(&formatted, out_buffer, buffer_len) }
+    })
 }
 
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn RiShadePrepareConfig(base_dir: *const c_char) -> bool {
-    if base_dir.is_null() {
-        return false;
-    }
-    let Ok(base_str) = (unsafe { CStr::from_ptr(base_dir) }).to_str() else {
-        return false;
-    };
-    crate::reshade_config::prepare_reshade_config(Path::new(base_str)).is_ok()
+    guarded(|| {
+        if base_dir.is_null() {
+            return false;
+        }
+        let Ok(base_str) = (unsafe { CStr::from_ptr(base_dir) }).to_str() else {
+            return false;
+        };
+        crate::reshade_config::prepare_reshade_config(Path::new(base_str)).is_ok()
+    })
 }
 
 #[unsafe(no_mangle)]
@@ -180,15 +198,17 @@ pub unsafe extern "system" fn RiShadeInstallEffectsAndPresets(
 
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn RiShadeScanEffectsCount(effects_dir: *const c_char) -> usize {
-    if effects_dir.is_null() {
-        return 0;
-    }
-    let Ok(dir_str) = (unsafe { CStr::from_ptr(effects_dir) }).to_str() else {
-        return 0;
-    };
-    crate::effect_catalog::scan_effects(Path::new(dir_str))
-        .map(|v| v.len())
-        .unwrap_or(0)
+    guarded(|| {
+        if effects_dir.is_null() {
+            return 0;
+        }
+        let Ok(dir_str) = (unsafe { CStr::from_ptr(effects_dir) }).to_str() else {
+            return 0;
+        };
+        crate::effect_catalog::scan_effects(Path::new(dir_str))
+            .map(|v| v.len())
+            .unwrap_or(0)
+    })
 }
 
 #[unsafe(no_mangle)]
@@ -197,23 +217,25 @@ pub unsafe extern "system" fn RiShadeScanEffectsList(
     out_buffer: *mut u8,
     buffer_len: usize,
 ) -> usize {
-    if effects_dir.is_null() {
-        return 0;
-    }
-    let Ok(dir_str) = (unsafe { CStr::from_ptr(effects_dir) }).to_str() else {
-        return 0;
-    };
-    let Ok(effects) = crate::effect_catalog::scan_effects(Path::new(dir_str)) else {
-        return 0;
-    };
-    let mut joined = String::new();
-    for (i, effect) in effects.iter().enumerate() {
-        if i > 0 {
-            joined.push('\n');
+    guarded(|| {
+        if effects_dir.is_null() {
+            return 0;
         }
-        joined.push_str(&effect.relative_path.to_string_lossy().replace('\\', "/"));
-    }
-    unsafe { copy_str_to_buffer(&joined, out_buffer, buffer_len) }
+        let Ok(dir_str) = (unsafe { CStr::from_ptr(effects_dir) }).to_str() else {
+            return 0;
+        };
+        let Ok(effects) = crate::effect_catalog::scan_effects(Path::new(dir_str)) else {
+            return 0;
+        };
+        let mut joined = String::new();
+        for (i, effect) in effects.iter().enumerate() {
+            if i > 0 {
+                joined.push('\n');
+            }
+            joined.push_str(&effect.relative_path.to_string_lossy().replace('\\', "/"));
+        }
+        unsafe { copy_str_to_buffer(&joined, out_buffer, buffer_len) }
+    })
 }
 
 #[unsafe(no_mangle)]
@@ -222,15 +244,17 @@ pub unsafe extern "system" fn RiShadePresetGetTechniques(
     out_buffer: *mut u8,
     buffer_len: usize,
 ) -> usize {
-    if preset_text.is_null() {
-        return 0;
-    }
-    let Ok(text) = (unsafe { CStr::from_ptr(preset_text) }).to_str() else {
-        return 0;
-    };
-    let preset = crate::preset_ini::PresetIni::parse(text);
-    let techniques = preset.get("", "Techniques").unwrap_or("");
-    unsafe { copy_str_to_buffer(techniques, out_buffer, buffer_len) }
+    guarded(|| {
+        if preset_text.is_null() {
+            return 0;
+        }
+        let Ok(text) = (unsafe { CStr::from_ptr(preset_text) }).to_str() else {
+            return 0;
+        };
+        let preset = crate::preset_ini::PresetIni::parse(text);
+        let techniques = preset.get("", "Techniques").unwrap_or("");
+        unsafe { copy_str_to_buffer(techniques, out_buffer, buffer_len) }
+    })
 }
 
 #[unsafe(no_mangle)]
@@ -239,16 +263,18 @@ pub unsafe extern "system" fn RiShadePresetGetEffectFiles(
     out_buffer: *mut u8,
     buffer_len: usize,
 ) -> usize {
-    if preset_text.is_null() {
-        return 0;
-    }
-    let Ok(text) = (unsafe { CStr::from_ptr(preset_text) }).to_str() else {
-        return 0;
-    };
-    let preset = crate::preset_ini::PresetIni::parse(text);
-    let files = crate::preset_ini::preset_effect_files(&preset);
-    let joined = files.join("\n");
-    unsafe { copy_str_to_buffer(&joined, out_buffer, buffer_len) }
+    guarded(|| {
+        if preset_text.is_null() {
+            return 0;
+        }
+        let Ok(text) = (unsafe { CStr::from_ptr(preset_text) }).to_str() else {
+            return 0;
+        };
+        let preset = crate::preset_ini::PresetIni::parse(text);
+        let files = crate::preset_ini::preset_effect_files(&preset);
+        let joined = files.join("\n");
+        unsafe { copy_str_to_buffer(&joined, out_buffer, buffer_len) }
+    })
 }
 
 #[unsafe(no_mangle)]
@@ -259,19 +285,21 @@ pub unsafe extern "system" fn RiShadePresetGetValue(
     out_buffer: *mut u8,
     buffer_len: usize,
 ) -> usize {
-    if preset_text.is_null() || section.is_null() || key.is_null() {
-        return 0;
-    }
-    let (Ok(text), Ok(sec), Ok(k)) = (
-        (unsafe { CStr::from_ptr(preset_text) }).to_str(),
-        (unsafe { CStr::from_ptr(section) }).to_str(),
-        (unsafe { CStr::from_ptr(key) }).to_str(),
-    ) else {
-        return 0;
-    };
-    let preset = crate::preset_ini::PresetIni::parse(text);
-    let value = preset.get(sec, k).unwrap_or("");
-    unsafe { copy_str_to_buffer(value, out_buffer, buffer_len) }
+    guarded(|| {
+        if preset_text.is_null() || section.is_null() || key.is_null() {
+            return 0;
+        }
+        let (Ok(text), Ok(sec), Ok(k)) = (
+            (unsafe { CStr::from_ptr(preset_text) }).to_str(),
+            (unsafe { CStr::from_ptr(section) }).to_str(),
+            (unsafe { CStr::from_ptr(key) }).to_str(),
+        ) else {
+            return 0;
+        };
+        let preset = crate::preset_ini::PresetIni::parse(text);
+        let value = preset.get(sec, k).unwrap_or("");
+        unsafe { copy_str_to_buffer(value, out_buffer, buffer_len) }
+    })
 }
 
 #[unsafe(no_mangle)]
@@ -283,23 +311,25 @@ pub unsafe extern "system" fn RiShadePresetSetValue(
     out_buffer: *mut u8,
     buffer_len: usize,
 ) -> usize {
-    if preset_text.is_null() || section.is_null() || key.is_null() || value.is_null() {
-        return 0;
-    }
-    let (Ok(text), Ok(sec), Ok(k), Ok(v)) = (
-        (unsafe { CStr::from_ptr(preset_text) }).to_str(),
-        (unsafe { CStr::from_ptr(section) }).to_str(),
-        (unsafe { CStr::from_ptr(key) }).to_str(),
-        (unsafe { CStr::from_ptr(value) }).to_str(),
-    ) else {
-        return 0;
-    };
-    let mut preset = crate::preset_ini::PresetIni::parse(text);
-    if preset.set(sec, k, v).is_err() {
-        return 0;
-    }
-    let result = preset.text();
-    unsafe { copy_str_to_buffer(&result, out_buffer, buffer_len) }
+    guarded(|| {
+        if preset_text.is_null() || section.is_null() || key.is_null() || value.is_null() {
+            return 0;
+        }
+        let (Ok(text), Ok(sec), Ok(k), Ok(v)) = (
+            (unsafe { CStr::from_ptr(preset_text) }).to_str(),
+            (unsafe { CStr::from_ptr(section) }).to_str(),
+            (unsafe { CStr::from_ptr(key) }).to_str(),
+            (unsafe { CStr::from_ptr(value) }).to_str(),
+        ) else {
+            return 0;
+        };
+        let mut preset = crate::preset_ini::PresetIni::parse(text);
+        if preset.set(sec, k, v).is_err() {
+            return 0;
+        }
+        let result = preset.text();
+        unsafe { copy_str_to_buffer(&result, out_buffer, buffer_len) }
+    })
 }
 
 #[unsafe(no_mangle)]
@@ -308,58 +338,64 @@ pub unsafe extern "system" fn RiShadePresetSectionNames(
     out_buffer: *mut u8,
     buffer_len: usize,
 ) -> usize {
-    if preset_text.is_null() {
-        return 0;
-    }
-    let Ok(text) = (unsafe { CStr::from_ptr(preset_text) }).to_str() else {
-        return 0;
-    };
-    let preset = crate::preset_ini::PresetIni::parse(text);
-    let names: Vec<&str> = preset.section_names().collect();
-    let joined = names.join("\n");
-    unsafe { copy_str_to_buffer(&joined, out_buffer, buffer_len) }
+    guarded(|| {
+        if preset_text.is_null() {
+            return 0;
+        }
+        let Ok(text) = (unsafe { CStr::from_ptr(preset_text) }).to_str() else {
+            return 0;
+        };
+        let preset = crate::preset_ini::PresetIni::parse(text);
+        let names: Vec<&str> = preset.section_names().collect();
+        let joined = names.join("\n");
+        unsafe { copy_str_to_buffer(&joined, out_buffer, buffer_len) }
+    })
 }
 
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn RiShadePresetFileIsLoadable(preset_path: *const c_char) -> bool {
-    if preset_path.is_null() {
-        return false;
-    }
-    let Ok(path) = (unsafe { CStr::from_ptr(preset_path) }).to_str() else {
-        return false;
-    };
-    let path = Path::new(path);
-    if !path
-        .extension()
-        .and_then(std::ffi::OsStr::to_str)
-        .is_some_and(|extension| extension.eq_ignore_ascii_case("ini"))
-    {
-        return false;
-    }
-    let Ok(metadata) = std::fs::metadata(path) else {
-        return false;
-    };
-    if !metadata.is_file() || metadata.len() > 16 * 1024 * 1024 {
-        return false;
-    }
-    let Ok(text) = std::fs::read_to_string(path) else {
-        return false;
-    };
-    let preset = crate::preset_ini::PresetIni::parse(&text);
-    preset.get("", "Techniques").is_some()
+    guarded(|| {
+        if preset_path.is_null() {
+            return false;
+        }
+        let Ok(path) = (unsafe { CStr::from_ptr(preset_path) }).to_str() else {
+            return false;
+        };
+        let path = Path::new(path);
+        if !path
+            .extension()
+            .and_then(std::ffi::OsStr::to_str)
+            .is_some_and(|extension| extension.eq_ignore_ascii_case("ini"))
+        {
+            return false;
+        }
+        let Ok(metadata) = std::fs::metadata(path) else {
+            return false;
+        };
+        if !metadata.is_file() || metadata.len() > 16 * 1024 * 1024 {
+            return false;
+        }
+        let Ok(text) = std::fs::read_to_string(path) else {
+            return false;
+        };
+        let preset = crate::preset_ini::PresetIni::parse(&text);
+        preset.get("", "Techniques").is_some()
+    })
 }
 
 #[unsafe(no_mangle)]
 pub unsafe extern "system" fn RiShadeGameListParseCount(text: *const c_char) -> usize {
-    if text.is_null() {
-        return 0;
-    }
-    let Ok(str_slice) = (unsafe { CStr::from_ptr(text) }).to_str() else {
-        return 0;
-    };
-    crate::game_list::parse_game_list(str_slice)
-        .map(|games| games.len())
-        .unwrap_or(0)
+    guarded(|| {
+        if text.is_null() {
+            return 0;
+        }
+        let Ok(str_slice) = (unsafe { CStr::from_ptr(text) }).to_str() else {
+            return 0;
+        };
+        crate::game_list::parse_game_list(str_slice)
+            .map(|games| games.len())
+            .unwrap_or(0)
+    })
 }
 
 #[unsafe(no_mangle)]
@@ -372,24 +408,26 @@ pub unsafe extern "system" fn RiShadeGameListGetEntry(
     name_len: usize,
     out_enabled: *mut bool,
 ) -> bool {
-    if text.is_null() || out_enabled.is_null() {
-        return false;
-    }
-    let Ok(str_slice) = (unsafe { CStr::from_ptr(text) }).to_str() else {
-        return false;
-    };
-    let Ok(games) = crate::game_list::parse_game_list(str_slice) else {
-        return false;
-    };
-    let Some(entry) = games.get(index) else {
-        return false;
-    };
-    unsafe {
-        copy_str_to_buffer(&entry.executable, out_exe, exe_len);
-        copy_str_to_buffer(&entry.name, out_name, name_len);
-        *out_enabled = entry.enabled;
-    }
-    true
+    guarded(|| {
+        if text.is_null() || out_enabled.is_null() {
+            return false;
+        }
+        let Ok(str_slice) = (unsafe { CStr::from_ptr(text) }).to_str() else {
+            return false;
+        };
+        let Ok(games) = crate::game_list::parse_game_list(str_slice) else {
+            return false;
+        };
+        let Some(entry) = games.get(index) else {
+            return false;
+        };
+        unsafe {
+            copy_str_to_buffer(&entry.executable, out_exe, exe_len);
+            copy_str_to_buffer(&entry.name, out_name, name_len);
+            *out_enabled = entry.enabled;
+        }
+        true
+    })
 }
 
 #[cfg(test)]
