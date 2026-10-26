@@ -8425,4 +8425,115 @@ Voidstrap 無法寫入桌面資料夾。</value>
   <data name="Ui.RiShade.OverlayKey.Saved" xml:space="preserve">
     <value>已儲存，現在按 {0} 就能開啟 ReShade 選單。</value>
   </data>
+  <data name="Ui.Mods.StudioPlugins.Publish" xml:space="preserve">
+    <value>發布外掛程式</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Like" xml:space="preserve">
+    <value>喜歡</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Dislike" xml:space="preserve">
+    <value>不喜歡</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Reviews" xml:space="preserve">
+    <value>評價</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.ReviewPlaceholder" xml:space="preserve">
+    <value>為這個外掛程式撰寫評價</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PostReview" xml:space="preserve">
+    <value>發布評價</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Helpful" xml:space="preserve">
+    <value>有幫助 ({0})</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Reply" xml:space="preserve">
+    <value>回覆</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.ReplyPlaceholder" xml:space="preserve">
+    <value>以創作者身分回覆這則評價</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.CreatorReply" xml:space="preserve">
+    <value>{0} 的回覆</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.NoReviews" xml:space="preserve">
+    <value>目前還沒有評價。</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.ReviewsUnavailable" xml:space="preserve">
+    <value>現在無法載入評價。</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.SignIn" xml:space="preserve">
+    <value>請在 Voidstrap 中登入 Roblox，才能為外掛程式按讚、撰寫評價和發布外掛程式。</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.ReviewPosted" xml:space="preserve">
+    <value>你的評價已發布。</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.ReviewNeedsOwnership" xml:space="preserve">
+    <value>Roblox 只允許擁有這個外掛程式的使用者評價。</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.RateLimited" xml:space="preserve">
+    <value>Roblox 要求你放慢速度，請稍後再試。</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.ActionFailed" xml:space="preserve">
+    <value>Roblox 沒有接受這個動作，請稍後再試。</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.VoteSaved" xml:space="preserve">
+    <value>你的投票已儲存。</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.HelpfulSaved" xml:space="preserve">
+    <value>已標記為有幫助。</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.ReplyPosted" xml:space="preserve">
+    <value>你的回覆已發布。</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishTitle" xml:space="preserve">
+    <value>發布外掛程式</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishChoose" xml:space="preserve">
+    <value>選擇外掛程式檔案</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishName" xml:space="preserve">
+    <value>名稱</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishDescription" xml:space="preserve">
+    <value>說明</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishUpdate" xml:space="preserve">
+    <value>更新現有的外掛程式</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishAssetId" xml:space="preserve">
+    <value>外掛程式 ID</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishAccount" xml:space="preserve">
+    <value>這會將檔案上傳到 Roblox 帳號 {0}。</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishConfirm" xml:space="preserve">
+    <value>發布</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishWorking" xml:space="preserve">
+    <value>正在發布...</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishDone" xml:space="preserve">
+    <value>已發布，外掛程式 ID 是 {0}。</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishFileMissing" xml:space="preserve">
+    <value>請先選擇外掛程式檔案。</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishFileType" xml:space="preserve">
+    <value>只能發布 .rbxm 和 .rbxmx 外掛程式檔案。</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishFileTooLarge" xml:space="preserve">
+    <value>外掛程式檔案必須小於 50 MB。</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishFileNotRoblox" xml:space="preserve">
+    <value>這個檔案不是 Roblox 外掛程式檔案。</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishNameLength" xml:space="preserve">
+    <value>名稱必須是 3 到 50 個字元。</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishNotAllowed" xml:space="preserve">
+    <value>Roblox 不允許這次上傳。請確認這個帳號擁有該外掛程式 ID。</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishFailed" xml:space="preserve">
+    <value>發布失敗：{0}</value>
+  </data>
 </root>

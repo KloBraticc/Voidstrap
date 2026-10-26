@@ -8420,4 +8420,115 @@ Bu dosyayı size yardım eden kişiye gönderin. Bilgisayar kullanıcı adınız
   <data name="Ui.RiShade.OverlayKey.Saved" xml:space="preserve">
     <value>Kaydedildi, ReShade menüsü artık {0} ile açılıyor.</value>
   </data>
+  <data name="Ui.Mods.StudioPlugins.Publish" xml:space="preserve">
+    <value>Eklenti yayınla</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Like" xml:space="preserve">
+    <value>Beğen</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Dislike" xml:space="preserve">
+    <value>Beğenme</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Reviews" xml:space="preserve">
+    <value>Değerlendirmeler</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.ReviewPlaceholder" xml:space="preserve">
+    <value>Bu eklenti hakkında bir değerlendirme yazın</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PostReview" xml:space="preserve">
+    <value>Değerlendirmeyi yayınla</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Helpful" xml:space="preserve">
+    <value>Faydalı ({0})</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Reply" xml:space="preserve">
+    <value>Yanıtla</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.ReplyPlaceholder" xml:space="preserve">
+    <value>Bu değerlendirmeyi yapımcı olarak yanıtlayın</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.CreatorReply" xml:space="preserve">
+    <value>{0} yanıtı</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.NoReviews" xml:space="preserve">
+    <value>Henüz değerlendirme yok.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.ReviewsUnavailable" xml:space="preserve">
+    <value>Değerlendirmeler şu anda yüklenemedi.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.SignIn" xml:space="preserve">
+    <value>Eklentileri beğenmek, değerlendirmek ve yayınlamak için Voidstrap'te Roblox'a giriş yapın.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.ReviewPosted" xml:space="preserve">
+    <value>Değerlendirmeniz yayınlandı.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.ReviewNeedsOwnership" xml:space="preserve">
+    <value>Roblox yalnızca bu eklentiye sahip olanların değerlendirme yazmasına izin verir.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.RateLimited" xml:space="preserve">
+    <value>Roblox yavaşlamanızı istiyor, biraz sonra tekrar deneyin.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.ActionFailed" xml:space="preserve">
+    <value>Roblox bunu kabul etmedi, daha sonra tekrar deneyin.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.VoteSaved" xml:space="preserve">
+    <value>Oyunuz kaydedildi.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.HelpfulSaved" xml:space="preserve">
+    <value>Faydalı olarak işaretlendi.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.ReplyPosted" xml:space="preserve">
+    <value>Yanıtınız yayınlandı.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishTitle" xml:space="preserve">
+    <value>Bir eklenti yayınla</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishChoose" xml:space="preserve">
+    <value>Eklenti dosyası seç</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishName" xml:space="preserve">
+    <value>Ad</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishDescription" xml:space="preserve">
+    <value>Açıklama</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishUpdate" xml:space="preserve">
+    <value>Mevcut bir eklentiyi güncelle</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishAssetId" xml:space="preserve">
+    <value>Eklenti kimliği</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishAccount" xml:space="preserve">
+    <value>Bu, dosyayı {0} Roblox hesabına yükler.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishConfirm" xml:space="preserve">
+    <value>Yayınla</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishWorking" xml:space="preserve">
+    <value>Yayınlanıyor...</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishDone" xml:space="preserve">
+    <value>Yayınlandı, eklenti kimliği {0}.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishFileMissing" xml:space="preserve">
+    <value>Önce bir eklenti dosyası seçin.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishFileType" xml:space="preserve">
+    <value>Yalnızca .rbxm ve .rbxmx eklenti dosyaları yayınlanabilir.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishFileTooLarge" xml:space="preserve">
+    <value>Eklenti dosyası 50 MB'den küçük olmalıdır.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishFileNotRoblox" xml:space="preserve">
+    <value>Bu dosya bir Roblox eklenti dosyası değil.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishNameLength" xml:space="preserve">
+    <value>Ad 3 ile 50 karakter arasında olmalıdır.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishNotAllowed" xml:space="preserve">
+    <value>Roblox bu yüklemeye izin vermedi. Bu hesabın eklenti kimliğine sahip olduğunu kontrol edin.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishFailed" xml:space="preserve">
+    <value>Yayınlama başarısız: {0}</value>
+  </data>
 </root>

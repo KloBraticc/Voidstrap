@@ -8420,4 +8420,115 @@ Magda-download ito ng {0} MB. Kung tatanggihan mo, gagamitin ang built in na tan
   <data name="Ui.RiShade.OverlayKey.Saved" xml:space="preserve">
     <value>Na-save, bumubukas na ngayon ang ReShade menu gamit ang {0}.</value>
   </data>
+  <data name="Ui.Mods.StudioPlugins.Publish" xml:space="preserve">
+    <value>I-publish ang plugin</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Like" xml:space="preserve">
+    <value>Gusto</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Dislike" xml:space="preserve">
+    <value>Ayaw</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Reviews" xml:space="preserve">
+    <value>Mga review</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.ReviewPlaceholder" xml:space="preserve">
+    <value>Sumulat ng review para sa plugin na ito</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PostReview" xml:space="preserve">
+    <value>I-post ang review</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Helpful" xml:space="preserve">
+    <value>Nakatulong ({0})</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Reply" xml:space="preserve">
+    <value>Sumagot</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.ReplyPlaceholder" xml:space="preserve">
+    <value>Sagutin ang review na ito bilang creator</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.CreatorReply" xml:space="preserve">
+    <value>Sagot mula kay {0}</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.NoReviews" xml:space="preserve">
+    <value>Wala pang mga review.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.ReviewsUnavailable" xml:space="preserve">
+    <value>Hindi ma-load ang mga review ngayon.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.SignIn" xml:space="preserve">
+    <value>Mag-sign in sa Roblox sa Voidstrap para mag-like, mag-review at mag-publish ng mga plugin.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.ReviewPosted" xml:space="preserve">
+    <value>Na-post na ang iyong review.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.ReviewNeedsOwnership" xml:space="preserve">
+    <value>Pinapayagan lang ng Roblox ang mga may-ari ng plugin na ito na mag-review.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.RateLimited" xml:space="preserve">
+    <value>Hinihiling ng Roblox na bumagal ka, subukan ulit maya-maya.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.ActionFailed" xml:space="preserve">
+    <value>Hindi ito tinanggap ng Roblox, subukan ulit mamaya.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.VoteSaved" xml:space="preserve">
+    <value>Na-save ang iyong boto.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.HelpfulSaved" xml:space="preserve">
+    <value>Minarkahang nakatulong.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.ReplyPosted" xml:space="preserve">
+    <value>Na-post na ang iyong sagot.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishTitle" xml:space="preserve">
+    <value>Mag-publish ng plugin</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishChoose" xml:space="preserve">
+    <value>Pumili ng plugin file</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishName" xml:space="preserve">
+    <value>Pangalan</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishDescription" xml:space="preserve">
+    <value>Paglalarawan</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishUpdate" xml:space="preserve">
+    <value>I-update ang kasalukuyang plugin</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishAssetId" xml:space="preserve">
+    <value>Plugin ID</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishAccount" xml:space="preserve">
+    <value>Ia-upload nito ang file sa Roblox account na {0}.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishConfirm" xml:space="preserve">
+    <value>I-publish</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishWorking" xml:space="preserve">
+    <value>Nagpa-publish...</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishDone" xml:space="preserve">
+    <value>Na-publish, ang plugin ID ay {0}.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishFileMissing" xml:space="preserve">
+    <value>Pumili muna ng plugin file.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishFileType" xml:space="preserve">
+    <value>Mga .rbxm at .rbxmx na plugin file lang ang puwedeng i-publish.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishFileTooLarge" xml:space="preserve">
+    <value>Dapat mas maliit sa 50 MB ang plugin file.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishFileNotRoblox" xml:space="preserve">
+    <value>Hindi Roblox plugin file ang file na iyon.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishNameLength" xml:space="preserve">
+    <value>Dapat 3 hanggang 50 character ang pangalan.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishNotAllowed" xml:space="preserve">
+    <value>Hindi pinayagan ng Roblox ang upload na ito. Tiyaking pag-aari ng account na ito ang plugin ID.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishFailed" xml:space="preserve">
+    <value>Hindi na-publish: {0}</value>
+  </data>
 </root>

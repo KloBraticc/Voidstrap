@@ -8421,4 +8421,115 @@ Le téléchargement fait {0} Mo. Si vous refusez, l'estimation intégrée est ut
   <data name="Ui.RiShade.OverlayKey.Saved" xml:space="preserve">
     <value>Enregistré, le menu ReShade s'ouvre maintenant avec {0}.</value>
   </data>
+  <data name="Ui.Mods.StudioPlugins.Publish" xml:space="preserve">
+    <value>Publier un plugin</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Like" xml:space="preserve">
+    <value>J'aime</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Dislike" xml:space="preserve">
+    <value>Je n'aime pas</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Reviews" xml:space="preserve">
+    <value>Avis</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.ReviewPlaceholder" xml:space="preserve">
+    <value>Rédigez un avis sur ce plugin</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PostReview" xml:space="preserve">
+    <value>Publier l'avis</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Helpful" xml:space="preserve">
+    <value>Utile ({0})</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Reply" xml:space="preserve">
+    <value>Répondre</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.ReplyPlaceholder" xml:space="preserve">
+    <value>Répondez à cet avis en tant que créateur</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.CreatorReply" xml:space="preserve">
+    <value>Réponse de {0}</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.NoReviews" xml:space="preserve">
+    <value>Aucun avis pour l'instant.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.ReviewsUnavailable" xml:space="preserve">
+    <value>Les avis n'ont pas pu être chargés pour le moment.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.SignIn" xml:space="preserve">
+    <value>Connectez-vous à Roblox dans Voidstrap pour aimer, évaluer et publier des plugins.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.ReviewPosted" xml:space="preserve">
+    <value>Votre avis a été publié.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.ReviewNeedsOwnership" xml:space="preserve">
+    <value>Roblox permet uniquement aux propriétaires de ce plugin de l'évaluer.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.RateLimited" xml:space="preserve">
+    <value>Roblox demande de ralentir, réessayez dans un instant.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.ActionFailed" xml:space="preserve">
+    <value>Roblox n'a pas accepté cette action, réessayez plus tard.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.VoteSaved" xml:space="preserve">
+    <value>Votre vote a été enregistré.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.HelpfulSaved" xml:space="preserve">
+    <value>Marqué comme utile.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.ReplyPosted" xml:space="preserve">
+    <value>Votre réponse a été publiée.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishTitle" xml:space="preserve">
+    <value>Publier un plugin</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishChoose" xml:space="preserve">
+    <value>Choisir le fichier du plugin</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishName" xml:space="preserve">
+    <value>Nom</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishDescription" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishUpdate" xml:space="preserve">
+    <value>Mettre à jour un plugin existant</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishAssetId" xml:space="preserve">
+    <value>ID du plugin</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishAccount" xml:space="preserve">
+    <value>Le fichier sera envoyé sur le compte Roblox {0}.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishConfirm" xml:space="preserve">
+    <value>Publier</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishWorking" xml:space="preserve">
+    <value>Publication...</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishDone" xml:space="preserve">
+    <value>Publié, l'ID du plugin est {0}.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishFileMissing" xml:space="preserve">
+    <value>Choisissez d'abord un fichier de plugin.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishFileType" xml:space="preserve">
+    <value>Seuls les fichiers de plugin .rbxm et .rbxmx peuvent être publiés.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishFileTooLarge" xml:space="preserve">
+    <value>Le fichier du plugin doit faire moins de 50 Mo.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishFileNotRoblox" xml:space="preserve">
+    <value>Ce fichier n'est pas un fichier de plugin Roblox.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishNameLength" xml:space="preserve">
+    <value>Le nom doit contenir de 3 à 50 caractères.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishNotAllowed" xml:space="preserve">
+    <value>Roblox n'a pas autorisé cet envoi. Vérifiez que ce compte possède l'ID du plugin.</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishFailed" xml:space="preserve">
+    <value>Échec de la publication : {0}</value>
+  </data>
 </root>

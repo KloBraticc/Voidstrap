@@ -69,7 +69,8 @@
           </ComboBox>
         </StackPanel>
         <ui:Button Height="34" Margin="0,0,8,8" Appearance="Primary" Icon="ArrowImport24" Content="{resources:Loc Ui_Mods_StudioPlugins_Import}" Click="Import_Click" />
-        <ui:Button Height="34" Margin="0,0,0,8" Icon="Folder24" Content="{resources:Loc Ui_Mods_StudioPlugins_Folder}" Click="OpenFolder_Click" />
+        <ui:Button Height="34" Margin="0,0,8,8" Icon="Folder24" Content="{resources:Loc Ui_Mods_StudioPlugins_Folder}" Click="OpenFolder_Click" />
+        <ui:Button Height="34" Margin="0,0,0,8" Icon="CloudArrowUp24" Content="{resources:Loc Ui_Mods_StudioPlugins_Publish}" Click="Publish_Click" />
       </WrapPanel>
 
       <TextBlock x:Name="BrowseStatus" Margin="0,0,0,8" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Visibility="Collapsed" />
@@ -141,12 +142,43 @@
               <TextBlock x:Name="DetailDescription" Style="{StaticResource Paragraph}" />
             </StackPanel>
           </TabItem>
+          <TabItem x:Name="ReviewsTab">
+            <TabItem.Header>
+              <StackPanel Orientation="Horizontal">
+                <ui:SymbolIcon Symbol="Comment24" Margin="0,0,6,0" />
+                <TextBlock Text="{resources:Loc Ui_Mods_StudioPlugins_Reviews}" />
+              </StackPanel>
+            </TabItem.Header>
+            <StackPanel Margin="10">
+              <Grid x:Name="ReviewComposer" Margin="0,0,0,10">
+                <Grid.ColumnDefinitions>
+                  <ColumnDefinition Width="*" />
+                  <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <ui:TextBox x:Name="ReviewBox" Grid.Column="0" MinHeight="34" MaxLength="1000" TextWrapping="Wrap" AcceptsReturn="True" PlaceholderText="{resources:Loc Ui_Mods_StudioPlugins_ReviewPlaceholder}" />
+                <ui:Button x:Name="PostReviewButton" Grid.Column="1" Margin="8,0,0,0" VerticalAlignment="Top" Height="34" Appearance="Primary" Content="{resources:Loc Ui_Mods_StudioPlugins_PostReview}" Click="PostReview_Click" />
+              </Grid>
+              <TextBlock x:Name="ReviewsStatus" Margin="0,0,0,8" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+              <StackPanel x:Name="ReviewsPanel" />
+              <ui:ProgressRing x:Name="ReviewsRing" IsIndeterminate="True" Width="28" Height="28" Margin="0,8,0,0" HorizontalAlignment="Center" Visibility="Collapsed" />
+              <ui:Button x:Name="ReviewsMoreButton" HorizontalAlignment="Center" Margin="0,6,0,0" Appearance="Secondary" Content="{resources:Loc Ui_Mods_StudioPlugins_LoadMore}" Click="ReviewsMore_Click" Visibility="Collapsed" />
+            </StackPanel>
+          </TabItem>
         </TabControl>
       </StackPanel>
 
       <StackPanel x:Name="DetailSidebar" Grid.Column="1" Margin="0,38,0,0">
         <ui:Button x:Name="DetailPrimaryButton" HorizontalAlignment="Stretch" Height="40" Appearance="Primary" Icon="ArrowDownload24" Click="DetailPrimary_Click" />
         <ui:Button x:Name="DetailOpenButton" HorizontalAlignment="Stretch" Height="36" Margin="0,8,0,0" Appearance="Secondary" Icon="Open24" Click="DetailOpen_Click" />
+        <Grid x:Name="VotePanel" Margin="0,8,0,0">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="8" />
+            <ColumnDefinition Width="*" />
+          </Grid.ColumnDefinitions>
+          <ui:Button x:Name="LikeButton" Grid.Column="0" HorizontalAlignment="Stretch" Height="34" Appearance="Secondary" Icon="ThumbLike24" Content="{resources:Loc Ui_Mods_StudioPlugins_Like}" Click="Like_Click" />
+          <ui:Button x:Name="DislikeButton" Grid.Column="2" HorizontalAlignment="Stretch" Height="34" Appearance="Secondary" Icon="ThumbDislike24" Content="{resources:Loc Ui_Mods_StudioPlugins_Dislike}" Click="Dislike_Click" />
+        </Grid>
         <TextBlock x:Name="DetailStatus" Margin="0,10,0,0" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
         <Border Style="{StaticResource RowCard}" Margin="0,14,0,0" Padding="12">
           <StackPanel>

@@ -8417,4 +8417,115 @@ Voidstrap เขียนลงในโฟลเดอร์เดสก์ท�
   <data name="Ui.RiShade.OverlayKey.Saved" xml:space="preserve">
     <value>บันทึกแล้ว ตอนนี้เมนู ReShade จะเปิดด้วย {0}</value>
   </data>
+  <data name="Ui.Mods.StudioPlugins.Publish" xml:space="preserve">
+    <value>เผยแพร่ปลั๊กอิน</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Like" xml:space="preserve">
+    <value>ถูกใจ</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Dislike" xml:space="preserve">
+    <value>ไม่ถูกใจ</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Reviews" xml:space="preserve">
+    <value>รีวิว</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.ReviewPlaceholder" xml:space="preserve">
+    <value>เขียนรีวิวปลั๊กอินนี้</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PostReview" xml:space="preserve">
+    <value>โพสต์รีวิว</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Helpful" xml:space="preserve">
+    <value>มีประโยชน์ ({0})</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.Reply" xml:space="preserve">
+    <value>ตอบกลับ</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.ReplyPlaceholder" xml:space="preserve">
+    <value>ตอบกลับรีวิวนี้ในฐานะผู้สร้าง</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.CreatorReply" xml:space="preserve">
+    <value>คำตอบจาก {0}</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.NoReviews" xml:space="preserve">
+    <value>ยังไม่มีรีวิว</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.ReviewsUnavailable" xml:space="preserve">
+    <value>ไม่สามารถโหลดรีวิวได้ในขณะนี้</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.SignIn" xml:space="preserve">
+    <value>ลงชื่อเข้าใช้ Roblox ใน Voidstrap เพื่อกดถูกใจ รีวิว และเผยแพร่ปลั๊กอิน</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.ReviewPosted" xml:space="preserve">
+    <value>โพสต์รีวิวของคุณแล้ว</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.ReviewNeedsOwnership" xml:space="preserve">
+    <value>Roblox อนุญาตให้รีวิวปลั๊กอินนี้ได้เฉพาะผู้ที่เป็นเจ้าของเท่านั้น</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.RateLimited" xml:space="preserve">
+    <value>Roblox ขอให้ช้าลง โปรดลองอีกครั้งในอีกสักครู่</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.ActionFailed" xml:space="preserve">
+    <value>Roblox ไม่ยอมรับการดำเนินการนี้ โปรดลองใหม่ภายหลัง</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.VoteSaved" xml:space="preserve">
+    <value>บันทึกการโหวตของคุณแล้ว</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.HelpfulSaved" xml:space="preserve">
+    <value>ทำเครื่องหมายว่ามีประโยชน์แล้ว</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.ReplyPosted" xml:space="preserve">
+    <value>โพสต์คำตอบของคุณแล้ว</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishTitle" xml:space="preserve">
+    <value>เผยแพร่ปลั๊กอิน</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishChoose" xml:space="preserve">
+    <value>เลือกไฟล์ปลั๊กอิน</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishName" xml:space="preserve">
+    <value>ชื่อ</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishDescription" xml:space="preserve">
+    <value>คำอธิบาย</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishUpdate" xml:space="preserve">
+    <value>อัปเดตปลั๊กอินที่มีอยู่</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishAssetId" xml:space="preserve">
+    <value>ID ปลั๊กอิน</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishAccount" xml:space="preserve">
+    <value>การดำเนินการนี้จะอัปโหลดไฟล์ไปยังบัญชี Roblox {0}</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishConfirm" xml:space="preserve">
+    <value>เผยแพร่</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishWorking" xml:space="preserve">
+    <value>กำลังเผยแพร่...</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishDone" xml:space="preserve">
+    <value>เผยแพร่แล้ว ID ปลั๊กอินคือ {0}</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishFileMissing" xml:space="preserve">
+    <value>โปรดเลือกไฟล์ปลั๊กอินก่อน</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishFileType" xml:space="preserve">
+    <value>เผยแพร่ได้เฉพาะไฟล์ปลั๊กอิน .rbxm และ .rbxmx เท่านั้น</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishFileTooLarge" xml:space="preserve">
+    <value>ไฟล์ปลั๊กอินต้องมีขนาดไม่เกิน 50 MB</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishFileNotRoblox" xml:space="preserve">
+    <value>ไฟล์นั้นไม่ใช่ไฟล์ปลั๊กอิน Roblox</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishNameLength" xml:space="preserve">
+    <value>ชื่อต้องมี 3 ถึง 50 ตัวอักษร</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishNotAllowed" xml:space="preserve">
+    <value>Roblox ไม่อนุญาตการอัปโหลดนี้ โปรดตรวจสอบว่าบัญชีนี้เป็นเจ้าของ ID ปลั๊กอิน</value>
+  </data>
+  <data name="Ui.Mods.StudioPlugins.PublishFailed" xml:space="preserve">
+    <value>เผยแพร่ไม่สำเร็จ: {0}</value>
+  </data>
 </root>

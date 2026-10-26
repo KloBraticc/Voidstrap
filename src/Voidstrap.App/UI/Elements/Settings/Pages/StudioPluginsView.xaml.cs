@@ -58,6 +58,7 @@ public partial class StudioPluginsView : UserControl
 		_searchTimer.Stop();
 		_searchTimer.Tick -= SearchTimer_Tick;
 		_loading?.Cancel();
+		StopCommunity();
 	}
 
 	private void SearchBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -312,6 +313,7 @@ public partial class StudioPluginsView : UserControl
 		DetailSourceButton.Visibility = entry.AssetId.HasValue ? Visibility.Visible : Visibility.Collapsed;
 		DetailStatus.Text = "";
 		RefreshDetail(entry);
+		StartCommunity(entry);
 		BrowseRoot.Visibility = Visibility.Collapsed;
 		DetailRoot.Visibility = Visibility.Visible;
 	}
@@ -347,6 +349,7 @@ public partial class StudioPluginsView : UserControl
 	private void Back_Click(object sender, RoutedEventArgs e)
 	{
 		_detail = null;
+		StopCommunity();
 		DetailRoot.Visibility = Visibility.Collapsed;
 		BrowseRoot.Visibility = Visibility.Visible;
 	}
