@@ -90,7 +90,7 @@ public static class McpStdioServer
 			return false;
 
 		if (args.Length == 2)
-			return Console.IsInputRedirected;
+			return Cli.IsMcpStdioPipeActive();
 
 		if (args.Length == 3)
 		{

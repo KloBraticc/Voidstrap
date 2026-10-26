@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Microsoft.Win32.SafeHandles;
 using Voidstrap.AppData;
 using AppSettings = Voidstrap.Models.Persistable.AppSettings;
 using Voidstrap.Models.Persistable;
@@ -16,6 +17,15 @@ namespace Voidstrap;
 internal static partial class Cli
 {
 	public const string Verb = "cli";
+
+	private const int StdInputHandle = -10;
+	private const int StdOutputHandle = -11;
+	private const int StdErrorHandle = -12;
+	private const uint FileTypeDisk = 1;
+	private const uint FileTypePipe = 3;
+	private const uint GenericWrite = 0x40000000;
+	private const uint FileShareReadWrite = 3;
+	private const uint OpenExisting = 3;
 
 	private const string Usage = """
 		Usage: Voidstrap cli <command>
@@ -47,23 +57,101 @@ internal static partial class Cli
 	public static bool IsCliInvocation(string[] args) =>
 		args.Length > 0 && args[0].Equals(Verb, StringComparison.OrdinalIgnoreCase);
 
+	internal static bool IsStdInputRedirected()
+	{
+		if (!OperatingSystem.IsWindows())
+			return Console.IsInputRedirected;
+		return IsStdHandleRedirected(StdInputHandle);
+	}
+
+	internal static bool IsStdOutputRedirected()
+	{
+		if (!OperatingSystem.IsWindows())
+			return Console.IsOutputRedirected;
+		return IsStdHandleRedirected(StdOutputHandle);
+	}
+
+	internal static bool IsStdErrorRedirected()
+	{
+		if (!OperatingSystem.IsWindows())
+			return Console.IsErrorRedirected;
+		return IsStdHandleRedirected(StdErrorHandle);
+	}
+
+	internal static bool IsMcpStdioPipeActive()
+	{
+		if (!OperatingSystem.IsWindows())
+			return false;
+		if (!IsStdInputRedirected() || !IsStdOutputRedirected())
+			return false;
+		nint handle = GetStdHandle(StdInputHandle);
+		if (handle == 0 || handle == -1)
+			return false;
+		uint fileType = GetFileType(handle);
+		if (fileType == FileTypeDisk)
+			return true;
+		for (int i = 0; i < 20; i++)
+		{
+			if (!PeekNamedPipe(handle, 0, 0, 0, out uint available, 0))
+				return false;
+			if (available > 0)
+				return true;
+			System.Threading.Thread.Sleep(10);
+		}
+		return false;
+	}
+
+	private static bool IsStdHandleRedirected(int stdHandle)
+	{
+		nint handle = GetStdHandle(stdHandle);
+		if (handle == 0 || handle == -1)
+			return false;
+		uint fileType = GetFileType(handle);
+		return fileType is FileTypeDisk or FileTypePipe;
+	}
+
+	private static Stream OpenConsoleOutStream(bool isError)
+	{
+		nint handle = CreateFileW("CONOUT$", GenericWrite, FileShareReadWrite, 0, OpenExisting, 0, 0);
+		if (handle != 0 && handle != -1)
+			return new FileStream(new SafeFileHandle(handle, ownsHandle: true), FileAccess.Write);
+		return isError ? Console.OpenStandardError() : Console.OpenStandardOutput();
+	}
+
 	public static void AttachTerminal()
 	{
 		if (!OperatingSystem.IsWindows())
 			return;
-		bool outRedirected = Console.IsOutputRedirected;
-		bool errRedirected = Console.IsErrorRedirected;
+		bool outRedirected = IsStdOutputRedirected();
+		bool errRedirected = IsStdErrorRedirected();
+		Stream? pipedOut = outRedirected ? Console.OpenStandardOutput() : null;
+		Stream? pipedErr = errRedirected ? Console.OpenStandardError() : null;
 		if (outRedirected && errRedirected)
-			return;
-		if (!AttachConsole(-1))
-			return;
-		if (!outRedirected)
 		{
-			Console.SetOut(new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true });
+			if (pipedOut != null)
+				Console.SetOut(new StreamWriter(pipedOut) { AutoFlush = true });
+			if (pipedErr != null)
+				Console.SetError(new StreamWriter(pipedErr) { AutoFlush = true });
+			return;
+		}
+		bool attached = AttachConsole(-1) || GetConsoleWindow() != 0;
+		if (pipedOut != null)
+		{
+			Console.SetOut(new StreamWriter(pipedOut) { AutoFlush = true });
+		}
+		else if (attached)
+		{
+			Console.SetOut(new StreamWriter(OpenConsoleOutStream(false)) { AutoFlush = true });
 			Console.WriteLine();
 		}
-		if (!errRedirected)
-			Console.SetError(new StreamWriter(Console.OpenStandardError()) { AutoFlush = true });
+		if (pipedErr != null)
+		{
+			Console.SetError(new StreamWriter(pipedErr) { AutoFlush = true });
+		}
+		else if (attached)
+		{
+			Console.SetError(new StreamWriter(OpenConsoleOutStream(true)) { AutoFlush = true });
+		}
 	}
 
 	public static async Task<int> RunAsync(string[] args)
@@ -426,11 +514,10 @@ internal static partial class Cli
 		if (!trimmed.StartsWith('+') && !trimmed.StartsWith('-') && !trimmed.StartsWith('/'))
 			return false;
 
-		string clean = trimmed.TrimStart('+', '-', '/');
+		string clean = trimmed.TrimStart('+', '-', '/').Replace("-", string.Empty);
 		return string.Equals(clean, Voidstrap.Integrations.Mcp.McpConnectInfo.DesktopClientLabel, StringComparison.OrdinalIgnoreCase)
 			|| string.Equals(clean, Voidstrap.Integrations.Mcp.McpConnectInfo.CliClientLabel, StringComparison.OrdinalIgnoreCase)
-			|| string.Equals(clean, Voidstrap.Integrations.Mcp.McpConnectInfo.OpenCodeClientLabel, StringComparison.OrdinalIgnoreCase)
-			|| string.Equals(clean, "open-code", StringComparison.OrdinalIgnoreCase);
+			|| string.Equals(clean, Voidstrap.Integrations.Mcp.McpConnectInfo.OpenCodeClientLabel, StringComparison.OrdinalIgnoreCase);
 	}
 
 	private static int Mcp(string[] args)
@@ -480,7 +567,7 @@ internal static partial class Cli
 		{
 			foreach (string raw in args)
 			{
-				string token = raw.Trim().TrimStart('+', '-', '/');
+				string token = raw.Trim().TrimStart('+', '-', '/').Replace("-", string.Empty);
 				if (string.Equals(token, dLabel, StringComparison.OrdinalIgnoreCase))
 				{
 					connectDesktop = true;
@@ -489,7 +576,7 @@ internal static partial class Cli
 				{
 					connectCli = true;
 				}
-				else if (string.Equals(token, oLabel, StringComparison.OrdinalIgnoreCase) || string.Equals(token, "open-code", StringComparison.OrdinalIgnoreCase))
+				else if (string.Equals(token, oLabel, StringComparison.OrdinalIgnoreCase))
 				{
 					connectOpenCode = true;
 				}
@@ -540,4 +627,33 @@ internal static partial class Cli
 	[LibraryImport("kernel32.dll", SetLastError = true)]
 	[return: MarshalAs(UnmanagedType.Bool)]
 	private static partial bool AttachConsole(int processId);
+
+	[LibraryImport("kernel32.dll")]
+	private static partial nint GetConsoleWindow();
+
+	[LibraryImport("kernel32.dll")]
+	private static partial nint GetStdHandle(int nStdHandle);
+
+	[LibraryImport("kernel32.dll")]
+	private static partial uint GetFileType(nint hFile);
+
+	[LibraryImport("kernel32.dll", SetLastError = true)]
+	[return: MarshalAs(UnmanagedType.Bool)]
+	private static partial bool PeekNamedPipe(
+		nint hNamedPipe,
+		nint lpBuffer,
+		uint nBufferSize,
+		nint lpBytesRead,
+		out uint lpTotalBytesAvail,
+		nint lpBytesLeftThisMessage);
+
+	[LibraryImport("kernel32.dll", EntryPoint = "CreateFileW", StringMarshalling = StringMarshalling.Utf16, SetLastError = true)]
+	private static partial nint CreateFileW(
+		string lpFileName,
+		uint dwDesiredAccess,
+		uint dwShareMode,
+		nint lpSecurityAttributes,
+		uint dwCreationDisposition,
+		uint dwFlagsAndAttributes,
+		nint hTemplateFile);
 }

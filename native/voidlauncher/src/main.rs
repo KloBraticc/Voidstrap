@@ -22,6 +22,19 @@ const PAYLOAD_ID: u16 = 101;
 const RT_RCDATA: u16 = 10;
 const PAYLOAD_DIR: &str = env!("VOIDSTRAP_PAYLOAD_DIR");
 const DOTNET_MAJOR: &str = env!("VOIDSTRAP_DOTNET_MAJOR");
+const STD_INPUT_HANDLE: u32 = -10i32 as u32;
+const STD_OUTPUT_HANDLE: u32 = -11i32 as u32;
+const STD_ERROR_HANDLE: u32 = -12i32 as u32;
+const ATTACH_PARENT_PROCESS: u32 = -1i32 as u32;
+const FILE_TYPE_DISK: u32 = 1;
+const FILE_TYPE_PIPE: u32 = 3;
+
+#[link(name = "kernel32")]
+extern "system" {
+    fn AttachConsole(dwProcessId: u32) -> i32;
+    fn GetStdHandle(nStdHandle: u32) -> *mut core::ffi::c_void;
+    fn GetFileType(hFile: *mut core::ffi::c_void) -> u32;
+}
 
 fn main() -> ExitCode {
     let launcher = match env::current_exe() {
@@ -35,15 +48,54 @@ fn main() -> ExitCode {
         Some(path) => path,
         None => return fail(strings::unpack_failed()),
     };
+    let console_mode = is_console_command();
+    if console_mode
+        && !is_handle_redirected(STD_INPUT_HANDLE)
+        && !is_handle_redirected(STD_OUTPUT_HANDLE)
+        && !is_handle_redirected(STD_ERROR_HANDLE)
+    {
+        unsafe {
+            AttachConsole(ATTACH_PARENT_PROCESS);
+        }
+    }
     let mut command = Command::new(&app);
     let arguments = raw_arguments();
     if !arguments.is_empty() {
         command.raw_arg(arguments);
     }
     command.env("VOIDSTRAP_LAUNCHER", &launcher);
+    if console_mode {
+        return match command.status() {
+            Ok(status) => ExitCode::from(status.code().unwrap_or(1) as u8),
+            Err(_) => fail(strings::unpack_failed()),
+        };
+    }
     match command.spawn() {
         Ok(_) => ExitCode::SUCCESS,
         Err(_) => fail(strings::unpack_failed()),
+    }
+}
+
+fn is_console_command() -> bool {
+    let Some(first) = env::args_os().nth(1) else {
+        return false;
+    };
+    let text = first.to_string_lossy();
+    let lower = text.trim().to_ascii_lowercase();
+    if matches!(lower.as_str(), "cli" | "mcp" | "-mcp" | "--mcp" | "/mcp") {
+        return true;
+    }
+    lower.starts_with('+')
+}
+
+fn is_handle_redirected(std_handle: u32) -> bool {
+    unsafe {
+        let handle = GetStdHandle(std_handle);
+        if handle.is_null() || handle == (-1isize as *mut core::ffi::c_void) {
+            return false;
+        }
+        let kind = GetFileType(handle);
+        kind == FILE_TYPE_DISK || kind == FILE_TYPE_PIPE
     }
 }
 

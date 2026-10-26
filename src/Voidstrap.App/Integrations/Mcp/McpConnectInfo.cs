@@ -33,6 +33,8 @@ public static class McpConnectInfo
 
 	public static string ExecutablePath()
 	{
+		if (!string.IsNullOrWhiteSpace(Paths.Process))
+			return Paths.Process;
 		return Environment.ProcessPath ?? Path.Combine(AppContext.BaseDirectory, "Voidstrap.exe");
 	}
 
