@@ -146,7 +146,10 @@ namespace Voidstrap.Integrations.Overlays
         private bool _riShadeInteractive;
         private bool _riMissingRuntimeLogged;
         private long _riDepthStamp;
+        private bool _riLowEnd;
+        private double _riDepthNextMs;
         private int _riDepthModelVersion;
+        private const double LowEndDepthIntervalMs = 50.0;
         private readonly ID3D11Texture2D?[] _stageTex = new ID3D11Texture2D?[2];
         private readonly ID3D11ShaderResourceView?[] _stageSrv = new ID3D11ShaderResourceView?[2];
         private readonly ID3D11RenderTargetView?[] _stageRtv = new ID3D11RenderTargetView?[2];
@@ -982,6 +985,8 @@ namespace Voidstrap.Integrations.Overlays
                 s_reshadeLoadedUnwrapped = true;
                 _riMissingRuntimeLogged = false;
 
+                _riLowEnd = RiShadeDepthModels.LowEndHardware;
+                RiShadeManager.ApplyLowEndConfig();
                 StartRiShadeDepth();
 
                 string configPath = Path.Combine(RiShadeManager.RiShadeDir, "ReShade.ini");
@@ -2416,8 +2421,11 @@ namespace Voidstrap.Integrations.Overlays
                             ? "RiShade depth switched live to the AI model " + modelFile
                             : "RiShade depth switched live to scene estimation");
                     }
-                    if (_riDepthBridge)
+                    if (_riDepthBridge && (!_riLowEnd || _freshCaptureMs >= _riDepthNextMs))
+                    {
+                        _riDepthNextMs = _freshCaptureMs + LowEndDepthIntervalMs;
                         _ = RiShadeInterop.DepthBridgeUpdate(_rawSrv!.NativePointer, ++_riDepthStamp);
+                    }
                 }
                 catch (Exception ex)
                 {

@@ -153,6 +153,34 @@ namespace Voidstrap.Integrations.RiShade
             }
         }
 
+        public static void ApplyLowEndConfig()
+        {
+            if (!RiShadeDepthModels.LowEndHardware)
+                return;
+            try
+            {
+                List<string> lines = File.Exists(ConfigPath) ? File.ReadAllLines(ConfigPath).ToList() : new List<string>();
+                int general = lines.FindIndex(line => line.Trim().Equals("[GENERAL]", StringComparison.OrdinalIgnoreCase));
+                if (general < 0)
+                {
+                    lines.Insert(0, "[GENERAL]");
+                    general = 0;
+                }
+                int end = lines.FindIndex(general + 1, line => line.TrimStart().StartsWith('['));
+                if (end < 0)
+                    end = lines.Count;
+                if (lines.FindIndex(general + 1, end - general - 1, line => line.TrimStart().StartsWith("PerformanceMode=", StringComparison.OrdinalIgnoreCase)) >= 0)
+                    return;
+                lines.Insert(general + 1, "PerformanceMode=1");
+                WriteConfig(lines);
+                App.Logger.WriteLine(LogIdent, "Turned on ReShade performance mode for low end hardware");
+            }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+            {
+                App.Logger.WriteLine(LogIdent, "ReShade performance mode could not be saved: " + ex.Message);
+            }
+        }
+
         private static bool SavePresetPath(string fullPath)
         {
             try

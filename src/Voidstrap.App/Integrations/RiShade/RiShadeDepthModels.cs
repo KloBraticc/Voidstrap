@@ -110,11 +110,30 @@ namespace Voidstrap.Integrations.RiShade
         public static bool NeedsMigration => Enabled && !string.Equals(App.Settings.Prop.RiShadeDepthModel, OnSetting, StringComparison.Ordinal);
 
         public static bool NeedsUpdate =>
-            Voidstrap.Utility.Platform.IsWindows && Enabled && Files is Asset[] files && files.Any(asset => !IsInstalled(RiShadeManager.RiShadeDir, asset));
+            Voidstrap.Utility.Platform.IsWindows && Enabled && !LowEndHardware && Files is Asset[] files && files.Any(asset => !IsInstalled(RiShadeManager.RiShadeDir, asset));
 
         public static int SizeMegabytes => ModelAsset is Asset model ? (int)Math.Round(model.Size / 1048576.0) : 0;
 
         public static bool ExactDepth => Enabled;
+
+        private const ulong LowEndDedicatedMemory = 2UL * 1024 * 1024 * 1024;
+
+        private static readonly int CpuCount = Environment.ProcessorCount;
+
+        private static int _lowEndLogged;
+
+        public static bool LowEndHardware
+        {
+            get
+            {
+                ProbeHardware();
+                bool weakGpu = _hardware is RiShadeInterop.DepthHardware hardware && (hardware.Integrated != 0 || hardware.DedicatedMemory < LowEndDedicatedMemory);
+                bool lowEnd = weakGpu || CpuCount <= 4;
+                if (lowEnd && Interlocked.Exchange(ref _lowEndLogged, 1) == 0)
+                    App.Logger.WriteLine(LogIdent, $"Low end hardware detected ({(weakGpu ? "weak GPU" : "few CPU cores")}, {CpuCount} threads), RiShade uses its lightweight path");
+                return lowEnd;
+            }
+        }
 
         private static Asset? ModelAsset => Volatile.Read(ref _latest) ?? BuiltinModel;
 
@@ -203,7 +222,7 @@ namespace Voidstrap.Integrations.RiShade
         {
             get
             {
-                if (!Voidstrap.Utility.Platform.IsWindows || !Enabled || Files is not Asset[] files)
+                if (!Voidstrap.Utility.Platform.IsWindows || !Enabled || LowEndHardware || Files is not Asset[] files)
                     return null;
                 string directory = RiShadeManager.RiShadeDir;
                 foreach (Asset asset in files)
