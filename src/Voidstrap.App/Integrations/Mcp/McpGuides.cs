@@ -82,8 +82,11 @@ public static class McpGuides
 		  <TitleBar Title="" ShowMinimize="False" ShowClose="False" />
 		  <WebPanel Source="theme://index.html" CanDrag="True" />
 		</VoidstrapCustomBootstrapper>
-		Load CSS and JS from the page with theme:// URLs: <link rel="stylesheet" href="theme://style.css"> and
-		<script src="theme://app.js"></script>. Only files in the theme folder load, there is no internet access.
+		Inside HTML, CSS and JavaScript use plain relative paths, NOT theme://: <link rel="stylesheet" href="style.css">,
+		<script src="app.js"></script>, <img src="images/logo.png">, url("fonts/my.woff2"). theme:// is only for Theme.xml.
+		Only files in the theme folder load, there is no internet access (cdn.jsdelivr.net is the one allowed outside host).
+		Always style everything yourself: set html and body margin 0, height 100%, a font-family (for example "Segoe UI Variable",
+		"Segoe UI", sans-serif), a color, and a background, or the page shows plain black serif text.
 		The page gets a ready made object, window.voidstrap, before any script runs. Use exactly these members:
 		  voidstrap.status         current status text, such as "Downloading Roblox"
 		  voidstrap.progress       current progress value
@@ -123,7 +126,9 @@ public static class McpGuides
 
 		COMMON MISTAKES
 		Missing Version on the root. Forgetting activate true or open_editor, so the theme exists but is never used.
-		Using http URLs or ../ paths (blocked). Guessing JavaScript APIs instead of window.voidstrap. More than 100 elements.
+		Using theme:// inside HTML or CSS (use relative paths). Using http URLs or ../ paths (blocked). Creating a second theme
+		instead of editing the open one (check list_editors and reuse its editorId). Guessing JavaScript APIs instead of
+		window.voidstrap. More than 100 elements.
 		Two elements with the same Name. Not calling test_bootstrapper_theme before telling the user it is done.
 		""";
 

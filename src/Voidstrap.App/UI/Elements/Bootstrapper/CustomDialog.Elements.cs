@@ -809,6 +809,12 @@ namespace Voidstrap.UI.Elements.Bootstrapper
 
         private const string WebPanelHostSuffix = ".theme.voidstrap.invalid";
 
+        private const long MaxWebPanelPageBytes = 4L * 1024 * 1024;
+
+        private static readonly System.Runtime.CompilerServices.ConditionalWeakTable<Microsoft.Web.WebView2.Wpf.WebView2, string> WebPanelHosts = new();
+
+        private static readonly System.Collections.Concurrent.ConcurrentDictionary<string, string> WebPanelFolders = new(StringComparer.OrdinalIgnoreCase);
+
         private const string WebPanelBrowserArgs =
             "--disable-background-networking --disable-sync --disable-extensions "
             + "--disable-component-update --no-first-run --no-default-browser-check "
@@ -1051,6 +1057,8 @@ namespace Voidstrap.UI.Elements.Bootstrapper
                 settings.IsSwipeNavigationEnabled = false;
 
                 string host = "theme-" + Guid.NewGuid().ToString("N") + WebPanelHostSuffix;
+                WebPanelFolders[host] = System.IO.Path.GetFullPath(folder);
+                WebPanelHosts.AddOrUpdate(view, host);
                 core.SetVirtualHostNameToFolderMapping(
                     host,
                     folder,
@@ -1137,13 +1145,49 @@ namespace Voidstrap.UI.Elements.Bootstrapper
         private static void WebPanel_WebResourceRequested(object? sender, Microsoft.Web.WebView2.Core.CoreWebView2WebResourceRequestedEventArgs e)
         {
             if (IsWebPanelUri(e.Request.Uri))
+            {
+                if (sender is Microsoft.Web.WebView2.Core.CoreWebView2 owner && TryServeThemePage(owner, e.Request.Uri) is { } page)
+                    e.Response = page;
                 return;
+            }
 
             if (IsAllowedWebPanelHost(e.Request.Uri))
                 return;
 
             if (sender is Microsoft.Web.WebView2.Core.CoreWebView2 core)
                 e.Response = core.Environment.CreateWebResourceResponse(null, 403, "Blocked", string.Empty);
+        }
+
+        private static Microsoft.Web.WebView2.Core.CoreWebView2WebResourceResponse? TryServeThemePage(Microsoft.Web.WebView2.Core.CoreWebView2 core, string uri)
+        {
+            try
+            {
+                Uri parsed = new Uri(uri);
+                string relative = Uri.UnescapeDataString(parsed.AbsolutePath).TrimStart('/');
+                if (!relative.EndsWith(".html", StringComparison.OrdinalIgnoreCase) && !relative.EndsWith(".htm", StringComparison.OrdinalIgnoreCase) && !relative.EndsWith(".css", StringComparison.OrdinalIgnoreCase))
+                    return null;
+                if (!WebPanelFolders.TryGetValue(parsed.Host, out string? folder))
+                    return null;
+
+                string root = System.IO.Path.TrimEndingDirectorySeparator(folder) + System.IO.Path.DirectorySeparatorChar;
+                string full = System.IO.Path.GetFullPath(System.IO.Path.Combine(root, relative));
+                if (!full.StartsWith(root, StringComparison.OrdinalIgnoreCase) || !System.IO.File.Exists(full) || new System.IO.FileInfo(full).Length > MaxWebPanelPageBytes)
+                    return null;
+
+                string text = System.IO.File.ReadAllText(full);
+                if (!text.Contains("theme://", StringComparison.OrdinalIgnoreCase))
+                    return null;
+
+                text = System.Text.RegularExpressions.Regex.Replace(text, "theme://", "/", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+                string type = relative.EndsWith(".css", StringComparison.OrdinalIgnoreCase) ? "text/css" : "text/html";
+                var stream = new System.IO.MemoryStream(System.Text.Encoding.UTF8.GetBytes(text));
+                return core.Environment.CreateWebResourceResponse(stream, 200, "OK", "Content-Type: " + type + "; charset=utf-8");
+            }
+            catch (Exception ex) when (ex is System.IO.IOException or UnauthorizedAccessException or UriFormatException or ArgumentException)
+            {
+                App.Logger.WriteLine("CustomDialog::TryServeThemePage", ex.Message);
+                return null;
+            }
         }
 
         private static void WebPanel_Unloaded(object sender, RoutedEventArgs e)
@@ -1167,6 +1211,11 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             var core = view.CoreWebView2;
             if (core != null)
             {
+                if (WebPanelHosts.TryGetValue(view, out string? mappedHost))
+                {
+                    WebPanelFolders.TryRemove(mappedHost, out _);
+                    WebPanelHosts.Remove(view);
+                }
                 core.NewWindowRequested -= WebPanel_NewWindowRequested;
                 core.NavigationStarting -= WebPanel_NavigationStarting;
                 core.DownloadStarting -= WebPanel_DownloadStarting;
