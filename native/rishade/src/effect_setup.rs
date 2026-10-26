@@ -213,7 +213,7 @@ pub fn install_effects_and_presets(root: &Path) -> io::Result<InstallSummary> {
     Ok(summary)
 }
 
-const UPGRADED_PRESETS: [(&str, &str); 6] = [
+const UPGRADED_PRESETS: [(&str, &str); 7] = [
     (
         "RiShade Reflections.ini",
         "afdcf21fa758ef1a229d9a350738b5f7a76b8f90044fa2fafb3d8df67ad4c68a",
@@ -238,13 +238,59 @@ const UPGRADED_PRESETS: [(&str, &str); 6] = [
         "RiShade Reflections.ini",
         "f49de633b319b8f1bc976eb44de41ce7650c0e077e6112771806b9922268e876",
     ),
+    (
+        "RiShade Reflections.ini",
+        "2566c45befb4e1521f3239e43f640b738f580bd11bee6a81f8be5bb32f631687",
+    ),
 ];
 
 const RETIRED_SSR_TECHNIQUES: [&str; 1] = ["RiShade_SSR@RiShade_SSR.fx"];
 const REPLACEMENT_SSR_TECHNIQUE: &str = "SSR@qUINT_ssr.fx";
 const QUINT_SSR_PATH: &str = "reshade-shaders/Shaders/qUINT/qUINT_ssr.fx";
-const QUINT_SSR_PATCHED: &str = "#define RISHADE_SSR_PATCH 4";
-const QUINT_SSR_PATCHES: [(&str, &str); 9] = [
+const QUINT_SSR_PATCHED: &str = "#define RISHADE_SSR_PATCH 5";
+const QUINT_SSR_PATCHES: [(&str, &str); 10] = [
+    (
+        "#define RESHADE_QUINT_COMMON_VERSION_REQUIRE    202",
+        "#define RISHADE_SSR_PATCH 5\n\nuniform float SSR_FLOOR_ONLY <\n\tui_type = \"drag\";\n\tui_min = 0.0; ui_max = 1.0;\n\tui_label = \"Floor Only\";\n\tui_tooltip = \"Limits reflections to surfaces that face up, so walls and characters stay clean.\";\n> = 0.3;\n\nuniform float SSR_BASE_REFLECTIVITY <\n\tui_type = \"drag\";\n\tui_min = 0.0; ui_max = 1.0;\n\tui_label = \"Base Reflectivity\";\n\tui_tooltip = \"How much surfaces reflect when viewed head on. Grazing angles always reflect more.\";\n> = 0.3;\n\n#define RESHADE_QUINT_COMMON_VERSION_REQUIRE    202",
+    ),
+    (
+        "float3 single_pixel_offset = float3(qUINT::PIXEL_SIZE, 0);",
+        "float3 single_pixel_offset = float3(qUINT::PIXEL_SIZE * 6.0, 0);",
+    ),
+    (
+        "uv_inside_screen = all(saturate(-trace.uv.y * trace.uv.y + trace.uv.y));",
+        "uv_inside_screen = all(saturate(trace.uv - trace.uv * trace.uv));",
+    ),
+    (
+        "trace.hit = k != 0;",
+        "trace.hit = k != 0 && all(saturate(trace.uv - trace.uv * trace.uv)) && qUINT::linear_depth(trace.uv) < 0.98 && scene.depth < 0.98;",
+    ),
+    (
+        "float SSR_FRESNEL_K = 0.04;",
+        "float SSR_FRESNEL_K = SSR_BASE_REFLECTIVITY;",
+    ),
+    (
+        "saturate(dot(scene.eyedir, ray.dir)) * saturate(1 - dot(-scene.eyedir, scene.normal));",
+        "saturate(dot(scene.eyedir, ray.dir) * 2.0 + 0.25);",
+    ),
+    (
+        "reflection.a   = trace.hit * schlick * fade;",
+        "float2 edge = min(trace.uv, 1.0 - trace.uv);\n\tfloat edge_fade = saturate(min(edge.x, edge.y) * 10.0);\n\tfloat surface = lerp(1.0, smoothstep(0.25, 0.65, -blurbuffer.y), SSR_FLOOR_ONLY);\n\tfloat crease = saturate(1.0 - blurbuffer.w / max(scene.position.z * scene.position.z, 1e-6) * 50.0);\n\treflection.a   = trace.hit * schlick * fade * edge_fade * edge_fade * surface * crease;",
+    ),
+    (
+        "o.rgb = lerp(o.rgb, reflection.rgb, alpha * fade);",
+        "o.rgb = lerp(o.rgb, reflection.rgb / max(alpha, 1e-4), saturate(alpha * fade));",
+    ),
+    (
+        "trace.num_refines = 3;",
+        "trace.num_refines = 6;",
+    ),
+    (
+        "trace.num_steps = 20;",
+        "trace.num_steps = 32;",
+    ),
+];
+const QUINT_SSR_V4_PATCHES: [(&str, &str); 9] = [
     (
         "#define RESHADE_QUINT_COMMON_VERSION_REQUIRE    202",
         "#define RISHADE_SSR_PATCH 4\n\nuniform float SSR_FLOOR_ONLY <\n\tui_type = \"drag\";\n\tui_min = 0.0; ui_max = 1.0;\n\tui_label = \"Floor Only\";\n\tui_tooltip = \"Limits reflections to surfaces that face up, so walls and characters stay clean.\";\n> = 0.85;\n\nuniform float SSR_BASE_REFLECTIVITY <\n\tui_type = \"drag\";\n\tui_min = 0.0; ui_max = 1.0;\n\tui_label = \"Base Reflectivity\";\n\tui_tooltip = \"How much surfaces reflect when viewed head on. Grazing angles always reflect more.\";\n> = 0.3;\n\n#define RESHADE_QUINT_COMMON_VERSION_REQUIRE    202",
@@ -376,7 +422,8 @@ const QUINT_SSR_V1_PATCHES: [(&str, &str); 6] = [
         "o.rgb = lerp(o.rgb, reflection.rgb / max(alpha, 1e-4), saturate(alpha * fade));",
     ),
 ];
-const QUINT_SSR_HISTORY: [(&str, &[(&str, &str)]); 3] = [
+const QUINT_SSR_HISTORY: [(&str, &[(&str, &str)]); 4] = [
+    ("#define RISHADE_SSR_PATCH 4", &QUINT_SSR_V4_PATCHES),
     ("#define RISHADE_SSR_PATCH 3", &QUINT_SSR_V3_PATCHES),
     ("#define RISHADE_SSR_PATCH 2", &QUINT_SSR_V2_PATCHES),
     ("SSR_FLOOR_ONLY", &QUINT_SSR_V1_PATCHES),
@@ -423,7 +470,7 @@ fn patched_quint_ssr(text: &str) -> Option<String> {
     Some(output)
 }
 
-const SSR_CONFIG_MARKER: &str = ".rishade-ssr-config-v1";
+const SSR_CONFIG_MARKER: &str = ".rishade-ssr-config-v2";
 const SSR_CONFIG_SECTION: &str = "qUINT_ssr.fx";
 const SSR_CONFIG: [(&str, &str); 12] = [
     ("SSR_ACCEPT_RANGE", "2.500000"),
@@ -431,7 +478,7 @@ const SSR_CONFIG: [(&str, &str); 12] = [
     ("SSR_FADE_DIST", "100.000000"),
     ("SSR_FIELD_OF_VIEW", "1.000000"),
     ("SSR_FILTER_SIZE", "0.500000"),
-    ("SSR_FLOOR_ONLY", "0.850000"),
+    ("SSR_FLOOR_ONLY", "0.300000"),
     ("SSR_FRESNEL_EXP", "100.000000"),
     ("SSR_JITTER_AMOUNT", "0.250000"),
     ("SSR_RAY_INC", "1.600000"),
@@ -1365,7 +1412,7 @@ mod tests {
         assert!(patched.contains(QUINT_SSR_PATCHED));
         assert!(patched.contains("reflection.rgb / max(alpha, 1e-4)"));
         assert!(patched_quint_ssr(&patched).is_none());
-        for history in [&QUINT_SSR_V1_PATCHES[..], &QUINT_SSR_V2_PATCHES[..], &QUINT_SSR_V3_PATCHES[..]] {
+        for history in [&QUINT_SSR_V1_PATCHES[..], &QUINT_SSR_V2_PATCHES[..], &QUINT_SSR_V3_PATCHES[..], &QUINT_SSR_V4_PATCHES[..]] {
             let mut legacy = stock.clone();
             for (find, replace) in history {
                 legacy = legacy.replacen(find, replace, 1);
