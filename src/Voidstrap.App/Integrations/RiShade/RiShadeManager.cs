@@ -377,6 +377,7 @@ namespace Voidstrap.Integrations.RiShade
             if (_installed)
                 return;
             _installed = true;
+            ForwardReShadeProblems();
             CleanLog();
             App.Logger.WriteLine(LogIdent, "Installed, enabled setting is " + App.Settings.Prop.RiShadeEnabled);
         }
@@ -692,6 +693,40 @@ namespace Voidstrap.Integrations.RiShade
             Volatile.Write(ref _nextPresetStateCheck, 0);
             if (runtime == IntPtr.Zero)
                 RiShadePanel.NotifyOpenChanged(false);
+        }
+
+        private const int MaxForwardedReShadeLines = 400;
+
+        private static void ForwardReShadeProblems()
+        {
+            string path = Path.Combine(RiShadeDir, "ReShade.log");
+            try
+            {
+                if (!File.Exists(path))
+                    return;
+                int forwarded = 0;
+                bool inProblem = false;
+                foreach (string line in File.ReadLines(path))
+                {
+                    bool entry = line.Contains(" | ", StringComparison.Ordinal);
+                    if (entry)
+                        inProblem = line.Contains("| ERROR |", StringComparison.Ordinal) || line.Contains("| WARN  |", StringComparison.Ordinal);
+                    if (!inProblem || string.IsNullOrWhiteSpace(line))
+                        continue;
+                    App.Logger.WriteLine("ReShade", line.Trim());
+                    if (++forwarded >= MaxForwardedReShadeLines)
+                    {
+                        App.Logger.WriteLine("ReShade", "More ReShade problems were cut off at " + MaxForwardedReShadeLines + " lines");
+                        return;
+                    }
+                }
+                if (forwarded > 0)
+                    App.Logger.WriteLine(LogIdent, "Copied " + forwarded + " ReShade error and warning lines from the previous session");
+            }
+            catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+            {
+                App.Logger.WriteLine(LogIdent, "ReShade.log could not be read: " + ex.Message);
+            }
         }
 
         private static void CleanLog()
