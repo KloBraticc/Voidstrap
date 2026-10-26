@@ -118,7 +118,7 @@ public static class McpTools
 		sb.AppendLine($"  Discord RPC: {s.UseDiscordRichPresence} | ShowServerDetails: {s.ShowServerDetails} | ShowAccount: {s.ShowAccountOnRichPresence}");
 		int totalFlags = App.FastFlags.Prop.Count;
 		int allowlistedCount = App.FastFlags.Prop.Keys.Count(IsAllowlistedFlag);
-		sb.AppendLine($"  MultiAccount: {s.MultiAccount} | Channel: {s.Channel} | Configured FastFlags: {totalFlags} ({allowlistedCount} on Roblox allowlist)");
+		sb.AppendLine($"  Channel: {s.Channel} | Configured FastFlags: {totalFlags} ({allowlistedCount} on Roblox allowlist)");
 		sb.AppendLine();
 
 		sb.AppendLine("FastFlag References:");
@@ -151,7 +151,7 @@ public static class McpTools
 		PropertyInfo[] props = typeof(AppSettings).GetProperties(BindingFlags.Public | BindingFlags.Instance);
 		foreach (PropertyInfo prop in props.OrderBy(p => p.Name, StringComparer.OrdinalIgnoreCase))
 		{
-			if (!prop.CanRead || prop.GetIndexParameters().Length > 0)
+			if (!prop.CanRead || prop.GetIndexParameters().Length > 0 || IsBlockedSetting(prop.Name))
 				continue;
 
 			if (!string.IsNullOrEmpty(filter) && !prop.Name.Contains(filter, StringComparison.OrdinalIgnoreCase))
@@ -231,11 +231,17 @@ public static class McpTools
 			AppSettings instance = App.Settings.Prop;
 			Dictionary<string, PropertyInfo> propMap = typeof(AppSettings)
 				.GetProperties(BindingFlags.Public | BindingFlags.Instance)
-				.Where(p => p.CanWrite && p.GetIndexParameters().Length == 0)
+				.Where(p => p.CanWrite && p.GetIndexParameters().Length == 0 && !IsBlockedSetting(p.Name))
 				.ToDictionary(p => p.Name, p => p, StringComparer.OrdinalIgnoreCase);
 
 			foreach (KeyValuePair<string, JsonNode?> kv in settingsNode)
 			{
+				if (IsBlockedSetting(kv.Key))
+				{
+					errors.Add($"Setting '{kv.Key}' is blocked because multi instance is disabled in Voidstrap");
+					continue;
+				}
+
 				if (!propMap.TryGetValue(kv.Key, out PropertyInfo? prop))
 				{
 					errors.Add($"Unknown or read-only setting '{kv.Key}'");
@@ -1053,10 +1059,24 @@ public static class McpTools
 
 		if (mode == "studio")
 		{
+			Process[] runningStudio = Process.GetProcessesByName(App.RobloxStudioAppName);
+			bool alreadyRunningStudio = runningStudio.Length > 0;
+			foreach (Process p in runningStudio)
+				p.Dispose();
+			if (alreadyRunningStudio)
+				return new McpToolResult("Roblox Studio is already running. Multi instance is blocked; close the existing Studio instance first.", true);
+
 			startInfo.ArgumentList.Add("-studio");
 			using Process? proc = Process.Start(startInfo);
 			return new McpToolResult("Launched Roblox Studio via Voidstrap.");
 		}
+
+		Process[] runningPlayer = Process.GetProcessesByName(App.RobloxPlayerAppName);
+		bool alreadyRunningPlayer = runningPlayer.Length > 0;
+		foreach (Process p in runningPlayer)
+			p.Dispose();
+		if (alreadyRunningPlayer)
+			return new McpToolResult("Roblox Player is already running. Multi instance is blocked; close the existing Roblox instance first or call launch_roblox with mode 'close'.", true);
 
 		startInfo.ArgumentList.Add("-player");
 		if (!string.IsNullOrWhiteSpace(placeId))
@@ -1427,6 +1447,16 @@ public static class McpTools
 
 		string ids = string.Join(", ", all.Select(e => $"{e.Key} ({e.Value.DisplayName})"));
 		return $"Editor '{requested}' is not open. Open editors: {ids}. Or call open_editor to open it.";
+	}
+
+	private static bool IsBlockedSetting(string? name)
+	{
+		if (string.IsNullOrWhiteSpace(name))
+			return true;
+
+		return string.Equals(name, nameof(AppSettings.MultiAccount), StringComparison.OrdinalIgnoreCase)
+			|| name.Contains("MultiInstance", StringComparison.OrdinalIgnoreCase)
+			|| name.Contains("MultiAccount", StringComparison.OrdinalIgnoreCase);
 	}
 
 	private sealed record TrackerSourceDef(string Name, string Url, bool NamesOnly);

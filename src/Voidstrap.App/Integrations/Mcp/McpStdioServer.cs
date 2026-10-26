@@ -21,7 +21,7 @@ public static class McpStdioServer
 		"User Interface: FIntGrassMovementReducedMotionFactor. " +
 		"MaximumADHD Roblox-FFlag-Tracker (https://github.com/MaximumADHD/Roblox-FFlag-Tracker) & Roblox-Client-Tracker (https://github.com/MaximumADHD/Roblox-Client-Tracker): use search_fastflag_tracker to query live FastFlags and default values across PCDesktopClient.json (https://raw.githubusercontent.com/MaximumADHD/Roblox-FFlag-Tracker/refs/heads/main/PCDesktopClient.json), PCClientBootstrapper.json (https://raw.githubusercontent.com/MaximumADHD/Roblox-FFlag-Tracker/refs/heads/main/PCClientBootstrapper.json), PCStudioApp.json (https://raw.githubusercontent.com/MaximumADHD/Roblox-FFlag-Tracker/refs/heads/main/PCStudioApp.json), FVariables.txt (https://raw.githubusercontent.com/MaximumADHD/Roblox-Client-Tracker/refs/heads/roblox/FVariables.txt), and live Roblox ClientSettings (https://clientsettings.roblox.com/v2/settings/application/PCDesktopClient), or to validate all currently configured flags in ClientAppSettings.json. " +
 		"Use open_editor ('bootstrapper', 'keystroke', or 'fastflags'), get_editor_code, set_editor_code, replace_in_editor, and save_editor to open and live-edit Custom Bootstrapper XML themes, Keystroke overlay themes (C#, HTML/CSS, Rust, JSON), and FastFlags with instant on-screen preview. " +
-		"Use navigate_ui to switch Voidstrap's MainWindow to any active page or highlight a setting, manage_themes_and_mods to manage custom themes/fonts/sounds/mods, launch_roblox to launch Player/Studio or join a placeId/jobId, and get_logs_and_activity to inspect Voidstrap logs, Roblox logs, and server history.";
+		"Use navigate_ui to switch Voidstrap's MainWindow to any active page or highlight a setting, manage_themes_and_mods to manage custom themes/fonts/sounds/mods, launch_roblox to launch Player/Studio or join a placeId/jobId (multi-instance is blocked; only one Roblox instance can run at a time), and get_logs_and_activity to inspect Voidstrap logs, Roblox logs, and server history.";
 
 	private const string AllowlistAndTrackerReference =
 		"ROBLOX FASTFLAG ALLOWLIST & MAXIMUMADHD FFLAG TRACKER REFERENCE\n\n" +
@@ -73,18 +73,31 @@ public static class McpStdioServer
 
 	public static bool IsRequested(string[] args) => IsMcpStartupArg(args);
 
+	public static bool IsMcpToken(string arg)
+	{
+		return string.Equals(arg, CommandArg, StringComparison.OrdinalIgnoreCase)
+			|| string.Equals(arg, "-" + CommandArg, StringComparison.OrdinalIgnoreCase)
+			|| string.Equals(arg, "--" + CommandArg, StringComparison.OrdinalIgnoreCase)
+			|| string.Equals(arg, "/" + CommandArg, StringComparison.OrdinalIgnoreCase);
+	}
+
 	public static bool IsMcpStartupArg(string[] args)
 	{
-		if (!Voidstrap.Utility.Platform.IsWindows || args.Length == 0)
+		if (!Voidstrap.Utility.Platform.IsWindows || args.Length < 2)
 			return false;
 
-		foreach (string arg in args)
+		if (!IsMcpToken(args[1]))
+			return false;
+
+		if (args.Length == 2)
+			return Console.IsInputRedirected;
+
+		if (args.Length == 3)
 		{
-			if (string.Equals(arg, CommandArg, StringComparison.OrdinalIgnoreCase)
-				|| string.Equals(arg, "-" + CommandArg, StringComparison.OrdinalIgnoreCase)
-				|| string.Equals(arg, "--" + CommandArg, StringComparison.OrdinalIgnoreCase)
-				|| string.Equals(arg, "/" + CommandArg, StringComparison.OrdinalIgnoreCase))
-				return true;
+			string sub = args[2];
+			return string.Equals(sub, "stdio", StringComparison.OrdinalIgnoreCase)
+				|| string.Equals(sub, "-stdio", StringComparison.OrdinalIgnoreCase)
+				|| string.Equals(sub, "--stdio", StringComparison.OrdinalIgnoreCase);
 		}
 
 		return false;

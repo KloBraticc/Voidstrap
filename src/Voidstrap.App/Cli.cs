@@ -49,11 +49,21 @@ internal static partial class Cli
 
 	public static void AttachTerminal()
 	{
-		if (!OperatingSystem.IsWindows() || !AttachConsole(-1))
+		if (!OperatingSystem.IsWindows())
 			return;
-		Console.SetOut(new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true });
-		Console.SetError(new StreamWriter(Console.OpenStandardError()) { AutoFlush = true });
-		Console.WriteLine();
+		bool outRedirected = Console.IsOutputRedirected;
+		bool errRedirected = Console.IsErrorRedirected;
+		if (outRedirected && errRedirected)
+			return;
+		if (!AttachConsole(-1))
+			return;
+		if (!outRedirected)
+		{
+			Console.SetOut(new StreamWriter(Console.OpenStandardOutput()) { AutoFlush = true });
+			Console.WriteLine();
+		}
+		if (!errRedirected)
+			Console.SetError(new StreamWriter(Console.OpenStandardError()) { AutoFlush = true });
 	}
 
 	public static async Task<int> RunAsync(string[] args)
@@ -78,7 +88,7 @@ internal static partial class Cli
 			case "help":
 			case "--help":
 			case "-h":
-				Console.WriteLine(Usage);
+				Console.WriteLine(GetUsageText());
 				return 0;
 			case "version":
 				Console.WriteLine(App.Version);
@@ -104,11 +114,18 @@ internal static partial class Cli
 				return Flags(rest);
 			case "settings":
 				return Settings(rest);
+			case "mcp":
+			case "-mcp":
+			case "--mcp":
+			case "/mcp":
+				return Mcp(rest);
 			case "uninstall":
 				return await RunSelfAsync(true, "-uninstall");
 			default:
+				if (IsAiClientShortcutArg(command))
+					return Mcp(args);
 				Console.Error.WriteLine("Unknown command: " + command);
-				Console.Error.WriteLine(Usage);
+				Console.Error.WriteLine(GetUsageText());
 				return 2;
 		}
 	}
@@ -347,6 +364,177 @@ internal static partial class Cli
 		await process.WaitForExitAsync();
 		Console.WriteLine(process.ExitCode == 0 ? "Done" : "Finished with exit code " + process.ExitCode);
 		return process.ExitCode;
+	}
+
+	private static string GetUsageText()
+	{
+		if (!Voidstrap.Utility.Platform.IsWindows)
+			return Usage;
+
+		string dLabel = Voidstrap.Integrations.Mcp.McpConnectInfo.DesktopClientLabel;
+		string cLabel = Voidstrap.Integrations.Mcp.McpConnectInfo.CliClientLabel;
+		string oLabel = Voidstrap.Integrations.Mcp.McpConnectInfo.OpenCodeClientLabel;
+
+		return Usage + Environment.NewLine +
+			$"  mcp                         Auto connect MCP to {dLabel}, {cLabel}, and {oLabel}" + Environment.NewLine +
+			$"  mcp +{dLabel.ToLowerInvariant(),-22} Auto connect MCP to {dLabel}" + Environment.NewLine +
+			$"  mcp +{cLabel.ToLowerInvariant(),-22} Auto connect MCP to {cLabel}" + Environment.NewLine +
+			$"  mcp +{oLabel.ToLowerInvariant(),-22} Auto connect MCP to {oLabel}" + Environment.NewLine +
+			"  mcp status                  Show MCP connection status";
+	}
+
+	public static bool TryRunMcpShortcut(string[] fullCommandLineArgs, out int exitCode)
+	{
+		exitCode = 0;
+		if (!Voidstrap.Utility.Platform.IsWindows || fullCommandLineArgs.Length < 2)
+			return false;
+
+		string[] userArgs = fullCommandLineArgs[1..];
+		string[]? mcpArgs = null;
+
+		if (Voidstrap.Integrations.Mcp.McpStdioServer.IsMcpToken(userArgs[0]))
+		{
+			mcpArgs = userArgs[1..];
+		}
+		else if (userArgs.Length >= 2 && userArgs[0].Equals(Verb, StringComparison.OrdinalIgnoreCase) && Voidstrap.Integrations.Mcp.McpStdioServer.IsMcpToken(userArgs[1]))
+		{
+			mcpArgs = userArgs[2..];
+		}
+		else if (userArgs.All(IsAiClientShortcutArg))
+		{
+			mcpArgs = userArgs;
+		}
+		else if (userArgs.Length >= 2 && userArgs[0].Equals(Verb, StringComparison.OrdinalIgnoreCase) && userArgs.Skip(1).All(IsAiClientShortcutArg))
+		{
+			mcpArgs = userArgs[1..];
+		}
+
+		if (mcpArgs == null)
+			return false;
+
+		AttachTerminal();
+		exitCode = Mcp(mcpArgs);
+		return true;
+	}
+
+	private static bool IsAiClientShortcutArg(string arg)
+	{
+		if (string.IsNullOrWhiteSpace(arg))
+			return false;
+
+		string trimmed = arg.Trim();
+		if (!trimmed.StartsWith('+') && !trimmed.StartsWith('-') && !trimmed.StartsWith('/'))
+			return false;
+
+		string clean = trimmed.TrimStart('+', '-', '/');
+		return string.Equals(clean, Voidstrap.Integrations.Mcp.McpConnectInfo.DesktopClientLabel, StringComparison.OrdinalIgnoreCase)
+			|| string.Equals(clean, Voidstrap.Integrations.Mcp.McpConnectInfo.CliClientLabel, StringComparison.OrdinalIgnoreCase)
+			|| string.Equals(clean, Voidstrap.Integrations.Mcp.McpConnectInfo.OpenCodeClientLabel, StringComparison.OrdinalIgnoreCase)
+			|| string.Equals(clean, "open-code", StringComparison.OrdinalIgnoreCase);
+	}
+
+	private static int Mcp(string[] args)
+	{
+		if (!Voidstrap.Utility.Platform.IsWindows)
+		{
+			Console.Error.WriteLine("MCP is only available on Windows");
+			return 1;
+		}
+
+		string dLabel = Voidstrap.Integrations.Mcp.McpConnectInfo.DesktopClientLabel;
+		string cLabel = Voidstrap.Integrations.Mcp.McpConnectInfo.CliClientLabel;
+		string oLabel = Voidstrap.Integrations.Mcp.McpConnectInfo.OpenCodeClientLabel;
+
+		if (args.Any(a => a.Equals("help", StringComparison.OrdinalIgnoreCase) || a.Equals("-h", StringComparison.OrdinalIgnoreCase) || a.Equals("--help", StringComparison.OrdinalIgnoreCase) || a.Equals("/?", StringComparison.OrdinalIgnoreCase)))
+		{
+			Console.WriteLine($"Usage: Voidstrap mcp [+{dLabel.ToLowerInvariant()}] [+{cLabel.ToLowerInvariant()}] [+{oLabel.ToLowerInvariant()}] [status]");
+			Console.WriteLine($"  Voidstrap mcp             Auto connect MCP to {dLabel}, {cLabel}, and {oLabel}");
+			Console.WriteLine($"  Voidstrap mcp +{dLabel.ToLowerInvariant(),-10} Auto connect MCP to {dLabel}");
+			Console.WriteLine($"  Voidstrap mcp +{cLabel.ToLowerInvariant(),-10} Auto connect MCP to {cLabel}");
+			Console.WriteLine($"  Voidstrap mcp +{oLabel.ToLowerInvariant(),-10} Auto connect MCP to {oLabel}");
+			Console.WriteLine("  Voidstrap mcp status      Show MCP connection status");
+			return 0;
+		}
+
+		if (args.Length == 1 && args[0].TrimStart('+', '-', '/').ToLowerInvariant() is "status" or "list")
+		{
+			Voidstrap.Integrations.Mcp.McpConnectInfo.RefreshConnectedClients();
+			Console.WriteLine("Voidstrap MCP Command: " + Voidstrap.Integrations.Mcp.McpConnectInfo.ExecutablePath() + " " + Voidstrap.Integrations.Mcp.McpStdioServer.CommandArg);
+			Console.WriteLine(dLabel + ": " + (Voidstrap.Integrations.Mcp.McpConnectInfo.IsDesktopClientConnected() ? "connected" : "not connected"));
+			Console.WriteLine(cLabel + ": " + (Voidstrap.Integrations.Mcp.McpConnectInfo.IsCliClientConnected() ? "connected" : "not connected"));
+			Console.WriteLine(oLabel + ": " + (Voidstrap.Integrations.Mcp.McpConnectInfo.IsOpenCodeClientConnected() ? "connected" : "not connected"));
+			return 0;
+		}
+
+		bool connectDesktop = false;
+		bool connectCli = false;
+		bool connectOpenCode = false;
+
+		if (args.Length == 0)
+		{
+			connectDesktop = true;
+			connectCli = true;
+			connectOpenCode = true;
+		}
+		else
+		{
+			foreach (string raw in args)
+			{
+				string token = raw.Trim().TrimStart('+', '-', '/');
+				if (string.Equals(token, dLabel, StringComparison.OrdinalIgnoreCase))
+				{
+					connectDesktop = true;
+				}
+				else if (string.Equals(token, cLabel, StringComparison.OrdinalIgnoreCase))
+				{
+					connectCli = true;
+				}
+				else if (string.Equals(token, oLabel, StringComparison.OrdinalIgnoreCase) || string.Equals(token, "open-code", StringComparison.OrdinalIgnoreCase))
+				{
+					connectOpenCode = true;
+				}
+				else if (string.Equals(token, "all", StringComparison.OrdinalIgnoreCase) || string.Equals(token, "connect", StringComparison.OrdinalIgnoreCase))
+				{
+					connectDesktop = true;
+					connectCli = true;
+					connectOpenCode = true;
+				}
+				else
+				{
+					Console.Error.WriteLine("Unknown MCP target: " + raw);
+					Console.Error.WriteLine($"Usage: Voidstrap mcp [+{dLabel.ToLowerInvariant()}] [+{cLabel.ToLowerInvariant()}] [+{oLabel.ToLowerInvariant()}] [status]");
+					return 2;
+				}
+			}
+		}
+
+		int failures = 0;
+
+		if (connectDesktop)
+		{
+			bool ok = Voidstrap.Integrations.Mcp.McpConnectInfo.ConnectDesktopClient();
+			if (!ok)
+				failures++;
+			Console.WriteLine(dLabel + ": " + (ok ? "connected" : "failed"));
+		}
+
+		if (connectCli)
+		{
+			bool ok = Voidstrap.Integrations.Mcp.McpConnectInfo.ConnectCliClient();
+			if (!ok)
+				failures++;
+			Console.WriteLine(cLabel + ": " + (ok ? "connected" : "failed"));
+		}
+
+		if (connectOpenCode)
+		{
+			bool ok = Voidstrap.Integrations.Mcp.McpConnectInfo.ConnectOpenCodeClient();
+			if (!ok)
+				failures++;
+			Console.WriteLine(oLabel + ": " + (ok ? "connected" : "failed"));
+		}
+
+		return failures == 0 ? 0 : 1;
 	}
 
 	[LibraryImport("kernel32.dll", SetLastError = true)]

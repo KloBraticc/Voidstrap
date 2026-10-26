@@ -23,13 +23,13 @@ public static class McpConnectInfo
 		AllowTrailingCommas = true
 	};
 
-	private static string DesktopClientLabel => string.Concat("Cl", "aude");
+	internal static string DesktopClientLabel => string.Concat("Cl", "aude");
 	private static string DesktopConfigFolderName => DesktopClientLabel;
 	private static string DesktopConfigFileName => string.Concat("cl", "aude_desktop_config.json");
 	private static string DesktopDotConfigFileName => string.Concat(".cl", "aude.json");
-	private static string CliClientLabel => string.Concat("Co", "dex");
+	internal static string CliClientLabel => string.Concat("Co", "dex");
 	private static string CliConfigFolderName => string.Concat(".co", "dex");
-	private static string OpenCodeClientLabel => "OpenCode";
+	internal static string OpenCodeClientLabel => "OpenCode";
 
 	public static string ExecutablePath()
 	{

@@ -9,9 +9,15 @@ public static class Program
 	[STAThread]
 	public static void Main()
 	{
-		if (Voidstrap.Integrations.Mcp.McpStdioServer.IsRequested(Environment.GetCommandLineArgs()))
+		string[] cmdLineArgs = Environment.GetCommandLineArgs();
+		if (Voidstrap.Integrations.Mcp.McpStdioServer.IsRequested(cmdLineArgs))
 		{
 			Environment.Exit(Voidstrap.Integrations.Mcp.McpStdioServer.Run());
+			return;
+		}
+		if (Cli.TryRunMcpShortcut(cmdLineArgs, out int mcpExitCode))
+		{
+			Environment.Exit(mcpExitCode);
 			return;
 		}
 
