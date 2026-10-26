@@ -1016,18 +1016,23 @@ namespace Voidstrap.UI.ViewModels.Pages
         {
             try
             {
-                List<RobloxNews.NewsPost> source = await RobloxNews.GetLatestAsync(2, CancellationToken.None).ConfigureAwait(false);
-                List<NewsCardEntry> items = source.Select(post => new NewsCardEntry
+                if (_cachedNews == null)
                 {
-                    Id = post.Id,
-                    Title = post.Title,
-                    Summary = post.Summary,
-                    Url = post.Url,
-                    Tag = post.Tag,
-                    ImageUrl = string.IsNullOrEmpty(post.ImageUrl) ? null : RobloxNews.Thumbnail(post.ImageUrl, 760),
-                    Created = post.Created
-                }).ToList();
+                    List<NewsCardEntry> saved = ToNewsCards(await RobloxNews.GetLatestSavedAsync(2, CancellationToken.None).ConfigureAwait(false));
+                    if (saved.Count > 0 && _cachedNews == null)
+                    {
+                        _cachedNews = saved;
+                        Application.Current.Dispatcher.Invoke(() =>
+                        {
+                            _appliedNews = saved;
+                            PublishNews(saved);
+                        });
+                    }
+                }
+                List<NewsCardEntry> items = ToNewsCards(await RobloxNews.GetLatestAsync(2, CancellationToken.None).ConfigureAwait(false));
                 if (items.Count == 0)
+                    return;
+                if (_cachedNews != null && _cachedNews.Select(card => card.Id).SequenceEqual(items.Select(card => card.Id)))
                     return;
                 _cachedNews = items;
                 Application.Current.Dispatcher.Invoke(() =>
@@ -1040,6 +1045,20 @@ namespace Voidstrap.UI.ViewModels.Pages
             {
                 App.Logger.WriteException("HomePageViewModel::FetchRobloxNews", ex);
             }
+        }
+
+        private static List<NewsCardEntry> ToNewsCards(List<RobloxNews.NewsPost> source)
+        {
+            return source.Select(post => new NewsCardEntry
+            {
+                Id = post.Id,
+                Title = post.Title,
+                Summary = post.Summary,
+                Url = post.Url,
+                Tag = post.Tag,
+                ImageUrl = string.IsNullOrEmpty(post.ImageUrl) ? null : RobloxNews.Image(post.ImageUrl, 760),
+                Created = post.Created
+            }).ToList();
         }
 
         private void PublishNews(List<NewsCardEntry> items)

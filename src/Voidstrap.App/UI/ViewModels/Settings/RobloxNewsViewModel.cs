@@ -122,7 +122,7 @@ namespace Voidstrap.UI.ViewModels.Settings
                     Summary = post.Summary,
                     Url = post.Url,
                     Tag = post.Tag,
-                    ImageUrl = string.IsNullOrEmpty(post.ImageUrl) ? null : RobloxNews.Thumbnail(post.ImageUrl, 420),
+                    ImageUrl = string.IsNullOrEmpty(post.ImageUrl) ? null : RobloxNews.Image(post.ImageUrl, 420),
                     Views = post.Views,
                     Replies = post.Replies,
                     Created = post.Created

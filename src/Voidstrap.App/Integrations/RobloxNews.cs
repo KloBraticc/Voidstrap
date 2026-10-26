@@ -1,6 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Globalization;
+using System.IO;
+using System.Net.Http;
+using System.Security.Cryptography;
+using System.Text;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading;
@@ -47,9 +52,94 @@ internal static class RobloxNews
 		return "https://wsrv.nl/?url=" + Uri.EscapeDataString(imageUrl) + "&w=" + width.ToString(CultureInfo.InvariantCulture) + "&output=webp&q=80&we";
 	}
 
-	public static async Task<List<NewsPost>> GetAllAsync(CancellationToken token)
+	private const int MaxImageBytes = 4 * 1024 * 1024;
+
+	private const int MaxCachedImages = 80;
+
+	private static readonly ConcurrentDictionary<string, byte> ImageDownloads = new(StringComparer.Ordinal);
+
+	private static string ImageFolder => Path.Combine(Paths.Cache, "News");
+
+	public static string Image(string? imageUrl, int width)
 	{
-		FeedResponse? response = await GitHubCache.GetJsonAsync<FeedResponse>(FeedUrl, CacheAge, token).ConfigureAwait(false);
+		string remote = Thumbnail(imageUrl, width);
+		if (remote.Length == 0)
+			return remote;
+		string path = Path.Combine(ImageFolder, Convert.ToHexString(SHA256.HashData(Encoding.UTF8.GetBytes(remote)))[..32] + ".img");
+		try
+		{
+			if (File.Exists(path) && new FileInfo(path).Length > 0)
+				return new Uri(path).AbsoluteUri;
+		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+		{
+		}
+		if (ImageDownloads.TryAdd(path, 0))
+			_ = Task.Run(() => SaveImageAsync(remote, path));
+		return remote;
+	}
+
+	private static async Task SaveImageAsync(string remote, string path)
+	{
+		string temporary = path + "." + Guid.NewGuid().ToString("N") + ".tmp";
+		try
+		{
+			using CancellationTokenSource cts = new(TimeSpan.FromSeconds(30));
+			using HttpResponseMessage response = await App.HttpClient.GetAsync(remote, HttpCompletionOption.ResponseHeadersRead, cts.Token).ConfigureAwait(false);
+			if (!response.IsSuccessStatusCode)
+				return;
+			byte[] data = await Http.ReadBytesBoundedAsync(response.Content, MaxImageBytes, cts.Token).ConfigureAwait(false);
+			if (data.Length == 0)
+				return;
+			Directory.CreateDirectory(ImageFolder);
+			await File.WriteAllBytesAsync(temporary, data, cts.Token).ConfigureAwait(false);
+			File.Move(temporary, path, true);
+			PruneImages();
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine("RobloxNews", "A news image could not be saved: " + ex.Message);
+		}
+		finally
+		{
+			ImageDownloads.TryRemove(path, out _);
+			try
+			{
+				if (File.Exists(temporary))
+					File.Delete(temporary);
+			}
+			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+			{
+			}
+		}
+	}
+
+	private static void PruneImages()
+	{
+		try
+		{
+			FileInfo[] files = new DirectoryInfo(ImageFolder).GetFiles("*.img");
+			if (files.Length <= MaxCachedImages)
+				return;
+			foreach (FileInfo file in files.OrderByDescending(file => file.LastWriteTimeUtc).Skip(MaxCachedImages))
+				file.Delete();
+		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+		{
+		}
+	}
+
+	public static Task<List<NewsPost>> GetAllAsync(CancellationToken token) => GetAllAsync(CacheAge, token);
+
+	public static async Task<List<NewsPost>> GetLatestSavedAsync(int count, CancellationToken token)
+	{
+		List<NewsPost> posts = await GetAllAsync(TimeSpan.MaxValue, token).ConfigureAwait(false);
+		return PickLatest(posts, count);
+	}
+
+	private static async Task<List<NewsPost>> GetAllAsync(TimeSpan maxAge, CancellationToken token)
+	{
+		FeedResponse? response = await GitHubCache.GetJsonAsync<FeedResponse>(FeedUrl, maxAge, token).ConfigureAwait(false);
 		List<FeedTopic> topics = response?.TopicList?.Topics ?? [];
 		return topics
 			.Where(topic => topic.Id > 0 && !topic.Pinned && !string.IsNullOrWhiteSpace(topic.Title))
@@ -61,6 +151,11 @@ internal static class RobloxNews
 	public static async Task<List<NewsPost>> GetLatestAsync(int count, CancellationToken token)
 	{
 		List<NewsPost> posts = await GetAllAsync(token).ConfigureAwait(false);
+		return PickLatest(posts, count);
+	}
+
+	private static List<NewsPost> PickLatest(List<NewsPost> posts, int count)
+	{
 		List<NewsPost> illustrated = posts.Where(post => post.ImageUrl.Length > 0).ToList();
 		return illustrated.Count >= count
 			? illustrated.Take(count).ToList()
