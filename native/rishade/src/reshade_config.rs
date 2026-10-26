@@ -275,7 +275,7 @@ pub fn prepare_reshade_config(directory: &Path) -> io::Result<()> {
         let _ = ini.set("INPUT", "InputProcessing", "2");
     }
 
-    let _ = ini.set("GENERAL", "SkipLoadingDisabledEffects", "0");
+    let _ = ini.set("GENERAL", "SkipLoadingDisabledEffects", "1");
     let _ = ini.set("GENERAL", "NoEffectCache", "0");
     let _ = ini.set("GENERAL", "NoReloadOnInit", "0");
     let _ = ini.set("GENERAL", "NoDebugInfo", "1");
@@ -380,7 +380,7 @@ DisabledAddons=RenoDX DLSS@renodx-dlss.addon64
         );
         assert_eq!(
             parsed.get("GENERAL", "SkipLoadingDisabledEffects"),
-            Some("0")
+            Some("1")
         );
         assert_eq!(parsed.get("GENERAL", "NoEffectCache"), Some("0"));
         assert_eq!(parsed.get("GENERAL", "NoReloadOnInit"), Some("0"));
