@@ -840,7 +840,7 @@
               <TextBlock Text="{resources:Loc Ui_Mods_StudioPlugins_Tab}" />
             </StackPanel>
           </TabItem.Header>
-          <pages:StudioPluginsView Margin="12" FontWeight="Normal" />
+          <pages:StudioPluginsView x:Name="StudioPluginsPane" Margin="12" FontWeight="Normal" />
         </TabItem>
       </TabControl>
     </StackPanel>

@@ -299,6 +299,21 @@ public partial class StudioPluginsView : UserControl
 		PlatformShell.TryOpenFolder(StudioPluginCatalog.PluginsDirectory);
 	}
 
+	public event EventHandler? DetailChanged;
+
+	public string? DetailTitle => _detail?.Name;
+
+	public void CloseDetail()
+	{
+		if (_detail == null)
+			return;
+		_detail = null;
+		StopCommunity();
+		DetailRoot.Visibility = Visibility.Collapsed;
+		BrowseRoot.Visibility = Visibility.Visible;
+		DetailChanged?.Invoke(this, EventArgs.Empty);
+	}
+
 	private void ShowDetail(StudioPluginEntry entry)
 	{
 		_detail = entry;
@@ -316,6 +331,7 @@ public partial class StudioPluginsView : UserControl
 		StartCommunity(entry);
 		BrowseRoot.Visibility = Visibility.Collapsed;
 		DetailRoot.Visibility = Visibility.Visible;
+		DetailChanged?.Invoke(this, EventArgs.Empty);
 	}
 
 	private void RefreshDetail(StudioPluginEntry entry)
@@ -344,14 +360,6 @@ public partial class StudioPluginsView : UserControl
 	{
 		if (_detail?.AssetId is long id)
 			Utilities.OpenWebLink(StudioPluginCatalog.StorePageUrl + id);
-	}
-
-	private void Back_Click(object sender, RoutedEventArgs e)
-	{
-		_detail = null;
-		StopCommunity();
-		DetailRoot.Visibility = Visibility.Collapsed;
-		BrowseRoot.Visibility = Visibility.Visible;
 	}
 
 	private void DetailRoot_SizeChanged(object sender, SizeChangedEventArgs e)

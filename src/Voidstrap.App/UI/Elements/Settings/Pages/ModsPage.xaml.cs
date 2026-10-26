@@ -91,6 +91,8 @@ public partial class ModsPage : UiPage{
 			ViewModel.PropertyChanged += OnModsPropertyChanged;
 			Wpf.Ui.Controls.Breadcrumb.RemoveBackRequestedHandler(this, OnBreadcrumbBack);
 			Wpf.Ui.Controls.Breadcrumb.AddBackRequestedHandler(this, OnBreadcrumbBack);
+			StudioPluginsPane.DetailChanged -= OnStudioPluginDetailChanged;
+			StudioPluginsPane.DetailChanged += OnStudioPluginDetailChanged;
 			UpdateBreadcrumb();
 			ModsTabs.SelectionChanged -= ModsTabs_SelectionChanged;
 			ModsTabs.SelectionChanged += ModsTabs_SelectionChanged;
@@ -128,6 +130,7 @@ public partial class ModsPage : UiPage{
 		ViewModel.CommunityMods.PropertyChanged -= OnCommunityModsPropertyChanged;
 		ViewModel.PropertyChanged -= OnModsPropertyChanged;
 		Wpf.Ui.Controls.Breadcrumb.RemoveBackRequestedHandler(this, OnBreadcrumbBack);
+		StudioPluginsPane.DetailChanged -= OnStudioPluginDetailChanged;
 		ModsTabs.SelectionChanged -= ModsTabs_SelectionChanged;
 		Voidstrap.Integrations.VoidstrapPresence.Clear(nameof(ModsPage));
 		ViewModel.ModPackViewRequested -= OnModPackViewRequested;
@@ -180,6 +183,8 @@ public partial class ModsPage : UiPage{
 			Voidstrap.UI.BreadcrumbHeader.SetLocalized(this, nameof(Voidstrap.Resources.Strings.Ui_Mods_ModExplorer));
 		else if (ReferenceEquals(ModsTabs.SelectedItem, ModPacksTab) && ViewModel.CommunityMods.SelectedMod is { } mod)
 			Voidstrap.UI.BreadcrumbHeader.Set(this, mod.Name);
+		else if (ReferenceEquals(ModsTabs.SelectedItem, StudioPluginsTab) && StudioPluginsPane.DetailTitle is { } plugin)
+			Voidstrap.UI.BreadcrumbHeader.Set(this, plugin);
 		else
 			Voidstrap.UI.BreadcrumbHeader.Clear(this);
 		if (Window.GetWindow(this) is Voidstrap.UI.Elements.Settings.MainWindow mainWindow)
@@ -190,9 +195,13 @@ public partial class ModsPage : UiPage{
 	{
 		if (ViewModel.ModExplorerVisible)
 			ViewModel.ModExplorerVisible = false;
+		else if (ReferenceEquals(ModsTabs.SelectedItem, StudioPluginsTab) && StudioPluginsPane.DetailTitle != null)
+			StudioPluginsPane.CloseDetail();
 		else if (ViewModel.CommunityMods.SelectedMod != null && ViewModel.CommunityMods.BackCommand.CanExecute(null))
 			ViewModel.CommunityMods.BackCommand.Execute(null);
 	}
+
+	private void OnStudioPluginDetailChanged(object? sender, EventArgs e) => UpdateBreadcrumb();
 
 	private void ShowModPacksNoticeIfNeeded()
 	{
