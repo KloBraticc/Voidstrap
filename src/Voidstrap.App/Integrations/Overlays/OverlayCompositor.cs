@@ -381,7 +381,7 @@ namespace Voidstrap.Integrations.Overlays
             bool self = SetGpuPriority((uint)Environment.ProcessId, GpuPriorityHigh) || SetGpuPriority((uint)Environment.ProcessId, GpuPriorityAboveNormal);
             _depthGpuPriority = true;
             _depthGpuPriorityPid = pid;
-            App.Logger.WriteLine(LOG_IDENT, $"Depth effects are active, GPU scheduling lowered for Roblox ({(roblox ? "applied" : "refused")}) and raised for Voidstrap ({(self ? "applied" : "refused")}) so depth keeps up");
+            App.Logger.WriteLine(LOG_IDENT, $"RiShade is drawing over Roblox, GPU scheduling lowered for Roblox ({(roblox ? "applied" : "refused")}) and raised for Voidstrap ({(self ? "applied" : "refused")}) so the overlay keeps up");
         }
 
         private static bool SetGpuPriority(uint pid, int priority)
@@ -2398,7 +2398,7 @@ namespace Voidstrap.Integrations.Overlays
             }
 
             bool depthActive = App.Settings.Prop.RiShadeEnabled && _riRuntime != IntPtr.Zero && _riDepthBridge && _rawSrv != null && RiShadeManager.PresetNeedsDepth;
-            ApplyDepthGpuPriority(depthActive);
+            ApplyDepthGpuPriority(App.Settings.Prop.RiShadeEnabled && _riRuntime != IntPtr.Zero && RiShadeManager.HasLoadablePreset);
             if (depthActive)
             {
                 try
