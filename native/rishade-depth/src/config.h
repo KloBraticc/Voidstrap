@@ -3,7 +3,7 @@
 #include <string>
 
 inline constexpr int kDepthSizes[] = { 924, 518, 392, 266 };
-constexpr int kDefaultDepthSize = 518;
+constexpr int kDefaultDepthSize = 266;
 
 int DepthSize();
 void SetDepthSize(int size);
