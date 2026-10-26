@@ -1050,9 +1050,6 @@ struct Depth
     bool adapterKnown = false;
     int slowFrames = 0;
     bool background = false;
-    double latencyEma = 0;
-    int adaptCompletions = 0;
-    int depthCeiling = 0;
     UINT workWidth = 0;
     UINT workHeight = 0;
     std::array<winrt::com_ptr<ID3DBlob>, kShaderCount> code;
@@ -2047,8 +2044,6 @@ bool InitDepth()
 
 namespace
 {
-void AdaptBackgroundDepth(double spentMs);
-
 bool Schedule(Lane& l, ID3D11Texture2D* frame, int64_t frameTimestamp)
 {
     if (l.busy)
@@ -2081,11 +2076,8 @@ bool Schedule(Lane& l, ID3D11Texture2D* frame, int64_t frameTimestamp)
         {
             Publish(l);
             if (l.index == kDetail)
-            {
-                const double spent = std::chrono::duration<double, std::milli>(FrameStatistics::Clock::now() - l.requestedAt).count();
-                g.frameStatistics.RecordDepth(spent, l.workerMs.load());
-                AdaptBackgroundDepth(spent);
-            }
+                g.frameStatistics.RecordDepth(std::chrono::duration<double, std::milli>(FrameStatistics::Clock::now() - l.requestedAt).count(),
+                                              l.workerMs.load());
         }
     }
 
@@ -2133,51 +2125,6 @@ bool Schedule(Lane& l, ID3D11Texture2D* frame, int64_t frameTimestamp)
     return true;
 }
 
-constexpr double kStaleDepthMs = 45.0;
-constexpr double kFreshDepthMs = 15.0;
-constexpr int kAdaptCompletions = 40;
-
-void AdaptBackgroundDepth(double spentMs)
-{
-    d.latencyEma = d.adaptCompletions == 0 ? spentMs : d.latencyEma * 0.9 + spentMs * 0.1;
-    if (++d.adaptCompletions < kAdaptCompletions)
-        return;
-    const int size = DepthSize();
-    if (d.latencyEma > kStaleDepthMs)
-    {
-        for (const int smaller : kDepthSizes)
-            if (smaller < size)
-            {
-                d.depthCeiling = size;
-                d.adaptCompletions = 0;
-                Log(LogLevel::Info, L"Depth results arrive %.1f ms late, lowering the depth size from %d to %d to keep depth on the live frame.", d.latencyEma, size, smaller);
-                SetDepthSize(smaller);
-                return;
-            }
-        return;
-    }
-    if (d.latencyEma < kExactBudgetMs * 0.8)
-    {
-        d.adaptCompletions = 0;
-        d.background = false;
-        Log(LogLevel::Info, L"Depth takes %.1f ms, matching every frame exactly again at %d.", d.latencyEma, size);
-        return;
-    }
-    if (d.latencyEma < kFreshDepthMs)
-    {
-        int larger = 0;
-        for (const int candidate : kDepthSizes)
-            if (candidate > size && (d.depthCeiling == 0 || candidate < d.depthCeiling) && (larger == 0 || candidate < larger))
-                larger = candidate;
-        if (larger)
-        {
-            d.adaptCompletions = 0;
-            Log(LogLevel::Info, L"Depth takes %.1f ms, raising the depth size from %d to %d for more detail.", d.latencyEma, size, larger);
-            SetDepthSize(larger);
-        }
-    }
-}
-
 void StepDownWhenSlow(double spentMs)
 {
     d.slowFrames = spentMs > kExactBudgetMs ? d.slowFrames + 1 : std::max(0, d.slowFrames - 1);
@@ -2186,7 +2133,6 @@ void StepDownWhenSlow(double spentMs)
     d.slowFrames = 0;
     Log(LogLevel::Info, L"Depth took %.1f ms per frame, updating it in the background with motion tracking at %d so the frame rate stays smooth.", spentMs, DepthSize());
     d.background = true;
-    d.adaptCompletions = 0;
 }
 
 bool WaitLane(Lane& l)
@@ -2377,8 +2323,6 @@ void ShutdownDepth()
     d.lastTracked.reset();
     d.tracking = false;
     d.background = false;
-    d.adaptCompletions = 0;
-    d.depthCeiling = 0;
 }
 
 void AdoptDepthRuntime(reshade::api::effect_runtime* runtime)
