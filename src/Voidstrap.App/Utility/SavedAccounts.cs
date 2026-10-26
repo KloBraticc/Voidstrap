@@ -291,7 +291,8 @@ public static class SavedAccounts
 			RoReviewService.InvalidateSession();
 			try
 			{
-				await CopyWithRetryAsync(DatPath(target), live).ConfigureAwait(false);
+				if (!await SwapLoginCookieAsync(target, live).ConfigureAwait(false))
+					await CopyWithRetryAsync(DatPath(target), live).ConfigureAwait(false);
 			}
 			catch when (backedUp && !File.Exists(live))
 			{
@@ -315,6 +316,42 @@ public static class SavedAccounts
 			AccountStoreGate.Release();
 		}
 		RaiseChanged();
+	}
+
+	private static async Task<bool> SwapLoginCookieAsync(SavedAccount target, string live)
+	{
+		if (!File.Exists(live))
+			return false;
+		string? cookie = ReadCookie(target);
+		if (string.IsNullOrEmpty(cookie))
+			return false;
+		string staged = Path.Combine(Paths.AccountBackups, "switch-" + Guid.NewGuid().ToString("N") + ".tmp");
+		try
+		{
+			if (!RobloxCookie.WriteLoginFile(cookie, live, staged))
+				return false;
+			await CopyWithRetryAsync(staged, live).ConfigureAwait(false);
+			bool swapped = string.Equals(RobloxCookie.ExtractCookieFromDat(live), cookie, StringComparison.Ordinal);
+			if (swapped)
+				App.Logger?.WriteLine(LogIdent, "Swapped only the login cookie so Roblox keeps its other saved accounts");
+			return swapped;
+		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+		{
+			App.Logger?.WriteLine(LogIdent, "The login cookie could not be swapped in place, using the saved login file: " + ex.Message);
+			return false;
+		}
+		finally
+		{
+			try
+			{
+				if (File.Exists(staged))
+					File.Delete(staged);
+			}
+			catch (IOException)
+			{
+			}
+		}
 	}
 
 	public static async Task SignOutAsync()
