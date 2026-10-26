@@ -8593,4 +8593,28 @@ Dung lượng tải xuống là {0} MB. Nếu bạn từ chối, ước tính t�
   <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
     <value>Card đồ họa của bạn quá yếu để chạy RiShade mượt mà. Bạn có muốn bật chế độ hiệu năng của ReShade không? Hiệu ứng sẽ chạy nhanh hơn và bạn có thể tắt nó bất cứ lúc nào trong lớp phủ ReShade.</value>
   </data>
+  <data name="Ui.Mcp.Connect" xml:space="preserve">
+    <value>Kết nối AI</value>
+  </data>
+  <data name="Ui.Mcp.ConnectTooltip" xml:space="preserve">
+    <value>Cho phép bất kỳ ứng dụng AI nào hỗ trợ MCP đọc và chỉnh sửa nội dung này theo thời gian thực</value>
+  </data>
+  <data name="Ui.Mcp.ConnectMessage" xml:space="preserve">
+    <value>Kết nối bất kỳ ứng dụng AI nào hỗ trợ MCP, chẳng hạn như Cursor, VS Code, Windsurf hoặc LM Studio, để ứng dụng đó có thể đọc và chỉnh sửa các trình chỉnh sửa của Voidstrap theo thời gian thực.
+
+Thêm máy chủ này vào phần cài đặt MCP trong ứng dụng AI của bạn:
+
+{0}
+
+Hãy giữ Voidstrap và trình chỉnh sửa luôn mở trong khi AI làm việc. Các thay đổi sẽ hiển thị ngay trong bản xem trước và chỉ được ghi vào ổ đĩa khi AI lưu lại.</value>
+  </data>
+  <data name="Ui.Mcp.ConnectMessageCopied" xml:space="preserve">
+    <value>Kết nối bất kỳ ứng dụng AI nào hỗ trợ MCP, chẳng hạn như Cursor, VS Code, Windsurf hoặc LM Studio, để ứng dụng đó có thể đọc và chỉnh sửa các trình chỉnh sửa của Voidstrap theo thời gian thực.
+
+Thêm máy chủ này vào phần cài đặt MCP trong ứng dụng AI của bạn (đã sao chép vào bộ nhớ tạm của bạn):
+
+{0}
+
+Hãy giữ Voidstrap và trình chỉnh sửa luôn mở trong khi AI làm việc. Các thay đổi sẽ hiển thị ngay trong bản xem trước và chỉ được ghi vào ổ đĩa khi AI lưu lại.</value>
+  </data>
 </root>

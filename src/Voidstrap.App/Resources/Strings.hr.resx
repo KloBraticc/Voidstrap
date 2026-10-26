@@ -8589,4 +8589,28 @@ Preuzima se {0} MB. Ako odbiješ, koristi se ugrađena procjena. To možeš prom
   <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
     <value>Tvoja grafička kartica je preslaba za glatko pokretanje RiShadea. Želiš li uključiti način rada za performanse u ReShadeu? Efekti će raditi brže, a možeš ga isključiti u bilo kojem trenutku u ReShade prekrivaču.</value>
   </data>
+  <data name="Ui.Mcp.Connect" xml:space="preserve">
+    <value>Poveži AI</value>
+  </data>
+  <data name="Ui.Mcp.ConnectTooltip" xml:space="preserve">
+    <value>Dopusti bilo kojoj AI aplikaciji koja podržava MCP da ovo čita i uređuje u stvarnom vremenu</value>
+  </data>
+  <data name="Ui.Mcp.ConnectMessage" xml:space="preserve">
+    <value>Poveži bilo koju AI aplikaciju koja podržava MCP, kao što su Cursor, VS Code, Windsurf ili LM Studio, kako bi mogla čitati i uređivati uređivače u Voidstrapu u stvarnom vremenu.
+
+Dodaj ovaj poslužitelj u MCP postavke svoje AI aplikacije:
+
+{0}
+
+Drži Voidstrap i uređivač otvorenima dok AI radi. Njegove se promjene odmah prikazuju u pregledu i zapisuju se na disk tek kada ih spremi.</value>
+  </data>
+  <data name="Ui.Mcp.ConnectMessageCopied" xml:space="preserve">
+    <value>Poveži bilo koju AI aplikaciju koja podržava MCP, kao što su Cursor, VS Code, Windsurf ili LM Studio, kako bi mogla čitati i uređivati uređivače u Voidstrapu u stvarnom vremenu.
+
+Dodaj ovaj poslužitelj u MCP postavke svoje AI aplikacije (već je kopirano u međuspremnik):
+
+{0}
+
+Drži Voidstrap i uređivač otvorenima dok AI radi. Njegove se promjene odmah prikazuju u pregledu i zapisuju se na disk tek kada ih spremi.</value>
+  </data>
 </root>

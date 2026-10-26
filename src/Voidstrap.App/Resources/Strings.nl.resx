@@ -8591,4 +8591,28 @@ Er wordt {0} MB gedownload. Als je weigert, wordt de ingebouwde schatting gebrui
   <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
     <value>Je videokaart is te zwak om RiShade soepel te draaien. Wil je de prestatiemodus van ReShade inschakelen? Effecten worden sneller, en je kunt hem altijd uitzetten in de ReShade-overlay.</value>
   </data>
+  <data name="Ui.Mcp.Connect" xml:space="preserve">
+    <value>AI verbinden</value>
+  </data>
+  <data name="Ui.Mcp.ConnectTooltip" xml:space="preserve">
+    <value>Laat elke AI-app met MCP-ondersteuning dit in realtime lezen en bewerken</value>
+  </data>
+  <data name="Ui.Mcp.ConnectMessage" xml:space="preserve">
+    <value>Verbind een AI-app die MCP ondersteunt, zoals Cursor, VS Code, Windsurf of LM Studio, zodat deze de editors van Voidstrap in realtime kan lezen en bewerken.
+
+Voeg deze server toe aan de MCP-instellingen van je AI-app:
+
+{0}
+
+Houd Voidstrap en de editor geopend terwijl de AI werkt. De wijzigingen zijn direct zichtbaar in het voorbeeld en worden pas op schijf opgeslagen wanneer de AI opslaat.</value>
+  </data>
+  <data name="Ui.Mcp.ConnectMessageCopied" xml:space="preserve">
+    <value>Verbind een AI-app die MCP ondersteunt, zoals Cursor, VS Code, Windsurf of LM Studio, zodat deze de editors van Voidstrap in realtime kan lezen en bewerken.
+
+Voeg deze server toe aan de MCP-instellingen van je AI-app (al naar je klembord gekopieerd):
+
+{0}
+
+Houd Voidstrap en de editor geopend terwijl de AI werkt. De wijzigingen zijn direct zichtbaar in het voorbeeld en worden pas op schijf opgeslagen wanneer de AI opslaat.</value>
+  </data>
 </root>

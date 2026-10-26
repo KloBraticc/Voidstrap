@@ -8604,4 +8604,28 @@ Voidstrap がデスクトップ フォルダーに書き込めませんでした
   <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
     <value>お使いのグラフィックカードは RiShade を快適に動かすには性能が不足しています。ReShade のパフォーマンスモードをオンにしますか？エフェクトが速く動作するようになり、ReShade のオーバーレイからいつでもオフにできます。</value>
   </data>
+  <data name="Ui.Mcp.Connect" xml:space="preserve">
+    <value>AIを接続</value>
+  </data>
+  <data name="Ui.Mcp.ConnectTooltip" xml:space="preserve">
+    <value>MCPに対応したAIアプリからリアルタイムで読み取りと編集ができるようにします</value>
+  </data>
+  <data name="Ui.Mcp.ConnectMessage" xml:space="preserve">
+    <value>Cursor、VS Code、Windsurf、LM Studioなど、MCPに対応したAIアプリを接続すると、Voidstrapのエディターをリアルタイムで読み取りおよび編集できます。
+
+お使いのAIアプリのMCP設定に次のサーバーを追加してください:
+
+{0}
+
+AIの作業中はVoidstrapとエディターを開いたままにしてください。変更内容はすぐにプレビューへ反映され、保存したときにのみディスクへ書き込まれます。</value>
+  </data>
+  <data name="Ui.Mcp.ConnectMessageCopied" xml:space="preserve">
+    <value>Cursor、VS Code、Windsurf、LM Studioなど、MCPに対応したAIアプリを接続すると、Voidstrapのエディターをリアルタイムで読み取りおよび編集できます。
+
+お使いのAIアプリのMCP設定に次のサーバーを追加してください（クリップボードにコピー済みです）:
+
+{0}
+
+AIの作業中はVoidstrapとエディターを開いたままにしてください。変更内容はすぐにプレビューへ反映され、保存したときにのみディスクへ書き込まれます。</value>
+  </data>
 </root>

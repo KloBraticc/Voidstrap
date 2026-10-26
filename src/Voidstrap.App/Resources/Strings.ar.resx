@@ -8589,4 +8589,28 @@
   <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
     <value>بطاقة الرسوميات لديك أضعف من أن تشغّل RiShade بسلاسة. هل تريد تشغيل وضع الأداء في ReShade؟ ستعمل التأثيرات بشكل أسرع، ويمكنك إيقافه في أي وقت من واجهة ReShade.</value>
   </data>
+  <data name="Ui.Mcp.Connect" xml:space="preserve">
+    <value>ربط الذكاء الاصطناعي</value>
+  </data>
+  <data name="Ui.Mcp.ConnectTooltip" xml:space="preserve">
+    <value>اسمح لأي تطبيق ذكاء اصطناعي يدعم MCP بقراءة هذا وتعديله في الوقت الفعلي</value>
+  </data>
+  <data name="Ui.Mcp.ConnectMessage" xml:space="preserve">
+    <value>اربط أي تطبيق ذكاء اصطناعي يدعم MCP، مثل Cursor أو VS Code أو Windsurf أو LM Studio، حتى يتمكن من قراءة محررات Voidstrap وتعديلها في الوقت الفعلي.
+
+أضف هذا الخادم إلى إعدادات MCP في تطبيق الذكاء الاصطناعي لديك:
+
+{0}
+
+أبقِ Voidstrap والمحرر مفتوحين أثناء عمل الذكاء الاصطناعي. تظهر تغييراته في المعاينة فوراً ولا تُكتب على القرص إلا عندما يقوم بالحفظ.</value>
+  </data>
+  <data name="Ui.Mcp.ConnectMessageCopied" xml:space="preserve">
+    <value>اربط أي تطبيق ذكاء اصطناعي يدعم MCP، مثل Cursor أو VS Code أو Windsurf أو LM Studio، حتى يتمكن من قراءة محررات Voidstrap وتعديلها في الوقت الفعلي.
+
+أضف هذا الخادم إلى إعدادات MCP في تطبيق الذكاء الاصطناعي لديك (تم نسخه بالفعل إلى الحافظة):
+
+{0}
+
+أبقِ Voidstrap والمحرر مفتوحين أثناء عمل الذكاء الاصطناعي. تظهر تغييراته في المعاينة فوراً ولا تُكتب على القرص إلا عندما يقوم بالحفظ.</value>
+  </data>
 </root>

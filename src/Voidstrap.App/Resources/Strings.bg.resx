@@ -8590,4 +8590,28 @@ Voidstrap не можа да запише в папката на работни�
   <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
     <value>Вашата видеокарта е твърде слаба, за да работи RiShade плавно. Искате ли да включите режима на производителност на ReShade? Ефектите ще работят по-бързо и можете да го изключите по всяко време от наслагването на ReShade.</value>
   </data>
+  <data name="Ui.Mcp.Connect" xml:space="preserve">
+    <value>Свързване на ИИ</value>
+  </data>
+  <data name="Ui.Mcp.ConnectTooltip" xml:space="preserve">
+    <value>Позволете на всяко ИИ приложение с поддръжка на MCP да чете и редактира това в реално време</value>
+  </data>
+  <data name="Ui.Mcp.ConnectMessage" xml:space="preserve">
+    <value>Свържете всяко ИИ приложение, което поддържа MCP, като Cursor, VS Code, Windsurf или LM Studio, за да може да чете и редактира редакторите на Voidstrap в реално време.
+
+Добавете този сървър към настройките за MCP във Вашето ИИ приложение:
+
+{0}
+
+Дръжте Voidstrap и редактора отворени, докато ИИ работи. Промените му се показват веднага в прегледа и се записват на диска само когато ги запази.</value>
+  </data>
+  <data name="Ui.Mcp.ConnectMessageCopied" xml:space="preserve">
+    <value>Свържете всяко ИИ приложение, което поддържа MCP, като Cursor, VS Code, Windsurf или LM Studio, за да може да чете и редактира редакторите на Voidstrap в реално време.
+
+Добавете този сървър към настройките за MCP във Вашето ИИ приложение (вече е копиран в клипборда Ви):
+
+{0}
+
+Дръжте Voidstrap и редактора отворени, докато ИИ работи. Промените му се показват веднага в прегледа и се записват на диска само когато ги запази.</value>
+  </data>
 </root>

@@ -8585,4 +8585,28 @@ Voidstrap เขียนลงในโฟลเดอร์เดสก์ท�
   <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
     <value>การ์ดจอของคุณอ่อนเกินไปที่จะเรียกใช้ RiShade ได้อย่างลื่นไหล คุณต้องการเปิดโหมดประสิทธิภาพของ ReShade หรือไม่ เอฟเฟกต์จะทำงานเร็วขึ้น และคุณปิดได้ทุกเมื่อในโอเวอร์เลย์ของ ReShade</value>
   </data>
+  <data name="Ui.Mcp.Connect" xml:space="preserve">
+    <value>เชื่อมต่อ AI</value>
+  </data>
+  <data name="Ui.Mcp.ConnectTooltip" xml:space="preserve">
+    <value>อนุญาตให้แอป AI ที่รองรับ MCP อ่านและแก้ไขสิ่งนี้แบบเรียลไทม์</value>
+  </data>
+  <data name="Ui.Mcp.ConnectMessage" xml:space="preserve">
+    <value>เชื่อมต่อแอป AI ที่รองรับ MCP เช่น Cursor, VS Code, Windsurf หรือ LM Studio เพื่อให้สามารถอ่านและแก้ไขตัวแก้ไขของ Voidstrap ได้แบบเรียลไทม์
+
+เพิ่มเซิร์ฟเวอร์นี้ในการตั้งค่า MCP ในแอป AI ของคุณ:
+
+{0}
+
+เปิด Voidstrap และตัวแก้ไขค้างไว้ในขณะที่ AI ทำงาน การเปลี่ยนแปลงจะแสดงในตัวอย่างทันที และจะถูกเขียนลงดิสก์เมื่อบันทึกเท่านั้น</value>
+  </data>
+  <data name="Ui.Mcp.ConnectMessageCopied" xml:space="preserve">
+    <value>เชื่อมต่อแอป AI ที่รองรับ MCP เช่น Cursor, VS Code, Windsurf หรือ LM Studio เพื่อให้สามารถอ่านและแก้ไขตัวแก้ไขของ Voidstrap ได้แบบเรียลไทม์
+
+เพิ่มเซิร์ฟเวอร์นี้ในการตั้งค่า MCP ในแอป AI ของคุณ (คัดลอกไปยังคลิปบอร์ดของคุณแล้ว):
+
+{0}
+
+เปิด Voidstrap และตัวแก้ไขค้างไว้ในขณะที่ AI ทำงาน การเปลี่ยนแปลงจะแสดงในตัวอย่างทันที และจะถูกเขียนลงดิสก์เมื่อบันทึกเท่านั้น</value>
+  </data>
 </root>

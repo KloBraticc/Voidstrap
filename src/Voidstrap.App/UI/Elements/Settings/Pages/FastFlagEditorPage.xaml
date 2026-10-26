@@ -1,4 +1,4 @@
-﻿<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.FastFlagEditorPage"
+<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.FastFlagEditorPage"
            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -6,6 +6,7 @@
            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
            xmlns:resources="clr-namespace:Voidstrap.Resources"
            xmlns:conv="clr-namespace:Voidstrap.UI.Converters"
+           xmlns:platform="clr-namespace:Voidstrap.UI"
            xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
            Title="FastFlagEditorPage"
            Loaded="Page_Loaded" Unloaded="Page_Unloaded">
@@ -51,6 +52,7 @@
       <ui:Button Margin="0,0,10,12" Content="{resources:Loc Ui_Pages_DeleteAll}" Icon="Delete48" Click="DeleteAllButton_Click" />
       <ui:Button Width="95" Margin="0,0,10,12" VerticalAlignment="Top" Content="{resources:Loc Common_Profiles}" Icon="Edit28" Click="FlagProfiles_Click" />
       <ToggleButton Name="TogglePresetsButton" Margin="0,0,10,12" VerticalAlignment="Top" Content="{resources:Loc Menu_FastFlagEditor_ShowPresetFlags}" Click="ToggleButton_Click" />
+      <ui:Button Margin="0,0,10,12" VerticalAlignment="Top" Content="{resources:Loc Ui_Mcp_Connect}" Icon="PlugConnected24" ToolTip="{resources:Loc Ui_Mcp_ConnectTooltip}" Click="OnConnectAiClicked" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}" />
     </WrapPanel>
 
     <Grid Grid.Row="2" Margin="0,0,0,8">

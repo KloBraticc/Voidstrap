@@ -202,6 +202,7 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 		InitialiseFiles();
 		InitialisePreview();
 		SizeChanged += OnEditorSizeChanged;
+		RegisterMcpEditor();
 	}
 
 	private void InitialiseCodeEditor()
@@ -966,6 +967,7 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 
 	protected override void OnClosed(EventArgs e)
 	{
+		UnregisterMcpEditor();
 		UIXML.TextChanged -= OnCodeChanged;
 		UIXML.TextArea.TextEntered -= OnTextAreaTextEntered;
 		UIXML.TextArea.PreviewKeyDown -= OnEditorPreviewKeyDown;
@@ -1323,6 +1325,7 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 		}
 
 		_previewErrorLine = ExtractLine(ex);
+		_mcpPreviewProblem = (_previewErrorLine > 0 ? "line " + _previewErrorLine + ": " : string.Empty) + message;
 
 		PreviewStatus.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(0x33, 0xE8, 0x11, 0x23));
 		PreviewStatusIcon.Symbol = SymbolRegular.ErrorCircle24;

@@ -8591,4 +8591,28 @@ Stáhne se {0} MB. Pokud odmítnete, použije se vestavěný odhad. Později to 
   <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
     <value>Vaše grafická karta je příliš slabá na plynulý běh RiShade. Chcete zapnout výkonnostní režim ReShade? Efekty poběží rychleji a kdykoli ho můžete vypnout v překryvu ReShade.</value>
   </data>
+  <data name="Ui.Mcp.Connect" xml:space="preserve">
+    <value>Připojit AI</value>
+  </data>
+  <data name="Ui.Mcp.ConnectTooltip" xml:space="preserve">
+    <value>Umožněte libovolné aplikaci AI s podporou MCP číst a upravovat tento obsah v reálném čase</value>
+  </data>
+  <data name="Ui.Mcp.ConnectMessage" xml:space="preserve">
+    <value>Připojte libovolnou aplikaci AI, která podporuje MCP, například Cursor, VS Code, Windsurf nebo LM Studio, aby mohla číst a upravovat editory Voidstrap v reálném čase.
+
+Přidejte tento server do nastavení MCP ve své aplikaci AI:
+
+{0}
+
+Během práce AI ponechte Voidstrap i editor otevřené. Změny se okamžitě projeví v náhledu a na disk se zapíší až při uložení.</value>
+  </data>
+  <data name="Ui.Mcp.ConnectMessageCopied" xml:space="preserve">
+    <value>Připojte libovolnou aplikaci AI, která podporuje MCP, například Cursor, VS Code, Windsurf nebo LM Studio, aby mohla číst a upravovat editory Voidstrap v reálném čase.
+
+Přidejte tento server do nastavení MCP ve své aplikaci AI (již zkopírováno do schránky):
+
+{0}
+
+Během práce AI ponechte Voidstrap i editor otevřené. Změny se okamžitě projeví v náhledu a na disk se zapíší až při uložení.</value>
+  </data>
 </root>

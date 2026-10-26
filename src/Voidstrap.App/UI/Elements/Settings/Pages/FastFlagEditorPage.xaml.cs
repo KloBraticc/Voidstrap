@@ -202,6 +202,7 @@ public partial class FastFlagEditorPage : UiPage
 			_searchDebounce.Tick += SearchDebounce_Tick;
 			_searchTimerAttached = true;
 		}
+		RegisterMcpEditor();
 		ReloadList();
 		try
 		{
@@ -218,6 +219,7 @@ public partial class FastFlagEditorPage : UiPage
 
 	private void Page_Unloaded(object sender, RoutedEventArgs e)
 	{
+		UnregisterMcpEditor();
 		_searchDebounce.Stop();
 		if (_searchTimerAttached)
 		{

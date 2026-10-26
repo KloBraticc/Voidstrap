@@ -1,0 +1,172 @@
+using System;
+using System.Diagnostics;
+using System.IO;
+using System.IO.Pipes;
+using System.Text;
+using System.Text.Json.Nodes;
+using System.Threading;
+using System.Threading.Tasks;
+
+namespace Voidstrap.Integrations.Mcp;
+
+public static class McpBridgeServer
+{
+	private const string LOG_IDENT = "McpBridgeServer";
+
+	private static readonly CancellationTokenSource ShutdownCts = new();
+
+	private static int _started;
+
+	public static string PipeName
+	{
+		get
+		{
+			using Process current = Process.GetCurrentProcess();
+			return "Voidstrap.Mcp." + current.SessionId;
+		}
+	}
+
+	public static void EnsureStarted()
+	{
+		if (!Voidstrap.Utility.Platform.IsWindows)
+			return;
+
+		if (Interlocked.Exchange(ref _started, 1) == 1)
+			return;
+
+		CancellationToken token = ShutdownCts.Token;
+		string pipeName = PipeName;
+		var thread = new Thread(() => AcceptLoopAsync(pipeName, token).GetAwaiter().GetResult())
+		{
+			IsBackground = true,
+			Name = "Voidstrap MCP bridge"
+		};
+		thread.Start();
+		App.Logger?.WriteLine(LOG_IDENT, "Listening for MCP tools on pipe " + pipeName);
+	}
+
+	private static async Task AcceptLoopAsync(string pipeName, CancellationToken token)
+	{
+		while (!token.IsCancellationRequested)
+		{
+			NamedPipeServerStream? server = null;
+
+			try
+			{
+				server = new NamedPipeServerStream(
+					pipeName,
+					PipeDirection.InOut,
+					NamedPipeServerStream.MaxAllowedServerInstances,
+					PipeTransmissionMode.Byte,
+					PipeOptions.Asynchronous | PipeOptions.CurrentUserOnly);
+
+				await server.WaitForConnectionAsync(token).ConfigureAwait(false);
+
+				NamedPipeServerStream connected = server;
+				server = null;
+				_ = Task.Run(() => HandleClientAsync(connected, token), token);
+			}
+			catch (OperationCanceledException)
+			{
+				server?.Dispose();
+				break;
+			}
+			catch (Exception ex)
+			{
+				server?.Dispose();
+
+				if (token.IsCancellationRequested)
+					break;
+
+				App.Logger?.WriteLine(LOG_IDENT, "Pipe accept failed: " + ex.Message.Replace('-', ' '));
+
+				try
+				{
+					await Task.Delay(2000, token).ConfigureAwait(false);
+				}
+				catch (OperationCanceledException)
+				{
+					break;
+				}
+			}
+		}
+	}
+
+	private static async Task HandleClientAsync(NamedPipeServerStream stream, CancellationToken token)
+	{
+		try
+		{
+			using (stream)
+			using (var reader = new StreamReader(stream, new UTF8Encoding(false), false, 4096, leaveOpen: true))
+			using (var writer = new StreamWriter(stream, new UTF8Encoding(false), 4096, leaveOpen: true) { AutoFlush = true, NewLine = "\n" })
+			{
+				while (stream.IsConnected && !token.IsCancellationRequested)
+				{
+					string? line = await reader.ReadLineAsync(token).ConfigureAwait(false);
+
+					if (line == null)
+						break;
+
+					if (string.IsNullOrWhiteSpace(line))
+						continue;
+
+					McpToolResult result = await RunAsync(line, token).ConfigureAwait(false);
+					var response = new JsonObject
+					{
+						["text"] = result.Text,
+						["isError"] = result.IsError
+					};
+
+					await writer.WriteLineAsync(response.ToJsonString()).ConfigureAwait(false);
+				}
+			}
+		}
+		catch (OperationCanceledException)
+		{
+		}
+		catch (IOException)
+		{
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine(LOG_IDENT, "Client handling failed: " + ex.Message.Replace('-', ' '));
+		}
+	}
+
+	private static async Task<McpToolResult> RunAsync(string line, CancellationToken token)
+	{
+		string name;
+		JsonObject args;
+
+		try
+		{
+			JsonObject request = JsonNode.Parse(line) as JsonObject ?? throw new FormatException("Request is not an object");
+			name = request["name"]?.GetValue<string>() ?? throw new FormatException("Request has no tool name");
+			args = request["arguments"] as JsonObject ?? new JsonObject();
+			args = (JsonObject)JsonNode.Parse(args.ToJsonString())!;
+		}
+		catch (Exception ex)
+		{
+			return new McpToolResult("Bad request: " + ex.Message, true);
+		}
+
+		var dispatcher = System.Windows.Application.Current?.Dispatcher;
+
+		if (dispatcher == null || dispatcher.HasShutdownStarted)
+			return new McpToolResult("Voidstrap is shutting down.", true);
+
+		App.Logger?.WriteLine(LOG_IDENT, "Running tool " + name);
+
+		var operation = dispatcher.InvokeAsync(() => McpTools.Execute(name, args));
+		Task<McpToolResult> task = operation.Task;
+		Task finished = await Task.WhenAny(task, Task.Delay(TimeSpan.FromSeconds(30), token)).ConfigureAwait(false);
+
+		if (finished != task)
+		{
+			operation.Abort();
+			return new McpToolResult("Voidstrap is busy, a dialog may be waiting for the user. Try again in a moment.", true);
+		}
+
+		return await task.ConfigureAwait(false);
+	}
+}

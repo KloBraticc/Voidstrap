@@ -8592,4 +8592,28 @@ Voidstrap نتوانست در پوشهٔ دسکتاپ بنویسد.</value>
   <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
     <value>کارت گرافیک شما برای اجرای روان RiShade ضعیف است. آیا می‌خواهید حالت کارایی ReShade را روشن کنید؟ جلوه‌ها سریع‌تر اجرا می‌شوند و هر زمان بخواهید می‌توانید آن را در لایهٔ ReShade خاموش کنید.</value>
   </data>
+  <data name="Ui.Mcp.Connect" xml:space="preserve">
+    <value>اتصال هوش مصنوعی</value>
+  </data>
+  <data name="Ui.Mcp.ConnectTooltip" xml:space="preserve">
+    <value>اجازه دهید هر برنامه هوش مصنوعی پشتیبان MCP این بخش را به‌صورت زنده بخواند و ویرایش کند</value>
+  </data>
+  <data name="Ui.Mcp.ConnectMessage" xml:space="preserve">
+    <value>هر برنامه هوش مصنوعی را که از MCP پشتیبانی می‌کند، مانند Cursor، VS Code، Windsurf یا LM Studio متصل کنید تا بتواند ویرایشگرهای Voidstrap را به‌صورت زنده بخواند و ویرایش کند.
+
+این سرور را به تنظیمات MCP در برنامه هوش مصنوعی خود اضافه کنید:
+
+{0}
+
+هنگام کار هوش مصنوعی، Voidstrap و ویرایشگر را باز نگه دارید. تغییرات آن بلافاصله در پیش‌نمایش نمایش داده می‌شوند و تنها زمانی که ذخیره کند روی دیسک نوشته می‌شوند.</value>
+  </data>
+  <data name="Ui.Mcp.ConnectMessageCopied" xml:space="preserve">
+    <value>هر برنامه هوش مصنوعی را که از MCP پشتیبانی می‌کند، مانند Cursor، VS Code، Windsurf یا LM Studio متصل کنید تا بتواند ویرایشگرهای Voidstrap را به‌صورت زنده بخواند و ویرایش کند.
+
+این سرور را به تنظیمات MCP در برنامه هوش مصنوعی خود اضافه کنید (از قبل در کلیپ‌بورد شما کپی شده است):
+
+{0}
+
+هنگام کار هوش مصنوعی، Voidstrap و ویرایشگر را باز نگه دارید. تغییرات آن بلافاصله در پیش‌نمایش نمایش داده می‌شوند و تنها زمانی که ذخیره کند روی دیسک نوشته می‌شوند.</value>
+  </data>
 </root>

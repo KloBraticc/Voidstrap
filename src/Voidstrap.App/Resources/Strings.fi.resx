@@ -8591,4 +8591,28 @@ Ladattava koko on {0} Mt. Jos kieltäydyt, käytetään sisäänrakennettua arvi
   <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
     <value>Näytönohjaimesi on liian heikko RiShaden sujuvaan käyttöön. Haluatko ottaa ReShaden suorituskykytilan käyttöön? Tehosteet toimivat nopeammin, ja voit poistaa sen käytöstä milloin tahansa ReShaden peittokuvassa.</value>
   </data>
+  <data name="Ui.Mcp.Connect" xml:space="preserve">
+    <value>Yhdistä tekoäly</value>
+  </data>
+  <data name="Ui.Mcp.ConnectTooltip" xml:space="preserve">
+    <value>Anna minkä tahansa MCP-tukea käyttävän tekoälysovelluksen lukea ja muokata tätä reaaliajassa</value>
+  </data>
+  <data name="Ui.Mcp.ConnectMessage" xml:space="preserve">
+    <value>Yhdistä mikä tahansa MCP-yhteensopiva tekoälysovellus, kuten Cursor, VS Code, Windsurf tai LM Studio, jotta se voi lukea ja muokata Voidstrapin muokkaimia reaaliajassa.
+
+Lisää tämä palvelin tekoälysovelluksesi MCP-asetuksiin:
+
+{0}
+
+Pidä Voidstrap ja muokkain avoinna, kun tekoäly työskentelee. Sen tekemät muutokset näkyvät esikatselussa heti, ja ne kirjoitetaan levylle vasta tallennettaessa.</value>
+  </data>
+  <data name="Ui.Mcp.ConnectMessageCopied" xml:space="preserve">
+    <value>Yhdistä mikä tahansa MCP-yhteensopiva tekoälysovellus, kuten Cursor, VS Code, Windsurf tai LM Studio, jotta se voi lukea ja muokata Voidstrapin muokkaimia reaaliajassa.
+
+Lisää tämä palvelin tekoälysovelluksesi MCP-asetuksiin (kopioitu jo leikepöydällesi):
+
+{0}
+
+Pidä Voidstrap ja muokkain avoinna, kun tekoäly työskentelee. Sen tekemät muutokset näkyvät esikatselussa heti, ja ne kirjoitetaan levylle vasta tallennettaessa.</value>
+  </data>
 </root>

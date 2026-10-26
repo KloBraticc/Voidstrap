@@ -1586,6 +1586,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         if (_isClosed || _startupWorkStarted)
             return;
         _startupWorkStarted = true;
+        Voidstrap.Integrations.Mcp.McpBridgeServer.EnsureStarted();
         _ = LoadCatalogOptionsAsync();
         if (_introFinished)
             ScheduleLaunchTargetWarmup();

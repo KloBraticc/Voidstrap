@@ -1178,4 +1178,28 @@ Send that file to whoever is helping you. Personal details like your computer us
   <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
     <value>Your graphics card is too weak to run RiShade smoothly. Do you want to turn on ReShade performance mode? Effects run faster, and you can turn it off at any time in the ReShade overlay.</value>
   </data>
+  <data name="Ui.Mcp.Connect" xml:space="preserve">
+    <value>Connect AI</value>
+  </data>
+  <data name="Ui.Mcp.ConnectTooltip" xml:space="preserve">
+    <value>Let any AI app that supports MCP read and edit this in real time</value>
+  </data>
+  <data name="Ui.Mcp.ConnectMessage" xml:space="preserve">
+    <value>Connect any AI app that supports MCP, such as Cursor, VS Code, Windsurf, or LM Studio, so it can read and edit Voidstrap editors in real time.
+
+Add this server to the MCP settings in your AI app:
+
+{0}
+
+Keep Voidstrap and the editor open while the AI works. Its changes show in the preview right away and are only written to disk when it saves.</value>
+  </data>
+  <data name="Ui.Mcp.ConnectMessageCopied" xml:space="preserve">
+    <value>Connect any AI app that supports MCP, such as Cursor, VS Code, Windsurf, or LM Studio, so it can read and edit Voidstrap editors in real time.
+
+Add this server to the MCP settings in your AI app (already copied to your clipboard):
+
+{0}
+
+Keep Voidstrap and the editor open while the AI works. Its changes show in the preview right away and are only written to disk when it saves.</value>
+  </data>
 </root>

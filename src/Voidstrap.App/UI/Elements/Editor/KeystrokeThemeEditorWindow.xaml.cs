@@ -44,6 +44,7 @@ public partial class KeystrokeThemeEditorWindow : WpfUiWindow
         CodeEditor.TextChanged += OnCodeEditorTextChanged;
         CodeEditor.TextArea.Caret.PositionChanged += OnCaretPositionChanged;
         Activated += (_, _) => RefreshLivePreview();
+        RegisterMcpEditor();
 
         _isInitializing = false;
         RefreshLivePreview();

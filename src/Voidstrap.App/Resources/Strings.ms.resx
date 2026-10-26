@@ -8581,4 +8581,28 @@ Muat turunnya {0} MB. Jika anda menolak, anggaran terbina dalam akan digunakan. 
   <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
     <value>Kad grafik anda terlalu lemah untuk menjalankan RiShade dengan lancar. Adakah anda mahu menghidupkan mod prestasi ReShade? Kesan akan berjalan lebih pantas, dan anda boleh mematikannya pada bila-bila masa dalam tindanan ReShade.</value>
   </data>
+  <data name="Ui.Mcp.Connect" xml:space="preserve">
+    <value>Sambung AI</value>
+  </data>
+  <data name="Ui.Mcp.ConnectTooltip" xml:space="preserve">
+    <value>Benarkan mana-mana aplikasi AI yang menyokong MCP membaca dan menyunting ini secara masa nyata</value>
+  </data>
+  <data name="Ui.Mcp.ConnectMessage" xml:space="preserve">
+    <value>Sambungkan mana-mana aplikasi AI yang menyokong MCP, seperti Cursor, VS Code, Windsurf atau LM Studio, supaya ia boleh membaca dan menyunting penyunting Voidstrap secara masa nyata.
+
+Tambahkan pelayan ini pada tetapan MCP dalam aplikasi AI anda:
+
+{0}
+
+Biarkan Voidstrap dan penyunting kekal dibuka semasa AI bekerja. Perubahannya dipaparkan terus dalam pratonton dan hanya ditulis ke cakera apabila ia menyimpan.</value>
+  </data>
+  <data name="Ui.Mcp.ConnectMessageCopied" xml:space="preserve">
+    <value>Sambungkan mana-mana aplikasi AI yang menyokong MCP, seperti Cursor, VS Code, Windsurf atau LM Studio, supaya ia boleh membaca dan menyunting penyunting Voidstrap secara masa nyata.
+
+Tambahkan pelayan ini pada tetapan MCP dalam aplikasi AI anda (sudah disalin ke papan keratan anda):
+
+{0}
+
+Biarkan Voidstrap dan penyunting kekal dibuka semasa AI bekerja. Perubahannya dipaparkan terus dalam pratonton dan hanya ditulis ke cakera apabila ia menyimpan.</value>
+  </data>
 </root>

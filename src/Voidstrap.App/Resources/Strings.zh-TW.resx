@@ -8593,4 +8593,28 @@ Voidstrap 無法寫入桌面資料夾。</value>
   <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
     <value>你的顯示卡效能不足，無法流暢執行 RiShade。要開啟 ReShade 效能模式嗎？開啟後效果會跑得更快，你也可以隨時在 ReShade 疊加畫面中關閉它。</value>
   </data>
+  <data name="Ui.Mcp.Connect" xml:space="preserve">
+    <value>連接 AI</value>
+  </data>
+  <data name="Ui.Mcp.ConnectTooltip" xml:space="preserve">
+    <value>讓任何支援 MCP 的 AI 應用程式即時讀取與編輯此內容</value>
+  </data>
+  <data name="Ui.Mcp.ConnectMessage" xml:space="preserve">
+    <value>連接任何支援 MCP 的 AI 應用程式（例如 Cursor、VS Code、Windsurf 或 LM Studio），即可即時讀取與編輯 Voidstrap 編輯器。
+
+將此伺服器加入你的 AI 應用程式的 MCP 設定中：
+
+{0}
+
+在 AI 運作期間，請保持開啟 Voidstrap 與編輯器。變更內容會立即顯示在預覽畫面中，且只有在儲存時才會寫入磁碟。</value>
+  </data>
+  <data name="Ui.Mcp.ConnectMessageCopied" xml:space="preserve">
+    <value>連接任何支援 MCP 的 AI 應用程式（例如 Cursor、VS Code、Windsurf 或 LM Studio），即可即時讀取與編輯 Voidstrap 編輯器。
+
+將此伺服器加入你的 AI 應用程式的 MCP 設定中（已複製到剪貼簿）：
+
+{0}
+
+在 AI 運作期間，請保持開啟 Voidstrap 與編輯器。變更內容會立即顯示在預覽畫面中，且只有在儲存時才會寫入磁碟。</value>
+  </data>
 </root>

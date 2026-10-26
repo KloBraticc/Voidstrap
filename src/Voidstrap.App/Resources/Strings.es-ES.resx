@@ -8590,4 +8590,28 @@ Se descargan {0} MB. Si lo rechazas, se usa la estimación integrada. Puedes cam
   <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
     <value>Tu tarjeta gráfica es demasiado débil para ejecutar RiShade con fluidez. ¿Quieres activar el modo de rendimiento de ReShade? Los efectos irán más rápido y puedes desactivarlo cuando quieras en la superposición de ReShade.</value>
   </data>
+  <data name="Ui.Mcp.Connect" xml:space="preserve">
+    <value>Conectar IA</value>
+  </data>
+  <data name="Ui.Mcp.ConnectTooltip" xml:space="preserve">
+    <value>Permite que cualquier aplicación de IA compatible con MCP lea y edite esto en tiempo real</value>
+  </data>
+  <data name="Ui.Mcp.ConnectMessage" xml:space="preserve">
+    <value>Conecta cualquier aplicación de IA compatible con MCP, como Cursor, VS Code, Windsurf o LM Studio, para que pueda leer y editar los editores de Voidstrap en tiempo real.
+
+Añade este servidor a los ajustes de MCP de tu aplicación de IA:
+
+{0}
+
+Mantén abiertos Voidstrap y el editor mientras la IA trabaja. Sus cambios se muestran al instante en la vista previa y solo se guardan en el disco cuando los guarda.</value>
+  </data>
+  <data name="Ui.Mcp.ConnectMessageCopied" xml:space="preserve">
+    <value>Conecta cualquier aplicación de IA compatible con MCP, como Cursor, VS Code, Windsurf o LM Studio, para que pueda leer y editar los editores de Voidstrap en tiempo real.
+
+Añade este servidor a los ajustes de MCP de tu aplicación de IA (ya copiado en tu portapapeles):
+
+{0}
+
+Mantén abiertos Voidstrap y el editor mientras la IA trabaja. Sus cambios se muestran al instante en la vista previa y solo se guardan en el disco cuando los guarda.</value>
+  </data>
 </root>

@@ -8588,4 +8588,28 @@ Voidstrap не зміг записати до теки робочого стол
   <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
     <value>Ваша відеокарта надто слабка для плавної роботи RiShade. Увімкнути режим продуктивності ReShade? Ефекти працюватимуть швидше, а вимкнути його можна будь-коли в оверлеї ReShade.</value>
   </data>
+  <data name="Ui.Mcp.Connect" xml:space="preserve">
+    <value>Підключити ШІ</value>
+  </data>
+  <data name="Ui.Mcp.ConnectTooltip" xml:space="preserve">
+    <value>Дозволити будь-якому застосунку ШІ з підтримкою MCP читати й редагувати це в реальному часі</value>
+  </data>
+  <data name="Ui.Mcp.ConnectMessage" xml:space="preserve">
+    <value>Підключіть будь-який застосунок ШІ з підтримкою MCP, наприклад Cursor, VS Code, Windsurf або LM Studio, щоб він міг читати й редагувати редактори Voidstrap у реальному часі.
+
+Додайте цей сервер до налаштувань MCP у Вашому застосунку ШІ:
+
+{0}
+
+Тримайте Voidstrap і редактор відкритими, поки ШІ працює. Його зміни одразу відображаються в попередньому перегляді й записуються на диск лише після збереження.</value>
+  </data>
+  <data name="Ui.Mcp.ConnectMessageCopied" xml:space="preserve">
+    <value>Підключіть будь-який застосунок ШІ з підтримкою MCP, наприклад Cursor, VS Code, Windsurf або LM Studio, щоб він міг читати й редагувати редактори Voidstrap у реальному часі.
+
+Додайте цей сервер до налаштувань MCP у Вашому застосунку ШІ (уже скопійовано до буфера обміну):
+
+{0}
+
+Тримайте Voidstrap і редактор відкритими, поки ШІ працює. Його зміни одразу відображаються в попередньому перегляді й записуються на диск лише після збереження.</value>
+  </data>
 </root>

@@ -8589,4 +8589,28 @@ A letöltés {0} MB. Ha elutasítod, a beépített becslés lesz használva. Ezt
   <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
     <value>A videokártyád túl gyenge a RiShade akadásmentes futtatásához. Bekapcsolod a ReShade teljesítmény módját? Az effektek gyorsabban futnak, és bármikor kikapcsolhatod a ReShade átfedésben.</value>
   </data>
+  <data name="Ui.Mcp.Connect" xml:space="preserve">
+    <value>MI csatlakoztatása</value>
+  </data>
+  <data name="Ui.Mcp.ConnectTooltip" xml:space="preserve">
+    <value>Engedélyezd bármely MCP-támogatású MI-alkalmazásnak, hogy valós időben olvassa és szerkessze ezt</value>
+  </data>
+  <data name="Ui.Mcp.ConnectMessage" xml:space="preserve">
+    <value>Csatlakoztass bármilyen MCP-t támogató MI-alkalmazást, például a Cursort, a VS Code-ot, a Windsurföt vagy az LM Studiót, hogy valós időben olvashassa és szerkeszthesse a Voidstrap szerkesztőit.
+
+Add hozzá ezt a kiszolgálót az MI-alkalmazásod MCP-beállításaihoz:
+
+{0}
+
+Tartsd nyitva a Voidstrapet és a szerkesztőt, amíg az MI dolgozik. A módosításai azonnal megjelennek az előnézetben, és csak mentéskor kerülnek a lemezre.</value>
+  </data>
+  <data name="Ui.Mcp.ConnectMessageCopied" xml:space="preserve">
+    <value>Csatlakoztass bármilyen MCP-t támogató MI-alkalmazást, például a Cursort, a VS Code-ot, a Windsurföt vagy az LM Studiót, hogy valós időben olvashassa és szerkeszthesse a Voidstrap szerkesztőit.
+
+Add hozzá ezt a kiszolgálót az MI-alkalmazásod MCP-beállításaihoz (már a vágólapodra másolva):
+
+{0}
+
+Tartsd nyitva a Voidstrapet és a szerkesztőt, amíg az MI dolgozik. A módosításai azonnal megjelennek az előnézetben, és csak mentéskor kerülnek a lemezre.</value>
+  </data>
 </root>

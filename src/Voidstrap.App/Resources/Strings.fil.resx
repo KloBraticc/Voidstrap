@@ -8588,4 +8588,28 @@ Magda-download ito ng {0} MB. Kung tatanggihan mo, gagamitin ang built in na tan
   <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
     <value>Masyadong mahina ang graphics card mo para patakbuhin nang maayos ang RiShade. Gusto mo bang i-on ang performance mode ng ReShade? Mas bibilis ang mga effect, at puwede mo itong i-off anumang oras sa ReShade overlay.</value>
   </data>
+  <data name="Ui.Mcp.Connect" xml:space="preserve">
+    <value>Ikonekta ang AI</value>
+  </data>
+  <data name="Ui.Mcp.ConnectTooltip" xml:space="preserve">
+    <value>Hayaan ang anumang AI app na sumusuporta sa MCP na basahin at i-edit ito nang real time</value>
+  </data>
+  <data name="Ui.Mcp.ConnectMessage" xml:space="preserve">
+    <value>Ikonekta ang anumang AI app na sumusuporta sa MCP, gaya ng Cursor, VS Code, Windsurf, o LM Studio, para mabasa at ma-edit nito ang mga editor ng Voidstrap nang real time.
+
+Idagdag ang server na ito sa mga setting ng MCP sa iyong AI app:
+
+{0}
+
+Panatilihing nakabukas ang Voidstrap at ang editor habang gumagawa ang AI. Agad na makikita sa preview ang mga pagbabago nito at isusulat lang sa disk kapag nag-save ito.</value>
+  </data>
+  <data name="Ui.Mcp.ConnectMessageCopied" xml:space="preserve">
+    <value>Ikonekta ang anumang AI app na sumusuporta sa MCP, gaya ng Cursor, VS Code, Windsurf, o LM Studio, para mabasa at ma-edit nito ang mga editor ng Voidstrap nang real time.
+
+Idagdag ang server na ito sa mga setting ng MCP sa iyong AI app (nakopya na sa iyong clipboard):
+
+{0}
+
+Panatilihing nakabukas ang Voidstrap at ang editor habang gumagawa ang AI. Agad na makikita sa preview ang mga pagbabago nito at isusulat lang sa disk kapag nag-save ito.</value>
+  </data>
 </root>

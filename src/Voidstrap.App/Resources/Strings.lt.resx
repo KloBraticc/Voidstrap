@@ -8591,4 +8591,28 @@ Atsisiunčiama {0} MB. Jei atsisakysite, bus naudojamas įtaisytasis įvertinima
   <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
     <value>Jūsų vaizdo plokštė per silpna, kad RiShade veiktų sklandžiai. Ar norite įjungti ReShade našumo režimą? Efektai veiks greičiau, o jį bet kada galėsite išjungti ReShade perdangoje.</value>
   </data>
+  <data name="Ui.Mcp.Connect" xml:space="preserve">
+    <value>Prijungti DI</value>
+  </data>
+  <data name="Ui.Mcp.ConnectTooltip" xml:space="preserve">
+    <value>Leiskite bet kuriai MCP palaikančiai DI programai skaityti ir redaguoti tai realiuoju laiku</value>
+  </data>
+  <data name="Ui.Mcp.ConnectMessage" xml:space="preserve">
+    <value>Prijunkite bet kurią DI programą, kuri palaiko MCP, pavyzdžiui, Cursor, VS Code, Windsurf arba LM Studio, kad ji galėtų realiuoju laiku skaityti ir redaguoti Voidstrap redaktorius.
+
+Pridėkite šį serverį prie savo DI programos MCP nustatymų:
+
+{0}
+
+Palikite Voidstrap ir redaktorių atidarytus, kol DI dirba. Jo pakeitimai iš karto rodomi peržiūroje ir įrašomi į diską tik tada, kai jis juos išsaugo.</value>
+  </data>
+  <data name="Ui.Mcp.ConnectMessageCopied" xml:space="preserve">
+    <value>Prijunkite bet kurią DI programą, kuri palaiko MCP, pavyzdžiui, Cursor, VS Code, Windsurf arba LM Studio, kad ji galėtų realiuoju laiku skaityti ir redaguoti Voidstrap redaktorius.
+
+Pridėkite šį serverį prie savo DI programos MCP nustatymų (jau nukopijuota į jūsų iškarpinę):
+
+{0}
+
+Palikite Voidstrap ir redaktorių atidarytus, kol DI dirba. Jo pakeitimai iš karto rodomi peržiūroje ir įrašomi į diską tik tada, kai jis juos išsaugo.</value>
+  </data>
 </root>

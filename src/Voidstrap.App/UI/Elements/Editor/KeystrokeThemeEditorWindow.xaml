@@ -6,6 +6,7 @@
                   xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
                   xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit"
                   xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls"
+                  xmlns:platform="clr-namespace:Voidstrap.UI"
                    Title="{resources:Loc Ui_Keystrokes_Editor_Title}" Width="1080" Height="720"
                    MinWidth="960" MinHeight="600" WindowStartupLocation="CenterScreen"
                    ExtendsContentIntoTitleBar="True"
@@ -514,6 +515,9 @@
       <Grid>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
           <ui:Button Icon="ArrowUndo24" Content="{resources:Loc Ui_Keystrokes_Editor_Revert}" Click="OnRevertClicked" />
+          <ui:Button Icon="PlugConnected24" Content="{resources:Loc Ui_Mcp_Connect}" Margin="8,0,0,0" Click="OnConnectAiClicked"
+                     ToolTip="{resources:Loc Ui_Mcp_ConnectTooltip}"
+                     Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}" />
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
           <ui:Button Icon="Save24" Content="{resources:Loc Common_Save}" Appearance="Primary"

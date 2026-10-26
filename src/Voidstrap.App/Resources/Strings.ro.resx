@@ -8591,4 +8591,28 @@ Se descarcă {0} MB. Dacă refuzi, se folosește estimarea integrată. Poți sch
   <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
     <value>Placa ta video este prea slabă pentru a rula RiShade fluid. Vrei să activezi modul de performanță ReShade? Efectele vor rula mai rapid și îl poți dezactiva oricând din suprapunerea ReShade.</value>
   </data>
+  <data name="Ui.Mcp.Connect" xml:space="preserve">
+    <value>Conectează AI</value>
+  </data>
+  <data name="Ui.Mcp.ConnectTooltip" xml:space="preserve">
+    <value>Permite oricărei aplicații AI care acceptă MCP să citească și să editeze acest conținut în timp real</value>
+  </data>
+  <data name="Ui.Mcp.ConnectMessage" xml:space="preserve">
+    <value>Conectează orice aplicație AI care acceptă MCP, cum ar fi Cursor, VS Code, Windsurf sau LM Studio, astfel încât să poată citi și edita editoarele Voidstrap în timp real.
+
+Adaugă acest server în setările MCP din aplicația ta AI:
+
+{0}
+
+Păstrează Voidstrap și editorul deschise în timp ce AI-ul lucrează. Modificările sale apar imediat în previzualizare și sunt scrise pe disc doar atunci când salvează.</value>
+  </data>
+  <data name="Ui.Mcp.ConnectMessageCopied" xml:space="preserve">
+    <value>Conectează orice aplicație AI care acceptă MCP, cum ar fi Cursor, VS Code, Windsurf sau LM Studio, astfel încât să poată citi și edita editoarele Voidstrap în timp real.
+
+Adaugă acest server în setările MCP din aplicația ta AI (deja copiat în clipboard):
+
+{0}
+
+Păstrează Voidstrap și editorul deschise în timp ce AI-ul lucrează. Modificările sale apar imediat în previzualizare și sunt scrise pe disc doar atunci când salvează.</value>
+  </data>
 </root>

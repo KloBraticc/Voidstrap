@@ -8775,5 +8775,9 @@ namespace Voidstrap.Resources {
         public static string Accounts_Premium_None => ResourceManager.GetString("Accounts.Premium.None", resourceCulture);
         public static string Accounts_SignIn_RobloxApp => ResourceManager.GetString("Accounts.SignIn.RobloxApp", resourceCulture);
         public static string Ui_Pages_NoMapsInstalled => ResourceManager.GetString("Ui.Pages.NoMapsInstalled", resourceCulture);
+        public static string Ui_Mcp_Connect => ResourceManager.GetString("Ui.Mcp.Connect", resourceCulture);
+        public static string Ui_Mcp_ConnectTooltip => ResourceManager.GetString("Ui.Mcp.ConnectTooltip", resourceCulture);
+        public static string Ui_Mcp_ConnectMessage => ResourceManager.GetString("Ui.Mcp.ConnectMessage", resourceCulture);
+        public static string Ui_Mcp_ConnectMessageCopied => ResourceManager.GetString("Ui.Mcp.ConnectMessageCopied", resourceCulture);
     }
 }

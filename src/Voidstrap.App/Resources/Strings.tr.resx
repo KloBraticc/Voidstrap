@@ -8588,4 +8588,28 @@ Bu dosyayı size yardım eden kişiye gönderin. Bilgisayar kullanıcı adınız
   <data name="Ui.RiShade.PerformancePrompt" xml:space="preserve">
     <value>Ekran kartınız RiShade'i akıcı çalıştırmak için çok zayıf. ReShade performans modunu açmak ister misiniz? Efektler daha hızlı çalışır ve istediğiniz zaman ReShade arayüzünden kapatabilirsiniz.</value>
   </data>
+  <data name="Ui.Mcp.Connect" xml:space="preserve">
+    <value>YZ Bağla</value>
+  </data>
+  <data name="Ui.Mcp.ConnectTooltip" xml:space="preserve">
+    <value>MCP destekleyen herhangi bir YZ uygulamasının bunu gerçek zamanlı olarak okumasına ve düzenlemesine izin verin</value>
+  </data>
+  <data name="Ui.Mcp.ConnectMessage" xml:space="preserve">
+    <value>Cursor, VS Code, Windsurf veya LM Studio gibi MCP destekleyen herhangi bir YZ uygulamasını bağlayarak Voidstrap düzenleyicilerini gerçek zamanlı olarak okumasını ve düzenlemesini sağlayın.
+
+Bu sunucuyu YZ uygulamanızın MCP ayarlarına ekleyin:
+
+{0}
+
+YZ çalışırken Voidstrap'i ve düzenleyiciyi açık tutun. Yaptığı değişiklikler önizlemede hemen görünür ve yalnızca kaydettiğinde diske yazılır.</value>
+  </data>
+  <data name="Ui.Mcp.ConnectMessageCopied" xml:space="preserve">
+    <value>Cursor, VS Code, Windsurf veya LM Studio gibi MCP destekleyen herhangi bir YZ uygulamasını bağlayarak Voidstrap düzenleyicilerini gerçek zamanlı olarak okumasını ve düzenlemesini sağlayın.
+
+Bu sunucuyu YZ uygulamanızın MCP ayarlarına ekleyin (panonuza zaten kopyalandı):
+
+{0}
+
+YZ çalışırken Voidstrap'i ve düzenleyiciyi açık tutun. Yaptığı değişiklikler önizlemede hemen görünür ve yalnızca kaydettiğinde diske yazılır.</value>
+  </data>
 </root>
