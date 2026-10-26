@@ -877,19 +877,32 @@ bool RefinePixel(uint3 id)
     float edge = saturate(((highest - lowest) / max(highest, 1e-6) - RefineEdgeStart) / RefineEdgeRange);
     float surface = 0;
     float surfaceWeights = 0;
-    float snapped = 0;
-    float snappedWeights = 0;
+    float split = 0.5 * (lowest + highest);
+    float2 sides = 0;
+    float2 sideWeights = 0;
     for (uint j = 0; j < 25; ++j)
     {
         float relative = (values[j] - mean) / max(mean * RefineSurfaceSigma, 1e-6);
         float weight = spatial[j] * exp(-0.5 * relative * relative);
         surface += weight * values[j];
         surfaceWeights += weight;
-        snapped += spatial[j] * tones[j] * values[j];
-        snappedWeights += spatial[j] * tones[j];
+        float match = spatial[j] * tones[j] * tones[j];
+        if (values[j] > split)
+        {
+            sides.x += match * values[j];
+            sideWeights.x += match;
+        }
+        else
+        {
+            sides.y += match * values[j];
+            sideWeights.y += match;
+        }
     }
+    float farSide = sides.x / max(sideWeights.x, 1e-12);
+    float nearSide = sides.y / max(sideWeights.y, 1e-12);
+    float snapped = sideWeights.x <= 0 ? nearSide : sideWeights.y <= 0 ? farSide : (sideWeights.x >= sideWeights.y ? farSide : nearSide);
     float fitted = FitSurface(p, size, values[12], centre, surface / max(surfaceWeights, 1e-6));
-    float current = Encoded(lerp(fitted, snapped / max(snappedWeights, 1e-6), edge));
+    float current = Encoded(lerp(fitted, snapped, edge));
     float previous = Depth[id.xy];
     float change = abs(current - previous) / max(max(current, previous), 1e-4);
     if (Flags & Exact)
