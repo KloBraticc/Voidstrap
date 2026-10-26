@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Voidstrap.Integrations.Keystrokes;
 using Voidstrap.Integrations.Mcp;
 
@@ -71,5 +72,31 @@ public partial class KeystrokeThemeEditorWindow : IMcpEditor
 		{
 			return new McpEditResult(false, "Could not save the theme: " + ex.Message);
 		}
+	}
+
+	IReadOnlyList<string> IMcpEditor.Languages => new[] { "csharp", "html", "rust", "json" };
+
+	McpEditResult IMcpEditor.SetLanguage(string language)
+	{
+		int index = (language ?? "").Trim().ToLowerInvariant() switch
+		{
+			"csharp" or "c#" or "cs" => 0,
+			"html" or "htmlcss" or "css" or "web" => 1,
+			"rust" or "rs" => 2,
+			"json" => 3,
+			_ => -1
+		};
+
+		if (index < 0)
+			return new McpEditResult(false, "Unknown language. Use csharp, html, rust, or json.");
+
+		if (EditorTabs.SelectedIndex == 1 && !UpdateFromCurrentCode())
+			return new McpEditResult(false, "The current code does not parse, fix it before switching language. " + TextCodeStatus.Text);
+
+		ComboLanguage.SelectedIndex = index;
+		if (EditorTabs.SelectedIndex != 1)
+			EditorTabs.SelectedIndex = 1;
+
+		return new McpEditResult(true, "Switched the code view to " + KeystrokeThemeCodeConverter.GetExtension(_currentLanguage) + ". Call get_editor_code to read it.");
 	}
 }

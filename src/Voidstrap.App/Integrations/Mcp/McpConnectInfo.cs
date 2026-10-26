@@ -174,6 +174,8 @@ public static class McpConnectInfo
 			}
 
 			string existing = File.ReadAllText(tomlPath);
+			if (existing.Contains("command = \"" + escapedExe + "\"", StringComparison.OrdinalIgnoreCase) && IsCliClientConnected())
+				return true;
 			string[] lines = existing.Replace("\r\n", "\n").Split('\n');
 			var sb = new StringBuilder();
 			bool replaced = false;
@@ -217,7 +219,7 @@ public static class McpConnectInfo
 				sb.AppendLine($"args = [\"{McpStdioServer.CommandArg}\"]");
 			}
 
-			File.WriteAllText(tomlPath, sb.ToString(), Utf8NoBom);
+			WriteConfigSafely(tomlPath, sb.ToString());
 			return true;
 		}
 		catch (Exception ex)
@@ -415,8 +417,11 @@ public static class McpConnectInfo
 		if (includeTypeAndEnv)
 			entry["env"] = new JsonObject();
 
+		if (servers["voidstrap"] is JsonObject existing && JsonNode.DeepEquals(existing, entry))
+			return;
+
 		servers["voidstrap"] = entry;
-		File.WriteAllText(path, root.ToJsonString(IndentedJson), Utf8NoBom);
+		WriteConfigSafely(path, root.ToJsonString(IndentedJson));
 	}
 
 	private static void WriteOpenCodeMcpServerJson(string path, string exe)
@@ -435,14 +440,18 @@ public static class McpConnectInfo
 			root["mcp"] = mcp;
 		}
 
-		mcp["voidstrap"] = new JsonObject
+		var desired = new JsonObject
 		{
 			["type"] = "local",
 			["command"] = new JsonArray(exe, McpStdioServer.CommandArg),
 			["enabled"] = true
 		};
 
-		File.WriteAllText(path, root.ToJsonString(IndentedJson), Utf8NoBom);
+		if (mcp["voidstrap"] is JsonObject existing && JsonNode.DeepEquals(existing, desired))
+			return;
+
+		mcp["voidstrap"] = desired;
+		WriteConfigSafely(path, root.ToJsonString(IndentedJson));
 	}
 
 	private static JsonObject ReadOrCreateJsonObject(string path)
@@ -450,17 +459,39 @@ public static class McpConnectInfo
 		if (!File.Exists(path))
 			return new JsonObject();
 
+		string text = File.ReadAllText(path);
+		if (string.IsNullOrWhiteSpace(text))
+			return new JsonObject();
+
 		try
 		{
-			string text = File.ReadAllText(path);
-			if (!string.IsNullOrWhiteSpace(text) && JsonNode.Parse(text, documentOptions: LooseJsonDocument) is JsonObject obj)
+			if (JsonNode.Parse(text, documentOptions: LooseJsonDocument) is JsonObject obj)
 				return obj;
 		}
-		catch
+		catch (System.Text.Json.JsonException)
 		{
 		}
 
-		return new JsonObject();
+		throw new InvalidDataException("The existing config at " + path + " could not be read, so it was left untouched. Fix or remove it, then connect again.");
+	}
+
+	private static void WriteConfigSafely(string path, string text)
+	{
+		string backup = path + ".backup";
+		if (File.Exists(path) && !File.Exists(backup))
+			File.Copy(path, backup);
+
+		string temporary = path + "." + Guid.NewGuid().ToString("N") + ".tmp";
+		try
+		{
+			File.WriteAllText(temporary, text, Utf8NoBom);
+			File.Move(temporary, path, overwrite: true);
+		}
+		finally
+		{
+			if (File.Exists(temporary))
+				File.Delete(temporary);
+		}
 	}
 
 	private sealed class McpConnectDialogController

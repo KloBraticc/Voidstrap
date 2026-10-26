@@ -22,15 +22,29 @@ public interface IMcpEditor
 	McpEditResult SetCode(string code);
 
 	McpEditResult Save();
+
+	IReadOnlyList<string> Files => Array.Empty<string>();
+
+	string? ReadFile(string relativePath) => null;
+
+	McpEditResult WriteFile(string relativePath, string text) => new(false, "This editor has a single document, edit it without a file argument.");
+
+	McpEditResult DeleteFile(string relativePath) => new(false, "This editor has a single document, files cannot be deleted.");
+
+	IReadOnlyList<string> Languages => Array.Empty<string>();
+
+	McpEditResult SetLanguage(string language) => new(false, "This editor uses a single language.");
 }
 
 public static class McpEditorRegistry
 {
 	private static readonly object Gate = new();
 
-	private static readonly Dictionary<string, IMcpEditor> Editors = new(StringComparer.OrdinalIgnoreCase);
+	private static readonly List<KeyValuePair<string, IMcpEditor>> Editors = [];
 
 	private static int _counter;
+
+	public static event Action<string>? Unregistered;
 
 	public static string? Register(IMcpEditor editor)
 	{
@@ -40,7 +54,7 @@ public static class McpEditorRegistry
 		string id = editor.Kind + "_" + Interlocked.Increment(ref _counter);
 
 		lock (Gate)
-			Editors[id] = editor;
+			Editors.Add(new KeyValuePair<string, IMcpEditor>(id, editor));
 
 		McpBridgeServer.EnsureStarted();
 		return id;
@@ -51,8 +65,12 @@ public static class McpEditorRegistry
 		if (string.IsNullOrEmpty(id))
 			return;
 
+		bool removed;
 		lock (Gate)
-			Editors.Remove(id);
+			removed = Editors.RemoveAll(entry => string.Equals(entry.Key, id, StringComparison.OrdinalIgnoreCase)) > 0;
+
+		if (removed)
+			Unregistered?.Invoke(id);
 	}
 
 	public static IReadOnlyList<KeyValuePair<string, IMcpEditor>> Snapshot()
@@ -74,20 +92,37 @@ public static class McpEditorRegistry
 				return null;
 
 			if (string.IsNullOrWhiteSpace(id))
-				return Editors.Last();
+				return Editors[^1];
 
 			string needle = id.Trim();
-			if (Editors.TryGetValue(needle, out IMcpEditor? exact))
-				return new KeyValuePair<string, IMcpEditor>(needle, exact);
+			int colon = needle.IndexOf(':');
+			string? kindPart = colon > 0 ? needle[..colon] : null;
+			string namePart = colon > 0 ? needle[(colon + 1)..] : needle;
 
-			foreach (KeyValuePair<string, IMcpEditor> kv in Editors.Reverse())
+			foreach (KeyValuePair<string, IMcpEditor> entry in Editors)
 			{
-				if (string.Equals(kv.Value.Kind, needle, StringComparison.OrdinalIgnoreCase)
-					|| string.Equals(kv.Value.DisplayName, needle, StringComparison.OrdinalIgnoreCase)
-					|| kv.Value.DisplayName.Contains(needle, StringComparison.OrdinalIgnoreCase))
+				if (string.Equals(entry.Key, needle, StringComparison.OrdinalIgnoreCase))
+					return entry;
+			}
+
+			for (int i = Editors.Count - 1; i >= 0; i--)
+			{
+				KeyValuePair<string, IMcpEditor> entry = Editors[i];
+				if (kindPart != null && !entry.Value.Kind.StartsWith(kindPart, StringComparison.OrdinalIgnoreCase) && !kindPart.StartsWith(entry.Value.Kind, StringComparison.OrdinalIgnoreCase))
+					continue;
+
+				if (string.Equals(entry.Value.Kind, namePart, StringComparison.OrdinalIgnoreCase)
+					|| string.Equals(entry.Value.DisplayName, namePart, StringComparison.OrdinalIgnoreCase))
 				{
-					return kv;
+					return entry;
 				}
+			}
+
+			for (int i = Editors.Count - 1; i >= 0; i--)
+			{
+				KeyValuePair<string, IMcpEditor> entry = Editors[i];
+				if (entry.Value.DisplayName.Contains(namePart, StringComparison.OrdinalIgnoreCase))
+					return entry;
 			}
 
 			return null;

@@ -1,0 +1,315 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.Json.Nodes;
+
+namespace Voidstrap.Integrations.Mcp;
+
+public static class McpToolCatalog
+{
+	private enum Kind
+	{
+		Read,
+		Write,
+		Destructive
+	}
+
+	private sealed record Definition(string Name, string Description, Kind Kind, JsonObject Properties, string[] Required, bool OffUiThread, int TimeoutSeconds);
+
+	private static readonly Definition[] Definitions = Build();
+
+	private static readonly Dictionary<string, Definition> ByName = Definitions.ToDictionary(d => d.Name, StringComparer.Ordinal);
+
+	public static bool Exists(string name) => ByName.ContainsKey(name);
+
+	public static bool RunsOffUiThread(string name) => ByName.TryGetValue(name, out Definition? d) && d.OffUiThread;
+
+	public static TimeSpan Timeout(string name) => TimeSpan.FromSeconds(ByName.TryGetValue(name, out Definition? d) ? d.TimeoutSeconds : 30);
+
+	public static TimeSpan LongestTimeout => TimeSpan.FromSeconds(Definitions.Max(d => d.TimeoutSeconds) + 15);
+
+	public static IEnumerable<string> Names => Definitions.Select(d => d.Name);
+
+	public static JsonArray ToJson()
+	{
+		var tools = new JsonArray();
+		foreach (Definition d in Definitions)
+		{
+			var required = new JsonArray();
+			foreach (string r in d.Required)
+				required.Add(r);
+
+			tools.Add(new JsonObject
+			{
+				["name"] = d.Name,
+				["description"] = d.Description,
+				["inputSchema"] = new JsonObject
+				{
+					["type"] = "object",
+					["properties"] = d.Properties.DeepClone(),
+					["required"] = required
+				},
+				["annotations"] = new JsonObject
+				{
+					["readOnlyHint"] = d.Kind == Kind.Read,
+					["destructiveHint"] = d.Kind == Kind.Destructive,
+					["openWorldHint"] = false
+				}
+			});
+		}
+		return tools;
+	}
+
+	private static JsonObject P(string type, string description) => new() { ["type"] = type, ["description"] = description };
+
+	private static JsonObject Obj(string description) => new() { ["type"] = "object", ["description"] = description };
+
+	private static Definition T(string name, string description, Kind kind, JsonObject properties, params string[] required) => new(name, description, kind, properties, required, false, 30);
+
+	private static JsonObject EditorTarget(JsonObject extra)
+	{
+		var props = new JsonObject
+		{
+			["editorId"] = P("string", "Editor id from list_editors (for example bootstrapper_3, keystrokes_2, fastflags_1), a kind like 'bootstrapper', or a theme name. Defaults to the most recently opened editor."),
+			["file"] = P("string", "Optional file inside a multi file editor, such as 'index.html', 'style.css' or 'scripts/app.js' in a custom bootstrapper theme. Omit for the main document (Theme.xml). Writing a new path creates the file.")
+		};
+		foreach (KeyValuePair<string, JsonNode?> pair in extra)
+			props[pair.Key] = pair.Value?.DeepClone();
+		return props;
+	}
+
+	private static Definition[] Build()
+	{
+		return
+		[
+			T("get_voidstrap_overview",
+				"Snapshot of Voidstrap: version, folders, open window and page, open editors, Roblox running state and versions, key settings, installed themes, and FastFlag counts. Call this first.",
+				Kind.Read, new JsonObject()),
+
+			T("get_settings",
+				"Read Voidstrap settings (AppSettings) and Roblox GlobalBasicSettings_13.xml values with their types and enum options.",
+				Kind.Read, new JsonObject
+				{
+					["filter"] = P("string", "Case insensitive name filter such as 'Keystrokes', 'RiShade', 'Crosshair', 'Matchmaker', 'Discord'."),
+					["includeSchema"] = P("boolean", "Include type and enum metadata (default true).")
+				}),
+
+			T("set_settings",
+				"Change Voidstrap settings and/or Roblox GlobalBasicSettings, save them, and refresh the UI. Use dryRun to preview, and undo_last_change to revert.",
+				Kind.Write, new JsonObject
+				{
+					["settings"] = Obj("Map of AppSettings property names to new values (bool, number, string, enum name, array, or object)."),
+					["globalSettings"] = Obj("Map of GlobalBasicSettings properties (FramerateCap, SavedQualityLevel, MouseSensitivity, MasterVolume, Fullscreen and so on) to new values."),
+					["dryRun"] = P("boolean", "Show what would change without saving anything.")
+				}),
+
+			T("list_fastflags",
+				"List configured FastFlags with allowlist status, the Roblox FastFlag allowlist, tracker sources, and Voidstrap FastFlag presets.",
+				Kind.Read, new JsonObject
+				{
+					["filter"] = P("string", "Case insensitive filter for flag or preset names."),
+					["includePresets"] = P("boolean", "Include Voidstrap FastFlag presets (default true)."),
+					["includeAllowlist"] = P("boolean", "Include the Roblox allowlist and tracker sources (default true).")
+				}),
+
+			T("set_fastflags",
+				"Set or delete FastFlags or Voidstrap presets, or apply 'Performance', 'Balanced' or 'Quality'. Saves ClientAppSettings.json. Use dryRun to preview the exact diff and undo_last_change to revert.",
+				Kind.Write, new JsonObject
+				{
+					["flags"] = Obj("Map of FastFlag names to values, or null to delete a flag."),
+					["presets"] = Obj("Map of Voidstrap preset keys (from list_fastflags) to values, or null to remove."),
+					["recommendedProfile"] = P("string", "'Performance', 'Balanced', or 'Quality'."),
+					["replaceAll"] = P("boolean", "Clear every existing FastFlag before applying 'flags'."),
+					["dryRun"] = P("boolean", "Show the diff without saving anything.")
+				}),
+
+			T("search_fastflag_tracker",
+				"Search and validate FastFlags against the MaximumADHD trackers, live Roblox ClientSettings, and the Roblox allowlist.",
+				Kind.Read, new JsonObject
+				{
+					["query"] = P("string", "Search words such as 'grass', 'msaa', 'texture', 'vulkan'."),
+					["source"] = P("string", "'all' (default), 'allowlist', 'PCDesktopClient', 'PCClientBootstrapper', 'PCStudioApp', 'FVariables.txt', or 'Roblox ClientSettings'."),
+					["allowlistedOnly"] = P("boolean", "Only return allowlisted flags."),
+					["validateConfigured"] = P("boolean", "Validate the configured FastFlags (default true when query is empty)."),
+					["refreshOnline"] = P("boolean", "Download fresh tracker and allowlist data."),
+					["limit"] = P("integer", "Maximum results (default 100, max 500).")
+				}) with { OffUiThread = true, TimeoutSeconds = 90 },
+
+			T("list_editors",
+				"List open Voidstrap editors (Custom Bootstrapper theme editor, Keystroke theme editor, FastFlag editor) and installed themes.",
+				Kind.Read, new JsonObject()),
+
+			T("open_editor",
+				"Open or focus an editor on screen: 'bootstrapper', 'keystroke', or 'fastflags'. Creates the theme if it does not exist and returns its editorId.",
+				Kind.Write, new JsonObject
+				{
+					["type"] = P("string", "'bootstrapper', 'keystroke', or 'fastflags'."),
+					["name"] = P("string", "Theme name for bootstrapper or keystroke editors."),
+					["baseTheme"] = P("string", "Keystroke theme to clone when creating a new one."),
+					["activate"] = P("boolean", "Make the theme active (default true).")
+				}, "type"),
+
+			T("list_editor_files",
+				"List every file in an editor (custom bootstrapper themes can hold HTML, CSS, JS, JSON, SVG and images next to Theme.xml) and the languages it can switch between.",
+				Kind.Read, EditorTarget(new JsonObject())),
+
+			T("get_editor_code",
+				"Read code from an editor or one of its files, optionally with line numbers or just a line range. Includes the format guide.",
+				Kind.Read, EditorTarget(new JsonObject
+				{
+					["lineNumbers"] = P("boolean", "Prefix every line with its number (use this before line based edits)."),
+					["startLine"] = P("integer", "First line to return (1 based)."),
+					["endLine"] = P("integer", "Last line to return.")
+				})),
+
+			T("find_in_editor",
+				"Search an editor or file for text or a regex and return matching line numbers with optional context.",
+				Kind.Read, EditorTarget(new JsonObject
+				{
+					["query"] = P("string", "Text or regex to search for (case insensitive)."),
+					["regex"] = P("boolean", "Treat query as a regular expression."),
+					["context"] = P("integer", "Lines of context around each match (0 to 5).")
+				}), "query"),
+
+			T("set_editor_code",
+				"Replace the whole code of an editor or file and refresh the live preview. Not written to the theme until save_editor, except extra files which are written right away. undo_editor reverts.",
+				Kind.Write, EditorTarget(new JsonObject
+				{
+					["code"] = P("string", "Complete new contents."),
+					["revertOnError"] = P("boolean", "Restore the previous code if the new code does not build (default false).")
+				}), "code"),
+
+			T("replace_in_editor",
+				"Replace an exact snippet. Fails if the snippet is missing or appears more than once unless replaceAll is true.",
+				Kind.Write, EditorTarget(new JsonObject
+				{
+					["oldText"] = P("string", "Exact existing text."),
+					["newText"] = P("string", "Replacement text."),
+					["replaceAll"] = P("boolean", "Replace every occurrence."),
+					["revertOnError"] = P("boolean", "Restore the previous code if the result does not build (default false).")
+				}), "oldText", "newText"),
+
+			T("edit_editor",
+				"Apply many edits to one editor or file in a single step. Nothing changes if any edit is invalid, and by default the code is restored if the result does not build. Ops: replace (oldText, text, replaceAll), insert (line, text), append (text), delete_lines (startLine, endLine), replace_lines (startLine, endLine, text). Line numbers refer to the code as it is after the previous edits.",
+				Kind.Write, EditorTarget(new JsonObject
+				{
+					["edits"] = new JsonObject
+					{
+						["type"] = "array",
+						["description"] = "Ordered list of edit objects, each with an 'op' field.",
+						["items"] = new JsonObject { ["type"] = "object" }
+					},
+					["revertOnError"] = P("boolean", "Restore the previous code if the result does not build (default true).")
+				}), "edits"),
+
+			T("undo_editor",
+				"Undo the last MCP change to an editor or file (keeps 30 steps per file, including deleted files).",
+				Kind.Write, EditorTarget(new JsonObject())),
+
+			T("set_editor_language",
+				"Switch the code language of an editor that supports several, such as the Keystroke theme editor: csharp, html (HTML and CSS), rust, or json.",
+				Kind.Write, EditorTarget(new JsonObject
+				{
+					["language"] = P("string", "csharp, html, rust, or json.")
+				}), "language"),
+
+			T("delete_editor_file",
+				"Delete an extra file from a multi file editor such as a custom bootstrapper theme. Theme.xml cannot be deleted. undo_editor restores text files.",
+				Kind.Destructive, EditorTarget(new JsonObject()), "file"),
+
+			T("save_editor",
+				"Save the editor to disk.",
+				Kind.Write, EditorTarget(new JsonObject())),
+
+			T("navigate_ui",
+				"Move Voidstrap's main window to a page, search for a setting on it, or bring it to the front.",
+				Kind.Write, new JsonObject
+				{
+					["page"] = P("string", "Home, Integrations, Deployment, Appearance, FastFlags, FastFlagEditor, Mods, More, Global, Shortcuts, News, Extensions, Manager, Settings, Accounts, Library, PrivateServers."),
+					["search"] = P("string", "Setting to search for and highlight."),
+					["focusWindow"] = P("boolean", "Bring the window to the front (default true).")
+				}),
+
+			T("manage_themes_and_mods",
+				"Manage custom Bootstrapper themes, Keystroke themes, the custom font, the custom death sound, and files in VoidstrapMods.",
+				Kind.Destructive, new JsonObject
+				{
+					["action"] = P("string", "list, create_bootstrapper_theme, delete_bootstrapper_theme, activate_bootstrapper_theme, create_keystroke_theme, delete_keystroke_theme, activate_keystroke_theme, set_custom_font, clear_custom_font, set_custom_death_sound, clear_custom_death_sound, write_mod_file, delete_mod_file."),
+					["name"] = P("string", "Theme name."),
+					["xml"] = P("string", "Theme.xml content for create_bootstrapper_theme."),
+					["code"] = P("string", "C#, HTML and CSS, Rust, or JSON for create_keystroke_theme."),
+					["baseTheme"] = P("string", "Keystroke theme to clone."),
+					["activate"] = P("boolean", "Activate the created theme (default true)."),
+					["sourcePath"] = P("string", "Source file for set_custom_font (.ttf, .otf), set_custom_death_sound (.ogg, .mp3, .wav), or write_mod_file."),
+					["relativePath"] = P("string", "Path inside VoidstrapMods for write_mod_file or delete_mod_file."),
+					["content"] = P("string", "Text content for write_mod_file.")
+				}, "action"),
+
+			T("manage_mods",
+				"List, enable, disable, rename, reorder, or delete managed mods in the Mods library. Changes apply on the next Roblox launch.",
+				Kind.Destructive, new JsonObject
+				{
+					["action"] = P("string", "list (default), enable, disable, rename, move, or delete."),
+					["id"] = P("string", "Mod id or name from list."),
+					["name"] = P("string", "New name for rename."),
+					["targetId"] = P("string", "Mod to move next to for move."),
+					["after"] = P("boolean", "Place after targetId (default true)."),
+					["confirm"] = P("boolean", "Required true for delete.")
+				}),
+
+			T("manage_rishade",
+				"Read RiShade status and presets, turn RiShade on or off, or switch the active ReShade preset.",
+				Kind.Write, new JsonObject
+				{
+					["action"] = P("string", "status (default), enable, disable, or select_preset."),
+					["preset"] = P("string", "Preset path relative to the RiShade folder, from status.")
+				}),
+
+			T("manage_mod_generator",
+				"Read the generated UI theme mod, regenerate it with changed settings (fill, colours, gradient, icon swaps and more) or from a saved theme, or save its settings as a theme.",
+				Kind.Write, new JsonObject
+				{
+					["action"] = P("string", "status (default), generate, or save_theme."),
+					["settings"] = Obj("Generator settings to change before generating, using the field names from status."),
+					["theme"] = P("string", "Saved theme name to generate from."),
+					["name"] = P("string", "Theme name for save_theme.")
+				}) with { OffUiThread = true, TimeoutSeconds = 330 },
+
+			T("list_accounts",
+				"List the Roblox accounts saved in Voidstrap and which one is signed in. Read only, no cookies are ever returned.",
+				Kind.Read, new JsonObject()) with { OffUiThread = true, TimeoutSeconds = 30 },
+
+			T("read_voidstrap_file",
+				"List folders or read text files (json, txt, log, xml, ini, html, css, js and more) inside the Voidstrap folder. Account logins are never readable.",
+				Kind.Read, new JsonObject
+				{
+					["path"] = P("string", "Relative path inside the Voidstrap folder, empty to list the root.")
+				}),
+
+			T("undo_last_change",
+				"Undo the most recent MCP change to settings, FastFlags, mods, or RiShade (keeps 25 steps). Set list to true to see what can be undone.",
+				Kind.Write, new JsonObject
+				{
+					["list"] = P("boolean", "Only list the undo history.")
+				}),
+
+			T("launch_roblox",
+				"Launch Roblox Player or Studio through Voidstrap, join a placeId and optional jobId, or close Roblox. Only one Roblox instance can run.",
+				Kind.Destructive, new JsonObject
+				{
+					["mode"] = P("string", "'player' (default), 'place', 'studio', or 'close'."),
+					["placeId"] = P("string", "Place id to join."),
+					["jobId"] = P("string", "Server job id (GUID) to join.")
+				}),
+
+			T("get_logs_and_activity",
+				"Read recent Voidstrap logs, the latest Roblox log, and server history.",
+				Kind.Read, new JsonObject
+				{
+					["source"] = P("string", "'all' (default), 'voidstrap', 'roblox', or 'history'."),
+					["maxLines"] = P("integer", "Lines per source (default 120, max 500)."),
+					["filter"] = P("string", "Case insensitive line filter.")
+				})
+		];
+	}
+}
