@@ -1158,8 +1158,16 @@ winrt::com_ptr<ID3D12Device> CreateUnhookedD3D12(IDXGIAdapter1* adapter)
     const auto getInterface = module ? reinterpret_cast<GetInterface>(GetProcAddress(module, "D3D12GetInterface")) : nullptr;
     winrt::com_ptr<ID3D12DeviceFactory> factory;
     winrt::com_ptr<ID3D12Device> device;
-    if (!getInterface || FAILED(getInterface(deviceFactory, IID_PPV_ARGS(factory.put())))
-        || FAILED(factory->CreateDevice(adapter, D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(device.put())))
+    if (!getInterface || FAILED(getInterface(deviceFactory, IID_PPV_ARGS(factory.put()))))
+        return nullptr;
+    static const GUID removedData = { 0x4a75bbc4, 0x9ff4, 0x4ad8, { 0x9f, 0x18, 0xab, 0xae, 0x84, 0xdc, 0x5f, 0xf2 } };
+    winrt::com_ptr<ID3D12DeviceRemovedExtendedDataSettings> dred;
+    if (SUCCEEDED(factory->GetConfigurationInterface(removedData, IID_PPV_ARGS(dred.put()))))
+    {
+        dred->SetAutoBreadcrumbsEnablement(D3D12_DRED_ENABLEMENT_FORCED_ON);
+        dred->SetPageFaultEnablement(D3D12_DRED_ENABLEMENT_FORCED_ON);
+    }
+    if (FAILED(factory->CreateDevice(adapter, D3D_FEATURE_LEVEL_11_0, IID_PPV_ARGS(device.put())))
         || FAILED(device->GetDeviceRemovedReason()))
         return nullptr;
     return device;
