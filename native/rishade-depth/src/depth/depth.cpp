@@ -957,7 +957,7 @@ constexpr UINT kPublished = 16;
 constexpr UINT kExact = 128;
 constexpr DWORD kExactTimeoutMs = 100;
 constexpr double kExactBudgetMs = 6.0;
-constexpr int kSlowFramesBeforeStepDown = 90;
+constexpr int kSlowFramesBeforeStepDown = 30;
 constexpr UINT kLaneShift = 2;
 constexpr UINT kAffineRows = 18;
 constexpr size_t kDetail = 0;
@@ -2128,14 +2128,7 @@ void StepDownWhenSlow(double spentMs)
     if (d.slowFrames < kSlowFramesBeforeStepDown)
         return;
     d.slowFrames = 0;
-    for (const int size : kDepthSizes)
-        if (size < DepthSize())
-        {
-            Log(LogLevel::Info, L"Depth took %.1f ms per frame, lowering the depth size from %d to %d.", spentMs, DepthSize(), size);
-            SetDepthSize(size);
-            return;
-        }
-    Log(LogLevel::Warning, L"Depth takes %.1f ms per frame even at the smallest size, updating it in the background with motion tracking.", spentMs);
+    Log(LogLevel::Info, L"Depth took %.1f ms per frame, updating it in the background with motion tracking at %d so the frame rate stays smooth.", spentMs, DepthSize());
     d.background = true;
 }
 
@@ -2192,7 +2185,10 @@ bool ScheduleExact(Lane& l, ID3D11Texture2D* frame, int64_t frameTimestamp)
     Request(l, l.fenceValue - 1);
     l.lastInput = frameTimestamp;
     if (!WaitLane(l))
+    {
+        StepDownWhenSlow(static_cast<double>(kExactTimeoutMs));
         return true;
+    }
     if (l.failed)
     {
         l.done = false;
