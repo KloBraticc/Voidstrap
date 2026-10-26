@@ -52,7 +52,6 @@
       <ui:Button Margin="0,0,10,12" Content="{resources:Loc Ui_Pages_DeleteAll}" Icon="Delete48" Click="DeleteAllButton_Click" />
       <ui:Button Width="95" Margin="0,0,10,12" VerticalAlignment="Top" Content="{resources:Loc Common_Profiles}" Icon="Edit28" Click="FlagProfiles_Click" />
       <ToggleButton Name="TogglePresetsButton" Margin="0,0,10,12" VerticalAlignment="Top" Content="{resources:Loc Menu_FastFlagEditor_ShowPresetFlags}" Click="ToggleButton_Click" />
-      <ui:Button Margin="0,0,10,12" VerticalAlignment="Top" Content="{resources:Loc Ui_Mcp_Connect}" Icon="PlugConnected24" ToolTip="{resources:Loc Ui_Mcp_ConnectTooltip}" Click="OnConnectAiClicked" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}" />
     </WrapPanel>
 
     <Grid Grid.Row="2" Margin="0,0,0,8">

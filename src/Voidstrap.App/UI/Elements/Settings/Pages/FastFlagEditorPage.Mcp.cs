@@ -50,8 +50,6 @@ public partial class FastFlagEditorPage : IMcpEditor
 		_mcpEditorId = null;
 	}
 
-	private void OnConnectAiClicked(object sender, RoutedEventArgs e) => McpConnectInfo.Show();
-
 	string IMcpEditor.GetCode()
 	{
 		var obj = new JsonObject();
