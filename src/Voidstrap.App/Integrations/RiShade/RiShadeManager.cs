@@ -138,6 +138,21 @@ namespace Voidstrap.Integrations.RiShade
             }
         }
 
+        private static void WriteConfig(List<string> lines)
+        {
+            string temporary = ConfigPath + "." + Guid.NewGuid().ToString("N") + ".tmp";
+            try
+            {
+                File.WriteAllText(temporary, string.Join(Environment.NewLine, lines) + Environment.NewLine, new System.Text.UTF8Encoding(false));
+                File.Move(temporary, ConfigPath, true);
+            }
+            finally
+            {
+                if (File.Exists(temporary))
+                    File.Delete(temporary);
+            }
+        }
+
         private static bool SavePresetPath(string fullPath)
         {
             try
@@ -156,7 +171,7 @@ namespace Voidstrap.Integrations.RiShade
                     }
                     lines.Insert(general + 1, "PresetPath=" + fullPath);
                 }
-                Voidstrap.Utility.JsonFile.WriteAtomicText(ConfigPath, string.Join(Environment.NewLine, lines) + Environment.NewLine, false);
+                WriteConfig(lines);
                 return true;
             }
             catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
@@ -199,7 +214,7 @@ namespace Voidstrap.Integrations.RiShade
                             end++;
                         }
                     }
-                    Voidstrap.Utility.JsonFile.WriteAtomicText(ConfigPath, string.Join(Environment.NewLine, lines) + Environment.NewLine, false);
+                    WriteConfig(lines);
                 }
             }
             catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
