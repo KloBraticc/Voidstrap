@@ -102,6 +102,9 @@ public static partial class McpTools
 				"manage_mods" => ManageMods(args),
 				"manage_rishade" => ManageRiShade(args),
 				"read_voidstrap_file" => ReadVoidstrapFile(args),
+				"diagnose_app" => DiagnoseApp(args),
+				"fix_app_issue" => FixAppIssue(args),
+				"manage_app_theme" => ManageAppTheme(args),
 				_ => new McpToolResult($"Unknown tool: {name}", true)
 			};
 		}

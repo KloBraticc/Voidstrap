@@ -286,6 +286,33 @@ public static class McpToolCatalog
 					["path"] = P("string", "Relative path inside the Voidstrap folder, empty to list the root.")
 				}),
 
+			T("diagnose_app",
+				"Find what is wrong with Voidstrap: recent in app errors and crashes (source, message, count, log path) plus broken state such as an invalid custom UI theme, a missing bootstrapper or keystroke theme, invalid FastFlag names, failing mods, or RiShade without a preset. Every problem comes with a fix id for fix_app_issue.",
+				Kind.Read, new JsonObject
+				{
+					["maxErrors"] = P("integer", "Recent errors to include (default 20, max 50).")
+				}),
+
+			T("fix_app_issue",
+				"Apply a fix from diagnose_app. Fixes: reset_custom_app_theme, reset_bootstrapper_theme, reset_keystroke_theme, remove_invalid_fastflags, disable_mod (target = mod id), disable_rishade, reset_setting (target = setting name, restores its default), clear_error_notifications, move_roblox_cache_aside (fixes Roblox crashing on start from a damaged cache, keeps login and settings). Most fixes can be reverted with undo_last_change.",
+				Kind.Write, new JsonObject
+				{
+					["fix"] = P("string", "Fix id from diagnose_app."),
+					["target"] = P("string", "Mod id or setting name when the fix needs one.")
+				}, "fix"),
+
+			T("manage_app_theme",
+				"Create and apply Voidstrap's own UI theme live: read every color key, recolor any of them, add a linear or radial window gradient, write raw theme XAML, switch to a built in theme, and save or load theme profiles. Changes show at once in every open window and undo_last_change reverts them.",
+				Kind.Write, new JsonObject
+				{
+					["action"] = P("string", "schema, get (default), set_colors, set_xaml, use_builtin, list_profiles, save_profile, load_profile, or delete_profile."),
+					["colors"] = Obj("For set_colors: map of theme keys (from schema) to #AARRGGBB or #RRGGBB colors. Keys you leave out keep their current color."),
+					["gradient"] = Obj("For set_colors: window gradient as { stops: [{ color, offset }], angle, radial } with 2 to 8 stops, or { remove: true }."),
+					["baseTheme"] = P("string", "Built in theme to start from for get or set_colors, or to switch to with use_builtin (Dark, Light, Voidstrap, Berry, Blue and so on)."),
+					["xaml"] = P("string", "Full theme ResourceDictionary for set_xaml."),
+					["name"] = P("string", "Profile name.")
+				}),
+
 			T("undo_last_change",
 				"Undo the most recent MCP change to settings, FastFlags, mods, or RiShade (keeps 25 steps). Set list to true to see what can be undone.",
 				Kind.Write, new JsonObject
