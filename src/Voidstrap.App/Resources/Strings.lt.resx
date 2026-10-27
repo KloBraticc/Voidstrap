@@ -6044,9 +6044,6 @@ Ką norėtumėte daryti?</value>
   <data name="Ui.Pages.NameThisLookToSaveIt" xml:space="preserve">
     <value>Pavadinkite šią išvaizdą, kad ją išsaugotumėte</value>
   </data>
-  <data name="Ui.Pages.F8OpensAndClosesThisWindow" xml:space="preserve">
-    <value>F8 atidaro ir uždaro šį langą žaidime</value>
-  </data>
   <data name="Ui.Pages.TurnEverythingOff" xml:space="preserve">
     <value>Išjungti viską</value>
   </data>
@@ -7763,7 +7760,7 @@ Klaida: {0}</value>
     <value>RiShade dabar paleidžia oficialų ReShade kaip sluoksnį virš Roblox. Jūsų šešėliavimo efektai ir nustatymai taikomi kiekvienam kadrui, o į Roblox klientą niekada nieko neįterpiama.</value>
   </data>
   <data name="Ui.Home.RiShadeRelease.DialogDetails" xml:space="preserve">
-    <value>Įjunkite jį skiltyje Plėtiniai, tada žaidime paspauskite Home arba F8, kad atidarytumėte ReShade meniu. Nustatymai, kuriems reikia gylio, gauna jūsų kompiuteryje įvertintą gylį, o ekrano nuotraukos atrodo geriau nei bet kada.</value>
+    <value>Įjunkite jį skiltyje Plėtiniai, tada žaidime paspauskite Home, kad atidarytumėte ReShade meniu. Nustatymai, kuriems reikia gylio, gauna jūsų kompiuteryje įvertintą gylį, o ekrano nuotraukos atrodo geriau nei bet kada.</value>
   </data>
   <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
     <value>Atidaryti Plėtiniuose</value>

@@ -5968,9 +5968,6 @@ Vad vill du göra?</value>
   <data name="Ui.Pages.NameThisLookToSaveIt" xml:space="preserve">
     <value>Namnge utseendet för att spara det</value>
   </data>
-  <data name="Ui.Pages.F8OpensAndClosesThisWindow" xml:space="preserve">
-    <value>F8 öppnar och stänger fönstret i spelet</value>
-  </data>
   <data name="Ui.Pages.TurnEverythingOff" xml:space="preserve">
     <value>Stäng av allt</value>
   </data>
@@ -7762,7 +7759,7 @@ Fel: {0}</value>
     <value>RiShade kör nu den officiella ReShade som ett överlägg ovanpå Roblox. Dina shaders och förinställningar gäller varje bildruta, och ingenting injiceras någonsin i Roblox-klienten.</value>
   </data>
   <data name="Ui.Home.RiShadeRelease.DialogDetails" xml:space="preserve">
-    <value>Slå på det under Tillägg och tryck sedan på Home eller F8 i spelet för att öppna ReShade-menyn. Förinställningar som behöver djup får det uppskattat på din dator, och skärmbilder ser bättre ut än någonsin.</value>
+    <value>Slå på det under Tillägg och tryck sedan på Home i spelet för att öppna ReShade-menyn. Förinställningar som behöver djup får det uppskattat på din dator, och skärmbilder ser bättre ut än någonsin.</value>
   </data>
   <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
     <value>Öppna i Tillägg</value>

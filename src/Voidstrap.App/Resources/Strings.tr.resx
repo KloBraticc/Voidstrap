@@ -6002,9 +6002,6 @@ Ne yapmak istersiniz?</value>
   <data name="Ui.Pages.NameThisLookToSaveIt" xml:space="preserve">
     <value>Kaydetmek için bu görünüme bir ad verin</value>
   </data>
-  <data name="Ui.Pages.F8OpensAndClosesThisWindow" xml:space="preserve">
-    <value>F8 oyun içinde bu pencereyi açar ve kapatır</value>
-  </data>
   <data name="Ui.Pages.TurnEverythingOff" xml:space="preserve">
     <value>Her şeyi kapat</value>
   </data>
@@ -7760,7 +7757,7 @@ Hata: {0}</value>
     <value>RiShade artık resmi ReShade uygulamasını Roblox üzerinde bir katman olarak çalıştırıyor. Gölgelendiricileriniz ve ön ayarlarınız her kareye uygulanır ve Roblox istemcisine asla hiçbir şey enjekte edilmez.</value>
   </data>
   <data name="Ui.Home.RiShadeRelease.DialogDetails" xml:space="preserve">
-    <value>Uzantılar bölümünden açın, ardından ReShade menüsünü açmak için oyunda Home veya F8 tuşuna basın. Derinlik gerektiren ön ayarlar bilgisayarınızda tahmin edilen derinliği alır ve ekran görüntüleri hiç olmadığı kadar iyi görünür.</value>
+    <value>Uzantılar bölümünden açın, ardından ReShade menüsünü açmak için oyunda Home tuşuna basın. Derinlik gerektiren ön ayarlar bilgisayarınızda tahmin edilen derinliği alır ve ekran görüntüleri hiç olmadığı kadar iyi görünür.</value>
   </data>
   <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
     <value>Uzantılarda aç</value>

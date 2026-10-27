@@ -5990,9 +5990,6 @@ Ce vrei să faci?</value>
   <data name="Ui.Pages.NameThisLookToSaveIt" xml:space="preserve">
     <value>Denumește acest aspect ca să l salvezi</value>
   </data>
-  <data name="Ui.Pages.F8OpensAndClosesThisWindow" xml:space="preserve">
-    <value>F8 deschide și închide această fereastră în joc</value>
-  </data>
   <data name="Ui.Pages.TurnEverythingOff" xml:space="preserve">
     <value>Dezactivează tot</value>
   </data>
@@ -7763,7 +7760,7 @@ Eroare: {0}</value>
     <value>RiShade rulează acum ReShade oficial ca suprapunere peste Roblox. Shaderele și presetările tale se aplică fiecărui cadru și nimic nu este injectat vreodată în clientul Roblox.</value>
   </data>
   <data name="Ui.Home.RiShadeRelease.DialogDetails" xml:space="preserve">
-    <value>Activează-l în Extensii, apoi apasă Home sau F8 în joc pentru a deschide meniul ReShade. Presetările care au nevoie de adâncime o primesc estimată pe PC-ul tău, iar capturile de ecran arată mai bine ca niciodată.</value>
+    <value>Activează-l în Extensii, apoi apasă Home în joc pentru a deschide meniul ReShade. Presetările care au nevoie de adâncime o primesc estimată pe PC-ul tău, iar capturile de ecran arată mai bine ca niciodată.</value>
   </data>
   <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
     <value>Deschide în Extensii</value>

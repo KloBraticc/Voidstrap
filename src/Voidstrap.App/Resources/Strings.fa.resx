@@ -6048,9 +6048,6 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
   <data name="Ui.Pages.NameThisLookToSaveIt" xml:space="preserve">
     <value>برای ذخیره این ظاهر نامی برایش بگذارید</value>
   </data>
-  <data name="Ui.Pages.F8OpensAndClosesThisWindow" xml:space="preserve">
-    <value>F8 این پنجره را درون بازی باز و بسته می‌کند</value>
-  </data>
   <data name="Ui.Pages.TurnEverythingOff" xml:space="preserve">
     <value>خاموش کردن همه</value>
   </data>
@@ -7764,7 +7761,7 @@ Voidstrap نتوانست در پوشهٔ دسکتاپ بنویسد.</value>
     <value>RiShade اکنون ReShade رسمی را به‌صورت لایه‌ای روی Roblox اجرا می‌کند. شیدرها و پیش‌تنظیم‌های شما روی همهٔ فریم‌ها اعمال می‌شوند و هیچ چیزی به کلاینت Roblox تزریق نمی‌شود.</value>
   </data>
   <data name="Ui.Home.RiShadeRelease.DialogDetails" xml:space="preserve">
-    <value>آن را در افزونه‌ها روشن کنید، سپس در بازی Home یا F8 را بزنید تا منوی ReShade باز شود. پیش‌تنظیم‌هایی که به عمق نیاز دارند، عمق تخمینی را روی رایانهٔ شما می‌گیرند و اسکرین‌شات‌ها بهتر از همیشه به نظر می‌رسند.</value>
+    <value>آن را در افزونه‌ها روشن کنید، سپس در بازی Home را بزنید تا منوی ReShade باز شود. پیش‌تنظیم‌هایی که به عمق نیاز دارند، عمق تخمینی را روی رایانهٔ شما می‌گیرند و اسکرین‌شات‌ها بهتر از همیشه به نظر می‌رسند.</value>
   </data>
   <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
     <value>باز کردن در افزونه‌ها</value>

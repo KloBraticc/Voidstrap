@@ -6002,9 +6002,6 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
   <data name="Ui.Pages.NameThisLookToSaveIt" xml:space="preserve">
     <value>ตั้งชื่อลุคนี้เพื่อบันทึก</value>
   </data>
-  <data name="Ui.Pages.F8OpensAndClosesThisWindow" xml:space="preserve">
-    <value>F8 เปิดและปิดหน้าต่างนี้ในเกม</value>
-  </data>
   <data name="Ui.Pages.TurnEverythingOff" xml:space="preserve">
     <value>ปิดทั้งหมด</value>
   </data>
@@ -7757,7 +7754,7 @@ Voidstrap เขียนลงในโฟลเดอร์เดสก์ท�
     <value>ตอนนี้ RiShade เรียกใช้ ReShade อย่างเป็นทางการเป็นโอเวอร์เลย์ซ้อนบน Roblox เชดเดอร์และพรีเซ็ตของคุณจะใช้กับทุกเฟรม และไม่มีการฉีดสิ่งใดเข้าไปในไคลเอนต์ Roblox เลย</value>
   </data>
   <data name="Ui.Home.RiShadeRelease.DialogDetails" xml:space="preserve">
-    <value>เปิดใช้งานในส่วนส่วนขยาย แล้วกด Home หรือ F8 ในเกมเพื่อเปิดเมนู ReShade พรีเซ็ตที่ต้องใช้ความลึกจะได้ค่าความลึกที่ประมาณบนพีซีของคุณ และภาพหน้าจอจะดูดีกว่าที่เคย</value>
+    <value>เปิดใช้งานในส่วนส่วนขยาย แล้วกด Home ในเกมเพื่อเปิดเมนู ReShade พรีเซ็ตที่ต้องใช้ความลึกจะได้ค่าความลึกที่ประมาณบนพีซีของคุณ และภาพหน้าจอจะดูดีกว่าที่เคย</value>
   </data>
   <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
     <value>เปิดในส่วนขยาย</value>

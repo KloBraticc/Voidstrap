@@ -5783,9 +5783,6 @@ Ano ang gusto mong gawin?</value>
   <data name="Ui.Pages.NameThisLookToSaveIt" xml:space="preserve">
     <value>Pangalanan ang itsurang ito para i save</value>
   </data>
-  <data name="Ui.Pages.F8OpensAndClosesThisWindow" xml:space="preserve">
-    <value>Binubuksan at isinasara ng F8 ang window na ito sa laro</value>
-  </data>
   <data name="Ui.Pages.TurnEverythingOff" xml:space="preserve">
     <value>Patayin lahat</value>
   </data>
@@ -7760,7 +7757,7 @@ Error: {0}</value>
     <value>Pinapatakbo na ngayon ng RiShade ang opisyal na ReShade bilang overlay sa ibabaw ng Roblox. Nalalapat ang iyong shaders at presets sa bawat frame, at walang anumang ini-inject sa Roblox client.</value>
   </data>
   <data name="Ui.Home.RiShadeRelease.DialogDetails" xml:space="preserve">
-    <value>I-on ito sa Extensions, pagkatapos ay pindutin ang Home o F8 sa laro para buksan ang ReShade menu. Ang mga preset na nangangailangan ng depth ay nakakakuha ng tinantyang depth sa iyong PC, at mas maganda na ang mga screenshot kaysa dati.</value>
+    <value>I-on ito sa Extensions, pagkatapos ay pindutin ang Home sa laro para buksan ang ReShade menu. Ang mga preset na nangangailangan ng depth ay nakakakuha ng tinantyang depth sa iyong PC, at mas maganda na ang mga screenshot kaysa dati.</value>
   </data>
   <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
     <value>Buksan sa Extensions</value>

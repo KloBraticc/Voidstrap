@@ -5990,9 +5990,6 @@ Co chcete udělat?</value>
   <data name="Ui.Pages.NameThisLookToSaveIt" xml:space="preserve">
     <value>Pojmenujte tento vzhled a uložte ho</value>
   </data>
-  <data name="Ui.Pages.F8OpensAndClosesThisWindow" xml:space="preserve">
-    <value>F8 otevírá a zavírá toto okno ve hře</value>
-  </data>
   <data name="Ui.Pages.TurnEverythingOff" xml:space="preserve">
     <value>Vypnout vše</value>
   </data>
@@ -7763,7 +7760,7 @@ Chyba: {0}</value>
     <value>RiShade nyní spouští oficiální ReShade jako překryvnou vrstvu nad Roblox. Vaše shadery a předvolby se použijí na každý snímek a do klienta Roblox se nikdy nic nevkládá.</value>
   </data>
   <data name="Ui.Home.RiShadeRelease.DialogDetails" xml:space="preserve">
-    <value>Zapněte jej v Rozšířeních a ve hře stiskněte Home nebo F8 pro otevření nabídky ReShade. Předvolby, které potřebují hloubku, ji dostanou odhadnutou ve Vašem počítači, a snímky obrazovky vypadají lépe než kdy dřív.</value>
+    <value>Zapněte jej v Rozšířeních a ve hře stiskněte Home pro otevření nabídky ReShade. Předvolby, které potřebují hloubku, ji dostanou odhadnutou ve Vašem počítači, a snímky obrazovky vypadají lépe než kdy dřív.</value>
   </data>
   <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
     <value>Otevřít v Rozšířeních</value>

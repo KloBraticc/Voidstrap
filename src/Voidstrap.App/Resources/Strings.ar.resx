@@ -6039,9 +6039,6 @@
   <data name="Ui.Pages.NameThisLookToSaveIt" xml:space="preserve">
     <value>سمِّ هذا المظهر لحفظه</value>
   </data>
-  <data name="Ui.Pages.F8OpensAndClosesThisWindow" xml:space="preserve">
-    <value>يفتح F8 هذه النافذة ويغلقها داخل اللعبة</value>
-  </data>
   <data name="Ui.Pages.TurnEverythingOff" xml:space="preserve">
     <value>إيقاف كل شيء</value>
   </data>
@@ -7761,7 +7758,7 @@
     <value>يشغّل RiShade الآن ReShade الرسمي كطبقة فوق Roblox. تُطبَّق مؤثراتك وإعداداتك على كل إطار، ولا يُحقن أي شيء في عميل Roblox أبدًا.</value>
   </data>
   <data name="Ui.Home.RiShadeRelease.DialogDetails" xml:space="preserve">
-    <value>فعّله من الإضافات، ثم اضغط Home أو F8 داخل اللعبة لفتح قائمة ReShade. الإعدادات التي تحتاج إلى العمق تحصل على عمق مُقدَّر على جهازك، وتبدو لقطات الشاشة أفضل من أي وقت مضى.</value>
+    <value>فعّله من الإضافات، ثم اضغط Home داخل اللعبة لفتح قائمة ReShade. الإعدادات التي تحتاج إلى العمق تحصل على عمق مُقدَّر على جهازك، وتبدو لقطات الشاشة أفضل من أي وقت مضى.</value>
   </data>
   <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
     <value>فتح في الإضافات</value>

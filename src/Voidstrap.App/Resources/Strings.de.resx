@@ -5938,9 +5938,6 @@ Was möchtest du tun?</value>
   <data name="Ui.Pages.NameThisLookToSaveIt" xml:space="preserve">
     <value>Benenne diesen Look, um ihn zu speichern</value>
   </data>
-  <data name="Ui.Pages.F8OpensAndClosesThisWindow" xml:space="preserve">
-    <value>F8 öffnet und schließt dieses Fenster im Spiel</value>
-  </data>
   <data name="Ui.Pages.TurnEverythingOff" xml:space="preserve">
     <value>Alles ausschalten</value>
   </data>
@@ -7762,7 +7759,7 @@ Fehler: {0}</value>
     <value>RiShade führt jetzt das offizielle ReShade als Overlay über Roblox aus. Deine Shader und Presets wirken auf jedes Bild, und nichts wird jemals in den Roblox Client injiziert.</value>
   </data>
   <data name="Ui.Home.RiShadeRelease.DialogDetails" xml:space="preserve">
-    <value>Aktiviere es unter Erweiterungen und drücke dann im Spiel Home oder F8, um das ReShade Menü zu öffnen. Presets, die Tiefe brauchen, bekommen sie auf deinem PC geschätzt, und Screenshots sehen besser aus als je zuvor.</value>
+    <value>Aktiviere es unter Erweiterungen und drücke dann im Spiel Home, um das ReShade Menü zu öffnen. Presets, die Tiefe brauchen, bekommen sie auf deinem PC geschätzt, und Screenshots sehen besser aus als je zuvor.</value>
   </data>
   <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
     <value>In Erweiterungen öffnen</value>

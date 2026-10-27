@@ -5964,9 +5964,6 @@ Apa yang ingin Anda lakukan?</value>
   <data name="Ui.Pages.NameThisLookToSaveIt" xml:space="preserve">
     <value>Beri nama tampilan ini untuk menyimpannya</value>
   </data>
-  <data name="Ui.Pages.F8OpensAndClosesThisWindow" xml:space="preserve">
-    <value>F8 membuka dan menutup jendela ini di dalam game</value>
-  </data>
   <data name="Ui.Pages.TurnEverythingOff" xml:space="preserve">
     <value>Matikan semuanya</value>
   </data>
@@ -7764,7 +7761,7 @@ Kesalahan: {0}</value>
     <value>RiShade kini menjalankan ReShade resmi sebagai overlay di atas Roblox. Shader dan preset Anda diterapkan ke setiap frame, dan tidak ada apa pun yang disuntikkan ke klien Roblox.</value>
   </data>
   <data name="Ui.Home.RiShadeRelease.DialogDetails" xml:space="preserve">
-    <value>Aktifkan di Ekstensi, lalu tekan Home atau F8 di dalam game untuk membuka menu ReShade. Preset yang membutuhkan kedalaman mendapatkan perkiraan kedalaman di PC Anda, dan tangkapan layar terlihat lebih bagus dari sebelumnya.</value>
+    <value>Aktifkan di Ekstensi, lalu tekan Home di dalam game untuk membuka menu ReShade. Preset yang membutuhkan kedalaman mendapatkan perkiraan kedalaman di PC Anda, dan tangkapan layar terlihat lebih bagus dari sebelumnya.</value>
   </data>
   <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
     <value>Buka di Ekstensi</value>

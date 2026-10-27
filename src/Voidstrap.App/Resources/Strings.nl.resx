@@ -5966,9 +5966,6 @@ Wat wil je doen?</value>
   <data name="Ui.Pages.NameThisLookToSaveIt" xml:space="preserve">
     <value>Geef deze look een naam om hem op te slaan</value>
   </data>
-  <data name="Ui.Pages.F8OpensAndClosesThisWindow" xml:space="preserve">
-    <value>F8 opent en sluit dit venster in de game</value>
-  </data>
   <data name="Ui.Pages.TurnEverythingOff" xml:space="preserve">
     <value>Alles uitschakelen</value>
   </data>
@@ -7763,7 +7760,7 @@ Fout: {0}</value>
     <value>RiShade draait nu de officiële ReShade als overlay boven op Roblox. Je shaders en presets gelden voor elk frame en er wordt nooit iets in de Roblox client geïnjecteerd.</value>
   </data>
   <data name="Ui.Home.RiShadeRelease.DialogDetails" xml:space="preserve">
-    <value>Zet het aan bij Extensies en druk in het spel op Home of F8 om het ReShade menu te openen. Presets die diepte nodig hebben krijgen een schatting op je pc, en screenshots zien er beter uit dan ooit.</value>
+    <value>Zet het aan bij Extensies en druk in het spel op Home om het ReShade menu te openen. Presets die diepte nodig hebben krijgen een schatting op je pc, en screenshots zien er beter uit dan ooit.</value>
   </data>
   <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
     <value>Openen in Extensies</value>

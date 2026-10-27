@@ -6009,9 +6009,6 @@ Roblox će se preuzeti kada ga prvi put pokreneš putem Voidstrapa. Postavke mo�
   <data name="Ui.Pages.NameThisLookToSaveIt" xml:space="preserve">
     <value>Imenuj ovaj izgled za spremanje</value>
   </data>
-  <data name="Ui.Pages.F8OpensAndClosesThisWindow" xml:space="preserve">
-    <value>F8 otvara i zatvara ovaj prozor u igri</value>
-  </data>
   <data name="Ui.Pages.TurnEverythingOff" xml:space="preserve">
     <value>Isključi sve</value>
   </data>
@@ -7761,7 +7758,7 @@ Pogreška: {0}</value>
     <value>RiShade sada pokreće službeni ReShade kao sloj iznad Roblox. Tvoji shaderi i postavke primjenjuju se na svaki kadar, a u Roblox klijent se nikad ništa ne ubacuje.</value>
   </data>
   <data name="Ui.Home.RiShadeRelease.DialogDetails" xml:space="preserve">
-    <value>Uključi ga u Proširenjima, zatim u igri pritisni Home ili F8 za otvaranje ReShade izbornika. Postavke kojima treba dubina dobivaju je procijenjenu na tvom računalu, a snimke zaslona izgledaju bolje nego ikad.</value>
+    <value>Uključi ga u Proširenjima, zatim u igri pritisni Home za otvaranje ReShade izbornika. Postavke kojima treba dubina dobivaju je procijenjenu na tvom računalu, a snimke zaslona izgledaju bolje nego ikad.</value>
   </data>
   <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
     <value>Otvori u Proširenjima</value>

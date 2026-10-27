@@ -2340,7 +2340,6 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Pages_NameThisLookToSaveIt => ResourceManager.GetString("Ui.Pages.NameThisLookToSaveIt", resourceCulture);
 
-        public static string Ui_Pages_F8OpensAndClosesThisWindow => ResourceManager.GetString("Ui.Pages.F8OpensAndClosesThisWindow", resourceCulture);
 
         public static string Ui_Pages_TurnEverythingOff => ResourceManager.GetString("Ui.Pages.TurnEverythingOff", resourceCulture);
 

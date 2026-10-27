@@ -6002,9 +6002,6 @@ Mitä haluat tehdä?</value>
   <data name="Ui.Pages.NameThisLookToSaveIt" xml:space="preserve">
     <value>Nimeä tämä ulkoasu tallentaaksesi sen</value>
   </data>
-  <data name="Ui.Pages.F8OpensAndClosesThisWindow" xml:space="preserve">
-    <value>F8 avaa ja sulkee tämän ikkunan pelissä</value>
-  </data>
   <data name="Ui.Pages.TurnEverythingOff" xml:space="preserve">
     <value>Poista kaikki käytöstä</value>
   </data>
@@ -7763,7 +7760,7 @@ Virhe: {0}</value>
     <value>RiShade ajaa nyt virallista ReShadea peittokuvana Roblox:n päällä. Varjostimesi ja esiasetuksesi koskevat jokaista ruutua, eikä Roblox asiakasohjelmaan syötetä koskaan mitään.</value>
   </data>
   <data name="Ui.Home.RiShadeRelease.DialogDetails" xml:space="preserve">
-    <value>Ota se käyttöön Laajennuksissa ja paina pelissä Home tai F8 avataksesi ReShade valikon. Syvyyttä tarvitsevat esiasetukset saavat arvioidun syvyyden tietokoneellasi, ja kuvakaappaukset näyttävät paremmilta kuin koskaan.</value>
+    <value>Ota se käyttöön Laajennuksissa ja paina pelissä Home avataksesi ReShade valikon. Syvyyttä tarvitsevat esiasetukset saavat arvioidun syvyyden tietokoneellasi, ja kuvakaappaukset näyttävät paremmilta kuin koskaan.</value>
   </data>
   <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
     <value>Avaa Laajennuksissa</value>

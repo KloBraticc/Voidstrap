@@ -6033,9 +6033,6 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
   <data name="Ui.Pages.NameThisLookToSaveIt" xml:space="preserve">
     <value>この見た目に名前を付けて保存</value>
   </data>
-  <data name="Ui.Pages.F8OpensAndClosesThisWindow" xml:space="preserve">
-    <value>F8 でゲーム中にこのウィンドウを開閉します</value>
-  </data>
   <data name="Ui.Pages.TurnEverythingOff" xml:space="preserve">
     <value>すべてオフにする</value>
   </data>
@@ -7776,7 +7773,7 @@ Voidstrap がデスクトップ フォルダーに書き込めませんでした
     <value>RiShade は公式の ReShade を Roblox の上にオーバーレイとして実行するようになりました。シェーダーとプリセットはすべてのフレームに適用され、Roblox クライアントには何も注入されません。</value>
   </data>
   <data name="Ui.Home.RiShadeRelease.DialogDetails" xml:space="preserve">
-    <value>拡張機能で有効にしてから、ゲーム内で Home または F8 を押すと ReShade メニューが開きます。深度が必要なプリセットには PC 上で推定した深度が使われ、スクリーンショットがこれまで以上に美しくなります。</value>
+    <value>拡張機能で有効にしてから、ゲーム内で Home を押すと ReShade メニューが開きます。深度が必要なプリセットには PC 上で推定した深度が使われ、スクリーンショットがこれまで以上に美しくなります。</value>
   </data>
   <data name="Ui.Home.RiShadeRelease.OpenExtension" xml:space="preserve">
     <value>拡張機能で開く</value>

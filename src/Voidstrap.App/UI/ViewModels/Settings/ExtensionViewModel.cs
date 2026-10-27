@@ -281,7 +281,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
 
         private bool FleasionVisible => ShowType(TypeExtensions) && MatchesSearch("Fleasion replace Roblox game assets textures audio meshes animations dump Roblox Extension");
 
-        private bool RiShadeVisible => ShowType(TypeExtensions) && MatchesSearch("RiShade shaders visuals effects bloom tonemap panel F8 Roblox Extension not recommended taking images");
+        private bool RiShadeVisible => ShowType(TypeExtensions) && MatchesSearch("RiShade shaders visuals effects bloom tonemap panel Home Roblox Extension not recommended taking images");
 
         private bool CommunityVisible => ShowType(TypeClassic) && MatchesSearch("Community Content catalog items decals meshes audio maps classic Roblox clients");
 
