@@ -9182,4 +9182,13 @@ Voidstrap はインストール前にすべてのファイルをライブラリ�
   <data name="Ui.VoidstrapMods.LibraryFiles" xml:space="preserve">
     <value>ファイル</value>
   </data>
+  <data name="Ui.VoidstrapMods.LibraryEnable" xml:space="preserve">
+    <value>オンにする</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryDisable" xml:space="preserve">
+    <value>オフにする</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryUninstall" xml:space="preserve">
+    <value>アンインストール</value>
+  </data>
 </root>

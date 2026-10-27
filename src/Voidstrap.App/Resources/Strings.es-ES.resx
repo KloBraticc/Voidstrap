@@ -9168,4 +9168,13 @@ NO lo instales salvo que confíes en @{2}. Solo las comprobaciones automáticas 
   <data name="Ui.VoidstrapMods.LibraryFiles" xml:space="preserve">
     <value>Archivos</value>
   </data>
+  <data name="Ui.VoidstrapMods.LibraryEnable" xml:space="preserve">
+    <value>Activar</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryDisable" xml:space="preserve">
+    <value>Desactivar</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryUninstall" xml:space="preserve">
+    <value>Desinstalar</value>
+  </data>
 </root>

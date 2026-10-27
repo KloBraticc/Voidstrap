@@ -9170,4 +9170,13 @@ Tetap instal?</value>
   <data name="Ui.VoidstrapMods.LibraryFiles" xml:space="preserve">
     <value>File</value>
   </data>
+  <data name="Ui.VoidstrapMods.LibraryEnable" xml:space="preserve">
+    <value>Aktifkan</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryDisable" xml:space="preserve">
+    <value>Nonaktifkan</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryUninstall" xml:space="preserve">
+    <value>Copot pemasangan</value>
+  </data>
 </root>

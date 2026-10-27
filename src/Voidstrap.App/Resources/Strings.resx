@@ -8855,4 +8855,13 @@ Install anyway?</value>
   <data name="Ui.VoidstrapMods.LibraryFiles" xml:space="preserve">
     <value>Files</value>
   </data>
+  <data name="Ui.VoidstrapMods.LibraryEnable" xml:space="preserve">
+    <value>Turn on</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryDisable" xml:space="preserve">
+    <value>Turn off</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryUninstall" xml:space="preserve">
+    <value>Uninstall</value>
+  </data>
 </root>

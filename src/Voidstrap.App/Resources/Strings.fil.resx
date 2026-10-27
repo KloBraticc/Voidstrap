@@ -9166,4 +9166,13 @@ I-install pa rin?</value>
   <data name="Ui.VoidstrapMods.LibraryFiles" xml:space="preserve">
     <value>Mga file</value>
   </data>
+  <data name="Ui.VoidstrapMods.LibraryEnable" xml:space="preserve">
+    <value>I-on</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryDisable" xml:space="preserve">
+    <value>I-off</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryUninstall" xml:space="preserve">
+    <value>I-uninstall</value>
+  </data>
 </root>

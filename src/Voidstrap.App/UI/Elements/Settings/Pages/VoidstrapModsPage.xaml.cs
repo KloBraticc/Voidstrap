@@ -568,10 +568,20 @@ public partial class VoidstrapModsPage : UiPage
 		Wpf.Ui.Controls.Button view = new() { Content = Strings.Ui_Mods_View, Appearance = ControlAppearance.Secondary, MinWidth = 76, Margin = new Thickness(0, 0, 8, 0), Tag = mod };
 		view.Click += LibraryView_Click;
 		buttons.Children.Add(view);
-		Wpf.Ui.Controls.Button install = new() { MinWidth = 84 };
-		ApplyInstallButton(install, mod);
-		install.Click += LibraryInstall_Click;
-		buttons.Children.Add(install);
+		if (ModLibrary.GetState(mod) == ModLibrary.InstallState.Installed)
+		{
+			bool on = IsModOn(mod.Name);
+			Wpf.Ui.Controls.Button toggle = new() { MinWidth = 84, Appearance = on ? ControlAppearance.Secondary : ControlAppearance.Primary, Content = on ? Strings.Ui_VoidstrapMods_LibraryDisable : Strings.Ui_VoidstrapMods_LibraryEnable, Icon = on ? SymbolRegular.Pause24 : SymbolRegular.Play24, Tag = mod };
+			toggle.Click += LibraryToggle_Click;
+			buttons.Children.Add(toggle);
+		}
+		else
+		{
+			Wpf.Ui.Controls.Button install = new() { MinWidth = 84 };
+			ApplyInstallButton(install, mod);
+			install.Click += LibraryInstall_Click;
+			buttons.Children.Add(install);
+		}
 		side.Children.Add(buttons);
 		row.Children.Add(side);
 
@@ -606,8 +616,76 @@ public partial class VoidstrapModsPage : UiPage
 		DetailTrust.Text = mod.Verified ? Strings.Ui_VoidstrapMods_LibraryVerifiedTooltip : mod.Trusted ? Strings.Ui_VoidstrapMods_LibraryTrustedTooltip : Strings.Ui_VoidstrapMods_LibraryUnverifiedTooltip;
 		ApplyInstallButton(DetailInstallButton, mod);
 		DetailInstallButton.Height = 40;
+		ApplyInstalledActions(mod);
 		LibraryBrowse.Visibility = Visibility.Collapsed;
 		LibraryDetail.Visibility = Visibility.Visible;
+	}
+
+	private static bool IsModOn(string name) => PluginHost.ListMods().FirstOrDefault(m => m.Name == name)?.Consent == "on";
+
+	private void ApplyInstalledActions(ModLibrary.LibraryMod mod)
+	{
+		ModLibrary.InstallState state = ModLibrary.GetState(mod);
+		bool installed = state is ModLibrary.InstallState.Installed or ModLibrary.InstallState.UpdateAvailable;
+		DetailInstalledActions.Visibility = installed ? Visibility.Visible : Visibility.Collapsed;
+		DetailInstallButton.Visibility = state == ModLibrary.InstallState.Installed ? Visibility.Collapsed : Visibility.Visible;
+		bool on = installed && IsModOn(mod.Name);
+		DetailToggleButton.Content = on ? Strings.Ui_VoidstrapMods_LibraryDisable : Strings.Ui_VoidstrapMods_LibraryEnable;
+		DetailToggleButton.Icon = on ? SymbolRegular.Pause24 : SymbolRegular.Play24;
+		DetailToggleButton.Tag = mod;
+		DetailUninstallButton.Tag = mod;
+	}
+
+	private async void LibraryToggle_Click(object sender, RoutedEventArgs e)
+	{
+		if (sender is not FrameworkElement { Tag: ModLibrary.LibraryMod mod })
+			return;
+		bool turnOn = !IsModOn(mod.Name);
+		PluginHost.SetEnabled(mod.Name, turnOn);
+		await Task.Run(PluginHost.Reload);
+		RenderMods();
+		RenderLibrary();
+	}
+
+	private async void LibraryUninstall_Click(object sender, RoutedEventArgs e)
+	{
+		if (sender is not FrameworkElement { Tag: ModLibrary.LibraryMod mod })
+			return;
+		if (Frontend.ShowMessageBox(string.Format(Strings.Ui_VoidstrapMods_DeleteModPrompt, mod.Name), MessageBoxImage.Warning, MessageBoxButton.YesNo, MessageBoxResult.No) != MessageBoxResult.Yes)
+			return;
+		try
+		{
+			PluginHost.SetEnabled(mod.Name, false);
+			string folder = Path.Combine(Paths.Plugins, mod.Name);
+			await Task.Run(() =>
+			{
+				if (Directory.Exists(folder))
+					Directory.Delete(folder, true);
+			});
+			PluginHost.ForgetConsent(mod.Name);
+			await Task.Run(PluginHost.Reload);
+		}
+		catch (Exception ex)
+		{
+			Frontend.ShowMessageBox(ex.Message, MessageBoxImage.Error);
+		}
+		RenderMods();
+		RenderLibrary();
+	}
+
+	private bool _compactDetail;
+
+	private void LibraryDetail_SizeChanged(object sender, SizeChangedEventArgs e)
+	{
+		bool compact = e.NewSize.Width < 720.0;
+		if (compact == _compactDetail)
+			return;
+		_compactDetail = compact;
+		LibraryDetailSideColumn.Width = new GridLength(compact ? 0.0 : 280.0);
+		Grid.SetRow(LibraryDetailSidebar, compact ? 1 : 0);
+		Grid.SetColumn(LibraryDetailSidebar, compact ? 0 : 1);
+		LibraryDetailMain.Margin = compact ? new Thickness(0.0) : new Thickness(0.0, 0.0, 20.0, 0.0);
+		LibraryDetailSidebar.Margin = compact ? new Thickness(0.0, 20.0, 0.0, 0.0) : new Thickness(0.0, 38.0, 0.0, 0.0);
 	}
 
 	private static string FormatSize(long bytes) => bytes < 1024 ? bytes + " B" : (bytes / 1024.0).ToString("0.#") + " KB";

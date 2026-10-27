@@ -9169,4 +9169,13 @@ NU îl instala decât dacă ai încredere în @{2}. Doar verificările automate 
   <data name="Ui.VoidstrapMods.LibraryFiles" xml:space="preserve">
     <value>Fișiere</value>
   </data>
+  <data name="Ui.VoidstrapMods.LibraryEnable" xml:space="preserve">
+    <value>Pornește</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryDisable" xml:space="preserve">
+    <value>Oprește</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryUninstall" xml:space="preserve">
+    <value>Dezinstalează</value>
+  </data>
 </root>

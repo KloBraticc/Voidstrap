@@ -9159,4 +9159,13 @@ Pasang juga?</value>
   <data name="Ui.VoidstrapMods.LibraryFiles" xml:space="preserve">
     <value>Fail</value>
   </data>
+  <data name="Ui.VoidstrapMods.LibraryEnable" xml:space="preserve">
+    <value>Hidupkan</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryDisable" xml:space="preserve">
+    <value>Matikan</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryUninstall" xml:space="preserve">
+    <value>Nyahpasang</value>
+  </data>
 </root>

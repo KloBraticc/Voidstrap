@@ -9169,4 +9169,13 @@ Toch installeren?</value>
   <data name="Ui.VoidstrapMods.LibraryFiles" xml:space="preserve">
     <value>Bestanden</value>
   </data>
+  <data name="Ui.VoidstrapMods.LibraryEnable" xml:space="preserve">
+    <value>Inschakelen</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryDisable" xml:space="preserve">
+    <value>Uitschakelen</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryUninstall" xml:space="preserve">
+    <value>Verwijderen</value>
+  </data>
 </root>

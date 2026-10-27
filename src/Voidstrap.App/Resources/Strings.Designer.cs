@@ -9509,5 +9509,23 @@ namespace Voidstrap.Resources {
                 return ResourceManager.GetString("Ui.VoidstrapMods.LibraryFiles", resourceCulture);
             }
         }
+
+        public static string Ui_VoidstrapMods_LibraryEnable {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.LibraryEnable", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidstrapMods_LibraryDisable {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.LibraryDisable", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidstrapMods_LibraryUninstall {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.LibraryUninstall", resourceCulture);
+            }
+        }
     }
 }

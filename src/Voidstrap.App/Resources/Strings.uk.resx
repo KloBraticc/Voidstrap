@@ -9166,4 +9166,13 @@ Voidstrap перед встановленням звіряє кожен файл
   <data name="Ui.VoidstrapMods.LibraryFiles" xml:space="preserve">
     <value>Файли</value>
   </data>
+  <data name="Ui.VoidstrapMods.LibraryEnable" xml:space="preserve">
+    <value>Увімкнути</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryDisable" xml:space="preserve">
+    <value>Вимкнути</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryUninstall" xml:space="preserve">
+    <value>Видалити</value>
+  </data>
 </root>

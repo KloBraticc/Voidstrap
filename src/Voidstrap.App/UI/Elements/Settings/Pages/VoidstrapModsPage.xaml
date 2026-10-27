@@ -32,12 +32,16 @@
           </Border>
         </StackPanel>
 
-        <Grid x:Name="LibraryDetail" Visibility="Collapsed">
+        <Grid x:Name="LibraryDetail" Visibility="Collapsed" SizeChanged="LibraryDetail_SizeChanged">
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="280" />
+            <ColumnDefinition x:Name="LibraryDetailSideColumn" Width="280" />
           </Grid.ColumnDefinitions>
-          <StackPanel Grid.Column="0" Margin="0,0,20,0">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+          </Grid.RowDefinitions>
+          <StackPanel x:Name="LibraryDetailMain" Grid.Column="0" Margin="0,0,20,0">
             <ui:Button HorizontalAlignment="Left" Appearance="Transparent" Icon="ArrowLeft24" Padding="8,4,12,4" Margin="0,0,0,10" Content="{resources:Loc Ui_VoidstrapMods_LibraryBack}" Click="LibraryBack_Click" />
             <Grid>
               <Grid.ColumnDefinitions>
@@ -63,8 +67,17 @@
               <TextBlock x:Name="DetailFiles" FontFamily="Cascadia Mono, Consolas" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
             </Border>
           </StackPanel>
-          <StackPanel Grid.Column="1" Margin="0,38,0,0">
+          <StackPanel x:Name="LibraryDetailSidebar" Grid.Column="1" Margin="0,38,0,0">
             <ui:Button x:Name="DetailInstallButton" HorizontalAlignment="Stretch" Height="40" Appearance="Primary" Icon="ArrowDownload24" Click="LibraryInstall_Click" />
+            <Grid x:Name="DetailInstalledActions" Margin="0,8,0,0">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="8" />
+                <ColumnDefinition Width="*" />
+              </Grid.ColumnDefinitions>
+              <ui:Button x:Name="DetailToggleButton" Grid.Column="0" HorizontalAlignment="Stretch" Height="36" Appearance="Secondary" Click="LibraryToggle_Click" />
+              <ui:Button x:Name="DetailUninstallButton" Grid.Column="2" HorizontalAlignment="Stretch" Height="36" Appearance="Danger" Icon="Delete24" Content="{resources:Loc Ui_VoidstrapMods_LibraryUninstall}" Click="LibraryUninstall_Click" />
+            </Grid>
             <ui:Button HorizontalAlignment="Stretch" Height="36" Margin="0,8,0,0" Appearance="Secondary" Icon="Open24" Content="{resources:Loc Ui_Pages_OpenOnGitHub}" Click="DetailGitHub_Click" />
             <Border Style="{StaticResource RowCard}" Margin="0,14,0,0" Padding="12">
               <StackPanel>
