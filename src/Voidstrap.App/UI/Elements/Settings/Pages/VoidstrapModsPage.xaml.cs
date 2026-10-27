@@ -86,6 +86,8 @@ public partial class VoidstrapModsPage : UiPage
 			PluginHost.SetEnabled(name, toggle.IsChecked == true);
 	}
 
+	private void ConnectAi_Click(object sender, RoutedEventArgs e) => Voidstrap.Integrations.Mcp.McpConnectInfo.Show();
+
 	private void Reload_Click(object sender, RoutedEventArgs e)
 	{
 		System.Threading.Tasks.Task.Run(PluginHost.Reload);

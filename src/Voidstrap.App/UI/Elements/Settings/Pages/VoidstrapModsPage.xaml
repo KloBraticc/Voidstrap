@@ -1,4 +1,4 @@
-<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.VoidstrapModsPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:resources="clr-namespace:Voidstrap.Resources" Title="{resources:Loc Ui_Nav_VoidstrapMods}" ui:Breadcrumb.Header="{resources:Loc Ui_Nav_VoidstrapMods}" Scrollable="True" Loaded="Page_Loaded" Unloaded="Page_Unloaded">
+<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.VoidstrapModsPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:platform="clr-namespace:Voidstrap.UI" Title="{resources:Loc Ui_Nav_VoidstrapMods}" ui:Breadcrumb.Header="{resources:Loc Ui_Nav_VoidstrapMods}" Scrollable="True" Loaded="Page_Loaded" Unloaded="Page_Unloaded">
   <StackPanel Margin="0,0,14,14">
     <Grid Margin="0,0,0,12">
       <Grid.ColumnDefinitions>
@@ -7,6 +7,7 @@
       </Grid.ColumnDefinitions>
       <TextBlock x:Name="StatusText" VerticalAlignment="Center" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
       <StackPanel Grid.Column="1" Orientation="Horizontal">
+        <ui:Button Margin="0,0,8,0" Icon="PlugConnected24" Content="{resources:Loc Ui_Mcp_Connect}" ToolTip="{resources:Loc Ui_Mcp_ConnectTooltip}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}" Click="ConnectAi_Click" />
         <ui:Button Margin="0,0,8,0" Icon="ArrowClockwise24" Content="{resources:Loc Ui_VoidstrapMods_Reload}" Click="Reload_Click" />
         <ui:Button Icon="FolderOpen24" Content="{resources:Loc Ui_VoidstrapMods_OpenFolder}" Click="OpenFolder_Click" />
       </StackPanel>
