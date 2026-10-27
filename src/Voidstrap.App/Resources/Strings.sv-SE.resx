@@ -8920,4 +8920,63 @@ Voidstrap-moddar kan ändra hur Voidstrap fungerar och ändra dess inställninga
   <data name="Ui.VoidstrapMods.AlreadyExistsMessage" xml:space="preserve">
     <value>En modd med namnet &quot;{0}&quot; finns redan.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Import" xml:space="preserve">
+    <value>Importera</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ImportTooltip" xml:space="preserve">
+    <value>Installera en mod från en .vsmod- eller .zip-fil. Du kan också släppa filen på den här sidan.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ExportTooltip" xml:space="preserve">
+    <value>Exportera den här modden som en .vsmod-fil för att dela den</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ChangeIcon" xml:space="preserve">
+    <value>Byt ikon</value>
+  </data>
+  <data name="Ui.VoidstrapMods.IconLabel" xml:space="preserve">
+    <value>Ikon</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ChooseIcon" xml:space="preserve">
+    <value>Välj .ico</value>
+  </data>
+  <data name="Ui.VoidstrapMods.IconFilter" xml:space="preserve">
+    <value>Ikonfiler (*.ico)|*.ico</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PackageFilter" xml:space="preserve">
+    <value>Voidstrap-moddar (*.vsmod, *.zip)|*.vsmod;*.zip</value>
+  </data>
+  <data name="Ui.VoidstrapMods.IconFailed" xml:space="preserve">
+    <value>Filen är ingen giltig .ico-ikon.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ImportFailed" xml:space="preserve">
+    <value>{0} kunde inte importeras:
+{1}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ImportReplacePrompt" xml:space="preserve">
+    <value>En mod med namnet &quot;{0}&quot; är redan installerad. Vill du ersätta den med den importerade?</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ExportFailed" xml:space="preserve">
+    <value>Modden kunde inte exporteras:
+{0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateBlankDescription" xml:space="preserve">
+    <value>En tom panel för att börja från noll.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateDashboardDescription" xml:space="preserve">
+    <value>En panel med en räknare och knappar för snabb navigering.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateSidebarPageDescription" xml:space="preserve">
+    <value>Lägger till en egen sida i Voidstraps sidofält.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateThemeCustomizerDescription" xml:space="preserve">
+    <value>Färgar om hela appen och ändrar zoom och banderoller direkt.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateSidebarManagerDescription" xml:space="preserve">
+    <value>Byter namn på, döljer och byter ikoner för objekt i sidofältet.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateFastFlagsDescription" xml:space="preserve">
+    <value>Redigerar FastFlags och Voidstrap-inställningar från en panel.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateGameHooksDescription" xml:space="preserve">
+    <value>Reagerar när du går med i Roblox-spel och startar platser.</value>
+  </data>
 </root>

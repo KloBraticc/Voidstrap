@@ -9037,5 +9037,119 @@ namespace Voidstrap.Resources {
                 return ResourceManager.GetString("Ui.VoidstrapMods.AlreadyExistsMessage", resourceCulture);
             }
         }
+
+        public static string Ui_VoidstrapMods_Import {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.Import", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidstrapMods_ImportTooltip {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.ImportTooltip", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidstrapMods_ExportTooltip {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.ExportTooltip", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidstrapMods_ChangeIcon {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.ChangeIcon", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidstrapMods_IconLabel {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.IconLabel", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidstrapMods_ChooseIcon {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.ChooseIcon", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidstrapMods_IconFilter {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.IconFilter", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidstrapMods_PackageFilter {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.PackageFilter", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidstrapMods_IconFailed {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.IconFailed", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidstrapMods_ImportFailed {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.ImportFailed", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidstrapMods_ImportReplacePrompt {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.ImportReplacePrompt", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidstrapMods_ExportFailed {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.ExportFailed", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidstrapMods_TemplateBlankDescription {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.TemplateBlankDescription", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidstrapMods_TemplateDashboardDescription {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.TemplateDashboardDescription", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidstrapMods_TemplateSidebarPageDescription {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.TemplateSidebarPageDescription", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidstrapMods_TemplateThemeCustomizerDescription {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.TemplateThemeCustomizerDescription", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidstrapMods_TemplateSidebarManagerDescription {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.TemplateSidebarManagerDescription", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidstrapMods_TemplateFastFlagsDescription {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.TemplateFastFlagsDescription", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidstrapMods_TemplateGameHooksDescription {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.TemplateGameHooksDescription", resourceCulture);
+            }
+        }
     }
 }

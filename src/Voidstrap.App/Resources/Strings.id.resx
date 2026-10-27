@@ -8922,4 +8922,63 @@ Mod Voidstrap dapat mengubah cara kerja Voidstrap dan mengubah pengaturannya. Ak
   <data name="Ui.VoidstrapMods.AlreadyExistsMessage" xml:space="preserve">
     <value>Mod bernama &quot;{0}&quot; sudah ada.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Import" xml:space="preserve">
+    <value>Impor</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ImportTooltip" xml:space="preserve">
+    <value>Instal mod dari file .vsmod atau .zip. Anda juga dapat melepas file ke halaman ini.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ExportTooltip" xml:space="preserve">
+    <value>Ekspor mod ini sebagai file .vsmod untuk dibagikan</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ChangeIcon" xml:space="preserve">
+    <value>Ubah ikon</value>
+  </data>
+  <data name="Ui.VoidstrapMods.IconLabel" xml:space="preserve">
+    <value>Ikon</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ChooseIcon" xml:space="preserve">
+    <value>Pilih .ico</value>
+  </data>
+  <data name="Ui.VoidstrapMods.IconFilter" xml:space="preserve">
+    <value>File ikon (*.ico)|*.ico</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PackageFilter" xml:space="preserve">
+    <value>Mod Voidstrap (*.vsmod, *.zip)|*.vsmod;*.zip</value>
+  </data>
+  <data name="Ui.VoidstrapMods.IconFailed" xml:space="preserve">
+    <value>File tersebut bukan ikon .ico yang valid.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ImportFailed" xml:space="preserve">
+    <value>{0} tidak dapat diimpor:
+{1}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ImportReplacePrompt" xml:space="preserve">
+    <value>Mod bernama &quot;{0}&quot; sudah terpasang. Ganti dengan yang diimpor?</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ExportFailed" xml:space="preserve">
+    <value>Mod tidak dapat diekspor:
+{0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateBlankDescription" xml:space="preserve">
+    <value>Satu panel kosong untuk memulai dari awal.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateDashboardDescription" xml:space="preserve">
+    <value>Panel dengan penghitung dan tombol navigasi cepat.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateSidebarPageDescription" xml:space="preserve">
+    <value>Menambahkan halamannya sendiri ke sidebar Voidstrap.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateThemeCustomizerDescription" xml:space="preserve">
+    <value>Mengubah warna seluruh aplikasi serta zoom dan banner secara langsung.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateSidebarManagerDescription" xml:space="preserve">
+    <value>Mengganti nama, menyembunyikan, dan mengubah ikon item sidebar.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateFastFlagsDescription" xml:space="preserve">
+    <value>Mengedit FastFlags dan pengaturan Voidstrap dari panel.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateGameHooksDescription" xml:space="preserve">
+    <value>Merespons saat bergabung ke game Roblox dan meluncurkan place.</value>
+  </data>
 </root>

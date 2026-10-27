@@ -8920,4 +8920,63 @@ Voidstrap не можа да запише в папката на работни�
   <data name="Ui.VoidstrapMods.AlreadyExistsMessage" xml:space="preserve">
     <value>Мод с име &quot;{0}&quot; вече съществува.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Import" xml:space="preserve">
+    <value>Импортиране</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ImportTooltip" xml:space="preserve">
+    <value>Инсталирайте мод от файл .vsmod или .zip. Можете също да пуснете файла върху тази страница.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ExportTooltip" xml:space="preserve">
+    <value>Експортирайте този мод като файл .vsmod, за да го споделите</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ChangeIcon" xml:space="preserve">
+    <value>Смяна на иконата</value>
+  </data>
+  <data name="Ui.VoidstrapMods.IconLabel" xml:space="preserve">
+    <value>Икона</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ChooseIcon" xml:space="preserve">
+    <value>Изберете .ico</value>
+  </data>
+  <data name="Ui.VoidstrapMods.IconFilter" xml:space="preserve">
+    <value>Файлове с икони (*.ico)|*.ico</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PackageFilter" xml:space="preserve">
+    <value>Модове за Voidstrap (*.vsmod, *.zip)|*.vsmod;*.zip</value>
+  </data>
+  <data name="Ui.VoidstrapMods.IconFailed" xml:space="preserve">
+    <value>Този файл не е валидна икона .ico.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ImportFailed" xml:space="preserve">
+    <value>{0} не може да бъде импортиран:
+{1}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ImportReplacePrompt" xml:space="preserve">
+    <value>Вече има инсталиран мод с име &quot;{0}&quot;. Да бъде ли заменен с импортирания?</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ExportFailed" xml:space="preserve">
+    <value>Модът не може да бъде експортиран:
+{0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateBlankDescription" xml:space="preserve">
+    <value>Един празен панел, за да започнете от нулата.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateDashboardDescription" xml:space="preserve">
+    <value>Панел с брояч и бутони за бърза навигация.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateSidebarPageDescription" xml:space="preserve">
+    <value>Добавя собствена страница в страничната лента на Voidstrap.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateThemeCustomizerDescription" xml:space="preserve">
+    <value>Променя цветовете на цялото приложение, мащаба и банерите на живо.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateSidebarManagerDescription" xml:space="preserve">
+    <value>Преименува, скрива и сменя иконите на елементите в страничната лента.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateFastFlagsDescription" xml:space="preserve">
+    <value>Редактира FastFlags и настройките на Voidstrap от панел.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateGameHooksDescription" xml:space="preserve">
+    <value>Реагира при влизане в игри в Roblox и стартира места.</value>
+  </data>
 </root>

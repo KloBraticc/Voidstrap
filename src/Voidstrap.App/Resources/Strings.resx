@@ -8607,4 +8607,63 @@ Voidstrap mods can change how Voidstrap works and change its settings. Only turn
   <data name="Ui.VoidstrapMods.AlreadyExistsMessage" xml:space="preserve">
     <value>A mod named &quot;{0}&quot; already exists.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Import" xml:space="preserve">
+    <value>Import</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ImportTooltip" xml:space="preserve">
+    <value>Install a mod from a .vsmod or .zip file. You can also drop the file onto this page.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ExportTooltip" xml:space="preserve">
+    <value>Export this mod as a .vsmod file to share it</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ChangeIcon" xml:space="preserve">
+    <value>Change icon</value>
+  </data>
+  <data name="Ui.VoidstrapMods.IconLabel" xml:space="preserve">
+    <value>Icon</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ChooseIcon" xml:space="preserve">
+    <value>Choose .ico</value>
+  </data>
+  <data name="Ui.VoidstrapMods.IconFilter" xml:space="preserve">
+    <value>Icon files (*.ico)|*.ico</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PackageFilter" xml:space="preserve">
+    <value>Voidstrap mods (*.vsmod, *.zip)|*.vsmod;*.zip</value>
+  </data>
+  <data name="Ui.VoidstrapMods.IconFailed" xml:space="preserve">
+    <value>That file is not a valid .ico icon.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ImportFailed" xml:space="preserve">
+    <value>{0} could not be imported:
+{1}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ImportReplacePrompt" xml:space="preserve">
+    <value>A mod named &quot;{0}&quot; is already installed. Replace it with the imported one?</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ExportFailed" xml:space="preserve">
+    <value>The mod could not be exported:
+{0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateBlankDescription" xml:space="preserve">
+    <value>One empty pane to start from scratch.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateDashboardDescription" xml:space="preserve">
+    <value>A pane with a counter and quick navigation buttons.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateSidebarPageDescription" xml:space="preserve">
+    <value>Adds its own page to the Voidstrap sidebar.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateThemeCustomizerDescription" xml:space="preserve">
+    <value>Recolors the whole app and changes zoom and banners live.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateSidebarManagerDescription" xml:space="preserve">
+    <value>Renames, hides and changes icons of sidebar items.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateFastFlagsDescription" xml:space="preserve">
+    <value>Edits FastFlags and Voidstrap settings from a pane.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateGameHooksDescription" xml:space="preserve">
+    <value>Reacts to Roblox game joins and launches places.</value>
+  </data>
 </root>

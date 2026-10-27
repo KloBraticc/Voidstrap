@@ -8944,4 +8944,63 @@ Voidstrap 模组可以更改 Voidstrap 的工作方式和设置。请只启用�
   <data name="Ui.VoidstrapMods.AlreadyExistsMessage" xml:space="preserve">
     <value>名为“{0}”的模组已存在。</value>
   </data>
+  <data name="Ui.VoidstrapMods.Import" xml:space="preserve">
+    <value>导入</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ImportTooltip" xml:space="preserve">
+    <value>从 .vsmod 或 .zip 文件安装模组。您也可以将文件拖放到此页面。</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ExportTooltip" xml:space="preserve">
+    <value>将此模组导出为 .vsmod 文件以便分享</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ChangeIcon" xml:space="preserve">
+    <value>更改图标</value>
+  </data>
+  <data name="Ui.VoidstrapMods.IconLabel" xml:space="preserve">
+    <value>图标</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ChooseIcon" xml:space="preserve">
+    <value>选择 .ico</value>
+  </data>
+  <data name="Ui.VoidstrapMods.IconFilter" xml:space="preserve">
+    <value>图标文件 (*.ico)|*.ico</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PackageFilter" xml:space="preserve">
+    <value>Voidstrap 模组 (*.vsmod, *.zip)|*.vsmod;*.zip</value>
+  </data>
+  <data name="Ui.VoidstrapMods.IconFailed" xml:space="preserve">
+    <value>该文件不是有效的 .ico 图标。</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ImportFailed" xml:space="preserve">
+    <value>无法导入 {0}:
+{1}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ImportReplacePrompt" xml:space="preserve">
+    <value>已安装名为“{0}”的模组。要用导入的模组替换它吗?</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ExportFailed" xml:space="preserve">
+    <value>无法导出模组:
+{0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateBlankDescription" xml:space="preserve">
+    <value>一个空白面板,让您从零开始。</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateDashboardDescription" xml:space="preserve">
+    <value>带有计数器和快速导航按钮的面板。</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateSidebarPageDescription" xml:space="preserve">
+    <value>在 Voidstrap 侧边栏中添加自己的页面。</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateThemeCustomizerDescription" xml:space="preserve">
+    <value>实时更改整个应用的颜色、缩放和横幅。</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateSidebarManagerDescription" xml:space="preserve">
+    <value>重命名、隐藏侧边栏项目并更改其图标。</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateFastFlagsDescription" xml:space="preserve">
+    <value>在面板中编辑 FastFlags 和 Voidstrap 设置。</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateGameHooksDescription" xml:space="preserve">
+    <value>响应 Roblox 游戏加入并启动体验。</value>
+  </data>
 </root>

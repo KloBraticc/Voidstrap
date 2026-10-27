@@ -8918,4 +8918,63 @@ Voidstrap 모드는 Voidstrap의 작동 방식과 설정을 변경할 수 있습
   <data name="Ui.VoidstrapMods.AlreadyExistsMessage" xml:space="preserve">
     <value>이름이 &quot;{0}&quot;인 모드가 이미 존재합니다.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Import" xml:space="preserve">
+    <value>가져오기</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ImportTooltip" xml:space="preserve">
+    <value>.vsmod 또는 .zip 파일에서 모드를 설치합니다. 이 페이지에 파일을 끌어다 놓을 수도 있습니다.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ExportTooltip" xml:space="preserve">
+    <value>이 모드를 공유할 수 있도록 .vsmod 파일로 내보냅니다</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ChangeIcon" xml:space="preserve">
+    <value>아이콘 변경</value>
+  </data>
+  <data name="Ui.VoidstrapMods.IconLabel" xml:space="preserve">
+    <value>아이콘</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ChooseIcon" xml:space="preserve">
+    <value>.ico 선택</value>
+  </data>
+  <data name="Ui.VoidstrapMods.IconFilter" xml:space="preserve">
+    <value>아이콘 파일 (*.ico)|*.ico</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PackageFilter" xml:space="preserve">
+    <value>Voidstrap 모드 (*.vsmod, *.zip)|*.vsmod;*.zip</value>
+  </data>
+  <data name="Ui.VoidstrapMods.IconFailed" xml:space="preserve">
+    <value>이 파일은 올바른 .ico 아이콘이 아닙니다.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ImportFailed" xml:space="preserve">
+    <value>{0}을(를) 가져올 수 없습니다:
+{1}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ImportReplacePrompt" xml:space="preserve">
+    <value>&quot;{0}&quot; 모드가 이미 설치되어 있습니다. 가져온 모드로 바꾸시겠습니까?</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ExportFailed" xml:space="preserve">
+    <value>모드를 내보낼 수 없습니다:
+{0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateBlankDescription" xml:space="preserve">
+    <value>처음부터 시작할 수 있는 빈 창 하나입니다.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateDashboardDescription" xml:space="preserve">
+    <value>카운터와 빠른 이동 버튼이 있는 창입니다.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateSidebarPageDescription" xml:space="preserve">
+    <value>Voidstrap 사이드바에 자체 페이지를 추가합니다.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateThemeCustomizerDescription" xml:space="preserve">
+    <value>앱 전체 색상과 확대/축소, 배너를 실시간으로 바꿉니다.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateSidebarManagerDescription" xml:space="preserve">
+    <value>사이드바 항목의 이름을 바꾸고 숨기며 아이콘을 변경합니다.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateFastFlagsDescription" xml:space="preserve">
+    <value>창에서 FastFlags와 Voidstrap 설정을 편집합니다.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateGameHooksDescription" xml:space="preserve">
+    <value>Roblox 게임 입장에 반응하고 장소를 실행합니다.</value>
+  </data>
 </root>

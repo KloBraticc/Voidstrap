@@ -8919,4 +8919,63 @@
   <data name="Ui.VoidstrapMods.AlreadyExistsMessage" xml:space="preserve">
     <value>توجد إضافة باسم &quot;{0}&quot; بالفعل.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Import" xml:space="preserve">
+    <value>استيراد</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ImportTooltip" xml:space="preserve">
+    <value>ثبّت تعديلاً من ملف .vsmod أو .zip. يمكنك أيضاً إفلات الملف على هذه الصفحة.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ExportTooltip" xml:space="preserve">
+    <value>صدّر هذا التعديل كملف .vsmod لمشاركته</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ChangeIcon" xml:space="preserve">
+    <value>تغيير الأيقونة</value>
+  </data>
+  <data name="Ui.VoidstrapMods.IconLabel" xml:space="preserve">
+    <value>الأيقونة</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ChooseIcon" xml:space="preserve">
+    <value>اختر ملف .ico</value>
+  </data>
+  <data name="Ui.VoidstrapMods.IconFilter" xml:space="preserve">
+    <value>ملفات الأيقونات (*.ico)|*.ico</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PackageFilter" xml:space="preserve">
+    <value>تعديلات Voidstrap (*.vsmod, *.zip)|*.vsmod;*.zip</value>
+  </data>
+  <data name="Ui.VoidstrapMods.IconFailed" xml:space="preserve">
+    <value>هذا الملف ليس أيقونة .ico صالحة.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ImportFailed" xml:space="preserve">
+    <value>تعذّر استيراد {0}:
+{1}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ImportReplacePrompt" xml:space="preserve">
+    <value>يوجد تعديل مثبّت باسم &quot;{0}&quot;. هل تريد استبداله بالتعديل المستورد؟</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ExportFailed" xml:space="preserve">
+    <value>تعذّر تصدير التعديل:
+{0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateBlankDescription" xml:space="preserve">
+    <value>لوحة فارغة واحدة لتبدأ من الصفر.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateDashboardDescription" xml:space="preserve">
+    <value>لوحة تحتوي على عدّاد وأزرار تنقل سريعة.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateSidebarPageDescription" xml:space="preserve">
+    <value>يضيف صفحة خاصة به إلى الشريط الجانبي في Voidstrap.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateThemeCustomizerDescription" xml:space="preserve">
+    <value>يعيد تلوين التطبيق بالكامل ويغيّر التكبير واللافتات مباشرة.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateSidebarManagerDescription" xml:space="preserve">
+    <value>يعيد تسمية عناصر الشريط الجانبي ويخفيها ويغيّر أيقوناتها.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateFastFlagsDescription" xml:space="preserve">
+    <value>يعدّل FastFlags وإعدادات Voidstrap من لوحة.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateGameHooksDescription" xml:space="preserve">
+    <value>يتفاعل مع دخول ألعاب Roblox ويشغّل الأماكن.</value>
+  </data>
 </root>

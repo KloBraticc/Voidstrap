@@ -8922,4 +8922,63 @@ Voidstrap نتوانست در پوشهٔ دسکتاپ بنویسد.</value>
   <data name="Ui.VoidstrapMods.AlreadyExistsMessage" xml:space="preserve">
     <value>مادی با نام &quot;{0}&quot; از قبل وجود دارد.</value>
   </data>
+  <data name="Ui.VoidstrapMods.Import" xml:space="preserve">
+    <value>وارد کردن</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ImportTooltip" xml:space="preserve">
+    <value>یک ماد را از فایل .vsmod یا .zip نصب کنید. همچنین می‌توانید فایل را روی این صفحه رها کنید.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ExportTooltip" xml:space="preserve">
+    <value>این ماد را برای اشتراک‌گذاری به‌صورت فایل .vsmod صادر کنید</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ChangeIcon" xml:space="preserve">
+    <value>تغییر آیکون</value>
+  </data>
+  <data name="Ui.VoidstrapMods.IconLabel" xml:space="preserve">
+    <value>آیکون</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ChooseIcon" xml:space="preserve">
+    <value>انتخاب .ico</value>
+  </data>
+  <data name="Ui.VoidstrapMods.IconFilter" xml:space="preserve">
+    <value>فایل‌های آیکون (*.ico)|*.ico</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PackageFilter" xml:space="preserve">
+    <value>مادهای Voidstrap (*.vsmod, *.zip)|*.vsmod;*.zip</value>
+  </data>
+  <data name="Ui.VoidstrapMods.IconFailed" xml:space="preserve">
+    <value>این فایل یک آیکون .ico معتبر نیست.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ImportFailed" xml:space="preserve">
+    <value>{0} وارد نشد:
+{1}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ImportReplacePrompt" xml:space="preserve">
+    <value>مادی با نام &quot;{0}&quot; از قبل نصب شده است. آیا آن را با ماد وارد شده جایگزین می‌کنید؟</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ExportFailed" xml:space="preserve">
+    <value>ماد صادر نشد:
+{0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateBlankDescription" xml:space="preserve">
+    <value>یک پنل خالی برای شروع از صفر.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateDashboardDescription" xml:space="preserve">
+    <value>یک پنل با شمارنده و دکمه‌های پیمایش سریع.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateSidebarPageDescription" xml:space="preserve">
+    <value>یک صفحه اختصاصی به نوار کناری Voidstrap اضافه می‌کند.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateThemeCustomizerDescription" xml:space="preserve">
+    <value>رنگ کل برنامه، بزرگ‌نمایی و بنرها را به‌صورت زنده تغییر می‌دهد.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateSidebarManagerDescription" xml:space="preserve">
+    <value>نام موارد نوار کناری را تغییر می‌دهد، آن‌ها را پنهان می‌کند و آیکونشان را عوض می‌کند.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateFastFlagsDescription" xml:space="preserve">
+    <value>FastFlags و تنظیمات Voidstrap را از یک پنل ویرایش می‌کند.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateGameHooksDescription" xml:space="preserve">
+    <value>به ورود به بازی‌های Roblox واکنش نشان می‌دهد و مکان‌ها را اجرا می‌کند.</value>
+  </data>
 </root>

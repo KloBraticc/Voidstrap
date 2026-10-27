@@ -1,4 +1,4 @@
-<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.VoidstrapModsPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:platform="clr-namespace:Voidstrap.UI" Title="{resources:Loc Ui_Nav_VoidstrapMods}" ui:Breadcrumb.Header="{resources:Loc Ui_Nav_VoidstrapMods}" Scrollable="True" Loaded="Page_Loaded" Unloaded="Page_Unloaded">
+<ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.VoidstrapModsPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:platform="clr-namespace:Voidstrap.UI" Title="{resources:Loc Ui_Nav_VoidstrapMods}" ui:Breadcrumb.Header="{resources:Loc Ui_Nav_VoidstrapMods}" Scrollable="True" Loaded="Page_Loaded" Unloaded="Page_Unloaded" AllowDrop="True" DragOver="Page_DragOver" Drop="Page_Drop">
   <StackPanel Margin="0,0,14,14">
     <Grid Margin="0,0,0,12">
       <Grid.ColumnDefinitions>
@@ -8,38 +8,12 @@
       <TextBlock x:Name="StatusText" VerticalAlignment="Center" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
       <WrapPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
         <ui:Button x:Name="NewModButton" Margin="0,0,8,4" Appearance="Primary" Icon="Add24" Content="{resources:Loc Ui_VoidstrapMods_NewMod}" Click="NewMod_Click" />
+        <ui:Button Margin="0,0,8,4" Icon="ArrowImport24" Content="{resources:Loc Ui_VoidstrapMods_Import}" ToolTip="{resources:Loc Ui_VoidstrapMods_ImportTooltip}" Click="Import_Click" />
         <ui:Button Margin="0,0,8,4" Icon="PlugConnected24" Content="{resources:Loc Ui_Mcp_Connect}" ToolTip="{resources:Loc Ui_Mcp_ConnectTooltip}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}" Click="ConnectAi_Click" />
         <ui:Button Margin="0,0,8,4" Icon="ArrowClockwise24" Content="{resources:Loc Ui_VoidstrapMods_Reload}" Click="Reload_Click" />
         <ui:Button Margin="0,0,0,4" Icon="FolderOpen24" Content="{resources:Loc Ui_VoidstrapMods_OpenFolder}" Click="OpenFolder_Click" />
       </WrapPanel>
     </Grid>
-
-    <Border x:Name="CreateModCard" Visibility="Collapsed" Margin="0,0,0,16" Padding="16" CornerRadius="8" BorderThickness="1" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
-      <StackPanel>
-        <TextBlock FontSize="16" FontWeight="SemiBold" Text="{resources:Loc Ui_VoidstrapMods_CreateTitle}" />
-        <TextBlock Margin="0,4,0,12" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" Text="{resources:Loc Ui_VoidstrapMods_CreateSubtitle}" />
-        <Grid Margin="0,0,0,12">
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="12" />
-            <ColumnDefinition Width="*" />
-          </Grid.ColumnDefinitions>
-          <StackPanel Grid.Column="0">
-            <TextBlock Margin="0,0,0,4" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_VoidstrapMods_TemplateLabel}" />
-            <ComboBox x:Name="TemplateComboBox" SelectionChanged="TemplateComboBox_SelectionChanged" />
-          </StackPanel>
-          <StackPanel Grid.Column="2">
-            <TextBlock Margin="0,0,0,4" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_VoidstrapMods_ModNameLabel}" />
-            <ui:TextBox x:Name="NewModNameBox" PlaceholderText="{resources:Loc Ui_VoidstrapMods_ModNamePlaceholder}" />
-          </StackPanel>
-        </Grid>
-        <TextBlock x:Name="CreateModErrorText" Visibility="Collapsed" Margin="0,0,0,10" FontSize="12" Foreground="{DynamicResource SystemFillColorCriticalBrush}" TextWrapping="Wrap" />
-        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-          <ui:Button Margin="0,0,8,0" Appearance="Primary" Icon="Checkmark24" Content="{resources:Loc Ui_VoidstrapMods_CreateButton}" Click="CreateModConfirm_Click" />
-          <ui:Button Appearance="Secondary" Content="{resources:Loc Common_Cancel}" Click="CreateModCancel_Click" />
-        </StackPanel>
-      </StackPanel>
-    </Border>
 
     <TextBlock Margin="0,0,0,8" FontSize="16" FontWeight="SemiBold" Text="{resources:Loc Ui_VoidstrapMods_Installed}" />
     <StackPanel x:Name="ModsHost" Margin="0,0,0,16" />

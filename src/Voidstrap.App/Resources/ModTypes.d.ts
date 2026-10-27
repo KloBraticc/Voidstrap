@@ -296,7 +296,7 @@ declare const mod: {
 
 declare namespace JSX {
   type Element = import('voidstrap').Node;
-  interface IntrinsicElements {
-    [name: string]: Record<string, unknown>;
-  }
+  type VoidstrapElements = { [K in keyof import('voidstrap').ElementProps]: import('voidstrap').ElementProps[K] & { children?: unknown } };
+  interface IntrinsicElements extends VoidstrapElements {}
+  interface ElementChildrenAttribute { children: {} }
 }

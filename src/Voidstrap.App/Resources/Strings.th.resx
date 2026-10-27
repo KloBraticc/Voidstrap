@@ -8915,4 +8915,63 @@ Voidstrap เขียนลงในโฟลเดอร์เดสก์ท�
   <data name="Ui.VoidstrapMods.AlreadyExistsMessage" xml:space="preserve">
     <value>มีม็อดชื่อ &quot;{0}&quot; อยู่แล้ว</value>
   </data>
+  <data name="Ui.VoidstrapMods.Import" xml:space="preserve">
+    <value>นำเข้า</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ImportTooltip" xml:space="preserve">
+    <value>ติดตั้งม็อดจากไฟล์ .vsmod หรือ .zip คุณยังสามารถลากไฟล์มาวางบนหน้านี้ได้</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ExportTooltip" xml:space="preserve">
+    <value>ส่งออกม็อดนี้เป็นไฟล์ .vsmod เพื่อแชร์</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ChangeIcon" xml:space="preserve">
+    <value>เปลี่ยนไอคอน</value>
+  </data>
+  <data name="Ui.VoidstrapMods.IconLabel" xml:space="preserve">
+    <value>ไอคอน</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ChooseIcon" xml:space="preserve">
+    <value>เลือก .ico</value>
+  </data>
+  <data name="Ui.VoidstrapMods.IconFilter" xml:space="preserve">
+    <value>ไฟล์ไอคอน (*.ico)|*.ico</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PackageFilter" xml:space="preserve">
+    <value>ม็อด Voidstrap (*.vsmod, *.zip)|*.vsmod;*.zip</value>
+  </data>
+  <data name="Ui.VoidstrapMods.IconFailed" xml:space="preserve">
+    <value>ไฟล์นี้ไม่ใช่ไอคอน .ico ที่ถูกต้อง</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ImportFailed" xml:space="preserve">
+    <value>ไม่สามารถนำเข้า {0}:
+{1}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ImportReplacePrompt" xml:space="preserve">
+    <value>มีม็อดชื่อ &quot;{0}&quot; ติดตั้งอยู่แล้ว ต้องการแทนที่ด้วยม็อดที่นำเข้าหรือไม่</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ExportFailed" xml:space="preserve">
+    <value>ไม่สามารถส่งออกม็อด:
+{0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateBlankDescription" xml:space="preserve">
+    <value>แผงว่างหนึ่งแผงสำหรับเริ่มต้นจากศูนย์</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateDashboardDescription" xml:space="preserve">
+    <value>แผงที่มีตัวนับและปุ่มนำทางด่วน</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateSidebarPageDescription" xml:space="preserve">
+    <value>เพิ่มหน้าของตัวเองลงในแถบด้านข้างของ Voidstrap</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateThemeCustomizerDescription" xml:space="preserve">
+    <value>เปลี่ยนสีทั้งแอป การซูม และแบนเนอร์แบบสด</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateSidebarManagerDescription" xml:space="preserve">
+    <value>เปลี่ยนชื่อ ซ่อน และเปลี่ยนไอคอนของรายการในแถบด้านข้าง</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateFastFlagsDescription" xml:space="preserve">
+    <value>แก้ไข FastFlags และการตั้งค่า Voidstrap จากแผง</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateGameHooksDescription" xml:space="preserve">
+    <value>ตอบสนองเมื่อเข้าร่วมเกม Roblox และเปิดเพลส</value>
+  </data>
 </root>
