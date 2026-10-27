@@ -8835,4 +8835,130 @@ Voidstrap نتوانست در پوشهٔ دسکتاپ بنویسد.</value>
   <data name="Ui.VoidstrapMods.RecentProblems" xml:space="preserve">
     <value>مشکلات اخیر</value>
   </data>
+  <data name="Ui.VoidstrapMods.NewMod" xml:space="preserve">
+    <value>ماد جدید</value>
+  </data>
+  <data name="Ui.VoidstrapMods.CreateTitle" xml:space="preserve">
+    <value>ایجاد ماد Voidstrap</value>
+  </data>
+  <data name="Ui.VoidstrapMods.CreateSubtitle" xml:space="preserve">
+    <value>یک الگو انتخاب کنید، نامی وارد کنید و بلافاصله شخصی‌سازی Voidstrap را شروع کنید.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateLabel" xml:space="preserve">
+    <value>الگوی شروع</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateDashboard" xml:space="preserve">
+    <value>پنل داشبورد تعاملی</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateSidebarPage" xml:space="preserve">
+    <value>صفحه سفارشی نوار کناری</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateThemeCustomizer" xml:space="preserve">
+    <value>شخصی‌ساز کامل پوسته و رابط کاربری برنامه</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateSidebarManager" xml:space="preserve">
+    <value>مدیریت چیدمان و آیکون‌های نوار کناری</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateFastFlags" xml:space="preserve">
+    <value>کنترل‌کننده FastFlag و تنظیمات</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateGameHooks" xml:space="preserve">
+    <value>قلاب نشست بازی و اجرا</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateBlank" xml:space="preserve">
+    <value>ماد خام</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModNameLabel" xml:space="preserve">
+    <value>نام پوشه ماد</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModNamePlaceholder" xml:space="preserve">
+    <value>حروف کوچک انگلیسی و اعداد</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModVersionLabel" xml:space="preserve">
+    <value>نسخه</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModDescriptionLabel" xml:space="preserve">
+    <value>توضیحات</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModDescriptionPlaceholder" xml:space="preserve">
+    <value>کارکرد این ماد</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModNetworkLabel" xml:space="preserve">
+    <value>میزبان‌های HTTPS مجاز</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModNetworkPlaceholder" xml:space="preserve">
+    <value>api.roblox.com, raw.githubusercontent.com</value>
+  </data>
+  <data name="Ui.VoidstrapMods.CreateButton" xml:space="preserve">
+    <value>ایجاد و ویرایش</value>
+  </data>
+  <data name="Ui.VoidstrapMods.EditButton" xml:space="preserve">
+    <value>ویرایش</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ValidateButton" xml:space="preserve">
+    <value>اعتبارسنجی</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TestButton" xml:space="preserve">
+    <value>اجرای تست‌ها</value>
+  </data>
+  <data name="Ui.VoidstrapMods.DeleteModPrompt" xml:space="preserve">
+    <value>آیا ماد Voidstrap با نام &quot;{0}&quot; و تمام فایل‌های آن حذف شود؟</value>
+  </data>
+  <data name="Ui.VoidstrapMods.EditorTitle" xml:space="preserve">
+    <value>ویرایشگر ماد: {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SaveAndReload" xml:space="preserve">
+    <value>ذخیره و بارگذاری مجدد</value>
+  </data>
+  <data name="Ui.VoidstrapMods.CloseEditor" xml:space="preserve">
+    <value>بستن ویرایشگر</value>
+  </data>
+  <data name="Ui.VoidstrapMods.FileLabel" xml:space="preserve">
+    <value>فایل</value>
+  </data>
+  <data name="Ui.VoidstrapMods.NewFileButton" xml:space="preserve">
+    <value>فایل جدید</value>
+  </data>
+  <data name="Ui.VoidstrapMods.NewFilePlaceholder" xml:space="preserve">
+    <value>hooks/helper.ts or pane.test.tsx</value>
+  </data>
+  <data name="Ui.VoidstrapMods.AddFileButton" xml:space="preserve">
+    <value>افزودن فایل</value>
+  </data>
+  <data name="Ui.VoidstrapMods.DeleteFileButton" xml:space="preserve">
+    <value>حذف فایل</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SnippetLabel" xml:space="preserve">
+    <value>درج بلوک آماده</value>
+  </data>
+  <data name="Ui.VoidstrapMods.InsertButton" xml:space="preserve">
+    <value>درج</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ApiGuideButton" xml:space="preserve">
+    <value>مرجع API</value>
+  </data>
+  <data name="Ui.VoidstrapMods.OutputHeader" xml:space="preserve">
+    <value>خروجی اعتبارسنجی و تست</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SavedMessage" xml:space="preserve">
+    <value>{0}/{1} ذخیره شد و مادها دوباره بارگذاری شدند.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.UnsavedIndicator" xml:space="preserve">
+    <value>تغییرات ذخیره‌نشده</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ActivePanes" xml:space="preserve">
+    <value>پنل‌های فعال ماد</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LoadedBadge" xml:space="preserve">
+    <value>بارگذاری‌شده</value>
+  </data>
+  <data name="Ui.VoidstrapMods.DisabledBadge" xml:space="preserve">
+    <value>خاموش</value>
+  </data>
+  <data name="Ui.VoidstrapMods.InvalidNameMessage" xml:space="preserve">
+    <value>نام ماد را با حروف کوچک انگلیسی و اعداد وارد کنید.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.AlreadyExistsMessage" xml:space="preserve">
+    <value>مادی با نام &quot;{0}&quot; از قبل وجود دارد.</value>
+  </data>
 </root>

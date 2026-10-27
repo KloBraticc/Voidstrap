@@ -8832,4 +8832,130 @@
   <data name="Ui.VoidstrapMods.RecentProblems" xml:space="preserve">
     <value>المشكلات الأخيرة</value>
   </data>
+  <data name="Ui.VoidstrapMods.NewMod" xml:space="preserve">
+    <value>إضافة جديدة</value>
+  </data>
+  <data name="Ui.VoidstrapMods.CreateTitle" xml:space="preserve">
+    <value>إنشاء إضافة Voidstrap</value>
+  </data>
+  <data name="Ui.VoidstrapMods.CreateSubtitle" xml:space="preserve">
+    <value>اختر قالبًا وأدخل اسمًا وابدأ في تخصيص Voidstrap على الفور.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateLabel" xml:space="preserve">
+    <value>قالب البداية</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateDashboard" xml:space="preserve">
+    <value>لوحة معلومات تفاعلية</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateSidebarPage" xml:space="preserve">
+    <value>صفحة مخصصة في الشريط الجانبي</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateThemeCustomizer" xml:space="preserve">
+    <value>مخصص سمة التطبيق الكاملة والواجهة</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateSidebarManager" xml:space="preserve">
+    <value>مدير تخطيط وأيقونات الشريط الجانبي</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateFastFlags" xml:space="preserve">
+    <value>وحدة التحكم في FastFlag والإعدادات</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateGameHooks" xml:space="preserve">
+    <value>ربط جلسة اللعبة والتشغيل</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateBlank" xml:space="preserve">
+    <value>إضافة فارغة</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModNameLabel" xml:space="preserve">
+    <value>اسم مجلد الإضافة</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModNamePlaceholder" xml:space="preserve">
+    <value>أحرف صغيرة وأرقام</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModVersionLabel" xml:space="preserve">
+    <value>الإصدار</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModDescriptionLabel" xml:space="preserve">
+    <value>الوصف</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModDescriptionPlaceholder" xml:space="preserve">
+    <value>وظيفة هذه الإضافة</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModNetworkLabel" xml:space="preserve">
+    <value>نطاقات HTTPS المسموح بها</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModNetworkPlaceholder" xml:space="preserve">
+    <value>api.roblox.com, raw.githubusercontent.com</value>
+  </data>
+  <data name="Ui.VoidstrapMods.CreateButton" xml:space="preserve">
+    <value>إنشاء وتحرير</value>
+  </data>
+  <data name="Ui.VoidstrapMods.EditButton" xml:space="preserve">
+    <value>تحرير</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ValidateButton" xml:space="preserve">
+    <value>تحقق</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TestButton" xml:space="preserve">
+    <value>تشغيل الاختبارات</value>
+  </data>
+  <data name="Ui.VoidstrapMods.DeleteModPrompt" xml:space="preserve">
+    <value>هل تريد حذف إضافة Voidstrap &quot;{0}&quot; وجميع ملفاتها؟</value>
+  </data>
+  <data name="Ui.VoidstrapMods.EditorTitle" xml:space="preserve">
+    <value>محرر الإضافات: {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SaveAndReload" xml:space="preserve">
+    <value>حفظ وإعادة تحميل</value>
+  </data>
+  <data name="Ui.VoidstrapMods.CloseEditor" xml:space="preserve">
+    <value>إغلاق المحرر</value>
+  </data>
+  <data name="Ui.VoidstrapMods.FileLabel" xml:space="preserve">
+    <value>ملف</value>
+  </data>
+  <data name="Ui.VoidstrapMods.NewFileButton" xml:space="preserve">
+    <value>ملف جديد</value>
+  </data>
+  <data name="Ui.VoidstrapMods.NewFilePlaceholder" xml:space="preserve">
+    <value>hooks/helper.ts or pane.test.tsx</value>
+  </data>
+  <data name="Ui.VoidstrapMods.AddFileButton" xml:space="preserve">
+    <value>إضافة ملف</value>
+  </data>
+  <data name="Ui.VoidstrapMods.DeleteFileButton" xml:space="preserve">
+    <value>حذف ملف</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SnippetLabel" xml:space="preserve">
+    <value>إدراج كتلة برمجية</value>
+  </data>
+  <data name="Ui.VoidstrapMods.InsertButton" xml:space="preserve">
+    <value>إدراج</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ApiGuideButton" xml:space="preserve">
+    <value>مرجع API</value>
+  </data>
+  <data name="Ui.VoidstrapMods.OutputHeader" xml:space="preserve">
+    <value>نتائج التحقق والاختبار</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SavedMessage" xml:space="preserve">
+    <value>تم حفظ {0}/{1} وإعادة تحميل الإضافات.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.UnsavedIndicator" xml:space="preserve">
+    <value>تغييرات غير محفوظة</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ActivePanes" xml:space="preserve">
+    <value>لوحات الإضافات النشطة</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LoadedBadge" xml:space="preserve">
+    <value>محمّل</value>
+  </data>
+  <data name="Ui.VoidstrapMods.DisabledBadge" xml:space="preserve">
+    <value>متوقف</value>
+  </data>
+  <data name="Ui.VoidstrapMods.InvalidNameMessage" xml:space="preserve">
+    <value>أدخل اسم إضافة باستخدام أحرف صغيرة وأرقام.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.AlreadyExistsMessage" xml:space="preserve">
+    <value>توجد إضافة باسم &quot;{0}&quot; بالفعل.</value>
+  </data>
 </root>

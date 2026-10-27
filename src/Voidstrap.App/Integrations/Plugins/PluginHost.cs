@@ -27,6 +27,8 @@ public static class PluginHost
 
 	private static readonly List<PaneInfo> OpenPanes = [];
 
+	private static readonly List<BannerInfo> OpenBanners = [];
+
 	private static readonly Dictionary<string, string> Statuses = new(StringComparer.Ordinal);
 
 	private static readonly Dictionary<string, JsonObject> SessionState = new(StringComparer.Ordinal);
@@ -50,6 +52,13 @@ public static class PluginHost
 			if (list.Count > MaxProblems)
 				list.RemoveAt(0);
 		}
+		ModsChanged?.Invoke();
+	}
+
+	public static void ClearProblems(string mod)
+	{
+		lock (Gate)
+			Problems.Remove(mod);
 		ModsChanged?.Invoke();
 	}
 
@@ -95,11 +104,15 @@ public static class PluginHost
 
 	public static event Action? PanesChanged;
 
+	public static event Action? BannersChanged;
+
 	public static event Action<string>? PaneInvalidated;
 
 	public static event Action? StatusChanged;
 
 	public sealed record PaneInfo(string Plugin, string Id, string Title);
+
+	public sealed record BannerInfo(string Plugin, string Id, string Position);
 
 	public static bool IsSupported => !Voidstrap.Utility.Platform.IsMacOS;
 
@@ -109,6 +122,15 @@ public static class PluginHost
 		{
 			lock (Gate)
 				return OpenPanes.ToList();
+		}
+	}
+
+	public static IReadOnlyList<BannerInfo> Banners
+	{
+		get
+		{
+			lock (Gate)
+				return OpenBanners.ToList();
 		}
 	}
 
@@ -173,6 +195,7 @@ public static class PluginHost
 				plugin.Dispose();
 			Loaded.Clear();
 			OpenPanes.Clear();
+			OpenBanners.Clear();
 			Statuses.Clear();
 			_started = false;
 		}
@@ -213,21 +236,26 @@ public static class PluginHost
 			}
 		}
 		List<LoadedPlugin> old;
+		HashSet<string> names;
 		lock (Gate)
 		{
 			old = Loaded.ToList();
 			Loaded.Clear();
 			Loaded.AddRange(fresh);
-			HashSet<string> names = fresh.Select(plugin => plugin.Name).ToHashSet(StringComparer.Ordinal);
+			names = fresh.Select(plugin => plugin.Name).ToHashSet(StringComparer.Ordinal);
 			OpenPanes.RemoveAll(pane => !names.Contains(pane.Plugin));
+			OpenBanners.RemoveAll(banner => !names.Contains(banner.Plugin));
 			foreach (string key in Statuses.Keys.Where(key => !names.Contains(key)).ToList())
 				Statuses.Remove(key);
 		}
+		PluginSidebar.RemovePluginPages(names);
+		PluginDialogManager.ClosePluginDialogs(names);
 		foreach (LoadedPlugin plugin in old)
 			plugin.Dispose();
 		Invoke("session.start", new JsonObject { ["source"] = old.Count > 0 ? "reload" : "startup" });
 		ModsChanged?.Invoke();
 		PanesChanged?.Invoke();
+		BannersChanged?.Invoke();
 		StatusChanged?.Invoke();
 	}
 
@@ -293,6 +321,39 @@ public static class PluginHost
 		}, static _ => null, "pane." + pane.Id);
 	}
 
+	public static JsonNode? RenderCustomPage(string plugin, string id)
+	{
+		return Invoke("ui.render", new JsonObject
+		{
+			["component"] = "Page",
+			["requestId"] = id,
+			["plugin"] = plugin,
+			["surface"] = "desktop"
+		}, static _ => null, "page." + id);
+	}
+
+	public static JsonNode? RenderBanner(BannerInfo banner)
+	{
+		return Invoke("ui.render", new JsonObject
+		{
+			["component"] = "Banner",
+			["requestId"] = banner.Id,
+			["plugin"] = banner.Plugin,
+			["surface"] = "desktop"
+		}, static _ => null, "banner." + banner.Id);
+	}
+
+	public static JsonNode? RenderDialog(string plugin, string id)
+	{
+		return Invoke("ui.render", new JsonObject
+		{
+			["component"] = "Dialog",
+			["requestId"] = id,
+			["plugin"] = plugin,
+			["surface"] = "desktop"
+		}, static _ => null, "dialog." + id);
+	}
+
 	public static void InvokeHandler(string handlerId, JsonNode? argument)
 	{
 		int split = handlerId.IndexOf('|');
@@ -333,6 +394,27 @@ public static class PluginHost
 		lock (Gate)
 			OpenPanes.RemoveAll(pane => pane.Plugin == plugin && pane.Id == id);
 		PanesChanged?.Invoke();
+	}
+
+	internal static JsonNode OpenBanner(string plugin, string id, string position)
+	{
+		if (id.Length == 0 || id.Length > 64)
+			throw new InvalidOperationException("a banner needs an id of 1 to 64 characters");
+		string pos = string.Equals(position, "bottom", StringComparison.OrdinalIgnoreCase) ? "bottom" : "top";
+		lock (Gate)
+		{
+			OpenBanners.RemoveAll(b => b.Plugin == plugin && b.Id == id);
+			OpenBanners.Add(new BannerInfo(plugin, id, pos));
+		}
+		BannersChanged?.Invoke();
+		return new JsonObject { ["isPlaced"] = true, ["position"] = pos };
+	}
+
+	internal static void CloseBanner(string plugin, string id)
+	{
+		lock (Gate)
+			OpenBanners.RemoveAll(b => b.Plugin == plugin && b.Id == id);
+		BannersChanged?.Invoke();
 	}
 
 	internal static void SetStatus(string plugin, string? text)
@@ -385,7 +467,14 @@ public static class PluginHost
 			  const host = globalThis.__voidstrapHost;
 			  delete globalThis.__voidstrapHost;
 			  const parse = text => text === undefined || text === null ? undefined : JSON.parse(text);
-			  const elements = Object.freeze({ Box: 'Box', Text: 'Text', Button: 'Button', Toggle: 'Toggle', TextInput: 'TextInput', Card: 'Card', Image: 'Image', Divider: 'Divider' });
+			  const elements = Object.freeze({
+			    Box: 'Box', Stack: 'Box', Wrap: 'Wrap', Grid: 'Grid', Scroll: 'Scroll',
+			    Text: 'Text', Badge: 'Badge', Icon: 'Icon', ColorSwatch: 'ColorSwatch',
+			    Button: 'Button', Toggle: 'Toggle', CheckBox: 'CheckBox', TextInput: 'TextInput',
+			    NumberInput: 'NumberInput', Slider: 'Slider', Select: 'Select',
+			    ProgressBar: 'ProgressBar', InfoBar: 'InfoBar', Divider: 'Divider', Spacer: 'Spacer',
+			    Image: 'Image', Card: 'Card', Expander: 'Expander', Tabs: 'Tabs', Table: 'Table'
+			  });
 			  globalThis.h = (type, props, ...children) => ({ type, props: props || {}, children: children.flat(Infinity).filter(child => child !== null && child !== undefined && child !== false) });
 			  globalThis.Fragment = 'Box';
 			  globalThis.$ = Object.freeze({
@@ -395,13 +484,27 @@ public static class PluginHost
 			      resolve: () => elements,
 			      open: request => parse(host.uiOpen(JSON.stringify(request || {}))),
 			      close: id => host.uiClose(String(id)),
+			      openBanner: request => parse(host.uiOpenBanner(JSON.stringify(typeof request === 'string' ? { id: request } : (request || {})))),
+			      closeBanner: id => host.uiCloseBanner(String(id)),
+			      openDialog: request => host.uiOpenDialog(JSON.stringify(typeof request === 'string' ? { id: request } : (request || {}))),
+			      closeDialog: id => host.uiCloseDialog(String(id)),
+			      message: (text, title) => host.uiMessage(String(text), title === undefined ? '' : String(title)),
+			      confirm: (text, title) => Boolean(host.uiConfirm(String(text), title === undefined ? '' : String(title))),
 			      status: text => host.uiStatus(text === undefined || text === null ? '' : String(text)),
 			      toast: (title, text) => host.toast(String(title), text === undefined ? '' : String(text)),
 			      refresh: () => host.uiRefresh()
 			    }),
 			    settings: Object.freeze({
+			      list: () => parse(host.settingList()),
 			      get: name => parse(host.settingGet(String(name))),
 			      set: (name, value) => host.settingSet(String(name), JSON.stringify(value))
+			    }),
+			    fastFlags: Object.freeze({
+			      getAll: () => parse(host.flagGetAll()),
+			      get: name => parse(host.flagGet(String(name))),
+			      set: (name, value) => host.flagSet(String(name), JSON.stringify(value === undefined ? null : value)),
+			      remove: name => host.flagRemove(String(name)),
+			      clear: () => host.flagClear()
 			    }),
 			    store: Object.freeze({
 			      get: key => parse(host.storeGet(String(key))),
@@ -418,7 +521,35 @@ public static class PluginHost
 			    }),
 			    sidebar: Object.freeze({
 			      get: () => parse(host.sidebarGet()),
-			      set: layout => host.sidebarSet(JSON.stringify(layout || {}))
+			      set: layout => host.sidebarSet(JSON.stringify(layout || {})),
+			      reset: () => host.sidebarReset(),
+			      addPage: page => parse(host.sidebarAddPage(JSON.stringify(page || {}))),
+			      removePage: id => host.sidebarRemovePage(String(id))
+			    }),
+			    nav: Object.freeze({
+			      current: () => String(host.navCurrent()),
+			      pages: () => parse(host.navPages()),
+			      open: page => host.navOpen(String(page))
+			    }),
+			    theme: Object.freeze({
+			      get: () => parse(host.themeGet()),
+			      set: spec => host.themeSet(JSON.stringify(spec || {})),
+			      getBrush: key => host.themeGetBrush(String(key)),
+			      setBrush: (key, color) => host.themeSetBrush(String(key), String(color)),
+			      resetBrushes: () => host.themeResetBrushes(),
+			      listBrushes: () => parse(host.themeListBrushes())
+			    }),
+			    window: Object.freeze({
+			      get: () => parse(host.windowGet()),
+			      set: spec => host.windowSet(JSON.stringify(spec || {}))
+			    }),
+			    roblox: Object.freeze({
+			      status: () => parse(host.robloxStatus()),
+			      launch: spec => host.robloxLaunch(JSON.stringify(spec || {}))
+			    }),
+			    clipboard: Object.freeze({
+			      get: () => String(host.clipboardGet()),
+			      set: text => host.clipboardSet(String(text === undefined || text === null ? '' : text))
 			    }),
 			    state: Object.freeze({
 			      get: key => parse(host.stateGet(String(key))),
@@ -540,6 +671,33 @@ public static class PluginHost
 				ClosePane(Name, Arg(a, 0));
 				return JsValue.Undefined;
 			}));
+			host.Set("uiOpenBanner", Host("uiOpenBanner", a =>
+			{
+				JsonObject request = JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject();
+				return OpenBanner(Name, request["id"]?.ToString() ?? "banner", request["position"]?.ToString() ?? "top").ToJsonString();
+			}));
+			host.Set("uiCloseBanner", Host("uiCloseBanner", a =>
+			{
+				CloseBanner(Name, Arg(a, 0));
+				return JsValue.Undefined;
+			}));
+			host.Set("uiOpenDialog", Host("uiOpenDialog", a =>
+			{
+				JsonObject request = JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject();
+				PluginDialogManager.OpenDialog(Name, request);
+				return JsValue.Undefined;
+			}));
+			host.Set("uiCloseDialog", Host("uiCloseDialog", a =>
+			{
+				PluginDialogManager.CloseDialog(Name, Arg(a, 0));
+				return JsValue.Undefined;
+			}));
+			host.Set("uiMessage", Host("uiMessage", a =>
+			{
+				PluginDialogManager.ShowMessage(Name, Arg(a, 0), Arg(a, 1));
+				return JsValue.Undefined;
+			}));
+			host.Set("uiConfirm", Host("uiConfirm", a => PluginDialogManager.ShowConfirm(Name, Arg(a, 0), Arg(a, 1))));
 			host.Set("uiStatus", Host("uiStatus", a =>
 			{
 				SetStatus(Name, Arg(a, 0));
@@ -550,10 +708,28 @@ public static class PluginHost
 				Invalidate(Name);
 				return JsValue.Undefined;
 			}));
+			host.Set("settingList", Host("settingList", _ => PluginSettings.List()));
 			host.Set("settingGet", Host("settingGet", a => PluginSettings.Get(Arg(a, 0)) is string json ? json : JsValue.Undefined));
 			host.Set("settingSet", Host("settingSet", a =>
 			{
 				PluginSettings.Set(Name, Arg(a, 0), Arg(a, 1));
+				return JsValue.Undefined;
+			}));
+			host.Set("flagGetAll", Host("flagGetAll", _ => PluginFastFlags.GetAll()));
+			host.Set("flagGet", Host("flagGet", a => PluginFastFlags.Get(Arg(a, 0)) is string json ? json : JsValue.Undefined));
+			host.Set("flagSet", Host("flagSet", a =>
+			{
+				PluginFastFlags.Set(Name, Arg(a, 0), Arg(a, 1));
+				return JsValue.Undefined;
+			}));
+			host.Set("flagRemove", Host("flagRemove", a =>
+			{
+				PluginFastFlags.Remove(Name, Arg(a, 0));
+				return JsValue.Undefined;
+			}));
+			host.Set("flagClear", Host("flagClear", _ =>
+			{
+				PluginFastFlags.Clear(Name);
 				return JsValue.Undefined;
 			}));
 			host.Set("storeGet", Host("storeGet", a => _store.Get(Arg(a, 0)) is string json ? json : JsValue.Undefined));
@@ -580,6 +756,64 @@ public static class PluginHost
 			host.Set("sidebarSet", Host("sidebarSet", a =>
 			{
 				PluginSidebar.Set(Name, JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject());
+				return JsValue.Undefined;
+			}));
+			host.Set("sidebarReset", Host("sidebarReset", _ =>
+			{
+				PluginSidebar.Reset(Name);
+				return JsValue.Undefined;
+			}));
+			host.Set("sidebarAddPage", Host("sidebarAddPage", a =>
+			{
+				JsonObject spec = JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject();
+				return PluginSidebar.AddPage(Name, spec).ToJsonString();
+			}));
+			host.Set("sidebarRemovePage", Host("sidebarRemovePage", a =>
+			{
+				PluginSidebar.RemovePage(Name, Arg(a, 0));
+				return JsValue.Undefined;
+			}));
+			host.Set("navCurrent", Host("navCurrent", _ => PluginNavigation.Current()));
+			host.Set("navPages", Host("navPages", _ => PluginNavigation.Pages()));
+			host.Set("navOpen", Host("navOpen", a =>
+			{
+				PluginNavigation.Open(Name, Arg(a, 0));
+				return JsValue.Undefined;
+			}));
+			host.Set("themeGet", Host("themeGet", _ => PluginTheme.Get()));
+			host.Set("themeSet", Host("themeSet", a =>
+			{
+				PluginTheme.Set(Name, JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject());
+				return JsValue.Undefined;
+			}));
+			host.Set("themeGetBrush", Host("themeGetBrush", a => PluginTheme.GetBrush(Arg(a, 0)) is string hex ? hex : JsValue.Undefined));
+			host.Set("themeSetBrush", Host("themeSetBrush", a =>
+			{
+				PluginTheme.SetBrush(Name, Arg(a, 0), Arg(a, 1));
+				return JsValue.Undefined;
+			}));
+			host.Set("themeResetBrushes", Host("themeResetBrushes", _ =>
+			{
+				PluginTheme.ResetBrushes(Name);
+				return JsValue.Undefined;
+			}));
+			host.Set("themeListBrushes", Host("themeListBrushes", _ => PluginTheme.ListBrushes()));
+			host.Set("windowGet", Host("windowGet", _ => PluginWindow.Get()));
+			host.Set("windowSet", Host("windowSet", a =>
+			{
+				PluginWindow.Set(Name, JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject());
+				return JsValue.Undefined;
+			}));
+			host.Set("robloxStatus", Host("robloxStatus", _ => PluginRoblox.Status()));
+			host.Set("robloxLaunch", Host("robloxLaunch", a =>
+			{
+				PluginRoblox.Launch(Name, JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject());
+				return JsValue.Undefined;
+			}));
+			host.Set("clipboardGet", Host("clipboardGet", _ => PluginClipboard.Get()));
+			host.Set("clipboardSet", Host("clipboardSet", a =>
+			{
+				PluginClipboard.Set(Arg(a, 0));
 				return JsValue.Undefined;
 			}));
 			host.Set("stateGet", Host("stateGet", a => GetState(Name, Arg(a, 0)) is string json ? json : JsValue.Undefined));
@@ -723,7 +957,10 @@ public static class PluginHost
 			  };
 			  globalThis.mod = Object.freeze({
 			    emit: (event, e) => parse(host.emit(String(event), JSON.stringify(e === undefined ? null : e))),
-			    render: id => parse(host.render(String(id))),
+			    render: id => parse(host.render(String(id), 'Pane')),
+			    renderPage: id => parse(host.render(String(id), 'Page')),
+			    renderBanner: id => parse(host.render(String(id), 'Banner')),
+			    renderDialog: id => parse(host.render(String(id), 'Dialog')),
 			    press: (tree, key, value) => {
 			      const node = find(tree, key);
 			      if (!node) throw new Error('no element with key ' + key);
@@ -763,8 +1000,17 @@ public static class PluginHost
 				host.Set("emit", Host("emit", a => EmitOwn(Arg(a, 0), JsonNode.Parse(Arg(a, 1)), "test")?.ToJsonString() is string json ? json : JsValue.Undefined));
 				host.Set("render", Host("render", a =>
 				{
-					JsonNode? tree = EmitOwn("ui.render", new JsonObject { ["component"] = "Pane", ["requestId"] = Arg(a, 0), ["plugin"] = Name, ["surface"] = "desktop" }, "pane." + Arg(a, 0));
-					return tree?.ToJsonString() is string json ? json : JsValue.Undefined;
+					string id = Arg(a, 0);
+					string preferred = a.Length > 1 ? Arg(a, 1) : "Pane";
+					string[] candidates = preferred == "Pane" ? ["Pane", "Page", "Banner", "Dialog"] : [preferred];
+					foreach (string comp in candidates)
+					{
+						string scopePrefix = comp.ToLowerInvariant() + "." + id;
+						JsonNode? tree = EmitOwn("ui.render", new JsonObject { ["component"] = comp, ["requestId"] = id, ["plugin"] = Name, ["surface"] = "desktop" }, scopePrefix);
+						if (tree is JsonObject rendered && rendered["type"] != null)
+							return rendered.ToJsonString();
+					}
+					return JsValue.Undefined;
 				}));
 				host.Set("press", Host("press", a =>
 				{

@@ -8836,4 +8836,130 @@ Mod Voidstrap có thể thay đổi cách Voidstrap hoạt động và thay đ�
   <data name="Ui.VoidstrapMods.RecentProblems" xml:space="preserve">
     <value>Sự cố gần đây</value>
   </data>
+  <data name="Ui.VoidstrapMods.NewMod" xml:space="preserve">
+    <value>Mod mới</value>
+  </data>
+  <data name="Ui.VoidstrapMods.CreateTitle" xml:space="preserve">
+    <value>Tạo mod Voidstrap</value>
+  </data>
+  <data name="Ui.VoidstrapMods.CreateSubtitle" xml:space="preserve">
+    <value>Chọn mẫu, nhập tên và bắt đầu tùy chỉnh Voidstrap ngay lập tức.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateLabel" xml:space="preserve">
+    <value>Mẫu khởi đầu</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateDashboard" xml:space="preserve">
+    <value>Bảng điều khiển tương tác</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateSidebarPage" xml:space="preserve">
+    <value>Trang thanh bên tùy chỉnh</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateThemeCustomizer" xml:space="preserve">
+    <value>Trình tùy chỉnh giao diện và chủ đề toàn ứng dụng</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateSidebarManager" xml:space="preserve">
+    <value>Trình quản lý bố cục và biểu tượng thanh bên</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateFastFlags" xml:space="preserve">
+    <value>Bộ điều khiển FastFlag và cài đặt</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateGameHooks" xml:space="preserve">
+    <value>Hook phiên trò chơi và khởi chạy</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateBlank" xml:space="preserve">
+    <value>Mod trống</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModNameLabel" xml:space="preserve">
+    <value>Tên thư mục mod</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModNamePlaceholder" xml:space="preserve">
+    <value>chữ thường và chữ số</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModVersionLabel" xml:space="preserve">
+    <value>Phiên bản</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModDescriptionLabel" xml:space="preserve">
+    <value>Mô tả</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModDescriptionPlaceholder" xml:space="preserve">
+    <value>Mod này dùng để làm gì</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModNetworkLabel" xml:space="preserve">
+    <value>Máy chủ HTTPS được phép</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModNetworkPlaceholder" xml:space="preserve">
+    <value>api.roblox.com, raw.githubusercontent.com</value>
+  </data>
+  <data name="Ui.VoidstrapMods.CreateButton" xml:space="preserve">
+    <value>Tạo và chỉnh sửa</value>
+  </data>
+  <data name="Ui.VoidstrapMods.EditButton" xml:space="preserve">
+    <value>Chỉnh sửa</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ValidateButton" xml:space="preserve">
+    <value>Kiểm tra</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TestButton" xml:space="preserve">
+    <value>Chạy thử nghiệm</value>
+  </data>
+  <data name="Ui.VoidstrapMods.DeleteModPrompt" xml:space="preserve">
+    <value>Xóa mod Voidstrap &quot;{0}&quot; và tất cả tệp của nó?</value>
+  </data>
+  <data name="Ui.VoidstrapMods.EditorTitle" xml:space="preserve">
+    <value>Trình sửa mod: {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SaveAndReload" xml:space="preserve">
+    <value>Lưu và tải lại</value>
+  </data>
+  <data name="Ui.VoidstrapMods.CloseEditor" xml:space="preserve">
+    <value>Đóng trình sửa</value>
+  </data>
+  <data name="Ui.VoidstrapMods.FileLabel" xml:space="preserve">
+    <value>Tệp</value>
+  </data>
+  <data name="Ui.VoidstrapMods.NewFileButton" xml:space="preserve">
+    <value>Tệp mới</value>
+  </data>
+  <data name="Ui.VoidstrapMods.NewFilePlaceholder" xml:space="preserve">
+    <value>hooks/helper.ts or pane.test.tsx</value>
+  </data>
+  <data name="Ui.VoidstrapMods.AddFileButton" xml:space="preserve">
+    <value>Thêm tệp</value>
+  </data>
+  <data name="Ui.VoidstrapMods.DeleteFileButton" xml:space="preserve">
+    <value>Xóa tệp</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SnippetLabel" xml:space="preserve">
+    <value>Chèn khối mã mẫu</value>
+  </data>
+  <data name="Ui.VoidstrapMods.InsertButton" xml:space="preserve">
+    <value>Chèn</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ApiGuideButton" xml:space="preserve">
+    <value>Tài liệu API</value>
+  </data>
+  <data name="Ui.VoidstrapMods.OutputHeader" xml:space="preserve">
+    <value>Kết quả kiểm tra và thử nghiệm</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SavedMessage" xml:space="preserve">
+    <value>Đã lưu {0}/{1} và tải lại các mod.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.UnsavedIndicator" xml:space="preserve">
+    <value>Thay đổi chưa lưu</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ActivePanes" xml:space="preserve">
+    <value>Bảng mod đang hoạt động</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LoadedBadge" xml:space="preserve">
+    <value>Đã tải</value>
+  </data>
+  <data name="Ui.VoidstrapMods.DisabledBadge" xml:space="preserve">
+    <value>Tắt</value>
+  </data>
+  <data name="Ui.VoidstrapMods.InvalidNameMessage" xml:space="preserve">
+    <value>Nhập tên mod bằng chữ thường và chữ số.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.AlreadyExistsMessage" xml:space="preserve">
+    <value>Mod có tên &quot;{0}&quot; đã tồn tại.</value>
+  </data>
 </root>

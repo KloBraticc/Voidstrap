@@ -8834,4 +8834,130 @@ Voidstrap modifikacijos gali pakeisti Voidstrap veikimą ir nustatymus. Įjunkit
   <data name="Ui.VoidstrapMods.RecentProblems" xml:space="preserve">
     <value>Naujausios problemos</value>
   </data>
+  <data name="Ui.VoidstrapMods.NewMod" xml:space="preserve">
+    <value>Nauja modifikacija</value>
+  </data>
+  <data name="Ui.VoidstrapMods.CreateTitle" xml:space="preserve">
+    <value>Sukurti Voidstrap modifikaciją</value>
+  </data>
+  <data name="Ui.VoidstrapMods.CreateSubtitle" xml:space="preserve">
+    <value>Pasirinkite šabloną, įveskite pavadinimą ir iš karto pradėkite tinkinti Voidstrap.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateLabel" xml:space="preserve">
+    <value>Pradinis šablonas</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateDashboard" xml:space="preserve">
+    <value>Interaktyvus skydelis</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateSidebarPage" xml:space="preserve">
+    <value>Pasirinktinis šoninės juostos puslapis</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateThemeCustomizer" xml:space="preserve">
+    <value>Visos programos temos ir sąsajos tinkinimas</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateSidebarManager" xml:space="preserve">
+    <value>Šoninės juostos išdėstymo ir piktogramų tvarkyklė</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateFastFlags" xml:space="preserve">
+    <value>FastFlag ir nustatymų valdiklis</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateGameHooks" xml:space="preserve">
+    <value>Žaidimo seanso ir paleidimo kablys</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateBlank" xml:space="preserve">
+    <value>Tuščia modifikacija</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModNameLabel" xml:space="preserve">
+    <value>Modifikacijos aplanko pavadinimas</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModNamePlaceholder" xml:space="preserve">
+    <value>mažosios raidės ir skaitmenys</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModVersionLabel" xml:space="preserve">
+    <value>Versija</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModDescriptionLabel" xml:space="preserve">
+    <value>Aprašymas</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModDescriptionPlaceholder" xml:space="preserve">
+    <value>Ką daro ši modifikacija</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModNetworkLabel" xml:space="preserve">
+    <value>Leidžiami HTTPS mazgai</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModNetworkPlaceholder" xml:space="preserve">
+    <value>api.roblox.com, raw.githubusercontent.com</value>
+  </data>
+  <data name="Ui.VoidstrapMods.CreateButton" xml:space="preserve">
+    <value>Sukurti ir redaguoti</value>
+  </data>
+  <data name="Ui.VoidstrapMods.EditButton" xml:space="preserve">
+    <value>Redaguoti</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ValidateButton" xml:space="preserve">
+    <value>Patikrinti</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TestButton" xml:space="preserve">
+    <value>Vykdyti testus</value>
+  </data>
+  <data name="Ui.VoidstrapMods.DeleteModPrompt" xml:space="preserve">
+    <value>Ištrinti Voidstrap modifikaciją &quot;{0}&quot; ir visus jos failus?</value>
+  </data>
+  <data name="Ui.VoidstrapMods.EditorTitle" xml:space="preserve">
+    <value>Modifikacijų redaktorius: {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SaveAndReload" xml:space="preserve">
+    <value>Išsaugoti ir įkelti iš naujo</value>
+  </data>
+  <data name="Ui.VoidstrapMods.CloseEditor" xml:space="preserve">
+    <value>Uždaryti redaktorių</value>
+  </data>
+  <data name="Ui.VoidstrapMods.FileLabel" xml:space="preserve">
+    <value>Failas</value>
+  </data>
+  <data name="Ui.VoidstrapMods.NewFileButton" xml:space="preserve">
+    <value>Naujas failas</value>
+  </data>
+  <data name="Ui.VoidstrapMods.NewFilePlaceholder" xml:space="preserve">
+    <value>hooks/helper.ts or pane.test.tsx</value>
+  </data>
+  <data name="Ui.VoidstrapMods.AddFileButton" xml:space="preserve">
+    <value>Pridėti failą</value>
+  </data>
+  <data name="Ui.VoidstrapMods.DeleteFileButton" xml:space="preserve">
+    <value>Ištrinti failą</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SnippetLabel" xml:space="preserve">
+    <value>Įterpti kodo bloką</value>
+  </data>
+  <data name="Ui.VoidstrapMods.InsertButton" xml:space="preserve">
+    <value>Įterpti</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ApiGuideButton" xml:space="preserve">
+    <value>API žinynas</value>
+  </data>
+  <data name="Ui.VoidstrapMods.OutputHeader" xml:space="preserve">
+    <value>Patikros ir testų išvestis</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SavedMessage" xml:space="preserve">
+    <value>Išsaugota {0}/{1} ir modifikacijos įkeltos iš naujo.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.UnsavedIndicator" xml:space="preserve">
+    <value>Neišsaugoti pakeitimai</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ActivePanes" xml:space="preserve">
+    <value>Aktyvūs modifikacijų skydeliai</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LoadedBadge" xml:space="preserve">
+    <value>Įkelta</value>
+  </data>
+  <data name="Ui.VoidstrapMods.DisabledBadge" xml:space="preserve">
+    <value>Išjungta</value>
+  </data>
+  <data name="Ui.VoidstrapMods.InvalidNameMessage" xml:space="preserve">
+    <value>Įveskite modifikacijos pavadinimą mažosiomis raidėmis ir skaitmenimis.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.AlreadyExistsMessage" xml:space="preserve">
+    <value>Modifikacija pavadinimu &quot;{0}&quot; jau yra.</value>
+  </data>
 </root>

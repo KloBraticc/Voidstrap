@@ -8832,4 +8832,130 @@ Les mods Voidstrap peuvent modifier le fonctionnement de Voidstrap et ses param�
   <data name="Ui.VoidstrapMods.RecentProblems" xml:space="preserve">
     <value>Problèmes récents</value>
   </data>
+  <data name="Ui.VoidstrapMods.NewMod" xml:space="preserve">
+    <value>Nouveau mod</value>
+  </data>
+  <data name="Ui.VoidstrapMods.CreateTitle" xml:space="preserve">
+    <value>Créer un mod Voidstrap</value>
+  </data>
+  <data name="Ui.VoidstrapMods.CreateSubtitle" xml:space="preserve">
+    <value>Choisissez un modèle, saisissez un nom et personnalisez Voidstrap immédiatement.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateLabel" xml:space="preserve">
+    <value>Modèle de départ</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateDashboard" xml:space="preserve">
+    <value>Panneau de tableau de bord interactif</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateSidebarPage" xml:space="preserve">
+    <value>Page personnalisée dans la barre latérale</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateThemeCustomizer" xml:space="preserve">
+    <value>Personnalisation complète du thème et de l'interface</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateSidebarManager" xml:space="preserve">
+    <value>Gestionnaire d'icônes et de disposition de la barre latérale</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateFastFlags" xml:space="preserve">
+    <value>Contrôleur de FastFlag et de paramètres</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateGameHooks" xml:space="preserve">
+    <value>Hook de session de jeu et de lancement</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TemplateBlank" xml:space="preserve">
+    <value>Mod vierge</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModNameLabel" xml:space="preserve">
+    <value>Nom du dossier du mod</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModNamePlaceholder" xml:space="preserve">
+    <value>lettres minuscules et chiffres</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModVersionLabel" xml:space="preserve">
+    <value>Version</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModDescriptionLabel" xml:space="preserve">
+    <value>Description</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModDescriptionPlaceholder" xml:space="preserve">
+    <value>Ce que fait ce mod</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModNetworkLabel" xml:space="preserve">
+    <value>Hôtes HTTPS autorisés</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ModNetworkPlaceholder" xml:space="preserve">
+    <value>api.roblox.com, raw.githubusercontent.com</value>
+  </data>
+  <data name="Ui.VoidstrapMods.CreateButton" xml:space="preserve">
+    <value>Créer et modifier</value>
+  </data>
+  <data name="Ui.VoidstrapMods.EditButton" xml:space="preserve">
+    <value>Modifier</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ValidateButton" xml:space="preserve">
+    <value>Valider</value>
+  </data>
+  <data name="Ui.VoidstrapMods.TestButton" xml:space="preserve">
+    <value>Lancer les tests</value>
+  </data>
+  <data name="Ui.VoidstrapMods.DeleteModPrompt" xml:space="preserve">
+    <value>Supprimer le mod Voidstrap &quot;{0}&quot; et tous ses fichiers ?</value>
+  </data>
+  <data name="Ui.VoidstrapMods.EditorTitle" xml:space="preserve">
+    <value>Éditeur de mod : {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SaveAndReload" xml:space="preserve">
+    <value>Enregistrer et recharger</value>
+  </data>
+  <data name="Ui.VoidstrapMods.CloseEditor" xml:space="preserve">
+    <value>Fermer l'éditeur</value>
+  </data>
+  <data name="Ui.VoidstrapMods.FileLabel" xml:space="preserve">
+    <value>Fichier</value>
+  </data>
+  <data name="Ui.VoidstrapMods.NewFileButton" xml:space="preserve">
+    <value>Nouveau fichier</value>
+  </data>
+  <data name="Ui.VoidstrapMods.NewFilePlaceholder" xml:space="preserve">
+    <value>hooks/helper.ts or pane.test.tsx</value>
+  </data>
+  <data name="Ui.VoidstrapMods.AddFileButton" xml:space="preserve">
+    <value>Ajouter un fichier</value>
+  </data>
+  <data name="Ui.VoidstrapMods.DeleteFileButton" xml:space="preserve">
+    <value>Supprimer le fichier</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SnippetLabel" xml:space="preserve">
+    <value>Insérer un bloc de code</value>
+  </data>
+  <data name="Ui.VoidstrapMods.InsertButton" xml:space="preserve">
+    <value>Insérer</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ApiGuideButton" xml:space="preserve">
+    <value>Référence API</value>
+  </data>
+  <data name="Ui.VoidstrapMods.OutputHeader" xml:space="preserve">
+    <value>Sortie de validation et de test</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SavedMessage" xml:space="preserve">
+    <value>{0}/{1} enregistré et mods rechargés.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.UnsavedIndicator" xml:space="preserve">
+    <value>Modifications non enregistrées</value>
+  </data>
+  <data name="Ui.VoidstrapMods.ActivePanes" xml:space="preserve">
+    <value>Panneaux de mods actifs</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LoadedBadge" xml:space="preserve">
+    <value>Chargé</value>
+  </data>
+  <data name="Ui.VoidstrapMods.DisabledBadge" xml:space="preserve">
+    <value>Désactivé</value>
+  </data>
+  <data name="Ui.VoidstrapMods.InvalidNameMessage" xml:space="preserve">
+    <value>Saisissez un nom de mod avec des lettres minuscules et des chiffres.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.AlreadyExistsMessage" xml:space="preserve">
+    <value>Un mod nommé &quot;{0}&quot; existe déjà.</value>
+  </data>
 </root>

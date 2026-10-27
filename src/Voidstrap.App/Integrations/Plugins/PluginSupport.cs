@@ -1,11 +1,19 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using Voidstrap.Enums;
 using Voidstrap.Resources;
+using Voidstrap.UI.Elements.Base;
+using Voidstrap.UI.Elements.Settings;
+using Wpf.Ui.Controls;
 
 namespace Voidstrap.Integrations.Plugins;
 
@@ -48,11 +56,56 @@ internal static class PluginSettings
 	{
 		if (Blocked.Contains(name))
 			return null;
-		PropertyInfo? property = typeof(Voidstrap.Models.Persistable.AppSettings).GetProperty(name, BindingFlags.Public | BindingFlags.Instance);
+		PropertyInfo? property = typeof(Voidstrap.Models.Persistable.AppSettings).GetProperty(name, BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
 		if (property == null || !property.CanRead || !property.CanWrite)
 			return null;
-		Type type = property.PropertyType;
-		return type == typeof(bool) || type == typeof(int) || type == typeof(double) || type == typeof(string) || type.IsEnum ? property : null;
+		return property;
+	}
+
+	private static JsonNode? SerializeValue(object? value)
+	{
+		if (value == null)
+			return null;
+		return value switch
+		{
+			bool flag => JsonValue.Create(flag),
+			int number => JsonValue.Create(number),
+			long number => JsonValue.Create(number),
+			double number => double.IsFinite(number) ? JsonValue.Create(number) : null,
+			string text => JsonValue.Create(text),
+			Enum option => JsonValue.Create(option.ToString()),
+			_ => SafeSerializeComplex(value)
+		};
+	}
+
+	private static JsonNode? SafeSerializeComplex(object value)
+	{
+		try
+		{
+			return JsonSerializer.SerializeToNode(value);
+		}
+		catch
+		{
+			return JsonValue.Create(value.ToString());
+		}
+	}
+
+	public static string List()
+	{
+		JsonObject result = new();
+		foreach (PropertyInfo prop in typeof(Voidstrap.Models.Persistable.AppSettings).GetProperties(BindingFlags.Public | BindingFlags.Instance))
+		{
+			if (!prop.CanRead || !prop.CanWrite || Blocked.Contains(prop.Name))
+				continue;
+			try
+			{
+				result[prop.Name] = SerializeValue(prop.GetValue(App.Settings.Prop));
+			}
+			catch
+			{
+			}
+		}
+		return result.ToJsonString();
 	}
 
 	public static string? Get(string name)
@@ -61,31 +114,87 @@ internal static class PluginSettings
 		if (property == null)
 			return null;
 		object? value = property.GetValue(App.Settings.Prop);
-		JsonNode? node = value switch
-		{
-			bool flag => JsonValue.Create(flag),
-			int number => JsonValue.Create(number),
-			double number => JsonValue.Create(number),
-			string text => JsonValue.Create(text),
-			Enum option => JsonValue.Create(option.ToString()),
-			_ => null
-		};
+		JsonNode? node = SerializeValue(value);
 		return node?.ToJsonString() ?? "null";
 	}
 
 	public static void Set(string plugin, string name, string json)
 	{
 		PropertyInfo property = Find(name) ?? throw new InvalidOperationException("the setting " + name + " does not exist or cannot be changed by mods");
-		JsonValue value = JsonNode.Parse(json) as JsonValue ?? throw new InvalidOperationException("settings take a single value");
+		JsonNode? parsed = JsonNode.Parse(json);
 		Type type = property.PropertyType;
-		object converted = type == typeof(bool) ? value.GetValue<bool>()
-			: type == typeof(int) ? (int)value.GetValue<double>()
-			: type == typeof(double) ? value.GetValue<double>()
-			: type == typeof(string) ? value.GetValue<string>()
-			: Enum.Parse(type, value.GetValue<string>(), ignoreCase: true);
+		object? converted;
+		if (parsed is JsonValue value && (type == typeof(bool) || type == typeof(int) || type == typeof(long) || type == typeof(double) || type == typeof(string) || type.IsEnum))
+		{
+			converted = type == typeof(bool) ? value.GetValue<bool>()
+				: type == typeof(int) ? (int)value.GetValue<double>()
+				: type == typeof(long) ? (long)value.GetValue<double>()
+				: type == typeof(double) ? value.GetValue<double>()
+				: type == typeof(string) ? value.GetValue<string>()
+				: Enum.Parse(type, value.GetValue<string>(), ignoreCase: true);
+		}
+		else
+		{
+			converted = JsonSerializer.Deserialize(json, type) ?? throw new InvalidOperationException("the value could not be converted for setting " + property.Name);
+		}
 		property.SetValue(App.Settings.Prop, converted);
 		App.Settings.SaveDeferred();
 		App.Logger.WriteLine("VoidstrapMods", plugin + ": changed the setting " + property.Name);
+		PluginTheme.RefreshWindowsIfVisualSetting(property.Name);
+	}
+}
+
+internal static class PluginFastFlags
+{
+	public static string GetAll()
+	{
+		JsonObject flags = new();
+		foreach (KeyValuePair<string, object> pair in App.FastFlags.Prop.ToArray())
+			flags[pair.Key] = JsonValue.Create(pair.Value?.ToString() ?? "");
+		return flags.ToJsonString();
+	}
+
+	public static string? Get(string name)
+	{
+		if (string.IsNullOrWhiteSpace(name))
+			return null;
+		string? val = App.FastFlags.GetValue(name) ?? (FastFlagManager.PresetFlags.ContainsKey(name) ? App.FastFlags.GetPreset(name) : null);
+		return val != null ? JsonValue.Create(val)?.ToJsonString() : null;
+	}
+
+	public static void Set(string plugin, string name, string json)
+	{
+		if (string.IsNullOrWhiteSpace(name))
+			throw new InvalidOperationException("a FastFlag name is required");
+		JsonNode? node = JsonNode.Parse(json);
+		object? raw = node == null ? null
+			: node is JsonValue v && v.TryGetValue(out bool b) ? (b ? "True" : "False")
+			: node.ToString();
+		if (FastFlagManager.PresetFlags.ContainsKey(name))
+			App.FastFlags.SetPreset(name, raw);
+		else
+			App.FastFlags.SetValue(name, raw);
+		App.FastFlags.SaveDeferred();
+		App.Logger.WriteLine("VoidstrapMods", plugin + ": updated FastFlag " + name);
+	}
+
+	public static void Remove(string plugin, string name)
+	{
+		if (string.IsNullOrWhiteSpace(name))
+			return;
+		if (FastFlagManager.PresetFlags.ContainsKey(name))
+			App.FastFlags.SetPreset(name, null);
+		else
+			App.FastFlags.SetValue(name, null);
+		App.FastFlags.SaveDeferred();
+		App.Logger.WriteLine("VoidstrapMods", plugin + ": removed FastFlag " + name);
+	}
+
+	public static void Clear(string plugin)
+	{
+		App.FastFlags.Prop.Clear();
+		App.FastFlags.SaveDeferred();
+		App.Logger.WriteLine("VoidstrapMods", plugin + ": cleared all FastFlags");
 	}
 }
 
@@ -146,42 +255,823 @@ internal sealed class PluginStore
 	}
 }
 
-internal static class PluginSidebar
+public static class PluginSidebar
 {
+	private static readonly object Gate = new();
+
+	private static readonly List<ModPageInfo> ModPages = [];
+
+	public sealed record ModPageInfo(string Plugin, string Id, string Key, string Title, string Section, string Icon);
+
+	public static IReadOnlyList<ModPageInfo> GetModPages()
+	{
+		lock (Gate)
+			return ModPages.ToList();
+	}
+
+	public static void RemovePluginPages(HashSet<string> activePlugins)
+	{
+		bool removed;
+		lock (Gate)
+			removed = ModPages.RemoveAll(page => !activePlugins.Contains(page.Plugin)) > 0;
+		if (removed)
+			Application.Current?.Dispatcher.BeginInvoke(new Action(ApplyToWindows));
+	}
+
+	public static JsonObject AddPage(string plugin, JsonObject spec)
+	{
+		string id = (spec["id"]?.ToString() ?? "").Trim();
+		if (id.Length == 0 || id.Length > 48)
+			throw new InvalidOperationException("sidebar page id must be 1 to 48 characters");
+		string title = MainWindow.NormalizeSidebarName(spec["title"]?.ToString(), id);
+		string section = (spec["section"]?.ToString() ?? "Core").Trim();
+		if (section is not ("Core" or "Configuration" or "More" or "Footer"))
+			section = "Core";
+		string icon = (spec["icon"]?.ToString() ?? "Apps24").Trim();
+		if (icon.Length == 0)
+			icon = "Apps24";
+		string key = "ModPage_" + plugin + "_" + id;
+		ModPageInfo info = new(plugin, id, key, title, section, icon);
+		lock (Gate)
+		{
+			int existing = ModPages.FindIndex(p => p.Plugin == plugin && p.Id == id);
+			if (existing >= 0)
+				ModPages[existing] = info;
+			else
+				ModPages.Add(info);
+		}
+		App.Logger.WriteLine("VoidstrapMods", plugin + ": added sidebar page " + id);
+		Application.Current?.Dispatcher.BeginInvoke(new Action(ApplyToWindows));
+		return new JsonObject { ["key"] = key, ["id"] = id, ["title"] = title, ["section"] = section, ["icon"] = icon };
+	}
+
+	public static void RemovePage(string plugin, string id)
+	{
+		bool changed;
+		lock (Gate)
+			changed = ModPages.RemoveAll(p => p.Plugin == plugin && p.Id == id) > 0;
+		if (changed)
+			Application.Current?.Dispatcher.BeginInvoke(new Action(ApplyToWindows));
+	}
+
 	public static JsonObject Get()
 	{
-		JsonArray items = new();
-		foreach (var item in Voidstrap.UI.Elements.Settings.MainWindow.SidebarCustomizationItems)
-		{
-			if (!Voidstrap.UI.Elements.Settings.MainWindow.IsSidebarItemAvailable(item.Key))
-				continue;
-			items.Add(new JsonObject { ["key"] = item.Key, ["name"] = item.DisplayName, ["section"] = item.Section, ["canHide"] = item.CanHide });
-		}
 		var settings = App.Settings.Prop;
+		Dictionary<string, string> customNames = settings.SidebarNames ?? [];
+		Dictionary<string, string> customIcons = settings.SidebarIcons ?? [];
+		JsonArray items = new();
+		foreach (var item in MainWindow.SidebarCustomizationItems)
+		{
+			if (!MainWindow.IsSidebarItemAvailable(item.Key))
+				continue;
+			string currentName = customNames.TryGetValue(item.Key, out string? n) && !string.IsNullOrWhiteSpace(n) ? n : item.DisplayName;
+			string currentIcon = customIcons.TryGetValue(item.Key, out string? ic) && !string.IsNullOrWhiteSpace(ic) ? ic : item.DefaultIcon.ToString();
+			items.Add(new JsonObject
+			{
+				["key"] = item.Key,
+				["name"] = currentName,
+				["defaultName"] = item.DisplayName,
+				["section"] = item.Section,
+				["icon"] = currentIcon,
+				["canHide"] = item.CanHide,
+				["isCustom"] = false
+			});
+		}
+		JsonArray pages = new();
+		foreach (ModPageInfo modPage in GetModPages())
+		{
+			JsonObject pageObj = new()
+			{
+				["key"] = modPage.Key,
+				["id"] = modPage.Id,
+				["plugin"] = modPage.Plugin,
+				["name"] = modPage.Title,
+				["section"] = modPage.Section,
+				["icon"] = modPage.Icon,
+				["canHide"] = true,
+				["isCustom"] = true
+			};
+			items.Add(pageObj);
+			pages.Add(pageObj.DeepClone());
+		}
+		JsonObject namesObj = new();
+		foreach (KeyValuePair<string, string> pair in customNames)
+			namesObj[pair.Key] = pair.Value;
+		JsonObject iconsObj = new();
+		foreach (KeyValuePair<string, string> pair in customIcons)
+			iconsObj[pair.Key] = pair.Value;
 		return new JsonObject
 		{
 			["items"] = items,
+			["pages"] = pages,
 			["order"] = new JsonArray((settings.SidebarOrder ?? []).Select(key => (JsonNode?)JsonValue.Create(key)).ToArray()),
-			["hidden"] = new JsonArray((settings.SidebarHiddenItems ?? []).Select(key => (JsonNode?)JsonValue.Create(key)).ToArray())
+			["hidden"] = new JsonArray((settings.SidebarHiddenItems ?? []).Select(key => (JsonNode?)JsonValue.Create(key)).ToArray()),
+			["names"] = namesObj,
+			["icons"] = iconsObj
 		};
 	}
 
 	public static void Set(string plugin, JsonObject layout)
 	{
-		var definitions = Voidstrap.UI.Elements.Settings.MainWindow.SidebarCustomizationItems.ToDictionary(item => item.Key, StringComparer.Ordinal);
+		var definitions = MainWindow.SidebarCustomizationItems.ToDictionary(item => item.Key, StringComparer.Ordinal);
+		HashSet<string> customKeys = GetModPages().Select(p => p.Key).ToHashSet(StringComparer.Ordinal);
 		var settings = App.Settings.Prop;
 		if (layout["order"] is JsonArray order)
-			settings.SidebarOrder = order.Select(key => key?.ToString() ?? "").Where(definitions.ContainsKey).Distinct().ToList();
+			settings.SidebarOrder = order.Select(key => key?.ToString() ?? "").Where(k => definitions.ContainsKey(k) || customKeys.Contains(k)).Distinct().ToList();
 		if (layout["hidden"] is JsonArray hidden)
-			settings.SidebarHiddenItems = hidden.Select(key => key?.ToString() ?? "").Where(key => definitions.TryGetValue(key, out var item) && item.CanHide).Distinct().ToList();
+			settings.SidebarHiddenItems = hidden.Select(key => key?.ToString() ?? "").Where(key => (definitions.TryGetValue(key, out var item) && item.CanHide) || customKeys.Contains(key)).Distinct().ToList();
+		if (layout["names"] is JsonObject names)
+		{
+			Dictionary<string, string> target = settings.SidebarNames ??= [];
+			foreach (KeyValuePair<string, JsonNode?> pair in names)
+			{
+				if (!definitions.ContainsKey(pair.Key) && !customKeys.Contains(pair.Key))
+					continue;
+				string val = pair.Value?.ToString().Trim() ?? "";
+				if (val.Length == 0)
+					target.Remove(pair.Key);
+				else
+					target[pair.Key] = MainWindow.NormalizeSidebarName(val, pair.Key);
+			}
+		}
+		if (layout["icons"] is JsonObject icons)
+		{
+			Dictionary<string, string> target = settings.SidebarIcons ??= [];
+			foreach (KeyValuePair<string, JsonNode?> pair in icons)
+			{
+				if (!definitions.ContainsKey(pair.Key) && !customKeys.Contains(pair.Key))
+					continue;
+				string val = pair.Value?.ToString().Trim() ?? "";
+				if (val.Length == 0)
+					target.Remove(pair.Key);
+				else
+					target[pair.Key] = val;
+			}
+		}
 		App.Settings.SaveDeferred();
 		App.Logger.WriteLine("VoidstrapMods", plugin + ": changed the sidebar layout");
 		Application.Current?.Dispatcher.BeginInvoke(new Action(ApplyToWindows));
 	}
 
-	private static void ApplyToWindows()
+	public static void Reset(string plugin)
 	{
-		foreach (Voidstrap.UI.Elements.Settings.MainWindow window in Application.Current.Windows.OfType<Voidstrap.UI.Elements.Settings.MainWindow>())
+		var settings = App.Settings.Prop;
+		settings.SidebarOrder = [];
+		settings.SidebarHiddenItems = [];
+		settings.SidebarNames = [];
+		settings.SidebarIcons = [];
+		settings.SidebarIconImages = [];
+		App.Settings.SaveDeferred();
+		App.Logger.WriteLine("VoidstrapMods", plugin + ": reset the sidebar layout");
+		Application.Current?.Dispatcher.BeginInvoke(new Action(ApplyToWindows));
+	}
+
+	public static void ApplyToWindows()
+	{
+		if (Application.Current == null)
+			return;
+		foreach (MainWindow window in Application.Current.Windows.OfType<MainWindow>())
 			window.ApplySidebarCustomization();
+	}
+}
+
+internal static class PluginNavigation
+{
+	private static readonly string[] BuiltInPages =
+	[
+		"Home",
+		"Integrations",
+		"Deployment",
+		"Appearance",
+		"FastFlagSettings",
+		"FastFlagEditor",
+		"Mods",
+		"Global",
+		"Shortcuts",
+		"News",
+		"Extensions",
+		"Manager",
+		"Settings",
+		"VoidstrapMods",
+		"Library",
+		"PrivateServers",
+		"Accounts",
+		"More",
+		"ServerBrowser"
+	];
+
+	public static string Current()
+	{
+		System.Windows.Threading.Dispatcher? dispatcher = Application.Current?.Dispatcher;
+		if (dispatcher == null || dispatcher.HasShutdownStarted)
+			return "";
+		return dispatcher.Invoke(() =>
+		{
+			MainWindow? window = Application.Current?.Windows.OfType<MainWindow>().FirstOrDefault();
+			return window?.GetCurrentPageKey() ?? "";
+		});
+	}
+
+	public static string Pages()
+	{
+		JsonArray list = new();
+		foreach (string page in BuiltInPages)
+			list.Add(page);
+		foreach (PluginSidebar.ModPageInfo modPage in PluginSidebar.GetModPages())
+			list.Add("mod:" + modPage.Plugin + ":" + modPage.Id);
+		return list.ToJsonString();
+	}
+
+	public static void Open(string plugin, string target)
+	{
+		if (string.IsNullOrWhiteSpace(target))
+			return;
+		App.Logger.WriteLine("VoidstrapMods", plugin + ": navigating to " + target);
+		Application.Current?.Dispatcher.BeginInvoke(new Action(() =>
+		{
+			if (Application.Current == null)
+				return;
+			foreach (MainWindow window in Application.Current.Windows.OfType<MainWindow>())
+				window.NavigateFromPlugin(target, plugin);
+		}));
+	}
+}
+
+internal static class PluginTheme
+{
+	private static readonly object Gate = new();
+
+	private static readonly Dictionary<string, object?> OriginalResources = new(StringComparer.Ordinal);
+
+	private static readonly Dictionary<string, string> ActiveBrushOverrides = new(StringComparer.Ordinal);
+
+	private static readonly string[] CommonBrushKeys =
+	[
+		"ApplicationBackgroundBrush",
+		"WindowBackgroundColorPrimary",
+		"WindowBackgroundColorSecondary",
+		"WindowBackgroundColorThird",
+		"LayerFillColorDefaultBrush",
+		"CardBackgroundFillColorDefaultBrush",
+		"CardStrokeColorDefaultBrush",
+		"SubtleFillColorSecondaryBrush",
+		"ControlFillColorDefaultBrush",
+		"ControlFillColorSecondaryBrush",
+		"ControlStrokeColorDefaultBrush",
+		"TextFillColorPrimaryBrush",
+		"TextFillColorSecondaryBrush",
+		"TextFillColorTertiaryBrush",
+		"AccentFillColorDefaultBrush",
+		"AccentFillColorSecondaryBrush",
+		"AccentFillColorTertiaryBrush",
+		"SystemFillColorSuccessBrush",
+		"SystemFillColorCautionBrush",
+		"SystemFillColorCriticalBrush"
+	];
+
+	public static string Get()
+	{
+		var prop = App.Settings.Prop;
+		Voidstrap.UI.GlobalBackground.State bg = Voidstrap.UI.GlobalBackground.Current;
+		JsonObject brushes = new();
+		lock (Gate)
+		{
+			foreach (KeyValuePair<string, string> pair in ActiveBrushOverrides)
+				brushes[pair.Key] = pair.Value;
+		}
+		return new JsonObject
+		{
+			["theme"] = prop.Theme2.ToString(),
+			["backdrop"] = prop.WindowBackdrop.ToString(),
+			["uiZoomPercent"] = prop.UiZoomPercent,
+			["backgroundFilePath"] = bg.FilePath ?? "",
+			["gradientOpacity"] = bg.GradientOpacity,
+			["blackOverlayOpacity"] = bg.BlackOverlayOpacity,
+			["displayEverywhere"] = bg.DisplayEverywhere,
+			["customThemeColor"] = prop.CustomAccentColor ?? "",
+			["brushes"] = brushes
+		}.ToJsonString();
+	}
+
+	public static void Set(string plugin, JsonObject spec)
+	{
+		var prop = App.Settings.Prop;
+		Voidstrap.UI.GlobalBackground.State bg = Voidstrap.UI.GlobalBackground.Current;
+		string? nextBgFile = bg.FilePath;
+		double nextGrad = bg.GradientOpacity;
+		double nextBlack = bg.BlackOverlayOpacity;
+		bool nextDisp = bg.DisplayEverywhere;
+		bool changedTheme = false;
+		bool changedZoom = false;
+		bool changedBackground = false;
+		if (spec["theme"]?.ToString() is { Length: > 0 } themeStr && Enum.TryParse(themeStr, ignoreCase: true, out Voidstrap.Enums.Theme parsedTheme))
+		{
+			prop.Theme2 = parsedTheme;
+			changedTheme = true;
+		}
+		if (spec["backdrop"]?.ToString() is { Length: > 0 } backdropStr && Enum.TryParse(backdropStr, ignoreCase: true, out Voidstrap.Models.BackdropType parsedBackdrop))
+		{
+			prop.WindowBackdrop = parsedBackdrop;
+			changedTheme = true;
+		}
+		if (spec["uiZoomPercent"] is JsonValue zoomVal && zoomVal.TryGetValue(out double zoom))
+		{
+			prop.UiZoomPercent = Math.Clamp((int)Math.Round(zoom), 50, 200);
+			changedZoom = true;
+		}
+		if (spec["backgroundFilePath"] != null)
+		{
+			nextBgFile = spec["backgroundFilePath"]?.ToString() ?? "";
+			changedBackground = true;
+		}
+		if (spec["gradientOpacity"] is JsonValue gradVal && gradVal.TryGetValue(out double grad))
+		{
+			nextGrad = Math.Clamp(grad, 0.0, 1.0);
+			changedBackground = true;
+		}
+		if (spec["blackOverlayOpacity"] is JsonValue blackVal && blackVal.TryGetValue(out double black))
+		{
+			nextBlack = Math.Clamp(black, 0.0, 1.0);
+			changedBackground = true;
+		}
+		if (spec["displayEverywhere"] is JsonValue dispVal && dispVal.TryGetValue(out bool disp))
+		{
+			nextDisp = disp;
+			changedBackground = true;
+		}
+		if (spec["customThemeColor"]?.ToString() is { Length: > 0 } ctc)
+		{
+			prop.CustomAccentColor = ctc;
+			changedTheme = true;
+		}
+		if (spec["accentColor"]?.ToString() is { Length: > 0 } accentHex)
+		{
+			prop.CustomAccentColor = accentHex;
+			SetBrush(plugin, "AccentFillColorDefaultBrush", accentHex);
+			SetBrush(plugin, "AccentFillColorSecondaryBrush", accentHex);
+			SetBrush(plugin, "AccentFillColorTertiaryBrush", accentHex);
+		}
+		if (changedBackground)
+			Voidstrap.UI.GlobalBackground.Update(nextBgFile, nextGrad, nextBlack, nextDisp);
+		App.Settings.SaveDeferred();
+		App.Logger.WriteLine("VoidstrapMods", plugin + ": updated application theme settings");
+		Application.Current?.Dispatcher.BeginInvoke(new Action(() =>
+		{
+			if (Application.Current == null)
+				return;
+			if (changedTheme)
+			{
+				foreach (MainWindow window in Application.Current.Windows.OfType<MainWindow>())
+					window.ApplyTheme();
+			}
+			if (changedZoom)
+				MainWindow.ApplyUiZoomToOpenWindows();
+			if (changedBackground)
+				Voidstrap.UI.GlobalBackground.Reload();
+		}));
+	}
+
+	public static string? GetBrush(string key)
+	{
+		if (string.IsNullOrWhiteSpace(key))
+			return null;
+		System.Windows.Threading.Dispatcher? dispatcher = Application.Current?.Dispatcher;
+		if (dispatcher == null || dispatcher.HasShutdownStarted)
+			return null;
+		return dispatcher.Invoke(() => ReadResourceHex(key));
+	}
+
+	public static string ListBrushes()
+	{
+		System.Windows.Threading.Dispatcher? dispatcher = Application.Current?.Dispatcher;
+		if (dispatcher == null || dispatcher.HasShutdownStarted)
+			return "{}";
+		return dispatcher.Invoke(() =>
+		{
+			JsonObject obj = new();
+			foreach (string key in CommonBrushKeys)
+			{
+				if (ReadResourceHex(key) is string hex)
+					obj[key] = hex;
+			}
+			lock (Gate)
+			{
+				foreach (KeyValuePair<string, string> pair in ActiveBrushOverrides)
+					obj[pair.Key] = pair.Value;
+			}
+			return obj.ToJsonString();
+		});
+	}
+
+	private static string? ReadResourceHex(string key)
+	{
+		object? res = Application.Current?.TryFindResource(key);
+		if (res == null)
+		{
+			MainWindow? win = Application.Current?.Windows.OfType<MainWindow>().FirstOrDefault();
+			res = win?.TryFindResource(key);
+		}
+		if (res is SolidColorBrush brush)
+			return FormatColor(brush.Color);
+		if (res is Color color)
+			return FormatColor(color);
+		return null;
+	}
+
+	private static string FormatColor(Color c) => c.A == 255 ? $"#{c.R:X2}{c.G:X2}{c.B:X2}" : $"#{c.A:X2}{c.R:X2}{c.G:X2}{c.B:X2}";
+
+	public static void SetBrush(string plugin, string key, string hexColor)
+	{
+		if (string.IsNullOrWhiteSpace(key) || string.IsNullOrWhiteSpace(hexColor))
+			return;
+		Color parsed;
+		try
+		{
+			if (ColorConverter.ConvertFromString(hexColor.Trim()) is not Color c)
+				throw new InvalidOperationException("invalid color " + hexColor);
+			parsed = c;
+		}
+		catch (Exception ex)
+		{
+			throw new InvalidOperationException("invalid color " + hexColor + ": " + ex.Message);
+		}
+		string formatted = FormatColor(parsed);
+		lock (Gate)
+			ActiveBrushOverrides[key] = formatted;
+		Application.Current?.Dispatcher.BeginInvoke(new Action(() =>
+		{
+			if (Application.Current == null)
+				return;
+			lock (Gate)
+			{
+				if (!OriginalResources.ContainsKey(key))
+					OriginalResources[key] = Application.Current.Resources.Contains(key) ? Application.Current.Resources[key] : Application.Current.TryFindResource(key);
+			}
+			object? existing = Application.Current.TryFindResource(key);
+			if (existing is Color || (key.EndsWith("Color", StringComparison.Ordinal) && !key.EndsWith("Brush", StringComparison.Ordinal)) || key.Contains("WindowBackgroundColor", StringComparison.Ordinal))
+			{
+				Application.Current.Resources[key] = parsed;
+				foreach (MainWindow window in Application.Current.Windows.OfType<MainWindow>())
+				{
+					if (window.Resources.Contains(key))
+						window.Resources[key] = parsed;
+					window.ApplyBackdropSurface();
+				}
+			}
+			else
+			{
+				SolidColorBrush brush = new(parsed);
+				brush.Freeze();
+				Application.Current.Resources[key] = brush;
+				foreach (MainWindow window in Application.Current.Windows.OfType<MainWindow>())
+				{
+					if (window.Resources.Contains(key))
+						window.Resources[key] = brush;
+				}
+			}
+		}));
+	}
+
+	public static void ResetBrushes(string plugin)
+	{
+		Dictionary<string, object?> snapshot;
+		lock (Gate)
+		{
+			snapshot = new Dictionary<string, object?>(OriginalResources, StringComparer.Ordinal);
+			OriginalResources.Clear();
+			ActiveBrushOverrides.Clear();
+		}
+		App.Logger.WriteLine("VoidstrapMods", plugin + ": restored default theme brushes");
+		Application.Current?.Dispatcher.BeginInvoke(new Action(() =>
+		{
+			if (Application.Current == null)
+				return;
+			foreach (KeyValuePair<string, object?> pair in snapshot)
+			{
+				if (pair.Value == null)
+					Application.Current.Resources.Remove(pair.Key);
+				else
+					Application.Current.Resources[pair.Key] = pair.Value;
+			}
+			foreach (MainWindow window in Application.Current.Windows.OfType<MainWindow>())
+				window.ApplyTheme();
+		}));
+	}
+
+	public static void RefreshWindowsIfVisualSetting(string propertyName)
+	{
+		Application.Current?.Dispatcher.BeginInvoke(new Action(() =>
+		{
+			if (Application.Current == null)
+				return;
+			if (propertyName is nameof(Voidstrap.Models.Persistable.AppSettings.UiZoomPercent))
+				MainWindow.ApplyUiZoomToOpenWindows();
+			else if (propertyName is nameof(Voidstrap.Models.Persistable.AppSettings.Theme2) or nameof(Voidstrap.Models.Persistable.AppSettings.WindowBackdrop) or nameof(Voidstrap.Models.Persistable.AppSettings.CustomAccentColor))
+			{
+				foreach (MainWindow window in Application.Current.Windows.OfType<MainWindow>())
+					window.ApplyTheme();
+			}
+			else if (propertyName.StartsWith("HomepageBackgroundOverlay", StringComparison.Ordinal))
+				Voidstrap.UI.GlobalBackground.Reload();
+			else if (propertyName.StartsWith("Sidebar", StringComparison.Ordinal))
+				PluginSidebar.ApplyToWindows();
+		}));
+	}
+}
+
+internal static class PluginWindow
+{
+	public static string Get()
+	{
+		System.Windows.Threading.Dispatcher? dispatcher = Application.Current?.Dispatcher;
+		if (dispatcher == null || dispatcher.HasShutdownStarted)
+			return "{}";
+		return dispatcher.Invoke(() =>
+		{
+			MainWindow? window = Application.Current?.Windows.OfType<MainWindow>().FirstOrDefault();
+			if (window == null)
+				return "{}";
+			return new JsonObject
+			{
+				["title"] = window.Title ?? "",
+				["width"] = window.ActualWidth > 0 ? window.ActualWidth : window.Width,
+				["height"] = window.ActualHeight > 0 ? window.ActualHeight : window.Height,
+				["left"] = window.Left,
+				["top"] = window.Top,
+				["state"] = window.WindowState.ToString(),
+				["topMost"] = window.Topmost,
+				["opacity"] = window.Opacity
+			}.ToJsonString();
+		});
+	}
+
+	public static void Set(string plugin, JsonObject spec)
+	{
+		Application.Current?.Dispatcher.BeginInvoke(new Action(() =>
+		{
+			MainWindow? window = Application.Current?.Windows.OfType<MainWindow>().FirstOrDefault();
+			if (window == null)
+				return;
+			if (spec["title"]?.ToString() is { Length: > 0 } title)
+				window.Title = title;
+			if (spec["width"] is JsonValue wVal && wVal.TryGetValue(out double w) && w >= 640 && w <= 4000)
+				window.Width = w;
+			if (spec["height"] is JsonValue hVal && hVal.TryGetValue(out double h) && h >= 480 && h <= 3000)
+				window.Height = h;
+			if (spec["left"] is JsonValue lVal && lVal.TryGetValue(out double l) && double.IsFinite(l))
+				window.Left = l;
+			if (spec["top"] is JsonValue tVal && tVal.TryGetValue(out double t) && double.IsFinite(t))
+				window.Top = t;
+			if (spec["state"]?.ToString() is { Length: > 0 } stateStr && Enum.TryParse(stateStr, ignoreCase: true, out System.Windows.WindowState ws))
+				window.WindowState = ws;
+			if (spec["topMost"] is JsonValue tmVal && tmVal.TryGetValue(out bool topMost))
+				window.Topmost = topMost;
+			if (spec["opacity"] is JsonValue opVal && opVal.TryGetValue(out double op))
+				window.Opacity = Math.Clamp(op, 0.25, 1.0);
+		}));
+	}
+}
+
+internal static class PluginRoblox
+{
+	public static string Status()
+	{
+		try
+		{
+			Process[] players = Process.GetProcessesByName(App.RobloxPlayerAppName);
+			bool running = players.Length > 0;
+			int pid = running ? players[0].Id : 0;
+			foreach (Process p in players)
+				p.Dispose();
+			return new JsonObject
+			{
+				["isRunning"] = running,
+				["pid"] = pid
+			}.ToJsonString();
+		}
+		catch
+		{
+			return new JsonObject { ["isRunning"] = false, ["pid"] = 0 }.ToJsonString();
+		}
+	}
+
+	public static void Launch(string plugin, JsonObject spec)
+	{
+		string mode = (spec["mode"]?.ToString() ?? "player").ToLowerInvariant();
+		long placeId = 0;
+		if (spec["placeId"] is JsonValue pVal)
+		{
+			if (pVal.TryGetValue(out long pl))
+				placeId = pl;
+			else if (pVal.TryGetValue(out double pd) && pd > 0)
+				placeId = (long)pd;
+			else
+				long.TryParse(pVal.ToString(), out placeId);
+		}
+		string jobId = spec["jobId"]?.ToString().Trim() ?? "";
+		App.Logger.WriteLine("VoidstrapMods", plugin + ": requested Roblox launch (" + mode + (placeId > 0 ? ", place " + placeId : "") + ")");
+		try
+		{
+			string exe = Paths.Application;
+			if (!File.Exists(exe))
+				exe = Environment.ProcessPath ?? "";
+			if (string.IsNullOrEmpty(exe))
+				return;
+			string args;
+			if (mode == "studio")
+			{
+				args = "-studio";
+			}
+			else if (placeId > 0)
+			{
+				string deeplink = "roblox://experiences/start?placeId=" + placeId + (jobId.Length > 0 ? "&gameInstanceId=" + Uri.EscapeDataString(jobId) : "");
+				args = "-player \"" + deeplink + "\"";
+			}
+			else
+			{
+				args = "-player";
+			}
+			Process.Start(new ProcessStartInfo
+			{
+				FileName = exe,
+				Arguments = args,
+				UseShellExecute = false
+			});
+		}
+		catch (Exception ex)
+		{
+			PluginHost.Problem(plugin, "Roblox launch failed: " + PluginHost.Describe(ex));
+		}
+	}
+}
+
+internal static class PluginClipboard
+{
+	public static string Get()
+	{
+		System.Windows.Threading.Dispatcher? dispatcher = Application.Current?.Dispatcher;
+		if (dispatcher == null || dispatcher.HasShutdownStarted)
+			return "";
+		return dispatcher.Invoke(() =>
+		{
+			try
+			{
+				return Clipboard.ContainsText() ? Clipboard.GetText() : "";
+			}
+			catch
+			{
+				return "";
+			}
+		});
+	}
+
+	public static void Set(string text)
+	{
+		Application.Current?.Dispatcher.BeginInvoke(new Action(() =>
+		{
+			try
+			{
+				Clipboard.SetText(text ?? "");
+			}
+			catch
+			{
+			}
+		}));
+	}
+}
+
+internal static class PluginDialogManager
+{
+	private sealed class ModDialogWindow : WpfUiWindow
+	{
+	}
+
+	private static readonly Dictionary<string, WpfUiWindow> OpenDialogs = new(StringComparer.Ordinal);
+
+	public static void OpenDialog(string plugin, JsonObject spec)
+	{
+		string id = (spec["id"]?.ToString() ?? "dialog").Trim();
+		if (id.Length == 0 || id.Length > 64)
+			throw new InvalidOperationException("dialog id must be 1 to 64 characters");
+		string title = spec["title"]?.ToString() ?? id;
+		double width = spec["width"] is JsonValue w && w.TryGetValue(out double dw) ? Math.Clamp(dw, 280, 1400) : 520;
+		double height = spec["height"] is JsonValue h && h.TryGetValue(out double dh) ? Math.Clamp(dh, 200, 1000) : 420;
+		string key = plugin + "|" + id;
+		Application.Current?.Dispatcher.BeginInvoke(new Action(() =>
+		{
+			if (OpenDialogs.TryGetValue(key, out WpfUiWindow? existing))
+			{
+				existing.Title = title;
+				existing.Activate();
+				RenderDialogContent(existing, plugin, id);
+				return;
+			}
+			ModDialogWindow win = new()
+			{
+				Title = title,
+				Width = width,
+				Height = height,
+				MinWidth = 280,
+				MinHeight = 200,
+				WindowStartupLocation = WindowStartupLocation.CenterOwner,
+				ExtendsContentIntoTitleBar = true,
+				Owner = Application.Current?.Windows.OfType<MainWindow>().FirstOrDefault()
+			};
+			win.SetResourceReference(Control.BackgroundProperty, "ApplicationBackgroundBrush");
+			Grid root = new();
+			root.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+			root.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+			TitleBar titleBar = new() { Title = title, Padding = new Thickness(8), ForceShutdown = false, MinimizeToTray = false };
+			Grid.SetRow(titleBar, 0);
+			root.Children.Add(titleBar);
+			Border bodyHost = new() { Padding = new Thickness(16) };
+			ScrollViewer scroll = new()
+			{
+				VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
+				HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled,
+				Content = bodyHost
+			};
+			Grid.SetRow(scroll, 1);
+			root.Children.Add(scroll);
+			win.Content = root;
+			win.Tag = bodyHost;
+			void OnInvalidated(string invalidatedPlugin)
+			{
+				if (string.Equals(invalidatedPlugin, plugin, StringComparison.Ordinal))
+					win.Dispatcher.BeginInvoke(new Action(() => RenderDialogContent(win, plugin, id)));
+			}
+			PluginHost.PaneInvalidated += OnInvalidated;
+			win.Closed += (_, _) =>
+			{
+				PluginHost.PaneInvalidated -= OnInvalidated;
+				OpenDialogs.Remove(key);
+			};
+			OpenDialogs[key] = win;
+			RenderDialogContent(win, plugin, id);
+			win.Show();
+		}));
+	}
+
+	private static void RenderDialogContent(WpfUiWindow window, string plugin, string id)
+	{
+		if (window.Tag is not Border host)
+			return;
+		try
+		{
+			string dir = Path.Combine(Paths.Plugins, plugin);
+			host.Child = PluginUiRenderer.BuildTree(PluginHost.RenderDialog(plugin, id), dir);
+		}
+		catch (Exception ex)
+		{
+			PluginHost.Problem(plugin, "the dialog " + id + " could not be drawn: " + PluginHost.Describe(ex));
+		}
+	}
+
+	public static void CloseDialog(string plugin, string id)
+	{
+		string key = plugin + "|" + id;
+		Application.Current?.Dispatcher.BeginInvoke(new Action(() =>
+		{
+			if (OpenDialogs.Remove(key, out WpfUiWindow? win))
+				win.Close();
+		}));
+	}
+
+	public static void ClosePluginDialogs(HashSet<string> activePlugins)
+	{
+		Application.Current?.Dispatcher.BeginInvoke(new Action(() =>
+		{
+			foreach (string key in OpenDialogs.Keys.ToList())
+			{
+				int sep = key.IndexOf('|');
+				string plugin = sep > 0 ? key[..sep] : key;
+				if (!activePlugins.Contains(plugin) && OpenDialogs.Remove(key, out WpfUiWindow? win))
+					win.Close();
+			}
+		}));
+	}
+
+	public static void ShowMessage(string plugin, string text, string title)
+	{
+		System.Windows.Threading.Dispatcher? dispatcher = Application.Current?.Dispatcher;
+		if (dispatcher == null || dispatcher.HasShutdownStarted)
+			return;
+		dispatcher.BeginInvoke(new Action(() =>
+		{
+			Frontend.ShowMessageBox((!string.IsNullOrWhiteSpace(title) ? title + "\n\n" : "") + text, MessageBoxImage.Information);
+		}));
+	}
+
+	public static bool ShowConfirm(string plugin, string text, string title)
+	{
+		System.Windows.Threading.Dispatcher? dispatcher = Application.Current?.Dispatcher;
+		if (dispatcher == null || dispatcher.HasShutdownStarted)
+			return false;
+		return dispatcher.Invoke(() =>
+			Frontend.ShowMessageBox(
+				(!string.IsNullOrWhiteSpace(title) ? title + "\n\n" : "") + text,
+				MessageBoxImage.Question,
+				MessageBoxButton.YesNo,
+				MessageBoxResult.No) == MessageBoxResult.Yes);
 	}
 }

@@ -719,6 +719,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         SettingChangeNotifier.Failed += OnSettingChangeFailed;
         RestartNotificationService.Changed += OnRestartRequirementsChanged;
         ManagedModStore.Changed += OnManagedModsChanged;
+
+        Voidstrap.Integrations.Plugins.PluginHost.BannersChanged += OnModBannersChanged;
+
+        Voidstrap.Integrations.Plugins.PluginHost.PaneInvalidated += OnModBannerPaneInvalidated;
         if (Voidstrap.Utility.Platform.IsLinux)
             CreateBackgroundMedia();
         AllowsTransparency = false;
@@ -751,6 +755,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             _ = ShowAlreadyRunningSnackbarAsync();
         }
         RefreshRestartNotification();
+        RenderModBanners();
         Voidstrap.UI.LinuxUiPerformance.Duration("Settings window constructor", constructorStarted);
     }
 
@@ -1063,7 +1068,13 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             _pendingTopSearchEntry = null;
         }
         NavigationItem? navigationItem = RootNavigation.Items.OfType<NavigationItem>().Concat(RootNavigation.Footer.OfType<NavigationItem>()).FirstOrDefault((NavigationItem i) => i.IsActive);
-        if (navigationItem != null && _defaultIcons.TryGetValue(navigationItem, out var value))
+        if (content is Pages.ModCustomPage customModPage)
+        {
+            PageBreadcrumb.Current = customModPage.Title;
+            PageBreadcrumb.SubPage = string.Empty;
+            PageBreadcrumb.Icon = navigationItem?.Icon ?? customModPage.PageIcon;
+        }
+        else if (navigationItem != null && _defaultIcons.TryGetValue(navigationItem, out var value))
         {
             PageBreadcrumb.Icon = value;
         }
@@ -1075,7 +1086,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         AnimatePageHeader(18.0);
     }
 
-    private static string DescribePage(object content) => content?.GetType().Name ?? "";
+    private static string DescribePage(object content) => content is Pages.ModCustomPage modPage ? ("mod:" + modPage.PluginName + ":" + modPage.PageId) : (content?.GetType().Name ?? "");
 
     private void SyncHomeTargetMenuBrush()
     {
@@ -1212,6 +1223,231 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             RootNavigation.Navigate(typeof(SoberPage));
     }
 
+    private readonly Dictionary<string, NavigationItem> _modSidebarItems = new Dictionary<string, NavigationItem>(StringComparer.Ordinal);
+
+    private readonly Dictionary<string, Pages.ModCustomPage> _modCustomPages = new Dictionary<string, Pages.ModCustomPage>(StringComparer.Ordinal);
+
+    private void ModSidebarItem_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is NavigationItem { Tag: Voidstrap.Integrations.Plugins.PluginSidebar.ModPageInfo info })
+        {
+            OpenModCustomPage(info);
+        }
+    }
+
+    public void OpenModCustomPage(Voidstrap.Integrations.Plugins.PluginSidebar.ModPageInfo info)
+    {
+        if (!_modCustomPages.TryGetValue(info.Key, out Pages.ModCustomPage? page))
+        {
+            page = new Pages.ModCustomPage(info);
+            _modCustomPages[info.Key] = page;
+        }
+        else
+        {
+            page.UpdateDefinition(info);
+        }
+        if (!ReferenceEquals(RootFrame.Content, page))
+        {
+            RootNavigation.NavigateExternal(page);
+        }
+        else
+        {
+            page.RenderPage();
+            SynchronizeSidebarSelection(page);
+        }
+    }
+
+    private void OnModBannersChanged()
+    {
+        if (!Dispatcher.CheckAccess())
+        {
+            Dispatcher.BeginInvoke(new Action(RenderModBanners));
+            return;
+        }
+        RenderModBanners();
+    }
+
+    private void OnModBannerPaneInvalidated(string plugin)
+    {
+        if (Voidstrap.Integrations.Plugins.PluginHost.Banners.Any(b => string.Equals(b.Plugin, plugin, StringComparison.Ordinal)))
+        {
+            Dispatcher.BeginInvoke(new Action(RenderModBanners));
+        }
+    }
+
+    private void RenderModBanners()
+    {
+        if (ModTopBannerHost == null || ModBottomBannerHost == null)
+            return;
+        ModTopBannerHost.Children.Clear();
+        ModBottomBannerHost.Children.Clear();
+        foreach (Voidstrap.Integrations.Plugins.PluginHost.BannerInfo banner in Voidstrap.Integrations.Plugins.PluginHost.Banners)
+        {
+            try
+            {
+                string dir = System.IO.Path.Combine(Paths.Plugins, banner.Plugin);
+                UIElement? built = Voidstrap.Integrations.Plugins.PluginUiRenderer.BuildTree(Voidstrap.Integrations.Plugins.PluginHost.RenderBanner(banner), dir);
+                if (built != null)
+                {
+                    Border container = new Border
+                    {
+                        Padding = new Thickness(10, 6, 10, 6),
+                        Margin = new Thickness(0, 0, 0, 6),
+                        CornerRadius = new CornerRadius(6),
+                        BorderThickness = new Thickness(1),
+                        Child = built
+                    };
+                    container.SetResourceReference(Border.BackgroundProperty, "CardBackgroundFillColorDefaultBrush");
+                    container.SetResourceReference(Border.BorderBrushProperty, "CardStrokeColorDefaultBrush");
+                    if (string.Equals(banner.Position, "bottom", StringComparison.OrdinalIgnoreCase))
+                        ModBottomBannerHost.Children.Add(container);
+                    else
+                        ModTopBannerHost.Children.Add(container);
+                }
+            }
+            catch (Exception ex)
+            {
+                Voidstrap.Integrations.Plugins.PluginHost.Problem(banner.Plugin, "the banner " + banner.Id + " could not be drawn: " + Voidstrap.Integrations.Plugins.PluginHost.Describe(ex));
+            }
+        }
+    }
+
+    public string GetCurrentPageKey()
+    {
+        object? content = RootFrame?.Content;
+        if (content is Pages.ModCustomPage modPage)
+            return "mod:" + modPage.PluginName + ":" + modPage.PageId;
+        return content?.GetType().Name.Replace("Page", "", StringComparison.Ordinal) ?? "";
+    }
+
+    public void NavigateFromPlugin(string target, string? plugin = null)
+    {
+        string trimmed = target.Trim();
+        if (trimmed.StartsWith("mod:", StringComparison.OrdinalIgnoreCase))
+        {
+            string rest = trimmed[4..];
+            IReadOnlyList<Voidstrap.Integrations.Plugins.PluginSidebar.ModPageInfo> modPages = Voidstrap.Integrations.Plugins.PluginSidebar.GetModPages();
+            Voidstrap.Integrations.Plugins.PluginSidebar.ModPageInfo? match = modPages.FirstOrDefault(p =>
+                string.Equals(p.Plugin + ":" + p.Id, rest, StringComparison.OrdinalIgnoreCase)
+                || string.Equals(p.Id, rest, StringComparison.OrdinalIgnoreCase)
+                || string.Equals(p.Key, rest, StringComparison.OrdinalIgnoreCase));
+            if (match != null)
+            {
+                OpenModCustomPage(match);
+                return;
+            }
+        }
+        if (plugin != null)
+        {
+            Voidstrap.Integrations.Plugins.PluginSidebar.ModPageInfo? ownMatch = Voidstrap.Integrations.Plugins.PluginSidebar.GetModPages()
+                .FirstOrDefault(p => string.Equals(p.Plugin, plugin, StringComparison.OrdinalIgnoreCase) && string.Equals(p.Id, trimmed, StringComparison.OrdinalIgnoreCase));
+            if (ownMatch != null)
+            {
+                OpenModCustomPage(ownMatch);
+                return;
+            }
+        }
+        switch (trimmed.ToLowerInvariant())
+        {
+            case "home":
+            case "homepage":
+                RootNavigation.Navigate(typeof(HomePage));
+                break;
+            case "integrations":
+            case "integrationspage":
+                RootNavigation.Navigate(typeof(IntegrationsPage));
+                break;
+            case "deployment":
+            case "behaviour":
+            case "behaviourpage":
+                RootNavigation.Navigate(typeof(BehaviourPage));
+                break;
+            case "appearance":
+            case "appearancepage":
+                RootNavigation.Navigate(typeof(AppearancePage));
+                break;
+            case "fastflagsettings":
+            case "fastflags":
+            case "fastflagspage":
+                RootNavigation.Navigate(typeof(FastFlagsPage));
+                break;
+            case "fastflageditor":
+            case "fastflageditorpage":
+                RootNavigation.Navigate(typeof(FastFlagEditorPage));
+                break;
+            case "mods":
+            case "modspage":
+                RootNavigation.Navigate(typeof(ModsPage));
+                break;
+            case "global":
+            case "gbseditor":
+            case "gbseditorpage":
+                RootNavigation.Navigate(typeof(GBSEditorPage));
+                break;
+            case "shortcuts":
+            case "shortcutspage":
+                RootNavigation.Navigate(typeof(ShortcutsPage));
+                break;
+            case "news":
+            case "newspage":
+                RootNavigation.Navigate(typeof(NewsPage));
+                break;
+            case "extensions":
+            case "extensionpage":
+                if (Voidstrap.Utility.Platform.IsWindows)
+                    RootNavigation.Navigate(typeof(ExtensionPage));
+                break;
+            case "manager":
+            case "downloads":
+            case "downloadspage":
+                if (Voidstrap.Utility.Platform.IsWindows)
+                    RootNavigation.Navigate(typeof(DownloadsPage));
+                break;
+            case "settings":
+            case "channel":
+            case "channelpage":
+                RootNavigation.Navigate(typeof(ChannelPage));
+                break;
+            case "voidstrapmods":
+            case "voidstrapmodspage":
+                TopNavVoidstrapMods_Click(this, new RoutedEventArgs());
+                break;
+            case "library":
+            case "librarypage":
+                TopNavLibrary_Click(this, new RoutedEventArgs());
+                break;
+            case "privateservers":
+            case "privateserverspage":
+            case "servers":
+                TopNavServers_Click(this, new RoutedEventArgs());
+                break;
+            case "accounts":
+            case "accountspage":
+                _accountsPage ??= new AccountsPage();
+                if (!ReferenceEquals(RootFrame.Content, _accountsPage))
+                    RootNavigation.NavigateExternal(_accountsPage);
+                break;
+            case "more":
+            case "morepage":
+                RootNavigation.Navigate(typeof(MorePage));
+                break;
+            case "serverbrowser":
+            case "serverbrowserpage":
+                RootNavigation.Navigate(typeof(ServerBrowserPage));
+                break;
+            case "sober":
+            case "soberpage":
+                if (IsSidebarItemAvailable("SoberNavItem"))
+                    RootNavigation.Navigate(typeof(SoberPage));
+                break;
+            case "rosemary":
+            case "rosemarypage":
+                if (IsSidebarItemAvailable("RosemaryNavItem"))
+                    RootNavigation.Navigate(typeof(RosemaryPage));
+                break;
+        }
+    }
+
     public void ApplySidebarCustomization()
     {
         if (RootNavigation == null)
@@ -1220,6 +1456,13 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
         _defaultMainSidebarItems ??= RootNavigation.Items.ToArray();
         _defaultFooterSidebarItems ??= RootNavigation.Footer.ToArray();
+        foreach (NavigationItem oldModItem in _modSidebarItems.Values.ToArray())
+        {
+            if (RootNavigation.Items.Contains(oldModItem))
+                RootNavigation.Items.Remove(oldModItem);
+            if (RootNavigation.Footer.Contains(oldModItem))
+                RootNavigation.Footer.Remove(oldModItem);
+        }
         INavigationControl[] controls = _defaultMainSidebarItems.Concat(_defaultFooterSidebarItems).ToArray();
         Dictionary<string, NavigationItem> items = controls
             .OfType<NavigationItem>()
@@ -1234,12 +1477,43 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         List<string> hidden = App.Settings.Prop.SidebarHiddenItems ??= new List<string>();
         List<string> savedOrder = App.Settings.Prop.SidebarOrder ??= new List<string>();
         bool needsFullIconFont = false;
+        List<SidebarItemDefinition> allSidebarDefinitions = SidebarCustomizationItems.ToList();
+        foreach (Voidstrap.Integrations.Plugins.PluginSidebar.ModPageInfo modPage in Voidstrap.Integrations.Plugins.PluginSidebar.GetModPages())
+        {
+            if (!_modSidebarItems.TryGetValue(modPage.Key, out NavigationItem? modNav))
+            {
+                modNav = new NavigationItem { Name = modPage.Key, Cache = false };
+                _modSidebarItems[modPage.Key] = modNav;
+            }
+            SymbolRegular modDefaultIcon = Enum.TryParse(modPage.Icon, ignoreCase: true, out SymbolRegular parsedModIcon) ? parsedModIcon : SymbolRegular.Apps24;
+            modNav.Tag = modPage;
+            modNav.Click -= ModSidebarItem_Click;
+            modNav.Click += ModSidebarItem_Click;
+            modNav.Content = names.TryGetValue(modPage.Key, out string? customModTitle) ? NormalizeSidebarName(customModTitle, modPage.Title) : modPage.Title;
+            if (icons.TryGetValue(modPage.Key, out string? customModIconName) && Enum.TryParse(customModIconName, ignoreCase: true, out SymbolRegular customModSym))
+            {
+                modNav.Icon = customModSym;
+                if (Voidstrap.UI.Elements.Dialogs.SidebarIconPickerDialog.CanRender(customModSym))
+                    needsFullIconFont = true;
+            }
+            else
+            {
+                modNav.Icon = modDefaultIcon;
+                if (Voidstrap.UI.Elements.Dialogs.SidebarIconPickerDialog.CanRender(modDefaultIcon))
+                    needsFullIconFont = true;
+            }
+            modNav.Visibility = hidden.Contains(modPage.Key, StringComparer.Ordinal) ? Visibility.Collapsed : Visibility.Visible;
+            items[modPage.Key] = modNav;
+            allSidebarDefinitions.Add(new SidebarItemDefinition(modPage.Key, modPage.Title, modPage.Section, modDefaultIcon, true));
+            if (_modCustomPages.TryGetValue(modPage.Key, out Pages.ModCustomPage? activePage))
+                activePage.UpdateDefinition(modPage);
+        }
         Dictionary<string, int> ranks = savedOrder
             .Where(key => !string.IsNullOrWhiteSpace(key))
             .Distinct(StringComparer.Ordinal)
             .Select((key, index) => (key, index))
             .ToDictionary(pair => pair.key, pair => pair.index, StringComparer.Ordinal);
-        Dictionary<string, int> defaults = SidebarCustomizationItems
+        Dictionary<string, int> defaults = allSidebarDefinitions
             .Select((item, index) => (item.Key, index))
             .ToDictionary(pair => pair.Key, pair => pair.index, StringComparer.Ordinal);
         foreach (SidebarItemDefinition definition in SidebarCustomizationItems)
@@ -1290,7 +1564,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
         IEnumerable<SidebarItemDefinition> Ordered(string section)
         {
-            return SidebarCustomizationItems
+            return allSidebarDefinitions
                 .Where(item => item.Section == section && items.ContainsKey(item.Key))
                 .OrderBy(item => ranks.TryGetValue(item.Key, out int rank) ? rank : int.MaxValue)
                 .ThenBy(item => defaults[item.Key]);
@@ -1382,7 +1656,9 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
         NavigationItem[] navigationItems = GetNavigationItemsInServiceOrder();
         Type contentType = content.GetType();
-        NavigationItem? activeItem = navigationItems.FirstOrDefault(item => item.PageType == contentType);
+        NavigationItem? activeItem = content is Pages.ModCustomPage modPage
+            ? navigationItems.FirstOrDefault(item => string.Equals(item.Name, modPage.PageKey, StringComparison.Ordinal))
+            : navigationItems.FirstOrDefault(item => item.PageType == contentType);
         if (activeItem == null)
         {
             return;
@@ -6430,6 +6706,10 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         MouseLeave -= RootGrid_MouseLeave;
         RestartNotificationService.Changed -= OnRestartRequirementsChanged;
         ManagedModStore.Changed -= OnManagedModsChanged;
+
+        Voidstrap.Integrations.Plugins.PluginHost.BannersChanged -= OnModBannersChanged;
+
+        Voidstrap.Integrations.Plugins.PluginHost.PaneInvalidated -= OnModBannerPaneInvalidated;
         try
         {
             _visibilityTimer.Stop();

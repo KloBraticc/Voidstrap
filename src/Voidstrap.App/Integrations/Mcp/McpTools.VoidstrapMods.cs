@@ -22,10 +22,24 @@ public static partial class McpTools
 		hooks/hooks.json: { "modules": ["./register.tsx"] }
 		hooks/register.tsx: export const register: Register = (on, options) => { ... }, with import type { Register } from 'voidstrap'.
 		Every hook is ($, e, next): return without next to answer alone, next({ ...e, x }) to rewrite, await next(e) to react. on(event, matcher, hook) filters by matching fields of e.
-		Panes: in session.start call $.ui.open({ id, title }); draw it with on('ui.render', { component: 'Pane', requestId: id }, ($) => tree). Build trees with JSX or h(type, props, ...children) from $.ui.resolve(). Handlers go in props: onPress, onChange, onSubmit. Give pressable elements a key.
-		State: const n = atom('count', 0); read($, n); update($, n, v => v + 1). Writes redraw the panes.
-		Tests: name files like pane.test.tsx, import { test, expect, mod } from 'voidstrap/testing', and use mod.emit, mod.render and mod.press.
-		After writing, call validate, then test, then reload. A new mod stays off until the user says yes to the prompt Voidstrap shows them.
+		UI Surfaces:
+		- Panes: $.ui.open({ id, title }) in session.start, rendered by on('ui.render', { component: 'Pane', requestId: id }, ($) => tree).
+		- Custom Sidebar Pages: $.sidebar.addPage({ id, title, icon, section }) in session.start, rendered by on('ui.render', { component: 'Page', requestId: id }, ($) => tree).
+		- Window Banners: $.ui.openBanner({ id, position: 'top' | 'bottom' }), rendered by on('ui.render', { component: 'Banner', requestId: id }, ($) => tree).
+		- Modal Dialogs: $.ui.openDialog({ id, title, width, height }), rendered by on('ui.render', { component: 'Dialog', requestId: id }, ($) => tree).
+		UI Elements: Box, Stack, Wrap, Grid, Scroll, Text, Badge, Icon, ColorSwatch, Button, Toggle, CheckBox, TextInput, NumberInput, Slider, Select, ProgressBar, InfoBar, Divider, Spacer, Image, Card, Expander, Tabs, Table.
+		Full App Control via $:
+		- $.sidebar: get(), set({ order, hidden, names, icons }), reset(), addPage({ id, title, icon, section }), removePage(id).
+		- $.nav: current(), pages(), open(page).
+		- $.theme: get(), set({ theme, backdrop, uiZoomPercent, accentColor, ... }), getBrush(key), setBrush(key, hexColor), resetBrushes(), listBrushes().
+		- $.window: get(), set({ title, width, height, left, top, state, topMost, opacity }).
+		- $.settings: list(), get(name), set(name, value).
+		- $.fastFlags: getAll(), get(name), set(name, value), remove(name), clear().
+		- $.roblox: status(), launch({ mode, placeId, jobId }).
+		- $.clipboard: get(), set(text).
+		State: const n = atom('count', 0); read($, n); update($, n, v => v + 1). Writes redraw active panes, pages, banners and dialogs.
+		Tests: name files like pane.test.tsx, import { test, expect, mod } from 'voidstrap/testing', and use mod.emit, mod.render, mod.renderPage and mod.press.
+		After writing, call validate, then test, then reload.
 		The exact types are in the action types output.
 		""";
 
