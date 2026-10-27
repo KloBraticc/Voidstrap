@@ -277,12 +277,26 @@ public sealed partial class StudioRichPresence : IDisposable
 			return;
 		}
 		_mode = ResolveMode(title);
-		string cleaned = StudioTitleSuffixPattern.Replace(title, "");
+		string cleaned = StudioTitleSuffixPattern.Replace(title, "").Trim();
+		if (string.Equals(cleaned, "Roblox Studio", StringComparison.OrdinalIgnoreCase))
+		{
+			cleaned = "";
+		}
 		string[] parts = cleaned.Split([" - ", " – ", " — "], StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 		List<string> meaningful = parts.Where(part => !IsModeText(part)).ToList();
-		if (meaningful.Count > 0)
+		string place = meaningful.Count > 0 ? meaningful[^1] : "";
+		if (!string.Equals(place, _place, StringComparison.Ordinal))
 		{
-			_place = meaningful[^1];
+			_place = place;
+			_placeId = 0;
+			_universeId = 0;
+			_scriptLines = 0;
+			_lastLogState = new LogState();
+			_lastLogPath = "";
+			if (_place.Length > 0)
+			{
+				_sessionStart = DateTime.UtcNow;
+			}
 		}
 		_script = meaningful.Count > 1 ? meaningful[0] : "";
 	}
@@ -457,10 +471,10 @@ public sealed partial class StudioRichPresence : IDisposable
 			string logDirectory = Voidstrap.Utility.Platform.IsMacOS ? Paths.RobloxLogs : Path.Combine(Paths.LocalAppData, "Roblox", "logs");
 			FileInfo? latest = new DirectoryInfo(logDirectory)
 				.EnumerateFiles("*.log")
-				.Where(file => file.Name.Contains("Studio", StringComparison.OrdinalIgnoreCase))
+				.Where(file => file.Name.Contains("Studio", StringComparison.OrdinalIgnoreCase) && !file.Name.Contains("CrashHandler", StringComparison.OrdinalIgnoreCase))
 				.OrderByDescending(file => file.LastWriteTimeUtc)
 				.FirstOrDefault();
-			if (latest == null)
+			if (latest == null || _place.Length == 0)
 			{
 				return;
 			}
@@ -615,7 +629,7 @@ public sealed partial class StudioRichPresence : IDisposable
 		bool showPlace = settings.StudioRpcShowPlace && !string.IsNullOrWhiteSpace(_place);
 		string details = showPlace ? FormatActivity(_mode, _place) : "In Roblox Studio";
 		bool linux = Voidstrap.Utility.Platform.UsesPortableUi;
-		bool startPage = linux && _linuxLog.HasEvents && !_linuxLog.DocumentOpen;
+		bool startPage = linux ? _linuxLog.HasEvents && !_linuxLog.DocumentOpen : _place.Length == 0;
 		if (linux && showPlace && _creator.Length > 0)
 		{
 			details += " \u00b7 by " + _creator;
@@ -633,9 +647,7 @@ public sealed partial class StudioRichPresence : IDisposable
 		{
 			parts.Add(Voidstrap.Utility.RpcText.Mark(startPage
 				? "On the start page"
-				: linux
-					? _mode == "Playtesting" || _mode == "Testing" ? "Testing the experience" : "Building the experience"
-					: _script.Length == 0 ? "Editing UI" : "In Roblox Studio"));
+				: _mode == "Playtesting" || _mode == "Testing" ? "Testing the experience" : "Building the experience"));
 		}
 		string state = string.Join(", ", parts);
 		string largeImage = showPlace && _iconUrl.Length > 0 ? _iconUrl : StudioIconUrl;

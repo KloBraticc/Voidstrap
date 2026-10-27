@@ -32,20 +32,21 @@ namespace Voidstrap.Integrations.Studio
                     StartLinux();
                     return;
                 }
-                if (!App.Settings.Prop.StudioPluginEnabled)
-                {
-                    return;
-                }
+                bool plugin = App.Settings.Prop.StudioPluginEnabled;
+                bool presence = App.Settings.Prop.UseDiscordRichPresence;
                 lock (_lock)
                 {
-                    StudioBridge.Start();
-                    StudioPluginInstaller.EnsureInstalled();
-                    if (_rpc == null)
+                    if (plugin)
+                    {
+                        StudioBridge.Start();
+                        StudioPluginInstaller.EnsureInstalled();
+                    }
+                    if (presence && _rpc == null)
                     {
                         _rpc = new StudioRichPresence();
                     }
                 }
-                App.Logger.WriteLine(LogTag, "Studio integration started");
+                App.Logger.WriteLine(LogTag, "Studio integration started, presence " + (presence ? "on" : "off") + ", plugin " + (plugin ? "on" : "off"));
             }
             catch (Exception ex)
             {
