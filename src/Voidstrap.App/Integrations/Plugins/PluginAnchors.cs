@@ -55,14 +55,14 @@ internal static class PluginAnchors
 			if (old != null)
 			{
 				Items.Remove(old);
-				Remove(old);
+				Application.Current?.Dispatcher.BeginInvoke(new Action(() => Remove(old)));
 			}
 			if (Items.Count(i => i.Plugin == plugin) >= MaxWidgetsPerMod)
 				return Result(false, "a mod can attach at most " + MaxWidgetsPerMod + " widgets");
 			Items.Add(item);
 		}
-		string reason = PluginNavigation.InvokeUiBounded(() => Place(item), "Voidstrap is still starting, the widget appears when the window opens", 1000);
-		return Result(reason.Length == 0, reason);
+		Application.Current?.Dispatcher.BeginInvoke(new Action(() => Place(item)));
+		return Result(true, "");
 	}
 
 	public static void Detach(string plugin, string id)

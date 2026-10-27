@@ -641,7 +641,7 @@ public partial class VoidstrapModsPage : UiPage
 		if (sender is not FrameworkElement { Tag: ModLibrary.LibraryMod mod })
 			return;
 		bool turnOn = !IsModOn(mod.Name);
-		PluginHost.SetEnabled(mod.Name, turnOn);
+		PluginHost.SetEnabled(mod.Name, turnOn, reload: false);
 		await Task.Run(PluginHost.Reload);
 		RenderMods();
 		RenderLibrary();
@@ -655,7 +655,7 @@ public partial class VoidstrapModsPage : UiPage
 			return;
 		try
 		{
-			PluginHost.SetEnabled(mod.Name, false);
+			PluginHost.SetEnabled(mod.Name, false, reload: false);
 			string folder = Path.Combine(Paths.Plugins, mod.Name);
 			await Task.Run(() =>
 			{
@@ -719,7 +719,7 @@ public partial class VoidstrapModsPage : UiPage
 		{
 			await ModLibrary.InstallAsync(index, mod, _libraryCts?.Token ?? CancellationToken.None);
 			if (vouched)
-				PluginHost.SetEnabled(mod.Name, true);
+				PluginHost.SetEnabled(mod.Name, true, reload: false);
 			await Task.Run(PluginHost.Reload);
 			RenderMods();
 		}

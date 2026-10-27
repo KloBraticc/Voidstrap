@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -74,11 +74,11 @@ public partial class NvidiaFFlagEditorPage : UiPage
 
     public NvidiaFFlagEditorPage()
     {
+        DataContext = this;
         InitializeComponent();
         EntriesView = CollectionViewSource.GetDefaultView(Entries);
         EntriesView.Filter = FilterEntries;
         DataGridRef.ItemsSource = EntriesView;
-        DataContext = this;
         _searchDebounce = new DispatcherTimer(DispatcherPriority.Background)
         {
             Interval = TimeSpan.FromMilliseconds(SearchDebounceMs),

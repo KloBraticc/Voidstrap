@@ -55,8 +55,8 @@ namespace Voidstrap.UI.Elements.Settings.Pages
 
         public ReleasesPage()
         {
-            InitializeComponent();
             DataContext = this;
+            InitializeComponent();
 
             _releasesView = CollectionViewSource.GetDefaultView(Releases);
 

@@ -49,8 +49,10 @@ public sealed partial class PluginManifest
 			{
 				if (!System.IO.Directory.Exists(folder) || (File.GetAttributes(folder) & FileAttributes.ReparsePoint) != 0)
 					continue;
-				if (Read(folder) is PluginManifest manifest)
-					found.Add(manifest);
+				if (TryRead(folder, out PluginManifest? manifest, out string? error))
+					found.Add(manifest!);
+				else if (report && error != null && System.IO.Directory.Exists(folder))
+					PluginHost.Problem(Path.GetFileName(folder), "the manifest was refused: " + error);
 			}
 			catch (Exception ex) when (ex is DirectoryNotFoundException or FileNotFoundException && !System.IO.Directory.Exists(folder))
 			{
@@ -66,37 +68,66 @@ public sealed partial class PluginManifest
 
 	public static PluginManifest? Read(string folder)
 	{
+		if (TryRead(folder, out PluginManifest? manifest, out string? error))
+			return manifest;
+		return error == null ? null : throw new InvalidDataException(error);
+	}
+
+	public static bool TryRead(string folder, out PluginManifest? manifest, out string? error)
+	{
+		manifest = null;
+		error = null;
 		string manifestPath = Path.Combine(folder, ManifestFolder, "plugin.json");
 		if (!File.Exists(manifestPath))
-			return null;
-		JsonObject manifest = ReadObject(manifestPath);
-		string name = manifest["name"]?.GetValue<string>() ?? "";
+			return false;
+		if (!TryReadObject(manifestPath, out JsonObject? manifestObj, out error))
+			return false;
+		string name = manifestObj!["name"]?.GetValue<string>() ?? "";
 		if (!NamePattern.IsMatch(name))
-			throw new InvalidDataException("the name must be lowercase letters, digits and hyphens");
-		JsonObject hooks = ReadObject(Path.Combine(folder, "hooks", "hooks.json"));
-		string module = hooks["modules"] is JsonArray modules && modules.Count == 1 ? modules[0]?.GetValue<string>() ?? "" : "";
+		{
+			error = "the name must be lowercase letters, digits and hyphens";
+			return false;
+		}
+		if (!TryReadObject(Path.Combine(folder, "hooks", "hooks.json"), out JsonObject? hooks, out error))
+			return false;
+		string module = hooks!["modules"] is JsonArray modules && modules.Count == 1 ? modules[0]?.GetValue<string>() ?? "" : "";
 		if (module.Length == 0)
-			throw new InvalidDataException("hooks.json must name exactly one module");
+		{
+			error = "hooks.json must name exactly one module";
+			return false;
+		}
 		string root = Path.GetFullPath(folder);
 		string modulePath = Path.GetFullPath(Path.Combine(root, "hooks", module));
 		if (!modulePath.StartsWith(root + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase))
-			throw new InvalidDataException("the module must be inside the plugin folder");
+		{
+			error = "the module must be inside the plugin folder";
+			return false;
+		}
 		string extension = Path.GetExtension(modulePath).ToLowerInvariant();
 		if (extension is not (".js" or ".mjs" or ".ts" or ".tsx" or ".jsx"))
-			throw new InvalidDataException("the module must be a .js, .mjs, .ts, .tsx or .jsx file");
+		{
+			error = "the module must be a .js, .mjs, .ts, .tsx or .jsx file";
+			return false;
+		}
 		if (!File.Exists(modulePath))
-			throw new FileNotFoundException("the module file is missing");
-		return new PluginManifest
+		{
+			error = "the module file is missing";
+			return false;
+		}
+		if (!TryReadPermissions(manifestObj["permissions"] as JsonArray, out List<string> permissions, out error))
+			return false;
+		manifest = new PluginManifest
 		{
 			Name = name,
-			Version = manifest["version"]?.GetValue<string>() ?? "0.0.0",
-			Description = manifest["description"]?.GetValue<string>() ?? "",
+			Version = manifestObj["version"]?.GetValue<string>() ?? "0.0.0",
+			Description = manifestObj["description"]?.GetValue<string>() ?? "",
 			Directory = root,
 			ModulePath = Path.GetRelativePath(root, modulePath),
-			Options = ReadOptions(manifest["userConfig"] as JsonObject),
-			NetworkHosts = ReadHosts(manifest["network"] as JsonArray),
-			Permissions = ReadPermissions(manifest["permissions"] as JsonArray)
+			Options = ReadOptions(manifestObj["userConfig"] as JsonObject),
+			NetworkHosts = ReadHosts(manifestObj["network"] as JsonArray),
+			Permissions = permissions
 		};
+		return true;
 	}
 
 	private static List<string> ReadHosts(JsonArray? hosts)
@@ -113,20 +144,24 @@ public sealed partial class PluginManifest
 		return result;
 	}
 
-	private static List<string> ReadPermissions(JsonArray? permissions)
+	private static bool TryReadPermissions(JsonArray? permissions, out List<string> result, out string? error)
 	{
-		List<string> result = [];
+		result = [];
+		error = null;
 		if (permissions == null)
-			return result;
+			return true;
 		foreach (JsonNode? node in permissions)
 		{
 			string value = node?.ToString().Trim().ToLowerInvariant() ?? "";
 			if (!KnownPermissions.Contains(value))
-				throw new InvalidDataException("unknown permission " + value + ", the only permission is " + RobloxAccountPermission);
+			{
+				error = "unknown permission " + value + ", the only permission is " + RobloxAccountPermission;
+				return false;
+			}
 			if (!result.Contains(value))
 				result.Add(value);
 		}
-		return result;
+		return true;
 	}
 
 	private static JsonObject ReadOptions(JsonObject? config)
@@ -139,13 +174,35 @@ public sealed partial class PluginManifest
 		return options;
 	}
 
-	private static JsonObject ReadObject(string path)
+	private static bool TryReadObject(string path, out JsonObject? obj, out string? error)
 	{
+		obj = null;
+		error = null;
 		FileInfo info = new(path);
 		if (!info.Exists)
-			throw new FileNotFoundException(Path.GetFileName(path) + " is missing");
+		{
+			error = Path.GetFileName(path) + " is missing";
+			return false;
+		}
 		if (info.Length > MaxJsonBytes)
-			throw new InvalidDataException(Path.GetFileName(path) + " is too large");
-		return JsonNode.Parse(File.ReadAllText(path)) as JsonObject ?? throw new InvalidDataException(Path.GetFileName(path) + " is not a JSON object");
+		{
+			error = Path.GetFileName(path) + " is too large";
+			return false;
+		}
+		try
+		{
+			obj = JsonNode.Parse(File.ReadAllText(path)) as JsonObject;
+			if (obj == null)
+			{
+				error = Path.GetFileName(path) + " is not a JSON object";
+				return false;
+			}
+			return true;
+		}
+		catch (Exception ex)
+		{
+			error = Path.GetFileName(path) + " could not be read: " + ex.Message;
+			return false;
+		}
 	}
 }

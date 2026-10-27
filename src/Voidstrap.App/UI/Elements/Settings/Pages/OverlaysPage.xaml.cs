@@ -22,6 +22,15 @@ public partial class OverlaysPage : UiPage
 
 	public OverlaysPage()
 	{
+		DataContext = new ModsViewModel();
+		InitializeComponent();
+		Loaded += OnOverlaysPageLoaded;
+		Unloaded += OnOverlaysPageUnloaded;
+	}
+
+	public OverlaysPage(ModsViewModel viewModel)
+	{
+		DataContext = viewModel;
 		InitializeComponent();
 		Loaded += OnOverlaysPageLoaded;
 		Unloaded += OnOverlaysPageUnloaded;

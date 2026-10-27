@@ -55,19 +55,9 @@ internal static class ModTools
 {
 	public static int Validate(string folder, TextWriter output)
 	{
-		PluginManifest? manifest;
-		try
+		if (!PluginManifest.TryRead(Path.GetFullPath(folder), out PluginManifest? manifest, out string? error) || manifest == null)
 		{
-			manifest = PluginManifest.Read(Path.GetFullPath(folder));
-		}
-		catch (Exception ex)
-		{
-			output.WriteLine("Refused: " + PluginHost.Describe(ex));
-			return 1;
-		}
-		if (manifest == null)
-		{
-			output.WriteLine("Refused: no " + PluginManifest.ManifestFolder + "/plugin.json in " + folder);
+			output.WriteLine(error != null ? "Refused: " + error : "Refused: no " + PluginManifest.ManifestFolder + "/plugin.json in " + folder);
 			return 1;
 		}
 		try
@@ -92,19 +82,9 @@ internal static class ModTools
 	public static int Test(string folder, TextWriter output)
 	{
 		string root = Path.GetFullPath(folder);
-		PluginManifest? manifest;
-		try
+		if (!PluginManifest.TryRead(root, out PluginManifest? manifest, out string? error) || manifest == null)
 		{
-			manifest = PluginManifest.Read(root);
-		}
-		catch (Exception ex)
-		{
-			output.WriteLine("Refused: " + PluginHost.Describe(ex));
-			return 1;
-		}
-		if (manifest == null)
-		{
-			output.WriteLine("Refused: no " + PluginManifest.ManifestFolder + "/plugin.json in " + folder);
+			output.WriteLine(error != null ? "Refused: " + error : "Refused: no " + PluginManifest.ManifestFolder + "/plugin.json in " + folder);
 			return 1;
 		}
 		List<string> files = Directory.EnumerateFiles(root, "*.test.*", SearchOption.AllDirectories)

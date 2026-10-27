@@ -84,14 +84,15 @@ public static class PluginHost
 		return result;
 	}
 
-	public static void SetEnabled(string name, bool enabled)
+	public static void SetEnabled(string name, bool enabled, bool reload = true)
 	{
 		Dictionary<string, bool> consent = App.Settings.Prop.PluginConsent ??= [];
 		lock (Gate)
 			consent[name] = enabled;
 		App.Settings.SaveDeferred();
 		App.Logger.WriteLine(LogIdent, name + ": turned " + (enabled ? "on" : "off") + " by the user");
-		Task.Run(Reload);
+		if (reload)
+			Task.Run(Reload);
 	}
 
 	public static void ForgetConsent(string name)

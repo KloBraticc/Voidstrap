@@ -18,6 +18,8 @@ internal static class DiskImageCache
 
 	private static readonly ConcurrentDictionary<string, byte> ImageDownloads = new(StringComparer.Ordinal);
 
+	private static readonly object PruneGate = new();
+
 	public static string Resolve(string? remote, string folderName)
 	{
 		if (string.IsNullOrWhiteSpace(remote) || !remote.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
@@ -74,16 +76,29 @@ internal static class DiskImageCache
 
 	private static void PruneImages(string folder)
 	{
+		if (!Monitor.TryEnter(PruneGate))
+			return;
 		try
 		{
 			FileInfo[] files = new DirectoryInfo(folder).GetFiles("*.img");
 			if (files.Length <= MaxCachedImages)
 				return;
 			foreach (FileInfo file in files.OrderByDescending(file => file.LastWriteTimeUtc).Skip(MaxCachedImages))
+			{
+				if (ImageDownloads.ContainsKey(file.FullName) || !File.Exists(file.FullName))
+					continue;
+				FileAttributes attributes = File.GetAttributes(file.FullName);
+				if ((attributes & FileAttributes.ReadOnly) != 0)
+					File.SetAttributes(file.FullName, attributes & ~FileAttributes.ReadOnly);
 				file.Delete();
+			}
 		}
 		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
 		{
+		}
+		finally
+		{
+			Monitor.Exit(PruneGate);
 		}
 	}
 }

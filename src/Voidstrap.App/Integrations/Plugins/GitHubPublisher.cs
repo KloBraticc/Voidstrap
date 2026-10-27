@@ -207,17 +207,10 @@ public static class GitHubPublisher
 		string folder = Path.Combine(Paths.Plugins, name);
 		List<string> problems = [];
 		List<string> warnings = [];
-		PluginManifest? manifest = null;
-		try
+		if (!PluginManifest.TryRead(folder, out PluginManifest? manifest, out string? manifestError) || manifest == null)
 		{
-			manifest = PluginManifest.Read(folder);
-		}
-		catch (Exception ex)
-		{
-			problems.Add(ex.Message);
-		}
-		if (manifest == null)
-		{
+			if (manifestError != null)
+				problems.Add(manifestError);
 			problems.Add("the mod has no valid .voidstrap-mod/plugin.json");
 			return new Preflight(name, "0.0.0", null, false, [], [], problems, warnings);
 		}

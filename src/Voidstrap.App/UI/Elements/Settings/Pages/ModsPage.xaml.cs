@@ -141,12 +141,12 @@ public partial class ModsPage : UiPage{
 
 	private void OpenOverlays_Click(object sender, RoutedEventArgs e)
 	{
-		NavigationService?.Navigate(new OverlaysPage { DataContext = ViewModel });
+		NavigationService?.Navigate(new OverlaysPage(ViewModel));
 	}
 
 	private void OpenModGenerator_Click(object sender, RoutedEventArgs e)
 	{
-		NavigationService?.Navigate(new ModGeneratorPage { DataContext = ViewModel });
+		NavigationService?.Navigate(new ModGeneratorPage(ViewModel));
 	}
 
 	private void ModsTabs_SelectionChanged(object sender, SelectionChangedEventArgs e)

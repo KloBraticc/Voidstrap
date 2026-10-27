@@ -72,9 +72,9 @@ public partial class SessionGameBrowser : Window, System.ComponentModel.INotifyP
         _lifetimeToken = _lifetime.Token;
         _activity = activity;
         _matchmaker = matchmaker;
+        DataContext = this;
         InitializeComponent();
         _ready = true;
-        DataContext = this;
         Loaded += OnLoaded;
         Closed += OnClosed;
         _searchTimer.Tick += OnSearchTick;
