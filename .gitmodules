@@ -12,3 +12,7 @@
 	path = external/Kiln
 	url = https://github.com/KloBraticc/Kiln
 	branch = main
+[submodule "external/voidstrap-mods-library"]
+	path = external/voidstrap-mods-library
+	url = https://github.com/KloBraticc/voidstrap-mods-library
+	branch = main
