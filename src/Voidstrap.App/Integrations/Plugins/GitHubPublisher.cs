@@ -351,14 +351,23 @@ public static class GitHubPublisher
 			throw new InvalidOperationException("the name " + name + " belongs to another account in the library");
 
 		string upstream = ModLibrary.Repository;
-		progress?.Report("fork");
-		JsonObject fork = await SendAsync(HttpMethod.Post, "https://api.github.com/repos/" + upstream + "/forks", new JsonObject { ["default_branch_only"] = true }, access, token) as JsonObject ?? throw new InvalidDataException("GitHub did not create the fork");
-		string forkName = fork["full_name"]?.GetValue<string>() ?? throw new InvalidDataException("GitHub did not create the fork");
-		if (!forkName.StartsWith(account.Login + "/", StringComparison.OrdinalIgnoreCase))
-			throw new InvalidDataException("the fork was created in an unexpected place");
-		for (int i = 0; i < 30 && await SendAsync(HttpMethod.Get, "https://api.github.com/repos/" + forkName + "/git/ref/heads/main", null, access, token, allowNotFound: true) == null; i++)
-			await Task.Delay(2000, token);
-		await SendAsync(HttpMethod.Post, "https://api.github.com/repos/" + forkName + "/merge-upstream", new JsonObject { ["branch"] = "main" }, access, token, allowConflict: true);
+		bool isOwner = upstream.StartsWith(account.Login + "/", StringComparison.OrdinalIgnoreCase);
+		string forkName;
+		if (isOwner)
+		{
+			forkName = upstream;
+		}
+		else
+		{
+			progress?.Report("fork");
+			JsonObject fork = await SendAsync(HttpMethod.Post, "https://api.github.com/repos/" + upstream + "/forks", new JsonObject { ["default_branch_only"] = true }, access, token) as JsonObject ?? throw new InvalidDataException("GitHub did not create the fork");
+			forkName = fork["full_name"]?.GetValue<string>() ?? throw new InvalidDataException("GitHub did not create the fork");
+			if (!forkName.StartsWith(account.Login + "/", StringComparison.OrdinalIgnoreCase))
+				throw new InvalidDataException("the fork was created in an unexpected place");
+			for (int i = 0; i < 30 && await SendAsync(HttpMethod.Get, "https://api.github.com/repos/" + forkName + "/git/ref/heads/main", null, access, token, allowNotFound: true) == null; i++)
+				await Task.Delay(2000, token);
+			await SendAsync(HttpMethod.Post, "https://api.github.com/repos/" + forkName + "/merge-upstream", new JsonObject { ["branch"] = "main" }, access, token, allowConflict: true);
+		}
 
 		JsonObject mainRef = await SendAsync(HttpMethod.Get, "https://api.github.com/repos/" + upstream + "/git/ref/heads/main", null, access, token) as JsonObject ?? throw new InvalidDataException("the library has no main branch");
 		string baseCommit = mainRef["object"]?["sha"]?.GetValue<string>() ?? throw new InvalidDataException("the library has no main branch");
@@ -507,7 +516,7 @@ public static class GitHubPublisher
 			App.Logger.WriteLine(LogIdent, method.Method + " " + uri.AbsolutePath + " " + (int)response.StatusCode);
 			if (response.StatusCode == HttpStatusCode.NotFound && allowNotFound)
 				return null;
-			if (response.StatusCode == HttpStatusCode.Conflict && allowConflict)
+			if ((response.StatusCode == HttpStatusCode.Conflict || response.StatusCode == HttpStatusCode.UnprocessableEntity) && allowConflict)
 				return null;
 			if (response.StatusCode == HttpStatusCode.Unauthorized)
 			{
