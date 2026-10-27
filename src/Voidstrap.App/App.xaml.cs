@@ -982,6 +982,7 @@ public partial class App : Application
 		if (LaunchSettings.NvApplyFlag.Active || LaunchSettings.NvResetFlag.Active || LaunchSettings.TelemetryBlockFlag.Active || LaunchSettings.FleasionUninstallFlag.Active)
 		{
 			_macOSStartupReady.TrySetResult(true);
+			TryStartup("Plugins", Voidstrap.Integrations.Plugins.PluginHost.Start);
 			LaunchHandler.ProcessLaunchArgs();
 			return;
 		}
@@ -1051,6 +1052,7 @@ public partial class App : Application
 			InitializeWatcherServices();
 			InitializeLanguage();
 			_macOSStartupReady.TrySetResult(true);
+			TryStartup("Plugins", Voidstrap.Integrations.Plugins.PluginHost.Start);
 			LaunchHandler.ProcessLaunchArgs();
 			return;
 		}
@@ -1094,6 +1096,8 @@ public partial class App : Application
 		LinuxUiPerformance.Mark("Launch dispatch");
 		if (!LaunchSettings.UninstallFlag.Active)
 			Voidstrap.Integrations.RobloxFavorites.StartBackgroundCheck(_lifetimeCancellation.SafeToken());
+		if (!LaunchSettings.UninstallFlag.Active && !LaunchSettings.IsHelperInvocation)
+			TryStartup("Plugins", Voidstrap.Integrations.Plugins.PluginHost.Start);
 		LaunchHandler.ProcessLaunchArgs();
 	}
 
@@ -2157,6 +2161,8 @@ public partial class App : Application
 		TryShutdown(Voidstrap.KeyRouting.SnapTapHook.Shutdown);
 		TryShutdown(Voidstrap.Integrations.Rojo.RojoManager.Shutdown);
 		TryShutdown(Voidstrap.Integrations.Studio.StudioIntegration.Shutdown);
+		TryShutdown(() => Voidstrap.Integrations.Plugins.PluginHost.Invoke("app.exit", null));
+		TryShutdown(Voidstrap.Integrations.Plugins.PluginHost.Shutdown);
 		TryShutdown(AssetCaptureStore.Shutdown);
 		TryShutdown(Voidstrap.Integrations.Fullscreen.RobloxFullscreen.Shutdown);
 		if (Voidstrap.Utility.Platform.IsLinux)

@@ -8804,4 +8804,11 @@ Voidstrap не смог записать в папку рабочего стол
   <data name="Ui.Bootstrapper.WindowIconsImportFailed" xml:space="preserve">
     <value>Не удалось импортировать значок: {0}</value>
   </data>
+  <data name="Plugins.TurnOnPrompt" xml:space="preserve">
+    <value>Включить плагин «{0}»?
+
+{1}
+
+Плагины могут изменять работу Voidstrap и его настройки. Включайте только плагины, которым Вы доверяете.</value>
+  </data>
 </root>

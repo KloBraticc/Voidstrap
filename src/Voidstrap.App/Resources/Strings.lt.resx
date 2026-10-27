@@ -8806,4 +8806,11 @@ Palikite Voidstrap ir redaktorių atidarytus, kol DI dirba. Jo pakeitimai iš ka
   <data name="Ui.Bootstrapper.WindowIconsImportFailed" xml:space="preserve">
     <value>Nepavyko importuoti piktogramos: {0}</value>
   </data>
+  <data name="Plugins.TurnOnPrompt" xml:space="preserve">
+    <value>Ar įjungti papildinį „{0}“?
+
+{1}
+
+Papildiniai gali pakeisti Voidstrap veikimą ir nustatymus. Įjunkite tik tuos papildinius, kuriais pasitikite.</value>
+  </data>
 </root>

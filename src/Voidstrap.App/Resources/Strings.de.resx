@@ -8805,4 +8805,11 @@ Lass Voidstrap und den Editor geöffnet, während die KI arbeitet. Ihre Änderun
   <data name="Ui.Bootstrapper.WindowIconsImportFailed" xml:space="preserve">
     <value>Das Symbol konnte nicht importiert werden: {0}</value>
   </data>
+  <data name="Plugins.TurnOnPrompt" xml:space="preserve">
+    <value>Das Plugin „{0}“ einschalten?
+
+{1}
+
+Plugins können ändern, wie Voidstrap funktioniert, und seine Einstellungen ändern. Schalte nur Plugins ein, denen du vertraust.</value>
+  </data>
 </root>

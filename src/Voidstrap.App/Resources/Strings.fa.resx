@@ -8807,4 +8807,11 @@ Voidstrap نتوانست در پوشهٔ دسکتاپ بنویسد.</value>
   <data name="Ui.Bootstrapper.WindowIconsImportFailed" xml:space="preserve">
     <value>وارد کردن نماد ممکن نشد: {0}</value>
   </data>
+  <data name="Plugins.TurnOnPrompt" xml:space="preserve">
+    <value>افزونه «{0}» روشن شود؟
+
+{1}
+
+افزونه‌ها می‌توانند نحوه کار Voidstrap و تنظیمات آن را تغییر دهند. فقط افزونه‌هایی را روشن کنید که به آن‌ها اعتماد دارید.</value>
+  </data>
 </root>

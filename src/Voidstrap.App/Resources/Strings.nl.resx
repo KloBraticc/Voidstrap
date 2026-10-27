@@ -8806,4 +8806,11 @@ Houd Voidstrap en de editor geopend terwijl de AI werkt. De wijzigingen zijn dir
   <data name="Ui.Bootstrapper.WindowIconsImportFailed" xml:space="preserve">
     <value>Kan het pictogram niet importeren: {0}</value>
   </data>
+  <data name="Plugins.TurnOnPrompt" xml:space="preserve">
+    <value>De plug-in "{0}" inschakelen?
+
+{1}
+
+Plug-ins kunnen veranderen hoe Voidstrap werkt en de instellingen aanpassen. Schakel alleen plug-ins in die je vertrouwt.</value>
+  </data>
 </root>

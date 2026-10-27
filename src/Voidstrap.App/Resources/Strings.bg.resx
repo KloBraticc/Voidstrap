@@ -8805,4 +8805,11 @@ Voidstrap не можа да запише в папката на работни�
   <data name="Ui.Bootstrapper.WindowIconsImportFailed" xml:space="preserve">
     <value>Иконата не можа да бъде импортирана: {0}</value>
   </data>
+  <data name="Plugins.TurnOnPrompt" xml:space="preserve">
+    <value>Да се включи ли добавката „{0}“?
+
+{1}
+
+Добавките могат да променят начина, по който работи Voidstrap, и неговите настройки. Включвайте само добавки, на които имате доверие.</value>
+  </data>
 </root>

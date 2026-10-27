@@ -8806,4 +8806,11 @@ Pidä Voidstrap ja muokkain avoinna, kun tekoäly työskentelee. Sen tekemät mu
   <data name="Ui.Bootstrapper.WindowIconsImportFailed" xml:space="preserve">
     <value>Kuvakkeen tuonti epäonnistui: {0}</value>
   </data>
+  <data name="Plugins.TurnOnPrompt" xml:space="preserve">
+    <value>Otetaanko laajennus "{0}" käyttöön?
+
+{1}
+
+Laajennukset voivat muuttaa Voidstrapin toimintaa ja sen asetuksia. Ota käyttöön vain laajennuksia, joihin luotat.</value>
+  </data>
 </root>

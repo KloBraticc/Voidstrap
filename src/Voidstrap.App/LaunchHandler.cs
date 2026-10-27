@@ -495,6 +495,20 @@ public static class LaunchHandler
 		}
 		App.Settings.FlushDeferred();
 		App.FastFlags.FlushDeferred();
+		if (Voidstrap.Integrations.Plugins.PluginHost.Invoke("roblox.launch", new System.Text.Json.Nodes.JsonObject
+		{
+			["mode"] = launchMode == LaunchMode.Player ? "player" : "studio",
+			["args"] = App.LaunchSettings.RobloxLaunchArgs
+		}) is System.Text.Json.Nodes.JsonObject launch)
+		{
+			if (launch["cancel"] is System.Text.Json.Nodes.JsonValue cancel && cancel.TryGetValue(out bool cancelled) && cancelled)
+			{
+				App.Logger.WriteLine("LaunchHandler::LaunchRoblox", "A plugin cancelled the Roblox launch");
+				return;
+			}
+			if (launch["args"] is System.Text.Json.Nodes.JsonValue args && args.TryGetValue(out string? rewritten) && rewritten != null)
+				App.LaunchSettings.RobloxLaunchArgs = rewritten;
+		}
 		if (!Voidstrap.Utility.Platform.SupportsWindowsClient)
 		{
 			App.LaunchSettings.RobloxLaunchMode = launchMode;

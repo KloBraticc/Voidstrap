@@ -8806,4 +8806,11 @@ Păstrează Voidstrap și editorul deschise în timp ce AI-ul lucrează. Modific
   <data name="Ui.Bootstrapper.WindowIconsImportFailed" xml:space="preserve">
     <value>Pictograma nu a putut fi importată: {0}</value>
   </data>
+  <data name="Plugins.TurnOnPrompt" xml:space="preserve">
+    <value>Activezi pluginul „{0}”?
+
+{1}
+
+Pluginurile pot schimba modul în care funcționează Voidstrap și setările lui. Activează doar pluginuri în care ai încredere.</value>
+  </data>
 </root>

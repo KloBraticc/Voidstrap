@@ -8807,4 +8807,11 @@ Tieni aperti Voidstrap e l'editor mentre l'IA lavora. Le modifiche vengono mostr
   <data name="Ui.Bootstrapper.WindowIconsImportFailed" xml:space="preserve">
     <value>Impossibile importare l'icona: {0}</value>
   </data>
+  <data name="Plugins.TurnOnPrompt" xml:space="preserve">
+    <value>Attivare il plugin "{0}"?
+
+{1}
+
+I plugin possono cambiare il funzionamento di Voidstrap e modificarne le impostazioni. Attiva solo plugin di cui ti fidi.</value>
+  </data>
 </root>

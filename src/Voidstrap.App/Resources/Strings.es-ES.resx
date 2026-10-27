@@ -8805,4 +8805,11 @@ Mantén abiertos Voidstrap y el editor mientras la IA trabaja. Sus cambios se mu
   <data name="Ui.Bootstrapper.WindowIconsImportFailed" xml:space="preserve">
     <value>No se pudo importar el icono: {0}</value>
   </data>
+  <data name="Plugins.TurnOnPrompt" xml:space="preserve">
+    <value>¿Activar el complemento «{0}»?
+
+{1}
+
+Los complementos pueden cambiar cómo funciona Voidstrap y modificar sus ajustes. Activa solo complementos en los que confíes.</value>
+  </data>
 </root>

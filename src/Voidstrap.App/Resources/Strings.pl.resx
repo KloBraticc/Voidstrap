@@ -8805,4 +8805,11 @@ Pozostaw Voidstrap i edytor otwarte podczas pracy AI. Wprowadzane zmiany są od 
   <data name="Ui.Bootstrapper.WindowIconsImportFailed" xml:space="preserve">
     <value>Nie udało się zaimportować ikony: {0}</value>
   </data>
+  <data name="Plugins.TurnOnPrompt" xml:space="preserve">
+    <value>Włączyć wtyczkę „{0}”?
+
+{1}
+
+Wtyczki mogą zmieniać działanie Voidstrap i jego ustawienia. Włączaj tylko wtyczki, którym ufasz.</value>
+  </data>
 </root>

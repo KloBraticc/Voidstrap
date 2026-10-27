@@ -8492,4 +8492,11 @@ Keep Voidstrap and the editor open while the AI works. Its changes show in the p
   <data name="Ui.Bootstrapper.WindowIconsImportFailed" xml:space="preserve">
     <value>Could not import the icon: {0}</value>
   </data>
+  <data name="Plugins.TurnOnPrompt" xml:space="preserve">
+    <value>Turn on the plugin "{0}"?
+
+{1}
+
+Plugins can change how Voidstrap works and change its settings. Only turn on plugins you trust.</value>
+  </data>
 </root>

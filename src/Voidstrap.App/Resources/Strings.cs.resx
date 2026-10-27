@@ -8806,4 +8806,11 @@ Během práce AI ponechte Voidstrap i editor otevřené. Změny se okamžitě pr
   <data name="Ui.Bootstrapper.WindowIconsImportFailed" xml:space="preserve">
     <value>Nepodařilo se importovat ikonu: {0}</value>
   </data>
+  <data name="Plugins.TurnOnPrompt" xml:space="preserve">
+    <value>Zapnout doplněk „{0}“?
+
+{1}
+
+Doplňky mohou měnit fungování aplikace Voidstrap i její nastavení. Zapínejte pouze doplňky, kterým důvěřujete.</value>
+  </data>
 </root>

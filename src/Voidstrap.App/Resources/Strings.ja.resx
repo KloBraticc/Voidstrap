@@ -8819,4 +8819,11 @@ AIの作業中はVoidstrapとエディターを開いたままにしてくださ
   <data name="Ui.Bootstrapper.WindowIconsImportFailed" xml:space="preserve">
     <value>アイコンをインポートできませんでした: {0}</value>
   </data>
+  <data name="Plugins.TurnOnPrompt" xml:space="preserve">
+    <value>プラグイン「{0}」を有効にしますか？
+
+{1}
+
+プラグインは Voidstrap の動作や設定を変更できます。信頼できるプラグインのみ有効にしてください。</value>
+  </data>
 </root>

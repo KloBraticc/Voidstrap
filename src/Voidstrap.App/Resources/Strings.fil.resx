@@ -8803,4 +8803,11 @@ Panatilihing nakabukas ang Voidstrap at ang editor habang gumagawa ang AI. Agad 
   <data name="Ui.Bootstrapper.WindowIconsImportFailed" xml:space="preserve">
     <value>Hindi ma-import ang icon: {0}</value>
   </data>
+  <data name="Plugins.TurnOnPrompt" xml:space="preserve">
+    <value>I-on ang plugin na "{0}"?
+
+{1}
+
+Kayang baguhin ng mga plugin kung paano gumagana ang Voidstrap at ang mga setting nito. I-on lang ang mga plugin na pinagkakatiwalaan mo.</value>
+  </data>
 </root>

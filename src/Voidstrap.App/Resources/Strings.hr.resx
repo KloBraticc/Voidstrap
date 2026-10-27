@@ -8804,4 +8804,11 @@ Drži Voidstrap i uređivač otvorenima dok AI radi. Njegove se promjene odmah p
   <data name="Ui.Bootstrapper.WindowIconsImportFailed" xml:space="preserve">
     <value>Nije moguće uvesti ikonu: {0}</value>
   </data>
+  <data name="Plugins.TurnOnPrompt" xml:space="preserve">
+    <value>Uključiti dodatak „{0}”?
+
+{1}
+
+Dodaci mogu promijeniti način rada aplikacije Voidstrap i njezine postavke. Uključuj samo dodatke kojima vjeruješ.</value>
+  </data>
 </root>

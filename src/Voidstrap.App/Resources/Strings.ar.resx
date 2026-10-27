@@ -8804,4 +8804,11 @@
   <data name="Ui.Bootstrapper.WindowIconsImportFailed" xml:space="preserve">
     <value>تعذر استيراد الأيقونة: {0}</value>
   </data>
+  <data name="Plugins.TurnOnPrompt" xml:space="preserve">
+    <value>هل تريد تشغيل الإضافة "{0}"؟
+
+{1}
+
+يمكن للإضافات تغيير طريقة عمل Voidstrap وتغيير إعداداته. شغّل فقط الإضافات التي تثق بها.</value>
+  </data>
 </root>

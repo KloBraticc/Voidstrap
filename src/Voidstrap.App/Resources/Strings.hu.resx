@@ -8804,4 +8804,11 @@ Tartsd nyitva a Voidstrapet és a szerkesztőt, amíg az MI dolgozik. A módosí
   <data name="Ui.Bootstrapper.WindowIconsImportFailed" xml:space="preserve">
     <value>Nem sikerült importálni az ikont: {0}</value>
   </data>
+  <data name="Plugins.TurnOnPrompt" xml:space="preserve">
+    <value>Bekapcsolod a(z) „{0}” bővítményt?
+
+{1}
+
+A bővítmények megváltoztathatják a Voidstrap működését és a beállításait. Csak olyan bővítményt kapcsolj be, amelyben megbízol.</value>
+  </data>
 </root>

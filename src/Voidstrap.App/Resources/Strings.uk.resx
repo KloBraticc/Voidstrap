@@ -8803,4 +8803,11 @@ Voidstrap не зміг записати до теки робочого стол
   <data name="Ui.Bootstrapper.WindowIconsImportFailed" xml:space="preserve">
     <value>Не вдалося імпортувати піктограму: {0}</value>
   </data>
+  <data name="Plugins.TurnOnPrompt" xml:space="preserve">
+    <value>Увімкнути плагін «{0}»?
+
+{1}
+
+Плагіни можуть змінювати роботу Voidstrap і його налаштування. Вмикайте лише ті плагіни, яким Ви довіряєте.</value>
+  </data>
 </root>

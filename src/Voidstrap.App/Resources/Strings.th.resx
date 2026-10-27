@@ -8800,4 +8800,11 @@ Voidstrap เขียนลงในโฟลเดอร์เดสก์ท�
   <data name="Ui.Bootstrapper.WindowIconsImportFailed" xml:space="preserve">
     <value>ไม่สามารถนำเข้าไอคอนได้: {0}</value>
   </data>
+  <data name="Plugins.TurnOnPrompt" xml:space="preserve">
+    <value>เปิดใช้ปลั๊กอิน "{0}" หรือไม่
+
+{1}
+
+ปลั๊กอินสามารถเปลี่ยนการทำงานของ Voidstrap และเปลี่ยนการตั้งค่าได้ เปิดใช้เฉพาะปลั๊กอินที่คุณไว้วางใจ</value>
+  </data>
 </root>

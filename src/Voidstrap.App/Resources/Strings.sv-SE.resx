@@ -8805,4 +8805,11 @@ Håll Voidstrap och redigeraren öppna medan AI:n arbetar. Ändringarna visas di
   <data name="Ui.Bootstrapper.WindowIconsImportFailed" xml:space="preserve">
     <value>Kunde inte importera ikonen: {0}</value>
   </data>
+  <data name="Plugins.TurnOnPrompt" xml:space="preserve">
+    <value>Vill du slå på pluginet "{0}"?
+
+{1}
+
+Plugin kan ändra hur Voidstrap fungerar och ändra dess inställningar. Slå bara på plugin som du litar på.</value>
+  </data>
 </root>

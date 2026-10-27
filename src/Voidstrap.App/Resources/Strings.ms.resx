@@ -8796,4 +8796,11 @@ Biarkan Voidstrap dan penyunting kekal dibuka semasa AI bekerja. Perubahannya di
   <data name="Ui.Bootstrapper.WindowIconsImportFailed" xml:space="preserve">
     <value>Tidak dapat mengimport ikon: {0}</value>
   </data>
+  <data name="Plugins.TurnOnPrompt" xml:space="preserve">
+    <value>Hidupkan pemalam "{0}"?
+
+{1}
+
+Pemalam boleh mengubah cara Voidstrap berfungsi dan mengubah tetapannya. Hidupkan hanya pemalam yang anda percayai.</value>
+  </data>
 </root>

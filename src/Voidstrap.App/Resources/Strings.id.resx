@@ -8807,4 +8807,11 @@ Biarkan Voidstrap dan editor tetap terbuka saat AI bekerja. Perubahannya langsun
   <data name="Ui.Bootstrapper.WindowIconsImportFailed" xml:space="preserve">
     <value>Tidak dapat mengimpor ikon: {0}</value>
   </data>
+  <data name="Plugins.TurnOnPrompt" xml:space="preserve">
+    <value>Aktifkan plugin "{0}"?
+
+{1}
+
+Plugin dapat mengubah cara kerja Voidstrap dan mengubah pengaturannya. Aktifkan hanya plugin yang Anda percayai.</value>
+  </data>
 </root>

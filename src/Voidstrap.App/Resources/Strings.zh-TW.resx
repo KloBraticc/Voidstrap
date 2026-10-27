@@ -8808,4 +8808,11 @@ Voidstrap 無法寫入桌面資料夾。</value>
   <data name="Ui.Bootstrapper.WindowIconsImportFailed" xml:space="preserve">
     <value>無法匯入圖示：{0}</value>
   </data>
+  <data name="Plugins.TurnOnPrompt" xml:space="preserve">
+    <value>要啟用外掛程式「{0}」嗎？
+
+{1}
+
+外掛程式可以變更 Voidstrap 的運作方式和設定。請只啟用你信任的外掛程式。</value>
+  </data>
 </root>

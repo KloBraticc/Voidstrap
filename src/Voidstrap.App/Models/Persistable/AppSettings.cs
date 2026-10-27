@@ -66,6 +66,7 @@ namespace Voidstrap.Models.Persistable
         public bool RobloxMinimizeToTray { get; set; }
         public bool RobloxLaunchAtStartup { get; set; }
         public bool StudioPluginEnabled { get; set; }
+        public Dictionary<string, bool> PluginConsent { get; set; } = [];
         public bool DuckRobloxAudioOnUnfocus { get; set; }
         public bool EnableHeadsetLoudness { get; set; }
         public string RobloxAudioOutputDevice { get; set; } = "";

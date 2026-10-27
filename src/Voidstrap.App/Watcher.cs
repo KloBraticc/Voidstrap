@@ -526,6 +526,7 @@ public partial class Watcher : IDisposable
 
 	private void OnRuntimeGameJoin(object? sender, EventArgs e)
 	{
+		RunRuntimeAction(() => Voidstrap.Integrations.Plugins.PluginHost.Invoke("game.join", DescribeGame()), "PluginGameJoin");
 		RunRuntimeAction(Voidstrap.Utility.RobloxProcessOptimizer.NoteGameTransition, "NoteGameTransition");
 		if (Voidstrap.Utility.Platform.IsMacOS)
 		{
@@ -568,8 +569,20 @@ public partial class Watcher : IDisposable
 		}
 	}
 
+	private System.Text.Json.Nodes.JsonObject DescribeGame()
+	{
+		ActivityData? data = ActivityWatcher?.Data;
+		return new System.Text.Json.Nodes.JsonObject
+		{
+			["placeId"] = data?.PlaceId ?? 0,
+			["universeId"] = data?.UniverseId ?? 0,
+			["jobId"] = data?.JobId ?? ""
+		};
+	}
+
 	private void OnRuntimeGameLeave(object? sender, EventArgs e)
 	{
+		RunRuntimeAction(() => Voidstrap.Integrations.Plugins.PluginHost.Invoke("game.leave", DescribeGame()), "PluginGameLeave");
 		RunRuntimeAction(Voidstrap.Utility.RobloxProcessOptimizer.NoteGameTransition, "NoteGameTransition");
 		bool teleporting = ActivityWatcher?.IsTeleporting == true;
 		if (Voidstrap.Utility.Platform.IsMacOS)

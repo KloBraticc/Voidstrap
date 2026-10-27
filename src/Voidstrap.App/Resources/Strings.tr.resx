@@ -8803,4 +8803,11 @@ YZ çalışırken Voidstrap'i ve düzenleyiciyi açık tutun. Yaptığı değiş
   <data name="Ui.Bootstrapper.WindowIconsImportFailed" xml:space="preserve">
     <value>Simge içe aktarılamadı: {0}</value>
   </data>
+  <data name="Plugins.TurnOnPrompt" xml:space="preserve">
+    <value>"{0}" eklentisi açılsın mı?
+
+{1}
+
+Eklentiler Voidstrap'in çalışma şeklini ve ayarlarını değiştirebilir. Yalnızca güvendiğiniz eklentileri açın.</value>
+  </data>
 </root>
