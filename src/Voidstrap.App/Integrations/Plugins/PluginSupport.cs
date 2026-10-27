@@ -32,11 +32,19 @@ internal static class PluginConsent
 		System.Windows.Threading.Dispatcher? dispatcher = Application.Current?.Dispatcher;
 		if (dispatcher == null || dispatcher.HasShutdownStarted)
 			return false;
-		bool answer = dispatcher.Invoke(() => Frontend.ShowMessageBox(
-			string.Format(Strings.Plugins_TurnOnPrompt, manifest.Name, manifest.Description.Length > 0 ? manifest.Description : manifest.Name),
-			MessageBoxImage.Question,
-			MessageBoxButton.YesNo,
-			MessageBoxResult.No) == MessageBoxResult.Yes);
+		bool answer;
+		try
+		{
+			answer = dispatcher.Invoke(() => Frontend.ShowMessageBox(
+				string.Format(Strings.Plugins_TurnOnPrompt, manifest.Name, manifest.Description.Length > 0 ? manifest.Description : manifest.Name),
+				MessageBoxImage.Question,
+				MessageBoxButton.YesNo,
+				MessageBoxResult.No) == MessageBoxResult.Yes);
+		}
+		catch
+		{
+			return false;
+		}
 		lock (Gate)
 			consent[manifest.Name] = answer;
 		App.Settings.SaveDeferred();
@@ -434,6 +442,14 @@ public static class PluginSidebar
 
 	public static void ApplyToWindows()
 	{
+		System.Windows.Threading.Dispatcher? dispatcher = Application.Current?.Dispatcher;
+		if (dispatcher == null || dispatcher.HasShutdownStarted)
+			return;
+		if (!dispatcher.CheckAccess())
+		{
+			dispatcher.BeginInvoke(new Action(ApplyToWindows));
+			return;
+		}
 		if (Application.Current == null)
 			return;
 		foreach (MainWindow window in Application.Current.Windows.OfType<MainWindow>())

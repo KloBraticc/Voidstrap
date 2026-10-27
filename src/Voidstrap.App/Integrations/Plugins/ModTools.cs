@@ -72,7 +72,7 @@ internal static class ModTools
 		}
 		try
 		{
-			using PluginHost.LoadedPlugin plugin = PluginHost.LoadedPlugin.Load(manifest);
+			using PluginHost.LoadedPlugin plugin = PluginHost.LoadedPlugin.Load(manifest, sandbox: true);
 			output.WriteLine(manifest.Name + " " + manifest.Version + " loads");
 			IReadOnlyList<string> hooks = plugin.DescribeHooks();
 			output.WriteLine(hooks.Count == 0 ? "It registers no hooks" : "Hooks:");
@@ -125,7 +125,7 @@ internal static class ModTools
 			output.WriteLine(relative);
 			try
 			{
-				using PluginHost.LoadedPlugin plugin = PluginHost.LoadedPlugin.Load(manifest);
+				using PluginHost.LoadedPlugin plugin = PluginHost.LoadedPlugin.Load(manifest, sandbox: true);
 				foreach (JsonNode? result in plugin.RunTests(relative))
 				{
 					bool ok = result?["ok"]?.GetValue<bool>() == true;
