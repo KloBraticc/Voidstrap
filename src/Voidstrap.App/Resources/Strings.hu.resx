@@ -344,13 +344,11 @@ Ezután a Windows megkér, hogy erősítsd meg a tanúsítvány törlését. Kat
     <value>Nem sikerült átnevezni az egyéni témát: {0}: {1}</value>
   </data>
   <data name="Bootstrapper.StylePreview.ImageCancel" xml:space="preserve">
-    <value>Stílus előnézet
-A bezáráshoz kattintson a jobb felső sarokban lévő X gombra</value>
+    <value>Stílus előnézet - A bezáráshoz kattintson a jobb felső sarokban lévő X gombra</value>
     <comment>Text for style previews that use an X button. Currently only applies to Byfron</comment>
   </data>
   <data name="Bootstrapper.StylePreview.TextCancel" xml:space="preserve">
-    <value>Stílus előnézet
-Kattintson a "Mégse" gombra a bezáráshoz</value>
+    <value>Stílus előnézet - Kattintson a "Mégse" gombra a bezáráshoz</value>
     <comment>Text for style previews that use text button that says "Cancel"</comment>
   </data>
   <data name="Bootstrapper.SuccessfullyUninstalled" xml:space="preserve">

@@ -338,13 +338,11 @@ Seterusnya, Windows akan meminta anda mengesahkan pemadaman sijil tersebut. Klik
     <value>Gagal menamakan semula tema tersuai {0}: {1}</value>
   </data>
   <data name="Bootstrapper.StylePreview.ImageCancel" xml:space="preserve">
-    <value>Previu gaya
-Klik butang X di kanan atas untuk menutup</value>
+    <value>Previu gaya - Klik butang X di kanan atas untuk menutup</value>
     <comment>Text for style previews that use an X button. Currently only applies to Byfron</comment>
   </data>
   <data name="Bootstrapper.StylePreview.TextCancel" xml:space="preserve">
-    <value>Previu gaya
-Klik Batal untuk menutup</value>
+    <value>Previu gaya - Klik Batal untuk menutup</value>
     <comment>Text for style previews that use text button that says "Cancel"</comment>
   </data>
   <data name="Bootstrapper.SuccessfullyUninstalled" xml:space="preserve">

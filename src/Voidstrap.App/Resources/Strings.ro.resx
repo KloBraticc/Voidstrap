@@ -344,13 +344,11 @@ Apoi Windows îți va cere să confirmi ștergerea certificatului. Apasă Yes pe
     <value>Redenumirea temei personalizate {0} a eșuat: {1}</value>
   </data>
   <data name="Bootstrapper.StylePreview.ImageCancel" xml:space="preserve">
-    <value>Previzualizare stil
-Apasă pe butonul X din dreapta sus pentru a închide</value>
+    <value>Previzualizare stil - Apasă pe butonul X din dreapta sus pentru a închide</value>
     <comment>Text for style previews that use an X button. Currently only applies to Byfron</comment>
   </data>
   <data name="Bootstrapper.StylePreview.TextCancel" xml:space="preserve">
-    <value>Previzualizare stil
-Apasă pe Anulare pentru a închide</value>
+    <value>Previzualizare stil - Apasă pe Anulare pentru a închide</value>
     <comment>Text for style previews that use text button that says "Cancel"</comment>
   </data>
   <data name="Bootstrapper.SuccessfullyUninstalled" xml:space="preserve">

@@ -341,13 +341,11 @@ Hierna vraagt Windows je om het verwijderen van het certificaat te bevestigen. K
     <value>Hernoemen van aangepast thema {0} mislukt: {1}</value>
   </data>
   <data name="Bootstrapper.StylePreview.ImageCancel" xml:space="preserve">
-    <value>Stijlvoorbeeld
-Klik op de knop X rechtsboven om te sluiten</value>
+    <value>Stijlvoorbeeld - Klik op de knop X rechtsboven om te sluiten</value>
     <comment>Text for style previews that use an X button. Currently only applies to Byfron</comment>
   </data>
   <data name="Bootstrapper.StylePreview.TextCancel" xml:space="preserve">
-    <value>Stijlvoorbeeld
-Klik op Annuleren om te sluiten</value>
+    <value>Stijlvoorbeeld - Klik op Annuleren om te sluiten</value>
     <comment>Text for style previews that use text button that says "Cancel"</comment>
   </data>
   <data name="Bootstrapper.SuccessfullyUninstalled" xml:space="preserve">

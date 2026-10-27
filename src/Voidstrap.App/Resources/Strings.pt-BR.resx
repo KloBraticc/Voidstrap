@@ -344,13 +344,11 @@ Em seguida, o Windows vai pedir que você confirme a exclusão do certificado. C
     <value>Falha ao renomear tema personalizado {0}: {1}</value>
   </data>
   <data name="Bootstrapper.StylePreview.ImageCancel" xml:space="preserve">
-    <value>Pré-visualização de estilo
-Pressione o botão X no canto superior direito para fechar</value>
+    <value>Pré-visualização de estilo - Pressione o botão X no canto superior direito para fechar</value>
     <comment>Text for style previews that use an X button. Currently only applies to Byfron</comment>
   </data>
   <data name="Bootstrapper.StylePreview.TextCancel" xml:space="preserve">
-    <value>Pré-visualização de estilo
-Clique em Cancelar para fechar</value>
+    <value>Pré-visualização de estilo - Clique em Cancelar para fechar</value>
     <comment>Text for style previews that use text button that says "Cancel"</comment>
   </data>
   <data name="Bootstrapper.SuccessfullyUninstalled" xml:space="preserve">

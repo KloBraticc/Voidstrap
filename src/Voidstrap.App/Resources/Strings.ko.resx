@@ -347,13 +347,11 @@
     <value>사용자 지정 테마 {0} 이름 변경 실패: {1}</value>
   </data>
   <data name="Bootstrapper.StylePreview.ImageCancel" xml:space="preserve">
-    <value>스타일 미리보기
-닫으려면 오른쪽 상단의 X 버튼을 클릭하세요.</value>
+    <value>스타일 미리보기 - 닫으려면 오른쪽 상단의 X 버튼을 클릭하세요.</value>
     <comment>Text for style previews that use an X button. Currently only applies to Byfron</comment>
   </data>
   <data name="Bootstrapper.StylePreview.TextCancel" xml:space="preserve">
-    <value>스타일 미리 보기
-취소를 클릭하여 닫기</value>
+    <value>스타일 미리 보기 - 취소를 클릭하여 닫기</value>
     <comment>Text for style previews that use text button that says "Cancel"</comment>
   </data>
   <data name="Bootstrapper.SuccessfullyUninstalled" xml:space="preserve">
