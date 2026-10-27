@@ -30,6 +30,11 @@
           <data:LicenseEntry Name="Roblox Studio Mod Manager" Url="https://github.com/MaximumADHD/Roblox-Studio-Mod-Manager/blob/main/LICENSE" License="{resources:Loc Menu_About_Licenses_MIT}" />
           <data:LicenseEntry Name="SharpZipLib" Url="https://github.com/icsharpcode/SharpZipLib/blob/master/LICENSE.txt" License="{resources:Loc Menu_About_Licenses_MIT}" />
           <data:LicenseEntry Name="Markdig" Url="https://github.com/xoofx/markdig/blob/main/license.txt" License="{resources:Loc Menu_About_Licenses_BSD2}" />
+          <data:LicenseEntry Name="Jint" Url="https://github.com/sebastienros/jint/blob/main/LICENSE.txt" License="{resources:Loc Menu_About_Licenses_BSD2}" />
+          <data:LicenseEntry Name="Sucrase" Url="https://github.com/alangpierce/sucrase/blob/main/LICENSE" License="{resources:Loc Menu_About_Licenses_MIT}" />
+          <data:LicenseEntry Name="ts-interface-checker" Url="https://github.com/gristlabs/ts-interface-checker/blob/master/LICENSE" License="{resources:Loc Menu_About_Licenses_Apache}" />
+          <data:LicenseEntry Name="lines-and-columns" Url="https://github.com/eventualbuddha/lines-and-columns/blob/main/LICENSE" License="{resources:Loc Menu_About_Licenses_MIT}" />
+          <data:LicenseEntry Name="@jridgewell/sourcemaps" Url="https://github.com/jridgewell/sourcemaps/blob/main/LICENSE" License="{resources:Loc Menu_About_Licenses_MIT}" />
           <data:LicenseEntry Name="AvalonEdit" Url="https://github.com/icsharpcode/AvalonEdit/blob/master/LICENSE" License="{resources:Loc Menu_About_Licenses_MIT}" />
           <data:LicenseEntry Name="SharpDX/SharpDXGI" Url="https://github.com/sharpdx/SharpDX/blob/master/LICENSE" License="{resources:Loc Menu_About_Licenses_MIT}" />
           <data:LicenseEntry Name="Nvidia Profile Inspector" Url="https://github.com/Orbmu2k/nvidiaProfileInspector/blob/master/LICENSE.txt" License="{resources:Loc Menu_About_Licenses_MIT}" />

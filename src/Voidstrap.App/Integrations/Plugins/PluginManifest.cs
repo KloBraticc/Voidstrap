@@ -41,7 +41,7 @@ public sealed partial class PluginManifest
 				continue;
 			try
 			{
-				if (TryRead(folder) is PluginManifest manifest)
+				if (Read(folder) is PluginManifest manifest)
 					found.Add(manifest);
 			}
 			catch (Exception ex)
@@ -52,7 +52,7 @@ public sealed partial class PluginManifest
 		return found.GroupBy(manifest => manifest.Name).Select(group => group.First()).ToList();
 	}
 
-	private static PluginManifest? TryRead(string folder)
+	public static PluginManifest? Read(string folder)
 	{
 		string manifestPath = Path.Combine(folder, ManifestFolder, "plugin.json");
 		if (!File.Exists(manifestPath))
@@ -69,9 +69,9 @@ public sealed partial class PluginManifest
 		string modulePath = Path.GetFullPath(Path.Combine(root, "hooks", module));
 		if (!modulePath.StartsWith(root + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase))
 			throw new InvalidDataException("the module must be inside the plugin folder");
-		string extension = Path.GetExtension(modulePath);
-		if (!extension.Equals(".js", StringComparison.OrdinalIgnoreCase) && !extension.Equals(".mjs", StringComparison.OrdinalIgnoreCase))
-			throw new InvalidDataException("the module must be a .js or .mjs file");
+		string extension = Path.GetExtension(modulePath).ToLowerInvariant();
+		if (extension is not (".js" or ".mjs" or ".ts" or ".tsx" or ".jsx"))
+			throw new InvalidDataException("the module must be a .js, .mjs, .ts, .tsx or .jsx file");
 		if (!File.Exists(modulePath))
 			throw new FileNotFoundException("the module file is missing");
 		return new PluginManifest

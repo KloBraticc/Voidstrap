@@ -122,7 +122,13 @@ public static class PluginHost
 		}
 	}
 
-	private static void OnPluginsChanged(object sender, FileSystemEventArgs e) => _reloadTimer?.Change(ReloadDelayMs, Timeout.Infinite);
+	private static bool IsGenerated(string path) => path.Contains(Path.DirectorySeparatorChar + PluginManifest.ManifestFolder + Path.DirectorySeparatorChar + "types", StringComparison.OrdinalIgnoreCase);
+
+	private static void OnPluginsChanged(object sender, FileSystemEventArgs e)
+	{
+		if (!IsGenerated(e.FullPath))
+			_reloadTimer?.Change(ReloadDelayMs, Timeout.Infinite);
+	}
 
 	private static void OnPluginsRenamed(object sender, RenamedEventArgs e) => _reloadTimer?.Change(ReloadDelayMs, Timeout.Infinite);
 
@@ -413,12 +419,13 @@ public static class PluginHost
 				options.TimeoutInterval(TimeSpan.FromSeconds(2));
 				options.LimitMemory(64L * 1024 * 1024);
 				options.LimitRecursion(256);
-				options.EnableModules(manifest.Directory, restrictToBasePath: true);
+				options.EnableModules(new ModModuleLoader(manifest.Directory));
 			});
 		}
 
 		public static LoadedPlugin Load(PluginManifest manifest)
 		{
+			ModTypes.Write(manifest.Directory);
 			LoadedPlugin plugin = new(manifest);
 			plugin.Initialize(manifest);
 			return plugin;
@@ -635,6 +642,88 @@ public static class PluginHost
 				Monitor.Wait(_gate, 50);
 			_engine.Constraints.Reset();
 			return value.UnwrapIfPromise(TimeSpan.FromMilliseconds(100));
+		}
+
+		private const string TestPrelude = """
+			(() => {
+			  const host = globalThis.__voidstrapTest;
+			  delete globalThis.__voidstrapTest;
+			  const tests = [];
+			  const show = value => JSON.stringify(value);
+			  globalThis.test = (name, body) => tests.push({ name: String(name), body });
+			  globalThis.expect = actual => Object.freeze({
+			    toBe: expected => { if (actual !== expected) throw new Error('expected ' + show(expected) + ' but got ' + show(actual)); },
+			    toEqual: expected => { if (show(actual) !== show(expected)) throw new Error('expected ' + show(expected) + ' but got ' + show(actual)); },
+			    toBeTruthy: () => { if (!actual) throw new Error('expected a truthy value but got ' + show(actual)); },
+			    toContain: expected => { if (!(actual && actual.includes && actual.includes(expected))) throw new Error(show(actual) + ' does not contain ' + show(expected)); }
+			  });
+			  const parse = text => text === undefined || text === null ? undefined : JSON.parse(text);
+			  const find = (node, key) => {
+			    if (!node || typeof node !== 'object') return null;
+			    if (node.props && node.props.key === key) return node;
+			    for (const child of node.children || []) { const hit = find(child, key); if (hit) return hit; }
+			    return null;
+			  };
+			  globalThis.mod = Object.freeze({
+			    emit: (event, e) => parse(host.emit(String(event), JSON.stringify(e === undefined ? null : e))),
+			    render: id => parse(host.render(String(id))),
+			    press: (tree, key, value) => {
+			      const node = find(tree, key);
+			      if (!node) throw new Error('no element with key ' + key);
+			      const handler = node.props.onPress || node.props.onChange || node.props.onSubmit;
+			      if (!handler || !handler.$handler) throw new Error('the element ' + key + ' has no handler');
+			      host.press(handler.$handler, JSON.stringify(value === undefined ? null : value));
+			    }
+			  });
+			  globalThis.__voidstrapRunTests = async () => {
+			    const results = [];
+			    for (const item of tests) {
+			      try { await item.body(); results.push({ name: item.name, ok: true }); }
+			      catch (error) { results.push({ name: item.name, ok: false, error: String(error && error.message || error) }); }
+			    }
+			    return JSON.stringify(results);
+			  };
+			})();
+			""";
+
+		public IReadOnlyList<string> DescribeHooks()
+		{
+			lock (_gate)
+				return _hooks.Select(hook => hook.Event + (hook.Matcher != null ? " " + hook.Matcher.ToJsonString() : "")).ToList();
+		}
+
+		private JsonNode? EmitOwn(string eventName, JsonNode? input, string scope)
+		{
+			List<HookEntry> hooks = HooksFor(eventName).Where(hook => Matches(hook.Matcher, input)).ToList();
+			return Run(hooks, 0, eventName, input, static e => e, scope);
+		}
+
+		public JsonArray RunTests(string modulePath)
+		{
+			lock (_gate)
+			{
+				JsObject host = new(_engine);
+				host.Set("emit", Host("emit", a => EmitOwn(Arg(a, 0), JsonNode.Parse(Arg(a, 1)), "test")?.ToJsonString() is string json ? json : JsValue.Undefined));
+				host.Set("render", Host("render", a =>
+				{
+					JsonNode? tree = EmitOwn("ui.render", new JsonObject { ["component"] = "Pane", ["requestId"] = Arg(a, 0), ["plugin"] = Name, ["surface"] = "desktop" }, "pane." + Arg(a, 0));
+					return tree?.ToJsonString() is string json ? json : JsValue.Undefined;
+				}));
+				host.Set("press", Host("press", a =>
+				{
+					if (!_handlers.TryGetValue(Arg(a, 0), out JsValue? handler))
+						throw new InvalidOperationException("the handler is no longer drawn");
+					_engine.Constraints.Reset();
+					Settle(_engine.Invoke(handler, JsValue.Undefined, new object[] { ToJs(JsonNode.Parse(Arg(a, 1))) }));
+					return JsValue.Undefined;
+				}));
+				_engine.SetValue("__voidstrapTest", host);
+				_engine.Execute(TestPrelude);
+				_engine.Modules.Import("./" + modulePath.Replace('\\', '/'));
+				_engine.Constraints.Reset();
+				JsValue results = Settle(_engine.Invoke("__voidstrapRunTests"));
+				return JsonNode.Parse(results.AsString()) as JsonArray ?? new JsonArray();
+			}
 		}
 
 		private static string Arg(JsValue[] arguments, int index) => arguments.Length > index && !arguments[index].IsUndefined() && !arguments[index].IsNull() ? arguments[index].ToString() : "";

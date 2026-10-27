@@ -197,6 +197,8 @@ internal static partial class Cli
 			case "--mcp":
 			case "/mcp":
 				return Mcp(rest);
+			case "mod":
+				return ModCommand(rest);
 			case "uninstall":
 				return await RunSelfAsync(true, "-uninstall");
 			default:
@@ -206,6 +208,18 @@ internal static partial class Cli
 				Console.Error.WriteLine(GetUsageText());
 				return 2;
 		}
+	}
+
+	private static int ModCommand(string[] args)
+	{
+		if (args.Length < 2 || args[0].ToLowerInvariant() is not ("validate" or "test"))
+		{
+			Console.Error.WriteLine("Usage: Voidstrap cli mod validate <folder> | mod test <folder>");
+			return 2;
+		}
+		return args[0].Equals("validate", StringComparison.OrdinalIgnoreCase)
+			? Voidstrap.Integrations.Plugins.ModTools.Validate(args[1], Console.Out)
+			: Voidstrap.Integrations.Plugins.ModTools.Test(args[1], Console.Out);
 	}
 
 	private static int Status()
@@ -458,7 +472,9 @@ internal static partial class Cli
 			$"  mcp +{dLabel.ToLowerInvariant(),-22} Auto connect MCP to {dLabel}" + Environment.NewLine +
 			$"  mcp +{cLabel.ToLowerInvariant(),-22} Auto connect MCP to {cLabel}" + Environment.NewLine +
 			$"  mcp +{oLabel.ToLowerInvariant(),-22} Auto connect MCP to {oLabel}" + Environment.NewLine +
-			"  mcp status                  Show MCP connection status";
+			"  mcp status                  Show MCP connection status" + Environment.NewLine +
+			"  mod validate <folder>       Check that a Voidstrap mod loads and list its hooks" + Environment.NewLine +
+			"  mod test <folder>           Run the *.test files of a Voidstrap mod";
 	}
 
 	public static bool TryRunMcpShortcut(string[] fullCommandLineArgs, out int exitCode)
