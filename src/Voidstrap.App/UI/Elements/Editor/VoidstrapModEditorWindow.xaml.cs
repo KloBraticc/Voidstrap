@@ -7,7 +7,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using ICSharpCode.AvalonEdit.Indentation;
-using ICSharpCode.AvalonEdit.Search;
 using Voidstrap.Integrations.Plugins;
 using Voidstrap.Resources;
 using Voidstrap.UI.Elements.Base;
@@ -45,14 +44,6 @@ public partial class VoidstrapModEditorWindow : WpfUiWindow
 		CodeEditor.Options.ConvertTabsToSpaces = true;
 		CodeEditor.Options.HighlightCurrentLine = true;
 		CodeEditor.TextArea.IndentationStrategy = new DefaultIndentationStrategy();
-		try
-		{
-			SearchPanel.Install(CodeEditor.TextArea);
-		}
-		catch (Exception ex)
-		{
-			App.Logger.WriteLine("VoidstrapModEditorWindow", "Search could not be added to the editor: " + ex.Message);
-		}
 		CodeEditor.TextChanged += CodeEditor_TextChanged;
 		CodeEditor.PreviewKeyDown += CodeEditor_PreviewKeyDown;
 		Closed += Window_Closed;
@@ -115,6 +106,7 @@ public partial class VoidstrapModEditorWindow : WpfUiWindow
 		{
 			CodeEditor.Text = File.ReadAllText(path);
 			CodeEditor.ScrollToHome();
+			Voidstrap.UI.Elements.Controls.CodeEditorBehavior.SetLanguage(CodeEditor, Path.GetExtension(relative));
 			CodeHighlighting.Apply(CodeEditor, relative);
 			_file = relative;
 			FileTitleText.Text = relative;

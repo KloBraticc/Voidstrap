@@ -1,4 +1,4 @@
-<base:WpfUiWindow x:Class="Voidstrap.UI.Elements.Editor.VoidstrapModEditorWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit" xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" Width="1200" Height="780" MinWidth="760" MinHeight="480" ExtendsContentIntoTitleBar="True" WindowStartupLocation="CenterScreen" Background="{ui:ThemeResource ApplicationBackgroundBrush}" Closing="Window_Closing">
+<base:WpfUiWindow x:Class="Voidstrap.UI.Elements.Editor.VoidstrapModEditorWindow" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:controls="clr-namespace:Voidstrap.UI.Elements.Controls" xmlns:avalonedit="http://icsharpcode.net/sharpdevelop/avalonedit" xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" Width="1200" Height="780" MinWidth="760" MinHeight="480" ExtendsContentIntoTitleBar="True" WindowStartupLocation="CenterScreen" Background="{ui:ThemeResource ApplicationBackgroundBrush}" Closing="Window_Closing">
   <Grid>
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
@@ -51,7 +51,7 @@
         </Grid>
       </Border>
       <Border Grid.Column="2" CornerRadius="8" BorderThickness="1" Background="{DynamicResource ControlFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
-        <avalonedit:TextEditor x:Name="CodeEditor" Margin="4" Padding="8" FontFamily="Cascadia Mono, Consolas" FontSize="13.5" ShowLineNumbers="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Style="{StaticResource NewTextEditor}" />
+        <avalonedit:TextEditor x:Name="CodeEditor" controls:CodeEditorBehavior.Language=".tsx" Margin="4" Padding="8" FontFamily="Cascadia Mono, Consolas" FontSize="13.5" ShowLineNumbers="True" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Style="{StaticResource NewTextEditor}" />
       </Border>
     </Grid>
 
