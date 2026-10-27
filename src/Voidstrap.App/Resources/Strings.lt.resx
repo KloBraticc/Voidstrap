@@ -9042,9 +9042,6 @@ Voidstrap prieš įdiegdama patikrina kiekvieną failą pagal biblioteką ir pak
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>Atsijungti</value>
   </data>
-  <data name="Ui.VoidstrapMods.SignedInAs" xml:space="preserve">
-    <value>Prisijungta kaip @{0}</value>
-  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>Prisijunkite su GitHub, kad galėtumėte skelbti savo modus. Modams diegti paskyros nereikia.</value>
   </data>
@@ -9113,5 +9110,8 @@ Voidstrap prieš įdiegdama patikrina kiekvieną failą pagal biblioteką ir pak
   </data>
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>Paskelbti nepavyko: {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
+    <value>Bendruomenės modai ({0})</value>
   </data>
 </root>

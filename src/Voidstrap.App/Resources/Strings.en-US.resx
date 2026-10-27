@@ -1630,9 +1630,6 @@ Voidstrap checks every file against the library before installing it, and asks b
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>Sign out</value>
   </data>
-  <data name="Ui.VoidstrapMods.SignedInAs" xml:space="preserve">
-    <value>Signed in as @{0}</value>
-  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>Sign in with GitHub to publish your own mods. Installing mods needs no account.</value>
   </data>
@@ -1701,5 +1698,8 @@ Voidstrap checks every file against the library before installing it, and asks b
   </data>
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>Publishing did not work: {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
+    <value>Community mods ({0})</value>
   </data>
 </root>

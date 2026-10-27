@@ -9041,9 +9041,6 @@ Voidstrap prüft vor der Installation jede Datei gegen die Bibliothek und fragt,
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>Abmelden</value>
   </data>
-  <data name="Ui.VoidstrapMods.SignedInAs" xml:space="preserve">
-    <value>Angemeldet als @{0}</value>
-  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>Melde dich mit GitHub an, um eigene Mods zu veröffentlichen. Zum Installieren brauchst du kein Konto.</value>
   </data>
@@ -9112,5 +9109,8 @@ Voidstrap prüft vor der Installation jede Datei gegen die Bibliothek und fragt,
   </data>
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>Veröffentlichen hat nicht funktioniert: {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
+    <value>Community-Mods ({0})</value>
   </data>
 </root>

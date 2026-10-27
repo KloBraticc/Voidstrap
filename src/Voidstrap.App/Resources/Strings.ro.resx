@@ -9042,9 +9042,6 @@ Voidstrap verifică fiecare fișier cu biblioteca înainte de instalare și te �
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>Deconectează-te</value>
   </data>
-  <data name="Ui.VoidstrapMods.SignedInAs" xml:space="preserve">
-    <value>Conectat ca @{0}</value>
-  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>Conectează-te cu GitHub ca să publici propriile moduri. Pentru instalare nu ai nevoie de cont.</value>
   </data>
@@ -9113,5 +9110,8 @@ Voidstrap verifică fiecare fișier cu biblioteca înainte de instalare și te �
   </data>
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>Publicarea nu a reușit: {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
+    <value>Moduri ale comunității ({0})</value>
   </data>
 </root>

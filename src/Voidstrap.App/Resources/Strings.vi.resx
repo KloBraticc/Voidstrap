@@ -9044,9 +9044,6 @@ Voidstrap kiểm tra từng tệp với thư viện trước khi cài đặt và
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>Đăng xuất</value>
   </data>
-  <data name="Ui.VoidstrapMods.SignedInAs" xml:space="preserve">
-    <value>Đã đăng nhập là @{0}</value>
-  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>Đăng nhập bằng GitHub để xuất bản mod của riêng bạn. Cài đặt mod không cần tài khoản.</value>
   </data>
@@ -9115,5 +9112,8 @@ Voidstrap kiểm tra từng tệp với thư viện trước khi cài đặt và
   </data>
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>Xuất bản không thành công: {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
+    <value>Mod cộng đồng ({0})</value>
   </data>
 </root>

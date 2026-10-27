@@ -9040,9 +9040,6 @@ A Voidstrap telepítés előtt minden fájlt összevet a könyvtárral, és beka
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>Kijelentkezés</value>
   </data>
-  <data name="Ui.VoidstrapMods.SignedInAs" xml:space="preserve">
-    <value>Bejelentkezve: @{0}</value>
-  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>Jelentkezz be GitHubbal a saját modjaid közzétételéhez. A telepítéshez nem kell fiók.</value>
   </data>
@@ -9111,5 +9108,8 @@ A Voidstrap telepítés előtt minden fájlt összevet a könyvtárral, és beka
   </data>
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>A közzététel nem sikerült: {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
+    <value>Közösségi modok ({0})</value>
   </data>
 </root>

@@ -9039,9 +9039,6 @@ Voidstrap перед встановленням звіряє кожен файл
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>Вийти</value>
   </data>
-  <data name="Ui.VoidstrapMods.SignedInAs" xml:space="preserve">
-    <value>Ви увійшли як @{0}</value>
-  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>Увійдіть через GitHub, щоб публікувати власні моди. Для встановлення модів обліковий запис не потрібен.</value>
   </data>
@@ -9110,5 +9107,8 @@ Voidstrap перед встановленням звіряє кожен файл
   </data>
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>Не вдалося опублікувати: {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
+    <value>Моди спільноти ({0})</value>
   </data>
 </root>

@@ -336,10 +336,8 @@ public partial class VoidstrapModsPage : UiPage
 	private void RenderAccount()
 	{
 		GitHubPublisher.Account? account = GitHubPublisher.SignedIn;
-		AccountText.Text = !GitHubPublisher.IsConfigured
-			? Strings.Ui_VoidstrapMods_PublishingNotSetUp
-			: account != null ? string.Format(Strings.Ui_VoidstrapMods_SignedInAs, account.Login) : Strings.Ui_VoidstrapMods_SignInHint;
-		AccountButton.Content = account != null ? Strings.Ui_VoidstrapMods_SignOut : Strings.Ui_VoidstrapMods_SignIn;
+		AccountButton.Content = account != null ? "@" + account.Login : Strings.Ui_VoidstrapMods_SignIn;
+		AccountButton.ToolTip = account != null ? Strings.Ui_VoidstrapMods_SignOut : Strings.Ui_VoidstrapMods_SignInHint;
 		AccountButton.Visibility = GitHubPublisher.IsConfigured || account != null ? Visibility.Visible : Visibility.Collapsed;
 	}
 
@@ -413,6 +411,7 @@ public partial class VoidstrapModsPage : UiPage
 		List<ModLibrary.LibraryMod> mods = _libraryIndex.Mods
 			.Where(m => query.Length == 0 || m.Name.Contains(query, StringComparison.OrdinalIgnoreCase) || m.Description.Contains(query, StringComparison.OrdinalIgnoreCase) || m.Login.Contains(query, StringComparison.OrdinalIgnoreCase))
 			.ToList();
+		LibraryCountText.Text = string.Format(Strings.Ui_VoidstrapMods_LibraryCount, mods.Count);
 		LibraryStatusText.Text = Strings.Ui_VoidstrapMods_LibraryEmpty;
 		LibraryStatusText.Visibility = mods.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
 		foreach (ModLibrary.LibraryMod mod in mods)

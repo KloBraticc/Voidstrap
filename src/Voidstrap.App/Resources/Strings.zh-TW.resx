@@ -9044,9 +9044,6 @@ Voidstrap 會在安裝前依照模組庫核對每個檔案,並在啟用模組前
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>登出</value>
   </data>
-  <data name="Ui.VoidstrapMods.SignedInAs" xml:space="preserve">
-    <value>已登入為 @{0}</value>
-  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>使用 GitHub 登入即可發布你自己的模組。安裝模組不需要帳號。</value>
   </data>
@@ -9115,5 +9112,8 @@ Voidstrap 會在安裝前依照模組庫核對每個檔案,並在啟用模組前
   </data>
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>發布失敗:{0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
+    <value>社群模組 ({0})</value>
   </data>
 </root>

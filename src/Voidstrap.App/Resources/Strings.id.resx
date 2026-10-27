@@ -9043,9 +9043,6 @@ Voidstrap memeriksa setiap file terhadap pustaka sebelum memasangnya, dan bertan
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>Keluar</value>
   </data>
-  <data name="Ui.VoidstrapMods.SignedInAs" xml:space="preserve">
-    <value>Masuk sebagai @{0}</value>
-  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>Masuk dengan GitHub untuk memublikasikan mod Anda sendiri. Menginstal mod tidak memerlukan akun.</value>
   </data>
@@ -9114,5 +9111,8 @@ Voidstrap memeriksa setiap file terhadap pustaka sebelum memasangnya, dan bertan
   </data>
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>Publikasi gagal: {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
+    <value>Mod komunitas ({0})</value>
   </data>
 </root>

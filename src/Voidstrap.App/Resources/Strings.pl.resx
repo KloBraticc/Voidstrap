@@ -9041,9 +9041,6 @@ Voidstrap przed instalacją sprawdza każdy plik z biblioteką i pyta przed wł�
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>Wyloguj się</value>
   </data>
-  <data name="Ui.VoidstrapMods.SignedInAs" xml:space="preserve">
-    <value>Zalogowano jako @{0}</value>
-  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>Zaloguj się przez GitHub, aby publikować własne mody. Do instalowania modów nie potrzebujesz konta.</value>
   </data>
@@ -9112,5 +9109,8 @@ Voidstrap przed instalacją sprawdza każdy plik z biblioteką i pyta przed wł�
   </data>
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>Publikowanie nie powiodło się: {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
+    <value>Mody społeczności ({0})</value>
   </data>
 </root>

@@ -9041,9 +9041,6 @@ Voidstrap kontrollerar varje fil mot biblioteket innan den installeras och fråg
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>Logga ut</value>
   </data>
-  <data name="Ui.VoidstrapMods.SignedInAs" xml:space="preserve">
-    <value>Inloggad som @{0}</value>
-  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>Logga in med GitHub för att publicera egna moddar. Du behöver inget konto för att installera.</value>
   </data>
@@ -9112,5 +9109,8 @@ Voidstrap kontrollerar varje fil mot biblioteket innan den installeras och fråg
   </data>
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>Publiceringen fungerade inte: {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
+    <value>Communitymoddar ({0})</value>
   </data>
 </root>

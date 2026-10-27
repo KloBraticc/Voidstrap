@@ -9036,9 +9036,6 @@ Voidstrap จะตรวจสอบทุกไฟล์กับคลัง�
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>ออกจากระบบ</value>
   </data>
-  <data name="Ui.VoidstrapMods.SignedInAs" xml:space="preserve">
-    <value>ลงชื่อเข้าใช้เป็น @{0}</value>
-  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>ลงชื่อเข้าใช้ด้วย GitHub เพื่อเผยแพร่ม็อดของคุณเอง การติดตั้งม็อดไม่ต้องใช้บัญชี</value>
   </data>
@@ -9107,5 +9104,8 @@ Voidstrap จะตรวจสอบทุกไฟล์กับคลัง�
   </data>
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>เผยแพร่ไม่สำเร็จ: {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
+    <value>ม็อดจากชุมชน ({0})</value>
   </data>
 </root>

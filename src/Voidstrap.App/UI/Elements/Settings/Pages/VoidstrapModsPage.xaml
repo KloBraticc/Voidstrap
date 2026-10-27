@@ -16,21 +16,11 @@
           <ui:TextBox x:Name="LibrarySearchBox" Icon="Search24" Margin="0,0,12,4" PlaceholderText="{resources:Loc Ui_VoidstrapMods_LibrarySearch}" TextChanged="LibrarySearch_TextChanged" />
           <WrapPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <ui:Button Margin="0,0,8,4" Icon="ArrowClockwise24" Content="{resources:Loc Ui_VoidstrapMods_LibraryRefresh}" Click="LibraryRefresh_Click" />
-            <ui:Button Margin="0,0,0,4" Icon="Open24" Content="{resources:Loc Ui_VoidstrapMods_LibraryOpenGitHub}" Click="LibraryOpenGitHub_Click" />
+            <ui:Button Margin="0,0,8,4" Icon="Open24" Content="{resources:Loc Ui_VoidstrapMods_LibraryOpenGitHub}" Click="LibraryOpenGitHub_Click" />
+            <ui:Button x:Name="AccountButton" Margin="0,0,0,4" Icon="Person24" Click="AccountButton_Click" />
           </WrapPanel>
         </Grid>
-        <Border Margin="0,0,0,12" Padding="12,8" CornerRadius="6" BorderThickness="1" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
-          <Grid>
-            <Grid.ColumnDefinitions>
-              <ColumnDefinition Width="Auto" />
-              <ColumnDefinition Width="*" />
-              <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <ui:SymbolIcon Symbol="Person24" Margin="0,0,10,0" VerticalAlignment="Center" />
-            <TextBlock x:Name="AccountText" Grid.Column="1" VerticalAlignment="Center" TextWrapping="Wrap" />
-            <ui:Button x:Name="AccountButton" Grid.Column="2" Click="AccountButton_Click" />
-          </Grid>
-        </Border>
+        <TextBlock x:Name="LibraryCountText" Margin="0,0,0,8" FontSize="16" FontWeight="SemiBold" />
         <TextBlock x:Name="LibraryStatusText" Margin="0,8,0,8" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
         <StackPanel x:Name="LibraryHost" />
       </StackPanel>

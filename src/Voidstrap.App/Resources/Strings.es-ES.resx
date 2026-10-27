@@ -9041,9 +9041,6 @@ Voidstrap comprueba cada archivo con la biblioteca antes de instalarlo y te preg
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>Cerrar sesión</value>
   </data>
-  <data name="Ui.VoidstrapMods.SignedInAs" xml:space="preserve">
-    <value>Sesión iniciada como @{0}</value>
-  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>Inicia sesión con GitHub para publicar tus propios mods. Para instalar mods no necesitas cuenta.</value>
   </data>
@@ -9112,5 +9109,8 @@ Voidstrap comprueba cada archivo con la biblioteca antes de instalarlo y te preg
   </data>
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>No se pudo publicar: {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
+    <value>Mods de la comunidad ({0})</value>
   </data>
 </root>

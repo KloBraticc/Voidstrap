@@ -9040,9 +9040,6 @@ Voidstrap prije instalacije provjerava svaku datoteku prema knjižnici i pita pr
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>Odjava</value>
   </data>
-  <data name="Ui.VoidstrapMods.SignedInAs" xml:space="preserve">
-    <value>Prijavljen kao @{0}</value>
-  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>Prijavi se putem GitHuba da objaviš vlastite modove. Za instalaciju modova ne treba račun.</value>
   </data>
@@ -9111,5 +9108,8 @@ Voidstrap prije instalacije provjerava svaku datoteku prema knjižnici i pita pr
   </data>
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>Objavljivanje nije uspjelo: {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
+    <value>Modovi zajednice ({0})</value>
   </data>
 </root>

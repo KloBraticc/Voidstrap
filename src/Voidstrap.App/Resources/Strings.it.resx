@@ -9043,9 +9043,6 @@ Voidstrap controlla ogni file con la libreria prima di installarlo e chiede prim
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>Esci</value>
   </data>
-  <data name="Ui.VoidstrapMods.SignedInAs" xml:space="preserve">
-    <value>Accesso come @{0}</value>
-  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>Accedi con GitHub per pubblicare le tue mod. Per installare le mod non serve un account.</value>
   </data>
@@ -9114,5 +9111,8 @@ Voidstrap controlla ogni file con la libreria prima di installarlo e chiede prim
   </data>
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>Pubblicazione non riuscita: {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
+    <value>Mod della community ({0})</value>
   </data>
 </root>

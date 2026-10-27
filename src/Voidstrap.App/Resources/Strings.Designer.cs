@@ -9266,11 +9266,6 @@ namespace Voidstrap.Resources {
             }
         }
 
-        public static string Ui_VoidstrapMods_SignedInAs {
-            get {
-                return ResourceManager.GetString("Ui.VoidstrapMods.SignedInAs", resourceCulture);
-            }
-        }
 
         public static string Ui_VoidstrapMods_SignInHint {
             get {
@@ -9407,6 +9402,12 @@ namespace Voidstrap.Resources {
         public static string Ui_VoidstrapMods_PublishFailed {
             get {
                 return ResourceManager.GetString("Ui.VoidstrapMods.PublishFailed", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidstrapMods_LibraryCount {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.LibraryCount", resourceCulture);
             }
         }
     }

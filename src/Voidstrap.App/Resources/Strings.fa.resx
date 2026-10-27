@@ -9043,9 +9043,6 @@ Voidstrap پیش از نصب هر فایل را با کتابخانه مقایس
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>خروج</value>
   </data>
-  <data name="Ui.VoidstrapMods.SignedInAs" xml:space="preserve">
-    <value>وارد شده با @{0}</value>
-  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>برای انتشار مادهای خود با GitHub وارد شوید. نصب مادها به حساب نیاز ندارد.</value>
   </data>
@@ -9114,5 +9111,8 @@ Voidstrap پیش از نصب هر فایل را با کتابخانه مقایس
   </data>
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>انتشار انجام نشد: {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
+    <value>مادهای جامعه ({0})</value>
   </data>
 </root>

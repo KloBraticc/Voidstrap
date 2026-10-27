@@ -9032,9 +9032,6 @@ Voidstrap menyemak setiap fail dengan pustaka sebelum memasangnya, dan bertanya 
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>Log keluar</value>
   </data>
-  <data name="Ui.VoidstrapMods.SignedInAs" xml:space="preserve">
-    <value>Log masuk sebagai @{0}</value>
-  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>Log masuk dengan GitHub untuk menerbitkan mod anda sendiri. Memasang mod tidak memerlukan akaun.</value>
   </data>
@@ -9103,5 +9100,8 @@ Voidstrap menyemak setiap fail dengan pustaka sebelum memasangnya, dan bertanya 
   </data>
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>Penerbitan tidak berjaya: {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
+    <value>Mod komuniti ({0})</value>
   </data>
 </root>

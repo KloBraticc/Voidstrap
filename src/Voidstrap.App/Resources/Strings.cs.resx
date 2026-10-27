@@ -9042,9 +9042,6 @@ Voidstrap před instalací ověří každý soubor podle knihovny a před zapnut
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>Odhlásit se</value>
   </data>
-  <data name="Ui.VoidstrapMods.SignedInAs" xml:space="preserve">
-    <value>Přihlášeno jako @{0}</value>
-  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>Přihlaste se přes GitHub, abyste mohli publikovat vlastní mody. Instalace modů účet nevyžaduje.</value>
   </data>
@@ -9113,5 +9110,8 @@ Voidstrap před instalací ověří každý soubor podle knihovny a před zapnut
   </data>
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>Publikování se nezdařilo: {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
+    <value>Komunitní mody ({0})</value>
   </data>
 </root>

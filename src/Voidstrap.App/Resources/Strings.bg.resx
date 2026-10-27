@@ -9041,9 +9041,6 @@ Voidstrap проверява всеки файл спрямо библиотек
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>Изход</value>
   </data>
-  <data name="Ui.VoidstrapMods.SignedInAs" xml:space="preserve">
-    <value>Влезли сте като @{0}</value>
-  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>Влезте с GitHub, за да публикувате собствени модове. За инсталиране не е нужен акаунт.</value>
   </data>
@@ -9112,5 +9109,8 @@ Voidstrap проверява всеки файл спрямо библиотек
   </data>
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>Публикуването не беше успешно: {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
+    <value>Модове от общността ({0})</value>
   </data>
 </root>

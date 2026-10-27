@@ -9039,9 +9039,6 @@ Sinusuri ng Voidstrap ang bawat file laban sa library bago ito i-install, at nag
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>Mag-sign out</value>
   </data>
-  <data name="Ui.VoidstrapMods.SignedInAs" xml:space="preserve">
-    <value>Naka-sign in bilang @{0}</value>
-  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>Mag-sign in gamit ang GitHub para mag-publish ng sarili mong mod. Hindi kailangan ng account para mag-install.</value>
   </data>
@@ -9110,5 +9107,8 @@ Sinusuri ng Voidstrap ang bawat file laban sa library bago ito i-install, at nag
   </data>
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>Hindi gumana ang pag-publish: {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
+    <value>Mga mod ng komunidad ({0})</value>
   </data>
 </root>

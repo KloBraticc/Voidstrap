@@ -9040,9 +9040,6 @@
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>تسجيل الخروج</value>
   </data>
-  <data name="Ui.VoidstrapMods.SignedInAs" xml:space="preserve">
-    <value>تم تسجيل الدخول باسم @{0}</value>
-  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>سجّل الدخول باستخدام GitHub لنشر تعديلاتك. لا يحتاج تثبيت التعديلات إلى حساب.</value>
   </data>
@@ -9111,5 +9108,8 @@
   </data>
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>لم ينجح النشر: {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
+    <value>تعديلات المجتمع ({0})</value>
   </data>
 </root>

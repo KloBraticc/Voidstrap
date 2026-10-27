@@ -9040,9 +9040,6 @@ Voidstrap vérifie chaque fichier par rapport à la bibliothèque avant de l'ins
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>Se déconnecter</value>
   </data>
-  <data name="Ui.VoidstrapMods.SignedInAs" xml:space="preserve">
-    <value>Connecté en tant que @{0}</value>
-  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>Connectez-vous avec GitHub pour publier vos propres mods. Installer des mods ne nécessite aucun compte.</value>
   </data>
@@ -9111,5 +9108,8 @@ Voidstrap vérifie chaque fichier par rapport à la bibliothèque avant de l'ins
   </data>
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>La publication n'a pas fonctionné : {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
+    <value>Mods de la communauté ({0})</value>
   </data>
 </root>

@@ -9065,9 +9065,6 @@ Voidstrap 会在安装前根据模组库核对每个文件,并在启用模组前
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>退出登录</value>
   </data>
-  <data name="Ui.VoidstrapMods.SignedInAs" xml:space="preserve">
-    <value>已登录为 @{0}</value>
-  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>使用 GitHub 登录即可发布您自己的模组。安装模组无需账号。</value>
   </data>
@@ -9136,5 +9133,8 @@ Voidstrap 会在安装前根据模组库核对每个文件,并在启用模组前
   </data>
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>发布失败:{0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
+    <value>社区模组 ({0})</value>
   </data>
 </root>

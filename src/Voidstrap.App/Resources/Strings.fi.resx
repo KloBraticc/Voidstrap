@@ -9042,9 +9042,6 @@ Voidstrap tarkistaa jokaisen tiedoston kirjastoa vasten ennen asennusta ja kysyy
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>Kirjaudu ulos</value>
   </data>
-  <data name="Ui.VoidstrapMods.SignedInAs" xml:space="preserve">
-    <value>Kirjautunut: @{0}</value>
-  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>Kirjaudu GitHubilla julkaistaksesi omia modeja. Modien asentaminen ei vaadi tiliä.</value>
   </data>
@@ -9113,5 +9110,8 @@ Voidstrap tarkistaa jokaisen tiedoston kirjastoa vasten ennen asennusta ja kysyy
   </data>
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>Julkaisu ei onnistunut: {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
+    <value>Yhteisön modit ({0})</value>
   </data>
 </root>
