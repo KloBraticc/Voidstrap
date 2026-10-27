@@ -880,7 +880,7 @@ public static class PluginHost
 					string title = spec["title"]?.ToString() ?? id;
 					string section = spec["section"]?.ToString() ?? "Core";
 					string icon = spec["icon"]?.ToString() ?? "Apps24";
-					return new JsonObject { ["key"] = "ModPage_" + Name + "_" + id, ["id"] = id, ["title"] = title, ["section"] = section, ["icon"] = icon }.ToJsonString();
+					return new JsonObject { ["key"] = PluginSidebar.MakePageKey(Name, id), ["id"] = id, ["title"] = title, ["section"] = section, ["icon"] = icon }.ToJsonString();
 				}
 				return PluginSidebar.AddPage(Name, spec).ToJsonString();
 			}));

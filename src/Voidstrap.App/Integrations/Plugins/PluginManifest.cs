@@ -37,12 +37,15 @@ public sealed partial class PluginManifest
 			return found;
 		foreach (string folder in System.IO.Directory.EnumerateDirectories(root).OrderBy(path => path, StringComparer.OrdinalIgnoreCase))
 		{
-			if ((File.GetAttributes(folder) & FileAttributes.ReparsePoint) != 0)
-				continue;
 			try
 			{
+				if (!System.IO.Directory.Exists(folder) || (File.GetAttributes(folder) & FileAttributes.ReparsePoint) != 0)
+					continue;
 				if (Read(folder) is PluginManifest manifest)
 					found.Add(manifest);
+			}
+			catch (Exception ex) when (ex is DirectoryNotFoundException or FileNotFoundException && !System.IO.Directory.Exists(folder))
+			{
 			}
 			catch (Exception ex)
 			{

@@ -292,6 +292,19 @@ public static class PluginSidebar
 			Application.Current?.Dispatcher.BeginInvoke(new Action(ApplyToWindows));
 	}
 
+	public static string MakePageKey(string plugin, string id)
+	{
+		string raw = "ModPage_" + plugin + "_" + id;
+		char[] chars = raw.ToCharArray();
+		for (int i = 0; i < chars.Length; i++)
+		{
+			char c = chars[i];
+			if (!((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || c == '_'))
+				chars[i] = '_';
+		}
+		return new string(chars);
+	}
+
 	public static JsonObject AddPage(string plugin, JsonObject spec)
 	{
 		string id = (spec["id"]?.ToString() ?? "").Trim();
@@ -304,7 +317,7 @@ public static class PluginSidebar
 		string icon = (spec["icon"]?.ToString() ?? "Apps24").Trim();
 		if (icon.Length == 0)
 			icon = "Apps24";
-		string key = "ModPage_" + plugin + "_" + id;
+		string key = MakePageKey(plugin, id);
 		ModPageInfo info = new(plugin, id, key, title, section, icon);
 		lock (Gate)
 		{
