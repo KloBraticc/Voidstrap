@@ -1618,6 +1618,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
         if (IsLoaded)
         {
+            if (RootFrame?.Content is Pages.ModCustomPage activeModPage
+                && !items.ContainsKey(activeModPage.PageKey))
+            {
+                RootNavigation.Navigate(typeof(HomePage));
+            }
             SynchronizeCurrentSidebarSelection();
             PopulateTopSearch();
         }

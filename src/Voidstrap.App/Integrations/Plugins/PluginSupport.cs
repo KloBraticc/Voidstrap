@@ -269,6 +269,12 @@ public static class PluginSidebar
 			return ModPages.ToList();
 	}
 
+	public static void ClearModPages()
+	{
+		lock (Gate)
+			ModPages.Clear();
+	}
+
 	public static void RemovePluginPages(HashSet<string> activePlugins)
 	{
 		bool removed;
@@ -460,16 +466,41 @@ internal static class PluginNavigation
 		"ServerBrowser"
 	];
 
-	public static string Current()
+	public static T InvokeUiBounded<T>(Func<T> action, T fallback, int timeoutMs = 200)
 	{
 		System.Windows.Threading.Dispatcher? dispatcher = Application.Current?.Dispatcher;
 		if (dispatcher == null || dispatcher.HasShutdownStarted)
-			return "";
-		return dispatcher.Invoke(() =>
+			return fallback;
+		if (dispatcher.CheckAccess())
+		{
+			try
+			{
+				return action();
+			}
+			catch
+			{
+				return fallback;
+			}
+		}
+		try
+		{
+			System.Windows.Threading.DispatcherOperation<T> op = dispatcher.InvokeAsync(action);
+			if (op.Wait(TimeSpan.FromMilliseconds(timeoutMs)) == System.Windows.Threading.DispatcherOperationStatus.Completed)
+				return op.Result;
+		}
+		catch
+		{
+		}
+		return fallback;
+	}
+
+	public static string Current()
+	{
+		return InvokeUiBounded(() =>
 		{
 			MainWindow? window = Application.Current?.Windows.OfType<MainWindow>().FirstOrDefault();
 			return window?.GetCurrentPageKey() ?? "";
-		});
+		}, "");
 	}
 
 	public static string Pages()
@@ -635,18 +666,17 @@ internal static class PluginTheme
 	{
 		if (string.IsNullOrWhiteSpace(key))
 			return null;
-		System.Windows.Threading.Dispatcher? dispatcher = Application.Current?.Dispatcher;
-		if (dispatcher == null || dispatcher.HasShutdownStarted)
-			return null;
-		return dispatcher.Invoke(() => ReadResourceHex(key));
+		lock (Gate)
+		{
+			if (ActiveBrushOverrides.TryGetValue(key, out string? activeHex))
+				return activeHex;
+		}
+		return PluginNavigation.InvokeUiBounded(() => ReadResourceHex(key), null);
 	}
 
 	public static string ListBrushes()
 	{
-		System.Windows.Threading.Dispatcher? dispatcher = Application.Current?.Dispatcher;
-		if (dispatcher == null || dispatcher.HasShutdownStarted)
-			return "{}";
-		return dispatcher.Invoke(() =>
+		return PluginNavigation.InvokeUiBounded(() =>
 		{
 			JsonObject obj = new();
 			foreach (string key in CommonBrushKeys)
@@ -660,7 +690,7 @@ internal static class PluginTheme
 					obj[pair.Key] = pair.Value;
 			}
 			return obj.ToJsonString();
-		});
+		}, "{}");
 	}
 
 	private static string? ReadResourceHex(string key)
@@ -783,10 +813,7 @@ internal static class PluginWindow
 {
 	public static string Get()
 	{
-		System.Windows.Threading.Dispatcher? dispatcher = Application.Current?.Dispatcher;
-		if (dispatcher == null || dispatcher.HasShutdownStarted)
-			return "{}";
-		return dispatcher.Invoke(() =>
+		return PluginNavigation.InvokeUiBounded(() =>
 		{
 			MainWindow? window = Application.Current?.Windows.OfType<MainWindow>().FirstOrDefault();
 			if (window == null)
@@ -802,7 +829,7 @@ internal static class PluginWindow
 				["topMost"] = window.Topmost,
 				["opacity"] = window.Opacity
 			}.ToJsonString();
-		});
+		}, "{}");
 	}
 
 	public static void Set(string plugin, JsonObject spec)
@@ -909,10 +936,7 @@ internal static class PluginClipboard
 {
 	public static string Get()
 	{
-		System.Windows.Threading.Dispatcher? dispatcher = Application.Current?.Dispatcher;
-		if (dispatcher == null || dispatcher.HasShutdownStarted)
-			return "";
-		return dispatcher.Invoke(() =>
+		return PluginNavigation.InvokeUiBounded(() =>
 		{
 			try
 			{
@@ -922,7 +946,7 @@ internal static class PluginClipboard
 			{
 				return "";
 			}
-		});
+		}, "");
 	}
 
 	public static void Set(string text)
@@ -1064,14 +1088,11 @@ internal static class PluginDialogManager
 
 	public static bool ShowConfirm(string plugin, string text, string title)
 	{
-		System.Windows.Threading.Dispatcher? dispatcher = Application.Current?.Dispatcher;
-		if (dispatcher == null || dispatcher.HasShutdownStarted)
-			return false;
-		return dispatcher.Invoke(() =>
+		return PluginNavigation.InvokeUiBounded(() =>
 			Frontend.ShowMessageBox(
 				(!string.IsNullOrWhiteSpace(title) ? title + "\n\n" : "") + text,
 				MessageBoxImage.Question,
 				MessageBoxButton.YesNo,
-				MessageBoxResult.No) == MessageBoxResult.Yes);
+				MessageBoxResult.No) == MessageBoxResult.Yes, false, 30000);
 	}
 }

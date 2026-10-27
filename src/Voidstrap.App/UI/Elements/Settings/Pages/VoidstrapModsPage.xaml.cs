@@ -62,7 +62,13 @@ public partial class VoidstrapModsPage : UiPage
 		ModCodeEditor.TextArea.TextView.CurrentLineBorder = new Pen(new SolidColorBrush(Color.FromArgb(64, 96, 165, 250)), 1);
 		ModCodeEditor.TextArea.SelectionBrush = new SolidColorBrush(Color.FromArgb(100, 65, 135, 225));
 		ModCodeEditor.TextArea.Caret.CaretBrush = new SolidColorBrush(Color.FromRgb(116, 185, 255));
-		SearchPanel.Install(ModCodeEditor.TextArea);
+		try
+		{
+			SearchPanel.Install(ModCodeEditor.TextArea);
+		}
+		catch
+		{
+		}
 		ModCodeEditor.TextChanged += ModCodeEditor_TextChanged;
 		ModCodeEditor.TextArea.Caret.PositionChanged += (_, _) =>
 		{
@@ -616,7 +622,7 @@ public partial class VoidstrapModsPage : UiPage
 
 	private void SaveAndReload_Click(object sender, RoutedEventArgs e) => SaveAndReload();
 
-	private void SaveAndReload()
+	private async void SaveAndReload()
 	{
 		if (_editingMod == null || _editingFile == null)
 			return;
@@ -626,12 +632,18 @@ public partial class VoidstrapModsPage : UiPage
 			return;
 		string folder = Path.Combine(Paths.Plugins, modName);
 		PluginHost.ClearProblems(modName);
-		StringWriter writer = new();
-		writer.WriteLine(string.Format(Strings.Ui_VoidstrapMods_SavedMessage, modName, fileName));
-		int code = ModTools.Validate(folder, writer);
-		EditorOutputBox.Text = writer.ToString().Trim();
+		string header = string.Format(Strings.Ui_VoidstrapMods_SavedMessage, modName, fileName);
+		EditorOutputBox.Text = header;
+		(int code, string output) = await Task.Run(() =>
+		{
+			StringWriter writer = new();
+			writer.WriteLine(header);
+			int result = ModTools.Validate(folder, writer);
+			return (result, writer.ToString().Trim());
+		});
+		EditorOutputBox.Text = output;
 		if (code == 0)
-			Task.Run(PluginHost.Reload);
+			_ = Task.Run(PluginHost.Reload);
 	}
 
 	private void ValidateEditorMod_Click(object sender, RoutedEventArgs e)
@@ -652,18 +664,26 @@ public partial class VoidstrapModsPage : UiPage
 		RunTestsAndDisplay(Path.Combine(Paths.Plugins, _editingMod));
 	}
 
-	private void RunValidateAndDisplay(string folder)
+	private async void RunValidateAndDisplay(string folder)
 	{
-		StringWriter writer = new();
-		ModTools.Validate(folder, writer);
-		EditorOutputBox.Text = writer.ToString().Trim();
+		string output = await Task.Run(() =>
+		{
+			StringWriter writer = new();
+			ModTools.Validate(folder, writer);
+			return writer.ToString().Trim();
+		});
+		EditorOutputBox.Text = output;
 	}
 
-	private void RunTestsAndDisplay(string folder)
+	private async void RunTestsAndDisplay(string folder)
 	{
-		StringWriter writer = new();
-		ModTools.Test(folder, writer);
-		EditorOutputBox.Text = writer.ToString().Trim();
+		string output = await Task.Run(() =>
+		{
+			StringWriter writer = new();
+			ModTools.Test(folder, writer);
+			return writer.ToString().Trim();
+		});
+		EditorOutputBox.Text = output;
 	}
 
 	private void ShowNewFilePanel_Click(object sender, RoutedEventArgs e)

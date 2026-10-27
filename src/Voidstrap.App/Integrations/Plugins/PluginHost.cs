@@ -37,6 +37,9 @@ public static class PluginHost
 
 	private const int MaxProblems = 50;
 
+	[ThreadStatic]
+	private static int _renderDepth;
+
 	public static event Action? ModsChanged;
 
 	public sealed record ModInfo(string Name, string Version, string Description, string Directory, string Consent, bool Loaded, IReadOnlyList<string> Hooks, IReadOnlyList<string> Problems);
@@ -243,16 +246,16 @@ public static class PluginHost
 			Loaded.Clear();
 			Loaded.AddRange(fresh);
 			names = fresh.Select(plugin => plugin.Name).ToHashSet(StringComparer.Ordinal);
-			OpenPanes.RemoveAll(pane => !names.Contains(pane.Plugin));
-			OpenBanners.RemoveAll(banner => !names.Contains(banner.Plugin));
-			foreach (string key in Statuses.Keys.Where(key => !names.Contains(key)).ToList())
-				Statuses.Remove(key);
+			OpenPanes.Clear();
+			OpenBanners.Clear();
+			Statuses.Clear();
 		}
-		PluginSidebar.RemovePluginPages(names);
+		PluginSidebar.ClearModPages();
 		PluginDialogManager.ClosePluginDialogs(names);
 		foreach (LoadedPlugin plugin in old)
 			plugin.Dispose();
 		Invoke("session.start", new JsonObject { ["source"] = old.Count > 0 ? "reload" : "startup" });
+		PluginSidebar.ApplyToWindows();
 		ModsChanged?.Invoke();
 		PanesChanged?.Invoke();
 		BannersChanged?.Invoke();
@@ -312,46 +315,78 @@ public static class PluginHost
 
 	public static JsonNode? RenderPane(PaneInfo pane)
 	{
-		return Invoke("ui.render", new JsonObject
+		_renderDepth++;
+		try
 		{
-			["component"] = "Pane",
-			["requestId"] = pane.Id,
-			["plugin"] = pane.Plugin,
-			["surface"] = "desktop"
-		}, static _ => null, "pane." + pane.Id);
+			return Invoke("ui.render", new JsonObject
+			{
+				["component"] = "Pane",
+				["requestId"] = pane.Id,
+				["plugin"] = pane.Plugin,
+				["surface"] = "desktop"
+			}, static _ => null, "pane." + pane.Id);
+		}
+		finally
+		{
+			_renderDepth--;
+		}
 	}
 
 	public static JsonNode? RenderCustomPage(string plugin, string id)
 	{
-		return Invoke("ui.render", new JsonObject
+		_renderDepth++;
+		try
 		{
-			["component"] = "Page",
-			["requestId"] = id,
-			["plugin"] = plugin,
-			["surface"] = "desktop"
-		}, static _ => null, "page." + id);
+			return Invoke("ui.render", new JsonObject
+			{
+				["component"] = "Page",
+				["requestId"] = id,
+				["plugin"] = plugin,
+				["surface"] = "desktop"
+			}, static _ => null, "page." + id);
+		}
+		finally
+		{
+			_renderDepth--;
+		}
 	}
 
 	public static JsonNode? RenderBanner(BannerInfo banner)
 	{
-		return Invoke("ui.render", new JsonObject
+		_renderDepth++;
+		try
 		{
-			["component"] = "Banner",
-			["requestId"] = banner.Id,
-			["plugin"] = banner.Plugin,
-			["surface"] = "desktop"
-		}, static _ => null, "banner." + banner.Id);
+			return Invoke("ui.render", new JsonObject
+			{
+				["component"] = "Banner",
+				["requestId"] = banner.Id,
+				["plugin"] = banner.Plugin,
+				["surface"] = "desktop"
+			}, static _ => null, "banner." + banner.Id);
+		}
+		finally
+		{
+			_renderDepth--;
+		}
 	}
 
 	public static JsonNode? RenderDialog(string plugin, string id)
 	{
-		return Invoke("ui.render", new JsonObject
+		_renderDepth++;
+		try
 		{
-			["component"] = "Dialog",
-			["requestId"] = id,
-			["plugin"] = plugin,
-			["surface"] = "desktop"
-		}, static _ => null, "dialog." + id);
+			return Invoke("ui.render", new JsonObject
+			{
+				["component"] = "Dialog",
+				["requestId"] = id,
+				["plugin"] = plugin,
+				["surface"] = "desktop"
+			}, static _ => null, "dialog." + id);
+		}
+		finally
+		{
+			_renderDepth--;
+		}
 	}
 
 	public static void InvokeHandler(string handlerId, JsonNode? argument)
@@ -380,20 +415,30 @@ public static class PluginHost
 	{
 		if (id.Length == 0 || id.Length > 64)
 			throw new InvalidOperationException("a pane needs an id of 1 to 64 characters");
+		string resolvedTitle = title.Length > 0 ? title : id;
+		bool changed = false;
 		lock (Gate)
 		{
-			OpenPanes.RemoveAll(pane => pane.Plugin == plugin && pane.Id == id);
-			OpenPanes.Add(new PaneInfo(plugin, id, title.Length > 0 ? title : id));
+			PaneInfo? existing = OpenPanes.FirstOrDefault(pane => pane.Plugin == plugin && pane.Id == id);
+			if (existing == null || !string.Equals(existing.Title, resolvedTitle, StringComparison.Ordinal))
+			{
+				OpenPanes.RemoveAll(pane => pane.Plugin == plugin && pane.Id == id);
+				OpenPanes.Add(new PaneInfo(plugin, id, resolvedTitle));
+				changed = true;
+			}
 		}
-		PanesChanged?.Invoke();
+		if (changed && _renderDepth == 0)
+			PanesChanged?.Invoke();
 		return new JsonObject { ["isPlaced"] = true };
 	}
 
 	internal static void ClosePane(string plugin, string id)
 	{
+		int removed;
 		lock (Gate)
-			OpenPanes.RemoveAll(pane => pane.Plugin == plugin && pane.Id == id);
-		PanesChanged?.Invoke();
+			removed = OpenPanes.RemoveAll(pane => pane.Plugin == plugin && pane.Id == id);
+		if (removed > 0 && _renderDepth == 0)
+			PanesChanged?.Invoke();
 	}
 
 	internal static JsonNode OpenBanner(string plugin, string id, string position)
@@ -401,20 +446,29 @@ public static class PluginHost
 		if (id.Length == 0 || id.Length > 64)
 			throw new InvalidOperationException("a banner needs an id of 1 to 64 characters");
 		string pos = string.Equals(position, "bottom", StringComparison.OrdinalIgnoreCase) ? "bottom" : "top";
+		bool changed = false;
 		lock (Gate)
 		{
-			OpenBanners.RemoveAll(b => b.Plugin == plugin && b.Id == id);
-			OpenBanners.Add(new BannerInfo(plugin, id, pos));
+			BannerInfo? existing = OpenBanners.FirstOrDefault(b => b.Plugin == plugin && b.Id == id);
+			if (existing == null || !string.Equals(existing.Position, pos, StringComparison.Ordinal))
+			{
+				OpenBanners.RemoveAll(b => b.Plugin == plugin && b.Id == id);
+				OpenBanners.Add(new BannerInfo(plugin, id, pos));
+				changed = true;
+			}
 		}
-		BannersChanged?.Invoke();
+		if (changed && _renderDepth == 0)
+			BannersChanged?.Invoke();
 		return new JsonObject { ["isPlaced"] = true, ["position"] = pos };
 	}
 
 	internal static void CloseBanner(string plugin, string id)
 	{
+		int removed;
 		lock (Gate)
-			OpenBanners.RemoveAll(b => b.Plugin == plugin && b.Id == id);
-		BannersChanged?.Invoke();
+			removed = OpenBanners.RemoveAll(b => b.Plugin == plugin && b.Id == id);
+		if (removed > 0 && _renderDepth == 0)
+			BannersChanged?.Invoke();
 	}
 
 	internal static void SetStatus(string plugin, string? text)
@@ -426,10 +480,15 @@ public static class PluginHost
 			else
 				Statuses[plugin] = text.Length > 200 ? text[..200] : text;
 		}
-		StatusChanged?.Invoke();
+		if (_renderDepth == 0)
+			StatusChanged?.Invoke();
 	}
 
-	internal static void Invalidate(string plugin) => PaneInvalidated?.Invoke(plugin);
+	internal static void Invalidate(string plugin)
+	{
+		if (_renderDepth == 0)
+			PaneInvalidated?.Invoke(plugin);
+	}
 
 	internal static string? GetState(string plugin, string key)
 	{
@@ -445,7 +504,8 @@ public static class PluginHost
 				SessionState[plugin] = values = new JsonObject();
 			values[key] = JsonNode.Parse(json);
 		}
-		PaneInvalidated?.Invoke(plugin);
+		if (_renderDepth == 0)
+			PaneInvalidated?.Invoke(plugin);
 	}
 
 	internal static string Describe(Exception ex)
