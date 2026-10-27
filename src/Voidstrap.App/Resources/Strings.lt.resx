@@ -8891,26 +8891,14 @@ Voidstrap modifikacijos gali pakeisti Voidstrap veikimą ir nustatymus. Įjunkit
   <data name="Ui.VoidstrapMods.SaveAndReload" xml:space="preserve">
     <value>Išsaugoti ir įkelti iš naujo</value>
   </data>
-  <data name="Ui.VoidstrapMods.CloseEditor" xml:space="preserve">
-    <value>Uždaryti redaktorių</value>
-  </data>
-  <data name="Ui.VoidstrapMods.FileLabel" xml:space="preserve">
-    <value>Failas</value>
-  </data>
   <data name="Ui.VoidstrapMods.NewFileButton" xml:space="preserve">
     <value>Naujas failas</value>
   </data>
   <data name="Ui.VoidstrapMods.NewFilePlaceholder" xml:space="preserve">
     <value>hooks/helper.ts or pane.test.tsx</value>
   </data>
-  <data name="Ui.VoidstrapMods.AddFileButton" xml:space="preserve">
-    <value>Pridėti failą</value>
-  </data>
   <data name="Ui.VoidstrapMods.DeleteFileButton" xml:space="preserve">
     <value>Ištrinti failą</value>
-  </data>
-  <data name="Ui.VoidstrapMods.OutputHeader" xml:space="preserve">
-    <value>Patikros ir testų išvestis</value>
   </data>
   <data name="Ui.VoidstrapMods.SavedMessage" xml:space="preserve">
     <value>Išsaugota {0}/{1} ir modifikacijos įkeltos iš naujo.</value>

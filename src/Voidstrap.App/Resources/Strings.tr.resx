@@ -8888,26 +8888,14 @@ Voidstrap modları Voidstrap'in çalışma şeklini ve ayarlarını değiştireb
   <data name="Ui.VoidstrapMods.SaveAndReload" xml:space="preserve">
     <value>Kaydet ve yeniden yükle</value>
   </data>
-  <data name="Ui.VoidstrapMods.CloseEditor" xml:space="preserve">
-    <value>Düzenleyiciyi kapat</value>
-  </data>
-  <data name="Ui.VoidstrapMods.FileLabel" xml:space="preserve">
-    <value>Dosya</value>
-  </data>
   <data name="Ui.VoidstrapMods.NewFileButton" xml:space="preserve">
     <value>Yeni dosya</value>
   </data>
   <data name="Ui.VoidstrapMods.NewFilePlaceholder" xml:space="preserve">
     <value>hooks/helper.ts or pane.test.tsx</value>
   </data>
-  <data name="Ui.VoidstrapMods.AddFileButton" xml:space="preserve">
-    <value>Dosya ekle</value>
-  </data>
   <data name="Ui.VoidstrapMods.DeleteFileButton" xml:space="preserve">
     <value>Dosyayı sil</value>
-  </data>
-  <data name="Ui.VoidstrapMods.OutputHeader" xml:space="preserve">
-    <value>Doğrulama ve test çıktısı</value>
   </data>
   <data name="Ui.VoidstrapMods.SavedMessage" xml:space="preserve">
     <value>{0}/{1} kaydedildi ve modlar yeniden yüklendi.</value>

@@ -8891,26 +8891,14 @@ Voidstrap-mods kunnen veranderen hoe Voidstrap werkt en de instellingen aanpasse
   <data name="Ui.VoidstrapMods.SaveAndReload" xml:space="preserve">
     <value>Opslaan en herladen</value>
   </data>
-  <data name="Ui.VoidstrapMods.CloseEditor" xml:space="preserve">
-    <value>Editor sluiten</value>
-  </data>
-  <data name="Ui.VoidstrapMods.FileLabel" xml:space="preserve">
-    <value>Bestand</value>
-  </data>
   <data name="Ui.VoidstrapMods.NewFileButton" xml:space="preserve">
     <value>Nieuw bestand</value>
   </data>
   <data name="Ui.VoidstrapMods.NewFilePlaceholder" xml:space="preserve">
     <value>hooks/helper.ts or pane.test.tsx</value>
   </data>
-  <data name="Ui.VoidstrapMods.AddFileButton" xml:space="preserve">
-    <value>Bestand toevoegen</value>
-  </data>
   <data name="Ui.VoidstrapMods.DeleteFileButton" xml:space="preserve">
     <value>Bestand verwijderen</value>
-  </data>
-  <data name="Ui.VoidstrapMods.OutputHeader" xml:space="preserve">
-    <value>Validatie en testuitvoer</value>
   </data>
   <data name="Ui.VoidstrapMods.SavedMessage" xml:space="preserve">
     <value>{0}/{1} opgeslagen en mods herladen.</value>

@@ -8885,26 +8885,14 @@ Voidstrap เขียนลงในโฟลเดอร์เดสก์ท�
   <data name="Ui.VoidstrapMods.SaveAndReload" xml:space="preserve">
     <value>บันทึกและโหลดใหม่</value>
   </data>
-  <data name="Ui.VoidstrapMods.CloseEditor" xml:space="preserve">
-    <value>ปิดตัวแก้ไข</value>
-  </data>
-  <data name="Ui.VoidstrapMods.FileLabel" xml:space="preserve">
-    <value>ไฟล์</value>
-  </data>
   <data name="Ui.VoidstrapMods.NewFileButton" xml:space="preserve">
     <value>ไฟล์ใหม่</value>
   </data>
   <data name="Ui.VoidstrapMods.NewFilePlaceholder" xml:space="preserve">
     <value>hooks/helper.ts or pane.test.tsx</value>
   </data>
-  <data name="Ui.VoidstrapMods.AddFileButton" xml:space="preserve">
-    <value>เพิ่มไฟล์</value>
-  </data>
   <data name="Ui.VoidstrapMods.DeleteFileButton" xml:space="preserve">
     <value>ลบไฟล์</value>
-  </data>
-  <data name="Ui.VoidstrapMods.OutputHeader" xml:space="preserve">
-    <value>ผลลัพธ์การตรวจสอบและการทดสอบ</value>
   </data>
   <data name="Ui.VoidstrapMods.SavedMessage" xml:space="preserve">
     <value>บันทึก {0}/{1} และโหลดม็อดใหม่แล้ว</value>

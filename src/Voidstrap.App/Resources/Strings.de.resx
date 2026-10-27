@@ -8890,26 +8890,14 @@ Voidstrap Mods können ändern, wie Voidstrap funktioniert, und seine Einstellun
   <data name="Ui.VoidstrapMods.SaveAndReload" xml:space="preserve">
     <value>Speichern und neu laden</value>
   </data>
-  <data name="Ui.VoidstrapMods.CloseEditor" xml:space="preserve">
-    <value>Editor schließen</value>
-  </data>
-  <data name="Ui.VoidstrapMods.FileLabel" xml:space="preserve">
-    <value>Datei</value>
-  </data>
   <data name="Ui.VoidstrapMods.NewFileButton" xml:space="preserve">
     <value>Neue Datei</value>
   </data>
   <data name="Ui.VoidstrapMods.NewFilePlaceholder" xml:space="preserve">
     <value>hooks/helper.ts or pane.test.tsx</value>
   </data>
-  <data name="Ui.VoidstrapMods.AddFileButton" xml:space="preserve">
-    <value>Datei hinzufügen</value>
-  </data>
   <data name="Ui.VoidstrapMods.DeleteFileButton" xml:space="preserve">
     <value>Datei löschen</value>
-  </data>
-  <data name="Ui.VoidstrapMods.OutputHeader" xml:space="preserve">
-    <value>Validierungs und Testausgabe</value>
   </data>
   <data name="Ui.VoidstrapMods.SavedMessage" xml:space="preserve">
     <value>{0}/{1} gespeichert und Mods neu geladen.</value>

@@ -8893,26 +8893,14 @@ Mod Voidstrap có thể thay đổi cách Voidstrap hoạt động và thay đ�
   <data name="Ui.VoidstrapMods.SaveAndReload" xml:space="preserve">
     <value>Lưu và tải lại</value>
   </data>
-  <data name="Ui.VoidstrapMods.CloseEditor" xml:space="preserve">
-    <value>Đóng trình sửa</value>
-  </data>
-  <data name="Ui.VoidstrapMods.FileLabel" xml:space="preserve">
-    <value>Tệp</value>
-  </data>
   <data name="Ui.VoidstrapMods.NewFileButton" xml:space="preserve">
     <value>Tệp mới</value>
   </data>
   <data name="Ui.VoidstrapMods.NewFilePlaceholder" xml:space="preserve">
     <value>hooks/helper.ts or pane.test.tsx</value>
   </data>
-  <data name="Ui.VoidstrapMods.AddFileButton" xml:space="preserve">
-    <value>Thêm tệp</value>
-  </data>
   <data name="Ui.VoidstrapMods.DeleteFileButton" xml:space="preserve">
     <value>Xóa tệp</value>
-  </data>
-  <data name="Ui.VoidstrapMods.OutputHeader" xml:space="preserve">
-    <value>Kết quả kiểm tra và thử nghiệm</value>
   </data>
   <data name="Ui.VoidstrapMods.SavedMessage" xml:space="preserve">
     <value>Đã lưu {0}/{1} và tải lại các mod.</value>

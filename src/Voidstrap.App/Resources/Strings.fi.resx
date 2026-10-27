@@ -8891,26 +8891,14 @@ Voidstrap-modit voivat muuttaa Voidstrapin toimintaa ja sen asetuksia. Ota käyt
   <data name="Ui.VoidstrapMods.SaveAndReload" xml:space="preserve">
     <value>Tallenna ja lataa uudelleen</value>
   </data>
-  <data name="Ui.VoidstrapMods.CloseEditor" xml:space="preserve">
-    <value>Sulje editori</value>
-  </data>
-  <data name="Ui.VoidstrapMods.FileLabel" xml:space="preserve">
-    <value>Tiedosto</value>
-  </data>
   <data name="Ui.VoidstrapMods.NewFileButton" xml:space="preserve">
     <value>Uusi tiedosto</value>
   </data>
   <data name="Ui.VoidstrapMods.NewFilePlaceholder" xml:space="preserve">
     <value>hooks/helper.ts or pane.test.tsx</value>
   </data>
-  <data name="Ui.VoidstrapMods.AddFileButton" xml:space="preserve">
-    <value>Lisää tiedosto</value>
-  </data>
   <data name="Ui.VoidstrapMods.DeleteFileButton" xml:space="preserve">
     <value>Poista tiedosto</value>
-  </data>
-  <data name="Ui.VoidstrapMods.OutputHeader" xml:space="preserve">
-    <value>Tarkistuksen ja testien tulokset</value>
   </data>
   <data name="Ui.VoidstrapMods.SavedMessage" xml:space="preserve">
     <value>Tallennettiin {0}/{1} ja ladattiin modit uudelleen.</value>

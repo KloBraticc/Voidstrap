@@ -8929,35 +8929,10 @@ namespace Voidstrap.Resources {
             }
         }
 
-        public static string Ui_VoidstrapMods_ModVersionLabel {
-            get {
-                return ResourceManager.GetString("Ui.VoidstrapMods.ModVersionLabel", resourceCulture);
-            }
-        }
 
-        public static string Ui_VoidstrapMods_ModDescriptionLabel {
-            get {
-                return ResourceManager.GetString("Ui.VoidstrapMods.ModDescriptionLabel", resourceCulture);
-            }
-        }
 
-        public static string Ui_VoidstrapMods_ModDescriptionPlaceholder {
-            get {
-                return ResourceManager.GetString("Ui.VoidstrapMods.ModDescriptionPlaceholder", resourceCulture);
-            }
-        }
 
-        public static string Ui_VoidstrapMods_ModNetworkLabel {
-            get {
-                return ResourceManager.GetString("Ui.VoidstrapMods.ModNetworkLabel", resourceCulture);
-            }
-        }
 
-        public static string Ui_VoidstrapMods_ModNetworkPlaceholder {
-            get {
-                return ResourceManager.GetString("Ui.VoidstrapMods.ModNetworkPlaceholder", resourceCulture);
-            }
-        }
 
         public static string Ui_VoidstrapMods_CreateButton {
             get {
@@ -8971,11 +8946,6 @@ namespace Voidstrap.Resources {
             }
         }
 
-        public static string Ui_VoidstrapMods_ValidateButton {
-            get {
-                return ResourceManager.GetString("Ui.VoidstrapMods.ValidateButton", resourceCulture);
-            }
-        }
 
         public static string Ui_VoidstrapMods_TestButton {
             get {
@@ -9001,17 +8971,7 @@ namespace Voidstrap.Resources {
             }
         }
 
-        public static string Ui_VoidstrapMods_CloseEditor {
-            get {
-                return ResourceManager.GetString("Ui.VoidstrapMods.CloseEditor", resourceCulture);
-            }
-        }
 
-        public static string Ui_VoidstrapMods_FileLabel {
-            get {
-                return ResourceManager.GetString("Ui.VoidstrapMods.FileLabel", resourceCulture);
-            }
-        }
 
         public static string Ui_VoidstrapMods_NewFileButton {
             get {
@@ -9025,11 +8985,6 @@ namespace Voidstrap.Resources {
             }
         }
 
-        public static string Ui_VoidstrapMods_AddFileButton {
-            get {
-                return ResourceManager.GetString("Ui.VoidstrapMods.AddFileButton", resourceCulture);
-            }
-        }
 
         public static string Ui_VoidstrapMods_DeleteFileButton {
             get {
@@ -9037,29 +8992,9 @@ namespace Voidstrap.Resources {
             }
         }
 
-        public static string Ui_VoidstrapMods_SnippetLabel {
-            get {
-                return ResourceManager.GetString("Ui.VoidstrapMods.SnippetLabel", resourceCulture);
-            }
-        }
 
-        public static string Ui_VoidstrapMods_InsertButton {
-            get {
-                return ResourceManager.GetString("Ui.VoidstrapMods.InsertButton", resourceCulture);
-            }
-        }
 
-        public static string Ui_VoidstrapMods_ApiGuideButton {
-            get {
-                return ResourceManager.GetString("Ui.VoidstrapMods.ApiGuideButton", resourceCulture);
-            }
-        }
 
-        public static string Ui_VoidstrapMods_OutputHeader {
-            get {
-                return ResourceManager.GetString("Ui.VoidstrapMods.OutputHeader", resourceCulture);
-            }
-        }
 
         public static string Ui_VoidstrapMods_SavedMessage {
             get {

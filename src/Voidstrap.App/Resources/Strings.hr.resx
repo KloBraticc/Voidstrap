@@ -8889,26 +8889,14 @@ Voidstrap modovi mogu promijeniti način rada aplikacije Voidstrap i njezine pos
   <data name="Ui.VoidstrapMods.SaveAndReload" xml:space="preserve">
     <value>Spremi i ponovno učitaj</value>
   </data>
-  <data name="Ui.VoidstrapMods.CloseEditor" xml:space="preserve">
-    <value>Zatvori uređivač</value>
-  </data>
-  <data name="Ui.VoidstrapMods.FileLabel" xml:space="preserve">
-    <value>Datoteka</value>
-  </data>
   <data name="Ui.VoidstrapMods.NewFileButton" xml:space="preserve">
     <value>Nova datoteka</value>
   </data>
   <data name="Ui.VoidstrapMods.NewFilePlaceholder" xml:space="preserve">
     <value>hooks/helper.ts or pane.test.tsx</value>
   </data>
-  <data name="Ui.VoidstrapMods.AddFileButton" xml:space="preserve">
-    <value>Dodaj datoteku</value>
-  </data>
   <data name="Ui.VoidstrapMods.DeleteFileButton" xml:space="preserve">
     <value>Izbriši datoteku</value>
-  </data>
-  <data name="Ui.VoidstrapMods.OutputHeader" xml:space="preserve">
-    <value>Rezultati provjere i testiranja</value>
   </data>
   <data name="Ui.VoidstrapMods.SavedMessage" xml:space="preserve">
     <value>Spremljeno {0}/{1} i modovi su ponovno učitani.</value>
