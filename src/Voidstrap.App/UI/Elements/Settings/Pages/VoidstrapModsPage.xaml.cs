@@ -29,6 +29,9 @@ public partial class VoidstrapModsPage : UiPage
 		PluginHost.PaneInvalidated += OnPaneInvalidated;
 		PluginHost.StatusChanged -= OnStatusChanged;
 		PluginHost.StatusChanged += OnStatusChanged;
+		PluginHost.ModsChanged -= OnModsChanged;
+		PluginHost.ModsChanged += OnModsChanged;
+		RenderMods();
 		RenderAll();
 		RenderStatus();
 	}
@@ -38,6 +41,54 @@ public partial class VoidstrapModsPage : UiPage
 		PluginHost.PanesChanged -= OnPanesChanged;
 		PluginHost.PaneInvalidated -= OnPaneInvalidated;
 		PluginHost.StatusChanged -= OnStatusChanged;
+		PluginHost.ModsChanged -= OnModsChanged;
+	}
+
+	private void OnModsChanged() => Dispatcher.BeginInvoke(new Action(RenderMods));
+
+	private void RenderMods()
+	{
+		ModsHost.Children.Clear();
+		foreach (PluginHost.ModInfo mod in PluginHost.ListMods())
+		{
+			Grid header = new();
+			header.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+			header.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+			StackPanel text = new();
+			text.Children.Add(MakeText(mod.Name + "  " + mod.Version, new JsonObject { ["bold"] = true }));
+			if (mod.Description.Length > 0)
+				text.Children.Add(MakeText(mod.Description, new JsonObject { ["dim"] = true }));
+			if (mod.Consent == "on" && !mod.Loaded)
+				text.Children.Add(MakeText(Voidstrap.Resources.Strings.Ui_VoidstrapMods_NotLoaded, new JsonObject()));
+			header.Children.Add(text);
+			ToggleSwitch toggle = new() { IsChecked = mod.Consent == "on", Tag = mod.Name, VerticalAlignment = VerticalAlignment.Center };
+			toggle.Click += ModToggle_Click;
+			Grid.SetColumn(toggle, 1);
+			header.Children.Add(toggle);
+			StackPanel body = new();
+			body.Children.Add(header);
+			if (mod.Problems.Count > 0)
+			{
+				System.Windows.Controls.TextBlock problems = new() { Text = string.Join(Environment.NewLine, mod.Problems.TakeLast(10)), FontFamily = new System.Windows.Media.FontFamily("Consolas, Cascadia Mono, monospace"), FontSize = 11, TextWrapping = TextWrapping.Wrap };
+				problems.SetResourceReference(System.Windows.Controls.TextBlock.ForegroundProperty, "TextFillColorSecondaryBrush");
+				body.Children.Add(new Expander { Header = Voidstrap.Resources.Strings.Ui_VoidstrapMods_RecentProblems, Content = problems, Margin = new Thickness(0, 8, 0, 0) });
+			}
+			Border card = new() { Child = body, Padding = new Thickness(14, 10, 14, 10), Margin = new Thickness(0, 0, 0, 6), CornerRadius = new CornerRadius(6), BorderThickness = new Thickness(1) };
+			card.SetResourceReference(Border.BackgroundProperty, "CardBackgroundFillColorDefaultBrush");
+			card.SetResourceReference(Border.BorderBrushProperty, "CardStrokeColorDefaultBrush");
+			ModsHost.Children.Add(card);
+		}
+	}
+
+	private void ModToggle_Click(object sender, RoutedEventArgs e)
+	{
+		if (sender is ToggleSwitch { Tag: string name } toggle)
+			PluginHost.SetEnabled(name, toggle.IsChecked == true);
+	}
+
+	private void Reload_Click(object sender, RoutedEventArgs e)
+	{
+		System.Threading.Tasks.Task.Run(PluginHost.Reload);
 	}
 
 	private void OnPanesChanged() => Dispatcher.BeginInvoke(new Action(RenderAll));
@@ -68,7 +119,7 @@ public partial class VoidstrapModsPage : UiPage
 			}
 			catch (Exception ex)
 			{
-				App.Logger.WriteLine("VoidstrapMods", pane.Plugin + ": the pane " + pane.Id + " could not be drawn: " + PluginHost.Describe(ex));
+				PluginHost.Problem(pane.Plugin, "the pane " + pane.Id + " could not be drawn: " + PluginHost.Describe(ex));
 			}
 			if (content != null)
 				body.Children.Add(content);

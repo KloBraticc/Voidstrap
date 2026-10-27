@@ -1410,4 +1410,16 @@ Voidstrap mods can change how Voidstrap works and change its settings. Only turn
   <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
     <value>Open the mods folder</value>
   </data>
+  <data name="Ui.VoidstrapMods.Reload" xml:space="preserve">
+    <value>Reload mods</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Installed" xml:space="preserve">
+    <value>Installed mods</value>
+  </data>
+  <data name="Ui.VoidstrapMods.NotLoaded" xml:space="preserve">
+    <value>This mod is on but did not load. See the problems below.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.RecentProblems" xml:space="preserve">
+    <value>Recent problems</value>
+  </data>
 </root>

@@ -8819,4 +8819,16 @@ Kayang baguhin ng mga mod ng Voidstrap kung paano gumagana ang Voidstrap at ang 
   <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
     <value>Buksan ang folder ng mga mod</value>
   </data>
+  <data name="Ui.VoidstrapMods.Reload" xml:space="preserve">
+    <value>I-reload ang mga mod</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Installed" xml:space="preserve">
+    <value>Mga naka-install na mod</value>
+  </data>
+  <data name="Ui.VoidstrapMods.NotLoaded" xml:space="preserve">
+    <value>Naka-on ang mod na ito pero hindi ito nag-load. Tingnan ang mga problema sa ibaba.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.RecentProblems" xml:space="preserve">
+    <value>Mga kamakailang problema</value>
+  </data>
 </root>

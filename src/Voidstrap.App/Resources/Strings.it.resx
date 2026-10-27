@@ -8823,4 +8823,16 @@ I mod di Voidstrap possono cambiare il funzionamento di Voidstrap e modificarne 
   <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
     <value>Apri la cartella dei mod</value>
   </data>
+  <data name="Ui.VoidstrapMods.Reload" xml:space="preserve">
+    <value>Ricarica i mod</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Installed" xml:space="preserve">
+    <value>Mod installati</value>
+  </data>
+  <data name="Ui.VoidstrapMods.NotLoaded" xml:space="preserve">
+    <value>Questo mod è attivo ma non si è caricato. Guarda i problemi qui sotto.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.RecentProblems" xml:space="preserve">
+    <value>Problemi recenti</value>
+  </data>
 </root>

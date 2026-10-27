@@ -30,7 +30,7 @@ public sealed partial class PluginManifest
 
 	public IReadOnlyList<string> NetworkHosts { get; private init; } = [];
 
-	public static List<PluginManifest> Discover(string root)
+	public static List<PluginManifest> Discover(string root, bool report = true)
 	{
 		List<PluginManifest> found = [];
 		if (!System.IO.Directory.Exists(root))
@@ -46,7 +46,8 @@ public sealed partial class PluginManifest
 			}
 			catch (Exception ex)
 			{
-				App.Logger.WriteLine("VoidstrapMods", Path.GetFileName(folder) + ": manifest refused: " + PluginHost.Describe(ex));
+				if (report)
+					PluginHost.Problem(Path.GetFileName(folder), "the manifest was refused: " + PluginHost.Describe(ex));
 			}
 		}
 		return found.GroupBy(manifest => manifest.Name).Select(group => group.First()).ToList();

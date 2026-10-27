@@ -8822,4 +8822,16 @@ Voidstrap modifikacijos gali pakeisti Voidstrap veikimą ir nustatymus. Įjunkit
   <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
     <value>Atidaryti modifikacijų aplanką</value>
   </data>
+  <data name="Ui.VoidstrapMods.Reload" xml:space="preserve">
+    <value>Iš naujo įkelti modifikacijas</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Installed" xml:space="preserve">
+    <value>Įdiegtos modifikacijos</value>
+  </data>
+  <data name="Ui.VoidstrapMods.NotLoaded" xml:space="preserve">
+    <value>Ši modifikacija įjungta, bet neįsikėlė. Peržiūrėkite toliau nurodytas problemas.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.RecentProblems" xml:space="preserve">
+    <value>Naujausios problemos</value>
+  </data>
 </root>

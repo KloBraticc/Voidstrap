@@ -8822,4 +8822,16 @@ Modurile Voidstrap pot schimba modul în care funcționează Voidstrap și setă
   <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
     <value>Deschide folderul de moduri</value>
   </data>
+  <data name="Ui.VoidstrapMods.Reload" xml:space="preserve">
+    <value>Reîncarcă modurile</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Installed" xml:space="preserve">
+    <value>Moduri instalate</value>
+  </data>
+  <data name="Ui.VoidstrapMods.NotLoaded" xml:space="preserve">
+    <value>Acest mod este activat, dar nu s-a încărcat. Vezi problemele de mai jos.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.RecentProblems" xml:space="preserve">
+    <value>Probleme recente</value>
+  </data>
 </root>

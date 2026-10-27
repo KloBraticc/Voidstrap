@@ -8819,4 +8819,16 @@ Voidstrap modları Voidstrap'in çalışma şeklini ve ayarlarını değiştireb
   <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
     <value>Mod klasörünü aç</value>
   </data>
+  <data name="Ui.VoidstrapMods.Reload" xml:space="preserve">
+    <value>Modları yeniden yükle</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Installed" xml:space="preserve">
+    <value>Yüklü modlar</value>
+  </data>
+  <data name="Ui.VoidstrapMods.NotLoaded" xml:space="preserve">
+    <value>Bu mod açık ancak yüklenmedi. Aşağıdaki sorunlara bakın.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.RecentProblems" xml:space="preserve">
+    <value>Son sorunlar</value>
+  </data>
 </root>

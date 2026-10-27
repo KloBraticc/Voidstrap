@@ -31,6 +31,62 @@ public static class PluginHost
 
 	private static readonly Dictionary<string, JsonObject> SessionState = new(StringComparer.Ordinal);
 
+	private static readonly Dictionary<string, List<string>> Problems = new(StringComparer.Ordinal);
+
+	private const int MaxProblems = 50;
+
+	public static event Action? ModsChanged;
+
+	public sealed record ModInfo(string Name, string Version, string Description, string Directory, string Consent, bool Loaded, IReadOnlyList<string> Hooks, IReadOnlyList<string> Problems);
+
+	public static void Problem(string mod, string text)
+	{
+		App.Logger.WriteLine(LogIdent, mod + ": " + text);
+		lock (Gate)
+		{
+			if (!Problems.TryGetValue(mod, out List<string>? list))
+				Problems[mod] = list = [];
+			list.Add(DateTime.Now.ToString("HH:mm:ss") + " " + text);
+			if (list.Count > MaxProblems)
+				list.RemoveAt(0);
+		}
+		ModsChanged?.Invoke();
+	}
+
+	public static IReadOnlyList<ModInfo> ListMods()
+	{
+		List<PluginManifest> manifests = PluginManifest.Discover(Paths.Plugins, report: false);
+		Dictionary<string, bool> consent = App.Settings.Prop.PluginConsent ?? [];
+		List<ModInfo> result = [];
+		lock (Gate)
+		{
+			foreach (PluginManifest manifest in manifests)
+			{
+				LoadedPlugin? loaded = Loaded.FirstOrDefault(plugin => plugin.Name == manifest.Name);
+				string state = consent.TryGetValue(manifest.Name, out bool allowed) ? (allowed ? "on" : "off") : "not asked yet";
+				result.Add(new ModInfo(manifest.Name, manifest.Version, manifest.Description, manifest.Directory, state, loaded != null, loaded?.DescribeHooks() ?? [], Problems.TryGetValue(manifest.Name, out List<string>? list) ? list.ToList() : []));
+			}
+		}
+		return result;
+	}
+
+	public static void SetEnabled(string name, bool enabled)
+	{
+		Dictionary<string, bool> consent = App.Settings.Prop.PluginConsent ??= [];
+		lock (Gate)
+			consent[name] = enabled;
+		App.Settings.SaveDeferred();
+		App.Logger.WriteLine(LogIdent, name + ": turned " + (enabled ? "on" : "off") + " by the user");
+		Task.Run(Reload);
+	}
+
+	public static void ForgetConsent(string name)
+	{
+		lock (Gate)
+			App.Settings.Prop.PluginConsent?.Remove(name);
+		App.Settings.SaveDeferred();
+	}
+
 	private static FileSystemWatcher? _watcher;
 
 	private static Timer? _reloadTimer;
@@ -153,7 +209,7 @@ public static class PluginHost
 			}
 			catch (Exception ex)
 			{
-				App.Logger.WriteLine(LogIdent, manifest.Name + ": module did not load: " + Describe(ex));
+				Problem(manifest.Name, "the module did not load: " + Describe(ex));
 			}
 		}
 		List<LoadedPlugin> old;
@@ -170,6 +226,7 @@ public static class PluginHost
 		foreach (LoadedPlugin plugin in old)
 			plugin.Dispose();
 		Invoke("session.start", new JsonObject { ["source"] = old.Count > 0 ? "reload" : "startup" });
+		ModsChanged?.Invoke();
 		PanesChanged?.Invoke();
 		StatusChanged?.Invoke();
 	}
@@ -220,7 +277,7 @@ public static class PluginHost
 		}
 		catch (Exception ex)
 		{
-			App.Logger.WriteLine(LogIdent, hook.Plugin.Name + ": " + eventName + " hook skipped: " + Describe(ex));
+			Problem(hook.Plugin.Name, eventName + " hook skipped: " + Describe(ex));
 			return nextCalled ? nextResult : Run(hooks, index + 1, eventName, input, bottom, scope);
 		}
 	}
@@ -253,7 +310,7 @@ public static class PluginHost
 		}
 		catch (Exception ex)
 		{
-			App.Logger.WriteLine(LogIdent, name + ": a UI handler failed: " + Describe(ex));
+			Problem(name, "a UI handler failed: " + Describe(ex));
 		}
 		PaneInvalidated?.Invoke(name);
 	}
@@ -568,7 +625,7 @@ public static class PluginHost
 				}
 				catch (Exception ex)
 				{
-					App.Logger.WriteLine(LogIdent, Name + ": clock hook skipped: " + Describe(ex));
+					Problem(Name, "clock hook skipped: " + Describe(ex));
 				}
 			}
 			Invalidate(Name);
@@ -623,7 +680,7 @@ public static class PluginHost
 						}
 						catch (Exception ex)
 						{
-							App.Logger.WriteLine(LogIdent, Name + ": a network callback failed: " + Describe(ex));
+							Problem(Name, "a network callback failed: " + Describe(ex));
 						}
 					}
 					Monitor.PulseAll(_gate);

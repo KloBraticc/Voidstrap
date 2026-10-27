@@ -8823,4 +8823,16 @@ Voidstrap نتوانست در پوشهٔ دسکتاپ بنویسد.</value>
   <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
     <value>باز کردن پوشه مادها</value>
   </data>
+  <data name="Ui.VoidstrapMods.Reload" xml:space="preserve">
+    <value>بارگذاری دوباره مادها</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Installed" xml:space="preserve">
+    <value>مادهای نصب‌شده</value>
+  </data>
+  <data name="Ui.VoidstrapMods.NotLoaded" xml:space="preserve">
+    <value>این ماد روشن است اما بارگذاری نشد. مشکلات زیر را ببینید.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.RecentProblems" xml:space="preserve">
+    <value>مشکلات اخیر</value>
+  </data>
 </root>

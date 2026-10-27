@@ -8835,4 +8835,16 @@ Voidstrap Mod は Voidstrap の動作や設定を変更できます。信頼で�
   <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
     <value>Mod フォルダーを開く</value>
   </data>
+  <data name="Ui.VoidstrapMods.Reload" xml:space="preserve">
+    <value>Mod を再読み込み</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Installed" xml:space="preserve">
+    <value>インストール済みの Mod</value>
+  </data>
+  <data name="Ui.VoidstrapMods.NotLoaded" xml:space="preserve">
+    <value>この Mod は有効ですが、読み込まれませんでした。下の問題を確認してください。</value>
+  </data>
+  <data name="Ui.VoidstrapMods.RecentProblems" xml:space="preserve">
+    <value>最近の問題</value>
+  </data>
 </root>

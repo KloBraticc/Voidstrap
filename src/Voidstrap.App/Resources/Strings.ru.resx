@@ -8820,4 +8820,16 @@ Voidstrap не смог записать в папку рабочего стол
   <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
     <value>Открыть папку модов</value>
   </data>
+  <data name="Ui.VoidstrapMods.Reload" xml:space="preserve">
+    <value>Перезагрузить моды</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Installed" xml:space="preserve">
+    <value>Установленные моды</value>
+  </data>
+  <data name="Ui.VoidstrapMods.NotLoaded" xml:space="preserve">
+    <value>Этот мод включён, но не загрузился. Посмотрите проблемы ниже.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.RecentProblems" xml:space="preserve">
+    <value>Недавние проблемы</value>
+  </data>
 </root>

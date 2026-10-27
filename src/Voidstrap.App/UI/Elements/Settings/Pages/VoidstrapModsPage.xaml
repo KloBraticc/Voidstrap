@@ -6,8 +6,13 @@
         <ColumnDefinition Width="Auto" />
       </Grid.ColumnDefinitions>
       <TextBlock x:Name="StatusText" VerticalAlignment="Center" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
-      <ui:Button Grid.Column="1" Icon="FolderOpen24" Content="{resources:Loc Ui_VoidstrapMods_OpenFolder}" Click="OpenFolder_Click" />
+      <StackPanel Grid.Column="1" Orientation="Horizontal">
+        <ui:Button Margin="0,0,8,0" Icon="ArrowClockwise24" Content="{resources:Loc Ui_VoidstrapMods_Reload}" Click="Reload_Click" />
+        <ui:Button Icon="FolderOpen24" Content="{resources:Loc Ui_VoidstrapMods_OpenFolder}" Click="OpenFolder_Click" />
+      </StackPanel>
     </Grid>
+    <TextBlock Margin="0,0,0,8" FontSize="16" FontWeight="SemiBold" Text="{resources:Loc Ui_VoidstrapMods_Installed}" />
+    <StackPanel x:Name="ModsHost" Margin="0,0,0,16" />
     <TextBlock x:Name="EmptyText" Margin="0,24,0,0" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_VoidstrapMods_Empty}" />
     <StackPanel x:Name="PanesHost" />
   </StackPanel>

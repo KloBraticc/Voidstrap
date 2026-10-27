@@ -8820,4 +8820,16 @@ A Voidstrap modok megváltoztathatják a Voidstrap működését és a beállít
   <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
     <value>Modok mappájának megnyitása</value>
   </data>
+  <data name="Ui.VoidstrapMods.Reload" xml:space="preserve">
+    <value>Modok újratöltése</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Installed" xml:space="preserve">
+    <value>Telepített modok</value>
+  </data>
+  <data name="Ui.VoidstrapMods.NotLoaded" xml:space="preserve">
+    <value>Ez a mod be van kapcsolva, de nem töltődött be. Nézd meg a lenti problémákat.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.RecentProblems" xml:space="preserve">
+    <value>Legutóbbi problémák</value>
+  </data>
 </root>

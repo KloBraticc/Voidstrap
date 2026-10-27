@@ -8824,4 +8824,16 @@ Voidstrap 模組可以變更 Voidstrap 的運作方式和設定。請只啟用�
   <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
     <value>開啟模組資料夾</value>
   </data>
+  <data name="Ui.VoidstrapMods.Reload" xml:space="preserve">
+    <value>重新載入模組</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Installed" xml:space="preserve">
+    <value>已安裝的模組</value>
+  </data>
+  <data name="Ui.VoidstrapMods.NotLoaded" xml:space="preserve">
+    <value>這個模組已啟用，但沒有載入。請查看下方的問題。</value>
+  </data>
+  <data name="Ui.VoidstrapMods.RecentProblems" xml:space="preserve">
+    <value>最近的問題</value>
+  </data>
 </root>

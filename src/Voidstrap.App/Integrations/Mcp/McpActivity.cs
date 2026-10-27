@@ -98,7 +98,7 @@ public static class McpActivity
 	private static string? Describe(string tool, JsonObject args)
 	{
 		string action = McpArgs.Trimmed(args, "action").ToLowerInvariant();
-		bool reading = action is "" or "list" or "status" or "get" or "schema" or "list_profiles";
+		bool reading = action is "" or "list" or "status" or "get" or "schema" or "list_profiles" or "guide" or "types" or "files" or "read_file" or "problems" or "validate" or "test";
 		return tool switch
 		{
 			"get_voidstrap_overview" => string.Format(Strings.Ui_Mcp_Activity_Reading, Strings.Ui_Mcp_Activity_Overview),
@@ -119,6 +119,7 @@ public static class McpActivity
 			"manage_mod_generator" => string.Format(reading ? Strings.Ui_Mcp_Activity_Reading : Strings.Ui_Mcp_Activity_Changing, Strings.Ui_Mcp_Activity_ModGenerator),
 			"manage_app_theme" => string.Format(reading ? Strings.Ui_Mcp_Activity_Reading : Strings.Ui_Mcp_Activity_Changing, Strings.Ui_Mcp_Activity_AppTheme),
 			"list_accounts" => string.Format(Strings.Ui_Mcp_Activity_Reading, Strings.Ui_Mcp_Activity_Accounts),
+			"manage_voidstrap_mods" => string.Format(reading ? Strings.Ui_Mcp_Activity_Reading : Strings.Ui_Mcp_Activity_Changing, Strings.Ui_Nav_VoidstrapMods),
 			"read_voidstrap_file" => string.Format(Strings.Ui_Mcp_Activity_Reading, Clip(McpArgs.Trimmed(args, "path", "Voidstrap"))),
 			"diagnose_app" => string.Format(Strings.Ui_Mcp_Activity_Reading, Strings.Ui_Mcp_Activity_Problems),
 			"fix_app_issue" => string.Format(Strings.Ui_Mcp_Activity_Fixing, Strings.Ui_Mcp_Activity_Problems),

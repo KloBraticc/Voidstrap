@@ -8812,4 +8812,16 @@ Mod Voidstrap boleh mengubah cara Voidstrap berfungsi dan mengubah tetapannya. H
   <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
     <value>Buka folder mod</value>
   </data>
+  <data name="Ui.VoidstrapMods.Reload" xml:space="preserve">
+    <value>Muat semula mod</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Installed" xml:space="preserve">
+    <value>Mod yang dipasang</value>
+  </data>
+  <data name="Ui.VoidstrapMods.NotLoaded" xml:space="preserve">
+    <value>Mod ini dihidupkan tetapi tidak dimuatkan. Lihat masalah di bawah.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.RecentProblems" xml:space="preserve">
+    <value>Masalah terkini</value>
+  </data>
 </root>

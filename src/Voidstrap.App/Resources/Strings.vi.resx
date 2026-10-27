@@ -8824,4 +8824,16 @@ Mod Voidstrap có thể thay đổi cách Voidstrap hoạt động và thay đ�
   <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
     <value>Mở thư mục mod</value>
   </data>
+  <data name="Ui.VoidstrapMods.Reload" xml:space="preserve">
+    <value>Tải lại mod</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Installed" xml:space="preserve">
+    <value>Mod đã cài đặt</value>
+  </data>
+  <data name="Ui.VoidstrapMods.NotLoaded" xml:space="preserve">
+    <value>Mod này đang bật nhưng không tải được. Hãy xem các sự cố bên dưới.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.RecentProblems" xml:space="preserve">
+    <value>Sự cố gần đây</value>
+  </data>
 </root>

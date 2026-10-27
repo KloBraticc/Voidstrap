@@ -294,6 +294,17 @@ public static class McpToolCatalog
 					["name"] = P("string", "Theme name for save_theme.")
 				}) with { OffUiThread = true, TimeoutSeconds = 330 },
 
+			T("manage_voidstrap_mods",
+				"Write, test and manage Voidstrap mods: sandboxed TypeScript or JavaScript mods that hook Voidstrap events, add panes, change settings, rearrange the sidebar and more. Call action guide first, then types for the full API. Actions: list, guide, types, files, read_file, write_file, delete_file, delete_mod, validate, test, reload, enable, disable, problems. A new mod only runs after the user agrees in a prompt Voidstrap shows them.",
+				Kind.Write, new JsonObject
+				{
+					["action"] = P("string", "list (default), guide, types, files, read_file, write_file, delete_file, delete_mod, validate, test, reload, enable, disable, or problems."),
+					["mod"] = P("string", "The mod's folder name: lowercase letters, digits and hyphens."),
+					["path"] = P("string", "File path inside the mod, for example hooks/register.tsx or .voidstrap-mod/plugin.json."),
+					["content"] = P("string", "Full file contents for write_file."),
+					["confirm"] = P("boolean", "Required true for delete_mod.")
+				}) with { OffUiThread = true, TimeoutSeconds = 120 },
+
 			T("list_accounts",
 				"List the Roblox accounts saved in Voidstrap and which one is signed in. Read only, no cookies are ever returned.",
 				Kind.Read, new JsonObject()) with { OffUiThread = true, TimeoutSeconds = 30 },

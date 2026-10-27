@@ -8845,4 +8845,16 @@ Voidstrap 模组可以更改 Voidstrap 的工作方式和设置。请只启用�
   <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
     <value>打开模组文件夹</value>
   </data>
+  <data name="Ui.VoidstrapMods.Reload" xml:space="preserve">
+    <value>重新加载模组</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Installed" xml:space="preserve">
+    <value>已安装的模组</value>
+  </data>
+  <data name="Ui.VoidstrapMods.NotLoaded" xml:space="preserve">
+    <value>此模组已启用，但未能加载。请查看下方的问题。</value>
+  </data>
+  <data name="Ui.VoidstrapMods.RecentProblems" xml:space="preserve">
+    <value>最近的问题</value>
+  </data>
 </root>

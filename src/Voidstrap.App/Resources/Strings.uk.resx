@@ -8819,4 +8819,16 @@ Voidstrap не зміг записати до теки робочого стол
   <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
     <value>Відкрити папку модів</value>
   </data>
+  <data name="Ui.VoidstrapMods.Reload" xml:space="preserve">
+    <value>Перезавантажити моди</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Installed" xml:space="preserve">
+    <value>Встановлені моди</value>
+  </data>
+  <data name="Ui.VoidstrapMods.NotLoaded" xml:space="preserve">
+    <value>Цей мод увімкнено, але він не завантажився. Перегляньте проблеми нижче.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.RecentProblems" xml:space="preserve">
+    <value>Нещодавні проблеми</value>
+  </data>
 </root>

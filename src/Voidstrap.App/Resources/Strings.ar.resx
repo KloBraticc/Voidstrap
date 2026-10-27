@@ -8820,4 +8820,16 @@
   <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
     <value>فتح مجلد التعديلات</value>
   </data>
+  <data name="Ui.VoidstrapMods.Reload" xml:space="preserve">
+    <value>إعادة تحميل التعديلات</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Installed" xml:space="preserve">
+    <value>التعديلات المثبتة</value>
+  </data>
+  <data name="Ui.VoidstrapMods.NotLoaded" xml:space="preserve">
+    <value>هذا التعديل مفعّل لكنه لم يُحمَّل. راجع المشكلات أدناه.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.RecentProblems" xml:space="preserve">
+    <value>المشكلات الأخيرة</value>
+  </data>
 </root>

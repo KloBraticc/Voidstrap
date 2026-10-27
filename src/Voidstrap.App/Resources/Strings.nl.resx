@@ -8822,4 +8822,16 @@ Voidstrap-mods kunnen veranderen hoe Voidstrap werkt en de instellingen aanpasse
   <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
     <value>Modsmap openen</value>
   </data>
+  <data name="Ui.VoidstrapMods.Reload" xml:space="preserve">
+    <value>Mods opnieuw laden</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Installed" xml:space="preserve">
+    <value>Geïnstalleerde mods</value>
+  </data>
+  <data name="Ui.VoidstrapMods.NotLoaded" xml:space="preserve">
+    <value>Deze mod staat aan maar is niet geladen. Bekijk de problemen hieronder.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.RecentProblems" xml:space="preserve">
+    <value>Recente problemen</value>
+  </data>
 </root>

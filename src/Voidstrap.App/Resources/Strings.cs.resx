@@ -8822,4 +8822,16 @@ Módy Voidstrap mohou měnit fungování aplikace Voidstrap i její nastavení. 
   <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
     <value>Otevřít složku s módy</value>
   </data>
+  <data name="Ui.VoidstrapMods.Reload" xml:space="preserve">
+    <value>Znovu načíst módy</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Installed" xml:space="preserve">
+    <value>Nainstalované módy</value>
+  </data>
+  <data name="Ui.VoidstrapMods.NotLoaded" xml:space="preserve">
+    <value>Tento mód je zapnutý, ale nenačetl se. Podívejte se na problémy níže.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.RecentProblems" xml:space="preserve">
+    <value>Nedávné problémy</value>
+  </data>
 </root>

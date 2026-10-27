@@ -8819,4 +8819,16 @@ Voidstrap 모드는 Voidstrap의 작동 방식과 설정을 변경할 수 있습
   <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
     <value>모드 폴더 열기</value>
   </data>
+  <data name="Ui.VoidstrapMods.Reload" xml:space="preserve">
+    <value>모드 다시 불러오기</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Installed" xml:space="preserve">
+    <value>설치된 모드</value>
+  </data>
+  <data name="Ui.VoidstrapMods.NotLoaded" xml:space="preserve">
+    <value>이 모드는 켜져 있지만 불러오지 못했습니다. 아래 문제를 확인하십시오.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.RecentProblems" xml:space="preserve">
+    <value>최근 문제</value>
+  </data>
 </root>

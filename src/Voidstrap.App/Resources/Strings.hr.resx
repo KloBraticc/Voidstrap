@@ -8820,4 +8820,16 @@ Voidstrap modovi mogu promijeniti način rada aplikacije Voidstrap i njezine pos
   <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
     <value>Otvori mapu s modovima</value>
   </data>
+  <data name="Ui.VoidstrapMods.Reload" xml:space="preserve">
+    <value>Ponovno učitaj modove</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Installed" xml:space="preserve">
+    <value>Instalirani modovi</value>
+  </data>
+  <data name="Ui.VoidstrapMods.NotLoaded" xml:space="preserve">
+    <value>Ovaj mod je uključen, ali se nije učitao. Pogledaj probleme ispod.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.RecentProblems" xml:space="preserve">
+    <value>Nedavni problemi</value>
+  </data>
 </root>

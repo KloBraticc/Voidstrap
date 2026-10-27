@@ -8821,4 +8821,16 @@ Voidstrap не можа да запише в папката на работни�
   <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
     <value>Отваряне на папката с модове</value>
   </data>
+  <data name="Ui.VoidstrapMods.Reload" xml:space="preserve">
+    <value>Презареждане на модовете</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Installed" xml:space="preserve">
+    <value>Инсталирани модове</value>
+  </data>
+  <data name="Ui.VoidstrapMods.NotLoaded" xml:space="preserve">
+    <value>Този мод е включен, но не се зареди. Вижте проблемите по-долу.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.RecentProblems" xml:space="preserve">
+    <value>Скорошни проблеми</value>
+  </data>
 </root>

@@ -8822,4 +8822,16 @@ Voidstrap-modit voivat muuttaa Voidstrapin toimintaa ja sen asetuksia. Ota käyt
   <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
     <value>Avaa modikansio</value>
   </data>
+  <data name="Ui.VoidstrapMods.Reload" xml:space="preserve">
+    <value>Lataa modit uudelleen</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Installed" xml:space="preserve">
+    <value>Asennetut modit</value>
+  </data>
+  <data name="Ui.VoidstrapMods.NotLoaded" xml:space="preserve">
+    <value>Tämä modi on käytössä, mutta se ei latautunut. Katso ongelmat alta.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.RecentProblems" xml:space="preserve">
+    <value>Viimeaikaiset ongelmat</value>
+  </data>
 </root>

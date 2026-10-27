@@ -232,6 +232,7 @@ public static class McpBridgeServer
 			"search_fastflag_tracker" => McpTools.SearchFastFlagTrackerAsync(args, dispatcher, limit.Token),
 			"manage_mod_generator" => McpTools.ManageModGeneratorAsync(args, dispatcher, limit.Token),
 			"list_accounts" => McpTools.ListAccountsAsync(limit.Token),
+			"manage_voidstrap_mods" => Task.Run(() => McpTools.ManageVoidstrapMods(args), limit.Token),
 			"read_voidstrap_file" => Task.Run(() => McpTools.ReadVoidstrapFileSafe(args), limit.Token),
 			_ => Task.FromResult(new McpToolResult($"The tool {name} has no background handler.", true))
 		};

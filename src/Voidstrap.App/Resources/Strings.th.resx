@@ -8816,4 +8816,16 @@ Voidstrap เขียนลงในโฟลเดอร์เดสก์ท�
   <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
     <value>เปิดโฟลเดอร์ม็อด</value>
   </data>
+  <data name="Ui.VoidstrapMods.Reload" xml:space="preserve">
+    <value>โหลดม็อดใหม่</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Installed" xml:space="preserve">
+    <value>ม็อดที่ติดตั้งแล้ว</value>
+  </data>
+  <data name="Ui.VoidstrapMods.NotLoaded" xml:space="preserve">
+    <value>ม็อดนี้เปิดอยู่แต่โหลดไม่สำเร็จ ดูปัญหาด้านล่าง</value>
+  </data>
+  <data name="Ui.VoidstrapMods.RecentProblems" xml:space="preserve">
+    <value>ปัญหาล่าสุด</value>
+  </data>
 </root>

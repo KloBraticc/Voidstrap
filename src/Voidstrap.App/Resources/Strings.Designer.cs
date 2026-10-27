@@ -1570,6 +1570,10 @@ namespace Voidstrap.Resources {
 
         public static string Ui_Home_LatestRobloxNews => ResourceManager.GetString("Ui.Home.LatestRobloxNews", resourceCulture);
         public static string Ui_RiShade_Dlss_Title => ResourceManager.GetString("Ui.RiShade.Dlss.Title", resourceCulture);
+        public static string Ui_VoidstrapMods_RecentProblems => ResourceManager.GetString("Ui.VoidstrapMods.RecentProblems", resourceCulture);
+        public static string Ui_VoidstrapMods_NotLoaded => ResourceManager.GetString("Ui.VoidstrapMods.NotLoaded", resourceCulture);
+        public static string Ui_VoidstrapMods_Installed => ResourceManager.GetString("Ui.VoidstrapMods.Installed", resourceCulture);
+        public static string Ui_VoidstrapMods_Reload => ResourceManager.GetString("Ui.VoidstrapMods.Reload", resourceCulture);
         public static string Ui_VoidstrapMods_OpenFolder => ResourceManager.GetString("Ui.VoidstrapMods.OpenFolder", resourceCulture);
         public static string Ui_VoidstrapMods_Empty => ResourceManager.GetString("Ui.VoidstrapMods.Empty", resourceCulture);
         public static string Ui_Nav_VoidstrapMods => ResourceManager.GetString("Ui.Nav.VoidstrapMods", resourceCulture);
