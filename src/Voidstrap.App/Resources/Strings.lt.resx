@@ -8980,4 +8980,138 @@ Voidstrap modifikacijos gali pakeisti Voidstrap veikimą ir nustatymus. Įjunkit
   <data name="Ui.VoidstrapMods.TemplateGameHooksDescription" xml:space="preserve">
     <value>Reaguoja į prisijungimą prie Roblox žaidimų ir paleidžia vietas.</value>
   </data>
+  <data name="Ui.VoidstrapMods.CreateTab" xml:space="preserve">
+    <value>Kurti</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryTab" xml:space="preserve">
+    <value>Biblioteka</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySearch" xml:space="preserve">
+    <value>Ieškoti bibliotekoje</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryRefresh" xml:space="preserve">
+    <value>Atnaujinti</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryOpenGitHub" xml:space="preserve">
+    <value>Atidaryti GitHub</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryLoading" xml:space="preserve">
+    <value>Įkeliama biblioteka</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryFailed" xml:space="preserve">
+    <value>Nepavyko įkelti bibliotekos: {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryEmpty" xml:space="preserve">
+    <value>Paiešką atitinkančių modų nėra.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryBy" xml:space="preserve">
+    <value>autorius @{0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryInstall" xml:space="preserve">
+    <value>Įdiegti</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryUpdate" xml:space="preserve">
+    <value>Atnaujinti</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryInstalled" xml:space="preserve">
+    <value>Įdiegta</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryNameTaken" xml:space="preserve">
+    <value>Pavadinimas užimtas</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryNetwork" xml:space="preserve">
+    <value>Jungiasi prie: {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryNoNetwork" xml:space="preserve">
+    <value>Veikia neprisijungus</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryInstallPrompt" xml:space="preserve">
+    <value>Įdiegti &quot;{0}&quot; {1}, autorius @{2}?
+
+{3}
+
+Voidstrap prieš įdiegdama patikrina kiekvieną failą pagal biblioteką ir paklausia prieš įjungdama modą.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryInstallFailed" xml:space="preserve">
+    <value>Nepavyko įdiegti &quot;{0}&quot;:
+{1}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignIn" xml:space="preserve">
+    <value>Prisijungti su GitHub</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
+    <value>Atsijungti</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignedInAs" xml:space="preserve">
+    <value>Prisijungta kaip @{0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
+    <value>Prisijunkite su GitHub, kad galėtumėte skelbti savo modus. Modams diegti paskyros nereikia.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishingNotSetUp" xml:space="preserve">
+    <value>Šioje versijoje skelbimas dar nenustatytas. Modus iš bibliotekos vis tiek galite diegti.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignInTitle" xml:space="preserve">
+    <value>Prisijungti su GitHub</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignInSteps" xml:space="preserve">
+    <value>Atidarykite GitHub, įveskite šį kodą ir patvirtinkite Voidstrap. Voidstrap prašo prieigos tik prie jūsų viešų saugyklų, kad galėtų jūsų vardu atidaryti pull request užklausas.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignInCopy" xml:space="preserve">
+    <value>Kopijuoti kodą</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignInOpen" xml:space="preserve">
+    <value>Atidaryti GitHub</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignInWaiting" xml:space="preserve">
+    <value>Laukiama jūsų patvirtinimo GitHub</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignInFailed" xml:space="preserve">
+    <value>Prisijungti nepavyko: {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishTooltip" xml:space="preserve">
+    <value>Paskelbti šį modą Voidstrap modų bibliotekoje</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishTitle" xml:space="preserve">
+    <value>Paskelbti {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishInfo" xml:space="preserve">
+    <value>Voidstrap įkelia šį modą iš jūsų GitHub paskyros @{0} ir atidaro pull request. Prižiūrėtojas jį peržiūri, kol niekas negali jo įdiegti, o vėliau jį atnaujinti galės tik jūsų paskyra.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishChecking" xml:space="preserve">
+    <value>Tikrinamas modas</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishWorking" xml:space="preserve">
+    <value>Skelbiama</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishSummaryNew" xml:space="preserve">
+    <value>Naujas modas, versija {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishSummaryUpdate" xml:space="preserve">
+    <value>Atnaujinimas iš {0} į {1}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishFiles" xml:space="preserve">
+    <value>Įkeliami failai ({0})</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishProblems" xml:space="preserve">
+    <value>Prieš skelbdami ištaisykite</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishWarnings" xml:space="preserve">
+    <value>Peržiūrėtojas atidžiai patikrins</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishNotes" xml:space="preserve">
+    <value>Kas pasikeitė (neprivaloma)</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishConfirm" xml:space="preserve">
+    <value>Pateikti peržiūrai</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishDone" xml:space="preserve">
+    <value>Jūsų modas pateiktas peržiūrai. Jį galite sekti pull request užklausoje.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishOpenPr" xml:space="preserve">
+    <value>Atidaryti pull request</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
+    <value>Paskelbti nepavyko: {0}</value>
+  </data>
 </root>

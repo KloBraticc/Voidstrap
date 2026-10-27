@@ -8978,4 +8978,138 @@
   <data name="Ui.VoidstrapMods.TemplateGameHooksDescription" xml:space="preserve">
     <value>يتفاعل مع دخول ألعاب Roblox ويشغّل الأماكن.</value>
   </data>
+  <data name="Ui.VoidstrapMods.CreateTab" xml:space="preserve">
+    <value>إنشاء</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryTab" xml:space="preserve">
+    <value>المكتبة</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySearch" xml:space="preserve">
+    <value>ابحث في المكتبة</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryRefresh" xml:space="preserve">
+    <value>تحديث</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryOpenGitHub" xml:space="preserve">
+    <value>فتح على GitHub</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryLoading" xml:space="preserve">
+    <value>جارٍ تحميل المكتبة</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryFailed" xml:space="preserve">
+    <value>تعذّر تحميل المكتبة: {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryEmpty" xml:space="preserve">
+    <value>لا توجد تعديلات تطابق بحثك.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryBy" xml:space="preserve">
+    <value>بواسطة @{0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryInstall" xml:space="preserve">
+    <value>تثبيت</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryUpdate" xml:space="preserve">
+    <value>تحديث</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryInstalled" xml:space="preserve">
+    <value>مثبّت</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryNameTaken" xml:space="preserve">
+    <value>الاسم مستخدم</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryNetwork" xml:space="preserve">
+    <value>يتصل بـ: {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryNoNetwork" xml:space="preserve">
+    <value>يعمل دون اتصال</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryInstallPrompt" xml:space="preserve">
+    <value>هل تريد تثبيت &quot;{0}&quot; {1} من @{2}؟
+
+{3}
+
+يتحقق Voidstrap من كل ملف مقابل المكتبة قبل تثبيته، ويسألك قبل تشغيل التعديل.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryInstallFailed" xml:space="preserve">
+    <value>تعذّر تثبيت &quot;{0}&quot;:
+{1}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignIn" xml:space="preserve">
+    <value>تسجيل الدخول باستخدام GitHub</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
+    <value>تسجيل الخروج</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignedInAs" xml:space="preserve">
+    <value>تم تسجيل الدخول باسم @{0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
+    <value>سجّل الدخول باستخدام GitHub لنشر تعديلاتك. لا يحتاج تثبيت التعديلات إلى حساب.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishingNotSetUp" xml:space="preserve">
+    <value>النشر غير مُعدّ في هذا الإصدار بعد. لا يزال بإمكانك تثبيت التعديلات من المكتبة.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignInTitle" xml:space="preserve">
+    <value>تسجيل الدخول باستخدام GitHub</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignInSteps" xml:space="preserve">
+    <value>افتح GitHub وأدخل هذا الرمز ووافق على Voidstrap. يطلب Voidstrap الوصول إلى مستودعاتك العامة فقط حتى يتمكن من فتح طلبات السحب نيابة عنك.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignInCopy" xml:space="preserve">
+    <value>نسخ الرمز</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignInOpen" xml:space="preserve">
+    <value>فتح GitHub</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignInWaiting" xml:space="preserve">
+    <value>في انتظار موافقتك على GitHub</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignInFailed" xml:space="preserve">
+    <value>لم ينجح تسجيل الدخول: {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishTooltip" xml:space="preserve">
+    <value>انشر هذا التعديل في مكتبة تعديلات Voidstrap</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishTitle" xml:space="preserve">
+    <value>نشر {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishInfo" xml:space="preserve">
+    <value>يرفع Voidstrap هذا التعديل من حسابك على GitHub @{0} ويفتح طلب سحب. يراجعه المشرف قبل أن يتمكن أي شخص من تثبيته، ولا يمكن تحديثه لاحقاً إلا من حسابك.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishChecking" xml:space="preserve">
+    <value>جارٍ فحص التعديل</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishWorking" xml:space="preserve">
+    <value>جارٍ النشر</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishSummaryNew" xml:space="preserve">
+    <value>تعديل جديد، الإصدار {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishSummaryUpdate" xml:space="preserve">
+    <value>تحديث من {0} إلى {1}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishFiles" xml:space="preserve">
+    <value>الملفات المراد رفعها ({0})</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishProblems" xml:space="preserve">
+    <value>أصلح هذه قبل النشر</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishWarnings" xml:space="preserve">
+    <value>سيدقق المراجع في</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishNotes" xml:space="preserve">
+    <value>ما الذي تغيّر (اختياري)</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishConfirm" xml:space="preserve">
+    <value>نشر للمراجعة</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishDone" xml:space="preserve">
+    <value>تم إرسال تعديلك للمراجعة. يمكنك متابعته في طلب السحب.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishOpenPr" xml:space="preserve">
+    <value>فتح طلب السحب</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
+    <value>لم ينجح النشر: {0}</value>
+  </data>
 </root>

@@ -1,25 +1,70 @@
 <ui:UiPage x:Class="Voidstrap.UI.Elements.Settings.Pages.VoidstrapModsPage" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:platform="clr-namespace:Voidstrap.UI" Title="{resources:Loc Ui_Nav_VoidstrapMods}" ui:Breadcrumb.Header="{resources:Loc Ui_Nav_VoidstrapMods}" Scrollable="True" Loaded="Page_Loaded" Unloaded="Page_Unloaded" AllowDrop="True" DragOver="Page_DragOver" Drop="Page_Drop">
-  <StackPanel Margin="0,0,14,14">
-    <Grid Margin="0,0,0,12">
-      <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="*" />
-        <ColumnDefinition Width="Auto" />
-      </Grid.ColumnDefinitions>
-      <TextBlock x:Name="StatusText" VerticalAlignment="Center" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
-      <WrapPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
-        <ui:Button x:Name="NewModButton" Margin="0,0,8,4" Appearance="Primary" Icon="Add24" Content="{resources:Loc Ui_VoidstrapMods_NewMod}" Click="NewMod_Click" />
-        <ui:Button Margin="0,0,8,4" Icon="ArrowImport24" Content="{resources:Loc Ui_VoidstrapMods_Import}" ToolTip="{resources:Loc Ui_VoidstrapMods_ImportTooltip}" Click="Import_Click" />
-        <ui:Button Margin="0,0,8,4" Icon="PlugConnected24" Content="{resources:Loc Ui_Mcp_Connect}" ToolTip="{resources:Loc Ui_Mcp_ConnectTooltip}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}" Click="ConnectAi_Click" />
-        <ui:Button Margin="0,0,8,4" Icon="ArrowClockwise24" Content="{resources:Loc Ui_VoidstrapMods_Reload}" Click="Reload_Click" />
-        <ui:Button Margin="0,0,0,4" Icon="FolderOpen24" Content="{resources:Loc Ui_VoidstrapMods_OpenFolder}" Click="OpenFolder_Click" />
-      </WrapPanel>
-    </Grid>
-
-    <TextBlock Margin="0,0,0,8" FontSize="16" FontWeight="SemiBold" Text="{resources:Loc Ui_VoidstrapMods_Installed}" />
-    <StackPanel x:Name="ModsHost" Margin="0,0,0,16" />
-
-    <TextBlock x:Name="ActivePanesHeader" Margin="0,0,0,8" FontSize="16" FontWeight="SemiBold" Text="{resources:Loc Ui_VoidstrapMods_ActivePanes}" />
-    <TextBlock x:Name="EmptyText" Margin="0,16,0,0" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_VoidstrapMods_Empty}" />
-    <StackPanel x:Name="PanesHost" />
-  </StackPanel>
+  <TabControl x:Name="ModTabs" Margin="0,0,14,14">
+    <TabItem x:Name="LibraryTab">
+      <HeaderedContentControl.Header>
+        <StackPanel Orientation="Horizontal">
+          <ui:SymbolIcon Symbol="Library24" Margin="0,0,6,0" />
+          <TextBlock Text="{resources:Loc Ui_VoidstrapMods_LibraryTab}" />
+        </StackPanel>
+      </HeaderedContentControl.Header>
+      <StackPanel Margin="0,12,0,0">
+        <Grid Margin="0,0,0,12">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <ui:TextBox x:Name="LibrarySearchBox" Icon="Search24" Margin="0,0,12,4" PlaceholderText="{resources:Loc Ui_VoidstrapMods_LibrarySearch}" TextChanged="LibrarySearch_TextChanged" />
+          <WrapPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <ui:Button Margin="0,0,8,4" Icon="ArrowClockwise24" Content="{resources:Loc Ui_VoidstrapMods_LibraryRefresh}" Click="LibraryRefresh_Click" />
+            <ui:Button Margin="0,0,0,4" Icon="Open24" Content="{resources:Loc Ui_VoidstrapMods_LibraryOpenGitHub}" Click="LibraryOpenGitHub_Click" />
+          </WrapPanel>
+        </Grid>
+        <Border Margin="0,0,0,12" Padding="12,8" CornerRadius="6" BorderThickness="1" Background="{DynamicResource CardBackgroundFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
+          <Grid>
+            <Grid.ColumnDefinitions>
+              <ColumnDefinition Width="Auto" />
+              <ColumnDefinition Width="*" />
+              <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <ui:SymbolIcon Symbol="Person24" Margin="0,0,10,0" VerticalAlignment="Center" />
+            <TextBlock x:Name="AccountText" Grid.Column="1" VerticalAlignment="Center" TextWrapping="Wrap" />
+            <ui:Button x:Name="AccountButton" Grid.Column="2" Click="AccountButton_Click" />
+          </Grid>
+        </Border>
+        <TextBlock x:Name="LibraryStatusText" Margin="0,8,0,8" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+        <StackPanel x:Name="LibraryHost" />
+      </StackPanel>
+    </TabItem>
+    <TabItem x:Name="CreateTab">
+      <HeaderedContentControl.Header>
+        <StackPanel Orientation="Horizontal">
+          <ui:SymbolIcon Symbol="Code24" Margin="0,0,6,0" />
+          <TextBlock Text="{resources:Loc Ui_VoidstrapMods_CreateTab}" />
+        </StackPanel>
+      </HeaderedContentControl.Header>
+      <StackPanel Margin="0,12,0,0">
+        <Grid Margin="0,0,0,12">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <TextBlock x:Name="StatusText" VerticalAlignment="Center" FontSize="12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" />
+          <WrapPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <ui:Button x:Name="NewModButton" Margin="0,0,8,4" Appearance="Primary" Icon="Add24" Content="{resources:Loc Ui_VoidstrapMods_NewMod}" Click="NewMod_Click" />
+            <ui:Button Margin="0,0,8,4" Icon="ArrowImport24" Content="{resources:Loc Ui_VoidstrapMods_Import}" ToolTip="{resources:Loc Ui_VoidstrapMods_ImportTooltip}" Click="Import_Click" />
+            <ui:Button Margin="0,0,8,4" Icon="PlugConnected24" Content="{resources:Loc Ui_Mcp_Connect}" ToolTip="{resources:Loc Ui_Mcp_ConnectTooltip}" Visibility="{x:Static platform:PlatformFeatureVisibility.WindowsIntegration}" Click="ConnectAi_Click" />
+            <ui:Button Margin="0,0,8,4" Icon="ArrowClockwise24" Content="{resources:Loc Ui_VoidstrapMods_Reload}" Click="Reload_Click" />
+            <ui:Button Margin="0,0,0,4" Icon="FolderOpen24" Content="{resources:Loc Ui_VoidstrapMods_OpenFolder}" Click="OpenFolder_Click" />
+          </WrapPanel>
+        </Grid>
+  
+        <TextBlock Margin="0,0,0,8" FontSize="16" FontWeight="SemiBold" Text="{resources:Loc Ui_VoidstrapMods_Installed}" />
+        <StackPanel x:Name="ModsHost" Margin="0,0,0,16" />
+  
+        <TextBlock x:Name="ActivePanesHeader" Margin="0,0,0,8" FontSize="16" FontWeight="SemiBold" Text="{resources:Loc Ui_VoidstrapMods_ActivePanes}" />
+        <TextBlock x:Name="EmptyText" Margin="0,16,0,0" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_VoidstrapMods_Empty}" />
+        <StackPanel x:Name="PanesHost" />
+      </StackPanel>
+    </TabItem>
+  </TabControl>
 </ui:UiPage>

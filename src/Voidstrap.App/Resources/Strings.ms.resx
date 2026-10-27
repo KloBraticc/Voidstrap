@@ -8970,4 +8970,138 @@ Mod Voidstrap boleh mengubah cara Voidstrap berfungsi dan mengubah tetapannya. H
   <data name="Ui.VoidstrapMods.TemplateGameHooksDescription" xml:space="preserve">
     <value>Bertindak balas apabila menyertai permainan Roblox dan melancarkan tempat.</value>
   </data>
+  <data name="Ui.VoidstrapMods.CreateTab" xml:space="preserve">
+    <value>Cipta</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryTab" xml:space="preserve">
+    <value>Pustaka</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySearch" xml:space="preserve">
+    <value>Cari dalam pustaka</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryRefresh" xml:space="preserve">
+    <value>Muat semula</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryOpenGitHub" xml:space="preserve">
+    <value>Buka di GitHub</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryLoading" xml:space="preserve">
+    <value>Memuatkan pustaka</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryFailed" xml:space="preserve">
+    <value>Pustaka tidak dapat dimuatkan: {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryEmpty" xml:space="preserve">
+    <value>Tiada mod yang sepadan dengan carian anda.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryBy" xml:space="preserve">
+    <value>oleh @{0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryInstall" xml:space="preserve">
+    <value>Pasang</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryUpdate" xml:space="preserve">
+    <value>Kemas kini</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryInstalled" xml:space="preserve">
+    <value>Dipasang</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryNameTaken" xml:space="preserve">
+    <value>Nama sedang digunakan</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryNetwork" xml:space="preserve">
+    <value>Menghubungi: {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryNoNetwork" xml:space="preserve">
+    <value>Berfungsi di luar talian</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryInstallPrompt" xml:space="preserve">
+    <value>Pasang &quot;{0}&quot; {1} oleh @{2}?
+
+{3}
+
+Voidstrap menyemak setiap fail dengan pustaka sebelum memasangnya, dan bertanya sebelum menghidupkan mod.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryInstallFailed" xml:space="preserve">
+    <value>&quot;{0}&quot; tidak dapat dipasang:
+{1}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignIn" xml:space="preserve">
+    <value>Log masuk dengan GitHub</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
+    <value>Log keluar</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignedInAs" xml:space="preserve">
+    <value>Log masuk sebagai @{0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
+    <value>Log masuk dengan GitHub untuk menerbitkan mod anda sendiri. Memasang mod tidak memerlukan akaun.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishingNotSetUp" xml:space="preserve">
+    <value>Penerbitan belum disediakan dalam binaan ini. Anda masih boleh memasang mod daripada pustaka.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignInTitle" xml:space="preserve">
+    <value>Log masuk dengan GitHub</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignInSteps" xml:space="preserve">
+    <value>Buka GitHub, masukkan kod ini dan luluskan Voidstrap. Voidstrap hanya meminta akses kepada repositori awam anda supaya ia boleh membuka pull request untuk anda.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignInCopy" xml:space="preserve">
+    <value>Salin kod</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignInOpen" xml:space="preserve">
+    <value>Buka GitHub</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignInWaiting" xml:space="preserve">
+    <value>Menunggu kelulusan anda di GitHub</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignInFailed" xml:space="preserve">
+    <value>Log masuk tidak berjaya: {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishTooltip" xml:space="preserve">
+    <value>Terbitkan mod ini ke pustaka mod Voidstrap</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishTitle" xml:space="preserve">
+    <value>Terbitkan {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishInfo" xml:space="preserve">
+    <value>Voidstrap memuat naik mod ini daripada akaun GitHub anda @{0} dan membuka pull request. Penyelenggara menyemaknya sebelum sesiapa boleh memasangnya, dan hanya akaun anda boleh mengemas kininya kemudian.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishChecking" xml:space="preserve">
+    <value>Menyemak mod</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishWorking" xml:space="preserve">
+    <value>Menerbitkan</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishSummaryNew" xml:space="preserve">
+    <value>Mod baharu, versi {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishSummaryUpdate" xml:space="preserve">
+    <value>Kemas kini daripada {0} kepada {1}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishFiles" xml:space="preserve">
+    <value>Fail untuk dimuat naik ({0})</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishProblems" xml:space="preserve">
+    <value>Betulkan ini sebelum menerbitkan</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishWarnings" xml:space="preserve">
+    <value>Penyemak akan meneliti</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishNotes" xml:space="preserve">
+    <value>Apa yang berubah (pilihan)</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishConfirm" xml:space="preserve">
+    <value>Hantar untuk semakan</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishDone" xml:space="preserve">
+    <value>Mod anda telah dihantar untuk semakan. Anda boleh mengikutinya dalam pull request.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishOpenPr" xml:space="preserve">
+    <value>Buka pull request</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
+    <value>Penerbitan tidak berjaya: {0}</value>
+  </data>
 </root>

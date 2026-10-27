@@ -1,0 +1,63 @@
+<base:WpfUiWindow x:Class="Voidstrap.UI.Elements.Dialogs.PublishModDialog" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" Width="560" MinHeight="0" ExtendsContentIntoTitleBar="True" ResizeMode="NoResize" SizeToContent="Height" WindowStartupLocation="CenterOwner" Background="{ui:ThemeResource ApplicationBackgroundBrush}">
+  <Grid>
+    <Panel.Background>
+      <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
+        <GradientStop Offset="0.00" Color="{DynamicResource WindowBackgroundColorPrimary}" />
+        <GradientStop Offset="0.80" Color="{DynamicResource WindowBackgroundColorSecondary}" />
+        <GradientStop Offset="1.10" Color="{DynamicResource WindowBackgroundColorThird}" />
+      </LinearGradientBrush>
+    </Panel.Background>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+
+    <ui:TitleBar Icon="pack://application:,,,/Voidstrap.png" Grid.Row="0" Padding="8" CanMaximize="False" KeyboardNavigation.TabNavigation="None" ShowMaximize="False" ShowMinimize="False" Title="{Binding Title, RelativeSource={RelativeSource AncestorType=Window}}" />
+
+    <StackPanel Grid.Row="1" Margin="16,4,16,16">
+      <TextBlock x:Name="InfoText" Margin="0,0,0,12" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+
+      <StackPanel x:Name="CheckingPanel" Orientation="Horizontal" Margin="0,0,0,12">
+        <ui:ProgressRing Width="16" Height="16" Margin="0,0,8,0" IsIndeterminate="True" />
+        <TextBlock x:Name="CheckingText" Text="{resources:Loc Ui_VoidstrapMods_PublishChecking}" />
+      </StackPanel>
+
+      <StackPanel x:Name="ResultPanel" Visibility="Collapsed">
+        <TextBlock x:Name="SummaryText" Margin="0,0,0,8" FontWeight="SemiBold" />
+        <TextBlock x:Name="NetworkText" Margin="0,0,0,8" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+        <Expander x:Name="FilesExpander" Margin="0,0,0,10">
+          <TextBlock x:Name="FilesText" FontFamily="Cascadia Mono, Consolas" FontSize="11.5" TextWrapping="Wrap" />
+        </Expander>
+        <Border x:Name="ProblemsBox" Visibility="Collapsed" Margin="0,0,0,10" Padding="10" CornerRadius="6" Background="#33C42B1C">
+          <StackPanel>
+            <TextBlock FontWeight="SemiBold" Text="{resources:Loc Ui_VoidstrapMods_PublishProblems}" />
+            <TextBlock x:Name="ProblemsText" Margin="0,4,0,0" FontSize="12" TextWrapping="Wrap" />
+          </StackPanel>
+        </Border>
+        <Border x:Name="WarningsBox" Visibility="Collapsed" Margin="0,0,0,10" Padding="10" CornerRadius="6" Background="#33D29922">
+          <StackPanel>
+            <TextBlock FontWeight="SemiBold" Text="{resources:Loc Ui_VoidstrapMods_PublishWarnings}" />
+            <TextBlock x:Name="WarningsText" Margin="0,4,0,0" FontSize="12" TextWrapping="Wrap" />
+          </StackPanel>
+        </Border>
+        <TextBlock Margin="0,0,0,4" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_VoidstrapMods_PublishNotes}" />
+        <TextBox x:Name="NotesBox" MinHeight="64" MaxHeight="160" AcceptsReturn="True" TextWrapping="Wrap" MaxLength="2000" VerticalScrollBarVisibility="Auto" />
+      </StackPanel>
+
+      <StackPanel x:Name="DonePanel" Visibility="Collapsed">
+        <TextBlock FontSize="15" FontWeight="SemiBold" Text="{resources:Loc Ui_VoidstrapMods_PublishDone}" />
+        <ui:Button Margin="0,10,0,0" Icon="Open24" Content="{resources:Loc Ui_VoidstrapMods_PublishOpenPr}" Click="OpenPr_Click" />
+      </StackPanel>
+
+      <TextBlock x:Name="ErrorText" Visibility="Collapsed" Margin="0,10,0,0" TextWrapping="Wrap" Foreground="{DynamicResource SystemFillColorCriticalBrush}" />
+    </StackPanel>
+
+    <Border Grid.Row="2" Padding="15" Background="{DynamicResource PrimaryBackgroundColor}">
+      <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+        <ui:Button x:Name="PublishButton" MinWidth="140" Appearance="Primary" Icon="CloudArrowUp24" IsEnabled="False" Content="{resources:Loc Ui_VoidstrapMods_PublishConfirm}" Click="Publish_Click" />
+        <Button x:Name="CloseButton" MinWidth="100" Margin="12,0,0,0" Content="{resources:Loc Common_Cancel}" IsCancel="True" />
+      </StackPanel>
+    </Border>
+  </Grid>
+</base:WpfUiWindow>

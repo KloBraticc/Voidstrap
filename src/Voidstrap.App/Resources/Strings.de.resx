@@ -8979,4 +8979,138 @@ Voidstrap Mods können ändern, wie Voidstrap funktioniert, und seine Einstellun
   <data name="Ui.VoidstrapMods.TemplateGameHooksDescription" xml:space="preserve">
     <value>Reagiert auf das Betreten von Roblox-Spielen und startet Orte.</value>
   </data>
+  <data name="Ui.VoidstrapMods.CreateTab" xml:space="preserve">
+    <value>Erstellen</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryTab" xml:space="preserve">
+    <value>Bibliothek</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySearch" xml:space="preserve">
+    <value>Bibliothek durchsuchen</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryRefresh" xml:space="preserve">
+    <value>Aktualisieren</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryOpenGitHub" xml:space="preserve">
+    <value>Auf GitHub öffnen</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryLoading" xml:space="preserve">
+    <value>Bibliothek wird geladen</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryFailed" xml:space="preserve">
+    <value>Die Bibliothek konnte nicht geladen werden: {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryEmpty" xml:space="preserve">
+    <value>Keine Mods passen zu deiner Suche.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryBy" xml:space="preserve">
+    <value>von @{0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryInstall" xml:space="preserve">
+    <value>Installieren</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryUpdate" xml:space="preserve">
+    <value>Aktualisieren</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryInstalled" xml:space="preserve">
+    <value>Installiert</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryNameTaken" xml:space="preserve">
+    <value>Name belegt</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryNetwork" xml:space="preserve">
+    <value>Kontaktiert: {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryNoNetwork" xml:space="preserve">
+    <value>Funktioniert offline</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryInstallPrompt" xml:space="preserve">
+    <value>&quot;{0}&quot; {1} von @{2} installieren?
+
+{3}
+
+Voidstrap prüft vor der Installation jede Datei gegen die Bibliothek und fragt, bevor der Mod eingeschaltet wird.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryInstallFailed" xml:space="preserve">
+    <value>&quot;{0}&quot; konnte nicht installiert werden:
+{1}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignIn" xml:space="preserve">
+    <value>Mit GitHub anmelden</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
+    <value>Abmelden</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignedInAs" xml:space="preserve">
+    <value>Angemeldet als @{0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
+    <value>Melde dich mit GitHub an, um eigene Mods zu veröffentlichen. Zum Installieren brauchst du kein Konto.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishingNotSetUp" xml:space="preserve">
+    <value>Veröffentlichen ist in diesem Build noch nicht eingerichtet. Mods aus der Bibliothek kannst du trotzdem installieren.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignInTitle" xml:space="preserve">
+    <value>Mit GitHub anmelden</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignInSteps" xml:space="preserve">
+    <value>Öffne GitHub, gib diesen Code ein und erlaube Voidstrap den Zugriff. Voidstrap fragt nur nach Zugriff auf deine öffentlichen Repositorys, um Pull Requests für dich zu öffnen.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignInCopy" xml:space="preserve">
+    <value>Code kopieren</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignInOpen" xml:space="preserve">
+    <value>GitHub öffnen</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignInWaiting" xml:space="preserve">
+    <value>Warte auf deine Bestätigung auf GitHub</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignInFailed" xml:space="preserve">
+    <value>Die Anmeldung hat nicht funktioniert: {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishTooltip" xml:space="preserve">
+    <value>Diesen Mod in der Voidstrap-Mod-Bibliothek veröffentlichen</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishTitle" xml:space="preserve">
+    <value>{0} veröffentlichen</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishInfo" xml:space="preserve">
+    <value>Voidstrap lädt diesen Mod von deinem GitHub-Konto @{0} hoch und öffnet einen Pull Request. Der Maintainer prüft ihn, bevor ihn jemand installieren kann, und nur dein Konto kann ihn später aktualisieren.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishChecking" xml:space="preserve">
+    <value>Mod wird geprüft</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishWorking" xml:space="preserve">
+    <value>Wird veröffentlicht</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishSummaryNew" xml:space="preserve">
+    <value>Neuer Mod, Version {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishSummaryUpdate" xml:space="preserve">
+    <value>Update von {0} auf {1}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishFiles" xml:space="preserve">
+    <value>Hochzuladende Dateien ({0})</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishProblems" xml:space="preserve">
+    <value>Behebe das vor dem Veröffentlichen</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishWarnings" xml:space="preserve">
+    <value>Beim Prüfen wird genau hingeschaut bei</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishNotes" xml:space="preserve">
+    <value>Was hat sich geändert (optional)</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishConfirm" xml:space="preserve">
+    <value>Zur Prüfung einreichen</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishDone" xml:space="preserve">
+    <value>Dein Mod wurde zur Prüfung eingereicht. Du kannst ihn im Pull Request verfolgen.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishOpenPr" xml:space="preserve">
+    <value>Pull Request öffnen</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
+    <value>Veröffentlichen hat nicht funktioniert: {0}</value>
+  </data>
 </root>

@@ -8974,4 +8974,138 @@ Voidstrap เขียนลงในโฟลเดอร์เดสก์ท�
   <data name="Ui.VoidstrapMods.TemplateGameHooksDescription" xml:space="preserve">
     <value>ตอบสนองเมื่อเข้าร่วมเกม Roblox และเปิดเพลส</value>
   </data>
+  <data name="Ui.VoidstrapMods.CreateTab" xml:space="preserve">
+    <value>สร้าง</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryTab" xml:space="preserve">
+    <value>คลัง</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySearch" xml:space="preserve">
+    <value>ค้นหาในคลัง</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryRefresh" xml:space="preserve">
+    <value>รีเฟรช</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryOpenGitHub" xml:space="preserve">
+    <value>เปิดใน GitHub</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryLoading" xml:space="preserve">
+    <value>กำลังโหลดคลัง</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryFailed" xml:space="preserve">
+    <value>ไม่สามารถโหลดคลัง: {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryEmpty" xml:space="preserve">
+    <value>ไม่มีม็อดที่ตรงกับการค้นหาของคุณ</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryBy" xml:space="preserve">
+    <value>โดย @{0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryInstall" xml:space="preserve">
+    <value>ติดตั้ง</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryUpdate" xml:space="preserve">
+    <value>อัปเดต</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryInstalled" xml:space="preserve">
+    <value>ติดตั้งแล้ว</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryNameTaken" xml:space="preserve">
+    <value>ชื่อนี้ถูกใช้แล้ว</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryNetwork" xml:space="preserve">
+    <value>เชื่อมต่อกับ: {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryNoNetwork" xml:space="preserve">
+    <value>ใช้งานแบบออฟไลน์ได้</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryInstallPrompt" xml:space="preserve">
+    <value>ติดตั้ง &quot;{0}&quot; {1} โดย @{2} หรือไม่
+
+{3}
+
+Voidstrap จะตรวจสอบทุกไฟล์กับคลังก่อนติดตั้ง และจะถามก่อนเปิดใช้ม็อด</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryInstallFailed" xml:space="preserve">
+    <value>ไม่สามารถติดตั้ง &quot;{0}&quot;:
+{1}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignIn" xml:space="preserve">
+    <value>ลงชื่อเข้าใช้ด้วย GitHub</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
+    <value>ออกจากระบบ</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignedInAs" xml:space="preserve">
+    <value>ลงชื่อเข้าใช้เป็น @{0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
+    <value>ลงชื่อเข้าใช้ด้วย GitHub เพื่อเผยแพร่ม็อดของคุณเอง การติดตั้งม็อดไม่ต้องใช้บัญชี</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishingNotSetUp" xml:space="preserve">
+    <value>บิลด์นี้ยังไม่ได้ตั้งค่าการเผยแพร่ คุณยังติดตั้งม็อดจากคลังได้ตามปกติ</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignInTitle" xml:space="preserve">
+    <value>ลงชื่อเข้าใช้ด้วย GitHub</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignInSteps" xml:space="preserve">
+    <value>เปิด GitHub ใส่รหัสนี้ แล้วอนุมัติ Voidstrap ซึ่งขอสิทธิ์เข้าถึงเฉพาะที่เก็บสาธารณะของคุณ เพื่อเปิด pull request แทนคุณ</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignInCopy" xml:space="preserve">
+    <value>คัดลอกรหัส</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignInOpen" xml:space="preserve">
+    <value>เปิด GitHub</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignInWaiting" xml:space="preserve">
+    <value>กำลังรอการอนุมัติของคุณใน GitHub</value>
+  </data>
+  <data name="Ui.VoidstrapMods.SignInFailed" xml:space="preserve">
+    <value>ลงชื่อเข้าใช้ไม่สำเร็จ: {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishTooltip" xml:space="preserve">
+    <value>เผยแพร่ม็อดนี้ไปยังคลังม็อดของ Voidstrap</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishTitle" xml:space="preserve">
+    <value>เผยแพร่ {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishInfo" xml:space="preserve">
+    <value>Voidstrap จะอัปโหลดม็อดนี้จากบัญชี GitHub @{0} ของคุณและเปิด pull request ผู้ดูแลจะตรวจสอบก่อนที่ใครจะติดตั้งได้ และในภายหลังมีเพียงบัญชีของคุณเท่านั้นที่อัปเดตได้</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishChecking" xml:space="preserve">
+    <value>กำลังตรวจสอบม็อด</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishWorking" xml:space="preserve">
+    <value>กำลังเผยแพร่</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishSummaryNew" xml:space="preserve">
+    <value>ม็อดใหม่ เวอร์ชัน {0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishSummaryUpdate" xml:space="preserve">
+    <value>อัปเดตจาก {0} เป็น {1}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishFiles" xml:space="preserve">
+    <value>ไฟล์ที่จะอัปโหลด ({0})</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishProblems" xml:space="preserve">
+    <value>แก้ไขสิ่งเหล่านี้ก่อนเผยแพร่</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishWarnings" xml:space="preserve">
+    <value>ผู้ตรวจสอบจะดูอย่างละเอียด</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishNotes" xml:space="preserve">
+    <value>สิ่งที่เปลี่ยนแปลง (ไม่บังคับ)</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishConfirm" xml:space="preserve">
+    <value>ส่งเพื่อตรวจสอบ</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishDone" xml:space="preserve">
+    <value>ส่งม็อดของคุณเพื่อตรวจสอบแล้ว คุณติดตามได้ใน pull request</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishOpenPr" xml:space="preserve">
+    <value>เปิด pull request</value>
+  </data>
+  <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
+    <value>เผยแพร่ไม่สำเร็จ: {0}</value>
+  </data>
 </root>

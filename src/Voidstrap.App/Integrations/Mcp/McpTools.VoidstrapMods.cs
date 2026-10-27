@@ -3,7 +3,10 @@ using System.IO;
 using System.Linq;
 using System.Text.Json.Nodes;
 using System.Text.RegularExpressions;
+using System.Threading;
+using System.Windows;
 using Voidstrap.Integrations.Plugins;
+using Voidstrap.Resources;
 
 namespace Voidstrap.Integrations.Mcp;
 
@@ -76,6 +79,11 @@ public static partial class McpTools
 		Network refused: the host is missing from network in plugin.json, or the url is not https.
 		Tests: do not import register in a test file. The mod is already loaded; drive it with mod.emit, mod.render, mod.renderPage and mod.press from 'voidstrap/testing'.
 		Hooks time out after 2 seconds of running and async work is waited on for at most 10 seconds, so keep hooks short.
+
+		SHARING IN THE LIBRARY
+		The Voidstrap mods library (https://github.com/KloBraticc/voidstrap-mods-library) holds community mods. library_search lists them, library_install asks the user to install one.
+		To share a mod: validate and test it, raise its version for an update, then call publish with mod and optional notes. Voidstrap opens a window where the user signs in to GitHub and presses Publish for review; it then opens a pull request from the user's own account.
+		Library rules: readable code only (no eval, Function, encoded or minified code), nothing that touches Roblox logins or cheats, every contacted host listed in plugin.json network. Only the account that first published a mod can update it.
 		""";
 
 	public static McpToolResult ManageVoidstrapMods(JsonObject args)
@@ -111,6 +119,25 @@ public static partial class McpTools
 			case "reload":
 				PluginHost.Reload();
 				return new McpToolResult("Reloaded the Voidstrap mods. Call list to see what loaded and any problems.");
+			case "library_search":
+			{
+				ModLibrary.Index index = ModLibrary.GetIndexAsync(false, CancellationToken.None).GetAwaiter().GetResult();
+				string query = McpArgs.Trimmed(args, "query");
+				JsonArray results = new();
+				foreach (ModLibrary.LibraryMod entry in index.Mods.Where(m => query.Length == 0 || m.Name.Contains(query, StringComparison.OrdinalIgnoreCase) || m.Description.Contains(query, StringComparison.OrdinalIgnoreCase)).Take(50))
+				{
+					results.Add(new JsonObject
+					{
+						["name"] = entry.Name,
+						["version"] = entry.Version,
+						["owner"] = entry.Login,
+						["description"] = entry.Description,
+						["network"] = new JsonArray(entry.Network.Select(h => (JsonNode?)h).ToArray()),
+						["state"] = ModLibrary.GetState(entry).ToString()
+					});
+				}
+				return new McpToolResult(new JsonObject { ["library"] = ModLibrary.RepositoryUrl, ["mods"] = results }.ToJsonString(IndentedJson));
+			}
 		}
 		if (!ModNamePattern.IsMatch(mod))
 			return new McpToolResult("Provide 'mod', the mod's folder name in lowercase letters, digits and hyphens.", true);
@@ -200,6 +227,36 @@ public static partial class McpTools
 				PluginHost.ForgetConsent(mod);
 				PluginHost.Reload();
 				return new McpToolResult("Asked the user whether to turn on " + mod + ". It loads only if they say yes; call list to see the answer.");
+			case "library_install":
+			{
+				ModLibrary.Index index = ModLibrary.GetIndexAsync(false, CancellationToken.None).GetAwaiter().GetResult();
+				ModLibrary.LibraryMod? entry = index.Mods.FirstOrDefault(m => m.Name == mod);
+				if (entry == null)
+					return new McpToolResult("That mod is not in the library. Use library_search.", true);
+				ModLibrary.InstallState state = ModLibrary.GetState(entry);
+				if (state == ModLibrary.InstallState.Installed)
+					return new McpToolResult(mod + " " + entry.Version + " is already installed.");
+				if (state == ModLibrary.InstallState.NameTaken)
+					return new McpToolResult("A different mod named " + mod + " is already installed, so the library one cannot be installed.", true);
+				string network = entry.Network.Count == 0 ? Strings.Ui_VoidstrapMods_LibraryNoNetwork : string.Format(Strings.Ui_VoidstrapMods_LibraryNetwork, string.Join(", ", entry.Network));
+				MessageBoxResult answer = Application.Current.Dispatcher.Invoke(() => Frontend.ShowMessageBox(string.Format(Strings.Ui_VoidstrapMods_LibraryInstallPrompt, entry.Name, entry.Version, entry.Login, network), MessageBoxImage.Question, MessageBoxButton.YesNo, MessageBoxResult.No));
+				if (answer != MessageBoxResult.Yes)
+					return new McpToolResult("The user declined the install.", true);
+				ModLibrary.InstallAsync(index, entry, CancellationToken.None).GetAwaiter().GetResult();
+				PluginHost.Reload();
+				return new McpToolResult("Installed " + mod + " " + entry.Version + " from the library. Voidstrap asks the user before turning it on; call list to see whether it loaded.");
+			}
+			case "publish":
+			{
+				if (!Directory.Exists(folder))
+					return new McpToolResult("That mod does not exist.", true);
+				StringWriter output = new();
+				if (ModTools.Validate(folder, output) != 0)
+					return new McpToolResult("Fix these before publishing:" + Environment.NewLine + output, true);
+				string notes = McpArgs.Trimmed(args, "notes");
+				Application.Current.Dispatcher.BeginInvoke(() => Voidstrap.UI.Elements.Settings.Pages.VoidstrapModsPage.ShowPublishDialog(mod, notes));
+				return new McpToolResult("Voidstrap is now showing the publish window for " + mod + ". The user signs in to GitHub there if needed, reviews the checks, and presses Publish for review. Nothing is published until they do. After that the maintainer reviews the pull request on " + ModLibrary.RepositoryUrl + ".");
+			}
 			case "problems":
 			{
 				PluginHost.ModInfo? info = PluginHost.ListMods().FirstOrDefault(item => item.Name == mod);
@@ -208,7 +265,7 @@ public static partial class McpTools
 					: new McpToolResult(info.Problems.Count == 0 ? "No problems recorded for " + mod + "." : string.Join("\n", info.Problems));
 			}
 			default:
-				return new McpToolResult("Unknown action. Use list, guide, types, files, read_file, write_file, delete_file, delete_mod, validate, test, reload, enable, disable, or problems.", true);
+				return new McpToolResult("Unknown action. Use list, guide, types, files, read_file, write_file, delete_file, delete_mod, validate, test, reload, enable, disable, problems, library_search, library_install, or publish.", true);
 		}
 	}
 

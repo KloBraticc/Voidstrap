@@ -295,14 +295,16 @@ public static class McpToolCatalog
 				}) with { OffUiThread = true, TimeoutSeconds = 330 },
 
 			T("manage_voidstrap_mods",
-				"Write, test and manage Voidstrap mods: sandboxed TypeScript or JavaScript mods that hook Voidstrap events, add panes, change settings, rearrange the sidebar and more. Call action guide first, then types for the full API. Actions: list, guide, types, files, read_file, write_file, delete_file, delete_mod, validate, test, reload, enable, disable, problems. A new mod only runs after the user agrees in a prompt Voidstrap shows them.",
+				"Write, test and manage Voidstrap mods: sandboxed TypeScript or JavaScript mods that hook Voidstrap events, add panes, change settings, rearrange the sidebar and more. Call action guide first, then types for the full API. Actions: list, guide, types, files, read_file, write_file, delete_file, delete_mod, validate, test, reload, enable, disable, problems, library_search, library_install, publish. A new mod only runs after the user agrees in a prompt Voidstrap shows them. library_search lists community mods from the Voidstrap mods library, library_install asks the user to install one, and publish opens the in app publish window where the user signs in to GitHub and confirms. Nothing is installed or published without the user pressing the button.",
 				Kind.Write, new JsonObject
 				{
-					["action"] = P("string", "list (default), guide, types, files, read_file, write_file, delete_file, delete_mod, validate, test, reload, enable, disable, or problems."),
+					["action"] = P("string", "list (default), guide, types, files, read_file, write_file, delete_file, delete_mod, validate, test, reload, enable, disable, problems, library_search, library_install, or publish."),
 					["mod"] = P("string", "The mod's folder name: lowercase letters, digits and hyphens."),
 					["path"] = P("string", "File path inside the mod, for example hooks/register.tsx or .voidstrap-mod/plugin.json."),
 					["content"] = P("string", "Full file contents for write_file."),
-					["confirm"] = P("boolean", "Required true for delete_mod.")
+					["confirm"] = P("boolean", "Required true for delete_mod."),
+					["query"] = P("string", "Search words for library_search."),
+					["notes"] = P("string", "What changed, prefilled in the publish window for publish.")
 				}) with { OffUiThread = true, TimeoutSeconds = 120 },
 
 			T("list_accounts",

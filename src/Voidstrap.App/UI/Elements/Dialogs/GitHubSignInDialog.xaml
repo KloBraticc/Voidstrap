@@ -1,0 +1,37 @@
+<base:WpfUiWindow x:Class="Voidstrap.UI.Elements.Dialogs.GitHubSignInDialog" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:base="clr-namespace:Voidstrap.UI.Elements.Base" xmlns:resources="clr-namespace:Voidstrap.Resources" xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" Title="{resources:Loc Ui_VoidstrapMods_SignInTitle}" Width="440" MinHeight="0" ExtendsContentIntoTitleBar="True" ResizeMode="NoResize" SizeToContent="Height" WindowStartupLocation="CenterOwner" Background="{ui:ThemeResource ApplicationBackgroundBrush}">
+  <Grid>
+    <Panel.Background>
+      <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
+        <GradientStop Offset="0.00" Color="{DynamicResource WindowBackgroundColorPrimary}" />
+        <GradientStop Offset="0.80" Color="{DynamicResource WindowBackgroundColorSecondary}" />
+        <GradientStop Offset="1.10" Color="{DynamicResource WindowBackgroundColorThird}" />
+      </LinearGradientBrush>
+    </Panel.Background>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
+
+    <ui:TitleBar Icon="pack://application:,,,/Voidstrap.png" Grid.Row="0" Padding="8" CanMaximize="False" KeyboardNavigation.TabNavigation="None" ShowMaximize="False" ShowMinimize="False" Title="{Binding Title, RelativeSource={RelativeSource AncestorType=Window}}" />
+
+    <StackPanel Grid.Row="1" Margin="16,4,16,16">
+      <TextBlock TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_VoidstrapMods_SignInSteps}" />
+      <Border Margin="0,14,0,10" Padding="12" CornerRadius="8" Background="{DynamicResource ControlFillColorDefaultBrush}">
+        <TextBlock x:Name="CodeText" HorizontalAlignment="Center" FontFamily="Cascadia Mono, Consolas" FontSize="30" FontWeight="SemiBold" Text="........" />
+      </Border>
+      <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+        <ui:Button x:Name="OpenButton" Margin="0,0,8,0" Appearance="Primary" Icon="Open24" IsEnabled="False" Content="{resources:Loc Ui_VoidstrapMods_SignInOpen}" Click="Open_Click" />
+        <ui:Button x:Name="CopyButton" Icon="Copy24" IsEnabled="False" Content="{resources:Loc Ui_VoidstrapMods_SignInCopy}" Click="Copy_Click" />
+      </StackPanel>
+      <StackPanel Margin="0,14,0,0" Orientation="Horizontal" HorizontalAlignment="Center">
+        <ui:ProgressRing x:Name="Spinner" Width="16" Height="16" Margin="0,0,8,0" IsIndeterminate="True" />
+        <TextBlock x:Name="StatusText" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_VoidstrapMods_SignInWaiting}" />
+      </StackPanel>
+    </StackPanel>
+
+    <Border Grid.Row="2" Padding="15" Background="{DynamicResource PrimaryBackgroundColor}">
+      <Button MinWidth="100" HorizontalAlignment="Right" Content="{resources:Loc Common_Cancel}" IsCancel="True" />
+    </Border>
+  </Grid>
+</base:WpfUiWindow>

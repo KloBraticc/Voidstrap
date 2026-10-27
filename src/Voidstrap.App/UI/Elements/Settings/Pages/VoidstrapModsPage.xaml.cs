@@ -4,11 +4,13 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Text.Json.Nodes;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using ICSharpCode.AvalonEdit.Indentation;
 using ICSharpCode.AvalonEdit.Search;
 using Voidstrap.Integrations.Plugins;
@@ -40,6 +42,8 @@ public partial class VoidstrapModsPage : UiPage
 		RenderMods();
 		RenderAll();
 		RenderStatus();
+		RenderAccount();
+		_ = LoadLibraryAsync(false);
 	}
 
 	private void Page_Unloaded(object sender, RoutedEventArgs e)
@@ -48,6 +52,9 @@ public partial class VoidstrapModsPage : UiPage
 		PluginHost.PaneInvalidated -= OnPaneInvalidated;
 		PluginHost.StatusChanged -= OnStatusChanged;
 		PluginHost.ModsChanged -= OnModsChanged;
+		_libraryCts?.Cancel();
+		_libraryCts?.Dispose();
+		_libraryCts = null;
 	}
 
 	private void OnModsChanged() => Dispatcher.BeginInvoke(new Action(RenderMods));
@@ -102,6 +109,17 @@ public partial class VoidstrapModsPage : UiPage
 			};
 			editBtn.Click += EditMod_Click;
 			actions.Children.Add(editBtn);
+
+			Wpf.Ui.Controls.Button publishBtn = new()
+			{
+				Icon = SymbolRegular.CloudArrowUp24,
+				ToolTip = Strings.Ui_VoidstrapMods_PublishTooltip,
+				Appearance = ControlAppearance.Secondary,
+				Margin = new Thickness(0, 0, 6, 0),
+				Tag = mod.Name
+			};
+			publishBtn.Click += PublishMod_Click;
+			actions.Children.Add(publishBtn);
 
 			Wpf.Ui.Controls.Button iconBtn = new()
 			{
@@ -296,6 +314,191 @@ public partial class VoidstrapModsPage : UiPage
 		if (last != null)
 			await Task.Run(PluginHost.Reload);
 		RenderMods();
+	}
+
+	private CancellationTokenSource? _libraryCts;
+
+	private ModLibrary.Index? _libraryIndex;
+
+	private readonly Dictionary<string, BitmapSource?> _libraryIcons = new(StringComparer.Ordinal);
+
+	private void PublishMod_Click(object sender, RoutedEventArgs e)
+	{
+		if (sender is FrameworkElement { Tag: string modName })
+			ShowPublishDialog(modName, null);
+	}
+
+	public static void ShowPublishDialog(string modName, string? notes)
+	{
+		new Voidstrap.UI.Elements.Dialogs.PublishModDialog(modName, notes).ShowOwnedDialog();
+	}
+
+	private void RenderAccount()
+	{
+		GitHubPublisher.Account? account = GitHubPublisher.SignedIn;
+		AccountText.Text = !GitHubPublisher.IsConfigured
+			? Strings.Ui_VoidstrapMods_PublishingNotSetUp
+			: account != null ? string.Format(Strings.Ui_VoidstrapMods_SignedInAs, account.Login) : Strings.Ui_VoidstrapMods_SignInHint;
+		AccountButton.Content = account != null ? Strings.Ui_VoidstrapMods_SignOut : Strings.Ui_VoidstrapMods_SignIn;
+		AccountButton.Visibility = GitHubPublisher.IsConfigured || account != null ? Visibility.Visible : Visibility.Collapsed;
+	}
+
+	private void AccountButton_Click(object sender, RoutedEventArgs e)
+	{
+		if (GitHubPublisher.SignedIn != null)
+			GitHubPublisher.SignOut();
+		else
+			Voidstrap.UI.Elements.Dialogs.GitHubSignInDialog.EnsureSignedIn(Window.GetWindow(this));
+		RenderAccount();
+	}
+
+	private void LibraryRefresh_Click(object sender, RoutedEventArgs e) => _ = LoadLibraryAsync(true);
+
+	private void LibraryOpenGitHub_Click(object sender, RoutedEventArgs e) => Utilities.OpenWebLink(ModLibrary.RepositoryUrl);
+
+	private void LibrarySearch_TextChanged(object sender, TextChangedEventArgs e) => RenderLibrary();
+
+	private async Task LoadLibraryAsync(bool refresh)
+	{
+		_libraryCts?.Cancel();
+		_libraryCts?.Dispose();
+		_libraryCts = new CancellationTokenSource();
+		CancellationToken token = _libraryCts.Token;
+		LibraryStatusText.Text = Strings.Ui_VoidstrapMods_LibraryLoading;
+		LibraryStatusText.Visibility = Visibility.Visible;
+		try
+		{
+			_libraryIndex = await ModLibrary.GetIndexAsync(refresh, token);
+			RenderLibrary();
+			foreach (ModLibrary.LibraryMod mod in _libraryIndex.Mods.Where(m => m.HasIcon && !_libraryIcons.ContainsKey(m.Id)))
+			{
+				byte[]? bytes = await ModLibrary.GetIconAsync(_libraryIndex, mod, token);
+				_libraryIcons[mod.Id] = bytes == null ? null : DecodeIcon(bytes);
+			}
+			RenderLibrary();
+		}
+		catch (OperationCanceledException) when (token.IsCancellationRequested)
+		{
+		}
+		catch (Exception ex)
+		{
+			LibraryHost.Children.Clear();
+			LibraryStatusText.Text = string.Format(Strings.Ui_VoidstrapMods_LibraryFailed, ex.Message);
+			LibraryStatusText.Visibility = Visibility.Visible;
+		}
+	}
+
+	private static BitmapSource? DecodeIcon(byte[] bytes)
+	{
+		try
+		{
+			using MemoryStream stream = new(bytes);
+			BitmapDecoder decoder = BitmapDecoder.Create(stream, BitmapCreateOptions.None, BitmapCacheOption.OnLoad);
+			BitmapFrame frame = decoder.Frames.OrderByDescending(f => f.PixelWidth).First();
+			frame.Freeze();
+			return frame;
+		}
+		catch (Exception ex) when (ex is not OutOfMemoryException)
+		{
+			return null;
+		}
+	}
+
+	private void RenderLibrary()
+	{
+		if (_libraryIndex == null)
+			return;
+		LibraryHost.Children.Clear();
+		string query = (LibrarySearchBox.Text ?? "").Trim();
+		List<ModLibrary.LibraryMod> mods = _libraryIndex.Mods
+			.Where(m => query.Length == 0 || m.Name.Contains(query, StringComparison.OrdinalIgnoreCase) || m.Description.Contains(query, StringComparison.OrdinalIgnoreCase) || m.Login.Contains(query, StringComparison.OrdinalIgnoreCase))
+			.ToList();
+		LibraryStatusText.Text = Strings.Ui_VoidstrapMods_LibraryEmpty;
+		LibraryStatusText.Visibility = mods.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+		foreach (ModLibrary.LibraryMod mod in mods)
+			LibraryHost.Children.Add(BuildLibraryCard(mod));
+	}
+
+	private Border BuildLibraryCard(ModLibrary.LibraryMod mod)
+	{
+		Grid header = new();
+		header.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+		header.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+		header.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+
+		Border iconFrame = new() { Width = 40, Height = 40, Margin = new Thickness(0, 0, 12, 0), CornerRadius = new CornerRadius(8), VerticalAlignment = VerticalAlignment.Center };
+		iconFrame.SetResourceReference(Border.BackgroundProperty, "ControlFillColorDefaultBrush");
+		iconFrame.Child = _libraryIcons.TryGetValue(mod.Id, out BitmapSource? icon) && icon != null
+			? new Image { Source = icon, Width = 28, Height = 28, Stretch = Stretch.Uniform }
+			: new SymbolIcon { Symbol = SymbolRegular.PuzzlePiece24, FontSize = 20, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center };
+		header.Children.Add(iconFrame);
+
+		StackPanel text = new() { VerticalAlignment = VerticalAlignment.Center };
+		Grid.SetColumn(text, 1);
+		WrapPanel titleRow = new() { Orientation = Orientation.Horizontal };
+		titleRow.Children.Add(PluginUiRenderer.MakeText(mod.Name + "  " + mod.Version, new JsonObject { ["bold"] = true, ["size"] = 14 }));
+		titleRow.Children.Add(PluginUiRenderer.MakeText("  " + string.Format(Strings.Ui_VoidstrapMods_LibraryBy, mod.Login), new JsonObject { ["dim"] = true }));
+		text.Children.Add(titleRow);
+		if (mod.Description.Length > 0)
+			text.Children.Add(PluginUiRenderer.MakeText(mod.Description, new JsonObject { ["dim"] = true }));
+		text.Children.Add(PluginUiRenderer.MakeText(mod.Network.Count == 0 ? Strings.Ui_VoidstrapMods_LibraryNoNetwork : string.Format(Strings.Ui_VoidstrapMods_LibraryNetwork, string.Join(", ", mod.Network)), new JsonObject { ["dim"] = true, ["size"] = 11 }));
+		header.Children.Add(text);
+
+		ModLibrary.InstallState state = ModLibrary.GetState(mod);
+		Wpf.Ui.Controls.Button action = new()
+		{
+			Content = state switch
+			{
+				ModLibrary.InstallState.Installed => Strings.Ui_VoidstrapMods_LibraryInstalled,
+				ModLibrary.InstallState.UpdateAvailable => Strings.Ui_VoidstrapMods_LibraryUpdate,
+				ModLibrary.InstallState.NameTaken => Strings.Ui_VoidstrapMods_LibraryNameTaken,
+				_ => Strings.Ui_VoidstrapMods_LibraryInstall
+			},
+			Icon = state == ModLibrary.InstallState.UpdateAvailable ? SymbolRegular.ArrowSync24 : state == ModLibrary.InstallState.Installed ? SymbolRegular.Checkmark24 : SymbolRegular.ArrowDownload24,
+			Appearance = state is ModLibrary.InstallState.NotInstalled or ModLibrary.InstallState.UpdateAvailable ? ControlAppearance.Primary : ControlAppearance.Secondary,
+			IsEnabled = state is ModLibrary.InstallState.NotInstalled or ModLibrary.InstallState.UpdateAvailable,
+			VerticalAlignment = VerticalAlignment.Center,
+			Tag = mod
+		};
+		action.Click += LibraryInstall_Click;
+		Grid.SetColumn(action, 2);
+		header.Children.Add(action);
+
+		Border card = new()
+		{
+			Child = header,
+			Padding = new Thickness(14, 10, 14, 10),
+			Margin = new Thickness(0, 0, 0, 6),
+			CornerRadius = new CornerRadius(6),
+			BorderThickness = new Thickness(1)
+		};
+		card.SetResourceReference(Border.BackgroundProperty, "CardBackgroundFillColorDefaultBrush");
+		card.SetResourceReference(Border.BorderBrushProperty, "CardStrokeColorDefaultBrush");
+		return card;
+	}
+
+	private async void LibraryInstall_Click(object sender, RoutedEventArgs e)
+	{
+		if (sender is not Wpf.Ui.Controls.Button { Tag: ModLibrary.LibraryMod mod } button || _libraryIndex is not { } index)
+			return;
+		string network = mod.Network.Count == 0 ? Strings.Ui_VoidstrapMods_LibraryNoNetwork : string.Format(Strings.Ui_VoidstrapMods_LibraryNetwork, string.Join(", ", mod.Network));
+		if (Frontend.ShowMessageBox(string.Format(Strings.Ui_VoidstrapMods_LibraryInstallPrompt, mod.Name, mod.Version, mod.Login, network), MessageBoxImage.Question, MessageBoxButton.YesNo, MessageBoxResult.No) != MessageBoxResult.Yes)
+			return;
+		button.IsEnabled = false;
+		try
+		{
+			await ModLibrary.InstallAsync(index, mod, _libraryCts?.Token ?? CancellationToken.None);
+			await Task.Run(PluginHost.Reload);
+			RenderMods();
+		}
+		catch (OperationCanceledException)
+		{
+		}
+		catch (Exception ex)
+		{
+			Frontend.ShowMessageBox(string.Format(Strings.Ui_VoidstrapMods_LibraryInstallFailed, mod.Name, ex.Message), MessageBoxImage.Error);
+		}
+		RenderLibrary();
 	}
 
 	private void EditMod_Click(object sender, RoutedEventArgs e)
