@@ -322,6 +322,94 @@ public partial class VoidstrapModsPage : UiPage
 
 	private readonly Dictionary<string, BitmapSource?> _libraryIcons = new(StringComparer.Ordinal);
 
+	private string? _selectedTag;
+
+	private bool _sortReady;
+
+	private readonly HashSet<string> _reportedTakedowns = new(StringComparer.Ordinal);
+
+	private void PopulateSorts()
+	{
+		if (_sortReady)
+			return;
+		_sortReady = true;
+		(ModLibrarySearch.Sort Sort, string Label)[] sorts =
+		[
+			(ModLibrarySearch.Sort.Featured, Strings.Ui_VoidstrapMods_LibrarySortFeatured),
+			(ModLibrarySearch.Sort.Relevance, Strings.Ui_VoidstrapMods_LibrarySortRelevance),
+			(ModLibrarySearch.Sort.Newest, Strings.Ui_VoidstrapMods_LibrarySortNewest),
+			(ModLibrarySearch.Sort.Updated, Strings.Ui_VoidstrapMods_LibrarySortUpdated),
+			(ModLibrarySearch.Sort.Name, Strings.Ui_VoidstrapMods_LibrarySortName)
+		];
+		foreach ((ModLibrarySearch.Sort sort, string label) in sorts)
+			SortBox.Items.Add(new ComboBoxItem { Content = label, Tag = sort });
+		SortBox.SelectedIndex = 0;
+	}
+
+	private ModLibrarySearch.Sort? SelectedSort
+	{
+		get
+		{
+			ModLibrarySearch.Sort sort = (SortBox.SelectedItem as ComboBoxItem)?.Tag is ModLibrarySearch.Sort chosen ? chosen : ModLibrarySearch.Sort.Featured;
+			return sort == ModLibrarySearch.Sort.Featured && ModLibrarySearch.Parse(LibrarySearchBox.Text ?? "").Words.Count > 0 ? null : sort;
+		}
+	}
+
+	private void SortBox_SelectionChanged(object sender, SelectionChangedEventArgs e) => RenderLibrary();
+
+	private void RenderTags()
+	{
+		TagHost.Children.Clear();
+		if (_libraryIndex == null)
+			return;
+		List<string> tags = _libraryIndex.Mods.SelectMany(m => m.Tags).GroupBy(t => t).OrderByDescending(g => g.Count()).ThenBy(g => g.Key, StringComparer.Ordinal).Select(g => g.Key).ToList();
+		TagHost.Children.Add(MakeTagChip(null, Strings.Ui_VoidstrapMods_LibraryAllTags));
+		foreach (string tag in tags)
+			TagHost.Children.Add(MakeTagChip(tag, "#" + tag));
+	}
+
+	private Wpf.Ui.Controls.Button MakeTagChip(string? tag, string label)
+	{
+		bool selected = string.Equals(tag, _selectedTag, StringComparison.Ordinal);
+		Wpf.Ui.Controls.Button chip = new()
+		{
+			Content = label,
+			Appearance = selected ? ControlAppearance.Primary : ControlAppearance.Secondary,
+			Padding = new Thickness(10, 3, 10, 4),
+			Margin = new Thickness(0, 0, 6, 6),
+			FontSize = 12,
+			Tag = tag ?? ""
+		};
+		chip.Click += TagChip_Click;
+		return chip;
+	}
+
+	private void TagChip_Click(object sender, RoutedEventArgs e)
+	{
+		if (sender is not FrameworkElement { Tag: string tag })
+			return;
+		_selectedTag = tag.Length == 0 || tag == _selectedTag ? null : tag;
+		RenderTags();
+		RenderLibrary();
+	}
+
+	private static Border MakeBadge(string text, SymbolRegular icon, Color color, string tooltip)
+	{
+		StackPanel content = new() { Orientation = Orientation.Horizontal };
+		content.Children.Add(new SymbolIcon { Symbol = icon, FontSize = 12, Margin = new Thickness(0, 0, 4, 0), Foreground = new SolidColorBrush(color) });
+		content.Children.Add(new System.Windows.Controls.TextBlock { Text = text, FontSize = 11, FontWeight = FontWeights.SemiBold, Foreground = new SolidColorBrush(color) });
+		return new Border
+		{
+			Child = content,
+			CornerRadius = new CornerRadius(8),
+			Padding = new Thickness(7, 1, 7, 1),
+			Margin = new Thickness(6, 0, 0, 0),
+			VerticalAlignment = VerticalAlignment.Center,
+			Background = new SolidColorBrush(Color.FromArgb(40, color.R, color.G, color.B)),
+			ToolTip = tooltip
+		};
+	}
+
 	private void PublishMod_Click(object sender, RoutedEventArgs e)
 	{
 		if (sender is FrameworkElement { Tag: string modName })
@@ -367,7 +455,10 @@ public partial class VoidstrapModsPage : UiPage
 		try
 		{
 			_libraryIndex = await ModLibrary.GetIndexAsync(refresh, token);
+			PopulateSorts();
+			RenderTags();
 			RenderLibrary();
+			ReportTakedowns(_libraryIndex);
 			foreach (ModLibrary.LibraryMod mod in _libraryIndex.Mods.Where(m => m.HasIcon && !_libraryIcons.ContainsKey(m.Id)))
 			{
 				byte[]? bytes = await ModLibrary.GetIconAsync(_libraryIndex, mod, token);
@@ -384,6 +475,16 @@ public partial class VoidstrapModsPage : UiPage
 			LibraryStatusText.Text = string.Format(Strings.Ui_VoidstrapMods_LibraryFailed, ex.Message);
 			LibraryStatusText.Visibility = Visibility.Visible;
 		}
+	}
+
+	private void ReportTakedowns(ModLibrary.Index index)
+	{
+		IReadOnlyList<(string Name, string Reason)> disabled = ModLibrary.DisableTakenDown(index);
+		List<string> lines = disabled.Where(d => _reportedTakedowns.Add(d.Name)).Select(d => d.Reason.Length > 0 ? d.Name + ": " + d.Reason : d.Name).ToList();
+		if (lines.Count == 0)
+			return;
+		RenderMods();
+		Frontend.ShowMessageBox(string.Format(Strings.Ui_VoidstrapMods_LibraryTakenDown, string.Join(Environment.NewLine, lines)), MessageBoxImage.Warning);
 	}
 
 	private static BitmapSource? DecodeIcon(byte[] bytes)
@@ -407,10 +508,7 @@ public partial class VoidstrapModsPage : UiPage
 		if (_libraryIndex == null)
 			return;
 		LibraryHost.Children.Clear();
-		string query = (LibrarySearchBox.Text ?? "").Trim();
-		List<ModLibrary.LibraryMod> mods = _libraryIndex.Mods
-			.Where(m => query.Length == 0 || m.Name.Contains(query, StringComparison.OrdinalIgnoreCase) || m.Description.Contains(query, StringComparison.OrdinalIgnoreCase) || m.Login.Contains(query, StringComparison.OrdinalIgnoreCase))
-			.ToList();
+		List<ModLibrary.LibraryMod> mods = ModLibrarySearch.Run(_libraryIndex.Mods, LibrarySearchBox.Text ?? "", _selectedTag, SelectedSort);
 		LibraryCountText.Text = string.Format(Strings.Ui_VoidstrapMods_LibraryCount, mods.Count);
 		LibraryStatusText.Text = Strings.Ui_VoidstrapMods_LibraryEmpty;
 		LibraryStatusText.Visibility = mods.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
@@ -437,10 +535,21 @@ public partial class VoidstrapModsPage : UiPage
 		WrapPanel titleRow = new() { Orientation = Orientation.Horizontal };
 		titleRow.Children.Add(PluginUiRenderer.MakeText(mod.Name + "  " + mod.Version, new JsonObject { ["bold"] = true, ["size"] = 14 }));
 		titleRow.Children.Add(PluginUiRenderer.MakeText("  " + string.Format(Strings.Ui_VoidstrapMods_LibraryBy, mod.Login), new JsonObject { ["dim"] = true }));
+		if (mod.Verified)
+			titleRow.Children.Add(MakeBadge(Strings.Ui_VoidstrapMods_LibraryVerified, SymbolRegular.ShieldCheckmark24, Color.FromRgb(46, 204, 113), Strings.Ui_VoidstrapMods_LibraryVerifiedTooltip));
+		else if (mod.Trusted)
+			titleRow.Children.Add(MakeBadge(Strings.Ui_VoidstrapMods_LibraryTrusted, SymbolRegular.PersonAvailable24, Color.FromRgb(88, 166, 255), Strings.Ui_VoidstrapMods_LibraryTrustedTooltip));
+		else
+			titleRow.Children.Add(MakeBadge(Strings.Ui_VoidstrapMods_LibraryUnverified, SymbolRegular.Warning24, Color.FromRgb(210, 153, 34), Strings.Ui_VoidstrapMods_LibraryUnverifiedTooltip));
+		if (mod.Featured > 0)
+			titleRow.Children.Add(MakeBadge(Strings.Ui_VoidstrapMods_LibraryFeatured, SymbolRegular.Star24, Color.FromRgb(241, 196, 15), Strings.Ui_VoidstrapMods_LibraryFeatured));
 		text.Children.Add(titleRow);
 		if (mod.Description.Length > 0)
 			text.Children.Add(PluginUiRenderer.MakeText(mod.Description, new JsonObject { ["dim"] = true }));
-		text.Children.Add(PluginUiRenderer.MakeText(mod.Network.Count == 0 ? Strings.Ui_VoidstrapMods_LibraryNoNetwork : string.Format(Strings.Ui_VoidstrapMods_LibraryNetwork, string.Join(", ", mod.Network)), new JsonObject { ["dim"] = true, ["size"] = 11 }));
+		string details = mod.Network.Count == 0 ? Strings.Ui_VoidstrapMods_LibraryNoNetwork : string.Format(Strings.Ui_VoidstrapMods_LibraryNetwork, string.Join(", ", mod.Network));
+		if (mod.Tags.Count > 0)
+			details += "   " + string.Join("  ", mod.Tags.Select(tag => "#" + tag));
+		text.Children.Add(PluginUiRenderer.MakeText(details, new JsonObject { ["dim"] = true, ["size"] = 11 }));
 		header.Children.Add(text);
 
 		ModLibrary.InstallState state = ModLibrary.GetState(mod);
@@ -480,13 +589,19 @@ public partial class VoidstrapModsPage : UiPage
 	{
 		if (sender is not Wpf.Ui.Controls.Button { Tag: ModLibrary.LibraryMod mod } button || _libraryIndex is not { } index)
 			return;
-		string network = mod.Network.Count == 0 ? Strings.Ui_VoidstrapMods_LibraryNoNetwork : string.Format(Strings.Ui_VoidstrapMods_LibraryNetwork, string.Join(", ", mod.Network));
-		if (Frontend.ShowMessageBox(string.Format(Strings.Ui_VoidstrapMods_LibraryInstallPrompt, mod.Name, mod.Version, mod.Login, network), MessageBoxImage.Question, MessageBoxButton.YesNo, MessageBoxResult.No) != MessageBoxResult.Yes)
-			return;
+		bool vouched = mod.Verified || mod.Trusted;
+		if (!vouched)
+		{
+			string network = mod.Network.Count == 0 ? Strings.Ui_VoidstrapMods_LibraryNoNetwork : string.Format(Strings.Ui_VoidstrapMods_LibraryNetwork, string.Join(", ", mod.Network));
+			if (Frontend.ShowMessageBox(string.Format(Strings.Ui_VoidstrapMods_LibraryUnverifiedPrompt, mod.Name, mod.Version, mod.Login, network), MessageBoxImage.Warning, MessageBoxButton.YesNo, MessageBoxResult.No) != MessageBoxResult.Yes)
+				return;
+		}
 		button.IsEnabled = false;
 		try
 		{
 			await ModLibrary.InstallAsync(index, mod, _libraryCts?.Token ?? CancellationToken.None);
+			if (vouched)
+				PluginHost.SetEnabled(mod.Name, true);
 			await Task.Run(PluginHost.Reload);
 			RenderMods();
 		}

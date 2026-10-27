@@ -8986,9 +8986,6 @@ Modurile Voidstrap pot schimba modul în care funcționează Voidstrap și setă
   <data name="Ui.VoidstrapMods.LibraryTab" xml:space="preserve">
     <value>Bibliotecă</value>
   </data>
-  <data name="Ui.VoidstrapMods.LibrarySearch" xml:space="preserve">
-    <value>Caută în bibliotecă</value>
-  </data>
   <data name="Ui.VoidstrapMods.LibraryRefresh" xml:space="preserve">
     <value>Reîmprospătează</value>
   </data>
@@ -9113,5 +9110,60 @@ Voidstrap verifică fiecare fișier cu biblioteca înainte de instalare și te �
   </data>
   <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
     <value>Moduri ale comunității ({0})</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryAllTags" xml:space="preserve">
+    <value>Toate</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryFeatured" xml:space="preserve">
+    <value>Recomandat</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySearchHint" xml:space="preserve">
+    <value>Caută sau încearcă tag:theme is:verified by:name</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySortFeatured" xml:space="preserve">
+    <value>Mai întâi recomandate</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySortRelevance" xml:space="preserve">
+    <value>Cea mai bună potrivire</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySortNewest" xml:space="preserve">
+    <value>Cele mai noi</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySortUpdated" xml:space="preserve">
+    <value>Actualizate recent</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySortName" xml:space="preserve">
+    <value>Nume</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryTakenDown" xml:space="preserve">
+    <value>Aceste moduri Voidstrap au fost retrase din bibliotecă și au fost oprite:
+{0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryVerified" xml:space="preserve">
+    <value>Verificat</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryVerifiedTooltip" xml:space="preserve">
+    <value>Responsabilul a verificat personal exact această versiune</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryTrusted" xml:space="preserve">
+    <value>Autor de încredere</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryTrustedTooltip" xml:space="preserve">
+    <value>Creat de un autor în care responsabilul are încredere</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryUnverified" xml:space="preserve">
+    <value>Neverificat</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryUnverifiedTooltip" xml:space="preserve">
+    <value>Doar verificările automate au analizat acest mod. Instalează-l doar dacă ai încredere în autor.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryUnverifiedPrompt" xml:space="preserve">
+    <value>&quot;{0}&quot; {1} de la @{2} nu este verificat.
+
+NU îl instala decât dacă ai încredere în @{2}. Doar verificările automate au analizat acest mod și nimeni nu a confirmat personal că este sigur.
+
+{3}
+
+Îl instalezi totuși?</value>
   </data>
 </root>

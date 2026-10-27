@@ -13,12 +13,20 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
           </Grid.ColumnDefinitions>
-          <ui:TextBox x:Name="LibrarySearchBox" Icon="Search24" Margin="0,0,12,4" PlaceholderText="{resources:Loc Ui_VoidstrapMods_LibrarySearch}" TextChanged="LibrarySearch_TextChanged" />
+          <ui:TextBox x:Name="LibrarySearchBox" Icon="Search24" Margin="0,0,12,4" PlaceholderText="{resources:Loc Ui_VoidstrapMods_LibrarySearchHint}" TextChanged="LibrarySearch_TextChanged" />
           <WrapPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <ui:Button Margin="0,0,8,4" Icon="ArrowClockwise24" Content="{resources:Loc Ui_VoidstrapMods_LibraryRefresh}" Click="LibraryRefresh_Click" />
             <ui:Button Margin="0,0,8,4" Icon="Open24" Content="{resources:Loc Ui_VoidstrapMods_LibraryOpenGitHub}" Click="LibraryOpenGitHub_Click" />
             <ui:Button x:Name="AccountButton" Margin="0,0,0,4" Icon="Person24" Click="AccountButton_Click" />
           </WrapPanel>
+        </Grid>
+        <Grid Margin="0,0,0,12">
+          <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+          </Grid.ColumnDefinitions>
+          <WrapPanel x:Name="TagHost" VerticalAlignment="Center" />
+          <ComboBox x:Name="SortBox" Grid.Column="1" MinWidth="170" VerticalAlignment="Top" SelectionChanged="SortBox_SelectionChanged" />
         </Grid>
         <TextBlock x:Name="LibraryCountText" Margin="0,0,0,8" FontSize="16" FontWeight="SemiBold" />
         <TextBlock x:Name="LibraryStatusText" Margin="0,8,0,8" HorizontalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />

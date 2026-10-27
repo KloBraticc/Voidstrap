@@ -8984,9 +8984,6 @@
   <data name="Ui.VoidstrapMods.LibraryTab" xml:space="preserve">
     <value>المكتبة</value>
   </data>
-  <data name="Ui.VoidstrapMods.LibrarySearch" xml:space="preserve">
-    <value>ابحث في المكتبة</value>
-  </data>
   <data name="Ui.VoidstrapMods.LibraryRefresh" xml:space="preserve">
     <value>تحديث</value>
   </data>
@@ -9111,5 +9108,60 @@
   </data>
   <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
     <value>تعديلات المجتمع ({0})</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryAllTags" xml:space="preserve">
+    <value>الكل</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryFeatured" xml:space="preserve">
+    <value>مميّز</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySearchHint" xml:space="preserve">
+    <value>ابحث، أو جرّب tag:theme is:verified by:name</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySortFeatured" xml:space="preserve">
+    <value>المميّزة أولاً</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySortRelevance" xml:space="preserve">
+    <value>الأكثر تطابقاً</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySortNewest" xml:space="preserve">
+    <value>الأحدث</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySortUpdated" xml:space="preserve">
+    <value>المحدّثة مؤخراً</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySortName" xml:space="preserve">
+    <value>الاسم</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryTakenDown" xml:space="preserve">
+    <value>تمت إزالة تعديلات Voidstrap هذه من المكتبة وتم إيقاف تشغيلها:
+{0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryVerified" xml:space="preserve">
+    <value>موثّق</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryVerifiedTooltip" xml:space="preserve">
+    <value>تحقق المشرف بنفسه من هذا الإصدار تحديداً</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryTrusted" xml:space="preserve">
+    <value>مؤلف موثوق</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryTrustedTooltip" xml:space="preserve">
+    <value>من صنع مؤلف يثق به المشرف</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryUnverified" xml:space="preserve">
+    <value>غير موثّق</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryUnverifiedTooltip" xml:space="preserve">
+    <value>لم تفحص هذا التعديل إلا الفحوصات الآلية. ثبّته فقط إذا كنت تثق بمؤلفه.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryUnverifiedPrompt" xml:space="preserve">
+    <value>&quot;{0}&quot; {1} من @{2} غير موثّق.
+
+لا تثبّته إلا إذا كنت تثق بـ @{2}. لم تفحص هذا التعديل إلا الفحوصات الآلية، ولم يؤكد أحد شخصياً أنه آمن.
+
+{3}
+
+هل تريد التثبيت على أي حال؟</value>
   </data>
 </root>

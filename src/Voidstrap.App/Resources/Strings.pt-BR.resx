@@ -8986,9 +8986,6 @@ Mods do Voidstrap podem mudar o funcionamento do Voidstrap e alterar as configur
   <data name="Ui.VoidstrapMods.LibraryTab" xml:space="preserve">
     <value>Biblioteca</value>
   </data>
-  <data name="Ui.VoidstrapMods.LibrarySearch" xml:space="preserve">
-    <value>Pesquisar na biblioteca</value>
-  </data>
   <data name="Ui.VoidstrapMods.LibraryRefresh" xml:space="preserve">
     <value>Atualizar</value>
   </data>
@@ -9113,5 +9110,60 @@ O Voidstrap confere cada arquivo com a biblioteca antes de instalar e pergunta a
   </data>
   <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
     <value>Mods da comunidade ({0})</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryAllTags" xml:space="preserve">
+    <value>Todos</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryFeatured" xml:space="preserve">
+    <value>Destaque</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySearchHint" xml:space="preserve">
+    <value>Pesquise ou experimente tag:theme is:verified by:name</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySortFeatured" xml:space="preserve">
+    <value>Destaques primeiro</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySortRelevance" xml:space="preserve">
+    <value>Mais relevantes</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySortNewest" xml:space="preserve">
+    <value>Mais novos</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySortUpdated" xml:space="preserve">
+    <value>Atualizados recentemente</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySortName" xml:space="preserve">
+    <value>Nome</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryTakenDown" xml:space="preserve">
+    <value>Estes mods do Voidstrap foram removidos da biblioteca e foram desativados:
+{0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryVerified" xml:space="preserve">
+    <value>Verificado</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryVerifiedTooltip" xml:space="preserve">
+    <value>O mantenedor conferiu pessoalmente esta versão exata</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryTrusted" xml:space="preserve">
+    <value>Autor confiável</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryTrustedTooltip" xml:space="preserve">
+    <value>Feito por um autor em quem o mantenedor confia</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryUnverified" xml:space="preserve">
+    <value>Não verificado</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryUnverifiedTooltip" xml:space="preserve">
+    <value>Só verificações automáticas analisaram este mod. Instale apenas se você confia no autor.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryUnverifiedPrompt" xml:space="preserve">
+    <value>&quot;{0}&quot; {1} de @{2} não é verificado.
+
+NÃO instale a menos que você confie em @{2}. Só verificações automáticas analisaram este mod, ninguém confirmou pessoalmente que ele é seguro.
+
+{3}
+
+Instalar mesmo assim?</value>
   </data>
 </root>

@@ -8983,9 +8983,6 @@ Voidstrap 모드는 Voidstrap의 작동 방식과 설정을 변경할 수 있습
   <data name="Ui.VoidstrapMods.LibraryTab" xml:space="preserve">
     <value>라이브러리</value>
   </data>
-  <data name="Ui.VoidstrapMods.LibrarySearch" xml:space="preserve">
-    <value>라이브러리 검색</value>
-  </data>
   <data name="Ui.VoidstrapMods.LibraryRefresh" xml:space="preserve">
     <value>새로 고침</value>
   </data>
@@ -9110,5 +9107,60 @@ Voidstrap은 설치 전에 모든 파일을 라이브러리와 대조하고, 모
   </data>
   <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
     <value>커뮤니티 모드 ({0})</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryAllTags" xml:space="preserve">
+    <value>전체</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryFeatured" xml:space="preserve">
+    <value>추천</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySearchHint" xml:space="preserve">
+    <value>검색하거나 tag:theme is:verified by:name 을(를) 사용해 보십시오</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySortFeatured" xml:space="preserve">
+    <value>추천 우선</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySortRelevance" xml:space="preserve">
+    <value>관련도순</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySortNewest" xml:space="preserve">
+    <value>최신순</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySortUpdated" xml:space="preserve">
+    <value>최근 업데이트순</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySortName" xml:space="preserve">
+    <value>이름</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryTakenDown" xml:space="preserve">
+    <value>다음 Voidstrap 모드는 라이브러리에서 내려져 꺼졌습니다:
+{0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryVerified" xml:space="preserve">
+    <value>확인됨</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryVerifiedTooltip" xml:space="preserve">
+    <value>관리자가 이 버전을 직접 확인했습니다</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryTrusted" xml:space="preserve">
+    <value>신뢰할 수 있는 제작자</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryTrustedTooltip" xml:space="preserve">
+    <value>관리자가 신뢰하는 제작자의 모드입니다</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryUnverified" xml:space="preserve">
+    <value>확인되지 않음</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryUnverifiedTooltip" xml:space="preserve">
+    <value>이 모드는 자동 검사만 거쳤습니다. 제작자를 신뢰하는 경우에만 설치하십시오.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryUnverifiedPrompt" xml:space="preserve">
+    <value>@{2}의 &quot;{0}&quot; {1}은(는) 확인되지 않았습니다.
+
+@{2}을(를) 신뢰하지 않는다면 설치하지 마십시오. 이 모드는 자동 검사만 거쳤으며, 안전하다고 직접 확인한 사람은 없습니다.
+
+{3}
+
+그래도 설치하시겠습니까?</value>
   </data>
 </root>

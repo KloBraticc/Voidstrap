@@ -8986,9 +8986,6 @@ Voidstrap-mods kunnen veranderen hoe Voidstrap werkt en de instellingen aanpasse
   <data name="Ui.VoidstrapMods.LibraryTab" xml:space="preserve">
     <value>Bibliotheek</value>
   </data>
-  <data name="Ui.VoidstrapMods.LibrarySearch" xml:space="preserve">
-    <value>Zoeken in de bibliotheek</value>
-  </data>
   <data name="Ui.VoidstrapMods.LibraryRefresh" xml:space="preserve">
     <value>Vernieuwen</value>
   </data>
@@ -9113,5 +9110,60 @@ Voidstrap controleert elk bestand met de bibliotheek voordat het wordt geïnstal
   </data>
   <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
     <value>Communitymods ({0})</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryAllTags" xml:space="preserve">
+    <value>Alle</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryFeatured" xml:space="preserve">
+    <value>Uitgelicht</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySearchHint" xml:space="preserve">
+    <value>Zoek, of probeer tag:theme is:verified by:name</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySortFeatured" xml:space="preserve">
+    <value>Uitgelicht eerst</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySortRelevance" xml:space="preserve">
+    <value>Beste overeenkomst</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySortNewest" xml:space="preserve">
+    <value>Nieuwste</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySortUpdated" xml:space="preserve">
+    <value>Onlangs bijgewerkt</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySortName" xml:space="preserve">
+    <value>Naam</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryTakenDown" xml:space="preserve">
+    <value>Deze Voidstrap-mods zijn uit de bibliotheek gehaald en uitgeschakeld:
+{0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryVerified" xml:space="preserve">
+    <value>Geverifieerd</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryVerifiedTooltip" xml:space="preserve">
+    <value>De beheerder heeft precies deze versie zelf gecontroleerd</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryTrusted" xml:space="preserve">
+    <value>Vertrouwde maker</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryTrustedTooltip" xml:space="preserve">
+    <value>Gemaakt door een maker die de beheerder vertrouwt</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryUnverified" xml:space="preserve">
+    <value>Niet geverifieerd</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryUnverifiedTooltip" xml:space="preserve">
+    <value>Alleen automatische controles hebben naar deze mod gekeken. Installeer hem alleen als je de maker vertrouwt.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryUnverifiedPrompt" xml:space="preserve">
+    <value>&quot;{0}&quot; {1} door @{2} is niet geverifieerd.
+
+Installeer hem NIET tenzij je @{2} vertrouwt. Alleen automatische controles hebben naar deze mod gekeken, niemand heeft zelf bevestigd dat hij veilig is.
+
+{3}
+
+Toch installeren?</value>
   </data>
 </root>

@@ -56,9 +56,9 @@ public static partial class ModLibrary
 
 	public sealed record LibraryFile(string Path, long Size, string Sha256);
 
-	public sealed record LibraryMod(string Id, string Name, long OwnerId, string Login, string Version, string Description, IReadOnlyList<string> Network, bool HasIcon, IReadOnlyList<LibraryFile> Files);
+	public sealed record LibraryMod(string Id, string Name, long OwnerId, string Login, string Version, string Description, IReadOnlyList<string> Tags, IReadOnlyList<string> Network, bool HasIcon, DateTime? Created, DateTime? Updated, bool Verified, bool Trusted, int Featured, IReadOnlyList<LibraryFile> Files);
 
-	public sealed record Index(string Commit, IReadOnlyList<LibraryMod> Mods);
+	public sealed record Index(string Commit, IReadOnlyList<LibraryMod> Mods, IReadOnlyDictionary<string, string> Blocked);
 
 	public enum InstallState
 	{
@@ -107,7 +107,7 @@ public static partial class ModLibrary
 	private static Index ParseIndex(byte[] bytes)
 	{
 		JsonObject root = JsonNode.Parse(bytes) as JsonObject ?? throw new InvalidDataException("the library index is not a JSON object");
-		if (root["schema"]?.GetValue<int>() != 1)
+		if (root["schema"]?.GetValue<int>() is not (1 or 2))
 			throw new InvalidDataException("the library index has an unknown format, update Voidstrap");
 		if (!string.Equals(root["repository"]?.GetValue<string>(), Repository, StringComparison.Ordinal))
 			throw new InvalidDataException("the library index belongs to another repository");
@@ -129,7 +129,15 @@ public static partial class ModLibrary
 				App.Logger.WriteLine(LogIdent, "Skipped an invalid library entry: " + ex.Message);
 			}
 		}
-		return new Index(commit, mods.OrderBy(m => m.Name, StringComparer.Ordinal).ToList());
+		Dictionary<string, string> blocked = new(StringComparer.Ordinal);
+		foreach (JsonNode? node in root["blocked"] as JsonArray ?? [])
+		{
+			string id = node?["id"]?.GetValue<string>() ?? "";
+			string reason = (node?["reason"]?.GetValue<string>() ?? "").Trim();
+			if (id.Length is > 0 and < 120)
+				blocked[id] = reason.Length > 300 ? reason[..300] : reason;
+		}
+		return new Index(commit, mods.Where(m => !blocked.ContainsKey(m.Id)).OrderBy(m => m.Name, StringComparer.Ordinal).ToList(), blocked);
 	}
 
 	private static LibraryMod ParseMod(JsonObject node)
@@ -162,7 +170,44 @@ public static partial class ModLibrary
 		string description = node["description"]?.GetValue<string>() ?? "";
 		if (description.Length > 300)
 			description = description[..300];
-		return new LibraryMod(ownerId + "/" + name, name, ownerId, login, version, description, network, files.Any(f => f.Path == ModFiles.IconFile), files);
+		List<string> tags = (node["tags"] as JsonArray ?? []).Select(t => t?.GetValue<string>() ?? "").Where(t => t.Length is > 0 and <= 32 && t.All(c => char.IsAsciiLetterLower(c) || char.IsAsciiDigit(c) || c == '-')).Distinct().Take(5).ToList();
+		int featured = Math.Clamp(node["featured"]?.GetValue<int>() ?? 0, 0, 100);
+		return new LibraryMod(ownerId + "/" + name, name, ownerId, login, version, description, tags, network, files.Any(f => f.Path == ModFiles.IconFile), ParseDate(node["created"]), ParseDate(node["updated"]), node["verified"]?.GetValue<bool>() == true, node["trusted"]?.GetValue<bool>() == true, featured, files);
+	}
+
+	private static DateTime? ParseDate(JsonNode? node)
+	{
+		return node is JsonValue value && value.TryGetValue(out string? text) && DateTime.TryParse(text, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.AdjustToUniversal | System.Globalization.DateTimeStyles.AssumeUniversal, out DateTime date) ? date : null;
+	}
+
+	public static string? GetInstalledLibraryId(string name)
+	{
+		try
+		{
+			string manifestPath = Path.Combine(Paths.Plugins, name, PluginManifest.ManifestFolder, "plugin.json");
+			return File.Exists(manifestPath) ? ((JsonNode.Parse(File.ReadAllText(manifestPath)) as JsonObject)?["library"] as JsonObject)?["id"]?.GetValue<string>() : null;
+		}
+		catch (Exception ex) when (ex is IOException or JsonException or InvalidOperationException or UnauthorizedAccessException)
+		{
+			return null;
+		}
+	}
+
+	public static IReadOnlyList<(string Name, string Reason)> DisableTakenDown(Index index)
+	{
+		List<(string, string)> disabled = [];
+		foreach (PluginHost.ModInfo mod in PluginHost.ListMods())
+		{
+			if (GetInstalledLibraryId(mod.Name) is not { } id || !index.Blocked.TryGetValue(id, out string? reason))
+				continue;
+			if (mod.Consent == "on")
+			{
+				PluginHost.SetEnabled(mod.Name, false);
+				disabled.Add((mod.Name, reason));
+				App.Logger.WriteLine(LogIdent, "Turned off " + mod.Name + " because the library took it down");
+			}
+		}
+		return disabled;
 	}
 
 	public static (long OwnerId, string Version)? GetInstalled(string name)
@@ -273,5 +318,212 @@ public static partial class ModLibrary
 			buffer.Write(chunk, 0, read);
 		}
 		return buffer.ToArray();
+	}
+}
+
+public static class ModLibrarySearch
+{
+	public enum Sort
+	{
+		Relevance,
+		Featured,
+		Newest,
+		Updated,
+		Name
+	}
+
+	public sealed record Query(List<string> Words, List<string> Excluded, HashSet<string> Tags, string? Author, HashSet<string> Flags, Sort? Sort);
+
+	public static Query Parse(string text)
+	{
+		Query query = new([], [], new HashSet<string>(StringComparer.OrdinalIgnoreCase), null, new HashSet<string>(StringComparer.OrdinalIgnoreCase), null);
+		foreach (string raw in Tokenize(text ?? ""))
+		{
+			string token = raw.Trim();
+			if (token.Length == 0)
+				continue;
+			int colon = token.IndexOf(':');
+			string key = colon > 0 ? token[..colon].ToLowerInvariant() : "";
+			string value = colon > 0 ? token[(colon + 1)..] : token;
+			if (key is "tag" or "tags" or "t" && value.Length > 0)
+			{
+				foreach (string tag in value.Split(',', StringSplitOptions.RemoveEmptyEntries))
+					query.Tags.Add(tag);
+			}
+			else if (key is "by" or "author" or "user" && value.Length > 0)
+			{
+				query = query with { Author = value.TrimStart('@') };
+			}
+			else if (key is "is" or "has" && value.Length > 0)
+			{
+				query.Flags.Add(value.ToLowerInvariant());
+			}
+			else if (key is "sort" or "order" && value.Length > 0)
+			{
+				query = query with { Sort = ParseSort(value) };
+			}
+			else if (token.StartsWith('-') && token.Length > 1)
+			{
+				query.Excluded.Add(token[1..]);
+			}
+			else
+			{
+				query.Words.Add(token);
+			}
+		}
+		return query;
+	}
+
+	private static Sort ParseSort(string value) => value.ToLowerInvariant() switch
+	{
+		"new" or "newest" or "created" => Sort.Newest,
+		"updated" or "recent" => Sort.Updated,
+		"name" or "az" => Sort.Name,
+		"featured" or "popular" or "top" => Sort.Featured,
+		_ => Sort.Relevance
+	};
+
+	private static IEnumerable<string> Tokenize(string text)
+	{
+		System.Text.StringBuilder current = new();
+		bool quoted = false;
+		foreach (char c in text)
+		{
+			if (c == '"')
+			{
+				quoted = !quoted;
+				continue;
+			}
+			if (char.IsWhiteSpace(c) && !quoted)
+			{
+				if (current.Length > 0)
+					yield return current.ToString();
+				current.Clear();
+				continue;
+			}
+			current.Append(c);
+		}
+		if (current.Length > 0)
+			yield return current.ToString();
+	}
+
+	public static List<ModLibrary.LibraryMod> Run(IEnumerable<ModLibrary.LibraryMod> mods, string text, string? tag, Sort? chosenSort)
+	{
+		Query query = Parse(text);
+		if (!string.IsNullOrEmpty(tag))
+			query.Tags.Add(tag);
+		List<(ModLibrary.LibraryMod Mod, double Score)> results = [];
+		foreach (ModLibrary.LibraryMod mod in mods)
+		{
+			if (query.Tags.Count > 0 && !query.Tags.All(t => mod.Tags.Contains(t, StringComparer.OrdinalIgnoreCase)))
+				continue;
+			if (query.Author != null && !mod.Login.Equals(query.Author, StringComparison.OrdinalIgnoreCase))
+				continue;
+			if (!MatchesFlags(mod, query.Flags))
+				continue;
+			string haystack = mod.Name + " " + mod.Description + " " + string.Join(' ', mod.Tags) + " " + mod.Login;
+			if (query.Excluded.Any(word => haystack.Contains(word, StringComparison.OrdinalIgnoreCase)))
+				continue;
+			double score = 0;
+			bool all = true;
+			foreach (string word in query.Words)
+			{
+				double best = ScoreWord(mod, word);
+				if (best <= 0)
+				{
+					all = false;
+					break;
+				}
+				score += best;
+			}
+			if (!all)
+				continue;
+			score += (mod.Verified ? 25 : 0) + (mod.Trusted ? 10 : 0) + mod.Featured / 2.0;
+			results.Add((mod, score));
+		}
+		Sort sort = chosenSort ?? query.Sort ?? (query.Words.Count > 0 ? Sort.Relevance : Sort.Featured);
+		IEnumerable<(ModLibrary.LibraryMod Mod, double Score)> ordered = sort switch
+		{
+			Sort.Newest => results.OrderByDescending(r => r.Mod.Created ?? DateTime.MinValue),
+			Sort.Updated => results.OrderByDescending(r => r.Mod.Updated ?? DateTime.MinValue),
+			Sort.Name => results.OrderBy(r => r.Mod.Name, StringComparer.OrdinalIgnoreCase),
+			Sort.Featured => results.OrderByDescending(r => r.Mod.Featured).ThenByDescending(r => r.Mod.Verified).ThenByDescending(r => r.Mod.Trusted).ThenByDescending(r => r.Mod.Updated ?? DateTime.MinValue),
+			_ => results.OrderByDescending(r => r.Score).ThenBy(r => r.Mod.Name, StringComparer.OrdinalIgnoreCase)
+		};
+		return ordered.Select(r => r.Mod).ToList();
+	}
+
+	private static bool MatchesFlags(ModLibrary.LibraryMod mod, HashSet<string> flags)
+	{
+		foreach (string flag in flags)
+		{
+			bool ok = flag switch
+			{
+				"verified" => mod.Verified,
+				"unverified" => !mod.Verified,
+				"trusted" => mod.Trusted,
+				"featured" => mod.Featured > 0,
+				"installed" => ModLibrary.GetState(mod) is ModLibrary.InstallState.Installed or ModLibrary.InstallState.UpdateAvailable,
+				"update" or "updates" => ModLibrary.GetState(mod) == ModLibrary.InstallState.UpdateAvailable,
+				"offline" => mod.Network.Count == 0,
+				"online" or "network" => mod.Network.Count > 0,
+				"icon" => mod.HasIcon,
+				_ => true
+			};
+			if (!ok)
+				return false;
+		}
+		return true;
+	}
+
+	private static double ScoreWord(ModLibrary.LibraryMod mod, string word)
+	{
+		double score = 0;
+		if (mod.Name.Equals(word, StringComparison.OrdinalIgnoreCase))
+			score = 100;
+		else if (mod.Name.StartsWith(word, StringComparison.OrdinalIgnoreCase))
+			score = 60;
+		else if (mod.Name.Contains(word, StringComparison.OrdinalIgnoreCase))
+			score = 40;
+		if (mod.Tags.Any(t => t.Equals(word, StringComparison.OrdinalIgnoreCase)))
+			score = Math.Max(score, 35);
+		else if (mod.Tags.Any(t => t.StartsWith(word, StringComparison.OrdinalIgnoreCase)))
+			score = Math.Max(score, 20);
+		if (mod.Login.Contains(word, StringComparison.OrdinalIgnoreCase))
+			score = Math.Max(score, 20);
+		if (mod.Description.Contains(word, StringComparison.OrdinalIgnoreCase))
+			score = Math.Max(score, 12);
+		if (score == 0 && word.Length >= 4 && mod.Name.Split('-').Any(part => Distance(part, word) <= 1 + word.Length / 6))
+			score = 8;
+		if (score == 0 && word.Length >= 3 && IsSubsequence(word, mod.Name.Replace("-", "")))
+			score = 6;
+		return score;
+	}
+
+	private static bool IsSubsequence(string needle, string haystack)
+	{
+		int i = 0;
+		foreach (char c in haystack)
+		{
+			if (i < needle.Length && char.ToLowerInvariant(c) == char.ToLowerInvariant(needle[i]))
+				i++;
+		}
+		return i == needle.Length;
+	}
+
+	private static int Distance(string a, string b)
+	{
+		a = a.ToLowerInvariant();
+		b = b.ToLowerInvariant();
+		int[] previous = Enumerable.Range(0, b.Length + 1).ToArray();
+		int[] current = new int[b.Length + 1];
+		for (int i = 1; i <= a.Length; i++)
+		{
+			current[0] = i;
+			for (int j = 1; j <= b.Length; j++)
+				current[j] = Math.Min(Math.Min(current[j - 1] + 1, previous[j] + 1), previous[j - 1] + (a[i - 1] == b[j - 1] ? 0 : 1));
+			(previous, current) = (current, previous);
+		}
+		return previous[b.Length];
 	}
 }

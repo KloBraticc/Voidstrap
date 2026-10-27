@@ -8980,9 +8980,6 @@ Voidstrap เขียนลงในโฟลเดอร์เดสก์ท�
   <data name="Ui.VoidstrapMods.LibraryTab" xml:space="preserve">
     <value>คลัง</value>
   </data>
-  <data name="Ui.VoidstrapMods.LibrarySearch" xml:space="preserve">
-    <value>ค้นหาในคลัง</value>
-  </data>
   <data name="Ui.VoidstrapMods.LibraryRefresh" xml:space="preserve">
     <value>รีเฟรช</value>
   </data>
@@ -9107,5 +9104,60 @@ Voidstrap จะตรวจสอบทุกไฟล์กับคลัง�
   </data>
   <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
     <value>ม็อดจากชุมชน ({0})</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryAllTags" xml:space="preserve">
+    <value>ทั้งหมด</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryFeatured" xml:space="preserve">
+    <value>แนะนำ</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySearchHint" xml:space="preserve">
+    <value>ค้นหา หรือลอง tag:theme is:verified by:name</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySortFeatured" xml:space="preserve">
+    <value>แนะนำก่อน</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySortRelevance" xml:space="preserve">
+    <value>ตรงที่สุด</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySortNewest" xml:space="preserve">
+    <value>ใหม่ที่สุด</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySortUpdated" xml:space="preserve">
+    <value>อัปเดตล่าสุด</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySortName" xml:space="preserve">
+    <value>ชื่อ</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryTakenDown" xml:space="preserve">
+    <value>ม็อด Voidstrap เหล่านี้ถูกนำออกจากคลังและถูกปิดแล้ว:
+{0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryVerified" xml:space="preserve">
+    <value>ยืนยันแล้ว</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryVerifiedTooltip" xml:space="preserve">
+    <value>ผู้ดูแลตรวจสอบเวอร์ชันนี้ด้วยตัวเอง</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryTrusted" xml:space="preserve">
+    <value>ผู้สร้างที่เชื่อถือได้</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryTrustedTooltip" xml:space="preserve">
+    <value>สร้างโดยผู้สร้างที่ผู้ดูแลไว้วางใจ</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryUnverified" xml:space="preserve">
+    <value>ยังไม่ยืนยัน</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryUnverifiedTooltip" xml:space="preserve">
+    <value>ม็อดนี้ผ่านเพียงการตรวจสอบอัตโนมัติ ติดตั้งเฉพาะเมื่อคุณเชื่อถือผู้สร้าง</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryUnverifiedPrompt" xml:space="preserve">
+    <value>&quot;{0}&quot; {1} โดย @{2} ยังไม่ได้รับการยืนยัน
+
+อย่าติดตั้งหากคุณไม่เชื่อถือ @{2} ม็อดนี้ผ่านเพียงการตรวจสอบอัตโนมัติ และยังไม่มีใครยืนยันด้วยตัวเองว่าปลอดภัย
+
+{3}
+
+ต้องการติดตั้งต่อหรือไม่</value>
   </data>
 </root>

@@ -8984,9 +8984,6 @@ A Voidstrap modok megváltoztathatják a Voidstrap működését és a beállít
   <data name="Ui.VoidstrapMods.LibraryTab" xml:space="preserve">
     <value>Könyvtár</value>
   </data>
-  <data name="Ui.VoidstrapMods.LibrarySearch" xml:space="preserve">
-    <value>Keresés a könyvtárban</value>
-  </data>
   <data name="Ui.VoidstrapMods.LibraryRefresh" xml:space="preserve">
     <value>Frissítés</value>
   </data>
@@ -9111,5 +9108,60 @@ A Voidstrap telepítés előtt minden fájlt összevet a könyvtárral, és beka
   </data>
   <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
     <value>Közösségi modok ({0})</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryAllTags" xml:space="preserve">
+    <value>Összes</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryFeatured" xml:space="preserve">
+    <value>Kiemelt</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySearchHint" xml:space="preserve">
+    <value>Keress, vagy próbáld: tag:theme is:verified by:name</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySortFeatured" xml:space="preserve">
+    <value>Kiemeltek elöl</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySortRelevance" xml:space="preserve">
+    <value>Legjobb találat</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySortNewest" xml:space="preserve">
+    <value>Legújabb</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySortUpdated" xml:space="preserve">
+    <value>Nemrég frissített</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySortName" xml:space="preserve">
+    <value>Név</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryTakenDown" xml:space="preserve">
+    <value>Ezeket a Voidstrap modokat eltávolították a könyvtárból, ezért ki lettek kapcsolva:
+{0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryVerified" xml:space="preserve">
+    <value>Ellenőrzött</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryVerifiedTooltip" xml:space="preserve">
+    <value>A karbantartó személyesen ellenőrizte pontosan ezt a verziót</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryTrusted" xml:space="preserve">
+    <value>Megbízható szerző</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryTrustedTooltip" xml:space="preserve">
+    <value>Olyan szerzőtől, akiben a karbantartó megbízik</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryUnverified" xml:space="preserve">
+    <value>Nem ellenőrzött</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryUnverifiedTooltip" xml:space="preserve">
+    <value>Ezt a modot csak automatikus ellenőrzések vizsgálták. Csak akkor telepítsd, ha megbízol a szerzőben.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryUnverifiedPrompt" xml:space="preserve">
+    <value>A(z) &quot;{0}&quot; {1} (@{2}) nincs ellenőrizve.
+
+NE telepítsd, hacsak nem bízol meg @{2} felhasználóban. Ezt a modot csak automatikus ellenőrzések vizsgálták, senki sem erősítette meg személyesen, hogy biztonságos.
+
+{3}
+
+Mégis telepíted?</value>
   </data>
 </root>

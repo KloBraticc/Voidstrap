@@ -9164,11 +9164,6 @@ namespace Voidstrap.Resources {
             }
         }
 
-        public static string Ui_VoidstrapMods_LibrarySearch {
-            get {
-                return ResourceManager.GetString("Ui.VoidstrapMods.LibrarySearch", resourceCulture);
-            }
-        }
 
         public static string Ui_VoidstrapMods_LibraryRefresh {
             get {
@@ -9408,6 +9403,102 @@ namespace Voidstrap.Resources {
         public static string Ui_VoidstrapMods_LibraryCount {
             get {
                 return ResourceManager.GetString("Ui.VoidstrapMods.LibraryCount", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidstrapMods_LibraryAllTags {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.LibraryAllTags", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidstrapMods_LibraryFeatured {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.LibraryFeatured", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidstrapMods_LibrarySearchHint {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.LibrarySearchHint", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidstrapMods_LibrarySortFeatured {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.LibrarySortFeatured", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidstrapMods_LibrarySortRelevance {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.LibrarySortRelevance", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidstrapMods_LibrarySortNewest {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.LibrarySortNewest", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidstrapMods_LibrarySortUpdated {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.LibrarySortUpdated", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidstrapMods_LibrarySortName {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.LibrarySortName", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidstrapMods_LibraryTakenDown {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.LibraryTakenDown", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidstrapMods_LibraryVerified {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.LibraryVerified", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidstrapMods_LibraryVerifiedTooltip {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.LibraryVerifiedTooltip", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidstrapMods_LibraryTrusted {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.LibraryTrusted", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidstrapMods_LibraryTrustedTooltip {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.LibraryTrustedTooltip", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidstrapMods_LibraryUnverified {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.LibraryUnverified", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidstrapMods_LibraryUnverifiedTooltip {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.LibraryUnverifiedTooltip", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidstrapMods_LibraryUnverifiedPrompt {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.LibraryUnverifiedPrompt", resourceCulture);
             }
         }
     }

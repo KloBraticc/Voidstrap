@@ -124,7 +124,7 @@ public static partial class McpTools
 				ModLibrary.Index index = ModLibrary.GetIndexAsync(false, CancellationToken.None).GetAwaiter().GetResult();
 				string query = McpArgs.Trimmed(args, "query");
 				JsonArray results = new();
-				foreach (ModLibrary.LibraryMod entry in index.Mods.Where(m => query.Length == 0 || m.Name.Contains(query, StringComparison.OrdinalIgnoreCase) || m.Description.Contains(query, StringComparison.OrdinalIgnoreCase)).Take(50))
+				foreach (ModLibrary.LibraryMod entry in ModLibrarySearch.Run(index.Mods, query, null, null).Take(50))
 				{
 					results.Add(new JsonObject
 					{
@@ -132,6 +132,9 @@ public static partial class McpTools
 						["version"] = entry.Version,
 						["owner"] = entry.Login,
 						["description"] = entry.Description,
+						["verified"] = entry.Verified,
+						["trustedAuthor"] = entry.Trusted,
+						["tags"] = new JsonArray(entry.Tags.Select(t => (JsonNode?)t).ToArray()),
 						["network"] = new JsonArray(entry.Network.Select(h => (JsonNode?)h).ToArray()),
 						["state"] = ModLibrary.GetState(entry).ToString()
 					});
@@ -239,7 +242,8 @@ public static partial class McpTools
 				if (state == ModLibrary.InstallState.NameTaken)
 					return new McpToolResult("A different mod named " + mod + " is already installed, so the library one cannot be installed.", true);
 				string network = entry.Network.Count == 0 ? Strings.Ui_VoidstrapMods_LibraryNoNetwork : string.Format(Strings.Ui_VoidstrapMods_LibraryNetwork, string.Join(", ", entry.Network));
-				MessageBoxResult answer = Application.Current.Dispatcher.Invoke(() => Frontend.ShowMessageBox(string.Format(Strings.Ui_VoidstrapMods_LibraryInstallPrompt, entry.Name, entry.Version, entry.Login, network), MessageBoxImage.Question, MessageBoxButton.YesNo, MessageBoxResult.No));
+				string prompt = entry.Verified || entry.Trusted ? Strings.Ui_VoidstrapMods_LibraryInstallPrompt : Strings.Ui_VoidstrapMods_LibraryUnverifiedPrompt;
+				MessageBoxResult answer = Application.Current.Dispatcher.Invoke(() => Frontend.ShowMessageBox(string.Format(prompt, entry.Name, entry.Version, entry.Login, network), entry.Verified || entry.Trusted ? MessageBoxImage.Question : MessageBoxImage.Warning, MessageBoxButton.YesNo, MessageBoxResult.No));
 				if (answer != MessageBoxResult.Yes)
 					return new McpToolResult("The user declined the install.", true);
 				ModLibrary.InstallAsync(index, entry, CancellationToken.None).GetAwaiter().GetResult();

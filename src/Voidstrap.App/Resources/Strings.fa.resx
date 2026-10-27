@@ -8987,9 +8987,6 @@ Voidstrap نتوانست در پوشهٔ دسکتاپ بنویسد.</value>
   <data name="Ui.VoidstrapMods.LibraryTab" xml:space="preserve">
     <value>کتابخانه</value>
   </data>
-  <data name="Ui.VoidstrapMods.LibrarySearch" xml:space="preserve">
-    <value>جستجو در کتابخانه</value>
-  </data>
   <data name="Ui.VoidstrapMods.LibraryRefresh" xml:space="preserve">
     <value>تازه‌سازی</value>
   </data>
@@ -9114,5 +9111,60 @@ Voidstrap پیش از نصب هر فایل را با کتابخانه مقایس
   </data>
   <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
     <value>مادهای جامعه ({0})</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryAllTags" xml:space="preserve">
+    <value>همه</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryFeatured" xml:space="preserve">
+    <value>ویژه</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySearchHint" xml:space="preserve">
+    <value>جستجو کنید یا امتحان کنید tag:theme is:verified by:name</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySortFeatured" xml:space="preserve">
+    <value>ابتدا ویژه‌ها</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySortRelevance" xml:space="preserve">
+    <value>بهترین تطابق</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySortNewest" xml:space="preserve">
+    <value>جدیدترین</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySortUpdated" xml:space="preserve">
+    <value>اخیراً به‌روزشده</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibrarySortName" xml:space="preserve">
+    <value>نام</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryTakenDown" xml:space="preserve">
+    <value>این مادهای Voidstrap از کتابخانه حذف شدند و خاموش شده‌اند:
+{0}</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryVerified" xml:space="preserve">
+    <value>تأییدشده</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryVerifiedTooltip" xml:space="preserve">
+    <value>نگه‌دارنده شخصاً همین نسخه را بررسی کرده است</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryTrusted" xml:space="preserve">
+    <value>سازنده مورد اعتماد</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryTrustedTooltip" xml:space="preserve">
+    <value>ساخته سازنده‌ای که نگه‌دارنده به او اعتماد دارد</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryUnverified" xml:space="preserve">
+    <value>تأییدنشده</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryUnverifiedTooltip" xml:space="preserve">
+    <value>این ماد فقط با بررسی‌های خودکار بررسی شده است. فقط اگر به سازنده اعتماد دارید نصبش کنید.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryUnverifiedPrompt" xml:space="preserve">
+    <value>&quot;{0}&quot; {1} از @{2} تأیید نشده است.
+
+آن را نصب نکنید مگر اینکه به @{2} اعتماد دارید. این ماد فقط با بررسی‌های خودکار بررسی شده و کسی شخصاً امن بودن آن را تأیید نکرده است.
+
+{3}
+
+با این حال نصب شود؟</value>
   </data>
 </root>

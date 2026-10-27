@@ -303,7 +303,7 @@ public static class McpToolCatalog
 					["path"] = P("string", "File path inside the mod, for example hooks/register.tsx or .voidstrap-mod/plugin.json."),
 					["content"] = P("string", "Full file contents for write_file."),
 					["confirm"] = P("boolean", "Required true for delete_mod."),
-					["query"] = P("string", "Search words for library_search."),
+					["query"] = P("string", "Search for library_search. Plain words plus filters: tag:theme, by:login, is:verified, is:trusted, is:featured, is:offline, sort:new, -word."),
 					["notes"] = P("string", "What changed, prefilled in the publish window for publish.")
 				}) with { OffUiThread = true, TimeoutSeconds = 120 },
 
