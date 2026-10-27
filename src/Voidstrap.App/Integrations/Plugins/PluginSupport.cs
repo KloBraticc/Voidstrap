@@ -31,7 +31,7 @@ internal static class PluginConsent
 		lock (Gate)
 			consent[manifest.Name] = answer;
 		App.Settings.SaveDeferred();
-		App.Logger.WriteLine("Plugins", manifest.Name + ": " + (answer ? "turned on by the user" : "left off by the user"));
+		App.Logger.WriteLine("VoidstrapMods", manifest.Name + ": " + (answer ? "turned on by the user" : "left off by the user"));
 		return answer;
 	}
 }
@@ -74,7 +74,7 @@ internal static class PluginSettings
 
 	public static void Set(string plugin, string name, string json)
 	{
-		PropertyInfo property = Find(name) ?? throw new InvalidOperationException("the setting " + name + " does not exist or cannot be changed by plugins");
+		PropertyInfo property = Find(name) ?? throw new InvalidOperationException("the setting " + name + " does not exist or cannot be changed by mods");
 		JsonValue value = JsonNode.Parse(json) as JsonValue ?? throw new InvalidOperationException("settings take a single value");
 		Type type = property.PropertyType;
 		object converted = type == typeof(bool) ? value.GetValue<bool>()
@@ -84,7 +84,7 @@ internal static class PluginSettings
 			: Enum.Parse(type, value.GetValue<string>(), ignoreCase: true);
 		property.SetValue(App.Settings.Prop, converted);
 		App.Settings.SaveDeferred();
-		App.Logger.WriteLine("Plugins", plugin + ": changed the setting " + property.Name);
+		App.Logger.WriteLine("VoidstrapMods", plugin + ": changed the setting " + property.Name);
 	}
 }
 
@@ -101,7 +101,7 @@ internal sealed class PluginStore
 	public PluginStore(string plugin)
 	{
 		string parent = Path.GetDirectoryName(Paths.Plugins) ?? Paths.Plugins;
-		_path = Path.Combine(parent, "PluginData", plugin + ".json");
+		_path = Path.Combine(parent, "AppModData", plugin + ".json");
 	}
 
 	private JsonObject Values()
@@ -135,7 +135,7 @@ internal sealed class PluginStore
 			if (text.Length > MaxBytes)
 			{
 				values.Remove(key);
-				throw new InvalidOperationException("the plugin store is limited to 1 MB");
+				throw new InvalidOperationException("the mod store is limited to 1 MB");
 			}
 			Directory.CreateDirectory(Path.GetDirectoryName(_path)!);
 			string temporary = _path + ".tmp";

@@ -8808,10 +8808,19 @@ Voidstrap نتوانست در پوشهٔ دسکتاپ بنویسد.</value>
     <value>وارد کردن نماد ممکن نشد: {0}</value>
   </data>
   <data name="Plugins.TurnOnPrompt" xml:space="preserve">
-    <value>افزونه «{0}» روشن شود؟
+    <value>ماد Voidstrap «{0}» روشن شود؟
 
 {1}
 
-افزونه‌ها می‌توانند نحوه کار Voidstrap و تنظیمات آن را تغییر دهند. فقط افزونه‌هایی را روشن کنید که به آن‌ها اعتماد دارید.</value>
+مادهای Voidstrap می‌توانند نحوه کار Voidstrap و تنظیمات آن را تغییر دهند. فقط مادهایی را روشن کنید که به آن‌ها اعتماد دارید.</value>
+  </data>
+  <data name="Ui.Nav.VoidstrapMods" xml:space="preserve">
+    <value>مادهای Voidstrap</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Empty" xml:space="preserve">
+    <value>هنوز هیچ ماد Voidstrap پنلی باز نکرده است. مادها را در پوشه مادها بگذارید تا خودکار بارگذاری شوند.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
+    <value>باز کردن پوشه مادها</value>
   </data>
 </root>

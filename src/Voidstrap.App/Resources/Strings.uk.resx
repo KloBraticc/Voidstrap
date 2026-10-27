@@ -8804,10 +8804,19 @@ Voidstrap не зміг записати до теки робочого стол
     <value>Не вдалося імпортувати піктограму: {0}</value>
   </data>
   <data name="Plugins.TurnOnPrompt" xml:space="preserve">
-    <value>Увімкнути плагін «{0}»?
+    <value>Увімкнути мод Voidstrap «{0}»?
 
 {1}
 
-Плагіни можуть змінювати роботу Voidstrap і його налаштування. Вмикайте лише ті плагіни, яким Ви довіряєте.</value>
+Моди Voidstrap можуть змінювати роботу Voidstrap і його налаштування. Вмикайте лише ті моди, яким Ви довіряєте.</value>
+  </data>
+  <data name="Ui.Nav.VoidstrapMods" xml:space="preserve">
+    <value>Моди Voidstrap</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Empty" xml:space="preserve">
+    <value>Жоден мод Voidstrap ще не відкрив панель. Покладіть моди в папку модів, і вони завантажаться автоматично.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
+    <value>Відкрити папку модів</value>
   </data>
 </root>

@@ -2,19 +2,20 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Jint.Native.Function;
 using System.Text.Json.Nodes;
 using System.Threading;
 using Jint;
 using Jint.Native;
+using Jint.Native.Function;
 using Jint.Native.Json;
+using Jint.Native.Object;
 using Jint.Runtime.Interop;
 
 namespace Voidstrap.Integrations.Plugins;
 
 public static class PluginHost
 {
-	private const string LogIdent = "Plugins";
+	private const string LogIdent = "VoidstrapMods";
 
 	private const int ReloadDelayMs = 400;
 
@@ -22,23 +23,50 @@ public static class PluginHost
 
 	private static readonly List<LoadedPlugin> Loaded = [];
 
+	private static readonly List<PaneInfo> OpenPanes = [];
+
+	private static readonly Dictionary<string, string> Statuses = new(StringComparer.Ordinal);
+
+	private static readonly Dictionary<string, JsonObject> SessionState = new(StringComparer.Ordinal);
+
 	private static FileSystemWatcher? _watcher;
 
 	private static Timer? _reloadTimer;
 
 	private static bool _started;
 
-	public static IReadOnlyList<string> LoadedNames
+	public static event Action? PanesChanged;
+
+	public static event Action<string>? PaneInvalidated;
+
+	public static event Action? StatusChanged;
+
+	public sealed record PaneInfo(string Plugin, string Id, string Title);
+
+	public static bool IsSupported => !Voidstrap.Utility.Platform.IsMacOS;
+
+	public static IReadOnlyList<PaneInfo> Panes
 	{
 		get
 		{
 			lock (Gate)
-				return Loaded.Select(plugin => plugin.Name).ToList();
+				return OpenPanes.ToList();
+		}
+	}
+
+	public static IReadOnlyList<string> StatusLines
+	{
+		get
+		{
+			lock (Gate)
+				return Statuses.Select(pair => pair.Key + ": " + pair.Value).ToList();
 		}
 	}
 
 	public static void Start()
 	{
+		if (!IsSupported)
+			return;
 		lock (Gate)
 		{
 			if (_started)
@@ -62,7 +90,7 @@ public static class PluginHost
 		}
 		catch (Exception ex)
 		{
-			App.Logger.WriteLine(LogIdent, "The plugins folder could not be watched: " + ex.Message);
+			App.Logger.WriteLine(LogIdent, "The mods folder could not be watched: " + ex.Message);
 		}
 		Reload();
 	}
@@ -86,6 +114,8 @@ public static class PluginHost
 			foreach (LoadedPlugin plugin in Loaded)
 				plugin.Dispose();
 			Loaded.Clear();
+			OpenPanes.Clear();
+			Statuses.Clear();
 			_started = false;
 		}
 	}
@@ -96,7 +126,7 @@ public static class PluginHost
 
 	private static void OnReloadTimer(object? state)
 	{
-		App.Logger.WriteLine(LogIdent, "The plugins folder changed, reloading plugins");
+		App.Logger.WriteLine(LogIdent, "The mods folder changed, reloading Voidstrap mods");
 		Reload();
 	}
 
@@ -124,24 +154,47 @@ public static class PluginHost
 			old = Loaded.ToList();
 			Loaded.Clear();
 			Loaded.AddRange(fresh);
+			HashSet<string> names = fresh.Select(plugin => plugin.Name).ToHashSet(StringComparer.Ordinal);
+			OpenPanes.RemoveAll(pane => !names.Contains(pane.Plugin));
+			foreach (string key in Statuses.Keys.Where(key => !names.Contains(key)).ToList())
+				Statuses.Remove(key);
 		}
 		foreach (LoadedPlugin plugin in old)
 			plugin.Dispose();
-		Invoke("app.start", new JsonObject { ["reason"] = old.Count > 0 ? "reload" : "start" });
+		Invoke("session.start", new JsonObject { ["source"] = old.Count > 0 ? "reload" : "startup" });
+		PanesChanged?.Invoke();
+		StatusChanged?.Invoke();
 	}
 
-	public static JsonNode? Invoke(string eventName, JsonNode? input, Func<JsonNode?, JsonNode?>? bottom = null)
+	public static JsonNode? Invoke(string eventName, JsonNode? input, Func<JsonNode?, JsonNode?>? bottom = null, string? scope = null)
 	{
 		List<HookEntry> hooks;
 		lock (Gate)
-			hooks = Loaded.SelectMany(plugin => plugin.HooksFor(eventName)).ToList();
+			hooks = Loaded.SelectMany(plugin => plugin.HooksFor(eventName)).Where(hook => Matches(hook.Matcher, input)).ToList();
 		bottom ??= static e => e;
 		if (hooks.Count == 0)
 			return bottom(input);
-		return Run(hooks, 0, eventName, input, bottom);
+		return Run(hooks, 0, eventName, input, bottom, scope);
 	}
 
-	private static JsonNode? Run(List<HookEntry> hooks, int index, string eventName, JsonNode? input, Func<JsonNode?, JsonNode?> bottom)
+	private static bool Matches(JsonObject? matcher, JsonNode? input)
+	{
+		if (matcher == null)
+			return true;
+		JsonObject? values = input as JsonObject;
+		foreach (KeyValuePair<string, JsonNode?> rule in matcher)
+		{
+			string actual = values?[rule.Key]?.ToString() ?? "";
+			bool hit = rule.Value is JsonArray options
+				? options.Any(option => string.Equals(option?.ToString(), actual, StringComparison.Ordinal))
+				: string.Equals(rule.Value?.ToString(), actual, StringComparison.Ordinal);
+			if (!hit)
+				return false;
+		}
+		return true;
+	}
+
+	private static JsonNode? Run(List<HookEntry> hooks, int index, string eventName, JsonNode? input, Func<JsonNode?, JsonNode?> bottom, string? scope)
 	{
 		if (index >= hooks.Count)
 			return bottom(input);
@@ -153,15 +206,99 @@ public static class PluginHost
 			return hook.Plugin.Call(hook.Function, input, next =>
 			{
 				nextCalled = true;
-				nextResult = Run(hooks, index + 1, eventName, next ?? input?.DeepClone(), bottom);
+				nextResult = Run(hooks, index + 1, eventName, next ?? input?.DeepClone(), bottom, scope);
 				return nextResult;
-			});
+			}, scope);
 		}
 		catch (Exception ex)
 		{
 			App.Logger.WriteLine(LogIdent, hook.Plugin.Name + ": " + eventName + " hook skipped: " + Describe(ex));
-			return nextCalled ? nextResult : Run(hooks, index + 1, eventName, input, bottom);
+			return nextCalled ? nextResult : Run(hooks, index + 1, eventName, input, bottom, scope);
 		}
+	}
+
+	public static JsonNode? RenderPane(PaneInfo pane)
+	{
+		return Invoke("ui.render", new JsonObject
+		{
+			["component"] = "Pane",
+			["requestId"] = pane.Id,
+			["plugin"] = pane.Plugin,
+			["surface"] = "desktop"
+		}, static _ => null, "pane." + pane.Id);
+	}
+
+	public static void InvokeHandler(string handlerId, JsonNode? argument)
+	{
+		int split = handlerId.IndexOf('|');
+		if (split <= 0)
+			return;
+		string name = handlerId[..split];
+		LoadedPlugin? plugin;
+		lock (Gate)
+			plugin = Loaded.FirstOrDefault(candidate => candidate.Name == name);
+		if (plugin == null)
+			return;
+		try
+		{
+			plugin.InvokeHandler(handlerId, argument);
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine(LogIdent, name + ": a UI handler failed: " + Describe(ex));
+		}
+		PaneInvalidated?.Invoke(name);
+	}
+
+	internal static JsonNode OpenPane(string plugin, string id, string title)
+	{
+		if (id.Length == 0 || id.Length > 64)
+			throw new InvalidOperationException("a pane needs an id of 1 to 64 characters");
+		lock (Gate)
+		{
+			OpenPanes.RemoveAll(pane => pane.Plugin == plugin && pane.Id == id);
+			OpenPanes.Add(new PaneInfo(plugin, id, title.Length > 0 ? title : id));
+		}
+		PanesChanged?.Invoke();
+		return new JsonObject { ["isPlaced"] = true };
+	}
+
+	internal static void ClosePane(string plugin, string id)
+	{
+		lock (Gate)
+			OpenPanes.RemoveAll(pane => pane.Plugin == plugin && pane.Id == id);
+		PanesChanged?.Invoke();
+	}
+
+	internal static void SetStatus(string plugin, string? text)
+	{
+		lock (Gate)
+		{
+			if (string.IsNullOrEmpty(text))
+				Statuses.Remove(plugin);
+			else
+				Statuses[plugin] = text.Length > 200 ? text[..200] : text;
+		}
+		StatusChanged?.Invoke();
+	}
+
+	internal static void Invalidate(string plugin) => PaneInvalidated?.Invoke(plugin);
+
+	internal static string? GetState(string plugin, string key)
+	{
+		lock (Gate)
+			return SessionState.TryGetValue(plugin, out JsonObject? values) ? values[key]?.ToJsonString() : null;
+	}
+
+	internal static void SetState(string plugin, string key, string json)
+	{
+		lock (Gate)
+		{
+			if (!SessionState.TryGetValue(plugin, out JsonObject? values))
+				SessionState[plugin] = values = new JsonObject();
+			values[key] = JsonNode.Parse(json);
+		}
+		PaneInvalidated?.Invoke(plugin);
 	}
 
 	internal static string Describe(Exception ex)
@@ -170,19 +307,33 @@ public static class PluginHost
 		return message.Length > 300 ? message[..300] : message;
 	}
 
-	internal sealed record HookEntry(LoadedPlugin Plugin, string Event, JsValue Function);
+	internal sealed record HookEntry(LoadedPlugin Plugin, string Event, JsonObject? Matcher, JsValue Function);
 
 	internal sealed class LoadedPlugin : IDisposable
 	{
+		private const int MaxTreeDepth = 64;
+
+		private const int MaxTreeNodes = 5000;
+
 		private const string Prelude = """
 			(() => {
 			  const host = globalThis.__voidstrapHost;
 			  delete globalThis.__voidstrapHost;
 			  const parse = text => text === undefined || text === null ? undefined : JSON.parse(text);
+			  const elements = Object.freeze({ Box: 'Box', Text: 'Text', Button: 'Button', Toggle: 'Toggle', TextInput: 'TextInput', Card: 'Card', Image: 'Image', Divider: 'Divider' });
+			  globalThis.h = (type, props, ...children) => ({ type, props: props || {}, children: children.flat(Infinity).filter(child => child !== null && child !== undefined && child !== false) });
+			  globalThis.Fragment = 'Box';
 			  globalThis.$ = Object.freeze({
 			    log: text => host.log(String(text)),
-			    toast: (title, text) => host.toast(String(title), text === undefined ? '' : String(text)),
 			    app: Object.freeze({ version: host.version, platform: host.platform }),
+			    ui: Object.freeze({
+			      resolve: () => elements,
+			      open: request => parse(host.uiOpen(JSON.stringify(request || {}))),
+			      close: id => host.uiClose(String(id)),
+			      status: text => host.uiStatus(text === undefined || text === null ? '' : String(text)),
+			      toast: (title, text) => host.toast(String(title), text === undefined ? '' : String(text)),
+			      refresh: () => host.uiRefresh()
+			    }),
 			    settings: Object.freeze({
 			      get: name => parse(host.settingGet(String(name))),
 			      set: (name, value) => host.settingSet(String(name), JSON.stringify(value))
@@ -190,8 +341,15 @@ public static class PluginHost
 			    store: Object.freeze({
 			      get: key => parse(host.storeGet(String(key))),
 			      set: (key, value) => host.storeSet(String(key), JSON.stringify(value === undefined ? null : value))
+			    }),
+			    state: Object.freeze({
+			      get: key => parse(host.stateGet(String(key))),
+			      set: (key, value) => host.stateSet(String(key), JSON.stringify(value === undefined ? null : value))
 			    })
 			  });
+			  globalThis.atom = (ref, initial) => Object.freeze({ ref: String(ref), initial });
+			  globalThis.read = ($, item) => { const value = $.state.get(item.ref); return value === undefined ? item.initial : value; };
+			  globalThis.update = ($, item, change) => $.state.set(item.ref, change(read($, item)));
 			})();
 			""";
 
@@ -199,9 +357,13 @@ public static class PluginHost
 
 		private readonly Engine _engine;
 
-		private readonly Dictionary<string, List<JsValue>> _hooks = new(StringComparer.Ordinal);
+		private readonly List<(string Event, JsonObject? Matcher, JsValue Function)> _hooks = [];
+
+		private readonly Dictionary<string, JsValue> _handlers = new(StringComparer.Ordinal);
 
 		private readonly PluginStore _store;
+
+		private int _handlerCounter;
 
 		public string Name { get; }
 
@@ -240,11 +402,10 @@ public static class PluginHost
 				{
 					string eventName = arguments.Length > 0 ? arguments[0].ToString() : "";
 					JsValue hook = arguments.Length > 2 ? arguments[2] : arguments.Length > 1 ? arguments[1] : JsValue.Undefined;
+					JsonObject? matcher = arguments.Length > 2 ? ToNode(arguments[1], null) as JsonObject : null;
 					if (eventName.Length == 0 || hook is not Function)
 						throw new InvalidOperationException("on needs an event name and a hook function");
-					if (!_hooks.TryGetValue(eventName, out List<JsValue>? list))
-						_hooks[eventName] = list = [];
-					list.Add(hook);
+					_hooks.Add((eventName, matcher, hook));
 					return JsValue.Undefined;
 				});
 				_engine.Constraints.Reset();
@@ -252,31 +413,59 @@ public static class PluginHost
 			}
 		}
 
+		private ClrFunction Host(string name, Func<JsValue[], JsValue> body) => new(_engine, name, (_, arguments) => body(arguments));
+
 		private JsObject BuildHost()
 		{
 			JsObject host = new(_engine);
 			host.Set("version", App.Version);
-			host.Set("platform", Voidstrap.Utility.Platform.IsWindows ? "windows" : Voidstrap.Utility.Platform.IsMacOS ? "macos" : "linux");
-			host.Set("log", new ClrFunction(_engine, "log", (_, a) =>
+			host.Set("platform", Voidstrap.Utility.Platform.IsWindows ? "windows" : "linux");
+			host.Set("log", Host("log", a =>
 			{
 				App.Logger.WriteLine(LogIdent, Name + ": " + Arg(a, 0));
 				return JsValue.Undefined;
 			}));
-			host.Set("toast", new ClrFunction(_engine, "toast", (_, a) =>
+			host.Set("toast", Host("toast", a =>
 			{
-				Voidstrap.Utility.AppNotifications.RecordInfo("plugin." + Name, Arg(a, 0), Arg(a, 1));
+				Voidstrap.Utility.AppNotifications.RecordInfo("mod." + Name, Arg(a, 0), Arg(a, 1));
 				return JsValue.Undefined;
 			}));
-			host.Set("settingGet", new ClrFunction(_engine, "settingGet", (_, a) => PluginSettings.Get(Arg(a, 0)) is string json ? json : JsValue.Undefined));
-			host.Set("settingSet", new ClrFunction(_engine, "settingSet", (_, a) =>
+			host.Set("uiOpen", Host("uiOpen", a =>
+			{
+				JsonObject request = JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject();
+				return OpenPane(Name, request["id"]?.ToString() ?? "", request["title"]?.ToString() ?? "").ToJsonString();
+			}));
+			host.Set("uiClose", Host("uiClose", a =>
+			{
+				ClosePane(Name, Arg(a, 0));
+				return JsValue.Undefined;
+			}));
+			host.Set("uiStatus", Host("uiStatus", a =>
+			{
+				SetStatus(Name, Arg(a, 0));
+				return JsValue.Undefined;
+			}));
+			host.Set("uiRefresh", Host("uiRefresh", _ =>
+			{
+				Invalidate(Name);
+				return JsValue.Undefined;
+			}));
+			host.Set("settingGet", Host("settingGet", a => PluginSettings.Get(Arg(a, 0)) is string json ? json : JsValue.Undefined));
+			host.Set("settingSet", Host("settingSet", a =>
 			{
 				PluginSettings.Set(Name, Arg(a, 0), Arg(a, 1));
 				return JsValue.Undefined;
 			}));
-			host.Set("storeGet", new ClrFunction(_engine, "storeGet", (_, a) => _store.Get(Arg(a, 0)) is string json ? json : JsValue.Undefined));
-			host.Set("storeSet", new ClrFunction(_engine, "storeSet", (_, a) =>
+			host.Set("storeGet", Host("storeGet", a => _store.Get(Arg(a, 0)) is string json ? json : JsValue.Undefined));
+			host.Set("storeSet", Host("storeSet", a =>
 			{
 				_store.Set(Arg(a, 0), Arg(a, 1));
+				return JsValue.Undefined;
+			}));
+			host.Set("stateGet", Host("stateGet", a => GetState(Name, Arg(a, 0)) is string json ? json : JsValue.Undefined));
+			host.Set("stateSet", Host("stateSet", a =>
+			{
+				SetState(Name, Arg(a, 0), Arg(a, 1));
 				return JsValue.Undefined;
 			}));
 			return host;
@@ -287,44 +476,94 @@ public static class PluginHost
 		public IEnumerable<HookEntry> HooksFor(string eventName)
 		{
 			lock (_gate)
-			{
-				if (!_hooks.TryGetValue(eventName, out List<JsValue>? list))
-					return [];
-				return list.Select(function => new HookEntry(this, eventName, function)).ToList();
-			}
+				return _hooks.Where(hook => hook.Event == eventName).Select(hook => new HookEntry(this, hook.Event, hook.Matcher, hook.Function)).ToList();
 		}
 
-		public JsonNode? Call(JsValue function, JsonNode? input, Func<JsonNode?, JsonNode?> next)
+		public JsonNode? Call(JsValue function, JsonNode? input, Func<JsonNode?, JsonNode?> next, string? scope)
 		{
 			lock (_gate)
 			{
+				if (scope != null)
+				{
+					string prefix = Name + "|" + scope + "|";
+					foreach (string key in _handlers.Keys.Where(key => key.StartsWith(prefix, StringComparison.Ordinal)).ToList())
+						_handlers.Remove(key);
+				}
 				ClrFunction nextFunction = new(_engine, "next", (_, a) =>
 				{
-					JsonNode? rewritten = a.Length > 0 && !a[0].IsUndefined() ? ToNode(a[0]) : null;
+					JsonNode? rewritten = a.Length > 0 && !a[0].IsUndefined() ? ToNode(a[0], scope) : null;
 					JsonNode? result = next(rewritten);
 					_engine.Constraints.Reset();
 					return ToJs(result);
 				});
 				_engine.Constraints.Reset();
 				JsValue result = _engine.Invoke(function, JsValue.Undefined, new object[] { _engine.GetValue("$"), ToJs(input), nextFunction }).UnwrapIfPromise();
-				return ToNode(result);
+				return ToNode(result, scope);
 			}
 		}
 
-		private JsValue ToJs(JsonNode? node)
+		public void InvokeHandler(string handlerId, JsonNode? argument)
 		{
-			if (node == null)
-				return JsValue.Undefined;
-			JsValue value = new JsonParser(_engine).Parse(node.ToJsonString());
-			return value;
+			lock (_gate)
+			{
+				if (!_handlers.TryGetValue(handlerId, out JsValue? handler))
+					return;
+				_engine.Constraints.Reset();
+				_engine.Invoke(handler, JsValue.Undefined, new object[] { ToJs(argument) }).UnwrapIfPromise();
+			}
 		}
 
-		private JsonNode? ToNode(JsValue value)
+		private JsValue ToJs(JsonNode? node) => node == null ? JsValue.Undefined : new JsonParser(_engine).Parse(node.ToJsonString());
+
+		private JsonNode? ToNode(JsValue value, string? scope)
 		{
+			int count = 0;
+			return Convert(value, scope, 0, ref count);
+		}
+
+		private JsonNode? Convert(JsValue value, string? scope, int depth, ref int count)
+		{
+			if (++count > MaxTreeNodes || depth > MaxTreeDepth)
+				throw new InvalidOperationException("the returned value is too large");
 			if (value.IsUndefined() || value.IsNull())
 				return null;
-			JsValue text = new Jint.Native.Json.JsonSerializer(_engine).Serialize(value);
-			return text.IsUndefined() ? null : JsonNode.Parse(text.ToString());
+			if (value.IsBoolean())
+				return JsonValue.Create(value.AsBoolean());
+			if (value.IsNumber())
+			{
+				double number = value.AsNumber();
+				return double.IsFinite(number) ? JsonValue.Create(number) : null;
+			}
+			if (value.IsString())
+				return JsonValue.Create(value.AsString());
+			if (value is Function)
+			{
+				if (scope == null)
+					return null;
+				string id = Name + "|" + scope + "|" + (++_handlerCounter);
+				_handlers[id] = value;
+				return new JsonObject { ["$handler"] = id };
+			}
+			if (value.IsArray())
+			{
+				JsonArray array = new();
+				Jint.Native.JsArray source = value.AsArray();
+				for (uint i = 0; i < source.Length; i++)
+					array.Add(Convert(source.Get(i), scope, depth + 1, ref count));
+				return array;
+			}
+			if (value is ObjectInstance obj)
+			{
+				JsonObject result = new();
+				foreach (JsValue key in obj.GetOwnPropertyKeys(Jint.Runtime.Types.String))
+				{
+					JsonNode? item = Convert(obj.Get(key), scope, depth + 1, ref count);
+					if (item != null)
+						result[key.ToString()] = item;
+				}
+				return result;
+			}
+			return null;
 		}
 
 		public void Dispose()
@@ -332,6 +571,7 @@ public static class PluginHost
 			lock (_gate)
 			{
 				_hooks.Clear();
+				_handlers.Clear();
 				_engine.Dispose();
 			}
 		}

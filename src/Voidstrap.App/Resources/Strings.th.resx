@@ -8801,10 +8801,19 @@ Voidstrap เขียนลงในโฟลเดอร์เดสก์ท�
     <value>ไม่สามารถนำเข้าไอคอนได้: {0}</value>
   </data>
   <data name="Plugins.TurnOnPrompt" xml:space="preserve">
-    <value>เปิดใช้ปลั๊กอิน "{0}" หรือไม่
+    <value>เปิดใช้ม็อด Voidstrap "{0}" หรือไม่
 
 {1}
 
-ปลั๊กอินสามารถเปลี่ยนการทำงานของ Voidstrap และเปลี่ยนการตั้งค่าได้ เปิดใช้เฉพาะปลั๊กอินที่คุณไว้วางใจ</value>
+ม็อด Voidstrap สามารถเปลี่ยนการทำงานของ Voidstrap และเปลี่ยนการตั้งค่าได้ เปิดใช้เฉพาะม็อดที่คุณไว้วางใจ</value>
+  </data>
+  <data name="Ui.Nav.VoidstrapMods" xml:space="preserve">
+    <value>ม็อด Voidstrap</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Empty" xml:space="preserve">
+    <value>ยังไม่มีม็อด Voidstrap ที่เปิดแผง ใส่ม็อดในโฟลเดอร์ม็อดแล้วระบบจะโหลดให้อัตโนมัติ</value>
+  </data>
+  <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
+    <value>เปิดโฟลเดอร์ม็อด</value>
   </data>
 </root>

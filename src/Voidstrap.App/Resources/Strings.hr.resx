@@ -8805,10 +8805,19 @@ Drži Voidstrap i uređivač otvorenima dok AI radi. Njegove se promjene odmah p
     <value>Nije moguće uvesti ikonu: {0}</value>
   </data>
   <data name="Plugins.TurnOnPrompt" xml:space="preserve">
-    <value>Uključiti dodatak „{0}”?
+    <value>Uključiti Voidstrap mod „{0}”?
 
 {1}
 
-Dodaci mogu promijeniti način rada aplikacije Voidstrap i njezine postavke. Uključuj samo dodatke kojima vjeruješ.</value>
+Voidstrap modovi mogu promijeniti način rada aplikacije Voidstrap i njezine postavke. Uključuj samo modove kojima vjeruješ.</value>
+  </data>
+  <data name="Ui.Nav.VoidstrapMods" xml:space="preserve">
+    <value>Voidstrap modovi</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Empty" xml:space="preserve">
+    <value>Nijedan Voidstrap mod još nije otvorio okno. Stavi modove u mapu s modovima i automatski će se učitati.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
+    <value>Otvori mapu s modovima</value>
   </data>
 </root>

@@ -8805,10 +8805,19 @@ Tartsd nyitva a Voidstrapet és a szerkesztőt, amíg az MI dolgozik. A módosí
     <value>Nem sikerült importálni az ikont: {0}</value>
   </data>
   <data name="Plugins.TurnOnPrompt" xml:space="preserve">
-    <value>Bekapcsolod a(z) „{0}” bővítményt?
+    <value>Bekapcsolod a(z) „{0}” Voidstrap modot?
 
 {1}
 
-A bővítmények megváltoztathatják a Voidstrap működését és a beállításait. Csak olyan bővítményt kapcsolj be, amelyben megbízol.</value>
+A Voidstrap modok megváltoztathatják a Voidstrap működését és a beállításait. Csak olyan modot kapcsolj be, amelyben megbízol.</value>
+  </data>
+  <data name="Ui.Nav.VoidstrapMods" xml:space="preserve">
+    <value>Voidstrap modok</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Empty" xml:space="preserve">
+    <value>Még egy Voidstrap mod sem nyitott panelt. Tedd a modokat a modok mappájába, és automatikusan betöltődnek.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
+    <value>Modok mappájának megnyitása</value>
   </data>
 </root>

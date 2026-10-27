@@ -8797,10 +8797,19 @@ Biarkan Voidstrap dan penyunting kekal dibuka semasa AI bekerja. Perubahannya di
     <value>Tidak dapat mengimport ikon: {0}</value>
   </data>
   <data name="Plugins.TurnOnPrompt" xml:space="preserve">
-    <value>Hidupkan pemalam "{0}"?
+    <value>Hidupkan mod Voidstrap "{0}"?
 
 {1}
 
-Pemalam boleh mengubah cara Voidstrap berfungsi dan mengubah tetapannya. Hidupkan hanya pemalam yang anda percayai.</value>
+Mod Voidstrap boleh mengubah cara Voidstrap berfungsi dan mengubah tetapannya. Hidupkan hanya mod yang anda percayai.</value>
+  </data>
+  <data name="Ui.Nav.VoidstrapMods" xml:space="preserve">
+    <value>Mod Voidstrap</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Empty" xml:space="preserve">
+    <value>Belum ada mod Voidstrap yang membuka panel. Letakkan mod dalam folder mod dan ia akan dimuatkan secara automatik.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
+    <value>Buka folder mod</value>
   </data>
 </root>

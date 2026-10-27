@@ -8806,10 +8806,19 @@ Håll Voidstrap och redigeraren öppna medan AI:n arbetar. Ändringarna visas di
     <value>Kunde inte importera ikonen: {0}</value>
   </data>
   <data name="Plugins.TurnOnPrompt" xml:space="preserve">
-    <value>Vill du slå på pluginet "{0}"?
+    <value>Vill du slå på Voidstrap-modden "{0}"?
 
 {1}
 
-Plugin kan ändra hur Voidstrap fungerar och ändra dess inställningar. Slå bara på plugin som du litar på.</value>
+Voidstrap-moddar kan ändra hur Voidstrap fungerar och ändra dess inställningar. Slå bara på moddar som du litar på.</value>
+  </data>
+  <data name="Ui.Nav.VoidstrapMods" xml:space="preserve">
+    <value>Voidstrap-moddar</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Empty" xml:space="preserve">
+    <value>Ingen Voidstrap-modd har öppnat en panel ännu. Lägg moddar i moddmappen så läses de in automatiskt.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
+    <value>Öppna moddmappen</value>
   </data>
 </root>

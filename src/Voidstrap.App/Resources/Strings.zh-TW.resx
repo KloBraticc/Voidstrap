@@ -8809,10 +8809,19 @@ Voidstrap 無法寫入桌面資料夾。</value>
     <value>無法匯入圖示：{0}</value>
   </data>
   <data name="Plugins.TurnOnPrompt" xml:space="preserve">
-    <value>要啟用外掛程式「{0}」嗎？
+    <value>要啟用 Voidstrap 模組「{0}」嗎？
 
 {1}
 
-外掛程式可以變更 Voidstrap 的運作方式和設定。請只啟用你信任的外掛程式。</value>
+Voidstrap 模組可以變更 Voidstrap 的運作方式和設定。請只啟用你信任的模組。</value>
+  </data>
+  <data name="Ui.Nav.VoidstrapMods" xml:space="preserve">
+    <value>Voidstrap 模組</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Empty" xml:space="preserve">
+    <value>還沒有 Voidstrap 模組開啟面板。把模組放進模組資料夾，就會自動載入。</value>
+  </data>
+  <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
+    <value>開啟模組資料夾</value>
   </data>
 </root>

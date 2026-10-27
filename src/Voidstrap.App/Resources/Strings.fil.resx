@@ -8804,10 +8804,19 @@ Panatilihing nakabukas ang Voidstrap at ang editor habang gumagawa ang AI. Agad 
     <value>Hindi ma-import ang icon: {0}</value>
   </data>
   <data name="Plugins.TurnOnPrompt" xml:space="preserve">
-    <value>I-on ang plugin na "{0}"?
+    <value>I-on ang mod ng Voidstrap na "{0}"?
 
 {1}
 
-Kayang baguhin ng mga plugin kung paano gumagana ang Voidstrap at ang mga setting nito. I-on lang ang mga plugin na pinagkakatiwalaan mo.</value>
+Kayang baguhin ng mga mod ng Voidstrap kung paano gumagana ang Voidstrap at ang mga setting nito. I-on lang ang mga mod na pinagkakatiwalaan mo.</value>
+  </data>
+  <data name="Ui.Nav.VoidstrapMods" xml:space="preserve">
+    <value>Mga mod ng Voidstrap</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Empty" xml:space="preserve">
+    <value>Wala pang mod ng Voidstrap na nagbukas ng pane. Ilagay ang mga mod sa folder ng mga mod at awtomatiko silang maglo-load.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
+    <value>Buksan ang folder ng mga mod</value>
   </data>
 </root>

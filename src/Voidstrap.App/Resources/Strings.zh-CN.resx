@@ -8830,10 +8830,19 @@ Voidstrap 无法写入桌面文件夹。</value>
     <value>无法导入图标：{0}</value>
   </data>
   <data name="Plugins.TurnOnPrompt" xml:space="preserve">
-    <value>要启用插件“{0}”吗？
+    <value>要启用 Voidstrap 模组“{0}”吗？
 
 {1}
 
-插件可以更改 Voidstrap 的工作方式和设置。请只启用您信任的插件。</value>
+Voidstrap 模组可以更改 Voidstrap 的工作方式和设置。请只启用您信任的模组。</value>
+  </data>
+  <data name="Ui.Nav.VoidstrapMods" xml:space="preserve">
+    <value>Voidstrap 模组</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Empty" xml:space="preserve">
+    <value>还没有 Voidstrap 模组打开面板。请将模组放入模组文件夹，它们会自动加载。</value>
+  </data>
+  <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
+    <value>打开模组文件夹</value>
   </data>
 </root>

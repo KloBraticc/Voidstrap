@@ -8806,10 +8806,19 @@ Lass Voidstrap und den Editor geöffnet, während die KI arbeitet. Ihre Änderun
     <value>Das Symbol konnte nicht importiert werden: {0}</value>
   </data>
   <data name="Plugins.TurnOnPrompt" xml:space="preserve">
-    <value>Das Plugin „{0}“ einschalten?
+    <value>Den Voidstrap Mod „{0}“ einschalten?
 
 {1}
 
-Plugins können ändern, wie Voidstrap funktioniert, und seine Einstellungen ändern. Schalte nur Plugins ein, denen du vertraust.</value>
+Voidstrap Mods können ändern, wie Voidstrap funktioniert, und seine Einstellungen ändern. Schalte nur Mods ein, denen du vertraust.</value>
+  </data>
+  <data name="Ui.Nav.VoidstrapMods" xml:space="preserve">
+    <value>Voidstrap Mods</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Empty" xml:space="preserve">
+    <value>Noch hat kein Voidstrap Mod einen Bereich geöffnet. Lege Mods in den Mod-Ordner, dann werden sie automatisch geladen.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
+    <value>Mod-Ordner öffnen</value>
   </data>
 </root>

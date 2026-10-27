@@ -8807,10 +8807,19 @@ Během práce AI ponechte Voidstrap i editor otevřené. Změny se okamžitě pr
     <value>Nepodařilo se importovat ikonu: {0}</value>
   </data>
   <data name="Plugins.TurnOnPrompt" xml:space="preserve">
-    <value>Zapnout doplněk „{0}“?
+    <value>Zapnout mód Voidstrap „{0}“?
 
 {1}
 
-Doplňky mohou měnit fungování aplikace Voidstrap i její nastavení. Zapínejte pouze doplňky, kterým důvěřujete.</value>
+Módy Voidstrap mohou měnit fungování aplikace Voidstrap i její nastavení. Zapínejte pouze módy, kterým důvěřujete.</value>
+  </data>
+  <data name="Ui.Nav.VoidstrapMods" xml:space="preserve">
+    <value>Módy Voidstrap</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Empty" xml:space="preserve">
+    <value>Zatím žádný mód Voidstrap neotevřel panel. Vložte módy do složky s módy a načtou se automaticky.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
+    <value>Otevřít složku s módy</value>
   </data>
 </root>

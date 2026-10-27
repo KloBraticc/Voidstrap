@@ -8804,10 +8804,19 @@ AI가 작업하는 동안 Voidstrap과 편집기를 열어 두세요. 변경 사
     <value>아이콘을 가져올 수 없습니다: {0}</value>
   </data>
   <data name="Plugins.TurnOnPrompt" xml:space="preserve">
-    <value>"{0}" 플러그인을 켜시겠습니까?
+    <value>"{0}" Voidstrap 모드를 켜시겠습니까?
 
 {1}
 
-플러그인은 Voidstrap의 작동 방식과 설정을 변경할 수 있습니다. 신뢰할 수 있는 플러그인만 켜십시오.</value>
+Voidstrap 모드는 Voidstrap의 작동 방식과 설정을 변경할 수 있습니다. 신뢰할 수 있는 모드만 켜십시오.</value>
+  </data>
+  <data name="Ui.Nav.VoidstrapMods" xml:space="preserve">
+    <value>Voidstrap 모드</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Empty" xml:space="preserve">
+    <value>아직 패널을 연 Voidstrap 모드가 없습니다. 모드 폴더에 모드를 넣으면 자동으로 불러옵니다.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
+    <value>모드 폴더 열기</value>
   </data>
 </root>

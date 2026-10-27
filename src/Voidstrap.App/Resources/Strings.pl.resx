@@ -8806,10 +8806,19 @@ Pozostaw Voidstrap i edytor otwarte podczas pracy AI. Wprowadzane zmiany są od 
     <value>Nie udało się zaimportować ikony: {0}</value>
   </data>
   <data name="Plugins.TurnOnPrompt" xml:space="preserve">
-    <value>Włączyć wtyczkę „{0}”?
+    <value>Włączyć mod Voidstrap „{0}”?
 
 {1}
 
-Wtyczki mogą zmieniać działanie Voidstrap i jego ustawienia. Włączaj tylko wtyczki, którym ufasz.</value>
+Mody Voidstrap mogą zmieniać działanie Voidstrap i jego ustawienia. Włączaj tylko mody, którym ufasz.</value>
+  </data>
+  <data name="Ui.Nav.VoidstrapMods" xml:space="preserve">
+    <value>Mody Voidstrap</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Empty" xml:space="preserve">
+    <value>Żaden mod Voidstrap nie otworzył jeszcze panelu. Umieść mody w folderze modów, a załadują się automatycznie.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
+    <value>Otwórz folder modów</value>
   </data>
 </root>

@@ -8806,10 +8806,19 @@ Voidstrap не можа да запише в папката на работни�
     <value>Иконата не можа да бъде импортирана: {0}</value>
   </data>
   <data name="Plugins.TurnOnPrompt" xml:space="preserve">
-    <value>Да се включи ли добавката „{0}“?
+    <value>Да се включи ли модът за Voidstrap „{0}“?
 
 {1}
 
-Добавките могат да променят начина, по който работи Voidstrap, и неговите настройки. Включвайте само добавки, на които имате доверие.</value>
+Модовете за Voidstrap могат да променят начина, по който работи Voidstrap, и неговите настройки. Включвайте само модове, на които имате доверие.</value>
+  </data>
+  <data name="Ui.Nav.VoidstrapMods" xml:space="preserve">
+    <value>Модове за Voidstrap</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Empty" xml:space="preserve">
+    <value>Все още няма мод за Voidstrap, който да е отворил панел. Поставете модове в папката за модове и те ще се заредят автоматично.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
+    <value>Отваряне на папката с модове</value>
   </data>
 </root>

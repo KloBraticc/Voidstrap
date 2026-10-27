@@ -2161,7 +2161,7 @@ public partial class App : Application
 		TryShutdown(Voidstrap.KeyRouting.SnapTapHook.Shutdown);
 		TryShutdown(Voidstrap.Integrations.Rojo.RojoManager.Shutdown);
 		TryShutdown(Voidstrap.Integrations.Studio.StudioIntegration.Shutdown);
-		TryShutdown(() => Voidstrap.Integrations.Plugins.PluginHost.Invoke("app.exit", null));
+		TryShutdown(() => Voidstrap.Integrations.Plugins.PluginHost.Invoke("session.end", new System.Text.Json.Nodes.JsonObject { ["reason"] = "exit" }));
 		TryShutdown(Voidstrap.Integrations.Plugins.PluginHost.Shutdown);
 		TryShutdown(AssetCaptureStore.Shutdown);
 		TryShutdown(Voidstrap.Integrations.Fullscreen.RobloxFullscreen.Shutdown);

@@ -934,7 +934,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private bool IsCachedPage(FrameworkElement page)
     {
-        if (ReferenceEquals(page, _libraryPage) || ReferenceEquals(page, _privateServersPage) || ReferenceEquals(page, _accountsPage) || ReferenceEquals(page, _robloxNewsPage))
+        if (ReferenceEquals(page, _libraryPage) || ReferenceEquals(page, _privateServersPage) || ReferenceEquals(page, _accountsPage) || ReferenceEquals(page, _robloxNewsPage) || ReferenceEquals(page, _voidstrapModsPage))
         {
             return true;
         }
@@ -1181,6 +1181,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         TopNavHome.Tag = content is HomePage ? "Active" : null;
         TopNavLibrary.Tag = content is LibraryPage ? "Active" : null;
         TopNavServers.Tag = content is PrivateServersPage ? "Active" : null;
+        TopNavVoidstrapMods.Tag = content is VoidstrapModsPage ? "Active" : null;
         TopNavNews.Tag = content is NewsPage ? "Active" : null;
     }
 
@@ -2097,6 +2098,18 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         PagesMenuPopup.IsOpen = false;
         NavigateTopNav(typeof(NewsPage));
+    }
+
+    private VoidstrapModsPage? _voidstrapModsPage;
+
+    private void TopNavVoidstrapMods_Click(object sender, RoutedEventArgs e)
+    {
+        PagesMenuPopup.IsOpen = false;
+        _voidstrapModsPage ??= new VoidstrapModsPage();
+        if (!ReferenceEquals(RootFrame.Content, _voidstrapModsPage))
+        {
+            RootNavigation.NavigateExternal(_voidstrapModsPage);
+        }
     }
 
     private void TopNavServers_Click(object sender, RoutedEventArgs e)

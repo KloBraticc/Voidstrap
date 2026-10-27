@@ -8807,10 +8807,19 @@ Mantenha o Voidstrap e o editor abertos enquanto a IA trabalha. As alterações 
     <value>Não foi possível importar o ícone: {0}</value>
   </data>
   <data name="Plugins.TurnOnPrompt" xml:space="preserve">
-    <value>Ativar o plugin "{0}"?
+    <value>Ativar o mod do Voidstrap "{0}"?
 
 {1}
 
-Plugins podem mudar o funcionamento do Voidstrap e alterar as configurações dele. Ative apenas plugins em que você confia.</value>
+Mods do Voidstrap podem mudar o funcionamento do Voidstrap e alterar as configurações dele. Ative apenas mods em que você confia.</value>
+  </data>
+  <data name="Ui.Nav.VoidstrapMods" xml:space="preserve">
+    <value>Mods do Voidstrap</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Empty" xml:space="preserve">
+    <value>Nenhum mod do Voidstrap abriu um painel ainda. Coloque mods na pasta de mods e eles serão carregados automaticamente.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
+    <value>Abrir a pasta de mods</value>
   </data>
 </root>

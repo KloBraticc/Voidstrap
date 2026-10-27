@@ -8805,10 +8805,19 @@ Voidstrap не смог записать в папку рабочего стол
     <value>Не удалось импортировать значок: {0}</value>
   </data>
   <data name="Plugins.TurnOnPrompt" xml:space="preserve">
-    <value>Включить плагин «{0}»?
+    <value>Включить мод Voidstrap «{0}»?
 
 {1}
 
-Плагины могут изменять работу Voidstrap и его настройки. Включайте только плагины, которым Вы доверяете.</value>
+Моды Voidstrap могут изменять работу Voidstrap и его настройки. Включайте только моды, которым Вы доверяете.</value>
+  </data>
+  <data name="Ui.Nav.VoidstrapMods" xml:space="preserve">
+    <value>Моды Voidstrap</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Empty" xml:space="preserve">
+    <value>Ни один мод Voidstrap ещё не открыл панель. Поместите моды в папку модов, и они загрузятся автоматически.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
+    <value>Открыть папку модов</value>
   </data>
 </root>

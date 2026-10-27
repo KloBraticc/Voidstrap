@@ -8493,10 +8493,19 @@ Keep Voidstrap and the editor open while the AI works. Its changes show in the p
     <value>Could not import the icon: {0}</value>
   </data>
   <data name="Plugins.TurnOnPrompt" xml:space="preserve">
-    <value>Turn on the plugin "{0}"?
+    <value>Turn on the Voidstrap mod "{0}"?
 
 {1}
 
-Plugins can change how Voidstrap works and change its settings. Only turn on plugins you trust.</value>
+Voidstrap mods can change how Voidstrap works and change its settings. Only turn on mods you trust.</value>
+  </data>
+  <data name="Ui.Nav.VoidstrapMods" xml:space="preserve">
+    <value>Voidstrap mods</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Empty" xml:space="preserve">
+    <value>No Voidstrap mod has opened a pane yet. Put mods in the mods folder and they load automatically.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
+    <value>Open the mods folder</value>
   </data>
 </root>

@@ -8807,10 +8807,19 @@ Houd Voidstrap en de editor geopend terwijl de AI werkt. De wijzigingen zijn dir
     <value>Kan het pictogram niet importeren: {0}</value>
   </data>
   <data name="Plugins.TurnOnPrompt" xml:space="preserve">
-    <value>De plug-in "{0}" inschakelen?
+    <value>De Voidstrap-mod "{0}" inschakelen?
 
 {1}
 
-Plug-ins kunnen veranderen hoe Voidstrap werkt en de instellingen aanpassen. Schakel alleen plug-ins in die je vertrouwt.</value>
+Voidstrap-mods kunnen veranderen hoe Voidstrap werkt en de instellingen aanpassen. Schakel alleen mods in die je vertrouwt.</value>
+  </data>
+  <data name="Ui.Nav.VoidstrapMods" xml:space="preserve">
+    <value>Voidstrap-mods</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Empty" xml:space="preserve">
+    <value>Nog geen Voidstrap-mod heeft een paneel geopend. Zet mods in de modsmap en ze worden automatisch geladen.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
+    <value>Modsmap openen</value>
   </data>
 </root>

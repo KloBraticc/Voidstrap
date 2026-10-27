@@ -8820,10 +8820,19 @@ AIの作業中はVoidstrapとエディターを開いたままにしてくださ
     <value>アイコンをインポートできませんでした: {0}</value>
   </data>
   <data name="Plugins.TurnOnPrompt" xml:space="preserve">
-    <value>プラグイン「{0}」を有効にしますか？
+    <value>Voidstrap Mod「{0}」を有効にしますか？
 
 {1}
 
-プラグインは Voidstrap の動作や設定を変更できます。信頼できるプラグインのみ有効にしてください。</value>
+Voidstrap Mod は Voidstrap の動作や設定を変更できます。信頼できる Mod のみ有効にしてください。</value>
+  </data>
+  <data name="Ui.Nav.VoidstrapMods" xml:space="preserve">
+    <value>Voidstrap Mod</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Empty" xml:space="preserve">
+    <value>まだパネルを開いた Voidstrap Mod はありません。Mod フォルダーに Mod を入れると自動的に読み込まれます。</value>
+  </data>
+  <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
+    <value>Mod フォルダーを開く</value>
   </data>
 </root>

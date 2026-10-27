@@ -8807,10 +8807,19 @@ Păstrează Voidstrap și editorul deschise în timp ce AI-ul lucrează. Modific
     <value>Pictograma nu a putut fi importată: {0}</value>
   </data>
   <data name="Plugins.TurnOnPrompt" xml:space="preserve">
-    <value>Activezi pluginul „{0}”?
+    <value>Activezi modul Voidstrap „{0}”?
 
 {1}
 
-Pluginurile pot schimba modul în care funcționează Voidstrap și setările lui. Activează doar pluginuri în care ai încredere.</value>
+Modurile Voidstrap pot schimba modul în care funcționează Voidstrap și setările lui. Activează doar moduri în care ai încredere.</value>
+  </data>
+  <data name="Ui.Nav.VoidstrapMods" xml:space="preserve">
+    <value>Moduri Voidstrap</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Empty" xml:space="preserve">
+    <value>Niciun mod Voidstrap nu a deschis încă un panou. Pune modurile în folderul de moduri și se vor încărca automat.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
+    <value>Deschide folderul de moduri</value>
   </data>
 </root>

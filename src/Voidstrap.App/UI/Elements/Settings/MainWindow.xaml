@@ -424,6 +424,9 @@
           <MenuItem x:Name="TopNavServers" Header="{resources:Loc Library_PrivateServersTab}" Style="{StaticResource TopBarMenuItemStyle}" Click="TopNavServers_Click">
             <MenuItem.Icon><ui:SymbolIcon Symbol="Server24" FontSize="16" /></MenuItem.Icon>
           </MenuItem>
+          <MenuItem x:Name="TopNavVoidstrapMods" Header="{resources:Loc Ui_Nav_VoidstrapMods}" Style="{StaticResource TopBarMenuItemStyle}" Visibility="{x:Static appUi:PlatformFeatureVisibility.NotMacOS}" Click="TopNavVoidstrapMods_Click">
+            <MenuItem.Icon><ui:SymbolIcon Symbol="PuzzlePiece24" FontSize="16" /></MenuItem.Icon>
+          </MenuItem>
           <MenuItem x:Name="TopNavNews" Header="{resources:Loc Ui_Nav_News}" Style="{StaticResource TopBarMenuItemStyle}" Click="TopNavNews_Click">
             <MenuItem.Icon><ui:SymbolIcon Symbol="News24" FontSize="16" /></MenuItem.Icon>
           </MenuItem>

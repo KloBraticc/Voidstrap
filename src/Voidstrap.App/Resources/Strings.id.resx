@@ -8808,10 +8808,19 @@ Biarkan Voidstrap dan editor tetap terbuka saat AI bekerja. Perubahannya langsun
     <value>Tidak dapat mengimpor ikon: {0}</value>
   </data>
   <data name="Plugins.TurnOnPrompt" xml:space="preserve">
-    <value>Aktifkan plugin "{0}"?
+    <value>Aktifkan mod Voidstrap "{0}"?
 
 {1}
 
-Plugin dapat mengubah cara kerja Voidstrap dan mengubah pengaturannya. Aktifkan hanya plugin yang Anda percayai.</value>
+Mod Voidstrap dapat mengubah cara kerja Voidstrap dan mengubah pengaturannya. Aktifkan hanya mod yang Anda percayai.</value>
+  </data>
+  <data name="Ui.Nav.VoidstrapMods" xml:space="preserve">
+    <value>Mod Voidstrap</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Empty" xml:space="preserve">
+    <value>Belum ada mod Voidstrap yang membuka panel. Letakkan mod di folder mod dan mod akan dimuat secara otomatis.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
+    <value>Buka folder mod</value>
   </data>
 </root>

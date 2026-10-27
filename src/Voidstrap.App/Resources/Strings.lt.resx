@@ -8807,10 +8807,19 @@ Palikite Voidstrap ir redaktorių atidarytus, kol DI dirba. Jo pakeitimai iš ka
     <value>Nepavyko importuoti piktogramos: {0}</value>
   </data>
   <data name="Plugins.TurnOnPrompt" xml:space="preserve">
-    <value>Ar įjungti papildinį „{0}“?
+    <value>Ar įjungti Voidstrap modifikaciją „{0}“?
 
 {1}
 
-Papildiniai gali pakeisti Voidstrap veikimą ir nustatymus. Įjunkite tik tuos papildinius, kuriais pasitikite.</value>
+Voidstrap modifikacijos gali pakeisti Voidstrap veikimą ir nustatymus. Įjunkite tik tas modifikacijas, kuriomis pasitikite.</value>
+  </data>
+  <data name="Ui.Nav.VoidstrapMods" xml:space="preserve">
+    <value>Voidstrap modifikacijos</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Empty" xml:space="preserve">
+    <value>Dar nė viena Voidstrap modifikacija neatidarė skydelio. Įdėkite modifikacijas į modifikacijų aplanką ir jos bus įkeltos automatiškai.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
+    <value>Atidaryti modifikacijų aplanką</value>
   </data>
 </root>

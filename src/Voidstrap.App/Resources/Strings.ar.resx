@@ -8805,10 +8805,19 @@
     <value>تعذر استيراد الأيقونة: {0}</value>
   </data>
   <data name="Plugins.TurnOnPrompt" xml:space="preserve">
-    <value>هل تريد تشغيل الإضافة "{0}"؟
+    <value>هل تريد تشغيل تعديل Voidstrap "{0}"؟
 
 {1}
 
-يمكن للإضافات تغيير طريقة عمل Voidstrap وتغيير إعداداته. شغّل فقط الإضافات التي تثق بها.</value>
+يمكن لتعديلات Voidstrap تغيير طريقة عمل Voidstrap وتغيير إعداداته. شغّل فقط التعديلات التي تثق بها.</value>
+  </data>
+  <data name="Ui.Nav.VoidstrapMods" xml:space="preserve">
+    <value>تعديلات Voidstrap</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Empty" xml:space="preserve">
+    <value>لم يفتح أي تعديل من تعديلات Voidstrap لوحة بعد. ضع التعديلات في مجلد التعديلات وسيتم تحميلها تلقائيًا.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
+    <value>فتح مجلد التعديلات</value>
   </data>
 </root>

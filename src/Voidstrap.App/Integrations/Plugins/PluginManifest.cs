@@ -9,7 +9,7 @@ namespace Voidstrap.Integrations.Plugins;
 
 public sealed partial class PluginManifest
 {
-	public const string ManifestFolder = ".voidstrap-plugin";
+	public const string ManifestFolder = ".voidstrap-mod";
 
 	private const long MaxJsonBytes = 256 * 1024;
 
@@ -44,7 +44,7 @@ public sealed partial class PluginManifest
 			}
 			catch (Exception ex)
 			{
-				App.Logger.WriteLine("Plugins", Path.GetFileName(folder) + ": manifest refused: " + PluginHost.Describe(ex));
+				App.Logger.WriteLine("VoidstrapMods", Path.GetFileName(folder) + ": manifest refused: " + PluginHost.Describe(ex));
 			}
 		}
 		return found.GroupBy(manifest => manifest.Name).Select(group => group.First()).ToList();

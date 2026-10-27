@@ -329,7 +329,7 @@ internal static class Paths
 		Roblox = Path.Combine(Base, "Roblox");
 		Versions = Path.Combine(RobloxBase, "RblxVersions");
 		Mods = Path.Combine(Base, "VoidstrapMods");
-		Plugins = Path.Combine(Base, "Plugins");
+		Plugins = Path.Combine(Base, "AppMods");
 		RobloxClients = Path.Combine(offloadRoot, "RobloxClients");
 		WebViewData = Path.Combine(LocalAppData, "Voidstrap", "WebView2");
 		RobloxLogs = Path.Combine(LocalAppData, "Roblox", "logs");
@@ -365,7 +365,7 @@ internal static class Paths
 		Roblox = Path.Combine(Data, "Roblox");
 		Versions = Path.Combine(RobloxBase, "RblxVersions");
 		Mods = Path.Combine(Data, "VoidstrapMods");
-		Plugins = Path.Combine(Data, "Plugins");
+		Plugins = Path.Combine(Data, "AppMods");
 		RobloxClients = Path.Combine(Data, "RobloxClients");
 		WebViewData = Path.Combine(Cache, "WebView");
 		string home = Environment.GetFolderPath(Environment.SpecialFolder.UserProfile);

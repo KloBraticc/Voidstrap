@@ -8807,10 +8807,19 @@ Pidä Voidstrap ja muokkain avoinna, kun tekoäly työskentelee. Sen tekemät mu
     <value>Kuvakkeen tuonti epäonnistui: {0}</value>
   </data>
   <data name="Plugins.TurnOnPrompt" xml:space="preserve">
-    <value>Otetaanko laajennus "{0}" käyttöön?
+    <value>Otetaanko Voidstrap-modi "{0}" käyttöön?
 
 {1}
 
-Laajennukset voivat muuttaa Voidstrapin toimintaa ja sen asetuksia. Ota käyttöön vain laajennuksia, joihin luotat.</value>
+Voidstrap-modit voivat muuttaa Voidstrapin toimintaa ja sen asetuksia. Ota käyttöön vain modeja, joihin luotat.</value>
+  </data>
+  <data name="Ui.Nav.VoidstrapMods" xml:space="preserve">
+    <value>Voidstrap-modit</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Empty" xml:space="preserve">
+    <value>Mikään Voidstrap-modi ei ole vielä avannut paneelia. Laita modit modikansioon, niin ne latautuvat automaattisesti.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
+    <value>Avaa modikansio</value>
   </data>
 </root>

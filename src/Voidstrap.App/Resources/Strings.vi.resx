@@ -8809,10 +8809,19 @@ Hãy giữ Voidstrap và trình chỉnh sửa luôn mở trong khi AI làm việ
     <value>Không thể nhập biểu tượng: {0}</value>
   </data>
   <data name="Plugins.TurnOnPrompt" xml:space="preserve">
-    <value>Bật plugin "{0}"?
+    <value>Bật mod Voidstrap "{0}"?
 
 {1}
 
-Plugin có thể thay đổi cách Voidstrap hoạt động và thay đổi cài đặt của nó. Chỉ bật những plugin mà bạn tin tưởng.</value>
+Mod Voidstrap có thể thay đổi cách Voidstrap hoạt động và thay đổi cài đặt của nó. Chỉ bật những mod mà bạn tin tưởng.</value>
+  </data>
+  <data name="Ui.Nav.VoidstrapMods" xml:space="preserve">
+    <value>Mod Voidstrap</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Empty" xml:space="preserve">
+    <value>Chưa có mod Voidstrap nào mở bảng. Hãy đặt mod vào thư mục mod và chúng sẽ tự động được tải.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
+    <value>Mở thư mục mod</value>
   </data>
 </root>

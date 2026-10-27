@@ -8805,10 +8805,19 @@ Gardez Voidstrap et l'éditeur ouverts pendant que l'IA travaille. Ses modificat
     <value>Impossible d'importer l'icône : {0}</value>
   </data>
   <data name="Plugins.TurnOnPrompt" xml:space="preserve">
-    <value>Activer le plugin « {0} » ?
+    <value>Activer le mod Voidstrap « {0} » ?
 
 {1}
 
-Les plugins peuvent modifier le fonctionnement de Voidstrap et ses paramètres. N’activez que des plugins en lesquels vous avez confiance.</value>
+Les mods Voidstrap peuvent modifier le fonctionnement de Voidstrap et ses paramètres. N’activez que des mods en lesquels vous avez confiance.</value>
+  </data>
+  <data name="Ui.Nav.VoidstrapMods" xml:space="preserve">
+    <value>Mods Voidstrap</value>
+  </data>
+  <data name="Ui.VoidstrapMods.Empty" xml:space="preserve">
+    <value>Aucun mod Voidstrap n’a encore ouvert de panneau. Placez des mods dans le dossier des mods et ils se chargeront automatiquement.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.OpenFolder" xml:space="preserve">
+    <value>Ouvrir le dossier des mods</value>
   </data>
 </root>
