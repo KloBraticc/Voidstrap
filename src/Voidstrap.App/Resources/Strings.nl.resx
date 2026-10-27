@@ -8873,29 +8873,11 @@ Voidstrap-mods kunnen veranderen hoe Voidstrap werkt en de instellingen aanpasse
   <data name="Ui.VoidstrapMods.ModNamePlaceholder" xml:space="preserve">
     <value>kleine letters en cijfers</value>
   </data>
-  <data name="Ui.VoidstrapMods.ModVersionLabel" xml:space="preserve">
-    <value>Versie</value>
-  </data>
-  <data name="Ui.VoidstrapMods.ModDescriptionLabel" xml:space="preserve">
-    <value>Beschrijving</value>
-  </data>
-  <data name="Ui.VoidstrapMods.ModDescriptionPlaceholder" xml:space="preserve">
-    <value>Wat deze mod doet</value>
-  </data>
-  <data name="Ui.VoidstrapMods.ModNetworkLabel" xml:space="preserve">
-    <value>Toegestane HTTPS hosts</value>
-  </data>
-  <data name="Ui.VoidstrapMods.ModNetworkPlaceholder" xml:space="preserve">
-    <value>api.roblox.com, raw.githubusercontent.com</value>
-  </data>
   <data name="Ui.VoidstrapMods.CreateButton" xml:space="preserve">
     <value>Maken en bewerken</value>
   </data>
   <data name="Ui.VoidstrapMods.EditButton" xml:space="preserve">
     <value>Bewerken</value>
-  </data>
-  <data name="Ui.VoidstrapMods.ValidateButton" xml:space="preserve">
-    <value>Valideren</value>
   </data>
   <data name="Ui.VoidstrapMods.TestButton" xml:space="preserve">
     <value>Tests uitvoeren</value>
@@ -8926,15 +8908,6 @@ Voidstrap-mods kunnen veranderen hoe Voidstrap werkt en de instellingen aanpasse
   </data>
   <data name="Ui.VoidstrapMods.DeleteFileButton" xml:space="preserve">
     <value>Bestand verwijderen</value>
-  </data>
-  <data name="Ui.VoidstrapMods.SnippetLabel" xml:space="preserve">
-    <value>Bouwsteen invoegen</value>
-  </data>
-  <data name="Ui.VoidstrapMods.InsertButton" xml:space="preserve">
-    <value>Invoegen</value>
-  </data>
-  <data name="Ui.VoidstrapMods.ApiGuideButton" xml:space="preserve">
-    <value>API referentie</value>
   </data>
   <data name="Ui.VoidstrapMods.OutputHeader" xml:space="preserve">
     <value>Validatie en testuitvoer</value>

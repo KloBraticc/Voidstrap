@@ -8870,29 +8870,11 @@ Kayang baguhin ng mga mod ng Voidstrap kung paano gumagana ang Voidstrap at ang 
   <data name="Ui.VoidstrapMods.ModNamePlaceholder" xml:space="preserve">
     <value>maliliit na titik at numero</value>
   </data>
-  <data name="Ui.VoidstrapMods.ModVersionLabel" xml:space="preserve">
-    <value>Bersyon</value>
-  </data>
-  <data name="Ui.VoidstrapMods.ModDescriptionLabel" xml:space="preserve">
-    <value>Paglalarawan</value>
-  </data>
-  <data name="Ui.VoidstrapMods.ModDescriptionPlaceholder" xml:space="preserve">
-    <value>Ano ang ginagawa ng mod na ito</value>
-  </data>
-  <data name="Ui.VoidstrapMods.ModNetworkLabel" xml:space="preserve">
-    <value>Pinapayagang mga HTTPS host</value>
-  </data>
-  <data name="Ui.VoidstrapMods.ModNetworkPlaceholder" xml:space="preserve">
-    <value>api.roblox.com, raw.githubusercontent.com</value>
-  </data>
   <data name="Ui.VoidstrapMods.CreateButton" xml:space="preserve">
     <value>Gumawa at mag-edit</value>
   </data>
   <data name="Ui.VoidstrapMods.EditButton" xml:space="preserve">
     <value>I-edit</value>
-  </data>
-  <data name="Ui.VoidstrapMods.ValidateButton" xml:space="preserve">
-    <value>I-validate</value>
   </data>
   <data name="Ui.VoidstrapMods.TestButton" xml:space="preserve">
     <value>Patakbuhin ang mga test</value>
@@ -8923,15 +8905,6 @@ Kayang baguhin ng mga mod ng Voidstrap kung paano gumagana ang Voidstrap at ang 
   </data>
   <data name="Ui.VoidstrapMods.DeleteFileButton" xml:space="preserve">
     <value>Burahin ang file</value>
-  </data>
-  <data name="Ui.VoidstrapMods.SnippetLabel" xml:space="preserve">
-    <value>Maglagay ng building block</value>
-  </data>
-  <data name="Ui.VoidstrapMods.InsertButton" xml:space="preserve">
-    <value>Ilagay</value>
-  </data>
-  <data name="Ui.VoidstrapMods.ApiGuideButton" xml:space="preserve">
-    <value>API reference</value>
   </data>
   <data name="Ui.VoidstrapMods.OutputHeader" xml:space="preserve">
     <value>Output ng pag-validate at test</value>

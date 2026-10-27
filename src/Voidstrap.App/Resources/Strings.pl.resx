@@ -8872,29 +8872,11 @@ Mody Voidstrap mogą zmieniać działanie Voidstrap i jego ustawienia. Włączaj
   <data name="Ui.VoidstrapMods.ModNamePlaceholder" xml:space="preserve">
     <value>małe litery i cyfry</value>
   </data>
-  <data name="Ui.VoidstrapMods.ModVersionLabel" xml:space="preserve">
-    <value>Wersja</value>
-  </data>
-  <data name="Ui.VoidstrapMods.ModDescriptionLabel" xml:space="preserve">
-    <value>Opis</value>
-  </data>
-  <data name="Ui.VoidstrapMods.ModDescriptionPlaceholder" xml:space="preserve">
-    <value>Co robi ten mod</value>
-  </data>
-  <data name="Ui.VoidstrapMods.ModNetworkLabel" xml:space="preserve">
-    <value>Dozwolone hosty HTTPS</value>
-  </data>
-  <data name="Ui.VoidstrapMods.ModNetworkPlaceholder" xml:space="preserve">
-    <value>api.roblox.com, raw.githubusercontent.com</value>
-  </data>
   <data name="Ui.VoidstrapMods.CreateButton" xml:space="preserve">
     <value>Utwórz i edytuj</value>
   </data>
   <data name="Ui.VoidstrapMods.EditButton" xml:space="preserve">
     <value>Edytuj</value>
-  </data>
-  <data name="Ui.VoidstrapMods.ValidateButton" xml:space="preserve">
-    <value>Sprawdź</value>
   </data>
   <data name="Ui.VoidstrapMods.TestButton" xml:space="preserve">
     <value>Uruchom testy</value>
@@ -8925,15 +8907,6 @@ Mody Voidstrap mogą zmieniać działanie Voidstrap i jego ustawienia. Włączaj
   </data>
   <data name="Ui.VoidstrapMods.DeleteFileButton" xml:space="preserve">
     <value>Usuń plik</value>
-  </data>
-  <data name="Ui.VoidstrapMods.SnippetLabel" xml:space="preserve">
-    <value>Wstaw blok kodu</value>
-  </data>
-  <data name="Ui.VoidstrapMods.InsertButton" xml:space="preserve">
-    <value>Wstaw</value>
-  </data>
-  <data name="Ui.VoidstrapMods.ApiGuideButton" xml:space="preserve">
-    <value>Dokumentacja API</value>
   </data>
   <data name="Ui.VoidstrapMods.OutputHeader" xml:space="preserve">
     <value>Wyniki walidacji i testów</value>

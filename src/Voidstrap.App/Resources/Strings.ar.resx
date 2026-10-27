@@ -8871,29 +8871,11 @@
   <data name="Ui.VoidstrapMods.ModNamePlaceholder" xml:space="preserve">
     <value>أحرف صغيرة وأرقام</value>
   </data>
-  <data name="Ui.VoidstrapMods.ModVersionLabel" xml:space="preserve">
-    <value>الإصدار</value>
-  </data>
-  <data name="Ui.VoidstrapMods.ModDescriptionLabel" xml:space="preserve">
-    <value>الوصف</value>
-  </data>
-  <data name="Ui.VoidstrapMods.ModDescriptionPlaceholder" xml:space="preserve">
-    <value>وظيفة هذه الإضافة</value>
-  </data>
-  <data name="Ui.VoidstrapMods.ModNetworkLabel" xml:space="preserve">
-    <value>نطاقات HTTPS المسموح بها</value>
-  </data>
-  <data name="Ui.VoidstrapMods.ModNetworkPlaceholder" xml:space="preserve">
-    <value>api.roblox.com, raw.githubusercontent.com</value>
-  </data>
   <data name="Ui.VoidstrapMods.CreateButton" xml:space="preserve">
     <value>إنشاء وتحرير</value>
   </data>
   <data name="Ui.VoidstrapMods.EditButton" xml:space="preserve">
     <value>تحرير</value>
-  </data>
-  <data name="Ui.VoidstrapMods.ValidateButton" xml:space="preserve">
-    <value>تحقق</value>
   </data>
   <data name="Ui.VoidstrapMods.TestButton" xml:space="preserve">
     <value>تشغيل الاختبارات</value>
@@ -8924,15 +8906,6 @@
   </data>
   <data name="Ui.VoidstrapMods.DeleteFileButton" xml:space="preserve">
     <value>حذف ملف</value>
-  </data>
-  <data name="Ui.VoidstrapMods.SnippetLabel" xml:space="preserve">
-    <value>إدراج كتلة برمجية</value>
-  </data>
-  <data name="Ui.VoidstrapMods.InsertButton" xml:space="preserve">
-    <value>إدراج</value>
-  </data>
-  <data name="Ui.VoidstrapMods.ApiGuideButton" xml:space="preserve">
-    <value>مرجع API</value>
   </data>
   <data name="Ui.VoidstrapMods.OutputHeader" xml:space="preserve">
     <value>نتائج التحقق والاختبار</value>

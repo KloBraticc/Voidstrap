@@ -8871,29 +8871,11 @@ Voidstrap не смог записать в папку рабочего стол
   <data name="Ui.VoidstrapMods.ModNamePlaceholder" xml:space="preserve">
     <value>строчные буквы и цифры</value>
   </data>
-  <data name="Ui.VoidstrapMods.ModVersionLabel" xml:space="preserve">
-    <value>Версия</value>
-  </data>
-  <data name="Ui.VoidstrapMods.ModDescriptionLabel" xml:space="preserve">
-    <value>Описание</value>
-  </data>
-  <data name="Ui.VoidstrapMods.ModDescriptionPlaceholder" xml:space="preserve">
-    <value>Что делает этот мод</value>
-  </data>
-  <data name="Ui.VoidstrapMods.ModNetworkLabel" xml:space="preserve">
-    <value>Разрешённые HTTPS хосты</value>
-  </data>
-  <data name="Ui.VoidstrapMods.ModNetworkPlaceholder" xml:space="preserve">
-    <value>api.roblox.com, raw.githubusercontent.com</value>
-  </data>
   <data name="Ui.VoidstrapMods.CreateButton" xml:space="preserve">
     <value>Создать и открыть</value>
   </data>
   <data name="Ui.VoidstrapMods.EditButton" xml:space="preserve">
     <value>Изменить</value>
-  </data>
-  <data name="Ui.VoidstrapMods.ValidateButton" xml:space="preserve">
-    <value>Проверить</value>
   </data>
   <data name="Ui.VoidstrapMods.TestButton" xml:space="preserve">
     <value>Запустить тесты</value>
@@ -8924,15 +8906,6 @@ Voidstrap не смог записать в папку рабочего стол
   </data>
   <data name="Ui.VoidstrapMods.DeleteFileButton" xml:space="preserve">
     <value>Удалить файл</value>
-  </data>
-  <data name="Ui.VoidstrapMods.SnippetLabel" xml:space="preserve">
-    <value>Вставить готовый блок</value>
-  </data>
-  <data name="Ui.VoidstrapMods.InsertButton" xml:space="preserve">
-    <value>Вставить</value>
-  </data>
-  <data name="Ui.VoidstrapMods.ApiGuideButton" xml:space="preserve">
-    <value>Справочник API</value>
   </data>
   <data name="Ui.VoidstrapMods.OutputHeader" xml:space="preserve">
     <value>Результаты проверки и тестов</value>

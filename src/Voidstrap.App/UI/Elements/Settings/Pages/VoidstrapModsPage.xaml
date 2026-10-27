@@ -18,13 +18,11 @@
       <StackPanel>
         <TextBlock FontSize="16" FontWeight="SemiBold" Text="{resources:Loc Ui_VoidstrapMods_CreateTitle}" />
         <TextBlock Margin="0,4,0,12" FontSize="12" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextWrapping="Wrap" Text="{resources:Loc Ui_VoidstrapMods_CreateSubtitle}" />
-        <Grid Margin="0,0,0,10">
+        <Grid Margin="0,0,0,12">
           <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="12" />
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="12" />
-            <ColumnDefinition Width="140" />
           </Grid.ColumnDefinitions>
           <StackPanel Grid.Column="0">
             <TextBlock Margin="0,0,0,4" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_VoidstrapMods_TemplateLabel}" />
@@ -33,25 +31,6 @@
           <StackPanel Grid.Column="2">
             <TextBlock Margin="0,0,0,4" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_VoidstrapMods_ModNameLabel}" />
             <ui:TextBox x:Name="NewModNameBox" PlaceholderText="{resources:Loc Ui_VoidstrapMods_ModNamePlaceholder}" />
-          </StackPanel>
-          <StackPanel Grid.Column="4">
-            <TextBlock Margin="0,0,0,4" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_VoidstrapMods_ModVersionLabel}" />
-            <ui:TextBox x:Name="NewModVersionBox" Text="0.1.0" />
-          </StackPanel>
-        </Grid>
-        <Grid Margin="0,0,0,12">
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="12" />
-            <ColumnDefinition Width="*" />
-          </Grid.ColumnDefinitions>
-          <StackPanel Grid.Column="0">
-            <TextBlock Margin="0,0,0,4" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_VoidstrapMods_ModDescriptionLabel}" />
-            <ui:TextBox x:Name="NewModDescriptionBox" PlaceholderText="{resources:Loc Ui_VoidstrapMods_ModDescriptionPlaceholder}" />
-          </StackPanel>
-          <StackPanel Grid.Column="2">
-            <TextBlock Margin="0,0,0,4" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_VoidstrapMods_ModNetworkLabel}" />
-            <ui:TextBox x:Name="NewModNetworkBox" PlaceholderText="{resources:Loc Ui_VoidstrapMods_ModNetworkPlaceholder}" />
           </StackPanel>
         </Grid>
         <TextBlock x:Name="CreateModErrorText" Visibility="Collapsed" Margin="0,0,0,10" FontSize="12" Foreground="{DynamicResource SystemFillColorCriticalBrush}" TextWrapping="Wrap" />
@@ -79,33 +58,9 @@
           </StackPanel>
           <WrapPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
             <ui:Button Margin="0,0,6,4" Appearance="Primary" Icon="Save24" Content="{resources:Loc Ui_VoidstrapMods_SaveAndReload}" Click="SaveAndReload_Click" />
-            <ui:Button Margin="0,0,6,4" Icon="CheckmarkCircle24" Content="{resources:Loc Ui_VoidstrapMods_ValidateButton}" Click="ValidateEditorMod_Click" />
             <ui:Button Margin="0,0,6,4" Icon="Play24" Content="{resources:Loc Ui_VoidstrapMods_TestButton}" Click="TestEditorMod_Click" />
-            <ui:Button Margin="0,0,6,4" Icon="BookQuestionMark24" Content="{resources:Loc Ui_VoidstrapMods_ApiGuideButton}" Click="ToggleApiGuide_Click" />
             <ui:Button Margin="0,0,0,4" Icon="Dismiss24" Content="{resources:Loc Ui_VoidstrapMods_CloseEditor}" Click="CloseEditor_Click" />
           </WrapPanel>
-        </Grid>
-
-        <Grid Margin="0,0,0,10">
-          <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="130" />
-            <ColumnDefinition Width="10" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="10" />
-            <ColumnDefinition Width="*" />
-          </Grid.ColumnDefinitions>
-          <StackPanel Grid.Column="0">
-            <TextBlock Margin="0,0,0,4" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_VoidstrapMods_ModVersionLabel}" />
-            <ui:TextBox x:Name="EditVersionBox" TextChanged="ManifestField_TextChanged" />
-          </StackPanel>
-          <StackPanel Grid.Column="2">
-            <TextBlock Margin="0,0,0,4" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_VoidstrapMods_ModDescriptionLabel}" />
-            <ui:TextBox x:Name="EditDescriptionBox" PlaceholderText="{resources:Loc Ui_VoidstrapMods_ModDescriptionPlaceholder}" TextChanged="ManifestField_TextChanged" />
-          </StackPanel>
-          <StackPanel Grid.Column="4">
-            <TextBlock Margin="0,0,0,4" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" Text="{resources:Loc Ui_VoidstrapMods_ModNetworkLabel}" />
-            <ui:TextBox x:Name="EditNetworkBox" PlaceholderText="{resources:Loc Ui_VoidstrapMods_ModNetworkPlaceholder}" TextChanged="ManifestField_TextChanged" />
-          </StackPanel>
         </Grid>
 
         <Grid Margin="0,0,0,8">
@@ -123,9 +78,6 @@
           <ComboBox x:Name="EditorFileCombo" Grid.Column="1" SelectionChanged="EditorFileCombo_SelectionChanged" />
           <ui:Button Grid.Column="2" Margin="6,0,0,0" Icon="DocumentAdd24" Content="{resources:Loc Ui_VoidstrapMods_NewFileButton}" Click="ShowNewFilePanel_Click" />
           <ui:Button x:Name="DeleteFileButton" Grid.Column="3" Margin="6,0,0,0" Icon="Delete24" Content="{resources:Loc Ui_VoidstrapMods_DeleteFileButton}" Click="DeleteCurrentFile_Click" />
-          <TextBlock Grid.Column="5" Margin="12,0,8,0" VerticalAlignment="Center" FontSize="12" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="{resources:Loc Ui_VoidstrapMods_SnippetLabel}" />
-          <ComboBox x:Name="SnippetCombo" Grid.Column="6" />
-          <ui:Button Grid.Column="7" Margin="6,0,0,0" Icon="Add24" Content="{resources:Loc Ui_VoidstrapMods_InsertButton}" Click="InsertSnippet_Click" />
         </Grid>
 
         <Border x:Name="NewFilePanel" Visibility="Collapsed" Margin="0,0,0,8" Padding="10" CornerRadius="6" Background="{DynamicResource SubtleFillColorSecondaryBrush}">
@@ -141,11 +93,6 @@
           </Grid>
         </Border>
 
-        <Border x:Name="ApiGuideBorder" Visibility="Collapsed" Margin="0,0,0,10" Padding="12" CornerRadius="6" BorderThickness="1" Background="{DynamicResource ControlFillColorDefaultBrush}" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}">
-          <ScrollViewer MaxHeight="220" VerticalScrollBarVisibility="Auto">
-            <TextBox x:Name="ApiGuideTextBox" IsReadOnly="True" BorderThickness="0" Background="Transparent" FontFamily="Cascadia Mono, Consolas" FontSize="11.5" TextWrapping="Wrap" Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
-          </ScrollViewer>
-        </Border>
 
         <Border CornerRadius="6" BorderThickness="1" BorderBrush="{DynamicResource CardStrokeColorDefaultBrush}" Background="{DynamicResource ControlFillColorDefaultBrush}">
           <Grid>
@@ -161,7 +108,6 @@
                   <ColumnDefinition Width="*" />
                   <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
-                <TextBlock x:Name="EditorPositionText" Grid.Column="0" VerticalAlignment="Center" FontFamily="Cascadia Mono, Consolas" FontSize="11" Foreground="{DynamicResource TextFillColorSecondaryBrush}" Text="Ln 1, Col 1" />
                 <TextBlock x:Name="EditorFileStatusText" Grid.Column="1" Margin="16,0,0,0" VerticalAlignment="Center" FontSize="11" Foreground="{DynamicResource TextFillColorTertiaryBrush}" TextTrimming="CharacterEllipsis" />
                 <StackPanel Grid.Column="2" Orientation="Horizontal">
                   <ui:Button Padding="6,2" Margin="0,0,4,0" Icon="ArrowUndo24" ToolTip="{resources:Loc Ui_Misc_Undo}" Click="UndoCode_Click" />

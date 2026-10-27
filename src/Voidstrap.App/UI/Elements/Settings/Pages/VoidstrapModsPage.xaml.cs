@@ -34,8 +34,6 @@ public partial class VoidstrapModsPage : UiPage
 
 	private bool _suppressEditorEvents;
 
-	private bool _suppressManifestEvents;
-
 	private bool _isDirty;
 
 	private bool _editorInitialized;
@@ -70,14 +68,8 @@ public partial class VoidstrapModsPage : UiPage
 		{
 		}
 		ModCodeEditor.TextChanged += ModCodeEditor_TextChanged;
-		ModCodeEditor.TextArea.Caret.PositionChanged += (_, _) =>
-		{
-			EditorPositionText.Text = "Ln " + ModCodeEditor.TextArea.Caret.Line + ", Col " + ModCodeEditor.TextArea.Caret.Column;
-		};
 		ModCodeEditor.PreviewKeyDown += ModCodeEditor_PreviewKeyDown;
 		PopulateTemplates();
-		PopulateSnippets();
-		ApiGuideTextBox.Text = BuildApiReferenceText();
 	}
 
 	private void PopulateTemplates()
@@ -91,15 +83,6 @@ public partial class VoidstrapModsPage : UiPage
 		TemplateComboBox.Items.Add(new ComboBoxItem { Content = Strings.Ui_VoidstrapMods_TemplateGameHooks, Tag = "game-hooks" });
 		TemplateComboBox.Items.Add(new ComboBoxItem { Content = Strings.Ui_VoidstrapMods_TemplateBlank, Tag = "blank" });
 		TemplateComboBox.SelectedIndex = 0;
-	}
-
-	private void PopulateSnippets()
-	{
-		SnippetCombo.Items.Clear();
-		foreach ((string label, string code) in GetSnippets())
-			SnippetCombo.Items.Add(new ComboBoxItem { Content = label, Tag = code });
-		if (SnippetCombo.Items.Count > 0)
-			SnippetCombo.SelectedIndex = 0;
 	}
 
 	private void Page_Loaded(object sender, RoutedEventArgs e)
@@ -158,8 +141,6 @@ public partial class VoidstrapModsPage : UiPage
 			text.Children.Add(titleRow);
 			if (mod.Description.Length > 0)
 				text.Children.Add(PluginUiRenderer.MakeText(mod.Description, new JsonObject { ["dim"] = true }));
-			if (mod.Hooks.Count > 0)
-				text.Children.Add(PluginUiRenderer.MakeText("Hooks: " + string.Join(", ", mod.Hooks), new JsonObject { ["dim"] = true, ["size"] = 11, ["mono"] = true }));
 			if (mod.Consent == "on" && !mod.Loaded)
 				text.Children.Add(PluginUiRenderer.MakeText(Strings.Ui_VoidstrapMods_NotLoaded, new JsonObject()));
 			header.Children.Add(text);
@@ -175,28 +156,6 @@ public partial class VoidstrapModsPage : UiPage
 			};
 			editBtn.Click += EditMod_Click;
 			actions.Children.Add(editBtn);
-
-			Wpf.Ui.Controls.Button validateBtn = new()
-			{
-				Content = Strings.Ui_VoidstrapMods_ValidateButton,
-				Icon = SymbolRegular.CheckmarkCircle24,
-				Appearance = ControlAppearance.Secondary,
-				Margin = new Thickness(0, 0, 6, 0),
-				Tag = mod.Name
-			};
-			validateBtn.Click += ValidateCardMod_Click;
-			actions.Children.Add(validateBtn);
-
-			Wpf.Ui.Controls.Button testBtn = new()
-			{
-				Content = Strings.Ui_VoidstrapMods_TestButton,
-				Icon = SymbolRegular.Play24,
-				Appearance = ControlAppearance.Secondary,
-				Margin = new Thickness(0, 0, 6, 0),
-				Tag = mod.Name
-			};
-			testBtn.Click += TestCardMod_Click;
-			actions.Children.Add(testBtn);
 
 			Wpf.Ui.Controls.Button deleteBtn = new()
 			{
@@ -283,9 +242,10 @@ public partial class VoidstrapModsPage : UiPage
 		};
 		if (string.IsNullOrWhiteSpace(NewModNameBox.Text) || IsSuggestedName(NewModNameBox.Text))
 			NewModNameBox.Text = NextAvailableModName(defaultName);
-		if (string.IsNullOrWhiteSpace(NewModDescriptionBox.Text) || IsSuggestedDescription(NewModDescriptionBox.Text))
-			NewModDescriptionBox.Text = defaultDesc;
+		_templateDescription = defaultDesc;
 	}
+
+	private string _templateDescription = "";
 
 	private static bool IsSuggestedName(string text) => text.StartsWith("custom-sidebar-page", StringComparison.Ordinal)
 		|| text.StartsWith("theme-studio-pro", StringComparison.Ordinal)
@@ -294,14 +254,6 @@ public partial class VoidstrapModsPage : UiPage
 		|| text.StartsWith("session-tracker", StringComparison.Ordinal)
 		|| text.StartsWith("my-custom-mod", StringComparison.Ordinal)
 		|| text.StartsWith("control-center", StringComparison.Ordinal);
-
-	private static bool IsSuggestedDescription(string text) => text is "Adds a custom page directly to the Voidstrap navigation sidebar"
-		or "Customizes Voidstrap theme brushes, window title, backdrop and banners live"
-		or "Renames, reorders, hides and changes icons on Voidstrap sidebar items"
-		or "Quick FastFlag and Voidstrap settings preset controller"
-		or "Tracks Roblox game joins, session time and quick place launches"
-		or "Custom Voidstrap mod"
-		or "Interactive Voidstrap control center pane";
 
 	private static string NextAvailableModName(string baseName)
 	{
@@ -339,9 +291,9 @@ public partial class VoidstrapModsPage : UiPage
 			CreateModErrorText.Visibility = Visibility.Visible;
 			return;
 		}
-		string version = string.IsNullOrWhiteSpace(NewModVersionBox.Text) ? "0.1.0" : NewModVersionBox.Text.Trim();
-		string description = (NewModDescriptionBox.Text ?? "").Trim();
-		string[] hosts = ParseHosts(NewModNetworkBox.Text);
+		string version = "0.1.0";
+		string description = _templateDescription;
+		string[] hosts = [];
 		string template = (TemplateComboBox.SelectedItem as ComboBoxItem)?.Tag?.ToString() ?? "dashboard";
 		try
 		{
@@ -368,7 +320,6 @@ public partial class VoidstrapModsPage : UiPage
 			CreateModCard.Visibility = Visibility.Collapsed;
 			PluginHost.SetEnabled(slug, true);
 			OpenModInEditor(slug);
-			RunValidateAndDisplay(modFolder);
 		}
 		catch (Exception ex)
 		{
@@ -377,41 +328,10 @@ public partial class VoidstrapModsPage : UiPage
 		}
 	}
 
-	private static string[] ParseHosts(string? text)
-	{
-		if (string.IsNullOrWhiteSpace(text))
-			return [];
-		return text.Split([',', ';', ' '], StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
-			.Select(h => h.ToLowerInvariant())
-			.Where(h => Uri.CheckHostName(h) == UriHostNameType.Dns)
-			.Distinct(StringComparer.OrdinalIgnoreCase)
-			.ToArray();
-	}
-
 	private void EditMod_Click(object sender, RoutedEventArgs e)
 	{
 		if (sender is FrameworkElement { Tag: string modName })
 			OpenModInEditor(modName);
-	}
-
-	private void ValidateCardMod_Click(object sender, RoutedEventArgs e)
-	{
-		if (sender is FrameworkElement { Tag: string modName })
-		{
-			if (!string.Equals(_editingMod, modName, StringComparison.Ordinal))
-				OpenModInEditor(modName);
-			RunValidateAndDisplay(Path.Combine(Paths.Plugins, modName));
-		}
-	}
-
-	private void TestCardMod_Click(object sender, RoutedEventArgs e)
-	{
-		if (sender is FrameworkElement { Tag: string modName })
-		{
-			if (!string.Equals(_editingMod, modName, StringComparison.Ordinal))
-				OpenModInEditor(modName);
-			RunTestsAndDisplay(Path.Combine(Paths.Plugins, modName));
-		}
 	}
 
 	private void DeleteMod_Click(object sender, RoutedEventArgs e)
@@ -449,63 +369,8 @@ public partial class VoidstrapModsPage : UiPage
 		EditorTitleText.Text = string.Format(Strings.Ui_VoidstrapMods_EditorTitle, modName);
 		EditorCard.Visibility = Visibility.Visible;
 		NewFilePanel.Visibility = Visibility.Collapsed;
-		LoadManifestFields(folder);
 		RefreshFileList(folder, "hooks/register.tsx");
 		RenderMods();
-	}
-
-	private void LoadManifestFields(string folder)
-	{
-		_suppressManifestEvents = true;
-		try
-		{
-			string manifestPath = Path.Combine(folder, PluginManifest.ManifestFolder, "plugin.json");
-			if (File.Exists(manifestPath) && JsonNode.Parse(File.ReadAllText(manifestPath)) is JsonObject obj)
-			{
-				EditVersionBox.Text = obj["version"]?.ToString() ?? "0.1.0";
-				EditDescriptionBox.Text = obj["description"]?.ToString() ?? "";
-				JsonArray? net = obj["network"] as JsonArray;
-				EditNetworkBox.Text = net != null ? string.Join(", ", net.Select(n => n?.ToString() ?? "").Where(s => s.Length > 0)) : "";
-			}
-		}
-		catch
-		{
-		}
-		finally
-		{
-			_suppressManifestEvents = false;
-		}
-	}
-
-	private void SaveManifestFieldsIfNeeded(string folder)
-	{
-		if (string.Equals(_editingFile, PluginManifest.ManifestFolder + "/plugin.json", StringComparison.OrdinalIgnoreCase))
-			return;
-		try
-		{
-			string manifestPath = Path.Combine(folder, PluginManifest.ManifestFolder, "plugin.json");
-			JsonObject obj = File.Exists(manifestPath) && JsonNode.Parse(File.ReadAllText(manifestPath)) is JsonObject parsed
-				? parsed
-				: new JsonObject { ["name"] = _editingMod ?? "" };
-			obj["name"] = _editingMod ?? Path.GetFileName(folder);
-			obj["version"] = string.IsNullOrWhiteSpace(EditVersionBox.Text) ? "0.1.0" : EditVersionBox.Text.Trim();
-			obj["description"] = (EditDescriptionBox.Text ?? "").Trim();
-			obj["network"] = new JsonArray(ParseHosts(EditNetworkBox.Text).Select(h => (JsonNode?)JsonValue.Create(h)).ToArray());
-			if (obj["userConfig"] is not JsonObject)
-				obj["userConfig"] = new JsonObject();
-			Directory.CreateDirectory(Path.GetDirectoryName(manifestPath)!);
-			File.WriteAllText(manifestPath, obj.ToJsonString(new JsonSerializerOptions { WriteIndented = true }));
-		}
-		catch
-		{
-		}
-	}
-
-	private void ManifestField_TextChanged(object sender, TextChangedEventArgs e)
-	{
-		if (_suppressManifestEvents || _editingMod == null)
-			return;
-		SetDirty(true);
 	}
 
 	private void RefreshFileList(string folder, string? preferredRelative)
@@ -607,9 +472,6 @@ public partial class VoidstrapModsPage : UiPage
 		{
 			Directory.CreateDirectory(Path.GetDirectoryName(fullPath)!);
 			File.WriteAllText(fullPath, ModCodeEditor.Text);
-			SaveManifestFieldsIfNeeded(folder);
-			if (string.Equals(_editingFile, PluginManifest.ManifestFolder + "/plugin.json", StringComparison.OrdinalIgnoreCase))
-				LoadManifestFields(folder);
 			SetDirty(false);
 			return true;
 		}
@@ -623,6 +485,18 @@ public partial class VoidstrapModsPage : UiPage
 	private void SaveAndReload_Click(object sender, RoutedEventArgs e) => SaveAndReload();
 
 	private async void SaveAndReload()
+	{
+		try
+		{
+			await SaveAndReloadAsync();
+		}
+		catch (Exception ex)
+		{
+			EditorOutputBox.Text = ex.Message;
+		}
+	}
+
+	private async Task SaveAndReloadAsync()
 	{
 		if (_editingMod == null || _editingFile == null)
 			return;
@@ -646,15 +520,6 @@ public partial class VoidstrapModsPage : UiPage
 			_ = Task.Run(PluginHost.Reload);
 	}
 
-	private void ValidateEditorMod_Click(object sender, RoutedEventArgs e)
-	{
-		if (_editingMod == null)
-			return;
-		if (_isDirty)
-			SaveCurrentFileToDisk();
-		RunValidateAndDisplay(Path.Combine(Paths.Plugins, _editingMod));
-	}
-
 	private void TestEditorMod_Click(object sender, RoutedEventArgs e)
 	{
 		if (_editingMod == null)
@@ -664,26 +529,21 @@ public partial class VoidstrapModsPage : UiPage
 		RunTestsAndDisplay(Path.Combine(Paths.Plugins, _editingMod));
 	}
 
-	private async void RunValidateAndDisplay(string folder)
-	{
-		string output = await Task.Run(() =>
-		{
-			StringWriter writer = new();
-			ModTools.Validate(folder, writer);
-			return writer.ToString().Trim();
-		});
-		EditorOutputBox.Text = output;
-	}
-
 	private async void RunTestsAndDisplay(string folder)
 	{
-		string output = await Task.Run(() =>
+		try
 		{
-			StringWriter writer = new();
-			ModTools.Test(folder, writer);
-			return writer.ToString().Trim();
-		});
-		EditorOutputBox.Text = output;
+			EditorOutputBox.Text = await Task.Run(() =>
+			{
+				StringWriter writer = new();
+				ModTools.Test(folder, writer);
+				return writer.ToString().Trim();
+			});
+		}
+		catch (Exception ex)
+		{
+			EditorOutputBox.Text = ex.Message;
+		}
 	}
 
 	private void ShowNewFilePanel_Click(object sender, RoutedEventArgs e)
@@ -757,20 +617,6 @@ public partial class VoidstrapModsPage : UiPage
 		{
 			EditorOutputBox.Text = ex.Message;
 		}
-	}
-
-	private void InsertSnippet_Click(object sender, RoutedEventArgs e)
-	{
-		if (SnippetCombo.SelectedItem is not ComboBoxItem { Tag: string snippet })
-			return;
-		int offset = ModCodeEditor.CaretOffset;
-		ModCodeEditor.Document.Insert(offset, Environment.NewLine + snippet + Environment.NewLine);
-		ModCodeEditor.Focus();
-	}
-
-	private void ToggleApiGuide_Click(object sender, RoutedEventArgs e)
-	{
-		ApiGuideBorder.Visibility = ApiGuideBorder.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
 	}
 
 	private void CloseEditor_Click(object sender, RoutedEventArgs e) => CloseEditor();
@@ -1308,227 +1154,4 @@ public partial class VoidstrapModsPage : UiPage
 				);
 		}
 	}
-
-	private static (string Label, string Code)[] GetSnippets() =>
-	[
-		(
-			"Add Custom Sidebar Page ($.sidebar.addPage)",
-			"""
-			$.sidebar.addPage({
-			  id: 'custom-page',
-			  title: 'My Page',
-			  icon: 'Sparkle24',
-			  section: 'Core'
-			});
-
-			on('ui.render', { component: 'Page', requestId: 'custom-page' }, ($) => {
-			  const { Box, Card, Text, Button } = $.ui.resolve();
-			  return (
-			    <Box gap={10}>
-			      <Card title="Custom Sidebar Page" subtitle="Full page rendered inside Voidstrap">
-			        <Text text="Hello from a custom sidebar page!" bold={true} />
-			        <Button key="back-mods" label="Back to Voidstrap Mods" variant="primary" onPress={() => $.nav.open('VoidstrapMods')} />
-			      </Card>
-			    </Box>
-			  );
-			});
-			"""
-		),
-		(
-			"Open Dashboard Pane ($.ui.open)",
-			"""
-			$.ui.open({ id: 'my-pane', title: 'My Custom Pane' });
-
-			on('ui.render', { component: 'Pane', requestId: 'my-pane' }, ($) => {
-			  const { Box, Card, Text, Button } = $.ui.resolve();
-			  return (
-			    <Card title="Custom Pane" subtitle="Rendered on Voidstrap Mods page">
-			      <Text text="Ready!" />
-			      <Button key="toast-btn" label="Show Notification" variant="primary" onPress={() => $.ui.toast('Hello', 'Notification from mod')} />
-			    </Card>
-			  );
-			});
-			"""
-		),
-		(
-			"Add Top or Bottom Window Banner ($.ui.openBanner)",
-			"""
-			$.ui.openBanner({ id: 'status-banner', position: 'top' });
-
-			on('ui.render', { component: 'Banner', requestId: 'status-banner' }, ($) => {
-			  const { Box, Badge, Text, Button } = $.ui.resolve();
-			  return (
-			    <Box direction="row" gap={10}>
-			      <Badge text="ACTIVE" variant="success" />
-			      <Text text="Custom banner displayed across Voidstrap" bold={true} />
-			      <Button key="close-banner" label="Dismiss" onPress={() => $.ui.closeBanner('status-banner')} />
-			    </Box>
-			  );
-			});
-			"""
-		),
-		(
-			"Open Interactive Modal Dialog ($.ui.openDialog)",
-			"""
-			on('ui.render', { component: 'Dialog', requestId: 'settings-modal' }, ($) => {
-			  const { Box, Card, Text, Button } = $.ui.resolve();
-			  return (
-			    <Box gap={10}>
-			      <Card title="Custom Modal Dialog" subtitle="Rendered inside a dedicated Voidstrap window">
-			        <Text text="You can place any UI controls inside a modal dialog." />
-			        <Button key="close-dlg" label="Close Dialog" variant="primary" onPress={() => $.ui.closeDialog('settings-modal')} />
-			      </Card>
-			    </Box>
-			  );
-			});
-
-			$.ui.openDialog({ id: 'settings-modal', title: 'Mod Settings', width: 480, height: 320 });
-			"""
-		),
-		(
-			"Override App Theme & WPF Brushes ($.theme.setBrush)",
-			"""
-			$.theme.set({ theme: 'Dark', backdrop: 'Aero', uiZoomPercent: 100 });
-			$.theme.setBrush('WindowBackgroundColorPrimary', '#0B1120');
-			$.theme.setBrush('CardBackgroundFillColorDefaultBrush', '#162032');
-			$.theme.setBrush('AccentFillColorDefaultBrush', '#38BDF8');
-			"""
-		),
-		(
-			"Customize Sidebar Names, Icons & Visibility ($.sidebar.set)",
-			"""
-			$.sidebar.set({
-			  names: { HomeNavItem: 'Dashboard', ModsNavItem: 'Tweaks' },
-			  icons: { HomeNavItem: 'Rocket24', ModsNavItem: 'Sparkle24' },
-			  hidden: ['NewsNavItem']
-			});
-			"""
-		),
-		(
-			"Read & Write Voidstrap Settings ($.settings)",
-			"""
-			const rpcEnabled = $.settings.get('UseDiscordRichPresence');
-			$.settings.set('UseDiscordRichPresence', !rpcEnabled);
-			"""
-		),
-		(
-			"Read & Write FastFlags ($.fastFlags)",
-			"""
-			$.fastFlags.set('DFIntTaskSchedulerTargetFps', '240');
-			const currentFps = $.fastFlags.get('DFIntTaskSchedulerTargetFps');
-			$.log('Target FPS flag is now ' + currentFps);
-			"""
-		),
-		(
-			"Navigate MainWindow Page ($.nav.open)",
-			"""
-			$.nav.open('Appearance');
-			"""
-		),
-		(
-			"Control MainWindow Title & Dimensions ($.window.set)",
-			"""
-			$.window.set({
-			  title: 'Voidstrap Custom Edition',
-			  width: 1200,
-			  height: 760
-			});
-			"""
-		),
-		(
-			"Intercept Roblox Launch (on('roblox.launch'))",
-			"""
-			on('roblox.launch', ($, e, next) => {
-			  $.log('Launching Roblox ' + e.mode + ' with args: ' + e.args);
-			  return next(e);
-			});
-			"""
-		),
-		(
-			"React to Game Join & Leave (on('game.join'))",
-			"""
-			on('game.join', ($, e) => {
-			  $.ui.toast('Joined Game', 'Place ID: ' + e.placeId);
-			});
-
-			on('game.leave', ($, e) => {
-			  $.ui.status('Left Place ' + e.placeId);
-			});
-			"""
-		),
-		(
-			"Repeating Clock Timer ($.clock.every)",
-			"""
-			const timerId = $.clock.every(1000, () => {
-			  $.ui.status('Updated at ' + new Date($.clock.now()).toLocaleTimeString());
-			});
-			"""
-		),
-		(
-			"HTTPS Fetch Request ($.net.fetch)",
-			"""
-			const response = await $.net.fetch({ url: 'https://apis.roblox.com/universes/v1/places/1818/universe' });
-			if (response.ok) {
-			  $.log(response.text);
-			}
-			"""
-		)
-	];
-
-	private static string BuildApiReferenceText() => """
-		VOIDSTRAP MODS FULL APPLICATION API REFERENCE
-
-		1. LIFECYCLE & APP HOOKS: on(event, matcher?, ($, e, next) => ...)
-		   * 'session.start'    e: { source: 'startup' | 'reload' }
-		   * 'session.end'      e: { reason: 'exit' }
-		   * 'roblox.launch'    e: { mode: 'player' | 'studio', args: string } returns { ...e, cancel?: true }
-		   * 'game.join'        e: { placeId: number, universeId: number, jobId: string }
-		   * 'game.leave'       e: { placeId: number, universeId: number, jobId: string }
-		   * 'page.navigate'    e: { page: string }
-		   * 'settings.changed' e: { name: string, plugin: string }
-		   * 'ui.render'        e: { component: 'Pane' | 'Page' | 'Banner' | 'Dialog', requestId: string, plugin: string }
-
-		2. UI SURFACES ($.ui)
-		   * $.ui.resolve()                                  Returns all 25 UI element constructors
-		   * $.ui.open({ id, title }) / $.ui.close(id)       Open or close a pane on the Voidstrap Mods page
-		   * $.ui.openBanner({ id, position: 'top'|'bottom'}) Inject a live banner at the top or bottom of MainWindow
-		   * $.ui.closeBanner(id)                            Remove a MainWindow banner
-		   * $.ui.openDialog({ id, title, width, height })   Open a custom interactive modal window
-		   * $.ui.closeDialog(id)                            Close a custom modal window
-		   * $.ui.message(text, title?)                      Show a native info dialog
-		   * $.ui.confirm(text, title?)                      Show a Yes/No confirmation prompt (returns boolean)
-		   * $.ui.status(text) / $.ui.toast(title, text)     Status line and notification toast
-		   * $.ui.refresh()                                  Redraw all surfaces for this mod
-
-		3. SIDEBAR & CUSTOM PAGES ($.sidebar & $.nav)
-		   * $.sidebar.addPage({ id, title, icon, section }) Add a custom page to Voidstrap's sidebar ('Core'|'Configuration'|'More'|'Footer')
-		   * $.sidebar.removePage(id)                        Remove a custom sidebar page
-		   * $.sidebar.get()                                 List all sidebar items, custom pages, order, hidden, names and icons
-		   * $.sidebar.set({ order, hidden, names, icons })  Reorder, hide, rename or change icons on any sidebar item
-		   * $.sidebar.reset()                               Restore default sidebar layout, names and icons
-		   * $.nav.current() / $.nav.pages()                 Inspect current page or list all pages
-		   * $.nav.open(page)                                Navigate MainWindow to any built in page or 'mod:<plugin>:<id>'
-
-		4. LIVE WPF THEME, BRUSHES & WINDOW ($.theme & $.window)
-		   * $.theme.get()                                   Read current theme, backdrop, zoom, background and brush overrides
-		   * $.theme.set({ theme, backdrop, uiZoomPercent, accentColor, backgroundFilePath, gradientOpacity, blackOverlayOpacity })
-		   * $.theme.setBrush(resourceKey, '#RRGGBB')        Override any WPF brush or color resource live across Voidstrap
-		   * $.theme.getBrush(resourceKey) / $.theme.listBrushes() / $.theme.resetBrushes()
-		   * $.window.get() / $.window.set({ title, width, height, left, top, state, topMost, opacity })
-
-		5. SETTINGS, FASTFLAGS, ROBLOX & CLIPBOARD
-		   * $.settings.list() / $.settings.get(name) / $.settings.set(name, value)
-		   * $.fastFlags.getAll() / $.fastFlags.get(name) / $.fastFlags.set(name, value) / $.fastFlags.remove(name) / $.fastFlags.clear()
-		   * $.roblox.status() returns { isRunning, pid }
-		   * $.roblox.launch({ mode: 'player' | 'studio', placeId?: number, jobId?: string })
-		   * $.clipboard.get() / $.clipboard.set(text)
-		   * $.store.get(key) / $.store.set(key, value)      Persistent 1 MB JSON disk store per mod
-		   * $.state.get(key) / $.state.set(key, value)      In memory reactive session state (or atom/read/update)
-
-		6. UI COMPONENTS (from const { ... } = $.ui.resolve())
-		   Layout:   Box, Stack, Wrap, Grid (columns, rows, gap), Scroll (maxHeight), Card (title, subtitle), Expander (title, expanded), Tabs, Table (columns, rows), Divider, Spacer
-		   Content:  Text (text, bold, italic, mono, size, dim, color), Badge (text, variant), Icon (symbol, size, color), ColorSwatch (color, label, onPress), Image (src, height, width), ProgressBar (value, max), InfoBar (title, message, severity)
-		   Controls: Button (label, icon, variant, onPress), Toggle (label, checked, onChange), CheckBox (label, checked, onChange), TextInput (value, placeholder, multiline, onChange, onSubmit), Slider / NumberInput (label, value, min, max, step, onChange), Select (options, selected, onChange)
-		   Style props on any element: padding, margin, width, height, minWidth, maxWidth, opacity, background, foreground, borderBrush, borderThickness, cornerRadius, align, tooltip, visible.
-		""";
 }

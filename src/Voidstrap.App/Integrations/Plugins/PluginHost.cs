@@ -231,6 +231,11 @@ public static class PluginHost
 
 	public static void Reload()
 	{
+		if (System.Windows.Application.Current?.Dispatcher.CheckAccess() == true)
+		{
+			Task.Run(Reload);
+			return;
+		}
 		lock (ReloadGate)
 		{
 			try
