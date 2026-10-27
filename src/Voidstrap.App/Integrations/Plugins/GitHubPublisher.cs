@@ -17,7 +17,7 @@ namespace Voidstrap.Integrations.Plugins;
 
 public static class GitHubPublisher
 {
-	public const string ClientId = "";
+	public const string ClientId = "Ov23linuZx4KCDfnTc0V";
 
 	public static bool IsConfigured => ClientId.Length > 0;
 
