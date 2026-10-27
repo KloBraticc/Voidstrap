@@ -9108,12 +9108,6 @@ Voidstrap prieš įdiegdama patikrina kiekvieną failą pagal biblioteką ir pak
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>Paskelbti nepavyko: {0}</value>
   </data>
-  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
-    <value>Bendruomenės modai ({0})</value>
-  </data>
-  <data name="Ui.VoidstrapMods.LibraryAllTags" xml:space="preserve">
-    <value>Visi</value>
-  </data>
   <data name="Ui.VoidstrapMods.LibraryFeatured" xml:space="preserve">
     <value>Rekomenduojamas</value>
   </data>
@@ -9165,5 +9159,14 @@ NEDIEKITE jo, nebent pasitikite @{2}. Šį modą tikrino tik automatiniai patikr
 {3}
 
 Vis tiek įdiegti?</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryBack" xml:space="preserve">
+    <value>Atgal į biblioteką</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryWebsites" xml:space="preserve">
+    <value>Svetainės, su kuriomis jungiasi</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryFiles" xml:space="preserve">
+    <value>Failai</value>
   </data>
 </root>

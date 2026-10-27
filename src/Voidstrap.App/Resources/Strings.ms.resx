@@ -9098,12 +9098,6 @@ Voidstrap menyemak setiap fail dengan pustaka sebelum memasangnya, dan bertanya 
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>Penerbitan tidak berjaya: {0}</value>
   </data>
-  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
-    <value>Mod komuniti ({0})</value>
-  </data>
-  <data name="Ui.VoidstrapMods.LibraryAllTags" xml:space="preserve">
-    <value>Semua</value>
-  </data>
   <data name="Ui.VoidstrapMods.LibraryFeatured" xml:space="preserve">
     <value>Pilihan</value>
   </data>
@@ -9155,5 +9149,14 @@ JANGAN pasang melainkan anda mempercayai @{2}. Hanya semakan automatik yang meme
 {3}
 
 Pasang juga?</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryBack" xml:space="preserve">
+    <value>Kembali ke pustaka</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryWebsites" xml:space="preserve">
+    <value>Laman web yang dihubungi</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryFiles" xml:space="preserve">
+    <value>Fail</value>
   </data>
 </root>

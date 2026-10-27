@@ -9108,12 +9108,6 @@ Voidstrap tarkistaa jokaisen tiedoston kirjastoa vasten ennen asennusta ja kysyy
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>Julkaisu ei onnistunut: {0}</value>
   </data>
-  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
-    <value>Yhteisön modit ({0})</value>
-  </data>
-  <data name="Ui.VoidstrapMods.LibraryAllTags" xml:space="preserve">
-    <value>Kaikki</value>
-  </data>
   <data name="Ui.VoidstrapMods.LibraryFeatured" xml:space="preserve">
     <value>Suositeltu</value>
   </data>
@@ -9165,5 +9159,14 @@ Voidstrap tarkistaa jokaisen tiedoston kirjastoa vasten ennen asennusta ja kysyy
 {3}
 
 Asennetaanko silti?</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryBack" xml:space="preserve">
+    <value>Takaisin kirjastoon</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryWebsites" xml:space="preserve">
+    <value>Sivustot, joihin se ottaa yhteyttä</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryFiles" xml:space="preserve">
+    <value>Tiedostot</value>
   </data>
 </root>

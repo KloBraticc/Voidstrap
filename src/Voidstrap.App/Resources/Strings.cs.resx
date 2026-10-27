@@ -9108,12 +9108,6 @@ Voidstrap před instalací ověří každý soubor podle knihovny a před zapnut
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>Publikování se nezdařilo: {0}</value>
   </data>
-  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
-    <value>Komunitní mody ({0})</value>
-  </data>
-  <data name="Ui.VoidstrapMods.LibraryAllTags" xml:space="preserve">
-    <value>Vše</value>
-  </data>
   <data name="Ui.VoidstrapMods.LibraryFeatured" xml:space="preserve">
     <value>Doporučeno</value>
   </data>
@@ -9165,5 +9159,14 @@ NEINSTALUJTE ho, pokud @{2} nedůvěřujete. Tento mod prošel jen automatickým
 {3}
 
 Přesto nainstalovat?</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryBack" xml:space="preserve">
+    <value>Zpět do knihovny</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryWebsites" xml:space="preserve">
+    <value>Weby, které kontaktuje</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryFiles" xml:space="preserve">
+    <value>Soubory</value>
   </data>
 </root>

@@ -8794,12 +8794,6 @@ Voidstrap checks every file against the library before installing it, and asks b
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>Publishing did not work: {0}</value>
   </data>
-  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
-    <value>Community mods ({0})</value>
-  </data>
-  <data name="Ui.VoidstrapMods.LibraryAllTags" xml:space="preserve">
-    <value>All</value>
-  </data>
   <data name="Ui.VoidstrapMods.LibraryFeatured" xml:space="preserve">
     <value>Featured</value>
   </data>
@@ -8851,5 +8845,14 @@ Do NOT install it unless you trust @{2}. Only automated checks looked at this mo
 {3}
 
 Install anyway?</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryBack" xml:space="preserve">
+    <value>Back to the library</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryWebsites" xml:space="preserve">
+    <value>Websites it contacts</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryFiles" xml:space="preserve">
+    <value>Files</value>
   </data>
 </root>

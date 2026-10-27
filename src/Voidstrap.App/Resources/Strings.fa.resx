@@ -9109,12 +9109,6 @@ Voidstrap پیش از نصب هر فایل را با کتابخانه مقایس
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>انتشار انجام نشد: {0}</value>
   </data>
-  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
-    <value>مادهای جامعه ({0})</value>
-  </data>
-  <data name="Ui.VoidstrapMods.LibraryAllTags" xml:space="preserve">
-    <value>همه</value>
-  </data>
   <data name="Ui.VoidstrapMods.LibraryFeatured" xml:space="preserve">
     <value>ویژه</value>
   </data>
@@ -9166,5 +9160,14 @@ Voidstrap پیش از نصب هر فایل را با کتابخانه مقایس
 {3}
 
 با این حال نصب شود؟</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryBack" xml:space="preserve">
+    <value>بازگشت به کتابخانه</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryWebsites" xml:space="preserve">
+    <value>وب‌سایت‌هایی که با آن‌ها ارتباط دارد</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryFiles" xml:space="preserve">
+    <value>فایل‌ها</value>
   </data>
 </root>

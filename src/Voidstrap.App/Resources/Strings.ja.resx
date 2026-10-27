@@ -9121,12 +9121,6 @@ Voidstrap はインストール前にすべてのファイルをライブラリ�
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>公開できませんでした: {0}</value>
   </data>
-  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
-    <value>コミュニティ Mod ({0})</value>
-  </data>
-  <data name="Ui.VoidstrapMods.LibraryAllTags" xml:space="preserve">
-    <value>すべて</value>
-  </data>
   <data name="Ui.VoidstrapMods.LibraryFeatured" xml:space="preserve">
     <value>おすすめ</value>
   </data>
@@ -9178,5 +9172,14 @@ Voidstrap はインストール前にすべてのファイルをライブラリ�
 {3}
 
 それでもインストールしますか?</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryBack" xml:space="preserve">
+    <value>ライブラリに戻る</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryWebsites" xml:space="preserve">
+    <value>接続するウェブサイト</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryFiles" xml:space="preserve">
+    <value>ファイル</value>
   </data>
 </root>

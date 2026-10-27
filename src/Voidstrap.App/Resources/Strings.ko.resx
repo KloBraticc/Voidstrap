@@ -9105,12 +9105,6 @@ Voidstrap은 설치 전에 모든 파일을 라이브러리와 대조하고, 모
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>게시하지 못했습니다: {0}</value>
   </data>
-  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
-    <value>커뮤니티 모드 ({0})</value>
-  </data>
-  <data name="Ui.VoidstrapMods.LibraryAllTags" xml:space="preserve">
-    <value>전체</value>
-  </data>
   <data name="Ui.VoidstrapMods.LibraryFeatured" xml:space="preserve">
     <value>추천</value>
   </data>
@@ -9162,5 +9156,14 @@ Voidstrap은 설치 전에 모든 파일을 라이브러리와 대조하고, 모
 {3}
 
 그래도 설치하시겠습니까?</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryBack" xml:space="preserve">
+    <value>라이브러리로 돌아가기</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryWebsites" xml:space="preserve">
+    <value>연결하는 웹사이트</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryFiles" xml:space="preserve">
+    <value>파일</value>
   </data>
 </root>

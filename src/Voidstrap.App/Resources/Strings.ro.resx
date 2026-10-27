@@ -9108,12 +9108,6 @@ Voidstrap verifică fiecare fișier cu biblioteca înainte de instalare și te �
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>Publicarea nu a reușit: {0}</value>
   </data>
-  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
-    <value>Moduri ale comunității ({0})</value>
-  </data>
-  <data name="Ui.VoidstrapMods.LibraryAllTags" xml:space="preserve">
-    <value>Toate</value>
-  </data>
   <data name="Ui.VoidstrapMods.LibraryFeatured" xml:space="preserve">
     <value>Recomandat</value>
   </data>
@@ -9165,5 +9159,14 @@ NU îl instala decât dacă ai încredere în @{2}. Doar verificările automate 
 {3}
 
 Îl instalezi totuși?</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryBack" xml:space="preserve">
+    <value>Înapoi la bibliotecă</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryWebsites" xml:space="preserve">
+    <value>Site-uri pe care le contactează</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryFiles" xml:space="preserve">
+    <value>Fișiere</value>
   </data>
 </root>

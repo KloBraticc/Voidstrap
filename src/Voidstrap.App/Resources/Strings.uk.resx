@@ -9105,12 +9105,6 @@ Voidstrap перед встановленням звіряє кожен файл
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>Не вдалося опублікувати: {0}</value>
   </data>
-  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
-    <value>Моди спільноти ({0})</value>
-  </data>
-  <data name="Ui.VoidstrapMods.LibraryAllTags" xml:space="preserve">
-    <value>Усі</value>
-  </data>
   <data name="Ui.VoidstrapMods.LibraryFeatured" xml:space="preserve">
     <value>Рекомендований</value>
   </data>
@@ -9162,5 +9156,14 @@ Voidstrap перед встановленням звіряє кожен файл
 {3}
 
 Все одно встановити?</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryBack" xml:space="preserve">
+    <value>Назад до бібліотеки</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryWebsites" xml:space="preserve">
+    <value>Сайти, до яких звертається</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryFiles" xml:space="preserve">
+    <value>Файли</value>
   </data>
 </root>

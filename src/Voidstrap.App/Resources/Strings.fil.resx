@@ -9105,12 +9105,6 @@ Sinusuri ng Voidstrap ang bawat file laban sa library bago ito i-install, at nag
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>Hindi gumana ang pag-publish: {0}</value>
   </data>
-  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
-    <value>Mga mod ng komunidad ({0})</value>
-  </data>
-  <data name="Ui.VoidstrapMods.LibraryAllTags" xml:space="preserve">
-    <value>Lahat</value>
-  </data>
   <data name="Ui.VoidstrapMods.LibraryFeatured" xml:space="preserve">
     <value>Itinatampok</value>
   </data>
@@ -9162,5 +9156,14 @@ HUWAG itong i-install maliban kung pinagkakatiwalaan mo si @{2}. Mga awtomatikon
 {3}
 
 I-install pa rin?</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryBack" xml:space="preserve">
+    <value>Bumalik sa library</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryWebsites" xml:space="preserve">
+    <value>Mga website na kinokontak nito</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryFiles" xml:space="preserve">
+    <value>Mga file</value>
   </data>
 </root>

@@ -9400,17 +9400,7 @@ namespace Voidstrap.Resources {
             }
         }
 
-        public static string Ui_VoidstrapMods_LibraryCount {
-            get {
-                return ResourceManager.GetString("Ui.VoidstrapMods.LibraryCount", resourceCulture);
-            }
-        }
 
-        public static string Ui_VoidstrapMods_LibraryAllTags {
-            get {
-                return ResourceManager.GetString("Ui.VoidstrapMods.LibraryAllTags", resourceCulture);
-            }
-        }
 
         public static string Ui_VoidstrapMods_LibraryFeatured {
             get {
@@ -9499,6 +9489,24 @@ namespace Voidstrap.Resources {
         public static string Ui_VoidstrapMods_LibraryUnverifiedPrompt {
             get {
                 return ResourceManager.GetString("Ui.VoidstrapMods.LibraryUnverifiedPrompt", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidstrapMods_LibraryBack {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.LibraryBack", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidstrapMods_LibraryWebsites {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.LibraryWebsites", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidstrapMods_LibraryFiles {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.LibraryFiles", resourceCulture);
             }
         }
     }

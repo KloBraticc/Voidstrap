@@ -9107,12 +9107,6 @@ Voidstrap kontrollerar varje fil mot biblioteket innan den installeras och fråg
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>Publiceringen fungerade inte: {0}</value>
   </data>
-  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
-    <value>Communitymoddar ({0})</value>
-  </data>
-  <data name="Ui.VoidstrapMods.LibraryAllTags" xml:space="preserve">
-    <value>Alla</value>
-  </data>
   <data name="Ui.VoidstrapMods.LibraryFeatured" xml:space="preserve">
     <value>Utvald</value>
   </data>
@@ -9164,5 +9158,14 @@ Installera den INTE om du inte litar på @{2}. Bara automatiska kontroller har g
 {3}
 
 Installera ändå?</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryBack" xml:space="preserve">
+    <value>Tillbaka till biblioteket</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryWebsites" xml:space="preserve">
+    <value>Webbplatser som kontaktas</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryFiles" xml:space="preserve">
+    <value>Filer</value>
   </data>
 </root>

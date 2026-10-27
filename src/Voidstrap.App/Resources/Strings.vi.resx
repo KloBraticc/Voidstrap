@@ -9110,12 +9110,6 @@ Voidstrap kiểm tra từng tệp với thư viện trước khi cài đặt và
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>Xuất bản không thành công: {0}</value>
   </data>
-  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
-    <value>Mod cộng đồng ({0})</value>
-  </data>
-  <data name="Ui.VoidstrapMods.LibraryAllTags" xml:space="preserve">
-    <value>Tất cả</value>
-  </data>
   <data name="Ui.VoidstrapMods.LibraryFeatured" xml:space="preserve">
     <value>Nổi bật</value>
   </data>
@@ -9167,5 +9161,14 @@ Voidstrap kiểm tra từng tệp với thư viện trước khi cài đặt và
 {3}
 
 Vẫn cài đặt?</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryBack" xml:space="preserve">
+    <value>Quay lại thư viện</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryWebsites" xml:space="preserve">
+    <value>Các trang web mà nó kết nối</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryFiles" xml:space="preserve">
+    <value>Tệp</value>
   </data>
 </root>

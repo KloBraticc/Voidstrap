@@ -9106,12 +9106,6 @@ A Voidstrap telepítés előtt minden fájlt összevet a könyvtárral, és beka
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>A közzététel nem sikerült: {0}</value>
   </data>
-  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
-    <value>Közösségi modok ({0})</value>
-  </data>
-  <data name="Ui.VoidstrapMods.LibraryAllTags" xml:space="preserve">
-    <value>Összes</value>
-  </data>
   <data name="Ui.VoidstrapMods.LibraryFeatured" xml:space="preserve">
     <value>Kiemelt</value>
   </data>
@@ -9163,5 +9157,14 @@ NE telepítsd, hacsak nem bízol meg @{2} felhasználóban. Ezt a modot csak aut
 {3}
 
 Mégis telepíted?</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryBack" xml:space="preserve">
+    <value>Vissza a könyvtárba</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryWebsites" xml:space="preserve">
+    <value>Weboldalak, amelyekhez kapcsolódik</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryFiles" xml:space="preserve">
+    <value>Fájlok</value>
   </data>
 </root>

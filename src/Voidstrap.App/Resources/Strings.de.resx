@@ -9107,12 +9107,6 @@ Voidstrap prüft vor der Installation jede Datei gegen die Bibliothek und fragt,
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>Veröffentlichen hat nicht funktioniert: {0}</value>
   </data>
-  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
-    <value>Community-Mods ({0})</value>
-  </data>
-  <data name="Ui.VoidstrapMods.LibraryAllTags" xml:space="preserve">
-    <value>Alle</value>
-  </data>
   <data name="Ui.VoidstrapMods.LibraryFeatured" xml:space="preserve">
     <value>Empfohlen</value>
   </data>
@@ -9164,5 +9158,14 @@ Installiere ihn NICHT, außer du vertraust @{2}. Nur automatische Prüfungen hab
 {3}
 
 Trotzdem installieren?</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryBack" xml:space="preserve">
+    <value>Zurück zur Bibliothek</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryWebsites" xml:space="preserve">
+    <value>Websites, die kontaktiert werden</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryFiles" xml:space="preserve">
+    <value>Dateien</value>
   </data>
 </root>

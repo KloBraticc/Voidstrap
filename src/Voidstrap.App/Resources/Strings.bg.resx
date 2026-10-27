@@ -9107,12 +9107,6 @@ Voidstrap проверява всеки файл спрямо библиотек
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>Публикуването не беше успешно: {0}</value>
   </data>
-  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
-    <value>Модове от общността ({0})</value>
-  </data>
-  <data name="Ui.VoidstrapMods.LibraryAllTags" xml:space="preserve">
-    <value>Всички</value>
-  </data>
   <data name="Ui.VoidstrapMods.LibraryFeatured" xml:space="preserve">
     <value>Препоръчан</value>
   </data>
@@ -9164,5 +9158,14 @@ Voidstrap проверява всеки файл спрямо библиотек
 {3}
 
 Да се инсталира ли въпреки това?</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryBack" xml:space="preserve">
+    <value>Обратно към библиотеката</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryWebsites" xml:space="preserve">
+    <value>Сайтове, с които се свързва</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryFiles" xml:space="preserve">
+    <value>Файлове</value>
   </data>
 </root>

@@ -9110,12 +9110,6 @@ Voidstrap 會在安裝前依照模組庫核對每個檔案,並在啟用模組前
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>發布失敗:{0}</value>
   </data>
-  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
-    <value>社群模組 ({0})</value>
-  </data>
-  <data name="Ui.VoidstrapMods.LibraryAllTags" xml:space="preserve">
-    <value>全部</value>
-  </data>
   <data name="Ui.VoidstrapMods.LibraryFeatured" xml:space="preserve">
     <value>精選</value>
   </data>
@@ -9167,5 +9161,14 @@ Voidstrap 會在安裝前依照模組庫核對每個檔案,並在啟用模組前
 {3}
 
 仍要安裝嗎?</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryBack" xml:space="preserve">
+    <value>返回模組庫</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryWebsites" xml:space="preserve">
+    <value>會連線的網站</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryFiles" xml:space="preserve">
+    <value>檔案</value>
   </data>
 </root>

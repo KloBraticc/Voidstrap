@@ -9105,12 +9105,6 @@ Voidstrap yüklemeden önce her dosyayı kitaplıkla karşılaştırır ve modu 
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>Yayımlanamadı: {0}</value>
   </data>
-  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
-    <value>Topluluk modları ({0})</value>
-  </data>
-  <data name="Ui.VoidstrapMods.LibraryAllTags" xml:space="preserve">
-    <value>Tümü</value>
-  </data>
   <data name="Ui.VoidstrapMods.LibraryFeatured" xml:space="preserve">
     <value>Öne çıkan</value>
   </data>
@@ -9162,5 +9156,14 @@ Voidstrap yüklemeden önce her dosyayı kitaplıkla karşılaştırır ve modu 
 {3}
 
 Yine de yüklensin mi?</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryBack" xml:space="preserve">
+    <value>Kitaplığa dön</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryWebsites" xml:space="preserve">
+    <value>Bağlandığı web siteleri</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryFiles" xml:space="preserve">
+    <value>Dosyalar</value>
   </data>
 </root>

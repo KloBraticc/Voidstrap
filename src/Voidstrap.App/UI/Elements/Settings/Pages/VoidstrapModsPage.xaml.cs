@@ -322,7 +322,7 @@ public partial class VoidstrapModsPage : UiPage
 
 	private readonly Dictionary<string, BitmapSource?> _libraryIcons = new(StringComparer.Ordinal);
 
-	private string? _selectedTag;
+	private ModLibrary.LibraryMod? _detailMod;
 
 	private bool _sortReady;
 
@@ -356,42 +356,6 @@ public partial class VoidstrapModsPage : UiPage
 	}
 
 	private void SortBox_SelectionChanged(object sender, SelectionChangedEventArgs e) => RenderLibrary();
-
-	private void RenderTags()
-	{
-		TagHost.Children.Clear();
-		if (_libraryIndex == null)
-			return;
-		List<string> tags = _libraryIndex.Mods.SelectMany(m => m.Tags).GroupBy(t => t).OrderByDescending(g => g.Count()).ThenBy(g => g.Key, StringComparer.Ordinal).Select(g => g.Key).ToList();
-		TagHost.Children.Add(MakeTagChip(null, Strings.Ui_VoidstrapMods_LibraryAllTags));
-		foreach (string tag in tags)
-			TagHost.Children.Add(MakeTagChip(tag, "#" + tag));
-	}
-
-	private Wpf.Ui.Controls.Button MakeTagChip(string? tag, string label)
-	{
-		bool selected = string.Equals(tag, _selectedTag, StringComparison.Ordinal);
-		Wpf.Ui.Controls.Button chip = new()
-		{
-			Content = label,
-			Appearance = selected ? ControlAppearance.Primary : ControlAppearance.Secondary,
-			Padding = new Thickness(10, 3, 10, 4),
-			Margin = new Thickness(0, 0, 6, 6),
-			FontSize = 12,
-			Tag = tag ?? ""
-		};
-		chip.Click += TagChip_Click;
-		return chip;
-	}
-
-	private void TagChip_Click(object sender, RoutedEventArgs e)
-	{
-		if (sender is not FrameworkElement { Tag: string tag })
-			return;
-		_selectedTag = tag.Length == 0 || tag == _selectedTag ? null : tag;
-		RenderTags();
-		RenderLibrary();
-	}
 
 	private static Border MakeBadge(string text, SymbolRegular icon, Color color, string tooltip)
 	{
@@ -451,12 +415,11 @@ public partial class VoidstrapModsPage : UiPage
 		_libraryCts = new CancellationTokenSource();
 		CancellationToken token = _libraryCts.Token;
 		LibraryStatusText.Text = Strings.Ui_VoidstrapMods_LibraryLoading;
-		LibraryStatusText.Visibility = Visibility.Visible;
+		LibraryEmpty.Visibility = Visibility.Visible;
 		try
 		{
 			_libraryIndex = await ModLibrary.GetIndexAsync(refresh, token);
 			PopulateSorts();
-			RenderTags();
 			RenderLibrary();
 			ReportTakedowns(_libraryIndex);
 			foreach (ModLibrary.LibraryMod mod in _libraryIndex.Mods.Where(m => m.HasIcon && !_libraryIcons.ContainsKey(m.Id)))
@@ -473,7 +436,7 @@ public partial class VoidstrapModsPage : UiPage
 		{
 			LibraryHost.Children.Clear();
 			LibraryStatusText.Text = string.Format(Strings.Ui_VoidstrapMods_LibraryFailed, ex.Message);
-			LibraryStatusText.Visibility = Visibility.Visible;
+			LibraryEmpty.Visibility = Visibility.Visible;
 		}
 	}
 
@@ -508,81 +471,158 @@ public partial class VoidstrapModsPage : UiPage
 		if (_libraryIndex == null)
 			return;
 		LibraryHost.Children.Clear();
-		List<ModLibrary.LibraryMod> mods = ModLibrarySearch.Run(_libraryIndex.Mods, LibrarySearchBox.Text ?? "", _selectedTag, SelectedSort);
-		LibraryCountText.Text = string.Format(Strings.Ui_VoidstrapMods_LibraryCount, mods.Count);
+		List<ModLibrary.LibraryMod> mods = ModLibrarySearch.Run(_libraryIndex.Mods, LibrarySearchBox.Text ?? "", null, SelectedSort);
 		LibraryStatusText.Text = Strings.Ui_VoidstrapMods_LibraryEmpty;
-		LibraryStatusText.Visibility = mods.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+		LibraryEmpty.Visibility = mods.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
 		foreach (ModLibrary.LibraryMod mod in mods)
 			LibraryHost.Children.Add(BuildLibraryCard(mod));
+		if (_detailMod != null && LibraryDetail.Visibility == Visibility.Visible)
+			ShowLibraryDetail(_libraryIndex.Mods.FirstOrDefault(m => m.Id == _detailMod.Id) ?? _detailMod);
+	}
+
+	private FrameworkElement BuildIcon(ModLibrary.LibraryMod mod, double margin, double fallbackSize)
+	{
+		return _libraryIcons.TryGetValue(mod.Id, out BitmapSource? icon) && icon != null
+			? new Image { Source = icon, Stretch = Stretch.Uniform, Margin = new Thickness(margin) }
+			: new SymbolIcon { Symbol = SymbolRegular.PuzzlePiece24, FontSize = fallbackSize, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center };
+	}
+
+	private static void AddTrustBadges(Panel host, ModLibrary.LibraryMod mod)
+	{
+		if (mod.Verified)
+			host.Children.Add(MakeBadge(Strings.Ui_VoidstrapMods_LibraryVerified, SymbolRegular.ShieldCheckmark24, Color.FromRgb(46, 204, 113), Strings.Ui_VoidstrapMods_LibraryVerifiedTooltip));
+		else if (mod.Trusted)
+			host.Children.Add(MakeBadge(Strings.Ui_VoidstrapMods_LibraryTrusted, SymbolRegular.PersonAvailable24, Color.FromRgb(88, 166, 255), Strings.Ui_VoidstrapMods_LibraryTrustedTooltip));
+		else
+			host.Children.Add(MakeBadge(Strings.Ui_VoidstrapMods_LibraryUnverified, SymbolRegular.Warning24, Color.FromRgb(210, 153, 34), Strings.Ui_VoidstrapMods_LibraryUnverifiedTooltip));
+		if (mod.Featured > 0)
+			host.Children.Add(MakeBadge(Strings.Ui_VoidstrapMods_LibraryFeatured, SymbolRegular.Star24, Color.FromRgb(241, 196, 15), Strings.Ui_VoidstrapMods_LibraryFeatured));
+	}
+
+	private static string InstallLabel(ModLibrary.InstallState state) => state switch
+	{
+		ModLibrary.InstallState.Installed => Strings.Ui_VoidstrapMods_LibraryInstalled,
+		ModLibrary.InstallState.UpdateAvailable => Strings.Ui_VoidstrapMods_LibraryUpdate,
+		ModLibrary.InstallState.NameTaken => Strings.Ui_VoidstrapMods_LibraryNameTaken,
+		_ => Strings.Ui_VoidstrapMods_LibraryInstall
+	};
+
+	private static void ApplyInstallButton(Wpf.Ui.Controls.Button button, ModLibrary.LibraryMod mod)
+	{
+		ModLibrary.InstallState state = ModLibrary.GetState(mod);
+		button.Content = InstallLabel(state);
+		button.Icon = state == ModLibrary.InstallState.UpdateAvailable ? SymbolRegular.ArrowSync24 : state == ModLibrary.InstallState.Installed ? SymbolRegular.Checkmark24 : SymbolRegular.ArrowDownload24;
+		button.Appearance = state is ModLibrary.InstallState.NotInstalled or ModLibrary.InstallState.UpdateAvailable ? ControlAppearance.Primary : ControlAppearance.Secondary;
+		button.IsEnabled = state is ModLibrary.InstallState.NotInstalled or ModLibrary.InstallState.UpdateAvailable;
+		button.Tag = mod;
+	}
+
+	private static System.Windows.Controls.TextBlock StyledText(string style, string text)
+	{
+		System.Windows.Controls.TextBlock block = new() { Text = text };
+		block.SetResourceReference(StyleProperty, style);
+		return block;
 	}
 
 	private Border BuildLibraryCard(ModLibrary.LibraryMod mod)
 	{
-		Grid header = new();
-		header.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-		header.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-		header.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+		Grid row = new();
+		row.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+		row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+		row.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
 
-		Border iconFrame = new() { Width = 40, Height = 40, Margin = new Thickness(0, 0, 12, 0), CornerRadius = new CornerRadius(8), VerticalAlignment = VerticalAlignment.Center };
-		iconFrame.SetResourceReference(Border.BackgroundProperty, "ControlFillColorDefaultBrush");
-		iconFrame.Child = _libraryIcons.TryGetValue(mod.Id, out BitmapSource? icon) && icon != null
-			? new Image { Source = icon, Width = 28, Height = 28, Stretch = Stretch.Uniform }
-			: new SymbolIcon { Symbol = SymbolRegular.PuzzlePiece24, FontSize = 20, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center };
-		header.Children.Add(iconFrame);
+		Border icon = new() { Child = BuildIcon(mod, 8, 34) };
+		icon.SetResourceReference(StyleProperty, "RowIcon");
+		row.Children.Add(icon);
 
-		StackPanel text = new() { VerticalAlignment = VerticalAlignment.Center };
+		StackPanel text = new() { Margin = new Thickness(16, 0, 16, 0), VerticalAlignment = VerticalAlignment.Center };
 		Grid.SetColumn(text, 1);
-		WrapPanel titleRow = new() { Orientation = Orientation.Horizontal };
-		titleRow.Children.Add(PluginUiRenderer.MakeText(mod.Name + "  " + mod.Version, new JsonObject { ["bold"] = true, ["size"] = 14 }));
-		titleRow.Children.Add(PluginUiRenderer.MakeText("  " + string.Format(Strings.Ui_VoidstrapMods_LibraryBy, mod.Login), new JsonObject { ["dim"] = true }));
-		if (mod.Verified)
-			titleRow.Children.Add(MakeBadge(Strings.Ui_VoidstrapMods_LibraryVerified, SymbolRegular.ShieldCheckmark24, Color.FromRgb(46, 204, 113), Strings.Ui_VoidstrapMods_LibraryVerifiedTooltip));
-		else if (mod.Trusted)
-			titleRow.Children.Add(MakeBadge(Strings.Ui_VoidstrapMods_LibraryTrusted, SymbolRegular.PersonAvailable24, Color.FromRgb(88, 166, 255), Strings.Ui_VoidstrapMods_LibraryTrustedTooltip));
-		else
-			titleRow.Children.Add(MakeBadge(Strings.Ui_VoidstrapMods_LibraryUnverified, SymbolRegular.Warning24, Color.FromRgb(210, 153, 34), Strings.Ui_VoidstrapMods_LibraryUnverifiedTooltip));
-		if (mod.Featured > 0)
-			titleRow.Children.Add(MakeBadge(Strings.Ui_VoidstrapMods_LibraryFeatured, SymbolRegular.Star24, Color.FromRgb(241, 196, 15), Strings.Ui_VoidstrapMods_LibraryFeatured));
-		text.Children.Add(titleRow);
-		if (mod.Description.Length > 0)
-			text.Children.Add(PluginUiRenderer.MakeText(mod.Description, new JsonObject { ["dim"] = true }));
-		string details = mod.Network.Count == 0 ? Strings.Ui_VoidstrapMods_LibraryNoNetwork : string.Format(Strings.Ui_VoidstrapMods_LibraryNetwork, string.Join(", ", mod.Network));
-		if (mod.Tags.Count > 0)
-			details += "   " + string.Join("  ", mod.Tags.Select(tag => "#" + tag));
-		text.Children.Add(PluginUiRenderer.MakeText(details, new JsonObject { ["dim"] = true, ["size"] = 11 }));
-		header.Children.Add(text);
+		WrapPanel title = new() { Orientation = Orientation.Horizontal };
+		title.Children.Add(StyledText("RowTitle", mod.Name));
+		AddTrustBadges(title, mod);
+		text.Children.Add(title);
+		System.Windows.Controls.TextBlock summary = StyledText("RowSummary", mod.Description);
+		summary.MaxHeight = 40;
+		text.Children.Add(summary);
+		StackPanel meta = new() { Orientation = Orientation.Horizontal, Margin = new Thickness(0, 10, 0, 0) };
+		System.Windows.Controls.TextBlock author = StyledText("RowMeta", "@" + mod.Login);
+		author.SetResourceReference(System.Windows.Controls.TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
+		meta.Children.Add(author);
+		System.Windows.Controls.TextBlock network = StyledText("RowMeta", mod.Network.Count == 0 ? Strings.Ui_VoidstrapMods_LibraryNoNetwork : string.Format(Strings.Ui_VoidstrapMods_LibraryNetwork, string.Join(", ", mod.Network)));
+		network.Margin = new Thickness(12, 0, 0, 0);
+		meta.Children.Add(network);
+		text.Children.Add(meta);
+		row.Children.Add(text);
 
-		ModLibrary.InstallState state = ModLibrary.GetState(mod);
-		Wpf.Ui.Controls.Button action = new()
-		{
-			Content = state switch
-			{
-				ModLibrary.InstallState.Installed => Strings.Ui_VoidstrapMods_LibraryInstalled,
-				ModLibrary.InstallState.UpdateAvailable => Strings.Ui_VoidstrapMods_LibraryUpdate,
-				ModLibrary.InstallState.NameTaken => Strings.Ui_VoidstrapMods_LibraryNameTaken,
-				_ => Strings.Ui_VoidstrapMods_LibraryInstall
-			},
-			Icon = state == ModLibrary.InstallState.UpdateAvailable ? SymbolRegular.ArrowSync24 : state == ModLibrary.InstallState.Installed ? SymbolRegular.Checkmark24 : SymbolRegular.ArrowDownload24,
-			Appearance = state is ModLibrary.InstallState.NotInstalled or ModLibrary.InstallState.UpdateAvailable ? ControlAppearance.Primary : ControlAppearance.Secondary,
-			IsEnabled = state is ModLibrary.InstallState.NotInstalled or ModLibrary.InstallState.UpdateAvailable,
-			VerticalAlignment = VerticalAlignment.Center,
-			Tag = mod
-		};
-		action.Click += LibraryInstall_Click;
-		Grid.SetColumn(action, 2);
-		header.Children.Add(action);
+		StackPanel side = new() { VerticalAlignment = VerticalAlignment.Center, HorizontalAlignment = HorizontalAlignment.Right };
+		Grid.SetColumn(side, 2);
+		StackPanel version = new() { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 0, 0, 10) };
+		SymbolIcon tagIcon = new() { Symbol = SymbolRegular.Tag24, FontSize = 14, VerticalAlignment = VerticalAlignment.Center };
+		tagIcon.SetResourceReference(SymbolIcon.ForegroundProperty, "TextFillColorTertiaryBrush");
+		version.Children.Add(tagIcon);
+		System.Windows.Controls.TextBlock versionText = StyledText("RowMeta", mod.Version);
+		versionText.Margin = new Thickness(5, 0, 0, 0);
+		version.Children.Add(versionText);
+		side.Children.Add(version);
+		StackPanel buttons = new() { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right };
+		Wpf.Ui.Controls.Button view = new() { Content = Strings.Ui_Mods_View, Appearance = ControlAppearance.Secondary, MinWidth = 76, Margin = new Thickness(0, 0, 8, 0), Tag = mod };
+		view.Click += LibraryView_Click;
+		buttons.Children.Add(view);
+		Wpf.Ui.Controls.Button install = new() { MinWidth = 84 };
+		ApplyInstallButton(install, mod);
+		install.Click += LibraryInstall_Click;
+		buttons.Children.Add(install);
+		side.Children.Add(buttons);
+		row.Children.Add(side);
 
-		Border card = new()
-		{
-			Child = header,
-			Padding = new Thickness(14, 10, 14, 10),
-			Margin = new Thickness(0, 0, 0, 6),
-			CornerRadius = new CornerRadius(6),
-			BorderThickness = new Thickness(1)
-		};
-		card.SetResourceReference(Border.BackgroundProperty, "CardBackgroundFillColorDefaultBrush");
-		card.SetResourceReference(Border.BorderBrushProperty, "CardStrokeColorDefaultBrush");
+		Border card = new() { Child = row };
+		card.SetResourceReference(StyleProperty, "RowCard");
 		return card;
+	}
+
+	private void LibraryView_Click(object sender, RoutedEventArgs e)
+	{
+		if (sender is FrameworkElement { Tag: ModLibrary.LibraryMod mod })
+			ShowLibraryDetail(mod);
+	}
+
+	private void ShowLibraryDetail(ModLibrary.LibraryMod mod)
+	{
+		_detailMod = mod;
+		DetailName.Text = mod.Name;
+		DetailSummary.Text = mod.Description;
+		DetailBadges.Children.Clear();
+		AddTrustBadges(DetailBadges, mod);
+		if (DetailBadges.Children.Count > 0 && DetailBadges.Children[0] is FrameworkElement first)
+			first.Margin = new Thickness(0);
+		bool hasIcon = _libraryIcons.TryGetValue(mod.Id, out BitmapSource? icon) && icon != null;
+		DetailIcon.Source = hasIcon ? icon : null;
+		DetailIconFallback.Visibility = hasIcon ? Visibility.Collapsed : Visibility.Visible;
+		DetailNetwork.Text = mod.Network.Count == 0 ? Strings.Ui_VoidstrapMods_LibraryNoNetwork : string.Join(Environment.NewLine, mod.Network);
+		DetailFiles.Text = string.Join(Environment.NewLine, mod.Files.Select(f => f.Path + "   " + FormatSize(f.Size)));
+		DetailVersion.Text = mod.Version;
+		DetailUpdated.Text = (mod.Updated ?? mod.Created)?.ToLocalTime().ToString("d") ?? "";
+		DetailCreator.Text = "@" + mod.Login;
+		DetailTrust.Text = mod.Verified ? Strings.Ui_VoidstrapMods_LibraryVerifiedTooltip : mod.Trusted ? Strings.Ui_VoidstrapMods_LibraryTrustedTooltip : Strings.Ui_VoidstrapMods_LibraryUnverifiedTooltip;
+		ApplyInstallButton(DetailInstallButton, mod);
+		DetailInstallButton.Height = 40;
+		LibraryBrowse.Visibility = Visibility.Collapsed;
+		LibraryDetail.Visibility = Visibility.Visible;
+	}
+
+	private static string FormatSize(long bytes) => bytes < 1024 ? bytes + " B" : (bytes / 1024.0).ToString("0.#") + " KB";
+
+	private void LibraryBack_Click(object sender, RoutedEventArgs e)
+	{
+		_detailMod = null;
+		LibraryDetail.Visibility = Visibility.Collapsed;
+		LibraryBrowse.Visibility = Visibility.Visible;
+	}
+
+	private void DetailGitHub_Click(object sender, RoutedEventArgs e)
+	{
+		if (_detailMod != null)
+			Utilities.OpenWebLink(ModLibrary.RepositoryUrl + "/tree/main/mods/" + Uri.EscapeDataString(_detailMod.Name));
 	}
 
 	private async void LibraryInstall_Click(object sender, RoutedEventArgs e)

@@ -9109,12 +9109,6 @@ Voidstrap controlla ogni file con la libreria prima di installarlo e chiede prim
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>Pubblicazione non riuscita: {0}</value>
   </data>
-  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
-    <value>Mod della community ({0})</value>
-  </data>
-  <data name="Ui.VoidstrapMods.LibraryAllTags" xml:space="preserve">
-    <value>Tutte</value>
-  </data>
   <data name="Ui.VoidstrapMods.LibraryFeatured" xml:space="preserve">
     <value>In evidenza</value>
   </data>
@@ -9166,5 +9160,14 @@ NON installarla a meno che tu non ti fidi di @{2}. Questa mod è stata esaminata
 {3}
 
 Installare comunque?</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryBack" xml:space="preserve">
+    <value>Torna alla libreria</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryWebsites" xml:space="preserve">
+    <value>Siti web che contatta</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryFiles" xml:space="preserve">
+    <value>File</value>
   </data>
 </root>

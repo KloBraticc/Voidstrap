@@ -9109,12 +9109,6 @@ Voidstrap memeriksa setiap file terhadap pustaka sebelum memasangnya, dan bertan
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>Publikasi gagal: {0}</value>
   </data>
-  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
-    <value>Mod komunitas ({0})</value>
-  </data>
-  <data name="Ui.VoidstrapMods.LibraryAllTags" xml:space="preserve">
-    <value>Semua</value>
-  </data>
   <data name="Ui.VoidstrapMods.LibraryFeatured" xml:space="preserve">
     <value>Unggulan</value>
   </data>
@@ -9166,5 +9160,14 @@ JANGAN instal kecuali Anda memercayai @{2}. Hanya pemeriksaan otomatis yang meme
 {3}
 
 Tetap instal?</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryBack" xml:space="preserve">
+    <value>Kembali ke pustaka</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryWebsites" xml:space="preserve">
+    <value>Situs web yang dihubungi</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryFiles" xml:space="preserve">
+    <value>File</value>
   </data>
 </root>

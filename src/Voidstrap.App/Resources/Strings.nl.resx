@@ -9108,12 +9108,6 @@ Voidstrap controleert elk bestand met de bibliotheek voordat het wordt geïnstal
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>Publiceren is niet gelukt: {0}</value>
   </data>
-  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
-    <value>Communitymods ({0})</value>
-  </data>
-  <data name="Ui.VoidstrapMods.LibraryAllTags" xml:space="preserve">
-    <value>Alle</value>
-  </data>
   <data name="Ui.VoidstrapMods.LibraryFeatured" xml:space="preserve">
     <value>Uitgelicht</value>
   </data>
@@ -9165,5 +9159,14 @@ Installeer hem NIET tenzij je @{2} vertrouwt. Alleen automatische controles hebb
 {3}
 
 Toch installeren?</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryBack" xml:space="preserve">
+    <value>Terug naar de bibliotheek</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryWebsites" xml:space="preserve">
+    <value>Websites waarmee hij contact maakt</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryFiles" xml:space="preserve">
+    <value>Bestanden</value>
   </data>
 </root>

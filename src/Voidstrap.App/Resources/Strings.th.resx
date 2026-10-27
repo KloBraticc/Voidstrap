@@ -9102,12 +9102,6 @@ Voidstrap จะตรวจสอบทุกไฟล์กับคลัง�
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>เผยแพร่ไม่สำเร็จ: {0}</value>
   </data>
-  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
-    <value>ม็อดจากชุมชน ({0})</value>
-  </data>
-  <data name="Ui.VoidstrapMods.LibraryAllTags" xml:space="preserve">
-    <value>ทั้งหมด</value>
-  </data>
   <data name="Ui.VoidstrapMods.LibraryFeatured" xml:space="preserve">
     <value>แนะนำ</value>
   </data>
@@ -9159,5 +9153,14 @@ Voidstrap จะตรวจสอบทุกไฟล์กับคลัง�
 {3}
 
 ต้องการติดตั้งต่อหรือไม่</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryBack" xml:space="preserve">
+    <value>กลับไปที่คลัง</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryWebsites" xml:space="preserve">
+    <value>เว็บไซต์ที่เชื่อมต่อ</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryFiles" xml:space="preserve">
+    <value>ไฟล์</value>
   </data>
 </root>

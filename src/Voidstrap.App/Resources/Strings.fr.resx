@@ -9106,12 +9106,6 @@ Voidstrap vérifie chaque fichier par rapport à la bibliothèque avant de l'ins
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>La publication n'a pas fonctionné : {0}</value>
   </data>
-  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
-    <value>Mods de la communauté ({0})</value>
-  </data>
-  <data name="Ui.VoidstrapMods.LibraryAllTags" xml:space="preserve">
-    <value>Tous</value>
-  </data>
   <data name="Ui.VoidstrapMods.LibraryFeatured" xml:space="preserve">
     <value>En vedette</value>
   </data>
@@ -9163,5 +9157,14 @@ Ne l'installez PAS sauf si vous faites confiance à @{2}. Seules des vérificati
 {3}
 
 Installer quand même ?</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryBack" xml:space="preserve">
+    <value>Retour à la bibliothèque</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryWebsites" xml:space="preserve">
+    <value>Sites web contactés</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryFiles" xml:space="preserve">
+    <value>Fichiers</value>
   </data>
 </root>

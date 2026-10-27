@@ -9106,12 +9106,6 @@
   <data name="Ui.VoidstrapMods.PublishFailed" xml:space="preserve">
     <value>لم ينجح النشر: {0}</value>
   </data>
-  <data name="Ui.VoidstrapMods.LibraryCount" xml:space="preserve">
-    <value>تعديلات المجتمع ({0})</value>
-  </data>
-  <data name="Ui.VoidstrapMods.LibraryAllTags" xml:space="preserve">
-    <value>الكل</value>
-  </data>
   <data name="Ui.VoidstrapMods.LibraryFeatured" xml:space="preserve">
     <value>مميّز</value>
   </data>
@@ -9163,5 +9157,14 @@
 {3}
 
 هل تريد التثبيت على أي حال؟</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryBack" xml:space="preserve">
+    <value>العودة إلى المكتبة</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryWebsites" xml:space="preserve">
+    <value>المواقع التي يتصل بها</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryFiles" xml:space="preserve">
+    <value>الملفات</value>
   </data>
 </root>
