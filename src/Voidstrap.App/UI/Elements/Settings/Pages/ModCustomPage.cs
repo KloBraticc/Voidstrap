@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using Voidstrap.Integrations.Plugins;
+using Voidstrap.UI;
 using Wpf.Ui.Common;
 using Wpf.Ui.Controls;
 
@@ -26,6 +27,7 @@ public sealed class ModCustomPage : UiPage
 	{
 		_info = info;
 		Title = info.Title;
+		BreadcrumbHeader.Set(this, info.Title);
 		Scrollable = true;
 		Content = _host;
 		Loaded += OnPageLoaded;
@@ -36,6 +38,7 @@ public sealed class ModCustomPage : UiPage
 	{
 		_info = info;
 		Title = info.Title;
+		BreadcrumbHeader.Set(this, info.Title);
 		if (IsLoaded)
 			RenderPage();
 	}

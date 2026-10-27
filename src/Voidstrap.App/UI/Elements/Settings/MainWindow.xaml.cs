@@ -1237,7 +1237,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     public void OpenModCustomPage(Voidstrap.Integrations.Plugins.PluginSidebar.ModPageInfo info)
     {
-        if (!_modCustomPages.TryGetValue(info.Key, out Pages.ModCustomPage? page))
+        if (!_modCustomPages.TryGetValue(info.Key, out Pages.ModCustomPage? page) || !ReferenceEquals(RootFrame.Content, page))
         {
             page = new Pages.ModCustomPage(info);
             _modCustomPages[info.Key] = page;
