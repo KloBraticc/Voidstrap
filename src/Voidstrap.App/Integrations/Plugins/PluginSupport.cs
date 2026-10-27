@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Text.Json.Nodes;
 using System.Windows;
@@ -142,5 +143,45 @@ internal sealed class PluginStore
 			File.WriteAllText(temporary, text);
 			File.Move(temporary, _path, true);
 		}
+	}
+}
+
+internal static class PluginSidebar
+{
+	public static JsonObject Get()
+	{
+		JsonArray items = new();
+		foreach (var item in Voidstrap.UI.Elements.Settings.MainWindow.SidebarCustomizationItems)
+		{
+			if (!Voidstrap.UI.Elements.Settings.MainWindow.IsSidebarItemAvailable(item.Key))
+				continue;
+			items.Add(new JsonObject { ["key"] = item.Key, ["name"] = item.DisplayName, ["section"] = item.Section, ["canHide"] = item.CanHide });
+		}
+		var settings = App.Settings.Prop;
+		return new JsonObject
+		{
+			["items"] = items,
+			["order"] = new JsonArray((settings.SidebarOrder ?? []).Select(key => (JsonNode?)JsonValue.Create(key)).ToArray()),
+			["hidden"] = new JsonArray((settings.SidebarHiddenItems ?? []).Select(key => (JsonNode?)JsonValue.Create(key)).ToArray())
+		};
+	}
+
+	public static void Set(string plugin, JsonObject layout)
+	{
+		var definitions = Voidstrap.UI.Elements.Settings.MainWindow.SidebarCustomizationItems.ToDictionary(item => item.Key, StringComparer.Ordinal);
+		var settings = App.Settings.Prop;
+		if (layout["order"] is JsonArray order)
+			settings.SidebarOrder = order.Select(key => key?.ToString() ?? "").Where(definitions.ContainsKey).Distinct().ToList();
+		if (layout["hidden"] is JsonArray hidden)
+			settings.SidebarHiddenItems = hidden.Select(key => key?.ToString() ?? "").Where(key => definitions.TryGetValue(key, out var item) && item.CanHide).Distinct().ToList();
+		App.Settings.SaveDeferred();
+		App.Logger.WriteLine("VoidstrapMods", plugin + ": changed the sidebar layout");
+		Application.Current?.Dispatcher.BeginInvoke(new Action(ApplyToWindows));
+	}
+
+	private static void ApplyToWindows()
+	{
+		foreach (Voidstrap.UI.Elements.Settings.MainWindow window in Application.Current.Windows.OfType<Voidstrap.UI.Elements.Settings.MainWindow>())
+			window.ApplySidebarCustomization();
 	}
 }

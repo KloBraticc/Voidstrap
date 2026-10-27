@@ -1038,6 +1038,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         _pageSearchTargets.Clear();
         _lastPage = null;
         TrackNavigationHistory(e.Content);
+        Voidstrap.Integrations.Plugins.PluginHost.Invoke("page.navigate", new System.Text.Json.Nodes.JsonObject { ["page"] = DescribePage(e.Content) });
         object readyContent = e.Content;
         Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(() => LogPageReady(readyContent)));
         Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(DetachDiscardedPage));
@@ -1073,6 +1074,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         RefreshHomeTargetButton();
         AnimatePageHeader(18.0);
     }
+
+    private static string DescribePage(object content) => content?.GetType().Name ?? "";
 
     private void SyncHomeTargetMenuBrush()
     {

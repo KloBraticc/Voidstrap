@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json.Nodes;
+using System.Net.Http;
 using System.Threading;
+using System.Threading.Tasks;
 using Jint;
 using Jint.Native;
 using Jint.Native.Function;
@@ -342,6 +344,19 @@ public static class PluginHost
 			      get: key => parse(host.storeGet(String(key))),
 			      set: (key, value) => host.storeSet(String(key), JSON.stringify(value === undefined ? null : value))
 			    }),
+			    clock: Object.freeze({
+			      now: () => Date.now(),
+			      after: (ms, fn) => host.clockStart(Number(ms), fn, false),
+			      every: (ms, fn) => host.clockStart(Number(ms), fn, true),
+			      cancel: id => host.clockCancel(Number(id))
+			    }),
+			    net: Object.freeze({
+			      fetch: request => host.netFetch(JSON.stringify(typeof request === 'string' ? { url: request } : (request || {}))).then(text => JSON.parse(text))
+			    }),
+			    sidebar: Object.freeze({
+			      get: () => parse(host.sidebarGet()),
+			      set: layout => host.sidebarSet(JSON.stringify(layout || {}))
+			    }),
 			    state: Object.freeze({
 			      get: key => parse(host.stateGet(String(key))),
 			      set: (key, value) => host.stateSet(String(key), JSON.stringify(value === undefined ? null : value))
@@ -363,7 +378,27 @@ public static class PluginHost
 
 		private readonly PluginStore _store;
 
+		private const int MaxTimers = 32;
+
+		private const int MinRepeatMs = 500;
+
+		private const int MaxResponseBytes = 1024 * 1024;
+
+		private static readonly TimeSpan AwaitLimit = TimeSpan.FromSeconds(10);
+
+		private static readonly HttpClient NetClient = new(new SocketsHttpHandler { UseCookies = false, AllowAutoRedirect = false, ConnectTimeout = TimeSpan.FromSeconds(8) }) { Timeout = TimeSpan.FromSeconds(10) };
+
+		private readonly Dictionary<int, Timer> _timers = [];
+
+		private readonly HashSet<string> _networkHosts;
+
 		private int _handlerCounter;
+
+		private int _timerCounter;
+
+		private int _pending;
+
+		private bool _disposed;
 
 		public string Name { get; }
 
@@ -371,6 +406,7 @@ public static class PluginHost
 		{
 			Name = manifest.Name;
 			_store = new PluginStore(manifest.Name);
+			_networkHosts = new HashSet<string>(manifest.NetworkHosts, StringComparer.OrdinalIgnoreCase);
 			_engine = new Engine(options =>
 			{
 				options.Strict();
@@ -409,7 +445,7 @@ public static class PluginHost
 					return JsValue.Undefined;
 				});
 				_engine.Constraints.Reset();
-				_engine.Invoke(register, on, ToJs(manifest.Options)).UnwrapIfPromise();
+				Settle(_engine.Invoke(register, on, ToJs(manifest.Options)));
 			}
 		}
 
@@ -462,6 +498,26 @@ public static class PluginHost
 				_store.Set(Arg(a, 0), Arg(a, 1));
 				return JsValue.Undefined;
 			}));
+			host.Set("clockStart", Host("clockStart", a =>
+			{
+				if (a.Length < 2 || a[1] is not Function callback)
+					throw new InvalidOperationException("the clock needs a delay and a function");
+				bool repeat = a.Length > 2 && a[2].IsBoolean() && a[2].AsBoolean();
+				return StartTimer(a[0].IsNumber() ? a[0].AsNumber() : 0, callback, repeat);
+			}));
+			host.Set("clockCancel", Host("clockCancel", a =>
+			{
+				if (a.Length > 0 && a[0].IsNumber())
+					CancelTimer((int)a[0].AsNumber());
+				return JsValue.Undefined;
+			}));
+			host.Set("netFetch", Host("netFetch", a => Fetch(JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject())));
+			host.Set("sidebarGet", Host("sidebarGet", _ => PluginSidebar.Get().ToJsonString()));
+			host.Set("sidebarSet", Host("sidebarSet", a =>
+			{
+				PluginSidebar.Set(Name, JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject());
+				return JsValue.Undefined;
+			}));
 			host.Set("stateGet", Host("stateGet", a => GetState(Name, Arg(a, 0)) is string json ? json : JsValue.Undefined));
 			host.Set("stateSet", Host("stateSet", a =>
 			{
@@ -469,6 +525,116 @@ public static class PluginHost
 				return JsValue.Undefined;
 			}));
 			return host;
+		}
+
+		private JsValue StartTimer(double milliseconds, JsValue callback, bool repeat)
+		{
+			if (_timers.Count >= MaxTimers)
+				throw new InvalidOperationException("a mod can run at most " + MaxTimers + " timers");
+			int delay = (int)Math.Clamp(double.IsFinite(milliseconds) ? milliseconds : 0, repeat ? MinRepeatMs : 0, int.MaxValue / 2);
+			int id = ++_timerCounter;
+			Timer timer = new(OnTimer, (id, callback, repeat), delay, repeat ? delay : Timeout.Infinite);
+			_timers[id] = timer;
+			return id;
+		}
+
+		private void CancelTimer(int id)
+		{
+			if (_timers.Remove(id, out Timer? timer))
+				timer.Dispose();
+		}
+
+		private void OnTimer(object? state)
+		{
+			if (state is not ValueTuple<int, JsValue, bool> tick)
+				return;
+			lock (_gate)
+			{
+				if (_disposed || !_timers.ContainsKey(tick.Item1))
+					return;
+				if (!tick.Item3)
+					CancelTimer(tick.Item1);
+				try
+				{
+					_engine.Constraints.Reset();
+					Settle(_engine.Invoke(tick.Item2, JsValue.Undefined, Array.Empty<object>()));
+				}
+				catch (Exception ex)
+				{
+					App.Logger.WriteLine(LogIdent, Name + ": clock hook skipped: " + Describe(ex));
+				}
+			}
+			Invalidate(Name);
+		}
+
+		private JsValue Fetch(JsonObject request)
+		{
+			string url = request["url"]?.ToString() ?? "";
+			if (!Uri.TryCreate(url, UriKind.Absolute, out Uri? uri) || uri.Scheme != Uri.UriSchemeHttps || !_networkHosts.Contains(uri.IdnHost))
+				throw new InvalidOperationException("the mod may only reach https hosts listed under network in its plugin.json");
+			string method = (request["method"]?.ToString() ?? "GET").ToUpperInvariant();
+			if (method is not ("GET" or "POST" or "PUT" or "PATCH" or "DELETE"))
+				throw new InvalidOperationException("unsupported request method " + method);
+			string? body = request["body"]?.ToString();
+			JsonObject? headers = request["headers"] as JsonObject;
+			var (promise, resolve, reject) = _engine.Advanced.RegisterPromise();
+			_pending++;
+			_ = Task.Run(async () =>
+			{
+				JsonObject? result = null;
+				string error = "";
+				try
+				{
+					using HttpRequestMessage message = new(new HttpMethod(method), uri);
+					if (body != null)
+						message.Content = new StringContent(body, System.Text.Encoding.UTF8, request["contentType"]?.ToString() ?? "application/json");
+					if (headers != null)
+						foreach (KeyValuePair<string, JsonNode?> header in headers)
+							if (!header.Key.Equals("cookie", StringComparison.OrdinalIgnoreCase) && !header.Key.Equals("authorization", StringComparison.OrdinalIgnoreCase))
+								message.Headers.TryAddWithoutValidation(header.Key, header.Value?.ToString());
+					using HttpResponseMessage response = await NetClient.SendAsync(message, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
+					string text = await Voidstrap.Utility.Http.ReadStringBoundedAsync(response.Content, MaxResponseBytes, CancellationToken.None).ConfigureAwait(false);
+					result = new JsonObject { ["status"] = (int)response.StatusCode, ["ok"] = response.IsSuccessStatusCode, ["text"] = text };
+				}
+				catch (Exception ex)
+				{
+					error = Describe(ex);
+				}
+				lock (_gate)
+				{
+					_pending--;
+					if (!_disposed)
+					{
+						try
+						{
+							_engine.Constraints.Reset();
+							if (result != null)
+								resolve(result.ToJsonString());
+							else
+								reject(error);
+							_engine.Advanced.ProcessTasks();
+						}
+						catch (Exception ex)
+						{
+							App.Logger.WriteLine(LogIdent, Name + ": a network callback failed: " + Describe(ex));
+						}
+					}
+					Monitor.PulseAll(_gate);
+				}
+				Invalidate(Name);
+			});
+			return promise;
+		}
+
+		private JsValue Settle(JsValue value)
+		{
+			if (!value.IsPromise())
+				return value;
+			DateTime deadline = DateTime.UtcNow + AwaitLimit;
+			while (_pending > 0 && DateTime.UtcNow < deadline)
+				Monitor.Wait(_gate, 50);
+			_engine.Constraints.Reset();
+			return value.UnwrapIfPromise(TimeSpan.FromMilliseconds(100));
 		}
 
 		private static string Arg(JsValue[] arguments, int index) => arguments.Length > index && !arguments[index].IsUndefined() && !arguments[index].IsNull() ? arguments[index].ToString() : "";
@@ -497,7 +663,7 @@ public static class PluginHost
 					return ToJs(result);
 				});
 				_engine.Constraints.Reset();
-				JsValue result = _engine.Invoke(function, JsValue.Undefined, new object[] { _engine.GetValue("$"), ToJs(input), nextFunction }).UnwrapIfPromise();
+				JsValue result = Settle(_engine.Invoke(function, JsValue.Undefined, new object[] { _engine.GetValue("$"), ToJs(input), nextFunction }));
 				return ToNode(result, scope);
 			}
 		}
@@ -509,7 +675,7 @@ public static class PluginHost
 				if (!_handlers.TryGetValue(handlerId, out JsValue? handler))
 					return;
 				_engine.Constraints.Reset();
-				_engine.Invoke(handler, JsValue.Undefined, new object[] { ToJs(argument) }).UnwrapIfPromise();
+				Settle(_engine.Invoke(handler, JsValue.Undefined, new object[] { ToJs(argument) }));
 			}
 		}
 
@@ -570,8 +736,13 @@ public static class PluginHost
 		{
 			lock (_gate)
 			{
+				_disposed = true;
+				foreach (Timer timer in _timers.Values)
+					timer.Dispose();
+				_timers.Clear();
 				_hooks.Clear();
 				_handlers.Clear();
+				Monitor.PulseAll(_gate);
 				_engine.Dispose();
 			}
 		}

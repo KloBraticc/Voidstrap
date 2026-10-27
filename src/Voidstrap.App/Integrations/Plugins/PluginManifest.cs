@@ -28,6 +28,8 @@ public sealed partial class PluginManifest
 
 	public JsonObject Options { get; private init; } = new();
 
+	public IReadOnlyList<string> NetworkHosts { get; private init; } = [];
+
 	public static List<PluginManifest> Discover(string root)
 	{
 		List<PluginManifest> found = [];
@@ -79,8 +81,23 @@ public sealed partial class PluginManifest
 			Description = manifest["description"]?.GetValue<string>() ?? "",
 			Directory = root,
 			ModulePath = Path.GetRelativePath(root, modulePath),
-			Options = ReadOptions(manifest["userConfig"] as JsonObject)
+			Options = ReadOptions(manifest["userConfig"] as JsonObject),
+			NetworkHosts = ReadHosts(manifest["network"] as JsonArray)
 		};
+	}
+
+	private static List<string> ReadHosts(JsonArray? hosts)
+	{
+		List<string> result = [];
+		if (hosts == null)
+			return result;
+		foreach (JsonNode? host in hosts)
+		{
+			string value = host?.ToString().Trim().ToLowerInvariant() ?? "";
+			if (Uri.CheckHostName(value) == UriHostNameType.Dns && !result.Contains(value))
+				result.Add(value);
+		}
+		return result;
 	}
 
 	private static JsonObject ReadOptions(JsonObject? config)
