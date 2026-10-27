@@ -17,30 +17,65 @@ public static partial class McpTools
 	private static partial Regex ModNamePattern { get; }
 
 	private const string ModLayoutGuide = """
-		A Voidstrap mod is a folder in the mods folder named after the mod (lowercase letters, digits and hyphens).
-		.voidstrap-mod/plugin.json: { "name": "<folder name>", "version": "0.1.0", "description": "<one line>", "network": ["api.example.com"], "userConfig": { "field": { "default": 1 } } }
-		hooks/hooks.json: { "modules": ["./register.tsx"] }
-		hooks/register.tsx: export const register: Register = (on, options) => { ... }, with import type { Register } from 'voidstrap'.
-		Every hook is ($, e, next): return without next to answer alone, next({ ...e, x }) to rewrite, await next(e) to react. on(event, matcher, hook) filters by matching fields of e.
-		UI Surfaces:
-		- Panes: $.ui.open({ id, title }) in session.start, rendered by on('ui.render', { component: 'Pane', requestId: id }, ($) => tree).
-		- Custom Sidebar Pages: $.sidebar.addPage({ id, title, icon, section }) in session.start, rendered by on('ui.render', { component: 'Page', requestId: id }, ($) => tree).
-		- Window Banners: $.ui.openBanner({ id, position: 'top' | 'bottom' }), rendered by on('ui.render', { component: 'Banner', requestId: id }, ($) => tree).
-		- Modal Dialogs: $.ui.openDialog({ id, title, width, height }), rendered by on('ui.render', { component: 'Dialog', requestId: id }, ($) => tree).
-		UI Elements: Box, Stack, Wrap, Grid, Scroll, Text, Badge, Icon, ColorSwatch, Button, Toggle, CheckBox, TextInput, NumberInput, Slider, Select, ProgressBar, InfoBar, Divider, Spacer, Image, Card, Expander, Tabs, Table.
-		Full App Control via $:
-		- $.sidebar: get(), set({ order, hidden, names, icons }), reset(), addPage({ id, title, icon, section }), removePage(id).
-		- $.nav: current(), pages(), open(page).
-		- $.theme: get(), set({ theme, backdrop, uiZoomPercent, accentColor, ... }), getBrush(key), setBrush(key, hexColor), resetBrushes(), listBrushes().
-		- $.window: get(), set({ title, width, height, left, top, state, topMost, opacity }).
-		- $.settings: list(), get(name), set(name, value).
-		- $.fastFlags: getAll(), get(name), set(name, value), remove(name), clear().
-		- $.roblox: status(), launch({ mode, placeId, jobId }).
-		- $.clipboard: get(), set(text).
-		State: const n = atom('count', 0); read($, n); update($, n, v => v + 1). Writes redraw active panes, pages, banners and dialogs.
-		Tests: name files like pane.test.tsx, import { test, expect, mod } from 'voidstrap/testing', and use mod.emit, mod.render, mod.renderPage and mod.press.
-		After writing, call validate, then test, then reload.
-		The exact types are in the action types output.
+		VOIDSTRAP MODS, THE SHORT VERSION
+		A Voidstrap mod is a small TypeScript program that runs inside Voidstrap in a sandbox. It cannot touch files, processes or .NET. Everything goes through the $ object.
+
+		WORKFLOW, FOLLOW IT IN ORDER
+		1. manage_voidstrap_mods action list: see existing mods and their problems. Edit an existing mod instead of making a near duplicate.
+		2. action types: read the exact API before writing code. Never guess a $ method name; if it is not in types it does not exist.
+		3. write_file the three files below (mod is the folder name, lowercase letters, digits and hyphens).
+		4. action validate: fix every reported problem before going on.
+		5. action test if the mod has *.test.tsx files.
+		6. action reload, then action problems: a hook that throws is skipped and its error shows here.
+		7. A brand new mod stays off until the user says yes to a prompt Voidstrap shows them. Tell the user to accept it; you cannot turn it on yourself.
+
+		THE THREE FILES
+		.voidstrap-mod/plugin.json
+		  { "name": "my-mod", "version": "0.1.0", "description": "One line about it", "network": [] }
+		  name must equal the folder name. network lists https hosts $.net.fetch may call, nothing else is reachable.
+		hooks/hooks.json
+		  { "modules": ["./register.tsx"] }
+		hooks/register.tsx, a complete working example:
+		  import type { Register } from 'voidstrap';
+		  const clicks = atom('clicks', 0);
+		  export const register: Register = (on) => {
+		    on('session.start', ($, e, next) => {
+		      $.ui.open({ id: 'main', title: 'My mod' });
+		      return next(e);
+		    });
+		    on('ui.render', { component: 'Pane', requestId: 'main' }, ($) => {
+		      const { Box, Text, Button } = $.ui.resolve();
+		      return (
+		        <Box>
+		          <Text bold>Clicked {read($, clicks)} times</Text>
+		          <Button key="add" label="Click" onPress={() => update($, clicks, n => n + 1)} />
+		        </Box>
+		      );
+		    });
+		  };
+
+		HOOKS
+		Every hook is ($, e, next). Call next(e) to let Voidstrap carry on, return without next to stop it, or next({ ...e, x }) to change it.
+		on(event, matcher, hook) runs only when the fields in matcher equal the fields of e.
+		Events: session.start, session.end, roblox.launch (return { ...e, cancel: true } to stop a launch), game.join, game.leave, page.navigate, ui.render.
+
+		DRAWING
+		Panes, sidebar pages, banners and dialogs are all drawn by ui.render hooks with the matching component and requestId:
+		  Pane: $.ui.open({ id, title })
+		  Page: $.sidebar.addPage({ id, title, icon, section })
+		  Banner: $.ui.openBanner({ id, position: 'top' })
+		  Dialog: $.ui.openDialog({ id, title, width, height })
+		Elements come from $.ui.resolve(). The full list and every prop are in types.
+		Give every pressable element a key, and put handlers in onPress, onChange or onSubmit.
+		State: const n = atom('name', initial); read($, n) while drawing; update($, n, fn) in a handler. Updates redraw automatically.
+
+		COMMON MISTAKES
+		"Box is not defined": you used JSX without const { Box, Text, ... } = $.ui.resolve(); inside the hook.
+		Nothing shows: the ui.render matcher does not match the component and id you opened, or you forgot to call next(e) in session.start.
+		"the setting X does not exist": read $.settings.list() for real names.
+		Network refused: the host is missing from network in plugin.json, or the url is not https.
+		Tests: do not import register in a test file. The mod is already loaded; drive it with mod.emit, mod.render, mod.renderPage and mod.press from 'voidstrap/testing'.
+		Hooks time out after 2 seconds of running and async work is waited on for at most 10 seconds, so keep hooks short.
 		""";
 
 	public static McpToolResult ManageVoidstrapMods(JsonObject args)
