@@ -344,11 +344,13 @@ Toliau Windows paprašys jūsų patvirtinti sertifikato ištrynimą. Spustelėki
     <value>Nepavyko pervadinti tinkintos temos {0}: {1}</value>
   </data>
   <data name="Bootstrapper.StylePreview.ImageCancel" xml:space="preserve">
-    <value>Stiliaus peržiūra. Spustelėkite mygtuką X viršuje dešinėje, kad uždarytumėte</value>
+    <value>Stiliaus peržiūra
+Spustelėkite mygtuką X viršuje dešinėje, kad uždarytumėte</value>
     <comment>Text for style previews that use an X button. Currently only applies to Byfron</comment>
   </data>
   <data name="Bootstrapper.StylePreview.TextCancel" xml:space="preserve">
-    <value>Stiliaus peržiūra. Spustelėkite Atšaukti, kad uždarytumėte</value>
+    <value>Stiliaus peržiūra
+Spustelėkite Atšaukti, kad uždarytumėte</value>
     <comment>Text for style previews that use text button that says "Cancel"</comment>
   </data>
   <data name="Bootstrapper.SuccessfullyUninstalled" xml:space="preserve">

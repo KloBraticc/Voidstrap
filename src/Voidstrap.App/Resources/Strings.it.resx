@@ -344,11 +344,13 @@ Subito dopo Windows ti chiederà di confermare l'eliminazione del certificato. F
     <value>Rinominazione del tema personalizzato {0} non riuscita: {1}</value>
   </data>
   <data name="Bootstrapper.StylePreview.ImageCancel" xml:space="preserve">
-    <value>Anteprima stile - Clicca sul pulsante X in alto a destra per chiudere</value>
+    <value>Anteprima stile
+Clicca sul pulsante X in alto a destra per chiudere</value>
     <comment>Text for style previews that use an X button. Currently only applies to Byfron</comment>
   </data>
   <data name="Bootstrapper.StylePreview.TextCancel" xml:space="preserve">
-    <value>Anteprima stile - Clicca su Annulla per chiudere</value>
+    <value>Anteprima stile
+Clicca su Annulla per chiudere</value>
     <comment>Text for style previews that use text button that says "Cancel"</comment>
   </data>
   <data name="Bootstrapper.SuccessfullyUninstalled" xml:space="preserve">

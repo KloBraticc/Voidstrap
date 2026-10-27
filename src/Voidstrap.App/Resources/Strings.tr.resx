@@ -344,11 +344,13 @@ Ardından Windows sizden sertifikanın silinmesini onaylamanızı isteyecek. Tem
     <value>Özel tema {0} yeniden adlandırılamadı: {1}</value>
   </data>
   <data name="Bootstrapper.StylePreview.ImageCancel" xml:space="preserve">
-    <value>Stil önizleme - Kapatmak için sağ üst köşedeki X butonuna basın</value>
+    <value>Stil önizleme
+Kapatmak için sağ üst köşedeki X butonuna basın</value>
     <comment>Text for style previews that use an X button. Currently only applies to Byfron</comment>
   </data>
   <data name="Bootstrapper.StylePreview.TextCancel" xml:space="preserve">
-    <value>Stil önizleme - Kapatmak için "İptal et" butonuna basın</value>
+    <value>Stil önizleme
+Kapatmak için "İptal et" butonuna basın</value>
     <comment>Text for style previews that use text button that says "Cancel"</comment>
   </data>
   <data name="Bootstrapper.SuccessfullyUninstalled" xml:space="preserve">

@@ -344,11 +344,13 @@ Następnie Windows poprosi cię o potwierdzenie usunięcia certyfikatu. Kliknij 
     <value>Nie udało się zmienić nazwy niestandardowego motywu {0}: {1}</value>
   </data>
   <data name="Bootstrapper.StylePreview.ImageCancel" xml:space="preserve">
-    <value>Podgląd stylu - Kliknij „X” w prawym górnym rogu, aby zamknąć</value>
+    <value>Podgląd stylu
+Kliknij „X” w prawym górnym rogu, aby zamknąć</value>
     <comment>Text for style previews that use an X button. Currently only applies to Byfron</comment>
   </data>
   <data name="Bootstrapper.StylePreview.TextCancel" xml:space="preserve">
-    <value>Podgląd stylu - Kliknij „Anuluj”, aby zamknąć</value>
+    <value>Podgląd stylu
+Kliknij „Anuluj”, aby zamknąć</value>
     <comment>Text for style previews that use text button that says "Cancel"</comment>
   </data>
   <data name="Bootstrapper.SuccessfullyUninstalled" xml:space="preserve">

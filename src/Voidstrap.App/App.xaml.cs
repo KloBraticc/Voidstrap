@@ -1055,9 +1055,17 @@ public partial class App : Application
 			return;
 		}
 
-		long servicesStarted = Stopwatch.GetTimestamp();
-		InitializeServices();
-		LinuxUiPerformance.Duration("Services", servicesStarted);
+		bool launchingRoblox = LaunchSettings.RobloxLaunchMode != LaunchMode.None && !LaunchSettings.IsHelperInvocation;
+		if (launchingRoblox)
+		{
+			_ = Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(StartDeferredServices));
+		}
+		else
+		{
+			long servicesStarted = Stopwatch.GetTimestamp();
+			InitializeServices();
+			LinuxUiPerformance.Duration("Services", servicesStarted);
+		}
 		long appearanceStarted = Stopwatch.GetTimestamp();
 		InitializeAppearance();
 		LinuxUiPerformance.Duration("Appearance", appearanceStarted);
@@ -1523,6 +1531,13 @@ public partial class App : Application
 		Settings.Prop.ClockOverlayResetVersion = ClockOverlayResetVersion;
 		Settings.Save();
 		Logger.WriteLine("App::ResetClockOverlayOnce", "Clock overlay reset to off");
+	}
+
+	private void StartDeferredServices()
+	{
+		long servicesStarted = Stopwatch.GetTimestamp();
+		InitializeServices();
+		Logger.WriteLine("App::StartDeferredServices", "Background services started after the launcher appeared, took " + Stopwatch.GetElapsedTime(servicesStarted).TotalMilliseconds.ToString("0") + " ms");
 	}
 
 	private void InitializeServices()

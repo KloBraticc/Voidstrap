@@ -344,11 +344,13 @@
     <value>Не вдалося перейменувати кастомну тему {0}: {1}</value>
   </data>
   <data name="Bootstrapper.StylePreview.ImageCancel" xml:space="preserve">
-    <value>Перегляд стилю - натисніть кнопку X у верхньому правому кутку, щоб завершити перегляд</value>
+    <value>Перегляд стилю
+натисніть кнопку X у верхньому правому кутку, щоб завершити перегляд</value>
     <comment>Text for style previews that use an X button. Currently only applies to Byfron</comment>
   </data>
   <data name="Bootstrapper.StylePreview.TextCancel" xml:space="preserve">
-    <value>Перегляд стилю - Натисніть кнопку "Скасувати", щоб закрити</value>
+    <value>Перегляд стилю
+Натисніть кнопку "Скасувати", щоб закрити</value>
     <comment>Text for style previews that use text button that says "Cancel"</comment>
   </data>
   <data name="Bootstrapper.SuccessfullyUninstalled" xml:space="preserve">
