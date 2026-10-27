@@ -9175,4 +9175,10 @@ I-install pa rin?</value>
   <data name="Ui.VoidstrapMods.LibraryUninstall" xml:space="preserve">
     <value>I-uninstall</value>
   </data>
+  <data name="Plugins.RobloxAccountWarning" xml:space="preserve">
+    <value>Gustong gamitin ng mod na ito ang Roblox account mo. Ipinapadala ng Voidstrap ang mga request nito sa Roblox para sa kanya, kaya hindi kailanman nakikita ng mod ang login cookie mo at hindi niya ito maipapadala kahit saan. Pagbasa lang ng impormasyon ang kaya nito, hindi pagbili, pag-trade o pagpalit ng setting. Payagan lang kung pinagkakatiwalaan mo ang mod.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryRobloxAccess" xml:space="preserve">
+    <value>Ginagamit ang Roblox account mo (pagbasa lang, hindi nakikita ang login mo)</value>
+  </data>
 </root>

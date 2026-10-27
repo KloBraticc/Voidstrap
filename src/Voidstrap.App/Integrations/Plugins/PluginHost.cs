@@ -97,7 +97,10 @@ public static class PluginHost
 	public static void ForgetConsent(string name)
 	{
 		lock (Gate)
+		{
 			App.Settings.Prop.PluginConsent?.Remove(name);
+			App.Settings.Prop.PluginConsent?.Remove(PluginConsent.PermissionKey(name, PluginManifest.RobloxAccountPermission));
+		}
 		App.Settings.SaveDeferred();
 	}
 
@@ -248,6 +251,7 @@ public static class PluginHost
 					Statuses.Clear();
 				}
 				PluginSidebar.ClearModPages();
+				PluginAnchors.ClearAll();
 				List<PluginManifest> manifests = PluginManifest.Discover(Paths.Plugins);
 				List<LoadedPlugin> fresh = [];
 				foreach (PluginManifest manifest in manifests)
@@ -278,6 +282,7 @@ public static class PluginHost
 					plugin.Dispose();
 				Invoke("session.start", new JsonObject { ["source"] = old.Count > 0 ? "reload" : "startup" });
 				PluginSidebar.ApplyToWindows();
+				PluginAnchors.ApplyAll();
 				ModsChanged?.Invoke();
 				PanesChanged?.Invoke();
 				BannersChanged?.Invoke();
@@ -372,6 +377,25 @@ public static class PluginHost
 				["plugin"] = plugin,
 				["surface"] = "desktop"
 			}, static _ => null, "page." + id);
+		}
+		finally
+		{
+			_renderDepth--;
+		}
+	}
+
+	public static JsonNode? RenderWidget(string plugin, string id)
+	{
+		_renderDepth++;
+		try
+		{
+			return Invoke("ui.render", new JsonObject
+			{
+				["component"] = "Widget",
+				["requestId"] = id,
+				["plugin"] = plugin,
+				["surface"] = "desktop"
+			}, static _ => null, "widget." + id);
 		}
 		finally
 		{
@@ -574,6 +598,9 @@ public static class PluginHost
 			      close: id => host.uiClose(String(id)),
 			      openBanner: request => parse(host.uiOpenBanner(JSON.stringify(typeof request === 'string' ? { id: request } : (request || {})))),
 			      closeBanner: id => host.uiCloseBanner(String(id)),
+			      attach: request => parse(host.uiAttach(JSON.stringify(request || {}))),
+			      detach: id => host.uiDetach(String(id)),
+			      anchors: () => parse(host.uiAnchors()),
 			      openDialog: request => host.uiOpenDialog(JSON.stringify(typeof request === 'string' ? { id: request } : (request || {}))),
 			      closeDialog: id => host.uiCloseDialog(String(id)),
 			      message: (text, title) => host.uiMessage(String(text), title === undefined ? '' : String(title)),
@@ -633,7 +660,9 @@ public static class PluginHost
 			    }),
 			    roblox: Object.freeze({
 			      status: () => parse(host.robloxStatus()),
-			      launch: spec => host.robloxLaunch(JSON.stringify(spec || {}))
+			      launch: spec => host.robloxLaunch(JSON.stringify(spec || {})),
+			      request: request => host.robloxRequest(JSON.stringify(typeof request === 'string' ? { url: request } : (request || {}))).then(text => JSON.parse(text)),
+			      account: () => host.robloxAccount().then(text => JSON.parse(text))
 			    }),
 			    clipboard: Object.freeze({
 			      get: () => String(host.clipboardGet()),
@@ -776,6 +805,20 @@ public static class PluginHost
 					return new JsonObject { ["isPlaced"] = true, ["position"] = pos }.ToJsonString();
 				return OpenBanner(Name, request["id"]?.ToString() ?? "banner", pos).ToJsonString();
 			}));
+			host.Set("uiAttach", Host("uiAttach", a =>
+			{
+				JsonObject request = JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject();
+				if (_sandbox)
+					return new JsonObject { ["isPlaced"] = true, ["reason"] = "" }.ToJsonString();
+				return PluginAnchors.Attach(Name, request).ToJsonString();
+			}));
+			host.Set("uiDetach", Host("uiDetach", a =>
+			{
+				if (!_sandbox)
+					PluginAnchors.Detach(Name, Arg(a, 0));
+				return JsValue.Undefined;
+			}));
+			host.Set("uiAnchors", Host("uiAnchors", _ => _sandbox ? "[]" : PluginNavigation.InvokeUiBounded(() => PluginAnchors.Map().ToJsonString(), "[]", 1500)));
 			host.Set("uiCloseBanner", Host("uiCloseBanner", a =>
 			{
 				if (!_sandbox)
@@ -932,6 +975,21 @@ public static class PluginHost
 				return JsValue.Undefined;
 			}));
 			host.Set("robloxStatus", Host("robloxStatus", _ => PluginRoblox.Status()));
+			host.Set("robloxRequest", Host("robloxRequest", a =>
+			{
+				if (_sandbox)
+					return RunAsync(() => Task.FromResult(new JsonObject { ["status"] = 200, ["ok"] = true, ["text"] = "{}" }));
+				PluginRobloxAccount.EnsureAllowed(Name);
+				(Uri uri, string method, string? body) = PluginRobloxAccount.Validate(JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject());
+				return RunAsync(() => PluginRobloxAccount.SendAsync(uri, method, body, CancellationToken.None));
+			}));
+			host.Set("robloxAccount", Host("robloxAccount", _ =>
+			{
+				if (_sandbox)
+					return RunAsync(() => Task.FromResult(new JsonObject { ["signedIn"] = true, ["userId"] = 1, ["username"] = "TestUser", ["displayName"] = "Test User" }));
+				PluginRobloxAccount.EnsureAllowed(Name);
+				return RunAsync(() => PluginRobloxAccount.AccountAsync(CancellationToken.None));
+			}));
 			host.Set("robloxLaunch", Host("robloxLaunch", a =>
 			{
 				if (!_sandbox)
@@ -1052,6 +1110,48 @@ public static class PluginHost
 						catch (Exception ex)
 						{
 							Problem(Name, "a network callback failed: " + Describe(ex));
+						}
+					}
+					Monitor.PulseAll(_gate);
+				}
+				Invalidate(Name);
+			});
+			return promise;
+		}
+
+		private JsValue RunAsync(Func<Task<JsonObject>> work)
+		{
+			var (promise, resolve, reject) = _engine.Advanced.RegisterPromise();
+			_pending++;
+			_ = Task.Run(async () =>
+			{
+				JsonObject? result = null;
+				string error = "";
+				try
+				{
+					result = await work().ConfigureAwait(false);
+				}
+				catch (Exception ex)
+				{
+					error = Describe(ex);
+				}
+				lock (_gate)
+				{
+					_pending--;
+					if (!_disposed)
+					{
+						try
+						{
+							_engine.Constraints.Reset();
+							if (result != null)
+								resolve(result.ToJsonString());
+							else
+								reject(error);
+							_engine.Advanced.ProcessTasks();
+						}
+						catch (Exception ex)
+						{
+							Problem(Name, "a request callback failed: " + Describe(ex));
 						}
 					}
 					Monitor.PulseAll(_gate);

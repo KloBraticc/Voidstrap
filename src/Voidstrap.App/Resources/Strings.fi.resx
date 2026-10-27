@@ -9178,4 +9178,10 @@ Asennetaanko silti?</value>
   <data name="Ui.VoidstrapMods.LibraryUninstall" xml:space="preserve">
     <value>Poista asennus</value>
   </data>
+  <data name="Plugins.RobloxAccountWarning" xml:space="preserve">
+    <value>Tämä modi pyytää lupaa käyttää Roblox-tiliäsi. Voidstrap lähettää sen pyynnöt Robloxiin sen puolesta, joten modi ei koskaan näe kirjautumisevästettäsi eikä voi lähettää sitä minnekään. Se voi vain lukea tietoja, ei ostaa, vaihtaa tai muuttaa asetuksia. Salli tämä vain, jos luotat modiin.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryRobloxAccess" xml:space="preserve">
+    <value>Käyttää Roblox-tiliäsi (vain luku, ei koskaan näe kirjautumistasi)</value>
+  </data>
 </root>

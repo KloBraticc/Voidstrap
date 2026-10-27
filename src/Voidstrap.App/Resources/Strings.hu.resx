@@ -9176,4 +9176,10 @@ Mégis telepíted?</value>
   <data name="Ui.VoidstrapMods.LibraryUninstall" xml:space="preserve">
     <value>Eltávolítás</value>
   </data>
+  <data name="Plugins.RobloxAccountWarning" xml:space="preserve">
+    <value>Ez a mod a Roblox fiókodat szeretné használni. A Voidstrap küldi el helyette a kéréseit a Robloxnak, így a mod sosem látja a bejelentkezési sütidet, és nem tudja sehova elküldeni. Csak adatokat olvashat, vásárolni, cserélni vagy beállításokat módosítani nem. Csak akkor engedélyezd, ha megbízol a modban.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryRobloxAccess" xml:space="preserve">
+    <value>A Roblox fiókodat használja (csak olvasás, sosem látja a bejelentkezésed)</value>
+  </data>
 </root>

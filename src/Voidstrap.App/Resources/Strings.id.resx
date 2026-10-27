@@ -9179,4 +9179,10 @@ Tetap instal?</value>
   <data name="Ui.VoidstrapMods.LibraryUninstall" xml:space="preserve">
     <value>Copot pemasangan</value>
   </data>
+  <data name="Plugins.RobloxAccountWarning" xml:space="preserve">
+    <value>Mod ini meminta izin memakai akun Roblox Anda. Voidstrap mengirim permintaannya ke Roblox untuknya, jadi mod tidak pernah melihat cookie login Anda dan tidak bisa mengirimnya ke mana pun. Mod hanya dapat membaca informasi, bukan membeli, berdagang, atau mengubah pengaturan. Izinkan hanya jika Anda memercayai mod ini.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryRobloxAccess" xml:space="preserve">
+    <value>Memakai akun Roblox Anda (hanya baca, tidak pernah melihat login Anda)</value>
+  </data>
 </root>

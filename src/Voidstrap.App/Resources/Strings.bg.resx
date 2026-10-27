@@ -9177,4 +9177,10 @@ Voidstrap проверява всеки файл спрямо библиотек
   <data name="Ui.VoidstrapMods.LibraryUninstall" xml:space="preserve">
     <value>Деинсталиране</value>
   </data>
+  <data name="Plugins.RobloxAccountWarning" xml:space="preserve">
+    <value>Този мод иска да използва акаунта Ви в Roblox. Voidstrap изпраща заявките му до Roblox вместо него, така че модът никога не вижда бисквитката Ви за вход и не може да я изпрати никъде. Може само да чете информация, не да купува, разменя или променя настройки. Разрешете това само ако имате доверие на мода.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryRobloxAccess" xml:space="preserve">
+    <value>Използва акаунта Ви в Roblox (само четене, никога не вижда входа Ви)</value>
+  </data>
 </root>

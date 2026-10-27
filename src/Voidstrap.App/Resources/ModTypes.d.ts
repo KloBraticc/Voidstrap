@@ -3,7 +3,26 @@ declare module 'voidstrap' {
 
   export type Surface = 'desktop';
 
-  export type UiComponentKind = 'Pane' | 'Page' | 'Banner' | 'Dialog';
+  export type UiComponentKind = 'Pane' | 'Page' | 'Banner' | 'Dialog' | 'Widget';
+
+  export interface Anchor {
+    name: string;
+    type: string;
+    text: string;
+    parent: string;
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    attachable: boolean;
+  }
+
+  export interface RobloxAccountInfo {
+    signedIn: boolean;
+    userId?: number;
+    username?: string;
+    displayName?: string;
+  }
 
   export interface Events {
     'session.start': { input: { source: 'startup' | 'reload' }; result: unknown };
@@ -199,6 +218,9 @@ declare module 'voidstrap' {
       close(id: string): void;
       openBanner(request: string | { id: string; position?: 'top' | 'bottom' }): { isPlaced: boolean; position: string };
       closeBanner(id: string): void;
+      attach(request: { id: string; anchor: string; placement?: 'before' | 'after' | 'start' | 'end' }): { isPlaced: boolean; reason: string };
+      detach(id: string): void;
+      anchors(): Anchor[];
       openDialog(request: string | { id: string; title?: string; width?: number; height?: number }): void;
       closeDialog(id: string): void;
       message(text: string, title?: string): void;
@@ -250,6 +272,8 @@ declare module 'voidstrap' {
     roblox: {
       status(): { isRunning: boolean; pid: number };
       launch(spec?: { mode?: 'player' | 'studio'; placeId?: number; jobId?: string }): void;
+      request(request: string | { url: string; method?: 'GET' | 'POST'; body?: string }): Promise<FetchResult>;
+      account(): Promise<RobloxAccountInfo>;
     };
     clipboard: {
       get(): string;

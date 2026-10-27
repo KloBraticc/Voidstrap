@@ -9178,4 +9178,10 @@ Přesto nainstalovat?</value>
   <data name="Ui.VoidstrapMods.LibraryUninstall" xml:space="preserve">
     <value>Odinstalovat</value>
   </data>
+  <data name="Plugins.RobloxAccountWarning" xml:space="preserve">
+    <value>Tento mod chce používat Váš účet Roblox. Voidstrap za něj posílá požadavky do Roblox, takže mod nikdy neuvidí Váš přihlašovací soubor cookie a nemůže ho nikam odeslat. Může jen číst informace, ne nakupovat, obchodovat nebo měnit nastavení. Povolte to jen tehdy, pokud modu důvěřujete.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryRobloxAccess" xml:space="preserve">
+    <value>Používá Váš účet Roblox (jen čtení, nikdy nevidí Vaše přihlášení)</value>
+  </data>
 </root>

@@ -9175,4 +9175,10 @@ Yine de yüklensin mi?</value>
   <data name="Ui.VoidstrapMods.LibraryUninstall" xml:space="preserve">
     <value>Kaldır</value>
   </data>
+  <data name="Plugins.RobloxAccountWarning" xml:space="preserve">
+    <value>Bu mod Roblox hesabınızı kullanmak istiyor. Voidstrap isteklerini onun yerine Roblox'a gönderir, böylece mod giriş çerezinizi hiç görmez ve hiçbir yere gönderemez. Yalnızca bilgi okuyabilir, satın alamaz, takas yapamaz veya ayarları değiştiremez. Yalnızca moda güveniyorsanız izin verin.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryRobloxAccess" xml:space="preserve">
+    <value>Roblox hesabınızı kullanır (salt okunur, girişinizi hiç görmez)</value>
+  </data>
 </root>

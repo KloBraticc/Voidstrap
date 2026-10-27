@@ -548,7 +548,7 @@ public partial class VoidstrapModsPage : UiPage
 		System.Windows.Controls.TextBlock author = StyledText("RowMeta", "@" + mod.Login);
 		author.SetResourceReference(System.Windows.Controls.TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
 		meta.Children.Add(author);
-		System.Windows.Controls.TextBlock network = StyledText("RowMeta", mod.Network.Count == 0 ? Strings.Ui_VoidstrapMods_LibraryNoNetwork : string.Format(Strings.Ui_VoidstrapMods_LibraryNetwork, string.Join(", ", mod.Network)));
+		System.Windows.Controls.TextBlock network = StyledText("RowMeta", (mod.Network.Count == 0 ? Strings.Ui_VoidstrapMods_LibraryNoNetwork : string.Format(Strings.Ui_VoidstrapMods_LibraryNetwork, string.Join(", ", mod.Network))) + (mod.UsesRobloxAccount ? "   " + Strings.Ui_VoidstrapMods_LibraryRobloxAccess : ""));
 		network.Margin = new Thickness(12, 0, 0, 0);
 		meta.Children.Add(network);
 		text.Children.Add(meta);
@@ -608,7 +608,7 @@ public partial class VoidstrapModsPage : UiPage
 		bool hasIcon = _libraryIcons.TryGetValue(mod.Id, out BitmapSource? icon) && icon != null;
 		DetailIcon.Source = hasIcon ? icon : null;
 		DetailIconFallback.Visibility = hasIcon ? Visibility.Collapsed : Visibility.Visible;
-		DetailNetwork.Text = mod.Network.Count == 0 ? Strings.Ui_VoidstrapMods_LibraryNoNetwork : string.Join(Environment.NewLine, mod.Network);
+		DetailNetwork.Text = (mod.Network.Count == 0 ? Strings.Ui_VoidstrapMods_LibraryNoNetwork : string.Join(Environment.NewLine, mod.Network)) + (mod.UsesRobloxAccount ? Environment.NewLine + Strings.Ui_VoidstrapMods_LibraryRobloxAccess : "");
 		DetailFiles.Text = string.Join(Environment.NewLine, mod.Files.Select(f => f.Path + "   " + FormatSize(f.Size)));
 		DetailVersion.Text = mod.Version;
 		DetailUpdated.Text = (mod.Updated ?? mod.Created)?.ToLocalTime().ToString("d") ?? "";

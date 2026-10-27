@@ -4995,6 +4995,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             long loadedStarted = System.Diagnostics.Stopwatch.GetTimestamp();
             InitializeNavigation();
+            Voidstrap.Integrations.Plugins.PluginAnchors.ApplyAll();
             ApplyUiZoom();
             LoadSidebarWidth();
             ApplyLinuxWindowSize();

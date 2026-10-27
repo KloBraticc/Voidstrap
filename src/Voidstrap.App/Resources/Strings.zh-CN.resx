@@ -9201,4 +9201,10 @@ Voidstrap 会在安装前根据模组库核对每个文件,并在启用模组前
   <data name="Ui.VoidstrapMods.LibraryUninstall" xml:space="preserve">
     <value>卸载</value>
   </data>
+  <data name="Plugins.RobloxAccountWarning" xml:space="preserve">
+    <value>此模组请求使用您的 Roblox 账号。Voidstrap 会代替它向 Roblox 发送请求,因此模组永远看不到您的登录 Cookie,也无法把它发送到任何地方。它只能读取信息,不能购买、交易或更改设置。仅在您信任此模组时允许。</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryRobloxAccess" xml:space="preserve">
+    <value>使用您的 Roblox 账号(只读,看不到您的登录信息)</value>
+  </data>
 </root>

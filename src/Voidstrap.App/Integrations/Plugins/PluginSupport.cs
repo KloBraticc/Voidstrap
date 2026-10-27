@@ -21,13 +21,24 @@ internal static class PluginConsent
 {
 	private static readonly object Gate = new();
 
-	public static bool IsAllowed(PluginManifest manifest)
+	public static string PermissionKey(string mod, string permission) => mod + "#" + permission;
+
+	public static bool HasGrant(string mod, string permission)
 	{
 		Dictionary<string, bool> consent = App.Settings.Prop.PluginConsent ??= [];
 		lock (Gate)
+			return consent.TryGetValue(PermissionKey(mod, permission), out bool granted) && granted;
+	}
+
+	public static bool IsAllowed(PluginManifest manifest)
+	{
+		Dictionary<string, bool> consent = App.Settings.Prop.PluginConsent ??= [];
+		bool needsAccount = manifest.HasPermission(PluginManifest.RobloxAccountPermission);
+		string accountKey = PermissionKey(manifest.Name, PluginManifest.RobloxAccountPermission);
+		lock (Gate)
 		{
-			if (consent.TryGetValue(manifest.Name, out bool allowed))
-				return allowed;
+			if (consent.TryGetValue(manifest.Name, out bool allowed) && (!allowed || !needsAccount || consent.ContainsKey(accountKey)))
+				return allowed && (!needsAccount || consent[accountKey]);
 		}
 		System.Windows.Threading.Dispatcher? dispatcher = Application.Current?.Dispatcher;
 		if (dispatcher == null || dispatcher.HasShutdownStarted)
@@ -35,9 +46,12 @@ internal static class PluginConsent
 		bool answer;
 		try
 		{
+			string prompt = string.Format(Strings.Plugins_TurnOnPrompt, manifest.Name, manifest.Description.Length > 0 ? manifest.Description : manifest.Name);
+			if (needsAccount)
+				prompt += Environment.NewLine + Environment.NewLine + Strings.Plugins_RobloxAccountWarning;
 			answer = dispatcher.Invoke(() => Frontend.ShowMessageBox(
-				string.Format(Strings.Plugins_TurnOnPrompt, manifest.Name, manifest.Description.Length > 0 ? manifest.Description : manifest.Name),
-				MessageBoxImage.Question,
+				prompt,
+				needsAccount ? MessageBoxImage.Warning : MessageBoxImage.Question,
 				MessageBoxButton.YesNo,
 				MessageBoxResult.No) == MessageBoxResult.Yes);
 		}
@@ -46,7 +60,13 @@ internal static class PluginConsent
 			return false;
 		}
 		lock (Gate)
+		{
 			consent[manifest.Name] = answer;
+			if (needsAccount)
+				consent[accountKey] = answer;
+			else
+				consent.Remove(accountKey);
+		}
 		App.Settings.SaveDeferred();
 		App.Logger.WriteLine("VoidstrapMods", manifest.Name + ": " + (answer ? "turned on by the user" : "left off by the user"));
 		return answer;

@@ -9177,4 +9177,10 @@ NO lo instales salvo que confíes en @{2}. Solo las comprobaciones automáticas 
   <data name="Ui.VoidstrapMods.LibraryUninstall" xml:space="preserve">
     <value>Desinstalar</value>
   </data>
+  <data name="Plugins.RobloxAccountWarning" xml:space="preserve">
+    <value>Este mod quiere usar tu cuenta de Roblox. Voidstrap envía sus solicitudes a Roblox por él, así que el mod nunca ve tu cookie de inicio de sesión y no puede enviarla a ningún sitio. Solo puede leer información, no comprar, intercambiar ni cambiar ajustes. Permítelo solo si confías en el mod.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryRobloxAccess" xml:space="preserve">
+    <value>Usa tu cuenta de Roblox (solo lectura, nunca ve tu inicio de sesión)</value>
+  </data>
 </root>

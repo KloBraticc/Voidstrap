@@ -9178,4 +9178,10 @@ Toch installeren?</value>
   <data name="Ui.VoidstrapMods.LibraryUninstall" xml:space="preserve">
     <value>Verwijderen</value>
   </data>
+  <data name="Plugins.RobloxAccountWarning" xml:space="preserve">
+    <value>Deze mod wil je Roblox-account gebruiken. Voidstrap stuurt de verzoeken namens de mod naar Roblox, dus de mod ziet je inlogcookie nooit en kan die nergens naartoe sturen. Hij kan alleen informatie lezen, niet kopen, ruilen of instellingen wijzigen. Sta dit alleen toe als je de mod vertrouwt.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryRobloxAccess" xml:space="preserve">
+    <value>Gebruikt je Roblox-account (alleen lezen, ziet je inlog nooit)</value>
+  </data>
 </root>

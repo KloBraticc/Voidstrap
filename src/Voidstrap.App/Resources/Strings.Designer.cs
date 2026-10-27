@@ -9527,5 +9527,17 @@ namespace Voidstrap.Resources {
                 return ResourceManager.GetString("Ui.VoidstrapMods.LibraryUninstall", resourceCulture);
             }
         }
+
+        public static string Plugins_RobloxAccountWarning {
+            get {
+                return ResourceManager.GetString("Plugins.RobloxAccountWarning", resourceCulture);
+            }
+        }
+
+        public static string Ui_VoidstrapMods_LibraryRobloxAccess {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.LibraryRobloxAccess", resourceCulture);
+            }
+        }
     }
 }

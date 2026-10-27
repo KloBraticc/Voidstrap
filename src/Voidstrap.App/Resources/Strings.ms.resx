@@ -9168,4 +9168,10 @@ Pasang juga?</value>
   <data name="Ui.VoidstrapMods.LibraryUninstall" xml:space="preserve">
     <value>Nyahpasang</value>
   </data>
+  <data name="Plugins.RobloxAccountWarning" xml:space="preserve">
+    <value>Mod ini meminta untuk menggunakan akaun Roblox anda. Voidstrap menghantar permintaannya kepada Roblox bagi pihaknya, jadi mod tidak pernah melihat kuki log masuk anda dan tidak boleh menghantarnya ke mana-mana. Ia hanya boleh membaca maklumat, bukan membeli, berdagang atau menukar tetapan. Benarkan hanya jika anda mempercayai mod ini.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryRobloxAccess" xml:space="preserve">
+    <value>Menggunakan akaun Roblox anda (baca sahaja, tidak pernah melihat log masuk anda)</value>
+  </data>
 </root>

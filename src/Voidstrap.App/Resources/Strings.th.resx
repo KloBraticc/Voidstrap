@@ -9172,4 +9172,10 @@ Voidstrap จะตรวจสอบทุกไฟล์กับคลัง�
   <data name="Ui.VoidstrapMods.LibraryUninstall" xml:space="preserve">
     <value>ถอนการติดตั้ง</value>
   </data>
+  <data name="Plugins.RobloxAccountWarning" xml:space="preserve">
+    <value>ม็อดนี้ขอใช้บัญชี Roblox ของคุณ Voidstrap จะส่งคำขอไปยัง Roblox แทนม็อด ม็อดจึงไม่เห็นคุกกี้การเข้าสู่ระบบของคุณและส่งไปที่ใดไม่ได้ ม็อดอ่านข้อมูลได้อย่างเดียว ซื้อ แลกเปลี่ยน หรือเปลี่ยนการตั้งค่าไม่ได้ อนุญาตเฉพาะเมื่อคุณเชื่อถือม็อดนี้</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryRobloxAccess" xml:space="preserve">
+    <value>ใช้บัญชี Roblox ของคุณ (อ่านอย่างเดียว ไม่เห็นการเข้าสู่ระบบของคุณ)</value>
+  </data>
 </root>

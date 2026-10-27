@@ -9178,4 +9178,10 @@ Vis tiek įdiegti?</value>
   <data name="Ui.VoidstrapMods.LibraryUninstall" xml:space="preserve">
     <value>Pašalinti</value>
   </data>
+  <data name="Plugins.RobloxAccountWarning" xml:space="preserve">
+    <value>Šis modas prašo naudoti jūsų Roblox paskyrą. Voidstrap jo užklausas į Roblox siunčia pats, todėl modas niekada nemato jūsų prisijungimo slapuko ir negali jo niekur išsiųsti. Jis gali tik skaityti informaciją, o ne pirkti, mainytis ar keisti nustatymus. Leiskite tai tik jei pasitikite modu.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryRobloxAccess" xml:space="preserve">
+    <value>Naudoja jūsų Roblox paskyrą (tik skaitymas, niekada nemato prisijungimo)</value>
+  </data>
 </root>

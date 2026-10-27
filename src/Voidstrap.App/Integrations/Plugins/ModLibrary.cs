@@ -56,7 +56,10 @@ public static partial class ModLibrary
 
 	public sealed record LibraryFile(string Path, long Size, string Sha256);
 
-	public sealed record LibraryMod(string Id, string Name, long OwnerId, string Login, string Version, string Description, IReadOnlyList<string> Tags, IReadOnlyList<string> Network, bool HasIcon, DateTime? Created, DateTime? Updated, bool Verified, bool Trusted, int Featured, IReadOnlyList<LibraryFile> Files);
+	public sealed record LibraryMod(string Id, string Name, long OwnerId, string Login, string Version, string Description, IReadOnlyList<string> Tags, IReadOnlyList<string> Network, bool HasIcon, DateTime? Created, DateTime? Updated, bool Verified, bool Trusted, int Featured, IReadOnlyList<LibraryFile> Files, IReadOnlyList<string> Permissions)
+	{
+		public bool UsesRobloxAccount => Permissions.Contains(PluginManifest.RobloxAccountPermission, StringComparer.Ordinal);
+	}
 
 	public sealed record Index(string Commit, IReadOnlyList<LibraryMod> Mods, IReadOnlyDictionary<string, string> Blocked);
 
@@ -172,7 +175,7 @@ public static partial class ModLibrary
 			description = description[..300];
 		List<string> tags = (node["tags"] as JsonArray ?? []).Select(t => t?.GetValue<string>() ?? "").Where(t => t.Length is > 0 and <= 32 && t.All(c => char.IsAsciiLetterLower(c) || char.IsAsciiDigit(c) || c == '-')).Distinct().Take(5).ToList();
 		int featured = Math.Clamp(node["featured"]?.GetValue<int>() ?? 0, 0, 100);
-		return new LibraryMod(ownerId + "/" + name, name, ownerId, login, version, description, tags, network, files.Any(f => f.Path == ModFiles.IconFile), ParseDate(node["created"]), ParseDate(node["updated"]), node["verified"]?.GetValue<bool>() == true, node["trusted"]?.GetValue<bool>() == true, featured, files);
+		return new LibraryMod(ownerId + "/" + name, name, ownerId, login, version, description, tags, network, files.Any(f => f.Path == ModFiles.IconFile), ParseDate(node["created"]), ParseDate(node["updated"]), node["verified"]?.GetValue<bool>() == true, node["trusted"]?.GetValue<bool>() == true, featured, files, (node["permissions"] as JsonArray ?? []).Select(x => x?.GetValue<string>() ?? "").Where(x => x == PluginManifest.RobloxAccountPermission).Distinct().ToList());
 	}
 
 	private static DateTime? ParseDate(JsonNode? node)

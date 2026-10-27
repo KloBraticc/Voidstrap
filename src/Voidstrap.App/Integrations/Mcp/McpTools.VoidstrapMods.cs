@@ -80,6 +80,43 @@ public static partial class McpTools
 		Tests: do not import register in a test file. The mod is already loaded; drive it with mod.emit, mod.render, mod.renderPage and mod.press from 'voidstrap/testing'.
 		Hooks time out after 2 seconds of running and async work is waited on for at most 10 seconds, so keep hooks short.
 
+		PLACING UI ANYWHERE IN VOIDSTRAP
+		Call manage_voidstrap_mods action ui_map first. It returns every named element in the live Voidstrap window: name, type, visible text, parent, x, y, width, height (pixels from the window's top left) and attachable.
+		Pick an element near where the user wants the new UI, then attach a widget next to it in session.start:
+		  $.ui.attach({ id: 'friends', anchor: 'TopNavBack', placement: 'before' });   placement is before, after, start or end
+		Draw it with on('ui.render', { component: 'Widget', requestId: 'friends' }, ...). It redraws whenever the mod's state changes.
+		Only elements with attachable true can take a widget; if yours is false, use a neighbour or its parent from ui_map. $.ui.anchors() returns the same list at runtime.
+		Well known spots: TopNavBack and TopNavForward are the Back and Next arrows at the top right of the title bar, TopNavPanel is the top left menu (Home, Library, Servers, Voidstrap mods, News).
+
+		USING THE ROBLOX ACCOUNT SAFELY
+		A mod never reads the Roblox login cookie. Add "permissions": ["roblox-account"] to plugin.json, then use:
+		  const r = await $.roblox.request('https://friends.roblox.com/v1/my/friends/count');   Voidstrap adds the login itself
+		  const me = await $.roblox.account();   { signedIn, userId, username, displayName }
+		Only https GET to Roblox API hosts (users, friends, presence, thumbnails, games, groups, badges, catalog, avatar, inventory, economy, followings, develop) and a few read only POST lookups are allowed, at most 60 a minute. The user approves Roblox account access separately. Never put cookies, ROBLOSECURITY or tokens in mod code: the library refuses it.
+
+		FULL EXAMPLE: Roblox friend count next to the Back and Next arrows
+		plugin.json: { "name": "friend-count", "version": "1.0.0", "description": "Shows how many Roblox friends you have next to the Back and Next arrows.", "network": [], "permissions": ["roblox-account"], "userConfig": {} }
+		hooks/register.tsx:
+		  import type { Register } from 'voidstrap';
+		  const count = atom('count', -1);
+		  export const register: Register = (on) => {
+		    on('session.start', ($, e, next) => {
+		      const refresh = async () => {
+		        const r = await $.roblox.request('https://friends.roblox.com/v1/my/friends/count');
+		        if (r.ok) $.state.set('count', JSON.parse(r.text).count);
+		      };
+		      $.ui.attach({ id: 'friends', anchor: 'TopNavBack', placement: 'before' });
+		      refresh();
+		      $.clock.every(60000, refresh);
+		      return next(e);
+		    });
+		    on('ui.render', { component: 'Widget', requestId: 'friends' }, ($) => {
+		      const { Text } = $.ui.resolve();
+		      const n = read($, count);
+		      return <Text text={n < 0 ? '...' : n + ' friends'} bold={true} />;
+		    });
+		  };
+
 		SHARING IN THE LIBRARY
 		The Voidstrap mods library (https://github.com/KloBraticc/voidstrap-mods-library) holds community mods. library_search lists them, library_install asks the user to install one.
 		To share a mod: validate and test it, raise its version for an update, then call publish with mod and optional notes. Voidstrap opens a window where the user signs in to GitHub and presses Publish for review; it then opens a pull request from the user's own account.
@@ -119,6 +156,11 @@ public static partial class McpTools
 			case "reload":
 				PluginHost.Reload();
 				return new McpToolResult("Reloaded the Voidstrap mods. Call list to see what loaded and any problems.");
+			case "ui_map":
+			{
+				JsonArray map = Application.Current.Dispatcher.Invoke(PluginAnchors.Map);
+				return new McpToolResult(new JsonObject { ["note"] = "Named elements in the live Voidstrap window. Attach a widget next to one whose attachable is true with $.ui.attach({ id, anchor: name, placement }).", ["elements"] = map }.ToJsonString(IndentedJson));
+			}
 			case "library_search":
 			{
 				ModLibrary.Index index = ModLibrary.GetIndexAsync(false, CancellationToken.None).GetAwaiter().GetResult();

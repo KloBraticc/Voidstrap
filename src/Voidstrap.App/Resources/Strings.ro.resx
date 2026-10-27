@@ -9178,4 +9178,10 @@ NU îl instala decât dacă ai încredere în @{2}. Doar verificările automate 
   <data name="Ui.VoidstrapMods.LibraryUninstall" xml:space="preserve">
     <value>Dezinstalează</value>
   </data>
+  <data name="Plugins.RobloxAccountWarning" xml:space="preserve">
+    <value>Acest mod cere să îți folosească contul Roblox. Voidstrap trimite cererile lui către Roblox în locul lui, așa că modul nu vede niciodată cookie-ul tău de autentificare și nu îl poate trimite nicăieri. Poate doar să citească informații, nu să cumpere, să facă schimburi sau să schimbe setări. Permite asta doar dacă ai încredere în mod.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryRobloxAccess" xml:space="preserve">
+    <value>Folosește contul tău Roblox (doar citire, nu vede niciodată autentificarea)</value>
+  </data>
 </root>

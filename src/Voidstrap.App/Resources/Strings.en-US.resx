@@ -1766,4 +1766,10 @@ Install anyway?</value>
   <data name="Ui.VoidstrapMods.LibraryUninstall" xml:space="preserve">
     <value>Uninstall</value>
   </data>
+  <data name="Plugins.RobloxAccountWarning" xml:space="preserve">
+    <value>This mod asks to use your Roblox account. Voidstrap sends its requests to Roblox for it, so the mod never sees your login cookie and cannot send it anywhere. It can only read information, not buy, trade or change settings. Only allow this if you trust the mod.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryRobloxAccess" xml:space="preserve">
+    <value>Uses your Roblox account (read only, never sees your login)</value>
+  </data>
 </root>

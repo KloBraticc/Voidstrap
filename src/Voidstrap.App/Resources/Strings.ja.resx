@@ -9191,4 +9191,10 @@ Voidstrap はインストール前にすべてのファイルをライブラリ�
   <data name="Ui.VoidstrapMods.LibraryUninstall" xml:space="preserve">
     <value>アンインストール</value>
   </data>
+  <data name="Plugins.RobloxAccountWarning" xml:space="preserve">
+    <value>この Mod は Roblox アカウントの使用を求めています。Voidstrap が代わりに Roblox へリクエストを送るため、Mod がログイン Cookie を見ることはなく、どこにも送信できません。できるのは情報の読み取りだけで、購入、トレード、設定の変更はできません。この Mod を信頼できる場合にのみ許可してください。</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryRobloxAccess" xml:space="preserve">
+    <value>Roblox アカウントを使用 (読み取り専用、ログイン情報は見えません)</value>
+  </data>
 </root>

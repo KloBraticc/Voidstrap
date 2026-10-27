@@ -9176,4 +9176,10 @@
   <data name="Ui.VoidstrapMods.LibraryUninstall" xml:space="preserve">
     <value>إلغاء التثبيت</value>
   </data>
+  <data name="Plugins.RobloxAccountWarning" xml:space="preserve">
+    <value>يطلب هذا التعديل استخدام حسابك على Roblox. يرسل Voidstrap طلباته إلى Roblox نيابة عنه، فلا يرى التعديل ملف تعريف الارتباط الخاص بتسجيل دخولك ولا يستطيع إرساله إلى أي مكان. يمكنه قراءة المعلومات فقط، لا الشراء أو المقايضة أو تغيير الإعدادات. اسمح بذلك فقط إذا كنت تثق بالتعديل.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryRobloxAccess" xml:space="preserve">
+    <value>يستخدم حسابك على Roblox (قراءة فقط، لا يرى بيانات دخولك)</value>
+  </data>
 </root>

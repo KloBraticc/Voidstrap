@@ -9179,4 +9179,10 @@ Voidstrap پیش از نصب هر فایل را با کتابخانه مقایس
   <data name="Ui.VoidstrapMods.LibraryUninstall" xml:space="preserve">
     <value>حذف نصب</value>
   </data>
+  <data name="Plugins.RobloxAccountWarning" xml:space="preserve">
+    <value>این ماد می‌خواهد از حساب Roblox شما استفاده کند. Voidstrap درخواست‌های آن را به‌جای خودش به Roblox می‌فرستد، پس ماد هرگز کوکی ورود شما را نمی‌بیند و نمی‌تواند آن را به جایی بفرستد. فقط می‌تواند اطلاعات را بخواند، نه خرید، معامله یا تغییر تنظیمات. فقط اگر به ماد اعتماد دارید اجازه دهید.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryRobloxAccess" xml:space="preserve">
+    <value>از حساب Roblox شما استفاده می‌کند (فقط خواندنی، ورود شما را نمی‌بیند)</value>
+  </data>
 </root>

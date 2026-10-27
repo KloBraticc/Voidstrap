@@ -9180,4 +9180,10 @@ Vẫn cài đặt?</value>
   <data name="Ui.VoidstrapMods.LibraryUninstall" xml:space="preserve">
     <value>Gỡ cài đặt</value>
   </data>
+  <data name="Plugins.RobloxAccountWarning" xml:space="preserve">
+    <value>Mod này muốn dùng tài khoản Roblox của bạn. Voidstrap gửi yêu cầu tới Roblox thay cho mod, nên mod không bao giờ thấy cookie đăng nhập của bạn và không thể gửi nó đi đâu. Mod chỉ có thể đọc thông tin, không thể mua, trao đổi hay đổi cài đặt. Chỉ cho phép nếu bạn tin tưởng mod này.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryRobloxAccess" xml:space="preserve">
+    <value>Dùng tài khoản Roblox của bạn (chỉ đọc, không bao giờ thấy thông tin đăng nhập)</value>
+  </data>
 </root>

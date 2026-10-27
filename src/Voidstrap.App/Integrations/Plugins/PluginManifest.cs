@@ -11,6 +11,10 @@ public sealed partial class PluginManifest
 {
 	public const string ManifestFolder = ".voidstrap-mod";
 
+	public const string RobloxAccountPermission = "roblox-account";
+
+	private static readonly HashSet<string> KnownPermissions = new(StringComparer.Ordinal) { RobloxAccountPermission };
+
 	private const long MaxJsonBytes = 256 * 1024;
 
 	[GeneratedRegex("^[a-z0-9][a-z0-9-]{0,63}$")]
@@ -29,6 +33,10 @@ public sealed partial class PluginManifest
 	public JsonObject Options { get; private init; } = new();
 
 	public IReadOnlyList<string> NetworkHosts { get; private init; } = [];
+
+	public IReadOnlyList<string> Permissions { get; private init; } = [];
+
+	public bool HasPermission(string permission) => Permissions.Contains(permission, StringComparer.Ordinal);
 
 	public static List<PluginManifest> Discover(string root, bool report = true)
 	{
@@ -86,7 +94,8 @@ public sealed partial class PluginManifest
 			Directory = root,
 			ModulePath = Path.GetRelativePath(root, modulePath),
 			Options = ReadOptions(manifest["userConfig"] as JsonObject),
-			NetworkHosts = ReadHosts(manifest["network"] as JsonArray)
+			NetworkHosts = ReadHosts(manifest["network"] as JsonArray),
+			Permissions = ReadPermissions(manifest["permissions"] as JsonArray)
 		};
 	}
 
@@ -99,6 +108,22 @@ public sealed partial class PluginManifest
 		{
 			string value = host?.ToString().Trim().ToLowerInvariant() ?? "";
 			if (Uri.CheckHostName(value) == UriHostNameType.Dns && !result.Contains(value))
+				result.Add(value);
+		}
+		return result;
+	}
+
+	private static List<string> ReadPermissions(JsonArray? permissions)
+	{
+		List<string> result = [];
+		if (permissions == null)
+			return result;
+		foreach (JsonNode? node in permissions)
+		{
+			string value = node?.ToString().Trim().ToLowerInvariant() ?? "";
+			if (!KnownPermissions.Contains(value))
+				throw new InvalidDataException("unknown permission " + value + ", the only permission is " + RobloxAccountPermission);
+			if (!result.Contains(value))
 				result.Add(value);
 		}
 		return result;

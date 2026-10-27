@@ -9176,4 +9176,10 @@ Ipak instalirati?</value>
   <data name="Ui.VoidstrapMods.LibraryUninstall" xml:space="preserve">
     <value>Deinstaliraj</value>
   </data>
+  <data name="Plugins.RobloxAccountWarning" xml:space="preserve">
+    <value>Ovaj mod traži pristup tvom Roblox računu. Voidstrap umjesto njega šalje zahtjeve Robloxu, pa mod nikad ne vidi tvoj kolačić za prijavu i ne može ga nikamo poslati. Može samo čitati podatke, ne kupovati, mijenjati predmete ni postavke. Dopusti to samo ako vjeruješ modu.</value>
+  </data>
+  <data name="Ui.VoidstrapMods.LibraryRobloxAccess" xml:space="preserve">
+    <value>Koristi tvoj Roblox račun (samo čitanje, nikad ne vidi tvoju prijavu)</value>
+  </data>
 </root>
