@@ -1071,6 +1071,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         if (content is Pages.ModCustomPage customModPage)
         {
             PageBreadcrumb.Current = customModPage.Title;
+            Dispatcher.BeginInvoke(new Action(ApplyModPageBreadcrumb), DispatcherPriority.Loaded);
             PageBreadcrumb.SubPage = string.Empty;
             PageBreadcrumb.Icon = navigationItem?.Icon ?? customModPage.PageIcon;
         }
@@ -1084,6 +1085,15 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
         RefreshHomeTargetButton();
         AnimatePageHeader(18.0);
+    }
+
+    private void ApplyModPageBreadcrumb()
+    {
+        if (RootFrame.Content is Pages.ModCustomPage modPage)
+        {
+            PageBreadcrumb.Current = modPage.Title;
+            PageBreadcrumb.SubPage = string.Empty;
+        }
     }
 
     private static string DescribePage(object content) => content is Pages.ModCustomPage modPage ? ("mod:" + modPage.PluginName + ":" + modPage.PageId) : (content?.GetType().Name ?? "");
@@ -4701,7 +4711,21 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 text = navigationItem.PageType.Name;
             }
         }
+        if (obj is Page { Title: { Length: > 0 } pageTitle } && (obj is Pages.ModCustomPage || FindNavigationItemForPageType(navigationItems, obj.GetType()) == null))
+        {
+            item = pageTitle;
+        }
         return (PageKey: text, Display: item ?? string.Empty);
+    }
+
+    private static NavigationItem? FindNavigationItemForPageType(NavigationItem[] items, Type pageType)
+    {
+        foreach (NavigationItem navigationItem in items)
+        {
+            if (navigationItem.PageType == pageType)
+                return navigationItem;
+        }
+        return null;
     }
 
     public void ToggleDiscordRPC(bool enabled)
@@ -4844,6 +4868,11 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             details = context.Details;
             state = context.State;
+        }
+        else if (RootFrame?.Content is Pages.ModCustomPage modPage && !string.IsNullOrWhiteSpace(text2))
+        {
+            details = text2;
+            state = Voidstrap.Utility.RpcText.Mark("Using a Voidstrap mod") + ": " + modPage.PluginName;
         }
         else if (!string.IsNullOrEmpty(text) && _voidRpcPageDescriptions.TryGetValue(text, out (string, string) value))
         {
