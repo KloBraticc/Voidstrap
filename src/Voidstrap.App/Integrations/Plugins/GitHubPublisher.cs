@@ -228,7 +228,7 @@ public static class GitHubPublisher
 
 		List<(string Rel, string Full)> files = CollectFiles(folder, problems);
 		JsonObject rules = await GetRulesAsync(token);
-		ApplyRules(rules, files, problems, warnings);
+		ApplyRules(rules, name, files, problems, warnings);
 
 		StringWriter validation = new();
 		if (await Task.Run(() => ModTools.Validate(folder, validation), token) != 0)
@@ -270,7 +270,7 @@ public static class GitHubPublisher
 		return JsonNode.Parse(await response.Content.ReadAsStringAsync(token)) as JsonObject ?? throw new InvalidDataException("the library rules could not be read");
 	}
 
-	private static void ApplyRules(JsonObject rules, List<(string Rel, string Full)> files, List<string> problems, List<string> warnings)
+	private static void ApplyRules(JsonObject rules, string modName, List<(string Rel, string Full)> files, List<string> problems, List<string> warnings)
 	{
 		JsonObject limits = rules["limits"] as JsonObject ?? new JsonObject();
 		long maxModBytes = limits["maxModBytes"]?.GetValue<long>() ?? 1048576;
@@ -291,12 +291,36 @@ public static class GitHubPublisher
 			{
 			}
 		}
+		string spacedModName = modName.Replace('-', ' ');
+		foreach ((Regex pattern, string reason, bool review) in blocked)
+		{
+			try
+			{
+				if (!review && pattern.IsMatch(spacedModName))
+					problems.Add("mod name: " + reason);
+			}
+			catch (RegexMatchTimeoutException)
+			{
+			}
+		}
 		Regex encoded = new("[A-Za-z0-9+/=]{" + maxEncoded + ",}", RegexOptions.None, TimeSpan.FromMilliseconds(250));
 		if (files.Count > maxFiles)
 			problems.Add("the mod has " + files.Count + " files, the library allows " + maxFiles);
 		long total = 0;
 		foreach ((string rel, string full) in files)
 		{
+			string spacedRel = Regex.Replace(rel, "[/_.-]", " ");
+			foreach ((Regex pattern, string reason, bool review) in blocked)
+			{
+				try
+				{
+					if (!review && pattern.IsMatch(spacedRel))
+						problems.Add(rel + ": " + reason);
+				}
+				catch (RegexMatchTimeoutException)
+				{
+				}
+			}
 			long size = new FileInfo(full).Length;
 			total += size;
 			string ext = Path.GetExtension(rel);
