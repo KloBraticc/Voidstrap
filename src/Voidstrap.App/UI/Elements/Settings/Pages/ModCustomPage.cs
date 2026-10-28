@@ -1,5 +1,7 @@
 using System;
 using System.IO;
+using System.Text.Json.Nodes;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using Voidstrap.Integrations.Plugins;
@@ -57,6 +59,7 @@ public sealed class ModCustomPage : UiPage
 
 	private void OnPageUnloaded(object sender, RoutedEventArgs e)
 	{
+		_pageRenderGeneration++;
 		PluginHost.PaneInvalidated -= OnPaneInvalidated;
 		PluginHost.ModsChanged -= OnModsChanged;
 	}
@@ -85,13 +88,26 @@ public sealed class ModCustomPage : UiPage
 		}), System.Windows.Threading.DispatcherPriority.Loaded);
 	}
 
-	public void RenderPage()
+	private int _pageRenderGeneration;
+
+	public async void RenderPage()
 	{
+		int generation = ++_pageRenderGeneration;
+		string dir = Path.Combine(Paths.Plugins, _info.Plugin);
+		JsonNode? tree = null;
 		try
 		{
-			string dir = Path.Combine(Paths.Plugins, _info.Plugin);
-			UIElement? content = PluginUiRenderer.BuildTree(PluginHost.RenderCustomPage(_info.Plugin, _info.Id), dir);
-			_host.Child = content;
+			tree = await Task.Run(() => PluginHost.RenderCustomPage(_info.Plugin, _info.Id));
+		}
+		catch (Exception ex)
+		{
+			PluginHost.Problem(_info.Plugin, "the page " + _info.Id + " could not be drawn: " + PluginHost.Describe(ex));
+		}
+		if (generation != _pageRenderGeneration || !IsLoaded)
+			return;
+		try
+		{
+			_host.Child = tree == null ? null : PluginUiRenderer.BuildTree(tree, dir);
 		}
 		catch (Exception ex)
 		{

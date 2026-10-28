@@ -48,10 +48,17 @@ public partial class VoidstrapModsPage : UiPage
 
 	private void Page_Unloaded(object sender, RoutedEventArgs e)
 	{
+		_renderGeneration++;
 		PluginHost.PanesChanged -= OnPanesChanged;
 		PluginHost.PaneInvalidated -= OnPaneInvalidated;
 		PluginHost.StatusChanged -= OnStatusChanged;
 		PluginHost.ModsChanged -= OnModsChanged;
+		if (_renderTimer != null)
+		{
+			_renderTimer.Stop();
+			_renderTimer.Tick -= RenderTimer_Tick;
+			_renderTimer = null;
+		}
 		_libraryCts?.Cancel();
 		_libraryCts?.Dispose();
 		_libraryCts = null;
@@ -59,26 +66,109 @@ public partial class VoidstrapModsPage : UiPage
 
 	private void OnModsChanged() => Dispatcher.BeginInvoke(new Action(RenderMods));
 
+	private System.Windows.Threading.DispatcherTimer? _renderTimer;
+
+	private int _renderGeneration;
+
+	private bool _modRenderRunning;
+
+	private string _lastModSignature = "";
+
+	private readonly Dictionary<string, (DateTime Stamp, BitmapSource? Icon)> _iconCache = new(StringComparer.OrdinalIgnoreCase);
+
 	private void RenderMods()
 	{
-		ModsHost.Children.Clear();
-		IReadOnlyList<PluginHost.ModInfo> mods = PluginHost.ListMods();
-		EmptyText.Visibility = mods.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
-		foreach (PluginHost.ModInfo mod in mods)
+		if (!IsLoaded || Dispatcher.HasShutdownStarted)
+			return;
+		if (_renderTimer == null)
 		{
-			ModsHost.Children.Add(BuildInstalledModCard(mod));
+			_renderTimer = new System.Windows.Threading.DispatcherTimer { Interval = TimeSpan.FromMilliseconds(500) };
+			_renderTimer.Tick += RenderTimer_Tick;
+		}
+		if (!_renderTimer.IsEnabled)
+			_renderTimer.Start();
+	}
+
+	private async void RenderTimer_Tick(object? sender, EventArgs e)
+	{
+		if (_modRenderRunning)
+			return;
+		_renderTimer?.Stop();
+		_modRenderRunning = true;
+		int generation = ++_renderGeneration;
+		try
+		{
+			List<ModRenderItem> items = await Task.Run(() =>
+			{
+				IReadOnlyList<PluginHost.ModInfo> mods = PluginHost.ListMods();
+				List<ModRenderItem> built = [];
+				foreach (PluginHost.ModInfo mod in mods)
+				{
+					ModLibrary.LibraryMod? libraryMod = _libraryIndex?.Mods.FirstOrDefault(m => m.Name == mod.Name);
+					PluginManifest.TryRead(mod.Directory, out PluginManifest? manifest, out _);
+					BitmapSource? icon = DecodeModIcon(mod.Directory);
+					built.Add(new ModRenderItem(mod, libraryMod, manifest, icon));
+				}
+				return built;
+			});
+			if (generation != _renderGeneration || !IsLoaded || Dispatcher.HasShutdownStarted)
+				return;
+			string signature = string.Join("|", items.Select(item => item.Signature));
+			if (signature == _lastModSignature && ModsHost.Children.Count == items.Count)
+				return;
+			_lastModSignature = signature;
+			ModsHost.Children.Clear();
+			EmptyText.Visibility = items.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
+			foreach (ModRenderItem item in items)
+				ModsHost.Children.Add(BuildInstalledModCard(item));
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteException("VoidstrapModsPage::RenderMods", ex);
+		}
+		finally
+		{
+			_modRenderRunning = false;
 		}
 	}
 
-	private Border BuildInstalledModCard(PluginHost.ModInfo mod)
+	private BitmapSource? DecodeModIcon(string directory)
 	{
-		ModLibrary.LibraryMod? libraryMod = _libraryIndex?.Mods.FirstOrDefault(m => m.Name == mod.Name);
+		string? iconPath = ModFiles.GetIconPath(directory);
+		if (iconPath == null)
+			return null;
+		DateTime stamp;
+		try
+		{
+			stamp = File.GetLastWriteTimeUtc(iconPath);
+		}
+		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+		{
+			return null;
+		}
+		if (_iconCache.TryGetValue(iconPath, out (DateTime Stamp, BitmapSource? Icon) cached) && cached.Stamp == stamp)
+			return cached.Icon;
+		BitmapSource? icon = Voidstrap.UI.Elements.Dialogs.CreateVoidstrapModDialog.LoadIcon(iconPath);
+		_iconCache[iconPath] = (stamp, icon);
+		return icon;
+	}
+
+	private sealed record ModRenderItem(PluginHost.ModInfo Info, ModLibrary.LibraryMod? Library, PluginManifest? Manifest, BitmapSource? Icon)
+	{
+		public string Signature => string.Join("\u0001",
+			Info.Name, Info.Version, Info.Consent, Info.Loaded, Info.Problems.Count, Info.Problems.LastOrDefault() ?? "", Library?.Version ?? "", Manifest?.Version ?? "", Icon != null);
+	}
+
+	private Border BuildInstalledModCard(ModRenderItem item)
+	{
+		PluginHost.ModInfo mod = item.Info;
+		ModLibrary.LibraryMod? libraryMod = item.Library;
 		Grid row = new();
 		row.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
 		row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
 		row.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
 
-		Border icon = new() { Child = BuildModIcon(mod, libraryMod) };
+		Border icon = new() { Child = BuildModIcon(mod, libraryMod, item.Icon) };
 		icon.SetResourceReference(StyleProperty, "RowIcon");
 		row.Children.Add(icon);
 
@@ -99,7 +189,6 @@ public partial class VoidstrapModsPage : UiPage
 		summary.MaxHeight = 40;
 		text.Children.Add(summary);
 
-		PluginManifest.TryRead(mod.Directory, out PluginManifest? manifest, out _);
 		StackPanel meta = new() { Orientation = Orientation.Horizontal, Margin = new Thickness(0, 10, 0, 0) };
 		string authorLogin = libraryMod?.Login ?? "";
 		if (string.IsNullOrEmpty(authorLogin) && GitHubPublisher.SignedIn != null)
@@ -110,8 +199,8 @@ public partial class VoidstrapModsPage : UiPage
 			author.SetResourceReference(System.Windows.Controls.TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
 			meta.Children.Add(author);
 		}
-		IReadOnlyList<string> networkHosts = libraryMod?.Network ?? manifest?.NetworkHosts ?? [];
-		bool usesRoblox = libraryMod?.UsesRobloxAccount ?? manifest?.HasPermission(PluginManifest.RobloxAccountPermission) ?? false;
+		IReadOnlyList<string> networkHosts = libraryMod?.Network ?? item.Manifest?.NetworkHosts ?? [];
+		bool usesRoblox = libraryMod?.UsesRobloxAccount ?? item.Manifest?.HasPermission(PluginManifest.RobloxAccountPermission) ?? false;
 		System.Windows.Controls.TextBlock network = StyledText("RowMeta", (networkHosts.Count == 0 ? Strings.Ui_VoidstrapMods_LibraryNoNetwork : string.Format(Strings.Ui_VoidstrapMods_LibraryNetwork, string.Join(", ", networkHosts))) + (usesRoblox ? "   " + Strings.Ui_VoidstrapMods_LibraryRobloxAccess : ""));
 		network.Margin = new Thickness(!string.IsNullOrEmpty(authorLogin) ? 12 : 0, 0, 0, 0);
 		meta.Children.Add(network);
@@ -222,11 +311,10 @@ public partial class VoidstrapModsPage : UiPage
 		return card;
 	}
 
-	private FrameworkElement BuildModIcon(PluginHost.ModInfo mod, ModLibrary.LibraryMod? libraryMod)
+	private FrameworkElement BuildModIcon(PluginHost.ModInfo mod, ModLibrary.LibraryMod? libraryMod, BitmapSource? icon)
 	{
-		string? iconPath = ModFiles.GetIconPath(mod.Directory);
-		if (iconPath != null && Voidstrap.UI.Elements.Dialogs.CreateVoidstrapModDialog.LoadIcon(iconPath) is { } image)
-			return new Image { Source = image, Stretch = Stretch.Uniform, Margin = new Thickness(8) };
+		if (icon != null)
+			return new Image { Source = icon, Stretch = Stretch.Uniform, Margin = new Thickness(8) };
 		if (libraryMod != null && _libraryIcons.TryGetValue(libraryMod.Id, out BitmapSource? libIcon) && libIcon != null)
 			return new Image { Source = libIcon, Stretch = Stretch.Uniform, Margin = new Thickness(8) };
 		return new SymbolIcon { Symbol = SymbolRegular.PuzzlePiece24, FontSize = 34, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center };
@@ -452,7 +540,6 @@ public partial class VoidstrapModsPage : UiPage
 			_libraryIndex = await ModLibrary.GetIndexAsync(refresh, token);
 			PopulateSorts();
 			RenderLibrary();
-			RenderMods();
 			ReportTakedowns(_libraryIndex);
 			foreach (ModLibrary.LibraryMod mod in _libraryIndex.Mods.Where(m => m.HasIcon && !_libraryIcons.ContainsKey(m.Id)))
 			{
@@ -837,12 +924,34 @@ public partial class VoidstrapModsPage : UiPage
 		StatusText.Text = string.Join("   ", PluginHost.StatusLines);
 	}
 
-	private void RenderAll()
+	private int _panesGeneration;
+
+	private async void RenderAll()
 	{
+		int generation = ++_panesGeneration;
 		PanesHost.Children.Clear();
 		IReadOnlyList<PluginHost.PaneInfo> panes = PluginHost.Panes;
 		ActivePanesHeader.Visibility = panes.Count == 0 ? Visibility.Collapsed : Visibility.Visible;
+		List<(PluginHost.PaneInfo Pane, JsonNode? Tree)> rendered = [];
 		foreach (PluginHost.PaneInfo pane in panes)
+		{
+			JsonNode? tree;
+			try
+			{
+				tree = await Task.Run(() => PluginHost.RenderPane(pane));
+			}
+			catch (Exception ex)
+			{
+				PluginHost.Problem(pane.Plugin, "the pane " + pane.Id + " could not be drawn: " + PluginHost.Describe(ex));
+				tree = null;
+			}
+			if (generation != _panesGeneration || Dispatcher.HasShutdownStarted)
+				return;
+			rendered.Add((pane, tree));
+		}
+		if (generation != _panesGeneration)
+			return;
+		foreach (var (pane, tree) in rendered)
 		{
 			StackPanel body = new();
 			body.Children.Add(new System.Windows.Controls.TextBlock
@@ -856,7 +965,7 @@ public partial class VoidstrapModsPage : UiPage
 			try
 			{
 				string dir = Path.Combine(Paths.Plugins, pane.Plugin);
-				content = PluginUiRenderer.BuildTree(PluginHost.RenderPane(pane), dir);
+				content = tree == null ? null : PluginUiRenderer.BuildTree(tree, dir);
 			}
 			catch (Exception ex)
 			{

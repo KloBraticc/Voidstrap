@@ -21,6 +21,8 @@ internal static class PluginConsent
 {
 	private static readonly object Gate = new();
 
+	private static readonly Dictionary<string, TaskCompletionSource<bool?>> PendingPrompts = new(StringComparer.Ordinal);
+
 	public static string PermissionKey(string mod, string permission) => mod + "#" + permission;
 
 	public static bool HasGrant(string mod, string permission)
@@ -28,6 +30,30 @@ internal static class PluginConsent
 		Dictionary<string, bool> consent = App.Settings.Prop.PluginConsent ??= [];
 		lock (Gate)
 			return consent.TryGetValue(PermissionKey(mod, permission), out bool granted) && granted;
+	}
+
+	public static void SetEnabledState(string name, bool enabled)
+	{
+		Dictionary<string, bool> consent = App.Settings.Prop.PluginConsent ??= [];
+		string accountKey = PermissionKey(name, PluginManifest.RobloxAccountPermission);
+		lock (Gate)
+		{
+			consent[name] = enabled;
+			if (!enabled)
+				consent.Remove(accountKey);
+			else if (consent.TryGetValue(accountKey, out bool accountAllowed) && !accountAllowed)
+				consent.Remove(accountKey);
+		}
+	}
+
+	public static void Forget(string name)
+	{
+		Dictionary<string, bool> consent = App.Settings.Prop.PluginConsent ??= [];
+		lock (Gate)
+		{
+			consent.Remove(name);
+			consent.Remove(PermissionKey(name, PluginManifest.RobloxAccountPermission));
+		}
 	}
 
 	public static string GetState(PluginManifest manifest)
@@ -49,6 +75,19 @@ internal static class PluginConsent
 
 	public static bool IsAllowed(PluginManifest manifest)
 	{
+		Task<bool> task = IsAllowedAsync(manifest);
+		try
+		{
+			return task.GetAwaiter().GetResult();
+		}
+		catch
+		{
+			return false;
+		}
+	}
+
+	public static async Task<bool> IsAllowedAsync(PluginManifest manifest)
+	{
 		Dictionary<string, bool> consent = App.Settings.Prop.PluginConsent ??= [];
 		bool needsAccount = manifest.HasPermission(PluginManifest.RobloxAccountPermission);
 		string accountKey = PermissionKey(manifest.Name, PluginManifest.RobloxAccountPermission);
@@ -66,25 +105,48 @@ internal static class PluginConsent
 				alreadyEnabled = true;
 			}
 		}
-		System.Windows.Threading.Dispatcher? dispatcher = Application.Current?.Dispatcher;
-		if (dispatcher == null || dispatcher.HasShutdownStarted)
-			return false;
-		bool answer;
+		TaskCompletionSource<bool?> pendingBox = new(TaskCreationOptions.RunContinuationsAsynchronously);
+		bool owner;
+		lock (PendingPrompts)
+		{
+			if (!PendingPrompts.TryGetValue(manifest.Name, out TaskCompletionSource<bool?>? existing))
+			{
+				PendingPrompts[manifest.Name] = pendingBox;
+				owner = true;
+			}
+			else
+			{
+				pendingBox = existing;
+				owner = false;
+			}
+		}
+		if (!owner)
+			return await pendingBox.Task.ConfigureAwait(true) == true;
+		bool answer = false;
 		try
 		{
+			System.Windows.Threading.Dispatcher? dispatcher = Application.Current?.Dispatcher;
+			if (dispatcher == null || dispatcher.HasShutdownStarted)
+				return false;
 			string prompt = alreadyEnabled
 				? manifest.Name + Environment.NewLine + Environment.NewLine + Strings.Plugins_RobloxAccountWarning
 				: string.Format(Strings.Plugins_TurnOnPrompt, manifest.Name, manifest.Description.Length > 0 ? manifest.Description : manifest.Name)
 					+ (needsAccount ? Environment.NewLine + Environment.NewLine + Strings.Plugins_RobloxAccountWarning : "");
-			answer = dispatcher.Invoke(() => Frontend.ShowMessageBox(
+			answer = await dispatcher.InvokeAsync(() => Frontend.ShowMessageBox(
 				prompt,
 				needsAccount ? MessageBoxImage.Warning : MessageBoxImage.Question,
 				MessageBoxButton.YesNo,
-				MessageBoxResult.No) == MessageBoxResult.Yes);
+				MessageBoxResult.No) == MessageBoxResult.Yes).Task.ConfigureAwait(true);
 		}
 		catch
 		{
-			return false;
+			answer = false;
+		}
+		finally
+		{
+			lock (PendingPrompts)
+				PendingPrompts.Remove(manifest.Name);
+			pendingBox.TrySetResult(answer);
 		}
 		lock (Gate)
 		{

@@ -70,36 +70,35 @@ public static class PluginHost
 	public static IReadOnlyList<ModInfo> ListMods()
 	{
 		List<PluginManifest> manifests = PluginManifest.Discover(Paths.Plugins, report: false);
+		List<LoadedPlugin> snapshot;
+		lock (Gate)
+			snapshot = Loaded.ToList();
 		List<ModInfo> result = [];
 		lock (Gate)
 		{
 			foreach (PluginManifest manifest in manifests)
 			{
-				LoadedPlugin? loaded = Loaded.FirstOrDefault(plugin => plugin.Name == manifest.Name);
-				string state = PluginConsent.GetState(manifest);
-				result.Add(new ModInfo(manifest.Name, manifest.Version, manifest.Description, manifest.Directory, state, loaded != null, loaded?.DescribeHooks() ?? [], Problems.TryGetValue(manifest.Name, out List<string>? list) ? list.ToList() : []));
+				LoadedPlugin? loaded = snapshot.FirstOrDefault(plugin => plugin.Name == manifest.Name);
+				result.Add(new ModInfo(manifest.Name, manifest.Version, manifest.Description, manifest.Directory, "", loaded != null, [], Problems.TryGetValue(manifest.Name, out List<string>? list) ? list.ToList() : []));
 			}
+		}
+		for (int i = 0; i < manifests.Count; i++)
+		{
+			LoadedPlugin? loaded = snapshot.FirstOrDefault(plugin => plugin.Name == manifests[i].Name);
+			List<string> hooks = loaded?.DescribeHooks().ToList() ?? [];
+			result[i] = result[i] with { Consent = PluginConsent.GetState(manifests[i]), Hooks = hooks };
 		}
 		return result;
 	}
 
 	public static void SetEnabled(string name, bool enabled, bool reload = true)
 	{
-		Dictionary<string, bool> consent = App.Settings.Prop.PluginConsent ??= [];
-		string accountKey = PluginConsent.PermissionKey(name, PluginManifest.RobloxAccountPermission);
-		lock (Gate)
-		{
-			consent[name] = enabled;
-			if (!enabled)
-				consent.Remove(accountKey);
-			else if (consent.TryGetValue(accountKey, out bool accountAllowed) && !accountAllowed)
-				consent.Remove(accountKey);
-		}
+		PluginConsent.SetEnabledState(name, enabled);
 		if (enabled && System.Windows.Application.Current?.Dispatcher.CheckAccess() == true)
 		{
 			PluginManifest? manifest = PluginManifest.Discover(Paths.Plugins, report: false).FirstOrDefault(m => string.Equals(m.Name, name, StringComparison.Ordinal));
 			if (manifest != null && manifest.HasPermission(PluginManifest.RobloxAccountPermission))
-				_ = PluginConsent.IsAllowed(manifest);
+				_ = PluginConsent.IsAllowedAsync(manifest);
 		}
 		App.Settings.SaveDeferred();
 		App.Logger.WriteLine(LogIdent, name + ": turned " + (enabled ? "on" : "off") + " by the user");
@@ -110,11 +109,7 @@ public static class PluginHost
 
 	public static void ForgetConsent(string name)
 	{
-		lock (Gate)
-		{
-			App.Settings.Prop.PluginConsent?.Remove(name);
-			App.Settings.Prop.PluginConsent?.Remove(PluginConsent.PermissionKey(name, PluginManifest.RobloxAccountPermission));
-		}
+		PluginConsent.Forget(name);
 		App.Settings.SaveDeferred();
 	}
 
@@ -212,16 +207,18 @@ public static class PluginHost
 		}
 		_reloadTimer?.Dispose();
 		_reloadTimer = null;
+		List<LoadedPlugin> doomed;
 		lock (Gate)
 		{
-			foreach (LoadedPlugin plugin in Loaded)
-				plugin.Dispose();
+			doomed = Loaded.ToList();
 			Loaded.Clear();
 			OpenPanes.Clear();
 			OpenBanners.Clear();
 			Statuses.Clear();
 			_started = false;
 		}
+		foreach (LoadedPlugin plugin in doomed)
+			plugin.Dispose();
 		PluginCursor.Shutdown();
 	}
 
@@ -324,22 +321,23 @@ public static class PluginHost
 
 	public static bool HasHook(string eventName)
 	{
+		List<LoadedPlugin> snapshot;
 		lock (Gate)
+			snapshot = Loaded.ToList();
+		foreach (LoadedPlugin plugin in snapshot)
 		{
-			for (int i = 0; i < Loaded.Count; i++)
-			{
-				if (Loaded[i].HasHook(eventName))
-					return true;
-			}
-			return false;
+			if (plugin.HasHook(eventName))
+				return true;
 		}
+		return false;
 	}
 
 	public static JsonNode? Invoke(string eventName, JsonNode? input, Func<JsonNode?, JsonNode?>? bottom = null, string? scope = null)
 	{
-		List<HookEntry> hooks;
+		List<LoadedPlugin> snapshot;
 		lock (Gate)
-			hooks = Loaded.SelectMany(plugin => plugin.HooksFor(eventName)).Where(hook => Matches(hook.Matcher, input)).ToList();
+			snapshot = Loaded.ToList();
+		List<HookEntry> hooks = snapshot.SelectMany(plugin => plugin.HooksFor(eventName)).Where(hook => Matches(hook.Matcher, input)).ToList();
 		bottom ??= static e => e;
 		if (hooks.Count == 0)
 			return bottom(input);
@@ -375,6 +373,8 @@ public static class PluginHost
 			bool settlePromises = eventName == "roblox.launch" || scope == "test";
 			return hook.Plugin.Call(hook.Function, input, next =>
 			{
+				if (nextCalled)
+					throw new InvalidOperationException("a hook may call next only once");
 				nextCalled = true;
 				nextResult = Run(hooks, index + 1, eventName, next ?? input?.DeepClone(), bottom, scope);
 				return nextResult;
@@ -621,7 +621,7 @@ public static class PluginHost
 			  delete globalThis.__voidstrapHost;
 			  const parse = text => text === undefined || text === null ? undefined : JSON.parse(text);
 			  const elements = Object.freeze({
-			    Box: 'Box', Stack: 'Box', Wrap: 'Wrap', Grid: 'Grid', Scroll: 'Scroll',
+			    Box: 'Box', Stack: 'Box', Wrap: 'Wrap', Grid: 'Grid', Canvas: 'Canvas', Scroll: 'Scroll',
 			    Text: 'Text', Badge: 'Badge', Icon: 'Icon', ColorSwatch: 'ColorSwatch',
 			    Button: 'Button', Toggle: 'Toggle', CheckBox: 'CheckBox', TextInput: 'TextInput',
 			    NumberInput: 'NumberInput', Slider: 'Slider', Select: 'Select',
@@ -781,8 +781,16 @@ public static class PluginHost
 		{
 			ModTypes.Write(manifest.Directory);
 			LoadedPlugin plugin = new(manifest, sandbox);
-			plugin.Initialize(manifest);
-			return plugin;
+			try
+			{
+				plugin.Initialize(manifest);
+				return plugin;
+			}
+			catch
+			{
+				plugin.Dispose();
+				throw;
+			}
 		}
 
 		private void Initialize(PluginManifest manifest)
@@ -1102,6 +1110,7 @@ public static class PluginHost
 				}
 				catch (Exception ex)
 				{
+					CancelTimer(tick.Item1);
 					Problem(Name, "clock hook skipped: " + Describe(ex));
 					shouldInvalidate = false;
 				}
@@ -1128,6 +1137,7 @@ public static class PluginHost
 				string error = "";
 				try
 				{
+					using CancellationTokenSource deadline = new(AwaitLimit);
 					using HttpRequestMessage message = new(new HttpMethod(method), uri);
 					if (body != null)
 						message.Content = new StringContent(body, System.Text.Encoding.UTF8, request["contentType"]?.ToString() ?? "application/json");
@@ -1135,8 +1145,8 @@ public static class PluginHost
 						foreach (KeyValuePair<string, JsonNode?> header in headers)
 							if (!header.Key.Equals("cookie", StringComparison.OrdinalIgnoreCase) && !header.Key.Equals("authorization", StringComparison.OrdinalIgnoreCase))
 								message.Headers.TryAddWithoutValidation(header.Key, header.Value?.ToString());
-					using HttpResponseMessage response = await NetClient.SendAsync(message, HttpCompletionOption.ResponseHeadersRead).ConfigureAwait(false);
-					string text = await Voidstrap.Utility.Http.ReadStringBoundedAsync(response.Content, MaxResponseBytes, CancellationToken.None).ConfigureAwait(false);
+					using HttpResponseMessage response = await NetClient.SendAsync(message, HttpCompletionOption.ResponseHeadersRead, deadline.Token).ConfigureAwait(false);
+					string text = await Voidstrap.Utility.Http.ReadStringBoundedAsync(response.Content, MaxResponseBytes, deadline.Token).ConfigureAwait(false);
 					result = new JsonObject { ["status"] = (int)response.StatusCode, ["ok"] = response.IsSuccessStatusCode, ["text"] = text };
 				}
 				catch (Exception ex)
@@ -1351,7 +1361,7 @@ public static class PluginHost
 				return false;
 			}
 		}
-
+
 		public IEnumerable<HookEntry> HooksFor(string eventName)
 		{
 			lock (_gate)
@@ -1363,37 +1373,29 @@ public static class PluginHost
 			lock (_gate)
 			{
 				if (_disposed)
-					return null;
-				try
+					return next(input);
+				if (scope != null)
 				{
-					if (scope != null)
-					{
-						string prefix = Name + "|" + scope + "|";
-						foreach (string key in _handlers.Keys.Where(key => key.StartsWith(prefix, StringComparison.Ordinal)).ToList())
-							_handlers.Remove(key);
-					}
-					ClrFunction nextFunction = new(_engine, "next", (_, a) =>
-					{
-						JsonNode? rewritten = a.Length > 0 && !a[0].IsUndefined() ? ToNode(a[0], scope) : null;
-						JsonNode? result = next(rewritten);
-						_engine.Constraints.Reset();
-						return ToJs(result);
-					});
+					string prefix = Name + "|" + scope + "|";
+					foreach (string key in _handlers.Keys.Where(key => key.StartsWith(prefix, StringComparison.Ordinal)).ToList())
+						_handlers.Remove(key);
+				}
+				ClrFunction nextFunction = new(_engine, "next", (_, a) =>
+				{
+					JsonNode? rewritten = a.Length > 0 && !a[0].IsUndefined() ? ToNode(a[0], scope) : null;
+					JsonNode? result = next(rewritten);
 					_engine.Constraints.Reset();
-					JsValue raw = _engine.Invoke(function, JsValue.Undefined, new object[] { _engine.GetValue("$"), ToJs(input), nextFunction });
-					if (!settlePromises)
-					{
-						_engine.Advanced.ProcessTasks();
-						return raw.IsPromise() ? null : ToNode(raw, scope);
-					}
-					JsValue result = Settle(raw);
-					return ToNode(result, scope);
-				}
-				catch (Exception ex)
+					return ToJs(result);
+				});
+				_engine.Constraints.Reset();
+				JsValue raw = _engine.Invoke(function, JsValue.Undefined, new object[] { _engine.GetValue("$"), ToJs(input), nextFunction });
+				if (!settlePromises)
 				{
-					Problem(Name, "hook execution failed: " + Describe(ex));
-					return null;
+					_engine.Advanced.ProcessTasks();
+					return raw.IsPromise() ? null : ToNode(raw, scope);
 				}
+				JsValue settled = Settle(raw);
+				return ToNode(settled, scope);
 			}
 		}
 

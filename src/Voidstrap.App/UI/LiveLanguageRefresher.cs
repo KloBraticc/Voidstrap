@@ -506,6 +506,14 @@ internal static class LiveLanguageRefresher
 			{
 				ApplyDependencyText(headered, HeaderedContentControl.HeaderProperty, on, lang);
 			}
+			if (node is ComboBox comboBox)
+			{
+				foreach (object item in comboBox.Items)
+				{
+					if (item is ComboBoxItem choice && choice.Tag is string && choice.Content is string)
+						ApplyDependencyText(choice, ContentControl.ContentProperty, on, lang);
+				}
+			}
 			if (node is ContentControl content && content.Content is string && node is not (ComboBoxItem or ListBoxItem))
 			{
 				ApplyDependencyText(content, ContentControl.ContentProperty, on, lang);

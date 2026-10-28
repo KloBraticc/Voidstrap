@@ -176,7 +176,7 @@ internal static class PluginUiRenderer
 	private static Grid MakeGrid(JsonArray children, JsonObject props, string? pluginDirectory, ref int rendered)
 	{
 		Grid grid = new();
-		int autoColumns = 0;
+		int autoColumns = 1;
 		if (props["columns"] is JsonValue colVal && colVal.TryGetValue(out int colCount) && colCount > 0)
 		{
 			autoColumns = Math.Clamp(colCount, 1, 16);
@@ -185,10 +185,12 @@ internal static class PluginUiRenderer
 		}
 		else if (props["columns"] is JsonArray colArr && colArr.Count > 0)
 		{
-			autoColumns = colArr.Count;
-			foreach (JsonNode? col in colArr)
+			autoColumns = Math.Min(colArr.Count, 16);
+			foreach (JsonNode? col in colArr.Take(autoColumns))
 				grid.ColumnDefinitions.Add(new ColumnDefinition { Width = ParseGridLength(col) });
 		}
+		else
+			grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
 		if (props["rows"] is JsonValue rowVal && rowVal.TryGetValue(out int rowCount) && rowCount > 0)
 		{
 			for (int i = 0; i < Math.Clamp(rowCount, 1, 32); i++)
@@ -196,7 +198,7 @@ internal static class PluginUiRenderer
 		}
 		else if (props["rows"] is JsonArray rowArr && rowArr.Count > 0)
 		{
-			foreach (JsonNode? row in rowArr)
+			foreach (JsonNode? row in rowArr.Take(32))
 				grid.RowDefinitions.Add(new RowDefinition { Height = ParseGridLength(row) });
 		}
 		double gap = ReadDouble(props, "gap", 6);
@@ -208,6 +210,8 @@ internal static class PluginUiRenderer
 			JsonObject? childProps = (child as JsonObject)?["props"] as JsonObject;
 			int explicitCol = ReadInt(childProps, "column", ReadInt(childProps, "gridColumn", -1));
 			int explicitRow = ReadInt(childProps, "row", ReadInt(childProps, "gridRow", -1));
+			explicitCol = Math.Clamp(explicitCol, -1, 15);
+			explicitRow = Math.Clamp(explicitRow, -1, MaxRenderedNodes - 1);
 			if (explicitCol < 0 && explicitRow < 0 && autoColumns > 0)
 			{
 				explicitCol = cellIndex % autoColumns;

@@ -23,6 +23,8 @@ internal static class PluginAnchors
 		public required string Placement { get; init; }
 
 		public ContentControl? Host { get; set; }
+
+		public RowDefinition? Row { get; set; }
 	}
 
 	private static readonly object Gate = new();
@@ -164,6 +166,9 @@ internal static class PluginAnchors
 
 	private static string Place(Attached item)
 	{
+		lock (Gate)
+			if (!Items.Contains(item))
+				return "";
 		Voidstrap.UI.Elements.Settings.MainWindow? window = MainWindow();
 		if (window == null)
 			return "Voidstrap is still starting, the widget appears when the window opens";
@@ -178,8 +183,8 @@ internal static class PluginAnchors
 			Render(item);
 			return "";
 		}
-		if (item.Host?.Parent is Panel oldPanel)
-			oldPanel.Children.Remove(item.Host);
+		if (item.Host?.Parent is Panel)
+			Remove(item);
 		ContentControl host = item.Host ?? new ContentControl
 		{
 			Margin = new Thickness(4, 0, 4, 0),
@@ -198,42 +203,11 @@ internal static class PluginAnchors
 		};
 		if (ReferenceEquals(panel, target) && item.Placement is "before" or "after")
 			at = item.Placement == "before" ? 0 : panel.Children.Count;
+		item.Host = host;
 		panel.Children.Insert(Math.Clamp(at, 0, panel.Children.Count), host);
-		if (panel is Grid grid)
-		{
-			if (ReferenceEquals(panel, target))
-			{
-				host.Margin = new Thickness(0);
-				host.HorizontalAlignment = HorizontalAlignment.Stretch;
-				host.VerticalAlignment = VerticalAlignment.Stretch;
-				Panel.SetZIndex(host, 9999);
-				Grid.SetRow(host, 0);
-				Grid.SetColumn(host, 0);
-				if (grid.RowDefinitions.Count > 0)
-					Grid.SetRowSpan(host, grid.RowDefinitions.Count);
-				if (grid.ColumnDefinitions.Count > 0)
-					Grid.SetColumnSpan(host, grid.ColumnDefinitions.Count);
-			}
-			else if (child != null)
-			{
-				int row = Grid.GetRow(child);
-				int col = Grid.GetColumn(child);
-				Grid.SetRow(host, row);
-				Grid.SetColumn(host, col);
-				int siblingsInCell = 0;
-				foreach (UIElement existing in grid.Children)
-				{
-					if (existing is ContentControl cc && !ReferenceEquals(cc, host) && cc.Tag is string tag && tag.StartsWith("mod:", StringComparison.Ordinal) && Grid.GetRow(cc) == row && Grid.GetColumn(cc) == col)
-					{
-						siblingsInCell++;
-					}
-				}
-				if (siblingsInCell > 0)
-				{
-					host.Margin = new Thickness(4 + siblingsInCell * 120, 0, 4, 0);
-				}
-			}
-		}
+		Render(item);
+		if (panel is Grid gridPanel)
+			PlaceInGrid(item, gridPanel, child, ReferenceEquals(panel, target));
 		else if (panel is Canvas)
 		{
 			host.Margin = new Thickness(0);
@@ -241,9 +215,51 @@ internal static class PluginAnchors
 			Canvas.SetLeft(host, 0);
 			Canvas.SetTop(host, 0);
 		}
-		item.Host = host;
-		Render(item);
 		return "";
+	}
+
+	private static void PlaceInGrid(Attached item, Grid panel, UIElement child, bool isTarget)
+	{
+		ContentControl host = item.Host!;
+		if (isTarget && host.Content is Canvas)
+		{
+			host.Margin = new Thickness(0);
+			host.HorizontalAlignment = HorizontalAlignment.Stretch;
+			host.VerticalAlignment = VerticalAlignment.Stretch;
+			Panel.SetZIndex(host, 9999);
+			Grid.SetRowSpan(host, Math.Max(1, panel.RowDefinitions.Count));
+			Grid.SetColumnSpan(host, Math.Max(1, panel.ColumnDefinitions.Count));
+		}
+		else
+		{
+			Grid grid = panel;
+			if (grid.RowDefinitions.Count == 0)
+				grid.RowDefinitions.Add(new RowDefinition());
+			int row = item.Placement switch
+			{
+				"start" => 0,
+				"end" => grid.RowDefinitions.Count,
+				"before" => isTarget ? 0 : Grid.GetRow(child),
+				_ => isTarget ? grid.RowDefinitions.Count : Grid.GetRow(child) + Grid.GetRowSpan(child)
+			};
+			row = Math.Clamp(row, 0, grid.RowDefinitions.Count);
+			foreach (UIElement existing in grid.Children)
+			{
+				if (ReferenceEquals(existing, host))
+					continue;
+				int existingRow = Grid.GetRow(existing);
+				if (existingRow >= row)
+					Grid.SetRow(existing, existingRow + 1);
+				else if (existingRow + Grid.GetRowSpan(existing) > row)
+					Grid.SetRowSpan(existing, Grid.GetRowSpan(existing) + 1);
+			}
+			item.Row = new RowDefinition { Height = GridLength.Auto };
+			grid.RowDefinitions.Insert(row, item.Row);
+			Grid.SetRow(host, row);
+			Grid.SetColumn(host, 0);
+			Grid.SetColumnSpan(host, Math.Max(1, grid.ColumnDefinitions.Count));
+			host.HorizontalAlignment = HorizontalAlignment.Stretch;
+		}
 	}
 
 	private static void Render(Attached item)
@@ -284,7 +300,26 @@ internal static class PluginAnchors
 	private static void Remove(Attached item)
 	{
 		if (item.Host?.Parent is Panel panel)
+		{
 			panel.Children.Remove(item.Host);
+			if (panel is Grid grid && item.Row != null)
+			{
+				int row = grid.RowDefinitions.IndexOf(item.Row);
+				if (row >= 0)
+				{
+					foreach (UIElement existing in grid.Children)
+					{
+						int existingRow = Grid.GetRow(existing);
+						if (existingRow > row)
+							Grid.SetRow(existing, existingRow - 1);
+						else if (existingRow < row && existingRow + Grid.GetRowSpan(existing) > row)
+							Grid.SetRowSpan(existing, Grid.GetRowSpan(existing) - 1);
+					}
+					grid.RowDefinitions.RemoveAt(row);
+				}
+			}
+		}
+		item.Row = null;
 		item.Host = null;
 	}
 
