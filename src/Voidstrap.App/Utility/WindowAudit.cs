@@ -159,6 +159,8 @@ internal static class WindowAudit
 		AuditBootstrapperIcons();
 		AuditThemeEditorWindow();
 		AuditPlacement();
+		AuditOwnedDialogs();
+		AuditDownloadBindings();
 		AuditLinuxWindowModes();
 		try
 		{
@@ -1213,6 +1215,80 @@ internal static class WindowAudit
 		catch (Exception ex)
 		{
 			Emit("library loading audit FAIL " + ex.GetType().Name + ": " + ex.Message.Split('\n')[0]);
+		}
+	}
+
+	private static void AuditOwnedDialogs()
+	{
+		Window owner = new() { Title = "Dialog ownership probe", Width = 320, Height = 200 };
+		Window dialog = new() { Title = "Owned dialog probe", Width = 240, Height = 160, ShowInTaskbar = false };
+		Window nested = new() { Title = "Nested dialog probe" };
+		bool adopted = false;
+		bool nestedAdopted = false;
+		try
+		{
+			owner.Show();
+			Pump(80);
+			dialog.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() =>
+			{
+				adopted = ReferenceEquals(dialog.Owner, owner);
+				UI.LinuxDialogOwnership.Adopt(nested);
+				nestedAdopted = ReferenceEquals(nested.Owner, dialog);
+				dialog.Close();
+			}));
+			UI.LinuxDialogOwnership.ShowOwnedDialog(dialog);
+			Emit(adopted && nestedAdopted
+				? "owned dialogs audit: PASS, modal and nested dialogs retain their owners"
+				: $"owned dialogs audit: FAIL, modal owner {adopted}, nested owner {nestedAdopted}");
+		}
+		finally
+		{
+			nested.Close();
+			dialog.Close();
+			owner.Close();
+			Pump(80);
+		}
+	}
+
+	private static void AuditDownloadBindings()
+	{
+		using System.IO.StringWriter errors = new();
+		using System.Diagnostics.TextWriterTraceListener listener = new(errors);
+		System.Diagnostics.TraceSource bindings = System.Diagnostics.PresentationTraceSources.DataBindingSource;
+		System.Diagnostics.SourceLevels previousLevel = bindings.Switch.Level;
+		Window? window = null;
+		bindings.Switch.Level = System.Diagnostics.SourceLevels.Error;
+		bindings.Listeners.Add(listener);
+		try
+		{
+			UI.Elements.Settings.Pages.DownloadsPage page = new();
+			UI.ViewModels.Settings.DownloadsViewModel viewModel = (UI.ViewModels.Settings.DownloadsViewModel)page.DataContext;
+			window = new Window { Title = "Downloads binding probe", Width = 1100, Height = 700, Content = page, ShowInTaskbar = false };
+			window.Show();
+			Pump(150);
+			((FrameworkElement)page.FindName("DetailPanel")).Visibility = Visibility.Visible;
+			((System.Windows.Controls.ColumnDefinition)page.FindName("DetailColumn")).Width = new GridLength(300);
+			foreach (UI.ViewModels.Settings.DownloadsViewModel.DownloadItem item in viewModel.Items)
+			{
+				viewModel.SelectedItem = item;
+				Pump(80);
+			}
+			viewModel.SelectedItem = new UI.ViewModels.Settings.DownloadsViewModel.ClientItem(viewModel,
+				new ClassicCatalogEntry { Code = "2008", Name = "Classic client" });
+			Pump(150);
+			viewModel.SelectedItem = null;
+			Pump(80);
+			listener.Flush();
+			Emit(errors.GetStringBuilder().Length == 0
+				? "downloads bindings audit: PASS, native, classic and empty selections have no binding errors"
+				: "downloads bindings audit: FAIL, " + errors.ToString());
+		}
+		finally
+		{
+			window?.Close();
+			bindings.Listeners.Remove(listener);
+			bindings.Switch.Level = previousLevel;
+			Pump(80);
 		}
 	}
 

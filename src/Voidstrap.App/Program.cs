@@ -24,9 +24,10 @@ public static class Program
 		long startupStart = Stopwatch.GetTimestamp();
 		App app = new App();
 		app.InitializeComponent();
+		int exitCode = 0;
 		try
 		{
-			app.Run();
+			exitCode = app.Run();
 		}
 		catch (Win32Exception ex) when (ex.NativeErrorCode == 1400 && app.Dispatcher.HasShutdownStarted)
 		{
@@ -41,6 +42,6 @@ public static class Program
 		}
 		App.Logger.WriteLine("Program::Main", "App shut down, total elapsed " + (int)Stopwatch.GetElapsedTime(startupStart).TotalMilliseconds + " ms");
 		App.Logger.Flush();
-		Environment.Exit(0);
+		Environment.Exit(exitCode);
 	}
 }

@@ -5,12 +5,18 @@
            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
            xmlns:pages="clr-namespace:Voidstrap.UI.Elements.Settings.Pages"
-           xmlns:fx="clr-namespace:Voidstrap.UI"
            xmlns:resources="clr-namespace:Voidstrap.Resources"
            Title="{resources:Loc Ui_Pages_Downloads}" Scrollable="False">
     <FrameworkElement.Resources>
         <ResourceDictionary>
             <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+
+            <DataTemplate x:Key="VngOptionsTemplate">
+                <StackPanel Margin="0,14,0,0">
+                    <ui:ToggleSwitch Content="{resources:Loc Vng_UseForLaunches}" IsChecked="{Binding UseVng, Mode=TwoWay}" IsEnabled="{Binding CanPrimary}" />
+                    <TextBlock Text="{resources:Loc Vng_UninstallWarning}" FontSize="12" Foreground="{DynamicResource SystemFillColorCautionBrush}" Margin="0,8,0,0" TextWrapping="Wrap" />
+                </StackPanel>
+            </DataTemplate>
 
             <Style x:Key="InstallRowStyle" TargetType="{x:Type Border}">
                 <Setter Property="MinHeight" Value="68" />
@@ -103,12 +109,11 @@
                                     </Style>
                                 </Border.Style>
                             </Border>
-                            <Border CornerRadius="8" ClipToBounds="True">
-                                <Border.Background>
-                                    <ImageBrush ImageSource="{Binding IconImage}" Stretch="UniformToFill" />
-                                </Border.Background>
-                                <Image Source="{Binding IconImage}" Stretch="UniformToFill" Visibility="{x:Static fx:PlatformFeatureVisibility.PortableImages}" />
-                            </Border>
+                            <Image Source="{Binding IconImage}" Stretch="UniformToFill">
+                                <Image.Clip>
+                                    <RectangleGeometry Rect="0,0,44,44" RadiusX="8" RadiusY="8" />
+                                </Image.Clip>
+                            </Image>
                         </Grid>
                         <StackPanel Grid.Column="1" Margin="14,0,0,0" VerticalAlignment="Center">
                             <DockPanel LastChildFill="False">
@@ -270,10 +275,19 @@
                                 </StackPanel>
                                 <TextBlock Text="{Binding Subtitle}" FontSize="13" Opacity="0.7" Margin="0,8,0,0" TextWrapping="Wrap" LineHeight="20" />
 
-                                <StackPanel Margin="0,14,0,0" Visibility="{Binding IsVng, Converter={StaticResource BooleanToVisibilityConverter}}">
-                                    <ui:ToggleSwitch Content="{resources:Loc Vng_UseForLaunches}" IsChecked="{Binding UseVng, Mode=TwoWay}" IsEnabled="{Binding CanPrimary}" />
-                                    <TextBlock Text="{resources:Loc Vng_UninstallWarning}" FontSize="12" Foreground="{DynamicResource SystemFillColorCautionBrush}" Margin="0,8,0,0" TextWrapping="Wrap" />
-                                </StackPanel>
+                                <ContentControl Content="{Binding DataContext.VngItem, RelativeSource={RelativeSource AncestorType=pages:DownloadsPage}}">
+                                    <ContentControl.Style>
+                                        <Style TargetType="ContentControl">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsVng}" Value="True">
+                                                    <Setter Property="Visibility" Value="Visible" />
+                                                    <Setter Property="ContentTemplate" Value="{StaticResource VngOptionsTemplate}" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ContentControl.Style>
+                                </ContentControl>
 
                                 <Grid Margin="0,18,0,0">
                                     <Grid.ColumnDefinitions>

@@ -1441,6 +1441,8 @@ namespace Voidstrap.UI.ViewModels.Settings
 
         public bool HasSelection => _selectedItem != null;
 
+        public DownloadItem? VngItem => Items.FirstOrDefault(item => item.IsVng);
+
         public ICommand SelectCommand { get; }
 
         private void Select(DownloadItem? item)

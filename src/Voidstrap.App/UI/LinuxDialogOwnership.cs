@@ -14,7 +14,7 @@ internal static class LinuxDialogOwnership
 
 	public static void Adopt(Window window)
 	{
-		if (!Voidstrap.Utility.Platform.IsLinux || window.Owner is not null || IsStandalone(window) || RoundedWindowChrome.IsOverlaySurface(window))
+		if (window.Owner is not null || IsStandalone(window) || RoundedWindowChrome.IsOverlaySurface(window))
 			return;
 
 		Window? owner = ResolveOwner(window);
