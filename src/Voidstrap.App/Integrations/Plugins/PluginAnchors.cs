@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json.Nodes;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -21,6 +22,8 @@ internal static class PluginAnchors
 		public required string Anchor { get; init; }
 
 		public required string Placement { get; init; }
+
+		public int RenderVersion;
 
 		public ContentControl? Host { get; set; }
 
@@ -266,35 +269,54 @@ internal static class PluginAnchors
 	{
 		if (item.Host == null)
 			return;
-		try
+		int version = ++item.RenderVersion;
+		string plugin = item.Plugin;
+		string id = item.Id;
+		string dir = Path.Combine(Paths.Plugins, plugin);
+		_ = Task.Run(() => PluginHost.RenderWidget(plugin, id)).ContinueWith(t =>
 		{
-			string dir = Path.Combine(Paths.Plugins, item.Plugin);
-			item.Host.Content = PluginUiRenderer.BuildTree(PluginHost.RenderWidget(item.Plugin, item.Id), dir);
-			if (item.Host.Content is UIElement elem && !elem.IsHitTestVisible)
-				item.Host.IsHitTestVisible = false;
-			else if (item.Host.Content == null)
-				item.Host.IsHitTestVisible = false;
+			System.Text.Json.Nodes.JsonNode? tree = null;
+			if (t.IsFaulted)
+				PluginHost.Problem(plugin, "the widget " + id + " could not be drawn: " + PluginHost.Describe(t.Exception!.GetBaseException()));
 			else
-				item.Host.IsHitTestVisible = true;
-			if (item.Host.Parent is Canvas)
+				tree = t.Result;
+			Dispatcher? dispatcher = Application.Current?.Dispatcher;
+			if (dispatcher == null || dispatcher.HasShutdownStarted)
+				return;
+			dispatcher.BeginInvoke(new Action(() =>
 			{
-				if (item.Host.Content is FrameworkElement fe)
+				if (version != item.RenderVersion || item.Host == null)
+					return;
+				try
 				{
-					double l = Canvas.GetLeft(fe);
-					if (!double.IsNaN(l)) Canvas.SetLeft(item.Host, l);
-					double t = Canvas.GetTop(fe);
-					if (!double.IsNaN(t)) Canvas.SetTop(item.Host, t);
-					double r = Canvas.GetRight(fe);
-					if (!double.IsNaN(r)) Canvas.SetRight(item.Host, r);
-					double b = Canvas.GetBottom(fe);
-					if (!double.IsNaN(b)) Canvas.SetBottom(item.Host, b);
+					item.Host.Content = tree == null ? null : PluginUiRenderer.BuildTree(tree, dir);
+					if (item.Host.Content is UIElement elem && !elem.IsHitTestVisible)
+						item.Host.IsHitTestVisible = false;
+					else if (item.Host.Content == null)
+						item.Host.IsHitTestVisible = false;
+					else
+						item.Host.IsHitTestVisible = true;
+					if (item.Host.Parent is Canvas)
+					{
+						if (item.Host.Content is FrameworkElement fe)
+						{
+							double l = Canvas.GetLeft(fe);
+							if (!double.IsNaN(l)) Canvas.SetLeft(item.Host, l);
+							double t2 = Canvas.GetTop(fe);
+							if (!double.IsNaN(t2)) Canvas.SetTop(item.Host, t2);
+							double r = Canvas.GetRight(fe);
+							if (!double.IsNaN(r)) Canvas.SetRight(item.Host, r);
+							double b = Canvas.GetBottom(fe);
+							if (!double.IsNaN(b)) Canvas.SetBottom(item.Host, b);
+						}
+					}
 				}
-			}
-		}
-		catch (Exception ex)
-		{
-			PluginHost.Problem(item.Plugin, "the widget " + item.Id + " could not be drawn: " + PluginHost.Describe(ex));
-		}
+				catch (Exception ex)
+				{
+					PluginHost.Problem(plugin, "the widget " + id + " could not be drawn: " + PluginHost.Describe(ex));
+				}
+			}));
+		});
 	}
 
 	private static void Remove(Attached item)

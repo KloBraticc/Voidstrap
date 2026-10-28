@@ -1297,18 +1297,45 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
     }
 
-    private void RenderModBanners()
+    private int _modBannerRenderGeneration;
+
+    private async void RenderModBanners()
     {
         if (ModTopBannerHost == null || ModBottomBannerHost == null)
             return;
+        int generation = ++_modBannerRenderGeneration;
+        IReadOnlyList<Voidstrap.Integrations.Plugins.PluginHost.BannerInfo> banners = Voidstrap.Integrations.Plugins.PluginHost.Banners;
+        List<(Voidstrap.Integrations.Plugins.PluginHost.BannerInfo Banner, System.Text.Json.Nodes.JsonNode? Tree)> rendered = await Task.Run(() =>
+        {
+            List<(Voidstrap.Integrations.Plugins.PluginHost.BannerInfo, System.Text.Json.Nodes.JsonNode?)> list = [];
+            foreach (Voidstrap.Integrations.Plugins.PluginHost.BannerInfo banner in banners)
+            {
+                System.Text.Json.Nodes.JsonNode? tree;
+                try
+                {
+                    tree = Voidstrap.Integrations.Plugins.PluginHost.RenderBanner(banner);
+                }
+                catch (Exception ex)
+                {
+                    Voidstrap.Integrations.Plugins.PluginHost.Problem(banner.Plugin, "the banner " + banner.Id + " could not be drawn: " + Voidstrap.Integrations.Plugins.PluginHost.Describe(ex));
+                    tree = null;
+                }
+                list.Add((banner, tree));
+            }
+            return list;
+        });
+        if (generation != _modBannerRenderGeneration || Dispatcher.HasShutdownStarted)
+            return;
         ModTopBannerHost.Children.Clear();
         ModBottomBannerHost.Children.Clear();
-        foreach (Voidstrap.Integrations.Plugins.PluginHost.BannerInfo banner in Voidstrap.Integrations.Plugins.PluginHost.Banners)
+        foreach (var (banner, tree) in rendered)
         {
+            if (tree == null)
+                continue;
             try
             {
                 string dir = System.IO.Path.Combine(Paths.Plugins, banner.Plugin);
-                UIElement? built = Voidstrap.Integrations.Plugins.PluginUiRenderer.BuildTree(Voidstrap.Integrations.Plugins.PluginHost.RenderBanner(banner), dir);
+                UIElement? built = Voidstrap.Integrations.Plugins.PluginUiRenderer.BuildTree(tree, dir);
                 if (built != null)
                 {
                     Border container = new Border
