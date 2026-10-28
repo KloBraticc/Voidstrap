@@ -30,6 +30,7 @@ public sealed class ModCustomPage : UiPage
 	{
 		_info = info;
 		Title = info.Title;
+		Wpf.Ui.Controls.Breadcrumb.SetHeader(this, info.Title);
 		Scrollable = true;
 		Content = _host;
 		Loaded += OnPageLoaded;
@@ -40,6 +41,7 @@ public sealed class ModCustomPage : UiPage
 	{
 		_info = info;
 		Title = info.Title;
+		Wpf.Ui.Controls.Breadcrumb.SetHeader(this, info.Title);
 		if (!ReferenceEquals(Content, _host))
 			Content = _host;
 		if (IsLoaded)

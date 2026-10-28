@@ -1080,14 +1080,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             _pendingTopSearchEntry = null;
         }
         NavigationItem? navigationItem = RootNavigation.Items.OfType<NavigationItem>().Concat(RootNavigation.Footer.OfType<NavigationItem>()).FirstOrDefault((NavigationItem i) => i.IsActive);
-        if (content is Pages.ModCustomPage customModPage)
-        {
-            PageBreadcrumb.Current = customModPage.Title;
-            Dispatcher.BeginInvoke(new Action(ApplyModPageBreadcrumb), DispatcherPriority.Loaded);
-            PageBreadcrumb.SubPage = string.Empty;
-            PageBreadcrumb.Icon = navigationItem?.Icon ?? customModPage.PageIcon;
-        }
-        else if (navigationItem != null && _defaultIcons.TryGetValue(navigationItem, out var value))
+        if (navigationItem != null && _defaultIcons.TryGetValue(navigationItem, out var value))
         {
             PageBreadcrumb.Icon = value;
         }
@@ -1097,15 +1090,6 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
         RefreshHomeTargetButton();
         AnimatePageHeader(18.0);
-    }
-
-    private void ApplyModPageBreadcrumb()
-    {
-        if (RootFrame.Content is Pages.ModCustomPage modPage)
-        {
-            PageBreadcrumb.Current = modPage.Title;
-            PageBreadcrumb.SubPage = string.Empty;
-        }
     }
 
     private static string DescribePage(object content) => content is Pages.ModCustomPage modPage ? ("mod:" + modPage.PluginName + ":" + modPage.PageId) : (content?.GetType().Name ?? "");
