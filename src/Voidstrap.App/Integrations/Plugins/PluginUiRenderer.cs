@@ -710,6 +710,17 @@ internal static class PluginUiRenderer
 		};
 	}
 
+	private static bool IsSafeRemoteImageHost(string host, string? pluginDirectory)
+	{
+		if (host.Equals("thumbnails.roblox.com", StringComparison.OrdinalIgnoreCase) ||
+			host.Equals("www.roblox.com", StringComparison.OrdinalIgnoreCase) ||
+			host.EndsWith(".rbxcdn.com", StringComparison.OrdinalIgnoreCase))
+			return true;
+		if (!string.IsNullOrEmpty(pluginDirectory) && PluginManifest.TryRead(pluginDirectory, out PluginManifest? manifest, out _) && manifest != null)
+			return manifest.NetworkHosts.Contains(host, StringComparer.OrdinalIgnoreCase);
+		return false;
+	}
+
 	private static System.Windows.Controls.Image? MakeImage(JsonObject props, string? pluginDirectory)
 	{
 		string source = props["src"]?.ToString() ?? "";
@@ -727,6 +738,8 @@ internal static class PluginUiRenderer
 			image.Width = Math.Clamp(w, 8, 1200);
 		if (source.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
 		{
+			if (!Uri.TryCreate(source, UriKind.Absolute, out Uri? remoteUri) || !IsSafeRemoteImageHost(remoteUri.IdnHost, pluginDirectory))
+				return null;
 			DynamicRenderSystem.SetLazyImageSource(image, source);
 			return image;
 		}
@@ -746,7 +759,9 @@ internal static class PluginUiRenderer
 		{
 			string root = Path.GetFullPath(pluginDirectory);
 			string full = Path.GetFullPath(Path.Combine(root, source));
-			if (full.StartsWith(root + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase) && File.Exists(full))
+			if (full.StartsWith(root + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase) &&
+				full.EndsWith(".ico", StringComparison.OrdinalIgnoreCase) &&
+				File.Exists(full))
 			{
 				if (SafeImaging.FromFile(full, (int)Math.Max(height * 2, 128)) is BitmapSource bmp)
 				{

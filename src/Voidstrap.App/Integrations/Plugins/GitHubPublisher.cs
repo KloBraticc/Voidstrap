@@ -322,10 +322,20 @@ public static class GitHubPublisher
 				problems.Add(rel + " has a file type the library does not accept");
 				continue;
 			}
-			if (ext.Equals(".ico", StringComparison.OrdinalIgnoreCase) || size > maxFileBytes)
+			if (ext.Equals(".ico", StringComparison.OrdinalIgnoreCase))
 			{
-				if (size > maxFileBytes)
-					problems.Add(rel + " is larger than " + maxFileBytes / 1024 + " KB");
+				long maxIconBytes = limits["maxIconBytes"]?.GetValue<long>() ?? 262144;
+				if (!rel.Equals("icon.ico", StringComparison.Ordinal))
+					problems.Add(rel + " must be named icon.ico at the root of the mod");
+				else if (size > maxIconBytes)
+					problems.Add(rel + " is larger than " + maxIconBytes / 1024 + " KB");
+				else if (UI.Elements.Dialogs.CreateVoidstrapModDialog.LoadIcon(full) == null)
+					problems.Add(rel + " is not a valid .ico icon");
+				continue;
+			}
+			if (size > maxFileBytes)
+			{
+				problems.Add(rel + " is larger than " + maxFileBytes / 1024 + " KB");
 				continue;
 			}
 			string[] lines = File.ReadAllLines(full);

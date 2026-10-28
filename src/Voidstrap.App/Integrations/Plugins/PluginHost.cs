@@ -1167,10 +1167,19 @@ public static class PluginHost
 			if (!value.IsPromise())
 				return value;
 			DateTime deadline = DateTime.UtcNow + AwaitLimit;
-			while (_pending > 0 && DateTime.UtcNow < deadline)
+			while (!_disposed && _pending > 0 && DateTime.UtcNow < deadline)
 				Monitor.Wait(_gate, 50);
+			if (_disposed || _pending > 0)
+				return JsValue.Undefined;
 			_engine.Constraints.Reset();
-			return value.UnwrapIfPromise(TimeSpan.FromMilliseconds(100));
+			try
+			{
+				return value.UnwrapIfPromise(TimeSpan.FromMilliseconds(100));
+			}
+			catch (Jint.Runtime.PromiseRejectedException) when (_disposed)
+			{
+				return JsValue.Undefined;
+			}
 		}
 
 		private const string TestPrelude = """
