@@ -22,6 +22,7 @@ const PAYLOAD_ID: u16 = 101;
 const RT_RCDATA: u16 = 10;
 const PAYLOAD_DIR: &str = env!("VOIDSTRAP_PAYLOAD_DIR");
 const DOTNET_MAJOR: &str = env!("VOIDSTRAP_DOTNET_MAJOR");
+const PAYLOAD_LEN: &str = env!("VOIDSTRAP_PAYLOAD_LEN");
 const STD_INPUT_HANDLE: u32 = -10i32 as u32;
 const STD_OUTPUT_HANDLE: u32 = -11i32 as u32;
 const STD_ERROR_HANDLE: u32 = -12i32 as u32;
@@ -241,12 +242,16 @@ fn unpack() -> Option<PathBuf> {
     let base = Path::new(&env::var_os("LOCALAPPDATA")?).join("Voidstrap").join("Bin");
     let directory = base.join(PAYLOAD_DIR);
     let app = directory.join("Voidstrap.exe");
-    if !fs::metadata(&app).map(|meta| meta.len() == bytes.len() as u64).unwrap_or(false) {
+    let expected_len: u64 = PAYLOAD_LEN.parse().unwrap_or(0);
+    let check_len = if expected_len > 0 { expected_len } else { bytes.len() as u64 };
+    if !fs::metadata(&app).map(|meta| meta.len() == check_len).unwrap_or(false) {
         fs::create_dir_all(&directory).ok()?;
         let temporary = directory.join(format!("Voidstrap.{}.tmp", std::process::id()));
-        if fs::write(&temporary, bytes).is_err() || fs::rename(&temporary, &app).is_err() {
+        let decompressed = miniz_oxide::inflate::decompress_to_vec_zlib(bytes).ok();
+        let write_bytes = decompressed.as_deref().unwrap_or(bytes);
+        if fs::write(&temporary, write_bytes).is_err() || fs::rename(&temporary, &app).is_err() {
             let _ = fs::remove_file(&temporary);
-            if !fs::metadata(&app).map(|meta| meta.len() == bytes.len() as u64).unwrap_or(false) {
+            if !fs::metadata(&app).map(|meta| meta.len() == check_len).unwrap_or(false) {
                 return None;
             }
         }

@@ -16,7 +16,8 @@ param(
     [switch]$AppImage,
     [switch]$SkipAppImage,
     [switch]$LinuxPackages,
-    [switch]$NoPause
+    [switch]$NoPause,
+    [switch]$NoSign
 )
 
 Set-StrictMode -Version Latest
@@ -1681,8 +1682,8 @@ if ($RequestedAll) {
 
 $SignPathContext = $null
 if ($IsWindowsHost -and $Configuration -eq 'Release' -and (@($Targets | Where-Object { $_.Key -eq 'windows' }).Count -gt 0)) {
-    $useSignPath = $true
-    if (-not $env:CI -and -not [Console]::IsInputRedirected) {
+    $useSignPath = -not $NoSign -and -not [Console]::IsInputRedirected
+    if ($useSignPath -and -not $env:CI) {
         while ($true) {
             $answer = (Read-Host 'Use SignPath code signing? [y/n]').Trim().ToLowerInvariant()
             if ($answer -in @('y', 'yes')) { break }

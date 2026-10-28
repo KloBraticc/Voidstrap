@@ -1,6 +1,5 @@
 use std::env;
 use std::fs;
-use std::io::Read;
 use std::path::{Path, PathBuf};
 use std::process::Command;
 
@@ -18,9 +17,16 @@ fn main() {
     let version = env::var("VOIDSTRAP_VERSION").unwrap_or_else(|_| "0.0.0.0".into());
     let major = env::var("VOIDSTRAP_DOTNET_MAJOR").unwrap_or_else(|_| "10".into());
 
-    let hash = fnv1a(&payload);
+    let payload_bytes = fs::read(&payload).expect("the launcher payload could not be read");
+    let uncompressed_len = payload_bytes.len();
+    let hash = fnv1a(&payload_bytes);
     println!("cargo:rustc-env=VOIDSTRAP_PAYLOAD_DIR={}-{:016x}", version, hash);
     println!("cargo:rustc-env=VOIDSTRAP_DOTNET_MAJOR={}", major);
+    println!("cargo:rustc-env=VOIDSTRAP_PAYLOAD_LEN={}", uncompressed_len);
+
+    let compressed = miniz_oxide::deflate::compress_to_vec_zlib(&payload_bytes, 9);
+    let compressed_payload = out_dir.join("payload.compressed");
+    fs::write(&compressed_payload, &compressed).expect("could not write compressed payload");
 
     let icon = manifest_dir.join("..").join("..").join("src").join("Voidstrap.App").join("favicon (1).ico");
     let manifest = manifest_dir.join("voidstrap.manifest");
@@ -61,7 +67,7 @@ BEGIN\n\
 END\n",
         icon = rc_path(&icon),
         manifest = rc_path(&manifest),
-        payload = rc_path(&payload),
+        payload = rc_path(&compressed_payload),
     );
 
     let rc_file = out_dir.join("voidlauncher.rc");
@@ -87,20 +93,13 @@ fn rc_path(path: &Path) -> String {
         .replace('\\', "\\\\")
 }
 
-fn fnv1a(path: &Path) -> u64 {
-    let mut file = fs::File::open(path).expect("the launcher payload could not be read");
+fn fnv1a(buffer: &[u8]) -> u64 {
     let mut hash: u64 = 0xcbf29ce484222325;
-    let mut buffer = vec![0u8; 1 << 20];
-    loop {
-        let read = file.read(&mut buffer).unwrap();
-        if read == 0 {
-            return hash;
-        }
-        for byte in &buffer[..read] {
-            hash ^= *byte as u64;
-            hash = hash.wrapping_mul(0x100000001b3);
-        }
+    for byte in buffer {
+        hash ^= *byte as u64;
+        hash = hash.wrapping_mul(0x100000001b3);
     }
+    hash
 }
 
 fn find_rc() -> PathBuf {
