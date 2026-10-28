@@ -30,12 +30,14 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                 window.ShowRiShadeRelease();
         }
 
-        private void OnHomePageLoaded(object sender, RoutedEventArgs e)
+        private async void OnHomePageLoaded(object sender, RoutedEventArgs e)
         {
             _viewModel.RiShadeReleaseRequested -= OnRiShadeReleaseRequested;
             _viewModel.RiShadeReleaseRequested += OnRiShadeReleaseRequested;
             _viewModel.RefreshMatchmakerState();
-            _ = _viewModel.LoadAsync();
+            Voidstrap.Integrations.Plugins.PluginAnchors.ApplyAll();
+            await _viewModel.LoadAsync();
+            Voidstrap.Integrations.Plugins.PluginAnchors.ApplyAll();
         }
 
         private void ExploreNews_Click(object sender, RoutedEventArgs e)

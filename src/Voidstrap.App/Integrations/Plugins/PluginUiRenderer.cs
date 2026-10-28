@@ -18,7 +18,7 @@ namespace Voidstrap.Integrations.Plugins;
 
 internal static class PluginUiRenderer
 {
-	private const int MaxRenderedNodes = 3000;
+	private const int MaxRenderedNodes = 15000;
 
 	private static readonly Dictionary<Wpf.Ui.Controls.TextBox, (string Handler, string Sent)> PendingChangeInputs = [];
 

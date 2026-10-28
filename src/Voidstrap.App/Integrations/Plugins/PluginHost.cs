@@ -70,14 +70,13 @@ public static class PluginHost
 	public static IReadOnlyList<ModInfo> ListMods()
 	{
 		List<PluginManifest> manifests = PluginManifest.Discover(Paths.Plugins, report: false);
-		Dictionary<string, bool> consent = App.Settings.Prop.PluginConsent ?? [];
 		List<ModInfo> result = [];
 		lock (Gate)
 		{
 			foreach (PluginManifest manifest in manifests)
 			{
 				LoadedPlugin? loaded = Loaded.FirstOrDefault(plugin => plugin.Name == manifest.Name);
-				string state = consent.TryGetValue(manifest.Name, out bool allowed) ? (allowed ? "on" : "off") : "not asked yet";
+				string state = PluginConsent.GetState(manifest);
 				result.Add(new ModInfo(manifest.Name, manifest.Version, manifest.Description, manifest.Directory, state, loaded != null, loaded?.DescribeHooks() ?? [], Problems.TryGetValue(manifest.Name, out List<string>? list) ? list.ToList() : []));
 			}
 		}
@@ -87,10 +86,24 @@ public static class PluginHost
 	public static void SetEnabled(string name, bool enabled, bool reload = true)
 	{
 		Dictionary<string, bool> consent = App.Settings.Prop.PluginConsent ??= [];
+		string accountKey = PluginConsent.PermissionKey(name, PluginManifest.RobloxAccountPermission);
 		lock (Gate)
+		{
 			consent[name] = enabled;
+			if (!enabled)
+				consent.Remove(accountKey);
+			else if (consent.TryGetValue(accountKey, out bool accountAllowed) && !accountAllowed)
+				consent.Remove(accountKey);
+		}
+		if (enabled && System.Windows.Application.Current?.Dispatcher.CheckAccess() == true)
+		{
+			PluginManifest? manifest = PluginManifest.Discover(Paths.Plugins, report: false).FirstOrDefault(m => string.Equals(m.Name, name, StringComparison.Ordinal));
+			if (manifest != null && manifest.HasPermission(PluginManifest.RobloxAccountPermission))
+				_ = PluginConsent.IsAllowed(manifest);
+		}
 		App.Settings.SaveDeferred();
 		App.Logger.WriteLine(LogIdent, name + ": turned " + (enabled ? "on" : "off") + " by the user");
+		ModsChanged?.Invoke();
 		if (reload)
 			Task.Run(Reload);
 	}
@@ -210,7 +223,12 @@ public static class PluginHost
 		}
 	}
 
-	private static bool IsGenerated(string path) => path.Contains(Path.DirectorySeparatorChar + PluginManifest.ManifestFolder + Path.DirectorySeparatorChar + "types", StringComparison.OrdinalIgnoreCase);
+	private static bool IsGenerated(string path)
+	{
+		string marker = Path.DirectorySeparatorChar + PluginManifest.ManifestFolder;
+		return path.Contains(marker + Path.DirectorySeparatorChar + "types", StringComparison.OrdinalIgnoreCase)
+			|| path.EndsWith(marker, StringComparison.OrdinalIgnoreCase);
+	}
 
 	private static void OnPluginsChanged(object sender, FileSystemEventArgs e)
 	{
@@ -218,7 +236,11 @@ public static class PluginHost
 			_reloadTimer?.Change(ReloadDelayMs, Timeout.Infinite);
 	}
 
-	private static void OnPluginsRenamed(object sender, RenamedEventArgs e) => _reloadTimer?.Change(ReloadDelayMs, Timeout.Infinite);
+	private static void OnPluginsRenamed(object sender, RenamedEventArgs e)
+	{
+		if (!IsGenerated(e.FullPath) && !IsGenerated(e.OldFullPath))
+			_reloadTimer?.Change(ReloadDelayMs, Timeout.Infinite);
+	}
 
 	private static void OnReloadTimer(object? state)
 	{
@@ -253,6 +275,7 @@ public static class PluginHost
 				}
 				PluginSidebar.ClearModPages();
 				PluginAnchors.ClearAll();
+				PluginWindow.ClearAll();
 				List<PluginManifest> manifests = PluginManifest.Discover(Paths.Plugins);
 				List<LoadedPlugin> fresh = [];
 				foreach (PluginManifest manifest in manifests)
@@ -333,12 +356,13 @@ public static class PluginHost
 		JsonNode? nextResult = null;
 		try
 		{
+			bool settlePromises = eventName == "roblox.launch" || scope == "test";
 			return hook.Plugin.Call(hook.Function, input, next =>
 			{
 				nextCalled = true;
 				nextResult = Run(hooks, index + 1, eventName, next ?? input?.DeepClone(), bottom, scope);
 				return nextResult;
-			}, scope);
+			}, scope, settlePromises);
 		}
 		catch (Exception ex)
 		{
@@ -573,7 +597,7 @@ public static class PluginHost
 	{
 		private const int MaxTreeDepth = 64;
 
-		private const int MaxTreeNodes = 5000;
+		private const int MaxTreeNodes = 50000;
 
 		private const string Prelude = """
 			(() => {
@@ -1042,6 +1066,7 @@ public static class PluginHost
 		{
 			if (state is not ValueTuple<int, JsValue, bool> tick)
 				return;
+			bool shouldInvalidate;
 			lock (_gate)
 			{
 				if (_disposed || !_timers.ContainsKey(tick.Item1))
@@ -1051,14 +1076,18 @@ public static class PluginHost
 				try
 				{
 					_engine.Constraints.Reset();
-					Settle(_engine.Invoke(tick.Item2, JsValue.Undefined, Array.Empty<object>()));
+					JsValue result = _engine.Invoke(tick.Item2, JsValue.Undefined, Array.Empty<object>());
+					_engine.Advanced.ProcessTasks();
+					shouldInvalidate = !result.IsPromise();
 				}
 				catch (Exception ex)
 				{
 					Problem(Name, "clock hook skipped: " + Describe(ex));
+					shouldInvalidate = false;
 				}
 			}
-			Invalidate(Name);
+			if (shouldInvalidate)
+				Invalidate(Name);
 		}
 
 		private JsValue Fetch(JsonObject request)
@@ -1094,6 +1123,7 @@ public static class PluginHost
 				{
 					error = Describe(ex);
 				}
+				bool idle;
 				lock (_gate)
 				{
 					_pending--;
@@ -1113,9 +1143,11 @@ public static class PluginHost
 							Problem(Name, "a network callback failed: " + Describe(ex));
 						}
 					}
+					idle = _pending == 0;
 					Monitor.PulseAll(_gate);
 				}
-				Invalidate(Name);
+				if (idle)
+					Invalidate(Name);
 			});
 			return promise;
 		}
@@ -1136,6 +1168,7 @@ public static class PluginHost
 				{
 					error = Describe(ex);
 				}
+				bool idle;
 				lock (_gate)
 				{
 					_pending--;
@@ -1155,9 +1188,11 @@ public static class PluginHost
 							Problem(Name, "a request callback failed: " + Describe(ex));
 						}
 					}
+					idle = _pending == 0;
 					Monitor.PulseAll(_gate);
 				}
-				Invalidate(Name);
+				if (idle)
+					Invalidate(Name);
 			});
 			return promise;
 		}
@@ -1284,7 +1319,7 @@ public static class PluginHost
 				return _hooks.Where(hook => hook.Event == eventName).Select(hook => new HookEntry(this, hook.Event, hook.Matcher, hook.Function)).ToList();
 		}
 
-		public JsonNode? Call(JsValue function, JsonNode? input, Func<JsonNode?, JsonNode?> next, string? scope)
+		public JsonNode? Call(JsValue function, JsonNode? input, Func<JsonNode?, JsonNode?> next, string? scope, bool settlePromises = true)
 		{
 			lock (_gate)
 			{
@@ -1302,7 +1337,13 @@ public static class PluginHost
 					return ToJs(result);
 				});
 				_engine.Constraints.Reset();
-				JsValue result = Settle(_engine.Invoke(function, JsValue.Undefined, new object[] { _engine.GetValue("$"), ToJs(input), nextFunction }));
+				JsValue raw = _engine.Invoke(function, JsValue.Undefined, new object[] { _engine.GetValue("$"), ToJs(input), nextFunction });
+				if (!settlePromises)
+				{
+					_engine.Advanced.ProcessTasks();
+					return raw.IsPromise() ? null : ToNode(raw, scope);
+				}
+				JsValue result = Settle(raw);
 				return ToNode(result, scope);
 			}
 		}
@@ -1314,7 +1355,8 @@ public static class PluginHost
 				if (!_handlers.TryGetValue(handlerId, out JsValue? handler))
 					return;
 				_engine.Constraints.Reset();
-				Settle(_engine.Invoke(handler, JsValue.Undefined, new object[] { ToJs(argument) }));
+				_ = _engine.Invoke(handler, JsValue.Undefined, new object[] { ToJs(argument) });
+				_engine.Advanced.ProcessTasks();
 			}
 		}
 

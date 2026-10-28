@@ -6,6 +6,7 @@ using System.Text.Json.Nodes;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Threading;
 
 namespace Voidstrap.Integrations.Plugins;
 
@@ -28,6 +29,10 @@ internal static class PluginAnchors
 
 	private static readonly List<Attached> Items = [];
 
+	private static readonly HashSet<string> PendingRefresh = new(StringComparer.Ordinal);
+
+	private static bool _applyQueued;
+
 	private static readonly string[] Placements = ["before", "after", "start", "end"];
 
 	private const int MaxWidgetsPerMod = 8;
@@ -48,20 +53,35 @@ internal static class PluginAnchors
 			return Result(false, "attach needs an id and the anchor name of an element from $.ui.anchors()");
 		if (!Placements.Contains(placement))
 			return Result(false, "placement must be before, after, start or end");
-		Attached item = new() { Plugin = plugin, Id = id, Anchor = anchor, Placement = placement };
+		Attached item;
+		Attached? removed = null;
 		lock (Gate)
 		{
 			Attached? old = Items.FirstOrDefault(i => i.Plugin == plugin && i.Id == id);
-			if (old != null)
+			if (old != null && old.Anchor == anchor && old.Placement == placement)
 			{
-				Items.Remove(old);
-				Application.Current?.Dispatcher.BeginInvoke(new Action(() => Remove(old)));
+				item = old;
 			}
-			if (Items.Count(i => i.Plugin == plugin) >= MaxWidgetsPerMod)
-				return Result(false, "a mod can attach at most " + MaxWidgetsPerMod + " widgets");
-			Items.Add(item);
+			else
+			{
+				if (old != null)
+				{
+					Items.Remove(old);
+					removed = old;
+				}
+				if (Items.Count(i => i.Plugin == plugin) >= MaxWidgetsPerMod)
+					return Result(false, "a mod can attach at most " + MaxWidgetsPerMod + " widgets");
+				item = new Attached { Plugin = plugin, Id = id, Anchor = anchor, Placement = placement };
+				Items.Add(item);
+			}
 		}
-		Application.Current?.Dispatcher.BeginInvoke(new Action(() => Place(item)));
+		Dispatcher? dispatcher = Application.Current?.Dispatcher;
+		if (dispatcher != null && !dispatcher.HasShutdownStarted)
+		{
+			if (removed != null)
+				dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() => Remove(removed)));
+			dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() => Place(item)));
+		}
 		return Result(true, "");
 	}
 
@@ -75,7 +95,7 @@ internal static class PluginAnchors
 				Items.Remove(item);
 		}
 		if (item != null)
-			Application.Current?.Dispatcher.BeginInvoke(new Action(() => Remove(item)));
+			Application.Current?.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() => Remove(item)));
 	}
 
 	public static void ClearAll()
@@ -85,18 +105,31 @@ internal static class PluginAnchors
 		{
 			all = Items.ToList();
 			Items.Clear();
+			PendingRefresh.Clear();
 		}
 		if (all.Count > 0)
-			Application.Current?.Dispatcher.BeginInvoke(new Action(() => all.ForEach(Remove)));
+			Application.Current?.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() => all.ForEach(Remove)));
 	}
 
 	public static void ApplyAll()
 	{
-		Application.Current?.Dispatcher.BeginInvoke(new Action(() =>
+		Dispatcher? dispatcher = Application.Current?.Dispatcher;
+		if (dispatcher == null || dispatcher.HasShutdownStarted)
+			return;
+		lock (Gate)
+		{
+			if (_applyQueued)
+				return;
+			_applyQueued = true;
+		}
+		dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() =>
 		{
 			List<Attached> all;
 			lock (Gate)
+			{
+				_applyQueued = false;
 				all = Items.ToList();
+			}
 			foreach (Attached item in all)
 				Place(item);
 		}));
@@ -104,42 +137,50 @@ internal static class PluginAnchors
 
 	public static void Refresh(string plugin)
 	{
-		bool any;
-		lock (Gate)
-			any = Items.Any(i => i.Plugin == plugin);
-		if (!any)
+		Dispatcher? dispatcher = Application.Current?.Dispatcher;
+		if (dispatcher == null || dispatcher.HasShutdownStarted)
 			return;
-		Application.Current?.Dispatcher.BeginInvoke(new Action(() =>
+		lock (Gate)
+		{
+			if (!Items.Any(i => i.Plugin == plugin) || !PendingRefresh.Add(plugin))
+				return;
+		}
+		dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() =>
 		{
 			List<Attached> mine;
 			lock (Gate)
-				mine = Items.Where(i => i.Plugin == plugin).ToList();
-			foreach (Attached item in mine)
 			{
-				if (item.Host != null)
-					Render(item);
+				PendingRefresh.Remove(plugin);
+				mine = Items.Where(i => i.Plugin == plugin).ToList();
 			}
+			foreach (Attached item in mine)
+				Place(item);
 		}));
 	}
 
 	private static JsonObject Result(bool placed, string reason) => new() { ["isPlaced"] = placed, ["reason"] = reason };
 
-	private static Window? MainWindow() => Application.Current?.Windows.OfType<Voidstrap.UI.Elements.Settings.MainWindow>().FirstOrDefault();
+	private static Voidstrap.UI.Elements.Settings.MainWindow? MainWindow() => Application.Current?.Windows.OfType<Voidstrap.UI.Elements.Settings.MainWindow>().FirstOrDefault();
 
 	private static string Place(Attached item)
 	{
-		Window? window = MainWindow();
+		Voidstrap.UI.Elements.Settings.MainWindow? window = MainWindow();
 		if (window == null)
 			return "Voidstrap is still starting, the widget appears when the window opens";
-		if (item.Host != null && item.Host.Parent != null)
-			return "";
 		FrameworkElement? target = Find(window, item.Anchor);
 		if (target == null)
 			return "no element named " + item.Anchor + ", call $.ui.anchors() for the list";
 		(Panel? panel, UIElement? child) = AttachablePanel(target);
 		if (panel == null || child == null)
 			return item.Anchor + " is inside a layout that cannot hold extra items, pick a neighbour whose attachable flag is true";
-		ContentControl host = new()
+		if (item.Host != null && ReferenceEquals(item.Host.Parent, panel) && panel.Children.Contains(item.Host))
+		{
+			Render(item);
+			return "";
+		}
+		if (item.Host?.Parent is Panel oldPanel)
+			oldPanel.Children.Remove(item.Host);
+		ContentControl host = item.Host ?? new ContentControl
 		{
 			Margin = new Thickness(4, 0, 4, 0),
 			VerticalAlignment = VerticalAlignment.Center,
@@ -184,8 +225,16 @@ internal static class PluginAnchors
 		item.Host = null;
 	}
 
-	private static FrameworkElement? Find(Window window, string name)
+	private static FrameworkElement? Find(Voidstrap.UI.Elements.Settings.MainWindow window, string name)
 	{
+		if (window.GetFrame()?.Content is DependencyObject pageContent)
+		{
+			if (LogicalTreeHelper.FindLogicalNode(pageContent, name) is FrameworkElement pageLogical)
+				return pageLogical;
+			FrameworkElement? pageFound = Descendants(pageContent).OfType<FrameworkElement>().FirstOrDefault(e => e.Name == name);
+			if (pageFound != null)
+				return pageFound;
+		}
 		if (LogicalTreeHelper.FindLogicalNode(window, name) is FrameworkElement logical)
 			return logical;
 		return Descendants(window).OfType<FrameworkElement>().FirstOrDefault(e => e.Name == name);
@@ -196,7 +245,7 @@ internal static class PluginAnchors
 		if (target is StackPanel or WrapPanel or DockPanel && target is Panel self)
 			return (self, self);
 		DependencyObject child = target;
-		for (int depth = 0; depth < 3; depth++)
+		for (int depth = 0; depth < 5; depth++)
 		{
 			DependencyObject? parent = VisualTreeHelper.GetParent(child) ?? LogicalTreeHelper.GetParent(child);
 			if (parent is StackPanel or WrapPanel or DockPanel && parent is Panel panel && child is UIElement element && panel.Children.Contains(element))
@@ -211,16 +260,30 @@ internal static class PluginAnchors
 	private static IEnumerable<DependencyObject> Descendants(DependencyObject root)
 	{
 		Stack<DependencyObject> stack = new();
+		HashSet<DependencyObject> visited = new(ReferenceEqualityComparer.Instance);
 		stack.Push(root);
 		int seen = 0;
 		while (stack.Count > 0 && seen < 20000)
 		{
 			DependencyObject node = stack.Pop();
+			if (!visited.Add(node))
+				continue;
 			seen++;
 			yield return node;
 			int count = node is Visual or System.Windows.Media.Media3D.Visual3D ? VisualTreeHelper.GetChildrenCount(node) : 0;
-			for (int i = count - 1; i >= 0; i--)
-				stack.Push(VisualTreeHelper.GetChild(node, i));
+			if (count > 0)
+			{
+				for (int i = count - 1; i >= 0; i--)
+					stack.Push(VisualTreeHelper.GetChild(node, i));
+			}
+			else
+			{
+				foreach (object child in LogicalTreeHelper.GetChildren(node))
+				{
+					if (child is DependencyObject dep)
+						stack.Push(dep);
+				}
+			}
 		}
 	}
 

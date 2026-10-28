@@ -939,6 +939,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     private bool IsCachedPage(FrameworkElement page)
     {
+        if (page is Pages.ModCustomPage)
+            return true;
         if (ReferenceEquals(page, _libraryPage) || ReferenceEquals(page, _privateServersPage) || ReferenceEquals(page, _accountsPage) || ReferenceEquals(page, _robloxNewsPage) || ReferenceEquals(page, _voidstrapModsPage))
         {
             return true;
@@ -1043,11 +1045,19 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         _pageSearchTargets.Clear();
         _lastPage = null;
         TrackNavigationHistory(e.Content);
-        Voidstrap.Integrations.Plugins.PluginHost.Invoke("page.navigate", new System.Text.Json.Nodes.JsonObject { ["page"] = DescribePage(e.Content) });
         object readyContent = e.Content;
         Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(() => LogPageReady(readyContent)));
         Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(DetachDiscardedPage));
         object content = e.Content;
+        Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() =>
+        {
+            Voidstrap.Integrations.Plugins.PluginHost.Invoke("page.navigate", new System.Text.Json.Nodes.JsonObject { ["page"] = DescribePage(content) });
+            Voidstrap.Integrations.Plugins.PluginAnchors.ApplyAll();
+        }));
+        Dispatcher.BeginInvoke(DispatcherPriority.ContextIdle, new Action(() =>
+        {
+            Voidstrap.Integrations.Plugins.PluginAnchors.ApplyAll();
+        }));
         RefreshGlobalSearchBoxVisibility();
         if (BreadcrumbPanel != null)
         {
@@ -1247,7 +1257,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
 
     public void OpenModCustomPage(Voidstrap.Integrations.Plugins.PluginSidebar.ModPageInfo info)
     {
-        if (!_modCustomPages.TryGetValue(info.Key, out Pages.ModCustomPage? page) || !ReferenceEquals(RootFrame.Content, page))
+        if (!_modCustomPages.TryGetValue(info.Key, out Pages.ModCustomPage? page))
         {
             page = new Pages.ModCustomPage(info);
             _modCustomPages[info.Key] = page;
@@ -4995,6 +5005,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         {
             long loadedStarted = System.Diagnostics.Stopwatch.GetTimestamp();
             InitializeNavigation();
+            Voidstrap.Integrations.Plugins.PluginTheme.ReapplyActiveBrushes();
+            Voidstrap.Integrations.Plugins.PluginWindow.ApplyPending(this);
             Voidstrap.Integrations.Plugins.PluginAnchors.ApplyAll();
             ApplyUiZoom();
             LoadSidebarWidth();
@@ -5032,6 +5044,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             }, (DispatcherPriority)6);
             PlayIntro();
             Voidstrap.Integrations.FleasionCleanup.WarnAtStartup();
+            _ = Dispatcher.BeginInvoke(new Action(() => Voidstrap.Integrations.Plugins.PluginAnchors.ApplyAll()), DispatcherPriority.ContextIdle);
         }
         catch (OperationCanceledException)
         {

@@ -30,15 +30,41 @@ internal static class PluginConsent
 			return consent.TryGetValue(PermissionKey(mod, permission), out bool granted) && granted;
 	}
 
-	public static bool IsAllowed(PluginManifest manifest)
+	public static string GetState(PluginManifest manifest)
 	{
 		Dictionary<string, bool> consent = App.Settings.Prop.PluginConsent ??= [];
 		bool needsAccount = manifest.HasPermission(PluginManifest.RobloxAccountPermission);
 		string accountKey = PermissionKey(manifest.Name, PluginManifest.RobloxAccountPermission);
 		lock (Gate)
 		{
-			if (consent.TryGetValue(manifest.Name, out bool allowed) && (!allowed || !needsAccount || consent.ContainsKey(accountKey)))
-				return allowed && (!needsAccount || consent[accountKey]);
+			if (!consent.TryGetValue(manifest.Name, out bool allowed))
+				return "not asked yet";
+			if (!allowed)
+				return "off";
+			if (needsAccount && consent.TryGetValue(accountKey, out bool accountAllowed) && !accountAllowed)
+				return "off";
+			return "on";
+		}
+	}
+
+	public static bool IsAllowed(PluginManifest manifest)
+	{
+		Dictionary<string, bool> consent = App.Settings.Prop.PluginConsent ??= [];
+		bool needsAccount = manifest.HasPermission(PluginManifest.RobloxAccountPermission);
+		string accountKey = PermissionKey(manifest.Name, PluginManifest.RobloxAccountPermission);
+		bool alreadyEnabled = false;
+		lock (Gate)
+		{
+			if (consent.TryGetValue(manifest.Name, out bool allowed))
+			{
+				if (!allowed)
+					return false;
+				if (!needsAccount)
+					return true;
+				if (consent.TryGetValue(accountKey, out bool accountAllowed))
+					return accountAllowed;
+				alreadyEnabled = true;
+			}
 		}
 		System.Windows.Threading.Dispatcher? dispatcher = Application.Current?.Dispatcher;
 		if (dispatcher == null || dispatcher.HasShutdownStarted)
@@ -46,9 +72,10 @@ internal static class PluginConsent
 		bool answer;
 		try
 		{
-			string prompt = string.Format(Strings.Plugins_TurnOnPrompt, manifest.Name, manifest.Description.Length > 0 ? manifest.Description : manifest.Name);
-			if (needsAccount)
-				prompt += Environment.NewLine + Environment.NewLine + Strings.Plugins_RobloxAccountWarning;
+			string prompt = alreadyEnabled
+				? manifest.Name + Environment.NewLine + Environment.NewLine + Strings.Plugins_RobloxAccountWarning
+				: string.Format(Strings.Plugins_TurnOnPrompt, manifest.Name, manifest.Description.Length > 0 ? manifest.Description : manifest.Name)
+					+ (needsAccount ? Environment.NewLine + Environment.NewLine + Strings.Plugins_RobloxAccountWarning : "");
 			answer = dispatcher.Invoke(() => Frontend.ShowMessageBox(
 				prompt,
 				needsAccount ? MessageBoxImage.Warning : MessageBoxImage.Question,
@@ -837,6 +864,17 @@ internal static class PluginTheme
 		}));
 	}
 
+	public static void ReapplyActiveBrushes()
+	{
+		Dictionary<string, string> snapshot;
+		lock (Gate)
+			snapshot = new Dictionary<string, string>(ActiveBrushOverrides, StringComparer.Ordinal);
+		if (snapshot.Count == 0)
+			return;
+		foreach (KeyValuePair<string, string> pair in snapshot)
+			SetBrush("system", pair.Key, pair.Value);
+	}
+
 	public static void RefreshWindowsIfVisualSetting(string propertyName)
 	{
 		Application.Current?.Dispatcher.BeginInvoke(new Action(() =>
@@ -860,6 +898,24 @@ internal static class PluginTheme
 
 internal static class PluginWindow
 {
+	private static readonly object Gate = new();
+	private static JsonObject? _lastSpec;
+
+	public static void ClearAll()
+	{
+		lock (Gate)
+			_lastSpec = null;
+	}
+
+	public static void ApplyPending(MainWindow window)
+	{
+		JsonObject? spec;
+		lock (Gate)
+			spec = _lastSpec?.DeepClone() as JsonObject;
+		if (spec != null)
+			ApplyToWindow(window, spec);
+	}
+
 	public static string Get()
 	{
 		return PluginNavigation.InvokeUiBounded(() =>
@@ -883,28 +939,38 @@ internal static class PluginWindow
 
 	public static void Set(string plugin, JsonObject spec)
 	{
+		lock (Gate)
+		{
+			_lastSpec ??= new JsonObject();
+			foreach (KeyValuePair<string, JsonNode?> kv in spec)
+				_lastSpec[kv.Key] = kv.Value?.DeepClone();
+		}
 		Application.Current?.Dispatcher.BeginInvoke(new Action(() =>
 		{
 			MainWindow? window = Application.Current?.Windows.OfType<MainWindow>().FirstOrDefault();
-			if (window == null)
-				return;
-			if (spec["title"]?.ToString() is { Length: > 0 } title)
-				window.Title = title;
-			if (spec["width"] is JsonValue wVal && wVal.TryGetValue(out double w) && w >= 640 && w <= 4000)
-				window.Width = w;
-			if (spec["height"] is JsonValue hVal && hVal.TryGetValue(out double h) && h >= 480 && h <= 3000)
-				window.Height = h;
-			if (spec["left"] is JsonValue lVal && lVal.TryGetValue(out double l) && double.IsFinite(l))
-				window.Left = l;
-			if (spec["top"] is JsonValue tVal && tVal.TryGetValue(out double t) && double.IsFinite(t))
-				window.Top = t;
-			if (spec["state"]?.ToString() is { Length: > 0 } stateStr && Enum.TryParse(stateStr, ignoreCase: true, out System.Windows.WindowState ws))
-				window.WindowState = ws;
-			if (spec["topMost"] is JsonValue tmVal && tmVal.TryGetValue(out bool topMost))
-				window.Topmost = topMost;
-			if (spec["opacity"] is JsonValue opVal && opVal.TryGetValue(out double op))
-				window.Opacity = Math.Clamp(op, 0.25, 1.0);
+			if (window != null)
+				ApplyToWindow(window, spec);
 		}));
+	}
+
+	private static void ApplyToWindow(MainWindow window, JsonObject spec)
+	{
+		if (spec["title"]?.ToString() is { Length: > 0 } title)
+			window.Title = title;
+		if (spec["width"] is JsonValue wVal && wVal.TryGetValue(out double w) && w >= 640 && w <= 4000)
+			window.Width = w;
+		if (spec["height"] is JsonValue hVal && hVal.TryGetValue(out double h) && h >= 480 && h <= 3000)
+			window.Height = h;
+		if (spec["left"] is JsonValue lVal && lVal.TryGetValue(out double l) && double.IsFinite(l))
+			window.Left = l;
+		if (spec["top"] is JsonValue tVal && tVal.TryGetValue(out double t) && double.IsFinite(t))
+			window.Top = t;
+		if (spec["state"]?.ToString() is { Length: > 0 } stateStr && Enum.TryParse(stateStr, ignoreCase: true, out System.Windows.WindowState ws))
+			window.WindowState = ws;
+		if (spec["topMost"] is JsonValue tmVal && tmVal.TryGetValue(out bool topMost))
+			window.Topmost = topMost;
+		if (spec["opacity"] is JsonValue opVal && opVal.TryGetValue(out double op))
+			window.Opacity = Math.Clamp(op, 0.25, 1.0);
 	}
 }
 

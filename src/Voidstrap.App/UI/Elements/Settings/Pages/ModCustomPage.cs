@@ -14,6 +14,8 @@ public sealed class ModCustomPage : UiPage
 
 	private PluginSidebar.ModPageInfo _info;
 
+	private bool _renderQueued;
+
 	public string PageKey => _info.Key;
 
 	public string PluginName => _info.Plugin;
@@ -36,12 +38,16 @@ public sealed class ModCustomPage : UiPage
 	{
 		_info = info;
 		Title = info.Title;
+		if (!ReferenceEquals(Content, _host))
+			Content = _host;
 		if (IsLoaded)
 			RenderPage();
 	}
 
 	private void OnPageLoaded(object sender, RoutedEventArgs e)
 	{
+		if (!ReferenceEquals(Content, _host))
+			Content = _host;
 		PluginHost.PaneInvalidated -= OnPaneInvalidated;
 		PluginHost.PaneInvalidated += OnPaneInvalidated;
 		PluginHost.ModsChanged -= OnModsChanged;
@@ -58,12 +64,25 @@ public sealed class ModCustomPage : UiPage
 	private void OnPaneInvalidated(string plugin)
 	{
 		if (string.Equals(plugin, _info.Plugin, StringComparison.Ordinal))
-			Dispatcher.BeginInvoke(new Action(RenderPage));
+			QueueRender();
 	}
 
 	private void OnModsChanged()
 	{
-		Dispatcher.BeginInvoke(new Action(RenderPage));
+		QueueRender();
+	}
+
+	private void QueueRender()
+	{
+		if (_renderQueued)
+			return;
+		_renderQueued = true;
+		Dispatcher.BeginInvoke(new Action(() =>
+		{
+			_renderQueued = false;
+			if (IsLoaded)
+				RenderPage();
+		}), System.Windows.Threading.DispatcherPriority.Loaded);
 	}
 
 	public void RenderPage()
