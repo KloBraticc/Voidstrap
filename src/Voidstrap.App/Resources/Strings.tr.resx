@@ -9034,6 +9034,9 @@ Voidstrap yüklemeden önce her dosyayı kitaplıkla karşılaştırır ve modu 
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>Çıkış yapın</value>
   </data>
+  <data name="Ui.VoidstrapMods.SignOutPrompt" xml:space="preserve">
+    <value>Voidstrap (@{0}) oturumunu kapatmak üzeresiniz. Devam etmek istediğinizden emin misiniz?</value>
+  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>Kendi modlarınızı yayımlamak için GitHub ile giriş yapın. Mod yüklemek için hesap gerekmez.</value>
   </data>

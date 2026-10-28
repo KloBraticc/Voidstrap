@@ -9037,6 +9037,9 @@ Voidstrap před instalací ověří každý soubor podle knihovny a před zapnut
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>Odhlásit se</value>
   </data>
+  <data name="Ui.VoidstrapMods.SignOutPrompt" xml:space="preserve">
+    <value>Chystáte se odhlásit z Voidstrap (@{0}). Opravdu chcete pokračovat?</value>
+  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>Přihlaste se přes GitHub, abyste mohli publikovat vlastní mody. Instalace modů účet nevyžaduje.</value>
   </data>

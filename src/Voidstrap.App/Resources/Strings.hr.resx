@@ -9035,6 +9035,9 @@ Voidstrap prije instalacije provjerava svaku datoteku prema knjižnici i pita pr
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>Odjava</value>
   </data>
+  <data name="Ui.VoidstrapMods.SignOutPrompt" xml:space="preserve">
+    <value>Upravo ćeš se odjaviti iz Voidstrapa (@{0}). Jesi li siguran da želiš nastaviti?</value>
+  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>Prijavi se putem GitHuba da objaviš vlastite modove. Za instalaciju modova ne treba račun.</value>
   </data>

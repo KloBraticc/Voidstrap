@@ -9035,6 +9035,9 @@
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>تسجيل الخروج</value>
   </data>
+  <data name="Ui.VoidstrapMods.SignOutPrompt" xml:space="preserve">
+    <value>أنت على وشك تسجيل الخروج من Voidstrap‏ (@{0}). هل أنت متأكد من رغبتك في المتابعة؟</value>
+  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>سجّل الدخول باستخدام GitHub لنشر تعديلاتك. لا يحتاج تثبيت التعديلات إلى حساب.</value>
   </data>

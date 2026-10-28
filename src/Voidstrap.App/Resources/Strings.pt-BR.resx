@@ -9037,6 +9037,9 @@ O Voidstrap confere cada arquivo com a biblioteca antes de instalar e pergunta a
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>Sair</value>
   </data>
+  <data name="Ui.VoidstrapMods.SignOutPrompt" xml:space="preserve">
+    <value>Você está prestes a sair do Voidstrap (@{0}). Tem certeza de que deseja continuar?</value>
+  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>Entre com o GitHub para publicar seus próprios mods. Instalar mods não exige conta.</value>
   </data>

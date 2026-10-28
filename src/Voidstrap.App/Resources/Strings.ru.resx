@@ -9035,6 +9035,9 @@ Voidstrap перед установкой сверяет каждый файл �
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>Выйти</value>
   </data>
+  <data name="Ui.VoidstrapMods.SignOutPrompt" xml:space="preserve">
+    <value>Вы собираетесь выйти из Voidstrap (@{0}). Вы уверены, что хотите продолжить?</value>
+  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>Войдите через GitHub, чтобы публиковать свои моды. Для установки модов аккаунт не нужен.</value>
   </data>

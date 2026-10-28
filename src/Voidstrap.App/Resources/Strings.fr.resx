@@ -9035,6 +9035,9 @@ Voidstrap vérifie chaque fichier par rapport à la bibliothèque avant de l'ins
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>Se déconnecter</value>
   </data>
+  <data name="Ui.VoidstrapMods.SignOutPrompt" xml:space="preserve">
+    <value>Vous êtes sur le point de vous déconnecter de Voidstrap (@{0}). Voulez-vous vraiment continuer ?</value>
+  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>Connectez-vous avec GitHub pour publier vos propres mods. Installer des mods ne nécessite aucun compte.</value>
   </data>

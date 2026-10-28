@@ -9039,6 +9039,9 @@ Voidstrap kiểm tra từng tệp với thư viện trước khi cài đặt và
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>Đăng xuất</value>
   </data>
+  <data name="Ui.VoidstrapMods.SignOutPrompt" xml:space="preserve">
+    <value>Bạn sắp đăng xuất khỏi Voidstrap (@{0}). Bạn có chắc chắn muốn tiếp tục không?</value>
+  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>Đăng nhập bằng GitHub để xuất bản mod của riêng bạn. Cài đặt mod không cần tài khoản.</value>
   </data>

@@ -9027,6 +9027,9 @@ Voidstrap menyemak setiap fail dengan pustaka sebelum memasangnya, dan bertanya 
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>Log keluar</value>
   </data>
+  <data name="Ui.VoidstrapMods.SignOutPrompt" xml:space="preserve">
+    <value>Anda akan log keluar daripada Voidstrap (@{0}). Adakah anda pasti ingin meneruskan?</value>
+  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>Log masuk dengan GitHub untuk menerbitkan mod anda sendiri. Memasang mod tidak memerlukan akaun.</value>
   </data>

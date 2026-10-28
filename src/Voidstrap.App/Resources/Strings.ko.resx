@@ -9034,6 +9034,9 @@ Voidstrap은 설치 전에 모든 파일을 라이브러리와 대조하고, 모
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>로그아웃</value>
   </data>
+  <data name="Ui.VoidstrapMods.SignOutPrompt" xml:space="preserve">
+    <value>Voidstrap(@{0})에서 로그아웃하려고 합니다. 계속하시겠습니까?</value>
+  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>직접 만든 모드를 게시하려면 GitHub로 로그인하십시오. 모드 설치에는 계정이 필요하지 않습니다.</value>
   </data>

@@ -9031,6 +9031,9 @@ Voidstrap จะตรวจสอบทุกไฟล์กับคลัง�
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>ออกจากระบบ</value>
   </data>
+  <data name="Ui.VoidstrapMods.SignOutPrompt" xml:space="preserve">
+    <value>คุณกำลังจะลงชื่อออกจาก Voidstrap (@{0}) คุณแน่ใจหรือไม่ว่าต้องการดำเนินการต่อ?</value>
+  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>ลงชื่อเข้าใช้ด้วย GitHub เพื่อเผยแพร่ม็อดของคุณเอง การติดตั้งม็อดไม่ต้องใช้บัญชี</value>
   </data>

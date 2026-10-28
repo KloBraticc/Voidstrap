@@ -9036,6 +9036,9 @@ Voidstrap проверява всеки файл спрямо библиотек
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>Изход</value>
   </data>
+  <data name="Ui.VoidstrapMods.SignOutPrompt" xml:space="preserve">
+    <value>На път сте да излезете от Voidstrap (@{0}). Сигурни ли сте, че искате да продължите?</value>
+  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>Влезте с GitHub, за да публикувате собствени модове. За инсталиране не е нужен акаунт.</value>
   </data>

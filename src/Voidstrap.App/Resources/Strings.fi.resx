@@ -9037,6 +9037,9 @@ Voidstrap tarkistaa jokaisen tiedoston kirjastoa vasten ennen asennusta ja kysyy
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>Kirjaudu ulos</value>
   </data>
+  <data name="Ui.VoidstrapMods.SignOutPrompt" xml:space="preserve">
+    <value>Olet kirjautumassa ulos Voidstrapista (@{0}). Haluatko varmasti jatkaa?</value>
+  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>Kirjaudu GitHubilla julkaistaksesi omia modeja. Modien asentaminen ei vaadi tiliä.</value>
   </data>

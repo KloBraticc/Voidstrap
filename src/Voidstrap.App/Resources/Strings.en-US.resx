@@ -1627,6 +1627,9 @@ Voidstrap checks every file against the library before installing it, and asks b
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>Sign out</value>
   </data>
+  <data name="Ui.VoidstrapMods.SignOutPrompt" xml:space="preserve">
+    <value>You are about to sign out of Voidstrap (@{0}). Are you sure you want to continue?</value>
+  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>Sign in with GitHub to publish your own mods. Installing mods needs no account.</value>
   </data>

@@ -9038,6 +9038,9 @@ Voidstrap پیش از نصب هر فایل را با کتابخانه مقایس
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>خروج</value>
   </data>
+  <data name="Ui.VoidstrapMods.SignOutPrompt" xml:space="preserve">
+    <value>شما در حال خروج از Voidstrap‏ (@{0}) هستید. آیا مطمئن هستید که می‌خواهید ادامه دهید؟</value>
+  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>برای انتشار مادهای خود با GitHub وارد شوید. نصب مادها به حساب نیاز ندارد.</value>
   </data>

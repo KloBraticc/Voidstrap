@@ -9038,6 +9038,9 @@ Voidstrap memeriksa setiap file terhadap pustaka sebelum memasangnya, dan bertan
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>Keluar</value>
   </data>
+  <data name="Ui.VoidstrapMods.SignOutPrompt" xml:space="preserve">
+    <value>Anda akan keluar dari Voidstrap (@{0}). Apakah Anda yakin ingin melanjutkan?</value>
+  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>Masuk dengan GitHub untuk memublikasikan mod Anda sendiri. Menginstal mod tidak memerlukan akun.</value>
   </data>

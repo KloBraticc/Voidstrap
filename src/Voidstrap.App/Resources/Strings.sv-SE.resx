@@ -9036,6 +9036,9 @@ Voidstrap kontrollerar varje fil mot biblioteket innan den installeras och fråg
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>Logga ut</value>
   </data>
+  <data name="Ui.VoidstrapMods.SignOutPrompt" xml:space="preserve">
+    <value>Du håller på att logga ut från Voidstrap (@{0}). Är du säker på att du vill fortsätta?</value>
+  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>Logga in med GitHub för att publicera egna moddar. Du behöver inget konto för att installera.</value>
   </data>

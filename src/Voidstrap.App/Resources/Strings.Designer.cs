@@ -9261,6 +9261,12 @@ namespace Voidstrap.Resources {
             }
         }
 
+        public static string Ui_VoidstrapMods_SignOutPrompt {
+            get {
+                return ResourceManager.GetString("Ui.VoidstrapMods.SignOutPrompt", resourceCulture);
+            }
+        }
+
 
         public static string Ui_VoidstrapMods_SignInHint {
             get {

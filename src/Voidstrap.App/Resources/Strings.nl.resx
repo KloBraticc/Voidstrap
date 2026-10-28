@@ -9037,6 +9037,9 @@ Voidstrap controleert elk bestand met de bibliotheek voordat het wordt geïnstal
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>Uitloggen</value>
   </data>
+  <data name="Ui.VoidstrapMods.SignOutPrompt" xml:space="preserve">
+    <value>Je staat op het punt je af te melden bij Voidstrap (@{0}). Weet je zeker dat je wilt doorgaan?</value>
+  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>Log in met GitHub om je eigen mods te publiceren. Voor installeren heb je geen account nodig.</value>
   </data>

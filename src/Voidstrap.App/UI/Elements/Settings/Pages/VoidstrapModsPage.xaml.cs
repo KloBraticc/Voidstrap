@@ -420,9 +420,16 @@ public partial class VoidstrapModsPage : UiPage
 	private void AccountButton_Click(object sender, RoutedEventArgs e)
 	{
 		if (GitHubPublisher.SignedIn != null)
+		{
+			string message = string.Format(Strings.Ui_VoidstrapMods_SignOutPrompt, GitHubPublisher.SignedIn.Login);
+			if (Frontend.ShowMessageBox(message, MessageBoxImage.Warning, MessageBoxButton.YesNo, MessageBoxResult.No) != MessageBoxResult.Yes)
+				return;
 			GitHubPublisher.SignOut();
+		}
 		else
+		{
 			Voidstrap.UI.Elements.Dialogs.GitHubSignInDialog.EnsureSignedIn(Window.GetWindow(this));
+		}
 		RenderAccount();
 	}
 

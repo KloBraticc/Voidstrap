@@ -9036,6 +9036,9 @@ Voidstrap comprueba cada archivo con la biblioteca antes de instalarlo y te preg
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>Cerrar sesión</value>
   </data>
+  <data name="Ui.VoidstrapMods.SignOutPrompt" xml:space="preserve">
+    <value>Estás a punto de cerrar sesión en Voidstrap (@{0}). ¿Seguro que quieres continuar?</value>
+  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>Inicia sesión con GitHub para publicar tus propios mods. Para instalar mods no necesitas cuenta.</value>
   </data>

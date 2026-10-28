@@ -9050,6 +9050,9 @@ Voidstrap はインストール前にすべてのファイルをライブラリ�
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>サインアウト</value>
   </data>
+  <data name="Ui.VoidstrapMods.SignOutPrompt" xml:space="preserve">
+    <value>Voidstrap (@{0}) からサインアウトしようとしています。続行してもよろしいですか？</value>
+  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>自分の Mod を公開するには GitHub でサインインしてください。Mod のインストールにアカウントは不要です。</value>
   </data>

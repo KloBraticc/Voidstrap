@@ -9035,6 +9035,9 @@ A Voidstrap telepítés előtt minden fájlt összevet a könyvtárral, és beka
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>Kijelentkezés</value>
   </data>
+  <data name="Ui.VoidstrapMods.SignOutPrompt" xml:space="preserve">
+    <value>Kijelentkezni készülsz a Voidstrapből (@{0}). Biztosan folytatni szeretnéd?</value>
+  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>Jelentkezz be GitHubbal a saját modjaid közzétételéhez. A telepítéshez nem kell fiók.</value>
   </data>

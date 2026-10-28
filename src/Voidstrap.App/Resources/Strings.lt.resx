@@ -9037,6 +9037,9 @@ Voidstrap prieš įdiegdama patikrina kiekvieną failą pagal biblioteką ir pak
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>Atsijungti</value>
   </data>
+  <data name="Ui.VoidstrapMods.SignOutPrompt" xml:space="preserve">
+    <value>Ruošiatės atsijungti nuo Voidstrap (@{0}). Ar tikrai norite tęsti?</value>
+  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>Prisijunkite su GitHub, kad galėtumėte skelbti savo modus. Modams diegti paskyros nereikia.</value>
   </data>

@@ -9034,6 +9034,9 @@ Sinusuri ng Voidstrap ang bawat file laban sa library bago ito i-install, at nag
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>Mag-sign out</value>
   </data>
+  <data name="Ui.VoidstrapMods.SignOutPrompt" xml:space="preserve">
+    <value>Malapit ka nang mag-sign out sa Voidstrap (@{0}). Sigurado ka bang gusto mong magpatuloy?</value>
+  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>Mag-sign in gamit ang GitHub para mag-publish ng sarili mong mod. Hindi kailangan ng account para mag-install.</value>
   </data>

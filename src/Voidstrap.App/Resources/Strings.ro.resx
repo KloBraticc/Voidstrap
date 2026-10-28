@@ -9037,6 +9037,9 @@ Voidstrap verifică fiecare fișier cu biblioteca înainte de instalare și te �
   <data name="Ui.VoidstrapMods.SignOut" xml:space="preserve">
     <value>Deconectează-te</value>
   </data>
+  <data name="Ui.VoidstrapMods.SignOutPrompt" xml:space="preserve">
+    <value>Ești pe cale să te deconectezi de la Voidstrap (@{0}). Sigur vrei să continui?</value>
+  </data>
   <data name="Ui.VoidstrapMods.SignInHint" xml:space="preserve">
     <value>Conectează-te cu GitHub ca să publici propriile moduri. Pentru instalare nu ai nevoie de cont.</value>
   </data>
