@@ -25,6 +25,10 @@ internal static class PluginAnchors
 
 		public int RenderVersion;
 
+		public bool DirectGridTarget;
+
+		public UIElement? Sibling;
+
 		public ContentControl? Host { get; set; }
 
 		public RowDefinition? Row { get; set; }
@@ -210,7 +214,11 @@ internal static class PluginAnchors
 		panel.Children.Insert(Math.Clamp(at, 0, panel.Children.Count), host);
 		Render(item);
 		if (panel is Grid gridPanel)
-			PlaceInGrid(item, gridPanel, child, ReferenceEquals(panel, target));
+		{
+			item.DirectGridTarget = ReferenceEquals(panel, target);
+			item.Sibling = child;
+			ApplyGridPlacement(item, gridPanel);
+		}
 		else if (panel is Canvas)
 		{
 			host.Margin = new Thickness(0);
@@ -221,29 +229,48 @@ internal static class PluginAnchors
 		return "";
 	}
 
-	private static void PlaceInGrid(Attached item, Grid panel, UIElement child, bool isTarget)
+	private static void ApplyGridPlacement(Attached item, Grid grid)
 	{
 		ContentControl host = item.Host!;
-		if (isTarget && host.Content is Canvas)
+		if (item.DirectGridTarget && host.Content is Canvas)
 		{
 			host.Margin = new Thickness(0);
 			host.HorizontalAlignment = HorizontalAlignment.Stretch;
 			host.VerticalAlignment = VerticalAlignment.Stretch;
 			Panel.SetZIndex(host, 9999);
-			Grid.SetRowSpan(host, Math.Max(1, panel.RowDefinitions.Count));
-			Grid.SetColumnSpan(host, Math.Max(1, panel.ColumnDefinitions.Count));
+			Grid.SetColumnSpan(host, Math.Max(1, grid.ColumnDefinitions.Count));
+			if (item.Row != null)
+			{
+				int row = grid.RowDefinitions.IndexOf(item.Row);
+				if (row >= 0)
+				{
+					foreach (UIElement existing in grid.Children)
+					{
+						int existingRow = Grid.GetRow(existing);
+						if (existingRow > row)
+							Grid.SetRow(existing, existingRow - 1);
+						else if (existingRow < row && existingRow + Grid.GetRowSpan(existing) > row)
+							Grid.SetRowSpan(existing, Grid.GetRowSpan(existing) - 1);
+					}
+					grid.RowDefinitions.RemoveAt(row);
+				}
+				item.Row = null;
+			}
+			Grid.SetRow(host, 0);
+			Grid.SetRowSpan(host, Math.Max(1, grid.RowDefinitions.Count));
+			return;
 		}
-		else
+		if (item.DirectGridTarget || item.Row != null || host.Content is Canvas)
 		{
-			Grid grid = panel;
 			if (grid.RowDefinitions.Count == 0)
 				grid.RowDefinitions.Add(new RowDefinition());
+			UIElement? child = item.Sibling;
 			int row = item.Placement switch
 			{
 				"start" => 0,
 				"end" => grid.RowDefinitions.Count,
-				"before" => isTarget ? 0 : Grid.GetRow(child),
-				_ => isTarget ? grid.RowDefinitions.Count : Grid.GetRow(child) + Grid.GetRowSpan(child)
+				"before" => child != null && !item.DirectGridTarget ? Grid.GetRow(child) : 0,
+				_ => child != null && !item.DirectGridTarget ? Grid.GetRow(child) + Grid.GetRowSpan(child) : grid.RowDefinitions.Count
 			};
 			row = Math.Clamp(row, 0, grid.RowDefinitions.Count);
 			foreach (UIElement existing in grid.Children)
@@ -256,9 +283,12 @@ internal static class PluginAnchors
 				else if (existingRow + Grid.GetRowSpan(existing) > row)
 					Grid.SetRowSpan(existing, Grid.GetRowSpan(existing) + 1);
 			}
-			item.Row = new RowDefinition { Height = GridLength.Auto };
-			grid.RowDefinitions.Insert(row, item.Row);
-			Grid.SetRow(host, row);
+			if (item.Row == null)
+			{
+				item.Row = new RowDefinition { Height = GridLength.Auto };
+				grid.RowDefinitions.Insert(row, item.Row);
+			}
+			Grid.SetRow(host, grid.RowDefinitions.IndexOf(item.Row));
 			Grid.SetColumn(host, 0);
 			Grid.SetColumnSpan(host, Math.Max(1, grid.ColumnDefinitions.Count));
 			host.HorizontalAlignment = HorizontalAlignment.Stretch;
@@ -290,6 +320,8 @@ internal static class PluginAnchors
 				try
 				{
 					item.Host.Content = tree == null ? null : PluginUiRenderer.BuildTree(tree, dir);
+					if (item.Host.Parent is Grid hostGrid)
+						ApplyGridPlacement(item, hostGrid);
 					if (item.Host.Content is UIElement elem && !elem.IsHitTestVisible)
 						item.Host.IsHitTestVisible = false;
 					else if (item.Host.Content == null)
