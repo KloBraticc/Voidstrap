@@ -14,7 +14,7 @@ public static partial class McpTools
 {
 	private const int MaxModFileBytes = 512 * 1024;
 
-	private static readonly string[] ModFileExtensions = [".ts", ".tsx", ".js", ".mjs", ".jsx", ".json", ".md", ".png", ".ico", ".gif", ".webp", ".jpg", ".jpeg", ".svg"];
+	private static readonly string[] ModFileExtensions = [".ts", ".tsx", ".js", ".mjs", ".jsx", ".json", ".md", ".png", ".ico", ".gif", ".webp", ".jpg", ".jpeg", ".bmp", ".svg"];
 
 	[GeneratedRegex("^[a-z0-9][a-z0-9-]{0,63}$")]
 	private static partial Regex ModNamePattern { get; }
@@ -31,7 +31,7 @@ public static partial class McpTools
 		4. action write_file writes full file contents. Supply mod, path and content, for example { "action": "write_file", "mod": "my-mod", "path": "hooks/hooks.json", "content": "{\"modules\":[\"./register.tsx\"]}" }. A new mod needs all three files below.
 		5. action validate checks that the manifest and register module load. It does not execute every event or prove the UI renders. Fix every reported error.
 		6. action test runs *.test.ts, *.test.tsx, *.test.js, *.test.jsx or *.test.mjs files in a sandbox. Test the events and render tree your feature uses.
-		7. action reload reloads all mods, then action list confirms this mod has loaded true and state on. A new mod needs the user's approval in Voidstrap. Do not repeatedly call enable: it resets consent and asks again.
+		7. action reload applies changed mods; unchanged mods keep their runtime, timers and UI. If an edit fails to load, the last working runtime stays active and problems explains the rejected edit. Call list to confirm loaded true and state on. A new mod needs the user's approval in Voidstrap. Do not repeatedly call enable: it resets consent and asks again.
 		8. Exercise the feature in the live window, then action problems with mod. No problems does not prove the mod loaded or that the UI is visible. Report separately what was saved, tested, loaded and seen.
 
 		THE THREE FILES
@@ -92,10 +92,14 @@ public static partial class McpTools
 		"the setting X does not exist": read $.settings.list() for real names.
 		Network refused: the host is missing from network in plugin.json, or the url is not https.
 		Tests: do not import register in a test file. The mod is already loaded; drive it with mod.emit, mod.render, mod.renderPage and mod.press from 'voidstrap/testing'.
+		hooks.json names one entry module. Import helper modules from that entry, rather than listing every helper in hooks.json. Ensure each imported file exists before reloading, use unique aliases for repeated export names, and declare local helpers before calling them. Tests support only the matchers listed in types; do not assume another test framework's .not syntax exists.
 		Hooks time out after 2 seconds of running and async work is waited on for at most 10 seconds, so keep hooks short.
 		A sprite moves twice a second: $.clock.every has a 500 ms minimum, even when you ask for 16 or 33 ms. Use cursor.move as described below.
 		A sprite stays invisible: always return a root Canvas, even when its children are hidden. Verify the Widget requestId, WindowRoot anchor and loaded state.
 		A sprite blocks clicks: set hitTestVisible={false} on the root Canvas. A decoration must let pointer input reach the app beneath it.
+		Images and GIFs: use Image with src set to a mod relative path, a base64 image data URL or an HTTPS URL on an allowed network host. Redirects and paths outside the mod are refused. GIFs play automatically; animate={false} shows the first frame.
+		Sprite sheets: use Sprite with src, frameWidth and frameHeight in source pixels. Cells run left to right, then top to bottom. Set frameIndex for one zero based cell, or omit it to loop; fps controls playback. Image accepts the same props. Keep movement on cursor events rather than repeat timers.
+		All custom image bytes are checked locally before display, including every GIF frame and sprite cell. The fixed content checker and its license files download on first use; images are never uploaded. Checking is asynchronous, so initial renders can be blank. Failed checks, unavailable checking and unsupported or oversized media stay hidden. Limits are 16 MB encoded, 48 MB decoded and 180 frames or cells. This targets sexual imagery and can make mistakes; it is not a general harmful content classifier.
 
 		PLACING UI ANYWHERE IN VOIDSTRAP
 		Call manage_voidstrap_mods action ui_map first. It returns every named element in the live Voidstrap window: name, type, visible text, parent, x, y, width, height (pixels from the window's top left) and attachable.
@@ -231,7 +235,7 @@ public static partial class McpTools
 				return new McpToolResult(Resource.GetString("ModTypes.d.ts"));
 			case "reload":
 				PluginHost.Reload();
-				return new McpToolResult("Reloaded the Voidstrap mods. Call list to see what loaded and any problems.");
+				return new McpToolResult("Requested a reload of changed Voidstrap mod files. Call list to see what loaded and any problems.");
 			case "ui_map":
 			{
 				JsonArray map = Application.Current.Dispatcher.Invoke(PluginAnchors.Map);
@@ -293,6 +297,8 @@ public static partial class McpTools
 				if (content.Length > MaxModFileBytes)
 					return new McpToolResult("Mod files are limited to 512 KB.", true);
 				string? before = File.Exists(path) ? File.ReadAllText(path) : null;
+				if (before == content)
+					return new McpToolResult("The mod file already has these contents. No files were changed.");
 				Directory.CreateDirectory(Path.GetDirectoryName(path)!);
 				File.WriteAllText(path, content);
 				PushUndo("write " + mod + "/" + relative, () =>

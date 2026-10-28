@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
+using System.Text;
 using System.Text.Json.Nodes;
 using System.Net.Http;
 using System.Threading;
@@ -19,11 +21,13 @@ public static class PluginHost
 {
 	private const string LogIdent = "VoidstrapMods";
 
-	private const int ReloadDelayMs = 400;
+	private const int ReloadDelayMs = 750;
 
 	private static readonly object Gate = new();
 
 	private static readonly object ReloadGate = new();
+
+	private static string? _reloadSignature;
 
 	private static readonly List<LoadedPlugin> Loaded = [];
 
@@ -73,6 +77,9 @@ public static class PluginHost
 		List<LoadedPlugin> snapshot;
 		lock (Gate)
 			snapshot = Loaded.ToList();
+		foreach (LoadedPlugin plugin in snapshot)
+			if (!manifests.Any(manifest => manifest.Name == plugin.Name))
+				manifests.Add(plugin.Manifest);
 		List<ModInfo> result = [];
 		lock (Gate)
 		{
@@ -216,6 +223,7 @@ public static class PluginHost
 			OpenBanners.Clear();
 			Statuses.Clear();
 			_started = false;
+			_reloadSignature = null;
 		}
 		foreach (LoadedPlugin plugin in doomed)
 			plugin.Dispose();
@@ -226,8 +234,32 @@ public static class PluginHost
 	private static bool IsGenerated(string path)
 	{
 		string marker = Path.DirectorySeparatorChar + PluginManifest.ManifestFolder;
-		return path.Contains(marker + Path.DirectorySeparatorChar + "types", StringComparison.OrdinalIgnoreCase)
+		return path.EndsWith(".tmp", StringComparison.OrdinalIgnoreCase)
+			|| path.Contains(marker + Path.DirectorySeparatorChar + "types", StringComparison.OrdinalIgnoreCase)
 			|| path.EndsWith(marker, StringComparison.OrdinalIgnoreCase);
+	}
+
+	internal static string GetReloadSignature(string root, string? mod = null)
+	{
+		using IncrementalHash hash = IncrementalHash.CreateHash(HashAlgorithmName.SHA256);
+		if (Directory.Exists(root))
+		{
+			EnumerationOptions options = new() { RecurseSubdirectories = true, AttributesToSkip = FileAttributes.ReparsePoint };
+			foreach (string path in Directory.EnumerateFiles(root, "*", options).Where(path => !IsGenerated(path)).Order(StringComparer.Ordinal))
+			{
+				hash.AppendData(Encoding.UTF8.GetBytes(Path.GetRelativePath(root, path) + "\0"));
+				using FileStream stream = new(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete);
+				byte[] buffer = new byte[8192];
+				int count;
+				while ((count = stream.Read(buffer)) > 0)
+					hash.AppendData(buffer.AsSpan(0, count));
+				hash.AppendData([0]);
+			}
+		}
+		foreach (KeyValuePair<string, bool> consent in PluginConsent.GetStates().OrderBy(pair => pair.Key, StringComparer.Ordinal))
+			if (mod == null || consent.Key == mod || consent.Key.StartsWith(mod + "#", StringComparison.Ordinal))
+				hash.AppendData(Encoding.UTF8.GetBytes(consent.Key + "\0" + consent.Value + "\0"));
+		return Convert.ToHexString(hash.GetHashAndReset());
 	}
 
 	private static void OnPluginsChanged(object sender, FileSystemEventArgs e)
@@ -262,21 +294,22 @@ public static class PluginHost
 			Task.Run(Reload);
 			return;
 		}
-		lock (ReloadGate)
+		if (!Monitor.TryEnter(ReloadGate))
+		{
+			_reloadTimer?.Change(ReloadDelayMs, Timeout.Infinite);
+			return;
+		}
+		try
 		{
 			try
 			{
 				_reloadTimer?.Change(Timeout.Infinite, Timeout.Infinite);
+				string signature = GetReloadSignature(Paths.Plugins);
+				if (signature == _reloadSignature)
+					return;
+				List<LoadedPlugin> old;
 				lock (Gate)
-				{
-					OpenPanes.Clear();
-					OpenBanners.Clear();
-					Statuses.Clear();
-				}
-				PluginSidebar.ClearModPages();
-				PluginModPages.ClearAll();
-				PluginAnchors.ClearAll();
-				PluginWindow.ClearAll();
+					old = Loaded.ToList();
 				List<PluginManifest> manifests = PluginManifest.Discover(Paths.Plugins);
 				List<LoadedPlugin> fresh = [];
 				foreach (PluginManifest manifest in manifests)
@@ -285,27 +318,50 @@ public static class PluginHost
 						continue;
 					try
 					{
+						LoadedPlugin? unchanged = old.FirstOrDefault(plugin => plugin.Name == manifest.Name && plugin.SourceSignature == GetReloadSignature(manifest.Directory, manifest.Name));
+						if (unchanged != null)
+						{
+							fresh.Add(unchanged);
+							continue;
+						}
 						fresh.Add(LoadedPlugin.Load(manifest));
 						App.Logger.WriteLine(LogIdent, manifest.Name + ": loaded " + manifest.Version);
 					}
 					catch (Exception ex)
 					{
 						Problem(manifest.Name, "the module did not load: " + Describe(ex));
+						LoadedPlugin? previous = old.FirstOrDefault(plugin => plugin.Name == manifest.Name);
+						if (previous != null && PluginConsent.GetState(previous.Manifest) == "on")
+							fresh.Add(previous);
 					}
 				}
-				List<LoadedPlugin> old;
-				HashSet<string> names;
+				_reloadSignature = signature;
+				foreach (LoadedPlugin plugin in old)
+					if (!manifests.Any(manifest => manifest.Name == plugin.Name) && Directory.Exists(plugin.Manifest.Directory) && PluginConsent.GetState(plugin.Manifest) == "on")
+						fresh.Add(plugin);
+				List<LoadedPlugin> replaced = old.Where(plugin => !fresh.Contains(plugin)).ToList();
+				List<LoadedPlugin> added = fresh.Where(plugin => !old.Contains(plugin)).ToList();
+				HashSet<string> changed = replaced.Concat(added).Select(plugin => plugin.Name).ToHashSet(StringComparer.Ordinal);
+				HashSet<string> unchangedNames = old.Where(plugin => fresh.Contains(plugin)).Select(plugin => plugin.Name).ToHashSet(StringComparer.Ordinal);
 				lock (Gate)
 				{
-					old = Loaded.ToList();
 					Loaded.Clear();
+					OpenPanes.RemoveAll(pane => changed.Contains(pane.Plugin));
+					OpenBanners.RemoveAll(banner => changed.Contains(banner.Plugin));
+					foreach (string plugin in changed)
+						Statuses.Remove(plugin);
 					Loaded.AddRange(fresh);
-					names = fresh.Select(plugin => plugin.Name).ToHashSet(StringComparer.Ordinal);
 				}
-				PluginDialogManager.ClosePluginDialogs(names);
-				foreach (LoadedPlugin plugin in old)
+				PluginDialogManager.ClosePluginDialogs(unchangedNames);
+				foreach (LoadedPlugin plugin in replaced)
 					plugin.Dispose();
-				Invoke("session.start", new JsonObject { ["source"] = old.Count > 0 ? "reload" : "startup" });
+				PluginSidebar.RemovePluginPages(unchangedNames);
+				PluginModPages.RemovePlugins(changed);
+				PluginAnchors.RemovePlugins(changed);
+				PluginWindow.RemovePlugins(changed);
+				JsonObject started = new() { ["source"] = old.Count > 0 ? "reload" : "startup" };
+				List<HookEntry> hooks = added.SelectMany(plugin => plugin.HooksFor("session.start")).Where(hook => Matches(hook.Matcher, started)).ToList();
+				Run(hooks, 0, "session.start", started, static e => e, null);
 				PluginSidebar.ApplyToWindows();
 				PluginAnchors.ApplyAll();
 				PluginCursor.RefreshHooks();
@@ -318,6 +374,10 @@ public static class PluginHost
 			{
 				App.Logger.WriteException("PluginHost::Reload", ex);
 			}
+		}
+		finally
+		{
+			Monitor.Exit(ReloadGate);
 		}
 	}
 
@@ -339,6 +399,8 @@ public static class PluginHost
 		List<LoadedPlugin> snapshot;
 		lock (Gate)
 			snapshot = Loaded.ToList();
+		if (eventName == "ui.render")
+			snapshot = snapshot.Where(plugin => input?["plugin"]?.ToString() == plugin.Name).ToList();
 		List<HookEntry> hooks = snapshot.SelectMany(plugin => plugin.HooksFor(eventName)).Where(hook => Matches(hook.Matcher, input)).ToList();
 		bottom ??= static e => e;
 		if (hooks.Count == 0)
@@ -628,7 +690,7 @@ public static class PluginHost
 			    Button: 'Button', Toggle: 'Toggle', CheckBox: 'CheckBox', TextInput: 'TextInput',
 			    NumberInput: 'NumberInput', Slider: 'Slider', Select: 'Select',
 			    ProgressBar: 'ProgressBar', InfoBar: 'InfoBar', Divider: 'Divider', Spacer: 'Spacer',
-			    Image: 'Image', Card: 'Card', Expander: 'Expander', Tabs: 'Tabs', Table: 'Table'
+			    Image: 'Image', Sprite: 'Sprite', Card: 'Card', Expander: 'Expander', Tabs: 'Tabs', Table: 'Table'
 			  });
 			  globalThis.h = (type, props, ...children) => ({ type, props: props || {}, children: children.flat(Infinity).filter(child => child !== null && child !== undefined && child !== false) });
 			  globalThis.Fragment = 'Box';
@@ -768,9 +830,15 @@ public static class PluginHost
 
 		public string Name { get; }
 
+		public PluginManifest Manifest { get; }
+
+		public string SourceSignature { get; }
+
 		private LoadedPlugin(PluginManifest manifest, bool sandbox = false)
 		{
 			Name = manifest.Name;
+			Manifest = manifest;
+			SourceSignature = GetReloadSignature(manifest.Directory, manifest.Name);
 			_sandbox = sandbox;
 			_store = new PluginStore(manifest.Name);
 			_networkHosts = new HashSet<string>(manifest.NetworkHosts, StringComparer.OrdinalIgnoreCase);

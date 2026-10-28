@@ -102,6 +102,7 @@ declare module 'voidstrap' {
     | 'Divider'
     | 'Spacer'
     | 'Image'
+    | 'Sprite'
     | 'Card'
     | 'Expander'
     | 'Tabs'
@@ -161,7 +162,8 @@ declare module 'voidstrap' {
     InfoBar: CommonStyleProps & { title?: string; message?: string; severity?: 'info' | 'success' | 'warning' | 'error'; open?: boolean };
     Divider: CommonStyleProps;
     Spacer: CommonStyleProps;
-    Image: CommonStyleProps & { src: string; height?: number; width?: number };
+    Image: CommonStyleProps & { src: string; height?: number; width?: number; animate?: boolean; frameWidth?: number; frameHeight?: number; frameIndex?: number; fps?: number };
+    Sprite: ElementProps['Image'];
     Card: CommonStyleProps & { title?: string; subtitle?: string; direction?: 'row' | 'column'; gap?: number };
     Expander: CommonStyleProps & { title?: string; header?: string; expanded?: boolean; direction?: 'row' | 'column'; gap?: number };
     Tabs: CommonStyleProps & { selectedIndex?: number };

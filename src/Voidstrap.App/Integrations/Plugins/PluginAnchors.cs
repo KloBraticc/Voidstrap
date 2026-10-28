@@ -25,6 +25,8 @@ internal static class PluginAnchors
 
 		public int RenderVersion;
 
+		public bool Rendering;
+
 		public bool DirectGridTarget;
 
 		public UIElement? Sibling;
@@ -142,6 +144,19 @@ internal static class PluginAnchors
 			foreach (Attached item in all)
 				Place(item);
 		}));
+	}
+
+	internal static void RemovePlugins(IReadOnlySet<string> plugins)
+	{
+		List<Attached> removed;
+		lock (Gate)
+		{
+			removed = Items.Where(item => plugins.Contains(item.Plugin)).ToList();
+			Items.RemoveAll(item => plugins.Contains(item.Plugin));
+			PendingRefresh.RemoveWhere(plugins.Contains);
+		}
+		if (removed.Count > 0)
+			Application.Current?.Dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() => removed.ForEach(Remove)));
 	}
 
 	public static void Refresh(string plugin)
@@ -300,6 +315,10 @@ internal static class PluginAnchors
 		if (item.Host == null)
 			return;
 		int version = ++item.RenderVersion;
+		if (item.Rendering)
+			return;
+		item.Rendering = true;
+		ContentControl host = item.Host;
 		string plugin = item.Plugin;
 		string id = item.Id;
 		string dir = Path.Combine(Paths.Plugins, plugin);
@@ -313,12 +332,12 @@ internal static class PluginAnchors
 			Dispatcher? dispatcher = Application.Current?.Dispatcher;
 			if (dispatcher == null || dispatcher.HasShutdownStarted)
 				return;
-			dispatcher.BeginInvoke(new Action(() =>
+			dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() =>
 			{
-				if (version != item.RenderVersion || item.Host == null)
-					return;
 				try
 				{
+					if (!ReferenceEquals(item.Host, host))
+						return;
 					item.Host.Content = tree == null ? null : PluginUiRenderer.BuildTree(tree, dir);
 					if (item.Host.Parent is Grid hostGrid)
 						ApplyGridPlacement(item, hostGrid);
@@ -346,6 +365,12 @@ internal static class PluginAnchors
 				catch (Exception ex)
 				{
 					PluginHost.Problem(plugin, "the widget " + id + " could not be drawn: " + PluginHost.Describe(ex));
+				}
+				finally
+				{
+					item.Rendering = false;
+					if (version != item.RenderVersion && item.Host != null)
+						Render(item);
 				}
 			}));
 		});

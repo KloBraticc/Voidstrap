@@ -243,6 +243,8 @@ internal static class HiddenErrorLog
 
 	private static bool IsKnownInternalProbe(Exception ex)
 	{
+		if (Integrations.Plugins.ModTranspiler.IsProbingJavaScript && ex is Acornima.ParseErrorException)
+			return true;
 		return ex.GetType().Name == "TypeNameParserException"
 			&& ex.TargetSite?.DeclaringType?.Namespace == "MS.Internal.Xaml.Parser";
 	}

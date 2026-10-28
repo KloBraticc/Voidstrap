@@ -32,6 +32,12 @@ internal static class PluginConsent
 			return consent.TryGetValue(PermissionKey(mod, permission), out bool granted) && granted;
 	}
 
+	internal static KeyValuePair<string, bool>[] GetStates()
+	{
+		lock (Gate)
+			return (App.Settings.Prop.PluginConsent ?? []).ToArray();
+	}
+
 	public static void SetEnabledState(string name, bool enabled)
 	{
 		Dictionary<string, bool> consent = App.Settings.Prop.PluginConsent ??= [];
@@ -376,6 +382,8 @@ public static class PluginSidebar
 {
 	private static readonly object Gate = new();
 
+	private static int _applyQueued;
+
 	private static readonly List<ModPageInfo> ModPages = [];
 
 	public sealed record ModPageInfo(string Plugin, string Id, string Key, string Title, string Section, string Icon);
@@ -565,13 +573,14 @@ public static class PluginSidebar
 	public static void ApplyToWindows()
 	{
 		System.Windows.Threading.Dispatcher? dispatcher = Application.Current?.Dispatcher;
-		if (dispatcher == null || dispatcher.HasShutdownStarted)
+		if (dispatcher == null || dispatcher.HasShutdownStarted || System.Threading.Interlocked.Exchange(ref _applyQueued, 1) != 0)
 			return;
-		if (!dispatcher.CheckAccess())
-		{
-			dispatcher.BeginInvoke(new Action(ApplyToWindows));
-			return;
-		}
+		dispatcher.BeginInvoke(System.Windows.Threading.DispatcherPriority.Background, new Action(ApplyQueued));
+	}
+
+	private static void ApplyQueued()
+	{
+		System.Threading.Interlocked.Exchange(ref _applyQueued, 0);
 		if (Application.Current == null)
 			return;
 		foreach (MainWindow window in Application.Current.Windows.OfType<MainWindow>())
@@ -603,6 +612,15 @@ public static class PluginModPages
 			removed = Entries.Count > 0;
 			Entries.Clear();
 		}
+		if (removed)
+			NotifyWindows();
+	}
+
+	internal static void RemovePlugins(IReadOnlySet<string> plugins)
+	{
+		bool removed;
+		lock (Gate)
+			removed = Entries.RemoveAll(entry => plugins.Contains(entry.Plugin)) > 0;
 		if (removed)
 			NotifyWindows();
 	}
@@ -1071,11 +1089,25 @@ internal static class PluginWindow
 {
 	private static readonly object Gate = new();
 	private static JsonObject? _lastSpec;
+	private static readonly Dictionary<string, string> Owners = new(StringComparer.Ordinal);
 
 	public static void ClearAll()
 	{
 		lock (Gate)
+		{
 			_lastSpec = null;
+			Owners.Clear();
+		}
+	}
+
+	internal static void RemovePlugins(IReadOnlySet<string> plugins)
+	{
+		lock (Gate)
+			foreach (string key in Owners.Where(pair => plugins.Contains(pair.Value)).Select(pair => pair.Key).ToArray())
+			{
+				_lastSpec?.Remove(key);
+				Owners.Remove(key);
+			}
 	}
 
 	public static void ApplyPending(MainWindow window)
@@ -1114,7 +1146,10 @@ internal static class PluginWindow
 		{
 			_lastSpec ??= new JsonObject();
 			foreach (KeyValuePair<string, JsonNode?> kv in spec)
+			{
 				_lastSpec[kv.Key] = kv.Value?.DeepClone();
+				Owners[kv.Key] = plugin;
+			}
 		}
 		Application.Current?.Dispatcher.BeginInvoke(new Action(() =>
 		{

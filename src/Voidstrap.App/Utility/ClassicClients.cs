@@ -1146,29 +1146,34 @@ namespace Voidstrap.Utility
                 if (File.Exists(InstalledIndexPath))
                 {
                     using JsonDocument document = JsonDocument.Parse(JsonFile.ReadText(InstalledIndexPath, 4194304));
-                    var result = new Dictionary<string, InstalledAssetRecord>(StringComparer.OrdinalIgnoreCase);
-                    if (document.RootElement.ValueKind != JsonValueKind.Object)
-                        return result;
-                    foreach (JsonProperty property in document.RootElement.EnumerateObject())
-                    {
-                        if (property.Value.TryGetInt64(out long legacySize))
-                        {
-                            result[property.Name] = new InstalledAssetRecord { Size = legacySize };
-                            continue;
-                        }
-                        if (property.Value.ValueKind != JsonValueKind.Object)
-                            continue;
-                        long size = property.Value.TryGetProperty("Size", out JsonElement sizeElement) && sizeElement.TryGetInt64(out long parsedSize) ? parsedSize : -1L;
-                        string sha256 = property.Value.TryGetProperty("Sha256", out JsonElement digestElement) ? digestElement.GetString() ?? "" : "";
-                        result[property.Name] = new InstalledAssetRecord { Size = size, Sha256 = sha256 };
-                    }
-                    return result;
+                    return ParseInstalledIndex(document.RootElement);
                 }
             }
             catch
             {
             }
             return new Dictionary<string, InstalledAssetRecord>(StringComparer.OrdinalIgnoreCase);
+        }
+
+        private static Dictionary<string, InstalledAssetRecord> ParseInstalledIndex(JsonElement root)
+        {
+            var result = new Dictionary<string, InstalledAssetRecord>(StringComparer.OrdinalIgnoreCase);
+            if (root.ValueKind != JsonValueKind.Object)
+                return result;
+            foreach (JsonProperty property in root.EnumerateObject())
+            {
+                if (property.Value.ValueKind == JsonValueKind.Number && property.Value.TryGetInt64(out long legacySize))
+                {
+                    result[property.Name] = new InstalledAssetRecord { Size = legacySize };
+                    continue;
+                }
+                if (property.Value.ValueKind != JsonValueKind.Object)
+                    continue;
+                long size = property.Value.TryGetProperty("Size", out JsonElement sizeElement) && sizeElement.ValueKind == JsonValueKind.Number && sizeElement.TryGetInt64(out long parsedSize) ? parsedSize : -1L;
+                string sha256 = property.Value.TryGetProperty("Sha256", out JsonElement digestElement) && digestElement.ValueKind == JsonValueKind.String ? digestElement.GetString() ?? "" : "";
+                result[property.Name] = new InstalledAssetRecord { Size = size, Sha256 = sha256 };
+            }
+            return result;
         }
 
         private static void SaveIndex(Dictionary<string, InstalledAssetRecord> index)

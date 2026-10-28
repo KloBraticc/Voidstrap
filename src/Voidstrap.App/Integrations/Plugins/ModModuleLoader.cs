@@ -71,6 +71,9 @@ internal static class ModTranspiler
 
 	private static Engine? _engine;
 
+	[ThreadStatic]
+	internal static bool IsProbingJavaScript;
+
 	public static bool NeedsTranspile(string path)
 	{
 		string extension = Path.GetExtension(path);
@@ -87,13 +90,46 @@ internal static class ModTranspiler
 		{
 			if (Cache.TryGetValue(key, out string? cached))
 				return cached;
-			_engine ??= CreateEngine();
-			_engine.Constraints.Reset();
-			string output = _engine.Invoke("__voidstrapTranspile", source, "module" + kind).AsString();
+			string output;
+			if (kind == ".ts" && IsJavaScript(source))
+				output = source;
+			else
+			{
+				try
+				{
+					_engine ??= CreateEngine();
+					_engine.Constraints.Reset();
+					output = _engine.Invoke("__voidstrapTranspile", source, "module" + kind).AsString();
+				}
+				catch
+				{
+					_engine?.Dispose();
+					_engine = null;
+					throw;
+				}
+			}
 			if (Cache.Count >= MaxCacheEntries)
 				Cache.Clear();
 			Cache[key] = output;
 			return output;
+		}
+	}
+
+	private static bool IsJavaScript(string source)
+	{
+		IsProbingJavaScript = true;
+		try
+		{
+			new Acornima.Parser().ParseModule(source);
+			return true;
+		}
+		catch (Acornima.ParseErrorException)
+		{
+			return false;
+		}
+		finally
+		{
+			IsProbingJavaScript = false;
 		}
 	}
 

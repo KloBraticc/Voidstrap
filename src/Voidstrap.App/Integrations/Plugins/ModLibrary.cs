@@ -26,9 +26,11 @@ public static partial class ModLibrary
 
 	private const long MaxIndexBytes = 8L * 1024 * 1024;
 
-	private const long MaxModBytes = 1024L * 1024;
+	private const long MaxModBytes = 20L * 1024 * 1024;
 
 	private const long MaxFileBytes = 256L * 1024;
+
+	private const long MaxMediaBytes = 16L * 1024 * 1024;
 
 	private const int MaxFiles = 64;
 
@@ -160,7 +162,8 @@ public static partial class ModLibrary
 			string path = fileNode?["path"]?.GetValue<string>() ?? "";
 			long size = fileNode?["size"]?.GetValue<long>() ?? -1;
 			string hash = fileNode?["sha256"]?.GetValue<string>() ?? "";
-			if (!PathPattern.IsMatch(path) || path.Split('/').Any(p => p is "." or "..") || size < 0 || size > MaxFileBytes || !HashPattern.IsMatch(hash))
+			long limit = Path.GetExtension(path).ToLowerInvariant() is ".png" or ".jpg" or ".jpeg" or ".gif" or ".webp" or ".bmp" ? MaxMediaBytes : MaxFileBytes;
+			if (!PathPattern.IsMatch(path) || path.Split('/').Any(p => p is "." or "..") || size < 0 || size > limit || !HashPattern.IsMatch(hash))
 				throw new InvalidDataException("bad file entry in " + name);
 			total += size;
 			files.Add(new LibraryFile(path, size, hash));

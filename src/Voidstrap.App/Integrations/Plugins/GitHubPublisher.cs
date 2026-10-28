@@ -333,6 +333,13 @@ public static class GitHubPublisher
 					problems.Add(rel + " is not a valid .ico icon");
 				continue;
 			}
+			if (ext.ToLowerInvariant() is ".png" or ".jpg" or ".jpeg" or ".gif" or ".webp" or ".bmp")
+			{
+				long maxMediaBytes = limits["maxMediaBytes"]?.GetValue<long>() ?? 16 * 1024 * 1024;
+				if (size > maxMediaBytes)
+					problems.Add(rel + " exceeds the media size limit");
+				continue;
+			}
 			if (size > maxFileBytes)
 			{
 				problems.Add(rel + " is larger than " + maxFileBytes / 1024 + " KB");

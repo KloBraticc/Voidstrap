@@ -161,6 +161,9 @@ internal static class WindowAudit
 		AuditPlacement();
 		AuditOwnedDialogs();
 		AuditDownloadBindings();
+		AuditLogRegressions();
+		AuditModReload();
+		AuditModMedia();
 		AuditLinuxWindowModes();
 		try
 		{
@@ -1289,6 +1292,313 @@ internal static class WindowAudit
 			bindings.Listeners.Remove(listener);
 			bindings.Switch.Level = previousLevel;
 			Pump(80);
+		}
+	}
+
+	private static void AuditLogRegressions()
+	{
+		using System.Text.Json.JsonDocument document = System.Text.Json.JsonDocument.Parse("""
+			{"legacy":12,"modern":{"Size":42,"Sha256":"abc"},"invalid":{"Size":{},"Sha256":[]},"ignored":null,"last":27}
+			""");
+		MethodInfo parse = typeof(ClassicClients).GetMethod("ParseInstalledIndex", BindingFlags.NonPublic | BindingFlags.Static)!;
+		System.Collections.IDictionary index = (System.Collections.IDictionary)parse.Invoke(null, [document.RootElement])!;
+		long Size(string key) => (long)index[key]!.GetType().GetProperty("Size")!.GetValue(index[key])!;
+		Emit(index.Count == 4 && Size("legacy") == 12 && Size("modern") == 42 && Size("invalid") == -1 && Size("last") == 27
+			? "classic index audit: PASS, mixed legacy and structured records survive malformed values"
+			: "classic index audit: FAIL, an index record was lost");
+
+		string name = App.Settings.Prop.BrandName;
+		bool autoTranslate = App.Settings.Prop.AutoTranslate;
+		try
+		{
+			App.Settings.Prop.BrandName = "Customstrap";
+			App.Settings.Prop.AutoTranslate = false;
+			System.Windows.Controls.TextBlock text = new();
+			text.Inlines.Add(new System.Windows.Documents.Run("Voidstrap "));
+			text.Inlines.Add(new System.Windows.Documents.Span(new System.Windows.Documents.Run("Voidstrap")));
+			typeof(UI.LiveLanguageRefresher).GetMethod("TranslateInlines", BindingFlags.NonPublic | BindingFlags.Static)!.Invoke(null, [text.Inlines, true, ""]);
+			string actual = new System.Windows.Documents.TextRange(text.ContentStart, text.ContentEnd).Text;
+			Emit(actual == "Customstrap Customstrap"
+				? "inline translation audit: PASS, nested runs update without invalidating enumeration"
+				: "inline translation audit: FAIL, nested text was not preserved: " + actual);
+		}
+		finally
+		{
+			App.Settings.Prop.BrandName = name;
+			App.Settings.Prop.AutoTranslate = autoTranslate;
+		}
+
+		System.Threading.Tasks.TaskCompletionSource<System.Windows.Controls.Image> ready = new(System.Threading.Tasks.TaskCreationOptions.RunContinuationsAsynchronously);
+		System.Threading.Thread thread = new(() =>
+		{
+			ready.SetResult(new System.Windows.Controls.Image());
+			Dispatcher.Run();
+		}) { IsBackground = true };
+		if (Voidstrap.Utility.Platform.IsWindows)
+			thread.SetApartmentState(System.Threading.ApartmentState.STA);
+		thread.Start();
+		if (!PumpUntil(() => ready.Task.IsCompleted, 3000))
+			throw new TimeoutException("The image dispatcher did not start");
+		System.Windows.Controls.Image foreign = ready.Task.GetAwaiter().GetResult();
+		try
+		{
+			UI.LiveLanguageRefresher.ApplyBrandImage(foreign, System.Windows.Controls.Image.SourceProperty);
+			DispatcherOperation check = foreign.Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle, new Action(() => foreign.GetValue(System.Windows.Controls.Image.SourceProperty)));
+			Emit(PumpUntil(() => check.Status == DispatcherOperationStatus.Completed, 3000)
+				? "image dispatcher audit: PASS, branding runs on the owning dispatcher"
+				: "image dispatcher audit: FAIL, branding did not complete");
+		}
+		finally
+		{
+			foreign.Dispatcher.BeginInvokeShutdown(DispatcherPriority.Send);
+			thread.Join(3000);
+		}
+
+		string data = "export const frames = [" + string.Join(',', Enumerable.Repeat("'data:image/png;base64,AAAA'", 12000)) + "];";
+		System.Diagnostics.Stopwatch elapsed = System.Diagnostics.Stopwatch.StartNew();
+		string output = Integrations.Plugins.ModTranspiler.Transpile(data, "frames.ts");
+		Emit(ReferenceEquals(data, output)
+			? $"sprite module audit: PASS, {data.Length} characters parsed in {elapsed.ElapsedMilliseconds} ms without script transpilation"
+			: "sprite module audit: FAIL, JavaScript data entered the script transpiler");
+		string typed = Integrations.Plugins.ModTranspiler.Transpile("export const count: number = 2;", "typed.ts");
+		new Acornima.Parser().ParseModule(typed);
+		Emit(!typed.Contains(": number", StringComparison.Ordinal)
+			? "typed module audit: PASS, TypeScript still transpiles"
+			: "typed module audit: FAIL, a type annotation survived");
+		bool rejected = false;
+		try
+		{
+			Integrations.Plugins.ModTranspiler.Transpile("export const = ;", "broken.ts");
+		}
+		catch (Jint.Runtime.JavaScriptException)
+		{
+			rejected = true;
+		}
+		string recovered = Integrations.Plugins.ModTranspiler.Transpile("export const ready: boolean = true;", "recovered.ts");
+		new Acornima.Parser().ParseModule(recovered);
+		Emit(rejected && !recovered.Contains(": boolean", StringComparison.Ordinal)
+			? "transpiler recovery audit: PASS, invalid code is rejected and the next valid module loads"
+			: "transpiler recovery audit: FAIL, a failed transform corrupted the next module");
+
+		PngBitmapEncoder encoder = new();
+		encoder.Frames.Add(BitmapFrame.Create(BitmapSource.Create(1, 1, 96, 96, PixelFormats.Bgra32, null, new byte[] { 0, 0, 255, 255 }, 4)));
+		using System.IO.MemoryStream png = new();
+		encoder.Save(png);
+		System.Text.Json.Nodes.JsonObject node = new()
+		{
+			["type"] = "Image",
+			["props"] = new System.Text.Json.Nodes.JsonObject { ["src"] = "data:image/png;base64," + Convert.ToBase64String(png.ToArray()), ["height"] = 32 },
+			["children"] = new System.Text.Json.Nodes.JsonArray()
+		};
+		System.Windows.Controls.Image? initial = Integrations.Plugins.PluginUiRenderer.BuildTree(node) as System.Windows.Controls.Image;
+		PumpUntil(() => initial?.Source != null, 120000);
+		ImageSource? source = initial?.Source;
+		bool reused = source is { IsFrozen: true };
+		for (int i = 0; i < 256; i++)
+			reused &= ReferenceEquals(source, (Integrations.Plugins.PluginUiRenderer.BuildTree(node) as System.Windows.Controls.Image)?.Source);
+		Emit(reused
+			? "sprite image audit: PASS, 256 renders reused one frozen image"
+			: "sprite image audit: FAIL, repeated renders decoded new images");
+	}
+
+	private static void AuditModMedia()
+	{
+		Raster first = Raster.Blank(16, 16);
+		for (int i = 0; i < first.Pixels.Length; i += 4)
+		{
+			first.Pixels[i] = 128;
+			first.Pixels[i + 1] = 128;
+			first.Pixels[i + 2] = 128;
+			first.Pixels[i + 3] = 255;
+		}
+		Raster second = first.Clone();
+		for (int i = 0; i < second.Pixels.Length; i += 4)
+			second.Pixels[i] = second.Pixels[i + 1] = second.Pixels[i + 2] = 129;
+		byte[] gif = Raster.EncodeAnimatedGif([first, second], 100);
+		Emit(Integrations.Plugins.PluginMedia.CountGifFrames(gif) == 2 && Integrations.Plugins.PluginMedia.CountGifFrames(gif[..^1]) == 0
+			? "mod GIF audit: PASS, every frame is counted and truncated media is rejected"
+			: "mod GIF audit: FAIL, invalid frame count");
+		Emit(!MediaContentFilter.MatchesHash(new byte[] { 1, 2, 3 }, new string('0', 64))
+			? "media checksum audit: PASS, modified checker data is rejected"
+			: "media checksum audit: FAIL, invalid data was accepted");
+		System.Threading.Tasks.Task<bool> scan = System.Threading.Tasks.Task.Run(() => MediaContentFilter.IsAllowedAsync(first));
+		Emit(PumpUntil(() => scan.IsCompleted, 120000) && scan.GetAwaiter().GetResult()
+			? "local media model audit: PASS, the real checker accepts a safe control without uploading media"
+			: "local media model audit: FAIL, local checking is unavailable");
+		System.Text.Json.Nodes.JsonObject Node(string source, int cellWidth = 0, int cellHeight = 0, int index = -1) => new()
+		{
+			["type"] = "Sprite",
+			["props"] = new System.Text.Json.Nodes.JsonObject { ["src"] = source, ["frameWidth"] = cellWidth, ["frameHeight"] = cellHeight, ["frameIndex"] = index },
+			["children"] = new System.Text.Json.Nodes.JsonArray()
+		};
+		System.Windows.Controls.Image? animation = Integrations.Plugins.PluginUiRenderer.BuildTree(Node("data:image/gif;base64," + Convert.ToBase64String(gif))) as System.Windows.Controls.Image;
+		bool initiallyHidden = animation?.Source == null;
+		bool displayed = PumpUntil(() => animation?.Source != null, 30000);
+		Emit(initiallyHidden && displayed
+			? "mod animation safety audit: PASS, GIF stays hidden until local checking finishes"
+			: "mod animation safety audit: FAIL, GIF did not follow the checking lifecycle");
+		byte[] png = first.EncodePng();
+		byte[] icon = new byte[22 + png.Length];
+		icon[2] = 1;
+		icon[4] = 1;
+		icon[6] = icon[7] = 16;
+		icon[10] = 1;
+		icon[12] = 32;
+		System.Buffers.Binary.BinaryPrimitives.WriteUInt32LittleEndian(icon.AsSpan(14, 4), (uint)png.Length);
+		System.Buffers.Binary.BinaryPrimitives.WriteUInt32LittleEndian(icon.AsSpan(18, 4), 22);
+		png.CopyTo(icon, 22);
+		System.Threading.Tasks.Task<BitmapSource?> iconScan = MediaContentFilter.LoadCheckedIconAsync(icon);
+		Emit(PumpUntil(() => iconScan.IsCompleted, 30000) && iconScan.GetAwaiter().GetResult() is { IsFrozen: true }
+			? "mod icon safety audit: PASS, icon frames are checked before preview"
+			: "mod icon safety audit: FAIL, checked icon was not available");
+		string data = "data:image/png;base64," + Convert.ToBase64String(png);
+		System.Windows.Controls.Image? cell = Integrations.Plugins.PluginUiRenderer.BuildTree(Node(data, 8, 16, 1)) as System.Windows.Controls.Image;
+		Emit(PumpUntil(() => cell?.Source is BitmapSource { PixelWidth: 8, PixelHeight: 16 }, 30000)
+			? "sprite sheet audit: PASS, a checked cell is cropped in source pixels"
+			: "sprite sheet audit: FAIL, sprite cell did not display");
+		System.Windows.Controls.Image? cached = Integrations.Plugins.PluginUiRenderer.BuildTree(Node(data, 8, 16, 1)) as System.Windows.Controls.Image;
+		Emit(cell?.Source != null && ReferenceEquals(cell.Source, cached?.Source)
+			? "media cache audit: PASS, unchanged cells reuse approved frozen pixels"
+			: "media cache audit: FAIL, cached pixels were lost");
+		System.Windows.Controls.Image? invalid = Integrations.Plugins.PluginUiRenderer.BuildTree(Node("data:image/gif;base64,R0lGODlh")) as System.Windows.Controls.Image;
+		Pump(200);
+		Emit(invalid?.Source == null && Integrations.Plugins.PluginMedia.ResolveLocalPath(Paths.Plugins, "../outside.png") == null
+			? "media rejection audit: PASS, malformed data and paths outside the mod stay hidden"
+			: "media rejection audit: FAIL, invalid media was accepted");
+		System.Text.Json.Nodes.JsonObject listing = System.Text.Json.Nodes.JsonNode.Parse("""
+			{"name":"media-control","ownerId":1,"login":"owner","version":"1.0.0","id":"1/media-control","files":[]}
+			""")!.AsObject();
+		System.Text.Json.Nodes.JsonArray files = listing["files"]!.AsArray();
+		foreach (string path in new[] { ".voidstrap-mod/plugin.json", "hooks/hooks.json", "assets/control.gif" })
+			files.Add(new System.Text.Json.Nodes.JsonObject { ["path"] = path, ["size"] = path.EndsWith(".gif", StringComparison.Ordinal) ? 3L * 1024 * 1024 : 10L, ["sha256"] = new string('0', 64) });
+		MethodInfo parse = typeof(Integrations.Plugins.ModLibrary).GetMethod("ParseMod", BindingFlags.NonPublic | BindingFlags.Static)!;
+		parse.Invoke(null, [listing]);
+		files[2]!["path"] = "hooks/control.ts";
+		bool textRejected = false;
+		try
+		{
+			parse.Invoke(null, [listing]);
+		}
+		catch (TargetInvocationException ex) when (ex.InnerException is System.IO.InvalidDataException)
+		{
+			textRejected = true;
+		}
+		Emit(textRejected
+			? "library media limits audit: PASS, larger media installs while text limits remain enforced"
+			: "library media limits audit: FAIL, oversized text was accepted");
+	}
+
+	private static void AuditModReload()
+	{
+		string root = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "VoidstrapReload_" + Guid.NewGuid().ToString("N"));
+		string plugins = Paths.Plugins;
+		Dictionary<string, bool>? consent = App.Settings.Prop.PluginConsent;
+		PropertyInfo pluginsPath = typeof(Paths).GetProperty(nameof(Paths.Plugins))!;
+		string folder = System.IO.Path.Combine(root, "runtime-probe");
+		string module = System.IO.Path.Combine(folder, "hooks", "register.js");
+		void Reload()
+		{
+			System.Threading.Tasks.Task pending = System.Threading.Tasks.Task.Run(Integrations.Plugins.PluginHost.Reload);
+			if (!PumpUntil(() => pending.IsCompleted, 10000))
+				throw new TimeoutException("The reload did not complete");
+			pending.GetAwaiter().GetResult();
+		}
+		try
+		{
+			Integrations.Plugins.PluginHost.Shutdown();
+			pluginsPath.SetValue(null, root);
+			App.Settings.Prop.PluginConsent = new() { ["runtime-probe"] = true, ["steady-probe"] = true };
+			System.IO.Directory.CreateDirectory(System.IO.Path.Combine(folder, ".voidstrap-mod"));
+			System.IO.Directory.CreateDirectory(System.IO.Path.Combine(folder, "hooks"));
+			System.IO.File.WriteAllText(System.IO.Path.Combine(folder, ".voidstrap-mod", "plugin.json"), """{"name":"runtime-probe","version":"1.0.0","network":[]}""");
+			string hooks = System.IO.Path.Combine(folder, "hooks", "hooks.json");
+			System.IO.File.WriteAllText(hooks, """{"modules":["./register.js"]}""");
+			System.IO.File.WriteAllText(module, """
+				let renders = 0;
+				export const register = on => {
+				  on('session.start', ($, e, next) => { $.state.set('starts', ($.state.get('starts') || 0) + 1); return next(e); });
+				  on('ui.render', { component: 'Widget', requestId: 'probe' }, $ => h('Canvas', { hitTestVisible: false },
+				    h('Text', { text: String($.state.get('position') || 0), left: $.state.get('position') || 0, tooltip: String(++renders) })));
+				};
+				""");
+			string steady = System.IO.Path.Combine(root, "steady-probe");
+			System.IO.Directory.CreateDirectory(System.IO.Path.Combine(steady, ".voidstrap-mod"));
+			System.IO.Directory.CreateDirectory(System.IO.Path.Combine(steady, "hooks"));
+			System.IO.File.WriteAllText(System.IO.Path.Combine(steady, ".voidstrap-mod", "plugin.json"), """{"name":"steady-probe","version":"1.0.0","network":[]}""");
+			System.IO.File.Copy(hooks, System.IO.Path.Combine(steady, "hooks", "hooks.json"));
+			System.IO.File.Copy(module, System.IO.Path.Combine(steady, "hooks", "register.js"));
+			Reload();
+			Reload();
+			string signature = Integrations.Plugins.PluginHost.GetReloadSignature(root);
+			System.IO.File.WriteAllText(System.IO.Path.Combine(folder, ".voidstrap-mod", "types", "generated.ts"), "export {};");
+			Reload();
+			bool unchanged = signature == Integrations.Plugins.PluginHost.GetReloadSignature(root)
+				&& Integrations.Plugins.PluginHost.GetState("runtime-probe", "starts") == "1";
+			Emit(unchanged ? "mod reload audit: PASS, unchanged files and generated types do not restart mods" : "mod reload audit: FAIL, an unchanged mod restarted");
+			Type attached = typeof(Integrations.Plugins.PluginAnchors).GetNestedType("Attached", BindingFlags.NonPublic)!;
+			object widget = Activator.CreateInstance(attached, true)!;
+			System.Windows.Controls.ContentControl host = new();
+			attached.GetProperty("Plugin")!.SetValue(widget, "runtime-probe");
+			attached.GetProperty("Id")!.SetValue(widget, "probe");
+			attached.GetProperty("Host")!.SetValue(widget, host);
+			MethodInfo render = typeof(Integrations.Plugins.PluginAnchors).GetMethod("Render", BindingFlags.NonPublic | BindingFlags.Static)!;
+			Window surface = new() { Width = 300, Height = 200, Content = host, ShowInTaskbar = false, ShowActivated = false, Title = "Widget burst probe" };
+			try
+			{
+				surface.Show();
+				for (int i = 0; i < 200; i++)
+				{
+					Integrations.Plugins.PluginHost.SetState("runtime-probe", "position", i.ToString(System.Globalization.CultureInfo.InvariantCulture));
+					render.Invoke(null, [widget]);
+				}
+				System.Windows.Controls.TextBlock? label = null;
+				bool latest = PumpUntil(() =>
+				{
+					label = (host.Content as System.Windows.Controls.Canvas)?.Children.OfType<System.Windows.Controls.TextBlock>().FirstOrDefault();
+					return label?.Text == "199" && !(bool)attached.GetField("Rendering")!.GetValue(widget)!;
+				}, 3000);
+				Emit(latest && int.TryParse(label?.ToolTip?.ToString(), out int count) && count <= 2
+					? "widget burst audit: PASS, 200 updates produced at most two renders and the latest frame"
+					: "widget burst audit: FAIL, rendering queued obsolete frames or lost the final update");
+				System.Text.Json.Nodes.JsonNode? other = Integrations.Plugins.PluginHost.RenderWidget("steady-probe", "probe");
+				Emit(other?["children"]?[0]?["props"]?["text"]?.ToString() == "0"
+					? "widget ownership audit: PASS, identical widget ids remain isolated between mods"
+					: "widget ownership audit: FAIL, another mod rendered the widget");
+			}
+			finally
+			{
+				surface.Close();
+			}
+			System.IO.File.AppendAllText(module, "\n");
+			Reload();
+			Emit(Integrations.Plugins.PluginHost.GetState("runtime-probe", "starts") == "2" && Integrations.Plugins.PluginHost.GetState("steady-probe", "starts") == "1"
+				? "isolated mod reload audit: PASS, editing a mod does not restart another mod"
+				: "isolated mod reload audit: FAIL, an unrelated mod restarted");
+			System.IO.File.WriteAllText(module, "export const register = (");
+			Reload();
+			bool kept = Integrations.Plugins.PluginHost.HasHook("session.start") && Integrations.Plugins.PluginHost.GetState("runtime-probe", "starts") == "2";
+			System.IO.File.WriteAllText(hooks, """{"modules":[]}""");
+			Reload();
+			kept &= Integrations.Plugins.PluginHost.ListMods().Any(mod => mod.Name == "runtime-probe" && mod.Loaded);
+			Emit(kept ? "invalid mod edit audit: PASS, the last working runtime survives invalid source and manifests" : "invalid mod edit audit: FAIL, an invalid edit removed the working runtime");
+			System.IO.File.AppendAllText(System.IO.Path.Combine(steady, "hooks", "register.js"), "\n");
+			Reload();
+			Emit(Integrations.Plugins.PluginHost.ListMods().Any(mod => mod.Name == "runtime-probe" && mod.Loaded) && Integrations.Plugins.PluginHost.GetState("steady-probe", "starts") == "2"
+				? "independent reload recovery audit: PASS, valid changes load while another mod keeps its last working runtime"
+				: "independent reload recovery audit: FAIL, an invalid mod blocked another update");
+			App.Settings.Prop.PluginConsent["runtime-probe"] = false;
+			Reload();
+			Emit(Integrations.Plugins.PluginHost.ListMods().All(mod => mod.Name != "runtime-probe" || !mod.Loaded) && Integrations.Plugins.PluginHost.GetState("steady-probe", "starts") == "2"
+				? "mod consent audit: PASS, revocation stops a mod even when its files are invalid"
+				: "mod consent audit: FAIL, a revoked mod remained active");
+		}
+		finally
+		{
+			Integrations.Plugins.PluginHost.Shutdown();
+			pluginsPath.SetValue(null, plugins);
+			App.Settings.Prop.PluginConsent = consent;
+			if (System.IO.Directory.Exists(root))
+				System.IO.Directory.Delete(root, true);
 		}
 	}
 

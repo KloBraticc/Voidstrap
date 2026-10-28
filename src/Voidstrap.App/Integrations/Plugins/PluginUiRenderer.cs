@@ -20,6 +20,12 @@ internal static class PluginUiRenderer
 {
 	private const int MaxRenderedNodes = 15000;
 
+	private static readonly Dictionary<(string Source, int Width), BitmapSource> ImageCache = [];
+
+	private static long _imageCacheBytes;
+
+	private const long MaxImageCacheBytes = 32L * 1024 * 1024;
+
 	private static readonly Dictionary<Wpf.Ui.Controls.TextBox, (string Handler, string Sent)> PendingChangeInputs = [];
 
 	public static UIElement? BuildTree(JsonNode? node, string? pluginDirectory = null)
@@ -92,7 +98,7 @@ internal static class PluginUiRenderer
 			"InfoBar" => MakeInfoBar(props, children),
 			"Divider" => new Separator { Margin = new Thickness(0, 6, 0, 6) },
 			"Spacer" => MakeSpacer(props),
-			"Image" => MakeImage(props, pluginDirectory),
+			"Image" or "Sprite" => MakeImage(props, pluginDirectory),
 			"Card" => MakeCard(children, props, pluginDirectory, ref rendered),
 			"Expander" => MakeExpander(children, props, pluginDirectory, ref rendered),
 			"Tabs" => MakeTabs(children, props, pluginDirectory, ref rendered),
@@ -778,38 +784,17 @@ internal static class PluginUiRenderer
 		};
 		if (ReadDouble(props, "width", double.NaN) is double w && !double.IsNaN(w) && w > 0)
 			image.Width = Math.Clamp(w, 8, 1200);
+		int decodeWidth = (int)Math.Max(height * 2, 16);
 		if (source.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
 		{
 			if (!Uri.TryCreate(source, UriKind.Absolute, out Uri? remoteUri) || !IsSafeRemoteImageHost(remoteUri.IdnHost, pluginDirectory))
 				return null;
-			DynamicRenderSystem.SetLazyImageSource(image, source);
-			return image;
 		}
-		if (source.StartsWith("data:image/", StringComparison.OrdinalIgnoreCase))
-		{
-			int comma = source.IndexOf(',');
-			if (comma > 0)
-			{
-				try
-				{
-					byte[] bytes = Convert.FromBase64String(source[(comma + 1)..]);
-					if (SafeImaging.FromBytes(bytes, (int)Math.Max(height * 2, 256)) is BitmapSource bmp)
-					{
-						image.Source = bmp;
-						return image;
-					}
-				}
-				catch
-				{
-					return null;
-				}
-			}
-		}
-		if (source.StartsWith("pack://", StringComparison.OrdinalIgnoreCase))
+		if (source.StartsWith("pack://application:,,,/Resources/", StringComparison.OrdinalIgnoreCase) && !source.Contains("..", StringComparison.Ordinal))
 		{
 			try
 			{
-				image.Source = new BitmapImage(new Uri(source, UriKind.Absolute));
+				image.Source = CachedImage(source, decodeWidth, () => SafeImaging.FromUri(new Uri(source, UriKind.Absolute), decodeWidth));
 				return image;
 			}
 			catch
@@ -817,21 +802,38 @@ internal static class PluginUiRenderer
 				return null;
 			}
 		}
-		if (!string.IsNullOrEmpty(pluginDirectory))
+		bool animate = props["animate"] is not JsonValue animation || !animation.TryGetValue(out bool enabled) || enabled;
+		PluginMedia.Apply(image, source, pluginDirectory, ReadInt(props, "frameWidth", 0), ReadInt(props, "frameHeight", 0), ReadInt(props, "frameIndex", -1), ReadDouble(props, "fps", 0), animate);
+		return image;
+	}
+
+	private static BitmapSource? CachedImage(string source, int width, Func<BitmapSource?> load)
+	{
+		lock (ImageCache)
 		{
-			string root = Path.GetFullPath(pluginDirectory);
-			string full = Path.GetFullPath(Path.Combine(root, source));
-			if (full.StartsWith(root + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase) &&
-				File.Exists(full))
-			{
-				if (SafeImaging.FromFile(full, (int)Math.Max(height * 2, 256)) is BitmapSource bmp)
-				{
-					image.Source = bmp;
-					return image;
-				}
-			}
+			if (ImageCache.TryGetValue((source, width), out BitmapSource? cached))
+				return cached;
 		}
-		return null;
+		BitmapSource? image = load();
+		if (image == null || !image.CanFreeze)
+			return image;
+		image.Freeze();
+		long bytes = checked((long)image.PixelWidth * image.PixelHeight * Math.Max(1, (image.Format.BitsPerPixel + 7) / 8) + source.Length * 2L);
+		if (bytes > MaxImageCacheBytes)
+			return image;
+		lock (ImageCache)
+		{
+			if (ImageCache.TryGetValue((source, width), out BitmapSource? cached))
+				return cached;
+			if (ImageCache.Count >= 256 || _imageCacheBytes + bytes > MaxImageCacheBytes)
+			{
+				ImageCache.Clear();
+				_imageCacheBytes = 0;
+			}
+			ImageCache[(source, width)] = image;
+			_imageCacheBytes += bytes;
+		}
+		return image;
 	}
 
 	private static void ApplyCommonProps(FrameworkElement element, JsonObject props)

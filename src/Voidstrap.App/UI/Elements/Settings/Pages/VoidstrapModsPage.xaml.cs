@@ -98,7 +98,7 @@ public partial class VoidstrapModsPage : UiPage
 		int generation = ++_renderGeneration;
 		try
 		{
-			List<ModRenderItem> items = await Task.Run(() =>
+			List<ModRenderItem> items = await Task.Run(async () =>
 			{
 				IReadOnlyList<PluginHost.ModInfo> mods = PluginHost.ListMods();
 				List<ModRenderItem> built = [];
@@ -106,7 +106,7 @@ public partial class VoidstrapModsPage : UiPage
 				{
 					ModLibrary.LibraryMod? libraryMod = _libraryIndex?.Mods.FirstOrDefault(m => m.Name == mod.Name);
 					PluginManifest.TryRead(mod.Directory, out PluginManifest? manifest, out _);
-					BitmapSource? icon = DecodeModIcon(mod.Directory);
+					BitmapSource? icon = await DecodeModIconAsync(mod.Directory).ConfigureAwait(false);
 					built.Add(new ModRenderItem(mod, libraryMod, manifest, icon));
 				}
 				return built;
@@ -132,7 +132,7 @@ public partial class VoidstrapModsPage : UiPage
 		}
 	}
 
-	private BitmapSource? DecodeModIcon(string directory)
+	private async Task<BitmapSource?> DecodeModIconAsync(string directory)
 	{
 		string? iconPath = ModFiles.GetIconPath(directory);
 		if (iconPath == null)
@@ -148,8 +148,9 @@ public partial class VoidstrapModsPage : UiPage
 		}
 		if (_iconCache.TryGetValue(iconPath, out (DateTime Stamp, BitmapSource? Icon) cached) && cached.Stamp == stamp)
 			return cached.Icon;
-		BitmapSource? icon = Voidstrap.UI.Elements.Dialogs.CreateVoidstrapModDialog.LoadIcon(iconPath);
-		_iconCache[iconPath] = (stamp, icon);
+		BitmapSource? icon = await MediaContentFilter.LoadCheckedIconAsync(iconPath).ConfigureAwait(false);
+		if (icon != null)
+			_iconCache[iconPath] = (stamp, icon);
 		return icon;
 	}
 
@@ -544,7 +545,7 @@ public partial class VoidstrapModsPage : UiPage
 			foreach (ModLibrary.LibraryMod mod in _libraryIndex.Mods.Where(m => m.HasIcon && !_libraryIcons.ContainsKey(m.Id)))
 			{
 				byte[]? bytes = await ModLibrary.GetIconAsync(_libraryIndex, mod, token);
-				_libraryIcons[mod.Id] = bytes == null ? null : DecodeIcon(bytes);
+				_libraryIcons[mod.Id] = bytes == null ? null : await MediaContentFilter.LoadCheckedIconAsync(bytes);
 			}
 			RenderLibrary();
 			RenderMods();
@@ -568,22 +569,6 @@ public partial class VoidstrapModsPage : UiPage
 			return;
 		RenderMods();
 		Frontend.ShowMessageBox(string.Format(Strings.Ui_VoidstrapMods_LibraryTakenDown, string.Join(Environment.NewLine, lines)), MessageBoxImage.Warning);
-	}
-
-	private static BitmapSource? DecodeIcon(byte[] bytes)
-	{
-		try
-		{
-			using MemoryStream stream = new(bytes);
-			BitmapDecoder decoder = BitmapDecoder.Create(stream, BitmapCreateOptions.None, BitmapCacheOption.OnLoad);
-			BitmapFrame frame = decoder.Frames.OrderByDescending(f => f.PixelWidth).First();
-			frame.Freeze();
-			return frame;
-		}
-		catch (Exception ex) when (ex is not OutOfMemoryException)
-		{
-			return null;
-		}
 	}
 
 	private void RenderLibrary()

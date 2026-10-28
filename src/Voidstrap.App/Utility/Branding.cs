@@ -216,6 +216,7 @@ internal static class Branding
 	public static bool IsDefaultLogo(object? value)
 	{
 		return value is ImageSource source
+			&& source.CheckAccess()
 			&& source.ToString().EndsWith("/Voidstrap.png", StringComparison.OrdinalIgnoreCase);
 	}
 

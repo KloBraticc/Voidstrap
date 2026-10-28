@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Data;
@@ -369,6 +370,12 @@ internal static class LiveLanguageRefresher
 
 	private static void Walk(DependencyObject node, bool on, string lang)
 	{
+		if (!node.CheckAccess())
+		{
+			if (!node.Dispatcher.HasShutdownStarted)
+				node.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => Walk(node, on, lang)));
+			return;
+		}
 		if (IsIconNode(node))
 		{
 			return;
@@ -384,6 +391,12 @@ internal static class LiveLanguageRefresher
 
 	private static void TranslateNode(DependencyObject node, bool on, string lang)
 	{
+		if (!node.CheckAccess())
+		{
+			if (!node.Dispatcher.HasShutdownStarted)
+				node.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => TranslateNode(node, on, lang)));
+			return;
+		}
 		try
 		{
 			if (IsIconNode(node))
@@ -543,7 +556,7 @@ internal static class LiveLanguageRefresher
 
 	private static void TranslateInlines(InlineCollection inlines, bool on, string lang)
 	{
-		foreach (Inline inline in inlines)
+		foreach (Inline inline in inlines.Cast<Inline>().ToArray())
 		{
 			if (inline is Run run)
 			{
@@ -558,7 +571,7 @@ internal static class LiveLanguageRefresher
 
 	private static void TranslateBlocks(BlockCollection blocks, bool on, string lang)
 	{
-		foreach (Block block in blocks)
+		foreach (Block block in blocks.Cast<Block>().ToArray())
 		{
 			if (block is Paragraph paragraph)
 			{
@@ -570,18 +583,18 @@ internal static class LiveLanguageRefresher
 			}
 			else if (block is List list)
 			{
-				foreach (ListItem item in list.ListItems)
+				foreach (ListItem item in list.ListItems.Cast<ListItem>().ToArray())
 				{
 					TranslateBlocks(item.Blocks, on, lang);
 				}
 			}
 			else if (block is Table table)
 			{
-				foreach (TableRowGroup group in table.RowGroups)
+				foreach (TableRowGroup group in table.RowGroups.ToArray())
 				{
-					foreach (TableRow row in group.Rows)
+					foreach (TableRow row in group.Rows.ToArray())
 					{
-						foreach (TableCell cell in row.Cells)
+						foreach (TableCell cell in row.Cells.ToArray())
 						{
 							TranslateBlocks(cell.Blocks, on, lang);
 						}
@@ -667,6 +680,12 @@ internal static class LiveLanguageRefresher
 
 	internal static void ApplyBrandImage(DependencyObject target, DependencyProperty property)
 	{
+		if (!target.CheckAccess())
+		{
+			if (!target.Dispatcher.HasShutdownStarted)
+				target.Dispatcher.BeginInvoke(DispatcherPriority.Background, new Action(() => ApplyBrandImage(target, property)));
+			return;
+		}
 		object? current = target.GetValue(property);
 		ImageSource? branded = Branding.Icon;
 		if (_imageOriginals.TryGetValue(target, out ImageEntry? entry))

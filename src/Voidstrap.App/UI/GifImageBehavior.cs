@@ -228,7 +228,7 @@ namespace Voidstrap.UI
                 if (_stopped || _timer != null || !_image.IsLoaded)
                     return;
 
-                int delay = Math.Clamp(_frames[_index].DelayMilliseconds, 20, 10000);
+                int delay = Math.Clamp(_frames[_index].DelayMilliseconds, 16, 10000);
                 _timer = new System.Threading.Timer(OnTimer, null, delay, System.Threading.Timeout.Infinite);
             }
 
@@ -284,7 +284,7 @@ namespace Voidstrap.UI
 
                 _index = (_index + 1) % _frames.Count;
                 _image.Source = _frames[_index].Frame;
-                int delay = Math.Clamp(_frames[_index].DelayMilliseconds, 20, 10000);
+                int delay = Math.Clamp(_frames[_index].DelayMilliseconds, 16, 10000);
                 _timer?.Change(delay, System.Threading.Timeout.Infinite);
             }
         }

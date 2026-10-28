@@ -97,12 +97,14 @@ public partial class CreateVoidstrapModDialog : WpfUiWindow
 		Create();
 	}
 
-	private void ChooseIcon_Click(object sender, RoutedEventArgs e)
+	private async void ChooseIcon_Click(object sender, RoutedEventArgs e)
 	{
 		Microsoft.Win32.OpenFileDialog picker = new() { Filter = Strings.Ui_VoidstrapMods_IconFilter, CheckFileExists = true };
 		if (picker.ShowDialog(this) != true)
 			return;
-		BitmapSource? preview = LoadIcon(picker.FileName);
+		IconPreview.Source = null;
+		IconPlaceholder.Visibility = Visibility.Visible;
+		BitmapSource? preview = await Voidstrap.Utility.MediaContentFilter.LoadCheckedIconAsync(picker.FileName);
 		if (preview == null)
 		{
 			ShowError(Strings.Ui_VoidstrapMods_IconFailed);
