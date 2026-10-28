@@ -33,3 +33,9 @@ HOOKPROC
 LRESULT
 WPARAM
 LPARAM
+CreateToolhelp32Snapshot
+Process32First
+Process32Next
+PROCESSENTRY32
+TH32CS_SNAPPROCESS
+CloseHandle

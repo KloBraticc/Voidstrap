@@ -120,6 +120,71 @@ public static partial class McpStdioServer
 
 	private static string? _clientName;
 
+	private static int? _parentPid;
+
+	private static int FindParentProcessId()
+	{
+		int self = Environment.ProcessId;
+		using Microsoft.Win32.SafeHandles.SafeProcessHandle snapshot = new(Windows.Win32.PInvoke.CreateToolhelp32Snapshot(Windows.Win32.System.Diagnostics.ToolHelp.CREATE_TOOLHELP_SNAPSHOT_FLAGS.TH32CS_SNAPPROCESS, 0), true);
+		if (snapshot.IsInvalid)
+			return 0;
+		Windows.Win32.System.Diagnostics.ToolHelp.PROCESSENTRY32 entry = new()
+		{
+			dwSize = (uint)System.Runtime.InteropServices.Marshal.SizeOf<Windows.Win32.System.Diagnostics.ToolHelp.PROCESSENTRY32>()
+		};
+		if (!Windows.Win32.PInvoke.Process32First(snapshot, ref entry))
+			return 0;
+		do
+		{
+			if ((int)entry.th32ProcessID == self)
+				return (int)entry.th32ParentProcessID;
+		}
+		while (Windows.Win32.PInvoke.Process32Next(snapshot, ref entry));
+		return 0;
+	}
+
+	private static void WatchParentProcess()
+	{
+		try
+		{
+			_parentPid = FindParentProcessId();
+		}
+		catch
+		{
+			_parentPid = null;
+		}
+		if (_parentPid is not int parent || parent <= 0)
+			return;
+		var watcher = new Thread(() =>
+		{
+			while (true)
+			{
+				try
+				{
+					using Process process = Process.GetProcessById(parent);
+					process.WaitForExit(5000);
+					if (process.HasExited)
+						break;
+				}
+				catch (ArgumentException)
+				{
+					break;
+				}
+				catch
+				{
+					return;
+				}
+			}
+			App.Logger?.WriteLine("McpStdioServer", "The client that started the MCP stdio server has exited, closing it");
+			Environment.Exit(0);
+		})
+		{
+			IsBackground = true,
+			Name = "Voidstrap MCP orphan watch"
+		};
+		watcher.Start();
+	}
+
 	public static int Run()
 	{
 		if (!Voidstrap.Utility.Platform.IsWindows)
@@ -127,6 +192,8 @@ public static partial class McpStdioServer
 
 		Console.InputEncoding = new UTF8Encoding(false);
 		Console.OutputEncoding = new UTF8Encoding(false);
+
+		WatchParentProcess();
 
 		using Stream stdin = Console.OpenStandardInput();
 		using Stream stdout = Console.OpenStandardOutput();
