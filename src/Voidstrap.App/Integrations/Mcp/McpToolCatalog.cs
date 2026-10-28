@@ -85,10 +85,10 @@ public static class McpToolCatalog
 		return
 		[
 			T("get_guide",
-				"Read a how to guide before building anything. Topics: workflow, bootstrapper_theme (launcher themes in XML or HTML, CSS and JavaScript, with the exact element list and the window.voidstrap web API), keystroke_theme, app_theme, fixing. Always read bootstrapper_theme before writing a launcher theme.",
+				"Read the workflow to choose the correct tool, then the relevant guide before editing. Topics: workflow, mods (Voidstrap widgets, cursor sprites, pages, sandbox APIs and tests), bootstrapper_theme (launcher XML or HTML and window.voidstrap), keystroke_theme, app_theme, fixing. Read mods before writing a Voidstrap mod and bootstrapper_theme before writing a launcher theme.",
 				Kind.Read, new JsonObject
 				{
-					["topic"] = P("string", "workflow, bootstrapper_theme, keystroke_theme, app_theme, or fixing.")
+					["topic"] = P("string", "workflow (default), mods, bootstrapper_theme, keystroke_theme, app_theme, or fixing.")
 				}),
 
 			T("test_bootstrapper_theme",
@@ -295,7 +295,7 @@ public static class McpToolCatalog
 				}) with { OffUiThread = true, TimeoutSeconds = 330 },
 
 			T("manage_voidstrap_mods",
-				"Write, test and manage Voidstrap mods: sandboxed TypeScript or JavaScript mods that hook Voidstrap events, add panes, change settings, rearrange the sidebar and more. Call action guide first, then types for the full API. Actions: list, guide, types, files, read_file, write_file, delete_file, delete_mod, validate, test, reload, enable, disable, problems, library_search, library_install, auto_update, publish, ui_map. ui_map returns every named element in the live Voidstrap window with its position, so a mod can attach UI anywhere with $.ui.attach. A new mod only runs after the user agrees in a prompt Voidstrap shows them. library_search lists community mods from the Voidstrap mods library, library_install asks the user to install one, and publish opens the in app publish window where the user signs in to GitHub and confirms. Nothing is installed or published without the user pressing the button.",
+				"Manage features inside Voidstrap with sandboxed TypeScript or JavaScript mods: widgets, cursor sprites, pages, panels, sidebar changes and automation. This differs from manage_mods, which manages Roblox content files. Read action guide, list and types first; for an existing mod read files and read_file before write_file. Use ui_map for real anchors and $.ui.attach for widgets. Cursor sprites use cursor.move events; $.clock.every has a 500 ms minimum and cannot animate at 16 or 33 ms. Validate, test, reload, then list to confirm loaded true and problems for runtime errors. New mods require the user's approval in Voidstrap. library_search finds community mods; library_install asks before installing. publish opens a window for the user to sign in and confirm publication. Read the guide for examples, sandbox limits and the full workflow.",
 				Kind.Write, new JsonObject
 				{
 					["action"] = P("string", "list (default), guide, types, files, read_file, write_file, delete_file, delete_mod, validate, test, reload, enable, disable, problems, library_search, library_install, auto_update, publish, or ui_map."),

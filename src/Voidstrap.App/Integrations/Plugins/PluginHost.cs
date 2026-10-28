@@ -1305,6 +1305,7 @@ public static class PluginHost
 			    renderPage: id => parse(host.render(String(id), 'Page')),
 			    renderBanner: id => parse(host.render(String(id), 'Banner')),
 			    renderDialog: id => parse(host.render(String(id), 'Dialog')),
+			    renderWidget: id => parse(host.render(String(id), 'Widget')),
 			    press: (tree, key, value) => {
 			      const node = find(tree, key);
 			      if (!node) throw new Error('no element with key ' + key);

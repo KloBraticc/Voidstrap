@@ -172,12 +172,28 @@ public static class McpGuides
 	public const string Workflow = """
 		HOW TO WORK WITH VOIDSTRAP OVER MCP
 
-		Start with get_voidstrap_overview. Read every tool reply fully, a reply marked as an error means nothing (or only part)
-		was changed. Prefer dryRun before large settings or FastFlag changes. undo_last_change and undo_editor revert mistakes.
-		Before building something, read its guide with get_guide: bootstrapper_theme (launcher themes, HTML web panels),
-		keystroke_theme, app_theme (Voidstrap's own colors), fixing (errors and broken state).
-		After changing something the user should see, verify it: test_bootstrapper_theme for launcher themes, get_settings for
-		settings, diagnose_app for problems, and tell the user exactly what you changed.
+		Voidstrap manages Roblox launching, settings, content mods and its own interface. The MCP bridge controls the running Windows app. Open Voidstrap first, then call get_voidstrap_overview to discover paths, active settings, themes and open windows. Do not assume an installed file is active or a running process has a visible window.
+
+		CHOOSE THE TOOL THAT OWNS THE REQUEST
+		Existing app option: get_settings with a filter, then set_settings using the exact returned property names and types. Do not guess names. globalSettings changes Roblox GlobalBasicSettings properties; settings changes Voidstrap options.
+		Roblox FastFlags: list_fastflags, search_fastflag_tracker, then set_fastflags. A flag existing in a tracker does not prove the standard Roblox client accepts it locally. Check the current allowlist and tool validation. A successful write does not prove Roblox applied a flag.
+		Voidstrap colors or background: manage_app_theme, after get_guide topic app_theme.
+		Launcher window shown while Roblox starts: open_editor type bootstrapper, after get_guide topic bootstrapper_theme. Set activate true, save_editor, then test_bootstrapper_theme. The theme must build AND be the selected Custom launcher. HTML in a launcher uses window.voidstrap, not the mod $ API.
+		Keystroke overlay appearance: open_editor type keystroke, after get_guide topic keystroke_theme. Read the open document and preserve its shape.
+		New Voidstrap widget, cursor sprite, page, panel, sidebar change or automation: manage_voidstrap_mods. Read action guide (also get_guide topic mods), then action list and types. Use a sandboxed mod for these requests, without changing Voidstrap program files. Mods support Windows and Linux; they are unavailable on macOS.
+		Roblox content replacement: manage_mods and manage_themes_and_mods. These content files apply on the next Roblox launch. They are different from TypeScript Voidstrap mods.
+		Existing page or setting on screen: navigate_ui. Read the returned page names and setting locations.
+		Roblox launch or join: launch_roblox with mode and optional placeId/jobId. This tool blocks a second running instance. Use its native launch path.
+		Saved accounts: list_accounts is read only. Mod account lookups use $.roblox.request with the roblox-account permission. Never read or copy login cookies or tokens.
+		Errors: diagnose_app, get_logs_and_activity or read_voidstrap_file, then fix_app_issue using the returned fix id. Read get_guide topic fixing.
+
+		READ, CHANGE, VERIFY
+		Read existing values or files before editing. Reuse list_editors and its editorId instead of creating duplicate themes. Use dryRun for a broad settings or FastFlag change. Save only the requested changes and read every reply, including isError and any warnings. A timeout can happen after a change started; read the state before retrying.
+		For editor work, get_editor_code and list_editor_files show the real document. edit_editor changes selected regions; set_editor_code replaces the whole file. save_editor persists it. undo_editor reverts an editor change. undo_last_change covers supported settings, FastFlag, mod file and RiShade changes; inspect its history before relying on it.
+		For Voidstrap mods, validate checks loading, test exercises sandbox behavior, reload requests activation, list confirms loaded true, and problems reports runtime errors. These checks serve different purposes. A new mod waits for the user's approval in Voidstrap. Do not report it as running while approval is pending. A successful attach request is asynchronous and does not prove visible layout.
+		Cursor sprites must use cursor.move events. $.clock.every clamps repeat intervals to 500 ms; it cannot animate at 16 or 33 ms. The mods guide has a complete WindowRoot Canvas overlay example and a test.
+		After an edit, read back the changed settings or code, run the relevant test or diagnostic, and inspect visible results when possible. Say what changed, what you actually verified and what still needs the user's action. A saved file, a passing test and a visible working feature are separate claims.
+		Guides: workflow, mods, bootstrapper_theme, keystroke_theme, app_theme, fixing. The same guides are available as voidstrap://guide/<topic> resources. The FastFlag reference is voidstrap://fastflags/allowlist-and-tracker.
 		""";
 
 	private static readonly Dictionary<string, string> Topics = new(StringComparer.OrdinalIgnoreCase)
@@ -186,6 +202,7 @@ public static class McpGuides
 		["keystroke_theme"] = KeystrokeTheme,
 		["app_theme"] = AppTheme,
 		["fixing"] = Fixing,
+		["mods"] = McpTools.ModLayoutGuide,
 		["workflow"] = Workflow
 	};
 

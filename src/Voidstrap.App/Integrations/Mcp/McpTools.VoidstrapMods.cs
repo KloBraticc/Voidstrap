@@ -19,18 +19,20 @@ public static partial class McpTools
 	[GeneratedRegex("^[a-z0-9][a-z0-9-]{0,63}$")]
 	private static partial Regex ModNamePattern { get; }
 
-	private const string ModLayoutGuide = """
-		VOIDSTRAP MODS, THE SHORT VERSION
-		A Voidstrap mod is a small TypeScript program that runs inside Voidstrap in a sandbox. It cannot touch files, processes or .NET. Everything goes through the $ object.
+	internal const string ModLayoutGuide = """
+		VOIDSTRAP MODS
+		Use manage_voidstrap_mods for features inside Voidstrap: widgets, cursor sprites, pages, panels, sidebar changes and automation. This is different from manage_mods, which manages Roblox content files applied on the next launch.
+		Mods run on Windows and Linux inside a sandbox. They cannot access files, processes or .NET directly. Use the $ API from action types. This is not a browser: there is no document, window, DOM, CSS, React, requestAnimationFrame, setInterval or Node.js API. JSX describes native Voidstrap controls.
 
 		WORKFLOW, FOLLOW IT IN ORDER
 		1. manage_voidstrap_mods action list: see existing mods and their problems. Edit an existing mod instead of making a near duplicate.
 		2. action types: read the exact API before writing code. Never guess a $ method name; if it is not in types it does not exist.
-		3. write_file the three files below (mod is the folder name, lowercase letters, digits and hyphens).
-		4. action validate: fix every reported problem before going on.
-		5. action test if the mod has *.test.tsx files.
-		6. action reload, then action problems: a hook that throws is skipped and its error shows here.
-		7. A brand new mod stays off until the user says yes to a prompt Voidstrap shows them. Tell the user to accept it; you cannot turn it on yourself.
+		3. For an existing mod, action files and read_file before changing it. For UI placement, action ui_map and choose a real attachable anchor.
+		4. action write_file writes full file contents. Supply mod, path and content, for example { "action": "write_file", "mod": "my-mod", "path": "hooks/hooks.json", "content": "{\"modules\":[\"./register.tsx\"]}" }. A new mod needs all three files below.
+		5. action validate checks that the manifest and register module load. It does not execute every event or prove the UI renders. Fix every reported error.
+		6. action test runs *.test.ts, *.test.tsx, *.test.js, *.test.jsx or *.test.mjs files in a sandbox. Test the events and render tree your feature uses.
+		7. action reload reloads all mods, then action list confirms this mod has loaded true and state on. A new mod needs the user's approval in Voidstrap. Do not repeatedly call enable: it resets consent and asks again.
+		8. Exercise the feature in the live window, then action problems with mod. No problems does not prove the mod loaded or that the UI is visible. Report separately what was saved, tested, loaded and seen.
 
 		THE THREE FILES
 		.voidstrap-mod/plugin.json
@@ -58,9 +60,10 @@ public static partial class McpTools
 		  };
 
 		HOOKS
-		Every hook is ($, e, next). Call next(e) to let Voidstrap carry on, return without next to stop it, or next({ ...e, x }) to change it.
+		Every hook is ($, e, next). Call return next(e) once to pass the event to the next hook. Return without next to stop the chain, or return next({ ...e, x }) to pass changed data.
+		A ui.render hook returns its JSX tree instead of next(e). Register hooks in register; put startup work in session.start. Do not perform network work or write state while drawing.
 		on(event, matcher, hook) runs only when the fields in matcher equal the fields of e.
-		Events: session.start, session.end, roblox.launch (return { ...e, cancel: true } to stop a launch), game.join, game.leave, page.navigate, ui.render, cursor.move, cursor.down, cursor.up, cursor.enter, cursor.leave.
+		Events: session.start, session.end, roblox.launch (return { ...e, cancel: true } to stop a launch), game.join, game.leave, page.navigate, settings.changed, ui.render, cursor.move, cursor.down, cursor.up, cursor.enter, cursor.leave.
 
 			DRAWING
 			Panes, sidebar pages, mod pages, banners and dialogs are all drawn by ui.render hooks with the matching component and requestId:
@@ -72,6 +75,7 @@ public static partial class McpTools
 			Elements come from $.ui.resolve(). The full list and every prop are in types.
 			Give every pressable element a key, and put handlers in onPress, onChange or onSubmit.
 			State: const n = atom('name', initial); read($, n) while drawing; update($, n, fn) in a handler. Updates redraw automatically.
+			$.state is session state. $.store persists across app restarts. Keep related fast changing values in one state object so one event performs one update. A plain variable change does not request a redraw.
 
 			MOD PAGES IN THE TOP BAR
 			A mod page is a full page that opens behind its own button in the top left of Voidstrap, next to the Pages button. The button appears only while at least one loaded mod has added a page, so an unused mod never clutters the interface.
@@ -89,6 +93,9 @@ public static partial class McpTools
 		Network refused: the host is missing from network in plugin.json, or the url is not https.
 		Tests: do not import register in a test file. The mod is already loaded; drive it with mod.emit, mod.render, mod.renderPage and mod.press from 'voidstrap/testing'.
 		Hooks time out after 2 seconds of running and async work is waited on for at most 10 seconds, so keep hooks short.
+		A sprite moves twice a second: $.clock.every has a 500 ms minimum, even when you ask for 16 or 33 ms. Use cursor.move as described below.
+		A sprite stays invisible: always return a root Canvas, even when its children are hidden. Verify the Widget requestId, WindowRoot anchor and loaded state.
+		A sprite blocks clicks: set hitTestVisible={false} on the root Canvas. A decoration must let pointer input reach the app beneath it.
 
 		PLACING UI ANYWHERE IN VOIDSTRAP
 		Call manage_voidstrap_mods action ui_map first. It returns every named element in the live Voidstrap window: name, type, visible text, parent, x, y, width, height (pixels from the window's top left) and attachable.
@@ -97,6 +104,65 @@ public static partial class McpTools
 		Draw it with on('ui.render', { component: 'Widget', requestId: 'friends' }, ...). It redraws whenever the mod's state changes.
 		Only elements with attachable true can take a widget; if yours is false, use a neighbour or its parent from ui_map. $.ui.anchors() returns the same list at runtime.
 		Well known spots: TopNavBack and TopNavForward are the Back and Next arrows at the top right of the title bar, TopNavPanel is the top left menu (Home, Library, Servers, Voidstrap mods, News).
+		Attachment and rendering are asynchronous. An isPlaced true result means the request was accepted, not that pixels are already on screen. Read reason and inspect the live result.
+
+		CURSOR SPRITES AND TIMING
+		$.clock.every(ms, fn) clamps its interval to at least 500 ms. It is for occasional refreshes, not animation. $.clock.after is a one shot callback, not an animation frame API; do not chain it into a busy animation loop. There are at most 32 timers per mod, and unloading disposes them.
+		Use cursor.move for pointer tracking. The host dispatches moves at most once per 16 ms and skips dispatch while a move hook is busy. This is a rate limit, not a guaranteed 60 fps clock. Events stop when the pointer stops moving. Keep handlers short, with no network calls, logging or expensive calculations in this path.
+		Use event x and y for placement in the window. These are logical window coordinates, not screen pixels. screenX and screenY are screen coordinates and must not be used for Canvas placement. $.cursor.get() returns the last captured position; polling it faster cannot create new pointer events.
+		Cursor events come from Voidstrap windows. A mod cannot draw a desktop overlay or follow the pointer outside those windows. Handle cursor.leave to hide the sprite. Handle cursor.down and cursor.up for click feedback even while the pointer is stationary.
+		For exact tracking, copy event coordinates into state. Easing only on cursor.move leaves a gap when the pointer stops, because no more events arrive to finish that easing.
+		For a full window overlay, attach to WindowRoot with placement end and return a root Canvas with hitTestVisible false. Put left and top on its direct children. Keep that root Canvas when hidden so the widget retains its overlay layout.
+
+		COMPLETE POINTER EXAMPLE
+		Use the three file layout above, with name my-mod. This register.tsx draws a small dot and changes its color while pressed:
+		  import type { Register } from 'voidstrap';
+		  const pointer = atom('pointer', { x: 0, y: 0, visible: false, pressed: false });
+		  export const register: Register = (on) => {
+		    on('session.start', ($, e, next) => {
+		      $.ui.attach({ id: 'pointer', anchor: 'WindowRoot', placement: 'end' });
+		      return next(e);
+		    });
+		    for (const event of ['cursor.enter', 'cursor.move', 'cursor.down', 'cursor.up'] as const) {
+		      on(event, ($, e, next) => {
+		        $.state.set(pointer.ref, { x: e.x, y: e.y, visible: e.insideWindow, pressed: e.isDown });
+		        return next(e);
+		      });
+		    }
+		    on('cursor.leave', ($, e, next) => {
+		      update($, pointer, p => ({ ...p, visible: false, pressed: false }));
+		      return next(e);
+		    });
+		    on('ui.render', { component: 'Widget', requestId: 'pointer' }, ($) => {
+		      const { Canvas, Box } = $.ui.resolve();
+		      const p = read($, pointer);
+		      return <Canvas hitTestVisible={false}>
+		        <Box key="dot" visible={p.visible} left={p.x - 8} top={p.y - 8} width={16} height={16}
+		          cornerRadius={8} background={p.pressed ? '#FF8B5CF6' : '#FF38BDF8'} />
+		      </Canvas>;
+		    });
+		  };
+
+		TESTING THE POINTER EXAMPLE
+		Save this as hooks/pointer.test.tsx. Do not import register: the test runner loads it once for the test file. Tests in a file share state, so each test must establish its starting state. Timers do not tick in this sandbox, and a render tree test does not verify native window layout.
+		  import { test, expect, mod } from 'voidstrap/testing';
+		  test('pointer follows and hides without losing its canvas', () => {
+		    mod.emit('cursor.move', { x: 100, y: 80, screenX: 1000, screenY: 800,
+		      windowWidth: 1000, windowHeight: 700, insideWindow: true, isDown: false, button: 'none' });
+		    const tree = mod.renderWidget('pointer');
+		    expect(tree?.type).toBe('Canvas');
+		    expect(tree?.props.hitTestVisible).toBe(false);
+		    const dot = tree?.children[0];
+		    if (!dot || typeof dot !== 'object') throw new Error('missing dot');
+		    expect(dot.props.left).toBe(92);
+		    expect(dot.props.top).toBe(72);
+		    mod.emit('cursor.leave', { x: 100, y: 80, insideWindow: false, isDown: false });
+		    const hidden = mod.renderWidget('pointer');
+		    expect(hidden?.type).toBe('Canvas');
+		    const hiddenDot = hidden?.children[0];
+		    if (!hiddenDot || typeof hiddenDot !== 'object') throw new Error('missing hidden dot');
+		    expect(hiddenDot.props.visible).toBe(false);
+		  });
 
 		USING THE ROBLOX ACCOUNT SAFELY
 		A mod never reads the Roblox login cookie. Add "permissions": ["roblox-account"] to plugin.json, then use:

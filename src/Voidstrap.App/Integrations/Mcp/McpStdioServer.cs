@@ -14,25 +14,7 @@ public static partial class McpStdioServer
 
 	public const string StdioArg = "stdio";
 
-	private const string ServerInstructions =
-		"Voidstrap MCP Server gives you complete live control over Voidstrap on Windows. " +
-		"IMPORTANT: before building a launcher (bootstrapper) theme, keystroke theme or app theme, call get_guide with that topic and follow it exactly, do not guess file formats or JavaScript APIs. " +
-		"Launcher themes are only used when the launcher style is Custom and the theme is selected, open_editor with activate true does both, and test_bootstrapper_theme confirms a theme builds and is active. Read every tool reply, an error reply means the change did not happen. " +
-		"Start with get_voidstrap_overview to see the app state, active settings, installed themes/mods, FastFlag count, and open windows. " +
-		"Use get_settings (with optional filter like 'Keystrokes', 'RiShade', 'Crosshair', 'Clipper', 'Matchmaker', 'Web', 'DoubleMovement', 'Texture') and set_settings to inspect or modify any of the 200+ Voidstrap settings and Roblox GlobalBasicSettings_13.xml properties in real time. " +
-		"Use list_fastflags, set_fastflags, and search_fastflag_tracker to read, validate, search, or modify raw Roblox FastFlags and Voidstrap FastFlag presets. " +
-		"Roblox FastFlag Allowlist (https://devforum.roblox.com/t/allowlist-for-local-client-configuration-via-fast-flags/3966569, JSON feed https://devforum.roblox.com/t/allowlist-for-local-client-configuration-via-fast-flags/3966569.json): Roblox restricts local client configuration via ClientAppSettings.json on PC to allowlisted FastFlags. " +
-		"The official allowlisted flags are: Geometry: DFIntCSGLevelOfDetailSwitchingDistance, DFIntCSGLevelOfDetailSwitchingDistanceL12, DFIntCSGLevelOfDetailSwitchingDistanceL23, DFIntCSGLevelOfDetailSwitchingDistanceL34 | " +
-		"Rendering: FFlagHandleAltEnterFullscreenManually, DFFlagTextureQualityOverrideEnabled, DFIntTextureQualityOverride, FIntDebugForceMSAASamples, DFFlagDisableDPIScale, FFlagDebugGraphicsPreferD3D11, FFlagDebugSkyGray, DFFlagDebugPauseVoxelizer, DFIntDebugFRMQualityLevelOverride, FIntFRMMaxGrassDistance, FIntFRMMinGrassDistance, FFlagDebugGraphicsPreferVulkan, FFlagDebugGraphicsPreferOpenGL | " +
-		"User Interface: FIntGrassMovementReducedMotionFactor. " +
-		"MaximumADHD Roblox-FFlag-Tracker (https://github.com/MaximumADHD/Roblox-FFlag-Tracker) & Roblox-Client-Tracker (https://github.com/MaximumADHD/Roblox-Client-Tracker): use search_fastflag_tracker to query live FastFlags and default values across PCDesktopClient.json (https://raw.githubusercontent.com/MaximumADHD/Roblox-FFlag-Tracker/refs/heads/main/PCDesktopClient.json), PCClientBootstrapper.json (https://raw.githubusercontent.com/MaximumADHD/Roblox-FFlag-Tracker/refs/heads/main/PCClientBootstrapper.json), PCStudioApp.json (https://raw.githubusercontent.com/MaximumADHD/Roblox-FFlag-Tracker/refs/heads/main/PCStudioApp.json), FVariables.txt (https://raw.githubusercontent.com/MaximumADHD/Roblox-Client-Tracker/refs/heads/roblox/FVariables.txt), and live Roblox ClientSettings (https://clientsettings.roblox.com/v2/settings/application/PCDesktopClient), or to validate all currently configured flags in ClientAppSettings.json. " +
-		"Editing: open_editor ('bootstrapper', 'keystroke', or 'fastflags') opens an editor on screen. list_editor_files shows every file in it, a custom bootstrapper theme can hold Theme.xml plus HTML, CSS, JS, JSON and SVG files, and a keystroke theme can switch between C#, HTML and CSS, Rust and JSON with set_editor_language. " +
-		"Read with get_editor_code (lineNumbers, startLine, endLine, file) and find_in_editor, change code with edit_editor (batched replace, insert, append, delete_lines, replace_lines that roll back if the result does not build), replace_in_editor, or set_editor_code, then save_editor. undo_editor reverts the last MCP edit of a file, delete_editor_file removes extra files. " +
-		"Safety: set_settings and set_fastflags accept dryRun to preview, and undo_last_change reverts the last MCP change to settings, FastFlags, mods or RiShade. Destructive actions such as deleting a managed mod need confirm set to true. " +
-		"Fixing problems: diagnose_app lists recent in app errors and broken Voidstrap state with a fix id for each, and fix_app_issue applies the fix. App look: manage_app_theme recolors Voidstrap itself live, adds window gradients, takes raw theme XAML, and saves profiles. " +
-		"Voidstrap mods: to add a feature, page, panel, sidebar change or automation to Voidstrap, write a Voidstrap mod with manage_voidstrap_mods. Always call it with action guide first and follow that workflow exactly: list, types, write_file, validate, test, reload, problems. Never edit Voidstrap's own program files to add features. To place UI somewhere specific in the Voidstrap window, call manage_voidstrap_mods action ui_map to see every element and its position, then attach a widget with $.ui.attach. To read the user's Roblox account (friends, presence, inventory), use $.roblox.request with the roblox-account permission, never the cookie. " +
-		"More control: manage_mods (managed mod library), manage_rishade (status, on or off, preset), manage_mod_generator (regenerate the UI theme mod with new colours or icon swaps), list_accounts (read only), and read_voidstrap_file (browse and read Voidstrap config and log files). " +
-		"Use navigate_ui to switch Voidstrap's MainWindow to any active page or highlight a setting, manage_themes_and_mods to manage custom themes/fonts/sounds/mods, launch_roblox to launch Player/Studio or join a placeId/jobId (multi-instance is blocked; only one Roblox instance can run at a time), and get_logs_and_activity to inspect Voidstrap logs, Roblox logs, and server history.";
+	private const string ServerInstructions = McpGuides.Workflow;
 
 	private const string AllowlistAndTrackerReference =
 		"ROBLOX FASTFLAG ALLOWLIST & MAXIMUMADHD FFLAG TRACKER REFERENCE\n\n" +
@@ -344,6 +326,8 @@ public static partial class McpStdioServer
 			Guide("keystroke_theme", "Keystroke Theme Guide", "How to edit keystroke overlay themes in C#, HTML, Rust or JSON."),
 			Guide("app_theme", "Voidstrap App Theme Guide", "How to recolor Voidstrap itself."),
 			Guide("fixing", "Fixing Voidstrap Guide", "How to find and fix in app errors and broken state."),
+			Guide("workflow", "Voidstrap Workflow Guide", "Choose the correct tool, read current state, apply changes and verify what actually works."),
+			Guide("mods", "Voidstrap Mods Guide", "Sandbox APIs, UI placement, cursor timing, a working pointer overlay and render tests."),
 			new JsonObject
 			{
 				["uri"] = "voidstrap://state/overview",
