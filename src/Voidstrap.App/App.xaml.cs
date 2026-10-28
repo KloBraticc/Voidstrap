@@ -2162,7 +2162,9 @@ public partial class App : Application
 		TryShutdown(Voidstrap.Integrations.Rojo.RojoManager.Shutdown);
 		TryShutdown(Voidstrap.Integrations.Studio.StudioIntegration.Shutdown);
 		TryShutdown(() => Voidstrap.Integrations.Plugins.PluginHost.Invoke("session.end", new System.Text.Json.Nodes.JsonObject { ["reason"] = "exit" }));
+		TryShutdown(Voidstrap.Integrations.Plugins.PluginCursor.Shutdown);
 		TryShutdown(Voidstrap.Integrations.Plugins.PluginHost.Shutdown);
+		TryShutdown(Voidstrap.Integrations.Mcp.McpBridgeServer.Stop);
 		TryShutdown(AssetCaptureStore.Shutdown);
 		TryShutdown(Voidstrap.Integrations.Fullscreen.RobloxFullscreen.Shutdown);
 		if (Voidstrap.Utility.Platform.IsLinux)

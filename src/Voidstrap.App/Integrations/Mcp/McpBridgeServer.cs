@@ -15,6 +15,8 @@ public static class McpBridgeServer
 
 	private static readonly CancellationTokenSource ShutdownCts = new();
 
+	private static NamedPipeServerStream? _currentServer;
+
 	private static int _started;
 
 	public static string PipeName
@@ -23,6 +25,26 @@ public static class McpBridgeServer
 		{
 			using Process current = Process.GetCurrentProcess();
 			return "Voidstrap.Mcp." + current.SessionId;
+		}
+	}
+
+	public static void Stop()
+	{
+		try
+		{
+			if (!ShutdownCts.IsCancellationRequested)
+				ShutdownCts.Cancel();
+		}
+		catch
+		{
+		}
+		try
+		{
+			_currentServer?.Dispose();
+			_currentServer = null;
+		}
+		catch
+		{
 		}
 	}
 
@@ -62,20 +84,24 @@ public static class McpBridgeServer
 					PipeTransmissionMode.Byte,
 					PipeOptions.Asynchronous | PipeOptions.CurrentUserOnly);
 
+				_currentServer = server;
 				await server.WaitForConnectionAsync(token).ConfigureAwait(false);
 
 				NamedPipeServerStream connected = server;
 				server = null;
+				_currentServer = null;
 				_ = Task.Run(() => HandleClientAsync(connected, token), token);
 			}
 			catch (OperationCanceledException)
 			{
 				server?.Dispose();
+				_currentServer = null;
 				break;
 			}
 			catch (Exception ex)
 			{
 				server?.Dispose();
+				_currentServer = null;
 
 				if (token.IsCancellationRequested)
 					break;
@@ -84,7 +110,7 @@ public static class McpBridgeServer
 
 				try
 				{
-					await Task.Delay(2000, token).ConfigureAwait(false);
+					await Task.Delay(50, token).ConfigureAwait(false);
 				}
 				catch (OperationCanceledException)
 				{

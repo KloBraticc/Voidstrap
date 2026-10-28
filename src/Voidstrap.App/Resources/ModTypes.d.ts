@@ -85,6 +85,7 @@ declare module 'voidstrap' {
     | 'Wrap'
     | 'Grid'
     | 'Scroll'
+    | 'Canvas'
     | 'Text'
     | 'Badge'
     | 'Icon'
@@ -132,6 +133,10 @@ declare module 'voidstrap' {
     column?: number;
     rowSpan?: number;
     columnSpan?: number;
+    left?: number;
+    top?: number;
+    right?: number;
+    bottom?: number;
   }
 
   export interface ElementProps {
@@ -140,6 +145,7 @@ declare module 'voidstrap' {
     Wrap: CommonStyleProps & { direction?: 'row' | 'column'; itemWidth?: number; itemHeight?: number };
     Grid: CommonStyleProps & { columns?: number | Array<number | string>; rows?: number | Array<number | string>; gap?: number };
     Scroll: CommonStyleProps & { maxHeight?: number; horizontal?: boolean };
+    Canvas: CommonStyleProps;
     Text: CommonStyleProps & { text?: string; bold?: boolean; italic?: boolean; mono?: boolean; size?: number; dim?: boolean; color?: string; wrap?: boolean };
     Badge: CommonStyleProps & { text?: string; label?: string; variant?: 'primary' | 'success' | 'warning' | 'danger' | 'neutral' };
     Icon: CommonStyleProps & { symbol?: string; name?: string; size?: number; color?: string };
@@ -318,6 +324,7 @@ declare module 'voidstrap/testing' {
     renderPage(pageId: string): Node | null;
     renderBanner(bannerId: string): Node | null;
     renderDialog(dialogId: string): Node | null;
+    renderWidget(widgetId: string): Node | null;
     press(tree: Node | null, key: string, value?: unknown): void;
   };
 }
@@ -336,6 +343,7 @@ declare const mod: {
   renderPage(pageId: string): import('voidstrap').Node | null;
   renderBanner(bannerId: string): import('voidstrap').Node | null;
   renderDialog(dialogId: string): import('voidstrap').Node | null;
+  renderWidget(widgetId: string): import('voidstrap').Node | null;
   press(tree: import('voidstrap').Node | null, key: string, value?: unknown): void;
 };
 

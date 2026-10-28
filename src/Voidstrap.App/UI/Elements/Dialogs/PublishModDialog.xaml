@@ -56,7 +56,7 @@
     <Border Grid.Row="2" Padding="15" Background="{DynamicResource PrimaryBackgroundColor}">
       <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
         <ui:Button x:Name="PublishButton" MinWidth="140" Appearance="Primary" Icon="CloudArrowUp24" IsEnabled="False" Content="{resources:Loc Ui_VoidstrapMods_PublishConfirm}" Click="Publish_Click" />
-        <Button x:Name="CloseButton" MinWidth="100" Margin="12,0,0,0" Content="{resources:Loc Common_Cancel}" IsCancel="True" />
+        <Button x:Name="CloseButton" MinWidth="100" Margin="12,0,0,0" Content="{resources:Loc Common_Cancel}" IsCancel="True" Click="Close_Click" />
       </StackPanel>
     </Border>
   </Grid>

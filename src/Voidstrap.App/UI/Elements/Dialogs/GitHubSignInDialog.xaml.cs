@@ -76,7 +76,13 @@ public partial class GitHubSignInDialog : WpfUiWindow
 	{
 		Loaded -= OnDialogLoaded;
 		Closed -= OnDialogClosed;
-		_cts.Cancel();
-		_cts.Dispose();
+		try
+		{
+			_cts.Cancel();
+			_cts.Dispose();
+		}
+		catch
+		{
+		}
 	}
 }

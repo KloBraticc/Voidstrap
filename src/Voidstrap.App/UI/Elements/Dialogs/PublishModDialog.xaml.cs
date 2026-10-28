@@ -97,7 +97,20 @@ public partial class PublishModDialog : WpfUiWindow
 	private void OpenPr_Click(object sender, RoutedEventArgs e)
 	{
 		if (_pullRequestUrl != null)
-			Utilities.OpenWebLink(_pullRequestUrl);
+		{
+			try
+			{
+				Utilities.OpenWebLink(_pullRequestUrl);
+			}
+			catch
+			{
+			}
+		}
+	}
+
+	private void Close_Click(object sender, RoutedEventArgs e)
+	{
+		Close();
 	}
 
 	private void ShowError(string message)
@@ -110,7 +123,13 @@ public partial class PublishModDialog : WpfUiWindow
 	{
 		Loaded -= OnDialogLoaded;
 		Closed -= OnDialogClosed;
-		_cts.Cancel();
-		_cts.Dispose();
+		try
+		{
+			_cts.Cancel();
+			_cts.Dispose();
+		}
+		catch
+		{
+		}
 	}
 }

@@ -287,6 +287,63 @@ public static partial class ModLibrary
 		}
 	}
 
+	private static Timer? _autoUpdateTimer;
+
+	public static void StartAutoUpdater()
+	{
+		if (!PluginHost.IsSupported)
+			return;
+		_autoUpdateTimer?.Dispose();
+		_autoUpdateTimer = new Timer(static _ =>
+		{
+			if (App.Settings.Prop.AutoUpdateLibraryMods)
+				_ = AutoUpdateInstalledModsAsync();
+		}, null, TimeSpan.FromSeconds(10), TimeSpan.FromHours(4));
+	}
+
+	public static void StopAutoUpdater()
+	{
+		_autoUpdateTimer?.Dispose();
+		_autoUpdateTimer = null;
+	}
+
+	public static async Task<IReadOnlyList<string>> AutoUpdateInstalledModsAsync(CancellationToken token = default)
+	{
+		List<string> updated = [];
+		try
+		{
+			Index index = await GetIndexAsync(true, token);
+			DisableTakenDown(index);
+			List<PluginManifest> installed = PluginManifest.Discover(Paths.Plugins, report: false);
+			foreach (PluginManifest manifest in installed)
+			{
+				string? libraryId = GetInstalledLibraryId(manifest.Name);
+				if (libraryId == null)
+					continue;
+				LibraryMod? entry = index.Mods.FirstOrDefault(m => m.Name == manifest.Name && string.Equals(m.Id, libraryId, StringComparison.Ordinal));
+				if (entry == null)
+					continue;
+				if (GetState(entry) != InstallState.UpdateAvailable)
+					continue;
+				bool wasEnabled = PluginConsent.GetState(manifest) == "on";
+				await InstallAsync(index, entry, token);
+				if (wasEnabled && !entry.UsesRobloxAccount)
+					PluginHost.SetEnabled(entry.Name, true, reload: false);
+				updated.Add(entry.Name + " " + entry.Version);
+			}
+			if (updated.Count > 0)
+			{
+				PluginHost.Reload();
+				App.Logger.WriteLine(LogIdent, "Auto-updated " + updated.Count + " mod(s): " + string.Join(", ", updated));
+			}
+		}
+		catch (Exception ex) when (ex is HttpRequestException or IOException or InvalidDataException or OperationCanceledException)
+		{
+			App.Logger.WriteLine(LogIdent, "Auto-update skipped: " + ex.Message);
+		}
+		return updated;
+	}
+
 	private static void StampLibrary(string folder, LibraryMod mod)
 	{
 		string path = Path.Combine(folder, PluginManifest.ManifestFolder, "plugin.json");

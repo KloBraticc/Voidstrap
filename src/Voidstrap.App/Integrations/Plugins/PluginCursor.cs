@@ -20,6 +20,8 @@ public static class PluginCursor
 	private static string _lastButton = "none";
 	private static bool _hasState;
 	private static long _lastMoveDispatched;
+
+	private static int _moveInFlight;
 	private static bool _installed;
 
 	private static volatile bool _hasMoveHook;
@@ -199,8 +201,25 @@ public static class PluginCursor
 		long now = Environment.TickCount64;
 		if (now - _lastMoveDispatched >= MoveThrottleMs)
 		{
-			_lastMoveDispatched = now;
-			PluginHost.Invoke("cursor.move", Snapshot());
+			if (Interlocked.CompareExchange(ref _moveInFlight, 1, 0) == 0)
+			{
+				_lastMoveDispatched = now;
+				JsonObject snapshot = Snapshot();
+				_ = Task.Run(() =>
+				{
+					try
+					{
+						PluginHost.Invoke("cursor.move", snapshot);
+					}
+					catch
+					{
+					}
+					finally
+					{
+						Interlocked.Exchange(ref _moveInFlight, 0);
+					}
+				});
+			}
 		}
 	}
 

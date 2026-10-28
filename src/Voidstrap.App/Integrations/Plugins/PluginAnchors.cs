@@ -79,8 +79,8 @@ internal static class PluginAnchors
 		if (dispatcher != null && !dispatcher.HasShutdownStarted)
 		{
 			if (removed != null)
-				dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() => Remove(removed)));
-			dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() => Place(item)));
+				dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() => Remove(removed)));
+			dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() => Place(item)));
 		}
 		return Result(true, "");
 	}
@@ -122,7 +122,7 @@ internal static class PluginAnchors
 				return;
 			_applyQueued = true;
 		}
-		dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() =>
+		dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
 		{
 			List<Attached> all;
 			lock (Gate)
@@ -145,7 +145,7 @@ internal static class PluginAnchors
 			if (!Items.Any(i => i.Plugin == plugin) || !PendingRefresh.Add(plugin))
 				return;
 		}
-		dispatcher.BeginInvoke(DispatcherPriority.Loaded, new Action(() =>
+		dispatcher.BeginInvoke(DispatcherPriority.Render, new Action(() =>
 		{
 			List<Attached> mine;
 			lock (Gate)
@@ -185,6 +185,7 @@ internal static class PluginAnchors
 			Margin = new Thickness(4, 0, 4, 0),
 			VerticalAlignment = VerticalAlignment.Center,
 			Focusable = false,
+			IsHitTestVisible = false,
 			Tag = "mod:" + item.Plugin + ":" + item.Id
 		};
 		int index = panel.Children.IndexOf(child);
@@ -202,6 +203,10 @@ internal static class PluginAnchors
 		{
 			if (ReferenceEquals(panel, target))
 			{
+				host.Margin = new Thickness(0);
+				host.HorizontalAlignment = HorizontalAlignment.Stretch;
+				host.VerticalAlignment = VerticalAlignment.Stretch;
+				Panel.SetZIndex(host, 9999);
 				Grid.SetRow(host, 0);
 				Grid.SetColumn(host, 0);
 				if (grid.RowDefinitions.Count > 0)
@@ -211,12 +216,28 @@ internal static class PluginAnchors
 			}
 			else if (child != null)
 			{
-				Grid.SetRow(host, Grid.GetRow(child));
-				Grid.SetColumn(host, Grid.GetColumn(child));
+				int row = Grid.GetRow(child);
+				int col = Grid.GetColumn(child);
+				Grid.SetRow(host, row);
+				Grid.SetColumn(host, col);
+				int siblingsInCell = 0;
+				foreach (UIElement existing in grid.Children)
+				{
+					if (existing is ContentControl cc && !ReferenceEquals(cc, host) && cc.Tag is string tag && tag.StartsWith("mod:", StringComparison.Ordinal) && Grid.GetRow(cc) == row && Grid.GetColumn(cc) == col)
+					{
+						siblingsInCell++;
+					}
+				}
+				if (siblingsInCell > 0)
+				{
+					host.Margin = new Thickness(4 + siblingsInCell * 120, 0, 4, 0);
+				}
 			}
 		}
 		else if (panel is Canvas)
 		{
+			host.Margin = new Thickness(0);
+			Panel.SetZIndex(host, 9999);
 			Canvas.SetLeft(host, 0);
 			Canvas.SetTop(host, 0);
 		}
@@ -233,6 +254,26 @@ internal static class PluginAnchors
 		{
 			string dir = Path.Combine(Paths.Plugins, item.Plugin);
 			item.Host.Content = PluginUiRenderer.BuildTree(PluginHost.RenderWidget(item.Plugin, item.Id), dir);
+			if (item.Host.Content is UIElement elem && !elem.IsHitTestVisible)
+				item.Host.IsHitTestVisible = false;
+			else if (item.Host.Content == null)
+				item.Host.IsHitTestVisible = false;
+			else
+				item.Host.IsHitTestVisible = true;
+			if (item.Host.Parent is Canvas)
+			{
+				if (item.Host.Content is FrameworkElement fe)
+				{
+					double l = Canvas.GetLeft(fe);
+					if (!double.IsNaN(l)) Canvas.SetLeft(item.Host, l);
+					double t = Canvas.GetTop(fe);
+					if (!double.IsNaN(t)) Canvas.SetTop(item.Host, t);
+					double r = Canvas.GetRight(fe);
+					if (!double.IsNaN(r)) Canvas.SetRight(item.Host, r);
+					double b = Canvas.GetBottom(fe);
+					if (!double.IsNaN(b)) Canvas.SetBottom(item.Host, b);
+				}
+			}
 		}
 		catch (Exception ex)
 		{

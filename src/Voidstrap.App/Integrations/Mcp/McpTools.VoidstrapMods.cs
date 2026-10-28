@@ -14,7 +14,7 @@ public static partial class McpTools
 {
 	private const int MaxModFileBytes = 512 * 1024;
 
-	private static readonly string[] ModFileExtensions = [".ts", ".tsx", ".js", ".mjs", ".jsx", ".json", ".md"];
+	private static readonly string[] ModFileExtensions = [".ts", ".tsx", ".js", ".mjs", ".jsx", ".json", ".md", ".png", ".ico", ".gif", ".webp", ".jpg", ".jpeg", ".svg"];
 
 	[GeneratedRegex("^[a-z0-9][a-z0-9-]{0,63}$")]
 	private static partial Regex ModNamePattern { get; }
@@ -272,6 +272,13 @@ public static partial class McpTools
 				PluginHost.ForgetConsent(mod);
 				PluginHost.Reload();
 				return new McpToolResult("Asked the user whether to turn on " + mod + ". It loads only if they say yes; call list to see the answer.");
+			case "auto_update":
+			{
+				IReadOnlyList<string> updated = ModLibrary.AutoUpdateInstalledModsAsync(CancellationToken.None).GetAwaiter().GetResult();
+				return updated.Count > 0
+					? new McpToolResult("Auto-updated " + updated.Count + " mod(s): " + string.Join(", ", updated))
+					: new McpToolResult("All installed library mods are up to date.");
+			}
 			case "library_install":
 			{
 				ModLibrary.Index index = ModLibrary.GetIndexAsync(false, CancellationToken.None).GetAwaiter().GetResult();
@@ -311,7 +318,7 @@ public static partial class McpTools
 					: new McpToolResult(info.Problems.Count == 0 ? "No problems recorded for " + mod + "." : string.Join("\n", info.Problems));
 			}
 			default:
-				return new McpToolResult("Unknown action. Use list, guide, types, files, read_file, write_file, delete_file, delete_mod, validate, test, reload, enable, disable, problems, library_search, library_install, or publish.", true);
+				return new McpToolResult("Unknown action. Use list, guide, types, files, read_file, write_file, delete_file, delete_mod, validate, test, reload, enable, disable, problems, library_search, library_install, auto_update, or publish.", true);
 		}
 	}
 

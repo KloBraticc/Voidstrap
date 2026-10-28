@@ -1231,8 +1231,14 @@ public static class PluginHost
 			{
 				return value.UnwrapIfPromise(TimeSpan.FromMilliseconds(100));
 			}
-			catch (Jint.Runtime.PromiseRejectedException) when (_disposed)
+			catch (Jint.Runtime.PromiseRejectedException ex)
 			{
+				Problem(Name, "a promise was rejected: " + Describe(ex));
+				return JsValue.Undefined;
+			}
+			catch (Exception ex)
+			{
+				Problem(Name, "evaluating promise failed: " + Describe(ex));
 				return JsValue.Undefined;
 			}
 		}
@@ -1356,28 +1362,38 @@ public static class PluginHost
 		{
 			lock (_gate)
 			{
-				if (scope != null)
+				if (_disposed)
+					return null;
+				try
 				{
-					string prefix = Name + "|" + scope + "|";
-					foreach (string key in _handlers.Keys.Where(key => key.StartsWith(prefix, StringComparison.Ordinal)).ToList())
-						_handlers.Remove(key);
-				}
-				ClrFunction nextFunction = new(_engine, "next", (_, a) =>
-				{
-					JsonNode? rewritten = a.Length > 0 && !a[0].IsUndefined() ? ToNode(a[0], scope) : null;
-					JsonNode? result = next(rewritten);
+					if (scope != null)
+					{
+						string prefix = Name + "|" + scope + "|";
+						foreach (string key in _handlers.Keys.Where(key => key.StartsWith(prefix, StringComparison.Ordinal)).ToList())
+							_handlers.Remove(key);
+					}
+					ClrFunction nextFunction = new(_engine, "next", (_, a) =>
+					{
+						JsonNode? rewritten = a.Length > 0 && !a[0].IsUndefined() ? ToNode(a[0], scope) : null;
+						JsonNode? result = next(rewritten);
+						_engine.Constraints.Reset();
+						return ToJs(result);
+					});
 					_engine.Constraints.Reset();
-					return ToJs(result);
-				});
-				_engine.Constraints.Reset();
-				JsValue raw = _engine.Invoke(function, JsValue.Undefined, new object[] { _engine.GetValue("$"), ToJs(input), nextFunction });
-				if (!settlePromises)
-				{
-					_engine.Advanced.ProcessTasks();
-					return raw.IsPromise() ? null : ToNode(raw, scope);
+					JsValue raw = _engine.Invoke(function, JsValue.Undefined, new object[] { _engine.GetValue("$"), ToJs(input), nextFunction });
+					if (!settlePromises)
+					{
+						_engine.Advanced.ProcessTasks();
+						return raw.IsPromise() ? null : ToNode(raw, scope);
+					}
+					JsValue result = Settle(raw);
+					return ToNode(result, scope);
 				}
-				JsValue result = Settle(raw);
-				return ToNode(result, scope);
+				catch (Exception ex)
+				{
+					Problem(Name, "hook execution failed: " + Describe(ex));
+					return null;
+				}
 			}
 		}
 
@@ -1385,11 +1401,38 @@ public static class PluginHost
 		{
 			lock (_gate)
 			{
-				if (!_handlers.TryGetValue(handlerId, out JsValue? handler))
+				if (_disposed || !_handlers.TryGetValue(handlerId, out JsValue? handler))
 					return;
-				_engine.Constraints.Reset();
-				_ = _engine.Invoke(handler, JsValue.Undefined, new object[] { ToJs(argument) });
-				_engine.Advanced.ProcessTasks();
+				try
+				{
+					_engine.Constraints.Reset();
+					JsValue result = _engine.Invoke(handler, JsValue.Undefined, new object[] { ToJs(argument) });
+					_engine.Advanced.ProcessTasks();
+					if (result.IsPromise())
+					{
+						_ = Task.Run(() =>
+						{
+							lock (_gate)
+							{
+								if (!_disposed)
+								{
+									try
+									{
+										Settle(result);
+									}
+									catch (Exception ex)
+									{
+										Problem(Name, "async handler failed: " + Describe(ex));
+									}
+								}
+							}
+						});
+					}
+				}
+				catch (Exception ex)
+				{
+					Problem(Name, "handler failed: " + Describe(ex));
+				}
 			}
 		}
 

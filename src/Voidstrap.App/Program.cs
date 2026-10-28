@@ -41,5 +41,6 @@ public static class Program
 		}
 		App.Logger.WriteLine("Program::Main", "App shut down, total elapsed " + (int)Stopwatch.GetElapsedTime(startupStart).TotalMilliseconds + " ms");
 		App.Logger.Flush();
+		Environment.Exit(0);
 	}
 }

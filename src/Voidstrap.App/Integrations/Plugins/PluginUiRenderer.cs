@@ -24,8 +24,15 @@ internal static class PluginUiRenderer
 
 	public static UIElement? BuildTree(JsonNode? node, string? pluginDirectory = null)
 	{
+		try
+		{
 		int rendered = 0;
 		return BuildNode(node, pluginDirectory, ref rendered);
+		}
+		catch
+		{
+			return null;
+		}
 	}
 
 	public static void FlushPendingInputs()
@@ -48,6 +55,8 @@ internal static class PluginUiRenderer
 
 	private static UIElement? BuildNode(JsonNode? node, string? pluginDirectory, ref int rendered)
 	{
+		try
+		{
 		if (node == null || ++rendered > MaxRenderedNodes)
 			return null;
 		if (node is JsonValue value)
@@ -89,6 +98,7 @@ internal static class PluginUiRenderer
 			"Tabs" => MakeTabs(children, props, pluginDirectory, ref rendered),
 			"Table" => MakeTable(props),
 			"Grid" => MakeGrid(children, props, pluginDirectory, ref rendered),
+			"Canvas" => MakeCanvas(children, props, pluginDirectory, ref rendered),
 			"Scroll" => MakeScroll(children, props, pluginDirectory, ref rendered),
 			"Wrap" => MakeWrap(children, props, pluginDirectory, ref rendered),
 			_ => BuildChildren(children, props, pluginDirectory, ref rendered)
@@ -96,6 +106,11 @@ internal static class PluginUiRenderer
 		if (built is FrameworkElement fe)
 			ApplyCommonProps(fe, props);
 		return built;
+		}
+		catch
+		{
+			return null;
+		}
 	}
 
 	private static Panel BuildChildren(JsonArray children, JsonObject props, string? pluginDirectory, ref int rendered)
@@ -220,6 +235,29 @@ internal static class PluginUiRenderer
 			cellIndex++;
 		}
 		return grid;
+	}
+
+	private static Canvas MakeCanvas(JsonArray children, JsonObject props, string? pluginDirectory, ref int rendered)
+	{
+		Canvas canvas = new();
+		foreach (JsonNode? child in children)
+		{
+			if (BuildNode(child, pluginDirectory, ref rendered) is not UIElement built)
+				continue;
+			if (child is JsonObject childObj && childObj["props"] is JsonObject childProps)
+			{
+				if (ReadDouble(childProps, "left", double.NaN) is double l && !double.IsNaN(l))
+					Canvas.SetLeft(built, l);
+				if (ReadDouble(childProps, "top", double.NaN) is double t && !double.IsNaN(t))
+					Canvas.SetTop(built, t);
+				if (ReadDouble(childProps, "right", double.NaN) is double r && !double.IsNaN(r))
+					Canvas.SetRight(built, r);
+				if (ReadDouble(childProps, "bottom", double.NaN) is double b && !double.IsNaN(b))
+					Canvas.SetBottom(built, b);
+			}
+			canvas.Children.Add(built);
+		}
+		return canvas;
 	}
 
 	private static GridLength ParseGridLength(JsonNode? spec)
@@ -743,6 +781,26 @@ internal static class PluginUiRenderer
 			DynamicRenderSystem.SetLazyImageSource(image, source);
 			return image;
 		}
+		if (source.StartsWith("data:image/", StringComparison.OrdinalIgnoreCase))
+		{
+			int comma = source.IndexOf(',');
+			if (comma > 0)
+			{
+				try
+				{
+					byte[] bytes = Convert.FromBase64String(source[(comma + 1)..]);
+					if (SafeImaging.FromBytes(bytes, (int)Math.Max(height * 2, 256)) is BitmapSource bmp)
+					{
+						image.Source = bmp;
+						return image;
+					}
+				}
+				catch
+				{
+					return null;
+				}
+			}
+		}
 		if (source.StartsWith("pack://", StringComparison.OrdinalIgnoreCase))
 		{
 			try
@@ -850,6 +908,14 @@ internal static class PluginUiRenderer
 		}
 		if (ReadDouble(props, "cornerRadius", double.NaN) is double cr && !double.IsNaN(cr) && cr >= 0 && element is Border cornerBorder)
 			cornerBorder.CornerRadius = new CornerRadius(cr);
+		if (ReadDouble(props, "left", double.NaN) is double left && !double.IsNaN(left))
+			Canvas.SetLeft(element, left);
+		if (ReadDouble(props, "top", double.NaN) is double top && !double.IsNaN(top))
+			Canvas.SetTop(element, top);
+		if (ReadDouble(props, "right", double.NaN) is double right && !double.IsNaN(right))
+			Canvas.SetRight(element, right);
+		if (ReadDouble(props, "bottom", double.NaN) is double bottom && !double.IsNaN(bottom))
+			Canvas.SetBottom(element, bottom);
 	}
 
 	public static bool TryResolveBrush(string value, out Brush? brush)
@@ -889,7 +955,7 @@ internal static class PluginUiRenderer
 			thickness = new Thickness(uniform);
 			return true;
 		}
-		string[] parts = node.ToString().Split(',', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+		string[] parts = node.ToString().Split(new[] { ',', ' ' }, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
 		if (parts.Length == 1 && double.TryParse(parts[0], out double u))
 		{
 			thickness = new Thickness(u);

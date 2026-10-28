@@ -10,58 +10,6 @@ namespace Voidstrap.Integrations.Mcp;
 
 public static partial class McpStdioServer
 {
-	private static int _watchedProcessId;
-
-	[LibraryImport("kernel32.dll", SetLastError = true)]
-	[return: MarshalAs(UnmanagedType.Bool)]
-	private static partial bool GetNamedPipeServerProcessId(Microsoft.Win32.SafeHandles.SafePipeHandle pipe, out uint serverProcessId);
-
-	private static void ProbeRunningApp()
-	{
-		try
-		{
-			using var client = new NamedPipeClientStream(".", McpBridgeServer.PipeName, PipeDirection.InOut, PipeOptions.None);
-			client.Connect(1500);
-			WatchRunningApp(client);
-		}
-		catch (Exception ex) when (ex is TimeoutException or IOException or UnauthorizedAccessException)
-		{
-		}
-	}
-
-	private static void WatchRunningApp(NamedPipeClientStream client)
-	{
-		if (!GetNamedPipeServerProcessId(client.SafePipeHandle, out uint processId) || processId == 0)
-			return;
-		if (Interlocked.CompareExchange(ref _watchedProcessId, (int)processId, 0) != 0)
-			return;
-
-		var watcher = new Thread(WaitForAppExit)
-		{
-			IsBackground = true,
-			Name = "Voidstrap MCP app watcher"
-		};
-		watcher.Start((int)processId);
-	}
-
-	private static void WaitForAppExit(object? state)
-	{
-		if (state is not int processId)
-			return;
-		try
-		{
-			using System.Diagnostics.Process app = System.Diagnostics.Process.GetProcessById(processId);
-			app.WaitForExit();
-		}
-		catch (ArgumentException)
-		{
-		}
-		catch (InvalidOperationException)
-		{
-		}
-		Environment.Exit(0);
-	}
-
 	public const string CommandArg = "mcp";
 
 	public const string StdioArg = "stdio";
@@ -176,8 +124,6 @@ public static partial class McpStdioServer
 	{
 		if (!Voidstrap.Utility.Platform.IsWindows)
 			return 1;
-
-		new Thread(ProbeRunningApp) { IsBackground = true, Name = "Voidstrap MCP app probe" }.Start();
 
 		Console.InputEncoding = new UTF8Encoding(false);
 		Console.OutputEncoding = new UTF8Encoding(false);
@@ -406,7 +352,6 @@ public static partial class McpStdioServer
 		{
 			using var client = new NamedPipeClientStream(".", McpBridgeServer.PipeName, PipeDirection.InOut, PipeOptions.Asynchronous);
 			client.Connect(3000);
-			WatchRunningApp(client);
 
 			using var reader = new StreamReader(client, new UTF8Encoding(false), false, 65536, leaveOpen: true);
 			using var writer = new StreamWriter(client, new UTF8Encoding(false), 65536, leaveOpen: true)

@@ -260,7 +260,7 @@
       </Style>
     </ResourceDictionary>
   </FrameworkElement.Resources>
-  <Grid>
+  <Grid x:Name="WindowRoot">
     <Grid.RowDefinitions>
       <RowDefinition Height="Auto" />
       <RowDefinition Height="*" />
@@ -366,7 +366,7 @@
     <ui:Snackbar Name="SettingFailureSnackbar" Title="{resources:Loc Ui_Main_SettingNotChanged}" Grid.RowSpan="10" Margin="180,0,180,20" Panel.ZIndex="11" Icon="ErrorCircle24" Timeout="5000" />
     <ui:TitleBar Name="RootTitleBar" MinHeight="40" Padding="8" Grid.Row="0" Panel.ZIndex="1000" ForceShutdown="False" MinimizeToTray="False" UseSnapLayout="True">
       <ui:TitleBar.Header>
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" FlowDirection="LeftToRight" Margin="0,1,0,-1">
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" FlowDirection="LeftToRight" Margin="145,1,0,-1">
           <Button x:Name="TopNavBack" Style="{StaticResource TopBarIconButtonStyle}" Margin="0,0,2,0" IsEnabled="False" ToolTip="{resources:Loc Menu_FastFlagEditor_Back}" AutomationProperties.Name="{resources:Loc Menu_FastFlagEditor_Back}" Click="TopNavBack_Click">
             <Viewbox Width="16" Height="16"><Canvas Width="24" Height="24"><Path Style="{StaticResource TopBarArrowIcon}" Data="M10.5 4.5L3.5 12L10.5 19.5 M4.5 12H20.5" /></Canvas></Viewbox>
           </Button>
