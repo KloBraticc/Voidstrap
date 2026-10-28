@@ -62,15 +62,25 @@ public static partial class McpTools
 		on(event, matcher, hook) runs only when the fields in matcher equal the fields of e.
 		Events: session.start, session.end, roblox.launch (return { ...e, cancel: true } to stop a launch), game.join, game.leave, page.navigate, ui.render, cursor.move, cursor.down, cursor.up, cursor.enter, cursor.leave.
 
-		DRAWING
-		Panes, sidebar pages, banners and dialogs are all drawn by ui.render hooks with the matching component and requestId:
-		  Pane: $.ui.open({ id, title })
-		  Page: $.sidebar.addPage({ id, title, icon, section })
-		  Banner: $.ui.openBanner({ id, position: 'top' })
-		  Dialog: $.ui.openDialog({ id, title, width, height })
-		Elements come from $.ui.resolve(). The full list and every prop are in types.
-		Give every pressable element a key, and put handlers in onPress, onChange or onSubmit.
-		State: const n = atom('name', initial); read($, n) while drawing; update($, n, fn) in a handler. Updates redraw automatically.
+			DRAWING
+			Panes, sidebar pages, mod pages, banners and dialogs are all drawn by ui.render hooks with the matching component and requestId:
+			  Pane: $.ui.open({ id, title })
+			  Page: $.sidebar.addPage({ id, title, icon, section })
+			  Mod page: $.modpages.add({ id, title, icon })
+			  Banner: $.ui.openBanner({ id, position: 'top' })
+			  Dialog: $.ui.openDialog({ id, title, width, height })
+			Elements come from $.ui.resolve(). The full list and every prop are in types.
+			Give every pressable element a key, and put handlers in onPress, onChange or onSubmit.
+			State: const n = atom('name', initial); read($, n) while drawing; update($, n, fn) in a handler. Updates redraw automatically.
+
+			MOD PAGES IN THE TOP BAR
+			A mod page is a full page that opens behind its own button in the top left of Voidstrap, next to the Pages button. The button appears only while at least one loaded mod has added a page, so an unused mod never clutters the interface.
+			In session.start: $.modpages.add({ id: 'shop', title: 'My Shop', icon: 'Cart24' }); then draw it like any page:
+			  on('ui.render', { component: 'Page', requestId: 'shop' }, ($) => { ... });
+			$.modpages.remove('shop') takes the page away and $.modpages.list() returns the pages the mod added. Open a mod page from code with $.nav.open('mod:<modName>:<id>').
+			The page title shows in the breadcrumb at the top of the window (like Home > My Shop) so the user always sees where they are and can go back to the page they came from.
+			Pick icon names from the Fluent icon list, for example PuzzlePiece24, Cart24, Gauge24 or Settings24; an unknown name falls back to PuzzlePiece24.
+			Prefer $.modpages for a whole page of the mod's own, and $.sidebar.addPage when the page belongs in the main sidebar sections.
 
 		COMMON MISTAKES
 		"Box is not defined": you used JSX without const { Box, Text, ... } = $.ui.resolve(); inside the hook.

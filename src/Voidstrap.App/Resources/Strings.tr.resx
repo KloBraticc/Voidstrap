@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -6702,6 +6702,9 @@ Kaldırma yeniden denensin mi?</value>
   </data>
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>Ana sayfa arka planı, Roblox ana ekranını görebilmek için macOS üzerinde Ekran Kaydı erişimine ihtiyaç duyar. Sistem Ayarları, Gizlilik ve Güvenlik, Ekran Kaydı bölümünden Voidstrap uygulamasına izin verin, ardından Voidstrap uygulamasını yeniden başlatın. Yalnızca Roblox penceresini okur ve hiçbir şeyi kaydetmez veya saklamaz.</value>
+  </data>
+  <data name="Ui.Main.ModPages" xml:space="preserve">
+    <value>Mod sayfaları</value>
   </data>
   <data name="Ui.Main.PalettePages" xml:space="preserve">
     <value>Sayfalar</value>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -6666,6 +6666,9 @@ Het verwijderen opnieuw proberen?</value>
   </data>
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>De achtergrond van de startpagina heeft op macOS toegang tot Schermopname nodig om het Roblox startscherm te zien. Sta Voidstrap toe in Systeeminstellingen, Privacy en beveiliging, Schermopname, en herstart Voidstrap daarna. Het leest alleen het Roblox venster en neemt nooit iets op of slaat niets op.</value>
+  </data>
+  <data name="Ui.Main.ModPages" xml:space="preserve">
+    <value>Modpagina’s</value>
   </data>
   <data name="Ui.Main.PalettePages" xml:space="preserve">
     <value>Pagina's</value>

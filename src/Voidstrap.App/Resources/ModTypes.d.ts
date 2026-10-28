@@ -189,6 +189,20 @@ declare module 'voidstrap' {
     icon?: string;
   }
 
+  export interface ModPageSpec {
+    id: string;
+    title?: string;
+    icon?: string;
+  }
+
+  export interface ModPage {
+    key: string;
+    id: string;
+    plugin?: string;
+    title: string;
+    icon: string;
+  }
+
   export interface SidebarLayout {
     items: Array<{ key: string; name: string; defaultName?: string; section: string; icon: string; canHide: boolean; isCustom?: boolean; id?: string; plugin?: string }>;
     pages: Array<{ key: string; id: string; plugin: string; name: string; section: string; icon: string }>;
@@ -275,6 +289,11 @@ declare module 'voidstrap' {
       reset(): void;
       addPage(page: SidebarPageSpec): { key: string; id: string; title: string; section: string; icon: string };
       removePage(id: string): void;
+    };
+    modpages: {
+      add(page: ModPageSpec): ModPage;
+      remove(id: string): void;
+      list(): ModPage[];
     };
     nav: {
       current(): string;

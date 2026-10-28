@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -6702,6 +6702,9 @@ Roblox จะถูกดาวน์โหลดเมื่อคุณเป�
   </data>
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>พื้นหลังหน้าแรกต้องใช้สิทธิ์การบันทึกหน้าจอบน macOS เพื่อดูหน้าแรกของ Roblox อนุญาต Voidstrap ในการตั้งค่าระบบ ความเป็นส่วนตัวและความปลอดภัย การบันทึกหน้าจอ แล้วรีสตาร์ท Voidstrap โดยจะอ่านเฉพาะหน้าต่าง Roblox และไม่บันทึกหรือเก็บสิ่งใดเลย</value>
+  </data>
+  <data name="Ui.Main.ModPages" xml:space="preserve">
+    <value>หน้าม็อด</value>
   </data>
   <data name="Ui.Main.PalettePages" xml:space="preserve">
     <value>หน้า</value>

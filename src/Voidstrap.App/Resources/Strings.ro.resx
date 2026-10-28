@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -6690,6 +6690,9 @@ Ce vrei să faci?</value>
   </data>
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>Fundalul paginii principale are nevoie de acces la Înregistrarea ecranului pe macOS pentru a vedea ecranul principal Roblox. Permite Voidstrap în Configurări sistem, Confidențialitate și securitate, Înregistrarea ecranului, apoi repornește Voidstrap. Citește doar fereastra Roblox și nu înregistrează și nu salvează niciodată nimic.</value>
+  </data>
+  <data name="Ui.Main.ModPages" xml:space="preserve">
+    <value>Pagini de moduri</value>
   </data>
   <data name="Ui.Main.PalettePages" xml:space="preserve">
     <value>Pagini</value>

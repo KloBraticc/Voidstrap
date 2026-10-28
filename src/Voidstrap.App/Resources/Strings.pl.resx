@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -6704,6 +6704,9 @@ Spróbować ponownie usunąć?</value>
   </data>
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>Tło strony głównej potrzebuje w macOS dostępu do nagrywania ekranu, aby widzieć ekran główny Roblox. Zezwól na Voidstrap w Ustawieniach systemowych, Prywatność i ochrona, Nagrywanie ekranu, a potem uruchom ponownie Voidstrap. Odczytuje tylko okno Roblox i nigdy niczego nie nagrywa ani nie zapisuje.</value>
+  </data>
+  <data name="Ui.Main.ModPages" xml:space="preserve">
+    <value>Strony modów</value>
   </data>
   <data name="Ui.Main.PalettePages" xml:space="preserve">
     <value>Strony</value>

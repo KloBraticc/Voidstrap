@@ -749,6 +749,8 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         Wpf.Ui.Controls.Navigation.NavigationTiming.PageCreated += OnNavigationPageCreated;
         AppMenuPopup.Closing += AppMenuPopup_Closing;
         AppMenuPopup.Closed += OverlayPopup_Closed;
+        Voidstrap.Integrations.Plugins.PluginModPages.Changed += OnModPagesChanged;
+        ApplyModPagesMenu();
         App.Logger.WriteLine("MainWindow", "Initializing settings window");
         if (showAlreadyRunningWarning)
         {
@@ -1351,6 +1353,15 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 string.Equals(p.Plugin + ":" + p.Id, rest, StringComparison.OrdinalIgnoreCase)
                 || string.Equals(p.Id, rest, StringComparison.OrdinalIgnoreCase)
                 || string.Equals(p.Key, rest, StringComparison.OrdinalIgnoreCase));
+            if (match == null)
+            {
+                Voidstrap.Integrations.Plugins.PluginModPages.ModPageEntry? menuMatch = Voidstrap.Integrations.Plugins.PluginModPages.GetEntries().FirstOrDefault(p =>
+                    string.Equals(p.Plugin + ":" + p.Id, rest, StringComparison.OrdinalIgnoreCase)
+                    || string.Equals(p.Id, rest, StringComparison.OrdinalIgnoreCase)
+                    || string.Equals(p.Key, rest, StringComparison.OrdinalIgnoreCase));
+                if (menuMatch != null)
+                    match = new Voidstrap.Integrations.Plugins.PluginSidebar.ModPageInfo(menuMatch.Plugin, menuMatch.Id, menuMatch.Key, menuMatch.Title, "Core", menuMatch.Icon);
+            }
             if (match != null)
             {
                 OpenModCustomPage(match);
@@ -2361,6 +2372,65 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         }
         CloseOverlayPopups();
         PagesMenuPopup.IsOpen = true;
+    }
+
+    private void ModPagesMenuButton_Click(object sender, RoutedEventArgs e)
+    {
+        if (ModPagesMenuPopup.IsOpen && !ModPagesMenuPopup.IsClosing)
+        {
+            ModPagesMenuPopup.IsOpen = false;
+            return;
+        }
+        CloseOverlayPopups();
+        ApplyModPagesMenu();
+        ModPagesMenuPopup.IsOpen = true;
+    }
+
+    public void ApplyModPagesMenu()
+    {
+        if (ModPagesMenuButton == null || ModPagesMenuPanel == null)
+            return;
+        IReadOnlyList<Voidstrap.Integrations.Plugins.PluginModPages.ModPageEntry> entries = Voidstrap.Integrations.Plugins.PluginModPages.GetEntries();
+        ModPagesMenuButton.Visibility = entries.Count == 0 ? Visibility.Collapsed : Visibility.Visible;
+        if (ModPagesMenuButton.Visibility == Visibility.Collapsed)
+        {
+            ModPagesMenuPopup.IsOpen = false;
+            return;
+        }
+        ModPagesMenuPanel.Children.Clear();
+        foreach (Voidstrap.Integrations.Plugins.PluginModPages.ModPageEntry entry in entries)
+        {
+            Wpf.Ui.Controls.MenuItem item = new()
+            {
+                Header = entry.Title,
+                Style = (Style)FindResource("TopBarMenuItemStyle"),
+                Tag = entry
+            };
+            item.Icon = new Wpf.Ui.Controls.SymbolIcon
+            {
+                Symbol = Enum.TryParse(entry.Icon, ignoreCase: true, out Wpf.Ui.Common.SymbolRegular symbol) ? symbol : Wpf.Ui.Common.SymbolRegular.PuzzlePiece24,
+                FontSize = 16
+            };
+            item.Click += ModPageMenuItem_Click;
+            ModPagesMenuPanel.Children.Add(item);
+        }
+    }
+
+    private void ModPageMenuItem_Click(object sender, RoutedEventArgs e)
+    {
+        ModPagesMenuPopup.IsOpen = false;
+        if (sender is FrameworkElement { Tag: Voidstrap.Integrations.Plugins.PluginModPages.ModPageEntry entry })
+            OpenModCustomPage(new Voidstrap.Integrations.Plugins.PluginSidebar.ModPageInfo(entry.Plugin, entry.Id, entry.Key, entry.Title, "Core", entry.Icon));
+    }
+
+    private void OnModPagesChanged()
+    {
+        if (!Dispatcher.CheckAccess())
+        {
+            Dispatcher.BeginInvoke(new Action(ApplyModPagesMenu));
+            return;
+        }
+        ApplyModPagesMenu();
     }
 
     private void TopNavHome_Click(object sender, RoutedEventArgs e)
@@ -6744,6 +6814,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         Wpf.Ui.Controls.Navigation.NavigationTiming.PageCreated -= OnNavigationPageCreated;
         AppMenuPopup.Closing -= AppMenuPopup_Closing;
         AppMenuPopup.Closed -= OverlayPopup_Closed;
+        Voidstrap.Integrations.Plugins.PluginModPages.Changed -= OnModPagesChanged;
         RootNavigation.NavigationFailed -= OnNavigationFailed;
         RootNavigation.Navigated -= SaveNavigation;
         RootNavigation.Navigated -= RootNavigation_RpcNavigated;

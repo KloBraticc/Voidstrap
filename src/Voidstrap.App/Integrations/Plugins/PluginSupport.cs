@@ -579,6 +579,113 @@ public static class PluginSidebar
 	}
 }
 
+public static class PluginModPages
+{
+	private static readonly object Gate = new();
+
+	private static readonly List<ModPageEntry> Entries = [];
+
+	public sealed record ModPageEntry(string Plugin, string Id, string Key, string Title, string Icon);
+
+	public static event Action? Changed;
+
+	public static IReadOnlyList<ModPageEntry> GetEntries()
+	{
+		lock (Gate)
+			return Entries.ToList();
+	}
+
+	public static void ClearAll()
+	{
+		bool removed;
+		lock (Gate)
+		{
+			removed = Entries.Count > 0;
+			Entries.Clear();
+		}
+		if (removed)
+			NotifyWindows();
+	}
+
+	public static JsonObject AddPage(string plugin, JsonObject spec)
+	{
+		string id = (spec["id"]?.ToString() ?? "").Trim();
+		if (id.Length == 0 || id.Length > 48)
+			throw new InvalidOperationException("mod page id must be 1 to 48 characters");
+		string title = MainWindow.NormalizeSidebarName(spec["title"]?.ToString(), id);
+		string icon = (spec["icon"]?.ToString() ?? "PuzzlePiece24").Trim();
+		if (icon.Length == 0)
+			icon = "PuzzlePiece24";
+		string key = "ModMenu_" + PluginSidebar.MakePageKey(plugin, id);
+		ModPageEntry entry = new(plugin, id, key, title, icon);
+		bool changed;
+		lock (Gate)
+		{
+			int existing = Entries.FindIndex(p => p.Plugin == plugin && p.Id == id);
+			changed = existing < 0 || Entries[existing].Title != title || Entries[existing].Icon != icon;
+			if (existing >= 0)
+				Entries[existing] = entry;
+			else
+				Entries.Add(entry);
+		}
+		App.Logger.WriteLine("VoidstrapMods", plugin + ": added mod page " + id);
+		if (changed)
+			NotifyWindows();
+		return new JsonObject { ["key"] = key, ["id"] = id, ["title"] = title, ["icon"] = icon };
+	}
+
+	public static void RemovePage(string plugin, string id)
+	{
+		bool changed;
+		lock (Gate)
+			changed = Entries.RemoveAll(p => p.Plugin == plugin && p.Id == id) > 0;
+		if (changed)
+			NotifyWindows();
+	}
+
+	public static void RemovePlugin(string plugin)
+	{
+		bool changed;
+		lock (Gate)
+			changed = Entries.RemoveAll(p => p.Plugin == plugin) > 0;
+		if (changed)
+			NotifyWindows();
+	}
+
+	public static string ListJson()
+	{
+		JsonArray list = [];
+		lock (Gate)
+		{
+			foreach (ModPageEntry entry in Entries)
+				list.Add(new JsonObject { ["key"] = entry.Key, ["id"] = entry.Id, ["plugin"] = entry.Plugin, ["title"] = entry.Title, ["icon"] = entry.Icon });
+		}
+		return list.ToJsonString();
+	}
+
+	private static void NotifyWindows()
+	{
+		Changed?.Invoke();
+		Application.Current?.Dispatcher.BeginInvoke(new Action(ApplyToWindows));
+	}
+
+	public static void ApplyToWindows()
+	{
+		System.Windows.Threading.Dispatcher? dispatcher = Application.Current?.Dispatcher;
+		if (dispatcher == null || dispatcher.HasShutdownStarted)
+			return;
+		if (!dispatcher.CheckAccess())
+		{
+			dispatcher.BeginInvoke(new Action(ApplyToWindows));
+			return;
+		}
+		if (Application.Current == null)
+			return;
+		foreach (MainWindow window in Application.Current.Windows.OfType<MainWindow>())
+			window.ApplyModPagesMenu();
+	}
+}
+
 internal static class PluginNavigation
 {
 	private static readonly string[] BuiltInPages =
@@ -648,6 +755,8 @@ internal static class PluginNavigation
 			list.Add(page);
 		foreach (PluginSidebar.ModPageInfo modPage in PluginSidebar.GetModPages())
 			list.Add("mod:" + modPage.Plugin + ":" + modPage.Id);
+		foreach (PluginModPages.ModPageEntry modEntry in PluginModPages.GetEntries())
+			list.Add("mod:" + modEntry.Plugin + ":" + modEntry.Id);
 		return list.ToJsonString();
 	}
 

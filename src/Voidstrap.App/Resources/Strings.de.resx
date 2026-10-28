@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -6638,6 +6638,9 @@ Entfernen erneut versuchen?</value>
   </data>
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>Der Startseitenhintergrund braucht unter macOS Zugriff auf die Bildschirmaufnahme, um den Roblox Startbildschirm zu sehen. Erlaube Voidstrap in den Systemeinstellungen unter Datenschutz und Sicherheit, Bildschirmaufnahme, und starte Voidstrap dann neu. Es liest nur das Roblox Fenster und nimmt nie etwas auf oder speichert etwas.</value>
+  </data>
+  <data name="Ui.Main.ModPages" xml:space="preserve">
+    <value>Modseiten</value>
   </data>
   <data name="Ui.Main.PalettePages" xml:space="preserve">
     <value>Seiten</value>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -6679,6 +6679,9 @@ Riprovare la rimozione?</value>
   </data>
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>Lo sfondo della home ha bisogno dell'accesso alla Registrazione schermo su macOS per vedere la schermata home di Roblox. Consenti Voidstrap in Impostazioni di Sistema, Privacy e sicurezza, Registrazione schermo, poi riavvia Voidstrap. Legge solo la finestra di Roblox e non registra né salva mai nulla.</value>
+  </data>
+  <data name="Ui.Main.ModPages" xml:space="preserve">
+    <value>Pagine dei mod</value>
   </data>
   <data name="Ui.Main.PalettePages" xml:space="preserve">
     <value>Pagine</value>

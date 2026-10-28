@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -6664,6 +6664,9 @@ Coba hapus lagi?</value>
   </data>
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>Latar beranda memerlukan akses Perekaman Layar di macOS untuk melihat layar beranda Roblox. Izinkan Voidstrap di Pengaturan Sistem, Privasi dan Keamanan, Perekaman Layar, lalu mulai ulang Voidstrap. Ini hanya membaca jendela Roblox dan tidak pernah merekam atau menyimpan apa pun.</value>
+  </data>
+  <data name="Ui.Main.ModPages" xml:space="preserve">
+    <value>Halaman mod</value>
   </data>
   <data name="Ui.Main.PalettePages" xml:space="preserve">
     <value>Halaman</value>

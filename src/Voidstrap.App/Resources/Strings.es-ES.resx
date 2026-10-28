@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -6701,6 +6701,9 @@ Roblox se descargará cuando lo inicies por primera vez a través de Voidstrap. 
   </data>
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>El fondo de la página de inicio necesita acceso a Grabación de pantalla en macOS para ver la pantalla de inicio de Roblox. Permite Voidstrap en Ajustes del Sistema, Privacidad y seguridad, Grabación de pantalla, y luego reinicia Voidstrap. Solo lee la ventana de Roblox y nunca graba ni guarda nada.</value>
+  </data>
+  <data name="Ui.Main.ModPages" xml:space="preserve">
+    <value>Páginas de mods</value>
   </data>
   <data name="Ui.Main.PalettePages" xml:space="preserve">
     <value>Páginas</value>

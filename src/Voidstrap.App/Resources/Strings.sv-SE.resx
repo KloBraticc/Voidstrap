@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -6668,6 +6668,9 @@ Försöka ta bort igen?</value>
   </data>
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>Startsidans bakgrund behöver åtkomst till Skärminspelning på macOS för att se Roblox startskärm. Tillåt Voidstrap i Systeminställningar, Integritet och säkerhet, Skärminspelning, och starta sedan om Voidstrap. Den läser bara Roblox fönstret och spelar aldrig in eller sparar något.</value>
+  </data>
+  <data name="Ui.Main.ModPages" xml:space="preserve">
+    <value>Modsidor</value>
   </data>
   <data name="Ui.Main.PalettePages" xml:space="preserve">
     <value>Sidor</value>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -6706,6 +6706,9 @@ Mit szeretnél tenni?</value>
   </data>
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>A kezdőlap háttérnek macOS rendszeren képernyőfelvételi hozzáférés kell, hogy lássa a Roblox kezdőképernyőt. Engedélyezd a Voidstrapet a Rendszerbeállítások, Adatvédelem és biztonság, Képernyőfelvétel részben, majd indítsd újra a Voidstrapet. Csak a Roblox ablakot olvassa, és soha nem rögzít vagy ment semmit.</value>
+  </data>
+  <data name="Ui.Main.ModPages" xml:space="preserve">
+    <value>Modoldalak</value>
   </data>
   <data name="Ui.Main.PalettePages" xml:space="preserve">
     <value>Oldalak</value>

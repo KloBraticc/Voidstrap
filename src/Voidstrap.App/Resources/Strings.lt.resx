@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -6744,6 +6744,9 @@ Bandyti pašalinti dar kartą?</value>
   </data>
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>Pagrindinio puslapio fonui macOS sistemoje reikia ekrano įrašymo prieigos, kad matytų Roblox pagrindinį ekraną. Leiskite Voidstrap sistemos nustatymuose, Privatumas ir sauga, Ekrano įrašymas, tada iš naujo paleiskite Voidstrap. Jis tik nuskaito Roblox langą ir niekada nieko neįrašo ir neišsaugo.</value>
+  </data>
+  <data name="Ui.Main.ModPages" xml:space="preserve">
+    <value>Modifikacijų puslapiai</value>
   </data>
   <data name="Ui.Main.PalettePages" xml:space="preserve">
     <value>Puslapiai</value>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -6733,6 +6733,9 @@ Roblox は Voidstrap から初めて起動したときにダウンロードさ�
   </data>
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>ホーム画面の背景で Roblox のホーム画面を読み取るには、macOS の画面収録へのアクセスが必要です。システム設定のプライバシーとセキュリティ、画面収録で Voidstrap を許可してから、Voidstrap を再起動してください。Roblox のウィンドウを読み取るだけで、何も録画や保存はしません。</value>
+  </data>
+  <data name="Ui.Main.ModPages" xml:space="preserve">
+    <value>Modのページ</value>
   </data>
   <data name="Ui.Main.PalettePages" xml:space="preserve">
     <value>ページ</value>

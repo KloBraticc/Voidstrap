@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -6702,6 +6702,9 @@ Yritetäänkö poistoa uudelleen?</value>
   </data>
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>Aloitussivun tausta tarvitsee macOS:ssä näytön tallennuksen käyttöoikeuden nähdäkseen Robloxin aloitusnäytön. Salli Voidstrap kohdassa Järjestelmäasetukset, Tietosuoja ja turvallisuus, Näytön tallennus, ja käynnistä Voidstrap sitten uudelleen. Se vain lukee Roblox ikkunaa eikä koskaan tallenna mitään.</value>
+  </data>
+  <data name="Ui.Main.ModPages" xml:space="preserve">
+    <value>Modisivut</value>
   </data>
   <data name="Ui.Main.PalettePages" xml:space="preserve">
     <value>Sivut</value>

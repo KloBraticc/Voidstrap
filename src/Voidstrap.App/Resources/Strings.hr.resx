@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -6709,6 +6709,9 @@ Pokušati uklanjanje ponovno?</value>
   </data>
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>Pozadina početne stranice treba pristup snimanju zaslona na macOS sustavu kako bi vidjela početni zaslon Robloxa. Dopusti Voidstrap u Postavkama sustava, Privatnost i sigurnost, Snimanje zaslona, a zatim ponovno pokreni Voidstrap. Samo čita prozor Robloxa i nikad ništa ne snima ni ne sprema.</value>
+  </data>
+  <data name="Ui.Main.ModPages" xml:space="preserve">
+    <value>Stranice modova</value>
   </data>
   <data name="Ui.Main.PalettePages" xml:space="preserve">
     <value>Stranice</value>

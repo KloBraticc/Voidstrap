@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -6690,6 +6690,9 @@ Tentar a remoção de novo?</value>
   </data>
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>O fundo da página inicial precisa de acesso à Gravação de Tela no macOS para ver a tela inicial do Roblox. Permita o Voidstrap em Ajustes do Sistema, Privacidade e Segurança, Gravação de Tela, e depois reinicie o Voidstrap. Ele só lê a janela do Roblox e nunca grava nem salva nada.</value>
+  </data>
+  <data name="Ui.Main.ModPages" xml:space="preserve">
+    <value>Páginas de mods</value>
   </data>
   <data name="Ui.Main.PalettePages" xml:space="preserve">
     <value>Páginas</value>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -6748,6 +6748,9 @@ Roblox هنگامی بارگیری می‌شود که برای نخستین با
   </data>
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>پس‌زمینهٔ صفحهٔ اصلی در macOS برای دیدن صفحهٔ اصلی Roblox به دسترسی ضبط صفحه نیاز دارد. در تنظیمات سیستم، حریم خصوصی و امنیت، ضبط صفحه به Voidstrap اجازه دهید و سپس Voidstrap را دوباره راه‌اندازی کنید. فقط پنجرهٔ Roblox را می‌خواند و هرگز چیزی را ضبط یا ذخیره نمی‌کند.</value>
+  </data>
+  <data name="Ui.Main.ModPages" xml:space="preserve">
+    <value>صفحه‌های ماد</value>
   </data>
   <data name="Ui.Main.PalettePages" xml:space="preserve">
     <value>صفحه‌ها</value>

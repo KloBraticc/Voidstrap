@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -6671,6 +6671,9 @@ Cuba buang semula?</value>
   </data>
   <data name="Ui.Mods.HomepageScreenRecording" xml:space="preserve">
     <value>Latar belakang laman utama memerlukan akses Rakaman Skrin pada macOS untuk melihat skrin utama Roblox. Benarkan Voidstrap dalam Seting Sistem, Privasi dan Keselamatan, Rakaman Skrin, kemudian mulakan semula Voidstrap. Ia hanya membaca tetingkap Roblox dan tidak pernah merakam atau menyimpan apa-apa.</value>
+  </data>
+  <data name="Ui.Main.ModPages" xml:space="preserve">
+    <value>Halaman mod</value>
   </data>
   <data name="Ui.Main.PalettePages" xml:space="preserve">
     <value>Halaman</value>

@@ -219,6 +219,7 @@ public static class PluginHost
 		}
 		foreach (LoadedPlugin plugin in doomed)
 			plugin.Dispose();
+		PluginModPages.ClearAll();
 		PluginCursor.Shutdown();
 	}
 
@@ -273,6 +274,7 @@ public static class PluginHost
 					Statuses.Clear();
 				}
 				PluginSidebar.ClearModPages();
+				PluginModPages.ClearAll();
 				PluginAnchors.ClearAll();
 				PluginWindow.ClearAll();
 				List<PluginManifest> manifests = PluginManifest.Discover(Paths.Plugins);
@@ -682,6 +684,11 @@ public static class PluginHost
 			      addPage: page => parse(host.sidebarAddPage(JSON.stringify(page || {}))),
 			      removePage: id => host.sidebarRemovePage(String(id))
 			    }),
+			    modpages: Object.freeze({
+			      add: spec => parse(host.modpagesAdd(JSON.stringify(spec || {}))),
+			      remove: id => host.modpagesRemove(String(id)),
+			      list: () => parse(host.modpagesList())
+			    }),
 			    nav: Object.freeze({
 			      current: () => String(host.navCurrent()),
 			      pages: () => parse(host.navPages()),
@@ -990,6 +997,25 @@ public static class PluginHost
 					PluginSidebar.RemovePage(Name, Arg(a, 0));
 				return JsValue.Undefined;
 			}));
+			host.Set("modpagesAdd", Host("modpagesAdd", a =>
+			{
+				JsonObject spec = JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject();
+				if (_sandbox)
+				{
+					string id = (spec["id"]?.ToString() ?? "main").Trim();
+					string title = spec["title"]?.ToString() ?? id;
+					string icon = spec["icon"]?.ToString() ?? "PuzzlePiece24";
+					return new JsonObject { ["key"] = "ModMenu_Test_" + id, ["id"] = id, ["title"] = title, ["icon"] = icon }.ToJsonString();
+				}
+				return PluginModPages.AddPage(Name, spec).ToJsonString();
+			}));
+			host.Set("modpagesRemove", Host("modpagesRemove", a =>
+			{
+				if (!_sandbox)
+					PluginModPages.RemovePage(Name, Arg(a, 0));
+				return JsValue.Undefined;
+			}));
+			host.Set("modpagesList", Host("modpagesList", _ => _sandbox ? "[]" : PluginModPages.ListJson()));
 			host.Set("navCurrent", Host("navCurrent", _ => PluginNavigation.Current()));
 			host.Set("navPages", Host("navPages", _ => PluginNavigation.Pages()));
 			host.Set("navOpen", Host("navOpen", a =>
