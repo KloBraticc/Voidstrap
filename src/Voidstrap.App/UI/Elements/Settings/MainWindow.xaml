@@ -412,7 +412,7 @@
         <Viewbox Width="16" Height="16"><Canvas Width="24" Height="24"><Path Style="{StaticResource TopBarLineIcon}" Data="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1 -2 2H5a2 2 0 0 1 -2 -2V5a2 2 0 0 1 2 -2z M8 8h8 M8 12h8 M8 16h8" /></Canvas></Viewbox>
       </Button>
       <Button x:Name="ModPagesMenuButton" Style="{StaticResource TopBarIconButtonStyle}" ToolTip="{resources:Loc Ui_Main_ModPages}" AutomationProperties.Name="{resources:Loc Ui_Main_ModPages}" Visibility="Collapsed" Click="ModPagesMenuButton_Click">
-        <Viewbox Width="16" Height="16"><Canvas Width="24" Height="24"><Path Style="{StaticResource TopBarLineIcon}" Data="M4 4h7v7H4z M13 4h7v7h-7z M4 13h7v7H4z M13 13h7v7h-7z" /></Canvas></Viewbox>
+        <ui:SymbolIcon Symbol="PuzzlePiece24" FontSize="16" />
       </Button>
     </StackPanel>
     <vscontrols:AnimatedPopup x:Name="ModPagesMenuPopup" PlacementTarget="{Binding ElementName=ModPagesMenuButton}" Placement="Bottom" LightDismiss="True" AllowsTransparency="True" HorizontalOffset="-8" VerticalOffset="-4" Closed="OverlayPopup_Closed">
