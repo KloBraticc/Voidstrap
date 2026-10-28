@@ -760,10 +760,9 @@ internal static class PluginUiRenderer
 			string root = Path.GetFullPath(pluginDirectory);
 			string full = Path.GetFullPath(Path.Combine(root, source));
 			if (full.StartsWith(root + Path.DirectorySeparatorChar, StringComparison.OrdinalIgnoreCase) &&
-				full.EndsWith(".ico", StringComparison.OrdinalIgnoreCase) &&
 				File.Exists(full))
 			{
-				if (SafeImaging.FromFile(full, (int)Math.Max(height * 2, 128)) is BitmapSource bmp)
+				if (SafeImaging.FromFile(full, (int)Math.Max(height * 2, 256)) is BitmapSource bmp)
 				{
 					image.Source = bmp;
 					return image;
@@ -775,6 +774,8 @@ internal static class PluginUiRenderer
 
 	private static void ApplyCommonProps(FrameworkElement element, JsonObject props)
 	{
+		if (props["hitTestVisible"] is JsonValue htv && htv.TryGetValue(out bool hitTest))
+			element.IsHitTestVisible = hitTest;
 		if (props["tooltip"]?.ToString() is { Length: > 0 } tip)
 			element.ToolTip = tip;
 		if (ReadDouble(props, "width", double.NaN) is double w && !double.IsNaN(w) && w >= 0)

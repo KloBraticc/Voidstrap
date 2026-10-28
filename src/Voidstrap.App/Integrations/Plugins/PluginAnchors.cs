@@ -198,6 +198,28 @@ internal static class PluginAnchors
 		if (ReferenceEquals(panel, target) && item.Placement is "before" or "after")
 			at = item.Placement == "before" ? 0 : panel.Children.Count;
 		panel.Children.Insert(Math.Clamp(at, 0, panel.Children.Count), host);
+		if (panel is Grid grid)
+		{
+			if (ReferenceEquals(panel, target))
+			{
+				Grid.SetRow(host, 0);
+				Grid.SetColumn(host, 0);
+				if (grid.RowDefinitions.Count > 0)
+					Grid.SetRowSpan(host, grid.RowDefinitions.Count);
+				if (grid.ColumnDefinitions.Count > 0)
+					Grid.SetColumnSpan(host, grid.ColumnDefinitions.Count);
+			}
+			else if (child != null)
+			{
+				Grid.SetRow(host, Grid.GetRow(child));
+				Grid.SetColumn(host, Grid.GetColumn(child));
+			}
+		}
+		else if (panel is Canvas)
+		{
+			Canvas.SetLeft(host, 0);
+			Canvas.SetTop(host, 0);
+		}
 		item.Host = host;
 		Render(item);
 		return "";
@@ -242,15 +264,15 @@ internal static class PluginAnchors
 
 	private static (Panel? Panel, UIElement? Child) AttachablePanel(FrameworkElement target)
 	{
-		if (target is StackPanel or WrapPanel or DockPanel && target is Panel self)
+		if (target is StackPanel or WrapPanel or DockPanel or Grid or Canvas && target is Panel self)
 			return (self, self);
 		DependencyObject child = target;
 		for (int depth = 0; depth < 5; depth++)
 		{
 			DependencyObject? parent = VisualTreeHelper.GetParent(child) ?? LogicalTreeHelper.GetParent(child);
-			if (parent is StackPanel or WrapPanel or DockPanel && parent is Panel panel && child is UIElement element && panel.Children.Contains(element))
+			if (parent is StackPanel or WrapPanel or DockPanel or Grid or Canvas && parent is Panel panel && child is UIElement element && panel.Children.Contains(element))
 				return (panel, element);
-			if (parent == null || parent is Grid || parent is Window)
+			if (parent == null || parent is Window)
 				break;
 			child = parent;
 		}

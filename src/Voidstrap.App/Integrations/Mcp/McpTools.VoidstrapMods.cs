@@ -60,7 +60,7 @@ public static partial class McpTools
 		HOOKS
 		Every hook is ($, e, next). Call next(e) to let Voidstrap carry on, return without next to stop it, or next({ ...e, x }) to change it.
 		on(event, matcher, hook) runs only when the fields in matcher equal the fields of e.
-		Events: session.start, session.end, roblox.launch (return { ...e, cancel: true } to stop a launch), game.join, game.leave, page.navigate, ui.render.
+		Events: session.start, session.end, roblox.launch (return { ...e, cancel: true } to stop a launch), game.join, game.leave, page.navigate, ui.render, cursor.move, cursor.down, cursor.up, cursor.enter, cursor.leave.
 
 		DRAWING
 		Panes, sidebar pages, banners and dialogs are all drawn by ui.render hooks with the matching component and requestId:

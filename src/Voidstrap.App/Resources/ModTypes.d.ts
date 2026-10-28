@@ -24,6 +24,18 @@ declare module 'voidstrap' {
     displayName?: string;
   }
 
+  export interface CursorPosition {
+    x: number;
+    y: number;
+    screenX: number;
+    screenY: number;
+    windowWidth: number;
+    windowHeight: number;
+    insideWindow: boolean;
+    isDown: boolean;
+    button: 'none' | 'left' | 'right' | 'middle';
+  }
+
   export interface Events {
     'session.start': { input: { source: 'startup' | 'reload' }; result: unknown };
     'session.end': { input: { reason: 'exit' }; result: unknown };
@@ -33,6 +45,11 @@ declare module 'voidstrap' {
     'page.navigate': { input: { page: string }; result: unknown };
     'settings.changed': { input: { name: string; plugin: string }; result: unknown };
     'ui.render': { input: { component: UiComponentKind; requestId: string; plugin: string; surface: Surface }; result: Node | null };
+    'cursor.move': { input: CursorPosition; result: unknown };
+    'cursor.down': { input: CursorPosition; result: unknown };
+    'cursor.up': { input: CursorPosition; result: unknown };
+    'cursor.enter': { input: CursorPosition; result: unknown };
+    'cursor.leave': { input: { x: number; y: number; insideWindow: false; isDown: boolean }; result: unknown };
   }
 
   export interface GameInfo {
@@ -92,6 +109,7 @@ declare module 'voidstrap' {
   export interface CommonStyleProps {
     key?: string;
     visible?: boolean;
+    hitTestVisible?: boolean;
     tooltip?: string;
     padding?: number | string;
     margin?: number | string;
@@ -278,6 +296,9 @@ declare module 'voidstrap' {
     clipboard: {
       get(): string;
       set(text: string): void;
+    };
+    cursor: {
+      get(): CursorPosition;
     };
   }
 

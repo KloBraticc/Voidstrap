@@ -175,6 +175,7 @@ public static class PluginHost
 				return;
 			_started = true;
 		}
+		PluginCursor.Start();
 		try
 		{
 			Directory.CreateDirectory(Paths.Plugins);
@@ -221,6 +222,7 @@ public static class PluginHost
 			Statuses.Clear();
 			_started = false;
 		}
+		PluginCursor.Shutdown();
 	}
 
 	private static bool IsGenerated(string path)
@@ -307,6 +309,7 @@ public static class PluginHost
 				Invoke("session.start", new JsonObject { ["source"] = old.Count > 0 ? "reload" : "startup" });
 				PluginSidebar.ApplyToWindows();
 				PluginAnchors.ApplyAll();
+				PluginCursor.RefreshHooks();
 				ModsChanged?.Invoke();
 				PanesChanged?.Invoke();
 				BannersChanged?.Invoke();
@@ -316,6 +319,19 @@ public static class PluginHost
 			{
 				App.Logger.WriteException("PluginHost::Reload", ex);
 			}
+		}
+	}
+
+	public static bool HasHook(string eventName)
+	{
+		lock (Gate)
+		{
+			for (int i = 0; i < Loaded.Count; i++)
+			{
+				if (Loaded[i].HasHook(eventName))
+					return true;
+			}
+			return false;
 		}
 	}
 
@@ -693,6 +709,9 @@ public static class PluginHost
 			      get: () => String(host.clipboardGet()),
 			      set: text => host.clipboardSet(String(text === undefined || text === null ? '' : text))
 			    }),
+			    cursor: Object.freeze({
+			      get: () => parse(host.cursorGet())
+			    }),
 			    state: Object.freeze({
 			      get: key => parse(host.stateGet(String(key))),
 			      set: (key, value) => host.stateSet(String(key), JSON.stringify(value === undefined ? null : value))
@@ -1028,6 +1047,7 @@ public static class PluginHost
 					PluginClipboard.Set(Arg(a, 0));
 				return JsValue.Undefined;
 			}));
+			host.Set("cursorGet", Host("cursorGet", _ => PluginCursor.Get().ToJsonString()));
 			host.Set("stateGet", Host("stateGet", a =>
 			{
 				if (_sandbox)
@@ -1313,6 +1333,19 @@ public static class PluginHost
 
 		private static string Arg(JsValue[] arguments, int index) => arguments.Length > index && !arguments[index].IsUndefined() && !arguments[index].IsNull() ? arguments[index].ToString() : "";
 
+		public bool HasHook(string eventName)
+		{
+			lock (_gate)
+			{
+				for (int i = 0; i < _hooks.Count; i++)
+				{
+					if (string.Equals(_hooks[i].Event, eventName, StringComparison.Ordinal))
+						return true;
+				}
+				return false;
+			}
+		}
+
 		public IEnumerable<HookEntry> HooksFor(string eventName)
 		{
 			lock (_gate)
