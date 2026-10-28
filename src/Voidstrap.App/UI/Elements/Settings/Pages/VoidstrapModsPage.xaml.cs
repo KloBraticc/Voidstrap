@@ -66,146 +66,170 @@ public partial class VoidstrapModsPage : UiPage
 		EmptyText.Visibility = mods.Count == 0 ? Visibility.Visible : Visibility.Collapsed;
 		foreach (PluginHost.ModInfo mod in mods)
 		{
-			Grid header = new();
-			header.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-			header.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
-			header.ColumnDefinitions.Insert(0, new ColumnDefinition { Width = GridLength.Auto });
-			header.Children.Add(BuildModIcon(mod));
-			StackPanel text = new() { VerticalAlignment = VerticalAlignment.Center };
-			Grid.SetColumn(text, 1);
-			WrapPanel titleRow = new() { Orientation = Orientation.Horizontal };
-			titleRow.Children.Add(PluginUiRenderer.MakeText(mod.Name + "  " + mod.Version, new JsonObject { ["bold"] = true, ["size"] = 14 }));
-			Border stateBadge = new()
-			{
-				CornerRadius = new CornerRadius(8),
-				Padding = new Thickness(7, 1, 7, 1),
-				Margin = new Thickness(6, 0, 6, 6),
-				VerticalAlignment = VerticalAlignment.Center,
-				Background = new SolidColorBrush(mod.Loaded ? Color.FromArgb(45, 46, 204, 113) : Color.FromArgb(35, 160, 168, 180)),
-				Child = new System.Windows.Controls.TextBlock
-				{
-					Text = mod.Loaded ? Strings.Ui_VoidstrapMods_LoadedBadge : Strings.Ui_VoidstrapMods_DisabledBadge,
-					FontSize = 11,
-					FontWeight = FontWeights.SemiBold,
-					Foreground = new SolidColorBrush(mod.Loaded ? Color.FromRgb(88, 214, 141) : Color.FromRgb(190, 196, 206))
-				}
-			};
-			titleRow.Children.Add(stateBadge);
-			text.Children.Add(titleRow);
-			if (mod.Description.Length > 0)
-				text.Children.Add(PluginUiRenderer.MakeText(mod.Description, new JsonObject { ["dim"] = true }));
-			if (mod.Consent == "on" && !mod.Loaded)
-				text.Children.Add(PluginUiRenderer.MakeText(Strings.Ui_VoidstrapMods_NotLoaded, new JsonObject()));
-			header.Children.Add(text);
-
-			WrapPanel actions = new() { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Center };
-			Wpf.Ui.Controls.Button editBtn = new()
-			{
-				Content = Strings.Ui_VoidstrapMods_EditButton,
-				Icon = SymbolRegular.Code24,
-				Appearance = ControlAppearance.Secondary,
-				Margin = new Thickness(0, 0, 6, 0),
-				Tag = mod.Name
-			};
-			editBtn.Click += EditMod_Click;
-			actions.Children.Add(editBtn);
-
-			Wpf.Ui.Controls.Button publishBtn = new()
-			{
-				Icon = SymbolRegular.CloudArrowUp24,
-				ToolTip = Strings.Ui_VoidstrapMods_PublishTooltip,
-				Appearance = ControlAppearance.Secondary,
-				Margin = new Thickness(0, 0, 6, 0),
-				Tag = mod.Name
-			};
-			publishBtn.Click += PublishMod_Click;
-			actions.Children.Add(publishBtn);
-
-			Wpf.Ui.Controls.Button iconBtn = new()
-			{
-				Icon = SymbolRegular.ImageEdit24,
-				ToolTip = Strings.Ui_VoidstrapMods_ChangeIcon,
-				Appearance = ControlAppearance.Secondary,
-				Margin = new Thickness(0, 0, 6, 0),
-				Tag = mod.Name
-			};
-			iconBtn.Click += ChangeIcon_Click;
-			actions.Children.Add(iconBtn);
-
-			Wpf.Ui.Controls.Button exportBtn = new()
-			{
-				Icon = SymbolRegular.ArrowExportUp24,
-				ToolTip = Strings.Ui_VoidstrapMods_ExportTooltip,
-				Appearance = ControlAppearance.Secondary,
-				Margin = new Thickness(0, 0, 6, 0),
-				Tag = mod.Name
-			};
-			exportBtn.Click += ExportMod_Click;
-			actions.Children.Add(exportBtn);
-
-			Wpf.Ui.Controls.Button deleteBtn = new()
-			{
-				Icon = SymbolRegular.Delete24,
-				ToolTip = Strings.Common_Delete,
-				Appearance = ControlAppearance.Secondary,
-				Margin = new Thickness(0, 0, 10, 0),
-				Tag = mod.Name
-			};
-			deleteBtn.Click += DeleteMod_Click;
-			actions.Children.Add(deleteBtn);
-
-			ToggleSwitch toggle = new() { IsChecked = mod.Consent == "on", Tag = mod.Name, VerticalAlignment = VerticalAlignment.Center };
-			toggle.Click += ModToggle_Click;
-			actions.Children.Add(toggle);
-
-			Grid.SetColumn(actions, 2);
-			header.Children.Add(actions);
-
-			StackPanel body = new();
-			body.Children.Add(header);
-			if (mod.Problems.Count > 0)
-			{
-				System.Windows.Controls.TextBlock problems = new()
-				{
-					Text = string.Join(Environment.NewLine, mod.Problems.TakeLast(10)),
-					FontFamily = new System.Windows.Media.FontFamily("Consolas, Cascadia Mono, monospace"),
-					FontSize = 11,
-					TextWrapping = TextWrapping.Wrap
-				};
-				problems.SetResourceReference(System.Windows.Controls.TextBlock.ForegroundProperty, "TextFillColorSecondaryBrush");
-				body.Children.Add(new Expander { Header = Strings.Ui_VoidstrapMods_RecentProblems, Content = problems, Margin = new Thickness(0, 8, 0, 0) });
-			}
-			Border card = new()
-			{
-				Child = body,
-				Padding = new Thickness(14, 10, 14, 10),
-				Margin = new Thickness(0, 0, 0, 6),
-				CornerRadius = new CornerRadius(6),
-				BorderThickness = new Thickness(1)
-			};
-			card.SetResourceReference(Border.BackgroundProperty, "CardBackgroundFillColorDefaultBrush");
-			card.SetResourceReference(Border.BorderBrushProperty, "CardStrokeColorDefaultBrush");
-			ModsHost.Children.Add(card);
+			ModsHost.Children.Add(BuildInstalledModCard(mod));
 		}
 	}
 
-	private static FrameworkElement BuildModIcon(PluginHost.ModInfo mod)
+	private Border BuildInstalledModCard(PluginHost.ModInfo mod)
 	{
-		Border frame = new()
+		ModLibrary.LibraryMod? libraryMod = _libraryIndex?.Mods.FirstOrDefault(m => m.Name == mod.Name);
+		Grid row = new();
+		row.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+		row.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+		row.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+
+		Border icon = new() { Child = BuildModIcon(mod, libraryMod) };
+		icon.SetResourceReference(StyleProperty, "RowIcon");
+		row.Children.Add(icon);
+
+		StackPanel text = new() { Margin = new Thickness(16, 0, 16, 0), VerticalAlignment = VerticalAlignment.Center };
+		Grid.SetColumn(text, 1);
+		WrapPanel title = new() { Orientation = Orientation.Horizontal };
+		title.Children.Add(StyledText("RowTitle", mod.Name));
+		if (libraryMod != null)
+			AddTrustBadges(title, libraryMod);
+		title.Children.Add(MakeBadge(
+			mod.Loaded ? Strings.Ui_VoidstrapMods_LoadedBadge : Strings.Ui_VoidstrapMods_DisabledBadge,
+			mod.Loaded ? SymbolRegular.CheckmarkCircle24 : SymbolRegular.PauseCircle24,
+			mod.Loaded ? Color.FromRgb(46, 204, 113) : Color.FromRgb(160, 168, 180),
+			""));
+		text.Children.Add(title);
+
+		System.Windows.Controls.TextBlock summary = StyledText("RowSummary", mod.Description);
+		summary.MaxHeight = 40;
+		text.Children.Add(summary);
+
+		PluginManifest.TryRead(mod.Directory, out PluginManifest? manifest, out _);
+		StackPanel meta = new() { Orientation = Orientation.Horizontal, Margin = new Thickness(0, 10, 0, 0) };
+		string authorLogin = libraryMod?.Login ?? "";
+		if (string.IsNullOrEmpty(authorLogin) && GitHubPublisher.SignedIn != null)
+			authorLogin = GitHubPublisher.SignedIn.Login;
+		if (!string.IsNullOrEmpty(authorLogin))
 		{
-			Width = 40,
-			Height = 40,
-			Margin = new Thickness(0, 0, 12, 0),
-			CornerRadius = new CornerRadius(8),
-			VerticalAlignment = VerticalAlignment.Center
+			System.Windows.Controls.TextBlock author = StyledText("RowMeta", "@" + authorLogin);
+			author.SetResourceReference(System.Windows.Controls.TextBlock.ForegroundProperty, "TextFillColorPrimaryBrush");
+			meta.Children.Add(author);
+		}
+		IReadOnlyList<string> networkHosts = libraryMod?.Network ?? manifest?.NetworkHosts ?? [];
+		bool usesRoblox = libraryMod?.UsesRobloxAccount ?? manifest?.HasPermission(PluginManifest.RobloxAccountPermission) ?? false;
+		System.Windows.Controls.TextBlock network = StyledText("RowMeta", (networkHosts.Count == 0 ? Strings.Ui_VoidstrapMods_LibraryNoNetwork : string.Format(Strings.Ui_VoidstrapMods_LibraryNetwork, string.Join(", ", networkHosts))) + (usesRoblox ? "   " + Strings.Ui_VoidstrapMods_LibraryRobloxAccess : ""));
+		network.Margin = new Thickness(!string.IsNullOrEmpty(authorLogin) ? 12 : 0, 0, 0, 0);
+		meta.Children.Add(network);
+		text.Children.Add(meta);
+		row.Children.Add(text);
+
+		StackPanel side = new() { VerticalAlignment = VerticalAlignment.Center, HorizontalAlignment = HorizontalAlignment.Right };
+		Grid.SetColumn(side, 2);
+		StackPanel version = new() { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right, Margin = new Thickness(0, 0, 0, 10) };
+		SymbolIcon tagIcon = new() { Symbol = SymbolRegular.Tag24, FontSize = 14, VerticalAlignment = VerticalAlignment.Center };
+		tagIcon.SetResourceReference(SymbolIcon.ForegroundProperty, "TextFillColorTertiaryBrush");
+		version.Children.Add(tagIcon);
+		System.Windows.Controls.TextBlock versionText = StyledText("RowMeta", mod.Version);
+		versionText.Margin = new Thickness(5, 0, 0, 0);
+		version.Children.Add(versionText);
+		side.Children.Add(version);
+
+		StackPanel buttons = new() { Orientation = Orientation.Horizontal, HorizontalAlignment = HorizontalAlignment.Right };
+
+		Wpf.Ui.Controls.Button publishBtn = new()
+		{
+			Icon = SymbolRegular.CloudArrowUp24,
+			ToolTip = Strings.Ui_VoidstrapMods_PublishTooltip,
+			Appearance = ControlAppearance.Secondary,
+			Margin = new Thickness(0, 0, 6, 0),
+			Tag = mod.Name
 		};
-		frame.SetResourceReference(Border.BackgroundProperty, "ControlFillColorDefaultBrush");
+		publishBtn.Click += PublishMod_Click;
+		buttons.Children.Add(publishBtn);
+
+		Wpf.Ui.Controls.Button iconBtn = new()
+		{
+			Icon = SymbolRegular.ImageEdit24,
+			ToolTip = Strings.Ui_VoidstrapMods_ChangeIcon,
+			Appearance = ControlAppearance.Secondary,
+			Margin = new Thickness(0, 0, 6, 0),
+			Tag = mod.Name
+		};
+		iconBtn.Click += ChangeIcon_Click;
+		buttons.Children.Add(iconBtn);
+
+		Wpf.Ui.Controls.Button exportBtn = new()
+		{
+			Icon = SymbolRegular.ArrowExportUp24,
+			ToolTip = Strings.Ui_VoidstrapMods_ExportTooltip,
+			Appearance = ControlAppearance.Secondary,
+			Margin = new Thickness(0, 0, 6, 0),
+			Tag = mod.Name
+		};
+		exportBtn.Click += ExportMod_Click;
+		buttons.Children.Add(exportBtn);
+
+		Wpf.Ui.Controls.Button deleteBtn = new()
+		{
+			Icon = SymbolRegular.Delete24,
+			ToolTip = Strings.Common_Delete,
+			Appearance = ControlAppearance.Secondary,
+			Margin = new Thickness(0, 0, 8, 0),
+			Tag = mod.Name
+		};
+		deleteBtn.Click += DeleteMod_Click;
+		buttons.Children.Add(deleteBtn);
+
+		Wpf.Ui.Controls.Button editBtn = new()
+		{
+			Content = Strings.Ui_VoidstrapMods_EditButton,
+			Icon = SymbolRegular.Code24,
+			Appearance = ControlAppearance.Secondary,
+			MinWidth = 76,
+			Margin = new Thickness(0, 0, 8, 0),
+			Tag = mod.Name
+		};
+		editBtn.Click += EditMod_Click;
+		buttons.Children.Add(editBtn);
+
+		bool on = mod.Consent == "on";
+		Wpf.Ui.Controls.Button toggle = new()
+		{
+			MinWidth = 84,
+			Appearance = on ? ControlAppearance.Secondary : ControlAppearance.Primary,
+			Content = on ? Strings.Ui_VoidstrapMods_LibraryDisable : Strings.Ui_VoidstrapMods_LibraryEnable,
+			Icon = on ? SymbolRegular.Pause24 : SymbolRegular.Play24,
+			Tag = mod.Name
+		};
+		toggle.Click += CreateModToggle_Click;
+		buttons.Children.Add(toggle);
+
+		side.Children.Add(buttons);
+		row.Children.Add(side);
+
+		StackPanel body = new();
+		body.Children.Add(row);
+		if (mod.Problems.Count > 0)
+		{
+			System.Windows.Controls.TextBlock problems = new()
+			{
+				Text = string.Join(Environment.NewLine, mod.Problems.TakeLast(10)),
+				FontFamily = new System.Windows.Media.FontFamily("Consolas, Cascadia Mono, monospace"),
+				FontSize = 11,
+				TextWrapping = TextWrapping.Wrap
+			};
+			problems.SetResourceReference(System.Windows.Controls.TextBlock.ForegroundProperty, "TextFillColorSecondaryBrush");
+			body.Children.Add(new Expander { Header = Strings.Ui_VoidstrapMods_RecentProblems, Content = problems, Margin = new Thickness(0, 8, 0, 0) });
+		}
+
+		Border card = new() { Child = body };
+		card.SetResourceReference(StyleProperty, "RowCard");
+		return card;
+	}
+
+	private FrameworkElement BuildModIcon(PluginHost.ModInfo mod, ModLibrary.LibraryMod? libraryMod)
+	{
 		string? iconPath = ModFiles.GetIconPath(mod.Directory);
 		if (iconPath != null && Voidstrap.UI.Elements.Dialogs.CreateVoidstrapModDialog.LoadIcon(iconPath) is { } image)
-			frame.Child = new Image { Source = image, Width = 28, Height = 28, Stretch = Stretch.Uniform };
-		else
-			frame.Child = new SymbolIcon { Symbol = SymbolRegular.PuzzlePiece24, FontSize = 20, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center };
-		return frame;
+			return new Image { Source = image, Stretch = Stretch.Uniform, Margin = new Thickness(8) };
+		if (libraryMod != null && _libraryIcons.TryGetValue(libraryMod.Id, out BitmapSource? libIcon) && libIcon != null)
+			return new Image { Source = libIcon, Stretch = Stretch.Uniform, Margin = new Thickness(8) };
+		return new SymbolIcon { Symbol = SymbolRegular.PuzzlePiece24, FontSize = 34, HorizontalAlignment = HorizontalAlignment.Center, VerticalAlignment = VerticalAlignment.Center };
 	}
 
 	private void NewMod_Click(object sender, RoutedEventArgs e)
@@ -421,6 +445,7 @@ public partial class VoidstrapModsPage : UiPage
 			_libraryIndex = await ModLibrary.GetIndexAsync(refresh, token);
 			PopulateSorts();
 			RenderLibrary();
+			RenderMods();
 			ReportTakedowns(_libraryIndex);
 			foreach (ModLibrary.LibraryMod mod in _libraryIndex.Mods.Where(m => m.HasIcon && !_libraryIcons.ContainsKey(m.Id)))
 			{
@@ -428,6 +453,7 @@ public partial class VoidstrapModsPage : UiPage
 				_libraryIcons[mod.Id] = bytes == null ? null : DecodeIcon(bytes);
 			}
 			RenderLibrary();
+			RenderMods();
 		}
 		catch (OperationCanceledException) when (token.IsCancellationRequested)
 		{
@@ -739,7 +765,7 @@ public partial class VoidstrapModsPage : UiPage
 			OpenModInEditor(modName);
 	}
 
-	private void DeleteMod_Click(object sender, RoutedEventArgs e)
+	private async void DeleteMod_Click(object sender, RoutedEventArgs e)
 	{
 		if (sender is not FrameworkElement { Tag: string modName })
 			return;
@@ -751,11 +777,17 @@ public partial class VoidstrapModsPage : UiPage
 			return;
 		try
 		{
+			PluginHost.SetEnabled(modName, false, reload: false);
 			string folder = Path.Combine(Paths.Plugins, modName);
-			if (Directory.Exists(folder))
-				Directory.Delete(folder, true);
+			await Task.Run(() =>
+			{
+				if (Directory.Exists(folder))
+					Directory.Delete(folder, true);
+			});
 			PluginHost.ForgetConsent(modName);
-			Task.Run(PluginHost.Reload);
+			await Task.Run(PluginHost.Reload);
+			RenderMods();
+			RenderLibrary();
 		}
 		catch (Exception ex)
 		{
@@ -763,16 +795,21 @@ public partial class VoidstrapModsPage : UiPage
 		}
 	}
 
+	private async void CreateModToggle_Click(object sender, RoutedEventArgs e)
+	{
+		if (sender is not FrameworkElement { Tag: string modName })
+			return;
+		bool turnOn = !IsModOn(modName);
+		PluginHost.SetEnabled(modName, turnOn, reload: false);
+		await Task.Run(PluginHost.Reload);
+		RenderMods();
+		RenderLibrary();
+	}
+
 	public void OpenModInEditor(string modName)
 	{
 		if (Directory.Exists(Path.Combine(Paths.Plugins, modName)))
 			new Voidstrap.UI.Elements.Editor.VoidstrapModEditorWindow(modName).ShowOwnedDialog();
-	}
-
-	private void ModToggle_Click(object sender, RoutedEventArgs e)
-	{
-		if (sender is ToggleSwitch { Tag: string name } toggle)
-			PluginHost.SetEnabled(name, toggle.IsChecked == true);
 	}
 
 	private void ConnectAi_Click(object sender, RoutedEventArgs e) => Voidstrap.Integrations.Mcp.McpConnectInfo.Show();

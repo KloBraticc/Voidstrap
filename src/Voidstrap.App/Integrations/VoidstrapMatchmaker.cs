@@ -1174,6 +1174,7 @@ public static class VoidstrapMatchmaker
 			HttpStatusCode.Unauthorized => "your Roblox sign in is missing or expired, sign in again through Settings",
 			HttpStatusCode.Forbidden => "Roblox rejected the request token",
 			HttpStatusCode.TooManyRequests => "Roblox is rate limiting the probes",
+			HttpStatusCode.NotFound => "the server has shut down or no longer exists",
 			_ => "Roblox refused the probe"
 		};
 		App.Logger.WriteLine(LOG_IDENT, "Server probe returned HTTP " + (int)status + ", " + hint);

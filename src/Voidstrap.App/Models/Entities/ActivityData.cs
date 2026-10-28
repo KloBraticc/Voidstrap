@@ -216,11 +216,14 @@ public class ActivityData : INotifyPropertyChanged
 			string address = MachineAddress;
 			using CancellationTokenSource timeout = CancellationTokenSource.CreateLinkedTokenSource(token);
 			timeout.CancelAfter(TimeSpan.FromSeconds(10));
-			(string Ip, int Port)? resolved = await VoidstrapMatchmaker.ResolveJobServerAsync(PlaceId, JobId, timeout.Token).ConfigureAwait(false);
-			if (resolved.HasValue && !VoidstrapMatchmaker.IsPrivateIp(resolved.Value.Ip))
+			if (string.IsNullOrWhiteSpace(address) || VoidstrapMatchmaker.IsPrivateIp(address))
 			{
-				address = resolved.Value.Ip;
-				MachineAddress = address;
+				(string Ip, int Port)? resolved = await VoidstrapMatchmaker.ResolveJobServerAsync(PlaceId, JobId, timeout.Token).ConfigureAwait(false);
+				if (resolved.HasValue && !VoidstrapMatchmaker.IsPrivateIp(resolved.Value.Ip))
+				{
+					address = resolved.Value.Ip;
+					MachineAddress = address;
+				}
 			}
 			if (string.IsNullOrWhiteSpace(address) || VoidstrapMatchmaker.IsPrivateIp(address))
 				return null;

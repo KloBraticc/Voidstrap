@@ -487,7 +487,7 @@ public partial class IntegrationsPage
                 image.Visibility = Visibility.Visible;
                 if (hideHostWhenEmpty)
                     host.Visibility = Visibility.Visible;
-                App.Logger.WriteLine("IntegrationsPage", "Preview image displayed at " + source.Width.ToString("F0") + "x" + source.Height.ToString("F0"));
+                App.Logger.WriteLine("IntegrationsPage", (hideHostWhenEmpty ? "Small preview image" : "Large preview image") + " displayed at " + source.Width.ToString("F0") + "x" + source.Height.ToString("F0"));
             }, DispatcherPriority.Render);
         }
         catch (Exception ex)
