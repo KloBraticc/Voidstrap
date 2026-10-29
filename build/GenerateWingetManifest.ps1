@@ -32,6 +32,7 @@ $releaseDate = (Get-Date).ToString('yyyy-MM-dd')
 [System.IO.Directory]::Delete($downloads, $true)
 
 $versionManifest = @"
+# yaml-language-server: `$schema=https://aka.ms/winget-manifest.version.1.9.0.schema.json
 PackageIdentifier: $identifier
 PackageVersion: $Version
 DefaultLocale: en-US
@@ -40,6 +41,7 @@ ManifestVersion: $ManifestVersion
 "@
 
 $installerManifest = @"
+# yaml-language-server: `$schema=https://aka.ms/winget-manifest.installer.1.9.0.schema.json
 PackageIdentifier: $identifier
 PackageVersion: $Version
 Installers:
@@ -54,10 +56,7 @@ Installers:
       - interactive
       - silent
       - silentWithProgress
-    InstallerSuccessCodes:
-      - 0
     UpgradeBehavior: install
-    ElevationRequirement: elevationNotRequired
     Scope: user
     AppsAndFeaturesEntries:
       - DisplayName: Voidstrap
@@ -69,6 +68,7 @@ ManifestVersion: $ManifestVersion
 "@
 
 $localeManifest = @"
+# yaml-language-server: `$schema=https://aka.ms/winget-manifest.defaultLocale.1.9.0.schema.json
 PackageIdentifier: $identifier
 PackageVersion: $Version
 PackageLocale: en-US
