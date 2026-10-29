@@ -42,7 +42,9 @@ fn main() -> ExitCode {
         Ok(path) => path,
         Err(_) => return fail(strings::unpack_failed()),
     };
-    if !runtime_installed() && !install_runtime() {
+    let quiet = has_flag("quiet");
+    let nolaunch = has_flag("nolaunch");
+    if !runtime_installed() && !install_runtime(quiet) {
         return ExitCode::from(1);
     }
     let app = match unpack() {
@@ -65,16 +67,25 @@ fn main() -> ExitCode {
         command.raw_arg(arguments);
     }
     command.env("VOIDSTRAP_LAUNCHER", &launcher);
-    if console_mode {
+    if console_mode || quiet {
         return match command.status() {
             Ok(status) => ExitCode::from(status.code().unwrap_or(1) as u8),
             Err(_) => fail(strings::unpack_failed()),
         };
     }
+    if nolaunch {
+        return ExitCode::SUCCESS;
+    }
     match command.spawn() {
         Ok(_) => ExitCode::SUCCESS,
         Err(_) => fail(strings::unpack_failed()),
     }
+}
+
+fn has_flag(name: &str) -> bool {
+    env::args_os()
+        .skip(1)
+        .any(|arg| arg.to_string_lossy().trim().to_ascii_lowercase() == format!("-{}", name))
 }
 
 fn is_console_command() -> bool {
@@ -199,8 +210,8 @@ fn registered_location() -> Option<PathBuf> {
     (length > 0).then(|| PathBuf::from(OsString::from_wide(&buffer[..length])))
 }
 
-fn install_runtime() -> bool {
-    if show(&strings::ask(), MB_YESNO | MB_ICONQUESTION) != IDYES {
+fn install_runtime(quiet: bool) -> bool {
+    if !quiet && show(&strings::ask(), MB_YESNO | MB_ICONQUESTION) != IDYES {
         return false;
     }
     let package = format!("Microsoft.DotNet.DesktopRuntime.{}", DOTNET_MAJOR);
@@ -210,6 +221,9 @@ fn install_runtime() -> bool {
         .is_ok();
     if installed && runtime_installed() {
         return true;
+    }
+    if quiet {
+        return false;
     }
     show(&strings::failed(), MB_ICONINFORMATION);
     let verb = wide(OsStr::new("open"));
