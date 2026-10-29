@@ -9186,4 +9186,110 @@ Mégis telepíted?</value>
   <data name="Ui.VoidstrapMods.LibraryRobloxAccess" xml:space="preserve">
     <value>A Roblox fiókodat használja (csak olvasás, sosem látja a bejelentkezésed)</value>
   </data>
+  <data name="Ui.AppCode.Title" xml:space="preserve">
+    <value>Voidstrap alkalmazaskod</value>
+  </data>
+  <data name="Ui.AppCode.Header" xml:space="preserve">
+    <value>Minden Voidstrap forrasfajl</value>
+  </data>
+  <data name="Ui.AppCode.Description" xml:space="preserve">
+    <value>Bongeszd a Voidstrap forraskod minden mappajat es fajljat. A szerkesztesek masolatkent mentodnek a Voidstrap adatmappadba, a futo alkalmazas nem valtozik es soha nem omlik ossze egy szerkesztestol, a masolatok pedig egyutt exportalhatok amikor le akarod oket forditani.</value>
+  </data>
+  <data name="Ui.AppCode.SearchPlaceholder" xml:space="preserve">
+    <value>Fajlnevek es kod keresese</value>
+  </data>
+  <data name="Ui.AppCode.Search" xml:space="preserve">
+    <value>Kereses</value>
+  </data>
+  <data name="Ui.AppCode.BrowseFiles" xml:space="preserve">
+    <value>Fajlok bongeszese</value>
+  </data>
+  <data name="Ui.AppCode.ExportAll" xml:space="preserve">
+    <value>Osszes exportalasa</value>
+  </data>
+  <data name="Ui.AppCode.ExportAllTooltip" xml:space="preserve">
+    <value>A teljes forrasfa kiirasa a szerkeszteseiddel egy altalad valasztott mappaba</value>
+  </data>
+  <data name="Ui.AppCode.SaveCopy" xml:space="preserve">
+    <value>Masolat mentese</value>
+  </data>
+  <data name="Ui.AppCode.ResetToOriginal" xml:space="preserve">
+    <value>Visszaallitas az eredetire</value>
+  </data>
+  <data name="Ui.AppCode.EditorEmpty" xml:space="preserve">
+    <value>Valassz egy fajlt a bal oldalon az elolvasasahoz</value>
+  </data>
+  <data name="Ui.AppCode.SourceUnavailable" xml:space="preserve">
+    <value>Ez a verzio nem tartalmazza a forraslistat, forditsd le teljesen a Voidstrapot es probald ujra</value>
+  </data>
+  <data name="Ui.AppCode.SourceUnavailableShort" xml:space="preserve">
+    <value>A forraslista nem erheto el ebben a verzioban</value>
+  </data>
+  <data name="Ui.AppCode.EditedBadge" xml:space="preserve">
+    <value>Szerkesztett masolat mentve</value>
+  </data>
+  <data name="Ui.AppCode.SourceHint" xml:space="preserve">
+    <value>{0} fajl a Voidstrap kodbol, {1} szerkesztett masolat mentve</value>
+  </data>
+  <data name="Ui.AppCode.ReadFailed" xml:space="preserve">
+    <value>A fajl nem olvashato: {0}</value>
+  </data>
+  <data name="Ui.AppCode.FileOpened" xml:space="preserve">
+    <value>{0}  {1} karakter{2}</value>
+  </data>
+  <data name="Ui.AppCode.FileOriginal" xml:space="preserve">
+    <value>, eredeti ebbol a verziobol</value>
+  </data>
+  <data name="Ui.AppCode.FileEdited" xml:space="preserve">
+    <value>, a te szerkesztett masolatodat mutatja</value>
+  </data>
+  <data name="Ui.AppCode.Saved" xml:space="preserve">
+    <value>{0}  mentve szerkesztett masolatkent, ujraforditas szukseges a futtatashoz</value>
+  </data>
+  <data name="Ui.AppCode.SavedFooter" xml:space="preserve">
+    <value>A futo alkalmazas tovabbra is a sajat kodjat hasznalja. Exportalj mindent es forditsd le az exportalt mappat a szerkesztes futtatasahoz.</value>
+  </data>
+  <data name="Ui.AppCode.ResetConfirm" xml:space="preserve">
+    <value>Visszaallitod a kovetkezot az eredeti fajlra: {0}?</value>
+  </data>
+  <data name="Ui.AppCode.SearchShort" xml:space="preserve">
+    <value>Irj be legalabb 2 karaktert a kereseshez</value>
+  </data>
+  <data name="Ui.AppCode.SearchResults" xml:space="preserve">
+    <value>{0} talalat erre: {1}</value>
+  </data>
+  <data name="Ui.AppCode.SearchFailed" xml:space="preserve">
+    <value>A kereses nem sikerult: {0}</value>
+  </data>
+  <data name="Ui.AppCode.ExportPickerTitle" xml:space="preserve">
+    <value>Valassz egy mappat a Voidstrap forraskod exportalasahoz</value>
+  </data>
+  <data name="Ui.AppCode.Exported" xml:space="preserve">
+    <value>{0} fajl exportalva ide: {1}</value>
+  </data>
+  <data name="Ui.AppCode.OpenExportedFolder" xml:space="preserve">
+    <value>{0} fajl exportalva. Megnyitod a mappat most?</value>
+  </data>
+  <data name="Ui.AppCode.ExportFailed" xml:space="preserve">
+    <value>A forraskod nem exportalhato: {0}</value>
+  </data>
+  <data name="Ui.AppCode.FolderOpenFailed" xml:space="preserve">
+    <value>A mappa nem nyithato meg: {0}</value>
+  </data>
+  <data name="Ui.AppCode.SaveFailed" xml:space="preserve">
+    <value>A masolat nem mentheto el: {0}</value>
+  </data>
+  <data name="Ui.AppCode.OpenButton" xml:space="preserve">
+    <value>Alkalmazaskod</value>
+  </data>
+  <data name="Ui.AppCode.OpenButtonTooltip" xml:space="preserve">
+    <value>Bongeszd es szerkeszd az osszes Voidstrap forrasfajlt az alkalmazason belul</value>
+  </data>
+  <data name="Ui.AppCode.ConflictWarning" xml:space="preserve">
+    <value>Ez a mod olyan fajlokat cserel le, amelyeket mas bekapcsolt modok is lecserelnek:
+
+{0}
+
+Az egymasra epulo modok miatt a Roblox furcsan nezhet ki vagy viselkedhet, de a Voidstrap emiatt sosem omlik ossze. Kapcsold ki az egyiket, ha barmi rendellenesnek tunik.</value>
+  </data>
 </root>

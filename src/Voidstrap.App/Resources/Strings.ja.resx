@@ -9201,4 +9201,110 @@ Voidstrap はインストール前にすべてのファイルをライブラリ�
   <data name="Ui.VoidstrapMods.LibraryRobloxAccess" xml:space="preserve">
     <value>Roblox アカウントを使用 (読み取り専用、ログイン情報は見えません)</value>
   </data>
+  <data name="Ui.AppCode.Title" xml:space="preserve">
+    <value>Voidstrap アプリコード</value>
+  </data>
+  <data name="Ui.AppCode.Header" xml:space="preserve">
+    <value>Voidstrap の全ソースファイル</value>
+  </data>
+  <data name="Ui.AppCode.Description" xml:space="preserve">
+    <value>Voidstrap の全フォルダーとファイルを参照します。編集内容は Voidstrap データフォルダー配下にコピーとして保存され、実行中のアプリが変更されたり編集によってクラッシュすることはありません。ビルドする際はまとめてエクスポートされます。</value>
+  </data>
+  <data name="Ui.AppCode.SearchPlaceholder" xml:space="preserve">
+    <value>ファイル名とコードを検索</value>
+  </data>
+  <data name="Ui.AppCode.Search" xml:space="preserve">
+    <value>検索</value>
+  </data>
+  <data name="Ui.AppCode.BrowseFiles" xml:space="preserve">
+    <value>ファイルを参照</value>
+  </data>
+  <data name="Ui.AppCode.ExportAll" xml:space="preserve">
+    <value>すべてエクスポート</value>
+  </data>
+  <data name="Ui.AppCode.ExportAllTooltip" xml:space="preserve">
+    <value>編集内容を含めた完全なソースツリーを選択したフォルダーに出力します</value>
+  </data>
+  <data name="Ui.AppCode.SaveCopy" xml:space="preserve">
+    <value>コピーを保存</value>
+  </data>
+  <data name="Ui.AppCode.ResetToOriginal" xml:space="preserve">
+    <value>オリジナルに戻す</value>
+  </data>
+  <data name="Ui.AppCode.EditorEmpty" xml:space="preserve">
+    <value>左側のファイルを選択して開きます</value>
+  </data>
+  <data name="Ui.AppCode.SourceUnavailable" xml:space="preserve">
+    <value>このビルドにはソースリストが含まれていません。Voidstrap をフルビルドしてから再試行してください</value>
+  </data>
+  <data name="Ui.AppCode.SourceUnavailableShort" xml:space="preserve">
+    <value>このビルドではソースリストを利用できません</value>
+  </data>
+  <data name="Ui.AppCode.EditedBadge" xml:space="preserve">
+    <value>編集済みコピーを保存しました</value>
+  </data>
+  <data name="Ui.AppCode.SourceHint" xml:space="preserve">
+    <value>Voidstrap コードの {0} 個のファイル、{1} 個の編集済みコピーを保存</value>
+  </data>
+  <data name="Ui.AppCode.ReadFailed" xml:space="preserve">
+    <value>ファイルを読み込めませんでした: {0}</value>
+  </data>
+  <data name="Ui.AppCode.FileOpened" xml:space="preserve">
+    <value>{0}  {1} 文字{2}</value>
+  </data>
+  <data name="Ui.AppCode.FileOriginal" xml:space="preserve">
+    <value>、このビルドのオリジナル</value>
+  </data>
+  <data name="Ui.AppCode.FileEdited" xml:space="preserve">
+    <value>、編集済みコピーを表示中</value>
+  </data>
+  <data name="Ui.AppCode.Saved" xml:space="preserve">
+    <value>{0}  を編集済みコピーとして保存しました。変更を反映するには再ビルドが必要です</value>
+  </data>
+  <data name="Ui.AppCode.SavedFooter" xml:space="preserve">
+    <value>実行中のアプリは引き続き自身のコードを使用します。編集を反映するには、すべてエクスポートしてビルドしてください。</value>
+  </data>
+  <data name="Ui.AppCode.ResetConfirm" xml:space="preserve">
+    <value>{0} をこのビルドのオリジナルファイルに戻しますか？</value>
+  </data>
+  <data name="Ui.AppCode.SearchShort" xml:space="preserve">
+    <value>検索するには2文字以上入力してください</value>
+  </data>
+  <data name="Ui.AppCode.SearchResults" xml:space="preserve">
+    <value>{1} の一致 {0} 件</value>
+  </data>
+  <data name="Ui.AppCode.SearchFailed" xml:space="preserve">
+    <value>検索を実行できませんでした: {0}</value>
+  </data>
+  <data name="Ui.AppCode.ExportPickerTitle" xml:space="preserve">
+    <value>Voidstrap ソースのエクスポート先フォルダーを選択</value>
+  </data>
+  <data name="Ui.AppCode.Exported" xml:space="preserve">
+    <value>{0} 個のファイルを {1} にエクスポートしました</value>
+  </data>
+  <data name="Ui.AppCode.OpenExportedFolder" xml:space="preserve">
+    <value>{0} 個のファイルをエクスポートしました。フォルダーを開きますか？</value>
+  </data>
+  <data name="Ui.AppCode.ExportFailed" xml:space="preserve">
+    <value>ソースをエクスポートできませんでした: {0}</value>
+  </data>
+  <data name="Ui.AppCode.FolderOpenFailed" xml:space="preserve">
+    <value>フォルダーを開くことができませんでした: {0}</value>
+  </data>
+  <data name="Ui.AppCode.SaveFailed" xml:space="preserve">
+    <value>コピーを保存できませんでした: {0}</value>
+  </data>
+  <data name="Ui.AppCode.OpenButton" xml:space="preserve">
+    <value>アプリコード</value>
+  </data>
+  <data name="Ui.AppCode.OpenButtonTooltip" xml:space="preserve">
+    <value>アプリ内で Voidstrap の各ソースファイルを参照および編集</value>
+  </data>
+  <data name="Ui.AppCode.ConflictWarning" xml:space="preserve">
+    <value>この Mod は、他の有効な Mod も置き換えているファイルを変更します:
+
+{0}
+
+Mod の重複により Roblox の表示や動作に異常が生じる場合がありますが、これによって Voidstrap がクラッシュすることはありません。問題が発生した場合はいずれかを無効にしてください。</value>
+  </data>
 </root>

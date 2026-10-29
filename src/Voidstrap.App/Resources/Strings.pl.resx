@@ -9187,4 +9187,110 @@ Zainstalować mimo to?</value>
   <data name="Ui.VoidstrapMods.LibraryRobloxAccess" xml:space="preserve">
     <value>Używa Twojego konta Roblox (tylko odczyt, nigdy nie widzi Twojego logowania)</value>
   </data>
+  <data name="Ui.AppCode.Title" xml:space="preserve">
+    <value>Kod aplikacji Voidstrap</value>
+  </data>
+  <data name="Ui.AppCode.Header" xml:space="preserve">
+    <value>Kazdy plik zrodlowy Voidstrap</value>
+  </data>
+  <data name="Ui.AppCode.Description" xml:space="preserve">
+    <value>Przegladaj kazdy folder i plik kodu zrodlowego Voidstrap. Edycje sa zapisywane jako kopia w folderze danych Voidstrap, uruchomiona aplikacja nigdy sie nie zmienia i nigdy nie ulega awarii w wyniku edycji, a kopie sa eksportowane razem, gdy chcesz je skompilowac.</value>
+  </data>
+  <data name="Ui.AppCode.SearchPlaceholder" xml:space="preserve">
+    <value>Szukaj nazw plikow i kodu</value>
+  </data>
+  <data name="Ui.AppCode.Search" xml:space="preserve">
+    <value>Szukaj</value>
+  </data>
+  <data name="Ui.AppCode.BrowseFiles" xml:space="preserve">
+    <value>Przegladaj pliki</value>
+  </data>
+  <data name="Ui.AppCode.ExportAll" xml:space="preserve">
+    <value>Eksportuj wszystko</value>
+  </data>
+  <data name="Ui.AppCode.ExportAllTooltip" xml:space="preserve">
+    <value>Zapisz pelne drzewo zrodlowe z wprowadzonymi edycjami w wybranym folderze</value>
+  </data>
+  <data name="Ui.AppCode.SaveCopy" xml:space="preserve">
+    <value>Zapisz kopie</value>
+  </data>
+  <data name="Ui.AppCode.ResetToOriginal" xml:space="preserve">
+    <value>Przywroc oryginal</value>
+  </data>
+  <data name="Ui.AppCode.EditorEmpty" xml:space="preserve">
+    <value>Wybierz plik po lewej stronie, aby go przeczytac</value>
+  </data>
+  <data name="Ui.AppCode.SourceUnavailable" xml:space="preserve">
+    <value>Ta kompilacja nie zawiera listy zrodel, uruchom pelna kompilacje Voidstrap i sprobuj ponownie</value>
+  </data>
+  <data name="Ui.AppCode.SourceUnavailableShort" xml:space="preserve">
+    <value>Lista zrodel jest niedostepna w tej kompilacji</value>
+  </data>
+  <data name="Ui.AppCode.EditedBadge" xml:space="preserve">
+    <value>Zapisano edytowana kopie</value>
+  </data>
+  <data name="Ui.AppCode.SourceHint" xml:space="preserve">
+    <value>{0} plikow z kodu Voidstrap, {1} zapisanych edytowanych kopii</value>
+  </data>
+  <data name="Ui.AppCode.ReadFailed" xml:space="preserve">
+    <value>Nie udalo sie odczytac pliku: {0}</value>
+  </data>
+  <data name="Ui.AppCode.FileOpened" xml:space="preserve">
+    <value>{0}  {1} znakow{2}</value>
+  </data>
+  <data name="Ui.AppCode.FileOriginal" xml:space="preserve">
+    <value>, oryginal z tej kompilacji</value>
+  </data>
+  <data name="Ui.AppCode.FileEdited" xml:space="preserve">
+    <value>, wyswietlanie edytowanej kopii</value>
+  </data>
+  <data name="Ui.AppCode.Saved" xml:space="preserve">
+    <value>{0}  zapisano jako edytowana kopie, ponowna kompilacja jest wymagana do uruchomienia tej zmiany</value>
+  </data>
+  <data name="Ui.AppCode.SavedFooter" xml:space="preserve">
+    <value>Uruchomiona aplikacja nadal uzywa wlasnego kodu. Wyeksportuj wszystko i skompiluj wyeksportowany folder, aby uruchomic swoja edycje.</value>
+  </data>
+  <data name="Ui.AppCode.ResetConfirm" xml:space="preserve">
+    <value>Przywrocic {0} do oryginalnego pliku z tej kompilacji?</value>
+  </data>
+  <data name="Ui.AppCode.SearchShort" xml:space="preserve">
+    <value>Wpisz co najmniej 2 znaki, aby wyszukac</value>
+  </data>
+  <data name="Ui.AppCode.SearchResults" xml:space="preserve">
+    <value>{0} wynikow dla {1}</value>
+  </data>
+  <data name="Ui.AppCode.SearchFailed" xml:space="preserve">
+    <value>Wyszukiwanie nie powiodlo sie: {0}</value>
+  </data>
+  <data name="Ui.AppCode.ExportPickerTitle" xml:space="preserve">
+    <value>Wybierz folder do wyeksportowania zrodel Voidstrap</value>
+  </data>
+  <data name="Ui.AppCode.Exported" xml:space="preserve">
+    <value>Wyeksportowano {0} plikow do {1}</value>
+  </data>
+  <data name="Ui.AppCode.OpenExportedFolder" xml:space="preserve">
+    <value>Wyeksportowano {0} plikow. Otworzyc folder teraz?</value>
+  </data>
+  <data name="Ui.AppCode.ExportFailed" xml:space="preserve">
+    <value>Nie udalo sie wyeksportowac zrodel: {0}</value>
+  </data>
+  <data name="Ui.AppCode.FolderOpenFailed" xml:space="preserve">
+    <value>Nie udalo sie otworzyc folderu: {0}</value>
+  </data>
+  <data name="Ui.AppCode.SaveFailed" xml:space="preserve">
+    <value>Nie udalo sie zapisac kopii: {0}</value>
+  </data>
+  <data name="Ui.AppCode.OpenButton" xml:space="preserve">
+    <value>Kod aplikacji</value>
+  </data>
+  <data name="Ui.AppCode.OpenButtonTooltip" xml:space="preserve">
+    <value>Przegladaj i edytuj kazdy plik zrodlowy Voidstrap bezposrednio w aplikacji</value>
+  </data>
+  <data name="Ui.AppCode.ConflictWarning" xml:space="preserve">
+    <value>Ten mod zastepuje pliki, ktore sa rowniez zastepowane przez inne wlaczone mody:
+
+{0}
+
+Nakladajace sie mody moga sprawic, ze Roblox bedzie wygladac lub dzialac nietypowo, ale nie moze to spowodowac awarii Voidstrap. Wylacz jeden z nich, jesli cos wydaje sie nieprawidlowe.</value>
+  </data>
 </root>

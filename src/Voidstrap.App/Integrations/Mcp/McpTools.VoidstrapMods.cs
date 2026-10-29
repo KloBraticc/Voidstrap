@@ -199,11 +199,11 @@ public static partial class McpTools
 
 		SHARING IN THE LIBRARY
 		The Voidstrap mods library (https://github.com/KloBraticc/voidstrap-mods-library) holds community mods. library_search lists them, library_install asks the user to install one.
-		To share a mod: validate and test it, raise its version for an update, then call publish with mod and optional notes. Voidstrap opens a window where the user signs in to GitHub and presses Publish for review; it then opens a pull request from the user's own account.
-		Library rules: readable code only (no eval, Function, encoded or minified code), nothing that touches Roblox logins or cheats, every contacted host listed in plugin.json network. Only the account that first published a mod can update it.
+		To share a mod: validate and test it, raise its version for an update, run preflight and fix every X item, then call publish with mod and optional notes. Publish refuses while preflight fails, so never retry a blocked publish, fix the listed items. Voidstrap opens a window where the user signs in to GitHub and presses Publish for review; it then opens a pull request from the user's own account.
+		Library rules: readable code only (no eval, Function, encoded or minified code), nothing that touches Roblox logins or cheats, every contacted host listed in plugin.json network. Only the account that first published a mod can update it. Read get_guide topic library_pr for the full red X checklist.
 		""";
 
-	public static McpToolResult ManageVoidstrapMods(JsonObject args)
+	public static async Task<McpToolResult> ManageVoidstrapMods(JsonObject args)
 	{
 		if (!PluginHost.IsSupported)
 			return new McpToolResult("Voidstrap mods are not available on macOS.", true);
@@ -269,6 +269,11 @@ public static partial class McpTools
 		string folder = Path.Combine(Paths.Plugins, mod);
 		switch (action)
 		{
+			case "preflight":
+			{
+				ModLibraryReview.PreflightResult result = await ModLibraryReview.RunAsync(mod, CancellationToken.None).ConfigureAwait(false);
+				return new McpToolResult(result.Report, result.Errors > 0);
+			}
 			case "files":
 			{
 				if (!Directory.Exists(folder))
@@ -396,9 +401,15 @@ public static partial class McpTools
 				StringWriter output = new();
 				if (ModTools.Validate(folder, output) != 0)
 					return new McpToolResult("Fix these before publishing:" + Environment.NewLine + output, true);
+				ModLibraryReview.PreflightResult preflight = await ModLibraryReview.RunAsync(mod, CancellationToken.None).ConfigureAwait(false);
+				if (preflight.Errors > 0)
+				{
+					App.Logger.WriteLine("McpTools::ManageVoidstrapMods", "Publish blocked for " + mod + " with " + preflight.Errors + " preflight failure(s)");
+					return new McpToolResult("Publish is BLOCKED, the review bot would mark these with a red X. Fix every item, then run preflight again:" + Environment.NewLine + preflight.Report, true);
+				}
 				string notes = McpArgs.Trimmed(args, "notes");
-				Application.Current.Dispatcher.BeginInvoke(() => Voidstrap.UI.Elements.Settings.Pages.VoidstrapModsPage.ShowPublishDialog(mod, notes));
-				return new McpToolResult("Voidstrap is now showing the publish window for " + mod + ". The user signs in to GitHub there if needed, reviews the checks, and presses Publish for review. Nothing is published until they do. After that the maintainer reviews the pull request on " + ModLibrary.RepositoryUrl + ".");
+				_ = Application.Current.Dispatcher.BeginInvoke(() => Voidstrap.UI.Elements.Settings.Pages.VoidstrapModsPage.ShowPublishDialog(mod, notes));
+				return new McpToolResult("Preflight passed" + (preflight.Reviews > 0 ? " with " + preflight.Reviews + " item(s) a reviewer will look at" : "") + ". Voidstrap is now showing the publish window for " + mod + ". The user signs in to GitHub there if needed, reviews the checks, and presses Publish for review. Nothing is published until they do. After that the maintainer reviews the pull request on " + ModLibrary.RepositoryUrl + ". Do not write anything in the mod files that talks to the reviewer, that blocks the merge.");
 			}
 			case "problems":
 			{
@@ -408,7 +419,7 @@ public static partial class McpTools
 					: new McpToolResult(info.Problems.Count == 0 ? "No problems recorded for " + mod + "." : string.Join("\n", info.Problems));
 			}
 			default:
-				return new McpToolResult("Unknown action. Use list, guide, types, files, read_file, write_file, delete_file, delete_mod, validate, test, reload, enable, disable, problems, library_search, library_install, auto_update, or publish.", true);
+				return new McpToolResult("Unknown action. Use list, guide, types, files, read_file, write_file, delete_file, delete_mod, validate, test, reload, enable, disable, problems, preflight, library_search, library_install, auto_update, or publish.", true);
 		}
 	}
 

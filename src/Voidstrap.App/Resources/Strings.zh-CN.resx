@@ -9211,4 +9211,110 @@ Voidstrap 会在安装前根据模组库核对每个文件,并在启用模组前
   <data name="Ui.VoidstrapMods.LibraryRobloxAccess" xml:space="preserve">
     <value>使用您的 Roblox 账号(只读,看不到您的登录信息)</value>
   </data>
+  <data name="Ui.AppCode.Title" xml:space="preserve">
+    <value>Voidstrap 应用代码</value>
+  </data>
+  <data name="Ui.AppCode.Header" xml:space="preserve">
+    <value>每个 Voidstrap 源文件</value>
+  </data>
+  <data name="Ui.AppCode.Description" xml:space="preserve">
+    <value>浏览 Voidstrap 代码的每个文件夹和文件。所做的编辑将作为副本保存在您的 Voidstrap 数据文件夹下，正在运行的应用绝不会被更改，也不会因编辑而崩溃，当您想要构建它们时可以一起导出副本。</value>
+  </data>
+  <data name="Ui.AppCode.SearchPlaceholder" xml:space="preserve">
+    <value>搜索文件名和代码</value>
+  </data>
+  <data name="Ui.AppCode.Search" xml:space="preserve">
+    <value>搜索</value>
+  </data>
+  <data name="Ui.AppCode.BrowseFiles" xml:space="preserve">
+    <value>浏览文件</value>
+  </data>
+  <data name="Ui.AppCode.ExportAll" xml:space="preserve">
+    <value>全部导出</value>
+  </data>
+  <data name="Ui.AppCode.ExportAllTooltip" xml:space="preserve">
+    <value>将包含您编辑内容的完整源码树写入您选择的文件夹</value>
+  </data>
+  <data name="Ui.AppCode.SaveCopy" xml:space="preserve">
+    <value>保存副本</value>
+  </data>
+  <data name="Ui.AppCode.ResetToOriginal" xml:space="preserve">
+    <value>恢复为原始文件</value>
+  </data>
+  <data name="Ui.AppCode.EditorEmpty" xml:space="preserve">
+    <value>在左侧选择一个文件进行查看</value>
+  </data>
+  <data name="Ui.AppCode.SourceUnavailable" xml:space="preserve">
+    <value>此版本不包含源文件列表，请完全构建 Voidstrap 后重试</value>
+  </data>
+  <data name="Ui.AppCode.SourceUnavailableShort" xml:space="preserve">
+    <value>源文件列表在此版本中不可用</value>
+  </data>
+  <data name="Ui.AppCode.EditedBadge" xml:space="preserve">
+    <value>已保存编辑副本</value>
+  </data>
+  <data name="Ui.AppCode.SourceHint" xml:space="preserve">
+    <value>来自 Voidstrap 代码的 {0} 个文件，已保存 {1} 个编辑副本</value>
+  </data>
+  <data name="Ui.AppCode.ReadFailed" xml:space="preserve">
+    <value>无法读取文件: {0}</value>
+  </data>
+  <data name="Ui.AppCode.FileOpened" xml:space="preserve">
+    <value>{0}  {1} 个字符{2}</value>
+  </data>
+  <data name="Ui.AppCode.FileOriginal" xml:space="preserve">
+    <value>，此版本的原始文件</value>
+  </data>
+  <data name="Ui.AppCode.FileEdited" xml:space="preserve">
+    <value>，正在显示您的编辑副本</value>
+  </data>
+  <data name="Ui.AppCode.Saved" xml:space="preserve">
+    <value>{0}  已保存为编辑副本，需要重新构建才能运行此更改</value>
+  </data>
+  <data name="Ui.AppCode.SavedFooter" xml:space="preserve">
+    <value>正在运行的应用继续使用其自带的代码。导出全部并构建导出的文件夹以运行您的修改。</value>
+  </data>
+  <data name="Ui.AppCode.ResetConfirm" xml:space="preserve">
+    <value>将 {0} 恢复为此版本的原始文件？</value>
+  </data>
+  <data name="Ui.AppCode.SearchShort" xml:space="preserve">
+    <value>至少输入 2 个字符以进行搜索</value>
+  </data>
+  <data name="Ui.AppCode.SearchResults" xml:space="preserve">
+    <value>找到 {0} 个与 {1} 相关的匹配项</value>
+  </data>
+  <data name="Ui.AppCode.SearchFailed" xml:space="preserve">
+    <value>搜索未能运行: {0}</value>
+  </data>
+  <data name="Ui.AppCode.ExportPickerTitle" xml:space="preserve">
+    <value>选择导出 Voidstrap 源代码的文件夹</value>
+  </data>
+  <data name="Ui.AppCode.Exported" xml:space="preserve">
+    <value>已将 {0} 个文件导出到 {1}</value>
+  </data>
+  <data name="Ui.AppCode.OpenExportedFolder" xml:space="preserve">
+    <value>已导出 {0} 个文件。现在打开该文件夹吗？</value>
+  </data>
+  <data name="Ui.AppCode.ExportFailed" xml:space="preserve">
+    <value>无法导出源码: {0}</value>
+  </data>
+  <data name="Ui.AppCode.FolderOpenFailed" xml:space="preserve">
+    <value>无法打开文件夹: {0}</value>
+  </data>
+  <data name="Ui.AppCode.SaveFailed" xml:space="preserve">
+    <value>无法保存副本: {0}</value>
+  </data>
+  <data name="Ui.AppCode.OpenButton" xml:space="preserve">
+    <value>应用代码</value>
+  </data>
+  <data name="Ui.AppCode.OpenButtonTooltip" xml:space="preserve">
+    <value>在应用内浏览并编辑每个 Voidstrap 源文件</value>
+  </data>
+  <data name="Ui.AppCode.ConflictWarning" xml:space="preserve">
+    <value>此模组替换了其他已启用的模组也替换的文件:
+
+{0}
+
+重叠的模组可能会使 Roblox 显示或运行异常，但这绝不会导致 Voidstrap 崩溃。如果出现异常，请关闭其中一个模组。</value>
+  </data>
 </root>

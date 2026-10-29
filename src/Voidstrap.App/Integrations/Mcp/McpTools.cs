@@ -92,6 +92,7 @@ public static partial class McpTools
 				"manage_themes_and_mods" => ManageThemesAndMods(args),
 				"launch_roblox" => LaunchRoblox(args),
 				"get_logs_and_activity" => GetLogsAndActivity(args),
+				"search_everything" => SearchEverything(args),
 				"edit_editor" => EditEditor(args),
 				"find_in_editor" => FindInEditor(args),
 				"undo_editor" => UndoEditor(args),

@@ -9186,4 +9186,110 @@ Installer quand même ?</value>
   <data name="Ui.VoidstrapMods.LibraryRobloxAccess" xml:space="preserve">
     <value>Utilise votre compte Roblox (lecture seule, ne voit jamais votre connexion)</value>
   </data>
+  <data name="Ui.AppCode.Title" xml:space="preserve">
+    <value>Code de application Voidstrap</value>
+  </data>
+  <data name="Ui.AppCode.Header" xml:space="preserve">
+    <value>Chaque fichier source de Voidstrap</value>
+  </data>
+  <data name="Ui.AppCode.Description" xml:space="preserve">
+    <value>Parcourez chaque dossier et fichier du code source de Voidstrap. Les modifications sont enregistrees sous forme de copie dans votre dossier de donnees Voidstrap, application en cours execution ne change jamais et ne plante jamais a cause une modification, et les copies sont exportees ensemble lorsque vous souhaitez les compiler.</value>
+  </data>
+  <data name="Ui.AppCode.SearchPlaceholder" xml:space="preserve">
+    <value>Rechercher dans les noms de fichiers et le code</value>
+  </data>
+  <data name="Ui.AppCode.Search" xml:space="preserve">
+    <value>Rechercher</value>
+  </data>
+  <data name="Ui.AppCode.BrowseFiles" xml:space="preserve">
+    <value>Parcourir les fichiers</value>
+  </data>
+  <data name="Ui.AppCode.ExportAll" xml:space="preserve">
+    <value>Tout exporter</value>
+  </data>
+  <data name="Ui.AppCode.ExportAllTooltip" xml:space="preserve">
+    <value>Ecrire arborescence source complete avec vos modifications dans un dossier de votre choix</value>
+  </data>
+  <data name="Ui.AppCode.SaveCopy" xml:space="preserve">
+    <value>Enregistrer la copie</value>
+  </data>
+  <data name="Ui.AppCode.ResetToOriginal" xml:space="preserve">
+    <value>Retablir original</value>
+  </data>
+  <data name="Ui.AppCode.EditorEmpty" xml:space="preserve">
+    <value>Choisissez un fichier a gauche pour le lire</value>
+  </data>
+  <data name="Ui.AppCode.SourceUnavailable" xml:space="preserve">
+    <value>Cette version ne contient pas la liste des sources, compilez completement Voidstrap et reessayez</value>
+  </data>
+  <data name="Ui.AppCode.SourceUnavailableShort" xml:space="preserve">
+    <value>La liste des sources est indisponible dans cette version</value>
+  </data>
+  <data name="Ui.AppCode.EditedBadge" xml:space="preserve">
+    <value>Copie modifiee enregistree</value>
+  </data>
+  <data name="Ui.AppCode.SourceHint" xml:space="preserve">
+    <value>{0} fichiers du code de Voidstrap, {1} copies modifiees enregistrees</value>
+  </data>
+  <data name="Ui.AppCode.ReadFailed" xml:space="preserve">
+    <value>Impossible de lire le fichier: {0}</value>
+  </data>
+  <data name="Ui.AppCode.FileOpened" xml:space="preserve">
+    <value>{0}  {1} caracteres{2}</value>
+  </data>
+  <data name="Ui.AppCode.FileOriginal" xml:space="preserve">
+    <value>, original de cette version</value>
+  </data>
+  <data name="Ui.AppCode.FileEdited" xml:space="preserve">
+    <value>, affiche votre copie modifiee</value>
+  </data>
+  <data name="Ui.AppCode.Saved" xml:space="preserve">
+    <value>{0}  enregistre sous forme de copie modifiee, une recompilation est requise pour appliquer ce changement</value>
+  </data>
+  <data name="Ui.AppCode.SavedFooter" xml:space="preserve">
+    <value>application en cours execution continue utiliser son propre code. Exportez tout et compilez le dossier exporte pour executer votre modification.</value>
+  </data>
+  <data name="Ui.AppCode.ResetConfirm" xml:space="preserve">
+    <value>Retablir {0} a la version originale de cette version ?</value>
+  </data>
+  <data name="Ui.AppCode.SearchShort" xml:space="preserve">
+    <value>Saisissez au moins 2 caracteres pour rechercher</value>
+  </data>
+  <data name="Ui.AppCode.SearchResults" xml:space="preserve">
+    <value>{0} correspondances pour {1}</value>
+  </data>
+  <data name="Ui.AppCode.SearchFailed" xml:space="preserve">
+    <value>La recherche a echoue: {0}</value>
+  </data>
+  <data name="Ui.AppCode.ExportPickerTitle" xml:space="preserve">
+    <value>Choisissez un dossier pour exporter les sources de Voidstrap</value>
+  </data>
+  <data name="Ui.AppCode.Exported" xml:space="preserve">
+    <value>{0} fichiers exportes vers {1}</value>
+  </data>
+  <data name="Ui.AppCode.OpenExportedFolder" xml:space="preserve">
+    <value>{0} fichiers exportes. Ouvrir le dossier maintenant ?</value>
+  </data>
+  <data name="Ui.AppCode.ExportFailed" xml:space="preserve">
+    <value>Impossible exporter les sources: {0}</value>
+  </data>
+  <data name="Ui.AppCode.FolderOpenFailed" xml:space="preserve">
+    <value>Impossible ouvrir le dossier: {0}</value>
+  </data>
+  <data name="Ui.AppCode.SaveFailed" xml:space="preserve">
+    <value>Impossible enregistrer la copie: {0}</value>
+  </data>
+  <data name="Ui.AppCode.OpenButton" xml:space="preserve">
+    <value>Code de application</value>
+  </data>
+  <data name="Ui.AppCode.OpenButtonTooltip" xml:space="preserve">
+    <value>Parcourir et modifier chaque fichier source de Voidstrap dans application</value>
+  </data>
+  <data name="Ui.AppCode.ConflictWarning" xml:space="preserve">
+    <value>Ce mod remplace des fichiers egalement remplaces par autres mods actives:
+
+{0}
+
+Le chevauchement de mods peut donner a Roblox une apparence ou un comportement inattendu, mais cela ne fera jamais planter Voidstrap. Desactivez en un si quelque chose semble anormal.</value>
+  </data>
 </root>

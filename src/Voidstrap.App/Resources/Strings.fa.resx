@@ -9189,4 +9189,110 @@ Voidstrap پیش از نصب هر فایل را با کتابخانه مقایس
   <data name="Ui.VoidstrapMods.LibraryRobloxAccess" xml:space="preserve">
     <value>از حساب Roblox شما استفاده می‌کند (فقط خواندنی، ورود شما را نمی‌بیند)</value>
   </data>
+  <data name="Ui.AppCode.Title" xml:space="preserve">
+    <value>کد برنامه Voidstrap</value>
+  </data>
+  <data name="Ui.AppCode.Header" xml:space="preserve">
+    <value>تمام فایل های سورس Voidstrap</value>
+  </data>
+  <data name="Ui.AppCode.Description" xml:space="preserve">
+    <value>تمام پوشه ها و فایل های سورس کد Voidstrap را مرور کنید. ویرایش ها به عنوان یک نسخه در پوشه داده Voidstrap شما ذخیره می شوند، برنامه در حال اجرا هرگز تغییر نمی کند و با ویرایش ها دچار خرابی نمی شود، و هنگامی که بخواهید آن ها را بسازید نسخه ها با هم صادر می شوند.</value>
+  </data>
+  <data name="Ui.AppCode.SearchPlaceholder" xml:space="preserve">
+    <value>جستجوی نام فایل ها و کد</value>
+  </data>
+  <data name="Ui.AppCode.Search" xml:space="preserve">
+    <value>جستجو</value>
+  </data>
+  <data name="Ui.AppCode.BrowseFiles" xml:space="preserve">
+    <value>مرور فایل ها</value>
+  </data>
+  <data name="Ui.AppCode.ExportAll" xml:space="preserve">
+    <value>صادرات همه</value>
+  </data>
+  <data name="Ui.AppCode.ExportAllTooltip" xml:space="preserve">
+    <value>نوشتن ساختار کامل سورس به همراه ویرایش های شما در پوشه انتخابی</value>
+  </data>
+  <data name="Ui.AppCode.SaveCopy" xml:space="preserve">
+    <value>ذخیره نسخه</value>
+  </data>
+  <data name="Ui.AppCode.ResetToOriginal" xml:space="preserve">
+    <value>بازنشانی به نسخه اصلی</value>
+  </data>
+  <data name="Ui.AppCode.EditorEmpty" xml:space="preserve">
+    <value>یک فایل را از سمت چپ برای خواندن انتخاب کنید</value>
+  </data>
+  <data name="Ui.AppCode.SourceUnavailable" xml:space="preserve">
+    <value>این ساخت شامل فهرست سورس نیست، Voidstrap را کامل بسازید و دوباره امتحان کنید</value>
+  </data>
+  <data name="Ui.AppCode.SourceUnavailableShort" xml:space="preserve">
+    <value>فهرست سورس در این ساخت در دسترس نیست</value>
+  </data>
+  <data name="Ui.AppCode.EditedBadge" xml:space="preserve">
+    <value>نسخه ویرایش شده ذخیره شد</value>
+  </data>
+  <data name="Ui.AppCode.SourceHint" xml:space="preserve">
+    <value>{0} فایل از کد Voidstrap، تعداد {1} نسخه ویرایش شده ذخیره شد</value>
+  </data>
+  <data name="Ui.AppCode.ReadFailed" xml:space="preserve">
+    <value>خواندن فایل ناموفق بود: {0}</value>
+  </data>
+  <data name="Ui.AppCode.FileOpened" xml:space="preserve">
+    <value>{0}  {1} نویسه{2}</value>
+  </data>
+  <data name="Ui.AppCode.FileOriginal" xml:space="preserve">
+    <value>، نسخه اصلی از این ساخت</value>
+  </data>
+  <data name="Ui.AppCode.FileEdited" xml:space="preserve">
+    <value>، در حال نمایش نسخه ویرایش شده شما</value>
+  </data>
+  <data name="Ui.AppCode.Saved" xml:space="preserve">
+    <value>{0}  به عنوان نسخه ویرایش شده ذخیره شد، برای اجرای این تغییر به بازسازی نیاز است</value>
+  </data>
+  <data name="Ui.AppCode.SavedFooter" xml:space="preserve">
+    <value>برنامه در حال اجرا همچنان از کد خود استفاده می کند. همه را صادر کرده و پوشه صادر شده را بسازید تا ویرایش شما اعمال شود.</value>
+  </data>
+  <data name="Ui.AppCode.ResetConfirm" xml:space="preserve">
+    <value>آیا می خواهید {0} به فایل اصلی این ساخت بازنشانی شود؟</value>
+  </data>
+  <data name="Ui.AppCode.SearchShort" xml:space="preserve">
+    <value>حداقل 2 نویسه برای جستجو تایپ کنید</value>
+  </data>
+  <data name="Ui.AppCode.SearchResults" xml:space="preserve">
+    <value>{0} نتیجه منطبق برای {1}</value>
+  </data>
+  <data name="Ui.AppCode.SearchFailed" xml:space="preserve">
+    <value>جستجو اجرا نشد: {0}</value>
+  </data>
+  <data name="Ui.AppCode.ExportPickerTitle" xml:space="preserve">
+    <value>پوشه ای را برای صدور سورس Voidstrap انتخاب کنید</value>
+  </data>
+  <data name="Ui.AppCode.Exported" xml:space="preserve">
+    <value>تعداد {0} فایل به {1} صادر شد</value>
+  </data>
+  <data name="Ui.AppCode.OpenExportedFolder" xml:space="preserve">
+    <value>تعداد {0} فایل صادر شد. آیا پوشه اکنون باز شود؟</value>
+  </data>
+  <data name="Ui.AppCode.ExportFailed" xml:space="preserve">
+    <value>صادرات سورس ناموفق بود: {0}</value>
+  </data>
+  <data name="Ui.AppCode.FolderOpenFailed" xml:space="preserve">
+    <value>باز کردن پوشه ناموفق بود: {0}</value>
+  </data>
+  <data name="Ui.AppCode.SaveFailed" xml:space="preserve">
+    <value>ذخیره نسخه ناموفق بود: {0}</value>
+  </data>
+  <data name="Ui.AppCode.OpenButton" xml:space="preserve">
+    <value>کد برنامه</value>
+  </data>
+  <data name="Ui.AppCode.OpenButtonTooltip" xml:space="preserve">
+    <value>مرور و ویرایش تمام فایل های سورس Voidstrap در داخل برنامه</value>
+  </data>
+  <data name="Ui.AppCode.ConflictWarning" xml:space="preserve">
+    <value>این ماد فایل هایی را جایگزین می کند که توسط سایر مادهای فعال نیز جایگزین شده اند:
+
+{0}
+
+مادهای همپوشان ممکن است ظاهر یا عملکرد Roblox را غیرعادی کنند، اما این موضوع هرگز باعث توقف یا خرابی Voidstrap نمی شود. اگر مشکلی مشاهده کردید یکی از آن ها را خاموش کنید.</value>
+  </data>
 </root>

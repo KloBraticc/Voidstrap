@@ -85,10 +85,10 @@ public static class McpToolCatalog
 		return
 		[
 			T("get_guide",
-				"Read the workflow to choose the correct tool, then the relevant guide before editing. Topics: workflow, mods (Voidstrap widgets, cursor sprites, pages, sandbox APIs and tests), bootstrapper_theme (launcher XML or HTML and window.voidstrap), keystroke_theme, app_theme, fixing, architecture (how every subsystem works), mod_api (the full $ API), app_control (live text and background control), app_code (reading and editing the app source). Read mods before writing a Voidstrap mod and bootstrapper_theme before writing a launcher theme.",
+				"Read the workflow to choose the correct tool, then the relevant guide before editing. Topics: workflow, mods (Voidstrap widgets, cursor sprites, pages, sandbox APIs and tests), bootstrapper_theme (launcher XML or HTML and window.voidstrap), keystroke_theme, app_theme, fixing, architecture (how every subsystem works), mod_api (the full $ API), app_control (live text and background control), app_code (reading and editing the app source), search (the deep search modes), library_pr (publishing to the mods library without a red X). Read mods before writing a Voidstrap mod and bootstrapper_theme before writing a launcher theme.",
 				Kind.Read, new JsonObject
 				{
-					["topic"] = P("string", "workflow (default), mods, bootstrapper_theme, keystroke_theme, app_theme, fixing, architecture, mod_api, app_control, or app_code.")
+					["topic"] = P("string", "workflow (default), mods, bootstrapper_theme, keystroke_theme, app_theme, fixing, architecture, mod_api, app_control, app_code, search, or library_pr.")
 				}),
 
 			T("test_bootstrapper_theme",
@@ -295,10 +295,10 @@ public static class McpToolCatalog
 				}) with { OffUiThread = true, TimeoutSeconds = 330 },
 
 			T("manage_voidstrap_mods",
-				"Manage features inside Voidstrap with sandboxed TypeScript or JavaScript mods: widgets, cursor sprites, pages, panels, sidebar changes and automation. This differs from manage_mods, which manages Roblox content files. Read action guide, list and types first; for an existing mod read files and read_file before write_file. Use ui_map for real anchors and $.ui.attach for widgets. Cursor sprites use cursor.move events; $.clock.every has a 500 ms minimum and cannot animate at 16 or 33 ms. Validate, test, reload, then list to confirm loaded true and problems for runtime errors. New mods require the user's approval in Voidstrap. library_search finds community mods; library_install asks before installing. publish opens a window for the user to sign in and confirm publication. Read the guide for examples, sandbox limits and the full workflow.",
+				"Manage features inside Voidstrap with sandboxed TypeScript or JavaScript mods: widgets, cursor sprites, pages, panels, sidebar changes and automation. This differs from manage_mods, which manages Roblox content files. Read action guide, list and types first; for an existing mod read files and read_file before write_file. Use ui_map for real anchors and $.ui.attach for widgets. Cursor sprites use cursor.move events; $.clock.every has a 500 ms minimum and cannot animate at 16 or 33 ms. Validate, test, reload, then list to confirm loaded true and problems for runtime errors. New mods require the user's approval in Voidstrap. preflight runs every check the voidstrap mods library review bot runs and publish refuses until it passes, so always preflight before publish and fix every X item. library_search finds community mods; library_install asks before installing. publish opens a window for the user to sign in and confirm publication. Read the guide for examples, sandbox limits and the full workflow.",
 				Kind.Write, new JsonObject
 				{
-					["action"] = P("string", "list (default), guide, types, files, read_file, write_file, delete_file, delete_mod, validate, test, reload, enable, disable, problems, library_search, library_install, auto_update, publish, or ui_map."),
+					["action"] = P("string", "list (default), guide, types, files, read_file, write_file, delete_file, delete_mod, validate, test, reload, enable, disable, problems, preflight, library_search, library_install, auto_update, publish, or ui_map."),
 					["mod"] = P("string", "The mod's folder name: lowercase letters, digits and hyphens."),
 					["path"] = P("string", "File path inside the mod, for example hooks/register.tsx or .voidstrap-mod/plugin.json."),
 					["content"] = P("string", "Full file contents for write_file."),
@@ -400,7 +400,28 @@ public static class McpToolCatalog
 					["query"] = P("string", "For search: text to find in file names and code, at least 2 characters."),
 					["max"] = P("integer", "For search: maximum results (default 80)."),
 					["destination"] = P("string", "For export: full path of the folder to write the tree into.")
-				}) with { OffUiThread = true, TimeoutSeconds = 120 }
+				}) with { OffUiThread = true, TimeoutSeconds = 120 },
+
+			T("search_everything",
+				"The deep search over everything in Voidstrap, one tool for every hunt. Modes: code searches every source file of the app itself with regex, whole word, case, glob filters, definitions only and context lines, reporting exact file, line and column. logs regex searches the Voidstrap log, the latest Roblox log and server history with an errorsOnly filter. errors hunts hidden errors at once: recorded in app notifications, mod problems, managed mod scan failures and every error line in the log. settings regex searches AppSettings names and values, every FastFlag and the Roblox global settings file. ui searches every visible element in every open window by name, type or text with exact pixel rects. at reports the full chain of elements under a pixel, deepest first. files searches file names and content across the Voidstrap data, config, mods and plugin folders. mods searches managed mods, voidstrap mods and content mod files. Start here whenever you are looking for anything.",
+				Kind.Read, new JsonObject
+				{
+					["mode"] = P("string", "code (default), logs, errors, settings, ui, at, files, or mods."),
+					["query"] = P("string", "What to find. At least 2 characters for every mode except at."),
+					["regex"] = P("boolean", "Treat query as a regular expression."),
+					["caseSensitive"] = P("boolean", "For mode code: match case exactly."),
+					["wholeWord"] = P("boolean", "For mode code: match whole words only."),
+					["definitions"] = P("boolean", "For mode code: only show declarations of the symbol, classes, records, interfaces, enums and methods."),
+					["glob"] = P("string", "For mode code and files: path filter such as *.xaml, Voidstrap.App/Bootstrapper.cs or Voidstrap.App/Integrations/**."),
+					["context"] = P("integer", "For mode code: 0 to 3 lines shown after each hit."),
+					["max"] = P("integer", "Maximum results (default 60, cap 300)."),
+					["source"] = P("string", "For mode logs: all (default), voidstrap, roblox, or history."),
+					["errorsOnly"] = P("boolean", "For mode logs: only error, warning, exception, fail and crash lines."),
+					["content"] = P("boolean", "For mode files: search file contents too (default true)."),
+					["x"] = P("integer", "For mode at: pixel x from the window's top left."),
+					["y"] = P("integer", "For mode at: pixel y from the window's top left."),
+					["window"] = P("string", "For mode at: part of a window title to pick the window, defaults to the first visible one.")
+				}),
 		];
 	}
 }

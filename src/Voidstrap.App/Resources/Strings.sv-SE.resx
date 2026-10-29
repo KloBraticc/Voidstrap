@@ -9187,4 +9187,110 @@ Installera ändå?</value>
   <data name="Ui.VoidstrapMods.LibraryRobloxAccess" xml:space="preserve">
     <value>Använder ditt Roblox-konto (endast läsning, ser aldrig din inloggning)</value>
   </data>
+  <data name="Ui.AppCode.Title" xml:space="preserve">
+    <value>Voidstrap appkod</value>
+  </data>
+  <data name="Ui.AppCode.Header" xml:space="preserve">
+    <value>Varje Voidstrap kallfil</value>
+  </data>
+  <data name="Ui.AppCode.Description" xml:space="preserve">
+    <value>Bladdra bland alla mappar och filer i Voidstraps kallkod. Andringar sparas som en kopia i din Voidstrap datamapp, den aktiva appen andras aldrig och kraschar aldrig av en andring, och kopiorna exporteras tillsammans nar du vill bygga dem.</value>
+  </data>
+  <data name="Ui.AppCode.SearchPlaceholder" xml:space="preserve">
+    <value>Sok filnamn och kod</value>
+  </data>
+  <data name="Ui.AppCode.Search" xml:space="preserve">
+    <value>Sok</value>
+  </data>
+  <data name="Ui.AppCode.BrowseFiles" xml:space="preserve">
+    <value>Bladdra bland filer</value>
+  </data>
+  <data name="Ui.AppCode.ExportAll" xml:space="preserve">
+    <value>Exportera allt</value>
+  </data>
+  <data name="Ui.AppCode.ExportAllTooltip" xml:space="preserve">
+    <value>Skriv hela kalltradet med dina andringar till en mapp du valjer</value>
+  </data>
+  <data name="Ui.AppCode.SaveCopy" xml:space="preserve">
+    <value>Spara kopia</value>
+  </data>
+  <data name="Ui.AppCode.ResetToOriginal" xml:space="preserve">
+    <value>Aterstall till original</value>
+  </data>
+  <data name="Ui.AppCode.EditorEmpty" xml:space="preserve">
+    <value>Valj en fil till vanster for att lasa den</value>
+  </data>
+  <data name="Ui.AppCode.SourceUnavailable" xml:space="preserve">
+    <value>Detta bygge saknar kallistan, gor ett fullstandigt bygge av Voidstrap och forsok igen</value>
+  </data>
+  <data name="Ui.AppCode.SourceUnavailableShort" xml:space="preserve">
+    <value>Kallistan ar inte tillganglig i detta bygge</value>
+  </data>
+  <data name="Ui.AppCode.EditedBadge" xml:space="preserve">
+    <value>Redigerad kopia sparad</value>
+  </data>
+  <data name="Ui.AppCode.SourceHint" xml:space="preserve">
+    <value>{0} filer fran Voidstrap koden, {1} sparade redigerade kopior</value>
+  </data>
+  <data name="Ui.AppCode.ReadFailed" xml:space="preserve">
+    <value>Filen kunde inte lasas: {0}</value>
+  </data>
+  <data name="Ui.AppCode.FileOpened" xml:space="preserve">
+    <value>{0}  {1} tecken{2}</value>
+  </data>
+  <data name="Ui.AppCode.FileOriginal" xml:space="preserve">
+    <value>, original fran detta bygge</value>
+  </data>
+  <data name="Ui.AppCode.FileEdited" xml:space="preserve">
+    <value>, visar din redigerade kopia</value>
+  </data>
+  <data name="Ui.AppCode.Saved" xml:space="preserve">
+    <value>{0}  sparad som redigerad kopia, ett nytt bygge kravs for att kora denna andring</value>
+  </data>
+  <data name="Ui.AppCode.SavedFooter" xml:space="preserve">
+    <value>Den aktiva appen fortsatter anvanda sin egen kod. Exportera allt och bygg den exporterade mappen for att kora dina andringar.</value>
+  </data>
+  <data name="Ui.AppCode.ResetConfirm" xml:space="preserve">
+    <value>Aterstalla {0} till originalfilen fran detta bygge?</value>
+  </data>
+  <data name="Ui.AppCode.SearchShort" xml:space="preserve">
+    <value>Skriv minst 2 tecken for att soka</value>
+  </data>
+  <data name="Ui.AppCode.SearchResults" xml:space="preserve">
+    <value>{0} traffar for {1}</value>
+  </data>
+  <data name="Ui.AppCode.SearchFailed" xml:space="preserve">
+    <value>Sokningen misslyckades: {0}</value>
+  </data>
+  <data name="Ui.AppCode.ExportPickerTitle" xml:space="preserve">
+    <value>Valj en mapp att exportera Voidstrap kallkoden till</value>
+  </data>
+  <data name="Ui.AppCode.Exported" xml:space="preserve">
+    <value>Exporterade {0} filer till {1}</value>
+  </data>
+  <data name="Ui.AppCode.OpenExportedFolder" xml:space="preserve">
+    <value>Exporterade {0} filer. Oppna mappen nu?</value>
+  </data>
+  <data name="Ui.AppCode.ExportFailed" xml:space="preserve">
+    <value>Kallkoden kunde inte exporteras: {0}</value>
+  </data>
+  <data name="Ui.AppCode.FolderOpenFailed" xml:space="preserve">
+    <value>Mappen kunde inte oppnas: {0}</value>
+  </data>
+  <data name="Ui.AppCode.SaveFailed" xml:space="preserve">
+    <value>Kopian kunde inte sparas: {0}</value>
+  </data>
+  <data name="Ui.AppCode.OpenButton" xml:space="preserve">
+    <value>Appkod</value>
+  </data>
+  <data name="Ui.AppCode.OpenButtonTooltip" xml:space="preserve">
+    <value>Bladdra och redigera varje Voidstrap kallfil direkt i appen</value>
+  </data>
+  <data name="Ui.AppCode.ConflictWarning" xml:space="preserve">
+    <value>Denna modd ersatter filer som andra aktiverade moddar ocksa ersatter:
+
+{0}
+
+Overlappande moddar kan fa Roblox att se ut eller bete sig markligt, men det kan inte krascha Voidstrap. Inaktivera en av dem om nagot verkar fel.</value>
+  </data>
 </root>

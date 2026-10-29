@@ -9187,4 +9187,110 @@ Voidstrap проверява всеки файл спрямо библиотек
   <data name="Ui.VoidstrapMods.LibraryRobloxAccess" xml:space="preserve">
     <value>Използва акаунта Ви в Roblox (само четене, никога не вижда входа Ви)</value>
   </data>
+  <data name="Ui.AppCode.Title" xml:space="preserve">
+    <value>Код на приложението Voidstrap</value>
+  </data>
+  <data name="Ui.AppCode.Header" xml:space="preserve">
+    <value>Всеки изходен файл на Voidstrap</value>
+  </data>
+  <data name="Ui.AppCode.Description" xml:space="preserve">
+    <value>Преглеждайте всяка папка и файл с изходен код на Voidstrap. Редакциите се запазват като копие в папката с данни на Voidstrap, работещото приложение никога не се променя и не се срива от редакции, а копията се експортират заедно, когато решите да ги компилирате.</value>
+  </data>
+  <data name="Ui.AppCode.SearchPlaceholder" xml:space="preserve">
+    <value>Търсене на имена на файлове и код</value>
+  </data>
+  <data name="Ui.AppCode.Search" xml:space="preserve">
+    <value>Търсене</value>
+  </data>
+  <data name="Ui.AppCode.BrowseFiles" xml:space="preserve">
+    <value>Преглед на файлове</value>
+  </data>
+  <data name="Ui.AppCode.ExportAll" xml:space="preserve">
+    <value>Експортиране на всичко</value>
+  </data>
+  <data name="Ui.AppCode.ExportAllTooltip" xml:space="preserve">
+    <value>Записване на пълното дърво с кодове заедно с вашите редакции в избрана папка</value>
+  </data>
+  <data name="Ui.AppCode.SaveCopy" xml:space="preserve">
+    <value>Запазване на копие</value>
+  </data>
+  <data name="Ui.AppCode.ResetToOriginal" xml:space="preserve">
+    <value>Възстановяване на оригинала</value>
+  </data>
+  <data name="Ui.AppCode.EditorEmpty" xml:space="preserve">
+    <value>Изберете файл отляво, за да го прочетете</value>
+  </data>
+  <data name="Ui.AppCode.SourceUnavailable" xml:space="preserve">
+    <value>Тази компилация не съдържа списъка с изходни файлове, компилирайте Voidstrap напълно и опитайте отново</value>
+  </data>
+  <data name="Ui.AppCode.SourceUnavailableShort" xml:space="preserve">
+    <value>Списъкът с изходни файлове не е наличен в тази компилация</value>
+  </data>
+  <data name="Ui.AppCode.EditedBadge" xml:space="preserve">
+    <value>Запазено е редактирано копие</value>
+  </data>
+  <data name="Ui.AppCode.SourceHint" xml:space="preserve">
+    <value>{0} файла от кода на Voidstrap, {1} запазени редактирани копия</value>
+  </data>
+  <data name="Ui.AppCode.ReadFailed" xml:space="preserve">
+    <value>Файлът не можа да бъде прочетен: {0}</value>
+  </data>
+  <data name="Ui.AppCode.FileOpened" xml:space="preserve">
+    <value>{0}  {1} знака{2}</value>
+  </data>
+  <data name="Ui.AppCode.FileOriginal" xml:space="preserve">
+    <value>, оригинал от тази компилация</value>
+  </data>
+  <data name="Ui.AppCode.FileEdited" xml:space="preserve">
+    <value>, показва вашето редактирано копие</value>
+  </data>
+  <data name="Ui.AppCode.Saved" xml:space="preserve">
+    <value>{0}  запазено като редактирано копие, необходима е повторна компилация за прилагане</value>
+  </data>
+  <data name="Ui.AppCode.SavedFooter" xml:space="preserve">
+    <value>Работещото приложение продължава да използва своя собствен код. Експортирайте всичко и компилирайте експортираната папка за изпълнение.</value>
+  </data>
+  <data name="Ui.AppCode.ResetConfirm" xml:space="preserve">
+    <value>Възстановяване на {0} към оригиналния файл от тази компилация?</value>
+  </data>
+  <data name="Ui.AppCode.SearchShort" xml:space="preserve">
+    <value>Въведете поне 2 знака за търсене</value>
+  </data>
+  <data name="Ui.AppCode.SearchResults" xml:space="preserve">
+    <value>{0} съвпадения за {1}</value>
+  </data>
+  <data name="Ui.AppCode.SearchFailed" xml:space="preserve">
+    <value>Търсенето не можа да се осъществи: {0}</value>
+  </data>
+  <data name="Ui.AppCode.ExportPickerTitle" xml:space="preserve">
+    <value>Изберете папка за експортиране на изходния код на Voidstrap</value>
+  </data>
+  <data name="Ui.AppCode.Exported" xml:space="preserve">
+    <value>Експортирани {0} файла в {1}</value>
+  </data>
+  <data name="Ui.AppCode.OpenExportedFolder" xml:space="preserve">
+    <value>Експортирани са {0} файла. Отваряне на папката сега?</value>
+  </data>
+  <data name="Ui.AppCode.ExportFailed" xml:space="preserve">
+    <value>Изходният код не можа да се експортира: {0}</value>
+  </data>
+  <data name="Ui.AppCode.FolderOpenFailed" xml:space="preserve">
+    <value>Папката не можа да се отвори: {0}</value>
+  </data>
+  <data name="Ui.AppCode.SaveFailed" xml:space="preserve">
+    <value>Копието не можа да се запази: {0}</value>
+  </data>
+  <data name="Ui.AppCode.OpenButton" xml:space="preserve">
+    <value>Код на приложението</value>
+  </data>
+  <data name="Ui.AppCode.OpenButtonTooltip" xml:space="preserve">
+    <value>Преглед и редактиране на всеки изходен файл на Voidstrap директно в приложението</value>
+  </data>
+  <data name="Ui.AppCode.ConflictWarning" xml:space="preserve">
+    <value>Този мод заменя файлове, които се заменят и от други активирани модове:
+
+{0}
+
+Застъпващите се модове могат да накарат Roblox да изглежда или да действа необичайно, но това няма да срине Voidstrap. Изключете единия от тях, ако нещо изглежда нередно.</value>
+  </data>
 </root>

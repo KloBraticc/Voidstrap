@@ -9188,4 +9188,110 @@ NU îl instala decât dacă ai încredere în @{2}. Doar verificările automate 
   <data name="Ui.VoidstrapMods.LibraryRobloxAccess" xml:space="preserve">
     <value>Folosește contul tău Roblox (doar citire, nu vede niciodată autentificarea)</value>
   </data>
+  <data name="Ui.AppCode.Title" xml:space="preserve">
+    <value>Codul sursa Voidstrap</value>
+  </data>
+  <data name="Ui.AppCode.Header" xml:space="preserve">
+    <value>Fiecare fisier sursa Voidstrap</value>
+  </data>
+  <data name="Ui.AppCode.Description" xml:space="preserve">
+    <value>Exploreaza fiecare folder si fisier din codul sursa Voidstrap. Modificarile sunt salvate ca o copie in folderul de date Voidstrap, aplicatia activa nu se schimba si nu se blocheaza din cauza editiilor, iar copiile sunt exportate impreuna cand doresti sa le compilezi.</value>
+  </data>
+  <data name="Ui.AppCode.SearchPlaceholder" xml:space="preserve">
+    <value>Cauta nume de fisiere si cod</value>
+  </data>
+  <data name="Ui.AppCode.Search" xml:space="preserve">
+    <value>Cauta</value>
+  </data>
+  <data name="Ui.AppCode.BrowseFiles" xml:space="preserve">
+    <value>Exploreaza fisiere</value>
+  </data>
+  <data name="Ui.AppCode.ExportAll" xml:space="preserve">
+    <value>Exporta tot</value>
+  </data>
+  <data name="Ui.AppCode.ExportAllTooltip" xml:space="preserve">
+    <value>Scrie intregul arbore de surse cu modificarile tale intr un folder la alegere</value>
+  </data>
+  <data name="Ui.AppCode.SaveCopy" xml:space="preserve">
+    <value>Salveaza copia</value>
+  </data>
+  <data name="Ui.AppCode.ResetToOriginal" xml:space="preserve">
+    <value>Reseteaza la original</value>
+  </data>
+  <data name="Ui.AppCode.EditorEmpty" xml:space="preserve">
+    <value>Alege un fisier din stanga pentru a l citi</value>
+  </data>
+  <data name="Ui.AppCode.SourceUnavailable" xml:space="preserve">
+    <value>Aceasta versiune nu contine lista surselor, compileaza complet Voidstrap si incearca din nou</value>
+  </data>
+  <data name="Ui.AppCode.SourceUnavailableShort" xml:space="preserve">
+    <value>Lista surselor nu este disponibila in aceasta versiune</value>
+  </data>
+  <data name="Ui.AppCode.EditedBadge" xml:space="preserve">
+    <value>Copie modificata salvata</value>
+  </data>
+  <data name="Ui.AppCode.SourceHint" xml:space="preserve">
+    <value>{0} fisiere din codul Voidstrap, {1} copii modificate salvate</value>
+  </data>
+  <data name="Ui.AppCode.ReadFailed" xml:space="preserve">
+    <value>Fisierul nu a putut fi citit: {0}</value>
+  </data>
+  <data name="Ui.AppCode.FileOpened" xml:space="preserve">
+    <value>{0}  {1} caractere{2}</value>
+  </data>
+  <data name="Ui.AppCode.FileOriginal" xml:space="preserve">
+    <value>, original din aceasta versiune</value>
+  </data>
+  <data name="Ui.AppCode.FileEdited" xml:space="preserve">
+    <value>, afisand copia ta modificata</value>
+  </data>
+  <data name="Ui.AppCode.Saved" xml:space="preserve">
+    <value>{0}  salvat ca o copie modificata, este necesara o recompilare pentru a rula modificarea</value>
+  </data>
+  <data name="Ui.AppCode.SavedFooter" xml:space="preserve">
+    <value>Aplicatia activa continua sa foloseasca propriul cod. Exporta tot si compileaza folderul exportat pentru a rula modificarile.</value>
+  </data>
+  <data name="Ui.AppCode.ResetConfirm" xml:space="preserve">
+    <value>Resetezi {0} la fisierul original din aceasta versiune?</value>
+  </data>
+  <data name="Ui.AppCode.SearchShort" xml:space="preserve">
+    <value>Introdu cel putin 2 caractere pentru a cauta</value>
+  </data>
+  <data name="Ui.AppCode.SearchResults" xml:space="preserve">
+    <value>{0} potriviri pentru {1}</value>
+  </data>
+  <data name="Ui.AppCode.SearchFailed" xml:space="preserve">
+    <value>Cautarea nu a putut rula: {0}</value>
+  </data>
+  <data name="Ui.AppCode.ExportPickerTitle" xml:space="preserve">
+    <value>Alege un folder pentru exportul surselor Voidstrap</value>
+  </data>
+  <data name="Ui.AppCode.Exported" xml:space="preserve">
+    <value>S au exportat {0} fisiere in {1}</value>
+  </data>
+  <data name="Ui.AppCode.OpenExportedFolder" xml:space="preserve">
+    <value>S au exportat {0} fisiere. Deschizi folderul acum?</value>
+  </data>
+  <data name="Ui.AppCode.ExportFailed" xml:space="preserve">
+    <value>Sursele nu au putut fi exportate: {0}</value>
+  </data>
+  <data name="Ui.AppCode.FolderOpenFailed" xml:space="preserve">
+    <value>Folderul nu a putut fi deschis: {0}</value>
+  </data>
+  <data name="Ui.AppCode.SaveFailed" xml:space="preserve">
+    <value>Copia nu a putut fi salvata: {0}</value>
+  </data>
+  <data name="Ui.AppCode.OpenButton" xml:space="preserve">
+    <value>Cod aplicatie</value>
+  </data>
+  <data name="Ui.AppCode.OpenButtonTooltip" xml:space="preserve">
+    <value>Exploreaza si editeaza fiecare fisier sursa Voidstrap direct in aplicatie</value>
+  </data>
+  <data name="Ui.AppCode.ConflictWarning" xml:space="preserve">
+    <value>Acest mod inlocuieste fisiere pe care si alte moduri active le inlocuiesc:
+
+{0}
+
+Modurile care se suprapun pot face Roblox sa aiba un aspect neobisnuit, dar acest lucru nu poate bloca Voidstrap. Dezactiveaza unul dintre ele daca observi probleme.</value>
+  </data>
 </root>

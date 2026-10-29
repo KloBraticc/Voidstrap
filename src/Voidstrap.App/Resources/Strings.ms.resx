@@ -9178,4 +9178,110 @@ Pasang juga?</value>
   <data name="Ui.VoidstrapMods.LibraryRobloxAccess" xml:space="preserve">
     <value>Menggunakan akaun Roblox anda (baca sahaja, tidak pernah melihat log masuk anda)</value>
   </data>
+  <data name="Ui.AppCode.Title" xml:space="preserve">
+    <value>Kod Aplikasi Voidstrap</value>
+  </data>
+  <data name="Ui.AppCode.Header" xml:space="preserve">
+    <value>Setiap fail sumber Voidstrap</value>
+  </data>
+  <data name="Ui.AppCode.Description" xml:space="preserve">
+    <value>Semak imbas setiap folder dan fail kod sumber Voidstrap. Suntingan disimpan sebagai salinan di bawah folder data Voidstrap anda, aplikasi yang sedang berjalan tidak berubah dan tidak pernah ranap akibat suntingan, dan salinan dieksport bersama apabila anda ingin membinanya.</value>
+  </data>
+  <data name="Ui.AppCode.SearchPlaceholder" xml:space="preserve">
+    <value>Cari nama fail dan kod</value>
+  </data>
+  <data name="Ui.AppCode.Search" xml:space="preserve">
+    <value>Cari</value>
+  </data>
+  <data name="Ui.AppCode.BrowseFiles" xml:space="preserve">
+    <value>Semak imbas fail</value>
+  </data>
+  <data name="Ui.AppCode.ExportAll" xml:space="preserve">
+    <value>Eksport semua</value>
+  </data>
+  <data name="Ui.AppCode.ExportAllTooltip" xml:space="preserve">
+    <value>Tulis keseluruhan pepohon sumber dengan suntingan anda ke folder pilihan anda</value>
+  </data>
+  <data name="Ui.AppCode.SaveCopy" xml:space="preserve">
+    <value>Simpan salinan</value>
+  </data>
+  <data name="Ui.AppCode.ResetToOriginal" xml:space="preserve">
+    <value>Tetapkan semula kepada asal</value>
+  </data>
+  <data name="Ui.AppCode.EditorEmpty" xml:space="preserve">
+    <value>Pilih fail di sebelah kiri untuk membacanya</value>
+  </data>
+  <data name="Ui.AppCode.SourceUnavailable" xml:space="preserve">
+    <value>Binaan ini tidak membawa senarai sumber, bina Voidstrap sepenuhnya dan cuba lagi</value>
+  </data>
+  <data name="Ui.AppCode.SourceUnavailableShort" xml:space="preserve">
+    <value>Senarai sumber tidak tersedia dalam binaan ini</value>
+  </data>
+  <data name="Ui.AppCode.EditedBadge" xml:space="preserve">
+    <value>Salinan disunting disimpan</value>
+  </data>
+  <data name="Ui.AppCode.SourceHint" xml:space="preserve">
+    <value>{0} fail daripada kod Voidstrap, {1} salinan disunting disimpan</value>
+  </data>
+  <data name="Ui.AppCode.ReadFailed" xml:space="preserve">
+    <value>Fail tidak dapat dibaca: {0}</value>
+  </data>
+  <data name="Ui.AppCode.FileOpened" xml:space="preserve">
+    <value>{0}  {1} aksara{2}</value>
+  </data>
+  <data name="Ui.AppCode.FileOriginal" xml:space="preserve">
+    <value>, asal daripada binaan ini</value>
+  </data>
+  <data name="Ui.AppCode.FileEdited" xml:space="preserve">
+    <value>, memaparkan salinan disunting anda</value>
+  </data>
+  <data name="Ui.AppCode.Saved" xml:space="preserve">
+    <value>{0}  disimpan sebagai salinan disunting, binaan semula diperlukan untuk menjalankan perubahan ini</value>
+  </data>
+  <data name="Ui.AppCode.SavedFooter" xml:space="preserve">
+    <value>Aplikasi yang sedang berjalan terus menggunakan kodnya sendiri. Eksport semua dan bina folder yang dieksport untuk menjalankan suntingan anda.</value>
+  </data>
+  <data name="Ui.AppCode.ResetConfirm" xml:space="preserve">
+    <value>Tetapkan semula {0} kembali ke fail asal daripada binaan ini?</value>
+  </data>
+  <data name="Ui.AppCode.SearchShort" xml:space="preserve">
+    <value>Taip sekurang kurangnya 2 aksara untuk mencari</value>
+  </data>
+  <data name="Ui.AppCode.SearchResults" xml:space="preserve">
+    <value>{0} padanan untuk {1}</value>
+  </data>
+  <data name="Ui.AppCode.SearchFailed" xml:space="preserve">
+    <value>Carian tidak dapat dijalankan: {0}</value>
+  </data>
+  <data name="Ui.AppCode.ExportPickerTitle" xml:space="preserve">
+    <value>Pilih folder untuk mengeksport sumber Voidstrap</value>
+  </data>
+  <data name="Ui.AppCode.Exported" xml:space="preserve">
+    <value>Mengeksport {0} fail ke {1}</value>
+  </data>
+  <data name="Ui.AppCode.OpenExportedFolder" xml:space="preserve">
+    <value>Berjaya mengeksport {0} fail. Buka folder sekarang?</value>
+  </data>
+  <data name="Ui.AppCode.ExportFailed" xml:space="preserve">
+    <value>Sumber tidak dapat dieksport: {0}</value>
+  </data>
+  <data name="Ui.AppCode.FolderOpenFailed" xml:space="preserve">
+    <value>Folder tidak dapat dibuka: {0}</value>
+  </data>
+  <data name="Ui.AppCode.SaveFailed" xml:space="preserve">
+    <value>Salinan tidak dapat disimpan: {0}</value>
+  </data>
+  <data name="Ui.AppCode.OpenButton" xml:space="preserve">
+    <value>Kod Aplikasi</value>
+  </data>
+  <data name="Ui.AppCode.OpenButtonTooltip" xml:space="preserve">
+    <value>Semak imbas dan sunting setiap fail sumber Voidstrap di dalam aplikasi</value>
+  </data>
+  <data name="Ui.AppCode.ConflictWarning" xml:space="preserve">
+    <value>Mod ini menggantikan fail yang turut digantikan oleh mod aktif lain:
+
+{0}
+
+Mod yang bertindih boleh membuatkan Roblox kelihatan atau berkelakuan ganjil, tetapi ini tidak akan meranapkan Voidstrap. Matikan salah satu daripadanya jika kelihatan tidak kena.</value>
+  </data>
 </root>

@@ -9185,4 +9185,110 @@ Yine de yüklensin mi?</value>
   <data name="Ui.VoidstrapMods.LibraryRobloxAccess" xml:space="preserve">
     <value>Roblox hesabınızı kullanır (salt okunur, girişinizi hiç görmez)</value>
   </data>
+  <data name="Ui.AppCode.Title" xml:space="preserve">
+    <value>Voidstrap Uygulama Kodu</value>
+  </data>
+  <data name="Ui.AppCode.Header" xml:space="preserve">
+    <value>Tum Voidstrap kaynak dosyalari</value>
+  </data>
+  <data name="Ui.AppCode.Description" xml:space="preserve">
+    <value>Voidstrap kaynak kodunun tum klasor ve dosyalarina goz atin. Duzenlemeler Voidstrap veri klasorunuzun altinda bir kopya olarak kaydedilir, calisan uygulama hicbir zaman degismez ve bir duzenleme nedeniyle asla cokmez, derlemek istediginizde kopyalar birlikte disa aktarilir.</value>
+  </data>
+  <data name="Ui.AppCode.SearchPlaceholder" xml:space="preserve">
+    <value>Dosya adlarini ve kodlari ara</value>
+  </data>
+  <data name="Ui.AppCode.Search" xml:space="preserve">
+    <value>Ara</value>
+  </data>
+  <data name="Ui.AppCode.BrowseFiles" xml:space="preserve">
+    <value>Dosyalara goz at</value>
+  </data>
+  <data name="Ui.AppCode.ExportAll" xml:space="preserve">
+    <value>Tumunu disa aktar</value>
+  </data>
+  <data name="Ui.AppCode.ExportAllTooltip" xml:space="preserve">
+    <value>Duzenlemelerinizle birlikte tum kaynak agacini sectiginiz bir klasore yazin</value>
+  </data>
+  <data name="Ui.AppCode.SaveCopy" xml:space="preserve">
+    <value>Kopyayi kaydet</value>
+  </data>
+  <data name="Ui.AppCode.ResetToOriginal" xml:space="preserve">
+    <value>Orijinale sifirla</value>
+  </data>
+  <data name="Ui.AppCode.EditorEmpty" xml:space="preserve">
+    <value>Okumak icin soldan bir dosya secin</value>
+  </data>
+  <data name="Ui.AppCode.SourceUnavailable" xml:space="preserve">
+    <value>Bu derleme kaynak listesini tasimiyor, Voidstrap uygulamasini tamamen derleyin ve tekrar deneyin</value>
+  </data>
+  <data name="Ui.AppCode.SourceUnavailableShort" xml:space="preserve">
+    <value>Kaynak listesi bu derlemede kullanilamiyor</value>
+  </data>
+  <data name="Ui.AppCode.EditedBadge" xml:space="preserve">
+    <value>Duzenlenen kopya kaydedildi</value>
+  </data>
+  <data name="Ui.AppCode.SourceHint" xml:space="preserve">
+    <value>Voidstrap kodundan {0} dosya, {1} duzenlenmis kopya kaydedildi</value>
+  </data>
+  <data name="Ui.AppCode.ReadFailed" xml:space="preserve">
+    <value>Dosya okunamadi: {0}</value>
+  </data>
+  <data name="Ui.AppCode.FileOpened" xml:space="preserve">
+    <value>{0}  {1} karakter{2}</value>
+  </data>
+  <data name="Ui.AppCode.FileOriginal" xml:space="preserve">
+    <value>, bu derlemenin orijinal hali</value>
+  </data>
+  <data name="Ui.AppCode.FileEdited" xml:space="preserve">
+    <value>, duzenlenmis kopyanizi gosteriyor</value>
+  </data>
+  <data name="Ui.AppCode.Saved" xml:space="preserve">
+    <value>{0}  duzenlenmis kopya olarak kaydedildi, bu degisikligi calistirmak icin yeniden derleme gerekir</value>
+  </data>
+  <data name="Ui.AppCode.SavedFooter" xml:space="preserve">
+    <value>Calisan uygulama kendi kodunu kullanmaya devam eder. Duzenlemenizi calistirmak icin tumunu disa aktarin ve disa aktarilan klasoru derleyin.</value>
+  </data>
+  <data name="Ui.AppCode.ResetConfirm" xml:space="preserve">
+    <value>{0} bu derlemenin orijinal dosyasina sifirlansin mi?</value>
+  </data>
+  <data name="Ui.AppCode.SearchShort" xml:space="preserve">
+    <value>Aramak icin en az 2 karakter yazin</value>
+  </data>
+  <data name="Ui.AppCode.SearchResults" xml:space="preserve">
+    <value>{1} icin {0} eslesme</value>
+  </data>
+  <data name="Ui.AppCode.SearchFailed" xml:space="preserve">
+    <value>Arama calistirilamadi: {0}</value>
+  </data>
+  <data name="Ui.AppCode.ExportPickerTitle" xml:space="preserve">
+    <value>Voidstrap kaynaklarini disa aktarmak icin bir klasor secin</value>
+  </data>
+  <data name="Ui.AppCode.Exported" xml:space="preserve">
+    <value>{0} dosya {1} konumuna aktarildi</value>
+  </data>
+  <data name="Ui.AppCode.OpenExportedFolder" xml:space="preserve">
+    <value>{0} dosya disa aktarildi. Klasor simdi acilsin mi?</value>
+  </data>
+  <data name="Ui.AppCode.ExportFailed" xml:space="preserve">
+    <value>Kaynaklar disa aktarilamadi: {0}</value>
+  </data>
+  <data name="Ui.AppCode.FolderOpenFailed" xml:space="preserve">
+    <value>Klasor acilamadi: {0}</value>
+  </data>
+  <data name="Ui.AppCode.SaveFailed" xml:space="preserve">
+    <value>Kopya kaydedilemedi: {0}</value>
+  </data>
+  <data name="Ui.AppCode.OpenButton" xml:space="preserve">
+    <value>Uygulama Kodu</value>
+  </data>
+  <data name="Ui.AppCode.OpenButtonTooltip" xml:space="preserve">
+    <value>Uygulama icindeki her Voidstrap kaynak dosyasina goz atin ve duzenleyin</value>
+  </data>
+  <data name="Ui.AppCode.ConflictWarning" xml:space="preserve">
+    <value>Bu mod, diger etkin modlarin da degistirdigi dosyalari degistiriyor:
+
+{0}
+
+Birbiriyle cakisan modlar Roblox un tuhaf gorunmesine veya davranmasina yol acabilir ancak bu durum Voidstrap i asla cokertmez. Bir sorun gorunurse modlardan birini kapatin.</value>
+  </data>
 </root>

@@ -9188,4 +9188,110 @@ Toch installeren?</value>
   <data name="Ui.VoidstrapMods.LibraryRobloxAccess" xml:space="preserve">
     <value>Gebruikt je Roblox-account (alleen lezen, ziet je inlog nooit)</value>
   </data>
+  <data name="Ui.AppCode.Title" xml:space="preserve">
+    <value>Voidstrap App Broncode</value>
+  </data>
+  <data name="Ui.AppCode.Header" xml:space="preserve">
+    <value>Elk Voidstrap bronbestand</value>
+  </data>
+  <data name="Ui.AppCode.Description" xml:space="preserve">
+    <value>Blader door elke map en elk bestand van de Voidstrap broncode. Bewerkingen worden opgeslagen als kopie in je Voidstrap gegevensmap, de actieve app verandert nooit en crasht nooit door een bewerking, en de kopieen worden samen geexporteerd wanneer je ze wilt bouwen.</value>
+  </data>
+  <data name="Ui.AppCode.SearchPlaceholder" xml:space="preserve">
+    <value>Bestandsnamen en broncode zoeken</value>
+  </data>
+  <data name="Ui.AppCode.Search" xml:space="preserve">
+    <value>Zoeken</value>
+  </data>
+  <data name="Ui.AppCode.BrowseFiles" xml:space="preserve">
+    <value>Bestanden bladeren</value>
+  </data>
+  <data name="Ui.AppCode.ExportAll" xml:space="preserve">
+    <value>Alles exporteren</value>
+  </data>
+  <data name="Ui.AppCode.ExportAllTooltip" xml:space="preserve">
+    <value>Schrijf de volledige bronstructuur met je bewerkingen naar een map naar keuze</value>
+  </data>
+  <data name="Ui.AppCode.SaveCopy" xml:space="preserve">
+    <value>Kopie opslaan</value>
+  </data>
+  <data name="Ui.AppCode.ResetToOriginal" xml:space="preserve">
+    <value>Herstellen naar origineel</value>
+  </data>
+  <data name="Ui.AppCode.EditorEmpty" xml:space="preserve">
+    <value>Kies links een bestand om het te lezen</value>
+  </data>
+  <data name="Ui.AppCode.SourceUnavailable" xml:space="preserve">
+    <value>Deze build bevat de bronlijst niet, bouw Voidstrap opnieuw en probeer het nogmaals</value>
+  </data>
+  <data name="Ui.AppCode.SourceUnavailableShort" xml:space="preserve">
+    <value>De bronlijst is niet beschikbaar in deze build</value>
+  </data>
+  <data name="Ui.AppCode.EditedBadge" xml:space="preserve">
+    <value>Bewerkte kopie opgeslagen</value>
+  </data>
+  <data name="Ui.AppCode.SourceHint" xml:space="preserve">
+    <value>{0} bestanden uit de Voidstrap broncode, {1} bewerkte kopieen opgeslagen</value>
+  </data>
+  <data name="Ui.AppCode.ReadFailed" xml:space="preserve">
+    <value>Het bestand kon niet worden gelezen: {0}</value>
+  </data>
+  <data name="Ui.AppCode.FileOpened" xml:space="preserve">
+    <value>{0}  {1} tekens{2}</value>
+  </data>
+  <data name="Ui.AppCode.FileOriginal" xml:space="preserve">
+    <value>, origineel van deze build</value>
+  </data>
+  <data name="Ui.AppCode.FileEdited" xml:space="preserve">
+    <value>, toont je bewerkte kopie</value>
+  </data>
+  <data name="Ui.AppCode.Saved" xml:space="preserve">
+    <value>{0}  opgeslagen als bewerkte kopie, opnieuw bouwen is nodig om deze wijziging uit te voeren</value>
+  </data>
+  <data name="Ui.AppCode.SavedFooter" xml:space="preserve">
+    <value>De actieve app blijft zijn eigen broncode gebruiken. Exporteer alles en bouw de geexporteerde map om je bewerking uit te voeren.</value>
+  </data>
+  <data name="Ui.AppCode.ResetConfirm" xml:space="preserve">
+    <value>{0} herstellen naar het originele bestand van deze build?</value>
+  </data>
+  <data name="Ui.AppCode.SearchShort" xml:space="preserve">
+    <value>Typ ten minste 2 tekens om te zoeken</value>
+  </data>
+  <data name="Ui.AppCode.SearchResults" xml:space="preserve">
+    <value>{0} resultaten voor {1}</value>
+  </data>
+  <data name="Ui.AppCode.SearchFailed" xml:space="preserve">
+    <value>Het zoeken is mislukt: {0}</value>
+  </data>
+  <data name="Ui.AppCode.ExportPickerTitle" xml:space="preserve">
+    <value>Kies een map om de Voidstrap broncode naar te exporteren</value>
+  </data>
+  <data name="Ui.AppCode.Exported" xml:space="preserve">
+    <value>{0} bestanden geexporteerd naar {1}</value>
+  </data>
+  <data name="Ui.AppCode.OpenExportedFolder" xml:space="preserve">
+    <value>{0} bestanden geexporteerd. De map nu openen?</value>
+  </data>
+  <data name="Ui.AppCode.ExportFailed" xml:space="preserve">
+    <value>De broncode kon niet worden geexporteerd: {0}</value>
+  </data>
+  <data name="Ui.AppCode.FolderOpenFailed" xml:space="preserve">
+    <value>De map kon niet worden geopend: {0}</value>
+  </data>
+  <data name="Ui.AppCode.SaveFailed" xml:space="preserve">
+    <value>De kopie kon niet worden opgeslagen: {0}</value>
+  </data>
+  <data name="Ui.AppCode.OpenButton" xml:space="preserve">
+    <value>App Broncode</value>
+  </data>
+  <data name="Ui.AppCode.OpenButtonTooltip" xml:space="preserve">
+    <value>Bekijk en bewerk elk Voidstrap bronbestand binnen de app</value>
+  </data>
+  <data name="Ui.AppCode.ConflictWarning" xml:space="preserve">
+    <value>Deze mod vervangt bestanden die ook door andere ingeschakelde mods worden vervangen:
+
+{0}
+
+Overlappende mods kunnen ervoor zorgen dat Roblox er vreemd uitziet of werkt, maar dit kan Voidstrap niet laten crashen. Schakel een van beide uit als er iets mis lijkt.</value>
+  </data>
 </root>

@@ -9190,4 +9190,110 @@ Vẫn cài đặt?</value>
   <data name="Ui.VoidstrapMods.LibraryRobloxAccess" xml:space="preserve">
     <value>Dùng tài khoản Roblox của bạn (chỉ đọc, không bao giờ thấy thông tin đăng nhập)</value>
   </data>
+  <data name="Ui.AppCode.Title" xml:space="preserve">
+    <value>Ma nguon ung dung Voidstrap</value>
+  </data>
+  <data name="Ui.AppCode.Header" xml:space="preserve">
+    <value>Moi tep nguon Voidstrap</value>
+  </data>
+  <data name="Ui.AppCode.Description" xml:space="preserve">
+    <value>Duyet tung thu muc va tep trong ma nguon Voidstrap. Cac chinh sua duoc luu duoi dang ban sao trong thu muc du lieu Voidstrap cua ban, ung dung dang chay khong bao gio bi thay doi va khong bao gio bi loi do chinh sua, va cac ban sao duoc xuat cung nhau khi ban muon bien dich.</value>
+  </data>
+  <data name="Ui.AppCode.SearchPlaceholder" xml:space="preserve">
+    <value>Tim ten tep va ma nguon</value>
+  </data>
+  <data name="Ui.AppCode.Search" xml:space="preserve">
+    <value>Tim kiem</value>
+  </data>
+  <data name="Ui.AppCode.BrowseFiles" xml:space="preserve">
+    <value>Duyet tep</value>
+  </data>
+  <data name="Ui.AppCode.ExportAll" xml:space="preserve">
+    <value>Xuat tat ca</value>
+  </data>
+  <data name="Ui.AppCode.ExportAllTooltip" xml:space="preserve">
+    <value>Ghi toan bo cay ma nguon cung cac chinh sua cua ban vao thu muc duoc chon</value>
+  </data>
+  <data name="Ui.AppCode.SaveCopy" xml:space="preserve">
+    <value>Luu ban sao</value>
+  </data>
+  <data name="Ui.AppCode.ResetToOriginal" xml:space="preserve">
+    <value>Khoi phuc ve ban goc</value>
+  </data>
+  <data name="Ui.AppCode.EditorEmpty" xml:space="preserve">
+    <value>Chon mot tep o ben trai de xem</value>
+  </data>
+  <data name="Ui.AppCode.SourceUnavailable" xml:space="preserve">
+    <value>Ban dung nay khong mang danh sach ma nguon, hay bien dich day du Voidstrap va thu lai</value>
+  </data>
+  <data name="Ui.AppCode.SourceUnavailableShort" xml:space="preserve">
+    <value>Danh sach ma nguon khong kha dung trong ban dung nay</value>
+  </data>
+  <data name="Ui.AppCode.EditedBadge" xml:space="preserve">
+    <value>Da luu ban sao da chinh sua</value>
+  </data>
+  <data name="Ui.AppCode.SourceHint" xml:space="preserve">
+    <value>{0} tep tu ma nguon Voidstrap, da luu {1} ban sao da sua</value>
+  </data>
+  <data name="Ui.AppCode.ReadFailed" xml:space="preserve">
+    <value>Khong the doc tep: {0}</value>
+  </data>
+  <data name="Ui.AppCode.FileOpened" xml:space="preserve">
+    <value>{0}  {1} ky tu{2}</value>
+  </data>
+  <data name="Ui.AppCode.FileOriginal" xml:space="preserve">
+    <value>, ban goc tu ban dung nay</value>
+  </data>
+  <data name="Ui.AppCode.FileEdited" xml:space="preserve">
+    <value>, dang hien thi ban sao da sua</value>
+  </data>
+  <data name="Ui.AppCode.Saved" xml:space="preserve">
+    <value>{0}  da luu duoi dang ban sao, can bien dich lai de ap dung thay doi</value>
+  </data>
+  <data name="Ui.AppCode.SavedFooter" xml:space="preserve">
+    <value>Ung dung dang chay van tiep tuc su dung ma nguon rieng. Hay xuat tat ca va bien dich thu muc duoc xuat de chay cac chinh sua cua ban.</value>
+  </data>
+  <data name="Ui.AppCode.ResetConfirm" xml:space="preserve">
+    <value>Khoi phuc {0} ve tep goc tu ban dung nay?</value>
+  </data>
+  <data name="Ui.AppCode.SearchShort" xml:space="preserve">
+    <value>Nhap it nhat 2 ky tu de tim kiem</value>
+  </data>
+  <data name="Ui.AppCode.SearchResults" xml:space="preserve">
+    <value>{0} ket qua phu hop cho {1}</value>
+  </data>
+  <data name="Ui.AppCode.SearchFailed" xml:space="preserve">
+    <value>Khong the thuc hien tim kiem: {0}</value>
+  </data>
+  <data name="Ui.AppCode.ExportPickerTitle" xml:space="preserve">
+    <value>Chon thu muc de xuat ma nguon Voidstrap</value>
+  </data>
+  <data name="Ui.AppCode.Exported" xml:space="preserve">
+    <value>Da xuat {0} tep den {1}</value>
+  </data>
+  <data name="Ui.AppCode.OpenExportedFolder" xml:space="preserve">
+    <value>Da xuat {0} tep. Mo thu muc ngay bay gio?</value>
+  </data>
+  <data name="Ui.AppCode.ExportFailed" xml:space="preserve">
+    <value>Khong the xuat ma nguon: {0}</value>
+  </data>
+  <data name="Ui.AppCode.FolderOpenFailed" xml:space="preserve">
+    <value>Khong the mo thu muc: {0}</value>
+  </data>
+  <data name="Ui.AppCode.SaveFailed" xml:space="preserve">
+    <value>Khong the luu ban sao: {0}</value>
+  </data>
+  <data name="Ui.AppCode.OpenButton" xml:space="preserve">
+    <value>Ma ung dung</value>
+  </data>
+  <data name="Ui.AppCode.OpenButtonTooltip" xml:space="preserve">
+    <value>Duyet va chinh sua tung tep nguon Voidstrap ngay trong ung dung</value>
+  </data>
+  <data name="Ui.AppCode.ConflictWarning" xml:space="preserve">
+    <value>Mod nay thay the cac tep ma cac mod dang bat khac cung thay the:
+
+{0}
+
+Cac mod bi chong cheo co the khien Roblox hien thi hoac hoat dong bat thuong, nhung dieu nay khong bao gio gay loi cho Voidstrap. Hay tat mot trong so chung neu co bat thuong.</value>
+  </data>
 </root>

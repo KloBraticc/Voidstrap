@@ -9186,4 +9186,110 @@
   <data name="Ui.VoidstrapMods.LibraryRobloxAccess" xml:space="preserve">
     <value>يستخدم حسابك على Roblox (قراءة فقط، لا يرى بيانات دخولك)</value>
   </data>
+  <data name="Ui.AppCode.Title" xml:space="preserve">
+    <value>رمز تطبيق Voidstrap</value>
+  </data>
+  <data name="Ui.AppCode.Header" xml:space="preserve">
+    <value>كل ملف مصدر لـ Voidstrap</value>
+  </data>
+  <data name="Ui.AppCode.Description" xml:space="preserve">
+    <value>تصفح كل مجلد وملف من التعليمات البرمجية لـ Voidstrap. يتم حفظ التعديلات كنسخة داخل مجلد بيانات Voidstrap الخاص بك، والتطبيق قيد التشغيل لا يتغير ابدا ولا يتعطل بسبب التعديلات، ويتم تصدير النسخ معا عندما ترغب في بنائها.</value>
+  </data>
+  <data name="Ui.AppCode.SearchPlaceholder" xml:space="preserve">
+    <value>البحث في اسماء الملفات والتعليمات البرمجية</value>
+  </data>
+  <data name="Ui.AppCode.Search" xml:space="preserve">
+    <value>بحث</value>
+  </data>
+  <data name="Ui.AppCode.BrowseFiles" xml:space="preserve">
+    <value>تصفح الملفات</value>
+  </data>
+  <data name="Ui.AppCode.ExportAll" xml:space="preserve">
+    <value>تصدير الكل</value>
+  </data>
+  <data name="Ui.AppCode.ExportAllTooltip" xml:space="preserve">
+    <value>كتابة شجرة المصدر الكاملة مع تعديلاتك في المجلد الذي تختاره</value>
+  </data>
+  <data name="Ui.AppCode.SaveCopy" xml:space="preserve">
+    <value>حفظ النسخة</value>
+  </data>
+  <data name="Ui.AppCode.ResetToOriginal" xml:space="preserve">
+    <value>اعادة التعيين الى الاصل</value>
+  </data>
+  <data name="Ui.AppCode.EditorEmpty" xml:space="preserve">
+    <value>اختر ملفا من اليسار لقراءته</value>
+  </data>
+  <data name="Ui.AppCode.SourceUnavailable" xml:space="preserve">
+    <value>هذا البناء لا يحتوي على قائمة المصادر، قم باجراء بناء كامل لـ Voidstrap وحاول مجددا</value>
+  </data>
+  <data name="Ui.AppCode.SourceUnavailableShort" xml:space="preserve">
+    <value>قائمة المصادر غير متوفرة في هذا البناء</value>
+  </data>
+  <data name="Ui.AppCode.EditedBadge" xml:space="preserve">
+    <value>تم حفظ النسخة المعدلة</value>
+  </data>
+  <data name="Ui.AppCode.SourceHint" xml:space="preserve">
+    <value>{0} ملف من شفرة Voidstrap، تم حفظ {1} نسخة معدلة</value>
+  </data>
+  <data name="Ui.AppCode.ReadFailed" xml:space="preserve">
+    <value>تعذر قراءة الملف: {0}</value>
+  </data>
+  <data name="Ui.AppCode.FileOpened" xml:space="preserve">
+    <value>{0}  {1} حرف{2}</value>
+  </data>
+  <data name="Ui.AppCode.FileOriginal" xml:space="preserve">
+    <value>، اصلي من هذا البناء</value>
+  </data>
+  <data name="Ui.AppCode.FileEdited" xml:space="preserve">
+    <value>، عرض نسختك المعدلة</value>
+  </data>
+  <data name="Ui.AppCode.Saved" xml:space="preserve">
+    <value>{0}  تم حفظها كنسخة معدلة، يلزم اعادة البناء لتطبيق هذا التغيير</value>
+  </data>
+  <data name="Ui.AppCode.SavedFooter" xml:space="preserve">
+    <value>يستمر التطبيق قيد التشغيل في استخدام رمزه البرمجي الخاص. قم بتصدير الكل وبناء المجلد المصدر لتشغيل تعديلاتك.</value>
+  </data>
+  <data name="Ui.AppCode.ResetConfirm" xml:space="preserve">
+    <value>هل تريد اعادة تعيين {0} الى الملف الاصلي من هذا البناء؟</value>
+  </data>
+  <data name="Ui.AppCode.SearchShort" xml:space="preserve">
+    <value>اكتب حرفين على الاقل للبحث</value>
+  </data>
+  <data name="Ui.AppCode.SearchResults" xml:space="preserve">
+    <value>{0} نتيجة مطابقة لـ {1}</value>
+  </data>
+  <data name="Ui.AppCode.SearchFailed" xml:space="preserve">
+    <value>تعذر تشغيل البحث: {0}</value>
+  </data>
+  <data name="Ui.AppCode.ExportPickerTitle" xml:space="preserve">
+    <value>اختر مجلدا لتصدير كود Voidstrap المصدر اليه</value>
+  </data>
+  <data name="Ui.AppCode.Exported" xml:space="preserve">
+    <value>تم تصدير {0} ملف الى {1}</value>
+  </data>
+  <data name="Ui.AppCode.OpenExportedFolder" xml:space="preserve">
+    <value>تم تصدير {0} ملف. هل تريد فتح المجلد الان؟</value>
+  </data>
+  <data name="Ui.AppCode.ExportFailed" xml:space="preserve">
+    <value>تعذر تصدير المصدر: {0}</value>
+  </data>
+  <data name="Ui.AppCode.FolderOpenFailed" xml:space="preserve">
+    <value>تعذر فتح المجلد: {0}</value>
+  </data>
+  <data name="Ui.AppCode.SaveFailed" xml:space="preserve">
+    <value>تعذر حفظ النسخة: {0}</value>
+  </data>
+  <data name="Ui.AppCode.OpenButton" xml:space="preserve">
+    <value>كود التطبيق</value>
+  </data>
+  <data name="Ui.AppCode.OpenButtonTooltip" xml:space="preserve">
+    <value>تصفح وتعديل كل ملف مصدر لـ Voidstrap داخل التطبيق</value>
+  </data>
+  <data name="Ui.AppCode.ConflictWarning" xml:space="preserve">
+    <value>يقوم هذا المود باستبدال ملفات يتم استبدالها ايضا بواسطة مودات مفعلة اخرى:
+
+{0}
+
+قد تؤدي المودات المتداخلة الى ظهور Roblox او تصرفه بشكل غريب، لكن هذا لن يؤدي الى تعطل Voidstrap ابدا. قم بتعطيل احدهما اذا بدا شيء ما خاطئا.</value>
+  </data>
 </root>

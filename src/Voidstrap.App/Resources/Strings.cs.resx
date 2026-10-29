@@ -9188,4 +9188,110 @@ Přesto nainstalovat?</value>
   <data name="Ui.VoidstrapMods.LibraryRobloxAccess" xml:space="preserve">
     <value>Používá Váš účet Roblox (jen čtení, nikdy nevidí Vaše přihlášení)</value>
   </data>
+  <data name="Ui.AppCode.Title" xml:space="preserve">
+    <value>Zdrojovy kod Voidstrap</value>
+  </data>
+  <data name="Ui.AppCode.Header" xml:space="preserve">
+    <value>Kazdy zdrojovy soubor Voidstrap</value>
+  </data>
+  <data name="Ui.AppCode.Description" xml:space="preserve">
+    <value>Prochazejte kazdou slozku a soubor zdrojoveho kodu Voidstrap. Upravy se ukladaji jako kopie do vasi datove slozky Voidstrap, spoustena aplikace se nikdy nemeni a nikdy nespadne kvuli uprave, a kopie se exportuji spolecne, kdyz je chcete sestavit.</value>
+  </data>
+  <data name="Ui.AppCode.SearchPlaceholder" xml:space="preserve">
+    <value>Hledat nazvy souboru a kod</value>
+  </data>
+  <data name="Ui.AppCode.Search" xml:space="preserve">
+    <value>Hledat</value>
+  </data>
+  <data name="Ui.AppCode.BrowseFiles" xml:space="preserve">
+    <value>Prochazet soubory</value>
+  </data>
+  <data name="Ui.AppCode.ExportAll" xml:space="preserve">
+    <value>Exportovat vse</value>
+  </data>
+  <data name="Ui.AppCode.ExportAllTooltip" xml:space="preserve">
+    <value>Zapsat kompletni strom zdroju s vasimi upravami do zvolene slozky</value>
+  </data>
+  <data name="Ui.AppCode.SaveCopy" xml:space="preserve">
+    <value>Ulozit kopii</value>
+  </data>
+  <data name="Ui.AppCode.ResetToOriginal" xml:space="preserve">
+    <value>Obnovit na original</value>
+  </data>
+  <data name="Ui.AppCode.EditorEmpty" xml:space="preserve">
+    <value>Vyberte soubor vlevo pro jeho precteni</value>
+  </data>
+  <data name="Ui.AppCode.SourceUnavailable" xml:space="preserve">
+    <value>Toto sestaveni neobsahuje seznam zdroju, provedte kompletni sestaveni Voidstrap a zkuste to znovu</value>
+  </data>
+  <data name="Ui.AppCode.SourceUnavailableShort" xml:space="preserve">
+    <value>Seznam zdroju neni v tomto sestaveni k dispozici</value>
+  </data>
+  <data name="Ui.AppCode.EditedBadge" xml:space="preserve">
+    <value>Ulozena upravena kopie</value>
+  </data>
+  <data name="Ui.AppCode.SourceHint" xml:space="preserve">
+    <value>{0} souboru z kodu Voidstrap, {1} ulozenych upravenych kopii</value>
+  </data>
+  <data name="Ui.AppCode.ReadFailed" xml:space="preserve">
+    <value>Soubor se nepodarilo precist: {0}</value>
+  </data>
+  <data name="Ui.AppCode.FileOpened" xml:space="preserve">
+    <value>{0}  {1} znaku{2}</value>
+  </data>
+  <data name="Ui.AppCode.FileOriginal" xml:space="preserve">
+    <value>, original z tohoto sestaveni</value>
+  </data>
+  <data name="Ui.AppCode.FileEdited" xml:space="preserve">
+    <value>, zobrazuje vasi upravenou kopii</value>
+  </data>
+  <data name="Ui.AppCode.Saved" xml:space="preserve">
+    <value>{0}  ulozeno jako upravena kopie, pro spusteni teto zmeny je vyzadovano nove sestaveni</value>
+  </data>
+  <data name="Ui.AppCode.SavedFooter" xml:space="preserve">
+    <value>Spoustena aplikace stale pouziva svuj vlastni kod. Exportujte vse a sestavte exportovanou slozku pro spusteni vasich uprav.</value>
+  </data>
+  <data name="Ui.AppCode.ResetConfirm" xml:space="preserve">
+    <value>Obnovit {0} na puvodni soubor z tohoto sestaveni?</value>
+  </data>
+  <data name="Ui.AppCode.SearchShort" xml:space="preserve">
+    <value>Zadejte alespon 2 znaky pro vyhledavani</value>
+  </data>
+  <data name="Ui.AppCode.SearchResults" xml:space="preserve">
+    <value>{0} vysledku pro {1}</value>
+  </data>
+  <data name="Ui.AppCode.SearchFailed" xml:space="preserve">
+    <value>Vyhledavani selhalo: {0}</value>
+  </data>
+  <data name="Ui.AppCode.ExportPickerTitle" xml:space="preserve">
+    <value>Vyberte slozku pro export zdrojovych souboru Voidstrap</value>
+  </data>
+  <data name="Ui.AppCode.Exported" xml:space="preserve">
+    <value>Exportovano {0} souboru do {1}</value>
+  </data>
+  <data name="Ui.AppCode.OpenExportedFolder" xml:space="preserve">
+    <value>Exportovano {0} souboru. Otevrit slozku nyni?</value>
+  </data>
+  <data name="Ui.AppCode.ExportFailed" xml:space="preserve">
+    <value>Zdrojove soubory se nepodarilo exportovat: {0}</value>
+  </data>
+  <data name="Ui.AppCode.FolderOpenFailed" xml:space="preserve">
+    <value>Slozku se nepodarilo otevrit: {0}</value>
+  </data>
+  <data name="Ui.AppCode.SaveFailed" xml:space="preserve">
+    <value>Kopii se nepodarilo ulozit: {0}</value>
+  </data>
+  <data name="Ui.AppCode.OpenButton" xml:space="preserve">
+    <value>Kod aplikace</value>
+  </data>
+  <data name="Ui.AppCode.OpenButtonTooltip" xml:space="preserve">
+    <value>Prochazet a upravovat kazdy zdrojovy soubor Voidstrap primo v aplikaci</value>
+  </data>
+  <data name="Ui.AppCode.ConflictWarning" xml:space="preserve">
+    <value>Tento mod nahrazuje soubory, ktere nahrazuji i jine povolene mody:
+
+{0}
+
+Prekryvajici se mody mohou zpusobit zvlastni vzhled nebo chovani Robloxu, ale nemohou zpusobit pad Voidstrapu. Vypnete jeden z nich, pokud neco vypada spatne.</value>
+  </data>
 </root>

@@ -9186,4 +9186,110 @@ Ipak instalirati?</value>
   <data name="Ui.VoidstrapMods.LibraryRobloxAccess" xml:space="preserve">
     <value>Koristi tvoj Roblox račun (samo čitanje, nikad ne vidi tvoju prijavu)</value>
   </data>
+  <data name="Ui.AppCode.Title" xml:space="preserve">
+    <value>Izvorni kod Voidstrapa</value>
+  </data>
+  <data name="Ui.AppCode.Header" xml:space="preserve">
+    <value>Svaka izvorna datoteka Voidstrapa</value>
+  </data>
+  <data name="Ui.AppCode.Description" xml:space="preserve">
+    <value>Pregledajte svaku mapu i datoteku izvornog koda Voidstrapa. Izmjene se spremaju kao kopija u vasu mapu s podacima za Voidstrap, pokrenuta aplikacija nikada se ne mijenja i ne rusi zbog izmjena, a kopije se izvoze zajedno kada ih zelite izgraditi.</value>
+  </data>
+  <data name="Ui.AppCode.SearchPlaceholder" xml:space="preserve">
+    <value>Pretrazite nazive datoteka i kod</value>
+  </data>
+  <data name="Ui.AppCode.Search" xml:space="preserve">
+    <value>Trazi</value>
+  </data>
+  <data name="Ui.AppCode.BrowseFiles" xml:space="preserve">
+    <value>Pregledaj datoteke</value>
+  </data>
+  <data name="Ui.AppCode.ExportAll" xml:space="preserve">
+    <value>Izvezi sve</value>
+  </data>
+  <data name="Ui.AppCode.ExportAllTooltip" xml:space="preserve">
+    <value>Zapisi cjelovito izvorno stablo s vasim izmjenama u mapu po vasem izboru</value>
+  </data>
+  <data name="Ui.AppCode.SaveCopy" xml:space="preserve">
+    <value>Spremi kopiju</value>
+  </data>
+  <data name="Ui.AppCode.ResetToOriginal" xml:space="preserve">
+    <value>Vrati na izvorno</value>
+  </data>
+  <data name="Ui.AppCode.EditorEmpty" xml:space="preserve">
+    <value>Odaberite datoteku s lijeve strane kako biste je procitali</value>
+  </data>
+  <data name="Ui.AppCode.SourceUnavailable" xml:space="preserve">
+    <value>Ovo izdanje ne sadrzi popis izvornih datoteka, napravite potpunu izgradnju Voidstrapa i pokusajte ponovno</value>
+  </data>
+  <data name="Ui.AppCode.SourceUnavailableShort" xml:space="preserve">
+    <value>Popis izvornih datoteka nije dostupan u ovom izdanju</value>
+  </data>
+  <data name="Ui.AppCode.EditedBadge" xml:space="preserve">
+    <value>Izmijenjena kopija je spremljena</value>
+  </data>
+  <data name="Ui.AppCode.SourceHint" xml:space="preserve">
+    <value>{0} datoteka iz koda Voidstrapa, {1} spremljenih izmijenjenih kopija</value>
+  </data>
+  <data name="Ui.AppCode.ReadFailed" xml:space="preserve">
+    <value>Nije moguce procitati datoteku: {0}</value>
+  </data>
+  <data name="Ui.AppCode.FileOpened" xml:space="preserve">
+    <value>{0}  {1} znakova{2}</value>
+  </data>
+  <data name="Ui.AppCode.FileOriginal" xml:space="preserve">
+    <value>, izvorno iz ovog izdanja</value>
+  </data>
+  <data name="Ui.AppCode.FileEdited" xml:space="preserve">
+    <value>, prikazuje vasu izmijenjenu kopiju</value>
+  </data>
+  <data name="Ui.AppCode.Saved" xml:space="preserve">
+    <value>{0}  spremljeno kao izmijenjena kopija, za primjenu je potrebna ponovna izgradnja</value>
+  </data>
+  <data name="Ui.AppCode.SavedFooter" xml:space="preserve">
+    <value>Pokrenuta aplikacija nastavlja koristiti vlastiti kod. Izvezite sve i izgradite izvezenu mapu kako biste pokrenuli svoje izmjene.</value>
+  </data>
+  <data name="Ui.AppCode.ResetConfirm" xml:space="preserve">
+    <value>Vratiti {0} na izvornu datoteku iz ovog izdanja?</value>
+  </data>
+  <data name="Ui.AppCode.SearchShort" xml:space="preserve">
+    <value>Unesite najmanje 2 znaka za pretrazivanje</value>
+  </data>
+  <data name="Ui.AppCode.SearchResults" xml:space="preserve">
+    <value>{0} rezultata za {1}</value>
+  </data>
+  <data name="Ui.AppCode.SearchFailed" xml:space="preserve">
+    <value>Pretrazivanje nije uspjelo: {0}</value>
+  </data>
+  <data name="Ui.AppCode.ExportPickerTitle" xml:space="preserve">
+    <value>Odaberite mapu za izvoz izvornog koda Voidstrapa</value>
+  </data>
+  <data name="Ui.AppCode.Exported" xml:space="preserve">
+    <value>Izvezeno {0} datoteka u {1}</value>
+  </data>
+  <data name="Ui.AppCode.OpenExportedFolder" xml:space="preserve">
+    <value>Izvezeno je {0} datoteka. Otvoriti mapu sada?</value>
+  </data>
+  <data name="Ui.AppCode.ExportFailed" xml:space="preserve">
+    <value>Nije moguce izvesti izvorni kod: {0}</value>
+  </data>
+  <data name="Ui.AppCode.FolderOpenFailed" xml:space="preserve">
+    <value>Nije moguce otvoriti mapu: {0}</value>
+  </data>
+  <data name="Ui.AppCode.SaveFailed" xml:space="preserve">
+    <value>Nije moguce spremiti kopiju: {0}</value>
+  </data>
+  <data name="Ui.AppCode.OpenButton" xml:space="preserve">
+    <value>Kod aplikacije</value>
+  </data>
+  <data name="Ui.AppCode.OpenButtonTooltip" xml:space="preserve">
+    <value>Pregledajte i uredite svaku izvornu datoteku Voidstrapa izravno unutar aplikacije</value>
+  </data>
+  <data name="Ui.AppCode.ConflictWarning" xml:space="preserve">
+    <value>Ovaj mod zamjenjuje datoteke koje takoder zamjenjuju drugi ukljuceni modovi:
+
+{0}
+
+Preklapanje modova moze uciniti da Roblox izgleda ili se ponasa neobicno, ali to ne moze srusiti Voidstrap. Iskljucite jednog od njih ako nesto djeluje pogresno.</value>
+  </data>
 </root>

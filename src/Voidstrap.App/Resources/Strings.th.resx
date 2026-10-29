@@ -9182,4 +9182,110 @@ Voidstrap จะตรวจสอบทุกไฟล์กับคลัง�
   <data name="Ui.VoidstrapMods.LibraryRobloxAccess" xml:space="preserve">
     <value>ใช้บัญชี Roblox ของคุณ (อ่านอย่างเดียว ไม่เห็นการเข้าสู่ระบบของคุณ)</value>
   </data>
+  <data name="Ui.AppCode.Title" xml:space="preserve">
+    <value>โค้ดแอป Voidstrap</value>
+  </data>
+  <data name="Ui.AppCode.Header" xml:space="preserve">
+    <value>ไฟล์ต้นฉบับทั้งหมดของ Voidstrap</value>
+  </data>
+  <data name="Ui.AppCode.Description" xml:space="preserve">
+    <value>เรียกดูทุกโฟลเดอร์และไฟล์ของซอร์สโค้ด Voidstrap การแก้ไขจะถูกบันทึกเป็นสำเนาไว้ในโฟลเดอร์ข้อมูล Voidstrap ของคุณ แอปที่กำลังทำงานจะไม่เปลี่ยนแปลงและไม่เกิดการขัดข้องจากการแก้ไข และสำเนาจะถูกส่งออกพร้อมกันเมื่อคุณต้องการคอมไพล์</value>
+  </data>
+  <data name="Ui.AppCode.SearchPlaceholder" xml:space="preserve">
+    <value>ค้นหาชื่อไฟล์และโค้ด</value>
+  </data>
+  <data name="Ui.AppCode.Search" xml:space="preserve">
+    <value>ค้นหา</value>
+  </data>
+  <data name="Ui.AppCode.BrowseFiles" xml:space="preserve">
+    <value>เรียกดูไฟล์</value>
+  </data>
+  <data name="Ui.AppCode.ExportAll" xml:space="preserve">
+    <value>ส่งออกทั้งหมด</value>
+  </data>
+  <data name="Ui.AppCode.ExportAllTooltip" xml:space="preserve">
+    <value>เขียนโครงสร้างโค้ดต้นฉบับทั้งหมดพร้อมการแก้ไขลงในโฟลเดอร์ที่คุณเลือก</value>
+  </data>
+  <data name="Ui.AppCode.SaveCopy" xml:space="preserve">
+    <value>บันทึกสำเนา</value>
+  </data>
+  <data name="Ui.AppCode.ResetToOriginal" xml:space="preserve">
+    <value>รีเซ็ตเป็นต้นฉบับ</value>
+  </data>
+  <data name="Ui.AppCode.EditorEmpty" xml:space="preserve">
+    <value>เลือกไฟล์ทางด้านซ้ายเพื่อเปิดอ่าน</value>
+  </data>
+  <data name="Ui.AppCode.SourceUnavailable" xml:space="preserve">
+    <value>บิลด์นี้ไม่มีรายการไฟล์ต้นฉบับ โปรดคอมไพล์ Voidstrap แบบเต็มแล้วลองอีกครั้ง</value>
+  </data>
+  <data name="Ui.AppCode.SourceUnavailableShort" xml:space="preserve">
+    <value>ไม่มีรายการไฟล์ต้นฉบับในบิลด์นี้</value>
+  </data>
+  <data name="Ui.AppCode.EditedBadge" xml:space="preserve">
+    <value>บันทึกสำเนาที่แก้ไขแล้ว</value>
+  </data>
+  <data name="Ui.AppCode.SourceHint" xml:space="preserve">
+    <value>{0} ไฟล์จากโค้ด Voidstrap บันทึกสำเนาที่แก้ไขแล้ว {1} ไฟล์</value>
+  </data>
+  <data name="Ui.AppCode.ReadFailed" xml:space="preserve">
+    <value>ไม่สามารถอ่านไฟล์ได้: {0}</value>
+  </data>
+  <data name="Ui.AppCode.FileOpened" xml:space="preserve">
+    <value>{0}  {1} อักขระ{2}</value>
+  </data>
+  <data name="Ui.AppCode.FileOriginal" xml:space="preserve">
+    <value>, ไฟล์ต้นฉบับจากบิลด์นี้</value>
+  </data>
+  <data name="Ui.AppCode.FileEdited" xml:space="preserve">
+    <value>, กำลังแสดงสำเนาที่แก้ไขของคุณ</value>
+  </data>
+  <data name="Ui.AppCode.Saved" xml:space="preserve">
+    <value>{0}  บันทึกเป็นสำเนาแล้ว ต้องคอมไพล์ใหม่เพื่อใช้การเปลี่ยนแปลงนี้</value>
+  </data>
+  <data name="Ui.AppCode.SavedFooter" xml:space="preserve">
+    <value>แอปที่กำลังทำงานจะยังคงใช้โค้ดของตัวเอง ส่งออกทั้งหมดและคอมไพล์โฟลเดอร์ที่ส่งออกเพื่อใช้งานการแก้ไขของคุณ</value>
+  </data>
+  <data name="Ui.AppCode.ResetConfirm" xml:space="preserve">
+    <value>รีเซ็ต {0} กลับเป็นไฟล์ต้นฉบับจากบิลด์นี้หรือไม่?</value>
+  </data>
+  <data name="Ui.AppCode.SearchShort" xml:space="preserve">
+    <value>พิมพ์อย่างน้อย 2 อักขระเพื่อค้นหา</value>
+  </data>
+  <data name="Ui.AppCode.SearchResults" xml:space="preserve">
+    <value>พบ {0} รายการตรงกับ {1}</value>
+  </data>
+  <data name="Ui.AppCode.SearchFailed" xml:space="preserve">
+    <value>การค้นหาล้มเหลว: {0}</value>
+  </data>
+  <data name="Ui.AppCode.ExportPickerTitle" xml:space="preserve">
+    <value>เลือกโฟลเดอร์เพื่อส่งออกซอร์สโค้ด Voidstrap</value>
+  </data>
+  <data name="Ui.AppCode.Exported" xml:space="preserve">
+    <value>ส่งออก {0} ไฟล์ไปยัง {1} เรียบร้อยแล้ว</value>
+  </data>
+  <data name="Ui.AppCode.OpenExportedFolder" xml:space="preserve">
+    <value>ส่งออก {0} ไฟล์เรียบร้อยแล้ว เปิดโฟลเดอร์เลยหรือไม่?</value>
+  </data>
+  <data name="Ui.AppCode.ExportFailed" xml:space="preserve">
+    <value>ไม่สามารถส่งออกซอร์สโค้ดได้: {0}</value>
+  </data>
+  <data name="Ui.AppCode.FolderOpenFailed" xml:space="preserve">
+    <value>ไม่สามารถเปิดโฟลเดอร์ได้: {0}</value>
+  </data>
+  <data name="Ui.AppCode.SaveFailed" xml:space="preserve">
+    <value>ไม่สามารถบันทึกสำเนาได้: {0}</value>
+  </data>
+  <data name="Ui.AppCode.OpenButton" xml:space="preserve">
+    <value>โค้ดแอป</value>
+  </data>
+  <data name="Ui.AppCode.OpenButtonTooltip" xml:space="preserve">
+    <value>เรียกดูและแก้ไขทุกไฟล์ต้นฉบับของ Voidstrap ภายในแอป</value>
+  </data>
+  <data name="Ui.AppCode.ConflictWarning" xml:space="preserve">
+    <value>ม็อดนี้แทนที่ไฟล์ที่ม็อดอื่นซึ่งเปิดใช้งานอยู่แทนที่ด้วยเช่นกัน:
+
+{0}
+
+ม็อดที่ทับซ้อนกันอาจทำให้ Roblox ดูหรือทำงานแปลกไป แต่สิ่งนี้จะไม่ทำให้ Voidstrap ขัดข้อง ปิดการใช้งานม็อดใดม็อดหนึ่งหากพบสิ่งผิดปกติ</value>
+  </data>
 </root>

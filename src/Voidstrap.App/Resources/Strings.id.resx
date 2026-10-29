@@ -9189,4 +9189,110 @@ Tetap instal?</value>
   <data name="Ui.VoidstrapMods.LibraryRobloxAccess" xml:space="preserve">
     <value>Memakai akun Roblox Anda (hanya baca, tidak pernah melihat login Anda)</value>
   </data>
+  <data name="Ui.AppCode.Title" xml:space="preserve">
+    <value>Kode Aplikasi Voidstrap</value>
+  </data>
+  <data name="Ui.AppCode.Header" xml:space="preserve">
+    <value>Setiap file sumber Voidstrap</value>
+  </data>
+  <data name="Ui.AppCode.Description" xml:space="preserve">
+    <value>Jelajahi setiap folder dan file dari kode sumber Voidstrap. Pengeditan disimpan sebagai salinan di bawah folder data Voidstrap Anda, aplikasi yang berjalan tidak pernah berubah dan tidak pernah mogok karena pengeditan, dan salinan diekspor bersama saat Anda ingin membuatnya.</value>
+  </data>
+  <data name="Ui.AppCode.SearchPlaceholder" xml:space="preserve">
+    <value>Cari nama file dan kode</value>
+  </data>
+  <data name="Ui.AppCode.Search" xml:space="preserve">
+    <value>Cari</value>
+  </data>
+  <data name="Ui.AppCode.BrowseFiles" xml:space="preserve">
+    <value>Jelajahi file</value>
+  </data>
+  <data name="Ui.AppCode.ExportAll" xml:space="preserve">
+    <value>Ekspor semua</value>
+  </data>
+  <data name="Ui.AppCode.ExportAllTooltip" xml:space="preserve">
+    <value>Tulis seluruh struktur sumber dengan hasil edit Anda ke folder pilihan Anda</value>
+  </data>
+  <data name="Ui.AppCode.SaveCopy" xml:space="preserve">
+    <value>Simpan salinan</value>
+  </data>
+  <data name="Ui.AppCode.ResetToOriginal" xml:space="preserve">
+    <value>Atur ulang ke asli</value>
+  </data>
+  <data name="Ui.AppCode.EditorEmpty" xml:space="preserve">
+    <value>Pilih file di sebelah kiri untuk membacanya</value>
+  </data>
+  <data name="Ui.AppCode.SourceUnavailable" xml:space="preserve">
+    <value>Build ini tidak memuat daftar sumber, bangun Voidstrap secara penuh dan coba lagi</value>
+  </data>
+  <data name="Ui.AppCode.SourceUnavailableShort" xml:space="preserve">
+    <value>Daftar sumber tidak tersedia dalam build ini</value>
+  </data>
+  <data name="Ui.AppCode.EditedBadge" xml:space="preserve">
+    <value>Salinan yang diedit telah disimpan</value>
+  </data>
+  <data name="Ui.AppCode.SourceHint" xml:space="preserve">
+    <value>{0} file dari kode Voidstrap, {1} salinan yang diedit telah disimpan</value>
+  </data>
+  <data name="Ui.AppCode.ReadFailed" xml:space="preserve">
+    <value>File tidak dapat dibaca: {0}</value>
+  </data>
+  <data name="Ui.AppCode.FileOpened" xml:space="preserve">
+    <value>{0}  {1} karakter{2}</value>
+  </data>
+  <data name="Ui.AppCode.FileOriginal" xml:space="preserve">
+    <value>, file asli dari build ini</value>
+  </data>
+  <data name="Ui.AppCode.FileEdited" xml:space="preserve">
+    <value>, menampilkan salinan editan Anda</value>
+  </data>
+  <data name="Ui.AppCode.Saved" xml:space="preserve">
+    <value>{0}  disimpan sebagai salinan editan, build ulang diperlukan untuk menjalankan perubahan ini</value>
+  </data>
+  <data name="Ui.AppCode.SavedFooter" xml:space="preserve">
+    <value>Aplikasi yang berjalan terus menggunakan kodenya sendiri. Ekspor semua dan bangun folder yang diekspor untuk menerapkan hasil edit Anda.</value>
+  </data>
+  <data name="Ui.AppCode.ResetConfirm" xml:space="preserve">
+    <value>Atur ulang {0} kembali ke file asli dari build ini?</value>
+  </data>
+  <data name="Ui.AppCode.SearchShort" xml:space="preserve">
+    <value>Ketik minimal 2 karakter untuk mencari</value>
+  </data>
+  <data name="Ui.AppCode.SearchResults" xml:space="preserve">
+    <value>{0} cocok untuk {1}</value>
+  </data>
+  <data name="Ui.AppCode.SearchFailed" xml:space="preserve">
+    <value>Pencarian tidak dapat berjalan: {0}</value>
+  </data>
+  <data name="Ui.AppCode.ExportPickerTitle" xml:space="preserve">
+    <value>Pilih folder untuk mengekspor sumber Voidstrap</value>
+  </data>
+  <data name="Ui.AppCode.Exported" xml:space="preserve">
+    <value>Mengekspor {0} file ke {1}</value>
+  </data>
+  <data name="Ui.AppCode.OpenExportedFolder" xml:space="preserve">
+    <value>Berhasil mengekspor {0} file. Buka folder sekarang?</value>
+  </data>
+  <data name="Ui.AppCode.ExportFailed" xml:space="preserve">
+    <value>Sumber tidak dapat diekspor: {0}</value>
+  </data>
+  <data name="Ui.AppCode.FolderOpenFailed" xml:space="preserve">
+    <value>Folder tidak dapat dibuka: {0}</value>
+  </data>
+  <data name="Ui.AppCode.SaveFailed" xml:space="preserve">
+    <value>Salinan tidak dapat disimpan: {0}</value>
+  </data>
+  <data name="Ui.AppCode.OpenButton" xml:space="preserve">
+    <value>Kode Aplikasi</value>
+  </data>
+  <data name="Ui.AppCode.OpenButtonTooltip" xml:space="preserve">
+    <value>Jelajahi dan edit setiap file sumber Voidstrap di dalam aplikasi</value>
+  </data>
+  <data name="Ui.AppCode.ConflictWarning" xml:space="preserve">
+    <value>Mod ini menggantikan file yang juga digantikan oleh mod aktif lainnya:
+
+{0}
+
+Mod yang saling tumpang tindih dapat membuat Roblox terlihat atau berperilaku aneh, tetapi ini tidak akan membuat Voidstrap mogok. Nonaktifkan salah satunya jika ada yang terlihat salah.</value>
+  </data>
 </root>

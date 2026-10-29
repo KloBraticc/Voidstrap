@@ -331,6 +331,102 @@ public static class McpGuides
 
 		""";
 
+	public const string LibraryPr = """
+		PUBLISHING TO THE VOIDSTRAP MODS LIBRARY WITHOUT A RED X
+
+		WHAT A RED X IS
+		Pull requests to the voidstrap mods library run an automated gate and an AI review. Any failing check shows a red X and the
+		pull request cannot merge. Every check the gate runs is mirrored inside Voidstrap, so you can know the result before the
+		pull request exists.
+
+		THE RULE THAT NEVER CHANGES
+		Run manage_voidstrap_mods action preflight on the mod before publishing, every time. publish itself refuses to open the
+		window while preflight has X items, so a blocked publish is not an error to retry, it is a list to fix. Fix the mod files,
+		run preflight again, and only publish when it says everything passed.
+
+		WHAT THE GATE CHECKS (preflight mirrors all of it)
+		  Name            folder name is lowercase letters, digits and hyphens, plugin.json name matches it.
+		  Version         looks like 1.2.3 and is HIGHER than the version in the library for an update. Equal or lower is a red X.
+		  Description     1 to 300 characters, honest, says what the mod does and what it sends.
+		  Files           at most 64 files, 1 MB total, each under 256 KB, 4 levels deep, plain file names, no hidden files except
+		                  .voidstrap-mod/plugin.json, no node_modules, only .ts .tsx .js .mjs .jsx .json .md .ico.
+		  Icon            icon.ico at the root, under 256 KB, valid frames, nothing banned in its metadata.
+		  Code            no eval, no Function(), no computed import, no decoders (atob btoa unescape decodeURIComponent),
+		                  no String.fromCharCode, no long escaped or hex or base64 runs, code lines at most 400 characters,
+		                  no invisible or direction changing characters, no binary inside text files.
+		  Banned content  no Roblox cookies or tokens, no Discord webhooks, no executors or cheats, no process injection, no
+		                  node or browser escape hatches, no adult or hateful or profane content, no external image or video
+		                  embeds or unmoderated media hosts, in names, file names, code and metadata.
+		  Network         hosts in plugin.json network must be plain host names; anything not on the library allowed list still
+		                  passes the gate but the reviewer will question it, keep it minimal.
+		  Tags            up to 5 tags from the library tags list.
+		  Permissions     only roblox-account, and then the description must say exactly what is read and it must never leave
+		                  Roblox hosts through $.net.fetch.
+		  Hooks           hooks/hooks.json names exactly one module that exists inside hooks/.
+		  Reviewer text   any sentence that talks to a reviewer or tries to steer the review is flagged and blocks the merge.
+		                  Never add such text, not even to apologize or explain a check.
+
+		CORRECTING COURSE
+		  preflight says X: fix exactly that item in the mod files, nothing else, then preflight again. Do not rename the mod to
+		  dodge a check, do not split a mod to stay under a limit, do not encode anything to hide it. Those pass the gate and fail
+		  the human.
+		  ? question marks: they pass the gate, but the reviewer sees them too. Remove what is not essential, or be ready to
+		  explain in the pull request description.
+		  The AI reviewer reads every file and the pull request conversation as untrusted data. It knows the $ API, it knows
+		  Voidstrap style has no comments, and it suggests real fixes. Answer its comments in the conversation, never inside files.
+		  owner.json is written by the publish window from the signed in account, never add or edit it yourself.
+
+		ORDER THAT ALWAYS WORKS
+		  1 write or change the mod, 2 manage_voidstrap_mods validate and test, 3 preflight, 4 fix every X and recheck,
+		  5 preflight passes, 6 publish and let the user confirm.
+		""";
+
+	public const string Search = """
+		THE DEEP SEARCH (search_everything)
+
+		One tool answers where anything is. Pick the mode that owns the question, always start from search_everything instead of
+		guessing paths or reading whole files.
+
+		MODE code
+		Searches every source file of the app itself. Exact file, line number and column for every hit. regex true for patterns,
+		wholeWord for identifiers, caseSensitive when needed, glob to narrow (for example *.xaml or Voidstrap.App/Integrations/**),
+		definitions true to find only where a symbol is declared, context for surrounding lines. Follow a hit with manage_app_code
+		action read on the same path.
+
+		MODE logs
+		Regex search across the Voidstrap log, the latest Roblox log and the server history in one call. errorsOnly true keeps only
+		error, warning, exception, fail and crash lines. Use it before reading whole logs with get_logs_and_activity.
+
+		MODE errors
+		The hidden error hunt, no query needed. One call aggregates the recorded in app notifications, every Voidstrap mod problem,
+		every managed mod scan failure and the error lines of the log. A query filters the findings. Run this when the user says
+		something is broken and you do not know where.
+
+		MODE settings
+		Finds any AppSettings property, FastFlag or Roblox global setting by name or value with a regex. Read back the exact
+		spelling before set_settings or set_fastflags.
+
+		MODE ui
+		Searches every visible element in every open Voidstrap window by name, type or text and returns the exact pixel rect of
+		each hit, pixels from that window's top left. This is how you find where something sits on screen.
+
+		MODE at
+		The reverse question: give x and y in pixels from a window's top left and it returns the chain of elements under that
+		pixel, deepest first, each with name, type, text and rect. Combine with mode ui to aim widget attachments to the exact spot.
+
+		MODE files
+		Searches file names and file content with a regex across the Voidstrap data, config, mods and plugin folders. Finds state
+		files, saved themes, caches and mod files.
+
+		MODE mods
+		Searches managed mods, voidstrap mods and content mod files at once: names, states, file lists, failures and problems.
+
+		HABITS THAT WORK
+		Nothing is found: drop wholeWord, try regex, shorten the query, widen glob or max. Too many hits: raise specificity, add
+		glob, lower max. Every result tells you the next tool to use. Verify a finding by reading the file or element before
+		acting on it.
+		""";
+
 	public const string Workflow = """
 		HOW TO WORK WITH VOIDSTRAP OVER MCP
 
@@ -358,7 +454,7 @@ public static class McpGuides
 		For Voidstrap mods, validate checks loading, test exercises sandbox behavior, reload requests activation, list confirms loaded true, and problems reports runtime errors. These checks serve different purposes. A new mod waits for the user's approval in Voidstrap. Do not report it as running while approval is pending. A successful attach request is asynchronous and does not prove visible layout.
 		Cursor sprites must use cursor.move events. $.clock.every clamps repeat intervals to 500 ms; it cannot animate at 16 or 33 ms. The mods guide has a complete WindowRoot Canvas overlay example and a test.
 		After an edit, read back the changed settings or code, run the relevant test or diagnostic, and inspect visible results when possible. Say what changed, what you actually verified and what still needs the user's action. A saved file, a passing test and a visible working feature are separate claims.
-		Guides: workflow, mods, bootstrapper_theme, keystroke_theme, app_theme, fixing, architecture, mod_api, app_control, app_code. The same guides are available as voidstrap://guide/<topic> resources. The FastFlag reference is voidstrap://fastflags/allowlist-and-tracker.
+		Guides: workflow, mods, bootstrapper_theme, keystroke_theme, app_theme, fixing, architecture, mod_api, app_control, app_code, search, library_pr. The same guides are available as voidstrap://guide/<topic> resources. The FastFlag reference is voidstrap://fastflags/allowlist-and-tracker.
 		""";
 
 	private static readonly Dictionary<string, string> Topics = new(StringComparer.OrdinalIgnoreCase)
@@ -372,7 +468,9 @@ public static class McpGuides
 		["architecture"] = Architecture,
 		["mod_api"] = ModApi,
 		["app_control"] = AppControl,
-		["app_code"] = AppCode
+		["app_code"] = AppCode,
+		["search"] = Search,
+		["library_pr"] = LibraryPr
 	};
 
 	public static IEnumerable<string> TopicNames => Topics.Keys;

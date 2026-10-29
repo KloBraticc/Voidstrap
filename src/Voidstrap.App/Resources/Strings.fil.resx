@@ -9185,4 +9185,110 @@ I-install pa rin?</value>
   <data name="Ui.VoidstrapMods.LibraryRobloxAccess" xml:space="preserve">
     <value>Ginagamit ang Roblox account mo (pagbasa lang, hindi nakikita ang login mo)</value>
   </data>
+  <data name="Ui.AppCode.Title" xml:space="preserve">
+    <value>Voidstrap App Code</value>
+  </data>
+  <data name="Ui.AppCode.Header" xml:space="preserve">
+    <value>Bawat source file ng Voidstrap</value>
+  </data>
+  <data name="Ui.AppCode.Description" xml:space="preserve">
+    <value>I browse ang bawat folder at file ng Voidstrap source code. Ang mga pag edit ay nai save bilang kopya sa ilalim ng iyong Voidstrap data folder, ang tumatakbong app ay hindi nagbabago at hindi kailanman nagka crash dahil sa pag edit, at ang mga kopya ay sabay na ine export kapag nais mong i build ang mga ito.</value>
+  </data>
+  <data name="Ui.AppCode.SearchPlaceholder" xml:space="preserve">
+    <value>Maghanap ng mga pangalan ng file at code</value>
+  </data>
+  <data name="Ui.AppCode.Search" xml:space="preserve">
+    <value>Maghanap</value>
+  </data>
+  <data name="Ui.AppCode.BrowseFiles" xml:space="preserve">
+    <value>I browse ang mga file</value>
+  </data>
+  <data name="Ui.AppCode.ExportAll" xml:space="preserve">
+    <value>I export lahat</value>
+  </data>
+  <data name="Ui.AppCode.ExportAllTooltip" xml:space="preserve">
+    <value>Isulat ang buong source tree kasama ang iyong mga pagbabago sa folder na pipiliin mo</value>
+  </data>
+  <data name="Ui.AppCode.SaveCopy" xml:space="preserve">
+    <value>I save ang kopya</value>
+  </data>
+  <data name="Ui.AppCode.ResetToOriginal" xml:space="preserve">
+    <value>Ibalik sa orihinal</value>
+  </data>
+  <data name="Ui.AppCode.EditorEmpty" xml:space="preserve">
+    <value>Pumili ng file sa kaliwa upang basahin ito</value>
+  </data>
+  <data name="Ui.AppCode.SourceUnavailable" xml:space="preserve">
+    <value>Hindi dala ng build na ito ang listahan ng source, mag build nang buo ng Voidstrap at subukan muli</value>
+  </data>
+  <data name="Ui.AppCode.SourceUnavailableShort" xml:space="preserve">
+    <value>Hindi available ang listahan ng source sa build na ito</value>
+  </data>
+  <data name="Ui.AppCode.EditedBadge" xml:space="preserve">
+    <value>Nai save ang na edit na kopya</value>
+  </data>
+  <data name="Ui.AppCode.SourceHint" xml:space="preserve">
+    <value>{0} mga file mula sa Voidstrap code, {1} na edit na kopya ang nai save</value>
+  </data>
+  <data name="Ui.AppCode.ReadFailed" xml:space="preserve">
+    <value>Hindi mabasa ang file: {0}</value>
+  </data>
+  <data name="Ui.AppCode.FileOpened" xml:space="preserve">
+    <value>{0}  {1} mga character{2}</value>
+  </data>
+  <data name="Ui.AppCode.FileOriginal" xml:space="preserve">
+    <value>, orihinal mula sa build na ito</value>
+  </data>
+  <data name="Ui.AppCode.FileEdited" xml:space="preserve">
+    <value>, ipinapakita ang iyong na edit na kopya</value>
+  </data>
+  <data name="Ui.AppCode.Saved" xml:space="preserve">
+    <value>{0}  nai save bilang na edit na kopya, kailangan ng rebuild upang patakbuhin ang pagbabagong ito</value>
+  </data>
+  <data name="Ui.AppCode.SavedFooter" xml:space="preserve">
+    <value>Patuloy na ginagamit ng tumatakbong app ang sarili nitong code. I export ang lahat at i build ang na export na folder upang patakbuhin ang iyong pagbabago.</value>
+  </data>
+  <data name="Ui.AppCode.ResetConfirm" xml:space="preserve">
+    <value>Ibalik ang {0} sa orihinal na file mula sa build na ito?</value>
+  </data>
+  <data name="Ui.AppCode.SearchShort" xml:space="preserve">
+    <value>Mag type ng hindi bababa sa 2 character para maghanap</value>
+  </data>
+  <data name="Ui.AppCode.SearchResults" xml:space="preserve">
+    <value>{0} mga tugma para sa {1}</value>
+  </data>
+  <data name="Ui.AppCode.SearchFailed" xml:space="preserve">
+    <value>Hindi maitakbo ang paghahanap: {0}</value>
+  </data>
+  <data name="Ui.AppCode.ExportPickerTitle" xml:space="preserve">
+    <value>Pumili ng folder kung saan i e export ang Voidstrap source</value>
+  </data>
+  <data name="Ui.AppCode.Exported" xml:space="preserve">
+    <value>Na export ang {0} mga file sa {1}</value>
+  </data>
+  <data name="Ui.AppCode.OpenExportedFolder" xml:space="preserve">
+    <value>Na export ang {0} mga file. Buksan ang folder ngayon?</value>
+  </data>
+  <data name="Ui.AppCode.ExportFailed" xml:space="preserve">
+    <value>Hindi ma export ang source: {0}</value>
+  </data>
+  <data name="Ui.AppCode.FolderOpenFailed" xml:space="preserve">
+    <value>Hindi mabuksan ang folder: {0}</value>
+  </data>
+  <data name="Ui.AppCode.SaveFailed" xml:space="preserve">
+    <value>Hindi mai save ang kopya: {0}</value>
+  </data>
+  <data name="Ui.AppCode.OpenButton" xml:space="preserve">
+    <value>App Code</value>
+  </data>
+  <data name="Ui.AppCode.OpenButtonTooltip" xml:space="preserve">
+    <value>I browse at i edit ang bawat Voidstrap source file sa loob ng app</value>
+  </data>
+  <data name="Ui.AppCode.ConflictWarning" xml:space="preserve">
+    <value>Pinapalitan ng mod na ito ang mga file na pinapalitan din ng iba pang naka enable na mod:
+
+{0}
+
+Ang magkakapatong na mod ay maaaring magdulot ng kakaibang hitsura o gawi sa Roblox, ngunit hindi ito magiging sanhi ng pag crash ng Voidstrap. I disable ang isa sa mga ito kung may mali.</value>
+  </data>
 </root>

@@ -9188,4 +9188,110 @@ Vis tiek įdiegti?</value>
   <data name="Ui.VoidstrapMods.LibraryRobloxAccess" xml:space="preserve">
     <value>Naudoja jūsų Roblox paskyrą (tik skaitymas, niekada nemato prisijungimo)</value>
   </data>
+  <data name="Ui.AppCode.Title" xml:space="preserve">
+    <value>Voidstrap programos kodas</value>
+  </data>
+  <data name="Ui.AppCode.Header" xml:space="preserve">
+    <value>Kiekvienas Voidstrap pirminis failas</value>
+  </data>
+  <data name="Ui.AppCode.Description" xml:space="preserve">
+    <value>Narsykite kiekviena Voidstrap kodo aplanka ir faila. Pakeitimai issaugomi kaip kopija Voidstrap duomenu aplanke, veikianti programa niekada nesikeicia ir niekada neuzstringa del redagavimo, o kopijos eksportuojamos kartu, kai norite jas sukurti.</value>
+  </data>
+  <data name="Ui.AppCode.SearchPlaceholder" xml:space="preserve">
+    <value>Ieskoti failu pavadinimu ir kodo</value>
+  </data>
+  <data name="Ui.AppCode.Search" xml:space="preserve">
+    <value>Ieskoti</value>
+  </data>
+  <data name="Ui.AppCode.BrowseFiles" xml:space="preserve">
+    <value>Narsyti failus</value>
+  </data>
+  <data name="Ui.AppCode.ExportAll" xml:space="preserve">
+    <value>Eksportuoti viska</value>
+  </data>
+  <data name="Ui.AppCode.ExportAllTooltip" xml:space="preserve">
+    <value>Irasyti visa saltinio medi su pakeitimais i pasirinkta aplanka</value>
+  </data>
+  <data name="Ui.AppCode.SaveCopy" xml:space="preserve">
+    <value>Issaugoti kopija</value>
+  </data>
+  <data name="Ui.AppCode.ResetToOriginal" xml:space="preserve">
+    <value>Atkurti originala</value>
+  </data>
+  <data name="Ui.AppCode.EditorEmpty" xml:space="preserve">
+    <value>Kaireje pasirinkite faila, kuri norite skaityti</value>
+  </data>
+  <data name="Ui.AppCode.SourceUnavailable" xml:space="preserve">
+    <value>Sioje versijoje nera saltiniu saraso, pilnai sukurkite Voidstrap ir bandykite dar karta</value>
+  </data>
+  <data name="Ui.AppCode.SourceUnavailableShort" xml:space="preserve">
+    <value>Saltiniu sarasas sioje versijoje nepasiekiamas</value>
+  </data>
+  <data name="Ui.AppCode.EditedBadge" xml:space="preserve">
+    <value>Redaguota kopija issaugota</value>
+  </data>
+  <data name="Ui.AppCode.SourceHint" xml:space="preserve">
+    <value>{0} failu is Voidstrap kodo, {1} redaguotu kopiju issaugota</value>
+  </data>
+  <data name="Ui.AppCode.ReadFailed" xml:space="preserve">
+    <value>Nepavyko perskaityti failo: {0}</value>
+  </data>
+  <data name="Ui.AppCode.FileOpened" xml:space="preserve">
+    <value>{0}  {1} simboliu{2}</value>
+  </data>
+  <data name="Ui.AppCode.FileOriginal" xml:space="preserve">
+    <value>, originalas is sios versijos</value>
+  </data>
+  <data name="Ui.AppCode.FileEdited" xml:space="preserve">
+    <value>, rodoma redaguota kopija</value>
+  </data>
+  <data name="Ui.AppCode.Saved" xml:space="preserve">
+    <value>{0}  issaugota kaip redaguota kopija, siai pataisai paleisti reikia perkurti programa</value>
+  </data>
+  <data name="Ui.AppCode.SavedFooter" xml:space="preserve">
+    <value>Veikianti programa toliau naudoja savo koda. Eksportuokite viska ir sukurkite eksportuota aplanka, kad paleistumete pataisa.</value>
+  </data>
+  <data name="Ui.AppCode.ResetConfirm" xml:space="preserve">
+    <value>Atkurti {0} i originalu faila is sios versijos?</value>
+  </data>
+  <data name="Ui.AppCode.SearchShort" xml:space="preserve">
+    <value>Iveskite bent 2 simbolius paieskai</value>
+  </data>
+  <data name="Ui.AppCode.SearchResults" xml:space="preserve">
+    <value>{0} atitikmenu uzklausai {1}</value>
+  </data>
+  <data name="Ui.AppCode.SearchFailed" xml:space="preserve">
+    <value>Paieska nepavyko: {0}</value>
+  </data>
+  <data name="Ui.AppCode.ExportPickerTitle" xml:space="preserve">
+    <value>Pasirinkite aplanka, i kuri eksportuosite Voidstrap koda</value>
+  </data>
+  <data name="Ui.AppCode.Exported" xml:space="preserve">
+    <value>Eksportuota {0} failu i {1}</value>
+  </data>
+  <data name="Ui.AppCode.OpenExportedFolder" xml:space="preserve">
+    <value>Eksportuota {0} failu. Atidaryti aplanka dabar?</value>
+  </data>
+  <data name="Ui.AppCode.ExportFailed" xml:space="preserve">
+    <value>Nepavyko eksportuoti kodo: {0}</value>
+  </data>
+  <data name="Ui.AppCode.FolderOpenFailed" xml:space="preserve">
+    <value>Nepavyko atidaryti aplanko: {0}</value>
+  </data>
+  <data name="Ui.AppCode.SaveFailed" xml:space="preserve">
+    <value>Nepavyko issaugoti kopijos: {0}</value>
+  </data>
+  <data name="Ui.AppCode.OpenButton" xml:space="preserve">
+    <value>Programos kodas</value>
+  </data>
+  <data name="Ui.AppCode.OpenButtonTooltip" xml:space="preserve">
+    <value>Narsykite ir redaguokite kiekviena Voidstrap kodo faila tiesiogiai programoje</value>
+  </data>
+  <data name="Ui.AppCode.ConflictWarning" xml:space="preserve">
+    <value>Sis modas pakeicia failus, kuriuos taip pat keicia kiti ijungti modai:
+
+{0}
+
+Persidengiantys modai gali pakeisti Roblox isvaizda ar elgesi, taciau tai nesugadins Voidstrap veikimo. Isjunkite viena is ju, jei kazkas atrodo netinkamai.</value>
+  </data>
 </root>
