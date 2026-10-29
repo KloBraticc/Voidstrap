@@ -18,10 +18,13 @@ public static class PluginCursor
 	private static bool _lastInsideWindow;
 	private static bool _lastIsDown;
 	private static string _lastButton = "none";
+	private static string _lastWindowTitle = "";
 	private static bool _hasState;
 	private static long _lastMoveDispatched;
+	private static long _lastScrollDispatched;
 
 	private static int _moveInFlight;
+	private static int _scrollInFlight;
 	private static bool _installed;
 
 	private static volatile bool _hasMoveHook;
@@ -29,19 +32,23 @@ public static class PluginCursor
 	private static volatile bool _hasUpHook;
 	private static volatile bool _hasEnterHook;
 	private static volatile bool _hasLeaveHook;
+	private static volatile bool _hasScrollHook;
 
 	private const long MoveThrottleMs = 16;
 
+	private const long ScrollThrottleMs = 80;
+
 	public static void Start()
 	{
+		bool first;
 		lock (Gate)
 		{
-			if (_installed)
-				return;
+			first = !_installed;
 			_installed = true;
 		}
-
 		RefreshHooks();
+		if (!first)
+			return;
 
 		Application.Current?.Dispatcher.InvokeAsync(() =>
 		{
@@ -50,6 +57,7 @@ public static class PluginCursor
 			EventManager.RegisterClassHandler(typeof(Window), UIElement.PreviewMouseUpEvent, new MouseButtonEventHandler(OnWindowMouseUp), true);
 			EventManager.RegisterClassHandler(typeof(Window), UIElement.MouseEnterEvent, new MouseEventHandler(OnWindowMouseEnter), true);
 			EventManager.RegisterClassHandler(typeof(Window), UIElement.MouseLeaveEvent, new MouseEventHandler(OnWindowMouseLeave), true);
+			EventManager.RegisterClassHandler(typeof(Window), UIElement.PreviewMouseWheelEvent, new MouseWheelEventHandler(OnWindowMouseWheel), true);
 		});
 	}
 
@@ -73,6 +81,7 @@ public static class PluginCursor
 		_hasUpHook = PluginHost.HasHook("cursor.up");
 		_hasEnterHook = PluginHost.HasHook("cursor.enter");
 		_hasLeaveHook = PluginHost.HasHook("cursor.leave");
+		_hasScrollHook = PluginHost.HasHook("cursor.scroll");
 	}
 
 	public static JsonObject Get()
@@ -84,8 +93,15 @@ public static class PluginCursor
 		}
 
 		if (Application.Current != null && Application.Current.Dispatcher.CheckAccess())
+		{
 			CaptureCurrentPosition();
+			lock (Gate)
+			{
+				return Snapshot();
+			}
+		}
 
+		Application.Current?.Dispatcher.BeginInvoke(new Action(CaptureCurrentPosition));
 		lock (Gate)
 		{
 			return Snapshot();
@@ -144,6 +160,9 @@ public static class PluginCursor
 		double width = window.ActualWidth > 0 ? window.ActualWidth : window.Width;
 		double height = window.ActualHeight > 0 ? window.ActualHeight : window.Height;
 		bool inside = pos.X >= 0 && pos.Y >= 0 && pos.X <= width && pos.Y <= height;
+		string title = window.Title ?? "";
+		if (title.Length > 120)
+			title = title[..120];
 
 		Point screenPos = new(pos.X + (double.IsNaN(window.Left) ? 0 : window.Left), pos.Y + (double.IsNaN(window.Top) ? 0 : window.Top));
 		try
@@ -165,6 +184,7 @@ public static class PluginCursor
 			_lastInsideWindow = inside;
 			_lastIsDown = isDown;
 			_lastButton = button;
+			_lastWindowTitle = title;
 			_hasState = true;
 		}
 	}
@@ -173,6 +193,7 @@ public static class PluginCursor
 	{
 		return new JsonObject
 		{
+			["ready"] = _hasState,
 			["x"] = Math.Round(_lastX, 2),
 			["y"] = Math.Round(_lastY, 2),
 			["screenX"] = Math.Round(_lastScreenX, 2),
@@ -181,7 +202,8 @@ public static class PluginCursor
 			["windowHeight"] = Math.Round(_lastWindowHeight, 2),
 			["insideWindow"] = _lastInsideWindow,
 			["isDown"] = _lastIsDown,
-			["button"] = _lastButton
+			["button"] = _lastButton,
+			["windowTitle"] = _lastWindowTitle
 		};
 	}
 
@@ -285,5 +307,40 @@ public static class PluginCursor
 
 		if (_hasLeaveHook)
 			PluginHost.Invoke("cursor.leave", Snapshot());
+	}
+
+	private static void OnWindowMouseWheel(object sender, MouseWheelEventArgs e)
+	{
+		if (sender is not Window window)
+			return;
+
+		Point pos = e.GetPosition(window);
+		UpdateState(window, pos, Mouse.LeftButton == MouseButtonState.Pressed, ResolveButton(Mouse.LeftButton, Mouse.RightButton, Mouse.MiddleButton));
+
+		if (!_hasScrollHook)
+			return;
+
+		long now = Environment.TickCount64;
+		if (now - _lastScrollDispatched < ScrollThrottleMs)
+			return;
+		if (Interlocked.CompareExchange(ref _scrollInFlight, 1, 0) != 0)
+			return;
+		_lastScrollDispatched = now;
+		JsonObject snapshot = Snapshot();
+		snapshot["delta"] = e.Delta;
+		_ = Task.Run(() =>
+		{
+			try
+			{
+				PluginHost.Invoke("cursor.scroll", snapshot);
+			}
+			catch
+			{
+			}
+			finally
+			{
+				Interlocked.Exchange(ref _scrollInFlight, 0);
+			}
+		});
 	}
 }

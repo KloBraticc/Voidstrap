@@ -742,7 +742,16 @@ public static class PluginHost
 			  globalThis.Fragment = 'Box';
 			  globalThis.$ = Object.freeze({
 			    log: text => host.log(String(text)),
-			    app: Object.freeze({ version: host.version, platform: host.platform }),
+			    app: Object.freeze({
+			      version: host.version,
+			      platform: host.platform,
+			      texts: () => parse(host.appTextList()),
+			      setText: (target, text) => host.appTextSet(String(target), text === undefined || text === null ? '' : String(text)),
+			      clearText: target => Boolean(host.appTextClear(String(target))),
+			      background: () => parse(host.appBackgroundGet()),
+			      setBackground: request => String(host.appBackgroundSet(typeof request === 'string' ? JSON.stringify({ file: request }) : JSON.stringify(request || {}))),
+			      clearBackground: () => host.appBackgroundClear()
+			    }),
 			    ui: Object.freeze({
 			      resolve: () => elements,
 			      open: request => parse(host.uiOpen(JSON.stringify(request || {}))),
@@ -1162,6 +1171,44 @@ public static class PluginHost
 				return JsValue.Undefined;
 			}));
 			host.Set("themeListBrushes", Host("themeListBrushes", _ => PluginTheme.ListBrushes()));
+			host.Set("appTextList", Host("appTextList", _ =>
+			{
+				JsonObject list = new();
+				foreach (KeyValuePair<string, string> pair in Voidstrap.Utility.AppControl.ListText())
+					list[pair.Key] = pair.Value;
+				return list.ToJsonString();
+			}));
+			host.Set("appTextSet", Host("appTextSet", a =>
+			{
+				if (!_sandbox)
+					return Voidstrap.Utility.AppControl.SetText(Arg(a, 0), Arg(a, 1));
+				return Arg(a, 0);
+			}));
+			host.Set("appTextClear", Host("appTextClear", a =>
+			{
+				if (!_sandbox)
+					return Voidstrap.Utility.AppControl.ClearText(Arg(a, 0));
+				return false;
+			}));
+			host.Set("appBackgroundGet", Host("appBackgroundGet", _ => Voidstrap.Utility.AppControl.GetBackground().ToJsonString()));
+			host.Set("appBackgroundSet", Host("appBackgroundSet", a =>
+			{
+				if (_sandbox)
+					return "";
+				JsonObject request = JsonNode.Parse(Arg(a, 0)) as JsonObject ?? new JsonObject();
+				string stored = Voidstrap.Utility.AppControl.SetBackground(
+					request["file"]?.ToString() ?? "",
+					request["gradientOpacity"] is JsonValue grad && grad.TryGetValue(out double gradValue) ? gradValue : null,
+					request["blackOverlayOpacity"] is JsonValue black && black.TryGetValue(out double blackValue) ? blackValue : null,
+					request["displayEverywhere"] is JsonValue disp && disp.TryGetValue(out bool dispValue) ? dispValue : null);
+				return stored;
+			}));
+			host.Set("appBackgroundClear", Host("appBackgroundClear", _ =>
+			{
+				if (!_sandbox)
+					Voidstrap.Utility.AppControl.ClearBackground();
+				return JsValue.Undefined;
+			}));
 			host.Set("windowGet", Host("windowGet", _ => PluginWindow.Get()));
 			host.Set("windowSet", Host("windowSet", a =>
 			{

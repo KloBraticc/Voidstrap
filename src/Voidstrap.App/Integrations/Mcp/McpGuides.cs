@@ -169,6 +169,168 @@ public static class McpGuides
 		Never delete user files to fix something when a reset or disable fix exists.
 		""";
 
+	public const string Architecture = """
+		VOIDSTRAP ARCHITECTURE (THE CODE THAT BUILT VOIDSTRAP)
+
+		WHERE THE CODE LIVES
+		manage_app_code lists every file of the exact source that built the running app. The projects:
+		  Voidstrap.App            the WPF application. Bootstrapper.cs is the launch pipeline, LaunchHandler.cs routes command line flags,
+		                           App.xaml.cs wires startup and shutdown, Watcher.cs is the in game companion process.
+		  Voidstrap.Core           platform neutral models, FastFlag definitions, Roblox install data.
+		  Voidstrap.Cross          the same App sources compiled for Linux (Sober player, Vinegar Studio).
+		  Voidstrap.Desktop.*      per platform hosts (Windows, Linux, macOS) behind Voidstrap.Platform.* abstractions.
+		  ClientServer             helper programs for the session browser and web server features.
+		Two rules hold everywhere: the same code runs on Windows and Linux unless a file says otherwise, and every feature either
+		works completely on Linux or is hidden there.
+
+		THE LAUNCH PIPELINE
+		Command line flags land in LaunchHandler.ProcessLaunchArgs: installer, settings, watcher, Roblox launch, Bloxshade, quiet.
+		A Roblox launch creates Bootstrapper.Run, which shows the launch dialog, checks the Roblox version, applies modifications in
+		this order: ApplySkyboxModifications, custom font, CursorManager.ApplyOnLaunch, FileModManager.ApplyFromSettings (textures
+		through a shared folder gate), ModAutoFixer.PrepareModSources (converts sky textures), the mods folder enumeration,
+		ModGenerator.RefreshOutdatedAsync, ManagedModStore.ScanEnabledFiles, then a parallel copy of every selected file into the
+		Roblox version folder, FastFlags written to ClientAppSettings.json, and the process start. Sober (Linux) and macOS reuse the
+		same steps through PrepareSoberLaunchAsync and PrepareMacLaunchAsync with MacModSync applying the bundle.
+
+		THE THREE MOD SYSTEMS
+		  1 Roblox content mods. Plain files under Mods/ copied over the Roblox client on launch, plus indexed Managed Mods under
+		    ManagedModPackages with a JSON index (ManagedModStore), variant slots (ModVariantStore), a crash guard (ModCrashGuard)
+		    that turns off recently changed mods after a Roblox crash, and community installs from GameBanana and the marketplace
+		    (Integrations/CommunityMods). All folder writes share FileModManager.FolderGate, so launch and live edits never collide.
+		  2 Voidstrap mods. Sandboxed TypeScript or JavaScript mods in Plugins/<name>/ with plugin.json, loaded by Jint through
+		    PluginHost. They render panes, banners, widgets, dialogs, sidebar pages and keyboard anchors, react to events
+		    (session.start, roblox.launch, cursor.move and more) and get the $ API. PluginHost.MutationGate serializes reloads with
+		    folder edits, so a save during a reload heals instead of breaking.
+		  3 RiShade and friends. Integrations/RiShade, AntiAliasing and FrameGeneration manage shaders, upscalers and frame
+		    generation around the Roblox process, with overlays in Integrations/Overlays.
+
+		KEY SERVICES TO KNOW
+		  GlobalBackground            the app wide background (image or video, gradient, shade) driven by BackgroundSettings.json.
+		  AppControl                  live text overrides on any window and the background control API used by mods and MCP.
+		  AppSourceStore              the embedded copy of the full source tree, with user edits kept as copies under AppCode.
+		  TranslationService          optional machine translation of the whole UI with a reverse restore path.
+		  JsonManager<T>              atomic JSON settings with deferred saves, external change merge and backup recovery.
+		  VoidstrapMatchmaker         picks the closest Roblox server by datacenter geo for the Smart Join chip.
+		  Watcher                     keeps overlays, rich presence, key routing and window management alive during a session.
+		Everything is wired in App.xaml.cs StartAsync. Logging goes through App.Logger, writes are atomic, and the settings files
+		live under Paths.Config. Read the real code any time with manage_app_code, it is always more current than any description.
+
+		""";
+
+	public const string ModApi = """
+		VOIDSTRAP MOD $ API REFERENCE (TypeScript or JavaScript)
+
+		register(on) runs once when the mod loads. on('event', matcher?, handler) subscribes. A handler receives $, the event
+		payload and next. Call next(e) to pass the event on, return a value to replace it, return a Promise to go async (settled
+		up to 10 seconds). Elements are built with h(type, props, ...children), types listed by $.ui.resolve().
+
+		EVENTS
+		  session.start            fired on load and after every reload, payload { source }.
+		  roblox.launch            fired when a Roblox launch starts, promises are settled before the launch continues.
+		  session.end              fired on app exit with { reason }.
+		  ui.render                render a pane, page, banner, dialog or widget. Payload { component, requestId, plugin, surface }.
+		  cursor.move              cursor moved, throttled to about 16 ms. cursor.down, cursor.up, cursor.enter, cursor.leave.
+		  cursor.scroll            mouse wheel, throttled to about 80 ms, payload adds delta.
+
+		$ API
+		  $.log(text)                                   write to the Voidstrap log.
+		  $.toast(title, text)                          system notification.
+		  $.app.version, $.app.platform                 app version and windows or linux.
+		  $.app.texts()                                 every active text override as { 'text:Hello': 'Hi' }.
+		  $.app.setText(target, text)                   override any UI text. target is 'text:<exact original>' or 'name:<element>'.
+		                                                Empty text removes the override. Persists across restarts.
+		  $.app.clearText(target)                       restore one original text.
+		  $.app.background()                            current background state { backgroundFilePath, gradientOpacity, blackOverlayOpacity, displayEverywhere }.
+		  $.app.setBackground(request)                  change the whole application background. request is a file path string or
+		                                                { file, gradientOpacity, blackOverlayOpacity, displayEverywhere }.
+		  $.app.clearBackground()                       back to the default look.
+		  $.ui.open({ id, title }) and close(id)        panes shown in the main window.
+		  $.ui.openBanner / closeBanner                 banners above or below the content.
+		  $.ui.attach({ id, anchor, placement })        widget attached to a real element, $.ui.anchors() lists live anchors.
+		  $.ui.openDialog / closeDialog / message / confirm
+		  $.ui.status(text)                             status line text. $.ui.refresh() redraws your surfaces.
+		  $.settings.list / get / set                   read and change Voidstrap settings.
+		  $.fastFlags.getAll / get / set / remove / clear
+		  $.store.get / set(key, value)                 per mod persistent storage.
+		  $.clock.after(ms, fn), $.clock.every, cancel  timers, 500 ms minimum for repeat.
+		  $.net.fetch({ url, method, body, headers })   https only, hosts must be listed in plugin.json network. Promise based.
+		  $.roblox.launch(request)                      start a place. $.roblox.request needs the roblox-account permission.
+		  $.clipboard.set / get                         clipboard access.
+		  $.cursor.get()                                live cursor state { ready, x, y, screenX, screenY, windowWidth, windowHeight,
+		                                                insideWindow, isDown, button, windowTitle }. ready is false until the first
+		                                                mouse event, request it from a cursor.move hook for real values.
+		  $.sidebar.addPage / removePage / set / get    sidebar pages.
+		  $.modpages.addPage / removePage               pages inside the Voidstrap Mods tab.
+		  $.nav.open / pages / current                  navigation.
+		  $.theme.set({ backgroundFilePath, gradientOpacity, blackOverlayOpacity, displayEverywhere, accentColor, zoom, ... })
+		  $.window.get / set                            main window geometry and state.
+
+		LIMITS AND GUARDS
+		  Hooks run on a single engine per mod with a 2 second CPU budget and 64 MB memory cap. At most 32 timers, 8 attached
+		  widgets and a 10 second promise wait. The UI needs approval before a mod loads, revoke it any time from the Mods tab.
+		  The sandbox has no filesystem, no process and no shell access. A mod that throws is reported in the Mods tab problems
+		  list and skipped, it never takes Voidstrap down.
+
+		""";
+
+	public const string AppControl = """
+		LIVE APP CONTROL (TEXTS AND BACKGROUND)
+
+		WHAT IT IS
+		AppControl changes the running Voidstrap interface without touching program files. Text overrides replace any visible
+		TextBlock, button or header text. The background control swaps the whole application background for an image or video and
+		persists it. Both are exposed to MCP through manage_app_control and to mods through $.app.
+
+		TEXT OVERRIDES
+		  Identify a target in one of two ways:
+		  'text:<exact original text>' replaces every element whose original text matches exactly.
+		  'name:<XAML element name>' replaces that one element everywhere it appears.
+		  Find names with manage_app_code action search on x:Name, or with manage_voidstrap_mods action ui_map for live elements.
+		  text_set applies to every open window at once and to future windows, and persists in AppControl/TextOverrides.json.
+		  text_clear or text_clear_all restores originals. If auto translate is on, overrides sit on top and reapply after it.
+
+		BACKGROUND
+		  background_set copies an image (PNG, JPG, WEBP, GIF, BMP, TIFF) or video (MP4, WEBM, MKV, MOV) into the Voidstrap data
+		  folder and switches every window to it, optionally with gradientOpacity, blackOverlayOpacity and displayEverywhere.
+		  The state lives in BackgroundSettings.json, the same file the Appearance page uses, so both stay in sync.
+		  background_clear removes it. Mods can read and change the same state through $.app.background and $.app.setBackground.
+
+		SAFETY
+		  Overrides never modify files inside the install, they live in the data folder and are removed by text_clear_all or a
+		  factory reset. A bad override can look wrong but cannot crash Voidstrap.
+
+		""";
+
+	public const string AppCode = """
+		THE APP CODE AREA (READING AND EDITING VOIDSTRAP ITSELF)
+
+		WHAT IT IS
+		Every Voidstrap build carries a compressed copy of its own source tree: every folder, every file, every .cs and .xaml of
+		the code that built it. Users browse and edit it inside the app from the Mods tab, App Code button. MCP uses manage_app_code.
+
+		ACTIONS
+		  list     walk the tree, path empty for the root, then folder by folder.
+		  read     file contents, your edited copy if one exists.
+		  write    save an edited copy. The original never changes, the running app never reloads, nothing can crash.
+		  reset    drop the edited copy and go back to the original of this build.
+		  search   file names and code text at once, returns path, line and snippet.
+		  overrides  list every edited file.
+		  export   write the whole tree, edits included, into a folder you choose.
+
+		HOW EDITS ACTUALLY RUN
+		  An edit is a copy under Data/AppCode/Overrides. It changes nothing while Voidstrap runs. To make it real: export, open
+		  the exported folder, build Voidstrap.sln there, and run the build. That build is your edited Voidstrap. Tell the user
+		  this every time an edit is saved, a saved copy is not a running change.
+
+		WORKFLOW THAT WORKS
+		  1 action search for the feature name or a string the user quoted.
+		  2 action read the file, then read related files from the architecture docs (get_docs topic architecture).
+		  3 action write the change as complete valid C# or XAML. A file that does not compile builds an app that does not start,
+		    so change only what you understand and keep the style of the file.
+		  4 Tell the user exactly which files you edited, export, and let them rebuild. undo_last_change reverts the last write.
+
+		""";
+
 	public const string Workflow = """
 		HOW TO WORK WITH VOIDSTRAP OVER MCP
 
@@ -186,6 +348,9 @@ public static class McpGuides
 		Roblox launch or join: launch_roblox with mode and optional placeId/jobId. This tool blocks a second running instance. Use its native launch path.
 		Saved accounts: list_accounts is read only. Mod account lookups use $.roblox.request with the roblox-account permission. Never read or copy login cookies or tokens.
 		Errors: diagnose_app, get_logs_and_activity or read_voidstrap_file, then fix_app_issue using the returned fix id. Read get_guide topic fixing.
+		Change any visible Voidstrap text or the whole application background: manage_app_control, after get_guide topic app_control.
+		Read or edit the Voidstrap source code itself: manage_app_code, after get_guide topic app_code. Edits are copies, the running app never changes, tell the user to export and rebuild to run them.
+		Anything about how a subsystem works inside Voidstrap: get_docs topic architecture, then manage_app_code to read the real code.
 
 		READ, CHANGE, VERIFY
 		Read existing values or files before editing. Reuse list_editors and its editorId instead of creating duplicate themes. Use dryRun for a broad settings or FastFlag change. Save only the requested changes and read every reply, including isError and any warnings. A timeout can happen after a change started; read the state before retrying.
@@ -193,7 +358,7 @@ public static class McpGuides
 		For Voidstrap mods, validate checks loading, test exercises sandbox behavior, reload requests activation, list confirms loaded true, and problems reports runtime errors. These checks serve different purposes. A new mod waits for the user's approval in Voidstrap. Do not report it as running while approval is pending. A successful attach request is asynchronous and does not prove visible layout.
 		Cursor sprites must use cursor.move events. $.clock.every clamps repeat intervals to 500 ms; it cannot animate at 16 or 33 ms. The mods guide has a complete WindowRoot Canvas overlay example and a test.
 		After an edit, read back the changed settings or code, run the relevant test or diagnostic, and inspect visible results when possible. Say what changed, what you actually verified and what still needs the user's action. A saved file, a passing test and a visible working feature are separate claims.
-		Guides: workflow, mods, bootstrapper_theme, keystroke_theme, app_theme, fixing. The same guides are available as voidstrap://guide/<topic> resources. The FastFlag reference is voidstrap://fastflags/allowlist-and-tracker.
+		Guides: workflow, mods, bootstrapper_theme, keystroke_theme, app_theme, fixing, architecture, mod_api, app_control, app_code. The same guides are available as voidstrap://guide/<topic> resources. The FastFlag reference is voidstrap://fastflags/allowlist-and-tracker.
 		""";
 
 	private static readonly Dictionary<string, string> Topics = new(StringComparer.OrdinalIgnoreCase)
@@ -203,7 +368,11 @@ public static class McpGuides
 		["app_theme"] = AppTheme,
 		["fixing"] = Fixing,
 		["mods"] = McpTools.ModLayoutGuide,
-		["workflow"] = Workflow
+		["workflow"] = Workflow,
+		["architecture"] = Architecture,
+		["mod_api"] = ModApi,
+		["app_control"] = AppControl,
+		["app_code"] = AppCode
 	};
 
 	public static IEnumerable<string> TopicNames => Topics.Keys;

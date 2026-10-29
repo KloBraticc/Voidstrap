@@ -362,6 +362,31 @@ internal static class ManagedModStore
 		}
 	}
 
+	public static IReadOnlyList<string> DescribeConflicts(string id)
+	{
+		List<string> lines = [];
+		try
+		{
+			IReadOnlyList<ManagedModLibraryEntry> library = ScanLibrary();
+			ManagedModLibraryEntry? target = library.FirstOrDefault(entry => string.Equals(entry.Record.Id, id, StringComparison.OrdinalIgnoreCase));
+			if (target == null)
+				return lines;
+			foreach (ManagedModLibraryEntry other in library)
+			{
+				if (ReferenceEquals(other, target) || !other.Record.Enabled)
+					continue;
+				int shared = target.RelativePaths.Count(other.RelativePaths.Contains);
+				if (shared > 0)
+					lines.Add(other.Record.Name + " replaces " + shared + " of the same file" + (shared == 1 ? "" : "s") + (other.AppliedOnTop ? " and is applied on top of it" : ""));
+			}
+		}
+		catch (Exception ex)
+		{
+			App.Logger?.WriteLine("ManagedModStore::DescribeConflicts", "The conflict check could not run: " + ex.Message);
+		}
+		return lines;
+	}
+
 	private static void Mutate(string id, Action<ManagedModRecord> mutation)
 	{
 		lock (Sync)

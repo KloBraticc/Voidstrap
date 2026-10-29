@@ -852,6 +852,7 @@ public partial class App : Application
 		TryStartup("Portable popups", EmbedPortablePopups);
 		TryStartup("Tooltip placement", InstallPortableToolTipPlacement);
 		TryStartup("Locale", Locale.Initialize);
+		TryStartup("App control", Voidstrap.Utility.AppControl.Initialize);
 		TryStartup("Icon font", Voidstrap.Utility.IconFontLoader.Install);
 		TryStartup("Rounded window chrome", Voidstrap.UI.RoundedWindowChrome.Install);
 		TryStartup("Corner style", Voidstrap.UI.CornerStyle.Install);

@@ -80,4 +80,78 @@
 		<RemoveDir Directories="$(PublishDir)licenses" Condition="'$(PublishDir)' != ''" />
 	</Target>
 
+	<UsingTask TaskName="PackVoidstrapAppSource" TaskFactory="RoslynCodeTaskFactory" AssemblyFile="$(MSBuildToolsPath)/Microsoft.Build.Tasks.Core.dll">
+		<ParameterGroup>
+			<SourceRoot ParameterType="System.String" Required="true" />
+			<OutputFile ParameterType="System.String" Required="true" />
+		</ParameterGroup>
+		<Task>
+			<Using Namespace="System.IO" />
+			<Using Namespace="System.IO.Compression" />
+			<Code Type="Fragment" Language="cs"><![CDATA[
+				string[] extensions = { ".cs", ".xaml", ".csproj", ".props", ".targets", ".editorconfig", ".manifest", ".config" };
+				string[] skipFolders = { "obj", "bin", "jsmodules" };
+				string root = SourceRoot.TrimEnd(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar) + Path.DirectorySeparatorChar;
+				Directory.CreateDirectory(Path.GetDirectoryName(OutputFile));
+				string temporary = OutputFile + ".tmp";
+				if (File.Exists(temporary))
+					File.Delete(temporary);
+				using (FileStream stream = File.Create(temporary))
+				using (ZipArchive archive = new ZipArchive(stream, ZipArchiveMode.Create))
+				{
+					foreach (string file in Directory.EnumerateFiles(SourceRoot, "*", SearchOption.AllDirectories))
+					{
+						string relative = file.Length > root.Length && file.StartsWith(root, StringComparison.OrdinalIgnoreCase) ? file.Substring(root.Length) : Path.GetFileName(file);
+						string[] parts = relative.Split(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+						bool skipped = false;
+						foreach (string part in parts)
+						{
+							string lower = part.ToLowerInvariant();
+							if (Array.IndexOf(skipFolders, lower) >= 0 || lower.StartsWith("obj-") || lower.StartsWith("bin-"))
+							{
+								skipped = true;
+								break;
+							}
+						}
+						if (skipped)
+							continue;
+						string extension = Path.GetExtension(file).ToLowerInvariant();
+						if (Array.IndexOf(extensions, extension) < 0)
+							continue;
+						if (extension == ".cs" && (file.EndsWith(".g.cs", StringComparison.OrdinalIgnoreCase) || file.EndsWith(".g.i.cs", StringComparison.OrdinalIgnoreCase)))
+							continue;
+						FileInfo info = new FileInfo(file);
+						if (info.Length <= 0 || info.Length > 4L * 1024 * 1024)
+							continue;
+						string entryName = relative.Replace(Path.DirectorySeparatorChar, '/').Replace(Path.AltDirectorySeparatorChar, '/');
+						archive.CreateEntryFromFile(file, entryName, CompressionLevel.Optimal);
+					}
+				}
+				if (File.Exists(OutputFile))
+					File.Delete(OutputFile);
+				File.Move(temporary, OutputFile);
+				if (File.Exists(OutputFile + ".tmp"))
+					File.Delete(OutputFile + ".tmp");
+			]]></Code>
+		</Task>
+	</UsingTask>
+
+	<ItemGroup Condition="'$(MSBuildProjectName)' == 'Voidstrap' Or '$(MSBuildProjectName)' == 'Voidstrap.Cross'">
+		<AppSourceInputs Include="$(MSBuildThisFileDirectory)src/**/*.cs;$(MSBuildThisFileDirectory)src/**/*.xaml;$(MSBuildThisFileDirectory)src/**/*.csproj;$(MSBuildThisFileDirectory)src/**/*.props;$(MSBuildThisFileDirectory)src/**/*.targets"
+			Exclude="$(MSBuildThisFileDirectory)src/**/obj/**;$(MSBuildThisFileDirectory)src/**/bin/**;$(MSBuildThisFileDirectory)src/**/obj-*/**;$(MSBuildThisFileDirectory)src/**/bin-*/**;$(MSBuildThisFileDirectory)src/**/*.g.cs;$(MSBuildThisFileDirectory)src/**/*.g.i.cs" />
+	</ItemGroup>
+
+	<Target Name="PackVoidstrapAppSourceArchive" BeforeTargets="AssignTargetPaths" Condition="'$(MSBuildProjectName)' == 'Voidstrap' Or '$(MSBuildProjectName)' == 'Voidstrap.Cross'"
+		Inputs="@(AppSourceInputs);$(MSBuildThisFileFullPath)"
+		Outputs="$(IntermediateOutputPath)app-source/Voidstrap.AppSource.zip">
+		<PackVoidstrapAppSource SourceRoot="$(MSBuildThisFileDirectory)src" OutputFile="$(IntermediateOutputPath)app-source/Voidstrap.AppSource.zip" />
+		<ItemGroup>
+			<FileWrites Include="$(IntermediateOutputPath)app-source/Voidstrap.AppSource.zip" />
+		</ItemGroup>
+	</Target>
+
+	<ItemGroup Condition="'$(MSBuildProjectName)' == 'Voidstrap' Or '$(MSBuildProjectName)' == 'Voidstrap.Cross'">
+		<EmbeddedResource Include="$(IntermediateOutputPath)app-source/Voidstrap.AppSource.zip" LogicalName="Voidstrap.AppSource" />
+	</ItemGroup>
+
 </Project>

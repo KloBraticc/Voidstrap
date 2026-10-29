@@ -744,6 +744,14 @@ public class CommunityModsViewModel : NotifyPropertyChangedViewModel, IDisposabl
 			{
 				message = entry.Name + " was verified, placed into the Roblox layout and enabled in My Mods. Relaunch Roblox to see it.";
 			}
+			List<string> conflicts = result.StartsWith(FleasionModInstaller.ResultPrefix, StringComparison.Ordinal)
+				? []
+				: [.. ManagedModStore.DescribeConflicts(result)];
+			if (conflicts.Count > 0)
+			{
+				Voidstrap.Utility.AppNotifications.RecordInfo("mods:conflicts", entry.Name + " may overwrite other mods",
+					"It replaces files that these enabled mods also replace: " + string.Join(", ", conflicts) + ". Overlapping mods can make Roblox look or behave oddly, but this cannot crash Voidstrap.");
+			}
 			Report(message, 1.0, HoldMilliseconds);
 			InstallCompleted?.Invoke(null, EventArgs.Empty);
 		}

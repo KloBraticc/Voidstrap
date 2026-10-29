@@ -21,6 +21,7 @@
             <ComboBox x:Name="SortBox" Width="190" Height="34" Margin="0,0,10,8" VerticalContentAlignment="Center" SelectionChanged="SortBox_SelectionChanged" />
             <ui:Button Height="34" Margin="0,0,8,8" Icon="ArrowClockwise24" Content="{resources:Loc Ui_VoidstrapMods_LibraryRefresh}" Click="LibraryRefresh_Click" />
             <ui:Button Height="34" Margin="0,0,8,8" Icon="Open24" Content="{resources:Loc Ui_VoidstrapMods_LibraryOpenGitHub}" Click="LibraryOpenGitHub_Click" />
+            <ui:Button Height="34" Margin="0,0,8,8" Icon="Code24" Content="{resources:Loc Ui_AppCode_OpenButton}" Click="AppCode_Click" ToolTip="{resources:Loc Ui_AppCode_OpenButtonTooltip}" />
             <ui:Button x:Name="AccountButton" Height="34" Margin="0,0,0,8" Icon="Person24" Click="AccountButton_Click" />
           </WrapPanel>
           <StackPanel x:Name="LibraryHost" />

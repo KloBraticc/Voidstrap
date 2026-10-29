@@ -4405,6 +4405,7 @@ public ICommand PickCursorColorCommand { get; }
 		if (item is null)
 			return;
 		bool enable = !item.Enabled;
+		List<string> conflicts = [];
 		await _managedModsMutationGate.WaitAsync();
 		try
 		{
@@ -4413,6 +4414,8 @@ public ICommand PickCursorColorCommand { get; }
 				ApplyAssetCacheState(item.Id, enable);
 				ExternalModConfigs.SetEnabled(item.Id, enable);
 				ManagedModStore.SetEnabled(item.Id, enable);
+				if (enable)
+					conflicts.AddRange(ManagedModStore.DescribeConflicts(item.Id));
 			});
 			await LoadManagedModsAsync();
 		}
@@ -4423,6 +4426,12 @@ public ICommand PickCursorColorCommand { get; }
 		finally
 		{
 			_managedModsMutationGate.Release();
+		}
+		if (conflicts.Count > 0)
+		{
+			Frontend.ShowMessageBox(
+				string.Format(Voidstrap.Resources.Strings.Ui_AppCode_ConflictWarning, string.Join("\n", conflicts)),
+				MessageBoxImage.Warning);
 		}
 	}
 

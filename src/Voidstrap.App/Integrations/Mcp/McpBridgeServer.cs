@@ -260,6 +260,9 @@ public static class McpBridgeServer
 			"list_accounts" => McpTools.ListAccountsAsync(limit.Token),
 			"manage_voidstrap_mods" => Task.Run(() => McpTools.ManageVoidstrapMods(args), limit.Token),
 			"read_voidstrap_file" => Task.Run(() => McpTools.ReadVoidstrapFileSafe(args), limit.Token),
+			"get_docs" => Task.Run(() => McpTools.GetDocs(args), limit.Token),
+			"manage_app_control" => Task.Run(() => McpTools.ManageAppControl(args), limit.Token),
+			"manage_app_code" => Task.Run(() => McpTools.ManageAppCode(args), limit.Token),
 			_ => Task.FromResult(new McpToolResult($"The tool {name} has no background handler.", true))
 		};
 

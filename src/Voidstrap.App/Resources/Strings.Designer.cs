@@ -9550,5 +9550,209 @@ namespace Voidstrap.Resources {
                 return ResourceManager.GetString("Ui.VoidstrapMods.LibraryRobloxAccess", resourceCulture);
             }
         }
+
+        public static string Ui_AppCode_Title {
+            get {
+                return ResourceManager.GetString("Ui.AppCode.Title", resourceCulture);
+            }
+        }
+
+        public static string Ui_AppCode_Header {
+            get {
+                return ResourceManager.GetString("Ui.AppCode.Header", resourceCulture);
+            }
+        }
+
+        public static string Ui_AppCode_Description {
+            get {
+                return ResourceManager.GetString("Ui.AppCode.Description", resourceCulture);
+            }
+        }
+
+        public static string Ui_AppCode_SearchPlaceholder {
+            get {
+                return ResourceManager.GetString("Ui.AppCode.SearchPlaceholder", resourceCulture);
+            }
+        }
+
+        public static string Ui_AppCode_Search {
+            get {
+                return ResourceManager.GetString("Ui.AppCode.Search", resourceCulture);
+            }
+        }
+
+        public static string Ui_AppCode_BrowseFiles {
+            get {
+                return ResourceManager.GetString("Ui.AppCode.BrowseFiles", resourceCulture);
+            }
+        }
+
+        public static string Ui_AppCode_ExportAll {
+            get {
+                return ResourceManager.GetString("Ui.AppCode.ExportAll", resourceCulture);
+            }
+        }
+
+        public static string Ui_AppCode_ExportAllTooltip {
+            get {
+                return ResourceManager.GetString("Ui.AppCode.ExportAllTooltip", resourceCulture);
+            }
+        }
+
+        public static string Ui_AppCode_SaveCopy {
+            get {
+                return ResourceManager.GetString("Ui.AppCode.SaveCopy", resourceCulture);
+            }
+        }
+
+        public static string Ui_AppCode_ResetToOriginal {
+            get {
+                return ResourceManager.GetString("Ui.AppCode.ResetToOriginal", resourceCulture);
+            }
+        }
+
+        public static string Ui_AppCode_EditorEmpty {
+            get {
+                return ResourceManager.GetString("Ui.AppCode.EditorEmpty", resourceCulture);
+            }
+        }
+
+        public static string Ui_AppCode_SourceUnavailable {
+            get {
+                return ResourceManager.GetString("Ui.AppCode.SourceUnavailable", resourceCulture);
+            }
+        }
+
+        public static string Ui_AppCode_SourceUnavailableShort {
+            get {
+                return ResourceManager.GetString("Ui.AppCode.SourceUnavailableShort", resourceCulture);
+            }
+        }
+
+        public static string Ui_AppCode_EditedBadge {
+            get {
+                return ResourceManager.GetString("Ui.AppCode.EditedBadge", resourceCulture);
+            }
+        }
+
+        public static string Ui_AppCode_SourceHint {
+            get {
+                return ResourceManager.GetString("Ui.AppCode.SourceHint", resourceCulture);
+            }
+        }
+
+        public static string Ui_AppCode_ReadFailed {
+            get {
+                return ResourceManager.GetString("Ui.AppCode.ReadFailed", resourceCulture);
+            }
+        }
+
+        public static string Ui_AppCode_FileOpened {
+            get {
+                return ResourceManager.GetString("Ui.AppCode.FileOpened", resourceCulture);
+            }
+        }
+
+        public static string Ui_AppCode_FileOriginal {
+            get {
+                return ResourceManager.GetString("Ui.AppCode.FileOriginal", resourceCulture);
+            }
+        }
+
+        public static string Ui_AppCode_FileEdited {
+            get {
+                return ResourceManager.GetString("Ui.AppCode.FileEdited", resourceCulture);
+            }
+        }
+
+        public static string Ui_AppCode_Saved {
+            get {
+                return ResourceManager.GetString("Ui.AppCode.Saved", resourceCulture);
+            }
+        }
+
+        public static string Ui_AppCode_SavedFooter {
+            get {
+                return ResourceManager.GetString("Ui.AppCode.SavedFooter", resourceCulture);
+            }
+        }
+
+        public static string Ui_AppCode_ResetConfirm {
+            get {
+                return ResourceManager.GetString("Ui.AppCode.ResetConfirm", resourceCulture);
+            }
+        }
+
+        public static string Ui_AppCode_SearchShort {
+            get {
+                return ResourceManager.GetString("Ui.AppCode.SearchShort", resourceCulture);
+            }
+        }
+
+        public static string Ui_AppCode_SearchResults {
+            get {
+                return ResourceManager.GetString("Ui.AppCode.SearchResults", resourceCulture);
+            }
+        }
+
+        public static string Ui_AppCode_SearchFailed {
+            get {
+                return ResourceManager.GetString("Ui.AppCode.SearchFailed", resourceCulture);
+            }
+        }
+
+        public static string Ui_AppCode_ExportPickerTitle {
+            get {
+                return ResourceManager.GetString("Ui.AppCode.ExportPickerTitle", resourceCulture);
+            }
+        }
+
+        public static string Ui_AppCode_Exported {
+            get {
+                return ResourceManager.GetString("Ui.AppCode.Exported", resourceCulture);
+            }
+        }
+
+        public static string Ui_AppCode_OpenExportedFolder {
+            get {
+                return ResourceManager.GetString("Ui.AppCode.OpenExportedFolder", resourceCulture);
+            }
+        }
+
+        public static string Ui_AppCode_ExportFailed {
+            get {
+                return ResourceManager.GetString("Ui.AppCode.ExportFailed", resourceCulture);
+            }
+        }
+
+        public static string Ui_AppCode_FolderOpenFailed {
+            get {
+                return ResourceManager.GetString("Ui.AppCode.FolderOpenFailed", resourceCulture);
+            }
+        }
+
+        public static string Ui_AppCode_SaveFailed {
+            get {
+                return ResourceManager.GetString("Ui.AppCode.SaveFailed", resourceCulture);
+            }
+        }
+
+        public static string Ui_AppCode_OpenButton {
+            get {
+                return ResourceManager.GetString("Ui.AppCode.OpenButton", resourceCulture);
+            }
+        }
+
+        public static string Ui_AppCode_OpenButtonTooltip {
+            get {
+                return ResourceManager.GetString("Ui.AppCode.OpenButtonTooltip", resourceCulture);
+            }
+        }
+
+        public static string Ui_AppCode_ConflictWarning {
+            get {
+                return ResourceManager.GetString("Ui.AppCode.ConflictWarning", resourceCulture);
+            }
+        }
     }
 }

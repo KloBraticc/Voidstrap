@@ -85,10 +85,10 @@ public static class McpToolCatalog
 		return
 		[
 			T("get_guide",
-				"Read the workflow to choose the correct tool, then the relevant guide before editing. Topics: workflow, mods (Voidstrap widgets, cursor sprites, pages, sandbox APIs and tests), bootstrapper_theme (launcher XML or HTML and window.voidstrap), keystroke_theme, app_theme, fixing. Read mods before writing a Voidstrap mod and bootstrapper_theme before writing a launcher theme.",
+				"Read the workflow to choose the correct tool, then the relevant guide before editing. Topics: workflow, mods (Voidstrap widgets, cursor sprites, pages, sandbox APIs and tests), bootstrapper_theme (launcher XML or HTML and window.voidstrap), keystroke_theme, app_theme, fixing, architecture (how every subsystem works), mod_api (the full $ API), app_control (live text and background control), app_code (reading and editing the app source). Read mods before writing a Voidstrap mod and bootstrapper_theme before writing a launcher theme.",
 				Kind.Read, new JsonObject
 				{
-					["topic"] = P("string", "workflow (default), mods, bootstrapper_theme, keystroke_theme, app_theme, or fixing.")
+					["topic"] = P("string", "workflow (default), mods, bootstrapper_theme, keystroke_theme, app_theme, fixing, architecture, mod_api, app_control, or app_code.")
 				}),
 
 			T("test_bootstrapper_theme",
@@ -368,7 +368,39 @@ public static class McpToolCatalog
 					["source"] = P("string", "'all' (default), 'voidstrap', 'roblox', or 'history'."),
 					["maxLines"] = P("integer", "Lines per source (default 120, max 500)."),
 					["filter"] = P("string", "Case insensitive line filter.")
-				})
+				}),
+
+			T("get_docs",
+				"Read the Voidstrap documentation sheet: how every subsystem works (launch, mods, fastflags, overlays, plugins, settings, platform layer), the full mod $ API reference including $.app text and background control, and the MCP tool map. Call with no topic for the section list, then read the sections you need. Always faster and more accurate than guessing at internals.",
+				Kind.Read, new JsonObject
+				{
+					["topic"] = P("string", "Section name such as architecture, mods, mod_api, app_control, app_code, mcp, or cursor. Omit for the section list.")
+				}) with { OffUiThread = true, TimeoutSeconds = 30 },
+
+			T("manage_app_control",
+				"Live control of the running Voidstrap interface: override any visible text (by original text or element name), change the whole application background (image or video) with gradient and shade opacity, and read the current state. Changes apply at once to every open window, persist across restarts, and mods see them through $.app.",
+				Kind.Write, new JsonObject
+				{
+					["action"] = P("string", "text_list (default), text_set, text_clear, text_clear_all, background_get, background_set, or background_clear."),
+					["target"] = P("string", "For text_set and text_clear: 'text:<exact original text>' or 'name:<XAML element name>'."),
+					["text"] = P("string", "For text_set: the replacement text, up to 2000 characters."),
+					["file"] = P("string", "For background_set: full path to an image (PNG, JPG, WEBP, GIF, BMP, TIFF) or video (MP4, WEBM, MKV, MOV). The file is copied into the Voidstrap data folder."),
+					["gradientOpacity"] = P("number", "For background_set: 0 to 1, defaults to the current value."),
+					["blackOverlayOpacity"] = P("number", "For background_set: 0 to 1 dark shade over the background, defaults to the current value."),
+					["displayEverywhere"] = P("boolean", "For background_set: show on every window instead of the home page only, defaults to the current value.")
+				}) with { OffUiThread = true, TimeoutSeconds = 60 },
+
+			T("manage_app_code",
+				"Read and edit the entire Voidstrap application source inside the app: every folder and every file of the code that built Voidstrap (sources, XAML and project files). list walks the tree, read opens a file, write saves an edited copy, reset restores the original, search finds code by name or content, overrides lists edits, and export writes the whole tree with edits applied into a folder that can be rebuilt. Editing never touches the running app and cannot crash it.",
+				Kind.Write, new JsonObject
+				{
+					["action"] = P("string", "list (default), read, write, reset, search, overrides, or export."),
+					["path"] = P("string", "File path relative to the source root, for example Voidstrap.App/Bootstrapper.cs. For list: a folder path, empty for the root."),
+					["content"] = P("string", "For write: the full new file contents."),
+					["query"] = P("string", "For search: text to find in file names and code, at least 2 characters."),
+					["max"] = P("integer", "For search: maximum results (default 80)."),
+					["destination"] = P("string", "For export: full path of the folder to write the tree into.")
+				}) with { OffUiThread = true, TimeoutSeconds = 120 }
 		];
 	}
 }
