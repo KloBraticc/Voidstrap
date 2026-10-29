@@ -1,4 +1,4 @@
-use sha2::{Digest, Sha256};
+use crate::hashing::{sha256_bytes, sha256_reader};
 use std::fs::{self, File};
 use std::io;
 use std::path::Path;
@@ -46,7 +46,7 @@ pub fn install(root: &Path) -> io::Result<()> {
             continue;
         }
         let bytes = crate::effect_setup::download(&agent, url, DLSS_LIMIT, crate::effect_setup::is_github_host)?;
-        if format!("{:x}", Sha256::digest(&bytes)) != expected {
+        if sha256_bytes(&bytes) != expected {
             return Err(crate::effect_setup::invalid_data(format!(
                 "{name} failed its pinned SHA-256 check"
             )));
@@ -74,9 +74,7 @@ pub fn remove(root: &Path) -> io::Result<()> {
 fn matches_hash(path: &Path, expected: &str) -> io::Result<bool> {
     match fs::symlink_metadata(path) {
         Ok(metadata) if metadata.is_file() => {
-            let mut hasher = Sha256::new();
-            io::copy(&mut File::open(path)?, &mut hasher)?;
-            Ok(format!("{:x}", hasher.finalize()) == expected)
+            Ok(sha256_reader(File::open(path)?)? == expected)
         }
         Ok(_) => Err(crate::effect_setup::invalid_data(
             "a DLSS file path is not a regular file",

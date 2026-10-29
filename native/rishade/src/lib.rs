@@ -7,6 +7,7 @@ mod effect_setup;
 pub mod ffi;
 pub mod frame_stats;
 mod game_list;
+mod hashing;
 #[cfg(windows)]
 pub mod hdr;
 mod hotkey;

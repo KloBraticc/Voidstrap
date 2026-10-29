@@ -15,3 +15,9 @@ updates:
     directory: "/android"
     schedule:
       interval: "weekly"
+  - package-ecosystem: "cargo"
+    directories:
+      - "/native/voidpkg"
+      - "/native/rishade"
+    schedule:
+      interval: "weekly"

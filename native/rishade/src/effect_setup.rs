@@ -1,5 +1,5 @@
 use crate::{PresetIni, preset_effect_files};
-use sha2::{Digest, Sha256};
+use crate::hashing::sha256_bytes;
 use std::collections::HashSet;
 use std::fs::{self, File, OpenOptions};
 use std::io::{self, Read, Write};
@@ -618,7 +618,7 @@ pub fn upgrade_unmodified_presets(root: &Path) {
             continue;
         }
         let unmodified = fs::read(&path)
-            .is_ok_and(|bytes| format!("{:x}", Sha256::digest(bytes)) == previous_hash);
+            .is_ok_and(|bytes| sha256_bytes(bytes) == previous_hash);
         let Some((_, data)) = BUNDLED_PRESETS
             .iter()
             .find(|(bundled, _)| bundled.eq_ignore_ascii_case(name))
@@ -645,7 +645,7 @@ pub fn migrate_renamed_presets(root: &Path) {
             continue;
         }
         let unmodified = fs::read(&old_path)
-            .is_ok_and(|bytes| format!("{:x}", Sha256::digest(bytes)) == original_hash);
+            .is_ok_and(|bytes| sha256_bytes(bytes) == original_hash);
         if unmodified {
             let _ = fs::rename(&old_path, &new_path);
         }
@@ -762,7 +762,10 @@ fn extract_package(bytes: &[u8], destination: &Path, package_name: &str) -> io::
         {
             continue;
         }
-        let relative = safe_archive_path(file.name())?;
+        let name = file
+            .name()
+            .map_err(|_| invalid_data(format!("{package_name} contains an invalid file name")))?;
+        let relative = safe_archive_path(&name)?;
         if !allowed_package_file(Path::new(relative.file_name().unwrap_or_default())) {
             continue;
         }
@@ -824,10 +827,10 @@ fn windows_reserved_name(component: &str) -> bool {
         .unwrap_or_default()
         .trim_end_matches(['.', ' '])
         .to_ascii_uppercase();
-    matches!(base.as_str(), "CON" | "PRN" | "AUX" | "NUL")
+    matches!(base.as_str(), "CON" | "PRN" | "AUX" | "NUL" | "CONIN$" | "CONOUT$")
         || ["COM", "LPT"].iter().any(|prefix| {
             base.strip_prefix(prefix).is_some_and(|suffix| {
-                suffix.len() == 1 && suffix.as_bytes()[0].is_ascii_digit() && suffix != "0"
+                matches!(suffix, "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "¹" | "²" | "³")
             })
         })
 }
@@ -1010,7 +1013,7 @@ fn install_bundled_presets(
             continue;
         };
         let expected = catalog.get(name, "sha256").unwrap_or_default();
-        let actual = format!("{:x}", Sha256::digest(data));
+        let actual = sha256_bytes(data);
         if !valid_hash(expected) || !actual.eq_ignore_ascii_case(expected) {
             summary.skipped_presets.push(name.to_owned());
             continue;
@@ -1309,6 +1312,9 @@ mod tests {
         assert!(safe_archive_path("../outside.fx").is_err());
         assert!(safe_archive_path("Shaders/CON.fx").is_err());
         assert!(safe_archive_path("Shaders/bad?.fx").is_err());
+        assert!(safe_archive_path("Shaders/.. /outside.fx").is_err());
+        assert!(safe_archive_path("Shaders/COM¹.fx").is_err());
+        assert!(safe_archive_path("Shaders/CONOUT$").is_err());
     }
 
     #[test]
@@ -1316,7 +1322,7 @@ mod tests {
         let catalog = PresetIni::parse(PRESET_CATALOG);
         for (name, data) in BUNDLED_PRESETS {
             let expected = catalog.get(name, "sha256").unwrap();
-            assert_eq!(format!("{:x}", Sha256::digest(data)), expected);
+            assert_eq!(sha256_bytes(data), expected);
             assert!(
                 Path::new(name)
                     .file_name()
@@ -1481,7 +1487,7 @@ mod tests {
             "SSR_RELIEF_SCALE=0.350000\r\n",
         )
         .to_owned();
-        assert_eq!(format!("{:x}", Sha256::digest(previous.as_bytes())), UPGRADED_PRESETS[1].1);
+        assert_eq!(sha256_bytes(previous.as_bytes()), UPGRADED_PRESETS[1].1);
         fs::write(presets.join("RiShade Reflections.ini"), &previous).unwrap();
         upgrade_unmodified_presets(root.path());
         assert_eq!(fs::read(presets.join("RiShade Reflections.ini")).unwrap(), *current);

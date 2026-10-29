@@ -50,7 +50,11 @@ pub fn normalize_entry_name(name: &str) -> EntryName {
         if part.is_empty() || part == "." {
             continue;
         }
-        if part == ".." || part.contains(':') {
+        if part == ".."
+            || part.chars().any(|character| character.is_control() || matches!(character, ':' | '<' | '>' | '"' | '|' | '?' | '*'))
+            || part.ends_with(['.', ' '])
+            || windows_reserved_name(part)
+        {
             return EntryName::Unsafe;
         }
         parts.push(part);
@@ -59,6 +63,37 @@ pub fn normalize_entry_name(name: &str) -> EntryName {
         return EntryName::Skip;
     }
     EntryName::Path(parts.join("/"), is_dir)
+}
+
+fn windows_reserved_name(component: &str) -> bool {
+    let base = component.split('.').next().unwrap_or_default().trim_end_matches(['.', ' ']).to_ascii_uppercase();
+    matches!(base.as_str(), "CON" | "PRN" | "AUX" | "NUL" | "CONIN$" | "CONOUT$")
+        || ["COM", "LPT"].iter().any(|prefix| {
+            base.strip_prefix(prefix).is_some_and(|suffix| {
+                matches!(suffix, "1" | "2" | "3" | "4" | "5" | "6" | "7" | "8" | "9" | "¹" | "²" | "³")
+            })
+        })
+}
+
+fn ensure_directory(root: &Path, relative: &Path) -> Result<(), ExtractError> {
+    let mut current = root.to_path_buf();
+    ensure_one_directory(&current)?;
+    for component in relative.components() {
+        current.push(component);
+        ensure_one_directory(&current)?;
+    }
+    Ok(())
+}
+
+fn ensure_one_directory(path: &Path) -> Result<(), ExtractError> {
+    match fs::symlink_metadata(path) {
+        Ok(metadata) if metadata.file_type().is_symlink() || !metadata.is_dir() => {
+            Err(ExtractError::Failed("Extraction path contains a link or file".into()))
+        }
+        Ok(_) => Ok(()),
+        Err(error) if error.kind() == io::ErrorKind::NotFound => Ok(fs::create_dir_all(path)?),
+        Err(error) => Err(error.into()),
+    }
 }
 
 fn open_archive(path: &Path) -> Result<ZipArchive<BufReader<File>>, ExtractError> {
@@ -78,9 +113,10 @@ fn extract_range<R: Read + Seek>(
             return Err(ExtractError::Cancelled);
         }
         let mut entry = archive.by_index(index)?;
-        let (relative, is_dir) = match normalize_entry_name(entry.name()) {
+        let name = entry.name()?.into_owned();
+        let (relative, is_dir) = match normalize_entry_name(&name) {
             EntryName::Skip => continue,
-            EntryName::Unsafe => return Err(ExtractError::Failed(format!("Unsafe entry path {}", entry.name()))),
+            EntryName::Unsafe => return Err(ExtractError::Failed(format!("Unsafe entry path {name}"))),
             EntryName::Path(relative, is_dir) => (relative, is_dir || entry.is_dir()),
         };
         if let Some(filter) = filter {
@@ -90,11 +126,14 @@ fn extract_range<R: Read + Seek>(
         }
         let target = root.join(&relative);
         if is_dir {
-            fs::create_dir_all(&target)?;
+            ensure_directory(root, Path::new(&relative))?;
             continue;
         }
-        if let Some(parent) = target.parent() {
-            fs::create_dir_all(parent)?;
+        if let Some(parent) = Path::new(&relative).parent() {
+            ensure_directory(root, parent)?;
+        }
+        if fs::symlink_metadata(&target).is_ok_and(|metadata| metadata.file_type().is_symlink() || !metadata.is_file()) {
+            return Err(ExtractError::Failed("Extraction target is not a regular file".into()));
         }
         let out = File::create(&target)?;
         out.set_len(entry.size())?;
@@ -111,7 +150,7 @@ pub fn extract(
     filter: Option<&HashSet<String>>,
     cancel: &(dyn Fn() -> bool + Sync),
 ) -> Result<(), ExtractError> {
-    fs::create_dir_all(dest)?;
+    ensure_directory(dest, Path::new(""))?;
     let mut archive = open_archive(zip_path)?;
     let count = archive.len();
     let size = fs::metadata(zip_path)?.len();
@@ -232,6 +271,15 @@ pub unsafe extern "C" fn vp_last_error(buffer: *mut u16, capacity: usize) -> usi
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::io::Write;
+    use zip::write::SimpleFileOptions;
+
+    fn write_archive(path: &Path, name: &str) {
+        let mut archive = zip::ZipWriter::new(File::create(path).unwrap());
+        archive.start_file(name, SimpleFileOptions::default()).unwrap();
+        archive.write_all(b"package data").unwrap();
+        archive.finish().unwrap();
+    }
 
     fn path(name: &str) -> Option<(String, bool)> {
         match normalize_entry_name(name) {
@@ -254,5 +302,57 @@ mod tests {
         assert!(matches!(normalize_entry_name("C:\\Windows\\x"), EntryName::Unsafe));
         assert!(matches!(normalize_entry_name("a/../../b"), EntryName::Unsafe));
         assert!(matches!(normalize_entry_name("\\\\server\\share\\..\\x"), EntryName::Unsafe));
+    }
+
+    #[test]
+    fn rejects_windows_path_aliases_and_device_names() {
+        for name in [".. /escape.dll", "a/.. ./escape.dll", "a/CON.txt", "a/CON .txt", "a/nul", "a/CONIN$", "a/COM1.dll", "a/LPT².txt", "a/trailing.", "a/bad?.dll", "a/null\0.dll"] {
+            assert!(matches!(normalize_entry_name(name), EntryName::Unsafe), "{name:?}");
+        }
+        assert_eq!(path("content/console.txt"), Some(("content/console.txt".into(), false)));
+    }
+
+    #[test]
+    fn extracts_deflated_archives_and_preserves_filters_and_cancellation() {
+        let temp = tempfile::tempdir().unwrap();
+        let archive = temp.path().join("package.zip");
+        let output = temp.path().join("output");
+        write_archive(&archive, "content/data.txt");
+        let filter = HashSet::from(["other.txt".into()]);
+        extract(&archive, &output, Some(&filter), &|| false).unwrap();
+        assert!(!output.join("content/data.txt").exists());
+        extract(&archive, &output, None, &|| false).unwrap();
+        assert_eq!(fs::read(output.join("content/data.txt")).unwrap(), b"package data");
+        assert!(matches!(extract(&archive, &output, None, &|| true), Err(ExtractError::Cancelled)));
+    }
+
+    #[test]
+    fn rejects_archive_paths_before_writing_outside_the_destination() {
+        let temp = tempfile::tempdir().unwrap();
+        let archive = temp.path().join("package.zip");
+        write_archive(&archive, ".. /outside.txt");
+        assert!(extract(&archive, &temp.path().join("output"), None, &|| false).is_err());
+        assert!(!temp.path().join("outside.txt").exists());
+    }
+
+    #[test]
+    fn rejects_existing_symlinks_without_overwriting_their_targets() {
+        let temp = tempfile::tempdir().unwrap();
+        let archive = temp.path().join("package.zip");
+        let output = temp.path().join("output");
+        let outside = temp.path().join("outside");
+        fs::create_dir(&output).unwrap();
+        fs::create_dir(&outside).unwrap();
+        #[cfg(unix)]
+        std::os::unix::fs::symlink(&outside, output.join("content")).unwrap();
+        #[cfg(windows)]
+        assert!(std::process::Command::new("powershell.exe")
+            .args(["-NoProfile", "-NonInteractive", "-Command", "$ErrorActionPreference = 'Stop'; New-Item -ItemType Junction -Path $env:VOIDPKG_TEST_TARGET -Target $env:VOIDPKG_TEST_SOURCE | Out-Null"])
+            .env("VOIDPKG_TEST_TARGET", output.join("content"))
+            .env("VOIDPKG_TEST_SOURCE", &outside)
+            .status().unwrap().success());
+        write_archive(&archive, "content/data.txt");
+        assert!(extract(&archive, &output, None, &|| false).is_err());
+        assert!(!outside.join("data.txt").exists());
     }
 }
