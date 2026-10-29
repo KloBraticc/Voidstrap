@@ -34,6 +34,7 @@ body:
       options:
         - Windows
         - Linux
+        - macOS
         - Android
     validations:
       required: true
@@ -41,8 +42,8 @@ body:
     id: os
     attributes:
       label: Operating system version
-      description: Include your Windows version, Linux distribution and package format, or Android version.
-      placeholder: Windows 11 24H2, Ubuntu 24.04 AppImage, or Android 14
+      description: Include your OS version. For Linux, add the distribution and package format. For macOS, add Intel or Apple silicon. For Android, add the play or direct flavor.
+      placeholder: Windows 11 24H2, Ubuntu 24.04 AppImage, macOS 15 on Apple silicon, or Android 14 direct
     validations:
       required: true
   - type: textarea

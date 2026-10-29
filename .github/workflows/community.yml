@@ -1,0 +1,127 @@
+name: Community triage
+
+on:
+  issues:
+    types: [opened, edited, reopened]
+  pull_request_target:
+    types: [opened, edited, reopened, synchronize, ready_for_review]
+  workflow_dispatch:
+    inputs:
+      number:
+        description: Issue or pull request number to inspect without changes
+        required: true
+        type: number
+
+permissions: {}
+
+jobs:
+  triage:
+    if: github.event_name == 'issues' || github.event_name == 'pull_request_target' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    concurrency:
+      group: community-${{ github.repository }}-${{ github.event.issue.number || github.event.pull_request.number || inputs.number }}
+      cancel-in-progress: false
+    permissions:
+      issues: write
+      pull-requests: read
+    steps:
+      - uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd
+        with:
+          script: |
+            const repo = context.repo;
+            const number = Number(context.payload.issue?.number ?? context.payload.pull_request?.number ?? context.payload.inputs?.number);
+            if (!Number.isSafeInteger(number) || number < 1) throw new Error("A valid issue number is required");
+            const dryRun = context.eventName === "workflow_dispatch";
+            const { data: issue } = await github.rest.issues.get({ ...repo, issue_number: number });
+            const current = new Set(issue.labels.map(label => typeof label === "string" ? label : label.name));
+            if (issue.state !== "open" || issue.locked || current.has("automation: off")) {
+              core.info("Skipping a closed, locked or opted out report");
+              return;
+            }
+            const pull = Boolean(issue.pull_request);
+            const bot = issue.user.type === "Bot";
+            if (bot && !pull) return;
+            const wanted = new Set();
+            const platforms = ["Windows", "Linux", "macOS", "Android"];
+            const platformLabels = platforms.map(name => "platform:" + name.toLowerCase());
+            const section = heading => {
+              const lines = (issue.body ?? "").replace(/\r/g, "").split("\n");
+              const start = lines.findIndex(line => line.trim() === "### " + heading);
+              if (start < 0) return "";
+              const end = lines.findIndex((line, index) => index > start && /^#{1,3} /.test(line));
+              return lines.slice(start + 1, end < 0 ? undefined : end).join("\n").trim();
+            };
+            const missing = [];
+            if (pull) {
+              const files = await github.paginate(github.rest.pulls.listFiles, { ...repo, pull_number: number, per_page: 100 });
+              const paths = files.flatMap(file => [file.filename, file.previous_filename].filter(Boolean));
+              const has = pattern => paths.some(path => pattern.test(path));
+              if (has(/\.md$|^docs\//i)) wanted.add("documentation");
+              if (has(/^\.github\/workflows\//)) wanted.add("github_actions");
+              if (has(/\.cs$|\.csproj$|\.xaml$/)) wanted.add(".NET");
+              if (has(/\.rs$/)) wanted.add("rust");
+              if (has(/\.java$|\.kt$|\.kts$/)) wanted.add("java");
+              if (has(/(^|\/)(Cargo\.(toml|lock)|libs\.versions\.toml|gradle-wrapper\.properties|packages\.lock\.json)$/) ||
+                files.some(file => file.filename.endsWith(".csproj") && /^[+-].*<Package(Reference|Download)/m.test(file.patch ?? "")) ||
+                issue.user.login === "dependabot[bot]") wanted.add("dependencies");
+              if (has(/^android\//)) wanted.add("platform:android");
+              if (has(/^src\/(Voidstrap\.Platform\.Windows|Voidstrap\.Desktop\.Windows)\//)) wanted.add("platform:windows");
+              if (has(/^src\/(Voidstrap\.Platform\.Linux|Voidstrap\.Desktop\.Linux)\/|^build\/Packaging\/Linux\//)) wanted.add("platform:linux");
+              if (has(/^src\/(Voidstrap\.Platform\.MacOS|Voidstrap\.Desktop\.MacOS|VirtualDisplay)\/|^build\/Packaging\/MacOS\//)) wanted.add("platform:macos");
+              if (has(/^src\/Voidstrap\.App\/Integrations\/Mcp\//)) wanted.add("mcp");
+            } else {
+              const platform = section("Platform");
+              for (const name of platforms)
+                if (platform === name || platform === "All") wanted.add("platform:" + name.toLowerCase());
+              const bugForm = current.has("bug") && (issue.body ?? "").includes("### Problem details");
+              const featureForm = current.has("enhancement") && (issue.body ?? "").includes("### Problem to solve");
+              const required = bugForm ? ["Voidstrap version", "Platform", "Operating system version", "Problem details", "Steps to reproduce"] :
+                featureForm ? ["Platform", "Problem to solve", "What should Voidstrap do?"] : [];
+              for (const heading of required) {
+                const value = section(heading);
+                if (!value || /^_?No response_?$/i.test(value)) missing.push(heading);
+              }
+            }
+            const heading = "### Voidstrap report details\n";
+            const comments = pull || bot ? [] : await github.paginate(github.rest.issues.listComments, { ...repo, issue_number: number, per_page: 100 });
+            const previous = comments.find(comment => comment.user?.login === "github-actions[bot]" && comment.body?.startsWith(heading));
+            if (missing.length) wanted.add("needs information");
+            const additions = [...wanted].filter(name => !current.has(name));
+            const removals = !pull && section("Platform") ? platformLabels.filter(name => current.has(name) && !wanted.has(name)) : [];
+            const resolved = previous?.body?.startsWith(heading + "\nPlease add");
+            if (!missing.length && resolved && current.has("needs information")) removals.push("needs information");
+            const requestDetails = missing.length > 0 && (!current.has("needs information") || previous);
+            const body = requestDetails ? heading + "\nPlease add the following details to the issue description so we can investigate:\n\n" +
+              missing.map(name => "* " + name).join("\n") +
+              "\n\nEdit the description rather than opening another issue. Remove passwords, tokens and other private information from attachments. See [the reporting guide](https://github.com/KloBraticc/Voidstrap/blob/main/CONTRIBUTING.md#reporting-a-bug) for help." :
+              previous && !missing.length ? heading + "\nThe requested details are now present. This report is ready for maintainer review." : null;
+            if (dryRun) {
+              core.info(JSON.stringify({ number, additions, removals, missing, comment: body && body !== previous?.body ? previous ? "update" : "create" : "none" }));
+              return;
+            }
+            for (const name of additions) {
+              try {
+                await github.rest.issues.getLabel({ ...repo, name });
+              } catch (error) {
+                if (error.status !== 404) throw error;
+                try {
+                  await github.rest.issues.createLabel({ ...repo, name, color: name.startsWith("platform:") ? "c5def5" : "ededed",
+                    description: name.startsWith("platform:") ? "Reports or changes for " + name.slice(9) : name === "needs information" ? "The report is missing required details" : "Reports or changes related to " + name });
+                } catch (error) {
+                  if (error.status !== 422) throw error;
+                }
+              }
+            }
+            if (additions.length) await github.rest.issues.addLabels({ ...repo, issue_number: number, labels: additions });
+            for (const name of removals) {
+              try {
+                await github.rest.issues.removeLabel({ ...repo, issue_number: number, name });
+              } catch (error) {
+                if (error.status !== 404) throw error;
+              }
+            }
+            if (body && body !== previous?.body) {
+              if (previous) await github.rest.issues.updateComment({ ...repo, comment_id: previous.id, body });
+              else await github.rest.issues.createComment({ ...repo, issue_number: number, body });
+            }

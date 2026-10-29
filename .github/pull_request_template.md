@@ -12,8 +12,8 @@ List what you ran or checked.
 
 ## Checklist
 
-- [ ] `dotnet build Voidstrap.sln -c Debug -warnaserror` passes with zero warnings
-- [ ] Android changes pass `./gradlew assemble lintPlayRelease lintDirectRelease`
+- [ ] I ran the relevant checks from the contributing guide and listed the results above
+- [ ] I described any affected platform or hardware I could not test
 - [ ] No code comments were added, and new UI text is in `Strings.resx`
-- [ ] Screenshots are attached for UI changes
+- [ ] Screenshots or recordings are attached when the appearance or interaction changed
 - [ ] I followed the [contributing guide](https://github.com/KloBraticc/Voidstrap/blob/main/CONTRIBUTING.md)
