@@ -60,8 +60,16 @@ public class EmojiModPresetTask : EnumBaseTask<EmojiType>
 				try
 				{
 					await ResilientDownload.DownloadAsync(App.HttpClient, [NewState.GetUrl()], temporary, EmojiTypeEx.Sizes[NewState], "sha256:" + NewState.GetHash()).ConfigureAwait(false);
-					Filesystem.AssertReadOnly(_filePath);
-					File.Move(temporary, _filePath, true);
+					FileModManager.FolderGate.Wait();
+					try
+					{
+						Filesystem.AssertReadOnly(_filePath);
+						File.Move(temporary, _filePath, true);
+					}
+					finally
+					{
+						FileModManager.FolderGate.Release();
+					}
 				}
 				finally
 				{
@@ -80,11 +88,19 @@ public class EmojiModPresetTask : EnumBaseTask<EmojiType>
 				return;
 			}
 		}
-		if (enumerable != null && enumerable.Any())
+		FileModManager.FolderGate.Wait();
+		try
 		{
-			Filesystem.AssertReadOnly(_filePath);
-			File.Delete(_filePath);
-			OriginalState = NewState;
+			if (enumerable != null && enumerable.Any())
+			{
+				Filesystem.AssertReadOnly(_filePath);
+				File.Delete(_filePath);
+				OriginalState = NewState;
+			}
+		}
+		finally
+		{
+			FileModManager.FolderGate.Release();
 		}
 	}
 }

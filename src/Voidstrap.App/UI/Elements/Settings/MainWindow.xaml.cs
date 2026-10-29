@@ -1288,6 +1288,18 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
     {
         if (ModTopBannerHost == null || ModBottomBannerHost == null)
             return;
+        try
+        {
+            await RenderModBannersCore();
+        }
+        catch (Exception ex)
+        {
+            App.Logger.WriteException("MainWindow::RenderModBanners", ex);
+        }
+    }
+
+    private async System.Threading.Tasks.Task RenderModBannersCore()
+    {
         int generation = ++_modBannerRenderGeneration;
         IReadOnlyList<Voidstrap.Integrations.Plugins.PluginHost.BannerInfo> banners = Voidstrap.Integrations.Plugins.PluginHost.Banners;
         List<(Voidstrap.Integrations.Plugins.PluginHost.BannerInfo Banner, System.Text.Json.Nodes.JsonNode? Tree)> rendered = await Task.Run(() =>

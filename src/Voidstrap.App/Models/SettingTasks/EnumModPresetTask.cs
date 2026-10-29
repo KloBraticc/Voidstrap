@@ -36,6 +36,19 @@ public class EnumModPresetTask<T> : EnumBaseTask<T> where T : struct, Enum
 
 	public override void Execute()
 	{
+		FileModManager.FolderGate.Wait();
+		try
+		{
+			ExecuteCore();
+		}
+		finally
+		{
+			FileModManager.FolderGate.Release();
+		}
+	}
+
+	private void ExecuteCore()
+	{
 		if (NewState.Equals(default(T)))
 		{
 			foreach (Dictionary<string, ModPresetFileData> files in _fileDataMap.Values)

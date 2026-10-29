@@ -62,14 +62,28 @@ public partial class GitHubSignInDialog : WpfUiWindow
 	{
 		if (_code == null)
 			return;
-		Clipboard.SetText(_code.UserCode);
+		CopyUserCode();
 		Utilities.OpenWebLink(_code.VerificationUri);
 	}
 
 	private void Copy_Click(object sender, RoutedEventArgs e)
 	{
 		if (_code != null)
+			CopyUserCode();
+	}
+
+	private void CopyUserCode()
+	{
+		if (_code == null)
+			return;
+		try
+		{
 			Clipboard.SetText(_code.UserCode);
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("GitHubSignInDialog", "The code could not be copied: " + ex.Message);
+		}
 	}
 
 	private void OnDialogClosed(object? sender, EventArgs e)

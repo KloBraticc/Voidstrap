@@ -1481,6 +1481,7 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 			_themeWatcher.Created += OnThemeFileChanged;
 			_themeWatcher.Deleted += OnThemeFileChanged;
 			_themeWatcher.Renamed += OnThemeFileRenamed;
+			_themeWatcher.Error += OnThemeWatchError;
 			_themeWatcher.EnableRaisingEvents = true;
 		}
 		catch (Exception ex)
@@ -1503,7 +1504,13 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 		watcher.Created -= OnThemeFileChanged;
 		watcher.Deleted -= OnThemeFileChanged;
 		watcher.Renamed -= OnThemeFileRenamed;
+		watcher.Error -= OnThemeWatchError;
 		watcher.Dispose();
+	}
+
+	private void OnThemeWatchError(object sender, ErrorEventArgs e)
+	{
+		App.Logger?.WriteLine("BootstrapperEditorWindow::StartThemeWatch", "The theme folder watch hit an error: " + e.GetException().Message);
 	}
 
 	private void OnThemeFileChanged(object sender, FileSystemEventArgs e)
@@ -2210,6 +2217,12 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 
 		_externalWatcher.Changed += OnExternalFileChanged;
 		_externalWatcher.Created += OnExternalFileChanged;
+		_externalWatcher.Error += OnExternalWatchError;
+	}
+
+	private void OnExternalWatchError(object sender, ErrorEventArgs e)
+	{
+		App.Logger?.WriteLine("BootstrapperEditorWindow::StartExternalWatch", "The external file watch hit an error: " + e.GetException().Message);
 	}
 
 	private void StopExternalWatch()
@@ -2221,6 +2234,7 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 				_externalWatcher.EnableRaisingEvents = false;
 				_externalWatcher.Changed -= OnExternalFileChanged;
 				_externalWatcher.Created -= OnExternalFileChanged;
+				_externalWatcher.Error -= OnExternalWatchError;
 				_externalWatcher.Dispose();
 			}
 			catch

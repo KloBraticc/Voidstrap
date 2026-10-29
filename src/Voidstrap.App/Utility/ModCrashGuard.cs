@@ -197,7 +197,7 @@ internal static class ModCrashGuard
 		try
 		{
 			Directory.CreateDirectory(Paths.Data);
-			string temporary = StatePath + ".tmp";
+			string temporary = StatePath + "." + Guid.NewGuid().ToString("N") + ".tmp";
 			File.WriteAllText(temporary, JsonSerializer.Serialize(state, JsonOptions.Indented));
 			File.Move(temporary, StatePath, overwrite: true);
 		}
@@ -212,7 +212,17 @@ internal sealed record ReplacementConfigFile(string Label, string Path, string C
 
 internal static class ExternalModConfigs
 {
+	private static readonly object Gate = new();
+
 	public static List<ReplacementConfigFile> GetConfigFiles(string recordId)
+	{
+		lock (Gate)
+		{
+			return GetConfigFilesCore(recordId);
+		}
+	}
+
+	private static List<ReplacementConfigFile> GetConfigFilesCore(string recordId)
 	{
 		List<ReplacementConfigFile> files = [];
 		foreach ((string configsFolder, string configName) in ReadLocks(recordId))
@@ -237,22 +247,26 @@ internal static class ExternalModConfigs
 
 	public static bool IsExternal(string recordId)
 	{
-		return ReadLocks(recordId).Count > 0;
+		lock (Gate)
+			return ReadLocks(recordId).Count > 0;
 	}
 
 	public static void RemoveConfigs(string recordId)
 	{
-		List<ReplacementConfigFile> files = GetConfigFiles(recordId);
-		foreach (ReplacementConfigFile file in files)
+		lock (Gate)
 		{
-			try
+			List<ReplacementConfigFile> files = GetConfigFilesCore(recordId);
+			foreach (ReplacementConfigFile file in files)
 			{
-				File.Delete(file.Path);
-				App.Logger?.WriteLine(LogIdent, "Removed the replacement config " + file.Label + " with its mod");
-			}
-			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-			{
-				App.Logger?.WriteLine(LogIdent, "The config " + file.Label + " could not be removed: " + ex.Message);
+				try
+				{
+					File.Delete(file.Path);
+					App.Logger?.WriteLine(LogIdent, "Removed the replacement config " + file.Label + " with its mod");
+				}
+				catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+				{
+					App.Logger?.WriteLine(LogIdent, "The config " + file.Label + " could not be removed: " + ex.Message);
+				}
 			}
 		}
 	}
@@ -286,24 +300,27 @@ internal static class ExternalModConfigs
 
 	public static void SetEnabled(string recordId, bool enabled)
 	{
-		foreach ((string configsFolder, string configName) in ReadLocks(recordId))
+		lock (Gate)
 		{
-			string active = Path.Combine(configsFolder, configName + ".json");
-			string parked = Path.Combine(configsFolder, DisabledFolderName, configName + ".json");
-			string source = enabled ? parked : active;
-			string target = enabled ? active : parked;
-			try
+			foreach ((string configsFolder, string configName) in ReadLocks(recordId))
 			{
-				if (!File.Exists(source))
+				string active = Path.Combine(configsFolder, configName + ".json");
+				string parked = Path.Combine(configsFolder, DisabledFolderName, configName + ".json");
+				string source = enabled ? parked : active;
+				string target = enabled ? active : parked;
+				try
 				{
-					continue;
+					if (!File.Exists(source))
+					{
+						continue;
+					}
+					Directory.CreateDirectory(Path.GetDirectoryName(target)!);
+					File.Move(source, target, overwrite: true);
 				}
-				Directory.CreateDirectory(Path.GetDirectoryName(target)!);
-				File.Move(source, target, overwrite: true);
-			}
-			catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
-			{
-				App.Logger?.WriteLine(LogIdent, "The config " + configName + " could not be moved: " + ex.Message);
+				catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+				{
+					App.Logger?.WriteLine(LogIdent, "The config " + configName + " could not be moved: " + ex.Message);
+				}
 			}
 		}
 	}

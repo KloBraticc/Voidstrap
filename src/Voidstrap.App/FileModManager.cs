@@ -26,6 +26,8 @@ public static class FileModManager
 
 	private static readonly object Gate = new object();
 
+	public static readonly SemaphoreSlim FolderGate = new(1, 1);
+
 	private static int _applyQueued;
 
 	private static readonly string[] ParticleFiles =
@@ -271,6 +273,19 @@ public static class FileModManager
 	}
 
 	public static void ApplyFromSettings(string? versionDirectory, string? versionGuid)
+	{
+		FolderGate.Wait();
+		try
+		{
+			ApplyFromSettingsCore(versionDirectory, versionGuid);
+		}
+		finally
+		{
+			FolderGate.Release();
+		}
+	}
+
+	private static void ApplyFromSettingsCore(string? versionDirectory, string? versionGuid)
 	{
 		lock (Gate)
 		{
@@ -713,7 +728,17 @@ public static class FileModManager
 	private static void SaveOwned(Dictionary<string, string> owned)
 	{
 		Directory.CreateDirectory(StateFolder);
-		File.WriteAllText(OwnedPath, JsonSerializer.Serialize(owned, JsonOptions.Indented));
+		string temporary = OwnedPath + "." + Guid.NewGuid().ToString("N") + ".tmp";
+		try
+		{
+			File.WriteAllText(temporary, JsonSerializer.Serialize(owned, JsonOptions.Indented));
+			File.Move(temporary, OwnedPath, true);
+		}
+		finally
+		{
+			if (File.Exists(temporary))
+				File.Delete(temporary);
+		}
 	}
 
 	private static byte[] CreatePng(byte shade, byte alpha)

@@ -99,6 +99,19 @@ internal static class ModAutoFixer
 
 	public static void PrepareModSources(string robloxFolder)
 	{
+		FileModManager.FolderGate.Wait();
+		try
+		{
+			PrepareModSourcesCore(robloxFolder);
+		}
+		finally
+		{
+			FileModManager.FolderGate.Release();
+		}
+	}
+
+	private static void PrepareModSourcesCore(string robloxFolder)
+	{
 		RobloxLayoutRepair.UseClient(robloxFolder);
 		List<string> folders = [Paths.Mods];
 		try

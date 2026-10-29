@@ -12,6 +12,8 @@ internal static class RobloxAssetCache
 {
 	private const string LogIdent = "RobloxAssetCache";
 
+	private static readonly object StorageGate = new();
+
 	public const int HeaderBytes = 37;
 
 	public const int ContentLengthOffset = 25;
@@ -136,6 +138,14 @@ internal static class RobloxAssetCache
 		{
 			return 0;
 		}
+		lock (StorageGate)
+		{
+			return InstallCore(entries, backupFolder, token);
+		}
+	}
+
+	private static int InstallCore(IReadOnlyList<AssetCacheEntry> entries, string backupFolder, CancellationToken token)
+	{
 		Directory.CreateDirectory(backupFolder);
 		int installed = 0;
 		List<string> manifest = [];
@@ -182,6 +192,14 @@ internal static class RobloxAssetCache
 
 	public static int Restore(string backupFolder)
 	{
+		lock (StorageGate)
+		{
+			return RestoreCore(backupFolder);
+		}
+	}
+
+	private static int RestoreCore(string backupFolder)
+	{
 		string manifestPath = Path.Combine(backupFolder, ManifestName);
 		if (!Directory.Exists(backupFolder))
 		{
@@ -224,6 +242,14 @@ internal static class RobloxAssetCache
 	}
 
 	public static int Reapply(string backupFolder)
+	{
+		lock (StorageGate)
+		{
+			return ReapplyCore(backupFolder);
+		}
+	}
+
+	private static int ReapplyCore(string backupFolder)
 	{
 		string manifestPath = Path.Combine(backupFolder, ManifestName);
 		if (!File.Exists(manifestPath))
@@ -313,6 +339,14 @@ internal static class RobloxAssetCache
 	}
 
 	public static bool ClearStorage()
+	{
+		lock (StorageGate)
+		{
+			return ClearStorageCore();
+		}
+	}
+
+	private static bool ClearStorageCore()
 	{
 		string roblox;
 		string[] files;

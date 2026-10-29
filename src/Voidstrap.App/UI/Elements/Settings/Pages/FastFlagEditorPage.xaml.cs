@@ -115,7 +115,7 @@ public partial class FastFlagEditorPage : UiPage
 
 	private const int SearchDebounceMs = 180;
 
-	private static readonly ObservableCollection<FlagHistoryEntry> _flagHistory = new ObservableCollection<FlagHistoryEntry>();
+	private readonly ObservableCollection<FlagHistoryEntry> _flagHistory = new ObservableCollection<FlagHistoryEntry>();
 
 	private static readonly HashSet<string> _presetFlagValues = new HashSet<string>(FastFlagManager.PresetFlags.Values, StringComparer.Ordinal);
 

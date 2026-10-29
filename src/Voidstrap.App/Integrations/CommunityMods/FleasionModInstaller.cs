@@ -543,7 +543,27 @@ internal static class FleasionModInstaller
 	{
 		Directory.CreateDirectory(folder);
 		string path = GetContainedPath(folder, name + ".json");
-		await File.WriteAllTextAsync(path, config.ToJsonString(JsonOptions), new UTF8Encoding(false), token).ConfigureAwait(false);
+		await FleasionBridge.ConfigGate.WaitAsync(token).ConfigureAwait(false);
+		try
+		{
+			string temporary = path + "." + Guid.NewGuid().ToString("N") + ".tmp";
+			try
+			{
+				await File.WriteAllTextAsync(temporary, config.ToJsonString(JsonOptions), new UTF8Encoding(false), token).ConfigureAwait(false);
+				File.Move(temporary, path, true);
+			}
+			finally
+			{
+				if (File.Exists(temporary))
+				{
+					File.Delete(temporary);
+				}
+			}
+		}
+		finally
+		{
+			FleasionBridge.ConfigGate.Release();
+		}
 	}
 
 	private static async Task EnableConfigsAsync(IReadOnlyList<string> names, CancellationToken token)
@@ -551,35 +571,43 @@ internal static class FleasionModInstaller
 		string folder = Path.GetDirectoryName(ConfigsFolder)!;
 		Directory.CreateDirectory(folder);
 		string path = Path.Combine(folder, "settings.json");
-		JsonObject settings = new JsonObject();
-		if (File.Exists(path))
-		{
-			await using FileStream input = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, 81920, FileOptions.Asynchronous | FileOptions.SequentialScan);
-			settings = await JsonNode.ParseAsync(input, cancellationToken: token).ConfigureAwait(false) as JsonObject
-				?? throw new InvalidDataException("Fleasion settings are not valid JSON.");
-		}
-		JsonArray enabled = settings["enabled_configs"] as JsonArray ?? new JsonArray();
-		settings["enabled_configs"] = enabled;
-		foreach (string name in names)
-		{
-			if (!enabled.Any(node => string.Equals(node?.GetValue<string>(), name, StringComparison.Ordinal)))
-			{
-				enabled.Add(name);
-			}
-		}
-		settings["last_config"] = names[0];
-		string temporary = path + ".tmp";
+		await FleasionBridge.ConfigGate.WaitAsync(token).ConfigureAwait(false);
 		try
 		{
-			await File.WriteAllTextAsync(temporary, settings.ToJsonString(JsonOptions), new UTF8Encoding(false), token).ConfigureAwait(false);
-			File.Move(temporary, path, true);
+			JsonObject settings = new JsonObject();
+			if (File.Exists(path))
+			{
+				await using FileStream input = new FileStream(path, FileMode.Open, FileAccess.Read, FileShare.Read, 81920, FileOptions.Asynchronous | FileOptions.SequentialScan);
+				settings = await JsonNode.ParseAsync(input, cancellationToken: token).ConfigureAwait(false) as JsonObject
+					?? throw new InvalidDataException("Fleasion settings are not valid JSON.");
+			}
+			JsonArray enabled = settings["enabled_configs"] as JsonArray ?? new JsonArray();
+			settings["enabled_configs"] = enabled;
+			foreach (string name in names)
+			{
+				if (!enabled.Any(node => string.Equals(node?.GetValue<string>(), name, StringComparison.Ordinal)))
+				{
+					enabled.Add(name);
+				}
+			}
+			settings["last_config"] = names[0];
+			string temporary = path + "." + Guid.NewGuid().ToString("N") + ".tmp";
+			try
+			{
+				await File.WriteAllTextAsync(temporary, settings.ToJsonString(JsonOptions), new UTF8Encoding(false), token).ConfigureAwait(false);
+				File.Move(temporary, path, true);
+			}
+			finally
+			{
+				if (File.Exists(temporary))
+				{
+					File.Delete(temporary);
+				}
+			}
 		}
 		finally
 		{
-			if (File.Exists(temporary))
-			{
-				File.Delete(temporary);
-			}
+			FleasionBridge.ConfigGate.Release();
 		}
 	}
 

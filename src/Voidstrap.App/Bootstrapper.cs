@@ -86,11 +86,18 @@ public class Bootstrapper
 				};
 				_watcher.Created += OnCreated;
 				_watcher.Renamed += OnRenamed;
+				_watcher.Error += OnWatcherError;
 				_watcher.EnableRaisingEvents = true;
 			}
-			catch
+			catch (Exception ex)
 			{
+				App.Logger.WriteLine("Bootstrapper::RobloxLogWaiter", "The Roblox log folder could not be watched: " + ex.Message);
 			}
+		}
+
+		private void OnWatcherError(object sender, ErrorEventArgs e)
+		{
+			App.Logger.WriteLine("Bootstrapper::RobloxLogWaiter", "The Roblox log watch hit an error: " + e.GetException().Message);
 		}
 
 		private void OnCreated(object sender, FileSystemEventArgs e)
@@ -416,34 +423,47 @@ public class Bootstrapper
         {
             return;
         }
-        if (Voidstrap.Utility.Platform.IsWindows && Dialog is Control control)
+        try
         {
-            if (control.InvokeRequired)
+            if (Voidstrap.Utility.Platform.IsWindows && Dialog is Control control)
             {
-                control.Invoke(action);
+#if !CROSSPLAT
+                if (control.IsDisposed || !control.IsHandleCreated)
+                {
+                    return;
+                }
+#endif
+                if (control.InvokeRequired)
+                {
+                    control.Invoke(action);
+                }
+                else
+                {
+                    action();
+                }
+                return;
+            }
+            IBootstrapperDialog? dialog = Dialog;
+            DependencyObject? val = (DependencyObject?)((dialog is DependencyObject) ? dialog : null);
+            if (val != null)
+            {
+                if (!((DispatcherObject)val).Dispatcher.CheckAccess())
+                {
+                    ((DispatcherObject)val).Dispatcher.Invoke(action);
+                }
+                else
+                {
+                    action();
+                }
             }
             else
             {
                 action();
             }
-            return;
         }
-        IBootstrapperDialog? dialog = Dialog;
-        DependencyObject? val = (DependencyObject?)((dialog is DependencyObject) ? dialog : null);
-        if (val != null)
+        catch (Exception ex) when (ex is ObjectDisposedException or InvalidOperationException or TaskCanceledException)
         {
-            if (!((DispatcherObject)val).Dispatcher.CheckAccess())
-            {
-                ((DispatcherObject)val).Dispatcher.Invoke(action);
-            }
-            else
-            {
-                action();
-            }
-        }
-        else
-        {
-            action();
+            App.Logger.WriteLine("Bootstrapper::InvokeOnDialog", "The launch dialog closed before a status update was shown: " + ex.Message);
         }
     }
 
@@ -4263,6 +4283,19 @@ public class Bootstrapper
             return;
         }
 
+        FileModManager.FolderGate.Wait();
+        try
+        {
+            RepairModRootCaseCore();
+        }
+        finally
+        {
+            FileModManager.FolderGate.Release();
+        }
+    }
+
+    private static void RepairModRootCaseCore()
+    {
         foreach (string directory in Directory.EnumerateDirectories(Paths.Mods))
         {
             string name = Path.GetFileName(directory);
@@ -4318,6 +4351,19 @@ public class Bootstrapper
             return;
         }
 
+        FileModManager.FolderGate.Wait();
+        try
+        {
+            RepairFlattenedModNamesCore();
+        }
+        finally
+        {
+            FileModManager.FolderGate.Release();
+        }
+    }
+
+    private static void RepairFlattenedModNamesCore()
+    {
         foreach (string file in Directory.EnumerateFiles(Paths.Mods))
         {
             string name = Path.GetFileName(file);
@@ -4466,14 +4512,22 @@ public class Bootstrapper
                 buffer[3] = "textures";
                 buffer[4] = "sky";
                 string path = Path.Combine(buffer);
-                if (Directory.Exists(path))
+                FileModManager.FolderGate.Wait();
+                try
                 {
-                    files = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories);
-                    for (int i = 0; i < files.Length; i++)
+                    if (Directory.Exists(path))
                     {
-                        File.SetAttributes(files[i], FileAttributes.Normal);
+                        files = Directory.GetFiles(path, "*.*", SearchOption.AllDirectories);
+                        for (int i = 0; i < files.Length; i++)
+                        {
+                            File.SetAttributes(files[i], FileAttributes.Normal);
+                        }
+                        Directory.Delete(path, recursive: true);
                     }
-                    Directory.Delete(path, recursive: true);
+                }
+                finally
+                {
+                    FileModManager.FolderGate.Release();
                 }
             }
             catch (Exception ex)
@@ -4557,31 +4611,39 @@ public class Bootstrapper
         Dictionary<string, string> selectedMods = new(StringComparer.OrdinalIgnoreCase);
         Dictionary<string, List<string>> nextManagedManifest = new(StringComparer.OrdinalIgnoreCase);
         HashSet<string> preservedManagedPaths = new(StringComparer.OrdinalIgnoreCase);
-        foreach (string text in Directory.EnumerateFiles(Paths.Mods, "*", SearchOption.AllDirectories))
+        FileModManager.FolderGate.Wait();
+        try
         {
-            if (_cancelTokenSource.IsCancellationRequested)
+            foreach (string text in Directory.EnumerateFiles(Paths.Mods, "*", SearchOption.AllDirectories))
             {
-                return;
-            }
-            string text2 = text[(Paths.Mods.Length + 1)..];
-            if (text2 == "README.txt")
-            {
-                try { File.Delete(text); }
-                catch (Exception ex5) { App.Logger.WriteLine("Bootstrapper::ApplyModifications", "Could not remove README.txt: " + ex5.Message); }
-            }
-            else if (modsAllowed && ModAutoFixer.IsIgnoredModFile(text2))
-            {
-                ignoredModFiles++;
-            }
-            else if (string.Equals(text2, "ClientSettings\\ClientAppSettings.json", StringComparison.OrdinalIgnoreCase))
-            {
-                if (fastFlagsAllowed)
+                if (_cancelTokenSource.IsCancellationRequested)
+                {
+                    return;
+                }
+                string text2 = text[(Paths.Mods.Length + 1)..];
+                if (text2 == "README.txt")
+                {
+                    try { File.Delete(text); }
+                    catch (Exception ex5) { App.Logger.WriteLine("Bootstrapper::ApplyModifications", "Could not remove README.txt: " + ex5.Message); }
+                }
+                else if (modsAllowed && ModAutoFixer.IsIgnoredModFile(text2))
+                {
+                    ignoredModFiles++;
+                }
+                else if (string.Equals(text2, "ClientSettings\\ClientAppSettings.json", StringComparison.OrdinalIgnoreCase))
+                {
+                    if (fastFlagsAllowed)
+                        selectedMods[text2] = text;
+                }
+                else if (modsAllowed && !text2.EndsWith(".lock", StringComparison.Ordinal) && (!IsStudioLaunch || !text2.StartsWith("PlatformContent\\pc\\textures\\sky", StringComparison.OrdinalIgnoreCase)))
+                {
                     selectedMods[text2] = text;
+                }
             }
-            else if (modsAllowed && !text2.EndsWith(".lock", StringComparison.Ordinal) && (!IsStudioLaunch || !text2.StartsWith("PlatformContent\\pc\\textures\\sky", StringComparison.OrdinalIgnoreCase)))
-            {
-                selectedMods[text2] = text;
-            }
+        }
+        finally
+        {
+            FileModManager.FolderGate.Release();
         }
         if (modsAllowed && !IsStudioLaunch)
         {

@@ -330,7 +330,15 @@ public static partial class McpTools
 					return new McpToolResult("Deleting a whole mod needs confirm set to true.", true);
 				if (!Directory.Exists(folder))
 					return new McpToolResult("That mod does not exist.", true);
-				Directory.Delete(folder, true);
+				PluginHost.MutationGate.Wait();
+				try
+				{
+					Directory.Delete(folder, true);
+				}
+				finally
+				{
+					PluginHost.MutationGate.Release();
+				}
 				PluginHost.ForgetConsent(mod);
 				PluginHost.Reload();
 				return new McpToolResult("Deleted the mod " + mod + ".");

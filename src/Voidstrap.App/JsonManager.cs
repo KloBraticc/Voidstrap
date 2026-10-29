@@ -41,7 +41,14 @@ public class JsonManager<T> where T : class, new()
 		if (!File.Exists(FileLocation))
 		{
 			App.Logger.WriteLine(identifier, "File does not exist, saving defaults.");
-			Save();
+			try
+			{
+				SaveChecked();
+			}
+			catch (Exception loadSaveFailure)
+			{
+				App.Logger.WriteException(identifier, loadSaveFailure);
+			}
 			return;
 		}
 		bool recovered = false;
@@ -66,6 +73,7 @@ public class JsonManager<T> where T : class, new()
 		if (failure != null && Voidstrap.Utility.CloudFiles.IsCloudFailure(failure, FileLocation))
 		{
 			App.Logger.WriteLine(identifier, "The file could not be read from the cloud provider, keeping the stored copy untouched");
+			Voidstrap.Utility.AppNotifications.RecordInfo("cloud:" + ClassName, ClassName + " is not available offline", ClassName + " could not be read because its folder is synced to the cloud. Voidstrap is running on defaults for now and will not overwrite the saved copy. Make the folder always available on this device, then restart.");
 			if (alertFailure)
 			{
 				Frontend.ShowMessageBox(ClassName + " could not be read because its folder is synced to the cloud and the file is not available offline. Voidstrap is running on defaults for now and will not overwrite your saved copy. Make the Voidstrap folder always available on this device, then restart.", MessageBoxImage.Exclamation);

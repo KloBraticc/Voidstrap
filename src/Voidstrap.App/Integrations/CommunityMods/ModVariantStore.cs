@@ -118,6 +118,19 @@ internal static partial class ModVariantStore
 	public static int CaptureSources(string recordId, string archivePath, CancellationToken token = default)
 	{
 		string root = Path.GetFullPath(GetSourcesFolder(recordId));
+		ManagedModStore.SourcesGate.Wait(token);
+		try
+		{
+			return CaptureSourcesCore(recordId, archivePath, root, token);
+		}
+		finally
+		{
+			ManagedModStore.SourcesGate.Release();
+		}
+	}
+
+	private static int CaptureSourcesCore(string recordId, string archivePath, string root, CancellationToken token)
+	{
 		List<(int Index, string Target)> plan = [];
 		using (ZipArchive archive = ZipFile.OpenRead(archivePath))
 		{
@@ -153,10 +166,31 @@ internal static partial class ModVariantStore
 		{
 			return 0;
 		}
-		return await GameBananaCatalog.FetchAllAssetsAsync(pack.Id, GetSourcesFolder(recordId), SlotExtensions, progress, token).ConfigureAwait(false);
+		await ManagedModStore.SourcesGate.WaitAsync(token).ConfigureAwait(false);
+		try
+		{
+			return await GameBananaCatalog.FetchAllAssetsAsync(pack.Id, GetSourcesFolder(recordId), SlotExtensions, progress, token).ConfigureAwait(false);
+		}
+		finally
+		{
+			ManagedModStore.SourcesGate.Release();
+		}
 	}
 
 	public static List<ModSlot> BuildSlots(string recordId)
+	{
+		ManagedModStore.SourcesGate.Wait();
+		try
+		{
+			return BuildSlotsCore(recordId);
+		}
+		finally
+		{
+			ManagedModStore.SourcesGate.Release();
+		}
+	}
+
+	private static List<ModSlot> BuildSlotsCore(string recordId)
 	{
 		string modFolder = ManagedModStore.GetFolder(recordId);
 		string sources = GetSourcesFolder(recordId);
@@ -232,6 +266,19 @@ internal static partial class ModVariantStore
 
 	public static int ApplySlots(string recordId, IEnumerable<ModSlot> slots)
 	{
+		ManagedModStore.SourcesGate.Wait();
+		try
+		{
+			return ApplySlotsCore(recordId, slots);
+		}
+		finally
+		{
+			ManagedModStore.SourcesGate.Release();
+		}
+	}
+
+	private static int ApplySlotsCore(string recordId, IEnumerable<ModSlot> slots)
+	{
 		string modRoot = Path.GetFullPath(ManagedModStore.GetFolder(recordId));
 		int changed = 0;
 		foreach (ModSlot slot in slots)
@@ -272,6 +319,7 @@ internal static partial class ModVariantStore
 
 	public static void DeleteSources(string recordId)
 	{
+		ManagedModStore.SourcesGate.Wait();
 		try
 		{
 			string sources = GetSourcesFolder(recordId);
@@ -283,6 +331,10 @@ internal static partial class ModVariantStore
 		catch (Exception ex) when (ex is IOException or UnauthorizedAccessException or InvalidDataException)
 		{
 			App.Logger?.WriteLine(LogIdent, "The saved options could not be removed: " + ex.Message);
+		}
+		finally
+		{
+			ManagedModStore.SourcesGate.Release();
 		}
 	}
 

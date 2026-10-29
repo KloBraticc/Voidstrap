@@ -1983,12 +1983,24 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 		OnPropertyChanged(nameof(TextureWaterPreview));
 		OnPropertyChanged(nameof(TextureWaterPreviewStatus));
 	}
-	public bool TextureWaterHasFrames => FileModManager.CountWaterFrames() > 0;
+	private int _waterFrameCount = -1;
+
+	private int WaterFrameCount
+	{
+		get
+		{
+			if (_waterFrameCount < 0)
+				_waterFrameCount = FileModManager.CountWaterFrames();
+			return _waterFrameCount;
+		}
+	}
+
+	public bool TextureWaterHasFrames => WaterFrameCount > 0;
 	public string TextureWaterFramesSummary
 	{
 		get
 		{
-			int count = FileModManager.CountWaterFrames();
+			int count = WaterFrameCount;
 			return count == 0
 				? "Pick a GIF or up to 25 images. Bright areas become ripple peaks"
 				: count + (count == 1 ? " image" : " images") + " chosen. Bright areas become ripple peaks";
@@ -1998,7 +2010,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 	public System.Windows.Input.ICommand ChooseWaterFramesCommand => _chooseWaterFramesCommand ??= new CommunityToolkit.Mvvm.Input.RelayCommand(ChooseWaterFrames);
 	private CommunityToolkit.Mvvm.Input.RelayCommand? _clearWaterFramesCommand;
 	public System.Windows.Input.ICommand ClearWaterFramesCommand => _clearWaterFramesCommand ??= new CommunityToolkit.Mvvm.Input.RelayCommand(ClearWaterFrames);
-	private void ChooseWaterFrames()
+	private async void ChooseWaterFrames()
 	{
 		Microsoft.Win32.OpenFileDialog dialog = new Microsoft.Win32.OpenFileDialog
 		{
@@ -2012,13 +2024,17 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 		Array.Sort(names, StringComparer.OrdinalIgnoreCase);
 		try
 		{
-			FileModManager.ImportWaterFrames(names);
+			await System.Threading.Tasks.Task.Run(() => FileModManager.ImportWaterFrames(names));
+		}
+		catch (OperationCanceledException)
+		{
 		}
 		catch (Exception ex)
 		{
 			App.Logger.WriteException("FastFlagsViewModel::ChooseWaterFrames", ex);
 			Frontend.ShowMessageBox("Could not use those images: " + ex.Message, System.Windows.MessageBoxImage.Error);
 		}
+		_waterFrameCount = -1;
 		OnPropertyChanged(nameof(TextureWaterFramesSummary));
 		OnPropertyChanged(nameof(TextureWaterHasFrames));
 		ApplyTextureMods();
@@ -2034,6 +2050,7 @@ public class FastFlagsViewModel : NotifyPropertyChangedViewModel
 		{
 			App.Logger.WriteException("FastFlagsViewModel::ClearWaterFrames", ex);
 		}
+		_waterFrameCount = -1;
 		OnPropertyChanged(nameof(TextureWaterFramesSummary));
 		OnPropertyChanged(nameof(TextureWaterHasFrames));
 		ApplyTextureMods();

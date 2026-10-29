@@ -201,7 +201,7 @@ public class MainWindowViewModel : NotifyPropertyChangedViewModel
 			try
 			{
 				App.Logger.WriteLine("MainWindowViewModel::SaveSettings", $"Executing pending task '{value}'");
-				await value.ExecuteAsync();
+				await Task.Run(value.ExecuteAsync);
 				App.PendingSettingTasks.Remove(pendingSettingTask.Key);
 			}
 			catch (Exception ex)

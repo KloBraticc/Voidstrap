@@ -426,7 +426,14 @@ public partial class VoidstrapModsPage : UiPage
 		}
 		if (last != null)
 			await Task.Run(PluginHost.Reload);
-		RenderMods();
+		try
+		{
+			RenderMods();
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("VoidstrapMods", "The mod list could not be rendered: " + ex.Message);
+		}
 	}
 
 	private CancellationTokenSource? _libraryCts;
@@ -764,8 +771,16 @@ public partial class VoidstrapModsPage : UiPage
 			string folder = Path.Combine(Paths.Plugins, mod.Name);
 			await Task.Run(() =>
 			{
-				if (Directory.Exists(folder))
-					Directory.Delete(folder, true);
+				PluginHost.MutationGate.Wait();
+				try
+				{
+					if (Directory.Exists(folder))
+						Directory.Delete(folder, true);
+				}
+				finally
+				{
+					PluginHost.MutationGate.Release();
+				}
 			});
 			PluginHost.ForgetConsent(mod.Name);
 			await Task.Run(PluginHost.Reload);
@@ -860,8 +875,16 @@ public partial class VoidstrapModsPage : UiPage
 			string folder = Path.Combine(Paths.Plugins, modName);
 			await Task.Run(() =>
 			{
-				if (Directory.Exists(folder))
-					Directory.Delete(folder, true);
+				PluginHost.MutationGate.Wait();
+				try
+				{
+					if (Directory.Exists(folder))
+						Directory.Delete(folder, true);
+				}
+				finally
+				{
+					PluginHost.MutationGate.Release();
+				}
 			});
 			PluginHost.ForgetConsent(modName);
 			await Task.Run(PluginHost.Reload);

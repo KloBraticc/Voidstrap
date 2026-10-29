@@ -78,6 +78,7 @@ namespace Voidstrap.Integrations.Overlays
                         _watcher.Changed += OnChanged;
                         _watcher.Created += OnChanged;
                         _watcher.Renamed += OnRenamed;
+                        _watcher.Error += OnWatcherError;
                         _watcher.EnableRaisingEvents = true;
                     }
                 }
@@ -104,6 +105,17 @@ namespace Voidstrap.Integrations.Overlays
             try
             {
                 _debounce?.Change(250, Timeout.Infinite);
+            }
+            catch
+            {
+            }
+        }
+
+        private static void OnWatcherError(object sender, ErrorEventArgs e)
+        {
+            try
+            {
+                App.Logger.WriteLine("RobloxFpsCap::Watcher", "The NVIDIA settings file watch hit an error: " + e.GetException().Message);
             }
             catch
             {

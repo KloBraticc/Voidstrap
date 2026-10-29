@@ -41,7 +41,7 @@ public sealed class SessionNotifier : IDisposable
 	private bool _disposed;
 	// Set when Roblox refuses the badge list, it is not asked again for the rest of the game
 	private bool _badgesRefused;
-	private static System.Net.HttpStatusCode _lastStatus;
+	private static volatile System.Net.HttpStatusCode _lastStatus;
 
 	public SessionNotifier(Func<ActivityData?> session, Action<SessionNote> post)
 	{

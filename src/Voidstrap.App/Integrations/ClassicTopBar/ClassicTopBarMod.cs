@@ -872,13 +872,18 @@ internal static partial class ClassicTopBarMod
 		return ids;
 	}
 
+	private static readonly object StateGate = new();
+
 	private static ClassicTopBarState LoadState()
 	{
 		try
 		{
-			if (File.Exists(StatePath))
+			lock (StateGate)
 			{
-				return JsonSerializer.Deserialize<ClassicTopBarState>(File.ReadAllText(StatePath)) ?? new ClassicTopBarState();
+				if (File.Exists(StatePath))
+				{
+					return JsonSerializer.Deserialize<ClassicTopBarState>(File.ReadAllText(StatePath)) ?? new ClassicTopBarState();
+				}
 			}
 		}
 		catch (Exception ex)
@@ -892,8 +897,21 @@ internal static partial class ClassicTopBarMod
 	{
 		try
 		{
-			Directory.CreateDirectory(Root);
-			File.WriteAllText(StatePath, JsonSerializer.Serialize(state, JsonOptions.Indented));
+			lock (StateGate)
+			{
+				Directory.CreateDirectory(Root);
+				string temporary = StatePath + "." + Guid.NewGuid().ToString("N") + ".tmp";
+				try
+				{
+					File.WriteAllText(temporary, JsonSerializer.Serialize(state, JsonOptions.Indented));
+					File.Move(temporary, StatePath, true);
+				}
+				finally
+				{
+					if (File.Exists(temporary))
+						File.Delete(temporary);
+				}
+			}
 		}
 		catch (Exception ex)
 		{

@@ -32,13 +32,21 @@ public class FontModPresetTask : StringBaseTask
 
 	public static void Rescale(string? pendingSource = null)
 	{
-		if (File.Exists(Paths.CustomFontSource))
+		FileModManager.FolderGate.Wait();
+		try
 		{
-			Write(Paths.CustomFontSource);
+			if (File.Exists(Paths.CustomFontSource))
+			{
+				Write(Paths.CustomFontSource);
+			}
+			else if (!string.IsNullOrEmpty(pendingSource) && File.Exists(pendingSource))
+			{
+				Write(pendingSource);
+			}
 		}
-		else if (!string.IsNullOrEmpty(pendingSource) && File.Exists(pendingSource))
+		finally
 		{
-			Write(pendingSource);
+			FileModManager.FolderGate.Release();
 		}
 	}
 
@@ -85,6 +93,19 @@ public class FontModPresetTask : StringBaseTask
 	}
 
 	public override void Execute()
+	{
+		FileModManager.FolderGate.Wait();
+		try
+		{
+			ExecuteCore();
+		}
+		finally
+		{
+			FileModManager.FolderGate.Release();
+		}
+	}
+
+	private void ExecuteCore()
 	{
 		if (!string.IsNullOrEmpty(NewState) && !string.Equals(NewState, Paths.CustomFont, StringComparison.OrdinalIgnoreCase))
 		{

@@ -7,6 +7,9 @@ namespace Voidstrap.Integrations.AssetProxy;
 internal static class FleasionBridge
 {
 	private static readonly System.Threading.Lock Gate = new();
+
+	internal static readonly System.Threading.SemaphoreSlim ConfigGate = new(1, 1);
+
 	private static string StatePath => Path.Combine(Paths.AssetProxy, "FleasionRouting.json");
 	internal static string ConfigDirectory => Voidstrap.Utility.Platform.IsLinux
 		? Path.Combine(Environment.GetEnvironmentVariable("XDG_CONFIG_HOME") ?? Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile), ".config"), "Fleasion")
@@ -143,7 +146,7 @@ internal static class FleasionBridge
 	private static void WriteObject(string path, JsonObject value)
 	{
 		Directory.CreateDirectory(Path.GetDirectoryName(path)!);
-		string temporary = path + ".tmp";
+		string temporary = path + "." + Guid.NewGuid().ToString("N") + ".tmp";
 		try
 		{
 			File.WriteAllText(temporary, value.ToJsonString(new JsonSerializerOptions { WriteIndented = true }));
@@ -274,6 +277,19 @@ internal static class FleasionBridge
 	}
 
 	internal static void Restore()
+	{
+		ConfigGate.Wait();
+		try
+		{
+			RestoreCore();
+		}
+		finally
+		{
+			ConfigGate.Release();
+		}
+	}
+
+	private static void RestoreCore()
 	{
 		lock (Gate)
 		{

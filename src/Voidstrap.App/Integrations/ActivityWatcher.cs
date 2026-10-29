@@ -1211,11 +1211,29 @@ public partial class ActivityWatcher : IDisposable
 				NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.Size
 			};
 			_logWatcher.Changed += OnLogChanged;
+			_logWatcher.Error += OnLogWatcherError;
 			_logWatcher.EnableRaisingEvents = true;
 		}
 		catch (Exception ex)
 		{
 			App.Logger.WriteLine("ActivityWatcher::Start", "Log change notifications unavailable: " + ex.Message);
+		}
+	}
+
+	private void OnLogWatcherError(object sender, ErrorEventArgs e)
+	{
+		App.Logger.WriteLine("ActivityWatcher::Start", "The Roblox log watch hit an error: " + e.GetException().Message);
+		if (IsDisposed || _logSignal.CurrentCount != 0)
+			return;
+		try
+		{
+			_logSignal.Release();
+		}
+		catch (SemaphoreFullException)
+		{
+		}
+		catch (ObjectDisposedException)
+		{
 		}
 	}
 

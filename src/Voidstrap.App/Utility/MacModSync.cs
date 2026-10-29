@@ -28,14 +28,22 @@ internal static class MacModSync
 	public static Dictionary<string, string> Collect(bool includeSky)
 	{
 		Dictionary<string, string> selected = new(StringComparer.OrdinalIgnoreCase);
-		if (Directory.Exists(Paths.Mods))
+		FileModManager.FolderGate.Wait();
+		try
 		{
-			foreach (string file in Directory.EnumerateFiles(Paths.Mods, "*", SearchOption.AllDirectories))
+			if (Directory.Exists(Paths.Mods))
 			{
-				string relative = Path.GetRelativePath(Paths.Mods, file).Replace('\\', '/');
-				if (Accept(relative, includeSky))
-					selected[relative] = file;
+				foreach (string file in Directory.EnumerateFiles(Paths.Mods, "*", SearchOption.AllDirectories))
+				{
+					string relative = Path.GetRelativePath(Paths.Mods, file).Replace('\\', '/');
+					if (Accept(relative, includeSky))
+						selected[relative] = file;
+				}
 			}
+		}
+		finally
+		{
+			FileModManager.FolderGate.Release();
 		}
 		try
 		{
@@ -152,7 +160,17 @@ internal static class MacModSync
 		}
 
 		Directory.CreateDirectory(Path.GetDirectoryName(manifestPath)!);
-		File.WriteAllText(manifestPath, JsonSerializer.Serialize(next));
+		string temporary = manifestPath + "." + Guid.NewGuid().ToString("N") + ".tmp";
+		try
+		{
+			File.WriteAllText(temporary, JsonSerializer.Serialize(next));
+			File.Move(temporary, manifestPath, true);
+		}
+		finally
+		{
+			if (File.Exists(temporary))
+				File.Delete(temporary);
+		}
 		File.WriteAllText(marker, "");
 		App.Logger.WriteLine(LogIdent, $"Applied {applied} mod files and restored {restored} to the Roblox bundle");
 	}

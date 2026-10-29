@@ -734,6 +734,7 @@ public partial class NvidiaFFlagEditorPage : UiPage
             NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.Size,
         };
         _watcher.Changed += OnNipFileChanged;
+        _watcher.Error += OnNipWatchError;
         _watcher.EnableRaisingEvents = true;
     }
 
@@ -744,8 +745,14 @@ public partial class NvidiaFFlagEditorPage : UiPage
 
         _watcher.EnableRaisingEvents = false;
         _watcher.Changed -= OnNipFileChanged;
+        _watcher.Error -= OnNipWatchError;
         _watcher.Dispose();
         _watcher = null;
+    }
+
+    private void OnNipWatchError(object sender, ErrorEventArgs e)
+    {
+        App.Logger.WriteLine("NvidaEditor::SetupFileWatcher", "The NVIDIA profile watch hit an error: " + e.GetException().Message);
     }
 
     private void OnNipFileChanged(object sender, FileSystemEventArgs e)

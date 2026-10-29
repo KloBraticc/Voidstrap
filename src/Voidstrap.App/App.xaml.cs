@@ -163,9 +163,12 @@ public partial class App : Application
 	private static async Task FinishDepthDownloadThenTerminateAsync(ErrorCode exitCode)
 	{
 		System.Diagnostics.Stopwatch waited = System.Diagnostics.Stopwatch.StartNew();
-		while (Voidstrap.Integrations.RiShade.RiShadeDepthModels.State.Busy && waited.Elapsed < TimeSpan.FromMinutes(30))
+		while (Voidstrap.Integrations.RiShade.RiShadeDepthModels.State.Busy && waited.Elapsed < TimeSpan.FromMinutes(5))
 			await Task.Delay(500);
-		Logger.WriteLine("App::Terminate", "The RiShade depth download is done, closing now");
+		if (Voidstrap.Integrations.RiShade.RiShadeDepthModels.State.Busy)
+			Logger.WriteLine("App::Terminate", "The RiShade depth download is still running after 5 minutes, closing anyway");
+		else
+			Logger.WriteLine("App::Terminate", "The RiShade depth download is done, closing now");
 		Application? application = Current;
 		if (application != null && !application.Dispatcher.HasShutdownStarted)
 			application.Dispatcher.Invoke(() => Terminate(exitCode));
@@ -1449,10 +1452,10 @@ public partial class App : Application
 		long started = Stopwatch.GetTimestamp();
 
 		Task.WaitAll(
-			Task.Run(() => TimedLoad("Download stats", () => DownloadStats.Load())),
-			Task.Run(() => TimedLoad("State", () => State.Load())),
-			Task.Run(() => TimedLoad("Roblox state", () => RobloxState.Load())),
-			Task.Run(() => TimedLoad("Settings", () => Settings.Load())),
+			Task.Run(() => TimedLoad("Download stats", () => DownloadStats.Load(alertFailure: false))),
+			Task.Run(() => TimedLoad("State", () => State.Load(alertFailure: false))),
+			Task.Run(() => TimedLoad("Roblox state", () => RobloxState.Load(alertFailure: false))),
+			Task.Run(() => TimedLoad("Settings", () => Settings.Load(alertFailure: false))),
 			Task.Run(() => TimedLoad("FastFlags", () => FastFlags.Load(alertFailure: false)))
 		);
 
@@ -1548,7 +1551,7 @@ public partial class App : Application
 	{
 		TryStartup("Controller service", UI.ControllerService.Initialize);
 		InstallEnabledOverlays();
-		TryStartup("Telemetry blocker", Voidstrap.Integrations.TelemetryBlocker.SyncSettingFromState);
+		TryStartup("Telemetry blocker", () => Task.Run(Voidstrap.Integrations.TelemetryBlocker.SyncSettingFromState));
 		if (Voidstrap.Utility.Platform.SupportsAudioDucking)
 		{
 			TryStartup("Audio ducking", Voidstrap.Integrations.AudioDucker.ApplyFromSettings);

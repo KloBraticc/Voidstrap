@@ -106,6 +106,25 @@ public partial class FastFlagsPage : UiPage{
 
 	private static Task<Dictionary<string, string>>? _allowlistTask;
 
+	private static readonly object AllowlistGate = new();
+
+	private static async Task<Dictionary<string, string>> GetAllowlistAsync()
+	{
+		Dictionary<string, string>? cached = _allowlistCache;
+		if (cached != null)
+			return cached;
+		Task<Dictionary<string, string>> task;
+		lock (AllowlistGate)
+		{
+			cached = _allowlistCache;
+			if (cached != null)
+				return cached;
+			task = _allowlistTask ??= LoadAllowlistCoreAsync();
+		}
+		Dictionary<string, string> result = await task.ConfigureAwait(true);
+		return result;
+	}
+
 	private static async Task<Dictionary<string, string>> LoadAllowlistCoreAsync()
 	{
 		for (int attempt = 0; ; attempt++)
@@ -379,11 +398,14 @@ public partial class FastFlagsPage : UiPage{
 		Dictionary<string, string> dict;
 		try
 		{
-			dict = _allowlistCache ?? await (_allowlistTask ??= LoadAllowlistCoreAsync());
+			dict = await GetAllowlistAsync();
 		}
 		catch (Exception ex)
 		{
-			_allowlistTask = null;
+			lock (AllowlistGate)
+			{
+				_allowlistTask = null;
+			}
 			App.Logger.WriteLine("FastFlagsPage::LoadFFlagsAsync", "Using the built in allowlist, the online one could not be loaded: " + ex.GetType().Name + ": " + ex.Message);
 			dict = RobloxFastFlagAllowlist.Flags.ToDictionary(pair => pair.Key, pair => pair.Value, StringComparer.Ordinal);
 		}

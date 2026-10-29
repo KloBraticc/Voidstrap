@@ -990,6 +990,7 @@ public partial class CustomThemePanel : UserControl
             _watcher.Changed += Watcher_Changed;
             _watcher.Renamed += Watcher_Changed;
             _watcher.Created += Watcher_Changed;
+            _watcher.Error += Watcher_Error;
             _watcher.EnableRaisingEvents = true;
         }
         catch (Exception ex)
@@ -1006,8 +1007,14 @@ public partial class CustomThemePanel : UserControl
         _watcher.Changed -= Watcher_Changed;
         _watcher.Renamed -= Watcher_Changed;
         _watcher.Created -= Watcher_Changed;
+        _watcher.Error -= Watcher_Error;
         _watcher.Dispose();
         _watcher = null;
+    }
+
+    private void Watcher_Error(object sender, ErrorEventArgs e)
+    {
+        App.Logger?.WriteLine(LOG_IDENT, "The theme file watch hit an error: " + e.GetException().Message);
     }
 
     private void Watcher_Changed(object sender, FileSystemEventArgs e)

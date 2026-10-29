@@ -65,6 +65,8 @@ internal static class ManagedModStore
 	private const long MaxIndexBytes = 2 * 1024 * 1024;
 	private const int MaxFilesPerMod = 100000;
 	private static readonly object Sync = new();
+
+	internal static readonly SemaphoreSlim SourcesGate = new(1, 1);
 	private static readonly JsonSerializerOptions JsonOptions = new()
 	{
 		WriteIndented = true,
@@ -145,25 +147,33 @@ internal static class ManagedModStore
 			ExternalModConfigs.RemoveConfigs(id);
 		}
 		bool cleanup = false;
-		lock (Sync)
+		SourcesGate.Wait();
+		try
 		{
-			List<ManagedModRecord> records = LoadCore();
-			int removed = records.RemoveAll(record => string.Equals(record.Id, id, StringComparison.OrdinalIgnoreCase));
-			if (removed == 0)
-				return;
-			string folder = GetFolderCore(id);
-			if (Directory.Exists(folder))
+			lock (Sync)
 			{
-				MoveToTrashOrDelete(folder);
-				cleanup = true;
+				List<ManagedModRecord> records = LoadCore();
+				int removed = records.RemoveAll(record => string.Equals(record.Id, id, StringComparison.OrdinalIgnoreCase));
+				if (removed == 0)
+					return;
+				string folder = GetFolderCore(id);
+				if (Directory.Exists(folder))
+				{
+					MoveToTrashOrDelete(folder);
+					cleanup = true;
+				}
+				string sources = Path.Combine(Paths.ManagedMods, "Sources", Path.GetFileName(folder));
+				if (Directory.Exists(sources))
+				{
+					MoveToTrashOrDelete(sources);
+					cleanup = true;
+				}
+				SaveCore(records);
 			}
-			string sources = Path.Combine(Paths.ManagedMods, "Sources", Path.GetFileName(folder));
-			if (Directory.Exists(sources))
-			{
-				MoveToTrashOrDelete(sources);
-				cleanup = true;
-			}
-			SaveCore(records);
+		}
+		finally
+		{
+			SourcesGate.Release();
 		}
 		if (cleanup)
 		{
@@ -274,10 +284,10 @@ internal static class ManagedModStore
 
 	public static IReadOnlyList<ManagedModLibraryEntry> ScanLibrary()
 	{
+		HashSet<string> onTop = Voidstrap.Integrations.ClassicTopBar.ClassicTopBarMod.FeatureModIds();
 		lock (Sync)
 		{
 			List<ManagedModLibraryEntry> entries = [];
-			HashSet<string> onTop = Voidstrap.Integrations.ClassicTopBar.ClassicTopBarMod.FeatureModIds();
 			foreach (ManagedModRecord record in LoadCore())
 			{
 				ManagedModLibraryEntry entry = new(Clone(record)) { AppliedOnTop = onTop.Contains(record.Id) };
@@ -307,20 +317,20 @@ internal static class ManagedModStore
 
 	public static IReadOnlyList<string> EnabledFoldersByPriority()
 	{
+		HashSet<string> onTop = Voidstrap.Integrations.ClassicTopBar.ClassicTopBarMod.FeatureModIds();
 		lock (Sync)
 		{
-			HashSet<string> onTop = Voidstrap.Integrations.ClassicTopBar.ClassicTopBarMod.FeatureModIds();
 			return [.. LoadCore().Where(record => record.Enabled).OrderByDescending(record => onTop.Contains(record.Id)).Select(record => GetFolderCore(record.Id))];
 		}
 	}
 
 	public static ManagedModScanResult ScanEnabledFiles()
 	{
+		HashSet<string> onTop = Voidstrap.Integrations.ClassicTopBar.ClassicTopBarMod.FeatureModIds();
 		lock (Sync)
 		{
 			ManagedModScanResult result = new();
 			HashSet<string> claimed = new(StringComparer.OrdinalIgnoreCase);
-			HashSet<string> onTop = Voidstrap.Integrations.ClassicTopBar.ClassicTopBarMod.FeatureModIds();
 			foreach (ManagedModRecord record in LoadCore().Where(record => record.Enabled).OrderByDescending(record => onTop.Contains(record.Id)))
 			{
 				string folder = GetFolderCore(record.Id);

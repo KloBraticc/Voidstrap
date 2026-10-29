@@ -647,45 +647,53 @@ namespace Voidstrap.Integrations.Overlays
 			}
 		}
 
+		private static readonly object LinuxHomepageMutexGate = new();
+
 		private static bool TryAcquireLinuxHomepageMutex()
 		{
-			if (_linuxHomepageMutexHeld)
-				return true;
-			try
+			lock (LinuxHomepageMutexGate)
 			{
-				_linuxHomepageMutex ??= new Mutex(false, "VoidstrapLinuxHomepageOverlayActive");
+				if (_linuxHomepageMutexHeld)
+					return true;
 				try
 				{
-					_linuxHomepageMutexHeld = _linuxHomepageMutex.WaitOne(0);
+					_linuxHomepageMutex ??= new Mutex(false, "VoidstrapLinuxHomepageOverlayActive");
+					try
+					{
+						_linuxHomepageMutexHeld = _linuxHomepageMutex.WaitOne(0);
+					}
+					catch (AbandonedMutexException)
+					{
+						_linuxHomepageMutexHeld = true;
+					}
+					return _linuxHomepageMutexHeld;
 				}
-				catch (AbandonedMutexException)
+				catch (Exception ex)
 				{
-					_linuxHomepageMutexHeld = true;
+					App.Logger.WriteLine("OverlayHub", "The Linux homepage ownership lock could not be opened: " + ex.Message);
+					return false;
 				}
-				return _linuxHomepageMutexHeld;
-			}
-			catch (Exception ex)
-			{
-				App.Logger.WriteLine("OverlayHub", "The Linux homepage ownership lock could not be opened: " + ex.Message);
-				return false;
 			}
 		}
 
 		private static void ReleaseLinuxHomepageMutex()
 		{
-			if (_linuxHomepageMutexHeld && _linuxHomepageMutex != null)
+			lock (LinuxHomepageMutexGate)
 			{
-				try
+				if (_linuxHomepageMutexHeld && _linuxHomepageMutex != null)
 				{
-					_linuxHomepageMutex.ReleaseMutex();
+					try
+					{
+						_linuxHomepageMutex.ReleaseMutex();
+					}
+					catch (ApplicationException)
+					{
+					}
 				}
-				catch (ApplicationException)
-				{
-				}
+				_linuxHomepageMutexHeld = false;
+				_linuxHomepageMutex?.Dispose();
+				_linuxHomepageMutex = null;
 			}
-			_linuxHomepageMutexHeld = false;
-			_linuxHomepageMutex?.Dispose();
-			_linuxHomepageMutex = null;
 		}
 
 		private static void ScheduleLinuxHomepageRetry()

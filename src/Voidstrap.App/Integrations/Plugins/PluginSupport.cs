@@ -40,25 +40,27 @@ internal static class PluginConsent
 
 	public static void SetEnabledState(string name, bool enabled)
 	{
-		Dictionary<string, bool> consent = App.Settings.Prop.PluginConsent ??= [];
 		string accountKey = PermissionKey(name, PluginManifest.RobloxAccountPermission);
 		lock (Gate)
 		{
+			Dictionary<string, bool> consent = new(App.Settings.Prop.PluginConsent ?? [], StringComparer.Ordinal);
 			consent[name] = enabled;
 			if (!enabled)
 				consent.Remove(accountKey);
 			else if (consent.TryGetValue(accountKey, out bool accountAllowed) && !accountAllowed)
 				consent.Remove(accountKey);
+			App.Settings.Prop.PluginConsent = consent;
 		}
 	}
 
 	public static void Forget(string name)
 	{
-		Dictionary<string, bool> consent = App.Settings.Prop.PluginConsent ??= [];
 		lock (Gate)
 		{
+			Dictionary<string, bool> consent = new(App.Settings.Prop.PluginConsent ?? [], StringComparer.Ordinal);
 			consent.Remove(name);
 			consent.Remove(PermissionKey(name, PluginManifest.RobloxAccountPermission));
+			App.Settings.Prop.PluginConsent = consent;
 		}
 	}
 
@@ -156,11 +158,13 @@ internal static class PluginConsent
 		}
 		lock (Gate)
 		{
-			consent[manifest.Name] = answer;
+			Dictionary<string, bool> updated = new(App.Settings.Prop.PluginConsent ?? [], StringComparer.Ordinal);
+			updated[manifest.Name] = answer;
 			if (needsAccount)
-				consent[accountKey] = answer;
+				updated[accountKey] = answer;
 			else
-				consent.Remove(accountKey);
+				updated.Remove(accountKey);
+			App.Settings.Prop.PluginConsent = updated;
 		}
 		App.Settings.SaveDeferred();
 		App.Logger.WriteLine("VoidstrapMods", manifest.Name + ": " + (answer ? "turned on by the user" : "left off by the user"));

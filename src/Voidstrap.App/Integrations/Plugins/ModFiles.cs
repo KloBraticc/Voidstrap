@@ -62,6 +62,19 @@ public static partial class ModFiles
 
 	public static void Create(string name, string templateKey, string? iconSource)
 	{
+		PluginHost.MutationGate.Wait();
+		try
+		{
+			CreateCore(name, templateKey, iconSource);
+		}
+		finally
+		{
+			PluginHost.MutationGate.Release();
+		}
+	}
+
+	private static void CreateCore(string name, string templateKey, string? iconSource)
+	{
 		Template template = Templates.FirstOrDefault(t => t.Key == templateKey) ?? Templates[0];
 		string folder = Path.Combine(Paths.Plugins, name);
 		Directory.CreateDirectory(Path.Combine(folder, PluginManifest.ManifestFolder));
@@ -181,6 +194,19 @@ public static partial class ModFiles
 	}
 
 	public static void Install(Package package)
+	{
+		PluginHost.MutationGate.Wait();
+		try
+		{
+			InstallCore(package);
+		}
+		finally
+		{
+			PluginHost.MutationGate.Release();
+		}
+	}
+
+	private static void InstallCore(Package package)
 	{
 		try
 		{

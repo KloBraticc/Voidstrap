@@ -2060,6 +2060,12 @@ public static class LaunchHandler
 	{
 		try
 		{
+			using InterProcessLock cleanupLock = new("LaunchCleanup", TimeSpan.FromSeconds(2));
+			if (!cleanupLock.IsAcquired)
+			{
+				App.Logger.WriteLine("LaunchHandler::CloseOtherInstances", "Another Voidstrap launch is already closing its peers, skipping");
+				return;
+			}
 			int processId = Environment.ProcessId;
 			Process[] processesByName = Process.GetProcessesByName("Voidstrap");
 			foreach (Process process in processesByName)
@@ -2104,18 +2110,35 @@ public static class LaunchHandler
 		}
 	}
 
-	public static void LaunchWatcher()
+	public static async void LaunchWatcher()
 	{
 		if (OperatingSystem.IsLinux())
 		{
 			PortableSessionActive = true;
 			KeepAliveUntilPortableSessionEnds();
 		}
-		Watcher watcher = new Watcher();
-		Task.Run((Func<Task?>)watcher.Run).ContinueWith(delegate(Task t)
+		Watcher watcher;
+		try
+		{
+			watcher = await Task.Run(() => new Watcher());
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteException("LaunchHandler::LaunchWatcher", ex);
+			App.FinalizeExceptionHandling(ex);
+			return;
+		}
+		_ = Task.Run((Func<Task?>)watcher.Run).ContinueWith(delegate(Task t)
 		{
 			App.Logger.WriteLine("LaunchHandler::LaunchWatcher", "Watcher task has finished");
-			watcher.Dispose();
+			try
+			{
+				watcher.Dispose();
+			}
+			catch (Exception disposeEx)
+			{
+				App.Logger.WriteException("LaunchHandler::LaunchWatcher", disposeEx);
+			}
 			if (t.IsFaulted)
 			{
 				App.Logger.WriteLine("LaunchHandler::LaunchWatcher", "An exception occurred when running the watcher");

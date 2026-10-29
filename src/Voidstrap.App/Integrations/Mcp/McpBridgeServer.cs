@@ -15,7 +15,7 @@ public static class McpBridgeServer
 
 	private static readonly CancellationTokenSource ShutdownCts = new();
 
-	private static NamedPipeServerStream? _currentServer;
+	private static volatile NamedPipeServerStream? _currentServer;
 
 	private static int _started;
 

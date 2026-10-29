@@ -27,6 +27,8 @@ public static class PluginHost
 
 	private static readonly object ReloadGate = new();
 
+	internal static readonly SemaphoreSlim MutationGate = new(1, 1);
+
 	private static string? _reloadSignature;
 
 	private static readonly List<LoadedPlugin> Loaded = [];
@@ -191,6 +193,7 @@ public static class PluginHost
 			_watcher.Created += OnPluginsChanged;
 			_watcher.Deleted += OnPluginsChanged;
 			_watcher.Renamed += OnPluginsRenamed;
+			_watcher.Error += OnPluginsWatcherError;
 			_watcher.EnableRaisingEvents = true;
 		}
 		catch (Exception ex)
@@ -202,27 +205,28 @@ public static class PluginHost
 
 	public static void Shutdown()
 	{
-		if (_watcher != null)
-		{
-			_watcher.EnableRaisingEvents = false;
-			_watcher.Changed -= OnPluginsChanged;
-			_watcher.Created -= OnPluginsChanged;
-			_watcher.Deleted -= OnPluginsChanged;
-			_watcher.Renamed -= OnPluginsRenamed;
-			_watcher.Dispose();
-			_watcher = null;
-		}
-		_reloadTimer?.Dispose();
-		_reloadTimer = null;
 		List<LoadedPlugin> doomed;
 		lock (Gate)
 		{
+			_started = false;
+			if (_watcher != null)
+			{
+				_watcher.EnableRaisingEvents = false;
+				_watcher.Changed -= OnPluginsChanged;
+				_watcher.Created -= OnPluginsChanged;
+				_watcher.Deleted -= OnPluginsChanged;
+				_watcher.Renamed -= OnPluginsRenamed;
+				_watcher.Error -= OnPluginsWatcherError;
+				_watcher.Dispose();
+				_watcher = null;
+			}
+			_reloadTimer?.Dispose();
+			_reloadTimer = null;
 			doomed = Loaded.ToList();
 			Loaded.Clear();
 			OpenPanes.Clear();
 			OpenBanners.Clear();
 			Statuses.Clear();
-			_started = false;
 			_reloadSignature = null;
 		}
 		foreach (LoadedPlugin plugin in doomed)
@@ -274,6 +278,46 @@ public static class PluginHost
 			_reloadTimer?.Change(ReloadDelayMs, Timeout.Infinite);
 	}
 
+	private static void OnPluginsWatcherError(object sender, ErrorEventArgs e)
+	{
+		try
+		{
+			App.Logger.WriteLine(LogIdent, "The mods folder watch hit an error: " + Describe(e.GetException()));
+			lock (Gate)
+			{
+				if (_started)
+				{
+					_watcher?.Dispose();
+					_watcher = null;
+					try
+					{
+						FileSystemWatcher replacement = new(Paths.Plugins)
+						{
+							IncludeSubdirectories = true,
+							NotifyFilter = NotifyFilters.FileName | NotifyFilters.DirectoryName | NotifyFilters.LastWrite
+						};
+						replacement.Changed += OnPluginsChanged;
+						replacement.Created += OnPluginsChanged;
+						replacement.Deleted += OnPluginsChanged;
+						replacement.Renamed += OnPluginsRenamed;
+						replacement.Error += OnPluginsWatcherError;
+						replacement.EnableRaisingEvents = true;
+						_watcher = replacement;
+						_reloadTimer?.Change(ReloadDelayMs, Timeout.Infinite);
+					}
+					catch (Exception ex)
+					{
+						App.Logger.WriteLine(LogIdent, "The mods folder could not be watched again: " + ex.Message);
+					}
+				}
+			}
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine(LogIdent, "The mods folder watch error could not be handled: " + ex.Message);
+		}
+	}
+
 	private static void OnReloadTimer(object? state)
 	{
 		try
@@ -299,6 +343,7 @@ public static class PluginHost
 			_reloadTimer?.Change(ReloadDelayMs, Timeout.Infinite);
 			return;
 		}
+		MutationGate.Wait();
 		try
 		{
 			try
@@ -377,6 +422,7 @@ public static class PluginHost
 		}
 		finally
 		{
+			MutationGate.Release();
 			Monitor.Exit(ReloadGate);
 		}
 	}

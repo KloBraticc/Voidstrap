@@ -1586,7 +1586,7 @@ internal static class WindowAudit
 			Emit(Integrations.Plugins.PluginHost.ListMods().Any(mod => mod.Name == "runtime-probe" && mod.Loaded) && Integrations.Plugins.PluginHost.GetState("steady-probe", "starts") == "2"
 				? "independent reload recovery audit: PASS, valid changes load while another mod keeps its last working runtime"
 				: "independent reload recovery audit: FAIL, an invalid mod blocked another update");
-			App.Settings.Prop.PluginConsent["runtime-probe"] = false;
+			App.Settings.Prop.PluginConsent = new Dictionary<string, bool>(App.Settings.Prop.PluginConsent ?? [], StringComparer.Ordinal) { ["runtime-probe"] = false };
 			Reload();
 			Emit(Integrations.Plugins.PluginHost.ListMods().All(mod => mod.Name != "runtime-probe" || !mod.Loaded) && Integrations.Plugins.PluginHost.GetState("steady-probe", "starts") == "2"
 				? "mod consent audit: PASS, revocation stops a mod even when its files are invalid"

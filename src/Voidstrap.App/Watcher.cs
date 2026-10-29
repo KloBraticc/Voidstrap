@@ -167,6 +167,7 @@ public partial class Watcher : IDisposable
 			_settingsWatcher.Changed += SettingsFileChanged;
 			_settingsWatcher.Created += SettingsFileChanged;
 			_settingsWatcher.Renamed += SettingsFileRenamed;
+			_settingsWatcher.Error += SettingsWatcherError;
 			_settingsWatcher.EnableRaisingEvents = true;
 		}
 		catch (Exception ex)
@@ -197,7 +198,14 @@ public partial class Watcher : IDisposable
 
 	private void OnRobloxClientExited(object? sender, EventArgs e)
 	{
-		Voidstrap.Integrations.RiShade.RiShadeManager.OnRobloxProcessStopped();
+		try
+		{
+			Voidstrap.Integrations.RiShade.RiShadeManager.OnRobloxProcessStopped();
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteException("Watcher::OnRobloxClientExited", ex);
+		}
 	}
 
 	private void SettingsFileChanged(object sender, FileSystemEventArgs e)
@@ -208,6 +216,11 @@ public partial class Watcher : IDisposable
 	private void SettingsFileRenamed(object sender, RenamedEventArgs e)
 	{
 		ScheduleSettingsReload();
+	}
+
+	private void SettingsWatcherError(object sender, ErrorEventArgs e)
+	{
+		App.Logger.WriteLine("Watcher", "The settings file watch hit an error: " + e.GetException().Message);
 	}
 
 	private void ScheduleSettingsReload()

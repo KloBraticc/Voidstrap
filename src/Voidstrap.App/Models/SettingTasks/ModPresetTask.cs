@@ -71,6 +71,19 @@ public class ModPresetTask : BoolBaseTask
 		{
 			return;
 		}
+		FileModManager.FolderGate.Wait();
+		try
+		{
+			ExecuteCore();
+		}
+		finally
+		{
+			FileModManager.FolderGate.Release();
+		}
+	}
+
+	private void ExecuteCore()
+	{
 		int failed = 0;
 		foreach (KeyValuePair<string, ModPresetFileData> item in _fileDataMap)
 		{

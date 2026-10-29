@@ -2107,8 +2107,16 @@ public ICommand PickCursorColorCommand { get; }
 			return;
 
 		string dir = Path.Combine(Paths.CustomKeystrokeThemes, theme);
-		if (!Directory.Exists(dir))
-			Directory.CreateDirectory(dir);
+		try
+		{
+			if (!Directory.Exists(dir))
+				Directory.CreateDirectory(dir);
+		}
+		catch (Exception ex)
+		{
+			App.Logger.WriteLine("ModsViewModel::ViewCustomKeystrokeThemeFiles", "The theme folder could not be created: " + ex.Message);
+			return;
+		}
 
 		try
 		{
@@ -4308,13 +4316,21 @@ public ICommand PickCursorColorCommand { get; }
 	{
 		if (item is null)
 			return;
-		Voidstrap.UI.Elements.Dialogs.ModEditorWindow window = new(item.Id, item.Name, item.Pack)
+		await _managedModsMutationGate.WaitAsync();
+		try
 		{
-			Owner = System.Windows.Application.Current?.MainWindow
-		};
-		window.ShowDialog();
-		if (window.Changed)
-			await LoadManagedModsAsync();
+			Voidstrap.UI.Elements.Dialogs.ModEditorWindow window = new(item.Id, item.Name, item.Pack)
+			{
+				Owner = System.Windows.Application.Current?.MainWindow
+			};
+			window.ShowDialog();
+			if (window.Changed)
+				await LoadManagedModsAsync();
+		}
+		finally
+		{
+			_managedModsMutationGate.Release();
+		}
 	}
 
 	private async Task RenameManagedModAsync(ManagedModItem? item)

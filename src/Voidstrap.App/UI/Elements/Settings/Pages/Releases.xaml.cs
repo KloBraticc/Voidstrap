@@ -87,6 +87,7 @@ namespace Voidstrap.UI.Elements.Settings.Pages
                 _cacheWatcher.EnableRaisingEvents = false;
                 _cacheWatcher.Changed -= OnCacheFileChanged;
                 _cacheWatcher.Created -= OnCacheFileChanged;
+                _cacheWatcher.Error -= OnCacheWatcherError;
                 _cacheWatcher.Dispose();
                 _cacheWatcher = null;
             }
@@ -127,8 +128,14 @@ namespace Voidstrap.UI.Elements.Settings.Pages
 
             _cacheWatcher.Changed += OnCacheFileChanged;
             _cacheWatcher.Created += OnCacheFileChanged;
+            _cacheWatcher.Error += OnCacheWatcherError;
 
             _cacheWatcher.EnableRaisingEvents = true;
+        }
+
+        private void OnCacheWatcherError(object sender, ErrorEventArgs e)
+        {
+            App.Logger?.WriteLine("Releases::CacheWatcher", "The release cache watch hit an error: " + e.GetException().Message);
         }
 
         private void OnCacheFileChanged(object sender, FileSystemEventArgs e)
