@@ -64,22 +64,14 @@ curl -fsSL https://voidstrapp.pages.dev/install.sh | sh
 >
 > As of Voidstrap Version `1.1.2.3`, Multi-Instance Launching has been removed from the app and will not be added back in the future.
 
-## FAQ
+## Contents
 
-<details>
-  <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/faq-banned-dark.svg"><img src="assets/readme/faq-banned-light.svg" alt="Can Voidstrap get me banned?" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
-
-  Voidstrap does not inject cheats, exploit Roblox, or bypass its security. It manages launching and configuration.
-</details>
-
-<details>
-  <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/faq-virus-dark.svg"><img src="assets/readme/faq-virus-light.svg" alt="Is Voidstrap a virus?" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
-
-  Voidstrap is open source, so anyone can review its code.
-  If your antivirus flags Voidstrap, it's a false positive caused by how Windows detects and handles unsigned applications.
-  
-  You can review the complete source code [here](https://github.com/KloBraticc/Voidstrap).
-</details>
+* [Installation](#installation)
+* [FAQ](#faq)
+* [Building](#building)
+* [MCP](#mcp)
+* [Inspiration and credits](#inspiration--credits)
+* [License](#license)
 
 ## Installation
 
@@ -269,6 +261,23 @@ Adding the flake as an input is not enough on its own: enable the module or add 
 
 </details>
 
+## FAQ
+
+<details>
+  <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/faq-banned-dark.svg"><img src="assets/readme/faq-banned-light.svg" alt="Can Voidstrap get me banned?" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
+
+  Voidstrap does not inject cheats, exploit Roblox, or bypass its security. It manages launching and configuration.
+</details>
+
+<details>
+  <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/faq-virus-dark.svg"><img src="assets/readme/faq-virus-light.svg" alt="Is Voidstrap a virus?" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
+
+  Voidstrap is open source, so anyone can review its code.
+  Security software can flag unsigned or newly released applications, but do not assume every warning is a false positive. Download Voidstrap from its official releases and check the file's source before running it.
+
+  You can review the complete source code [here](https://github.com/KloBraticc/Voidstrap).
+</details>
+
 ## Building
 
 <details>
@@ -278,7 +287,7 @@ Adding the flake as an input is not enough on its own: enable the module or add 
 | --- | --- | --- |
 | Windows | Windows | x64 |
 | Linux | Linux or Windows. macOS can cross publish the executable. | x64 and ARM64, glibc or musl |
-| macOS | macOS, Windows or Linux. Disk images require macOS. | Intel and Apple silicon |
+| macOS | macOS, Windows or Linux. Windows disk-image packaging uses WSL 2. | Intel and Apple silicon |
 | Android | Windows, Linux or macOS with the Android NDK host tools | ARM64, ARMv7 and x64 in each APK |
 
 Clone with [Git](https://git-scm.com/downloads):
@@ -302,7 +311,7 @@ Run commands from the repository root unless noted otherwise. Linux and macOS ne
 <details>
   <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/build-windows-dark.svg"><img src="assets/readme/build-windows-light.svg" alt="Windows build" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
 
-**You need:** Windows 10 or 11 (64 bit), the .NET SDK described above, [Rust](https://rustup.rs) with Cargo, and the initialized submodule. Rust builds the frame pacing library frame generation runs on, and Release builds stop if it is missing.
+**You need:** Windows 10 or 11 (64 bit), the .NET SDK described above, [Rust](https://rustup.rs) with the MSVC toolchain, the Visual Studio C++ build tools and Windows SDK, and the initialized submodule. Rust builds the native libraries used by the application, including frame pacing, image handling, and package extraction.
 
 ```powershell
 dotnet build Voidstrap.sln -c Release
@@ -382,7 +391,7 @@ Then run:
 pwsh -NoProfile -File ./publish-all.ps1 -Only linux-x64 -LinuxPackages -NoPause
 ```
 
-Output: `PublishedBuilds/Linux`. The first run downloads AppImage tools, supporting libraries, and the Flatpak runtime and SDK. Yes, more downloads. Flatpak needs a working environment. ARM64 packaging on x64 may need emulation or an ARM64 host.
+Output: `PublishedBuilds/Linux`. The first run downloads AppImage tools, supporting libraries, and the Flatpak runtime and SDK. Flatpak packaging needs a working Flatpak environment. ARM64 packaging on x64 may need emulation or an ARM64 host.
 
 * To build only an AppImage, replace `-LinuxPackages` with `-AppImage`. Keep `curl`, `ca-certificates`, `binutils` and `dpkg`. RPM and Flatpak tools are unnecessary.
 * Add `-SkipAppImage` to build the other packages without AppImage.
@@ -500,6 +509,38 @@ On Linux or macOS, use `pwsh -NoProfile -File ./publish-all.ps1 -Only android -N
 
 </details>
 
+## MCP
+
+<details>
+  <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/mcp-setup-dark.svg"><img src="assets/readme/mcp-setup-light.svg" alt="MCP setup and reference" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
+
+MCP lets a compatible client manage Voidstrap settings, themes, mods, and diagnostics. **Windows only.** Keep Voidstrap open while connected.
+
+1. Open the connection dialog from the app menu or the plug button in an editor.
+2. Select your client and click **Connect**. For another client, copy the configuration into its MCP settings.
+3. Restart the client and ask it to call `get_voidstrap_overview` to check the connection.
+
+For manual setup, use this configuration:
+
+```json
+{
+  "mcpServers": {
+    "voidstrap": {
+      "command": "C:\\path\\to\\Voidstrap.exe",
+      "args": ["mcp", "stdio"]
+    }
+  }
+}
+```
+
+Replace the example path with your installed executable and merge the entry into your existing configuration. The client must support local `stdio` servers.
+
+For detailed instructions, ask the client to call `get_guide` with `{"topic":"workflow"}`. It explains the tools and links to the theme, mod, and troubleshooting guides.
+
+Connected clients can change app settings and files. Review their actions and privacy settings before sharing logs. To disconnect, disable or remove the `voidstrap` server in the client.
+
+</details>
+
 ## Inspiration & Credits
 
 Voidstrap would not exist without the projects and people below. Thank you all.
@@ -532,6 +573,9 @@ Voidstrap would not exist without the projects and people below. Thank you all.
 
 ## License
 
+<details>
+  <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/project-licenses-dark.svg"><img src="assets/readme/project-licenses-light.svg" alt="Project licenses" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
+
 Voidstrap's own code is released under the [MIT License](LICENSE.VOIDSTRAP). Third party code, fonts, artwork and packages keep their own licenses. The Bloxstrap and Fishstrap notices are also preserved:
 
 | Project | License | Copyright | File |
@@ -539,6 +583,8 @@ Voidstrap's own code is released under the [MIT License](LICENSE.VOIDSTRAP). Thi
 | Voidstrap | MIT | © 2026 Bratic | [LICENSE.VOIDSTRAP](LICENSE.VOIDSTRAP) |
 | Bloxstrap | MIT | © 2022 pizzaboxer | [LICENSE.BLOXSTRAP](LICENSE.BLOXSTRAP) |
 | Fishstrap | MIT | © 2025 returnrqt | [LICENSE.FISHSTRAP](LICENSE.FISHSTRAP) |
+
+</details>
 
 <details>
   <summary><picture><source media="(prefers-color-scheme: dark)" srcset="assets/readme/third-party-licenses-dark.svg"><img src="assets/readme/third-party-licenses-light.svg" alt="Third party licenses" width="82%" height="40" align="left"></picture><picture><img src="assets/readme/spacer.svg" alt="" width="1" height="40" align="middle"></picture></summary>
@@ -567,105 +613,38 @@ The Windows and macOS README icons adapt Devicon artwork with background tiles, 
 
 Segoe Fluent Icons is not bundled. Its [upstream license](external/wpfui/src/Wpf.Ui/License%20-%20Segoe%20Fluent%20Icons.txt) is retained as a reference and does not grant redistribution rights.
 
-**Direct NuGet dependencies**
+### Dependency versions and licenses
 
-These versions are declared in the projects under `src`. License labels were checked against their restored package metadata and license files.
+The build manifests are the source of truth for dependency versions. Use the files for the component you are changing rather than a copied version table:
 
-| Package | Version | License |
-| --- | --- | --- |
-| AvalonEdit | 6.3.1.120 | [MIT](https://licenses.nuget.org/MIT) |
-| Avalonia | 12.1.2 | [MIT](https://licenses.nuget.org/MIT) |
-| Avalonia.Controls.WebView | 12.1.0 | [MIT](https://licenses.nuget.org/MIT) |
-| Avalonia.Desktop | 12.1.2 | [MIT](https://licenses.nuget.org/MIT) |
-| Avalonia.Themes.Fluent | 12.1.2 | [MIT](https://licenses.nuget.org/MIT) |
-| Avalonia.Wayland | 12.1.3 | [MIT](https://licenses.nuget.org/MIT) |
-| CommandLineParser | 2.9.1 | [MIT](https://www.nuget.org/packages/CommandLineParser/2.9.1/License) |
-| CommunityToolkit.Mvvm | 8.4.2 | [MIT](https://licenses.nuget.org/MIT) |
-| Concentus.Oggfile | 1.0.7 | [MIT](https://licenses.nuget.org/MIT) |
-| DiscordRichPresence | 1.6.1.70 | [MIT](https://licenses.nuget.org/MIT) |
-| Markdig | 1.4.0 | [BSD-2-Clause](https://licenses.nuget.org/BSD-2-Clause) |
-| Microsoft.Extensions.Configuration | 10.0.12 | [MIT](https://licenses.nuget.org/MIT) |
-| Microsoft.Extensions.Configuration.FileExtensions | 10.0.12 | [MIT](https://licenses.nuget.org/MIT) |
-| Microsoft.Extensions.Configuration.Json | 10.0.12 | [MIT](https://licenses.nuget.org/MIT) |
-| Microsoft.ICU.ICU4C.Runtime | 72.1.0.3 | [Unicode license and third party notices](https://www.nuget.org/packages/Microsoft.ICU.ICU4C.Runtime/72.1.0.3/License) |
-| Microsoft.ML.OnnxRuntime.Managed | 1.30.0 | [MIT](https://www.nuget.org/packages/Microsoft.ML.OnnxRuntime.Managed/1.30.0/License) |
-| Microsoft.Web.WebView2 | 1.0.4258.31 | [BSD 3 Clause SDK license](https://www.nuget.org/packages/Microsoft.Web.WebView2/1.0.4258.31/License) |
-| Microsoft.Windows.CsWin32 | 0.3.346 | [MIT](https://licenses.nuget.org/MIT) |
-| Microsoft.Windows.CsWinRT | 2.3.1 | [MIT](https://www.nuget.org/packages/Microsoft.Windows.CsWinRT/2.3.1/License) |
-| NAudio | 3.1.0 | [MIT](https://licenses.nuget.org/MIT) |
-| Nefarius.ViGEm.Client | 1.21.256 | [MIT](https://licenses.nuget.org/MIT) |
-| Newtonsoft.Json | 13.0.4 | [MIT](https://licenses.nuget.org/MIT) |
-| NVorbis | 0.10.5 | [MIT](https://www.nuget.org/packages/NVorbis/0.10.5/License) |
-| OggVorbisEncoder | 1.2.2 | [MIT](https://licenses.nuget.org/MIT) |
-| Openize.Drako | 26.2.0 | [MIT](https://www.nuget.org/packages/Openize.Drako/26.2.0/License) |
-| securifybv.ShellLink | 0.1.0 | [MIT](https://github.com/securifybv/ShellLink/blob/master/LICENSE.txt) |
-| SharpZipLib | 1.4.2 | [MIT](https://licenses.nuget.org/MIT) |
-| SixLabors.ImageSharp | 3.1.12 | [Apache 2.0 for this open source project](https://www.nuget.org/packages/SixLabors.ImageSharp/3.1.12/License) |
-| System.Drawing.Common | 10.0.12 | [MIT](https://licenses.nuget.org/MIT) |
-| System.Management | 10.0.12 | [MIT](https://licenses.nuget.org/MIT) |
-| System.Resources.Extensions | 10.0.10 | [MIT](https://licenses.nuget.org/MIT) |
-| System.Security.Cryptography.ProtectedData | 10.0.12 | [MIT](https://licenses.nuget.org/MIT) |
-| TextCopy | 6.2.1 | [MIT](https://licenses.nuget.org/MIT) |
-| Tmds.DBus | 0.95.1 | [MIT](https://licenses.nuget.org/MIT) |
-| Tomlyn | 2.10.1 | [BSD-2-Clause](https://licenses.nuget.org/BSD-2-Clause) |
-| Vortice.D3DCompiler | 3.8.3 | [MIT](https://licenses.nuget.org/MIT) |
-| Vortice.Direct3D11 | 3.8.3 | [MIT](https://licenses.nuget.org/MIT) |
-| Vortice.DirectComposition | 3.8.3 | [MIT](https://licenses.nuget.org/MIT) |
-| Vortice.DXGI | 3.8.3 | [MIT](https://licenses.nuget.org/MIT) |
-| Vortice.MediaFoundation | 3.8.3 | [MIT](https://licenses.nuget.org/MIT) |
-| WpfAnimatedGif | 2.0.2 | [Apache-2.0](https://licenses.nuget.org/Apache-2.0) |
-| ZstdSharp.Port | 0.8.8 | [MIT](https://licenses.nuget.org/MIT) |
+| Component | Version references |
+| --- | --- |
+| Windows desktop application | [Application project](src/Voidstrap.App/Voidstrap.csproj) |
+| Shared Linux and macOS application | [Cross platform project](src/Voidstrap.Cross/Voidstrap.Cross.csproj) |
+| Desktop hosts and platform libraries | Project files under [src](src) |
+| .NET SDK and cross platform SDK | [global.json](global.json) |
+| Android libraries and build tools | [Version catalog](android/gradle/libs.versions.toml), [Gradle wrapper](android/gradle/wrapper/gradle-wrapper.properties), and [app build](android/app/build.gradle.kts) |
+| Native package extraction | [Manifest](native/voidpkg/Cargo.toml) and [lockfile](native/voidpkg/Cargo.lock) |
+| RiShade and its add-on | [Workspace manifest](native/rishade/Cargo.toml) and [lockfile](native/rishade/Cargo.lock) |
+| Other native desktop libraries | Manifests and lockfiles under [native](native) |
+| Android native helper | [Manifest](android/rust/Cargo.toml) and [lockfile](android/rust/Cargo.lock) |
+| macOS virtual display helper | [Manifest](src/VirtualDisplay/Cargo.toml) and [lockfile](src/VirtualDisplay/Cargo.lock) |
 
-ImageSharp 3.1.12 grants Apache 2.0 terms for open source use under its [Six Labors license](https://github.com/SixLabors/ImageSharp/blob/v3.1.12/LICENSE). Check those terms before using it in a closed source fork.
+A manifest can allow a version range; a Cargo lockfile records the resolved versions used by a locked build. Check restored NuGet metadata and resolved Maven dependencies when auditing a particular build.
 
-The [LibreWPF SDK 0.1.0-preview.42](https://www.nuget.org/packages/LibreWPF.Sdk/0.1.0-preview.42) uses MIT. Cross platform builds also include runtime dependencies and notices under `LibreWPF/Notices`. Preserve their individual license and attribution files.
+The [license inventory](legal/components.json) records publisher terms and notice origins, and [legal/texts](legal/texts) retains license texts. Preserve the required notices when redistributing packages. A dependency does not inherit Voidstrap's MIT license simply because it is used by this project.
 
-**Direct Android dependencies**
-
-Versions come from `android/gradle/libs.versions.toml`. License labels were checked against the resolved Maven POMs.
-
-| Package | Version | License |
-| --- | --- | --- |
-| AndroidX AppCompat | 1.8.0 | [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) |
-| AndroidX Core | 1.19.1 | [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) |
-| AndroidX ConstraintLayout | 2.2.2 | [Apache 2.0](https://www.apache.org/licenses/LICENSE-2.0) |
-| Material Components for Android | 1.14.0 | [Apache 2.0](https://github.com/material-components/material-components-android/blob/master/LICENSE) |
-| Shizuku API and provider | 13.1.5 | [MIT](https://github.com/RikkaApps/Shizuku-API/blob/master/LICENSE) |
-| Google Play app update, Play flavor only | 2.1.0 | [Play Core SDK Terms of Service](https://developer.android.com/guide/playcore/license) |
-| desugar_jdk_libs_nio | 2.1.5 | [GPL version 2 with Classpath Exception](https://github.com/google/desugar_jdk_libs/blob/master/LICENSE) |
-
-**Direct Rust dependencies**
-
-Versions come from `android/rust/Cargo.lock` and `src/VirtualDisplay/Cargo.lock`. License expressions were checked against the published crate metadata. `OR` means a choice of licenses.
-
-| Crate | Version | License |
-| --- | --- | --- |
-| [crc32fast](https://crates.io/crates/crc32fast/1.5.2) | 1.5.2 | MIT OR Apache-2.0 |
-| [jni-sys](https://crates.io/crates/jni-sys/0.3.1) | 0.3.1 | MIT OR Apache-2.0 |
-| [libc](https://crates.io/crates/libc/0.2.190) | 0.2.190 | MIT OR Apache-2.0 |
-| [miniz_oxide](https://crates.io/crates/miniz_oxide/0.9.1) | 0.9.1 | MIT OR Zlib OR Apache-2.0 |
-| [objc2](https://crates.io/crates/objc2/0.6.5) | 0.6.5 | MIT |
-| [ppmd-rust](https://crates.io/crates/ppmd-rust/1.5.0) | 1.5.0 | CC0-1.0 OR MIT-0 |
-| [serde_json](https://crates.io/crates/serde_json/1.0.151) | 1.0.151 | MIT OR Apache-2.0 |
-| [sevenz-rust2](https://crates.io/crates/sevenz-rust2/0.23.0) | 0.23.0 | Apache-2.0 |
+The [LibreWPF SDK](https://www.nuget.org/packages/LibreWPF.Sdk/) uses MIT. Cross platform builds also include runtime dependency notices under LibreWPF/Notices; preserve their individual terms.
 
 Full notices, including transitive dependencies and native libraries, are in [THIRD-PARTY-NOTICES.txt](THIRD-PARTY-NOTICES.txt). Release packages include these notices and the [Bibata cursor source](legal/sources/Bibata-Cursor-v2.0.7.tar.gz). See [legal/README.md](legal/README.md) for how to update and check them.
 
-Dependencies brought in by these packages keep their own license terms. The tables list direct dependencies, not every transitive package or system component. Preserve all required notices and source when redistributing them. A README entry does not replace those requirements.
+Dependencies brought in by these packages keep their own license terms. The links above identify version sources; they are not a complete license audit of every transitive package or system component. Preserve all required notices and source when redistributing them. A README entry does not replace those requirements.
 
 The macOS virtual display helper implements the [AppleBlox VirtualDisplay approach](https://github.com/AppleBlox/virtualdisplay) in Rust. Its [bundled notices](src/VirtualDisplay/THIRD-PARTY-NOTICES.txt) cover libc, objc2 and objc2-encode.
 
 </details>
 
 ---
-
-<p align="center">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/KloBraticc/Voidstrap/output/star-chart-dark.svg">
-    <source media="(prefers-color-scheme: light)" srcset="https://raw.githubusercontent.com/KloBraticc/Voidstrap/output/star-chart-light.svg">
-    <img src="https://raw.githubusercontent.com/KloBraticc/Voidstrap/output/star-chart-light.svg" alt="Voidstrap star history" width="100%">
-  </picture>
-</p>
 
 <p align="center">
   <picture>

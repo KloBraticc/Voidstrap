@@ -18,7 +18,7 @@ Do not report security problems in public issues, pull requests or Discord chann
 
 Include as much of this as you can:
 
-* which app and version is affected (Windows or Android)
+* which app, version, and platform are affected (Windows, Linux, macOS, or Android)
 * what the problem is and what an attacker could do with it
 * steps to reproduce it, or a proof of concept
 
@@ -28,6 +28,6 @@ You will get a reply once the report has been reviewed, and updates while a fix 
 
 ## Scope
 
-This policy covers the Voidstrap Windows and Android apps and the files published in this repository's releases.
+This policy covers the Voidstrap Windows, Linux, macOS, and Android applications, the bundled MCP integration and native libraries, and the files published in this repository's releases.
 
 Problems in Roblox itself belong to Roblox, so report them through the [Roblox bug bounty program](https://hackerone.com/roblox). Problems in a third party library belong to that project, but let us know too if Voidstrap is affected.

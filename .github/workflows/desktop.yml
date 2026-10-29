@@ -7,7 +7,6 @@ on:
       - "**/*.md"
       - ".github/workflows/android*.yml"
       - ".github/workflows/snake.yml"
-      - ".github/workflows/star-chart.yml"
       - ".github/dependabot.yml"
   pull_request:
     paths-ignore: *desktop-ignored
