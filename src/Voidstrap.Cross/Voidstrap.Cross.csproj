@@ -394,7 +394,7 @@
 		<PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
 		<PackageReference Include="Openize.Drako" Version="26.2.0" />
 		<PackageReference Include="ZstdSharp.Port" Version="0.8.8" />
-		<PackageReference Include="Tmds.DBus" Version="0.95.1" />
+		<PackageReference Include="Tmds.DBus" Version="0.95.2" />
 	</ItemGroup>
 
 	<ItemGroup>
