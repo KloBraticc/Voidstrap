@@ -47,6 +47,7 @@ jobs:
           import json
           import os
           import re
+          import time
           import urllib.error
           import urllib.parse
           import urllib.request
@@ -200,19 +201,29 @@ jobs:
 
           opener = urllib.request.build_opener(NoRedirect)
 
-          try:
-              with opener.open(request, timeout=20) as response:
-                  if response.status < 200 or response.status >= 300:
-                      raise SystemExit(f"Discord webhook returned HTTP {response.status}")
-          except urllib.error.HTTPError as error:
+          max_attempts = 4
+          for attempt in range(max_attempts):
               try:
-                  detail = json.loads(error.read().decode("utf-8"))
-              except (UnicodeDecodeError, json.JSONDecodeError):
-                  detail = {}
-              reason = f"Discord webhook returned HTTP {error.code}"
-              if isinstance(detail.get("code"), int):
-                  reason += f" (Discord code {detail['code']})"
-              raise SystemExit(reason) from None
-          except (urllib.error.URLError, TimeoutError):
-              raise SystemExit("Discord webhook request failed") from None
+                  with opener.open(request, timeout=20) as response:
+                      if response.status < 200 or response.status >= 300:
+                          raise SystemExit(f"Discord webhook returned HTTP {response.status}")
+                      break
+              except urllib.error.HTTPError as error:
+                  try:
+                      detail = json.loads(error.read().decode("utf-8"))
+                  except (UnicodeDecodeError, json.JSONDecodeError):
+                      detail = {}
+                  if error.code == 429 and attempt < max_attempts - 1:
+                      retry_after = float(detail.get("retry_after", 2.0))
+                      time.sleep(min(max(retry_after, 1.0), 10.0))
+                      continue
+                  reason = f"Discord webhook returned HTTP {error.code}"
+                  if isinstance(detail.get("code"), int):
+                      reason += f" (Discord code {detail['code']})"
+                  raise SystemExit(reason) from None
+              except (urllib.error.URLError, TimeoutError):
+                  if attempt < max_attempts - 1:
+                      time.sleep(2.0)
+                      continue
+                  raise SystemExit("Discord webhook request failed") from None
           PY

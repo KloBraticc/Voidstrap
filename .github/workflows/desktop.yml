@@ -647,6 +647,7 @@ jobs:
               }
               internal static class App { public static Log Logger { get; } = new(); }
               internal sealed class Log { public void WriteLine(string component, string message) { } }
+              internal static class FileModManager { public static readonly System.Threading.SemaphoreSlim FolderGate = new(1, 1); }
           }
           namespace Voidstrap.Utility
           {

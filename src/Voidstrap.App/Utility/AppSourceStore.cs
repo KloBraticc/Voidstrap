@@ -45,6 +45,17 @@ internal static class AppSourceStore
 			Stream? stream = typeof(AppSourceStore).Assembly.GetManifestResourceStream(ResourceName);
 			if (stream == null)
 			{
+				string? external = new[]
+				{
+					Path.Combine(Paths.Data, "AppSource.zip"),
+					Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "AppSource.zip")
+				}.FirstOrDefault(File.Exists);
+
+				if (external != null)
+					stream = File.OpenRead(external);
+			}
+			if (stream == null)
+			{
 				App.Logger?.WriteLine(LogIdent, "This build does not carry the app source list");
 				_entries = new Dictionary<string, ZipArchiveEntry>(StringComparer.OrdinalIgnoreCase);
 				return _entries;

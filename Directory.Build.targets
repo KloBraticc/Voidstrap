@@ -136,12 +136,12 @@
 		</Task>
 	</UsingTask>
 
-	<ItemGroup Condition="'$(MSBuildProjectName)' == 'Voidstrap' Or '$(MSBuildProjectName)' == 'Voidstrap.Cross'">
+	<ItemGroup Condition="('$(MSBuildProjectName)' == 'Voidstrap' Or '$(MSBuildProjectName)' == 'Voidstrap.Cross') And ('$(IncludeAppSource)' == 'true' Or '$(Configuration)' == 'Debug')">
 		<AppSourceInputs Include="$(MSBuildThisFileDirectory)src/**/*.cs;$(MSBuildThisFileDirectory)src/**/*.xaml;$(MSBuildThisFileDirectory)src/**/*.csproj;$(MSBuildThisFileDirectory)src/**/*.props;$(MSBuildThisFileDirectory)src/**/*.targets"
 			Exclude="$(MSBuildThisFileDirectory)src/**/obj/**;$(MSBuildThisFileDirectory)src/**/bin/**;$(MSBuildThisFileDirectory)src/**/obj-*/**;$(MSBuildThisFileDirectory)src/**/bin-*/**;$(MSBuildThisFileDirectory)src/**/*.g.cs;$(MSBuildThisFileDirectory)src/**/*.g.i.cs" />
 	</ItemGroup>
 
-	<Target Name="PackVoidstrapAppSourceArchive" BeforeTargets="AssignTargetPaths" Condition="'$(MSBuildProjectName)' == 'Voidstrap' Or '$(MSBuildProjectName)' == 'Voidstrap.Cross'"
+	<Target Name="PackVoidstrapAppSourceArchive" BeforeTargets="AssignTargetPaths" Condition="('$(MSBuildProjectName)' == 'Voidstrap' Or '$(MSBuildProjectName)' == 'Voidstrap.Cross') And ('$(IncludeAppSource)' == 'true' Or '$(Configuration)' == 'Debug')"
 		Inputs="@(AppSourceInputs);$(MSBuildThisFileFullPath)"
 		Outputs="$(IntermediateOutputPath)app-source/Voidstrap.AppSource.zip">
 		<PackVoidstrapAppSource SourceRoot="$(MSBuildThisFileDirectory)src" OutputFile="$(IntermediateOutputPath)app-source/Voidstrap.AppSource.zip" />
@@ -150,7 +150,7 @@
 		</ItemGroup>
 	</Target>
 
-	<ItemGroup Condition="'$(MSBuildProjectName)' == 'Voidstrap' Or '$(MSBuildProjectName)' == 'Voidstrap.Cross'">
+	<ItemGroup Condition="('$(MSBuildProjectName)' == 'Voidstrap' Or '$(MSBuildProjectName)' == 'Voidstrap.Cross') And ('$(IncludeAppSource)' == 'true' Or '$(Configuration)' == 'Debug')">
 		<EmbeddedResource Include="$(IntermediateOutputPath)app-source/Voidstrap.AppSource.zip" LogicalName="Voidstrap.AppSource" />
 	</ItemGroup>
 
