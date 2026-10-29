@@ -10,7 +10,7 @@
 		<SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
 		<PublishTrimmed>false</PublishTrimmed>
 		<SuppressTrimAnalysisWarnings>true</SuppressTrimAnalysisWarnings>
-		<ProGpuWpfSystemFormatsNrbfVersion>10.0.13</ProGpuWpfSystemFormatsNrbfVersion>
+		<ProGpuWpfSystemFormatsNrbfVersion>10.0.14</ProGpuWpfSystemFormatsNrbfVersion>
 		<BaseOutputPath Condition="'$(RuntimeIdentifier)' != '' And '$(VoidstrapLinuxPackagingRoot)' == ''">bin-$(RuntimeIdentifier)\</BaseOutputPath>
 		<AssemblyName>Voidstrap</AssemblyName>
 		<RootNamespace>Voidstrap</RootNamespace>
