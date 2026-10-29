@@ -1147,6 +1147,9 @@ function Invoke-WindowsLauncherBuild {
     $built = Join-Path $targetDir 'x86_64-pc-windows-msvc/release/Voidstrap.exe'
     if (-not (Test-Path -LiteralPath $built -PathType Leaf)) { throw 'cargo did not produce the launcher' }
     Copy-Item -LiteralPath $built -Destination $Job.Expected -Force
+    foreach ($name in @('Voidstrap.net10.bin', 'Voidstrap.net11.bin')) {
+        Copy-Item -LiteralPath (Join-Path (Split-Path -Parent $built) $name) -Destination (Join-Path $Job.Target.OutDir $name) -Force
+    }
     Get-ChildItem -LiteralPath $Job.Target.OutDir -Filter '*.lib' -File -ErrorAction SilentlyContinue | Remove-Item -Force
 }
 
@@ -1382,13 +1385,14 @@ function Invoke-SignPathWindows {
 
         $downloadedFiles = @(Get-ChildItem -LiteralPath $downloadDir -File -Force)
         $downloadedDirectories = @(Get-ChildItem -LiteralPath $downloadDir -Directory -Force)
-        if ($downloadedDirectories.Count -ne 0 -or $downloadedFiles.Count -ne 1 -or $downloadedFiles[0].Name -cne 'Voidstrap.exe') {
-            throw 'The signing run did not return exactly one Voidstrap.exe file.'
+        $expectedFiles = @('Voidstrap.exe', 'Voidstrap.net10.bin', 'Voidstrap.net11.bin')
+        if ($downloadedDirectories.Count -ne 0 -or $downloadedFiles.Count -ne $expectedFiles.Count -or @(Compare-Object $expectedFiles @($downloadedFiles.Name)).Count -ne 0) {
+            throw 'The signing run did not return the installer and both runtime payloads.'
         }
 
-        $signedExe = $downloadedFiles[0].FullName
+        $signedExe = Join-Path $downloadDir 'Voidstrap.exe'
         $info = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($signedExe)
-        if ($info.ProductName -ne 'Voidstrap' -or $info.ProductVersion -ne $Version -or $info.CompanyName -ne 'Voidstrap' -or $info.OriginalFilename -ne 'Voidstrap.dll' -or $info.FileVersion -ne $Version) {
+        if ($info.ProductName -ne 'Voidstrap' -or $info.ProductVersion -ne $Version -or $info.CompanyName -ne 'Voidstrap' -or $info.OriginalFilename -ne 'Voidstrap.exe' -or $info.FileVersion -ne $Version) {
             throw "Unexpected signed Voidstrap metadata: ProductName='$($info.ProductName)', CompanyName='$($info.CompanyName)', OriginalFilename='$($info.OriginalFilename)', ProductVersion='$($info.ProductVersion)', FileVersion='$($info.FileVersion)'."
         }
         $signature = Get-AuthenticodeSignature -LiteralPath $signedExe
@@ -1404,6 +1408,9 @@ function Invoke-SignPathWindows {
         Copy-Item -LiteralPath $signedExe -Destination $OutputPath -Force
         if ((Get-FileHash -LiteralPath $OutputPath -Algorithm SHA256).Hash -ne $signedHash) {
             throw 'The signed executable changed while being copied into the publish output.'
+        }
+        foreach ($name in @('Voidstrap.net10.bin', 'Voidstrap.net11.bin')) {
+            Copy-Item -LiteralPath (Join-Path $downloadDir $name) -Destination (Join-Path (Split-Path -Parent $OutputPath) $name) -Force
         }
         Write-Host '  Voidstrap.exe: signed by the trusted GitHub Actions build.' -ForegroundColor Green
     }

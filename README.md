@@ -327,7 +327,7 @@ To publish a single `Voidstrap.exe`:
 powershell -NoProfile -ExecutionPolicy Bypass -File .\publish-all.ps1 -Only windows -NoPause
 ```
 
-Output: `PublishedBuilds\Windows\Voidstrap.exe`. The native installer prepares the selected Microsoft Desktop Runtime.
+Output: `PublishedBuilds\Windows\Voidstrap.exe`, a small online installer, plus `Voidstrap.net10.bin` and `Voidstrap.net11.bin`. The native installer prepares the selected Microsoft Desktop Runtime. Upload all three files to the matching GitHub release with tag `v<version>`. The installer downloads the selected app build and missing Microsoft Desktop Runtime, checking pinned SHA512 hashes before use. Selecting .NET 11 first caches .NET 10 for recovery. Keep both `.bin` files beside the installer for local testing or an offline installation when the runtimes are already installed. The `Skip (offline)` button uses verified local app files and an installed compatible runtime; a fresh computer still needs internet for missing files. Installed builds launch from their cache without downloading again.
 
 **Code signing with SignPath (optional)**
 

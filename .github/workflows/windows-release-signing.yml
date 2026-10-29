@@ -261,6 +261,14 @@ jobs:
           if-no-files-found: error
           retention-days: 1
 
+      - name: Upload runtime payloads
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: voidstrap-windows-payloads-${{ env.RELEASE_VERSION }}
+          path: ${{ runner.temp }}/voidlauncher-target/x86_64-pc-windows-msvc/release/Voidstrap.net*.bin
+          if-no-files-found: error
+          retention-days: 1
+
   sign-launcher:
     needs: [build, launcher]
     if: github.repository == 'KloBraticc/Voidstrap' && github.ref == 'refs/heads/main'
@@ -304,11 +312,19 @@ jobs:
             throw "The signed launcher signature is not accepted: $($signature.Status) $($signature.StatusMessage) signer $($signature.SignerCertificate.Thumbprint)"
           }
 
+      - name: Download runtime payloads for manual publishing
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333
+        with:
+          name: voidstrap-windows-payloads-${{ env.RELEASE_VERSION }}
+          path: ${{ runner.temp }}/voidstrap-signed
+
       - name: Upload signed executable for manual publishing
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
           name: voidstrap-windows-signed-${{ env.RELEASE_VERSION }}
-          path: ${{ runner.temp }}/voidstrap-signed/Voidstrap.exe
+          path: |
+            ${{ runner.temp }}/voidstrap-signed/Voidstrap.exe
+            ${{ runner.temp }}/voidstrap-signed/Voidstrap.net*.bin
           if-no-files-found: error
           retention-days: 1
 
