@@ -30,6 +30,7 @@ jobs:
       contents: read
     outputs:
       artifact-id: ${{ steps.upload.outputs.artifact-id }}
+      artifact-id11: ${{ steps.upload11.outputs.artifact-id }}
       version: ${{ steps.validate.outputs.version }}
     env:
       RELEASE_COMMIT: ${{ inputs.commit }}
@@ -64,7 +65,9 @@ jobs:
 
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68
         with:
-          dotnet-version: 10.0.402
+          dotnet-version: |
+            10.0.403
+            11.0.100-rc.3.26522.148
 
       - name: Validate project version
         shell: pwsh
@@ -96,6 +99,11 @@ jobs:
 
           New-Item -ItemType Directory -Path $artifactDir -Force | Out-Null
           Copy-Item -LiteralPath $exe -Destination (Join-Path $artifactDir 'Voidstrap.exe')
+          $runtime11Output = Join-Path $env:RUNNER_TEMP 'voidstrap-publish11'
+          ./build/PublishWindowsPayload.ps1 -Runtime 11 -OutputDirectory $runtime11Output -Version $env:RELEASE_VERSION
+          $artifact11 = Join-Path $env:RUNNER_TEMP 'voidstrap-unsigned11'
+          New-Item -ItemType Directory -Path $artifact11 -Force | Out-Null
+          Copy-Item -LiteralPath (Join-Path $runtime11Output 'Voidstrap.exe') -Destination (Join-Path $artifact11 'Voidstrap.exe')
 
       - name: Upload unsigned executable
         id: upload
@@ -103,6 +111,15 @@ jobs:
         with:
           name: voidstrap-windows-unsigned-${{ steps.validate.outputs.version }}
           path: ${{ runner.temp }}/voidstrap-unsigned/Voidstrap.exe
+          if-no-files-found: error
+          retention-days: 1
+
+      - name: Upload unsigned .NET 11 executable
+        id: upload11
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: voidstrap-windows-unsigned11-${{ steps.validate.outputs.version }}
+          path: ${{ runner.temp }}/voidstrap-unsigned11/Voidstrap.exe
           if-no-files-found: error
           retention-days: 1
 
@@ -131,25 +148,41 @@ jobs:
           wait-for-completion: true
           output-artifact-directory: ${{ runner.temp }}/voidstrap-signed
 
+      - name: Sign .NET 11 executable with SignPath test certificate
+        uses: signpath/github-action-submit-signing-request@f6d04783b4569d051e0c80105fe66e82819d0092
+        with:
+          api-token: ${{ secrets.SIGNPATH_API_TOKEN }}
+          organization-id: ed77d7e3-732a-453f-9ba9-0c25de62f363
+          project-slug: Voidstrap
+          signing-policy-slug: test-signing
+          artifact-configuration-slug: windows-release
+          github-artifact-id: ${{ needs.build.outputs.artifact-id11 }}
+          parameters: |
+            version: ${{ toJSON(needs.build.outputs.version) }}
+          wait-for-completion: true
+          output-artifact-directory: ${{ runner.temp }}/voidstrap-signed11
+
       - name: Verify signed executable metadata and signature
         id: verify
         shell: pwsh
         run: |
-          $exe = Join-Path $env:RUNNER_TEMP 'voidstrap-signed/Voidstrap.exe'
-          if (-not (Test-Path -LiteralPath $exe -PathType Leaf)) { throw 'The signed Voidstrap.exe was not returned.' }
+          foreach ($folder in @('voidstrap-signed', 'voidstrap-signed11')) {
+            $exe = Join-Path (Join-Path $env:RUNNER_TEMP $folder) 'Voidstrap.exe'
+            if (-not (Test-Path -LiteralPath $exe -PathType Leaf)) { throw 'The signed Voidstrap.exe was not returned.' }
 
-          $info = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($exe)
-          if ($info.ProductName -ne 'Voidstrap' -or $info.ProductVersion -ne $env:RELEASE_VERSION -or $info.CompanyName -ne 'Voidstrap' -or $info.OriginalFilename -ne 'Voidstrap.dll' -or $info.FileVersion -ne $env:RELEASE_VERSION) {
-            throw "Unexpected signed Voidstrap metadata: ProductName='$($info.ProductName)', CompanyName='$($info.CompanyName)', OriginalFilename='$($info.OriginalFilename)', ProductVersion='$($info.ProductVersion)', FileVersion='$($info.FileVersion)'."
-          }
+            $info = [System.Diagnostics.FileVersionInfo]::GetVersionInfo($exe)
+            if ($info.ProductName -ne 'Voidstrap' -or $info.ProductVersion -ne $env:RELEASE_VERSION -or $info.CompanyName -ne 'Voidstrap' -or $info.OriginalFilename -ne 'Voidstrap.dll' -or $info.FileVersion -ne $env:RELEASE_VERSION) {
+              throw "Unexpected signed Voidstrap metadata: ProductName='$($info.ProductName)', CompanyName='$($info.CompanyName)', OriginalFilename='$($info.OriginalFilename)', ProductVersion='$($info.ProductVersion)', FileVersion='$($info.FileVersion)'."
+            }
 
-          $signature = Get-AuthenticodeSignature -LiteralPath $exe
-          if ($null -eq $signature.SignerCertificate) {
-            throw "The signed executable has no Authenticode signature: $($signature.Status) $($signature.StatusMessage)"
-          }
-          $pinnedTestCertificate = $signature.SignerCertificate.Thumbprint -eq '84913A32E5DBC03EDC416B4FD3B499DCBD52145E'
-          if ($signature.Status -ne 'Valid' -and -not ($pinnedTestCertificate -and $signature.Status -in @('UnknownError', 'NotTrusted'))) {
-            throw "The signed executable signature is not accepted: $($signature.Status) $($signature.StatusMessage) signer $($signature.SignerCertificate.Thumbprint)"
+            $signature = Get-AuthenticodeSignature -LiteralPath $exe
+            if ($null -eq $signature.SignerCertificate) {
+              throw "The signed executable has no Authenticode signature: $($signature.Status) $($signature.StatusMessage)"
+            }
+            $pinnedTestCertificate = $signature.SignerCertificate.Thumbprint -eq '84913A32E5DBC03EDC416B4FD3B499DCBD52145E'
+            if ($signature.Status -ne 'Valid' -and -not ($pinnedTestCertificate -and $signature.Status -in @('UnknownError', 'NotTrusted'))) {
+              throw "The signed executable signature is not accepted: $($signature.Status) $($signature.StatusMessage) signer $($signature.SignerCertificate.Thumbprint)"
+            }
           }
 
       - name: Upload signed application
@@ -157,6 +190,14 @@ jobs:
         with:
           name: voidstrap-windows-app-signed-${{ env.RELEASE_VERSION }}
           path: ${{ runner.temp }}/voidstrap-signed/Voidstrap.exe
+          if-no-files-found: error
+          retention-days: 1
+
+      - name: Upload signed .NET 11 application
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: voidstrap-windows-app11-signed-${{ env.RELEASE_VERSION }}
+          path: ${{ runner.temp }}/voidstrap-signed11/Voidstrap.exe
           if-no-files-found: error
           retention-days: 1
 
@@ -177,11 +218,17 @@ jobs:
           ref: ${{ inputs.commit }}
           fetch-depth: 1
           persist-credentials: false
+          submodules: recursive
 
       - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333
         with:
           name: voidstrap-windows-app-signed-${{ env.RELEASE_VERSION }}
           path: ${{ runner.temp }}/voidstrap-app
+
+      - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333
+        with:
+          name: voidstrap-windows-app11-signed-${{ env.RELEASE_VERSION }}
+          path: ${{ runner.temp }}/voidstrap-app11
 
       - name: Build launcher around the signed application
         shell: pwsh
@@ -190,9 +237,10 @@ jobs:
           if (-not (Test-Path -LiteralPath $payload -PathType Leaf)) { throw 'The signed application was not downloaded.' }
           rustup target add x86_64-pc-windows-msvc
           $env:VOIDSTRAP_LAUNCHER_PAYLOAD = $payload
+          $env:VOIDSTRAP_LAUNCHER_PAYLOAD11 = Join-Path $env:RUNNER_TEMP 'voidstrap-app11/Voidstrap.exe'
           $env:VOIDSTRAP_VERSION = $env:RELEASE_VERSION
           $targetDir = Join-Path $env:RUNNER_TEMP 'voidlauncher-target'
-          cargo build --release --locked --target x86_64-pc-windows-msvc --manifest-path native/voidlauncher/Cargo.toml --target-dir $targetDir
+          cargo build --release --locked --config native/voidlauncher/.cargo/config.toml --target x86_64-pc-windows-msvc --manifest-path native/voidlauncher/Cargo.toml --target-dir $targetDir
           if ($LASTEXITCODE -ne 0) { throw 'The launcher build failed.' }
 
           $exe = Join-Path $targetDir 'x86_64-pc-windows-msvc/release/Voidstrap.exe'

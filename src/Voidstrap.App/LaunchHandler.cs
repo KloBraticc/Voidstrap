@@ -271,7 +271,7 @@ public static class LaunchHandler
 				App.Terminate(ErrorCode.ERROR_INVALID_FUNCTION);
 				return;
 			}
-			else if (App.LaunchSettings.QuietFlag.Active)
+			else if (App.LaunchSettings.QuietFlag.Active || !Voidstrap.Utility.Platform.IsWindows)
 			{
 				Installer installer = new Installer();
 				if (!installer.CheckInstallLocation())
@@ -2051,6 +2051,8 @@ public static class LaunchHandler
 
 	internal static void CloseOtherInstances()
 	{
+		if (App.LaunchSettings.QuietFlag.Active && App.LaunchSettings.NoLaunchFlag.Active)
+			return;
 		try
 		{
 			int processId = Environment.ProcessId;

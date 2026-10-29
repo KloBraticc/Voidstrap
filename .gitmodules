@@ -16,3 +16,7 @@
 	path = external/voidstrap-mods-library
 	url = https://github.com/KloBraticc/voidstrap-mods-library
 	branch = main
+[submodule "native/voidlauncher"]
+	path = native/voidlauncher
+	url = https://github.com/KloBraticc/VoidstrapInstaller.git
+	branch = main

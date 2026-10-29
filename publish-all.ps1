@@ -1122,20 +1122,25 @@ function Invoke-WindowsLauncherBuild {
 
     $cargo = Join-Path $env:USERPROFILE '.cargo/bin/cargo.exe'
     if (-not (Test-Path -LiteralPath $cargo -PathType Leaf)) { $cargo = 'cargo' }
-    $launcherRoot = Join-Path $ArtifactDir 'voidlauncher'
+    $launcherRoot = Join-Path ([IO.Path]::GetTempPath()) ('VoidstrapBuild/' + [Guid]::NewGuid().ToString('N'))
     $payloadDir = Join-Path $launcherRoot 'payload'
     $targetDir = Join-Path $launcherRoot 'target'
     [System.IO.Directory]::CreateDirectory($payloadDir) | Out-Null
     $payload = Join-Path $payloadDir 'Voidstrap.exe'
     Move-Item -LiteralPath $Job.Expected -Destination $payload -Force
 
+    $runtime11Output = Join-Path $launcherRoot 'net11'
+    & (Join-Path $Root 'build/PublishWindowsPayload.ps1') -Runtime 11 -OutputDirectory $runtime11Output -DotNetPath $script:DotNetPath -Configuration $Configuration -Version (Get-VoidstrapVersion)
+
     $env:VOIDSTRAP_LAUNCHER_PAYLOAD = $payload
+    $env:VOIDSTRAP_LAUNCHER_PAYLOAD11 = Join-Path $runtime11Output 'Voidstrap.exe'
     $env:VOIDSTRAP_VERSION = Get-VoidstrapVersion
     try {
-        & $cargo build --release --locked --quiet --target x86_64-pc-windows-msvc --manifest-path (Join-Path $Root 'native/voidlauncher/Cargo.toml') --target-dir $targetDir
+        & $cargo build --release --locked --quiet --config (Join-Path $Root 'native/voidlauncher/.cargo/config.toml') --target x86_64-pc-windows-msvc --manifest-path (Join-Path $Root 'native/voidlauncher/Cargo.toml') --target-dir $targetDir
         if ($LASTEXITCODE -ne 0) { throw "cargo exited with code $LASTEXITCODE" }
     } finally {
         Remove-Item Env:VOIDSTRAP_LAUNCHER_PAYLOAD -ErrorAction SilentlyContinue
+        Remove-Item Env:VOIDSTRAP_LAUNCHER_PAYLOAD11 -ErrorAction SilentlyContinue
         Remove-Item Env:VOIDSTRAP_VERSION -ErrorAction SilentlyContinue
     }
 
