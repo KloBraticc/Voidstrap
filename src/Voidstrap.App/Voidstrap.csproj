@@ -209,7 +209,7 @@
 		<PackageReference Include="OggVorbisEncoder" Version="1.2.2" />
 		<PackageReference Include="securifybv.ShellLink" Version="0.1.0" />
 		<PackageReference Include="SharpZipLib" Version="1.4.2" />
-		<PackageReference Include="System.Management" Version="10.0.13" />
+		<PackageReference Include="System.Management" Version="10.0.14" />
 
 
 		<PackageReference Include="Vortice.D3DCompiler" Version="3.8.3" />
