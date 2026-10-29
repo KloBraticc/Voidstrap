@@ -147,21 +147,38 @@ jobs:
         shell: bash
         run: |
           mkdir -p "$RUNNER_TEMP/image-check-src"
+          python3 -m venv "$RUNNER_TEMP/image-fixture-env"
+          "$RUNNER_TEMP/image-fixture-env/bin/python" -m pip install --disable-pip-version-check Pillow==13.0.0
+          "$RUNNER_TEMP/image-fixture-env/bin/python" - "$RUNNER_TEMP/image-check-src/fixtures" <<'PY'
+          import sys
+          from pathlib import Path
+          from PIL import Image
+          target = Path(sys.argv[1])
+          target.mkdir(parents=True, exist_ok=True)
+          fixture = Image.new("RGB", (64, 32), (255, 0, 0))
+          fixture.paste((0, 0, 255), (0, 16, 64, 32))
+          for extension in ("png", "jpg", "gif", "bmp", "webp", "tiff"):
+              fixture.save(target / ("fixture." + extension))
+          exif = Image.Exif()
+          exif[274] = 6
+          fixture.save(target / "oriented.jpg", exif=exif)
+          transparent = fixture.convert("RGBA")
+          transparent.putpixel((0, 0), (200, 100, 50, 128))
+          transparent.save(target / "transparent.png")
+          red = Image.new("RGB", (8, 8), (255, 0, 0))
+          green = Image.new("RGB", (8, 8), (0, 255, 0))
+          red.save(target / "animated.gif", save_all=True, append_images=[green], duration=[70, 130], loop=0)
+          Image.new("RGB", (64, 32), (0, 255, 0)).save(target / "green.png")
+          PY
           cat > "$RUNNER_TEMP/image-check-src/MacOSImages.cs" <<'CSHARP'
           global using System.Text;
-          using SixLabors.ImageSharp;
-          using SixLabors.ImageSharp.Metadata.Profiles.Exif;
-          using SixLabors.ImageSharp.PixelFormats;
           using System.Windows;
           using System.Windows.Controls;
           using System.Windows.Media;
           using System.Windows.Media.Imaging;
           using Voidstrap.Utility;
 
-          using Image<Rgba32> fixture = new(64, 32);
-          for (int y = 0; y < 32; y++)
-              for (int x = 0; x < 64; x++)
-                  fixture[x, y] = y < 16 ? new Rgba32(255, 0, 0) : new Rgba32(0, 0, 255);
+          string fixtureRoot = Path.Combine(Environment.GetEnvironmentVariable("RUNNER_TEMP")!, "image-check-src", "fixtures");
           BitmapSource? preview = null;
           foreach (string format in new[] { "png", "jpg", "gif", "bmp", "webp", "tiff" })
           {
@@ -183,28 +200,17 @@ jobs:
                   }
               }
           }
-          fixture.Metadata.ExifProfile = new ExifProfile();
-          fixture.Metadata.ExifProfile.SetValue(ExifTag.Orientation, (ushort)6);
-          BitmapSource oriented = SafeImaging.FromBytes(Encode("jpg")) ?? throw new Exception("Missing oriented photo");
+          BitmapSource oriented = SafeImaging.FromBytes(Encode("oriented.jpg")) ?? throw new Exception("Missing oriented photo");
           Assert(oriented.PixelWidth == 32 && oriented.PixelHeight == 64, "Photo orientation was ignored");
-          fixture.Metadata.ExifProfile = null;
-          fixture[0, 0] = new Rgba32(200, 100, 50, 128);
           if (OperatingSystem.IsMacOS())
           {
-              byte[] transparent = Voidstrap.Platform.MacOS.MacOSImageDecoder.Decode(Encode("png"), 64, 32, out _, out _);
+              byte[] transparent = Voidstrap.Platform.MacOS.MacOSImageDecoder.Decode(Encode("transparent.png"), 64, 32, out _, out _);
               Assert(Math.Abs(transparent[2] - 200) <= 2 && Math.Abs(transparent[1] - 100) <= 2 && Math.Abs(transparent[0] - 50) <= 2 && transparent[3] == 128, "Native transparency was not preserved");
           }
           Assert(SafeImaging.FromBytes([1, 2, 3, 4]) == null && SafeImaging.FromBytes([]) == null, "Invalid image accepted");
           Assert(SafeImaging.FromBytes(new byte[64 * 1024 * 1024 + 1]) == null, "Oversized image accepted");
-          using (Image<Rgba32> animation = new(8, 8, new Rgba32(255, 0, 0)))
-          using (Image<Rgba32> next = new(8, 8, new Rgba32(0, 255, 0)))
-          using (MemoryStream animatedBytes = new())
           {
-              animation.Frames.RootFrame.Metadata.GetGifMetadata().FrameDelay = 7;
-              next.Frames.RootFrame.Metadata.GetGifMetadata().FrameDelay = 13;
-              animation.Frames.AddFrame(next.Frames.RootFrame);
-              animation.SaveAsGif(animatedBytes);
-              var frames = SafeImaging.DecodeAnimationPortable(animatedBytes.ToArray(), 4);
+              var frames = SafeImaging.DecodeAnimationPortable(Encode("animated.gif"), 4);
               Assert(frames.Count == 2 && frames[0].Frame.PixelWidth == 4 && frames[0].DelayMilliseconds == 70 && frames[1].DelayMilliseconds == 130, "GIF frames or timing changed");
               byte[] framePixels = new byte[4 * 4 * 4];
               frames[1].Frame.CopyPixels(framePixels, 4 * 4, 0);
@@ -216,10 +222,7 @@ jobs:
               server.Start();
               int port = ((System.Net.IPEndPoint)server.LocalEndpoint).Port;
               byte[] original = Encode("png");
-              using Image<Rgba32> green = new(64, 32, new Rgba32(0, 255, 0));
-              using MemoryStream greenStream = new();
-              green.SaveAsPng(greenStream);
-              byte[] alternate = greenStream.ToArray();
+              byte[] alternate = Encode("green.png");
               Task serve = Task.Run(async () =>
               {
                   for (int index = 0; index < 5; index++)
@@ -378,20 +381,7 @@ jobs:
                   throw new Exception(message);
           }
 
-          byte[] Encode(string format)
-          {
-              using MemoryStream stream = new();
-              switch (format)
-              {
-                  case "png": fixture.SaveAsPng(stream); break;
-                  case "jpg": fixture.SaveAsJpeg(stream); break;
-                  case "gif": fixture.SaveAsGif(stream); break;
-                  case "bmp": fixture.SaveAsBmp(stream); break;
-                  case "webp": fixture.SaveAsWebp(stream); break;
-                  case "tiff": fixture.SaveAsTiff(stream); break;
-              }
-              return stream.ToArray();
-          }
+          byte[] Encode(string format) => File.ReadAllBytes(Path.Combine(fixtureRoot, format.Contains('.') ? format : "fixture." + format));
 
           namespace Voidstrap
           {
@@ -451,7 +441,6 @@ jobs:
               <Reference Include="PresentationCore"><HintPath>$root/external/LibreWPF/PresentationCore.dll</HintPath></Reference>
               <Reference Include="PresentationFramework"><HintPath>$root/external/LibreWPF/PresentationFramework.dll</HintPath></Reference>
               <Reference Include="ProGPU.Wpf"><HintPath>$root/external/LibreWPF/ProGPU.Wpf.dll</HintPath></Reference>
-              <PackageReference Include="SixLabors.ImageSharp" Version="3.2.0" />
             </ItemGroup>
           </Project>
           EOF
