@@ -1,4 +1,4 @@
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using System;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -19,8 +19,6 @@ namespace Voidstrap.UI.Elements.Base;
 
 public abstract partial class WpfUiWindow : UiWindow, IDisposable
 {
-	private static readonly ThemeService _themeService = new ThemeService();
-
 	private static readonly HashSet<string> SharedStyleDictionaries = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
 	{
 		"Default.xaml",
@@ -75,10 +73,10 @@ public abstract partial class WpfUiWindow : UiWindow, IDisposable
 			bool themeChanged = _activeTheme != final;
 			if (themeChanged)
 			{
-				ThemeType theme = final != Voidstrap.Enums.Theme.Light ? ThemeType.Dark : ThemeType.Light;
+				ApplicationTheme theme = final != Voidstrap.Enums.Theme.Light ? ApplicationTheme.Dark : ApplicationTheme.Light;
 				try
 				{
-					_themeService.SetTheme(theme);
+					ApplicationThemeManager.Apply(theme);
 				}
 				catch (Exception ex)
 				{

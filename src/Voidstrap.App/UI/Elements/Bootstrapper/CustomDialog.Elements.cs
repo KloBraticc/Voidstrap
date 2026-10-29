@@ -1,4 +1,4 @@
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Data;
@@ -402,7 +402,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             if (theme == Theme.Default)
                 theme = App.Settings.Prop.Theme2;
 
-            var wpfUiTheme = theme.GetFinal() == Theme.Light ? Wpf.Ui.Appearance.ThemeType.Light : Wpf.Ui.Appearance.ThemeType.Dark;
+            var wpfUiTheme = theme.GetFinal() == Theme.Light ? Wpf.Ui.Appearance.ApplicationTheme.Light : Wpf.Ui.Appearance.ApplicationTheme.Dark;
 
             for (int i = dialog.Resources.MergedDictionaries.Count - 1; i >= 0; i--)
             {
@@ -416,7 +416,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
             CopySystemAccent(dialog);
             dialog.DefaultBorderThemeOverwrite = wpfUiTheme;
 
-            dialog.WindowCornerPreference = ParseXmlAttribute<Wpf.Ui.Appearance.WindowCornerPreference>(xmlElement, "WindowCornerPreference", Wpf.Ui.Appearance.WindowCornerPreference.Round);
+            dialog.WindowCornerPreference = ParseXmlAttribute<Wpf.Ui.Controls.WindowCornerPreference>(xmlElement, "WindowCornerPreference", Wpf.Ui.Controls.WindowCornerPreference.Round);
 
             bool glass = ParseXmlAttribute<bool>(xmlElement, "Glass", true);
 
@@ -571,7 +571,7 @@ namespace Voidstrap.UI.Elements.Bootstrapper
         private static Wpf.Ui.Controls.ProgressRing HandleXmlElement_ProgressRing(CustomDialog dialog, XElement xmlElement)
         {
             var progressBar = new Wpf.Ui.Controls.ProgressRing();
-            HandleXmlElement_RangeBase(dialog, progressBar, xmlElement);
+            HandleXmlElement_Control(dialog, progressBar, xmlElement);
 
             progressBar.IsIndeterminate = ParseXmlAttribute<bool>(xmlElement, "IsIndeterminate", false);
 

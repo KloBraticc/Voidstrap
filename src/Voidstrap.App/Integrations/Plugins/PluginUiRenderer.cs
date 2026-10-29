@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -551,7 +551,7 @@ internal static class PluginUiRenderer
 		};
 		string iconName = props["icon"]?.ToString() ?? "";
 		if (iconName.Length > 0 && Enum.TryParse(iconName, ignoreCase: true, out SymbolRegular icon))
-			button.Icon = icon;
+			button.Icon = new SymbolIcon { Symbol = icon };
 		if (props["disabled"] is JsonValue dis && dis.TryGetValue(out bool isDisabled) && isDisabled)
 			button.IsEnabled = false;
 		button.Click += Button_Click;

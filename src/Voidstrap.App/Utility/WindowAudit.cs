@@ -3107,7 +3107,7 @@ internal static class WindowAudit
 			Voidstrap.UI.Elements.Controls.Expander expander = new()
 			{
 				HeaderText = "Coders",
-				HeaderIcon = Wpf.Ui.Common.SymbolRegular.Code24,
+				HeaderIcon = Wpf.Ui.Controls.SymbolRegular.Code24,
 				InnerContent = new System.Windows.Controls.TextBlock { Text = "body" },
 				VerticalAlignment = VerticalAlignment.Top
 			};

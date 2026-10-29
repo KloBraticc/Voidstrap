@@ -1262,7 +1262,7 @@ public partial class SessionOverlayLayoutEditor : Window
             Wpf.Ui.Controls.Button pinBtn = new()
             {
                 Content = pinned ? Strings.Ui_OverlayStudio_PinPanel : Strings.Ui_OverlayStudio_UnpinnedPanel,
-                Appearance = Wpf.Ui.Common.ControlAppearance.Secondary,
+                Appearance = Wpf.Ui.Controls.ControlAppearance.Secondary,
                 Padding = new Thickness(10, 5, 10, 5),
                 Margin = new Thickness(0, 0, 6, 0),
                 Focusable = false
@@ -1279,7 +1279,7 @@ public partial class SessionOverlayLayoutEditor : Window
             Wpf.Ui.Controls.Button centerBtn = new()
             {
                 Content = Strings.Ui_OverlayStudio_CenterPanel,
-                Appearance = Wpf.Ui.Common.ControlAppearance.Secondary,
+                Appearance = Wpf.Ui.Controls.ControlAppearance.Secondary,
                 Padding = new Thickness(10, 5, 10, 5),
                 Focusable = false
             };

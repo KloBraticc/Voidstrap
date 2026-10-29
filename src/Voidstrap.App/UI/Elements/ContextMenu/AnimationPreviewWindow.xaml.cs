@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -74,7 +74,7 @@ public partial class AnimationPreviewWindow : WpfUiWindow{
 		{
 			StatusText.Text = "Couldn't read this animation, showing the rig in rest pose.";
 			_playing = false;
-			PlayButton.Icon = SymbolRegular.Play24;
+			PlayButton.Icon = new Wpf.Ui.Controls.SymbolIcon { Symbol = SymbolRegular.Play24 };
 			UpdatePose(0.0);
 		}
 		else
@@ -220,7 +220,7 @@ public partial class AnimationPreviewWindow : WpfUiWindow{
 			{
 				_time = _anim.Length;
 				_playing = false;
-				PlayButton.Icon = SymbolRegular.Play24;
+				PlayButton.Icon = new Wpf.Ui.Controls.SymbolIcon { Symbol = SymbolRegular.Play24 };
 			}
 		}
 		UpdatePose(_time);
@@ -235,7 +235,7 @@ public partial class AnimationPreviewWindow : WpfUiWindow{
 			{
 				_time = 0.0;
 			}
-			PlayButton.Icon = (_playing ? SymbolRegular.Pause24 : SymbolRegular.Play24);
+			PlayButton.Icon = new SymbolIcon { Symbol = (_playing ? SymbolRegular.Pause24 : SymbolRegular.Play24) };
 		}
 	}
 

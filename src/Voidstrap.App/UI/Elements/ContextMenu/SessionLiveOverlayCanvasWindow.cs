@@ -1102,7 +1102,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         snapButton = new Wpf.Ui.Controls.Button
         {
             Content = Strings.Ui_OverlayStudio_MagneticSnap + ": ON",
-            Appearance = Wpf.Ui.Common.ControlAppearance.Secondary,
+            Appearance = Wpf.Ui.Controls.ControlAppearance.Secondary,
             Margin = new Thickness(0, 0, 6, 0),
             Padding = new Thickness(10, 4, 10, 4),
             FontSize = 11.5,
@@ -1119,7 +1119,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         Wpf.Ui.Controls.Button resetBtn = new()
         {
             Content = Strings.Ui_OverlayStudio_ResetAll,
-            Appearance = Wpf.Ui.Common.ControlAppearance.Secondary,
+            Appearance = Wpf.Ui.Controls.ControlAppearance.Secondary,
             Margin = new Thickness(0, 0, 6, 0),
             Padding = new Thickness(10, 4, 10, 4),
             FontSize = 11.5,
@@ -1137,7 +1137,7 @@ internal sealed partial class SessionLiveOverlayCanvasWindow : Window
         Wpf.Ui.Controls.Button doneBtn = new()
         {
             Content = Strings.Ui_OverlayStudio_Done + " (Esc)",
-            Appearance = Wpf.Ui.Common.ControlAppearance.Secondary,
+            Appearance = Wpf.Ui.Controls.ControlAppearance.Secondary,
             Padding = new Thickness(11, 4, 11, 4),
             FontSize = 11.5,
             Cursor = Cursors.Hand,

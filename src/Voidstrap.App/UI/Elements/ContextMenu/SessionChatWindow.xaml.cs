@@ -648,8 +648,8 @@ public partial class SessionChatWindow : Window
         if (_showFriends == friends && ConversationList.ItemsSource != null)
             return;
         _showFriends = friends;
-        ChatsTab.Appearance = friends ? Wpf.Ui.Common.ControlAppearance.Secondary : Wpf.Ui.Common.ControlAppearance.Primary;
-        FriendsTab.Appearance = friends ? Wpf.Ui.Common.ControlAppearance.Primary : Wpf.Ui.Common.ControlAppearance.Secondary;
+        ChatsTab.Appearance = friends ? Wpf.Ui.Controls.ControlAppearance.Secondary : Wpf.Ui.Controls.ControlAppearance.Primary;
+        FriendsTab.Appearance = friends ? Wpf.Ui.Controls.ControlAppearance.Primary : Wpf.Ui.Controls.ControlAppearance.Secondary;
         FilterBox.PlaceholderText = friends ? "Search friends" : "Search chats";
         RenderList(true);
     }

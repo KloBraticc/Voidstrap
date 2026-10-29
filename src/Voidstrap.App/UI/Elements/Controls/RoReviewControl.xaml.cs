@@ -566,8 +566,8 @@ public partial class RoReviewControl : UserControl
         bool isUp = string.Equals(_userVote, "up", StringComparison.OrdinalIgnoreCase);
         bool isDown = string.Equals(_userVote, "down", StringComparison.OrdinalIgnoreCase);
 
-        VoteUpButton.Appearance = isUp ? Wpf.Ui.Common.ControlAppearance.Secondary : Wpf.Ui.Common.ControlAppearance.Transparent;
-        VoteDownButton.Appearance = isDown ? Wpf.Ui.Common.ControlAppearance.Secondary : Wpf.Ui.Common.ControlAppearance.Transparent;
+        VoteUpButton.Appearance = isUp ? Wpf.Ui.Controls.ControlAppearance.Secondary : Wpf.Ui.Controls.ControlAppearance.Transparent;
+        VoteDownButton.Appearance = isDown ? Wpf.Ui.Controls.ControlAppearance.Secondary : Wpf.Ui.Controls.ControlAppearance.Transparent;
 
         VoteUpIcon.SetResourceReference(TextBlock.ForegroundProperty, isUp ? "TextFillColorPrimaryBrush" : "TextFillColorSecondaryBrush");
         UpCountText.SetResourceReference(TextBlock.ForegroundProperty, isUp ? "TextFillColorPrimaryBrush" : "TextFillColorSecondaryBrush");

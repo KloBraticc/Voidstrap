@@ -139,9 +139,9 @@ namespace Voidstrap.UI.ViewModels.Settings
 
         public ICommand ShowFriendsCommand { get; }
 
-        public Wpf.Ui.Common.ControlAppearance MineAppearance => _showFriends ? Wpf.Ui.Common.ControlAppearance.Secondary : Wpf.Ui.Common.ControlAppearance.Primary;
+        public Wpf.Ui.Controls.ControlAppearance MineAppearance => _showFriends ? Wpf.Ui.Controls.ControlAppearance.Secondary : Wpf.Ui.Controls.ControlAppearance.Primary;
 
-        public Wpf.Ui.Common.ControlAppearance FriendsAppearance => _showFriends ? Wpf.Ui.Common.ControlAppearance.Primary : Wpf.Ui.Common.ControlAppearance.Secondary;
+        public Wpf.Ui.Controls.ControlAppearance FriendsAppearance => _showFriends ? Wpf.Ui.Controls.ControlAppearance.Primary : Wpf.Ui.Controls.ControlAppearance.Secondary;
 
         private void SetShowFriends(bool friends)
         {

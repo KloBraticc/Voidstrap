@@ -329,7 +329,7 @@ public partial class SessionDock : Window
             if (child is not Wpf.Ui.Controls.Button { Tag: string action } button)
                 continue;
             bool open = _panels.TryGetValue(PanelKeyFor(action), out SessionPanelWindow? panel) && panel.IsRequested;
-            Wpf.Ui.Common.ControlAppearance appearance = open ? Wpf.Ui.Common.ControlAppearance.Primary : Wpf.Ui.Common.ControlAppearance.Transparent;
+            Wpf.Ui.Controls.ControlAppearance appearance = open ? Wpf.Ui.Controls.ControlAppearance.Primary : Wpf.Ui.Controls.ControlAppearance.Transparent;
             if (button.Appearance != appearance)
                 button.Appearance = appearance;
             if (button.Content is TextBlock glyph)

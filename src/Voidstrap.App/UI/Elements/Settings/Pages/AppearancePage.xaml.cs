@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.CodeDom.Compiler;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -16,6 +16,7 @@ using Voidstrap.UI.Elements.Dialogs;
 using Voidstrap.UI.ViewModels.Settings;
 using Voidstrap.Utility;
 using Wpf.Ui.Controls;
+using MessageBoxButton = System.Windows.MessageBoxButton;
 
 namespace Voidstrap.UI.Elements.Settings.Pages;
 

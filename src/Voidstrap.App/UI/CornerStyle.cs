@@ -41,11 +41,11 @@ internal static class CornerStyle
 		}
 	}
 
-	public static Wpf.Ui.Appearance.WindowCornerPreference WindowPreference => WindowStyle switch
+	public static Wpf.Ui.Controls.WindowCornerPreference WindowPreference => WindowStyle switch
 	{
-		WindowCornerStyle.SlightlyRounded => Wpf.Ui.Appearance.WindowCornerPreference.RoundSmall,
-		WindowCornerStyle.Square => Wpf.Ui.Appearance.WindowCornerPreference.DoNotRound,
-		_ => Wpf.Ui.Appearance.WindowCornerPreference.Round
+		WindowCornerStyle.SlightlyRounded => Wpf.Ui.Controls.WindowCornerPreference.RoundSmall,
+		WindowCornerStyle.Square => Wpf.Ui.Controls.WindowCornerPreference.DoNotRound,
+		_ => Wpf.Ui.Controls.WindowCornerPreference.Round
 	};
 
 	public static double WindowRadius(double full)

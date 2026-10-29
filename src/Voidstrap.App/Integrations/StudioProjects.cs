@@ -65,7 +65,7 @@ public sealed class StudioProject : INotifyPropertyChanged
 
 	public string PrivacyLabel => IsPublic ? "Public" : "Private";
 
-	public Wpf.Ui.Common.SymbolRegular PrivacyIcon => IsPublic ? Wpf.Ui.Common.SymbolRegular.Globe24 : Wpf.Ui.Common.SymbolRegular.LockClosed24;
+	public Wpf.Ui.Controls.SymbolRegular PrivacyIcon => IsPublic ? Wpf.Ui.Controls.SymbolRegular.Globe24 : Wpf.Ui.Controls.SymbolRegular.LockClosed24;
 
 	public string ModifiedLabel => Updated is DateTime d ? "Modified " + d.ToLocalTime().ToString("MM/dd/yyyy h:mm tt", CultureInfo.InvariantCulture) : "";
 

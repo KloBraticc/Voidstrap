@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -19,6 +19,9 @@ using Voidstrap.UI;
 using Voidstrap.Utility;
 using Wpf.Ui.Common;
 using Wpf.Ui.Controls;
+using Image = System.Windows.Controls.Image;
+using MessageBoxButton = System.Windows.MessageBoxButton;
+using MessageBoxResult = System.Windows.MessageBoxResult;
 
 namespace Voidstrap.UI.Elements.Settings.Pages;
 
@@ -223,7 +226,7 @@ public partial class VoidstrapModsPage : UiPage
 
 		Wpf.Ui.Controls.Button publishBtn = new()
 		{
-			Icon = SymbolRegular.CloudArrowUp24,
+			Icon = new SymbolIcon { Symbol = SymbolRegular.CloudArrowUp24 },
 			ToolTip = Strings.Ui_VoidstrapMods_PublishTooltip,
 			Appearance = ControlAppearance.Secondary,
 			Margin = new Thickness(0, 0, 6, 0),
@@ -234,7 +237,7 @@ public partial class VoidstrapModsPage : UiPage
 
 		Wpf.Ui.Controls.Button iconBtn = new()
 		{
-			Icon = SymbolRegular.ImageEdit24,
+			Icon = new SymbolIcon { Symbol = SymbolRegular.ImageEdit24 },
 			ToolTip = Strings.Ui_VoidstrapMods_ChangeIcon,
 			Appearance = ControlAppearance.Secondary,
 			Margin = new Thickness(0, 0, 6, 0),
@@ -245,7 +248,7 @@ public partial class VoidstrapModsPage : UiPage
 
 		Wpf.Ui.Controls.Button exportBtn = new()
 		{
-			Icon = SymbolRegular.ArrowExportUp24,
+			Icon = new SymbolIcon { Symbol = SymbolRegular.ArrowExportUp24 },
 			ToolTip = Strings.Ui_VoidstrapMods_ExportTooltip,
 			Appearance = ControlAppearance.Secondary,
 			Margin = new Thickness(0, 0, 6, 0),
@@ -256,7 +259,7 @@ public partial class VoidstrapModsPage : UiPage
 
 		Wpf.Ui.Controls.Button deleteBtn = new()
 		{
-			Icon = SymbolRegular.Delete24,
+			Icon = new SymbolIcon { Symbol = SymbolRegular.Delete24 },
 			ToolTip = Strings.Common_Delete,
 			Appearance = ControlAppearance.Secondary,
 			Margin = new Thickness(0, 0, 8, 0),
@@ -268,7 +271,7 @@ public partial class VoidstrapModsPage : UiPage
 		Wpf.Ui.Controls.Button editBtn = new()
 		{
 			Content = Strings.Ui_VoidstrapMods_EditButton,
-			Icon = SymbolRegular.Code24,
+			Icon = new SymbolIcon { Symbol = SymbolRegular.Code24 },
 			Appearance = ControlAppearance.Secondary,
 			MinWidth = 76,
 			Margin = new Thickness(0, 0, 8, 0),
@@ -283,7 +286,7 @@ public partial class VoidstrapModsPage : UiPage
 			MinWidth = 84,
 			Appearance = on ? ControlAppearance.Secondary : ControlAppearance.Primary,
 			Content = on ? Strings.Ui_VoidstrapMods_LibraryDisable : Strings.Ui_VoidstrapMods_LibraryEnable,
-			Icon = on ? SymbolRegular.Pause24 : SymbolRegular.Play24,
+			Icon = new SymbolIcon { Symbol = on ? SymbolRegular.Pause24 : SymbolRegular.Play24 },
 			Tag = mod.Name
 		};
 		toggle.Click += CreateModToggle_Click;
@@ -616,7 +619,7 @@ public partial class VoidstrapModsPage : UiPage
 	{
 		ModLibrary.InstallState state = ModLibrary.GetState(mod);
 		button.Content = InstallLabel(state);
-		button.Icon = state == ModLibrary.InstallState.UpdateAvailable ? SymbolRegular.ArrowSync24 : state == ModLibrary.InstallState.Installed ? SymbolRegular.Checkmark24 : SymbolRegular.ArrowDownload24;
+		button.Icon = new SymbolIcon { Symbol = state == ModLibrary.InstallState.UpdateAvailable ? SymbolRegular.ArrowSync24 : state == ModLibrary.InstallState.Installed ? SymbolRegular.Checkmark24 : SymbolRegular.ArrowDownload24 };
 		button.Appearance = state is ModLibrary.InstallState.NotInstalled or ModLibrary.InstallState.UpdateAvailable ? ControlAppearance.Primary : ControlAppearance.Secondary;
 		button.IsEnabled = state is ModLibrary.InstallState.NotInstalled or ModLibrary.InstallState.UpdateAvailable;
 		button.Tag = mod;
@@ -676,7 +679,7 @@ public partial class VoidstrapModsPage : UiPage
 		if (ModLibrary.GetState(mod) == ModLibrary.InstallState.Installed)
 		{
 			bool on = IsModOn(mod.Name);
-			Wpf.Ui.Controls.Button toggle = new() { MinWidth = 84, Appearance = on ? ControlAppearance.Secondary : ControlAppearance.Primary, Content = on ? Strings.Ui_VoidstrapMods_LibraryDisable : Strings.Ui_VoidstrapMods_LibraryEnable, Icon = on ? SymbolRegular.Pause24 : SymbolRegular.Play24, Tag = mod };
+			Wpf.Ui.Controls.Button toggle = new() { MinWidth = 84, Appearance = on ? ControlAppearance.Secondary : ControlAppearance.Primary, Content = on ? Strings.Ui_VoidstrapMods_LibraryDisable : Strings.Ui_VoidstrapMods_LibraryEnable, Icon = new SymbolIcon { Symbol = on ? SymbolRegular.Pause24 : SymbolRegular.Play24 }, Tag = mod };
 			toggle.Click += LibraryToggle_Click;
 			buttons.Children.Add(toggle);
 		}
@@ -736,7 +739,7 @@ public partial class VoidstrapModsPage : UiPage
 		DetailInstallButton.Visibility = state == ModLibrary.InstallState.Installed ? Visibility.Collapsed : Visibility.Visible;
 		bool on = installed && IsModOn(mod.Name);
 		DetailToggleButton.Content = on ? Strings.Ui_VoidstrapMods_LibraryDisable : Strings.Ui_VoidstrapMods_LibraryEnable;
-		DetailToggleButton.Icon = on ? SymbolRegular.Pause24 : SymbolRegular.Play24;
+		DetailToggleButton.Icon = new SymbolIcon { Symbol = on ? SymbolRegular.Pause24 : SymbolRegular.Play24 };
 		DetailToggleButton.Tag = mod;
 		DetailUninstallButton.Tag = mod;
 	}

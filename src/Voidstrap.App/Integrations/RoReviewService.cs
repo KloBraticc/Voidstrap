@@ -144,11 +144,11 @@ public static class RoReviewService
         public bool IsUpVoted => string.Equals(UserVote, "up", StringComparison.OrdinalIgnoreCase);
         public bool IsDownVoted => string.Equals(UserVote, "down", StringComparison.OrdinalIgnoreCase);
 
-        public Wpf.Ui.Common.ControlAppearance UpAppearance =>
-            IsUpVoted ? Wpf.Ui.Common.ControlAppearance.Secondary : Wpf.Ui.Common.ControlAppearance.Transparent;
+        public Wpf.Ui.Controls.ControlAppearance UpAppearance =>
+            IsUpVoted ? Wpf.Ui.Controls.ControlAppearance.Secondary : Wpf.Ui.Controls.ControlAppearance.Transparent;
 
-        public Wpf.Ui.Common.ControlAppearance DownAppearance =>
-            IsDownVoted ? Wpf.Ui.Common.ControlAppearance.Secondary : Wpf.Ui.Common.ControlAppearance.Transparent;
+        public Wpf.Ui.Controls.ControlAppearance DownAppearance =>
+            IsDownVoted ? Wpf.Ui.Controls.ControlAppearance.Secondary : Wpf.Ui.Controls.ControlAppearance.Transparent;
 
         public void RefreshRating()
         {

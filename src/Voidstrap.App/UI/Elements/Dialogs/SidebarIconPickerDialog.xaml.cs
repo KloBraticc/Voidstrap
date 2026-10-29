@@ -7,7 +7,7 @@ using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using Voidstrap.UI.Elements.Base;
-using Wpf.Ui.Common;
+using Wpf.Ui.Controls;
 
 namespace Voidstrap.UI.Elements.Dialogs;
 

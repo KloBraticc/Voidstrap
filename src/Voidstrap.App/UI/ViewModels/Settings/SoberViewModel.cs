@@ -64,9 +64,9 @@ public sealed class SoberViewModel : NotifyPropertyChangedViewModel
 
 	public string ActionLabel => _installing ? "Installing" : _uninstalling ? "Removing" : _installed ? "Uninstall" : "Install";
 
-	public Wpf.Ui.Common.ControlAppearance ActionAppearance => _installed
-		? Wpf.Ui.Common.ControlAppearance.Danger
-		: Wpf.Ui.Common.ControlAppearance.Primary;
+	public Wpf.Ui.Controls.ControlAppearance ActionAppearance => _installed
+		? Wpf.Ui.Controls.ControlAppearance.Danger
+		: Wpf.Ui.Controls.ControlAppearance.Primary;
 
 	public ICommand RunActionCommand => new RelayCommand(RunAction);
 

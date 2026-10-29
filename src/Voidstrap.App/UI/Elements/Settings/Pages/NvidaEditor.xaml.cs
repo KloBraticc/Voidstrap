@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -19,6 +19,8 @@ using Voidstrap.Integrations.Nvidia;
 using Voidstrap.Models;
 using Voidstrap.UI.Elements.Dialogs;
 using Wpf.Ui.Controls;
+using MessageBoxButton = System.Windows.MessageBoxButton;
+using MessageBoxResult = System.Windows.MessageBoxResult;
 
 namespace Voidstrap.UI.Elements.Settings.Pages;
 

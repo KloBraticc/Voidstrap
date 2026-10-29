@@ -26,7 +26,7 @@ using Voidstrap.UI.Elements.Editor;
 using Voidstrap.UI.Elements.Settings;
 using Voidstrap.UI;
 using Voidstrap.Utility;
-using SymbolRegular = Wpf.Ui.Common.SymbolRegular;
+using SymbolRegular = Wpf.Ui.Controls.SymbolRegular;
 
 namespace Voidstrap.UI.ViewModels.Settings;
 

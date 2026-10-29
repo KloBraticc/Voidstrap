@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
@@ -22,6 +22,8 @@ using Voidstrap.Resources;
 using Voidstrap.UI.Elements.Dialogs;
 using Wpf.Ui.Controls;
 using Wpf.Ui.Mvvm.Contracts;
+using MessageBoxButton = System.Windows.MessageBoxButton;
+using MessageBoxResult = System.Windows.MessageBoxResult;
 
 namespace Voidstrap.UI.Elements.Settings.Pages;
 
@@ -497,26 +499,26 @@ public partial class FastFlagEditorPage : UiPage
 			return;
 		}
 		string text;
-		Wpf.Ui.Common.SymbolRegular icon;
+		Wpf.Ui.Controls.SymbolRegular icon;
 		if (App.FastFlags.Prop.Count == 0)
 		{
 			text = "Go to FFlag Settings to add Preset FFlags.";
-			icon = Wpf.Ui.Common.SymbolRegular.Flag24;
+			icon = Wpf.Ui.Controls.SymbolRegular.Flag24;
 		}
 		else if (_searchFilter.Length != 0)
 		{
 			text = "No flags match your search.";
-			icon = Wpf.Ui.Common.SymbolRegular.Search24;
+			icon = Wpf.Ui.Controls.SymbolRegular.Search24;
 		}
 		else if (!_showPresets)
 		{
 			text = "All of your flags are presets. Enable Show Preset Flags to view them.";
-			icon = Wpf.Ui.Common.SymbolRegular.Flag24;
+			icon = Wpf.Ui.Controls.SymbolRegular.Flag24;
 		}
 		else
 		{
 			text = "Go to FFlag Settings to add Preset FFlags.";
-			icon = Wpf.Ui.Common.SymbolRegular.Flag24;
+			icon = Wpf.Ui.Controls.SymbolRegular.Flag24;
 		}
 		EmptyStateIcon.Symbol = icon;
 		EmptyStateTextBlock.Text = text;
