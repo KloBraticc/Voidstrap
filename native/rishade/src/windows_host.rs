@@ -1,5 +1,5 @@
 use std::path::{Path, PathBuf};
-use windows::Win32::Foundation::{BOOL, CloseHandle, HWND, LPARAM, RECT, TRUE};
+use windows::Win32::Foundation::{CloseHandle, HWND, LPARAM, RECT, TRUE};
 use windows::Win32::Graphics::Dwm::{DWMWA_CLOAKED, DwmGetWindowAttribute};
 use windows::Win32::System::Threading::{
     GetCurrentProcessId, OpenProcess, PROCESS_NAME_FORMAT, PROCESS_QUERY_LIMITED_INFORMATION,
@@ -10,7 +10,7 @@ use windows::Win32::UI::WindowsAndMessaging::{
     GetWindowTextLengthW, GetWindowTextW, GetWindowThreadProcessId, IsWindow, IsWindowVisible,
     WS_EX_TOOLWINDOW,
 };
-use windows::core::PWSTR;
+use windows::core::{BOOL, PWSTR};
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct AutoGame {
@@ -105,7 +105,7 @@ pub fn find_game_target(
 
 fn game_window_exists(game: &GameWindow) -> bool {
     let hwnd = HWND(game.hwnd as *mut _);
-    (unsafe { IsWindow(hwnd).as_bool() }) && process_id(hwnd) == Some(game.process_id)
+    (unsafe { IsWindow(Some(hwnd)).as_bool() }) && process_id(hwnd) == Some(game.process_id)
 }
 
 unsafe extern "system" fn enumerate_window(hwnd: HWND, data: LPARAM) -> BOOL {

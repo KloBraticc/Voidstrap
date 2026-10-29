@@ -4,7 +4,7 @@ use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::{Arc, Condvar, Mutex};
 use std::thread::{self, JoinHandle};
 use std::time::Duration;
-use windows::Foundation::{EventRegistrationToken, TimeSpan, TypedEventHandler};
+use windows::Foundation::{TimeSpan, TypedEventHandler};
 use windows::Graphics::Capture::{
     Direct3D11CaptureFramePool, GraphicsCaptureItem, GraphicsCaptureSession,
 };
@@ -141,9 +141,9 @@ struct CaptureResources {
     session: GraphicsCaptureSession,
     item: GraphicsCaptureItem,
     _frame_handler: TypedEventHandler<Direct3D11CaptureFramePool, IInspectable>,
-    frame_token: EventRegistrationToken,
+    frame_token: i64,
     _close_handler: TypedEventHandler<GraphicsCaptureItem, IInspectable>,
-    close_token: EventRegistrationToken,
+    close_token: i64,
 }
 
 struct SendCom<T>(T);
@@ -352,7 +352,7 @@ pub extern "system" fn RiShadeCaptureLastError() -> *const i8 {
 fn is_valid_capture_window(hwnd: *mut c_void) -> bool {
     let hwnd = HWND(hwnd);
     if hwnd.is_invalid()
-        || !unsafe { IsWindow(hwnd).as_bool() }
+        || !unsafe { IsWindow(Some(hwnd)).as_bool() }
         || !unsafe { IsWindowVisible(hwnd).as_bool() }
     {
         return false;
@@ -387,7 +387,7 @@ fn capture_window(
         && !state.closed.load(Ordering::Acquire)
         && !state.failed.load(Ordering::Acquire)
     {
-        if !unsafe { IsWindow(HWND(hwnd as *mut _)).as_bool() } {
+        if !unsafe { IsWindow(Some(HWND(hwnd as *mut _))).as_bool() } {
             state.closed.store(true, Ordering::Release);
             break;
         }
@@ -499,7 +499,7 @@ fn setup_capture(
 
                 let mut known_size = dimensions_for_frames
                     .lock()
-                    .map_err(|_| windows::core::Error::from_win32())?;
+                    .map_err(|_| windows::core::Error::from(windows::Win32::Foundation::E_FAIL))?;
                 if *known_size != (size.Width, size.Height) {
                     pool_for_frames.get().Recreate(
                         device_for_frames.get(),

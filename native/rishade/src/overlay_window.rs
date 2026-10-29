@@ -1,5 +1,5 @@
 use std::ffi::c_void;
-use windows::Win32::Foundation::{HWND, RECT};
+use windows::Win32::Foundation::{ERROR_INVALID_WINDOW_HANDLE, E_INVALIDARG, HWND, RECT};
 use windows::Win32::Graphics::Direct3D11::{
     ID3D11Device, ID3D11DeviceContext, ID3D11Resource, ID3D11Texture2D,
 };
@@ -20,7 +20,7 @@ use windows::Win32::UI::WindowsAndMessaging::{
     ShowWindow, WS_EX_NOACTIVATE, WS_EX_NOREDIRECTIONBITMAP, WS_EX_TOOLWINDOW, WS_EX_TOPMOST,
     WS_EX_TRANSPARENT, WS_POPUP,
 };
-use windows::core::Interface;
+use windows::core::{HRESULT, Interface};
 use windows::core::w;
 
 pub struct RiShadeOverlayWindow {
@@ -46,8 +46,8 @@ impl RiShadeOverlayWindow {
         device: &IDXGIDevice,
         module: *mut c_void,
     ) -> windows::core::Result<Self> {
-        if !unsafe { IsWindow(target).as_bool() } {
-            return Err(windows::core::Error::from_win32());
+        if !unsafe { IsWindow(Some(target)).as_bool() } {
+            return Err(HRESULT::from_win32(ERROR_INVALID_WINDOW_HANDLE.0).into());
         }
         let composition: IDCompositionDevice = unsafe { DCompositionCreateDevice(device)? };
         let instance = windows::Win32::Foundation::HINSTANCE(module);
@@ -67,7 +67,7 @@ impl RiShadeOverlayWindow {
                 1,
                 None,
                 None,
-                instance,
+                Some(instance),
                 None,
             )?
         };
@@ -151,8 +151,8 @@ impl RiShadeOverlayWindow {
     }
 
     pub fn sync_to_target(&mut self, keep_visible: bool) -> windows::core::Result<bool> {
-        if !unsafe { IsWindow(self.target).as_bool() } {
-            return Err(windows::core::Error::from_win32());
+        if !unsafe { IsWindow(Some(self.target)).as_bool() } {
+            return Err(HRESULT::from_win32(ERROR_INVALID_WINDOW_HANDLE.0).into());
         }
         let mut cloaked = 0u32;
         let is_cloaked = unsafe {
@@ -203,7 +203,7 @@ impl RiShadeOverlayWindow {
             unsafe {
                 SetWindowPos(
                     self.window,
-                    HWND_TOPMOST,
+                    Some(HWND_TOPMOST),
                     bounds.0,
                     bounds.1,
                     bounds.2,
@@ -231,7 +231,7 @@ impl RiShadeOverlayRenderer {
         height: u32,
     ) -> windows::core::Result<()> {
         if width == 0 || height == 0 {
-            return Err(windows::core::Error::from_win32());
+            return Err(E_INVALIDARG.into());
         }
         if (width, height) != (self.width, self.height) {
             unsafe {
