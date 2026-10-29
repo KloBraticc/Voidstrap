@@ -67,7 +67,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             480,
             None,
             None,
-            instance,
+            Some(instance.into()),
             None,
         )?
     };

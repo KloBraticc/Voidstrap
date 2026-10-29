@@ -190,8 +190,8 @@
 		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.2" />
 		<PackageReference Include="DiscordRichPresence" Version="1.6.1.70" />
 		<PackageReference Include="Jint" Version="4.17.0" />
-		<PackageReference Include="Markdig" Version="1.5.0" />
-		<PackageReference Include="Microsoft.ML.OnnxRuntime" Version="1.24.4" />
+		<PackageReference Include="Markdig" Version="1.5.1" />
+		<PackageReference Include="Microsoft.ML.OnnxRuntime" Version="1.31.1" />
 		<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.4314.35" />
 		<PackageReference Include="Microsoft.Windows.CsWinRT" Version="2.3.1" />
 		<PackageDownload Include="Microsoft.Windows.SDK.NET.Ref" Version="[$(WindowsProjectionMetadataVersion)]" />
@@ -209,7 +209,7 @@
 		<PackageReference Include="OggVorbisEncoder" Version="1.2.2" />
 		<PackageReference Include="securifybv.ShellLink" Version="0.1.0" />
 		<PackageReference Include="SharpZipLib" Version="1.4.2" />
-		<PackageReference Include="System.Management" Version="10.0.13" />
+		<PackageReference Include="System.Management" Version="10.0.14" />
 
 
 		<PackageReference Include="Vortice.D3DCompiler" Version="3.8.3" />

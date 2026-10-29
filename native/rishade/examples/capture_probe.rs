@@ -123,7 +123,7 @@ fn main() -> windows::core::Result<()> {
             480,
             None,
             None,
-            instance,
+            Some(instance.into()),
             None,
         )?
     };
