@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -14,8 +14,6 @@ using Voidstrap.Resources;
 using Voidstrap.UI.Elements.Base;
 using Voidstrap.UI.Elements.Settings;
 using Wpf.Ui.Controls;
-using MessageBoxButton = System.Windows.MessageBoxButton;
-using MessageBoxResult = System.Windows.MessageBoxResult;
 
 namespace Voidstrap.Integrations.Plugins;
 

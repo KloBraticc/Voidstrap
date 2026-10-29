@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
@@ -10,8 +10,6 @@ using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Threading;
 using Wpf.Ui.Controls;
-using TextBlock = System.Windows.Controls.TextBlock;
-using ListViewItem = System.Windows.Controls.ListViewItem;
 
 namespace Voidstrap.UI;
 

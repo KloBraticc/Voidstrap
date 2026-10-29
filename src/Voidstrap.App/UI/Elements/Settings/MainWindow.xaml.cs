@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using Voidstrap.Utility;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
@@ -44,9 +44,6 @@ using Wpf.Ui.Controls;
 using Wpf.Ui.Controls.Interfaces;
 using Wpf.Ui.Mvvm.Contracts;
 using WpfAnimatedGif;
-using NavigatingCancelEventArgs = System.Windows.Navigation.NavigatingCancelEventArgs;
-using TextBlock = System.Windows.Controls.TextBlock;
-using Image = System.Windows.Controls.Image;
 
 namespace Voidstrap.UI.Elements.Settings;
 
@@ -2422,7 +2419,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             };
             item.Icon = new Wpf.Ui.Controls.SymbolIcon
             {
-                Symbol = Enum.TryParse(entry.Icon, ignoreCase: true, out Wpf.Ui.Controls.SymbolRegular symbol) ? symbol : Wpf.Ui.Controls.SymbolRegular.PuzzlePiece24,
+                Symbol = Enum.TryParse(entry.Icon, ignoreCase: true, out Wpf.Ui.Common.SymbolRegular symbol) ? symbol : Wpf.Ui.Common.SymbolRegular.PuzzlePiece24,
                 FontSize = 16
             };
             item.Click += ModPageMenuItem_Click;
@@ -5666,7 +5663,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
                 original = item.Margin;
                 _navItemMargins[item] = original;
             }
-            bool iconless = item.Icon == Wpf.Ui.Controls.SymbolRegular.Empty && item.Image == null;
+            bool iconless = item.Icon == Wpf.Ui.Common.SymbolRegular.Empty && item.Image == null;
             if (iconsOnly)
             {
                 item.Margin = new Thickness(0.0, 0.0, 0.0, 4.0);
@@ -6748,7 +6745,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
         if (_isClosed || AiActivitySnackbar == null)
             return;
         AiActivitySnackbar.Title = title;
-        AiActivitySnackbar.Content = message;
+        AiActivitySnackbar.Message = message;
         AiActivitySnackbar.Show();
     }
 
@@ -6759,7 +6756,7 @@ public partial class MainWindow : WpfUiWindow, INavigationWindow
             await Task.Delay(225, _lifetimeCts.SafeToken());
             if (!_isClosed && !((DispatcherObject)this).Dispatcher.HasShutdownStarted)
             {
-                _ = ((DispatcherObject)this).Dispatcher.InvokeAsync(() => AlreadyRunningSnackbar?.Show());
+                _ = ((DispatcherObject)this).Dispatcher.InvokeAsync<bool?>((Func<bool?>)(() => AlreadyRunningSnackbar?.Show()));
             }
         }
         catch (OperationCanceledException)

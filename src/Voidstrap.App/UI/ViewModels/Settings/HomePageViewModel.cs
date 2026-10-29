@@ -145,9 +145,9 @@ namespace Voidstrap.UI.ViewModels.Pages
 
         public string SkipMatchmakerLabel => ExcludedFromMatchmaker ? "Matchmaker skipped" : "Skip matchmaker";
 
-        public Wpf.Ui.Controls.SymbolRegular SkipMatchmakerIcon => ExcludedFromMatchmaker
-            ? Wpf.Ui.Controls.SymbolRegular.CheckmarkCircle24
-            : Wpf.Ui.Controls.SymbolRegular.ArrowRouting24;
+        public Wpf.Ui.Common.SymbolRegular SkipMatchmakerIcon => ExcludedFromMatchmaker
+            ? Wpf.Ui.Common.SymbolRegular.CheckmarkCircle24
+            : Wpf.Ui.Common.SymbolRegular.ArrowRouting24;
 
         public string SkipMatchmakerTooltip => ExcludedFromMatchmaker
             ? "Voidstrap joins this game normally. Click to let it pick servers again."

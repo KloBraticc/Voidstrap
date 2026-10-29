@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -10,7 +10,6 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using Wpf.Ui.Controls;
 using MenuItem = System.Windows.Controls.MenuItem;
-using TextBlock = System.Windows.Controls.TextBlock;
 
 namespace Voidstrap.UI.Elements.Controls;
 

@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Markup;
 using System.Windows.Threading;
-using Wpf.Ui.Controls;
+using Wpf.Ui.Common;
 
 namespace Voidstrap.UI.Elements.Controls;
 

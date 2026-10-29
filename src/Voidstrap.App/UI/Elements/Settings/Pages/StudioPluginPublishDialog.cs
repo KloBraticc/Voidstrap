@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Globalization;
 using System.IO;
 using System.Net.Http;
@@ -57,7 +57,7 @@ public sealed class StudioPluginPublishDialog : WpfUiWindow
 		ExtendsContentIntoTitleBar = true;
 		SetResourceReference(BackgroundProperty, "ApplicationBackgroundBrush");
 
-		_choose = new Wpf.Ui.Controls.Button { Content = Strings.Ui_Mods_StudioPlugins_PublishChoose, Icon = new Wpf.Ui.Controls.SymbolIcon { Symbol = Wpf.Ui.Controls.SymbolRegular.Folder24 } };
+		_choose = new Wpf.Ui.Controls.Button { Content = Strings.Ui_Mods_StudioPlugins_PublishChoose, Icon = Wpf.Ui.Common.SymbolRegular.Folder24 };
 		_choose.Click += Choose_Click;
 		_file = new System.Windows.Controls.TextBlock { Margin = new Thickness(0, 6, 0, 0), TextTrimming = TextTrimming.CharacterEllipsis };
 		_name = new Wpf.Ui.Controls.TextBox { MaxLength = StudioPluginPublisher.MaxNameLength, Margin = new Thickness(0, 4, 0, 0) };
@@ -71,7 +71,7 @@ public sealed class StudioPluginPublishDialog : WpfUiWindow
 		_status.SetResourceReference(System.Windows.Controls.TextBlock.ForegroundProperty, "TextFillColorTertiaryBrush");
 		_progress = new ProgressBar { Minimum = 0, Maximum = 1, Height = 4, Margin = new Thickness(0, 8, 0, 0), Visibility = Visibility.Collapsed };
 
-		_publish = new Wpf.Ui.Controls.Button { Content = Strings.Ui_Mods_StudioPlugins_PublishConfirm, Appearance = Wpf.Ui.Controls.ControlAppearance.Primary, MinWidth = 110, Margin = new Thickness(0, 0, 8, 0), IsDefault = true, IsEnabled = false };
+		_publish = new Wpf.Ui.Controls.Button { Content = Strings.Ui_Mods_StudioPlugins_PublishConfirm, Appearance = Wpf.Ui.Common.ControlAppearance.Primary, MinWidth = 110, Margin = new Thickness(0, 0, 8, 0), IsDefault = true, IsEnabled = false };
 		_publish.Click += Publish_Click;
 		Wpf.Ui.Controls.Button close = new() { Content = Strings.Common_Close, MinWidth = 110, IsCancel = true };
 

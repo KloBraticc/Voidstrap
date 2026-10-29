@@ -1,9 +1,8 @@
-﻿using System;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Animation;
 using Wpf.Ui.Common;
-using Wpf.Ui.Controls;
 
 namespace Voidstrap.UI.Elements.Controls;
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -761,7 +761,7 @@ public partial class AssetPreviewPanel : UserControl{
 		HelpButton.Visibility = Visibility.Visible;
 		_animTime = 0.0;
 		_animPlaying = true;
-		AnimPlayButton.Icon = new Wpf.Ui.Controls.SymbolIcon { Symbol = SymbolRegular.Pause24 };
+		AnimPlayButton.Icon = SymbolRegular.Pause24;
 		UpdatePose(0.0);
 		_animTimer.Start();
 	}
@@ -867,7 +867,7 @@ public partial class AssetPreviewPanel : UserControl{
 		if (_anim != null && !(_anim.Length <= 0.0))
 		{
 			_animPlaying = !_animPlaying;
-			AnimPlayButton.Icon = new SymbolIcon { Symbol = (_animPlaying ? SymbolRegular.Pause24 : SymbolRegular.Play24) };
+			AnimPlayButton.Icon = (_animPlaying ? SymbolRegular.Pause24 : SymbolRegular.Play24);
 		}
 	}
 
@@ -904,7 +904,7 @@ public partial class AssetPreviewPanel : UserControl{
 			_waveOut.PlaybackStopped += WaveOut_PlaybackStopped;
 			_waveOut.Play();
 			_audioPlaying = true;
-			AudioPlayButton.Icon = new Wpf.Ui.Controls.SymbolIcon { Symbol = SymbolRegular.Pause24 };
+			AudioPlayButton.Icon = SymbolRegular.Pause24;
 			AudioPositionSlider.Maximum = Math.Max(0.001, _waveReader.TotalTime.TotalSeconds);
 			UpdateAudioTime();
 			AudioView.Visibility = Visibility.Visible;
@@ -1055,7 +1055,7 @@ public partial class AssetPreviewPanel : UserControl{
 		if (flag)
 		{
 			_audioPlaying = false;
-			AudioPlayButton.Icon = new Wpf.Ui.Controls.SymbolIcon { Symbol = SymbolRegular.Play24 };
+			AudioPlayButton.Icon = SymbolRegular.Play24;
 		}
 	}
 
@@ -1128,7 +1128,7 @@ public partial class AssetPreviewPanel : UserControl{
 		{
 			_waveOut.Pause();
 			_audioPlaying = false;
-			AudioPlayButton.Icon = new Wpf.Ui.Controls.SymbolIcon { Symbol = SymbolRegular.Play24 };
+			AudioPlayButton.Icon = SymbolRegular.Play24;
 			return;
 		}
 		if (_waveReader != null && _waveReader.CurrentTime >= _waveReader.TotalTime - TimeSpan.FromMilliseconds(150L))
@@ -1137,7 +1137,7 @@ public partial class AssetPreviewPanel : UserControl{
 		}
 		_waveOut.Play();
 		_audioPlaying = true;
-		AudioPlayButton.Icon = new Wpf.Ui.Controls.SymbolIcon { Symbol = SymbolRegular.Pause24 };
+		AudioPlayButton.Icon = SymbolRegular.Pause24;
 	}
 
 	private void AudioLoop_Click(object sender, RoutedEventArgs e)

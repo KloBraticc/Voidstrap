@@ -32,8 +32,8 @@
           </StackPanel>
         </Grid>
         <StackPanel HorizontalAlignment="Center">
-          <ui:HyperlinkButton HorizontalAlignment="Center" Icon="QuestionCircle48" Content="{resources:Loc About_Title}" Command="{Binding LaunchAboutCommand, Mode=OneTime}" />
-          <ui:HyperlinkButton Margin="0,2,0,0" HorizontalAlignment="Center" Icon="Heart20" Content="{resources:Loc Ui_Channel_Donate}" NavigateUri="https://github.com/sponsors/KloBraticc" />
+          <ui:Hyperlink HorizontalAlignment="Center" Icon="QuestionCircle48" Content="{resources:Loc About_Title}" Command="{Binding LaunchAboutCommand, Mode=OneTime}" />
+          <ui:Hyperlink Margin="0,2,0,0" HorizontalAlignment="Center" Icon="Heart20" Content="{resources:Loc Ui_Channel_Donate}" NavigateUri="https://github.com/sponsors/KloBraticc" />
         </StackPanel>
       </StackPanel>
       <StackPanel Grid.Column="1" Width="285" Margin="0,9,0,0" HorizontalAlignment="Left">

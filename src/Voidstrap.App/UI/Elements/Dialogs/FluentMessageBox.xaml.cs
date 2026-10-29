@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.CodeDom.Compiler;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -17,8 +17,6 @@ using Windows.Win32;
 using Windows.Win32.Foundation;
 using Wpf.Ui.Controls;
 using Wpf.Ui.Common;
-using MessageBoxResult = System.Windows.MessageBoxResult;
-using MessageBoxButton = System.Windows.MessageBoxButton;
 
 namespace Voidstrap.UI.Elements.Dialogs;
 

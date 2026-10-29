@@ -218,7 +218,7 @@ public partial class OptionControl : UserControl{
 
 		_helpGlyphApplied = true;
 		HelpLinkHyperlink.Inlines.Clear();
-		Run glyph = new(Wpf.Ui.Controls.SymbolRegular.QuestionCircle48.GetString());
+		Run glyph = new(Wpf.Ui.Common.SymbolRegular.QuestionCircle48.GetString());
 		glyph.SetResourceReference(TextElement.FontFamilyProperty, "FluentSystemIcons");
 		glyph.SetResourceReference(TextElement.FontSizeProperty, "DefaultIconFontSize");
 		HelpLinkHyperlink.Inlines.Add(glyph);

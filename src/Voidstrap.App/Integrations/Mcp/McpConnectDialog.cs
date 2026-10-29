@@ -170,7 +170,7 @@ public sealed class McpConnectDialog : WpfUiWindow
 				return Canvas24(path);
 			}
 			default:
-				return new Wpf.Ui.Controls.SymbolIcon { Symbol = Wpf.Ui.Controls.SymbolRegular.Copy24, FontSize = 24 };
+				return new Wpf.Ui.Controls.SymbolIcon { Symbol = Wpf.Ui.Common.SymbolRegular.Copy24, FontSize = 24 };
 		}
 	}
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -474,10 +474,13 @@ internal static class LiveLanguageRefresher
 			{
 				ApplyDependencyText(card, Wpf.Ui.Controls.CardControl.HeaderProperty, on, lang);
 			}
-			if (node is Wpf.Ui.Controls.ContentDialog dialog)
+			if (node is Wpf.Ui.Controls.Dialog dialog)
 			{
-				ApplyDependencyText(dialog, Wpf.Ui.Controls.ContentDialog.TitleProperty, on, lang);
-				ApplyDependencyText(dialog, Wpf.Ui.Controls.ContentDialog.ContentProperty, on, lang);
+				ApplyDependencyText(dialog, Wpf.Ui.Controls.Dialog.TitleProperty, on, lang);
+				ApplyDependencyText(dialog, Wpf.Ui.Controls.Dialog.MessageProperty, on, lang);
+				ApplyDependencyText(dialog, Wpf.Ui.Controls.Dialog.ButtonLeftNameProperty, on, lang);
+				ApplyDependencyText(dialog, Wpf.Ui.Controls.Dialog.ButtonRightNameProperty, on, lang);
+				ApplyDependencyText(dialog, Wpf.Ui.Controls.Dialog.FooterProperty, on, lang);
 			}
 			if (node is Wpf.Ui.Controls.Snackbar snackbar)
 			{

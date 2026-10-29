@@ -19,8 +19,6 @@ using Voidstrap.UI.Elements.Dialogs;
 using Voidstrap.UI.ViewModels.Settings;
 using Voidstrap.Utility;
 using Wpf.Ui.Controls;
-using MessageBoxButton = System.Windows.MessageBoxButton;
-using MessageBoxResult = System.Windows.MessageBoxResult;
 
 namespace Voidstrap.UI.Elements.Settings.Pages;
 

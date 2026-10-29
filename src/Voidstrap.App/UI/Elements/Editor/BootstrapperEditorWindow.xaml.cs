@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -26,8 +26,6 @@ using Voidstrap.UI.Elements.Base;
 using Voidstrap.UI.ViewModels.Editor;
 using Wpf.Ui.Common;
 using Wpf.Ui.Controls;
-using MessageBoxButton = System.Windows.MessageBoxButton;
-using MessageBoxResult = System.Windows.MessageBoxResult;
 
 namespace Voidstrap.UI.Elements.Editor;
 
@@ -1257,8 +1255,8 @@ public partial class BootstrapperEditorWindow : WpfUiWindow{
 	{
 		return dialog.WindowCornerPreference switch
 		{
-			Wpf.Ui.Controls.WindowCornerPreference.DoNotRound => new CornerRadius(0),
-			Wpf.Ui.Controls.WindowCornerPreference.RoundSmall => new CornerRadius(4),
+			Wpf.Ui.Appearance.WindowCornerPreference.DoNotRound => new CornerRadius(0),
+			Wpf.Ui.Appearance.WindowCornerPreference.RoundSmall => new CornerRadius(4),
 			_ => new CornerRadius(8)
 		};
 	}

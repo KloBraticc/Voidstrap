@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -20,7 +20,6 @@ using Microsoft.Win32;
 using Voidstrap.UI.Elements.Base;
 using Wpf.Ui.Controls;
 using Voidstrap.Extensions;
-using MessageBoxButton = System.Windows.MessageBoxButton;
 
 namespace Voidstrap.UI.Elements.Dialogs;
 

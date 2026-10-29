@@ -325,7 +325,7 @@
       </Grid>
     </Border>
     <vscontrols:DownloadNotificationCard x:Name="DownloadCard" Grid.RowSpan="3" Margin="0,0,24,72" Panel.ZIndex="1190" />
-    <ui:Snackbar Name="AlreadyRunningSnackbar" Title="{resources:Loc Menu_AlreadyRunning_Title}" Grid.RowSpan="10" Margin="200,0,200,20" Panel.ZIndex="10" Icon="Info20" Content="{resources:Loc Menu_AlreadyRunning_Caption}" Timeout="10000">
+    <ui:Snackbar Name="AlreadyRunningSnackbar" Title="{resources:Loc Menu_AlreadyRunning_Title}" Grid.RowSpan="10" Margin="200,0,200,20" Panel.ZIndex="10" Icon="Info20" Message="{resources:Loc Menu_AlreadyRunning_Caption}" Timeout="10000">
       <Control.Background>
         <LinearGradientBrush StartPoint="1,1" EndPoint="0,0">
           <GradientStop Offset="0.00" Color="{DynamicResource WindowBackgroundColorPrimary}" />
@@ -343,7 +343,7 @@
         </LinearGradientBrush>
       </Control.Background>
     </ui:Snackbar>
-    <ui:Snackbar Name="SettingsSavedSnackbar" Title="{resources:Loc Menu_SettingsSaved_Title}" Grid.RowSpan="10" Margin="200,0,200,20" Panel.ZIndex="9" Icon="CheckboxChecked24" Content="{resources:Loc Menu_SettingsSaved_Message}" Timeout="2100">
+    <ui:Snackbar Name="SettingsSavedSnackbar" Title="{resources:Loc Menu_SettingsSaved_Title}" Grid.RowSpan="10" Margin="200,0,200,20" Panel.ZIndex="9" Icon="CheckboxChecked24" Message="{resources:Loc Menu_SettingsSaved_Message}" Timeout="2100">
       <Control.Background>
         <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
           <GradientStop Offset="0.0" Color="{DynamicResource WindowBackgroundColorPrimary}" />
@@ -353,7 +353,7 @@
         </LinearGradientBrush>
       </Control.Background>
     </ui:Snackbar>
-    <ui:Snackbar Name="SettingsSavedLaunchSnackbar" Title="{resources:Loc Ui_Main_SavedAndLaunched}" Grid.RowSpan="10" Margin="150,0,150,20" Panel.ZIndex="10" Icon="CheckboxChecked24" Content="{resources:Loc Ui_Main_ChangesSaved}" Timeout="2000">
+    <ui:Snackbar Name="SettingsSavedLaunchSnackbar" Title="{resources:Loc Ui_Main_SavedAndLaunched}" Grid.RowSpan="10" Margin="150,0,150,20" Panel.ZIndex="10" Icon="CheckboxChecked24" Message="{resources:Loc Ui_Main_ChangesSaved}" Timeout="2000">
       <Control.Background>
         <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
           <GradientStop Offset="0.0" Color="{DynamicResource WindowBackgroundColorPrimary}" />

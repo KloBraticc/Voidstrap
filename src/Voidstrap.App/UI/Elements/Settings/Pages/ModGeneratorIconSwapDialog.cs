@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -109,7 +109,7 @@ public sealed class ModGeneratorIconSwapDialog : WpfUiWindow
 		SetResourceReference(BackgroundProperty, "ApplicationBackgroundBrush");
 
 		System.Windows.Controls.TextBlock help = new System.Windows.Controls.TextBlock { Text = Strings.Ui_ModGen_SwapIconsHelp, TextWrapping = TextWrapping.Wrap, Margin = new Thickness(0, 0, 0, 10) };
-		_search = new Wpf.Ui.Controls.TextBox { PlaceholderText = Strings.Ui_ModGen_SearchIcons, Icon = new Wpf.Ui.Controls.SymbolIcon { Symbol = Wpf.Ui.Controls.SymbolRegular.Search24 } };
+		_search = new Wpf.Ui.Controls.TextBox { PlaceholderText = Strings.Ui_ModGen_SearchIcons, Icon = Wpf.Ui.Common.SymbolRegular.Search24 };
 		_search.TextChanged += Search_TextChanged;
 		_searchTimer.Tick += SearchTimer_Tick;
 		_status = new System.Windows.Controls.TextBlock { Text = Strings.Ui_ModGen_LoadingIcons, Margin = new Thickness(0, 8, 0, 8), TextWrapping = TextWrapping.Wrap, FontSize = 12 };
@@ -127,7 +127,7 @@ public sealed class ModGeneratorIconSwapDialog : WpfUiWindow
 		ScrollViewer.SetCanContentScroll(_list, true);
 		_list.AddHandler(ButtonBase.ClickEvent, new RoutedEventHandler(List_ButtonClick));
 
-		Wpf.Ui.Controls.Button done = new Wpf.Ui.Controls.Button { Content = Strings.Ui_ModGen_Done, Appearance = Wpf.Ui.Controls.ControlAppearance.Primary, MinWidth = 110, Margin = new Thickness(0, 0, 8, 0), IsDefault = true };
+		Wpf.Ui.Controls.Button done = new Wpf.Ui.Controls.Button { Content = Strings.Ui_ModGen_Done, Appearance = Wpf.Ui.Common.ControlAppearance.Primary, MinWidth = 110, Margin = new Thickness(0, 0, 8, 0), IsDefault = true };
 		done.Click += Done_Click;
 		_done = done;
 		Wpf.Ui.Controls.Button cancel = new Wpf.Ui.Controls.Button { Content = Strings.Common_Cancel, MinWidth = 110, IsCancel = true };

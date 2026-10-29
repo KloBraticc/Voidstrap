@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -14,8 +14,6 @@ using System.Windows.Threading;
 using Voidstrap.Utility;
 using Wpf.Ui.Common;
 using Wpf.Ui.Controls;
-using Image = System.Windows.Controls.Image;
-using TextBlock = System.Windows.Controls.TextBlock;
 
 namespace Voidstrap.UI.Elements.Settings.Pages;
 
@@ -285,7 +283,7 @@ public partial class ExtensionPage : UiPage
 		if (item is ExtensionEntry asset)
 		{
 			DetailPrimaryButton.Content = asset.EnableLabel;
-			DetailPrimaryButton.Icon = new SymbolIcon { Symbol = asset.IsEnabled ? SymbolRegular.Dismiss24 : SymbolRegular.Checkmark24 };
+			DetailPrimaryButton.Icon = asset.IsEnabled ? SymbolRegular.Dismiss24 : SymbolRegular.Checkmark24;
 			DetailPrimaryButton.Appearance = asset.IsEnabled ? ControlAppearance.Danger : ControlAppearance.Primary;
 			DetailPrimaryButton.IsEnabled = asset.CanChange;
 			bool hasAction = asset.CanOpen || asset.Id == "community";

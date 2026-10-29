@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.CodeDom.Compiler;
 using System.ComponentModel;
 using System.Diagnostics;
@@ -16,7 +16,6 @@ using Microsoft.Win32;
 using Voidstrap.UI.Elements.Controls;
 using Voidstrap.UI.ViewModels.Settings;
 using Wpf.Ui.Controls;
-using TextBlock = System.Windows.Controls.TextBlock;
 
 namespace Voidstrap.UI.Elements.Settings.Pages;
 

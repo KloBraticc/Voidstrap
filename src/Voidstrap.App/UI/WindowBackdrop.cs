@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -223,18 +223,18 @@ public static partial class WindowBackdrop
             SetGlassFrame(window, backgroundType != Wpf.Ui.Appearance.BackgroundType.Aero);
             if (backgroundType == Wpf.Ui.Appearance.BackgroundType.None)
             {
-                Wpf.Ui.Controls.WindowBackdrop.RemoveBackdrop(handle);
+                Wpf.Ui.Appearance.Background.Remove(handle);
                 applied = true;
             }
             else if (backgroundType == Wpf.Ui.Appearance.BackgroundType.Aero)
             {
-                Wpf.Ui.Controls.WindowBackdrop.RemoveBackground(window);
+                Wpf.Ui.Appearance.Background.RemoveContentBackground(window);
                 applied = ApplyAeroBlur(handle, window);
             }
             else
             {
-                Wpf.Ui.Controls.WindowBackdrop.RemoveBackground(window);
-                applied = Wpf.Ui.Controls.WindowBackdrop.ApplyBackdrop(handle, MapToUiBackdropType(backgroundType));
+                Wpf.Ui.Appearance.Background.RemoveContentBackground(window);
+                applied = Wpf.Ui.Appearance.Background.Apply(handle, backgroundType);
                 if (!applied)
                 {
                     applied = ApplyNativeBackdrop(handle, backgroundType);
@@ -248,7 +248,7 @@ public static partial class WindowBackdrop
         }
         if (!applied && backgroundType != Wpf.Ui.Appearance.BackgroundType.None)
         {
-            Wpf.Ui.Controls.WindowBackdrop.RemoveBackdrop(handle);
+            Wpf.Ui.Appearance.Background.Remove(handle);
             backgroundType = Wpf.Ui.Appearance.BackgroundType.None;
         }
         if (applied && appliedKey.Length > 0)
@@ -325,7 +325,7 @@ public static partial class WindowBackdrop
         IntPtr handle = source.Handle;
         try
         {
-            Wpf.Ui.Controls.WindowBackdrop.RemoveBackdrop(handle);
+            Wpf.Ui.Appearance.Background.Remove(handle);
             ResetNativeBackdrop(handle);
             int rounded = 2;
             _ = DwmSetWindowAttribute(handle, DwmwaWindowCornerPreference, ref rounded, sizeof(int));
@@ -447,17 +447,6 @@ public static partial class WindowBackdrop
         _ = DwmSetWindowAttribute(handle, DwmwaMicaEffect, ref disabled, sizeof(int));
         disabled = 1;
         _ = DwmSetWindowAttribute(handle, DwmwaSystemBackdropType, ref disabled, sizeof(int));
-    }
-
-    private static Wpf.Ui.Controls.WindowBackdropType MapToUiBackdropType(Wpf.Ui.Appearance.BackgroundType backgroundType)
-    {
-        return backgroundType switch
-        {
-            Wpf.Ui.Appearance.BackgroundType.Mica => Wpf.Ui.Controls.WindowBackdropType.Mica,
-            Wpf.Ui.Appearance.BackgroundType.Acrylic => Wpf.Ui.Controls.WindowBackdropType.Acrylic,
-            Wpf.Ui.Appearance.BackgroundType.Tabbed => Wpf.Ui.Controls.WindowBackdropType.Tabbed,
-            _ => Wpf.Ui.Controls.WindowBackdropType.None
-        };
     }
 
     private static bool ApplyNativeBackdrop(IntPtr handle, Wpf.Ui.Appearance.BackgroundType backgroundType)
@@ -701,7 +690,7 @@ public static partial class WindowBackdrop
 
     private static Wpf.Ui.Appearance.BackgroundType ResolveMicaAlt()
     {
-        if (Wpf.Ui.Controls.WindowBackdrop.IsSupported(Wpf.Ui.Controls.WindowBackdropType.Tabbed))
+        if (Wpf.Ui.Appearance.Background.IsSupported(Wpf.Ui.Appearance.BackgroundType.Tabbed))
         {
             return Wpf.Ui.Appearance.BackgroundType.Tabbed;
         }

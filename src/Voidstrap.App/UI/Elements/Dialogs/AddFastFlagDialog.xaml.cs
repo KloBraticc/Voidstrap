@@ -16,7 +16,6 @@ using Newtonsoft.Json.Linq;
 using Voidstrap.Resources;
 using Voidstrap.UI.Elements.Base;
 using Wpf.Ui.Controls;
-using MessageBoxResult = System.Windows.MessageBoxResult;
 
 namespace Voidstrap.UI.Elements.Dialogs;
 

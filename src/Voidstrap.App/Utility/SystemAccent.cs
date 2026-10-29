@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
@@ -23,7 +23,7 @@ internal static partial class SystemAccent
 
 	private static Color? _appliedColor;
 
-	private static Wpf.Ui.Appearance.ApplicationTheme? _appliedTheme;
+	private static Wpf.Ui.Appearance.ThemeType? _appliedTheme;
 
 	private static int _refreshPending;
 
@@ -111,11 +111,11 @@ internal static partial class SystemAccent
 		bool changed = false;
 		try
 		{
-			Wpf.Ui.Appearance.ApplicationTheme theme = Wpf.Ui.Appearance.ApplicationThemeManager.GetAppTheme();
+			Wpf.Ui.Appearance.ThemeType theme = Wpf.Ui.Appearance.Theme.GetAppTheme();
 			Color color = Get();
 			if (_appliedColor != color || _appliedTheme != theme || application.Resources["SystemAccentColor"] is not Color current || current != color)
 			{
-				Wpf.Ui.Appearance.ApplicationAccentColorManager.Apply(color, theme == Wpf.Ui.Appearance.ApplicationTheme.Light ? Wpf.Ui.Appearance.ApplicationTheme.Light : Wpf.Ui.Appearance.ApplicationTheme.Dark);
+				Wpf.Ui.Appearance.Accent.Apply(color, theme == Wpf.Ui.Appearance.ThemeType.Light ? Wpf.Ui.Appearance.ThemeType.Light : Wpf.Ui.Appearance.ThemeType.Dark);
 				Color fill = ResolveFill(application);
 				SolidColorBrush fillBrush = new SolidColorBrush(fill);
 				fillBrush.Freeze();
