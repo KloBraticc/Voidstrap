@@ -327,7 +327,11 @@ To publish a single `Voidstrap.exe`:
 powershell -NoProfile -ExecutionPolicy Bypass -File .\publish-all.ps1 -Only windows -NoPause
 ```
 
-Output: `PublishedBuilds\Windows\Voidstrap.exe`, a small online installer, plus `Voidstrap.net10.bin` and `Voidstrap.net11.bin`. The native installer prepares the selected Microsoft Desktop Runtime. Upload all three files to the matching GitHub release with tag `v<version>`. The installer downloads the selected app build and missing Microsoft Desktop Runtime, checking pinned SHA512 hashes before use. Selecting .NET 11 first caches .NET 10 for recovery. Keep both `.bin` files beside the installer for local testing or an offline installation when the runtimes are already installed. The `Skip (offline)` button uses verified local app files and an installed compatible runtime; a fresh computer still needs internet for missing files. Installed builds launch from their cache without downloading again.
+Output: `PublishedBuilds\Windows\Voidstrap.exe`, a small online installer with no companion files. The native installer prepares the selected Microsoft Desktop Runtime.
+
+Runtime payloads stay in separate server staging, whose location is printed during publishing. The installer tries release storage in `KloBraticc/VoidstrapInstaller`, then an independent Cloudflare Pages mirror, checking the same pinned SHA512 hashes before use. Signed publishing uploads and verifies both hosts automatically; for an unsigned build, run `build/PublishWindowsDownloads.ps1 -PayloadDirectory <staging path>` with GitHub CLI, Node.js and Cloudflare access available. Each payload release and mirror has an address derived from the payload hashes, so publishing a new build keeps older builds available. Users receive only `Voidstrap.exe`.
+
+Selecting .NET 11 first caches .NET 10 for recovery. If both hosts fail, a verified cached .NET 10 build can still launch. The `Skip (offline)` button requires verified local app files and an installed compatible runtime; a fresh computer still needs internet for missing files. Installed builds launch from their cache without downloading again. Linux and macOS do not use this installer.
 
 **Code signing with SignPath (optional)**
 

@@ -117,9 +117,12 @@ jobs:
           cargo build --release --locked --config native/voidlauncher/.cargo/config.toml --target x86_64-pc-windows-msvc --manifest-path native/voidlauncher/Cargo.toml --target-dir $target
           if ($LASTEXITCODE -ne 0) { throw 'Native installer build failed.' }
           Copy-Item -LiteralPath (Join-Path $target 'x86_64-pc-windows-msvc/release/Voidstrap.exe') -Destination artifacts/windows/Voidstrap.exe -Force
-          foreach ($name in @('Voidstrap.net10.bin', 'Voidstrap.net11.bin')) {
-            Copy-Item -LiteralPath (Join-Path $target "x86_64-pc-windows-msvc/release/$name") -Destination artifacts/windows -Force
-          }
+      - name: Store server runtime payloads separately
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: windows-runtime-payloads
+          path: ${{ runner.temp }}/voidstrap-installer-target/x86_64-pc-windows-msvc/release/payloads
+          if-no-files-found: error
       - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
           name: windows

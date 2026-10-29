@@ -1147,9 +1147,7 @@ function Invoke-WindowsLauncherBuild {
     $built = Join-Path $targetDir 'x86_64-pc-windows-msvc/release/Voidstrap.exe'
     if (-not (Test-Path -LiteralPath $built -PathType Leaf)) { throw 'cargo did not produce the launcher' }
     Copy-Item -LiteralPath $built -Destination $Job.Expected -Force
-    foreach ($name in @('Voidstrap.net10.bin', 'Voidstrap.net11.bin')) {
-        Copy-Item -LiteralPath (Join-Path (Split-Path -Parent $built) $name) -Destination (Join-Path $Job.Target.OutDir $name) -Force
-    }
+    Write-Host ('  Runtime payload staging: ' + (Join-Path (Split-Path -Parent $built) 'payloads')) -ForegroundColor DarkGray
     Get-ChildItem -LiteralPath $Job.Target.OutDir -Filter '*.lib' -File -ErrorAction SilentlyContinue | Remove-Item -Force
 }
 
@@ -1385,9 +1383,9 @@ function Invoke-SignPathWindows {
 
         $downloadedFiles = @(Get-ChildItem -LiteralPath $downloadDir -File -Force)
         $downloadedDirectories = @(Get-ChildItem -LiteralPath $downloadDir -Directory -Force)
-        $expectedFiles = @('Voidstrap.exe', 'Voidstrap.net10.bin', 'Voidstrap.net11.bin')
+        $expectedFiles = @('Voidstrap.exe')
         if ($downloadedDirectories.Count -ne 0 -or $downloadedFiles.Count -ne $expectedFiles.Count -or @(Compare-Object $expectedFiles @($downloadedFiles.Name)).Count -ne 0) {
-            throw 'The signing run did not return the installer and both runtime payloads.'
+            throw 'The signing run did not return exactly one installer executable.'
         }
 
         $signedExe = Join-Path $downloadDir 'Voidstrap.exe'
@@ -1404,13 +1402,17 @@ function Invoke-SignPathWindows {
             throw "The signed executable signature is not accepted: $($signature.Status) $($signature.StatusMessage) signer $($signature.SignerCertificate.Thumbprint)"
         }
 
+        $payloadDirectory = Join-Path ([IO.Path]::GetTempPath()) ('VoidstrapReleases/' + [Guid]::NewGuid().ToString('N'))
+        New-Item -ItemType Directory -Path $payloadDirectory -Force | Out-Null
+        & $ghPath run download $runId --repo KloBraticc/Voidstrap --name "voidstrap-windows-payloads-$Version" --dir $payloadDirectory
+        if ($LASTEXITCODE -ne 0) { throw 'GitHub Actions could not download the runtime payloads.' }
+        & (Join-Path $Root 'build/PublishWindowsDownloads.ps1') -PayloadDirectory $payloadDirectory
+        Write-Host ('  Runtime payload staging: ' + $payloadDirectory) -ForegroundColor DarkGray
+
         $signedHash = (Get-FileHash -LiteralPath $signedExe -Algorithm SHA256).Hash
         Copy-Item -LiteralPath $signedExe -Destination $OutputPath -Force
         if ((Get-FileHash -LiteralPath $OutputPath -Algorithm SHA256).Hash -ne $signedHash) {
             throw 'The signed executable changed while being copied into the publish output.'
-        }
-        foreach ($name in @('Voidstrap.net10.bin', 'Voidstrap.net11.bin')) {
-            Copy-Item -LiteralPath (Join-Path $downloadDir $name) -Destination (Join-Path (Split-Path -Parent $OutputPath) $name) -Force
         }
         Write-Host '  Voidstrap.exe: signed by the trusted GitHub Actions build.' -ForegroundColor Green
     }
