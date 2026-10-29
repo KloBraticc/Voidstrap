@@ -1,0 +1,98 @@
+﻿name: Winget manifest
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Release version to submit, for example 1.1.3.7
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  submit:
+    runs-on: windows-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Resolve version
+        id: version
+        shell: pwsh
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          INPUT_VERSION: ${{ inputs.version }}
+        run: |
+          if ($env:EVENT_NAME -eq 'workflow_dispatch') {
+            $version = $env:INPUT_VERSION.TrimStart('v')
+          } else {
+            $version = $env:RELEASE_TAG.TrimStart('v')
+          }
+          if ($version -notmatch '^\d+\.\d+\.\d+\.\d+$') {
+            Write-Error "The version $version is not four numeric parts"
+            exit 1
+          }
+          "version=$version" >> $env:GITHUB_OUTPUT
+
+      - name: Generate manifests
+        shell: pwsh
+        run: ./build/GenerateWingetManifest.ps1 -Version '${{ steps.version.outputs.version }}' -OutputDirectory 'staging'
+
+      - name: Prepare winget fork
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.WINGET_TOKEN }}
+        run: |
+          gh auth setup-git
+          gh repo fork microsoft/winget-pkgs --clone=false
+
+      - name: Open manifest PR
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ secrets.WINGET_TOKEN }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          $version = $env:VERSION
+          $branch = "KloBraticc.Voidstrap-$version"
+          $identifier = 'KloBraticc.Voidstrap'
+          $work = Join-Path $env:RUNNER_TEMP 'winget-pkgs'
+          git clone --depth 1 https://github.com/KloBraticc/winget-pkgs.git $work
+          git -C $work config user.name 'KloBratic'
+          git -C $work config user.email '195697851+KloBraticc@users.noreply.github.com'
+          git -C $work checkout -B $branch origin/main
+          $target = Join-Path $work "manifests/k/KloBraticc/Voidstrap/$version"
+          New-Item -ItemType Directory -Path $target -Force | Out-Null
+          Copy-Item "staging/KloBraticc/Voidstrap/$version/*" $target -Force
+          git -C $work add .
+          $status = git -C $work status --porcelain
+          if ([string]::IsNullOrWhiteSpace($status)) {
+            Write-Host 'The manifests are already present upstream, nothing to submit'
+            exit 0
+          }
+          $exists = Test-Path (Join-Path $work "manifests/k/KloBraticc/Voidstrap/$version")
+          $kind = if ($exists) { 'New version' } else { 'New package' }
+          $title = "$kind`: $identifier version $version"
+          git -C $work commit -m $title
+          git -C $work push origin $branch
+          $body = @(
+            '## Description',
+            '',
+            'This PR adds Voidstrap ' + $version + ', a fast and customizable bootstrapper for Roblox on Windows.',
+            '',
+            'The package installs per user without elevation. Silent installs run Voidstrap with its quiet switch, which performs the full setup headlessly, registers the Apps and Features entry and exits with code 0. The app keeps itself up to date from GitHub releases and can be removed silently through its own uninstaller.',
+            '',
+            '## Checks',
+            '',
+            '- [x] Have you verified that this manifest is valid with the winget validate command?',
+            '- [x] Have you verified that the package installs successfully?',
+            '- [x] Have you verified that the package uninstalls successfully?',
+            '- [x] Have you confirmed your commit messages and PR title match the manifest version?',
+            '- [x] Have you checked for existing packages with the same name?'
+          ) -join "`n"
+          gh pr create --repo microsoft/winget-pkgs --head "KloBraticc:$branch" --base main --title $title --body $body
